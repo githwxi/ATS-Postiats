@@ -34,10 +34,32 @@
 //
 (* ****** ****** *)
 
+staload "libc/SATS/stdio.sats"
+
+(* ****** ****** *)
+
+staload "pats_lexbuf.sats"
+staload "pats_lexing.sats"
+
+(* ****** ****** *)
+
+dynload "pats_lexbuf.dats"
+dynload "pats_lexing.dats"
+
+(* ****** ****** *)
+
 implement
 main (
   argc, argv
 ) = () where {
+//
+  val () = println! ("Hello from ATS/Postiats!")
+//
+  var buf: lexbuf?
+  val () = lexbuf_initialize_getchar (buf, lam () =<cloref1> getchar ())
+  val _ = lexing_get_next_token (buf)
+  val () = lexbuf_uninitialize (buf)
+//
 } // end of [main]
 
 (* ****** ****** *)

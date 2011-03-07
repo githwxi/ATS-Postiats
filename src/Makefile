@@ -39,14 +39,17 @@ ATSOPT=$(ATSHOME)/bin/atsopt
 
 ######
 
+ATSGCFLAG=
+ATSGCFLAG=-D_ATS_GCATS
+
 ATSCCFLAGS=
 ATSCCFLAGS=-O2 -g
 
 ######
 
 SOURCES := \
+  pats_lexbuf.sats pats_lexbuf.dats \
   pats_lexing.sats pats_lexing.dats \
-  pats_queueref.sats pats_queueref.dats \
 
 SOURCESsta := $(filter %.sats, $(SOURCES))
 SOURCESdyn := $(filter %.dats, $(SOURCES))
@@ -58,11 +61,10 @@ OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
 ######
 
 atsopt: \
-  pats_main_dats.o \
-  $(OBJECTS) \
+  pats_main_dats.o $(OBJECTS)
 	$(ATSCC) \
-  pats_main_dats.o \
-  $(OBJECTS) \
+  $(ATSGCFLAG) $(ATSCCFLAGS) -o atsopt \
+  pats_main_dats.o $(OBJECTS)
 
 ######
 
@@ -71,6 +73,19 @@ atsopt: \
 
 %_dats.o: %.dats
 	$(ATSCC) $(ATSCCFLAGS) -c $<
+
+######
+
+#
+# HX: '-o .depend' means appending instead of overwriting
+#
+depend::
+	$(RMF) .depend
+	$(ATSOPT) -o .depend -dep1 -s $(SOURCESsta) -d $(SOURCESdyn)
+	$(ATSOPT) -o .depend -dep1 -d pats_main.dats
+include .depend
+
+
 
 ######
 

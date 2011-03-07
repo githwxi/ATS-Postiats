@@ -34,15 +34,11 @@
 //
 (* ****** ****** *)
 
-staload Q = "pats_queueref.sats"
-staload _(*anon*) = "pats_queueref.dats"
-staload _(*anon*) = "prelude/DATS/array.dats"
-staload _(*anon*) = "libats/DATS/linqueue_arr.dats"
-staload _(*anon*) = "libats/ngc/DATS/deque_arr.dats"
+staload "pats_lexing.sats"
 
 (* ****** ****** *)
 
-staload "pats_lexing.sats"
+staload "pats_lexbuf.sats"
 
 (* ****** ****** *)
 
@@ -51,32 +47,115 @@ staload "pats_lexing.sats"
 
 (* ****** ****** *)
 
+fun WHITESPACE_test (c: char): bool = char_isspace (c)
+
+(* ****** ****** *)
+
+fun IDENTFST_test
+  (c: char): bool = case+ 0 of
+  | _ when ('a' <= c andalso c <= 'z') => true
+  | _ when ('A' <= c andalso c <= 'Z') => true
+  | _ when c = '_' => true
+  | _ => false
+// end of [IDENTFST_test]
+
+fun IDENTRST_test
+  (c: char): bool = case+ 0 of
+  | _ when ('a' <= c andalso c <= 'z') => true
+  | _ when ('A' <= c andalso c <= 'Z') => true
+  | _ when ('0' <= c andalso c <= '9') => true
+  | _ when c = '_' => true
+  | _ when c = '\'' => true
+  | _ => false
+// end of [IDENTRST_test]
+
+(* ****** ****** *)
+
 implement
-lexstate_get_next_char
-  (state) = c where {
-  val c = state.getchar ()
-  val () = state.cur_char := c
-//
-  val () = if c >= 0 then let
-    val () =
-      $Q.queueref_enque (state.charbuf, (i2c)c)
-    // end of [val]
-    val () = state.cur_ntot := state.cur_ntot + 1
-    val () = if (c = (c2i)'\n') then let
-      val () = state.cur_nlin := state.cur_nlin + 1
-      val () = state.cur_noff := 0
-    in
-      // nothing
-    end else let
-      val () = state.cur_noff := state.cur_noff + 1
-   in
-      // nothing
-    end (* end of [if] *)
+lexing_WHITESPACE0
+  (buf) = n where {
+  fun loop (
+    buf: &lexbuf, n: int
+  ) : int = let
+    val i = lexbuf_get_next_char (buf)
   in
-    // nothing
-  end // end of [val]    
+    if WHITESPACE_test ((i2c)i) then loop (buf, n+1) else n
+  end // end of [loop]
+  val n = loop (buf, 0)
+  val n = uint_of_int (n)
+} // end of [lexing_WHITESPACE0]
+
+(* ****** ****** *)
+
+implement
+lexing_ANYWORD1
+  (buf) = n where {
+  fun loop (
+    buf: &lexbuf, n: int
+  ) : int = let
+    val i = lexbuf_get_next_char (buf)  
+  in
+    if WHITESPACE_test ((i2c)i) then n else loop (buf, n+1)
+  end // end of [loop]
+  val n = loop (buf, 1)
+  val n = uint_of_int (n)
+} // end of [lexing_ANYWORD1]
+
+(* ****** ****** *)
+
+implement
+lexing_IDENTIFIER1_alp
+  (buf) = n where {
+  fun loop (
+    buf: &lexbuf, n: int
+  ) : int = let
+    val i = lexbuf_get_next_char (buf)
+  in
+    if IDENTRST_test ((i2c)i) then loop (buf, n+1) else n
+  end // end of [loop]
+  val n = loop (buf, 1)
+  val n = uint_of_int (n)
+} // end of [lexing_IDENTIFER_alp]
+
+(* ****** ****** *)
+
+implement
+lexing_get_next_token
+  (buf) = let
 //
-} // end of [lexstate_get_next_char]
+  val n = lexing_WHITESPACE0 (buf)
+  val () = lexbuf_advance_reset (buf, n)
+  val i0 = lexbuf_get_next_char (buf)
+//
+in
+//
+if i0 >= 0 then let
+  val c = (i2c)i0
+in
+  case+ 0 of
+  | _ when IDENTFST_test (c) => let
+      val n = lexing_IDENTIFIER1_alp (buf)
+//
+      val str = lexbuf_strptrout_reset (buf, n)
+      val () = println! ("IDENTIFIER_alp = ", str)
+      val () = strptr_free (str)
+//
+    in
+      lexing_get_next_token (buf)
+    end // end of [when ...]
+  | _ => let
+      val n = lexing_ANYWORD1 (buf)
+      val str = lexbuf_strptrout_reset (buf, n)
+      val () = println! ("ANYWORD = ", str)
+      val () = strptr_free (str)
+    in
+      lexing_get_next_token (buf)
+    end // end of [when ...]
+end else
+  TOKEN_eof ()
+// end of [if]
+//
+end // end of [lexing_get_next_token]
 
 (* ****** ****** *)
 

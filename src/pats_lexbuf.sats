@@ -33,68 +33,38 @@
 // Start Time: March, 2011
 //
 (* ****** ****** *)
-//
-// HX: array-based resizable queue implementation
-//
-(* ****** ****** *)
 
-absviewtype
-queueref (a:viewt@ype+) = ptr // boxed
+%{#
+#include "pats_lexbuf.cats"
+%} // end of [%{#]
 
 (* ****** ****** *)
 
-fun{a:viewt@ype}
-queueref_make {m:pos} (m: size_t m): queueref (a)
-
-fun queueref_free {a:t@ype} (Q: queueref a): void
+absviewt@ype
+lexbuf = $extype "pats_lexbuf_struct"
 
 (* ****** ****** *)
 
-fun queueref_size {a:viewt@ype} (Q: !queueref a): size_t
+fun lexbuf_initialize_getchar (
+  buf: &lexbuf? >> lexbuf, getchar: () -<cloref1> int
+) : void // end of [lexbuf_initialize]
+
+fun lexbuf_uninitialize (
+  buf: &lexbuf >> lexbuf?
+) : void // end of [lexbuf_uninitialize]
 
 (* ****** ****** *)
 
-exception Subscript of ()
-
-fun{a:t@ype}
-queueref_get_elt_at_exn
-  (Q: !queueref a, i: size_t): a
-// end of [queueref_get_elt_at_exn]
-
-fun{a:t@ype}
-queueref_set_elt_at_exn
-  (Q: !queueref a, i: size_t, x: a): void
-// end of [queueref_set_elt_at_exn]
+fun lexbuf_get_next_char (buf: &lexbuf): int
 
 (* ****** ****** *)
 
-fun{a:viewt@ype}
-queueref_enque (Q: !queueref a, x: a): void
-
-fun{a:viewt@ype}
-queueref_enque_many {k:nat} (
-  Q: !queueref a, k: size_t k, xs: &(@[a][k]) >> @[a?!][k]
-) : void // end of [queueref_add_many]
+fun lexbuf_advance_reset (buf: &lexbuf, k: uint): void
 
 (* ****** ****** *)
 
-fun{a:viewt@ype}
-queueref_deque (
-  Q: !queueref a, x: &a? >> opt (a, b)
-) : #[b:bool] bool b
-
-fun{a:viewt@ype}
-queueref_deque_many
-  {k:nat} {l:addr} (
-  pf: !array_v (a?, k, l) >> arrayopt_v (a, k, l, b)
-| Q: !queueref a, p: ptr l, k: size_t k
-) : #[b:bool] bool b
+fun lexbuf_strptrout_reset (buf: &lexbuf, k: uint): strptr0
 
 (* ****** ****** *)
 
-fun{a:t@ype}
-queueref_clear (Q: !queueref a, k: size_t): void
-
-(* ****** ****** *)
-
-(* end of [pats_queueref.sats] *)
+(* end of [pats_lexbuf.sats] *)

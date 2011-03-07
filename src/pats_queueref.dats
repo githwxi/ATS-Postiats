@@ -38,8 +38,13 @@
 //
 (* ****** ****** *)
 
+#define ATS_DYNLOADFLAG 0 // no dynloading at run-time
+
+(* ****** ****** *)
+
 staload Q = "libats/SATS/linqueue_arr.sats"
 stadef QUEUE = $Q.QUEUE
+stadef QUEUE0 = $Q.QUEUE0
 
 (* ****** ****** *)
 
@@ -70,9 +75,108 @@ queueref_v_takeout
 (* ****** ****** *)
 
 assume
-queueref (a:viewt@ype) =
-  [l:addr] (queueref_v (a, l) | ptr l)
-// end of [queueref]
+queueref (a:viewt@ype) = [l:addr] (queueref_v (a, l) | ptr l)
+
+(* ****** ****** *)
+
+implement
+queueref_size
+  (ref) = n where {
+  val pref = ref.1
+  prval (
+    pfque, fpfref
+  ) = queueref_v_takeout (ref.0)
+  val n = $Q.queue_size (!pref)
+  prval () = ref.0 := fpfref (pfque)
+} // end of [queueref_size]
+
+(* ****** ****** *)
+
+implement{a}
+queueref_make
+  {m} (m) = let
+  typedef QUEUE0 = QUEUE0(a)?
+  val [l:addr] (
+    pfgc, pfat | p
+  ) = ptr_alloc<QUEUE0> ()
+  val () = $Q.queue_initialize<a> (!p, m)
+  prval pfqref =
+    __assert (pfgc, pfat) where {
+    extern prfun __assert (
+      pfgc: free_gc_v (QUEUE0, l), pfat: QUEUE (a, m, 0) @ l
+    ) : queueref_v (a, m, 0, l)
+  } // end of [prval]
+in
+  (pfqref | p)
+end // end of [queueref_make]
+
+(* ****** ****** *)
+
+implement
+queueref_free
+  {a} (ref) = let
+  typedef QUEUE0 = QUEUE0(a)?
+  val pref = ref.1
+  prval (pfgc, pfat) =
+    __assert (ref.0) where {
+    extern prfun __assert {m,n:int} {l:addr} (
+      pf: queueref_v (a, m, n, l)
+    ) : (free_gc_v (QUEUE0, l), QUEUE (a, m, n) @ l)
+  } // end of [prval]
+  val () = $Q.queue_uninitialize {a} (!pref)
+  val () = ptr_free {QUEUE0} (pfgc, pfat | pref)
+in
+  // nothing
+end // end of [queueref_free]
+
+(* ****** ****** *)
+
+implement{a}
+queueref_get_elt_at_exn
+  (ref, i) = let
+  val i = size1_of_size (i)
+  val pref = ref.1
+  prval (
+    pfque, fpfref
+  ) = queueref_v_takeout (ref.0)
+  prval () = $Q.queue_param_lemma (!pref)
+  val n = $Q.queue_size (!pref)
+in
+  if i < n then let
+    val x = $Q.queue_get_elt_at<a> (!pref, i)
+    prval () = ref.0 := fpfref (pfque)
+  in
+    x
+  end else let
+    prval () = ref.0 := fpfref (pfque)
+  in
+    $raise Subscript ()
+  end (* end of [if] *)
+end // end of [queueref_get_elt_at_exn]
+
+implement{a}
+queueref_set_elt_at_exn
+  (ref, i, x) = let
+  val i = size1_of_size (i)
+  val pref = ref.1
+  prval (
+    pfque, fpfref
+  ) = queueref_v_takeout (ref.0)
+  prval () = $Q.queue_param_lemma (!pref)
+  val n = $Q.queue_size (!pref)
+in
+  if i < n then let
+    val () = $Q.queue_set_elt_at<a> (!pref, i, x)
+    prval () = ref.0 := fpfref (pfque)
+  in
+    // nothing
+  end else let
+    prval () = ref.0 := fpfref (pfque)
+    val () = $raise Subscript ()
+  in
+    // nothing
+  end (* end of [if] *)
+end // end of [queueref_set_elt_at_exn]
 
 (* ****** ****** *)
 
@@ -104,6 +208,39 @@ in
     // nothing
   end (* end of [if] *)
 end // end of [queueref_enque]
+
+(* ****** ****** *)
+
+implement{a}
+queueref_enque_many
+  (ref, k, xs) = let
+  val pref = ref.1
+  prval (
+    pfque, fpfref
+  ) = queueref_v_takeout (ref.0)
+  prval () = $Q.queue_param_lemma (!pref)
+  val m = $Q.queue_cap {a} (!pref)
+  val n = $Q.queue_size {a} (!pref)  
+in
+  if n + k <= m then let
+    val () = $Q.queue_insert_many (!pref, k, xs)
+    prval () = ref.0 := fpfref (pfque)
+  in
+    // nothing
+  end else let
+    fun loop
+      {m,n:nat | m > 0} {k:nat} (
+      m: size_t m, n: size_t n, k: size_t k
+    ) : [m:pos | m >= n] size_t (m) =
+      if n + k <= m then m else loop (m+m, n, k)
+    // end of [val]
+    val m2 = loop (m+m, n, k)
+    val () = $Q.queue_update_capacity<a> (!pref, m2)
+    prval () = ref.0 := fpfref (pfque)
+  in
+    queueref_enque_many<a> (ref, k, xs)
+  end // end of [if]
+end (* end of [queueref_enque_many] *)
 
 (* ****** ****** *)
 
@@ -157,6 +294,32 @@ in
     false
   end (* end of [if] *)
 end // end of [queueref_deque_many]
+
+(* ****** ****** *)
+
+implement{a}
+queueref_clear
+  (ref, k) = let
+  val k = size1_of_size (k)
+  val pref = ref.1
+  prval (
+    pfque, fpfref
+  ) = queueref_v_takeout (ref.0)
+  prval () = $Q.queue_param_lemma (!pref)
+  val n = $Q.queue_size (!pref)
+in
+  if k < n then let
+    val () = $Q.queue_clear<a> (!pref, k)
+    prval () = ref.0 := fpfref (pfque)
+  in
+    // nothing
+  end else let
+    val () = $Q.queue_clear_all {a} (!pref)
+    prval () = ref.0 := fpfref (pfque)
+  in
+    // nothing
+  end (* end of [if] *)
+end // end of [queueref_clear]
 
 (* ****** ****** *)
 

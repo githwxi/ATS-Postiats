@@ -34,50 +34,32 @@
 //
 (* ****** ****** *)
 
-%{#
-#include "pats_lexing.cats"
-%} // end of [%{#]
+staload LB = "pats_lexbuf.sats"
+stadef lexbuf = $LB.lexbuf
 
 (* ****** ****** *)
 
-staload QR = "pats_queueref.sats"
+datatype token =
+  | ANDWORD of string
+  | IDENTIFIER_alp of string
+  | TOKEN_eof of ()
+// end of [token]
 
 (* ****** ****** *)
 
-abstype token_t
+fun lexing_ANYWORD1 (buf: &lexbuf): uint
 
 (* ****** ****** *)
 
-viewtypedef
-lexstate =
-$extype_struct
-  "pats_lexstate_struct" of {
-  empty=empty
-//
-, sta_nlin= int
-, sta_noff= int
-, sta_ntot= int
-//
-, cur_nlin= int
-, cur_noff= int
-, cur_ntot= int
-//
-, cur_char= int
-//
-, leading_space= int
-, charbuf= $QR.queueref (char)
-//
-, getchar = () -<cloref1> int
-//
-} // end of [pats_lexstate]
+fun lexing_WHITESPACE0 (buf: &lexbuf): uint
 
 (* ****** ****** *)
 
-fun lexstate_get_next_char (state: &lexstate): int
+fun lexing_IDENTIFIER1_alp (buf: &lexbuf): uint
 
 (* ****** ****** *)
 
-fun lexstate_get_next_token (state: &lexstate): token_t
+fun lexing_get_next_token (buf: &lexbuf): token
 
 (* ****** ****** *)
 
