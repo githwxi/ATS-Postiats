@@ -99,6 +99,10 @@ overload print with print_location
 
 (* ****** ****** *)
 
+val location_none : location (* dummy location *)
+
+(* ****** ****** *)
+
 fun location_make_pos_pos (
   pos1: position, pos2: position
 ) : location // end of [location_make_pos_pos]

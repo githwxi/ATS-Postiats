@@ -57,6 +57,10 @@ overload print with print_filename
 
 (* ****** ****** *)
 
+val filename_none : filename (* dummy *)
+
+(* ****** ****** *)
+
 fun filename_get_current (): filename
 
 (* ****** ****** *)

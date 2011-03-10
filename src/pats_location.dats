@@ -182,6 +182,19 @@ print_location (loc) = fprint_location (stdout_ref, loc)
 (* ****** ****** *)
 
 implement
+location_none = '{
+  filename= $FIL.filename_none
+, beg_ntot= ~1L
+, beg_nrow= ~1
+, beg_ncol= ~1
+, end_ntot= ~1L
+, end_nrow= ~1
+, end_ncol= ~1
+} // end of [location_none]
+
+(* ****** ****** *)
+
+implement
 location_make_pos_pos
   (pos1, pos2) = let
   val fil = $FIL.filename_get_current ()

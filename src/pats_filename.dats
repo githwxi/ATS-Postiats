@@ -94,7 +94,14 @@ end // [filename_is_relative]
 (* ****** ****** *)
 
 implement
-filename_get_current () = '{ filename_full= "dummy" }
+filename_none = '{
+  filename_full= ""
+} // end of [filename_none]
+
+(* ****** ****** *)
+
+implement
+filename_get_current () = filename_none
 
 (* ****** ****** *)
 

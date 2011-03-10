@@ -307,8 +307,8 @@ end // end of [ftesting_seq1]
 
 (* ****** ****** *)
 //
-// HX: this function should not be based on
-// [ftesting_seq0]
+// HX-2011-03-07:
+// this one cannot be based on [ftesting_seq0]
 //
 fun
 testing_blankseq0 (
@@ -715,9 +715,8 @@ if i >= 0 then let
       if res >= 0 then let
         val loc = lexbufpos_get_location (buf, pos)
         val nchr = (if knd = 1 then 2u else 3u): uint
-        val () = lexbuf_incby_count (buf, nchr)
-        val diff = lexbufpos_diff (buf, pos) - 2u // %}: 2u
-        val str = lexbuf_get_strptr (buf, diff)
+        val len = lexbufpos_diff (buf, pos) - nchr - 2u // %}: 2u
+        val str = lexbuf_get_substrptr (buf, nchr, len)
         val () = lexbuf_reset_position (buf, pos)
         val () = assertloc (strptr_isnot_null (str))
         val str = string_of_strptr (str)

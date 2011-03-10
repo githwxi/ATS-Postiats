@@ -270,22 +270,30 @@ end // end of [lexbuf_reset_position]
 
 implement
 lexbuf_get_strptr
-  (buf, k) = let
+  (buf, ln) = lexbuf_get_substrptr (buf, 0u, ln)
+// end of [lexbuf_get_strptr]
+
+implement
+lexbuf_get_substrptr
+  (buf, st, ln) = let
 //
   prval () = $Q.queue_param_lemma (buf.buf)
 //
-  val k = u2sz(k)
-  val k = (size1)k
+  val i = u2sz(st)
+  val i = (size1)i
+  val k = u2sz(ln)
+  val [k:int] k = (size1)k
   val n = $Q.queue_size (buf.buf)
 //
 (*
+  val () = println! ("lexbuf_get_strptr: i = ", i)
   val () = println! ("lexbuf_get_strptr: k = ", k)
   val () = println! ("lexbuf_get_strptr: n = ", n)
 *)
 //
-  stavar k: int
-  val k = min (k, n): size_t (k)
+in
 //
+if i + k <= n then let
   val [l:addr] (
     pfgc, pfarr | p
   ) = array_ptr_alloc<byte> (k+1)
@@ -297,12 +305,14 @@ lexbuf_get_strptr
      @[char?][k] @ l, @[char][k] @ l -<lin,prf> bytes(k+1) @ l
    ) (* end of [_assert] *)
   } // end of [prval]
-  val () = $Q.queue_copyout<char> (buf.buf, k, !p)
+  val () = $Q.queue_copyout<char> (buf.buf, i, k, !p)
   prval () = pfarr := fpf2 (pf1)
   val () = bytes_strbuf_trans (pfarr | p, k)
 //
 in
   strptr_of_strbuf @(pfgc, pfarr | p)    
+end else
+  strptr_null ()
 end // end of [lexbuf_get_strptr]
 
 (* ****** ****** *)

@@ -61,12 +61,14 @@ main (
 //
   var buf: lexbuf
   val () = lexbuf_initialize_getchar (buf, lam () =<cloref1> getchar ())
+  var ntoken : int = 0
   val () = while (true) let
     val tok = lexing_next_token (buf)
-// (*
+(*
+    val () = ntoken := ntoken + 1
     val () = (print ("loc = "); print (tok.token_loc); print_newline ())
-// *)
     val () = println! ("token = ", tok)
+*)
   in
     case+ tok.token_node of
     | TOKEN_eof () => break | _ => continue

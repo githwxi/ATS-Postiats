@@ -92,8 +92,10 @@ fun lexbuf_reset_position (buf: &lexbuf, pos: &position): void
 
 (* ****** ****** *)
 
-fun lexbuf_get_strptr (buf: &lexbuf, k: uint): strptr0
+fun lexbuf_get_strptr (buf: &lexbuf, ln: uint): strptr0
 fun lexbufpos_get_strptr (buf: &lexbuf, pos: &position): strptr0
+
+fun lexbuf_get_substrptr (buf: &lexbuf, st: uint, ln: uint): strptr0
 
 (* ****** ****** *)
 
