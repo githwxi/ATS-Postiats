@@ -38,12 +38,16 @@ staload "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
 
+staload "pats_location.sats"
 staload "pats_lexbuf.sats"
 staload "pats_lexing.sats"
 
 (* ****** ****** *)
 
+dynload "pats_filename.dats"
+dynload "pats_location.dats"
 dynload "pats_lexbuf.dats"
+dynload "pats_lexing_print.dats"
 dynload "pats_lexing.dats"
 
 (* ****** ****** *)
@@ -55,9 +59,18 @@ main (
 //
   val () = println! ("Hello from ATS/Postiats!")
 //
-  var buf: lexbuf?
+  var buf: lexbuf
   val () = lexbuf_initialize_getchar (buf, lam () =<cloref1> getchar ())
-  val _ = lexing_get_next_token (buf)
+  val () = while (true) let
+    val tok = lexing_next_token (buf)
+// (*
+    val () = (print ("loc = "); print (tok.token_loc); print_newline ())
+// *)
+    val () = println! ("token = ", tok)
+  in
+    case+ tok.token_node of
+    | TOKEN_eof () => break | _ => continue
+  end // end of [val]
   val () = lexbuf_uninitialize (buf)
 //
 } // end of [main]

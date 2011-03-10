@@ -34,67 +34,68 @@
 //
 (* ****** ****** *)
 
-%{#
-#include "pats_lexbuf.cats"
-%} // end of [%{#]
+staload "pats_filename.sats"
 
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
-typedef position = $LOC.position
-typedef location = $LOC.location
+local
+
+#include
+"prelude/params_system.hats"
+#if SYSTEM_IS_UNIX_LIKE #then
+//
+val theDirSep: char = '/'
+val theCurentDir: string = "./"
+val theParentDir: string = "../"
+//
+#endif
+
+in // in of [local]
+
+implement theDirSep_get () = theDirSep
+implement theCurentDir_get () = theCurentDir
+implement theParentDir_get () = theParentDir
+
+end // end of [local]
 
 (* ****** ****** *)
 
-absviewt@ype
-lexbuf = $extype "pats_lexbuf_struct"
+assume
+filename_type = '{
+  filename_full= string
+} // end of [filename]
 
 (* ****** ****** *)
 
-fun lexbuf_initialize_getchar (
-  buf: &lexbuf? >> lexbuf, getchar: () -<cloref1> int
-) : void // end of [lexbuf_initialize]
+implement
+fprint_filename (out, fil) =
+  fprint_string (out, fil.filename_full)
+// end of [fprint_filename]
 
-fun lexbuf_uninitialize (
-  buf: &lexbuf >> lexbuf?
-) : void // end of [lexbuf_uninitialize]
-
-(* ****** ****** *)
-
-fun lexbuf_get_base (buf: &lexbuf): lint
-
-fun lexbuf_get_position
-  (buf: &lexbuf, res: &position? >> position): void
-// end of [lexbuf_get_position]
-
-fun lexbuf_get_nspace (buf: &lexbuf): int
-fun lexbuf_set_nspace (buf: &lexbuf, n: int): void
+implement
+print_filename (fil) = fprint_filename (stdout_ref, fil)
 
 (* ****** ****** *)
 
-fun lexbufpos_diff
-  (buf: &lexbuf, pos: &position): uint
-// end of [lexbufpos_diff]
-
-fun lexbufpos_get_location
-  (buf: &lexbuf, pos: &position): location
-// end of [lexbufpos_get_location]
-
-(* ****** ****** *)
-
-fun lexbuf_get_char (buf: &lexbuf, nchr: uint): int
-fun lexbufpos_get_char (buf: &lexbuf, position: &position): int
-
-(* ****** ****** *)
-
-fun lexbuf_incby_count (buf: &lexbuf, cnt: uint): void
-fun lexbuf_reset_position (buf: &lexbuf, pos: &position): void
+implement
+filename_is_relative
+  (name) = let
+  val name = string1_of_string (name)
+  fn aux {n,i:nat | i <= n} (
+    name: string n, i: size_t i, dirsep: char
+  ) : bool =
+    if string_is_at_end (name, i) then true else name[i] != dirsep
+  // end of [aux]
+  val dirsep = theDirSep_get ()
+in
+  aux (name, 0, dirsep)
+end // [filename_is_relative]
 
 (* ****** ****** *)
 
-fun lexbuf_get_strptr (buf: &lexbuf, k: uint): strptr0
-fun lexbufpos_get_strptr (buf: &lexbuf, pos: &position): strptr0
+implement
+filename_get_current () = '{ filename_full= "dummy" }
 
 (* ****** ****** *)
 
-(* end of [pats_lexbuf.sats] *)
+(* end of [pats_filename.dats] *)

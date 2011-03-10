@@ -1,2 +1,18 @@
-ATS/Postiats: Another Implementation of ATS!
+######
 
+Project Title: ATS/Postiats
+
+Project Description:
+Another Implementation of ATS!
+
+######
+
+//
+// HX-2011-03-07: syntax design:
+//
+
+&? >> T for &T? >> T
+&T >> ? for &T >> T?
+&T >> ?! for &T >> T?! 
+
+###### end of [README] ######

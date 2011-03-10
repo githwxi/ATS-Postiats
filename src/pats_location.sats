@@ -35,66 +35,78 @@
 (* ****** ****** *)
 
 %{#
-#include "pats_lexbuf.cats"
+#include "pats_location.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
-typedef position = $LOC.position
-typedef location = $LOC.location
+staload FIL = "pats_filename.sats"
+typedef filename = $FIL.filename
 
 (* ****** ****** *)
 
-absviewt@ype
-lexbuf = $extype "pats_lexbuf_struct"
+abst@ype
+position_t0ype =
+$extype "pats_position_struct"
+typedef position = position_t0ype
 
 (* ****** ****** *)
 
-fun lexbuf_initialize_getchar (
-  buf: &lexbuf? >> lexbuf, getchar: () -<cloref1> int
-) : void // end of [lexbuf_initialize]
-
-fun lexbuf_uninitialize (
-  buf: &lexbuf >> lexbuf?
-) : void // end of [lexbuf_uninitialize]
+abstype location_type
+typedef location = location_type
 
 (* ****** ****** *)
 
-fun lexbuf_get_base (buf: &lexbuf): lint
+fun fprint_position
+  (out: FILEref, pos: position): void
+overload fprint with fprint_position
 
-fun lexbuf_get_position
-  (buf: &lexbuf, res: &position? >> position): void
-// end of [lexbuf_get_position]
-
-fun lexbuf_get_nspace (buf: &lexbuf): int
-fun lexbuf_set_nspace (buf: &lexbuf, n: int): void
+fun print_position (pos: position): void
+overload print with print_position
 
 (* ****** ****** *)
 
-fun lexbufpos_diff
-  (buf: &lexbuf, pos: &position): uint
-// end of [lexbufpos_diff]
-
-fun lexbufpos_get_location
-  (buf: &lexbuf, pos: &position): location
-// end of [lexbufpos_get_location]
+fun position_get_ntot
+  (pos: &position): lint // total char offset
+fun position_get_nrow (pos: &position): int // line number
+fun position_get_ncol (pos: &position): int // line offset
 
 (* ****** ****** *)
 
-fun lexbuf_get_char (buf: &lexbuf, nchr: uint): int
-fun lexbufpos_get_char (buf: &lexbuf, position: &position): int
+fun position_init (
+  pos0: &position? >> position, ntot: lint, nrow: int, ncol: int
+) : void // end of [position_init]
+
+fun position_copy (
+  pos0: &position? >> position, pos1: &position
+) : void // end of [position_copy]
 
 (* ****** ****** *)
 
-fun lexbuf_incby_count (buf: &lexbuf, cnt: uint): void
-fun lexbuf_reset_position (buf: &lexbuf, pos: &position): void
+fun position_incby_char (pos: &position, i: int): void
+
+fun position_decby_count (pos: &position, n: uint): void
+fun position_incby_count (pos: &position, n: uint): void
 
 (* ****** ****** *)
 
-fun lexbuf_get_strptr (buf: &lexbuf, k: uint): strptr0
-fun lexbufpos_get_strptr (buf: &lexbuf, pos: &position): strptr0
+fun fprint_location
+  (out: FILEref, loc: location): void
+overload fprint with fprint_location
+
+fun print_location (loc: location): void
+overload print with print_location
 
 (* ****** ****** *)
 
-(* end of [pats_lexbuf.sats] *)
+fun location_make_pos_pos (
+  pos1: position, pos2: position
+) : location // end of [location_make_pos_pos]
+
+fun location_make_fil_pos_pos (
+  fil: filename, pos1: position, pos2: position
+) : location // end of [location_make_fil_pos_pos]
+
+(* ****** ****** *)
+
+(* end of [pats_location.sats] *)

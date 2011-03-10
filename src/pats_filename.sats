@@ -34,67 +34,37 @@
 //
 (* ****** ****** *)
 
-%{#
-#include "pats_lexbuf.cats"
-%} // end of [%{#]
+abstype filename_type
+typedef filename = filename_type
 
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
-typedef position = $LOC.position
-typedef location = $LOC.location
+fun theDirSep_get
+  (): char = "atsopt_filename_theDirSep_get"
+fun theCurentDir_get
+  (): string = "atsopt_filename_theCurentDir_get"
+fun theParentDir_get
+  (): string = "atsopt_filename_theParentDir_get"
 
 (* ****** ****** *)
 
-absviewt@ype
-lexbuf = $extype "pats_lexbuf_struct"
+fun fprint_filename
+  (out: FILEref, fil: filename): void
+overload fprint with fprint_filename
+
+fun print_filename (fil: filename): void
+overload print with print_filename
 
 (* ****** ****** *)
 
-fun lexbuf_initialize_getchar (
-  buf: &lexbuf? >> lexbuf, getchar: () -<cloref1> int
-) : void // end of [lexbuf_initialize]
-
-fun lexbuf_uninitialize (
-  buf: &lexbuf >> lexbuf?
-) : void // end of [lexbuf_uninitialize]
+fun filename_get_current (): filename
 
 (* ****** ****** *)
 
-fun lexbuf_get_base (buf: &lexbuf): lint
-
-fun lexbuf_get_position
-  (buf: &lexbuf, res: &position? >> position): void
-// end of [lexbuf_get_position]
-
-fun lexbuf_get_nspace (buf: &lexbuf): int
-fun lexbuf_set_nspace (buf: &lexbuf, n: int): void
+fun filename_is_relative (name: string): bool
 
 (* ****** ****** *)
 
-fun lexbufpos_diff
-  (buf: &lexbuf, pos: &position): uint
-// end of [lexbufpos_diff]
+(* end of [pats_filename.sats] *)
 
-fun lexbufpos_get_location
-  (buf: &lexbuf, pos: &position): location
-// end of [lexbufpos_get_location]
 
-(* ****** ****** *)
-
-fun lexbuf_get_char (buf: &lexbuf, nchr: uint): int
-fun lexbufpos_get_char (buf: &lexbuf, position: &position): int
-
-(* ****** ****** *)
-
-fun lexbuf_incby_count (buf: &lexbuf, cnt: uint): void
-fun lexbuf_reset_position (buf: &lexbuf, pos: &position): void
-
-(* ****** ****** *)
-
-fun lexbuf_get_strptr (buf: &lexbuf, k: uint): strptr0
-fun lexbufpos_get_strptr (buf: &lexbuf, pos: &position): strptr0
-
-(* ****** ****** *)
-
-(* end of [pats_lexbuf.sats] *)

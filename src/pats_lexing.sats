@@ -34,32 +34,95 @@
 //
 (* ****** ****** *)
 
-staload LB = "pats_lexbuf.sats"
-stadef lexbuf = $LB.lexbuf
+staload LOC = "pats_location.sats"
+stadef location = $LOC.location
+stadef position = $LOC.position
 
 (* ****** ****** *)
 
-datatype token =
-  | ANDWORD of string
+staload LBF = "pats_lexbuf.sats"
+stadef lexbuf = $LBF.lexbuf
+
+(* ****** ****** *)
+
+datatype
+token_node =
+//
   | IDENTIFIER_alp of string
+  | IDENTIFIER_sym of string
+//
+  | INTEGER_dec of string
+  | INTEGER_oct of string
+  | INTEGER_hex of string
+//
+  | FLOAT_deciexp of string
+  | FLOAT_hexiexp of string
+//
+  | LPAREN of ()
+  | RPAREN of ()
+  | LBRACKET of ()
+  | RBRACKET of ()
+  | LBRACE of ()
+  | RBRACE of ()
+//
+  | COMMA of ()
+  | SEMICOLON of ()
+  | BACKSLASH of ()
+//
+  | ATLPAREN of ()       // "@("
+  | QUOTELPAREN of ()    // "'("
+  | ATLBRACKET of ()     // "@["
+  | QUOTELBRACKET of ()  // "'["
+  | HASHBRACKET of ()    // "#["
+  | ATLBRACE of ()       // "@{"
+  | QUOTELBRACE of ()    // "'{"
+//
+  | BACKQUOTELPAREN of () // "`(" // macro syntax
+  | COMMALPAREN of ()     // ",(" // macro syntax
+  | PERCENTLPAREN of ()   // "%(" // macro syntax
+//
+  | EXTCODE of (int(*kind*), string)
+//
+  | COMMENT_line of ()
+  | COMMENT_block of ()
+  | COMMENT_rest of ()
+//
   | TOKEN_eof of ()
-// end of [token]
+  | TOKEN_err of ()
+// end of [token_node]
+
+typedef token = '{
+  token_loc= location, token_node= token_node
+} // end of [token]
 
 (* ****** ****** *)
 
-fun lexing_ANYWORD1 (buf: &lexbuf): uint
+fun fprint_token
+  (out: FILEref, tok: token): void
+overload fprint with fprint_token
+
+fun print_token (tok: token): void
+overload print with print_token
 
 (* ****** ****** *)
 
-fun lexing_WHITESPACE0 (buf: &lexbuf): uint
+fun token_make
+  (loc: location, node: token_node): token
+// end of [token_make]
 
 (* ****** ****** *)
 
-fun lexing_IDENTIFIER1_alp (buf: &lexbuf): uint
+fun lexing_IDENTIFIER_sym
+  (buf: &lexbuf, pos: &position): uint
 
 (* ****** ****** *)
 
-fun lexing_get_next_token (buf: &lexbuf): token
+fun lexing_UNSPECIFIED
+  (buf: &lexbuf, pos: &position): uint
+
+(* ****** ****** *)
+
+fun lexing_next_token (buf: &lexbuf): token
 
 (* ****** ****** *)
 

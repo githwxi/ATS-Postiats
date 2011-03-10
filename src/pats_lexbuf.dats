@@ -38,14 +38,15 @@ staload "pats_lexbuf.sats"
 
 (* ****** ****** *)
 
+staload LOC = "pats_location.sats"
+
+(* ****** ****** *)
+
 staload Q = "libats/SATS/linqueue_arr.sats"
 stadef QUEUE = $Q.QUEUE
 
 (* ****** ****** *)
 
-(*
-staload _(*anon*) = "prelude/DATS/pointer.dats"
-*)
 staload _(*anon*) = "prelude/DATS/array.dats"
 staload _(*anon*) = "libats/DATS/linqueue_arr.dats"
 staload _(*anon*) = "libats/ngc/DATS/deque_arr.dats"
@@ -54,7 +55,13 @@ staload _(*anon*) = "libats/ngc/DATS/deque_arr.dats"
 
 #define c2i int_of_char
 #define i2c char_of_int
+#define u2i int_of_uint
+#define u2l lint_of_uint
 #define u2sz size_of_uint
+#define l2u uint_of_lint
+#define l2sz size_of_lint
+#define sz2i int_of_size
+#define sz2l lint_of_size
 #define size1 size1_of_size
 
 (* ****** ****** *)
@@ -65,7 +72,8 @@ $extype_struct
 "pats_lexbuf_struct" of {
   buf=QUEUE (char, m, n)
 , base= lint
-, nchr= size_t
+, base_nrow=int, base_ncol= int
+, nspace= int
 , getchar= () -<cloref1> int(*char*)
 } // end of [lexbuf]
 typedef lexbuf0 = lexbuf_int_int(0, 0)?
@@ -91,7 +99,9 @@ prfun lexbuf0_trans (buf: &lexbuf? >> lexbuf0): void
   prval () = lexbuf0_trans (buf)
   val () = $Q.queue_initialize (buf.buf, QINISZ)
   val () = buf.base := 0L
-  val () = buf.nchr := (size1)0
+  val () = buf.base_nrow := 0
+  val () = buf.base_ncol := 0
+  val () = buf.nspace := 0
   val () = buf.getchar := getchar
 } // end of [lexbuf_initialize_getchar]
 
@@ -111,18 +121,60 @@ prfun lexbuf0_untrans (buf: &lexbuf0 >> lexbuf?): void
 (* ****** ****** *)
 
 implement
-lexbuf_get_next_char
-  (buf) = let
+lexbufpos_diff
+  (buf, pos) = let
+  val nchr = $LOC.position_get_ntot (pos) - buf.base
+in
+  (l2u)nchr
+end // end of [lexbufpos_diff]
+
+(* ****** ****** *)
+
+implement
+lexbuf_get_base (buf) = buf.base
+
+implement
+lexbuf_get_position
+  (buf, pos) = let
+  val ntot = buf.base
+  val nrow = buf.base_nrow
+  val ncol = buf.base_ncol
+in
+  $LOC.position_init (pos, ntot, nrow, ncol)
+end // end of [lexbuf_get_position]
+
+implement
+lexbuf_get_nspace (buf) = buf.nspace
+implement
+lexbuf_set_nspace (buf, n) = buf.nspace := n
+
+(* ****** ****** *)
+
+implement
+lexbufpos_get_location
+  (buf, pos) = let
+  var bpos: position
+  val () =
+    lexbuf_get_position (buf, bpos)
+  // end of [val]
+in
+  $LOC.location_make_pos_pos (bpos, pos)
+end // end of [lexbufpos_get_location]
+
+(* ****** ****** *)
+
+implement
+lexbuf_get_char
+  (buf, nchr) = let
 //
   prval () = $Q.queue_param_lemma (buf.buf)
 //
-  val nchr = buf.nchr
+  val nchr = (u2sz)nchr
   val nchr = (size1)nchr
   val n = $Q.queue_size (buf.buf)
 in
   if nchr < n then let
     val c = $Q.queue_get_elt_at<char> (buf.buf, nchr)
-    val () = buf.nchr := nchr + 1
   in
     (c2i)c
   end else let
@@ -146,23 +198,65 @@ in
       i (* EOF *)
     // end of [if]
   end (* end of [if] *)
-end // end of [lexbuf_get_next_char]
+end // end of [lexbuf_get_char]
 
 (* ****** ****** *)
 
 implement
-lexbuf_advance_reset
-  (buf, k) = let
+lexbufpos_get_char
+  (buf, pos) = let
+  val nchr = $LOC.position_get_ntot (pos) - buf.base
+  val nchr = (l2u)nchr
+in
+  lexbuf_get_char (buf, nchr)
+end // end of [lexbufpos_get_char]
+
+(* ****** ****** *)
+
+implement
+lexbuf_incby_count
+  (buf, cnt) = let
 //
   prval () = $Q.queue_param_lemma (buf.buf)
 //
-  val k = u2sz(k)
-  val k = (size1)k
-  val () = buf.nchr := (size1)0
+  val nchr = u2sz(cnt)
+  val nchr = (size1)nchr
   val n = $Q.queue_size (buf.buf)
 in
-  if k < n then let
-    val () = $Q.queue_clear<char> (buf.buf, k)
+  if nchr < n then let
+    val () = buf.base := buf.base + (u2l)cnt
+    val () = buf.base_ncol := buf.base_ncol + (u2i)cnt
+    val () = $Q.queue_clear<char> (buf.buf, nchr)
+  in
+    // nothing
+  end else let
+    val () = buf.base := buf.base + (sz2l)n
+    val () = buf.base_ncol := buf.base_ncol + (sz2i)n
+    val () = $Q.queue_clear_all {char} (buf.buf)
+  in
+    // nothing
+  end (* end of [if] *)
+end // end of [lexbuf_incby_count]
+
+(* ****** ****** *)
+
+implement
+lexbuf_reset_position
+  (buf, pos) = let
+//
+  prval () = $Q.queue_param_lemma (buf.buf)
+//
+  val ntot = $LOC.position_get_ntot (pos)
+  val nchr = ntot - buf.base
+  val () = buf.base := ntot
+  val () = buf.base_nrow := $LOC.position_get_nrow (pos)  
+  val () = buf.base_ncol := $LOC.position_get_ncol (pos)  
+  val nchr = (l2sz)nchr
+  val nchr = (size1)nchr
+  val n = $Q.queue_size (buf.buf)
+in
+  if nchr < n then let
+    val () = $Q.queue_clear<char> (buf.buf, nchr)
   in
     // nothing
   end else let
@@ -170,20 +264,24 @@ in
   in
     // nothing
   end (* end of [if] *)
-end // end of [lexbuf_advance_reset]
+end // end of [lexbuf_reset_position]
 
 (* ****** ****** *)
 
 implement
-lexbuf_strptrout_reset
+lexbuf_get_strptr
   (buf, k) = let
 //
   prval () = $Q.queue_param_lemma (buf.buf)
 //
   val k = u2sz(k)
   val k = (size1)k
-  val () = buf.nchr := (size1)0
   val n = $Q.queue_size (buf.buf)
+//
+(*
+  val () = println! ("lexbuf_get_strptr: k = ", k)
+  val () = println! ("lexbuf_get_strptr: n = ", n)
+*)
 //
   stavar k: int
   val k = min (k, n): size_t (k)
@@ -199,13 +297,21 @@ lexbuf_strptrout_reset
      @[char?][k] @ l, @[char][k] @ l -<lin,prf> bytes(k+1) @ l
    ) (* end of [_assert] *)
   } // end of [prval]
-  val () = $Q.queue_remove_many<char> (buf.buf, k, !p)
+  val () = $Q.queue_copyout<char> (buf.buf, k, !p)
   prval () = pfarr := fpf2 (pf1)
   val () = bytes_strbuf_trans (pfarr | p, k)
 //
 in
   strptr_of_strbuf @(pfgc, pfarr | p)    
-end // end of [lexbuf_advance_reset]
+end // end of [lexbuf_get_strptr]
+
+(* ****** ****** *)
+
+implement
+lexbufpos_get_strptr
+  (buf, pos) =
+  lexbuf_get_strptr (buf, lexbufpos_diff (buf, pos))
+// end of [lexbufpos_get_strptr]
 
 (* ****** ****** *)
 

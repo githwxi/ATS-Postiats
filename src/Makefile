@@ -48,8 +48,15 @@ ATSCCFLAGS=-O2 -g
 ######
 
 SOURCES := \
-  pats_lexbuf.sats pats_lexbuf.dats \
-  pats_lexing.sats pats_lexing.dats \
+  pats_filename.sats \
+  pats_filename.dats \
+  pats_location.sats \
+  pats_location.dats \
+  pats_lexbuf.sats \
+  pats_lexbuf.dats \
+  pats_lexing.sats \
+  pats_lexing_print.dats \
+  pats_lexing.dats \
 
 SOURCESsta := $(filter %.sats, $(SOURCES))
 SOURCESdyn := $(filter %.dats, $(SOURCES))
