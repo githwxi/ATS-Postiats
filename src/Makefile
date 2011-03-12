@@ -34,6 +34,7 @@
 #
 ######
 
+$(ATSHOME)=/cs/coursedata/cs525/ATS-0.2.4
 ATSCC=$(ATSHOME)/bin/atscc
 ATSOPT=$(ATSHOME)/bin/atsopt
 
@@ -42,8 +43,9 @@ ATSOPT=$(ATSHOME)/bin/atsopt
 ATSGCFLAG=
 ATSGCFLAG=-D_ATS_GCATS
 
-ATSCCFLAGS=
-ATSCCFLAGS=-O2 -g
+ATSCCFLAGS=-g
+ATSCCFLAGS=-g -O
+ATSCCFLAGS=-g -O2
 
 ######
 
@@ -55,6 +57,7 @@ SOURCES := \
   pats_lexbuf.sats \
   pats_lexbuf.dats \
   pats_lexing.sats \
+  pats_lexing_token.dats \
   pats_lexing_print.dats \
   pats_lexing.dats \
 

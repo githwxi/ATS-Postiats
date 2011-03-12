@@ -33,68 +33,18 @@
 // Start Time: March, 2011
 //
 (* ****** ****** *)
-//
-// HX: array-based resizable queue implementation
-//
-(* ****** ****** *)
 
-absviewtype
-queueref (a:viewt@ype+) = ptr // boxed
+staload Q = "libats/SATS/linqueue_arr.sats"
+stadef QUEUE = $Q.QUEUE
 
 (* ****** ****** *)
 
-fun{a:viewt@ype}
-queueref_make {m:pos} (m: size_t m): queueref (a)
-
-fun queueref_free {a:t@ype} (Q: queueref a): void
-
-(* ****** ****** *)
-
-fun queueref_size {a:viewt@ype} (Q: !queueref a): size_t
+fun queue_get_strptr1
+  {m,n:int}
+  {st,ln:nat | st+ln <= n} (
+  q: &QUEUE (char, m, n), st: size_t st, ln: size_t ln
+) : strptr1 // end of [queue_get_strptr1]
 
 (* ****** ****** *)
 
-exception Subscript of ()
-
-fun{a:t@ype}
-queueref_get_elt_at_exn
-  (Q: !queueref a, i: size_t): a
-// end of [queueref_get_elt_at_exn]
-
-fun{a:t@ype}
-queueref_set_elt_at_exn
-  (Q: !queueref a, i: size_t, x: a): void
-// end of [queueref_set_elt_at_exn]
-
-(* ****** ****** *)
-
-fun{a:viewt@ype}
-queueref_enque (Q: !queueref a, x: a): void
-
-fun{a:viewt@ype}
-queueref_enque_many {k:nat} (
-  Q: !queueref a, k: size_t k, xs: &(@[a][k]) >> @[a?!][k]
-) : void // end of [queueref_add_many]
-
-(* ****** ****** *)
-
-fun{a:viewt@ype}
-queueref_deque (
-  Q: !queueref a, x: &a? >> opt (a, b)
-) : #[b:bool] bool b
-
-fun{a:viewt@ype}
-queueref_deque_many
-  {k:nat} {l:addr} (
-  pf: !array_v (a?, k, l) >> arrayopt_v (a, k, l, b)
-| Q: !queueref a, p: ptr l, k: size_t k
-) : #[b:bool] bool b
-
-(* ****** ****** *)
-
-fun{a:t@ype}
-queueref_clear (Q: !queueref a, k: size_t): void
-
-(* ****** ****** *)
-
-(* end of [pats_queueref.sats] *)
+(* end of [pats_utils.sats] *)

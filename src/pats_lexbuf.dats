@@ -34,6 +34,7 @@
 //
 (* ****** ****** *)
 
+staload "pats_utils.sats"
 staload "pats_lexbuf.sats"
 
 (* ****** ****** *)
@@ -269,12 +270,19 @@ end // end of [lexbuf_reset_position]
 (* ****** ****** *)
 
 implement
-lexbuf_get_strptr
-  (buf, ln) = lexbuf_get_substrptr (buf, 0u, ln)
-// end of [lexbuf_get_strptr]
+lexbuf_get_strptr0
+  (buf, ln) = lexbuf_get_substrptr0 (buf, 0u, ln)
+// end of [lexbuf_get_strptr0]
 
 implement
-lexbuf_get_substrptr
+lexbuf_get_strptr1
+  (buf, ln) = lexbuf_get_substrptr1 (buf, 0u, ln)
+// end of [lexbuf_get_strptr]
+
+(* ****** ****** *)
+
+implement
+lexbuf_get_substrptr0
   (buf, st, ln) = let
 //
   prval () = $Q.queue_param_lemma (buf.buf)
@@ -293,35 +301,33 @@ lexbuf_get_substrptr
 //
 in
 //
-if i + k <= n then let
-  val [l:addr] (
-    pfgc, pfarr | p
-  ) = array_ptr_alloc<byte> (k+1)
-  prval (pf1, fpf2) =
-   __assert (pfarr) where {
-   extern prfun __assert (
-     pfarr: b0ytes(k+1) @ l
-   ) : (
-     @[char?][k] @ l, @[char][k] @ l -<lin,prf> bytes(k+1) @ l
-   ) (* end of [_assert] *)
-  } // end of [prval]
-  val () = $Q.queue_copyout<char> (buf.buf, i, k, !p)
-  prval () = pfarr := fpf2 (pf1)
-  val () = bytes_strbuf_trans (pfarr | p, k)
-//
-in
-  strptr_of_strbuf @(pfgc, pfarr | p)    
-end else
+if i + k <= n then
+  queue_get_strptr1 (buf.buf, i, k)
+else
   strptr_null ()
-end // end of [lexbuf_get_strptr]
+// end of [if]
+end // end of [lexbuf_get_substrptr0]
+
+implement
+lexbuf_get_substrptr1
+  (buf, st, ln) = str where {
+  val str = lexbuf_get_substrptr0 (buf, st, ln)
+  val () = assertloc (strptr_isnot_null (str))
+} // end of [lexbuf_get_substrptr1]
 
 (* ****** ****** *)
 
 implement
-lexbufpos_get_strptr
+lexbufpos_get_strptr0
   (buf, pos) =
-  lexbuf_get_strptr (buf, lexbufpos_diff (buf, pos))
-// end of [lexbufpos_get_strptr]
+  lexbuf_get_strptr0 (buf, lexbufpos_diff (buf, pos))
+// end of [lexbufpos_get_strptr0]
+
+implement
+lexbufpos_get_strptr1
+  (buf, pos) = 
+  lexbuf_get_strptr1 (buf, lexbufpos_diff (buf, pos))
+// end of [lexbufpos_get_strptr1]
 
 (* ****** ****** *)
 

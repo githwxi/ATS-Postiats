@@ -34,51 +34,43 @@
 //
 (* ****** ****** *)
 
-staload "libc/SATS/stdio.sats"
+staload "pats_utils.sats"
 
 (* ****** ****** *)
 
-staload "pats_location.sats"
-staload "pats_lexbuf.sats"
-staload "pats_lexing.sats"
-
-(* ****** ****** *)
-
-dynload "pats_utils.dats"
-dynload "pats_filename.dats"
-dynload "pats_location.dats"
-dynload "pats_lexbuf.dats"
-dynload "pats_lexing_token.dats"
-dynload "pats_lexing_print.dats"
-dynload "pats_lexing.dats"
-
-(* ****** ****** *)
+local
+//
+staload Q = "libats/SATS/linqueue_arr.sats"
+//
+staload _(*anon*) = "prelude/DATS/array.dats"
+staload _(*anon*) = "libats/DATS/linqueue_arr.dats"
+staload _(*anon*) = "libats/ngc/DATS/deque_arr.dats"
+//
+in
 
 implement
-main (
-  argc, argv
-) = () where {
-//
-  val () = println! ("Hello from ATS/Postiats!")
-//
-  var buf: lexbuf
-  val () = lexbuf_initialize_getchar (buf, lam () =<cloref1> getchar ())
-  var ntoken : int = 0
-  val () = while (true) let
-    val tok = lexing_next_token (buf)
-(*
-    val () = ntoken := ntoken + 1
-    val () = (print ("loc = "); print (tok.token_loc); print_newline ())
-*)
-    val () = println! ("token = ", tok)
-  in
-    case+ tok.token_node of
-    | T_EOF () => break | _ => continue
-  end // end of [val]
-  val () = lexbuf_uninitialize (buf)
-//
-} // end of [main]
+queue_get_strptr1
+  (q, st, ln) = let
+  val [l:addr] (
+    pfgc, pfarr | p
+  ) = array_ptr_alloc<byte> (ln+1)
+  prval (pf1, fpf2) =
+   __assert (pfarr) where {
+   extern prfun __assert {k:nat} (
+     pfarr: b0ytes(k+1) @ l
+   ) : (
+     @[char?][k] @ l, @[char][k] @ l -<lin,prf> bytes(k+1) @ l
+   ) (* end of [_assert] *)
+  } // end of [prval]
+  val () = $Q.queue_copyout<char> (q, st, ln, !p)
+  prval () = pfarr := fpf2 (pf1)
+  val () = bytes_strbuf_trans (pfarr | p, ln)
+in
+  strptr_of_strbuf @(pfgc, pfarr | p)
+end // end of [queue_get_strptr1]
+
+end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [pats_main.dats] *)
+(* end of [pats_utils.sats] *)
