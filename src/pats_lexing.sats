@@ -407,6 +407,8 @@ lexerr_node =
   | LE_EXTCODE_unclose of ()
 //
   | LE_FEXPONENT_empty of ()
+//
+  | LE_UNSUPPORTED of char
 // end of [lexerr_node]
 typedef lexerr = '{
   lexerr_loc= location, lexerr_node= lexerr_node

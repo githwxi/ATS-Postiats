@@ -62,12 +62,15 @@ lexerrlst_vt = List_vt (lexerr)
 (* ****** ****** *)
 
 extern
-fun the_lexerrlst_get (): lexerrlst_vt
+fun the_lexerrlst_get (n: &int? >> int): lexerrlst_vt
 
 (* ****** ****** *)
 
 local
 
+#define MAXLEN 10
+#assert (MAXLEN > 0)
+val the_length = ref<int> (0)
 val the_lexerrlst = ref<lexerrlst_vt> (list_vt_nil)
 
 in // in of [local]
@@ -75,13 +78,23 @@ in // in of [local]
 implement
 the_lexerrlst_add
   (err) = () where {
-  val (vbox pf | p) = ref_get_view_ptr (the_lexerrlst)
-  val () = !p := list_vt_cons (err, !p)
+  val n = let
+    val (vbox pf | p) = ref_get_view_ptr (the_length)
+    val n = !p
+    val () = !p := n + 1
+  in n end // end of [val]
+  val () = if n < MAXLEN then let
+    val (vbox pf | p) = ref_get_view_ptr (the_lexerrlst)
+  in
+    !p := list_vt_cons (err, !p)
+  end // end of [val]
 } // end of [the_lexerrlst_add]
 
 implement
 the_lexerrlst_get
-  () = xs where {
+  (n) = xs where {
+  val () = n := !the_length
+  val () = !the_length := 0
   val (vbox pf | p) = ref_get_view_ptr (the_lexerrlst)
   val xs = !p
   val xs = list_vt_reverse (xs)
@@ -155,6 +168,12 @@ fprint_lexerr (out, err) =
       val () = fprintf (out, ": the floating exponent is empty.", @())
       val () = fprint_newline (out)
     }
+  | LE_UNSUPPORTED (c) => () where {
+      val () = fprint (out, err.lexerr_loc)
+      val () = fprintf (out, ": error(lexing)", @())
+      val () = fprintf (out, ": unsupported char: %c", @(c))
+      val () = fprint_newline (out)
+    }
 (*
   | _ => () where {
       val () = fprint (out, err.lexerr_loc)
@@ -169,20 +188,29 @@ fprint_lexerr (out, err) =
 implement
 fprint_the_lexerrlst
   (out) = let
-  val xs = the_lexerrlst_get ()
+  var n: int?
+  val xs = the_lexerrlst_get (n)
   fun loop (
-    out: FILEref, xs: lexerrlst_vt
-  ) : void =
+    out: FILEref, xs: lexerrlst_vt, n: int
+  ) : int =
     case+ xs of
     | ~list_vt_cons (x, xs) => (
-        fprint_lexerr (out, x); loop (out, xs)
+        fprint_lexerr (out, x); loop (out, xs, n-1)
       ) // end of [list_vt_cons]
-    | ~list_vt_nil () => ()
+    | ~list_vt_nil () => n
   // end of [loop]
 in
   case+ xs of
   | list_vt_cons _ => let
-      prval () = fold@ (xs) in loop (out, xs)
+      prval () = fold@ (xs)
+      val n = loop (out, xs, n)
+      val () = if n > 0 then {
+        val () = fprint_string
+          (out, "There are possibly some additional errors.")
+        val () = fprint_newline (out)
+      } // end of [if]
+    in
+      // nothing
     end // end of [list_vt_cons]
   | ~list_vt_nil () => ()
 end // end of [fprint_the_lexerrlst]

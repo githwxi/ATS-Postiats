@@ -553,13 +553,6 @@ fun testing_digitseq0
   = ftesting_seq0 (buf, pos, DIGIT_test)
 // end of [testing_digitseq0]
 
-fun testing_digitseq1
-  (buf: &lexbuf, pos: &position): int
-  = ftesting_seq1 (buf, pos, DIGIT_test)
-// end of [testing_digitseq1]
-
-(* ****** ****** *)
-
 fun testing_xdigitseq0
   (buf: &lexbuf, pos: &position): uint
   = ftesting_seq0 (buf, pos, XDIGIT_test)
@@ -1938,8 +1931,10 @@ in
   | _ when c = '#' => lexing_SHARP (buf, pos)
 //
   | _ when c = '\'' => lexing_QUOTE (buf, pos)
-//
   | _ when c = '"' => lexing_DQUOTE (buf, pos) // for strings
+//
+  | _ when c = '\\' =>
+      lexbufpos_token_reset (buf, pos, T_BACKSLASH)
 //
   | _ when IDENTFST_test (c) => let
       val k = testing_identrstseq0 (buf, pos)
@@ -1960,6 +1955,12 @@ in
     end // end of [_ when ...]
 //
   | _ => let
+//
+// HX: skipping unrecognized chars
+//
+      val loc = lexbufpos_get_location (buf, pos)
+      val err = lexerr_make (loc, LE_UNSUPPORTED (c))
+      val () = the_lexerrlst_add (err)
       val () = lexbuf_reset_position (buf, pos)
     in
       lexing_next_token (buf)
