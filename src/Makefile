@@ -50,6 +50,8 @@ ATSCCFLAGS=-g -O2
 ######
 
 SOURCES := \
+  pats_utils.sats \
+  pats_utils.dats \
   pats_filename.sats \
   pats_filename.dats \
   pats_location.sats \
