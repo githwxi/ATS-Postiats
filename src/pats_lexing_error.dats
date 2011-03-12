@@ -1,0 +1,192 @@
+(***********************************************************************)
+(*                                                                     *)
+(*                         Applied Type System                         *)
+(*                                                                     *)
+(*                              Hongwei Xi                             *)
+(*                                                                     *)
+(***********************************************************************)
+
+(*
+** ATS/Postiats - Unleashing the Potential of Types!
+** Copyright (C) 2011-20?? Hongwei Xi, Boston University
+** All rights reserved
+**
+** ATS is free software;  you can  redistribute it and/or modify it under
+** the terms of  the GNU GENERAL PUBLIC LICENSE (GPL) as published by the
+** Free Software Foundation; either version 3, or (at  your  option)  any
+** later version.
+** 
+** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
+** WARRANTY; without  even  the  implied  warranty  of MERCHANTABILITY or
+** FITNESS FOR A PARTICULAR PURPOSE.  See the  GNU General Public License
+** for more details.
+** 
+** You  should  have  received  a  copy of the GNU General Public License
+** along  with  ATS;  see the  file COPYING.  If not, please write to the
+** Free Software Foundation,  51 Franklin Street, Fifth Floor, Boston, MA
+** 02110-1301, USA.
+*)
+
+(* ****** ****** *)
+//
+// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Start Time: March, 2011
+//
+(* ****** ****** *)
+
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload _(*anon*) = "prelude/DATS/reference.dats"
+
+(* ****** ****** *)
+
+staload "pats_lexing.sats"
+
+(* ****** ****** *)
+
+staload LOC = "pats_location.sats"
+typedef location = $LOC.location
+overload fprint with $LOC.fprint_location
+
+(* ****** ****** *)
+
+implement
+lexerr_make (loc, node) = '{
+  lexerr_loc= loc, lexerr_node= node
+} // end of [lexerr_make]
+
+(* ****** ****** *)
+
+viewtypedef
+lexerrlst_vt = List_vt (lexerr)
+
+(* ****** ****** *)
+
+extern
+fun the_lexerrlst_get (): lexerrlst_vt
+
+(* ****** ****** *)
+
+local
+
+val the_lexerrlst = ref<lexerrlst_vt> (list_vt_nil)
+
+in // in of [local]
+
+implement
+the_lexerrlst_add
+  (err) = () where {
+  val (vbox pf | p) = ref_get_view_ptr (the_lexerrlst)
+  val () = !p := list_vt_cons (err, !p)
+} // end of [the_lexerrlst_add]
+
+implement
+the_lexerrlst_get
+  () = xs where {
+  val (vbox pf | p) = ref_get_view_ptr (the_lexerrlst)
+  val xs = !p
+  val xs = list_vt_reverse (xs)
+  val () = !p := list_vt_nil ()
+} // end of [the_lexerrlst_get]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+fprint_lexerr (out, err) =
+  case+ err.lexerr_node of
+  | LE_CHAR_oct () => () where {
+      val () = fprint (out, err.lexerr_loc)
+      val () = fprintf (out, ": error(lexing)", @())
+      val () = fprintf (out, ": the char format (oct) is incorrect.", @())
+      val () = fprint_newline (out)
+    }
+  | LE_CHAR_hex () => () where {
+      val () = fprint (out, err.lexerr_loc)
+      val () = fprintf (out, ": error(lexing)", @())
+      val () = fprintf (out, ": the char format (hex) is incorrect.", @())
+      val () = fprint_newline (out)
+    }
+  | LE_CHAR_unclose () => () where {
+      val () = fprint (out, err.lexerr_loc)
+      val () = fprintf (out, ": error(lexing)", @())
+      val () = fprintf (out, ": the char consant is unclosed.", @())
+      val () = fprint_newline (out)
+    }
+  | LE_STRING_char_oct () => () where {
+      val () = fprint (out, err.lexerr_loc)
+      val () = fprintf (out, ": error(lexing)", @())
+      val () = fprintf (out, ": the string-char format (oct) is incorrect.", @())
+      val () = fprint_newline (out)
+    }
+  | LE_STRING_char_hex () => () where {
+      val () = fprint (out, err.lexerr_loc)
+      val () = fprintf (out, ": error(lexing)", @())
+      val () = fprintf (out, ": the string-char format (hex) is incorrect.", @())
+      val () = fprint_newline (out)
+    }
+  | LE_STRING_unclose () => () where {
+      val () = fprint (out, err.lexerr_loc)
+      val () = fprintf (out, ": error(lexing)", @())
+      val () = fprintf (out, ": the string constant is unclosed.", @())
+      val () = fprint_newline (out)
+    }
+  | LE_COMMENT_block_unclose () => () where {
+      val () = fprint (out, err.lexerr_loc)
+      val () = fprintf (out, ": error(lexing)", @())
+      val () = fprintf (out, ": the comment block is unclosed.", @())
+      val () = fprint_newline (out)
+    }
+  | LE_EXTCODE_unclose () => () where {
+      val () = fprint (out, err.lexerr_loc)
+      val () = fprintf (out, ": error(lexing)", @())
+      val () = fprintf (out, ": the external code block is unclosed.", @())
+      val () = fprint_newline (out)
+    }
+  | LE_QUOTE_dangling () => () where {
+      val () = fprint (out, err.lexerr_loc)
+      val () = fprintf (out, ": error(lexing)", @())
+      val () = fprintf (out, ": the quote symbol (') is dangling.", @())
+      val () = fprint_newline (out)
+    }
+  | LE_FEXPONENT_empty () => () where {
+      val () = fprint (out, err.lexerr_loc)
+      val () = fprintf (out, ": error(lexing)", @())
+      val () = fprintf (out, ": the floating exponent is empty.", @())
+      val () = fprint_newline (out)
+    }
+(*
+  | _ => () where {
+      val () = fprint (out, err.lexerr_loc)
+      val () = fprintf (out, ": error(lexing): unspecified", @())
+      val () = fprint_newline (out)
+    }
+*)
+// end of [fprint_lexerr]
+
+(* ****** ****** *)
+
+implement
+fprint_the_lexerrlst
+  (out) = let
+  val xs = the_lexerrlst_get ()
+  fun loop (
+    out: FILEref, xs: lexerrlst_vt
+  ) : void =
+    case+ xs of
+    | ~list_vt_cons (x, xs) => (
+        fprint_lexerr (out, x); loop (out, xs)
+      ) // end of [list_vt_cons]
+    | ~list_vt_nil () => ()
+  // end of [loop]
+in
+  case+ xs of
+  | list_vt_cons _ => let
+      prval () = fold@ (xs) in loop (out, xs)
+    end // end of [list_vt_cons]
+  | ~list_vt_nil () => ()
+end // end of [fprint_the_lexerrlst]
+
+(* ****** ****** *)
+
+(* end of [pats_lexing_error.dats] *)

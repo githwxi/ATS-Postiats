@@ -191,6 +191,34 @@ implement FREEAT = T_FREEAT
 
 (* ****** ****** *)
 
+implement
+DLRDELAY = T_DLRDELAY (TYPE_int)
+implement
+DLRLDELAY = T_DLRDELAY (VIEWTYPE_int)
+
+implement
+DLRLST = T_DLRLST (TYPE_int)
+implement
+DLRLST_T = DLRLST
+implement
+DLRLST_VT = T_DLRLST (VIEWTYPE_int)
+
+implement
+DLRREC = T_DLRREC (TYPE_int)
+implement
+DLRREC_T = DLRREC
+implement
+DLRREC_VT = T_DLRREC (VIEWTYPE_int)
+
+implement
+DLRTUP = T_DLRTUP (TYPE_int)
+implement
+DLRTUP_T = DLRTUP
+implement
+DLRTUP_VT = T_DLRTUP (VIEWTYPE_int)
+
+(* ****** ****** *)
+
 implement ZERO = T_INTEGER_dec "0"
 
 (* ****** ****** *)
@@ -437,6 +465,46 @@ val () = ins ("withtype", WITHTYPE)
 val () = ins ("withprop", WITHPROP)
 val () = ins ("withview", WITHVIEW)
 val () = ins ("withviewtype", WITHVIEWTYPE)
+//
+val () = ins ("$arrsz", T_DLRARRSZ)
+//
+val () = ins ("$delay", DLRDELAY)
+val () = ins ("$ldelay", DLRLDELAY)
+//
+val () = ins ("$extern", T_DLREXTERN)
+val () = ins ("$extval", T_DLREXTVAL)
+val () = ins ("$extype", T_DLREXTYPE)
+val () = ins ("$extype_struct", T_DLREXTYPE_STRUCT)
+//
+val () = ins ("$raise", T_DLRRAISE)
+//
+val () = ins ("$lst", DLRLST)
+val () = ins ("$lst_t", DLRLST_T)
+val () = ins ("$lst_vt", DLRLST_VT)
+val () = ins ("$rec", DLRREC)
+val () = ins ("$rec_t", DLRREC_T)
+val () = ins ("$rec_vt", DLRREC_VT)
+val () = ins ("$tup", DLRTUP)
+val () = ins ("$tup_t", DLRTUP_T)
+val () = ins ("$tup_vt", DLRTUP_VT)
+//
+val () = ins ("#assert", T_SRPASSERT)
+val () = ins ("#define", T_SRPDEFINE)
+val () = ins ("#elif", T_SRPELIF)
+val () = ins ("#elifdef", T_SRPELIFDEF)
+val () = ins ("#elifndef", T_SRPELIFNDEF)
+val () = ins ("#else", T_SRPELSE)
+val () = ins ("#endif", T_SRPENDIF)
+val () = ins ("#error", T_SRPERROR)
+val () = ins ("#if", T_SRPIF)
+val () = ins ("#ifdef", T_SRPIFDEF)
+val () = ins ("#ifndef", T_SRPIFNDEF)
+val () = ins ("#include", T_SRPINCLUDE)
+val () = ins ("#print", T_SRPPRINT)
+val () = ins ("#then", T_SRPTHEN)
+val () = ins ("#undef", T_SRPUNDEF)
+//
+// HX: end of special tokens
 //
 val rtbl = HASHTBLref_make_ptr {key,itm} (ptbl)
 //

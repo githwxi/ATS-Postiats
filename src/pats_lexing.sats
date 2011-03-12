@@ -169,16 +169,15 @@ token_node =
   | T_FREEAT of ()
 //
   | T_DLRARRSZ of () // $arrsz
-  | T_DLRDELAY of () // $delay
   | T_DLRDYNLOAD of () // $dynload
-  | T_DLREFFMASK of () // $effmask
+  | T_DLRDELAY of int // $delay and $ldelay
+  | T_DLREFFMASK of int // all, exn, ref, ntm
   | T_DLREXTERN of () // $extern
   | T_DLREXTVAL of () // $extval
   | T_DLREXTYPE of () // $extype
   | T_DLREXTYPE_STRUCT of () // $extype_struct
-  | T_DLRLDELAY of () // $ldelay
-  | T_DLRLST of int // $lst and $lst_t and $lst_vt
   | T_DLRRAISE of () // $raise
+  | T_DLRLST of int // $lst and $lst_t and $lst_vt
   | T_DLRREC of int // $rec and $rec_t and $rec_vt
   | T_DLRTUP of int // $tup and $tup_t and $tup_vt
 //
@@ -205,6 +204,8 @@ token_node =
   | T_IDENT_sym of string
   | T_IDENT_arr of string
   | T_IDENT_tmp of string
+  | T_IDENT_dlr of string
+  | T_IDENT_srp of string
 //
   | T_CHAR of char
 //
@@ -343,6 +344,21 @@ val WITHVIEWTYPE: tnode
 
 (* ****** ****** *)
 
+val DLRDELAY: tnode
+val DLRLDELAY: tnode
+
+val DLRLST: tnode
+val DLRLST_T: tnode
+val DLRLST_VT: tnode
+val DLRREC: tnode
+val DLRREC_T: tnode
+val DLRREC_VT: tnode
+val DLRTUP: tnode
+val DLRTUP_T: tnode
+val DLRTUP_VT: tnode
+
+(* ****** ****** *)
+
 val DOT: tnode // = T_DOT
 val PERCENT: tnode // = IDENT_sym ("%")
 val LT: tnode // = T_LT
@@ -372,6 +388,41 @@ fun token_make
 // if the return is not T_NONE, then it does
 //
 fun tnode_search (x: string): tnode
+
+(* ****** ****** *)
+
+datatype
+lexerr_node =
+  | LE_CHAR_oct of ()
+  | LE_CHAR_hex of ()
+  | LE_CHAR_unclose of ()
+  | LE_QUOTE_dangling of ()
+//
+  | LE_STRING_unclose of ()
+  | LE_STRING_char_oct of ()
+  | LE_STRING_char_hex of ()
+//
+  | LE_COMMENT_block_unclose of ()
+//
+  | LE_EXTCODE_unclose of ()
+//
+  | LE_FEXPONENT_empty of ()
+// end of [lexerr_node]
+typedef lexerr = '{
+  lexerr_loc= location, lexerr_node= lexerr_node
+} // end of [lexerr]
+
+fun lexerr_make (
+  loc: location, node: lexerr_node
+) : lexerr // end of [lexerr_make]
+
+fun fprint_lexerr
+  (out: FILEref, err: lexerr): void
+// end of [fprint_lexerr]
+
+fun the_lexerrlst_add (x: lexerr): void
+
+fun fprint_the_lexerrlst (out: FILEref): void
 
 (* ****** ****** *)
 

@@ -34,11 +34,11 @@
 //
 (* ****** ****** *)
 
-staload "pats_utils.sats"
 staload "pats_lexbuf.sats"
 
 (* ****** ****** *)
 
+staload UTL = "pats_utils.sats"
 staload LOC = "pats_location.sats"
 
 (* ****** ****** *)
@@ -302,7 +302,7 @@ lexbuf_get_substrptr0
 in
 //
 if i + k <= n then
-  queue_get_strptr1 (buf.buf, i, k)
+  $UTL.queue_get_strptr1 (buf.buf, i, k)
 else
   strptr_null ()
 // end of [if]

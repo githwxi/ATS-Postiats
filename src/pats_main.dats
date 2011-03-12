@@ -50,6 +50,7 @@ dynload "pats_location.dats"
 dynload "pats_lexbuf.dats"
 dynload "pats_lexing_token.dats"
 dynload "pats_lexing_print.dats"
+dynload "pats_lexing_error.dats"
 dynload "pats_lexing.dats"
 
 (* ****** ****** *)
@@ -69,13 +70,15 @@ main (
 (*
     val () = ntoken := ntoken + 1
     val () = (print ("loc = "); print (tok.token_loc); print_newline ())
-*)
     val () = println! ("token = ", tok)
+*)
   in
     case+ tok.token_node of
     | T_EOF () => break | _ => continue
   end // end of [val]
   val () = lexbuf_uninitialize (buf)
+//
+  val () = fprint_the_lexerrlst (stdout_ref)
 //
 } // end of [main]
 

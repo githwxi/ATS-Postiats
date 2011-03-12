@@ -61,6 +61,7 @@ SOURCES := \
   pats_lexing.sats \
   pats_lexing_token.dats \
   pats_lexing_print.dats \
+  pats_lexing_error.dats \
   pats_lexing.dats \
 
 SOURCESsta := $(filter %.sats, $(SOURCES))
