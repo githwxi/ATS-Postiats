@@ -55,10 +55,9 @@ caskind =
 datatype
 funkind =
   | FK_fun // recursive fun
-  | FK_praxi // proof axiom
-  | FK_prfun // recursive proof fun
   | FK_fn // nonrec fun
   | FK_fnstar // tailrec fun
+  | FK_prfun // recursive proof fun
   | FK_prfn // nonrec proof fun
 // end of [funkind]
 
@@ -144,6 +143,7 @@ token_node =
   | T_OF of () // of
   | T_OP of () // op
   | T_REC of () // rec
+  | T_PRAXI of () // praxi
   | T_SCASE of () // scase
   | T_SIF of () // sif
   | T_SORTDEF of () // sortdef

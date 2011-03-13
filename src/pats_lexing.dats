@@ -118,10 +118,12 @@ lexsym =
   | LS_PROP // for prop+ and prop-
   | LS_T // for t@ype
   | LS_TYPE // for type+ and type-
+  | LS_T0YPE // for t0ype+ and t0ype-
   | LS_VAL // for val+ and val-
   | LS_VIEW // for view+ and view-
   | LS_VIEWT // for viewt@ype
   | LS_VIEWTYPE // for viewtype+ and viewtype-
+  | LS_VIEWT0YPE // for viewt0ype+ and viewt0ype-
   | LS_WHILE // for while*
 //
   | LS_FOLD // for fold@
@@ -222,10 +224,12 @@ val () = insert (ptbl, "llam", LS_LLAM)
 val () = insert (ptbl, "prop", LS_PROP)
 val () = insert (ptbl, "t", LS_T)
 val () = insert (ptbl, "type", LS_TYPE)
+val () = insert (ptbl, "t0ype", LS_T0YPE)
 val () = insert (ptbl, "val", LS_VAL)
 val () = insert (ptbl, "view", LS_VIEW)
 val () = insert (ptbl, "viewt", LS_VIEWT)
 val () = insert (ptbl, "viewtype", LS_VIEWTYPE)
+val () = insert (ptbl, "viewt0ype", LS_VIEWT0YPE)
 val () = insert (ptbl, "while", LS_WHILE)
 //
 val () = insert (ptbl, "fold", LS_FOLD)
@@ -1621,6 +1625,9 @@ in
   | LS_TYPE () => let
       val () = strptr_free (str) in lexing_TYPE (buf, pos)
     end
+  | LS_T0YPE () => let
+      val () = strptr_free (str) in lexing_T0YPE (buf, pos)
+    end
   | LS_VAL () => let
       val () = strptr_free (str) in lexing_VAL (buf, pos)
     end
@@ -1633,6 +1640,9 @@ in
     end
   | LS_VIEWTYPE () => let
       val () = strptr_free (str) in lexing_VIEWTYPE (buf, pos)
+    end
+  | LS_VIEWT0YPE () => let
+      val () = strptr_free (str) in lexing_VIEWT0YPE (buf, pos)
     end
   | LS_WHILE () => let
       val () = strptr_free (str) in lexing_WHILE (buf, pos)
@@ -1663,7 +1673,7 @@ in
           lexbufpos_token_reset (buf, pos, T_IDENT_alp (str))
         end
       | _ => let
-          val str = string_of_strptr (str) in
+          val str = strptr_free (str) in
           lexbufpos_token_reset (buf, pos, tnode)
         end // end of [_]
     end // end of [_]
@@ -1718,9 +1728,9 @@ in
       | T_NONE () => let
           val str = string_of_strptr (str) in
           lexbufpos_token_reset (buf, pos, T_IDENT_sym (str))
-        end
+        end // end of [T_NONE]
       | _ => let
-          val str = string_of_strptr (str) in
+          val () = strptr_free (str) in
           lexbufpos_token_reset (buf, pos, tnode)
         end // end of [_]
     end // end of [_]
@@ -1743,7 +1753,7 @@ in
       lexbufpos_token_reset (buf, pos, T_IDENT_dlr (str))
     end
   | _ => let
-      val str = string_of_strptr (str) in
+      val str = strptr_free (str) in
       lexbufpos_token_reset (buf, pos, tnode)
     end // end of [_]
 end // end of [lexing_IDENT_dlr]
@@ -1763,7 +1773,7 @@ in
       lexbufpos_token_reset (buf, pos, T_IDENT_srp (str))
     end
   | _ => let
-      val str = string_of_strptr (str) in
+      val () = strptr_free (str) in
       lexbufpos_token_reset (buf, pos, tnode)
     end // end of [_]
 end // end of [lexing_IDENT_srp]
@@ -1966,7 +1976,7 @@ in
       lexing_next_token (buf)
     end // end of [_]
 end else
-  token_make (lexbufpos_get_location (buf, pos), T_EOF)
+  lexbufpos_token_reset (buf, pos, T_EOF)
 // end of [if]
 //
 end // end of [lexing_get_next_token]
