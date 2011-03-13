@@ -34,6 +34,7 @@
 //
 (* ****** ****** *)
 
+staload "pats_reader.sats"
 staload "pats_lexbuf.sats"
 
 (* ****** ****** *)
@@ -45,9 +46,6 @@ staload LOC = "pats_location.sats"
 
 staload Q = "libats/SATS/linqueue_arr.sats"
 stadef QUEUE = $Q.QUEUE
-
-(* ****** ****** *)
-
 staload _(*anon*) = "prelude/DATS/array.dats"
 staload _(*anon*) = "libats/DATS/linqueue_arr.dats"
 staload _(*anon*) = "libats/ngc/DATS/deque_arr.dats"
@@ -68,14 +66,15 @@ staload _(*anon*) = "libats/ngc/DATS/deque_arr.dats"
 (* ****** ****** *)
 
 viewtypedef
-lexbuf_int_int (m: int, n:int) =
+lexbuf_int_int
+  (m: int, n:int) =
 $extype_struct
 "pats_lexbuf_struct" of {
   buf=QUEUE (char, m, n)
 , base= lint
 , base_nrow=int, base_ncol= int
 , nspace= int
-, getchar= () -<cloref1> int(*char*)
+, reader= reader_vt0ype
 } // end of [lexbuf]
 typedef lexbuf0 = lexbuf_int_int(0, 0)?
 
@@ -91,8 +90,8 @@ assume lexbuf = [m,n:int] lexbuf_int_int (m, n)
 (* ****** ****** *)
 
 implement
-lexbuf_initialize_getchar
-  (buf, getchar) = () where {
+lexbuf_initialize_filp
+  (pfmod, pffil | buf, p) = () where {
 //
 extern
 prfun lexbuf0_trans (buf: &lexbuf? >> lexbuf0): void
@@ -103,8 +102,40 @@ prfun lexbuf0_trans (buf: &lexbuf? >> lexbuf0): void
   val () = buf.base_nrow := 0
   val () = buf.base_ncol := 0
   val () = buf.nspace := 0
-  val () = buf.getchar := getchar
-} // end of [lexbuf_initialize_getchar]
+  val () = reader_initialize_filp (pfmod, pffil | buf.reader, p)
+} // end of [lexbuf_initialize_filp]
+
+implement
+lexbuf_initialize_getc
+  (buf, getc) = () where {
+//
+extern
+prfun lexbuf0_trans (buf: &lexbuf? >> lexbuf0): void
+//
+  prval () = lexbuf0_trans (buf)
+  val () = $Q.queue_initialize (buf.buf, QINISZ)
+  val () = buf.base := 0L
+  val () = buf.base_nrow := 0
+  val () = buf.base_ncol := 0
+  val () = buf.nspace := 0
+  val () = reader_initialize_getc (buf.reader, getc)
+} // end of [lexbuf_initialize_getc]
+
+implement
+lexbuf_initialize_string
+  (buf, inp) = () where {
+//
+extern
+prfun lexbuf0_trans (buf: &lexbuf? >> lexbuf0): void
+//
+  prval () = lexbuf0_trans (buf)
+  val () = $Q.queue_initialize (buf.buf, QINISZ)
+  val () = buf.base := 0L
+  val () = buf.base_nrow := 0
+  val () = buf.base_ncol := 0
+  val () = buf.nspace := 0
+  val () = reader_initialize_string (buf.reader, inp)
+} // end of [lexbuf_initialize_string]
 
 (* ****** ****** *)
 
@@ -112,6 +143,7 @@ implement
 lexbuf_uninitialize
   (buf) = () where {
   val () = $Q.queue_uninitialize (buf.buf)
+  val () = reader_uninitialize (buf.reader)
 //
 extern
 prfun lexbuf0_untrans (buf: &lexbuf0 >> lexbuf?): void
@@ -179,7 +211,7 @@ in
   in
     (c2i)c
   end else let
-    val i = buf.getchar ()
+    val i = reader_get_char (buf.reader)
   in
     if i >= 0 then let
       val c = (i2c)i

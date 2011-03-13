@@ -34,55 +34,60 @@
 //
 (* ****** ****** *)
 
-staload "libc/SATS/stdio.sats"
-
-(* ****** ****** *)
-
-staload "pats_location.sats"
-staload "pats_lexbuf.sats"
-staload "pats_lexing.sats"
-
-(* ****** ****** *)
-
-dynload "pats_reader.dats"
-dynload "pats_utils.dats"
-dynload "pats_filename.dats"
-dynload "pats_location.dats"
-dynload "pats_lexbuf.dats"
-dynload "pats_lexing_token.dats"
-dynload "pats_lexing_print.dats"
-dynload "pats_lexing_error.dats"
-dynload "pats_lexing.dats"
-
-(* ****** ****** *)
-
-implement
-main (
-  argc, argv
-) = () where {
-//
-  val () = println! ("Hello from ATS/Postiats!")
-//
-  var buf: lexbuf
-  val () = lexbuf_initialize_getc (buf, lam () =<cloptr1> getchar ())
-  var ntoken : int = 0
-  val () = while (true) let
-    val tok = lexing_next_token (buf)
 (*
-    val () = ntoken := ntoken + 1
-    val () = (print ("loc = "); print (tok.token_loc); print_newline ())
-    val () = println! ("token = ", tok)
+//
+// HX:
+//
+BOX  = 0x1 << 0
+LIN  = 0x1 << 1
+PRF  = 0x1 << 2
+POL0 = 0x1 << 3
+POL1 = 0x1 << 4
+//
+TYPE        = 00001 // 1
+TYPE+       = 01001 // 9
+TYPE-       = 11001 // 25
+T0YPE       = 00000 // 0
+T0YPE+      = 01000 // 8
+T0YPE-      = 11000 // 24
+PROP        = 00100 // 4
+PROP+       = 01100 // 12
+PROP-       = 11100 // 28
+VIEW        = 00110 // 6
+VIEW+       = 01110 // 14
+VIEW-       = 11110 // 30
+VIEWTYPE    = 00011 // 3
+VIEWTYPE+   = 01011 // 11
+VIEWTYPE-   = 11011 // 27
+VIEWT0YPE   = 00010 // 2
+VIEWT0YPE+  = 01010 // 10
+VIEWT0YPE-  = 11010 // 26
 *)
-  in
-    case+ tok.token_node of
-    | T_EOF () => break | _ => continue
-  end // end of [val]
-  val () = lexbuf_uninitialize (buf)
+
+#define TYPE_int 1		// 00001
+#define TYPE_pos_int 9		// 01001
+#define TYPE_neg_int 25		// 11001
 //
-  val () = fprint_the_lexerrlst (stdout_ref)
+#define T0YPE_int 0		// 00000
+#define T0YPE_pos_int 8		// 01000
+#define T0YPE_neg_int 24	// 11000
 //
-} // end of [main]
+#define PROP_int 4		// 00100
+#define PROP_pos_int 12		// 01100
+#define PROP_neg_int 28		// 11100
+//
+#define VIEW_int 6		// 00110
+#define VIEW_pos_int 14		// 01110
+#define VIEW_neg_int 30		// 11110
+//
+#define VIEWTYPE_int 3		// 00011
+#define VIEWTYPE_pos_int 11	// 01011
+#define VIEWTYPE_neg_int 27	// 11011
+//
+#define VIEWT0YPE_int 2		// 00010
+#define VIEWT0YPE_pos_int 10	// 01010
+#define VIEWT0YPE_neg_int 26	// 11010
 
 (* ****** ****** *)
 
-(* end of [pats_main.dats] *)
+(* end of [pats_lexing.hats] *)

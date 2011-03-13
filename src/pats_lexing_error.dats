@@ -60,20 +60,38 @@ viewtypedef
 lexerrlst_vt = List_vt (lexerr)
 
 (* ****** ****** *)
-
+//
+// HX-2011-03-12:
+// [n] stores the total number of errors, some of
+// which may not be recorded
+//
 extern
 fun the_lexerrlst_get (n: &int? >> int): lexerrlst_vt
 
 (* ****** ****** *)
 
 local
-
-#define MAXLEN 10
+//
+// HX-2011-03-12:
+// MAXLEN is the max number of errors to be reported
+//
+#define MAXLEN 100
 #assert (MAXLEN > 0)
 val the_length = ref<int> (0)
 val the_lexerrlst = ref<lexerrlst_vt> (list_vt_nil)
 
 in // in of [local]
+
+implement
+the_lexerrlst_clear
+  () = () where {
+  val () = !the_length := 0
+  val () = () where {
+    val (vbox pf | p) = ref_get_view_ptr (the_lexerrlst)
+    val () = list_vt_free (!p)
+    val () = !p := list_vt_nil ()
+  } // end of [val]
+} // end of [the_lexerrlst_clear]
 
 implement
 the_lexerrlst_add

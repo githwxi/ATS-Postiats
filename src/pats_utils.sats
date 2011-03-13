@@ -34,16 +34,20 @@
 //
 (* ****** ****** *)
 
+local
+
 staload Q = "libats/SATS/linqueue_arr.sats"
 stadef QUEUE = $Q.QUEUE
 
-(* ****** ****** *)
+in // in of [local]
 
 fun queue_get_strptr1
   {m,n:int}
   {st,ln:nat | st+ln <= n} (
   q: &QUEUE (char, m, n), st: size_t st, ln: size_t ln
 ) : strptr1 // end of [queue_get_strptr1]
+
+end // end of [local]
 
 (* ****** ****** *)
 

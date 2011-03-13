@@ -34,37 +34,22 @@
 //
 /* ****** ****** */
 
-#ifndef POSTIATS_SRC_PATS_LEXBUF_CATS
-#define POSTIATS_SRC_PATS_LEXBUF_CATS
-
-/* ****** ****** */
-
-#include "libats/CATS/linqueue_arr.cats"
-
-/* ****** ****** */
-
-#include "pats_reader.cats"
+#ifndef POSTIATS_SRC_PATS_READER_CATS
+#define POSTIATS_SRC_PATS_READER_CATS
 
 /* ****** ****** */
 
 typedef struct {
 //
-  atslib_linqueue_arr_QUEUE buf ;
+  ats_ptr_type getchar ; // () -<cloref1> int
+  ats_ptr_type freeres ; // () -> void
 //
-  ats_lint_type base ;
-  ats_int_type base_nrow ; // line number
-  ats_int_type base_ncol ; // line offset
-//
-  ats_int_type nspace ; // leading space
-//
-  pats_reader_struct reader ; // for getchar
-//
-} pats_lexbuf_struct ;
+} pats_reader_struct ;
 
 /* ****** ****** */
 
-#endif // end of [POSTIATS_SRC_PATS_LEXBUF_CATS]
+#endif // end of [POSTIATS_SRC_PATS_READER_CATS]
 
 /* ****** ****** */
 
-/* end of [pats_lexbuf.cats] */
+/* end of [pats_reader.cats] */

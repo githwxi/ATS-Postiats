@@ -422,6 +422,8 @@ fun fprint_lexerr
   (out: FILEref, err: lexerr): void
 // end of [fprint_lexerr]
 
+fun the_lexerrlst_clear (): void
+
 fun the_lexerrlst_add (x: lexerr): void
 
 fun fprint_the_lexerrlst (out: FILEref): void

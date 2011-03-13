@@ -35,85 +35,46 @@
 (* ****** ****** *)
 
 %{#
-#include "pats_lexbuf.cats"
+#include "pats_reader.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
-typedef position = $LOC.position
-typedef location = $LOC.location
-
-(* ****** ****** *)
-
 absviewt@ype
-lexbuf = $extype "pats_lexbuf_struct"
+reader_vt0ype = $extype "pats_reader_struct"
+viewtypedef reader = reader_vt0ype
 
 (* ****** ****** *)
 
-fun lexbuf_initialize_filp
+fun reader_initialize_filp
   {m:file_mode} {l:addr} (
   pfmod: file_mode_lte (m, r)
 , pffil: FILE m @ l
-| r: &lexbuf? >> lexbuf, p: ptr l
+| r: &reader? >> reader, p: ptr l
 ) : void // end of [reader_initialize_filp]
 
-fun lexbuf_initialize_getc (
-  buf: &lexbuf? >> lexbuf, getc: () -<cloptr1> int
-) : void // end of [lexbuf_initialize_getc]
+(* ****** ****** *)
 
-fun lexbuf_initialize_string (
-  buf: &lexbuf? >> lexbuf, inp: string
-) : void // end of [lexbuf_initialize_getc]
+fun reader_initialize_getc (
+  r: &reader? >> reader, getc: () -<cloptr1> int
+) : void // end of [reader_initialize_getc]
 
 (* ****** ****** *)
 
-fun lexbuf_uninitialize (
-  buf: &lexbuf >> lexbuf?
-) : void // end of [lexbuf_uninitialize]
+fun reader_initialize_string (
+  r: &reader? >> reader, inp: string
+) : void // end of [reader_initialize_string]
 
 (* ****** ****** *)
 
-fun lexbuf_get_base (buf: &lexbuf): lint
-
-fun lexbuf_get_position
-  (buf: &lexbuf, res: &position? >> position): void
-// end of [lexbuf_get_position]
-
-fun lexbuf_get_nspace (buf: &lexbuf): int
-fun lexbuf_set_nspace (buf: &lexbuf, n: int): void
+fun reader_uninitialize (
+  r: &reader >> reader?
+) : void // end of [reader_uninitialize]
 
 (* ****** ****** *)
 
-fun lexbufpos_diff
-  (buf: &lexbuf, pos: &position): uint
-// end of [lexbufpos_diff]
-
-fun lexbufpos_get_location
-  (buf: &lexbuf, pos: &position): location
-// end of [lexbufpos_get_location]
+fun reader_get_char (r: &reader): int
 
 (* ****** ****** *)
 
-fun lexbuf_get_char (buf: &lexbuf, nchr: uint): int
-fun lexbufpos_get_char (buf: &lexbuf, position: &position): int
-
-(* ****** ****** *)
-
-fun lexbuf_incby_count (buf: &lexbuf, cnt: uint): void
-fun lexbuf_reset_position (buf: &lexbuf, pos: &position): void
-
-(* ****** ****** *)
-
-fun lexbuf_get_strptr0 (buf: &lexbuf, ln: uint): strptr0
-fun lexbuf_get_strptr1 (buf: &lexbuf, ln: uint): strptr1
-
-fun lexbufpos_get_strptr0 (buf: &lexbuf, pos: &position): strptr0
-fun lexbufpos_get_strptr1 (buf: &lexbuf, pos: &position): strptr1
-
-fun lexbuf_get_substrptr0 (buf: &lexbuf, st: uint, ln: uint): strptr0
-fun lexbuf_get_substrptr1 (buf: &lexbuf, st: uint, ln: uint): strptr1
-
-(* ****** ****** *)
-
-(* end of [pats_lexbuf.sats] *)
+(* end of [pats_reader.sats] *)
