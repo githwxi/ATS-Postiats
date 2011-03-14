@@ -87,7 +87,8 @@ test: \
   test_main_dats.o $(OBJECTS)
 	$(ATSCC) \
   $(ATSGCFLAG) $(ATSCCFLAGS) -o test \
-  test_main_dats.o $(OBJECTS)
+  test_main_dats.o $(OBJECTS) \
+  && ./test
 
 ######
 

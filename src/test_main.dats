@@ -457,7 +457,11 @@ val () = assertloc (x = "Hongwei's")
 
 implement
 main () = () where {
+//
+  val () = println! ("[test_lexing] starts: ...")
   val () = test_lexing ()
+  val () = println! ("[test_lexing] finishes!")
+//
 } // end of [main]
 
 (* ****** ****** *)
