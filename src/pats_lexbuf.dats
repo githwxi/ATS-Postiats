@@ -80,7 +80,10 @@ typedef lexbuf0 = lexbuf_int_int(0, 0)?
 
 (* ****** ****** *)
 
-assume lexbuf = [m,n:int] lexbuf_int_int (m, n)
+assume
+lexbuf_vt0ype =
+  [m,n:int] lexbuf_int_int (m, n)
+// end of [lexbuf_vt0ype]
 
 (* ****** ****** *)
 

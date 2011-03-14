@@ -50,6 +50,8 @@ ATSCCFLAGS=-g -O2
 ######
 
 SOURCES := \
+  pats_reader.sats \
+  pats_reader.dats \
   pats_utils.sats \
   pats_utils.dats \
   pats_filename.sats \
@@ -78,6 +80,14 @@ atsopt: \
 	$(ATSCC) \
   $(ATSGCFLAG) $(ATSCCFLAGS) -o atsopt \
   pats_main_dats.o $(OBJECTS)
+
+######
+
+test: \
+  test_main_dats.o $(OBJECTS)
+	$(ATSCC) \
+  $(ATSGCFLAG) $(ATSCCFLAGS) -o test \
+  test_main_dats.o $(OBJECTS)
 
 ######
 
@@ -112,6 +122,8 @@ clean:: ; $(RMF) $(DIR)/*_?ats.o
 clean:: ; $(RMF) $(DIR)/*_?ats.c
 
 cleanall:: clean
+cleanall:: ; $(RMF) atsopt
+cleanall:: ; $(RMF) test
 
 ######
 

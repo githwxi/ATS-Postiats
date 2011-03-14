@@ -79,11 +79,8 @@ s0exp = '{
   s0exp_loc= location, s0exp_node= s0exp_node
 } // end of [s0exp]
 
-and
-s0explst = List (s0exp)
-
-and
-s0expopt = Option (s0exp)
+and s0explst = List (s0exp)
+and s0expopt = Option (s0exp)
 
 (* ****** ****** *)
 

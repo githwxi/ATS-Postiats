@@ -47,7 +47,8 @@ typedef location = $LOC.location
 (* ****** ****** *)
 
 absviewt@ype
-lexbuf = $extype "pats_lexbuf_struct"
+lexbuf_vt0ype = $extype "pats_lexbuf_struct"
+viewtypedef lexbuf = lexbuf_vt0ype
 
 (* ****** ****** *)
 

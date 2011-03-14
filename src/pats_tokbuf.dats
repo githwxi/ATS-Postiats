@@ -34,13 +34,9 @@
 //
 (* ****** ****** *)
 
-staload "pats_tokbuf.sats"
-staload "pats_syntax.sats"
+staload LBF = "pats_lexbuf.sats"
+viewtypedef lexbuf = $LBF.lexbuf
 
 (* ****** ****** *)
 
-fun parsing_s0exp (buf: &tokbuf): s0exp
-
-(* ****** ****** *)
-
-(* end of [pats_parsing.sats] *)
+(* end of [pats_tokbuf.dats] *)

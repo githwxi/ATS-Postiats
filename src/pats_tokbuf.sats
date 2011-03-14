@@ -34,13 +34,24 @@
 //
 (* ****** ****** *)
 
-staload "pats_tokbuf.sats"
-staload "pats_syntax.sats"
+staload LEX = "pats_lexing.sats"
+typedef token = $LEX.token
+
+(* ****** ****** *)
+//
+// HX-2011-03-13:
+// [tokbuf] may store visited tokens to support backtracking
+//
+absviewt@ype
+tokbuf_vt0ype =
+$extype "pats_tokbuf_struct"
+//
+viewtypedef tokbuf = tokbuf_vt0ype
+//
+(* ****** ****** *)
+
+fun tokbuf_get_token (buf: &tokbuf): token
 
 (* ****** ****** *)
 
-fun parsing_s0exp (buf: &tokbuf): s0exp
-
-(* ****** ****** *)
-
-(* end of [pats_parsing.sats] *)
+(* end of [pats_tokbuf.sats] *)

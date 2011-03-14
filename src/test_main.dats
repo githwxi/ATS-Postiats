@@ -202,9 +202,6 @@ val- T_PREFIX () =
   (lexing_from_string "prefix").token_node
 //
 val- T_FUN (k) =
-  (lexing_from_string "praxi").token_node
-val- FK_praxi () = k
-val- T_FUN (k) =
   (lexing_from_string "prfun").token_node
 val- FK_prfun () = k
 val- T_FUN (k) =
@@ -215,6 +212,10 @@ val- T_OF () =
   (lexing_from_string "of").token_node
 val- T_OP () =
   (lexing_from_string "op").token_node
+//
+val- T_PRAXI () =
+  (lexing_from_string "praxi").token_node
+//
 val- T_TYPE (i) =
   (lexing_from_string "prop+").token_node
 val () = assertloc (i = PROP_pos_int)
@@ -224,6 +225,7 @@ val () = assertloc (i = PROP_neg_int)
 val- T_TYPEDEF (i) =
   (lexing_from_string "propdef").token_node
 val () = assertloc (i = PROP_int)
+//
 val- T_REC () =
   (lexing_from_string "rec").token_node
 val- T_SCASE () =
