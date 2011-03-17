@@ -73,7 +73,7 @@ reader_get_char (r) = r.getchar (r.pfres | (*none*))
 (* ****** ****** *)
 
 fun reader0_initialize_filp
-  {m:file_mode} {l:addr}
+  {m:file_mode}
   {l:addr} (
   pfmod: file_mode_lte (m, r)
 , pffil: FILE m @ l
@@ -164,21 +164,28 @@ end // end of [local]
 
 (* ****** ****** *)
 
+local
+
+extern
+prfun reader0_encode (r: &reader? >> reader0): void
+extern
+prfun reader0_decode (r: &reader0 >> reader?): void
+
+in // end of [local]
+
+(* ****** ****** *)
+
 implement
 reader_initialize_filp
   (pfmod, pffil | r, p) = () where {
-  prval () = __assert (r) where {
-    extern prfun __assert (r: &reader? >> reader0): void
-  } // end of [prval]
+  prval () = reader0_encode (r)
   val () = reader0_initialize_filp (pfmod, pffil | r, p)
 } // end of [reader_initialize_filp]
 
 implement
 reader_initialize_getc
   (r, getc) = () where {
-  prval () = __assert (r) where {
-    extern prfun __assert (r: &reader? >> reader0): void
-  } // end of [prval]
+  prval () = reader0_encode (r)
   val () = reader0_initialize_getc (r, getc)
 } // end of [reader_initialize_getc]
 
@@ -188,9 +195,7 @@ reader_initialize_string
   val [n:int] inp = (string1_of_string)inp
   val (pfgc, pfat | p) = ptr_alloc<size_t> ()
   val () = !p := (size1_of_int1)0
-  prval () = __assert (r) where {
-    extern prfun __assert (r: &reader? >> reader0): void
-  } // end of [prval]
+  prval () = reader0_encode (r)
   val () = reader0_initialize_string (pfgc, pfat | r, inp, p)
 } // end of preader_initialize_string]
 
@@ -200,10 +205,12 @@ implement
 reader_uninitialize
   (r) = () where {
   val () = reader0_uninitialize (r)
-  prval () = __assert (r) where {
-    extern prfun __assert (r: &reader0 >> reader?): void
-  } // end of [prval]
+  prval () = reader0_decode (r)
 } // end of [reader_uninitialize]
+
+(* ****** ****** *)
+
+end // end of [local]
 
 (* ****** ****** *)
 

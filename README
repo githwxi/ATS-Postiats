@@ -15,4 +15,12 @@ Another Implementation of ATS!
 &T >> ? for &T >> T?
 &T >> ?! for &T >> T?! 
 
+######
+//
+// HX-2011-03-13
+//
+Optmizing pattern matching compilation
+
+######
+
 ###### end of [README] ######

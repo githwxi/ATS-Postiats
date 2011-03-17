@@ -51,9 +51,9 @@ in
 implement
 queue_get_strptr1
   (q, st, ln) = let
-  val [l:addr] (
-    pfgc, pfarr | p
-  ) = array_ptr_alloc<byte> (ln+1)
+  val [l:addr]
+    (pfgc, pfarr | p) = malloc_gc (ln+1)
+  // end of [val]
   prval (pf1, fpf2) =
    __assert (pfarr) where {
    extern prfun __assert {k:nat} (

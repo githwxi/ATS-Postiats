@@ -59,10 +59,29 @@ val- T_DOLLAR () =
   (lexing_from_string "$").token_node
 val- T_GTLT () =
   (lexing_from_string "><").token_node
+val- T_DOTLT () =
+  (lexing_from_string ".<").token_node
+val- T_GTDOT () =
+  (lexing_from_string ">.").token_node
+val- T_DOTLTGTDOT () =
+  (lexing_from_string ".<>.").token_node
+val- T_MINUSGT () =
+  (lexing_from_string "->").token_node
+val- T_MINUSLT () =
+  (lexing_from_string "-<").token_node
+val- T_MINUSLTGT () =
+  (lexing_from_string "-<>").token_node
+val- T_COLONLT () =
+  (lexing_from_string ":<").token_node
+val- T_COLONLTGT () =
+  (lexing_from_string ":<>").token_node
 //
 val- T_ABSTYPE (i) =
   (lexing_from_string "abstype").token_node
 val () = assertloc (i = TYPE_int)
+val- T_ABSTYPE (i) =
+  (lexing_from_string "abst0ype").token_node
+val () = assertloc (i = T0YPE_int)
 val- T_ABSTYPE (i) =
   (lexing_from_string "abst@ype").token_node
 val () = assertloc (i = T0YPE_int)
@@ -75,6 +94,9 @@ val () = assertloc (i = VIEW_int)
 val- T_ABSTYPE (i) =
   (lexing_from_string "absviewtype").token_node
 val () = assertloc (i = VIEWTYPE_int)
+val- T_ABSTYPE (i) =
+  (lexing_from_string "absviewt0ype").token_node
+val () = assertloc (i = VIEWT0YPE_int)
 val- T_ABSTYPE (i) =
   (lexing_from_string "absviewt@ype").token_node
 val () = assertloc (i = VIEWT0YPE_int)
@@ -259,6 +281,17 @@ val () = assertloc (i = TYPE_pos_int)
 val- T_TYPE (i) =
   (lexing_from_string "type-").token_node
 val () = assertloc (i = TYPE_neg_int)
+//
+val- T_TYPE (i) =
+  (lexing_from_string "t0ype").token_node
+val () = assertloc (i = T0YPE_int)
+val- T_TYPE (i) =
+  (lexing_from_string "t0ype+").token_node
+val () = assertloc (i = T0YPE_pos_int)  
+val- T_TYPE (i) =
+  (lexing_from_string "t0ype-").token_node
+val () = assertloc (i = T0YPE_neg_int)  
+//
 val- T_TYPE (i) =
   (lexing_from_string "t@ype").token_node
 val () = assertloc (i = T0YPE_int)
@@ -268,6 +301,7 @@ val () = assertloc (i = T0YPE_pos_int)
 val- T_TYPE (i) =
   (lexing_from_string "t@ype-").token_node
 val () = assertloc (i = T0YPE_neg_int)  
+//
 val- T_TYPEDEF (i) =
   (lexing_from_string "typedef").token_node
 val () = assertloc (i = T0YPE_int)
@@ -296,6 +330,7 @@ val () = assertloc (i = VIEW_neg_int)
 val- T_TYPEDEF (i) =
   (lexing_from_string "viewdef").token_node
 val () = assertloc (i = VIEW_int)
+//
 val- T_TYPE (i) =
   (lexing_from_string "viewtype").token_node
 val () = assertloc (i = VIEWTYPE_int)
@@ -305,6 +340,17 @@ val () = assertloc (i = VIEWTYPE_pos_int)
 val- T_TYPE (i) =
   (lexing_from_string "viewtype-").token_node
 val () = assertloc (i = VIEWTYPE_neg_int)
+//
+val- T_TYPE (i) =
+  (lexing_from_string "viewt0ype").token_node
+val () = assertloc (i = VIEWT0YPE_int)
+val- T_TYPE (i) =
+  (lexing_from_string "viewt0ype+").token_node
+val () = assertloc (i = VIEWT0YPE_pos_int)
+val- T_TYPE (i) =
+  (lexing_from_string "viewt0ype-").token_node
+val () = assertloc (i = VIEWT0YPE_neg_int)
+//
 val- T_TYPE (i) =
   (lexing_from_string "viewt@ype").token_node
 val () = assertloc (i = VIEWT0YPE_int)
@@ -314,9 +360,11 @@ val () = assertloc (i = VIEWT0YPE_pos_int)
 val- T_TYPE (i) =
   (lexing_from_string "viewt@ype-").token_node
 val () = assertloc (i = VIEWT0YPE_neg_int)
+//
 val- T_TYPEDEF (i) =
   (lexing_from_string "viewtypedef").token_node
 val () = assertloc (i = VIEWT0YPE_int)
+//
 val- T_WHEN () =
   (lexing_from_string "when").token_node
 val- T_WHERE () =

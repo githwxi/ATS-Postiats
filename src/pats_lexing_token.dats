@@ -200,13 +200,6 @@ typedef itm = tnode_t
 typedef keyitm = (key, itm)
 //
 implement
-hash_key<key> (x, _) =
-  string_hash_33 (decode(x))
-implement
-equal_key_key<key> (x1, x2, _) =
-  compare (decode(x1), decode(x2)) = 0
-
-implement
 keyitem_nullify<keyitm>
   (x) = () where {
   extern prfun __assert (x: &keyitm? >> keyitm): void
@@ -226,10 +219,18 @@ keyitem_isnot_null<keyitm>
   prval () = __assert2 (x)
 } // end of [keyitem_isnot_null]
 
+//
+implement
+hash_key<key> (x, _) = string_hash_33 (decode(x))
+implement
+equal_key_key<key>
+  (x1, x2, _) = compare (decode(x1), decode(x2)) = 0
+// end of [equal_key_key]
 val hash0 = $UN.cast{hash(key)} (null)
 val eqfn0 = $UN.cast{eqfn(key)} (null)
 val [l:addr] ptbl = hashtbl_make_hint<key,itm> (hash0, eqfn0, 193)
 //
+
 fun insert (
   ptbl: !HASHTBLptr (key, itm, l)
 , k: string, i: tnode

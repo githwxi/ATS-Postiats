@@ -106,7 +106,7 @@ fun xdigit_get_val
 // HX: there are various "irregular" tokens in ATS
 // (e.g., type+, type-, t@ype, fold@, free@, while*),
 // which complicate lexing considerably; [lexsym] is
-// primarily instroduced for handling such tokens
+// primarily introduced for handling such tokens.
 //
 
 datatype
@@ -179,13 +179,6 @@ typedef itm = lexsym_t
 typedef keyitm = (key, itm)
 //
 implement
-hash_key<key> (x, _) =
-  string_hash_33 (decode(x))
-implement
-equal_key_key<key> (x1, x2, _) =
-  compare (decode(x1), decode(x2)) = 0
-
-implement
 keyitem_nullify<keyitm>
   (x) = () where {
   extern prfun __assert (x: &keyitm? >> keyitm): void
@@ -205,9 +198,18 @@ keyitem_isnot_null<keyitm>
   prval () = __assert2 (x)
 } // end of [keyitem_isnot_null]
 
+//
+implement
+hash_key<key> (x, _) = string_hash_33 (decode(x))
+implement
+equal_key_key<key>
+  (x1, x2, _) = compare (decode(x1), decode(x2)) = 0
+// end of [equal_key_key]
+//
 val hash0 = $UN.cast{hash(key)} (null)
 val eqfn0 = $UN.cast{eqfn(key)} (null)
 val [l:addr] ptbl = hashtbl_make_hint<key,itm> (hash0, eqfn0, 53)
+//
 
 fun insert (
   ptbl: !HASHTBLptr (key, itm, l)
@@ -230,12 +232,12 @@ val () = insert (ptbl, "llam", LS_LLAM)
 val () = insert (ptbl, "prop", LS_PROP)
 val () = insert (ptbl, "t", LS_T)
 val () = insert (ptbl, "type", LS_TYPE)
-val () = insert (ptbl, "t0ype", LS_T0YPE)
+val () = insert (ptbl, "t0ype", LS_T0YPE) // = t@ype
 val () = insert (ptbl, "val", LS_VAL)
 val () = insert (ptbl, "view", LS_VIEW)
 val () = insert (ptbl, "viewt", LS_VIEWT)
 val () = insert (ptbl, "viewtype", LS_VIEWTYPE)
-val () = insert (ptbl, "viewt0ype", LS_VIEWT0YPE)
+val () = insert (ptbl, "viewt0ype", LS_VIEWT0YPE) // = viewt@ype
 val () = insert (ptbl, "while", LS_WHILE)
 //
 val () = insert (ptbl, "fold", LS_FOLD)
