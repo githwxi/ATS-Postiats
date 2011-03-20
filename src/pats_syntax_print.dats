@@ -34,63 +34,46 @@
 //
 (* ****** ****** *)
 
-staload "libc/SATS/stdio.sats"
-
-(* ****** ****** *)
-
-staload "pats_location.sats"
-staload "pats_lexbuf.sats"
-staload "pats_lexing.sats"
-
-(* ****** ****** *)
-//
-dynload "pats_utils.dats"
-//
-dynload "pats_symbol.dats"
-dynload "pats_filename.dats"
-dynload "pats_location.dats"
-//
-(* ****** ****** *)
-
-dynload "pats_reader.dats"
-dynload "pats_lexbuf.dats"
-dynload "pats_lexing_token.dats"
-dynload "pats_lexing_print.dats"
-dynload "pats_lexing_error.dats"
-dynload "pats_lexing.dats"
-
-dynload "pats_syntax_print.dats"
-dynload "pats_syntax.dats"
+staload "pats_symbol.sats"
+staload "pats_syntax.sats"
 
 (* ****** ****** *)
 
 implement
-main (
-  argc, argv
-) = () where {
-//
-  val () = println! ("Hello from ATS/Postiats!")
-//
-  var buf: lexbuf
-  val () = lexbuf_initialize_getc (buf, lam () =<cloptr1> getchar ())
-  var ntoken : int = 0
-  val () = while (true) let
-    val tok = lexing_next_token (buf)
-(*
-    val () = ntoken := ntoken + 1
-    val () = (print ("loc = "); print (tok.token_loc); print_newline ())
-    val () = println! ("token = ", tok)
-*)
-  in
-    case+ tok.token_node of
-    | T_EOF () => break | _ => continue
-  end // end of [val]
-  val () = lexbuf_uninitialize (buf)
-//
-  val () = fprint_the_lexerrlst (stdout_ref)
-//
-} // end of [main]
+fprint_i0de
+  (out, id) = fprint_symbol (out, id.i0de_sym)
+// end of [fprint_i0de]
 
 (* ****** ****** *)
 
-(* end of [pats_main.dats] *)
+implement
+fprint_synent
+  (out, ent) = let
+  macdef prstr (x) = fprint_string (out, ,(x))
+in
+  case+ ent of
+  | SYNnone () => {
+      val () = prstr "SYNnone()"
+    }
+  | SYNi0de (x) => {
+      val () = prstr "SYNi0de("
+      val () = fprint_i0de (out, x)
+      val () = prstr ")"
+    } // end of [SYNi0de]
+  | SYNe0xp _ => {
+      val () = prstr "SYNe0xp()"
+    }
+  | SYNs0exp _ => {
+      val () = prstr "SYNs0exp()"
+    }
+end // end of [synent]
+
+
+(* ****** ****** *)
+
+implement
+print_synent (ent) = fprint_synent (stdout_ref, ent)
+
+(* ****** ****** *)
+
+(* end of [pats_syntax.sats] *)

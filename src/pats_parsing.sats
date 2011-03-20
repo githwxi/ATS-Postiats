@@ -39,7 +39,22 @@ staload "pats_syntax.sats"
 
 (* ****** ****** *)
 
-fun parsing_s0exp (buf: &tokbuf): s0exp
+fun parsing_list
+  (buf: &tokbuf, f: (&tokbuf) -> synent): synentlst_vt
+// end of [parsing_list]
+
+(* ****** ****** *)
+
+fun parsing_i0de (buf: &tokbuf): synent
+
+(* ****** ****** *)
+
+fun parsing_e0xp (buf: &tokbuf): synent
+fun parsing_e0xplst (buf: &tokbuf): List_vt (e0xp)
+
+(* ****** ****** *)
+
+fun parsing_s0exp (buf: &tokbuf): synent
 
 (* ****** ****** *)
 

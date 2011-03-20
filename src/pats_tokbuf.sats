@@ -37,6 +37,9 @@
 staload LEX = "pats_lexing.sats"
 typedef token = $LEX.token
 
+staload LOC = "pats_location.sats"
+typedef location = $LOC.location
+
 (* ****** ****** *)
 //
 // HX-2011-03-13:
@@ -51,6 +54,15 @@ viewtypedef tokbuf = tokbuf_vt0ype
 (* ****** ****** *)
 
 fun tokbuf_get_token (buf: &tokbuf): token
+
+(* ****** ****** *)
+
+fun tokbuf_get_location (buf: &tokbuf): location
+
+(* ****** ****** *)
+
+fun tokbuf_reset (buf: &tokbuf): void
+fun tokbuf_getloc_reset (buf: &tokbuf): location
 
 (* ****** ****** *)
 

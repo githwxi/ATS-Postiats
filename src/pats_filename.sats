@@ -51,9 +51,12 @@ fun theParentDir_get
 fun fprint_filename
   (out: FILEref, fil: filename): void
 overload fprint with fprint_filename
-
 fun print_filename (fil: filename): void
 overload print with print_filename
+
+fun fprint_filename_full
+  (out: FILEref, fil: filename): void
+fun print_filename_full (fil: filename): void
 
 (* ****** ****** *)
 

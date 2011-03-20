@@ -34,8 +34,11 @@
 //
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
+staload
+LOC = "pats_location.sats"
 typedef location = $LOC.location
+staload SYM = "pats_symbol.sats"
+typedef symbol = $SYM.symbol
 
 (* ****** ****** *)
 
@@ -66,10 +69,49 @@ overload print with print_dcstkind
 
 (* ****** ****** *)
 
+typedef i0de = '{
+  i0de_loc= location, i0de_sym= symbol
+} // end of [i0de]
+
+fun fprint_i0de (out: FILEref, x: i0de): void
+
+(* ****** ****** *)
+
+datatype
+e0xp_node =
+//
+  | E0XPnone of ()
+//
+  | E0XPapp of (e0xp, e0xp)
+  | E0XPchar of char
+  | E0XPeval of e0xp
+  | E0XPfloat of string
+(*
+  | E0XPide of sym_t
+*)
+  | E0XPint of string
+  | E0XPlist of e0xplst
+  | E0XPstring of (string, int(*length*))
+// end of [e0xp_node]
+
+where
+e0xp = '{
+  e0xp_loc= location, e0xp_node= e0xp_node
+} // end of [e0xp]
+
+and e0xplst = List (e0xp)
+
+fun e0xp_none (loc: location): e0xp
+fun e0xp_char (loc: location, c: char): e0xp
+fun e0xp_list (loc: location, es: e0xplst): e0xp
+fun e0xp_string (loc: location, s: string): e0xp
+
+(* ****** ****** *)
+
 datatype
 s0exp_node =
 //
-  | S0Enone of () // indicating of error
+  | S0Enone of ()
 //
   | S0Eint of int
 // end of [s0exp_node]
@@ -81,6 +123,25 @@ s0exp = '{
 
 and s0explst = List (s0exp)
 and s0expopt = Option (s0exp)
+
+(* ****** ****** *)
+
+datatype synent =
+  | SYNnone of ()
+  | SYNi0de of i0de
+  | SYNe0xp of e0xp
+  | SYNs0exp of s0exp
+// end of [synent]
+
+viewtypedef synentlst_vt = List_vt (synent)
+
+(* ****** ****** *)
+
+fun fprint_synent
+  (out: FILEref, ent: synent): void
+overload fprint with fprint_synent
+fun print_synent (ent: synent): void
+overload print with print_synent
 
 (* ****** ****** *)
 

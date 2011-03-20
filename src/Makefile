@@ -50,14 +50,16 @@ ATSCCFLAGS=-g -O2
 ######
 
 SOURCES := \
-  pats_reader.sats \
-  pats_reader.dats \
   pats_utils.sats \
   pats_utils.dats \
+  pats_symbol.sats \
+  pats_symbol.dats \
   pats_filename.sats \
   pats_filename.dats \
   pats_location.sats \
   pats_location.dats \
+  pats_reader.sats \
+  pats_reader.dats \
   pats_lexbuf.sats \
   pats_lexbuf.dats \
   pats_lexing.sats \
@@ -65,6 +67,9 @@ SOURCES := \
   pats_lexing_print.dats \
   pats_lexing_error.dats \
   pats_lexing.dats \
+  pats_syntax.sats \
+  pats_syntax_print.dats \
+  pats_syntax.dats \
 
 SOURCESsta := $(filter %.sats, $(SOURCES))
 SOURCESdyn := $(filter %.dats, $(SOURCES))

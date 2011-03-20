@@ -22,5 +22,28 @@ Another Implementation of ATS!
 Optmizing pattern matching compilation
 
 ######
+//
+// HX-2011-03-14
+//
+Each type should be given a generic name and specific name;
+the former for generic template instantiation and the latter
+for specific template implementation.
+
+######
+//
+// HX-2011-03-16
+//
+Handling read-only access.
+
+fun f (x: &READ(Int)): bool
+
+######
+//
+// HX-2011-03-20
+//
+
+Some kind of sort inferencing
+
+######
 
 ###### end of [README] ######

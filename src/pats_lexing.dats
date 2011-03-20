@@ -160,6 +160,8 @@ staload
 staload _(*anon*) =
 "libats/DATS/hashtable_linprb.dats"
 //
+#define HASHTBLSZ 53
+//
 symintr encode decode
 //
 abstype string_t = $extype"string"
@@ -185,8 +187,8 @@ keyitem_nullify<keyitm>
   prval () = __assert (x)
   val () = x.0 := $UN.cast{key} (null)
   prval () = Opt_some (x)
-} // end of [keyitem_nullify]
-
+} (* end of [keyitem_nullify] *)
+//
 implement
 keyitem_isnot_null<keyitm>
   (x) = b where {
@@ -196,8 +198,7 @@ keyitem_isnot_null<keyitm>
   val [b:bool] b = bool1_of_bool (b)
   extern prfun __assert2 (x: &keyitm >> opt (keyitm, b)): void
   prval () = __assert2 (x)
-} // end of [keyitem_isnot_null]
-
+} (* end of [keyitem_isnot_null] *)
 //
 implement
 hash_key<key> (x, _) = string_hash_33 (decode(x))
@@ -208,9 +209,8 @@ equal_key_key<key>
 //
 val hash0 = $UN.cast{hash(key)} (null)
 val eqfn0 = $UN.cast{eqfn(key)} (null)
-val [l:addr] ptbl = hashtbl_make_hint<key,itm> (hash0, eqfn0, 53)
+val [l:addr] ptbl = hashtbl_make_hint<key,itm> (hash0, eqfn0, HASHTBLSZ)
 //
-
 fun insert (
   ptbl: !HASHTBLptr (key, itm, l)
 , k: string, i: lexsym
@@ -602,7 +602,7 @@ in
       val loc = lexbufpos_get_location (buf, pos)
       val err = lexerr_make (loc, LE_FEXPONENT_empty)
       val () = the_lexerrlst_add (err)
-    } // end of [if]
+    } // end of [if] // end of [val]
 //
   in
     u2i (k1+k2+1u)
@@ -623,8 +623,20 @@ if i >= 0 then let
     val () = posincby1 (pos)
     val k1 = testing_digitseq0 (buf, pos)
     val k2 = testing_fexponent (buf, pos)
+    val k12 = (
+      if k2 >= 0 then (u2i)k1 + k2 else (u2i)k1
+    ) : int // end of [val]
+//
+(*
+    val () = if (k12 = 0) then {
+      val loc = lexbufpos_get_location (buf, pos)
+      val err = lexerr_make (loc, LE_FEXPONENT_empty)
+      val () = the_lexerrlst_add (err)
+    } // end of [if] // end of [val]
+*)
+//
   in
-    if k2 >= 0 then (u2i)k1 + k2 + 1 else (u2i)k1 + 1
+    k12 + 1
   end else ~1 // end of [if]
 end else ~1 // end of [if]
 //
@@ -650,7 +662,7 @@ in
       val loc = lexbufpos_get_location (buf, pos)
       val err = lexerr_make (loc, LE_FEXPONENT_empty)
       val () = the_lexerrlst_add (err)
-    } // end of [if]
+    } // end of [if] // end of [val]
 //
   in
     u2i (k1+k2+1u)
@@ -782,17 +794,19 @@ lexing_COMMENT_line
   (buf, pos) = let
   val i = lexbufpos_get_char (buf, pos)  
 in
-  if i >= 0 then (
-    case+ (i2c)i of
-    | '\n' => (
-        lexbufpos_token_reset (buf, pos, T_COMMENT_line)
-      ) // end of ['\n']
-    | _ => let
-        val () = posincby1 (pos) in lexing_COMMENT_line (buf, pos)
-      end // end of [_]
-  ) else (
-    lexbufpos_token_reset (buf, pos, T_COMMENT_line)
-  ) // end of [if]
+//
+if i >= 0 then (
+  case+ (i2c)i of
+  | '\n' => (
+      lexbufpos_token_reset (buf, pos, T_COMMENT_line)
+    ) // end of ['\n']
+  | _ => let
+      val () = posincby1 (pos) in lexing_COMMENT_line (buf, pos)
+    end // end of [_]
+) else (
+  lexbufpos_token_reset (buf, pos, T_COMMENT_line)
+) // end of [if]
+//
 end // end of [lexing_COMMENT_line]
 
 (* ****** ****** *)
@@ -848,40 +862,42 @@ lexing_COMMENT_block_ml
   val i = lexbufpos_get_char (buf, pos)
 //
 in
-  if i >= 0 then (
-    case+ (i2c)i of
-    | '\(' => let
-        var x: position
-        val () = $LOC.position_copy (x, pos)
-        val ans = testing_literal (buf, pos, "(*")
-      in
-        if ans >= 0 then
-          lexing_COMMENT_block_ml (buf, pos, list_vt_cons (x, xs))
-        else let
-          val () = posincby1 (pos) in
-          lexing_COMMENT_block_ml (buf, pos, xs)
-        end // end of [if]
-      end // end of ['\(']
-    | '*' when
-        testing_literal
-          (buf, pos, "*)") >= 0 => let
-        val ~list_vt_cons (_, xs) = xs
-      in
-        case+ xs of
-        | list_vt_cons _ => let
-            prval () = fold@ (xs) in
-            lexing_COMMENT_block_ml (buf, pos, xs)
-          end // end of [list_vt_cons]
-        | ~list_vt_nil () =>
-            lexbufpos_token_reset (buf, pos, T_COMMENT_block)
-          // end of [list_vt_nil]
-        (* end of [case] *)
-      end // end of ['*']
-    | _ => let
-        val () = posincbyc (pos, i) in
+//
+if i >= 0 then (
+  case+ (i2c)i of
+  | '\(' => let
+      var x: position
+      val () = $LOC.position_copy (x, pos)
+      val ans = testing_literal (buf, pos, "(*")
+    in
+      if ans >= 0 then
+        lexing_COMMENT_block_ml (buf, pos, list_vt_cons (x, xs))
+      else let
+        val () = posincby1 (pos) in
         lexing_COMMENT_block_ml (buf, pos, xs)
-      end // end of [_]
-  ) else feof (buf, pos, xs) // end of [if]
+      end // end of [if]
+    end // end of ['\(']
+  | '*' when
+      testing_literal
+        (buf, pos, "*)") >= 0 => let
+      val ~list_vt_cons (_, xs) = xs
+    in
+      case+ xs of
+      | list_vt_cons _ => let
+          prval () = fold@ (xs) in
+          lexing_COMMENT_block_ml (buf, pos, xs)
+        end // end of [list_vt_cons]
+      | ~list_vt_nil () =>
+          lexbufpos_token_reset (buf, pos, T_COMMENT_block)
+        // end of [list_vt_nil]
+      (* end of [case] *)
+    end // end of ['*']
+  | _ => let
+      val () = posincbyc (pos, i) in
+      lexing_COMMENT_block_ml (buf, pos, xs)
+    end // end of [_]
+) else feof (buf, pos, xs) // end of [if]
+//
 end // end of [lexing_COMMENT_block_ml]
 
 (* ****** ****** *)
@@ -1030,6 +1046,11 @@ end // end of [lexing_AT]
 
 (* ****** ****** *)
 
+fun FLOATDOT_test
+  (buf: &lexbuf, c: char): bool =
+  if lexbuf_get_nspace (buf) > 0 then DIGIT_test (c) else false
+// end of [testing_float_dot]
+
 extern
 fun lexing_DOT
   (buf: &lexbuf, pos: &position): token
@@ -1047,12 +1068,12 @@ in
       lexing_IDENT_sym (buf, pos, k+2u)
     end
   | _ when
-      lexbuf_get_nspace (buf) > 0 => let
+      FLOATDOT_test (buf, c) => let
       val () = posdecby1 (pos)
     in
       if testing_deciexp (buf, pos) >= 0 then
         lexing_FLOAT_deciexp (buf, pos)
-      else
+      else (* HX: it cannot be taken *)
         lexbufpos_token_reset (buf, pos, T_ERR)
       // end of [if]
     end // end of [nspace > 0]
@@ -1903,6 +1924,7 @@ end // end of [lexing_ZERO]
 implement
 lexing_next_token
   (buf) = let
+//
   var pos: position
   val () = lexbuf_get_position (buf, pos)
   val k = testing_blankseq0 (buf, pos)

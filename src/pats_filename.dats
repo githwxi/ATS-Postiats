@@ -34,6 +34,11 @@
 //
 (* ****** ****** *)
 
+staload SYM = "pats_symbol.sats"
+typedef symbol= $SYM.symbol
+
+(* ****** ****** *)
+
 staload "pats_filename.sats"
 
 (* ****** ****** *)
@@ -62,18 +67,32 @@ end // end of [local]
 
 assume
 filename_type = '{
-  filename_full= string
+  filename_name= string
+, filename_full= symbol
 } // end of [filename]
 
 (* ****** ****** *)
 
 implement
 fprint_filename (out, fil) =
-  fprint_string (out, fil.filename_full)
+  fprint_string (out, fil.filename_name)
 // end of [fprint_filename]
 
 implement
 print_filename (fil) = fprint_filename (stdout_ref, fil)
+
+(* ****** ****** *)
+
+implement
+fprint_filename_full
+  (out, fil) = let
+  val name = $SYM.symbol_get_name (fil.filename_full)
+in
+  fprint_string (out, name)
+end // end of [fprint_filename_full]
+
+implement
+print_filename_full (fil) = fprint_filename_full (stdout_ref, fil)
 
 (* ****** ****** *)
 
@@ -95,7 +114,7 @@ end // [filename_is_relative]
 
 implement
 filename_none = '{
-  filename_full= ""
+  filename_name= "", filename_full= $SYM.symbol_empty
 } // end of [filename_none]
 
 (* ****** ****** *)

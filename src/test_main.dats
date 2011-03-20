@@ -12,11 +12,16 @@ staload "pats_lexbuf.sats"
 staload "pats_lexing.sats"
 
 (* ****** ****** *)
-
-dynload "pats_reader.dats"
+//
 dynload "pats_utils.dats"
+//
+dynload "pats_symbol.dats"
 dynload "pats_filename.dats"
 dynload "pats_location.dats"
+//
+(* ****** ****** *)
+
+dynload "pats_reader.dats"
 dynload "pats_lexbuf.dats"
 dynload "pats_lexing_token.dats"
 dynload "pats_lexing_print.dats"

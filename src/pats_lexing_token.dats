@@ -181,6 +181,8 @@ staload
 staload _(*anon*) =
 "libats/DATS/hashtable_linprb.dats"
 //
+#define HASHTBLSZ 193
+//
 symintr encode decode
 //
 abstype string_t = $extype"string"
@@ -206,8 +208,8 @@ keyitem_nullify<keyitm>
   prval () = __assert (x)
   val () = x.0 := $UN.cast{key} (null)
   prval () = Opt_some (x)
-} // end of [keyitem_nullify]
-
+} (* end of [keyitem_nullify] *)
+//
 implement
 keyitem_isnot_null<keyitm>
   (x) = b where {
@@ -217,8 +219,7 @@ keyitem_isnot_null<keyitm>
   val [b:bool] b = bool1_of_bool (b)
   extern prfun __assert2 (x: &keyitm >> opt (keyitm, b)): void
   prval () = __assert2 (x)
-} // end of [keyitem_isnot_null]
-
+} (* end of [keyitem_isnot_null] *)
 //
 implement
 hash_key<key> (x, _) = string_hash_33 (decode(x))
@@ -228,9 +229,8 @@ equal_key_key<key>
 // end of [equal_key_key]
 val hash0 = $UN.cast{hash(key)} (null)
 val eqfn0 = $UN.cast{eqfn(key)} (null)
-val [l:addr] ptbl = hashtbl_make_hint<key,itm> (hash0, eqfn0, 193)
+val [l:addr] ptbl = hashtbl_make_hint<key,itm> (hash0, eqfn0, HASHTBLSZ)
 //
-
 fun insert (
   ptbl: !HASHTBLptr (key, itm, l)
 , k: string, i: tnode
@@ -472,7 +472,7 @@ in
   end else let
     prval () = opt_unnone {itm} (res) in T_NONE ()
   end // end of [if]
-end // end of [IDENTIFIER_alp_get_lexsym]
+end // end of [tnode_search]
 
 end // end of [local]
 
