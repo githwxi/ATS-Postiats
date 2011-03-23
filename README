@@ -41,8 +41,13 @@ fun f (x: &READ(Int)): bool
 //
 // HX-2011-03-20
 //
-
 Some kind of sort inferencing
+
+######
+//
+// HX-2011-03-21
+//
+Supporting user-defined effects
 
 ######
 

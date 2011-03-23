@@ -34,12 +34,12 @@
 //
 (* ****** ****** *)
 
-staload "pats_location.sats"
+staload FIL = "pats_filename.sats"
+typedef filename = $FIL.filename
 
 (* ****** ****** *)
 
-staload FIL = "pats_filename.sats"
-typedef filename = $FIL.filename
+staload "pats_location.sats"
 
 (* ****** ****** *)
 
@@ -215,6 +215,71 @@ location_make_fil_pos_pos
 , end_nrow= pos2.nrow
 , end_ncol= pos2.ncol
 } // end of [location_make_pos_pos]
+
+(* ****** ****** *)
+
+local
+
+fun
+location_is_none .<>.
+  (loc: location):<> bool = (loc.beg_ntot < 0L)
+// end of [location_is_none]
+
+fun
+location_combine_main .<>. (
+  loc1: location, loc2: location
+) :<> location = let
+//
+  var beg_ntot: lint
+  var beg_nrow: int and beg_ncol: int
+  var end_ntot: lint
+  var end_nrow: int and end_ncol: int
+//
+  val () =
+    if loc1.beg_ntot <= loc2.beg_ntot then begin
+      beg_nrow := loc1.beg_nrow;
+      beg_ncol := loc1.beg_ncol;
+      beg_ntot := loc1.beg_ntot;
+    end else begin
+      beg_nrow := loc2.beg_nrow;
+      beg_ncol := loc2.beg_ncol;
+      beg_ntot := loc2.beg_ntot;
+    end // end of [if]
+  (* end of [val] *)
+//
+  val () =
+    if loc1.end_ntot >= loc2.end_ntot then begin
+      end_nrow := loc1.end_nrow;
+      end_ncol := loc1.end_ncol;
+      end_ntot := loc1.end_ntot; 
+    end else begin
+      end_nrow := loc2.end_nrow;
+      end_ncol := loc2.end_ncol;
+      end_ntot := loc2.end_ntot; 
+    end // end of [if]
+  (* end of [val] *)
+//
+in '{
+  filename = loc1.filename
+, beg_ntot= beg_ntot
+, beg_nrow= beg_nrow
+, beg_ncol= beg_ncol
+, end_ntot= end_ntot
+, end_nrow= end_nrow
+, end_ncol= end_ncol
+} end // end of [location_combine_main]
+
+in // in of [local]
+
+implement
+location_combine
+  (loc1, loc2) = case+ 0 of
+  | _ when location_is_none loc1 => loc2
+  | _ when location_is_none loc2 => loc1
+  | _ => location_combine_main (loc1, loc2)
+// end of [location_combine]
+
+end // end of [local]
 
 (* ****** ****** *)
 

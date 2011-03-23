@@ -34,6 +34,11 @@
 //
 (* ****** ****** *)
 
+staload UT = "pats_utils.sats"
+staload _(*anon*) = "pats_utils.dats"
+
+(* ****** ****** *)
+
 staload "pats_symbol.sats"
 staload "pats_syntax.sats"
 
@@ -47,33 +52,55 @@ fprint_i0de
 (* ****** ****** *)
 
 implement
-fprint_synent
-  (out, ent) = let
-  macdef prstr (x) = fprint_string (out, ,(x))
+fprint_e0xp
+  (out, x0) = let
+  macdef prstr (str) = fprint_string (out, ,(str))
 in
-  case+ ent of
-  | SYNnone () => {
-      val () = prstr "SYNnone()"
-    }
-  | SYNi0de (x) => {
-      val () = prstr "SYNi0de("
-      val () = fprint_i0de (out, x)
+  case x0.e0xp_node of
+  | E0XPapp (x1, x2) => {
+      val () = prstr "E0XPapp("
+      val () = fprint_e0xp (out, x1)
+      val () = prstr "; "
+      val () = fprint_e0xp (out, x2)
       val () = prstr ")"
-    } // end of [SYNi0de]
-  | SYNe0xp _ => {
-      val () = prstr "SYNe0xp()"
     }
-  | SYNs0exp _ => {
-      val () = prstr "SYNs0exp()"
+  | E0XPchar c => {
+      val () = prstr "E0XPchar("
+      val () = fprint_char (out, c)
+      val () = prstr ")"
     }
-end // end of [synent]
-
+  | E0XPeval (x) => {
+      val () = prstr "E0XPeval("
+      val () = fprint_e0xp (out, x)
+      val () = prstr ")"
+    }
+  | E0XPfloat (x) => {
+      val () = prstr "E0XPfloat("
+      val () = fprint_string (out, x)
+      val () = prstr ")"
+    }
+  | E0XPide (x) => {
+      val () = prstr "E0XPide("
+      val () = fprint_symbol (out, x)
+      val () = prstr ")"
+    }
+  | E0XPint (x) => {
+      val () = prstr "E0XPint("
+      val () = fprint_string (out, x)
+      val () = prstr ")"
+    }
+  | E0XPlist (xs) => {
+      val () = prstr "E0XPlist("
+      val () = $UT.fprintlst<e0xp> (out, xs, ", ", fprint_e0xp)
+      val () = prstr ")"
+    }
+  | E0XPstring (x, n) => {
+      val () = prstr "E0XPstring("
+      val () = fprint_string (out, x)
+      val () = prstr ")"
+    }
+end // end of [fprint_e0xp]
 
 (* ****** ****** *)
 
-implement
-print_synent (ent) = fprint_synent (stdout_ref, ent)
-
-(* ****** ****** *)
-
-(* end of [pats_syntax.sats] *)
+(* end of [pats_syntax_print.dats] *)

@@ -28,6 +28,9 @@ dynload "pats_lexing_print.dats"
 dynload "pats_lexing_error.dats"
 dynload "pats_lexing.dats"
 
+dynload "pats_syntax_print.dats"
+dynload "pats_syntax.dats"
+
 (* ****** ****** *)
 
 #include "pats_lexing.hats"

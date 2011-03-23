@@ -39,7 +39,7 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-staload "pats_lexing.sats"
+staload "pats_parsing.sats"
 
 (* ****** ****** *)
 
@@ -50,14 +50,14 @@ overload fprint with $LOC.fprint_location
 (* ****** ****** *)
 
 implement
-lexerr_make (loc, node) = '{
-  lexerr_loc= loc, lexerr_node= node
-} // end of [lexerr_make]
+parerr_make (loc, node) = '{
+  parerr_loc= loc, parerr_node= node
+} // end of [parerr_make]
 
 (* ****** ****** *)
 
 viewtypedef
-lexerrlst_vt = List_vt (lexerr)
+parerrlst_vt = List_vt (parerr)
 
 (* ****** ****** *)
 //
@@ -66,35 +66,24 @@ lexerrlst_vt = List_vt (lexerr)
 // which may not be recorded
 //
 extern
-fun the_lexerrlst_get (n: &int? >> int): lexerrlst_vt
+fun the_parerrlst_get (n: &int? >> int): parerrlst_vt
 
 (* ****** ****** *)
 
 local
 //
-// HX-2011-03-12:
+// HX-2011-03-22:
 // MAXLEN is the max number of errors to be reported
 //
 #define MAXLEN 100
 #assert (MAXLEN > 0)
 val the_length = ref<int> (0)
-val the_lexerrlst = ref<lexerrlst_vt> (list_vt_nil)
+val the_parerrlst = ref<parerrlst_vt> (list_vt_nil)
 
 in // in of [local]
 
 implement
-the_lexerrlst_clear
-  () = () where {
-  val () = !the_length := 0
-  val () = () where {
-    val (vbox pf | p) = ref_get_view_ptr (the_lexerrlst)
-    val () = list_vt_free (!p)
-    val () = !p := list_vt_nil ()
-  } // end of [val]
-} // end of [the_lexerrlst_clear]
-
-implement
-the_lexerrlst_add
+the_parerrlst_add
   (err) = () where {
   val n = let
     val (vbox pf | p) = ref_get_view_ptr (the_length)
@@ -102,123 +91,80 @@ the_lexerrlst_add
     val () = !p := n + 1
   in n end // end of [val]
   val () = if n < MAXLEN then let
-    val (vbox pf | p) = ref_get_view_ptr (the_lexerrlst)
+    val (vbox pf | p) = ref_get_view_ptr (the_parerrlst)
   in
     !p := list_vt_cons (err, !p)
   end // end of [val]
-} // end of [the_lexerrlst_add]
+} // end of [the_parerrlst_add]
 
 implement
-the_lexerrlst_get
+the_parerrlst_get
   (n) = xs where {
   val () = n := !the_length
   val () = !the_length := 0
-  val (vbox pf | p) = ref_get_view_ptr (the_lexerrlst)
+  val (vbox pf | p) = ref_get_view_ptr (the_parerrlst)
   val xs = !p
   val xs = list_vt_reverse (xs)
   val () = !p := list_vt_nil ()
-} // end of [the_lexerrlst_get]
+} // end of [the_parerrlst_get]
 
 end // end of [local]
 
 (* ****** ****** *)
 
 implement
-fprint_lexerr
-  (out, x) = let
-  val loc = x.lexerr_loc
-in
-//
-case+ x.lexerr_node of
-| LE_CHAR_oct () => () where {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(lexing)", @())
-    val () = fprintf (out, ": the char format (oct) is incorrect.", @())
-    val () = fprint_newline (out)
-  }
-| LE_CHAR_hex () => () where {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(lexing)", @())
-    val () = fprintf (out, ": the char format (hex) is incorrect.", @())
-    val () = fprint_newline (out)
-  }
-| LE_CHAR_unclose () => () where {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(lexing)", @())
-    val () = fprintf (out, ": the char consant is unclosed.", @())
-    val () = fprint_newline (out)
-  }
-| LE_STRING_char_oct () => () where {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(lexing)", @())
-    val () = fprintf (out, ": the string-char format (oct) is incorrect.", @())
-    val () = fprint_newline (out)
-  }
-| LE_STRING_char_hex () => () where {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(lexing)", @())
-    val () = fprintf (out, ": the string-char format (hex) is incorrect.", @())
-    val () = fprint_newline (out)
-  }
-| LE_STRING_unclose () => () where {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(lexing)", @())
-    val () = fprintf (out, ": the string constant is unclosed.", @())
-    val () = fprint_newline (out)
-  }
-| LE_COMMENT_block_unclose () => () where {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(lexing)", @())
-    val () = fprintf (out, ": the comment block is unclosed.", @())
-    val () = fprint_newline (out)
-  }
-| LE_EXTCODE_unclose () => () where {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(lexing)", @())
-    val () = fprintf (out, ": the external code block is unclosed.", @())
-    val () = fprint_newline (out)
-  }
-| LE_QUOTE_dangling () => () where {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(lexing)", @())
-    val () = fprintf (out, ": the quote symbol (') is dangling.", @())
-    val () = fprint_newline (out)
-  }
-| LE_FEXPONENT_empty () => () where {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(lexing)", @())
-    val () = fprintf (out, ": the floating exponent is empty.", @())
-    val () = fprint_newline (out)
-  }
-| LE_UNSUPPORTED (c) => () where {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(lexing)", @())
-    val () = fprintf (out, ": unsupported char: %c", @(c))
-    val () = fprint_newline (out)
-  }
-(*
-| _ => () where {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(lexing): unspecified", @())
-    val () = fprint_newline (out)
-  }
-*)
-//
-end // end of [fprint_lexerr]
+the_parerrlst_add_ifnbt
+  (bt, loc, node) =
+  if (bt = 0) then
+    the_parerrlst_add (parerr_make (loc, node))
+  else () // end of [if]
+// end of [the_parerrlst_add_if0]
 
 (* ****** ****** *)
 
 implement
-fprint_the_lexerrlst
+fprint_parerr
+  (out, x) = let
+  val loc = x.parerr_loc
+in
+//
+case+ x.parerr_node of
+| PE_COMMA () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): COMMA", @())
+    val () = fprint_newline (out)
+  }
+| PE_RPAREN () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): RPAREN", @())
+    val () = fprint_newline (out)
+  }
+| PE_i0de () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): i0de", @())
+    val () = fprint_newline (out)
+  }
+| _ => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): unspecified", @())
+    val () = fprint_newline (out)
+  }
+//
+end // end of [fprint_parerr]
+
+(* ****** ****** *)
+
+implement
+fprint_the_parerrlst
   (out) = let
   var n: int?
-  val xs = the_lexerrlst_get (n)
+  val xs = the_parerrlst_get (n)
   fun loop (
-    out: FILEref, xs: lexerrlst_vt, n: int
+    out: FILEref, xs: parerrlst_vt, n: int
   ) : int =
     case+ xs of
     | ~list_vt_cons (x, xs) => (
-        fprint_lexerr (out, x); loop (out, xs, n-1)
+        fprint_parerr (out, x); loop (out, xs, n-1)
       ) // end of [list_vt_cons]
     | ~list_vt_nil () => n
   // end of [loop]
@@ -236,8 +182,8 @@ in
       // nothing
     end // end of [list_vt_cons]
   | ~list_vt_nil () => ()
-end // end of [fprint_the_lexerrlst]
+end // end of [fprint_the_parerrlst]
 
 (* ****** ****** *)
 
-(* end of [pats_lexing_error.dats] *)
+(* end of [pats_parsing_error.dats] *)

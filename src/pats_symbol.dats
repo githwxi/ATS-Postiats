@@ -28,6 +28,11 @@
 *)
 
 (* ****** ****** *)
+//
+// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Start Time: March, 2011
+//
+(* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
 
@@ -102,7 +107,7 @@ val rtbl = HASHTBLref_make_ptr {key,itm} (ptbl)
 //
 in // in of [local]
 //
-val symbol_null = $UN.cast{symbol} (null)
+val symbol_null = $UN.cast{symbol} (null) // HX: a hack!
 //
 fun symbol_insert (
   k: string, i: symbol

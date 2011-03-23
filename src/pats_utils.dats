@@ -38,6 +38,28 @@ staload "pats_utils.sats"
 
 (* ****** ****** *)
 
+implement{a}
+fprintlst (
+  out, xs, sep, fprint
+) = let
+  fun aux (
+    xs: List a, i: int
+  ) :<cloref1> void =
+    case+ xs of
+    | list_cons (x, xs) => let
+        val () = if i > 0 then fprint_string (out, sep)
+        val () = fprint (out, x)
+      in
+         aux (xs, i+1)
+      end // end of [list_cons]
+    | list_nil () => () // end of [list_nil]
+  // end of [aux]
+in
+  aux (xs, 0)
+end // end of [fprintlst]
+
+(* ****** ****** *)
+
 local
 //
 staload Q = "libats/SATS/linqueue_arr.sats"

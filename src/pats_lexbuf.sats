@@ -58,7 +58,7 @@ fun lexbuf_initialize_filp
   pfmod: file_mode_lte (m, r)
 , pffil: FILE m @ l
 | r: &lexbuf? >> lexbuf, p: ptr l
-) : void // end of [reader_initialize_filp]
+) : void // end of [lexbuf_initialize_filp]
 
 fun lexbuf_initialize_getc (
   buf: &lexbuf? >> lexbuf, getc: () -<cloptr1> int
@@ -66,7 +66,7 @@ fun lexbuf_initialize_getc (
 
 fun lexbuf_initialize_string (
   buf: &lexbuf? >> lexbuf, inp: string
-) : void // end of [lexbuf_initialize_getc]
+) : void // end of [lexbuf_initialize_string]
 
 (* ****** ****** *)
 
@@ -107,14 +107,20 @@ fun lexbuf_reset_position (buf: &lexbuf, pos: &position): void
 
 (* ****** ****** *)
 
-fun lexbuf_get_strptr0 (buf: &lexbuf, ln: uint): strptr0
-fun lexbuf_get_strptr1 (buf: &lexbuf, ln: uint): strptr1
+fun lexbuf_get_strptr0
+  (buf: &lexbuf, ln: uint): strptr0
+fun lexbuf_get_strptr1
+  (buf: &lexbuf, ln: uint): strptr1
 
-fun lexbufpos_get_strptr0 (buf: &lexbuf, pos: &position): strptr0
-fun lexbufpos_get_strptr1 (buf: &lexbuf, pos: &position): strptr1
+fun lexbufpos_get_strptr0
+  (buf: &lexbuf, pos: &position): strptr0
+fun lexbufpos_get_strptr1
+  (buf: &lexbuf, pos: &position): strptr1
 
-fun lexbuf_get_substrptr0 (buf: &lexbuf, st: uint, ln: uint): strptr0
-fun lexbuf_get_substrptr1 (buf: &lexbuf, st: uint, ln: uint): strptr1
+fun lexbuf_get_substrptr0
+  (buf: &lexbuf, st: uint, ln: uint): strptr0
+fun lexbuf_get_substrptr1
+  (buf: &lexbuf, st: uint, ln: uint): strptr1
 
 (* ****** ****** *)
 

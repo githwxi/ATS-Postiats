@@ -39,8 +39,10 @@ staload "libc/SATS/stdio.sats"
 (* ****** ****** *)
 
 staload "pats_location.sats"
-staload "pats_lexbuf.sats"
 staload "pats_lexing.sats"
+staload "pats_tokbuf.sats"
+staload "pats_syntax.sats"
+staload "pats_parsing.sats"
 
 (* ****** ****** *)
 //
@@ -58,9 +60,15 @@ dynload "pats_lexing_token.dats"
 dynload "pats_lexing_print.dats"
 dynload "pats_lexing_error.dats"
 dynload "pats_lexing.dats"
+dynload "pats_tokbuf.dats"
 
 dynload "pats_syntax_print.dats"
 dynload "pats_syntax.dats"
+
+dynload "pats_parsing_util.dats"
+dynload "pats_parsing_error.dats"
+dynload "pats_parsing_misc.dats"
+dynload "pats_parsing_e0xp.dats"
 
 (* ****** ****** *)
 
@@ -71,23 +79,18 @@ main (
 //
   val () = println! ("Hello from ATS/Postiats!")
 //
-  var buf: lexbuf
-  val () = lexbuf_initialize_getc (buf, lam () =<cloptr1> getchar ())
-  var ntoken : int = 0
-  val () = while (true) let
-    val tok = lexing_next_token (buf)
-(*
-    val () = ntoken := ntoken + 1
-    val () = (print ("loc = "); print (tok.token_loc); print_newline ())
-    val () = println! ("token = ", tok)
-*)
-  in
-    case+ tok.token_node of
-    | T_EOF () => break | _ => continue
-  end // end of [val]
-  val () = lexbuf_uninitialize (buf)
+  var buf: tokbuf
+  val () = tokbuf_initialize_getc (buf, lam () =<cloptr1> getchar ())
+  var err: int = 0
+  val e0xp = p_e0xp (buf, 0, err)
+//
+  val () = if (err = 0) then fprint_e0xp (stdout_ref, e0xp)
+  val () = if (err = 0) then print_newline ()
+//
+  val () = tokbuf_uninitialize (buf)
 //
   val () = fprint_the_lexerrlst (stdout_ref)
+  val () = fprint_the_parerrlst (stdout_ref)
 //
 } // end of [main]
 

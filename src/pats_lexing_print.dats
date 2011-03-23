@@ -219,4 +219,4 @@ implement print_token (tok) = fprint_token (stdout_ref, tok)
 
 (* ****** ****** *)
 
-(* end of [pats_lexing.dats] *)
+(* end of [pats_lexing_print.dats] *)

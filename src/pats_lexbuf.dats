@@ -34,11 +34,6 @@
 //
 (* ****** ****** *)
 
-staload "pats_reader.sats"
-staload "pats_lexbuf.sats"
-
-(* ****** ****** *)
-
 staload UTL = "pats_utils.sats"
 staload LOC = "pats_location.sats"
 
@@ -49,6 +44,15 @@ stadef QUEUE = $Q.QUEUE
 staload _(*anon*) = "prelude/DATS/array.dats"
 staload _(*anon*) = "libats/DATS/linqueue_arr.dats"
 staload _(*anon*) = "libats/ngc/DATS/deque_arr.dats"
+
+(* ****** ****** *)
+
+staload R = "pats_reader.sats"
+viewtypedef reader = $R.reader
+
+(* ****** ****** *)
+
+staload "pats_lexbuf.sats"
 
 (* ****** ****** *)
 
@@ -70,11 +74,11 @@ lexbuf_int_int
   (m: int, n:int) =
 $extype_struct
 "pats_lexbuf_struct" of {
-  buf=QUEUE (char, m, n)
+  cbuf= QUEUE (char, m, n) // character buffer
 , base= lint
 , base_nrow=int, base_ncol= int
 , nspace= int
-, reader= reader_vt0ype
+, reader= reader
 } // end of [lexbuf]
 typedef lexbuf0 = lexbuf_int_int(0, 0)?
 
@@ -100,12 +104,12 @@ extern
 prfun lexbuf0_trans (buf: &lexbuf? >> lexbuf0): void
 //
   prval () = lexbuf0_trans (buf)
-  val () = $Q.queue_initialize (buf.buf, QINISZ)
+  val () = $Q.queue_initialize (buf.cbuf, QINISZ)
   val () = buf.base := 0L
   val () = buf.base_nrow := 0
   val () = buf.base_ncol := 0
   val () = buf.nspace := 0
-  val () = reader_initialize_filp (pfmod, pffil | buf.reader, p)
+  val () = $R.reader_initialize_filp (pfmod, pffil | buf.reader, p)
 } // end of [lexbuf_initialize_filp]
 
 implement
@@ -116,12 +120,12 @@ extern
 prfun lexbuf0_trans (buf: &lexbuf? >> lexbuf0): void
 //
   prval () = lexbuf0_trans (buf)
-  val () = $Q.queue_initialize (buf.buf, QINISZ)
+  val () = $Q.queue_initialize (buf.cbuf, QINISZ)
   val () = buf.base := 0L
   val () = buf.base_nrow := 0
   val () = buf.base_ncol := 0
   val () = buf.nspace := 0
-  val () = reader_initialize_getc (buf.reader, getc)
+  val () = $R.reader_initialize_getc (buf.reader, getc)
 } // end of [lexbuf_initialize_getc]
 
 implement
@@ -132,12 +136,12 @@ extern
 prfun lexbuf0_trans (buf: &lexbuf? >> lexbuf0): void
 //
   prval () = lexbuf0_trans (buf)
-  val () = $Q.queue_initialize (buf.buf, QINISZ)
+  val () = $Q.queue_initialize (buf.cbuf, QINISZ)
   val () = buf.base := 0L
   val () = buf.base_nrow := 0
   val () = buf.base_ncol := 0
   val () = buf.nspace := 0
-  val () = reader_initialize_string (buf.reader, inp)
+  val () = $R.reader_initialize_string (buf.reader, inp)
 } // end of [lexbuf_initialize_string]
 
 (* ****** ****** *)
@@ -145,8 +149,8 @@ prfun lexbuf0_trans (buf: &lexbuf? >> lexbuf0): void
 implement
 lexbuf_uninitialize
   (buf) = () where {
-  val () = $Q.queue_uninitialize (buf.buf)
-  val () = reader_uninitialize (buf.reader)
+  val () = $Q.queue_uninitialize (buf.cbuf)
+  val () = $R.reader_uninitialize (buf.reader)
 //
 extern
 prfun lexbuf0_untrans (buf: &lexbuf0 >> lexbuf?): void
@@ -203,30 +207,30 @@ implement
 lexbuf_get_char
   (buf, nchr) = let
 //
-  prval () = $Q.queue_param_lemma (buf.buf)
+  prval () = $Q.queue_param_lemma (buf.cbuf)
 //
   val nchr = (u2sz)nchr
   val nchr = (size1)nchr
-  val n = $Q.queue_size (buf.buf)
+  val n = $Q.queue_size (buf.cbuf)
 in
   if nchr < n then let
-    val c = $Q.queue_get_elt_at<char> (buf.buf, nchr)
+    val c = $Q.queue_get_elt_at<char> (buf.cbuf, nchr)
   in
     (c2i)c
   end else let
-    val i = reader_get_char (buf.reader)
+    val i = $R.reader_get_char (buf.reader)
   in
     if i >= 0 then let
       val c = (i2c)i
-      val m = $Q.queue_cap {char} (buf.buf)
+      val m = $Q.queue_cap {char} (buf.cbuf)
     in
       if m > n then let
-        val () = $Q.queue_insert<char> (buf.buf, c)
+        val () = $Q.queue_insert<char> (buf.cbuf, c)
       in
         i
       end else let
-        val () = $Q.queue_update_capacity<char> (buf.buf, m+QDELTA)
-        val () = $Q.queue_insert<char> (buf.buf, c)
+        val () = $Q.queue_update_capacity<char> (buf.cbuf, m+QDELTA)
+        val () = $Q.queue_insert<char> (buf.cbuf, c)
       in
         i
       end // end of [if]
@@ -253,22 +257,22 @@ implement
 lexbuf_incby_count
   (buf, cnt) = let
 //
-  prval () = $Q.queue_param_lemma (buf.buf)
+  prval () = $Q.queue_param_lemma (buf.cbuf)
 //
   val nchr = u2sz(cnt)
   val nchr = (size1)nchr
-  val n = $Q.queue_size (buf.buf)
+  val n = $Q.queue_size (buf.cbuf)
 in
   if nchr < n then let
     val () = buf.base := buf.base + (u2l)cnt
     val () = buf.base_ncol := buf.base_ncol + (u2i)cnt
-    val () = $Q.queue_clear<char> (buf.buf, nchr)
+    val () = $Q.queue_clear<char> (buf.cbuf, nchr)
   in
     // nothing
   end else let
     val () = buf.base := buf.base + (sz2l)n
     val () = buf.base_ncol := buf.base_ncol + (sz2i)n
-    val () = $Q.queue_clear_all {char} (buf.buf)
+    val () = $Q.queue_clear_all {char} (buf.cbuf)
   in
     // nothing
   end (* end of [if] *)
@@ -280,7 +284,7 @@ implement
 lexbuf_reset_position
   (buf, pos) = let
 //
-  prval () = $Q.queue_param_lemma (buf.buf)
+  prval () = $Q.queue_param_lemma (buf.cbuf)
 //
   val ntot = $LOC.position_get_ntot (pos)
   val nchr = ntot - buf.base
@@ -289,14 +293,14 @@ lexbuf_reset_position
   val () = buf.base_ncol := $LOC.position_get_ncol (pos)  
   val nchr = (l2sz)nchr
   val nchr = (size1)nchr
-  val n = $Q.queue_size (buf.buf)
+  val n = $Q.queue_size (buf.cbuf)
 in
   if nchr < n then let
-    val () = $Q.queue_clear<char> (buf.buf, nchr)
+    val () = $Q.queue_clear<char> (buf.cbuf, nchr)
   in
     // nothing
   end else let
-    val () = $Q.queue_clear_all {char} (buf.buf)
+    val () = $Q.queue_clear_all {char} (buf.cbuf)
   in
     // nothing
   end (* end of [if] *)
@@ -320,13 +324,13 @@ implement
 lexbuf_get_substrptr0
   (buf, st, ln) = let
 //
-  prval () = $Q.queue_param_lemma (buf.buf)
+  prval () = $Q.queue_param_lemma (buf.cbuf)
 //
   val i = u2sz(st)
   val i = (size1)i
   val k = u2sz(ln)
   val [k:int] k = (size1)k
-  val n = $Q.queue_size (buf.buf)
+  val n = $Q.queue_size (buf.cbuf)
 //
 (*
   val () = println! ("lexbuf_get_strptr: i = ", i)
@@ -337,7 +341,7 @@ lexbuf_get_substrptr0
 in
 //
 if i + k <= n then
-  $UTL.queue_get_strptr1 (buf.buf, i, k)
+  $UTL.queue_get_strptr1 (buf.cbuf, i, k)
 else
   strptr_null ()
 // end of [if]

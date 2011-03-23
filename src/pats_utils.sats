@@ -34,6 +34,16 @@
 //
 (* ****** ****** *)
 
+fun{a:t@ype}
+fprintlst (
+  out: FILEref
+, xs: List a
+, sep: string
+, fprint: (FILEref, a) -> void
+) : void // end of [fprintlst]
+
+(* ****** ****** *)
+
 local
 
 staload Q = "libats/SATS/linqueue_arr.sats"

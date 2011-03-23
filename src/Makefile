@@ -67,9 +67,16 @@ SOURCES := \
   pats_lexing_print.dats \
   pats_lexing_error.dats \
   pats_lexing.dats \
+  pats_tokbuf.sats \
+  pats_tokbuf.dats \
   pats_syntax.sats \
   pats_syntax_print.dats \
   pats_syntax.dats \
+  pats_parsing.sats \
+  pats_parsing_util.dats \
+  pats_parsing_error.dats \
+  pats_parsing_misc.dats \
+  pats_parsing_e0xp.dats \
 
 SOURCESsta := $(filter %.sats, $(SOURCES))
 SOURCESdyn := $(filter %.dats, $(SOURCES))

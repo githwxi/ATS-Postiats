@@ -43,13 +43,13 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload "pats_lexbuf.sats"
-staload "pats_lexing.sats"
+staload UTL = "pats_utils.sats"
+staload LOC = "pats_location.sats"
 
 (* ****** ****** *)
 
-staload UTL = "pats_utils.sats"
-staload LOC = "pats_location.sats"
+staload "pats_lexbuf.sats"
+staload "pats_lexing.sats"
 
 (* ****** ****** *)
 
@@ -319,7 +319,9 @@ end // end of [IDENT_sym_get_lexsym]
 
 (* ****** ****** *)
 
-fun BLANK_test (c: char): bool = char_isspace (c)
+fun BLANK_test
+  (c: char): bool = char_isspace (c)
+// end of [BLANK_test]
 
 (* ****** ****** *)
 
@@ -359,7 +361,6 @@ fun xX_test
 
 fun DIGIT_test
   (c: char): bool = char_isdigit (c)
-
 fun XDIGIT_test
   (c: char): bool = char_isxdigit (c)
 
@@ -367,7 +368,6 @@ fun XDIGIT_test
 
 fun INTSP_test
   (c: char): bool = string_contains ("LlUu", c)
-
 fun FLOATSP_test
   (c: char): bool = string_contains ("dDfFlL", c)
 
@@ -1092,6 +1092,10 @@ lexing_PERCENT
   val c = (i2c)i
 in
   case+ c of 
+  | '\(' => let
+      val () = posincby1 (pos) in
+      lexbufpos_token_reset (buf, pos, T_PERCENTLPAREN)
+    end // end of ['\(']
   | '\{' => let
       val () = posincby1 (pos) in lexing_EXTCODE (buf, pos)
     end // end of ['\{']

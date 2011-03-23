@@ -52,11 +52,6 @@ typedef position = position_t0ype
 
 (* ****** ****** *)
 
-abstype location_type
-typedef location = location_type
-
-(* ****** ****** *)
-
 fun fprint_position
   (out: FILEref, pos: position): void
 overload fprint with fprint_position
@@ -90,6 +85,11 @@ fun position_incby_count (pos: &position, n: uint): void
 
 (* ****** ****** *)
 
+abstype location_type
+typedef location = location_type
+
+(* ****** ****** *)
+
 fun fprint_location
   (out: FILEref, loc: location): void
 overload fprint with fprint_location
@@ -110,6 +110,12 @@ fun location_make_pos_pos (
 fun location_make_fil_pos_pos (
   fil: filename, pos1: position, pos2: position
 ) : location // end of [location_make_fil_pos_pos]
+
+(* ****** ****** *)
+
+fun location_combine
+  (loc1: location, loc2: location): location
+// end of [location_combine]
 
 (* ****** ****** *)
 

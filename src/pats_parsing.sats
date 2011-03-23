@@ -34,27 +34,92 @@
 //
 (* ****** ****** *)
 
+staload LEX = "pats_lexing.sats"
+typedef tnode = $LEX.tnode
+
+(* ****** ****** *)
+
 staload "pats_tokbuf.sats"
 staload "pats_syntax.sats"
 
 (* ****** ****** *)
 
-fun parsing_list
-  (buf: &tokbuf, f: (&tokbuf) -> synent): synentlst_vt
-// end of [parsing_list]
+typedef
+parser (a: type) =
+  (&tokbuf, int(*bt*), &int(*err*)) -> a
+// end of [parser]
 
 (* ****** ****** *)
 
-fun parsing_i0de (buf: &tokbuf): synent
+fun sep_COMMA (buf: &tokbuf): bool
+fun sep_SEMICOLON (buf: &tokbuf): bool
 
 (* ****** ****** *)
 
-fun parsing_e0xp (buf: &tokbuf): synent
-fun parsing_e0xplst (buf: &tokbuf): List_vt (e0xp)
+fun ptest_fun
+  {a:type} (
+  buf: &tokbuf, f: parser (a), ent: &synent? >> synent
+) : bool // end of [ptest_fun]
 
 (* ****** ****** *)
 
-fun parsing_s0exp (buf: &tokbuf): synent
+fun pstar_fun
+  {a:type} (
+  buf: &tokbuf, bt: int, f: parser (a)
+) : List_vt (a) // end of [pstar_fun]
+
+(* ****** ****** *)
+
+fun pstar_sep_fun
+  {a:type} (
+  buf: &tokbuf, bt: int, sep: (&tokbuf) -> bool, f: parser (a)
+) : List_vt (a) // end of [pstar_sep_fun]
+
+(* ****** ****** *)
+
+fun pstar_fun0_COMMA
+  {a:type} (
+  buf: &tokbuf, bt: int, f: parser (a)
+) : List_vt (a) // end of [pstar_fun0_COMMA]
+
+(* ****** ****** *)
+
+fun p_COMMA : parser (token)
+fun p_RPAREN : parser (token)
+
+(* ****** ****** *)
+
+fun p_i0de : parser (i0de)
+fun p_e0xp : parser (e0xp)
+fun p_s0exp : parser (s0exp)
+
+(* ****** ****** *)
+
+datatype
+parerr_node =
+  | PE_COMMA
+  | PE_RPAREN
+  | PE_i0de 
+  | PE_atme0xp
+  | PE_e0xp
+// end of [parerr_node]
+
+typedef parerr = '{
+  parerr_loc= location, parerr_node= parerr_node
+} // end of [parerr]
+
+fun parerr_make (
+  loc: location, node: parerr_node
+) : parerr // end of [parerr_make]
+
+fun the_parerrlst_add (x: parerr): void
+fun the_parerrlst_add_ifnbt (
+  bt: int, loc: location, node: parerr_node
+) : void // end of [the_parerrlst_add_ifnbt]
+
+fun fprint_parerr (out: FILEref, x: parerr): void
+
+fun fprint_the_parerrlst (out: FILEref): void
 
 (* ****** ****** *)
 

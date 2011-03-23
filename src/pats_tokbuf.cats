@@ -49,10 +49,9 @@
 
 typedef struct {
 //
-  atslib_linqueue_arr_QUEUE buf ;
+  atslib_linqueue_arr_QUEUE tbuf ;
 //
-  ats_int_type nbas ; // the base token number
-  ats_int_type ncur ; // the current token number
+  ats_uint_type ntok ; // the current token number
 //
   pats_lexbuf_struct lexbuf ; // for lexing
 //

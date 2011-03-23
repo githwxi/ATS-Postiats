@@ -37,9 +37,22 @@
 staload
 LOC = "pats_location.sats"
 typedef location = $LOC.location
+staload LEX = "pats_lexing.sats"
+typedef token = $LEX.token
 staload SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
 
+(* ****** ****** *)
+//
+abstype synent // a boxed union
+//
+castfn synent_encode {a:type} (x: a): synent
+castfn synent_decode {a:type} (x: synent): a
+//
+fun synent_null {a:type} (): a // = null
+fun synent_is_null {a:type} (x: a):<> bool
+fun synent_isnot_null {a:type} (x: a):<> bool
+//
 (* ****** ****** *)
 
 datatype
@@ -79,16 +92,11 @@ fun fprint_i0de (out: FILEref, x: i0de): void
 
 datatype
 e0xp_node =
-//
-  | E0XPnone of ()
-//
   | E0XPapp of (e0xp, e0xp)
   | E0XPchar of char
   | E0XPeval of e0xp
   | E0XPfloat of string
-(*
-  | E0XPide of sym_t
-*)
+  | E0XPide of symbol
   | E0XPint of string
   | E0XPlist of e0xplst
   | E0XPstring of (string, int(*length*))
@@ -101,18 +109,21 @@ e0xp = '{
 
 and e0xplst = List (e0xp)
 
-fun e0xp_none (loc: location): e0xp
-fun e0xp_char (loc: location, c: char): e0xp
-fun e0xp_list (loc: location, es: e0xplst): e0xp
-fun e0xp_string (loc: location, s: string): e0xp
+fun e0xp_app (_1: e0xp, _2: e0xp): e0xp
+fun e0xp_char (_: token): e0xp
+fun e0xp_eval (_1: token, _2: e0xp, _3: token): e0xp
+fun e0xp_float (_: token): e0xp
+fun e0xp_i0de (_: i0de): e0xp
+fun e0xp_int (_: token): e0xp
+fun e0xp_list (_1: token, _2: e0xplst, _3: token): e0xp
+fun e0xp_string (_: token): e0xp
+
+fun fprint_e0xp (out: FILEref, x: e0xp): void
 
 (* ****** ****** *)
 
 datatype
 s0exp_node =
-//
-  | S0Enone of ()
-//
   | S0Eint of int
 // end of [s0exp_node]
 
@@ -123,25 +134,6 @@ s0exp = '{
 
 and s0explst = List (s0exp)
 and s0expopt = Option (s0exp)
-
-(* ****** ****** *)
-
-datatype synent =
-  | SYNnone of ()
-  | SYNi0de of i0de
-  | SYNe0xp of e0xp
-  | SYNs0exp of s0exp
-// end of [synent]
-
-viewtypedef synentlst_vt = List_vt (synent)
-
-(* ****** ****** *)
-
-fun fprint_synent
-  (out: FILEref, ent: synent): void
-overload fprint with fprint_synent
-fun print_synent (ent: synent): void
-overload print with print_synent
 
 (* ****** ****** *)
 

@@ -34,6 +34,12 @@
 //
 (* ****** ****** *)
 
+%{#
+#include "pats_tokbuf.cats"
+%} // end of [%{#]
+
+(* ****** ****** *)
+
 staload LEX = "pats_lexing.sats"
 typedef token = $LEX.token
 
@@ -53,16 +59,41 @@ viewtypedef tokbuf = tokbuf_vt0ype
 //
 (* ****** ****** *)
 
-fun tokbuf_get_token (buf: &tokbuf): token
+fun tokbuf_initialize_filp
+  {m:file_mode} {l:addr} (
+  pfmod: file_mode_lte (m, r)
+, pffil: FILE m @ l
+| r: &tokbuf? >> tokbuf, p: ptr l
+) : void // end of [tokbuf_initialize_filp]
+
+fun tokbuf_initialize_getc (
+  buf: &tokbuf? >> tokbuf, getc: () -<cloptr1> int
+) : void // end of [tokbuf_initialize_getc]
 
 (* ****** ****** *)
 
-fun tokbuf_get_location (buf: &tokbuf): location
+fun tokbuf_uninitialize (
+  buf: &tokbuf >> tokbuf?
+) : void // end of [tokbuf_uninitialize]
+
+(* ****** ****** *)
+
+fun tokbuf_get_ntok (buf: &tokbuf): uint
+fun tokbuf_set_ntok (buf: &tokbuf, n0: uint): void
+
+(* ****** ****** *)
+
+fun tokbuf_incby1 (buf: &tokbuf): void
+fun tokbuf_incby_count (buf: &tokbuf, k: uint): void
 
 (* ****** ****** *)
 
 fun tokbuf_reset (buf: &tokbuf): void
-fun tokbuf_getloc_reset (buf: &tokbuf): location
+
+(* ****** ****** *)
+
+fun tokbuf_get_token (buf: &tokbuf): token
+fun tokbuf_getinc_token (buf: &tokbuf): token
 
 (* ****** ****** *)
 

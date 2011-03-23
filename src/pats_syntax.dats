@@ -34,7 +34,30 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload LOC = "pats_location.sats"
+overload + with $LOC.location_combine
+
+(* ****** ****** *)
+
+staload "pats_lexing.sats"
 staload "pats_syntax.sats"
+
+(* ****** ****** *)
+
+#define sz2i int_of_size
+
+(* ****** ****** *)
+
+implement
+synent_null {a} () = $UN.cast{a} (null)
+implement
+synent_is_null (x) = ptr_is_null ($UN.cast{ptr} (x))
+implement
+synent_isnot_null (x) = ptr_isnot_null ($UN.cast{ptr} (x))
 
 (* ****** ****** *)
 
@@ -76,6 +99,67 @@ fprint_dcstkind
 
 implement
 print_dcstkind (x) = fprint_dcstkind (stdout_ref, x)
+
+(* ****** ****** *)
+
+implement
+e0xp_app (e1, e2) = let
+  val loc = e1.e0xp_loc + e2.e0xp_loc
+in '{
+  e0xp_loc= loc, e0xp_node= E0XPapp (e1, e2)
+} end // end of [e0xp_app]
+
+implement
+e0xp_char (tok) = let
+  val- T_CHAR (c) = tok.token_node
+in '{
+  e0xp_loc= tok.token_loc, e0xp_node= E0XPchar (c)
+} end // end of [e0xp_char]
+
+implement
+e0xp_eval (
+  t_beg, e, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  e0xp_loc= loc, e0xp_node= E0XPeval e
+} end // end of [e0xp_eval]
+
+implement
+e0xp_float (tok) = let
+  val- T_FLOAT_deciexp (f) = tok.token_node
+in '{
+  e0xp_loc= tok.token_loc, e0xp_node= E0XPfloat (f)
+} end // end of [e0xp_float]
+
+implement
+e0xp_i0de (id) = '{
+  e0xp_loc= id.i0de_loc, e0xp_node= E0XPide id.i0de_sym
+} // end of [e0xp_ide]
+
+implement
+e0xp_int (tok) = let
+  val- T_INTEGER_dec (i) = tok.token_node
+in '{
+  e0xp_loc= tok.token_loc, e0xp_node= E0XPint (i)
+} end // end of [e0xp_int]
+
+implement
+e0xp_list (
+  t_beg, es, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  e0xp_loc= loc, e0xp_node= E0XPlist es
+} end // end of [e0xp_list]
+
+implement
+e0xp_string (tok) = let
+  val- T_STRING (s) = tok.token_node
+  val n = string_length (s)
+in '{
+  e0xp_loc= tok.token_loc, e0xp_node= E0XPstring (s, (sz2i)n)
+} end // end of [e0xp_float]
 
 (* ****** ****** *)
 

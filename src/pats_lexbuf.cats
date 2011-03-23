@@ -49,7 +49,7 @@
 
 typedef struct {
 //
-  atslib_linqueue_arr_QUEUE buf ;
+  atslib_linqueue_arr_QUEUE cbuf ;
 //
   ats_lint_type base ;
   ats_int_type base_nrow ; // line number
