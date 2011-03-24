@@ -34,68 +34,69 @@
 //
 (* ****** ****** *)
 
-staload "libc/SATS/stdio.sats"
-
-(* ****** ****** *)
-
-staload "pats_location.sats"
 staload "pats_lexing.sats"
 staload "pats_tokbuf.sats"
 staload "pats_syntax.sats"
+
+(* ****** ****** *)
+
 staload "pats_parsing.sats"
 
 (* ****** ****** *)
+
+(*
+d0ecl
+  | INFIX p0rec i0deseq
+  | PREFIX p0rec i0deseq
+  | POSTFIX p0rec i0deseq
+  | NONFIX i0deseq
+*)
+
+fun
+p_d0ecl_tok (
+  buf: &tokbuf, bt: int, err: &int, tok: token
+) : d0ecl = let
+  val loc = tok.token_loc
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
 //
-dynload "pats_utils.dats"
-//
-dynload "pats_symbol.dats"
-dynload "pats_filename.dats"
-dynload "pats_location.dats"
-//
-(* ****** ****** *)
-
-dynload "pats_reader.dats"
-dynload "pats_lexbuf.dats"
-dynload "pats_lexing_token.dats"
-dynload "pats_lexing_print.dats"
-dynload "pats_lexing_error.dats"
-dynload "pats_lexing.dats"
-
-dynload "pats_fixity.dats"
-dynload "pats_syntax_print.dats"
-dynload "pats_syntax.dats"
-
-dynload "pats_tokbuf.dats"
-dynload "pats_parsing_util.dats"
-dynload "pats_parsing_error.dats"
-dynload "pats_parsing_misc.dats"
-dynload "pats_parsing_e0xp.dats"
-dynload "pats_parsing_d0ecl.dats"
-
-(* ****** ****** *)
+case+ tok.token_node of
+| T_FIXITY _ => let
+    val () = incby1 ()
+    val ent2 = p_p0rec (buf, bt, err)
+    val ent3 = p_i0deseq (buf, bt, err)
+  in
+    if err = 0 then (
+      d0ecl_fixity (tok, ent2, ent3)
+    ) else synent_null ()
+  end
+| T_NONFIX () => let
+    val () = incby1 ()
+    val ent2 = p_i0deseq (buf, bt, err)
+  in
+    if err = 0 then
+      d0ecl_nonfix (tok, ent2) else synent_null ()
+    // end of [if]
+  end
+| _ => synent_null ()
+// end of [case]
+end // end of [p_d0ecl_tok]
 
 implement
-main (
-  argc, argv
-) = () where {
-//
-  val () = println! ("Hello from ATS/Postiats!")
-//
-  var buf: tokbuf
-  val () = tokbuf_initialize_getc (buf, lam () =<cloptr1> getchar ())
-  var err: int = 0
-  val d0c = p_d0ecl (buf, 0, err)
-//
-  val () = if (err = 0) then fprint_d0ecl (stdout_ref, d0c)
-  val () = if (err = 0) then print_newline ()
-//
-  val () = tokbuf_uninitialize (buf)
-//
-  val () = fprint_the_lexerrlst (stdout_ref)
-  val () = fprint_the_parerrlst (stdout_ref)
-//
-} // end of [main]
+p_d0ecl
+  (buf, bt, err) = res where {
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  val res = p_d0ecl_tok (buf, bt, err, tok)
+  val () = if
+    synent_is_null (res) then let
+    val () = err := err + 1
+    val () = tokbuf_set_ntok (buf, n0)
+  in
+    the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_d0ecl)
+  end // end of [val]
+} // end of [p_d0ecl]
 
 (* ****** ****** *)
 
-(* end of [pats_main.dats] *)
+(* end of [pats_parsing_d0ecl.dats] *)

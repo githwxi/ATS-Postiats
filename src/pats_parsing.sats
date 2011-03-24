@@ -44,64 +44,28 @@ staload "pats_syntax.sats"
 
 (* ****** ****** *)
 
-typedef
-parser (a: type) =
-  (&tokbuf, int(*bt*), &int(*err*)) -> a
-// end of [parser]
-
-(* ****** ****** *)
-
-fun sep_COMMA (buf: &tokbuf): bool
-fun sep_SEMICOLON (buf: &tokbuf): bool
-
-(* ****** ****** *)
-
-fun ptest_fun
-  {a:type} (
-  buf: &tokbuf, f: parser (a), ent: &synent? >> synent
-) : bool // end of [ptest_fun]
-
-(* ****** ****** *)
-
-fun pstar_fun
-  {a:type} (
-  buf: &tokbuf, bt: int, f: parser (a)
-) : List_vt (a) // end of [pstar_fun]
-
-(* ****** ****** *)
-
-fun pstar_sep_fun
-  {a:type} (
-  buf: &tokbuf, bt: int, sep: (&tokbuf) -> bool, f: parser (a)
-) : List_vt (a) // end of [pstar_sep_fun]
-
-(* ****** ****** *)
-
-fun pstar_fun0_COMMA
-  {a:type} (
-  buf: &tokbuf, bt: int, f: parser (a)
-) : List_vt (a) // end of [pstar_fun0_COMMA]
-
-(* ****** ****** *)
-
-fun p_COMMA : parser (token)
-fun p_RPAREN : parser (token)
-
-(* ****** ****** *)
-
-fun p_i0de : parser (i0de)
-fun p_e0xp : parser (e0xp)
-fun p_s0exp : parser (s0exp)
+fun is_BAR (x: tnode): bool
+fun is_COMMA (x: tnode): bool
+fun is_SEMICOLON (x: tnode): bool
+fun is_RPAREN (x: tnode): bool
 
 (* ****** ****** *)
 
 datatype
 parerr_node =
+  | PE_BAR
   | PE_COMMA
+  | PE_SEMICOLON
   | PE_RPAREN
-  | PE_i0de 
+  | PE_i0de
+  | PE_i0de_dlr
+  | PE_i0nt
+  | PE_i0nt_but_i0ntsp
+  | PE_i0ntsp
+  | PE_p0rec
   | PE_atme0xp
   | PE_e0xp
+  | PE_d0ecl
 // end of [parerr_node]
 
 typedef parerr = '{
@@ -120,6 +84,100 @@ fun the_parerrlst_add_ifnbt (
 fun fprint_parerr (out: FILEref, x: parerr): void
 
 fun fprint_the_parerrlst (out: FILEref): void
+
+(* ****** ****** *)
+
+typedef
+parser (a: type) =
+  (&tokbuf, int(*bt*), &int(*err*)) -> a
+// end of [parser]
+
+(* ****** ****** *)
+
+fun ptoken_fun (
+  buf: &tokbuf, bt: int, err: &int
+, f: (tnode) -> bool, enode: parerr_node
+) : token // end of [ptoken_fun]
+
+fun ptoken_test_fun (
+  buf: &tokbuf, f: (tnode) -> bool
+) : bool // end of [ptoken_test_fun]
+
+(* ****** ****** *)
+
+fun pstar_fun
+  {a:type} (
+  buf: &tokbuf, bt: int, f: parser (a)
+) : List_vt (a) // end of [pstar_fun]
+
+(* ****** ****** *)
+
+fun pstar_sep_fun
+  {a:type} (
+  buf: &tokbuf, bt: int, sep: (&tokbuf) -> bool, f: parser (a)
+) : List_vt (a) // end of [pstar_sep_fun]
+
+(* ****** ****** *)
+
+fun pstar_fun0_sep
+  {a:type} (
+  buf: &tokbuf, bt: int, f: parser (a), sep: (&tokbuf) -> bool
+) : List_vt (a) // end of [pstar_fun0_COMMA]
+
+fun pstar_fun0_BAR
+  {a:type} (
+  buf: &tokbuf, bt: int, f: parser (a)
+) : List_vt (a) // end of [pstar_fun0_BAR]
+
+fun pstar_fun0_COMMA
+  {a:type} (
+  buf: &tokbuf, bt: int, f: parser (a)
+) : List_vt (a) // end of [pstar_fun0_COMMA]
+
+fun pstar_fun0_SEMICOLON
+  {a:type} (
+  buf: &tokbuf, bt: int, f: parser (a)
+) : List_vt (a) // end of [pstar_fun0_SEMICOLON]
+
+(* ****** ****** *)
+
+fun ptest_fun
+  {a:type} (
+  buf: &tokbuf, f: parser (a), ent: &synent? >> synent
+) : bool // end of [ptest_fun]
+
+(* ****** ****** *)
+
+fun p_BAR : parser (token)
+fun p_BAR_test (buf: &tokbuf): bool
+
+fun p_COMMA : parser (token)
+fun p_COMMA_test (buf: &tokbuf): bool
+
+fun p_SEMICOLON : parser (token)
+fun p_SEMICOLON_test (buf: &tokbuf): bool
+
+fun p_RPAREN : parser (token)
+fun p_RPAREN_test (buf: &tokbuf): bool
+
+(* ****** ****** *)
+
+fun p_p0rec : parser (p0rec)
+
+(* ****** ****** *)
+
+fun p_i0de : parser (i0de)
+fun p_i0de_dlr : parser (i0de)
+fun p_i0deseq : parser (i0delst)
+
+fun p_i0nt : parser (i0nt)
+
+fun p_e0xp : parser (e0xp)
+fun p_s0exp : parser (s0exp)
+
+(* ****** ****** *)
+
+fun p_d0ecl : parser (d0ecl)
 
 (* ****** ****** *)
 

@@ -45,9 +45,8 @@ staload "pats_parsing.sats"
 (* ****** ****** *)
 
 (*
-e0xpseq
-  | /*(empty)*/
-  | e0xp {COMMA e0xpseq}
+e0xpseq ::=
+  | /*(empty)*/ | e0xp {COMMA e0xpseq}
 ; /* e0xpseq */
 *)
 
@@ -63,7 +62,7 @@ p_e0xpseq (
 (* ****** ****** *)
 
 (*
-atme0xp
+atme0xp ::=
   | i0de
   | LITERAL_char
   | LITERAL_float
@@ -74,12 +73,11 @@ atme0xp
 ; /* atme0xp */
 *)
 fun
-p_atme0xp (
-  buf: &tokbuf, bt: int, err: &int
+p_atme0xp_tok (
+  buf: &tokbuf, bt: int, err: &int, tok: token
 ) : e0xp = let
   var ent: synent?
-  val n0 = tokbuf_get_ntok (buf)
-  val tok = tokbuf_get_token (buf)
+  val loc = tok.token_loc
   macdef incby1 () = tokbuf_incby1 (buf)
 (*
   val () = println! ("p_atme0xp: tok = ", tok)
@@ -87,21 +85,22 @@ p_atme0xp (
 in
 //
 case+ tok.token_node of
+//
 | _ when
     ptest_fun (buf, p_i0de, ent) =>
     e0xp_i0de (synent_decode (ent))
 //
+| _ when
+    ptest_fun (buf, p_i0nt, ent) =>
+    e0xp_i0nt (synent_decode {i0nt} (ent))
+//
 | T_CHAR _ => let
     val () = incby1 () in e0xp_char (tok)
-  end
-| T_INTEGER_dec _ => let
-    val () = incby1 () in e0xp_int (tok)
   end
 | T_FLOAT_deciexp _ => let
     val () = incby1 () in e0xp_float (tok)
   end
 | T_STRING _ => let
-    val () = println! ("p_atme0xp: T_STRING: err = ", err)
     val () = incby1 () in e0xp_string (tok)
   end
 //
@@ -111,38 +110,40 @@ case+ tok.token_node of
     val ent2 = list_of_list_vt (ent2)
     val ent3 = p_RPAREN (buf, bt, err)
   in
-    if err = 0 then (
-      e0xp_list (tok, ent2, ent3)
-    ) else let
-      val () = tokbuf_set_ntok (buf, n0)
-    in
-      synent_null ()
-    end (* end of [if] *)
+    if err = 0 then e0xp_list (tok, ent2, ent3) else synent_null ()
   end // end of [T_LPAREN]
 | T_PERCENTLPAREN () => let
     val () = incby1 ()
     val ent2 = p_e0xp (buf, bt, err)
     val ent3 = p_RPAREN (buf, bt, err)
   in
-    if err = 0 then
-      e0xp_eval (tok, ent2, ent3)
-    else let
-      val () = tokbuf_set_ntok (buf, n0)  
-    in
-      synent_null ()
-    end (* end of [if] *)
+    if err = 0 then e0xp_eval (tok, ent2, ent3) else synent_null ()
   end // end of [T_PERCENTLPAREN]
-| _ => let
+| _ => synent_null ()
+//
+end // end of [p_atme0xp_tok]
+
+fun
+p_atme0xp (
+  buf: &tokbuf, bt: int, err: &int
+) : e0xp = res where {
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  val res = p_atme0xp_tok (buf, bt, err, tok)
+  val () = if
+    synent_is_null (res) then let
     val () = err := err + 1
-    val loc = tok.token_loc
-    val () = the_parerrlst_add_ifnbt (bt, loc, PE_atme0xp)
+    val () = tokbuf_set_ntok (buf, n0)
   in
-    synent_null ()
-  end
-// end of [case]
-end // end of [p_atme0xp]
+    the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_atme0xp)
+  end // end of [val]
+} // end of [p_atme0xp]
 
 (* ****** ****** *)
+
+(*
+e0xp ::= {atme0xp}+
+*)
 
 implement
 p_e0xp (buf, bt, err) = let

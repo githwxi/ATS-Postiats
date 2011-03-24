@@ -39,6 +39,10 @@ staload _(*anon*) = "pats_utils.dats"
 
 (* ****** ****** *)
 
+staload FX = "pats_fixity.sats"
+
+(* ****** ****** *)
+
 staload "pats_symbol.sats"
 staload "pats_syntax.sats"
 
@@ -46,8 +50,25 @@ staload "pats_syntax.sats"
 
 implement
 fprint_i0de
-  (out, id) = fprint_symbol (out, id.i0de_sym)
+  (out, x) = fprint_symbol (out, x.i0de_sym)
 // end of [fprint_i0de]
+
+implement
+fprint_i0nt
+  (out, x) = fprint_string (out, x.i0nt_rep)
+// end of [fprint_i0nt]
+
+(* ****** ****** *)
+
+implement
+fprint_f0xty (out, x) = let
+  macdef prstr (str) = fprint_string (out, ,(str))
+in
+  case+ x of
+  | F0XTYinf _ => prstr "F0XTYinf(...)"
+  | F0XTYpre _ => prstr "F0XTYpre(...)"
+  | F0XTYpos _ => prstr "F0XTYpos(...)"
+end // end of [fprint_f0xty]
 
 (* ****** ****** *)
 
@@ -86,7 +107,7 @@ in
     }
   | E0XPint (x) => {
       val () = prstr "E0XPint("
-      val () = fprint_string (out, x)
+      val () = fprint_string (out, x.i0nt_rep)
       val () = prstr ")"
     }
   | E0XPlist (xs) => {
@@ -100,6 +121,34 @@ in
       val () = prstr ")"
     }
 end // end of [fprint_e0xp]
+
+(* ****** ****** *)
+
+implement
+fprint_d0ecl (out, x) = let
+  macdef prstr (str) = fprint_string (out, ,(str))
+in
+  case+ x.d0ecl_node of
+  | D0Cfixity (fxty, ids) => {
+      val () = prstr "D0ECfixity("
+      val () = fprint_f0xty (out, fxty)
+      val () = prstr "; "
+      val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
+      val () = prstr ")"
+    }
+  | D0Cnonfix (ids) => {
+      val () = prstr "D0ECnonfix("
+      val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
+      val () = prstr ")"
+    }
+(*
+  | _ => {
+      val () = prstr "D0C...("
+      val () = fprint_string (out, "...")
+      val () = prstr ")"
+    }
+*)
+end // end of [fprint_d0ecl]
 
 (* ****** ****** *)
 

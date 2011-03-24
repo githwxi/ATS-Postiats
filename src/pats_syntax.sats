@@ -43,6 +43,11 @@ staload SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
 
 (* ****** ****** *)
+
+staload FX = "pats_fixity.sats"
+typedef assoc = $FX.assoc
+
+(* ****** ****** *)
 //
 abstype synent // a boxed union
 //
@@ -82,11 +87,48 @@ overload print with print_dcstkind
 
 (* ****** ****** *)
 
+typedef i0nt = '{
+  i0nt_loc= location
+, i0nt_bas= int
+, i0nt_rep= string
+, i0nt_sfx= uint
+} // end of [i0nt]
+
+fun fprint_i0nt (out: FILEref, x: i0nt): void
+
+(* ****** ****** *)
+
 typedef i0de = '{
   i0de_loc= location, i0de_sym= symbol
 } // end of [i0de]
 
+typedef i0delst = List (i0de)
+
 fun fprint_i0de (out: FILEref, x: i0de): void
+
+(* ****** ****** *)
+
+datatype p0rec =
+  | P0RECint of int
+  | P0RECi0de of i0de
+  | P0RECi0de_adj of (i0de, token, i0nt)
+  | P0RECi0nt of i0nt
+// end of [p0rec]
+
+fun p0rec_emp (): p0rec
+fun p0rec_i0nt (int: i0nt): p0rec
+fun p0rec_i0de (ide: i0de): p0rec
+fun p0rec_i0de_adj (ide: i0de, tok: token, int: i0nt): p0rec
+
+(* ****** ****** *)
+
+datatype f0xty =
+  | F0XTYinf of (p0rec, assoc) // infix
+  | F0XTYpre of p0rec // prefix
+  | F0XTYpos of p0rec // postfix
+// end of [f0xty]
+
+fun fprint_f0xty (out: FILEref, x: f0xty): void
 
 (* ****** ****** *)
 
@@ -97,7 +139,7 @@ e0xp_node =
   | E0XPeval of e0xp
   | E0XPfloat of string
   | E0XPide of symbol
-  | E0XPint of string
+  | E0XPint of i0nt // [i0nt] is processed later
   | E0XPlist of e0xplst
   | E0XPstring of (string, int(*length*))
 // end of [e0xp_node]
@@ -114,7 +156,7 @@ fun e0xp_char (_: token): e0xp
 fun e0xp_eval (_1: token, _2: e0xp, _3: token): e0xp
 fun e0xp_float (_: token): e0xp
 fun e0xp_i0de (_: i0de): e0xp
-fun e0xp_int (_: token): e0xp
+fun e0xp_i0nt (_: i0nt): e0xp
 fun e0xp_list (_1: token, _2: e0xplst, _3: token): e0xp
 fun e0xp_string (_: token): e0xp
 
@@ -134,6 +176,29 @@ s0exp = '{
 
 and s0explst = List (s0exp)
 and s0expopt = Option (s0exp)
+
+(* ****** ****** *)
+
+datatype
+d0ecl_node =
+  | D0Cfixity of (f0xty, i0delst)
+  | D0Cnonfix of (i0delst) // absolving fixity status
+// end of [d0ecl_node]
+
+where
+d0ecl = '{
+  d0ecl_loc= location, d0ecl_node= d0ecl_node
+} // end of [d0ecl]
+
+fun d0ecl_fixity
+  (_1: token, _2: p0rec, _3: i0delst): d0ecl
+// end of [d0ecl_fixity]
+
+fun d0ecl_nonfix (_1: token, _2: i0delst): d0ecl
+
+(* ****** ****** *)
+
+fun fprint_d0ecl (out: FILEref, x: d0ecl): void
 
 (* ****** ****** *)
 

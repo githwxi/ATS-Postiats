@@ -34,68 +34,18 @@
 //
 (* ****** ****** *)
 
-staload "libc/SATS/stdio.sats"
-
-(* ****** ****** *)
-
-staload "pats_location.sats"
-staload "pats_lexing.sats"
-staload "pats_tokbuf.sats"
-staload "pats_syntax.sats"
-staload "pats_parsing.sats"
-
-(* ****** ****** *)
-//
-dynload "pats_utils.dats"
-//
-dynload "pats_symbol.dats"
-dynload "pats_filename.dats"
-dynload "pats_location.dats"
-//
-(* ****** ****** *)
-
-dynload "pats_reader.dats"
-dynload "pats_lexbuf.dats"
-dynload "pats_lexing_token.dats"
-dynload "pats_lexing_print.dats"
-dynload "pats_lexing_error.dats"
-dynload "pats_lexing.dats"
-
-dynload "pats_fixity.dats"
-dynload "pats_syntax_print.dats"
-dynload "pats_syntax.dats"
-
-dynload "pats_tokbuf.dats"
-dynload "pats_parsing_util.dats"
-dynload "pats_parsing_error.dats"
-dynload "pats_parsing_misc.dats"
-dynload "pats_parsing_e0xp.dats"
-dynload "pats_parsing_d0ecl.dats"
+staload "pats_fixity.sats"
 
 (* ****** ****** *)
 
 implement
-main (
-  argc, argv
-) = () where {
-//
-  val () = println! ("Hello from ATS/Postiats!")
-//
-  var buf: tokbuf
-  val () = tokbuf_initialize_getc (buf, lam () =<cloptr1> getchar ())
-  var err: int = 0
-  val d0c = p_d0ecl (buf, 0, err)
-//
-  val () = if (err = 0) then fprint_d0ecl (stdout_ref, d0c)
-  val () = if (err = 0) then print_newline ()
-//
-  val () = tokbuf_uninitialize (buf)
-//
-  val () = fprint_the_lexerrlst (stdout_ref)
-  val () = fprint_the_parerrlst (stdout_ref)
-//
-} // end of [main]
+fprint_assoc (out, x) =
+  case+ x of
+  | ASSOCnon () => fprint_string (out, "ASSOCnon")
+  | ASSOClft () => fprint_string (out, "ASSOClft")
+  | ASSOCrgt () => fprint_string (out, "ASSOCrgt")
+// end of [fprint_assoc]
 
 (* ****** ****** *)
 
-(* end of [pats_main.dats] *)
+(* end of [pats_fixity.dats] *)

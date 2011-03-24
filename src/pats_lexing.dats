@@ -61,6 +61,12 @@ staload "pats_lexing.sats"
 #define sz2i int1_of_size1
 
 (* ****** ****** *)
+
+macdef T_INTEGER_oct (x, sfx) = T_INTEGER (8, ,(x), ,(sfx))
+macdef T_INTEGER_dec (x, sfx) = T_INTEGER (10, ,(x), ,(sfx))
+macdef T_INTEGER_hex (x, sfx) = T_INTEGER (16, ,(x), ,(sfx))
+
+(* ****** ****** *)
 //
 // HX: some shorthand function names
 //
@@ -1849,7 +1855,7 @@ lexing_INTEGER_dec
       val str = lexbufpos_get_strptr1 (buf, pos)
       val str = string_of_strptr (str)
     in
-      lexbufpos_token_reset (buf, pos, T_INTEGER_dec (str))      
+      lexbufpos_token_reset (buf, pos, T_INTEGER_dec (str, k2))
     end // end of [_]
 // end of [lexing_INTEGER_dec]
 
@@ -1863,7 +1869,7 @@ if k1 >= 2u then let
   val str = lexbuf_get_strptr1 (buf, k1+k2+1u) // 0: 1u
   val str = string_of_strptr (str)
 in
-  lexbufpos_token_reset (buf, pos, T_INTEGER_oct (str))
+  lexbufpos_token_reset (buf, pos, T_INTEGER_oct (str, k2))
 end else
   lexing_INTEGER_dec (buf, pos, k1)
 // end of [lexing_INTEGER_oct]
@@ -1889,7 +1895,7 @@ lexing_INTEGER_hex
       val str = lexbufpos_get_strptr1 (buf, pos)
       val str = string_of_strptr (str)
     in
-      lexbufpos_token_reset (buf, pos, T_INTEGER_hex (str))
+      lexbufpos_token_reset (buf, pos, T_INTEGER_hex (str, k2))
     end // end of [_]
 // end of [lexing_INTEGER_hex]
 

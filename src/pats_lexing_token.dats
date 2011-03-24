@@ -81,9 +81,11 @@ implement FNSTAR = T_FUN (FK_fnstar)
 implement PRFUN = T_FUN (FK_prfun)
 implement PRFN = T_FUN (FK_prfn)
 
-implement INFIX = T_INFIX (0)
-implement INFIXL = T_INFIX (1)
-implement INFIXR = T_INFIX (2)
+implement INFIX = T_FIXITY (FXK_infix)
+implement INFIXL = T_FIXITY (FXK_infixl)
+implement INFIXR = T_FIXITY (FXK_infixr)
+implement PREFIX = T_FIXITY (FXK_prefix)
+implement POSTFIX = T_FIXITY (FXK_postfix)
 
 implement LAM = T_LAM (TYPE_int)
 implement LAMAT = T_LAM (T0YPE_int)
@@ -166,7 +168,7 @@ DLRTUP_VT = T_DLRTUP (VIEWTYPE_int)
 
 (* ****** ****** *)
 
-implement ZERO = T_INTEGER_dec "0"
+implement ZERO = T_INTEGER (10(*base*), "0", 0u(*sfx*))
 
 (* ****** ****** *)
 
@@ -357,6 +359,8 @@ val () = ins ("in", T_IN)
 val () = ins ("infix", INFIX)
 val () = ins ("infixl", INFIXL)
 val () = ins ("infixr", INFIXR)
+val () = ins ("prefix", PREFIX)
+val () = ins ("postfix", POSTFIX)
 //
 (*
 val () = ins ("lam", LAM)
@@ -370,8 +374,6 @@ val () = ins ("macdef", T_MACDEF)
 val () = ins ("macrodef", T_MACRODEF)
 val () = ins ("nonfix", T_NONFIX)
 val () = ins ("overload", T_OVERLOAD)
-val () = ins ("postfix", T_POSTFIX)
-val () = ins ("prefix", T_PREFIX)
 val () = ins ("of", T_OF)
 val () = ins ("op", T_OP)
 val () = ins ("praxi", T_PRAXI)

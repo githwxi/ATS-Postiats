@@ -131,17 +131,52 @@ in
 case+ x.parerr_node of
 | PE_COMMA () => {
     val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): COMMA", @())
+    val () = fprintf (out, ": error(parsing): [COMMA] is needed", @())
     val () = fprint_newline (out)
   }
 | PE_RPAREN () => {
     val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): RPAREN", @())
+    val () = fprintf (out, ": error(parsing): [RPAREN] is needed", @())
     val () = fprint_newline (out)
   }
 | PE_i0de () => {
     val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): i0de", @())
+    val () = fprintf (out, ": error(parsing): [i0de] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_i0nt () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [i0nt] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_i0nt_but_i0ntsp () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [i0nt] without spec is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_i0ntsp () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [i0ntsp] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_p0rec () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [p0rec] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_atme0xp () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [atme0xp] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_e0xp () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [e0xp] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_d0ecl () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [d0ecl] is needed", @())
     val () = fprint_newline (out)
   }
 | _ => {

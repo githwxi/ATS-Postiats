@@ -53,42 +53,87 @@ staload "pats_parsing.sats"
 (* ****** ****** *)
 
 implement
-p_COMMA (buf, bt, err) = let
-  val tok = tokbuf_get_token (buf)
-in
-//
-case+ tok.token_node of
-| T_COMMA () => let
-    val () = tokbuf_incby1 (buf) in tok
-  end
-| _ => let
-    val loc = tok.token_loc
-    val () = err := err + 1
-    val () = the_parerrlst_add_ifnbt (bt, loc, PE_COMMA)
-  in
-    $UN.cast{token} (null)
-  end // end of [_]
-//
-end // end of [p_COMMA]
+p_BAR (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_BAR, PE_BAR)
+implement
+p_BAR_test (buf) = ptoken_test_fun (buf, is_BAR)
 
 implement
-p_RPAREN (buf, bt, err) = let
-  val tok = tokbuf_get_token (buf)
+p_COMMA (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_COMMA, PE_COMMA)
+implement
+p_COMMA_test (buf) = ptoken_test_fun (buf, is_COMMA)
+
+implement
+p_SEMICOLON (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_SEMICOLON, PE_SEMICOLON)
+implement
+p_SEMICOLON_test (buf) = ptoken_test_fun (buf, is_SEMICOLON)
+
+implement
+p_RPAREN (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_RPAREN, PE_RPAREN)
+implement
+p_RPAREN_test (buf) = ptoken_test_fun (buf, is_RPAREN)
+
+(* ****** ****** *)
+
+(*
+p0rec
+  : /*(empty)*/
+  | LITERAL_int
+  | LPAREN i0de RPAREN
+  | LPAREN i0de IDENTIFIER_sym LITERAL_int RPAREN
+; /* p0rec */
+*)
+fun
+p_p0rec_tok (
+  buf: &tokbuf, bt: int, err: &int, tok: token
+) : p0rec = let
+  var ent: synent?
+  val loc = tok.token_loc
+  macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
 case+ tok.token_node of
-| T_RPAREN () => let
-    val () = tokbuf_incby1 (buf) in tok
-  end
-| _ => let
-    val loc = tok.token_loc
-    val () = err := err + 1
-    val () = the_parerrlst_add_ifnbt (bt, loc, PE_RPAREN)
+| _ when
+    ptest_fun (buf, p_i0nt, ent) => p0rec_i0nt (synent_decode {i0nt} (ent))
+| T_LPAREN () => let
+    val () = incby1 ()
+    val ent2 = p_i0de (buf, bt, err)
+    val ent3 = tokbuf_get_token (buf)
   in
-    $UN.cast{token} (null)
-  end // end of [_]
+    case+ ent3.token_node of
+    | T_RPAREN () => let
+        val () = incby1 () in p0rec_i0de (ent2)
+      end
+    | T_IDENT_sym _ => let
+        val () = incby1 ()
+        val ent4 = p_i0nt (buf, bt, err)
+        val ent5 = p_RPAREN (buf, bt, err)
+      in
+        if err = 0 then p0rec_i0de_adj (ent2, ent3, ent4) else synent_null ()
+      end
+    | _ => synent_null ()
+  end (* T_LPAREN *)
+| _ => p0rec_emp ()
 //
-end // end of [p_RPAREN]
+end // end of [p_p0rec_tok]
+
+implement
+p_p0rec
+  (buf, bt, err) = res where {
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  val res = p_p0rec_tok (buf, bt, err, tok)
+  val () = if
+    synent_is_null (res) then let
+    val () = err := err + 1
+    val () = tokbuf_set_ntok (buf, n0)
+  in
+    the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_p0rec)
+  end // end of [val]
+} // end of [p_p0rec]
 
 (* ****** ****** *)
 
@@ -121,7 +166,8 @@ i0de
 *)
 
 implement
-p_i0de (buf, bt, err) = let
+p_i0de
+  (buf, bt, err) = let
   val tok = tokbuf_get_token (buf)
   val loc = tok.token_loc
   macdef incby1 () = tokbuf_incby1 (buf)
@@ -177,6 +223,76 @@ case+ tok.token_node of
   end // end of [_]
 //
 end // end of [p_i0de]
+
+(* ****** ****** *)
+
+implement
+p_i0de_dlr
+  (buf, bt, err) = let
+  val tok = tokbuf_get_token (buf)
+  val loc = tok.token_loc
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_IDENT_dlr (x) => let
+    val () = incby1 () in i0de_make_string (loc, x)
+  end
+| _ => let
+    val () = err := err + 1
+    val () = the_parerrlst_add_ifnbt (bt, loc, PE_i0de_dlr)
+  in
+    synent_null ()
+  end // end of [_] 
+//
+end // end of [p_i0de_dlr]
+
+(* ****** ****** *)
+
+(*
+i0deseq := {i0de}
+*)
+implement
+p_i0deseq
+  (buf, bt, err) = let
+  val xs = pstar_fun (buf, bt, p_i0de)
+in
+  list_of_list_vt (xs)
+end // end of [p_i0deseq]
+
+(* ****** ****** *)
+
+fun
+i0nt_make_base_rep_sfx (
+  loc: location, base: int, rep: string, sfx: uint
+) : i0nt = '{
+  i0nt_loc= loc
+, i0nt_bas= base
+, i0nt_rep= rep
+, i0nt_sfx= sfx
+} // end of [i0nt_make_base_rep_sfx]
+
+implement
+p_i0nt (buf, bt, err) = let
+  val tok = tokbuf_get_token (buf)
+  val loc = tok.token_loc
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_INTEGER (base, str, sfx) => let
+    val () = incby1 ()
+  in
+    i0nt_make_base_rep_sfx (loc, base, str, sfx)
+  end
+| _ => let
+    val () = err := err + 1
+    val () = the_parerrlst_add_ifnbt (bt, loc, PE_i0nt)
+  in
+    synent_null ()
+  end // end of [_]
+//
+end // end of [p_i0nt]
 
 (* ****** ****** *)
 

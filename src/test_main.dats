@@ -31,6 +31,12 @@ dynload "pats_lexing.dats"
 dynload "pats_syntax_print.dats"
 dynload "pats_syntax.dats"
 
+dynload "pats_tokbuf.dats"
+dynload "pats_parsing_util.dats"
+dynload "pats_parsing_error.dats"
+dynload "pats_parsing_misc.dats"
+dynload "pats_parsing_e0xp.dats"
+
 (* ****** ****** *)
 
 #include "pats_lexing.hats"

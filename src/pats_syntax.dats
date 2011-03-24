@@ -43,6 +43,10 @@ overload + with $LOC.location_combine
 
 (* ****** ****** *)
 
+staload FX = "pats_fixity.sats"
+
+(* ****** ****** *)
+
 staload "pats_lexing.sats"
 staload "pats_syntax.sats"
 
@@ -101,6 +105,21 @@ implement
 print_dcstkind (x) = fprint_dcstkind (stdout_ref, x)
 
 (* ****** ****** *)
+//
+// HX: omitted precedence is assumed to equal 0
+//
+implement
+p0rec_emp () = P0RECint (0)
+
+implement
+p0rec_i0de (id) = P0RECi0de (id)
+implement
+p0rec_i0de_adj (id, opr, int) = P0RECi0de_adj (id, opr, int)
+
+implement
+p0rec_i0nt (int) = P0RECi0nt (int)
+
+(* ****** ****** *)
 
 implement
 e0xp_app (e1, e2) = let
@@ -138,11 +157,10 @@ e0xp_i0de (id) = '{
 } // end of [e0xp_ide]
 
 implement
-e0xp_int (tok) = let
-  val- T_INTEGER_dec (i) = tok.token_node
+e0xp_i0nt (int) = let
 in '{
-  e0xp_loc= tok.token_loc, e0xp_node= E0XPint (i)
-} end // end of [e0xp_int]
+  e0xp_loc= int.i0nt_loc, e0xp_node= E0XPint (int)
+} end // end of [e0xp_i0nt]
 
 implement
 e0xp_list (
@@ -160,6 +178,53 @@ e0xp_string (tok) = let
 in '{
   e0xp_loc= tok.token_loc, e0xp_node= E0XPstring (s, (sz2i)n)
 } end // end of [e0xp_float]
+
+(* ****** ****** *)
+
+local
+
+fun loop {n:nat} .<n>. (
+  tok: token, id: i0de, ids: list (i0de, n)
+) : location =
+  case+ ids of
+  | list_cons (id, ids) => loop (tok, id, ids)
+  | list_nil () => tok.token_loc + id.i0de_loc
+// end of [loop]
+
+in
+
+implement
+d0ecl_fixity
+  (tok, prec, ids) = let
+  val- T_FIXITY (knd) = tok.token_node
+  val fxty = (case+ knd of
+    | FXK_infix () => F0XTYinf (prec, $FX.ASSOCnon ())
+    | FXK_infixl () => F0XTYinf (prec, $FX.ASSOClft ())
+    | FXK_infixr () => F0XTYinf (prec, $FX.ASSOCrgt ())
+    | FXK_prefix () => F0XTYpre (prec)
+    | FXK_postfix () => F0XTYpos (prec)
+  ) : f0xty // end of [val]
+  val loc = (case+ ids of
+    | list_cons (id, ids) => loop (tok, id, ids)
+    | list_nil () => tok.token_loc
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cfixity (fxty, ids)
+} end // end of [d0ecl_infix]
+
+implement
+d0ecl_nonfix
+  (tok, ids) = let
+  val- T_NONFIX () = tok.token_node
+  val loc = (case+ ids of
+    | list_cons (id, ids) => loop (tok, id, ids)
+    | list_nil () => tok.token_loc
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cnonfix (ids)
+} end // end of [d0ecl_nonfix]
+
+end // end of [local]
 
 (* ****** ****** *)
 

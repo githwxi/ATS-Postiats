@@ -47,8 +47,8 @@ staload "pats_syntax.sats"
 
 (* ****** ****** *)
 
-staload "pats_lexing.sats" // for tokens
-staload "pats_tokbuf.sats" // for tokenizing
+staload "pats_lexing.sats" // for tokenizing
+staload "pats_tokbuf.sats" // for token buffering
 
 (* ****** ****** *)
 
@@ -57,37 +57,54 @@ staload "pats_parsing.sats"
 (* ****** ****** *)
 
 implement
-sep_COMMA (buf) = let
-  val tok = tokbuf_get_token (buf)
-in
-  case+ tok.token_node of
-  | T_COMMA () => let
-      val () = tokbuf_incby1 (buf) in true
-    end
-  | _ => false
-end // end of [sep_COMMA]
+is_BAR (x) = case+ x of
+  | T_BAR () => true | _ => false
+// end of [is_BAR]
 
 implement
-sep_SEMICOLON (buf) = let
-  val tok = tokbuf_get_token (buf)
-in
-  case+ tok.token_node of
-  | T_SEMICOLON () => let
-      val () = tokbuf_incby1 (buf) in true
-    end
-  | _ => false
-end // end of [sep_SEMICOLON]
+is_COMMA (x) = case+ x of
+  | T_COMMA () => true | _ => false
+// end of [is_COMMA]
+
+implement
+is_SEMICOLON (x) = case+ x of
+  | T_SEMICOLON () => true | _ => false
+// end of [is_SEMICOLON]
+
+implement
+is_RPAREN (x) = case+ x of
+  | T_RPAREN () => true | _ => false
+// end of [is_RPAREN]
 
 (* ****** ****** *)
 
 implement
-ptest_fun {a}
-  (buf, f, ent) = let
-  var err: int = 0
-  val () = ent := synent_encode (f (buf, 1(*bt*), err))
+ptoken_fun (
+  buf, bt, err, f, enode
+) = let
+  val tok = tokbuf_get_token (buf)
 in
-  synent_isnot_null (ent)
-end // end of [ptest_fun]
+  if f (tok.token_node) then let
+    val () = tokbuf_incby1 (buf) in tok
+  end else let
+    val loc = tok.token_loc
+    val () = err := err + 1
+    val () = the_parerrlst_add_ifnbt (bt, loc, enode)
+  in
+    $UN.cast{token} (null)
+  end // end of [_]
+//
+end // end of [ptoken_fun]
+
+implement
+ptoken_test_fun
+  (buf, f) = let
+  val tok = tokbuf_get_token (buf)
+in
+  if f (tok.token_node) then let
+    val () = tokbuf_incby1 (buf) in true
+  end else false
+end // end of [ptoken_test_fun]
 
 (* ****** ****** *)
 
@@ -139,13 +156,16 @@ pstar_sep_fun{a}
     buf: &tokbuf
   , res: &res_vt? >> res_vt
   , err: &int
-  ) :<cloref1> void =
+  ) :<cloref1> void = let
+    val n0 = tokbuf_get_ntok (buf)
+  in
     if sep (buf) then let
       val x = f (buf, 1(*bt*), err)
     in
       case+ 0 of
       | _ when
           synent_is_null (x) => let
+          val () = tokbuf_set_ntok (buf, n0)
           val () = res := list_vt_nil ()
         in
           // nothing
@@ -163,7 +183,7 @@ pstar_sep_fun{a}
      end else (
        res := list_vt_nil ()
      ) // end of [val]
-  // end of [loop]
+  end // end of [loop]
   var res: res_vt
   var err: int = 0
   val () = loop (buf, res, err)
@@ -174,8 +194,8 @@ end // end of [pstar_sep_fun]
 (* ****** ****** *)
 
 implement
-pstar_fun0_COMMA
-  (buf, bt, f) = let
+pstar_fun0_sep
+  (buf, bt, f, sep) = let
   var err: int = 0
   val x0 = f (buf, bt, err)
 in
@@ -184,12 +204,41 @@ case+ 0 of
 | _ when
     synent_is_null (x0) => list_vt_nil ()
 | _ => let
-    val xs = pstar_sep_fun (buf, bt, sep_COMMA, f)
+    val xs = pstar_sep_fun (buf, bt, sep, f)
   in
     list_vt_cons (x0, xs)
   end // end of [_]
 //
-end // end of [pstar_fun0_COMMA]
+end // end of [pstar_fun0_sep]
+
+implement
+pstar_fun0_BAR
+  (buf, bt, f) =
+  pstar_fun0_sep (buf, bt, f, p_BAR_test)
+// end of [pstar_fun0_BAR]
+
+implement
+pstar_fun0_COMMA
+  (buf, bt, f) =
+  pstar_fun0_sep (buf, bt, f, p_COMMA_test)
+// end of [pstar_fun0_COMMA]
+
+implement
+pstar_fun0_SEMICOLON
+  (buf, bt, f) =
+  pstar_fun0_sep (buf, bt, f, p_SEMICOLON_test)
+// end of [pstar_fun0_SEMICOLON]
+
+(* ****** ****** *)
+
+implement
+ptest_fun {a}
+  (buf, f, ent) = let
+  var err: int = 0
+  val () = ent := synent_encode (f (buf, 1(*bt*), err))
+in
+  synent_isnot_null (ent)
+end // end of [ptest_fun]
 
 (* ****** ****** *)
 

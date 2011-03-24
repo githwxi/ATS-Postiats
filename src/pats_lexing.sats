@@ -46,6 +46,15 @@ stadef lexbuf = $LBF.lexbuf
 (* ****** ****** *)
 
 datatype
+fxtykind =
+  | FXK_infix
+  | FXK_infixl
+  | FXK_infixr
+  | FXK_prefix
+  | FXK_postfix
+// end of [fxtykind]
+
+datatype
 caskind =
   | CK_case // case
   | CK_case_pos // case+
@@ -125,12 +134,12 @@ token_node =
   | T_EXCEPTION of () // exception
   | T_EXTERN of () // extern
   | T_FIX of () // fix
+  | T_FIXITY of fxtykind // infix, infixl, infixr, prefix, postfix
   | T_FOR of int // for and for*
   | T_FUN of funkind // fun
   | T_IF of () // if
   | T_IMPLEMENT of () // implement
   | T_IN of () // in
-  | T_INFIX of int // infix, infixl, infixr
   | T_LAM of int // lam and lam@
   | T_LET of () // let
   | T_LOCAL of () // local
@@ -138,8 +147,6 @@ token_node =
   | T_MACRODEF of () // macrodef
   | T_NONFIX of () // nonfix
   | T_OVERLOAD of () // overload
-  | T_POSTFIX of () // postfix
-  | T_PREFIX of () // prefix
   | T_OF of () // of
   | T_OP of () // op
   | T_REC of () // rec
@@ -209,9 +216,7 @@ token_node =
 //
   | T_CHAR of char
 //
-  | T_INTEGER_dec of string
-  | T_INTEGER_oct of string
-  | T_INTEGER_hex of string
+  | T_INTEGER of (int(*base*), string(*rep*), uint(*suffix*))
 //
   | T_FLOAT_deciexp of string
   | T_FLOAT_hexiexp of string
@@ -299,6 +304,8 @@ val FREEAT: tnode
 val INFIX: tnode
 val INFIXL: tnode
 val INFIXR: tnode
+val PREFIX: tnode
+val POSTFIX: tnode
 
 val LAM: tnode
 val LAMAT: tnode
