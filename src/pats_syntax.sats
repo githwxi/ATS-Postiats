@@ -132,6 +132,14 @@ fun fprint_f0xty (out: FILEref, x: f0xty): void
 
 (* ****** ****** *)
 
+datatype e0xpactkind =
+  | E0XPACTassert | E0XPACTerror | E0XPACTprint
+// end of [e0xpactkind]
+
+fun fprint_e0xpactkind (out: FILEref, x: e0xpactkind): void
+
+(* ****** ****** *)
+
 datatype
 e0xp_node =
   | E0XPapp of (e0xp, e0xp)
@@ -150,6 +158,7 @@ e0xp = '{
 } // end of [e0xp]
 
 and e0xplst = List (e0xp)
+and e0xpopt = Option (e0xp)
 
 fun e0xp_app (_1: e0xp, _2: e0xp): e0xp
 fun e0xp_char (_: token): e0xp
@@ -183,6 +192,9 @@ datatype
 d0ecl_node =
   | D0Cfixity of (f0xty, i0delst)
   | D0Cnonfix of (i0delst) // absolving fixity status
+  | D0Csymintr of (i0delst) // introducing overloading symbols
+  | D0Ce0xpdef of (symbol, e0xpopt)
+  | D0Ce0xpact of (e0xpactkind, e0xp)
 // end of [d0ecl_node]
 
 where
@@ -190,15 +202,25 @@ d0ecl = '{
   d0ecl_loc= location, d0ecl_node= d0ecl_node
 } // end of [d0ecl]
 
+and d0eclist = List (d0ecl)
+
 fun d0ecl_fixity
   (_1: token, _2: p0rec, _3: i0delst): d0ecl
 // end of [d0ecl_fixity]
 
 fun d0ecl_nonfix (_1: token, _2: i0delst): d0ecl
+fun d0ecl_symintr (_1: token, _2: i0delst): d0ecl
+
+fun d0ecl_e0xpdef (_1: token, _2: i0de, _3: e0xpopt): d0ecl
+
+fun d0ecl_e0xpact_assert (_1: token, _2: e0xp): d0ecl
+fun d0ecl_e0xpact_error (_1: token, _2: e0xp): d0ecl
+fun d0ecl_e0xpact_print (_1: token, _2: e0xp): d0ecl
 
 (* ****** ****** *)
 
 fun fprint_d0ecl (out: FILEref, x: d0ecl): void
+fun fprint_d0eclist (out: FILEref, xs: d0eclist): void
 
 (* ****** ****** *)
 

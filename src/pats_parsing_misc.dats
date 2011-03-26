@@ -76,6 +76,11 @@ p_RPAREN (buf, bt, err) =
 implement
 p_RPAREN_test (buf) = ptoken_test_fun (buf, is_RPAREN)
 
+implement
+p_EOF (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_EOF, PE_EOF)
+// end of [p_EOF]
+
 (* ****** ****** *)
 
 (*
@@ -253,12 +258,12 @@ end // end of [p_i0de_dlr]
 i0deseq := {i0de}
 *)
 implement
-p_i0deseq
+p_i0deseq1
   (buf, bt, err) = let
-  val xs = pstar_fun (buf, bt, p_i0de)
+  val xs = pplus_fun (buf, bt, p_i0de)
 in
   list_of_list_vt (xs)
-end // end of [p_i0deseq]
+end // end of [p_i0deseq1]
 
 (* ****** ****** *)
 

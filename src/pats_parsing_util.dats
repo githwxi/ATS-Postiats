@@ -76,6 +76,11 @@ is_RPAREN (x) = case+ x of
   | T_RPAREN () => true | _ => false
 // end of [is_RPAREN]
 
+implement
+is_EOF (x) = case+ x of
+  | T_EOF () => true | _ => false
+// end of [is_EOF]
+
 (* ****** ****** *)
 
 implement
@@ -228,6 +233,32 @@ pstar_fun0_SEMICOLON
   (buf, bt, f) =
   pstar_fun0_sep (buf, bt, f, p_SEMICOLON_test)
 // end of [pstar_fun0_SEMICOLON]
+
+(* ****** ****** *)
+
+implement
+pplus_fun {a}
+  (buf, bt, f) = let
+  var err: int = 0
+  val x = f (buf, bt, err)
+in
+  if synent_isnot_null (x) then let
+    val xs = pstar_fun (buf, bt, f) in list_vt_cons (x, xs)
+  end else list_vt_nil ()
+end // end of [pplus_fun]
+
+(* ****** ****** *)
+
+implement
+popt_fun {a}
+  (buf, bt, f) = let
+  var err: int = 0
+  val res = f (buf, 1(*bt*), err)
+in
+  if synent_isnot_null (res)
+    then Some_vt (res) else None_vt ()
+  // end of [if]
+end // end of [popt_fun]
 
 (* ****** ****** *)
 

@@ -39,11 +39,6 @@ viewtypedef lexbuf = $LBF.lexbuf
 
 (* ****** ****** *)
 
-staload LEX = "pats_lexing.sats"
-typedef token = $LEX.token
-
-(* ****** ****** *)
-
 staload Q = "libats/SATS/linqueue_arr.sats"
 stadef QUEUE = $Q.QUEUE
 staload _(*anon*) = "prelude/DATS/array.dats"
@@ -52,6 +47,7 @@ staload _(*anon*) = "libats/ngc/DATS/deque_arr.dats"
 
 (* ****** ****** *)
 
+staload "pats_lexing.sats"
 staload "pats_tokbuf.sats"
 
 (* ****** ****** *)
@@ -180,10 +176,10 @@ in
   if ntok < n then
     $Q.queue_get_elt_at<token> (buf.tbuf, ntok)
   else let
-    val tok = $LEX.lexing_next_token (buf.lexbuf)
+    val tok = lexing_next_token_ncmnt (buf.lexbuf)
   in
     case+ tok.token_node of
-    | $LEX.T_EOF () => tok // HX: tokens are all generated
+    | T_EOF () => tok // HX: tokens are all generated
     | _ => let
         val m = $Q.queue_cap {token} (buf.tbuf)
       in
@@ -210,6 +206,18 @@ tokbuf_getinc_token
   val tok = tokbuf_get_token (buf)
   val () = buf.ntok := buf.ntok + 1u
 } // end of [tokbuf_getinc_token]
+
+(* ****** ****** *)
+
+implement
+tokbuf_discard_all
+  (buf) = while (true) let
+  val tok = tokbuf_getinc_token (buf)
+  val () = println! ("tokbuf_discard_all: tok = ", tok)
+in
+  case+ tok.token_node of
+  | T_EOF () => break | _ => continue
+end // end of [tokbuf_discard_all]
 
 (* ****** ****** *)
 

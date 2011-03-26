@@ -52,14 +52,21 @@ staload "pats_lexbuf.sats"
 staload "pats_lexing.sats"
 
 (* ****** ****** *)
-
+//
+#define u2c char_of_uchar
+//
 #define i2c char_of_int
 #define c2i int_of_char
+//
+#define i2uc uchar_of_int
+#define uc2i int_of_uchar
+//
 #define i2u uint_of_int
 #define u2i int_of_uint
+//
 #define l2u uint_of_lint
 #define sz2i int1_of_size1
-
+//
 (* ****** ****** *)
 
 macdef T_INTEGER_oct (x, sfx) = T_INTEGER (8, ,(x), ,(sfx))
@@ -1415,7 +1422,7 @@ lexing_DQUOTE
   fn* loop {m,n:int | m > 0} (
     buf: &lexbuf
   , pos: &position
-  , q: &QUEUE (char, m, n) >> QUEUE (char, m, n)
+  , q: &QUEUE (uchar, m, n) >> QUEUE (uchar, m, n)
   , m: size_t (m), n: size_t (n)
   ) : #[m,n:nat] size_t (n) = let
     val i = lexbufpos_get_char (buf, pos)
@@ -1443,36 +1450,36 @@ lexing_DQUOTE
       val err = lexerr_make (loc, LE_STRING_unclose)
       val () = the_lexerrlst_add (err)
     in
-      queue_size {char} (q)
+      queue_size {uchar} (q)
     end (* end of [if] *)
   end // end of [loop]
 //  
   and loop_ins {m,n:int | m > 0} (
     buf: &lexbuf
   , pos: &position
-  , q: &QUEUE (char, m, n) >> QUEUE (char, m, n)
+  , q: &QUEUE (uchar, m, n) >> QUEUE (uchar, m, n)
   , m: size_t (m), n: size_t (n), i: int
   ) : #[m,n:nat] size_t (n) = let
-    val c = (i2c)i
+    val c = (i2uc)i
     prval () = queue_param_lemma (q) // m >= n >= 0
   in
     case+ 0 of
     | _ when m > n => let
-        val () = queue_insert<char> (q, c) in
+        val () = queue_insert<uchar> (q, c) in
         loop (buf, pos, q, m, n+1)
       end
     | _ => let
         val m2 = m + m
-        val () = queue_update_capacity<char> (q, m2)
+        val () = queue_update_capacity<uchar> (q, m2)
         val () = queue_insert (q, c)
       in
         loop (buf, pos, q, m2, n+1)
       end
   end // end of [loop_ins]
 //
-  var q: QUEUE0(char)
+  var q: QUEUE0(uchar)
   #define m0 128 // HX: chosen randomly
-  val () = queue_initialize<char> (q, m0)
+  val () = queue_initialize<uchar> (q, m0)
 //
   val n = loop (buf, pos, q, m0, 0)
   val str = $UTL.queue_get_strptr1 (q, 0, n)
@@ -2013,6 +2020,20 @@ end else
 // end of [if]
 //
 end // end of [lexing_get_next_token]
+
+(* ****** ****** *)
+
+implement
+lexing_next_token_ncmnt
+  (buf) = let
+  val tok = lexing_next_token (buf)
+in
+  case+ tok.token_node of
+  | T_COMMENT_line _ => lexing_next_token_ncmnt (buf)
+  | T_COMMENT_block _ => lexing_next_token_ncmnt (buf)
+  | T_COMMENT_rest _ => lexing_next_token_ncmnt (buf)
+  | _ => tok
+end // end of [lexing_next_token_ncmnt]
 
 (* ****** ****** *)
 

@@ -28,6 +28,7 @@ dynload "pats_lexing_print.dats"
 dynload "pats_lexing_error.dats"
 dynload "pats_lexing.dats"
 
+dynload "pats_fixity.dats"
 dynload "pats_syntax_print.dats"
 dynload "pats_syntax.dats"
 
@@ -36,6 +37,7 @@ dynload "pats_parsing_util.dats"
 dynload "pats_parsing_error.dats"
 dynload "pats_parsing_misc.dats"
 dynload "pats_parsing_e0xp.dats"
+dynload "pats_parsing_d0ecl.dats"
 
 (* ****** ****** *)
 
@@ -177,6 +179,22 @@ val- T_EXTERN () =
 val- T_FIX () =
   (lexing_from_string "fix").token_node
 //
+val- T_FIXITY (knd) =
+  (lexing_from_string "infix").token_node
+val- FXK_infix () = knd
+val- T_FIXITY (knd) =
+  (lexing_from_string "infixl").token_node
+val- FXK_infixl () = knd
+val- T_FIXITY (knd) =
+  (lexing_from_string "infixr").token_node
+val- FXK_infixr () = knd
+val- T_FIXITY (knd) =
+  (lexing_from_string "prefix").token_node
+val- FXK_prefix () = knd
+val- T_FIXITY (knd) =
+  (lexing_from_string "postfix").token_node
+val- FXK_postfix () = knd
+//
 val- T_FUN (k) =
   (lexing_from_string "fn").token_node
 val- FK_fn () = k
@@ -197,15 +215,6 @@ val- T_IMPLEMENT () =
   (lexing_from_string "implement").token_node
 val- T_IN () =
   (lexing_from_string "in").token_node
-val- T_INFIX (i) =
-  (lexing_from_string "infix").token_node
-val () = assertloc (i = 0)
-val- T_INFIX (i) =
-  (lexing_from_string "infixl").token_node
-val () = assertloc (i = 1)
-val- T_INFIX (i) =
-  (lexing_from_string "infixr").token_node
-val () = assertloc (i = 2)
 //
 val- T_LAM (i) =
   (lexing_from_string "lam").token_node
@@ -232,10 +241,6 @@ val- T_NONFIX () =
   (lexing_from_string "nonfix").token_node
 val- T_OVERLOAD () =
   (lexing_from_string "overload").token_node
-val- T_POSTFIX () =
-  (lexing_from_string "postfix").token_node
-val- T_PREFIX () =
-  (lexing_from_string "prefix").token_node
 //
 val- T_FUN (k) =
   (lexing_from_string "prfun").token_node

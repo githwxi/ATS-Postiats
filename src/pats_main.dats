@@ -84,9 +84,13 @@ main (
   var buf: tokbuf
   val () = tokbuf_initialize_getc (buf, lam () =<cloptr1> getchar ())
   var err: int = 0
-  val d0c = p_d0ecl (buf, 0, err)
+  val d0cs = p_d0eclist (buf, 0, err)
+(*
+  val _eof = p_EOF (buf, 0, err)
+*)
+  val () = tokbuf_discard_all (buf)
 //
-  val () = if (err = 0) then fprint_d0ecl (stdout_ref, d0c)
+  val () = if (err = 0) then fprint_d0eclist (stdout_ref, d0cs)
   val () = if (err = 0) then print_newline ()
 //
   val () = tokbuf_uninitialize (buf)

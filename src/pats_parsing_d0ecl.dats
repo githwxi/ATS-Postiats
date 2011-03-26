@@ -34,6 +34,10 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/option_vt.dats"
+
+(* ****** ****** *)
+
 staload "pats_lexing.sats"
 staload "pats_tokbuf.sats"
 staload "pats_syntax.sats"
@@ -63,8 +67,9 @@ in
 case+ tok.token_node of
 | T_FIXITY _ => let
     val () = incby1 ()
+    val bt = 0 // there is no backtracking
     val ent2 = p_p0rec (buf, bt, err)
-    val ent3 = p_i0deseq (buf, bt, err)
+    val ent3 = p_i0deseq1 (buf, bt, err)
   in
     if err = 0 then (
       d0ecl_fixity (tok, ent2, ent3)
@@ -72,10 +77,61 @@ case+ tok.token_node of
   end
 | T_NONFIX () => let
     val () = incby1 ()
-    val ent2 = p_i0deseq (buf, bt, err)
+    val bt = 0 // there is no backtracking
+    val ent2 = p_i0deseq1 (buf, bt, err)
   in
     if err = 0 then
       d0ecl_nonfix (tok, ent2) else synent_null ()
+    // end of [if]
+  end
+| T_SYMINTR () => let
+    val () = incby1 ()
+    val bt = 0 // there is no backtracking
+    val ent2 = p_i0deseq1 (buf, bt, err)
+  in
+    if err = 0 then
+      d0ecl_symintr (tok, ent2) else synent_null ()
+    // end of [if]
+  end
+| T_SRPDEFINE () => let
+    val () = incby1 ()
+    val bt = 0 // there is no backtracking
+    val ent2 = p_i0de (buf, bt, err)
+    val ent3 = popt_fun {e0xp} (buf, bt, p_e0xp)
+  in
+    if err = 0 then let
+      val ent3 = option_of_option_vt (ent3)
+    in
+      d0ecl_e0xpdef (tok, ent2, ent3)
+    end else let
+      val () = option_vt_free (ent3) in synent_null ()
+    end (* end of [if] *)
+  end
+| T_SRPASSERT () => let
+    val () = incby1 ()
+    val bt = 0 // there is no backtracking
+    val ent2 = p_e0xp (buf, bt, err)
+  in
+    if err = 0 then
+      d0ecl_e0xpact_assert (tok, ent2) else synent_null ()
+    // end of [if]
+  end
+| T_SRPERROR () => let
+    val () = incby1 ()
+    val bt = 0 // there is no backtracking
+    val ent2 = p_e0xp (buf, bt, err)
+  in
+    if err = 0 then
+      d0ecl_e0xpact_error (tok, ent2) else synent_null ()
+    // end of [if]
+  end
+| T_SRPPRINT () => let
+    val () = incby1 ()
+    val bt = 0 // there is no backtracking
+    val ent2 = p_e0xp (buf, bt, err)
+  in
+    if err = 0 then
+      d0ecl_e0xpact_print (tok, ent2) else synent_null ()
     // end of [if]
   end
 | _ => synent_null ()
@@ -96,6 +152,16 @@ p_d0ecl
     the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_d0ecl)
   end // end of [val]
 } // end of [p_d0ecl]
+
+(* ****** ****** *)
+
+implement
+p_d0eclist
+  (buf, bt, err) = let
+  val xs = pstar_fun (buf, bt, p_d0ecl)
+in
+  list_of_list_vt (xs)
+end // end of [d0eclist]
 
 (* ****** ****** *)
 

@@ -60,6 +60,22 @@ end // end of [fprintlst]
 
 (* ****** ****** *)
 
+implement{a}
+fprintopt (
+  out, opt, fprint
+) = case+ opt of
+  | Some x => let
+      val () = fprint_string (out, "Some(")
+      val () = fprint (out, x)
+      val () = fprint_string (out, ")")
+    in
+      // nothing
+    end // end of [Some]
+  | None () => fprint_string (out, "None()")
+// end of [fprintopt]
+
+(* ****** ****** *)
+
 local
 //
 staload Q = "libats/SATS/linqueue_arr.sats"
@@ -81,10 +97,10 @@ queue_get_strptr1
    extern prfun __assert {k:nat} (
      pfarr: b0ytes(k+1) @ l
    ) : (
-     @[char?][k] @ l, @[char][k] @ l -<lin,prf> bytes(k+1) @ l
+     @[uchar?][k] @ l, @[uchar][k] @ l -<lin,prf> bytes(k+1) @ l
    ) (* end of [_assert] *)
   } // end of [prval]
-  val () = $Q.queue_copyout<char> (q, st, ln, !p)
+  val () = $Q.queue_copyout<uchar> (q, st, ln, !p)
   prval () = pfarr := fpf2 (pf1)
   val () = bytes_strbuf_trans (pfarr | p, ln)
 in

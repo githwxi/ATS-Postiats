@@ -42,6 +42,13 @@ fprintlst (
 , fprint: (FILEref, a) -> void
 ) : void // end of [fprintlst]
 
+fun{a:t@ype}
+fprintopt (
+  out: FILEref
+, opt: Option a
+, fprint: (FILEref, a) -> void
+) : void // end of [fprintopt]
+
 (* ****** ****** *)
 
 local
@@ -54,7 +61,7 @@ in // in of [local]
 fun queue_get_strptr1
   {m,n:int}
   {st,ln:nat | st+ln <= n} (
-  q: &QUEUE (char, m, n), st: size_t st, ln: size_t ln
+  q: &QUEUE (uchar, m, n), st: size_t st, ln: size_t ln
 ) : strptr1 // end of [queue_get_strptr1]
 
 end // end of [local]

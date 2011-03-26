@@ -73,6 +73,16 @@ end // end of [fprint_f0xty]
 (* ****** ****** *)
 
 implement
+fprint_e0xpactkind (out, x) =
+  case+ x of
+  | E0XPACTassert () => fprint_string (out, "E0XPACTassert")
+  | E0XPACTerror () => fprint_string (out, "E0XPACTerror")
+  | E0XPACTprint () => fprint_string (out, "E0XPACTprint")
+// end of [fprint_e0xpactkind]
+
+(* ****** ****** *)
+
+implement
 fprint_e0xp
   (out, x0) = let
   macdef prstr (str) = fprint_string (out, ,(str))
@@ -141,6 +151,25 @@ in
       val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
       val () = prstr ")"
     }
+  | D0Csymintr (ids) => {
+      val () = prstr "D0ECsymintr("
+      val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
+      val () = prstr ")"
+    }
+  | D0Ce0xpdef (id, def) => {
+      val () = prstr "D0ECe0xpdef("
+      val () = fprint_symbol (out, id)
+      val () = prstr ", "
+      val () = $UT.fprintopt<e0xp> (out, def, fprint_e0xp)
+      val () = prstr ")"
+    }
+  | D0Ce0xpact (knd, act) => {
+      val () = prstr "D0ECe0xpact("
+      val () = fprint_e0xpactkind (out, knd)
+      val () = prstr "; "
+      val () = fprint_e0xp (out, act)
+      val () = prstr ")"
+    }
 (*
   | _ => {
       val () = prstr "D0C...("
@@ -149,6 +178,13 @@ in
     }
 *)
 end // end of [fprint_d0ecl]
+
+implement
+fprint_d0eclist
+  (out, xs) = () where {
+  val () = $UT.fprintlst (out, xs, "\n", fprint_d0ecl)
+  val () = fprint_newline (out)
+} // end of [fprint_d0eclst]
 
 (* ****** ****** *)
 

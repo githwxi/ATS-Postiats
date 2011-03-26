@@ -55,18 +55,22 @@ viewtypedef reader = $R.reader
 staload "pats_lexbuf.sats"
 
 (* ****** ****** *)
-
-#define c2i int_of_char
-#define i2c char_of_int
+//
+#define uc2i int_of_uchar
+#define i2uc uchar_of_int
+//
 #define u2i int_of_uint
 #define u2l lint_of_uint
 #define u2sz size_of_uint
+//
 #define l2u uint_of_lint
 #define l2sz size_of_lint
+//
 #define sz2i int_of_size
 #define sz2l lint_of_size
+//
 #define size1 size1_of_size
-
+//
 (* ****** ****** *)
 
 viewtypedef
@@ -74,7 +78,7 @@ lexbuf_int_int
   (m: int, n:int) =
 $extype_struct
 "pats_lexbuf_struct" of {
-  cbuf= QUEUE (char, m, n) // character buffer
+  cbuf= QUEUE (uchar, m, n) // character buffer
 , base= lint
 , base_nrow=int, base_ncol= int
 , nspace= int
@@ -214,23 +218,23 @@ lexbuf_get_char
   val n = $Q.queue_size (buf.cbuf)
 in
   if nchr < n then let
-    val c = $Q.queue_get_elt_at<char> (buf.cbuf, nchr)
+    val c = $Q.queue_get_elt_at<uchar> (buf.cbuf, nchr)
   in
-    (c2i)c
+    (uc2i)c
   end else let
     val i = $R.reader_get_char (buf.reader)
   in
     if i >= 0 then let
-      val c = (i2c)i
-      val m = $Q.queue_cap {char} (buf.cbuf)
+      val c = (i2uc)i
+      val m = $Q.queue_cap {uchar} (buf.cbuf)
     in
       if m > n then let
-        val () = $Q.queue_insert<char> (buf.cbuf, c)
+        val () = $Q.queue_insert<uchar> (buf.cbuf, c)
       in
         i
       end else let
-        val () = $Q.queue_update_capacity<char> (buf.cbuf, m+QDELTA)
-        val () = $Q.queue_insert<char> (buf.cbuf, c)
+        val () = $Q.queue_update_capacity<uchar> (buf.cbuf, m+QDELTA)
+        val () = $Q.queue_insert<uchar> (buf.cbuf, c)
       in
         i
       end // end of [if]
@@ -266,13 +270,13 @@ in
   if nchr < n then let
     val () = buf.base := buf.base + (u2l)cnt
     val () = buf.base_ncol := buf.base_ncol + (u2i)cnt
-    val () = $Q.queue_clear<char> (buf.cbuf, nchr)
+    val () = $Q.queue_clear<uchar> (buf.cbuf, nchr)
   in
     // nothing
   end else let
     val () = buf.base := buf.base + (sz2l)n
     val () = buf.base_ncol := buf.base_ncol + (sz2i)n
-    val () = $Q.queue_clear_all {char} (buf.cbuf)
+    val () = $Q.queue_clear_all {uchar} (buf.cbuf)
   in
     // nothing
   end (* end of [if] *)
@@ -296,11 +300,11 @@ lexbuf_reset_position
   val n = $Q.queue_size (buf.cbuf)
 in
   if nchr < n then let
-    val () = $Q.queue_clear<char> (buf.cbuf, nchr)
+    val () = $Q.queue_clear<uchar> (buf.cbuf, nchr)
   in
     // nothing
   end else let
-    val () = $Q.queue_clear_all {char} (buf.cbuf)
+    val () = $Q.queue_clear_all {uchar} (buf.cbuf)
   in
     // nothing
   end (* end of [if] *)

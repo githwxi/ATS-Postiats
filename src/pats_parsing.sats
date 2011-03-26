@@ -48,15 +48,19 @@ fun is_BAR (x: tnode): bool
 fun is_COMMA (x: tnode): bool
 fun is_SEMICOLON (x: tnode): bool
 fun is_RPAREN (x: tnode): bool
+fun is_EOF (x: tnode): bool
 
 (* ****** ****** *)
 
 datatype
 parerr_node =
+//
   | PE_BAR
   | PE_COMMA
   | PE_SEMICOLON
   | PE_RPAREN
+  | PE_EOF
+//
   | PE_i0de
   | PE_i0de_dlr
   | PE_i0nt
@@ -141,6 +145,20 @@ fun pstar_fun0_SEMICOLON
 
 (* ****** ****** *)
 
+fun pplus_fun
+  {a:type} (
+  buf: &tokbuf, bt: int, f: parser (a)
+) : List_vt (a) // end of [pplus_fun]
+
+(* ****** ****** *)
+
+fun popt_fun
+  {a:type} (
+  buf: &tokbuf, bt: int, f: parser (a)
+) : Option_vt (a) // end of [popt_fun]
+
+(* ****** ****** *)
+
 fun ptest_fun
   {a:type} (
   buf: &tokbuf, f: parser (a), ent: &synent? >> synent
@@ -160,6 +178,8 @@ fun p_SEMICOLON_test (buf: &tokbuf): bool
 fun p_RPAREN : parser (token)
 fun p_RPAREN_test (buf: &tokbuf): bool
 
+fun p_EOF : parser (token)
+
 (* ****** ****** *)
 
 fun p_p0rec : parser (p0rec)
@@ -168,7 +188,8 @@ fun p_p0rec : parser (p0rec)
 
 fun p_i0de : parser (i0de)
 fun p_i0de_dlr : parser (i0de)
-fun p_i0deseq : parser (i0delst)
+
+fun p_i0deseq1 : parser (i0delst)
 
 fun p_i0nt : parser (i0nt)
 
@@ -178,6 +199,7 @@ fun p_s0exp : parser (s0exp)
 (* ****** ****** *)
 
 fun p_d0ecl : parser (d0ecl)
+fun p_d0eclist : parser (d0eclist)
 
 (* ****** ****** *)
 

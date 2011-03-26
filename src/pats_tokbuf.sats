@@ -97,4 +97,8 @@ fun tokbuf_getinc_token (buf: &tokbuf): token
 
 (* ****** ****** *)
 
+fun tokbuf_discard_all (buf: &tokbuf): void
+
+(* ****** ****** *)
+
 (* end of [pats_tokbuf.sats] *)

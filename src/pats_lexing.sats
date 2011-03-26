@@ -438,6 +438,7 @@ fun fprint_the_lexerrlst (out: FILEref): void
 (* ****** ****** *)
 
 fun lexing_next_token (buf: &lexbuf): token
+fun lexing_next_token_ncmnt (buf: &lexbuf): token
 
 (* ****** ****** *)
 
