@@ -49,16 +49,16 @@ staload "pats_syntax.sats"
 (* ****** ****** *)
 
 implement
-fprint_i0de
-  (out, x) = fprint_symbol (out, x.i0de_sym)
-// end of [fprint_i0de]
-
-implement
 fprint_i0nt
   (out, x) = fprint_string (out, x.i0nt_rep)
 // end of [fprint_i0nt]
 
 (* ****** ****** *)
+
+implement
+fprint_i0de
+  (out, x) = fprint_symbol (out, x.i0de_sym)
+// end of [fprint_i0de]
 
 implement
 fprint_f0xty (out, x) = let
@@ -69,6 +69,30 @@ in
   | F0XTYpre _ => prstr "F0XTYpre(...)"
   | F0XTYpos _ => prstr "F0XTYpos(...)"
 end // end of [fprint_f0xty]
+
+(* ****** ****** *)
+
+implement
+fprint_s0taq (out, x) =
+  case+ x.s0taq_node of
+  | S0TAQnone () => ()
+  | S0TAQsymdot (sym) => {
+      val () = fprint_symbol (out, sym)
+      val () = fprint_string (out, ".")
+    }
+  | S0TAQsymcolon (sym) => {
+      val () = fprint_symbol (out, sym)
+      val () = fprint_string (out, ":")
+    }
+// end of [fprint_s0taq]
+
+(* ****** ****** *)
+
+implement
+fprint_sqi0de (out, x) = {
+  val () = fprint_s0taq (out, x.sqi0de_qua)
+  val () = fprint_symbol (out, x.sqi0de_sym)
+}
 
 (* ****** ****** *)
 
@@ -131,6 +155,81 @@ in
       val () = prstr ")"
     }
 end // end of [fprint_e0xp]
+
+(* ****** ****** *)
+
+implement
+fprint_s0exp (out, x) = let
+  macdef prstr (str) = fprint_string (out, ,(str))
+in
+  case+ x.s0exp_node of
+  | S0Eapp (s0e1, s0e2) => {
+      val () = prstr "S0Eapp("
+      val () = fprint_s0exp (out, s0e1)
+      val () = prstr "; "
+      val () = fprint_s0exp (out, s0e2)
+      val () = prstr ")"
+    }
+  | S0Eextype (name, s0es) => {
+      val () = prstr "S0Eextype("
+      val () = fprint_string (out, name)
+      val () = prstr "; "
+      val () = $UT.fprintlst<s0exp> (out, s0es, ", ", fprint_s0exp)
+      val () = prstr ")"
+    }
+  | S0Echar (c) => {
+      val () = prstr "S0Echar("
+      val () = fprint_char (out, c)
+      val () = prstr ")"
+    }
+  | S0Ei0nt (int) => {
+      val () = prstr "S0Ei0nt("
+      val () = fprint_i0nt (out, int)
+      val () = prstr ")"
+    }
+  | S0Elist (s0es) => {
+      val () = prstr "S0Elist("
+      val () = $UT.fprintlst<s0exp> (out, s0es, ", ", fprint_s0exp)
+      val () = prstr ")"
+    }
+  | S0Elist2 (s0es1, s0es2) => {
+      val () = prstr "S0Elist2("
+      val () = $UT.fprintlst<s0exp> (out, s0es1, ", ", fprint_s0exp)
+      val () = prstr " | "
+      val () = $UT.fprintlst<s0exp> (out, s0es2, ", ", fprint_s0exp)
+      val () = prstr ")"
+    }
+  | S0Eopid (id) => {
+      val () = prstr "S0Eopid("
+      val () = fprint_symbol (out, id)
+      val () = prstr ")"
+    }
+  | S0Esqid (sq, id) => {
+      val () = prstr "S0Esqid("
+      val () = fprint_s0taq (out, sq)
+      val () = fprint_symbol (out, id)
+      val () = prstr ")"
+    }
+  | S0Etytup (knd, s0es) => {
+      val () = prstr "S0Etytup("
+      val () = fprint_int (out, knd)
+      val () = prstr "; "
+      val () = $UT.fprintlst<s0exp> (out, s0es, ", ", fprint_s0exp)
+      val () = prstr ")"
+    }
+  | S0Etytup2 (knd, s0es1, s0es2) => {
+      val () = prstr "S0Etytup2("
+      val () = fprint_int (out, knd)
+      val () = prstr "; "
+      val () = $UT.fprintlst<s0exp> (out, s0es1, ", ", fprint_s0exp)
+      val () = prstr " | "
+      val () = $UT.fprintlst<s0exp> (out, s0es2, ", ", fprint_s0exp)
+      val () = prstr ")"
+    }
+(*
+  | _ => prstr "S0E(...)"
+*)
+end // end of [fprint_s0exp]
 
 (* ****** ****** *)
 

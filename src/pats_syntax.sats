@@ -108,6 +108,64 @@ fun fprint_i0de (out: FILEref, x: i0de): void
 
 (* ****** ****** *)
 
+datatype s0taq_node =
+  | S0TAQnone
+  | S0TAQsymdot of symbol
+  | S0TAQsymcolon of symbol
+(*
+  | S0TAQfildot of string (* filename *)
+*)
+// end of [s0taq_node]
+
+typedef s0taq = '{
+  s0taq_loc= location, s0taq_node= s0taq_node
+}
+
+fun s0taq_none (loc: location): s0taq
+fun s0taq_symdot (ent1: i0de, tok2: token): s0taq
+fun s0taq_symcolon (ent1: i0de, tok2: token): s0taq
+
+fun fprint_s0taq (out: FILEref, x: s0taq): void
+
+(* ****** ****** *)
+
+datatype d0ynq_node =
+  | D0YNQnone
+  | D0YNQsymdot of symbol
+  | D0YNQsymcolon of symbol
+  | D0YNQsymdot_symcolon of (symbol, symbol)
+(*
+  | D0YNQfildot of string (* filename *)
+  | D0YNQfildot_symcolon of (string (* filename *), symbol)
+*)
+// end of [d0ynq_node]
+
+typedef d0ynq = '{
+  d0ynq_loc= location, d0ynq_node= d0ynq_node
+} // end of [d0ynq]
+
+(* ****** ****** *)
+
+typedef sqi0de = '{
+  sqi0de_loc= location
+, sqi0de_qua= s0taq, sqi0de_sym= symbol
+} // end of [sqi0de]
+
+fun sqi0de_make (ent1: s0taq, ent2: i0de): sqi0de
+
+fun fprint_sqi0de (out: FILEref, x: sqi0de): void
+
+(* ****** ****** *)
+
+typedef dqi0de = '{
+  dqi0de_loc= location
+, dqi0de_qua= d0ynq, dqi0de_sym= symbol
+} // end of [dqi0de]
+
+fun dqi0de_make (ent1: d0ynq, ent2: i0de): dqi0de
+
+(* ****** ****** *)
+
 datatype p0rec =
   | P0RECint of int
   | P0RECi0de of i0de
@@ -175,7 +233,16 @@ fun fprint_e0xp (out: FILEref, x: e0xp): void
 
 datatype
 s0exp_node =
-  | S0Eint of int
+  | S0Eapp of (s0exp, s0exp)
+  | S0Echar of char
+  | S0Eextype of (string(*name*), s0explst(*arg*))
+  | S0Ei0nt of i0nt
+  | S0Eopid of symbol
+  | S0Esqid of (s0taq, symbol)
+  | S0Elist of s0explst
+  | S0Elist2 of (s0explst (*prop/view*), s0explst (*type/viewtype*))
+  | S0Etytup of (int (*knd*), s0explst)
+  | S0Etytup2 of (int (*knd*), s0explst (*prop/view*), s0explst (*type/viewtype*))
 // end of [s0exp_node]
 
 where
@@ -185,6 +252,31 @@ s0exp = '{
 
 and s0explst = List (s0exp)
 and s0expopt = Option (s0exp)
+
+fun s0exp_app (_1: s0exp, _2: s0exp): s0exp
+fun s0exp_extype (_1: token, _2: token, xs: List s0exp): s0exp
+
+fun s0exp_char (_: token): s0exp
+fun s0exp_i0nt (_: i0nt): s0exp
+
+fun s0exp_opid (_1: token, _2: i0de): s0exp
+fun s0exp_sqid (_: sqi0de): s0exp
+
+fun s0exp_list (
+  t_beg: token, ent2: s0explst, t_end: token
+) : s0exp // end of [s0exp_list]
+fun s0exp_list2 (
+  t_beg: token, ent2: s0explst, ent3: s0explst, t_end: token
+) : s0exp // end of [s0exp_list2]
+
+fun s0exp_tytup (
+  knd: int, t_beg: token, ent2: s0explst, t_end: token
+) : s0exp // end of [s0exp_tytup]
+fun s0exp_tytup2 (
+  knd: int, t_beg: token, ent2: s0explst, ent3: s0explst, t_end: token
+) : s0exp // end of [s0exp_tytup2]
+
+fun fprint_s0exp (out: FILEref, x: s0exp): void
 
 (* ****** ****** *)
 

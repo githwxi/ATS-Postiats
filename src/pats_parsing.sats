@@ -61,14 +61,31 @@ parerr_node =
   | PE_RPAREN
   | PE_EOF
 //
+  | PE_i0nt
+  | PE_s0tring
+//
   | PE_i0de
   | PE_i0de_dlr
-  | PE_i0nt
-  | PE_i0nt_but_i0ntsp
-  | PE_i0ntsp
+//
+  | PE_si0de
+  | PE_di0de
+//
+(*
+// HX: such errors are not reported
+  | PE_s0taq
+  | PE_d0ynq
+  | PE_sqi0de
+  | PE_dqi0de
+*)
+//
   | PE_p0rec
+//
   | PE_atme0xp
   | PE_e0xp
+//
+  | PE_atms0exp
+  | PE_s0exp
+//
   | PE_d0ecl
 // end of [parerr_node]
 
@@ -182,18 +199,37 @@ fun p_EOF : parser (token)
 
 (* ****** ****** *)
 
+fun p_i0nt : parser (i0nt) // integers: dec, oct, hex, etc.
+fun p_s0tring : parser (token) // strings
+
+(* ****** ****** *)
+
+fun p_i0de : parser (i0de) // identifier
+fun p_i0de_dlr : parser (i0de) // $identifier
+fun p_si0de : parser (i0de) // static identifier
+fun p_di0de : parser (i0de) // dynamic identifier
+
+(* ****** ****** *)
+
+fun p_s0taq : parser (s0taq) // static qualifier
+fun p_d0ynq : parser (d0ynq) // dynamic qualifier
+fun p_sqi0de : parser (sqi0de) // static qualified identifier
+fun p_dqi0de : parser (sqi0de) // dynamic qualified identifier
+
+(* ****** ****** *)
+
+fun p_i0deseq1 : parser (i0delst)
+
+(* ****** ****** *)
+
 fun p_p0rec : parser (p0rec)
 
 (* ****** ****** *)
 
-fun p_i0de : parser (i0de)
-fun p_i0de_dlr : parser (i0de)
-
-fun p_i0deseq1 : parser (i0delst)
-
-fun p_i0nt : parser (i0nt)
-
 fun p_e0xp : parser (e0xp)
+
+(* ****** ****** *)
+
 fun p_s0exp : parser (s0exp)
 
 (* ****** ****** *)

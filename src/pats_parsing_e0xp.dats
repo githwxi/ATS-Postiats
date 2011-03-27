@@ -105,6 +105,7 @@ case+ tok.token_node of
   end
 //
 | T_LPAREN () => let
+    val bt = 0
     val () = incby1 ()
     val ent2 = p_e0xpseq (buf, bt, err)
     val ent2 = list_of_list_vt (ent2)
@@ -113,6 +114,7 @@ case+ tok.token_node of
     if err = 0 then e0xp_list (tok, ent2, ent3) else synent_null ()
   end // end of [T_LPAREN]
 | T_PERCENTLPAREN () => let
+    val bt = 0
     val () = incby1 ()
     val ent2 = p_e0xp (buf, bt, err)
     val ent3 = p_RPAREN (buf, bt, err)

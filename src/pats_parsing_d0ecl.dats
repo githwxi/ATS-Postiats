@@ -54,6 +54,12 @@ d0ecl
   | PREFIX p0rec i0deseq
   | POSTFIX p0rec i0deseq
   | NONFIX i0deseq
+  | SYMINTR i0deseq
+  | SRPUNDEF i0de
+  | SRPDEFINE i0de e0xpopt
+  | SRPASSERT e0xp
+  | SRPERROR e0xp
+  | SRPPRINT e0xp
 *)
 
 fun
@@ -66,8 +72,8 @@ in
 //
 case+ tok.token_node of
 | T_FIXITY _ => let
+    val bt = 0
     val () = incby1 ()
-    val bt = 0 // there is no backtracking
     val ent2 = p_p0rec (buf, bt, err)
     val ent3 = p_i0deseq1 (buf, bt, err)
   in
@@ -76,8 +82,8 @@ case+ tok.token_node of
     ) else synent_null ()
   end
 | T_NONFIX () => let
+    val bt = 0
     val () = incby1 ()
-    val bt = 0 // there is no backtracking
     val ent2 = p_i0deseq1 (buf, bt, err)
   in
     if err = 0 then
@@ -85,8 +91,8 @@ case+ tok.token_node of
     // end of [if]
   end
 | T_SYMINTR () => let
+    val bt = 0
     val () = incby1 ()
-    val bt = 0 // there is no backtracking
     val ent2 = p_i0deseq1 (buf, bt, err)
   in
     if err = 0 then
@@ -94,8 +100,8 @@ case+ tok.token_node of
     // end of [if]
   end
 | T_SRPDEFINE () => let
+    val bt = 0
     val () = incby1 ()
-    val bt = 0 // there is no backtracking
     val ent2 = p_i0de (buf, bt, err)
     val ent3 = popt_fun {e0xp} (buf, bt, p_e0xp)
   in
@@ -108,8 +114,8 @@ case+ tok.token_node of
     end (* end of [if] *)
   end
 | T_SRPASSERT () => let
+    val bt = 0
     val () = incby1 ()
-    val bt = 0 // there is no backtracking
     val ent2 = p_e0xp (buf, bt, err)
   in
     if err = 0 then
@@ -117,8 +123,8 @@ case+ tok.token_node of
     // end of [if]
   end
 | T_SRPERROR () => let
+    val bt = 0
     val () = incby1 ()
-    val bt = 0 // there is no backtracking
     val ent2 = p_e0xp (buf, bt, err)
   in
     if err = 0 then
@@ -126,8 +132,8 @@ case+ tok.token_node of
     // end of [if]
   end
 | T_SRPPRINT () => let
+    val bt = 0
     val () = incby1 ()
-    val bt = 0 // there is no backtracking
     val ent2 = p_e0xp (buf, bt, err)
   in
     if err = 0 then

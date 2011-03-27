@@ -105,6 +105,44 @@ implement
 print_dcstkind (x) = fprint_dcstkind (stdout_ref, x)
 
 (* ****** ****** *)
+
+implement
+s0taq_none (loc) = '{
+  s0taq_loc= loc, s0taq_node= S0TAQnone ()
+} // end of [s0taq_none]
+
+implement
+s0taq_symdot (ent1, tok2) = let
+  val loc = ent1.i0de_loc + tok2.token_loc
+in '{
+  s0taq_loc= loc, s0taq_node= S0TAQsymdot (ent1.i0de_sym)
+} end // end of [s0taq_symdot]
+
+implement
+s0taq_symcolon (ent1, tok2) = let
+  val loc = ent1.i0de_loc + tok2.token_loc
+in '{
+  s0taq_loc= loc, s0taq_node= S0TAQsymcolon (ent1.i0de_sym)
+} end // end of [s0taq_symcolon]
+
+(* ****** ****** *)
+
+implement
+sqi0de_make (ent1, ent2) =
+if synent_isnot_null (ent1) then let
+  val loc = ent1.s0taq_loc + ent2.i0de_loc
+in '{
+  sqi0de_loc= loc
+, sqi0de_qua= ent1, sqi0de_sym= ent2.i0de_sym
+} end else let
+  val loc = ent2.i0de_loc
+  val qua = s0taq_none (loc)
+in '{
+  sqi0de_loc= loc
+, sqi0de_qua= qua, sqi0de_sym= ent2.i0de_sym
+} end // end of [sqi0de_make]
+
+(* ****** ****** *)
 //
 // HX: omitted precedence is assumed to equal 0
 //
@@ -178,6 +216,101 @@ e0xp_string (tok) = let
 in '{
   e0xp_loc= tok.token_loc, e0xp_node= E0XPstring (s, (sz2i)n)
 } end // end of [e0xp_float]
+
+(* ****** ****** *)
+
+implement
+s0exp_app (x1, x2) = let
+  val loc = x1.s0exp_loc + x2.s0exp_loc
+in '{
+  s0exp_loc= loc, s0exp_node= S0Eapp (x1, x2)
+} end // end of [s0exp_app]
+
+local
+//
+fun loop {n:nat} .<n>. (
+  tok: token, x: s0exp, xs: list (s0exp, n)
+) : location =
+  case+ xs of
+  | list_cons (x, xs) => loop (tok, x, xs)
+  | list_nil () => tok.token_loc + x.s0exp_loc
+// end of [loop]
+//
+in // in of [local]
+//
+implement
+s0exp_extype
+  (tok1, tok2, xs) = let
+  val- T_STRING (str) = tok2.token_node
+  val loc = (case+ xs of
+    | list_nil () => tok1.token_loc + tok2.token_loc
+    | list_cons (x, xs) => loop (tok1, x, xs)
+  ) : location // end of [val]
+in '{
+  s0exp_loc= loc, s0exp_node= S0Eextype (str, xs)
+} end // end of [s0exp_extype]
+//
+end // end of [local]
+
+implement
+s0exp_char (tok) = let
+  val- T_CHAR (c) = tok.token_node
+in '{
+  s0exp_loc= tok.token_loc, s0exp_node= S0Echar (c)
+} end // end of [s0exp_char]
+
+implement
+s0exp_i0nt (x) = let
+in '{
+  s0exp_loc= x.i0nt_loc, s0exp_node= S0Ei0nt (x)
+} end // end of [s0exp_i0nt]
+
+implement
+s0exp_sqid (x) = let
+in '{
+  s0exp_loc= x.sqi0de_loc
+, s0exp_node= S0Esqid (x.sqi0de_qua, x.sqi0de_sym)
+} end // end of [s0exp_qid]
+
+implement
+s0exp_opid (x1, x2) = let
+  val loc = x1.token_loc + x2.i0de_loc
+in '{
+  s0exp_loc= loc
+, s0exp_node= S0Eopid (x2.i0de_sym)
+} end // end of [s0exp_opid]
+
+implement
+s0exp_list (t_beg, xs, t_end) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  s0exp_loc= loc, s0exp_node= S0Elist (xs)
+} end // end of [s0exp_list]
+
+implement
+s0exp_list2 (t_beg, xs1, xs2, t_end) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  s0exp_loc= loc, s0exp_node= S0Elist2 (xs1, xs2)
+} end // end of [s0exp_list2]
+
+implement
+s0exp_tytup (
+  knd, t_beg, xs, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  s0exp_loc= loc, s0exp_node= S0Etytup (knd, xs)
+} end // end of [s0exp_tytup]
+
+implement
+s0exp_tytup2 (
+  knd, t_beg, xs1, xs2, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  s0exp_loc= loc, s0exp_node= S0Etytup2 (knd, xs1, xs2)
+} end // end of [s0exp_tytup2]
 
 (* ****** ****** *)
 

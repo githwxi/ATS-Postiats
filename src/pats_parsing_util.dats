@@ -202,7 +202,7 @@ implement
 pstar_fun0_sep
   (buf, bt, f, sep) = let
   var err: int = 0
-  val x0 = f (buf, bt, err)
+  val x0 = f (buf, 1(*bt*), err)
 in
 //
 case+ 0 of

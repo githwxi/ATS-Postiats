@@ -29,70 +29,41 @@
 
 (* ****** ****** *)
 
-abstype symbol_type // boxed
+abstype symbol_type
 typedef symbol = symbol_type
 
 (* ****** ****** *)
 
-val symbol_empty : symbol
+staload SYM = "pats_symbol.sats"
+typedef symbol = $SYM.symbol
 
 (* ****** ****** *)
 
-val symbol_ADD : symbol // +
-val symbol_SUB : symbol // -
-val symbol_MUL : symbol // *
-val symbol_DIV : symbol // /
-
-val symbol_AMPERSAND : symbol // &
-val symbol_AT : symbol // @
-val symbol_BACKSLASH : symbol // \
-val symbol_BANG : symbol // !
-val symbol_COLONEQ : symbol // :=
-val symbol_EQ : symbol // =
-val symbol_EQEQ : symbol // ==
-val symbol_FUN: symbol // fun
-val symbol_GT : symbol // >
-val symbol_GTEQ : symbol // >=
-val symbol_GTGT : symbol // >>
-val symbol_GTLT : symbol // ><
-val symbol_LAND : symbol // &&
-val symbol_LOR : symbol // ||
-val symbol_LRBRACKETS : symbol // []
-val symbol_LT : symbol // <
-val symbol_LTEQ : symbol // <=
-val symbol_LTLT : symbol // <<
-val symbol_MINUSGT : symbol // ->
-val symbol_MINUSLTGT : symbol // -<>
-val symbol_NEQ : symbol // <>
-val symbol_NEQEQ : symbol // =/=
-val symbol_QMARK : symbol // ?
-val symbol_QMARKBANG : symbol // ?!
-val symbol_TILDE : symbol // ~
-val symbol_UNDERSCORE : symbol // _
+abstype label_type // boxed
+typedef label = label_type
 
 (* ****** ****** *)
 
-fun eq_symbol_symbol (x1: symbol, x2: symbol):<> bool
-overload = with eq_symbol_symbol
-fun neq_symbol_symbol (x1: symbol, x2: symbol):<> bool
-overload != with eq_symbol_symbol
+fun label_make_int (i: int): label
+fun label_make_sym (sym: symbol): label
 
-fun compare_symbol_symbol (x1: symbol, x2: symbol):<> Sgn
-overload compare with compare_symbol_symbol
+fun label_make_string (str: string): label
 
 (* ****** ****** *)
 
-fun fprint_symbol
-  (out: FILEref, x: symbol): void
-overload fprint with fprint_symbol
-fun print_symbol (x: symbol): void
-overload print with print_symbol
+fun compare_label_label (l1: label, l2: label):<> Sgn
+overload compare with compare_label_label
 
 (* ****** ****** *)
 
-fun symbol_get_name (x: symbol):<> string
-fun symbol_make_string (name: string): symbol
+fun fprint_label (out: FILEref, x: label): void
+overload fprint with fprint_label
+
+fun print_label (l: label): void
+fun prerr_label (l: label): void
+overload print with print_label
+overload prerr with prerr_label
 
 (* ****** ****** *)
 
-(* end of [pats_symbol.sats] *)
+(* end of [pats_label.sats] *)
