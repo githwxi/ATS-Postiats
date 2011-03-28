@@ -146,23 +146,23 @@ implement
 DLRLDELAY = T_DLRDELAY (VIEWTYPE_int)
 
 implement
-DLRLST = T_DLRLST (TYPE_int)
+DLRLST = T_DLRLST (~1) // unspecified
 implement
-DLRLST_T = DLRLST
+DLRLST_T = T_DLRLST (TYPE_int)
 implement
 DLRLST_VT = T_DLRLST (VIEWTYPE_int)
 
 implement
-DLRREC = T_DLRREC (TYPE_int)
+DLRREC = T_DLRREC (~1) // unspecified
 implement
-DLRREC_T = DLRREC
+DLRREC_T = T_DLRREC (TYPE_int)
 implement
 DLRREC_VT = T_DLRREC (VIEWTYPE_int)
 
 implement
-DLRTUP = T_DLRTUP (TYPE_int)
+DLRTUP = T_DLRTUP (~1) // unspecified
 implement
-DLRTUP_T = DLRTUP
+DLRTUP_T = T_DLRTUP (TYPE_int)
 implement
 DLRTUP_VT = T_DLRTUP (VIEWTYPE_int)
 

@@ -57,11 +57,32 @@ staload "pats_parsing.sats"
 (* ****** ****** *)
 
 implement
+is_AND (x) = case+ x of
+  | T_AND () => true | _ => false
+// end of [is_AND]
+implement
+p_AND_test (buf) = ptoken_test_fun (buf, is_AND)
+
+implement
+is_OF (x) = case+ x of
+  | T_OF () => true | _ => false
+// end of [is_OF]
+
+(* ****** ****** *)
+
+implement
 is_BAR (x) = case+ x of
   | T_BAR () => true | _ => false
 // end of [is_BAR]
 implement
 p_BAR_test (buf) = ptoken_test_fun (buf, is_BAR)
+
+implement
+is_COLON (x) = case+ x of
+  | T_COLON () => true | _ => false
+// end of [is_COLON]
+implement
+p_COLON_test (buf) = ptoken_test_fun (buf, is_COLON)
 
 implement
 is_COMMA (x) = case+ x of
@@ -77,7 +98,19 @@ is_SEMICOLON (x) = case+ x of
 implement
 p_SEMICOLON_test (buf) = ptoken_test_fun (buf, is_SEMICOLON)
 
+implement
+is_BARSEMI (x) = case+ x of
+  | T_BAR () => true | T_SEMICOLON () => true | _ => false
+// end of [is_BARSEMI]
+implement
+p_BARSEMI_test (buf) = ptoken_test_fun (buf, is_BARSEMI)
+
 (* ****** ****** *)
+
+implement
+is_LPAREN (x) = case+ x of
+  | T_LPAREN () => true | _ => false
+// end of [is_LPAREN]
 
 implement
 is_RPAREN (x) = case+ x of
@@ -85,9 +118,26 @@ is_RPAREN (x) = case+ x of
 // end of [is_RPAREN]
 
 implement
+is_LBRACKET (x) = case+ x of
+  | T_LBRACKET () => true | _ => false
+// end of [is_LBRACKET]
+
+implement
+is_RBRACKET (x) = case+ x of
+  | T_RBRACKET () => true | _ => false
+// end of [is_RBRACKET]
+
+implement
+is_LBRACE (x) = case+ x of
+  | T_LBRACE () => true | _ => false
+// end of [is_LBRACE]
+
+implement
 is_RBRACE (x) = case+ x of
   | T_RBRACE () => true | _ => false
 // end of [is_RBRACE]
+
+(* ****** ****** *)
 
 implement
 is_EQ (x) = case+ x of
@@ -103,15 +153,6 @@ implement
 is_EOF (x) = case+ x of
   | T_EOF () => true | _ => false
 // end of [is_EOF]
-
-(* ****** ****** *)
-
-implement
-is_AND (x) = case+ x of
-  | T_AND () => true | _ => false
-// end of [is_AND]
-implement
-p_AND_test (buf) = ptoken_test_fun (buf, is_AND)
 
 (* ****** ****** *)
 
@@ -197,7 +238,7 @@ pstar_sep_fun{a}
     val n0 = tokbuf_get_ntok (buf)
   in
     if sep (buf) then let
-      val x = f (buf, 1(*bt*), err)
+      val x = f (buf, 0(*bt*), err)
     in
       case+ 0 of
       | _ when
@@ -228,6 +269,12 @@ in
   res (* properly ordered *)
 end // end of [pstar_sep_fun]
 
+implement
+pstar_COMMA_fun
+  (buf, bt, f) =
+  pstar_sep_fun (buf, bt, p_COMMA_test, f)
+// end of [pstar_COMMA_fun]
+
 (* ****** ****** *)
 
 implement
@@ -241,12 +288,20 @@ case+ 0 of
 | _ when
     synent_is_null (x0) => list_vt_nil ()
 | _ => let
-    val xs = pstar_sep_fun (buf, bt, sep, f)
+    val xs = pstar_sep_fun (buf, 1(*bt*), sep, f)
   in
     list_vt_cons (x0, xs)
   end // end of [_]
 //
 end // end of [pstar_fun0_sep]
+
+(* ****** ****** *)
+
+implement
+pstar_fun0_AND
+  (buf, bt, f) =
+  pstar_fun0_sep (buf, bt, f, p_AND_test)
+// end of [pstar_fun0_AND]
 
 implement
 pstar_fun0_BAR
@@ -267,10 +322,32 @@ pstar_fun0_SEMICOLON
 // end of [pstar_fun0_SEMICOLON]
 
 implement
-pstar_fun0_AND
+pstar_fun0_BARSEMI
   (buf, bt, f) =
-  pstar_fun0_sep (buf, bt, f, p_AND_test)
-// end of [pstar_fun0_AND]
+  pstar_fun0_sep (buf, bt, f, p_BARSEMI_test)
+// end of [pstar_fun0_BARSEMI]
+
+(* ****** ****** *)
+
+implement
+pstar_fun1_sep (
+  buf, bt, err, f, sep
+) = let
+  val x0 = f (buf, bt, err)
+in
+//
+case+ 0 of
+| _ when
+    synent_is_null (x0) => let
+    val () = err := err + 1 in list_vt_nil ()
+  end
+| _ => let
+    val xs = pstar_sep_fun (buf, 1(*bt*), sep, f)
+  in
+    list_vt_cons (x0, xs)
+  end // end of [_]
+//
+end // end of [pstar_fun1_sep]
 
 (* ****** ****** *)
 
@@ -280,8 +357,10 @@ pplus_fun {a}
   val x = f (buf, bt, err)
 in
   if synent_isnot_null (x) then let
-    val xs = pstar_fun (buf, bt, f) in list_vt_cons (x, xs)
-  end else list_vt_nil ()
+    val xs = pstar_fun (buf, 1(*bt*), f) in list_vt_cons (x, xs)
+  end else let
+    val () = err := err + 1 in list_vt_nil ()
+  end (* end of [if] *)
 end // end of [pplus_fun]
 
 (* ****** ****** *)
@@ -290,11 +369,9 @@ implement
 popt_fun {a}
   (buf, bt, f) = let
   var err: int = 0
-  val res = f (buf, 1(*bt*), err)
+  val x = f (buf, 1(*bt*), err)
 in
-  if synent_isnot_null (res)
-    then Some_vt (res) else None_vt ()
-  // end of [if]
+  if err = 0 then Some_vt (x) else None_vt ()
 end // end of [popt_fun]
 
 (* ****** ****** *)
@@ -305,7 +382,7 @@ ptest_fun {a}
   var err: int = 0
   val () = ent := synent_encode (f (buf, 1(*bt*), err))
 in
-  synent_isnot_null (ent)
+  err = 0
 end // end of [ptest_fun]
 
 (* ****** ****** *)
@@ -341,12 +418,12 @@ end // end of [plist12_fun]
 implement
 ptokwrap_fun (
   buf, bt, err, f, enode
-) = res where {
+) = x where {
   val n0 = tokbuf_get_ntok (buf)
   val tok = tokbuf_get_token (buf)
-  val res = f (buf, bt, err, tok)
+  val x = f (buf, bt, err, tok)
   val () = if
-    synent_is_null (res) then let
+    synent_is_null (x) then let
     val () = err := err + 1
     val () = tokbuf_set_ntok (buf, n0)
   in

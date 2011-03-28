@@ -129,9 +129,26 @@ fprint_parerr
 in
 //
 case+ x.parerr_node of
+//
+| PE_AND () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [AND] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_OF () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [OF] is needed", @())
+    val () = fprint_newline (out)
+  }
+//
 | PE_BAR () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [BAR] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_COLON () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [COLON] is needed", @())
     val () = fprint_newline (out)
   }
 | PE_COMMA () => {
@@ -144,9 +161,30 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [SEMICOLON] is needed", @())
     val () = fprint_newline (out)
   }
+//
+| PE_LPAREN () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [LPAREN] is needed", @())
+    val () = fprint_newline (out)
+  }
 | PE_RPAREN () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [RPAREN] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_LBRACKET () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [LBRACKET] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_RBRACKET () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [RBRACKET] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_LBRACE () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [LBRACE] is needed", @())
     val () = fprint_newline (out)
   }
 | PE_RBRACE () => {
@@ -154,6 +192,7 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [RBRACE] is needed", @())
     val () = fprint_newline (out)
   }
+//
 | PE_EQ () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [EQ] is needed", @())
@@ -167,12 +206,6 @@ case+ x.parerr_node of
 | PE_EOF () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [EOF] is needed", @())
-    val () = fprint_newline (out)
-  }
-//
-| PE_AND () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [AND] is needed", @())
     val () = fprint_newline (out)
   }
 //
@@ -244,6 +277,11 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [si0de] is needed", @())
     val () = fprint_newline (out)
   }
+| PE_sqi0de () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [sqi0de] is needed", @())
+    val () = fprint_newline (out)
+  }
 | PE_s0exp () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [s0exp] is needed", @())
@@ -273,6 +311,11 @@ case+ x.parerr_node of
 | PE_di0de () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [di0de] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_dqi0de () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [dqi0de] is needed", @())
     val () = fprint_newline (out)
   }
 //

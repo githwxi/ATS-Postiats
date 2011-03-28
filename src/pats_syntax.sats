@@ -163,7 +163,8 @@ typedef sqi0de = '{
 , sqi0de_qua= s0taq, sqi0de_sym= symbol
 } // end of [sqi0de]
 
-fun sqi0de_make (ent1: s0taq, ent2: i0de): sqi0de
+fun sqi0de_make_none (ent: i0de): sqi0de
+fun sqi0de_make_some (ent1: s0taq, ent2: i0de): sqi0de
 
 fun fprint_sqi0de (out: FILEref, x: sqi0de): void
 
@@ -286,6 +287,7 @@ where s0rt: type = '{
 
 and s0rtlst: type = List s0rt
 and s0rtopt: type = Option s0rt
+and s0rtopt_vt: viewtype = Option_vt s0rt
 
 (* sorts with polarity *)
 typedef s0rtpol = '{
@@ -340,6 +342,8 @@ fun d0atsrtdec_make
   (id: i0de, t_eq: token, xs: d0atsrtconlst): d0atsrtdec
 // end of [d0atsrtdec_make]
 
+fun fprint_d0atsrtdec (out: FILEref, x: d0atsrtdec): void
+
 (* ****** ****** *)
 
 datatype
@@ -358,10 +362,12 @@ s0exp_node =
   | S0Elist of s0explst
   | S0Elist2 of (s0explst (*prop/view*), s0explst (*type/viewtype*))
 //
-  | S0Etyrec of (int (*knd*), labs0explst)
-  | S0Etyrec2 of (int (*knd*), labs0explst (*prop/view*), labs0explst (*type/viewtype*))
-  | S0Etytup of (int (*knd*), s0explst)
-  | S0Etytup2 of (int (*knd*), s0explst (*prop/view*), s0explst (*type/viewtype*))
+  | S0Etytup of (int (*knd*), int (*npf*), s0explst)
+  | S0Etyrec of (int (*knd*), int (*npf*), labs0explst)
+  | S0Etyrec_ext of (string(*name*), int (*npf*), labs0explst)
+//
+  | S0Euni of s0qualst // universal quantifiers
+  | S0Eexi of (int(*funres*), s0qualst) // existential quantifiers
 // end of [s0exp_node]
 
 and s0rtext_node =
@@ -394,6 +400,16 @@ and s0qualst = List s0qua
 
 (* ****** ****** *)
 
+fun s0rtext_srt (_: s0rt): s0rtext
+fun s0rtext_sub (
+  t_beg: token, id: i0de, _: s0rtext, _fst: s0exp, _rst: s0explst, t_end: token
+) : s0rtext // end of [s0rtext_sub]
+
+fun s0qua_prop (_: s0exp): s0qua
+fun s0qua_vars (_fst: i0de, _rst: i0delst, _: s0rtext): s0qua
+
+(* ****** ****** *)
+
 fun s0exp_ann (_1: s0exp, _2: s0rt): s0exp
 fun s0exp_app (_1: s0exp, _2: s0exp): s0exp
 fun s0exp_extype (_1: token, _2: token, xs: List s0exp): s0exp
@@ -413,25 +429,61 @@ fun s0exp_list2 (
   t_beg: token, ent2: s0explst, ent3: s0explst, t_end: token
 ) : s0exp // end of [s0exp_list2]
 
-fun s0exp_tyrec (
-  knd: int, t_beg: token, ent2: labs0explst, t_end: token
-) : s0exp // end of [s0exp_tyrec]
-fun s0exp_tyrec2 (
-  knd: int, t_beg: token, ent2: labs0explst, ent3: labs0explst, t_end: token
-) : s0exp // end of [s0exp_tyrec2]
-
 fun s0exp_tytup (
-  knd: int, t_beg: token, ent2: s0explst, t_end: token
+  knd: int, npf: int, t_beg: token, ent2: s0explst, t_end: token
 ) : s0exp // end of [s0exp_tytup]
-fun s0exp_tytup2 (
-  knd: int, t_beg: token, ent2: s0explst, ent3: s0explst, t_end: token
-) : s0exp // end of [s0exp_tytup2]
+
+fun s0exp_tyrec (
+  knd: int, npf: int, t_beg: token, ent2: labs0explst, t_end: token
+) : s0exp // end of [s0exp_tyrec]
+
+fun s0exp_tyrec_ext (
+  name: string, npf: int, t_beg: token, ent2: labs0explst, t_end: token
+) : s0exp // end of [s0exp_tyrec_ext]
+
+fun s0exp_uni (
+  t_beg: token, xs: s0qualst, t_end: token
+) : s0exp // end of [s0exp_uni]
+
+fun s0exp_exi (
+  funres: int, t_beg: token, xs: s0qualst, t_end: token
+) : s0exp // end of [s0exp_uni]
 
 fun fprint_s0exp (out: FILEref, x: s0exp): void
 
 (* ****** ****** *)
 
 fun labs0exp_make (ent1: l0ab, ent2: s0exp): labs0exp
+
+(* ****** ****** *)
+
+typedef
+s0rtdef = '{
+  s0rtdef_loc= location
+, s0rtdef_sym= symbol
+, s0rtdef_def= s0rtext
+} // end of [s0rtdef]
+
+typedef s0rtdeflst = List s0rtdef
+
+fun s0rtdef_make (id: i0de, s0te: s0rtext): s0rtdef
+
+(* ****** ****** *)
+
+typedef
+s0expdef = '{
+  s0expdef_loc= location
+, s0expdef_sym= symbol
+, s0expdef_loc_id= location
+, s0expdef_arg= s0arglstlst
+, s0expdef_res= s0rtopt
+, s0expdef_def= s0exp
+} // end of [s0expdef]
+typedef s0expdeflst = List s0expdef
+
+fun s0expdef_make
+  (id: i0de, arg: s0arglstlst, res: s0rtopt, def: s0exp): s0expdef
+// end of [s0expdef_make]
 
 (* ****** ****** *)
 
@@ -443,6 +495,8 @@ d0ecl_node =
   | D0Ce0xpdef of (symbol, e0xpopt)
   | D0Ce0xpact of (e0xpactkind, e0xp)
   | D0Cdatsrts of d0atsrtdeclst (* datasort declaration *)
+  | D0Csrtdefs of s0rtdeflst (* sort definition *)
+  | D0Csexpdefs of (int(*knd*), s0expdeflst) (* staexp definition *)
 // end of [d0ecl_node]
 
 where
@@ -466,6 +520,8 @@ fun d0ecl_e0xpact_error (_1: token, _2: e0xp): d0ecl
 fun d0ecl_e0xpact_print (_1: token, _2: e0xp): d0ecl
 
 fun d0ecl_datsrts (_1: token, _2: d0atsrtdeclst): d0ecl
+fun d0ecl_srtdefs (_1: token, _2: s0rtdeflst): d0ecl
+fun d0ecl_sexpdefs (knd: int, _1: token, _2: s0expdeflst): d0ecl
 
 (* ****** ****** *)
 

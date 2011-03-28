@@ -44,8 +44,18 @@ staload "pats_syntax.sats"
 
 (* ****** ****** *)
 
+fun is_AND (x: tnode): bool
+fun p_AND_test (buf: &tokbuf): bool
+
+fun is_OF (x: tnode): bool
+
+(* ****** ****** *)
+
 fun is_BAR (x: tnode): bool
 fun p_BAR_test (buf: &tokbuf): bool
+
+fun is_COLON (x: tnode): bool
+fun p_COLON_test (buf: &tokbuf): bool
 
 fun is_COMMA (x: tnode): bool
 fun p_COMMA_test (buf: &tokbuf): bool
@@ -53,8 +63,21 @@ fun p_COMMA_test (buf: &tokbuf): bool
 fun is_SEMICOLON (x: tnode): bool
 fun p_SEMICOLON_test (buf: &tokbuf): bool
 
+fun is_BARSEMI (x: tnode): bool
+fun p_BARSEMI_test (buf: &tokbuf): bool
+
+(* ****** ****** *)
+
+fun is_LPAREN (x: tnode): bool
 fun is_RPAREN (x: tnode): bool
+
+fun is_LBRACKET (x: tnode): bool
+fun is_RBRACKET (x: tnode): bool
+
+fun is_LBRACE (x: tnode): bool
 fun is_RBRACE (x: tnode): bool
+
+(* ****** ****** *)
 
 fun is_EQ (x: tnode): bool
 
@@ -64,24 +87,27 @@ fun is_EOF (x: tnode): bool
 
 (* ****** ****** *)
 
-fun is_AND (x: tnode): bool
-fun p_AND_test (buf: &tokbuf): bool
-
-(* ****** ****** *)
-
 datatype
 parerr_node =
 //
+  | PE_AND
+  | PE_OF
+//
   | PE_BAR
+  | PE_COLON
   | PE_COMMA
   | PE_SEMICOLON
+//
+  | PE_LPAREN
   | PE_RPAREN
+  | PE_LBRACKET
+  | PE_RBRACKET
+  | PE_LBRACE
   | PE_RBRACE
+//
   | PE_EQ
   | PE_EQGT
   | PE_EOF
-//
-  | PE_AND
 //
   | PE_i0nt
   | PE_s0tring
@@ -98,9 +124,9 @@ parerr_node =
   | PE_s0rtq
   | PE_s0taq
   | PE_d0ynq
+*)
   | PE_sqi0de
   | PE_dqi0de
-*)
 //
   | PE_l0ab
 //
@@ -173,12 +199,22 @@ fun pstar_sep_fun
   buf: &tokbuf, bt: int, sep: (&tokbuf) -> bool, f: parser (a)
 ) : List_vt (a) // end of [pstar_sep_fun]
 
+fun pstar_COMMA_fun
+  {a:type} (
+  buf: &tokbuf, bt: int, f: parser (a)
+) : List_vt (a) // end of [pstar_COMMA_fun]
+
 (* ****** ****** *)
 
 fun pstar_fun0_sep
   {a:type} (
   buf: &tokbuf, bt: int, f: parser (a), sep: (&tokbuf) -> bool
-) : List_vt (a) // end of [pstar_fun0_COMMA]
+) : List_vt (a) // end of [pstar_fun0_sep]
+
+fun pstar_fun0_AND
+  {a:type} (
+  buf: &tokbuf, bt: int, f: parser (a)
+) : List_vt (a) // end of [pstar_fun0_AND]
 
 fun pstar_fun0_BAR
   {a:type} (
@@ -195,10 +231,17 @@ fun pstar_fun0_SEMICOLON
   buf: &tokbuf, bt: int, f: parser (a)
 ) : List_vt (a) // end of [pstar_fun0_SEMICOLON]
 
-fun pstar_fun0_AND
+fun pstar_fun0_BARSEMI
   {a:type} (
   buf: &tokbuf, bt: int, f: parser (a)
-) : List_vt (a) // end of [pstar_fun0_BAR]
+) : List_vt (a) // end of [pstar_fun0_BARSEMI]
+
+(* ****** ****** *)
+
+fun pstar_fun1_sep
+  {a:type} (
+  buf: &tokbuf, bt: int, err: &int, f: parser (a), sep: (&tokbuf) -> bool
+) : List_vt (a) // end of [pstar_fun1_sep]
 
 (* ****** ****** *)
 
@@ -246,12 +289,27 @@ fun ptokwrap_fun
 
 (* ****** ****** *)
 
+fun p_AND : parser (token)
+fun p_OF : parser (token)
+
+(* ****** ****** *)
+
 fun p_BAR : parser (token)
+fun p_COLON : parser (token)
 fun p_COMMA : parser (token)
 fun p_SEMICOLON : parser (token)
+
+fun p_LPAREN : parser (token)
 fun p_RPAREN : parser (token)
+
+fun p_LBRACKET : parser (token)
+fun p_RBRACKET : parser (token)
+
+fun p_LBRACE : parser (token)
 fun p_RBRACE : parser (token)
+
 fun p_EQ : parser (token)
+
 fun p_EQGT : parser (token)
 
 fun p_EOF : parser (token)
@@ -288,11 +346,11 @@ fun p_s0rtq : parser (s0rtq) // sort qualifier
 fun p_s0rtid : parser (i0de) // sort identifier
 fun p_s0rt : parser (s0rt)
 fun p_ofs0rtopt : parser (s0rt) // OF s0rt
-fun p_colons0rtopt : parser (s0rt) // COLON s0rt
+fun p_colons0rtopt : parser (s0rtopt) // COLON s0rt
 fun p_s0arg : parser (s0arg) // static argument
 fun p_s0argseq : parser (s0arglst) // static (multi-)argument
 fun p_s0argseqseq : parser (s0arglstlst) // static argument list
-fun p_d0atsrtdecseq : parser (d0atsrtdeclst)
+fun p_d0atsrtconseq : parser (d0atsrtconlst)
 
 (* ****** ****** *)
 
@@ -313,6 +371,9 @@ fun p_dqi0de : parser (sqi0de) // dynamic qualified identifier
 
 fun p_d0ecl : parser (d0ecl)
 fun p_d0eclist : parser (d0eclist)
+fun p_d0atsrtdecseq : parser (d0atsrtdeclst)
+fun p_s0rtdefseq : parser (s0rtdeflst)
+fun p_s0expdefseq : parser (s0expdeflst)
 
 (* ****** ****** *)
 

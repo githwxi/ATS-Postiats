@@ -190,7 +190,7 @@ fprint_token
   | T_QUOTELPAREN () => fprintf (out, "QUOTELPAREN()", @())
   | T_ATLBRACKET () => fprintf (out, "ATLBRACKET()", @())
   | T_QUOTELBRACKET () => fprintf (out, "QUOTELBRACKET()", @())
-  | T_HASHBRACKET () => fprintf (out, "HASHBRACKET()", @())
+  | T_HASHLBRACKET () => fprintf (out, "HASHLBRACKET()", @())
   | T_ATLBRACE () => fprintf (out, "ATLBRACE()", @())
   | T_QUOTELBRACE () => fprintf (out, "QUOTELBRACE()", @())
 //

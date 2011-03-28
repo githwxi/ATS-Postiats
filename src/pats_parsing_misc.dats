@@ -58,6 +58,10 @@ p_BAR (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_BAR, PE_BAR)
 
 implement
+p_COLON (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_COLON, PE_COLON)
+
+implement
 p_COMMA (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_COMMA, PE_COMMA)
 
@@ -65,13 +69,33 @@ implement
 p_SEMICOLON (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_SEMICOLON, PE_SEMICOLON)
 
+(* ****** ****** *)
+
+implement
+p_LPAREN (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_LPAREN, PE_LPAREN)
+
 implement
 p_RPAREN (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_RPAREN, PE_RPAREN)
 
 implement
+p_LBRACKET (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_LBRACKET, PE_LBRACKET)
+
+implement
+p_RBRACKET (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_RBRACKET, PE_RBRACKET)
+
+implement
+p_LBRACE (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_LBRACE, PE_LBRACE)
+
+implement
 p_RBRACE (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_RBRACE, PE_RBRACE)
+
+(* ****** ****** *)
 
 implement
 p_EQ (buf, bt, err) =
@@ -87,6 +111,11 @@ implement
 p_EOF (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_EOF, PE_EOF)
 // end of [p_EOF]
+
+implement
+p_OF (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_OF, PE_OF)
+// end of [p_OF]
 
 (* ****** ****** *)
 

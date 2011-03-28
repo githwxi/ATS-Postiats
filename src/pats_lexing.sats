@@ -238,7 +238,7 @@ token_node =
   | T_QUOTELPAREN of ()  // '(
   | T_ATLBRACKET of ()  // @[
   | T_QUOTELBRACKET of () // '[
-  | T_HASHBRACKET of () // #[
+  | T_HASHLBRACKET of () // #[
   | T_ATLBRACE of () // @{
   | T_QUOTELBRACE of () // '{
 //

@@ -1129,7 +1129,7 @@ lexing_DOLLAR
   val i = lexbufpos_get_char (buf, pos)
   val c = (i2c)i
 in
-  case+ 0 of
+  case+ c of
   | _ when IDENTFST_test (c) => let
       val () = posincby1 (pos)
       val k = testing_identrstseq0 (buf, pos)
@@ -1153,7 +1153,11 @@ lexing_SHARP
   val i = lexbufpos_get_char (buf, pos)
   val c = (i2c)i
 in
-  case+ 0 of
+  case+ c of
+  | '\[' => let
+      val () = posincby1 (pos) in
+      lexbufpos_token_reset (buf, pos, T_HASHLBRACKET)
+    end // end of ['\(']
   | _ when IDENTFST_test (c) => let
       val () = posincby1 (pos)
       val k = testing_identrstseq0 (buf, pos)

@@ -155,19 +155,22 @@ in '{
 (* ****** ****** *)
 
 implement
-sqi0de_make (ent1, ent2) =
-if synent_isnot_null (ent1) then let
+sqi0de_make_none (ent) = let
+  val loc = ent.i0de_loc
+  val qua = s0taq_none (loc)
+in '{
+  sqi0de_loc= loc
+, sqi0de_qua= qua, sqi0de_sym= ent.i0de_sym
+} end // end of [sqi0de_make_node]
+
+implement
+sqi0de_make_some
+  (ent1, ent2) = let
   val loc = ent1.s0taq_loc + ent2.i0de_loc
 in '{
   sqi0de_loc= loc
 , sqi0de_qua= ent1, sqi0de_sym= ent2.i0de_sym
-} end else let
-  val loc = ent2.i0de_loc
-  val qua = s0taq_none (loc)
-in '{
-  sqi0de_loc= loc
-, sqi0de_qua= qua, sqi0de_sym= ent2.i0de_sym
-} end // end of [sqi0de_make]
+} end // end of [sqi0de_make_some]
 
 (* ****** ****** *)
 
@@ -356,6 +359,34 @@ in '{
 (* ****** ****** *)
 
 implement
+s0rtext_srt (s0t) = '{
+  s0rtext_loc= s0t.s0rt_loc, s0rtext_node= S0TEsrt s0t
+} // end of [s0rtext_srt]
+
+implement
+s0rtext_sub (
+  t_beg, id, s0te, s0e, s0es, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  s0rtext_loc= loc, s0rtext_node= S0TEsub (id, s0te, s0e, s0es)
+} end // end of [s0rtext_sub]
+
+implement
+s0qua_prop (s0e) = '{
+  s0qua_loc= s0e.s0exp_loc, s0qua_node= S0QUAprop s0e
+}
+
+implement
+s0qua_vars (id, ids, s0te) = let
+  val loc = id.i0de_loc + s0te.s0rtext_loc
+in '{
+  s0qua_loc= loc, s0qua_node= S0QUAvars (id, ids, s0te)
+} end // end of [s0qua_vars]
+
+(* ****** ****** *)
+
+implement
 s0exp_ann (x1, x2) = let
   val loc = x1.s0exp_loc + x2.s0rt_loc
 in '{
@@ -446,44 +477,86 @@ in '{
 
 implement
 s0exp_tytup (
-  knd, t_beg, xs, t_end
+  knd, npf, t_beg, xs, t_end
 ) = let
   val loc = t_beg.token_loc + t_end.token_loc
 in '{
-  s0exp_loc= loc, s0exp_node= S0Etytup (knd, xs)
+  s0exp_loc= loc, s0exp_node= S0Etytup (knd, npf, xs)
 } end // end of [s0exp_tytup]
 
 implement
-s0exp_tytup2 (
-  knd, t_beg, xs1, xs2, t_end
-) = let
-  val loc = t_beg.token_loc + t_end.token_loc
-in '{
-  s0exp_loc= loc, s0exp_node= S0Etytup2 (knd, xs1, xs2)
-} end // end of [s0exp_tytup2]
-
-implement
 s0exp_tyrec (
-  knd, t_beg, xs, t_end
+  knd, npf, t_beg, xs, t_end
 ) = let
   val loc = t_beg.token_loc + t_end.token_loc
 in '{
-  s0exp_loc= loc, s0exp_node= S0Etyrec (knd, xs)
+  s0exp_loc= loc, s0exp_node= S0Etyrec (knd, npf, xs)
 } end // end of [s0exp_tyrec]
 
 implement
-s0exp_tyrec2 (
-  knd, t_beg, xs1, xs2, t_end
+s0exp_tyrec_ext (
+  name, npf, t_beg, xs, t_end
 ) = let
   val loc = t_beg.token_loc + t_end.token_loc
 in '{
-  s0exp_loc= loc, s0exp_node= S0Etyrec2 (knd, xs1, xs2)
-} end // end of [s0exp_tyrec2]
+  s0exp_loc= loc, s0exp_node= S0Etyrec_ext (name, npf, xs)
+} end // end of [s0exp_tyrec]
+
+implement
+s0exp_uni (
+  t_beg, xs, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  s0exp_loc= loc, s0exp_node= S0Euni (xs)
+} end // end of [s0exp_uni]
+
+implement
+s0exp_exi (
+  funres, t_beg, xs, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  s0exp_loc= loc, s0exp_node= S0Eexi (funres, xs)
+} end // end of [s0exp_exi]
 
 (* ****** ****** *)
 
 implement
 labs0exp_make (ent1, ent2) = L0ABELED (ent1, ent2)
+
+(* ****** ****** *)
+
+implement
+s0rtdef_make (id, def) = let
+(*
+  val () = print "s0rtdef_make:\n"
+  val () = begin
+    print "def.loc = "; print def.s0rtext_loc; print_newline ()
+  end // end of [val]
+*)
+  val loc = id.i0de_loc + def.s0rtext_loc
+in '{
+  s0rtdef_loc= loc
+, s0rtdef_sym= id.i0de_sym
+, s0rtdef_def= def
+} end // end of [s0rtdef_make]
+
+(* ****** ****** *)
+
+implement
+s0expdef_make (
+ id, arg, res, def
+) = let
+  val loc = id.i0de_loc + def.s0exp_loc
+in '{
+  s0expdef_loc= loc
+, s0expdef_sym= id.i0de_sym
+, s0expdef_loc_id= id.i0de_loc
+, s0expdef_arg= arg
+, s0expdef_res= res
+, s0expdef_def= def
+} end // end of [s0expdef_make]
 
 (* ****** ****** *)
 
@@ -594,6 +667,30 @@ d0ecl_datsrts
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cdatsrts (xs)
 } end // end of [d0ecl_datsrts]
+
+implement
+d0ecl_srtdefs
+  (tok, xs) = let
+  val loc = tok.token_loc
+  val loc = (case+
+    list_last_opt<s0rtdef> (xs) of
+    | ~Some_vt x => loc + x.s0rtdef_loc | ~None_vt _ => loc
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Csrtdefs (xs)
+} end // end of [d0ecl_srtdefs]
+
+implement
+d0ecl_sexpdefs
+  (knd, tok, xs) = let
+  val loc = tok.token_loc
+  val loc = (case+
+    list_last_opt<s0expdef> (xs) of
+    | ~Some_vt x => loc + x.s0expdef_loc | ~None_vt _ => loc
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Csexpdefs (knd, xs)
+} end // end of [d0ecl_sexpdefs]
 
 (* ****** ****** *)
 

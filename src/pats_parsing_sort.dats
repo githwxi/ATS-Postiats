@@ -79,11 +79,16 @@ case+ 0 of
     | _ => let
         val () = err := err + 1
         val () = tokbuf_set_ntok (buf, n0)
+(*
+        val () = the_parerrlst_add_ifnbt (bt, ent1.i0de_loc, PE_s0rtq)
+*)
       in
         synent_null ()
       end // end of [_]
   end (* end of [_ when ...] *)
-| _ => synent_null () // HX: there is no error
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end
 //
 end // end of [p_s0rtq]
 
@@ -104,6 +109,11 @@ p_s0rtid
   val tok = tokbuf_get_token (buf)
   val loc = tok.token_loc
   macdef incby1 () = tokbuf_incby1 (buf)
+(*
+  val () = println! ("p_s0rtid: bt = ", bt)
+  val () = println! ("p_s0rtid: err = ", err)
+  val () = println! ("p_s0rtid: tok = ", tok)
+*)
 in
 //
 case+ tok.token_node of
@@ -159,12 +169,14 @@ fun
 p_atms0rt_tok (
   buf: &tokbuf, bt: int, err: &int, tok: token
 ) : s0rt = let
+(*
+  val () = println! ("p_atms0rt: bt = ", bt)
+  val () = println! ("p_atms0rt: err = ", err)
+  val () = println! ("p_atms0rt: tok = ", tok)
+*)
   var ent: synent?
   val loc = tok.token_loc
   macdef incby1 () = tokbuf_incby1 (buf)
-(*
-  val () = println! ("p_atms0rt: tok = ", tok)
-*)
 in
 //
 case+ tok.token_node of
@@ -276,11 +288,11 @@ case+ tok.token_node of
     val () = incby1 ()
     val ent2 = p_s0rt (buf, bt, err)
   in
-    if synent_isnot_null (ent2) then ent2 else let
-      val () = tokbuf_set_ntok (buf, n0) in synent_null ()
-    end (* end of [if] *)
+    if synent_is_null (ent2) then let
+      val () = tokbuf_set_ntok (buf, n0) in None ()
+    end else Some (ent2) (* end of [if] *)
   end
-| _ => synent_null () // there is no error
+| _ => None ()
 end // end of [p_colons0rtopt]
 
 (* ****** ****** *)
@@ -295,9 +307,6 @@ in
 if err = 0 then let
   val bt = 0
   val ent2 = p_colons0rtopt (buf, bt, err)
-  val ent2 = (
-    if synent_isnot_null (ent2) then Some (ent2) else None ()
-  ) : s0rtopt // end of [val]
 in
   s0arg_make (ent1, ent2)
 end else let
@@ -416,10 +425,9 @@ end (* end of [if] *)
 //
 end // end of [p_d0atsrtcon]
 
-fun
-p_d0atsrtconseq (
-  buf: &tokbuf, bt: int, err: &int
-) : d0atsrtconlst = let
+implement
+p_d0atsrtconseq
+  (buf, bt, err) = let
   val tok = tokbuf_get_token (buf)
   macdef incby1 () = tokbuf_incby1 (buf)
 in
@@ -434,31 +442,6 @@ case+ tok.token_node of
   end // end of [T_BAR]
 //
 end // end of [p_d0atsrtconseq]
-
-(*
-d0atsrtdec ::= i0de EQ d0atsrtconseq
-*)
-fun
-p_d0atsrtdec (
-  buf: &tokbuf, bt: int, err: &int
-) : d0atsrtdec = let
-  val n0 = tokbuf_get_ntok (buf)
-  val ent1 = p_s0rtid (buf, bt, err)
-  val ent2 = (
-    if err = 0 then p_EQ (buf, bt, err) else synent_null ()
-  ) : token // end of [val]
-  val ent3 = (
-    if err = 0 then p_d0atsrtconseq (buf, bt, err) else list_nil ()
-  ) : d0atsrtconlst // end of [val]
-in
-  d0atsrtdec_make (ent1, ent2, ent3)
-end // end of [p_d0atsrtdec]
-
-implement
-p_d0atsrtdecseq
-  (buf, bt, err) = let
-  val xs = pstar_fun0_AND (buf, bt, p_d0atsrtdec) in l2l (xs)
-end // end of [p_d0atsrtdecseq]
 
 (* ****** ****** *)
 

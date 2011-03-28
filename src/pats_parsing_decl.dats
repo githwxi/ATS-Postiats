@@ -48,6 +48,119 @@ staload "pats_parsing.sats"
 
 (* ****** ****** *)
 
+#define l2l list_of_list_vt
+
+(* ****** ****** *)
+
+(*
+d0atsrtdec ::= i0de EQ d0atsrtconseq
+*)
+fun
+p_d0atsrtdec (
+  buf: &tokbuf, bt: int, err: &int
+) : d0atsrtdec = let
+  val n0 = tokbuf_get_ntok (buf)
+  val ent1 = p_s0rtid (buf, bt, err)
+  val ent2 = (
+    if err = 0 then p_EQ (buf, bt, err) else synent_null ()
+  ) : token // end of [val]
+  val ent3 = (
+    if err = 0 then p_d0atsrtconseq (buf, bt, err) else list_nil ()
+  ) : d0atsrtconlst // end of [val]
+in
+  if err = 0 then
+    d0atsrtdec_make (ent1, ent2, ent3)
+  else let
+    val () = err := err + 1
+    val () = tokbuf_set_ntok (buf, n0)
+  in
+    synent_null ()
+  end (* end of [if] *)
+end // end of [p_d0atsrtdec]
+
+implement
+p_d0atsrtdecseq
+  (buf, bt, err) = let
+  val xs = pstar_fun1_sep (buf, bt, err, p_d0atsrtdec, p_AND_test)
+in
+  l2l (xs)
+end // end of [p_d0atsrtdecseq]
+
+(* ****** ****** *)
+
+(*
+s0rtdef ::= s0rtid EQ s0rtext
+*)
+fun
+p_s0rtdef (
+  buf: &tokbuf, bt: int, err: &int
+) : s0rtdef = let
+  val n0 = tokbuf_get_ntok (buf)
+  val ent1 = p_s0rtid (buf, bt, err)
+  val ent2 = (
+    if err = 0 then p_EQ (buf, bt, err) else synent_null ()
+  ) : token // end of [val]
+  val ent3 = (
+    if err = 0 then p_s0rtext (buf, bt, err) else synent_null ()
+  ) : s0rtext // end of [val]
+in
+  if (err = 0) then
+    s0rtdef_make (ent1, ent3)
+  else let
+    val () = err := err + 1
+    val () = tokbuf_set_ntok (buf, n0)
+  in
+    synent_null ()
+  end (* end of [if] *)
+end // end of [p_s0rtdef]
+
+implement
+p_s0rtdefseq
+  (buf, bt, err) = let
+  val xs = pstar_fun1_sep (buf, bt, err, p_s0rtdef, p_AND_test)
+in
+  l2l (xs)
+end // end of [p_s0rtdecseq]
+
+(* ****** ****** *)
+
+(*
+s0expdef
+  | si0de s0argseqseq colons0rtopt EQ s0exp
+*)
+fun
+p_s0expdef (
+  buf: &tokbuf, bt: int, err: &int
+) : s0expdef = let
+  val ent1 = p_si0de (buf, bt, err)
+  val ent2 = (
+    if err = 0 then p_s0argseqseq (buf, bt, err) else list_nil
+  ) : s0arglstlst
+  val ent3 = (
+    if err = 0 then p_colons0rtopt (buf, bt, err) else synent_null ()
+  ) : s0rtopt // end of [val]
+  val ent4 = (
+    if err = 0 then p_EQ (buf, bt, err) else synent_null ()
+  ) : token // end of [val]
+  val ent5 = (
+    if err = 0 then p_s0exp (buf, bt, err) else synent_null ()
+  ) : s0exp // end of [val]
+in
+  if err = 0 then
+    s0expdef_make (ent1, ent2, ent3, ent5) else synent_null ()
+  // end of [if]
+end // end of [p_s0expdef]
+
+implement
+p_s0expdefseq
+  (buf, bt, err) = let
+  val xs = pstar_fun1_sep (buf, bt, err, p_s0expdef, p_AND_test)
+in
+  l2l (xs)
+end // end of [p_s0expdecseq]
+
+(* ****** ****** *)
+
 (*
 d0ecl
   | INFIX p0rec i0deseq
@@ -153,6 +266,24 @@ case+ tok.token_node of
       d0ecl_datsrts (tok, ent2) else synent_null ()
     // end of [if]
   end
+| T_SORTDEF () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_s0rtdefseq (buf, bt, err)
+  in
+    if err = 0 then
+      d0ecl_srtdefs (tok, ent2) else synent_null ()
+    // end of [if]
+  end
+| T_TYPEDEF (knd) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_s0expdefseq (buf, bt, err)
+  in
+    if err = 0 then
+      d0ecl_sexpdefs (knd, tok, ent2) else synent_null ()
+    // end of [if]
+  end
 | _ => synent_null ()
 // end of [case]
 end // end of [p_d0ecl_tok]
@@ -175,4 +306,4 @@ end // end of [d0eclist]
 
 (* ****** ****** *)
 
-(* end of [pats_parsing_d0ecl.dats] *)
+(* end of [pats_parsing_decl.dats] *)

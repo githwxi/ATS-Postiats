@@ -81,9 +81,10 @@ SOURCES := \
   pats_parsing_error.dats \
   pats_parsing_misc.dats \
   pats_parsing_e0xp.dats \
-  pats_parsing_s0rt.dats \
-  pats_parsing_s0exp.dats \
-  pats_parsing_d0ecl.dats \
+  pats_parsing_sort.dats \
+  pats_parsing_staexp.dats \
+  pats_parsing_dynexp.dats \
+  pats_parsing_decl.dats \
 
 SOURCESsta := $(filter %.sats, $(SOURCES))
 SOURCESdyn := $(filter %.dats, $(SOURCES))
