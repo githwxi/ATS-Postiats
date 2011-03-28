@@ -67,10 +67,10 @@ SOURCES := \
   pats_lexing_print.dats \
   pats_lexing_error.dats \
   pats_lexing.dats \
-  pats_label.sats \
-  pats_label.dats \
   pats_fixity.sats \
   pats_fixity.dats \
+  pats_label.sats \
+  pats_label.dats \
   pats_syntax.sats \
   pats_syntax_print.dats \
   pats_syntax.dats \

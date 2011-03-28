@@ -69,4 +69,13 @@ compare_label_label (lab1, lab2) =
 
 (* ****** ****** *)
 
+implement
+fprint_label (out, x) =
+  case+ x of
+  | LABint (int) => fprint_int (out, int)
+  | LABsym (sym) => $SYM.fprint_symbol (out, sym)
+// end of [fprint_label]
+
+(* ****** ****** *)
+
 (* end of [pats_label.dats] *)

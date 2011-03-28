@@ -75,7 +75,9 @@ case+ tok.token_node of
     val bt = 0
     val () = incby1 ()
     val ent2 = p_p0rec (buf, bt, err)
-    val ent3 = p_i0deseq1 (buf, bt, err)
+    val ent3 = (
+      if err = 0 then p_i0deseq1 (buf, bt, err) else list_nil ()
+    ) : List (i0de) // end of [val]
   in
     if err = 0 then (
       d0ecl_fixity (tok, ent2, ent3)
@@ -103,7 +105,9 @@ case+ tok.token_node of
     val bt = 0
     val () = incby1 ()
     val ent2 = p_i0de (buf, bt, err)
-    val ent3 = popt_fun {e0xp} (buf, bt, p_e0xp)
+    val ent3 = (
+      if err = 0 then popt_fun {e0xp} (buf, bt, p_e0xp) else None_vt ()
+    ) : Option_vt (e0xp) // end of [val]
   in
     if err = 0 then let
       val ent3 = option_of_option_vt (ent3)
@@ -146,18 +150,9 @@ end // end of [p_d0ecl_tok]
 
 implement
 p_d0ecl
-  (buf, bt, err) = res where {
-  val n0 = tokbuf_get_ntok (buf)
-  val tok = tokbuf_get_token (buf)
-  val res = p_d0ecl_tok (buf, bt, err, tok)
-  val () = if
-    synent_is_null (res) then let
-    val () = err := err + 1
-    val () = tokbuf_set_ntok (buf, n0)
-  in
-    the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_d0ecl)
-  end // end of [val]
-} // end of [p_d0ecl]
+  (buf, bt, err) =
+  ptokwrap_fun (buf, bt, err, p_d0ecl_tok, PE_d0ecl)
+// end of [p_d0ecl]
 
 (* ****** ****** *)
 

@@ -66,4 +66,8 @@ overload prerr with prerr_label
 
 (* ****** ****** *)
 
+datatype labeled (a:t@ype) = LABELED (a) of (label, a)
+
+(* ****** ****** *)
+
 (* end of [pats_label.sats] *)

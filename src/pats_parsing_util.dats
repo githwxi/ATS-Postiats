@@ -77,6 +77,21 @@ is_RPAREN (x) = case+ x of
 // end of [is_RPAREN]
 
 implement
+is_RBRACE (x) = case+ x of
+  | T_RBRACE () => true | _ => false
+// end of [is_RBRACE]
+
+implement
+is_EQ (x) = case+ x of
+  | T_EQ () => true | _ => false
+// end of [is_EQ]
+
+implement
+is_EQGT (x) = case+ x of
+  | T_EQGT () => true | _ => false
+// end of [is_EQGT]
+
+implement
 is_EOF (x) = case+ x of
   | T_EOF () => true | _ => false
 // end of [is_EOF]
@@ -238,8 +253,7 @@ pstar_fun0_SEMICOLON
 
 implement
 pplus_fun {a}
-  (buf, bt, f) = let
-  var err: int = 0
+  (buf, bt, err, f) = let
   val x = f (buf, bt, err)
 in
   if synent_isnot_null (x) then let
@@ -270,6 +284,52 @@ ptest_fun {a}
 in
   synent_isnot_null (ent)
 end // end of [ptest_fun]
+
+(* ****** ****** *)
+
+implement
+list12_free (ent) =
+  case+ ent of
+  | ~LIST12one xs => list_vt_free (xs)
+  | ~LIST12two (xs1, xs2) => (list_vt_free (xs1); list_vt_free (xs2))
+// end of [list12_free]
+
+implement
+plist12_fun {a}
+  (buf, bt, f) = let
+  val xs1 = pstar_fun0_COMMA {a} (buf, bt, f)
+  val tok = tokbuf_get_token (buf)
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_BAR () => let
+    val () = incby1 ()
+    val xs2 = pstar_fun0_COMMA {a} (buf, bt, f)
+  in
+    LIST12two (xs1, xs2)
+  end
+| _ => LIST12one (xs1)
+//
+end // end of [plist12_fun]
+
+(* ****** ****** *)
+
+implement
+ptokwrap_fun (
+  buf, bt, err, f, enode
+) = res where {
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  val res = f (buf, bt, err, tok)
+  val () = if
+    synent_is_null (res) then let
+    val () = err := err + 1
+    val () = tokbuf_set_ntok (buf, n0)
+  in
+    the_parerrlst_add_ifnbt (bt, tok.token_loc, enode)
+  end // end of [val]
+} // end of [ptokwrap_fun]
 
 (* ****** ****** *)
 

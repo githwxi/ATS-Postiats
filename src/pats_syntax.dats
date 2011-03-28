@@ -38,12 +38,15 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
+staload
+LOC = "pats_location.sats"
 overload + with $LOC.location_combine
+staload SYM = "pats_symbol.sats"
 
 (* ****** ****** *)
 
-staload FX = "pats_fixity.sats"
+staload LAB = "pats_label.sats"
+staload FIX = "pats_fixity.sats"
 
 (* ****** ****** *)
 
@@ -107,6 +110,30 @@ print_dcstkind (x) = fprint_dcstkind (stdout_ref, x)
 (* ****** ****** *)
 
 implement
+i0de_make_string
+  (loc, name) = let
+  val sym = $SYM.symbol_make_string (name)
+in '{
+  i0de_loc= loc, i0de_sym= sym
+} end // end of [i0de_make_string]
+
+(* ****** ****** *)
+
+implement
+s0rtq_none (loc) = '{
+  s0rtq_loc= loc, s0rtq_node= S0RTQnone ()
+} // end of [s0rtq_none]
+
+implement
+s0rtq_symdot (ent1, tok2) = let
+  val loc = ent1.i0de_loc + tok2.token_loc
+in '{
+  s0rtq_loc= loc, s0rtq_node= S0RTQsymdot (ent1.i0de_sym)
+} end // end of [s0rtq_symdot]
+
+(* ****** ****** *)
+
+implement
 s0taq_none (loc) = '{
   s0taq_loc= loc, s0taq_node= S0TAQnone ()
 } // end of [s0taq_none]
@@ -143,6 +170,23 @@ in '{
 } end // end of [sqi0de_make]
 
 (* ****** ****** *)
+
+implement
+l0ab_make_i0de (x) = let
+  val lab = $LAB.label_make_sym (x.i0de_sym)
+in '{
+  l0ab_loc= x.i0de_loc, l0ab_lab= lab
+} end // end of [l0ab_make_i0de]
+
+implement
+l0ab_make_i0nt (x) = let
+  val int = int_of_string (x.i0nt_rep)
+  val lab = $LAB.label_make_int (int)
+in '{
+  l0ab_loc= x.i0nt_loc, l0ab_lab= lab
+} end // end of [l0ab_make_i0nt]
+
+(* ****** ****** *)
 //
 // HX: omitted precedence is assumed to equal 0
 //
@@ -151,11 +195,19 @@ p0rec_emp () = P0RECint (0)
 
 implement
 p0rec_i0de (id) = P0RECi0de (id)
-implement
-p0rec_i0de_adj (id, opr, int) = P0RECi0de_adj (id, opr, int)
 
 implement
-p0rec_i0nt (int) = P0RECi0nt (int)
+p0rec_i0de_adj
+  (id, opr, int) = let
+  val str = int.i0nt_rep
+  val adj = int_of_string (str) in P0RECi0de_adj (id, opr, adj)
+end // end of [p0rec_i0de_adj]
+
+implement
+p0rec_i0nt (int) = let
+  val str = int.i0nt_rep
+  val pval = int_of_string (str) in P0RECint (pval)
+end // end of [p0rec_i0nt]
 
 (* ****** ****** *)
 
@@ -202,11 +254,11 @@ in '{
 
 implement
 e0xp_list (
-  t_beg, es, t_end
+  t_beg, xs, t_end
 ) = let
   val loc = t_beg.token_loc + t_end.token_loc
 in '{
-  e0xp_loc= loc, e0xp_node= E0XPlist es
+  e0xp_loc= loc, e0xp_node= E0XPlist xs
 } end // end of [e0xp_list]
 
 implement
@@ -218,6 +270,62 @@ in '{
 } end // end of [e0xp_float]
 
 (* ****** ****** *)
+
+implement
+s0rt_app (x1, x2) = let
+  val loc = x1.s0rt_loc + x2.s0rt_loc
+in '{
+  s0rt_loc= loc, s0rt_node= S0RTapp (x1, x2)
+} end // end of [s0rt_app]
+
+implement
+s0rt_i0de (id) = '{
+  s0rt_loc= id.i0de_loc, s0rt_node= S0RTide id.i0de_sym
+} // end of [s0rt_ide]
+
+implement
+s0rt_sqid (ent1, ent2) = let
+  val loc = ent1.s0rtq_loc + ent2.i0de_loc
+in '{
+  s0rt_loc= loc, s0rt_node= S0RTqid (ent1, ent2.i0de_sym)
+} end // end of [s0rt_ide]
+
+implement
+s0rt_list (
+  t_beg, xs, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  s0rt_loc= loc, s0rt_node= S0RTlist (xs)
+} end // end of [s0rt_list]
+
+implement
+s0rt_type (x) = let
+  val- T_TYPE (knd) = x.token_node
+in '{
+  s0rt_loc= x.token_loc, s0rt_node= S0RTtype (knd)
+} end // end of [s0rt_i0nt]
+
+(* ****** ****** *)
+
+implement
+s0arg_make (x1, x2) = let
+  val loc = (case x2 of
+    | Some s0t => x1.i0de_loc + s0t.s0rt_loc
+    | None () => x1.i0de_loc
+  ) : location // end of [val]
+in '{
+  s0arg_loc= loc, s0arg_sym= x1.i0de_sym, s0arg_srt= x2
+} end // end of [s0arg_make]
+
+(* ****** ****** *)
+
+implement
+s0exp_ann (x1, x2) = let
+  val loc = x1.s0exp_loc + x2.s0rt_loc
+in '{
+  s0exp_loc= loc, s0exp_node= S0Eann (x1, x2)
+} end // end of [s0exp_ann]
 
 implement
 s0exp_app (x1, x2) = let
@@ -281,6 +389,13 @@ in '{
 } end // end of [s0exp_opid]
 
 implement
+s0exp_lam (t_lam, ent2, ent3, ent4) = let
+  val loc = t_lam.token_loc + ent4.s0exp_loc
+in '{
+  s0exp_loc= loc, s0exp_node = S0Elam (ent2, ent3, ent4)
+} end // end of [s0exp_lam]
+
+implement
 s0exp_list (t_beg, xs, t_end) = let
   val loc = t_beg.token_loc + t_end.token_loc
 in '{
@@ -312,6 +427,29 @@ in '{
   s0exp_loc= loc, s0exp_node= S0Etytup2 (knd, xs1, xs2)
 } end // end of [s0exp_tytup2]
 
+implement
+s0exp_tyrec (
+  knd, t_beg, xs, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  s0exp_loc= loc, s0exp_node= S0Etyrec (knd, xs)
+} end // end of [s0exp_tyrec]
+
+implement
+s0exp_tyrec2 (
+  knd, t_beg, xs1, xs2, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  s0exp_loc= loc, s0exp_node= S0Etyrec2 (knd, xs1, xs2)
+} end // end of [s0exp_tyrec2]
+
+(* ****** ****** *)
+
+implement
+labs0exp_make (ent1, ent2) = L0ABELED (ent1, ent2)
+
 (* ****** ****** *)
 
 local
@@ -331,9 +469,9 @@ d0ecl_fixity
   (tok, prec, ids) = let
   val- T_FIXITY (knd) = tok.token_node
   val fxty = (case+ knd of
-    | FXK_infix () => F0XTYinf (prec, $FX.ASSOCnon ())
-    | FXK_infixl () => F0XTYinf (prec, $FX.ASSOClft ())
-    | FXK_infixr () => F0XTYinf (prec, $FX.ASSOCrgt ())
+    | FXK_infix () => F0XTYinf (prec, $FIX.ASSOCnon ())
+    | FXK_infixl () => F0XTYinf (prec, $FIX.ASSOClft ())
+    | FXK_infixr () => F0XTYinf (prec, $FIX.ASSOCrgt ())
     | FXK_prefix () => F0XTYpre (prec)
     | FXK_postfix () => F0XTYpos (prec)
   ) : f0xty // end of [val]

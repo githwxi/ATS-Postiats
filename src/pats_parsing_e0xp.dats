@@ -109,7 +109,7 @@ case+ tok.token_node of
     val () = incby1 ()
     val ent2 = p_e0xpseq (buf, bt, err)
     val ent2 = list_of_list_vt (ent2)
-    val ent3 = p_RPAREN (buf, bt, err)
+    val ent3 = p_RPAREN (buf, bt, err) // err = 0
   in
     if err = 0 then e0xp_list (tok, ent2, ent3) else synent_null ()
   end // end of [T_LPAREN]
@@ -117,7 +117,9 @@ case+ tok.token_node of
     val bt = 0
     val () = incby1 ()
     val ent2 = p_e0xp (buf, bt, err)
-    val ent3 = p_RPAREN (buf, bt, err)
+    val ent3 = (
+      if err = 0 then p_RPAREN (buf, bt, err) else synent_null ()
+    ) : token // end of [val]
   in
     if err = 0 then e0xp_eval (tok, ent2, ent3) else synent_null ()
   end // end of [T_PERCENTLPAREN]
@@ -128,18 +130,9 @@ end // end of [p_atme0xp_tok]
 fun
 p_atme0xp (
   buf: &tokbuf, bt: int, err: &int
-) : e0xp = res where {
-  val n0 = tokbuf_get_ntok (buf)
-  val tok = tokbuf_get_token (buf)
-  val res = p_atme0xp_tok (buf, bt, err, tok)
-  val () = if
-    synent_is_null (res) then let
-    val () = err := err + 1
-    val () = tokbuf_set_ntok (buf, n0)
-  in
-    the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_atme0xp)
-  end // end of [val]
-} // end of [p_atme0xp]
+) : e0xp =
+  ptokwrap_fun (buf, bt, err, p_atme0xp_tok, PE_atme0xp)
+// end of [p_atme0xp]
 
 (* ****** ****** *)
 
@@ -149,8 +142,7 @@ e0xp ::= {atme0xp}+
 
 implement
 p_e0xp (buf, bt, err) = let
-  val x0 = p_atme0xp (buf, bt, err)
-  val xs1 = pstar_fun (buf, bt, p_atme0xp)
+  val xs = pplus_fun (buf, bt, err, p_atme0xp)
   fun loop (
     x0: e0xp, xs1: List_vt (e0xp)
   ) : e0xp =
@@ -161,7 +153,13 @@ p_e0xp (buf, bt, err) = let
     | ~list_vt_nil () => x0
   // end of [loop]
 in
-  loop (x0, xs1)
+//
+case+ xs of
+| ~list_vt_cons (x, xs) => loop (x, xs)
+| ~list_vt_nil () => let
+    val () = err := err + 1 in synent_null ()
+  end // end of [list_vt_nil]
+//
 end // end of [p_e0xp]
 
 (* ****** ****** *)
