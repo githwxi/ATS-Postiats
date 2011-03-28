@@ -316,14 +316,12 @@ s0argseqseq
 *)
 
 fun
-p_s0marg (
+p_s0marg_tok (
   buf: &tokbuf
 , bt: int, err: &int
+, tok: token
 ) : s0arglst = let
   var ent: synent?
-  val n0 = tokbuf_get_ntok (buf)
-  val tok = tokbuf_get_token (buf)
-  val loc = tok.token_loc
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
@@ -344,26 +342,22 @@ case+ tok.token_node of
     val ent3 = p_RPAREN (buf, bt, err) // err = 0
   in
     if err = 0 then l2l (ent2) else let
-      val () = err := err + 1
-      val () = tokbuf_set_ntok (buf, n0)
-      val () = list_vt_free (ent2)
-(*
-      val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_s0marg)
-*)
-    in
-      synent_null ()
+      val () = list_vt_free (ent2) in list_nil ()
     end (* end of [if] *)
   end
-| _ => let
-    val () = err := err + 1
-(*
-    val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_s0marg)
-*)
-  in
-    synent_null ()
-  end // end of [_]
+| _ => list_nil ()
 //
-end // end of [p_s0marg]
+end // end of [p_s0marg_tok]
+
+fun
+p_s0marg (
+  buf: &tokbuf
+, bt: int, err: &int
+) : s0arglst =
+  ptokwrap_fun (buf, bt, err, p_s0marg_tok, PE_s0marg)
+// end of [p_s0marg]
+
+(* ****** ****** *)
 
 implement
 p_s0argseqseq (buf, bt, err) = let

@@ -506,7 +506,7 @@ s0exp
   : apps0exp
   | exts0exp
   | s0exp COLON s0rt
-  | LAM s0argseqseq colons0rtopt EQGT s0exp
+  | LAM s0argseqseq colons0rtopt EQGT s0exp // COLON > LAM
 *)
 
 fun
@@ -574,11 +574,9 @@ case+ tok.token_node of
     val ent4 = (
       if err = 0 then p_EQGT (buf, bt, err) else synent_null ()
     ) : token
-    val () = println! ("p_s0exp_tok: err = ", err)
     val ent5 = (
       if err = 0 then p_s0exp (buf, bt, err) else synent_null ()
     ) : s0exp
-    val () = println! ("p_s0exp_tok: err = ", err)
   in
     if err = 0 then let
       val ent3 = (

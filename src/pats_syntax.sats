@@ -334,16 +334,35 @@ s0exp_node =
   | S0Etytup2 of (int (*knd*), s0explst (*prop/view*), s0explst (*type/viewtype*))
 // end of [s0exp_node]
 
+and s0rtext_node =
+  | S0TEsrt of s0rt | S0TEsub of (i0de, s0rtext, s0exp, s0explst)
+// end of [s0rtext_node]
+
+and s0qua_node =
+  | S0QUAprop of s0exp (* e.g., n >= i+j *)
+  | S0QUAvars of (i0de, i0delst, s0rtext) (* e.g., a1,a2: type *)
+// end of [s0qua_node]
+
 where
 s0exp = '{
   s0exp_loc= location, s0exp_node= s0exp_node
 } // end of [s0exp]
-
 and s0explst = List (s0exp)
 and s0expopt = Option (s0exp)
 
 and labs0exp = l0abeled (s0exp)
 and labs0explst = List labs0exp
+
+and s0rtext = '{ (* extended sorts *)
+  s0rtext_loc= location, s0rtext_node= s0rtext_node
+}
+
+and s0qua = '{
+  s0qua_loc= location, s0qua_node= s0qua_node
+}
+and s0qualst = List s0qua
+
+(* ****** ****** *)
 
 fun s0exp_ann (_1: s0exp, _2: s0rt): s0exp
 fun s0exp_app (_1: s0exp, _2: s0exp): s0exp

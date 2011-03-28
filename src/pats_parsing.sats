@@ -104,10 +104,12 @@ parerr_node =
 //
   | PE_atms0rt
   | PE_s0rt
+  | PE_s0marg
 //
   | PE_atms0exp
   | PE_s0exp
   | PE_labs0exp
+  | PE_s0qua
 //
   | PE_d0ecl
 // end of [parerr_node]
@@ -283,6 +285,8 @@ fun p_si0de : parser (i0de) // static identifier
 fun p_s0taq : parser (s0taq) // static qualifier
 fun p_sqi0de : parser (sqi0de) // static qualified identifier
 fun p_s0exp : parser (s0exp)
+fun p_s0rtext : parser (s0rtext)
+fun p_s0qua : parser (s0qua)
 
 (* ****** ****** *)
 

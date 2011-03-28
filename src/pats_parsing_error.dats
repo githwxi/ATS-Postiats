@@ -226,6 +226,11 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [atms0rt] is needed", @())
     val () = fprint_newline (out)
   }
+| PE_s0marg () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [s0marg] is needed", @())
+    val () = fprint_newline (out)
+  }
 //
 | PE_si0de () => {
     val () = fprint (out, loc)
