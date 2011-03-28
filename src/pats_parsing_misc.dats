@@ -56,20 +56,14 @@ staload "pats_parsing.sats"
 implement
 p_BAR (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_BAR, PE_BAR)
-implement
-p_BAR_test (buf) = ptoken_test_fun (buf, is_BAR)
 
 implement
 p_COMMA (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_COMMA, PE_COMMA)
-implement
-p_COMMA_test (buf) = ptoken_test_fun (buf, is_COMMA)
 
 implement
 p_SEMICOLON (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_SEMICOLON, PE_SEMICOLON)
-implement
-p_SEMICOLON_test (buf) = ptoken_test_fun (buf, is_SEMICOLON)
 
 implement
 p_RPAREN (buf, bt, err) =

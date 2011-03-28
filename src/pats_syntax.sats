@@ -34,6 +34,10 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/list.dats"
+
+(* ****** ****** *)
+
 staload
 LOC = "pats_location.sats"
 typedef location = $LOC.location
@@ -312,6 +316,32 @@ fun s0arg_make (id: i0de, _: s0rtopt): s0arg
 
 (* ****** ****** *)
 
+typedef
+d0atsrtcon = '{
+  d0atsrtcon_loc= location
+, d0atsrtcon_sym= symbol
+, d0atsrtcon_arg= s0rtopt
+} // end of [d0atsrtcon]
+
+typedef d0atsrtconlst = List d0atsrtcon
+
+fun d0atsrtcon_make (id: i0de, arg: s0rtopt): d0atsrtcon
+
+typedef
+d0atsrtdec = '{
+  d0atsrtdec_loc= location
+, d0atsrtdec_sym= symbol
+, d0atsrtdec_con= d0atsrtconlst
+} // end of [d0atsrtdec]
+
+typedef d0atsrtdeclst = List d0atsrtdec
+
+fun d0atsrtdec_make
+  (id: i0de, t_eq: token, xs: d0atsrtconlst): d0atsrtdec
+// end of [d0atsrtdec_make]
+
+(* ****** ****** *)
+
 datatype
 s0exp_node =
   | S0Eann of (s0exp, s0rt)
@@ -412,6 +442,7 @@ d0ecl_node =
   | D0Csymintr of (i0delst) // introducing overloading symbols
   | D0Ce0xpdef of (symbol, e0xpopt)
   | D0Ce0xpact of (e0xpactkind, e0xp)
+  | D0Cdatsrts of d0atsrtdeclst (* datasort declaration *)
 // end of [d0ecl_node]
 
 where
@@ -433,6 +464,8 @@ fun d0ecl_e0xpdef (_1: token, _2: i0de, _3: e0xpopt): d0ecl
 fun d0ecl_e0xpact_assert (_1: token, _2: e0xp): d0ecl
 fun d0ecl_e0xpact_error (_1: token, _2: e0xp): d0ecl
 fun d0ecl_e0xpact_print (_1: token, _2: e0xp): d0ecl
+
+fun d0ecl_datsrts (_1: token, _2: d0atsrtdeclst): d0ecl
 
 (* ****** ****** *)
 

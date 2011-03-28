@@ -330,34 +330,39 @@ fprint_d0ecl (out, x) = let
 in
   case+ x.d0ecl_node of
   | D0Cfixity (fxty, ids) => {
-      val () = prstr "D0ECfixity("
+      val () = prstr "D0Cfixity("
       val () = fprint_f0xty (out, fxty)
       val () = prstr "; "
       val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
       val () = prstr ")"
     }
   | D0Cnonfix (ids) => {
-      val () = prstr "D0ECnonfix("
+      val () = prstr "D0Cnonfix("
       val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
       val () = prstr ")"
     }
   | D0Csymintr (ids) => {
-      val () = prstr "D0ECsymintr("
+      val () = prstr "D0Csymintr("
       val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
       val () = prstr ")"
     }
   | D0Ce0xpdef (id, def) => {
-      val () = prstr "D0ECe0xpdef("
+      val () = prstr "D0Ce0xpdef("
       val () = fprint_symbol (out, id)
       val () = prstr ", "
       val () = $UT.fprintopt<e0xp> (out, def, fprint_e0xp)
       val () = prstr ")"
     }
   | D0Ce0xpact (knd, act) => {
-      val () = prstr "D0ECe0xpact("
+      val () = prstr "D0Ce0xpact("
       val () = fprint_e0xpactkind (out, knd)
       val () = prstr "; "
       val () = fprint_e0xp (out, act)
+      val () = prstr ")"
+    }
+  | D0Cdatsrts _ => {
+      val () = prstr "D0Cdatsrts("
+      val () = prstr "..."
       val () = prstr ")"
     }
 (*

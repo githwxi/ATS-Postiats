@@ -598,4 +598,4 @@ p_s0exp
 
 (* ****** ****** *)
 
-(* end of [pats_parsing_s0exp.dats] *)
+(* end of [pats_parsing_staexp.dats] *)

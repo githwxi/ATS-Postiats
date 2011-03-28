@@ -64,6 +64,11 @@ fun is_EOF (x: tnode): bool
 
 (* ****** ****** *)
 
+fun is_AND (x: tnode): bool
+fun p_AND_test (buf: &tokbuf): bool
+
+(* ****** ****** *)
+
 datatype
 parerr_node =
 //
@@ -75,6 +80,8 @@ parerr_node =
   | PE_EQ
   | PE_EQGT
   | PE_EOF
+//
+  | PE_AND
 //
   | PE_i0nt
   | PE_s0tring
@@ -109,6 +116,7 @@ parerr_node =
   | PE_atms0exp
   | PE_s0exp
   | PE_labs0exp
+  | PE_s0rtext
   | PE_s0qua
 //
   | PE_d0ecl
@@ -186,6 +194,11 @@ fun pstar_fun0_SEMICOLON
   {a:type} (
   buf: &tokbuf, bt: int, f: parser (a)
 ) : List_vt (a) // end of [pstar_fun0_SEMICOLON]
+
+fun pstar_fun0_AND
+  {a:type} (
+  buf: &tokbuf, bt: int, f: parser (a)
+) : List_vt (a) // end of [pstar_fun0_BAR]
 
 (* ****** ****** *)
 
@@ -274,10 +287,12 @@ fun p_l0ab : parser (l0ab)
 fun p_s0rtq : parser (s0rtq) // sort qualifier
 fun p_s0rtid : parser (i0de) // sort identifier
 fun p_s0rt : parser (s0rt)
-fun p_colons0rtopt : parser (s0rt)
+fun p_ofs0rtopt : parser (s0rt) // OF s0rt
+fun p_colons0rtopt : parser (s0rt) // COLON s0rt
 fun p_s0arg : parser (s0arg) // static argument
-fun p_s0argseq : parser (s0arglst) // static argument
-fun p_s0argseqseq : parser (s0arglstlst) // static argument
+fun p_s0argseq : parser (s0arglst) // static (multi-)argument
+fun p_s0argseqseq : parser (s0arglstlst) // static argument list
+fun p_d0atsrtdecseq : parser (d0atsrtdeclst)
 
 (* ****** ****** *)
 

@@ -144,6 +144,15 @@ case+ tok.token_node of
       d0ecl_e0xpact_print (tok, ent2) else synent_null ()
     // end of [if]
   end
+| T_DATASORT () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_d0atsrtdecseq (buf, bt, err)
+  in
+    if err = 0 then
+      d0ecl_datsrts (tok, ent2) else synent_null ()
+    // end of [if]
+  end
 | _ => synent_null ()
 // end of [case]
 end // end of [p_d0ecl_tok]

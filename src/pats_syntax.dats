@@ -309,6 +309,41 @@ in '{
 (* ****** ****** *)
 
 implement
+d0atsrtcon_make
+  (id, arg) = let
+  val loc = (case+ arg of
+    | Some s0t => id.i0de_loc + s0t.s0rt_loc
+    | None () => id.i0de_loc
+  ) : location // end of [val]
+in '{
+  d0atsrtcon_loc= loc
+, d0atsrtcon_sym= id.i0de_sym
+, d0atsrtcon_arg= arg
+} end // end of [d0atsrtcon_make]
+
+implement
+d0atsrtdec_make
+  (id, tok, xs) = let
+  fun loop (
+    id: i0de, x: d0atsrtcon, xs: d0atsrtconlst
+  ) : location =
+    case+ xs of
+    | list_cons (x, xs) => loop (id, x, xs)
+    | list_nil () => id.i0de_loc + x.d0atsrtcon_loc
+  // end of [loop]
+  val loc = (
+    case+ xs of
+    | list_cons (x, xs) => loop (id, x, xs)
+    | list_nil () => id.i0de_loc + tok.token_loc
+  ) : location // end of [val]
+in '{
+  d0atsrtdec_loc= loc
+, d0atsrtdec_sym= id.i0de_sym, d0atsrtdec_con= xs
+} end // end of [d0atsrtdec_make]
+
+(* ****** ****** *)
+
+implement
 s0arg_make (x1, x2) = let
   val loc = (case x2 of
     | Some s0t => x1.i0de_loc + s0t.s0rt_loc
@@ -462,7 +497,7 @@ fun loop {n:nat} .<n>. (
   | list_nil () => tok.token_loc + id.i0de_loc
 // end of [loop]
 
-in
+in // end of [local]
 
 implement
 d0ecl_fixity
@@ -547,6 +582,18 @@ d0ecl_e0xpact_error
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Ce0xpact (E0XPACTerror, ent2)
 } end // end of [d0ecl_e0xpact_error]
+
+implement
+d0ecl_datsrts
+  (tok, xs) = let
+  val loc = tok.token_loc
+  val loc = (case+
+    list_last_opt<d0atsrtdec> (xs) of
+    | ~Some_vt x => loc + x.d0atsrtdec_loc | ~None_vt _ => loc
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cdatsrts (xs)
+} end // end of [d0ecl_datsrts]
 
 (* ****** ****** *)
 

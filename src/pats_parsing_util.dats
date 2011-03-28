@@ -60,16 +60,24 @@ implement
 is_BAR (x) = case+ x of
   | T_BAR () => true | _ => false
 // end of [is_BAR]
+implement
+p_BAR_test (buf) = ptoken_test_fun (buf, is_BAR)
 
 implement
 is_COMMA (x) = case+ x of
   | T_COMMA () => true | _ => false
 // end of [is_COMMA]
+implement
+p_COMMA_test (buf) = ptoken_test_fun (buf, is_COMMA)
 
 implement
 is_SEMICOLON (x) = case+ x of
   | T_SEMICOLON () => true | _ => false
 // end of [is_SEMICOLON]
+implement
+p_SEMICOLON_test (buf) = ptoken_test_fun (buf, is_SEMICOLON)
+
+(* ****** ****** *)
 
 implement
 is_RPAREN (x) = case+ x of
@@ -95,6 +103,15 @@ implement
 is_EOF (x) = case+ x of
   | T_EOF () => true | _ => false
 // end of [is_EOF]
+
+(* ****** ****** *)
+
+implement
+is_AND (x) = case+ x of
+  | T_AND () => true | _ => false
+// end of [is_AND]
+implement
+p_AND_test (buf) = ptoken_test_fun (buf, is_AND)
 
 (* ****** ****** *)
 
@@ -248,6 +265,12 @@ pstar_fun0_SEMICOLON
   (buf, bt, f) =
   pstar_fun0_sep (buf, bt, f, p_SEMICOLON_test)
 // end of [pstar_fun0_SEMICOLON]
+
+implement
+pstar_fun0_AND
+  (buf, bt, f) =
+  pstar_fun0_sep (buf, bt, f, p_AND_test)
+// end of [pstar_fun0_AND]
 
 (* ****** ****** *)
 

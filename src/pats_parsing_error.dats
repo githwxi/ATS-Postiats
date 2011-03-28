@@ -169,6 +169,13 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [EOF] is needed", @())
     val () = fprint_newline (out)
   }
+//
+| PE_AND () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [AND] is needed", @())
+    val () = fprint_newline (out)
+  }
+//
 | PE_i0nt () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [i0nt] is needed", @())
@@ -250,6 +257,16 @@ case+ x.parerr_node of
 | PE_labs0exp () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [labs0exp] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_s0rtext () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [s0rtext] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_s0qua () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [s0qua] is needed", @())
     val () = fprint_newline (out)
   }
 //
