@@ -123,7 +123,10 @@ case+ tok.token_node of
   in
     if err = 0 then e0xp_eval (tok, ent2, ent3) else synent_null ()
   end // end of [T_PERCENTLPAREN]
-| _ => synent_null ()
+//
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end (* end of [_] *)
 //
 end // end of [p_atme0xp_tok]
 

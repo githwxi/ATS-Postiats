@@ -275,6 +275,15 @@ case+ tok.token_node of
       d0ecl_srtdefs (tok, ent2) else synent_null ()
     // end of [if]
   end
+| T_STADEF () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_s0expdefseq (buf, bt, err)
+  in
+    if err = 0 then
+      d0ecl_sexpdefs (~1(*knd*), tok, ent2) else synent_null ()
+    // end of [if]
+  end
 | T_TYPEDEF (knd) => let
     val bt = 0
     val () = incby1 ()
@@ -284,7 +293,10 @@ case+ tok.token_node of
       d0ecl_sexpdefs (knd, tok, ent2) else synent_null ()
     // end of [if]
   end
-| _ => synent_null ()
+//
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end (* end of [_] *)
 // end of [case]
 end // end of [p_d0ecl_tok]
 

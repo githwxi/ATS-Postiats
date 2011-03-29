@@ -96,7 +96,9 @@ is_SEMICOLON (x) = case+ x of
   | T_SEMICOLON () => true | _ => false
 // end of [is_SEMICOLON]
 implement
-p_SEMICOLON_test (buf) = ptoken_test_fun (buf, is_SEMICOLON)
+p_SEMICOLON_test
+  (buf) = ptoken_test_fun (buf, is_SEMICOLON)
+// end of [p_SEMICOLON_test]
 
 implement
 is_BARSEMI (x) = case+ x of
@@ -185,7 +187,9 @@ in
 end // end of [ptoken_test_fun]
 
 (* ****** ****** *)
-
+//
+// HX: looping if [f] is nullable!
+//
 implement
 pstar_fun{a}
   (buf, bt, f) = let
@@ -200,8 +204,7 @@ pstar_fun{a}
     val x = f (buf, 1(*bt*), err)
   in
     case+ 0 of
-    | _ when
-        synent_is_null (x) => let
+    | _ when err > 0 => let
         val () = res := list_vt_nil
       in
         // nothing
@@ -223,7 +226,9 @@ in
 end // end of [pstar_fun]
 
 (* ****** ****** *)
-
+//
+// HX: looping if [f] is nullable!
+//
 implement
 pstar_sep_fun{a}
   (buf, bt, sep, f) = let
@@ -241,8 +246,7 @@ pstar_sep_fun{a}
       val x = f (buf, 0(*bt*), err)
     in
       case+ 0 of
-      | _ when
-          synent_is_null (x) => let
+      | _ when err > 0 => let
           val () = tokbuf_set_ntok (buf, n0)
           val () = res := list_vt_nil ()
         in
@@ -285,8 +289,7 @@ pstar_fun0_sep
 in
 //
 case+ 0 of
-| _ when
-    synent_is_null (x0) => list_vt_nil ()
+| _ when err > 0 => list_vt_nil ()
 | _ => let
     val xs = pstar_sep_fun (buf, 1(*bt*), sep, f)
   in
@@ -338,29 +341,37 @@ in
 //
 case+ 0 of
 | _ when
-    synent_is_null (x0) => let
-    val () = err := err + 1 in list_vt_nil ()
-  end
-| _ => let
+    synent_isnot_null (x0) => let
     val xs = pstar_sep_fun (buf, 1(*bt*), sep, f)
   in
     list_vt_cons (x0, xs)
-  end // end of [_]
+  end
+| _ => let
+    val () = err := err + 1 in list_vt_nil ()
+  end (* end of [_] *)
 //
 end // end of [pstar_fun1_sep]
 
 (* ****** ****** *)
 
 implement
-pplus_fun {a}
-  (buf, bt, err, f) = let
-  val x = f (buf, bt, err)
+pplus_fun (
+  buf, bt, err, f
+) = let
+  val x0 = f (buf, bt, err)
 in
-  if synent_isnot_null (x) then let
-    val xs = pstar_fun (buf, 1(*bt*), f) in list_vt_cons (x, xs)
-  end else let
+//
+case+ 0 of
+| _ when
+    synent_isnot_null (x0) => let
+    val xs = pstar_fun (buf, 1(*bt*), f)
+  in
+    list_vt_cons (x0, xs)
+  end
+| _ => let
     val () = err := err + 1 in list_vt_nil ()
-  end (* end of [if] *)
+  end (* end of [_] *)
+//
 end // end of [pplus_fun]
 
 (* ****** ****** *)
@@ -421,14 +432,16 @@ ptokwrap_fun (
 ) = x where {
   val n0 = tokbuf_get_ntok (buf)
   val tok = tokbuf_get_token (buf)
+  val err0 = err
+  val () = err := 0
   val x = f (buf, bt, err, tok)
   val () = if
-    synent_is_null (x) then let
-    val () = err := err + 1
+    err > 0 then let
     val () = tokbuf_set_ntok (buf, n0)
   in
     the_parerrlst_add_ifnbt (bt, tok.token_loc, enode)
   end // end of [val]
+  val () = err := err + err0
 } // end of [ptokwrap_fun]
 
 (* ****** ****** *)

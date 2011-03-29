@@ -210,7 +210,9 @@ case+ tok.token_node of
     if err = 0 then s0rt_sqid (ent1, ent2) else synent_null ()
   end
 //
-| _ => synent_null ()
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end (* end of [_] *)
 //
 end // end of [p_atms0rt_tok]
 
@@ -362,21 +364,26 @@ case+ tok.token_node of
       buf, p_si0de, ent
     ) => let
     val ent = synent_decode {i0de} (ent)
-    val x = s0arg_make (ent, None)
+    val x = s0arg_make (ent, None ())
   in
     list_sing (x)
   end
 | T_LPAREN () => let
     val bt = 0
     val () = incby1 ()
+    val () = println! ("p_s0marg_tok: err = ", err)
     val ent2 = p_s0argseq_vt (buf, bt, err)
+    val () = println! ("p_s0marg_tok: err = ", err)
     val ent3 = p_RPAREN (buf, bt, err) // err = 0
+    val () = println! ("p_s0marg_tok: err = ", err)
   in
     if err = 0 then l2l (ent2) else let
       val () = list_vt_free (ent2) in list_nil ()
     end (* end of [if] *)
   end
-| _ => list_nil ()
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end (* end of [_] *)
 //
 end // end of [p_s0marg_tok]
 

@@ -389,10 +389,10 @@ fun
 p_atms0exp_tok (
   buf: &tokbuf, bt: int, err: &int, tok: token
 ) : s0exp = let
-(*
+// (*
   val () = println! ("p_atms0exp: err = ", err)
   val () = println! ("p_atms0exp: tok = ", tok)
-*)
+// *)
   var ent: synent?
   macdef incby1 () = tokbuf_incby1 (buf)
 in
@@ -560,7 +560,9 @@ case+ tok.token_node of
     end (* end of [if] *)
   end
 //
-| _ => synent_null ()
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end (* end of [_] *)
 //
 end // end of [p_atms0exp_tok]
 
@@ -675,7 +677,9 @@ case+ tok.token_node of
     ptest_fun (
       buf, p_exts0exp, ent
     ) => synent_decode {s0exp} (ent)
-| _ => synent_null ()
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end (* end of [_] *)
 //
 end // end of [p_s0exp0_tok]
 
@@ -733,7 +737,9 @@ case+ tok.token_node of
       s0exp_lam (tok, ent2, ent3, ent5) else synent_null ()
     // end of [if]
   end
-| _ => synent_null ()
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end (* end of [_] *)
 //
 end // end of [p_s0exp_tok]
 
