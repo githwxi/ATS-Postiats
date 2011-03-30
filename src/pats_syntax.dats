@@ -382,6 +382,31 @@ in '{
 (* ****** ****** *)
 
 implement
+d0atarg_make_none (s0t) = '{
+  d0atarg_loc= s0t.s0rt_loc
+, d0atarg_sym= None (), d0atarg_srt= s0t
+}
+
+implement
+d0atarg_make_some
+  (id, s0t) = let
+  val loc = id.i0de_loc + s0t.s0rt_loc
+in '{
+  d0atarg_loc= loc
+, d0atarg_sym= Some (id.i0de_sym), d0atarg_srt= s0t
+} end // end of [d0atarg_make_some]
+
+implement
+d0atmarg_make
+  (t_beg, xs, t_end) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  d0atmarg_loc= loc, d0atmarg_arg= xs
+} end // end of [d0atmarg_make]
+
+(* ****** ****** *)
+
+implement
 s0rtext_srt (s0t) = '{
   s0rtext_loc= s0t.s0rt_loc, s0rtext_node= S0TEsrt s0t
 } // end of [s0rtext_srt]
@@ -574,8 +599,9 @@ s0tacon_make
   val loc = (case+ def of
     | Some s0e => loc_id + s0e.s0exp_loc
     | None () => (
-        case+ list_last_opt<s0marg> (arg) of
-        | ~Some_vt x => loc_id + x.s0marg_loc | ~None_vt () => loc_id
+        case+ list_last_opt<d0atmarg> (arg) of
+        | ~Some_vt x => loc_id + x.d0atmarg_loc
+        | ~None_vt () => loc_id
       ) // end of [None]
   ) : location // end of [val]
 in '{
@@ -649,8 +675,9 @@ d0atdec_make (
   | ~None_vt _ => loc_id
   ) : location // end of [val]
   val loc_hd = (case+
-    list_last_opt<s0marg> (arg) of
-    ~Some_vt (x) => loc_id + x.s0marg_loc | ~None_vt _ => loc_id
+    list_last_opt<d0atmarg> (arg) of
+    ~Some_vt (x) => loc_id + x.d0atmarg_loc
+  | ~None_vt _ => loc_id
   ) : location // end of [val]
   val fil = $FIL.filename_get_current ()
 in '{

@@ -352,7 +352,11 @@ fun p_colons0rtopt_vt : parser (s0rtopt_vt) // COLON s0rt
 //
 fun p_s0arg : parser (s0arg) // static argument
 fun p_s0marg : parser (s0marg) // static multi-argument
-fun p_s0margseq : parser (s0marglst) // static multi-argument list
+fun p_s0margseq : parser (s0marglst)
+//
+fun p_d0atarg : parser (d0atarg) // static constructor argument
+fun p_d0atmarg : parser (d0atmarg) // static constructor multi-argument
+fun p_d0atmargseq : parser (d0atmarglst)
 //
 fun p_d0atsrtconseq : parser (d0atsrtconlst)
 

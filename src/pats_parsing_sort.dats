@@ -305,6 +305,7 @@ implement
 p_s0arg
   (buf, bt, err) = let
   val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
   val ent1 = p_si0de (buf, bt, err)
 in
 //
@@ -339,10 +340,7 @@ p_s0argseq_vt (
 (* ****** ****** *)
 
 (*
-s0argseqseq
-  : /*(empty)*/
-  | si0de s0argseqseq
-  | LPAREN s0argseq RPAREN s0argseqseq
+s0marg ::= si0de | LPAREN s0argseq RPAREN
 *)
 
 fun
@@ -396,7 +394,98 @@ p_s0marg (
 implement
 p_s0margseq (buf, bt, err) = let
   val xs = pstar_fun {s0marg} (buf, bt, p_s0marg) in l2l (xs)
-end // end of [p_s0argseqseq]
+end // end of [p_s0margseq]
+
+(* ****** ****** *)
+
+(*
+d0atarg ::= | s0rtpol | si0de COLON s0rtpol
+*)
+implement
+p_d0atarg
+  (buf, bt, err) = let
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  val () = tokbuf_incby1 (buf)
+  val tok2 = tokbuf_get_token (buf)
+  val () = tokbuf_set_ntok (buf, n0)
+in
+//
+case+ tok2.token_node of
+| T_COLON () => let
+    val bt = 0
+    val ent1 = p_si0de (buf, bt, err)
+    val ent2 = (
+      if err = 0 then p_COLON (buf, bt, err) else synent_null ()
+    ) : token // end of [val]
+    val ent3 = (
+      if err = 0 then p_s0rt (buf, bt, err) else synent_null ()
+    ) : s0rt // end of [val]
+  in
+    if err = 0 then
+      d0atarg_make_some (ent1, ent3)
+    else let
+      val () = err := err + 1
+      val () = tokbuf_set_ntok (buf, n0)
+(*
+      val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_dat0arg)
+*)
+    in
+      synent_null ()
+    end
+  end
+| _ => let
+    val ent1 = p_s0rt (buf, bt, err)
+  in
+    if err = 0 then
+      d0atarg_make_none (ent1)
+    else let
+      val () = err := err + 1
+(*
+      val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_dat0arg)
+*)
+    in
+      synent_null ()
+    end (* end of [if] *)
+  end
+//
+end // end of [p_d0atarg]
+
+implement
+p_d0atmarg
+  (buf, bt, err) = let
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_LPAREN () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = pstar_fun0_COMMA {d0atarg} (buf, bt, p_d0atarg)
+    val ent3 = p_RPAREN (buf, bt, err) // err = 0
+  in
+    if err = 0 then
+      d0atmarg_make (tok, (l2l)ent2, ent3)
+    else let
+      val () = err := err + 1
+      val () = tokbuf_set_ntok (buf, n0)
+      val () = list_vt_free (ent2)
+    in
+      synent_null ()
+    end (* end of [if] *)
+  end
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end
+//
+end // end of [p_d0atmarg]  
+
+implement
+p_d0atmargseq (buf, bt, err) = let
+  val xs = pstar_fun {d0atmarg} (buf, bt, p_d0atmarg) in l2l (xs)
+end // end of [p_d0atmargseq]
 
 (* ****** ****** *)
 
@@ -405,6 +494,7 @@ p_d0atsrtcon (
   buf: &tokbuf, bt: int, err: &int
 ) : d0atsrtcon = let
   val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
   val ent1 = p_si0de (buf, bt, err)
 in
 //

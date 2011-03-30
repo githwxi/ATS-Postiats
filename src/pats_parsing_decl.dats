@@ -136,8 +136,8 @@ p_s0tacon (
 ) : s0tacon = let
   val ent1 = p_si0de (buf, bt, err)
   val ent2 = (
-    if err = 0 then p_s0margseq (buf, bt, err) else list_nil
-  ) : s0marglst
+    if err = 0 then p_d0atmargseq (buf, bt, err) else list_nil
+  ) : d0atmarglst
   val ent3 = (
     if err = 0 then p_eqs0expopt_vt (buf, bt, err) else None_vt ()
   ) : s0expopt_vt
@@ -245,8 +245,8 @@ p_d0atdec (
   val n0 = tokbuf_get_ntok (buf)
   val ent1 = p_si0de (buf, bt, err)
   val ent2 = (
-    if err = 0 then p_s0margseq (buf, bt, err) else list_nil ()
-  ) : s0marglst // end of [val]
+    if err = 0 then p_d0atmargseq (buf, bt, err) else list_nil ()
+  ) : d0atmarglst // end of [val]
   val ent3 = (
     if err = 0 then p_EQ (buf, bt, err) else synent_null ()
   ) : token // end of [val]

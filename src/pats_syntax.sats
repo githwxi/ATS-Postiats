@@ -311,29 +311,6 @@ fun fprint_s0rt (out: FILEref, x: s0rt): void
 
 (* ****** ****** *)
 
-typedef s0arg = '{
-  s0arg_loc= location
-, s0arg_sym= symbol, s0arg_srt= s0rtopt
-} // end of [s0arg]
-
-typedef s0arglst = List s0arg
-
-fun s0arg_make (id: i0de, _: s0rtopt): s0arg
-
-typedef s0marg = '{
-  s0marg_loc= location, s0marg_arg= s0arglst
-} // end of [s0marg]
-
-fun s0marg_make_sing (x: s0arg) : s0marg
-
-fun s0marg_make_many (
-  t_beg: token, xs: s0arglst, t_end: token
-) : s0marg // end of [s0marg_make]
-
-typedef s0marglst = List (s0marg)
-
-(* ****** ****** *)
-
 typedef
 d0atsrtcon = '{
   d0atsrtcon_loc= location
@@ -359,6 +336,51 @@ fun d0atsrtdec_make
 // end of [d0atsrtdec_make]
 
 fun fprint_d0atsrtdec (out: FILEref, x: d0atsrtdec): void
+
+(* ****** ****** *)
+
+typedef s0arg = '{
+  s0arg_loc= location
+, s0arg_sym= symbol, s0arg_srt= s0rtopt
+} // end of [s0arg]
+
+typedef s0arglst = List s0arg
+
+fun s0arg_make (id: i0de, _: s0rtopt): s0arg
+
+typedef s0marg = '{
+  s0marg_loc= location, s0marg_arg= s0arglst
+} // end of [s0marg]
+typedef s0marglst = List (s0marg)
+
+fun s0marg_make_sing (x: s0arg) : s0marg
+
+fun s0marg_make_many (
+  t_beg: token, xs: s0arglst, t_end: token
+) : s0marg // end of [s0marg_make]
+
+(* ****** ****** *)
+
+typedef
+d0atarg = '{
+  d0atarg_loc= location
+, d0atarg_sym= symbolopt
+, d0atarg_srt= s0rt
+} // end of [d0atarg]
+
+typedef d0atarglst = List (d0atarg)
+
+fun d0atarg_make_none (_: s0rt): d0atarg
+fun d0atarg_make_some (id: i0de, _: s0rt): d0atarg
+
+typedef d0atmarg = '{
+  d0atmarg_loc= location, d0atmarg_arg= d0atarglst
+} // end of [d0atmarg]
+typedef d0atmarglst = List (d0atmarg)
+
+fun d0atmarg_make (
+  t_beg: token, xs: d0atarglst, t_end: token
+) : d0atmarg // end of [d0atmarg_make]
 
 (* ****** ****** *)
 
@@ -495,14 +517,14 @@ typedef
 s0tacon = '{
   s0tacon_loc= location
 , s0tacon_sym= symbol
-, s0tacon_arg= s0marglst
+, s0tacon_arg= d0atmarglst
 , s0tacon_def= s0expopt
 } // end of [s0tacon]
 
 typedef s0taconlst = List s0tacon
 
 fun s0tacon_make
-  (id: i0de, arg: s0marglst, def: s0expopt): s0tacon
+  (id: i0de, arg: d0atmarglst, def: s0expopt): s0tacon
 // end of [s0tacon_make]
 
 (* ****** ****** *)
@@ -559,14 +581,14 @@ d0atdec = '{
 , d0atdec_loc_hd= location
 , d0atdec_fil= filename
 , d0atdec_sym= symbol
-, d0atdec_arg= s0marglst
+, d0atdec_arg= d0atmarglst
 , d0atdec_con= d0atconlst
 } // end of [d0atdec]
 
 typedef d0atdeclst = List d0atdec
 
 fun d0atdec_make (
-  id: i0de, arg: s0marglst, con: d0atconlst
+  id: i0de, arg: d0atmarglst, con: d0atconlst
 ) : d0atdec // end of [d0atdec_make]
 
 (* ****** ****** *)
