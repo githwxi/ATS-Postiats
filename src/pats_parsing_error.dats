@@ -319,6 +319,11 @@ case+ x.parerr_node of
     val () = fprint_newline (out)
   }
 //
+| PE_stai0de () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [sta0de] is needed", @())
+    val () = fprint_newline (out)
+  }
 | PE_d0ecl () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [d0ecl] is needed", @())

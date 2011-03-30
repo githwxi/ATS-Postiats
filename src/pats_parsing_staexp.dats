@@ -35,9 +35,11 @@
 (* ****** ****** *)
 
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload _(*anon*) = "prelude/DATS/option_vt.dats"
 
 (* ****** ****** *)
 
+staload "pats_symbol.sats"
 staload "pats_lexing.sats"
 staload "pats_tokbuf.sats"
 staload "pats_syntax.sats"
@@ -49,6 +51,8 @@ staload "pats_parsing.sats"
 (* ****** ****** *)
 
 #define l2l list_of_list_vt
+#define t2t option_of_option_vt
+
 viewtypedef s0explst_vt = List_vt (s0exp)
 viewtypedef labs0explst_vt = List_vt (labs0exp)
 
@@ -85,27 +89,27 @@ case+ tok.token_node of
   end
 //
 | T_GT () => let
-    val () = incby1 () in i0de_make_string (loc, ">")
+    val () = incby1 () in i0de_make_sym (loc, symbol_GT)
   end
 | T_LT () => let
-    val () = incby1 () in i0de_make_string (loc, "<")
+    val () = incby1 () in i0de_make_sym (loc, symbol_LT)
   end
 //
 | T_AMPERSAND () => let
-    val () = incby1 () in i0de_make_string (loc, "&")
+    val () = incby1 () in i0de_make_sym (loc, symbol_AMPERSAND)
   end
 | T_BACKSLASH () => let
-    val () = incby1 () in i0de_make_string (loc, "\\")
+    val () = incby1 () in i0de_make_sym (loc, symbol_BACKSLASH)
   end
 | T_BANG () => let
-    val () = incby1 () in i0de_make_string (loc, "!")
+    val () = incby1 () in i0de_make_sym (loc, symbol_BANG)
   end
 | T_TILDE () => let
-    val () = incby1 () in i0de_make_string (loc, "~")
+    val () = incby1 () in i0de_make_sym (loc, symbol_TILDE)
   end
 //
 | T_MINUSGT () => let
-    val () = incby1 () in i0de_make_string (loc, "->")
+    val () = incby1 () in i0de_make_sym (loc, symbol_MINUSGT)
   end
 //
 | _ => let
@@ -296,15 +300,6 @@ fun s0exp_tyrec12_ext (
 (* ****** ****** *)
 
 fun
-p_s0expseq (
-  buf: &tokbuf
-, bt: int
-, err: &int
-) : List_vt (s0exp) =
-  pstar_fun0_COMMA {s0exp} (buf, bt, p_s0exp)
-// end of [p_s0expseq]
-
-fun
 p_s0expseq_BAR_s0expseq (
   buf: &tokbuf
 , bt: int
@@ -312,17 +307,6 @@ p_s0expseq_BAR_s0expseq (
 ) : s0explst12 =
   plist12_fun (buf, bt, p_s0exp)
 // end of [p_s0expseq_BAR_s0expseq]
-
-(* ****** ****** *)
-
-fun
-p_labs0expseq (
-  buf: &tokbuf
-, bt: int
-, err: &int
-) : List_vt (labs0exp) =
-  pstar_fun0_COMMA {labs0exp} (buf, bt, p_labs0exp)
-// end of [p_labs0expseq]
 
 fun
 p_labs0expseq_BAR_labs0expseq (
@@ -389,10 +373,10 @@ fun
 p_atms0exp_tok (
   buf: &tokbuf, bt: int, err: &int, tok: token
 ) : s0exp = let
-// (*
+(*
   val () = println! ("p_atms0exp: err = ", err)
   val () = println! ("p_atms0exp: tok = ", tok)
-// *)
+*)
   var ent: synent?
   macdef incby1 () = tokbuf_incby1 (buf)
 in
@@ -525,7 +509,7 @@ case+ tok.token_node of
 | T_LBRACE () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = pstar_fun0_BARSEMI {s0qua} (buf, bt, p_s0qua)
+    val ent2 = p_s0quaseq_vt (buf, bt, err)
     val ent3 = p_RBRACE (buf, bt, err) // err = 0
   in
     if err = 0 then
@@ -538,7 +522,7 @@ case+ tok.token_node of
 | T_LBRACKET () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = pstar_fun0_BARSEMI {s0qua} (buf, bt, p_s0qua)
+    val ent2 = p_s0quaseq_vt (buf, bt, err)
     val ent3 = p_RBRACKET (buf, bt, err) // err = 0
   in
     if err = 0 then
@@ -550,7 +534,7 @@ case+ tok.token_node of
 | T_HASHLBRACKET () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = pstar_fun0_BARSEMI {s0qua} (buf, bt, p_s0qua)
+    val ent2 = p_s0quaseq_vt (buf, bt, err)
     val ent3 = p_RBRACKET (buf, bt, err) // err = 0
   in
     if err = 0 then
@@ -658,7 +642,7 @@ s0exp
   : apps0exp
   | exts0exp
   | s0exp COLON s0rt
-  | LAM s0argseqseq colons0rtopt EQGT s0exp // COLON > LAM
+  | LAM s0margseq colons0rtopt EQGT s0exp // COLON > LAM
 *)
 
 fun
@@ -693,9 +677,9 @@ p_s0exp0 (
 (* ****** ****** *)
 
 fun s0exp_annopt
-  (ent1: s0exp, ent2: s0rtopt): s0exp =
+  (ent1: s0exp, ent2: s0rtopt_vt): s0exp =
   case+ ent2 of
-  | Some s0t => s0exp_ann (ent1, s0t) | None () => ent1
+  | ~Some_vt s0t => s0exp_ann (ent1, s0t) | ~None_vt () => ent1
 // end of [s0exp_annopt]
 
 fun
@@ -713,19 +697,21 @@ case+ tok.token_node of
     ) => let
     val ent1 = synent_decode {s0exp} (ent)
     val bt = 0
-    val ent2 = p_colons0rtopt (buf, bt, err)
+    val ent2 = p_colons0rtopt_vt (buf, bt, err)
   in
     if err = 0 then
-      s0exp_annopt (ent1, ent2) else synent_null ((*dangling COLON*))
-    // end of [if]
+      s0exp_annopt (ent1, ent2)
+    else let
+      val () = option_vt_free (ent2) in synent_null ((*dangling COLON*))
+    end // end of [if]
   end
 | T_LAM _ => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = p_s0argseqseq (buf, bt, err)
+    val ent2 = p_s0margseq (buf, bt, err)
     val ent3 = (
-      if err = 0 then p_colons0rtopt (buf, bt, err) else synent_null ()
-    ) : s0rtopt
+      if err = 0 then p_colons0rtopt_vt (buf, bt, err) else None_vt ()
+    ) : s0rtopt_vt
     val ent4 = (
       if err = 0 then p_EQGT (buf, bt, err) else synent_null ()
     ) : token
@@ -734,8 +720,10 @@ case+ tok.token_node of
     ) : s0exp
   in
     if err = 0 then
-      s0exp_lam (tok, ent2, ent3, ent5) else synent_null ()
-    // end of [if]
+      s0exp_lam (tok, ent2, (t2t)ent3, ent5)
+    else let
+      val () = option_vt_free (ent3) in synent_null ()
+    end // end of [if]
   end
 | _ => let
     val () = err := err + 1 in synent_null ()
@@ -879,6 +867,201 @@ case+ 0 of
   end
 //
 end // end of [p_s0qua]
+
+implement
+p_s0quaseq_vt (buf, bt, err) =
+  pstar_fun0_BARSEMI {s0qua} (buf, bt, p_s0qua)
+// end of [p_s0quaseq_vt]
+
+(* ****** ****** *)
+
+implement
+p_eqs0expopt_vt
+  (buf, bt, err) = let
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_EQ () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_s0exp (buf, bt, err)
+  in
+    if synent_is_null (ent2) then let
+      val () = tokbuf_set_ntok (buf, n0) in None_vt ()
+    end else Some_vt (ent2) (* end of [if] *)
+  end
+| _ => None_vt ()
+//
+end // end of [p_eqs0expopt_vt]
+
+(* ****** ****** *)
+
+implement
+p_ofs0expopt_vt
+  (buf, bt, err) = let
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_OF () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_s0exp (buf, bt, err)
+  in
+    if synent_is_null (ent2) then let
+      val () = tokbuf_set_ntok (buf, n0) in None_vt ()
+    end else Some_vt (ent2) (* end of [if] *)
+  end
+| _ => None_vt ()
+//
+end // end of [p_ofs0expopt_vt]
+
+(* ****** ****** *)
+
+(*
+conq0uaseq ::=
+  | /*(empty)*/ | LBRACE s0quaseq RBRACE conq0uaseq
+*)
+fun
+p_conq0ua (
+  buf: &tokbuf, bt: int, err: &int  
+) : s0qualst = let
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  val loc = tok.token_loc
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_LBRACE () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_s0quaseq_vt (buf, bt, err)
+    val ent3 = p_RBRACE (buf, bt, err)
+  in
+    if err = 0 then (l2l)ent2 else let
+      val () = err := err + 1
+      val () = tokbuf_set_ntok (buf, n0)
+      val () = list_vt_free (ent2)
+(*
+      val () = the_parerrlst_add_ifnbt (bt, tok.i0de_loc, PE_conq0ua)
+*)
+    in
+      synent_null ()
+    end // end of [if]
+  end
+| _ => let
+    val () = err := err + 1
+(*
+    val () = the_parerrlst_add_ifnbt (bt, tok.i0de_loc, PE_conq0ua)
+*)
+  in
+    synent_null ()
+  end
+//
+end // end of [p_conq0ua]
+
+(*
+coni0ndopt ::= /*(empty)*/ | LPAREN s0expseq RPAREN
+*)
+fun
+p_coni0ndopt (
+  buf: &tokbuf, bt: int, err: &int  
+) : s0expopt = let
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  val loc = tok.token_loc
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_LPAREN () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = pstar_fun0_COMMA {s0exp} (buf, bt, p_s0exp)
+    val ent3 = p_RPAREN (buf, bt, err)
+  in
+    if err = 0 then let
+      val s0e = s0exp_list (tok, (l2l)ent2, ent3) in Some (s0e)
+    end else let
+      val () = err := err + 1
+      val () = tokbuf_set_ntok (buf, n0)
+      val () = list_vt_free (ent2)
+(*
+      val () = the_parerrlst_add_ifnbt (bt, tok.i0de_loc, PE_coni0nd)
+*)
+    in
+      synent_null ()
+    end // end of [if]
+  end
+| _ => None ()
+//
+end // end of [p_coni0ndopt]
+
+(*
+cona0rgopt ::= | /*(empty)*/ | OF s0exp
+*)
+fun
+p_cona0rgopt (
+  buf: &tokbuf, bt: int, err: &int  
+) : s0expopt = let
+  val res = p_ofs0expopt_vt (buf, bt, err) in (t2t)res
+end // end of [p_cona0rgopt]
+
+(*
+d0atcon
+  | conq0uaseq di0de coni0ndopt cona0rgopt
+*)
+fun
+p_d0atcon (
+  buf: &tokbuf, bt: int, err: &int  
+) : d0atcon = let
+  val () = println! ("p_d0atcon: bt = ", bt)
+  val () = println! ("p_d0atcon: err = ", err)
+  val ent1 = pstar_fun {s0qualst} (buf, bt, p_conq0ua)
+  val () = println! ("p_d0atcon: err = ", err)
+  val ent2 = p_di0de (buf, bt, err) // err = 0
+  val ent3 = (
+    if err = 0 then p_coni0ndopt (buf, bt, err) else None ()
+  ) : s0expopt // end of [val]
+  val ent4 = (
+    if err = 0 then p_cona0rgopt (buf, bt, err) else None ()
+  ) : s0expopt // end of [val]
+in
+  if err = 0 then
+    d0atcon_make ((l2l)ent1, ent2, ent3, ent4)
+  else let
+    val () = err := err + 1
+    val () = list_vt_free (ent1)
+  in
+    synent_null ()
+  end (* end of [if] *)
+end // end of [p_d0atcon]
+
+(* ****** ****** *)
+
+implement
+p_d0atconseq
+  (buf, bt, err) = let
+  val tok = tokbuf_get_token (buf)
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_BAR () => let
+    val () = incby1 ()
+    val xs = pstar_fun0_BAR (buf, bt, p_d0atcon) in l2l (xs)
+  end // end of [T_BAR]
+| _ => let
+    val xs = pstar_fun0_BAR (buf, bt, p_d0atcon) in l2l (xs)
+  end // end of [T_BAR]
+//
+end // end of [p_d0atconseq]
 
 (* ****** ****** *)
 

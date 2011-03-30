@@ -402,12 +402,38 @@ in
       val () = prstr "..."
       val () = prstr "\n)"
     }
+  | D0Cstacons (knd, xs) => {
+      val () = prstr "D0Cstacons(\n"
+      val () = fprint_int (out, knd)
+      val () = prstr "; "
+      val () = prstr "..."
+      val () = prstr "\n)"
+    }
   | D0Csexpdefs (knd, xs) => {
       val () = prstr "D0Csexpdefs(\n"
       val () = fprint_int (out, knd)
       val () = prstr "; "
       val () = prstr "..."
       val () = prstr "\n)"
+    }
+  | D0Csaspdec (x) => {
+      val () = prstr "D0Csaspdec(\n"
+      val () = prstr "..."
+      val () = prstr "\n)"
+    }
+  | D0Cdatdecs (knd, decs, defs) => {
+      val () = prstr "D0Cdatdecs(\n"
+      val () = fprint_int (out, knd)
+      val () = prstr "; "
+      val () = prstr "..."
+      val () = prstr "\n)"
+    }
+  | D0Cstaload (symopt, name) => {
+      val () = prstr "D0Cstaload("
+      val () = $UT.fprintopt<symbol> (out, symopt, fprint_symbol)
+      val () = prstr "; "
+      val () = fprint_string (out, name)
+      val () = prstr ")"
     }
 (*
   | _ => {

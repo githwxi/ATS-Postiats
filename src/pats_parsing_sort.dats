@@ -49,6 +49,7 @@ staload "pats_parsing.sats"
 (* ****** ****** *)
 
 #define l2l list_of_list_vt
+#define t2t option_of_option_vt
 macdef list_sing (x) = list_cons (,(x), list_nil)
 
 (* ****** ****** *)
@@ -254,7 +255,7 @@ end // end of [p_s0rt]
 (* ****** ****** *)
 
 implement
-p_ofs0rtopt
+p_ofs0rtopt_vt
   (buf, bt, err) = let
   val n0 = tokbuf_get_ntok (buf)
   val tok = tokbuf_get_token (buf)
@@ -267,17 +268,17 @@ case+ tok.token_node of
     val () = incby1 ()
     val ent2 = p_s0rt (buf, bt, err)
   in
-    if synent_isnot_null (ent2) then ent2 else let
-      val () = tokbuf_set_ntok (buf, n0) in synent_null ()
-    end (* end of [if] *)
+    if synent_is_null (ent2) then let
+      val () = tokbuf_set_ntok (buf, n0) in None_vt ()
+    end else Some_vt (ent2) (* end of [if] *)
   end
-| _ => synent_null () // there is no error
+| _ => None_vt ()
 end // end of [p_ofs0rtopt]
 
 (* ****** ****** *)
 
 implement
-p_colons0rtopt
+p_colons0rtopt_vt
   (buf, bt, err) = let
   val n0 = tokbuf_get_ntok (buf)
   val tok = tokbuf_get_token (buf)
@@ -291,11 +292,12 @@ case+ tok.token_node of
     val ent2 = p_s0rt (buf, bt, err)
   in
     if synent_is_null (ent2) then let
-      val () = tokbuf_set_ntok (buf, n0) in None ()
-    end else Some (ent2) (* end of [if] *)
+      val () = tokbuf_set_ntok (buf, n0) in None_vt ()
+    end else Some_vt (ent2) (* end of [if] *)
   end
-| _ => None ()
-end // end of [p_colons0rtopt]
+| _ => None_vt ()
+//
+end // end of [p_colons0rtopt_vt]
 
 (* ****** ****** *)
 
@@ -308,9 +310,9 @@ in
 //
 if err = 0 then let
   val bt = 0
-  val ent2 = p_colons0rtopt (buf, bt, err)
+  val ent2 = p_colons0rtopt_vt (buf, bt, err)
 in
-  s0arg_make (ent1, ent2)
+  s0arg_make (ent1, (t2t)ent2)
 end else let
   val () = err := err + 1
   val () = tokbuf_set_ntok (buf, n0)
@@ -334,11 +336,6 @@ p_s0argseq_vt (
   pstar_fun0_COMMA {s0arg} (buf, bt, p_s0arg)
 // end of [p_s0argseq_vt]
 
-implement
-p_s0argseq (buf, bt, err) = let
-  val xs = pstar_fun0_COMMA {s0arg} (buf, bt, p_s0arg) in l2l (xs)
-end // end of [p_s0argseq]
-
 (* ****** ****** *)
 
 (*
@@ -353,7 +350,7 @@ p_s0marg_tok (
   buf: &tokbuf
 , bt: int, err: &int
 , tok: token
-) : s0arglst = let
+) : s0marg = let
   var ent: synent?
   macdef incby1 () = tokbuf_incby1 (buf)
 in
@@ -366,19 +363,18 @@ case+ tok.token_node of
     val ent = synent_decode {i0de} (ent)
     val x = s0arg_make (ent, None ())
   in
-    list_sing (x)
+    s0marg_make_sing (x)
   end
 | T_LPAREN () => let
     val bt = 0
     val () = incby1 ()
-    val () = println! ("p_s0marg_tok: err = ", err)
     val ent2 = p_s0argseq_vt (buf, bt, err)
-    val () = println! ("p_s0marg_tok: err = ", err)
     val ent3 = p_RPAREN (buf, bt, err) // err = 0
-    val () = println! ("p_s0marg_tok: err = ", err)
   in
-    if err = 0 then l2l (ent2) else let
-      val () = list_vt_free (ent2) in list_nil ()
+    if err = 0 then
+      s0marg_make_many (tok, (l2l)ent2, ent3)
+    else let
+      val () = list_vt_free (ent2) in synent_null ()
     end (* end of [if] *)
   end
 | _ => let
@@ -391,15 +387,15 @@ fun
 p_s0marg (
   buf: &tokbuf
 , bt: int, err: &int
-) : s0arglst =
+) : s0marg =
   ptokwrap_fun (buf, bt, err, p_s0marg_tok, PE_s0marg)
 // end of [p_s0marg]
 
 (* ****** ****** *)
 
 implement
-p_s0argseqseq (buf, bt, err) = let
-  val xs = pstar_fun {s0arglst} (buf, bt, p_s0marg) in l2l (xs)
+p_s0margseq (buf, bt, err) = let
+  val xs = pstar_fun {s0marg} (buf, bt, p_s0marg) in l2l (xs)
 end // end of [p_s0argseqseq]
 
 (* ****** ****** *)
@@ -414,12 +410,9 @@ in
 //
 if err = 0 then let
   val bt = 0
-  val ent2 = p_ofs0rtopt (buf, bt, err)
-  val ent2 = (
-    if synent_isnot_null (ent2) then Some (ent2) else None ()
-  ) : s0rtopt // end of [val]
+  val ent2 = p_ofs0rtopt_vt (buf, bt, err)
 in
-  d0atsrtcon_make (ent1, ent2)
+  d0atsrtcon_make (ent1, (t2t)ent2)
 end else let
   val () = err := err + 1
   val () = tokbuf_set_ntok (buf, n0)

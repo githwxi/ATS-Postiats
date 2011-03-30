@@ -45,6 +45,7 @@ staload LEX = "pats_lexing.sats"
 typedef token = $LEX.token
 staload SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
+typedef symbolopt = Option (symbol)
 
 (* ****** ****** *)
 
@@ -53,6 +54,9 @@ typedef label = $LAB.label
 
 staload FIX = "pats_fixity.sats"
 typedef assoc = $FIX.assoc
+
+staload FIL = "pats_filename.sats"
+typedef filename = $FIL.filename
 
 (* ****** ****** *)
 //
@@ -111,6 +115,7 @@ typedef i0de = '{
 
 typedef i0delst = List (i0de)
 
+fun i0de_make_sym (loc: location, sym: symbol) : i0de
 fun i0de_make_string (loc: location, name: string) : i0de
 
 fun fprint_i0de (out: FILEref, x: i0de): void
@@ -312,9 +317,20 @@ typedef s0arg = '{
 } // end of [s0arg]
 
 typedef s0arglst = List s0arg
-typedef s0arglstlst = List s0arglst
 
 fun s0arg_make (id: i0de, _: s0rtopt): s0arg
+
+typedef s0marg = '{
+  s0marg_loc= location, s0marg_arg= s0arglst
+} // end of [s0marg]
+
+fun s0marg_make_sing (x: s0arg) : s0marg
+
+fun s0marg_make_many (
+  t_beg: token, xs: s0arglst, t_end: token
+) : s0marg // end of [s0marg_make]
+
+typedef s0marglst = List (s0marg)
 
 (* ****** ****** *)
 
@@ -357,7 +373,7 @@ s0exp_node =
   | S0Eopid of symbol
   | S0Esqid of (s0taq, symbol)
 //
-  | S0Elam of (s0arglstlst, s0rtopt, s0exp)
+  | S0Elam of (s0marglst, s0rtopt, s0exp)
 //
   | S0Elist of s0explst
   | S0Elist2 of (s0explst (*prop/view*), s0explst (*type/viewtype*))
@@ -385,6 +401,7 @@ s0exp = '{
 } // end of [s0exp]
 and s0explst = List (s0exp)
 and s0expopt = Option (s0exp)
+and s0expopt_vt = Option_vt (s0exp)
 
 and labs0exp = l0abeled (s0exp)
 and labs0explst = List labs0exp
@@ -396,7 +413,9 @@ and s0rtext = '{ (* extended sorts *)
 and s0qua = '{
   s0qua_loc= location, s0qua_node= s0qua_node
 }
-and s0qualst = List s0qua
+and s0qualst = List (s0qua)
+and s0qualst_vt = List_vt (s0qua)
+and s0qualstlst = List (s0qualst)
 
 (* ****** ****** *)
 
@@ -420,7 +439,9 @@ fun s0exp_i0nt (_: i0nt): s0exp
 fun s0exp_opid (_1: token, _2: i0de): s0exp
 fun s0exp_sqid (_: sqi0de): s0exp
 
-fun s0exp_lam (_1: token, _2: s0arglstlst, _3: s0rtopt, _4: s0exp): s0exp
+fun s0exp_lam (
+  _1: token, _2: s0marglst, _3: s0rtopt, _4: s0exp
+) : s0exp // end of [s0exp_lam]
 
 fun s0exp_list (
   t_beg: token, ent2: s0explst, t_end: token
@@ -471,19 +492,82 @@ fun s0rtdef_make (id: i0de, s0te: s0rtext): s0rtdef
 (* ****** ****** *)
 
 typedef
+s0tacon = '{
+  s0tacon_loc= location
+, s0tacon_sym= symbol
+, s0tacon_arg= s0marglst
+, s0tacon_def= s0expopt
+} // end of [s0tacon]
+
+typedef s0taconlst = List s0tacon
+
+fun s0tacon_make
+  (id: i0de, arg: s0marglst, def: s0expopt): s0tacon
+// end of [s0tacon_make]
+
+(* ****** ****** *)
+
+typedef
 s0expdef = '{
   s0expdef_loc= location
 , s0expdef_sym= symbol
 , s0expdef_loc_id= location
-, s0expdef_arg= s0arglstlst
+, s0expdef_arg= s0marglst
 , s0expdef_res= s0rtopt
 , s0expdef_def= s0exp
 } // end of [s0expdef]
 typedef s0expdeflst = List s0expdef
 
 fun s0expdef_make
-  (id: i0de, arg: s0arglstlst, res: s0rtopt, def: s0exp): s0expdef
+  (id: i0de, arg: s0marglst, res: s0rtopt, def: s0exp): s0expdef
 // end of [s0expdef_make]
+
+(* ****** ****** *)
+
+typedef s0aspdec = '{
+  s0aspdec_loc= location
+, s0aspdec_qid= sqi0de
+, s0aspdec_arg= s0marglst
+, s0aspdec_res= s0rtopt
+, s0aspdec_def= s0exp
+} // end of [s0aspdec]
+
+fun s0aspdec_make (
+  qid: sqi0de, arg: s0marglst, res: s0rtopt, def: s0exp
+) : s0aspdec // end of [s0aspdec_make]
+
+(* ****** ****** *)
+
+typedef
+d0atcon = '{
+  d0atcon_loc= location
+, d0atcon_sym= symbol
+, d0atcon_qua= s0qualstlst
+, d0atcon_arg= s0expopt
+, d0atcon_ind= s0expopt
+} // end of [d0atcon]
+
+typedef d0atconlst = List (d0atcon)
+
+fun d0atcon_make (
+  qua: s0qualstlst, id: i0de, ind: s0expopt, arg: s0expopt
+) : d0atcon // end of [d0atcon_make]
+
+typedef
+d0atdec = '{
+  d0atdec_loc= location
+, d0atdec_loc_hd= location
+, d0atdec_fil= filename
+, d0atdec_sym= symbol
+, d0atdec_arg= s0marglst
+, d0atdec_con= d0atconlst
+} // end of [d0atdec]
+
+typedef d0atdeclst = List d0atdec
+
+fun d0atdec_make (
+  id: i0de, arg: s0marglst, con: d0atconlst
+) : d0atdec // end of [d0atdec_make]
 
 (* ****** ****** *)
 
@@ -496,7 +580,11 @@ d0ecl_node =
   | D0Ce0xpact of (e0xpactkind, e0xp)
   | D0Cdatsrts of d0atsrtdeclst (* datasort declaration *)
   | D0Csrtdefs of s0rtdeflst (* sort definition *)
+  | D0Cstacons of (int(*knd*), s0taconlst) (* abstype defintion *)
   | D0Csexpdefs of (int(*knd*), s0expdeflst) (* staexp definition *)
+  | D0Csaspdec of s0aspdec (* static assumption *)
+  | D0Cdatdecs of (int(*knd*), d0atdeclst, s0expdeflst)
+  | D0Cstaload of (symbolopt, string)
 // end of [d0ecl_node]
 
 where
@@ -521,8 +609,20 @@ fun d0ecl_e0xpact_print (_1: token, _2: e0xp): d0ecl
 
 fun d0ecl_datsrts (_1: token, _2: d0atsrtdeclst): d0ecl
 fun d0ecl_srtdefs (_1: token, _2: s0rtdeflst): d0ecl
+fun d0ecl_stacons (knd: int, _1: token, _2: s0taconlst): d0ecl
 fun d0ecl_sexpdefs (knd: int, _1: token, _2: s0expdeflst): d0ecl
-
+fun d0ecl_saspdec (_1: token, _2: s0aspdec): d0ecl
+//
+fun d0ecl_datdecs_none (
+  knd: int, t1: token, ds_dec: d0atdeclst
+) : d0ecl // end of [d0ecl_datdecs_none]
+fun d0ecl_datdecs_some (
+  knd: int, t1: token, ds_dec: d0atdeclst, t2: token, ds_def: s0expdeflst
+) : d0ecl // end of [d0ecl_datdecs_some]
+//
+fun d0ecl_staload_none (tok: token, tok2: token): d0ecl
+fun d0ecl_staload_some (tok: token, ent2: i0de, ent4: token): d0ecl
+//
 (* ****** ****** *)
 
 fun fprint_d0ecl (out: FILEref, x: d0ecl): void

@@ -47,6 +47,7 @@ staload SYM = "pats_symbol.sats"
 
 staload LAB = "pats_label.sats"
 staload FIX = "pats_fixity.sats"
+staload FIL = "pats_filename.sats"
 
 (* ****** ****** *)
 
@@ -56,6 +57,7 @@ staload "pats_syntax.sats"
 (* ****** ****** *)
 
 #define sz2i int_of_size
+macdef list_sing (x) = list_cons (,(x), list_nil)
 
 (* ****** ****** *)
 
@@ -108,6 +110,12 @@ implement
 print_dcstkind (x) = fprint_dcstkind (stdout_ref, x)
 
 (* ****** ****** *)
+
+implement
+i0de_make_sym
+  (loc, sym) = '{
+  i0de_loc= loc, i0de_sym= sym
+} // end of [i0de_make_sym]
 
 implement
 i0de_make_string
@@ -359,6 +367,21 @@ in '{
 (* ****** ****** *)
 
 implement
+s0marg_make_sing (x) = '{
+  s0marg_loc= x.s0arg_loc, s0marg_arg= list_sing (x)
+} // end of [s0marg_make_sing]
+
+implement
+s0marg_make_many
+  (t_beg, xs, t_end) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  s0marg_loc= loc, s0marg_arg= xs
+} end // end of [s0marg_make_many]
+
+(* ****** ****** *)
+
+implement
 s0rtext_srt (s0t) = '{
   s0rtext_loc= s0t.s0rt_loc, s0rtext_node= S0TEsrt s0t
 } // end of [s0rtext_srt]
@@ -545,6 +568,26 @@ in '{
 (* ****** ****** *)
 
 implement
+s0tacon_make
+  (id, arg, def) = let
+  val loc_id = id.i0de_loc
+  val loc = (case+ def of
+    | Some s0e => loc_id + s0e.s0exp_loc
+    | None () => (
+        case+ list_last_opt<s0marg> (arg) of
+        | ~Some_vt x => loc_id + x.s0marg_loc | ~None_vt () => loc_id
+      ) // end of [None]
+  ) : location // end of [val]
+in '{
+  s0tacon_loc= loc
+, s0tacon_sym= id.i0de_sym
+, s0tacon_arg= arg
+, s0tacon_def= def
+} end // end of [s0tacon_make_some_some]
+
+(* ****** ****** *)
+
+implement
 s0expdef_make (
  id, arg, res, def
 ) = let
@@ -557,6 +600,67 @@ in '{
 , s0expdef_res= res
 , s0expdef_def= def
 } end // end of [s0expdef_make]
+
+(* ****** ****** *)
+
+implement
+s0aspdec_make (
+  qid, arg, res, def
+) = let
+  val loc = qid.sqi0de_loc + def.s0exp_loc
+in '{
+  s0aspdec_loc= loc
+, s0aspdec_qid= qid
+, s0aspdec_arg= arg
+, s0aspdec_res= res
+, s0aspdec_def= def
+} end // end of [s0aspdec_make]
+
+(* ****** ****** *)
+
+implement
+d0atcon_make
+  (qua, id, ind, arg) = let
+  val loc_id = id.i0de_loc
+  val loc = (case+ arg of
+    | Some s0e => loc_id + s0e.s0exp_loc
+    | None () => begin case+ ind of
+      | Some s0e => loc_id + s0e.s0exp_loc | _ => loc_id
+      end // end of [None]
+  ) : location // end of [val]
+in '{
+  d0atcon_loc= loc
+, d0atcon_sym= id.i0de_sym
+, d0atcon_qua= qua
+, d0atcon_arg= arg
+, d0atcon_ind= ind
+} end // end of [d0atcon_make]
+
+(* ****** ****** *)
+
+implement
+d0atdec_make (
+  id, arg, con
+) = let
+  val loc_id = id.i0de_loc
+  val loc = (case+
+    list_last_opt<d0atcon> (con) of
+    ~Some_vt (x) => loc_id + x.d0atcon_loc
+  | ~None_vt _ => loc_id
+  ) : location // end of [val]
+  val loc_hd = (case+
+    list_last_opt<s0marg> (arg) of
+    ~Some_vt (x) => loc_id + x.s0marg_loc | ~None_vt _ => loc_id
+  ) : location // end of [val]
+  val fil = $FIL.filename_get_current ()
+in '{
+  d0atdec_loc= loc
+, d0atdec_loc_hd= loc_hd
+, d0atdec_fil= fil
+, d0atdec_sym= id.i0de_sym
+, d0atdec_arg= arg
+, d0atdec_con= con
+} end // end of [d0atdec_make]
 
 (* ****** ****** *)
 
@@ -681,6 +785,18 @@ in '{
 } end // end of [d0ecl_srtdefs]
 
 implement
+d0ecl_stacons
+  (knd, tok, xs) = let
+  val loc = tok.token_loc
+  val loc = (case+
+    list_last_opt<s0tacon> (xs) of
+    | ~Some_vt x => loc + x.s0tacon_loc | ~None_vt _ => loc
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cstacons (knd, xs)
+} end // end of [d0ecl_stacons]
+
+implement
 d0ecl_sexpdefs
   (knd, tok, xs) = let
   val loc = tok.token_loc
@@ -691,6 +807,62 @@ d0ecl_sexpdefs
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Csexpdefs (knd, xs)
 } end // end of [d0ecl_sexpdefs]
+
+implement
+d0ecl_saspdec (tok, x) = let
+  val loc = tok.token_loc + x.s0aspdec_loc
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Csaspdec (x)
+} end // end of [d0ecl_saspdec]
+
+(* ****** ****** *)
+
+implement
+d0ecl_datdecs_none (
+  knd, tok, ent2
+) = let
+  val loc = (case+
+    list_last_opt<d0atdec> (ent2) of
+    ~Some_vt x => tok.token_loc + x.d0atdec_loc
+  | ~None_vt _ => tok.token_loc
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cdatdecs (knd, ent2, list_nil)
+} end // end of [d0ecl_datdecs_none]
+
+implement
+d0ecl_datdecs_some (
+  knd, tok, ent2, tok2, ent4
+) = let
+  val loc = (case+
+    list_last_opt<s0expdef> (ent4) of
+    ~Some_vt x => tok.token_loc + x.s0expdef_loc
+  | ~None_vt _ => tok.token_loc + tok2.token_loc
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cdatdecs (knd, ent2, ent4)
+} end // end of [d0ecl_datdecs_some]
+
+(* ****** ****** *)
+
+implement
+d0ecl_staload_none
+  (tok, tok2) = let
+  val- T_STRING (name) = tok2.token_node
+  val loc = tok.token_loc + tok2.token_loc
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cstaload (None, name)
+} end // end of [d0ecl_staload_none]
+
+implement
+d0ecl_staload_some
+  (tok, ent2, ent4) = let
+  val- T_STRING (name) = ent4.token_node
+  val loc = tok.token_loc + ent4.token_loc
+  val sym = ent2.i0de_sym
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cstaload (Some sym, name)
+} end // end of [d0ecl_staload_some]
 
 (* ****** ****** *)
 
