@@ -136,4 +136,99 @@ end // end of [p_pi0de]
 
 (* ****** ****** *)
 
+(*
+d0ynq ::=
+  | i0de_dlr DOT
+  | i0de_dlr COLON
+  | i0de_dlr i0de_dlr COLON
+/*
+  | DOLLAR LITERAL_string DOT
+  | DOLLAR LITERAL_string i0de_dlr COLON
+*/
+*)
+implement
+p_d0ynq (buf, bt, err) = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  var ent: synent?
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ 0 of
+| _ when
+    ptest_fun (
+      buf, p_i0de_dlr, ent
+    ) => let
+    val ent1 = synent_decode {i0de} (ent)
+    val tok2 = tokbuf_get_token (buf)
+  in
+    case+ tok2.token_node of
+    | T_DOT () => let
+        val () = incby1 () in d0ynq_symdot (ent1, tok2)
+      end
+    | T_COLON () => let
+        val () = incby1 () in d0ynq_symcolon (ent1, tok2)
+      end
+    | _ => let
+        val ~SYNENT2 (ent2, ent3) =
+          pseq2_fun {i0de,token} (buf, bt, err, p_i0de_dlr, p_COLON)
+        // end of [val]
+      in
+        if err = err0 then
+          d0ynq_symdotcolon (ent1, ent2, ent3)
+        else let
+(*
+          val () = the_parerrlst_add_ifnbt (bt, ent1.i0de_loc, PE_d0ynq)
+*)
+        in
+          tokbuf_set_ntok_null (buf, n0)
+        end (* end of [if] *)
+      end // end of [_]
+  end (* end of [_ when ...] *)
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end (* end of [_] *)
+//
+end // end of [p_d0ynq]
+
+(* ****** ****** *)
+
+implement
+p_dqi0de
+  (buf, bt, err) = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  val loc = tok.token_loc
+  var ent: synent?
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ 0 of
+| _ when
+    ptest_fun (buf, p_si0de, ent) =>
+    dqi0de_make_none (synent_decode {i0de} (ent))
+| _ when
+    ptest_fun (buf, p_d0ynq, ent) => let
+    val bt = 0
+    val ent1 = synent_decode {d0ynq} (ent)
+    val ent2 = p_si0de (buf, bt, err)
+  in
+    if err = err0 then
+      dqi0de_make_some (ent1, ent2)
+    else
+      tokbuf_set_ntok_null (buf, n0)
+    // end of [if]
+  end
+| _ => let
+    val () = err := err + 1
+    val () = the_parerrlst_add_ifnbt (bt, loc, PE_dqi0de)
+  in
+    synent_null ()
+  end
+//
+end // end of [p_dqi0de]
+
+(* ****** ****** *)
+
 (* end of [pats_parsing_dynexp.dats] *)

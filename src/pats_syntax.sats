@@ -179,7 +179,7 @@ datatype d0ynq_node =
   | D0YNQnone
   | D0YNQsymdot of symbol
   | D0YNQsymcolon of symbol
-  | D0YNQsymdot_symcolon of (symbol, symbol)
+  | D0YNQsymdotcolon of (symbol, symbol)
 (*
   | D0YNQfildot of string (* filename *)
   | D0YNQfildot_symcolon of (string (* filename *), symbol)
@@ -190,6 +190,16 @@ typedef d0ynq = '{
   d0ynq_loc= location, d0ynq_node= d0ynq_node
 } // end of [d0ynq]
 
+fun d0ynq_none (loc: location): d0ynq
+fun d0ynq_symdot
+  (ent1: i0de, tok2: token): d0ynq
+fun d0ynq_symcolon
+  (ent1: i0de, tok2: token): d0ynq
+fun d0ynq_symdotcolon
+  (ent1: i0de, ent2: i0de, ent3: token): d0ynq
+
+fun fprint_d0ynq (out: FILEref, x: d0ynq): void
+
 (* ****** ****** *)
 
 typedef dqi0de = '{
@@ -197,7 +207,10 @@ typedef dqi0de = '{
 , dqi0de_qua= d0ynq, dqi0de_sym= symbol
 } // end of [dqi0de]
 
-fun dqi0de_make (ent1: d0ynq, ent2: i0de): dqi0de
+fun dqi0de_make_none (ent: i0de): dqi0de
+fun dqi0de_make_some (ent1: d0ynq, ent2: i0de): dqi0de
+
+fun fprint_dqi0de (out: FILEref, x: dqi0de): void
 
 (* ****** ****** *)
 
@@ -643,7 +656,7 @@ typedef s0aspdec = '{
 } // end of [s0aspdec]
 
 fun s0aspdec_make (
-  qid: sqi0de, arg: s0marglst, res: s0rtopt, def: s0exp
+  sqid: sqi0de, arg: s0marglst, res: s0rtopt, def: s0exp
 ) : s0aspdec // end of [s0aspdec_make]
 
 (* ****** ****** *)
@@ -768,6 +781,8 @@ d0ecl_node =
 //
   | D0Cdcstdecs of (token, q0marglst, d0cstdeclst)
 //
+  | D0Coverload of (i0de, dqi0de) // overloading
+//
   | D0Cextcode of (* external code *)
       (int(*knd*), int(*pos*), string(*code*))
 //
@@ -827,6 +842,9 @@ fun d0ecl_datdecs_none (
 fun d0ecl_datdecs_some (
   knd: int, t1: token, ds_dec: d0atdeclst, t2: token, ds_def: s0expdeflst
 ) : d0ecl // end of [d0ecl_datdecs_some]
+//
+fun d0ecl_overload
+  (t: token, id: i0de, dqid: dqi0de): d0ecl
 //
 fun d0ecl_extcode (knd: int, tok: token): d0ecl
 //

@@ -183,19 +183,52 @@ in '{
 (* ****** ****** *)
 
 implement
-l0ab_make_i0de (x) = let
-  val lab = $LAB.label_make_sym (x.i0de_sym)
-in '{
-  l0ab_loc= x.i0de_loc, l0ab_lab= lab
-} end // end of [l0ab_make_i0de]
+d0ynq_none (loc) = '{
+  d0ynq_loc= loc, d0ynq_node= D0YNQnone ()
+} // end of [d0ynq_none]
 
 implement
-l0ab_make_i0nt (x) = let
-  val int = int_of_string (x.i0nt_rep)
-  val lab = $LAB.label_make_int (int)
+d0ynq_symdot (ent1, tok2) = let
+  val loc = ent1.i0de_loc + tok2.token_loc
 in '{
-  l0ab_loc= x.i0nt_loc, l0ab_lab= lab
-} end // end of [l0ab_make_i0nt]
+  d0ynq_loc= loc, d0ynq_node= D0YNQsymdot (ent1.i0de_sym)
+} end // end of [d0ynq_symdot]
+
+implement
+d0ynq_symcolon (ent1, tok2) = let
+  val loc = ent1.i0de_loc + tok2.token_loc
+in '{
+  d0ynq_loc= loc, d0ynq_node= D0YNQsymcolon (ent1.i0de_sym)
+} end // end of [d0ynq_symcolon]
+
+implement
+d0ynq_symdotcolon
+  (ent1, ent2, ent3) = let
+  val loc = ent1.i0de_loc + ent3.token_loc
+in '{
+  d0ynq_loc= loc
+, d0ynq_node= D0YNQsymdotcolon (ent1.i0de_sym, ent2.i0de_sym)
+} end // end of [d0ynq_symdotcolon]
+
+(* ****** ****** *)
+
+implement
+dqi0de_make_none (ent) = let
+  val loc = ent.i0de_loc
+  val qua = d0ynq_none (loc)
+in '{
+  dqi0de_loc= loc
+, dqi0de_qua= qua, dqi0de_sym= ent.i0de_sym
+} end // end of [dqi0de_make_node]
+
+implement
+dqi0de_make_some
+  (ent1, ent2) = let
+  val loc = ent1.d0ynq_loc + ent2.i0de_loc
+in '{
+  dqi0de_loc= loc
+, dqi0de_qua= ent1, dqi0de_sym= ent2.i0de_sym
+} end // end of [dqi0de_make_some]
 
 (* ****** ****** *)
 //
@@ -279,6 +312,23 @@ e0xp_string (tok) = let
 in '{
   e0xp_loc= tok.token_loc, e0xp_node= E0XPstring (s, (sz2i)n)
 } end // end of [e0xp_float]
+
+(* ****** ****** *)
+
+implement
+l0ab_make_i0de (x) = let
+  val lab = $LAB.label_make_sym (x.i0de_sym)
+in '{
+  l0ab_loc= x.i0de_loc, l0ab_lab= lab
+} end // end of [l0ab_make_i0de]
+
+implement
+l0ab_make_i0nt (x) = let
+  val int = int_of_string (x.i0nt_rep)
+  val lab = $LAB.label_make_int (int)
+in '{
+  l0ab_loc= x.i0nt_loc, l0ab_lab= lab
+} end // end of [l0ab_make_i0nt]
 
 (* ****** ****** *)
 
@@ -1048,6 +1098,16 @@ d0ecl_datdecs_some (
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cdatdecs (knd, ent2, ent4)
 } end // end of [d0ecl_datdecs_some]
+
+(* ****** ****** *)
+
+implement
+d0ecl_overload
+  (tok, id, dqid) = let
+  val loc = tok.token_loc + dqid.dqi0de_loc
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Coverload (id, dqid)
+} end // end of [d0ecl_overload]
 
 (* ****** ****** *)
 

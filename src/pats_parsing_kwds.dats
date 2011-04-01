@@ -82,6 +82,13 @@ implement
 p_END (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_END, PE_END)
 
+implement
+is_WITH (x) = case+ x of
+  | T_WITH () => true | _ => false
+implement
+p_WITH (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_WITH, PE_WITH)
+
 (* ****** ****** *)
 
 implement

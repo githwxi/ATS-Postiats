@@ -361,28 +361,6 @@ end // end of [p_d0atdecseq]
 
 (* ****** ****** *)
 
-fun
-p_dcstkind (
-  buf: &tokbuf
-, bt: int, err: &int
-) : token = let
-  val tok = tokbuf_get_token (buf)
-  macdef incby1 () = tokbuf_incby1 (buf)
-in
-//
-case+ tok.token_node of
-| T_FUN _ => let
-    val () = incby1 () in tok
-  end
-| T_VAL _ => let
-    val () = incby1 () in tok
-  end
-| _ => let
-    val () = err := err + 1 in synent_null ()
-  end
-//
-end // end of [p_dcstkind]
-
 (*
 d0cstdec ::= di0de d0cstargseq colonwith s0exp extnamopt
 *)
@@ -741,6 +719,18 @@ case+ tok.token_node of
       end
     | _ => d0ecl_datdecs_none (knd, tok, ent2)
   end
+//
+| T_OVERLOAD () => let
+   val bt = 0
+   val () = incby1 ()
+   val ~SYNENT3 (ent1, ent2, ent3) =
+     pseq3_fun {i0de,token,dqi0de} (buf, bt, err, p_di0de, p_WITH, p_dqi0de)
+   // end of [val]
+ in
+   if err = err0 then
+     d0ecl_overload (tok, ent1, ent3) else synent_null ()
+   // end of [val]
+ end
 //
 | T_STALOAD () => let
     val bt = 0

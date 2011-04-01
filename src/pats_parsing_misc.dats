@@ -318,6 +318,28 @@ p_p0rec
 
 (* ****** ****** *)
 
+implement
+p_dcstkind
+  (buf, bt, err) = let
+  val tok = tokbuf_get_token (buf)
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_FUN _ => let
+    val () = incby1 () in tok
+  end
+| T_VAL _ => let
+    val () = incby1 () in tok
+  end
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end
+//
+end // end of [p_dcstkind]
+
+(* ****** ****** *)
+
 (*
 colonwith
   | COLON
@@ -347,7 +369,7 @@ case+ tok.token_node of
     val () = the_parerrlst_add_ifnbt (bt, loc, PE_colonwith)
   in
     synent_null ()
-  end
+  end (* end of [_] *)
 //
 end // end of [p_colonwith]
 

@@ -150,6 +150,11 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [END] is needed", @())
     val () = fprint_newline (out)
   }
+| PE_WITH () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [WITH] is needed", @())
+    val () = fprint_newline (out)
+  }
 //
 | PE_BAR () => {
     val () = fprint (out, loc)

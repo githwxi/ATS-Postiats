@@ -95,6 +95,33 @@ fprint_sqi0de (out, x) = {
 (* ****** ****** *)
 
 implement
+fprint_d0ynq (out, x) =
+  case+ x.d0ynq_node of
+  | D0YNQnone () => ()
+  | D0YNQsymdot (sym) => {
+      val () = fprint_symbol (out, sym)
+      val () = fprint_string (out, ".")
+    }
+  | D0YNQsymcolon (sym) => {
+      val () = fprint_symbol (out, sym)
+      val () = fprint_string (out, ":")
+    }
+  | D0YNQsymdotcolon (sym1, sym2) => {
+      val () = fprint_symbol (out, sym1)
+      val () = fprint_symbol (out, sym2)
+      val () = fprint_string (out, ":")
+    }
+// end of [fprint_d0ynq]
+
+implement
+fprint_dqi0de (out, x) = {
+  val () = fprint_d0ynq (out, x.dqi0de_qua)
+  val () = fprint_symbol (out, x.dqi0de_sym)
+} // end of [fprint_dqi0de]
+
+(* ****** ****** *)
+
+implement
 fprint_f0xty (out, x) = let
   macdef prstr (str) = fprint_string (out, ,(str))
 in
@@ -460,6 +487,13 @@ in
   | D0Cdcstdecs _ => {
       val () = prstr "D0Cdcstdecs(\n"
       val () = prstr "..."
+      val () = prstr "\n)"
+    }
+  | D0Coverload (id, qid) => {
+      val () = prstr "D0Coverload(\n"
+      val () = fprint_i0de (out, id)
+      val () = prstr "; "
+      val () = fprint_dqi0de (out, qid)
       val () = prstr "\n)"
     }
   | D0Cextcode _ => {

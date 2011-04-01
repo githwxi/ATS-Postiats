@@ -51,6 +51,7 @@ parerr_node =
   | PE_OF
   | PE_IN
   | PE_END
+  | PE_WITH
 //
   | PE_BAR
   | PE_COLON
@@ -167,6 +168,9 @@ fun is_IN (x: tnode): bool
 
 fun p_END : parser (token)
 fun is_END (x: tnode): bool
+
+fun p_WITH : parser (token)
+fun is_WITH (x: tnode): bool
 
 (* ****** ****** *)
 
@@ -392,6 +396,8 @@ fun p_i0de_dlr : parser (i0de) // $identifier
 fun p_e0xp : parser (e0xp)
 fun p_l0ab : parser (l0ab)
 fun p_p0rec : parser (p0rec)
+
+fun p_dcstkind : parser (token)
 fun p_colonwith : parser (e0fftaglstopt)
 fun p_extnamopt : parser (Stropt)
 
@@ -441,7 +447,7 @@ fun p_d0cstarg : parser (d0cstarg)
 fun p_di0de : parser (i0de) // dynamic identifier
 fun p_pi0de : parser (i0de) // pattern identifier
 fun p_d0ynq : parser (d0ynq) // dynamic qualifier
-fun p_dqi0de : parser (sqi0de) // dynamic qualified identifier
+fun p_dqi0de : parser (dqi0de) // dynamic qualified identifier
 
 (* ****** ****** *)
 
