@@ -64,9 +64,11 @@ caskind =
 datatype
 funkind =
   | FK_fun // recursive fun
+  | FK_prfun // recursive proof fun
+  | FK_praxi // proof axion
+  | FK_castfn // casting fun
   | FK_fn // nonrec fun
   | FK_fnstar // tailrec fun
-  | FK_prfun // recursive proof fun
   | FK_prfn // nonrec proof fun
 // end of [funkind]
 
@@ -122,7 +124,6 @@ token_node =
   | T_BEGIN of () // begin
   | T_BRKCONT of int // break and continue
   | T_CASE of caskind // case, case-, case+
-  | T_CASTFN of () // castfn
   | T_CLASSDEC of () // classdec
   | T_DATASORT of () // datasort
   | T_DATATYPE of int // datatype, dataprop, dataview, dataviewtype
@@ -150,11 +151,10 @@ token_node =
   | T_OF of () // of
   | T_OP of () // op
   | T_REC of () // rec
-  | T_PRAXI of () // praxi
   | T_SCASE of () // scase
   | T_SIF of () // sif
   | T_SORTDEF of () // sortdef
-  | T_STA of () // sta
+  | T_STACST of () // stacst
   | T_STADEF of () // stadef
   | T_STALOAD of () // staload
   | T_STAVAR of () // stavar
@@ -288,6 +288,7 @@ val DATAVIEWTYPE: tnode
 val FUN: tnode
 val PRFUN: tnode
 val PRAXI: tnode
+val CASTFN: tnode
 val FN: tnode
 val FNSTAR: tnode
 val PRFN: tnode

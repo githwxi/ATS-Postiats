@@ -385,7 +385,7 @@ implement
 a0srt_make_none (s0t) = '{
   a0srt_loc= s0t.s0rt_loc
 , a0srt_sym= None (), a0srt_srt= s0t
-}
+} // end of [a0srt_make_none]
 
 implement
 a0srt_make_some
@@ -405,6 +405,13 @@ in '{
 } end // end of [a0msrt_make]
 
 (* ****** ****** *)
+
+implement
+s0arrdim_make (t_beg, xs, t_end) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  s0arrdim_loc= loc, s0arrdim_dim = xs
+} end // end of [s0arrdim]
 
 implement
 s0rtext_srt (s0t) = '{
@@ -431,6 +438,33 @@ s0qua_vars (id, ids, s0te) = let
 in '{
   s0qua_loc= loc, s0qua_node= S0QUAvars (id, ids, s0te)
 } end // end of [s0qua_vars]
+
+(* ****** ****** *)
+
+implement
+q0marg_make
+  (t_beg, xs, t_end) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  q0marg_loc= loc, q0marg_arg= xs
+} end // end of [q0marg]
+
+(* ****** ****** *)
+
+implement
+a0typ_make_none (s0e) = '{
+  a0typ_loc= s0e.s0exp_loc
+, a0typ_sym= None (), a0typ_typ= s0e
+} // end of [a0typ_make_none]
+
+implement
+a0typ_make_some
+  (id, s0e) = let
+  val loc = id.i0de_loc + s0e.s0exp_loc
+in '{
+  a0typ_loc= loc
+, a0typ_sym= Some (id.i0de_sym), a0typ_typ= s0e
+} end // end of [a0typ_make_some]
 
 (* ****** ****** *)
 
@@ -524,6 +558,15 @@ in '{
 } end // end of [s0exp_list2]
 
 implement
+s0exp_tyarr (
+  t_beg, elt, dim
+) = let
+  val loc = t_beg.token_loc + dim.s0arrdim_loc
+in '{
+  s0exp_loc= loc, s0exp_node= S0Etyarr (elt, dim.s0arrdim_dim)
+} end // end of [s0exp_tyarr]
+
+implement
 s0exp_tytup (
   knd, npf, t_beg, xs, t_end
 ) = let
@@ -576,6 +619,28 @@ labs0exp_make (ent1, ent2) = L0ABELED (ent1, ent2)
 (* ****** ****** *)
 
 implement
+d0cstarg_sta (
+  t_beg, xs, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  d0cstarg_loc= loc
+, d0cstarg_node= D0CSTARGsta (xs)
+} end // end of [d0cstarg_sta]
+
+implement
+d0cstarg_dyn (
+  npf, t_beg, xs, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  d0cstarg_loc= loc
+, d0cstarg_node= D0CSTARGdyn (npf, xs)
+} end // end of [d0cstarg_dyn]
+
+(* ****** ****** *)
+
+implement
 s0rtdef_make (id, def) = let
 (*
   val () = print "s0rtdef_make:\n"
@@ -614,6 +679,31 @@ in '{
 (* ****** ****** *)
 
 implement
+s0tacst_make
+  (id, arg, s0t) = let
+  val loc = id.i0de_loc + s0t.s0rt_loc
+in '{
+  s0tacst_loc= loc
+, s0tacst_sym= id.i0de_sym
+, s0tacst_arg= arg
+, s0tacst_res= s0t
+} end // end of [s0tacst_make]
+
+(* ****** ****** *)
+
+implement
+s0tavar_make
+  (id, s0t) = let
+  val loc = id.i0de_loc + s0t.s0rt_loc
+in '{
+  s0tavar_loc= loc
+, s0tavar_sym= id.i0de_sym
+, s0tavar_srt= s0t
+} end // end of [s0tavar_make]
+
+(* ****** ****** *)
+
+implement
 s0expdef_make (
  id, arg, res, def
 ) = let
@@ -645,13 +735,37 @@ in '{
 (* ****** ****** *)
 
 implement
+e0xndec_make
+  (qua, id, arg) = let
+  val loc_hd = (case+ qua of
+    | list_cons (x, _) => x.q0marg_loc
+    | list_nil () => id.i0de_loc
+  ) : location
+  val loc = (case+ arg of
+    | Some s0e => loc_hd + s0e.s0exp_loc | None () => loc_hd
+  ) : location // end of [val]
+  val fil = $FIL.filename_get_current ()
+in '{
+  e0xndec_loc= loc
+, e0xndec_fil= fil
+, e0xndec_sym= id.i0de_sym
+, e0xndec_qua= qua
+, e0xndec_arg= arg
+} end // end of [e0xndec_make]
+
+(* ****** ****** *)
+
+implement
 d0atcon_make
   (qua, id, ind, arg) = let
-  val loc_id = id.i0de_loc
+  val loc_hd = (case+ qua of
+    | list_cons (x, _) => x.q0marg_loc
+    | list_nil () => id.i0de_loc
+  ) : location
   val loc = (case+ arg of
-    | Some s0e => loc_id + s0e.s0exp_loc
+    | Some s0e => loc_hd + s0e.s0exp_loc
     | None () => begin case+ ind of
-      | Some s0e => loc_id + s0e.s0exp_loc | _ => loc_id
+      | Some s0e => loc_hd + s0e.s0exp_loc | _ => loc_hd
       end // end of [None]
   ) : location // end of [val]
 in '{
@@ -688,6 +802,25 @@ in '{
 , d0atdec_arg= arg
 , d0atdec_con= con
 } end // end of [d0atdec_make]
+
+(* ****** ****** *)
+
+implement
+d0cstdec_make (
+  id, arg, eff, res, extdef
+) = let
+  val fil = $FIL.filename_get_current ()
+  val loc = id.i0de_loc + res.s0exp_loc
+in '{
+  d0cstdec_loc= loc
+, d0cstdec_fil= fil
+, d0cstdec_sym= id.i0de_sym
+, d0cstdec_arg= arg
+, d0cstdec_eff= eff
+, d0cstdec_res= res
+, d0cstdec_extdef= extdef
+} end // end of [d0cstdec_make]
+
 
 (* ****** ****** *)
 
@@ -835,6 +968,30 @@ in '{
 } end // end of [d0ecl_stacons]
 
 implement
+d0ecl_stacsts
+  (tok, xs) = let
+  val loc = tok.token_loc
+  val loc = (case+
+    list_last_opt<s0tacst> (xs) of
+    | ~Some_vt x => loc + x.s0tacst_loc | ~None_vt _ => loc
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cstacsts (xs)
+} end // end of [d0ecl_stacsts]
+
+implement
+d0ecl_stavars
+  (tok, xs) = let
+  val loc = tok.token_loc
+  val loc = (case+
+    list_last_opt<s0tavar> (xs) of
+    | ~Some_vt x => loc + x.s0tavar_loc | ~None_vt _ => loc
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cstavars (xs)
+} end // end of [d0ecl_stavars]
+
+implement
 d0ecl_sexpdefs
   (knd, tok, xs) = let
   val loc = tok.token_loc
@@ -854,6 +1011,17 @@ in '{
 } end // end of [d0ecl_saspdec]
 
 (* ****** ****** *)
+
+implement
+d0ecl_exndecs (tok, ent2) = let
+  val loc = (case+
+    list_last_opt<e0xndec> (ent2) of
+    ~Some_vt x => tok.token_loc + x.e0xndec_loc
+  | ~None_vt () => tok.token_loc
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cexndecs (ent2)
+} end // end of [d0ecl_exndecs]
 
 implement
 d0ecl_datdecs_none (
@@ -911,6 +1079,20 @@ d0ecl_staload_some
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cstaload (Some sym, name)
 } end // end of [d0ecl_staload_some]
+
+(* ****** ****** *)
+
+implement
+d0ecl_dcstdecs
+  (tok, ent2, ent3) = let
+  val loc = (case+
+    list_last_opt<d0cstdec> (ent3) of
+    ~Some_vt x => tok.token_loc + x.d0cstdec_loc
+  | ~None_vt _ => tok.token_loc // deadcode
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cdcstdecs (tok, ent2, ent3)
+} end // end of [d0ecl_dcstdecs]
 
 (* ****** ****** *)
 

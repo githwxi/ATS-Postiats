@@ -318,4 +318,67 @@ p_p0rec
 
 (* ****** ****** *)
 
+(*
+colonwith
+  | COLON
+  | COLONLTGT
+  | COLONLT e0fftagseq GT
+*)
+implement
+p_colonwith
+  (buf, bt, err) = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  val loc = tok.token_loc
+//
+  val () = println! ("p_colonwith: bt = ", bt)
+  val () = println! ("p_colonwith: tok = ", tok)
+//
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_COLON () => let
+    val () = incby1 () in None ()
+  end
+| _ => let
+    val () = err := err + 1
+    val () = the_parerrlst_add_ifnbt (bt, loc, PE_colonwith)
+  in
+    synent_null ()
+  end
+//
+end // end of [p_colonwith]
+
+(* ****** ****** *)
+
+#define s2s string1_of_string
+
+implement
+p_extnamopt
+  (buf, bt, err) = let
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_EQ () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_s0tring (buf, bt, err)
+  in
+    if synent_is_null (ent2) then let
+      val () = tokbuf_set_ntok (buf, n0) in stropt_none
+    end else let
+      val- T_STRING (name) = ent2.token_node in stropt_some ((s2s)name)
+    end (* end of [if] *)
+  end
+| _ => stropt_none
+//
+end // end of [p_extnamopt]
+
+(* ****** ****** *)
+
 (* end of [pats_parsing_misc.dats] *)

@@ -79,8 +79,9 @@ parerr_node =
   | PE_i0de_dlr
 //
   | PE_s0rtid
-  | PE_si0de
-  | PE_di0de
+  | PE_si0de // static identifier
+  | PE_di0de // dynamic identifier
+  | PE_pi0de // pattern identifier
   | PE_stai0de
 //
 (*
@@ -93,8 +94,8 @@ parerr_node =
   | PE_dqi0de
 //
   | PE_l0ab
-//
   | PE_p0rec
+  | PE_colonwith
 //
   | PE_atme0xp
   | PE_e0xp
@@ -109,6 +110,7 @@ parerr_node =
   | PE_labs0exp
   | PE_s0rtext
   | PE_s0qua
+  | PE_q0marg
 //
   | PE_d0ecl
   | PE_d0ecl_sta
@@ -387,15 +389,11 @@ fun p_i0de_dlr : parser (i0de) // $identifier
 
 (* ****** ****** *)
 
-fun p_p0rec : parser (p0rec)
-
-(* ****** ****** *)
-
 fun p_e0xp : parser (e0xp)
-
-(* ****** ****** *)
-
 fun p_l0ab : parser (l0ab)
+fun p_p0rec : parser (p0rec)
+fun p_colonwith : parser (e0fftaglstopt)
+fun p_extnamopt : parser (Stropt)
 
 (* ****** ****** *)
 
@@ -420,6 +418,7 @@ fun p_s0exp : parser (s0exp)
 fun p_si0de : parser (i0de) // static identifier
 fun p_s0taq : parser (s0taq) // static qualifier
 fun p_sqi0de : parser (sqi0de) // static qualified identifier
+//
 fun p_s0rtext : parser (s0rtext)
 //
 fun p_s0qua : parser (s0qua)
@@ -428,11 +427,19 @@ fun p_s0quaseq_vt : parser (s0qualst_vt)
 fun p_eqs0expopt_vt : parser (s0expopt_vt) // EQ s0exp
 fun p_ofs0expopt_vt : parser (s0expopt_vt) // OF s0exp
 //
+fun p_q0marg : parser (q0marg) // quantifier-like multi-argumet
+//
+fun p_a0typ : parser (a0typ) // argument type
+//
+fun p_e0xndec : parser (e0xndec)
 fun p_d0atconseq : parser (d0atconlst)
-
+//
+fun p_d0cstarg : parser (d0cstarg)
+//
 (* ****** ****** *)
 
 fun p_di0de : parser (i0de) // dynamic identifier
+fun p_pi0de : parser (i0de) // pattern identifier
 fun p_d0ynq : parser (d0ynq) // dynamic qualifier
 fun p_dqi0de : parser (sqi0de) // dynamic qualified identifier
 
@@ -451,12 +458,17 @@ fun p_d0atsrtdecseq : parser (d0atsrtdeclst)
 fun p_s0rtdefseq : parser (s0rtdeflst)
 //
 fun p_s0taconseq : parser (s0taconlst)
+fun p_s0tacstseq : parser (s0tacstlst)
+fun p_s0tavarseq : parser (s0tavarlst)
 //
 fun p_s0expdefseq : parser (s0expdeflst)
 //
 fun p_s0aspdec : parser (s0aspdec)
 //
+fun p_e0xndecseq : parser (e0xndeclst)
 fun p_d0atdecseq : parser (d0atdeclst)
+//
+fun p_d0cstdecseq : parser (d0cstdeclst)
 //
 (* ****** ****** *)
 

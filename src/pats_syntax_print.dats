@@ -328,6 +328,13 @@ in
       val () = $UT.fprintlst<labs0exp> (out, xs, ", ", fprint_labs0exp)
       val () = prstr ")"
     }
+  | S0Etyarr (elt, dim) => {
+      val () = prstr "S0Etyarr("
+      val () = fprint_s0exp (out, elt)
+      val () = prstr "; "
+      val () = $UT.fprintlst<s0exp> (out, dim, ", ", fprint_s0exp)
+      val () = prstr ")"
+    }
   | S0Etytup (knd, npf, xs) => {
       val () = prstr "S0Etytup("
       val () = fprint_int (out, knd)
@@ -416,6 +423,16 @@ in
       val () = prstr "..."
       val () = prstr "\n)"
     }
+  | D0Cstacsts (xs) => {
+      val () = prstr "D0Cstacsts(\n"
+      val () = prstr "..."
+      val () = prstr "\n)"
+    }
+  | D0Cstavars (xs) => {
+      val () = prstr "D0Cstavars(\n"
+      val () = prstr "..."
+      val () = prstr "\n)"
+    }
   | D0Csexpdefs (knd, xs) => {
       val () = prstr "D0Csexpdefs(\n"
       val () = fprint_int (out, knd)
@@ -428,6 +445,11 @@ in
       val () = prstr "..."
       val () = prstr "\n)"
     }
+  | D0Cexndecs (decs) => {
+      val () = prstr "D0Cexndecs(\n"
+      val () = prstr "..."
+      val () = prstr "\n)"
+    }
   | D0Cdatdecs (knd, decs, defs) => {
       val () = prstr "D0Cdatdecs(\n"
       val () = fprint_int (out, knd)
@@ -435,10 +457,22 @@ in
       val () = prstr "..."
       val () = prstr "\n)"
     }
+  | D0Cdcstdecs _ => {
+      val () = prstr "D0Cdcstdecs(\n"
+      val () = prstr "..."
+      val () = prstr "\n)"
+    }
   | D0Cextcode _ => {
       val () = prstr "D0Cextcode(\n"
       val () = prstr "..."
       val () = prstr "\n)"
+    }
+  | D0Cstaload (symopt, name) => {
+      val () = prstr "D0Cstaload("
+      val () = $UT.fprintopt<symbol> (out, symopt, fprint_symbol)
+      val () = prstr "; "
+      val () = fprint_string (out, name)
+      val () = prstr ")"
     }
   | D0Clocal _ => {
       val () = prstr "D0Clocal(\n"
@@ -449,13 +483,6 @@ in
       val () = prstr "D0Cguadecl(\n"
       val () = prstr "..."
       val () = prstr "\n)"
-    }
-  | D0Cstaload (symopt, name) => {
-      val () = prstr "D0Cstaload("
-      val () = $UT.fprintopt<symbol> (out, symopt, fprint_symbol)
-      val () = prstr "; "
-      val () = fprint_string (out, name)
-      val () = prstr ")"
     }
 (*
   | _ => {

@@ -265,6 +265,11 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [p0rec] is needed", @())
     val () = fprint_newline (out)
   }
+| PE_colonwith () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [colonwith] is needed", @())
+    val () = fprint_newline (out)
+  }
 //
 | PE_e0xp () => {
     val () = fprint (out, loc)
@@ -338,10 +343,20 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [s0qua] is needed", @())
     val () = fprint_newline (out)
   }
+| PE_q0marg () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [q0marg] is needed", @())
+    val () = fprint_newline (out)
+  }
 //
 | PE_di0de () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [di0de] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_pi0de () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [pi0de] is needed", @())
     val () = fprint_newline (out)
   }
 | PE_dqi0de () => {

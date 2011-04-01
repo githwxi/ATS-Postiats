@@ -402,6 +402,8 @@ s0exp_node =
   | S0Elist of s0explst
   | S0Elist2 of (s0explst (*prop/view*), s0explst (*type/viewtype*))
 //
+  | S0Etyarr of (* array type *)
+      (s0exp (*element*), s0explst (*dimension*))
   | S0Etytup of (int (*knd*), int (*npf*), s0explst)
   | S0Etyrec of (int (*knd*), int (*npf*), labs0explst)
   | S0Etyrec_ext of (string(*name*), int (*npf*), labs0explst)
@@ -424,11 +426,17 @@ s0exp = '{
   s0exp_loc= location, s0exp_node= s0exp_node
 } // end of [s0exp]
 and s0explst = List (s0exp)
+and s0explst_vt = List_vt (s0exp)
+and s0explstlst = List (s0explst)
 and s0expopt = Option (s0exp)
 and s0expopt_vt = Option_vt (s0exp)
 
 and labs0exp = l0abeled (s0exp)
 and labs0explst = List labs0exp
+
+and s0arrdim = '{
+  s0arrdim_loc= location, s0arrdim_dim= s0explst
+}
 
 and s0rtext = '{ (* extended sorts *)
   s0rtext_loc= location, s0rtext_node= s0rtext_node
@@ -439,9 +447,12 @@ and s0qua = '{
 }
 and s0qualst = List (s0qua)
 and s0qualst_vt = List_vt (s0qua)
-and s0qualstlst = List (s0qualst)
 
 (* ****** ****** *)
+
+fun s0arrdim_make
+  (t_beg: token, ind: s0explst, t_end: token): s0arrdim
+// end of [s0arrdim_make]
 
 fun s0rtext_srt (_: s0rt): s0rtext
 fun s0rtext_sub (
@@ -474,6 +485,10 @@ fun s0exp_list2 (
   t_beg: token, ent2: s0explst, ent3: s0explst, t_end: token
 ) : s0exp // end of [s0exp_list2]
 
+fun s0exp_tyarr
+  (t_beg: token, elt: s0exp, ind: s0arrdim): s0exp
+// end of [s0exp_tyarr]
+
 fun s0exp_tytup (
   knd: int, npf: int, t_beg: token, ent2: s0explst, t_end: token
 ) : s0exp // end of [s0exp_tytup]
@@ -499,6 +514,51 @@ fun fprint_s0exp (out: FILEref, x: s0exp): void
 (* ****** ****** *)
 
 fun labs0exp_make (ent1: l0ab, ent2: s0exp): labs0exp
+
+(* ****** ****** *)
+
+typedef q0marg = '{
+  q0marg_loc= location, q0marg_arg= s0qualst
+} // end of [q0marg]
+typedef q0marglst = List (q0marg)
+
+fun q0marg_make
+  (t_beg: token, xs: s0qualst, t_end: token): q0marg
+// end of [q0marg]
+
+(* ****** ****** *)
+
+typedef
+a0typ = '{
+  a0typ_loc= location
+, a0typ_sym= symbolopt
+, a0typ_typ= s0exp
+} // end of [a0typ]
+typedef a0typlst = List (a0typ)
+
+fun a0typ_make_none (_: s0exp): a0typ
+fun a0typ_make_some (id: i0de, _: s0exp): a0typ
+
+(* ****** ****** *)
+
+datatype
+d0cstarg_node =
+  | D0CSTARGsta of s0qualst
+  | D0CSTARGdyn of (int(*npf*), a0typlst)
+// end of [d0cstarg_node]
+
+typedef d0cstarg = '{
+  d0cstarg_loc= location, d0cstarg_node= d0cstarg_node
+} // end of [d0cstarg]
+typedef d0cstarglst = List (d0cstarg)
+
+fun d0cstarg_sta (
+  t_beg: token, xs: s0qualst, t_end: token
+) : d0cstarg // end of [d0cstarg_sta]
+
+fun d0cstarg_dyn (
+  npf: int, t_beg: token, xs: a0typlst, t_end: token
+) : d0cstarg // end of [d0cstarg_dyn]
 
 (* ****** ****** *)
 
@@ -528,6 +588,32 @@ typedef s0taconlst = List s0tacon
 fun s0tacon_make
   (id: i0de, arg: a0msrtlst, def: s0expopt): s0tacon
 // end of [s0tacon_make]
+
+(* ****** ****** *)
+
+typedef s0tacst = '{
+  s0tacst_loc= location
+, s0tacst_sym= symbol
+, s0tacst_arg= a0msrtlst
+, s0tacst_res= s0rt
+} // end of [s0tacst]
+
+typedef s0tacstlst = List s0tacst
+
+fun s0tacst_make (id: i0de, arg: a0msrtlst, srt: s0rt): s0tacst
+
+(* ****** ****** *)
+
+typedef
+s0tavar = '{
+  s0tavar_loc= location
+, s0tavar_sym= symbol
+, s0tavar_srt= s0rt
+} // end of [s0tavar]
+
+typedef s0tavarlst = List s0tavar
+
+fun s0tavar_make (id: i0de, srt: s0rt): s0tavar
 
 (* ****** ****** *)
 
@@ -563,10 +649,27 @@ fun s0aspdec_make (
 (* ****** ****** *)
 
 typedef
+e0xndec = '{
+  e0xndec_loc= location
+, e0xndec_fil= filename
+, e0xndec_sym= symbol
+, e0xndec_qua= q0marglst
+, e0xndec_arg= s0expopt
+} // end of [e0xndec]
+
+typedef e0xndeclst = List e0xndec
+
+fun e0xndec_make
+  (qua: q0marglst, id: i0de, arg: s0expopt): e0xndec
+// end of [e0xndec_make]
+
+(* ****** ****** *)
+
+typedef
 d0atcon = '{
   d0atcon_loc= location
 , d0atcon_sym= symbol
-, d0atcon_qua= s0qualstlst
+, d0atcon_qua= q0marglst
 , d0atcon_arg= s0expopt
 , d0atcon_ind= s0expopt
 } // end of [d0atcon]
@@ -574,7 +677,7 @@ d0atcon = '{
 typedef d0atconlst = List (d0atcon)
 
 fun d0atcon_make (
-  qua: s0qualstlst, id: i0de, ind: s0expopt, arg: s0expopt
+  qua: q0marglst, id: i0de, ind: s0expopt, arg: s0expopt
 ) : d0atcon // end of [d0atcon_make]
 
 typedef
@@ -595,6 +698,54 @@ fun d0atdec_make (
 
 (* ****** ****** *)
 
+datatype e0fftag_node =
+  | E0FFTAGcst of (int(*neg*), string) // [0/1]: pos/neg
+  | E0FFTAGvar of i0de
+  | E0FFTAGprf
+  | E0FFTAGlin of int(*non/lin*)
+  | E0FFTAGfun of (
+      int(*non/lin*), int(*nil/all*)
+    ) // E0FFTAGfun
+  | E0FFTAGclo of (
+      int(*non/lin*), int(*1/~1:ptr/ref*), int(*nil/all*)
+    ) // E0FFTAGclo
+// end of [e0fftag_node]
+
+typedef e0fftag = '{
+  e0fftag_loc= location, e0fftag_node= e0fftag_node
+} // end of [e0fftag]
+typedef e0fftaglst = List e0fftag
+typedef e0fftaglstopt = Option e0fftaglst
+
+fun e0fftag_cst (i: int, _: i0de): e0fftag
+fun e0fftag_var (_: i0de): e0fftag
+fun e0fftag_var_fun (t_fun: token): e0fftag
+fun e0fftag_int (_: i0nt): e0fftag
+
+(* ****** ****** *)
+
+typedef
+d0cstdec = '{
+  d0cstdec_loc= location
+, d0cstdec_fil= filename
+, d0cstdec_sym= symbol
+, d0cstdec_arg= d0cstarglst
+, d0cstdec_eff= e0fftaglstopt
+, d0cstdec_res= s0exp
+, d0cstdec_extdef= Stropt
+} // end of [d0cstdec]
+
+typedef d0cstdeclst = List d0cstdec
+
+fun d0cstdec_make (
+  _: i0de
+, arg: d0cstarglst
+, _: e0fftaglstopt, res: s0exp
+, ext: Stropt (* optional external name *)
+) : d0cstdec // end of [d0cstdec_make]
+
+(* ****** ****** *)
+
 datatype
 d0ecl_node =
   | D0Cfixity of (f0xty, i0delst)
@@ -607,9 +758,15 @@ d0ecl_node =
   | D0Cdatsrts of d0atsrtdeclst (* datasort declaration *)
   | D0Csrtdefs of s0rtdeflst (* sort definition *)
   | D0Cstacons of (int(*knd*), s0taconlst) (* abstype defintion *)
+  | D0Cstacsts of (s0tacstlst) (* static constants *)
+  | D0Cstavars of (s0tavarlst) (* static constants *)
   | D0Csexpdefs of (int(*knd*), s0expdeflst) (* staexp definition *)
   | D0Csaspdec of s0aspdec (* static assumption *)
+//
+  | D0Cexndecs of e0xndeclst
   | D0Cdatdecs of (int(*knd*), d0atdeclst, s0expdeflst)
+//
+  | D0Cdcstdecs of (token, q0marglst, d0cstdeclst)
 //
   | D0Cextcode of (* external code *)
       (int(*knd*), int(*pos*), string(*code*))
@@ -658,9 +815,12 @@ fun d0ecl_e0xpact_print (_1: token, _2: e0xp): d0ecl
 fun d0ecl_datsrts (_1: token, _2: d0atsrtdeclst): d0ecl
 fun d0ecl_srtdefs (_1: token, _2: s0rtdeflst): d0ecl
 fun d0ecl_stacons (knd: int, _1: token, _2: s0taconlst): d0ecl
+fun d0ecl_stacsts (_1: token, _2: s0tacstlst): d0ecl
+fun d0ecl_stavars (_1: token, _2: s0tavarlst): d0ecl
 fun d0ecl_sexpdefs (knd: int, _1: token, _2: s0expdeflst): d0ecl
 fun d0ecl_saspdec (_1: token, _2: s0aspdec): d0ecl
 //
+fun d0ecl_exndecs (_1: token, _2: e0xndeclst): d0ecl
 fun d0ecl_datdecs_none (
   knd: int, t1: token, ds_dec: d0atdeclst
 ) : d0ecl // end of [d0ecl_datdecs_none]
@@ -673,6 +833,10 @@ fun d0ecl_extcode (knd: int, tok: token): d0ecl
 fun d0ecl_staload_none (tok: token, tok2: token): d0ecl
 fun d0ecl_staload_some (tok: token, ent2: i0de, ent4: token): d0ecl
 //
+fun d0ecl_dcstdecs (
+  tok: token, ent2: q0marglst, ent3: d0cstdeclst
+) : d0ecl // end of [d0ecl_dcstdecs]
+//
 fun d0ecl_local (
   t_local: token, ds_head: d0eclist, ds_body: d0eclist, t_end: token
 ) : d0ecl // end of [d0ecl_local]
@@ -683,6 +847,7 @@ fun d0ecl_guadecl (knd: token, gd: guad0ecl): d0ecl
 
 fun guad0ecl_one
   (gua: e0xp, ds_then: d0eclist, t_endif: token): guad0ecl
+// end of [guad0ecl_one]
 
 fun guad0ecl_two (
   gua: e0xp, ds_then: d0eclist, ds_else: d0eclist, t_endif: token

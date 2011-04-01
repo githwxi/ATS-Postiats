@@ -111,4 +111,29 @@ end // end of [p_di0de]
 
 (* ****** ****** *)
 
+implement
+p_pi0de
+  (buf, bt, err) = let
+  val tok = tokbuf_get_token (buf)
+  val loc = tok.token_loc
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_IDENT_alp (x) => let
+    val () = incby1 () in i0de_make_string (loc, x)
+  end
+| T_IDENT_sym (x) => let
+    val () = incby1 () in i0de_make_string (loc, x)
+  end
+| _ => let
+    val () = err := err + 1
+    val () = the_parerrlst_add_ifnbt (bt, loc, PE_pi0de)
+  in
+    synent_null ()
+  end // end of [_]
+end // end of [p_pi0de]
+
+(* ****** ****** *)
+
 (* end of [pats_parsing_dynexp.dats] *)

@@ -375,8 +375,8 @@ in
 //
 case+ tok2.token_node of
 | T_COLON () => let
-    val bt = 0
     val ent1 = p_si0de (buf, bt, err)
+    val bt = 0
     val ent2 = pif_fun (buf, bt, err, p_COLON, err0)
     val ent3 = pif_fun (buf, bt, err, p_s0rt, err0)
   in

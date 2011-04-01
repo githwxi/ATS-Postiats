@@ -83,7 +83,6 @@ fprint_token
   | T_BEGIN () => fprintf (out, "BEGIN()", @())
   | T_BRKCONT (x) => fprintf (out, "BRKCONT(%i)", @(x))
   | T_CASE (x) => fprintf (out, "CASE(...)", @())
-  | T_CASTFN () => fprintf (out, "CASTFN()", @())
   | T_CLASSDEC () => fprintf (out, "CLASSDEC()", @())
   | T_DATASORT () => fprintf (out, "DATASORT()", @())
   | T_DATATYPE (x) => fprintf (out, "DATATYPE(%i)", @(x))
@@ -114,7 +113,7 @@ fprint_token
   | T_SCASE () => fprintf (out, "SCASE()", @())
   | T_SIF () => fprintf (out, "SIF()", @())
   | T_SORTDEF () => fprintf (out, "SORTDEF()", @())
-  | T_STA () => fprintf (out, "STA()", @())
+  | T_STACST () => fprintf (out, "STACST()", @())
   | T_STADEF () => fprintf (out, "STADEF()", @())
   | T_STALOAD () => fprintf (out, "STALOAD()", @())
   | T_STAVAR () => fprintf (out, "STAVAR()", @())
@@ -137,6 +136,8 @@ fprint_token
 //
   | T_DLRARRSZ () => fprintf (out, "DLRARRSZ()", @())
   | T_DLRDELAY (x) => fprintf (out, "DLRDELAY(%i)", @(x))
+  | T_DLRDYNLOAD () => fprintf (out, "DLRDYNLOAD()", @())
+  | T_DLREFFMASK (x) => fprintf (out, "DLREFFMASK(%i)", @(x))
   | T_DLREXTERN () => fprintf (out, "DLREXTERN()", @())
   | T_DLREXTVAL () => fprintf (out, "DLREXTVAL()", @())
   | T_DLREXTYPE () => fprintf (out, "DLREXTYPE()", @())
@@ -161,6 +162,9 @@ fprint_token
   | T_SRPPRINT () => fprintf (out, "SRPPRINT()", @())
   | T_SRPTHEN () => fprintf (out, "SRPTHEN()", @())
   | T_SRPUNDEF () => fprintf (out, "SRPUNDEF()", @())
+//
+  | T_SRPFILENAME () => fprintf (out, "SRPFILENAME()", @())
+  | T_SRPLOCATION () => fprintf (out, "SRPLOCATION()", @())
 //
   | T_IDENT_alp (x) => fprintf (out, "IDENT_alp(%s)", @(x))
   | T_IDENT_sym (x) => fprintf (out, "IDENT_sym(%s)", @(x))
@@ -207,7 +211,10 @@ fprint_token
   | T_ERR () => fprintf (out, "ERR()", @())
   | T_EOF () => fprintf (out, "EOF()", @())
 //
+  | T_NONE () => fprintf (out, "NONE()", @())
+(*
   | _ => fprintf (out, "TOKEN()", @())
+*)
 //
 (* end of [fprint_token] *)
 

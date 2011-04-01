@@ -222,6 +222,7 @@ fun p_labs0exp (
   val tok = tokbuf_get_token (buf)
 //
   val ent1 = p_l0ab (buf, bt, err)
+  val bt = 0
   val ent2 = pif_fun (buf, bt, err, p_EQ, err0)
   val ent3 = pif_fun (buf, bt, err, p_s0exp, err0)
 //
@@ -321,6 +322,36 @@ p_labs0expseq_BAR_labs0expseq (
 (* ****** ****** *)
 
 (*
+s0arrdim
+  | LBRACKET s0expseq RBRACKET
+*)
+fun
+p_s0arrdim (
+ buf: &tokbuf, bt: int, err: &int
+) : s0arrdim = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val ent1 = p_LBRACKET (buf, bt, err)
+  val bt = 0
+  val ent2 = (
+    if err = err0 then
+      pstar_fun0_COMMA (buf, bt, p_s0exp) else list_vt_nil ()
+    // end of [if]
+  ) : s0explst_vt
+  val ent3 = (
+    if err = err0 then p_RBRACKET (buf, bt, err) else synent_null ()
+  ) : token
+in
+  if err = err0 then
+    s0arrdim_make (ent1, (l2l)ent2, ent3)
+  else let
+    val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
+  end // end of [if]
+end (* end of [s0arrdim_make] *)
+
+(* ****** ****** *)
+
+(*
 atms0exp
   | i0nt
   | LITERAL_char
@@ -341,7 +372,7 @@ atms0exp
   | QUOTELBRACE labs0expseq RBRACE
   | QUOTELBRACE labs0expseq BAR labs0expseq RBRACE
 //
-  | ATLBRACKET s0exp RBRACKET LBRACKET s0arrind
+  | ATLBRACKET s0exp RBRACKET s0arrind // for instance: @[a][n]
 //
 // HX: boxed types
 //
@@ -446,6 +477,18 @@ case+ tok.token_node of
     else let
       val () = list12_free (ent2) in synent_null ()
     end // end of [if]
+  end
+//
+| T_ATLBRACKET () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_s0exp (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_RBRACKET, err0)
+    val ent4 = pif_fun (buf, bt, err, p_s0arrdim, err0)
+  in
+    if err = err0 then
+      s0exp_tyarr (tok, ent2, ent4) else synent_null ()
+    // end of [if]
   end
 //
 | T_DLRTUP knd => let
@@ -814,6 +857,9 @@ p_s0qua_rule2 (
   val err0 = err
   val n0 = tokbuf_get_ntok (buf)
   val ent1 = p_si0de (buf, bt, err)
+(*
+  val bt = 0 // HX: this yields too many false positives
+*)
   val ent2 = (
     if err = err0 then
       pstar_sep_fun (buf, bt, p_COMMA_test, p_si0de)
@@ -917,12 +963,12 @@ end // end of [p_ofs0expopt_vt]
 (* ****** ****** *)
 
 (*
-conq0ua ::= LBRACE s0quaseq RBRACE
+q0marg ::= LBRACE s0quaseq RBRACE
 *)
-fun
-p_conq0ua (
-  buf: &tokbuf, bt: int, err: &int  
-) : s0qualst = let
+implement
+p_q0marg (
+  buf, bt, err
+) : q0marg = let
   val err0 = err
   val n0 = tokbuf_get_ntok (buf)
   val tok = tokbuf_get_token (buf)
@@ -937,26 +983,35 @@ case+ tok.token_node of
     val ent2 = p_s0quaseq_vt (buf, bt, err)
     val ent3 = p_RBRACE (buf, bt, err)
   in
-    if err = err0
-      then (l2l)ent2 else let
+    if err = err0 then
+      q0marg_make (tok, (l2l)ent2, ent3)
+    else let
       val () = list_vt_free (ent2)
-(*
-      val () = the_parerrlst_add_ifnbt (bt, tok.i0de_loc, PE_conq0ua)
-*)
+      val () = the_parerrlst_add_ifnbt (bt, loc, PE_q0marg)
     in
       tokbuf_set_ntok_null (buf, n0)
     end // end of [if]
   end
 | _ => let
     val () = err := err + 1
-(*
-    val () = the_parerrlst_add_ifnbt (bt, tok.i0de_loc, PE_conq0ua)
-*)
+    val () = the_parerrlst_add_ifnbt (bt, loc, PE_q0marg)
   in
     synent_null ()
   end
 //
-end // end of [p_conq0ua]
+end // end of [p_q0marg]
+
+(* ****** ****** *)
+
+(*
+cona0rgopt ::= | /*(empty)*/ | OF s0exp
+*)
+fun
+p_cona0rgopt (
+  buf: &tokbuf, bt: int, err: &int  
+) : s0expopt = let
+  val res = p_ofs0expopt_vt (buf, bt, err) in (t2t)res
+end // end of [p_cona0rgopt]
 
 (*
 coni0ndopt ::= /*(empty)*/ | LPAREN s0expseq RPAREN
@@ -994,15 +1049,31 @@ case+ tok.token_node of
 //
 end // end of [p_coni0ndopt]
 
+(* ****** ****** *)
+
 (*
-cona0rgopt ::= | /*(empty)*/ | OF s0exp
+e0xndec ::= conq0uaseq di0de cona0rgopt
 *)
-fun
-p_cona0rgopt (
-  buf: &tokbuf, bt: int, err: &int  
-) : s0expopt = let
-  val res = p_ofs0expopt_vt (buf, bt, err) in (t2t)res
-end // end of [p_cona0rgopt]
+implement
+p_e0xndec
+  (buf, bt, err) = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val ent1 = pstar_fun {q0marg} (buf, bt, p_q0marg)
+  val ent2 = p_di0de (buf, bt, err) // err = err0
+  val bt = 0
+  val ent3 = (
+    if err = err0 then p_cona0rgopt (buf, bt, err) else None ()
+  ) : s0expopt // end of [val]
+in
+  if err = err0 then
+    e0xndec_make ((l2l)ent1, ent2, ent3)
+  else let
+    val () = list_vt_free (ent1) in tokbuf_set_ntok_null (buf, n0)
+  end (* end of [if] *)
+end // end of [p_e0xndec]
+
+(* ****** ****** *)
 
 (*
 d0atcon ::= conq0uaseq di0de coni0ndopt cona0rgopt
@@ -1013,8 +1084,9 @@ p_d0atcon (
 ) : d0atcon = let
   val err0 = err
   val n0 = tokbuf_get_ntok (buf)
-  val ent1 = pstar_fun {s0qualst} (buf, bt, p_conq0ua)
+  val ent1 = pstar_fun {q0marg} (buf, bt, p_q0marg)
   val ent2 = p_di0de (buf, bt, err) // err = err0
+  val bt = 0
   val ent3 = (
     if err = err0 then p_coni0ndopt (buf, bt, err) else None ()
   ) : s0expopt // end of [val]
@@ -1050,6 +1122,114 @@ case+ tok.token_node of
   end // end of [T_BAR]
 //
 end // end of [p_d0atconseq]
+
+(* ****** ****** *)
+
+(*
+a0typ ::= s0exp0 | pi0de COLON s0exp0 // s0exp0: annotationless
+*)
+implement
+p_a0typ
+  (buf, bt, err) = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  val () = tokbuf_incby1 (buf)
+  val tok2 = tokbuf_get_token (buf)
+  val () = tokbuf_set_ntok (buf, n0)
+in
+//
+case+ tok2.token_node of
+| T_COLON () => let
+    val ent1 = p_pi0de (buf, bt, err)
+    val bt = 0
+    val ent2 = pif_fun (buf, bt, err, p_COLON, err0)
+    val ent3 = pif_fun (buf, bt, err, p_s0exp0, err0)
+  in
+    if err = err0 then
+      a0typ_make_some (ent1, ent3)
+    else let
+(*
+      val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_a0typ)
+*)
+    in
+      tokbuf_set_ntok_null (buf, n0)
+    end (* end of [if] *)
+  end
+| _ => let
+    val ent1 = p_s0exp0 (buf, bt, err)
+  in
+    if err = err0 then
+      a0typ_make_none (ent1)
+    else let
+(*
+      val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_a0typ)
+*)
+    in
+      tokbuf_set_ntok_null (buf, n0)
+    end (* end of [if] *)
+  end
+//
+end // end of [p_a0typ]
+
+(* ****** ****** *)
+
+viewtypedef a0typlst12 = list12 (a0typ)
+
+fun d0cstarg_atyplst12 (
+  t_beg: token, ent2: a0typlst12, t_end: token
+) : d0cstarg =
+  case+ ent2 of
+  | ~LIST12one (xs) =>
+      d0cstarg_dyn (0(*npf*), t_beg, (l2l)xs, t_end)
+  | ~LIST12two (xs1, xs2) => let
+      val npf = list_vt_length (xs1)
+      val xs12 = list_vt_append (xs1, xs2)
+    in
+      d0cstarg_dyn (0(*npf*), t_beg, (l2l)xs12, t_end)
+    end
+// end of [d0cstarg_amtyp12]
+
+implement
+p_d0cstarg
+  (buf, bt, err) = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  macdef incby1 () = tokbuf_incby1 (buf)
+  var ent: synent?
+in
+//
+case+ tok.token_node of
+| T_LBRACE () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_s0quaseq_vt (buf, bt, err)
+    val ent3 = p_RBRACE (buf, bt, err)
+  in
+    if err = err0 then
+      d0cstarg_sta (tok, (l2l)ent2, ent3)
+    else let
+      val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
+    end (* end of [if] *)
+  end
+| T_LPAREN () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = plist12_fun (buf, bt, p_a0typ)
+    val ent3 = p_RPAREN (buf, bt, err)
+  in
+    if err = err0 then
+      d0cstarg_atyplst12 (tok, ent2, ent3)
+    else let
+      val () = list12_free (ent2) in tokbuf_set_ntok_null (buf, n0)
+    end // end of [if]
+  end
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end
+//
+end // end of [p_d0cstarg]
 
 (* ****** ****** *)
 
