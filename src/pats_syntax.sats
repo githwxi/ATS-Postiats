@@ -352,6 +352,7 @@ typedef s0marg = '{
   s0marg_loc= location, s0marg_arg= s0arglst
 } // end of [s0marg]
 typedef s0marglst = List (s0marg)
+viewtypedef s0marglst_vt = List_vt (s0marg)
 
 fun s0marg_make_sing (x: s0arg) : s0marg
 
@@ -362,25 +363,26 @@ fun s0marg_make_many (
 (* ****** ****** *)
 
 typedef
-d0atarg = '{
-  d0atarg_loc= location
-, d0atarg_sym= symbolopt
-, d0atarg_srt= s0rt
-} // end of [d0atarg]
+a0srt = '{
+  a0srt_loc= location
+, a0srt_sym= symbolopt
+, a0srt_srt= s0rt
+} // end of [a0srt]
 
-typedef d0atarglst = List (d0atarg)
+typedef a0srtlst = List (a0srt)
 
-fun d0atarg_make_none (_: s0rt): d0atarg
-fun d0atarg_make_some (id: i0de, _: s0rt): d0atarg
+fun a0srt_make_none (_: s0rt): a0srt
+fun a0srt_make_some (id: i0de, _: s0rt): a0srt
 
-typedef d0atmarg = '{
-  d0atmarg_loc= location, d0atmarg_arg= d0atarglst
-} // end of [d0atmarg]
-typedef d0atmarglst = List (d0atmarg)
+typedef a0msrt = '{
+  a0msrt_loc= location, a0msrt_arg= a0srtlst
+} // end of [a0msrt]
+typedef a0msrtlst = List (a0msrt)
+viewtypedef a0msrtlst_vt = List_vt (a0msrt)
 
-fun d0atmarg_make (
-  t_beg: token, xs: d0atarglst, t_end: token
-) : d0atmarg // end of [d0atmarg_make]
+fun a0msrt_make (
+  t_beg: token, xs: a0srtlst, t_end: token
+) : a0msrt // end of [a0msrt_make]
 
 (* ****** ****** *)
 
@@ -517,14 +519,14 @@ typedef
 s0tacon = '{
   s0tacon_loc= location
 , s0tacon_sym= symbol
-, s0tacon_arg= d0atmarglst
+, s0tacon_arg= a0msrtlst
 , s0tacon_def= s0expopt
 } // end of [s0tacon]
 
 typedef s0taconlst = List s0tacon
 
 fun s0tacon_make
-  (id: i0de, arg: d0atmarglst, def: s0expopt): s0tacon
+  (id: i0de, arg: a0msrtlst, def: s0expopt): s0tacon
 // end of [s0tacon_make]
 
 (* ****** ****** *)
@@ -581,14 +583,14 @@ d0atdec = '{
 , d0atdec_loc_hd= location
 , d0atdec_fil= filename
 , d0atdec_sym= symbol
-, d0atdec_arg= d0atmarglst
+, d0atdec_arg= a0msrtlst
 , d0atdec_con= d0atconlst
 } // end of [d0atdec]
 
 typedef d0atdeclst = List d0atdec
 
 fun d0atdec_make (
-  id: i0de, arg: d0atmarglst, con: d0atconlst
+  id: i0de, arg: a0msrtlst, con: d0atconlst
 ) : d0atdec // end of [d0atdec_make]
 
 (* ****** ****** *)
@@ -597,6 +599,8 @@ datatype
 d0ecl_node =
   | D0Cfixity of (f0xty, i0delst)
   | D0Cnonfix of (i0delst) // absolving fixity status
+  | D0Cinclude of (* file inclusion *)
+      (int(*0:sta/1:dyn*), string(*filename*))
   | D0Csymintr of (i0delst) // introducing overloading symbols
   | D0Ce0xpdef of (symbol, e0xpopt)
   | D0Ce0xpact of (e0xpactkind, e0xp)
@@ -606,21 +610,43 @@ d0ecl_node =
   | D0Csexpdefs of (int(*knd*), s0expdeflst) (* staexp definition *)
   | D0Csaspdec of s0aspdec (* static assumption *)
   | D0Cdatdecs of (int(*knd*), d0atdeclst, s0expdeflst)
+//
+  | D0Cextcode of (* external code *)
+      (int(*knd*), int(*pos*), string(*code*))
+//
   | D0Cstaload of (symbolopt, string)
+  | D0Clocal of (d0eclist, d0eclist)
+  | D0Cguadecl of (token(*knd*), guad0ecl)
 // end of [d0ecl_node]
+
+and guad0ecl_node =
+  | GD0Cone of (e0xp, d0eclist)
+  | GD0Ctwo of (e0xp, d0eclist, d0eclist)
+  | GD0Ccons of (e0xp, d0eclist, token, guad0ecl_node)
+// end of [guad0ecl_node]
 
 where
 d0ecl = '{
   d0ecl_loc= location, d0ecl_node= d0ecl_node
 } // end of [d0ecl]
 
-and d0eclist = List (d0ecl)
+and d0eclist : type = List (d0ecl)
+and d0eclist_vt : viewtype = List_vt (d0ecl)
+
+and guad0ecl: type = '{
+  guad0ecl_loc= location, guad0ecl_node= guad0ecl_node
+}  // end of [guad0ecl]
+
+(* ****** ****** *)
 
 fun d0ecl_fixity
   (_1: token, _2: p0rec, _3: i0delst): d0ecl
 // end of [d0ecl_fixity]
 
 fun d0ecl_nonfix (_1: token, _2: i0delst): d0ecl
+
+fun d0ecl_include (knd: int, _1: token, _2: token): d0ecl
+
 fun d0ecl_symintr (_1: token, _2: i0delst): d0ecl
 
 fun d0ecl_e0xpdef (_1: token, _2: i0de, _3: e0xpopt): d0ecl
@@ -642,9 +668,30 @@ fun d0ecl_datdecs_some (
   knd: int, t1: token, ds_dec: d0atdeclst, t2: token, ds_def: s0expdeflst
 ) : d0ecl // end of [d0ecl_datdecs_some]
 //
+fun d0ecl_extcode (knd: int, tok: token): d0ecl
+//
 fun d0ecl_staload_none (tok: token, tok2: token): d0ecl
 fun d0ecl_staload_some (tok: token, ent2: i0de, ent4: token): d0ecl
 //
+fun d0ecl_local (
+  t_local: token, ds_head: d0eclist, ds_body: d0eclist, t_end: token
+) : d0ecl // end of [d0ecl_local]
+//
+fun d0ecl_guadecl (knd: token, gd: guad0ecl): d0ecl
+//
+(* ****** ****** *)
+
+fun guad0ecl_one
+  (gua: e0xp, ds_then: d0eclist, t_endif: token): guad0ecl
+
+fun guad0ecl_two (
+  gua: e0xp, ds_then: d0eclist, ds_else: d0eclist, t_endif: token
+) : guad0ecl // end of [guad0ecl_two]
+
+fun guad0ecl_cons (
+  gua: e0xp, ds: d0eclist, knd: token, rest: guad0ecl
+) : guad0ecl // end of [guad0ecl_cons]
+
 (* ****** ****** *)
 
 fun fprint_d0ecl (out: FILEref, x: d0ecl): void

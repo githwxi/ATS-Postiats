@@ -373,6 +373,13 @@ in
       val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
       val () = prstr ")"
     }
+  | D0Cinclude (knd, name) => {
+      val () = prstr "D0Cinclude("
+      val () = fprint_int (out, knd)
+      val () = prstr "; "
+      val () = fprint_string (out, name)
+      val () = prstr ")"
+    }
   | D0Csymintr (ids) => {
       val () = prstr "D0Csymintr("
       val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
@@ -425,6 +432,21 @@ in
       val () = prstr "D0Cdatdecs(\n"
       val () = fprint_int (out, knd)
       val () = prstr "; "
+      val () = prstr "..."
+      val () = prstr "\n)"
+    }
+  | D0Cextcode _ => {
+      val () = prstr "D0Cextcode(\n"
+      val () = prstr "..."
+      val () = prstr "\n)"
+    }
+  | D0Clocal _ => {
+      val () = prstr "D0Clocal(\n"
+      val () = prstr "..."
+      val () = prstr "\n)"
+    }
+  | D0Cguadecl _ => {
+      val () = prstr "D0Cguadecl(\n"
       val () = prstr "..."
       val () = prstr "\n)"
     }

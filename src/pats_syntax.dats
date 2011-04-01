@@ -382,27 +382,27 @@ in '{
 (* ****** ****** *)
 
 implement
-d0atarg_make_none (s0t) = '{
-  d0atarg_loc= s0t.s0rt_loc
-, d0atarg_sym= None (), d0atarg_srt= s0t
+a0srt_make_none (s0t) = '{
+  a0srt_loc= s0t.s0rt_loc
+, a0srt_sym= None (), a0srt_srt= s0t
 }
 
 implement
-d0atarg_make_some
+a0srt_make_some
   (id, s0t) = let
   val loc = id.i0de_loc + s0t.s0rt_loc
 in '{
-  d0atarg_loc= loc
-, d0atarg_sym= Some (id.i0de_sym), d0atarg_srt= s0t
-} end // end of [d0atarg_make_some]
+  a0srt_loc= loc
+, a0srt_sym= Some (id.i0de_sym), a0srt_srt= s0t
+} end // end of [a0srt_make_some]
 
 implement
-d0atmarg_make
+a0msrt_make
   (t_beg, xs, t_end) = let
   val loc = t_beg.token_loc + t_end.token_loc
 in '{
-  d0atmarg_loc= loc, d0atmarg_arg= xs
-} end // end of [d0atmarg_make]
+  a0msrt_loc= loc, a0msrt_arg= xs
+} end // end of [a0msrt_make]
 
 (* ****** ****** *)
 
@@ -599,8 +599,8 @@ s0tacon_make
   val loc = (case+ def of
     | Some s0e => loc_id + s0e.s0exp_loc
     | None () => (
-        case+ list_last_opt<d0atmarg> (arg) of
-        | ~Some_vt x => loc_id + x.d0atmarg_loc
+        case+ list_last_opt<a0msrt> (arg) of
+        | ~Some_vt x => loc_id + x.a0msrt_loc
         | ~None_vt () => loc_id
       ) // end of [None]
   ) : location // end of [val]
@@ -675,8 +675,8 @@ d0atdec_make (
   | ~None_vt _ => loc_id
   ) : location // end of [val]
   val loc_hd = (case+
-    list_last_opt<d0atmarg> (arg) of
-    ~Some_vt (x) => loc_id + x.d0atmarg_loc
+    list_last_opt<a0msrt> (arg) of
+    ~Some_vt (x) => loc_id + x.a0msrt_loc
   | ~None_vt _ => loc_id
   ) : location // end of [val]
   val fil = $FIL.filename_get_current ()
@@ -747,6 +747,17 @@ in '{
 } end // end of [d0ecl_symintr]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+d0ecl_include
+  (knd, tok, ent2) = let
+  val loc = tok.token_loc + ent2.token_loc
+  val- T_STRING name = ent2.token_node
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cinclude (knd, name)
+} end // end of [d0ecl_include]
 
 (* ****** ****** *)
 
@@ -873,6 +884,16 @@ in '{
 (* ****** ****** *)
 
 implement
+d0ecl_extcode
+  (knd, tok) = let
+  val- T_EXTCODE (pos, code) = tok.token_node
+in '{
+  d0ecl_loc= tok.token_loc, d0ecl_node= D0Cextcode (knd, pos, code)
+} end // end of [d0ecl_extcode]
+
+(* ****** ****** *)
+
+implement
 d0ecl_staload_none
   (tok, tok2) = let
   val- T_STRING (name) = tok2.token_node
@@ -890,6 +911,58 @@ d0ecl_staload_some
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cstaload (Some sym, name)
 } end // end of [d0ecl_staload_some]
+
+(* ****** ****** *)
+
+implement
+d0ecl_local (
+  t_local, d0cs1, d0cs2, t_end
+) = let
+  val loc = t_local.token_loc + t_end.token_loc
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Clocal (d0cs1, d0cs2)
+} end // end of [d0ec_local]
+
+(* ****** ****** *)
+
+implement
+d0ecl_guadecl (knd, gd) = let
+  val loc = knd.token_loc + gd.guad0ecl_loc
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cguadecl (knd, gd)
+} end // end of [d0ecl_guadecl]
+
+(* ****** ****** *)
+
+implement
+guad0ecl_one (
+  gua, ds_then, t_endif
+) = let
+  val loc = gua.e0xp_loc + t_endif.token_loc
+in '{
+  guad0ecl_loc= loc
+, guad0ecl_node= GD0Cone (gua, ds_then)
+} end // end of [guad0ecl_one]
+
+implement
+guad0ecl_two (
+  gua, ds_then, ds_else, t_endif
+) = let
+  val loc = gua.e0xp_loc + t_endif.token_loc
+in '{
+  guad0ecl_loc= loc
+, guad0ecl_node= GD0Ctwo (gua, ds_then, ds_else)
+} end // end of [guad0ecl_two]
+
+implement
+guad0ecl_cons (
+  gua, ds, knd, rst
+) = let
+  val loc = gua.e0xp_loc + rst.guad0ecl_loc
+in '{
+  guad0ecl_loc= loc
+, guad0ecl_node= GD0Ccons (gua, ds, knd, rst.guad0ecl_node)
+} end // end of [guad0ecl_cons]
 
 (* ****** ****** *)
 

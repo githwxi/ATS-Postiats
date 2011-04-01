@@ -50,5 +50,13 @@ Some kind of sort inferencing
 Supporting user-defined effects
 
 ######
+//
+// HX-2011-03-30
+//
+Supporting invariant types:
+
+fun{a1,a2:t@ype} (x: INV(a1), y: INV(a2)): (a1, a2)
+
+######
 
 ###### end of [README] ######

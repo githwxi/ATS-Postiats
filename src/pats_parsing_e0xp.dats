@@ -34,6 +34,10 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+
+(* ****** ****** *)
+
 staload "pats_lexing.sats"
 staload "pats_tokbuf.sats"
 staload "pats_syntax.sats"
@@ -44,6 +48,10 @@ staload "pats_parsing.sats"
 
 (* ****** ****** *)
 
+#define l2l list_of_list_vt
+
+(* ****** ****** *)
+
 (*
 e0xpseq ::=
   | /*(empty)*/ | e0xp {COMMA e0xpseq}
@@ -51,13 +59,13 @@ e0xpseq ::=
 *)
 
 fun
-p_e0xpseq (
+p_e0xpseq_vt (
   buf: &tokbuf
 , bt: int
 , err: &int
 ) : List_vt (e0xp) =
   pstar_fun0_COMMA {e0xp} (buf, bt, p_e0xp)
-// end of [p_e0xpseq]
+// end of [p_e0xpseq_vt]
 
 (* ****** ****** *)
 
@@ -76,12 +84,10 @@ fun
 p_atme0xp_tok (
   buf: &tokbuf, bt: int, err: &int, tok: token
 ) : e0xp = let
-  var ent: synent?
+  val err0 = err
   val loc = tok.token_loc
+  var ent: synent?
   macdef incby1 () = tokbuf_incby1 (buf)
-(*
-  val () = println! ("p_atme0xp: tok = ", tok)
-*)
 in
 //
 case+ tok.token_node of
@@ -92,7 +98,7 @@ case+ tok.token_node of
 //
 | _ when
     ptest_fun (buf, p_i0nt, ent) =>
-    e0xp_i0nt (synent_decode {i0nt} (ent))
+    e0xp_i0nt (synent_decode (ent))
 //
 | T_CHAR _ => let
     val () = incby1 () in e0xp_char (tok)
@@ -107,21 +113,24 @@ case+ tok.token_node of
 | T_LPAREN () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = p_e0xpseq (buf, bt, err)
-    val ent2 = list_of_list_vt (ent2)
-    val ent3 = p_RPAREN (buf, bt, err) // err = 0
+    val ent2 = p_e0xpseq_vt (buf, bt, err)
+    val ent3 = p_RPAREN (buf, bt, err) // err = err0
   in
-    if err = 0 then e0xp_list (tok, ent2, ent3) else synent_null ()
+    if err = err0 then
+      e0xp_list (tok, (l2l)ent2, ent3)
+    else let
+      val () = list_vt_free (ent2) in synent_null ()
+    end (* end of [if] *)
   end // end of [T_LPAREN]
 | T_PERCENTLPAREN () => let
     val bt = 0
     val () = incby1 ()
     val ent2 = p_e0xp (buf, bt, err)
-    val ent3 = (
-      if err = 0 then p_RPAREN (buf, bt, err) else synent_null ()
-    ) : token // end of [val]
+    val ent3 = pif_fun (buf, bt, err, p_RPAREN, err0)
   in
-    if err = 0 then e0xp_eval (tok, ent2, ent3) else synent_null ()
+    if err = err0 then
+      e0xp_eval (tok, ent2, ent3) else synent_null ()
+    // end of [if]
   end // end of [T_PERCENTLPAREN]
 //
 | _ => let
@@ -145,7 +154,7 @@ e0xp ::= {atme0xp}+
 
 implement
 p_e0xp (buf, bt, err) = let
-  val xs = pplus_fun (buf, bt, err, p_atme0xp)
+  val xs = pstar1_fun (buf, bt, err, p_atme0xp)
   fun loop (
     x0: e0xp, xs1: List_vt (e0xp)
   ) : e0xp =
@@ -159,9 +168,7 @@ in
 //
 case+ xs of
 | ~list_vt_cons (x, xs) => loop (x, xs)
-| ~list_vt_nil () => let
-    val () = err := err + 1 in synent_null ()
-  end // end of [list_vt_nil]
+| ~list_vt_nil () => synent_null () // HX: [err] changed
 //
 end // end of [p_e0xp]
 

@@ -67,8 +67,9 @@ dynload "pats_syntax_print.dats"
 dynload "pats_syntax.dats"
 
 dynload "pats_tokbuf.dats"
-dynload "pats_parsing_util.dats"
 dynload "pats_parsing_error.dats"
+dynload "pats_parsing_util.dats"
+dynload "pats_parsing_kwds.dats"
 dynload "pats_parsing_misc.dats"
 dynload "pats_parsing_e0xp.dats"
 dynload "pats_parsing_sort.dats"
@@ -89,10 +90,11 @@ main (
   val () = tokbuf_initialize_getc (buf, lam () =<cloptr1> getchar ())
   var err: int = 0
 //
-  val d0cs = p_d0eclist (buf, 0, err)
+  val d0cs = p_d0eclseq_sta (buf, 0, err)
   val _eof = p_EOF (buf, 0, err)
   val () = tokbuf_discard_all (buf)
 //
+  val () = println! ("err = ", err)
   val () = if (err = 0) then fprint_d0eclist (stdout_ref, d0cs)
   val () = if (err = 0) then print_newline ()
 //

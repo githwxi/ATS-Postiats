@@ -140,6 +140,16 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [OF] is needed", @())
     val () = fprint_newline (out)
   }
+| PE_IN () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [IN] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_END () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [END] is needed", @())
+    val () = fprint_newline (out)
+  }
 //
 | PE_BAR () => {
     val () = fprint (out, loc)
@@ -193,6 +203,11 @@ case+ x.parerr_node of
     val () = fprint_newline (out)
   }
 //
+| PE_DOT () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [DOT] is needed", @())
+    val () = fprint_newline (out)
+  }
 | PE_EQ () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [EQ] is needed", @())
@@ -206,6 +221,17 @@ case+ x.parerr_node of
 | PE_EOF () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [EOF] is needed", @())
+    val () = fprint_newline (out)
+  }
+//
+| PE_SRPTHEN () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [SRPTHEN] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_SRPENDIF () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [SRPENDIF] is needed", @())
     val () = fprint_newline (out)
   }
 //
@@ -271,6 +297,11 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [s0marg] is needed", @())
     val () = fprint_newline (out)
   }
+| PE_a0msrt () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [a0msrt] is needed", @())
+    val () = fprint_newline (out)
+  }
 //
 | PE_si0de () => {
     val () = fprint (out, loc)
@@ -327,6 +358,21 @@ case+ x.parerr_node of
 | PE_d0ecl () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [d0ecl] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_d0ecl_sta () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [d0ecl_sta] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_d0ecl_dyn () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [d0ecl_dyn] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_guad0ecl () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [guad0ecl] is needed", @())
     val () = fprint_newline (out)
   }
 (*

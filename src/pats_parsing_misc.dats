@@ -53,72 +53,6 @@ staload "pats_parsing.sats"
 
 (* ****** ****** *)
 
-implement
-p_BAR (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_BAR, PE_BAR)
-
-implement
-p_COLON (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_COLON, PE_COLON)
-
-implement
-p_COMMA (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_COMMA, PE_COMMA)
-
-implement
-p_SEMICOLON (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_SEMICOLON, PE_SEMICOLON)
-
-(* ****** ****** *)
-
-implement
-p_LPAREN (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_LPAREN, PE_LPAREN)
-
-implement
-p_RPAREN (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_RPAREN, PE_RPAREN)
-
-implement
-p_LBRACKET (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_LBRACKET, PE_LBRACKET)
-
-implement
-p_RBRACKET (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_RBRACKET, PE_RBRACKET)
-
-implement
-p_LBRACE (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_LBRACE, PE_LBRACE)
-
-implement
-p_RBRACE (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_RBRACE, PE_RBRACE)
-
-(* ****** ****** *)
-
-implement
-p_EQ (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_EQ, PE_EQ)
-// end of [p_EQ]
-
-implement
-p_EQGT (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_EQGT, PE_EQGT)
-// end of [p_EQGT]
-
-implement
-p_EOF (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_EOF, PE_EOF)
-// end of [p_EOF]
-
-implement
-p_OF (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_OF, PE_OF)
-// end of [p_OF]
-
-(* ****** ****** *)
-
 fun
 i0nt_make_base_rep_sfx (
   loc: location, base: int, rep: string, sfx: uint
@@ -258,7 +192,7 @@ i0deseq1 := {i0de}+
 implement
 p_i0deseq1
   (buf, bt, err) = let
-  val xs = pplus_fun (buf, bt, err, p_i0de)
+  val xs = pstar1_fun (buf, bt, err, p_i0de)
 in
   list_of_list_vt (xs)
 end // end of [p_i0deseq1]
@@ -293,7 +227,7 @@ l0ab :=
   | i0de
   | i0nt
 /*
-  | LPAREN l0ab RPAREN
+  | LPAREN l0ab RPAREN // HX: this is removed for now
 */
 *)
 implement
@@ -307,19 +241,11 @@ case+ 0 of
 | _ when
     ptest_fun (
       buf, p_i0de, ent
-    ) => let
-    val x = synent_decode {i0de} (ent)
-  in
-    l0ab_make_i0de (x)
-  end
+    ) => l0ab_make_i0de (synent_decode {i0de} (ent))
 | _ when
     ptest_fun (
       buf, p_i0nt, ent
-    ) => let
-    val x = synent_decode {i0nt} (ent)
-  in
-    l0ab_make_i0nt (x)
-  end
+    ) => l0ab_make_i0nt (synent_decode {i0nt} (ent))
 //
 | _ => let
     val () = err := err + 1
@@ -345,19 +271,21 @@ p_p0rec_tok (
   buf: &tokbuf, bt: int, err: &int, tok: token
 ) : p0rec = let
   var ent: synent?
-  val loc = tok.token_loc
+  val err0 = err
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
 case+ tok.token_node of
 | _ when
-    ptest_fun (buf, p_i0nt, ent) => p0rec_i0nt (synent_decode {i0nt} (ent))
+    ptest_fun (
+      buf, p_i0nt, ent
+    ) => p0rec_i0nt (synent_decode {i0nt} (ent))
 | T_LPAREN () => let
     val bt = 0
     val () = incby1 ()
     val ent2 = p_i0de (buf, bt, err)
   in
-    if err = 0 then let
+    if err = err0 then let
       val tok2 = tokbuf_get_token (buf)
     in
       case+ tok2.token_node of
@@ -367,11 +295,11 @@ case+ tok.token_node of
       | T_IDENT_sym _ => let
           val () = incby1 ()
           val ent4 = p_i0nt (buf, bt, err)
-          val ent5 = (
-            if err = 0 then p_RPAREN (buf, bt, err) else synent_null ()
-          ) : token // end of [val]
+          val ent5 = pif_fun (buf, bt, err, p_RPAREN, err0)
         in
-          if err = 0 then p0rec_i0de_adj (ent2, tok2, ent4) else synent_null ()
+          if err = err0 then
+            p0rec_i0de_adj (ent2, tok2, ent4) else synent_null ()
+          // end of [if]
         end
       | _ => synent_null ()
     end else

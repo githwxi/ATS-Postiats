@@ -57,104 +57,9 @@ staload "pats_parsing.sats"
 (* ****** ****** *)
 
 implement
-is_AND (x) = case+ x of
-  | T_AND () => true | _ => false
-// end of [is_AND]
-implement
-p_AND_test (buf) = ptoken_test_fun (buf, is_AND)
-
-implement
-is_OF (x) = case+ x of
-  | T_OF () => true | _ => false
-// end of [is_OF]
-
-(* ****** ****** *)
-
-implement
-is_BAR (x) = case+ x of
-  | T_BAR () => true | _ => false
-// end of [is_BAR]
-implement
-p_BAR_test (buf) = ptoken_test_fun (buf, is_BAR)
-
-implement
-is_COLON (x) = case+ x of
-  | T_COLON () => true | _ => false
-// end of [is_COLON]
-implement
-p_COLON_test (buf) = ptoken_test_fun (buf, is_COLON)
-
-implement
-is_COMMA (x) = case+ x of
-  | T_COMMA () => true | _ => false
-// end of [is_COMMA]
-implement
-p_COMMA_test (buf) = ptoken_test_fun (buf, is_COMMA)
-
-implement
-is_SEMICOLON (x) = case+ x of
-  | T_SEMICOLON () => true | _ => false
-// end of [is_SEMICOLON]
-implement
-p_SEMICOLON_test
-  (buf) = ptoken_test_fun (buf, is_SEMICOLON)
-// end of [p_SEMICOLON_test]
-
-implement
-is_BARSEMI (x) = case+ x of
-  | T_BAR () => true | T_SEMICOLON () => true | _ => false
-// end of [is_BARSEMI]
-implement
-p_BARSEMI_test (buf) = ptoken_test_fun (buf, is_BARSEMI)
-
-(* ****** ****** *)
-
-implement
-is_LPAREN (x) = case+ x of
-  | T_LPAREN () => true | _ => false
-// end of [is_LPAREN]
-
-implement
-is_RPAREN (x) = case+ x of
-  | T_RPAREN () => true | _ => false
-// end of [is_RPAREN]
-
-implement
-is_LBRACKET (x) = case+ x of
-  | T_LBRACKET () => true | _ => false
-// end of [is_LBRACKET]
-
-implement
-is_RBRACKET (x) = case+ x of
-  | T_RBRACKET () => true | _ => false
-// end of [is_RBRACKET]
-
-implement
-is_LBRACE (x) = case+ x of
-  | T_LBRACE () => true | _ => false
-// end of [is_LBRACE]
-
-implement
-is_RBRACE (x) = case+ x of
-  | T_RBRACE () => true | _ => false
-// end of [is_RBRACE]
-
-(* ****** ****** *)
-
-implement
-is_EQ (x) = case+ x of
-  | T_EQ () => true | _ => false
-// end of [is_EQ]
-
-implement
-is_EQGT (x) = case+ x of
-  | T_EQGT () => true | _ => false
-// end of [is_EQGT]
-
-implement
-is_EOF (x) = case+ x of
-  | T_EOF () => true | _ => false
-// end of [is_EOF]
+tokbuf_set_ntok_null (buf, n0) = let
+  val () = tokbuf_set_ntok (buf, n0) in synent_null ()
+end // end of [tokbuf_set_ntok_null]
 
 (* ****** ****** *)
 
@@ -273,12 +178,6 @@ in
   res (* properly ordered *)
 end // end of [pstar_sep_fun]
 
-implement
-pstar_COMMA_fun
-  (buf, bt, f) =
-  pstar_sep_fun (buf, bt, p_COMMA_test, f)
-// end of [pstar_COMMA_fun]
-
 (* ****** ****** *)
 
 implement
@@ -289,7 +188,8 @@ pstar_fun0_sep
 in
 //
 case+ 0 of
-| _ when err > 0 => list_vt_nil ()
+| _ when
+    err > 0 => list_vt_nil () // HX: normal
 | _ => let
     val xs = pstar_sep_fun (buf, 1(*bt*), sep, f)
   in
@@ -355,7 +255,7 @@ end // end of [pstar_fun1_sep]
 (* ****** ****** *)
 
 implement
-pplus_fun (
+pstar1_fun (
   buf, bt, err, f
 ) = let
   val x0 = f (buf, bt, err)
@@ -384,6 +284,43 @@ popt_fun {a}
 in
   if err = 0 then Some_vt (x) else None_vt ()
 end // end of [popt_fun]
+
+(* ****** ****** *)
+
+implement
+pseq2_fun {a1,a2} (
+  buf, bt, err, f1, f2
+) = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val ent1 = f1 (buf, bt, err)
+  val bt = 0
+  val ent2 = (
+    if err <= err0  then f2 (buf, bt, err) else synent_null ()
+  ) : a2 // end of [val]
+  val () = if (err > err0) then tokbuf_set_ntok (buf, n0)
+in
+  SYNENT2 (ent1, ent2)
+end // end of [pseq2_fun]
+
+implement
+pseq3_fun {a1,a2,a3} (
+  buf, bt, err, f1, f2, f3
+) = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val ent1 = f1 (buf, bt, err)
+  val bt = 0
+  val ent2 = (
+    if err <= err0  then f2 (buf, bt, err) else synent_null ()
+  ) : a2 // end of [val]
+  val ent3 = (
+    if err <= err0  then f3 (buf, bt, err) else synent_null ()
+  ) : a3 // end of [val]
+  val () = if (err > err0) then tokbuf_set_ntok (buf, n0)
+in
+  SYNENT3 (ent1, ent2, ent3)
+end // end of [pseq3_fun]
 
 (* ****** ****** *)
 
@@ -423,6 +360,13 @@ case+ tok.token_node of
 | _ => LIST12one (xs1)
 //
 end // end of [plist12_fun]
+
+(* ****** ****** *)
+
+implement
+pif_fun (
+  buf, bt, err, f, err0
+) = if err <= err0 then f (buf, bt, err) else synent_null ()
 
 (* ****** ****** *)
 
