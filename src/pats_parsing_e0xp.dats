@@ -96,18 +96,17 @@ case+ tok.token_node of
     ptest_fun (buf, p_i0de, ent) =>
     e0xp_i0de (synent_decode (ent))
 //
-| _ when
-    ptest_fun (buf, p_i0nt, ent) =>
-    e0xp_i0nt (synent_decode (ent))
-//
-| T_CHAR _ => let
-    val () = incby1 () in e0xp_char (tok)
+| T_INTEGER _ => let
+    val () = incby1 () in e0xp_i0nt (tok)
   end
-| T_FLOAT_deciexp _ => let
-    val () = incby1 () in e0xp_float (tok)
+| T_CHAR _ => let
+    val () = incby1 () in e0xp_c0har (tok)
+  end
+| T_FLOAT _ => let
+    val () = incby1 () in e0xp_f0loat (tok)
   end
 | T_STRING _ => let
-    val () = incby1 () in e0xp_string (tok)
+    val () = incby1 () in e0xp_s0tring (tok)
   end
 //
 | T_LPAREN () => let

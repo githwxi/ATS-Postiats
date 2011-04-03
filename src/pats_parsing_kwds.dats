@@ -259,4 +259,32 @@ p_EOF (buf, bt, err) =
 
 (* ****** ****** *)
 
+implement
+is_ATLPAREN (x) =
+  case+ x of
+  | T_ATLPAREN () => true | _ => false
+// end of [is_ATLPAREN]
+implement
+is_LPAREN_deco (x) =
+  case+ x of
+  | T_ATLPAREN () => true
+  | T_QUOTELPAREN () => true
+  | _ => false
+// end of [is_LPAREN_deco]
+
+implement
+is_ATLBRACE (x) =
+  case+ x of
+  | T_ATLBRACE () => true | _ => false
+// end of [is_ATLBRACE]
+implement
+is_LBRACE_deco (x) =
+  case+ x of
+  | T_ATLBRACE () => true
+  | T_QUOTELBRACE () => true
+  | _ => false
+// end of [is_LBRACE_deco]
+
+(* ****** ****** *)
+
 (* end of [pats_parsing_kwds.dats] *)

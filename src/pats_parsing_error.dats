@@ -256,6 +256,16 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [i0nt] is needed", @())
     val () = fprint_newline (out)
   }
+| PE_c0har () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [c0har] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_f0loat () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [f0loat] is needed", @())
+    val () = fprint_newline (out)
+  }
 | PE_s0tring () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [s0tring] is needed", @())
@@ -388,6 +398,11 @@ case+ x.parerr_node of
 | PE_atmd0exp () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [atmd0exp] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_labd0exp () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [labd0exp] is needed", @())
     val () = fprint_newline (out)
   }
 //

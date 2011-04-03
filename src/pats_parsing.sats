@@ -77,6 +77,8 @@ parerr_node =
   | PE_EOF
 //
   | PE_i0nt
+  | PE_c0har
+  | PE_f0loat
   | PE_s0tring
 //
   | PE_i0de
@@ -118,6 +120,7 @@ parerr_node =
 //
   | PE_d0exp
   | PE_atmd0exp
+  | PE_labd0exp
 //
   | PE_d0ecl
   | PE_d0ecl_sta
@@ -245,6 +248,20 @@ fun is_SRPENDIF (x: tnode): bool
 
 fun p_EOF : parser (token)
 fun is_EOF (x: tnode): bool
+
+(* ****** ****** *)
+
+fun is_ATLPAREN (x: tnode): bool
+(*
+fun is_QUOTELPAREN (x: tnode): bool
+*)
+fun is_LPAREN_deco (x: tnode): bool
+
+fun is_ATLBRACE (x: tnode): bool
+(*
+fun is_QUOTELBRACE (x: tnode): bool
+*)
+fun is_LBRACE_deco (x: tnode): bool
 
 (* ****** ****** *)
 
@@ -394,7 +411,9 @@ fun ptokwrap_fun
 (* ****** ****** *)
 
 fun p_i0nt : parser (i0nt) // integers: dec, oct, hex, etc.
-fun p_s0tring : parser (token) // strings
+fun p_c0har : parser (c0har) // strings
+fun p_f0loat : parser (f0loat) // strings
+fun p_s0tring : parser (s0tring) // strings
 
 (* ****** ****** *)
 
@@ -407,7 +426,6 @@ fun p_i0de_dlr : parser (i0de) // $identifier
 
 (* ****** ****** *)
 
-fun p_e0xp : parser (e0xp)
 fun p_l0ab : parser (l0ab)
 fun p_p0rec : parser (p0rec)
 
@@ -420,6 +438,10 @@ fun p_extnamopt : parser (Stropt)
 (* ****** ****** *)
 
 fun p_m0acarg : parser (m0acarg)
+
+(* ****** ****** *)
+
+fun p_e0xp : parser (e0xp)
 
 (* ****** ****** *)
 
@@ -461,6 +483,8 @@ fun p_e0xndec : parser (e0xndec)
 fun p_d0atconseq : parser (d0atconlst)
 //
 fun p_d0cstarg : parser (d0cstarg)
+//
+fun p_s0exparg : parser (s0exparg)
 //
 (* ****** ****** *)
 

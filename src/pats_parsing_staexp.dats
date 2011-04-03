@@ -53,9 +53,6 @@ staload "pats_parsing.sats"
 #define l2l list_of_list_vt
 #define t2t option_of_option_vt
 
-viewtypedef s0explst_vt = List_vt (s0exp)
-viewtypedef labs0explst_vt = List_vt (labs0exp)
-
 (* ****** ****** *)
 
 (*
@@ -218,13 +215,10 @@ fun p_labs0exp (
   buf: &tokbuf, bt: int, err: &int
 ) : labs0exp = let
   val err0 = err
-  val n0 = tokbuf_get_ntok (buf)
   val tok = tokbuf_get_token (buf)
 //
-  val ent1 = p_l0ab (buf, bt, err)
-  val bt = 0
-  val ent2 = pif_fun (buf, bt, err, p_EQ, err0)
-  val ent3 = pif_fun (buf, bt, err, p_s0exp, err0)
+  val+ ~SYNENT3 (ent1, ent2, ent3) =
+    pseq3_fun {l0ab,token,s0exp} (buf, bt, err, p_l0ab, p_EQ, p_s0exp)
 //
 in
 //
@@ -233,7 +227,7 @@ if (err = err0) then
 else let
   val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_labs0exp)
 in
-  tokbuf_set_ntok_null (buf, n0)
+  synent_null ()
 end (* end of [if] *)
 //
 end // end of [p_labs0exp]
@@ -241,6 +235,9 @@ end // end of [p_labs0exp]
 (* ****** ****** *)
 
 viewtypedef s0explst12 = list12 (s0exp)
+viewtypedef labs0explst12 = list12 (labs0exp)
+
+(* ****** ****** *)
 
 fun s0exp_list12 (
   t_beg: token, ent2: s0explst12, t_end: token
@@ -256,18 +253,16 @@ fun s0exp_tytup12 (
 ) : s0exp =
   case+ ent2 of
   | ~LIST12one (xs) =>
-      s0exp_tytup (knd, 0(*npf*), t_beg, (l2l)xs, t_end)
+      s0exp_tytup (knd, t_beg, 0(*npf*), (l2l)xs, t_end)
   | ~LIST12two (xs1, xs2) => let
       val npf = list_vt_length (xs1)
       val xs12 = list_vt_append (xs1, xs2)
     in
-      s0exp_tytup (knd, npf, t_beg, (l2l)xs12, t_end)
+      s0exp_tytup (knd, t_beg, npf, (l2l)xs12, t_end)
     end
 // end of [s0exp_tytup12]
 
 (* ****** ****** *)
-
-viewtypedef labs0explst12 = list12 (labs0exp)
 
 fun s0exp_tyrec12 (
   knd: int
@@ -275,12 +270,12 @@ fun s0exp_tyrec12 (
 ) : s0exp =
   case+ ent2 of
   | ~LIST12one (xs) =>
-      s0exp_tyrec (knd, 0(*npf*), t_beg, (l2l)xs, t_end)
+      s0exp_tyrec (knd, t_beg, 0(*npf*), (l2l)xs, t_end)
   | ~LIST12two (xs1, xs2) => let
       val npf = list_vt_length (xs1)
       val xs12 = list_vt_append (xs1, xs2)
     in
-      s0exp_tyrec (knd, npf, t_beg, (l2l)xs12, t_end)
+      s0exp_tyrec (knd, t_beg, npf, (l2l)xs12, t_end)
     end
 // end of [s0exp_tyrec12]
 
@@ -290,12 +285,12 @@ fun s0exp_tyrec12_ext (
 ) : s0exp =
   case+ ent2 of
   | ~LIST12one (xs) =>
-      s0exp_tyrec_ext (name, 0(*npf*), t_beg, (l2l)xs, t_end)
+      s0exp_tyrec_ext (name, t_beg, 0(*npf*), (l2l)xs, t_end)
   | ~LIST12two (xs1, xs2) => let
       val npf = list_vt_length (xs1)
       val xs12 = list_vt_append (xs1, xs2)
     in
-      s0exp_tyrec_ext (name, npf, t_beg, (l2l)xs12, t_end)
+      s0exp_tyrec_ext (name, t_beg, npf, (l2l)xs12, t_end)
     end
 // end of [s0exp_tyrec12]
 
@@ -361,16 +356,11 @@ atms0exp
   | LPAREN s0expseq RPAREN
   | LPAREN s0expseq BAR s0expseq RPAREN
 //
-  | ATLPAREN s0expseq RPAREN // knd = 0
-  | ATLPAREN s0expseq BAR s0expseq RPAREN
+  | ATLPAREN s0expseq {BAR s0expseq} RPAREN // knd = 0
+  | QUOTELPAREN s0expseq {BAR s0expseq} RPAREN // knd = 1
 //
-  | QUOTELPAREN s0expseq RPAREN // knd = 1
-  | QUOTELPAREN s0expseq BAR s0expseq RPAREN
-//
-  | ATLBRACE labs0expseq RBRACE
-  | ATLBRACE labs0expseq BAR labs0expseq RBRACE
-  | QUOTELBRACE labs0expseq RBRACE
-  | QUOTELBRACE labs0expseq BAR labs0expseq RBRACE
+  | ATLBRACE labs0expseq {BAR labs0expseq} RBRACE // knd = 0
+  | QUOTELBRACE labs0expseq {BAR labs0expseq} RBRACE // knd = 1
 //
   | ATLBRACKET s0exp RBRACKET s0arrind // for instance: @[a][n]
 //
@@ -414,9 +404,12 @@ case+ tok.token_node of
 | _ when
     ptest_fun (buf, p_sqi0de, ent) =>
     s0exp_sqid (synent_decode {sqi0de} (ent))
-| _ when
-    ptest_fun (buf, p_i0nt, ent) =>
-    s0exp_i0nt (synent_decode {i0nt} (ent))
+| T_INTEGER _ => let
+    val () = incby1 () in s0exp_i0nt (tok)
+  end
+| T_CHAR _ => let
+    val () = incby1 () in s0exp_c0har (tok)
+  end
 | T_OP _ => let
     val bt = 0
     val () = incby1 ()
@@ -425,9 +418,6 @@ case+ tok.token_node of
     if err = err0 then
       s0exp_opid (tok, ent2) else synent_null ()
     // end of [if]
-  end
-| T_CHAR _ => let
-    val () = incby1 () in s0exp_char (tok)
   end
 //
 | T_LPAREN () => let
@@ -442,39 +432,34 @@ case+ tok.token_node of
       val () = list12_free (ent2) in synent_null ()
     end // end of [if]
   end
-| T_ATLPAREN () => let
+//
+| tnd when
+    is_LPAREN_deco (tnd) => let
     val bt = 0
     val () = incby1 ()
     val ent2 = p_s0expseq_BAR_s0expseq (buf, bt, err)
     val ent3 = p_RPAREN (buf, bt, err) // err = err0
   in
-    if err = err0 then
-      s0exp_tytup12 (0(*knd*), tok, ent2, ent3)
-    else let
+    if err = err0 then let
+      val knd = if is_ATLPAREN (tnd) then 0 else 1
+    in
+      s0exp_tytup12 (knd, tok, ent2, ent3)
+    end else let
       val () = list12_free (ent2) in synent_null ()
     end // end of [if]
   end
-| T_QUOTELPAREN () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = p_s0expseq_BAR_s0expseq (buf, bt, err)
-    val ent3 = p_RPAREN (buf, bt, err) // err = err0
-  in
-    if err = err0 then
-      s0exp_tytup12 (1(*knd*), tok, ent2, ent3)
-    else let
-      val () = list12_free (ent2) in synent_null ()
-    end // end of [if]
-  end
-| T_ATLBRACE () => let
+| tnd when
+    is_LBRACE_deco (tnd) => let
     val bt = 0
     val () = incby1 ()
     val ent2 = p_labs0expseq_BAR_labs0expseq (buf, bt, err)
     val ent3 = p_RBRACE (buf, bt, err) // err = err0
   in
-    if err = err0 then
-      s0exp_tyrec12 (0(*knd*), tok, ent2, ent3)
-    else let
+    if err = err0 then let
+      val knd = if is_ATLBRACE (tnd) then 0 else 1
+    in
+      s0exp_tyrec12 (knd, tok, ent2, ent3)
+    end else let
       val () = list12_free (ent2) in synent_null ()
     end // end of [if]
   end
@@ -1246,6 +1231,36 @@ case+ tok.token_node of
   end
 //
 end // end of [p_d0cstarg]
+
+(* ****** ****** *)
+
+(*
+s0exparg
+  : DOTDOT
+  | DOTDOTDOT
+  | s0expseq
+*)
+implement
+p_s0exparg
+  (buf, bt, err) = let
+  val tok = tokbuf_get_token (buf)
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_DOTDOT () => let
+    val () = incby1 () in S0EXPARGone ()
+   end
+| T_DOTDOTDOT () => let
+    val () = incby1 () in S0EXPARGall ()
+  end
+| _ => let
+    val xs = pstar_fun0_COMMA (buf, bt, p_s0exp)
+  in
+    S0EXPARGseq ((l2l)xs)
+  end
+//
+end // end of [p_s0exparg]
 
 (* ****** ****** *)
 

@@ -42,14 +42,41 @@ staload _(*anon*) = "pats_utils.dats"
 staload "pats_fixity.sats"
 staload "pats_label.sats"
 staload "pats_symbol.sats"
+
+(* ****** ****** *)
+
+staload "pats_lexing.sats"
 staload "pats_syntax.sats"
 
 (* ****** ****** *)
 
 implement
 fprint_i0nt
-  (out, x) = fprint_string (out, x.i0nt_rep)
-// end of [fprint_i0nt]
+  (out, x) = let
+  val- T_INTEGER (_, rep, _) = x.token_node
+in
+  fprint_string (out, rep)
+end // end of [fprint_i0nt]
+
+implement
+fprint_c0har
+  (out, x) = let
+  val- T_CHAR (c) = x.token_node in fprint_char (out, c)
+end // end of [fprint_c0har]
+
+implement
+fprint_f0loat
+  (out, x) = let
+  val- T_FLOAT (_, rep, _) = x.token_node
+in
+  fprint_string (out, rep)
+end // end of [fprint_f0loat]
+
+implement
+fprint_s0tring
+  (out, x) = let
+  val- T_STRING (str) = x.token_node in fprint_string (out, str)
+end // end of [fprint_c0har]
 
 (* ****** ****** *)
 
@@ -156,9 +183,9 @@ in
       val () = fprint_e0xp (out, x2)
       val () = prstr ")"
     }
-  | E0XPchar c => {
+  | E0XPchar (x) => {
       val () = prstr "E0XPchar("
-      val () = fprint_char (out, c)
+      val () = fprint_c0har (out, x)
       val () = prstr ")"
     }
   | E0XPeval (x) => {
@@ -168,7 +195,7 @@ in
     }
   | E0XPfloat (x) => {
       val () = prstr "E0XPfloat("
-      val () = fprint_string (out, x)
+      val () = fprint_f0loat (out, x)
       val () = prstr ")"
     }
   | E0XPide (x) => {
@@ -178,7 +205,7 @@ in
     }
   | E0XPint (x) => {
       val () = prstr "E0XPint("
-      val () = fprint_string (out, x.i0nt_rep)
+      val () = fprint_i0nt (out, x)
       val () = prstr ")"
     }
   | E0XPlist (xs) => {
@@ -186,9 +213,9 @@ in
       val () = $UT.fprintlst<e0xp> (out, xs, ", ", fprint_e0xp)
       val () = prstr ")"
     }
-  | E0XPstring (x, n) => {
+  | E0XPstring (x) => {
       val () = prstr "E0XPstring("
-      val () = fprint_string (out, x)
+      val () = fprint_s0tring (out, x)
       val () = prstr ")"
     }
 end // end of [fprint_e0xp]
@@ -299,10 +326,10 @@ in
     }
   | S0Echar (c) => {
       val () = prstr "S0Echar("
-      val () = fprint_char (out, c)
+      val () = fprint_c0har (out, c)
       val () = prstr ")"
     }
-  | S0Ei0nt (int) => {
+  | S0Eint (int) => {
       val () = prstr "S0Ei0nt("
       val () = fprint_i0nt (out, int)
       val () = prstr ")"

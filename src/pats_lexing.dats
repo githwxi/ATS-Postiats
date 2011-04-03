@@ -1857,7 +1857,7 @@ lexing_FLOAT_deciexp
   val str = lexbufpos_get_strptr1 (buf, pos)
   val str = string_of_strptr (str)
 in
-  lexbufpos_token_reset (buf, pos, T_FLOAT_deciexp (str))
+  lexbufpos_token_reset (buf, pos, T_FLOAT (10(*base*), str, k))
 end // end of [lexing_FLOAT_deciexp]
 
 implement
@@ -1867,7 +1867,7 @@ lexing_FLOAT_hexiexp
   val str = lexbufpos_get_strptr1 (buf, pos)
   val str = string_of_strptr (str)
 in
-  lexbufpos_token_reset (buf, pos, T_FLOAT_hexiexp (str))
+  lexbufpos_token_reset (buf, pos, T_FLOAT (16(*base*), str, k))
 end // end of [lexing_FLOAT_hexiexp]
 
 (* ****** ****** *)

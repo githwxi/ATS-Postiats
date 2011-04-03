@@ -173,8 +173,7 @@ fprint_token
 //
   | T_CHAR (x) => fprintf (out, "CHAR(%c)", @(x))
   | T_INTEGER (_base, x, _sp) => fprintf (out, "INTEGER_dec(%s)", @(x))
-  | T_FLOAT_deciexp (x) => fprintf (out, "FLOAT_deciexp(%s)", @(x))
-  | T_FLOAT_hexiexp (x) => fprintf (out, "FLOAT_hexiexp(%s)", @(x))
+  | T_FLOAT (_base, x, _sp) => fprintf (out, "FLOAT(%s)", @(x))
   | T_STRING (x) => fprintf (out, "STRING(%s)", @(x))
 //
   | T_LPAREN () => fprintf (out, "LPAREN()", @())

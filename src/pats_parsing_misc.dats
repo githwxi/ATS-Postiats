@@ -61,16 +61,6 @@ staload "pats_parsing.sats"
 
 (* ****** ****** *)
 
-fun
-i0nt_make_base_rep_sfx (
-  loc: location, base: int, rep: string, sfx: uint
-) : i0nt = '{
-  i0nt_loc= loc
-, i0nt_bas= base
-, i0nt_rep= rep
-, i0nt_sfx= sfx
-} // end of [i0nt_make_base_rep_sfx]
-
 implement
 p_i0nt (buf, bt, err) = let
   val tok = tokbuf_get_token (buf)
@@ -79,10 +69,8 @@ p_i0nt (buf, bt, err) = let
 in
 //
 case+ tok.token_node of
-| T_INTEGER (base, str, sfx) => let
-    val () = incby1 ()
-  in
-    i0nt_make_base_rep_sfx (loc, base, str, sfx)
+| T_INTEGER _ => let
+    val () = incby1 () in tok
   end
 | _ => let
     val () = err := err + 1
@@ -243,21 +231,22 @@ p_l0ab
   (buf, bt, err) = let
   var ent: synent?
   val tok = tokbuf_get_token (buf)
+  val loc = tok.token_loc
+  macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ 0 of
+case+ tok.token_node of
 | _ when
     ptest_fun (
       buf, p_i0de, ent
     ) => l0ab_make_i0de (synent_decode {i0de} (ent))
-| _ when
-    ptest_fun (
-      buf, p_i0nt, ent
-    ) => l0ab_make_i0nt (synent_decode {i0nt} (ent))
+| T_INTEGER _ => let
+    val () = incby1 () in l0ab_make_i0nt (tok)
+  end
 //
 | _ => let
     val () = err := err + 1
-    val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_l0ab)
+    val () = the_parerrlst_add_ifnbt (bt, loc, PE_l0ab)
   in
     synent_null ()
   end
@@ -284,10 +273,9 @@ p_p0rec_tok (
 in
 //
 case+ tok.token_node of
-| _ when
-    ptest_fun (
-      buf, p_i0nt, ent
-    ) => p0rec_i0nt (synent_decode {i0nt} (ent))
+| T_INTEGER _ => let
+    val () = incby1 () in p0rec_i0nt (tok)
+  end
 | T_LPAREN () => let
     val bt = 0
     val () = incby1 ()
@@ -385,14 +373,13 @@ case+ tok.token_node of
       e0fftag_cst (0, ent2) else tokbuf_set_ntok_null (buf, n0)
     // end of [if]
   end
+| T_INTEGER _ => let
+    val () = incby1 () in e0fftag_i0nt (tok)
+  end
 | _ when
     ptest_fun (
     buf, p_effi0de, ent
   ) => e0fftag_i0de (synent_decode {i0de} (ent))
-| _ when
-    ptest_fun (
-    buf, p_i0nt, ent
-  ) => e0fftag_i0nt (synent_decode {i0nt} (ent))
 | _ => let
     val () = err := err + 1 in synent_null ()
   end

@@ -50,6 +50,116 @@ staload "pats_parsing.sats"
 
 (* ****** ****** *)
 
+#define l2l list_of_list_vt
+#define t2t option_of_option_vt
+
+(* ****** ****** *)
+
+(*
+labd0exp ::= l0ab EQ d0exp
+*)
+fun p_labd0exp (
+  buf: &tokbuf, bt: int, err: &int
+) : labd0exp = let
+  val err0 = err
+  val tok = tokbuf_get_token (buf)
+//
+  val+ ~SYNENT3 (ent1, ent2, ent3) =
+    pseq3_fun {l0ab,token,d0exp} (buf, bt, err, p_l0ab, p_EQ, p_d0exp)
+//
+in
+//
+if (err = err0) then
+  labd0exp_make (ent1, ent3)
+else let
+  val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_labd0exp)
+in
+  synent_null ()
+end (* end of [if] *)
+//
+end // end of [p_labd0exp]
+
+(* ****** ****** *)
+
+viewtypedef d0explst12 = list12 (d0exp)
+viewtypedef labd0explst12 = list12 (labd0exp)
+
+(* ****** ****** *)
+
+fun d0exp_list12 (
+  t_beg: token
+, ent2: d0explst12
+, t_end: token
+) : d0exp =
+  case+ ent2 of
+  | ~LIST12one (xs) =>
+      d0exp_list (t_beg, 0, (l2l)xs, t_end)
+  | ~LIST12two (xs1, xs2) => let
+      val npf = list_vt_length (xs1)
+      val xs12 = list_vt_append (xs1, xs2)
+    in
+      d0exp_list (t_beg, npf, (l2l)xs12, t_end)
+    end (* end of [LIST12two] *)
+// end of [d0exp_list12]
+
+(* ****** ****** *)
+
+fun d0exp_tup12 (
+  knd: int
+, t_beg: token
+, ent2: d0explst12
+, t_end: token
+) : d0exp =
+  case+ ent2 of
+  | ~LIST12one (xs) =>
+      d0exp_tup (knd, t_beg, 0, (l2l)xs, t_end)
+  | ~LIST12two (xs1, xs2) => let
+      val npf = list_vt_length (xs1)
+      val xs12 = list_vt_append (xs1, xs2)
+    in
+      d0exp_tup (knd, t_beg, npf, (l2l)xs12, t_end)
+    end (* end of [LIST12two] *)
+// end of [d0exp_tup12]
+
+(* ****** ****** *)
+
+fun d0exp_rec12 (
+  knd: int
+, t_beg: token, ent2: labd0explst12, t_end: token
+) : d0exp =
+  case+ ent2 of
+  | ~LIST12one (xs) =>
+      d0exp_rec (knd, t_beg, 0(*npf*), (l2l)xs, t_end)
+  | ~LIST12two (xs1, xs2) => let
+      val npf = list_vt_length (xs1)
+      val xs12 = list_vt_append (xs1, xs2)
+    in
+      d0exp_rec (knd, t_beg, npf, (l2l)xs12, t_end)
+    end
+// end of [d0exp_rec12]
+
+(* ****** ****** *)
+
+fun
+p_d0expseq_BAR_d0expseq (
+  buf: &tokbuf
+, bt: int
+, err: &int
+) : d0explst12 =
+  plist12_fun (buf, bt, p_d0exp)
+// end of [p_d0expseq_BAR_d0expseq]
+
+fun
+p_labd0expseq_BAR_labd0expseq (
+  buf: &tokbuf
+, bt: int
+, err: &int
+) : labd0explst12 =
+  plist12_fun (buf, bt, p_labd0exp)
+// end of [p_labd0expseq_BAR_labd0expseq]
+
+(* ****** ****** *)
+
 (*
 di0de
   | IDENTIFIER_alp
@@ -206,13 +316,13 @@ in
 //
 case+ 0 of
 | _ when
-    ptest_fun (buf, p_si0de, ent) =>
+    ptest_fun (buf, p_di0de, ent) =>
     dqi0de_make_none (synent_decode {i0de} (ent))
 | _ when
     ptest_fun (buf, p_d0ynq, ent) => let
     val bt = 0
     val ent1 = synent_decode {d0ynq} (ent)
-    val ent2 = p_si0de (buf, bt, err)
+    val ent2 = p_di0de (buf, bt, err)
   in
     if err = err0 then
       dqi0de_make_some (ent1, ent2)
@@ -236,7 +346,16 @@ atmd0exp ::=
   | dqi0de
   | OP di0de
   | i0nt
+  | s0tring
+  | c0har
+  | f0loat
   | DLREXTVAL LPAREN s0exp COMMA s0tring RPAREN
+  | LPAREN d0expcommaseq {BAR d0expcommaseq} RPAREN
+  | ATLPAREN d0expcommaseq {BAR d0expcommaseq} RPAREN
+  | QUOTELPAREN d0expcommaseq {BAR d0expcommaseq} RPAREN
+  | ATLBRACE labd0expseq {BAR labd0expseq} RBRACE
+  | QUOTELBRACE labd0expseq {BAR labde0xpseq} RBRACE
+  | LBRACE d0ecseq_dyn RBRACE
 *)
 
 fun
@@ -252,9 +371,18 @@ case+ tok.token_node of
 | _ when
     ptest_fun (buf, p_dqi0de, ent) =>
     d0exp_dqid (synent_decode {dqi0de} (ent))
-| _ when
-    ptest_fun (buf, p_i0nt, ent) =>
-    d0exp_i0nt (synent_decode {i0nt} (ent))
+| T_INTEGER _ => let
+    val () = incby1 () in d0exp_i0nt (tok)
+  end
+| T_CHAR _ => let
+    val () = incby1 () in d0exp_c0har (tok)
+  end
+| T_FLOAT _ => let
+    val () = incby1 () in d0exp_f0loat (tok)
+  end
+| T_STRING _ => let
+    val () = incby1 () in d0exp_s0tring (tok)
+  end
 | T_OP _ => let
     val bt = 0
     val () = incby1 ()
@@ -295,6 +423,61 @@ case+ tok.token_node of
     // end of [if]
   end
 //
+| T_LPAREN () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_d0expseq_BAR_d0expseq (buf, bt, err)
+    val ent3 = p_RPAREN (buf, bt, err) // err = err0
+  in
+    if err = err0 then
+      d0exp_list12 (tok, ent2, ent3)
+    else let
+      val () = list12_free (ent2) in synent_null ()
+    end // end of [if]
+  end
+//
+| tnd when
+    is_LPAREN_deco (tnd) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_d0expseq_BAR_d0expseq (buf, bt, err)
+    val ent3 = p_RPAREN (buf, bt, err) // err = err0
+  in
+    if err = err0 then let
+      val knd = if is_ATLPAREN (tnd) then 0 else 1
+    in
+      d0exp_tup12 (knd, tok, ent2, ent3)
+    end else let
+      val () = list12_free (ent2) in synent_null ()
+    end // end of [if]
+  end
+| tnd when
+    is_LBRACE_deco (tnd) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_labd0expseq_BAR_labd0expseq (buf, bt, err)
+    val ent3 = p_RBRACE (buf, bt, err) // err = err0
+  in
+    if err = err0 then let
+      val knd = if is_ATLBRACE (tnd) then 0 else 1
+    in
+      d0exp_rec12 (0(*knd*), tok, ent2, ent3)
+    end else let
+      val () = list12_free (ent2) in synent_null ()
+    end // end of [if]
+  end
+//
+| T_LBRACE () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_d0eclseq_dyn (buf, bt, err)
+    val ent3 = p_RBRACE (buf, bt, err) // err = err0
+  in
+    if err = err0 then
+      d0exp_declseq (tok, ent2, ent3) else synent_null ()
+    // end of [if]
+  end
+//
 | _ => let
     val () = err := err + 1 in synent_null ()
   end
@@ -307,6 +490,22 @@ p_atmd0exp (
 ) : d0exp =
   ptokwrap_fun (buf, bt, err, p_atmd0exp_tok, PE_atmd0exp)
 // end of [p_atmd0exp]
+
+(* ****** ****** *)
+
+fun
+p_s0expdarg (
+  buf: &tokbuf, bt: int, err: &int
+) : d0exp = let
+  val err0 = err
+  val ~SYNENT3 (ent1, ent2, ent3) =
+    pseq3_fun {token,s0exparg,token} (buf, bt, err, p_LBRACE, p_s0exparg, p_RBRACE)
+  // end of [val]
+in
+  if err = err0 then
+    d0exp_sexparg (ent1, ent2, ent3) else synent_null ()
+  // end of [if]
+end // end of [p_s0expdarg]
 
 (* ****** ****** *)
 
@@ -325,6 +524,10 @@ case+ 0 of
 | _ when
     ptest_fun (
     buf, p_atmd0exp, ent
+  ) => synent_decode {d0exp} (ent)
+| _ when
+    ptest_fun (
+    buf, p_s0expdarg, ent
   ) => synent_decode {d0exp} (ent)
 | _ => let
     val () = err := err + 1 in synent_null ()

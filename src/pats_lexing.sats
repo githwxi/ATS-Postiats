@@ -214,10 +214,11 @@ token_node =
 //
   | T_CHAR of char
 //
-  | T_INTEGER of (int(*base*), string(*rep*), uint(*suffix*))
+  | T_INTEGER of (
+      int(*base*), string(*rep*), uint(*suffix*)
+    ) // end of [T_INTEGER]
 //
-  | T_FLOAT_deciexp of string
-  | T_FLOAT_hexiexp of string
+  | T_FLOAT of (int(*base*), string(*rep*), uint(*suffix*))
 //
   | T_STRING of string
 //
