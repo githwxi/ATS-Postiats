@@ -210,16 +210,14 @@ p_EQGT (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_EQGT, PE_EQGT)
 // end of [p_EQGT]
 
-(* ****** ****** *)
-
 implement
-is_EOF (x) = case+ x of
-  | T_EOF () => true | _ => false
-// end of [is_EOF]
+is_GT (x) = case+ x of
+  | T_GT () => true | _ => false
+// end of [is_GT]
 implement
-p_EOF (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_EOF, PE_EOF)
-// end of [p_EOF]
+p_GT (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_GT, PE_GT)
+// end of [p_GT]
 
 (* ****** ****** *)
 
@@ -240,6 +238,17 @@ implement
 p_SRPENDIF (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_SRPENDIF, PE_SRPENDIF)
 // end of [p_SRPENDIF]
+
+(* ****** ****** *)
+
+implement
+is_EOF (x) = case+ x of
+  | T_EOF () => true | _ => false
+// end of [is_EOF]
+implement
+p_EOF (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_EOF, PE_EOF)
+// end of [p_EOF]
 
 (* ****** ****** *)
 

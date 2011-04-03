@@ -223,9 +223,9 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [EQGT] is needed", @())
     val () = fprint_newline (out)
   }
-| PE_EOF () => {
+| PE_GT () => {
     val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [EOF] is needed", @())
+    val () = fprintf (out, ": error(parsing): [GT] is needed", @())
     val () = fprint_newline (out)
   }
 //
@@ -237,6 +237,12 @@ case+ x.parerr_node of
 | PE_SRPENDIF () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [SRPENDIF] is needed", @())
+    val () = fprint_newline (out)
+  }
+//
+| PE_EOF () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [EOF] is needed", @())
     val () = fprint_newline (out)
   }
 //

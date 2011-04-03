@@ -273,8 +273,9 @@ val () = ins (".<>.", T_DOTLTGTDOT)
 val () = ins ("->", T_MINUSGT)
 val () = ins ("-<", T_MINUSLT)
 val () = ins ("-<>", T_MINUSLTGT)
+(*
 val () = ins (":<", T_COLONLT)
-val () = ins (":<>", T_COLONLTGT)
+*)
 //
 val () = ins ("abstype", ABSTYPE)
 val () = ins ("abst0ype", ABST0YPE)

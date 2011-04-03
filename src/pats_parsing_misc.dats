@@ -34,6 +34,10 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+
+(* ****** ****** *)
+
 staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
@@ -50,6 +54,10 @@ staload "pats_tokbuf.sats" // for tokenizing
 (* ****** ****** *)
 
 staload "pats_parsing.sats"
+
+(* ****** ****** *)
+
+#define l2l list_of_list_vt
 
 (* ****** ****** *)
 
@@ -318,6 +326,130 @@ p_p0rec
 
 (* ****** ****** *)
 
+fun
+p_effi0de (
+  buf: &tokbuf, bt: int, err: &int
+) : i0de = let
+  val tok = tokbuf_get_token (buf)
+  val loc = tok.token_loc
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_IDENT_alp name => let
+    val () = incby1 () in i0de_make_string (loc, name)
+  end
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end
+//
+end // end of [p_effi0de]
+
+(*
+e0fftag ::=
+  | FUN
+  | BANG effi0de
+  | TILDE effi0de
+  | effi0de
+  | LITERAL_int
+*)
+implement
+p_e0fftag
+  (buf, bt, err) = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  var ent: synent?
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_FUN _ => let
+    val () = incby1 () in e0fftag_var_fun (tok)
+  end
+| T_BANG () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_effi0de (buf, bt, err)
+  in
+    if err = err0 then
+      e0fftag_cst (0, ent2) else tokbuf_set_ntok_null (buf, n0)
+    // end of [if]
+  end
+| T_TILDE () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_effi0de (buf, bt, err)
+  in
+    if err = err0 then
+      e0fftag_cst (0, ent2) else tokbuf_set_ntok_null (buf, n0)
+    // end of [if]
+  end
+| _ when
+    ptest_fun (
+    buf, p_effi0de, ent
+  ) => e0fftag_i0de (synent_decode {i0de} (ent))
+| _ when
+    ptest_fun (
+    buf, p_i0nt, ent
+  ) => e0fftag_i0nt (synent_decode {i0nt} (ent))
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end
+//
+end // end of [p_e0fftag]
+
+(* ****** ****** *)
+
+(*
+colonwith
+  | COLON
+  | COLONLTGT
+  | COLONLT e0fftagseq GT
+*)
+implement
+p_colonwith
+  (buf, bt, err) = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  val loc = tok.token_loc
+//
+(*
+  val () = println! ("p_colonwith: bt = ", bt)
+  val () = println! ("p_colonwith: tok = ", tok)
+*)
+//
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_COLON () => let
+    val () = incby1 () in None ()
+  end
+| T_COLONLT () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = pstar_fun0_COMMA {e0fftag} (buf, bt, p_e0fftag)
+    val ent3 = p_GT (buf, bt, err) // err = err0
+  in
+    if err = err0 then
+      Some ((l2l)ent2)
+    else let
+      val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
+    end (* end of [if] *)
+  end
+| _ => let
+    val () = err := err + 1
+    val () = the_parerrlst_add_ifnbt (bt, loc, PE_colonwith)
+  in
+    synent_null ()
+  end (* end of [_] *)
+//
+end // end of [p_colonwith]
+
+(* ****** ****** *)
+
 implement
 p_dcstkind
   (buf, bt, err) = let
@@ -337,41 +469,6 @@ case+ tok.token_node of
   end
 //
 end // end of [p_dcstkind]
-
-(* ****** ****** *)
-
-(*
-colonwith
-  | COLON
-  | COLONLTGT
-  | COLONLT e0fftagseq GT
-*)
-implement
-p_colonwith
-  (buf, bt, err) = let
-  val err0 = err
-  val n0 = tokbuf_get_ntok (buf)
-  val tok = tokbuf_get_token (buf)
-  val loc = tok.token_loc
-//
-  val () = println! ("p_colonwith: bt = ", bt)
-  val () = println! ("p_colonwith: tok = ", tok)
-//
-  macdef incby1 () = tokbuf_incby1 (buf)
-in
-//
-case+ tok.token_node of
-| T_COLON () => let
-    val () = incby1 () in None ()
-  end
-| _ => let
-    val () = err := err + 1
-    val () = the_parerrlst_add_ifnbt (bt, loc, PE_colonwith)
-  in
-    synent_null ()
-  end (* end of [_] *)
-//
-end // end of [p_colonwith]
 
 (* ****** ****** *)
 

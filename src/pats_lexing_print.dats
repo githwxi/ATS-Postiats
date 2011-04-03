@@ -74,7 +74,6 @@ fprint_token
   | T_MINUSLT () => fprintf (out, "MINUSLT()", @())
   | T_MINUSLTGT () => fprintf (out, "MINUSLTGT()", @())
   | T_COLONLT () => fprintf (out, "COLONLT()", @())
-  | T_COLONLTGT () => fprintf (out, "COLONLTGT()", @())
 //
   | T_ABSTYPE (x) => fprintf (out, "ABSTYPE(%i)", @(x))
   | T_AND () => fprintf (out, "AND()", @())

@@ -68,10 +68,12 @@ parerr_node =
   | PE_DOT
   | PE_EQ
   | PE_EQGT
-  | PE_EOF
+  | PE_GT
 //
   | PE_SRPTHEN
   | PE_SRPENDIF
+//
+  | PE_EOF
 //
   | PE_i0nt
   | PE_s0tring
@@ -221,8 +223,8 @@ fun is_EQ (x: tnode): bool
 fun p_EQGT : parser (token)
 fun is_EQGT (x: tnode): bool
 
-fun p_EOF : parser (token)
-fun is_EOF (x: tnode): bool
+fun p_GT : parser (token)
+fun is_GT (x: tnode): bool
 
 (* ****** ****** *)
 
@@ -231,6 +233,11 @@ fun is_SRPTHEN (x: tnode): bool
 
 fun p_SRPENDIF : parser (token)
 fun is_SRPENDIF (x: tnode): bool
+
+(* ****** ****** *)
+
+fun p_EOF : parser (token)
+fun is_EOF (x: tnode): bool
 
 (* ****** ****** *)
 
@@ -397,8 +404,10 @@ fun p_e0xp : parser (e0xp)
 fun p_l0ab : parser (l0ab)
 fun p_p0rec : parser (p0rec)
 
-fun p_dcstkind : parser (token)
+fun p_e0fftag : parser (e0fftag)
 fun p_colonwith : parser (e0fftaglstopt)
+
+fun p_dcstkind : parser (token)
 fun p_extnamopt : parser (Stropt)
 
 (* ****** ****** *)

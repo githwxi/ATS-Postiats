@@ -115,7 +115,6 @@ token_node =
   | T_MINUSLT of () // -<
   | T_MINUSLTGT of () // -<>
   | T_COLONLT of () // :<
-  | T_COLONLTGT of () // :<>
 //
   | T_ABSTYPE of int // abstype, abst@ype, absprop, absview, absviewtype, absviewt@ype
   | T_AND of () // and

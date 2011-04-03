@@ -128,6 +128,108 @@ in '{
 (* ****** ****** *)
 
 implement
+e0fftag_cst (i, id) = let
+  val name = $SYM.symbol_get_name (id.i0de_sym)
+in '{
+  e0fftag_loc= id.i0de_loc, e0fftag_node= E0FFTAGcst (i, name)
+} end // end of [e0fftag_cst]
+
+(* ****** ****** *)
+
+local
+
+#define CLO 0
+#define CLOPTR  1
+#define CLOREF ~1
+
+fn name_is_prf
+  (name: string): bool = name = "prf"
+
+fn name_is_lin0 (name: string): bool = 
+  if name = "lin" then true else name = "lin0"
+fn name_is_lin1 (name: string): bool = name = "lin1"
+
+fn name_is_fun0 (name: string): bool = 
+  if name = "fun" then true else name = "fun0"
+fn name_is_fun1 (name: string): bool = name = "fun1"
+
+fn name_is_linfun0 (name: string): bool = 
+  if name = "linfun" then true else name = "linfun0"
+fn name_is_linfun1 (name: string): bool = name = "linfun1"
+
+fn name_is_clo0 (name: string): bool =
+  if name = "clo" then true else name = "clo0"
+fn name_is_clo1 (name: string): bool = name = "clo1"
+
+fn name_is_linclo0 (name: string): bool =
+  if name = "linclo" then true else name = "linclo0"
+fn name_is_linclo1 (name: string): bool = name = "linclo1"
+
+fn name_is_cloptr0 (name: string): bool = 
+  if name = "cloptr" then true else name = "cloptr0"
+fn name_is_cloptr1 (name: string): bool = name = "cloptr1"
+
+fn name_is_lincloptr0 (name: string): bool = 
+  if name = "lincloptr" then true else name = "lincloptr0"
+fn name_is_lincloptr1 (name: string): bool = name = "lincloptr1"
+
+fn name_is_cloref0 (name: string): bool = 
+  if name = "cloref" then true else name = "cloref0"
+fn name_is_cloref1 (name: string): bool = name = "cloref1"
+
+in // in of [local]
+
+implement
+e0fftag_i0de (id) = let
+  val name = $SYM.symbol_get_name (id.i0de_sym)
+  val node = (case+ name of
+//
+    | _ when name_is_prf name => E0FFTAGprf
+//
+    | _ when name_is_clo0 name => E0FFTAGclo (~1(*u*), CLO, 0)
+    | _ when name_is_clo1 name => E0FFTAGclo (~1(*u*), CLO, 1)
+    | _ when name_is_linclo0 name => E0FFTAGclo (1(*l*), CLO, 0)
+    | _ when name_is_linclo1 name => E0FFTAGclo (1(*l*), CLO, 1)
+//
+    | _ when name_is_cloptr0 name => E0FFTAGclo (~1(*u*), CLOPTR, 0)
+    | _ when name_is_cloptr1 name => E0FFTAGclo (~1(*u*), CLOPTR, 1)
+    | _ when name_is_lincloptr0 name => E0FFTAGclo (1(*l*), CLOPTR, 0)
+    | _ when name_is_lincloptr1 name => E0FFTAGclo (1(*l*), CLOPTR, 1)
+//
+    | _ when name_is_cloref0 name => E0FFTAGclo (0(*n*), CLOREF, 0)
+    | _ when name_is_cloref1 name => E0FFTAGclo (0(*n*), CLOREF, 1)
+//
+    | _ when name_is_fun0 name => E0FFTAGfun (~1(*u*), 0)
+    | _ when name_is_fun1 name => E0FFTAGfun (~1(*u*), 1)
+    | _ when name_is_linfun0 name => E0FFTAGfun (1(*l*), 0)
+    | _ when name_is_linfun1 name => E0FFTAGfun (1(*l*), 1)
+//
+    | _ when name_is_lin0 name => E0FFTAGlin 0
+    | _ when name_is_lin1 name => E0FFTAGlin 1
+//
+    | _ => E0FFTAGvar id
+   ) : e0fftag_node // end of [val]
+//
+in '{
+  e0fftag_loc= id.i0de_loc, e0fftag_node= node
+} end // end of [e0fftag_var]
+
+end // end of [local]
+
+implement e0fftag_var_fun (t) = '{
+  e0fftag_loc= t.token_loc, e0fftag_node= E0FFTAGfun (~1(*u*), 0)
+} // end of [e0fftag_var_fun]
+
+implement
+e0fftag_i0nt (int) = let
+  val i = int_of_string (int.i0nt_rep)
+in '{
+  e0fftag_loc= int.i0nt_loc, e0fftag_node= E0FFTAGint (i)
+} end // end of [e0fftag_i0nt]
+
+(* ****** ****** *)
+
+implement
 s0rtq_none (loc) = '{
   s0rtq_loc= loc, s0rtq_node= S0RTQnone ()
 } // end of [s0rtq_none]
@@ -572,11 +674,16 @@ in '{
 } end // end of [s0exp_i0nt]
 
 implement
-s0exp_sqid (x) = let
+s0exp_imp (t_beg, xs, t_end) = let
+  val loc = t_beg.token_loc + t_end.token_loc
 in '{
-  s0exp_loc= x.sqi0de_loc
-, s0exp_node= S0Esqid (x.sqi0de_qua, x.sqi0de_sym)
-} end // end of [s0exp_qid]
+  s0exp_loc= loc, s0exp_node= S0Eimp (xs)
+} end // end of [s0exp_imp]
+
+implement
+s0exp_imp_nil (tok) = '{
+  s0exp_loc= tok.token_loc, s0exp_node= S0Eimp (list_nil)
+} // end of [s0exp_imp_nil]
 
 implement
 s0exp_opid (x1, x2) = let
@@ -585,6 +692,13 @@ in '{
   s0exp_loc= loc
 , s0exp_node= S0Eopid (x2.i0de_sym)
 } end // end of [s0exp_opid]
+
+implement
+s0exp_sqid (x) = let
+in '{
+  s0exp_loc= x.sqi0de_loc
+, s0exp_node= S0Esqid (x.sqi0de_qua, x.sqi0de_sym)
+} end // end of [s0exp_sqid]
 
 implement
 s0exp_lam (t_lam, ent2, ent3, ent4) = let

@@ -122,6 +122,34 @@ fun fprint_i0de (out: FILEref, x: i0de): void
 
 (* ****** ****** *)
 
+datatype
+e0fftag_node =
+  | E0FFTAGint of int // [0/1]
+  | E0FFTAGcst of (int(*neg*), string) // [0/1]: pos/neg
+  | E0FFTAGvar of i0de
+  | E0FFTAGprf
+  | E0FFTAGlin of int(*non/lin*)
+  | E0FFTAGfun of (
+      int(*non/lin*), int(*nil/all*)
+    ) // E0FFTAGfun
+  | E0FFTAGclo of (
+      int(*non/lin*), int(*1/~1:ptr/ref*), int(*nil/all*)
+    ) // E0FFTAGclo
+// end of [e0fftag_node]
+
+typedef e0fftag = '{
+  e0fftag_loc= location, e0fftag_node= e0fftag_node
+} // end of [e0fftag]
+typedef e0fftaglst = List e0fftag
+typedef e0fftaglstopt = Option e0fftaglst
+
+fun e0fftag_cst (i: int, _: i0de): e0fftag
+fun e0fftag_var_fun (t_fun: token): e0fftag
+fun e0fftag_i0de (_: i0de): e0fftag
+fun e0fftag_i0nt (_: i0nt): e0fftag
+
+(* ****** ****** *)
+
 datatype s0rtq_node =
   | S0RTQnone
   | S0RTQsymdot of symbol (* fileid *)
@@ -407,6 +435,8 @@ s0exp_node =
   | S0Eextype of (string(*name*), s0explst(*arg*))
   | S0Ei0nt of i0nt
 //
+  | S0Eimp of e0fftaglst // decorated implication
+//
   | S0Eopid of symbol
   | S0Esqid of (s0taq, symbol)
 //
@@ -483,6 +513,10 @@ fun s0exp_extype (_1: token, _2: token, xs: List s0exp): s0exp
 
 fun s0exp_char (_: token): s0exp
 fun s0exp_i0nt (_: i0nt): s0exp
+
+fun s0exp_imp
+  (t_beg: token, _: e0fftaglst, t_end: token): s0exp
+fun s0exp_imp_nil (t: token): s0exp
 
 fun s0exp_opid (_1: token, _2: i0de): s0exp
 fun s0exp_sqid (_: sqi0de): s0exp
@@ -708,32 +742,6 @@ typedef d0atdeclst = List d0atdec
 fun d0atdec_make (
   id: i0de, arg: a0msrtlst, con: d0atconlst
 ) : d0atdec // end of [d0atdec_make]
-
-(* ****** ****** *)
-
-datatype e0fftag_node =
-  | E0FFTAGcst of (int(*neg*), string) // [0/1]: pos/neg
-  | E0FFTAGvar of i0de
-  | E0FFTAGprf
-  | E0FFTAGlin of int(*non/lin*)
-  | E0FFTAGfun of (
-      int(*non/lin*), int(*nil/all*)
-    ) // E0FFTAGfun
-  | E0FFTAGclo of (
-      int(*non/lin*), int(*1/~1:ptr/ref*), int(*nil/all*)
-    ) // E0FFTAGclo
-// end of [e0fftag_node]
-
-typedef e0fftag = '{
-  e0fftag_loc= location, e0fftag_node= e0fftag_node
-} // end of [e0fftag]
-typedef e0fftaglst = List e0fftag
-typedef e0fftaglstopt = Option e0fftaglst
-
-fun e0fftag_cst (i: int, _: i0de): e0fftag
-fun e0fftag_var (_: i0de): e0fftag
-fun e0fftag_var_fun (t_fun: token): e0fftag
-fun e0fftag_int (_: i0nt): e0fftag
 
 (* ****** ****** *)
 

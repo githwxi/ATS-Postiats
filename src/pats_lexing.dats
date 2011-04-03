@@ -148,8 +148,10 @@ lexsym =
   | LS_FOLD // for fold@
   | LS_FREE // for free@
 //
+(*
   | LS_LTBANG of () // "<!" // not a symbol
   | LS_LTDOLLAR of () // "<$" // not a symbol
+*)
   | LS_QMARKGT of () // "?>" // not a symbol
 //
   | LS_SLASH2 of () // "//" line comment
@@ -300,6 +302,7 @@ in
     val x0 = x[0]
   in
     case+ x0 of
+(*
     | '<' =>
         if string_isnot_at_end (x, 1) then let
           val x1 = x[1]
@@ -309,6 +312,7 @@ in
           | '$' => LS_LTDOLLAR ()
           | _ => LS_NONE ()
         end else LS_NONE ()
+*)
     | '?' =>
         if string_isnot_at_end (x, 1) then let
           val x1 = x[1]
@@ -1059,6 +1063,26 @@ end // end of [lexing_AT]
 
 (* ****** ****** *)
 
+extern
+fun lexing_COLON
+  (buf: &lexbuf, pos: &position): token
+implement
+lexing_COLON (buf, pos) = let
+  val i = lexbufpos_get_char (buf, pos)
+in
+  case+ (i2c)i of
+  | '<' => let
+      val () = posincby1 (pos) in
+      lexbufpos_token_reset (buf, pos, T_COLONLT)
+    end // end of ['(']
+  | _ => let
+      val k = testing_symbolicseq0 (buf, pos) in
+      lexing_IDENT_sym (buf, pos, succ(k))
+    end // end of [_]
+end // end of [lexing_COLON]
+
+(* ****** ****** *)
+
 fun FLOATDOT_test
   (buf: &lexbuf, c: char): bool =
   if lexbuf_get_nspace (buf) > 0 then DIGIT_test (c) else false
@@ -1739,7 +1763,7 @@ lexing_IDENT_sym
   val sym = IDENT_sym_get_lexsym ($UN.castvwtp1{string}{vt}(str))
 in
   case+ sym of
-//
+(*
   | LS_LTBANG () => let
       val () = posdecby1 (pos)
       val () = strptr_free (str) in
@@ -1750,6 +1774,7 @@ in
       val () = strptr_free (str) in
       lexbufpos_token_reset (buf, pos, LT)
     end // end of [LS_LTDOLLOR]
+*)
   | LS_QMARKGT () => let
       val () = posdecby1 (pos)
       val () = strptr_free (str) in
@@ -1979,6 +2004,7 @@ in
       lexbufpos_token_reset (buf, pos, T_SEMICOLON)
 //
   | _ when c = '@' => lexing_AT (buf, pos)
+  | _ when c = ':' => lexing_COLON (buf, pos)
   | _ when c = '.' => lexing_DOT (buf, pos)
   | _ when c = '%' => lexing_PERCENT (buf, pos)
   | _ when c = '$' => lexing_DOLLAR (buf, pos)

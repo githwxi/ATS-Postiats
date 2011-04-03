@@ -540,6 +540,7 @@ d0ecl
   | ASSUME s0aspdec
   | EXCEPTION e0xndecseq
   | DATAYPE d0atdec andd0atdecseq {WHERE s0expdefseq}
+  | OVERLOAD di0de WITH dqi0de
   | STALOAD staload
 *)
 

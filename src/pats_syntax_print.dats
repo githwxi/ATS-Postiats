@@ -307,6 +307,11 @@ in
       val () = fprint_i0nt (out, int)
       val () = prstr ")"
     }
+  | S0Eimp _ => {
+      val () = prstr "S0Eimp("
+      val () = fprint_string (out, "...")
+      val () = prstr ")"
+    }
   | S0Elam (_, s0topt, s0e) => {
       val () = prstr "S0Elam("
       val () = $UT.fprintopt<s0rt> (out, s0topt, fprint_s0rt)
