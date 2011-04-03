@@ -83,6 +83,13 @@ p_END (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_END, PE_END)
 
 implement
+is_REC (x) = case+ x of
+  | T_REC () => true | _ => false
+implement
+p_REC (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_REC, PE_REC)
+
+implement
 is_WITH (x) = case+ x of
   | T_WITH () => true | _ => false
 implement

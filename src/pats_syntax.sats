@@ -319,6 +319,31 @@ datatype l0abeled (a: type) = L0ABELED (a) of (l0ab, a)
 
 (* ****** ****** *)
 
+datatype
+m0acarg_node =
+  | M0ACARGsta of i0delst
+  | M0ACARGdyn of i0delst
+// end of ...
+
+typedef
+m0acarg = '{
+  m0acarg_loc= location, m0acarg_node= m0acarg_node
+} // end of [m0acarg]
+
+typedef m0acarglst = List (m0acarg)
+
+fun m0acarg_sta
+  (t_beg: token, xs: i0delst, t_end: token): m0acarg
+// end of [m0acarg_sta]
+
+fun m0acarg_dyn
+  (t_beg: token, xs: i0delst, t_end: token): m0acarg
+// end of [m0acarg_dyn]
+
+fun m0acarg_sing (x: i0de): m0acarg
+
+(* ****** ****** *)
+
 datatype s0rt_node =
   | S0RTapp of (s0rt, s0rt)
   | S0RTide of symbol (* sort identifier *)
@@ -789,6 +814,7 @@ d0ecl_node =
 //
   | D0Cdcstdecs of (token, q0marglst, d0cstdeclst)
 //
+  | D0Cmacdefs of (int(*knd*), bool(*rec*), m0acdeflst) // macro definitions
   | D0Coverload of (i0de, dqi0de) // overloading
 //
   | D0Cextcode of (* external code *)
@@ -805,6 +831,17 @@ and guad0ecl_node =
   | GD0Ccons of (e0xp, d0eclist, token, guad0ecl_node)
 // end of [guad0ecl_node]
 
+and d0exp_node =
+  | D0Eann of (d0exp, s0exp) // ascribed dynamic expressions
+  | D0Eapp of (d0exp, d0exp) // functional application
+  | D0Ei0nt of i0nt
+  | D0Eopid of symbol // dynamic op identifiers
+  | D0Edqid of (d0ynq, symbol) // qualified dynamic identifiers
+  | D0Eextval of (s0exp (*type*), string (*code*)) // external val
+// end of [d0exp_node]
+
+(* ****** ****** *)
+
 where
 d0ecl = '{
   d0ecl_loc= location, d0ecl_node= d0ecl_node
@@ -819,22 +856,64 @@ and guad0ecl: type = '{
 
 (* ****** ****** *)
 
+and d0exp = '{
+  d0exp_loc= location, d0exp_node= d0exp_node
+}
+
+and d0explst : type = List (d0exp)
+and d0explst_vt : viewtype = List_vt (d0exp)
+
+(* ****** ****** *)
+
+and m0acdef = '{
+  m0acdef_loc= location
+, m0acdef_sym= symbol
+, m0acdef_arg= m0acarglst
+, m0acdef_def= d0exp
+} // end of [m0acdef]
+
+and m0acdeflst = List m0acdef
+
+(* ****** ****** *)
+
+fun d0exp_ann (_1: d0exp, _2: s0exp): d0exp
+
+fun d0exp_app (_1: d0exp, _2: d0exp): d0exp
+
+fun d0exp_char (_: token): d0exp
+fun d0exp_i0nt (_: i0nt): d0exp
+
+fun d0exp_opid (_1: token, _2: i0de): d0exp
+fun d0exp_dqid (_: dqi0de): d0exp
+
+fun d0exp_extval (
+  t_beg: token, type: s0exp, code: token, t_end: token
+) : d0exp // end of [d0exp_extval]
+
+(* ****** ****** *)
+
+fun m0acdef_make
+  (id: i0de, arg: m0acarglst, def: d0exp): m0acdef
+// end of [m0acdef_make]
+
+(* ****** ****** *)
+
 fun d0ecl_fixity
   (_1: token, _2: p0rec, _3: i0delst): d0ecl
 // end of [d0ecl_fixity]
-
+//
 fun d0ecl_nonfix (_1: token, _2: i0delst): d0ecl
-
+//
 fun d0ecl_include (knd: int, _1: token, _2: token): d0ecl
-
+//
 fun d0ecl_symintr (_1: token, _2: i0delst): d0ecl
-
+//
 fun d0ecl_e0xpdef (_1: token, _2: i0de, _3: e0xpopt): d0ecl
-
+//
 fun d0ecl_e0xpact_assert (_1: token, _2: e0xp): d0ecl
 fun d0ecl_e0xpact_error (_1: token, _2: e0xp): d0ecl
 fun d0ecl_e0xpact_print (_1: token, _2: e0xp): d0ecl
-
+//
 fun d0ecl_datsrts (_1: token, _2: d0atsrtdeclst): d0ecl
 fun d0ecl_srtdefs (_1: token, _2: s0rtdeflst): d0ecl
 fun d0ecl_stacons (knd: int, _1: token, _2: s0taconlst): d0ecl
@@ -851,8 +930,11 @@ fun d0ecl_datdecs_some (
   knd: int, t1: token, ds_dec: d0atdeclst, t2: token, ds_def: s0expdeflst
 ) : d0ecl // end of [d0ecl_datdecs_some]
 //
-fun d0ecl_overload
-  (t: token, id: i0de, dqid: dqi0de): d0ecl
+fun d0ecl_macdefs (
+  knd: int, isrec: bool, t: token, defs: m0acdeflst
+) : d0ecl // end of [d0ecl_macdefs]
+//
+fun d0ecl_overload (t: token, id: i0de, dqid: dqi0de): d0ecl
 //
 fun d0ecl_extcode (knd: int, tok: token): d0ecl
 //

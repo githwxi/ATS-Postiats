@@ -150,6 +150,11 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [END] is needed", @())
     val () = fprint_newline (out)
   }
+| PE_REC () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [REC] is needed", @())
+    val () = fprint_newline (out)
+  }
 | PE_WITH () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [WITH] is needed", @())
@@ -373,6 +378,16 @@ case+ x.parerr_node of
 | PE_dqi0de () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [dqi0de] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_d0exp () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [d0exp] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_atmd0exp () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [atmd0exp] is needed", @())
     val () = fprint_newline (out)
   }
 //

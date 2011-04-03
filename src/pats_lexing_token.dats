@@ -95,6 +95,9 @@ implement LAMAT = T_LAM (T0YPE_int)
 implement LLAM = T_LAM (VIEWTYPE_int)
 implement LLAMAT = T_LAM (VIEWT0YPE_int)
 
+implement MACDEF = T_MACDEF (0) // short form
+implement MACRODEF = T_MACDEF (1) // long form
+
 implement TYPE = T_TYPE (TYPE_int)
 implement TYPE_pos = T_TYPE (TYPE_pos_int)
 implement TYPE_neg = T_TYPE (TYPE_neg_int)
@@ -345,8 +348,10 @@ val () = ins ("llam", LLAM)
 val () = ins ("let", T_LET)
 //
 val () = ins ("local", T_LOCAL)
-val () = ins ("macdef", T_MACDEF)
-val () = ins ("macrodef", T_MACRODEF)
+//
+val () = ins ("macdef", MACDEF)
+val () = ins ("macrodef", MACRODEF)
+//
 val () = ins ("nonfix", T_NONFIX)
 val () = ins ("overload", T_OVERLOAD)
 val () = ins ("of", T_OF)

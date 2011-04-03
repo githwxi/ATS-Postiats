@@ -404,6 +404,38 @@ p_d0cstdecseq
 
 (* ****** ****** *)
 
+(*
+m0acdef ::= di0de m0acargseq EQ d0exp
+*)
+fun
+p_m0acdef (
+  buf: &tokbuf, bt: int, err: &int
+) : m0acdef = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val ent1 = p_di0de (buf, bt, err)
+  val bt = 0
+  val ent2 = (
+    if err = err0 then
+      pstar_fun (buf, bt, p_m0acarg) else list_vt_nil
+    // end of [if]
+  ) : List_vt (m0acarg)
+  val ent3 = (
+    if err = err0 then p_EQ (buf, bt, err) else synent_null ()
+  ) : token // end of [val]
+  val ent4 = (
+    if err = err0 then p_d0exp (buf, bt, err) else synent_null ()
+  ) : d0exp // end of [val]
+in
+  if err = err0 then
+    m0acdef_make (ent1, (l2l)ent2, ent4)
+  else let
+    val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
+  end (* end of [if] *)
+end // end of [p_m0acdef]
+
+(* ****** ****** *)
+
 implement
 p_stai0de
   (buf, bt, err) = let
@@ -541,6 +573,7 @@ d0ecl
   | EXCEPTION e0xndecseq
   | DATAYPE d0atdec andd0atdecseq {WHERE s0expdefseq}
   | OVERLOAD di0de WITH dqi0de
+  | MACDEF {REC} m0acdefseq
   | STALOAD staload
 *)
 
@@ -722,16 +755,30 @@ case+ tok.token_node of
   end
 //
 | T_OVERLOAD () => let
-   val bt = 0
-   val () = incby1 ()
-   val ~SYNENT3 (ent1, ent2, ent3) =
-     pseq3_fun {i0de,token,dqi0de} (buf, bt, err, p_di0de, p_WITH, p_dqi0de)
-   // end of [val]
- in
-   if err = err0 then
-     d0ecl_overload (tok, ent1, ent3) else synent_null ()
-   // end of [val]
- end
+    val bt = 0
+    val () = incby1 ()
+    val ~SYNENT3 (ent1, ent2, ent3) =
+      pseq3_fun {i0de,token,dqi0de} (buf, bt, err, p_di0de, p_WITH, p_dqi0de)
+    // end of [val]
+  in
+    if err = err0 then
+      d0ecl_overload (tok, ent1, ent3) else synent_null ()
+    // end of [val]
+  end
+//
+| T_MACDEF (knd) => let
+    val bt = 0
+    val () = incby1 ()
+    var _ent: synent?
+    val isrec = ptest_fun (buf, p_REC, _ent)
+    val ent3 = pstar_fun1_sep {m0acdef} (buf, bt, err, p_m0acdef, p_AND_test)
+  in
+    if err = err0 then
+      d0ecl_macdefs (knd, isrec, tok, (l2l)ent3)
+    else let
+      val () = list_vt_free (ent3) in synent_null ()
+    end (* end of [if] *)
+  end
 //
 | T_STALOAD () => let
     val bt = 0

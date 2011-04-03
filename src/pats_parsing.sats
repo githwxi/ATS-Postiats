@@ -51,6 +51,7 @@ parerr_node =
   | PE_OF
   | PE_IN
   | PE_END
+  | PE_REC
   | PE_WITH
 //
   | PE_BAR
@@ -108,12 +109,15 @@ parerr_node =
   | PE_s0marg
   | PE_a0msrt
 //
-  | PE_atms0exp
   | PE_s0exp
+  | PE_atms0exp
   | PE_labs0exp
   | PE_s0rtext
   | PE_s0qua
   | PE_q0marg
+//
+  | PE_d0exp
+  | PE_atmd0exp
 //
   | PE_d0ecl
   | PE_d0ecl_sta
@@ -170,6 +174,9 @@ fun is_IN (x: tnode): bool
 
 fun p_END : parser (token)
 fun is_END (x: tnode): bool
+
+fun p_REC : parser (token)
+fun is_REC (x: tnode): bool
 
 fun p_WITH : parser (token)
 fun is_WITH (x: tnode): bool
@@ -412,6 +419,10 @@ fun p_extnamopt : parser (Stropt)
 
 (* ****** ****** *)
 
+fun p_m0acarg : parser (m0acarg)
+
+(* ****** ****** *)
+
 fun p_s0rt : parser (s0rt)
 fun p_s0rtq : parser (s0rtq) // sort qualifier
 fun p_s0rtid : parser (i0de) // sort identifier
@@ -453,6 +464,7 @@ fun p_d0cstarg : parser (d0cstarg)
 //
 (* ****** ****** *)
 
+fun p_d0exp : parser (d0exp)
 fun p_di0de : parser (i0de) // dynamic identifier
 fun p_pi0de : parser (i0de) // pattern identifier
 fun p_d0ynq : parser (d0ynq) // dynamic qualifier

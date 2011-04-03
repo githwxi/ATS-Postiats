@@ -228,6 +228,131 @@ in '{
 } end // end of [e0fftag_i0nt]
 
 (* ****** ****** *)
+//
+// HX: omitted precedence is assumed to equal 0
+//
+implement
+p0rec_emp () = P0RECint (0)
+
+implement
+p0rec_i0de (id) = P0RECi0de (id)
+
+implement
+p0rec_i0de_adj
+  (id, opr, int) = let
+  val str = int.i0nt_rep
+  val adj = int_of_string (str) in P0RECi0de_adj (id, opr, adj)
+end // end of [p0rec_i0de_adj]
+
+implement
+p0rec_i0nt (int) = let
+  val str = int.i0nt_rep
+  val pval = int_of_string (str) in P0RECint (pval)
+end // end of [p0rec_i0nt]
+
+(* ****** ****** *)
+
+implement
+e0xp_app (e1, e2) = let
+  val loc = e1.e0xp_loc + e2.e0xp_loc
+in '{
+  e0xp_loc= loc, e0xp_node= E0XPapp (e1, e2)
+} end // end of [e0xp_app]
+
+implement
+e0xp_char (tok) = let
+  val- T_CHAR (c) = tok.token_node
+in '{
+  e0xp_loc= tok.token_loc, e0xp_node= E0XPchar (c)
+} end // end of [e0xp_char]
+
+implement
+e0xp_eval (
+  t_beg, e, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  e0xp_loc= loc, e0xp_node= E0XPeval e
+} end // end of [e0xp_eval]
+
+implement
+e0xp_float (tok) = let
+  val- T_FLOAT_deciexp (f) = tok.token_node
+in '{
+  e0xp_loc= tok.token_loc, e0xp_node= E0XPfloat (f)
+} end // end of [e0xp_float]
+
+implement
+e0xp_i0de (id) = '{
+  e0xp_loc= id.i0de_loc, e0xp_node= E0XPide id.i0de_sym
+} // end of [e0xp_ide]
+
+implement
+e0xp_i0nt (int) = let
+in '{
+  e0xp_loc= int.i0nt_loc, e0xp_node= E0XPint (int)
+} end // end of [e0xp_i0nt]
+
+implement
+e0xp_list (
+  t_beg, xs, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  e0xp_loc= loc, e0xp_node= E0XPlist xs
+} end // end of [e0xp_list]
+
+implement
+e0xp_string (tok) = let
+  val- T_STRING (s) = tok.token_node
+  val n = string_length (s)
+in '{
+  e0xp_loc= tok.token_loc, e0xp_node= E0XPstring (s, (sz2i)n)
+} end // end of [e0xp_float]
+
+(* ****** ****** *)
+
+implement
+l0ab_make_i0de (x) = let
+  val lab = $LAB.label_make_sym (x.i0de_sym)
+in '{
+  l0ab_loc= x.i0de_loc, l0ab_lab= lab
+} end // end of [l0ab_make_i0de]
+
+implement
+l0ab_make_i0nt (x) = let
+  val int = int_of_string (x.i0nt_rep)
+  val lab = $LAB.label_make_int (int)
+in '{
+  l0ab_loc= x.i0nt_loc, l0ab_lab= lab
+} end // end of [l0ab_make_i0nt]
+
+(* ****** ****** *)
+
+implement
+m0acarg_sta (
+  t_beg, xs, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  m0acarg_loc= loc, m0acarg_node= M0ACARGsta (xs)
+} end // end of [m0acarg_sta]
+
+implement
+m0acarg_dyn (
+  t_beg, xs, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  m0acarg_loc= loc, m0acarg_node= M0ACARGdyn (xs)
+} end // end of [m0acarg_dyn]
+
+implement
+m0acarg_sing (x) = '{
+  m0acarg_loc= x.i0de_loc, m0acarg_node= M0ACARGdyn (list_sing x)
+} // end of [m0acarg]
+
+(* ****** ****** *)
 
 implement
 s0rtq_none (loc) = '{
@@ -331,106 +456,6 @@ in '{
   dqi0de_loc= loc
 , dqi0de_qua= ent1, dqi0de_sym= ent2.i0de_sym
 } end // end of [dqi0de_make_some]
-
-(* ****** ****** *)
-//
-// HX: omitted precedence is assumed to equal 0
-//
-implement
-p0rec_emp () = P0RECint (0)
-
-implement
-p0rec_i0de (id) = P0RECi0de (id)
-
-implement
-p0rec_i0de_adj
-  (id, opr, int) = let
-  val str = int.i0nt_rep
-  val adj = int_of_string (str) in P0RECi0de_adj (id, opr, adj)
-end // end of [p0rec_i0de_adj]
-
-implement
-p0rec_i0nt (int) = let
-  val str = int.i0nt_rep
-  val pval = int_of_string (str) in P0RECint (pval)
-end // end of [p0rec_i0nt]
-
-(* ****** ****** *)
-
-implement
-e0xp_app (e1, e2) = let
-  val loc = e1.e0xp_loc + e2.e0xp_loc
-in '{
-  e0xp_loc= loc, e0xp_node= E0XPapp (e1, e2)
-} end // end of [e0xp_app]
-
-implement
-e0xp_char (tok) = let
-  val- T_CHAR (c) = tok.token_node
-in '{
-  e0xp_loc= tok.token_loc, e0xp_node= E0XPchar (c)
-} end // end of [e0xp_char]
-
-implement
-e0xp_eval (
-  t_beg, e, t_end
-) = let
-  val loc = t_beg.token_loc + t_end.token_loc
-in '{
-  e0xp_loc= loc, e0xp_node= E0XPeval e
-} end // end of [e0xp_eval]
-
-implement
-e0xp_float (tok) = let
-  val- T_FLOAT_deciexp (f) = tok.token_node
-in '{
-  e0xp_loc= tok.token_loc, e0xp_node= E0XPfloat (f)
-} end // end of [e0xp_float]
-
-implement
-e0xp_i0de (id) = '{
-  e0xp_loc= id.i0de_loc, e0xp_node= E0XPide id.i0de_sym
-} // end of [e0xp_ide]
-
-implement
-e0xp_i0nt (int) = let
-in '{
-  e0xp_loc= int.i0nt_loc, e0xp_node= E0XPint (int)
-} end // end of [e0xp_i0nt]
-
-implement
-e0xp_list (
-  t_beg, xs, t_end
-) = let
-  val loc = t_beg.token_loc + t_end.token_loc
-in '{
-  e0xp_loc= loc, e0xp_node= E0XPlist xs
-} end // end of [e0xp_list]
-
-implement
-e0xp_string (tok) = let
-  val- T_STRING (s) = tok.token_node
-  val n = string_length (s)
-in '{
-  e0xp_loc= tok.token_loc, e0xp_node= E0XPstring (s, (sz2i)n)
-} end // end of [e0xp_float]
-
-(* ****** ****** *)
-
-implement
-l0ab_make_i0de (x) = let
-  val lab = $LAB.label_make_sym (x.i0de_sym)
-in '{
-  l0ab_loc= x.i0de_loc, l0ab_lab= lab
-} end // end of [l0ab_make_i0de]
-
-implement
-l0ab_make_i0nt (x) = let
-  val int = int_of_string (x.i0nt_rep)
-  val lab = $LAB.label_make_int (int)
-in '{
-  l0ab_loc= x.i0nt_loc, l0ab_lab= lab
-} end // end of [l0ab_make_i0nt]
 
 (* ****** ****** *)
 
@@ -985,6 +1010,64 @@ in '{
 , d0cstdec_extdef= extdef
 } end // end of [d0cstdec_make]
 
+(* ****** ****** *)
+
+implement
+d0exp_ann (d0e, s0e) = let
+  val loc = d0e.d0exp_loc + s0e.s0exp_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Eann (d0e, s0e)
+} end // end of [d0exp_ann]
+
+implement
+d0exp_app (d0e1, d0e2) = let
+  val loc = d0e1.d0exp_loc + d0e2.d0exp_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Eapp (d0e1, d0e2)
+} end // end of [d0exp_app]
+
+implement
+d0exp_i0nt (x) = let
+in '{
+  d0exp_loc= x.i0nt_loc, d0exp_node= D0Ei0nt (x)
+} end // end of [d0exp_i0nt]
+
+implement
+d0exp_opid (x1, x2) = let
+  val loc = x1.token_loc + x2.i0de_loc
+in '{
+  d0exp_loc= loc
+, d0exp_node= D0Eopid (x2.i0de_sym)
+} end // end of [d0exp_opid]
+
+implement
+d0exp_dqid (x) = let
+in '{
+  d0exp_loc= x.dqi0de_loc
+, d0exp_node= D0Edqid (x.dqi0de_qua, x.dqi0de_sym)
+} end // end of [d0exp_dqid]
+
+implement
+d0exp_extval (
+  t_beg, _type, _code, t_end
+) = let
+  val- T_STRING (code) = _code.token_node
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Eextval (_type, code)
+} end // end of [d0exp_extval]
+
+(* ****** ****** *)
+
+implement
+m0acdef_make (id, arg, def) = let
+  val loc = id.i0de_loc + def.d0exp_loc
+in '{
+  m0acdef_loc= loc
+, m0acdef_sym= id.i0de_sym
+, m0acdef_arg= arg
+, m0acdef_def= def
+} end // end of [m0acdef_make]
 
 (* ****** ****** *)
 
@@ -1216,6 +1299,34 @@ in '{
 (* ****** ****** *)
 
 implement
+d0ecl_dcstdecs
+  (tok, ent2, ent3) = let
+  val loc = (case+
+    list_last_opt<d0cstdec> (ent3) of
+    ~Some_vt x => tok.token_loc + x.d0cstdec_loc
+  | ~None_vt _ => tok.token_loc // deadcode
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cdcstdecs (tok, ent2, ent3)
+} end // end of [d0ecl_dcstdecs]
+
+(* ****** ****** *)
+
+implement
+d0ecl_macdefs
+  (knd, isrec, tok, ent2) = let
+  val loc = (case+
+    list_last_opt<m0acdef> (ent2) of
+    ~Some_vt x => tok.token_loc + x.m0acdef_loc
+  | ~None_vt _ => tok.token_loc // deadcode
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cmacdefs (knd, isrec, ent2)
+} end // end of [d0ecl_macdefs]
+
+(* ****** ****** *)
+
+implement
 d0ecl_overload
   (tok, id, dqid) = let
   val loc = tok.token_loc + dqid.dqi0de_loc
@@ -1253,20 +1364,6 @@ d0ecl_staload_some
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cstaload (Some sym, name)
 } end // end of [d0ecl_staload_some]
-
-(* ****** ****** *)
-
-implement
-d0ecl_dcstdecs
-  (tok, ent2, ent3) = let
-  val loc = (case+
-    list_last_opt<d0cstdec> (ent3) of
-    ~Some_vt x => tok.token_loc + x.d0cstdec_loc
-  | ~None_vt _ => tok.token_loc // deadcode
-  ) : location // end of [val]
-in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cdcstdecs (tok, ent2, ent3)
-} end // end of [d0ecl_dcstdecs]
 
 (* ****** ****** *)
 

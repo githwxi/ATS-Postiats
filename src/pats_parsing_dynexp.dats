@@ -231,4 +231,149 @@ end // end of [p_dqi0de]
 
 (* ****** ****** *)
 
+(*
+atmd0exp ::=
+  | dqi0de
+  | OP di0de
+  | i0nt
+  | DLREXTVAL LPAREN s0exp COMMA s0tring RPAREN
+*)
+
+fun
+p_atmd0exp_tok (
+  buf: &tokbuf, bt: int, err: &int, tok: token
+) : d0exp = let
+  val err0 = err
+  var ent: synent?
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| _ when
+    ptest_fun (buf, p_dqi0de, ent) =>
+    d0exp_dqid (synent_decode {dqi0de} (ent))
+| _ when
+    ptest_fun (buf, p_i0nt, ent) =>
+    d0exp_i0nt (synent_decode {i0nt} (ent))
+| T_OP _ => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_di0de (buf, bt, err)
+  in
+    if err = err0 then
+      d0exp_opid (tok, ent2) else synent_null ()
+    // end of [if]
+  end
+//
+| T_DLREXTVAL () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_LPAREN (buf, bt, err)
+    val ent3 = (
+      if err = err0 then
+        p_s0exp (buf, bt, err) else synent_null ()
+      // end of [if]
+    ) : s0exp // end of [val]
+    val ent4 = (
+      if err = err0 then
+        p_COMMA (buf, bt, err) else synent_null ()
+      // end of [if]
+    ) : token // end of [val]
+    val ent5 = (
+      if err = err0 then
+        p_s0tring (buf, bt, err) else synent_null ()
+      // end of [if]
+    ) : token // end of [val]
+    val ent6 = (
+      if err = err0 then
+        p_RPAREN (buf, bt, err) else synent_null ()
+      // end of [if]
+    ) : token // end of [val]
+  in
+    if err = err0 then
+      d0exp_extval (tok, ent3, ent5, ent6) else synent_null ()
+    // end of [if]
+  end
+//
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end
+// (* end of [case] *)
+end // end of [p_atmd0exp_tok]
+
+fun
+p_atmd0exp (
+  buf: &tokbuf, bt: int, err: &int
+) : d0exp =
+  ptokwrap_fun (buf, bt, err, p_atmd0exp_tok, PE_atmd0exp)
+// end of [p_atmd0exp]
+
+(* ****** ****** *)
+
+(*
+argd0exp ::= atmd0exp | s0expdarg
+*)
+
+fun
+p_argd0exp (
+  buf: &tokbuf, bt: int, err: &int
+) : d0exp = let
+  var ent: synent?
+in
+//
+case+ 0 of
+| _ when
+    ptest_fun (
+    buf, p_atmd0exp, ent
+  ) => synent_decode {d0exp} (ent)
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end (* end of [_] *)
+//
+end // end of [p_argd0exp]
+
+(* ****** ****** *)
+
+(*
+d0exp ::= atmd0exp argd0expseq
+*)
+fun p_d0exp_tok (
+  buf: &tokbuf, bt: int, err: &int, tok: token
+) : d0exp = let
+  var ent: synent?
+in
+//
+case+ 0 of
+| _ when
+    ptest_fun (
+    buf, p_atmd0exp, ent
+  ) => let
+    val ent1 = synent_decode {d0exp} (ent)
+    val ent2 = pstar_fun {d0exp} (buf, bt, p_argd0exp)
+    fun loop (
+      x0: d0exp, xs: d0explst_vt
+    ) : d0exp =
+      case+ xs of
+      | ~list_vt_cons (x, xs) => let
+          val x0 = d0exp_app (x0, x) in loop (x0, xs)
+        end
+      | ~list_vt_nil () => x0
+    // end of [loop]
+  in
+    loop (ent1, ent2)
+  end
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end (* end of [_] *)
+//
+end // end of [p_d0exp_tok]
+
+implement
+p_d0exp
+  (buf, bt, err) = 
+  ptokwrap_fun (buf, bt, err, p_d0exp_tok, PE_d0exp)
+// end of [p_d0exp]
+
+(* ****** ****** *)
+
 (* end of [pats_parsing_dynexp.dats] *)

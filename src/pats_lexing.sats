@@ -143,8 +143,7 @@ token_node =
   | T_LAM of int // lam and lam@
   | T_LET of () // let
   | T_LOCAL of () // local
-  | T_MACDEF of () // macdef
-  | T_MACRODEF of () // macrodef
+  | T_MACDEF of int // macdef, macrodef
   | T_NONFIX of () // nonfix
   | T_OVERLOAD of () // overload
   | T_OF of () // of
@@ -311,6 +310,9 @@ val LAM: tnode
 val LAMAT: tnode
 val LLAM: tnode
 val LLAMAT: tnode
+
+val MACDEF : tnode
+val MACRODEF : tnode
 
 val TYPE: tnode
 val TYPE_pos: tnode

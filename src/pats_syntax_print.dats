@@ -494,6 +494,11 @@ in
       val () = prstr "..."
       val () = prstr "\n)"
     }
+  | D0Cmacdefs _ => {
+      val () = prstr "D0Cmacdefs(\n"
+      val () = fprint_string (out, "...")
+      val () = prstr "\n)"
+    }
   | D0Coverload (id, qid) => {
       val () = prstr "D0Coverload(\n"
       val () = fprint_i0de (out, id)
