@@ -466,6 +466,7 @@ fun p_s0exp : parser (s0exp)
 fun p_si0de : parser (i0de) // static identifier
 fun p_s0taq : parser (s0taq) // static qualifier
 fun p_sqi0de : parser (sqi0de) // static qualified identifier
+fun p_labs0exp : parser (labs0exp) // labeled static exp.
 //
 fun p_s0rtext : parser (s0rtext)
 //
@@ -493,6 +494,8 @@ fun p_di0de : parser (i0de) // dynamic identifier
 fun p_pi0de : parser (i0de) // pattern identifier
 fun p_d0ynq : parser (d0ynq) // dynamic qualifier
 fun p_dqi0de : parser (dqi0de) // dynamic qualified identifier
+fun p_labd0exp : parser (labd0exp) // labeled dynamic exp.
+fun p_d0expsemiseq0 : parser (d0explst)
 
 (* ****** ****** *)
 

@@ -55,6 +55,88 @@ staload "pats_parsing.sats"
 
 (* ****** ****** *)
 
+viewtypedef s0explst12 = list12 (s0exp)
+viewtypedef labs0explst12 = list12 (labs0exp)
+
+(* ****** ****** *)
+
+fun s0exp_list12 (
+  t_beg: token, ent2: s0explst12, t_end: token
+) : s0exp =
+  case+ ent2 of
+  | ~LIST12one (xs) => s0exp_list (t_beg, (l2l)xs, t_end)
+  | ~LIST12two (xs1, xs2) => s0exp_list2 (t_beg, (l2l)xs1, (l2l)xs2, t_end)
+// end of [s0exp_list12]
+
+fun s0exp_tytup12 (
+  knd: int
+, t_beg: token, ent2: s0explst12, t_end: token
+) : s0exp =
+  case+ ent2 of
+  | ~LIST12one (xs) =>
+      s0exp_tytup (knd, t_beg, 0(*npf*), (l2l)xs, t_end)
+  | ~LIST12two (xs1, xs2) => let
+      val npf = list_vt_length (xs1)
+      val xs12 = list_vt_append (xs1, xs2)
+    in
+      s0exp_tytup (knd, t_beg, npf, (l2l)xs12, t_end)
+    end
+// end of [s0exp_tytup12]
+
+(* ****** ****** *)
+
+fun s0exp_tyrec12 (
+  knd: int
+, t_beg: token, ent2: labs0explst12, t_end: token
+) : s0exp =
+  case+ ent2 of
+  | ~LIST12one (xs) =>
+      s0exp_tyrec (knd, t_beg, 0(*npf*), (l2l)xs, t_end)
+  | ~LIST12two (xs1, xs2) => let
+      val npf = list_vt_length (xs1)
+      val xs12 = list_vt_append (xs1, xs2)
+    in
+      s0exp_tyrec (knd, t_beg, npf, (l2l)xs12, t_end)
+    end
+// end of [s0exp_tyrec12]
+
+fun s0exp_tyrec12_ext (
+  name: string
+, t_beg: token, ent2: labs0explst12, t_end: token
+) : s0exp =
+  case+ ent2 of
+  | ~LIST12one (xs) =>
+      s0exp_tyrec_ext (name, t_beg, 0(*npf*), (l2l)xs, t_end)
+  | ~LIST12two (xs1, xs2) => let
+      val npf = list_vt_length (xs1)
+      val xs12 = list_vt_append (xs1, xs2)
+    in
+      s0exp_tyrec_ext (name, t_beg, npf, (l2l)xs12, t_end)
+    end
+// end of [s0exp_tyrec12]
+
+(* ****** ****** *)
+
+fun
+p_s0expseq_BAR_s0expseq (
+  buf: &tokbuf
+, bt: int
+, err: &int
+) : s0explst12 =
+  plist12_fun (buf, bt, p_s0exp)
+// end of [p_s0expseq_BAR_s0expseq]
+
+fun
+p_labs0expseq_BAR_labs0expseq (
+  buf: &tokbuf
+, bt: int
+, err: &int
+) : labs0explst12 =
+  plist12_fun (buf, bt, p_labs0exp)
+// end of [p_labs0expseq_BAR_labs0expseq]
+
+(* ****** ****** *)
+
 (*
 si0de
   | IDENTIFIER_alp
@@ -211,9 +293,10 @@ end // end of [p_sqi0de]
 (*
 labs0exp ::= l0ab EQ s0exp
 *)
-fun p_labs0exp (
-  buf: &tokbuf, bt: int, err: &int
-) : labs0exp = let
+implement
+p_labs0exp (
+  buf, bt, err
+) = let
   val err0 = err
   val tok = tokbuf_get_token (buf)
 //
@@ -234,88 +317,6 @@ end // end of [p_labs0exp]
 
 (* ****** ****** *)
 
-viewtypedef s0explst12 = list12 (s0exp)
-viewtypedef labs0explst12 = list12 (labs0exp)
-
-(* ****** ****** *)
-
-fun s0exp_list12 (
-  t_beg: token, ent2: s0explst12, t_end: token
-) : s0exp =
-  case+ ent2 of
-  | ~LIST12one (xs) => s0exp_list (t_beg, (l2l)xs, t_end)
-  | ~LIST12two (xs1, xs2) => s0exp_list2 (t_beg, (l2l)xs1, (l2l)xs2, t_end)
-// end of [s0exp_list12]
-
-fun s0exp_tytup12 (
-  knd: int
-, t_beg: token, ent2: s0explst12, t_end: token
-) : s0exp =
-  case+ ent2 of
-  | ~LIST12one (xs) =>
-      s0exp_tytup (knd, t_beg, 0(*npf*), (l2l)xs, t_end)
-  | ~LIST12two (xs1, xs2) => let
-      val npf = list_vt_length (xs1)
-      val xs12 = list_vt_append (xs1, xs2)
-    in
-      s0exp_tytup (knd, t_beg, npf, (l2l)xs12, t_end)
-    end
-// end of [s0exp_tytup12]
-
-(* ****** ****** *)
-
-fun s0exp_tyrec12 (
-  knd: int
-, t_beg: token, ent2: labs0explst12, t_end: token
-) : s0exp =
-  case+ ent2 of
-  | ~LIST12one (xs) =>
-      s0exp_tyrec (knd, t_beg, 0(*npf*), (l2l)xs, t_end)
-  | ~LIST12two (xs1, xs2) => let
-      val npf = list_vt_length (xs1)
-      val xs12 = list_vt_append (xs1, xs2)
-    in
-      s0exp_tyrec (knd, t_beg, npf, (l2l)xs12, t_end)
-    end
-// end of [s0exp_tyrec12]
-
-fun s0exp_tyrec12_ext (
-  name: string
-, t_beg: token, ent2: labs0explst12, t_end: token
-) : s0exp =
-  case+ ent2 of
-  | ~LIST12one (xs) =>
-      s0exp_tyrec_ext (name, t_beg, 0(*npf*), (l2l)xs, t_end)
-  | ~LIST12two (xs1, xs2) => let
-      val npf = list_vt_length (xs1)
-      val xs12 = list_vt_append (xs1, xs2)
-    in
-      s0exp_tyrec_ext (name, t_beg, npf, (l2l)xs12, t_end)
-    end
-// end of [s0exp_tyrec12]
-
-(* ****** ****** *)
-
-fun
-p_s0expseq_BAR_s0expseq (
-  buf: &tokbuf
-, bt: int
-, err: &int
-) : s0explst12 =
-  plist12_fun (buf, bt, p_s0exp)
-// end of [p_s0expseq_BAR_s0expseq]
-
-fun
-p_labs0expseq_BAR_labs0expseq (
-  buf: &tokbuf
-, bt: int
-, err: &int
-) : labs0explst12 =
-  plist12_fun (buf, bt, p_labs0exp)
-// end of [p_labs0expseq_BAR_labs0expseq]
-
-(* ****** ****** *)
-
 (*
 s0arrdim
   | LBRACKET s0expseq RBRACKET
@@ -333,9 +334,7 @@ p_s0arrdim (
       pstar_fun0_COMMA (buf, bt, p_s0exp) else list_vt_nil ()
     // end of [if]
   ) : s0explst_vt
-  val ent3 = (
-    if err = err0 then p_RBRACKET (buf, bt, err) else synent_null ()
-  ) : token
+  val ent3 = pif_fun (buf, bt, err, p_RBRACKET, err0)
 in
   if err = err0 then
     s0arrdim_make (ent1, (l2l)ent2, ent3)
@@ -517,10 +516,8 @@ case+ tok.token_node of
     val bt = 0
     val () = incby1 ()
     val ent2 = p_s0tring (buf, bt, err)
-    val ent3 = (
-      if err = err0 then p_OF (buf, bt, err) else synent_null ()
-    ) : token // end of [val]
-    val ent4 = p_LBRACE (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_OF, err0)
+    val ent4 = pif_fun (buf, bt, err, p_LBRACE, err0)
   in
     if err = err0 then let
       val ent5 = p_labs0expseq_BAR_labs0expseq (buf, bt, err)
@@ -749,12 +746,8 @@ case+ tok.token_node of
     val () = incby1 ()
     val ent2 = pstar_fun {s0marg} (buf, bt, p_s0marg)
     val ent3 = p_colons0rtopt_vt (buf, bt, err) // err = err0
-    val ent4 = (
-      if err = err0 then p_EQGT (buf, bt, err) else synent_null ()
-    ) : token
-    val ent5 = (
-      if err = err0 then p_s0exp (buf, bt, err) else synent_null ()
-    ) : s0exp
+    val ent4 = pif_fun (buf, bt, err, p_EQGT, err0)
+    val ent5 = pif_fun (buf, bt, err, p_s0exp, err0)
   in
     if err = err0 then
       s0exp_lam (tok, (l2l)ent2, (t2t)ent3, ent5)
@@ -803,26 +796,16 @@ case+ tok.token_node of
     val bt = 0
     val () = incby1 ()
     val ent2 = p_si0de (buf, bt, err)
-    val ent3 = (
-      if err = err0 then p_COLON (buf, bt, err) else synent_null ()
-    ) : token // end of [val]
-    val ent4 = (
-      if err = err0 then p_s0rtext (buf, bt, err) else synent_null ()
-    ) : s0rtext // end of [val]
-    val ent5 = (
-      if err = err0 then p_BAR (buf, bt, err) else synent_null ()
-    ) : token // end of [val]
-    val ent6 = (
-      if err = err0 then p_s0exp (buf, bt, err) else synent_null ()
-    ) : s0exp // end of [val]
+    val ent3 = pif_fun (buf, bt, err, p_COLON, err0)
+    val ent4 = pif_fun (buf, bt, err, p_s0rtext, err0)
+    val ent5 = pif_fun (buf, bt, err, p_BAR, err0)
+    val ent6 = pif_fun (buf, bt, err, p_s0exp, err0)
     val ent7 = (
       if err = err0 then
         pstar_sep_fun (buf, bt, p_BARSEMI_test, p_s0exp)
       else list_vt_nil ()
     ) : s0explst_vt
-    val ent8 = (
-      if err = err0 then p_RBRACE (buf, bt, err) else synent_null ()
-    ) : token // end of [val]
+    val ent8 = pif_fun (buf, bt, err, p_RBRACE, err0)
   in
     if err = err0 then
       s0rtext_sub (tok, ent2, ent4, ent6, (l2l)ent7, ent8)
@@ -866,12 +849,8 @@ p_s0qua_rule2 (
       pstar_sep_fun (buf, bt, p_COMMA_test, p_si0de)
     else list_vt_nil ()
   ) : List_vt (i0de)
-  val ent3 = (
-    if err = err0 then p_COLON (buf, bt, err) else synent_null ()
-  ) : token // end of [val]
-  val ent4 = (
-    if err = err0 then p_s0rtext (buf, bt, err) else synent_null ()
-  ) : s0rtext // end of [val]
+  val ent3 = pif_fun (buf, bt, err, p_COLON, err0)
+  val ent4 = pif_fun (buf, bt, err, p_s0rtext, err0)
 in
   if err = err0 then
     s0qua_vars (ent1, (l2l)ent2, ent4)

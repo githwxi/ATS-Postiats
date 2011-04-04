@@ -25,9 +25,9 @@ Optmizing pattern matching compilation
 //
 // HX-2011-03-14
 //
-Each type should be given a generic name and specific name;
-the former for generic template instantiation and the latter
-for specific template implementation.
+Each type should be given a generic name as well as a specific name;
+the former for generic template instantiation and the latter for specific
+template implementation.
 
 ######
 //
@@ -55,7 +55,7 @@ Supporting user-defined effects
 //
 Supporting invariant types:
 
-fun{a1,a2:t@ype} (x: INV(a1), y: INV(a2)): (a1, a2)
+fun{a1,a2:t@ype} f (x: INV(a1), y: INV(a2)): (a1, a2)
 
 ######
 

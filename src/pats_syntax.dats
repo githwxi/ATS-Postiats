@@ -1076,6 +1076,23 @@ in '{
 (* ****** ****** *)
 
 implement
+d0exp_empty (loc) = '{
+  d0exp_loc= loc, d0exp_node= D0Eempty ()
+}
+
+implement
+d0exp_FILENAME (tok) = '{
+  d0exp_loc= tok.token_loc
+, d0exp_node= D0Ecstsp CSTSPfilename
+}
+
+implement
+d0exp_LOCATION (tok) = '{
+  d0exp_loc= tok.token_loc
+, d0exp_node= D0Ecstsp CSTSPlocation
+}
+
+implement
 d0exp_extval (
   t_beg, _type, _code, t_end
 ) = let
@@ -1084,6 +1101,11 @@ d0exp_extval (
 in '{
   d0exp_loc= loc, d0exp_node= D0Eextval (_type, code)
 } end // end of [d0exp_extval]
+
+implement
+d0exp_loopexn (knd, tok) = '{
+  d0exp_loc= tok.token_loc, d0exp_node= D0Eloopexn (knd)
+}
 
 (* ****** ****** *)
 
@@ -1108,6 +1130,20 @@ in '{
 (* ****** ****** *)
 
 implement
+d0exp_seq
+  (t_beg, d0es, t_end) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in
+  case+ d0es of
+  | list_cons _ => '{
+      d0exp_loc= loc, d0exp_node= D0Eseq d0es
+    } // end of [cons]
+  | list_nil _ => d0exp_empty (loc)
+end // end of [d0exp_seq]
+
+(* ****** ****** *)
+
+implement
 d0exp_tup (
   knd, t_beg, npf, xs, t_end
 ) = let
@@ -1126,6 +1162,40 @@ in '{
 } end // end of [d0exp_rec]
 
 (* ****** ****** *)
+
+implement
+d0exp_arrinit (
+  t_beg, elt, dim, ini, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Earrinit (elt, dim, ini)
+} end // end of [d0exp_arrinit]
+
+implement
+d0exp_arrsize (
+  t_beg, os0e, t_lp, d0es, t_rp
+) = let
+  val loc = t_beg.token_loc + t_rp.token_loc
+  val d0e_ini = (case+ d0es of
+    | list_cons (d0e, list_nil ()) => d0e
+    | _ => d0exp_list (t_lp, 0(*npf*), d0es, t_rp)
+  ) : d0exp // end of [val]
+in '{
+  d0exp_loc= loc, d0exp_node= D0Earrsize (os0e, d0e_ini)
+} end // end of [d0exp_arrsize]
+
+(* ****** ****** *)
+
+implement
+d0exp_let_seq (
+  t_let, d0cs, t_in, d0es, t_end
+) = let
+  val loc = t_let.token_loc + t_end.token_loc
+  val body = d0exp_seq (t_in, d0es, t_end)
+in '{
+  d0exp_loc= loc, d0exp_node= D0Elet (d0cs, body)
+} end // end of [d0exp_let_seq]
 
 implement
 d0exp_declseq

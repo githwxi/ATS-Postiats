@@ -98,6 +98,21 @@ overload print with print_dcstkind
 
 (* ****** ****** *)
 
+datatype
+cstsp = // special constants
+  | CSTSPfilename (* the filename where #FILENAME appears *)
+  | CSTSPlocation (* the location where #LOCATION appears *)
+(*
+  | CSTSPcharcount of int
+  | CSTSPlinecount of int
+*)
+// end of [cstsp]
+
+fun fprint_cstsp (out: FILEref, x: cstsp): void
+overload fprint with fprint_cstsp
+
+(* ****** ****** *)
+
 typedef i0nt = token
 typedef c0har = token
 typedef f0loat = token
@@ -865,17 +880,27 @@ and d0exp_node =
   | D0Efloat of f0loat
   | D0Estring of s0tring
 //
+  | D0Ecstsp of cstsp // special constants
+//
   | D0Eopid of symbol // dynamic op identifiers
   | D0Edqid of (d0ynq, symbol) // qualified dynamic identifiers
 //
+  | D0Eempty of ()
   | D0Eextval of (s0exp (*type*), string (*code*)) // external val
+  | D0Eloopexn of int(*break/continue: 0/1*)
 //
   | D0Elist of (int(*npf*), d0explst)
   | D0Esexparg of s0exparg // static multi-argument
 //
+  | D0Eseq of d0explst // dynamic sequence-expression
   | D0Etup of (int(*knd*), int(*npf*), d0explst)
   | D0Erec of (int (*knd*), int (*npf*), labd0explst)
 //
+  | D0Earrinit of (* array initilization *)
+      (s0exp (*elt*), d0expopt (*asz*), d0explst (*ini*))
+  | D0Earrsize of (s0expopt (*elt*), d0exp (*int*)) // arraysize expression
+//
+  | D0Elet of (d0eclist, d0exp) // dynamic let-expression
   | D0Edeclseq of d0eclist // = let [d0eclist] in (*nothing*) end
 // end of [d0exp_node]
 
@@ -901,6 +926,7 @@ and d0exp = '{
 
 and d0explst : type = List (d0exp)
 and d0explst_vt : viewtype = List_vt (d0exp)
+and d0expopt : type = Option (d0exp)
 
 and labd0exp = l0abeled (d0exp)
 and labd0explst = List labd0exp
@@ -930,13 +956,24 @@ fun d0exp_s0tring (_: s0tring): d0exp
 fun d0exp_opid (_1: token, _2: i0de): d0exp
 fun d0exp_dqid (_: dqi0de): d0exp
 
+fun d0exp_empty (loc: location): d0exp
+
+fun d0exp_FILENAME (tok: token): d0exp
+fun d0exp_LOCATION (tok: token): d0exp
+
 fun d0exp_extval (
   t_beg: token, type: s0exp, code: token, t_end: token
 ) : d0exp // end of [d0exp_extval]
 
+fun d0exp_loopexn (knd: int, tok: token): d0exp
+
 fun d0exp_sexparg
   (t_beg: token, s0a: s0exparg, t_end: token): d0exp
 // end of [d0exp_sexparg]
+
+fun d0exp_seq
+  (t_beg: token, xs: d0explst, t_end: token): d0exp
+// end of [d0exp_seq]
 
 fun d0exp_list (
   t_beg: token, npf: int, xs: d0explst, t_end: token
@@ -948,6 +985,18 @@ fun d0exp_tup (
 fun d0exp_rec (
   knd: int, t_beg: token, npf: int, xs: labd0explst, t_end: token
 ) : d0exp // end of [d0exp_rec]
+
+fun d0exp_arrinit (
+  t_beg: token, elt: s0exp, dim: d0expopt, ini: d0explst, t_end: token
+) : d0exp // end of [d0exp_arrinit]
+
+fun d0exp_arrsize (
+  t_beg: token, elt: s0expopt, t_lp: token, elts: d0explst, t_rp: token
+) : d0exp // end of [d0exp_arrsize]
+
+fun d0exp_let_seq (
+  t_let: token, d0cs: d0eclist, t_in: token, d0e: d0explst, t_end: token
+) : d0exp // end of [d0exp_let_seq]
 
 fun d0exp_declseq
   (t_beg: token, ds: d0eclist, t_end: token) : d0exp

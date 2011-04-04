@@ -439,8 +439,8 @@ val () = ins ("#print", T_SRPPRINT)
 val () = ins ("#then", T_SRPTHEN)
 val () = ins ("#undef", T_SRPUNDEF)
 //
-val () = ins ("#filename", T_SRPFILENAME)
-val () = ins ("#location", T_SRPLOCATION)
+val () = ins ("#FILENAME", T_SRPFILENAME)
+val () = ins ("#LOCATION", T_SRPLOCATION)
 //
 // HX: end of special tokens
 //
