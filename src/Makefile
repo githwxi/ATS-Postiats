@@ -84,6 +84,7 @@ SOURCES := \
   pats_parsing_e0xp.dats \
   pats_parsing_sort.dats \
   pats_parsing_staexp.dats \
+  pats_parsing_p0at.dats \
   pats_parsing_dynexp.dats \
   pats_parsing_decl.dats \
 

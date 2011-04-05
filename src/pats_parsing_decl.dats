@@ -77,7 +77,7 @@ end // end of [p_d0atsrtdec]
 implement
 p_d0atsrtdecseq
   (buf, bt, err) = let
-  val xs = pstar_fun1_sep (buf, bt, err, p_d0atsrtdec, p_AND_test)
+  val xs = pstar_fun1_AND (buf, bt, err, p_d0atsrtdec)
 in
   l2l (xs)
 end // end of [p_d0atsrtdecseq]
@@ -107,7 +107,7 @@ end // end of [p_s0rtdef]
 implement
 p_s0rtdefseq
   (buf, bt, err) = let
-  val xs = pstar_fun1_sep (buf, bt, err, p_s0rtdef, p_AND_test)
+  val xs = pstar_fun1_AND (buf, bt, err, p_s0rtdef)
 in
   l2l (xs)
 end // end of [p_s0rtdecseq]
@@ -150,7 +150,7 @@ end // end of [p_s0tacon]
 implement
 p_s0taconseq
   (buf, bt, err) = let
-  val xs = pstar_fun1_sep (buf, bt, err, p_s0tacon, p_AND_test)
+  val xs = pstar_fun1_AND (buf, bt, err, p_s0tacon)
 in
   l2l (xs)
 end // end of [p_s0taconseq]
@@ -193,7 +193,7 @@ end // end of [p_s0tacst]
 implement
 p_s0tacstseq
   (buf, bt, err) = let
-  val xs = pstar_fun1_sep (buf, bt, err, p_s0tacst, p_AND_test)
+  val xs = pstar_fun1_AND (buf, bt, err, p_s0tacst)
 in
   l2l (xs)
 end // end of [p_s0tacstseq]
@@ -230,7 +230,7 @@ end // end of [p_s0tavar]
 implement
 p_s0tavarseq
   (buf, bt, err) = let
-  val xs = pstar_fun1_sep (buf, bt, err, p_s0tavar, p_AND_test)
+  val xs = pstar_fun1_AND (buf, bt, err, p_s0tavar)
 in
   l2l (xs)
 end // end of [p_s0tavarseq]
@@ -271,7 +271,7 @@ end // end of [p_s0expdef]
 implement
 p_s0expdefseq
   (buf, bt, err) = let
-  val xs = pstar_fun1_sep (buf, bt, err, p_s0expdef, p_AND_test)
+  val xs = pstar_fun1_AND (buf, bt, err, p_s0expdef)
 in
   l2l (xs)
 end // end of [p_s0expdecseq]
@@ -316,7 +316,7 @@ e0xndecseq = e0xndec { AND e0xndec }
 implement
 p_e0xndecseq
   (buf, bt, err) = let
-  val xs = pstar_fun1_sep (buf, bt, err, p_e0xndec, p_AND_test)
+  val xs = pstar_fun1_AND (buf, bt, err, p_e0xndec)
 in
   l2l (xs)
 end // end of [p_e0xndecseq]
@@ -354,7 +354,7 @@ end // end of [p_d0atdec]
 implement
 p_d0atdecseq
   (buf, bt, err) = let
-  val xs = pstar_fun1_sep (buf, bt, err, p_d0atdec, p_AND_test)
+  val xs = pstar_fun1_AND (buf, bt, err, p_d0atdec)
 in
   l2l (xs)
 end // end of [p_d0atdecseq]
@@ -399,7 +399,7 @@ end // end of [p_d0cstdec]
 implement
 p_d0cstdecseq
   (buf, bt, err) = l2l (xs) where {
-  val xs = pstar_fun1_sep (buf, bt, err, p_d0cstdec, p_AND_test)
+  val xs = pstar_fun1_AND (buf, bt, err, p_d0cstdec)
 } // end of [p_d0cstdecseq]
 
 (* ****** ****** *)
@@ -771,7 +771,7 @@ case+ tok.token_node of
     val () = incby1 ()
     var _ent: synent?
     val isrec = ptest_fun (buf, p_REC, _ent)
-    val ent3 = pstar_fun1_sep {m0acdef} (buf, bt, err, p_m0acdef, p_AND_test)
+    val ent3 = pstar_fun1_AND {m0acdef} (buf, bt, err, p_m0acdef)
   in
     if err = err0 then
       d0ecl_macdefs (knd, isrec, tok, (l2l)ent3)
@@ -1033,14 +1033,34 @@ p_d0ecl_sta
 (* ****** ****** *)
 
 (*
+v0aldec ::= p0at EQ d0exp witht0ypeopt
+*)
+fun p_v0aldec (
+  buf: &tokbuf, bt: int, err: &int
+) : v0aldec = let
+  val err0 = err
+  val ~SYNENT3 (ent1, ent2, ent3) =
+    pseq3_fun {p0at,token,d0exp} (buf, bt, err, p_p0at, p_EQ, p_d0exp)
+  // end of [val]
+in
+  if err = err0 then let
+    val ent4 =
+      p_witht0ype (buf, bt, err) in v0aldec_make (ent1, ent3, ent4)
+  end else synent_null ()
+end // end of [p0valdec]
+
+(* ****** ****** *)
+
+(*
 d0ec_dyn
   | d0ec
   | EXTERN d0cstdecseq
   | EXTERN TYPEDEF LITERAL_string EQ s0exp
   | EXTERN VAL LITERAL_string EQ d0exp
-  | valkind v0aldecseq
+  | valkind {REC} v0aldecseq
+/*
   | VAL PAR v0aldecseq
-  | VAL REC v0aldecseq
+*/
   | funkind f0undecseq
   | VAR v0ardecseq
   | IMPLEMENT decs0argseqseq i0mpdec
@@ -1064,6 +1084,18 @@ case+ tok.token_node of
     ptest_fun (
     buf, p_d0ecl, ent
   ) => synent_decode {d0ecl} (ent)
+| T_VAL (knd) => let
+    val bt = 0
+    val () = incby1 ()
+    val isrec = p_REC_test (buf)
+    val ent3 = pstar_fun1_AND {v0aldec} (buf, bt, err, p_v0aldec)
+  in
+    if err = err0 then
+      d0ecl_valdecs (knd, isrec, tok, (l2l)ent3)
+    else let
+      val () = list_vt_free (ent3) in synent_null ()
+    end (* end of [if] *)
+  end
 | T_EXTCODE _ => let
     val () = incby1 () in d0ecl_extcode (1(*dyn*), tok)
   end

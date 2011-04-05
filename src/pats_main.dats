@@ -74,6 +74,7 @@ dynload "pats_parsing_misc.dats"
 dynload "pats_parsing_e0xp.dats"
 dynload "pats_parsing_sort.dats"
 dynload "pats_parsing_staexp.dats"
+dynload "pats_parsing_p0at.dats"
 dynload "pats_parsing_dynexp.dats"
 dynload "pats_parsing_decl.dats"
 

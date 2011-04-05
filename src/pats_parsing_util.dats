@@ -201,12 +201,6 @@ end // end of [pstar_fun0_sep]
 (* ****** ****** *)
 
 implement
-pstar_fun0_AND
-  (buf, bt, f) =
-  pstar_fun0_sep (buf, bt, f, p_AND_test)
-// end of [pstar_fun0_AND]
-
-implement
 pstar_fun0_BAR
   (buf, bt, f) =
   pstar_fun0_sep (buf, bt, f, p_BAR_test)
@@ -251,6 +245,12 @@ case+ 0 of
   end (* end of [_] *)
 //
 end // end of [pstar_fun1_sep]
+
+implement
+pstar_fun1_AND
+  (buf, bt, err, f) =
+  pstar_fun1_sep (buf, bt, err, f, p_AND_test)
+// end of [pstar_fun1_AND]
 
 (* ****** ****** *)
 

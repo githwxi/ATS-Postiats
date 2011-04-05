@@ -233,6 +233,11 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [GT] is needed", @())
     val () = fprint_newline (out)
   }
+| PE_GTDOT () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [GTDOT] is needed", @())
+    val () = fprint_newline (out)
+  }
 //
 | PE_SRPTHEN () => {
     val () = fprint (out, loc)
@@ -375,14 +380,30 @@ case+ x.parerr_node of
     val () = fprint_newline (out)
   }
 //
-| PE_di0de () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [di0de] is needed", @())
-    val () = fprint_newline (out)
-  }
 | PE_pi0de () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [pi0de] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_p0at () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [p0at] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_atmp0at () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [atmp0at] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_labp0at () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [labp0at] is needed", @())
+    val () = fprint_newline (out)
+  }
+//
+| PE_di0de () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [di0de] is needed", @())
     val () = fprint_newline (out)
   }
 | PE_dqi0de () => {

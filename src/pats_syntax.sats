@@ -43,6 +43,7 @@ LOC = "pats_location.sats"
 typedef location = $LOC.location
 staload LEX = "pats_lexing.sats"
 typedef token = $LEX.token
+typedef valkind = $LEX.valkind
 staload SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
 typedef symbolopt = Option (symbol)
@@ -367,7 +368,7 @@ fun m0acarg_sing (x: i0de): m0acarg
 datatype s0rt_node =
   | S0RTapp of (s0rt, s0rt)
   | S0RTide of symbol (* sort identifier *)
-  | S0RTqid of (s0rtq, symbol) (* qualified sort identifier *)
+  | S0RTsqid of (s0rtq, symbol) (* qualified sort identifier *)
   | S0RTlist of s0rtlst
   | S0RTtype of int (* prop/view/type/t0ype/viewtype/viewt0ype *)
 // end of [s0rt_node]
@@ -385,9 +386,9 @@ typedef s0rtpol = '{
   s0rtpol_loc= location, s0rtpol_srt= s0rt, s0rtpol_pol= int
 } // end of [s0rtpol]
 
-fun s0rt_app (_1: s0rt, _2: s0rt): s0rt
 fun s0rt_i0de (_: i0de): s0rt
 fun s0rt_sqid (sq: s0rtq, id: i0de): s0rt
+fun s0rt_app (_1: s0rt, _2: s0rt): s0rt
 fun s0rt_list
   (t_beg: token, _: s0rtlst, t_end: token): s0rt
 // end of [s0rt_list]
@@ -474,18 +475,18 @@ fun a0msrt_make (
 
 datatype
 s0exp_node =
-  | S0Eann of (s0exp, s0rt)
-  | S0Eapp of (s0exp, s0exp)
+//
+  | S0Esqid of (s0taq, symbol)
+  | S0Eopid of symbol // = OP i0de
 //
   | S0Eint of i0nt
   | S0Echar of c0har
 //
   | S0Eextype of (string(*name*), s0explst(*arg*))
 //
-  | S0Eimp of e0fftaglst // decorated implication
+  | S0Eapp of (s0exp, s0exp)
 //
-  | S0Eopid of symbol
-  | S0Esqid of (s0taq, symbol)
+  | S0Eimp of e0fftaglst // decorated implication
 //
   | S0Elam of (s0marglst, s0rtopt, s0exp)
 //
@@ -500,6 +501,8 @@ s0exp_node =
 //
   | S0Euni of s0qualst // universal quantifiers
   | S0Eexi of (int(*funres*), s0qualst) // existential quantifiers
+//
+  | S0Eann of (s0exp, s0rt)
 // end of [s0exp_node]
 
 and s0rtext_node =
@@ -538,6 +541,11 @@ and s0qua = '{
 and s0qualst = List (s0qua)
 and s0qualst_vt = List_vt (s0qua)
 
+datatype
+witht0ype =
+  | WITHT0YPEsome of (int(*knd*), s0exp) | WITHT0YPEnone of ()
+// end of [witht0ype]
+
 (* ****** ****** *)
 
 fun s0arrdim_make
@@ -554,19 +562,19 @@ fun s0qua_vars (_fst: i0de, _rst: i0delst, _: s0rtext): s0qua
 
 (* ****** ****** *)
 
-fun s0exp_ann (_1: s0exp, _2: s0rt): s0exp
-fun s0exp_app (_1: s0exp, _2: s0exp): s0exp
-fun s0exp_extype (_1: token, _2: token, xs: List s0exp): s0exp
+fun s0exp_sqid (_: sqi0de): s0exp
+fun s0exp_opid (_1: token, _2: i0de): s0exp
 
 fun s0exp_i0nt (_: i0nt): s0exp
 fun s0exp_c0har (_: c0har): s0exp
+
+fun s0exp_app (_1: s0exp, _2: s0exp): s0exp
 
 fun s0exp_imp
   (t_beg: token, _: e0fftaglst, t_end: token): s0exp
 fun s0exp_imp_nil (t: token): s0exp
 
-fun s0exp_opid (_1: token, _2: i0de): s0exp
-fun s0exp_sqid (_: sqi0de): s0exp
+fun s0exp_extype (_1: token, _2: token, xs: List s0exp): s0exp
 
 fun s0exp_lam (
   _1: token, _2: s0marglst, _3: s0rtopt, _4: s0exp
@@ -602,6 +610,8 @@ fun s0exp_uni (
 fun s0exp_exi (
   funres: int, t_beg: token, xs: s0qualst, t_end: token
 ) : s0exp // end of [s0exp_uni]
+
+fun s0exp_ann (_1: s0exp, _2: s0rt): s0exp
 
 fun fprint_s0exp (out: FILEref, x: s0exp): void
 
@@ -833,6 +843,124 @@ fun d0cstdec_make (
 (* ****** ****** *)
 
 datatype
+p0at_node = 
+//
+  | P0Tide of symbol
+  | P0Topid of symbol
+  | P0Tdqid of (d0ynq, symbol)
+  | P0Tref of i0de // reference variable
+//
+  | P0Tint of i0nt
+  | P0Tchar of c0har
+  | P0Tfloat of f0loat
+  | P0Tstring of s0tring
+//
+  | P0Tapp of (p0at, p0at)
+//
+  | P0Tlist of (int(*npf*), p0atlst)
+//
+  | P0Tlst of p0atlst
+  | P0Trec of (int (*recknd*), labp0atlst)
+  | P0Ttup of (int (*knd*), int(*npf*), p0atlst)
+//
+  | P0Tfree of p0at
+//
+  | P0Texist of s0arglst
+  | P0Tsvararg of s0vararg
+//
+  | P0Tas of (p0at(*id*), p0at(*p0t*))
+//
+  | P0Tann of (p0at, s0exp)
+// end of [p0at_node]
+
+and labp0atlst =
+  | LABP0ATLSTnil | LABP0ATLSTdot | LABP0ATLSTcons of (l0ab, p0at, labp0atlst)
+// end of [labp2atlst]
+
+where p0at = '{
+   p0at_loc= location, p0at_node= p0at_node
+} (* end of [p0at] *)
+
+and p0atlst: type = List p0at
+and p0atopt: type = Option p0at
+
+(* ****** ****** *)
+
+fun p0at_i0de (x: i0de): p0at
+fun p0at_opid (_1: token, id: i0de): p0at
+fun p0at_dqid (dq: d0ynq, id: i0de): p0at
+
+fun p0at_i0nt (x: i0nt): p0at
+fun p0at_c0har (x: c0har): p0at
+fun p0at_f0loat (x: f0loat): p0at
+fun p0at_s0tring (x: s0tring): p0at
+
+fun p0at_ref (_: token, id: i0de): p0at
+
+fun p0at_app (x1: p0at, x2: p0at): p0at
+
+fun p0at_list
+  (t_beg: token, npf: int, xs: p0atlst, t_end: token): p0at
+// end of [p0ats_list]
+
+fun p0at_exist (
+  t_beg: token, qua: s0arglst, t_end: token
+) : p0at // end of [p0at_exist]
+
+fun p0at_svararg (
+  t_beg: token, x: s0vararg, t_end: token
+) : p0at // end of [p0at_svararg]
+
+fun p0at_as (x_id: p0at, x_pat: p0at): p0at
+
+fun p0at_free (tok: token, p0t: p0at): p0at
+
+fun p0at_ann (p0t: p0at, ann: s0exp): p0at
+
+(* ****** ****** *)
+
+datatype labp0at_node =
+  | LABP0ATnorm of (l0ab, p0at) | LABP0ATomit of ()
+typedef labp0at = '{
+  labp0at_loc= location, labp0at_node= labp0at_node
+}
+
+fun labp0at_norm (l: l0ab, p: p0at): labp0at
+fun labp0at_omit (tok: token): labp0at
+
+(* ****** ****** *)
+
+datatype
+f0arg_node =
+  | F0ARGdyn of p0at
+  | F0ARGsta1 of s0qualst
+  | F0ARGsta2 of s0arglst
+  | F0ARGmet of s0explst
+// end of [f0arg_node]
+
+typedef f0arg = '{
+  f0arg_loc= location, f0arg_node= f0arg_node
+} // end of [f0arg]
+
+typedef f0arglst = List (f0arg)
+
+fun f0arg_dyn (x: p0at): f0arg
+
+fun f0arg_sta1
+  (t_beg: token, xs: s0qualst, t_end: token): f0arg
+// end of [f0arg_sta1]
+fun f0arg_sta2
+  (t_beg: token, xs: s0arglst, t_end: token): f0arg
+// end of [f0arg_sta2]
+
+fun f0arg_met
+  (t_beg: token, xs: s0explst, t_end: token): f0arg
+// end of [f0arg_met]
+fun f0arg_met_nil (tok: token): f0arg
+
+(* ****** ****** *)
+
+datatype
 d0ecl_node =
   | D0Cfixity of (f0xty, i0delst)
   | D0Cnonfix of (i0delst) // absolving fixity status
@@ -860,6 +988,8 @@ d0ecl_node =
   | D0Cextcode of (* external code *)
       (int(*knd*), int(*pos*), string(*code*))
 //
+  | D0Cvaldecs of (valkind, bool(*isrec*), v0aldeclst) // value declarations
+//
   | D0Cstaload of (symbolopt, string)
   | D0Clocal of (d0eclist, d0eclist)
   | D0Cguadecl of (token(*knd*), guad0ecl)
@@ -872,8 +1002,9 @@ and guad0ecl_node =
 // end of [guad0ecl_node]
 
 and d0exp_node =
-  | D0Eann of (d0exp, s0exp) // ascribed dynamic expressions
-  | D0Eapp of (d0exp, d0exp) // functional application
+//
+  | D0Eopid of symbol // dynamic op identifiers
+  | D0Edqid of (d0ynq, symbol) // qualified dynamic identifiers
 //
   | D0Eint of i0nt
   | D0Echar of c0har
@@ -882,12 +1013,11 @@ and d0exp_node =
 //
   | D0Ecstsp of cstsp // special constants
 //
-  | D0Eopid of symbol // dynamic op identifiers
-  | D0Edqid of (d0ynq, symbol) // qualified dynamic identifiers
-//
   | D0Eempty of ()
   | D0Eextval of (s0exp (*type*), string (*code*)) // external val
   | D0Eloopexn of int(*break/continue: 0/1*)
+//
+  | D0Eapp of (d0exp, d0exp) // functional application
 //
   | D0Elist of (int(*npf*), d0explst)
   | D0Esexparg of s0exparg // static multi-argument
@@ -900,8 +1030,12 @@ and d0exp_node =
       (s0exp (*elt*), d0expopt (*asz*), d0explst (*ini*))
   | D0Earrsize of (s0expopt (*elt*), d0exp (*int*)) // arraysize expression
 //
+  | D0Edelay of int(*knd*) // $delay and $ldelay
+//
   | D0Elet of (d0eclist, d0exp) // dynamic let-expression
   | D0Edeclseq of d0eclist // = let [d0eclist] in (*nothing*) end
+//
+  | D0Eann of (d0exp, s0exp) // ascribed dynamic expressions
 // end of [d0exp_node]
 
 (* ****** ****** *)
@@ -944,17 +1078,24 @@ and m0acdeflst = List m0acdef
 
 (* ****** ****** *)
 
-fun d0exp_ann (_1: d0exp, _2: s0exp): d0exp
+and v0aldec: type = '{
+  v0aldec_loc= location
+, v0aldec_pat= p0at
+, v0aldec_def= d0exp
+, v0aldec_ann= witht0ype
+} // end of [v0aldec]
 
-fun d0exp_app (_1: d0exp, _2: d0exp): d0exp
+and v0aldeclst: type = List v0aldec
+
+(* ****** ****** *)
+
+fun d0exp_dqid (_: dqi0de): d0exp
+fun d0exp_opid (_1: token, _2: i0de): d0exp
 
 fun d0exp_i0nt (_: i0nt): d0exp
 fun d0exp_c0har (_: c0har): d0exp
 fun d0exp_f0loat (_: f0loat): d0exp
 fun d0exp_s0tring (_: s0tring): d0exp
-
-fun d0exp_opid (_1: token, _2: i0de): d0exp
-fun d0exp_dqid (_: dqi0de): d0exp
 
 fun d0exp_empty (loc: location): d0exp
 
@@ -967,6 +1108,12 @@ fun d0exp_extval (
 
 fun d0exp_loopexn (knd: int, tok: token): d0exp
 
+fun d0exp_app (_1: d0exp, _2: d0exp): d0exp
+
+fun d0exp_list (
+  t_beg: token, npf: int, xs: d0explst, t_end: token
+) : d0exp // end of [d0exp_list]
+
 fun d0exp_sexparg
   (t_beg: token, s0a: s0exparg, t_end: token): d0exp
 // end of [d0exp_sexparg]
@@ -974,10 +1121,6 @@ fun d0exp_sexparg
 fun d0exp_seq
   (t_beg: token, xs: d0explst, t_end: token): d0exp
 // end of [d0exp_seq]
-
-fun d0exp_list (
-  t_beg: token, npf: int, xs: d0explst, t_end: token
-) : d0exp // end of [d0exp_list]
 
 fun d0exp_tup (
   knd: int, t_beg: token, npf: int, xs: d0explst, t_end: token
@@ -994,6 +1137,8 @@ fun d0exp_arrsize (
   t_beg: token, elt: s0expopt, t_lp: token, elts: d0explst, t_rp: token
 ) : d0exp // end of [d0exp_arrsize]
 
+fun d0exp_delay (knd: int, tok: token): d0exp
+
 fun d0exp_let_seq (
   t_let: token, d0cs: d0eclist, t_in: token, d0e: d0explst, t_end: token
 ) : d0exp // end of [d0exp_let_seq]
@@ -1001,6 +1146,8 @@ fun d0exp_let_seq (
 fun d0exp_declseq
   (t_beg: token, ds: d0eclist, t_end: token) : d0exp
 // end of [d0exp_declseq]
+
+fun d0exp_ann (_1: d0exp, _2: s0exp): d0exp
 
 (* ****** ****** *)
 
@@ -1011,6 +1158,12 @@ fun labd0exp_make (ent1: l0ab, ent2: d0exp): labd0exp
 fun m0acdef_make
   (id: i0de, arg: m0acarglst, def: d0exp): m0acdef
 // end of [m0acdef_make]
+
+(* ****** ****** *)
+
+fun v0aldec_make
+  (p0t: p0at, def: d0exp, ann: witht0ype): v0aldec
+// end of [v0aldec_make]
 
 (* ****** ****** *)
 
@@ -1053,6 +1206,9 @@ fun d0ecl_macdefs (
 fun d0ecl_overload (t: token, id: i0de, dqid: dqi0de): d0ecl
 //
 fun d0ecl_extcode (knd: int, tok: token): d0ecl
+//
+fun d0ecl_valdecs
+  (knd: valkind, isrec: bool, tok: token, ds: v0aldeclst): d0ecl
 //
 fun d0ecl_staload_none (tok: token, tok2: token): d0ecl
 fun d0ecl_staload_some (tok: token, ent2: i0de, ent4: token): d0ecl

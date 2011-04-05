@@ -88,6 +88,8 @@ is_REC (x) = case+ x of
 implement
 p_REC (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_REC, PE_REC)
+implement
+p_REC_test (buf) = ptoken_test_fun (buf, is_REC)
 
 implement
 is_WITH (x) = case+ x of
@@ -225,6 +227,15 @@ implement
 p_GT (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_GT, PE_GT)
 // end of [p_GT]
+
+implement
+is_GTDOT (x) = case+ x of
+  | T_GTDOT () => true | _ => false
+// end of [is_GTDOT]
+implement
+p_GTDOT (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_GTDOT, PE_GTDOT)
+// end of [p_GTDOT]
 
 (* ****** ****** *)
 

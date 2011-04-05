@@ -70,6 +70,7 @@ parerr_node =
   | PE_EQ
   | PE_EQGT
   | PE_GT
+  | PE_GTDOT
 //
   | PE_SRPTHEN
   | PE_SRPENDIF
@@ -117,6 +118,10 @@ parerr_node =
   | PE_s0rtext
   | PE_s0qua
   | PE_q0marg
+//
+  | PE_p0at
+  | PE_atmp0at
+  | PE_labp0at
 //
   | PE_d0exp
   | PE_atmd0exp
@@ -180,6 +185,7 @@ fun is_END (x: tnode): bool
 
 fun p_REC : parser (token)
 fun is_REC (x: tnode): bool
+fun p_REC_test (buf: &tokbuf): bool
 
 fun p_WITH : parser (token)
 fun is_WITH (x: tnode): bool
@@ -235,6 +241,9 @@ fun is_EQGT (x: tnode): bool
 
 fun p_GT : parser (token)
 fun is_GT (x: tnode): bool
+
+fun p_GTDOT : parser (token)
+fun is_GTDOT (x: tnode): bool
 
 (* ****** ****** *)
 
@@ -298,11 +307,6 @@ fun pstar_fun0_sep
   buf: &tokbuf, bt: int, f: parser (a), sep: (&tokbuf) -> bool
 ) : List_vt (a) // end of [pstar_fun0_sep]
 
-fun pstar_fun0_AND
-  {a:type} (
-  buf: &tokbuf, bt: int, f: parser (a)
-) : List_vt (a) // end of [pstar_fun0_AND]
-
 fun pstar_fun0_BAR
   {a:type} (
   buf: &tokbuf, bt: int, f: parser (a)
@@ -330,6 +334,11 @@ fun pstar_fun1_sep
   buf: &tokbuf
 , bt: int, err: &int, f: parser (a), sep: (&tokbuf) -> bool
 ) : List_vt (a) // end of [pstar_fun1_sep]
+
+fun pstar_fun1_AND
+  {a:type} (
+  buf: &tokbuf, bt: int, err: &int, f: parser (a)
+) : List_vt (a) // end of [pstar_fun1_AND]
 
 (* ****** ****** *)
 
@@ -485,13 +494,22 @@ fun p_d0atconseq : parser (d0atconlst)
 //
 fun p_d0cstarg : parser (d0cstarg)
 //
+fun p_s0vararg : parser (s0vararg)
 fun p_s0exparg : parser (s0exparg)
 //
+fun p_witht0ype : parser (witht0ype)
+//
+(* ****** ****** *)
+
+fun p_p0at : parser (p0at)
+fun p_pi0de : parser (i0de) // pattern identifier
+fun p_labp0at : parser (labp0at) // labeled pattern
+fun p_f0arg : parser (f0arg)
+
 (* ****** ****** *)
 
 fun p_d0exp : parser (d0exp)
 fun p_di0de : parser (i0de) // dynamic identifier
-fun p_pi0de : parser (i0de) // pattern identifier
 fun p_d0ynq : parser (d0ynq) // dynamic qualifier
 fun p_dqi0de : parser (dqi0de) // dynamic qualified identifier
 fun p_labd0exp : parser (labd0exp) // labeled dynamic exp.

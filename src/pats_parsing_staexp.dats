@@ -1214,6 +1214,34 @@ end // end of [p_d0cstarg]
 (* ****** ****** *)
 
 (*
+s0vararg
+  | DOTDOT
+  | DOTDOTDOT
+  | s0argseq
+*)
+implement
+p_s0vararg
+  (buf, bt, err) = let
+  val tok = tokbuf_get_token (buf)
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_DOTDOT () => let
+    val () = incby1 () in S0VARARGone ()
+   end
+| T_DOTDOTDOT () => let
+    val () = incby1 () in S0VARARGall ()
+  end
+| _ => let
+    val xs = pstar_fun0_COMMA (buf, bt, p_s0arg)
+  in
+    S0VARARGseq ((l2l)xs)
+  end
+//
+end // end of [p_s0vararg]
+
+(*
 s0exparg
   : DOTDOT
   | DOTDOTDOT
@@ -1240,6 +1268,35 @@ case+ tok.token_node of
   end
 //
 end // end of [p_s0exparg]
+
+(* ****** ****** *)
+
+(*
+witht0ype ::= WITHTYPE s0exp
+*)
+
+implement
+p_witht0ype
+  (buf, bt, err) = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+in
+//
+case+ tok.token_node of
+| T_WITHTYPE (knd) => let
+    val bt = 0
+    val ent2 = p_s0exp (buf, bt, err)
+  in
+    if err = err0 then
+      WITHT0YPEsome (knd, ent2)
+    else let
+      val () = tokbuf_set_ntok (buf, n0) in WITHT0YPEnone ()
+    end (* end of [if] *)
+  end
+| _ => WITHT0YPEnone ()
+//
+end // end of [p_witht0ype]
 
 (* ****** ****** *)
 

@@ -239,8 +239,8 @@ in
       val () = fprint_symbol (out, id)
       val () = prstr ")"
     }
-  | S0RTqid (sq, id) => {
-      val () = prstr "S0RTqid("
+  | S0RTsqid (sq, id) => {
+      val () = prstr "S0RTsqid("
       val () = fprint_s0rtq (out, sq)
       val () = fprint_symbol (out, id)
       val () = prstr ")"
@@ -535,6 +535,11 @@ in
     }
   | D0Cextcode _ => {
       val () = prstr "D0Cextcode(\n"
+      val () = prstr "..."
+      val () = prstr "\n)"
+    }
+  | D0Cvaldecs _ => {
+      val () = prstr "D0Cvaldecs(\n"
       val () = prstr "..."
       val () = prstr "\n)"
     }
