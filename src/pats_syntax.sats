@@ -366,9 +366,9 @@ fun m0acarg_sing (x: i0de): m0acarg
 (* ****** ****** *)
 
 datatype s0rt_node =
-  | S0RTapp of (s0rt, s0rt)
   | S0RTide of symbol (* sort identifier *)
   | S0RTsqid of (s0rtq, symbol) (* qualified sort identifier *)
+  | S0RTapp of (s0rt, s0rt)
   | S0RTlist of s0rtlst
   | S0RTtype of int (* prop/view/type/t0ype/viewtype/viewt0ype *)
 // end of [s0rt_node]
@@ -848,7 +848,7 @@ p0at_node =
   | P0Tide of symbol
   | P0Topid of symbol
   | P0Tdqid of (d0ynq, symbol)
-  | P0Tref of i0de // reference variable
+  | P0Tref of symbol // reference variable
 //
   | P0Tint of i0nt
   | P0Tchar of c0har
@@ -916,6 +916,8 @@ fun p0at_as (x_id: p0at, x_pat: p0at): p0at
 fun p0at_free (tok: token, p0t: p0at): p0at
 
 fun p0at_ann (p0t: p0at, ann: s0exp): p0at
+
+fun fprint_p0at (out: FILEref, x: p0at): void
 
 (* ****** ****** *)
 
@@ -985,10 +987,13 @@ d0ecl_node =
   | D0Cmacdefs of (int(*knd*), bool(*rec*), m0acdeflst) // macro definitions
   | D0Coverload of (i0de, dqi0de) // overloading
 //
+  | D0Cextype of (int(*knd*), string, s0exp) // type to be used in C
   | D0Cextcode of (* external code *)
       (int(*knd*), int(*pos*), string(*code*))
 //
-  | D0Cvaldecs of (valkind, bool(*isrec*), v0aldeclst) // value declarations
+  | D0Cvaldecs of // value declarations
+      (valkind, bool(*isrec*), v0aldeclst)
+  | D0Cvardecs of v0ardeclst // variable declarations
 //
   | D0Cstaload of (symbolopt, string)
   | D0Clocal of (d0eclist, d0eclist)
@@ -1061,6 +1066,7 @@ and d0exp = '{
 and d0explst : type = List (d0exp)
 and d0explst_vt : viewtype = List_vt (d0exp)
 and d0expopt : type = Option (d0exp)
+and d0expopt_vt : viewtype = Option_vt (d0exp)
 
 and labd0exp = l0abeled (d0exp)
 and labd0explst = List labd0exp
@@ -1086,6 +1092,20 @@ and v0aldec: type = '{
 } // end of [v0aldec]
 
 and v0aldeclst: type = List v0aldec
+
+(* ****** ****** *)
+
+and v0ardec = '{
+  v0ardec_loc= location
+, v0ardec_knd= int (* BANG: knd = 1 *)
+, v0ardec_sym= symbol
+, v0ardec_sym_loc= location
+, v0ardec_typ= s0expopt
+, v0ardec_wth= Option (i0de)
+, v0ardec_ini= d0expopt
+} // end of [v0ardec]
+
+and v0ardeclst = List v0ardec
 
 (* ****** ****** *)
 
@@ -1167,6 +1187,16 @@ fun v0aldec_make
 
 (* ****** ****** *)
 
+fun v0ardec_make (
+  t_bang: Option (token)
+, pid: i0de
+, ann: s0expopt
+, varwth: Option (i0de)
+, def : d0expopt
+) : v0ardec // end of [v0ardec_make]
+
+(* ****** ****** *)
+
 fun d0ecl_fixity
   (_1: token, _2: p0rec, _3: i0delst): d0ecl
 // end of [d0ecl_fixity]
@@ -1205,10 +1235,13 @@ fun d0ecl_macdefs (
 //
 fun d0ecl_overload (t: token, id: i0de, dqid: dqi0de): d0ecl
 //
+fun d0ecl_extype
+  (tok: token, name: s0tring, s0e: s0exp): d0ecl
 fun d0ecl_extcode (knd: int, tok: token): d0ecl
 //
 fun d0ecl_valdecs
   (knd: valkind, isrec: bool, tok: token, ds: v0aldeclst): d0ecl
+fun d0ecl_vardecs (tok: token, ds: v0ardeclst): d0ecl
 //
 fun d0ecl_staload_none (tok: token, tok2: token): d0ecl
 fun d0ecl_staload_some (tok: token, ent2: i0de, ent4: token): d0ecl

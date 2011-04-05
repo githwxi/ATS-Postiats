@@ -91,7 +91,7 @@ main (
   val () = tokbuf_initialize_getc (buf, lam () =<cloptr1> getchar ())
   var err: int = 0
 //
-  val d0cs = p_d0eclseq_sta (buf, 0, err)
+  val d0cs = p_d0eclseq_dyn (buf, 0, err)
   val _eof = p_EOF (buf, 0, err)
   val () = tokbuf_discard_all (buf)
 //

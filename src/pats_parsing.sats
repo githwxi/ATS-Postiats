@@ -66,6 +66,7 @@ parerr_node =
   | PE_LBRACE
   | PE_RBRACE
 //
+  | PE_BANG
   | PE_DOT
   | PE_EQ
   | PE_EQGT
@@ -230,6 +231,9 @@ fun is_RBRACE (x: tnode): bool
 
 (* ****** ****** *)
 
+fun p_BANG : parser (token)
+fun is_BANG (x: tnode): bool
+
 fun p_DOT : parser (token)
 fun is_DOT (x: tnode): bool
 
@@ -282,6 +286,10 @@ fun ptoken_fun (
 fun ptoken_test_fun (
   buf: &tokbuf, f: (tnode) -> bool
 ) : bool // end of [ptoken_test_fun]
+
+fun ptokentopt_fun {a:type} (
+  buf: &tokbuf, f1: (tnode) -> bool, f2: parser (a)
+) : Option_vt (a)
 
 (* ****** ****** *)
 
@@ -484,6 +492,7 @@ fun p_s0quaseq_vt : parser (s0qualst_vt)
 //
 fun p_eqs0expopt_vt : parser (s0expopt_vt) // EQ s0exp
 fun p_ofs0expopt_vt : parser (s0expopt_vt) // OF s0exp
+fun p_colons0expopt_vt : parser (s0expopt_vt) // OF s0exp
 //
 fun p_q0marg : parser (q0marg) // quantifier-like multi-argumet
 //
@@ -513,6 +522,9 @@ fun p_di0de : parser (i0de) // dynamic identifier
 fun p_d0ynq : parser (d0ynq) // dynamic qualifier
 fun p_dqi0de : parser (dqi0de) // dynamic qualified identifier
 fun p_labd0exp : parser (labd0exp) // labeled dynamic exp.
+//
+fun p_eqd0expopt_vt : parser (d0expopt_vt) // EQ d0exp
+//
 fun p_d0expsemiseq0 : parser (d0explst)
 
 (* ****** ****** *)

@@ -302,123 +302,225 @@ implement
 fprint_s0exp (out, x) = let
   macdef prstr (str) = fprint_string (out, ,(str))
 in
-  case+ x.s0exp_node of
-  | S0Eann (s0e1, s0t2) => {
-      val () = prstr "S0Eann("
-      val () = fprint_s0exp (out, s0e1)
-      val () = prstr "; "
-      val () = fprint_s0rt (out, s0t2)
-      val () = prstr ")"
-    }
-  | S0Eapp (s0e1, s0e2) => {
-      val () = prstr "S0Eapp("
-      val () = fprint_s0exp (out, s0e1)
-      val () = prstr "; "
-      val () = fprint_s0exp (out, s0e2)
-      val () = prstr ")"
-    }
-  | S0Eextype (name, s0es) => {
-      val () = prstr "S0Eextype("
-      val () = fprint_string (out, name)
-      val () = prstr "; "
-      val () = $UT.fprintlst<s0exp> (out, s0es, ", ", fprint_s0exp)
-      val () = prstr ")"
-    }
-  | S0Echar (c) => {
-      val () = prstr "S0Echar("
-      val () = fprint_c0har (out, c)
-      val () = prstr ")"
-    }
-  | S0Eint (int) => {
-      val () = prstr "S0Ei0nt("
-      val () = fprint_i0nt (out, int)
-      val () = prstr ")"
-    }
-  | S0Eimp _ => {
-      val () = prstr "S0Eimp("
-      val () = fprint_string (out, "...")
-      val () = prstr ")"
-    }
-  | S0Elam (_, s0topt, s0e) => {
-      val () = prstr "S0Elam("
-      val () = $UT.fprintopt<s0rt> (out, s0topt, fprint_s0rt)
-      val () = prstr "; "
-      val () = fprint_s0exp (out, s0e)
-      val () = prstr ")"
-    }
-  | S0Elist (s0es) => {
-      val () = prstr "S0Elist("
-      val () = $UT.fprintlst<s0exp> (out, s0es, ", ", fprint_s0exp)
-      val () = prstr ")"
-    }
-  | S0Elist2 (s0es1, s0es2) => {
-      val () = prstr "S0Elist2("
-      val () = $UT.fprintlst<s0exp> (out, s0es1, ", ", fprint_s0exp)
-      val () = prstr " | "
-      val () = $UT.fprintlst<s0exp> (out, s0es2, ", ", fprint_s0exp)
-      val () = prstr ")"
-    }
-  | S0Eopid (id) => {
-      val () = prstr "S0Eopid("
-      val () = fprint_symbol (out, id)
-      val () = prstr ")"
-    }
-  | S0Esqid (sq, id) => {
-      val () = prstr "S0Esqid("
-      val () = fprint_s0taq (out, sq)
-      val () = fprint_symbol (out, id)
-      val () = prstr ")"
-    }
-  | S0Etyrec (knd, npf, xs) => {
-      val () = prstr "S0Etyrec("
-      val () = fprint_int (out, knd)
-      val () = prstr "; "
-      val () = fprint_int (out, npf)
-      val () = prstr "; "
-      val () = $UT.fprintlst<labs0exp> (out, xs, ", ", fprint_labs0exp)
-      val () = prstr ")"
-    }
-  | S0Etyrec_ext (name, npf, xs) => {
-      val () = prstr "S0Etyrec_ext("
-      val () = fprint_string (out, name)
-      val () = prstr "; "
-      val () = fprint_int (out, npf)
-      val () = prstr "; "
-      val () = $UT.fprintlst<labs0exp> (out, xs, ", ", fprint_labs0exp)
-      val () = prstr ")"
-    }
-  | S0Etyarr (elt, dim) => {
-      val () = prstr "S0Etyarr("
-      val () = fprint_s0exp (out, elt)
-      val () = prstr "; "
-      val () = $UT.fprintlst<s0exp> (out, dim, ", ", fprint_s0exp)
-      val () = prstr ")"
-    }
-  | S0Etytup (knd, npf, xs) => {
-      val () = prstr "S0Etytup("
-      val () = fprint_int (out, knd)
-      val () = prstr "; "
-      val () = fprint_int (out, npf)
-      val () = prstr "; "
-      val () = $UT.fprintlst<s0exp> (out, xs, ", ", fprint_s0exp)
-      val () = prstr ")"
-    }
-  | S0Euni _ => {
-      val () = prstr "S0Euni("
-      val () = prstr "..."
-      val () = prstr ")"
-    }
-  | S0Eexi (knd, _) => {
-      val () = prstr "S0Eexi("
-      val () = fprint_int (out, knd)
-      val () = prstr "; "
-      val () = prstr "..."
-      val () = prstr ")"
-    }
-// (*
+//
+case+ x.s0exp_node of
+| S0Esqid (sq, id) => {
+    val () = prstr "S0Esqid("
+    val () = fprint_s0taq (out, sq)
+    val () = fprint_symbol (out, id)
+    val () = prstr ")"
+  }
+| S0Eopid (id) => {
+    val () = prstr "S0Eopid("
+    val () = fprint_symbol (out, id)
+    val () = prstr ")"
+  }
+| S0Eint (x) => {
+    val () = prstr "S0Ei0nt("
+    val () = fprint_i0nt (out, x)
+    val () = prstr ")"
+  }
+| S0Echar (x) => {
+    val () = prstr "S0Echar("
+    val () = fprint_c0har (out, x)
+    val () = prstr ")"
+  }
+| S0Eextype (name, s0es) => {
+    val () = prstr "S0Eextype("
+    val () = fprint_string (out, name)
+    val () = prstr "; "
+    val () = $UT.fprintlst<s0exp> (out, s0es, ", ", fprint_s0exp)
+    val () = prstr ")"
+  }
+| S0Eapp (s0e1, s0e2) => {
+    val () = prstr "S0Eapp("
+    val () = fprint_s0exp (out, s0e1)
+    val () = prstr "; "
+    val () = fprint_s0exp (out, s0e2)
+    val () = prstr ")"
+  }
+| S0Eimp _ => {
+    val () = prstr "S0Eimp("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+| S0Elam (_, s0topt, s0e) => {
+    val () = prstr "S0Elam("
+    val () = $UT.fprintopt<s0rt> (out, s0topt, fprint_s0rt)
+    val () = prstr "; "
+    val () = fprint_s0exp (out, s0e)
+    val () = prstr ")"
+  }
+| S0Elist (s0es) => {
+    val () = prstr "S0Elist("
+    val () = $UT.fprintlst<s0exp> (out, s0es, ", ", fprint_s0exp)
+    val () = prstr ")"
+  }
+| S0Elist2 (s0es1, s0es2) => {
+    val () = prstr "S0Elist2("
+    val () = $UT.fprintlst<s0exp> (out, s0es1, ", ", fprint_s0exp)
+    val () = prstr " | "
+    val () = $UT.fprintlst<s0exp> (out, s0es2, ", ", fprint_s0exp)
+    val () = prstr ")"
+  }
+| S0Etyrec (knd, npf, xs) => {
+    val () = prstr "S0Etyrec("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = $UT.fprintlst<labs0exp> (out, xs, ", ", fprint_labs0exp)
+    val () = prstr ")"
+  }
+| S0Etyrec_ext (name, npf, xs) => {
+    val () = prstr "S0Etyrec_ext("
+    val () = fprint_string (out, name)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = $UT.fprintlst<labs0exp> (out, xs, ", ", fprint_labs0exp)
+    val () = prstr ")"
+  }
+| S0Etyarr (elt, dim) => {
+    val () = prstr "S0Etyarr("
+    val () = fprint_s0exp (out, elt)
+    val () = prstr "; "
+    val () = $UT.fprintlst<s0exp> (out, dim, ", ", fprint_s0exp)
+    val () = prstr ")"
+  }
+| S0Etytup (knd, npf, xs) => {
+    val () = prstr "S0Etytup("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = $UT.fprintlst<s0exp> (out, xs, ", ", fprint_s0exp)
+    val () = prstr ")"
+  }
+| S0Euni _ => {
+    val () = prstr "S0Euni("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| S0Eexi (knd, _) => {
+    val () = prstr "S0Eexi("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| S0Eann (s0e1, s0t2) => {
+    val () = prstr "S0Eann("
+    val () = fprint_s0exp (out, s0e1)
+    val () = prstr "; "
+    val () = fprint_s0rt (out, s0t2)
+    val () = prstr ")"
+  }
+//
+(*
 //  | _ => prstr "S0E(...)"
-// *)
+*)
+//
 end // end of [fprint_s0exp]
+
+(* ****** ****** *)
+
+implement
+fprint_p0at (out, x) = let
+  macdef prstr (str) = fprint_string (out, ,(str))
+in
+//
+case+ x.p0at_node of
+| P0Tide (sym) => {
+    val () = prstr "P0Tide("
+    val () = fprint_symbol (out, sym)
+    val () = prstr ")"
+  }
+| P0Topid (sym) => {
+    val () = prstr "P0Topid("
+    val () = fprint_symbol (out, sym)
+    val () = prstr ")"
+  }
+| P0Tdqid (dq, sym) => {
+    val () = prstr "P0Tdqid("
+    val () = fprint_d0ynq (out, dq)
+    val () = fprint_symbol (out, sym)
+    val () = prstr ")"
+  }
+| P0Tref (sym) => {
+    val () = prstr "P0Tref("
+    val () = fprint_symbol (out, sym)
+    val () = prstr ")"
+  }
+//
+| P0Tint (x) => {
+    val () = prstr "P0Tint("
+    val () = fprint_i0nt (out, x)
+    val () = prstr ")"
+  }
+| P0Tchar (x) => {
+    val () = prstr "P0Tchar("
+    val () = fprint_c0har (out, x)
+    val () = prstr ")"
+  }
+| P0Tfloat (x) => {
+    val () = prstr "P0Tfloat("
+    val () = fprint_f0loat (out, x)
+    val () = prstr ")"
+  }
+| P0Tstring (x) => {
+    val () = prstr "P0Tstring("
+    val () = fprint_s0tring (out, x)
+    val () = prstr ")"
+  }
+//
+| P0Tapp (p0t1, p0t2) => {
+    val () = prstr "P0Tapp("
+    val () = fprint_p0at (out, p0t1)
+    val () = prstr "; "
+//    val () = fprint_p0at (out, p0t2)
+    val () = prstr ")"
+  }
+| P0Tlist (npf, p0ts) => {
+    val () = prstr "P0Tlist("
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = $UT.fprintlst (out, p0ts, ", ", fprint_p0at)
+    val () = prstr ")"
+  }
+//
+| P0Tlst (p0ts) => {
+    val () = prstr "P0Tlst("
+    val () = $UT.fprintlst (out, p0ts, ", ", fprint_p0at)
+    val () = prstr ")"
+  }
+(*
+//
+| P0Trec of (int (*recknd*), labp0atlst)
+| P0Ttup of (int (*knd*), int(*npf*), p0atlst)
+//
+| P0Tfree (p0t) => {
+    val () = prstr "P0Tfree("
+    val () = fprint_p0at (out, p0t)
+    val () = prstr ")"
+  }
+//
+| P0Texist of s0arglst
+| P0Tsvararg of s0vararg
+//
+  | P0Tas of (p0at(*id*), p0at(*p0t*))
+//
+*)
+| P0Tann (p0t, s0e) => {
+    val () = prstr "P0Tann("
+    val () = fprint_p0at (out, p0t)
+    val () = prstr "; "
+    val () = fprint_s0exp (out, s0e)
+    val () = prstr ")"
+  }
+| _ => prstr "P0T(...)"
+//
+end // end of [fprint_p0at]
 
 (* ****** ****** *)
 
@@ -426,147 +528,159 @@ implement
 fprint_d0ecl (out, x) = let
   macdef prstr (str) = fprint_string (out, ,(str))
 in
-  case+ x.d0ecl_node of
-  | D0Cfixity (fxty, ids) => {
-      val () = prstr "D0Cfixity("
-      val () = fprint_f0xty (out, fxty)
-      val () = prstr "; "
-      val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
-      val () = prstr ")"
-    }
-  | D0Cnonfix (ids) => {
-      val () = prstr "D0Cnonfix("
-      val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
-      val () = prstr ")"
-    }
-  | D0Cinclude (knd, name) => {
-      val () = prstr "D0Cinclude("
-      val () = fprint_int (out, knd)
-      val () = prstr "; "
-      val () = fprint_string (out, name)
-      val () = prstr ")"
-    }
-  | D0Csymintr (ids) => {
-      val () = prstr "D0Csymintr("
-      val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
-      val () = prstr ")"
-    }
-  | D0Ce0xpdef (id, def) => {
-      val () = prstr "D0Ce0xpdef("
-      val () = fprint_symbol (out, id)
-      val () = prstr ", "
-      val () = $UT.fprintopt<e0xp> (out, def, fprint_e0xp)
-      val () = prstr ")"
-    }
-  | D0Ce0xpact (knd, act) => {
-      val () = prstr "D0Ce0xpact("
-      val () = fprint_e0xpactkind (out, knd)
-      val () = prstr "; "
-      val () = fprint_e0xp (out, act)
-      val () = prstr ")"
-    }
-  | D0Cdatsrts xs => {
-      val () = prstr "D0Cdatsrts(\n"
-      val () = $UT.fprintlst<d0atsrtdec> (out, xs, "\n", fprint_d0atsrtdec)
-      val () = prstr "\n)"
-    }
-  | D0Csrtdefs xs => {
-      val () = prstr "D0Csrtdefs(\n"
-      val () = prstr "..."
-      val () = prstr "\n)"
-    }
-  | D0Cstacons (knd, xs) => {
-      val () = prstr "D0Cstacons(\n"
-      val () = fprint_int (out, knd)
-      val () = prstr "; "
-      val () = prstr "..."
-      val () = prstr "\n)"
-    }
-  | D0Cstacsts (xs) => {
-      val () = prstr "D0Cstacsts(\n"
-      val () = prstr "..."
-      val () = prstr "\n)"
-    }
-  | D0Cstavars (xs) => {
-      val () = prstr "D0Cstavars(\n"
-      val () = prstr "..."
-      val () = prstr "\n)"
-    }
-  | D0Csexpdefs (knd, xs) => {
-      val () = prstr "D0Csexpdefs(\n"
-      val () = fprint_int (out, knd)
-      val () = prstr "; "
-      val () = prstr "..."
-      val () = prstr "\n)"
-    }
-  | D0Csaspdec (x) => {
-      val () = prstr "D0Csaspdec(\n"
-      val () = prstr "..."
-      val () = prstr "\n)"
-    }
-  | D0Cexndecs (decs) => {
-      val () = prstr "D0Cexndecs(\n"
-      val () = prstr "..."
-      val () = prstr "\n)"
-    }
-  | D0Cdatdecs (knd, decs, defs) => {
-      val () = prstr "D0Cdatdecs(\n"
-      val () = fprint_int (out, knd)
-      val () = prstr "; "
-      val () = prstr "..."
-      val () = prstr "\n)"
-    }
-  | D0Cdcstdecs _ => {
-      val () = prstr "D0Cdcstdecs(\n"
-      val () = prstr "..."
-      val () = prstr "\n)"
-    }
-  | D0Cmacdefs _ => {
-      val () = prstr "D0Cmacdefs(\n"
-      val () = fprint_string (out, "...")
-      val () = prstr "\n)"
-    }
-  | D0Coverload (id, qid) => {
-      val () = prstr "D0Coverload(\n"
-      val () = fprint_i0de (out, id)
-      val () = prstr "; "
-      val () = fprint_dqi0de (out, qid)
-      val () = prstr "\n)"
-    }
-  | D0Cextcode _ => {
-      val () = prstr "D0Cextcode(\n"
-      val () = prstr "..."
-      val () = prstr "\n)"
-    }
-  | D0Cvaldecs _ => {
-      val () = prstr "D0Cvaldecs(\n"
-      val () = prstr "..."
-      val () = prstr "\n)"
-    }
-  | D0Cstaload (symopt, name) => {
-      val () = prstr "D0Cstaload("
-      val () = $UT.fprintopt<symbol> (out, symopt, fprint_symbol)
-      val () = prstr "; "
-      val () = fprint_string (out, name)
-      val () = prstr ")"
-    }
-  | D0Clocal _ => {
-      val () = prstr "D0Clocal(\n"
-      val () = prstr "..."
-      val () = prstr "\n)"
-    }
-  | D0Cguadecl _ => {
-      val () = prstr "D0Cguadecl(\n"
-      val () = prstr "..."
-      val () = prstr "\n)"
-    }
+//
+case+ x.d0ecl_node of
+| D0Cfixity (fxty, ids) => {
+    val () = prstr "D0Cfixity("
+    val () = fprint_f0xty (out, fxty)
+    val () = prstr "; "
+    val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
+    val () = prstr ")"
+  }
+| D0Cnonfix (ids) => {
+    val () = prstr "D0Cnonfix("
+    val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
+    val () = prstr ")"
+  }
+| D0Cinclude (knd, name) => {
+    val () = prstr "D0Cinclude("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  }
+| D0Csymintr (ids) => {
+    val () = prstr "D0Csymintr("
+    val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
+    val () = prstr ")"
+  }
+| D0Ce0xpdef (id, def) => {
+    val () = prstr "D0Ce0xpdef("
+    val () = fprint_symbol (out, id)
+    val () = prstr ", "
+    val () = $UT.fprintopt<e0xp> (out, def, fprint_e0xp)
+    val () = prstr ")"
+  }
+| D0Ce0xpact (knd, act) => {
+    val () = prstr "D0Ce0xpact("
+    val () = fprint_e0xpactkind (out, knd)
+    val () = prstr "; "
+    val () = fprint_e0xp (out, act)
+    val () = prstr ")"
+  }
+| D0Cdatsrts xs => {
+    val () = prstr "D0Cdatsrts(\n"
+    val () = $UT.fprintlst<d0atsrtdec> (out, xs, "\n", fprint_d0atsrtdec)
+    val () = prstr "\n)"
+  }
+| D0Csrtdefs xs => {
+    val () = prstr "D0Csrtdefs(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
+| D0Cstacons (knd, xs) => {
+    val () = prstr "D0Cstacons(\n"
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
+| D0Cstacsts (xs) => {
+    val () = prstr "D0Cstacsts(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
+| D0Cstavars (xs) => {
+    val () = prstr "D0Cstavars(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
+| D0Csexpdefs (knd, xs) => {
+    val () = prstr "D0Csexpdefs(\n"
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
+| D0Csaspdec (x) => {
+    val () = prstr "D0Csaspdec(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
+| D0Cexndecs (decs) => {
+    val () = prstr "D0Cexndecs(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
+| D0Cdatdecs (knd, decs, defs) => {
+    val () = prstr "D0Cdatdecs(\n"
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
+| D0Cdcstdecs _ => {
+    val () = prstr "D0Cdcstdecs(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
+| D0Cmacdefs _ => {
+    val () = prstr "D0Cmacdefs(\n"
+    val () = fprint_string (out, "...")
+    val () = prstr "\n)"
+  }
+| D0Coverload (id, qid) => {
+    val () = prstr "D0Coverload(\n"
+    val () = fprint_i0de (out, id)
+    val () = prstr "; "
+    val () = fprint_dqi0de (out, qid)
+    val () = prstr "\n)"
+  }
+| D0Cextype _ => {
+    val () = prstr "D0Cextype(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
+| D0Cextcode _ => {
+    val () = prstr "D0Cextcode(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
+| D0Cvaldecs _ => {
+    val () = prstr "D0Cvaldecs(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
+| D0Cvardecs _ => {
+    val () = prstr "D0Cvardecs(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
+| D0Cstaload (symopt, name) => {
+    val () = prstr "D0Cstaload("
+    val () = $UT.fprintopt<symbol> (out, symopt, fprint_symbol)
+    val () = prstr "; "
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  }
+| D0Clocal _ => {
+    val () = prstr "D0Clocal(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
+| D0Cguadecl _ => {
+    val () = prstr "D0Cguadecl(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
 (*
-  | _ => {
-      val () = prstr "D0C...("
-      val () = fprint_string (out, "...")
-      val () = prstr ")"
-    }
+| _ => {
+    val () = prstr "D0C...("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
 *)
+// end of [case]
 end // end of [fprint_d0ecl]
 
 implement

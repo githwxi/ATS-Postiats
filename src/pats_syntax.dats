@@ -1049,7 +1049,7 @@ implement
 p0at_ref (t_bang, id) = let
   val loc = t_bang.token_loc + id.i0de_loc
 in '{
-  p0at_loc= loc, p0at_node= P0Tref (id)
+  p0at_loc= loc, p0at_node= P0Tref (id.i0de_sym)
 } end // end of [p0at_ref]
 
 (* ****** ****** *)
@@ -1420,6 +1420,42 @@ in '{
 
 (* ****** ****** *)
 
+implement
+v0ardec_make (
+  tokopt, id, typ, varwth, ini
+) = let
+  var knd: int = 0
+  val loc_hd = (
+    case+ tokopt of
+    | Some tok => let
+        val () = knd := 1 in tok.token_loc
+      end
+    | None () => id.i0de_loc
+  ) : location
+  val loc_tl = (
+    case+ ini of
+    | Some d0e => d0e.d0exp_loc
+    | None () => (case+ varwth of
+      | Some id2 => id2.i0de_loc
+      | None () => (case+ typ of
+        | Some s0e => s0e.s0exp_loc
+        | None => id.i0de_loc
+      )
+    )
+  ) : location // end of [val]
+  val loc = loc_hd + loc_tl
+in '{
+  v0ardec_loc= loc
+, v0ardec_knd= knd
+, v0ardec_sym= id.i0de_sym
+, v0ardec_sym_loc= id.i0de_loc
+, v0ardec_typ= typ
+, v0ardec_wth= varwth
+, v0ardec_ini= ini
+} end // end of [v0ardec_make]
+
+(* ****** ****** *)
+
 local
 
 fun loop {n:nat} .<n>. (
@@ -1686,6 +1722,18 @@ in '{
 (* ****** ****** *)
 
 implement
+d0ecl_extype
+  (tok, name, s0e) = let
+  val- T_TYPEDEF (knd) = tok.token_node
+  val- T_STRING (name) = name.token_node
+  val loc = tok.token_loc + s0e.s0exp_loc
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cextype (knd, name, s0e)
+} end // end of [d0ecl_extcode]
+
+(* ****** ****** *)
+
+implement
 d0ecl_extcode
   (knd, tok) = let
   val- T_EXTCODE (pos, code) = tok.token_node
@@ -1707,6 +1755,20 @@ d0ecl_valdecs (
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cvaldecs (knd, isrec, xs)
 } end // end of [d0ecl_valdecs]
+
+(* ****** ****** *)
+
+implement
+d0ecl_vardecs
+  (tok, xs) = let
+  val loc = (case+
+    list_last_opt<v0ardec> (xs) of
+    | ~Some_vt x => tok.token_loc + x.v0ardec_loc
+    | ~None_vt _ => tok.token_loc
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cvardecs (xs)
+} end // end of [d0ecl_vardecs]
 
 (* ****** ****** *)
 

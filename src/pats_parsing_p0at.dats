@@ -207,7 +207,7 @@ case+ tok.token_node of
 | T_STRING _ => p0at_s0tring (tok)
 | _ when
     ptest_fun (
-    buf, p_dqi0de, ent
+    buf, p_d0ynq, ent
   ) => let
     val ent1 = synent_decode {d0ynq} (ent)
     val ent2 = p_pi0de (buf, bt, err) // err = err0
@@ -388,7 +388,7 @@ p0at
   | p0at0
   | p0at0 AS p0at
   | p0at0 COLON s0exp
-  | TILDE p0at  { $$ = p0at_free($1, $2) ; }  %prec PATFREE
+  | TILDE p0at
 *)
 implement
 p_p0at (buf, bt, err) = let
@@ -425,7 +425,7 @@ case+ tok.token_node of
           p0at_ann (p0t, ent3) else tokbuf_set_ntok_null (buf, n0)
         // end of [if]        
       end
-     | _ => p0t
+    | _ => p0t
   end
 | T_TILDE () => let
     val bt = 0

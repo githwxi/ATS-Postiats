@@ -896,49 +896,21 @@ p_s0quaseq_vt (buf, bt, err) =
 
 implement
 p_eqs0expopt_vt
-  (buf, bt, err) = let
-  val n0 = tokbuf_get_ntok (buf)
-  val tok = tokbuf_get_token (buf)
-  macdef incby1 () = tokbuf_incby1 (buf)
-in
-//
-case+ tok.token_node of
-| T_EQ () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = p_s0exp (buf, bt, err)
-  in
-    if synent_is_null (ent2) then let
-      val () = tokbuf_set_ntok (buf, n0) in None_vt ()
-    end else Some_vt (ent2) (* end of [if] *)
-  end
-| _ => None_vt ()
-//
-end // end of [p_eqs0expopt_vt]
-
-(* ****** ****** *)
+  (buf, bt, err) =
+  ptokentopt_fun (buf, is_EQ, p_s0exp)
+// end of [p_eqs0expopt_vt]
 
 implement
 p_ofs0expopt_vt
-  (buf, bt, err) = let
-  val n0 = tokbuf_get_ntok (buf)
-  val tok = tokbuf_get_token (buf)
-  macdef incby1 () = tokbuf_incby1 (buf)
-in
-//
-case+ tok.token_node of
-| T_OF () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = p_s0exp (buf, bt, err)
-  in
-    if synent_is_null (ent2) then let
-      val () = tokbuf_set_ntok (buf, n0) in None_vt ()
-    end else Some_vt (ent2) (* end of [if] *)
-  end
-| _ => None_vt ()
-//
-end // end of [p_ofs0expopt_vt]
+  (buf, bt, err) =
+  ptokentopt_fun (buf, is_OF, p_s0exp)
+// end of [p_ofs0expopt_vt]
+
+implement
+p_colons0expopt_vt
+  (buf, bt, err) =
+  ptokentopt_fun (buf, is_COLON, p_s0exp)
+// end of [p_colons0expopt_vt]
 
 (* ****** ****** *)
 
@@ -1214,10 +1186,7 @@ end // end of [p_d0cstarg]
 (* ****** ****** *)
 
 (*
-s0vararg
-  | DOTDOT
-  | DOTDOTDOT
-  | s0argseq
+s0vararg ::= DOTDOT | DOTDOTDOT | s0argseq
 *)
 implement
 p_s0vararg
@@ -1242,10 +1211,7 @@ case+ tok.token_node of
 end // end of [p_s0vararg]
 
 (*
-s0exparg
-  : DOTDOT
-  | DOTDOTDOT
-  | s0expseq
+s0exparg ::= DOTDOT | DOTDOTDOT | s0expseq
 *)
 implement
 p_s0exparg

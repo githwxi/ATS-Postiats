@@ -213,6 +213,11 @@ case+ x.parerr_node of
     val () = fprint_newline (out)
   }
 //
+| PE_BANG () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [BANG] is needed", @())
+    val () = fprint_newline (out)
+  }
 | PE_DOT () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [DOT] is needed", @())

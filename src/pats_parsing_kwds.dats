@@ -195,6 +195,14 @@ p_RBRACE (buf, bt, err) =
 (* ****** ****** *)
 
 implement
+is_BANG (x) = case+ x of
+  | T_BANG () => true | _ => false
+implement
+p_BANG (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_BANG, PE_BANG)
+// end of [p_BANG]
+
+implement
 is_DOT (x) = case+ x of
   | T_DOT () => true | _ => false
 implement

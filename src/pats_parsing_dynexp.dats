@@ -142,8 +142,8 @@ di0de
   | BANG
   | EQ
   | GT
-  | GTLT
   | LT
+  | GTLT
   | TILDE
 *)
 
@@ -175,6 +175,9 @@ case+ tok.token_node of
   end
 | T_BANG () => let
     val () = incby1 () in i0de_make_sym (loc, symbol_BANG)
+  end
+| T_EQ () => let
+    val () = incby1 () in i0de_make_sym (loc, symbol_EQ)
   end
 | T_TILDE () => let
     val () = incby1 () in i0de_make_sym (loc, symbol_TILDE)
@@ -313,6 +316,14 @@ in
 end (* end of [if] *)
 //
 end // end of [p_labd0exp]
+
+(* ****** ****** *)
+
+implement
+p_eqd0expopt_vt
+  (buf, bt, err) =
+  ptokentopt_fun (buf, is_EQ, p_d0exp)
+// end of [p_eqd0expopt_vt]
 
 (* ****** ****** *)
 
@@ -599,6 +610,9 @@ p_atmd0exp (
 
 (* ****** ****** *)
 
+(*
+s0expdarg ::= LBRACE s0exparg RBRACE
+*)
 fun
 p_s0expdarg (
   buf: &tokbuf, bt: int, err: &int

@@ -91,6 +91,24 @@ in
   end else false
 end // end of [ptoken_test_fun]
 
+implement
+ptokentopt_fun
+  (buf, f1, f2) = let
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+in
+  if f1 (tok.token_node) then let
+    val () = tokbuf_incby1 (buf)
+    var err: int = 0
+    val ent = f2 (buf, 0(*bt*), err)
+  in
+    if err = 0 then
+      Some_vt (ent) else let
+      val () = tokbuf_set_ntok (buf, n0) in None_vt ()
+    end (* end of [if] *)
+  end else None_vt ()
+end // end of [ptokentopt_fun]
+
 (* ****** ****** *)
 //
 // HX: looping if [f] is nullable!

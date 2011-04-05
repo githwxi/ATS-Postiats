@@ -34,6 +34,7 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload _(*anon*) = "prelude/DATS/option_vt.dats"
 
@@ -173,12 +174,8 @@ p_s0tacst (
     if err = err0 then
       pstar_fun {a0msrt} (buf, bt, p_a0msrt) else list_vt_nil
   ) : a0msrtlst_vt
-  val ent3 = (
-    if err = err0 then p_COLON (buf, bt, err) else synent_null ()
-  ) : token // end of [val]
-  val ent4 = (
-    if err = err0 then p_s0rt (buf, bt, err) else synent_null ()
-  ) : s0rt // end of [val]
+  val ent3 = pif_fun (buf, bt, err, p_COLON, err0)
+  val ent4 = pif_fun (buf, bt, err, p_s0rt, err0)
 //
 in
   if err = err0 then (
@@ -212,18 +209,12 @@ p_s0tavar (
 //
   val ent1 = p_si0de (buf, bt, err)
   val bt = 0
-  val ent2 = (
-    if err = err0 then p_COLON (buf, bt, err) else synent_null ()
-  ) : token // end of [val]
-  val ent3 = (
-    if err = err0 then p_s0rt (buf, bt, err) else synent_null ()
-  ) : s0rt // end of [val]
+  val ent2 = pif_fun (buf, bt, err, p_COLON, err0)
+  val ent3 = pif_fun (buf, bt, err, p_s0rt, err0)
 //
 in
-  if err = err0 then (
-    s0tavar_make (ent1, ent3)
-  ) else
-    tokbuf_set_ntok_null (buf, n0)
+  if err = err0 then
+    s0tavar_make (ent1, ent3) else tokbuf_set_ntok_null (buf, n0)
   // end of [if]
 end // end of [p_s0tavar]
 
@@ -377,17 +368,9 @@ p_d0cstdec (
       pstar_fun (buf, bt, p_d0cstarg) else list_vt_nil ()
     // end of [if]
   ) : List_vt (d0cstarg)
-  val ent3 = (
-    if err = err0 then p_colonwith (buf, bt, err) else None ()
-  ) : e0fftaglstopt
-  val ent4 = (
-    if err = err0 then p_s0exp (buf, bt, err) else synent_null ()
-  ) : s0exp // end of [val]
-  val ent5 = (
-    if err = err0 then
-      p_extnamopt (buf, bt, err) else synent_null ()
-    // end of [if]
-  ) : Stropt // end of [val]
+  val ent3 = pif_fun (buf, bt, err, p_colonwith, err0)
+  val ent4 = pif_fun (buf, bt, err, p_s0exp, err0)
+  val ent5 = pif_fun (buf, bt, err, p_extnamopt, err0)
 in
   if err = err0 then
     d0cstdec_make (ent1, (l2l)ent2, ent3, ent4, ent5)
@@ -420,12 +403,8 @@ p_m0acdef (
       pstar_fun (buf, bt, p_m0acarg) else list_vt_nil
     // end of [if]
   ) : List_vt (m0acarg)
-  val ent3 = (
-    if err = err0 then p_EQ (buf, bt, err) else synent_null ()
-  ) : token // end of [val]
-  val ent4 = (
-    if err = err0 then p_d0exp (buf, bt, err) else synent_null ()
-  ) : d0exp // end of [val]
+  val ent3 = pif_fun (buf, bt, err, p_EQ, err0)
+  val ent4 = pif_fun (buf, bt, err, p_d0exp, err0)
 in
   if err = err0 then
     m0acdef_make (ent1, (l2l)ent2, ent4)
@@ -436,6 +415,9 @@ end // end of [p_m0acdef]
 
 (* ****** ****** *)
 
+(*
+stai0de ::= IDENT_alp
+*)
 implement
 p_stai0de
   (buf, bt, err) = let
@@ -460,7 +442,7 @@ end // end of [p_stai0de]
 (* ****** ****** *)
 
 (*
-staload ::= LITERAL_string | stai0de EQ LITERAL_string
+staload ::= s0tring | stai0de EQ s0tring
 *)
 fun
 p_staload_tok (
@@ -848,7 +830,7 @@ end // end of [p_d0eclseq_fun]
 srpthenopt ::= { SRPTHEN }
 *)
 fun p_srpthenopt (
-  buf: &tokbuf, bt: int
+  buf: &tokbuf, bt: int, err: &int
 ) : token = tok where {
   var err: int = 0
   val tok = p_SRPTHEN (buf, bt, err)
@@ -873,9 +855,7 @@ fun guad0ecl_fun (
 //
   val ent1 = p_e0xp (buf, bt, err)
   val bt = 0
-  val _(*ent2*) = (
-    if err = err0 then p_srpthenopt (buf, bt) else synent_null ()
-  ) : token // end of [val]
+  val _(*ent2*) = pif_fun (buf, bt, err, p_srpthenopt, err0)
   val ent3 = (
     if err = err0 then p_d0eclseq_fun (buf, bt, f) else list_vt_nil ()
   ) : List_vt (d0ecl)
@@ -937,7 +917,7 @@ end // end of [guad0ecl_fun]
 (*
 d0ecl_sta
   | d0ecl
-  | FUN(knd) q0margseq d0cstdecseq
+  | dcstkind q0margseq d0cstdecseq
   | LITERAL_extcode
   | SRPINCLUDE LITERAL_string
   | LOCAL d0eclseq_sta IN d0eclseq_sta END
@@ -962,11 +942,12 @@ case+ tok.token_node of
     buf, p_dcstkind, ent
   ) => let
     val bt = 0
+    val ent1 = synent_decode {token} (ent)
     val ent2 = pstar_fun {q0marg} (buf, bt, p_q0marg)
     val ent3 = p_d0cstdecseq (buf, bt, err)
   in
     if err = err0 then
-      d0ecl_dcstdecs (tok, (l2l)ent2, ent3)
+      d0ecl_dcstdecs (ent1, (l2l)ent2, ent3)
     else let
       val () = list_vt_free (ent2) in synent_null ()
     end // end of [if]
@@ -987,16 +968,12 @@ case+ tok.token_node of
     val bt = 0
     val () = incby1 ()
     val ent2 = p_d0eclseq_fun {d0ecl} (buf, bt, p_d0ecl_sta)
-    val ent3 = (
-      if err = err0 then p_IN (buf, bt, err) else synent_null ()
-    ) : token // end of [val]
+    val ent3 = pif_fun (buf, bt, err, p_IN, err0)
     val ent4 = (
       if err = err0 then
         p_d0eclseq_fun (buf, bt, p_d0ecl_sta) else list_vt_nil ()
     ) : d0eclist_vt // end of [val]
-    val ent5 = (
-      if err = err0 then p_END (buf, bt, err) else synent_null ()
-    ) : token // end of [val]
+    val ent5 = pif_fun (buf, bt, err, p_END, err0)
   in
     if err = err0 then
       d0ecl_local (tok, (l2l)ent2, (l2l)ent4, ent5)
@@ -1033,30 +1010,71 @@ p_d0ecl_sta
 (* ****** ****** *)
 
 (*
-v0aldec ::= p0at EQ d0exp witht0ypeopt
+v0aldec ::= p0at EQ d0exp witht0ype
 *)
 fun p_v0aldec (
   buf: &tokbuf, bt: int, err: &int
 ) : v0aldec = let
   val err0 = err
-  val ~SYNENT3 (ent1, ent2, ent3) =
-    pseq3_fun {p0at,token,d0exp} (buf, bt, err, p_p0at, p_EQ, p_d0exp)
-  // end of [val]
+  val n0 = tokbuf_get_ntok (buf)
+  val ent1 = p_p0at (buf, bt, err)
+  val ent2 = pif_fun (buf, bt, err, p_EQ, err0)
+  val ent3 = pif_fun (buf, bt, err, p_d0exp, err0)
+  val ent4 = pif_fun (buf, bt, err, p_witht0ype, err0)
 in
-  if err = err0 then let
-    val ent4 =
-      p_witht0ype (buf, bt, err) in v0aldec_make (ent1, ent3, ent4)
-  end else synent_null ()
-end // end of [p0valdec]
+  if err = err0 then
+    v0aldec_make (ent1, ent3, ent4) else tokbuf_set_ntok_null (buf, n0)
+  // end of [if]
+end // end of [p_v0aldec]
+
+(* ****** ****** *)
+
+(*
+v0ardec ::= {BANG} pi0de {COLON s0exp} {WITH pi0de} {EQ d0exp}
+*)
+fun p_v0ardec (
+  buf: &tokbuf, bt: int, err: &int
+) : v0ardec = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val ref = popt_fun {token} (buf, bt, p_BANG)
+  val pid = p_pi0de (buf, bt, err)
+  val ann = (
+    if err = err0 then
+      p_colons0expopt_vt (buf, bt, err) else None_vt ()
+    // end of [if]
+  ) : s0expopt_vt
+  val varwth = (
+    if err = err0 then
+      ptokentopt_fun (buf, is_WITH, p_pi0de) else None_vt ()
+    // end  of [if]
+  ) : Option_vt (i0de)
+  val def = (
+    if err = err0 then p_eqd0expopt_vt (buf, bt, err) else None_vt ()
+  ) : d0expopt_vt
+in
+  if err = err0 then
+    v0ardec_make ((t2t)ref, pid, (t2t)ann, (t2t)varwth, (t2t)def)
+  else let
+    val () = option_vt_free (ref)
+    val () = option_vt_free (ann)
+    val () = option_vt_free (varwth)
+    val () = option_vt_free (def)
+  in
+    tokbuf_set_ntok_null (buf, n0)
+  end (* end of [if] *)
+end // end of [p_v0ardec]
 
 (* ****** ****** *)
 
 (*
 d0ec_dyn
   | d0ec
-  | EXTERN d0cstdecseq
-  | EXTERN TYPEDEF LITERAL_string EQ s0exp
+  | EXTERN dcstkind q0margseq d0cstdecseq
+  | EXTERN TYPEDEF s0tring EQ s0exp
+/*
   | EXTERN VAL LITERAL_string EQ d0exp
+*/
   | valkind {REC} v0aldecseq
 /*
   | VAL PAR v0aldecseq
@@ -1096,6 +1114,53 @@ case+ tok.token_node of
       val () = list_vt_free (ent3) in synent_null ()
     end (* end of [if] *)
   end
+| T_VAR () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = pstar_fun1_AND {v0ardec} (buf, bt, err, p_v0ardec)
+  in
+    if err = err0 then
+      d0ecl_vardecs (tok, (l2l)ent2)
+    else let
+      val () = list_vt_free (ent2) in synent_null ()
+    end (* end of [if] *)
+  end
+| T_EXTERN () => let
+    val bt = 0
+    val () = incby1 ()
+    val tok2 = tokbuf_get_token (buf)
+  in
+    case+ tok2.token_node of
+//
+    | _ when
+        ptest_fun (
+        buf, p_dcstkind, ent
+      ) => let
+        val ent1 = synent_decode {token} (ent)
+        val ent2 = pstar_fun {q0marg} (buf, bt, p_q0marg)
+        val ent3 = p_d0cstdecseq (buf, bt, err)
+      in
+        if err = err0 then
+          d0ecl_dcstdecs (ent1, (l2l)ent2, ent3)
+        else let
+          val () = list_vt_free (ent2) in synent_null ()
+        end // end of [if]
+      end
+//
+    | T_TYPEDEF _ => let
+        val () = incby1 ()
+        val ~SYNENT3 (ent1, ent2, ent3) =
+          pseq3_fun {s0tring,token,s0exp} (buf, bt, err, p_s0tring, p_EQ, p_s0exp)
+        // end of [val]
+      in
+        if err = err0 then d0ecl_extype (tok2, ent1, ent3) else synent_null ()
+      end
+//
+    | _ => let
+        val () = err := err + 1 in synent_null ()
+      end
+//
+  end // end of [T_EXTERN]
 | T_EXTCODE _ => let
     val () = incby1 () in d0ecl_extcode (1(*dyn*), tok)
   end
@@ -1117,9 +1182,7 @@ case+ tok.token_node of
       if err = err0 then
         p_d0eclseq_fun (buf, bt, p_d0ecl_dyn) else list_vt_nil ()
     ) : d0eclist_vt
-    val ent5 = (
-      if err = err0 then p_END (buf, bt, err) else synent_null ()
-    ) : token // end of [val]
+    val ent5 = pif_fun (buf, bt, err, p_END, err0)
   in
     if err = err0 then
       d0ecl_local (tok, (l2l)ent2, (l2l)ent4, ent5)
