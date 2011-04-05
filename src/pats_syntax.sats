@@ -43,6 +43,7 @@ LOC = "pats_location.sats"
 typedef location = $LOC.location
 staload LEX = "pats_lexing.sats"
 typedef token = $LEX.token
+typedef funkind = $LEX.funkind
 typedef valkind = $LEX.valkind
 staload SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
@@ -993,6 +994,7 @@ d0ecl_node =
 //
   | D0Cvaldecs of // value declarations
       (valkind, bool(*isrec*), v0aldeclst)
+  | D0Cfundecs of (funkind, q0marglst, f0undeclst)
   | D0Cvardecs of v0ardeclst // variable declarations
 //
   | D0Cstaload of (symbolopt, string)
@@ -1095,6 +1097,21 @@ and v0aldeclst: type = List v0aldec
 
 (* ****** ****** *)
 
+and f0undec: type = '{
+  f0undec_loc= location
+, f0undec_sym= symbol
+, f0undec_sym_loc= location
+, f0undec_arg= f0arglst
+, f0undec_eff= e0fftaglstopt
+, f0undec_res= s0expopt
+, f0undec_def= d0exp
+, f0undec_ann= witht0ype
+} // end of [f0undec]
+
+and f0undeclst = List f0undec
+
+(* ****** ****** *)
+
 and v0ardec = '{
   v0ardec_loc= location
 , v0ardec_knd= int (* BANG: knd = 1 *)
@@ -1123,7 +1140,7 @@ fun d0exp_FILENAME (tok: token): d0exp
 fun d0exp_LOCATION (tok: token): d0exp
 
 fun d0exp_extval (
-  t_beg: token, type: s0exp, code: token, t_end: token
+  t_beg: token, _type: s0exp, _code: token, t_end: token
 ) : d0exp // end of [d0exp_extval]
 
 fun d0exp_loopexn (knd: int, tok: token): d0exp
@@ -1187,6 +1204,16 @@ fun v0aldec_make
 
 (* ****** ****** *)
 
+fun f0undec_make (
+  fid: i0de
+, arg: f0arglst
+, eff: e0fftaglstopt, res: s0expopt
+, def: d0exp
+, ann: witht0ype
+) : f0undec // end of [f0undec_make]
+  
+(* ****** ****** *)
+
 fun v0ardec_make (
   t_bang: Option (token)
 , pid: i0de
@@ -1239,8 +1266,12 @@ fun d0ecl_extype
   (tok: token, name: s0tring, s0e: s0exp): d0ecl
 fun d0ecl_extcode (knd: int, tok: token): d0ecl
 //
-fun d0ecl_valdecs
-  (knd: valkind, isrec: bool, tok: token, ds: v0aldeclst): d0ecl
+fun d0ecl_valdecs (
+  knd: valkind, isrec: bool, tok: token, ds: v0aldeclst
+) : d0ecl // end of [d0ecl_valdecs]
+fun d0ecl_fundecs (
+  knd: funkind, tok: token, arg: q0marglst, ds: f0undeclst
+) : d0ecl // end of [d0ecl_fundecs]
 fun d0ecl_vardecs (tok: token, ds: v0ardeclst): d0ecl
 //
 fun d0ecl_staload_none (tok: token, tok2: token): d0ecl

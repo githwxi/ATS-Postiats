@@ -651,6 +651,11 @@ case+ x.d0ecl_node of
     val () = prstr "..."
     val () = prstr "\n)"
   }
+| D0Cfundecs _ => {
+    val () = prstr "D0Cfundecs(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
 | D0Cvardecs _ => {
     val () = prstr "D0Cvardecs(\n"
     val () = prstr "..."

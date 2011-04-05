@@ -1421,6 +1421,27 @@ in '{
 (* ****** ****** *)
 
 implement
+f0undec_make (
+  fid, arg, eff, res, def, ann
+) = let
+  val loc = (case+ ann of
+    | WITHT0YPEnone () => fid.i0de_loc + def.d0exp_loc
+    | WITHT0YPEsome (knd, s0e) => fid.i0de_loc + s0e.s0exp_loc
+  ) : location // end of [val]
+in '{
+  f0undec_loc= loc
+, f0undec_sym= fid.i0de_sym
+, f0undec_sym_loc= fid.i0de_loc
+, f0undec_arg= arg
+, f0undec_eff= eff
+, f0undec_res= res
+, f0undec_def= def
+, f0undec_ann= ann
+} end // end of [f0undec_make]
+
+(* ****** ****** *)
+
+implement
 v0ardec_make (
   tokopt, id, typ, varwth, ini
 ) = let
@@ -1755,6 +1776,21 @@ d0ecl_valdecs (
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cvaldecs (knd, isrec, xs)
 } end // end of [d0ecl_valdecs]
+
+(* ****** ****** *)
+
+implement
+d0ecl_fundecs (
+  knd, tok, qua, xs
+) = let
+  val loc = (case+
+    list_last_opt<f0undec> (xs) of
+    | ~Some_vt x => tok.token_loc + x.f0undec_loc
+    | ~None_vt _ => tok.token_loc
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cfundecs (knd, qua, xs)
+} end // end of [d0ecl_fundecs]
 
 (* ****** ****** *)
 

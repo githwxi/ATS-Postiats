@@ -1030,6 +1030,48 @@ end // end of [p_v0aldec]
 (* ****** ****** *)
 
 (*
+f0undec ::= di0de f0argseq {colonwith s0exp} EQ d0exp witht0ype
+*)
+fun p_f0undec (
+  buf: &tokbuf, bt: int, err: &int
+) : f0undec = let
+  val err0 = err
+  var ent: synent?
+in
+//
+case+ 0 of
+| _ when
+    ptest_fun (
+    buf, p_di0de, ent
+  ) => let
+    val ent1 = synent_decode {i0de} (ent)
+    val bt = 0
+    val ent2 = pstar_fun {f0arg} (buf, bt, p_f0arg)
+    val ~SYNENT2 (ent3, ent4) =
+      pseq2_fun {e0fftaglstopt,s0exp} (buf, 1(*bt*), err, p_colonwith, p_s0exp)
+    // end of [val]
+    val ent3 = (if (err = err0) then ent3 else None ()): e0fftaglstopt
+    val ent4 = (if (err = err0) then Some (ent4) else None ()): s0expopt
+    val () = if err > err0 then (err := err0) // anntationless
+    val ~SYNENT3 (ent5, ent6, ent7) =
+      pseq3_fun {token,d0exp,witht0ype} (buf, bt, err, p_EQ, p_d0exp, p_witht0ype)
+    // end of [val]
+  in
+    if err = err0 then
+      f0undec_make (ent1, (l2l)ent2, ent3, ent4, ent6, ent7)
+    else let
+      val () = list_vt_free (ent2) in synent_null ()
+    end (* end of [if] *)
+  end
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end
+//
+end // end of [p_f0undec]
+
+(* ****** ****** *)
+
+(*
 v0ardec ::= {BANG} pi0de {COLON s0exp} {WITH pi0de} {EQ d0exp}
 *)
 fun p_v0ardec (
@@ -1076,6 +1118,7 @@ d0ec_dyn
   | EXTERN VAL LITERAL_string EQ d0exp
 */
   | valkind {REC} v0aldecseq
+  | funkind q0margseq f0undecseq
 /*
   | VAL PAR v0aldecseq
 */
@@ -1114,6 +1157,21 @@ case+ tok.token_node of
       val () = list_vt_free (ent3) in synent_null ()
     end (* end of [if] *)
   end
+| T_FUN (knd) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = pstar_fun {q0marg} (buf, bt, p_q0marg)
+    val ent3 = pstar_fun1_AND {f0undec} (buf, bt, err, p_f0undec)
+  in
+    if err = err0 then
+      d0ecl_fundecs (knd, tok, (l2l)ent2, (l2l)ent3)
+    else let
+      val () = list_vt_free (ent2)
+      val () = list_vt_free (ent3)
+    in
+      synent_null ()
+    end (* end of [if] *)
+  end    
 | T_VAR () => let
     val bt = 0
     val () = incby1 ()
