@@ -246,7 +246,7 @@ p_colons0rtopt_vt
 (* ****** ****** *)
 
 (*
-s0arg ::= si0de {COLON s0rt}
+s0arg ::= si0de [COLON s0rt]
 *)
 
 implement
@@ -403,7 +403,7 @@ end // end of [p_a0msrt]
 (* ****** ****** *)
 
 (*
-d0atsrtcon ::= s0ide {OF s0ort}
+d0atsrtcon ::= s0ide [OF s0ort]
 *)
 
 fun

@@ -1112,8 +1112,8 @@ end // end of [p_v0ardec]
 (*
 d0ec_dyn
   | d0ec
-  | EXTERN dcstkind q0margseq d0cstdecseq
   | EXTERN TYPEDEF s0tring EQ s0exp
+  | EXTERN dcstkind q0margseq d0cstdecseq
 /*
   | EXTERN VAL LITERAL_string EQ d0exp
 */
@@ -1239,6 +1239,7 @@ case+ tok.token_node of
     val ent4 = (
       if err = err0 then
         p_d0eclseq_fun (buf, bt, p_d0ecl_dyn) else list_vt_nil ()
+      // end of [if]
     ) : d0eclist_vt
     val ent5 = pif_fun (buf, bt, err, p_END, err0)
   in

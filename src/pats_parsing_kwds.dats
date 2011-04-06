@@ -62,6 +62,27 @@ implement
 p_AND_test (buf) = ptoken_test_fun (buf, is_AND)
 
 implement
+is_END (x) = case+ x of
+  | T_END () => true | _ => false
+implement
+p_END (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_END, PE_END)
+
+implement
+is_THEN (x) = case+ x of
+  | T_THEN () => true | _ => false
+implement
+p_THEN (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_THEN, PE_THEN)
+
+implement
+is_ELSE (x) = case+ x of
+  | T_ELSE () => true | _ => false
+implement
+p_ELSE (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_ELSE, PE_ELSE)
+
+implement
 is_OF (x) = case+ x of
   | T_OF () => true | _ => false
 implement
@@ -74,13 +95,6 @@ is_IN (x) = case+ x of
 implement
 p_IN (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_IN, PE_IN)
-
-implement
-is_END (x) = case+ x of
-  | T_END () => true | _ => false
-implement
-p_END (buf, bt, err) =
-  ptoken_fun (buf, bt, err, is_END, PE_END)
 
 implement
 is_REC (x) = case+ x of

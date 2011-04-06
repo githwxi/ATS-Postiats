@@ -299,10 +299,9 @@ p_labs0exp (
 ) = let
   val err0 = err
   val tok = tokbuf_get_token (buf)
-//
   val+ ~SYNENT3 (ent1, ent2, ent3) =
     pseq3_fun {l0ab,token,s0exp} (buf, bt, err, p_l0ab, p_EQ, p_s0exp)
-//
+  // end of [val]
 in
 //
 if (err = err0) then
@@ -352,14 +351,13 @@ atms0exp
   | sqi0de
   | OP si0de
 //
-  | LPAREN s0expseq RPAREN
-  | LPAREN s0expseq BAR s0expseq RPAREN
+  | LPAREN s0expseq [BAR s0expseq] RPAREN
 //
-  | ATLPAREN s0expseq {BAR s0expseq} RPAREN // knd = 0
-  | QUOTELPAREN s0expseq {BAR s0expseq} RPAREN // knd = 1
+  | ATLPAREN s0expseq [BAR s0expseq] RPAREN // knd = 0
+  | QUOTELPAREN s0expseq [BAR s0expseq] RPAREN // knd = 1
 //
-  | ATLBRACE labs0expseq {BAR labs0expseq} RBRACE // knd = 0
-  | QUOTELBRACE labs0expseq {BAR labs0expseq} RBRACE // knd = 1
+  | ATLBRACE labs0expseq [BAR labs0expseq] RBRACE // knd = 0
+  | QUOTELBRACE labs0expseq [BAR labs0expseq] RBRACE // knd = 1
 //
   | ATLBRACKET s0exp RBRACKET s0arrind // for instance: @[a][n]
 //
@@ -633,7 +631,7 @@ end // end of [p_apps0exp]
 (* ****** ****** *)
 
 (*
-exts0exp := DLREXTYPE LITERAL_string {atms0exp}
+exts0exp := DLREXTYPE LITERAL_string {atms0exp}*
 *)
 
 fun
@@ -680,10 +678,9 @@ end // end of [p_exts0exp]
 (* ****** ****** *)
 
 (*
-s0exp
-  : apps0exp
-  | exts0exp
-  | s0exp COLON s0rt
+s0exp0 ::= apps0exp | exts0exp
+s0exp ::=
+  | s0exp0 [COLON s0rt]
   | LAM s0margseq colons0rtopt EQGT s0exp // COLON > LAM
 *)
 

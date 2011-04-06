@@ -53,9 +53,7 @@ staload "pats_parsing.sats"
 (* ****** ****** *)
 
 (*
-e0xpseq ::=
-  | /*(empty)*/ | e0xp {COMMA e0xpseq}
-; /* e0xpseq */
+e0xpseq ::= /*(empty)*/ | e0xp {COMMA e0xpseq}*
 *)
 
 fun

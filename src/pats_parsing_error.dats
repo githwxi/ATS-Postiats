@@ -135,6 +135,21 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [AND] is needed", @())
     val () = fprint_newline (out)
   }
+| PE_END () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [END] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_THEN () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [THEN] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_ELSE () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [ELSE] is needed", @())
+    val () = fprint_newline (out)
+  }
 | PE_OF () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [OF] is needed", @())
@@ -143,11 +158,6 @@ case+ x.parerr_node of
 | PE_IN () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [IN] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_END () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [END] is needed", @())
     val () = fprint_newline (out)
   }
 | PE_REC () => {

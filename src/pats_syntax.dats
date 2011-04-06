@@ -1186,6 +1186,63 @@ f0arg_met_nil (tok) = '{
 } // end of [f0arg_met_nil]
 
 (* ****** ****** *)
+
+implement
+i0nvarg_make (id, opt) = let
+  val loc = (case+ opt of
+    | Some x => id.i0de_loc + x.s0exp_loc
+    | None _ => id.i0de_loc
+  ) : location // end of [val]
+in '{
+  i0nvarg_loc= loc, i0nvarg_sym= id.i0de_sym, i0nvarg_typ= opt
+} end // end of [i0nvarg_make]
+
+(* ****** ****** *)
+
+implement
+i0nvresstate_make_none (loc) = '{
+  i0nvresstate_loc= loc
+, i0nvresstate_qua= None (), i0nvresstate_arg= list_nil ()
+} // end of [i0nvresstate_make_none]
+
+implement
+i0nvresstate_make_some
+  (t_beg, qua, arg, t_end) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  i0nvresstate_loc= loc
+, i0nvresstate_qua= qua, i0nvresstate_arg= arg
+} end // end of [i0nvresstate_some]
+
+(* ****** ****** *)
+
+implement
+ifhead_make_some
+  (t_if, inv) = '{
+  ifhead_tok= t_if, ifhead_inv= inv
+} // end of [ifhead_make_some]
+
+implement
+ifhead_make_none (t_if) = let
+  val inv = i0nvresstate_make_none (t_if.token_loc)
+in '{
+  ifhead_tok= t_if, ifhead_inv= inv
+} end // end of [ifhead_make_none]
+
+implement
+sifhead_make_some
+  (t_sif, inv) = '{
+  sifhead_tok= t_sif, sifhead_inv= inv
+} // end of [sifhead_make_some]
+
+implement
+sifhead_make_none (t_sif) = let
+  val inv = i0nvresstate_make_none (t_sif.token_loc)
+in '{
+  sifhead_tok= t_sif, sifhead_inv= inv
+} end // end of [sifhead_make_none]
+
+(* ****** ****** *)
 //
 // HX: dynamic expressions
 //
@@ -1287,12 +1344,29 @@ in '{
 (* ****** ****** *)
 
 implement
-d0exp_sexparg
-  (t_beg, s0a, t_end) = let
-  val loc = t_beg.token_loc + t_end.token_loc
+d0exp_ifhead (
+  hd, _cond, _then, _else
+) = let
+  val t_if = hd.ifhead_tok
+  val loc = (case+ _else of
+    | Some x => t_if.token_loc + x.d0exp_loc
+    | None _ => t_if.token_loc + _then.d0exp_loc
+  ) : location // end of [val]
 in '{
-  d0exp_loc= loc, d0exp_node= D0Esexparg s0a
-} end // end of [d0exp_sexparg]
+  d0exp_loc= loc
+, d0exp_node= D0Eifhead (hd, _cond, _then, _else)
+} end // end of [d0exp_ifhead]
+
+implement
+d0exp_sifhead (
+  hd, _cond, _then, _else
+) = let
+  val t_sif = hd.sifhead_tok
+  val loc = t_sif.token_loc + _else.d0exp_loc
+in '{
+  d0exp_loc= loc
+, d0exp_node= D0Esifhead (hd, _cond, _then, _else)
+} end // end of [d0exp_sifhead]
 
 (* ****** ****** *)
 
@@ -1362,6 +1436,16 @@ d0exp_delay (knd, tok) = '{
 (* ****** ****** *)
 
 implement
+d0exp_sexparg
+  (t_beg, s0a, t_end) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Esexparg s0a
+} end // end of [d0exp_sexparg]
+
+(* ****** ****** *)
+
+implement
 d0exp_let_seq (
   t_let, d0cs, t_in, d0es, t_end
 ) = let
@@ -1378,6 +1462,16 @@ d0exp_declseq
 in '{
   d0exp_loc= loc, d0exp_node= D0Edeclseq (xs)
 } end // end of [d0exp_declseq]
+
+(* ****** ****** *)
+
+implement
+d0exp_where
+  (d0e, d0cs, t_end) = let
+  val loc = d0e.d0exp_loc + t_end.token_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Ewhere (d0e, d0cs)
+} end // end of [d0exp_where]
 
 (* ****** ****** *)
 

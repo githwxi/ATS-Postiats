@@ -541,6 +541,7 @@ and s0qua = '{
 }
 and s0qualst = List (s0qua)
 and s0qualst_vt = List_vt (s0qua)
+and s0qualstopt = Option (s0qualst)
 
 datatype
 witht0ype =
@@ -963,6 +964,31 @@ fun f0arg_met_nil (tok: token): f0arg
 
 (* ****** ****** *)
 
+typedef
+i0nvarg = '{
+  i0nvarg_loc= location
+, i0nvarg_sym= symbol
+, i0nvarg_typ= s0expopt
+} // end of [i0nvarg]
+
+typedef i0nvarglst = List i0nvarg
+
+fun i0nvarg_make (id: i0de, opt: s0expopt): i0nvarg
+
+typedef
+i0nvresstate = '{
+  i0nvresstate_loc= location
+, i0nvresstate_qua= s0qualstopt
+, i0nvresstate_arg= i0nvarglst
+} // end of [i0nvresstate]
+
+fun i0nvresstate_make_none (loc: location): i0nvresstate
+fun i0nvresstate_make_some (
+  t_beg: token, qua: s0qualstopt, arg: i0nvarglst, t_end: token
+) : i0nvresstate // end of [i0nvresstate_make_some]
+
+(* ****** ****** *)
+
 datatype
 d0ecl_node =
   | D0Cfixity of (f0xty, i0delst)
@@ -1027,7 +1053,9 @@ and d0exp_node =
   | D0Eapp of (d0exp, d0exp) // functional application
 //
   | D0Elist of (int(*npf*), d0explst)
-  | D0Esexparg of s0exparg // static multi-argument
+//
+  | D0Eifhead of (ifhead, d0exp, d0exp, d0expopt)
+  | D0Esifhead of (sifhead, s0exp, d0exp, d0exp) // HX: no dangling else-branch
 //
   | D0Eseq of d0explst // dynamic sequence-expression
   | D0Etup of (int(*knd*), int(*npf*), d0explst)
@@ -1038,9 +1066,12 @@ and d0exp_node =
   | D0Earrsize of (s0expopt (*elt*), d0exp (*int*)) // arraysize expression
 //
   | D0Edelay of int(*knd*) // $delay and $ldelay
+  | D0Esexparg of s0exparg // static multi-argument
 //
   | D0Elet of (d0eclist, d0exp) // dynamic let-expression
   | D0Edeclseq of d0eclist // = let [d0eclist] in (*nothing*) end
+//
+  | D0Ewhere of (d0exp, d0eclist)
 //
   | D0Eann of (d0exp, s0exp) // ascribed dynamic expressions
 // end of [d0exp_node]
@@ -1072,6 +1103,16 @@ and d0expopt_vt : viewtype = Option_vt (d0exp)
 
 and labd0exp = l0abeled (d0exp)
 and labd0explst = List labd0exp
+
+(* ****** ****** *)
+
+and ifhead: type = '{
+  ifhead_tok= token, ifhead_inv= i0nvresstate
+} // end of [ifhead]
+
+and sifhead: type = '{
+  sifhead_tok= token, sifhead_inv= i0nvresstate
+} // end of [sifhead]
 
 (* ****** ****** *)
 
@@ -1151,9 +1192,12 @@ fun d0exp_list (
   t_beg: token, npf: int, xs: d0explst, t_end: token
 ) : d0exp // end of [d0exp_list]
 
-fun d0exp_sexparg
-  (t_beg: token, s0a: s0exparg, t_end: token): d0exp
-// end of [d0exp_sexparg]
+fun d0exp_ifhead (
+  hd: ifhead, _cond: d0exp, _then: d0exp, _else: d0expopt
+) : d0exp // end of [d0exp_ifhead]
+fun d0exp_sifhead (
+  hd: sifhead, _cond: s0exp, _then: d0exp, _else: d0exp
+) : d0exp // end of [d0exp_sifhead]
 
 fun d0exp_seq
   (t_beg: token, xs: d0explst, t_end: token): d0exp
@@ -1176,6 +1220,10 @@ fun d0exp_arrsize (
 
 fun d0exp_delay (knd: int, tok: token): d0exp
 
+fun d0exp_sexparg
+  (t_beg: token, s0a: s0exparg, t_end: token): d0exp
+// end of [d0exp_sexparg]
+
 fun d0exp_let_seq (
   t_let: token, d0cs: d0eclist, t_in: token, d0e: d0explst, t_end: token
 ) : d0exp // end of [d0exp_let_seq]
@@ -1184,11 +1232,23 @@ fun d0exp_declseq
   (t_beg: token, ds: d0eclist, t_end: token) : d0exp
 // end of [d0exp_declseq]
 
+fun d0exp_where
+  (d0e: d0exp, d0cs: d0eclist, t_end: token) : d0exp
+// end of [d0exp_where]
+
 fun d0exp_ann (_1: d0exp, _2: s0exp): d0exp
 
 (* ****** ****** *)
 
 fun labd0exp_make (ent1: l0ab, ent2: d0exp): labd0exp
+
+(* ****** ****** *)
+
+fun ifhead_make_none (t_if: token): ifhead
+fun ifhead_make_some (t_if: token, inv: i0nvresstate): ifhead
+
+fun sifhead_make_none (t_sif: token): sifhead
+fun sifhead_make_some (t_sif: token, inv: i0nvresstate): sifhead
 
 (* ****** ****** *)
 

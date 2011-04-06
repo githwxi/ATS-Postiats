@@ -48,9 +48,11 @@ datatype
 parerr_node =
 //
   | PE_AND
+  | PE_END
   | PE_OF
   | PE_IN
-  | PE_END
+  | PE_THEN
+  | PE_ELSE
   | PE_REC
   | PE_WITH
 //
@@ -175,14 +177,20 @@ fun p_AND : parser (token)
 fun is_AND (x: tnode): bool
 fun p_AND_test (buf: &tokbuf): bool
 
+fun p_END : parser (token)
+fun is_END (x: tnode): bool
+
+fun p_THEN : parser (token)
+fun is_THEN (x: tnode): bool
+
+fun p_ELSE : parser (token)
+fun is_ELSE (x: tnode): bool
+
 fun p_OF : parser (token)
 fun is_OF (x: tnode): bool
 
 fun p_IN : parser (token)
 fun is_IN (x: tnode): bool
-
-fun p_END : parser (token)
-fun is_END (x: tnode): bool
 
 fun p_REC : parser (token)
 fun is_REC (x: tnode): bool
