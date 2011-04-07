@@ -282,14 +282,14 @@ case+ tok.token_node of
 | T_LBRACE () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = p_s0quaseq_vt (buf, bt, err)
+    val ent2 = p_s0quaseq (buf, bt, err)
     val ent3 = p_RBRACE (buf, bt, err) // err = 0
   in
     if err = 0 then
-      f0arg_sta1 (tok, (l2l)ent2, ent3)
-    else let
-      val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
-    end (* end of [if] *)
+      f0arg_sta1 (tok, ent2, ent3)
+    else
+      tokbuf_set_ntok_null (buf, n0)
+    // end of [if]
   end
 | T_DOTLT () => let
     val bt = 0

@@ -545,9 +545,9 @@ in '{
 (* ****** ****** *)
 
 implement
-s0marg_make_sing (x) = '{
+s0marg_make_one (x) = '{
   s0marg_loc= x.s0arg_loc, s0marg_arg= list_sing (x)
-} // end of [s0marg_make_sing]
+} // end of [s0marg_make_one]
 
 implement
 s0marg_make_many
@@ -1217,6 +1217,18 @@ in '{
 (* ****** ****** *)
 
 implement
+loopi0nv_make (
+  qua, met, arg, res
+) = '{
+  loopi0nv_qua= qua
+, loopi0nv_met= met
+, loopi0nv_arg= arg
+, loopi0nv_res= res
+} // end of [loopi0nv_make]
+
+(* ****** ****** *)
+
+implement
 ifhead_make_some
   (t_if, inv) = '{
   ifhead_tok= t_if, ifhead_inv= inv
@@ -1371,6 +1383,26 @@ in '{
 (* ****** ****** *)
 
 implement
+d0exp_lam (
+  knd, t_lam, arg, res, eff, body
+) = let
+  val loc = t_lam.token_loc + body.d0exp_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Elam (knd, arg, res, eff, body)
+} end // end of [d0exp_lam]
+
+implement
+d0exp_fix (
+  knd, t_fix, fid, arg, res, eff, body
+) = let
+  val loc = t_fix.token_loc + body.d0exp_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Efix (knd, fid, arg, res, eff, body)
+} end // end of [d0exp_fix]
+
+(* ****** ****** *)
+
+implement
 d0exp_seq
   (t_beg, d0es, t_end) = let
   val loc = t_beg.token_loc + t_end.token_loc
@@ -1405,6 +1437,13 @@ in '{
 (* ****** ****** *)
 
 implement
+d0exp_arrsub (qid, ind) = let
+  val loc = qid.dqi0de_loc + ind.d0arrind_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Earrsub (qid, ind.d0arrind_ind)
+} end // end of [d0exp_arrsub]
+
+implement
 d0exp_arrinit (
   t_beg, elt, dim, ini, t_end
 ) = let
@@ -1432,6 +1471,13 @@ implement
 d0exp_delay (knd, tok) = '{
   d0exp_loc= tok.token_loc, d0exp_node= D0Edelay (knd)
 }
+
+implement
+d0exp_raise (tok, ent2) = let
+  val loc = tok.token_loc + ent2.d0exp_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Eraise (ent2)
+} end // end of [d0exp_raise]
 
 (* ****** ****** *)
 
@@ -1486,6 +1532,21 @@ in '{
 
 implement
 labd0exp_make (ent1, ent2) = L0ABELED (ent1, ent2)
+
+(* ****** ****** *)
+
+implement
+d0arrind_sing
+  (d0es, t_rbracket) = '{
+  d0arrind_loc= t_rbracket.token_loc, d0arrind_ind= list_sing (d0es)
+} // end of [d0arrind_sing]
+
+implement
+d0arrind_cons
+  (d0es, ind) = '{
+  d0arrind_loc= ind.d0arrind_loc
+, d0arrind_ind= list_cons (d0es, ind.d0arrind_ind)
+} // end of [d0arrind_cons]
 
 (* ****** ****** *)
 
@@ -1920,6 +1981,16 @@ d0ecl_staload_some
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cstaload (Some sym, name)
 } end // end of [d0ecl_staload_some]
+
+(* ****** ****** *)
+
+implement
+d0ecl_dynload (tok, ent2) = let
+  val- T_STRING (name) = ent2.token_node
+  val loc = tok.token_loc + ent2.token_loc
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cdynload (name)
+} end // end of [d0ecl_dynload]
 
 (* ****** ****** *)
 

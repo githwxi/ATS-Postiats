@@ -133,14 +133,14 @@ token_node =
   | T_END of () // end
   | T_EXCEPTION of () // exception
   | T_EXTERN of () // extern
-  | T_FIX of () // fix
+  | T_FIX of int // fix and fix@
   | T_FIXITY of fxtykind // infix, infixl, infixr, prefix, postfix
   | T_FOR of int // for and for*
   | T_FUN of funkind // fun
   | T_IF of () // if
   | T_IMPLEMENT of () // implement
   | T_IN of () // in
-  | T_LAM of int // lam and lam@
+  | T_LAM of int // lam, llam and lam@
   | T_LET of () // let
   | T_LOCAL of () // local
   | T_MACDEF of int // macdef, macrodef
@@ -211,6 +211,7 @@ token_node =
   | T_IDENT_tmp of string
   | T_IDENT_dlr of string
   | T_IDENT_srp of string
+  | T_IDENT_ext of string
 //
   | T_CHAR of char
 //
@@ -294,6 +295,9 @@ val PRFN: tnode
 
 val FOLD: tnode
 val FOLDAT: tnode
+
+val FIX: tnode
+val FIXAT: tnode
 
 val FOR: tnode
 val FORSTAR: tnode

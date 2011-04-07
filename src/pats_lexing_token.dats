@@ -72,6 +72,9 @@ implement DATAPROP = T_DATATYPE (PROP_int)
 implement DATAVIEW = T_DATATYPE (VIEW_int)
 implement DATAVIEWTYPE = T_DATATYPE (VIEWTYPE_int)
 
+implement FIX = T_FIX (TYPE_int)
+implement FIXAT = T_FIX (T0YPE_int)
+
 implement FOR = T_FOR (0)
 implement FORSTAR = T_FOR (1)
 
@@ -128,6 +131,9 @@ implement VAL_neg = T_VAL (VK_val_neg)
 implement PRVAL = T_VAL (VK_prval)
 
 implement WHILE = T_WHILE (0)
+(*
+implement WHILE = T_IDENT_ext "while"
+*)
 implement WHILESTAR = T_WHILE (1)
 
 implement WITHTYPE = T_WITHTYPE (T0YPE_int)
@@ -314,7 +320,6 @@ val () = ins ("else", T_ELSE)
 val () = ins ("end", T_END)
 val () = ins ("exception", T_EXCEPTION)
 val () = ins ("extern", T_EXTERN)
-val () = ins ("fix", T_FIX)
 //
 (*
 val () = ins ("for", FOR)
@@ -343,6 +348,7 @@ val () = ins ("postfix", POSTFIX)
 (*
 val () = ins ("lam", LAM)
 val () = ins ("llam", LLAM)
+val () = ins ("fix", FIX)
 *)
 //
 val () = ins ("let", T_LET)

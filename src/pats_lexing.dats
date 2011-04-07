@@ -130,6 +130,7 @@ lexsym =
   | LS_ABST // for abst@ype
   | LS_ABSVIEWT // for absviewt@ype
   | LS_CASE // for case+ and case-
+  | LS_FIX // for fix@
   | LS_FN // for fn*
   | LS_FOR // for for*
   | LS_LAM // for lam@
@@ -238,6 +239,7 @@ fun insert (
 val () = insert (ptbl, "abst", LS_ABST)
 val () = insert (ptbl, "absviewt", LS_ABSVIEWT)
 val () = insert (ptbl, "case", LS_CASE)
+val () = insert (ptbl, "fix", LS_FIX)
 val () = insert (ptbl, "fn", LS_FN)
 val () = insert (ptbl, "for", LS_FOR)
 val () = insert (ptbl, "fold", LS_FOLD)
@@ -1622,6 +1624,9 @@ fun lexing_LAM (
 fun lexing_LLAM (
   buf: &lexbuf, pos: &position
 ) : token = lexing_postfix (buf, pos, LLAM, LLAMAT, '@')
+fun lexing_FIX (
+  buf: &lexbuf, pos: &position
+) : token = lexing_postfix (buf, pos, FIX, FIXAT, '@')
 
 (* ****** ****** *)
 
@@ -1732,6 +1737,9 @@ in
     end
   | LS_LLAM () => let
       val () = strptr_free (str) in lexing_LLAM (buf, pos)
+    end
+  | LS_FIX () => let
+      val () = strptr_free (str) in lexing_FIX (buf, pos)
     end
 //
   | _ => let

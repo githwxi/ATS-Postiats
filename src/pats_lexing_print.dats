@@ -92,7 +92,7 @@ fprint_token
   | T_END () => fprintf (out, "END()", @())
   | T_EXCEPTION () => fprintf (out, "EXCEPTION()", @())
   | T_EXTERN () => fprintf (out, "EXTERN()", @())
-  | T_FIX () => fprintf (out, "FIX()", @())
+  | T_FIX (x) => fprintf (out, "FIX(%i)", @(x))
   | T_FIXITY (x) => fprintf (out, "FIXITY(...)", @())
   | T_FOR (x) => fprintf (out, "FOR(%i)", @(x))
   | T_FUN (x) => fprintf (out, "FUN(...)", @())
@@ -170,6 +170,7 @@ fprint_token
   | T_IDENT_tmp (x) => fprintf (out, "IDENT_tmp(%s)", @(x))
   | T_IDENT_dlr (x) => fprintf (out, "IDENT_dlr(%s)", @(x))
   | T_IDENT_srp (x) => fprintf (out, "IDENT_srp(%s)", @(x))
+  | T_IDENT_ext (x) => fprintf (out, "IDENT_ext(%s)", @(x))
 //
   | T_CHAR (x) => fprintf (out, "CHAR(%c)", @(x))
   | T_INTEGER (_base, x, _sp) => fprintf (out, "INTEGER_dec(%s)", @(x))

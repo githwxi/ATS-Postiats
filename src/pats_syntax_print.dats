@@ -668,6 +668,11 @@ case+ x.d0ecl_node of
     val () = fprint_string (out, name)
     val () = prstr ")"
   }
+| D0Cdynload (name) => {
+    val () = prstr "D0Cdynload("
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  }
 | D0Clocal _ => {
     val () = prstr "D0Clocal(\n"
     val () = prstr "..."

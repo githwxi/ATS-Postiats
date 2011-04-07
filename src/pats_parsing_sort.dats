@@ -232,16 +232,16 @@ end // end of [p_s0rt]
 (* ****** ****** *)
 
 implement
-p_ofs0rtopt_vt
+p_ofs0rtopt
   (buf, bt, err) =
-  ptokentopt_fun (buf, is_OF, p_s0rt)
-// end of [p_ofs0rtopt_vt]
+  t2t (ptokentopt_fun (buf, is_OF, p_s0rt))
+// end of [p_ofs0rtopt]
 
 implement
-p_colons0rtopt_vt
+p_colons0rtopt
   (buf, bt, err) =
-  ptokentopt_fun (buf, is_COLON, p_s0rt)
-// end of [p_colons0rtopt_vt]
+  t2t (ptokentopt_fun (buf, is_COLON, p_s0rt))
+// end of [p_colons0rtopt]
 
 (* ****** ****** *)
 
@@ -260,9 +260,9 @@ in
 //
 if err = err0 then let
   val bt = 0
-  val ent2 = p_colons0rtopt_vt (buf, bt, err)
+  val ent2 = p_colons0rtopt (buf, bt, err)
 in
-  s0arg_make (ent1, (t2t)ent2)
+  s0arg_make (ent1, ent2)
 end else let
 (*
   val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_s0arg)
@@ -298,7 +298,7 @@ case+ tok.token_node of
     val ent = synent_decode {i0de} (ent)
     val x = s0arg_make (ent, None ())
   in
-    s0marg_make_sing (x)
+    s0marg_make_one (x)
   end
 | T_LPAREN () => let
     val bt = 0
@@ -418,9 +418,9 @@ in
 //
 if err = err0 then let
   val bt = 0
-  val ent2 = p_ofs0rtopt_vt (buf, bt, err)
+  val ent2 = p_ofs0rtopt (buf, bt, err)
 in
-  d0atsrtcon_make (ent1, (t2t)ent2)
+  d0atsrtcon_make (ent1, ent2)
 end else let
 (*
   val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_d0atsrtcon)

@@ -442,11 +442,11 @@ typedef s0marg = '{
 typedef s0marglst = List (s0marg)
 viewtypedef s0marglst_vt = List_vt (s0marg)
 
-fun s0marg_make_sing (x: s0arg) : s0marg
+fun s0marg_make_one (x: s0arg) : s0marg
 
 fun s0marg_make_many (
   t_beg: token, xs: s0arglst, t_end: token
-) : s0marg // end of [s0marg_make]
+) : s0marg // end of [s0marg_make_many]
 
 (* ****** ****** *)
 
@@ -521,9 +521,10 @@ s0exp = '{
 } // end of [s0exp]
 and s0explst = List (s0exp)
 and s0explst_vt = List_vt (s0exp)
-and s0explstlst = List (s0explst)
 and s0expopt = Option (s0exp)
 and s0expopt_vt = Option_vt (s0exp)
+and s0explstlst = List (s0explst)
+and s0explstopt = Option (s0explst)
 
 and labs0exp = l0abeled (s0exp)
 and labs0explst = List labs0exp
@@ -947,6 +948,7 @@ typedef f0arg = '{
 } // end of [f0arg]
 
 typedef f0arglst = List (f0arg)
+viewtypedef f0arglst_vt = List_vt (f0arg)
 
 fun f0arg_dyn (x: p0at): f0arg
 
@@ -987,6 +989,23 @@ fun i0nvresstate_make_some (
   t_beg: token, qua: s0qualstopt, arg: i0nvarglst, t_end: token
 ) : i0nvresstate // end of [i0nvresstate_make_some]
 
+typedef
+loopi0nv = '{
+  loopi0nv_qua= s0qualstopt
+, loopi0nv_met= s0explstopt
+, loopi0nv_arg= i0nvarglst
+, loopi0nv_res= i0nvresstate
+} // end of [loopi0nv]
+
+typedef loopi0nvopt = Option loopi0nv
+
+fun loopi0nv_make (
+  qua: s0qualstopt
+, met: s0explstopt
+, arg: i0nvarglst
+, res: i0nvresstate
+) : loopi0nv // end of [loopi0nv_make]
+
 (* ****** ****** *)
 
 datatype
@@ -1024,6 +1043,7 @@ d0ecl_node =
   | D0Cvardecs of v0ardeclst // variable declarations
 //
   | D0Cstaload of (symbolopt, string)
+  | D0Cdynload of (string) // HX: dynloading for initialization
   | D0Clocal of (d0eclist, d0eclist)
   | D0Cguadecl of (token(*knd*), guad0ecl)
 // end of [d0ecl_node]
@@ -1057,15 +1077,20 @@ and d0exp_node =
   | D0Eifhead of (ifhead, d0exp, d0exp, d0expopt)
   | D0Esifhead of (sifhead, s0exp, d0exp, d0exp) // HX: no dangling else-branch
 //
+  | D0Elam of (int(*knd*), f0arglst, s0expopt, e0fftaglstopt, d0exp)
+  | D0Efix of (int(*knd*), i0de, f0arglst, s0expopt, e0fftaglstopt, d0exp)
+//
   | D0Eseq of d0explst // dynamic sequence-expression
   | D0Etup of (int(*knd*), int(*npf*), d0explst)
   | D0Erec of (int (*knd*), int (*npf*), labd0explst)
 //
+  | D0Earrsub of (dqi0de, d0explstlst(*ind*))
   | D0Earrinit of (* array initilization *)
       (s0exp (*elt*), d0expopt (*asz*), d0explst (*ini*))
   | D0Earrsize of (s0expopt (*elt*), d0exp (*int*)) // arraysize expression
 //
   | D0Edelay of int(*knd*) // $delay and $ldelay
+  | D0Eraise of d0exp // $raise
   | D0Esexparg of s0exparg // static multi-argument
 //
   | D0Elet of (d0eclist, d0exp) // dynamic let-expression
@@ -1098,11 +1123,18 @@ and d0exp = '{
 
 and d0explst : type = List (d0exp)
 and d0explst_vt : viewtype = List_vt (d0exp)
+and d0explstlst : type = List (d0explst)
 and d0expopt : type = Option (d0exp)
 and d0expopt_vt : viewtype = Option_vt (d0exp)
 
 and labd0exp = l0abeled (d0exp)
 and labd0explst = List labd0exp
+
+(* ****** ****** *)
+
+and d0arrind = '{
+  d0arrind_loc= location, d0arrind_ind= d0explstlst
+} // end of [d0arrind]
 
 (* ****** ****** *)
 
@@ -1199,6 +1231,25 @@ fun d0exp_sifhead (
   hd: sifhead, _cond: s0exp, _then: d0exp, _else: d0exp
 ) : d0exp // end of [d0exp_sifhead]
 
+fun d0exp_lam (
+  knd: int
+, t_lam: token
+, arg: f0arglst
+, res: s0expopt
+, eff: e0fftaglstopt
+, d0e: d0exp
+) : d0exp // end of [d0exp_lam]
+
+fun d0exp_fix (
+  knd: int
+, t_lam: token
+, fid: i0de
+, arg: f0arglst
+, res: s0expopt
+, eff: e0fftaglstopt
+, d0e: d0exp
+) : d0exp // end of [d0exp_fix]
+
 fun d0exp_seq
   (t_beg: token, xs: d0explst, t_end: token): d0exp
 // end of [d0exp_seq]
@@ -1210,6 +1261,10 @@ fun d0exp_rec (
   knd: int, t_beg: token, npf: int, xs: labd0explst, t_end: token
 ) : d0exp // end of [d0exp_rec]
 
+(* ****** ****** *)
+
+fun d0exp_arrsub (qid: dqi0de, ind: d0arrind): d0exp
+
 fun d0exp_arrinit (
   t_beg: token, elt: s0exp, dim: d0expopt, ini: d0explst, t_end: token
 ) : d0exp // end of [d0exp_arrinit]
@@ -1218,7 +1273,10 @@ fun d0exp_arrsize (
   t_beg: token, elt: s0expopt, t_lp: token, elts: d0explst, t_rp: token
 ) : d0exp // end of [d0exp_arrsize]
 
+(* ****** ****** *)
+
 fun d0exp_delay (knd: int, tok: token): d0exp
+fun d0exp_raise (tok: token, d0e: d0exp): d0exp
 
 fun d0exp_sexparg
   (t_beg: token, s0a: s0exparg, t_end: token): d0exp
@@ -1241,6 +1299,12 @@ fun d0exp_ann (_1: d0exp, _2: s0exp): d0exp
 (* ****** ****** *)
 
 fun labd0exp_make (ent1: l0ab, ent2: d0exp): labd0exp
+
+(* ****** ****** *)
+
+fun d0arrind_sing
+  (d0es: d0explst, t_rbracket: token): d0arrind
+fun d0arrind_cons (d0es: d0explst, ind: d0arrind): d0arrind
 
 (* ****** ****** *)
 
@@ -1336,6 +1400,8 @@ fun d0ecl_vardecs (tok: token, ds: v0ardeclst): d0ecl
 //
 fun d0ecl_staload_none (tok: token, tok2: token): d0ecl
 fun d0ecl_staload_some (tok: token, ent2: i0de, ent4: token): d0ecl
+//
+fun d0ecl_dynload (tok: token, ent2: token): d0ecl
 //
 fun d0ecl_dcstdecs (
   tok: token, ent2: q0marglst, ent3: d0cstdeclst

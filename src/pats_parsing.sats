@@ -102,6 +102,8 @@ parerr_node =
 *)
   | PE_sqi0de
   | PE_dqi0de
+  | PE_arrqi0de
+  | PE_tmpqi0de
 //
   | PE_l0ab
   | PE_p0rec
@@ -378,7 +380,7 @@ synent2 (
 ) = SYNENT2 (a1, a2) of (a1, a2)
 
 fun pseq2_fun
-  {a1,a2:viewtype} (
+  {a1,a2:type} (
   buf: &tokbuf
 , bt: int, err: &int
 , f1: parser (a1), f2: parser (a2)
@@ -390,7 +392,7 @@ synent3 (
 ) = SYNENT3 (a1, a2, a3) of (a1, a2, a3)
 
 fun pseq3_fun
-  {a1,a2,a3:viewtype} (
+  {a1,a2,a3:type} (
   buf: &tokbuf
 , bt: int, err: &int
 , f1: parser (a1), f2: parser (a2), f3: parser (a3)
@@ -474,8 +476,8 @@ fun p_s0rt : parser (s0rt)
 fun p_s0rtq : parser (s0rtq) // sort qualifier
 fun p_s0rtid : parser (i0de) // sort identifier
 //
-fun p_ofs0rtopt_vt : parser (s0rtopt_vt) // OF s0rt
-fun p_colons0rtopt_vt : parser (s0rtopt_vt) // COLON s0rt
+fun p_ofs0rtopt : parser (s0rtopt) // OF s0rt
+fun p_colons0rtopt : parser (s0rtopt) // COLON s0rt
 //
 fun p_s0arg : parser (s0arg) // static argument
 fun p_s0marg : parser (s0marg) // static multi-argument
@@ -496,11 +498,11 @@ fun p_labs0exp : parser (labs0exp) // labeled static exp.
 fun p_s0rtext : parser (s0rtext)
 //
 fun p_s0qua : parser (s0qua)
-fun p_s0quaseq_vt : parser (s0qualst_vt)
+fun p_s0quaseq : parser (s0qualst)
 //
-fun p_eqs0expopt_vt : parser (s0expopt_vt) // EQ s0exp
-fun p_ofs0expopt_vt : parser (s0expopt_vt) // OF s0exp
-fun p_colons0expopt_vt : parser (s0expopt_vt) // OF s0exp
+fun p_eqs0expopt : parser (s0expopt) // EQ s0exp
+fun p_ofs0expopt : parser (s0expopt) // OF s0exp
+fun p_colons0expopt : parser (s0expopt) // OF s0exp
 //
 fun p_q0marg : parser (q0marg) // quantifier-like multi-argumet
 //
@@ -530,8 +532,10 @@ fun p_di0de : parser (i0de) // dynamic identifier
 fun p_d0ynq : parser (d0ynq) // dynamic qualifier
 fun p_dqi0de : parser (dqi0de) // dynamic qualified identifier
 fun p_labd0exp : parser (labd0exp) // labeled dynamic exp.
+fun p_arrqi0de : parser (dqi0de)
+fun p_tmpqi0de : parser (dqi0de)
 //
-fun p_eqd0expopt_vt : parser (d0expopt_vt) // EQ d0exp
+fun p_eqd0expopt : parser (d0expopt) // EQ d0exp
 //
 fun p_d0expsemiseq0 : parser (d0explst)
 

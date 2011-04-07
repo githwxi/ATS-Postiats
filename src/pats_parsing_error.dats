@@ -426,6 +426,16 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [dqi0de] is needed", @())
     val () = fprint_newline (out)
   }
+| PE_arrqi0de () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [arrqi0de] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_tmpqi0de () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [tmpqi0de] is needed", @())
+    val () = fprint_newline (out)
+  }
 | PE_d0exp () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [d0exp] is needed", @())
