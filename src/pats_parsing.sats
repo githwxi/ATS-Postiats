@@ -74,6 +74,7 @@ parerr_node =
   | PE_EQGT
   | PE_GT
   | PE_GTDOT
+  | PE_GTLT
 //
   | PE_SRPTHEN
   | PE_SRPENDIF
@@ -104,6 +105,7 @@ parerr_node =
   | PE_dqi0de
   | PE_arrqi0de
   | PE_tmpqi0de
+  | PE_impqi0de
 //
   | PE_l0ab
   | PE_p0rec
@@ -112,8 +114,8 @@ parerr_node =
   | PE_atme0xp
   | PE_e0xp
 //
-  | PE_atms0rt
   | PE_s0rt
+  | PE_atms0rt
   | PE_s0marg
   | PE_a0msrt
 //
@@ -258,6 +260,10 @@ fun is_GT (x: tnode): bool
 
 fun p_GTDOT : parser (token)
 fun is_GTDOT (x: tnode): bool
+
+fun p_GTLT : parser (token)
+fun is_GTLT (x: tnode): bool
+fun p_GTLT_test (buf: &tokbuf): bool
 
 (* ****** ****** *)
 
@@ -493,6 +499,7 @@ fun p_s0exp : parser (s0exp)
 fun p_si0de : parser (i0de) // static identifier
 fun p_s0taq : parser (s0taq) // static qualifier
 fun p_sqi0de : parser (sqi0de) // static qualified identifier
+fun p_atms0exp : parser (s0exp) // atomic staic exp.
 fun p_labs0exp : parser (labs0exp) // labeled static exp.
 //
 fun p_s0rtext : parser (s0rtext)
@@ -523,7 +530,8 @@ fun p_witht0ype : parser (witht0ype)
 fun p_p0at : parser (p0at)
 fun p_pi0de : parser (i0de) // pattern identifier
 fun p_labp0at : parser (labp0at) // labeled pattern
-fun p_f0arg : parser (f0arg)
+fun p_f0arg1 : parser (f0arg)
+fun p_f0arg2 : parser (f0arg)
 
 (* ****** ****** *)
 

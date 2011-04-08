@@ -661,6 +661,11 @@ case+ x.d0ecl_node of
     val () = prstr "..."
     val () = prstr "\n)"
   }
+| D0Cimpdec _ => {
+    val () = prstr "D0Cimpdec(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
 | D0Cstaload (symopt, name) => {
     val () = prstr "D0Cstaload("
     val () = $UT.fprintopt<symbol> (out, symopt, fprint_symbol)

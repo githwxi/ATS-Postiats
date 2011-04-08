@@ -253,6 +253,11 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [GTDOT] is needed", @())
     val () = fprint_newline (out)
   }
+| PE_GTLT () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [GTLT] is needed", @())
+    val () = fprint_newline (out)
+  }
 //
 | PE_SRPTHEN () => {
     val () = fprint (out, loc)
@@ -434,6 +439,11 @@ case+ x.parerr_node of
 | PE_tmpqi0de () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [tmpqi0de] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_impqi0de () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [impqi0de] is needed", @())
     val () = fprint_newline (out)
   }
 | PE_d0exp () => {

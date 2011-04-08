@@ -259,6 +259,17 @@ p_GTDOT (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_GTDOT, PE_GTDOT)
 // end of [p_GTDOT]
 
+implement
+is_GTLT (x) = case+ x of
+  | T_GTLT () => true | _ => false
+// end of [is_GTLT]
+implement
+p_GTLT (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_GTLT, PE_GTLT)
+// end of [p_GTLT]
+implement
+p_GTLT_test (buf) = ptoken_test_fun (buf, is_GTLT)
+
 (* ****** ****** *)
 
 implement

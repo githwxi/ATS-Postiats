@@ -588,10 +588,8 @@ case+ tok.token_node of
 //
 end // end of [p_atms0exp_tok]
 
-fun
-p_atms0exp (
-  buf: &tokbuf, bt: int, err: &int
-) : s0exp =
+implement
+p_atms0exp (buf, bt, err) =
   ptokwrap_fun (buf, bt, err, p_atms0exp_tok, PE_atms0exp)
 // end of [p_atms0exp]
 

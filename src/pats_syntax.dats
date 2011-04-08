@@ -1152,6 +1152,40 @@ labp0at_omit (tok) = '{
 (* ****** ****** *)
 
 implement
+t0mpmarg_make
+  (tok, arg) = let
+  val loc = tok.token_loc
+  val loc = (
+    case+ list_last_opt<s0exp> (arg) of
+    ~Some_vt (x) => loc + x.s0exp_loc | ~None_vt () => loc
+  ) : location // end of [val]
+in '{
+  t0mpmarg_loc= loc, t0mpmarg_arg= arg
+} end // end of [t0mpmarg_make]
+
+implement
+impqi0de_make_none (qid) = '{
+  impqi0de_loc= qid.dqi0de_loc
+, impqi0de_qua= qid.dqi0de_qua
+, impqi0de_sym= qid.dqi0de_sym
+, impqi0de_arg= list_nil ()
+} // end of [impqi0de_make_none]
+
+implement
+impqi0de_make_some
+  (qid, args, t_gt) = let
+  val loc_qid = qid.dqi0de_loc
+  val loc = loc_qid + t_gt.token_loc
+in '{
+  impqi0de_loc= loc
+, impqi0de_qua= qid.dqi0de_qua
+, impqi0de_sym= qid.dqi0de_sym
+, impqi0de_arg= args
+} end // end of [impqid0de_make_some]
+
+(* ****** ****** *)
+
+implement
 f0arg_dyn (p0t) = '{
   f0arg_loc= p0t.p0at_loc, f0arg_node= F0ARGdyn (p0t)
 }
@@ -1468,9 +1502,12 @@ in '{
 (* ****** ****** *)
 
 implement
-d0exp_delay (knd, tok) = '{
-  d0exp_loc= tok.token_loc, d0exp_node= D0Edelay (knd)
-}
+d0exp_delay
+  (knd, tok, body) = let
+  val loc = tok.token_loc + body.d0exp_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Edelay (knd, body)
+} end // end of [d0exp_delay]
 
 implement
 d0exp_raise (tok, ent2) = let
@@ -1629,6 +1666,20 @@ in '{
 , v0ardec_wth= varwth
 , v0ardec_ini= ini
 } end // end of [v0ardec_make]
+
+(* ****** ****** *)
+
+implement
+i0mpdec_make
+  (qid, arg, res, def) = let
+  val loc = qid.impqi0de_loc + def.d0exp_loc
+in '{
+  i0mpdec_loc= loc
+, i0mpdec_qid= qid
+, i0mpdec_arg= arg
+, i0mpdec_res= res
+, i0mpdec_def= def
+} end // end of [i0mpdec_make]
 
 (* ****** ****** *)
 
@@ -1960,6 +2011,17 @@ d0ecl_vardecs
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cvardecs (xs)
 } end // end of [d0ecl_vardecs]
+
+(* ****** ****** *)
+
+implement
+d0ecl_impdec (
+  t_implement, i0mparg, i0mpdec
+) = let
+  val loc = t_implement.token_loc + i0mpdec.i0mpdec_loc
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cimpdec (i0mparg, i0mpdec)
+} end // end of [d0ecl_impdec]
 
 (* ****** ****** *)
 

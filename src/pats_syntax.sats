@@ -433,6 +433,7 @@ typedef s0arg = '{
 } // end of [s0arg]
 
 typedef s0arglst = List s0arg
+typedef s0arglstlst = List (s0arglst)
 
 fun s0arg_make (id: i0de, _: s0rtopt): s0arg
 
@@ -935,6 +936,32 @@ fun labp0at_omit (tok: token): labp0at
 
 (* ****** ****** *)
 
+typedef
+t0mpmarg = '{
+  t0mpmarg_loc= location, t0mpmarg_arg= s0explst
+} // end of [t0mpmarg]
+
+typedef t0mpmarglst = List (t0mpmarg)
+
+fun t0mpmarg_make (tok: token, arg: s0explst): t0mpmarg
+
+(* ****** ****** *)
+
+typedef
+impqi0de = '{
+  impqi0de_loc= location
+, impqi0de_qua= d0ynq
+, impqi0de_sym= symbol
+, impqi0de_arg= t0mpmarglst
+} // end of [impqi0de]
+
+fun impqi0de_make_none (qid: dqi0de): impqi0de
+fun impqi0de_make_some
+  (qid: dqi0de, args: t0mpmarglst, t_gt: token): impqi0de
+// end of [impqi0de_make_some]
+
+(* ****** ****** *)
+
 datatype
 f0arg_node =
   | F0ARGdyn of p0at
@@ -1041,6 +1068,7 @@ d0ecl_node =
       (valkind, bool(*isrec*), v0aldeclst)
   | D0Cfundecs of (funkind, q0marglst, f0undeclst)
   | D0Cvardecs of v0ardeclst // variable declarations
+  | D0Cimpdec of (s0arglstlst, i0mpdec) // implementation
 //
   | D0Cstaload of (symbolopt, string)
   | D0Cdynload of (string) // HX: dynloading for initialization
@@ -1089,8 +1117,9 @@ and d0exp_node =
       (s0exp (*elt*), d0expopt (*asz*), d0explst (*ini*))
   | D0Earrsize of (s0expopt (*elt*), d0exp (*int*)) // arraysize expression
 //
-  | D0Edelay of int(*knd*) // $delay and $ldelay
   | D0Eraise of d0exp // $raise
+  | D0Edelay of (int(*knd*), d0exp(*body*)) // $delay and $ldelay
+//
   | D0Esexparg of s0exparg // static multi-argument
 //
   | D0Elet of (d0eclist, d0exp) // dynamic let-expression
@@ -1119,7 +1148,7 @@ and guad0ecl: type = '{
 
 and d0exp = '{
   d0exp_loc= location, d0exp_node= d0exp_node
-}
+} // end of [d0exp]
 
 and d0explst : type = List (d0exp)
 and d0explst_vt : viewtype = List_vt (d0exp)
@@ -1199,6 +1228,16 @@ and v0ardeclst = List v0ardec
 
 (* ****** ****** *)
 
+and i0mpdec = '{
+  i0mpdec_loc= location
+, i0mpdec_qid= impqi0de
+, i0mpdec_arg= f0arglst
+, i0mpdec_res= s0expopt
+, i0mpdec_def= d0exp
+} // end of [i0mpdec]
+
+(* ****** ****** *)
+
 fun d0exp_dqid (_: dqi0de): d0exp
 fun d0exp_opid (_1: token, _2: i0de): d0exp
 
@@ -1275,8 +1314,8 @@ fun d0exp_arrsize (
 
 (* ****** ****** *)
 
-fun d0exp_delay (knd: int, tok: token): d0exp
 fun d0exp_raise (tok: token, d0e: d0exp): d0exp
+fun d0exp_delay (knd: int, tok: token, body: d0exp): d0exp
 
 fun d0exp_sexparg
   (t_beg: token, s0a: s0exparg, t_end: token): d0exp
@@ -1348,6 +1387,12 @@ fun v0ardec_make (
 
 (* ****** ****** *)
 
+fun i0mpdec_make (
+  qid: impqi0de, arg: f0arglst, res: s0expopt, def: d0exp
+) : i0mpdec // end of [i0mpdec_make]
+
+(* ****** ****** *)
+
 fun d0ecl_fixity
   (_1: token, _2: p0rec, _3: i0delst): d0ecl
 // end of [d0ecl_fixity]
@@ -1397,6 +1442,9 @@ fun d0ecl_fundecs (
   knd: funkind, tok: token, arg: q0marglst, ds: f0undeclst
 ) : d0ecl // end of [d0ecl_fundecs]
 fun d0ecl_vardecs (tok: token, ds: v0ardeclst): d0ecl
+fun d0ecl_impdec
+  (t_implement: token, arg: s0arglstlst, d: i0mpdec): d0ecl
+// end of [d0ecl_impdec]
 //
 fun d0ecl_staload_none (tok: token, tok2: token): d0ecl
 fun d0ecl_staload_some (tok: token, ent2: i0de, ent4: token): d0ecl

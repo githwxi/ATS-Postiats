@@ -223,7 +223,7 @@ end // end of [p_s0tavarseq]
 
 (*
 s0expdef
-  | si0de s0argseqseq colons0rtopt EQ s0exp
+  | si0de s0margseq colons0rtopt EQ s0exp
 *)
 fun
 p_s0expdef (
@@ -235,7 +235,9 @@ p_s0expdef (
   val ent1 = p_si0de (buf, bt, err)
   val bt = 0
   val ent2 = (
-    if err = err0 then pstar_fun (buf, bt, p_s0marg) else list_vt_nil
+    if err = err0 then
+      pstar_fun (buf, bt, p_s0marg) else list_vt_nil ()
+    // end of [if]
   ) : s0marglst_vt // end of [val]
   val ent3 =
     pif_fun (buf, bt, err, p_colons0rtopt, err0)
@@ -261,7 +263,7 @@ end // end of [p_s0expdecseq]
 (* ****** ****** *)
 
 (*
-s0aspdec ::= sqi0de s0argseqseq colons0rtopt EQ s0exp
+s0aspdec ::= sqi0de s0margseq colons0rtopt EQ s0exp
 *)
 fun
 p_s0aspdec (
@@ -273,7 +275,9 @@ p_s0aspdec (
   val ent1 = p_sqi0de (buf, bt, err)
   val bt = 0
   val ent2 = (
-    if err = err0 then pstar_fun (buf, bt, p_s0marg) else list_vt_nil
+    if err = err0 then
+      pstar_fun (buf, bt, p_s0marg) else list_vt_nil ()
+    // end of [if]
   ) : s0marglst_vt
   val ent3 =
     pif_fun (buf, bt, err, p_colons0rtopt, err0)
@@ -304,7 +308,7 @@ end // end of [p_e0xndecseq]
 (* ****** ****** *)
 
 (*
-d0atdec ::= si0de s0margseq EQ d0atconseq
+d0atdec ::= si0de a0msrtseq EQ d0atconseq
 *)
 fun
 p_d0atdec (
@@ -1044,7 +1048,7 @@ case+ 0 of
   ) => let
     val bt = 0
     val ent1 = synent_decode {i0de} (ent)
-    val ent2 = pstar_fun {f0arg} (buf, bt, p_f0arg)
+    val ent2 = pstar_fun {f0arg} (buf, bt, p_f0arg1)
     val ~SYNENT2 (ent3, ent4) =
       pseq2_fun {e0fftaglstopt,s0exp} (buf, 1(*bt*), err, p_colonwith, p_s0exp)
     // end of [val]
@@ -1099,14 +1103,151 @@ end // end of [p_v0ardec]
 
 (* ****** ****** *)
 
+fun
+p_atms0exp_ngt (
+  buf: &tokbuf, bt: int, err: &int
+) : s0exp = let
+  val tok = tokbuf_get_token (buf)
+in
+//
+case+ tok.token_node of
+| T_GT () => let
+    val () = err := err + 1 in synent_null ()
+  end
+| _ => p_atms0exp (buf, bt, err)
+//
+end // end of [p_atms0exp_ngt]
+
+fun
+p_tmps0exp (
+  buf: &tokbuf, bt: int, err: &int
+) : s0exp = let
+  val xs = pstar1_fun {s0exp} (buf, bt, err, p_atms0exp_ngt)
+  fun loop (
+    x0: s0exp, xs: s0explst_vt
+  ) : s0exp =
+    case+ xs of
+    | ~list_vt_cons (x, xs) => let
+        val x0 = s0exp_app (x0, x) in loop (x0, xs)
+      end
+    | ~list_vt_nil () => x0
+  // end of [loop]
+in
+  case+ xs of
+  | ~list_vt_cons (x, xs) => loop (x, xs)
+  | ~list_vt_nil () => synent_null () // HX: [err] is already set
+end // end of [p_tmps0exp]
+
+fun
+p_tmps0expseq (
+  buf: &tokbuf, bt: int, err: &int
+) : t0mpmarg = let
+  val tok = tokbuf_get_token (buf)
+  val xs = pstar_fun0_COMMA {s0exp} (buf, bt, p_tmps0exp)
+in
+  t0mpmarg_make (tok, (l2l)xs)
+end // end of [p_tmps0expseq]
+
+(*
+impqi0de ::= dqi0de | tmpqi0de tmps0expseq_gtlt GT
+*)
+fun
+p_impqi0de (
+  buf: &tokbuf, bt: int, err: &int
+) : impqi0de = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  var ent: synent?
+in
+case+ 0 of
+| _ when
+    ptest_fun (
+    buf, p_dqi0de, ent
+  ) => let
+    val qid = synent_decode {dqi0de} (ent) in impqi0de_make_none (qid)
+  end
+| _ when
+    ptest_fun (
+    buf, p_tmpqi0de, ent
+  ) => let
+    val bt = 0
+    val ent1 = synent_decode {dqi0de} (ent)
+    val ent2 = pstar_fun1_sep {t0mpmarg} (buf, bt, err, p_tmps0expseq, p_GTLT_test)
+    val ent3 = p_GT (buf, bt, err)
+  in
+    if err = err0 then
+      impqi0de_make_some (ent1, (l2l)ent2, ent3)
+    else let
+      val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
+    end (* end of [if] *)
+  end
+| _ => let
+    val () = err := err + 1
+    val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_impqi0de)
+  in
+    synent_null ()
+  end
+end // end of [p_impqi0de]
+
+fun
+p_i0mparg (
+  buf: &tokbuf, bt: int, err: &int
+) : s0arglst = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_LBRACE () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = pstar_fun0_COMMA {s0arg} (buf, bt, p_s0arg)
+    val ent3 = p_RBRACE (buf, bt, err)
+  in
+    if err = err0 then (l2l)ent2 else let
+      val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
+    end (* end of [if] *)
+  end
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end
+//
+end // end of [p_i0mparg]
+
+(*
+i0mpdec ::= impqi0de f0arg2seq colons0expopt EQ d0exp
+*)
+fun p_i0mpdec (
+  buf: &tokbuf, bt: int, err: &int
+) : i0mpdec = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val ent1 = p_impqi0de (buf, bt, err)
+  val bt = 0
+  val ent2 = (
+    if err = err0 then
+      pstar_fun {f0arg} (buf, bt, p_f0arg2) else list_vt_nil ()
+    // end of [if]
+  ) : f0arglst_vt
+  val ent3 = pif_fun (buf, bt, err, p_colons0expopt, err0)
+  val ent4 = pif_fun (buf, bt, err, p_EQ, err0)
+  val ent5 = pif_fun (buf, bt, err, p_d0exp, err0)
+in
+  if err = err0 then
+    i0mpdec_make (ent1, (l2l)ent2, ent3, ent5)
+  else let
+    val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
+  end (* end of [if] *)
+end // end of [p_i0mpdec]
+
+(* ****** ****** *)
+
 (*
 d0ec_dyn
   | d0ec
-  | EXTERN TYPEDEF s0tring EQ s0exp
-  | EXTERN dcstkind q0margseq d0cstdecseq
-/*
-  | EXTERN VAL LITERAL_string EQ d0exp
-*/
   | valkind {REC} v0aldecseq
   | funkind q0margseq f0undecseq
 /*
@@ -1114,7 +1255,14 @@ d0ec_dyn
 */
   | funkind f0undecseq
   | VAR v0ardecseq
-  | IMPLEMENT decs0argseqseq i0mpdec
+//
+  | IMPLEMENT i0mpargseq i0mpdec
+//
+  | EXTERN TYPEDEF s0tring EQ s0exp
+  | EXTERN dcstkind q0margseq d0cstdecseq
+/*
+  | EXTERN VAL LITERAL_string EQ d0exp
+*/
   | LITERAL_extcode
   | SRPINCLUDE LITERAL_string
   | DYNLOAD LITERAL_string
@@ -1173,6 +1321,20 @@ case+ tok.token_node of
       val () = list_vt_free (ent2) in synent_null ()
     end (* end of [if] *)
   end
+//
+| T_IMPLEMENT () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = pstar_fun {s0arglst} (buf, bt, p_i0mparg)
+    val ent3 = p_i0mpdec (buf, bt, err)
+  in
+    if err = err0 then
+      d0ecl_impdec (tok, (l2l)ent2, ent3)
+    else let
+      val () = list_vt_free (ent2) in synent_null ()
+    end (* end of [if] *)
+  end
+//
 | T_EXTERN () => let
     val bt = 0
     val () = incby1 ()

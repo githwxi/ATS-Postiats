@@ -30,7 +30,7 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: March, 2011
+// Start Time: April, 2011
 //
 (* ****** ****** *)
 
@@ -209,6 +209,7 @@ case+ tok.token_node of
     ptest_fun (
     buf, p_d0ynq, ent
   ) => let
+    val bt = 0
     val ent1 = synent_decode {d0ynq} (ent)
     val ent2 = p_pi0de (buf, bt, err) // err = err0
   in
@@ -258,14 +259,12 @@ p_atmp0at (
 (* ****** ****** *)
 
 (*
-f0arg ::=
-  | atmp0at
-  | LBRACE s0quaseq RBRACE
-  | DOTLT s0expseq GTDOT
-  | DOTLTGTDOT
+f0arg1 ::=
+  | atmp0at | LBRACE s0quaseq RBRACE
+  | DOTLT s0expseq GTDOT | DOTLTGTDOT
 *)
 implement
-p_f0arg
+p_f0arg1
   (buf, bt, err) = let
   val err0 = err
   val n0 = tokbuf_get_ntok (buf)
@@ -282,14 +281,14 @@ case+ tok.token_node of
 | T_LBRACE () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = p_s0quaseq (buf, bt, err)
+    val ent2 = pstar_fun0_SEMICOLON {s0qua} (buf, bt, p_s0qua)
     val ent3 = p_RBRACE (buf, bt, err) // err = 0
   in
     if err = 0 then
-      f0arg_sta1 (tok, ent2, ent3)
-    else
-      tokbuf_set_ntok_null (buf, n0)
-    // end of [if]
+      f0arg_sta1 (tok, (l2l)ent2, ent3)
+    else let
+      val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
+    end (* end of [if] *)
   end
 | T_DOTLT () => let
     val bt = 0
@@ -308,7 +307,43 @@ case+ tok.token_node of
     val () = err := err + 1 in synent_null ()
   end
 //
-end // end of [p_f0arg]
+end // end of [p_f0arg1]
+
+(*
+f0arg2 ::= atmp0at | LBRACE s0argseq RBRACE
+*)
+implement
+p_f0arg2
+  (buf, bt, err) = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  var ent: synent?
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| _ when
+    ptest_fun (
+    buf, p_atmp0at, ent
+  ) => f0arg_dyn (synent_decode {p0at} (ent))
+| T_LBRACE () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = pstar_fun0_COMMA {s0arg} (buf, bt, p_s0arg)
+    val ent3 = p_RBRACE (buf, bt, err) // err = 0
+  in
+    if err = 0 then
+      f0arg_sta2 (tok, (l2l)ent2, ent3)
+    else let
+      val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
+    end (* end of [if] *)
+  end
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end
+//
+end // end of [p_f0arg2]
 
 (* ****** ****** *)
 
@@ -362,6 +397,7 @@ case+ 0 of
     ptest_fun (
     buf, p_atmp0at, ent
   ) => let
+    val bt = 0
     val x0 = synent_decode {p0at} (ent)
     val xs = pstar_fun (buf, bt, p_argp0at)
     fun loop (
@@ -448,4 +484,3 @@ end // end of [p_p0at]
 (* ****** ****** *)
 
 (* end of [pats_parsing_p0at.dats] *)
-
