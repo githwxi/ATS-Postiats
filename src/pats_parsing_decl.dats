@@ -1103,51 +1103,6 @@ end // end of [p_v0ardec]
 
 (* ****** ****** *)
 
-fun
-p_atms0exp_ngt (
-  buf: &tokbuf, bt: int, err: &int
-) : s0exp = let
-  val tok = tokbuf_get_token (buf)
-in
-//
-case+ tok.token_node of
-| T_GT () => let
-    val () = err := err + 1 in synent_null ()
-  end
-| _ => p_atms0exp (buf, bt, err)
-//
-end // end of [p_atms0exp_ngt]
-
-fun
-p_tmps0exp (
-  buf: &tokbuf, bt: int, err: &int
-) : s0exp = let
-  val xs = pstar1_fun {s0exp} (buf, bt, err, p_atms0exp_ngt)
-  fun loop (
-    x0: s0exp, xs: s0explst_vt
-  ) : s0exp =
-    case+ xs of
-    | ~list_vt_cons (x, xs) => let
-        val x0 = s0exp_app (x0, x) in loop (x0, xs)
-      end
-    | ~list_vt_nil () => x0
-  // end of [loop]
-in
-  case+ xs of
-  | ~list_vt_cons (x, xs) => loop (x, xs)
-  | ~list_vt_nil () => synent_null () // HX: [err] is already set
-end // end of [p_tmps0exp]
-
-fun
-p_tmps0expseq (
-  buf: &tokbuf, bt: int, err: &int
-) : t0mpmarg = let
-  val tok = tokbuf_get_token (buf)
-  val xs = pstar_fun0_COMMA {s0exp} (buf, bt, p_tmps0exp)
-in
-  t0mpmarg_make (tok, (l2l)xs)
-end // end of [p_tmps0expseq]
-
 (*
 impqi0de ::= dqi0de | tmpqi0de tmps0expseq_gtlt GT
 *)

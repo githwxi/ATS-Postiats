@@ -87,10 +87,9 @@ token_node =
 //
   | T_NONE of () // dummy
 //
-  | T_AMPERSAND of () // &
-  | T_BACKQUOTE of () // `
   | T_BANG of () // !
   | T_BAR of () // |
+  | T_BQUOTE of () // `
 //
   | T_COLON of () // :
   | T_COLONLT of () // :<
@@ -181,8 +180,10 @@ token_node =
   | T_WITH of () // with
   | T_WITHTYPE of int // withtype, withprop, withview, withviewtype
 //
-  | T_FOLDAT of ()
-  | T_FREEAT of ()
+  | T_ADDRAT of () // addr@
+  | T_FOLDAT of () // fold@
+  | T_FREEAT of () // free@
+  | T_VIEWAT of () // view@
 //
   | T_DLRARRSZ of () // $arrsz
   | T_DLRDYNLOAD of () // $dynload
@@ -257,7 +258,7 @@ token_node =
   | T_ATLBRACE of () // @{
   | T_QUOTELBRACE of () // '{
 //
-  | T_BACKQUOTELPAREN of () // `( // macro syntax
+  | T_BQUOTELPAREN of () // `( // macro syntax
   | T_COMMALPAREN of ()     // ,( // macro syntax
   | T_PERCENTLPAREN of ()   // %( // macro syntax
 //
@@ -288,112 +289,116 @@ val ABSVIEW : tnode
 val ABSVIEWTYPE : tnode
 val ABSVIEWT0YPE : tnode
 
+val ADDR : tnode
+val ADDRAT : tnode
+
 val BREAK : tnode
 val CONTINUE : tnode
 
-val CASE: tnode
-val CASE_pos: tnode
-val CASE_neg: tnode
+val CASE : tnode
+val CASE_pos : tnode
+val CASE_neg : tnode
 
-val DATATYPE: tnode
-val DATAPROP: tnode
-val DATAVIEW: tnode
-val DATAVIEWTYPE: tnode
+val DATATYPE : tnode
+val DATAPROP : tnode
+val DATAVIEW : tnode
+val DATAVIEWTYPE : tnode
 
-val FUN: tnode
-val PRFUN: tnode
-val PRAXI: tnode
-val CASTFN: tnode
-val FN: tnode
-val FNSTAR: tnode
-val PRFN: tnode
+val FUN : tnode
+val PRFUN : tnode
+val PRAXI : tnode
+val CASTFN : tnode
+val FN : tnode
+val FNSTAR : tnode
+val PRFN : tnode
 
-val FOLD: tnode
-val FOLDAT: tnode
+val FOLD : tnode
+val FOLDAT : tnode
 
-val FIX: tnode
-val FIXAT: tnode
+val FIX : tnode
+val FIXAT : tnode
 
-val FOR: tnode
-val FORSTAR: tnode
+val FOR : tnode
+val FORSTAR : tnode
 
-val FREE: tnode
-val FREEAT: tnode
+val FREE : tnode
+val FREEAT : tnode
 
-val INFIX: tnode
-val INFIXL: tnode
-val INFIXR: tnode
-val PREFIX: tnode
-val POSTFIX: tnode
+val INFIX : tnode
+val INFIXL : tnode
+val INFIXR : tnode
+val PREFIX : tnode
+val POSTFIX : tnode
 
-val LAM: tnode
-val LAMAT: tnode
-val LLAM: tnode
-val LLAMAT: tnode
+val LAM : tnode
+val LAMAT : tnode
+val LLAM : tnode
+val LLAMAT : tnode
 
-val MACDEF : tnode
+val MACDEF  : tnode
 val MACRODEF : tnode
 
-val TYPE: tnode
-val TYPE_pos: tnode
-val TYPE_neg: tnode
-val T0YPE: tnode
-val T0YPE_pos: tnode
-val T0YPE_neg: tnode
-val PROP: tnode
-val PROP_pos: tnode
-val PROP_neg: tnode
-val VIEW: tnode
-val VIEW_pos: tnode
-val VIEW_neg: tnode
-val VIEWTYPE: tnode
-val VIEWTYPE_pos: tnode
-val VIEWTYPE_neg: tnode
-val VIEWT0YPE: tnode
-val VIEWT0YPE_pos: tnode
-val VIEWT0YPE_neg: tnode
+val TYPE : tnode
+val TYPE_pos : tnode
+val TYPE_neg : tnode
+val T0YPE : tnode
+val T0YPE_pos : tnode
+val T0YPE_neg : tnode
+val PROP : tnode
+val PROP_pos : tnode
+val PROP_neg : tnode
+val VIEW : tnode
+val VIEWAT : tnode
+val VIEW_pos : tnode
+val VIEW_neg : tnode
+val VIEWTYPE : tnode
+val VIEWTYPE_pos : tnode
+val VIEWTYPE_neg : tnode
+val VIEWT0YPE : tnode
+val VIEWT0YPE_pos : tnode
+val VIEWT0YPE_neg : tnode
 
-val TYPEDEF: tnode
-val PROPDEF: tnode
-val VIEWDEF: tnode
-val VIEWTYPEDEF: tnode
+val TYPEDEF : tnode
+val PROPDEF : tnode
+val VIEWDEF : tnode
+val VIEWTYPEDEF : tnode
 
-val VAL: tnode
-val VAL_pos: tnode
-val VAL_neg: tnode
-val PRVAL : tnode
+val VAL : tnode
+val VAL_pos : tnode
+val VAL_neg : tnode
+val PRVAL  : tnode
 
-val WHILE: tnode
-val WHILESTAR: tnode
+val WHILE : tnode
+val WHILESTAR : tnode
 
-val WITHTYPE: tnode
-val WITHPROP: tnode
-val WITHVIEW: tnode
-val WITHVIEWTYPE: tnode
-
-(* ****** ****** *)
-
-val DLRDELAY: tnode
-val DLRLDELAY: tnode
-
-val DLRLST: tnode
-val DLRLST_T: tnode
-val DLRLST_VT: tnode
-val DLRREC: tnode
-val DLRREC_T: tnode
-val DLRREC_VT: tnode
-val DLRTUP: tnode
-val DLRTUP_T: tnode
-val DLRTUP_VT: tnode
+val WITHTYPE : tnode
+val WITHPROP : tnode
+val WITHVIEW : tnode
+val WITHVIEWTYPE : tnode
 
 (* ****** ****** *)
 
-val DOT: tnode // = T_DOT
-val PERCENT: tnode // = IDENT_sym ("%")
-val LT: tnode // = T_LT
-val QMARK: tnode // = IDENT_sym ("?")
+val DLRDELAY : tnode
+val DLRLDELAY : tnode
 
-val ZERO: tnode // = T_INTEGER_dec ("0")
+val DLRLST : tnode
+val DLRLST_T : tnode
+val DLRLST_VT : tnode
+val DLRREC : tnode
+val DLRREC_T : tnode
+val DLRREC_VT : tnode
+val DLRTUP : tnode
+val DLRTUP_T : tnode
+val DLRTUP_VT : tnode
+
+(* ****** ****** *)
+
+val DOT : tnode // = T_DOT
+val PERCENT : tnode // = IDENT_sym ("%")
+val LT : tnode // = T_LT
+val QMARK : tnode // = IDENT_sym ("?")
+
+val ZERO : tnode // = T_INTEGER_dec ("0")
 
 (* ****** ****** *)
 

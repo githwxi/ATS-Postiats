@@ -394,6 +394,11 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [si0de] is needed", @())
     val () = fprint_newline (out)
   }
+| PE_s0taq () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [s0taq] is needed", @())
+    val () = fprint_newline (out)
+  }
 | PE_sqi0de () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [sqi0de] is needed", @())
@@ -469,6 +474,11 @@ case+ x.parerr_node of
 | PE_di0de () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [di0de] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_d0ynq () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [d0ynq] is needed", @())
     val () = fprint_newline (out)
   }
 | PE_dqi0de () => {

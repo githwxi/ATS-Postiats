@@ -101,21 +101,39 @@ implement LLAMAT = T_LAM (VIEWT0YPE_int)
 implement MACDEF = T_MACDEF (0) // short form
 implement MACRODEF = T_MACDEF (1) // long form
 
+(*
 implement TYPE = T_TYPE (TYPE_int)
+*)
+implement TYPE = T_IDENT_alp "type"
 implement TYPE_pos = T_TYPE (TYPE_pos_int)
 implement TYPE_neg = T_TYPE (TYPE_neg_int)
+//
 implement T0YPE = T_TYPE (T0YPE_int)
 implement T0YPE_pos = T_TYPE (T0YPE_pos_int)
 implement T0YPE_neg = T_TYPE (T0YPE_neg_int)
+//
+(*
 implement PROP = T_TYPE (PROP_int)
+*)
+implement PROP = T_IDENT_alp "prop"
 implement PROP_pos = T_TYPE (PROP_pos_int)
 implement PROP_neg = T_TYPE (PROP_neg_int)
+//
+(*
 implement VIEW = T_TYPE (VIEW_int)
+*)
+implement VIEW = T_IDENT_alp "view"
+implement VIEWAT = T_VIEWAT () // view@
 implement VIEW_pos = T_TYPE (VIEW_pos_int)
 implement VIEW_neg = T_TYPE (VIEW_neg_int)
+//
+(*
 implement VIEWTYPE = T_TYPE (VIEWTYPE_int)
+*)
+implement VIEWTYPE = T_IDENT_alp "viewtype"
 implement VIEWTYPE_pos = T_TYPE (VIEWTYPE_pos_int)
 implement VIEWTYPE_neg = T_TYPE (VIEWTYPE_neg_int)
+//
 implement VIEWT0YPE = T_TYPE (VIEWT0YPE_int)
 implement VIEWT0YPE_pos = T_TYPE (VIEWT0YPE_pos_int)
 implement VIEWT0YPE_neg = T_TYPE (VIEWT0YPE_neg_int)
@@ -143,6 +161,9 @@ implement WITHVIEWTYPE = T_WITHTYPE (VIEWT0YPE_int)
 
 (* ****** ****** *)
 
+implement
+ADDR = T_IDENT_alp "addr"
+implement ADDRAT = T_ADDRAT
 implement
 FOLD = T_IDENT_alp "fold"
 implement FOLDAT = T_FOLDAT
@@ -255,10 +276,9 @@ fun insert (
 } // end of [insert]
 macdef ins (k, i) = insert (ptbl, ,(k), ,(i))
 //
-val () = ins ("&", T_AMPERSAND)
-val () = ins ("`", T_BACKQUOTE)
 val () = ins ("!", T_BANG)
 val () = ins ("|", T_BAR)
+val () = ins ("`", T_BQUOTE)
 val () = ins (":", T_COLON)
 val () = ins ("$", T_DOLLAR)
 val () = ins (".", T_DOT)

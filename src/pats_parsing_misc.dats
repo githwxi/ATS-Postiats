@@ -149,9 +149,6 @@ case+ tok.token_node of
     val () = incby1 () in i0de_make_string (loc, "<")
   end
 //
-| T_AMPERSAND () => let
-    val () = incby1 () in i0de_make_string (loc, "&")
-  end
 | T_BACKSLASH () => let
     val () = incby1 () in i0de_make_string (loc, "\\")
   end

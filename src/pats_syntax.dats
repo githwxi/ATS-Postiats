@@ -1222,6 +1222,17 @@ f0arg_met_nil (tok) = '{
 (* ****** ****** *)
 
 implement
+s0elop_make_dot (t) = '{
+  s0elop_loc= t.token_loc, s0elop_knd= 0(*knd*)
+}
+implement
+s0elop_make_minusgt (t) = '{
+  s0elop_loc= t.token_loc, s0elop_knd= 1(*knd*)
+}
+
+(* ****** ****** *)
+
+implement
 i0nvarg_make (id, opt) = let
   val loc = (case+ opt of
     | Some x => id.i0de_loc + x.s0exp_loc
@@ -1420,6 +1431,43 @@ d0exp_loopexn (knd, tok) = '{
 (* ****** ****** *)
 
 implement
+d0exp_foldat
+  (t_foldat, d0es) = let
+  val loc = (
+    case+ list_last_opt<d0exp> (d0es) of
+    | ~Some_vt x => t_foldat.token_loc + x.d0exp_loc
+    | ~None_vt _ => t_foldat.token_loc
+  ) : location // end of [val]
+in '{
+  d0exp_loc= loc, d0exp_node= D0Efoldat d0es
+} end // end of [d0exp_foldat]
+
+implement
+d0exp_freeat
+  (t_freeat, d0es) = let
+  val loc = (
+    case+ list_last_opt<d0exp> (d0es) of
+    | ~Some_vt x => t_freeat.token_loc + x.d0exp_loc
+    | ~None_vt _ => t_freeat.token_loc
+  ) : location // end of [val]
+in '{
+  d0exp_loc= loc, d0exp_node= D0Efreeat d0es
+} end // end of [d0exp_freeat]
+
+(* ****** ****** *)
+
+implement
+d0exp_tmpid
+  (qid, arg, t_gt) = let
+  val loc_qid = qid.dqi0de_loc
+  val loc = loc_qid + t_gt.token_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Etmpid (qid, arg)
+} end // end of [d0exp_tmpid]
+
+(* ****** ****** *)
+
+implement
 d0exp_app (d0e1, d0e2) = let
   val loc = d0e1.d0exp_loc + d0e2.d0exp_loc
 in '{
@@ -1600,6 +1648,34 @@ in '{
 (* ****** ****** *)
 
 implement
+d0exp_ptrof (t_addrat) = '{
+  d0exp_loc= t_addrat.token_loc, d0exp_node= D0Eptrof ()
+} // end of [d0exp_ptrof]
+
+implement
+d0exp_viewat (t_viewat) = '{
+  d0exp_loc= t_viewat.token_loc, d0exp_node= D0Eviewat ()
+} // end of [d0exp_viewat]
+
+(* ****** ****** *)
+
+implement
+d0exp_sel_lab (sel, lab) = let
+  val loc = sel.s0elop_loc + lab.l0ab_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Esel_lab (sel.s0elop_knd, lab.l0ab_lab)
+} end
+
+implement
+d0exp_sel_ind (sel, ind) = let
+  val loc = sel.s0elop_loc + ind.d0arrind_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Esel_ind (sel.s0elop_knd, ind.d0arrind_ind)
+} end // end of [d0exp_sel_ind]
+
+(* ****** ****** *)
+
+implement
 d0exp_sexparg
   (t_beg, s0a, t_end) = let
   val loc = t_beg.token_loc + t_end.token_loc
@@ -1636,6 +1712,45 @@ d0exp_where
 in '{
   d0exp_loc= loc, d0exp_node= D0Ewhere (d0e, d0cs)
 } end // end of [d0exp_where]
+
+(* ****** ****** *)
+
+
+local
+
+fun d0exp_macsyn (
+  loc: location, knd: macsynkind, d0e: d0exp
+): d0exp = '{
+  d0exp_loc= loc, d0exp_node= D0Emacsyn (knd, d0e)
+} // end of [d0exp_macsyn]
+
+in // in of [local]
+
+implement
+d0exp_macsyn_cross
+  (t_beg, d0e, t_end) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in
+  d0exp_macsyn (loc, MACSYNKINDcross, d0e)
+end // end of [d0exp_macsyn_cross]
+
+implement
+d0exp_macsyn_decode
+  (t_beg, d0e, t_end) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in
+  d0exp_macsyn (loc, MACSYNKINDdecode, d0e)
+end // end of [d0exp_macsyn_decode]
+
+implement
+d0exp_macsyn_encode_seq
+  (t_beg, d0es, t_end) = let
+  val d0e = d0exp_seq (t_beg, d0es, t_end)
+in
+  d0exp_macsyn (d0e.d0exp_loc, MACSYNKINDencode, d0e)
+end // end of [d0exp_macsyn_encode_seq]
+
+end // end of [local]
 
 (* ****** ****** *)
 

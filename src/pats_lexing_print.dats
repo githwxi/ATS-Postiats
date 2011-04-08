@@ -46,10 +46,9 @@ implement
 fprint_token
   (out, tok) = case+ tok.token_node of
 //
-  | T_AMPERSAND () => fprintf (out, "AMPERSAND()", @())
-  | T_BACKQUOTE () => fprintf (out, "BACKQUOTE()", @())
   | T_BANG () => fprintf (out, "BANG()", @())
   | T_BAR () => fprintf (out, "BAR()", @())
+  | T_BQUOTE () => fprintf (out, "BQUOTE()", @())
   | T_COLON () => fprintf (out, "COLON()", @())
   | T_DOLLAR () => fprintf (out, "DOLLAR()", @())
   | T_DOT () => fprintf (out, "DOT()", @())
@@ -129,8 +128,10 @@ fprint_token
   | T_WITH () => fprintf (out, "WITH()", @())
   | T_WITHTYPE (x) => fprintf (out, "WITHTYPE(%i)", @(x))
 //
-  | T_FOLDAT () => fprintf (out, "FOLDAT()", @())
-  | T_FREEAT () => fprintf (out, "FREEAT()", @())
+  | T_ADDRAT () => fprintf (out, "ADDRAT()", @()) // addr@
+  | T_FOLDAT () => fprintf (out, "FOLDAT()", @()) // fold@
+  | T_FREEAT () => fprintf (out, "FREEAT()", @()) // free@
+  | T_VIEWAT () => fprintf (out, "VIEWAT()", @()) // view@
 //
   | T_DLRARRSZ () => fprintf (out, "DLRARRSZ()", @())
   | T_DLRDELAY (x) => fprintf (out, "DLRDELAY(%i)", @(x))
@@ -200,7 +201,7 @@ fprint_token
   | T_ATLBRACE () => fprintf (out, "ATLBRACE()", @())
   | T_QUOTELBRACE () => fprintf (out, "QUOTELBRACE()", @())
 //
-  | T_BACKQUOTELPAREN () => fprintf (out, "BACKQUOTELPAREN()", @())
+  | T_BQUOTELPAREN () => fprintf (out, "BQUOTELPAREN()", @())
   | T_COMMALPAREN () => fprintf (out, "COMMALPAREN()", @())
   | T_PERCENTLPAREN () => fprintf (out, "PERCENTLPAREN()", @())
 //

@@ -100,11 +100,11 @@ parerr_node =
   | PE_stai0de
 //
 (*
-// HX: such errors are not reported
-  | PE_s0rtq
+  | PE_s0rtq // not reported
+*)
   | PE_s0taq
   | PE_d0ynq
-*)
+//
   | PE_sqi0de
   | PE_dqi0de
   | PE_arrqi0de
@@ -552,6 +552,8 @@ fun p_s0vararg : parser (s0vararg)
 fun p_s0exparg : parser (s0exparg)
 //
 fun p_witht0ype : parser (witht0ype)
+//
+fun p_tmps0expseq : parser (t0mpmarg)
 //
 (* ****** ****** *)
 

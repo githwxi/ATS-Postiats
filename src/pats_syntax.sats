@@ -101,6 +101,15 @@ overload print with print_dcstkind
 (* ****** ****** *)
 
 datatype
+macsynkind =
+  | MACSYNKINDdecode
+  | MACSYNKINDencode
+  | MACSYNKINDcross // decode(lift(.))
+// end of [macsynkind]
+
+(* ****** ****** *)
+
+datatype
 cstsp = // special constants
   | CSTSPfilename (* the filename where #FILENAME appears *)
   | CSTSPlocation (* the location where #LOCATION appears *)
@@ -1007,6 +1016,15 @@ fun f0arg_met_nil (tok: token): f0arg
 
 (* ****** ****** *)
 
+typedef s0elop = '{
+  s0elop_loc= location, s0elop_knd= int
+} // end of [s0elop]
+
+fun s0elop_make_dot (tok: token): s0elop
+fun s0elop_make_minusgt (tok: token): s0elop
+
+(* ****** ****** *)
+
 typedef
 i0nvarg = '{
   i0nvarg_loc= location
@@ -1113,6 +1131,11 @@ and d0exp_node =
   | D0Elabel of (label)
   | D0Eloopexn of int(*break/continue: 0/1*)
 //
+  | D0Efoldat of d0explst (* folding at a given address *)
+  | D0Efreeat of d0explst (* freeing at a given address *)
+//
+  | D0Etmpid of (dqi0de, t0mpmarglst) // template id
+//
   | D0Eapp of (d0exp, d0exp) // functional application
 //
   | D0Elist of (int(*npf*), d0explst)
@@ -1137,12 +1160,20 @@ and d0exp_node =
   | D0Eraise of d0exp // $raise
   | D0Edelay of (int(*knd*), d0exp(*body*)) // $delay and $ldelay
 //
+  | D0Eptrof of () // taking the addr of a left-value
+  | D0Eviewat of () // taking the view at the addr of a left-value
+//
+  | D0Esel_lab of (int(*knd*), label)
+  | D0Esel_ind of (int(*knd*), d0explstlst(*ind*))
+//
   | D0Esexparg of s0exparg // static multi-argument
 //
   | D0Elet of (d0eclist, d0exp) // dynamic let-expression
   | D0Edeclseq of d0eclist // = let [d0eclist] in (*nothing*) end
 //
   | D0Ewhere of (d0exp, d0eclist)
+//
+  | D0Emacsyn of (macsynkind, d0exp) // macro syntax
 //
   | D0Eann of (d0exp, s0exp) // ascribed dynamic expressions
 // end of [d0exp_node]
@@ -1323,6 +1354,11 @@ fun d0exp_label_sym (t_dot: token, lab: token): d0exp
 
 fun d0exp_loopexn (knd: int, tok: token): d0exp // brk/cnt: 0/1
 
+fun d0exp_foldat (t_foldat: token, _: d0explst): d0exp
+fun d0exp_freeat (t_freeat: token, _: d0explst): d0exp
+
+fun d0exp_tmpid (qid: dqi0de, arg: t0mpmarglst, t_gt: token): d0exp
+
 fun d0exp_app (_1: d0exp, _2: d0exp): d0exp
 
 fun d0exp_list (
@@ -1394,6 +1430,16 @@ fun d0exp_arrsize (
 fun d0exp_raise (tok: token, d0e: d0exp): d0exp
 fun d0exp_delay (knd: int, tok: token, body: d0exp): d0exp
 
+(* ****** ****** *)
+
+fun d0exp_ptrof (t_addrat: token): d0exp // addr@
+fun d0exp_viewat (t_viewat: token): d0exp // view@
+
+fun d0exp_sel_lab (sel: s0elop, lab: l0ab): d0exp
+fun d0exp_sel_ind (sel: s0elop, ind: d0arrind): d0exp
+
+(* ****** ****** *)
+
 fun d0exp_sexparg
   (t_beg: token, s0a: s0exparg, t_end: token): d0exp
 // end of [d0exp_sexparg]
@@ -1409,6 +1455,22 @@ fun d0exp_declseq
 fun d0exp_where
   (d0e: d0exp, d0cs: d0eclist, t_end: token) : d0exp
 // end of [d0exp_where]
+
+(* ****** ****** *)
+
+fun d0exp_macsyn_decode
+  (t_beg: token, _: d0exp, t_end: token): d0exp
+// end of [d0exp_macsyn_decode]
+
+fun d0exp_macsyn_encode_seq
+  (t_beg: token, _: d0explst, t_end: token): d0exp
+// end of [d0exp_macsyn_encode_seq]
+
+fun d0exp_macsyn_cross
+  (t_beg: token, _: d0exp, t_end: token): d0exp
+// end of [d0exp_macsyn_cross]
+
+(* ****** ****** *)
 
 fun d0exp_ann (_1: d0exp, _2: s0exp): d0exp
 

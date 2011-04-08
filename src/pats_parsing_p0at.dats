@@ -425,14 +425,12 @@ case+ tok.token_node of
 | T_LBRACE () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = pstar_fun0_SEMICOLON {s0qua} (buf, bt, p_s0qua)
+    val ent2 = p_s0quaseq (buf, bt, err)
     val ent3 = p_RBRACE (buf, bt, err) // err = 0
   in
     if err = 0 then
-      f0arg_sta1 (tok, (l2l)ent2, ent3)
-    else let
-      val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
-    end (* end of [if] *)
+      f0arg_sta1 (tok, ent2, ent3) else tokbuf_set_ntok_null (buf, n0)
+    // end of [if]
   end
 | T_DOTLT () => let
     val bt = 0
@@ -586,26 +584,6 @@ end // end of [p_c0lau]
 
 (* ****** ****** *)
 
-implement
-p_c0lauseq
-  (buf, bt, err) = let
-  val tok = tokbuf_get_token (buf)
-  macdef incby1 () = tokbuf_incby1 (buf)
-in
-//
-case+ tok.token_node of
-| T_BAR () => let
-    val () = incby1 ()
-    val xs = pstar_fun0_BAR (buf, bt, p_c0lau) in l2l (xs)
-  end // end of [T_BAR]
-| _ => let
-    val xs = pstar_fun0_BAR (buf, bt, p_c0lau) in l2l (xs)
-  end // end of [T_BAR]
-//
-end // end of [p_c0lauseq]
-
-(* ****** ****** *)
-
 (*
 sp0at ::= sqi0de LPAREN s0argseq RPAREN
 *)
@@ -645,22 +623,18 @@ in
   // end of [if]
 end // end of [p_sc0lau]
 
+(* ****** ****** *)
+
+implement
+p_c0lauseq
+  (buf, bt, err) = let
+  val _ = p_BAR_test (buf) in l2l(pstar_fun0_BAR (buf, bt, p_c0lau))
+end // end of [p_c0lauseq]
+
 implement
 p_sc0lauseq
   (buf, bt, err) = let
-  val tok = tokbuf_get_token (buf)
-  macdef incby1 () = tokbuf_incby1 (buf)
-in
-//
-case+ tok.token_node of
-| T_BAR () => let
-    val () = incby1 ()
-    val xs = pstar_fun0_BAR (buf, bt, p_sc0lau) in l2l (xs)
-  end // end of [T_BAR]
-| _ => let
-    val xs = pstar_fun0_BAR (buf, bt, p_sc0lau) in l2l (xs)
-  end // end of [T_BAR]
-//
+  val _ = p_BAR_test (buf) in l2l(pstar_fun0_BAR (buf, bt, p_sc0lau))
 end // end of [p_sc0lauseq]
 
 (* ****** ****** *)

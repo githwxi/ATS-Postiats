@@ -119,21 +119,18 @@ fun s0exp_tyrec12_ext (
 
 fun
 p_s0expseq_BAR_s0expseq (
-  buf: &tokbuf
-, bt: int
-, err: &int
+  buf: &tokbuf, bt: int, err: &int
 ) : s0explst12 =
   plist12_fun (buf, bt, p_s0exp)
 // end of [p_s0expseq_BAR_s0expseq]
 
 fun
 p_labs0expseq_BAR_labs0expseq (
-  buf: &tokbuf
-, bt: int
-, err: &int
-) : labs0explst12 =
+  buf: &tokbuf, bt: int, err: &int
+) : labs0explst12 = let
+  val _ = p_COMMA_test (buf) in
   plist12_fun (buf, bt, p_labs0exp)
-// end of [p_labs0expseq_BAR_labs0expseq]
+end // end of [p_labs0expseq_BAR_labs0expseq]
 
 (* ****** ****** *)
 
@@ -174,9 +171,6 @@ case+ tok.token_node of
     val () = incby1 () in i0de_make_sym (loc, symbol_LT)
   end
 //
-| T_AMPERSAND () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_AMPERSAND)
-  end
 | T_BACKSLASH () => let
     val () = incby1 () in i0de_make_sym (loc, symbol_BACKSLASH)
   end
@@ -215,6 +209,8 @@ s0taq
 implement
 p_s0taq (buf, bt, err) = let
   val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  val loc = tok.token_loc
   var ent: synent?
   macdef incby1 () = tokbuf_incby1 (buf)
 in
@@ -236,15 +232,16 @@ case+ 0 of
         val () = incby1 () in s0taq_symcolon (ent1, tok2)
       end
     | _ => let
-(*
-        val () = the_parerrlst_add_ifnbt (bt, ent1.i0de_loc, PE_s0taq)
-*)
+        val () = the_parerrlst_add_ifnbt (bt, loc, PE_s0taq)
       in
         tokbuf_set_ntok_null (buf, n0)
       end // end of [_]
   end (* end of [_ when ...] *)
 | _ => let
-    val () = err := err + 1 in synent_null ()
+    val () = err := err + 1
+    val () = the_parerrlst_add_ifnbt (bt, loc, PE_s0taq)
+  in
+    synent_null ()
   end (* end of [_] *)
 //
 end // end of [p_s0taq]
@@ -1040,19 +1037,8 @@ end // end of [p_d0atcon]
 implement
 p_d0atconseq
   (buf, bt, err) = let
-  val tok = tokbuf_get_token (buf)
-  macdef incby1 () = tokbuf_incby1 (buf)
-in
-//
-case+ tok.token_node of
-| T_BAR () => let
-    val () = incby1 ()
-    val xs = pstar_fun0_BAR (buf, bt, p_d0atcon) in l2l (xs)
-  end // end of [T_BAR]
-| _ => let
-    val xs = pstar_fun0_BAR (buf, bt, p_d0atcon) in l2l (xs)
-  end // end of [T_BAR]
-//
+  val _ = p_BAR_test (buf) in
+  l2l (pstar_fun0_BAR (buf, bt, p_d0atcon))
 end // end of [p_d0atconseq]
 
 (* ****** ****** *)
@@ -1243,6 +1229,52 @@ case+ tok.token_node of
 | _ => WITHT0YPEnone ()
 //
 end // end of [p_witht0ype]
+
+(* ****** ****** *)
+
+fun
+p_atms0exp_ngt (
+  buf: &tokbuf, bt: int, err: &int
+) : s0exp = let
+  val tok = tokbuf_get_token (buf)
+in
+//
+case+ tok.token_node of
+| T_GT () => let
+    val () = err := err + 1 in synent_null ()
+  end
+| _ => p_atms0exp (buf, bt, err)
+//
+end // end of [p_atms0exp_ngt]
+
+fun
+p_tmps0exp (
+  buf: &tokbuf, bt: int, err: &int
+) : s0exp = let
+  val xs = pstar1_fun {s0exp} (buf, bt, err, p_atms0exp_ngt)
+  fun loop (
+    x0: s0exp, xs: s0explst_vt
+  ) : s0exp =
+    case+ xs of
+    | ~list_vt_cons (x, xs) => let
+        val x0 = s0exp_app (x0, x) in loop (x0, xs)
+      end
+    | ~list_vt_nil () => x0
+  // end of [loop]
+in
+  case+ xs of
+  | ~list_vt_cons (x, xs) => loop (x, xs)
+  | ~list_vt_nil () => synent_null () // HX: [err] is already set
+end // end of [p_tmps0exp]
+
+implement
+p_tmps0expseq
+  (buf, bt, err) = let
+  val tok = tokbuf_get_token (buf)
+  val xs = pstar_fun0_COMMA {s0exp} (buf, bt, p_tmps0exp)
+in
+  t0mpmarg_make (tok, (l2l)xs)
+end // end of [p_tmps0expseq]
 
 (* ****** ****** *)
 

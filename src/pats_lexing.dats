@@ -129,10 +129,13 @@ lexsym =
 //
   | LS_ABST // for abst@ype
   | LS_ABSVIEWT // for absviewt@ype
+  | LS_ADDR // for addr@
   | LS_CASE // for case+ and case-
   | LS_FIX // for fix@
   | LS_FN // for fn*
   | LS_FOR // for for*
+  | LS_FOLD // for fold@
+  | LS_FREE // for free@
   | LS_LAM // for lam@
   | LS_LLAM // for llam@
   | LS_PROP // for prop+ and prop-
@@ -145,9 +148,6 @@ lexsym =
   | LS_VIEWTYPE // for viewtype+ and viewtype-
   | LS_VIEWT0YPE // for viewt0ype+ and viewt0ype-
   | LS_WHILE // for while*
-//
-  | LS_FOLD // for fold@
-  | LS_FREE // for free@
 //
 (*
   | LS_LTBANG of () // "<!" // not a symbol
@@ -238,6 +238,7 @@ fun insert (
 //
 val () = insert (ptbl, "abst", LS_ABST)
 val () = insert (ptbl, "absviewt", LS_ABSVIEWT)
+val () = insert (ptbl, "addr", LS_ADDR)
 val () = insert (ptbl, "case", LS_CASE)
 val () = insert (ptbl, "fix", LS_FIX)
 val () = insert (ptbl, "fn", LS_FN)
@@ -257,11 +258,8 @@ val () = insert (ptbl, "viewtype", LS_VIEWTYPE)
 val () = insert (ptbl, "viewt0ype", LS_VIEWT0YPE) // = viewt@ype
 val () = insert (ptbl, "while", LS_WHILE)
 //
-val () = insert (ptbl, "fold", LS_FOLD)
-val () = insert (ptbl, "free", LS_FREE)
-//
 val rtbl = HASHTBLref_make_ptr {key,itm} (ptbl)
-
+//
 in // in of [local]
 
 fun IDENT_alp_get_lexsym
@@ -1623,11 +1621,28 @@ fun lexing_PROP (
 ) : token =
   lexing_polarity (buf, pos, PROP, PROP_pos, PROP_neg)
 // end of [lexing_PROP]
+//
 fun lexing_VIEW (
   buf: &lexbuf, pos: &position
-) : token =
-  lexing_polarity (buf, pos, VIEW, VIEW_pos, VIEW_neg)
-// end of [lexing_VIEW]
+) : token = let
+  val i = lexbufpos_get_char (buf, pos)
+in
+  case+ (i2c)i of
+  | '@' => let
+      val () = posincby1 (pos) in
+      lexbufpos_token_reset (buf, pos, VIEWAT)
+    end
+  | '+' => let
+      val () = posincby1 (pos) in
+      lexbufpos_token_reset (buf, pos, VIEW_pos)
+    end
+  | '-' => let
+      val () = posincby1 (pos) in
+      lexbufpos_token_reset (buf, pos, VIEW_neg)
+    end
+  | _ => lexbufpos_token_reset (buf, pos, VIEW)
+end // end of [lexing_VIEW]
+//
 fun lexing_VIEWTYPE (
   buf: &lexbuf, pos: &position
 ) : token =
@@ -1653,6 +1668,9 @@ fun lexing_FIX (
 
 (* ****** ****** *)
 
+fun lexing_ADDR (
+  buf: &lexbuf, pos: &position
+) : token = lexing_postfix (buf, pos, ADDR, ADDRAT, '@')
 fun lexing_FOLD (
   buf: &lexbuf, pos: &position
 ) : token = lexing_postfix (buf, pos, FOLD, FOLDAT, '@')
@@ -1748,6 +1766,9 @@ in
       val () = strptr_free (str) in lexing_WHILE (buf, pos)
     end
 //
+  | LS_ADDR () => let
+      val () = strptr_free (str) in lexing_ADDR (buf, pos)
+    end
   | LS_FOLD () => let
       val () = strptr_free (str) in lexing_FOLD (buf, pos)
     end
