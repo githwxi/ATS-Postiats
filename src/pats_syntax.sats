@@ -1120,7 +1120,7 @@ and d0exp_node =
   | D0Eifhead of (ifhead, d0exp, d0exp, d0expopt)
   | D0Esifhead of (sifhead, s0exp, d0exp, d0exp) // HX: no dangling else-branch
   | D0Ecasehead of (casehead, d0exp, c0laulst)
-  | D0Escasehead of (scasehead, s0exp, c0laulst)
+  | D0Escasehead of (scasehead, s0exp, sc0laulst)
 //
   | D0Elam of (int(*knd*), f0arglst, s0expopt, e0fftaglstopt, d0exp)
   | D0Efix of (int(*knd*), i0de, f0arglst, s0expopt, e0fftaglstopt, d0exp)
@@ -1342,7 +1342,7 @@ fun d0exp_casehead
   (hd: casehead, d0e: d0exp, t_of: token, c0ls: c0laulst): d0exp
 // end of [d0exp_casehead]
 fun d0exp_scasehead
-  (hd: scasehead, s0e: s0exp, t_of: token, c0ls: c0laulst): d0exp
+  (hd: scasehead, s0e: s0exp, t_of: token, c0ls: sc0laulst): d0exp
 // end of [d0exp_scasehead]
 
 (* ****** ****** *)

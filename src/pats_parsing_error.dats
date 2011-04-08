@@ -496,6 +496,11 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [d0exp] is needed", @())
     val () = fprint_newline (out)
   }
+| PE_d0exp0 () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [d0exp0] is needed", @())
+    val () = fprint_newline (out)
+  }
 | PE_atmd0exp () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [atmd0exp] is needed", @())

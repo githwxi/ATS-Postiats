@@ -379,6 +379,26 @@ case+ tok.token_node of
 //
 end // end of [plist12_fun]
 
+implement
+p1list12_fun {a}
+  (x, buf, bt, f) = let
+  val xs1 = pstar_sep_fun {a} (buf, bt, p_COMMA_test, f)
+  val xs1 = list_vt_cons {a} (x, xs1)
+  val tok = tokbuf_get_token (buf)
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_BAR () => let
+    val () = incby1 ()
+    val xs2 = pstar_fun0_COMMA {a} (buf, bt, f)
+  in
+    LIST12two (xs1, xs2)
+  end
+| _ => LIST12one (xs1)
+//
+end // end of [p1list12_fun]
+
 (* ****** ****** *)
 
 implement

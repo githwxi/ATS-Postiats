@@ -76,6 +76,19 @@ fun d0exp_list12 (
     end (* end of [LIST12two] *)
 // end of [d0exp_list12]
 
+fun d0exp_list12_if (
+  t_beg: token
+, ent2: d0explst12
+, t_end: token
+, err: int, err0: int
+) : d0exp =
+  if err = err0 then
+    d0exp_list12 (t_beg, ent2, t_end)
+  else let
+    val () = list12_free (ent2) in synent_null ()
+  end (* end of [if] *)
+// end of [d0exp_list12_if]
+
 (* ****** ****** *)
 
 fun d0exp_tup12 (
@@ -122,6 +135,18 @@ p_d0expseq_BAR_d0expseq (
 ) : d0explst12 =
   plist12_fun (buf, bt, p_d0exp)
 // end of [p_d0expseq_BAR_d0expseq]
+
+fun
+p1_d0expseq_BAR_d0expseq (
+  d0e: d0exp
+, buf: &tokbuf
+, bt: int
+, err: &int
+) : d0explst12 =
+  p1list12_fun (d0e, buf, bt, p_d0exp)
+// end of [p1_d0expseq_BAR_d0expseq]
+
+(* ****** ****** *)
 
 fun
 p_labd0expseq_BAR_labd0expseq (
@@ -391,18 +416,36 @@ p_eqd0expopt
 (* ****** ****** *)
 
 (*
-d0expsemiseq0 = /*empty*/ | d0exp {SEMICOLON d0exp}* {SEMICOLON}*
+d0expsemiseq = /*empty*/ | d0exp {SEMICOLON d0exp}* {SEMICOLON}*
 *)
 implement
-p_d0expsemiseq0
-  (buf, bt, err) = (l2l)xs where {
-  val xs = pstar_fun0_SEMICOLON (buf, bt, p_d0exp)
-  val () = let
-    val semilst = pstar_fun (buf, bt, p_SEMICOLON)
-  in
-    list_vt_free (semilst)
-  end (* end of [val] *)
-} // end of [d0expsemiseq0]
+p_d0expsemiseq
+  (buf, bt, err) = let
+  val err0 = err
+  val x = p_d0exp (buf, 1(*bt*), err) // HX: optional
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+if err = err0 then let
+  val tok = tokbuf_get_token (buf)
+in
+  case+ tok.token_node of
+  | T_SEMICOLON () => let
+      val () = incby1 ()
+      val xs = p_d0expsemiseq (buf, 1(*bt*), err)
+    in
+      list_cons (x, xs)
+    end
+  | _ => list_nil ()
+end else let
+  val () = err := err0
+  val semilst = pstar_fun (buf, bt, p_SEMICOLON)
+  val () = list_vt_free (semilst)
+in
+  list_nil ()
+end // end of [if]
+//
+end // end of [p_d0expsemiseq]
 
 (* ****** ****** *)
 
@@ -514,6 +557,7 @@ atmd0exp ::=
 //
   | DLREXTVAL LPAREN s0exp COMMA s0tring RPAREN
 //
+  | LPAREN d0exp SEMICOLON d0expsemiseq RPAREN
   | LPAREN d0expcommaseq [BAR d0expcommaseq] RPAREN
 //
   | ATLPAREN d0expcommaseq [BAR d0expcommaseq] RPAREN
@@ -526,7 +570,9 @@ atmd0exp ::=
   | ATLBRACKET s0exp RBRACKET arrdimopt LPAREN d0expcommaseq RPAREN
   | DLRARRSZ s0expelt LPAREN d0expcommaseq RPAREN
 //
-  | LET d0ecseq_dyn IN d0expsemiseq0 END
+  | BEGIN d0expsemiseq END
+//
+  | LET d0ecseq_dyn IN d0expsemiseq END
   | LBRACE d0ecseq_dyn RBRACE
 *)
 
@@ -613,16 +659,35 @@ case+ tok.token_node of
   end
 //
 | T_LPAREN () => let
-    val bt = 0
     val () = incby1 ()
-    val ent2 = p_d0expseq_BAR_d0expseq (buf, bt, err)
-    val ent3 = p_RPAREN (buf, bt, err) // err = err0
+    val d0e = p_d0exp (buf, bt, err)
   in
-    if err = err0 then
-      d0exp_list12 (tok, ent2, ent3)
-    else let
-      val () = list12_free (ent2) in synent_null ()
-    end // end of [if]
+    if err = err0 then let
+      val tok2 = tokbuf_get_token (buf)
+    in
+      case+ tok2.token_node of
+      | T_SEMICOLON () => let
+          val bt = 0
+          val () = incby1 ()
+          val d0es = p_d0expsemiseq (buf, bt, err)
+          val ent3 = p_RPAREN (buf, bt, err) // err = err0
+        in
+          if err = err0 then
+            d0exp_seq (tok, list_cons (d0e, d0es), ent3)
+          else synent_null ()
+        end
+      | _ => let
+          val ent2 = p1_d0expseq_BAR_d0expseq (d0e, buf, bt, err)
+          val ent3 = p_RPAREN (buf, bt, err) // err = err0
+        in
+          d0exp_list12_if (tok, ent2, ent3, err, err0)
+        end
+    end else let
+      val ent2 = p_d0expseq_BAR_d0expseq (buf, bt, err)
+      val ent3 = p_RPAREN (buf, bt, err) // err = err0
+    in
+      d0exp_list12_if (tok, ent2, ent3, err, err0)
+    end (* end of [if] *)
   end
 //
 | tnd when
@@ -711,12 +776,23 @@ case+ tok.token_node of
     end (* end of [if] *)
   end
 //
+| T_BEGIN () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_d0expsemiseq (buf, bt, err)
+    val ent3 = p_END (buf, bt, err) // err = err0
+  in
+    if err = err0 then
+      d0exp_seq (tok, ent2, ent3) else synent_null ()
+    // end of [if]
+  end
+//
 | T_LET () => let
     val bt = 0
     val () = incby1 ()
     val ent2 = p_d0eclseq_dyn (buf, bt, err)
     val ent3 = p_IN (buf, bt, err) // err= err0
-    val ent4 = pif_fun (buf, bt, err, p_d0expsemiseq0, err0)
+    val ent4 = pif_fun (buf, bt, err, p_d0expsemiseq, err0)
     val ent5 = pif_fun (buf, bt, err, p_END, err0)
   in
     if err = err0 then
@@ -831,7 +907,11 @@ case+ 0 of
     | Some s0e => d0exp_ann (d0e, s0e) | None () => d0e
   end
 | _ => let
-    val () = err := err + 1 in synent_null ()
+    val tok = tokbuf_get_token (buf)
+    val () = err := err + 1
+    val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_d0exp0)
+  in
+    synent_null ()
   end
 end // end of [p_d0exp0]
 
@@ -1178,7 +1258,7 @@ d0exp  :: =
   | whilehead atmd0exp d0exp
   | DLRRAISE d0exp // done!
   | DLRDELAY d0exp // done!
-  | tryhead d0expsemiseq0 WITH c0lauseq
+  | tryhead d0expsemiseq WITH c0lauseq
 *)
 
 fun p_d0exp_tok (
@@ -1253,7 +1333,7 @@ case+ tok.token_node of
     val ent1 = synent_decode {scasehead} (ent)
     val ent2 = p_s0exp (buf, bt, err)
     val ent3 = pif_fun (buf, bt, err, p_OF, err0)
-    val ent4 = pif_fun (buf, bt, err, p_c0lauseq, err0)
+    val ent4 = pif_fun (buf, bt, err, p_sc0lauseq, err0)
   in
     if err = err0 then
       d0exp_scasehead (ent1, ent2, ent3, ent4) else synent_null ()

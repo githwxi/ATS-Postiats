@@ -138,6 +138,7 @@ parerr_node =
   | PE_c0lau
 //
   | PE_d0exp
+  | PE_d0exp0
   | PE_atmd0exp
   | PE_labd0exp
 //
@@ -450,6 +451,10 @@ fun plist12_fun {a:type}
   (buf: &tokbuf, bt: int, f: parser (a)): list12 (a)
 // end of [plist12_fun]
 
+fun p1list12_fun {a:type}
+  (x: a, buf: &tokbuf, bt: int, f: parser (a)): list12 (a)
+// end of [p1list12_fun]
+
 (* ****** ****** *)
 
 fun pif_fun
@@ -568,9 +573,10 @@ fun p_tmpqi0de : parser (dqi0de)
 //
 fun p_eqd0expopt : parser (d0expopt) // EQ d0exp
 //
-fun p_d0expsemiseq0 : parser (d0explst)
+fun p_d0expsemiseq : parser (d0explst)
 //
 fun p_c0lauseq : parser (c0laulst) // pattern-matching clauses
+fun p_sc0lauseq : parser (sc0laulst) // static pattern-matching clauses
 
 (* ****** ****** *)
 

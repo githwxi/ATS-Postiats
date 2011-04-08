@@ -606,4 +606,63 @@ end // end of [p_c0lauseq]
 
 (* ****** ****** *)
 
+(*
+sp0at ::= sqi0de LPAREN s0argseq RPAREN
+*)
+
+fun
+p_sp0at (
+  buf: &tokbuf, bt: int, err: &int
+) : sp0at = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val ent1 = p_sqi0de (buf, bt, err)
+  val ent2 = pif_fun (buf, bt, err, p_LPAREN, err0)
+  val ent3 = (
+    if err = err0 then
+      pstar_fun0_COMMA {s0arg} (buf, bt, p_s0arg)
+    else list_vt_nil ()
+  ) : List_vt (s0arg)
+  val ent4 = pif_fun (buf, bt, err, p_RPAREN, err0)
+in
+  if err = err0 then
+    sp0at_con (ent1, (l2l)ent3, ent4)
+  else let
+    val () = list_vt_free (ent3) in tokbuf_set_ntok_null (buf, n0)
+  end (* end of [if] *)
+end // end of [p_sp0at]
+
+fun p_sc0lau (
+  buf: &tokbuf, bt: int, err: &int
+) : sc0lau = let
+  val err0 = err
+  val ~SYNENT3 (ent1, ent2, ent3) =
+    pseq3_fun (buf, bt, err, p_sp0at, p_EQGT, p_d0exp)
+  // end of [val]
+in
+  if err = err0 then
+    sc0lau_make (ent1, ent3) else synent_null ((*okay*))
+  // end of [if]
+end // end of [p_sc0lau]
+
+implement
+p_sc0lauseq
+  (buf, bt, err) = let
+  val tok = tokbuf_get_token (buf)
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_BAR () => let
+    val () = incby1 ()
+    val xs = pstar_fun0_BAR (buf, bt, p_sc0lau) in l2l (xs)
+  end // end of [T_BAR]
+| _ => let
+    val xs = pstar_fun0_BAR (buf, bt, p_sc0lau) in l2l (xs)
+  end // end of [T_BAR]
+//
+end // end of [p_sc0lauseq]
+
+(* ****** ****** *)
+
 (* end of [pats_parsing_p0at.dats] *)

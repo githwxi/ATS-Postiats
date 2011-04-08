@@ -1487,8 +1487,8 @@ d0exp_scasehead (
   val t_scase = hd.scasehead_tok
   val loc_hd = t_scase.token_loc
   val loc = (
-    case+ list_last_opt<c0lau> (c0ls) of
-    | ~Some_vt x => loc_hd + x.c0lau_loc
+    case+ list_last_opt<sc0lau> (c0ls) of
+    | ~Some_vt x => loc_hd + x.sc0lau_loc
     | ~None_vt _ => loc_hd + t_of.token_loc
   ) : location
 in '{
@@ -1704,6 +1704,22 @@ in '{
 , c0lau_neg= neg
 , c0lau_body= body
 } end // end of [c0lau_make]
+
+(* ****** ****** *)
+
+implement
+sp0at_con (qid, xs, t_end) = let
+  val loc = qid.sqi0de_loc + t_end.token_loc
+in '{
+  sp0at_loc= loc, sp0at_node= SP0Tcon (qid, xs)
+} end // end of [s0pat_con]
+
+implement
+sc0lau_make (sp0t, d0e) = let
+  val loc = sp0t.sp0at_loc + d0e.d0exp_loc
+in '{
+  sc0lau_loc= loc, sc0lau_pat= sp0t, sc0lau_body= d0e
+} end // end of [sc0lau_make]
 
 (* ****** ****** *)
 
