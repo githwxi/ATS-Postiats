@@ -1098,6 +1098,7 @@ lexing_DOT
   (buf, pos) = let
   val i = lexbufpos_get_char (buf, pos)
   val c = (i2c)i
+  val nspace = lexbuf_get_nspace (buf)
 in
   case+ 0 of
   | _ when
@@ -1106,6 +1107,28 @@ in
       val k = testing_symbolicseq0 (buf, pos) in
       lexing_IDENT_sym (buf, pos, k+2u)
     end
+(*
+  | _ when nspace = 0 => let
+    in
+      if IDENTFST_test (c) then let
+        val () = posincby1 (pos)
+        val k = testing_identrstseq0 (buf, pos)
+        val str = lexbuf_get_substrptr1 (buf, 1u, k+1u)
+        val str = string_of_strptr (str)
+      in
+        lexbufpos_token_reset (buf, pos, T_LABEL (0(*sym*), str))
+      end else if DIGIT_test (c) then let
+        val () = posincby1 (pos)
+        val k = testing_digitseq0 (buf, pos)
+        val str = lexbuf_get_substrptr1 (buf, 1u, k+1u)
+        val str = string_of_strptr (str)
+      in
+        lexbufpos_token_reset (buf, pos, T_LABEL (1(*int*), str))
+      end else
+        lexbufpos_token_reset (buf, pos, DOT)
+      // end of [if]
+    end // end of [nspace = 0u]
+*)
   | _ when
       FLOATDOT_test (buf, c) => let
       val () = posdecby1 (pos)

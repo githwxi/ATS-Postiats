@@ -49,11 +49,15 @@ parerr_node =
 //
   | PE_AND
   | PE_END
+  | PE_AS
   | PE_OF
   | PE_IN
+  | PE_IF | PE_SIF
+  | PE_CASE | PE_SCASE
   | PE_THEN
   | PE_ELSE
   | PE_REC
+  | PE_WHEN
   | PE_WITH
 //
   | PE_BAR
@@ -129,6 +133,9 @@ parerr_node =
   | PE_p0at
   | PE_atmp0at
   | PE_labp0at
+  | PE_m0atch
+  | PE_guap0at
+  | PE_c0lau
 //
   | PE_d0exp
   | PE_atmd0exp
@@ -190,11 +197,24 @@ fun is_THEN (x: tnode): bool
 fun p_ELSE : parser (token)
 fun is_ELSE (x: tnode): bool
 
+fun p_AS : parser (token)
+fun is_AS (x: tnode): bool
+
 fun p_OF : parser (token)
 fun is_OF (x: tnode): bool
 
 fun p_IN : parser (token)
 fun is_IN (x: tnode): bool
+
+fun p_IF : parser (token)
+fun is_IF (x: tnode): bool
+fun p_SIF : parser (token)
+fun is_SIF (x: tnode): bool
+
+fun p_CASE : parser (token)
+fun is_CASE (x: tnode): bool
+fun p_SCASE : parser (token)
+fun is_SCASE (x: tnode): bool
 
 fun p_REC : parser (token)
 fun is_REC (x: tnode): bool
@@ -202,6 +222,9 @@ fun p_REC_test (buf: &tokbuf): bool
 
 fun p_WITH : parser (token)
 fun is_WITH (x: tnode): bool
+
+fun p_WHEN : parser (token)
+fun is_WHEN (x: tnode): bool
 
 (* ****** ****** *)
 
@@ -546,6 +569,8 @@ fun p_tmpqi0de : parser (dqi0de)
 fun p_eqd0expopt : parser (d0expopt) // EQ d0exp
 //
 fun p_d0expsemiseq0 : parser (d0explst)
+//
+fun p_c0lauseq : parser (c0laulst) // pattern-matching clauses
 
 (* ****** ****** *)
 

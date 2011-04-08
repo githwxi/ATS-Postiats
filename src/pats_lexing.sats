@@ -91,30 +91,41 @@ token_node =
   | T_BACKQUOTE of () // `
   | T_BANG of () // !
   | T_BAR of () // |
+//
   | T_COLON of () // :
+  | T_COLONLT of () // :<
+(*
+  | T_COLONLTGT of () // :<> // HX: impossible
+*)
+//
   | T_DOLLAR of () // $
+//
   | T_DOT of () // .
-  | T_EQ of () // =
-  | T_HASH of () // #
-  | T_TILDE of () // ~
   | T_DOTDOT of () // ..
   | T_DOTDOTDOT of () // ...
+//
+  | T_EQ of () // =
   | T_EQGT of () // =>
   | T_EQLT of () // =<
   | T_EQLTGT of () // =<>
   | T_EQSLASHEQGT of () // =/=>
   | T_EQGTGT of () // =>>
   | T_EQSLASHEQGTGT of () // =/=>>
+//
+  | T_HASH of () // #
+//
   | T_LT of () // <
   | T_GT of () // >
   | T_GTLT of () // <>
   | T_DOTLT of () // .<
   | T_GTDOT of () // >.
   | T_DOTLTGTDOT of () // .<>.
+//
   | T_MINUSGT of () // ->
   | T_MINUSLT of () // -<
   | T_MINUSLTGT of () // -<>
-  | T_COLONLT of () // :<
+//
+  | T_TILDE of () // ~
 //
   | T_ABSTYPE of int // abstype, abst@ype, absprop, absview, absviewtype, absviewt@ype
   | T_AND of () // and
@@ -222,6 +233,10 @@ token_node =
   | T_FLOAT of (int(*base*), string(*rep*), uint(*suffix*))
 //
   | T_STRING of string
+//
+(*
+  | T_LABEL of (int(*knd*), string)
+*)
 //
   | T_LPAREN of () // (
   | T_RPAREN of () // )

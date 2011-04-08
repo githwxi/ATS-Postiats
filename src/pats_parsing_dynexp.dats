@@ -510,6 +510,8 @@ atmd0exp ::=
   | f0loat
   | #FILENAME | #LOCATION
   | BREAK | CONTINUE
+  | LABEL
+//
   | DLREXTVAL LPAREN s0exp COMMA s0tring RPAREN
 //
   | LPAREN d0expcommaseq [BAR d0expcommaseq] RPAREN
@@ -568,6 +570,28 @@ case+ tok.token_node of
   end
 | T_SRPLOCATION () => let
     val () = incby1 () in d0exp_LOCATION (tok)
+  end
+//
+| T_DOT _ => let
+    val bt = 0
+    val () = incby1 ()
+    val tok2 = tokbuf_get_token (buf)
+  in
+    case+ tok2.token_node of
+    | T_INTEGER _ => let
+        val () = incby1 () in d0exp_label_int (tok, tok2)
+      end
+    | T_IDENT_alp _ => let
+        val () = incby1 () in d0exp_label_sym (tok, tok2)
+      end
+    | _ => let
+        val () = err := err + 1
+(*
+        val () = the_parerrlst_add (PE_DOT_dangling)
+*)
+      in
+        synent_null ()
+      end
   end
 //
 | T_BRKCONT (knd) => let
@@ -1053,6 +1077,38 @@ end // end of [pstar_where]
 
 (* ****** ****** *)
 
+fun ptokhead_fun (
+  buf: &tokbuf
+, bt: int
+, err: &int
+, f: (tnode) -> bool
+, tokres: &token? >> token
+) : Option (i0nvresstate) = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  val () = tokres := tok
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+if f (tok.token_node) then let
+  val () = incby1 ()
+  val ent2 = p_i0nvresstate (buf, 1(*bt*), err) // optional
+in
+  if err = err0 then let
+    val ent3 = p_EQGT (buf, 0(*bt*), err)
+  in
+    if err = err0 then
+      Some (ent2) else tokbuf_set_ntok_null (buf, n0)
+    // end of [if]
+  end else let
+    val () = err := err0 in None () // HX: there is no error
+  end (* end of [if] *)
+end else let
+  val () = err := err + 1 in synent_null ()
+end // end of [if]
+end // end of [ptokhead_fun]
+
 (*
 ifhead: IF [i0nvresstate EQGT]
 *)
@@ -1060,34 +1116,11 @@ fun p_ifhead (
   buf: &tokbuf, bt: int, err: &int
 ) : ifhead = let
   val err0 = err
-  val n0 = tokbuf_get_ntok (buf)
-  val tok = tokbuf_get_token (buf)
-  var ent: synent?
-  macdef incby1 () = tokbuf_incby1 (buf)
+  var tok: token
+  val res = ptokhead_fun (buf, bt, err, is_IF, tok)
 in
-//
-case+ tok.token_node of
-| T_IF () => let
-    val () = incby1 ()
-    val ent2 = p_i0nvresstate (buf, 1(*bt*), err) // optional
-  in
-    if err = err0 then let
-      val ent3 = p_EQGT (buf, 0(*bt*), err)
-    in
-      if err = err0 then
-        ifhead_make_some (tok, ent2) else tokbuf_set_ntok_null (buf, n0)
-      // end of [if]
-    end else let
-      val () = err := err0 in ifhead_make_none (tok)
-    end (* end of [if] *)
-  end
-| _ => let
-    val () = err := err + 1 in synent_null ()
-  end
-//
+  if err = err0 then ifhead_make (tok, res) else synent_null ()
 end // end of [p_ifhead]
-
-(* ****** ****** *)
 
 (*
 sifhead: SIF [i0nvresstate EQGT]
@@ -1096,32 +1129,39 @@ fun p_sifhead (
   buf: &tokbuf, bt: int, err: &int
 ) : sifhead = let
   val err0 = err
-  val n0 = tokbuf_get_ntok (buf)
-  val tok = tokbuf_get_token (buf)
-  var ent: synent?
-  macdef incby1 () = tokbuf_incby1 (buf)
+  var tok: token
+  val res = ptokhead_fun (buf, bt, err, is_SIF, tok)
 in
-//
-case+ tok.token_node of
-| T_SIF () => let
-    val () = incby1 ()
-    val ent2 = p_i0nvresstate (buf, 1(*bt*), err)
-  in
-    if err = err0 then let
-      val ent3 = p_EQGT (buf, 0(*bt*), err)
-    in
-      if err = err0 then
-        sifhead_make_some (tok, ent2) else tokbuf_set_ntok_null (buf, n0)
-      // end of [if]
-    end else let
-      val () = err := err0 in sifhead_make_none (tok)
-    end (* end of [if] *)
-  end
-| _ => let
-    val () = err := err + 1 in synent_null ()
-  end
-//
+  if err = err0 then sifhead_make (tok, res) else synent_null ()
 end // end of [p_sifhead]
+
+(* ****** ****** *)
+
+(*
+casehead: CASE [i0nvresstate EQGT]
+*)
+fun p_casehead (
+  buf: &tokbuf, bt: int, err: &int
+) : casehead = let
+  val err0 = err
+  var tok: token
+  val res = ptokhead_fun (buf, bt, err, is_CASE, tok)
+in
+  if err = err0 then casehead_make (tok, res) else synent_null ()
+end // end of [p_casehead]
+
+(*
+scasehead: SCASE [i0nvresstate EQGT]
+*)
+fun p_scasehead (
+  buf: &tokbuf, bt: int, err: &int
+) : scasehead = let
+  val err0 = err
+  var tok: token
+  val res = ptokhead_fun (buf, bt, err, is_SCASE, tok)
+in
+  if err = err0 then scasehead_make (tok, res) else synent_null ()
+end // end of [p_scasehead]
 
 (* ****** ****** *)
 
@@ -1130,8 +1170,8 @@ d0exp  :: =
   | d0exp0 {WHERE LBRACE d0ecseq_dyn RBRACE}* // done!
   | ifhead d0exp0 THEN d0exp [ELSE d0exp] // done!
   | sifhead s0exp THEN d0exp ELSE d0exp // done!
-  | casehead d0exp0 OF c0lauseq
-  | scasehead s0exp OF sc0lauseq
+  | casehead d0exp0 OF c0lauseq // done!
+  | scasehead s0exp OF sc0lauseq // done!
   | lamkind f0arg1seq colons0expopt funarrow d0exp // done!
   | fixkind di0de f0arg1seq colons0expopt funarrow d0exp // done!
   | forhead initestpost d0exp
@@ -1189,7 +1229,35 @@ case+ tok.token_node of
   in
     if err = err0 then
       d0exp_sifhead (ent1, ent2, ent4, ent6) else synent_null ()
-    // end of [if] *)
+    // end of [if]
+  end
+| _ when
+    ptest_fun (
+    buf, p_casehead, ent
+  ) => let
+    val bt = 0
+    val ent1 = synent_decode {casehead} (ent)
+    val ent2 = p_d0exp0 (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_OF, err0)
+    val ent4 = pif_fun (buf, bt, err, p_c0lauseq, err0)
+  in
+    if err = err0 then
+      d0exp_casehead (ent1, ent2, ent3, ent4) else synent_null ()
+    // end of [if]
+  end
+| _ when
+    ptest_fun (
+    buf, p_scasehead, ent
+  ) => let
+    val bt = 0
+    val ent1 = synent_decode {scasehead} (ent)
+    val ent2 = p_s0exp (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_OF, err0)
+    val ent4 = pif_fun (buf, bt, err, p_c0lauseq, err0)
+  in
+    if err = err0 then
+      d0exp_scasehead (ent1, ent2, ent3, ent4) else synent_null ()
+    // end of [if]
   end
 | T_LAM (knd) => let
     val bt = 0

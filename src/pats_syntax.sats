@@ -475,6 +475,20 @@ fun a0msrt_make (
 
 (* ****** ****** *)
 
+datatype sp0at_node =
+  | SP0Tcon of (sqi0de, s0arglst)
+// end of [sp0at_node]
+
+where sp0at: type = '{
+  sp0at_loc= location, sp0at_node= sp0at_node
+} // end of [sp0at]
+
+fun sp0at_con
+  (qid: sqi0de, xs: s0arglst, t_end: token): sp0at
+// end of [sp0at_con]
+
+(* ****** ****** *)
+
 datatype
 s0exp_node =
 //
@@ -1096,6 +1110,7 @@ and d0exp_node =
 //
   | D0Eempty of ()
   | D0Eextval of (s0exp (*type*), string (*code*)) // external val
+  | D0Elabel of (label)
   | D0Eloopexn of int(*break/continue: 0/1*)
 //
   | D0Eapp of (d0exp, d0exp) // functional application
@@ -1104,6 +1119,8 @@ and d0exp_node =
 //
   | D0Eifhead of (ifhead, d0exp, d0exp, d0expopt)
   | D0Esifhead of (sifhead, s0exp, d0exp, d0exp) // HX: no dangling else-branch
+  | D0Ecasehead of (casehead, d0exp, c0laulst)
+  | D0Escasehead of (scasehead, s0exp, c0laulst)
 //
   | D0Elam of (int(*knd*), f0arglst, s0expopt, e0fftaglstopt, d0exp)
   | D0Efix of (int(*knd*), i0de, f0arglst, s0expopt, e0fftaglstopt, d0exp)
@@ -1167,6 +1184,22 @@ and d0arrind = '{
 
 (* ****** ****** *)
 
+and m0atch = '{
+  m0atch_loc= location, m0atch_exp= d0exp, m0atch_pat= p0atopt
+} // end of [m0atch]
+
+and m0atchlst = List m0atch
+
+(* ****** ****** *)
+
+and guap0at: type = '{ 
+  guap0at_loc= location
+, guap0at_pat= p0at
+, guap0at_gua= m0atchlst
+} // end of [guap0at]
+
+(* ****** ****** *)
+
 and ifhead: type = '{
   ifhead_tok= token, ifhead_inv= i0nvresstate
 } // end of [ifhead]
@@ -1174,6 +1207,36 @@ and ifhead: type = '{
 and sifhead: type = '{
   sifhead_tok= token, sifhead_inv= i0nvresstate
 } // end of [sifhead]
+
+(* ****** ****** *)
+
+and casehead: type = '{
+  casehead_tok= token, casehead_inv= i0nvresstate
+} // end of [casehead]
+
+and scasehead: type = '{
+  scasehead_tok= token, scasehead_inv= i0nvresstate
+} // end of [scasehead]
+
+(* ****** ****** *)
+
+and c0lau: type = '{
+  c0lau_loc= location
+, c0lau_pat= guap0at
+, c0lau_seq= int
+, c0lau_neg= int
+, c0lau_body= d0exp
+} // end of [c0lau]
+
+and c0laulst: type = List c0lau
+
+and sc0lau: type = '{
+  sc0lau_loc= location
+, sc0lau_pat= sp0at
+, sc0lau_body= d0exp
+} // end of [sc0lau]
+
+and sc0laulst: type = List sc0lau
 
 (* ****** ****** *)
 
@@ -1255,7 +1318,10 @@ fun d0exp_extval (
   t_beg: token, _type: s0exp, _code: token, t_end: token
 ) : d0exp // end of [d0exp_extval]
 
-fun d0exp_loopexn (knd: int, tok: token): d0exp
+fun d0exp_label_int (t_dot: token, lab: token): d0exp
+fun d0exp_label_sym (t_dot: token, lab: token): d0exp
+
+fun d0exp_loopexn (knd: int, tok: token): d0exp // brk/cnt: 0/1
 
 fun d0exp_app (_1: d0exp, _2: d0exp): d0exp
 
@@ -1263,12 +1329,23 @@ fun d0exp_list (
   t_beg: token, npf: int, xs: d0explst, t_end: token
 ) : d0exp // end of [d0exp_list]
 
+(* ****** ****** *)
+
 fun d0exp_ifhead (
   hd: ifhead, _cond: d0exp, _then: d0exp, _else: d0expopt
 ) : d0exp // end of [d0exp_ifhead]
 fun d0exp_sifhead (
   hd: sifhead, _cond: s0exp, _then: d0exp, _else: d0exp
 ) : d0exp // end of [d0exp_sifhead]
+
+fun d0exp_casehead
+  (hd: casehead, d0e: d0exp, t_of: token, c0ls: c0laulst): d0exp
+// end of [d0exp_casehead]
+fun d0exp_scasehead
+  (hd: scasehead, s0e: s0exp, t_of: token, c0ls: c0laulst): d0exp
+// end of [d0exp_scasehead]
+
+(* ****** ****** *)
 
 fun d0exp_lam (
   knd: int
@@ -1347,11 +1424,28 @@ fun d0arrind_cons (d0es: d0explst, ind: d0arrind): d0arrind
 
 (* ****** ****** *)
 
-fun ifhead_make_none (t_if: token): ifhead
-fun ifhead_make_some (t_if: token, inv: i0nvresstate): ifhead
+fun m0atch_make (d0e: d0exp, pat: p0atopt): m0atch
+fun guap0at_make (p0t: p0at, mat: Option (m0atchlst)): guap0at
 
-fun sifhead_make_none (t_sif: token): sifhead
-fun sifhead_make_some (t_sif: token, inv: i0nvresstate): sifhead
+(* ****** ****** *)
+
+fun ifhead_make
+  (t_if: token, invopt: Option (i0nvresstate)): ifhead
+fun sifhead_make
+  (t_sif: token, invopt: Option (i0nvresstate)): sifhead
+
+fun casehead_make
+  (t_case: token, invopt: Option (i0nvresstate)): casehead
+fun scasehead_make
+  (t_scase: token, invopt: Option (i0nvresstate)): scasehead
+
+(* ****** ****** *)
+
+fun c0lau_make (
+  gp0t: guap0at, seq: int, neg: int, body: d0exp
+) : c0lau // end of [c0lau_make]
+
+fun sc0lau_make (sp0t: sp0at, body: d0exp): sc0lau
 
 (* ****** ****** *)
 

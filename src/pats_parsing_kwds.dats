@@ -83,6 +83,13 @@ p_ELSE (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_ELSE, PE_ELSE)
 
 implement
+is_AS (x) = case+ x of
+  | T_AS () => true | _ => false
+implement
+p_AS (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_AS, PE_AS)
+
+implement
 is_OF (x) = case+ x of
   | T_OF () => true | _ => false
 implement
@@ -95,6 +102,32 @@ is_IN (x) = case+ x of
 implement
 p_IN (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_IN, PE_IN)
+
+implement
+is_IF (x) = case+ x of
+  | T_IF () => true | _ => false
+implement
+p_IF (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_IF, PE_IF)
+implement
+is_SIF (x) = case+ x of
+  | T_SIF () => true | _ => false
+implement
+p_SIF (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_SIF, PE_SIF)
+
+implement
+is_CASE (x) = case+ x of
+  | T_CASE _ => true | _ => false
+implement
+p_CASE (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_CASE, PE_CASE)
+implement
+is_SCASE (x) = case+ x of
+  | T_SCASE () => true | _ => false
+implement
+p_SCASE (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_SCASE, PE_SCASE)
 
 implement
 is_REC (x) = case+ x of
@@ -111,6 +144,13 @@ is_WITH (x) = case+ x of
 implement
 p_WITH (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_WITH, PE_WITH)
+
+implement
+is_WHEN (x) = case+ x of
+  | T_WHEN () => true | _ => false
+implement
+p_WHEN (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_WHEN, PE_WHEN)
 
 (* ****** ****** *)
 

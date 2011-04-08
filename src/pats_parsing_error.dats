@@ -150,6 +150,11 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [ELSE] is needed", @())
     val () = fprint_newline (out)
   }
+| PE_AS () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [AS] is needed", @())
+    val () = fprint_newline (out)
+  }
 | PE_OF () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [OF] is needed", @())
@@ -160,6 +165,26 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [IN] is needed", @())
     val () = fprint_newline (out)
   }
+| PE_IF () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [IF] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_SIF () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [SIF] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_CASE () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [CASE] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_SCASE () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [SCASE] is needed", @())
+    val () = fprint_newline (out)
+  }
 | PE_REC () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [REC] is needed", @())
@@ -168,6 +193,11 @@ case+ x.parerr_node of
 | PE_WITH () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [WITH] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_WHEN () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [WHEN] is needed", @())
     val () = fprint_newline (out)
   }
 //
@@ -418,6 +448,21 @@ case+ x.parerr_node of
 | PE_labp0at () => {
     val () = fprint (out, loc)
     val () = fprintf (out, ": error(parsing): [labp0at] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_m0atch () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [m0atch] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_guap0at () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [guap0at] is needed", @())
+    val () = fprint_newline (out)
+  }
+| PE_c0lau () => {
+    val () = fprint (out, loc)
+    val () = fprintf (out, ": error(parsing): [c0lau] is needed", @())
     val () = fprint_newline (out)
   }
 //

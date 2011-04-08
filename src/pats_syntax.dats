@@ -1263,30 +1263,54 @@ loopi0nv_make (
 (* ****** ****** *)
 
 implement
-ifhead_make_some
-  (t_if, inv) = '{
-  ifhead_tok= t_if, ifhead_inv= inv
-} // end of [ifhead_make_some]
-
-implement
-ifhead_make_none (t_if) = let
-  val inv = i0nvresstate_make_none (t_if.token_loc)
+ifhead_make
+  (t_if, invopt) = let
+  val inv = (
+    case+ invopt of
+    | Some inv => inv
+    | None () => i0nvresstate_make_none (t_if.token_loc)
+  ) : i0nvresstate // end of [val
 in '{
   ifhead_tok= t_if, ifhead_inv= inv
-} end // end of [ifhead_make_none]
+} end // end of [ifhead_make]
 
 implement
-sifhead_make_some
-  (t_sif, inv) = '{
-  sifhead_tok= t_sif, sifhead_inv= inv
-} // end of [sifhead_make_some]
-
-implement
-sifhead_make_none (t_sif) = let
-  val inv = i0nvresstate_make_none (t_sif.token_loc)
+sifhead_make
+  (t_sif, invopt) = let
+  val inv = (
+    case+ invopt of
+    | Some inv => inv
+    | None () => i0nvresstate_make_none (t_sif.token_loc)
+  ) : i0nvresstate // end of [val
 in '{
   sifhead_tok= t_sif, sifhead_inv= inv
-} end // end of [sifhead_make_none]
+} end // end of [sifhead_make]
+
+(* ****** ****** *)
+
+implement
+casehead_make
+  (t_case, invopt) = let
+  val inv = (
+    case+ invopt of
+    | Some inv => inv
+    | None () => i0nvresstate_make_none (t_case.token_loc)
+  ) : i0nvresstate // end of [val
+in '{
+  casehead_tok= t_case, casehead_inv= inv
+} end // end of [casehead_make]
+
+implement
+scasehead_make
+  (t_scase, invopt) = let
+  val inv = (
+    case+ invopt of
+    | Some inv => inv
+    | None () => i0nvresstate_make_none (t_scase.token_loc)
+  ) : i0nvresstate // end of [val
+in '{
+  scasehead_tok= t_scase, scasehead_inv= inv
+} end // end of [scasehead_make]
 
 (* ****** ****** *)
 //
@@ -1363,10 +1387,35 @@ in '{
   d0exp_loc= loc, d0exp_node= D0Eextval (_type, code)
 } end // end of [d0exp_extval]
 
+(* ****** ****** *)
+
+implement
+d0exp_label_int
+  (t_dot, labtok) = let
+  val loc = t_dot.token_loc + labtok.token_loc
+  val- T_INTEGER (_, rep, _) = labtok.token_node
+  val int = int_of_string (rep)
+  val lab = $LAB.label_make_int (int)
+in '{
+  d0exp_loc= loc, d0exp_node= D0Elabel lab
+} end // end of [d0exp_label_int]
+
+implement
+d0exp_label_sym
+  (t_dot, labtok) = let
+  val loc = t_dot.token_loc + labtok.token_loc
+  val- T_IDENT_alp (str) = labtok.token_node
+  val lab = $LAB.label_make_string (str)
+in '{
+  d0exp_loc= loc, d0exp_node= D0Elabel lab
+} end // end of [d0exp_label_sym]
+
+(* ****** ****** *)
+
 implement
 d0exp_loopexn (knd, tok) = '{
   d0exp_loc= tok.token_loc, d0exp_node= D0Eloopexn (knd)
-}
+} // end of [d0exp_loopexn]
 
 (* ****** ****** *)
 
@@ -1413,6 +1462,38 @@ in '{
   d0exp_loc= loc
 , d0exp_node= D0Esifhead (hd, _cond, _then, _else)
 } end // end of [d0exp_sifhead]
+
+(* ****** ****** *)
+
+implement
+d0exp_casehead (
+  hd, d0e, t_of, c0ls
+) : d0exp = let
+  val t_case = hd.casehead_tok
+  val loc_hd = t_case.token_loc
+  val loc = (
+    case+ list_last_opt<c0lau> (c0ls) of
+    | ~Some_vt x => loc_hd + x.c0lau_loc
+    | ~None_vt _ => loc_hd + t_of.token_loc
+  ) : location
+in '{
+  d0exp_loc= loc, d0exp_node= D0Ecasehead (hd, d0e, c0ls)
+} end // end of [d0exp_casehead]
+
+implement
+d0exp_scasehead (
+  hd, d0e, t_of, c0ls
+) : d0exp = let
+  val t_scase = hd.scasehead_tok
+  val loc_hd = t_scase.token_loc
+  val loc = (
+    case+ list_last_opt<c0lau> (c0ls) of
+    | ~Some_vt x => loc_hd + x.c0lau_loc
+    | ~None_vt _ => loc_hd + t_of.token_loc
+  ) : location
+in '{
+  d0exp_loc= loc, d0exp_node= D0Escasehead (hd, d0e, c0ls)
+} end // end of [d0exp_scasehead]
 
 (* ****** ****** *)
 
@@ -1584,6 +1665,45 @@ d0arrind_cons
   d0arrind_loc= ind.d0arrind_loc
 , d0arrind_ind= list_cons (d0es, ind.d0arrind_ind)
 } // end of [d0arrind_cons]
+
+(* ****** ****** *)
+
+implement
+m0atch_make
+  (d0e, p0topt) = let
+  val loc = (
+    case+ p0topt of
+    | Some x => d0e.d0exp_loc + x.p0at_loc
+    | None _ => d0e.d0exp_loc
+  ) : location // end of [val]
+in '{
+  m0atch_loc= d0e.d0exp_loc, m0atch_exp= d0e, m0atch_pat= p0topt
+} end // end of [m0atch_make]
+
+implement
+guap0at_make (p0t, matopt) = let
+  val xs = (
+    case+ matopt of Some xs => xs | None () => list_nil
+  ) : m0atchlst
+  val loc = (
+    case+ list_last_opt<m0atch> (xs) of
+    | ~Some_vt x => p0t.p0at_loc + x.m0atch_loc | ~None_vt () => p0t.p0at_loc
+  ) : location // end of [val]
+in '{
+  guap0at_loc= p0t.p0at_loc, guap0at_pat= p0t, guap0at_gua= xs
+} end // end of [guap0at_make_some]
+
+implement
+c0lau_make
+  (gp0t, seq, neg, body) = let
+  val loc = gp0t.guap0at_loc + body.d0exp_loc
+in '{
+  c0lau_loc= loc
+, c0lau_pat= gp0t
+, c0lau_seq= seq
+, c0lau_neg= neg
+, c0lau_body= body
+} end // end of [c0lau_make]
 
 (* ****** ****** *)
 

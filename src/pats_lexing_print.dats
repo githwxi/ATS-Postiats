@@ -177,6 +177,10 @@ fprint_token
   | T_FLOAT (_base, x, _sp) => fprintf (out, "FLOAT(%s)", @(x))
   | T_STRING (x) => fprintf (out, "STRING(%s)", @(x))
 //
+(*
+  | T_LABEL (knd, x) => fprintf (out, "LABEL(%i; %s)", @(knd, x))
+*)
+//
   | T_LPAREN () => fprintf (out, "LPAREN()", @())
   | T_RPAREN () => fprintf (out, "RPAREN()", @())
   | T_LBRACKET () => fprintf (out, "LBRACKET()", @())
