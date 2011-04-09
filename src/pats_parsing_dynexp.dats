@@ -618,7 +618,7 @@ atmd0exp ::=
   | LBRACE d0ecseq_dyn RBRACE
 //
   | COMMALPAREN d0exp RPAREN // macsyn_decode
-  | BACKQUOTELPAREN d0expsemiseq RPAREN // macsyn_encode_seq
+  | BQUOTELPAREN d0expsemiseq RPAREN // macsyn_encode_seq
   | PERCENTLPAREN d0exp RPAREN // macsyn_cross
 //
 *)
@@ -801,7 +801,7 @@ case+ tok.token_node of
     if err = err0 then let
       val knd = if is_ATLBRACE (tnd) then 0 else 1
     in
-      d0exp_rec12 (0(*knd*), tok, ent2, ent3)
+      d0exp_rec12 (knd, tok, ent2, ent3)
     end else let
       val () = list12_free (ent2) in synent_null ()
     end // end of [if]
@@ -840,6 +840,19 @@ case+ tok.token_node of
       d0exp_arrinit (tok, ent2, ent4, (l2l)ent6, ent7)
     else let
       val () = list_vt_free (ent6) in synent_null ()
+    end (* end of [if] *)
+  end
+//
+| T_QUOTELBRACKET () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = pstar_fun0_COMMA {d0exp} (buf, bt, p_d0exp)
+    val ent3 = p_RBRACKET (buf, bt, err)
+  in
+    if err = err0 then
+      d0exp_lst_quote (tok, (l2l)ent2, ent3)
+    else let
+      val () = list_vt_free (ent2) in synent_null ()
     end (* end of [if] *)
   end
 //

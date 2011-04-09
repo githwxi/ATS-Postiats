@@ -77,6 +77,42 @@ fun p0at_list12 (
 
 (* ****** ****** *)
 
+fun p0at_tup12 (
+  knd: int
+, t_beg: token
+, ent2: p0atlst12
+, t_end: token
+) : p0at =
+  case+ ent2 of
+  | ~LIST12one (xs) =>
+      p0at_tup (knd, t_beg, 0, (l2l)xs, t_end)
+  | ~LIST12two (xs1, xs2) => let
+      val npf = list_vt_length (xs1)
+      val xs12 = list_vt_append (xs1, xs2)
+    in
+      p0at_tup (knd, t_beg, npf, (l2l)xs12, t_end)
+    end (* end of [LIST12two] *)
+// end of [p0at_tup12]
+
+(* ****** ****** *)
+
+fun p0at_rec12 (
+  knd: int
+, t_beg: token, ent2: labp0atlst12, t_end: token
+) : p0at =
+  case+ ent2 of
+  | ~LIST12one (xs) =>
+      p0at_rec (knd, t_beg, 0(*npf*), (l2l)xs, t_end)
+  | ~LIST12two (xs1, xs2) => let
+      val npf = list_vt_length (xs1)
+      val xs12 = list_vt_append (xs1, xs2)
+    in
+      p0at_rec (knd, t_beg, npf, (l2l)xs12, t_end)
+    end
+// end of [p0at_rec12]
+
+(* ****** ****** *)
+
 fun
 p_p0atseq_BAR_p0atseq (
   buf: &tokbuf
@@ -85,6 +121,14 @@ p_p0atseq_BAR_p0atseq (
 ) : p0atlst12 =
   plist12_fun (buf, bt, p_p0at)
 // end of [p_p0atseq_BAR_p0atseq]
+
+fun
+p_labp0atseq_BAR_labp0atseq (
+  buf: &tokbuf, bt: int, err: &int
+) : labp0atlst12 = let
+  val _ = p_COMMA_test (buf) in
+  plist12_fun (buf, bt, p_labp0at)
+end // end of [p_labp0atseq_BAR_labp0atseq]
 
 (* ****** ****** *)
 
@@ -235,6 +279,37 @@ case+ tok.token_node of
     if err = err0 then
       p0at_list12 (tok, ent2, ent3)
     else let
+      val () = list12_free (ent2) in synent_null ()
+    end // end of [if]
+  end
+//
+| tnd when
+    is_LPAREN_deco (tnd) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_p0atseq_BAR_p0atseq (buf, bt, err)
+    val ent3 = p_RPAREN (buf, bt, err) // err = err0
+  in
+    if err = err0 then let
+      val knd = if is_ATLPAREN (tnd) then 0 else 1
+    in
+      p0at_tup12 (knd, tok, ent2, ent3)
+    end else let
+      val () = list12_free (ent2) in synent_null ()
+    end // end of [if]
+  end
+| tnd when
+    is_LBRACE_deco (tnd) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_labp0atseq_BAR_labp0atseq (buf, bt, err)
+    val ent3 = p_RBRACE (buf, bt, err) // err = err0
+  in
+    if err = err0 then let
+      val knd = if is_ATLBRACE (tnd) then 0 else 1
+    in
+      p0at_rec12 (knd, tok, ent2, ent3)
+    end else let
       val () = list12_free (ent2) in synent_null ()
     end // end of [if]
   end

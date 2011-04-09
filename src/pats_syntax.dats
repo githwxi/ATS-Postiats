@@ -1093,6 +1093,26 @@ in '{
 (* ****** ****** *)
 
 implement
+p0at_tup (
+  knd, t_beg, npf, xs, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  p0at_loc= loc, p0at_node= P0Ttup (knd, npf, xs)
+} end // end of [p0at_tup]
+
+implement
+p0at_rec (
+  knd, t_beg, npf, xs, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  p0at_loc= loc, p0at_node= P0Trec (knd, npf, xs)
+} end // end of [p0at_rec]
+
+(* ****** ****** *)
+
+implement
 p0at_free (t_tilde, p0t) = let
   val loc = t_tilde.token_loc + p0t.p0at_loc
 in '{
@@ -1566,16 +1586,24 @@ in '{
 (* ****** ****** *)
 
 implement
-d0exp_seq
-  (t_beg, d0es, t_end) = let
-  val loc = t_beg.token_loc + t_end.token_loc
-in
-  case+ d0es of
-  | list_cons _ => '{
-      d0exp_loc= loc, d0exp_node= D0Eseq d0es
-    } // end of [cons]
-  | list_nil _ => d0exp_empty (loc)
-end // end of [d0exp_seq]
+d0exp_lst (
+  lin, t_beg, elt, t_lp, d0es, t_rp
+) = let
+  val loc = t_beg.token_loc + t_rp.token_loc
+  val d0e_elts = (case+ d0es of
+    | list_cons
+        (d0e, list_nil ()) => d0e
+    | _ => d0exp_list (t_lp, 0(*npf*), d0es, t_rp)
+  ) : d0exp // end of [val]
+in '{
+  d0exp_loc= loc, d0exp_node= D0Elst (lin, elt, d0e_elts)
+} end // end of [d0exp_lst]
+
+implement
+d0exp_lst_quote
+  (t_beg, d0es, t_end) =
+  d0exp_lst (0(*lin*), t_beg, None(*elt*), t_beg, d0es, t_end)
+// end of [d0exp_lst_quote]
 
 (* ****** ****** *)
 
@@ -1627,6 +1655,20 @@ d0exp_arrsize (
 in '{
   d0exp_loc= loc, d0exp_node= D0Earrsize (os0e, d0e_ini)
 } end // end of [d0exp_arrsize]
+
+(* ****** ****** *)
+
+implement
+d0exp_seq
+  (t_beg, d0es, t_end) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in
+  case+ d0es of
+  | list_cons _ => '{
+      d0exp_loc= loc, d0exp_node= D0Eseq d0es
+    } // end of [cons]
+  | list_nil _ => d0exp_empty (loc)
+end // end of [d0exp_seq]
 
 (* ****** ****** *)
 

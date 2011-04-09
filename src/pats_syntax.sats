@@ -887,8 +887,8 @@ p0at_node =
   | P0Tlist of (int(*npf*), p0atlst)
 //
   | P0Tlst of p0atlst
-  | P0Trec of (int (*recknd*), labp0atlst)
   | P0Ttup of (int (*knd*), int(*npf*), p0atlst)
+  | P0Trec of (int (*recknd*), int(*npf*), labp0atlst)
 //
   | P0Tfree of p0at
 //
@@ -900,9 +900,8 @@ p0at_node =
   | P0Tann of (p0at, s0exp)
 // end of [p0at_node]
 
-and labp0atlst =
-  | LABP0ATLSTnil | LABP0ATLSTdot | LABP0ATLSTcons of (l0ab, p0at, labp0atlst)
-// end of [labp2atlst]
+and labp0at_node =
+  | LABP0ATnorm of (l0ab, p0at) | LABP0ATomit of ()
 
 where p0at = '{
    p0at_loc= location, p0at_node= p0at_node
@@ -910,6 +909,11 @@ where p0at = '{
 
 and p0atlst: type = List p0at
 and p0atopt: type = Option p0at
+
+and labp0at = '{
+  labp0at_loc= location, labp0at_node= labp0at_node
+}
+and labp0atlst = List (labp0at)
 
 (* ****** ****** *)
 
@@ -930,6 +934,13 @@ fun p0at_list
   (t_beg: token, npf: int, xs: p0atlst, t_end: token): p0at
 // end of [p0ats_list]
 
+fun p0at_tup (
+  knd: int, t_beg: token, npf: int, xs: p0atlst, t_end: token
+) : p0at // end of [p0at_tup]
+fun p0at_rec (
+  knd: int, t_beg: token, npf: int, xs: labp0atlst, t_end: token
+) : p0at // end of [p0at_rec]
+
 fun p0at_exist (
   t_beg: token, qua: s0arglst, t_end: token
 ) : p0at // end of [p0at_exist]
@@ -948,14 +959,10 @@ fun fprint_p0at (out: FILEref, x: p0at): void
 
 (* ****** ****** *)
 
-datatype labp0at_node =
-  | LABP0ATnorm of (l0ab, p0at) | LABP0ATomit of ()
-typedef labp0at = '{
-  labp0at_loc= location, labp0at_node= labp0at_node
-}
-
 fun labp0at_norm (l: l0ab, p: p0at): labp0at
 fun labp0at_omit (tok: token): labp0at
+
+fun fprint_labp0at (out: FILEref, x: labp0at): void
 
 (* ****** ****** *)
 
@@ -1148,9 +1155,10 @@ and d0exp_node =
   | D0Elam of (int(*knd*), f0arglst, s0expopt, e0fftaglstopt, d0exp)
   | D0Efix of (int(*knd*), i0de, f0arglst, s0expopt, e0fftaglstopt, d0exp)
 //
-  | D0Eseq of d0explst // dynamic sequence-expression
+  | D0Elst of (int (*lin*), s0expopt, d0exp(*elts*))
   | D0Etup of (int(*knd*), int(*npf*), d0explst)
   | D0Erec of (int (*knd*), int (*npf*), labd0explst)
+  | D0Eseq of d0explst // dynamic sequence-expression
 //
   | D0Earrsub of (dqi0de, d0explstlst(*ind*))
   | D0Earrinit of (* array initilization *)
@@ -1412,6 +1420,21 @@ fun d0exp_tup (
 fun d0exp_rec (
   knd: int, t_beg: token, npf: int, xs: labd0explst, t_end: token
 ) : d0exp // end of [d0exp_rec]
+
+(* ****** ****** *)
+
+fun d0exp_lst (
+  lin: int
+, t_beg: token
+, elt: s0expopt
+, t_lp: token
+, xs: d0explst // elements
+, t_rp: token
+) : d0exp // end of [d0exp_lst]
+
+fun d0exp_lst_quote
+  (t_beg: token, elts: d0explst, t_end: token): d0exp
+// end of [d0exp_lst_quote]
 
 (* ****** ****** *)
 
