@@ -77,6 +77,7 @@ dynload "pats_parsing_staexp.dats"
 dynload "pats_parsing_p0at.dats"
 dynload "pats_parsing_dynexp.dats"
 dynload "pats_parsing_decl.dats"
+dynload "pats_parsing_toplevel.dats"
 
 (* ****** ****** *)
 
@@ -89,15 +90,14 @@ main (
 //
   var buf: tokbuf
   val () = tokbuf_initialize_getc (buf, lam () =<cloptr1> getchar ())
-  var err: int = 0
+  var nerr: int = 0
 //
-  val d0cs = p_d0eclseq_dyn (buf, 0, err)
-  val _eof = p_EOF (buf, 0, err)
-  val () = tokbuf_discard_all (buf)
+  val d0cs = p_toplevel_dyn (buf, nerr)
 //
-  val () = println! ("err = ", err)
-  val () = if (err = 0) then fprint_d0eclist (stdout_ref, d0cs)
-  val () = if (err = 0) then print_newline ()
+  val () = println! ("nerr = ", nerr)
+  val () = if (nerr > 0) then tokbuf_discard_all (buf)
+  val () = if (nerr = 0) then fprint_d0eclist (stdout_ref, d0cs)
+  val () = if (nerr = 0) then print_newline ()
 //
   val () = tokbuf_uninitialize (buf)
 //

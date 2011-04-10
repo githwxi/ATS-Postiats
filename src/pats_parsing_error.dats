@@ -122,183 +122,78 @@ the_parerrlst_add_ifnbt
 
 (* ****** ****** *)
 
+fun keyword_needed (
+  out: FILEref, x: parerr, name: string
+) : void = () where {
+  val () = fprint (out, x.parerr_loc)
+  val () = fprintf (out, ": error(parsing): the keyword [%s] is needed.", @(name))
+  val () = fprint_newline (out)
+} // end of [keyword_needed]
+
+fun parenth_needed (
+  out: FILEref, x: parerr, name: string
+) : void = () where {
+  val () = fprint (out, x.parerr_loc)
+  val () = fprintf (out, ": error(parsing): the keyword '%s' is needed.", @(name))
+  val () = fprint_newline (out)
+} // end of [parenth_needed]
+
+fun synent_needed (
+  out: FILEref, x: parerr, name: string
+) : void = () where {
+  val () = fprint (out, x.parerr_loc)
+  val () = fprintf (out, ": error(parsing): the syntactic entity [%s] is needed.", @(name))
+  val () = fprint_newline (out)
+} // end of [synent_needed]
+
+(* ****** ****** *)
+
 implement
 fprint_parerr
   (out, x) = let
-  val loc = x.parerr_loc
+  val loc = x.parerr_loc and node = x.parerr_node
+  macdef KN (x, name) = keyword_needed (out, ,(x), ,(name))
+  macdef PN (x, name) = parenth_needed (out, ,(x), ,(name))
+  macdef SN (x, name) = synent_needed (out, ,(x), ,(name))
 in
 //
-case+ x.parerr_node of
+case+ node of
 //
-| PE_AND () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [AND] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_END () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [END] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_THEN () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [THEN] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_ELSE () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [ELSE] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_AS () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [AS] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_OF () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [OF] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_IN () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [IN] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_IF () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [IF] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_SIF () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [SIF] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_CASE () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [CASE] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_SCASE () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [SCASE] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_REC () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [REC] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_WITH () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [WITH] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_WHEN () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [WHEN] is needed", @())
-    val () = fprint_newline (out)
-  }
+| PE_AND () => KN (x, "and")
+| PE_END () => KN (x, "end")
+| PE_AS () => KN (x, "as")
+| PE_OF () => KN (x, "of")
+| PE_IN () => KN (x, "in")
+| PE_IF () => KN (x, "if")
+| PE_SIF () => KN (x, "sif")
+| PE_CASE () => KN (x, "case")
+| PE_SCASE () => KN (x, "scase")
+| PE_THEN () => KN (x, "then")
+| PE_ELSE () => KN (x, "else")
+| PE_REC () => KN (x, "rec")
+| PE_WHEN () => KN (x, "when")
+| PE_WITH () => KN (x, "with")
 //
-| PE_BAR () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [BAR] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_COLON () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [COLON] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_COMMA () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [COMMA] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_SEMICOLON () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [SEMICOLON] is needed", @())
-    val () = fprint_newline (out)
-  }
+| PE_BAR () => KN (x, "|")
+| PE_COLON () => KN (x, ":")
+| PE_COMMA () => KN (x, ",")
+| PE_SEMICOLON () => KN (x, ";")
+| PE_BANG () => KN (x, "!")
+| PE_DOT () => KN (x, ",")
+| PE_EQ () => KN (x, "=")
+| PE_EQGT () => KN (x, "=>")
+| PE_GT () => KN (x, ">")
+| PE_GTDOT () => KN (x, ">.")
+| PE_GTLT () => KN (x, "><")
+| PE_SRPTHEN () => KN (x, "#then")
+| PE_SRPENDIF () => KN (x, "#endif")
 //
-| PE_LPAREN () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [LPAREN] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_RPAREN () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [RPAREN] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_LBRACKET () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [LBRACKET] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_RBRACKET () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [RBRACKET] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_LBRACE () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [LBRACE] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_RBRACE () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [RBRACE] is needed", @())
-    val () = fprint_newline (out)
-  }
-//
-| PE_BANG () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [BANG] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_DOT () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [DOT] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_EQ () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [EQ] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_EQGT () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [EQGT] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_GT () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [GT] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_GTDOT () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [GTDOT] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_GTLT () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [GTLT] is needed", @())
-    val () = fprint_newline (out)
-  }
-//
-| PE_SRPTHEN () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [SRPTHEN] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_SRPENDIF () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [SRPENDIF] is needed", @())
-    val () = fprint_newline (out)
-  }
+| PE_LPAREN () => PN (x, "(")
+| PE_RPAREN () => PN (x, ")")
+| PE_LBRACKET () => PN (x, "[")
+| PE_RBRACKET () => PN (x, "]")
+| PE_LBRACE () => PN (x, "{")
+| PE_RBRACE () => PN (x, "}")
 //
 | PE_EOF () => {
     val () = fprint (out, loc)
@@ -326,227 +221,56 @@ case+ x.parerr_node of
     val () = fprintf (out, ": error(parsing): [s0tring] is needed", @())
     val () = fprint_newline (out)
   }
-| PE_i0de () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [i0de] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_i0de_dlr () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [i0de_dlr] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_l0ab () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [l0ab] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_p0rec () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [p0rec] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_colonwith () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [colonwith] is needed", @())
-    val () = fprint_newline (out)
-  }
 //
-| PE_e0xp () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [e0xp] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_atme0xp () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [atme0xp] is needed", @())
-    val () = fprint_newline (out)
-  }
+| PE_i0de () => SN (x, "i0de")
+| PE_i0de_dlr () => SN (x, "i0de_dlr")
+| PE_l0ab () => SN (x, "l0ab")
+| PE_p0rec () => SN (x, "p0rec")
+| PE_colonwith () => SN (x, "colonwith")
 //
-| PE_s0rtid () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [s0rtid] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_s0rt () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [s0rt] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_atms0rt () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [atms0rt] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_s0marg () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [s0marg] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_a0msrt () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [a0msrt] is needed", @())
-    val () = fprint_newline (out)
-  }
+| PE_e0xp () => SN (x, "e0xp")
+| PE_atme0xp () => SN (x, "atme0xp")
 //
-| PE_si0de () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [si0de] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_s0taq () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [s0taq] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_sqi0de () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [sqi0de] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_s0exp () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [s0exp] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_atms0exp () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [atms0exp] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_labs0exp () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [labs0exp] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_s0rtext () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [s0rtext] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_s0qua () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [s0qua] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_q0marg () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [q0marg] is needed", @())
-    val () = fprint_newline (out)
-  }
+| PE_s0rt () => SN (x, "s0rt")
+| PE_s0rtid () => SN (x, "s0rtid")
+| PE_atms0rt () => SN (x, "atms0rt")
+| PE_s0marg () => SN (x, "s0marg")
+| PE_a0msrt () => SN (x, "a0msrt")
 //
-| PE_pi0de () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [pi0de] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_p0at () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [p0at] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_atmp0at () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [atmp0at] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_labp0at () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [labp0at] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_m0atch () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [m0atch] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_guap0at () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [guap0at] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_c0lau () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [c0lau] is needed", @())
-    val () = fprint_newline (out)
-  }
+| PE_s0exp () => SN (x, "s0exp")
+| PE_si0de () => SN (x, "si0de")
+| PE_s0taq () => SN (x, "s0taq")
+| PE_sqi0de () => SN (x, "sqi0de")
+| PE_atms0exp () => SN (x, "atms0exp")
+| PE_labs0exp () => SN (x, "labs0exp")
+| PE_s0rtext () => SN (x, "s0rtext")
+| PE_s0qua () => SN (x, "s0qua")
+| PE_q0marg () => SN (x, "q0marg")
 //
-| PE_di0de () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [di0de] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_d0ynq () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [d0ynq] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_dqi0de () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [dqi0de] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_arrqi0de () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [arrqi0de] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_tmpqi0de () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [tmpqi0de] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_impqi0de () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [impqi0de] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_d0exp () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [d0exp] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_d0exp0 () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [d0exp0] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_atmd0exp () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [atmd0exp] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_labd0exp () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [labd0exp] is needed", @())
-    val () = fprint_newline (out)
-  }
+| PE_p0at () => SN (x, "p0at")
+| PE_pi0de () => SN (x, "pi0de")
+| PE_atmp0at () => SN (x, "atmp0at")
+| PE_labp0at () => SN (x, "labp0at")
+| PE_m0atch () => SN (x, "m0atch")
+| PE_guap0at () => SN (x, "guap0at")
+| PE_c0lau () => SN (x, "c0lau")
 //
-| PE_stai0de () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [sta0de] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_d0ecl () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [d0ecl] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_d0ecl_sta () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [d0ecl_sta] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_d0ecl_dyn () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [d0ecl_dyn] is needed", @())
-    val () = fprint_newline (out)
-  }
-| PE_guad0ecl () => {
-    val () = fprint (out, loc)
-    val () = fprintf (out, ": error(parsing): [guad0ecl] is needed", @())
-    val () = fprint_newline (out)
-  }
+| PE_d0exp () => SN (x, "d0exp")
+| PE_di0de () => SN (x, "di0de")
+| PE_d0ynq () => SN (x, "d0ynq")
+| PE_dqi0de () => SN (x, "dqi0de")
+| PE_arrqi0de () => SN (x, "arrqi0de")
+| PE_tmpqi0de () => SN (x, "tmpqi0de")
+| PE_impqi0de () => SN (x, "tmpqi0de")
+| PE_d0exp0 () => SN (x, "d0exp0")
+| PE_atmd0exp () => SN (x, "atmd0exp")
+| PE_labd0exp () => SN (x, "labd0exp")
+//
+| PE_d0ecl () => SN (x, "d0ecl")
+| PE_stai0de () => SN (x, "stai0de")
+| PE_d0ecl_sta () => SN (x, "d0ecl_sta")
+| PE_d0ecl_dyn () => SN (x, "d0ecl_dyn")
+| PE_guad0ecl () => SN (x, "guad0ecl")
 (*
 | _ => {
     val () = fprint (out, loc)
@@ -562,23 +286,41 @@ end // end of [fprint_parerr]
 implement
 fprint_the_parerrlst
   (out) = let
-  var n: int?
-  val xs = the_parerrlst_get (n)
+  var nerr: int?
+  val xs = the_parerrlst_get (nerr)
   fun loop (
-    out: FILEref, xs: parerrlst_vt, n: int
+    out: FILEref
+  , xs: parerrlst_vt
+  , nerr: int
+  , bchar_max: lint // local max
+  , bchar_lst: lint // last char count
   ) : int =
     case+ xs of
-    | ~list_vt_cons (x, xs) => (
-        fprint_parerr (out, x); loop (out, xs, n-1)
-      ) // end of [list_vt_cons]
-    | ~list_vt_nil () => n
+    | ~list_vt_cons (x, xs) => let
+        val loc = x.parerr_loc
+        val bchar = $LOC.location_get_bchar (loc)
+      in
+        case+ 0 of
+        | _ when
+            bchar > bchar_max => let
+            val () = fprint_parerr (out, x) in
+            loop (out, xs, nerr-1, bchar, bchar)
+          end
+        | _ when
+            bchar <= bchar_lst => let
+            val () = fprint_parerr (out, x) in
+            loop (out, xs, nerr-1, bchar_max, bchar)
+          end
+        | _ => loop (out, xs, nerr-1, bchar_max, bchar_lst)
+      end // end of [list_vt_cons]
+    | ~list_vt_nil () => nerr
   // end of [loop]
 in
   case+ xs of
   | list_vt_cons _ => let
       prval () = fold@ (xs)
-      val n = loop (out, xs, n)
-      val () = if n > 0 then {
+      val nerr = loop (out, xs, nerr, ~1l, ~1l)
+      val () = if nerr > 0 then {
         val () = fprint_string
           (out, "There are possibly some additional errors.")
         val () = fprint_newline (out)

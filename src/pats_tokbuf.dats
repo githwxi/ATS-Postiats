@@ -52,8 +52,7 @@ staload "pats_tokbuf.sats"
 
 (* ****** ****** *)
 
-#define u2sz size_of_uint
-#define size1 size1_of_size
+extern castfn u2sz1 (x: uint):<> Size
 
 (* ****** ****** *)
 
@@ -72,13 +71,12 @@ typedef tokbuf0 = tokbuf_int_int(0, 0)?
 
 assume
 tokbuf_vt0ype =
-  [m,n:int] tokbuf_int_int (m, n)
+  [m,n:int | m > 0] tokbuf_int_int (m, n)
 // end of [tokbuf_vt0ype]
 
 (* ****** ****** *)
 
 #define QINISZ 1024 // initial size
-#define QDELTA 1024 // subsequent increment
 
 (* ****** ****** *)
 
@@ -145,8 +143,7 @@ tokbuf_reset (buf) = let
 //
   val ntok = buf.ntok
   val () = buf.ntok := 0u
-  val ntok = (u2sz)ntok
-  val ntok = (size1)ntok
+  val ntok = (u2sz1)ntok
   val n = $Q.queue_size (buf.tbuf)
 in
   if ntok < n then let
@@ -168,34 +165,28 @@ tokbuf_get_token
 //
   prval () = $Q.queue_param_lemma (buf.tbuf)
 //
-  val ntok = buf.ntok
-  val ntok = (u2sz)ntok
-  val ntok = (size1)ntok
+  val ntok = (u2sz1)buf.ntok
   val n = $Q.queue_size (buf.tbuf)
+//
 in
-  if ntok < n then
-    $Q.queue_get_elt_at<token> (buf.tbuf, ntok)
-  else let
-    val tok = lexing_next_token_ncmnt (buf.lexbuf)
-  in
-    case+ tok.token_node of
-    | T_EOF () => tok // HX: tokens are all generated
-    | _ => let
-        val m = $Q.queue_cap {token} (buf.tbuf)
-      in
-        if m > n then let
-          val () = $Q.queue_insert<token> (buf.tbuf, tok)
-        in
-          tok
-        end else let
-          val () = $Q.queue_update_capacity<token> (buf.tbuf, m+QDELTA)
-          val () = $Q.queue_insert<token> (buf.tbuf, tok)
-        in
-          tok
-        end // end of [if]
-      end (* end of [_] *)
-    // end of [case]
-  end (* end of [if] *)
+//
+if ntok < n then
+  $Q.queue_get_elt_at<token> (buf.tbuf, ntok)
+else let
+  val tok = lexing_next_token_ncmnt (buf.lexbuf)
+  val m = $Q.queue_cap {token} (buf.tbuf)
+  val () = if m > n then {
+    val () = $Q.queue_insert<token> (buf.tbuf, tok)
+  } else {
+    val m2 = m + m
+    val () = println! ("tokbuf_get_token: m2 = ", m2)
+    val () = $Q.queue_update_capacity<token> (buf.tbuf, m2)
+    val () = $Q.queue_insert<token> (buf.tbuf, tok)
+  } // end of [if]
+in
+  tok
+end (* end of [if] *)
+//
 end // end of [tokbuf_get_token]
 
 (* ****** ****** *)

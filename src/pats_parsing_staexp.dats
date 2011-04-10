@@ -74,7 +74,7 @@ fun s0exp_tytup12 (
 ) : s0exp =
   case+ ent2 of
   | ~LIST12one (xs) =>
-      s0exp_tytup (knd, t_beg, 0(*npf*), (l2l)xs, t_end)
+      s0exp_tytup (knd, t_beg, ~1, (l2l)xs, t_end)
   | ~LIST12two (xs1, xs2) => let
       val npf = list_vt_length (xs1)
       val xs12 = list_vt_append (xs1, xs2)
@@ -91,7 +91,7 @@ fun s0exp_tyrec12 (
 ) : s0exp =
   case+ ent2 of
   | ~LIST12one (xs) =>
-      s0exp_tyrec (knd, t_beg, 0(*npf*), (l2l)xs, t_end)
+      s0exp_tyrec (knd, t_beg, ~1, (l2l)xs, t_end)
   | ~LIST12two (xs1, xs2) => let
       val npf = list_vt_length (xs1)
       val xs12 = list_vt_append (xs1, xs2)
@@ -106,7 +106,7 @@ fun s0exp_tyrec12_ext (
 ) : s0exp =
   case+ ent2 of
   | ~LIST12one (xs) =>
-      s0exp_tyrec_ext (name, t_beg, 0(*npf*), (l2l)xs, t_end)
+      s0exp_tyrec_ext (name, t_beg, ~1, (l2l)xs, t_end)
   | ~LIST12two (xs1, xs2) => let
       val npf = list_vt_length (xs1)
       val xs12 = list_vt_append (xs1, xs2)
@@ -1099,12 +1099,12 @@ fun d0cstarg_atyplst12 (
 ) : d0cstarg =
   case+ ent2 of
   | ~LIST12one (xs) =>
-      d0cstarg_dyn (0(*npf*), t_beg, (l2l)xs, t_end)
+      d0cstarg_dyn (~1, t_beg, (l2l)xs, t_end)
   | ~LIST12two (xs1, xs2) => let
       val npf = list_vt_length (xs1)
       val xs12 = list_vt_append (xs1, xs2)
     in
-      d0cstarg_dyn (0(*npf*), t_beg, (l2l)xs12, t_end)
+      d0cstarg_dyn (npf, t_beg, (l2l)xs12, t_end)
     end
 // end of [d0cstarg_amtyp12]
 

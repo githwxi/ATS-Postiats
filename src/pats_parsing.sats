@@ -609,4 +609,14 @@ fun p_d0cstdecseq : parser (d0cstdeclst)
 //
 (* ****** ****** *)
 
+fun p_toplevel_sta
+  (buf: &tokbuf, nerr: &int? >> int): d0eclist
+// end of [p_toplevel_sta]
+
+fun p_toplevel_dyn
+  (buf: &tokbuf, nerr: &int? >> int): d0eclist
+// end of [p_toplevel_dyn]
+
+(* ****** ****** *)
+
 (* end of [pats_parsing.sats] *)

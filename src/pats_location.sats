@@ -90,6 +90,13 @@ typedef location = location_type
 
 (* ****** ****** *)
 
+(*
+** HX: returning the begining char count
+*)
+fun location_get_bchar (loc: location): lint
+
+(* ****** ****** *)
+
 fun fprint_location
   (out: FILEref, loc: location): void
 overload fprint with fprint_location

@@ -344,6 +344,8 @@ typedef l0ab = '{
 fun l0ab_make_i0de (x: i0de): l0ab
 fun l0ab_make_i0nt (x: i0nt): l0ab
 
+fun fprint_l0ab (out: FILEref, x: l0ab): void
+
 (* ****** ****** *)
 
 datatype l0abeled (a: type) = L0ABELED (a) of (l0ab, a)
@@ -568,8 +570,7 @@ and s0qualst = List (s0qua)
 and s0qualst_vt = List_vt (s0qua)
 and s0qualstopt = Option (s0qualst)
 
-datatype
-witht0ype =
+datatype witht0ype =
   | WITHT0YPEsome of (int(*knd*), s0exp) | WITHT0YPEnone of ()
 // end of [witht0ype]
 
@@ -584,8 +585,12 @@ fun s0rtext_sub (
   t_beg: token, id: i0de, _: s0rtext, _fst: s0exp, _rst: s0explst, t_end: token
 ) : s0rtext // end of [s0rtext_sub]
 
+fun fprint_s0rtext (out: FILEref, x: s0rtext): void
+
 fun s0qua_prop (_: s0exp): s0qua
 fun s0qua_vars (_fst: i0de, _rst: i0delst, _: s0rtext): s0qua
+
+fun fprint_s0qua (out: FILEref, x: s0qua): void
 
 (* ****** ****** *)
 
@@ -641,10 +646,14 @@ fun s0exp_exi (
 fun s0exp_ann (_1: s0exp, _2: s0rt): s0exp
 
 fun fprint_s0exp (out: FILEref, x: s0exp): void
+fun fprint_s0explst (out: FILEref, x: s0explst): void
+fun fprint_s0expopt (out: FILEref, x: s0expopt): void
 
 (* ****** ****** *)
 
 fun labs0exp_make (ent1: l0ab, ent2: s0exp): labs0exp
+
+fun fprint_labs0exp (out: FILEref, x: labs0exp): void
 
 (* ****** ****** *)
 
@@ -1098,6 +1107,7 @@ d0ecl_node =
 //
   | D0Cmacdefs of (int(*knd*), bool(*rec*), m0acdeflst) // macro definitions
   | D0Coverload of (i0de, dqi0de) // overloading
+  | D0Cclassdec of (i0de, s0expopt) // class declaration
 //
   | D0Cextype of (int(*knd*), string, s0exp) // type to be used in C
   | D0Cextcode of (* external code *)
@@ -1134,7 +1144,6 @@ and d0exp_node =
   | D0Ecstsp of cstsp // special constants
 //
   | D0Eempty of ()
-  | D0Eextval of (s0exp (*type*), string (*code*)) // external val
   | D0Elabel of (label)
   | D0Eloopexn of int(*break/continue: 0/1*)
 //
@@ -1152,8 +1161,7 @@ and d0exp_node =
   | D0Ecasehead of (casehead, d0exp, c0laulst)
   | D0Escasehead of (scasehead, s0exp, sc0laulst)
 //
-  | D0Elam of (int(*knd*), f0arglst, s0expopt, e0fftaglstopt, d0exp)
-  | D0Efix of (int(*knd*), i0de, f0arglst, s0expopt, e0fftaglstopt, d0exp)
+  | D0Eextval of (s0exp (*type*), string (*code*)) // external val
 //
   | D0Elst of (int (*lin*), s0expopt, d0exp(*elts*))
   | D0Etup of (int(*knd*), int(*npf*), d0explst)
@@ -1175,6 +1183,9 @@ and d0exp_node =
   | D0Esel_ind of (int(*knd*), d0explstlst(*ind*))
 //
   | D0Esexparg of s0exparg // static multi-argument
+//
+  | D0Elam of (int(*knd*), f0arglst, s0expopt, e0fftaglstopt, d0exp)
+  | D0Efix of (int(*knd*), i0de, f0arglst, s0expopt, e0fftaglstopt, d0exp)
 //
   | D0Elet of (d0eclist, d0exp) // dynamic let-expression
   | D0Edeclseq of d0eclist // = let [d0eclist] in (*nothing*) end
@@ -1499,6 +1510,12 @@ fun d0exp_ann (_1: d0exp, _2: s0exp): d0exp
 
 (* ****** ****** *)
 
+fun fprint_d0exp (out: FILEref, x: d0exp): void
+fun fprint_d0explst (out: FILEref, x: d0explst): void
+fun fprint_d0expopt (out: FILEref, x: d0expopt): void
+
+(* ****** ****** *)
+
 fun labd0exp_make (ent1: l0ab, ent2: d0exp): labd0exp
 
 (* ****** ****** *)
@@ -1609,6 +1626,7 @@ fun d0ecl_macdefs (
 ) : d0ecl // end of [d0ecl_macdefs]
 //
 fun d0ecl_overload (t: token, id: i0de, dqid: dqi0de): d0ecl
+fun d0ecl_classdec (t: token, id: i0de, sup: s0expopt): d0ecl
 //
 fun d0ecl_extype
   (tok: token, name: s0tring, s0e: s0exp): d0ecl

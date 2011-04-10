@@ -158,6 +158,11 @@ location_type = '{
 (* ****** ****** *)
 
 implement
+location_get_bchar (loc) = loc.beg_ntot
+
+(* ****** ****** *)
+
+implement
 fprint_location
   (out, loc) = () where {
   val () = $FIL.fprint_filename (out, loc.filename)

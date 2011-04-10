@@ -67,7 +67,7 @@ fun d0exp_list12 (
 ) : d0exp =
   case+ ent2 of
   | ~LIST12one (xs) =>
-      d0exp_list (t_beg, 0, (l2l)xs, t_end)
+      d0exp_list (t_beg, ~1, (l2l)xs, t_end)
   | ~LIST12two (xs1, xs2) => let
       val npf = list_vt_length (xs1)
       val xs12 = list_vt_append (xs1, xs2)
@@ -99,7 +99,7 @@ fun d0exp_tup12 (
 ) : d0exp =
   case+ ent2 of
   | ~LIST12one (xs) =>
-      d0exp_tup (knd, t_beg, 0, (l2l)xs, t_end)
+      d0exp_tup (knd, t_beg, ~1, (l2l)xs, t_end)
   | ~LIST12two (xs1, xs2) => let
       val npf = list_vt_length (xs1)
       val xs12 = list_vt_append (xs1, xs2)
@@ -116,7 +116,7 @@ fun d0exp_rec12 (
 ) : d0exp =
   case+ ent2 of
   | ~LIST12one (xs) =>
-      d0exp_rec (knd, t_beg, 0(*npf*), (l2l)xs, t_end)
+      d0exp_rec (knd, t_beg, ~1, (l2l)xs, t_end)
   | ~LIST12two (xs1, xs2) => let
       val npf = list_vt_length (xs1)
       val xs12 = list_vt_append (xs1, xs2)
@@ -325,6 +325,8 @@ p_dqi0de (buf, bt, err) =
   pqi0de_fun (buf, bt, err, p_di0de, PE_dqi0de)
 // end of [p_dqi0de]
 
+(* ****** ****** *)
+
 fun
 p_arri0de (
   buf: &tokbuf, bt: int, err: &int
@@ -347,6 +349,8 @@ implement
 p_arrqi0de (buf, bt, err) =
   pqi0de_fun (buf, bt, err, p_arri0de, PE_arrqi0de)
 // end of [p_arrqi0de]
+
+(* ****** ****** *)
 
 fun
 p_tmpi0de (
@@ -382,11 +386,9 @@ p_labd0exp (
 ) = let
   val err0 = err
   val tok = tokbuf_get_token (buf)
-//
   val+ ~SYNENT3 (ent1, ent2, ent3) =
     pseq3_fun {l0ab,token,d0exp} (buf, bt, err, p_l0ab, p_EQ, p_d0exp)
   (* end of [val] *)
-//
 in
 //
 if (err = err0) then
@@ -667,7 +669,7 @@ case+ tok.token_node of
 //
 | _ when
     ptest_fun (
-    buf, p_s0elop, ent
+    buf, p_s0elop, ent // s0elop ::= DOT | MINUSGT
   ) => let
     val bt = 0
     val ent1 = synent_decode {s0elop} (ent)
@@ -678,28 +680,17 @@ case+ tok.token_node of
         val () = incby1 ()
         val ent2 = p_d0arrind (buf, bt, err)
       in
-        if err = err0 then d0exp_sel_ind (ent1, ent2) else synent_null ()
+        if err = err0 then
+          d0exp_sel_ind (ent1, ent2) else synent_null ()
+        // end of [if]
       end
-    | _ when ptest_fun (buf, p_l0ab, ent) => let
+    | _ when
+        ptest_fun (buf, p_l0ab, ent) => let
         val ent2 = synent_decode {l0ab} (ent) in d0exp_sel_lab (ent1, ent2)
       end
     | _ => let
         val () = err := err + 1 in synent_null ((*dangling [s0elop]*))
       end
-  end
-//
-| T_DLREXTVAL () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = p_LPAREN (buf, bt, err)
-    val ent3 = pif_fun (buf, bt, err, p_s0exp, err0)
-    val ent4 = pif_fun (buf, bt, err, p_COMMA, err0)
-    val ent5 = pif_fun (buf, bt, err, p_s0tring, err0)
-    val ent6 = pif_fun (buf, bt, err, p_RPAREN, err0)
-  in
-    if err = err0 then
-      d0exp_extval (tok, ent3, ent5, ent6) else synent_null ()
-    // end of [if]
   end
 //
 | T_BRKCONT (knd) => let
@@ -743,16 +734,30 @@ case+ tok.token_node of
     end (* end of [if] *)
   end
 //
+| T_DLREXTVAL () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_LPAREN (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_s0exp, err0)
+    val ent4 = pif_fun (buf, bt, err, p_COMMA, err0)
+    val ent5 = pif_fun (buf, bt, err, p_s0tring, err0)
+    val ent6 = pif_fun (buf, bt, err, p_RPAREN, err0)
+  in
+    if err = err0 then
+      d0exp_extval (tok, ent3, ent5, ent6) else synent_null ()
+    // end of [if]
+  end
+//
 | T_LPAREN () => let
     val () = incby1 ()
     val d0e = p_d0exp (buf, bt, err)
   in
     if err = err0 then let
+      val bt = 0
       val tok2 = tokbuf_get_token (buf)
     in
       case+ tok2.token_node of
       | T_SEMICOLON () => let
-          val bt = 0
           val () = incby1 ()
           val d0es = p_d0expsemiseq (buf, bt, err)
           val ent3 = p_RPAREN (buf, bt, err) // err = err0
@@ -768,6 +773,7 @@ case+ tok.token_node of
           d0exp_list12_if (tok, ent2, ent3, err, err0)
         end
     end else let
+      val bt = 0
       val () = err := err0
       val ent2 = p_d0expseq_BAR_d0expseq (buf, bt, err)
       val ent3 = p_RPAREN (buf, bt, err) // err = err0

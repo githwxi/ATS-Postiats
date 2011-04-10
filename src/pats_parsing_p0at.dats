@@ -66,7 +66,7 @@ fun p0at_list12 (
 ) : p0at =
   case+ ent2 of
   | ~LIST12one (xs) =>
-      p0at_list (t_beg, 0, (l2l)xs, t_end)
+      p0at_list (t_beg, ~1, (l2l)xs, t_end)
   | ~LIST12two (xs1, xs2) => let
       val npf = list_vt_length (xs1)
       val xs12 = list_vt_append (xs1, xs2)
@@ -85,7 +85,7 @@ fun p0at_tup12 (
 ) : p0at =
   case+ ent2 of
   | ~LIST12one (xs) =>
-      p0at_tup (knd, t_beg, 0, (l2l)xs, t_end)
+      p0at_tup (knd, t_beg, ~1, (l2l)xs, t_end)
   | ~LIST12two (xs1, xs2) => let
       val npf = list_vt_length (xs1)
       val xs12 = list_vt_append (xs1, xs2)
@@ -102,7 +102,7 @@ fun p0at_rec12 (
 ) : p0at =
   case+ ent2 of
   | ~LIST12one (xs) =>
-      p0at_rec (knd, t_beg, 0(*npf*), (l2l)xs, t_end)
+      p0at_rec (knd, t_beg, ~1, (l2l)xs, t_end)
   | ~LIST12two (xs1, xs2) => let
       val npf = list_vt_length (xs1)
       val xs12 = list_vt_append (xs1, xs2)

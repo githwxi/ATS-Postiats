@@ -151,6 +151,7 @@ local
 
 fn name_is_prf
   (name: string): bool = name = "prf"
+// end of [name_is_prf]
 
 fn name_is_lin0 (name: string): bool = 
   if name = "lin" then true else name = "lin0"
@@ -215,7 +216,7 @@ e0fftag_i0de (id) = let
     | _ when name_is_lin1 name => E0FFTAGlin 1
 //
     | _ => E0FFTAGvar id
-   ) : e0fftag_node // end of [val]
+  ) : e0fftag_node // end of [val]
 //
 in '{
   e0fftag_loc= id.i0de_loc, e0fftag_node= node
@@ -223,8 +224,10 @@ in '{
 
 end // end of [local]
 
-implement e0fftag_var_fun (t) = '{
-  e0fftag_loc= t.token_loc, e0fftag_node= E0FFTAGfun (~1(*u*), 0)
+implement
+e0fftag_var_fun (t) = '{
+  e0fftag_loc= t.token_loc
+, e0fftag_node= E0FFTAGfun (~1(*u*), 0)
 } // end of [e0fftag_var_fun]
 
 implement
@@ -1591,9 +1594,8 @@ d0exp_lst (
 ) = let
   val loc = t_beg.token_loc + t_rp.token_loc
   val d0e_elts = (case+ d0es of
-    | list_cons
-        (d0e, list_nil ()) => d0e
-    | _ => d0exp_list (t_lp, 0(*npf*), d0es, t_rp)
+    | list_cons (d0e, list_nil ()) => d0e
+    | _ => d0exp_list (t_lp, ~1(*npf*), d0es, t_rp)
   ) : d0exp // end of [val]
 in '{
   d0exp_loc= loc, d0exp_node= D0Elst (lin, elt, d0e_elts)
@@ -1650,7 +1652,7 @@ d0exp_arrsize (
   val loc = t_beg.token_loc + t_rp.token_loc
   val d0e_ini = (case+ d0es of
     | list_cons (d0e, list_nil ()) => d0e
-    | _ => d0exp_list (t_lp, 0(*npf*), d0es, t_rp)
+    | _ => d0exp_list (t_lp, ~1(*npf*), d0es, t_rp)
   ) : d0exp // end of [val]
 in '{
   d0exp_loc= loc, d0exp_node= D0Earrsize (os0e, d0e_ini)
@@ -2238,6 +2240,18 @@ d0ecl_overload
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Coverload (id, dqid)
 } end // end of [d0ecl_overload]
+
+implement
+d0ecl_classdec
+  (tok, id, sup) = let
+  val loc = (
+    case+ sup of
+    | Some x => tok.token_loc + x.s0exp_loc
+    | None _ => tok.token_loc
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cclassdec (id, sup)
+} end // end of [d0ecl_classdec]
 
 (* ****** ****** *)
 

@@ -553,8 +553,9 @@ d0ecl
   | ASSUME s0aspdec
   | EXCEPTION e0xndecseq
   | DATAYPE d0atdec andd0atdecseq {WHERE s0expdefseq}
-  | OVERLOAD di0de WITH dqi0de
   | MACDEF {REC} m0acdefseq
+  | OVERLOAD di0de WITH dqi0de
+  | CLASSDEC si0de [EQ s0exp]
   | STALOAD staload
 *)
 
@@ -735,18 +736,6 @@ case+ tok.token_node of
     | _ => d0ecl_datdecs_none (knd, tok, ent2)
   end
 //
-| T_OVERLOAD () => let
-    val bt = 0
-    val () = incby1 ()
-    val ~SYNENT3 (ent1, ent2, ent3) =
-      pseq3_fun {i0de,token,dqi0de} (buf, bt, err, p_di0de, p_WITH, p_dqi0de)
-    // end of [val]
-  in
-    if err = err0 then
-      d0ecl_overload (tok, ent1, ent3) else synent_null ()
-    // end of [val]
-  end
-//
 | T_MACDEF (knd) => let
     val bt = 0
     val () = incby1 ()
@@ -759,6 +748,29 @@ case+ tok.token_node of
     else let
       val () = list_vt_free (ent3) in synent_null ()
     end (* end of [if] *)
+  end
+//
+| T_OVERLOAD () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent1 = p_di0de (buf, bt, err)
+    val ent2 = pif_fun (buf, bt, err, p_WITH, err0)
+    val ent3 = pif_fun (buf, bt, err, p_dqi0de, err0)
+  in
+    if err = err0 then
+      d0ecl_overload (tok, ent1, ent3) else synent_null ()
+    // end of [val]
+  end
+//
+| T_CLASSDEC () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent1 = p_si0de (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_eqs0expopt, err0)
+  in
+    if err = err0 then
+      d0ecl_classdec (tok, ent1, ent3) else synent_null ()
+    // end of [if]
   end
 //
 | T_STALOAD () => let

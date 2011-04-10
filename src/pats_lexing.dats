@@ -2113,7 +2113,8 @@ in
   case+ tok.token_node of
   | T_COMMENT_line _ => lexing_next_token_ncmnt (buf)
   | T_COMMENT_block _ => lexing_next_token_ncmnt (buf)
-  | T_COMMENT_rest _ => lexing_next_token_ncmnt (buf)
+// HX: A rest-of-file comment is considered as EOF
+  | T_COMMENT_rest _ => token_make (tok.token_loc, T_EOF)
   | _ => tok
 end // end of [lexing_next_token_ncmnt]
 
