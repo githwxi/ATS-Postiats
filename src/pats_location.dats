@@ -183,6 +183,8 @@ fprint_location
 
 implement
 print_location (loc) = fprint_location (stdout_ref, loc)
+implement
+prerr_location (loc) = fprint_location (stderr_ref, loc)
 
 (* ****** ****** *)
 

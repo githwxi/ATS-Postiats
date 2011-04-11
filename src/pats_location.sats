@@ -103,6 +103,8 @@ overload fprint with fprint_location
 
 fun print_location (loc: location): void
 overload print with print_location
+fun prerr_location (loc: location): void
+overload prerr with prerr_location
 
 (* ****** ****** *)
 

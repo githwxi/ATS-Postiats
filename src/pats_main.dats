@@ -46,6 +46,7 @@ staload "pats_parsing.sats"
 
 (* ****** ****** *)
 //
+dynload "pats_error.dats"
 dynload "pats_utils.dats"
 //
 dynload "pats_symbol.dats"
@@ -62,7 +63,8 @@ dynload "pats_lexing_error.dats"
 dynload "pats_lexing.dats"
 
 dynload "pats_label.dats"
-dynload "pats_fixity.dats"
+dynload "pats_fixity_prec.dats"
+dynload "pats_fixity_fxty.dats"
 dynload "pats_syntax_print.dats"
 dynload "pats_syntax.dats"
 
@@ -78,6 +80,9 @@ dynload "pats_parsing_p0at.dats"
 dynload "pats_parsing_dynexp.dats"
 dynload "pats_parsing_decl.dats"
 dynload "pats_parsing_toplevel.dats"
+//
+dynload "pats_staexp1.dats"
+dynload "pats_staexp1_print.dats"
 
 (* ****** ****** *)
 

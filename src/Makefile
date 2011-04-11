@@ -50,6 +50,8 @@ ATSCCFLAGS=-g -O2
 ######
 
 SOURCES := \
+  pats_error.sats \
+  pats_error.dats \
   pats_utils.sats \
   pats_utils.dats \
   pats_symbol.sats \
@@ -68,7 +70,8 @@ SOURCES := \
   pats_lexing_error.dats \
   pats_lexing.dats \
   pats_fixity.sats \
-  pats_fixity.dats \
+  pats_fixity_prec.dats \
+  pats_fixity_fxty.dats \
   pats_label.sats \
   pats_label.dats \
   pats_syntax.sats \

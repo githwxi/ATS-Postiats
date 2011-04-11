@@ -34,12 +34,7 @@
 //
 (* ****** ****** *)
 
-staload
-LOC = "pats_location.sats"
-typedef location = $LOC.location
-
-staload SYM = "pats_symbol.sats"
-typedef symbol = $SYM.symbol
+staload "pats_syntax.sats"
 
 (* ****** ****** *)
 
@@ -51,8 +46,8 @@ datatype e1xp_node =
   | E1XPint of string
   | E1XPlist of e1xplst
   | E1XPnone of ()
-  | E1XPstring of (string, int(*length*))
-  | E1XPundef of () // a special value for marking undefinition
+  | E1XPstring of (string)
+  | E1XPundef of () // a special value for marking un-definition
 // end of [e1xp_node]
 
 where e1xp: type = '{
@@ -77,6 +72,134 @@ fun print_e1xplst (_: e1xplst): void
 fun prerr_e1xplst (_: e1xplst): void
 overload print with print_e1xplst
 overload prerr with prerr_e1xplst
+
+(* ****** ****** *)
+
+fun e1xp_app (
+  loc: location
+, _fun: e1xp, loc_arg: location, _arg: e1xplst
+) : e1xp // end of [e1xp_app]
+//
+fun e1xp_char (loc: location, _: char): e1xp
+fun e1xp_float (loc: location, flt: string): e1xp
+fun e1xp_ide (loc: location, sym: symbol): e1xp
+fun e1xp_int (loc: location, int: string): e1xp
+fun e1xp_list (loc: location, es: e1xplst): e1xp
+fun e1xp_none (loc: location): e1xp
+fun e1xp_string (loc: location, str: string): e1xp
+fun e1xp_undef (loc: location): e1xp
+//
+fun e1xp_true (loc: location): e1xp
+and e1xp_false (loc: location): e1xp
+
+(* ****** ****** *)
+
+datatype v1al =
+  | V1ALchar of char
+  | V1ALfloat of double
+  | V1ALint of int
+  | V1ALstring of string
+// end of [v1al]
+
+val v1al_true : v1al and v1al_false : v1al
+
+(* ****** ****** *)
+
+datatype
+s1rt_node =
+  | S1RTapp of (s1rt, s1rtlst)
+  | S1RTlist of s1rtlst
+  | S1RTqid of (s0rtq, symbol)
+  | S1RTtup of s1rtlst
+// end of [s1rt_node]
+
+where s1rt: type = '{
+  s1rt_loc= location, s1rt_node= s1rt_node
+}
+
+and s1rtlst: type = List s1rt
+and s1rtopt: type = Option s1rt
+and s1rtlstlst: type = List s1rtlst
+and s1rtlstopt: type = Option s1rtlst
+
+typedef s1rtpol = '{
+  s1rtpol_loc= location, s1rtpol_srt= s1rt, s1rtpol_pol= int
+} // end of [s1rtpol]
+
+(* ****** ****** *)
+
+fun fprint_s1rt
+  (out: FILEref, _: s1rt): void
+overload fprint with fprint_s1rt
+
+fun print_s1rt (_: s1rt): void
+fun prerr_s1rt (_: s1rt): void
+overload print with print_s1rt
+overload prerr with prerr_s1rt
+
+fun fprint_s1rtlst
+  (out: FILEref, _: s1rtlst): void
+overload fprint with fprint_s1rtlst
+
+fun print_s1rtlst (_: s1rtlst): void
+fun prerr_s1rtlst (_: s1rtlst): void
+overload print with print_s1rtlst
+overload prerr with prerr_s1rtlst
+
+fun fprint_s1rtopt
+  (out: FILEref, _: s1rtopt): void
+overload fprint with fprint_s1rtopt
+
+(* ****** ****** *)
+
+(*
+** HX: functions for constructing sorts
+*)
+
+fun s1rt_arrow (loc: location): s1rt
+
+//
+// HX: '->' is a special sort constructor
+//
+fun s1rt_is_arrow (s1t: s1rt): bool
+
+fun s1rt_app (
+  loc: location, _fun: s1rt, _arg: s1rtlst
+) : s1rt // end of [s1rt_app]
+
+fun s1rt_fun (
+  loc: location, arg: s1rt, res: s1rt
+) : s1rt // end of [s1rt_fun]
+
+fun s1rt_ide (loc: location, _: symbol): s1rt
+fun s1rt_list (loc: location, _: s1rtlst): s1rt
+fun s1rt_qid (loc: location, q: s0rtq, id: symbol): s1rt
+fun s1rt_tup (loc: location, _: s1rtlst): s1rt
+
+(* ****** ****** *)
+
+fun s1rtpol_make (loc: location, s1t: s1rt, pol: int): s1rtpol
+
+(* ****** ****** *)
+
+datatype
+d1atarg_node =
+  | D1ATARGsrt of s1rtpol
+  | D1ATARGidsrt of (symbol, s1rtpol)
+// end of [d1atarg_node]
+
+typedef d1atarg = '{
+  d1atarg_loc= location, d1atarg_node= d1atarg_node
+}
+
+typedef d1atarglst = List d1atarg
+typedef d1atarglstopt = Option d1atarglst
+
+fun d1atarg_srt
+  (loc: location, s1tp: s1rtpol): d1atarg
+fun d1atarg_idsrt
+  (loc: location, sym: symbol, s1tp: s1rtpol): d1atarg
+// end of [d1atarg_idsrt]
 
 (* ****** ****** *)
 

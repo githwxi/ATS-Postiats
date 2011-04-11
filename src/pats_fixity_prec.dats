@@ -30,7 +30,7 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: March, 2011
+// Start Time: April, 2011
 //
 (* ****** ****** *)
 
@@ -48,4 +48,91 @@ fprint_assoc (out, x) =
 
 (* ****** ****** *)
 
-(* end of [pats_fixity.dats] *)
+assume prec_t0ype: t@ype = int
+
+(* ****** ****** *)
+
+#define PRECMIN ~1000000 // this is low enough
+#define PRECMAX  1000000 // this is high enough
+
+implement neginf_prec = PRECMIN
+implement posinf_prec = PRECMAX
+
+(* ****** ****** *)
+
+implement app_prec = 70
+
+(* ****** ****** *)
+
+implement select_prec = 80 (* .label is a postfix operator *)
+
+(* ****** ****** *)
+
+implement backslash_prec = app_prec + 1
+implement infixtemp_prec = 0 (* for temporary infix status *)
+
+(* ****** ****** *)
+
+implement exi_prec_sta = 0
+implement uni_prec_sta = 0
+
+(* ****** ****** *)
+
+implement delay_prec_dyn = 0 (* for $delay and $ldelay *)
+
+(* ****** ****** *)
+
+implement exist_prec_dyn = 0 (* for dynamic patterns *)
+
+(* ****** ****** *)
+
+implement ptrof_prec_dyn = select_prec - 1
+implement addrat_prec_dyn = ptrof_prec_dyn // aliasing
+
+//
+// HX: supporting [fold@ !p], [free@ !p] and [view@ !p]
+//
+implement foldat_prec_dyn = app_prec - 1
+implement freeat_prec_dyn = app_prec - 1
+implement viewat_prec_dyn = app_prec - 1
+
+(* ****** ****** *)
+
+(*
+** HX: [invar_prec_sta] must be greater than [trans_prec_sta]
+*)
+implement invar_prec_sta = 1
+
+(* ****** ****** *)
+
+implement qmark_prec_sta = app_prec - 1
+
+implement qmarkbang_prec_sta = app_prec - 1
+
+implement trans_prec_sta = 0 (* lowest *)
+
+implement deref_prec_dyn = 100 (* highest *)
+
+(* ****** ****** *)
+
+implement int_of_prec (p) = p
+
+implement
+prec_make_int (i) = case+ 0 of
+  | _ when i <= PRECMIN => PRECMIN
+  | _ when i >= PRECMAX => PRECMAX
+  | _ => i
+// end of [prec_make_int]
+
+(* ****** ****** *)
+
+implement precedence_inc (p, i) = prec_make_int (p + i)
+implement precedence_dec (p, i) = prec_make_int (p - i)
+
+(* ****** ****** *)
+
+implement compare_prec_prec (p1, p2) = compare_int_int (p1, p2)
+
+(* ****** ****** *)
+
+(* end of [pats_fixity_prec.dats] *)
