@@ -35,41 +35,32 @@
 (* ****** ****** *)
 
 staload "pats_syntax.sats"
-staload "pats_staexp1.sats"
 staload "pats_dynexp1.sats"
 
 (* ****** ****** *)
 
-fun e0xp_tr (x: e0xp): e1xp
-fun e0xplst_tr (x: e0xplst): e1xplst
+implement
+s1tacst_make (
+  loc, sym, arg, res
+) = '{
+  s1tacst_loc= loc
+, s1tacst_sym= sym
+, s1tacst_arg= arg
+, s1tacst_res= res
+} // end of [s1tacst_make]
 
 (* ****** ****** *)
 
-fun s0rt_tr (_: s0rt): s1rt
-fun s0rtlst_tr (_: s0rtlst): s1rtlst
-fun s0rtopt_tr (_: s0rtopt): s1rtopt
+implement
+d1ecl_none (loc) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cnone ()
+} // end of [d1ecl_none]
+
+implement
+d1ecl_stacsts (loc, xs) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cstacsts (xs)
+}
 
 (* ****** ****** *)
 
-fun a0srt_tr (x: a0srt): s1rt
-fun a0msrt_tr (x: a0msrt): s1rtlst
-fun a0msrtlst_tr (x: a0msrtlst): s1rtlstlst
-
-(* ****** ****** *)
-
-fun s0tacst_tr (_: s0tacst): s1tacst
-
-(* ****** ****** *)
-
-fun d0ecl_fixity_tr
-  (dec: f0xty, ids: i0delst): void
-fun d0ecl_nonfix_tr (ids: i0delst): void
-
-(* ****** ****** *)
-
-fun d0ecl_tr (_: d0ecl): d1ecl
-fun d0eclist_tr (_: d0eclist): d1eclist
-
-(* ****** ****** *)
-
-(* end of [pats_trans1.sats] *)
+(* end of [pats_dynexp1.dats] *)

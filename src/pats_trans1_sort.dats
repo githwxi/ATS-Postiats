@@ -1,0 +1,200 @@
+(***********************************************************************)
+(*                                                                     *)
+(*                         Applied Type System                         *)
+(*                                                                     *)
+(*                              Hongwei Xi                             *)
+(*                                                                     *)
+(***********************************************************************)
+
+(*
+** ATS/Postiats - Unleashing the Potential of Types!
+** Copyright (C) 2011-20?? Hongwei Xi, Boston University
+** All rights reserved
+**
+** ATS is free software;  you can  redistribute it and/or modify it under
+** the terms of  the GNU GENERAL PUBLIC LICENSE (GPL) as published by the
+** Free Software Foundation; either version 3, or (at  your  option)  any
+** later version.
+** 
+** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
+** WARRANTY; without  even  the  implied  warranty  of MERCHANTABILITY or
+** FITNESS FOR A PARTICULAR PURPOSE.  See the  GNU General Public License
+** for more details.
+** 
+** You  should  have  received  a  copy of the GNU General Public License
+** along  with  ATS;  see the  file COPYING.  If not, please write to the
+** Free Software Foundation,  51 Franklin Street, Fifth Floor, Boston, MA
+** 02110-1301, USA.
+*)
+
+(* ****** ****** *)
+//
+// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Start Time: April, 2011
+//
+(* ****** ****** *)
+
+staload ERR = "pats_error.sats"
+staload LOC = "pats_location.sats"
+overload + with $LOC.location_combine
+staload SYM = "pats_symbol.sats"
+macdef BACKSLASH = $SYM.symbol_BACKSLASH
+overload = with $SYM.eq_symbol_symbol
+
+(* ****** ****** *)
+
+staload "pats_fixity.sats"
+staload "pats_syntax.sats"
+staload "pats_staexp1.sats"
+
+(* ****** ****** *)
+
+staload "pats_trans1.sats"
+staload "pats_trans1_env.sats"
+
+(* ****** ****** *)
+
+#define l2l list_of_list_vt
+
+(* ****** ****** *)
+
+fn prerr_loc_error1
+  (loc: location): void = (
+  $LOC.prerr_location loc; prerr ": error(1)"
+) // end of [prerr_loc_error1]
+
+fn prerr_interror (): void = prerr "INTERROR(pats_trans1_sort)"
+
+(* ****** ****** *)
+//
+// HX: translation of sorts
+//
+typedef s1rtitm = fxitm (s1rt)
+typedef s1rtitmlst = List s1rtitm
+
+(* ****** ****** *)
+
+local
+
+fn appf (
+  s1t1: s1rt, s1t2: s1rt
+) :<cloref1> s1rtitm = let
+  val loc = s1t1.s1rt_loc + s1t2.s1rt_loc
+  val s1ts2 = (
+    case+ s1t2.s1rt_node of
+    | S1RTlist s1ts => s1ts | _ => list_cons (s1t2, list_nil ())
+  ) : s1rtlst // end of [val]
+  val s1t_app = s1rt_app (loc, s1t1, s1ts2)
+in
+  FXITMatm (s1t_app)
+end // end of [appf]
+
+in // in of [local]
+
+fn s1rtitm_app (loc: location) = fxitm_app (loc, appf)
+
+end // end of [local]
+
+fn s1rt_get_loc (x: s1rt): location = x.s1rt_loc
+
+fn s1rt_make_opr (
+  s1t: s1rt, f: fxty
+) : s1rtitm = begin
+  fxopr_make {s1rt} (
+    s1rt_get_loc
+  , lam (loc, x, _(*loc_arg*), xs) => s1rt_app (loc, x, xs), s1t, f
+  ) // end of [oper_make]
+end // end of [s1rt_make_opr]
+
+fn s1rtitm_backslash
+  (loc: location) = begin
+  fxopr_make_backslash {s1rt} (
+    lam x => x.s1rt_loc
+  , lam (loc, x, _(*loc_arg*), xs) => s1rt_app (loc, x, xs)
+  , loc
+  ) // end of [oper_make_backslash]
+end // end of [s1rtitm_backslash]
+
+(* ****** ****** *)
+
+local
+
+fn s0rt_tr_errmsg_opr
+  (loc: location): s1rt = let
+  val () = prerr_loc_error1 (loc)
+  val () = prerr ": the operator needs to be applied."
+  val () = prerr_newline ()
+in
+  $ERR.abort {s1rt} ()
+end // end of [s0rt_tr_errmsg_opr]
+
+in // in of [local]
+  
+implement s0rt_tr (s0t0) = let
+//
+fun aux_item
+  (s0t0: s0rt): s1rtitm = let
+  val loc0 = s0t0.s0rt_loc in case+ s0t0.s0rt_node of
+    | S0RTapp _ => let 
+        val s1t0 = fixity_resolve (
+          loc0, s1rt_get_loc, s1rtitm_app (loc0), aux_itemlst s0t0
+        ) // end of [val]
+      in
+        FXITMatm (s1t0)
+      end // end of [S0RTapp]
+    | S0RTide id
+        when id = BACKSLASH => s1rtitm_backslash (loc0)
+    | S0RTide id => begin case+ the_fxtyenv_find id of
+      | ~Some_vt f => s1rt_make_opr (s1rt_ide (loc0, id), f)
+      | ~None_vt () => FXITMatm (s1rt_ide (loc0, id))
+      end // end of [S0RTide]
+    | S0RTlist xs => FXITMatm (s1rt_list (loc0, s0rtlst_tr xs))
+    | S0RTqid (q, id) => FXITMatm (s1rt_qid (loc0, q, id))
+(*
+    | S0RTtup (xs) => FXITMatm (s1rt_tup (loc0, s0rtlst_tr xs))
+*)
+    | S0RTtype knd => FXITMatm (s1rt_type (loc0, knd))
+end // end of [aux_item]
+//
+and aux_itemlst
+  (s0t0: s0rt): s1rtitmlst = let
+  fun aux (
+    res: s1rtitmlst, s0t0: s0rt
+  ) : s1rtitmlst =
+    case+ s0t0.s0rt_node of
+    | S0RTapp (s0t1, s0t2) => let
+        val res = list_cons (aux_item s0t2, res) in aux (res, s0t1)
+      end // end of [S0RTapp]
+    | _ => list_cons (aux_item s0t0, res) // end of [_]
+  // end of [aux]
+in
+  aux (list_nil (), s0t0)
+end // end of [aux_itemlst]
+//
+in
+//
+case+ aux_item s0t0 of
+| FXITMatm (s1t) => s1t
+| FXITMopr (loc, _) => s0rt_tr_errmsg_opr (loc)
+// end of [case]
+end // end of [s0rt_tr]
+
+end // end of [local]
+
+implement
+s0rtlst_tr (s0ts) = l2l (list_map_fun (s0ts, s0rt_tr))
+
+implement
+s0rtopt_tr (s0topt) =
+  case+ s0topt of Some s0t => Some (s0rt_tr s0t) | None () => None ()
+// end of [s0rtopt_tr]
+
+(* ****** ****** *)
+
+implement a0srt_tr (x) = s0rt_tr (x.a0srt_srt)
+implement a0msrt_tr (x) = l2l (list_map_fun (x.a0msrt_arg, a0srt_tr))
+implement a0msrtlst_tr (xs) = l2l (list_map_fun (xs, a0msrt_tr))
+
+(* ****** ****** *)
+
+(* end of [pats_trans1_sort.dats] *)

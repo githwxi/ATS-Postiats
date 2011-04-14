@@ -34,42 +34,47 @@
 //
 (* ****** ****** *)
 
-staload "pats_syntax.sats"
-staload "pats_staexp1.sats"
-staload "pats_dynexp1.sats"
+staload
+SYM = "pats_symbol.sats"
+typedef symbol = $SYM.symbol
 
 (* ****** ****** *)
 
-fun e0xp_tr (x: e0xp): e1xp
-fun e0xplst_tr (x: e0xplst): e1xplst
+absviewtype
+symmap_vtype (itm:type)
+stadef symmap = symmap_vtype
+
+fun symmap_make_nil
+  {itm:type} ():<> symmap (itm)
+
+fun symmap_free
+  {itm:type} (map: symmap (itm)):<> void
+
+fun
+symmap_search
+  {itm:type}
+  (map: !symmap itm, k: symbol):<> Option_vt itm
+// end of [symmap_search]
+
+fun
+symmap_insert
+  {itm:type} (
+  map: &symmap (itm), key: symbol, itm: itm
+) :<> void // end of [symmap_insert]
 
 (* ****** ****** *)
 
-fun s0rt_tr (_: s0rt): s1rt
-fun s0rtlst_tr (_: s0rtlst): s1rtlst
-fun s0rtopt_tr (_: s0rtopt): s1rtopt
+fun symmap_joinwth
+  {itm:type} (m1: &symmap itm, m2: symmap itm):<> void
+// end of [symmap_joinwth]
 
 (* ****** ****** *)
 
-fun a0srt_tr (x: a0srt): s1rt
-fun a0msrt_tr (x: a0msrt): s1rtlst
-fun a0msrtlst_tr (x: a0msrtlst): s1rtlstlst
+fun fprint_symmap
+  {itm:type} (
+  out: FILEref, map: !symmap itm, f: (FILEref, itm) -> void
+) : void // end of [fprint_symmap]
 
 (* ****** ****** *)
 
-fun s0tacst_tr (_: s0tacst): s1tacst
-
-(* ****** ****** *)
-
-fun d0ecl_fixity_tr
-  (dec: f0xty, ids: i0delst): void
-fun d0ecl_nonfix_tr (ids: i0delst): void
-
-(* ****** ****** *)
-
-fun d0ecl_tr (_: d0ecl): d1ecl
-fun d0eclist_tr (_: d0eclist): d1eclist
-
-(* ****** ****** *)
-
-(* end of [pats_trans1.sats] *)
+(* end of [pats_symmap.sats] *)

@@ -86,10 +86,15 @@ fun fprint_symbol
 overload fprint with fprint_symbol
 fun print_symbol (x: symbol): void
 overload print with print_symbol
+fun prerr_symbol (x: symbol): void
+overload prerr with prerr_symbol
 
 (* ****** ****** *)
 
+typedef stamp = uint
+
 fun symbol_get_name (x: symbol):<> string
+fun symbol_get_stamp (x: symbol):<> stamp
 fun symbol_make_string (name: string): symbol
 
 (* ****** ****** *)

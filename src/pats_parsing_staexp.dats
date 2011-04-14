@@ -1204,7 +1204,7 @@ end // end of [p_s0exparg]
 (* ****** ****** *)
 
 (*
-witht0ype ::= WITHTYPE s0exp
+witht0ype ::= [WITHTYPE s0exp]
 *)
 
 implement
@@ -1222,9 +1222,9 @@ case+ tok.token_node of
   in
     if err = err0 then
       WITHT0YPEsome (knd, ent2)
-    else let
-      val () = tokbuf_set_ntok (buf, n0) in WITHT0YPEnone ()
-    end (* end of [if] *)
+    else
+      tokbuf_set_ntok_null (buf, n0) // HX: [err] is set
+    // end of [if]
   end
 | _ => WITHT0YPEnone ()
 //

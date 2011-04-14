@@ -120,11 +120,14 @@ in
       val () = $SYM.fprint_symbol (out, id)
       val () = prstr ")"
     } // end of [S1RTqid]
+(*
   | S1RTtup s1ts => begin
-      prstr "S1RTtup(";
-      fprint_s1rtlst (out, s1ts);
-      prstr ")"
+      prstr "S1RTtup("; fprint_s1rtlst (out, s1ts); prstr ")"
     end // end of [S1RTtup]
+*)
+  | S1RTtype (knd) => begin
+      prstr "S1RTtype("; fprint_int (out, knd); prstr ")"
+    end // end of [S1RTtype]
 end // end of [fprint_s1rt]
 
 implement print_s1rt (x) = fprint_s1rt (stdout_ref, x)
@@ -144,6 +147,13 @@ implement prerr_s1rtlst (xs) = fprint_s1rtlst (stderr_ref, xs)
 
 implement
 fprint_s1rtopt (out, x) = $UT.fprintopt<s1rt> (out, x, fprint_s1rt)
+
+(* ****** ****** *)
+
+implement
+fprint_s1rtlstlst (out, xss) =
+  $UT.fprintlst<s1rtlst> (out, xss, "; ", fprint_s1rtlst)
+// end of [fprint_s1rtlstlst]
 
 (* ****** ****** *)
 

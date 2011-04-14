@@ -34,42 +34,51 @@
 //
 (* ****** ****** *)
 
+staload UT = "pats_utils.sats"
+staload _(*anon*) = "pats_utils.dats"
+
+(* ****** ****** *)
+
+staload SYM = "pats_symbol.sats"
+macdef fprint_symbol = $SYM.fprint_symbol
+
+(* ****** ****** *)
+
 staload "pats_syntax.sats"
 staload "pats_staexp1.sats"
 staload "pats_dynexp1.sats"
 
 (* ****** ****** *)
 
-fun e0xp_tr (x: e0xp): e1xp
-fun e0xplst_tr (x: e0xplst): e1xplst
+implement
+fprint_s1tacst (out, x) = {
+  val () = fprint_symbol (out, x.s1tacst_sym)
+  val () = fprint_string (out, "(")
+  val () = fprint_s1rtlstlst (out, x.s1tacst_arg)
+  val () = fprint_string (out, ") : ")
+  val () = fprint_s1rt (out, x.s1tacst_res)
+} // end of [fprint_s1tacst]
 
 (* ****** ****** *)
 
-fun s0rt_tr (_: s0rt): s1rt
-fun s0rtlst_tr (_: s0rtlst): s1rtlst
-fun s0rtopt_tr (_: s0rtopt): s1rtopt
+implement
+fprint_d1ecl
+  (out, d1c0) = let
+  macdef prstr (str) = fprint_string (out, ,(str))
+in
+  case+ d1c0.d1ecl_node of
+  | D1Cnone () => prstr "D1Cnone()"
+  | D1Cstacsts (xs) => {
+      val () = prstr "D1Cstacsts(\n"
+      val () = $UT.fprintlst (out, xs, "\n", fprint_s1tacst)
+      val () = prstr "\n)"
+    }
+  | _ => prstr "D1C...(...)"
+end // end of [fprint_d1ecl]
+
+implement
+fprint_d1eclist (out, xs) = $UT.fprintlst (out, xs, "\n", fprint_d1ecl)
 
 (* ****** ****** *)
 
-fun a0srt_tr (x: a0srt): s1rt
-fun a0msrt_tr (x: a0msrt): s1rtlst
-fun a0msrtlst_tr (x: a0msrtlst): s1rtlstlst
-
-(* ****** ****** *)
-
-fun s0tacst_tr (_: s0tacst): s1tacst
-
-(* ****** ****** *)
-
-fun d0ecl_fixity_tr
-  (dec: f0xty, ids: i0delst): void
-fun d0ecl_nonfix_tr (ids: i0delst): void
-
-(* ****** ****** *)
-
-fun d0ecl_tr (_: d0ecl): d1ecl
-fun d0eclist_tr (_: d0eclist): d1eclist
-
-(* ****** ****** *)
-
-(* end of [pats_trans1.sats] *)
+(* end of [pats_dynexp1_print.dats] *)

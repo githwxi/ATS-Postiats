@@ -73,6 +73,11 @@ fun synent_isnot_null {a:type} (x: a):<> bool
 //
 (* ****** ****** *)
 
+typedef
+fprint_type (a:t@ype) = (FILEref, a) -> void
+
+(* ****** ****** *)
+
 datatype
 dcstkind =
   | DCKfun of ()
@@ -91,12 +96,8 @@ fun dcstkind_is_prval (dck: dcstkind):<> bool
 fun dcstkind_is_proof (dck: dcstkind):<> bool
 fun dcstkind_is_castfn (dck: dcstkind):<> bool
 
-fun fprint_dcstkind
-  (out: FILEref, x: dcstkind): void
+fun fprint_dcstkind : fprint_type (dcstkind)
 overload fprint with fprint_dcstkind
-
-fun print_dcstkind (x: dcstkind): void
-overload print with print_dcstkind
 
 (* ****** ****** *)
 
@@ -119,7 +120,7 @@ cstsp = // special constants
 *)
 // end of [cstsp]
 
-fun fprint_cstsp (out: FILEref, x: cstsp): void
+fun fprint_cstsp : fprint_type (cstsp)
 overload fprint with fprint_cstsp
 
 (* ****** ****** *)
@@ -131,10 +132,10 @@ typedef s0tring = token
 
 fun int_of_i0nt (x: i0nt): int
 
-fun fprint_i0nt (out: FILEref, x: i0nt): void
-fun fprint_c0har (out: FILEref, x: c0har): void
-fun fprint_f0loat (out: FILEref, x: f0loat): void
-fun fprint_s0tring (out: FILEref, x: s0tring): void
+fun fprint_i0nt : fprint_type (i0nt)
+fun fprint_c0har : fprint_type (c0har)
+fun fprint_f0loat : fprint_type (f0loat)
+fun fprint_s0tring : fprint_type (s0tring)
 
 (* ****** ****** *)
 
@@ -147,7 +148,7 @@ typedef i0delst = List (i0de)
 fun i0de_make_sym (loc: location, sym: symbol) : i0de
 fun i0de_make_string (loc: location, name: string) : i0de
 
-fun fprint_i0de (out: FILEref, x: i0de): void
+fun fprint_i0de : fprint_type (i0de)
 
 (* ****** ****** *)
 
@@ -194,7 +195,7 @@ typedef s0rtq = '{
 fun s0rtq_none (loc: location): s0rtq
 fun s0rtq_symdot (ent1: i0de, tok2: token): s0rtq
 
-fun fprint_s0rtq (out: FILEref, x: s0rtq): void
+fun fprint_s0rtq : fprint_type (s0rtq)
 overload fprint with fprint_s0rtq
 
 (* ****** ****** *)
@@ -216,7 +217,7 @@ fun s0taq_none (loc: location): s0taq
 fun s0taq_symdot (ent1: i0de, tok2: token): s0taq
 fun s0taq_symcolon (ent1: i0de, tok2: token): s0taq
 
-fun fprint_s0taq (out: FILEref, x: s0taq): void
+fun fprint_s0taq : fprint_type (s0taq)
 
 (* ****** ****** *)
 
@@ -228,7 +229,7 @@ typedef sqi0de = '{
 fun sqi0de_make_none (ent: i0de): sqi0de
 fun sqi0de_make_some (ent1: s0taq, ent2: i0de): sqi0de
 
-fun fprint_sqi0de (out: FILEref, x: sqi0de): void
+fun fprint_sqi0de : fprint_type (sqi0de)
 
 (* ****** ****** *)
 
@@ -255,7 +256,7 @@ fun d0ynq_symcolon
 fun d0ynq_symdotcolon
   (ent1: i0de, ent2: i0de, ent3: token): d0ynq
 
-fun fprint_d0ynq (out: FILEref, x: d0ynq): void
+fun fprint_d0ynq : fprint_type (d0ynq)
 
 (* ****** ****** *)
 
@@ -267,20 +268,22 @@ typedef dqi0de = '{
 fun dqi0de_make_none (ent: i0de): dqi0de
 fun dqi0de_make_some (ent1: d0ynq, ent2: i0de): dqi0de
 
-fun fprint_dqi0de (out: FILEref, x: dqi0de): void
+fun fprint_dqi0de : fprint_type (dqi0de)
 
 (* ****** ****** *)
 
 datatype p0rec =
   | P0RECint of int
   | P0RECi0de of i0de
-  | P0RECi0de_adj of (i0de, token, int)
+  | P0RECi0de_adj of (i0de, i0de(*opr*), int)
 // end of [p0rec]
 
 fun p0rec_emp (): p0rec
 fun p0rec_i0de (x: i0de): p0rec
-fun p0rec_i0de_adj (ide: i0de, tok: token, int: i0nt): p0rec
+fun p0rec_i0de_adj (ide: i0de, opr: i0de, int: i0nt): p0rec
 fun p0rec_i0nt (x: i0nt): p0rec
+
+fun fprint_p0rec : fprint_type (p0rec)
 
 (* ****** ****** *)
 
@@ -290,7 +293,7 @@ datatype f0xty =
   | F0XTYpos of p0rec // postfix
 // end of [f0xty]
 
-fun fprint_f0xty (out: FILEref, x: f0xty): void
+fun fprint_f0xty : fprint_type (f0xty)
 
 (* ****** ****** *)
 
@@ -298,7 +301,7 @@ datatype e0xpactkind =
   | E0XPACTassert | E0XPACTerror | E0XPACTprint
 // end of [e0xpactkind]
 
-fun fprint_e0xpactkind (out: FILEref, x: e0xpactkind): void
+fun fprint_e0xpactkind : fprint_type (e0xpactkind)
 
 (* ****** ****** *)
 
@@ -333,7 +336,7 @@ fun e0xp_s0tring (_: token): e0xp
 fun e0xp_i0de (_: i0de): e0xp
 fun e0xp_list (_1: token, _2: e0xplst, _3: token): e0xp
 
-fun fprint_e0xp (out: FILEref, x: e0xp): void
+fun fprint_e0xp : fprint_type (e0xp)
 
 (* ****** ****** *)
 
@@ -344,7 +347,7 @@ typedef l0ab = '{
 fun l0ab_make_i0de (x: i0de): l0ab
 fun l0ab_make_i0nt (x: i0nt): l0ab
 
-fun fprint_l0ab (out: FILEref, x: l0ab): void
+fun fprint_l0ab : fprint_type (l0ab)
 
 (* ****** ****** *)
 
@@ -379,7 +382,7 @@ fun m0acarg_sing (x: i0de): m0acarg
 
 datatype s0rt_node =
   | S0RTide of symbol (* sort identifier *)
-  | S0RTsqid of (s0rtq, symbol) (* qualified sort identifier *)
+  | S0RTqid of (s0rtq, symbol) (* qualified sort identifier *)
   | S0RTapp of (s0rt, s0rt)
   | S0RTlist of s0rtlst
   | S0RTtype of int (* prop/view/type/t0ype/viewtype/viewt0ype *)
@@ -399,14 +402,14 @@ typedef s0rtpol = '{
 } // end of [s0rtpol]
 
 fun s0rt_i0de (_: i0de): s0rt
-fun s0rt_sqid (sq: s0rtq, id: i0de): s0rt
+fun s0rt_qid (sq: s0rtq, id: i0de): s0rt
 fun s0rt_app (_1: s0rt, _2: s0rt): s0rt
 fun s0rt_list
-  (t_beg: token, _: s0rtlst, t_end: token): s0rt
+  (t_beg: token, xs: s0rtlst, t_end: token): s0rt
 // end of [s0rt_list]
 fun s0rt_type (tok: token): s0rt // tok = T_TYPE (knd)
 
-fun fprint_s0rt (out: FILEref, x: s0rt): void
+fun fprint_s0rt : fprint_type (s0rt)
 
 (* ****** ****** *)
 
@@ -434,7 +437,7 @@ fun d0atsrtdec_make
   (id: i0de, t_eq: token, xs: d0atsrtconlst): d0atsrtdec
 // end of [d0atsrtdec_make]
 
-fun fprint_d0atsrtdec (out: FILEref, x: d0atsrtdec): void
+fun fprint_d0atsrtdec : fprint_type (d0atsrtdec)
 
 (* ****** ****** *)
 
@@ -487,16 +490,16 @@ fun a0msrt_make (
 (* ****** ****** *)
 
 datatype sp0at_node =
-  | SP0Tcon of (sqi0de, s0arglst)
+  | SP0Tcstr of (sqi0de, s0arglst)
 // end of [sp0at_node]
 
 where sp0at: type = '{
   sp0at_loc= location, sp0at_node= sp0at_node
 } // end of [sp0at]
 
-fun sp0at_con
+fun sp0at_cstr
   (qid: sqi0de, xs: s0arglst, t_end: token): sp0at
-// end of [sp0at_con]
+// end of [sp0at_cstr]
 
 (* ****** ****** *)
 
@@ -585,12 +588,12 @@ fun s0rtext_sub (
   t_beg: token, id: i0de, _: s0rtext, _fst: s0exp, _rst: s0explst, t_end: token
 ) : s0rtext // end of [s0rtext_sub]
 
-fun fprint_s0rtext (out: FILEref, x: s0rtext): void
+fun fprint_s0rtext : fprint_type (s0rtext)
 
 fun s0qua_prop (_: s0exp): s0qua
 fun s0qua_vars (_fst: i0de, _rst: i0delst, _: s0rtext): s0qua
 
-fun fprint_s0qua (out: FILEref, x: s0qua): void
+fun fprint_s0qua : fprint_type (s0qua)
 
 (* ****** ****** *)
 
@@ -645,15 +648,15 @@ fun s0exp_exi (
 
 fun s0exp_ann (_1: s0exp, _2: s0rt): s0exp
 
-fun fprint_s0exp (out: FILEref, x: s0exp): void
-fun fprint_s0explst (out: FILEref, x: s0explst): void
-fun fprint_s0expopt (out: FILEref, x: s0expopt): void
+fun fprint_s0exp : fprint_type (s0exp)
+fun fprint_s0explst : fprint_type (s0explst)
+fun fprint_s0expopt : fprint_type (s0expopt)
 
 (* ****** ****** *)
 
 fun labs0exp_make (ent1: l0ab, ent2: s0exp): labs0exp
 
-fun fprint_labs0exp (out: FILEref, x: labs0exp): void
+fun fprint_labs0exp : fprint_type (labs0exp)
 
 (* ****** ****** *)
 
@@ -964,14 +967,14 @@ fun p0at_free (tok: token, p0t: p0at): p0at
 
 fun p0at_ann (p0t: p0at, ann: s0exp): p0at
 
-fun fprint_p0at (out: FILEref, x: p0at): void
+fun fprint_p0at : fprint_type (p0at)
 
 (* ****** ****** *)
 
 fun labp0at_norm (l: l0ab, p: p0at): labp0at
 fun labp0at_omit (tok: token): labp0at
 
-fun fprint_labp0at (out: FILEref, x: labp0at): void
+fun fprint_labp0at : fprint_type (labp0at)
 
 (* ****** ****** *)
 
@@ -1510,9 +1513,9 @@ fun d0exp_ann (_1: d0exp, _2: s0exp): d0exp
 
 (* ****** ****** *)
 
-fun fprint_d0exp (out: FILEref, x: d0exp): void
-fun fprint_d0explst (out: FILEref, x: d0explst): void
-fun fprint_d0expopt (out: FILEref, x: d0expopt): void
+fun fprint_d0exp : fprint_type (d0exp)
+fun fprint_d0explst : fprint_type (d0explst)
+fun fprint_d0expopt : fprint_type (d0expopt)
 
 (* ****** ****** *)
 
@@ -1674,8 +1677,8 @@ fun guad0ecl_cons (
 
 (* ****** ****** *)
 
-fun fprint_d0ecl (out: FILEref, x: d0ecl): void
-fun fprint_d0eclist (out: FILEref, xs: d0eclist): void
+fun fprint_d0ecl : fprint_type (d0ecl)
+fun fprint_d0eclist : fprint_type (d0eclist)
 
 (* ****** ****** *)
 

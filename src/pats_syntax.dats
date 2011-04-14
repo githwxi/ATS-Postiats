@@ -95,20 +95,6 @@ dcstkind_is_castfn (x) =
   case+ x of DCKcastfn () => true | _ => false
 // end of [dcstkind_is_castfn]
 
-implement
-fprint_dcstkind
-  (out, dck) = case+ dck of
-  | DCKfun () => fprint_string (out, "DCKfun")
-  | DCKval () => fprint_string (out, "DCKval")
-  | DCKpraxi () => fprint_string (out, "DCKpraxi")
-  | DCKprfun () => fprint_string (out, "DCKprfun")
-  | DCKprval () => fprint_string (out, "DCKprval")
-  | DCKcastfn () => fprint_string (out, "DCKcastfn")
-// end of [fprint_dcstkind]
-
-implement
-print_dcstkind (x) = fprint_dcstkind (stdout_ref, x)
-
 (* ****** ****** *)
 
 implement
@@ -469,10 +455,10 @@ s0rt_i0de (id) = '{
 } // end of [s0rt_ide]
 
 implement
-s0rt_sqid (ent1, ent2) = let
+s0rt_qid (ent1, ent2) = let
   val loc = ent1.s0rtq_loc + ent2.i0de_loc
 in '{
-  s0rt_loc= loc, s0rt_node= S0RTsqid (ent1, ent2.i0de_sym)
+  s0rt_loc= loc, s0rt_node= S0RTqid (ent1, ent2.i0de_sym)
 } end // end of [s0rt_ide]
 
 implement
@@ -1867,11 +1853,11 @@ in '{
 (* ****** ****** *)
 
 implement
-sp0at_con (qid, xs, t_end) = let
+sp0at_cstr (qid, xs, t_end) = let
   val loc = qid.sqi0de_loc + t_end.token_loc
 in '{
-  sp0at_loc= loc, sp0at_node= SP0Tcon (qid, xs)
-} end // end of [s0pat_con]
+  sp0at_loc= loc, sp0at_node= SP0Tcstr (qid, xs)
+} end // end of [s0pat_cstr]
 
 implement
 sc0lau_make (sp0t, d0e) = let

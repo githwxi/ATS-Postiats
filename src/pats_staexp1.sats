@@ -38,6 +38,10 @@ staload "pats_syntax.sats"
 
 (* ****** ****** *)
 
+typedef fprint_type (a:t@ype) = (FILEref, a) -> void
+
+(* ****** ****** *)
+
 datatype e1xp_node =
   | E1XPapp of (e1xp, location(*arg*), e1xplst)
   | E1XPchar of char
@@ -55,19 +59,15 @@ where e1xp: type = '{
 }
 and e1xplst: type = List e1xp
 
-fun fprint_e1xp
-  (out: FILEref, _: e1xp): void
+fun fprint_e1xp : fprint_type (e1xp)
 overload fprint with fprint_e1xp
-
-fun fprint_e1xplst
-  (out: FILEref, _: e1xplst): void
-overload fprint with fprint_e1xplst
-
 fun print_e1xp (_: e1xp): void
 fun prerr_e1xp (_: e1xp): void
 overload print with print_e1xp
 overload prerr with prerr_e1xp
 
+fun fprint_e1xplst : fprint_type (e1xplst)
+overload fprint with fprint_e1xplst
 fun print_e1xplst (_: e1xplst): void
 fun prerr_e1xplst (_: e1xplst): void
 overload print with print_e1xplst
@@ -110,7 +110,7 @@ s1rt_node =
   | S1RTapp of (s1rt, s1rtlst)
   | S1RTlist of s1rtlst
   | S1RTqid of (s0rtq, symbol)
-  | S1RTtup of s1rtlst
+  | S1RTtype of int(*polarity*)
 // end of [s1rt_node]
 
 where s1rt: type = '{
@@ -128,27 +128,23 @@ typedef s1rtpol = '{
 
 (* ****** ****** *)
 
-fun fprint_s1rt
-  (out: FILEref, _: s1rt): void
+fun fprint_s1rt : fprint_type (s1rt)
 overload fprint with fprint_s1rt
-
 fun print_s1rt (_: s1rt): void
 fun prerr_s1rt (_: s1rt): void
 overload print with print_s1rt
 overload prerr with prerr_s1rt
 
-fun fprint_s1rtlst
-  (out: FILEref, _: s1rtlst): void
+fun fprint_s1rtlst : fprint_type (s1rtlst)
 overload fprint with fprint_s1rtlst
-
 fun print_s1rtlst (_: s1rtlst): void
 fun prerr_s1rtlst (_: s1rtlst): void
 overload print with print_s1rtlst
 overload prerr with prerr_s1rtlst
 
-fun fprint_s1rtopt
-  (out: FILEref, _: s1rtopt): void
-overload fprint with fprint_s1rtopt
+fun fprint_s1rtopt : fprint_type (s1rtopt)
+
+fun fprint_s1rtlstlst : fprint_type (s1rtlstlst)
 
 (* ****** ****** *)
 
@@ -171,10 +167,13 @@ fun s1rt_fun (
   loc: location, arg: s1rt, res: s1rt
 ) : s1rt // end of [s1rt_fun]
 
-fun s1rt_ide (loc: location, _: symbol): s1rt
-fun s1rt_list (loc: location, _: s1rtlst): s1rt
+fun s1rt_ide (loc: location, sym: symbol): s1rt
+fun s1rt_list (loc: location, s1ts: s1rtlst): s1rt
 fun s1rt_qid (loc: location, q: s0rtq, id: symbol): s1rt
-fun s1rt_tup (loc: location, _: s1rtlst): s1rt
+(*
+fun s1rt_tup (loc: location, s1ts: s1rtlst): s1rt
+*)
+fun s1rt_type (loc: location, knd: int): s1rt
 
 (* ****** ****** *)
 
@@ -190,7 +189,7 @@ d1atarg_node =
 
 typedef d1atarg = '{
   d1atarg_loc= location, d1atarg_node= d1atarg_node
-}
+} // end of [d1atarg]
 
 typedef d1atarglst = List d1atarg
 typedef d1atarglstopt = Option d1atarglst

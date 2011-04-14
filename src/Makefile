@@ -91,9 +91,23 @@ SOURCES := \
   pats_parsing_dynexp.dats \
   pats_parsing_decl.dats \
   pats_parsing_toplevel.dats \
+  pats_symmap.sats \
+  pats_symmap.dats \
+  pats_symenv.sats \
+  pats_symenv.dats \
   pats_staexp1.sats \
   pats_staexp1.dats \
   pats_staexp1_print.dats \
+  pats_dynexp1.sats \
+  pats_dynexp1.dats \
+  pats_dynexp1_print.dats \
+  pats_trans1.sats \
+  pats_trans1_env.sats \
+  pats_trans1_env.dats \
+  pats_trans1_sort.dats \
+  pats_trans1_staexp.dats \
+  pats_trans1_dynexp.dats \
+  pats_trans1_decl.dats \
 
 SOURCESsta := $(filter %.sats, $(SOURCES))
 SOURCESdyn := $(filter %.dats, $(SOURCES))

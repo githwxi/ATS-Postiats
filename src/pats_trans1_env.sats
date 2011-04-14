@@ -34,42 +34,32 @@
 //
 (* ****** ****** *)
 
+staload FIX = "pats_fixity.sats"
+typedef fxty = $FIX.fxty
+staload SYM = "pats_symbol.sats"
+typedef symbol = $SYM.symbol
+
+(* ****** ****** *)
+
 staload "pats_syntax.sats"
 staload "pats_staexp1.sats"
-staload "pats_dynexp1.sats"
 
 (* ****** ****** *)
 
-fun e0xp_tr (x: e0xp): e1xp
-fun e0xplst_tr (x: e0xplst): e1xplst
+fun the_e1xpenv_add (id: symbol, e: e1xp): void
+fun the_e1xpenv_find (id: symbol): Option_vt e1xp
+
+(* ****** ******* *)
+
+fun the_fxtyenv_add (key: symbol, itm: fxty): void
+fun the_fxtyenv_find (key: symbol): Option_vt (fxty)
+
+(* ****** ******* *)
+
+fun fprint_the_fxtyenv (out: FILEref): void // mostly for debugging
 
 (* ****** ****** *)
 
-fun s0rt_tr (_: s0rt): s1rt
-fun s0rtlst_tr (_: s0rtlst): s1rtlst
-fun s0rtopt_tr (_: s0rtopt): s1rtopt
+(* end of [pats_trans1_env.sats] *)
 
-(* ****** ****** *)
 
-fun a0srt_tr (x: a0srt): s1rt
-fun a0msrt_tr (x: a0msrt): s1rtlst
-fun a0msrtlst_tr (x: a0msrtlst): s1rtlstlst
-
-(* ****** ****** *)
-
-fun s0tacst_tr (_: s0tacst): s1tacst
-
-(* ****** ****** *)
-
-fun d0ecl_fixity_tr
-  (dec: f0xty, ids: i0delst): void
-fun d0ecl_nonfix_tr (ids: i0delst): void
-
-(* ****** ****** *)
-
-fun d0ecl_tr (_: d0ecl): d1ecl
-fun d0eclist_tr (_: d0eclist): d1eclist
-
-(* ****** ****** *)
-
-(* end of [pats_trans1.sats] *)

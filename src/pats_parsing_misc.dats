@@ -282,19 +282,21 @@ case+ tok.token_node of
       val tok2 = tokbuf_get_token (buf)
     in
       case+ tok2.token_node of
-      | T_RPAREN () => let
-          val () = incby1 () in p0rec_i0de (ent2)
-        end
-      | T_IDENT_sym _ => let
-          val () = incby1 ()
+      | _ when
+          ptest_fun (buf, p_i0de, ent) => let
+          val ent3 = synent_decode {i0de} (ent)
           val ent4 = p_i0nt (buf, bt, err)
           val ent5 = pif_fun (buf, bt, err, p_RPAREN, err0)
         in
           if err = err0 then
-            p0rec_i0de_adj (ent2, tok2, ent4) else synent_null ()
+            p0rec_i0de_adj (ent2, ent3, ent4) else synent_null ()
           // end of [if]
         end
-      | _ => synent_null ()
+      | _ => let
+          val ent3 = p_RPAREN (buf, bt, err)
+        in
+          if err = err0 then p0rec_i0de (ent2) else synent_null ()
+        end
     end else
       synent_null ()
     // end of [if]

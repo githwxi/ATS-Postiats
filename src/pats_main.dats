@@ -45,6 +45,12 @@ staload "pats_syntax.sats"
 staload "pats_parsing.sats"
 
 (* ****** ****** *)
+
+staload "pats_staexp1.sats"
+staload "pats_dynexp1.sats"
+staload "pats_trans1.sats"
+
+(* ****** ****** *)
 //
 dynload "pats_error.dats"
 dynload "pats_utils.dats"
@@ -81,9 +87,20 @@ dynload "pats_parsing_dynexp.dats"
 dynload "pats_parsing_decl.dats"
 dynload "pats_parsing_toplevel.dats"
 //
+dynload "pats_symmap.dats"
+dynload "pats_symenv.dats"
+//
 dynload "pats_staexp1.dats"
 dynload "pats_staexp1_print.dats"
-
+dynload "pats_dynexp1.dats"
+dynload "pats_dynexp1_print.dats"
+//
+dynload "pats_trans1_env.dats"
+dynload "pats_trans1_sort.dats"
+dynload "pats_trans1_staexp.dats"
+dynload "pats_trans1_dynexp.dats"
+dynload "pats_trans1_decl.dats"
+//
 (* ****** ****** *)
 
 implement
@@ -108,6 +125,9 @@ main (
 //
   val () = fprint_the_lexerrlst (stdout_ref)
   val () = fprint_the_parerrlst (stdout_ref)
+//
+  val d1cs = d0eclist_tr (d0cs)
+  val () = fprint_d1eclist (stdout_ref, d1cs)
 //
 } // end of [main]
 

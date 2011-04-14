@@ -43,6 +43,15 @@ staload "pats_trans1.sats"
 
 (* ****** ****** *)
 
+fn prerr_loc_error1
+  (loc: location): void = (
+  $LOC.prerr_location loc; prerr ": error(1)"
+) // end of [prerr_loc_error1]
+
+fn prerr_interror (): void = prerr "INTERROR(pats_trans1_staexp)"
+
+(* ****** ****** *)
+
 (* ****** ****** *)
 
 (* end of [pats_trans1_staexp.sats] *)

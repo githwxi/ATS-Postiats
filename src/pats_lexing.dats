@@ -231,9 +231,10 @@ fun insert (
   ptbl: !HASHTBLptr (key, itm, l)
 , k: string, i: lexsym
 ) : void = () where {
-  val k = encode (k); var i = encode (i)
-  val _ = hashtbl_insert<key,itm> (ptbl, k, i)
-  prval () = opt_clear (i)
+  val k = encode (k); val i = encode (i)
+  var res: lexsym_t
+  val _ = hashtbl_insert<key,itm> (ptbl, k, i, res)
+  prval () = opt_clear (res)
 } // end of [insert]
 //
 val () = insert (ptbl, "abst", LS_ABST)
@@ -1991,7 +1992,7 @@ lexing_INTEGER_hex
 
 extern
 fun lexing_ZERO
-  (buf: &lexbuf, pos: position): token
+  (buf: &lexbuf, pos: &position): token
 implement
 lexing_ZERO
   (buf, pos) = let

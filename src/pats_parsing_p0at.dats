@@ -679,7 +679,7 @@ p_sp0at (
   val ent4 = pif_fun (buf, bt, err, p_RPAREN, err0)
 in
   if err = err0 then
-    sp0at_con (ent1, (l2l)ent3, ent4)
+    sp0at_cstr (ent1, (l2l)ent3, ent4)
   else let
     val () = list_vt_free (ent3) in tokbuf_set_ntok_null (buf, n0)
   end (* end of [if] *)

@@ -186,7 +186,7 @@ case+ tok.token_node of
     val ent2 = p_s0rtid (buf, bt, err) // err = err0
   in
     if err = err0 then
-      s0rt_sqid (ent1, ent2) else synent_null ()
+      s0rt_qid (ent1, ent2) else synent_null ()
     // end of [if]
   end
 //

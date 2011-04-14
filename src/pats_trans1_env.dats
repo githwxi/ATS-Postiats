@@ -34,42 +34,53 @@
 //
 (* ****** ****** *)
 
-staload "pats_syntax.sats"
-staload "pats_staexp1.sats"
-staload "pats_dynexp1.sats"
+staload FIX = "pats_fixity.sats"
 
 (* ****** ****** *)
 
-fun e0xp_tr (x: e0xp): e1xp
-fun e0xplst_tr (x: e0xplst): e1xplst
+staload "pats_symmap.sats"
+staload "pats_symenv.sats"
+staload "pats_trans1_env.sats"
 
 (* ****** ****** *)
 
-fun s0rt_tr (_: s0rt): s1rt
-fun s0rtlst_tr (_: s0rtlst): s1rtlst
-fun s0rtopt_tr (_: s0rtopt): s1rtopt
+local
+
+viewtypedef fxtyenv = symenv (fxty)
+val [l0:addr] (pf | p0) = symenv_make_nil ()
+val (pf0 | ()) = vbox_make_view_ptr {fxtyenv} (pf | p0)
+
+in // in of [local]
+
+implement
+the_fxtyenv_add
+  (k, i) = () where {
+  prval vbox pf = pf0
+  val () = symenv_insert (!p0, k, i)
+} // end of [the_fxtyenv_add]
+
+implement
+the_fxtyenv_find (k) = let
+  prval vbox pf = pf0
+  val ans = symenv_search (!p0, k)
+in
+  case+ ans of
+  | Some_vt _ => (fold@ ans; ans)
+  | ~None_vt () => symenv_pervasive_search (!p0, k)
+end // end of [the_fxtyenv_find]
+
+implement
+fprint_the_fxtyenv (out) = let
+  prval vbox (pf) = pf0 in // HX: ref-effect is not allowed
+  $effmask_ref (fprint_symenv_map (out, !p0, $FIX.fprint_fxty))
+end // end of [fprint_the_fxtyenv]
 
 (* ****** ****** *)
 
-fun a0srt_tr (x: a0srt): s1rt
-fun a0msrt_tr (x: a0msrt): s1rtlst
-fun a0msrtlst_tr (x: a0msrtlst): s1rtlstlst
+end // end of [local]
 
 (* ****** ****** *)
 
-fun s0tacst_tr (_: s0tacst): s1tacst
+(* end of [pats_trans1_env.dats] *)
 
-(* ****** ****** *)
 
-fun d0ecl_fixity_tr
-  (dec: f0xty, ids: i0delst): void
-fun d0ecl_nonfix_tr (ids: i0delst): void
-
-(* ****** ****** *)
-
-fun d0ecl_tr (_: d0ecl): d1ecl
-fun d0eclist_tr (_: d0eclist): d1eclist
-
-(* ****** ****** *)
-
-(* end of [pats_trans1.sats] *)

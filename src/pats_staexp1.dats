@@ -140,7 +140,7 @@ implement
 s1rt_fun (loc, s1t1, s1t2) = let
   val s1ts = list_cons (s1t1, list_cons (s1t2, list_nil))
 in '{
-  s1rt_loc= loc, s1rt_node = S1RTapp (s1rt_arrow (loc), s1ts)
+  s1rt_loc= loc, s1rt_node= S1RTapp (s1rt_arrow (loc), s1ts)
 } end // end of [s1rt_fun]
 
 implement
@@ -160,13 +160,20 @@ s1rt_list
 
 implement
 s1rt_qid (loc, q, id) = '{
-  s1rt_loc= loc,  s1rt_node = S1RTqid (q, id)
+  s1rt_loc= loc,  s1rt_node= S1RTqid (q, id)
 } // end of [s1rt_qid]
 
+(*
 implement
 s1rt_tup (loc, s1ts) = '{
-  s1rt_loc= loc, s1rt_node = S1RTtup s1ts
+  s1rt_loc= loc, s1rt_node= S1RTtup s1ts
 } // end of [s1rt_tup]
+*)
+
+implement
+s1rt_type (loc, knd) = '{
+  s1rt_loc= loc, s1rt_node= S1RTtype (knd)
+}
 
 (* ****** ****** *)
 

@@ -112,14 +112,15 @@ val symbol_null = $UN.cast{symbol} (null) // HX: a hack!
 fun symbol_insert (
   k: string, i: symbol
 ) : void = () where {
-  val k = encode (k); var i = encode (i)
+  val k = encode (k); val i = encode (i)
   val (fptbl | ptbl) = HASHTBLref_takeout_ptr (rtbl)
-  val _keyisused = hashtbl_insert<key,itm> (ptbl, k, i)
+  var res: symbol_t
+  val _keyisused = hashtbl_insert<key,itm> (ptbl, k, i, res)
   prval () = fptbl (ptbl)
+  prval () = opt_clear (res)
 (*
   val () = assertloc (not(_keyisused)) // HX: no replacement
 *)
-  prval () = opt_clear (i)
 } // end of [symbol_insert]
 
 fun symbol_search
@@ -149,6 +150,8 @@ symbol_type = '{
 
 implement
 symbol_get_name (x) = x.name
+implement
+symbol_get_stamp (x) = x.stamp
 
 (* ****** ****** *)
 
@@ -258,6 +261,8 @@ fprint_symbol
 
 implement
 print_symbol (x) = fprint_symbol (stdout_ref, x)
+implement
+prerr_symbol (x) = fprint_symbol (stderr_ref, x)
 
 (* ****** ****** *)
 

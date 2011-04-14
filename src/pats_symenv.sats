@@ -34,42 +34,75 @@
 //
 (* ****** ****** *)
 
-staload "pats_syntax.sats"
-staload "pats_staexp1.sats"
-staload "pats_dynexp1.sats"
+staload
+SYM = "pats_symbol.sats"
+typedef symbol = $SYM.symbol
 
 (* ****** ****** *)
 
-fun e0xp_tr (x: e0xp): e1xp
-fun e0xplst_tr (x: e0xplst): e1xplst
+absviewt@ype
+symenv_vt0ype (itm:type)
+stadef symenv = symenv_vt0ype
 
 (* ****** ****** *)
 
-fun s0rt_tr (_: s0rt): s1rt
-fun s0rtlst_tr (_: s0rtlst): s1rtlst
-fun s0rtopt_tr (_: s0rtopt): s1rtopt
+fun
+symenv_make_nil
+  {itm:type} (): [l:addr] (symenv (itm) @ l | ptr l)
+// end of [symenv]
 
 (* ****** ****** *)
 
-fun a0srt_tr (x: a0srt): s1rt
-fun a0msrt_tr (x: a0msrt): s1rtlst
-fun a0msrtlst_tr (x: a0msrtlst): s1rtlstlst
+fun
+symenv_search
+  {itm:type} // HX: search all
+  (env: &symenv itm, k: symbol):<> Option_vt (itm)
+// end of [symenv_search]
+
+fun
+symenv_insert
+  {itm:type} // HX: insert first
+  (env: &symenv itm, k: symbol, i: itm):<> void
+// end of [symenv_insert]
+
+(* ****** ****** *)
+//
+// HX: saving the current env
+//
+fun symenv_savecur
+  {itm:type} (env: &symenv itm):<> void
+// end of [symenv_savecur]
+
+//
+// HX: restoring the last saved env
+//
+fun symenv_restore
+  {itm:type} (env: &symenv itm):<> void
+// end of [symenv_restore]
+
+(* ****** ****** *)
+//
+// HX: handling: local ... in ... end
+//
+fun symenv_localjoin
+  {itm:type} (env: &symenv itm):<> void
+// end of [symenv_localjoin]
 
 (* ****** ****** *)
 
-fun s0tacst_tr (_: s0tacst): s1tacst
+fun
+symenv_pervasive_search
+  {itm:type} // HX: search all
+  (env: &symenv itm, k: symbol):<> Option_vt (itm)
+// end of [symenv_pervasive_search]
 
 (* ****** ****** *)
 
-fun d0ecl_fixity_tr
-  (dec: f0xty, ids: i0delst): void
-fun d0ecl_nonfix_tr (ids: i0delst): void
+fun fprint_symenv_map
+  {itm:type} (
+  out: FILEref, env: &symenv itm, f: (FILEref, itm) -> void
+) : void // end of [fprint_symenv_map]
 
 (* ****** ****** *)
 
-fun d0ecl_tr (_: d0ecl): d1ecl
-fun d0eclist_tr (_: d0eclist): d1eclist
-
-(* ****** ****** *)
-
-(* end of [pats_trans1.sats] *)
+(* end of [pats_symenv.sats] *)
