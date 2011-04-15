@@ -71,13 +71,29 @@ fun a0msrtlst_tr (x: a0msrtlst): s1rtlstlst
 
 (* ****** ****** *)
 
-fun s0tacst_tr (_: s0tacst): s1tacst
+fun s0exp_tr (x: s0exp): s1exp
+fun s0explst_tr (x: s0explst): s1explst
+
+fun s0rtext_tr (x: s0rtext): s1rtext
+
+fun s0qualst_tr (xs: s0qualst): s1qualst
+fun s0qualstlst_tr (xs: s0qualstlst): s1qualstlst
 
 (* ****** ****** *)
 
 fun d0ecl_fixity_tr
   (dec: f0xty, ids: i0delst): void
 fun d0ecl_nonfix_tr (ids: i0delst): void
+
+(* ****** ****** *)
+
+fun d0atsrtdec_tr (d: d0atsrtdec): d1atsrtdec
+
+(* ****** ****** *)
+
+fun s0tacst_tr (x: s0tacst): s1tacst
+
+fun s0rtdef_tr (x: s0rtdef): s1rtdef
 
 (* ****** ****** *)
 

@@ -664,6 +664,11 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+s0exp_i0de (id) = '{
+  s0exp_loc= id.i0de_loc, s0exp_node= S0Eide (id.i0de_sym)
+} // end of [s0exp_i0de]
+
+implement
 s0exp_opid (x1, x2) = let
   val loc = x1.token_loc + x2.i0de_loc
 in '{
@@ -672,10 +677,10 @@ in '{
 } end // end of [s0exp_opid]
 
 implement
-s0exp_sqid (x) = let
+s0exp_sqid (sq, id) = let
+  val loc = sq.s0taq_loc + id.i0de_loc
 in '{
-  s0exp_loc= x.sqi0de_loc
-, s0exp_node= S0Esqid (x.sqi0de_qua, x.sqi0de_sym)
+  s0exp_loc= loc, s0exp_node= S0Esqid (sq, id.i0de_sym)
 } end // end of [s0exp_sqid]
 
 (* ****** ****** *)

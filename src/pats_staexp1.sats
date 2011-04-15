@@ -181,24 +181,152 @@ fun s1rtpol_make (loc: location, s1t: s1rt, pol: int): s1rtpol
 
 (* ****** ****** *)
 
-datatype
-d1atarg_node =
-  | D1ATARGsrt of s1rtpol
-  | D1ATARGidsrt of (symbol, s1rtpol)
-// end of [d1atarg_node]
+typedef
+d1atsrtcon = '{
+  d1atsrtcon_loc= location
+, d1atsrtcon_sym= symbol
+, d1atsrtcon_arg= s1rtlst
+} // end of [d1atsrtcon]
 
-typedef d1atarg = '{
-  d1atarg_loc= location, d1atarg_node= d1atarg_node
-} // end of [d1atarg]
+typedef d1atsrtconlst = List d1atsrtcon
 
-typedef d1atarglst = List d1atarg
-typedef d1atarglstopt = Option d1atarglst
+fun d1atsrtcon_make (
+  loc: location, name: symbol, arg: s1rtlst
+) : d1atsrtcon // end of [d1atsrtcon_make]
 
-fun d1atarg_srt
-  (loc: location, s1tp: s1rtpol): d1atarg
-fun d1atarg_idsrt
-  (loc: location, sym: symbol, s1tp: s1rtpol): d1atarg
-// end of [d1atarg_idsrt]
+fun fprint_d1atsrtcon : fprint_type (d1atsrtcon)
+
+(* ****** ****** *)
+
+typedef
+d1atsrtdec = '{
+  d1atsrtdec_loc= location
+, d1atsrtdec_sym= symbol
+, d1atsrtdec_con= d1atsrtconlst
+} // end of [d1atsrtdec]
+
+typedef d1atsrtdeclst = List d1atsrtdec
+
+fun d1atsrtdec_make (
+  loc: location, name: symbol, conlst: d1atsrtconlst
+) : d1atsrtdec // end of [d1atsrtdec]
+
+fun fprint_d1atsrtdec : fprint_type (d1atsrtdec)
+
+(* ****** ****** *)
+
+datatype s1exp_node =
+  | S1Eapp of (
+      s1exp, location(*arg*), s1explst
+    ) // static application
+//
+  | S1Eint of i0nt // integer constant
+  | S1Echar of c0har // character constant
+//
+  | S1Esqid of (s0taq, symbol) // qualified static identifer
+  | S1Elist of (int(*npf*), s1explst)
+  | S1Eann of (s1exp, s1rt) // static expression with annotate sort
+// end of [s1exp_node]
+
+and s1rtext_node =
+  | S1TEsrt of s1rt
+  | S1TEsub of (symbol, s1rtext, s1explst)
+(*
+  | S1TElam of (s1arglst, s1rtext)
+  | S1TEapp of (s1rtext, s1explst)
+*)
+// end of [s1rtext_node]
+
+and s1qua_node =
+  | S1Qprop of s1exp | S1Qvars of (i0delst, s1rtext)
+// end of [s1qua_node]
+
+where
+s1exp = '{
+  s1exp_loc= location, s1exp_node= s1exp_node
+}
+and s1explst = List (s1exp)
+and s1expopt = Option (s1exp)
+and s1explstlst = List (s1explst)
+
+and s1rtext = '{
+  s1rtext_loc= location, s1rtext_node= s1rtext_node
+}
+
+and s1qua = '{
+  s1qua_loc= location, s1qua_node= s1qua_node
+}
+and s1qualst = List (s1qua)
+and s1qualstlst = List (s1qualst)
+
+(* ****** ****** *)
+
+fun s1exp_app (
+  loc: location, _fun: s1exp, loc_arg: location, _arg: s1explst
+) : s1exp // end of [s1exp_app]
+
+fun s1exp_int (loc: location, int: i0nt): s1exp
+fun s1exp_char (loc: location, char: c0har): s1exp
+
+fun s1exp_ide (loc: location, id: symbol): s1exp
+fun s1exp_sqid (loc: location, sq: s0taq, id: symbol): s1exp
+
+fun s1exp_list (loc: location, xs: s1explst): s1exp
+fun s1exp_list2 (loc: location, xs1: s1explst, xs2: s1explst): s1exp
+
+fun s1exp_ann (loc: location, s1e: s1exp, s1t: s1rt): s1exp
+
+fun fprint_s1exp : fprint_type (s1exp)
+fun fprint_s1explst : fprint_type (s1explst)
+
+(* ****** ****** *)
+
+fun s1rtext_srt (loc: location, s1t: s1rt): s1rtext
+fun s1rtext_sub (
+  loc: location, sym: symbol, s1te: s1rtext, s1ps: s1explst
+) : s1rtext // end of [s1rtext_sub]
+
+fun fprint_s1rtext : fprint_type (s1rtext)
+
+(* ****** ****** *)
+
+fun s1qua_prop (loc: location, s1p: s1exp): s1qua
+fun s1qua_vars (loc: location, ids: i0delst, s1te: s1rtext): s1qua
+
+fun fprint_s1qua : fprint_type (s1qua)
+
+(* ****** ****** *)
+
+typedef
+s1rtdef = '{
+  s1rtdef_loc= location
+, s1rtdef_sym= symbol
+, s1rtdef_def= s1rtext
+} // end of [s1rtdef]
+
+typedef s1rtdeflst = List s1rtdef
+
+fun s1rtdef_make (loc: location, sym: symbol, s0te: s1rtext): s1rtdef
+
+fun fprint_s1rtdef : fprint_type (s1rtdef)
+
+(* ****** ****** *)
+
+typedef
+s1tacst = '{ // static constant declaration
+  s1tacst_loc= location
+, s1tacst_sym= symbol
+, s1tacst_arg= s1rtlstlst
+, s1tacst_res= s1rt
+} // end of [s1tacst]
+
+typedef s1tacstlst = List s1tacst
+
+fun s1tacst_make (
+  loc: location, sym: symbol, arg: s1rtlstlst, res: s1rt
+) : s1tacst // end of [s1tacst_make]
+
+fun fprint_s1tacst : fprint_type (s1tacst)
 
 (* ****** ****** *)
 

@@ -105,7 +105,6 @@ parerr_node =
   | PE_s0taq
   | PE_d0ynq
 //
-  | PE_sqi0de
   | PE_dqi0de
   | PE_arrqi0de
   | PE_tmpqi0de

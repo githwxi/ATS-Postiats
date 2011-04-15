@@ -414,6 +414,11 @@ fprint_s0exp (out, x) = let
 in
 //
 case+ x.s0exp_node of
+| S0Eide (id) => {
+    val () = prstr "S0Eide("
+    val () = fprint_symbol (out, id)
+    val () = prstr ")"
+  }
 | S0Esqid (sq, id) => {
     val () = prstr "S0Esqid("
     val () = fprint_s0taq (out, sq)

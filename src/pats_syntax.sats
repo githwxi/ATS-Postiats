@@ -506,7 +506,8 @@ fun sp0at_cstr
 datatype
 s0exp_node =
 //
-  | S0Esqid of (s0taq, symbol)
+  | S0Eide of symbol
+  | S0Esqid of (s0taq, symbol) // qualified
   | S0Eopid of symbol // = OP i0de
 //
   | S0Eint of i0nt
@@ -571,6 +572,7 @@ and s0qua = '{
 }
 and s0qualst = List (s0qua)
 and s0qualst_vt = List_vt (s0qua)
+and s0qualstlst = List (s0qualst)
 and s0qualstopt = Option (s0qualst)
 
 datatype witht0ype =
@@ -597,7 +599,8 @@ fun fprint_s0qua : fprint_type (s0qua)
 
 (* ****** ****** *)
 
-fun s0exp_sqid (_: sqi0de): s0exp
+fun s0exp_i0de (_: i0de): s0exp
+fun s0exp_sqid (sq: s0taq, id: i0de): s0exp
 fun s0exp_opid (_1: token, _2: i0de): s0exp
 
 fun s0exp_i0nt (_: i0nt): s0exp

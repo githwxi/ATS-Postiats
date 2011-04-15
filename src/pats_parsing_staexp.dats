@@ -255,35 +255,12 @@ p_sqi0de
   (buf, bt, err) = let
   val err0 = err
   val n0 = tokbuf_get_ntok (buf)
-  val tok = tokbuf_get_token (buf)
-  val loc = tok.token_loc
-  var ent: synent?
-  macdef incby1 () = tokbuf_incby1 (buf)
+  val ent1 = p_s0taq (buf, bt, err)
+  val ent2 = pif_fun (buf, bt, err, p_si0de, err0)
 in
-//
-case+ 0 of
-| _ when
-    ptest_fun (buf, p_si0de, ent) =>
-    sqi0de_make_none (synent_decode {i0de} (ent))
-| _ when
-    ptest_fun (buf, p_s0taq, ent) => let
-    val bt = 0
-    val ent1 = synent_decode {s0taq} (ent)
-    val ent2 = p_si0de (buf, bt, err)
-  in
-    if err = err0 then
-      sqi0de_make_some (ent1, ent2)
-    else
-      tokbuf_set_ntok_null (buf, n0)
-    // end of [if]
-  end
-| _ => let
-    val () = err := err + 1
-    val () = the_parerrlst_add_ifnbt (bt, loc, PE_sqi0de)
-  in
-    synent_null ()
-  end
-//
+  if err = err0 then
+    sqi0de_make_some (ent1, ent2) else tokbuf_set_ntok_null (buf, n0)
+  // end of [if]
 end // end of [p_sqi0de]
 
 (* ****** ****** *)
@@ -346,7 +323,9 @@ end (* end of [s0arrdim_make] *)
 atms0exp
   | i0nt
   | LITERAL_char
-  | sqi0de
+//
+  | si0de
+  | s0taq i0de
   | OP si0de
 //
   | LPAREN s0expseq [BAR s0expseq] RPAREN
@@ -397,8 +376,8 @@ in
 //
 case+ tok.token_node of
 | _ when
-    ptest_fun (buf, p_sqi0de, ent) =>
-    s0exp_sqid (synent_decode {sqi0de} (ent))
+    ptest_fun (buf, p_si0de, ent) =>
+    s0exp_i0de (synent_decode {i0de} (ent))
 | T_INTEGER _ => let
     val () = incby1 () in s0exp_i0nt (tok)
   end
@@ -412,6 +391,17 @@ case+ tok.token_node of
   in
     if err = err0 then
       s0exp_opid (tok, ent2) else synent_null ()
+    // end of [if]
+  end
+//
+| _ when
+    ptest_fun (buf, p_s0taq, ent) => let
+    val bt = 0
+    val ent1 = synent_decode {s0taq} (ent)
+    val ent2 = p_si0de (buf, bt, err) // err = err0
+  in
+    if err = err0 then
+      s0exp_sqid (ent1, ent2) else synent_null ()
     // end of [if]
   end
 //

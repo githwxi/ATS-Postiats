@@ -184,4 +184,115 @@ s1rtpol_make (loc, s1t, pol) = '{
 
 (* ****** ****** *)
 
+implement
+d1atsrtcon_make
+  (loc, name, arg) = '{
+  d1atsrtcon_loc= loc, d1atsrtcon_sym= name, d1atsrtcon_arg= arg
+} // end of [d1atsrtcon_make]
+
+implement
+d1atsrtdec_make
+  (loc, name, conlst) = '{
+  d1atsrtdec_loc= loc, d1atsrtdec_sym= name, d1atsrtdec_con= conlst
+} // end of [d1atsrtdec_make]
+
+(* ****** ****** *)
+
+implement
+s1rtext_srt (loc, s1t) = '{
+  s1rtext_loc= loc, s1rtext_node= S1TEsrt (s1t)
+}
+
+implement
+s1rtext_sub (loc, sym, s1te, s1ps) = '{
+  s1rtext_loc= loc, s1rtext_node= S1TEsub (sym, s1te, s1ps)
+}
+
+(* ****** ****** *)
+
+implement
+s1qua_prop (loc, s1p) = '{
+  s1qua_loc= loc, s1qua_node= S1Qprop (s1p)
+}
+
+implement
+s1qua_vars (loc, ids, s1te) = '{
+  s1qua_loc= loc, s1qua_node= S1Qvars (ids, s1te)
+}
+
+(* ****** ****** *)
+
+implement
+s1exp_app (
+  loc, _fun, loc_arg, _arg
+) = '{
+  s1exp_loc= loc, s1exp_node= S1Eapp (_fun, loc_arg, _arg)
+} // end of [s1exp_app]
+
+implement
+s1exp_int (loc, int) = '{
+  s1exp_loc= loc, s1exp_node= S1Eint (int)
+}
+
+implement
+s1exp_ide (loc, id) = let
+  val sq = s0taq_none (loc) in s1exp_sqid (loc, sq, id)
+end // end of [s1exp_ide]
+
+implement
+s1exp_sqid (loc, sq, id) = '{
+  s1exp_loc= loc, s1exp_node= S1Esqid (sq, id)
+}
+
+implement
+s1exp_list
+  (loc, s1es) = case+ s1es of
+//
+// HX: singleton elimination is performed
+//
+  | list_cons (s1e, list_nil ()) => s1e
+  | _ => '{
+      s1exp_loc= loc, s1exp_node= S1Elist (~1(*npf*), s1es)
+    } // end of [_]
+// end of [s1exp_list]
+
+implement
+s1exp_list2
+  (loc, s1es1, s1es2) =  let
+  val npf = list_length s1es1
+  val s1es = list_append (s1es1, s1es2)
+in '{
+  s1exp_loc= loc, s1exp_node= S1Elist (npf, s1es)
+} end // end of [s1exp_list2]
+
+implement
+s1exp_ann (loc, s1e, s1t) = '{
+  s1exp_loc= loc, s1exp_node= S1Eann (s1e, s1t)
+}
+
+(* ****** ****** *)
+
+implement
+s1rtdef_make (
+  loc, sym, s1te
+) = '{
+  s1rtdef_loc= loc
+, s1rtdef_sym= sym
+, s1rtdef_def= s1te
+} // end of [s1rtdef_make]
+
+(* ****** ****** *)
+
+implement
+s1tacst_make (
+  loc, sym, arg, res
+) = '{
+  s1tacst_loc= loc
+, s1tacst_sym= sym
+, s1tacst_arg= arg
+, s1tacst_res= res
+} // end of [s1tacst_make]
+
+(* ****** ****** *)
+
 (* end of [pats_staexp1.dats] *)

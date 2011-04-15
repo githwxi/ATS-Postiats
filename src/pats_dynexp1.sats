@@ -52,11 +52,9 @@ datatype d1ecl_node =
   | D1Csymelim of (* overloaded symbol elim *)
       i0delst
   | D1Ce1xpdef of (symbol, e1xp)
+  | D1Cdatsrts of d1atsrtdeclst // datasorts
+  | D1Csrtdefs of s1rtdeflst // sort definition
 (*
-  | D1Cdatsrts of (* datasort declaration *)
-      (int(*para: 0/1*), d1atsrtdeclst)
-  | D1Csrtdefs of (* sort definition *)
-      s1rtdeflst
   | D1Cstacons of (* static constructor *)
       (abskind, s1taconlst)
 *)
@@ -115,28 +113,13 @@ and d1eclist = List (d1ecl)
 
 (* ****** ****** *)
 
-and s1tacst = '{ // static constant declaration
-  s1tacst_loc= location
-, s1tacst_sym= symbol
-, s1tacst_arg= s1rtlstlst
-, s1tacst_res= s1rt
-} // end of [s1tacst]
-
-and s1tacstlst = List s1tacst
-
-(* ****** ****** *)
-
-fun s1tacst_make (
-  loc: location, sym: symbol, arg: s1rtlstlst, res: s1rt
-) : s1tacst // end of [s1tacst_make]
-
-fun fprint_s1tacst : fprint_type (s1tacst)
-
-(* ****** ****** *)
-
 fun d1ecl_none (loc: location): d1ecl
 
 fun d1ecl_stacsts (loc: location, ds: s1tacstlst): d1ecl
+
+fun d1ecl_datsrts (loc: location, ds: d1atsrtdeclst): d1ecl
+
+fun d1ecl_srtdefs (loc: location, ds: s1rtdeflst): d1ecl
 
 fun d1ecl_local (loc: location, ds1: d1eclist, ds2: d1eclist): d1ecl
 

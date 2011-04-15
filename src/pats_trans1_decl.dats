@@ -204,6 +204,20 @@ end // end of [s0tacst_tr]
 (* ****** ****** *)
 
 implement
+s0rtdef_tr (d) = let
+  val s1te = s0rtext_tr d.s0rtdef_def
+// (*
+  val () = print "s0rtdef_tr: s1te = "
+  val () = fprint_s1rtext (stdout_ref, s1te)
+  val () = print_newline ()
+// *)
+in
+  s1rtdef_make (d.s0rtdef_loc, d.s0rtdef_sym, s1te)
+end // end of [s0rtdef_tr]
+
+(* ****** ****** *)
+
+implement
 d0ecl_tr (d0c0) = let
   val loc0 = d0c0.d0ecl_loc
 in
@@ -215,11 +229,24 @@ case+ d0c0.d0ecl_node of
 | D0Cnonfix ids => let
     val () = d0ecl_nonfix_tr (ids) in d1ecl_none (loc0)
   end // end of [D0Cnonfix]
+//
+| D0Cdatsrts (d0cs) => let
+    val d1cs = l2l (list_map_fun (d0cs, d0atsrtdec_tr))
+  in
+    d1ecl_datsrts (loc0, d1cs)
+  end // end of [D0Cdatsrts]
+| D0Csrtdefs (d0cs) => let
+    val d1cs = l2l (list_map_fun (d0cs, s0rtdef_tr))
+  in
+    d1ecl_srtdefs (loc0, d1cs)
+  end
+//
 | D0Cstacsts (d0cs) => let
     val d1cs = l2l (list_map_fun (d0cs, s0tacst_tr))
   in
     d1ecl_stacsts (loc0, d1cs)
   end // end of [D0Cstacsts]
+//
 | D0Clocal (
     d0cs_head, d0cs_body
   ) => let

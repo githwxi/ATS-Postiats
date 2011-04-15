@@ -166,6 +166,17 @@ case+ tok.token_node of
     val () = incby1 () in s0rt_type (tok)
   end
 //
+| _ when
+    ptest_fun (buf, p_s0rtq, ent) => let
+    val bt = 0
+    val ent1 = synent_decode {s0rtq} (ent)
+    val ent2 = p_s0rtid (buf, bt, err) // err = err0
+  in
+    if err = err0 then
+      s0rt_qid (ent1, ent2) else synent_null ()
+    // end of [if]
+  end
+//
 | T_LPAREN () => let
     val bt = 0
     val () = incby1 ()
@@ -177,17 +188,6 @@ case+ tok.token_node of
     else let
       val () = list_vt_free (ent2) in synent_null ()
     end // end of [if]
-  end
-//
-| _ when
-    ptest_fun (buf, p_s0rtq, ent) => let
-    val bt = 0
-    val ent1 = synent_decode {s0rtq} (ent)
-    val ent2 = p_s0rtid (buf, bt, err) // err = err0
-  in
-    if err = err0 then
-      s0rt_qid (ent1, ent2) else synent_null ()
-    // end of [if]
   end
 //
 | _ => let

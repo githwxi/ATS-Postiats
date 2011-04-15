@@ -240,7 +240,6 @@ case+ node of
 | PE_s0exp () => SN (x, "s0exp")
 | PE_si0de () => SN (x, "si0de")
 | PE_s0taq () => SN (x, "s0taq")
-| PE_sqi0de () => SN (x, "sqi0de")
 | PE_atms0exp () => SN (x, "atms0exp")
 | PE_labs0exp () => SN (x, "labs0exp")
 | PE_s0rtext () => SN (x, "s0rtext")

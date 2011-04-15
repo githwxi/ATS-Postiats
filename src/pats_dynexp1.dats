@@ -35,19 +35,8 @@
 (* ****** ****** *)
 
 staload "pats_syntax.sats"
+staload "pats_staexp1.sats"
 staload "pats_dynexp1.sats"
-
-(* ****** ****** *)
-
-implement
-s1tacst_make (
-  loc, sym, arg, res
-) = '{
-  s1tacst_loc= loc
-, s1tacst_sym= sym
-, s1tacst_arg= arg
-, s1tacst_res= res
-} // end of [s1tacst_make]
 
 (* ****** ****** *)
 
@@ -57,8 +46,18 @@ d1ecl_none (loc) = '{
 } // end of [d1ecl_none]
 
 implement
+d1ecl_datsrts (loc, xs) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cdatsrts (xs)
+}
+
+implement
 d1ecl_stacsts (loc, xs) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cstacsts (xs)
+}
+
+implement
+d1ecl_srtdefs (loc, xs) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Csrtdefs (xs)
 }
 
 implement

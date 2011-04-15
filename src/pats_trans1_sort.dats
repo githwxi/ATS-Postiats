@@ -55,6 +55,7 @@ staload "pats_trans1_env.sats"
 (* ****** ****** *)
 
 #define l2l list_of_list_vt
+macdef list_sing (x) = list_cons (,(x), list_nil ())
 
 (* ****** ****** *)
 
@@ -82,7 +83,7 @@ fn appf (
   val loc = _fun.s1rt_loc + _arg.s1rt_loc
   val xs_arg = (
     case+ _arg.s1rt_node of
-    | S1RTlist s1ts => s1ts | _ => list_cons (_arg, list_nil ())
+    | S1RTlist s1ts => s1ts | _ => list_sing (_arg)
   ) : s1rtlst // end of [val]
   val s1t_app = s1rt_app (loc, _fun, xs_arg)
 in
@@ -96,6 +97,8 @@ fn s1rtitm_app
 // end of [s1rtitm_app]
 
 end // end of [local]
+
+(* ****** ****** *)
 
 fn s1rt_get_loc (x: s1rt): location = x.s1rt_loc
 
@@ -197,6 +200,43 @@ s0rtopt_tr (s0topt) =
 implement a0srt_tr (x) = s0rt_tr (x.a0srt_srt)
 implement a0msrt_tr (x) = l2l (list_map_fun (x.a0msrt_arg, a0srt_tr))
 implement a0msrtlst_tr (xs) = l2l (list_map_fun (xs, a0msrt_tr))
+
+(* ****** ****** *)
+
+local
+
+fn d0atsrtcon_tr
+  (x: d0atsrtcon): d1atsrtcon = let
+  val loc = x.d0atsrtcon_loc and nam = x.d0atsrtcon_sym
+  val s1ts = (
+    case+ x.d0atsrtcon_arg of
+    | Some s0t => let
+        val s1t = s0rt_tr s0t in
+        case+ s1t.s1rt_node of
+        | S1RTlist s1ts => s1ts | _ => list_cons (s1t, list_nil ())
+      end // end of [Some]
+    | None () => list_nil ()
+  ) : s1rtlst // end of [val]
+in
+  d1atsrtcon_make (loc, nam, s1ts)
+end // end of [d0atsrtcon_tr]
+
+fn d0atsrtconlst_tr
+  (xs: d0atsrtconlst): d1atsrtconlst =
+  l2l (list_map_fun (xs, d0atsrtcon_tr))
+
+in // in of [local]
+
+implement
+d0atsrtdec_tr (d) = let
+  val loc = d.d0atsrtdec_loc
+  val name = d.d0atsrtdec_sym
+  val conlst = d0atsrtconlst_tr (d.d0atsrtdec_con)
+in
+  d1atsrtdec_make (loc, name, conlst)
+end // end of [d0atsrtdec_tr]
+
+end // end of [local]
 
 (* ****** ****** *)
 

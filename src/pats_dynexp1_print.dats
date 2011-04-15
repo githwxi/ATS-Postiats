@@ -51,28 +51,38 @@ staload "pats_dynexp1.sats"
 (* ****** ****** *)
 
 implement
-fprint_s1tacst (out, x) = {
-  val () = fprint_symbol (out, x.s1tacst_sym)
-  val () = fprint_string (out, "(")
-  val () = fprint_s1rtlstlst (out, x.s1tacst_arg)
-  val () = fprint_string (out, ") : ")
-  val () = fprint_s1rt (out, x.s1tacst_res)
-} // end of [fprint_s1tacst]
-
-(* ****** ****** *)
-
-implement
 fprint_d1ecl
   (out, d1c0) = let
   macdef prstr (str) = fprint_string (out, ,(str))
 in
   case+ d1c0.d1ecl_node of
   | D1Cnone () => prstr "D1Cnone()"
+  | D1Cdatsrts (xs) => {
+      val () = prstr "D1Cdatsrts(\n"
+      val () = $UT.fprintlst (out, xs, "\n", fprint_d1atsrtdec)
+      val () = prstr "\n)"
+    }
+  | D1Csrtdefs (xs) => {
+      val () = prstr "D1Csrtdefs(\n"
+      val () = $UT.fprintlst (out, xs, "\n", fprint_s1rtdef)
+      val () = prstr "\n)"
+    }
   | D1Cstacsts (xs) => {
       val () = prstr "D1Cstacsts(\n"
       val () = $UT.fprintlst (out, xs, "\n", fprint_s1tacst)
       val () = prstr "\n)"
     }
+//
+| D1Clocal (
+    ds_head, ds_body
+  ) => {
+    val () = prstr "D1Clocal(\n"
+    val () = fprint_d1eclist (out, ds_head)
+    val () = prstr "\n(*in*)\n"
+    val () = fprint_d1eclist (out, ds_body)
+    val () = prstr "\n)"
+  }
+//
   | _ => prstr "D1C...(...)"
 end // end of [fprint_d1ecl]
 
