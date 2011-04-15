@@ -77,41 +77,44 @@ typedef s1rtitmlst = List s1rtitm
 local
 
 fn appf (
-  s1t1: s1rt, s1t2: s1rt
+  _fun: s1rt, _arg: s1rt
 ) :<cloref1> s1rtitm = let
-  val loc = s1t1.s1rt_loc + s1t2.s1rt_loc
-  val s1ts2 = (
-    case+ s1t2.s1rt_node of
-    | S1RTlist s1ts => s1ts | _ => list_cons (s1t2, list_nil ())
+  val loc = _fun.s1rt_loc + _arg.s1rt_loc
+  val xs_arg = (
+    case+ _arg.s1rt_node of
+    | S1RTlist s1ts => s1ts | _ => list_cons (_arg, list_nil ())
   ) : s1rtlst // end of [val]
-  val s1t_app = s1rt_app (loc, s1t1, s1ts2)
+  val s1t_app = s1rt_app (loc, _fun, xs_arg)
 in
   FXITMatm (s1t_app)
 end // end of [appf]
 
 in // in of [local]
 
-fn s1rtitm_app (loc: location) = fxitm_app (loc, appf)
+fn s1rtitm_app
+  (loc: location): s1rtitm = fxitm_app (loc, appf)
+// end of [s1rtitm_app]
 
 end // end of [local]
 
 fn s1rt_get_loc (x: s1rt): location = x.s1rt_loc
 
 fn s1rt_make_opr (
-  s1t: s1rt, f: fxty
+  opr: s1rt, f: fxty
 ) : s1rtitm = begin
   fxopr_make {s1rt} (
     s1rt_get_loc
-  , lam (loc, x, _(*loc_arg*), xs) => s1rt_app (loc, x, xs), s1t, f
+  , lam (loc, x, _(*loc_arg*), xs) => s1rt_app (loc, x, xs)
+  , opr, f
   ) // end of [oper_make]
 end // end of [s1rt_make_opr]
 
 fn s1rtitm_backslash
-  (loc: location) = begin
+  (loc_opr: location) = begin
   fxopr_make_backslash {s1rt} (
     lam x => x.s1rt_loc
   , lam (loc, x, _(*loc_arg*), xs) => s1rt_app (loc, x, xs)
-  , loc
+  , loc_opr
   ) // end of [oper_make_backslash]
 end // end of [s1rtitm_backslash]
 
@@ -137,7 +140,7 @@ fun aux_item
   val loc0 = s0t0.s0rt_loc in case+ s0t0.s0rt_node of
     | S0RTapp _ => let 
         val s1t0 = fixity_resolve (
-          loc0, s1rt_get_loc, s1rtitm_app (loc0), aux_itemlst s0t0
+          loc0, s1rt_get_loc, s1rtitm_app (loc0), aux_itemlst (s0t0)
         ) // end of [val]
       in
         FXITMatm (s1t0)
@@ -158,17 +161,17 @@ end // end of [aux_item]
 //
 and aux_itemlst
   (s0t0: s0rt): s1rtitmlst = let
-  fun aux (
-    res: s1rtitmlst, s0t0: s0rt
+  fun loop (
+    s0t0: s0rt, res: s1rtitmlst
   ) : s1rtitmlst =
     case+ s0t0.s0rt_node of
     | S0RTapp (s0t1, s0t2) => let
-        val res = list_cons (aux_item s0t2, res) in aux (res, s0t1)
+        val res = list_cons (aux_item s0t2, res) in loop (s0t1, res)
       end // end of [S0RTapp]
     | _ => list_cons (aux_item s0t0, res) // end of [_]
-  // end of [aux]
+  // end of [loop]
 in
-  aux (list_nil (), s0t0)
+  loop (s0t0, list_nil ())
 end // end of [aux_itemlst]
 //
 in

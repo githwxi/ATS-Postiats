@@ -50,6 +50,8 @@ ATSCCFLAGS=-g -O2
 ######
 
 SOURCES := \
+  pats_debug.sats \
+  pats_debug.dats \
   pats_error.sats \
   pats_error.dats \
   pats_utils.sats \
@@ -104,6 +106,7 @@ SOURCES := \
   pats_trans1.sats \
   pats_trans1_env.sats \
   pats_trans1_env.dats \
+  pats_trans1_e0xp.dats \
   pats_trans1_sort.dats \
   pats_trans1_staexp.dats \
   pats_trans1_dynexp.dats \
@@ -152,12 +155,15 @@ depend::
 	$(ATSOPT) -o .depend -dep1 -d pats_main.dats
 include .depend
 
-
-
 ######
 
 DIR=.
 RMF=rm -f
+WCL=wc -l
+
+######
+
+srclines:: ; $(WCL) $(SOURCES)
 
 ######
 

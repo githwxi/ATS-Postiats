@@ -220,6 +220,19 @@ case+ d0c0.d0ecl_node of
   in
     d1ecl_stacsts (loc0, d1cs)
   end // end of [D0Cstacsts]
+| D0Clocal (
+    d0cs_head, d0cs_body
+  ) => let
+    val (pflev | ()) = trans1_level_inc ()
+    val (pfenv1 | ()) = trans1_env_push ()
+    val d1cs_head = d0eclist_tr (d0cs_head)
+    val () = trans1_level_dec (pflev | (*none*))
+    val (pfenv2 | ()) = trans1_env_push ((*none*))
+    val d1cs_body = d0eclist_tr (d0cs_body)
+    val () = trans1_env_localjoin (pfenv1, pfenv2 | (*none*))
+  in
+    d1ecl_local (d0c0.d0ecl_loc, d1cs_head, d1cs_body)
+  end // end of [D0Clocal]
 | _ => d1ecl_none (loc0)
 //
 end // end of [d0ecl_tr]

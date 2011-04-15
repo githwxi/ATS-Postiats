@@ -132,6 +132,38 @@ symenv_insert {itm}
 (* ****** ****** *)
 
 implement
+symenv_pop
+  (env) = map0 where {
+  val map0 = env.map
+  val- ~list_vt_cons (map, maps) = env.maplst
+  val () = env.map := map
+  val () = env.maplst := maps
+} // end of [symenv_pop]
+
+implement
+symenv_pop_free
+  (env) = () where {
+  val map = symenv_pop (env)
+  val () = symmap_free (map)
+} // end of [symmap_pop_free]
+
+implement
+symenv_push
+  (env, map0) = () where {
+  val () = env.maplst := list_vt_cons (env.map, env.maplst)
+  val () = env.map := map0
+} // end of [symenv_push]
+
+implement
+symenv_push_nil
+  (env) = () where {
+  val map = symmap_make_nil ()
+  val () = symenv_push (env, map)
+} // end of [symmap_push_nil]
+
+(* ****** ****** *)
+
+implement
 symenv_savecur
   {itm} (env) = let
   val m = env.map

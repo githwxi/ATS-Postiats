@@ -242,6 +242,11 @@ implement symbol_MINUSGT = symbol_make_string "->"
 
 (* ****** ****** *)
 
+implement symbol_DEFINED = symbol_make_string "defined"
+implement symbol_UNDEFINED = symbol_make_string "undefined"
+
+(* ****** ****** *)
+
 implement
 eq_symbol_symbol (x1, x2) = x1.stamp = x2.stamp
 implement

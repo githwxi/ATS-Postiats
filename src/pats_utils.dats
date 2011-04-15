@@ -34,7 +34,75 @@
 //
 (* ****** ****** *)
 
+staload STDLIB = "libc/SATS/stdlib.sats"
+
+(* ****** ****** *)
+
 staload "pats_utils.sats"
+
+(* ****** ****** *)
+
+local
+
+fun
+llint_make_string_sgn
+  {n,i:nat | i <= n} (
+  sgn: int, rep: string (n), i: size_t i
+) : llint =
+  if string_isnot_at_end (rep, i) then let
+    val c0 = rep[i]
+  in
+    case+ c0 of
+    | '0' => (
+        if string_isnot_at_end (rep, i+1) then let
+          val i = i+1
+          val c0 = rep[i]
+        in
+          if (c0 = 'X' orelse c0 = 'x') then
+            llint_make_string_sgn_base (sgn, 16(*base*), rep, i+1)
+          else
+            llint_make_string_sgn_base (sgn, 8(*base*), rep, i)
+          // end of [if]
+        end else 0ll (* end of [if] *)
+      ) // end of ['0']
+    | _ => llint_make_string_sgn_base (sgn, 10(*base*), rep, i)
+  end else 0ll (* end of [if] *)
+// end of [llint_make_string_sgn]
+
+and
+llint_make_string_sgn_base
+  {n,i:nat | i <= n} (
+  sgn: int, base: intBtw (2,36+1), rep: string (n), i: size_t i
+) : llint = let
+//
+extern fun substring
+  {n,i:nat | i <= n}
+  (x: string n, i: size_t i): string (n-i) = "mac#atspre_padd_int"
+//
+in
+  (llint_of)sgn * $STDLIB.strtoll_errnul (substring (rep, i), base)
+end // end of [llint_make_string_sgn_base]
+
+in // in of [local]
+
+implement
+llint_make_string
+  (rep) = let
+  var sgn: int = 1
+  val [n0:int] rep = string1_of_string (rep)
+in
+  if string_isnot_empty (rep) then let
+    val c0 = rep[0]
+  in
+    case+ c0 of
+    | '+' => llint_make_string_sgn ( 1(*sgn*), rep, 1)
+    | '~' => llint_make_string_sgn (~1(*sgn*), rep, 1)
+    | '-' => llint_make_string_sgn (~1(*sgn*), rep, 1)
+    | _ => llint_make_string_sgn (1(*sgn*), rep, 0)
+  end else 0ll // end of [if]
+end // end of [llint_make_string]
+
+end // end of [local]
 
 (* ****** ****** *)
 

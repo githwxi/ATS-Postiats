@@ -71,6 +71,11 @@ val symbol_UNDERSCORE : symbol // _
 
 (* ****** ****** *)
 
+val symbol_DEFINED : symbol // defined
+val symbol_UNDEFINED : symbol // undefined
+
+(* ****** ****** *)
+
 fun eq_symbol_symbol (x1: symbol, x2: symbol):<> bool
 overload = with eq_symbol_symbol
 fun neq_symbol_symbol (x1: symbol, x2: symbol):<> bool

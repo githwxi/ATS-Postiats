@@ -38,6 +38,10 @@ staload "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
 
+staload UT = "pats_utils.sats"
+
+(* ****** ****** *)
+
 staload "pats_location.sats"
 staload "pats_lexing.sats"
 staload "pats_tokbuf.sats"
@@ -52,6 +56,7 @@ staload "pats_trans1.sats"
 
 (* ****** ****** *)
 //
+dynload "pats_debug.dats"
 dynload "pats_error.dats"
 dynload "pats_utils.dats"
 //
@@ -96,6 +101,7 @@ dynload "pats_dynexp1.dats"
 dynload "pats_dynexp1_print.dats"
 //
 dynload "pats_trans1_env.dats"
+dynload "pats_trans1_e0xp.dats"
 dynload "pats_trans1_sort.dats"
 dynload "pats_trans1_staexp.dats"
 dynload "pats_trans1_dynexp.dats"
@@ -128,6 +134,7 @@ main (
 //
   val d1cs = d0eclist_tr (d0cs)
   val () = fprint_d1eclist (stdout_ref, d1cs)
+  val () = print_newline ()
 //
 } // end of [main]
 

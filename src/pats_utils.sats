@@ -34,6 +34,10 @@
 //
 (* ****** ****** *)
 
+fun llint_make_string (rep: string): llint
+
+(* ****** ****** *)
+
 fun{a:t@ype}
 fprintlst (
   out: FILEref

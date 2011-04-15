@@ -40,6 +40,12 @@ typedef symbol = $SYM.symbol
 
 (* ****** ****** *)
 
+staload
+SYMMAP = "pats_symmap.sats"
+viewtypedef symmap (itm:type) = $SYMMAP.symmap (itm)
+
+(* ****** ****** *)
+
 absviewt@ype
 symenv_vt0ype (itm:type)
 stadef symenv = symenv_vt0ype
@@ -64,6 +70,16 @@ symenv_insert
   {itm:type} // HX: insert first
   (env: &symenv itm, k: symbol, i: itm):<> void
 // end of [symenv_insert]
+
+(* ****** ****** *)
+
+fun symenv_pop {itm:type}
+  (env: &symenv itm):<> symmap (itm)
+fun symenv_pop_free {itm:type} (env: &symenv itm):<> void
+
+fun symenv_push {itm:type}
+  (env: &symenv itm, map: symmap (itm)):<> void
+fun symenv_push_nil {itm:type} (env: &symenv itm):<> void
 
 (* ****** ****** *)
 //

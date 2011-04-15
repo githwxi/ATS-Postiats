@@ -28,7 +28,8 @@ dynload "pats_lexing_print.dats"
 dynload "pats_lexing_error.dats"
 dynload "pats_lexing.dats"
 
-dynload "pats_fixity.dats"
+dynload "pats_fixity_prec.dats"
+dynload "pats_fixity_fxty.dats"
 dynload "pats_syntax_print.dats"
 dynload "pats_syntax.dats"
 
@@ -37,7 +38,8 @@ dynload "pats_parsing_util.dats"
 dynload "pats_parsing_error.dats"
 dynload "pats_parsing_misc.dats"
 dynload "pats_parsing_e0xp.dats"
-dynload "pats_parsing_d0ecl.dats"
+dynload "pats_parsing_sort.dats"
+dynload "pats_parsing_decl.dats"
 
 (* ****** ****** *)
 
@@ -57,9 +59,7 @@ fun lexing_from_string
 
 fun test_lexing (): void = {
 //
-val- T_AMPERSAND () =
-  (lexing_from_string "&").token_node
-val- T_BACKQUOTE () =
+val- T_BQUOTE () =
   (lexing_from_string "`").token_node
 val- T_BANG () =
   (lexing_from_string "!").token_node
@@ -89,8 +89,6 @@ val- T_MINUSLTGT () =
   (lexing_from_string "-<>").token_node
 val- T_COLONLT () =
   (lexing_from_string ":<").token_node
-val- T_COLONLTGT () =
-  (lexing_from_string ":<>").token_node
 //
 val- T_ABSTYPE (i) =
   (lexing_from_string "abstype").token_node
@@ -176,7 +174,7 @@ val- T_EXCEPTION () =
   (lexing_from_string "exception").token_node
 val- T_EXTERN () =
   (lexing_from_string "extern").token_node
-val- T_FIX () =
+val- T_FIX _ =
   (lexing_from_string "fix").token_node
 //
 val- T_FIXITY (knd) =
@@ -233,10 +231,8 @@ val- T_LET () =
   (lexing_from_string "let").token_node
 val- T_LOCAL () =
   (lexing_from_string "local").token_node
-val- T_MACDEF () =
+val- T_MACDEF _ =
   (lexing_from_string "macdef").token_node
-val- T_MACRODEF () =
-  (lexing_from_string "macrodef").token_node
 val- T_NONFIX () =
   (lexing_from_string "nonfix").token_node
 val- T_OVERLOAD () =
@@ -253,9 +249,6 @@ val- T_OF () =
   (lexing_from_string "of").token_node
 val- T_OP () =
   (lexing_from_string "op").token_node
-//
-val- T_PRAXI () =
-  (lexing_from_string "praxi").token_node
 //
 val- T_TYPE (i) =
   (lexing_from_string "prop+").token_node
@@ -275,7 +268,7 @@ val- T_SIF () =
   (lexing_from_string "sif").token_node
 val- T_SORTDEF () =
   (lexing_from_string "sortdef").token_node
-val- T_STA () =
+val- T_STACST () =
   (lexing_from_string "sta").token_node
 val- T_STADEF () =
   (lexing_from_string "stadef").token_node

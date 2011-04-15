@@ -780,6 +780,29 @@ fun fprint_s0tacon (
 
 (* ****** ****** *)
 
+fun fprint_s0tacst (
+  out: FILEref, x: s0tacst
+) : void = () where {
+  val () = fprint_symbol (out, x.s0tacst_sym)
+  val () = fprint_string (out, "(")
+  val () = $UT.fprintlst (out, x.s0tacst_arg, " ", fprint_a0msrt)
+  val () = fprint_string (out, "):")
+  val () = fprint_s0rt (out, x.s0tacst_res)
+} // end of [fprint_s0tacst]
+
+(* ****** ****** *)
+
+fun fprint_s0tavar (
+  out: FILEref, x: s0tavar
+) : void = () where {
+  val () = fprint_symbol (out, x.s0tavar_sym)
+  val () = fprint_string (out, "(")
+  val () = fprint_s0rt (out, x.s0tavar_srt)
+  val () = fprint_string (out, ")")
+} // end of [fprint_s0tavar]
+
+(* ****** ****** *)
+
 implement
 fprint_d0ecl (out, x) = let
   macdef prstr (str) = fprint_string (out, ,(str))
@@ -843,12 +866,12 @@ case+ x.d0ecl_node of
   }
 | D0Cstacsts (xs) => {
     val () = prstr "D0Cstacsts(\n"
-    val () = prstr "..."
+    val () = $UT.fprintlst (out, xs, "\n", fprint_s0tacst)
     val () = prstr "\n)"
   }
 | D0Cstavars (xs) => {
     val () = prstr "D0Cstavars(\n"
-    val () = prstr "..."
+    val () = $UT.fprintlst (out, xs, "\n", fprint_s0tavar)
     val () = prstr "\n)"
   }
 | D0Csexpdefs (knd, xs) => {

@@ -1,4 +1,4 @@
-(***********************************************************************)
+
 (*                                                                     *)
 (*                         Applied Type System                         *)
 (*                                                                     *)
@@ -34,61 +34,32 @@
 //
 (* ****** ****** *)
 
-staload FIX = "pats_fixity.sats"
-typedef fxty = $FIX.fxty
-staload SYM = "pats_symbol.sats"
-typedef symbol = $SYM.symbol
+staload "pats_debug.sats"
 
 (* ****** ****** *)
 
-staload "pats_syntax.sats"
-staload "pats_staexp1.sats"
+local
+
+var the_flag: int = 0
+val p_the_flag = &the_flag
+val (pf_the_flag | ()) =
+  vbox_make_view_ptr {int} (view@ the_flag | p_the_flag)
+// end of [val]
+
+in // in of [local]
+
+implement
+debug_flag_get () = let
+  prval vbox (pf) = pf_the_flag in !p_the_flag
+end // end of [debug_flag_get]
+
+implement
+debug_flag_set (x) = let
+  prval vbox (pf) = pf_the_flag in !p_the_flag := x
+end // end of [debug_flag_set]
+
+end // end of [local]
 
 (* ****** ****** *)
 
-fun the_e1xpenv_add (id: symbol, e: e1xp): void
-fun the_e1xpenv_find (id: symbol): Option_vt e1xp
-
-(* ****** ******* *)
-
-fun the_fxtyenv_add (key: symbol, itm: fxty): void
-fun the_fxtyenv_find (key: symbol): Option_vt (fxty)
-
-(* ****** ******* *)
-
-fun fprint_the_fxtyenv (out: FILEref): void // mostly for debugging
-
-(* ****** ****** *)
-
-absview
-trans1_level_v // for avoiding negative levels
-fun trans1_level_get (): int
-fun trans1_level_dec (pf: trans1_level_v | (*none*)): void
-fun trans1_level_inc (): (trans1_level_v | void)
-
-(* ****** ****** *)
-
-absview trans1_env_push_v
-
-fun trans1_env_pop
-  (pf: trans1_env_push_v | (*none*)): void
-fun trans1_env_push (): (trans1_env_push_v | void)
-
-(*
-** HX: for handling <local ... in ... end>
-*)
-fun trans1_env_localjoin (
-  pf1: trans1_env_push_v, pf2: trans1_env_push_v | (*none*)
-) : void // end of [trans1_env_localjoin]
-
-(* ****** ******* *)
-
-absview trans1_env_save_v
-fun trans1_env_save ((*none*)): (trans1_env_save_v | void)
-fun trans1_env_restore (pf: trans1_env_save_v | (*none*)): void
-
-(* ****** ****** *)
-
-(* end of [pats_trans1_env.sats] *)
-
-
+(* end of [pats_debug.dats] *)

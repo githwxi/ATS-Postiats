@@ -40,6 +40,20 @@ staload "pats_dynexp1.sats"
 
 (* ****** ****** *)
 
+fun v1al_is_true (v: v1al): bool
+fun v1al_is_false (v: v1al): bool
+
+fun do_e0xpact_assert
+  (loc: location, v: v1al): void
+fun do_e0xpact_error (loc: location, v: v1al): void
+fun do_e0xpact_prerr (v: v1al): void
+
+fun e1xp_eval (e: e1xp): v1al
+fun e1xp_eval_if (knd: token, e: e1xp): v1al
+fun e1xp_make_v1al (loc: location, v: v1al): e1xp
+
+(* ****** ****** *)
+
 fun e0xp_tr (x: e0xp): e1xp
 fun e0xplst_tr (x: e0xplst): e1xplst
 

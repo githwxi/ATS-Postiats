@@ -61,6 +61,11 @@ d1ecl_stacsts (loc, xs) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cstacsts (xs)
 }
 
+implement
+d1ecl_local (loc, ds_head, ds_body) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Clocal (ds_head, ds_body)
+}
+
 (* ****** ****** *)
 
 (* end of [pats_dynexp1.dats] *)

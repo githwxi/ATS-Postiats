@@ -96,13 +96,13 @@ datatype d1ecl_node =
       (int (*long/short*), m1acdeflst)
   | D1Cimpdec of (* implementation *)
       (s1arglstlst, i1mpdec)
-  | D1Clocal of (* local declaration *)
-      (d1eclst, d1eclst)
-  | D1Cdynload of (* dynamic load *)
-      fil_t
-  | D1Cstaload of (* static load *)
-      (Option sym_t, fil_t, int (*loaded*), int (*loadflag*), d1eclst)
 *)
+  | D1Clocal of (* local declaration *)
+      (d1eclist, d1eclist)
+  | D1Cdynload of (* dynloading a file *)
+      filename
+  | D1Cstaload of (* staloading a file *)
+      (Option symbol, filename, int (*loaded*), int (*loadflag*), d1eclist)
 // end of [d1ecl_node]
 
 (* ****** ****** *)
@@ -137,6 +137,8 @@ fun fprint_s1tacst : fprint_type (s1tacst)
 fun d1ecl_none (loc: location): d1ecl
 
 fun d1ecl_stacsts (loc: location, ds: s1tacstlst): d1ecl
+
+fun d1ecl_local (loc: location, ds1: d1eclist, ds2: d1eclist): d1ecl
 
 (* ****** ****** *)
 
