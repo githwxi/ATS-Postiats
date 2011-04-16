@@ -882,7 +882,7 @@ case+ x.d0ecl_node of
 | D0Csexpdefs (knd, xs) => {
     val () = prstr "D0Csexpdefs(\n"
     val () = fprint_int (out, knd)
-    val () = prstr "; "
+    val () = prstr "\n"
     val () = prstr "..."
     val () = prstr "\n)"
   }

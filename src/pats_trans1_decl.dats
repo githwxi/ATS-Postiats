@@ -218,6 +218,37 @@ end // end of [s0rtdef_tr]
 (* ****** ****** *)
 
 implement
+s0expdef_tr (d) = let
+  val loc = d.s0expdef_loc
+  val arg = s0marglst_tr (d.s0expdef_arg)
+  val id = d.s0expdef_sym
+  val res = s0rtopt_tr (d.s0expdef_res)
+  val def = s0exp_tr (d.s0expdef_def)
+(*
+  val () = begin
+    print "s0expdef_tr: def = "; print def; print_newline ()
+  end // end of [val]
+*)
+in
+  s1expdef_make (loc, id, arg, res, def)
+end // end of [s0expdef_tr]
+
+(* ****** ****** *)
+
+implement
+s0aspdec_tr (d) = let
+  val arg =
+    s0marglst_tr (d.s0aspdec_arg)
+  // end of [val]
+  val res = s0rtopt_tr (d.s0aspdec_res)
+  val def = s0exp_tr d.s0aspdec_def
+in
+  s1aspdec_make (d.s0aspdec_loc, d.s0aspdec_qid, arg, res, def)
+end // end of [s0aspdec_tr]
+
+(* ****** ****** *)
+
+implement
 d0ecl_tr (d0c0) = let
   val loc0 = d0c0.d0ecl_loc
 in
@@ -246,6 +277,13 @@ case+ d0c0.d0ecl_node of
   in
     d1ecl_stacsts (loc0, d1cs)
   end // end of [D0Cstacsts]
+//
+| D0Csexpdefs (knd, d0cs) => let
+    val d1cs = l2l (list_map_fun (d0cs, s0expdef_tr))
+  in
+    d1ecl_sexpdefs (loc0, knd, d1cs)
+  end // end of [D0Csexpdefs]
+| D0Csaspdec (d0c) => d1ecl_saspdec (loc0, s0aspdec_tr d0c)
 //
 | D0Clocal (
     d0cs_head, d0cs_body

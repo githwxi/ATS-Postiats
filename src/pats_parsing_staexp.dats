@@ -255,12 +255,24 @@ p_sqi0de
   (buf, bt, err) = let
   val err0 = err
   val n0 = tokbuf_get_ntok (buf)
+  var ent: synent?
+in
+//
+case+ 0 of
+| _ when
+    ptest_fun (
+    buf, p_si0de, ent
+  ) =>
+    sqi0de_make_none (synent_decode {i0de} (ent))
+  // end of [_ when ...]
+| _ => let
   val ent1 = p_s0taq (buf, bt, err)
   val ent2 = pif_fun (buf, bt, err, p_si0de, err0)
 in
   if err = err0 then
     sqi0de_make_some (ent1, ent2) else tokbuf_set_ntok_null (buf, n0)
   // end of [if]
+end // end of [_]
 end // end of [p_sqi0de]
 
 (* ****** ****** *)
@@ -725,7 +737,7 @@ case+ tok.token_node of
     val ent5 = pif_fun (buf, bt, err, p_s0exp, err0)
   in
     if err = err0 then
-      s0exp_lam (tok, (l2l)ent2, ent3, ent5)
+      s0exp_lams (tok, (l2l)ent2, ent3, ent5)
     else let
       val () = list_vt_free (ent2) in synent_null ()
     end // end of [if]

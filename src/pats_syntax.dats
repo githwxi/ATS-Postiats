@@ -722,12 +722,33 @@ s0exp_imp_nil (tok) = '{
 
 (* ****** ****** *)
 
+fn s0exp_lam (
+  loc: location
+, arg: s0marg, res: s0rtopt, body: s0exp
+) : s0exp = '{
+  s0exp_loc= loc, s0exp_node = S0Elam (arg, res, body)
+} // end of [s0exp_lam]
+
 implement
-s0exp_lam (t_lam, ent2, ent3, ent4) = let
-  val loc = t_lam.token_loc + ent4.s0exp_loc
-in '{
-  s0exp_loc= loc, s0exp_node = S0Elam (ent2, ent3, ent4)
-} end // end of [s0exp_lam]
+s0exp_lams (
+  t_beg, args, res, body
+) = let
+  val loc = t_beg.token_loc + body.s0exp_loc
+  fun aux (
+    arg0: s0marg, args: s0marglst
+  ) :<cloref1> s0exp =
+    case+ args of
+    | list_cons (arg, args) =>
+        s0exp_lam (loc, arg0, None (), aux (arg, args))
+      // end of [list_cons]
+    | list_nil () => s0exp_lam (loc, arg0, res, body)
+  // end of [val]
+in
+  case+ args of
+  | list_cons (arg, args) => aux (arg, args) | list_nil () => body
+end // end of [s0exp_lams]
+
+(* ****** ****** *)
 
 implement
 s0exp_list (t_beg, xs, t_end) = let

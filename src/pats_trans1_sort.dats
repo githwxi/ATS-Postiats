@@ -37,6 +37,7 @@
 staload ERR = "pats_error.sats"
 staload LOC = "pats_location.sats"
 overload + with $LOC.location_combine
+
 staload SYM = "pats_symbol.sats"
 macdef BACKSLASH = $SYM.symbol_BACKSLASH
 overload = with $SYM.eq_symbol_symbol
@@ -141,25 +142,25 @@ implement s0rt_tr (s0t0) = let
 fun aux_item
   (s0t0: s0rt): s1rtitm = let
   val loc0 = s0t0.s0rt_loc in case+ s0t0.s0rt_node of
-    | S0RTapp _ => let 
-        val s1t0 = fixity_resolve (
-          loc0, s1rt_get_loc, s1rtitm_app (loc0), aux_itemlst (s0t0)
-        ) // end of [val]
-      in
-        FXITMatm (s1t0)
-      end // end of [S0RTapp]
-    | S0RTide id
-        when id = BACKSLASH => s1rtitm_backslash (loc0)
-    | S0RTide id => begin case+ the_fxtyenv_find id of
-      | ~Some_vt f => s1rt_make_opr (s1rt_ide (loc0, id), f)
-      | ~None_vt () => FXITMatm (s1rt_ide (loc0, id))
-      end // end of [S0RTide]
-    | S0RTlist xs => FXITMatm (s1rt_list (loc0, s0rtlst_tr xs))
-    | S0RTqid (q, id) => FXITMatm (s1rt_qid (loc0, q, id))
+  | S0RTapp _ => let 
+      val s1t0 = fixity_resolve (
+      loc0, s1rt_get_loc, s1rtitm_app (loc0), aux_itemlst (s0t0)
+      ) // end of [val]
+    in
+      FXITMatm (s1t0)
+    end // end of [S0RTapp]
+  | S0RTide id
+      when id = BACKSLASH => s1rtitm_backslash (loc0)
+  | S0RTide id => begin case+ the_fxtyenv_find id of
+    | ~Some_vt f => s1rt_make_opr (s1rt_ide (loc0, id), f)
+    | ~None_vt () => FXITMatm (s1rt_ide (loc0, id))
+    end // end of [S0RTide]
+  | S0RTlist xs => FXITMatm (s1rt_list (loc0, s0rtlst_tr xs))
+  | S0RTqid (q, id) => FXITMatm (s1rt_qid (loc0, q, id))
 (*
-    | S0RTtup (xs) => FXITMatm (s1rt_tup (loc0, s0rtlst_tr xs))
+  | S0RTtup (xs) => FXITMatm (s1rt_tup (loc0, s0rtlst_tr xs))
 *)
-    | S0RTtype knd => FXITMatm (s1rt_type (loc0, knd))
+  | S0RTtype knd => FXITMatm (s1rt_type (loc0, knd))
 end // end of [aux_item]
 //
 and aux_itemlst
@@ -235,6 +236,29 @@ d0atsrtdec_tr (d) = let
 in
   d1atsrtdec_make (loc, name, conlst)
 end // end of [d0atsrtdec_tr]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fn s0arg_tr
+  (x: s0arg): s1arg = let
+  val res = s0rtopt_tr (x.s0arg_srt)
+in
+  s1arg_make (x.s0arg_loc, x.s0arg_sym, res)
+end // end of [s0arg_tr]
+
+in // in of [local]
+
+implement
+s0marg_tr (x) =
+  l2l (list_map_fun (x.s0marg_arg, s0arg_tr))
+// end of [s0marg_tr]
+
+implement
+s0marglst_tr (xss) = l2l (list_map_fun (xss, s0marg_tr))
 
 end // end of [local]
 

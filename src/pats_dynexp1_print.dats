@@ -55,23 +55,38 @@ fprint_d1ecl
   (out, d1c0) = let
   macdef prstr (str) = fprint_string (out, ,(str))
 in
-  case+ d1c0.d1ecl_node of
-  | D1Cnone () => prstr "D1Cnone()"
-  | D1Cdatsrts (xs) => {
-      val () = prstr "D1Cdatsrts(\n"
-      val () = $UT.fprintlst (out, xs, "\n", fprint_d1atsrtdec)
-      val () = prstr "\n)"
-    }
-  | D1Csrtdefs (xs) => {
-      val () = prstr "D1Csrtdefs(\n"
-      val () = $UT.fprintlst (out, xs, "\n", fprint_s1rtdef)
-      val () = prstr "\n)"
-    }
-  | D1Cstacsts (xs) => {
-      val () = prstr "D1Cstacsts(\n"
-      val () = $UT.fprintlst (out, xs, "\n", fprint_s1tacst)
-      val () = prstr "\n)"
-    }
+//
+case+ d1c0.d1ecl_node of
+| D1Cnone () => prstr "D1Cnone()"
+//
+| D1Cdatsrts (xs) => {
+    val () = prstr "D1Cdatsrts(\n"
+    val () = $UT.fprintlst (out, xs, "\n", fprint_d1atsrtdec)
+  val () = prstr "\n)"
+  }
+| D1Csrtdefs (xs) => {
+    val () = prstr "D1Csrtdefs(\n"
+    val () = $UT.fprintlst (out, xs, "\n", fprint_s1rtdef)
+    val () = prstr "\n)"
+  }
+| D1Cstacsts (xs) => {
+    val () = prstr "D1Cstacsts(\n"
+    val () = $UT.fprintlst (out, xs, "\n", fprint_s1tacst)
+    val () = prstr "\n)"
+  }
+//
+| D1Csexpdefs (knd, xs) => {
+    val () = prstr "D1Csexpdefs("
+    val () = fprint_int (out, knd)
+    val () = prstr "\n"
+    val () = $UT.fprintlst (out, xs, "\n", fprint_s1expdef)
+    val () = prstr "\n)"
+  }
+| D1Csaspdec (x) => {
+    val () = prstr "D1Csaspdec("
+    val () = fprint_s1aspdec (out, x)
+    val () = prstr ")"
+  }
 //
 | D1Clocal (
     ds_head, ds_body

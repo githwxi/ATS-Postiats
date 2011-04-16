@@ -153,6 +153,23 @@ fun fprint_i0de : fprint_type (i0de)
 (* ****** ****** *)
 
 datatype
+funclo = (* function or closure *)
+  | FUNCLOclo of int(*knd*) (* closure: knd=1/0/~1: ptr/clo/ref *)
+  | FUNCLOfun (* function *)
+typedef funcloopt = Option funclo
+
+fun fprint_funclo : fprint_type (funclo)
+overload fprint with fprint_funclo
+
+fun print_funclo (x: funclo): void
+fun prerr_funclo (x: funclo): void
+
+fun eq_funclo_funclo (fc1: funclo, fc2: funclo): bool 
+overload = with eq_funclo_funclo
+
+(* ****** ****** *)
+
+datatype
 e0fftag_node =
   | E0FFTAGint of int // [0/1]
   | E0FFTAGcst of (int(*neg*), string) // [0/1]: pos/neg
@@ -516,10 +533,9 @@ s0exp_node =
   | S0Eextype of (string(*name*), s0explst(*arg*))
 //
   | S0Eapp of (s0exp, s0exp)
+  | S0Elam of (s0marg, s0rtopt, s0exp)
 //
   | S0Eimp of e0fftaglst // decorated implication
-//
-  | S0Elam of (s0marglst, s0rtopt, s0exp)
 //
   | S0Elist of s0explst
   | S0Elist2 of (s0explst (*prop/view*), s0explst (*type/viewtype*))
@@ -614,7 +630,7 @@ fun s0exp_imp_nil (t: token): s0exp
 
 fun s0exp_extype (_1: token, _2: token, xs: List s0exp): s0exp
 
-fun s0exp_lam (
+fun s0exp_lams (
   _1: token, _2: s0marglst, _3: s0rtopt, _4: s0exp
 ) : s0exp // end of [s0exp_lam]
 

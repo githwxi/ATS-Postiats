@@ -34,47 +34,60 @@
 //
 (* ****** ****** *)
 
-staload "pats_syntax.sats"
-staload "pats_staexp1.sats"
-staload "pats_dynexp1.sats"
+abst@ype effect_t0ype = int
+typedef effect = effect_t0ype
+typedef effectlst = List (effect)
+abst@ype effset_t0ype = uint
+typedef effset = effset_t0ype
 
 (* ****** ****** *)
 
-implement
-d1ecl_none (loc) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cnone ()
-} // end of [d1ecl_none]
-
-implement
-d1ecl_datsrts (loc, xs) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cdatsrts (xs)
-}
-
-implement
-d1ecl_srtdefs (loc, xs) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Csrtdefs (xs)
-}
-
-implement
-d1ecl_stacsts (loc, xs) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cstacsts (xs)
-}
-
-implement
-d1ecl_sexpdefs (loc, knd, xs) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Csexpdefs (knd, xs)
-}
-
-implement
-d1ecl_saspdec (loc, x) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Csaspdec (x)
-}
-
-implement
-d1ecl_local (loc, ds_head, ds_body) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Clocal (ds_head, ds_body)
-}
+typedef fprint_type (a:t@ype) = (FILEref, a) -> void
 
 (* ****** ****** *)
 
-(* end of [pats_dynexp1.dats] *)
+val effect_exn : effect
+val effect_ntm : effect
+val effect_ref : effect
+val effect_wrt : effect
+val effectlst_all : effectlst
+
+fun effect_get_name (eff: effect): string
+
+fun fprint_effect : fprint_type (effect)
+overload fprint with fprint_effect
+
+fun print_effect (x: effect): void
+overload print with print_effect
+fun prerr_effect (x: effect): void
+overload prerr with prerr_effect
+
+fun fprint_effectlst : fprint_type (effectlst)
+overload fprint with fprint_effectlst
+
+fun eq_effect_effect (x1: effect, x2: effect): bool
+overload = with eq_effect_effect
+
+(* ****** ****** *)
+
+val effset_all: effset
+and effset_nil: effset
+
+fun fprint_effset : fprint_type (effset)
+
+fun eq_effset_effset (x1: effset, x2: effset): bool
+overload = with eq_effset_effset
+
+fun effset_add (efs: effset, eff: effect): effset
+fun effset_del (efs: effset, eff: effect): effset
+
+fun effset_ismem (efs: effset, eff: effect): bool
+
+fun effset_supset (efs1: effset, efs2: effset): bool
+fun effset_subset (efs1: effset, efs2: effset): bool
+
+fun effset_union (efs1: effset, efs2: effset): effset
+
+(* ****** ****** *)
+
+(* end of [pats_effect.sats] *)

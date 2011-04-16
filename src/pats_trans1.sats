@@ -59,6 +59,12 @@ fun e0xplst_tr (x: e0xplst): e1xplst
 
 (* ****** ****** *)
 
+fun e0fftaglst_tr
+  (tags:  e0fftaglst): @(funcloopt, int, int, effcst)
+// end of [e0fftaglst_tr]
+
+(* ****** ****** *)
+
 fun s0rt_tr (_: s0rt): s1rt
 fun s0rtlst_tr (_: s0rtlst): s1rtlst
 fun s0rtopt_tr (_: s0rtopt): s1rtopt
@@ -71,8 +77,15 @@ fun a0msrtlst_tr (x: a0msrtlst): s1rtlstlst
 
 (* ****** ****** *)
 
+fun s0marg_tr (xs: s0marg): s1arglst
+fun s0marglst_tr (xss: s0marglst): s1arglstlst
+
+(* ****** ****** *)
+
 fun s0exp_tr (x: s0exp): s1exp
 fun s0explst_tr (x: s0explst): s1explst
+
+fun labs0exp_tr (x: labs0exp): labs1exp
 
 fun s0rtext_tr (x: s0rtext): s1rtext
 
@@ -91,9 +104,10 @@ fun d0atsrtdec_tr (d: d0atsrtdec): d1atsrtdec
 
 (* ****** ****** *)
 
-fun s0tacst_tr (x: s0tacst): s1tacst
-
 fun s0rtdef_tr (x: s0rtdef): s1rtdef
+fun s0tacst_tr (x: s0tacst): s1tacst
+fun s0expdef_tr (x: s0expdef): s1expdef
+fun s0aspdec_tr (x: s0aspdec): s1aspdec
 
 (* ****** ****** *)
 

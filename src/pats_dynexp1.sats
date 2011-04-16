@@ -60,12 +60,11 @@ datatype d1ecl_node =
 *)
   | D1Cstacsts of s1tacstlst // static constants
 (*
-  | D1Cstavars of (* static variable *)
-      s1tavarlst
-  | D1Csexpdefs of (* static definition *)
-      (s1rtopt, s1expdeflst)
-  | D1Csaspdec of (* static assumption *)
-      s1aspdec
+  | D1Cstavars of s1tavarlst // static variable
+*)
+  | D1Csexpdefs of (int(*knd*), s1expdeflst) // static definition
+  | D1Csaspdec of s1aspdec // static assumption
+(*
   | D1Cdcstdecs of (* dynamic constant *)
       (dcstkind, s1qualstlst, d1cstdeclst)
   | D1Cdatdecs of (* datatype declaration *)
@@ -115,11 +114,17 @@ and d1eclist = List (d1ecl)
 
 fun d1ecl_none (loc: location): d1ecl
 
-fun d1ecl_stacsts (loc: location, ds: s1tacstlst): d1ecl
-
 fun d1ecl_datsrts (loc: location, ds: d1atsrtdeclst): d1ecl
 
 fun d1ecl_srtdefs (loc: location, ds: s1rtdeflst): d1ecl
+
+fun d1ecl_stacsts (loc: location, ds: s1tacstlst): d1ecl
+
+fun d1ecl_sexpdefs
+  (loc: location, knd: int, ds: s1expdeflst): d1ecl
+// end of [d1ecl_sexpdefs]
+
+fun d1ecl_saspdec (loc: location, d: s1aspdec): d1ecl
 
 fun d1ecl_local (loc: location, ds1: d1eclist, ds2: d1eclist): d1ecl
 

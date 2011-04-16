@@ -219,6 +219,7 @@ implement symbol_SUB = symbol_make_string "-"
 implement symbol_MUL = symbol_make_string "*"
 implement symbol_DIV = symbol_make_string "/"
 
+implement symbol_AMPERSAND = symbol_make_string "&"
 implement symbol_AT = symbol_make_string "@"
 implement symbol_BACKSLASH = symbol_make_string "\\"
 implement symbol_BANG = symbol_make_string "!"
@@ -230,8 +231,8 @@ implement symbol_COLONEQ = symbol_make_string ":="
 implement symbol_GT = symbol_make_string ">"
 implement symbol_LT = symbol_make_string "<"
 implement symbol_GTLT = symbol_make_string "><"
+implement symbol_GTGT = symbol_make_string ">>"
 //
-implement symbol_QMARK = symbol_make_string "?"
 implement symbol_TILDE = symbol_make_string "~"
 implement symbol_UNDERSCORE = symbol_make_string "_"
 
@@ -239,6 +240,9 @@ implement symbol_LAND = symbol_make_string "&&"
 implement symbol_LOR = symbol_make_string "||" 
 
 implement symbol_MINUSGT = symbol_make_string "->" 
+
+implement symbol_QMARK = symbol_make_string "?"
+implement symbol_QMARKBANG = symbol_make_string "?!"
 
 (* ****** ****** *)
 

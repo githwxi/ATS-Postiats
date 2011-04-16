@@ -38,8 +38,19 @@ staload ERR = "pats_error.sats"
 staload LOC = "pats_location.sats"
 overload + with $LOC.location_combine
 
+staload SYM = "pats_symbol.sats"
+macdef AMPERSAND = $SYM.symbol_AMPERSAND
+macdef BACKSLASH = $SYM.symbol_BACKSLASH
+macdef BANG = $SYM.symbol_BANG
+macdef QMARK = $SYM.symbol_QMARK
+macdef QMARKBANG = $SYM.symbol_QMARKBANG
+macdef GTGT = $SYM.symbol_GTGT
+macdef MINUSGT = $SYM.symbol_MINUSGT
+overload = with $SYM.eq_symbol_symbol
+
 (* ****** ****** *)
 
+staload "pats_effect.sats"
 staload "pats_fixity.sats"
 staload "pats_syntax.sats"
 staload "pats_staexp1.sats"
@@ -179,6 +190,64 @@ aux_item (
 ) : s1expitm = let
   val loc0 = s0e0.s0exp_loc in
   case+ s0e0.s0exp_node of
+//
+  | S0Eint (int) => FXITMatm (s1exp_int (loc0, int))
+  | S0Echar (char) => FXITMatm (s1exp_char (loc0, char))
+//
+  | S0Eide id when id = AMPERSAND => let
+      fn f (
+        s1e: s1exp
+      ) :<cloref1> s1expitm = let
+        val loc = loc0 + s1e.s1exp_loc
+      in
+        FXITMatm (s1exp_invar (loc, 1(*ref*), s1e))
+      end // end of [f]
+    in
+      FXITMopr (loc0, FXOPRpre (invar_prec_sta, f))
+    end // end of [S0Eide when ...]
+  | S0Eide id when id = BANG => let
+      fn f (
+        s1e: s1exp
+      ) :<cloref1> s1expitm = let
+        val loc = loc0 + s1e.s1exp_loc
+      in
+        FXITMatm (s1exp_invar (loc, 0(*val*), s1e))
+      end // end of [f]
+    in
+      FXITMopr (loc0, FXOPRpre (invar_prec_sta, f))
+    end // end of [S0Eide when ...]
+  | S0Eide id when id = QMARKBANG => let
+      fn f (
+        s1e: s1exp
+      ) :<cloref1> s1expitm = let
+        val loc = s1e.s1exp_loc + loc0
+      in
+        FXITMatm (s1exp_top (loc0, 1(*knd*), s1e))
+      end // end of [f]
+    in
+      FXITMopr (loc0, FXOPRpos (qmarkbang_prec_sta, f))
+    end // end of [S0Eide when ...]
+  | S0Eide id when id = GTGT => let
+      fn f (
+        s1e1: s1exp, s1e2: s1exp
+      ) :<cloref1> s1expitm = let
+        val loc = s1e1.s1exp_loc + s1e2.s1exp_loc
+      in
+        FXITMatm (s1exp_trans (loc, s1e1, s1e2))
+      end // end of [f]
+    in
+      FXITMopr (loc0, FXOPRinf (trans_prec_sta, ASSOCnon, f))
+    end // end of [S0Eide when ...]
+//
+  | S0Eide (id) => let
+      val s1e = s1exp_ide (loc0, id) in
+      case+ the_fxtyenv_find id of
+      | ~Some_vt f => s1exp_make_opr (s1e, f) | ~None_vt () => FXITMatm (s1e)
+      // end of [case]
+    end // end of [S0Eide]
+  | S0Eopid (id) => FXITMatm (s1exp_ide (loc0, id))
+  | S0Esqid (sq, id) => FXITMatm (s1exp_sqid (loc0, sq, id))
+//
   | S0Eapp _ => let 
       val s1e_app = fixity_resolve (
         loc0, s1exp_get_loc, s1expitm_app (loc0), aux_itemlst s0e0
@@ -186,16 +255,84 @@ aux_item (
     in
       FXITMatm (s1e_app)
     end // end of [S0Eapp]
-  | S0Eint (int) => FXITMatm (s1exp_int (loc0, int))
-  | S0Eide (id) => let
-      val s1e = s1exp_ide (loc0, id)
+  | S0Elam (arg, res, body) => let
+      val arg = s0marg_tr arg
+      val res = s0rtopt_tr res
+      val body = s0exp_tr body
+      val s1e_lam = s1exp_lam (loc0, arg, res, body)
+(*
+      val () = begin
+        print "s0exp_tr: S0Elam: s1e_lam = "; print s1e_lam; print_newline ()
+      end // end of [val]
+*)
     in
-      case+ the_fxtyenv_find id of
-      | ~Some_vt f => s1exp_make_opr (s1e, f) | ~None_vt () => FXITMatm (s1e)
-      // end of [case]
-    end // end of [S0Eide]
-  | S0Eopid (id) => FXITMatm (s1exp_ide (loc0, id))
-  | S0Esqid (sq, id) => FXITMatm (s1exp_sqid (loc0, sq, id))
+      FXITMatm (s1e_lam)
+    end // end of [S0Elam]
+  | S0Eimp tags => let
+      val (ofc, lin, prf, efc) = e0fftaglst_tr (tags)
+      val fc = (case+ ofc of
+        | Some fc => fc | None => FUNCLOfun () // default is [function]
+      ) : funclo // end of [val]
+(*
+      val () = begin
+        print "s0exp_tr: S0Eimp: efc = "; print_effcst efc; print_newline ()
+      end // end of [val]
+*)
+      val- ~Some_vt (f) = the_fxtyenv_find (MINUSGT)
+      val s1e_imp = s1exp_imp (loc0, fc, lin, prf, Some efc)
+    in
+      s1exp_make_opr (s1e_imp, f)
+    end // end of [S0Eimp]
+//
+  | S0Elist (s0es) => let
+      val s1es = s0explst_tr s0es in FXITMatm (s1exp_list (loc0, s1es))
+    end // end of [S0Elist]
+  | S0Elist2 (s0es1, s0es2) => let
+      val s1es1 = list_map_fun (s0es1, s0exp_tr)
+      val s1es2 = list_map_fun (s0es2, s0exp_tr)
+    in
+      FXITMatm (s1exp_list2 (loc0, s1es1, s1es2))
+    end // end of [S0Elist2]
+//
+  | S0Etytup (knd, npf, s0es) => let
+      val s1es = s0explst_tr (s0es)
+    in
+      FXITMatm (s1exp_tytup (loc0, knd, npf, s1es))
+    end // end of [S0Etytup]
+  | S0Etyrec (knd, npf, ls0es) => let
+      val ls1es = l2l (list_map_fun (ls0es, labs0exp_tr))
+    in
+      FXITMatm (s1exp_tyrec (loc0, knd, npf, ls1es))
+    end // end of [S0Etyrec]
+  | S0Etyrec_ext (name, npf, ls0es) => let
+      val ls1es = l2l (list_map_fun (ls0es, labs0exp_tr))
+    in
+      FXITMatm (s1exp_tyrec_ext (loc0, name, npf, ls1es))
+    end // end of [S0Etyrec]
+//
+  | S0Eexi (knd(*funres*), s0qs) => let
+      val s1qs = s0qualst_tr s0qs
+      fn f (
+        body: s1exp
+      ) :<cloref1> s1expitm = let
+        val loc = loc0 + body.s1exp_loc in
+        FXITMatm (s1exp_exi (loc0, knd, s1qs, body))
+      end // end of [f]
+    in
+      FXITMopr (loc0, FXOPRpre (exi_prec_sta, f))
+    end // end of [S0Eexi]
+  | S0Euni (s0qs) => let
+      val s1qs = s0qualst_tr s0qs
+      fn f (
+        body: s1exp
+      ) :<cloref1> s1expitm = let
+        val loc = loc0 + body.s1exp_loc in
+        FXITMatm (s1exp_uni (loc, s1qs, body))
+      end // end of [f]
+    in
+      FXITMopr (loc0, FXOPRpre (uni_prec_sta, f))
+    end // end of [S0Euni]
+//
   | S0Eann (s0e, s0t) => let
       val s1e_ann = s1exp_ann (loc0, s0exp_tr (s0e), s0rt_tr (s0t))
     in
@@ -233,6 +370,13 @@ end // end of [local]
 
 implement
 s0explst_tr (xs) = l2l (list_map_fun (xs, s0exp_tr))
+
+(* ****** ****** *)
+
+implement
+labs0exp_tr (x) = let
+  val+ L0ABELED (l, s0e) = x in labs1exp_make (l, s0exp_tr (s0e))
+end // end of [labs0exp_tr]
 
 (* ****** ****** *)
 

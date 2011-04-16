@@ -34,8 +34,16 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+
+(* ****** ****** *)
+
 staload "pats_syntax.sats"
 staload "pats_staexp1.sats"
+
+(* ****** ****** *)
+
+#define l2l list_of_list_vt
 
 (* ****** ****** *)
 
@@ -199,6 +207,13 @@ d1atsrtdec_make
 (* ****** ****** *)
 
 implement
+s1arg_make (loc, sym, res) = '{
+  s1arg_loc= loc, s1arg_sym= sym, s1arg_srt= res
+}
+
+(* ****** ****** *)
+
+implement
 s1rtext_srt (loc, s1t) = '{
   s1rtext_loc= loc, s1rtext_node= S1TEsrt (s1t)
 }
@@ -223,15 +238,12 @@ s1qua_vars (loc, ids, s1te) = '{
 (* ****** ****** *)
 
 implement
-s1exp_app (
-  loc, _fun, loc_arg, _arg
-) = '{
-  s1exp_loc= loc, s1exp_node= S1Eapp (_fun, loc_arg, _arg)
-} // end of [s1exp_app]
-
-implement
 s1exp_int (loc, int) = '{
   s1exp_loc= loc, s1exp_node= S1Eint (int)
+}
+implement
+s1exp_char (loc, char) = '{
+  s1exp_loc= loc, s1exp_node= S1Echar (char)
 }
 
 implement
@@ -242,6 +254,25 @@ end // end of [s1exp_ide]
 implement
 s1exp_sqid (loc, sq, id) = '{
   s1exp_loc= loc, s1exp_node= S1Esqid (sq, id)
+}
+
+implement
+s1exp_app (
+  loc, _fun, loc_arg, _arg
+) = '{
+  s1exp_loc= loc, s1exp_node= S1Eapp (_fun, loc_arg, _arg)
+} // end of [s1exp_app]
+
+implement
+s1exp_lam (loc, arg, res, body) = '{
+  s1exp_loc= loc, s1exp_node= S1Elam (arg, res, body)
+}
+
+implement
+s1exp_imp (
+  loc, ft, is_lin, is_prf, efc
+) = '{
+  s1exp_loc= loc, s1exp_node= S1Eimp (ft, is_lin, is_prf, efc)
 }
 
 implement
@@ -259,16 +290,70 @@ s1exp_list
 implement
 s1exp_list2
   (loc, s1es1, s1es2) =  let
-  val npf = list_length s1es1
-  val s1es = list_append (s1es1, s1es2)
+  val npf = list_vt_length s1es1
+  val s1es = list_vt_append (s1es1, s1es2)
+  val s1es = l2l (s1es)
 in '{
   s1exp_loc= loc, s1exp_node= S1Elist (npf, s1es)
 } end // end of [s1exp_list2]
 
 implement
+s1exp_top (loc, knd, s1e) = '{
+  s1exp_loc= loc, s1exp_node= S1Etop (knd, s1e)
+}
+
+implement
+s1exp_invar (loc, knd, s1e) = '{
+  s1exp_loc= loc, s1exp_node= S1Einvar (knd, s1e)
+}
+implement
+s1exp_trans (loc, s1e1, s1e2) = '{
+  s1exp_loc= loc, s1exp_node= S1Etrans (s1e1, s1e2)
+}
+
+implement
+s1exp_tytup (
+  loc, knd, npf, s1es
+) = '{
+  s1exp_loc= loc, s1exp_node= S1Etytup (knd, npf, s1es)
+}
+
+implement
+s1exp_tyrec (
+  loc, knd, npf, ls1es
+) = '{
+  s1exp_loc= loc, s1exp_node= S1Etyrec (knd, npf, ls1es)
+} // end of [s1exp_tyrec]
+
+implement
+s1exp_tyrec_ext (
+  loc, name, npf, ls1es
+) = '{
+  s1exp_loc= loc, s1exp_node= S1Etyrec_ext (name, npf, ls1es)
+} // end of [s1exp_tyrec_ext]
+
+(* ****** ****** *)
+
+implement
+s1exp_exi (loc, knd, s1qs, s1e) = '{
+  s1exp_loc= loc, s1exp_node= S1Eexi (knd, s1qs, s1e)
+}
+
+implement
+s1exp_uni (loc, s1qs, s1e) = '{
+  s1exp_loc= loc, s1exp_node= S1Euni (s1qs, s1e)
+}
+
+(* ****** ****** *)
+
+implement
 s1exp_ann (loc, s1e, s1t) = '{
   s1exp_loc= loc, s1exp_node= S1Eann (s1e, s1t)
 }
+
+(* ****** ****** *)
+
+implement labs1exp_make (l, s1e) = L0ABELED (l, s1e)
 
 (* ****** ****** *)
 
@@ -292,6 +377,30 @@ s1tacst_make (
 , s1tacst_arg= arg
 , s1tacst_res= res
 } // end of [s1tacst_make]
+
+(* ****** ****** *)
+
+implement
+s1expdef_make (
+  loc, id, arg, res, def
+) = '{
+  s1expdef_loc= loc
+, s1expdef_sym= id
+, s1expdef_arg= arg
+, s1expdef_res= res
+, s1expdef_def= def
+} // end of [s1expdef_make]
+
+implement
+s1aspdec_make (
+  loc, qid, arg, res, def
+) = '{
+  s1aspdec_loc= loc
+, s1aspdec_qid= qid
+, s1aspdec_arg= arg
+, s1aspdec_res= res
+, s1aspdec_def= def
+} // end of [s1aspdec_make]
 
 (* ****** ****** *)
 

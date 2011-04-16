@@ -178,11 +178,48 @@ fprint_d1atsrtdec (out, x) = {
 (* ****** ****** *)
 
 implement
+fprint_s1arg (out, x) = {
+  val () = fprint_symbol (out, x.s1arg_sym)
+  val () = (case+ x.s1arg_srt of
+    | Some s1t => (
+        fprint_string (out, ": "); fprint_s1rt (out, s1t)
+      ) // end of [Some]
+    | None () => ()
+  ) : void // end of [val]
+} // end of [fprint_s1arg]
+
+implement
+fprint_s1arglst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_s1arg)
+// end of [fprint_s1arglst]
+
+(* ****** ****** *)
+
+implement
 fprint_s1exp (out, x) = let
   macdef prstr (s) = fprint_string (out, ,(s))
 in
 //
 case+ x.s1exp_node of
+//
+| S1Eint (int) => {
+    val () = prstr "S1Eint("
+    val () = fprint_i0nt (out, int)
+    val () = prstr ")"
+  }
+| S1Echar (char) => {
+    val () = prstr "S1Echar("
+    val () = fprint_c0har (out, char)
+    val () = prstr ")"
+  }
+//
+| S1Esqid (sq, id) => {
+    val () = prstr "S1Esqid("
+    val () = fprint_s0taq (out, sq)
+    val () = fprint_symbol (out, id)
+    val () = prstr ")"
+  }
+//
 | S1Eapp (
     s1e, _(*loc_arg*), s1es
   ) => {
@@ -192,17 +229,23 @@ case+ x.s1exp_node of
     val () = fprint_s1explst (out, s1es)
     val () = prstr ")"
   }
-| S1Eint (int) => {
-    val () = prstr "S1Eint("
-    val () = fprint_i0nt (out, int)
+| S1Elam (
+    arg, res, body
+  ) => {
+    val () = prstr "S1Elam("
+    val () = fprint_s1arglst (out, arg)
+    val () = prstr "; "
+    val () = fprint_s1rtopt (out, res)
+    val () = prstr "; "
+    val () = fprint_s1exp (out, body)
     val () = prstr ")"
   }
-| S1Esqid (sq, id) => {
-    val () = prstr "S1Esqid("
-    val () = fprint_s0taq (out, sq)
-    val () = fprint_symbol (out, id)
+| S1Eimp _ => {
+    val () = prstr "S1Eimp("
+    val () = fprint_string (out, "...")
     val () = prstr ")"
   }
+//
 | S1Elist (npf, s1es) => {
     val () = prstr "S1Elist("
     val () = fprint_int (out, npf)
@@ -210,6 +253,76 @@ case+ x.s1exp_node of
     val () = fprint_s1explst (out, s1es)
     val () = prstr ")"
   }
+//
+| S1Etop (knd, s1e) => {
+    val () = prstr "S1Etop("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_s1exp (out, s1e)
+    val () = prstr ")"
+  }
+//
+| S1Einvar (knd, s1e) => {
+    val () = prstr "S1Einvar("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_s1exp (out, s1e)
+    val () = prstr ")"
+  }
+| S1Etrans (s1e1, s1e2) => {
+    val () = prstr "S1Etrans("
+    val () = fprint_s1exp (out, s1e1)
+    val () = prstr " >> "
+    val () = fprint_s1exp (out, s1e2)
+    val () = prstr ")"
+  }
+//
+| S1Etytup (knd, npf, s1es) => {
+    val () = prstr "S1Etytup("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_s1explst (out, s1es)
+    val () = prstr ")"
+  }
+| S1Etyrec (knd, npf, ls1es) => {
+    val () = prstr "S1Etyrec("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_labs1explst (out, ls1es)
+    val () = prstr ")"
+  }
+| S1Etyrec_ext
+    (name, npf, ls1es) => {
+    val () = prstr "S1Etyrec_ext("
+    val () = fprint_string (out, name)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_labs1explst (out, ls1es)
+    val () = prstr ")"
+  }
+//
+| S1Eexi (knd, qua, body) => {
+    val () = prstr "S1Eexi("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_s1qualst (out, qua)
+    val () = prstr "; "
+    val () = fprint_s1exp (out, body)
+    val () = prstr ")"
+  }
+| S1Euni (qua, body) => {
+    val () = prstr "S1Euni("
+    val () = fprint_s1qualst (out, qua)
+    val () = prstr "; "
+    val () = fprint_s1exp (out, body)
+    val () = prstr ")"
+  }
+//
 | S1Eann (s1e, s1t) => {
     val () = prstr "S1Eann("
     val () = fprint_s1exp (out, s1e)
@@ -217,12 +330,33 @@ case+ x.s1exp_node of
     val () = fprint_s1rt (out, s1t)
     val () = prstr ")"
   }
+//
+(*
 | _ => prstr "S0E...(...)"
+*)
 //
 end // end of [fprint_s1exp]
 
 implement
-fprint_s1explst (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_s1exp)
+fprint_s1explst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_s1exp)
+// end of [fprint_s1explst]
+
+(* ****** ****** *)
+
+implement
+fprint_labs1exp
+  (out, x) = () where {
+  val+ L0ABELED (l, s1e) = x
+  val () = fprint_l0ab (out, l)
+  val () = fprint_string (out, "= ")
+  val () = fprint_s1exp (out, s1e)
+} // end of [fprint_labs1exp]
+
+implement
+fprint_labs1explst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_labs1exp)
+// end of [fprint_labs1explst]
 
 (* ****** ****** *)
 
@@ -253,6 +387,42 @@ end // end of [fprint_s1rtext]
 (* ****** ****** *)
 
 implement
+fprint_s1qua
+  (out, x) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+  case+ x.s1qua_node of
+  | S1Qprop (s1p) => {
+      val () = prstr "S1Qprop("
+      val () = fprint_s1exp (out, s1p)
+      val () = prstr ")"
+    }
+  | S1Qvars (ids, s1te) => {
+      val () = prstr "S1Qvars("
+      val () = $UT.fprintlst (out, ids, ", ", fprint_i0de)
+      val () = prstr " : "
+      val () = fprint_s1rtext (out, s1te)
+      val () = prstr ")"
+    }
+end // end of [fprint_s1qua]
+
+implement
+fprint_s1qualst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_s1qua)
+// end of [fprint_s1qualst]
+
+(* ****** ****** *)
+
+implement
+fprint_s1rtdef (out, x) = {
+  val () = fprint_symbol (out, x.s1rtdef_sym)
+  val () = fprint_string (out, " = ")
+  val () = fprint_s1rtext (out, x.s1rtdef_def)
+}
+
+(* ****** ****** *)
+
+implement
 fprint_s1tacst (out, x) = {
   val () = fprint_symbol (out, x.s1tacst_sym)
   val () = fprint_string (out, "(")
@@ -264,11 +434,36 @@ fprint_s1tacst (out, x) = {
 (* ****** ****** *)
 
 implement
-fprint_s1rtdef (out, x) = {
-  val () = fprint_symbol (out, x.s1rtdef_sym)
-  val () = fprint_string (out, " = ")
-  val () = fprint_s1rtext (out, x.s1rtdef_def)
-}
+fprint_s1expdef (out, x) = {
+  macdef prstr (s) = fprint_string (out, ,(s))
+  val () = fprint_symbol (out, x.s1expdef_sym)
+  val () = prstr "("
+  val () = $UT.fprintlst (out, x.s1expdef_arg, "; ", fprint_s1arglst)
+  val () = prstr ")"
+  val () = (case+ x.s1expdef_res of
+    | Some s1t => (prstr ": "; fprint_s1rt (out, s1t))
+    | None () => ()
+  ) : void // end of [val]
+  val () = prstr " = "
+  val () = fprint_s1exp (out, x.s1expdef_def)
+} // end of [fprint_s1expdef]
+
+(* ****** ****** *)
+
+implement
+fprint_s1aspdec (out, x) = {
+  macdef prstr (s) = fprint_string (out, ,(s))
+  val () = fprint_sqi0de (out, x.s1aspdec_qid)
+  val () = prstr "("
+  val () = $UT.fprintlst (out, x.s1aspdec_arg, "; ", fprint_s1arglst)
+  val () = prstr ")"
+  val () = (case+ x.s1aspdec_res of
+    | Some s1t => (prstr ": "; fprint_s1rt (out, s1t))
+    | None () => ()
+  ) : void // end of [val]
+  val () = prstr " = "
+  val () = fprint_s1exp (out, x.s1aspdec_def)
+} // end of [fprint_s1expdef]
 
 (* ****** ****** *)
 
