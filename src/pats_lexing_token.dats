@@ -205,6 +205,17 @@ implement ZERO = T_INTEGER (10(*base*), "0", 0u(*sfx*))
 
 (* ****** ****** *)
 
+implement
+tnode_is_comment
+  (x) = case+ x of
+  | T_COMMENT_line () => true
+  | T_COMMENT_block () => true
+  | T_COMMENT_rest () => true
+  | _ => false
+// end of [tnode_is_comment]
+
+(* ****** ****** *)
+
 local
 
 %{^

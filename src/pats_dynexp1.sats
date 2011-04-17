@@ -53,24 +53,18 @@ datatype d1ecl_node =
       i0delst
   | D1Ce1xpdef of (symbol, e1xp)
   | D1Cdatsrts of d1atsrtdeclst // datasorts
-  | D1Csrtdefs of s1rtdeflst // sort definition
-(*
-  | D1Cstacons of (* static constructor *)
-      (abskind, s1taconlst)
-*)
+  | D1Csrtdefs of s1rtdeflst // sort definitions
   | D1Cstacsts of s1tacstlst // static constants
-(*
-  | D1Cstavars of s1tavarlst // static variable
-*)
-  | D1Csexpdefs of (int(*knd*), s1expdeflst) // static definition
+  | D1Cstacons of (int(*knd*), s1taconlst) // static constructors
+  | D1Cstavars of s1tavarlst // static variables
+  | D1Csexpdefs of (int(*knd*), s1expdeflst) // static definitions
   | D1Csaspdec of s1aspdec // static assumption
+//
+  | D1Cdatdecs of (int(*knd*), d1atdeclst, s1expdeflst) // DT declarations
+  | D1Cexndecs of e1xndeclst // exception declaration
+  | D1Cdcstdecs of (dcstkind, q1marglst, d1cstdeclst) // dyn constants
+//
 (*
-  | D1Cdcstdecs of (* dynamic constant *)
-      (dcstkind, s1qualstlst, d1cstdeclst)
-  | D1Cdatdecs of (* datatype declaration *)
-      (datakind, d1atdeclst, s1expdeflst)
-  | D1Cexndecs of (* exception declaration *)
-      e1xndeclst
   | D1Cclassdec of (i0de, s1expopt)
   | D1Coverload of (i0de, dqi0de) // overloading declaration
   | D1Cextype of (* external type *)
@@ -119,12 +113,24 @@ fun d1ecl_datsrts (loc: location, ds: d1atsrtdeclst): d1ecl
 fun d1ecl_srtdefs (loc: location, ds: s1rtdeflst): d1ecl
 
 fun d1ecl_stacsts (loc: location, ds: s1tacstlst): d1ecl
+fun d1ecl_stacons (loc: location, knd: int, ds: s1taconlst): d1ecl
+fun d1ecl_stavars (loc: location, ds: s1tavarlst): d1ecl
 
 fun d1ecl_sexpdefs
   (loc: location, knd: int, ds: s1expdeflst): d1ecl
 // end of [d1ecl_sexpdefs]
 
 fun d1ecl_saspdec (loc: location, d: s1aspdec): d1ecl
+
+fun d1ecl_datdecs (
+  loc: location, knd: int, ds1: d1atdeclst, ds2: s1expdeflst
+) : d1ecl // end of [d1ecl_datdecs]
+
+fun d1ecl_exndecs (loc: location, ds: e1xndeclst): d1ecl
+
+fun d1ecl_dcstdecs (
+  loc: location, dck: dcstkind, qarg: q1marglst, ds: d1cstdeclst
+) : d1ecl // end of [d1ec_dcstdecs]
 
 fun d1ecl_local (loc: location, ds1: d1eclist, ds2: d1eclist): d1ecl
 

@@ -145,6 +145,8 @@ parerr_node =
   | PE_d0ecl_sta
   | PE_d0ecl_dyn
   | PE_guad0ecl
+//
+  | PE_DISCARD of ()
 // end of [parerr_node]
 
 typedef parerr = '{

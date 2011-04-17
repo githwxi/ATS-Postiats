@@ -660,15 +660,6 @@ case+ tok.token_node of
     // end of [if]
   end
 //
-| T_ABSTYPE (knd) => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = p_s0taconseq (buf, bt, err)
-  in
-    if err = err0 then
-      d0ecl_stacons (knd, tok, ent2) else synent_null ()
-    // end of [if]
-  end
 | T_STACST () => let
     val bt = 0
     val () = incby1 ()
@@ -676,6 +667,15 @@ case+ tok.token_node of
   in
     if err = err0 then
       d0ecl_stacsts (tok, ent2) else synent_null ()
+    // end of [if]
+  end
+| T_ABSTYPE (knd) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_s0taconseq (buf, bt, err)
+  in
+    if err = err0 then
+      d0ecl_stacons (knd, tok, ent2) else synent_null ()
     // end of [if]
   end
 | T_STAVAR () => let

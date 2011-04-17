@@ -204,13 +204,32 @@ end // end of [s0tacst_tr]
 (* ****** ****** *)
 
 implement
+s0tacon_tr (d) = let
+  val arg = a0msrtlst_tr (d.s0tacon_arg)
+  val def = s0expopt_tr (d.s0tacon_def)
+in
+  s1tacon_make (d.s0tacon_loc, d.s0tacon_sym, arg, def)
+end // end of [s0tacon_tr]
+
+(* ****** ****** *)
+
+implement
+s0tavar_tr (d) = let
+  val srt = s0rt_tr (d.s0tavar_srt)
+in
+  s1tavar_make (d.s0tavar_loc, d.s0tavar_sym, srt)
+end // end of [s0tavar_tr]
+
+(* ****** ****** *)
+
+implement
 s0rtdef_tr (d) = let
   val s1te = s0rtext_tr d.s0rtdef_def
-// (*
+(*
   val () = print "s0rtdef_tr: s1te = "
   val () = fprint_s1rtext (stdout_ref, s1te)
   val () = print_newline ()
-// *)
+*)
 in
   s1rtdef_make (d.s0rtdef_loc, d.s0rtdef_sym, s1te)
 end // end of [s0rtdef_tr]
@@ -249,6 +268,67 @@ end // end of [s0aspdec_tr]
 (* ****** ****** *)
 
 implement
+d0atdec_tr (d) = let
+  val arg = a0msrtlst_tr (d.d0atdec_arg)
+  val con = l2l (list_map_fun (d.d0atdec_con, d0atcon_tr))
+in
+  d1atdec_make (
+    d.d0atdec_loc, d.d0atdec_fil, d.d0atdec_sym, arg, con
+  ) // end of [d1atdec_make]
+end // end of [d0atdec_tr]
+
+(* ****** ****** *)
+
+implement
+e0xndec_tr (d) = let
+  val qua = d.e0xndec_qua
+  val qua = q0marglst_tr (qua)
+  var npf0: int = 0
+  val arg = (case+ d.e0xndec_arg of
+    | Some s0e => let
+        val s1e = s0exp_tr s0e in
+        case+ s1e.s1exp_node of
+        | S1Elist (npf, s1es) => (npf0 := npf; s1es)
+        | _ => cons (s1e, nil ())
+      end // end of [Some]
+    | None () => nil ()
+  ) : s1explst // end of [val]
+in
+  e1xndec_make (
+    d.e0xndec_loc, d.e0xndec_fil, d.e0xndec_sym, qua, npf0, arg
+  ) // end of [e1xndec_make]
+end // end of [e0xndec_tr]
+
+(* ****** ****** *)
+
+fun token_get_dcstkind
+  (tok: token): dcstkind = (
+  case+ tok.token_node of
+  | T_FUN (fk) => (
+      case+ fk of
+      | FK_fun () => DCKfun ()
+      | FK_prfun () => DCKprfun ()
+      | FK_praxi () => DCKpraxi ()
+      | FK_castfn () => DCKcastfn ()
+      | FK_fn () => DCKfun ()
+      | FK_fnstar () => DCKfun ()
+      | FK_prfn () => DCKprfun ()
+    ) // end of [T_FUN]
+  | T_VAL (vk) => (
+      case+ vk of
+      | VK_val () => DCKval ()
+      | VK_prval () => DCKprval ()
+      | VK_val_pos () => DCKval ()
+      | VK_val_neg () => DCKval ()
+    ) // end of [T_VAL]
+  | _ => let
+      val () = assertloc (false) in DCKfun ()
+    end // end of [_]
+) // end of [token_get_dcstkind]
+
+(* ****** ****** *)
+
+implement
 d0ecl_tr (d0c0) = let
   val loc0 = d0c0.d0ecl_loc
 in
@@ -277,6 +357,16 @@ case+ d0c0.d0ecl_node of
   in
     d1ecl_stacsts (loc0, d1cs)
   end // end of [D0Cstacsts]
+| D0Cstacons (knd, d0cs) => let
+    val d1cs = l2l (list_map_fun (d0cs, s0tacon_tr))
+  in
+    d1ecl_stacons (loc0, knd, d1cs)
+  end // end of [D0Cstacons]
+| D0Cstavars (d0cs) => let
+    val d1cs = l2l (list_map_fun (d0cs, s0tavar_tr))
+  in
+    d1ecl_stavars (loc0, d1cs)
+  end // end of [D0Cstavars]
 //
 | D0Csexpdefs (knd, d0cs) => let
     val d1cs = l2l (list_map_fun (d0cs, s0expdef_tr))
@@ -284,6 +374,28 @@ case+ d0c0.d0ecl_node of
     d1ecl_sexpdefs (loc0, knd, d1cs)
   end // end of [D0Csexpdefs]
 | D0Csaspdec (d0c) => d1ecl_saspdec (loc0, s0aspdec_tr d0c)
+//
+| D0Cdatdecs (knd, d0cs1, d0cs2) => let
+    val d1cs1 = l2l (list_map_fun (d0cs1, d0atdec_tr))
+    val d1cs2 = l2l (list_map_fun (d0cs2, s0expdef_tr))
+  in
+    d1ecl_datdecs (loc0, knd, d1cs1, d1cs2)
+  end // end of [D0Cdatdecs]
+| D0Cexndecs (d0cs) =>
+    d1ecl_exndecs (loc0, l2l (list_map_fun (d0cs, e0xndec_tr)))
+  (* end of [D0Cexndecs] *)
+//
+| D0Cdcstdecs (
+    tok, qarg, d0cs
+  ) => let
+    val dck = token_get_dcstkind (tok)
+    val isfun = dcstkind_is_fun (dck)
+    and isprf = dcstkind_is_proof (dck)
+    val qarg = q0marglst_tr (qarg)
+    val d1cs = d0cstdeclst_tr (isfun, isprf, d0cs)
+  in
+    d1ecl_dcstdecs (loc0, dck, qarg, d1cs)
+  end // end of [D0Cdcstdecs]
 //
 | D0Clocal (
     d0cs_head, d0cs_body
@@ -298,12 +410,82 @@ case+ d0c0.d0ecl_node of
   in
     d1ecl_local (d0c0.d0ecl_loc, d1cs_head, d1cs_body)
   end // end of [D0Clocal]
-| _ => d1ecl_none (loc0)
+| _ => let
+    val () = $LOC.prerr_location (loc0)
+    val () = prerr ": d0ecl_tr: not implemented: d0c0 = "
+    val () = fprint_d0ecl (stderr_ref, d0c0)
+    val () = prerr_newline ()
+    val () =  $ERR.abort ()
+  in
+    d1ecl_none (loc0)
+  end // end of [_]
 //
 end // end of [d0ecl_tr]
 
 implement
 d0eclist_tr (d0cs) = l2l (list_map_fun<d0ecl> (d0cs, d0ecl_tr))
+
+(* ****** ****** *)
+
+%{$
+
+extern
+char *atspre_string_make_substring (char*, int, int) ;
+
+ats_bool_type
+atsopt_extnam_ismac (
+  ats_ptr_type ext, ats_ptr_type ext_new
+) {
+  int sgn ;
+  char* p ; int len ; 
+/*
+  sgn = strncmp ((char*)ext, "#", 1) ;
+  if (sgn) sgn = strncmp ((char*)ext, "mac#", 4) ;
+*/
+  sgn = strncmp ((char*)ext, "mac#", 4) ;
+//
+  if (sgn == 0) {
+    p = strchr ((char*)ext, '#') ;
+    len = strlen (p) ;
+    *(char**)ext_new = (char*)atspre_string_make_substring(p, 1, len-1) ;
+    return ats_true_bool ;
+  } // end of [if]
+  return ats_false_bool ;
+} // end of [atsopt_extnam_ismac]
+
+ats_bool_type
+atsopt_extnam_issta (
+  ats_ptr_type ext, ats_ptr_type ext_new
+) {
+  int sgn ;
+  char* p ; int len ; 
+  sgn = strncmp ((char*)ext, "sta#", 4) ;
+  if (sgn == 0) {
+    p = strchr ((char*)ext, '#') ;
+    len = strlen (p) ;
+    *(char**)ext_new = (char*)atspre_string_make_substring(p, 1, len-1) ;
+    return ats_true_bool ;
+  } // end of [if]
+  return ats_false_bool ;
+} // end of [atsopt_extnam_issta]
+
+ats_bool_type
+atsopt_extnam_isext (
+  ats_ptr_type ext, ats_ptr_type ext_new
+) {
+  int sgn ;
+  char* p ; int len ; 
+  sgn = strncmp ((char*)ext, "ext#", 4) ;
+  if (sgn == 0) {
+    p = strchr ((char*)ext, '#') ;
+    len = strlen (p) ;
+    *(char**)ext_new = (char*)atspre_string_make_substring(p, 1, len-1) ;
+    return ats_true_bool ;
+  } // end of [if]
+  return ats_false_bool ;
+} // end of [atsopt_extnam_isext]
+
+%} // end of [%{$]
 
 (* ****** ****** *)
 

@@ -55,10 +55,24 @@ d1ecl_srtdefs (loc, xs) = '{
   d1ecl_loc= loc, d1ecl_node= D1Csrtdefs (xs)
 }
 
+(* ****** ****** *)
+
 implement
 d1ecl_stacsts (loc, xs) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cstacsts (xs)
 }
+
+implement
+d1ecl_stacons (loc, knd, xs) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cstacons (knd, xs)
+}
+
+implement
+d1ecl_stavars (loc, xs) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cstavars (xs)
+}
+
+(* ****** ****** *)
 
 implement
 d1ecl_sexpdefs (loc, knd, xs) = '{
@@ -69,6 +83,29 @@ implement
 d1ecl_saspdec (loc, x) = '{
   d1ecl_loc= loc, d1ecl_node= D1Csaspdec (x)
 }
+
+(* ****** ****** *)
+
+implement
+d1ecl_datdecs (
+  loc, knd, d1cs_datdec, d1cs_sexpdef
+) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cdatdecs (knd, d1cs_datdec, d1cs_sexpdef)
+} // end of [d1ecl_datdecs]
+
+implement
+d1ecl_exndecs (loc, d1cs) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cexndecs (d1cs)
+}
+
+(* ****** ****** *)
+
+implement
+d1ecl_dcstdecs (loc, dck, qarg, ds) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cdcstdecs (dck, qarg, ds)
+} // end of [d1ecl_dcstdecs]
+
+(* ****** ****** *)
 
 implement
 d1ecl_local (loc, ds_head, ds_body) = '{

@@ -91,6 +91,13 @@ dcstkind_is_prval (x) =
 // end of [dcstkind_is_prval]
 
 implement
+dcstkind_is_proof (dk) =
+  case+ dk of
+  | DCKpraxi () => true | DCKprfun () => true | DCKprval () => true
+  | _ => false
+// end of [dcstkind_is_proof]
+
+implement
 dcstkind_is_castfn (x) =
   case+ x of DCKcastfn () => true | _ => false
 // end of [dcstkind_is_castfn]

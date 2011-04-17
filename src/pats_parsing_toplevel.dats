@@ -107,7 +107,18 @@ end // end of [pskip_tokbuf]
 
 fun pskip1_tokbuf_reset
   (buf: &tokbuf): token = let
+//
+  val tok = tokbuf_get_token (buf)
+  val () = (case+ tok.token_node of
+    | T_EOF () => ()
+    | node when tnode_is_comment (node) => ()
+    | _ => {
+        val err = parerr_make (tok.token_loc, PE_DISCARD)
+        val () = the_parerrlst_add (err)
+      } // end of [_]
+  ) : void // end of [val]
   val () = tokbuf_incby1 (buf)
+//
   val tok = pskip_tokbuf (buf)
   val () = tokbuf_reset (buf)
 in

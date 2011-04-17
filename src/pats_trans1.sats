@@ -71,9 +71,9 @@ fun s0rtopt_tr (_: s0rtopt): s1rtopt
 
 (* ****** ****** *)
 
-fun a0srt_tr (x: a0srt): s1rt
-fun a0msrt_tr (x: a0msrt): s1rtlst
-fun a0msrtlst_tr (x: a0msrtlst): s1rtlstlst
+fun a0srt_tr (x: a0srt): a1srt
+fun a0msrt_tr (x: a0msrt): a1msrt
+fun a0msrtlst_tr (x: a0msrtlst): a1msrtlst
 
 (* ****** ****** *)
 
@@ -84,6 +84,7 @@ fun s0marglst_tr (xss: s0marglst): s1arglstlst
 
 fun s0exp_tr (x: s0exp): s1exp
 fun s0explst_tr (x: s0explst): s1explst
+fun s0expopt_tr (x: s0expopt): s1expopt
 
 fun labs0exp_tr (x: labs0exp): labs1exp
 
@@ -105,9 +106,37 @@ fun d0atsrtdec_tr (d: d0atsrtdec): d1atsrtdec
 (* ****** ****** *)
 
 fun s0rtdef_tr (x: s0rtdef): s1rtdef
+
 fun s0tacst_tr (x: s0tacst): s1tacst
+fun s0tacon_tr (x: s0tacon): s1tacon
+fun s0tavar_tr (x: s0tavar): s1tavar
+
 fun s0expdef_tr (x: s0expdef): s1expdef
 fun s0aspdec_tr (x: s0aspdec): s1aspdec
+
+(* ****** ****** *)
+
+fun q0marg_tr (x: q0marg): q1marg
+fun q0marglst_tr (x: q0marglst): q1marglst
+
+(* ****** ****** *)
+
+fun d0atcon_tr (d: d0atcon): d1atcon
+fun d0atdec_tr (d: d0atdec): d1atdec
+fun e0xndec_tr (d: e0xndec): e1xndec
+
+(* ****** ****** *)
+
+fun dcstextdef_tr (ext: Stropt): dcstextdef
+
+(* ****** ****** *)
+
+fun a0typ_tr (x: a0typ): s1exp
+fun a0typlst_tr (x: a0typlst): s1explst
+
+fun d0cstdeclst_tr
+  (isfun: bool, isprf: bool, ds: d0cstdeclst): d1cstdeclst
+// end of [d0cstdeclst_tr]
 
 (* ****** ****** *)
 

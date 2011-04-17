@@ -146,6 +146,14 @@ fun synent_needed (
   val () = fprint_newline (out)
 } // end of [synent_needed]
 
+fun token_discarded (
+  out: FILEref, x: parerr
+) : void = () where {
+  val () = fprint (out, x.parerr_loc)
+  val () = fprintf (out, ": error(parsing): the token is discarded.", @())
+  val () = fprint_newline (out)
+} // end of [token_discarded]
+
 (* ****** ****** *)
 
 implement
@@ -270,6 +278,9 @@ case+ node of
 | PE_d0ecl_sta () => SN (x, "d0ecl_sta")
 | PE_d0ecl_dyn () => SN (x, "d0ecl_dyn")
 | PE_guad0ecl () => SN (x, "guad0ecl")
+//
+| PE_DISCARD () => token_discarded (out, x)
+//
 (*
 | _ => {
     val () = fprint (out, loc)

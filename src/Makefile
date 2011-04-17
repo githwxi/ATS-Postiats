@@ -71,11 +71,13 @@ SOURCES := \
   pats_lexing_print.dats \
   pats_lexing_error.dats \
   pats_lexing.dats \
+  pats_label.sats \
+  pats_label.dats \
+  pats_effect.sats \
+  pats_effect.dats \
   pats_fixity.sats \
   pats_fixity_prec.dats \
   pats_fixity_fxty.dats \
-  pats_label.sats \
-  pats_label.dats \
   pats_syntax.sats \
   pats_syntax_print.dats \
   pats_syntax.dats \
@@ -107,6 +109,7 @@ SOURCES := \
   pats_trans1_env.sats \
   pats_trans1_env.dats \
   pats_trans1_e0xp.dats \
+  pats_trans1_effect.dats \
   pats_trans1_sort.dats \
   pats_trans1_staexp.dats \
   pats_trans1_dynexp.dats \

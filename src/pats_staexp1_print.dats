@@ -196,6 +196,38 @@ fprint_s1arglst
 (* ****** ****** *)
 
 implement
+fprint_a1srt (out, x) = {
+  val () = (case+ x.a1srt_sym of
+    | Some sym => (
+        fprint_symbol (out, sym); fprint_string (out, ": ")
+      ) // end of [Some]
+    | None () => ()
+  ) : void // end of [val]
+  val () = fprint_s1rt (out, x.a1srt_srt)
+} // end of [fprint_a1srt]
+
+implement
+fprint_a1srtlst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_a1srt)
+// end of [fprint_a1srtlst]
+
+(* ****** ****** *)
+
+implement
+fprint_a1msrt (out, x) = {
+  val () = fprint_string (out, "(")
+  val () = fprint_a1srtlst (out, x.a1msrt_arg)
+  val () = fprint_string (out, ")")
+}
+
+implement
+fprint_a1msrtlst
+  (out, xs) = $UT.fprintlst (out, xs, " ", fprint_a1msrt)
+// end of [fprint_a1msrtlst]
+
+(* ****** ****** *)
+
+implement
 fprint_s1exp (out, x) = let
   macdef prstr (s) = fprint_string (out, ,(s))
 in
@@ -342,6 +374,11 @@ fprint_s1explst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_s1exp)
 // end of [fprint_s1explst]
 
+implement
+fprint_s1expopt
+  (out, opt) = $UT.fprintopt (out, opt, fprint_s1exp)
+// end of [fprint_s1expopt]
+
 (* ****** ****** *)
 
 implement
@@ -426,10 +463,30 @@ implement
 fprint_s1tacst (out, x) = {
   val () = fprint_symbol (out, x.s1tacst_sym)
   val () = fprint_string (out, "(")
-  val () = fprint_s1rtlstlst (out, x.s1tacst_arg)
+  val () = fprint_a1msrtlst (out, x.s1tacst_arg)
   val () = fprint_string (out, ") : ")
   val () = fprint_s1rt (out, x.s1tacst_res)
 } // end of [fprint_s1tacst]
+
+(* ****** ****** *)
+
+implement
+fprint_s1tacon (out, x) = {
+  val () = fprint_symbol (out, x.s1tacon_sym)
+  val () = fprint_string (out, "(")
+  val () = fprint_a1msrtlst (out, x.s1tacon_arg)
+  val () = fprint_string (out, ") = ")
+  val () = fprint_s1expopt (out, x.s1tacon_def)
+} // end of [fprint_s1tacon]
+
+(* ****** ****** *)
+
+implement
+fprint_s1tavar (out, x) = {
+  val () = fprint_symbol (out, x.s1tavar_sym)
+  val () = fprint_string (out, " : ")
+  val () = fprint_s1rt (out, x.s1tavar_srt)
+} // end of [fprint_s1tavar]
 
 (* ****** ****** *)
 
@@ -464,6 +521,38 @@ fprint_s1aspdec (out, x) = {
   val () = prstr " = "
   val () = fprint_s1exp (out, x.s1aspdec_def)
 } // end of [fprint_s1expdef]
+
+(* ****** ****** *)
+
+implement
+fprint_q1marg (out, x) = {
+  val () = fprint_string (out, "{")
+  val () = fprint_s1qualst (out, x.q1marg_arg)
+  val () = fprint_string (out, "}")
+}
+
+(* ****** ****** *)
+
+implement
+fprint_e1xndec (out, x) = {
+  val () = fprint_symbol (out, x.e1xndec_sym)
+  val () = fprint_string (out, " : ")
+  val () = $UT.fprintlst (out, x.e1xndec_qua, " ", fprint_q1marg)
+  val () = fprint_string (out, "(")
+  val () = fprint_int (out, x.e1xndec_npf)
+  val () = fprint_string (out, "; ")
+  val () = fprint_s1explst (out, x.e1xndec_arg)
+  val () = fprint_string (out, ")")
+} // end of [fprint_e1xndec]
+
+(* ****** ****** *)
+
+implement
+fprint_d1cstdec (out, x) = {
+  val () = fprint_symbol (out, x.d1cstdec_sym)
+  val () = fprint_string (out, " : ")
+  val () = fprint_s1exp (out, x.d1cstdec_typ)
+} // end of [d1cstdec]
 
 (* ****** ****** *)
 

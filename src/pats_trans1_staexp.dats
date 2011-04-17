@@ -371,12 +371,245 @@ end // end of [local]
 implement
 s0explst_tr (xs) = l2l (list_map_fun (xs, s0exp_tr))
 
+implement
+s0expopt_tr (opt) = case+ opt of
+  | Some x => Some (s0exp_tr (x)) | None () => None ()
+// end of [s0expopt_tr]
+
 (* ****** ****** *)
 
 implement
 labs0exp_tr (x) = let
   val+ L0ABELED (l, s0e) = x in labs1exp_make (l, s0exp_tr (s0e))
 end // end of [labs0exp_tr]
+
+(* ****** ****** *)
+
+implement
+q0marg_tr (x) =
+  q1marg_make (x.q0marg_loc, s0qualst_tr (x.q0marg_arg))
+// end of [q0marg_tr]
+
+implement q0marglst_tr (xs) = l2l (list_map_fun (xs, q0marg_tr))
+
+(* ****** ****** *)
+
+implement a0typ_tr (x) = s0exp_tr (x.a0typ_typ)
+implement a0typlst_tr (xs) = l2l (list_map_fun (xs, a0typ_tr))
+
+(* ****** ****** *)
+
+local
+
+extern fun extnam_ismac
+  (ext: string, ext_new: &string): bool = "atsopt_extnam_ismac"
+extern fun extnam_issta
+  (ext: string, ext_new: &string): bool = "atsopt_extnam_issta"
+extern fun extnam_isext
+  (ext: string, ext_new: &string): bool = "atsopt_extnam_isext"
+
+in // in of [local]
+
+implement
+dcstextdef_tr (ext) = let
+(*
+  val () = print ("dcstextdef_tr: ext = ...")
+*)
+in
+//
+case+ 0 of
+| _ when
+    stropt_is_some (ext) => let
+    val ext = stropt_unsome ext
+    var ext_new: string = ext
+  in
+    case+ 0 of
+    | _ when extnam_ismac
+        (ext, ext_new) => DCSTEXTDEFsome_mac ext_new
+    | _ when extnam_issta
+        (ext, ext_new) => DCSTEXTDEFsome_sta ext_new
+    | _ when extnam_isext
+        (ext, ext_new) => DCSTEXTDEFsome_ext ext_new
+    | _ => DCSTEXTDEFsome_ext ext_new
+  end // end of [_ when ...]
+| _ => DCSTEXTDEFnone ()
+// end of [case]
+end // end of [dcstextdef_tr]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local // defining [d0cstdec_tr]
+
+#define nil list_nil
+#define :: list_cons
+
+#define CLOPTR 1; #define CLOREF ~1
+macdef FUNCLOcloptr = FUNCLOclo (CLOPTR)
+macdef FUNCLOcloref = FUNCLOclo (CLOREF)
+
+fun aux1 (
+  fc: funclo
+, lin: int, prf: int
+, oefc: effcstopt
+, fst: int, lst: &int
+, xs: d0cstarglst
+, s1e_res: s1exp
+) : s1exp = begin case+ xs of
+  | x :: xs => begin case+ x.d0cstarg_node of
+    | D0CSTARGdyn (npf, ys) => let
+        val loc_x = x.d0cstarg_loc
+        val s1e_arg = s1exp_npf_list (loc_x, npf, a0typlst_tr ys)
+        val s1e_res = aux1 (fc, lin, prf, oefc, fst+1, lst, xs, s1e_res)
+        val loc_res = s1e_res.s1exp_loc
+        val loc = loc_x + loc_res
+        val fc = (if fst > 0 then FUNCLOcloptr else fc): funclo
+        val imp = (
+          if lst > 0 then begin
+            s1exp_imp (loc_res, fc, 0, 0, None ())
+          end else begin
+            s1exp_imp (loc_res, fc, lin, prf, oefc)
+          end // end of [if]
+        ) : s1exp // end of [val]
+        val () = lst := lst + 1
+      in
+        s1exp_app (loc, imp, loc, s1e_arg :: s1e_res :: nil ())
+      end // end of [D0ARGdyn2]
+    | D0CSTARGsta s0qs => let
+        val loc_x = x.d0cstarg_loc
+        val s1qs = s0qualst_tr s0qs
+        val s1e_res = aux1 (fc, lin, prf, oefc, fst, lst, xs, s1e_res)
+        val loc_res = s1e_res.s1exp_loc
+        val loc = loc_x + loc_res
+        val () = if lst = 0 then let
+          val () = prerr_loc_error1 (loc_res)
+          val () = prerr ": illegal use of effect annotation"
+          val () = prerr_newline ()
+        in
+          $ERR.abort {void} ()
+        end // end of [val]
+      in
+        s1exp_uni (loc, s1qs, s1e_res)
+      end (* end of [D0ARGsta] *)
+    end (* end of [::] *)
+  | list_nil () => s1e_res
+end // end of [aux1]
+
+fun aux2 .<>. (
+    loc0: location
+  , isfun: bool
+  , isprf: bool
+  , xs: d0cstarglst
+  , otags: Option e0fftaglst
+  , s1e_res: s1exp
+  ) : s1exp = let
+  var fc: funclo = FUNCLOfun ()
+  var lin: int = 0 and prf: int = (if isprf then 1 else 0): int
+  var oefc: effcstopt = None ()
+  val () = case+ otags of
+    | Some tags => let
+        val (ofc1, lin1, prf1, efc1) = e0fftaglst_tr (tags)
+        val () = case+ ofc1 of
+          | Some fc1 => fc := fc1 | None () => ()
+        // end of [val]
+      in
+        lin := lin1; prf := prf + prf1; oefc := Some efc1
+      end // end of [Some]
+    | None () => ()
+  // end of [val]
+  val () = (case+ fc of
+    | FUNCLOclo knd => begin
+        if knd <> CLOREF then let
+          val () = prerr_loc_error1 (loc0)
+          val () = if knd = 0 then {
+            val () = prerr ": a closure struct is not allowed at the toplevel."
+          } // end of [val]
+          val () = if knd = 1 then {
+            val () = prerr ": a closure pointer is not allowed at the toplevel."
+          } // end of [val]
+          val () = prerr_newline ()
+        in
+          $ERR.abort {void} ()
+        end // end of [if]
+      end // end of [FUNCLOclo]
+    | FUNCLOfun () => ()
+  ) : void // end of [val]
+  var lst: int = 0
+in
+  aux1 (fc, lin, prf, oefc, 0, lst, xs, s1e_res)
+end // end of [aux2]
+
+in // in of [local]
+
+fn d0cstdec_tr (
+  isfun: bool, isprf: bool, d: d0cstdec
+) : d1cstdec = let
+  val loc0 = d.d0cstdec_loc
+  val s1e_res = s0exp_tr d.d0cstdec_res
+  val arg = d.d0cstdec_arg and eff = d.d0cstdec_eff
+  val s1e = aux2 (loc0, isfun, isprf, arg, eff, s1e_res)
+  val extdef = dcstextdef_tr (d.d0cstdec_extdef)
+in
+  d1cstdec_make (loc0, d.d0cstdec_fil, d.d0cstdec_sym, s1e, extdef)
+end // end of [d0cstdec_tr]
+
+implement
+d0cstdeclst_tr (
+  isfun, isprf, ds
+) = case+ ds of
+  | list_cons (d, ds) => let
+      val d = d0cstdec_tr (isfun, isprf, d)
+      val ds = d0cstdeclst_tr (isfun, isprf, ds)
+    in
+      list_cons (d, ds)
+    end // end of [list_cons]
+  | list_nil () => list_nil ()
+// end of [d0cstdeclst_tr]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+d0atcon_tr (d0c) = let
+//
+val qua = d0c.d0atcon_qua
+val qua = q0marglst_tr (qua)
+var npf0: int = 0
+val arg = (
+  case+ d0c.d0atcon_arg of
+  | Some s0e => let
+      val s1e = s0exp_tr s0e in
+      case+ s1e.s1exp_node of
+      | S1Elist (npf, s1es) => (npf0 := npf; s1es)
+      | _ => list_cons (s1e, list_nil ())
+    end // end of [Some]
+  | None () => list_nil ()
+) : s1explst
+//
+val ind = d0c.d0atcon_ind
+val ind = (
+  case+ ind of
+  | Some s0e => let
+      val s1es = (
+        case+ s0e.s0exp_node of
+        | S0Elist s0es => s0explst_tr (s0es)
+        | _ => $ERR.abort () where {
+            val () = prerr_interror ()
+            val () = prerr ": d0atcon_tr: index is required to be a list."
+            val () = prerr_newline ()
+          } // end of [_]
+      ) : s1explst // end of [val]
+    in
+      Some s1es
+    end // end of [Some]
+  | None () => None () // end of [None]
+) : s1explstopt // end of [val]
+//
+in
+  d1atcon_make (d0c.d0atcon_loc, d0c.d0atcon_sym, qua, npf0, arg, ind)
+end // end of [d0atcon_tr]
 
 (* ****** ****** *)
 

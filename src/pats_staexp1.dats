@@ -214,6 +214,17 @@ s1arg_make (loc, sym, res) = '{
 (* ****** ****** *)
 
 implement
+a1srt_make (loc, sym, srt) = '{
+  a1srt_loc= loc, a1srt_sym= sym, a1srt_srt= srt
+}
+implement
+a1msrt_make (loc, arg) = '{
+  a1msrt_loc= loc, a1msrt_arg= arg
+}
+
+(* ****** ****** *)
+
+implement
 s1rtext_srt (loc, s1t) = '{
   s1rtext_loc= loc, s1rtext_node= S1TEsrt (s1t)
 }
@@ -275,6 +286,8 @@ s1exp_imp (
   s1exp_loc= loc, s1exp_node= S1Eimp (ft, is_lin, is_prf, efc)
 }
 
+(* ****** ****** *)
+
 implement
 s1exp_list
   (loc, s1es) = case+ s1es of
@@ -296,6 +309,15 @@ s1exp_list2
 in '{
   s1exp_loc= loc, s1exp_node= S1Elist (npf, s1es)
 } end // end of [s1exp_list2]
+
+implement
+s1exp_npf_list (loc, npf, s1es) =
+  if npf >= 0 then '{
+    s1exp_loc= loc, s1exp_node= S1Elist (npf, s1es)
+  } else s1exp_list (loc, s1es)
+// end of [s1exp_npf_list]
+
+(* ****** ****** *)
 
 implement
 s1exp_top (loc, knd, s1e) = '{
@@ -358,6 +380,13 @@ implement labs1exp_make (l, s1e) = L0ABELED (l, s1e)
 (* ****** ****** *)
 
 implement
+q1marg_make (loc, arg) = '{
+  q1marg_loc= loc, q1marg_arg= arg
+} // end of [q1marg_make]
+
+(* ****** ****** *)
+
+implement
 s1rtdef_make (
   loc, sym, s1te
 ) = '{
@@ -377,6 +406,25 @@ s1tacst_make (
 , s1tacst_arg= arg
 , s1tacst_res= res
 } // end of [s1tacst_make]
+
+implement
+s1tacon_make (
+  loc, sym, arg, def
+) = '{
+  s1tacon_loc= loc
+, s1tacon_sym= sym
+, s1tacon_arg= arg
+, s1tacon_def= def
+} // end of [s1tacon_make]
+
+implement
+s1tavar_make (
+  loc, sym, srt
+) = '{
+  s1tavar_loc= loc
+, s1tavar_sym= sym
+, s1tavar_srt= srt
+} // end of [s1tavar_make]
 
 (* ****** ****** *)
 
@@ -401,6 +449,52 @@ s1aspdec_make (
 , s1aspdec_res= res
 , s1aspdec_def= def
 } // end of [s1aspdec_make]
+
+(* ****** ****** *)
+
+implement
+d1cstdec_make (
+  loc, fil, id, s1e, extdef
+) = '{
+  d1cstdec_loc= loc
+, d1cstdec_fil= fil
+, d1cstdec_sym= id
+, d1cstdec_typ= s1e
+, d1cstdec_extdef= extdef
+} // end of [d1cstdec_make]
+
+(* ****** ****** *)
+
+implement
+d1atcon_make (
+  loc, id, qua, npf, arg, ind
+) = '{
+  d1atcon_loc= loc
+, d1atcon_sym= id
+, d1atcon_qua= qua
+, d1atcon_npf= npf
+, d1atcon_arg= arg
+, d1atcon_ind= ind
+} // end of [d1atcon_make]
+
+implement
+d1atdec_make (loc, fil, id, arg, con) = '{
+  d1atdec_loc= loc
+, d1atdec_fil= fil
+, d1atdec_sym= id
+, d1atdec_arg= arg
+, d1atdec_con= con
+} // end of [d1atdec_make]
+
+implement
+e1xndec_make (loc, fil, id, qua, npf, arg) = '{
+  e1xndec_loc= loc
+, e1xndec_fil= fil
+, e1xndec_sym= id
+, e1xndec_qua= qua
+, e1xndec_npf= npf
+, e1xndec_arg= arg
+} // end of [e1xndec_make]
 
 (* ****** ****** *)
 

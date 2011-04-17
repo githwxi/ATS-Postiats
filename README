@@ -58,5 +58,11 @@ Supporting invariant types:
 fun{a1,a2:t@ype} f (x: INV(a1), y: INV(a2)): (a1, a2)
 
 ######
+//
+// HX-2011-04-15
+//
+Macro support for patterns.
+
+######
 
 ###### end of [README] ######

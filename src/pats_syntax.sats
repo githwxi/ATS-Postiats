@@ -755,6 +755,19 @@ fun s0rtdef_make (id: i0de, s0te: s0rtext): s0rtdef
 
 (* ****** ****** *)
 
+typedef s0tacst = '{
+  s0tacst_loc= location
+, s0tacst_sym= symbol
+, s0tacst_arg= a0msrtlst
+, s0tacst_res= s0rt
+} // end of [s0tacst]
+
+typedef s0tacstlst = List s0tacst
+
+fun s0tacst_make (id: i0de, arg: a0msrtlst, srt: s0rt): s0tacst
+
+(* ****** ****** *)
+
 typedef
 s0tacon = '{
   s0tacon_loc= location
@@ -768,19 +781,6 @@ typedef s0taconlst = List s0tacon
 fun s0tacon_make
   (id: i0de, arg: a0msrtlst, def: s0expopt): s0tacon
 // end of [s0tacon_make]
-
-(* ****** ****** *)
-
-typedef s0tacst = '{
-  s0tacst_loc= location
-, s0tacst_sym= symbol
-, s0tacst_arg= a0msrtlst
-, s0tacst_res= s0rt
-} // end of [s0tacst]
-
-typedef s0tacstlst = List s0tacst
-
-fun s0tacst_make (id: i0de, arg: a0msrtlst, srt: s0rt): s0tacst
 
 (* ****** ****** *)
 
@@ -878,6 +878,18 @@ fun d0atdec_make (
 
 (* ****** ****** *)
 
+datatype dcstextdef =
+  | DCSTEXTDEFsome_ext of string // extern
+  | DCSTEXTDEFsome_mac of string // macro
+  | DCSTEXTDEFsome_sta of string // static
+  | DCSTEXTDEFnone of ()
+// end of [dcstextdef]
+
+fun dcstextdef_is_mac (x: dcstextdef):<> bool
+fun dcstextdef_is_sta (x: dcstextdef):<> bool
+
+(* ****** ****** *)
+
 typedef
 d0cstdec = '{
   d0cstdec_loc= location
@@ -892,9 +904,9 @@ d0cstdec = '{
 typedef d0cstdeclst = List d0cstdec
 
 fun d0cstdec_make (
-  _: i0de
+  name: i0de
 , arg: d0cstarglst
-, _: e0fftaglstopt, res: s0exp
+, eff: e0fftaglstopt, res: s0exp
 , ext: Stropt (* optional external name *)
 ) : d0cstdec // end of [d0cstdec_make]
 
@@ -1116,8 +1128,8 @@ d0ecl_node =
   | D0Ce0xpact of (e0xpactkind, e0xp)
   | D0Cdatsrts of d0atsrtdeclst (* datasort declaration *)
   | D0Csrtdefs of s0rtdeflst (* sort definition *)
-  | D0Cstacons of (int(*knd*), s0taconlst) (* abstype defintion *)
   | D0Cstacsts of (s0tacstlst) (* static constants *)
+  | D0Cstacons of (int(*knd*), s0taconlst) (* abstype defintion *)
   | D0Cstavars of (s0tavarlst) (* static constants *)
   | D0Csexpdefs of (int(*knd*), s0expdeflst) (* staexp definition *)
   | D0Csaspdec of s0aspdec (* static assumption *)

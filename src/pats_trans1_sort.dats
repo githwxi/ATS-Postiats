@@ -198,8 +198,17 @@ s0rtopt_tr (s0topt) =
 
 (* ****** ****** *)
 
-implement a0srt_tr (x) = s0rt_tr (x.a0srt_srt)
-implement a0msrt_tr (x) = l2l (list_map_fun (x.a0msrt_arg, a0srt_tr))
+implement a0srt_tr (x) =
+  a1srt_make (x.a0srt_loc, x.a0srt_sym, s0rt_tr (x.a0srt_srt))
+// end of [a0srt_tr]
+
+implement
+a0msrt_tr (x) = let
+  val arg = l2l (list_map_fun (x.a0msrt_arg, a0srt_tr))
+in
+  a1msrt_make (x.a0msrt_loc, arg)
+end // end of [a0msrt_tr]
+
 implement a0msrtlst_tr (xs) = l2l (list_map_fun (xs, a0msrt_tr))
 
 (* ****** ****** *)

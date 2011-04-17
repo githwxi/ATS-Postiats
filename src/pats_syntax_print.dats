@@ -862,16 +862,16 @@ case+ x.d0ecl_node of
     val () = prstr "..."
     val () = prstr "\n)"
   }
+| D0Cstacsts (xs) => {
+    val () = prstr "D0Cstacsts(\n"
+    val () = $UT.fprintlst (out, xs, "\n", fprint_s0tacst)
+    val () = prstr "\n)"
+  }
 | D0Cstacons (knd, xs) => {
     val () = prstr "D0Cstacons("
     val () = fprint_int (out, knd)
     val () = prstr ";\n"
     val () = $UT.fprintlst (out, xs, "\n", fprint_s0tacon)
-    val () = prstr "\n)"
-  }
-| D0Cstacsts (xs) => {
-    val () = prstr "D0Cstacsts(\n"
-    val () = $UT.fprintlst (out, xs, "\n", fprint_s0tacst)
     val () = prstr "\n)"
   }
 | D0Cstavars (xs) => {

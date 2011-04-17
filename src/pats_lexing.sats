@@ -416,6 +416,10 @@ fun token_make
 // end of [token_make]
 
 (* ****** ****** *)
+
+fun tnode_is_comment (node: tnode): bool
+
+(* ****** ****** *)
 //
 // HX-2011-03-11:
 // see if a name refers to a special token;
