@@ -307,6 +307,12 @@ aux_item (
       FXITMatm (s1exp_list2 (loc0, s1es1, s1es2))
     end // end of [S0Elist2]
 //
+  | S0Etyarr (s0e_elt, s0es_dim) => let
+      val s1e_elt = s0exp_tr (s0e_elt)
+      val s1es_dim = s0explst_tr (s0es_dim)
+    in
+      FXITMatm (s1exp_tyarr (loc0, s1e_elt, s1es_dim))
+    end // end of [S0Etyarr]
   | S0Etytup (knd, npf, s0es) => let
       val s1es = s0explst_tr (s0es)
     in
@@ -351,12 +357,14 @@ aux_item (
     in
       FXITMatm (s1e_ann)
     end // end of [S0Eann]
+(*
   | _ => let
       val () = (
         print "s0e0 = "; fprint_s0exp (stdout_ref, s0e0); print_newline ()
       ) // end of [val]
       val () = assertloc (false) in $ERR.abort ()
     end
+*)
 end // end of [aux_item]
 //
 and aux_itemlst

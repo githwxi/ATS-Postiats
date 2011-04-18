@@ -339,6 +339,11 @@ s1exp_trans (loc, s1e1, s1e2) = '{
 }
 
 implement
+s1exp_tyarr (loc, s1e_elt, s1es_dim) = '{
+  s1exp_loc= loc, s1exp_node= S1Etyarr (s1e_elt, s1es_dim)
+}
+
+implement
 s1exp_tytup (
   loc, knd, npf, s1es
 ) = '{

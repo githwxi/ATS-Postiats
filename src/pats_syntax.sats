@@ -1127,9 +1127,11 @@ datatype
 d0ecl_node =
   | D0Cfixity of (f0xty, i0delst)
   | D0Cnonfix of (i0delst) // absolving fixity status
-  | D0Cinclude of (* file inclusion *)
-      (int(*0:sta/1:dyn*), string(*filename*))
-  | D0Csymintr of (i0delst) // introducing overloading symbols
+//
+  | D0Csymintr of (i0delst) // introducing symbols for overloading
+  | D0Csymelim of (i0delst) // eliminating symbols for overloading
+  | D0Coverload of (i0de, dqi0de) // overloading
+//
   | D0Ce0xpdef of (symbol, e0xpopt)
   | D0Ce0xpundef of (symbol) (* undefinition *)
   | D0Ce0xpact of (e0xpactkind, e0xp)
@@ -1147,7 +1149,6 @@ d0ecl_node =
   | D0Cdcstdecs of (token, q0marglst, d0cstdeclst)
 //
   | D0Cmacdefs of (int(*knd*), bool(*rec*), m0acdeflst) // macro definitions
-  | D0Coverload of (i0de, dqi0de) // overloading
   | D0Cclassdec of (i0de, s0expopt) // class declaration
 //
   | D0Cextype of (int(*knd*), string, s0exp) // type to be used in C
@@ -1160,8 +1161,11 @@ d0ecl_node =
   | D0Cvardecs of v0ardeclst // variable declarations
   | D0Cimpdec of (s0arglstlst, i0mpdec) // implementation
 //
+  | D0Cinclude of (* file inclusion *)
+      (int(*0:sta/1:dyn*), string(*filename*))
   | D0Cstaload of (symbolopt, string)
   | D0Cdynload of (string) // HX: dynloading for initialization
+//
   | D0Clocal of (d0eclist, d0eclist)
   | D0Cguadecl of (srpifkind, guad0ecl)
 // end of [d0ecl_node]

@@ -46,11 +46,12 @@ typedef fprint_type (a:t@ype) = (FILEref, a) -> void
 datatype d1ecl_node =
   | D1Cnone
   | D1Clist of d1eclist
-  | D1Cinclude of d1eclist (* inclusion *)
+//
   | D1Csymintr of (* overloaded symbol intr *)
       i0delst
   | D1Csymelim of (* overloaded symbol elim *)
       i0delst
+  | D1Coverload of (i0de, dqi0de) // overloading declaration
 //
   | D1Ce1xpdef of (symbol, e1xp)
   | D1Ce1xpundef of (symbol) // HX: undefining
@@ -69,7 +70,6 @@ datatype d1ecl_node =
 //
 (*
   | D1Cclassdec of (i0de, s1expopt)
-  | D1Coverload of (i0de, dqi0de) // overloading declaration
   | D1Cextype of (* external type *)
       (string (* extype name *), s1exp (* extype definition *))
   | D1Cextval of (* external type *)
@@ -91,12 +91,12 @@ datatype d1ecl_node =
   | D1Cimpdec of (* implementation *)
       (s1arglstlst, i1mpdec)
 *)
-  | D1Clocal of (* local declaration *)
-      (d1eclist, d1eclist)
+  | D1Cinclude of d1eclist (* inclusion *)
   | D1Cdynload of (* dynloading a file *)
       filename
   | D1Cstaload of (* staloading a file *)
       (Option symbol, filename, int (*loaded*), int (*loadflag*), d1eclist)
+  | D1Clocal of (d1eclist(*head*), d1eclist(*body*)) // local declaration
 // end of [d1ecl_node]
 
 (* ****** ****** *)
@@ -112,6 +112,10 @@ and d1eclist = List (d1ecl)
 fun d1ecl_none (loc: location): d1ecl
 
 fun d1ecl_list (loc: location, ds: d1eclist): d1ecl
+
+fun d1ecl_symintr (loc: location, ids: i0delst): d1ecl
+fun d1ecl_symelim (loc: location, ids: i0delst): d1ecl
+fun d1ecl_overload (loc: location, id: i0de, qid: dqi0de): d1ecl
 
 fun d1ecl_e1xpdef
   (loc: location, id: symbol, def: e1xp): d1ecl

@@ -119,7 +119,7 @@ main (
 //
   val () = println! ("Hello from ATS/Postiats!")
 //
-  val d0cs = parse_from_stdin_toplevel (1(*dyn*))
+  val d0cs = parse_from_stdin_toplevel (0(*dyn*))
   val () = fprint_d0eclist (stdout_ref, d0cs)
   val () = print_newline ()
 //

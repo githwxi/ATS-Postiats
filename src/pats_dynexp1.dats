@@ -53,6 +53,23 @@ d1ecl_list (loc, ds) = '{
 (* ****** ****** *)
 
 implement
+d1ecl_symintr (loc, ids) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Csymintr (ids)
+}
+
+implement
+d1ecl_symelim (loc, ids) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Csymelim (ids)
+}
+
+implement
+d1ecl_overload (loc, id, qid) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Coverload (id, qid)
+}
+
+(* ****** ****** *)
+
+implement
 d1ecl_e1xpdef (loc, id, def) = '{
   d1ecl_loc= loc, d1ecl_node= D1Ce1xpdef (id, def)
 }

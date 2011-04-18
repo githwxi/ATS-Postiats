@@ -317,6 +317,13 @@ case+ x.s1exp_node of
     val () = prstr ")"
   }
 //
+| S1Etyarr (elt, dim) => {
+    val () = prstr "S1Etyarr("
+    val () = fprint_s1exp (out, elt)
+    val () = prstr "; "
+    val () = fprint_s1explst (out, dim)
+    val () = prstr ")"
+  }
 | S1Etytup (knd, npf, s1es) => {
     val () = prstr "S1Etytup("
     val () = fprint_int (out, knd)

@@ -303,6 +303,7 @@ datatype s1exp_node =
   | S1Einvar of (int(*ref/val:1/0*), s1exp) // invariant
   | S1Etrans of (s1exp(*bef*), s1exp(*aft*)) // view(type) transform
 //
+  | S1Etyarr of (s1exp (*element*), s1explst (*dimension*))
   | S1Etytup of (int(*knd*), int(*npf*), s1explst) // tuple type
   | S1Etyrec of (int(*knd*), int(*npf*), labs1explst) // record type
   | S1Etyrec_ext of
@@ -386,6 +387,9 @@ fun s1exp_top (loc: location, knd: int, s1e: s1exp): s1exp
 fun s1exp_invar (loc: location, knd: int, s1e: s1exp): s1exp
 fun s1exp_trans (loc: location, s1e1: s1exp, s1e2: s1exp): s1exp
 
+fun s1exp_tyarr (
+  loc: location, elt: s1exp, dim: s1explst
+) : s1exp // end of [s1exp_tyarr]
 fun s1exp_tytup (
   loc: location, knd: int, npf: int, s1es: s1explst
 ) : s1exp // end of [s1exp_tytup]

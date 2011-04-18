@@ -332,7 +332,7 @@ fun token_get_dcstkind
 
 fun i0nclude_tr (
   loc0: location, stadyn: int, path: string
-) : d1ecl = let
+) : d1eclist = d1cs where {
 //
   val filopt = $FIL.filenameopt_make_relative (path)
 //
@@ -376,9 +376,7 @@ fun i0nclude_tr (
   end // end of [val]
 *)
   val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
-in
-  d1ecl_include (loc0, d1cs)
-end // end of [i0nclude_tr]
+} // end of [i0nclude_tr]
 
 (* ****** ****** *)
 
@@ -430,6 +428,10 @@ case+ d0c0.d0ecl_node of
 | D0Cnonfix ids => let
     val () = d0ecl_nonfix_tr (ids) in d1ecl_none (loc0)
   end // end of [D0Cnonfix]
+//
+| D0Csymintr (ids) => d1ecl_symintr (loc0, ids)
+| D0Csymelim (ids) => d1ecl_symelim (loc0, ids)
+| D0Coverload (id, qid) => d1ecl_overload (loc0, id, qid)
 //
 | D0Ce0xpdef (id, def) => let
     val def = (case+ def of
@@ -521,7 +523,9 @@ case+ d0c0.d0ecl_node of
     d1ecl_dcstdecs (loc0, dck, qarg, d1cs)
   end // end of [D0Cdcstdecs]
 //
-| D0Cinclude (stadyn, path) => i0nclude_tr (loc0, stadyn, path)
+| D0Cinclude (stadyn, path) => let
+    val d1cs = i0nclude_tr (loc0, stadyn, path) in d1ecl_include (loc0, d1cs)
+  end // end of [D0Cinclude]
 //
 | D0Clocal (
     d0cs_head, d0cs_body

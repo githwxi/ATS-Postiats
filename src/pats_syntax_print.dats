@@ -826,18 +826,25 @@ case+ x.d0ecl_node of
     val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
     val () = prstr ")"
   }
-| D0Cinclude (knd, name) => {
-    val () = prstr "D0Cinclude("
-    val () = fprint_int (out, knd)
-    val () = prstr "; "
-    val () = fprint_string (out, name)
-    val () = prstr ")"
-  }
+//
 | D0Csymintr (ids) => {
     val () = prstr "D0Csymintr("
     val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
     val () = prstr ")"
   }
+| D0Csymelim (ids) => {
+    val () = prstr "D0Csymelim("
+    val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
+    val () = prstr ")"
+  }
+| D0Coverload (id, qid) => {
+    val () = prstr "D0Coverload(\n"
+    val () = fprint_i0de (out, id)
+    val () = prstr "; "
+    val () = fprint_dqi0de (out, qid)
+    val () = prstr "\n)"
+  }
+//
 | D0Ce0xpdef (id, def) => {
     val () = prstr "D0Ce0xpdef("
     val () = fprint_symbol (out, id)
@@ -918,13 +925,6 @@ case+ x.d0ecl_node of
     val () = fprint_string (out, "...")
     val () = prstr "\n)"
   }
-| D0Coverload (id, qid) => {
-    val () = prstr "D0Coverload(\n"
-    val () = fprint_i0de (out, id)
-    val () = prstr "; "
-    val () = fprint_dqi0de (out, qid)
-    val () = prstr "\n)"
-  }
 | D0Cclassdec (id, sup) => {
     val () = prstr "D0Cclassdec(\n"
     val () = fprint_i0de (out, id)
@@ -962,6 +962,14 @@ case+ x.d0ecl_node of
     val () = prstr "..."
     val () = prstr "\n)"
   }
+//
+| D0Cinclude (knd, name) => {
+    val () = prstr "D0Cinclude("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  }
 | D0Cstaload (symopt, name) => {
     val () = prstr "D0Cstaload("
     val () = $UT.fprintopt<symbol> (out, symopt, fprint_symbol)
@@ -974,6 +982,7 @@ case+ x.d0ecl_node of
     val () = fprint_string (out, name)
     val () = prstr ")"
   }
+//
 | D0Clocal (
     ds_head, ds_body
   ) => {
