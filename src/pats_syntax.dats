@@ -52,6 +52,7 @@ staload FIL = "pats_filename.sats"
 (* ****** ****** *)
 
 staload "pats_lexing.sats"
+staload "pats_parsing.sats"
 staload "pats_syntax.sats"
 
 (* ****** ****** *)
@@ -2059,8 +2060,10 @@ end // end of [local]
 implement
 d0ecl_include
   (knd, tok, ent2) = let
-  val loc = tok.token_loc + ent2.token_loc
-  val- T_STRING name = ent2.token_node
+  val loc = ent2.token_loc
+  val- T_STRING (name) = ent2.token_node
+  val () = the_parerrlst_add_ifunclosed (loc, name)
+  val loc = tok.token_loc + loc
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cinclude (knd, name)
 } end // end of [d0ecl_include]
@@ -2354,8 +2357,10 @@ in '{
 implement
 d0ecl_staload_none
   (tok, tok2) = let
+  val loc = tok2.token_loc
   val- T_STRING (name) = tok2.token_node
-  val loc = tok.token_loc + tok2.token_loc
+  val () = the_parerrlst_add_ifunclosed (loc, name)
+  val loc = tok.token_loc + loc
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cstaload (None, name)
 } end // end of [d0ecl_staload_none]
@@ -2363,8 +2368,10 @@ in '{
 implement
 d0ecl_staload_some
   (tok, ent2, ent4) = let
+  val loc = ent4.token_loc
   val- T_STRING (name) = ent4.token_node
-  val loc = tok.token_loc + ent4.token_loc
+  val () = the_parerrlst_add_ifunclosed (loc, name)
+  val loc = tok.token_loc + loc
   val sym = ent2.i0de_sym
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cstaload (Some sym, name)
@@ -2374,8 +2381,10 @@ in '{
 
 implement
 d0ecl_dynload (tok, ent2) = let
+  val loc = ent2.token_loc
   val- T_STRING (name) = ent2.token_node
-  val loc = tok.token_loc + ent2.token_loc
+  val () = the_parerrlst_add_ifunclosed (loc, name)
+  val loc = tok.token_loc + loc
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cdynload (name)
 } end // end of [d0ecl_dynload]
@@ -2393,9 +2402,34 @@ in '{
 
 (* ****** ****** *)
 
+fun srpifkind_of_token
+  (tok: token): srpifkind =
+  case+ tok.token_node of
+  | T_SRPIF () => SRPIFKINDif ()
+  | T_SRPIFDEF () => SRPIFKINDifdef ()
+  | T_SRPIFNDEF () => SRPIFKINDifndef ()
+  | _ => let
+      val () = assertloc (false) in SRPIFKINDif ()
+    end (* end of [_] *)
+// end of [srpifkind_of_token]
+
+fun srpelifkind_of_token
+  (tok: token): srpifkind =
+  case+ tok.token_node of
+  | T_SRPELIF () => SRPIFKINDif ()
+  | T_SRPELIFDEF () => SRPIFKINDifdef ()
+  | T_SRPELIFNDEF () => SRPIFKINDifndef ()
+  | _ => let
+      val () = assertloc (false) in SRPIFKINDif ()
+    end (* end of [_] *)
+// end of [srpelifkind_of_token]
+
+(* ****** ****** *)
+
 implement
 d0ecl_guadecl (knd, gd) = let
   val loc = knd.token_loc + gd.guad0ecl_loc
+  val knd = srpifkind_of_token (knd)
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cguadecl (knd, gd)
 } end // end of [d0ecl_guadecl]
@@ -2426,7 +2460,10 @@ implement
 guad0ecl_cons (
   gua, ds, knd, rst
 ) = let
-  val loc = gua.e0xp_loc + rst.guad0ecl_loc
+  val loc = (
+    gua.e0xp_loc + rst.guad0ecl_loc
+  ) : location // end of [val]
+  val knd = srpelifkind_of_token (knd)
 in '{
   guad0ecl_loc= loc
 , guad0ecl_node= GD0Ccons (gua, ds, knd, rst.guad0ecl_node)

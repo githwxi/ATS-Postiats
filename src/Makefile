@@ -84,6 +84,7 @@ SOURCES := \
   pats_tokbuf.sats \
   pats_tokbuf.dats \
   pats_parsing.sats \
+  pats_parsing.dats \
   pats_parsing_error.dats \
   pats_parsing_util.dats \
   pats_parsing_kwds.dats \

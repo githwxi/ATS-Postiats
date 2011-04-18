@@ -456,14 +456,13 @@ fun lexerr_make (
   loc: location, node: lexerr_node
 ) : lexerr // end of [lexerr_make]
 
-fun fprint_lexerr
-  (out: FILEref, err: lexerr): void
-// end of [fprint_lexerr]
-
 fun the_lexerrlst_clear (): void
 
 fun the_lexerrlst_add (x: lexerr): void
 
+(* ****** ****** *)
+
+fun fprint_lexerr (out: FILEref, err: lexerr): void
 fun fprint_the_lexerrlst (out: FILEref): void
 
 (* ****** ****** *)

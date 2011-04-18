@@ -38,6 +38,8 @@ staload ERR = "pats_error.sats"
 staload SYM = "pats_symbol.sats"
 overload print with $SYM.print_symbol
 overload = with $SYM.eq_symbol_symbol
+staload FIL = "pats_filename.sats"
+staload PAR = "pats_parsing.sats"
 
 (* ****** ****** *)
 
@@ -328,6 +330,94 @@ fun token_get_dcstkind
 
 (* ****** ****** *)
 
+fun i0nclude_tr (
+  loc0: location, stadyn: int, path: string
+) : d1ecl = let
+//
+  val filopt = $FIL.filenameopt_make_relative (path)
+//
+  val fil = (case+ filopt of
+    | ~Some_vt filename => filename
+    | ~None_vt () => let
+        val () = prerr_loc_error1 (loc0)
+        val () = prerr ": the file ["
+        val () = prerr path;
+        val () = prerr "] is not available for inclusion"
+        val () = prerr_newline ()
+      in
+        $ERR.abort {filename} ()
+      end // end of [None_vt]
+  ) : filename // end of [val]
+//
+  val (pfpush | isexi) = $FIL.the_filenamelst_push_check (fil)
+//
+  val () = if isexi then {
+    val () = $LOC.prerr_location (loc0)
+    val () = prerr (": error(0)")
+    val () = prerr (": including the file [");
+    val () = $FIL.prerr_filename (fil)
+    val () = prerr ("] generates the following looping trace:\n")
+    val () = $FIL.fprint_the_filenamelst (stderr_ref)
+    val () = $ERR.abort {void} ()
+  } // end of [val]
+//  
+  val fullname = $FIL.filename_get_full (fil)
+  val fullname = $SYM.symbol_get_name (fullname)
+(*
+  val () = begin
+    print "Including ["; print fullname; print "] starts."; print_newline ()
+  end // end of [val]
+*)
+  val d0cs = $PAR.parse_from_filename_toplevel (stadyn, fullname)
+  val d1cs = d0eclist_tr (d0cs)
+(*
+  val () = begin
+    print "Including ["; print fullname; print "] finishes."; print_newline ()
+  end // end of [val]
+*)
+  val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+in
+  d1ecl_include (loc0, d1cs)
+end // end of [i0nclude_tr]
+
+(* ****** ****** *)
+
+fn guad0ecl_tr (
+  knd: srpifkind, gd: guad0ecl
+) : d1eclist = let
+  fun loop (
+    knd: srpifkind, gdn: guad0ecl_node
+  ) : d1eclist =
+    case+ gdn of
+    | GD0Cone (e0xp, d0cs) => let
+        val v1al = e1xp_eval_if (knd, e0xp_tr e0xp) in
+        if v1al_is_true (v1al) then d0eclist_tr d0cs else list_nil ()
+      end // end of [GD0Cone]
+    | GD0Ctwo (
+        e0xp, d0cs_then, d0cs_else
+      ) => let
+        val v1al = e1xp_eval_if (knd, e0xp_tr e0xp)
+      in
+        if v1al_is_true v1al then
+          d0eclist_tr d0cs_then else d0eclist_tr d0cs_else
+        // end of [if]
+      end // end of [GD0Ctwo]
+    | GD0Ccons (
+        e0xp, d0cs_then, knd_elif, gdn_else
+      ) => let
+        val v1al = e1xp_eval_if (knd, e0xp_tr e0xp)
+      in
+        if v1al_is_true v1al then
+          d0eclist_tr d0cs_then else loop (knd_elif, gdn_else)
+        // end of [if]
+      end // end of [GD0Ccons]
+  // end of [loop]
+in
+  loop (knd, gd.guad0ecl_node)
+end // end of [guad0ec_tr]
+
+(* ****** ****** *)
+
 implement
 d0ecl_tr (d0c0) = let
   val loc0 = d0c0.d0ecl_loc
@@ -340,6 +430,15 @@ case+ d0c0.d0ecl_node of
 | D0Cnonfix ids => let
     val () = d0ecl_nonfix_tr (ids) in d1ecl_none (loc0)
   end // end of [D0Cnonfix]
+//
+| D0Ce0xpdef (id, def) => let
+    val def = (case+ def of
+      | Some e0xp => e0xp_tr e0xp | None () => e1xp_none (loc0)
+    ) : e1xp // end of [val]
+    val () = the_e1xpenv_add (id, def)
+  in
+    d1ecl_e1xpdef (loc0, id, def)
+  end // end of [D0Ce0xpdef]
 //
 | D0Cdatsrts (d0cs) => let
     val d1cs = l2l (list_map_fun (d0cs, d0atsrtdec_tr))
@@ -397,6 +496,8 @@ case+ d0c0.d0ecl_node of
     d1ecl_dcstdecs (loc0, dck, qarg, d1cs)
   end // end of [D0Cdcstdecs]
 //
+| D0Cinclude (stadyn, path) => i0nclude_tr (loc0, stadyn, path)
+//
 | D0Clocal (
     d0cs_head, d0cs_body
   ) => let
@@ -410,6 +511,11 @@ case+ d0c0.d0ecl_node of
   in
     d1ecl_local (d0c0.d0ecl_loc, d1cs_head, d1cs_body)
   end // end of [D0Clocal]
+//
+| D0Cguadecl (knd, gd0c) => let
+    val d1cs = guad0ecl_tr (knd, gd0c) in d1ecl_list (loc0, d1cs)
+  end (* end of [D0Cguadecl] *)
+//
 | _ => let
     val () = $LOC.prerr_location (loc0)
     val () = prerr ": d0ecl_tr: not implemented: d0c0 = "

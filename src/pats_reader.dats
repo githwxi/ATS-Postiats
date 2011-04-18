@@ -44,7 +44,8 @@ staload "pats_reader.sats"
 
 viewtypedef
 freader (v:view) =
-$extype_struct "pats_reader_struct" of {
+$extype_struct
+  "pats_reader_struct" of {
   pfres= v
 , getchar= (!v | (*none*)) -<cloptr1> int
 , freeres= (v | (*none*)) -<cloptr1> void  

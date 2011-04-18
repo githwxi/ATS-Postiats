@@ -1471,6 +1471,15 @@ implement
 lexing_DQUOTE
   (buf, pos) = let
 //
+  fn regerr ( // register error
+    buf: &lexbuf, pos: &position
+  ) : void = let
+    val loc = lexbufpos_get_location (buf, pos)
+    val err = lexerr_make (loc, LE_STRING_unclose)
+  in
+    the_lexerrlst_add (err)
+  end // end of [regerr]
+//
   fn* loop {m,n:int | m > 0} (
     buf: &lexbuf
   , pos: &position
@@ -1498,11 +1507,7 @@ lexing_DQUOTE
         end // end of ['\\']
       | _ => loop_ins (buf, pos, q, m, n, i)
     end else let
-      val loc = lexbufpos_get_location (buf, pos)
-      val err = lexerr_make (loc, LE_STRING_unclose)
-      val () = the_lexerrlst_add (err)
-    in
-      queue_size {uchar} (q)
+      val () = regerr (buf, pos) in queue_size {uchar} (q)
     end (* end of [if] *)
   end // end of [loop]
 //  

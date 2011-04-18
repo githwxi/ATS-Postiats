@@ -106,6 +106,19 @@ prfun tokbuf0_trans (buf: &tokbuf? >> tokbuf0): void
   val () = $LBF.lexbuf_initialize_getc (buf.lexbuf, getc)
 } // end of [tokbuf_initialize_getc]
 
+implement
+tokbuf_initialize_string
+  (buf, inp) = () where {
+//
+extern
+prfun tokbuf0_trans (buf: &tokbuf? >> tokbuf0): void
+//
+  prval () = tokbuf0_trans (buf)
+  val () = $Q.queue_initialize (buf.tbuf, QINISZ)
+  val () = buf.ntok := 0u
+  val () = $LBF.lexbuf_initialize_string (buf.lexbuf, inp)
+} // end of [tokbuf_initialize_string]
+
 (* ****** ****** *)
 
 implement

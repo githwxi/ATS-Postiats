@@ -194,6 +194,19 @@ aux_item (
   | S0Eint (int) => FXITMatm (s1exp_int (loc0, int))
   | S0Echar (char) => FXITMatm (s1exp_char (loc0, char))
 //
+  | S0Eextype (name, s0es) => let
+      fun f (
+        s0e: s0exp
+      ) : s1explst = let
+        val s1e = s0exp_tr (s0e) in
+        case+ s1e.s1exp_node of
+        | S1Elist (_(*npf*), s1es) => s1es | _ => list_sing (s1e)
+      end // end of [f]
+      val s1ess = l2l (list_map_fun (s0es, f))
+    in
+      FXITMatm (s1exp_extype (loc0, name, s1ess))
+    end // end of [S0Eextype]
+//
   | S0Eide id when id = AMPERSAND => let
       fn f (
         s1e: s1exp
@@ -339,6 +352,9 @@ aux_item (
       FXITMatm (s1e_ann)
     end // end of [S0Eann]
   | _ => let
+      val () = (
+        print "s0e0 = "; fprint_s0exp (stdout_ref, s0e0); print_newline ()
+      ) // end of [val]
       val () = assertloc (false) in $ERR.abort ()
     end
 end // end of [aux_item]
@@ -440,11 +456,13 @@ end // end of [local]
 
 (* ****** ****** *)
 
-local // defining [d0cstdec_tr]
-
+local
+//
+// defining [d0cstdec_tr]
+//
 #define nil list_nil
 #define :: list_cons
-
+//
 #define CLOPTR 1; #define CLOREF ~1
 macdef FUNCLOcloptr = FUNCLOclo (CLOPTR)
 macdef FUNCLOcloref = FUNCLOclo (CLOREF)
@@ -452,7 +470,7 @@ macdef FUNCLOcloref = FUNCLOclo (CLOREF)
 fun aux1 (
   fc: funclo
 , lin: int, prf: int
-, oefc: effcstopt
+, efcopt: effcstopt
 , fst: int, lst: &int
 , xs: d0cstarglst
 , s1e_res: s1exp
@@ -461,7 +479,7 @@ fun aux1 (
     | D0CSTARGdyn (npf, ys) => let
         val loc_x = x.d0cstarg_loc
         val s1e_arg = s1exp_npf_list (loc_x, npf, a0typlst_tr ys)
-        val s1e_res = aux1 (fc, lin, prf, oefc, fst+1, lst, xs, s1e_res)
+        val s1e_res = aux1 (fc, lin, prf, efcopt, fst+1, lst, xs, s1e_res)
         val loc_res = s1e_res.s1exp_loc
         val loc = loc_x + loc_res
         val fc = (if fst > 0 then FUNCLOcloptr else fc): funclo
@@ -469,17 +487,17 @@ fun aux1 (
           if lst > 0 then begin
             s1exp_imp (loc_res, fc, 0, 0, None ())
           end else begin
-            s1exp_imp (loc_res, fc, lin, prf, oefc)
+            s1exp_imp (loc_res, fc, lin, prf, efcopt)
           end // end of [if]
         ) : s1exp // end of [val]
         val () = lst := lst + 1
       in
         s1exp_app (loc, imp, loc, s1e_arg :: s1e_res :: nil ())
-      end // end of [D0ARGdyn2]
+      end // end of [D0CSTARGdyn2]
     | D0CSTARGsta s0qs => let
         val loc_x = x.d0cstarg_loc
         val s1qs = s0qualst_tr s0qs
-        val s1e_res = aux1 (fc, lin, prf, oefc, fst, lst, xs, s1e_res)
+        val s1e_res = aux1 (fc, lin, prf, efcopt, fst, lst, xs, s1e_res)
         val loc_res = s1e_res.s1exp_loc
         val loc = loc_x + loc_res
         val () = if lst = 0 then let
@@ -491,9 +509,9 @@ fun aux1 (
         end // end of [val]
       in
         s1exp_uni (loc, s1qs, s1e_res)
-      end (* end of [D0ARGsta] *)
+      end (* end of [D0CSTARGsta] *)
     end (* end of [::] *)
-  | list_nil () => s1e_res
+  | nil () => s1e_res // end of [nil]
 end // end of [aux1]
 
 fun aux2 .<>. (
@@ -506,7 +524,7 @@ fun aux2 .<>. (
   ) : s1exp = let
   var fc: funclo = FUNCLOfun ()
   var lin: int = 0 and prf: int = (if isprf then 1 else 0): int
-  var oefc: effcstopt = None ()
+  var efcopt: effcstopt = None ()
   val () = case+ otags of
     | Some tags => let
         val (ofc1, lin1, prf1, efc1) = e0fftaglst_tr (tags)
@@ -514,9 +532,9 @@ fun aux2 .<>. (
           | Some fc1 => fc := fc1 | None () => ()
         // end of [val]
       in
-        lin := lin1; prf := prf + prf1; oefc := Some efc1
+        lin := lin1; prf := prf + prf1; efcopt := Some efc1
       end // end of [Some]
-    | None () => ()
+    | None () => () // end of [None]
   // end of [val]
   val () = (case+ fc of
     | FUNCLOclo knd => begin
@@ -533,14 +551,12 @@ fun aux2 .<>. (
           $ERR.abort {void} ()
         end // end of [if]
       end // end of [FUNCLOclo]
-    | FUNCLOfun () => ()
+    | FUNCLOfun () => () // end of [FUNCLOfun]
   ) : void // end of [val]
   var lst: int = 0
 in
-  aux1 (fc, lin, prf, oefc, 0, lst, xs, s1e_res)
+  aux1 (fc, lin, prf, efcopt, 0, lst, xs, s1e_res)
 end // end of [aux2]
-
-in // in of [local]
 
 fn d0cstdec_tr (
   isfun: bool, isprf: bool, d: d0cstdec
@@ -553,6 +569,8 @@ fn d0cstdec_tr (
 in
   d1cstdec_make (loc0, d.d0cstdec_fil, d.d0cstdec_sym, s1e, extdef)
 end // end of [d0cstdec_tr]
+
+in // in of [local]
 
 implement
 d0cstdeclst_tr (

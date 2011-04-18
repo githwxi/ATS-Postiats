@@ -500,7 +500,7 @@ case+ tok.token_node of
   end
 | _ => let
     val () = err := err + 1 in synent_null ((*okay*))
-  end
+  end (* end of [_] *)
 //
 end // end of [p_srpifkind]
 
@@ -527,7 +527,7 @@ case+ tok.token_node of
   end
 | _ => let
     val () = err := err + 1 in synent_null ((*okay*))
-  end
+  end (* end of [_] *)
 //
 end // end of [p_srpelifkind]
 
@@ -821,7 +821,7 @@ p_d0eclseq_fun
         // end of [val]
         val+ list_vt_cons (_, !p_res1) = res
 //
-        val semilst = pstar_fun {token} (buf, bt, p_SEMICOLON)
+        val semilst = pstar_fun {token} (buf, 1(*bt*), p_SEMICOLON)
         val () = list_vt_free (semilst)
 //
         val () = loop (buf, !p_res1, err)

@@ -35,6 +35,9 @@
 (* ****** ****** *)
 
 exception FatalErrorException
+
+(* ****** ****** *)
+
 fun abort {a:viewt@ype} ():<!exn> a // raising FatalErrorException
 
 (* ****** ****** *)

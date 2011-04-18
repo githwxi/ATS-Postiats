@@ -451,6 +451,16 @@ end // end of [e1xp_eval]
 (* ****** ****** *)
 
 implement
+e1xp_eval_if (knd, e) =
+  case+ knd of
+  | SRPIFKINDif () => e1xp_eval (e)
+  | SRPIFKINDifdef () => e1xp_eval_defined (e.e1xp_loc, e)
+  | SRPIFKINDifndef () => e1xp_eval_undefined (e.e1xp_loc, e)
+// end of [e1xp_eval_if]
+
+(* ****** ****** *)
+
+implement
 e1xp_make_v1al
   (loc, v) = case+ v of // v1al -> e1xp
   | V1ALint i => let

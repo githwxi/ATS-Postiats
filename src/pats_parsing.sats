@@ -34,7 +34,8 @@
 //
 (* ****** ****** *)
 
-staload LEX = "pats_lexing.sats"
+staload
+LEX = "pats_lexing.sats"
 typedef tnode = $LEX.tnode
 
 (* ****** ****** *)
@@ -146,6 +147,8 @@ parerr_node =
   | PE_d0ecl_dyn
   | PE_guad0ecl
 //
+  | PE_filename of ()
+//
   | PE_DISCARD of ()
 // end of [parerr_node]
 
@@ -157,13 +160,21 @@ fun parerr_make (
   loc: location, node: parerr_node
 ) : parerr // end of [parerr_make]
 
-fun fprint_parerr (out: FILEref, x: parerr): void
+fun the_parerrlst_clear (): void
 
 fun the_parerrlst_add (x: parerr): void
-fun the_parerrlst_add_ifnbt (
-  bt: int, loc: location, node: parerr_node
-) : void // end of [the_parerrlst_add_ifnbt]
 
+fun the_parerrlst_add_ifnbt
+  (bt: int, loc: location, node: parerr_node): void
+// end of ...
+
+fun the_parerrlst_add_ifunclosed
+  (loc: location, name: string): void
+// end of [...]
+
+(* ****** ****** *)
+
+fun fprint_parerr (out: FILEref, x: parerr): void
 fun fprint_the_parerrlst (out: FILEref): void
 
 (* ****** ****** *)
@@ -617,6 +628,24 @@ fun p_toplevel_sta
 fun p_toplevel_dyn
   (buf: &tokbuf, nerr: &int? >> int): d0eclist
 // end of [p_toplevel_dyn]
+
+(* ****** ****** *)
+
+fun parse_from_string
+  {a:type} (inp: string, f: parser a): Option_vt (a)
+// end of [parse_from_string]
+
+(* ****** ****** *)
+
+fun parse_from_tokbuf_toplevel
+  (stadyn: int, buf: &tokbuf): d0eclist
+// end of [parse_from_tokbuf_toplevel]
+
+fun parse_from_filename_toplevel
+  (stadyn: int, fullname: string): d0eclist
+// end of [parse_from_filename_toplevel
+
+fun parse_from_stdin_toplevel (stadyn: int): d0eclist
 
 (* ****** ****** *)
 

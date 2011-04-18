@@ -34,6 +34,10 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+
+(* ****** ****** *)
+
 staload LOC = "pats_location.sats"
 
 (* ****** ****** *)
@@ -160,6 +164,10 @@ fun p_toplevel_fun (
       end
     | _ => () where {
         val () = tokbuf_reset (buf)
+//
+        val semilst = pstar_fun {token} (buf, 1(*bt*), p_SEMICOLON)
+        val () = list_vt_free (semilst)
+//
         val () =
           res := list_vt_cons {a} {0} (x, ?)
         // end of [val]

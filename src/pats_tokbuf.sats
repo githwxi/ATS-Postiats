@@ -70,6 +70,10 @@ fun tokbuf_initialize_getc (
   buf: &tokbuf? >> tokbuf, getc: () -<cloptr1> int
 ) : void // end of [tokbuf_initialize_getc]
 
+fun tokbuf_initialize_string (
+  buf: &tokbuf? >> tokbuf, inp: string
+) : void // end of [token_initialize_string]
+
 (* ****** ****** *)
 
 fun tokbuf_uninitialize (

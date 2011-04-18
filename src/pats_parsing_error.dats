@@ -39,13 +39,17 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-staload "pats_parsing.sats"
-
-(* ****** ****** *)
-
 staload LOC = "pats_location.sats"
 typedef location = $LOC.location
 overload fprint with $LOC.fprint_location
+
+(* ****** ****** *)
+
+staload "pats_lexing.sats"
+
+(* ****** ****** *)
+
+staload "pats_parsing.sats"
 
 (* ****** ****** *)
 
@@ -81,6 +85,17 @@ val the_length = ref<int> (0)
 val the_parerrlst = ref<parerrlst_vt> (list_vt_nil)
 
 in // in of [local]
+
+implement
+the_parerrlst_clear
+  () = () where {
+  val () = !the_length := 0
+  val () = () where {
+    val (vbox pf | p) = ref_get_view_ptr (the_parerrlst)
+    val () = list_vt_free (!p)
+    val () = !p := list_vt_nil ()
+  } // end of [val]
+} // end of [the_parerrlst_clear]
 
 implement
 the_parerrlst_add
@@ -120,6 +135,16 @@ the_parerrlst_add_ifnbt
   else () // end of [if]
 // end of [the_parerrlst_add_if0]
 
+implement
+the_parerrlst_add_ifunclosed
+  (loc, name) = let
+  val newline = '\n'
+in
+  if string_contains (name, newline) then
+    the_parerrlst_add (parerr_make (loc, PE_filename)) else ()
+  // end of [if]
+end // end of [the_parerrlst_add_ifunclosed]
+
 (* ****** ****** *)
 
 fun keyword_needed (
@@ -145,6 +170,14 @@ fun synent_needed (
   val () = fprintf (out, ": error(parsing): the syntactic entity [%s] is needed.", @(name))
   val () = fprint_newline (out)
 } // end of [synent_needed]
+
+fun filename_unclosed (
+  out: FILEref, x: parerr
+) : void = () where {
+  val () = fprint (out, x.parerr_loc)
+  val () = fprintf (out, ": error(parsing): the filename is unclosed.", @())
+  val () = fprint_newline (out)
+} // end of [filename_unclosed]
 
 fun token_discarded (
   out: FILEref, x: parerr
@@ -278,6 +311,8 @@ case+ node of
 | PE_d0ecl_sta () => SN (x, "d0ecl_sta")
 | PE_d0ecl_dyn () => SN (x, "d0ecl_dyn")
 | PE_guad0ecl () => SN (x, "guad0ecl")
+//
+| PE_filename () => filename_unclosed (out, x)
 //
 | PE_DISCARD () => token_discarded (out, x)
 //

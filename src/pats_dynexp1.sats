@@ -108,6 +108,12 @@ and d1eclist = List (d1ecl)
 
 fun d1ecl_none (loc: location): d1ecl
 
+fun d1ecl_list (loc: location, ds: d1eclist): d1ecl
+
+fun d1ecl_e1xpdef
+  (loc: location, id: symbol, def: e1xp): d1ecl
+// end of [d1ecl_e1xpdef]
+
 fun d1ecl_datsrts (loc: location, ds: d1atsrtdeclst): d1ecl
 
 fun d1ecl_srtdefs (loc: location, ds: s1rtdeflst): d1ecl
@@ -131,6 +137,8 @@ fun d1ecl_exndecs (loc: location, ds: e1xndeclst): d1ecl
 fun d1ecl_dcstdecs (
   loc: location, dck: dcstkind, qarg: q1marglst, ds: d1cstdeclst
 ) : d1ecl // end of [d1ec_dcstdecs]
+
+fun d1ecl_include (loc: location, ds: d1eclist): d1ecl
 
 fun d1ecl_local (loc: location, ds1: d1eclist, ds2: d1eclist): d1ecl
 

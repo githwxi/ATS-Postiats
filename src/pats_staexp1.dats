@@ -258,6 +258,11 @@ s1exp_char (loc, char) = '{
 }
 
 implement
+s1exp_extype (loc, name, arg) = '{
+  s1exp_loc= loc, s1exp_node= S1Eextype (name, arg)
+}
+
+implement
 s1exp_ide (loc, id) = let
   val sq = s0taq_none (loc) in s1exp_sqid (loc, sq, id)
 end // end of [s1exp_ide]

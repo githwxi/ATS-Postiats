@@ -637,7 +637,8 @@ p_exts0exp (
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ tok.token_node of
+case+
+tok.token_node of
 | T_DLREXTYPE () => let
     val bt = 0
     val () = incby1 ()

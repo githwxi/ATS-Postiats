@@ -59,10 +59,16 @@ in
 case+ d1c0.d1ecl_node of
 | D1Cnone () => prstr "D1Cnone()"
 //
+| D1Cinclude (xs) => {
+    val () = prstr "D1Cinclude(\n"
+    val () = $UT.fprintlst (out, xs, "\n", fprint_d1ecl)
+    val () = prstr "\n)"
+  }
+//
 | D1Cdatsrts (xs) => {
     val () = prstr "D1Cdatsrts(\n"
     val () = $UT.fprintlst (out, xs, "\n", fprint_d1atsrtdec)
-  val () = prstr "\n)"
+    val () = prstr "\n)"
   }
 | D1Csrtdefs (xs) => {
     val () = prstr "D1Csrtdefs(\n"

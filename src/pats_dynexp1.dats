@@ -46,6 +46,20 @@ d1ecl_none (loc) = '{
 } // end of [d1ecl_none]
 
 implement
+d1ecl_list (loc, ds) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Clist (ds)
+} // end of [d1ecl_list]
+
+(* ****** ****** *)
+
+implement
+d1ecl_e1xpdef (loc, id, def) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Ce1xpdef (id, def)
+}
+
+(* ****** ****** *)
+
+implement
 d1ecl_datsrts (loc, xs) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cdatsrts (xs)
 }
@@ -104,6 +118,13 @@ implement
 d1ecl_dcstdecs (loc, dck, qarg, ds) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cdcstdecs (dck, qarg, ds)
 } // end of [d1ecl_dcstdecs]
+
+(* ****** ****** *)
+
+implement
+d1ecl_include (loc, ds) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cinclude (ds)
+} // end of [d1ecl_include]
 
 (* ****** ****** *)
 

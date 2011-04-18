@@ -101,6 +101,12 @@ overload fprint with fprint_dcstkind
 
 (* ****** ****** *)
 
+datatype srpifkind =
+  | SRPIFKINDif | SRPIFKINDifdef | SRPIFKINDifndef
+// end of [srpifkind]
+
+(* ****** ****** *)
+
 datatype
 macsynkind =
   | MACSYNKINDdecode
@@ -1156,13 +1162,13 @@ d0ecl_node =
   | D0Cstaload of (symbolopt, string)
   | D0Cdynload of (string) // HX: dynloading for initialization
   | D0Clocal of (d0eclist, d0eclist)
-  | D0Cguadecl of (token(*knd*), guad0ecl)
+  | D0Cguadecl of (srpifkind, guad0ecl)
 // end of [d0ecl_node]
 
 and guad0ecl_node =
   | GD0Cone of (e0xp, d0eclist)
   | GD0Ctwo of (e0xp, d0eclist, d0eclist)
-  | GD0Ccons of (e0xp, d0eclist, token, guad0ecl_node)
+  | GD0Ccons of (e0xp, d0eclist, srpifkind, guad0ecl_node)
 // end of [guad0ecl_node]
 
 and d0exp_node =

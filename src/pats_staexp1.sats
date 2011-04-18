@@ -288,6 +288,7 @@ datatype s1exp_node =
 //
   | S1Eint of i0nt // integer constant
   | S1Echar of c0har // character constant
+  | S1Eextype of (string(*name*), s1explstlst) // extern type
 //
   | S1Esqid of (s0taq, symbol) // qualified static identifer
 //
@@ -354,6 +355,10 @@ and s1qualstlst = List (s1qualst)
 
 fun s1exp_int (loc: location, int: i0nt): s1exp
 fun s1exp_char (loc: location, char: c0har): s1exp
+
+fun s1exp_extype (
+  loc: location, name: string, arg: s1explstlst
+) : s1exp // end of [s1exp_extype]
 
 fun s1exp_ide (loc: location, id: symbol): s1exp
 fun s1exp_sqid (loc: location, sq: s0taq, id: symbol): s1exp

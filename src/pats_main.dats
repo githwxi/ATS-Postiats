@@ -81,6 +81,7 @@ dynload "pats_syntax_print.dats"
 dynload "pats_syntax.dats"
 
 dynload "pats_tokbuf.dats"
+dynload "pats_parsing.dats"
 dynload "pats_parsing_error.dats"
 dynload "pats_parsing_util.dats"
 dynload "pats_parsing_kwds.dats"
@@ -118,21 +119,9 @@ main (
 //
   val () = println! ("Hello from ATS/Postiats!")
 //
-  var buf: tokbuf
-  val () = tokbuf_initialize_getc (buf, lam () =<cloptr1> getchar ())
-  var nerr: int = 0
-//
-  val d0cs = p_toplevel_dyn (buf, nerr)
-//
-  val () = println! ("nerr = ", nerr)
-  val () = if (nerr > 0) then tokbuf_discard_all (buf)
-  val () = if (nerr = 0) then fprint_d0eclist (stdout_ref, d0cs)
-  val () = if (nerr = 0) then print_newline ()
-//
-  val () = tokbuf_uninitialize (buf)
-//
-  val () = fprint_the_lexerrlst (stdout_ref)
-  val () = fprint_the_parerrlst (stdout_ref)
+  val d0cs = parse_from_stdin_toplevel (1(*dyn*))
+  val () = fprint_d0eclist (stdout_ref, d0cs)
+  val () = print_newline ()
 //
   val d1cs = d0eclist_tr (d0cs)
   val () = fprint_d1eclist (stdout_ref, d1cs)
