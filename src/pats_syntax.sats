@@ -1131,6 +1131,7 @@ d0ecl_node =
       (int(*0:sta/1:dyn*), string(*filename*))
   | D0Csymintr of (i0delst) // introducing overloading symbols
   | D0Ce0xpdef of (symbol, e0xpopt)
+  | D0Ce0xpundef of (symbol) (* undefinition *)
   | D0Ce0xpact of (e0xpactkind, e0xp)
   | D0Cdatsrts of d0atsrtdeclst (* datasort declaration *)
   | D0Csrtdefs of s0rtdeflst (* sort definition *)
@@ -1640,6 +1641,7 @@ fun d0ecl_include (knd: int, _1: token, _2: token): d0ecl
 fun d0ecl_symintr (_1: token, _2: i0delst): d0ecl
 //
 fun d0ecl_e0xpdef (_1: token, _2: i0de, _3: e0xpopt): d0ecl
+fun d0ecl_e0xpundef (_1: token, _2: i0de): d0ecl // HX: undefining
 //
 fun d0ecl_e0xpact_assert (_1: token, _2: e0xp): d0ecl
 fun d0ecl_e0xpact_error (_1: token, _2: e0xp): d0ecl

@@ -56,6 +56,10 @@ implement
 d1ecl_e1xpdef (loc, id, def) = '{
   d1ecl_loc= loc, d1ecl_node= D1Ce1xpdef (id, def)
 }
+implement
+d1ecl_e1xpundef (loc, id) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Ce1xpundef (id)
+}
 
 (* ****** ****** *)
 

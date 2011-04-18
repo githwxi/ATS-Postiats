@@ -439,6 +439,31 @@ case+ d0c0.d0ecl_node of
   in
     d1ecl_e1xpdef (loc0, id, def)
   end // end of [D0Ce0xpdef]
+| D0Ce0xpundef (id) => let
+    val def = e1xp_undef (loc0)
+    val () = the_e1xpenv_add (id, def)
+  in
+    d1ecl_e1xpundef (loc0, id)
+  end // end of [D0Ce0xpundef]
+//
+| D0Ce0xpact (actkind, e0xp) => let
+    val e1xp = e0xp_tr e0xp
+(*
+    val () = begin
+      print "d0ec_tr: D0Ce0xpact: e1xp = "; print e1xp; print_newline ()
+    end // end of [val]
+*)
+    val v1al = e1xp_eval e1xp
+    val () = (case+ actkind of
+      | E0XPACTassert () =>
+          do_e0xpact_assert (e0xp.e0xp_loc, v1al)
+      | E0XPACTerror () =>
+          do_e0xpact_error (e0xp.e0xp_loc, v1al)
+      | E0XPACTprint () => do_e0xpact_prerr v1al
+    ) : void // end of [val]
+  in
+    d1ecl_none (loc0)
+  end // end of [D0Ce0xpact]
 //
 | D0Cdatsrts (d0cs) => let
     val d1cs = l2l (list_map_fun (d0cs, d0atsrtdec_tr))

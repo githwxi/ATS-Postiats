@@ -845,6 +845,11 @@ case+ x.d0ecl_node of
     val () = $UT.fprintopt<e0xp> (out, def, fprint_e0xp)
     val () = prstr ")"
   }
+| D0Ce0xpundef (id) => {
+    val () = prstr "D0Ce0xpundef("
+    val () = fprint_symbol (out, id)
+    val () = prstr ")"
+  }
 | D0Ce0xpact (knd, act) => {
     val () = prstr "D0Ce0xpact("
     val () = fprint_e0xpactkind (out, knd)

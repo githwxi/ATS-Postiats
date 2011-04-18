@@ -51,7 +51,10 @@ datatype d1ecl_node =
       i0delst
   | D1Csymelim of (* overloaded symbol elim *)
       i0delst
+//
   | D1Ce1xpdef of (symbol, e1xp)
+  | D1Ce1xpundef of (symbol) // HX: undefining
+//
   | D1Cdatsrts of d1atsrtdeclst // datasorts
   | D1Csrtdefs of s1rtdeflst // sort definitions
   | D1Cstacsts of s1tacstlst // static constants
@@ -112,7 +115,7 @@ fun d1ecl_list (loc: location, ds: d1eclist): d1ecl
 
 fun d1ecl_e1xpdef
   (loc: location, id: symbol, def: e1xp): d1ecl
-// end of [d1ecl_e1xpdef]
+fun d1ecl_e1xpundef (loc: location, id: symbol): d1ecl
 
 fun d1ecl_datsrts (loc: location, ds: d1atsrtdeclst): d1ecl
 

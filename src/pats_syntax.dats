@@ -2081,6 +2081,13 @@ in '{
   d0ecl_loc= loc, d0ecl_node= D0Ce0xpdef (ent2.i0de_sym, ent3)
 } end // end of [d0ecl_e0xpdef]
 
+implement
+d0ecl_e0xpundef (tok, ent2) = let
+  val loc = tok.token_loc + ent2.i0de_loc
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Ce0xpundef (ent2.i0de_sym)
+} end // end of [d0ecl_e0xpundef]
+
 (* ****** ****** *)
 
 implement

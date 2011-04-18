@@ -614,6 +614,15 @@ case+ tok.token_node of
       val () = option_vt_free (ent3) in synent_null ()
     end (* end of [if] *)
   end
+| T_SRPUNDEF () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_i0de (buf, bt, err)
+  in
+    if err = err0 then
+      d0ecl_e0xpundef (tok, ent2) else synent_null ()
+    // end of [if]
+  end
 | T_SRPASSERT () => let
     val bt = 0
     val () = incby1 ()
