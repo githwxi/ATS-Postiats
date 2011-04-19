@@ -2053,6 +2053,18 @@ in '{
   d0ecl_loc= loc, d0ecl_node= D0Csymintr (ids)
 } end // end of [d0ecl_symintr]
 
+implement
+d0ecl_symelim
+  (tok, ids) = let
+  val- T_SYMELIM () = tok.token_node
+  val loc = (case+ ids of
+    | list_cons (id, ids) => loop (tok, id, ids)
+    | list_nil () => tok.token_loc
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Csymelim (ids)
+} end // end of [d0ecl_symelim]
+
 end // end of [local]
 
 (* ****** ****** *)

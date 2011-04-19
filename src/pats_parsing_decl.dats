@@ -540,6 +540,7 @@ d0ecl
   | POSTFIX p0rec i0deseq
   | NONFIX i0deseq
   | SYMINTR i0deseq
+  | SYMELIM i0deseq
   | SRPUNDEF i0de
   | SRPDEFINE i0de e0xpopt
   | SRPASSERT e0xp
@@ -594,6 +595,15 @@ case+ tok.token_node of
   in
     if err = err0 then
       d0ecl_symintr (tok, ent2) else synent_null ()
+    // end of [if]
+  end
+| T_SYMELIM () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_i0deseq1 (buf, bt, err)
+  in
+    if err = err0 then
+      d0ecl_symelim (tok, ent2) else synent_null ()
     // end of [if]
   end
 | T_SRPDEFINE () => let

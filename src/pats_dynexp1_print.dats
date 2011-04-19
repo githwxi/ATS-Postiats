@@ -58,11 +58,34 @@ in
 //
 case+ d1c0.d1ecl_node of
 | D1Cnone () => prstr "D1Cnone()"
-//
-| D1Cinclude (xs) => {
-    val () = prstr "D1Cinclude(\n"
-    val () = $UT.fprintlst (out, xs, "\n", fprint_d1ecl)
+| D1Clist (ds) => {
+    val () = prstr "D1Clist(\n"
+    val () = fprint_d1eclist (out, ds)
     val () = prstr "\n)"
+  } // end of [D1Clist]
+//
+| D1Csymintr (ids) => {
+    val () = prstr "D1Csymintr("
+    val () = $UT.fprintlst (out, ids, ", ", fprint_i0de)
+    val () = prstr ")"
+  }
+| D1Csymelim (ids) => {
+    val () = prstr "D1Csymelim("
+    val () = $UT.fprintlst (out, ids, ", ", fprint_i0de)
+    val () = prstr ")"
+  }
+//
+| D1Ce1xpdef (id, def) => {
+    val () = prstr "D1Ce1xpdef("
+    val () = fprint_symbol (out, id)
+    val () = prstr " = "
+    val () = fprint_e1xp (out, def)
+    val () = prstr ")"
+  }
+| D1Ce1xpundef (id) => {
+    val () = prstr "D1Ce1xpundef("
+    val () = fprint_symbol (out, id)
+    val () = prstr ")"
   }
 //
 | D1Cdatsrts (xs) => {
@@ -125,6 +148,12 @@ case+ d1c0.d1ecl_node of
     val () = fprint_dcstkind (out, dck)
     val () = prstr "\n"
     val () = $UT.fprintlst (out, xs, "\n", fprint_d1cstdec)
+    val () = prstr "\n)"
+  }
+//
+| D1Cinclude (xs) => {
+    val () = prstr "D1Cinclude(\n"
+    val () = $UT.fprintlst (out, xs, "\n", fprint_d1ecl)
     val () = prstr "\n)"
   }
 //

@@ -91,7 +91,7 @@ symenv_vt0ype
   map= symmap (itm)
 , maplst= symmaplst (itm)
 , savedlst= List_vt @(symmap itm, symmaplst itm)
-, pervasive= symmaplst (itm)
+, pervasive= symmap (itm)
 } // end of [symenv_v0type]
 
 (* ****** ****** *)
@@ -104,7 +104,7 @@ symenv_make_nil
   val () = p->map := symmap_make_nil ()
   val () = p->maplst := list_vt_nil ()
   val () = p->savedlst := list_vt_nil ()
-  val () = p->pervasive := list_vt_nil ()
+  val () = p->pervasive := symmap_make_nil ()
   prval () = free_gc_elim (pfgc)
 in
   (pfat | p)
@@ -206,7 +206,13 @@ end // end of [symenv_localjoin]
 
 implement
 symenv_pervasive_search
-  {itm} (env, k) = symmaplst_search (env.pervasive, k)
+  {itm} (env, k) = symmap_search (env.pervasive, k)
+// end of [symenv_pervasive_search]
+
+implement
+symenv_pervasive_joinwth
+  {itm} (env, map) =
+  symmap_joinwth (env.pervasive, map)
 // end of [symenv_pervasive_search]
 
 (* ****** ****** *)

@@ -425,20 +425,16 @@ local
 
 staload UNISTD = "libc/SATS/unistd.sats"
 
-extern
-fun filename_append (
-  dir: string, bas: string
-) :<> strptr1 = "atsopt_filename_append"
+in // in of [local]
 
-fn filename_make (
-  basename: string, fullname: string
-) : filename = let
+implement
+filename_make (
+  basename, fullname
+) = let
   val fullname_sym = $SYM.symbol_make_string (fullname)
 in '{
   filename_name= basename, filename_full= fullname_sym
 } end // end of [filename_make]
-
-in // in of [local]
 
 implement
 filenameopt_make_relative
@@ -461,7 +457,9 @@ filenameopt_make_relative
 *)
       in
         if isexi then let
-          val fullname = string1_of_strptr (fullname) in stropt_some (fullname)
+          val fullname = string1_of_strptr (fullname)
+        in
+          stropt_some (fullname)
         end else let
           val () = strptr_free (fullname) in aux_try (paths, basename)
         end // end of [if]

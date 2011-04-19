@@ -52,21 +52,18 @@ stadef symenv = symenv_vt0ype
 
 (* ****** ****** *)
 
-fun
-symenv_make_nil
+fun symenv_make_nil
   {itm:type} (): [l:addr] (symenv (itm) @ l | ptr l)
 // end of [symenv]
 
 (* ****** ****** *)
 
-fun
-symenv_search
+fun symenv_search
   {itm:type} // HX: search all
   (env: &symenv itm, k: symbol):<> Option_vt (itm)
 // end of [symenv_search]
 
-fun
-symenv_insert
+fun symenv_insert
   {itm:type} // HX: insert first
   (env: &symenv itm, k: symbol, i: itm):<> void
 // end of [symenv_insert]
@@ -106,11 +103,14 @@ fun symenv_localjoin
 
 (* ****** ****** *)
 
-fun
-symenv_pervasive_search
+fun symenv_pervasive_search
   {itm:type} // HX: search all
   (env: &symenv itm, k: symbol):<> Option_vt (itm)
 // end of [symenv_pervasive_search]
+
+fun symenv_pervasive_joinwth
+  {itm:type} (env: &symenv itm, map: symmap itm):<> void
+// end of [symenv_pervasive_join]
 
 (* ****** ****** *)
 

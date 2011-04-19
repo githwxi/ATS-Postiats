@@ -43,16 +43,29 @@ typedef symbol = $SYM.symbol
 
 staload "pats_syntax.sats"
 staload "pats_staexp1.sats"
+staload "pats_symmap.sats"
 
 (* ****** ****** *)
 
 fun the_e1xpenv_add (id: symbol, e: e1xp): void
 fun the_e1xpenv_find (id: symbol): Option_vt e1xp
 
+absview e1xpenv_push_v
+fun the_e1xpenv_pop
+  (pf: e1xpenv_push_v | (*none*)): symmap (e1xp)
+fun the_e1xpenv_push_nil (): (e1xpenv_push_v | void)
+
 (* ****** ******* *)
 
 fun the_fxtyenv_add (key: symbol, itm: fxty): void
 fun the_fxtyenv_find (key: symbol): Option_vt (fxty)
+
+absview fxtyenv_push_v
+fun the_fxtyenv_pop
+  (pf: fxtyenv_push_v | (*none*)): symmap (fxty)
+fun the_fxtyenv_push_nil (): (fxtyenv_push_v | void)
+
+fun the_fxtyenv_pervasive_joinwth (map: symmap (fxty)): void
 
 (* ****** ******* *)
 

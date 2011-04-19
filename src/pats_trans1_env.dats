@@ -55,6 +55,8 @@ viewtypedef e1xpenv = symenv (e1xp)
 val [l0:addr] (pf | p0) = symenv_make_nil ()
 val (pf0 | ()) = vbox_make_view_ptr {e1xpenv} (pf | p0)
 
+assume e1xpenv_push_v = unit_v // HX: it is just a dummy
+
 in // in of [local]
 
 implement
@@ -74,20 +76,29 @@ in
   | ~None_vt () => symenv_pervasive_search (!p0, k)
 end // end of [the_e1xpenv_find]
 
-fun the_e1xpenv_pop_free
-  () = () where {
+implement
+the_e1xpenv_pop
+  (pfenv | (*none*)) = map where {
+  prval unit_v () = pfenv
   prval vbox pf = pf0
-  val () = symenv_pop_free (!p0)
+  val map = symenv_pop (!p0)
 } // end of [the_e1xpenv_pop_free]
 
-fun the_e1xpenv_push_nil
-  () = () where {
+implement
+the_e1xpenv_push_nil
+  () = (pfenv | ()) where {
   prval vbox pf = pf0
   val () = symenv_push_nil (!p0)
+  prval pfenv = unit_v ()
 } // end of [the_e1xpenv_push_nil]
 
-fun the_e1xpenv_localjoin
-  () = () where {
+fun the_e1xpenv_localjoin (
+  pfenv1: e1xpenv_push_v
+, pfenv2: e1xpenv_push_v
+| (*none*)
+) = () where {
+  prval unit_v () = pfenv1
+  prval unit_v () = pfenv2
   prval vbox pf = pf0
   val () = symenv_localjoin (!p0)
 } // end of [the_e1xpenv_localjoin]
@@ -101,6 +112,8 @@ local
 viewtypedef fxtyenv = symenv (fxty)
 val [l0:addr] (pf | p0) = symenv_make_nil ()
 val (pf0 | ()) = vbox_make_view_ptr {fxtyenv} (pf | p0)
+
+assume fxtyenv_push_v = unit_v // HX: it is just a dummy
 
 in // in of [local]
 
@@ -127,23 +140,37 @@ fprint_the_fxtyenv (out) = let
   $effmask_ref (fprint_symenv_map (out, !p0, $FIX.fprint_fxty))
 end // end of [fprint_the_fxtyenv]
 
-fun the_fxtyenv_pop_free
-  () = () where {
+implement
+the_fxtyenv_pop
+  (pfenv | (*none*)) = map where {
+  prval unit_v () = pfenv
   prval vbox pf = pf0
-  val () = symenv_pop_free (!p0)
+  val map = symenv_pop (!p0)
 } // end of [the_fxtyenv_pop_free]
 
-fun the_fxtyenv_push_nil
-  () = () where {
+implement
+the_fxtyenv_push_nil
+  () = (pfenv | ()) where {
   prval vbox pf = pf0
   val () = symenv_push_nil (!p0)
+  prval pfenv = unit_v ()
 } // end of [the_fxtyenv_push_nil]
 
-fun the_fxtyenv_localjoin
-  () = () where {
+fun the_fxtyenv_localjoin (
+  pfenv1: fxtyenv_push_v
+, pfenv2: fxtyenv_push_v
+| (*none*)
+) = () where {
+  prval unit_v () = pfenv1
+  prval unit_v () = pfenv2
   prval vbox pf = pf0
   val () = symenv_localjoin (!p0)
 } // end of [the_fxtyenv_localjoin]
+
+implement
+the_fxtyenv_pervasive_joinwth (map) = let
+  prval vbox pf = pf0 in symenv_pervasive_joinwth (!p0, map)
+end // end of [fun]
 
 end // end of [local]
 
@@ -190,33 +217,35 @@ end // end of [local]
 local
 
 assume
-trans1_env_push_v = unit_v // HX: just a dummy
+trans1_env_push_v = (e1xpenv_push_v, fxtyenv_push_v)
 
 in // in of [local]
 
 implement
 trans1_env_pop
   (pfenv | (*none*)) = () where {
-  prval unit_v () = pfenv
-  val () = the_e1xpenv_pop_free ()
-  val () = the_fxtyenv_pop_free ()
+  prval (pf1env, pf2env) = pfenv
+  val map = the_e1xpenv_pop (pf1env | (*none*))
+  val () = symmap_free (map)
+  val map = the_fxtyenv_pop (pf2env | (*none*))
+  val () = symmap_free (map)
 } // end of [trans1_env_pop]
 
 implement
 trans1_env_push
   () = (pfenv | ()) where {
-  prval pfenv = unit_v ()
-  val () = the_e1xpenv_push_nil ()
-  val () = the_fxtyenv_push_nil ()
+  val (pf1env | ()) = the_e1xpenv_push_nil ()
+  val (pf2env | ()) = the_fxtyenv_push_nil ()
+  prval pfenv = (pf1env, pf2env)
 } // end of [trans1_env_pop]
 
 implement
 trans1_env_localjoin
-  (pf1env, pf2env | (*none*)) = () where {
-  prval unit_v () = pf1env
-  prval unit_v () = pf2env
-  val () = the_e1xpenv_localjoin ()
-  val () = the_fxtyenv_localjoin ()
+  (pfenv1, pfenv2 | (*none*)) = () where {
+  prval (pf1env1, pf2env1) = pfenv1
+  prval (pf1env2, pf2env2) = pfenv2
+  val () = the_e1xpenv_localjoin (pf1env1, pf1env2 | (*none*))
+  val () = the_fxtyenv_localjoin (pf2env1, pf2env2 | (*none*))
 } // end of [trans1_env_localjoin]
 
 end // end of [local]

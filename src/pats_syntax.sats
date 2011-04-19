@@ -1643,6 +1643,7 @@ fun d0ecl_nonfix (_1: token, _2: i0delst): d0ecl
 fun d0ecl_include (knd: int, _1: token, _2: token): d0ecl
 //
 fun d0ecl_symintr (_1: token, _2: i0delst): d0ecl
+fun d0ecl_symelim (_1: token, _2: i0delst): d0ecl
 //
 fun d0ecl_e0xpdef (_1: token, _2: i0de, _3: e0xpopt): d0ecl
 fun d0ecl_e0xpundef (_1: token, _2: i0de): d0ecl // HX: undefining

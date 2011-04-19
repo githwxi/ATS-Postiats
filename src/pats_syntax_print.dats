@@ -706,6 +706,7 @@ fprint_d0exp (out, x) = let
 in
 //
 case+ x.d0exp_node of
+//
 | D0Eopid (sym) => {
     val () = prstr "D0Eopid("
     val () = fprint_symbol (out, sym)
@@ -751,6 +752,39 @@ case+ x.d0exp_node of
     val () = fprint_d0exp (out, d0e)
     val () = prstr ": "
     val () = fprint_s0exp (out, s0e)
+    val () = prstr ")"
+  }
+//
+| D0Eifhead (
+    hd, _test, _then, _else
+  ) => {
+    val () = prstr "D0Eifhead("
+    val () = fprint_d0exp (out, _test)
+    val () = prstr "; "
+    val () = fprint_d0exp (out, _then)
+    val () = prstr "; "
+    val () = fprint_d0expopt (out, _else)
+    val () = prstr ")"
+  }
+| D0Esifhead (
+    hd, _test, _then, _else
+  ) => {
+    val () = prstr "D0Esifhead("
+    val () = fprint_s0exp (out, _test)
+    val () = prstr "; "
+    val () = fprint_d0exp (out, _then)
+    val () = prstr "; "
+    val () = fprint_d0exp (out, _else)
+    val () = prstr ")"
+  }
+| D0Ecasehead _ => {
+    val () = prstr "D0Ecasehead("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| D0Escasehead _ => {
+    val () = prstr "D0Escasehead("
+    val () = prstr "..."
     val () = prstr ")"
   }
 //

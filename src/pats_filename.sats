@@ -74,6 +74,12 @@ fun filename_get_full (fil: filename): $SYM.symbol
 
 (* ****** ****** *)
 
+fun filename_append (
+  dir: string, bas: string
+) :<> strptr1 = "atsopt_filename_append"
+
+(* ****** ****** *)
+
 fun eq_filename_filename
   (x1: filename, x2: filename):<> bool
 
@@ -122,6 +128,10 @@ fun the_pathlst_push (p: path): (the_pathlst_push_v | void)
 fun the_prepathlst_push (p: path): void
 
 (* ****** ****** *)
+
+fun filename_make
+  (basename: string, fullname: string) : filename
+// end of [filename_make]
 
 fun filenameopt_make_relative (name: string): filenameopt_vt
 

@@ -42,7 +42,12 @@ staload UT = "pats_utils.sats"
 
 (* ****** ****** *)
 
-staload "pats_location.sats"
+staload ERR = "pats_error.sats"
+staload FIL = "pats_filename.sats"
+staload LOC = "pats_location.sats"
+
+(* ****** ****** *)
+
 staload "pats_lexing.sats"
 staload "pats_tokbuf.sats"
 staload "pats_syntax.sats"
@@ -52,7 +57,12 @@ staload "pats_parsing.sats"
 
 staload "pats_staexp1.sats"
 staload "pats_dynexp1.sats"
-staload "pats_trans1.sats"
+staload TRANS1 = "pats_trans1.sats"
+staload TRENV1 = "pats_trans1_env.sats"
+
+(* ****** ****** *)
+
+staload "pats_comarg.sats"
 
 (* ****** ****** *)
 //
@@ -110,6 +120,39 @@ dynload "pats_trans1_staexp.dats"
 dynload "pats_trans1_dynexp.dats"
 dynload "pats_trans1_decl.dats"
 //
+dynload "pats_comarg.dats"
+//
+(* ****** ****** *)
+
+fn fixity_load
+  (ATSHOME: string): void = let
+//
+  val basename = "prelude/fixity.ats"
+  val fullname =
+    $FIL.filename_append (ATSHOME, basename)
+  val fullname = string_of_strptr (fullname)
+  val filename =
+    $FIL.filename_make (basename, fullname)
+  // end of [val]
+//
+  val (pfpush | ()) = 
+    $FIL.the_filenamelst_push (filename)
+  val d0cs = parse_from_filename_toplevel (0(*sta*), fullname)
+  val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+//
+  val (pfenv | ()) = $TRENV1.the_fxtyenv_push_nil ()
+  val d1cs = $TRANS1.d0eclist_tr (d0cs)
+  val map = $TRENV1.the_fxtyenv_pop (pfenv | (*none*))
+  val () = $TRENV1.the_fxtyenv_pervasive_joinwth (map)
+(*
+  val () = begin
+    print "[fixity_load] is finished."; print_newline ()
+  end // end of [val]
+*)
+in
+  // empty
+end // end of [fixity_load]
+
 (* ****** ****** *)
 
 implement
@@ -117,17 +160,76 @@ main (
   argc, argv
 ) = () where {
 //
-  val () = println! ("Hello from ATS/Postiats!")
+val () = println! ("Hello from ATS/Postiats!")
 //
-  val d0cs = parse_from_stdin_toplevel (0(*dyn*))
-  val () = fprint_d0eclist (stdout_ref, d0cs)
-  val () = print_newline ()
+val () = set () where { extern
+  fun set (): void = "mac#atsopt_ATSHOME_set"
+} // end of [where] // end of [val]
+val () = set () where { extern
+  fun set (): void = "mac#atsopt_ATSHOMERELOC_set"
+} // end of [where] // end of [val]
 //
-  val d1cs = d0eclist_tr (d0cs)
-  val () = fprint_d1eclist (stdout_ref, d1cs)
-  val () = print_newline ()
+val ATSHOME = let
+  val opt = get () where {
+    extern fun get (): Stropt = "atsopt_ATSHOME_get"
+  } // end of [val]
+in
+  if stropt_is_some (opt)
+    then stropt_unsome (opt) else let
+    val () = prerr ("The environment variable ATSHOME is undefined")
+    val () = prerr_newline ()
+  in
+    $ERR.abort ()
+  end // end of [if]
+end : string // end of [ATSHOME]
+//
+val () = $FIL.the_prepathlst_push (ATSHOME) // for the run-time and atslib
+//
+val () = fixity_load (ATSHOME)
+//
+val d0cs = parse_from_stdin_toplevel (1(*dyn*))
+val () = fprint_d0eclist (stdout_ref, d0cs)
+val () = print_newline ()
+//
+val d1cs = $TRANS1.d0eclist_tr (d0cs)
+val () = fprint_d1eclist (stdout_ref, d1cs)
+val () = print_newline ()
 //
 } // end of [main]
+
+(* ****** ****** *)
+
+%{^
+//
+// HX-2011-04-18:
+// there is no need for marking these variables as
+// GC roots as the values stored in them cannot be GCed
+//
+static char *atsopt_ATSHOME = (char*)0 ;
+static char *atsopt_ATSHOMERELOC = (char*)0 ;
+extern char *getenv (const char *name) ; // [stdlib.h]
+//
+ats_ptr_type
+atsopt_ATSHOME_get () {
+  return atsopt_ATSHOME ; // optional string
+} // end of [atsopt_ATSHOME_get]
+ATSinline()
+ats_void_type
+atsopt_ATSHOME_set () {
+  atsopt_ATSHOME = getenv ("ATSHOME") ; return ;
+} // end of [atsopt_ATSHOME_set]
+//
+ats_ptr_type
+atsopt_ATSHOMERELOC_get () {
+  return atsopt_ATSHOMERELOC ; // optional string
+} // end of [atsopt_ATSHOMERELOC_get]
+ATSinline()
+ats_void_type
+atsopt_ATSHOMERELOC_set () {
+  atsopt_ATSHOMERELOC = getenv ("ATSHOMERELOC") ; return ;
+} // end of [atsopt_ATSHOMERELOC_set]
+//
+%} // end of [%{^]
 
 (* ****** ****** *)
 
