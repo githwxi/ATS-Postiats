@@ -210,6 +210,11 @@ symenv_pervasive_search
 // end of [symenv_pervasive_search]
 
 implement
+symenv_pervasive_insert {itm}
+  (env, k, i) = symmap_insert {itm} (env.pervasive, k, i)
+// end of [symenv_insert]
+
+implement
 symenv_pervasive_joinwth
   {itm} (env, map) =
   symmap_joinwth (env.pervasive, map)

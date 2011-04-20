@@ -484,8 +484,8 @@ fun ptokwrap_fun
 (* ****** ****** *)
 
 fun p_i0nt : parser (i0nt) // integers: dec, oct, hex, etc.
-fun p_c0har : parser (c0har) // strings
-fun p_f0loat : parser (f0loat) // strings
+fun p_c0har : parser (c0har) // characters
+fun p_f0loat : parser (f0loat) // floating point numbers
 fun p_s0tring : parser (s0tring) // strings
 
 (* ****** ****** *)
@@ -515,6 +515,7 @@ fun p_m0acarg : parser (m0acarg)
 (* ****** ****** *)
 
 fun p_e0xp : parser (e0xp)
+fun p_datsdef : parser (datsdef)
 
 (* ****** ****** *)
 

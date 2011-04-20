@@ -330,14 +330,15 @@ fun fprint_e0xpactkind : fprint_type (e0xpactkind)
 
 datatype
 e0xp_node =
-  | E0XPapp of (e0xp, e0xp)
-  | E0XPchar of c0har
-  | E0XPeval of e0xp
-  | E0XPfloat of f0loat
   | E0XPide of symbol
   | E0XPint of i0nt // [i0nt] is processed later
-  | E0XPlist of e0xplst
+  | E0XPchar of c0har
+  | E0XPfloat of f0loat
   | E0XPstring of s0tring
+  | E0XPstringid of string
+  | E0XPapp of (e0xp, e0xp)
+  | E0XPeval of e0xp
+  | E0XPlist of e0xplst
 // end of [e0xp_node]
 
 where
@@ -348,9 +349,6 @@ e0xp = '{
 and e0xplst = List (e0xp)
 and e0xpopt = Option (e0xp)
 
-fun e0xp_app (_1: e0xp, _2: e0xp): e0xp
-fun e0xp_eval (_1: token, _2: e0xp, _3: token): e0xp
-//
 fun e0xp_i0nt (_: i0nt): e0xp
 fun e0xp_c0har (_: c0har): e0xp
 fun e0xp_f0loat (_: f0loat): e0xp
@@ -358,8 +356,19 @@ fun e0xp_s0tring (_: token): e0xp
 //
 fun e0xp_i0de (_: i0de): e0xp
 fun e0xp_list (_1: token, _2: e0xplst, _3: token): e0xp
-
+fun e0xp_app (_1: e0xp, _2: e0xp): e0xp
+fun e0xp_eval (_1: token, _2: e0xp, _3: token): e0xp
+//
+fun e0xp_make_stringid (loc: location, id: string): e0xp
+//
 fun fprint_e0xp : fprint_type (e0xp)
+
+(* ****** ****** *)
+
+datatype
+datsdef = DATSDEF of (symbol, e0xpopt)
+
+fun datsdef_make (id: i0de, opt: e0xpopt): datsdef
 
 (* ****** ****** *)
 

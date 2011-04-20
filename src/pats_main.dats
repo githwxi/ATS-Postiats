@@ -35,6 +35,7 @@
 (* ****** ****** *)
 
 staload "libc/SATS/stdio.sats"
+staload "libc/SATS/string.sats"
 
 (* ****** ****** *)
 
@@ -45,6 +46,7 @@ staload UT = "pats_utils.sats"
 staload ERR = "pats_error.sats"
 staload FIL = "pats_filename.sats"
 staload LOC = "pats_location.sats"
+staload SYM = "pats_symbol.sats"
 
 (* ****** ****** *)
 
@@ -124,6 +126,133 @@ dynload "pats_comarg.dats"
 //
 (* ****** ****** *)
 
+fn is_DATS_flag
+  (s: string): bool =
+  if strncmp (s, "-DATS", 5) = 0 then true else false
+// end of [is_DATS_flag]
+
+fn is_IATS_flag
+  (s: string): bool =
+  if strncmp (s, "-IATS", 5) = 0 then true else false
+// end of [is_IATS_flag]
+
+(* ****** ****** *)
+
+local
+
+fn string_extract (
+  s: string, k: size_t
+) : Stropt = let
+  val s = string1_of_string (s)
+  val n = string1_length (s)
+  val k = size1_of_size (k)
+in
+  if n > k then let
+    val sub = string_make_substring (s, k, n-k)
+    val sub = string_of_strbuf (sub)
+  in
+    stropt_some (sub)
+  end else
+    stropt_none
+  // end of [if]
+end // [string_extract]
+
+in // in of [local]
+
+fn DATS_extract (s: string) = string_extract (s, 5)
+fn IATS_extract (s: string) = string_extract (s, 5)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+datatype
+waitkind =
+  | WAITKINDnone of ()
+  | WAITKINDinput_sta of () // -s ...
+  | WAITKINDinput_dyn of () // -d ...
+  | WAITKINDoutput of () // -o ...
+  | WAITKINDdefine of () // -DATS ...
+  | WAITKINDinclude of () // -IATS ...
+// end of [waitkind]
+
+fn waitkind_get_stadyn
+  (knd: waitkind): int =
+  case+ knd of
+  | WAITKINDinput_sta () => 0
+  | WAITKINDinput_dyn () => 1
+  | _ => ~1 // this is not a valid input kind
+// end of [cmdkind_get_stadyn]
+
+(* ****** ****** *)
+
+typedef
+cmdstate = @{
+  comarg0= comarg
+//
+, waitkind= waitkind
+//
+, preludeflg= int // prelude-loading is done or not
+//
+, ninputfile= int // number of processed input files
+//
+, typecheckonly= bool
+} // end of [cmdstate]
+
+fn isinpwait
+  (state: cmdstate): bool =
+  case+ state.waitkind of
+  | WAITKINDinput_sta () => true
+  | WAITKINDinput_dyn () => true
+  | _ => false
+// end of [isinpwait]
+
+fn isoutwait
+  (state: cmdstate): bool =
+  case+ state.waitkind of
+  | WAITKINDoutput () => true | _ => false
+// end of [isoutwait]
+
+fn isdatswait
+  (state: cmdstate): bool =
+  case+ state.waitkind of
+  | WAITKINDdefine () => true | _ => false
+// end of [isdatswait]
+
+fn isiatswait
+  (state: cmdstate): bool =
+  case+ state.waitkind of
+  | WAITKINDinclude () => true | _ => false
+// end of [isiatswait]
+
+(* ****** ****** *)
+
+local
+
+var the_output_filename: Stropt = stropt_none
+val (pf0 | ()) = vbox_make_view_ptr {Stropt}
+  (view@ (the_output_filename) | &the_output_filename)
+// end of [prval]
+
+in // in of [local]
+
+fn the_output_filename_get
+  (): Stropt = out where {
+  prval vbox pf = pf0
+  val out = the_output_filename
+  val () = the_output_filename := stropt_none
+} // end of [output_filename_get]
+
+fn the_output_filename_set
+  (name: Stropt) = () where {
+  prval vbox pf = pf0
+  val () = the_output_filename := name
+} // end of [output_filename_set]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 fn fixity_load
   (ATSHOME: string): void = let
 //
@@ -152,6 +281,215 @@ fn fixity_load
 in
   // empty
 end // end of [fixity_load]
+
+(* ****** ****** *)
+
+fun
+prelude_load (
+  ATSHOME: string
+) : void = {
+  val () = fixity_load (ATSHOME)
+} // end of [prelude_load]
+
+fun prelude_load_if (
+  ATSHOME: string, flag: &int
+) : void =
+  if flag = 0 then let
+    val () = flag := 1 in prelude_load (ATSHOME)
+  end else () // end of [if]
+// end of [prelude_load_if]
+
+(* ****** ****** *)
+
+viewtypedef comarglst (n:int) = list_vt (comarg, n)
+
+(* ****** ****** *)
+
+fn comarg_warning
+  (str: string) = {
+  val () = prerr "waring(ATS)"
+  val () = prerr ": unrecognized command line argument ["
+  val () = prerr str
+  val () = prerr "] is ignored."
+  val () = prerr_newline ()
+} // end of [comarg_warning]
+
+(* ****** ****** *)
+//
+// HX: for processing command-line flag: -DATSXYZ=def or -DATS XYZ=def
+//
+fun process_DATS_def
+  (def: string): void = let
+  val def = string1_of_string (def)
+  val opt = parse_from_string (def, p_datsdef)
+in
+  case+ opt of
+  | ~Some_vt (def) => let
+      val DATSDEF (id, opt) = def
+      val e1xp = (case+ opt of
+        | Some x => $TRANS1.e0xp_tr (x)
+        | None _ => e1xp_none ($LOC.location_none)
+      ) : e1xp // end of [val]
+    in
+      $TRENV1.the_e1xpenv_add (id, e1xp)
+    end // end of [Some_vt]
+  | ~None_vt () => let
+      val () = prerr "error(ATS)"
+      val () = prerr ": the command-line argument ["
+      val () = prerr (def)
+      val () = prerr "] cannot be properly parsed."
+      val () = prerr_newline ()
+    in
+      $ERR.abort ()
+    end // end of [None_vt]
+end // end of [process_DATS_def]
+
+fun process_IATS_dir
+  (dir: string): void = () where {
+  val (pfpush | ()) = $FIL.the_pathlst_push (dir)
+  prval () = __assert (pfpush) where {
+    // HX: this is a permanent push!
+    extern prfun __assert (pf: $FIL.the_pathlst_push_v): void
+  } // end of [prval]
+} (* end of [process_IATS_dir] *)
+
+(* ****** ****** *)
+
+fn*
+process_cmdline
+  {i:nat} .<i,0>. (
+  ATSHOME: string
+, state: &cmdstate
+, arglst: comarglst (i)
+) :<fun1> void = let
+in
+//
+case+ arglst of
+| ~list_vt_cons (arg, arglst) => (
+    process_cmdline2 (ATSHOME, state, arg, arglst)
+  ) // endof [list_vt_cons]
+| ~list_vt_nil ()
+    when state.ninputfile = 0 => let
+    val stadyn = waitkind_get_stadyn (state.waitkind)
+  in
+    case+ 0 of
+    | _ when stadyn >= 0 => {
+        val () = prelude_load_if (ATSHOME, state.preludeflg)
+        val d0cs = parse_from_stdin_toplevel (stadyn)
+        val d1cs = $TRANS1.d0eclist_tr (d0cs)
+        val () = fprint_d1eclist (stdout_ref, d1cs)
+        val () = fprint_newline (stdout_ref)
+      } // end of [_ when ...]
+    | _ => ()
+  end // end of [list_vt_nil when ...]
+| ~list_vt_nil () => ()
+//
+end // end of [process_cmdline]
+
+and
+process_cmdline2
+  {i:nat} .<i,1>. (
+  ATSHOME: string
+, state: &cmdstate
+, arg: comarg
+, arglst: comarglst (i)
+) :<fun1> void = let
+in
+//
+case+ arg of
+| _ when isinpwait (state) => let
+    val stadyn = waitkind_get_stadyn (state.waitkind)
+    val () = state.ninputfile := state.ninputfile + 1
+    val COMARGkey (_, basename) = arg
+    val () = prelude_load_if (ATSHOME, state.preludeflg)
+    val d0cs = parse_from_filename_toplevel (stadyn, basename)
+    val d1cs = $TRANS1.d0eclist_tr (d0cs)
+    val () = fprint_d1eclist (stdout_ref, d1cs)
+    val () = fprint_newline (stdout_ref)
+  in
+    process_cmdline (ATSHOME, state, arglst)
+  end
+| _ when isoutwait (state) => let
+    val () = state.waitkind := WAITKINDnone ()
+    val COMARGkey (_, basename) = arg
+    val basename = string1_of_string (basename)
+    val () = the_output_filename_set (stropt_some (basename))
+  in
+    process_cmdline (ATSHOME, state, arglst)
+  end
+| _ when isdatswait (state) => let
+    val () = state.waitkind := WAITKINDnone ()
+    val COMARGkey (_, def) = arg
+    val () = process_DATS_def (def)
+  in
+    process_cmdline (ATSHOME, state, arglst)
+  end
+| _ when isiatswait (state) => let
+    val () = state.waitkind := WAITKINDnone ()
+    val COMARGkey (_, dir) = arg
+    val () = process_IATS_dir (dir)
+  in
+    process_cmdline (ATSHOME, state, arglst)
+  end
+| COMARGkey (1, str) => let
+    val () = state.waitkind := WAITKINDnone ()
+    val () = (case+ str of
+      | "-s" => state.waitkind := WAITKINDinput_sta
+      | "-d" => state.waitkind := WAITKINDinput_dyn
+      | "-o" => state.waitkind := WAITKINDoutput ()
+      | "-tc" => state.typecheckonly := true
+      | _ when is_DATS_flag (str) => let
+          val def = DATS_extract (str)
+          val issome = stropt_is_some (def)
+        in
+          if issome then let
+            val def = stropt_unsome (def)
+          in
+            process_DATS_def (def)
+          end else let
+            val () = state.waitkind := WAITKINDdefine ()
+          in
+            // nothing
+          end // end of [if]
+        end
+      | _ when is_IATS_flag (str) => let
+          val dir = IATS_extract (str)
+          val issome = stropt_is_some (dir)
+        in
+          if issome then let
+            val dir = stropt_unsome (dir)
+          in
+            process_IATS_dir (dir)
+          end else let
+            val () = state.waitkind := WAITKINDinclude ()
+          in
+            // nothing
+          end // end of [if]
+        end
+      | _ => comarg_warning (str)
+    ) : void // end of [val]
+  in
+    process_cmdline (ATSHOME, state, arglst)
+  end
+| COMARGkey (2, str) => let
+    val () = state.waitkind := WAITKINDnone ()
+    val () = (case+ str of
+      | "--static" => state.waitkind := WAITKINDinput_sta
+      | "--dynamic" => state.waitkind := WAITKINDinput_dyn
+      | "--output" => state.waitkind := WAITKINDoutput ()
+      | _ => comarg_warning (str)
+    ) : void // end of [val]
+  in
+    process_cmdline (ATSHOME, state, arglst)
+  end
+| COMARGkey (_, str) => let
+    val () = state.waitkind := WAITKINDnone ()
+    val () = comarg_warning (str)
+  in
+    process_cmdline (ATSHOME, state, arglst)
+  end
+//
+end // end of [process_cmdline2]
 
 (* ****** ****** *)
 
@@ -185,15 +523,22 @@ end : string // end of [ATSHOME]
 //
 val () = $FIL.the_prepathlst_push (ATSHOME) // for the run-time and atslib
 //
-val () = fixity_load (ATSHOME)
+val arglst = comarglst_parse (argc, argv)
+val ~list_vt_cons (arg0, arglst) = arglst
 //
-val d0cs = parse_from_stdin_toplevel (1(*dyn*))
-val () = fprint_d0eclist (stdout_ref, d0cs)
-val () = print_newline ()
+var state = @{
+  comarg0 = arg0
 //
-val d1cs = $TRANS1.d0eclist_tr (d0cs)
-val () = fprint_d1eclist (stdout_ref, d1cs)
-val () = print_newline ()
+, waitkind= WAITKINDnone ()
+//
+, preludeflg= 0
+//
+, ninputfile= 0
+//
+, typecheckonly= false
+} : cmdstate
+//
+val () = process_cmdline (ATSHOME, state, arglst)
 //
 } // end of [main]
 

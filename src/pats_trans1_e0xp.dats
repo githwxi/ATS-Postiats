@@ -603,29 +603,8 @@ implement e0xp_tr (e0) = let
 //
 fun aux_item (e0: e0xp): e1xpitm = let
   val loc0 = e0.e0xp_loc in case+ e0.e0xp_node of
-  | E0XPapp _ => let
-      val e0_new = fixity_resolve (
-        loc0, e1xp_get_loc, e1xpitm_app (loc0), aux_itemlst e0
-      ) // end of [val]
-    in
-      FXITMatm (e0_new)
-    end // end of [E0XPapp]
-  | E0XPchar (x) => let
-      val- T_CHAR (c) = x.token_node in FXITMatm (e1xp_char (loc0, c))
-    end
-  | E0XPeval (e: e0xp) => let
-      val v = e1xp_eval (e0xp_tr e)
-      val e = e1xp_make_v1al (loc0, v)
-    in
-      FXITMatm (e)
-    end // end of [E0XPeval]
-  | E0XPfloat (x) => let
-      val- T_FLOAT (bas, rep, sfx) = x.token_node
-      val () = if bas != 10 then e0xp_tr_errmsg_float (loc0)
-    in
-      FXITMatm (e1xp_float (loc0, rep))
-    end
-  | E0XPide id when id = BACKSLASH => e1xpitm_backslash (loc0)
+  | E0XPide id when
+      id = BACKSLASH => e1xpitm_backslash (loc0)
   | E0XPide id => begin case+ the_fxtyenv_find id of
     | ~Some_vt f => begin
         let val e = e1xp_ide (loc0, id) in e1xp_make_opr (e, f) end
@@ -637,10 +616,33 @@ fun aux_item (e0: e0xp): e1xpitm = let
     in
       FXITMatm (e1xp_int (loc0, rep))
     end
-  | E0XPlist (es) => FXITMatm (e1xp_list (loc0, e0xplst_tr es))
+  | E0XPchar (x) => let
+      val- T_CHAR (c) = x.token_node in FXITMatm (e1xp_char (loc0, c))
+    end
+  | E0XPfloat (x) => let
+      val- T_FLOAT (bas, rep, sfx) = x.token_node
+      val () = if bas != 10 then e0xp_tr_errmsg_float (loc0)
+    in
+      FXITMatm (e1xp_float (loc0, rep))
+    end
   | E0XPstring (x) => let
       val- T_STRING (str) = x.token_node in FXITMatm (e1xp_string (loc0, str))
     end
+  | E0XPstringid (str) => FXITMatm (e1xp_string (loc0, str))
+  | E0XPapp _ => let
+      val e0_new = fixity_resolve (
+        loc0, e1xp_get_loc, e1xpitm_app (loc0), aux_itemlst e0
+      ) // end of [val]
+    in
+      FXITMatm (e0_new)
+    end // end of [E0XPapp]
+  | E0XPeval (e: e0xp) => let
+      val v = e1xp_eval (e0xp_tr e)
+      val e = e1xp_make_v1al (loc0, v)
+    in
+      FXITMatm (e)
+    end // end of [E0XPeval]
+  | E0XPlist (es) => FXITMatm (e1xp_list (loc0, e0xplst_tr es))
 end // end of [aux_item]
 //
 and aux_itemlst

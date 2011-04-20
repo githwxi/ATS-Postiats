@@ -67,6 +67,13 @@ the_e1xpenv_add
 } // end of [the_e1xpenv_add]
 
 implement
+the_e1xpenv_addperv
+  (k, i) = () where {
+  prval vbox pf = pf0
+  val () = symenv_pervasive_insert (!p0, k, i)
+} // end of [the_e1xpenv_addperv]
+
+implement
 the_e1xpenv_find (k) = let
   prval vbox pf = pf0
   val ans = symenv_search (!p0, k)

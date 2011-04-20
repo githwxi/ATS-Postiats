@@ -35,6 +35,7 @@
 (* ****** ****** *)
 
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload _(*anon*) = "prelude/DATS/option_vt.dats"
 
 (* ****** ****** *)
 
@@ -49,6 +50,7 @@ staload "pats_parsing.sats"
 (* ****** ****** *)
 
 #define l2l list_of_list_vt
+#define t2t option_of_option_vt
 
 (* ****** ****** *)
 
@@ -168,6 +170,68 @@ case+ xs of
 | ~list_vt_nil () => synent_null () // HX: [err] changed
 //
 end // end of [p_e0xp]
+
+(* ****** ****** *)
+
+(*
+datsval ::= i0de
+  | LITERAL_char | LITERAL_float | LITERAL_int | LITERAL_string
+*)
+
+fun
+p_datsval (
+  buf: &tokbuf, bt: int, err: &int
+) : e0xp = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  val loc = tok.token_loc
+  var ent: synent?
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_IDENT_alp (id) => let
+    val () = incby1 () in e0xp_make_stringid (loc, id)
+  end // end of [T_IDENT_alp]
+| T_INTEGER _ => let
+    val () = incby1 () in e0xp_i0nt (tok)
+  end
+| T_CHAR _ => let
+    val () = incby1 () in e0xp_c0har (tok)
+  end
+| T_FLOAT _ => let
+    val () = incby1 () in e0xp_f0loat (tok)
+  end
+| T_STRING _ => let
+    val () = incby1 () in e0xp_s0tring (tok)
+  end
+| _ => e0xp_make_stringid (loc, "")
+//
+end // end of [p_datsval]
+
+(*
+datsdef ::= i0de [EQ = datsval] // for use in a command-line
+*)
+
+implement
+p_datsdef
+  (buf, bt, err) = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val ent1 = p_i0de (buf, bt, err)
+  val ent2 = (
+    if err = err0 then
+      ptokentopt_fun (buf, is_EQ, p_datsval)
+    else None_vt ()
+  ) : Option_vt (e0xp)
+in
+  if err = err0 then
+    datsdef_make (ent1, (t2t)ent2)
+  else let
+    val () = option_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
+  end // end of [if]
+end // end of [p_datsdef]
 
 (* ****** ****** *)
 

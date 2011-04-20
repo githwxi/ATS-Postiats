@@ -255,20 +255,9 @@ end // end of [p0rec_i0de_adj]
 (* ****** ****** *)
 
 implement
-e0xp_app (e1, e2) = let
-  val loc = e1.e0xp_loc + e2.e0xp_loc
-in '{
-  e0xp_loc= loc, e0xp_node= E0XPapp (e1, e2)
-} end // end of [e0xp_app]
-
-implement
-e0xp_eval (
-  t_beg, e, t_end
-) = let
-  val loc = t_beg.token_loc + t_end.token_loc
-in '{
-  e0xp_loc= loc, e0xp_node= E0XPeval e
-} end // end of [e0xp_eval]
+e0xp_i0de (id) = '{
+  e0xp_loc= id.i0de_loc, e0xp_node= E0XPide id.i0de_sym
+} // end of [e0xp_ide]
 
 implement
 e0xp_i0nt (tok) = let
@@ -295,9 +284,20 @@ in '{
 } end // end of [e0xp_s0tring]
 
 implement
-e0xp_i0de (id) = '{
-  e0xp_loc= id.i0de_loc, e0xp_node= E0XPide id.i0de_sym
-} // end of [e0xp_ide]
+e0xp_app (e1, e2) = let
+  val loc = e1.e0xp_loc + e2.e0xp_loc
+in '{
+  e0xp_loc= loc, e0xp_node= E0XPapp (e1, e2)
+} end // end of [e0xp_app]
+
+implement
+e0xp_eval (
+  t_beg, e, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  e0xp_loc= loc, e0xp_node= E0XPeval e
+} end // end of [e0xp_eval]
 
 implement
 e0xp_list (
@@ -307,6 +307,18 @@ e0xp_list (
 in '{
   e0xp_loc= loc, e0xp_node= E0XPlist xs
 } end // end of [e0xp_list]
+
+implement
+e0xp_make_stringid (loc, id) = '{
+  e0xp_loc= loc, e0xp_node= E0XPstringid (id)
+} // end of [e0xp_make_stringid]
+
+(* ****** ****** *)
+
+implement
+datsdef_make
+  (id, opt) = DATSDEF (id.i0de_sym, opt)
+// end of [datsdef_make]
 
 (* ****** ****** *)
 

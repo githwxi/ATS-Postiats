@@ -103,6 +103,11 @@ fun symenv_localjoin
 
 (* ****** ****** *)
 
+fun symenv_pervasive_insert
+  {itm:type} // HX: search all
+  (env: &symenv itm, k: symbol, i: itm):<> void
+// end of [symenv_pervasive_insert]
+
 fun symenv_pervasive_search
   {itm:type} // HX: search all
   (env: &symenv itm, k: symbol):<> Option_vt (itm)

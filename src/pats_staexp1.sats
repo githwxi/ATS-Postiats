@@ -86,24 +86,28 @@ overload print with print_e1xplst
 overload prerr with prerr_e1xplst
 
 (* ****** ****** *)
-
+//
+fun e1xp_ide (loc: location, sym: symbol): e1xp
+//
+fun e1xp_int (loc: location, int: string): e1xp
+fun e1xp_char (loc: location, _: char): e1xp
+fun e1xp_float (loc: location, flt: string): e1xp
+fun e1xp_string (loc: location, str: string): e1xp
+//
 fun e1xp_app (
   loc: location
 , _fun: e1xp, loc_arg: location, _arg: e1xplst
 ) : e1xp // end of [e1xp_app]
-//
-fun e1xp_char (loc: location, _: char): e1xp
-fun e1xp_float (loc: location, flt: string): e1xp
-fun e1xp_ide (loc: location, sym: symbol): e1xp
-fun e1xp_int (loc: location, int: string): e1xp
 fun e1xp_list (loc: location, es: e1xplst): e1xp
+//
 fun e1xp_none (loc: location): e1xp
-fun e1xp_string (loc: location, str: string): e1xp
 fun e1xp_undef (loc: location): e1xp
 //
 fun e1xp_true (loc: location): e1xp
 and e1xp_false (loc: location): e1xp
-
+//
+fun fprint_e1xp : fprint_type (e1xp)
+//
 (* ****** ****** *)
 
 typedef effvar = i0de

@@ -115,6 +115,8 @@ SOURCES := \
   pats_trans1_staexp.dats \
   pats_trans1_dynexp.dats \
   pats_trans1_decl.dats \
+  pats_comarg.sats \
+  pats_comarg.dats \
 
 SOURCESsta := $(filter %.sats, $(SOURCES))
 SOURCESdyn := $(filter %.dats, $(SOURCES))

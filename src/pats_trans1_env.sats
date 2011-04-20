@@ -48,6 +48,7 @@ staload "pats_symmap.sats"
 (* ****** ****** *)
 
 fun the_e1xpenv_add (id: symbol, e: e1xp): void
+fun the_e1xpenv_addperv (id: symbol, e: e1xp): void
 fun the_e1xpenv_find (id: symbol): Option_vt e1xp
 
 absview e1xpenv_push_v
