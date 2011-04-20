@@ -210,12 +210,10 @@ fprint_e0xp
   (out, x0) = let
   macdef prstr (str) = fprint_string (out, ,(str))
 in
-  case x0.e0xp_node of
-  | E0XPapp (x1, x2) => {
-      val () = prstr "E0XPapp("
-      val () = fprint_e0xp (out, x1)
-      val () = prstr "; "
-      val () = fprint_e0xp (out, x2)
+  case+ x0.e0xp_node of
+  | E0XPide (x) => {
+      val () = prstr "E0XPide("
+      val () = fprint_symbol (out, x)
       val () = prstr ")"
     }
   | E0XPchar (x) => {
@@ -223,9 +221,9 @@ in
       val () = fprint_c0har (out, x)
       val () = prstr ")"
     }
-  | E0XPeval (x) => {
-      val () = prstr "E0XPeval("
-      val () = fprint_e0xp (out, x)
+  | E0XPint (x) => {
+      val () = prstr "E0XPint("
+      val () = fprint_i0nt (out, x)
       val () = prstr ")"
     }
   | E0XPfloat (x) => {
@@ -233,24 +231,31 @@ in
       val () = fprint_f0loat (out, x)
       val () = prstr ")"
     }
-  | E0XPide (x) => {
-      val () = prstr "E0XPide("
-      val () = fprint_symbol (out, x)
+  | E0XPstring (x) => {
+      val () = prstr "E0XPstring("
+      val () = fprint_s0tring (out, x)
       val () = prstr ")"
     }
-  | E0XPint (x) => {
-      val () = prstr "E0XPint("
-      val () = fprint_i0nt (out, x)
+  | E0XPstringid (x) => {
+      val () = prstr "E0XPstringid("
+      val () = fprint_string (out, x)
+      val () = prstr ")"
+    }
+  | E0XPapp (x1, x2) => {
+      val () = prstr "E0XPapp("
+      val () = fprint_e0xp (out, x1)
+      val () = prstr "; "
+      val () = fprint_e0xp (out, x2)
+      val () = prstr ")"
+    }
+  | E0XPeval (x) => {
+      val () = prstr "E0XPeval("
+      val () = fprint_e0xp (out, x)
       val () = prstr ")"
     }
   | E0XPlist (xs) => {
       val () = prstr "E0XPlist("
       val () = $UT.fprintlst<e0xp> (out, xs, ", ", fprint_e0xp)
-      val () = prstr ")"
-    }
-  | E0XPstring (x) => {
-      val () = prstr "E0XPstring("
-      val () = fprint_s0tring (out, x)
       val () = prstr ")"
     }
 end // end of [fprint_e0xp]
@@ -583,9 +588,9 @@ case+ x.p0at_node of
     val () = fprint_symbol (out, sym)
     val () = prstr ")"
   }
-| P0Tref (sym) => {
+| P0Tref (id) => {
     val () = prstr "P0Tref("
-    val () = fprint_symbol (out, sym)
+    val () = fprint_symbol (out, id)
     val () = prstr ")"
   }
 //
@@ -667,9 +672,16 @@ case+ x.p0at_node of
     val () = prstr ")"
   }
 //
-| P0Tas (p0t_id, p0t_as) => {
+| P0Tas (id, p0t_as) => {
     val () = prstr "P0Tas("
-    val () = fprint_p0at (out, p0t_id)
+    val () = fprint_symbol (out, id)
+    val () = prstr ", "
+    val () = fprint_p0at (out, p0t_as)
+    val () = prstr ")"
+  }
+| P0Trefas (id, p0t_as) => {
+    val () = prstr "P0Trefas("
+    val () = fprint_symbol (out, id)
     val () = prstr ", "
     val () = fprint_p0at (out, p0t_as)
     val () = prstr ")"
@@ -682,6 +694,8 @@ case+ x.p0at_node of
     val () = fprint_s0exp (out, s0e)
     val () = prstr ")"
   }
+//
+| P0Terr () => prstr "P0Terr()"
 //
 end // end of [fprint_p0at]
 
@@ -971,8 +985,12 @@ case+ x.d0ecl_node of
     val () = prstr "..."
     val () = prstr "\n)"
   }
-| D0Cextcode _ => {
-    val () = prstr "D0Cextcode(\n"
+| D0Cextcode (knd, pos, code) => {
+    val () = prstr "D0Cextcode("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_int (out, pos)
+    val () = prstr "\n"
     val () = prstr "..."
     val () = prstr "\n)"
   }

@@ -153,6 +153,7 @@ typedef i0delst = List (i0de)
 
 fun i0de_make_sym (loc: location, sym: symbol) : i0de
 fun i0de_make_string (loc: location, name: string) : i0de
+fun i0de_make_lrbrackets (t_beg: token, t_end: token): i0de
 
 fun fprint_i0de : fprint_type (i0de)
 
@@ -374,7 +375,7 @@ fun datsdef_make (id: i0de, opt: e0xpopt): datsdef
 
 typedef l0ab = '{
   l0ab_loc= location, l0ab_lab= label
-}
+} // end of [l0ab]
 
 fun l0ab_make_i0de (x: i0de): l0ab
 fun l0ab_make_i0nt (x: i0nt): l0ab
@@ -953,9 +954,12 @@ p0at_node =
   | P0Texist of s0arglst
   | P0Tsvararg of s0vararg
 //
-  | P0Tas of (p0at(*id*), p0at(*p0t*))
+  | P0Tas of (symbol(*id*), p0at(*p0t*))
+  | P0Trefas of (symbol(*id*), p0at(*p0t*))
 //
   | P0Tann of (p0at, s0exp)
+//
+  | P0Terr of () // indicating syntax-error
 // end of [p0at_node]
 
 and labp0at_node =
@@ -1007,11 +1011,13 @@ fun p0at_svararg (
   t_beg: token, x: s0vararg, t_end: token
 ) : p0at // end of [p0at_svararg]
 
-fun p0at_as (x_id: p0at, x_pat: p0at): p0at
+fun p0at_as_refas (x_id: p0at, x_pat: p0at): p0at
 
 fun p0at_free (tok: token, p0t: p0at): p0at
 
 fun p0at_ann (p0t: p0at, ann: s0exp): p0at
+
+fun p0at_err (loc: location): p0at // HX: indicating syntax-error
 
 fun fprint_p0at : fprint_type (p0at)
 
@@ -1155,10 +1161,11 @@ d0ecl_node =
   | D0Cexndecs of e0xndeclst
   | D0Cdatdecs of (int(*knd*), d0atdeclst, s0expdeflst)
 //
+  | D0Cclassdec of (i0de, s0expopt) // class declaration
+//
   | D0Cdcstdecs of (token, q0marglst, d0cstdeclst)
 //
   | D0Cmacdefs of (int(*knd*), bool(*rec*), m0acdeflst) // macro definitions
-  | D0Cclassdec of (i0de, s0expopt) // class declaration
 //
   | D0Cextype of (int(*knd*), string, s0exp) // type to be used in C
   | D0Cextcode of (* external code *)
@@ -1194,10 +1201,12 @@ and d0exp_node =
   | D0Echar of c0har
   | D0Efloat of f0loat
   | D0Estring of s0tring
+  | D0Eempty of ()
 //
   | D0Ecstsp of cstsp // special constants
 //
-  | D0Eempty of ()
+  | D0Eextval of (s0exp (*type*), string (*code*)) // external val
+//
   | D0Elabel of (label)
   | D0Eloopexn of int(*break/continue: 0/1*)
 //
@@ -1215,7 +1224,12 @@ and d0exp_node =
   | D0Ecasehead of (casehead, d0exp, c0laulst)
   | D0Escasehead of (scasehead, s0exp, sc0laulst)
 //
-  | D0Eextval of (s0exp (*type*), string (*code*)) // external val
+  | D0Efor of (
+      loopi0nvopt, location(*inv*), initestpost, d0exp(*body*)
+    ) // end of [D0Efor]
+  | D0Ewhile of (
+      loopi0nvopt, location(*inv*), d0exp(*test*), d0exp(*body*)
+    ) // end of [D0Ewhile]
 //
   | D0Elst of (int (*lin*), s0expopt, d0exp(*elts*))
   | D0Etup of (int(*knd*), int(*npf*), d0explst)
@@ -1288,6 +1302,12 @@ and d0arrind = '{
 
 (* ****** ****** *)
 
+and initestpost = '{
+  itp_ini= d0exp, itp_test= d0exp, itp_post= d0exp
+}
+
+(* ****** ****** *)
+
 and m0atch = '{
   m0atch_loc= location, m0atch_exp= d0exp, m0atch_pat= p0atopt
 } // end of [m0atch]
@@ -1321,6 +1341,18 @@ and casehead: type = '{
 and scasehead: type = '{
   scasehead_tok= token, scasehead_inv= i0nvresstate
 } // end of [scasehead]
+
+(* ****** ****** *)
+
+and loophead: type = '{
+  loophead_tok= token, loophead_inv= loopi0nvopt
+} // end of [lookhead]
+
+(* ****** ****** *)
+
+and tryhead: type = '{
+  tryhead_tok= token, tryhead_inv= i0nvresstate
+} // end of [tryhead]
 
 (* ****** ****** *)
 
@@ -1454,6 +1486,13 @@ fun d0exp_scasehead
   (hd: scasehead, s0e: s0exp, t_of: token, c0ls: sc0laulst): d0exp
 // end of [d0exp_scasehead]
 
+fun d0exp_forhead
+  (hd: loophead, itp: initestpost, body: d0exp): d0exp
+// end of [d0exp_forhead]
+fun d0exp_whilehead
+  (hd: loophead, test: d0exp, body: d0exp): d0exp
+// end of [d0exp_whilehead]
+
 (* ****** ****** *)
 
 fun d0exp_lam (
@@ -1580,6 +1619,14 @@ fun d0arrind_cons (d0es: d0explst, ind: d0arrind): d0arrind
 
 (* ****** ****** *)
 
+fun initestpost_make (
+  t_beg: token
+, _ini: d0explst, t_sep: token, _test: d0explst, t_sep: token, _post: d0explst
+, t_end: token
+) : initestpost // end of [initestpost_make]
+
+(* ****** ****** *)
+
 fun m0atch_make (d0e: d0exp, pat: p0atopt): m0atch
 fun guap0at_make (p0t: p0at, mat: Option (m0atchlst)): guap0at
 
@@ -1594,6 +1641,13 @@ fun casehead_make
   (t_case: token, invopt: Option (i0nvresstate)): casehead
 fun scasehead_make
   (t_scase: token, invopt: Option (i0nvresstate)): scasehead
+
+fun loophead_make_none (t_head: token): loophead
+fun loophead_make_some
+  (t_head: token, inv: loopi0nv, t_eqgt: token): loophead
+// end of [loophead_make_some]
+
+fun tryhead_make (t_try: token): tryhead
 
 (* ****** ****** *)
 

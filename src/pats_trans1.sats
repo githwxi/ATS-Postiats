@@ -77,6 +77,8 @@ fun a0msrtlst_tr (x: a0msrtlst): a1msrtlst
 
 (* ****** ****** *)
 
+fun s0arg_tr (x: s0arg): s1arg
+fun s0arglst_tr (x: s0arglst): s1arglst
 fun s0marg_tr (xs: s0marg): s1arglst
 fun s0marglst_tr (xss: s0marglst): s1arglstlst
 
@@ -137,6 +139,17 @@ fun a0typlst_tr (x: a0typlst): s1explst
 fun d0cstdeclst_tr
   (isfun: bool, isprf: bool, ds: d0cstdeclst): d1cstdeclst
 // end of [d0cstdeclst_tr]
+
+(* ****** ****** *)
+
+fun p0at_tr (x: p0at): p1at
+fun p0atlst_tr (x: p0atlst): p1atlst
+
+(* ****** ****** *)
+
+fun d0exp_tr (x: d0exp): d1exp
+fun d0explst_tr (xs: d0explst): d1explst
+fun d0expopt_tr (xs: d0expopt): d1expopt
 
 (* ****** ****** *)
 

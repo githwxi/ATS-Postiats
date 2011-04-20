@@ -385,6 +385,41 @@ p_d0cstdecseq
 (* ****** ****** *)
 
 (*
+overi0de ::= di0de | LBRACKET RBRACKET
+*)
+fun
+p_overi0de (
+  buf: &tokbuf, bt: int, err: &int
+) : i0de = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_LBRACKET () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_RBRACKET (buf, bt, err)
+  in
+    if err = err0 then
+      i0de_make_lrbrackets (tok, ent2)
+    else
+      tokbuf_set_ntok_null (buf, n0)
+    // end of [if]
+  end
+| _ => let
+    val ent = p_di0de (buf, bt, err)
+  in
+    if err = err0 then ent else synent_null ((*okay*))
+  end // end of [_]
+//
+end // end of [p_overi0de]
+
+(* ****** ****** *)
+
+(*
 m0acdef ::= di0de m0acargseq EQ d0exp
 *)
 fun
@@ -569,6 +604,7 @@ p_d0ecl_tok (
 in
 //
 case+ tok.token_node of
+//
 | T_FIXITY _ => let
     val bt = 0
     val () = incby1 ()
@@ -588,6 +624,7 @@ case+ tok.token_node of
       d0ecl_nonfix (tok, ent2) else synent_null ()
     // end of [if]
   end
+//
 | T_SYMINTR () => let
     val bt = 0
     val () = incby1 ()
@@ -606,6 +643,18 @@ case+ tok.token_node of
       d0ecl_symelim (tok, ent2) else synent_null ()
     // end of [if]
   end
+| T_OVERLOAD () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent1 = p_overi0de (buf, bt, err)
+    val ent2 = pif_fun (buf, bt, err, p_WITH, err0)
+    val ent3 = pif_fun (buf, bt, err, p_dqi0de, err0)
+  in
+    if err = err0 then
+      d0ecl_overload (tok, ent1, ent3) else synent_null ()
+    // end of [val]
+  end
+//
 | T_SRPDEFINE () => let
     val bt = 0
     val () = incby1 ()
@@ -755,6 +804,17 @@ case+ tok.token_node of
     | _ => d0ecl_datdecs_none (knd, tok, ent2)
   end
 //
+| T_CLASSDEC () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent1 = p_si0de (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_colons0expopt, err0)
+  in
+    if err = err0 then
+      d0ecl_classdec (tok, ent1, ent3) else synent_null ()
+    // end of [if]
+  end
+//
 | T_MACDEF (knd) => let
     val bt = 0
     val () = incby1 ()
@@ -767,29 +827,6 @@ case+ tok.token_node of
     else let
       val () = list_vt_free (ent3) in synent_null ()
     end (* end of [if] *)
-  end
-//
-| T_OVERLOAD () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent1 = p_di0de (buf, bt, err)
-    val ent2 = pif_fun (buf, bt, err, p_WITH, err0)
-    val ent3 = pif_fun (buf, bt, err, p_dqi0de, err0)
-  in
-    if err = err0 then
-      d0ecl_overload (tok, ent1, ent3) else synent_null ()
-    // end of [val]
-  end
-//
-| T_CLASSDEC () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent1 = p_si0de (buf, bt, err)
-    val ent3 = pif_fun (buf, bt, err, p_eqs0expopt, err0)
-  in
-    if err = err0 then
-      d0ecl_classdec (tok, ent1, ent3) else synent_null ()
-    // end of [if]
   end
 //
 | T_STALOAD () => let
@@ -857,22 +894,10 @@ end // end of [p_d0eclseq_fun]
 (* ****** ****** *)
 
 (*
-srpthenopt ::= { SRPTHEN }
-*)
-fun p_srpthenopt (
-  buf: &tokbuf, bt: int, err: &int
-) : token = tok where {
-  var err: int = 0
-  val tok = p_SRPTHEN (buf, bt, err)
-} // end of [p_srpthenopt]
-
-(* ****** ****** *)
-
-(*
 guad0ecl_fun
-  | e0xp srpthenopt d0eclseq_fun SRPENDIF
-  | e0xp srpthenopt d0eclseq_fun SRPELSE d0eclseq_fun SRPENDIF
-  | e0xp srpthenopt d0eclseq_fun srpelifkind guad0ecl_fun
+  | e0xp [SRPTHEN] d0eclseq_fun SRPENDIF
+  | e0xp [SRPTHEN] d0eclseq_fun SRPELSE d0eclseq_fun SRPENDIF
+  | e0xp [SRPTHEN] d0eclseq_fun srpelifkind guad0ecl_fun
 *)
 fun guad0ecl_fun (
   buf: &tokbuf
@@ -885,7 +910,7 @@ fun guad0ecl_fun (
 //
   val ent1 = p_e0xp (buf, bt, err)
   val bt = 0
-  val _(*ent2*) = pif_fun (buf, bt, err, p_srpthenopt, err0)
+  val _(*ignored*) = ptest_fun (buf, p_SRPTHEN, ent)
   val ent3 = (
     if err = err0 then p_d0eclseq_fun (buf, bt, f) else list_vt_nil ()
   ) : List_vt (d0ecl)

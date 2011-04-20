@@ -361,14 +361,12 @@ fun i0nclude_tr (
     val () = $ERR.abort {void} ()
   } // end of [val]
 //  
-  val fullname = $FIL.filename_get_full (fil)
-  val fullname = $SYM.symbol_get_name (fullname)
 (*
   val () = begin
     print "Including ["; print fullname; print "] starts."; print_newline ()
   end // end of [val]
 *)
-  val d0cs = $PAR.parse_from_filename_toplevel (stadyn, fullname)
+  val d0cs = $PAR.parse_from_filename_toplevel (stadyn, fil)
   val d1cs = d0eclist_tr (d0cs)
 (*
   val () = begin
@@ -511,6 +509,10 @@ case+ d0c0.d0ecl_node of
     d1ecl_exndecs (loc0, l2l (list_map_fun (d0cs, e0xndec_tr)))
   (* end of [D0Cexndecs] *)
 //
+| D0Cclassdec (id, sup) => let
+    val sup = s0expopt_tr (sup) in d1ecl_classdec (loc0, id, sup)
+  end // end of [D0Cclassdec]
+//
 | D0Cdcstdecs (
     tok, qarg, d0cs
   ) => let
@@ -522,6 +524,8 @@ case+ d0c0.d0ecl_node of
   in
     d1ecl_dcstdecs (loc0, dck, qarg, d1cs)
   end // end of [D0Cdcstdecs]
+//
+| D0Cextcode (knd, pos, code) => d1ecl_extcode (loc0, knd, pos, code)
 //
 | D0Cinclude (stadyn, path) => let
     val d1cs = i0nclude_tr (loc0, stadyn, path) in d1ecl_include (loc0, d1cs)

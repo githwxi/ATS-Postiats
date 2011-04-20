@@ -444,7 +444,7 @@ case+ tok.token_node of
         val ent3 = p_p0at (buf, bt, err)
       in
         if err = err0 then
-          p0at_as (p0t, ent3) else tokbuf_set_ntok_null (buf, n0)
+          p0at_as_refas (p0t, ent3) else tokbuf_set_ntok_null (buf, n0)
         // end of [if]        
       end
     | T_COLON () => let

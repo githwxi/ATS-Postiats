@@ -34,7 +34,78 @@
 //
 (* ****** ****** *)
 
+staload ERR = "pats_error.sats"
+staload LOC = "pats_location.sats"
+overload + with $LOC.location_combine
+
+staload SYM = "pats_symbol.sats"
+macdef BACKSLASH = $SYM.symbol_BACKSLASH
+overload = with $SYM.eq_symbol_symbol
+
+(* ****** ****** *)
+
+staload "pats_fixity.sats"
+staload "pats_syntax.sats"
+staload "pats_staexp1.sats"
+staload "pats_dynexp1.sats"
+
+(* ****** ****** *)
+
 staload "pats_trans1.sats"
+staload "pats_trans1_env.sats"
+
+(* ****** ****** *)
+
+#define l2l list_of_list_vt
+macdef list_sing (x) = list_cons (,(x), list_nil ())
+
+(* ****** ****** *)
+
+fn prerr_loc_error1
+  (loc: location): void = (
+  $LOC.prerr_location loc; prerr ": error(1)"
+) // end of [prerr_loc_error1]
+
+fn prerr_interror
+  (): void = prerr "INTERROR(pats_trans1_dynexp)"
+// end of [prerr_interror]
+
+fn prerr_loc_interror
+  (loc: location): void = (
+  $LOC.prerr_location loc; prerr "INTERROR(pats_trans1_dynexp)"
+) // end of [prerr_loc_interror]
+
+(* ****** ****** *)
+//
+// HX: translation of dynamic expressions
+//
+typedef d1expitm = fxitm (d1exp)
+typedef d1expitmlst = List (d1expitm)
+
+(* ****** ****** *)
+
+local
+
+in // in of [local]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fn d0exp_tr_errmsg_opr
+  (loc: location): d1exp = let
+  val () = prerr_loc_error1 (loc)
+  val () = prerr ": the operator needs to be applied."
+  val () = prerr_newline ()
+in
+  $ERR.abort {d1exp} ()
+end // end of [d0exp_tr_errmsg_opr]
+
+in // in of [local]
+
+end // end of [local]
 
 (* ****** ****** *)
 

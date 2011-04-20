@@ -76,7 +76,7 @@ fn prerr_interror (): void = prerr "INTERROR(pats_trans1_staexp)"
 
 (* ****** ****** *)
 //
-// HX: translation of sorts
+// HX: translation of static expressions
 //
 typedef s1expitm = fxitm (s1exp)
 typedef s1expitmlst = List s1expitm
@@ -101,8 +101,6 @@ in
 end // end of [appf]
 
 in // in of [local]
-
-(* ****** ****** *)
 
 fn s1expitm_app
   (loc: location): s1expitm = fxitm_app (loc, appf)

@@ -155,6 +155,34 @@ p_WHEN (buf, bt, err) =
 (* ****** ****** *)
 
 implement
+is_FOR (x) = case+ x of
+  | T_FOR (0) => true | _ => false
+implement
+p_FOR (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_FOR, PE_FOR)
+implement
+is_FORSTAR (x) = case+ x of
+  | T_FOR (1) => true | _ => false
+implement
+p_FORSTAR (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_FORSTAR, PE_FOR)
+
+implement
+is_WHILE (x) = case+ x of
+  | T_WHILE (0) => true | _ => false
+implement
+p_WHILE (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_WHILE, PE_WHILE)
+implement
+is_WHILESTAR (x) = case+ x of
+  | T_WHILE (1) => true | _ => false
+implement
+p_WHILESTAR (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_WHILESTAR, PE_WHILE)
+
+(* ****** ****** *)
+
+implement
 is_BAR (x) = case+ x of
   | T_BAR () => true | _ => false
 implement

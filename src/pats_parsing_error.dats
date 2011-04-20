@@ -215,6 +215,9 @@ case+ node of
 | PE_WHEN () => KN (x, "when")
 | PE_WITH () => KN (x, "with")
 //
+| PE_FOR () => KN (x, "for")
+| PE_WHILE () => KN (x, "while")
+//
 | PE_BAR () => KN (x, "|")
 | PE_COLON () => KN (x, ":")
 | PE_COMMA () => KN (x, ",")
@@ -291,6 +294,7 @@ case+ node of
 | PE_pi0de () => SN (x, "pi0de")
 | PE_atmp0at () => SN (x, "atmp0at")
 | PE_labp0at () => SN (x, "labp0at")
+| PE_p0at_as () => SN (x, "p0at_as")
 | PE_m0atch () => SN (x, "m0atch")
 | PE_guap0at () => SN (x, "guap0at")
 | PE_c0lau () => SN (x, "c0lau")

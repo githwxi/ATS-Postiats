@@ -113,6 +113,7 @@ SOURCES := \
   pats_trans1_effect.dats \
   pats_trans1_sort.dats \
   pats_trans1_staexp.dats \
+  pats_trans1_p0at.dats \
   pats_trans1_dynexp.dats \
   pats_trans1_decl.dats \
   pats_comarg.sats \

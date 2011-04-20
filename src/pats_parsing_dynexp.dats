@@ -1362,6 +1362,83 @@ end // end of [p_scasehead]
 (* ****** ****** *)
 
 (*
+forhead ::= FORSTAR loopi0nv EQGT // [for] is external id
+*)
+fun
+p_forhead (
+  buf: &tokbuf, bt: int, err: &int
+) : loophead = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val ent1 = p_FORSTAR (buf, bt, err)
+  val ent2 = pif_fun (buf, bt, err, p_loopi0nv, err0)
+  val ent3 = pif_fun (buf, bt, err, p_EQGT, err0)
+in
+  if err = err0 then
+    loophead_make_some (ent1, ent2, ent3)
+  else tokbuf_set_ntok_null (buf, n0)
+end // end of [p_whilehead]
+
+(*
+whilehead ::= WHILESTAR loopi0nv EQGT // [while] is external id
+*)
+
+fun
+p_whilehead (
+  buf: &tokbuf, bt: int, err: &int
+) : loophead = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val ent1 = p_WHILESTAR (buf, bt, err)
+  val ent2 = pif_fun (buf, bt, err, p_loopi0nv, err0)
+  val ent3 = pif_fun (buf, bt, err, p_EQGT, err0)
+in
+  if err = err0 then
+    loophead_make_some (ent1, ent2, ent3)
+  else tokbuf_set_ntok_null (buf, n0)
+end // end of [p_whilehead]
+
+(* ****** ****** *)
+
+(*
+initestpost ::=
+  LPAREN d0expcommaseq SEMICOLON d0expcommaseq SEMICOLON d0expcommaseq RPAREN
+; /* initestpost */
+*)
+fun p_initestpost (
+  buf: &tokbuf, bt: int, err: &int
+) : initestpost = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val ent1 = p_LPAREN (buf, bt, err)
+  val bt = 0
+  val ent2 = (if err = err0 then
+    pstar_fun0_COMMA {d0exp} (buf, bt, p_d0exp) else list_vt_nil
+  ) : d0explst_vt // end of [val]
+  val ent3 = pif_fun (buf, bt, err, p_SEMICOLON, err0)
+  val ent4 = (if err = err0 then
+    pstar_fun0_COMMA {d0exp} (buf, bt, p_d0exp) else list_vt_nil
+  ) : d0explst_vt // end of [val]
+  val ent5 = pif_fun (buf, bt, err, p_SEMICOLON, err0)
+  val ent6 = (if err = err0 then
+    pstar_fun0_COMMA {d0exp} (buf, bt, p_d0exp) else list_vt_nil
+  ) : d0explst_vt // end of [val]
+  val ent7 = pif_fun (buf, bt, err, p_RPAREN, err0)
+in
+  if err = err0 then
+    initestpost_make (ent1, (l2l)ent2, ent3, (l2l)ent4, ent5, (l2l)ent6, ent7)
+  else let
+    val () = list_vt_free (ent2)
+    val () = list_vt_free (ent4)
+    val () = list_vt_free (ent6)
+  in
+    tokbuf_set_ntok_null (buf, n0)
+  end (* end of [if] *)
+end // end of [p_initestpost]
+
+(* ****** ****** *)
+
+(*
 d0exp  :: =
   | d0exp0 {WHERE LBRACE d0ecseq_dyn RBRACE}* // done!
   | ifhead d0exp0 THEN d0exp [ELSE d0exp] // done!
@@ -1490,6 +1567,35 @@ case+ tok.token_node of
       val () = list_vt_free (ent3) in synent_null ()
     end (* end of [if] *)
   end
+//
+| _ when
+    ptest_fun (
+    buf, p_forhead, ent
+  ) => let
+    val bt = 0
+    val ent1 = synent_decode {loophead} (ent)
+    val ent2 = p_initestpost (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_d0exp, err0)
+  in
+    if err = err0 then
+      d0exp_forhead (ent1, ent2, ent3) else synent_null ()
+    // end of [if]
+  end
+//
+| _ when
+    ptest_fun (
+    buf, p_whilehead, ent
+  ) => let
+    val bt = 0
+    val ent1 = synent_decode {loophead} (ent)
+    val ent2 = pif_fun (buf, bt, err, p_atmd0exp, err0)
+    val ent3 = pif_fun (buf, bt, err, p_d0exp, err0)
+  in
+    if err = err0 then
+      d0exp_whilehead (ent1, ent2, ent3) else synent_null ()
+    // end of [if]
+  end
+//
 | T_DLRRAISE () => let
     val bt = 0
     val () = incby1 ()

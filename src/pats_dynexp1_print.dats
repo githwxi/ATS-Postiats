@@ -143,6 +143,18 @@ case+ d1c0.d1ecl_node of
     val () = prstr "\n)"
   }
 //
+| D1Cclassdec (id, sup) => {
+    val () = prstr "D1Cclassdec("
+    val () = fprint_i0de (out, id)
+    val () = (case+ sup of
+      | Some s1e => let
+          val () = prstr " : " in fprint_s1exp (out, s1e)
+        end
+      | None () => ()
+    ) : void // end of [val]
+    val () = prstr ")"
+  }
+//
 | D1Cdcstdecs (dck, qarg, xs) => {
     val () = prstr "D1Cdcstdecs("
     val () = fprint_dcstkind (out, dck)

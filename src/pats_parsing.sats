@@ -61,6 +61,9 @@ parerr_node =
   | PE_WHEN
   | PE_WITH
 //
+  | PE_FOR
+  | PE_WHILE
+//
   | PE_BAR
   | PE_COLON
   | PE_COMMA
@@ -133,6 +136,7 @@ parerr_node =
   | PE_p0at
   | PE_atmp0at
   | PE_labp0at
+  | PE_p0at_as
   | PE_m0atch
   | PE_guap0at
   | PE_c0lau
@@ -238,6 +242,16 @@ fun is_WITH (x: tnode): bool
 
 fun p_WHEN : parser (token)
 fun is_WHEN (x: tnode): bool
+
+fun p_FOR : parser (token)
+fun is_FOR (x: tnode): bool
+fun p_FORSTAR : parser (token)
+fun is_FORSTAR (x: tnode): bool
+
+fun p_WHILE : parser (token)
+fun is_WHILE (x: tnode): bool
+fun p_WHILESTAR : parser (token)
+fun is_WHILESTAR (x: tnode): bool
 
 (* ****** ****** *)
 
@@ -643,7 +657,11 @@ fun parse_from_tokbuf_toplevel
 // end of [parse_from_tokbuf_toplevel]
 
 fun parse_from_filename_toplevel
-  (stadyn: int, fullname: string): d0eclist
+  (stadyn: int, fil: filename): d0eclist
+// end of [parse_from_filename_toplevel
+
+fun parse_from_basename_toplevel
+  (stadyn: int, basename: string): d0eclist
 // end of [parse_from_filename_toplevel
 
 fun parse_from_stdin_toplevel (stadyn: int): d0eclist

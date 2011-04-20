@@ -288,6 +288,15 @@ fun fprint_a1msrtlst : fprint_type (a1msrtlst)
 
 (* ****** ****** *)
 
+datatype sp1at_node =
+  | SP1Tcstr of (s0taq, symbol, s1arglst)
+
+where sp1at = '{
+  sp1at_loc= location, sp1at_node= sp1at_node
+}
+
+(* ****** ****** *)
+
 datatype s1exp_node =
 //
   | S1Eint of i0nt // integer constant
@@ -437,6 +446,27 @@ fun s1qua_vars (loc: location, ids: i0delst, s1te: s1rtext): s1qua
 
 fun fprint_s1qua : fprint_type (s1qua)
 fun fprint_s1qualst : fprint_type (s1qualst)
+
+(* ****** ****** *)
+
+datatype
+s1vararg =
+  | S1VARARGone (* {..} *)
+  | S1VARARGall (* {...} *)
+  | S1VARARGseq of s1arglst
+// end of [s1vararg]
+
+typedef s1vararglst = List (s1vararg)
+
+datatype
+s1exparg =
+  | S1EXPARGone (* {..} *)
+  | S1EXPARGall (* {...} *)
+  | S1EXPARGseq of s1explst
+// end of [s1exparg]
+
+typedef s1exparglst = List s1exparg
+typedef s1expargopt = Option s1exparg
 
 (* ****** ****** *)
 

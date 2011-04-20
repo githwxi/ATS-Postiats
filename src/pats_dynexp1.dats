@@ -41,6 +41,111 @@ staload "pats_dynexp1.sats"
 (* ****** ****** *)
 
 implement
+p1at_any (loc) = '{
+  p1at_loc= loc, p1at_node= P1Tany ()
+}
+implement
+p1at_anys (loc) = '{
+  p1at_loc= loc, p1at_node= P1Tanys ()
+}
+
+implement
+p1at_ide (loc, id) = let
+  val dq = d0ynq_none (loc) in p1at_dqid (loc, dq, id)
+end // end of [p1at_ide]
+implement
+p1at_dqid (loc, dq, id) = '{
+  p1at_loc= loc, p1at_node= P1Tdqid (dq, id)
+}
+
+implement
+p1at_ref (loc, id) = '{
+  p1at_loc= loc, p1at_node= P1Tref (id)
+}
+
+implement
+p1at_int (loc, x) = '{
+  p1at_loc= loc, p1at_node= P1Tint (x)
+}
+implement
+p1at_char (loc, x) = '{
+  p1at_loc= loc, p1at_node= P1Tchar (x)
+}
+implement
+p1at_float (loc, x) = '{
+  p1at_loc= loc, p1at_node= P1Tfloat (x)
+}
+implement
+p1at_string (loc, x) = '{
+  p1at_loc= loc, p1at_node= P1Tstring (x)
+}
+implement
+p1at_empty (loc) = '{
+  p1at_loc= loc, p1at_node= P1Tempty ()
+}
+
+implement
+p1at_app_dyn (
+  loc, _fun, loc_arg, npf, _arg
+) = '{
+  p1at_loc= loc
+, p1at_node= P1Tapp_dyn (_fun, loc_arg, npf, _arg)
+} // end of [p1at_app_dyn]
+
+implement
+p1at_app_sta
+  (loc, _fun, _arg) = '{
+  p1at_loc= loc, p1at_node= P1Tapp_sta (_fun, _arg)
+} // end of [p1at_app_sta]
+
+implement
+p1at_list (loc, npf, p1ts) = '{
+  p1at_loc= loc, p1at_node= P1Tlist (npf, p1ts)
+}
+
+implement
+p1at_lst (loc, p1ts) = '{
+  p1at_loc= loc, p1at_node= P1Tlst (p1ts)
+}
+implement
+p1at_tup (loc, knd, npf, p1ts) = '{
+  p1at_loc= loc, p1at_node= P1Ttup (knd, npf, p1ts)
+}
+implement
+p1at_rec (loc, knd, npf, lp1ts) = '{
+  p1at_loc= loc, p1at_node= P1Trec (knd, npf, lp1ts)
+}
+
+implement
+p1at_free (loc, p1t) = '{
+  p1at_loc= loc, p1at_node= P1Tfree (p1t)
+}
+implement
+p1at_as (loc, id, p1t) = '{
+  p1at_loc= loc, p1at_node= P1Tas (id, p1t)
+}
+implement
+p1at_refas (loc, id, p1t) = '{
+  p1at_loc= loc, p1at_node= P1Trefas (id, p1t)
+}
+
+implement
+p1at_exist (loc, arg, p1t) = '{
+  p1at_loc= loc, p1at_node= P1Texist (arg, p1t)
+}
+implement
+p1at_svararg (loc, arg) = '{
+  p1at_loc= loc, p1at_node= P1Tsvararg (arg)
+}
+
+implement
+p1at_ann (loc, p1t, ann) = '{
+  p1at_loc= loc, p1at_node= P1Tann (p1t, ann)
+}
+
+(* ****** ****** *)
+
+implement
 d1ecl_none (loc) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cnone ()
 } // end of [d1ecl_none]
@@ -136,9 +241,24 @@ d1ecl_exndecs (loc, d1cs) = '{
 (* ****** ****** *)
 
 implement
+d1ecl_classdec (loc, id, sup) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cclassdec (id, sup)
+}
+
+(* ****** ****** *)
+
+implement
 d1ecl_dcstdecs (loc, dck, qarg, ds) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cdcstdecs (dck, qarg, ds)
 } // end of [d1ecl_dcstdecs]
+
+(* ****** ****** *)
+
+implement
+d1ecl_extcode
+  (loc, knd, pos, code) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cextcode (knd, pos, code)
+} // end of [d1ecl_extcode]
 
 (* ****** ****** *)
 

@@ -126,6 +126,14 @@ in '{
   i0de_loc= loc, i0de_sym= sym
 } end // end of [i0de_make_string]
 
+implement
+i0de_make_lrbrackets
+  (t_beg, t_end) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  i0de_loc= loc, i0de_sym= $SYM.symbol_LRBRACKETS
+} end // end of [i0de_make_lrbrackets]
+
 (* ****** ****** *)
 
 implement
@@ -1175,11 +1183,24 @@ in '{
 (* ****** ****** *)
 
 implement
-p0at_as (p0t1, p0t2) = let
+p0at_as_refas (p0t1, p0t2) = let
   val loc = p0t1.p0at_loc + p0t2.p0at_loc
-in '{
-  p0at_loc= loc, p0at_node= P0Tas (p0t1, p0t2)
-} end // end of [p0at_as]
+in
+//
+case+ p0t1.p0at_node of
+| P0Tide (id) => '{
+    p0at_loc= loc, p0at_node= P0Tas (id, p0t2)
+  }
+| P0Tref (id) => '{
+    p0at_loc= loc, p0at_node= P0Trefas (id, p0t2)
+  }
+| _ => let
+    val err = parerr_make (p0t1.p0at_loc, PE_p0at_as)
+    val () = the_parerrlst_add (err)
+  in
+    p0at_err (loc)
+  end
+end // end of [p0at_as]
 
 (* ****** ****** *)
 
@@ -1189,6 +1210,13 @@ p0at_ann (p0t, s0e) = let
 in '{
   p0at_loc= loc, p0at_node= P0Tann (p0t, s0e)
 } end // end of [p0at_ann]
+
+(* ****** ****** *)
+
+implement
+p0at_err (loc) = '{
+  p0at_loc= loc, p0at_node= P0Terr ()
+}
 
 (* ****** ****** *)
 
@@ -1379,6 +1407,21 @@ in '{
 } end // end of [scasehead_make]
 
 (* ****** ****** *)
+
+implement
+loophead_make_none (t_loop) = '{
+  loophead_tok= t_loop, loophead_inv= None ()
+} // end of [loophead_make_none]
+
+implement
+loophead_make_some
+  (t_loop, inv, t_eqgt) = let
+  val loc = t_loop.token_loc + t_eqgt.token_loc
+in '{
+  loophead_tok= t_loop, loophead_inv= Some inv
+} end // end of [loophead_make_some]
+
+(* ****** ****** *)
 //
 // HX: dynamic expressions
 //
@@ -1424,12 +1467,12 @@ in '{
   d0exp_loc= x.token_loc, d0exp_node= D0Eint (x)
 } end // end of [d0exp_s0tring]
 
-(* ****** ****** *)
-
 implement
 d0exp_empty (loc) = '{
   d0exp_loc= loc, d0exp_node= D0Eempty ()
 }
+
+(* ****** ****** *)
 
 implement
 d0exp_FILENAME (tok) = '{
@@ -1597,6 +1640,44 @@ d0exp_scasehead (
 in '{
   d0exp_loc= loc, d0exp_node= D0Escasehead (hd, d0e, c0ls)
 } end // end of [d0exp_scasehead]
+
+(* ****** ****** *)
+
+implement
+d0exp_forhead (
+  hd, itp, body
+) = let
+  val t_loop = hd.loophead_tok
+  val loc_inv = t_loop.token_loc
+  val loc = loc_inv + body.d0exp_loc
+(*
+  val () = begin
+    $LOC.print_location loc; print ": d0exp_for"; print_newline ()
+  end // end of [val]
+*)
+  val inv = hd.loophead_inv
+in '{
+  d0exp_loc= loc
+, d0exp_node= D0Efor (inv, loc_inv, itp, body)
+} end // end of [d0exp_forhead]
+
+implement
+d0exp_whilehead (
+  hd, test, body
+) = let
+  val t_loop = hd.loophead_tok
+  val loc_inv = t_loop.token_loc
+  val loc = loc_inv + body.d0exp_loc
+(*
+  val () = begin
+    $LOC.print_location loc; print ": d0exp_while"; print_newline ()
+  end // end of [val]
+*)
+  val inv = hd.loophead_inv
+in '{
+  d0exp_loc= loc
+, d0exp_node= D0Ewhile (inv, loc_inv, test, body)
+} end // end of [d0exp_whilehead]
 
 (* ****** ****** *)
 
@@ -1860,6 +1941,21 @@ d0arrind_cons
 (* ****** ****** *)
 
 implement
+initestpost_make (
+  t_beg
+, _ini, t_sep1, _test, t_sep2, _post
+, t_end
+) = let
+  val _ini = d0exp_seq (t_beg, _ini, t_sep1)
+  val _test = d0exp_seq (t_sep1, _test, t_sep2)
+  val _post = d0exp_seq (t_sep2, _post, t_end)
+in '{
+  itp_ini= _ini, itp_test= _test, itp_post= _post
+} end // end of [initestpost_make]
+
+(* ****** ****** *)
+
+implement
 m0atch_make
   (d0e, p0topt) = let
   val loc = (
@@ -2053,6 +2149,8 @@ in '{
   d0ecl_loc= loc, d0ecl_node= D0Cnonfix (ids)
 } end // end of [d0ecl_nonfix]
 
+(* ****** ****** *)
+
 implement
 d0ecl_symintr
   (tok, ids) = let
@@ -2078,6 +2176,14 @@ in '{
 } end // end of [d0ecl_symelim]
 
 end // end of [local]
+
+implement
+d0ecl_overload
+  (tok, id, dqid) = let
+  val loc = tok.token_loc + dqid.dqi0de_loc
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Coverload (id, dqid)
+} end // end of [d0ecl_overload]
 
 (* ****** ****** *)
 
@@ -2259,6 +2365,20 @@ in '{
 (* ****** ****** *)
 
 implement
+d0ecl_classdec
+  (tok, id, sup) = let
+  val loc = (
+    case+ sup of
+    | Some x => tok.token_loc + x.s0exp_loc
+    | None _ => tok.token_loc
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cclassdec (id, sup)
+} end // end of [d0ecl_classdec]
+
+(* ****** ****** *)
+
+implement
 d0ecl_dcstdecs
   (tok, ent2, ent3) = let
   val loc = (case+
@@ -2283,28 +2403,6 @@ d0ecl_macdefs
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cmacdefs (knd, isrec, ent2)
 } end // end of [d0ecl_macdefs]
-
-(* ****** ****** *)
-
-implement
-d0ecl_overload
-  (tok, id, dqid) = let
-  val loc = tok.token_loc + dqid.dqi0de_loc
-in '{
-  d0ecl_loc= loc, d0ecl_node= D0Coverload (id, dqid)
-} end // end of [d0ecl_overload]
-
-implement
-d0ecl_classdec
-  (tok, id, sup) = let
-  val loc = (
-    case+ sup of
-    | Some x => tok.token_loc + x.s0exp_loc
-    | None _ => tok.token_loc
-  ) : location // end of [val]
-in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cclassdec (id, sup)
-} end // end of [d0ecl_classdec]
 
 (* ****** ****** *)
 

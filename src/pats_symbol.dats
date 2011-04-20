@@ -239,6 +239,8 @@ implement symbol_UNDERSCORE = symbol_make_string "_"
 implement symbol_LAND = symbol_make_string "&&" 
 implement symbol_LOR = symbol_make_string "||" 
 
+implement symbol_LRBRACKETS = symbol_make_string "[]" 
+
 implement symbol_MINUSGT = symbol_make_string "->" 
 
 implement symbol_QMARK = symbol_make_string "?"

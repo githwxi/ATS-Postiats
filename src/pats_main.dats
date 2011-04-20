@@ -119,6 +119,7 @@ dynload "pats_trans1_e0xp.dats"
 dynload "pats_trans1_effect.dats"
 dynload "pats_trans1_sort.dats"
 dynload "pats_trans1_staexp.dats"
+dynload "pats_trans1_p0at.dats"
 dynload "pats_trans1_dynexp.dats"
 dynload "pats_trans1_decl.dats"
 //
@@ -266,7 +267,7 @@ fn fixity_load
 //
   val (pfpush | ()) = 
     $FIL.the_filenamelst_push (filename)
-  val d0cs = parse_from_filename_toplevel (0(*sta*), fullname)
+  val d0cs = parse_from_filename_toplevel (0(*sta*), filename)
   val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
 //
   val (pfenv | ()) = $TRENV1.the_fxtyenv_push_nil ()
@@ -402,7 +403,7 @@ case+ arg of
     val () = state.ninputfile := state.ninputfile + 1
     val COMARGkey (_, basename) = arg
     val () = prelude_load_if (ATSHOME, state.preludeflg)
-    val d0cs = parse_from_filename_toplevel (stadyn, basename)
+    val d0cs = parse_from_basename_toplevel (stadyn, basename)
     val d1cs = $TRANS1.d0eclist_tr (d0cs)
     val () = fprint_d1eclist (stdout_ref, d1cs)
     val () = fprint_newline (stdout_ref)

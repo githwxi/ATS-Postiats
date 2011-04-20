@@ -250,26 +250,21 @@ end // end of [local]
 
 (* ****** ****** *)
 
-local
-
-fn s0arg_tr
-  (x: s0arg): s1arg = let
+implement
+s0arg_tr (x) = let
   val res = s0rtopt_tr (x.s0arg_srt)
 in
   s1arg_make (x.s0arg_loc, x.s0arg_sym, res)
 end // end of [s0arg_tr]
 
-in // in of [local]
+implement
+s0arglst_tr (xs) =  l2l (list_map_fun (xs, s0arg_tr))
 
 implement
-s0marg_tr (x) =
-  l2l (list_map_fun (x.s0marg_arg, s0arg_tr))
-// end of [s0marg_tr]
+s0marg_tr (x) = s0arglst_tr (x.s0marg_arg)
 
 implement
 s0marglst_tr (xss) = l2l (list_map_fun (xss, s0marg_tr))
-
-end // end of [local]
 
 (* ****** ****** *)
 

@@ -40,6 +40,8 @@ STDIO = "libc/SATS/stdio.sats"
 (* ****** ****** *)
 
 staload ERR = "pats_error.sats"
+staload FIL = "pats_filename.sats"
+staload SYM = "pats_symbol.sats"
 
 (* ****** ****** *)
 
@@ -86,18 +88,51 @@ in
   d0cs
 end // end of [parse_from_tokbuf]
 
+(* ****** ****** *)
+
 implement
 parse_from_filename_toplevel
-  (stadyn, fullname) = let
+  (stadyn, fil) = let
   var buf: tokbuf
   prval pfmod = file_mode_lte_r_r
+  val fullname = $FIL.filename_get_full (fil)
+  val fullname = $SYM.symbol_get_name (fullname)
   val (pffil | p_fil) = $STDIO.fopen_exn (fullname, file_mode_r)
   val () = tokbuf_initialize_filp (pfmod, pffil | buf, p_fil)
+//
+  val (pfpush | ()) = $FIL.the_filenamelst_push (fil)
   val d0cs = parse_from_tokbuf_toplevel (stadyn, buf)
+  val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+//
   val () = tokbuf_uninitialize (buf)
 in
   d0cs
 end // end of [parser_from_filename_toplevel]
+
+implement
+parse_from_basename_toplevel
+  (stadyn, basename) = let
+  val filopt = $FIL.filenameopt_make_relative (basename)
+in
+//
+case+ filopt of
+| ~Some_vt (fil) =>
+    parse_from_filename_toplevel (stadyn, fil)
+  // end of [Some_vt]
+| ~None_vt () => let
+    val () = prerr "error(ATS)"
+    val () = prerr ": the file of the name ["
+    val () = prerr (basename)
+    val () = prerr "] is not available."
+    val () = prerr_newline ()
+    val () = $ERR.abort ()
+  in
+    list_nil ()
+  end // end of [None_vt]
+//
+end // end of [parse_from_basename_toplevel]
+
+(* ****** ****** *)
 
 implement
 parse_from_stdin_toplevel
