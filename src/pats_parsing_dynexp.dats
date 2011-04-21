@@ -636,8 +636,8 @@ in
 //
 case+ tok.token_node of
 | _ when
-    ptest_fun (buf, p_dqi0de, ent) =>
-    d0exp_dqid (synent_decode {dqi0de} (ent))
+    ptest_fun (buf, p_di0de, ent) =>
+    d0exp_ide (synent_decode {i0de} (ent))
 | T_INTEGER _ => let
     val () = incby1 () in d0exp_i0nt (tok)
   end
@@ -657,6 +657,16 @@ case+ tok.token_node of
   in
     if err = err0 then
       d0exp_opid (tok, ent2) else synent_null ()
+    // end of [if]
+  end
+| _ when
+    ptest_fun (buf, p_d0ynq, ent) => let
+    val bt = 0
+    val ent1 = synent_decode {d0ynq} (ent)
+    val ent2 = p_di0de (buf, bt, err) // err = err0
+  in
+    if err = err0 then
+      d0exp_dqid (ent1, ent2) else synent_null ()
     // end of [if]
   end
 //

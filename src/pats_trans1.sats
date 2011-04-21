@@ -136,6 +136,10 @@ fun dcstextdef_tr (ext: Stropt): dcstextdef
 fun a0typ_tr (x: a0typ): s1exp
 fun a0typlst_tr (x: a0typlst): s1explst
 
+fun s0exparg_tr (loc: location, s0a: s0exparg): s1exparg
+
+(* ****** ****** *)
+
 fun d0cstdeclst_tr
   (isfun: bool, isprf: bool, ds: d0cstdeclst): d1cstdeclst
 // end of [d0cstdeclst_tr]

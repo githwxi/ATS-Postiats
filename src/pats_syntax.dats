@@ -1428,10 +1428,16 @@ in '{
 (* ****** ****** *)
 
 implement
-d0exp_dqid (x) = let
+d0exp_ide (id) = '{
+  d0exp_loc= id.i0de_loc
+, d0exp_node= D0Eide (id.i0de_sym)
+}
+
+implement
+d0exp_dqid (dq, id) = let
+  val loc = dq.d0ynq_loc + id.i0de_loc
 in '{
-  d0exp_loc= x.dqi0de_loc
-, d0exp_node= D0Edqid (x.dqi0de_qua, x.dqi0de_sym)
+  d0exp_loc= loc, d0exp_node= D0Edqid (dq, id.i0de_sym)
 } end // end of [d0exp_dqid]
 
 implement
@@ -1562,6 +1568,36 @@ d0exp_tmpid
 in '{
   d0exp_loc= loc, d0exp_node= D0Etmpid (qid, arg)
 } end // end of [d0exp_tmpid]
+
+(* ****** ****** *)
+
+implement
+d0exp_let_seq (
+  t_let, d0cs, t_in, d0es, t_end
+) = let
+  val loc = t_let.token_loc + t_end.token_loc
+  val body = d0exp_seq (t_in, d0es, t_end)
+in '{
+  d0exp_loc= loc, d0exp_node= D0Elet (d0cs, body)
+} end // end of [d0exp_let_seq]
+
+implement
+d0exp_declseq
+  (t_beg, xs, t_end) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Edeclseq (xs)
+} end // end of [d0exp_declseq]
+
+(* ****** ****** *)
+
+implement
+d0exp_where
+  (d0e, d0cs, t_end) = let
+  val loc = d0e.d0exp_loc + t_end.token_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Ewhere (d0e, d0cs)
+} end // end of [d0exp_where]
 
 (* ****** ****** *)
 
@@ -1841,37 +1877,6 @@ in '{
 } end // end of [d0exp_sexparg]
 
 (* ****** ****** *)
-
-implement
-d0exp_let_seq (
-  t_let, d0cs, t_in, d0es, t_end
-) = let
-  val loc = t_let.token_loc + t_end.token_loc
-  val body = d0exp_seq (t_in, d0es, t_end)
-in '{
-  d0exp_loc= loc, d0exp_node= D0Elet (d0cs, body)
-} end // end of [d0exp_let_seq]
-
-implement
-d0exp_declseq
-  (t_beg, xs, t_end) = let
-  val loc = t_beg.token_loc + t_end.token_loc
-in '{
-  d0exp_loc= loc, d0exp_node= D0Edeclseq (xs)
-} end // end of [d0exp_declseq]
-
-(* ****** ****** *)
-
-implement
-d0exp_where
-  (d0e, d0cs, t_end) = let
-  val loc = d0e.d0exp_loc + t_end.token_loc
-in '{
-  d0exp_loc= loc, d0exp_node= D0Ewhere (d0e, d0cs)
-} end // end of [d0exp_where]
-
-(* ****** ****** *)
-
 
 local
 

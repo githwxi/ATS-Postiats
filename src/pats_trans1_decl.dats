@@ -330,7 +330,18 @@ fun token_get_dcstkind
 
 (* ****** ****** *)
 
-fun i0nclude_tr (
+fn m0acdef_tr
+  (d: m0acdef): m1acdef = let
+  val def = d0exp_tr d.m0acdef_def
+in
+  m1acdef_make (
+    d.m0acdef_loc, d.m0acdef_sym, d.m0acdef_arg, def
+  ) // end of [m1acdef_make]
+end // end of [m0acdef_tr]
+
+(* ****** ****** *)
+
+fn i0nclude_tr (
   loc0: location, stadyn: int, path: string
 ) : d1eclist = d1cs where {
 //
@@ -530,6 +541,13 @@ case+ d0c0.d0ecl_node of
 | D0Cinclude (stadyn, path) => let
     val d1cs = i0nclude_tr (loc0, stadyn, path) in d1ecl_include (loc0, d1cs)
   end // end of [D0Cinclude]
+//
+| D0Cmacdefs (knd, isrec, d0cs) => let
+    // knd: 0/1 => short/long
+    val d1cs = l2l (list_map_fun (d0cs, m0acdef_tr))
+  in
+    d1ecl_macdefs (loc0, knd, isrec, d1cs)
+  end // end of [D0Cmacdefs]
 //
 | D0Clocal (
     d0cs_head, d0cs_body

@@ -397,6 +397,21 @@ q1marg_make (loc, arg) = '{
 (* ****** ****** *)
 
 implement
+s1exparg_one (loc) = '{
+  s1exparg_loc= loc, s1exparg_node= S1EXPARGone ()
+}
+implement
+s1exparg_all (loc) = '{
+  s1exparg_loc= loc, s1exparg_node= S1EXPARGall ()
+}
+implement
+s1exparg_seq (loc, xs) = '{
+  s1exparg_loc= loc, s1exparg_node= S1EXPARGseq (xs)
+}
+
+(* ****** ****** *)
+
+implement
 s1rtdef_make (
   loc, sym, s1te
 ) = '{

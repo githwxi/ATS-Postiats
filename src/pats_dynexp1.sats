@@ -197,6 +197,7 @@ datatype d1ecl_node =
   | D1Cextcode of (
       int (*knd: 0/1*), int (*pos: 0/1/2 : top/?/end*), string (*code*)
     ) // end of [D1Cextcode]
+  | D1Cmacdefs of (int(*knd*), bool(*isrec*), m1acdeflst)
 (*
   | D1Cvaldecs of (* value declaration *)
       (valkind, v1aldeclst)
@@ -208,8 +209,6 @@ datatype d1ecl_node =
       (funkind, s1qualstlst, f1undeclst)
   | D1Cvardecs of (* variable declaration *)
       v1ardeclst
-  | D1Cmacdefs of (* macro declaration *)
-      (int (*long/short*), m1acdeflst)
   | D1Cimpdec of (* implementation *)
       (s1arglstlst, i1mpdec)
 *)
@@ -223,11 +222,15 @@ datatype d1ecl_node =
 
 and d1exp_node =
 //
+  | D1Edqid of (d0ynq, symbol) // qualified ids
+//
   | D1Ebool of bool // boolean constants
-  | D1Echar of c0har // dynamic character
+  | D1Echar of c0har // dynamic characters
   | D1Efloat of f0loat (* dynamic floats *)
+  | D1Estring of s0tring (* dynamic strings *)
   | D1Ecstsp of cstsp // special constants
   | D1Eempty (* empty expression *)
+  | D1Etop of () // uninitialized expression
 //
   | D1Edecseq of // decseq as exp
       d1eclist (* HX: note that there is no [D2Edecseq] *)
@@ -237,13 +240,14 @@ and d1exp_node =
   | D1Eextval of (* external code *)
       (s1exp (*type*), string (*code*))
 //
-  | D1Eexist of (* existential sum *)
-      (s1exparg, d1exp)
+  | D1Eexist of (s1exparg, d1exp) // existential sum
 //
   | D1Efoldat of (* fold at a given address *)
       (s1exparglst, d1exp)
   | D1Efreeat of (* free at a given address *)
       (s1exparglst, d1exp)
+//
+  | D1Elet of (d1eclist, d1exp(*body*))
 //
   | D1Eapp_dyn of (* dynamic application *)
       (d1exp, location(*arg*), int (*pfarity*), d1explst)
@@ -261,12 +265,14 @@ and d1exp_node =
   | D1Escasehead of
      (i1nvresstate, s1exp, sc1laulst)
 //
-  | D1Elst of (* dynamic list expression *)
+  | D1Elst of (* dynamic list-expression *)
       (int (*lin*), s1expopt, d1explst)
-  | D1Etup of (* dynamic tuple expression *)
+  | D1Etup of (* dynamic tuple-expression *)
       (int (*tupknd*), int (*pfarity*), d1explst)
-  | D1Erec of (* dynamic record expression *)
+  | D1Erec of (* dynamic record-expression *)
       (int (*recknd*), int (*pfarity*), labd1explst)
+  | D1Eseq of (* dynamic sequence-expression *)
+      d1explst
 //
   | D1Earrsub of (* array subscription *)
       (d1exp, location(*ind*), d1explstlst)
@@ -281,6 +287,8 @@ and d1exp_node =
   | D1Eptrof of d1exp // taking the address of
   | D1Eviewat of d1exp // taking view at a given address
 //
+  | D1Esexparg of s1exparg (* for temporary use *)
+//
   | D1Elam_dyn of (* dynamic abstraction: alloc/init *)
       (int (*lin*), p1at, d1exp)
   | D1Elaminit_dyn of (* dynamic abstraction initialization *)
@@ -293,6 +301,8 @@ and d1exp_node =
       (location (*loc_arg*), s1qualst, d1exp)
   | D1Efix of // dynamic fixed-point expression
       (int(*knd: 0/1: flat/boxed*), i0de, d1exp)
+//
+  | D1Etrywith of (i1nvresstate, d1exp, c1laulst)
 //
   | D1Efor of ( // for-loop
       loopi1nv
@@ -364,6 +374,145 @@ and sc1laulst = List sc1lau
 
 (* ****** ****** *)
 
+and m1acdef = '{
+  m1acdef_loc= location
+, m1acdef_sym= symbol
+, m1acdef_arg= m0acarglst // HX: yes: m0acarglst
+, m1acdef_def= d1exp
+} // end of [m1acdef]
+
+and m1acdeflst = List m1acdef
+
+(* ****** ****** *)
+//
+// HX: dynamic expressions
+//
+(* ****** ****** *)
+
+fun d1exp_ide (loc: location, id: symbol): d1exp
+fun d1exp_dqid
+  (loc: location, dq: d0ynq, id: symbol): d1exp
+// end of [d1exp_dqid]
+fun d1exp_opid (loc: location, id: symbol): d1exp
+
+fun d1exp_char (loc: location, x: c0har): d1exp
+fun d1exp_float (loc: location, x: f0loat): d1exp
+fun d1exp_string (loc: location, x: s0tring): d1exp
+fun d1exp_cstsp (loc: location, x: cstsp): d1exp
+fun d1exp_empty (loc: location): d1exp
+fun d1exp_top (loc: location): d1exp
+
+fun d1exp_foldat
+  (loc: location, arg: s1exparglst, d1e: d1exp): d1exp
+fun d1exp_freeat
+  (loc: location, arg: s1exparglst, d1e: d1exp): d1exp
+
+fun d1exp_let (
+  loc: location, d1cs: d1eclist, body: d1exp
+) : d1exp // end of [d1exp_let]
+
+(* ****** ****** *)
+
+fun d1exp_app_sta (
+  loc: location, d1e: d1exp, s1as: s1exparglst
+) : d1exp // end of [d1exp_app_sta]
+
+fun d1exp_app_dyn (
+  loc: location
+, d1e: d1exp, loc_arg: location, npf: int, d1es: d1explst
+) : d1exp // end of [d1exp_app_dyn]
+
+fun d1exp_list
+  (loc: location, npf: int, d1es: d1explst): d1exp
+// end of [d1exp_list]
+
+(* ****** ****** *)
+
+fun d1exp_ifhead (
+  loc: location
+, inv: i1nvresstate
+, _cond: d1exp
+, _then: d1exp
+, _else: d1expopt
+) : d1exp // end of [d1exp_if]
+
+fun d1exp_sifhead (
+  loc: location
+, inv: i1nvresstate
+, _cond: s1exp
+, _then: d1exp
+, _else: d1exp
+) : d1exp // end of [d1exp_if]
+
+fun d1exp_casehead (
+  loc: location
+, inv: i1nvresstate
+, d1e: d1exp, c1las: c1laulst
+) : d1exp // end of [d1exp_casehead]
+
+fun d1exp_scasehead (
+  loc: location
+, inv: i1nvresstate
+, s1e: s1exp, c1las: sc1laulst
+) : d1exp // end of [d1exp_scasehead]
+
+(* ****** ****** *)
+
+fun d1exp_lst (
+  loc: location, knd: int, elt: s1expopt, d1es: d1explst
+) : d1exp // end of [d1exp_lst]
+fun d1exp_tup (
+  loc: location, knd: int, npf: int, d1es: d1explst
+) : d1exp // end of [d1exp_tup]
+fun d1exp_rec (
+  loc: location, knd: int, npf: int, ld1es: labd1explst
+) : d1exp // end of [d1exp_rec]
+fun d1exp_seq (loc: location, d1es: d1explst): d1exp
+
+(* ****** ****** *)
+
+fun d1exp_raise (loc: location, d1e: d1exp): d1exp
+fun d1exp_delay (loc: location, knd: int, d1e: d1exp): d1exp
+
+(* ****** ****** *)
+
+fun d1exp_ptrof (loc: location, d1e: d1exp): d1exp
+fun d1exp_viewat (loc: location, d1e: d1exp): d1exp
+
+(* ****** ****** *)
+
+fun d1exp_trywith (
+  loc: location, inv: i1nvresstate, d1e: d1exp, handler: c1laulst
+) : d1exp // end of [d1exp_trywith]
+
+(* ****** ****** *)
+
+fun d1exp_for (
+  loc: location
+, inv: loopi1nv
+, init: d1exp, test: d1exp, post: d1exp, body: d1exp
+) : d1exp // end of [d1exp_for]
+
+fun d1exp_while (
+  loc: location, inv: loopi1nv, test: d1exp, body: d1exp
+) : d1exp // end of [d1exp_while]
+
+(* ****** ****** *)
+
+fun fprint_d1exp : fprint_type (d1exp)
+
+(* ****** ****** *)
+
+fun m1acdef_make (
+  loc: location, id: symbol, arg: m0acarglst, def: d1exp
+) : m1acdef // end of [m1acdef_make]
+
+(* ****** ****** *)
+//
+// HX: declarations
+//
+(* ****** ****** *)
+
 fun d1ecl_none (loc: location): d1ecl
 
 fun d1ecl_list (loc: location, ds: d1eclist): d1ecl
@@ -407,6 +556,10 @@ fun d1ecl_extcode (
 ) : d1ecl // end of [d1ecl_extcode]
 
 fun d1ecl_include (loc: location, ds: d1eclist): d1ecl
+
+fun d1ecl_macdefs (
+  loc: location, knd: int, isrec: bool, ds: m1acdeflst
+) : d1ecl // end of [d1ecl_macdefs]
 
 fun d1ecl_local (loc: location, ds1: d1eclist, ds2: d1eclist): d1ecl
 

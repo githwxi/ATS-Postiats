@@ -421,6 +421,16 @@ implement a0typlst_tr (xs) = l2l (list_map_fun (xs, a0typ_tr))
 
 (* ****** ****** *)
 
+implement
+s0exparg_tr
+  (loc, s0a) = case+ s0a of
+  | S0EXPARGone () => s1exparg_one (loc)
+  | S0EXPARGall () => s1exparg_all (loc)
+  | S0EXPARGseq (s0as) => s1exparg_seq (loc, s0explst_tr s0as)
+// end of [s0exparg_tr]
+
+(* ****** ****** *)
+
 local
 
 extern fun extnam_ismac

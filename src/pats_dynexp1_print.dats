@@ -51,6 +51,35 @@ staload "pats_dynexp1.sats"
 (* ****** ****** *)
 
 implement
+fprint_d1exp
+  (out, d1e0) = let
+  macdef prstr (str) = fprint_string (out, ,(str))
+in
+//
+case+ d1e0.d1exp_node of
+| D1Echar (x) => {
+    val () = prstr "D1Echar("
+    val () = fprint_c0har (out, x)
+    val () = prstr ")"
+  }
+| D1Efloat (x) => {
+    val () = prstr "D1Efloat("
+    val () = fprint_f0loat (out, x)
+    val () = prstr ")"
+  }
+| D1Estring (x) => {
+    val () = prstr "D1Estring("
+    val () = fprint_s0tring (out, x)
+    val () = prstr ")"
+  }
+| D1Eempty () => prstr "D1Eempty()"
+| _ => prstr "D1E...(...)"
+//
+end // end of [fprint_d1exp]
+
+(* ****** ****** *)
+
+implement
 fprint_d1ecl
   (out, d1c0) = let
   macdef prstr (str) = fprint_string (out, ,(str))

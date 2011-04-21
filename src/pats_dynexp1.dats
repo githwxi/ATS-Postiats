@@ -144,6 +144,185 @@ p1at_ann (loc, p1t, ann) = '{
 }
 
 (* ****** ****** *)
+//
+// HX: dynamic expressions
+//
+(* ****** ****** *)
+
+implement
+d1exp_ide (loc, id) = let
+  val dq = d0ynq_none (loc) in d1exp_dqid (loc, dq, id)
+end // end of [d1exp_ide]
+
+implement
+d1exp_dqid (loc, dq, id) = '{
+  d1exp_loc= loc, d1exp_node= D1Edqid (dq, id)
+}
+implement
+d1exp_opid (loc, id) = let
+  val dq = d0ynq_none (loc) in d1exp_dqid (loc, dq, id)
+end // end of [d1exp_opid]
+
+implement
+d1exp_char (loc, x) = '{
+  d1exp_loc= loc, d1exp_node= D1Echar (x)
+}
+implement
+d1exp_float (loc, x) = '{
+  d1exp_loc= loc, d1exp_node= D1Efloat (x)
+}
+implement
+d1exp_string (loc, x) = '{
+  d1exp_loc= loc, d1exp_node= D1Estring (x)
+}
+implement
+d1exp_cstsp (loc, x) = '{
+  d1exp_loc= loc, d1exp_node= D1Ecstsp (x)
+}
+implement
+d1exp_empty (loc) = '{
+  d1exp_loc= loc, d1exp_node= D1Eempty ()
+}
+implement
+d1exp_top (loc) = '{
+  d1exp_loc= loc, d1exp_node= D1Etop ()
+}
+
+implement
+d1exp_foldat (loc, s1as, d1e) = '{
+  d1exp_loc= loc, d1exp_node= D1Efoldat (s1as, d1e)
+}
+implement
+d1exp_freeat (loc, s1as, d1e) = '{
+  d1exp_loc= loc, d1exp_node= D1Efreeat (s1as, d1e)
+}
+
+implement
+d1exp_let (loc, d1cs, body) = '{
+  d1exp_loc= loc, d1exp_node= D1Elet (d1cs, body)
+}
+
+implement
+d1exp_list (loc, npf, d1es) = '{
+  d1exp_loc= loc, d1exp_node= D1Elist (npf, d1es)
+}
+
+(* ****** ****** *)
+
+implement
+d1exp_app_sta (loc, d1e, s1as) = '{
+  d1exp_loc= loc, d1exp_node= D1Eapp_sta (d1e, s1as)
+} // end of [d1exp_app_sta]
+
+implement
+d1exp_app_dyn
+  (loc, d1e, loc_arg, npf, d1es) = '{
+  d1exp_loc= loc, d1exp_node= D1Eapp_dyn (d1e, loc_arg, npf, d1es)
+} // end of [d1exp_app_dyn]
+
+(* ****** ****** *)
+
+implement
+d1exp_ifhead (
+  loc, inv, _cond, _then, _else
+) = '{
+  d1exp_loc= loc
+, d1exp_node= D1Eifhead (inv, _cond, _then, _else)
+} // end of [d1exp_ifhead]
+
+implement
+d1exp_sifhead (
+  loc, inv, _cond, _then, _else
+) = '{
+  d1exp_loc= loc
+, d1exp_node= D1Esifhead (inv, _cond, _then, _else)
+} // end of [d1exp_sifhead]
+
+implement
+d1exp_casehead (
+  loc, inv, d1e, c1las
+) = '{
+  d1exp_loc= loc
+, d1exp_node= D1Ecasehead (inv, d1e, c1las)
+} // end of [d1exp_casehead]
+
+implement
+d1exp_scasehead (
+  loc, inv, s1e, c1las
+) = '{
+  d1exp_loc= loc
+, d1exp_node= D1Escasehead (inv, s1e, c1las)
+} // end of [d1exp_scasehead]
+
+(* ****** ****** *)
+
+implement
+d1exp_lst (loc, knd, elt, d1es) = '{
+  d1exp_loc= loc, d1exp_node= D1Elst (knd, elt, d1es)
+}
+implement
+d1exp_tup (loc, knd, npf, d1es) = '{
+  d1exp_loc= loc, d1exp_node= D1Etup (knd, npf, d1es)
+}
+implement
+d1exp_rec (loc, knd, npf, ld1es) = '{
+  d1exp_loc= loc, d1exp_node= D1Erec (knd, npf, ld1es)
+}
+implement
+d1exp_seq (loc, d1es) = '{
+  d1exp_loc= loc, d1exp_node= D1Eseq (d1es)
+}
+
+implement
+d1exp_raise (loc, d1e) = '{
+  d1exp_loc= loc, d1exp_node=D1Eraise (d1e)
+}
+implement
+d1exp_delay (loc, knd, d1e) = '{
+  d1exp_loc= loc, d1exp_node=D1Edelay (knd, d1e)
+}
+
+implement
+d1exp_ptrof (loc, d1e) = '{
+  d1exp_loc= loc, d1exp_node=D1Eptrof (d1e)
+}
+implement
+d1exp_viewat (loc, d1e) = '{
+  d1exp_loc= loc, d1exp_node=D1Eviewat (d1e)
+}
+
+implement
+d1exp_trywith (loc, inv, d1e, c1las) = '{
+  d1exp_loc= loc, d1exp_node= D1Etrywith (inv, d1e, c1las)
+}
+
+implement
+d1exp_for (
+  loc, inv, ini, test, post, body
+) = '{
+  d1exp_loc= loc, d1exp_node=D1Efor (inv, ini, test, post, body)
+} // end of [d1exp_for]
+
+implement
+d1exp_while
+  (loc, inv, test, body) = '{
+  d1exp_loc= loc, d1exp_node=D1Ewhile (inv, test, body)
+} // end of [d1exp_while]
+
+(* ****** ****** *)
+//
+// HX: declarations
+//
+(* ****** ****** *)
+
+implement
+m1acdef_make
+  (loc, id, arg, def) = '{
+  m1acdef_loc= loc
+, m1acdef_sym= id, m1acdef_arg= arg, m1acdef_def= def
+} // end of [m1acdef_make]
+
+(* ****** ****** *)
 
 implement
 d1ecl_none (loc) = '{
@@ -259,6 +438,13 @@ d1ecl_extcode
   (loc, knd, pos, code) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cextcode (knd, pos, code)
 } // end of [d1ecl_extcode]
+
+(* ****** ****** *)
+
+implement
+d1ecl_macdefs (loc, knd, isrec, ds) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cmacdefs (knd, isrec, ds)
+}
 
 (* ****** ****** *)
 

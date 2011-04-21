@@ -932,8 +932,8 @@ datatype
 p0at_node = 
 //
   | P0Tide of symbol
-  | P0Topid of symbol
   | P0Tdqid of (d0ynq, symbol)
+  | P0Topid of symbol
   | P0Tref of symbol // reference variable
 //
   | P0Tint of i0nt
@@ -1194,8 +1194,9 @@ and guad0ecl_node =
 
 and d0exp_node =
 //
-  | D0Eopid of symbol // dynamic op identifiers
+  | D0Eide of symbol // dynamic identifiers
   | D0Edqid of (d0ynq, symbol) // qualified dynamic identifiers
+  | D0Eopid of symbol // dynamic op identifiers
 //
   | D0Eint of i0nt
   | D0Echar of c0har
@@ -1214,6 +1215,10 @@ and d0exp_node =
   | D0Efreeat of d0explst (* freeing at a given address *)
 //
   | D0Etmpid of (dqi0de, t0mpmarglst) // template id
+//
+  | D0Elet of (d0eclist, d0exp) // dynamic let-expression
+  | D0Edeclseq of d0eclist // = let [d0eclist] in (*nothing*) end
+  | D0Ewhere of (d0exp, d0eclist)
 //
   | D0Eapp of (d0exp, d0exp) // functional application
 //
@@ -1254,11 +1259,6 @@ and d0exp_node =
 //
   | D0Elam of (int(*knd*), f0arglst, s0expopt, e0fftaglstopt, d0exp)
   | D0Efix of (int(*knd*), i0de, f0arglst, s0expopt, e0fftaglstopt, d0exp)
-//
-  | D0Elet of (d0eclist, d0exp) // dynamic let-expression
-  | D0Edeclseq of d0eclist // = let [d0eclist] in (*nothing*) end
-//
-  | D0Ewhere of (d0exp, d0eclist)
 //
   | D0Emacsyn of (macsynkind, d0exp) // macro syntax
 //
@@ -1437,7 +1437,8 @@ and i0mpdec = '{
 
 (* ****** ****** *)
 
-fun d0exp_dqid (_: dqi0de): d0exp
+fun d0exp_ide (id: i0de): d0exp
+fun d0exp_dqid (dq: d0ynq, id: i0de): d0exp
 fun d0exp_opid (_1: token, _2: i0de): d0exp
 
 fun d0exp_i0nt (_: i0nt): d0exp
