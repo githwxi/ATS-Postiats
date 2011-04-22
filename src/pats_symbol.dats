@@ -232,6 +232,7 @@ implement symbol_GT = symbol_make_string ">"
 implement symbol_LT = symbol_make_string "<"
 implement symbol_GTLT = symbol_make_string "><"
 implement symbol_GTGT = symbol_make_string ">>"
+implement symbol_LTLT = symbol_make_string "<<"
 //
 implement symbol_TILDE = symbol_make_string "~"
 implement symbol_UNDERSCORE = symbol_make_string "_"

@@ -38,7 +38,6 @@ staload UT = "pats_utils.sats"
 
 (* ****** ****** *)
 
-staload DEB = "pats_debug.sats"
 staload ERR = "pats_error.sats"
 staload LOC = "pats_location.sats"
 overload + with $LOC.location_combine
@@ -64,6 +63,7 @@ staload "pats_lexing.sats"
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
 staload "pats_fixity.sats"
 staload "pats_syntax.sats"
 staload "pats_staexp1.sats"
@@ -103,9 +103,7 @@ implement v1al_is_false (v) = ~v1al_is_true(v)
 
 (* ****** ****** *)
 
-fun isdebug (): bool =
-  $DEB.debug_flag_get () > 0
-// end of [isdebug]
+fun isdebug (): bool = debug_flag_get () > 0
 
 (* ****** ****** *)
 

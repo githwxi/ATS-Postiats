@@ -144,6 +144,26 @@ p1at_ann (loc, p1t, ann) = '{
 }
 
 (* ****** ****** *)
+
+implement
+i1nvarg_make (
+  loc, id, os1e
+) = '{
+  i1nvarg_loc= loc, i1nvarg_sym= id, i1nvarg_typ= os1e
+} // end of [i1nvarg_make]
+
+implement
+i1nvresstate_make
+  (s1qs, arg) = '{
+  i1nvresstate_qua= s1qs, i1nvresstate_arg= arg
+}
+
+implement
+i1nvresstate_nil =
+  i1nvresstate_make (list_nil (), list_nil ())
+// end of [i1nvresstate_nil]
+
+(* ****** ****** *)
 //
 // HX: dynamic expressions
 //
@@ -346,6 +366,13 @@ d1exp_viewat (loc, d1e) = '{
 }
 
 implement
+d1exp_sel (loc, knd, d1e, d1l) = '{
+  d1exp_loc= loc, d1exp_node= D1Esel (knd, d1e, d1l)
+}
+
+(* ****** ****** *)
+
+implement
 d1exp_trywith (loc, inv, d1e, c1las) = '{
   d1exp_loc= loc, d1exp_node= D1Etrywith (inv, d1e, c1las)
 }
@@ -396,6 +423,15 @@ d1exp_is_metric (d1e) = begin
   | D1Elam_sta_syn (_, _, d1e) => d1exp_is_metric d1e
   | _ => false
 end // end of [d1exp_is_metric]
+
+(* ****** ****** *)
+
+implement d1lab_lab (loc, lab) = '{
+  d1lab_loc= loc, d1lab_node= D1LABlab lab
+}
+implement d1lab_ind (loc, ind) = '{
+  d1lab_loc= loc, d1lab_node= D1LABind ind
+}
 
 (* ****** ****** *)
 //

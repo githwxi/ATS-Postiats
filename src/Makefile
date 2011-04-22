@@ -62,6 +62,8 @@ SOURCES := \
   pats_filename.dats \
   pats_location.sats \
   pats_location.dats \
+  pats_basics.sats \
+  pats_basics.dats \
   pats_reader.sats \
   pats_reader.dats \
   pats_lexbuf.sats \
@@ -106,6 +108,7 @@ SOURCES := \
   pats_dynexp1.sats \
   pats_dynexp1.dats \
   pats_dynexp1_print.dats \
+  pats_dynexp1_syndef.dats \
   pats_trans1.sats \
   pats_trans1_env.sats \
   pats_trans1_env.dats \

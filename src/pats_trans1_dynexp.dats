@@ -270,6 +270,29 @@ termination_metric_check
 
 (* ****** ****** *)
 
+fn i0nvarg_tr
+  (arg: i0nvarg): i1nvarg = let
+  val opt = s0expopt_tr (arg.i0nvarg_typ)
+in
+  i1nvarg_make (arg.i0nvarg_loc, arg.i0nvarg_sym, opt)
+end // end of [i0nvarg_tr]
+
+fun i0nvarglst_tr
+  (xs: i0nvarglst): i1nvarglst = l2l (list_map_fun (xs, i0nvarg_tr))
+
+fn i0nvresstate_tr
+  (res: i0nvresstate): i1nvresstate = let
+  val s1qs = (
+    case+ res.i0nvresstate_qua of
+    | Some s0qs => s0qualst_tr (s0qs) | None () => list_nil ()
+  ) : s1qualst // end of [val]
+  val arg = i0nvarglst_tr res.i0nvresstate_arg
+in
+  i1nvresstate_make (s1qs, arg)
+end // end of [i0nvresstate_tr]
+
+(* ****** ****** *)
+
 local
 
 fn d0exp_tr_errmsg_opr
@@ -359,9 +382,20 @@ aux_item (
     in
       FXITMatm (d1e)
     end // end of [D0Eapp]
+//
   | D0Elist (npf, d0es) => let
       val d1es = d0explst_tr d0es in FXITMatm (d1exp_list (loc0, npf, d1es))
     end // end of [D0Elist]
+//
+  | D0Eifhead (hd, _cond, _then, _else) => let
+      val inv = i0nvresstate_tr hd.ifhead_inv
+      val _cond = d0exp_tr (_cond)
+      val _then = d0exp_tr (_then)
+      val _else = d0expopt_tr (_else)
+      val d1e_if = d1exp_ifhead (loc0, inv, _cond, _then, _else)
+    in
+      FXITMatm (d1e_if)        
+    end // end of [D0Eifhead]
 //
   | D0Elam (
       knd, args, res, effopt, body
@@ -409,6 +443,19 @@ aux_item (
       FXITMatm (d1exp_fix (loc0, knd, id, d1e_def))
     end // end of [D0Efix]
 //
+  | D0Esel_lab (knd, lab) => let
+      val d1l = d1lab_lab (loc0, lab)
+      fn f (d1e: d1exp):<cloref1> d1expitm =
+        let val loc = d1e.d1exp_loc + loc0 in
+          FXITMatm (d1exp_sel (loc, knd, d1e, d1l))
+        end // end of [let]
+      // end of [f]
+    in
+      FXITMopr (loc0, FXOPRpos (select_prec, f))
+    end // end of [D0Esel_lab]
+(*
+  | D0Esel_ind of (int(*knd*), d0explstlst(*ind*))
+*)
 // (*
   | _ => let
       val () = (
@@ -431,6 +478,12 @@ and aux_itemlst
 in
   loop (d0e0, list_nil ())
 end // end of [aux_itemlist]
+//
+(*
+val () = (
+  print "d0exp_tr: d0e0 = "; fprint_d0exp (stdout_ref, d0e0); print_newline ()
+) // end of [val]
+*)
 //
 in
 //

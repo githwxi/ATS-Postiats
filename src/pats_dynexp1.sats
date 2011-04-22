@@ -159,6 +159,23 @@ loopi1nv = '{
 
 (* ****** ****** *)
 
+fun i1nvarg_make
+  (loc: location, id: symbol, opt: s1expopt): i1nvarg
+// end of [i1nvarg_make]
+
+fun i1nvresstate_make
+  (s1qs: s1qualst, arg: i1nvarglst): i1nvresstate
+val i1nvresstate_nil: i1nvresstate
+
+fun loopi1nv_make (
+  loc: location
+, qua: s1qualst, met: s1explstopt, arg: i1nvarglst, res: i1nvresstate
+) : loopi1nv // end of [loopi1nv_make]
+
+fun loopi1nv_nil (loc0: location): loopi1nv
+
+(* ****** ****** *)
+
 typedef intlst = List (int)
 
 (* ****** ****** *)
@@ -200,8 +217,7 @@ datatype d1ecl_node =
     ) // end of [D1Cextcode]
   | D1Cmacdefs of (int(*knd*), bool(*isrec*), m1acdeflst)
   | D1Cvaldecs of (valkind, bool(*isrec*), v1aldeclst) // val declarations
-  | D1Cfundecs of (* function declaration *)
-      (funkind, q1marglst, f1undeclst)
+  | D1Cfundecs of (funkind, q1marglst, f1undeclst) // function declaration
   | D1Cvardecs of v1ardeclst (* variable declaration *)
 (*
   | D1Cimpdec of (* implementation *)
@@ -257,10 +273,8 @@ and d1exp_node =
       (i1nvresstate, d1exp, d1exp, d1expopt)
   | D1Esifhead of
       (i1nvresstate, s1exp, d1exp, d1exp) // HX: no dangling else-branch
-  | D1Ecasehead of
-      (i1nvresstate, d1exp, c1laulst)
-  | D1Escasehead of
-     (i1nvresstate, s1exp, sc1laulst)
+  | D1Ecasehead of (i1nvresstate, d1exp, c1laulst)
+  | D1Escasehead of (i1nvresstate, s1exp, sc1laulst)
 //
   | D1Elst of (* dynamic list-expression *)
       (int (*lin*), s1expopt, d1explst)
@@ -283,6 +297,7 @@ and d1exp_node =
 //
   | D1Eptrof of d1exp // taking the address of
   | D1Eviewat of d1exp // taking view at a given address
+  | D1Esel of (int(*knd*), d1exp, d1lab)
 //
   | D1Esexparg of s1exparg (* for temporary use *)
 //
@@ -320,6 +335,10 @@ and d1exp_node =
       (d1exp, s1exp)
 // end of [d1exp_node]
 
+and d1lab_node =
+  | D1LABlab of label | D1LABind of d1explstlst
+// end of [d1lab_node]
+
 (* ****** ****** *)
 
 where d1ecl = '{
@@ -339,6 +358,12 @@ and d1explstlst = List (d1explst)
 
 and labd1exp = l0abeled (d1exp)
 and labd1explst = List (labd1exp)
+
+(* ****** ****** *)
+
+and d1lab = '{
+  d1lab_loc= location, d1lab_node= d1lab_node
+}
 
 (* ****** ****** *)
 
@@ -553,6 +578,12 @@ fun d1exp_viewat (loc: location, d1e: d1exp): d1exp
 
 (* ****** ****** *)
 
+fun d1exp_sel
+  (loc: location, kind: int, root: d1exp, lab: d1lab): d1exp
+// end of [d1exp_sel]
+
+(* ****** ****** *)
+
 fun d1exp_trywith (
   loc: location, inv: i1nvresstate, d1e: d1exp, handler: c1laulst
 ) : d1exp // end of [d1exp_trywith]
@@ -585,10 +616,17 @@ fun fprint_d1exp : fprint_type (d1exp)
 fun print_d1exp (x: d1exp): void
 and prerr_d1exp (x: d1exp): void
 
+fun fprint_d1explst : fprint_type (d1explst)
+
 (* ****** ****** *)
 
 fun d1exp_is_metric (d1e: d1exp): bool
 fun d1exp_make_e1xp (loc: location, exp: e1xp): d1exp
+
+(* ****** ****** *)
+
+fun d1lab_lab (loc: location, lab: label): d1lab
+fun d1lab_ind (loc: location, ind: d1explstlst): d1lab
 
 (* ****** ****** *)
 //

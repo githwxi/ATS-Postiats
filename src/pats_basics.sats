@@ -46,6 +46,7 @@ fprint_type (a: t@ype) = (FILEref, a) -> void
 fun test_boxkind (knd: int): bool
 fun test_linkind (knd: int): bool
 fun test_prfkind (knd: int): bool
+fun test_polkind (knd: int): int // 0/1/-1
 
 (* ****** ****** *)
 
@@ -80,6 +81,8 @@ fun funkind_is_proof (x: funkind): bool
 fun funkind_is_recursive (x: funkind): bool
 fun funkind_is_tailrecur (x: funkind): bool
 
+fun fprint_funkind : fprint_type (funkind)
+
 datatype
 valkind =
   | VK_val // val
@@ -89,6 +92,8 @@ valkind =
 // end of [valkind]
 
 fun valkind_is_proof (vk: valkind):<> bool
+
+fun fprint_valkind : fprint_type (valkind)
 
 (* ****** ****** *)
 
@@ -111,7 +116,6 @@ fun dcstkind_is_proof (dck: dcstkind):<> bool
 fun dcstkind_is_castfn (dck: dcstkind):<> bool
 
 fun fprint_dcstkind : fprint_type (dcstkind)
-overload fprint with fprint_dcstkind
 
 (* ****** ****** *)
 
@@ -134,6 +138,11 @@ fun prerr_funclo (x: funclo): void
 
 fun eq_funclo_funclo (fc1: funclo, fc2: funclo): bool 
 overload = with eq_funclo_funclo
+
+(* ****** ****** *)
+
+fun debug_flag_get (): int
+fun debug_flag_set (i: int): void
 
 (* ****** ****** *)
 

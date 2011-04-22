@@ -746,6 +746,7 @@ case+ x.d0exp_node of
     val () = fprint_s0tring (out, x)
     val () = prstr ")"
   }
+| D0Eempty () => prstr "D0Eempty()"
 //
 | D0Ecstsp (x) => {
     val () = prstr "D0Ecstsp("
@@ -758,6 +759,14 @@ case+ x.d0exp_node of
     val () = fprint_d0exp (out, _fun)
     val () = prstr "; "
     val () = fprint_d0exp (out, _arg)
+    val () = prstr ")"
+  }
+//
+| D0Elist (npf, xs) => {
+    val () = prstr "D0Elist("
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_d0explst (out, xs)
     val () = prstr ")"
   }
 //
@@ -790,6 +799,21 @@ case+ x.d0exp_node of
   }
 | D0Escasehead _ => {
     val () = prstr "D0Escasehead("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+//
+| D0Esel_lab (knd, lab) => {
+    val () = prstr "D0Esel_lab("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_label (out, lab)
+    val () = prstr ")"
+  }
+| D0Esel_ind (knd, ind) => {
+    val () = prstr "D0Esel_int("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
     val () = prstr "..."
     val () = prstr ")"
   }

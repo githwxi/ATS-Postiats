@@ -66,6 +66,15 @@ in
   (knd \land_uint_uint prfflag) > 0u
 end // end of [test_prfkind]
 
+implement
+test_polkind (knd) = let
+  val knd = uint_of (knd)
+  val polflag = uint_of (POLFLAG)
+  val knd = knd \land_uint_uint polflag
+in
+  if knd = 0u then 0 else if knd = 1u then 1 else ~1
+end // end of [test_polkind]
+
 (* ****** ****** *)
 
 implement
@@ -89,9 +98,30 @@ implement funkind_is_tailrecur fk =
   case+ fk of FK_fnstar () => true | _ => false
 // end of [funkind_is_tailrecur]
 
+implement
+fprint_funkind (out, fk) = case+ fk of
+  | FK_fun () => fprint_string (out, "fun")
+  | FK_prfun () => fprint_string (out, "prfun")
+  | FK_praxi () => fprint_string (out, "praxi")
+  | FK_castfn () => fprint_string (out, "castfn")
+  | FK_fn () => fprint_string (out, "fn")
+  | FK_fnstar () => fprint_string (out, "fn*")
+  | FK_prfn () => fprint_string (out, "prfn")
+// end of [fprint_funkind]
+
+(* ****** ****** *)
+
 implement valkind_is_proof (vk) =
   case+ vk of VK_prval () => true | _ => false
 // end of [valkind_is_proof]
+
+implement
+fprint_valkind (out, vk) = case+ vk of
+  | VK_val () => fprint_string (out, "val")
+  | VK_val_pos () => fprint_string (out, "val+")
+  | VK_val_neg () => fprint_string (out, "val-")
+  | VK_prval () => fprint_string (out, "prval")
+// end of [fprint_valkind]
 
 (* ****** ****** *)
 
@@ -139,6 +169,30 @@ fprint_dcstkind
   | DCKprval () => fprint_string (out, "DCKprval()")
   | DCKcastfn () => fprint_string (out, "DCKcastfn()")
 // end of [fprint_dcstkind]
+
+(* ****** ****** *)
+
+local
+
+var the_flag: int = 0
+val p_the_flag = &the_flag
+val (pf_the_flag | ()) =
+  vbox_make_view_ptr {int} (view@ the_flag | p_the_flag)
+// end of [val]
+
+in // in of [local]
+
+implement
+debug_flag_get () = let
+  prval vbox (pf) = pf_the_flag in !p_the_flag
+end // end of [debug_flag_get]
+
+implement
+debug_flag_set (x) = let
+  prval vbox (pf) = pf_the_flag in !p_the_flag := x
+end // end of [debug_flag_set]
+
+end // end of [local]
 
 (* ****** ****** *)
 

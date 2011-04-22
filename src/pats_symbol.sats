@@ -51,16 +51,16 @@ val symbol_COLONEQ : symbol // :=
 val symbol_EQ : symbol // =
 val symbol_EQEQ : symbol // ==
 val symbol_FUN: symbol // fun
+//
 val symbol_GT : symbol // >
-val symbol_GTEQ : symbol // >=
-val symbol_GTGT : symbol // >>
+val symbol_LT : symbol // <
 val symbol_GTLT : symbol // ><
+val symbol_GTGT : symbol // >>
+val symbol_LTLT : symbol // <<
+//
 val symbol_LAND : symbol // &&
 val symbol_LOR : symbol // ||
 val symbol_LRBRACKETS : symbol // []
-val symbol_LT : symbol // <
-val symbol_LTEQ : symbol // <=
-val symbol_LTLT : symbol // <<
 val symbol_MINUSGT : symbol // ->
 val symbol_MINUSLTGT : symbol // -<>
 val symbol_NEQ : symbol // <>

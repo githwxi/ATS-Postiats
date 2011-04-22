@@ -1445,13 +1445,13 @@ in '{
 implement
 d0exp_f0loat (x) = let
 in '{
-  d0exp_loc= x.token_loc, d0exp_node= D0Eint (x)
+  d0exp_loc= x.token_loc, d0exp_node= D0Efloat (x)
 } end // end of [d0exp_f0loat]
 
 implement
 d0exp_s0tring (x) = let
 in '{
-  d0exp_loc= x.token_loc, d0exp_node= D0Eint (x)
+  d0exp_loc= x.token_loc, d0exp_node= D0Estring (x)
 } end // end of [d0exp_s0tring]
 
 implement

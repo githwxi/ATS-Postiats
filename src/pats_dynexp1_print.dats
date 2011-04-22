@@ -52,12 +52,36 @@ staload "pats_dynexp1.sats"
 (* ****** ****** *)
 
 implement
+fprint_p1at
+  (out, p1t0) = let
+  macdef prstr (str) = fprint_string (out, ,(str))
+in
+//
+case+ p1t0.p1at_node of
+| _ => prstr "P1T...(...)"
+//
+end // end of [fprint_p1at]
+
+(* ****** ****** *)
+
+implement
 fprint_d1exp
   (out, d1e0) = let
   macdef prstr (str) = fprint_string (out, ,(str))
 in
 //
 case+ d1e0.d1exp_node of
+| D1Edqid (dq, id) => {
+    val () = prstr "D1Edqid("
+    val () = fprint_d0ynq (out, dq)
+    val () = fprint_symbol (out, id)
+    val () = prstr ")"
+  }
+| D1Ebool (x) => {
+    val () = prstr "D1Ebool("
+    val () = fprint_bool (out, x)
+    val () = prstr ")"
+  }
 | D1Echar (x) => {
     val () = prstr "D1Echar("
     val () = fprint_c0har (out, x)
@@ -74,6 +98,25 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 | D1Eempty () => prstr "D1Eempty()"
+| D1Etop () => prstr "D1Etop()"
+| D1Eapp_dyn (
+    _fun, _locarg, npf, _arg
+  ) => {
+    val () = prstr "D1Eapp_dyn("
+    val () = fprint_d1exp (out, _fun)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_d1explst (out, _arg)
+    val () = prstr ")"
+  }
+| D1Elist (npf, xs) => {
+    val () = prstr "D1Elist("
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_d1explst (out, xs)
+    val () = prstr ")"
+  }
 | _ => prstr "D1E...(...)"
 //
 end // end of [fprint_d1exp]
@@ -82,6 +125,22 @@ implement
 print_d1exp (x) = fprint_d1exp (stdout_ref, x)
 implement
 prerr_d1exp (x) = fprint_d1exp (stderr_ref, x)
+
+implement
+fprint_d1explst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_d1exp)
+// end of [fprint_d1explst]
+
+(* ****** ****** *)
+
+extern
+fun fprint_v1aldec : fprint_type (v1aldec)
+implement
+fprint_v1aldec (out, x) = {
+  val () = fprint_p1at (out, x.v1aldec_pat)
+  val () = fprint_string (out, " = ")
+  val () = fprint_d1exp (out, x.v1aldec_def)
+}
 
 (* ****** ****** *)
 
@@ -195,6 +254,16 @@ case+ d1c0.d1ecl_node of
     val () = fprint_dcstkind (out, dck)
     val () = prstr "\n"
     val () = $UT.fprintlst (out, xs, "\n", fprint_d1cstdec)
+    val () = prstr "\n)"
+  }
+//
+| D1Cvaldecs (knd, isrec, ds) => {
+    val () = prstr "D1Cvaldecs("
+    val () = fprint_valkind (out, knd)
+    val () = prstr "; "
+    val () = fprint_bool (out, isrec)
+    val () = prstr "\n"
+    val () = $UT.fprintlst (out, ds, "\n", fprint_v1aldec)
     val () = prstr "\n)"
   }
 //
