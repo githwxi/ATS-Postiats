@@ -34,51 +34,20 @@
 //
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
+staload
+LOC = "pats_location.sats"
 stadef location = $LOC.location
 stadef position = $LOC.position
 
 (* ****** ****** *)
 
-staload LBF = "pats_lexbuf.sats"
+staload
+LBF = "pats_lexbuf.sats"
 stadef lexbuf = $LBF.lexbuf
-
-(* ****** ****** *)
-
-datatype
-fxtykind =
-  | FXK_infix
-  | FXK_infixl
-  | FXK_infixr
-  | FXK_prefix
-  | FXK_postfix
-// end of [fxtykind]
-
-datatype
-caskind =
-  | CK_case // case
-  | CK_case_pos // case+
-  | CK_case_neg // case-
-// end of [caskind]
-
-datatype
-funkind =
-  | FK_fun // recursive fun
-  | FK_prfun // recursive proof fun
-  | FK_praxi // proof axion
-  | FK_castfn // casting fun
-  | FK_fn // nonrec fun
-  | FK_fnstar // tailrec fun
-  | FK_prfn // nonrec proof fun
-// end of [funkind]
-
-datatype
-valkind =
-  | VK_val // val
-  | VK_prval // prval
-  | VK_val_pos // val+
-  | VK_val_neg // val-
-// end of [valkind]
 
 (* ****** ****** *)
 
@@ -402,12 +371,12 @@ val ZERO : tnode // = T_INTEGER_dec ("0")
 
 (* ****** ****** *)
 
-fun fprint_token
-  (out: FILEref, tok: token): void
+fun fprint_token : fprint_type (token)
 overload fprint with fprint_token
-
 fun print_token (tok: token): void
 overload print with print_token
+fun prerr_token (tok: token): void
+overload prerr with prerr_token
 
 (* ****** ****** *)
 

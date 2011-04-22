@@ -44,6 +44,7 @@ macdef fprint_symbol = $SYM.fprint_symbol
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
 staload "pats_syntax.sats"
 staload "pats_staexp1.sats"
 staload "pats_dynexp1.sats"
@@ -76,6 +77,11 @@ case+ d1e0.d1exp_node of
 | _ => prstr "D1E...(...)"
 //
 end // end of [fprint_d1exp]
+
+implement
+print_d1exp (x) = fprint_d1exp (stdout_ref, x)
+implement
+prerr_d1exp (x) = fprint_d1exp (stderr_ref, x)
 
 (* ****** ****** *)
 

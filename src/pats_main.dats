@@ -76,6 +76,8 @@ dynload "pats_symbol.dats"
 dynload "pats_filename.dats"
 dynload "pats_location.dats"
 //
+dynload "pats_basics.dats"
+//
 (* ****** ****** *)
 
 dynload "pats_reader.dats"
@@ -113,6 +115,7 @@ dynload "pats_staexp1.dats"
 dynload "pats_staexp1_print.dats"
 dynload "pats_dynexp1.dats"
 dynload "pats_dynexp1_print.dats"
+dynload "pats_dynexp1_syndef.dats"
 //
 dynload "pats_trans1_env.dats"
 dynload "pats_trans1_e0xp.dats"

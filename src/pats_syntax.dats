@@ -51,6 +51,7 @@ staload FIL = "pats_filename.sats"
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
 staload "pats_lexing.sats"
 staload "pats_parsing.sats"
 staload "pats_syntax.sats"
@@ -63,45 +64,25 @@ macdef list_sing (x) = list_cons (,(x), list_nil)
 (* ****** ****** *)
 
 implement
+lamkind_isbox (knd) =
+  if test_boxkind (knd) then 1 else 0 // HX: (-1) is boxed
+// end of [lamkind_isbox]
+
+implement
+lamkind_islin (knd) = (
+  if knd >= 0 then
+    if test_linkind (knd) then 1 else 0 // HX: (-1) is not linear
+  else 0 // end of [if]
+) // end of [lamkind_islin]
+
+(* ****** ****** *)
+
+implement
 synent_null {a} () = $UN.cast{a} (null)
 implement
 synent_is_null (x) = ptr_is_null ($UN.cast{ptr} (x))
 implement
 synent_isnot_null (x) = ptr_isnot_null ($UN.cast{ptr} (x))
-
-(* ****** ****** *)
-
-implement
-dcstkind_is_fun (x) =
-  case+ x of DCKfun () => true | _ => false
-// end of [dcstkind_is_fun]
-
-implement
-dcstkind_is_val (x) =
-  case+ x of DCKval () => true | _ => false
-// end of [dcstkind_is_val]
-
-implement
-dcstkind_is_prfun (x) =
-  case+ x of DCKprfun () => true | _ => false
-// end of [dcstkind_is_prfun]
-
-implement
-dcstkind_is_prval (x) =
-  case+ x of DCKprval () => true | _ => false
-// end of [dcstkind_is_prval]
-
-implement
-dcstkind_is_proof (dk) =
-  case+ dk of
-  | DCKpraxi () => true | DCKprfun () => true | DCKprval () => true
-  | _ => false
-// end of [dcstkind_is_proof]
-
-implement
-dcstkind_is_castfn (x) =
-  case+ x of DCKcastfn () => true | _ => false
-// end of [dcstkind_is_castfn]
 
 (* ****** ****** *)
 
@@ -148,8 +129,8 @@ in '{
 local
 
 #define CLO 0
-#define CLOPTR  1
-#define CLOREF ~1
+#define CLOPTR ( 1)
+#define CLOREF (~1)
 
 fn name_is_prf
   (name: string): bool = name = "prf"
@@ -1501,29 +1482,6 @@ d0exp_extval (
 in '{
   d0exp_loc= loc, d0exp_node= D0Eextval (_type, code)
 } end // end of [d0exp_extval]
-
-(* ****** ****** *)
-
-implement
-d0exp_label_int
-  (t_dot, labtok) = let
-  val loc = t_dot.token_loc + labtok.token_loc
-  val- T_INTEGER (_, rep, _) = labtok.token_node
-  val int = int_of_string (rep)
-  val lab = $LAB.label_make_int (int)
-in '{
-  d0exp_loc= loc, d0exp_node= D0Elabel lab
-} end // end of [d0exp_label_int]
-
-implement
-d0exp_label_sym
-  (t_dot, labtok) = let
-  val loc = t_dot.token_loc + labtok.token_loc
-  val- T_IDENT_alp (str) = labtok.token_node
-  val lab = $LAB.label_make_string (str)
-in '{
-  d0exp_loc= loc, d0exp_node= D0Elabel lab
-} end // end of [d0exp_label_sym]
 
 (* ****** ****** *)
 

@@ -38,6 +38,7 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
+staload "pats_effect.sats"
 staload "pats_syntax.sats"
 staload "pats_staexp1.sats"
 
@@ -103,6 +104,19 @@ implement e1xp_false (loc) = e1xp_int (loc, "0")
 
 implement v1al_true = V1ALint 1
 implement v1al_false = V1ALint 0
+
+(* ****** ****** *)
+
+implement
+effcst_contain
+  (efc, eff) = case+ efc of
+  | EFFCSTall () => true
+  | EFFCSTnil () => false
+  | EFFCSTset (efs, evs)  => effset_ismem (efs, eff)
+// end of [effcst_contain]
+
+implement
+effcst_contain_ntm efc = effcst_contain (efc, effect_ntm)
 
 (* ****** ****** *)
 

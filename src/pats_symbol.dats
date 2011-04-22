@@ -253,6 +253,10 @@ implement symbol_UNDEFINED = symbol_make_string "undefined"
 
 (* ****** ****** *)
 
+implement symbol_TUPZ = symbol_make_string "tupz"
+
+(* ****** ****** *)
+
 implement
 eq_symbol_symbol (x1, x2) = x1.stamp = x2.stamp
 implement

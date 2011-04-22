@@ -51,19 +51,6 @@ staload "pats_syntax.sats"
 (* ****** ****** *)
 
 implement
-fprint_dcstkind
-  (out, x) = case+ x of
-  | DCKfun () => fprint_string (out, "DCKfun()")
-  | DCKval () => fprint_string (out, "DCKval()")
-  | DCKpraxi () => fprint_string (out, "DCKpraxi()")
-  | DCKprfun () => fprint_string (out, "DCKprfun()")
-  | DCKprval () => fprint_string (out, "DCKprval()")
-  | DCKcastfn () => fprint_string (out, "DCKcastfn()")
-// end of [fprint_dcstkind]
-
-(* ****** ****** *)
-
-implement
 fprint_cstsp (out, x) =
   case+ x of
   | CSTSPfilename () => fprint_string (out, "#FILENAME")
@@ -721,6 +708,11 @@ in
 //
 case+ x.d0exp_node of
 //
+| D0Eide (sym) => {
+    val () = prstr "D0Eide("
+    val () = fprint_symbol (out, sym)
+    val () = prstr ")"
+  }
 | D0Eopid (sym) => {
     val () = prstr "D0Eopid("
     val () = fprint_symbol (out, sym)
@@ -761,11 +753,11 @@ case+ x.d0exp_node of
     val () = prstr ")"
   }
 //
-| D0Eann (d0e, s0e) => {
-    val () = prstr "D0Eann("
-    val () = fprint_d0exp (out, d0e)
-    val () = prstr ": "
-    val () = fprint_s0exp (out, s0e)
+| D0Eapp (_fun, _arg) => {
+    val () = prstr "D0Eapp("
+    val () = fprint_d0exp (out, _fun)
+    val () = prstr "; "
+    val () = fprint_d0exp (out, _arg)
     val () = prstr ")"
   }
 //
@@ -799,6 +791,14 @@ case+ x.d0exp_node of
 | D0Escasehead _ => {
     val () = prstr "D0Escasehead("
     val () = prstr "..."
+    val () = prstr ")"
+  }
+//
+| D0Eann (d0e, s0e) => {
+    val () = prstr "D0Eann("
+    val () = fprint_d0exp (out, d0e)
+    val () = prstr ": "
+    val () = fprint_s0exp (out, s0e)
     val () = prstr ")"
   }
 //

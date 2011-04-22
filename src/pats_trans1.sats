@@ -34,6 +34,7 @@
 //
 (* ****** ****** *)
 
+staload "pats_basics.sats"
 staload "pats_syntax.sats"
 staload "pats_staexp1.sats"
 staload "pats_dynexp1.sats"
@@ -95,6 +96,8 @@ fun s0rtext_tr (x: s0rtext): s1rtext
 fun s0qualst_tr (xs: s0qualst): s1qualst
 fun s0qualstlst_tr (xs: s0qualstlst): s1qualstlst
 
+fun witht0ype_tr (x: witht0ype): witht1ype
+
 (* ****** ****** *)
 
 fun d0ecl_fixity_tr
@@ -154,6 +157,21 @@ fun p0atlst_tr (x: p0atlst): p1atlst
 fun d0exp_tr (x: d0exp): d1exp
 fun d0explst_tr (xs: d0explst): d1explst
 fun d0expopt_tr (xs: d0expopt): d1expopt
+
+fun d0exp_lams_dyn_tr (
+  lamknd : int
+, locopt : Option (location)
+, fcopt : funcloopt
+, lin : int
+, args : f0arglst
+, res : s0expopt
+, efcopt : effcstopt
+, body : d0exp
+) : d1exp // end of [d0exp_lams_dyn_tr]
+
+fun termination_metric_check
+  (loc: location, is_met: bool, oefc: effcstopt): void
+// end of [termination_metric_check]
 
 (* ****** ****** *)
 

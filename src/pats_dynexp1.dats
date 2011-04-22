@@ -188,6 +188,22 @@ d1exp_top (loc) = '{
   d1exp_loc= loc, d1exp_node= D1Etop ()
 }
 
+(* ****** ****** *)
+
+implement
+d1exp_extval (loc, _type, _code) = '{
+  d1exp_loc= loc, d1exp_node= D1Eextval (_type, _code)
+}
+
+(* ****** ****** *)
+
+implement
+d1exp_loopexn (loc, knd) = '{
+  d1exp_loc= loc, d1exp_node= D1Eloopexn (knd)
+}
+
+(* ****** ****** *)
+
 implement
 d1exp_foldat (loc, s1as, d1e) = '{
   d1exp_loc= loc, d1exp_node= D1Efoldat (s1as, d1e)
@@ -219,6 +235,12 @@ d1exp_app_dyn
   (loc, d1e, loc_arg, npf, d1es) = '{
   d1exp_loc= loc, d1exp_node= D1Eapp_dyn (d1e, loc_arg, npf, d1es)
 } // end of [d1exp_app_dyn]
+
+implement
+d1exp_idextapp
+  (loc, id, ns, d1es) = '{ // for syndef
+  d1exp_loc= loc, d1exp_node= D1Eidextapp (id, ns, d1es)
+} // end of [d1exp_idextapp]
 
 (* ****** ****** *)
 
@@ -273,6 +295,38 @@ d1exp_seq (loc, d1es) = '{
   d1exp_loc= loc, d1exp_node= D1Eseq (d1es)
 }
 
+(* ****** ****** *)
+
+implement
+d1exp_lam_dyn (loc, lin, p1t, d1e) = '{
+  d1exp_loc= loc, d1exp_node= D1Elam_dyn (lin, p1t, d1e)
+} // end of [d1exp_lam_dyn]
+
+implement
+d1exp_laminit_dyn (loc, lin, p1t, d1e) = '{
+  d1exp_loc= loc, d1exp_node= D1Elaminit_dyn (lin, p1t, d1e)
+} // end of [d1exp_laminit_dyn]
+
+implement
+d1exp_lam_met (loc, loc_arg, s1es, d1e) = '{
+  d1exp_loc= loc, d1exp_node= D1Elam_met (loc_arg, s1es, d1e)
+}
+implement
+d1exp_lam_sta_ana (loc, loc_arg, s1as, d1e) = '{
+  d1exp_loc= loc, d1exp_node= D1Elam_sta_ana (loc_arg, s1as, d1e)
+}
+implement
+d1exp_lam_sta_syn (loc, loc_arg, s1qs, d1e) = '{
+  d1exp_loc= loc, d1exp_node= D1Elam_sta_syn (loc_arg, s1qs, d1e)
+}
+
+implement
+d1exp_fix (loc, knd, id, d1e) = '{
+  d1exp_loc= loc, d1exp_node= D1Efix (knd, id, d1e)
+}
+
+(* ****** ****** *)
+
 implement
 d1exp_raise (loc, d1e) = '{
   d1exp_loc= loc, d1exp_node=D1Eraise (d1e)
@@ -310,6 +364,40 @@ d1exp_while
 } // end of [d1exp_while]
 
 (* ****** ****** *)
+
+implement
+d1exp_ann_effc (loc, d1e, efc) = '{
+  d1exp_loc= loc, d1exp_node= D1Eann_effc (d1e, efc)
+}
+
+implement
+d1exp_ann_funclo (loc, d1e, fc) = '{
+  d1exp_loc= loc, d1exp_node= D1Eann_funclo (d1e, fc)
+}
+implement
+d1exp_ann_funclo_opt (loc, d1e, fc) = begin
+  case+ d1e.d1exp_node of
+  | D1Eann_funclo _ => d1e | _ => d1exp_ann_funclo (loc, d1e, fc)
+end // end of [d1exp_ann_funclo_opt]
+
+implement
+d1exp_ann_type (loc, d1e, s1e) = '{
+  d1exp_loc= loc, d1exp_node= D1Eann_type (d1e, s1e)
+}
+
+(* ****** ****** *)
+
+implement
+d1exp_is_metric (d1e) = begin
+  case+ d1e.d1exp_node of
+  | D1Elam_dyn (_, _, d1e) => d1exp_is_metric d1e
+  | D1Elam_met _ => true
+  | D1Elam_sta_ana (_, _, d1e) => d1exp_is_metric d1e
+  | D1Elam_sta_syn (_, _, d1e) => d1exp_is_metric d1e
+  | _ => false
+end // end of [d1exp_is_metric]
+
+(* ****** ****** *)
 //
 // HX: declarations
 //
@@ -321,6 +409,38 @@ m1acdef_make
   m1acdef_loc= loc
 , m1acdef_sym= id, m1acdef_arg= arg, m1acdef_def= def
 } // end of [m1acdef_make]
+
+(* ****** ****** *)
+
+implement
+v1aldec_make
+  (loc, p1t, d1e, ann) = '{
+  v1aldec_loc= loc
+, v1aldec_pat= p1t
+, v1aldec_def= d1e
+, v1aldec_ann= ann
+} // end of [v1aldec_make]
+
+implement
+f1undec_make
+  (loc, id, loc_id, d1e, ann) = '{
+  f1undec_loc= loc
+, f1undec_sym= id
+, f1undec_sym_loc= loc_id
+, f1undec_def= d1e
+, f1undec_ann= ann
+} // end of [f1undec_make]
+
+implement v1ardec_make
+  (loc, knd, id, loc_id, os1e, wth, od1e) = '{
+  v1ardec_loc= loc
+, v1ardec_knd= knd
+, v1ardec_sym= id
+, v1ardec_sym_loc= loc_id
+, v1ardec_typ= os1e
+, v1ardec_wth= wth // i0deopt
+, v1ardec_ini= od1e
+} // end of [v1ardec_make]
 
 (* ****** ****** *)
 
@@ -444,6 +564,23 @@ d1ecl_extcode
 implement
 d1ecl_macdefs (loc, knd, isrec, ds) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cmacdefs (knd, isrec, ds)
+}
+
+(* ****** ****** *)
+
+implement
+d1ecl_valdecs
+  (loc, knd, isrec, ds) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cvaldecs (knd, isrec, ds)
+}
+implement
+d1ecl_fundecs
+  (loc, knd, qarg, ds) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cfundecs (knd, qarg, ds)
+}
+implement
+d1ecl_vardecs (loc, ds) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cvardecs (ds)
 }
 
 (* ****** ****** *)

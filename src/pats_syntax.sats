@@ -38,13 +38,15 @@ staload _(*anon*) = "prelude/DATS/list.dats"
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
 staload
 LOC = "pats_location.sats"
 typedef location = $LOC.location
 staload LEX = "pats_lexing.sats"
 typedef token = $LEX.token
-typedef funkind = $LEX.funkind
-typedef valkind = $LEX.valkind
 staload SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
 typedef symbolopt = Option (symbol)
@@ -73,34 +75,6 @@ fun synent_isnot_null {a:type} (x: a):<> bool
 //
 (* ****** ****** *)
 
-typedef
-fprint_type (a:t@ype) = (FILEref, a) -> void
-
-(* ****** ****** *)
-
-datatype
-dcstkind =
-  | DCKfun of ()
-  | DCKval of ()
-  | DCKpraxi of ()
-  | DCKprfun of ()
-  | DCKprval of ()
-  | DCKcastfn of ()
-// end of [dcstkind]
-
-fun dcstkind_is_fun (dck: dcstkind):<> bool
-fun dcstkind_is_val (dck: dcstkind):<> bool
-fun dcstkind_is_praxi (dck: dcstkind):<> bool
-fun dcstkind_is_prfun (dck: dcstkind):<> bool
-fun dcstkind_is_prval (dck: dcstkind):<> bool
-fun dcstkind_is_proof (dck: dcstkind):<> bool
-fun dcstkind_is_castfn (dck: dcstkind):<> bool
-
-fun fprint_dcstkind : fprint_type (dcstkind)
-overload fprint with fprint_dcstkind
-
-(* ****** ****** *)
-
 datatype srpifkind =
   | SRPIFKINDif | SRPIFKINDifdef | SRPIFKINDifndef
 // end of [srpifkind]
@@ -113,6 +87,22 @@ macsynkind =
   | MACSYNKINDencode
   | MACSYNKINDcross // decode(lift(.))
 // end of [macsynkind]
+
+(* ****** ****** *)
+
+(*
+datatype lamkind =
+  | LAMKINDlam of location
+  | LAMKINDlamat of location
+  | LAMKINDllam of location
+  | LAMKINDllamat of location
+  | LAMKINDfix of location
+  | LAMKINDfixat of location
+  | LAMKINDifix of (location) // HX: implicit FIX
+*)
+#define LAMKINDifix (~1)
+fun lamkind_isbox (knd: int): int
+fun lamkind_islin (knd: int): int
 
 (* ****** ****** *)
 
@@ -150,29 +140,13 @@ typedef i0de = '{
 } // end of [i0de]
 
 typedef i0delst = List (i0de)
+typedef i0deopt = Option (i0de)
 
 fun i0de_make_sym (loc: location, sym: symbol) : i0de
 fun i0de_make_string (loc: location, name: string) : i0de
 fun i0de_make_lrbrackets (t_beg: token, t_end: token): i0de
 
 fun fprint_i0de : fprint_type (i0de)
-
-(* ****** ****** *)
-
-datatype
-funclo = (* function or closure *)
-  | FUNCLOclo of int(*knd*) (* closure: knd=1/0/~1: ptr/clo/ref *)
-  | FUNCLOfun (* function *)
-typedef funcloopt = Option funclo
-
-fun fprint_funclo : fprint_type (funclo)
-overload fprint with fprint_funclo
-
-fun print_funclo (x: funclo): void
-fun prerr_funclo (x: funclo): void
-
-fun eq_funclo_funclo (fc1: funclo, fc2: funclo): bool 
-overload = with eq_funclo_funclo
 
 (* ****** ****** *)
 
@@ -1208,7 +1182,6 @@ and d0exp_node =
 //
   | D0Eextval of (s0exp (*type*), string (*code*)) // external val
 //
-  | D0Elabel of (label)
   | D0Eloopexn of int(*break/continue: 0/1*)
 //
   | D0Efoldat of d0explst (* folding at a given address *)

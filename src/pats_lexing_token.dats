@@ -38,11 +38,12 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
 staload "pats_lexing.sats"
 
 (* ****** ****** *)
 
-#include "pats_lexing.hats"
+#include "pats_basics.hats"
 
 (* ****** ****** *)
 

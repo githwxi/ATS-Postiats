@@ -43,6 +43,7 @@ staload PAR = "pats_parsing.sats"
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
 staload "pats_lexing.sats"
 staload "pats_fixity.sats"
 staload "pats_syntax.sats"
@@ -341,6 +342,89 @@ end // end of [m0acdef_tr]
 
 (* ****** ****** *)
 
+fn v0aldec_tr
+  (d: v0aldec): v1aldec = let
+  val p1t = p0at_tr d.v0aldec_pat
+  val d1e = d0exp_tr d.v0aldec_def
+(*
+  val () = begin
+    print "v0aldec_tr: d1e = "; print d1e; print_newline ()
+  end // end of [val]
+*)
+  val ann = witht0ype_tr (d.v0aldec_ann)
+in
+  v1aldec_make (d.v0aldec_loc, p1t, d1e, ann)
+end // end of [v0aldec_tr]
+
+(* ****** ****** *)
+
+fn v0ardec_tr
+  (d: v0ardec): v1ardec = let
+  val loc = d.v0ardec_loc
+  val knd = d.v0ardec_knd
+  val os1e = s0expopt_tr d.v0ardec_typ
+  val wth = d.v0ardec_wth // i0deopt
+  val od1e = d0expopt_tr d.v0ardec_ini
+in
+  v1ardec_make (
+    loc, knd, d.v0ardec_sym, d.v0ardec_sym_loc, os1e, wth, od1e
+  ) // end of [v1ardec_make]
+end // end of [v0ardec_tr]
+
+(* ****** ****** *)
+
+fn f0undec_tr (
+  isprf: bool, isrec: bool, d: f0undec
+ ) : f1undec = let
+  val loc = d.f0undec_loc
+  val effopt = d.f0undec_eff
+  val (fcopt, efcopt) = (
+    case+ effopt of
+    | Some eff => (fcopt, Some efc) where {
+        val (fcopt, lin, prf, efc) = e0fftaglst_tr (eff)
+      } // end of [Some]
+    | None () => (None(*fcopt*), Some efc) where {
+        val efc = (
+          if isprf then EFFCSTnil () else EFFCSTall ()
+        ) : effcst // end of [val]
+      } // end of [None]
+  ) : @(funcloopt, effcstopt)
+//
+  val d1e_def =
+    d0exp_lams_dyn_tr (
+      LAMKINDifix
+    , None (*locopt*)
+    , fcopt, 0 (*lin*)
+    , d.f0undec_arg, d.f0undec_res, efcopt
+    , d.f0undec_def
+    ) // end of [d0exp_lams_dyn_tr]
+  // end of [val]
+//
+  val () = if isrec then
+    termination_metric_check (loc, d1exp_is_metric d1e_def, efcopt)
+  // end of [if] // end of [val]
+//
+  val ann = witht0ype_tr (d.f0undec_ann)
+//
+in
+  f1undec_make (loc, d.f0undec_sym, d.f0undec_sym_loc, d1e_def, ann)
+end // end of [f0undec_tr]
+
+fun f0undeclst_tr (
+  fk: funkind, ds: f0undeclst
+) : f1undeclst = let
+  val isprf = funkind_is_proof fk
+  and isrec = funkind_is_recursive fk
+in
+  case+ ds of
+  | d :: ds => begin
+      f0undec_tr (isprf, isrec, d) :: f0undeclst_tr (fk, ds)
+    end (* end of [::] *)
+  | nil () => nil ()
+end // end of [f0undeclst_tr]
+
+(* ****** ****** *)
+
 fn i0nclude_tr (
   loc0: location, stadyn: int, path: string
 ) : d1eclist = d1cs where {
@@ -538,16 +622,33 @@ case+ d0c0.d0ecl_node of
 //
 | D0Cextcode (knd, pos, code) => d1ecl_extcode (loc0, knd, pos, code)
 //
-| D0Cinclude (stadyn, path) => let
-    val d1cs = i0nclude_tr (loc0, stadyn, path) in d1ecl_include (loc0, d1cs)
-  end // end of [D0Cinclude]
-//
 | D0Cmacdefs (knd, isrec, d0cs) => let
     // knd: 0/1 => short/long
     val d1cs = l2l (list_map_fun (d0cs, m0acdef_tr))
   in
     d1ecl_macdefs (loc0, knd, isrec, d1cs)
   end // end of [D0Cmacdefs]
+//
+| D0Cvaldecs (knd, isrec, d0cs) => let
+    val d1cs = l2l (list_map_fun (d0cs, v0aldec_tr))
+  in
+    d1ecl_valdecs (loc0, knd, isrec, d1cs)
+  end // end of [D0Cvaldecs]
+| D0Cfundecs (knd, qarg, d0cs) => let
+    val qarg = q0marglst_tr (qarg)
+    val d1cs = f0undeclst_tr (knd, d0cs)
+  in
+    d1ecl_fundecs (loc0, knd, qarg, d1cs)
+  end // end of [D0Cfundecs]
+| D0Cvardecs (d0cs) => let
+    val d1cs = l2l (list_map_fun (d0cs, v0ardec_tr))
+  in
+    d1ecl_vardecs (loc0, d1cs)
+  end // end of [D0Cvardecs]
+//
+| D0Cinclude (stadyn, path) => let
+    val d1cs = i0nclude_tr (loc0, stadyn, path) in d1ecl_include (loc0, d1cs)
+  end // end of [D0Cinclude]
 //
 | D0Clocal (
     d0cs_head, d0cs_body

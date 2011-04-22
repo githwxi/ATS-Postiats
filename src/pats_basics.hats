@@ -64,6 +64,11 @@ VIEWT0YPE+  = 01010 // 10
 VIEWT0YPE-  = 11010 // 26
 *)
 
+#define BOXFLAG (0x1 << 0)
+#define LINFLAG (0x1 << 1)
+#define PRFFLAG (0x1 << 2)
+#define POLFLAG (0x3 << 3)
+
 #define TYPE_int 1		// 00001
 #define TYPE_pos_int 9		// 01001
 #define TYPE_neg_int 25		// 11001
@@ -90,4 +95,4 @@ VIEWT0YPE-  = 11010 // 26
 
 (* ****** ****** *)
 
-(* end of [pats_lexing.hats] *)
+(* end of [pats_basics.hats] *)

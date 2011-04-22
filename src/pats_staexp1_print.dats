@@ -385,6 +385,11 @@ case+ x.s1exp_node of
 end // end of [fprint_s1exp]
 
 implement
+print_s1exp (x) = fprint_s1exp (stdout_ref, x)
+implement
+prerr_s1exp (x) = fprint_s1exp (stderr_ref, x)
+
+implement
 fprint_s1explst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_s1exp)
 // end of [fprint_s1explst]

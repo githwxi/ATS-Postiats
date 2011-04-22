@@ -34,12 +34,9 @@
 //
 (* ****** ****** *)
 
+staload "pats_basics.sats"
 staload "pats_effect.sats"
 staload "pats_syntax.sats"
-
-(* ****** ****** *)
-
-typedef fprint_type (a:t@ype) = (FILEref, a) -> void
 
 (* ****** ****** *)
 
@@ -115,9 +112,11 @@ typedef effvarlst = List effvar
 
 datatype effcst =
   | EFFCSTall | EFFCSTnil | EFFCSTset of (effset, effvarlst)
-// end of [effcst]
-
 typedef effcstopt = Option (effcst)
+
+fun effcst_contain
+  (efc: effcst, eff: effect): bool
+fun effcst_contain_ntm (efc: effcst): bool
 
 fun fprint_effcst : fprint_type (effcst)
 
@@ -420,6 +419,9 @@ fun s1exp_uni (loc: location, qua: s1qualst, body: s1exp): s1exp
 fun s1exp_ann (loc: location, s1e: s1exp, s1t: s1rt): s1exp
 
 fun fprint_s1exp : fprint_type (s1exp)
+fun print_s1exp (x: s1exp): void
+fun prerr_s1exp (x: s1exp): void
+
 fun fprint_s1explst : fprint_type (s1explst)
 fun fprint_s1expopt : fprint_type (s1expopt)
 
@@ -476,6 +478,12 @@ typedef s1expargopt = Option s1exparg
 fun s1exparg_one (loc: location): s1exparg
 fun s1exparg_all (loc: location): s1exparg
 fun s1exparg_seq (loc: location, xs: s1explst): s1exparg
+
+(* ****** ****** *)
+
+datatype witht1ype =
+  | WITHT1YPEsome of (int(*knd*), s1exp) | WITHT1YPEnone of ()
+// end of [witht1ype]
 
 (* ****** ****** *)
 

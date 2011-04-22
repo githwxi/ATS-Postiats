@@ -50,6 +50,7 @@ overload = with $SYM.eq_symbol_symbol
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
 staload "pats_effect.sats"
 staload "pats_fixity.sats"
 staload "pats_syntax.sats"
@@ -144,23 +145,6 @@ implement
 s0qualst_tr (xs) = l2l (list_map_fun (xs, s0qua_tr))
 implement
 s0qualstlst_tr (xss) = l2l (list_map_fun (xss, s0qualst_tr))
-
-(* ****** ****** *)
-
-implement
-s0rtext_tr (s0te) = let
-  val loc = s0te.s0rtext_loc in
-//
-case+ s0te.s0rtext_node of
-| S0TEsrt s0t => s1rtext_srt (loc, s0rt_tr s0t)
-| S0TEsub (id, s0te, s0p, s0ps) => let
-    val s1te = s0rtext_tr s0te
-    val s1p = s0exp_tr s0p and s1ps = s0explst_tr s0ps
-  in
-    s1rtext_sub (loc, id.i0de_sym, s1te, list_cons (s1p, s1ps))
-  end
-//
-end // end of [s0rtext_tr]
 
 (* ****** ****** *)
 
@@ -408,6 +392,31 @@ end // end of [labs0exp_tr]
 (* ****** ****** *)
 
 implement
+s0rtext_tr (s0te) = let
+  val loc = s0te.s0rtext_loc in
+//
+case+ s0te.s0rtext_node of
+| S0TEsrt s0t => s1rtext_srt (loc, s0rt_tr s0t)
+| S0TEsub (id, s0te, s0p, s0ps) => let
+    val s1te = s0rtext_tr s0te
+    val s1p = s0exp_tr s0p and s1ps = s0explst_tr s0ps
+  in
+    s1rtext_sub (loc, id.i0de_sym, s1te, list_cons (s1p, s1ps))
+  end
+//
+end // end of [s0rtext_tr]
+
+(* ****** ****** *)
+
+implement
+witht0ype_tr (x) = case+ x of
+  | WITHT0YPEsome (knd, s0e) => WITHT1YPEsome (knd, s0exp_tr (s0e))
+  | WITHT0YPEnone () => WITHT1YPEnone ()
+// end of [witht0ype_tr]
+
+(* ****** ****** *)
+
+implement
 q0marg_tr (x) =
   q1marg_make (x.q0marg_loc, s0qualst_tr (x.q0marg_arg))
 // end of [q0marg_tr]
@@ -479,10 +488,6 @@ local
 #define nil list_nil
 #define :: list_cons
 //
-#define CLOPTR 1; #define CLOREF ~1
-macdef FUNCLOcloptr = FUNCLOclo (CLOPTR)
-macdef FUNCLOcloref = FUNCLOclo (CLOREF)
-
 fun aux1 (
   fc: funclo
 , lin: int, prf: int
@@ -529,7 +534,7 @@ fun aux1 (
     end (* end of [::] *)
   | nil () => s1e_res // end of [nil]
 end // end of [aux1]
-
+//
 fun aux2 .<>. (
     loc0: location
   , isfun: bool
@@ -573,7 +578,7 @@ fun aux2 .<>. (
 in
   aux1 (fc, lin, prf, efcopt, 0, lst, xs, s1e_res)
 end // end of [aux2]
-
+//
 fn d0cstdec_tr (
   isfun: bool, isprf: bool, d: d0cstdec
 ) : d1cstdec = let
@@ -585,7 +590,7 @@ fn d0cstdec_tr (
 in
   d1cstdec_make (loc0, d.d0cstdec_fil, d.d0cstdec_sym, s1e, extdef)
 end // end of [d0cstdec_tr]
-
+//
 in // in of [local]
 
 implement
