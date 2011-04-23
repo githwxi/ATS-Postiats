@@ -259,6 +259,13 @@ implement symbol_TUPZ = symbol_make_string "tupz"
 (* ****** ****** *)
 
 implement
+symbol_ATS_STALOADFLAG = symbol_make_string "ATS_STALOADFLAG"
+implement
+symbol_ATS_DYNLOADFLAG = symbol_make_string "ATS_DYNLOADFLAG"
+
+(* ****** ****** *)
+
+implement
 eq_symbol_symbol (x1, x2) = x1.stamp = x2.stamp
 implement
 neq_symbol_symbol (x1, x2) = x1.stamp != x2.stamp

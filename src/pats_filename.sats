@@ -70,6 +70,7 @@ fun print_filename_full (fil: filename): void
 
 (* ****** ****** *)
 
+fun filename_get_base (fil: filename): string
 fun filename_get_full (fil: filename): $SYM.symbol
 
 (* ****** ****** *)

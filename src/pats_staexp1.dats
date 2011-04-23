@@ -239,6 +239,14 @@ a1msrt_make (loc, arg) = '{
 (* ****** ****** *)
 
 implement
+sp1at_cstr
+  (loc, q, id, arg) = '{
+  sp1at_loc= loc, sp1at_node= SP1Tcstr (q, id, arg)
+} // end of [sp1at_cstr]
+
+(* ****** ****** *)
+
+implement
 s1rtext_srt (loc, s1t) = '{
   s1rtext_loc= loc, s1rtext_node= S1TEsrt (s1t)
 }
@@ -407,6 +415,13 @@ implement
 q1marg_make (loc, arg) = '{
   q1marg_loc= loc, q1marg_arg= arg
 } // end of [q1marg_make]
+
+(* ****** ****** *)
+
+implement
+t1mpmarg_make (loc, arg) = '{
+  t1mpmarg_loc= loc, t1mpmarg_arg= arg
+} // end of [t1mpmarg_make]
 
 (* ****** ****** *)
 

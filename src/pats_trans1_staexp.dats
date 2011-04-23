@@ -425,8 +425,26 @@ implement q0marglst_tr (xs) = l2l (list_map_fun (xs, q0marg_tr))
 
 (* ****** ****** *)
 
+implement
+t0mpmarg_tr (x) =
+  t1mpmarg_make (x.t0mpmarg_loc, s0explst_tr (x.t0mpmarg_arg))
+// end of [t0mpmarg_tr]
+
+(* ****** ****** *)
+
 implement a0typ_tr (x) = s0exp_tr (x.a0typ_typ)
 implement a0typlst_tr (xs) = l2l (list_map_fun (xs, a0typ_tr))
+
+(* ****** ****** *)
+
+implement
+sp0at_tr (sp0t) = begin
+  case+ sp0t.sp0at_node of
+  | SP0Tcstr (qid, s0as) => let
+      val s1as = s0arglst_tr s0as in
+      sp1at_cstr (sp0t.sp0at_loc, qid.sqi0de_qua, qid.sqi0de_sym, s1as)
+    end // end of [SP0Tcon]
+end // end of [sp0at_tr]
 
 (* ****** ****** *)
 

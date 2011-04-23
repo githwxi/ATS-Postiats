@@ -81,6 +81,11 @@ val symbol_TUPZ : symbol // TUPSIZE // for syndef
 
 (* ****** ****** *)
 
+val symbol_ATS_STALOADFLAG : symbol
+val symbol_ATS_DYNLOADFLAG : symbol
+
+(* ****** ****** *)
+
 fun eq_symbol_symbol (x1: symbol, x2: symbol):<> bool
 overload = with eq_symbol_symbol
 fun neq_symbol_symbol (x1: symbol, x2: symbol):<> bool

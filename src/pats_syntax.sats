@@ -1202,14 +1202,7 @@ and d0exp_node =
   | D0Ecasehead of (casehead, d0exp, c0laulst)
   | D0Escasehead of (scasehead, s0exp, sc0laulst)
 //
-  | D0Efor of (
-      loopi0nvopt, location(*inv*), initestpost, d0exp(*body*)
-    ) // end of [D0Efor]
-  | D0Ewhile of (
-      loopi0nvopt, location(*inv*), d0exp(*test*), d0exp(*body*)
-    ) // end of [D0Ewhile]
-//
-  | D0Elst of (int (*lin*), s0expopt, d0exp(*elts*))
+  | D0Elst of (int(*lin*), s0expopt, d0exp(*elts*))
   | D0Etup of (int(*knd*), int(*npf*), d0explst)
   | D0Erec of (int (*knd*), int (*npf*), labd0explst)
   | D0Eseq of d0explst // dynamic sequence-expression
@@ -1232,6 +1225,13 @@ and d0exp_node =
 //
   | D0Elam of (int(*knd*), f0arglst, s0expopt, e0fftaglstopt, d0exp)
   | D0Efix of (int(*knd*), i0de, f0arglst, s0expopt, e0fftaglstopt, d0exp)
+//
+  | D0Efor of (
+      loopi0nvopt, location(*inv*), initestpost, d0exp(*body*)
+    ) // end of [D0Efor]
+  | D0Ewhile of (
+      loopi0nvopt, location(*inv*), d0exp(*test*), d0exp(*body*)
+    ) // end of [D0Ewhile]
 //
   | D0Emacsyn of (macsynkind, d0exp) // macro syntax
 //
@@ -1584,6 +1584,8 @@ fun fprint_d0expopt : fprint_type (d0expopt)
 (* ****** ****** *)
 
 fun labd0exp_make (ent1: l0ab, ent2: d0exp): labd0exp
+
+fun fprint_labd0exp : fprint_type (labd0exp)
 
 (* ****** ****** *)
 

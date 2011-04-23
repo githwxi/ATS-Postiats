@@ -164,6 +164,29 @@ i1nvresstate_nil =
 // end of [i1nvresstate_nil]
 
 (* ****** ****** *)
+
+implement m1atch_make (loc, d1e, op1t) = '{
+  m1atch_loc= loc, m1atch_exp= d1e, m1atch_pat= op1t
+}
+
+implement
+c1lau_make (
+  loc, p1ts, gua, seq, neg, body
+) = '{
+  c1lau_loc= loc
+, c1lau_pat= p1ts
+, c1lau_gua= gua
+, c1lau_seq= seq
+, c1lau_neg= neg
+, c1lau_exp= body
+} // end of [c1lau_make]
+
+implement
+sc1lau_make (loc, sp1t, body) = '{
+  sc1lau_loc= loc, sc1lau_pat= sp1t, sc1lau_exp= body
+}
+
+(* ****** ****** *)
 //
 // HX: dynamic expressions
 //
@@ -183,6 +206,10 @@ d1exp_opid (loc, id) = let
   val dq = d0ynq_none (loc) in d1exp_dqid (loc, dq, id)
 end // end of [d1exp_opid]
 
+implement
+d1exp_int (loc, x) = '{
+  d1exp_loc= loc, d1exp_node= D1Eint (x)
+}
 implement
 d1exp_char (loc, x) = '{
   d1exp_loc= loc, d1exp_node= D1Echar (x)
@@ -234,13 +261,15 @@ d1exp_freeat (loc, s1as, d1e) = '{
 }
 
 implement
-d1exp_let (loc, d1cs, body) = '{
-  d1exp_loc= loc, d1exp_node= D1Elet (d1cs, body)
+d1exp_tmpid (loc, qid, tmparg) = '{
+  d1exp_loc= loc, d1exp_node= D1Etmpid (qid, tmparg)
 }
 
+(* ****** ****** *)
+
 implement
-d1exp_list (loc, npf, d1es) = '{
-  d1exp_loc= loc, d1exp_node= D1Elist (npf, d1es)
+d1exp_let (loc, d1cs, body) = '{
+  d1exp_loc= loc, d1exp_node= D1Elet (d1cs, body)
 }
 
 (* ****** ****** *)
@@ -265,6 +294,13 @@ d1exp_idextapp
 (* ****** ****** *)
 
 implement
+d1exp_list (loc, npf, d1es) = '{
+  d1exp_loc= loc, d1exp_node= D1Elist (npf, d1es)
+}
+
+(* ****** ****** *)
+
+implement
 d1exp_ifhead (
   loc, inv, _cond, _then, _else
 ) = '{
@@ -282,10 +318,10 @@ d1exp_sifhead (
 
 implement
 d1exp_casehead (
-  loc, inv, d1e, c1las
+  loc, knd, inv, d1es, c1las
 ) = '{
   d1exp_loc= loc
-, d1exp_node= D1Ecasehead (inv, d1e, c1las)
+, d1exp_node= D1Ecasehead (knd, inv, d1es, c1las)
 } // end of [d1exp_casehead]
 
 implement
@@ -313,6 +349,13 @@ d1exp_rec (loc, knd, npf, ld1es) = '{
 implement
 d1exp_seq (loc, d1es) = '{
   d1exp_loc= loc, d1exp_node= D1Eseq (d1es)
+}
+
+(* ****** ****** *)
+
+implement
+d1exp_sexparg (loc, s1a) = '{
+  d1exp_loc= loc, d1exp_node= D1Esexparg (s1a)
 }
 
 (* ****** ****** *)
@@ -414,6 +457,10 @@ d1exp_ann_type (loc, d1e, s1e) = '{
 
 (* ****** ****** *)
 
+implement labd1exp_make (l, d1e) = L0ABELED (l, d1e)
+
+(* ****** ****** *)
+
 implement
 d1exp_is_metric (d1e) = begin
   case+ d1e.d1exp_node of
@@ -467,16 +514,28 @@ f1undec_make
 , f1undec_ann= ann
 } // end of [f1undec_make]
 
-implement v1ardec_make
-  (loc, knd, id, loc_id, os1e, wth, od1e) = '{
+implement
+v1ardec_make (
+  loc, knd, id, loc_id, typ, wth, ini
+) = '{
   v1ardec_loc= loc
 , v1ardec_knd= knd
 , v1ardec_sym= id
 , v1ardec_sym_loc= loc_id
-, v1ardec_typ= os1e
+, v1ardec_typ= typ
 , v1ardec_wth= wth // i0deopt
-, v1ardec_ini= od1e
+, v1ardec_ini= ini
 } // end of [v1ardec_make]
+
+implement
+i1mpdec_make (
+  loc, qid, tmparg, def
+) = '{
+  i1mpdec_loc= loc
+, i1mpdec_qid= qid
+, i1mpdec_tmparg= tmparg
+, i1mpdec_def= def
+} // end of [i1mpdec_make]
 
 (* ****** ****** *)
 
@@ -619,12 +678,24 @@ d1ecl_vardecs (loc, ds) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cvardecs (ds)
 }
 
+implement
+d1ecl_impdec
+  (loc, i1mparg, d1c) = '{
+  // i1mparg: s1arglstlst
+  d1ecl_loc= loc, d1ecl_node= D1Cimpdec (i1mparg, d1c)
+} // end of [d1ecl_impdec]
+
 (* ****** ****** *)
 
 implement
 d1ecl_include (loc, ds) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cinclude (ds)
 } // end of [d1ecl_include]
+
+implement d1ecl_staload
+  (loc, idopt, fil, loadflag, d1cs) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cstaload (idopt, fil, loadflag, d1cs)
+} // end of [d1ecl_staload]
 
 (* ****** ****** *)
 

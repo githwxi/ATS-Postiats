@@ -42,8 +42,9 @@ typedef symbol = $SYM.symbol
 (* ****** ****** *)
 
 staload "pats_syntax.sats"
-staload "pats_staexp1.sats"
 staload "pats_symmap.sats"
+staload "pats_staexp1.sats"
+staload "pats_dynexp1.sats"
 
 (* ****** ****** *)
 
@@ -103,6 +104,11 @@ fun trans1_env_restore (pf: trans1_env_save_v | (*none*)): void
 
 (* ****** ****** *)
 
+fun staload_file_insert
+  (fil: filename, loadflag: int, d1cs: d1eclist): void
+fun staload_file_search
+  (fil: filename): Option_vt @(int(*loadflag*), d1eclist)
+
+(* ****** ******* *)
+
 (* end of [pats_trans1_env.sats] *)
-
-

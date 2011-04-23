@@ -803,6 +803,42 @@ case+ x.d0exp_node of
     val () = prstr ")"
   }
 //
+| D0Elst (lin, elt, d0e) => {
+    val () = prstr "D0Elst("
+    val () = fprint_int (out, lin)
+    val () = prstr "; "
+    val () = fprint_s0expopt (out, elt)
+    val () = prstr "; "
+    val () = fprint_d0exp (out, d0e)
+    val () = prstr ")"
+  }
+| D0Etup (knd, npf, xs) => {
+    val () = prstr "D0Etup("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_d0explst (out, xs)
+    val () = prstr ")"
+  }
+| D0Erec (knd, npf, xs) => {
+    val () = prstr "D0Erec("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = $UT.fprintlst (out, xs, ", ", fprint_labd0exp)
+    val () = prstr ")"
+  }
+| D0Eseq (xs) => {
+    val () = prstr "D0Eseq("
+    val () = $UT.fprintlst (out, xs, "; ", fprint_d0exp)
+    val () = prstr ")"
+  }
+//
+| D0Eptrof () => prstr "D0Eptrof()"
+| D0Eviewat () => prstr "D0Eviewat()"
+//
 | D0Esel_lab (knd, lab) => {
     val () = prstr "D0Esel_lab("
     val () = fprint_int (out, knd)
@@ -841,6 +877,17 @@ implement
 fprint_d0expopt
   (out, opt) = $UT.fprintopt (out, opt, fprint_d0exp)
 // end of [fprint_d0expopt]
+
+(* ****** ****** *)
+
+implement
+fprint_labd0exp
+  (out, x) = () where {
+  val+ L0ABELED (l, d0e) = x
+  val () = fprint_l0ab (out, l)
+  val () = fprint_string (out, "= ")
+  val () = fprint_d0exp (out, d0e)
+} // end of [fprint_labd0exp]
 
 (* ****** ****** *)
 

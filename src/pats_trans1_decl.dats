@@ -358,21 +358,6 @@ end // end of [v0aldec_tr]
 
 (* ****** ****** *)
 
-fn v0ardec_tr
-  (d: v0ardec): v1ardec = let
-  val loc = d.v0ardec_loc
-  val knd = d.v0ardec_knd
-  val os1e = s0expopt_tr d.v0ardec_typ
-  val wth = d.v0ardec_wth // i0deopt
-  val od1e = d0expopt_tr d.v0ardec_ini
-in
-  v1ardec_make (
-    loc, knd, d.v0ardec_sym, d.v0ardec_sym_loc, os1e, wth, od1e
-  ) // end of [v1ardec_make]
-end // end of [v0ardec_tr]
-
-(* ****** ****** *)
-
 fn f0undec_tr (
   isprf: bool, isrec: bool, d: f0undec
  ) : f1undec = let
@@ -425,6 +410,40 @@ end // end of [f0undeclst_tr]
 
 (* ****** ****** *)
 
+fn v0ardec_tr
+  (d: v0ardec): v1ardec = let
+  val loc = d.v0ardec_loc
+  val knd = d.v0ardec_knd
+  val os1e = s0expopt_tr d.v0ardec_typ
+  val wth = d.v0ardec_wth // i0deopt
+  val od1e = d0expopt_tr d.v0ardec_ini
+in
+  v1ardec_make (
+    loc, knd, d.v0ardec_sym, d.v0ardec_sym_loc, os1e, wth, od1e
+  ) // end of [v1ardec_make]
+end // end of [v0ardec_tr]
+
+(* ****** ****** *)
+
+fn i0mpdec_tr
+  (d: i0mpdec): i1mpdec = let
+  val loc = d.i0mpdec_loc
+  val qid = d.i0mpdec_qid
+  val tmparg = l2l (list_map_fun (qid.impqi0de_arg, t0mpmarg_tr))
+  val def =
+    d0exp_lams_dyn_tr (
+      LAMKINDifix
+    , None(*locopt*), None(*fcopt*), 0(*lin*)
+    , d.i0mpdec_arg, d.i0mpdec_res, None(*efcopt*)
+    , d.i0mpdec_def
+    ) // end of [d0exp_lams_dyn_tr]
+  // end of [val]
+in
+  i1mpdec_make (d.i0mpdec_loc, qid, tmparg, def)
+end // end of [i0mpdec_tr]
+
+(* ****** ****** *)
+
 fn i0nclude_tr (
   loc0: location, stadyn: int, path: string
 ) : d1eclist = d1cs where {
@@ -470,6 +489,94 @@ fn i0nclude_tr (
 *)
   val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
 } // end of [i0nclude_tr]
+
+(* ****** ****** *)
+
+%{^
+//
+static
+ats_bool_type
+atsopt_string_suffix_is_dats
+  (ats_ptr_type s0) {
+  char *s = strrchr (s0, '.') ;
+  if (!s) return ats_false_bool ;
+  if (strcmp (s, ".dats") != 0) return ats_false_bool ;
+  return ats_true_bool ;
+} // end of [atsopt_string_suffix_is_dats]
+//
+%} // end of [%{^]
+
+extern fun string_suffix_is_dats
+  (s: string): bool = "atsopt_string_suffix_is_dats"
+// end of [string_suffix_is_dats]
+
+fn s0taload_tr_load (
+  fil: filename, loadflag: &int >> int
+) : d1eclist = let
+  val path = $FIL.filename_get_base (fil)
+  val flag = (
+    if string_suffix_is_dats path then 1(*dyn*) else 0(*sta*)
+  ) : int // end of [val]
+  val d0cs = $PAR.parse_from_filename_toplevel (flag, fil)
+//
+  val (pfsave | ()) = trans1_env_save ()
+  val d1cs = d0eclist_tr (d0cs)
+  val () = (case+
+    the_e1xpenv_find ($SYM.symbol_ATS_STALOADFLAG) of
+    | ~Some_vt e1xp => let
+        val v1al = e1xp_eval (e1xp) in if v1al_is_false v1al then loadflag := 0
+      end // end of [Some_vt]
+    | ~None_vt () => () // the default value
+  ) : void // end of [val]
+  val () = trans1_env_restore (pfsave | (*none*))
+  val () = staload_file_insert (fil, loadflag, d1cs)
+in
+  d1cs
+end // end of [s0taload_tr_load]
+
+fn s0taload_tr (
+  loc0: location
+, idopt: symbolopt, path: string
+, loadflag: &int? >> int
+, filref: &filename? >> filename
+) : d1eclist = let
+  val () = loadflag := 1 // HX: this is for ATS_STALOADFLAG
+//
+  val filopt = $FIL.filenameopt_make_relative (path)
+  val fil = (case+ filopt of
+    | ~Some_vt filename => filename
+    | ~None_vt () => let
+        val () = prerr_loc_error1 (loc0)
+        val () = prerr ": the file ["
+        val () = prerr path;
+        val () = prerr "] is not available for static loading"
+        val () = prerr_newline ()
+      in
+        $ERR.abort {filename} ()
+      end // end of [None_vt]
+  ) : filename // end of [val]
+  val () = filref := fil
+//
+  val flagd1csopt = staload_file_search (fil)
+in
+//
+case+ flagd1csopt of
+| ~Some_vt (flagd1cs) => let
+(*
+    val () = {
+      val () = print "The file ["
+      val () = print_filename (fil)
+      val () = print " is already loaded."
+      val () = print_newlint ()
+    ) // end of [val]
+*)
+    val () = loadflag := flagd1cs.0
+  in
+    flagd1cs.1
+  end // end of [Some_vt]
+| ~None_vt () => s0taload_tr_load (fil, loadflag)
+//
+end // end of [s0taload_tr]
 
 (* ****** ****** *)
 
@@ -645,10 +752,22 @@ case+ d0c0.d0ecl_node of
   in
     d1ecl_vardecs (loc0, d1cs)
   end // end of [D0Cvardecs]
+| D0Cimpdec (i0mparg, d0c) => let
+    val i1mparg = l2l (list_map_fun (i0mparg, s0arglst_tr))
+  in
+    d1ecl_impdec (loc0, i1mparg, i0mpdec_tr d0c)
+  end // end of [D0Cimpdec]
 //
 | D0Cinclude (stadyn, path) => let
     val d1cs = i0nclude_tr (loc0, stadyn, path) in d1ecl_include (loc0, d1cs)
   end // end of [D0Cinclude]
+| D0Cstaload (idopt, path) => let
+    var loadflag: int // unitialized
+    var fil: filename // unitialized
+    val d1cs = s0taload_tr (loc0, idopt, path, loadflag, fil)
+  in
+    d1ecl_staload (loc0, idopt, fil, loadflag, d1cs)
+  end // end of [D0Cstaload]
 //
 | D0Clocal (
     d0cs_head, d0cs_body

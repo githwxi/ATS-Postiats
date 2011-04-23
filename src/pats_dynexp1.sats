@@ -219,15 +219,12 @@ datatype d1ecl_node =
   | D1Cvaldecs of (valkind, bool(*isrec*), v1aldeclst) // val declarations
   | D1Cfundecs of (funkind, q1marglst, f1undeclst) // function declaration
   | D1Cvardecs of v1ardeclst (* variable declaration *)
-(*
-  | D1Cimpdec of (* implementation *)
-      (s1arglstlst, i1mpdec)
-*)
+  | D1Cimpdec of (s1arglstlst, i1mpdec) (* implementation *)
   | D1Cinclude of d1eclist (* inclusion *)
   | D1Cdynload of (* dynloading a file *)
       filename
   | D1Cstaload of (* staloading a file *)
-      (Option symbol, filename, int (*loaded*), int (*loadflag*), d1eclist)
+      (Option symbol, filename, int (*loadflag*), d1eclist)
   | D1Clocal of (d1eclist(*head*), d1eclist(*body*)) // local declaration
 // end of [d1ecl_node]
 
@@ -235,6 +232,7 @@ and d1exp_node =
 //
   | D1Edqid of (d0ynq, symbol) // qualified ids
 //
+  | D1Eint of i0nt // dynamic integers
   | D1Ebool of bool // boolean constants
   | D1Echar of c0har // dynamic characters
   | D1Efloat of f0loat (* dynamic floats *)
@@ -259,6 +257,8 @@ and d1exp_node =
   | D1Efreeat of (* free at a given address *)
       (s1exparglst, d1exp)
 //
+  | D1Etmpid of (dqi0de, t1mpmarglst) (* template instantiation *)
+//
   | D1Elet of (d1eclist, d1exp(*body*))
 //
   | D1Eapp_dyn of (* dynamic application *)
@@ -273,7 +273,8 @@ and d1exp_node =
       (i1nvresstate, d1exp, d1exp, d1expopt)
   | D1Esifhead of
       (i1nvresstate, s1exp, d1exp, d1exp) // HX: no dangling else-branch
-  | D1Ecasehead of (i1nvresstate, d1exp, c1laulst)
+  | D1Ecasehead of (* case-expression *)
+      (caskind, i1nvresstate, d1explst, c1laulst)
   | D1Escasehead of (i1nvresstate, s1exp, sc1laulst)
 //
   | D1Elst of (* dynamic list-expression *)
@@ -445,6 +446,15 @@ and v1ardec = '{
 and v1ardeclst = List v1ardec
 
 (* ****** ****** *)
+
+and i1mpdec = '{
+  i1mpdec_loc= location
+, i1mpdec_qid= impqi0de
+, i1mpdec_tmparg= t1mpmarglst
+, i1mpdec_def= d1exp
+} // end of [i1mpdec]
+
+(* ****** ****** *)
 //
 // HX: dynamic expressions
 //
@@ -456,6 +466,7 @@ fun d1exp_dqid
 // end of [d1exp_dqid]
 fun d1exp_opid (loc: location, id: symbol): d1exp
 
+fun d1exp_int (loc: location, x: i0nt): d1exp
 fun d1exp_char (loc: location, x: c0har): d1exp
 fun d1exp_float (loc: location, x: f0loat): d1exp
 fun d1exp_string (loc: location, x: s0tring): d1exp
@@ -473,6 +484,12 @@ fun d1exp_foldat
   (loc: location, arg: s1exparglst, d1e: d1exp): d1exp
 fun d1exp_freeat
   (loc: location, arg: s1exparglst, d1e: d1exp): d1exp
+
+fun d1exp_tmpid
+  (loc: location, qid: dqi0de, decarg: t1mpmarglst): d1exp
+// end of [d1exp_tmpid]
+
+(* ****** ****** *)
 
 fun d1exp_let (
   loc: location, d1cs: d1eclist, body: d1exp
@@ -519,8 +536,9 @@ fun d1exp_sifhead (
 
 fun d1exp_casehead (
   loc: location
+, knd: caskind
 , inv: i1nvresstate
-, d1e: d1exp, c1las: c1laulst
+, d1es: d1explst, c1las: c1laulst
 ) : d1exp // end of [d1exp_casehead]
 
 fun d1exp_scasehead (
@@ -541,6 +559,10 @@ fun d1exp_rec (
   loc: location, knd: int, npf: int, ld1es: labd1explst
 ) : d1exp // end of [d1exp_rec]
 fun d1exp_seq (loc: location, d1es: d1explst): d1exp
+
+(* ****** ****** *)
+
+fun d1exp_sexparg (loc: location, s1a: s1exparg): d1exp
 
 (* ****** ****** *)
 
@@ -620,6 +642,13 @@ fun fprint_d1explst : fprint_type (d1explst)
 
 (* ****** ****** *)
 
+fun labd1exp_make (l: l0ab, d1e: d1exp): labd1exp
+
+fun fprint_labd1exp : fprint_type (labd1exp)
+fun fprint_labd1explst : fprint_type (labd1explst)
+
+(* ****** ****** *)
+
 fun d1exp_is_metric (d1e: d1exp): bool
 fun d1exp_make_e1xp (loc: location, exp: e1xp): d1exp
 
@@ -627,6 +656,21 @@ fun d1exp_make_e1xp (loc: location, exp: e1xp): d1exp
 
 fun d1lab_lab (loc: location, lab: label): d1lab
 fun d1lab_ind (loc: location, ind: d1explstlst): d1lab
+
+(* ****** ****** *)
+
+fun m1atch_make
+  (loc: location, d1e: d1exp, opt: p1atopt): m1atch
+// end of [m1atch_make]
+
+fun c1lau_make (
+  loc: location
+, pat: p1at, gua: m1atchlst, seq: int, neg: int, body: d1exp
+) : c1lau // end of [c1lau_make]
+
+fun sc1lau_make
+  (loc: location, pat: sp1at, body: d1exp): sc1lau
+// end of [sc1lau_make]
 
 (* ****** ****** *)
 //
@@ -643,6 +687,10 @@ fun d1exp_app_syndef (
 
 fun d1exp_idextapp_resolve (loc0: location, d1e: d1exp): d1exp
 
+(* ****** ****** *)
+//
+// HX: for various itemized declarations
+//
 (* ****** ****** *)
 
 fun m1acdef_make (
@@ -665,6 +713,10 @@ fun v1ardec_make (
 , id: symbol, loc_id: location
 , typ: s1expopt, wth: i0deopt, def: d1expopt
 ) : v1ardec // end of [v1ardec_make]
+
+fun i1mpdec_make
+  (loc: location, qid: impqi0de, tmparg: t1mpmarglst, def: d1exp): i1mpdec
+// end of [i1mpdec_make]
 
 (* ****** ****** *)
 //
@@ -714,8 +766,6 @@ fun d1ecl_extcode (
   loc: location, knd: int, pos: int, code: string
 ) : d1ecl // end of [d1ecl_extcode]
 
-fun d1ecl_include (loc: location, ds: d1eclist): d1ecl
-
 fun d1ecl_macdefs (
   loc: location, knd: int, isrec: bool, ds: m1acdeflst
 ) : d1ecl // end of [d1ecl_macdefs]
@@ -729,6 +779,21 @@ fun d1ecl_fundecs (
 ) : d1ecl // end of [d1ecl_fundecs]
 
 fun d1ecl_vardecs (loc: location, ds: v1ardeclst): d1ecl
+
+fun d1ecl_impdec
+  (loc: location, decarg: s1arglstlst, d1c: i1mpdec): d1ecl
+// end of [d1ecl_impdec]
+
+fun d1ecl_include (loc: location, ds: d1eclist): d1ecl
+
+fun
+d1ecl_staload (
+  loc: location
+, idopt: symbolopt
+, fil: filename
+, loadflag: int
+, d1cs: d1eclist
+) : d1ecl // end of [d1ec_staload]
 
 fun d1ecl_local (loc: location, ds1: d1eclist, ds2: d1eclist): d1ecl
 

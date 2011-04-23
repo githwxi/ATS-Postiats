@@ -50,20 +50,18 @@ ATSCCFLAGS=-g -O2
 ######
 
 SOURCES := \
-  pats_debug.sats \
-  pats_debug.dats \
   pats_error.sats \
   pats_error.dats \
   pats_utils.sats \
   pats_utils.dats \
+  pats_basics.sats \
+  pats_basics.dats \
   pats_symbol.sats \
   pats_symbol.dats \
   pats_filename.sats \
   pats_filename.dats \
   pats_location.sats \
   pats_location.dats \
-  pats_basics.sats \
-  pats_basics.dats \
   pats_reader.sats \
   pats_reader.dats \
   pats_lexbuf.sats \

@@ -34,7 +34,10 @@
 //
 (* ****** ****** *)
 
+staload
+FIL = "pats_filename.sats"
 staload FIX = "pats_fixity.sats"
+staload SYM = "pats_symbol.sats"
 
 (* ****** ****** *)
 
@@ -110,6 +113,23 @@ fun the_e1xpenv_localjoin (
   val () = symenv_localjoin (!p0)
 } // end of [the_e1xpenv_localjoin]
 
+viewdef e1xpenv_save_v = unit_v
+fun the_e1xpenv_save () = let
+  prval pfsave = unit_v ()
+  prval vbox pf = pf0
+  val () = symenv_savecur (!p0)
+in
+  (pfsave | ())
+end // end of [the_e1xpenv_save]
+
+fun the_e1xpenv_restore (
+  pfsave: e1xpenv_save_v | (*none*)
+) = {
+  prval unit_v () = pfsave
+  prval vbox pf = pf0
+  val () = symenv_restore (!p0)
+} // end of [the_e1xpenv_restore]
+
 end // end of [local]
 
 (* ****** ****** *)
@@ -178,6 +198,23 @@ implement
 the_fxtyenv_pervasive_joinwth (map) = let
   prval vbox pf = pf0 in symenv_pervasive_joinwth (!p0, map)
 end // end of [fun]
+
+viewdef fxtyenv_save_v = unit_v
+fun the_fxtyenv_save () = let
+  prval pfsave = unit_v ()
+  prval vbox pf = pf0
+  val () = symenv_savecur (!p0)
+in
+  (pfsave | ())
+end // end of [the_fxtyenv_save]
+
+fun the_fxtyenv_restore (
+  pfsave: fxtyenv_save_v | (*none*)
+) = {
+  prval unit_v () = pfsave
+  prval vbox pf = pf0
+  val () = symenv_restore (!p0)
+} // end of [the_fxtyenv_restore]
 
 end // end of [local]
 
@@ -254,6 +291,89 @@ trans1_env_localjoin
   val () = the_e1xpenv_localjoin (pf1env1, pf1env2 | (*none*))
   val () = the_fxtyenv_localjoin (pf2env1, pf2env2 | (*none*))
 } // end of [trans1_env_localjoin]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+assume
+trans1_env_save_v = (e1xpenv_save_v, fxtyenv_save_v)
+
+in
+
+implement
+trans1_env_save () = let
+  val (pf1save | ()) = the_e1xpenv_save ()
+  val (pf2save | ()) = the_fxtyenv_save ()
+  prval pfsave = (pf1save, pf2save)
+in
+  (pfsave | ())
+end // end of [trans1_env_save]
+
+implement
+trans1_env_restore
+  (pfsave | (*none*)) = {
+  val () = the_e1xpenv_restore (pfsave.0 | (*none*))
+  val () = the_fxtyenv_restore (pfsave.1 | (*none*))  
+} // end of [trans1_env_restore]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+//
+staload UN = "prelude/SATS/unsafe.sats"
+staload LM = "libats/SATS/linmap_avltree.sats"
+staload _(*anon*) = "prelude/DATS/reference.dats"
+staload _(*anon*) = "libats/DATS/linmap_avltree.dats"
+//
+typedef key = uint
+typedef itm = @(int, d1eclist)
+viewtypedef map = $LM.map (key, itm)
+//
+val theStaloadMap = ref<map> ($LM.linmap_make_nil ())
+//
+val cmp0 = $UN.cast {$LM.cmp(key)} (null)
+implement $LM.compare_key_key<key> (x1, x2, _) = compare (x1, x2)
+
+in
+
+implement
+staload_file_insert
+  (fil, flag, d1cs) = {
+  val full =
+    $FIL.filename_get_full (fil)
+  // end of [val]
+  val k0 = $SYM.symbol_get_stamp (full)
+  val x0 = (flag, d1cs)
+  val (vbox pf | p) = ref_get_view_ptr {map} (theStaloadMap)
+  var res: itm?
+  val _(*existed*) = $LM.linmap_insert<key,itm> (!p, k0, x0, cmp0, res)
+  prval () = opt_clear {itm} (res)
+} // end of [staload_file_insert]
+
+implement
+staload_file_search
+  (fil) = let
+  val full =
+    $FIL.filename_get_full (fil)
+  // end of [val]
+  val k0 = $SYM.symbol_get_stamp (full)
+  val (vbox pf | p) = ref_get_view_ptr {map} (theStaloadMap)
+  var res: itm?  
+  val found = $LM.linmap_search<key,itm> (!p, k0, cmp0, res)
+in
+//
+if found then let
+  prval () = opt_unsome {itm} (res) in Some_vt (res)
+end else let
+  prval () = opt_unnone {itm} (res) in None_vt ()
+end (* end of [if] *)
+//
+end // end of [staload_file_search]
 
 end // end of [local]
 

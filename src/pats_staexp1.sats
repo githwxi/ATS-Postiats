@@ -294,6 +294,11 @@ where sp1at = '{
   sp1at_loc= location, sp1at_node= sp1at_node
 }
 
+fun sp1at_arg (loc: location, arg: s1arg): sp1at
+fun sp1at_cstr
+  (loc: location, q: s0taq, id: symbol, args: s1arglst): sp1at
+// end of [sp1at_cstr]
+
 (* ****** ****** *)
 
 datatype s1exp_node =
@@ -598,6 +603,17 @@ typedef q1marglst = List (q1marg)
 fun q1marg_make (loc: location, xs: s1qualst): q1marg
 
 fun fprint_q1marg : fprint_type (q1marg)
+
+(* ****** ****** *)
+
+typedef
+t1mpmarg = '{
+  t1mpmarg_loc= location, t1mpmarg_arg= s1explst
+} // end of [t1mpmarg]
+
+typedef t1mpmarglst = List (t1mpmarg)
+
+fun t1mpmarg_make (loc: location, arg: s1explst): t1mpmarg
 
 (* ****** ****** *)
 

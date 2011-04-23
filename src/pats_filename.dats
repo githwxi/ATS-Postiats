@@ -106,6 +106,7 @@ print_filename_full (fil) = fprint_filename_full (stdout_ref, fil)
 
 (* ****** ****** *)
 
+implement filename_get_base (fil) = fil.filename_name
 implement filename_get_full (fil) = fil.filename_full
 
 (* ****** ****** *)
