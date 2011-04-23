@@ -562,6 +562,12 @@ aux_item (
   | D0Esexparg (s0a) =>
       FXITMatm (d1exp_sexparg (loc0, s0exparg_tr (loc0, s0a)))
     // end of [D0Esexparg]
+  | D0Eexist (loc_qua, s0a, d0e) => let
+      val s1a = s0exparg_tr (loc_qua, s0a)
+      val d1e = d0exp_tr (d0e)
+    in
+      FXITMatm (d1exp_exist (loc0, s1a, d1e))
+    end // end of [D0Eexist]
 //
   | D0Elam (
       knd, args, res, effopt, body
@@ -654,9 +660,12 @@ in
 end // end of [aux_itemlist]
 //
 (*
-val () = (
-  print "d0exp_tr: d0e0 = "; fprint_d0exp (stdout_ref, d0e0); print_newline ()
-) // end of [val]
+val () = {
+  val () = print_location (loc0)
+  val () = print ": d0exp_tr: d0e0 = "
+  val () = fprint_d0exp (stdout_ref, d0e0)
+  val () = print_newline ()
+} // end of [val]
 *)
 //
 in

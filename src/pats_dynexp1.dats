@@ -358,6 +358,11 @@ d1exp_sexparg (loc, s1a) = '{
   d1exp_loc= loc, d1exp_node= D1Esexparg (s1a)
 }
 
+implement
+d1exp_exist (loc, s1a, d1e) = '{
+  d1exp_loc= loc, d1exp_node= D1Eexist (s1a, d1e)
+}
+
 (* ****** ****** *)
 
 implement

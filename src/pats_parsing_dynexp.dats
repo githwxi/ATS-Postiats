@@ -610,6 +610,9 @@ atmd0exp ::=
   | ATLBRACE labd0expseq [BAR labd0expseq] RBRACE
   | QUOTELBRACE labd0expseq [BAR labde0xpseq] RBRACE
 //
+  | QUOTELBRACKET d0expcommaseq RBRACKET
+  | HASHLBRACKET s0exparg BAR d0exp RBRACKET
+//
   | arrqi0de d0arrind
   | ATLBRACKET s0exp RBRACKET arrdimopt LPAREN d0expcommaseq RPAREN
   | DLRARRSZ s0expelt LPAREN d0expcommaseq RPAREN
@@ -823,6 +826,35 @@ case+ tok.token_node of
     end // end of [if]
   end
 //
+| T_QUOTELBRACKET () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = pstar_fun0_COMMA {d0exp} (buf, bt, p_d0exp)
+    val ent3 = p_RBRACKET (buf, bt, err)
+  in
+    if err = err0 then
+      d0exp_lst_quote (tok, (l2l)ent2, ent3)
+    else let
+      val () = list_vt_free (ent2) in synent_null ()
+    end (* end of [if] *)
+  end
+//
+(*
+| HASHLBRACKET s0exparg BAR d0exp RBRACKET
+*)
+| T_HASHLBRACKET () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_s0exparg (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_BAR, err0)
+    val ent4 = pif_fun (buf, bt, err, p_d0exp, err0)
+    val ent5 = pif_fun (buf, bt, err, p_RBRACKET, err0)
+  in
+    if err = err0 then
+      d0exp_exist (tok, ent2, ent3, ent4, ent5)
+    else synent_null ()
+  end
+//
 | _ when
     ptest_fun (
     buf, p_arrqi0de, ent
@@ -856,19 +888,6 @@ case+ tok.token_node of
       d0exp_arrinit (tok, ent2, ent4, (l2l)ent6, ent7)
     else let
       val () = list_vt_free (ent6) in synent_null ()
-    end (* end of [if] *)
-  end
-//
-| T_QUOTELBRACKET () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = pstar_fun0_COMMA {d0exp} (buf, bt, p_d0exp)
-    val ent3 = p_RBRACKET (buf, bt, err)
-  in
-    if err = err0 then
-      d0exp_lst_quote (tok, (l2l)ent2, ent3)
-    else let
-      val () = list_vt_free (ent2) in synent_null ()
     end (* end of [if] *)
   end
 //

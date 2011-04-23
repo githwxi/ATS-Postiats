@@ -250,8 +250,6 @@ and d1exp_node =
   | D1Edecseq of // decseq as exp
       d1eclist (* HX: note that there is no [D2Edecseq] *)
 //
-  | D1Eexist of (s1exparg, d1exp) // existential sum
-//
   | D1Efoldat of (* fold at a given address *)
       (s1exparglst, d1exp)
   | D1Efreeat of (* free at a given address *)
@@ -301,6 +299,7 @@ and d1exp_node =
   | D1Esel of (int(*knd*), d1exp, d1lab)
 //
   | D1Esexparg of s1exparg (* for temporary use *)
+  | D1Eexist of (s1exparg, d1exp) // witness-carrying expression
 //
   | D1Elam_dyn of (* dynamic abstraction: alloc/init *)
       (int (*lin*), p1at, d1exp)
@@ -563,6 +562,7 @@ fun d1exp_seq (loc: location, d1es: d1explst): d1exp
 (* ****** ****** *)
 
 fun d1exp_sexparg (loc: location, s1a: s1exparg): d1exp
+fun d1exp_exist (loc: location, s1a: s1exparg, d1e: d1exp): d1exp
 
 (* ****** ****** *)
 

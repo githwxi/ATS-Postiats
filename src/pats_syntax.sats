@@ -1222,6 +1222,7 @@ and d0exp_node =
   | D0Esel_ind of (int(*knd*), d0explstlst(*ind*))
 //
   | D0Esexparg of s0exparg // static multi-argument
+  | D0Eexist of (location (*qua*), s0exparg, d0exp) // existential sum
 //
   | D0Elam of (int(*knd*), f0arglst, s0expopt, e0fftaglstopt, d0exp)
   | D0Efix of (int(*knd*), i0de, f0arglst, s0expopt, e0fftaglstopt, d0exp)
@@ -1438,7 +1439,29 @@ fun d0exp_freeat (t_freeat: token, _: d0explst): d0exp
 
 fun d0exp_tmpid (qid: dqi0de, arg: t0mpmarglst, t_gt: token): d0exp
 
+(* ****** ****** *)
+
+fun d0exp_let_seq (
+  t_let: token
+, d0cs: d0eclist
+, t_in: token
+, d0e: d0explst
+, t_end: token
+) : d0exp // end of [d0exp_let_seq]
+
+fun d0exp_declseq
+  (t_beg: token, ds: d0eclist, t_end: token) : d0exp
+// end of [d0exp_declseq]
+
+fun d0exp_where
+  (d0e: d0exp, d0cs: d0eclist, t_end: token) : d0exp
+// end of [d0exp_where]
+
+(* ****** ****** *)
+
 fun d0exp_app (_1: d0exp, _2: d0exp): d0exp
+
+(* ****** ****** *)
 
 fun d0exp_list (
   t_beg: token, npf: int, xs: d0explst, t_end: token
@@ -1460,45 +1483,6 @@ fun d0exp_scasehead
   (hd: scasehead, s0e: s0exp, t_of: token, c0ls: sc0laulst): d0exp
 // end of [d0exp_scasehead]
 
-fun d0exp_forhead
-  (hd: loophead, itp: initestpost, body: d0exp): d0exp
-// end of [d0exp_forhead]
-fun d0exp_whilehead
-  (hd: loophead, test: d0exp, body: d0exp): d0exp
-// end of [d0exp_whilehead]
-
-(* ****** ****** *)
-
-fun d0exp_lam (
-  knd: int
-, t_lam: token
-, arg: f0arglst
-, res: s0expopt
-, eff: e0fftaglstopt
-, d0e: d0exp
-) : d0exp // end of [d0exp_lam]
-
-fun d0exp_fix (
-  knd: int
-, t_lam: token
-, fid: i0de
-, arg: f0arglst
-, res: s0expopt
-, eff: e0fftaglstopt
-, d0e: d0exp
-) : d0exp // end of [d0exp_fix]
-
-fun d0exp_seq
-  (t_beg: token, xs: d0explst, t_end: token): d0exp
-// end of [d0exp_seq]
-
-fun d0exp_tup (
-  knd: int, t_beg: token, npf: int, xs: d0explst, t_end: token
-) : d0exp // end of [d0exp_tup]
-fun d0exp_rec (
-  knd: int, t_beg: token, npf: int, xs: labd0explst, t_end: token
-) : d0exp // end of [d0exp_rec]
-
 (* ****** ****** *)
 
 fun d0exp_lst (
@@ -1513,6 +1497,17 @@ fun d0exp_lst (
 fun d0exp_lst_quote
   (t_beg: token, elts: d0explst, t_end: token): d0exp
 // end of [d0exp_lst_quote]
+
+fun d0exp_tup (
+  knd: int, t_beg: token, npf: int, xs: d0explst, t_end: token
+) : d0exp // end of [d0exp_tup]
+fun d0exp_rec (
+  knd: int, t_beg: token, npf: int, xs: labd0explst, t_end: token
+) : d0exp // end of [d0exp_rec]
+
+fun d0exp_seq
+  (t_beg: token, xs: d0explst, t_end: token): d0exp
+// end of [d0exp_seq]
 
 (* ****** ****** *)
 
@@ -1545,17 +1540,37 @@ fun d0exp_sexparg
   (t_beg: token, s0a: s0exparg, t_end: token): d0exp
 // end of [d0exp_sexparg]
 
-fun d0exp_let_seq (
-  t_let: token, d0cs: d0eclist, t_in: token, d0e: d0explst, t_end: token
-) : d0exp // end of [d0exp_let_seq]
+fun d0exp_exist (
+  t_beg: token, s0a: s0exparg, t_bar: token, d0e: d0exp, t_end: token
+) : d0exp // end of [d0exp_exist]
 
-fun d0exp_declseq
-  (t_beg: token, ds: d0eclist, t_end: token) : d0exp
-// end of [d0exp_declseq]
+(* ****** ****** *)
 
-fun d0exp_where
-  (d0e: d0exp, d0cs: d0eclist, t_end: token) : d0exp
-// end of [d0exp_where]
+fun d0exp_lam (
+  knd: int
+, t_lam: token
+, arg: f0arglst
+, res: s0expopt
+, eff: e0fftaglstopt
+, d0e: d0exp
+) : d0exp // end of [d0exp_lam]
+
+fun d0exp_fix (
+  knd: int
+, t_lam: token
+, fid: i0de
+, arg: f0arglst
+, res: s0expopt
+, eff: e0fftaglstopt
+, d0e: d0exp
+) : d0exp // end of [d0exp_fix]
+
+fun d0exp_forhead
+  (hd: loophead, itp: initestpost, body: d0exp): d0exp
+// end of [d0exp_forhead]
+fun d0exp_whilehead
+  (hd: loophead, test: d0exp, body: d0exp): d0exp
+// end of [d0exp_whilehead]
 
 (* ****** ****** *)
 

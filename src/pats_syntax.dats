@@ -1834,6 +1834,16 @@ in '{
   d0exp_loc= loc, d0exp_node= D0Esexparg s0a
 } end // end of [d0exp_sexparg]
 
+implement
+d0exp_exist (
+  t_beg, s0a, t_bar, d0e, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+  val loc_qua = t_beg.token_loc + t_bar.token_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Eexist (loc_qua, s0a, d0e)
+} end // end of [d0exp_exist]
+
 (* ****** ****** *)
 
 local
