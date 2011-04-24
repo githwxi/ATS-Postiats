@@ -300,7 +300,7 @@ case+ 0 of
     ptest_fun (buf, p_d0ynq, ent) => let
     // val bt = 0 // HX: avoiding false positive
     val ent1 = synent_decode {d0ynq} (ent)
-    val ent2 = f (buf, bt, err)
+    val ent2 = f (buf, bt, err) // err = err0
   in
     if err = err0 then
       dqi0de_make_some (ent1, ent2)
@@ -663,15 +663,8 @@ case+ tok.token_node of
     // end of [if]
   end
 | _ when
-    ptest_fun (buf, p_d0ynq, ent) => let
-    val bt = 0
-    val ent1 = synent_decode {d0ynq} (ent)
-    val ent2 = p_di0de (buf, bt, err) // err = err0
-  in
-    if err = err0 then
-      d0exp_dqid (ent1, ent2) else synent_null ()
-    // end of [if]
-  end
+    ptest_fun (buf, p_dqi0de, ent) =>
+    d0exp_dqid (synent_decode {dqi0de} (ent))
 //
 | T_SRPFILENAME () => let
     val () = incby1 () in d0exp_FILENAME (tok)
@@ -738,7 +731,7 @@ case+ tok.token_node of
     val bt = 0
     val ent1 = synent_decode {dqi0de} (ent)
     val ent2 = pstar_fun1_sep {t0mpmarg} (buf, bt, err, p_tmps0expseq, p_GTLT_test)
-    val ent3 = p_GT (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_GT, err0)
   in
     if err = err0 then
       d0exp_tmpid (ent1, (l2l)ent2, ent3)
@@ -1406,7 +1399,7 @@ in
   if err = err0 then
     loophead_make_some (ent1, ent2, ent3)
   else tokbuf_set_ntok_null (buf, n0)
-end // end of [p_whilehead]
+end // end of [p_tryhead]
 
 (*
 whilehead ::= WHILESTAR loopi0nv EQGT // [while] is external id
@@ -1426,6 +1419,24 @@ in
     loophead_make_some (ent1, ent2, ent3)
   else tokbuf_set_ntok_null (buf, n0)
 end // end of [p_whilehead]
+
+(* ****** ****** *)
+
+(*
+tryhead ::= TRY
+*)
+fun
+p_tryhead (
+  buf: &tokbuf, bt: int, err: &int
+) : tryhead = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val ent1 = p_TRY (buf, bt, err)
+in
+  if err = err0 then
+    tryhead_make_none (ent1) else tokbuf_set_ntok_null (buf, n0)
+  // end of [if]
+end // end of [p_tryhead]
 
 (* ****** ****** *)
 
@@ -1476,11 +1487,11 @@ d0exp  :: =
   | scasehead s0exp OF sc0lauseq // done!
   | lamkind f0arg1seq colons0expopt funarrow d0exp // done!
   | fixkind di0de f0arg1seq colons0expopt funarrow d0exp // done!
-  | forhead initestpost d0exp
-  | whilehead atmd0exp d0exp
+  | forhead initestpost d0exp // done!
+  | whilehead atmd0exp d0exp // done!
   | DLRRAISE d0exp // done!
   | DLRDELAY d0exp // done!
-  | tryhead d0expsemiseq WITH c0lauseq
+  | tryhead d0expsemiseq WITH c0lauseq // done!
 *)
 
 fun p_d0exp_tok (
@@ -1641,6 +1652,21 @@ case+ tok.token_node of
   in
     if err = err0 then
       d0exp_delay (knd, tok, ent2) else synent_null ()
+    // end of [if]
+  end
+//
+| _ when
+    ptest_fun (
+    buf, p_tryhead, ent
+  ) => let
+    val bt = 0
+    val ent1 = synent_decode {tryhead} (ent)
+    val ent2 = p_d0expsemiseq (buf, bt, err) // err = err0
+    val ent3 = pif_fun (buf, bt, err, p_WITH, err0)
+    val ent4 = pif_fun (buf, bt, err, p_c0lauseq, err0)
+  in
+    if err = err0 then
+      d0exp_trywith_seq (ent1, ent2, ent3, ent4) else synent_null ()
     // end of [if]
   end
 //

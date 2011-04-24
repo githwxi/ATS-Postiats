@@ -63,6 +63,7 @@ parerr_node =
 //
   | PE_FOR
   | PE_WHILE
+  | PE_TRY
 //
   | PE_BAR
   | PE_COLON
@@ -252,6 +253,9 @@ fun p_WHILE : parser (token)
 fun is_WHILE (x: tnode): bool
 fun p_WHILESTAR : parser (token)
 fun is_WHILESTAR (x: tnode): bool
+
+fun p_TRY : parser (token)
+fun is_TRY (x: tnode): bool
 
 (* ****** ****** *)
 

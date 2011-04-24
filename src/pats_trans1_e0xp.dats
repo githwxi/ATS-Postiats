@@ -49,6 +49,11 @@ macdef SUB = $SYM.symbol_SUB
 macdef MUL = $SYM.symbol_MUL
 macdef DIV = $SYM.symbol_DIV
 //
+macdef LT = $SYM.symbol_LT
+macdef LTEQ = $SYM.symbol_LTEQ
+macdef GT = $SYM.symbol_GT
+macdef GTEQ = $SYM.symbol_GTEQ
+//
 macdef BACKSLASH = $SYM.symbol_BACKSLASH
 macdef LTLT = $SYM.symbol_LTLT
 macdef GTGT = $SYM.symbol_GTGT
@@ -274,6 +279,70 @@ end // end of [e1xp_eval_div]
 
 (* ****** ****** *)
 
+fun e1xp_eval_lt (
+  loc: location, e1: e1xp, e2: e1xp
+) : v1al = let
+  val v1 = e1xp_eval e1; val v2 = e1xp_eval e2
+in
+  case+ (v1, v2) of
+  | (V1ALfloat f1, V1ALfloat f2) =>
+      if f1 < f2 then V1ALint 1 else V1ALint 0
+  | (V1ALint i1, V1ALint i2) =>
+      if i1 < i2 then V1ALint 1 else V1ALint 0
+  | (V1ALstring s1, V1ALstring s2) =>
+      if s1 < s2 then V1ALint 1 else V1ALint 0
+  | (_, _) => e1xp_eval_opr_errmsg_arglst (loc, LT)
+end // end of [e1xp_eval_lt]
+
+fun e1xp_eval_lteq (
+  loc: location, e1: e1xp, e2: e1xp
+) : v1al = let
+  val v1 = e1xp_eval e1; val v2 = e1xp_eval e2
+in
+  case+ (v1, v2) of
+  | (V1ALfloat f1, V1ALfloat f2) =>
+      if f1 <= f2 then V1ALint 1 else V1ALint 0
+  | (V1ALint i1, V1ALint i2) =>
+      if i1 <= i2 then V1ALint 1 else V1ALint 0
+  | (V1ALstring s1, V1ALstring s2) =>
+      if s1 <= s2 then V1ALint 1 else V1ALint 0
+  | (_, _) => e1xp_eval_opr_errmsg_arglst (loc, LTEQ)
+end // end of [e1xp_eval_lteq]
+
+(* ****** ****** *)
+
+and e1xp_eval_gt (
+  loc: location, e1: e1xp, e2: e1xp
+) : v1al = let
+  val v1 = e1xp_eval e1; val v2 = e1xp_eval e2
+in
+  case+ (v1, v2) of
+  | (V1ALfloat f1, V1ALfloat f2) =>
+      if f1 > f2 then V1ALint 1 else V1ALint 0
+  | (V1ALint i1, V1ALint i2) =>
+      if i1 > i2 then V1ALint 1 else V1ALint 0
+  | (V1ALstring s1, V1ALstring s2) =>
+      if s1 > s2 then V1ALint 1 else V1ALint 0
+  | (_, _) => e1xp_eval_opr_errmsg_arglst (loc, GT)
+end // end of [e1xp_eval_gt]
+
+and e1xp_eval_gteq (
+  loc: location, e1: e1xp, e2: e1xp
+) : v1al = let
+  val v1 = e1xp_eval e1; val v2 = e1xp_eval e2
+in
+  case+ (v1, v2) of
+  | (V1ALfloat f1, V1ALfloat f2) =>
+      if f1 >= f2 then V1ALint 1 else V1ALint 0
+  | (V1ALint i1, V1ALint i2) =>
+      if i1 >= i2 then V1ALint 1 else V1ALint 0
+  | (V1ALstring s1, V1ALstring s2) =>
+      if s1 >= s2 then V1ALint 1 else V1ALint 0
+  | (_, _) => e1xp_eval_opr_errmsg_arglst (loc, GTEQ)
+end // end of [e1xp_eval_gteq]
+
+(* ****** ****** *)
+
 fn e1xp_eval_asl (
   loc: location, e1: e1xp, e2: e1xp
 ) : v1al = let
@@ -364,23 +433,31 @@ case+ 0 of
   | e1 :: e2 :: nil () => e1xp_eval_div (loc0, e1, e2)
   | _ => e1xp_eval_appid_errmsg_arity (loc0, sym)
   )
+| _ when sym = LT => (
+  case+ es of
+  | e1 :: e2 :: nil () => e1xp_eval_lt (loc0, e1, e2)
+  | _ => e1xp_eval_appid_errmsg_arity (loc0, sym)
+  )
+| _ when sym = LTEQ => (
+  case+ es of
+  | e1 :: e2 :: nil () => e1xp_eval_lteq (loc0, e1, e2)
+  | _ => e1xp_eval_appid_errmsg_arity (loc0, sym)
+  )
+| _ when sym = GT => (
+  case+ es of
+  | e1 :: e2 :: nil () => e1xp_eval_gt (loc0, e1, e2)
+  | _ => e1xp_eval_appid_errmsg_arity (loc0, sym)
+  )
+| _ when sym = GTEQ => (
+  case+ es of
+  | e1 :: e2 :: nil () => e1xp_eval_gteq (loc0, e1, e2)
+  | _ => e1xp_eval_appid_errmsg_arity (loc0, sym)
+  )
 | _ => e1xp_eval_appid_errmsg_opr (loc0, sym)
 //
 end // end of [e1xp_eval_appid]
 
 (*
-  end else if id = $Sym.symbol_LT then begin case+ es of
-    | cons (e1, cons (e2, nil ())) => e1xp_eval_lt (loc, e1, e2)
-    | _ => e1xp_eval_appid_errmsg_arity (loc, id)
-  end else if id = $Sym.symbol_LTEQ then begin case+ es of
-    | cons (e1, cons (e2, nil ())) => e1xp_eval_lte (loc, e1, e2)
-    | _ => e1xp_eval_appid_errmsg_arity (loc, id)
-  end else if id = $Sym.symbol_GT then begin case+ es of
-    | cons (e1, cons (e2, nil ())) => e1xp_eval_gt (loc, e1, e2)
-    | _ => e1xp_eval_appid_errmsg_arity (loc, id)
-  end else if id = $Sym.symbol_GTEQ then begin case+ es of
-    | cons (e1, cons (e2, nil ())) => e1xp_eval_gte (loc, e1, e2)
-    | _ => e1xp_eval_appid_errmsg_arity (loc, id)
   end else if id = $Sym.symbol_EQ then begin case+ es of
     | cons (e1, cons (e2, nil ())) => e1xp_eval_eq (loc, e1, e2)
     | _ => e1xp_eval_appid_errmsg_arity (loc, id)

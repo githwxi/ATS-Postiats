@@ -165,6 +165,29 @@ i1nvresstate_nil =
 
 (* ****** ****** *)
 
+implement
+loopi1nv_make (
+  loc, qua, met, arg, res
+) = '{
+  loopi1nv_loc= loc
+, loopi1nv_qua= qua
+, loopi1nv_met= met
+, loopi1nv_arg= arg
+, loopi1nv_res= res
+} // end of [loopi1nv_make]
+
+implement
+loopi1nv_nil
+  (loc) = let
+  val qua = list_nil ()
+  val met = None ()
+  val arg = list_nil ()
+in
+  loopi1nv_make (loc, qua, met, arg, i1nvresstate_nil)
+end // end of [loopi1nv_nil]
+
+(* ****** ****** *)
+
 implement m1atch_make (loc, d1e, op1t) = '{
   m1atch_loc= loc, m1atch_exp= d1e, m1atch_pat= op1t
 }
@@ -354,6 +377,26 @@ d1exp_seq (loc, d1es) = '{
 (* ****** ****** *)
 
 implement
+d1exp_arrinit
+  (loc, elt, asz, ini) = '{
+  d1exp_loc= loc, d1exp_node= D1Earrinit (elt, asz, ini)
+}
+
+implement
+d1exp_arrsize
+  (loc, elt, ini) = '{
+  d1exp_loc= loc, d1exp_node= D1Earrsize (elt, ini)
+}
+
+implement
+d1exp_arrsub
+  (loc, arr, loc_ind, ind) = '{
+  d1exp_loc= loc, d1exp_node= D1Earrsub (arr, loc_ind, ind)
+}
+
+(* ****** ****** *)
+
+implement
 d1exp_sexparg (loc, s1a) = '{
   d1exp_loc= loc, d1exp_node= D1Esexparg (s1a)
 }
@@ -437,6 +480,13 @@ d1exp_while
   (loc, inv, test, body) = '{
   d1exp_loc= loc, d1exp_node=D1Ewhile (inv, test, body)
 } // end of [d1exp_while]
+
+(* ****** ****** *)
+
+implement
+d1exp_macsyn (loc, knd, d1e) = '{
+  d1exp_loc= loc, d1exp_node= D1Emacsyn (knd, d1e)
+} // end of [d1exp_macsyn]
 
 (* ****** ****** *)
 
@@ -654,6 +704,12 @@ d1ecl_dcstdecs (loc, dck, qarg, ds) = '{
 (* ****** ****** *)
 
 implement
+d1ecl_extype
+  (loc, knd, name, def) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cextype (knd, name, def)
+} // end of [d1ecl_extype]
+
+implement
 d1ecl_extcode
   (loc, knd, pos, code) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cextcode (knd, pos, code)
@@ -697,10 +753,18 @@ d1ecl_include (loc, ds) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cinclude (ds)
 } // end of [d1ecl_include]
 
-implement d1ecl_staload
-  (loc, idopt, fil, loadflag, d1cs) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cstaload (idopt, fil, loadflag, d1cs)
+implement
+d1ecl_staload (
+  loc, idopt, fil, loadflag, d1cs
+) = '{
+  d1ecl_loc= loc
+, d1ecl_node= D1Cstaload (idopt, fil, loadflag, d1cs)
 } // end of [d1ecl_staload]
+
+implement
+d1ecl_dynload (loc, fil) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cdynload (fil)
+} // end of [d1ecl_dynload]
 
 (* ****** ****** *)
 

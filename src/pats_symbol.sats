@@ -53,8 +53,12 @@ val symbol_EQEQ : symbol // ==
 val symbol_FUN: symbol // fun
 //
 val symbol_GT : symbol // >
+val symbol_GTEQ : symbol // >=
 val symbol_LT : symbol // <
+val symbol_LTEQ : symbol // <=
+//
 val symbol_GTLT : symbol // ><
+//
 val symbol_GTGT : symbol // >>
 val symbol_LTLT : symbol // <<
 //

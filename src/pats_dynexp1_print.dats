@@ -99,6 +99,15 @@ case+ d1e0.d1exp_node of
   }
 | D1Eempty () => prstr "D1Eempty()"
 | D1Etop () => prstr "D1Etop()"
+//
+| D1Etmpid (qid, arg) => {
+    val () = prstr "D1Etmpid("
+    val () = fprint_dqi0de (out, qid)
+    val () = prstr "; "
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+//
 | D1Eapp_dyn (
     _fun, _locarg, npf, _arg
   ) => {

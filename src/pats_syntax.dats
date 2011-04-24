@@ -1403,6 +1403,14 @@ in '{
 } end // end of [loophead_make_some]
 
 (* ****** ****** *)
+
+implement
+tryhead_make_none (t_try) = '{
+  tryhead_tok= t_try
+, tryhead_inv= i0nvresstate_make_none (t_try.token_loc)
+} // end of [tryhead_make]
+
+(* ****** ****** *)
 //
 // HX: dynamic expressions
 //
@@ -1410,15 +1418,14 @@ in '{
 
 implement
 d0exp_ide (id) = '{
-  d0exp_loc= id.i0de_loc
-, d0exp_node= D0Eide (id.i0de_sym)
-}
+  d0exp_loc= id.i0de_loc, d0exp_node= D0Eide (id.i0de_sym)
+} // end of [d0exp_ide]
 
 implement
-d0exp_dqid (dq, id) = let
-  val loc = dq.d0ynq_loc + id.i0de_loc
+d0exp_dqid (qid) = let
+  val dq = qid.dqi0de_qua and sym = qid.dqi0de_sym
 in '{
-  d0exp_loc= loc, d0exp_node= D0Edqid (dq, id.i0de_sym)
+  d0exp_loc= qid.dqi0de_loc, d0exp_node= D0Edqid (dq, sym)
 } end // end of [d0exp_dqid]
 
 implement
@@ -1638,44 +1645,6 @@ in '{
 (* ****** ****** *)
 
 implement
-d0exp_forhead (
-  hd, itp, body
-) = let
-  val t_loop = hd.loophead_tok
-  val loc_inv = t_loop.token_loc
-  val loc = loc_inv + body.d0exp_loc
-(*
-  val () = begin
-    $LOC.print_location loc; print ": d0exp_for"; print_newline ()
-  end // end of [val]
-*)
-  val inv = hd.loophead_inv
-in '{
-  d0exp_loc= loc
-, d0exp_node= D0Efor (inv, loc_inv, itp, body)
-} end // end of [d0exp_forhead]
-
-implement
-d0exp_whilehead (
-  hd, test, body
-) = let
-  val t_loop = hd.loophead_tok
-  val loc_inv = t_loop.token_loc
-  val loc = loc_inv + body.d0exp_loc
-(*
-  val () = begin
-    $LOC.print_location loc; print ": d0exp_while"; print_newline ()
-  end // end of [val]
-*)
-  val inv = hd.loophead_inv
-in '{
-  d0exp_loc= loc
-, d0exp_node= D0Ewhile (inv, loc_inv, test, body)
-} end // end of [d0exp_whilehead]
-
-(* ****** ****** *)
-
-implement
 d0exp_lam (
   knd, t_lam, arg, res, eff, body
 ) = let
@@ -1738,9 +1707,11 @@ in '{
 
 implement
 d0exp_arrsub (qid, ind) = let
-  val loc = qid.dqi0de_loc + ind.d0arrind_loc
+  val loc_ind = ind.d0arrind_loc
+  val loc = qid.dqi0de_loc + loc_ind
 in '{
-  d0exp_loc= loc, d0exp_node= D0Earrsub (qid, ind.d0arrind_ind)
+  d0exp_loc= loc
+, d0exp_node= D0Earrsub (qid, loc_ind, ind.d0arrind_ind)
 } end // end of [d0exp_arrsub]
 
 implement
@@ -1843,6 +1814,60 @@ d0exp_exist (
 in '{
   d0exp_loc= loc, d0exp_node= D0Eexist (loc_qua, s0a, d0e)
 } end // end of [d0exp_exist]
+
+(* ****** ****** *)
+
+implement
+d0exp_forhead (
+  hd, itp, body
+) = let
+  val t_loop = hd.loophead_tok
+  val loc_inv = t_loop.token_loc
+  val loc = loc_inv + body.d0exp_loc
+(*
+  val () = begin
+    $LOC.print_location loc; print ": d0exp_for"; print_newline ()
+  end // end of [val]
+*)
+  val inv = hd.loophead_inv
+in '{
+  d0exp_loc= loc
+, d0exp_node= D0Efor (inv, loc_inv, itp, body)
+} end // end of [d0exp_forhead]
+
+implement
+d0exp_whilehead (
+  hd, test, body
+) = let
+  val t_loop = hd.loophead_tok
+  val loc_inv = t_loop.token_loc
+  val loc = loc_inv + body.d0exp_loc
+(*
+  val () = begin
+    $LOC.print_location loc; print ": d0exp_while"; print_newline ()
+  end // end of [val]
+*)
+  val inv = hd.loophead_inv
+in '{
+  d0exp_loc= loc
+, d0exp_node= D0Ewhile (inv, loc_inv, test, body)
+} end // end of [d0exp_whilehead]
+
+(* ****** ****** *)
+
+implement
+d0exp_trywith_seq
+  (hd, d0es, t_with, c0ls) = let
+  val t_try = hd.tryhead_tok
+  val loc = (
+    case+ list_last_opt<c0lau> (c0ls) of
+    | ~Some_vt x => t_try.token_loc + x.c0lau_loc
+    | ~None_vt _ => t_try.token_loc + t_with.token_loc
+  ) : location // end of [val]
+  val d0e = d0exp_seq (t_try, d0es, t_with)
+in '{
+  d0exp_loc= loc, d0exp_node= D0Etrywith (hd, d0e, c0ls)
+} end // end of [d0exp_trywith]
 
 (* ****** ****** *)
 

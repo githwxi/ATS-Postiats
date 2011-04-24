@@ -180,6 +180,13 @@ implement
 p_WHILESTAR (buf, bt, err) =
   ptoken_fun (buf, bt, err, is_WHILESTAR, PE_WHILE)
 
+implement
+is_TRY (x) = case+ x of
+  | T_TRY () => true | _ => false
+implement
+p_TRY (buf, bt, err) =
+  ptoken_fun (buf, bt, err, is_TRY, PE_TRY)
+
 (* ****** ****** *)
 
 implement

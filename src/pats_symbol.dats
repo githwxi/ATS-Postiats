@@ -229,8 +229,12 @@ implement symbol_EQEQ = symbol_make_string "=="
 implement symbol_COLONEQ = symbol_make_string ":="
 //
 implement symbol_GT = symbol_make_string ">"
+implement symbol_GTEQ = symbol_make_string ">="
 implement symbol_LT = symbol_make_string "<"
+implement symbol_LTEQ = symbol_make_string "<="
+//
 implement symbol_GTLT = symbol_make_string "><"
+//
 implement symbol_GTGT = symbol_make_string ">>"
 implement symbol_LTLT = symbol_make_string "<<"
 //

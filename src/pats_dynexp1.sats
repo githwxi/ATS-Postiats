@@ -212,6 +212,8 @@ datatype d1ecl_node =
       (string (* extype name *), s1exp (* extype definition *))
   | D1Cextval of (* external type *)
       (string (* extval name *), d1exp (* extval definition *))
+  | D1Cextype of (* external type *)
+      (int(*knd*), string (*name*), s1exp (*definition*))
   | D1Cextcode of (
       int (*knd: 0/1*), int (*pos: 0/1/2 : top/?/end*), string (*code*)
     ) // end of [D1Cextcode]
@@ -220,11 +222,12 @@ datatype d1ecl_node =
   | D1Cfundecs of (funkind, q1marglst, f1undeclst) // function declaration
   | D1Cvardecs of v1ardeclst (* variable declaration *)
   | D1Cimpdec of (s1arglstlst, i1mpdec) (* implementation *)
+//
   | D1Cinclude of d1eclist (* inclusion *)
-  | D1Cdynload of (* dynloading a file *)
-      filename
   | D1Cstaload of (* staloading a file *)
       (Option symbol, filename, int (*loadflag*), d1eclist)
+  | D1Cdynload of filename (* dynloading a file *)
+//
   | D1Clocal of (d1eclist(*head*), d1eclist(*body*)) // local declaration
 // end of [d1ecl_node]
 
@@ -285,7 +288,7 @@ and d1exp_node =
       d1explst
 //
   | D1Earrsub of (* array subscription *)
-      (d1exp, location(*ind*), d1explstlst)
+      (d1exp, location(*ind*), d1explstlst(*ind*))
   | D1Earrinit of (* array initialization *)
       (s1exp (*eltyp*), d1expopt (*asz*), d1explst (*elt*))
   | D1Earrsize of (* arraysize expression *)
@@ -325,7 +328,7 @@ and d1exp_node =
     ) // end of [D1Efor]
   | D1Ewhile of (loopi1nv, d1exp, d1exp) // while-loop
 //
-  | D1Edynload of filename (* dynamic loading *)
+  | D1Emacsyn of (macsynkind, d1exp) // macro syntax
 //
   | D1Eann_effc of (* ascribed with effects *)
       (d1exp, effcst)
@@ -561,6 +564,20 @@ fun d1exp_seq (loc: location, d1es: d1explst): d1exp
 
 (* ****** ****** *)
 
+fun d1exp_arrsub
+  (loc: location, arr: d1exp, ind: location, ind: d1explstlst): d1exp
+// end of [d1exp_arrsub]
+
+fun d1exp_arrinit (
+  loc: location, elt: s1exp, asz: d1expopt, d1es: d1explst
+) : d1exp // end of [d1exp_arrinit]
+
+fun d1exp_arrsize
+  (loc: location, elt: s1expopt, d1es: d1explst): d1exp
+// end of [d1exp_arrsize]
+
+(* ****** ****** *)
+
 fun d1exp_sexparg (loc: location, s1a: s1exparg): d1exp
 fun d1exp_exist (loc: location, s1a: s1exparg, d1e: d1exp): d1exp
 
@@ -621,6 +638,12 @@ fun d1exp_for (
 fun d1exp_while (
   loc: location, inv: loopi1nv, test: d1exp, body: d1exp
 ) : d1exp // end of [d1exp_while]
+
+(* ****** ****** *)
+
+fun d1exp_macsyn
+  (loc: location, knd: macsynkind, d1e: d1exp): d1exp
+// end of [d1exp_macsyn]
 
 (* ****** ****** *)
 
@@ -762,6 +785,9 @@ fun d1ecl_dcstdecs (
   loc: location, dck: dcstkind, qarg: q1marglst, ds: d1cstdeclst
 ) : d1ecl // end of [d1ec_dcstdecs]
 
+fun d1ecl_extype (
+  loc: location, knd: int, name: string, def: s1exp
+) : d1ecl // end of [d1ecl_extype]
 fun d1ecl_extcode (
   loc: location, knd: int, pos: int, code: string
 ) : d1ecl // end of [d1ecl_extcode]
@@ -784,6 +810,8 @@ fun d1ecl_impdec
   (loc: location, decarg: s1arglstlst, d1c: i1mpdec): d1ecl
 // end of [d1ecl_impdec]
 
+(* ****** ****** *)
+
 fun d1ecl_include (loc: location, ds: d1eclist): d1ecl
 
 fun
@@ -794,6 +822,10 @@ d1ecl_staload (
 , loadflag: int
 , d1cs: d1eclist
 ) : d1ecl // end of [d1ec_staload]
+
+fun d1ecl_dynload (loc: location, fil: filename): d1ecl
+
+(* ****** ****** *)
 
 fun d1ecl_local (loc: location, ds1: d1eclist, ds2: d1eclist): d1ecl
 

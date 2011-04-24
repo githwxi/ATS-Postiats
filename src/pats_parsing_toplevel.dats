@@ -163,6 +163,7 @@ fun p_toplevel_fun (
         | T_EOF () => res := list_vt_nil | _ => loop (buf, res, nerr, f)
       end
     | _ => () where {
+//
         val () = tokbuf_reset (buf)
 //
         val semilst = pstar_fun {token} (buf, 1(*bt*), p_SEMICOLON)

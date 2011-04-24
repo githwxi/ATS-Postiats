@@ -294,6 +294,25 @@ end // end of [i0nvresstate_tr]
 
 (* ****** ****** *)
 
+fn loopi0nv_tr
+  (loc: location, inv: loopi0nv): loopi1nv = let
+  val qua = (
+    case+ inv.loopi0nv_qua of
+    | Some s0qs => s0qualst_tr s0qs | None () => list_nil ()
+  ) : s1qualst
+  val met = (
+    case+ inv.loopi0nv_met of
+    | Some s0es => Some (s0explst_tr s0es)
+    | None () => None ()
+  ) : s1explstopt
+  val arg = i0nvarglst_tr inv.loopi0nv_arg
+  val res = i0nvresstate_tr inv.loopi0nv_res
+in
+  loopi1nv_make (loc, qua, met, arg, res)
+end // end of [loopi0nv_tr]
+
+(* ****** ****** *)
+
 fn m0atch_tr
   (m0at: m0atch): m1atch = let
   val d1e = d0exp_tr m0at.m0atch_exp
@@ -539,6 +558,31 @@ aux_item (
     end // end of [D0Erec]
   | D0Eseq d0es => FXITMatm (d1exp_seq (loc0, d0explst_tr d0es))
 //
+  | D0Earrsub (qid, loc_ind, d0ess) => let
+      val d1e_arr =
+        d1exp_dqid (qid.dqi0de_loc, qid.dqi0de_qua, qid.dqi0de_sym)
+      // end of [val]
+      val d1ess_ind = l2l (list_map_fun (d0ess, d0explst_tr))
+    in
+      FXITMatm (d1exp_arrsub (loc0, d1e_arr, loc_ind, d1ess_ind))
+    end // end of [D0Earrsub]
+  | D0Earrinit (elt, asz, ini) => let
+      val elt = s0exp_tr (elt)
+      val asz = d0expopt_tr (asz)
+      val ini = d0explst_tr (ini)
+    in
+      FXITMatm (d1exp_arrinit (loc0, elt, asz, ini))
+    end // end of [D0Earrinit]
+  | D0Earrsize (elt, d0e_elts) => let
+      val elt = s0expopt_tr (elt)
+      val d1e_elts = d0exp_tr (d0e_elts)
+      val d1es_elts = (case+ d1e_elts.d1exp_node of
+        | D1Elist (_(*npf*), d1es) => d1es | _ => list_sing (d1e_elts)
+      ) : d1explst // end of [val]
+    in
+      FXITMatm (d1exp_arrsize (loc0, elt, d1es_elts))
+    end // end of [D0Earrsize]
+//
   | D0Eraise (d0e) => FXITMatm (d1exp_raise (loc0, d0exp_tr (d0e)))
   | D0Edelay (knd, d0e) => let
       val d1e = d0exp_tr (d0e) in FXITMatm (d1exp_delay (loc0, knd, d1e))
@@ -625,9 +669,52 @@ aux_item (
     in
       FXITMopr (loc0, FXOPRpos (select_prec, f))
     end // end of [D0Esel_lab]
-(*
-  | D0Esel_ind of (int(*knd*), d0explstlst(*ind*))
-*)
+  | D0Esel_ind (knd, ind) => let
+      val ind = l2l (list_map_fun (ind, d0explst_tr))
+      val d1l = d1lab_ind (loc0, ind)
+      fn f (d1e: d1exp):<cloref1> d1expitm =
+        let val loc = d1e.d1exp_loc + loc0 in
+          FXITMatm (d1exp_sel (loc, knd, d1e, d1l))
+        end // end of [let]
+      // end of [f]
+    in
+      FXITMopr (loc0, FXOPRpos (select_prec, f))
+    end // end of [D0Esel_ind]
+//
+  | D0Etrywith (hd, d0e, c0ls) => let
+      val inv = i0nvresstate_tr (hd.tryhead_inv)
+      val d1e = d0exp_tr (d0e)
+      val c1ls = c0laulst_tr (c0ls)
+    in
+      FXITMatm (d1exp_trywith (loc0, inv, d1e, c1ls))
+    end // end of [D0Etrywith]
+//
+  | D0Efor (invopt, loc_inv, itp, body) => let
+      val inv = (case+ invopt of
+        | Some x => loopi0nv_tr (loc_inv, x) | None _ => loopi1nv_nil (loc_inv)
+      ) : loopi1nv // end of [val]
+      val ini = d0exp_tr itp.itp_ini
+      val test = d0exp_tr itp.itp_test
+      val post = d0exp_tr itp.itp_post
+      val body = d0exp_tr body
+    in 
+      FXITMatm (d1exp_for (loc0, inv, ini, test, post, body))
+    end // end of [D0Efor]
+  | D0Ewhile (
+      invopt, loc_inv, test, body
+    ) => let
+      val inv = (case+ invopt of
+        | Some x => loopi0nv_tr (loc_inv, x) | None _ => loopi1nv_nil (loc_inv)
+      ) : loopi1nv // end of [val]
+      val test = d0exp_tr (test)
+      val body = d0exp_tr (body)
+    in
+      FXITMatm (d1exp_while (loc0, inv, test, body))
+    end // end of [D0Ewhile]
+//
+  | D0Emacsyn (knd, d0e) =>
+      FXITMatm (d1exp_macsyn (loc0, knd, d0exp_tr d0e))
+    // end of [D0Emacsyn]
 //
   | D0Eann (d0e, s0e) => let
       val d1e = d0exp_tr d0e
@@ -636,14 +723,14 @@ aux_item (
     in
       FXITMatm (d1e_ann)
     end // end of [D0Eann]
-// (*
+(*
   | _ => let
       val () = (
         print "d0e0 = "; fprint_d0exp (stdout_ref, d0e0); print_newline ()
       ) // end of [val]
       val () = assertloc (false) in $ERR.abort ()
     end
-// *)
+*)
 end (* end of [aux_item] *)
 //
 and aux_itemlst

@@ -1142,8 +1142,7 @@ d0ecl_node =
   | D0Cmacdefs of (int(*knd*), bool(*rec*), m0acdeflst) // macro definitions
 //
   | D0Cextype of (int(*knd*), string, s0exp) // type to be used in C
-  | D0Cextcode of (* external code *)
-      (int(*knd*), int(*pos*), string(*code*))
+  | D0Cextcode of (int(*knd*), int(*pos*), string(*code*)) // external code
 //
   | D0Cvaldecs of // value declarations
       (valkind, bool(*isrec*), v0aldeclst)
@@ -1207,7 +1206,8 @@ and d0exp_node =
   | D0Erec of (int (*knd*), int (*npf*), labd0explst)
   | D0Eseq of d0explst // dynamic sequence-expression
 //
-  | D0Earrsub of (dqi0de, d0explstlst(*ind*))
+  | D0Earrsub of // array subscripting
+      (dqi0de, location(*ind*), d0explstlst(*ind*))
   | D0Earrinit of (* array initilization *)
       (s0exp (*elt*), d0expopt (*asz*), d0explst (*ini*))
   | D0Earrsize of (s0expopt (*elt*), d0exp (*int*)) // arraysize expression
@@ -1226,6 +1226,8 @@ and d0exp_node =
 //
   | D0Elam of (int(*knd*), f0arglst, s0expopt, e0fftaglstopt, d0exp)
   | D0Efix of (int(*knd*), i0de, f0arglst, s0expopt, e0fftaglstopt, d0exp)
+//
+  | D0Etrywith of (tryhead, d0exp, c0laulst) (* try-expression *)
 //
   | D0Efor of (
       loopi0nvopt, location(*inv*), initestpost, d0exp(*body*)
@@ -1412,7 +1414,7 @@ and i0mpdec = '{
 (* ****** ****** *)
 
 fun d0exp_ide (id: i0de): d0exp
-fun d0exp_dqid (dq: d0ynq, id: i0de): d0exp
+fun d0exp_dqid (qid: dqi0de): d0exp
 fun d0exp_opid (_1: token, _2: i0de): d0exp
 
 fun d0exp_i0nt (_: i0nt): d0exp
@@ -1565,6 +1567,14 @@ fun d0exp_fix (
 , d0e: d0exp
 ) : d0exp // end of [d0exp_fix]
 
+(* ****** ****** *)
+
+fun d0exp_trywith_seq (
+  hd: tryhead, d0es: d0explst, t_with: token, c0ls: c0laulst
+) : d0exp // end of [d0exp_trywith_seq]
+
+(* ****** ****** *)
+
 fun d0exp_forhead
   (hd: loophead, itp: initestpost, body: d0exp): d0exp
 // end of [d0exp_forhead]
@@ -1638,7 +1648,7 @@ fun loophead_make_some
   (t_head: token, inv: loopi0nv, t_eqgt: token): loophead
 // end of [loophead_make_some]
 
-fun tryhead_make (t_try: token): tryhead
+fun tryhead_make_none (t_try: token): tryhead
 
 (* ****** ****** *)
 

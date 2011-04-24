@@ -217,6 +217,7 @@ case+ node of
 //
 | PE_FOR () => KN (x, "for")
 | PE_WHILE () => KN (x, "while")
+| PE_TRY () => KN (x, "try")
 //
 | PE_BAR () => KN (x, "|")
 | PE_COLON () => KN (x, ":")

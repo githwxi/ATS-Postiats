@@ -580,6 +580,26 @@ end // end of [s0taload_tr]
 
 (* ****** ****** *)
 
+fn d0ynload_tr (
+  loc0: location, path: string
+) : filename = fil where {
+  val filopt = $FIL.filenameopt_make_relative (path)
+  val fil = (case+ filopt of
+    | ~Some_vt filename => filename
+    | ~None_vt () => let
+        val () = prerr_loc_error1 (loc0)
+        val () = prerr ": the file ["
+        val () = prerr path;
+        val () = prerr "] is not available for dynamic loading"
+        val () = prerr_newline ()
+      in
+        $ERR.abort {filename} ()
+      end // end of [None_vt]
+  ) : filename // end of [val]
+} // end of [d0ynload_tr]
+
+(* ****** ****** *)
+
 fn guad0ecl_tr (
   knd: srpifkind, gd: guad0ecl
 ) : d1eclist = let
@@ -727,6 +747,9 @@ case+ d0c0.d0ecl_node of
     d1ecl_dcstdecs (loc0, dck, qarg, d1cs)
   end // end of [D0Cdcstdecs]
 //
+| D0Cextype (knd, name, def) => let
+    val def = s0exp_tr (def) in d1ecl_extype (loc0, knd, name, def)
+  end
 | D0Cextcode (knd, pos, code) => d1ecl_extcode (loc0, knd, pos, code)
 //
 | D0Cmacdefs (knd, isrec, d0cs) => let
@@ -768,6 +791,9 @@ case+ d0c0.d0ecl_node of
   in
     d1ecl_staload (loc0, idopt, fil, loadflag, d1cs)
   end // end of [D0Cstaload]
+| D0Cdynload (path) => let
+    val fil = d0ynload_tr (loc0, path) in d1ecl_dynload (loc0, fil)
+  end // end of [D0Cdynload]
 //
 | D0Clocal (
     d0cs_head, d0cs_body
@@ -787,6 +813,7 @@ case+ d0c0.d0ecl_node of
     val d1cs = guad0ecl_tr (knd, gd0c) in d1ecl_list (loc0, d1cs)
   end (* end of [D0Cguadecl] *)
 //
+(*
 | _ => let
     val () = $LOC.prerr_location (loc0)
     val () = prerr ": d0ecl_tr: not implemented: d0c0 = "
@@ -796,6 +823,7 @@ case+ d0c0.d0ecl_node of
   in
     d1ecl_none (loc0)
   end // end of [_]
+*)
 //
 end // end of [d0ecl_tr]
 

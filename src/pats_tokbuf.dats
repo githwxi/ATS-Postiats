@@ -192,7 +192,9 @@ else let
     val () = $Q.queue_insert<token> (buf.tbuf, tok)
   } else {
     val m2 = m + m
+(*
     val () = println! ("tokbuf_get_token: m2 = ", m2)
+*)
     val () = $Q.queue_update_capacity<token> (buf.tbuf, m2)
     val () = $Q.queue_insert<token> (buf.tbuf, tok)
   } // end of [if]
