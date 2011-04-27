@@ -95,9 +95,9 @@ in
       prstr "E1XPfloat("; fprint_string (out, f); prstr ")"
     end // end of [E1XPfloat]
 //
-  | E1XPval (v) => begin
-      prstr "E1XPval("; fprint_v1al (out, v); prstr ")"
-    end // end of [E1XPval]
+  | E1XPv1al (v) => begin
+      prstr "E1XPv1al("; fprint_v1al (out, v); prstr ")"
+    end // end of [E1XPv1al]
 //
   | E1XPnone () => begin
       fprint_string (out, "E1XPnone()")

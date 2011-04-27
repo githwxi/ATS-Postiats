@@ -67,13 +67,13 @@ fun fprint_valerr : fprint_type (valerr)
 fun the_valerrlst_add (x: valerr): void
 fun fprint_the_valerrlst (out: FILEref): void
 
-(* ****** ****** *)
-
 fun e1xp_valize (e: e1xp): v1al
 fun e1xp_valize_if (knd: srpifkind, e: e1xp): v1al
+
+(* ****** ****** *)
+
 fun e1xp_normalize (e: e1xp): e1xp
 
 (* ****** ****** *)
 
 (* end of [pats_e1xpval.sats] *)
-

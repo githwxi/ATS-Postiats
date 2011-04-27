@@ -660,7 +660,9 @@ case+ d0c0.d0ecl_node of
     ) : e1xp // end of [val]
     val () = the_e1xpenv_add (id, def)
   in
-    d1ecl_e1xpdef (loc0, id, def)
+//
+// HX-2011-04-27: [def] should not be normalized
+    d1ecl_e1xpdef (loc0, id, def) // as dynamic-binding is assumed.
   end // end of [D0Ce0xpdef]
 | D0Ce0xpundef (id) => let
     val def = e1xp_undef (loc0)

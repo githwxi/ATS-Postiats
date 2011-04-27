@@ -49,14 +49,9 @@ staload "pats_staexp1.sats"
 (* ****** ****** *)
 
 implement
-e1xp_char (loc, c) = '{
-  e1xp_loc= loc, e1xp_node= E1XPchar c
-} // end of [e1xp_char]
-
-implement
-e1xp_float (loc, f) = '{
-  e1xp_loc= loc, e1xp_node= E1XPfloat (f: string)
-} // end of [e1xp_float]
+e1xp_make (loc, node) = '{
+  e1xp_loc= loc, e1xp_node= node
+} // end of [e1xp_make]
 
 implement
 e1xp_ide (loc, id) = '{
@@ -69,9 +64,24 @@ e1xp_int (loc, int) = '{
 } // end of [e1xp_int]
 
 implement
+e1xp_char (loc, c) = '{
+  e1xp_loc= loc, e1xp_node= E1XPchar c
+} // end of [e1xp_char]
+
+implement
 e1xp_string (loc, str) = '{
   e1xp_loc= loc, e1xp_node= E1XPstring (str)
 } // end of [e1xp_string]
+
+implement
+e1xp_float (loc, f) = '{
+  e1xp_loc= loc, e1xp_node= E1XPfloat (f: string)
+} // end of [e1xp_float]
+
+implement
+e1xp_v1al (loc, v) = '{
+  e1xp_loc= loc, e1xp_node= E1XPv1al (v)
+}
 
 implement
 e1xp_none (loc) = '{
@@ -98,7 +108,7 @@ e1xp_fun (loc, arg, body) = '{
 implement
 e1xp_eval (loc, e) = '{
   e1xp_loc= loc, e1xp_node= E1XPeval (e)
-}
+} // end of [e1xp_eval]
 
 implement
 e1xp_list (loc, es) = '{

@@ -110,6 +110,9 @@ SOURCES := \
   pats_trans1.sats \
   pats_trans1_env.sats \
   pats_trans1_env.dats \
+  pats_e1xpval.sats \
+  pats_e1xpval.dats \
+  pats_e1xpval_error.dats \
   pats_trans1_e0xp.dats \
   pats_trans1_effect.dats \
   pats_trans1_sort.dats \

@@ -93,7 +93,7 @@ datatype e1xp_node =
   | E1XPint of string
   | E1XPstring of (string)
 //
-  | E1XPval of v1al
+  | E1XPv1al of v1al
 //
   | E1XPnone of () // defintion is not given
   | E1XPundef of () // a special value for marking un-definition
@@ -129,6 +129,10 @@ overload prerr with prerr_e1xplst
 
 (* ****** ****** *)
 //
+fun e1xp_make
+  (loc: location, node: e1xp_node): e1xp
+// end of [e1xp_make]
+//
 fun e1xp_ide (loc: location, sym: symbol): e1xp
 //
 fun e1xp_int (loc: location, int: string): e1xp
@@ -145,6 +149,7 @@ fun e1xp_app (
   loc: location
 , _fun: e1xp, loc_arg: location, _arg: e1xplst
 ) : e1xp // end of [e1xp_app]
+//
 fun e1xp_fun
   (loc: location, arg: symbolist, body: e1xp): e1xp
 // end of [e1xp_fun]
