@@ -54,6 +54,7 @@ staload "pats_dynexp1.sats"
 
 staload "pats_trans1.sats"
 staload "pats_trans1_env.sats"
+staload "pats_e1xpval.sats"
 
 (* ****** ****** *)
 
@@ -524,7 +525,7 @@ fn s0taload_tr_load (
   val () = (case+
     the_e1xpenv_find ($SYM.symbol_ATS_STALOADFLAG) of
     | ~Some_vt e1xp => let
-        val v1al = e1xp_eval (e1xp) in if v1al_is_false v1al then loadflag := 0
+        val v1al = e1xp_valize (e1xp) in if v1al_is_false v1al then loadflag := 0
       end // end of [Some_vt]
     | ~None_vt () => () // the default value
   ) : void // end of [val]
@@ -608,13 +609,13 @@ fn guad0ecl_tr (
   ) : d1eclist =
     case+ gdn of
     | GD0Cone (e0xp, d0cs) => let
-        val v1al = e1xp_eval_if (knd, e0xp_tr e0xp) in
+        val v1al = e1xp_valize_if (knd, e0xp_tr e0xp) in
         if v1al_is_true (v1al) then d0eclist_tr d0cs else list_nil ()
       end // end of [GD0Cone]
     | GD0Ctwo (
         e0xp, d0cs_then, d0cs_else
       ) => let
-        val v1al = e1xp_eval_if (knd, e0xp_tr e0xp)
+        val v1al = e1xp_valize_if (knd, e0xp_tr e0xp)
       in
         if v1al_is_true v1al then
           d0eclist_tr d0cs_then else d0eclist_tr d0cs_else
@@ -623,7 +624,7 @@ fn guad0ecl_tr (
     | GD0Ccons (
         e0xp, d0cs_then, knd_elif, gdn_else
       ) => let
-        val v1al = e1xp_eval_if (knd, e0xp_tr e0xp)
+        val v1al = e1xp_valize_if (knd, e0xp_tr e0xp)
       in
         if v1al_is_true v1al then
           d0eclist_tr d0cs_then else loop (knd_elif, gdn_else)
@@ -668,19 +669,18 @@ case+ d0c0.d0ecl_node of
     d1ecl_e1xpundef (loc0, id)
   end // end of [D0Ce0xpundef]
 //
-| D0Ce0xpact (actkind, e0xp) => let
-    val e1xp = e0xp_tr e0xp
+| D0Ce0xpact (knd, e0xp) => let
+    val e1xp = e0xp_tr (e0xp)
 (*
     val () = begin
       print "d0ec_tr: D0Ce0xpact: e1xp = "; print e1xp; print_newline ()
     end // end of [val]
 *)
-    val v1al = e1xp_eval e1xp
-    val () = (case+ actkind of
+    val v1al = e1xp_valize (e1xp)
+    val () = (case+ knd of
       | E0XPACTassert () =>
           do_e0xpact_assert (e0xp.e0xp_loc, v1al)
-      | E0XPACTerror () =>
-          do_e0xpact_error (e0xp.e0xp_loc, v1al)
+      | E0XPACTerror () => do_e0xpact_error (e0xp.e0xp_loc, v1al)
       | E0XPACTprint () => do_e0xpact_prerr v1al
     ) : void // end of [val]
   in

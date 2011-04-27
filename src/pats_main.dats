@@ -117,6 +117,8 @@ dynload "pats_dynexp1_print.dats"
 dynload "pats_dynexp1_syndef.dats"
 //
 dynload "pats_trans1_env.dats"
+dynload "pats_e1xpval.dats"
+dynload "pats_e1xpval_error.dats"
 dynload "pats_trans1_e0xp.dats"
 dynload "pats_trans1_effect.dats"
 dynload "pats_trans1_sort.dats"
@@ -127,6 +129,25 @@ dynload "pats_trans1_decl.dats"
 //
 dynload "pats_comarg.dats"
 //
+(* ****** ****** *)
+//
+#define PATS_MAJOR_VERSION 1
+#define PATS_MINOR_VERSION 0
+#define PATS_MICRO_VERSION 0
+#define PATS_fVERSION (x, y, z) (1000 * (1000 * x + y) + z)
+#define PATS_VERSION
+  PATS_fVERSION (PATS_MAJOR_VERSION, PATS_MINOR_VERSION, PATS_MICRO_VERSION)
+// end of [PATS_VERSION]
+
+//
+fn atsopt_version
+  (out: FILEref): void = {
+  val () = fprintf (out
+, "ATS/Postiats version %i.%i.%i with Copyright (c) 2011-20?? Hongwei Xi\n"
+, @(PATS_MAJOR_VERSION, PATS_MINOR_VERSION, PATS_MICRO_VERSION)
+  ) // end of [fprintf]
+} // end of [atsopt_version]
+
 (* ****** ****** *)
 
 fn is_DATS_flag
@@ -469,6 +490,7 @@ case+ arg of
             // nothing
           end // end of [if]
         end
+      | "-v" => atsopt_version (stdout_ref)
       | _ => comarg_warning (str)
     ) : void // end of [val]
   in
@@ -480,6 +502,7 @@ case+ arg of
       | "--static" => state.waitkind := WAITKINDinput_sta
       | "--dynamic" => state.waitkind := WAITKINDinput_dyn
       | "--output" => state.waitkind := WAITKINDoutput ()
+      | "--version" => atsopt_version (stdout_ref)
       | _ => comarg_warning (str)
     ) : void // end of [val]
   in

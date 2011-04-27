@@ -148,11 +148,12 @@ p_atme0xp (
 (* ****** ****** *)
 
 (*
-e0xp ::= {atme0xp}+
+e0xp0 ::= {atme0xp}+
 *)
-
-implement
-p_e0xp (buf, bt, err) = let
+fun
+p_e0xp0 (
+  buf: &tokbuf, bt: int, err: &int
+) : e0xp = let
   val xs = pstar1_fun (buf, bt, err, p_atme0xp)
   fun loop (
     x0: e0xp, xs1: List_vt (e0xp)
@@ -169,6 +170,50 @@ case+ xs of
 | ~list_vt_cons (x, xs) => loop (x, xs)
 | ~list_vt_nil () => synent_null () // HX: [err] changed
 //
+end // end of [p_e0xp0]
+
+(* ****** ****** *)
+
+(*
+e0xp ::= e0xp0 [e0xp] | IF e0xp0 THEN e0xp [ELSE e0xp]
+*)
+implement
+p_e0xp (buf, bt, err) = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  var ent: synent?
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| _ when
+    ptest_fun (
+    buf, p_e0xp0, ent
+  ) => let
+    val ent1 = synent_decode {e0xp} (ent)
+    val ent2 = p_e0xp (buf, 0(*bt*), err) // HX: optional
+  in
+    if err = err0 then
+      e0xp_app (ent1, ent2) else (err := err0; ent1)
+    // end of [if]
+  end
+| T_IF () => let
+    val () = incby1 ()
+    val ent2 = p_e0xp0 (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_THEN, err0)
+    val ent4 = pif_fun (buf, bt, err, p_e0xp, err0)
+    val ent5 = ptokentopt_fun {e0xp} (buf, is_ELSE, p_e0xp)
+  in
+    if err = err0 then
+      e0xp_if (tok, ent2, ent4, (t2t)ent5)
+    else let
+      val () = option_vt_free (ent5) in tokbuf_set_ntok_null (buf, n0)
+    end (* end of [if] *)
+  end // end of [T_IF]
+| _ => let
+    val () = err := err + 1 in synent_null ()
+  end (* end of [_] *)
 end // end of [p_e0xp]
 
 (* ****** ****** *)

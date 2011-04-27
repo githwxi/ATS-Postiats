@@ -31,6 +31,8 @@
 
 abstype symbol_type // boxed
 typedef symbol = symbol_type
+typedef symbolist = List (symbol)
+typedef symbolopt = Option (symbol)
 
 (* ****** ****** *)
 
@@ -48,14 +50,17 @@ val symbol_AMPERSAND : symbol // &
 val symbol_BACKSLASH : symbol // \
 val symbol_BANG : symbol // !
 val symbol_COLONEQ : symbol // :=
-val symbol_EQ : symbol // =
-val symbol_EQEQ : symbol // ==
 val symbol_FUN: symbol // fun
 //
 val symbol_GT : symbol // >
 val symbol_GTEQ : symbol // >=
 val symbol_LT : symbol // <
 val symbol_LTEQ : symbol // <=
+//
+val symbol_EQ : symbol // =
+val symbol_EQEQ : symbol // =
+val symbol_LTGT : symbol // <>
+val symbol_BANGEQ : symbol // <>
 //
 val symbol_GTLT : symbol // ><
 //
@@ -67,8 +72,6 @@ val symbol_LOR : symbol // ||
 val symbol_LRBRACKETS : symbol // []
 val symbol_MINUSGT : symbol // ->
 val symbol_MINUSLTGT : symbol // -<>
-val symbol_NEQ : symbol // <>
-val symbol_NEQEQ : symbol // =/=
 val symbol_QMARK : symbol // ?
 val symbol_QMARKBANG : symbol // ?!
 val symbol_TILDE : symbol // ~

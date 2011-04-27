@@ -49,13 +49,6 @@ staload "pats_staexp1.sats"
 (* ****** ****** *)
 
 implement
-e1xp_app (
-  loc, e_fun, loc_arg, es_arg
-) = '{
-  e1xp_loc= loc, e1xp_node= E1XPapp (e_fun, loc_arg, es_arg)
-} // end of [e1xp_app]
-
-implement
 e1xp_char (loc, c) = '{
   e1xp_loc= loc, e1xp_node= E1XPchar c
 } // end of [e1xp_char]
@@ -76,9 +69,9 @@ e1xp_int (loc, int) = '{
 } // end of [e1xp_int]
 
 implement
-e1xp_list (loc, es) = '{
-  e1xp_loc= loc, e1xp_node= E1XPlist (es: e1xplst)
-} // end of [e1xp_list]
+e1xp_string (loc, str) = '{
+  e1xp_loc= loc, e1xp_node= E1XPstring (str)
+} // end of [e1xp_string]
 
 implement
 e1xp_none (loc) = '{
@@ -86,14 +79,38 @@ e1xp_none (loc) = '{
 } // end of [e1xp_none]
 
 implement
-e1xp_string (loc, str) = '{
-  e1xp_loc= loc, e1xp_node= E1XPstring (str)
-} // end of [e1xp_string]
-
-implement
 e1xp_undef (loc) = '{
   e1xp_loc= loc, e1xp_node= E1XPundef ()
 } // end of [e1xp_undef]
+
+implement
+e1xp_app (
+  loc, e_fun, loc_arg, es_arg
+) = '{
+  e1xp_loc= loc, e1xp_node= E1XPapp (e_fun, loc_arg, es_arg)
+} // end of [e1xp_app]
+
+implement
+e1xp_fun (loc, arg, body) = '{
+  e1xp_loc= loc, e1xp_node= E1XPfun (arg, body)
+} // end of [e1xp_fun]
+
+implement
+e1xp_eval (loc, e) = '{
+  e1xp_loc= loc, e1xp_node= E1XPeval (e)
+}
+
+implement
+e1xp_list (loc, es) = '{
+  e1xp_loc= loc, e1xp_node= E1XPlist (es: e1xplst)
+} // end of [e1xp_list]
+
+implement
+e1xp_if (
+  loc, _cond, _then, _else
+) = '{
+  e1xp_loc= loc, e1xp_node= E1XPif (_cond, _then, _else)
+} // end of [e1xp_if]
 
 (* ****** ****** *)
 

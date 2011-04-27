@@ -662,6 +662,7 @@ fun print_d1exp (x: d1exp): void
 and prerr_d1exp (x: d1exp): void
 
 fun fprint_d1explst : fprint_type (d1explst)
+fun fprint_d1expopt : fprint_type (d1expopt)
 
 (* ****** ****** *)
 

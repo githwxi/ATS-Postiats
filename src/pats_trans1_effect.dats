@@ -95,7 +95,7 @@ fn loop_err (
 } // end of [loop_err]
 
 fun loop (
-    ofc: &funcloopt
+    fcopt: &funcloopt
   , lin: &int
   , prf: &int
   , efs: &effset
@@ -164,7 +164,7 @@ fun loop (
 //
       | E0FFTAGfun (uln, i(*nil/all*)) => let
           val () = if (uln >= 0) then lin := uln
-          val () = ofc := Some (FUNCLOfun ())
+          val () = fcopt := Some (FUNCLOfun ())
         in
           if i > 0 then (efs := effset_all; evs := effvars_nil)
         end // end of [E0FFTAGfun]
@@ -172,13 +172,13 @@ fun loop (
       | E0FFTAGclo (uln, knd, i) => let
           // knd : 1/~1:ptr/ref; i : nil/all
           val () = if (uln >= 0) then lin := uln
-          val () = ofc := Some (FUNCLOclo (knd))
+          val () = fcopt := Some (FUNCLOclo (knd))
         in
           if i > 0 then (efs := effset_all; evs := effvars_nil)
         end // end of [E0FFTAGclo]
 //
     in
-      loop (ofc, lin, prf, efs, evs, tags)
+      loop (fcopt, lin, prf, efs, evs, tags)
     end // end of [let] // end of [list_cons]
   | list_nil () => () // end of [list_nil]
 end // end of [loop]
@@ -187,10 +187,10 @@ in // in of [local]
 
 implement
 e0fftaglst_tr (tags) = let
-  var ofc: funcloopt = None()
+  var fcopt: funcloopt = None()
   var lin: int = 0 and prf: int = 0
   var efs: effset = effset_nil and evs: effvarlst = effvars_nil
-  val () = loop (ofc, lin, prf, efs, evs, tags)
+  val () = loop (fcopt, lin, prf, efs, evs, tags)
   val efc = (case+ 0 of
     | _ when eq_effset_effset (efs, effset_all) => EFFCSTall ()
     | _ when eq_effset_effset (efs, effset_nil) => begin
@@ -199,7 +199,7 @@ e0fftaglst_tr (tags) = let
     | _ => EFFCSTset (efs, evs)
   ) : effcst // end of [val]
 in
-  @(ofc, lin, prf, efc)
+  @(fcopt, lin, prf, efc)
 end // end of [e0fftaglst_tr]
 
 end // end of [local]

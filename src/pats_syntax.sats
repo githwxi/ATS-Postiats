@@ -49,7 +49,8 @@ staload LEX = "pats_lexing.sats"
 typedef token = $LEX.token
 staload SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
-typedef symbolopt = Option (symbol)
+typedef symbolist = $SYM.symbolist
+typedef symbolopt = $SYM.symbolopt
 
 (* ****** ****** *)
 
@@ -311,9 +312,15 @@ e0xp_node =
   | E0XPfloat of f0loat
   | E0XPstring of s0tring
   | E0XPstringid of string
+//
   | E0XPapp of (e0xp, e0xp)
+  | E0XPfun of (symbolist, e0xp)
+//
   | E0XPeval of e0xp
   | E0XPlist of e0xplst
+//
+  | E0XPif of (e0xp, e0xp, e0xpopt)
+//
 // end of [e0xp_node]
 
 where
@@ -334,9 +341,14 @@ fun e0xp_list (_1: token, _2: e0xplst, _3: token): e0xp
 fun e0xp_app (_1: e0xp, _2: e0xp): e0xp
 fun e0xp_eval (_1: token, _2: e0xp, _3: token): e0xp
 //
+fun e0xp_if (
+  t_if: token, _cond: e0xp, _then: e0xp, _else: e0xpopt
+) : e0xp // end of [e0xp_if]
+//
 fun e0xp_make_stringid (loc: location, id: string): e0xp
 //
 fun fprint_e0xp : fprint_type (e0xp)
+fun fprint_e0xplst : fprint_type (e0xplst)
 
 (* ****** ****** *)
 
@@ -1648,7 +1660,9 @@ fun loophead_make_some
   (t_head: token, inv: loopi0nv, t_eqgt: token): loophead
 // end of [loophead_make_some]
 
-fun tryhead_make_none (t_try: token): tryhead
+fun tryhead_make
+  (t_try: token, invopt: Option (i0nvresstate)): tryhead
+// end of [tryhead_make]
 
 (* ****** ****** *)
 

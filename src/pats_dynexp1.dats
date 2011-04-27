@@ -464,9 +464,10 @@ d1exp_sel (loc, knd, d1e, d1l) = '{
 (* ****** ****** *)
 
 implement
-d1exp_trywith (loc, inv, d1e, c1las) = '{
+d1exp_trywith
+  (loc, inv, d1e, c1las) = '{
   d1exp_loc= loc, d1exp_node= D1Etrywith (inv, d1e, c1las)
-}
+} // end of [d1exp_trywith]
 
 implement
 d1exp_for (
@@ -500,10 +501,10 @@ d1exp_ann_funclo (loc, d1e, fc) = '{
   d1exp_loc= loc, d1exp_node= D1Eann_funclo (d1e, fc)
 }
 implement
-d1exp_ann_funclo_opt (loc, d1e, fc) = begin
-  case+ d1e.d1exp_node of
+d1exp_ann_funclo_opt
+  (loc, d1e, fc) = case+ d1e.d1exp_node of
   | D1Eann_funclo _ => d1e | _ => d1exp_ann_funclo (loc, d1e, fc)
-end // end of [d1exp_ann_funclo_opt]
+// end of [d1exp_ann_funclo_opt]
 
 implement
 d1exp_ann_type (loc, d1e, s1e) = '{

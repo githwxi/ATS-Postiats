@@ -34,39 +34,84 @@
 //
 (* ****** ****** *)
 
+staload FIL = "pats_filename.sats"
+typedef filename = $FIL.filename
+staload LOC = "pats_location.sats"
+typedef location = $LOC.location
+staload SYM = "pats_symbol.sats"
+typedef symbol = $SYM.symbol
+typedef symbolist = $SYM.symbolist
+typedef symbolopt = $SYM.symbolopt
+
+(* ****** ****** *)
+
 staload "pats_basics.sats"
+(*
+staload EFF = "pats_effect.sats"
+typedef effect = $EFF.effect
+typedef effset = $EFF.effset
+*)
 staload "pats_effect.sats"
+(*
+staload SYN = "pats_syntax.sats"
+typedef i0de = $SYN.i0de
+typedef i0delst = $SYN.i0delst
+typedef i0nt = $SYN.i0nt
+typedef c0har = $SYN.c0har
+typedef s0rtq = $SYN.s0rtq
+typedef s0taq = $SYN.s0taq
+typedef sqi0de = $SYN.sqi0de
+typedef l0ab = $SYN.l0ab
+typedef l0abeled (a:type) = $SYN.l0abeled (a)
+typedef dcstextdef = $SYN.dcstextdef
+*)
 staload "pats_syntax.sats"
 
 (* ****** ****** *)
 
 datatype v1al =
-  | V1ALchar of char
-  | V1ALfloat of double
   | V1ALint of int
+  | V1ALchar of char
   | V1ALstring of string
+  | V1ALfloat of double
+  | V1ALerr of () // HX: indicating of an error
 // end of [v1al]
 
+typedef v1alist = List (v1al)
+
 val v1al_true : v1al and v1al_false : v1al
+
+fun fprint_v1al : fprint_type (v1al)
 
 (* ****** ****** *)
 
 datatype e1xp_node =
-  | E1XPapp of (e1xp, location(*arg*), e1xplst)
+  | E1XPide of symbol
+//
   | E1XPchar of char
   | E1XPfloat of string
-  | E1XPide of symbol
   | E1XPint of string
-  | E1XPlist of e1xplst
-  | E1XPnone of ()
   | E1XPstring of (string)
+//
+  | E1XPval of v1al
+//
+  | E1XPnone of () // defintion is not given
   | E1XPundef of () // a special value for marking un-definition
+//
+  | E1XPapp of (e1xp, location(*arg*), e1xplst)
+  | E1XPfun of (symbolist, e1xp)
+//
+  | E1XPeval of e1xp
+  | E1XPlist of e1xplst
+//
+  | E1XPif of (e1xp, e1xp, e1xp)
+//
 // end of [e1xp_node]
 
 where e1xp: type = '{
   e1xp_loc= location, e1xp_node= e1xp_node
 }
-and e1xplst: type = List e1xp
+and e1xplst: type = List (e1xp)
 
 fun fprint_e1xp : fprint_type (e1xp)
 overload fprint with fprint_e1xp
@@ -91,14 +136,25 @@ fun e1xp_char (loc: location, _: char): e1xp
 fun e1xp_float (loc: location, flt: string): e1xp
 fun e1xp_string (loc: location, str: string): e1xp
 //
+fun e1xp_v1al (loc: location, v: v1al): e1xp
+//
+fun e1xp_none (loc: location): e1xp
+fun e1xp_undef (loc: location): e1xp
+//
 fun e1xp_app (
   loc: location
 , _fun: e1xp, loc_arg: location, _arg: e1xplst
 ) : e1xp // end of [e1xp_app]
+fun e1xp_fun
+  (loc: location, arg: symbolist, body: e1xp): e1xp
+// end of [e1xp_fun]
+//
+fun e1xp_eval (loc: location, e: e1xp): e1xp
 fun e1xp_list (loc: location, es: e1xplst): e1xp
 //
-fun e1xp_none (loc: location): e1xp
-fun e1xp_undef (loc: location): e1xp
+fun e1xp_if (
+  loc: location, _cond: e1xp, _then: e1xp, _else: e1xp
+) : e1xp // end of [e1xp_if]
 //
 fun e1xp_true (loc: location): e1xp
 and e1xp_false (loc: location): e1xp

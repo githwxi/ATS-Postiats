@@ -60,8 +60,7 @@ parerr_make (loc, node) = '{
 
 (* ****** ****** *)
 
-viewtypedef
-parerrlst_vt = List_vt (parerr)
+viewtypedef parerrlst_vt = List_vt (parerr)
 
 (* ****** ****** *)
 //
@@ -366,19 +365,21 @@ fprint_the_parerrlst
     | ~list_vt_nil () => nerr
   // end of [loop]
 in
-  case+ xs of
-  | list_vt_cons _ => let
-      prval () = fold@ (xs)
-      val nerr = loop (out, xs, nerr, ~1l, ~1l)
-      val () = if nerr > 0 then {
-        val () = fprint_string
-          (out, "There are possibly some additional errors.")
-        val () = fprint_newline (out)
-      } // end of [if]
-    in
-      // nothing
-    end // end of [list_vt_cons]
-  | ~list_vt_nil () => ()
+//
+case+ xs of
+| list_vt_cons _ => let
+    prval () = fold@ (xs)
+    val nerr = loop (out, xs, nerr, ~1l, ~1l)
+    val () = if nerr > 0 then {
+      val () = fprint_string
+        (out, "There are possibly some additional errors.")
+      val () = fprint_newline (out)
+    } // end of [if]
+  in
+    // nothing
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => ()
+//
 end // end of [fprint_the_parerrlst]
 
 (* ****** ****** *)

@@ -1014,7 +1014,6 @@ end // end of [p_argd0exp]
 (*
 d0exp0 ::= atmd0exp argd0expseq [COLON s0exp]
 *)
-           
 fun p_d0exp0 (
   buf: &tokbuf, bt: int, err: &int
 ) : d0exp = let
@@ -1263,6 +1262,9 @@ end // end of [p_funarrow]
 
 (* ****** ****** *)
 
+(*
+pstar_where for { where LBRACE d0eclseq_dyn RBRACE }*
+*)
 fun pstar_where (
   d0e: d0exp, buf: &tokbuf, bt: int, err: &int
 ) : d0exp = let
@@ -1399,7 +1401,7 @@ in
   if err = err0 then
     loophead_make_some (ent1, ent2, ent3)
   else tokbuf_set_ntok_null (buf, n0)
-end // end of [p_tryhead]
+end // end of [p_forhead]
 
 (*
 whilehead ::= WHILESTAR loopi0nv EQGT // [while] is external id
@@ -1423,19 +1425,17 @@ end // end of [p_whilehead]
 (* ****** ****** *)
 
 (*
-tryhead ::= TRY
+tryhead ::= TRY [i0nvresstate EQGT]
 *)
 fun
 p_tryhead (
   buf: &tokbuf, bt: int, err: &int
 ) : tryhead = let
   val err0 = err
-  val n0 = tokbuf_get_ntok (buf)
-  val ent1 = p_TRY (buf, bt, err)
+  var tok: token
+  val res = ptokhead_fun (buf, bt, err, is_TRY, tok)
 in
-  if err = err0 then
-    tryhead_make_none (ent1) else tokbuf_set_ntok_null (buf, n0)
-  // end of [if]
+  if err = err0 then tryhead_make (tok, res) else synent_null ()
 end // end of [p_tryhead]
 
 (* ****** ****** *)

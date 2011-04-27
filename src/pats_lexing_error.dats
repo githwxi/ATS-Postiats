@@ -56,8 +56,7 @@ lexerr_make (loc, node) = '{
 
 (* ****** ****** *)
 
-viewtypedef
-lexerrlst_vt = List_vt (lexerr)
+viewtypedef lexerrlst_vt = List_vt (lexerr)
 
 (* ****** ****** *)
 //
@@ -127,78 +126,67 @@ implement
 fprint_lexerr
   (out, x) = let
   val loc = x.lexerr_loc
+  val () = fprint (out, loc)
 in
 //
 case+ x.lexerr_node of
 | LE_CHAR_oct () => () where {
-    val () = fprint (out, loc)
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the char format (oct) is incorrect.", @())
     val () = fprint_newline (out)
   }
 | LE_CHAR_hex () => () where {
-    val () = fprint (out, loc)
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the char format (hex) is incorrect.", @())
     val () = fprint_newline (out)
   }
 | LE_CHAR_unclose () => () where {
-    val () = fprint (out, loc)
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the char consant is unclosed.", @())
     val () = fprint_newline (out)
   }
 | LE_STRING_char_oct () => () where {
-    val () = fprint (out, loc)
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the string-char format (oct) is incorrect.", @())
     val () = fprint_newline (out)
   }
 | LE_STRING_char_hex () => () where {
-    val () = fprint (out, loc)
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the string-char format (hex) is incorrect.", @())
     val () = fprint_newline (out)
   }
 | LE_STRING_unclose () => () where {
-    val () = fprint (out, loc)
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the string constant is unclosed.", @())
     val () = fprint_newline (out)
   }
 | LE_COMMENT_block_unclose () => () where {
-    val () = fprint (out, loc)
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the comment block is unclosed.", @())
     val () = fprint_newline (out)
   }
 | LE_EXTCODE_unclose () => () where {
-    val () = fprint (out, loc)
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the external code block is unclosed.", @())
     val () = fprint_newline (out)
   }
 | LE_QUOTE_dangling () => () where {
-    val () = fprint (out, loc)
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the quote symbol (') is dangling.", @())
     val () = fprint_newline (out)
   }
 | LE_FEXPONENT_empty () => () where {
-    val () = fprint (out, loc)
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": the floating exponent is empty.", @())
     val () = fprint_newline (out)
   }
 | LE_UNSUPPORTED (c) => () where {
-    val () = fprint (out, loc)
     val () = fprintf (out, ": error(lexing)", @())
     val () = fprintf (out, ": unsupported char: %c", @(c))
     val () = fprint_newline (out)
   }
 (*
 | _ => () where {
-    val () = fprint (out, loc)
     val () = fprintf (out, ": error(lexing): unspecified", @())
     val () = fprint_newline (out)
   }
@@ -223,19 +211,21 @@ fprint_the_lexerrlst
     | ~list_vt_nil () => n
   // end of [loop]
 in
-  case+ xs of
-  | list_vt_cons _ => let
-      prval () = fold@ (xs)
-      val n = loop (out, xs, n)
-      val () = if n > 0 then {
-        val () = fprint_string
-          (out, "There are possibly some additional errors.")
-        val () = fprint_newline (out)
-      } // end of [if]
-    in
-      // nothing
-    end // end of [list_vt_cons]
-  | ~list_vt_nil () => ()
+//
+case+ xs of
+| list_vt_cons _ => let
+    prval () = fold@ (xs)
+    val n = loop (out, xs, n)
+    val () = if n > 0 then {
+      val () = fprint_string
+        (out, "There are possibly some additional errors.")
+      val () = fprint_newline (out)
+    } // end of [if]
+  in
+    // nothing
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => ()
+//
 end // end of [fprint_the_lexerrlst]
 
 (* ****** ****** *)

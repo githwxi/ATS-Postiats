@@ -672,9 +672,6 @@ end // end of [p_exts0exp]
 
 (*
 s0exp0 ::= apps0exp | exts0exp
-s0exp ::=
-  | s0exp0 [COLON s0rt]
-  | LAM s0margseq colons0rtopt EQGT s0exp // COLON > LAM
 *)
 
 fun
@@ -700,6 +697,12 @@ case+ 0 of
 end // end of [p_s0exp0]
 
 (* ****** ****** *)
+
+(*
+s0exp ::=
+  | s0exp0 [COLON s0rt]
+  | LAM s0margseq colons0rtopt EQGT s0exp // COLON > LAM
+*)
 
 fun s0exp_annopt
   (ent1: s0exp, ent2: s0rtopt): s0exp =

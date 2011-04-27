@@ -49,10 +49,67 @@ macdef fprint_symbol = $SYM.fprint_symbol
 (* ****** ****** *)
 
 implement
+fprint_v1al (out, v0) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+  case+ v0 of
+  | V1ALint (x) => {
+      val () = prstr "V1ALint("
+      val () = fprint_int (out, x)
+      val () = prstr ")"
+    }
+  | V1ALchar (x) => {
+      val () = prstr "V1ALchar("
+      val () = fprint_char (out, x)
+      val () = prstr ")"
+    }
+  | V1ALstring (x) => {
+      val () = prstr "V1ALstring("
+      val () = fprint_string (out, x)
+      val () = prstr ")"
+    }  
+  | V1ALfloat (x) => {
+      val () = prstr "V1ALdouble("
+      val () = fprint_double (out, x)
+      val () = prstr ")"
+    }
+  | V1ALerr () => prstr "V1ALerr()"
+end // end of [fprint_v1al]
+
+(* ****** ****** *)
+
+implement
 fprint_e1xp (out, e0) = let
   macdef prstr (s) = fprint_string (out, ,(s))
 in
   case+ e0.e1xp_node of
+  | E1XPide (id) => fprint_symbol (out, id)
+//
+  | E1XPint (int(*string*)) => begin
+      prstr "E1XPint("; fprint_string (out, int); prstr ")"
+    end // end of [E1XPint]
+  | E1XPchar (c: char) => begin
+      prstr "E1XPchar("; fprint_char (out, c); prstr ")"
+    end // end of [E1XPchar]
+  | E1XPfloat (f: string) => begin
+      prstr "E1XPfloat("; fprint_string (out, f); prstr ")"
+    end // end of [E1XPfloat]
+//
+  | E1XPval (v) => begin
+      prstr "E1XPval("; fprint_v1al (out, v); prstr ")"
+    end // end of [E1XPval]
+//
+  | E1XPnone () => begin
+      fprint_string (out, "E1XPnone()")
+    end // end of [E1XPnone]
+  | E1XPundef () => begin
+      fprint_string (out, "E1XPundef()")
+    end // end of [E1XPundef]
+  | E1XPstring (str) => {
+      val () = prstr "E1XPstring("
+      val () = fprint_string (out, str)
+      val () = prstr ")"
+    } // end of [E1XPstring]
   | E1XPapp (e, _(*loc*), es) => {
       val () = prstr "E1XPapp("
       val () = fprint_e1xp (out, e)
@@ -60,30 +117,33 @@ in
       val () = fprint_e1xplst (out, es)
       val () = prstr ")"
     } // end of [E1XPapp]
-  | E1XPchar (c: char) => begin
-      prstr "E1XPchar("; fprint_char (out, c); prstr ")"
-    end // end of [E1XPchar]
-  | E1XPfloat (f: string) => begin
-      prstr "E1XPfloat("; fprint_string (out, f); prstr ")"
-    end // end of [E1XPfloat]
-  | E1XPide (id) => fprint_symbol (out, id)
-  | E1XPint (int(*string*)) => begin
-      prstr "E1XPint("; fprint_string (out, int); prstr ")"
-    end // end of [E1XPint]
+  | E1XPfun (arg, body) => {
+      val () = prstr "E1XPfun("
+      val () = $UT.fprintlst<symbol> (out, arg, ", ", fprint_symbol)
+      val () = prstr "; "
+      val () = fprint_e1xp (out, body)
+      val () = prstr ")"
+    }
+//
+  | E1XPeval e => begin
+      prstr "E1XPeval("; fprint_e1xp (out, e); prstr ")"
+    end // end of [E1XPlist]
   | E1XPlist es => begin
       prstr "E1XPlist("; fprint_e1xplst (out, es); prstr ")"
     end // end of [E1XPlist]
-  | E1XPnone () => begin
-      fprint_string (out, "E1XPnone()")
-    end // end of [E1XPnone]
-  | E1XPstring (str) => {
-      val () = prstr "E1XPstring("
-      val () = fprint_string (out, str)
+//
+  | E1XPif (
+      _cond, _then, _else
+    ) => {
+      val () = prstr "E1XPif("
+      val () = fprint_e1xp (out, _cond)
+      val () = prstr "; "
+      val () = fprint_e1xp (out, _then)
+      val () = prstr " ;"
+      val () = fprint_e1xp (out, _else)
       val () = prstr ")"
-    } // end of [E1XPstring]
-  | E1XPundef () => begin
-      fprint_string (out, "E1XPundef()")
-    end // end of [E1XPundef]
+    } // end of [E1XPif]
+//
 end // end of [fprint_e1xp]
 
 implement print_e1xp (x) = fprint_e1xp (stdout_ref, x)

@@ -126,6 +126,46 @@ case+ d1e0.d1exp_node of
     val () = fprint_d1explst (out, xs)
     val () = prstr ")"
   }
+//
+| D1Eifhead (
+    inv, _cond, _then, _else
+  ) => {
+    val () = prstr "D1Eifhead("
+    val () = fprint_d1exp (out, _cond)
+    val () = prstr "; "
+    val () = fprint_d1exp (out, _then)
+    val () = prstr "; "
+    val () = fprint_d1expopt (out, _else)
+    val () = prstr ")"
+  }
+| D1Esifhead (
+    inv, _cond, _then, _else
+  ) => {
+    val () = prstr "D1Esifhead("
+    val () = fprint_s1exp (out, _cond)
+    val () = prstr "; "
+    val () = fprint_d1exp (out, _then)
+    val () = prstr "; "
+    val () = fprint_d1exp (out, _else)
+    val () = prstr ")"
+  }
+| D1Ecasehead _ => {
+    val () = prstr "D1Ecasehead("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| D1Escasehead _ => {
+    val () = prstr "D1Escasehead("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+//
+| D1Etrywith _ => {
+    val () = prstr "D1Etrywith("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+//
 | _ => prstr "D1E...(...)"
 //
 end // end of [fprint_d1exp]
@@ -139,6 +179,11 @@ implement
 fprint_d1explst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_d1exp)
 // end of [fprint_d1explst]
+
+implement
+fprint_d1expopt
+  (out, opt) = $UT.fprintopt (out, opt, fprint_d1exp)
+// end of [fprint_d1expopt]
 
 (* ****** ****** *)
 

@@ -235,6 +235,13 @@ in
       val () = fprint_e0xp (out, x2)
       val () = prstr ")"
     }
+  | E0XPfun (arg, body) => {
+      val () = prstr "E0XPfun("
+      val () = $UT.fprintlst<symbol> (out, arg, ", ", fprint_symbol)
+      val () = prstr "; "
+      val () = fprint_e0xp (out, body)
+      val () = prstr ")"
+    }
   | E0XPeval (x) => {
       val () = prstr "E0XPeval("
       val () = fprint_e0xp (out, x)
@@ -242,10 +249,24 @@ in
     }
   | E0XPlist (xs) => {
       val () = prstr "E0XPlist("
-      val () = $UT.fprintlst<e0xp> (out, xs, ", ", fprint_e0xp)
+      val () = fprint_e0xplst (out, xs)
+      val () = prstr ")"
+    }
+  | E0XPif (_cond, _then, _else) => {
+      val () = prstr "E0XPif("
+      val () = fprint_e0xp (out, _cond)
+      val () = prstr "; "
+      val () = fprint_e0xp (out, _then)
+      val () = prstr "; "
+      val () = $UT.fprintopt<e0xp> (out, _else, fprint_e0xp)
       val () = prstr ")"
     }
 end // end of [fprint_e0xp]
+
+implement
+fprint_e0xplst (out, xs) =
+  $UT.fprintlst<e0xp> (out, xs, ", ", fprint_e0xp)
+// end of [fprint_e0xplst]
 
 (* ****** ****** *)
 

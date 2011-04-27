@@ -35,6 +35,8 @@
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
@@ -59,6 +61,7 @@ staload "pats_syntax.sats"
 (* ****** ****** *)
 
 #define sz2i int_of_size
+#define l2l list_of_list_vt
 macdef list_sing (x) = list_cons (,(x), list_nil)
 
 (* ****** ****** *)
@@ -298,9 +301,73 @@ in '{
 } end // end of [e0xp_list]
 
 implement
+e0xp_if (
+  t_if, _cond, _then, _else
+) = let
+  val loc = (case+ _else of
+    | Some e => t_if.token_loc + e.e0xp_loc
+    | None _ => t_if.token_loc + _then.e0xp_loc
+  ) : location // end of [val]
+in '{
+  e0xp_loc= loc, e0xp_node= E0XPif (_cond, _then, _else)
+} end // end of [e0xp_if]
+
+implement
 e0xp_make_stringid (loc, id) = '{
   e0xp_loc= loc, e0xp_node= E0XPstringid (id)
 } // end of [e0xp_make_stringid]
+
+(* ****** ****** *)
+//
+// HX: this is for supporting definitions like
+// #define fversion (x, y, z) (1000 *((1000 * x) + y) + z)
+//
+fn e0xp_fun (
+  loc: location, arg: symbolist, body: e0xp
+) : e0xp = '{
+  e0xp_loc= loc, e0xp_node= E0XPfun (arg, body)
+}
+extern
+fun e0xp_funize
+  (e0: e0xp, flag: &int): e0xp
+implement
+e0xp_funize (e0, flag) = let
+  fun argtest (es: e0xplst): bool =
+    case+ es of
+    | list_cons (e, es) => (
+      case+ e.e0xp_node of E0XPide _ => argtest (es) | _ => false
+      ) // end of [list_cons]
+    | list_nil () => true
+  // end of [argtest]
+  fun applst (e: e0xp, es: List_vt (e0xp)): e0xp =
+    case+ es of
+    | ~list_vt_cons (e1, es1) => let
+        val e = e0xp_app (e, e1) in applst (e, es1)
+      end
+    | ~list_vt_nil () => e
+  // end of [applist]
+  fun auxfun (
+    e0: e0xp, e1: e0xp, e2: e0xp, es2: List_vt (e0xp), flag: &int
+  ) : e0xp = case+ e1.e0xp_node of
+  | E0XPapp (e1n, e2n) => auxfun (e0, e1n, e2n, list_vt_cons (e2, es2), flag)
+  | E0XPlist (es)
+      when argtest (es) => let
+      fn f (e: e0xp): symbol =
+        let val- E0XPide x = e.e0xp_node in x end
+      // end of [f]
+      val xs = l2l (list_map_fun (es, f))
+      val () = flag := flag + 1
+    in
+      e0xp_fun (e0.e0xp_loc, xs, applst (e2, es2))
+    end
+  | _ => let
+      val () = list_vt_free (es2) in e0
+    end
+in
+  case+ e0.e0xp_node of
+  | E0XPapp (e1, e2) => auxfun (e0, e1, e2, list_vt_nil, flag)
+  | _ => e0
+end // end of [e0xp_funize]
 
 (* ****** ****** *)
 
@@ -1344,7 +1411,7 @@ ifhead_make
     case+ invopt of
     | Some inv => inv
     | None () => i0nvresstate_make_none (t_if.token_loc)
-  ) : i0nvresstate // end of [val
+  ) : i0nvresstate // end of [val]
 in '{
   ifhead_tok= t_if, ifhead_inv= inv
 } end // end of [ifhead_make]
@@ -1356,7 +1423,7 @@ sifhead_make
     case+ invopt of
     | Some inv => inv
     | None () => i0nvresstate_make_none (t_sif.token_loc)
-  ) : i0nvresstate // end of [val
+  ) : i0nvresstate // end of [val]
 in '{
   sifhead_tok= t_sif, sifhead_inv= inv
 } end // end of [sifhead_make]
@@ -1370,7 +1437,7 @@ casehead_make
     case+ invopt of
     | Some inv => inv
     | None () => i0nvresstate_make_none (t_case.token_loc)
-  ) : i0nvresstate // end of [val
+  ) : i0nvresstate // end of [val]
 in '{
   casehead_tok= t_case, casehead_inv= inv
 } end // end of [casehead_make]
@@ -1382,7 +1449,7 @@ scasehead_make
     case+ invopt of
     | Some inv => inv
     | None () => i0nvresstate_make_none (t_scase.token_loc)
-  ) : i0nvresstate // end of [val
+  ) : i0nvresstate // end of [val]
 in '{
   scasehead_tok= t_scase, scasehead_inv= inv
 } end // end of [scasehead_make]
@@ -1405,10 +1472,16 @@ in '{
 (* ****** ****** *)
 
 implement
-tryhead_make_none (t_try) = '{
-  tryhead_tok= t_try
-, tryhead_inv= i0nvresstate_make_none (t_try.token_loc)
-} // end of [tryhead_make]
+tryhead_make
+  (t_try, invopt) = let
+  val inv = (
+    case+ invopt of
+    | Some inv => inv
+    | None () => i0nvresstate_make_none (t_try.token_loc)
+  ) : i0nvresstate // end of [val]
+in '{
+  tryhead_tok= t_try, tryhead_inv= inv
+} end // end of [tryhead_make]
 
 (* ****** ****** *)
 //
@@ -2204,9 +2277,18 @@ d0ecl_e0xpdef
   val loc = (case+ ent3 of
     | Some x => tok.token_loc + x.e0xp_loc
     | None () => tok.token_loc + ent2.i0de_loc
-  ) : location // end of [val]  
+  ) : location // end of [val]
+  val def = (case+ ent3 of
+    | Some x => let
+        var flag: int = 0
+        val x = e0xp_funize (x, flag)
+      in
+        if flag > 0 then Some (x) else ent3
+      end // end of [Some]
+    | None () => None ()
+  ) : e0xpopt // end of [val]
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Ce0xpdef (ent2.i0de_sym, ent3)
+  d0ecl_loc= loc, d0ecl_node= D0Ce0xpdef (ent2.i0de_sym, def)
 } end // end of [d0ecl_e0xpdef]
 
 implement
