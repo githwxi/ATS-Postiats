@@ -153,6 +153,7 @@ lexsym =
   | LS_LTBANG of () // "<!" // not a symbol
   | LS_LTDOLLAR of () // "<$" // not a symbol
 *)
+//
   | LS_QMARKGT of () // "?>" // not a symbol
 //
   | LS_SLASH2 of () // "//" line comment

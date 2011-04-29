@@ -47,7 +47,6 @@ staload "pats_lexing.sats"
 
 (* ****** ****** *)
 
-implement LT = T_LT
 implement DOT = T_DOT
 implement PERCENT = T_IDENT_alp "%"
 implement QMARK = T_IDENT_alp "?"
@@ -308,8 +307,8 @@ val () = ins ("=<>", T_EQLTGT)
 val () = ins ("=/=>", T_EQSLASHEQGT)
 val () = ins ("=>>", T_EQGTGT)
 val () = ins ("=/=>>", T_EQSLASHEQGTGT)
-val () = ins ("<", T_LT)
-val () = ins (">", T_GT)
+val () = ins ("<", T_LT) // opening a tmparg
+val () = ins (">", T_GT) // closing a tmparg
 val () = ins ("><", T_GTLT)
 val () = ins (".<", T_DOTLT)
 val () = ins (">.", T_GTDOT)

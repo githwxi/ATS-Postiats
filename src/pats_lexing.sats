@@ -82,8 +82,9 @@ token_node =
 //
   | T_HASH of () // #
 //
-  | T_LT of () // <
-  | T_GT of () // >
+  | T_LT of () // < // for opening a tmparg
+  | T_GT of () // > // for closing a tmparg
+//
   | T_GTLT of () // <>
   | T_DOTLT of () // .<
   | T_GTDOT of () // >.
@@ -364,7 +365,6 @@ val DLRTUP_VT : tnode
 
 val DOT : tnode // = T_DOT
 val PERCENT : tnode // = IDENT_sym ("%")
-val LT : tnode // = T_LT
 val QMARK : tnode // = IDENT_sym ("?")
 
 val ZERO : tnode // = T_INTEGER_dec ("0")

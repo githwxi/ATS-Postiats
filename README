@@ -62,6 +62,15 @@ fun{a1,a2:t@ype} f (x: INV(a1), y: INV(a2)): (a1, a2)
 // HX-2011-04-15
 //
 Macro support for patterns.
+(*
+HX-2011-04-27:
+there is now support for functional C-like macros. For instance,
+the following declaratioon is now available. I plan to turn this
+into limited macro support for patterns:
+//
+#define list_sing (x) list_cons (x, list_nil ())
+//
+*)
 
 ######
 

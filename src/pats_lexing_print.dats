@@ -63,11 +63,14 @@ fprint_token
   | T_EQSLASHEQGT () => fprintf (out, "EQSLASHEQGT()", @())
   | T_EQGTGT () => fprintf (out, "EQGTGT()", @())
   | T_EQSLASHEQGTGT () => fprintf (out, "EQSLASHEQGTGT()", @())
+//
   | T_LT () => fprintf (out, "LT()", @())
   | T_GT () => fprintf (out, "GT()", @())
   | T_GTLT () => fprintf (out, "GTLT()", @())
+//
   | T_DOTLT () => fprintf (out, "DOTLT()", @())
   | T_GTDOT () => fprintf (out, "GTDOT()", @())
+//
   | T_DOTLTGTDOT () => fprintf (out, "DOTLTGTDOT()", @())
   | T_MINUSGT () => fprintf (out, "MINUSGT()", @())
   | T_MINUSLT () => fprintf (out, "MINUSLT()", @())

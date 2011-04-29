@@ -163,8 +163,8 @@ di0de
   | EQ
   | GT
   | LT
-  | GTLT
   | TILDE
+  | GTLT
 *)
 
 implement
@@ -183,11 +183,11 @@ case+ tok.token_node of
     val () = incby1 () in i0de_make_string (loc, x)
   end
 //
-| T_GT () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_GT)
-  end
 | T_LT () => let
     val () = incby1 () in i0de_make_sym (loc, symbol_LT)
+  end
+| T_GT () => let
+    val () = incby1 () in i0de_make_sym (loc, symbol_GT)
   end
 //
 | T_BACKSLASH () => let
@@ -196,7 +196,7 @@ case+ tok.token_node of
 | T_BANG () => let
     val () = incby1 () in i0de_make_sym (loc, symbol_BANG)
   end
-| T_EQ () => let
+| T_EQ () => let // [EQ] is a keyword in the statics
     val () = incby1 () in i0de_make_sym (loc, symbol_EQ)
   end
 | T_TILDE () => let

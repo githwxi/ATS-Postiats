@@ -138,9 +138,11 @@ end // end of [p_labs0expseq_BAR_labs0expseq]
 si0de
   | IDENTIFIER_alp
   | IDENTIFIER_sym
+(*
   | R0EAD // this one is removed in Postiats
-  | GT
+*)
   | LT
+  | GT
   | AMPERSAND
   | BACKSLASH
   | BANG
@@ -164,11 +166,11 @@ case+ tok.token_node of
     val () = incby1 () in i0de_make_string (loc, x)
   end
 //
-| T_GT () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_GT)
-  end
 | T_LT () => let
     val () = incby1 () in i0de_make_sym (loc, symbol_LT)
+  end
+| T_GT () => let
+    val () = incby1 () in i0de_make_sym (loc, symbol_GT)
   end
 //
 | T_BACKSLASH () => let
