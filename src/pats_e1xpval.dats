@@ -943,7 +943,10 @@ fun e1xplstlevenv_normalize (
 
 (* ****** ****** *)
 (*
-#define f(n, x) if n > 0 then x * f (n, x)
+//
+// HX-2011-04-29: this example works now:
+// #define f(n, x) if n > 0 then x * f (n, x)
+//
 *)
 implement
 e1xplevenv_normalize
