@@ -41,6 +41,16 @@ staload "pats_dynexp1.sats"
 
 (* ****** ****** *)
 
+datatype
+tran1err =
+  | T1E_s0rt_opr of (location)
+  | T1E_s0exp_opr of (location)
+// end of [tran1err]
+
+fun the_tran1errlst_add (x: tran1err): void
+
+(* ****** ****** *)
+
 fun do_e0xpact_assert
   (loc: location, v: v1al): void
 fun do_e0xpact_error (loc: location, v: v1al): void

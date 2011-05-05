@@ -137,7 +137,8 @@ end // end of [fprint_valerr]
 
 (* ****** ****** *)
 
-viewtypedef valerrlst_vt = List_vt (valerr)
+viewtypedef
+valerrlst_vt = List_vt (valerr)
 extern fun the_valerrlst_get (): valerrlst_vt
 
 (* ****** ****** *)

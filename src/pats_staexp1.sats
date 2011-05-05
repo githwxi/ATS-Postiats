@@ -189,6 +189,7 @@ s1rt_node =
   | S1RTlist of s1rtlst
   | S1RTqid of (s0rtq, symbol)
   | S1RTtype of int(*polarity*)
+  | S1RTerr of ()
 // end of [s1rt_node]
 
 where s1rt: type = '{
@@ -252,6 +253,8 @@ fun s1rt_qid (loc: location, q: s0rtq, id: symbol): s1rt
 fun s1rt_tup (loc: location, s1ts: s1rtlst): s1rt
 *)
 fun s1rt_type (loc: location, knd: int): s1rt
+
+fun s1rt_err (loc: location): s1rt // HX: indicating an error
 
 (* ****** ****** *)
 

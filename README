@@ -41,7 +41,7 @@ fun f (x: &READ(Int)): bool
 //
 // HX-2011-03-20
 //
-Some kind of sort inferencing
+Some kind of sort inferencing (for impredicative sorts).
 
 ######
 //
@@ -65,7 +65,7 @@ Macro support for patterns.
 (*
 HX-2011-04-27:
 there is now support for functional C-like macros. For instance,
-the following declaratioon is now available. I plan to turn this
+the following declaratioon is now available, which I plan to turn
 into limited macro support for patterns:
 //
 #define list_sing (x) list_cons (x, list_nil ())

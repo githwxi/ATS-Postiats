@@ -106,6 +106,9 @@ fprint_s0rtq (out, x) =
     }
 // end of [fprint_s0rtq]
 
+implement print_s0rtq (x) = fprint_s0rtq (stdout_ref, x)
+implement prerr_s0rtq (x) = fprint_s0rtq (stderr_ref, x)
+
 (* ****** ****** *)
 
 implement
@@ -121,6 +124,9 @@ fprint_s0taq (out, x) =
       val () = fprint_string (out, ":")
     }
 // end of [fprint_s0taq]
+
+implement print_s0taq (x) = fprint_s0taq (stdout_ref, x)
+implement prerr_s0taq (x) = fprint_s0taq (stderr_ref, x)
 
 implement
 fprint_sqi0de (out, x) = {
@@ -148,6 +154,9 @@ fprint_d0ynq (out, x) =
       val () = fprint_string (out, ":")
     }
 // end of [fprint_d0ynq]
+
+implement print_d0ynq (x) = fprint_d0ynq (stdout_ref, x)
+implement prerr_d0ynq (x) = fprint_d0ynq (stderr_ref, x)
 
 implement
 fprint_dqi0de (out, x) = {

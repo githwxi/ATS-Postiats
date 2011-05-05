@@ -61,6 +61,8 @@ staload "pats_staexp1.sats"
 staload "pats_dynexp1.sats"
 staload TRANS1 = "pats_trans1.sats"
 staload TRENV1 = "pats_trans1_env.sats"
+staload TRANS2 = "pats_trans2.sats"
+staload TRENV2 = "pats_trans2_env.sats"
 
 (* ****** ****** *)
 
@@ -117,8 +119,11 @@ dynload "pats_dynexp1_print.dats"
 dynload "pats_dynexp1_syndef.dats"
 //
 dynload "pats_trans1_env.dats"
+//
 dynload "pats_e1xpval.dats"
 dynload "pats_e1xpval_error.dats"
+//
+dynload "pats_trans1_error.dats"
 dynload "pats_trans1_e0xp.dats"
 dynload "pats_trans1_effect.dats"
 dynload "pats_trans1_sort.dats"
@@ -126,6 +131,14 @@ dynload "pats_trans1_staexp.dats"
 dynload "pats_trans1_p0at.dats"
 dynload "pats_trans1_dynexp.dats"
 dynload "pats_trans1_decl.dats"
+//
+dynload "pats_staexp2.dats"
+dynload "pats_dynexp2.dats"
+//
+dynload "pats_namespace.dats"
+dynload "pats_trans2_env.dats"
+dynload "pats_trans2_error.dats"
+dynload "pats_trans2_sort.dats"
 //
 dynload "pats_comarg.dats"
 //

@@ -139,7 +139,7 @@ in
       val () = fprint_e1xp (out, _cond)
       val () = prstr "; "
       val () = fprint_e1xp (out, _then)
-      val () = prstr " ;"
+      val () = prstr "; "
       val () = fprint_e1xp (out, _else)
       val () = prstr ")"
     } // end of [E1XPif]
@@ -190,6 +190,9 @@ in
   | S1RTtype (knd) => begin
       prstr "S1RTtype("; fprint_int (out, knd); prstr ")"
     end // end of [S1RTtype]
+//
+  | S1RTerr () => prstr "S1RTerr()" // HX: indicating an error
+//
 end // end of [fprint_s1rt]
 
 implement print_s1rt (x) = fprint_s1rt (stdout_ref, x)

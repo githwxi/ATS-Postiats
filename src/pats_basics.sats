@@ -144,6 +144,12 @@ overload = with eq_funclo_funclo
 fun debug_flag_get (): int
 fun debug_flag_set (i: int): void
 
+(*
+fun debug_prerrf {ts:types}
+  (fmt: printf_c ts, arg: ts): void = "atsopt_debug_prerrf"
+// end of [debug_prerrf]
+*)
+
 (* ****** ****** *)
 
 (* end of [pats_basics.sats] *)

@@ -173,7 +173,7 @@ s1rt_is_arrow (s1t) =
   | S1RTqid (q, id) =>
       if s0rtq_is_none q then id = MINUSGT else false
     // end of [S1RTqid]
-  | _ => false
+  | _ => false // end of [_]
 // end of [s1rt_is_arrow]
 
 (* ****** ****** *)
@@ -222,6 +222,11 @@ s1rt_tup (loc, s1ts) = '{
 implement
 s1rt_type (loc, knd) = '{
   s1rt_loc= loc, s1rt_node= S1RTtype (knd)
+}
+
+implement
+s1rt_err (loc) = '{
+  s1rt_loc= loc, s1rt_node= S1RTerr ()
 }
 
 (* ****** ****** *)

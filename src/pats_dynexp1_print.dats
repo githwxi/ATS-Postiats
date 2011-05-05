@@ -77,6 +77,11 @@ case+ d1e0.d1exp_node of
     val () = fprint_symbol (out, id)
     val () = prstr ")"
   }
+| D1Eint (x) => {
+    val () = prstr "D1Eint("
+    val () = fprint_i0nt (out, x)
+    val () = prstr ")"
+  }
 | D1Ebool (x) => {
     val () = prstr "D1Ebool("
     val () = fprint_bool (out, x)
@@ -184,6 +189,18 @@ implement
 fprint_d1expopt
   (out, opt) = $UT.fprintopt (out, opt, fprint_d1exp)
 // end of [fprint_d1expopt]
+
+(* ****** ****** *)
+
+extern
+fun fprint_m1acdef : fprint_type (m1acdef)
+implement
+fprint_m1acdef (out, x) = {
+  val () = fprint_symbol (out, x.m1acdef_sym)
+  val () = fprint_string (out, "(...)")
+  val () = fprint_string (out, " = ")
+  val () = fprint_d1exp (out, x.m1acdef_def)
+}
 
 (* ****** ****** *)
 
@@ -308,6 +325,16 @@ case+ d1c0.d1ecl_node of
     val () = fprint_dcstkind (out, dck)
     val () = prstr "\n"
     val () = $UT.fprintlst (out, xs, "\n", fprint_d1cstdec)
+    val () = prstr "\n)"
+  }
+//
+| D1Cmacdefs (knd, isrec, ds) => {
+    val () = prstr "D1macdef("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_bool (out, isrec)
+    val () = prstr "\n"
+    val () = $UT.fprintlst (out, ds, "\n", fprint_m1acdef)
     val () = prstr "\n)"
   }
 //

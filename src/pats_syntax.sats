@@ -196,6 +196,8 @@ fun s0rtq_symdot (ent1: i0de, tok2: token): s0rtq
 
 fun fprint_s0rtq : fprint_type (s0rtq)
 overload fprint with fprint_s0rtq
+fun print_s0rtq (x: s0rtq): void
+fun prerr_s0rtq (x: s0rtq): void
 
 (* ****** ****** *)
 
@@ -217,6 +219,8 @@ fun s0taq_symdot (ent1: i0de, tok2: token): s0taq
 fun s0taq_symcolon (ent1: i0de, tok2: token): s0taq
 
 fun fprint_s0taq : fprint_type (s0taq)
+fun print_s0taq (x: s0taq): void
+fun prerr_s0taq (x: s0taq): void
 
 (* ****** ****** *)
 
@@ -256,6 +260,8 @@ fun d0ynq_symdotcolon
   (ent1: i0de, ent2: i0de, ent3: token): d0ynq
 
 fun fprint_d0ynq : fprint_type (d0ynq)
+fun print_d0ynq (x: d0ynq): void
+fun prerr_d0ynq (x: d0ynq): void
 
 (* ****** ****** *)
 

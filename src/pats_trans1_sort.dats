@@ -131,8 +131,9 @@ fn s0rt_tr_errmsg_opr
   val () = prerr_loc_error1 (loc)
   val () = prerr ": the operator needs to be applied."
   val () = prerr_newline ()
+  val () = the_tran1errlst_add (T1E_s0rt_opr (loc))
 in
-  $ERR.abort {s1rt} ()
+  s1rt_err (loc)
 end // end of [s0rt_tr_errmsg_opr]
 
 in // in of [local]
@@ -144,7 +145,7 @@ fun aux_item
   val loc0 = s0t0.s0rt_loc in case+ s0t0.s0rt_node of
   | S0RTapp _ => let 
       val s1t0 = fixity_resolve (
-      loc0, s1rt_get_loc, s1rtitm_app (loc0), aux_itemlst (s0t0)
+        loc0, s1rt_get_loc, s1rtitm_app (loc0), aux_itemlst (s0t0)
       ) // end of [val]
     in
       FXITMatm (s1t0)
