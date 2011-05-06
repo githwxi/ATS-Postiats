@@ -34,29 +34,52 @@
 //
 (* ****** ****** *)
 
-staload SYM = "pats_symbol.sats"
-typedef symbol = $SYM.symbol
-overload = with $SYM.eq_symbol_symbol
-
-staload SYN = "pats_syntax.sats"
-typedef s0taq = $SYN.s0taq
+staload "pats_basics.sats"
 
 (* ****** ****** *)
 
-(*
-** HX: static special identifier
-*)
-datatype staspecid = SPSIDarrow | SPSIDnone
-
-fn staspecid_of_qid
-  (q: s0taq, id: symbol): staspecid = begin
-  case+ q.s0taq_node of
-  | $SYN.S0TAQnone () => begin
-      if id = $SYM.symbol_MINUSGT then SPSIDarrow () else SPSIDnone ()
-    end // end of [S0TAQnone]
-  | _ => SPSIDnone ()
-end // end of [staspecid_of_qid]
+abst@ype
+count_t0ype = int
+typedef count = count_t0ype
+abstype counter_type // ref (count_t)
+typedef counter = counter_type
 
 (* ****** ****** *)
 
-(* end of [pats_trans2_staexp.dats] *)
+fun lt_count_count (c1: count, c2: count):<> bool
+overload < with lt_count_count
+fun lte_count_count (c1: count, c2: count):<> bool
+overload <= with lte_count_count
+
+fun gt_count_count (c1: count, c2: count):<> bool
+overload > with lt_count_count
+fun gte_count_count (c1: count, c2: count):<> bool
+overload >= with lte_count_count
+
+fun eq_count_count (c1: count, c2: count):<> bool
+overload = with eq_count_count
+fun neq_count_count (c1: count, c2: count):<> bool
+overload <> with neq_count_count
+
+fun compare_count_count (c1: count, c2: count):<> Sgn
+overload compare with compare_count_count
+
+(* ****** ****** *)
+
+fun fprint_count : fprint_type (count)
+
+(* ****** ****** *)
+//
+fun counter_make (): counter
+//
+fun counter_inc (cntr: counter): void
+fun counter_get (cntr: counter): count
+fun counter_set (cntr: counter, cnt: count): void
+fun counter_reset (cntr: counter): void
+//
+fun counter_getinc (cntr: counter): count
+fun counter_incget (cntr: counter): count
+//
+(* ****** ****** *)
+
+(* end of [pats_counter.sats] *)

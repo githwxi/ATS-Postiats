@@ -241,19 +241,23 @@ implement symbol_GTLT = symbol_make_string "><"
 implement symbol_GTGT = symbol_make_string ">>"
 implement symbol_LTLT = symbol_make_string "<<"
 //
-implement symbol_TILDE = symbol_make_string "~"
-implement symbol_UNDERSCORE = symbol_make_string "_"
-
 implement symbol_LAND = symbol_make_string "&&" 
 implement symbol_LOR = symbol_make_string "||" 
-
+//
 implement symbol_LRBRACKETS = symbol_make_string "[]" 
-
+//
 implement symbol_MINUSGT = symbol_make_string "->" 
-
+//
 implement symbol_QMARK = symbol_make_string "?"
 implement symbol_QMARKBANG = symbol_make_string "?!"
-
+//
+implement symbol_TILDE = symbol_make_string "~"
+implement symbol_UNDERSCORE = symbol_make_string "_"
+//
+implement symbol_LAMAT = symbol_make_string "lam@"
+implement symbol_LLAMAT = symbol_make_string "llam@"
+implement symbol_REFAT = symbol_make_string "ref@"
+//
 (* ****** ****** *)
 
 implement symbol_DEFINED = symbol_make_string "defined"

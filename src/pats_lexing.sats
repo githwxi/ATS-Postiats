@@ -129,6 +129,7 @@ token_node =
   | T_OF of () // of
   | T_OP of () // op
   | T_REC of () // rec
+  | T_REFAT of () // ref@
   | T_SCASE of () // scase
   | T_SIF of () // sif
   | T_SORTDEF of () // sortdef
@@ -307,6 +308,9 @@ val LLAMAT : tnode
 
 val MACDEF  : tnode
 val MACRODEF : tnode
+
+val REF : tnode
+val REFAT : tnode
 
 val TYPE : tnode
 val TYPE_pos : tnode

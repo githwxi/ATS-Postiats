@@ -531,7 +531,8 @@ typedef s1vararglst = List (s1vararg)
 
 (* ****** ****** *)
 
-datatype s1exparg_node =
+datatype
+s1exparg_node =
   | S1EXPARGone (* {..} *)
   | S1EXPARGall (* {...} *)
   | S1EXPARGseq of s1explst
@@ -547,6 +548,8 @@ typedef s1expargopt = Option s1exparg
 fun s1exparg_one (loc: location): s1exparg
 fun s1exparg_all (loc: location): s1exparg
 fun s1exparg_seq (loc: location, xs: s1explst): s1exparg
+
+fun fprint_s1exparg : fprint_type (s1exparg)
 
 (* ****** ****** *)
 

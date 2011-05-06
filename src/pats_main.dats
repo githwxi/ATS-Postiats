@@ -75,6 +75,8 @@ dynload "pats_utils.dats"
 //
 dynload "pats_basics.dats"
 //
+dynload "pats_counter.dats"
+dynload "pats_stamp.dats"
 dynload "pats_symbol.dats"
 dynload "pats_filename.dats"
 dynload "pats_location.dats"
@@ -139,6 +141,8 @@ dynload "pats_namespace.dats"
 dynload "pats_trans2_env.dats"
 dynload "pats_trans2_error.dats"
 dynload "pats_trans2_sort.dats"
+dynload "pats_trans2_staexp.dats"
+dynload "pats_trans2_dynexp.dats"
 //
 dynload "pats_comarg.dats"
 //

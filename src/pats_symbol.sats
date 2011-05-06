@@ -76,7 +76,11 @@ val symbol_QMARK : symbol // ?
 val symbol_QMARKBANG : symbol // ?!
 val symbol_TILDE : symbol // ~
 val symbol_UNDERSCORE : symbol // _
-
+//
+val symbol_LAMAT : symbol // lam@
+val symbol_LLAMAT : symbol // llam@
+val symbol_REFAT : symbol // ref@
+//
 (* ****** ****** *)
 
 val symbol_DEFINED : symbol // defined

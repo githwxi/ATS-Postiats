@@ -47,11 +47,15 @@ staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 //
-// HX: [filenv] is introduced in [pats_staexp2.sats]
+// HX:
+// [filenv] is introduced in [pats_staexp2.sats];
+// using [minus] to indicate the need for the presence
+// of [filenv] (for otherwise GC may reclaim [filenv]
+// while the extracted ptr is still in use!
 //
 viewtypedef s2temap = symmap (s2rtext)
 fun filenv_get_s2temap (fenv: filenv):
-  [l:addr] (s2temap @ l, s2temap @ l -<lin,prf> void | ptr l)
+  [l:addr] (s2temap @ l, minus (filenv, s2temap @ l) | ptr l)
 // end of [filenv_get_s2temap]
 
 (* ****** ****** *)
@@ -73,7 +77,7 @@ fun the_s2rtenv_localjoin
 
 viewtypedef s2itmmap = symmap (s2itm)
 fun filenv_get_s2itmmap (fenv: filenv):
-  [l:addr] (s2itmmap @ l, s2itmmap @ l -<lin,prf> void | ptr l)
+  [l:addr] (s2itmmap @ l, minus (filenv, s2itmmap @ l) | ptr l)
 // end of [filenv_get_s2itmmap]
 
 fun the_s2expenv_add
@@ -99,7 +103,7 @@ fun the_s2expenv_localjoin
 
 viewtypedef d2itmmap = symmap (d2itm)
 fun filenv_get_d2itmmap (fenv: filenv):
-  [l:addr] (d2itmmap @ l, d2itmmap @ l -<lin,prf> void | ptr l)
+  [l:addr] (d2itmmap @ l, minus (filenv, d2itmmap @ l) | ptr l)
 // end of [filenv_get_d2itmmap]
 
 (* ****** ****** *)

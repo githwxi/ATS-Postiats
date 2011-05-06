@@ -165,12 +165,27 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
+| D1Eexist (s1a, d1e) => {
+    val () = prstr "D1Eexist("
+    val () = fprint_s1exparg (out, s1a)
+    val () = prstr "; "
+    val () = fprint_d1exp (out, d1e)
+    val () = prstr ")"
+  }
+//
 | D1Etrywith _ => {
     val () = prstr "D1Etrywith("
     val () = prstr "..."
     val () = prstr ")"
   }
 //
+| D1Eann_type (d1e, s1e) => {
+    val () = prstr "D1Eann_type("
+    val () = fprint_d1exp (out, d1e)
+    val () = prstr " : "
+    val () = fprint_s1exp (out, s1e)
+    val () = prstr ")"
+  }
 | _ => prstr "D1E...(...)"
 //
 end // end of [fprint_d1exp]

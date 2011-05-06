@@ -139,6 +139,7 @@ lexsym =
   | LS_LAM // for lam@
   | LS_LLAM // for llam@
   | LS_PROP // for prop+ and prop-
+  | LS_REF // for ref@
   | LS_T // for t@ype
   | LS_TYPE // for type+ and type-
   | LS_T0YPE // for t0ype+ and t0ype-
@@ -250,6 +251,7 @@ val () = insert (ptbl, "free", LS_FREE)
 val () = insert (ptbl, "lam", LS_LAM)
 val () = insert (ptbl, "llam", LS_LLAM)
 val () = insert (ptbl, "prop", LS_PROP)
+val () = insert (ptbl, "ref", LS_REF)
 val () = insert (ptbl, "t", LS_T)
 val () = insert (ptbl, "type", LS_TYPE)
 val () = insert (ptbl, "t0ype", LS_T0YPE) // = t@ype
@@ -1675,6 +1677,12 @@ fun lexing_FIX (
 
 (* ****** ****** *)
 
+fun lexing_REF (
+  buf: &lexbuf, pos: &position
+) : token = lexing_postfix (buf, pos, REF, REFAT, '@')
+
+(* ****** ****** *)
+
 fun lexing_ADDR (
   buf: &lexbuf, pos: &position
 ) : token = lexing_postfix (buf, pos, ADDR, ADDRAT, '@')
@@ -1791,6 +1799,10 @@ in
     end
   | LS_FIX () => let
       val () = strptr_free (str) in lexing_FIX (buf, pos)
+    end
+//
+  | LS_REF () => let
+      val () = strptr_free (str) in lexing_REF (buf, pos)
     end
 //
   | _ => let

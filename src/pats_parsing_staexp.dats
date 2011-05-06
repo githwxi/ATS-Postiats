@@ -148,6 +148,9 @@ si0de
   | BANG
   | TILDE
   | MINUSGT
+//
+  | REFAT // ref@ for flatten ref in a record
+//
 *)
 
 implement
@@ -185,6 +188,10 @@ case+ tok.token_node of
 //
 | T_MINUSGT () => let
     val () = incby1 () in i0de_make_sym (loc, symbol_MINUSGT)
+  end
+//
+| T_REFAT () => let
+    val () = incby1 () in i0de_make_sym (loc, symbol_REFAT)
   end
 //
 | _ => let

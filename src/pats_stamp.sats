@@ -34,29 +34,55 @@
 //
 (* ****** ****** *)
 
-staload SYM = "pats_symbol.sats"
-typedef symbol = $SYM.symbol
-overload = with $SYM.eq_symbol_symbol
-
-staload SYN = "pats_syntax.sats"
-typedef s0taq = $SYN.s0taq
+staload "pats_basics.sats"
+staload "pats_counter.sats"
 
 (* ****** ****** *)
 
-(*
-** HX: static special identifier
-*)
-datatype staspecid = SPSIDarrow | SPSIDnone
-
-fn staspecid_of_qid
-  (q: s0taq, id: symbol): staspecid = begin
-  case+ q.s0taq_node of
-  | $SYN.S0TAQnone () => begin
-      if id = $SYM.symbol_MINUSGT then SPSIDarrow () else SPSIDnone ()
-    end // end of [S0TAQnone]
-  | _ => SPSIDnone ()
-end // end of [staspecid_of_qid]
+abst@ype stamp_t0ype = count
+typedef stamp = stamp_t0ype
 
 (* ****** ****** *)
 
-(* end of [pats_trans2_staexp.dats] *)
+fun lt_stamp_stamp (x1: stamp, x2: stamp):<> bool
+overload < with lt_stamp_stamp
+
+fun lte_stamp_stamp (x1: stamp, x2: stamp):<> bool
+overload <= with lte_stamp_stamp
+
+fun eq_stamp_stamp (x1: stamp, x2: stamp):<> bool
+overload = with eq_stamp_stamp
+
+fun neq_stamp_stamp (x1: stamp, x2: stamp):<> bool
+overload <> with neq_stamp_stamp
+
+fun compare_stamp_stamp (x1: stamp, x2: stamp):<> Sgn
+overload compare with compare_stamp_stamp
+
+(* ****** ****** *)
+
+fun fprint_stamp : fprint_type (stamp)
+
+(* ****** ****** *)
+//
+fun
+s2rtdat_stamp_make (): stamp
+//
+fun s2cst_stamp_make (): stamp
+//
+fun s2var_stamp_make (): stamp
+fun s2Var_stamp_make (): stamp
+//
+(* ****** ****** *)
+//
+fun d2con_stamp_make (): stamp
+//
+fun d2cst_stamp_make (): stamp
+//
+fun d2mac_stamp_make (): stamp
+//
+fun d2var_stamp_make (): stamp
+//
+(* ****** ****** *)
+
+(* end of [pats_stamp.sats] *)

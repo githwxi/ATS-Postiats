@@ -101,6 +101,9 @@ implement LLAMAT = T_LAM (VIEWT0YPE_int)
 implement MACDEF = T_MACDEF (0) // short form
 implement MACRODEF = T_MACDEF (1) // long form
 
+implement REF = T_IDENT_alp "ref"
+implement REFAT = T_REFAT // ref@ for flattened reference in a record
+
 (*
 implement TYPE = T_TYPE (TYPE_int)
 *)

@@ -68,7 +68,7 @@ implement
 filenv_get_s2temap (fenv) = let
   val (vbox pf | p) = ref_get_view_ptr (fenv)
   prval (pf1, fpf1) = __assert (view@ (p->sort)) where {
-    extern prfun __assert {a:viewt@ype} {l:addr} (pf: !a @ l): (a @ l, a @ l -<lin,prf> void)
+    extern prfun __assert {a:viewt@ype} {l:addr} (pf: !a @ l): (a @ l, minus (filenv, a @ l))
   } // end of [prval]
 in
   (pf1, fpf1 | &p->sort)
@@ -78,7 +78,7 @@ implement
 filenv_get_s2itmmap (fenv) = let
   val (vbox pf | p) = ref_get_view_ptr (fenv)
   prval (pf1, fpf1) = __assert (view@ (p->sexp)) where {
-    extern prfun __assert {a:viewt@ype} {l:addr} (pf: !a @ l): (a @ l, a @ l -<lin,prf> void)
+    extern prfun __assert {a:viewt@ype} {l:addr} (pf: !a @ l): (a @ l, minus (filenv, a @ l))
   } // end of [prval]
 in
   (pf1, fpf1 | &p->sexp)
@@ -104,7 +104,7 @@ the_s2rtenv_find_namespace .<>.
   ) :<cloptr1> s2rtextopt_vt = let
     val (pf, fpf | p) = filenv_get_s2temap (fenv)
     val ans = symmap_search (!p, id)
-    prval () = fpf (pf)
+    prval () = minus_addback (fpf, pf | fenv)
   in
     ans
   end // end of [f]
@@ -173,7 +173,7 @@ the_s2expenv_find_namespace .<>.
   ) :<cloptr1> s2itmopt_vt = let
     val (pf, fpf | p) = filenv_get_s2itmmap (fenv)
     val ans = symmap_search (!p, id)
-    prval () = fpf (pf)
+    prval () = minus_addback (fpf, pf | fenv)
   in
     ans
   end // end of [f]

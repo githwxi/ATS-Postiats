@@ -110,6 +110,7 @@ fprint_token
   | T_OF () => fprintf (out, "OF()", @())
   | T_OP () => fprintf (out, "OP()", @())
   | T_REC () => fprintf (out, "REC()", @())
+  | T_REFAT () => fprintf (out, "REFAT()", @())
   | T_SCASE () => fprintf (out, "SCASE()", @())
   | T_SIF () => fprintf (out, "SIF()", @())
   | T_SORTDEF () => fprintf (out, "SORTDEF()", @())

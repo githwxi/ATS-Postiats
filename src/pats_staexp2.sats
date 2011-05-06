@@ -34,10 +34,15 @@
 //
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
-typedef location = $LOC.location
+staload STP = "pats_stamp.sats"
+typedef stamp = $STP.stamp
 staload SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
+
+(* ****** ****** *)
+
+staload LOC = "pats_location.sats"
+typedef location = $LOC.location
 
 (* ****** ****** *)
 
@@ -92,6 +97,17 @@ s2rtlst = List (s2rt)
 and s2rtopt = Option (s2rt)
 
 fun s2rt_err (x: s1rt): s2rt
+
+(* ****** ****** *)
+
+fun s2var_get_sym (s2v: s2var): symbol
+fun s2var_get_srt (s2v: s2var): s2rt
+fun s2var_get_tmplev (s2v: s2var): int
+fun s2var_set_tmplev (s2v: s2var, lev: int): void
+fun s2var_get_sVarset (_: s2var): s2Varset
+fun s2var_set_sVarset (_: s2var, _: s2Varset): void
+fun s2varlst_set_sVarset (_: s2varlst, _: s2Varset): void
+fun s2var_get_stamp (s2v: s2var): stamp
 
 (* ****** ****** *)
 //

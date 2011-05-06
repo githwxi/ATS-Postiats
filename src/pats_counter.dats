@@ -34,29 +34,62 @@
 //
 (* ****** ****** *)
 
-staload SYM = "pats_symbol.sats"
-typedef symbol = $SYM.symbol
-overload = with $SYM.eq_symbol_symbol
-
-staload SYN = "pats_syntax.sats"
-typedef s0taq = $SYN.s0taq
+staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-(*
-** HX: static special identifier
-*)
-datatype staspecid = SPSIDarrow | SPSIDnone
-
-fn staspecid_of_qid
-  (q: s0taq, id: symbol): staspecid = begin
-  case+ q.s0taq_node of
-  | $SYN.S0TAQnone () => begin
-      if id = $SYM.symbol_MINUSGT then SPSIDarrow () else SPSIDnone ()
-    end // end of [S0TAQnone]
-  | _ => SPSIDnone ()
-end // end of [staspecid_of_qid]
+staload "pats_counter.sats"
 
 (* ****** ****** *)
 
-(* end of [pats_trans2_staexp.dats] *)
+assume count_t0ype = int
+assume counter_type = ref (count)
+
+(* ****** ****** *)
+
+implement
+lt_count_count (x1, x2) = lt_int_int (x1, x2)
+
+implement
+lte_count_count (x1, x2) = lte_int_int (x1, x2)
+
+implement
+gt_count_count (x1, x2) = gt_int_int (x1, x2)
+
+implement
+gte_count_count (x1, x2) = gte_int_int (x1, x2)
+
+implement
+compare_count_count (x1, x2) = compare_int_int (x1, x2)
+
+(* ****** ****** *)
+
+implement
+fprint_count (out, x) = fprint_int (out, x)
+
+(* ****** ****** *)
+//
+implement
+counter_make () = ref_make_elt<count> (0)
+//
+implement
+counter_inc (cntr) = !cntr := !cntr + 1
+implement counter_get (cntr) = !cntr
+implement counter_set (cntr, cnt) = !cntr := cnt
+implement counter_reset (cntr) = !cntr := 0
+//
+implement
+counter_getinc
+  (cntr) = n where {
+  val n = !cntr ; val () = !cntr := n + 1
+}
+//
+implement
+counter_incget
+  (cntr) = n1 where {
+  val n1 = !cntr + 1; val () = !cntr := n1
+}
+//
+(* ****** ****** *)
+
+(* end of [pats_counter.sats] *)

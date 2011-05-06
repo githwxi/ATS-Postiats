@@ -534,6 +534,22 @@ fprint_s1qualst
 (* ****** ****** *)
 
 implement
+fprint_s1exparg (out, x) =
+  case+ x.s1exparg_node of
+  | S1EXPARGone () =>
+      fprint_string (out, "S1EXPARGone()")
+  | S1EXPARGall () =>
+      fprint_string (out, "S1EXPARGall()")
+  | S1EXPARGseq (s1es) => {
+      val () = fprint_string (out, "S1EXPARGseq(")
+      val () = fprint_s1explst (out, s1es)
+      val () = fprint_string (out, ")")
+    } (* end of [S1EXPARGseq] *)
+// end of [s1exparg_node]
+
+(* ****** ****** *)
+
+implement
 fprint_s1rtdef (out, x) = {
   val () = fprint_symbol (out, x.s1rtdef_sym)
   val () = fprint_string (out, " = ")

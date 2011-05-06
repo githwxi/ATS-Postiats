@@ -68,4 +68,61 @@ viewtypedef d2itmopt_vt = Option_vt (d2itm)
 
 (* ****** ****** *)
 
+datatype p2at_node =
+  | P2Tany of () // wildcard
+  | P2Tvar of (int(*refknd*), d2var)
+  | P2Tbool of bool
+  | P2Tchar of char
+  | P2Tstring of string
+  | P2Tfloat of float
+  | P2Tempty of ()
+  | P2Tlist of (int(*npf*), p2atlst)
+  | P2Tlst of (p2atlst)
+(*
+  | P2Trec of (int(*knd*), int(*npf*), labp2atlst)
+*)
+  | P2Tann of (p2at, s2exp) // ascribed pattern
+// end of [p2at_node]
+
+where
+p2at = '{
+  p2at_loc= location
+(*
+, p2at_svs= s2varlstord_t
+, p2at_dvs= d2varlstord_t
+, p2at_typ= ref@ (s2expopt)
+*)
+, p2at_node= p2at_node
+}
+and p2atlst = List (p2at)
+and p2atopt = Option (p2at)
+
+(* ****** ****** *)
+
+datatype
+d2ecl_node =
+  | D2Cnone of () // for something already erased
+  | D2Clist of d2eclist
+// end of [d2ecl_node]
+
+and
+d2exp_node =
+  | D2Ebool of bool (* boolean values *)
+  | D2Eann_type of (d2exp, s2exp) // ascribled expression
+// end of [d2exp_node]
+
+where
+d2ecl = '{
+  d2ecl_loc= location, d2ecl_node= d2ecl_node
+}
+and d2eclist = List (d2ecl)
+
+and
+d2exp = '{
+  d2exp_loc= location, d2exp_node= d2exp_node
+}
+and d2explst = List (d2exp)
+
+(* ****** ****** *)
+
 (* end of [pats_dynexp2.sats] *)
