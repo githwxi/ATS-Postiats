@@ -38,7 +38,7 @@ staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
-implement s2rt_err (s1t) = S2RTerr (s1t)
+implement s2rt_err () = S2RTerr ()
 
 (* ****** ****** *)
 

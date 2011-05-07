@@ -46,6 +46,10 @@ typedef location = $LOC.location
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp1.sats"
 
 (* ****** ****** *)
@@ -85,20 +89,40 @@ s2rtbas =
   | S2RTBASdef of s2rtdat // user-defined datasorts
 // end of [s2rtbas]
 
+(* ****** ****** *)
+
+abstype s2rtVar // ref (s2rt)
+
+fun eq_s2rtVar_s2rtVar (x1: s2rtVar, x2: s2rtVar): bool
+overload = with eq_s2rtVar_s2rtVar
+fun compare_s2rtVar_s2rtVar (x1: s2rtVar, x2: s2rtVar): Sgn
+overload compare with compare_s2rtVar_s2rtVar
+
+fun s2rtVar_make (loc: location): s2rtVar
+
+(* ****** ****** *)
+
 datatype s2rt =
   | S2RTbas of s2rtbas (* base sort *)
   | S2RTfun of (s2rtlst, s2rt) // function sort
   | S2RTtup of s2rtlst (* tuple sort *)
-  | S2RTerr of (s1rt) // HX: indicating an error
+  | S2RTVar of s2rtVar // HX: unification variable
+  | S2RTerr of () // HX: indicating an error
 // end of [s2rt]
 
 where
 s2rtlst = List (s2rt)
 and s2rtopt = Option (s2rt)
 
-fun s2rt_err (x: s1rt): s2rt
+fun s2rt_err (): s2rt // HX: a placeholder for continuing sort-checking
+
+fun s2rt_whnf (x: s2rt): s2rt
 
 (* ****** ****** *)
+
+fun s2var_make_srt (s2t: s2rt): s2var
+fun s2var_make_id_srt (id: symbol, s2t: s2rt): s2var
+fun s2var_copy (s2v: s2var): s2var
 
 fun s2var_get_sym (s2v: s2var): symbol
 fun s2var_get_srt (s2v: s2var): s2rt
@@ -108,6 +132,47 @@ fun s2var_get_sVarset (_: s2var): s2Varset
 fun s2var_set_sVarset (_: s2var, _: s2Varset): void
 fun s2varlst_set_sVarset (_: s2varlst, _: s2Varset): void
 fun s2var_get_stamp (s2v: s2var): stamp
+
+fun lt_s2var_s2var (x1: s2var, x2: s2var): bool
+overload < with lt_s2var_s2var
+fun lte_s2var_s2var (x1: s2var, x2: s2var): bool
+overload <= with lte_s2var_s2var
+
+fun compare_s2var_s2var (x1: s2var, x2: s2var): Sgn
+overload compare with compare_s2var_s2var
+
+fun fprint_s2var : fprint_type (s2var)
+fun fprint_s2varlst : fprint_type (s2varlst)
+
+(* ****** ****** *)
+
+fun s2var_is_boxed (s2v: s2var): bool
+fun s2var_is_unboxed (s2v: s2var): bool
+
+(* ****** ****** *)
+//
+// HX: [s2Var] is assumed in [pats_staexp2_sVar.dats]
+//
+fun s2Var_make_srt (loc: location, s2t: s2rt): s2Var
+fun s2Var_make_var (loc: location, s2v: s2var): s2Var
+
+(* ****** ****** *)
+
+fun s2Var_get_stamp (s2V: s2Var): stamp
+
+(* ****** ****** *)
+
+fun lt_s2Var_s2Var (x1: s2Var, x2: s2Var): bool
+overload < with lt_s2Var_s2Var
+fun lte_s2Var_s2Var (x1: s2Var, x2: s2Var): bool
+overload <= with lte_s2Var_s2Var
+
+fun compare_s2Var_s2Var (x1: s2Var, x2: s2Var): Sgn
+overload compare with compare_s2Var_s2Var
+
+(* ****** ****** *)
+
+fun s2Varset_make_nil (): s2Varset
 
 (* ****** ****** *)
 //

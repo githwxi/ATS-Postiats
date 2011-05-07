@@ -69,6 +69,11 @@ overload compare with compare_count_count
 fun fprint_count : fprint_type (count)
 
 (* ****** ****** *)
+
+fun tostring_count (cnt: count): string
+fun tostring_prefix_count (pre: string, cnt: count): string
+
+(* ****** ****** *)
 //
 fun counter_make (): counter
 //

@@ -34,77 +34,35 @@
 //
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/reference.dats"
+staload UT = "pats_utils.sats"
 
 (* ****** ****** *)
 
-staload "pats_counter.sats"
+staload STP = "pats_stamp.sats"
+typedef stamp = $STP.stamp
+overload compare with $STP.compare_stamp_stamp
 
 (* ****** ****** *)
 
-assume count_t0ype = int
-assume counter_type = ref (count)
-
-(* ****** ****** *)
-
-implement
-lt_count_count (x1, x2) = lt_int_int (x1, x2)
-implement
-lte_count_count (x1, x2) = lte_int_int (x1, x2)
-
-implement
-gt_count_count (x1, x2) = gt_int_int (x1, x2)
-implement
-gte_count_count (x1, x2) = gte_int_int (x1, x2)
-
-implement
-eq_count_count (x1, x2) = eq_int_int (x1, x2)
-implement
-neq_count_count (x1, x2) = neq_int_int (x1, x2)
-
-implement
-compare_count_count (x1, x2) = compare_int_int (x1, x2)
+staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
 implement
-fprint_count (out, x) = fprint_int (out, x)
+lt_s2Var_s2Var
+  (x1, x2) = (compare (x1, x2) < 0)
+// end of [lt_s2Var_s2Var]
+
+implement
+lte_s2Var_s2Var
+  (x1, x2) = (compare (x1, x2) <= 0)
+// end of [lte_s2Var_s2Var]
+
+implement
+compare_s2Var_s2Var (x1, x2) =
+  compare (s2Var_get_stamp (x1), s2Var_get_stamp (x2))
+// end of [compare_s2Var_s2Var]
 
 (* ****** ****** *)
 
-implement
-tostring_count (cnt) = let
-  val str = sprintf ("%i", @(cnt)) in string_of_strptr (str)
-end // end of [tostring_count]
-
-implement
-tostring_prefix_count (pre, cnt) = let
-  val str = sprintf ("%s%i", @(pre,cnt)) in string_of_strptr (str)
-end // end of [tostring_prefix_count]
-
-(* ****** ****** *)
-//
-implement
-counter_make () = ref_make_elt<count> (0)
-//
-implement
-counter_inc (cntr) = !cntr := !cntr + 1
-implement counter_get (cntr) = !cntr
-implement counter_set (cntr, cnt) = !cntr := cnt
-implement counter_reset (cntr) = !cntr := 0
-//
-implement
-counter_getinc
-  (cntr) = n where {
-  val n = !cntr ; val () = !cntr := n + 1
-}
-//
-implement
-counter_incget
-  (cntr) = n1 where {
-  val n1 = !cntr + 1; val () = !cntr := n1
-}
-//
-(* ****** ****** *)
-
-(* end of [pats_counter.sats] *)
+(* end of [pats_staexp2_sVar.dats] *)

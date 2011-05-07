@@ -34,77 +34,81 @@
 //
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/reference.dats"
+staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
-staload "pats_counter.sats"
+abstype s2rtnul (l:addr)
+typedef s2rtnul = [l:agez] s2rtnul (l)
 
 (* ****** ****** *)
 
-assume count_t0ype = int
-assume counter_type = ref (count)
+extern
+castfn s2rtnul_none (x: ptr null): s2rtnul (null)
+
+extern
+castfn s2rtnul_some (x: s2rt): [l:agz] s2rtnul (l)
+extern
+castfn s2rtnul_unsome {l:agz} (x: s2rtnul l): s2rt
+
+extern
+fun s2rtnul_is_null {l:addr}
+  (x: s2rtnul (l)): bool (l==null) = "atspre_ptr_is_null"
+// end of [s2rtnul_is_null]
+extern
+fun s2rtnul_isnot_null {l:addr}
+  (x: s2rtnul (l)): bool (l > null) = "atspre_ptr_isnot_null"
+// end of [s2rtnul_isnot_null]
 
 (* ****** ****** *)
 
-implement
-lt_count_count (x1, x2) = lt_int_int (x1, x2)
-implement
-lte_count_count (x1, x2) = lte_int_int (x1, x2)
+local
+
+assume s2rtVar = ref (s2rtnul)
+
+in // in of [local]
 
 implement
-gt_count_count (x1, x2) = gt_int_int (x1, x2)
-implement
-gte_count_count (x1, x2) = gte_int_int (x1, x2)
+eq_s2rtVar_s2rtVar
+  (x1, x2) = (p1 = p2) where {
+  val p1 = ref_get_ptr (x1) and p2 = ref_get_ptr (x2)
+} // end of [eq_s2rtVar_s2rtVar]
 
 implement
-eq_count_count (x1, x2) = eq_int_int (x1, x2)
-implement
-neq_count_count (x1, x2) = neq_int_int (x1, x2)
+compare_s2rtVar_s2rtVar
+  (x1, x2) = compare_ptr_ptr (p1, p2) where {
+  val p1 = ref_get_ptr (x1) and p2 = ref_get_ptr (x2)
+} // end of [compare_s2rtVar_s2rtVar]
 
 implement
-compare_count_count (x1, x2) = compare_int_int (x1, x2)
+s2rtVar_make (loc) = let
+  val nul = s2rtnul_none (null) in ref_make_elt (nul)
+end // end of [s2rtVar_make]
+
+implement
+s2rt_whnf (s2t0) = let
+  fun aux (s2t0: s2rt): s2rt =
+    case+ s2t0 of
+    | S2RTVar r => let
+        val s2t = !r
+        val test = s2rtnul_isnot_null (s2t)
+      in
+        if test then let
+          val s2t = s2rtnul_unsome (s2t)
+          val s2t = aux (s2t)
+          val () = !r := s2rtnul_some (s2t)
+        in
+          s2t
+        end else s2t0
+      end (* S2RTVar *)
+    | _ => s2t0 // end of [_]
+  // end of [aux]
+in
+  aux (s2t0)
+end // end of [s2rt_whnf]
+
+end // end of [local]
 
 (* ****** ****** *)
 
-implement
-fprint_count (out, x) = fprint_int (out, x)
-
-(* ****** ****** *)
-
-implement
-tostring_count (cnt) = let
-  val str = sprintf ("%i", @(cnt)) in string_of_strptr (str)
-end // end of [tostring_count]
-
-implement
-tostring_prefix_count (pre, cnt) = let
-  val str = sprintf ("%s%i", @(pre,cnt)) in string_of_strptr (str)
-end // end of [tostring_prefix_count]
-
-(* ****** ****** *)
-//
-implement
-counter_make () = ref_make_elt<count> (0)
-//
-implement
-counter_inc (cntr) = !cntr := !cntr + 1
-implement counter_get (cntr) = !cntr
-implement counter_set (cntr, cnt) = !cntr := cnt
-implement counter_reset (cntr) = !cntr := 0
-//
-implement
-counter_getinc
-  (cntr) = n where {
-  val n = !cntr ; val () = !cntr := n + 1
-}
-//
-implement
-counter_incget
-  (cntr) = n1 where {
-  val n1 = !cntr + 1; val () = !cntr := n1
-}
-//
-(* ****** ****** *)
-
-(* end of [pats_counter.sats] *)
+(* end of [pats_staexp2_sort.dats] *)

@@ -125,7 +125,7 @@ case+ 0 of
     val () = prerr_newline ()
     val () = the_tran2errlst_add (T2E_s1rt_app (s1t0))
   in
-    s2rt_err (s1t0)
+    s2rt_err ()
   end // end of [_]
 end // end of [s1rt_tr_app]
 
@@ -144,24 +144,28 @@ case+ ans of
   | S2TEsrt (s2t) => s2t
   | _ => let
       val () = prerr_loc_error2 (loc0)
+//
       val () = if isdebug () then prerr ": s1rt_tr_qid"
+//
       val () = prerr ": the identifier ["
       val () = prerr_symbol (id)
       val () = prerr "] refers to a subset sort that is not a sort."
       val () = prerr_newline ()
     in
-      s2rt_err (s1t0)
+      s2rt_err ()
     end (* end of [_] *)
   ) // end of [Some_vt]
 | ~None_vt () => let
       val () = prerr_loc_error2 (loc0)
+//
       val () = if isdebug () then prerr ": s1rt_tr_qid"
+//
       val () = prerr ": the identifier ["
       val () = prerr_symbol (id)
       val () = prerr "] does not refer to any recognized sort."
       val () = prerr_newline ()
   in
-    s2rt_err (s1t0)
+    s2rt_err ()
   end // end of [None_vt]
 //
 end // end of [s1rt_tr_qid]
