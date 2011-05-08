@@ -233,12 +233,12 @@ assume trans1_level_v = unit_v // HX: it is just a dummy
 in // in of [local]
 
 implement
-trans1_level_get () = let
+the_trans1_level_get () = let
   prval vbox pf = pf_the_level in !p_the_level
 end // end of [trans1_level_get]
 
 implement
-trans1_level_inc () = let
+the_trans1_level_inc () = let
   prval pflev = unit_v ()
   prval vbox pf = pf_the_level
   val () = !p_the_level := !p_the_level + 1
@@ -247,7 +247,7 @@ in
 end // end of [trans1_level_inc]
 
 implement
-trans1_level_dec
+the_trans1_level_dec
   (pflev | (*none*)) = () where {
   prval unit_v () = pflev
   prval vbox pf = pf_the_level
@@ -266,7 +266,7 @@ trans1_env_push_v = (e1xpenv_push_v, fxtyenv_push_v)
 in // in of [local]
 
 implement
-trans1_env_pop
+the_trans1_env_pop
   (pfenv | (*none*)) = () where {
   prval (pf1env, pf2env) = pfenv
   val map = the_e1xpenv_pop (pf1env | (*none*))
@@ -276,7 +276,7 @@ trans1_env_pop
 } // end of [trans1_env_pop]
 
 implement
-trans1_env_push
+the_trans1_env_push
   () = (pfenv | ()) where {
   val (pf1env | ()) = the_e1xpenv_push_nil ()
   val (pf2env | ()) = the_fxtyenv_push_nil ()
@@ -284,7 +284,7 @@ trans1_env_push
 } // end of [trans1_env_pop]
 
 implement
-trans1_env_localjoin
+the_trans1_env_localjoin
   (pfenv1, pfenv2 | (*none*)) = () where {
   prval (pf1env1, pf2env1) = pfenv1
   prval (pf1env2, pf2env2) = pfenv2
@@ -304,7 +304,7 @@ trans1_env_save_v = (e1xpenv_save_v, fxtyenv_save_v)
 in
 
 implement
-trans1_env_save () = let
+the_trans1_env_save () = let
   val (pf1save | ()) = the_e1xpenv_save ()
   val (pf2save | ()) = the_fxtyenv_save ()
   prval pfsave = (pf1save, pf2save)
@@ -313,7 +313,7 @@ in
 end // end of [trans1_env_save]
 
 implement
-trans1_env_restore
+the_trans1_env_restore
   (pfsave | (*none*)) = {
   val () = the_e1xpenv_restore (pfsave.0 | (*none*))
   val () = the_fxtyenv_restore (pfsave.1 | (*none*))  

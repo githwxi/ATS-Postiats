@@ -34,7 +34,13 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/pointer.dats"
+staload _(*anon*) = "prelude/DATS/reference.dats"
+
+(* ****** ****** *)
+
 staload UT = "pats_utils.sats"
+staload _(*anon*) = "pats_utils.dats"
 
 (* ****** ****** *)
 
@@ -187,7 +193,7 @@ end // end of [fprint_s2var]
 
 implement
 fprint_s2varlst (out, xs) =
-  $UT.fprintlst (out, xs, ", ", fprint_s2var)
+  $UT.fprintlst<s2var> (out, xs, ", ", fprint_s2var)
 // end of [fprint_s2varlst]
 
 (* ****** ****** *)

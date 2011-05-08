@@ -119,11 +119,11 @@ case+ 0 of
     end // end of [_]
   ) // end of [s1rt_is_arrow]
 | _ => let
+    val () = the_tran2errlst_add (T2E_s1rt_app (s1t0))
     val () = prerr_loc_error2 (s1t0.s1rt_loc)
     val () = if isdebug () then prerr (": s1rt_tr_app")
     val () = prerr ": sort application is not supported."
     val () = prerr_newline ()
-    val () = the_tran2errlst_add (T2E_s1rt_app (s1t0))
   in
     s2rt_err ()
   end // end of [_]
@@ -197,6 +197,7 @@ case+ s1t0.s1rt_node of
   in
     $ERR.abort ()
   end // end of [_]
+// end of [case]
 end // end of [s1rt_tr]
 
 

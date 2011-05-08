@@ -38,4 +38,14 @@ staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 
+implement d2ecl_none (loc) = '{
+  d2ecl_loc= loc, d2ecl_node= D2Cnone ()
+}
+
+implement d2ecl_list (loc, xs) = '{
+  d2ecl_loc= loc, d2ecl_node= D2Clist (xs)
+}
+
+(* ****** ****** *)
+
 (* end of [pats_dynexp2.dats] *)

@@ -34,6 +34,11 @@
 //
 (* ****** ****** *)
 
+staload SYN = "pats_syntax.sats"
+typedef s0rtq = $SYN.s0rtq
+
+(* ****** ****** *)
+
 staload "pats_staexp1.sats"
 staload "pats_dynexp1.sats"
 staload "pats_staexp2.sats"
@@ -43,6 +48,7 @@ staload "pats_dynexp2.sats"
 
 datatype tran2err =
   | T2E_s1rt_app of (s1rt)
+  | T2E_s1rtext_qid of (s0rtq, symbol)
 // end of [tran2err]
 
 fun the_tran2errlst_add (x: tran2err): void
@@ -52,6 +58,15 @@ fun the_tran2errlst_add (x: tran2err): void
 fun s1rt_tr (s1t: s1rt): s2rt
 fun s1rtlst_tr (s1ts: s1rtlst): s2rtlst
 fun s1rtopt_tr (s1topt: s1rtopt): s2rtopt
+
+(* ****** ****** *)
+
+fun s1rtext_tr (s1te: s1rtext): s2rtext
+
+(* ****** ****** *)
+
+fun d1ecl_tr (d1c: d1ecl): d2ecl
+fun d1eclist_tr (d1c: d1eclist): d2eclist
 
 (* ****** ****** *)
 

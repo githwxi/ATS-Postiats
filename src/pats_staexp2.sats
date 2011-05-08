@@ -82,8 +82,7 @@ typedef d2conlst = List (d2con)
 
 (* ****** ****** *)
 
-datatype
-s2rtbas =
+datatype s2rtbas =
   | S2RTBASpre of symbol // predicative: bool, char, int, ...
   | S2RTBASimp of (symbol, int(*knd*)) // impredicative sorts
   | S2RTBASdef of s2rtdat // user-defined datasorts
@@ -114,9 +113,34 @@ where
 s2rtlst = List (s2rt)
 and s2rtopt = Option (s2rt)
 
+(* ****** ****** *)
+//
+// HX: pre-defined predicative sorts
+//
+val s2rt_int : s2rt
+val s2rt_bool : s2rt
+val s2rt_addr : s2rt
+val s2rt_char : s2rt
+val s2rt_cls : s2rt // classes
+val s2rt_eff : s2rt // effects
+//
+// HX: pre-defined predicative sorts
+//
+val s2rt_prop : s2rt
+val s2rt_type : s2rt
+val s2rt_t0ype : s2rt
+val s2rt_view : s2rt
+val s2rt_viewtype : s2rt
+val s2rt_viewt0ype : s2rt
+//
+val s2rt_types : s2rt
+//
+(* ****** ****** *)
+
 fun s2rt_err (): s2rt // HX: a placeholder for continuing sort-checking
 
-fun s2rt_whnf (x: s2rt): s2rt
+fun s2rt_delink (x: s2rt): s2rt // HX: shallow removal
+fun s2rt_delink_all (x: s2rt): s2rt // HX: perform deep removal
 
 (* ****** ****** *)
 
@@ -141,6 +165,8 @@ overload <= with lte_s2var_s2var
 fun compare_s2var_s2var (x1: s2var, x2: s2var): Sgn
 overload compare with compare_s2var_s2var
 
+(* ****** ****** *)
+
 fun fprint_s2var : fprint_type (s2var)
 fun fprint_s2varlst : fprint_type (s2varlst)
 
@@ -158,6 +184,7 @@ fun s2Var_make_var (loc: location, s2v: s2var): s2Var
 
 (* ****** ****** *)
 
+fun s2Var_get_srt (s2V: s2Var): s2rt
 fun s2Var_get_stamp (s2V: s2Var): stamp
 
 (* ****** ****** *)
@@ -169,6 +196,10 @@ overload <= with lte_s2Var_s2Var
 
 fun compare_s2Var_s2Var (x1: s2Var, x2: s2Var): Sgn
 overload compare with compare_s2Var_s2Var
+
+(* ****** ****** *)
+
+fun fprint_s2Var : fprint_type (s2Var)
 
 (* ****** ****** *)
 
@@ -240,6 +271,7 @@ s2exp_node =
 and s2rtext = (* extended sort *)
   | S2TEsrt of s2rt
   | S2TEsub of (s2var, s2rt, s2explst)
+  | S2TEerr of ()
 // end of [s2rtext]
 
 and wths2explst =

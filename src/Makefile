@@ -56,6 +56,10 @@ SOURCES := \
   pats_utils.dats \
   pats_basics.sats \
   pats_basics.dats \
+  pats_counter.sats \
+  pats_counter.dats \
+  pats_stamp.sats \
+  pats_stamp.dats \
   pats_symbol.sats \
   pats_symbol.dats \
   pats_filename.sats \
@@ -123,6 +127,9 @@ SOURCES := \
   pats_trans1_decl.dats \
   pats_staexp2.sats \
   pats_staexp2.dats \
+  pats_staexp2_sort.dats \
+  pats_staexp2_svar.dats \
+  pats_staexp2_sVar.dats \
   pats_dynexp2.sats \
   pats_dynexp2.dats \
   pats_trans2.sats \
@@ -132,6 +139,9 @@ SOURCES := \
   pats_trans2_env.dats \
   pats_trans2_error.dats \
   pats_trans2_sort.dats \
+  pats_trans2_staexp.dats \
+  pats_trans2_dynexp.dats \
+  pats_trans2_decl.dats \
   pats_comarg.sats \
   pats_comarg.dats \
 

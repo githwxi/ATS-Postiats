@@ -446,32 +446,32 @@ aux_item (
     end // end of [D0Etmpid]
 //
   | D0Elet (d0cs, body) => let
-      val (pfpush | ()) = trans1_env_push ()
-      val (pflev | ()) = trans1_level_inc ()
+      val (pfenv | ()) = the_trans1_env_push ()
+      val (pflev | ()) = the_trans1_level_inc ()
       val d1cs = d0eclist_tr d0cs
       val body = d0exp_tr (body)
-      val () = trans1_level_dec (pflev | (*none*))
-      val () = trans1_env_pop (pfpush | (*none*))
+      val () = the_trans1_level_dec (pflev | (*none*))
+      val () = the_trans1_env_pop (pfenv | (*none*))
     in
       FXITMatm (d1exp_let (loc0, d1cs, body))
     end // end of [D0Elet]
   | D0Ewhere (body, d0cs) => let
-      val (pfpush | ()) = trans1_env_push ()
-      val (pflev | ()) = trans1_level_inc ()
+      val (pfenv | ()) = the_trans1_env_push ()
+      val (pflev | ()) = the_trans1_level_inc ()
       val d1cs = d0eclist_tr d0cs
       val body = d0exp_tr (body)
-      val () = trans1_level_dec (pflev | (*none*))
-      val () = trans1_env_pop (pfpush | (*none*))
+      val () = the_trans1_level_dec (pflev | (*none*))
+      val () = the_trans1_env_pop (pfenv | (*none*))
     in
       FXITMatm (d1exp_let (loc0, d1cs, body))
     end // end of [D0Elet]
   | D0Edeclseq d0cs => let
-      val (pfpush | ()) = trans1_env_push ()
-      val (pflev | ()) = trans1_level_inc ()
+      val (pfenv | ()) = the_trans1_env_push ()
+      val (pflev | ()) = the_trans1_level_inc ()
       val d1cs = d0eclist_tr d0cs
       val body = d1exp_empty (loc0)
-      val () = trans1_level_dec (pflev | (*none*))
-      val () = trans1_env_pop (pfpush | (*none*))
+      val () = the_trans1_level_dec (pflev | (*none*))
+      val () = the_trans1_env_pop (pfenv | (*none*))
     in
       FXITMatm (d1exp_let (loc0, d1cs, body))
     end // end of [D0Elet]

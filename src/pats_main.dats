@@ -50,6 +50,11 @@ staload SYM = "pats_symbol.sats"
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+macdef isdebug () = (debug_flag_get () > 0)
+
+(* ****** ****** *)
+
 staload "pats_lexing.sats"
 staload "pats_tokbuf.sats"
 staload "pats_syntax.sats"
@@ -61,6 +66,11 @@ staload "pats_staexp1.sats"
 staload "pats_dynexp1.sats"
 staload TRANS1 = "pats_trans1.sats"
 staload TRENV1 = "pats_trans1_env.sats"
+
+(* ****** ****** *)
+
+staload "pats_staexp2.sats"
+staload "pats_dynexp2.sats"
 staload TRANS2 = "pats_trans2.sats"
 staload TRENV2 = "pats_trans2_env.sats"
 
@@ -135,6 +145,10 @@ dynload "pats_trans1_dynexp.dats"
 dynload "pats_trans1_decl.dats"
 //
 dynload "pats_staexp2.dats"
+dynload "pats_staexp2_sort.dats"
+dynload "pats_staexp2_svar.dats"
+dynload "pats_staexp2_sVar.dats"
+//
 dynload "pats_dynexp2.dats"
 //
 dynload "pats_namespace.dats"
@@ -143,6 +157,7 @@ dynload "pats_trans2_error.dats"
 dynload "pats_trans2_sort.dats"
 dynload "pats_trans2_staexp.dats"
 dynload "pats_trans2_dynexp.dats"
+dynload "pats_trans2_decl.dats"
 //
 dynload "pats_comarg.dats"
 //
@@ -401,6 +416,32 @@ fun process_IATS_dir
 
 (* ****** ****** *)
 
+fn do_trans12 (
+  basename: string, d0cs: d0eclist
+) : d2eclist = let
+//
+  val d1cs = $TRANS1.d0eclist_tr (d0cs)
+  val () = if isdebug () then {
+    val () = print "The 1st translation (fixity) of ["
+    val () = print basename
+    val () = print "] is successfully completed!"
+    val () = print_newline ()
+  } // end of [if]
+//
+  val d2cs = $TRANS2.d1eclist_tr (d1cs)
+//
+  val () = if isdebug () then {
+    val () = print "The 2nd translation (binding) of ["
+    val () = print basename
+    val () = print "] is successfully completed!"
+    val () = print_newline ()
+  } // end of [if]
+in
+  d2cs
+end // end of [do_trans12]
+
+(* ****** ****** *)
+
 fn*
 process_cmdline
   {i:nat} .<i,0>. (
@@ -420,11 +461,11 @@ case+ arglst of
   in
     case+ 0 of
     | _ when stadyn >= 0 => {
-        val () = prelude_load_if (ATSHOME, state.preludeflg)
+        val () = prelude_load_if (
+          ATSHOME, state.preludeflg // loading once
+        ) // end of [val]
         val d0cs = parse_from_stdin_toplevel (stadyn)
-        val d1cs = $TRANS1.d0eclist_tr (d0cs)
-        val () = fprint_d1eclist (stdout_ref, d1cs)
-        val () = fprint_newline (stdout_ref)
+        val d2cs = do_trans12 ("STDIN", d0cs)
       } // end of [_ when ...]
     | _ => ()
   end // end of [list_vt_nil when ...]
@@ -611,6 +652,7 @@ in
 end : string // end of [ATSHOME]
 //
 val () = $FIL.the_prepathlst_push (ATSHOME) // for the run-time and atslib
+val () = $TRENV2.the_trans2_env_initialize ()
 //
 val arglst = comarglst_parse (argc, argv)
 val ~list_vt_cons (arg0, arglst) = arglst

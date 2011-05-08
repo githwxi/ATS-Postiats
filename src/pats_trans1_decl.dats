@@ -520,7 +520,7 @@ fn s0taload_tr_load (
   ) : int // end of [val]
   val d0cs = $PAR.parse_from_filename_toplevel (flag, fil)
 //
-  val (pfsave | ()) = trans1_env_save ()
+  val (pfsave | ()) = the_trans1_env_save ()
   val d1cs = d0eclist_tr (d0cs)
   val () = (case+
     the_e1xpenv_find ($SYM.symbol_ATS_STALOADFLAG) of
@@ -529,7 +529,7 @@ fn s0taload_tr_load (
       end // end of [Some_vt]
     | ~None_vt () => () // the default value
   ) : void // end of [val]
-  val () = trans1_env_restore (pfsave | (*none*))
+  val () = the_trans1_env_restore (pfsave | (*none*))
   val () = staload_file_insert (fil, loadflag, d1cs)
 in
   d1cs
@@ -800,13 +800,13 @@ case+ d0c0.d0ecl_node of
 | D0Clocal (
     d0cs_head, d0cs_body
   ) => let
-    val (pflev | ()) = trans1_level_inc ()
-    val (pfenv1 | ()) = trans1_env_push ()
+    val (pfenv1 | ()) = the_trans1_env_push ()
+    val (pflev | ()) = the_trans1_level_inc ()
     val d1cs_head = d0eclist_tr (d0cs_head)
-    val () = trans1_level_dec (pflev | (*none*))
-    val (pfenv2 | ()) = trans1_env_push ((*none*))
+    val () = the_trans1_level_dec (pflev | (*none*))
+    val (pfenv2 | ()) = the_trans1_env_push ((*none*))
     val d1cs_body = d0eclist_tr (d0cs_body)
-    val () = trans1_env_localjoin (pfenv1, pfenv2 | (*none*))
+    val () = the_trans1_env_localjoin (pfenv1, pfenv2 | (*none*))
   in
     d1ecl_local (d0c0.d0ecl_loc, d1cs_head, d1cs_body)
   end // end of [D0Clocal]
@@ -830,7 +830,7 @@ case+ d0c0.d0ecl_node of
 end // end of [d0ecl_tr]
 
 implement
-d0eclist_tr (d0cs) = l2l (list_map_fun<d0ecl> (d0cs, d0ecl_tr))
+d0eclist_tr (d0cs) = l2l (list_map_fun (d0cs, d0ecl_tr))
 
 (* ****** ****** *)
 

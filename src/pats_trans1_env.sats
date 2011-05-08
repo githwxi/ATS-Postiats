@@ -77,30 +77,30 @@ fun fprint_the_fxtyenv (out: FILEref): void // mostly for debugging
 
 absview
 trans1_level_v // for avoiding negative levels
-fun trans1_level_get (): int
-fun trans1_level_dec (pf: trans1_level_v | (*none*)): void
-fun trans1_level_inc (): (trans1_level_v | void)
+fun the_trans1_level_get (): int
+fun the_trans1_level_dec (pf: trans1_level_v | (*none*)): void
+fun the_trans1_level_inc (): (trans1_level_v | void)
 
 (* ****** ****** *)
 
 absview trans1_env_push_v
 
-fun trans1_env_pop
+fun the_trans1_env_pop
   (pf: trans1_env_push_v | (*none*)): void
-fun trans1_env_push (): (trans1_env_push_v | void)
+fun the_trans1_env_push (): (trans1_env_push_v | void)
 
 (*
 ** HX: for handling <local ... in ... end>
 *)
-fun trans1_env_localjoin (
+fun the_trans1_env_localjoin (
   pf1: trans1_env_push_v, pf2: trans1_env_push_v | (*none*)
 ) : void // end of [trans1_env_localjoin]
 
 (* ****** ******* *)
 
 absview trans1_env_save_v
-fun trans1_env_save ((*none*)): (trans1_env_save_v | void)
-fun trans1_env_restore (pf: trans1_env_save_v | (*none*)): void
+fun the_trans1_env_save ((*none*)): (trans1_env_save_v | void)
+fun the_trans1_env_restore (pf: trans1_env_save_v | (*none*)): void
 
 (* ****** ****** *)
 

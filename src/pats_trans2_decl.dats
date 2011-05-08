@@ -34,35 +34,68 @@
 //
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/reference.dats"
+staload ERR = "pats_error.sats"
+
+(* ****** ****** *)
+
+staload "pats_staexp1.sats"
+staload "pats_dynexp1.sats"
+staload "pats_staexp2.sats"
+staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 
 staload "pats_trans2.sats"
+staload "pats_trans2_env.sats"
 
 (* ****** ****** *)
 
-viewtypedef
-tran2errlst_vt = List_vt (tran2err)
-
-extern fun the_tran2errlst_get (): tran2errlst_vt
+#define l2l list_of_list_vt
 
 (* ****** ****** *)
 
-local
+fn s1rtdef_tr
+  (d: s1rtdef): void = let
+  val id = d.s1rtdef_sym
+  val s2te = s1rtext_tr (d.s1rtdef_def)
+in
+  the_s2rtenv_add (id, s2te)
+end // end of [s1rtdef_tr]
 
-val the_tran2errlst = ref<tran2errlst_vt> (list_vt_nil)
-
-in // in of [local]
+(* ****** ****** *)
 
 implement
-the_tran2errlst_add (x) = () where {
-  val (vbox pf | p) = ref_get_view_ptr (the_tran2errlst)
-  val () = !p := list_vt_cons (x, !p)
-} // end of [the_tran2errlst_add]
-
-end // end of [local]
+d1ecl_tr (d1c0) = let
+  val loc0 = d1c0.d1ecl_loc
+in
+//
+case+ d1c0.d1ecl_node of
+| D1Cnone () => d2ecl_none (loc0)
+| D1Clist (ds) => let
+    val ds = l2l (list_map_fun (ds, d1ecl_tr))
+  in
+    d2ecl_list (loc0, ds)
+  end // end of [D1Clist]
+| D1Csrtdefs (ds) => let
+    val () = list_app_fun (ds, s1rtdef_tr) in d2ecl_none (loc0)
+  end // end of [D1Csrtdefs]
+| _ => let
+    val () = $LOC.prerr_location (loc0)
+    val () = prerr ": d1ecl_tr: not implemented: d1c0 = "
+    val () = fprint_d1ecl (stderr_ref, d1c0)
+    val () = prerr_newline ()
+    val () =  $ERR.abort ()
+  in
+    d2ecl_none (loc0)
+  end // end of [_]
+//
+end // end of [d1ec_tr]
 
 (* ****** ****** *)
 
-(* end of [pats_trans2_error.dats] *)
+implement
+d1eclist_tr (d1cs) = l2l (list_map_fun (d1cs, d1ecl_tr))
+
+(* ****** ****** *)
+
+(* end of [pats_trans2_decl.dats] *)

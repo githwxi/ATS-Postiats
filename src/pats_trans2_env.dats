@@ -34,6 +34,7 @@
 //
 (* ****** ****** *)
 
+staload SYM = "pats_symbol.sats"
 staload SYN = "pats_syntax.sats"
 
 (* ****** ****** *)
@@ -94,6 +95,8 @@ viewtypedef s2rtenv = symenv (s2rtext)
 val [l0:addr] (pf | p0) = symenv_make_nil ()
 val (pf0 | ()) = vbox_make_view_ptr {s2rtenv} (pf | p0)
 
+assume s2rtenv_push_v = unit_v
+
 (* ****** ****** *)
 
 fun
@@ -115,6 +118,13 @@ end // end of [the_s2rtenv_find_namespace]
 (* ****** ****** *)
 
 in // in of [local]
+
+implement
+the_s2rtenv_add (id, s2te) = let
+  prval vbox pf = pf0 in symenv_insert (!p0, id, s2te)
+end // end of [the_s2rtenv_add]
+
+(* ****** ****** *)
 
 implement
 the_s2rtenv_find (id) = let
@@ -141,12 +151,12 @@ end // end of [the_s2rtenv_find]
 
 implement
 the_s2rtenv_find_qua (q, id) = let
-// (*
+(*
   val () = print "the_s2rtenv_find_qua: qid = "
   val () = $SYN.print_s0rtq (q)
   val () = $SYM.print_symbol (id)
   val () = print_newline ()
-// *)
+*)
 in
 //
 case+ q.s0rtq_node of
@@ -154,6 +164,33 @@ case+ q.s0rtq_node of
 | $SYN.S0RTQsymdot _ => None_vt ()
 //
 end // end of [the_s2rtenv_find_qua]
+
+(* ****** ****** *)
+
+implement
+the_s2rtenv_pop
+  (pfenv | (*none*)) = map where {
+  prval unit_v () = pfenv
+  prval vbox pf = pf0
+  val map = symenv_pop (!p0)
+} // end of [the_s2rtenv_pop_free]
+
+implement
+the_s2rtenv_push_nil
+  () = (pfenv | ()) where {
+  prval vbox pf = pf0
+  val () = symenv_push_nil (!p0)
+  prval pfenv = unit_v ()
+} // end of [the_s2rtenv_push_nil]
+
+(* ****** ****** *)
+
+implement
+the_s2rtenv_pervasive_joinwth (map) = let
+  prval vbox pf = pf0 in symenv_pervasive_joinwth (!p0, map)
+end // end of [fun]
+
+(* ****** ****** *)
 
 end // end of [local]
 
@@ -181,7 +218,14 @@ in
   the_namespace_search (f)
 end // end of [the_s2expenv_find_namespace]
 
-in
+in // in of [local]
+
+implement
+the_s2expenv_add (id, s2i) = let
+  prval vbox pf = pf0 in symenv_insert (!p0, id, s2i)
+end // end of [the_s2expenv_add]
+
+(* ****** ****** *)
 
 implement
 the_s2expenv_find (id) = let
@@ -222,6 +266,45 @@ case+ q.s0taq_node of
 | $SYN.S0TAQsymcolon _ => None_vt ()
 //
 end // end of [the_s2expenv_find_qua]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun the_s2rtenv_initialize (): void = {
+//
+  val (pfenv | ()) = the_s2rtenv_push_nil ()
+//
+// HX: pre-defined predicative sorts
+//
+  val () = the_s2rtenv_add ($SYM.symbol_INT, S2TEsrt s2rt_int)
+  val () = the_s2rtenv_add ($SYM.symbol_BOOL, S2TEsrt s2rt_bool)
+  val () = the_s2rtenv_add ($SYM.symbol_ADDR, S2TEsrt s2rt_addr)
+  val () = the_s2rtenv_add ($SYM.symbol_CHAR, S2TEsrt s2rt_char)
+//
+// HX: pre-defined impredicative sorts
+//
+  val () = the_s2rtenv_add ($SYM.symbol_PROP, S2TEsrt s2rt_prop)
+  val () = the_s2rtenv_add ($SYM.symbol_TYPE, S2TEsrt s2rt_type)
+  val () = the_s2rtenv_add ($SYM.symbol_T0YPE, S2TEsrt s2rt_t0ype)
+  val () = the_s2rtenv_add ($SYM.symbol_VIEW, S2TEsrt s2rt_view)
+  val () = the_s2rtenv_add ($SYM.symbol_VIEWTYPE, S2TEsrt s2rt_viewtype)
+  val () = the_s2rtenv_add ($SYM.symbol_VIEWT0YPE, S2TEsrt s2rt_viewt0ype)
+  val () = the_s2rtenv_add ($SYM.symbol_TYPES, S2TEsrt s2rt_types)
+//
+  val map = the_s2rtenv_pop (pfenv | (*none*))
+  val () = the_s2rtenv_pervasive_joinwth (map)
+//
+} // end of [trans2_env_initialize]
+
+in // in of [local]
+
+implement
+the_trans2_env_initialize () = {
+  val () = the_s2rtenv_initialize ()
+}
 
 end // end of [local]
 

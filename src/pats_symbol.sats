@@ -91,6 +91,28 @@ val symbol_UNDEFINED : symbol // undefined
 val symbol_TUPZ : symbol // TUPSIZE // for syndef
 
 (* ****** ****** *)
+//
+// HX: for pre-defined predicative sorts
+//
+val symbol_INT : symbol
+val symbol_BOOL : symbol
+val symbol_ADDR : symbol
+val symbol_CHAR : symbol
+val symbol_CLS : symbol
+val symbol_EFF : symbol
+//
+// HX: for pre-defined impredicative sorts
+//
+val symbol_PROP : symbol
+val symbol_TYPE : symbol
+val symbol_T0YPE : symbol
+val symbol_VIEW : symbol
+val symbol_VIEWTYPE : symbol
+val symbol_VIEWT0YPE : symbol
+//
+val symbol_TYPES : symbol
+//
+(* ****** ****** *)
 
 val symbol_ATS_STALOADFLAG : symbol
 val symbol_ATS_DYNLOADFLAG : symbol

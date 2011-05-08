@@ -259,6 +259,24 @@ implement symbol_LLAMAT = symbol_make_string "llam@"
 implement symbol_REFAT = symbol_make_string "ref@"
 //
 (* ****** ****** *)
+//
+implement symbol_INT = symbol_make_string "int"
+implement symbol_BOOL = symbol_make_string "bool"
+implement symbol_ADDR = symbol_make_string "addr"
+implement symbol_CHAR = symbol_make_string "char"
+implement symbol_CLS = symbol_make_string "cls"
+implement symbol_EFF = symbol_make_string "eff"
+//
+implement symbol_PROP = symbol_make_string "prop"
+implement symbol_TYPE = symbol_make_string "type"
+implement symbol_T0YPE = symbol_make_string "t@ype"
+implement symbol_VIEW = symbol_make_string "view"
+implement symbol_VIEWTYPE = symbol_make_string "viewtype"
+implement symbol_VIEWT0YPE = symbol_make_string "viewt0ype"
+//
+implement symbol_TYPES = symbol_make_string "types"
+//
+(* ****** ****** *)
 
 implement symbol_DEFINED = symbol_make_string "defined"
 implement symbol_UNDEFINED = symbol_make_string "undefined"

@@ -125,4 +125,9 @@ and d2explst = List (d2exp)
 
 (* ****** ****** *)
 
+fun d2ecl_none (loc: location): d2ecl
+fun d2ecl_list (loc: location, xs: d2eclist): d2ecl
+
+(* ****** ****** *)
+
 (* end of [pats_dynexp2.sats] *)
