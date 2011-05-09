@@ -34,56 +34,37 @@
 //
 (* ****** ****** *)
 
-staload SYN = "pats_syntax.sats"
-typedef s0rtq = $SYN.s0rtq
+staload _(*anon*) = "prelude/DATS/list.dats"
 
 (* ****** ****** *)
 
-staload "pats_staexp1.sats"
-staload "pats_dynexp1.sats"
 staload "pats_staexp2.sats"
-staload "pats_dynexp2.sats"
+staload "pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
-datatype tran2err =
-  | T2E_s1rt_app of (s1rt)
-  | T2E_s1rt_qid of (s1rt)
-  | T2E_s1exp_qid of (s1exp)
-  | T2E_s1rtext_qid of (s0rtq, symbol)
-// end of [tran2err]
-
-fun the_tran2errlst_add (x: tran2err): void
+#define l2l list_of_list_vt
 
 (* ****** ****** *)
 
-fun s1rt_tr (s1t: s1rt): s2rt
-fun s1rtlst_tr (s1ts: s1rtlst): s2rtlst
-fun s1rtopt_tr (s1topt: s1rtopt): s2rtopt
+implement
+s2exp_alpha (s2v, s2v_new, s2e) = s2e
 
 (* ****** ****** *)
 
-fun a1srt_tr (x: a1srt): s2rt
-fun a1msrt_tr (x: a1msrt): s2rtlst
+implement
+s2explst_alpha
+  (s2v, s2v_new, s2es) = let
+  var !p_clo = @lam
+    (pf: !unit_v | s2e: s2exp): s2exp => s2exp_alpha (s2v, s2v_new, s2e)
+  // end of [var]
+  prval pfu = unit_v ()
+  val s2es = list_map_clo (pfu | s2es, !p_clo)
+  prval unit_v () = pfu
+in
+  l2l (s2es)
+end // end of [s2explst_alpha]
 
 (* ****** ****** *)
 
-fun s1exp_trup (s1e: s1exp): s2exp
-fun s1explst_trup (s1es: s1explst): s2explst
-
-fun s1exp_trdn (s1e: s1exp, s2t: s2rt): s2exp
-fun s1exp_trdn_bool (s1es: s1exp): s2exp
-fun s1explst_trdn_bool (s1es: s1explst): s2explst
-
-(* ****** ****** *)
-
-fun s1rtext_tr (s1te: s1rtext): s2rtext
-
-(* ****** ****** *)
-
-fun d1ecl_tr (d1c: d1ecl): d2ecl
-fun d1eclist_tr (d1c: d1eclist): d2eclist
-
-(* ****** ****** *)
-
-(* end of [pats_trans2.sats] *)
+(* end of [pats_staexp2_util1.dats] *)

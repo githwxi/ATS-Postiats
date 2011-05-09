@@ -34,6 +34,14 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/reference.dats"
+
+(* ****** ****** *)
+
+staload
+FIL = "pats_filename.sats"
+typedef filename = $FIL.filename
+
 staload SYM = "pats_symbol.sats"
 staload SYN = "pats_syntax.sats"
 
@@ -58,12 +66,20 @@ local
 
 viewtypedef
 filenv_struct = @{
-  sort= s2temap, sexp= s2itmmap, dexp= d2itmmap
+  name= filename
+, sort= s2temap
+, sexp= s2itmmap
+, dexp= d2itmmap
 } // end of [filenv_struct]
 
 assume filenv_type = ref (filenv_struct)
 
 in // in of [local]
+
+implement
+filenv_get_name (fenv) = let
+  val (vbox pf | p) = ref_get_view_ptr (fenv) in p->name  
+end // end of [filenv_get_name]
 
 implement
 filenv_get_s2temap (fenv) = let
@@ -173,7 +189,7 @@ the_s2rtenv_pop
   prval unit_v () = pfenv
   prval vbox pf = pf0
   val map = symenv_pop (!p0)
-} // end of [the_s2rtenv_pop_free]
+} // end of [the_s2rtenv_pop]
 
 implement
 the_s2rtenv_push_nil
@@ -201,6 +217,8 @@ local
 viewtypedef s2expenv = symenv (s2itm)
 val [l0:addr] (pf | p0) = symenv_make_nil ()
 val (pf0 | ()) = vbox_make_view_ptr {s2expenv} (pf | p0)
+
+assume s2expenv_push_v = unit_v
 
 fun
 the_s2expenv_find_namespace .<>.
@@ -266,6 +284,83 @@ case+ q.s0taq_node of
 | $SYN.S0TAQsymcolon _ => None_vt ()
 //
 end // end of [the_s2expenv_find_qua]
+
+(* ****** ****** *)
+
+implement
+the_s2expenv_pop
+  (pfenv | (*none*)) = map where {
+  prval unit_v () = pfenv
+  prval vbox pf = pf0
+  val map = symenv_pop (!p0)
+} // end of [the_s2expenv_pop]
+
+implement
+the_s2expenv_pop_free
+  (pfenv | (*none*)) = () where {
+  prval unit_v () = pfenv
+  prval vbox pf = pf0
+  val () = symenv_pop_free (!p0)
+} // end of [the_s2expenv_pop_free]
+
+implement
+the_s2expenv_push_nil
+  () = (pfenv | ()) where {
+  prval vbox pf = pf0
+  val () = symenv_push_nil (!p0)
+  prval pfenv = unit_v ()
+} // end of [the_s2expenv_push_nil]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+the_s2expenv_add_scst (s2c) = let
+(*
+  val () = begin
+    print "s2expenv_add_scst: s2c = "; print (s2c); print_newline ()
+    print "s2expenv_add_scst: s2t = "; print (s2cst_get_srt s2c); print_newline ()
+  end // end of [val]
+*)
+  val id = s2cst_get_sym s2c
+  val s2cs = (
+    case+ the_s2expenv_find (id) of
+    | ~Some_vt s2i => begin case+ s2i of
+      | S2ITMcst s2cs => s2cs | _ => list_nil ()
+      end // end of [Some_vt]
+    | ~None_vt () => list_nil ()
+  ) : s2cstlst
+  val s2i = S2ITMcst (list_cons (s2c, s2cs))
+in
+  the_s2expenv_add (id, s2i)
+end // end of [the_s2expenv_add_scst]
+
+implement
+the_s2expenv_add_svar (s2v) = let
+  val id = s2var_get_sym (s2v) in the_s2expenv_add (id, S2ITMvar s2v)
+end // end of [the_s2expenv_add_svar]
+
+(* ****** ****** *)
+
+local
+
+val the_tmplev = ref_make_elt<int> (0)
+
+in
+
+implement
+the_tmplev_get () = !the_tmplev
+
+implement
+the_tmplev_inc () =
+  !the_tmplev := !the_tmplev + 1
+// end of [tmplev_inc]
+
+implement
+the_tmplev_dec () =
+  !the_tmplev := !the_tmplev - 1
+// end of [tmplev_dec]
 
 end // end of [local]
 

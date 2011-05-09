@@ -127,9 +127,15 @@ SOURCES := \
   pats_trans1_decl.dats \
   pats_staexp2.sats \
   pats_staexp2.dats \
+  pats_staexp2_print.dats \
   pats_staexp2_sort.dats \
+  pats_staexp2_scst.dats \
   pats_staexp2_svar.dats \
   pats_staexp2_sVar.dats \
+  pats_staexp2_dcon.dats \
+  pats_staexp2_util.sats \
+  pats_staexp2_util1.dats \
+  pats_staexp2_util2.dats \
   pats_dynexp2.sats \
   pats_dynexp2.dats \
   pats_trans2.sats \

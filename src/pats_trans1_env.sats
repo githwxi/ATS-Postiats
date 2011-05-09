@@ -111,4 +111,8 @@ fun staload_file_search
 
 (* ****** ******* *)
 
+fun the_trans1_env_initialize (): void
+
+(* ****** ******* *)
+
 (* end of [pats_trans1_env.sats] *)

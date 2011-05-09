@@ -34,56 +34,70 @@
 //
 (* ****** ****** *)
 
-staload SYN = "pats_syntax.sats"
-typedef s0rtq = $SYN.s0rtq
+staload _(*anon*) = "prelude/DATS/pointer.dats"
+staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-staload "pats_staexp1.sats"
-staload "pats_dynexp1.sats"
+staload
+CNTR = "pats_counter.sats"
+staload STP = "pats_stamp.sats"
+typedef stamp = $STP.stamp
+overload compare with $STP.compare_stamp_stamp
+staload SYM = "pats_symbol.sats"
+typedef symbol = $SYM.symbol
+
+(* ****** ****** *)
+
+staload FIL = "pats_filename.sats"
+typedef filename = $FIL.filename
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
-staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-datatype tran2err =
-  | T2E_s1rt_app of (s1rt)
-  | T2E_s1rt_qid of (s1rt)
-  | T2E_s1exp_qid of (s1exp)
-  | T2E_s1rtext_qid of (s0rtq, symbol)
-// end of [tran2err]
-
-fun the_tran2errlst_add (x: tran2err): void
-
-(* ****** ****** *)
-
-fun s1rt_tr (s1t: s1rt): s2rt
-fun s1rtlst_tr (s1ts: s1rtlst): s2rtlst
-fun s1rtopt_tr (s1topt: s1rtopt): s2rtopt
-
-(* ****** ****** *)
-
-fun a1srt_tr (x: a1srt): s2rt
-fun a1msrt_tr (x: a1msrt): s2rtlst
+typedef
+d2con_struct = @{
+  d2con_loc= location // location
+, d2con_fil= filename // filename
+, d2con_sym= symbol // the name
+, d2con_scst= s2cst // datatype
+, d2con_vwtp= int //
+, d2con_qua= List @(s2varlst, s2explst) // quantifiers
+, d2con_npf= int // pfarity
+, d2con_arg= s2explst // views or viewtypes
+, d2con_arity_full= int // full arity
+, d2con_arity_real= int // real arity after erasure
+, d2con_ind= Option s2explst // indexes
+, d2con_typ= s2exp // type for dynamic constructor
+, d2con_tag= int // tag for dynamic constructor
+, d2con_stamp= stamp // uniqueness
+} // end of [d2con_struct]
 
 (* ****** ****** *)
 
-fun s1exp_trup (s1e: s1exp): s2exp
-fun s1explst_trup (s1es: s1explst): s2explst
+local
 
-fun s1exp_trdn (s1e: s1exp, s2t: s2rt): s2exp
-fun s1exp_trdn_bool (s1es: s1exp): s2exp
-fun s1explst_trdn_bool (s1es: s1explst): s2explst
+assume d2con_type = ref (d2con_struct)
 
-(* ****** ****** *)
+in // in of [local]
 
-fun s1rtext_tr (s1te: s1rtext): s2rtext
+implement
+d2con_get_sym (d2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_sym
+end // end of [d2con_get_sym]
 
-(* ****** ****** *)
-
-fun d1ecl_tr (d1c: d1ecl): d2ecl
-fun d1eclist_tr (d1c: d1eclist): d2eclist
+end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [pats_trans2.sats] *)
+implement
+fprint_d2con (out, x) = let
+  val sym = d2con_get_sym (x) in $SYM.fprint_symbol (out, sym)
+end // end of [fprint_d2con]
+
+(* ****** ****** *)
+
+(* end of [pats_staexp2_dcon.dats] *)

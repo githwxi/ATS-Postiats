@@ -64,6 +64,41 @@ end // end of [s1rtdef_tr]
 
 (* ****** ****** *)
 
+fn s1tacst_tr
+  (d: s1tacst): void = let
+//
+  fun aux (
+    xs: a1msrtlst, res: s2rt
+  ) : s2rt =
+    case+ xs of
+    | list_cons (x, xs) =>
+        s2rt_fun (a1msrt_tr (x), aux (xs, res))
+      // end of [list_cons]
+    | list_nil () => res
+  // end of [aux]
+//
+  val id = d.s1tacst_sym
+  val loc = d.s1tacst_loc
+  val s2t_res = s1rt_tr (d.s1tacst_res)
+  val s2t_cst = aux (d.s1tacst_arg, s2t_res)
+  val s2c = s2cst_make (
+    id // sym
+  , loc // location
+  , s2t_cst // srt
+  , None () // isabs
+  , false // iscon
+  , false // isrec
+  , false // isasp
+  , None () // islst
+  , None () // argvar
+  , None () // def
+  ) // end of [s2cst_make]
+in
+  the_s2expenv_add_scst (s2c)
+end // end of [s1tacst_tr]
+
+(* ****** ****** *)
+
 implement
 d1ecl_tr (d1c0) = let
   val loc0 = d1c0.d1ecl_loc
@@ -79,6 +114,9 @@ case+ d1c0.d1ecl_node of
 | D1Csrtdefs (ds) => let
     val () = list_app_fun (ds, s1rtdef_tr) in d2ecl_none (loc0)
   end // end of [D1Csrtdefs]
+| D1Cstacsts (ds) => let
+    val () = list_app_fun (ds, s1tacst_tr) in d2ecl_none (loc0)
+  end // end of [D1Cstacsts]
 | _ => let
     val () = $LOC.prerr_location (loc0)
     val () = prerr ": d1ecl_tr: not implemented: d1c0 = "

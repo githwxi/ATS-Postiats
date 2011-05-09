@@ -145,9 +145,15 @@ dynload "pats_trans1_dynexp.dats"
 dynload "pats_trans1_decl.dats"
 //
 dynload "pats_staexp2.dats"
+dynload "pats_staexp2_print.dats"
 dynload "pats_staexp2_sort.dats"
+dynload "pats_staexp2_scst.dats"
 dynload "pats_staexp2_svar.dats"
 dynload "pats_staexp2_sVar.dats"
+dynload "pats_staexp2_dcon.dats"
+//
+dynload "pats_staexp2_util1.dats"
+dynload "pats_staexp2_util2.dats"
 //
 dynload "pats_dynexp2.dats"
 //
@@ -652,6 +658,7 @@ in
 end : string // end of [ATSHOME]
 //
 val () = $FIL.the_prepathlst_push (ATSHOME) // for the run-time and atslib
+val () = $TRENV1.the_trans1_env_initialize ()
 val () = $TRENV2.the_trans2_env_initialize ()
 //
 val arglst = comarglst_parse (argc, argv)

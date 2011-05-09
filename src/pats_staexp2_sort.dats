@@ -38,7 +38,56 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
+staload SYM = "pats_symbol.sats"
+overload = with $SYM.eq_symbol_symbol
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
+
+(* ****** ****** *)
+
+typedef
+s2rtdat_struct = @{
+  s2rtdat_sym= symbol // name
+, s2rtdat_conlst= s2cstlst
+, s2rtdat_stamp= stamp // unique stamp
+} // end of [s2rtdat_struct]
+
+(* ****** ****** *)
+
+local
+
+assume s2rtdat_type = ref (s2rtdat_struct)
+
+in // in of [local]
+
+implement
+s2rtdat_get_sym (s2td) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2td) in p->s2rtdat_sym
+end // end of [s2rtdat_get_sym]
+
+implement
+s2rtdat_get_conlst (s2td) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2td) in p->s2rtdat_conlst
+end // end of [s2rtdat_get_conlst]
+implement
+s2rtdat_set_conlst (s2td, cs) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2td) in p->s2rtdat_conlst := cs
+end // end of [s2rtdat_set_conlst]
+
+implement
+s2rtdat_get_stamp (s2td) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2td) in p->s2rtdat_stamp
+end // end of [s2rtdat_get_stamp]
+
+implement
+eq_s2rtdat_s2rtdat
+  (x1, x2) = p1 = p2 where {
+  val p1 = ref_get_ptr (x1) and p2 = ref_get_ptr (x2)
+} // end of [eq_s2rtdat_s2rtdat]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -89,6 +138,14 @@ implement s2rt_viewt0ype = S2RTbas s2tb_viewt0ype
 implement s2rt_types = S2RTbas s2tb_types
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+s2rt_is_dat (s2t) = begin case+ s2t of
+  | S2RTbas s2tb => (case+ s2tb of S2RTBASdef _ => true | _ => false)
+  | _ => false // end of [S2RTbas]
+end // end of [s2rt_is_dat]
 
 (* ****** ****** *)
 
@@ -221,11 +278,129 @@ in
   aux (flag, s2t0)
 end // end of [s2rt_delink_all]
 
+(* ****** ****** *)
+
+implement
+s2rtVar_set_s2rt (s2tV, s2t) = let
+  val s2t = s2rtnul_some (s2t) in !s2tV := s2t 
+end // end of [s2rtVar_set_s2rt]
+
+implement
+s2rtVar_occurscheck
+  (V, s2t0) = let
+//
+fun aux (
+  s2t0: s2rt
+) :<cloref1> bool =
+  case+ s2t0 of
+  | S2RTbas _ => false
+  | S2RTfun (s2ts, s2t) =>
+      if auxlst (s2ts) then true else aux (s2t)
+    // end of [S2RTfun]
+  | S2RTtup (s2ts) => auxlst (s2ts)
+  | S2RTVar (V1) =>
+      if V = V1 then true else let
+        val s2t1 = !V1
+      in
+        if s2rtnul_isnot_null (s2t1) then
+          aux (s2rtnul_unsome (s2t1)) else false
+        // end of [if]
+      end (* end of [if] *)
+  | S2RTerr () => false
+//
+and auxlst (
+  s2ts: s2rtlst
+) :<cloref1> bool =
+  case+ s2ts of
+  | list_cons (s2t, s2ts) =>
+      if aux (s2t) then true else auxlst (s2ts)
+    // end of [list_cons]
+  | list_nil () => false
+//
+in
+  aux (s2t0)
+end // end of [s2rtVar_occurcheck]
+
+(* ****** ****** *)
+
 end // end of [local]
 
 (* ****** ****** *)
 
-implement s2rt_err () = S2RTerr ()
+implement
+s2rt_fun (_arg, _res) = S2RTfun (_arg, _res)
+implement
+s2rt_tup (s2ts) = S2RTtup (s2ts) // HX: tuple sort not yet supported
+
+implement s2rt_err () = S2RTerr () // HX: error indication
+
+(* ****** ****** *)
+
+extern
+fun lte_s2rtbas_s2rtbas
+  (s2tb1: s2rtbas, s2tb2: s2rtbas): bool
+overload <= with lte_s2rtbas_s2rtbas
+
+implement
+lte_s2rtbas_s2rtbas (s2tb1, s2tb2) = begin
+  case+ (s2tb1, s2tb2) of
+  | (S2RTBASpre id1, S2RTBASpre id2) => (id1 = id2)
+  | (S2RTBASimp (id1, knd1), S2RTBASimp (id2, knd2)) => (id1 = id2)
+  | (S2RTBASdef s2td1, S2RTBASdef s2td2) => (s2td1 = s2td2)
+  | (_, _) => false
+end // end of [lte_s2rtbas_s2rtbas]
+
+(* ****** ****** *)
+
+implement
+s2rt_ltmat
+  (s2t1, s2t2) = let
+//
+  fun auxVar (
+    V: s2rtVar, s2t: s2rt
+  ) : bool = let
+    val test = s2rtVar_occurscheck (V, s2t)
+  in
+    if test then false else let
+      val () = s2rtVar_set_s2rt (V, s2t) in true
+    end (* end of [if] *)
+  end // end of [auxVar]
+//
+  val s2t1 = s2rt_delink (s2t1)
+  and s2t2 = s2rt_delink (s2t2)
+//
+in
+//
+case+ s2t1 of
+| S2RTbas (s2tb1) => (case+ s2t2 of
+  | S2RTbas (s2tb2) => s2tb1 <= s2tb2 | _ => false
+  )
+| S2RTfun (
+    s2ts1, s2t1
+  ) => (case+ s2t2 of
+  | S2RTfun (s2ts2, s2t2) =>
+     if s2rtlst_ltmat (s2ts2, s2ts1) then s2rt_ltmat (s2t1, s2t2) else false
+    // end of [S2RTfun]
+  | _ => false
+  )
+| S2RTtup (s2ts1) => (case+ s2t2 of
+  | S2RTtup (s2ts2) => s2rtlst_ltmat (s2ts1, s2ts2) | _ => false
+  )
+| S2RTVar (V1) => (case+ s2t2 of
+  | S2RTVar (V2) when V1 = V2 => true | _ => auxVar (V1, s2t2)
+  )
+| S2RTerr () => false
+//
+end // end of [s2rt_ltmat]
+
+implement
+s2rtlst_ltmat (xs1, xs2) =
+  case+ (xs1, xs2) of
+  | (list_cons (x1, xs1), list_cons (x2, xs2)) =>
+      if s2rt_ltmat (x1, x2) then s2rtlst_ltmat (xs1, xs2) else false
+  | (list_nil (), list_nil ()) => true
+  | (_, _) => false
+// end of [s2rtlst_ltmat]
 
 (* ****** ****** *)
 

@@ -38,6 +38,8 @@ staload STP = "pats_stamp.sats"
 typedef stamp = $STP.stamp
 staload SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
+staload SYN = "pats_syntax.sats"
+typedef c0har = $SYN.c0har
 
 (* ****** ****** *)
 
@@ -53,9 +55,6 @@ staload "pats_basics.sats"
 staload "pats_staexp1.sats"
 
 (* ****** ****** *)
-
-abstype s2rtdat_type // boxed
-typedef s2rtdat = s2rtdat_type
 
 abstype s2cst_type // assumed in [pats_staexp2_scst.dats]
 typedef s2cst = s2cst_type
@@ -82,11 +81,28 @@ typedef d2conlst = List (d2con)
 
 (* ****** ****** *)
 
+abstype s2rtdat_type // boxed
+typedef s2rtdat = s2rtdat_type
+
+fun s2rtdat_make (id: symbol): s2rtdat
+
+fun s2rtdat_get_sym (s2td: s2rtdat): symbol
+fun s2rtdat_get_conlst (s2td: s2rtdat): s2cstlst
+fun s2rtdat_set_conlst (s2td: s2rtdat, s2cs: s2cstlst): void
+fun s2rtdat_get_stamp (s2td: s2rtdat): stamp
+
+fun eq_s2rtdat_s2rtdat (s2td1: s2rtdat, s2td2: s2rtdat): bool
+overload = with eq_s2rtdat_s2rtdat
+
+(* ****** ****** *)
+
 datatype s2rtbas =
   | S2RTBASpre of symbol // predicative: bool, char, int, ...
   | S2RTBASimp of (symbol, int(*knd*)) // impredicative sorts
   | S2RTBASdef of s2rtdat // user-defined datasorts
 // end of [s2rtbas]
+
+fun fprint_s2rtbas : fprint_type (s2rtbas)
 
 (* ****** ****** *)
 
@@ -112,6 +128,17 @@ datatype s2rt =
 where
 s2rtlst = List (s2rt)
 and s2rtopt = Option (s2rt)
+and s2rtlstopt = Option (s2rtlst)
+
+(* ****** ****** *)
+
+fun fprint_s2rt : fprint_type (s2rt)
+fun print_s2rt (x: s2rt): void
+fun prerr_s2rt (x: s2rt): void
+
+fun fprint_s2rtlst : fprint_type (s2rtlst)
+fun print_s2rtlst (xs: s2rtlst): void
+fun prerr_s2rtlst (xs: s2rtlst): void
 
 (* ****** ****** *)
 //
@@ -137,16 +164,175 @@ val s2rt_types : s2rt
 //
 (* ****** ****** *)
 
-fun s2rt_err (): s2rt // HX: a placeholder for continuing sort-checking
+fun s2rt_fun (_arg: s2rtlst, _res: s2rt): s2rt
+fun s2rt_tup (s2ts: s2rtlst): s2rt // HX: tuple sorts are not yet supported
+fun s2rt_err (): s2rt // HX: a placeholder indicating error
+
+fun s2rt_is_dat (x: s2rt): bool
+
+(* ****** ****** *)
+
+fun s2rtVar_set_s2rt (V: s2rtVar, s2t: s2rt): void
+fun s2rtVar_occurscheck (V: s2rtVar, s2t: s2rt): bool
 
 fun s2rt_delink (x: s2rt): s2rt // HX: shallow removal
 fun s2rt_delink_all (x: s2rt): s2rt // HX: perform deep removal
+
+fun s2rt_ltmat (s2t1: s2rt, s2t2: s2rt): bool
+fun s2rtlst_ltmat (xs1: s2rtlst, xs2: s2rtlst): bool
+
+(* ****** ****** *)
+//
+// HX-2011-05-02:
+// [filenv] contains the following
+// [s2rtenv], [s2expenv] and [d2expenv]
+//
+abstype filenv_type
+typedef filenv = filenv_type
+
+fun filenv_get_name (x: filenv): filename
+
+(* ****** ****** *)
+
+datatype
+s2itm = // static items
+  | S2ITMcst of s2cstlst
+  | S2ITMdatconptr of d2con
+  | S2ITMdatcontyp of d2con
+  | S2ITMe1xp of e1xp
+  | S2ITMfil of filenv
+  | S2ITMvar of s2var
+// end of [s2itm]
+
+typedef s2itmlst = List s2itm
+viewtypedef s2itmopt_vt = Option_vt (s2itm)
+
+fun fprint_s2itm : fprint_type (s2itm)
+fun print_s2itm (x: s2itm): void
+fun prerr_s2itm (x: s2itm): void
+
+(* ****** ****** *)
+
+abstype intinf_type
+typedef intinf = intinf_type
+
+(* ****** ****** *)
+
+datatype
+s2exp_node =
+//
+  | S2Eint of int // integer
+  | S2Eintinf of intinf // integer of flexible precision
+  | S2Echar of char // character
+//
+  | S2Ecst of s2cst // constant
+//
+  | S2Evar of s2var // variable
+  | S2EVar of s2Var // existential variable
+//
+  | S2Etup of (s2explst) // tuple
+  | S2Etylst of (s2explst) // type list
+//
+  | S2Edatconptr of (* unfolded datatype *)
+      (d2con, s2explst) (* constructor and addrs of arguments *)
+  | S2Edatcontyp of (* unfolded datatype *)
+      (d2con, s2explst) (* constructor and types of arguments *)
+//
+  | S2Eapp of (s2exp, s2explst) // static application
+//
+  | S2Eexi of ( // exist. quantified type
+      s2varlst(*vars*), s2explst(*props*), s2exp(*body*)
+    ) // end of [S2Euni]
+  | S2Euni of ( // universally quantified type
+      s2varlst(*vars*), s2explst(*props*), s2exp(*body*)
+    ) // end of [S2Euni]
+//
+  | S2Evararg of s2exp // variadic argument type
+//
+  | S2Ewth of (s2exp, wths2explst) // the result part of a fun type
+//
+  | S2Eerr of () // HX: placeholder for indicating error
+// end of [s2exp_node]
+
+and s2rtext = (* extended sort *)
+  | S2TEsrt of s2rt
+  | S2TEsub of (s2var, s2rt, s2explst)
+  | S2TEerr of ()
+// end of [s2rtext]
+
+and wths2explst =
+  | WTHS2EXPLSTnil of ()
+  | WTHS2EXPLSTcons_some of (int(*refval*), s2exp, wths2explst)
+  | WTHS2EXPLSTcons_none of wths2explst
+// end of [wths2explst]
+
+where
+s2exp = '{
+  s2exp_srt= s2rt, s2exp_node= s2exp_node
+} // end of [s2exp]
+and s2explst = List (s2exp)
+and s2expopt = Option (s2exp)
+
+and s2rtextopt_vt = Option_vt (s2rtext)
+
+(* ****** ****** *)
+
+fun s2cst_make (
+  id: symbol // the name
+, loc: location // the location of declaration
+, s2t: s2rt // the sort
+, isabs: Option (s2expopt)
+, iscon: bool
+, isrec: bool
+, isasp: bool
+, islst: Option @(d2con (*nil*), d2con (*cons*))
+, argvar: Option (List @(symbolopt, s2rt, int))
+, def: s2expopt
+) : s2cst // end of [s2cst_make]
+
+fun s2cst_make_dat (
+  id: symbol
+, loc: location
+, _arg: s2rtlstopt, _res: s2rt
+, argvar: Option (List @(symbolopt, s2rt, int))
+) : s2cst // end of [s2cst_make_dat]
+
+(* ****** ****** *)
+
+fun s2cst_get_loc (x: s2cst): location
+fun s2cst_get_sym (x: s2cst): symbol
+fun s2cst_get_srt (x: s2cst): s2rt
+fun s2cst_get_isabs (x: s2cst): Option (s2expopt)
+fun s2cst_get_iscon (x: s2cst): bool
+fun s2cst_get_isrec (x: s2cst): bool
+
+fun s2cst_get_isasp (x: s2cst): bool
+fun s2cst_set_isasp (x: s2cst, asp: bool): void
+
+fun s2cst_get_iscpy (x: s2cst): s2cstopt
+fun s2cst_set_iscpy (x: s2cst, cpy: s2cstopt): void
+
+fun s2cst_get_islst (x: s2cst): Option @(d2con, d2con)
+fun s2cst_set_islst (x: s2cst, lst: Option @(d2con, d2con)): void
+
+fun s2cst_get_arilst (x: s2cst): List int // arity list
+fun s2cst_get_argvar (x: s2cst): Option (List @(symbolopt, s2rt, int))
+fun s2cst_get_conlst (x: s2cst): Option d2conlst
+fun s2cst_set_conlst (x: s2cst, lst: Option d2conlst): void
+
+fun fprint_s2cst : fprint_type (s2cst)
+fun print_s2cst (x: s2cst): void
+fun prerr_s2cst (x: s2cst): void
+
+fun fprint_s2cstlst : fprint_type (s2cstlst)
 
 (* ****** ****** *)
 
 fun s2var_make_srt (s2t: s2rt): s2var
 fun s2var_make_id_srt (id: symbol, s2t: s2rt): s2var
 fun s2var_copy (s2v: s2var): s2var
+
+(* ****** ****** *)
 
 fun s2var_get_sym (s2v: s2var): symbol
 fun s2var_get_srt (s2v: s2var): s2rt
@@ -168,6 +354,9 @@ overload compare with compare_s2var_s2var
 (* ****** ****** *)
 
 fun fprint_s2var : fprint_type (s2var)
+fun print_s2var (x: s2var): void
+fun prerr_s2var (x: s2var): void
+
 fun fprint_s2varlst : fprint_type (s2varlst)
 
 (* ****** ****** *)
@@ -206,88 +395,29 @@ fun fprint_s2Var : fprint_type (s2Var)
 fun s2Varset_make_nil (): s2Varset
 
 (* ****** ****** *)
-//
-// HX-2011-05-02:
-// [filenv] contains the following
-// [s2rtenv], [s2expenv] and [d2expenv]
-//
-abstype filenv_type
-typedef filenv = filenv_type
+
+fun d2con_get_sym (x: d2con): symbol
+
+fun fprint_d2con : fprint_type (d2con)
 
 (* ****** ****** *)
 
-datatype
-s2itm = // static items
-  | S2ITMcst of s2cstlst
-  | S2ITMdatconptr of d2con
-  | S2ITMdatcontyp of d2con
-  | S2ITMe1xp of e1xp
-  | S2ITMfil of filenv
-  | S2ITMvar of s2var
-// end of [s2itm]
+fun s2exp_c0har (x: c0har): s2exp
+fun s2exp_cst (x: s2cst): s2exp // HX: static constant
+fun s2exp_var (x: s2var): s2exp // HX: static variable
 
-typedef s2itmlst = List s2itm
-viewtypedef s2itmopt_vt = Option_vt (s2itm)
+fun s2exp_app_srt (s2t: s2rt, _fun: s2exp, _arg: s2explst): s2exp
+
+fun s2exp_err (s2t: s2rt): s2exp // HX: error indication
 
 (* ****** ****** *)
 
-abstype intinf_type
-typedef intinf = intinf_type
+fun fprint_s2exp : fprint_type (s2exp)
+fun fprint_s2explst : fprint_type (s2explst)
 
 (* ****** ****** *)
 
-datatype
-s2exp_node =
-//
-  | S2Eint of int // integer
-  | S2Eintinf of intinf // integer of flexible precision
-  | S2Echar of char // character
-//
-  | S2Ecst of s2cst // constant
-//
-  | S2Evar of s2var // variable
-  | S2EVar of s2Var // existential variable
-//
-  | S2Etup of (s2explst) // tuple
-  | S2Etylst of (s2explst) // type list
-//
-  | S2Edatconptr of (* unfolded datatype *)
-      (d2con, s2explst) (* constructor and addrs of arguments *)
-  | S2Edatcontyp of (* unfolded datatype *)
-      (d2con, s2explst) (* constructor and types of arguments *)
-//
-  | S2Eexi of ( // exist. quantified type
-      s2varlst(*vars*), s2explst(*props*), s2exp(*body*)
-    ) // end of [S2Euni]
-  | S2Euni of ( // universally quantified type
-      s2varlst(*vars*), s2explst(*props*), s2exp(*body*)
-    ) // end of [S2Euni]
-//
-  | S2Evararg of s2exp // variadic argument type
-//
-  | S2Ewth of (s2exp, wths2explst) // the result part of a fun type
-// end of [s2exp_node]
-
-and s2rtext = (* extended sort *)
-  | S2TEsrt of s2rt
-  | S2TEsub of (s2var, s2rt, s2explst)
-  | S2TEerr of ()
-// end of [s2rtext]
-
-and wths2explst =
-  | WTHS2EXPLSTnil of ()
-  | WTHS2EXPLSTcons_some of (int(*refval*), s2exp, wths2explst)
-  | WTHS2EXPLSTcons_none of wths2explst
-// end of [wths2explst]
-
-where
-s2exp = '{
-  s2exp_srt= s2rt, s2exp_node= s2exp_node
-} // end of [s2exp]
-and s2explst = List (s2exp)
-and s2expopt = Option (s2exp)
-
-and s2rtextopt_vt = Option_vt (s2rtext)
+fun fprint_s2rtext : fprint_type (s2rtext)
 
 (* ****** ****** *)
 

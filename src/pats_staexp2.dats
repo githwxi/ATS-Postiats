@@ -34,7 +34,44 @@
 //
 (* ****** ****** *)
 
+staload LEX = "pats_lexing.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
+
+(* ****** ****** *)
+
+implement
+s2exp_c0har (x) = let
+  val- $LEX.T_CHAR (c) = x.token_node
+in '{
+  s2exp_srt= s2rt_char, s2exp_node= S2Echar (c)
+} end // end of [s2exp_c0har]
+
+implement
+s2exp_app_srt (s2t, _fun, _arg) = '{
+  s2exp_srt= s2t, s2exp_node= S2Eapp (_fun, _arg)
+}
+
+implement
+s2exp_cst (s2c) = let
+  val s2t = s2cst_get_srt (s2c)
+in '{
+  s2exp_srt= s2t, s2exp_node= S2Ecst (s2c)
+} end // end of [s2exp_cst]
+
+implement
+s2exp_var (s2v) = let
+  val s2t = s2var_get_srt (s2v)
+in '{
+  s2exp_srt= s2t, s2exp_node= S2Evar (s2v)
+} end // end of [s2exp_var]
+
+implement
+s2exp_err (s2t) = '{
+  s2exp_srt= s2t, s2exp_node= S2Eerr ()
+}
 
 (* ****** ****** *)
 

@@ -378,5 +378,12 @@ end // end of [staload_file_search]
 end // end of [local]
 
 (* ****** ****** *)
+//
+// HX-2011-05-08:
+// the function does not do anything yet.
+//
+implement the_trans1_env_initialize () = ()
+
+(* ****** ****** *)
 
 (* end of [pats_trans1_env.dats] *)

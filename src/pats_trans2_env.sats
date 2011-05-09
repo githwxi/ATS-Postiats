@@ -95,11 +95,26 @@ fun the_s2expenv_find_qua (q: $SYN.s0taq, id: symbol): s2itmopt_vt
 
 absview s2expenv_push_v
 fun the_s2expenv_pop (pf: s2expenv_push_v | (*none*)): s2itmmap
+fun the_s2expenv_pop_free (pf: s2expenv_push_v | (*none*)): void
 fun the_s2expenv_push_nil (): (s2expenv_push_v | void)
 
 fun the_s2expenv_localjoin
   (pf1: s2expenv_push_v, pf2: s2expenv_push_v | (*none*)): void
 // end of [the_s2expenv_localjoin]
+
+(* ****** ****** *)
+
+fun the_maclev_get (): int
+fun the_maclev_inc (): void
+fun the_maclev_dec (): void
+
+(* ****** ****** *)
+
+fun the_tmplev_get (): int
+fun the_tmplev_inc (): void
+fun the_tmplev_dec (): void
+
+fun s2var_check_tmplev (loc: location, s2v: s2var): void
 
 (* ****** ****** *)
 

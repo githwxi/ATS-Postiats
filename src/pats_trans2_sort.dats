@@ -68,10 +68,9 @@ fn prerr_loc_error2
   (loc: location): void = (
   $LOC.prerr_location loc; prerr ": error(2)"
 ) // end of [prerr_loc_error2]
-
-fn prerr_interror () = prerr "INTERROR(ats_trans2_sta)"
+fn prerr_interror () = prerr "INTERROR(ats_trans2_sort)"
 fn prerr_loc_interror (loc: location) = begin
-  $LOC.prerr_location loc; prerr ": INTERROR(ats_trans2_sta)"
+  $LOC.prerr_location loc; prerr ": INTERROR(ats_trans2_sort)"
 end // end of [prerr_loc_interror]
 
 (* ****** ****** *)
@@ -99,7 +98,7 @@ s1rt_tr_app (
   val loc0 = s1t0.s1rt_loc
 in
 //
-case+ 0 of
+case+ s1t_fun.s1rt_node of
 | _ when s1rt_is_arrow (s1t_fun) => (
   case+ s1ts_arg of
   | s1t1 :: s1t2 :: nil () => let
@@ -118,15 +117,14 @@ case+ 0 of
       $ERR.abort {s2rt} ()
     end // end of [_]
   ) // end of [s1rt_is_arrow]
-| _ => let
+| _ => s2rt_err () where {
     val () = the_tran2errlst_add (T2E_s1rt_app (s1t0))
     val () = prerr_loc_error2 (s1t0.s1rt_loc)
     val () = if isdebug () then prerr (": s1rt_tr_app")
     val () = prerr ": sort application is not supported."
     val () = prerr_newline ()
-  in
-    s2rt_err ()
-  end // end of [_]
+  } // end of [_]
+//
 end // end of [s1rt_tr_app]
 
 (* ****** ****** *)
@@ -143,10 +141,11 @@ case+ ans of
   case+ x of
   | S2TEsrt (s2t) => s2t
   | _ => let
+//
+      val () = the_tran2errlst_add (T2E_s1rt_qid (s1t0))
+//
       val () = prerr_loc_error2 (loc0)
-//
       val () = if isdebug () then prerr ": s1rt_tr_qid"
-//
       val () = prerr ": the identifier ["
       val () = prerr_symbol (id)
       val () = prerr "] refers to a subset sort that is not a sort."
@@ -156,10 +155,11 @@ case+ ans of
     end (* end of [_] *)
   ) // end of [Some_vt]
 | ~None_vt () => let
+//
+      val () = the_tran2errlst_add (T2E_s1rt_qid (s1t0))
+//
       val () = prerr_loc_error2 (loc0)
-//
       val () = if isdebug () then prerr ": s1rt_tr_qid"
-//
       val () = prerr ": the identifier ["
       val () = prerr_symbol (id)
       val () = prerr "] does not refer to any recognized sort."
@@ -210,6 +210,14 @@ implement
 s1rtopt_tr (opt) = (case+ opt of
   | Some x => Some (s1rt_tr x) | None () => None ()
 ) // end of [s1rtopt_tr]
+
+(* ****** ****** *)
+
+implement
+a1srt_tr (x) = s1rt_tr (x.a1srt_srt)
+
+implement
+a1msrt_tr (x) = l2l (list_map_fun (x.a1msrt_arg, a1srt_tr))
 
 (* ****** ****** *)
 

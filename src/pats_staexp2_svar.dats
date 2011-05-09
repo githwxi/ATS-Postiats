@@ -191,6 +191,9 @@ in
   // empty
 end // end of [fprint_s2var]
 
+implement print_s2var (x) = fprint_s2var (stdout_ref, x)
+implement prerr_s2var (x) = fprint_s2var (stderr_ref, x)
+
 implement
 fprint_s2varlst (out, xs) =
   $UT.fprintlst<s2var> (out, xs, ", ", fprint_s2var)
