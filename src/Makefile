@@ -52,12 +52,14 @@ ATSCCFLAGS=-g -O2
 SOURCES := \
   pats_error.sats \
   pats_error.dats \
+  pats_counter.sats \
+  pats_counter.dats \
+  pats_intinf.sats \
+  pats_intinf.dats \
   pats_utils.sats \
   pats_utils.dats \
   pats_basics.sats \
   pats_basics.dats \
-  pats_counter.sats \
-  pats_counter.dats \
   pats_stamp.sats \
   pats_stamp.dats \
   pats_symbol.sats \
@@ -163,8 +165,8 @@ OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
 atsopt: \
   pats_main_dats.o $(OBJECTS)
 	$(ATSCC) \
-  $(ATSGCFLAG) $(ATSCCFLAGS) -o atsopt \
-  pats_main_dats.o $(OBJECTS)
+  $(ATSGCFLAG) $(ATSCCFLAGS) \
+  -o atsopt pats_main_dats.o $(OBJECTS) -lgmp
 
 ######
 

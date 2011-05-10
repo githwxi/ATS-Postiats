@@ -97,13 +97,13 @@ implement
 counter_getinc
   (cntr) = n where {
   val n = !cntr ; val () = !cntr := n + 1
-}
+} // end of [counter_getinc]
 //
 implement
 counter_incget
   (cntr) = n1 where {
   val n1 = !cntr + 1; val () = !cntr := n1
-}
+} // end of [counter_incget]
 //
 (* ****** ****** *)
 

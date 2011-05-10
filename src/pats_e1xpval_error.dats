@@ -127,11 +127,11 @@ case+ x of
     val () = prstr ": error(1): the expression cannot be evaluated as it is a function."
     val () = fprint_newline (out)
   }
-(*
-| _ => {
-    val () = fprint_string (out, "VE_...(...)")
+| VE_E1XPerr (e0) => {
+    val () = $LOC.fprint_location (out, e0.e1xp_loc)
+    val () = prstr ": error(1): the expression cannot be evaluated as it indicates an error."
+    val () = fprint_newline (out)
   }
-*)
 //
 end // end of [fprint_valerr]
 

@@ -60,6 +60,7 @@ datatype valerr =
   | VE_E1XPappid_opr of (e1xp, symbol) // the [fun] part is some unrecognized opr
   | VE_E1XPappid_arity of (e1xp, symbol) // arity mismatch
   | VE_E1XPfun of (e1xp) // function value is not supported
+  | VE_E1XPerr of (e1xp)
 // end of [valerr]
 
 fun fprint_valerr : fprint_type (valerr)

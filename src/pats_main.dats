@@ -81,11 +81,13 @@ staload "pats_comarg.sats"
 (* ****** ****** *)
 //
 dynload "pats_error.dats"
+//
+dynload "pats_counter.dats"
+dynload "pats_intinf.dats"
 dynload "pats_utils.dats"
 //
 dynload "pats_basics.dats"
 //
-dynload "pats_counter.dats"
 dynload "pats_stamp.dats"
 dynload "pats_symbol.dats"
 dynload "pats_filename.dats"

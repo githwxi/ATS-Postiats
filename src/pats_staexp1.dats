@@ -38,6 +38,10 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
+staload LEX = "pats_lexing.sats"
+
+(* ****** ****** *)
+
 staload "pats_effect.sats"
 staload "pats_syntax.sats"
 staload "pats_staexp1.sats"
@@ -121,6 +125,11 @@ e1xp_if (
 ) = '{
   e1xp_loc= loc, e1xp_node= E1XPif (_cond, _then, _else)
 } // end of [e1xp_if]
+
+implement
+e1xp_err (loc) = '{
+  e1xp_loc= loc, e1xp_node= E1XPerr ()
+}
 
 (* ****** ****** *)
 
@@ -279,37 +288,26 @@ sp1at_cstr
 (* ****** ****** *)
 
 implement
-s1rtext_srt (loc, s1t) = '{
-  s1rtext_loc= loc, s1rtext_node= S1TEsrt (s1t)
-}
-
-implement
-s1rtext_sub (loc, sym, s1te, s1ps) = '{
-  s1rtext_loc= loc, s1rtext_node= S1TEsub (sym, s1te, s1ps)
-}
-
-(* ****** ****** *)
-
-implement
-s1qua_prop (loc, s1p) = '{
-  s1qua_loc= loc, s1qua_node= S1Qprop (s1p)
-}
-
-implement
-s1qua_vars (loc, ids, s1te) = '{
-  s1qua_loc= loc, s1qua_node= S1Qvars (ids, s1te)
-}
-
-(* ****** ****** *)
-
-implement
 s1exp_int (loc, int) = '{
   s1exp_loc= loc, s1exp_node= S1Eint (int)
 }
 implement
-s1exp_char (loc, char) = '{
-  s1exp_loc= loc, s1exp_node= S1Echar (char)
+s1exp_i0nt (loc, x) = let
+  val- $LEX.T_INTEGER (_, rep, _) = x.token_node
+in
+  s1exp_int (loc, rep)
+end // end of [s1exp_i0nt]
+
+implement
+s1exp_char (loc, c) = '{
+  s1exp_loc= loc, s1exp_node= S1Echar (c)
 }
+implement
+s1exp_c0har (loc, x) = let
+  val- $LEX.T_CHAR (c) = x.token_node
+in '{
+  s1exp_loc= loc, s1exp_node= S1Echar (c)
+} end // end of [s1exp_c0har]
 
 implement
 s1exp_extype (loc, name, arg) = '{
@@ -439,19 +437,91 @@ s1exp_ann (loc, s1e, s1t) = '{
 
 (* ****** ****** *)
 
+implement
+s1exp_err (loc) = '{
+  s1exp_loc= loc, s1exp_node= S1Eerr ()
+}
+
+(* ****** ****** *)
+
 implement labs1exp_make (l, s1e) = L0ABELED (l, s1e)
 
 (* ****** ****** *)
 
 implement
-q1marg_make (loc, arg) = '{
+s1rtext_srt (loc, s1t) = '{
+  s1rtext_loc= loc, s1rtext_node= S1TEsrt (s1t)
+}
+
+implement
+s1rtext_sub (loc, sym, s1te, s1ps) = '{
+  s1rtext_loc= loc, s1rtext_node= S1TEsub (sym, s1te, s1ps)
+}
+
+(* ****** ****** *)
+
+implement
+s1qua_prop (loc, s1p) = '{
+  s1qua_loc= loc, s1qua_node= S1Qprop (s1p)
+}
+
+implement
+s1qua_vars (loc, ids, s1te) = '{
+  s1qua_loc= loc, s1qua_node= S1Qvars (ids, s1te)
+}
+
+(* ****** ****** *)
+
+fn prerr_error1_loc
+  (loc: location): void = (
+  $LOC.prerr_location loc; prerr ": error(1)"
+) // end of [prerr_error1_loc]
+
+implement
+s1exp_make_e1xp (loc0, e0) = let
+//
+fun aux (
+  e0: e1xp
+) :<cloptr1> s1exp =
+  case+ e0.e1xp_node of
+  | E1XPapp (e1, loc_arg, es2) =>
+      s1exp_app (loc0, aux e1, loc_arg, auxlst es2)
+    // end of [E1XPapp]
+  | E1XPide ide => s1exp_ide (loc0, ide)
+  | E1XPchar chr => s1exp_char (loc0, chr)
+  | E1XPint rep => s1exp_int (loc0, rep)
+  | E1XPlist es => s1exp_list (loc0, auxlst es)
+  | _ => s1exp_err (loc0) where {
+      val () = prerr_error1_loc (loc0)
+      val () = prerr ": illegal static expression."
+      val () = prerr_newline ()
+    } // end of [_]
+(* end of [aux] *)
+//
+and auxlst (
+  es0: e1xplst
+) :<cloptr1> s1explst = case+ es0 of
+  | list_cons (e, es) => list_cons (aux e, auxlst es)
+  | list_nil () => list_nil ()
+(* end of [auxlst] *)
+//
+in
+  aux (e0)
+end // end of [s1exp_make_e1xp]
+
+(* ****** ****** *)
+
+implement
+q1marg_make
+  (loc, arg) = '{
   q1marg_loc= loc, q1marg_arg= arg
 } // end of [q1marg_make]
 
 (* ****** ****** *)
 
 implement
-t1mpmarg_make (loc, arg) = '{
+t1mpmarg_make
+  (loc, arg) = '{
   t1mpmarg_loc= loc, t1mpmarg_arg= arg
 } // end of [t1mpmarg_make]
 

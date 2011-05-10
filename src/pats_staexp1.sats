@@ -106,6 +106,8 @@ datatype e1xp_node =
 //
   | E1XPif of (e1xp, e1xp, e1xp)
 //
+  | E1XPerr of () // HX: placeholder for error indication
+//
 // end of [e1xp_node]
 
 where e1xp: type = '{
@@ -160,6 +162,8 @@ fun e1xp_list (loc: location, es: e1xplst): e1xp
 fun e1xp_if (
   loc: location, _cond: e1xp, _then: e1xp, _else: e1xp
 ) : e1xp // end of [e1xp_if]
+//
+fun e1xp_err (loc: location): e1xp
 //
 fun e1xp_true (loc: location): e1xp
 and e1xp_false (loc: location): e1xp
@@ -367,8 +371,9 @@ fun sp1at_cstr
 
 datatype s1exp_node =
 //
-  | S1Eint of i0nt // integer constant
-  | S1Echar of c0har // character constant
+  | S1Eint of string // integer constant
+  | S1Echar of char // character constant
+//
   | S1Eextype of (string(*name*), s1explstlst) // extern type
 //
   | S1Esqid of (s0taq, symbol) // qualified static identifer
@@ -395,6 +400,8 @@ datatype s1exp_node =
   | S1Euni of (s1qualst, s1exp) // universal quantified
 //
   | S1Eann of (s1exp, s1rt) // static expression with annotate sort
+//
+  | S1Eerr of () // HX: placeholder for error indication
 // end of [s1exp_node]
 
 and s1rtext_node =
@@ -435,8 +442,12 @@ and s1qualstlst = List (s1qualst)
 
 (* ****** ****** *)
 
-fun s1exp_int (loc: location, int: i0nt): s1exp
-fun s1exp_char (loc: location, char: c0har): s1exp
+fun s1exp_int
+  (loc: location, int: string): s1exp
+// end of [s1exp_int]
+fun s1exp_i0nt (loc: location, x: i0nt): s1exp
+fun s1exp_char (loc: location, c: char): s1exp
+fun s1exp_c0har (loc: location, c: c0har): s1exp
 
 fun s1exp_extype (
   loc: location, name: string, arg: s1explstlst
@@ -487,6 +498,8 @@ fun s1exp_uni (loc: location, qua: s1qualst, body: s1exp): s1exp
 
 fun s1exp_ann (loc: location, s1e: s1exp, s1t: s1rt): s1exp
 
+fun s1exp_err (loc: location): s1exp
+
 fun fprint_s1exp : fprint_type (s1exp)
 fun print_s1exp (x: s1exp): void
 fun prerr_s1exp (x: s1exp): void
@@ -517,6 +530,10 @@ fun s1qua_vars (loc: location, ids: i0delst, s1te: s1rtext): s1qua
 
 fun fprint_s1qua : fprint_type (s1qua)
 fun fprint_s1qualst : fprint_type (s1qualst)
+
+(* ****** ****** *)
+
+fun s1exp_make_e1xp (loc: location, e: e1xp): s1exp
 
 (* ****** ****** *)
 

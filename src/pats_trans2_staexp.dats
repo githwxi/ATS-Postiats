@@ -35,10 +35,12 @@
 (* ****** ****** *)
 
 staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
 staload ERR = "pats_error.sats"
+staload INT = "pats_intinf.sats"
 
 (* ****** ****** *)
 
@@ -57,6 +59,7 @@ typedef s0taq = $SYN.s0taq
 (* ****** ****** *)
 
 staload "pats_staexp1.sats"
+staload "pats_e1xpval.sats"
 staload "pats_staexp2.sats"
 staload "pats_staexp2_util.sats"
 staload "pats_trans2_env.sats"
@@ -72,9 +75,9 @@ fn prerr_loc_error2
   (loc: location): void = (
   $LOC.prerr_location loc; prerr ": error(2)"
 ) // end of [prerr_loc_error2]
-fn prerr_interror () = prerr "INTERROR(ats_trans2_staexp)"
+fn prerr_interror () = prerr "INTERROR(pats_trans2_staexp)"
 fn prerr_loc_interror (loc: location) = begin
-  $LOC.prerr_location loc; prerr ": INTERROR(ats_trans2_staexp)"
+  $LOC.prerr_location loc; prerr ": INTERROR(pats_trans2_staexp)"
 end // end of [prerr_loc_interror]
 
 (* ****** ****** *)
@@ -134,13 +137,16 @@ case+ ans of
           s2exp_app_srt (_res, s2e0, list_nil ()) // HX: automatically applied
         // S2RTfun
       | _ => s2e0
-    end // end of [S2ITEMcst]
-(*
-  | S2ITMe1xp e1xp => s1exp_trup (s1exp_make_e1xp (loc0, e1xp))
-*)
+    end // end of [S2ITMcst]
+  | S2ITMe1xp e1xp => let
+      val e1xp = e1xp_normalize (e1xp)
+      val s1e = s1exp_make_e1xp (loc0, e1xp)
+    in
+      s1exp_trup (s1e)
+    end // end of [S1ITMe1xp]
   | S2ITMvar s2v => let
       val () = s2var_check_tmplev (loc0, s2v) in s2exp_var (s2v)
-    end // end of [S2ITEMvar]
+    end // end of [S2ITMvar]
   | _ => s2exp_err (s2t) where {
       val s2t = s2rt_err ()
       val () = prerr_loc_interror (loc0)
@@ -164,6 +170,102 @@ end // end of [s1exp_qid_tr_up]
 
 (* ****** ****** *)
 
+fun s1exp_app_unwind (
+  s1e: s1exp, s1ess: &List_vt (s1explst)
+) : s1exp = begin
+  case+ s1e.s1exp_node of
+  | S1Eapp (s1e, _(*loc_arg*), s1es) => let
+      val () = s1ess := list_vt_cons (s1es, s1ess)
+    in
+      s1exp_app_unwind (s1e, s1ess)
+    end // end of [S1Eapp]
+  | S1Esqid (q, id) => begin case+ q.s0taq_node of
+    | $SYN.S0TAQnone () => let
+        val ans = the_s2expenv_find id
+      in
+        case+ ans of
+        | ~Some_vt s2i => begin case+ s2i of
+(*
+          | S2ITMe1xp e1xp => let
+              val s1e_new = s1exp_make_e1xp (s1e.s1exp_loc, e1xp)
+            in
+              s1exp_app_unwind (s1e_new, s1ess)
+            end (* end of [S2ITMe1xp] *)
+*)
+          | _ => s1e
+          end // end of [Some_vt]
+        | ~None_vt () => s1e
+      end // end of [$Syn.S0TAQnone]
+    | _ => s1e
+    end (* end of [S1Eqid] *)
+  | _ => s1e // end of [_]
+end // end of [s1exp_app_unwind]
+
+(* ****** ****** *)
+
+fn s1exp_trup_app (
+  loc_fun: location
+, s2e_fun: s2exp, s1ess_arg: List_vt (s1explst)
+) : s2exp = let
+//
+fun loop (
+  s2e_fun: s2exp
+, s1ess_arg: List_vt (s1explst)
+) :<cloref1> s2exp = begin
+  case+ s1ess_arg of
+  | ~list_vt_cons (
+      s1es_arg, s1ess_arg
+    ) => let
+      val s2t_fun = s2e_fun.s2exp_srt
+    in
+      if s2rt_is_fun (s2t_fun) then let
+        val- S2RTfun (s2ts_arg, s2t_res) = s2t_fun
+        var err: int = 0
+        val s2es_arg = s1explst_trdn_err (s1es_arg, s2ts_arg, err)
+      in
+        case+ 0 of
+        | _ when err = 0 => let
+            val s2e_fun = s2exp_app_srt (s2t_res, s2e_fun, s2es_arg)
+          in
+            loop (s2e_fun, s1ess_arg)
+          end // end of [_ when err = 0]
+        | _ => s2exp_err (s2t_res) where {
+            val () = list_vt_free (s1ess_arg)
+//
+            val () = prerr_loc_error2 (loc_fun)
+            val () = if isdebug () then prerr ": s1exp_trup_app"
+            val () = prerr ": the static function needs "
+            val () = prerr_string (if err > 0 then "less" else "more")
+            val () = prerr " arguments."
+            val () = prerr_newline ()
+//
+          } // end of [_ when err != 0]
+        // end of [case]
+      end else let
+        val () = list_vt_free (s1ess_arg)
+//
+        val () = prerr_loc_error2 (loc_fun)
+        val () = if isdebug () then prerr ": s1exp_trup_app"
+        val () = prerr ": the static expresstion ["
+        val () = prerr_s2exp (s2e_fun)
+        val () = prerr "] is expected to be of a functional sort but it is assigned the sort [";
+        val () = prerr_s2rt (s2t_fun)
+        val () = prerr "]."
+        val () = prerr_newline ()
+//
+      in
+        s2exp_err (s2t_fun)
+      end // end of [if]
+    end (* end of [list_cons] *)
+  | ~list_vt_nil _ => s2e_fun
+end // end of [loop]
+//
+in
+  loop (s2e_fun, s1ess_arg)
+end // end of [s1exp_trup_app]
+
+(* ****** ****** *)
+
 implement
 s1exp_trup (s1e0) = let
 (*
@@ -175,8 +277,27 @@ s1exp_trup (s1e0) = let
 in
 //
 case+ s1e0.s1exp_node of
-| S1Echar (x) => s2exp_c0har (x)
+| S1Eint (rep) => let
+    val int = $INT.intinf_make_string (rep) in s2exp_intinf (int)
+  end // end of [S1Eint]
+| S1Echar (char) => s2exp_char (char)
 | S1Esqid (q, id) => s1exp_trup_qid (s1e0, q, id)
+| S1Eapp _ => let
+    var s1ess_arg: List_vt (s1explst) = list_vt_nil
+    val s1e_opr = s1exp_app_unwind (s1e0, s1ess_arg)
+  in
+    case+ s1e_opr.s1exp_node of
+(*
+    | S1Eqid (q, id) =>
+        s1exp_trup_app_qid (s1e0, s1e_opr, q, id, s1ess_arg)
+*)
+    | _ => let
+        val loc_opr = s1e_opr.s1exp_loc
+        val s2e_opr = s1exp_trup (s1e_opr)
+      in
+        s1exp_trup_app (loc_opr, s2e_opr, s1ess_arg)
+      end // end of [_]
+  end (* end of [S1Eapp] *)
 | _ => let
     val () = prerr_loc_interror (loc0)
     val () = prerr ": not yet implemented: ["
@@ -220,6 +341,31 @@ implement
 s1explst_trdn_bool
   (s1es) = l2l (list_map_fun (s1es, s1exp_trdn_bool))
 // end of [s1explst_trdn_bool]
+
+(* ****** ****** *)
+
+implement
+s1explst_trdn_err
+  (s1es, s2ts, err) =
+  case+ s1es of
+  | list_cons (s1e, s1es) => (
+    case+ s2ts of
+    | list_cons (s2t, s2ts) => let
+        val s2e = s1exp_trdn (s1e, s2t)
+        val s2es = s1explst_trdn_err (s1es, s2ts, err)
+      in
+        list_cons (s2e, s2es)
+      end // end of [list_cons]
+    | list_nil () => let
+        val () = err := err + 1 in list_nil ()
+      end // end of [list_nil]
+    )
+  | list_nil () => list_nil () where {
+      val () = case+ s2ts of
+        | list_cons _ => (err := err - 1) | list_nil () => ()
+      // end of [val]
+    } // end of [list_nil]
+// end of [s1explst_trdn_err]
 
 (* ****** ****** *)
 

@@ -52,28 +52,30 @@ implement
 fprint_v1al (out, v0) = let
   macdef prstr (s) = fprint_string (out, ,(s))
 in
-  case+ v0 of
-  | V1ALint (x) => {
-      val () = prstr "V1ALint("
-      val () = fprint_int (out, x)
-      val () = prstr ")"
-    }
-  | V1ALchar (x) => {
-      val () = prstr "V1ALchar("
-      val () = fprint_char (out, x)
-      val () = prstr ")"
-    }
-  | V1ALstring (x) => {
-      val () = prstr "V1ALstring("
-      val () = fprint_string (out, x)
-      val () = prstr ")"
-    }  
-  | V1ALfloat (x) => {
-      val () = prstr "V1ALdouble("
-      val () = fprint_double (out, x)
-      val () = prstr ")"
-    }
-  | V1ALerr () => prstr "V1ALerr()"
+//
+case+ v0 of
+| V1ALint (x) => {
+    val () = prstr "V1ALint("
+    val () = fprint_int (out, x)
+    val () = prstr ")"
+  }
+| V1ALchar (x) => {
+    val () = prstr "V1ALchar("
+    val () = fprint_char (out, x)
+    val () = prstr ")"
+  }
+| V1ALstring (x) => {
+    val () = prstr "V1ALstring("
+    val () = fprint_string (out, x)
+    val () = prstr ")"
+  }  
+| V1ALfloat (x) => {
+    val () = prstr "V1ALdouble("
+    val () = fprint_double (out, x)
+    val () = prstr ")"
+  }
+| V1ALerr () => prstr "V1ALerr()"
+//
 end // end of [fprint_v1al]
 
 (* ****** ****** *)
@@ -82,67 +84,70 @@ implement
 fprint_e1xp (out, e0) = let
   macdef prstr (s) = fprint_string (out, ,(s))
 in
-  case+ e0.e1xp_node of
-  | E1XPide (id) => fprint_symbol (out, id)
 //
-  | E1XPint (int(*string*)) => begin
-      prstr "E1XPint("; fprint_string (out, int); prstr ")"
-    end // end of [E1XPint]
-  | E1XPchar (c: char) => begin
-      prstr "E1XPchar("; fprint_char (out, c); prstr ")"
-    end // end of [E1XPchar]
-  | E1XPfloat (f: string) => begin
-      prstr "E1XPfloat("; fprint_string (out, f); prstr ")"
-    end // end of [E1XPfloat]
+case+ e0.e1xp_node of
+| E1XPide (id) => fprint_symbol (out, id)
 //
-  | E1XPv1al (v) => begin
-      prstr "E1XPv1al("; fprint_v1al (out, v); prstr ")"
-    end // end of [E1XPv1al]
+| E1XPint (int(*string*)) => begin
+    prstr "E1XPint("; fprint_string (out, int); prstr ")"
+  end // end of [E1XPint]
+| E1XPchar (c: char) => begin
+    prstr "E1XPchar("; fprint_char (out, c); prstr ")"
+  end // end of [E1XPchar]
+| E1XPfloat (f: string) => begin
+    prstr "E1XPfloat("; fprint_string (out, f); prstr ")"
+  end // end of [E1XPfloat]
 //
-  | E1XPnone () => begin
-      fprint_string (out, "E1XPnone()")
-    end // end of [E1XPnone]
-  | E1XPundef () => begin
-      fprint_string (out, "E1XPundef()")
-    end // end of [E1XPundef]
-  | E1XPstring (str) => {
-      val () = prstr "E1XPstring("
-      val () = fprint_string (out, str)
-      val () = prstr ")"
-    } // end of [E1XPstring]
-  | E1XPapp (e, _(*loc*), es) => {
-      val () = prstr "E1XPapp("
-      val () = fprint_e1xp (out, e)
-      val () = prstr "; "
-      val () = fprint_e1xplst (out, es)
-      val () = prstr ")"
-    } // end of [E1XPapp]
-  | E1XPfun (arg, body) => {
-      val () = prstr "E1XPfun("
-      val () = $UT.fprintlst<symbol> (out, arg, ", ", fprint_symbol)
-      val () = prstr "; "
-      val () = fprint_e1xp (out, body)
-      val () = prstr ")"
-    }
+| E1XPv1al (v) => begin
+    prstr "E1XPv1al("; fprint_v1al (out, v); prstr ")"
+  end // end of [E1XPv1al]
 //
-  | E1XPeval e => begin
-      prstr "E1XPeval("; fprint_e1xp (out, e); prstr ")"
-    end // end of [E1XPlist]
-  | E1XPlist es => begin
-      prstr "E1XPlist("; fprint_e1xplst (out, es); prstr ")"
-    end // end of [E1XPlist]
+| E1XPnone () => begin
+    fprint_string (out, "E1XPnone()")
+  end // end of [E1XPnone]
+| E1XPundef () => begin
+    fprint_string (out, "E1XPundef()")
+  end // end of [E1XPundef]
+| E1XPstring (str) => {
+    val () = prstr "E1XPstring("
+    val () = fprint_string (out, str)
+    val () = prstr ")"
+  } // end of [E1XPstring]
+| E1XPapp (e, _(*loc*), es) => {
+  val () = prstr "E1XPapp("
+    val () = fprint_e1xp (out, e)
+    val () = prstr "; "
+    val () = fprint_e1xplst (out, es)
+    val () = prstr ")"
+  } // end of [E1XPapp]
+| E1XPfun (arg, body) => {
+    val () = prstr "E1XPfun("
+    val () = $UT.fprintlst<symbol> (out, arg, ", ", fprint_symbol)
+    val () = prstr "; "
+    val () = fprint_e1xp (out, body)
+    val () = prstr ")"
+  }
 //
-  | E1XPif (
-      _cond, _then, _else
-    ) => {
-      val () = prstr "E1XPif("
-      val () = fprint_e1xp (out, _cond)
-      val () = prstr "; "
-      val () = fprint_e1xp (out, _then)
-      val () = prstr "; "
-      val () = fprint_e1xp (out, _else)
-      val () = prstr ")"
-    } // end of [E1XPif]
+| E1XPeval e => begin
+    prstr "E1XPeval("; fprint_e1xp (out, e); prstr ")"
+  end // end of [E1XPlist]
+| E1XPlist es => begin
+    prstr "E1XPlist("; fprint_e1xplst (out, es); prstr ")"
+  end // end of [E1XPlist]
+//
+| E1XPif (
+    _cond, _then, _else
+  ) => {
+    val () = prstr "E1XPif("
+    val () = fprint_e1xp (out, _cond)
+    val () = prstr "; "
+    val () = fprint_e1xp (out, _then)
+    val () = prstr "; "
+    val () = fprint_e1xp (out, _else)
+    val () = prstr ")"
+  } // end of [E1XPif]
+//
+| E1XPerr () => prstr "E1XPerr()"
 //
 end // end of [fprint_e1xp]
 
@@ -165,33 +170,34 @@ implement
 fprint_s1rt (out, s1t0) = let
   macdef prstr (s) = fprint_string (out, ,(s))
 in
-  case+ s1t0.s1rt_node of
-  | S1RTapp (s1t, s1ts) => {
-      val () = prstr "S1RTapp("
-      val () = fprint_s1rt (out, s1t)
-      val () = prstr "; "
-      val () = fprint_s1rtlst (out, s1ts)
-      val () = prstr ")"
-    } // end of [S1RTapp]
-  | S1RTlist s1ts => begin
-      prstr "S1RTlist("; fprint_s1rtlst (out, s1ts); prstr ")"
-    end // end of [S1RTlist]
-  | S1RTqid (q, id) => {
-      val () = prstr "S1RTqid("
-      val () = fprint_s0rtq (out, q)
-      val () = fprint_symbol (out, id)
-      val () = prstr ")"
-    } // end of [S1RTqid]
-(*
-  | S1RTtup s1ts => begin
-      prstr "S1RTtup("; fprint_s1rtlst (out, s1ts); prstr ")"
-    end // end of [S1RTtup]
-*)
-  | S1RTtype (knd) => begin
-      prstr "S1RTtype("; fprint_int (out, knd); prstr ")"
-    end // end of [S1RTtype]
 //
-  | S1RTerr () => prstr "S1RTerr()" // HX: indicating an error
+case+ s1t0.s1rt_node of
+| S1RTapp (s1t, s1ts) => {
+    val () = prstr "S1RTapp("
+    val () = fprint_s1rt (out, s1t)
+    val () = prstr "; "
+    val () = fprint_s1rtlst (out, s1ts)
+    val () = prstr ")"
+  } // end of [S1RTapp]
+| S1RTlist s1ts => begin
+    prstr "S1RTlist("; fprint_s1rtlst (out, s1ts); prstr ")"
+  end // end of [S1RTlist]
+| S1RTqid (q, id) => {
+    val () = prstr "S1RTqid("
+    val () = fprint_s0rtq (out, q)
+    val () = fprint_symbol (out, id)
+    val () = prstr ")"
+  } // end of [S1RTqid]
+(*
+| S1RTtup s1ts => begin
+    prstr "S1RTtup("; fprint_s1rtlst (out, s1ts); prstr ")"
+  end // end of [S1RTtup]
+*)
+| S1RTtype (knd) => begin
+    prstr "S1RTtype("; fprint_int (out, knd); prstr ")"
+  end // end of [S1RTtype]
+//
+| S1RTerr () => prstr "S1RTerr()" // HX: indicating an error
 //
 end // end of [fprint_s1rt]
 
@@ -297,14 +303,14 @@ in
 //
 case+ x.s1exp_node of
 //
-| S1Eint (int) => {
+| S1Eint (rep) => {
     val () = prstr "S1Eint("
-    val () = fprint_i0nt (out, int)
+    val () = fprint_string (out, rep)
     val () = prstr ")"
   }
 | S1Echar (char) => {
     val () = prstr "S1Echar("
-    val () = fprint_c0har (out, char)
+    val () = fprint_char (out, char)
     val () = prstr ")"
   }
 //
@@ -440,6 +446,8 @@ case+ x.s1exp_node of
     val () = fprint_s1rt (out, s1t)
     val () = prstr ")"
   }
+//
+| S1Eerr () => prstr "S1Eerr()"
 //
 (*
 | _ => prstr "S0E...(...)"

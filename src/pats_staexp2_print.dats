@@ -151,21 +151,38 @@ implement prerr_s2itm (xs) = fprint_s2itm (stderr_ref, xs)
 (* ****** ****** *)
 
 implement
+fprint_s2exp (out, x) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+//
+case+ x of
+| _ => prstr "S2E...(...)"
+//
+end // end of [fprint_s2exp]
+
+implement print_s2exp (xs) = fprint_s2exp (stdout_ref, xs)
+implement prerr_s2exp (xs) = fprint_s2exp (stderr_ref, xs)
+
+(* ****** ****** *)
+
+implement
 fprint_s2rtext (out, x) = let
   macdef prstr (s) = fprint_string (out, ,(s))
 in
-  case+ x of
-  | S2TEsrt (s2t) => {
-      val () = prstr "S2TEsrt("
-      val () = fprint_s2rt (out, s2t)
-      val () = prstr ")"
-    }
-  | S2TEsub _ => {
-      val () = prstr "S2TEsub("
-      val () = fprint_string (out, "...")
-      val () = prstr ")"
-    }
-  | S2TEerr () => prstr "S2TEerr()"
+//
+case+ x of
+| S2TEsrt (s2t) => {
+    val () = prstr "S2TEsrt("
+    val () = fprint_s2rt (out, s2t)
+    val () = prstr ")"
+  }
+| S2TEsub _ => {
+    val () = prstr "S2TEsub("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+| S2TEerr () => prstr "S2TEerr()"
+//
 end // end of [fprint_s2rtext]
 
 (* ****** ****** *)

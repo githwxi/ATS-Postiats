@@ -478,9 +478,9 @@ case+ e0.e1xp_node of
     val () = the_valerrlst_add (VE_E1XPfun (e0))
   }
 //
-(*
-| _ => V1ALerr ()
-*)
+| E1XPerr () => V1ALerr () where {
+    val () = the_valerrlst_add (VE_E1XPerr (e0))
+  }
 //
 end // end of [e1xplevenv_valize_main]
 
@@ -962,7 +962,7 @@ in
     val () = prerrf (": the maximal normlization depth (%i) has been reached.", @(lev))
     val () = prerr_newline ()
   in
-    $ERR.abort {e1xp} ()
+    e1xp_err (lorg)
   end (* end of [if] *)
 end // end of [e1xplevenv_normalize]
 
@@ -1024,6 +1024,8 @@ e1xplevenv_normalize_main
         e1xplevenv_normalize (lorg, lev, env, _else)
       // end of [if]
     end (* end of [E1XPif] *)
+//
+  | E1XPerr _ => e1xp_make (lorg, node)
 //
 end // end of [e1xplevenv_normalize]
 

@@ -75,6 +75,10 @@ fun s1exp_trdn (s1e: s1exp, s2t: s2rt): s2exp
 fun s1exp_trdn_bool (s1es: s1exp): s2exp
 fun s1explst_trdn_bool (s1es: s1explst): s2explst
 
+fun s1explst_trdn_err
+  (s1es: s1explst, s2ts: s2rtlst, err: &int): s2explst
+// end of [s1explst_trdn_err]
+
 (* ****** ****** *)
 
 fun s1rtext_tr (s1te: s1rtext): s2rtext

@@ -111,6 +111,14 @@ case+ d1c0.d1ecl_node of
   in
     d2ecl_list (loc0, ds)
   end // end of [D1Clist]
+| D1Ce1xpdef (id, def) => let
+    val () = the_s2expenv_add (id, S2ITMe1xp def)
+(*
+    val () = the_d2expenv_add (id, D2ITMe1xp def)
+*)
+  in
+    d2ecl_none (loc0)
+  end // end of [D1Ce1xpdef]
 | D1Csrtdefs (ds) => let
     val () = list_app_fun (ds, s1rtdef_tr) in d2ecl_none (loc0)
   end // end of [D1Csrtdefs]

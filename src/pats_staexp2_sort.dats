@@ -147,6 +147,9 @@ s2rt_is_dat (s2t) = begin case+ s2t of
   | _ => false // end of [S2RTbas]
 end // end of [s2rt_is_dat]
 
+implement
+s2rt_is_fun (s2t) = case+ s2t of S2RTfun _ => true | _ => false
+
 (* ****** ****** *)
 
 abstype s2rtnul (l:addr)

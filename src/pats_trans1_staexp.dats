@@ -173,8 +173,8 @@ aux_item (
   val loc0 = s0e0.s0exp_loc in
   case+ s0e0.s0exp_node of
 //
-  | S0Eint (int) => FXITMatm (s1exp_int (loc0, int))
-  | S0Echar (char) => FXITMatm (s1exp_char (loc0, char))
+  | S0Eint (int) => FXITMatm (s1exp_i0nt (loc0, int))
+  | S0Echar (char) => FXITMatm (s1exp_c0har (loc0, char))
 //
   | S0Eextype (name, s0es) => let
       fun f (
@@ -200,6 +200,7 @@ aux_item (
     in
       FXITMopr (loc0, FXOPRpre (invar_prec_sta, f))
     end // end of [S0Eide when ...]
+  | S0Eide id when id = BACKSLASH => s1expitm_backslash (loc0)
   | S0Eide id when id = BANG => let
       fn f (
         s1e: s1exp

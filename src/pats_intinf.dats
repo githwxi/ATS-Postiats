@@ -34,52 +34,67 @@
 //
 (* ****** ****** *)
 
-staload LEX = "pats_lexing.sats"
+staload "libc/SATS/gmp.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
+staload "pats_intinf.sats"
+
+(* ****** ****** *)
+
+assume intinf_type = ref (mpz_vt)
 
 (* ****** ****** *)
 
 implement
-s2exp_int (i) = '{
-  s2exp_srt= s2rt_int, s2exp_node= S2Eint (i)
-} // end of [s2exp_int]
-implement
-s2exp_intinf (int) = '{
-  s2exp_srt= s2rt_int, s2exp_node= S2Eintinf (int)
-} // end of [s2exp_intinf]
-
-implement
-s2exp_char (c) = '{
-  s2exp_srt= s2rt_char, s2exp_node= S2Echar (c)
-} // end of [s2exp_char]
-
-implement
-s2exp_app_srt (s2t, _fun, _arg) = '{
-  s2exp_srt= s2t, s2exp_node= S2Eapp (_fun, _arg)
-}
-
-implement
-s2exp_cst (s2c) = let
-  val s2t = s2cst_get_srt (s2c)
-in '{
-  s2exp_srt= s2t, s2exp_node= S2Ecst (s2c)
-} end // end of [s2exp_cst]
-
-implement
-s2exp_var (s2v) = let
-  val s2t = s2var_get_srt (s2v)
-in '{
-  s2exp_srt= s2t, s2exp_node= S2Evar (s2v)
-} end // end of [s2exp_var]
-
-implement
-s2exp_err (s2t) = '{
-  s2exp_srt= s2t, s2exp_node= S2Eerr ()
-}
+intinf_make_string (rep) = let
+  val @(pfgc, pfat | p) = ptr_alloc_tsz {mpz_vt} (sizeof<mpz_vt>)
+  prval () = free_gc_elim (pfgc)
+  val () = mpz_init_set_str_exn (!p, rep, 10(*base*))
+in
+  ref_make_view_ptr (pfat | p)
+end // end of [intinf_make_string]
 
 (* ****** ****** *)
 
-(* end of [pats_staexp2.dats] *)
+val () = intinf_initialize () where {
+  extern fun intinf_initialize (): void = "atsopt_intinf_initialize"
+} // end of [val]
+
+(* ****** ****** *)
+
+%{$
+//
+// This is necessary to prevent memory leak
+//
+static
+void* atsopt_intinf_malloc
+  (size_t sz) { return ATS_MALLOC (sz) ; }
+// end of [atsopt_intinf_malloc]
+
+static
+void atsopt_intinf_free
+  (void* ptr, size_t sz) { ATS_FREE (ptr) ; return ; }
+// end of [atsopt_intinf_free]
+
+static
+void* atsopt_intinf_realloc (
+  void* ptr, size_t sz_old, size_t sz_new
+) {
+  return ATS_REALLOC (ptr, sz_new) ;
+} // end of [atsopt_intinf_realloc]
+
+ats_void_type
+atsopt_intinf_initialize
+  (/*argumentless*/) {
+  mp_set_memory_functions (
+    &atsopt_intinf_malloc, &atsopt_intinf_realloc, &atsopt_intinf_free
+  ) ; // end of [mp_set_memory_functions]
+  return ;
+} // end of [atsopt_intinf_initialize]
+
+%} // end of [%{$]
+
+(* ****** ****** *)
+
+(* end of [pats_intinf.sats] *)

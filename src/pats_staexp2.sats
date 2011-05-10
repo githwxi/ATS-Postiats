@@ -34,6 +34,10 @@
 //
 (* ****** ****** *)
 
+staload
+INT = "pats_intinf.sats"
+typedef intinf = $INT.intinf
+
 staload STP = "pats_stamp.sats"
 typedef stamp = $STP.stamp
 staload SYM = "pats_symbol.sats"
@@ -169,6 +173,7 @@ fun s2rt_tup (s2ts: s2rtlst): s2rt // HX: tuple sorts are not yet supported
 fun s2rt_err (): s2rt // HX: a placeholder indicating error
 
 fun s2rt_is_dat (x: s2rt): bool
+fun s2rt_is_fun (x: s2rt): bool
 
 (* ****** ****** *)
 
@@ -210,11 +215,6 @@ viewtypedef s2itmopt_vt = Option_vt (s2itm)
 fun fprint_s2itm : fprint_type (s2itm)
 fun print_s2itm (x: s2itm): void
 fun prerr_s2itm (x: s2itm): void
-
-(* ****** ****** *)
-
-abstype intinf_type
-typedef intinf = intinf_type
 
 (* ****** ****** *)
 
@@ -402,7 +402,9 @@ fun fprint_d2con : fprint_type (d2con)
 
 (* ****** ****** *)
 
-fun s2exp_c0har (x: c0har): s2exp
+fun s2exp_int (i: int): s2exp
+fun s2exp_intinf (int: intinf): s2exp
+fun s2exp_char (c: char): s2exp
 fun s2exp_cst (x: s2cst): s2exp // HX: static constant
 fun s2exp_var (x: s2var): s2exp // HX: static variable
 
@@ -414,6 +416,9 @@ fun s2exp_err (s2t: s2rt): s2exp // HX: error indication
 
 fun fprint_s2exp : fprint_type (s2exp)
 fun fprint_s2explst : fprint_type (s2explst)
+
+fun print_s2exp (x: s2exp): void
+fun prerr_s2exp (x: s2exp): void
 
 (* ****** ****** *)
 

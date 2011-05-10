@@ -34,52 +34,11 @@
 //
 (* ****** ****** *)
 
-staload LEX = "pats_lexing.sats"
+abstype intinf_type
+typedef intinf = intinf_type
+
+fun intinf_make_string (rep: string): intinf
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-
-(* ****** ****** *)
-
-implement
-s2exp_int (i) = '{
-  s2exp_srt= s2rt_int, s2exp_node= S2Eint (i)
-} // end of [s2exp_int]
-implement
-s2exp_intinf (int) = '{
-  s2exp_srt= s2rt_int, s2exp_node= S2Eintinf (int)
-} // end of [s2exp_intinf]
-
-implement
-s2exp_char (c) = '{
-  s2exp_srt= s2rt_char, s2exp_node= S2Echar (c)
-} // end of [s2exp_char]
-
-implement
-s2exp_app_srt (s2t, _fun, _arg) = '{
-  s2exp_srt= s2t, s2exp_node= S2Eapp (_fun, _arg)
-}
-
-implement
-s2exp_cst (s2c) = let
-  val s2t = s2cst_get_srt (s2c)
-in '{
-  s2exp_srt= s2t, s2exp_node= S2Ecst (s2c)
-} end // end of [s2exp_cst]
-
-implement
-s2exp_var (s2v) = let
-  val s2t = s2var_get_srt (s2v)
-in '{
-  s2exp_srt= s2t, s2exp_node= S2Evar (s2v)
-} end // end of [s2exp_var]
-
-implement
-s2exp_err (s2t) = '{
-  s2exp_srt= s2t, s2exp_node= S2Eerr ()
-}
-
-(* ****** ****** *)
-
-(* end of [pats_staexp2.dats] *)
+(* end of [pats_intinf.sats] *)
