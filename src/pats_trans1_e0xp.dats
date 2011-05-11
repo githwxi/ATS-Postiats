@@ -70,11 +70,10 @@ staload "pats_trans1_env.sats"
 
 (* ****** ****** *)
 
-fn prerr_loc_error1
+fn prerr_error1_loc
   (loc: location): void = (
   $LOC.prerr_location loc; prerr ": error(1)"
-) // end of [prerr_loc_error1]
-
+) // end of [prerr_error1_loc]
 fn prerr_interror
   (): void = prerr "INTERROR(pats_trans1_e0xp)"
 // end of [prerr_interror]
@@ -96,7 +95,7 @@ do_e0xpact_assert
   ) : bool // end of [val]
 in
   if is_false then let
-    val () = prerr_loc_error1 loc
+    val () = prerr_error1_loc loc
     val () = prerr ": [#assert] failed!"
     val () = prerr_newline ()
   in
@@ -108,7 +107,7 @@ implement
 do_e0xpact_error
   (loc, v) = let
   val () = {
-    val () = prerr_loc_error1 (loc)
+    val () = prerr_error1_loc (loc)
     val () = prerr ": [#error] directive is encountered: "
   } // end of [val]
   val () = (case+ v of
@@ -196,7 +195,7 @@ local
 
 fn e0xp_tr_errmsg_opr
   (loc: location): e1xp = let
-  val () = prerr_loc_error1 (loc)
+  val () = prerr_error1_loc (loc)
   val () = prerr ": the operator needs to be applied."
   val () = prerr_newline ()
 in
@@ -205,7 +204,7 @@ end // end of [e0xp_tr_errmsg_opr]
 
 fn e0xp_tr_errmsg_float
   (loc: location): void = let
-  val () = prerr_loc_error1 (loc)
+  val () = prerr_error1_loc (loc)
   val () = prerr ": the floating point number is required to be of base 10."
   val () = prerr_newline ()
 in

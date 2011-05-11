@@ -57,11 +57,6 @@ s2exp_char (c) = '{
 } // end of [s2exp_char]
 
 implement
-s2exp_app_srt (s2t, _fun, _arg) = '{
-  s2exp_srt= s2t, s2exp_node= S2Eapp (_fun, _arg)
-}
-
-implement
 s2exp_cst (s2c) = let
   val s2t = s2cst_get_srt (s2c)
 in '{
@@ -74,6 +69,53 @@ s2exp_var (s2v) = let
 in '{
   s2exp_srt= s2t, s2exp_node= S2Evar (s2v)
 } end // end of [s2exp_var]
+
+(* ****** ****** *)
+
+implement s2exp_lam_srt
+  (s2t_fun, s2vs_arg, s2e_body) = '{
+  s2exp_srt= s2t_fun, s2exp_node= S2Elam (s2vs_arg, s2e_body)
+} // end of [s2exp_lam_srt]
+
+implement
+s2exp_app_srt
+  (s2t, _fun, _arg) = '{
+  s2exp_srt= s2t, s2exp_node= S2Eapp (_fun, _arg)
+} // end of [s2exp_app_srt]
+
+implement
+s2exp_fun_srt (
+  s2t, fc, lin, s2fe, npf, _arg, _res
+) = '{
+  s2exp_srt= s2t, s2exp_node= S2Efun (fc, lin, s2fe, npf, _arg, _res)
+} // end of [s2exp_fun_srt]
+
+(* ****** ****** *)
+
+implement
+s2exp_refarg (refval, s2e) = '{
+  s2exp_srt= s2e.s2exp_srt, s2exp_node= S2Erefarg (refval, s2e)
+} // end of [s2exp_refarg]
+
+implement
+s2exp_vararg (s2e) = '{
+  s2exp_srt= s2rt_t0ype, s2exp_node= S2Evararg (s2e)
+} // end of [s2exp_vararg]
+
+implement
+s2exp_exi (
+  s2vs, s2ps, s2e
+) = case+ (s2vs, s2ps) of
+  | (list_nil (), list_nil ()) => s2e
+  | (_, _) => '{
+      s2exp_srt= s2e.s2exp_srt, s2exp_node= S2Eexi (s2vs, s2ps, s2e)
+    } // end of [s2exp_exi]
+// end of [s2exp_exi]
+
+implement
+s2exp_wth (s2e, wths2es) = '{
+  s2exp_srt= s2e.s2exp_srt, s2exp_node= S2Ewth (s2e, wths2es)
+} // end of [s2exp_wth]
 
 implement
 s2exp_err (s2t) = '{

@@ -38,6 +38,11 @@ staload ERR = "pats_error.sats"
 
 (* ****** ****** *)
 
+staload SYM = "pats_symbol.sats"
+overload = with $SYM.eq_symbol_symbol
+
+(* ****** ****** *)
+
 staload "pats_staexp1.sats"
 staload "pats_dynexp1.sats"
 staload "pats_staexp2.sats"
@@ -90,12 +95,134 @@ fn s1tacst_tr
   , false // isrec
   , false // isasp
   , None () // islst
-  , None () // argvar
+  , list_nil () // argvar
   , None () // def
   ) // end of [s2cst_make]
 in
   the_s2expenv_add_scst (s2c)
 end // end of [s1tacst_tr]
+
+(* ****** ****** *)
+
+(*
+typedef
+s1tacon = '{ // static constructor declaration
+  s1tacon_loc= location
+, s1tacon_sym= symbol
+, s1tacon_arg= a1msrtlst
+, s1tacon_def= s1expopt
+} // end of [s1tacon]
+*)
+
+fn s1tacon_tr (
+  s2t_res: s2rt, d: s1tacon
+) : void = let
+  val id = d.s1tacon_sym
+  val loc = d.s1tacon_loc
+//
+  val argvar = let
+    fn f1 (x: a1srt): syms2rt = let
+      val sym = (case+ x.a1srt_sym of
+        | None () => $SYM.symbol_empty | Some sym => sym
+      ) : symbol
+      val s2t = s1rt_tr (x.a1srt_srt)
+    in
+      (sym, s2t)
+    end
+    fn f2 (x: a1msrt): syms2rtlst = l2l (list_map_fun (x.a1msrt_arg, f1))
+  in
+    l2l (list_map_fun (d.s1tacon_arg, f2))
+  end : List (syms2rtlst) // end of [val]
+//
+  val s2t_fun = let
+    fun aux (
+      s2t_res: s2rt, xss: List (syms2rtlst)
+    ) : s2rt =
+      case+ xss of
+      | list_cons (xs, xss) => let
+          val s2ts_arg = l2l (list_map_fun<syms2rt><s2rt> (xs, lam x =<0> x.1))
+          val s2t_res = s2rt_fun (s2ts_arg, s2t_res)
+        in
+          aux (s2t_res, xss)
+        end
+      | list_nil () => s2t_res
+    // end of [aux]
+  in
+    aux (s2t_res, argvar)
+  end : s2rt // end of [val]
+//
+  val (pf_s2expenv | ()) = the_s2expenv_push_nil ()
+  val s2vss = let
+    fun f1 (x: syms2rt): s2var =
+      if x.0 = $SYM.symbol_empty then
+        s2var_make_srt (x.1) else s2var_make_id_srt (x.0, x.1)
+      // end of [if]
+    fun f2 (
+      xs: syms2rtlst
+    ) : s2varlst = let
+      val s2vs = l2l (list_map_fun (xs, f1))
+      val () = the_s2expenv_add_svarlst (s2vs)
+    in
+      s2vs
+    end // end of [f2]
+  in
+    l2l (list_map_fun (argvar, f2))
+  end : List (s2varlst) // end of [val]
+  val def = let
+    fun aux (
+      s2t_fun: s2rt, s2vss: List (s2varlst), s2e: s2exp
+    ) : s2exp =
+      case+ s2vss of
+      | list_cons (s2vs, s2vss) => let
+          val- S2RTfun (_, s2t1_fun) = s2t_fun
+        in
+          s2exp_lam_srt (s2t_fun, s2vs, aux (s2t1_fun, s2vss, s2e))
+        end // end of [list_cons]
+      | list_nil () => s2e
+   in
+     case+ d.s1tacon_def of
+     | Some s1e => let
+         val s2e =
+           s1exp_trdn (s1e, s2t_res)
+         // end of [val]
+         val s2e_def = aux (s2t_fun, s2vss, s2e)
+       in
+         Some s2e_def
+       end // end of [Some]
+     | None () => None ()
+  end : s2expopt // end of [val]
+  val () = the_s2expenv_pop_free (pf_s2expenv | (*none*))
+  val s2c = s2cst_make (
+      id // sym
+    , loc // location
+    , s2t_fun // srt
+    , Some def // isabs
+    , true // iscon
+    , false // isrec
+    , false // isasp
+    , None () // islst
+    , argvar // argvar
+    , None () // def
+    ) // end of [s2cst_make]
+  // end of [val]
+in
+  the_s2expenv_add_scst (s2c)
+end // end of [s1tacon_tr]
+
+fn s1taconlst_tr (
+  knd: int, ds: s1taconlst
+) : void = let
+  fun aux (s2t: s2rt, ds: s1taconlst): void =
+    case+ ds of
+    | list_cons (d, ds) => let
+        val () = s1tacon_tr (s2t, d) in aux (s2t, ds)
+      end
+    | list_nil () => ()
+  // end of [aux]
+  val s2t_res = s2rt_impredicative (knd)
+in
+  aux (s2t_res, ds)
+end // end of [s1taconlst_tr]
 
 (* ****** ****** *)
 
@@ -125,6 +252,9 @@ case+ d1c0.d1ecl_node of
 | D1Cstacsts (ds) => let
     val () = list_app_fun (ds, s1tacst_tr) in d2ecl_none (loc0)
   end // end of [D1Cstacsts]
+| D1Cstacons (knd, d1cs) => let
+    val () = s1taconlst_tr (knd, d1cs) in d2ecl_none (loc0)
+  end // end of [D1Cstacons]
 | _ => let
     val () = $LOC.prerr_location (loc0)
     val () = prerr ": d1ecl_tr: not implemented: d1c0 = "

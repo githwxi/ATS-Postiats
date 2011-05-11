@@ -94,10 +94,10 @@ staload "pats_e1xpval.sats"
 
 (* ****** ****** *)
 
-fn prerr_loc_error1
+fn prerr_error1_loc
   (loc: location): void = (
   $LOC.prerr_location loc; prerr ": error(1)"
-) // end of [prerr_loc_error1]
+) // end of [prerr_error1_loc]
 
 (* ****** ****** *)
 
@@ -958,7 +958,7 @@ in
   if lev <= MAXLEV then
     e1xplevenv_normalize_main (lorg, lev, env, e0)
   else let
-    val () = prerr_loc_error1 (lorg)
+    val () = prerr_error1_loc (lorg)
     val () = prerrf (": the maximal normlization depth (%i) has been reached.", @(lev))
     val () = prerr_newline ()
   in
@@ -1027,7 +1027,7 @@ e1xplevenv_normalize_main
 //
   | E1XPerr _ => e1xp_make (lorg, node)
 //
-end // end of [e1xplevenv_normalize]
+end // end of [e1xplevenv_normalize_main]
 
 (* ****** ****** *)
 

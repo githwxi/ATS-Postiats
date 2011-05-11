@@ -79,16 +79,22 @@ s2cst_struct = @{ (* builtin or abstract *)
 , s2cst_loc= location // the location of declaration
 , s2cst_srt= s2rt // the sort
 , s2cst_isabs= Option (s2expopt) // is abstract?
-, s2cst_iscon= bool // is constructive?
-, s2cst_isrec= bool // is recursive?
+, s2cst_iscon= bool // constructor?
+, s2cst_isrec= bool // is it recursive?
 , s2cst_isasp= bool // already assumed?
-, s2cst_iscpy= s2cstopt_t // is a copy?
-  // is list-like?
-, s2cst_islst= Option @(d2con (*nil*), d2con (*cons*))
+, s2cst_iscpy= s2cstopt_t // is it a copy?
+//
+// HX: is list-like?
+//
+, s2cst_islst= Option @(d2con(*nil*), d2con(*cons*))
 , s2cst_arilst= List int // arity list
-  // -1/0/1: contravarint/invariant/covarint
-, s2cst_argvar= Option (List @(symbolopt, s2rt, int))
-  // the associated dynamic constructors
+// 
+// HX: -1/0/1: contravarint/invariant/covarint
+//
+, s2cst_argvar= List (syms2rtlst)
+//
+// HX: the associated dynamic constructors
+//
 , s2cst_conlst= Option (d2conlst)
 , s2cst_def= s2expopt // definition
 , s2cst_sup= s2cstlst_t // parents if any

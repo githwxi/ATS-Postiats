@@ -63,19 +63,16 @@ macdef list_sing (x) = list_cons (,(x), list_nil ())
 
 (* ****** ****** *)
 
-fn prerr_loc_error1
+fn prerr_error1_loc
   (loc: location): void = (
   $LOC.prerr_location loc; prerr ": error(1)"
-) // end of [prerr_loc_error1]
-
+) // end of [prerr_error1_loc]
 fn prerr_interror
   (): void = prerr "INTERROR(pats_trans1_dynexp)"
-// end of [prerr_interror]
-
-fn prerr_loc_interror
+fn prerr_interror_loc
   (loc: location): void = (
   $LOC.prerr_location loc; prerr "INTERROR(pats_trans1_dynexp)"
-) // end of [prerr_loc_interror]
+) // end of [prerr_interror_loc]
 
 (* ****** ****** *)
 //
@@ -142,7 +139,7 @@ in
   case+ d1e.d1exp_node of
   | D1Esexparg s1a => s1a
   | _ => let
-      val () = prerr_loc_interror (d0e.d0exp_loc)
+      val () = prerr_interror_loc (d0e.d0exp_loc)
       val () = prerr ": d0exp_tr: D0Efoldat: d1e = "
       val () = fprint_d1exp (stderr_ref, d1e)
       val () = prerr_newline ()
@@ -259,7 +256,7 @@ termination_metric_check
       end : bool // end of [val]
     in
       if (is_okay) then () else let
-        val () = prerr_loc_error1 (loc)
+        val () = prerr_error1_loc (loc)
         val () = prerr ": a termination metric is missing"
         val () = prerr_newline ()
       in
@@ -365,7 +362,7 @@ local
 
 fn d0exp_tr_errmsg_opr
   (loc: location): d1exp = let
-  val () = prerr_loc_error1 (loc)
+  val () = prerr_error1_loc (loc)
   val () = prerr ": the operator needs to be applied."
   val () = prerr_newline ()
 in

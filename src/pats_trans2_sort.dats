@@ -48,7 +48,6 @@ macdef prerr_symbol = $SYM.prerr_symbol
 
 (* ****** ****** *)
 
-staload "pats_syntax.sats"
 staload "pats_staexp1.sats"
 staload "pats_staexp2.sats"
 
@@ -64,14 +63,14 @@ macdef list_sing (x) = list_cons (,(x), list_nil)
 
 (* ****** ****** *)
 
-fn prerr_loc_error2
+fn prerr_error2_loc
   (loc: location): void = (
   $LOC.prerr_location loc; prerr ": error(2)"
-) // end of [prerr_loc_error2]
+) // end of [prerr_error2_loc]
 fn prerr_interror () = prerr "INTERROR(ats_trans2_sort)"
-fn prerr_loc_interror (loc: location) = begin
+fn prerr_interror_loc (loc: location) = begin
   $LOC.prerr_location loc; prerr ": INTERROR(ats_trans2_sort)"
-end // end of [prerr_loc_interror]
+end // end of [prerr_interror_loc]
 
 (* ****** ****** *)
 
@@ -110,7 +109,7 @@ case+ s1t_fun.s1rt_node of
       S2RTfun (s2ts1, s2t2)
     end
   | _ => let
-      val () = prerr_loc_interror (loc0)
+      val () = prerr_interror_loc (loc0)
       val () = prerr ": s1rt_tr_app: [->] is not an infix operator!"
       val () = prerr_newline ()
     in
@@ -119,7 +118,7 @@ case+ s1t_fun.s1rt_node of
   ) // end of [s1rt_is_arrow]
 | _ => s2rt_err () where {
     val () = the_tran2errlst_add (T2E_s1rt_app (s1t0))
-    val () = prerr_loc_error2 (s1t0.s1rt_loc)
+    val () = prerr_error2_loc (s1t0.s1rt_loc)
     val () = if isdebug () then prerr (": s1rt_tr_app")
     val () = prerr ": sort application is not supported."
     val () = prerr_newline ()
@@ -144,7 +143,7 @@ case+ ans of
 //
       val () = the_tran2errlst_add (T2E_s1rt_qid (s1t0))
 //
-      val () = prerr_loc_error2 (loc0)
+      val () = prerr_error2_loc (loc0)
       val () = if isdebug () then prerr ": s1rt_tr_qid"
       val () = prerr ": the identifier ["
       val () = prerr_symbol (id)
@@ -158,7 +157,7 @@ case+ ans of
 //
       val () = the_tran2errlst_add (T2E_s1rt_qid (s1t0))
 //
-      val () = prerr_loc_error2 (loc0)
+      val () = prerr_error2_loc (loc0)
       val () = if isdebug () then prerr ": s1rt_tr_qid"
       val () = prerr ": the identifier ["
       val () = prerr_symbol (id)
@@ -189,7 +188,7 @@ case+ s1t0.s1rt_node of
 | S1RTlist (s1ts) => S2RTtup (s1rtlst_tr s1ts) 
 | S1RTqid (q, id) => s1rt_tr_qid (s1t0, q, id)
 | _ => let
-    val () = prerr_loc_interror (loc0)
+    val () = prerr_interror_loc (loc0)
     val () = prerr ": not yet implemented: ["
     val () = prerr_s1rt (s1t0)
     val () = prerr "]"

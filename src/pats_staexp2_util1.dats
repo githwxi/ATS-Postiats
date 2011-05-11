@@ -38,12 +38,65 @@ staload _(*anon*) = "prelude/DATS/list.dats"
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 staload "pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
 #define l2l list_of_list_vt
+
+(* ****** ****** *)
+
+fn prerr_error2_loc
+  (loc: location): void = (
+  $LOC.prerr_location loc; prerr ": error(2)"
+) // end of [prerr_error2_loc]
+
+(* ****** ****** *)
+
+local
+
+#define CLO 0
+#define CLOPTR 1
+#define CLOREF ~1
+
+in // in of [local]
+
+implement
+s2rt_prf_lin_fc (
+  loc0, isprf, islin, fc
+) = begin
+  if isprf then begin
+    (if islin then s2rt_view else s2rt_prop)
+  end else begin case+ islin of
+    | _ when islin => begin case+ fc of
+      | FUNCLOclo (knd) => begin case+ knd of
+        | CLO(*0*) => s2rt_viewt0ype
+        | CLOPTR(*1*) => s2rt_viewtype
+        | _ (*CLOREF*) => s2rt_err () where {
+            val () = prerr_error2_loc (loc0)
+            val () = prerr ": a closure reference cannot be linear."
+            val () = prerr_newline ()
+          } // end of [_]
+        end (* end of [FUNCLOclo] *)
+      | FUNCLOfun () => s2rt_viewtype
+      end // end of [_ when islin]
+    | _ => begin case+ fc of
+      | FUNCLOclo (knd) => begin case+ knd of
+        | CLO => s2rt_t0ype
+        | CLOPTR => s2rt_viewtype (*ptr*)
+        | _ (*CLOREF*) => s2rt_type (*ref*)
+        end // end of [FUNCLOclo]
+      | FUNCLOfun () => s2rt_type
+      end // end of [_]
+  end (* end of [if] *)
+end // end of [s2rt_prf_lin_fc]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -64,6 +117,65 @@ s2explst_alpha
 in
   l2l (s2es)
 end // end of [s2explst_alpha]
+
+(* ****** ****** *)
+
+implement
+s2cst_select_s2explstlst (s2cs, s2ess) = let
+//
+  fun test1 (
+    s2es: s2explst, s2ts: s2rtlst
+  ) : bool =
+    case+ s2es of
+    | list_cons (s2e, s2es) => (case+ s2ts of
+      | list_cons (s2t, s2ts) =>
+          if s2rt_ltmat0 (s2e.s2exp_srt, s2t) then test1 (s2es, s2ts) else false
+      | list_nil () => false
+      ) // end of [list_cons]
+    | list_nil () => (case+ s2ts of
+      | list_cons _ => false | list_nil () => true
+      ) // end of [list_nil]
+  (* end of [test1] *)
+//
+  fun test2 (
+    s2t: s2rt, s2ess: s2explstlst
+  ) : bool =
+    case+ s2ess of
+    | list_cons (s2es, s2ess) => (
+        if s2rt_is_fun (s2t) then let
+          val- S2RTfun (s2ts_arg, s2t_res) = s2t
+        in
+          if test1 (s2es, s2ts_arg) then test2 (s2t_res, s2ess) else false
+        end else false
+      ) // end of [list_cons]
+    | list_nil () => true
+  (* end of [test2] *)
+//
+  fun filter (s2cs: s2cstlst, s2ess: s2explstlst): s2cstlst =
+    case+ s2cs of
+    | list_cons (s2c, s2cs) => let
+(*
+        val () = print "s2cst_select_s2explstlst: filter: s2c = "
+        val () = print_s2cst (s2c)
+        val () = print_newline ()
+*)
+        val s2t = s2cst_get_srt (s2c)
+(*
+        val () = print "s2cst_select_s2explstlst: filter: s2t = ";
+        val () = print_s2rt (s2t)
+        val () = print_newline ()
+*)
+      in
+        if test2 (s2t, s2ess) then
+          list_cons (s2c, filter (s2cs, s2ess)) else filter (s2cs, s2ess)
+        // end of [if]
+      end // end of [S2CSTLSTcons]
+    | list_nil () => list_nil ()
+  (* end of [filter] *)
+//
+in
+  filter (s2cs, s2ess)
+end // end of [s2cst_select_s2explstlst]
 
 (* ****** ****** *)
 

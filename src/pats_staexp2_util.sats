@@ -48,4 +48,8 @@ fun s2explst_alpha
 
 (* ****** ****** *)
 
+fun s2cst_select_s2explstlst (_: s2cstlst, _: s2explstlst): s2cstlst
+
+(* ****** ****** *)
+
 (* end of [pats_staexp2_util.sats] *)

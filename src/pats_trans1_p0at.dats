@@ -62,19 +62,16 @@ macdef list_sing (x) = list_cons (,(x), list_nil ())
 
 (* ****** ****** *)
 
-fn prerr_loc_error1
+fn prerr_error1_loc
   (loc: location): void = (
   $LOC.prerr_location loc; prerr ": error(1)"
-) // end of [prerr_loc_error1]
-
+) // end of [prerr_error1_loc]
 fn prerr_interror
   (): void = prerr "INTERROR(pats_trans1_p0at)"
-// end of [prerr_interror]
-
-fn prerr_loc_interror
+fn prerr_interror_loc
   (loc: location): void = (
   $LOC.prerr_location loc; prerr "INTERROR(pats_trans1_p0at)"
-) // end of [prerr_loc_interror]
+) // end of [prerr_interror_loc]
 
 (* ****** ****** *)
 
@@ -161,7 +158,7 @@ local
 
 fn p0at_tr_errmsg_opr
   (loc: location): p1at = let
-  val () = prerr_loc_error1 (loc)
+  val () = prerr_error1_loc (loc)
   val () = prerr ": the operator needs to be applied."
   val () = prerr_newline ()
 in
@@ -250,7 +247,7 @@ aux_item (
     end // end of [P0Tann]
 //
   | P0Terr () => let
-      val () = prerr_loc_interror (loc0)
+      val () = prerr_interror_loc (loc0)
       val () = prerr ": p0at_tr: p0t0 = "
       val () = fprint_p0at (stderr_ref, p0t0)
       val () = prerr_newline ()

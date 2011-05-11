@@ -68,10 +68,10 @@ macdef list_sing (x) = list_cons (,(x), list_nil ())
 
 (* ****** ****** *)
 
-fn prerr_loc_error1
+fn prerr_error1_loc
   (loc: location): void = (
   $LOC.prerr_location loc; prerr ": error(1)"
-) // end of [prerr_loc_error1]
+) // end of [prerr_error1_loc]
 
 fn prerr_interror (): void = prerr "INTERROR(pats_trans1_staexp)"
 
@@ -152,7 +152,7 @@ local
 
 fn s0exp_tr_errmsg_opr
   (loc: location): s1exp = let
-  val () = prerr_loc_error1 (loc)
+  val () = prerr_error1_loc (loc)
   val () = prerr ": the operator needs to be applied."
   val () = prerr_newline ()
 in
@@ -541,7 +541,7 @@ fun aux1 (
         val loc_res = s1e_res.s1exp_loc
         val loc = loc_x + loc_res
         val () = if lst = 0 then let
-          val () = prerr_loc_error1 (loc_res)
+          val () = prerr_error1_loc (loc_res)
           val () = prerr ": illegal use of effect annotation"
           val () = prerr_newline ()
         in
@@ -579,7 +579,7 @@ fun aux2 .<>. (
   val () = (case+ fc of
     | FUNCLOclo knd => begin
         if knd <> CLOREF then let
-          val () = prerr_loc_error1 (loc0)
+          val () = prerr_error1_loc (loc0)
           val () = if knd = 0 then {
             val () = prerr ": a closure struct is not allowed at the toplevel."
           } // end of [val]

@@ -341,6 +341,11 @@ the_s2expenv_add_svar (s2v) = let
   val id = s2var_get_sym (s2v) in the_s2expenv_add (id, S2ITMvar s2v)
 end // end of [the_s2expenv_add_svar]
 
+implement
+the_s2expenv_add_svarlst
+  (s2vs) = list_app_fun (s2vs, the_s2expenv_add_svar)
+// end of [the_s2expenv_add_svarlst]
+
 (* ****** ****** *)
 
 local

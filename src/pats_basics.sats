@@ -48,6 +48,8 @@ fun test_linkind (knd: int): bool
 fun test_prfkind (knd: int): bool
 fun test_polkind (knd: int): int // 0/1/-1
 
+fun lte_impknd_impknd (knd: int, knd: int): bool
+
 (* ****** ****** *)
 
 datatype

@@ -52,6 +52,13 @@ staload "pats_staexp1.sats"
 
 (* ****** ****** *)
 
+fn prerr_error1_loc
+  (loc: location): void = (
+  $LOC.prerr_location loc; prerr ": error(1)"
+) // end of [prerr_error1_loc]
+
+(* ****** ****** *)
+
 implement
 e1xp_make (loc, node) = '{
   e1xp_loc= loc, e1xp_node= node
@@ -472,11 +479,6 @@ s1qua_vars (loc, ids, s1te) = '{
 
 (* ****** ****** *)
 
-fn prerr_error1_loc
-  (loc: location): void = (
-  $LOC.prerr_location loc; prerr ": error(1)"
-) // end of [prerr_error1_loc]
-
 implement
 s1exp_make_e1xp (loc0, e0) = let
 //
@@ -508,6 +510,59 @@ and auxlst (
 in
   aux (e0)
 end // end of [s1exp_make_e1xp]
+
+(* ****** ****** *)
+
+implement
+e1xp_make_s1exp
+  (loc0, s1e0) = let
+//
+fun aux (
+  s1e0: s1exp
+) :<cloptr1> e1xp =
+  case+ s1e0.s1exp_node of
+  | S1Eint (rep) => e1xp_int (loc0, rep)
+  | S1Echar (char) => e1xp_char (loc0, char)
+  | S1Elist (_(*npf*), s1es) => e1xp_list (loc0, auxlst s1es)
+  | _ => e1xp_err (loc0)
+(* end of [aux] *)
+//
+and auxlst (
+  s1es0: s1explst
+) :<cloptr1> e1xplst = case+ s1es0 of
+  | list_cons (s1e, s1es) => list_cons (aux s1e, auxlst s1es)
+  | list_nil () => list_nil ()
+(* end of [auxlst] *)
+//
+in
+  aux (s1e0)
+end // end of [e1xp_make_s1exp]
+
+(* ****** ****** *)
+
+implement
+wths1explst_is_none
+  (wths1es) = case+ wths1es of
+  | WTHS1EXPLSTcons_some _ => false
+  | WTHS1EXPLSTcons_none (wths1es) => wths1explst_is_none (wths1es)
+  | WTHS1EXPLSTnil () => true
+// end of [wths1explst_is_none]
+
+implement
+wths1explst_reverse (wths1es) = let
+  fun aux (
+    wths1es: wths1explst
+  , res: wths1explst
+  ) : wths1explst = case+ wths1es of
+    | WTHS1EXPLSTcons_some (refval, s1e, wths1es) =>
+        aux (wths1es, WTHS1EXPLSTcons_some (refval, s1e, res))
+    | WTHS1EXPLSTcons_none (wths1es) =>
+        aux (wths1es, WTHS1EXPLSTcons_none res)
+    | WTHS1EXPLSTnil () => res // end of [WTHS1EXPLSTnil]
+  // end of [aux]
+in
+  aux (wths1es, WTHS1EXPLSTnil ())
+end // end of [wths1explst_reverse]
 
 (* ****** ****** *)
 

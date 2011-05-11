@@ -417,6 +417,12 @@ and s1qua_node =
   | S1Qprop of s1exp | S1Qvars of (i0delst, s1rtext)
 // end of [s1qua_node]
 
+and wths1explst = // needed in [pats_trans2_staexp.dats]
+  | WTHS1EXPLSTnil of ()
+  | WTHS1EXPLSTcons_some of (int(*refval*), s1exp, wths1explst)
+  | WTHS1EXPLSTcons_none of wths1explst
+// end of [wths1explst]
+
 where
 s1exp = '{
   s1exp_loc= location, s1exp_node= s1exp_node
@@ -526,7 +532,9 @@ fun fprint_s1rtext : fprint_type (s1rtext)
 (* ****** ****** *)
 
 fun s1qua_prop (loc: location, s1p: s1exp): s1qua
-fun s1qua_vars (loc: location, ids: i0delst, s1te: s1rtext): s1qua
+fun s1qua_vars
+  (loc: location, ids: i0delst, s1te: s1rtext): s1qua
+// end of [s1qua_vars]
 
 fun fprint_s1qua : fprint_type (s1qua)
 fun fprint_s1qualst : fprint_type (s1qualst)
@@ -534,6 +542,12 @@ fun fprint_s1qualst : fprint_type (s1qualst)
 (* ****** ****** *)
 
 fun s1exp_make_e1xp (loc: location, e: e1xp): s1exp
+fun e1xp_make_s1exp (loc: location, s1e: s1exp): e1xp
+
+(* ****** ****** *)
+
+fun wths1explst_is_none (wths1es: wths1explst): bool
+fun wths1explst_reverse (wths1es: wths1explst): wths1explst
 
 (* ****** ****** *)
 

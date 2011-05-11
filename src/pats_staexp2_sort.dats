@@ -43,6 +43,10 @@ overload = with $SYM.eq_symbol_symbol
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 
 (* ****** ****** *)
@@ -137,18 +141,50 @@ implement s2rt_viewt0ype = S2RTbas s2tb_viewt0ype
 
 implement s2rt_types = S2RTbas s2tb_types
 
+implement
+s2rt_impredicative
+  (knd) = case+ knd of
+  | PROP_int => s2rt_prop
+  | TYPE_int => s2rt_type
+  | T0YPE_int => s2rt_t0ype
+  | VIEW_int => s2rt_view
+  | VIEWTYPE_int => s2rt_viewtype
+  | VIEWT0YPE_int => s2rt_viewt0ype
+  | _ => let
+      val () = assertloc (false) in s2rt_t0ype
+    end // end of [s2rt_impredicative]
+// end of [s2rt_impredicative]
+
 end // end of [local]
 
 (* ****** ****** *)
 
 implement
-s2rt_is_dat (s2t) = begin case+ s2t of
-  | S2RTbas s2tb => (case+ s2tb of S2RTBASdef _ => true | _ => false)
+s2rt_is_dat (s2t) = (case+ s2t of
+  | S2RTbas s2tb => (
+      case+ s2tb of S2RTBASdef _ => true | _ => false
+    ) // end of [S2RTbas]
   | _ => false // end of [S2RTbas]
-end // end of [s2rt_is_dat]
+) // end of [s2rt_is_dat]
 
 implement
 s2rt_is_fun (s2t) = case+ s2t of S2RTfun _ => true | _ => false
+
+implement
+s2rt_is_prf (s2t) = (case+ s2t of
+  | S2RTbas s2tb => (case+ s2tb of
+    | S2RTBASimp (_, knd) => test_prfkind (knd) | _ => false
+    ) // end of [S2RTbas]
+  | _ => false // end of [_]
+) // end of [s2rt_is_prf]
+
+implement
+s2rt_is_impredicative (s2t) = case+ s2t of
+  | S2RTbas s2tb => (
+      case+ s2tb of S2RTBASimp _ => true | _ => false
+    ) // end of [S2RTbas]
+  | _ => false
+// end of [s2rt_is_impredicative]
 
 (* ****** ****** *)
 
@@ -348,26 +384,35 @@ implement
 lte_s2rtbas_s2rtbas (s2tb1, s2tb2) = begin
   case+ (s2tb1, s2tb2) of
   | (S2RTBASpre id1, S2RTBASpre id2) => (id1 = id2)
-  | (S2RTBASimp (id1, knd1), S2RTBASimp (id2, knd2)) => (id1 = id2)
+  | (S2RTBASimp (id1, knd1),
+     S2RTBASimp (id2, knd2)) => lte_impknd_impknd (knd1, knd2)
   | (S2RTBASdef s2td1, S2RTBASdef s2td2) => (s2td1 = s2td2)
   | (_, _) => false
 end // end of [lte_s2rtbas_s2rtbas]
 
 (* ****** ****** *)
 
+extern
+fun s2rt_ltmat (s2t1: s2rt, s2t2: s2rt, knd: int): bool
+extern
+fun s2rtlst_ltmat (xs1: s2rtlst, xs2: s2rtlst, knd: int): bool
+
 implement
 s2rt_ltmat
-  (s2t1, s2t2) = let
+  (s2t1, s2t2, knd) = let
 //
   fun auxVar (
-    V: s2rtVar, s2t: s2rt
-  ) : bool = let
-    val test = s2rtVar_occurscheck (V, s2t)
-  in
-    if test then false else let
-      val () = s2rtVar_set_s2rt (V, s2t) in true
-    end (* end of [if] *)
-  end // end of [auxVar]
+    V: s2rtVar, s2t: s2rt, knd: int
+  ) : bool =
+    if knd > 0 then let
+      val test = s2rtVar_occurscheck (V, s2t)
+    in
+      if test then false else let
+        val () = s2rtVar_set_s2rt (V, s2t) in true
+      end (* end of [if] *)
+    end else
+      true // HX: a dry run always succeeds
+    // end of [auxVar]
 //
   val s2t1 = s2rt_delink (s2t1)
   and s2t2 = s2rt_delink (s2t2)
@@ -382,28 +427,33 @@ case+ s2t1 of
     s2ts1, s2t1
   ) => (case+ s2t2 of
   | S2RTfun (s2ts2, s2t2) =>
-     if s2rtlst_ltmat (s2ts2, s2ts1) then s2rt_ltmat (s2t1, s2t2) else false
+     if s2rtlst_ltmat (s2ts2, s2ts1, knd) then s2rt_ltmat (s2t1, s2t2, knd) else false
     // end of [S2RTfun]
   | _ => false
   )
 | S2RTtup (s2ts1) => (case+ s2t2 of
-  | S2RTtup (s2ts2) => s2rtlst_ltmat (s2ts1, s2ts2) | _ => false
+  | S2RTtup (s2ts2) => s2rtlst_ltmat (s2ts1, s2ts2, knd) | _ => false
   )
 | S2RTVar (V1) => (case+ s2t2 of
-  | S2RTVar (V2) when V1 = V2 => true | _ => auxVar (V1, s2t2)
+  | S2RTVar (V2) when V1 = V2 => true | _ => auxVar (V1, s2t2, knd)
   )
 | S2RTerr () => false
 //
 end // end of [s2rt_ltmat]
 
 implement
-s2rtlst_ltmat (xs1, xs2) =
+s2rtlst_ltmat (xs1, xs2, knd) =
   case+ (xs1, xs2) of
   | (list_cons (x1, xs1), list_cons (x2, xs2)) =>
-      if s2rt_ltmat (x1, x2) then s2rtlst_ltmat (xs1, xs2) else false
+      if s2rt_ltmat (x1, x2, knd) then s2rtlst_ltmat (xs1, xs2, knd) else false
   | (list_nil (), list_nil ()) => true
   | (_, _) => false
 // end of [s2rtlst_ltmat]
+
+(* ****** ****** *)
+
+implement s2rt_ltmat0 (x1, x2) = s2rt_ltmat (x1, x2, 0)
+implement s2rt_ltmat1 (x1, x2) = s2rt_ltmat (x1, x2, 1)
 
 (* ****** ****** *)
 

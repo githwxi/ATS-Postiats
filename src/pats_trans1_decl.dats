@@ -66,10 +66,10 @@ staload "pats_e1xpval.sats"
 
 (* ****** ****** *)
 
-fn prerr_loc_error1
+fn prerr_error1_loc
   (loc: location): void = (
   $LOC.prerr_location loc; prerr ": error(1)"
-) // end of [prerr_loc_error1]
+) // end of [prerr_error1_loc]
 fn prerr_interror (): void = prerr "INTERROR(pats_trans1_staexp)"
 
 (* ****** ****** *)
@@ -78,7 +78,7 @@ local
 
 fn prec_tr_errmsg_fxty
   (opr: i0de): prec = let
-  val () = prerr_loc_error1 (opr.i0de_loc)
+  val () = prerr_error1_loc (opr.i0de_loc)
   val () = prerr ": the operator ["
   val () = $SYM.prerr_symbol (opr.i0de_sym)
   val () = prerr "] is given no fixity";
@@ -89,7 +89,7 @@ end // end of [prec_tr_errmsg]
 
 fn prec_tr_errmsg_adj
   (opr: i0de): prec = let
-  val () = prerr_loc_error1 (opr.i0de_loc)
+  val () = prerr_error1_loc (opr.i0de_loc)
   val () = prerr ": the operator for adjusting precedence can only be [+] or [-]."
   val () = prerr_newline ()
 in
@@ -454,7 +454,7 @@ fn i0nclude_tr (
   val fil = (case+ filopt of
     | ~Some_vt filename => filename
     | ~None_vt () => let
-        val () = prerr_loc_error1 (loc0)
+        val () = prerr_error1_loc (loc0)
         val () = prerr ": the file ["
         val () = prerr path;
         val () = prerr "] is not available for inclusion"
@@ -547,7 +547,7 @@ fn s0taload_tr (
   val fil = (case+ filopt of
     | ~Some_vt filename => filename
     | ~None_vt () => let
-        val () = prerr_loc_error1 (loc0)
+        val () = prerr_error1_loc (loc0)
         val () = prerr ": the file ["
         val () = prerr path;
         val () = prerr "] is not available for static loading"
@@ -588,7 +588,7 @@ fn d0ynload_tr (
   val fil = (case+ filopt of
     | ~Some_vt filename => filename
     | ~None_vt () => let
-        val () = prerr_loc_error1 (loc0)
+        val () = prerr_error1_loc (loc0)
         val () = prerr ": the file ["
         val () = prerr path;
         val () = prerr "] is not available for dynamic loading"

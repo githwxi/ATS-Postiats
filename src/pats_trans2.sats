@@ -68,16 +68,33 @@ fun a1msrt_tr (x: a1msrt): s2rtlst
 
 (* ****** ****** *)
 
+fun effcst_tr (efc: effcst): s2eff
+
+(* ****** ****** *)
+
 fun s1exp_trup (s1e: s1exp): s2exp
 fun s1explst_trup (s1es: s1explst): s2explst
 
 fun s1exp_trdn (s1e: s1exp, s2t: s2rt): s2exp
 fun s1exp_trdn_bool (s1es: s1exp): s2exp
+fun s1exp_trdn_impredicative (s1es: s1exp): s2exp
+
 fun s1explst_trdn_bool (s1es: s1explst): s2explst
 
 fun s1explst_trdn_err
   (s1es: s1explst, s2ts: s2rtlst, err: &int): s2explst
 // end of [s1explst_trdn_err]
+
+(* ****** ****** *)
+
+fun s1exp_trup_arg (s1e: s1exp, wths1es: &wths1explst): s2exp
+fun s1exp_trdn_arg_impredicative (s1e: s1exp, wths1es: &wths1explst): s2exp
+
+fun s1exp_trdn_res_impredicative (s1e: s1exp, wths1es: wths1explst): s2exp
+
+(* ****** ****** *)
+
+fun s1qualst_tr (s1qs: s1qualst): @(s2varlst, s2explst)
 
 (* ****** ****** *)
 

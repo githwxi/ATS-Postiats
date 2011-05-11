@@ -56,6 +56,7 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
+staload "pats_effect.sats"
 staload "pats_staexp1.sats"
 
 (* ****** ****** *)
@@ -168,12 +169,24 @@ val s2rt_types : s2rt
 //
 (* ****** ****** *)
 
+fun s2rt_impredicative (knd: int): s2rt
+
 fun s2rt_fun (_arg: s2rtlst, _res: s2rt): s2rt
 fun s2rt_tup (s2ts: s2rtlst): s2rt // HX: tuple sorts are not yet supported
 fun s2rt_err (): s2rt // HX: a placeholder indicating error
 
 fun s2rt_is_dat (x: s2rt): bool
 fun s2rt_is_fun (x: s2rt): bool
+fun s2rt_is_prf (x: s2rt): bool
+fun s2rt_is_impredicative (x: s2rt): bool
+
+(* ****** ****** *)
+//
+// implemented in [pats_staexp2_util1.dats]
+//
+fun s2rt_prf_lin_fc
+  (loc0: location, isprf: bool, islin: bool, fc: funclo): s2rt
+// end of [s2rt_prf_lin_fc]
 
 (* ****** ****** *)
 
@@ -183,8 +196,8 @@ fun s2rtVar_occurscheck (V: s2rtVar, s2t: s2rt): bool
 fun s2rt_delink (x: s2rt): s2rt // HX: shallow removal
 fun s2rt_delink_all (x: s2rt): s2rt // HX: perform deep removal
 
-fun s2rt_ltmat (s2t1: s2rt, s2t2: s2rt): bool
-fun s2rtlst_ltmat (xs1: s2rtlst, xs2: s2rtlst): bool
+fun s2rt_ltmat0 (s2t1: s2rt, s2t2: s2rt): bool // HX: dry
+fun s2rt_ltmat1 (s2t1: s2rt, s2t2: s2rt): bool // HX: real
 
 (* ****** ****** *)
 //
@@ -238,7 +251,16 @@ s2exp_node =
   | S2Edatcontyp of (* unfolded datatype *)
       (d2con, s2explst) (* constructor and types of arguments *)
 //
+  | S2Elam of (s2varlst, s2exp) // static abstraction
   | S2Eapp of (s2exp, s2explst) // static application
+  | S2Efun of ( // function type
+      funclo, int(*lin*), s2eff, int(*npf*), s2explst(*arg*), s2exp(*res*)
+    ) // end of S2Efun
+//
+  | S2Erefarg of (* reference argument type *)
+      (int(*1:ref/0:val*), s2exp) (* &/!: call-by-ref/val *)
+//
+  | S2Evararg of s2exp // variadic argument type
 //
   | S2Eexi of ( // exist. quantified type
       s2varlst(*vars*), s2explst(*props*), s2exp(*body*)
@@ -247,12 +269,16 @@ s2exp_node =
       s2varlst(*vars*), s2explst(*props*), s2exp(*body*)
     ) // end of [S2Euni]
 //
-  | S2Evararg of s2exp // variadic argument type
-//
   | S2Ewth of (s2exp, wths2explst) // the result part of a fun type
 //
   | S2Eerr of () // HX: placeholder for indicating error
 // end of [s2exp_node]
+
+and s2eff =
+  | S2EFFall of ()
+  | S2EFFnil of ()
+  | S2EFFset of (effset, s2explst)
+// end of [s2eff]
 
 and s2rtext = (* extended sort *)
   | S2TEsrt of s2rt
@@ -272,10 +298,14 @@ s2exp = '{
 } // end of [s2exp]
 and s2explst = List (s2exp)
 and s2expopt = Option (s2exp)
+and s2explstlst = List (s2explst)
 
 and s2rtextopt_vt = Option_vt (s2rtext)
 
 (* ****** ****** *)
+
+typedef syms2rt = (symbol, s2rt)
+typedef syms2rtlst = List (syms2rt)
 
 fun s2cst_make (
   id: symbol // the name
@@ -285,8 +315,8 @@ fun s2cst_make (
 , iscon: bool
 , isrec: bool
 , isasp: bool
-, islst: Option @(d2con (*nil*), d2con (*cons*))
-, argvar: Option (List @(symbolopt, s2rt, int))
+, islst: Option @(d2con(*nil*), d2con(*cons*))
+, argvar: List (syms2rtlst) // information on arg variance
 , def: s2expopt
 ) : s2cst // end of [s2cst_make]
 
@@ -408,7 +438,30 @@ fun s2exp_char (c: char): s2exp
 fun s2exp_cst (x: s2cst): s2exp // HX: static constant
 fun s2exp_var (x: s2var): s2exp // HX: static variable
 
-fun s2exp_app_srt (s2t: s2rt, _fun: s2exp, _arg: s2explst): s2exp
+(* ****** ****** *)
+
+fun s2exp_app_srt
+  (s2t: s2rt, _fun: s2exp, _arg: s2explst): s2exp
+// end of [s2exp_app_srt]
+
+fun s2exp_lam_srt (s2t: s2rt, s2vs: s2varlst, s2e: s2exp): s2exp
+
+fun s2exp_fun_srt (
+  s2t: s2rt
+, fc: funclo, lin: int, s2fe: s2eff, npf: int
+, s2es_arg: s2explst, s2e_res: s2exp
+) : s2exp // end of [s2exp_fun_srt]
+
+(* ****** ****** *)
+
+fun s2exp_refarg (refval: int, s2e: s2exp): s2exp
+
+fun s2exp_exi (s2vs: s2varlst, s2ps: s2explst, s2e: s2exp): s2exp
+fun s2exp_uni (s2vs: s2varlst, s2ps: s2explst, s2e: s2exp): s2exp
+
+fun s2exp_vararg (s2e: s2exp): s2exp
+
+fun s2exp_wth (_res: s2exp, _with: wths2explst): s2exp
 
 fun s2exp_err (s2t: s2rt): s2exp // HX: error indication
 
