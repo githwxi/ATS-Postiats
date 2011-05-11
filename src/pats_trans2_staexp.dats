@@ -239,28 +239,67 @@ end // end of [s1exp_trup_qid]
 
 (* ****** ****** *)
 
-typedef
-locs1explst = @(location, s1explst)
-
 fun s2exp_app_wind (
-  s2e_fun: s2exp, s2ess_arg: List_vt (s2explst)
+  s2e_fun: s2exp, s2ess_arg: List_vt (locs2explst)
 ) : s2exp = let
 //
+fun aux (
+  x: locs2exp, s2t: s2rt
+) : s2exp = let
+  val s2e = x.1
+  val test = s2rt_ltmat1 (s2e.s2exp_srt, s2t)
+in
+  if test
+    then s2e else let
+    val () = prerr_error2_loc (x.0)
+    val () = prerr_ifdebug ": s1exp_app_wind"
+    val () = prerr ": the static expression is of sort ["
+    val () = prerr_s2rt (s2e.s2exp_srt)
+    val () = prerr "] but it is expectecd to be of sort ["
+    val () = prerr_s2rt (s2t)
+    val () = prerr "]."
+    val () = prerr_newline ()
+  in
+    s2exp_err (s2t)
+  end // end of [if]
+end // end of [s2exp_app_wind]
+
+fun auxlst (
+  xs: locs2explst, s2ts: s2rtlst
+) : s2explst =
+  case+ xs of
+  | list_cons (x, xs) => let
+      val- list_cons (s2t, s2ts) = s2ts
+      val s2e = aux (x, s2t)
+      val s2es = auxlst (xs, s2ts)
+    in
+      list_cons (s2e, s2es)
+    end
+  | list_nil () => list_nil ()
+// end of [auxlst]
+
 fun loop (
-  s2t: s2rt, s2e: s2exp, s2ess: List_vt (s2explst)
+  s2t: s2rt
+, s2e: s2exp
+, xss: List_vt (locs2explst)
 ) : s2exp =
-  case+ s2ess of
-  | ~list_vt_cons (s2es, s2ess) => let
-      val- S2RTfun (_, s2t) = s2t
+  case+ xss of
+  | ~list_vt_cons (xs, xss) => let
+      val- S2RTfun (s2ts, s2t) = s2t
+      var err: int = 0
+      val s2es = auxlst (xs, s2ts)
       val s2e = s2exp_app_srt (s2t, s2e, s2es)
     in
-      loop (s2t, s2e, s2ess)
+      loop (s2t, s2e, xss)
     end // end of [list_cons]
   | ~list_vt_nil () => s2e
 // end if [loop]
 in
   loop (s2e_fun.s2exp_srt, s2e_fun, s2ess_arg)
 end // end of [s2exp_app_wind]
+
+typedef
+locs1explst = @(location, s1explst)
 
 fun s1exp_app_unwind (
   s1e: s1exp, xs: &List_vt (locs1explst)
@@ -608,24 +647,36 @@ s1exp_trup_app_qid_itm (
 , q: $SYN.s0taq, id: symbol, s2i: s2itm
 , xs: List_vt (locs1explst)
 ) : s2exp = let
-  
+//
+(*
+  val () = print "s1exp_trup_app_qid_itm: s1e0 = "
+  val () = print_s1exp (s1e0)
+  val () = print_newline ()
+*)
+//
 in
 //
 case+ s2i of
 | S2ITMcst s2cs => let
-    typedef T1 = (location, s1explst) and T2 = s2explst
-    val s2ess = list_map_fun<T1><T2>
-      (castvwtp1 {List(T1)} xs, lam x =<1> s1explst_trup (x.1))
+    typedef T1 = locs1explst // = (loc)s1explst
+    typedef T2 = locs2explst // = (locs2exp)lst
+    val ys = let
+      fn f (x: T1): T2 = l2l (
+        list_map_fun<s1exp> (x.1, lam s1e =<1> (s1e.s1exp_loc, s1exp_trup s1e))
+      ) // end of [f]
+    in
+      list_map_fun<T1><T2> (castvwtp1 {List(T1)} xs, f)
+    end // end of [val]
     val () = list_vt_free (xs)
-    val s2cs = s2cst_select_s2explstlst (s2cs, castvwtp1 {List(T2)} s2ess)
+    val s2cs = s2cst_select_locs2explstlst (s2cs, castvwtp1 {List(T2)} ys)
   in
     case+ s2cs of
     | list_cons (s2c, _) =>
-        s2exp_app_wind (s2exp_cst s2c, s2ess)
+        s2exp_app_wind (s2exp_cst s2c, ys)
       // end of [list_cons]
     | list_nil () => s2exp_err (s2t_err) where {
         val s2t_err = s2rt_err ()
-        val () = list_vt_free<T2> (s2ess)
+        val () = list_vt_free<T2> (ys)
         val () = prerr_error2_loc (s1e0.s1exp_loc)
         val () = prerr_ifdebug ": s1exp_trup_app_qid"
         val () = prerr ": none of the static constants referred to by ["
@@ -674,11 +725,11 @@ case+ s1e0.s1exp_node of
 //
 | S1Eapp _ => let
     typedef T = locs1explst
-    viewtypedef VT = List_vt (T)
-    var xs: VT = list_vt_nil ()
+    viewtypedef TS = List_vt (T)
+    var xs: TS = list_vt_nil ()
     val s1opr = s1exp_app_unwind (s1e0, xs)
   in
-    case+ :(xs: VT?) => s1opr.s1exp_node of
+    case+ :(xs: TS?) => s1opr.s1exp_node of
     | S1Esqid (q, id) =>
         s1exp_trup_app_qid (s1e0, s1opr, q, id, xs)
       // end of [S1Esqid]
@@ -712,24 +763,31 @@ s1explst_trup (s1es) = l2l (list_map_fun (s1es, s1exp_trup))
 (* ****** ****** *)
 
 implement
-s1exp_trdn
-  (s1e0, s2t0) = let
-  val s2e0 = s1exp_trup (s1e0)
-  val s2t0_new = s2e0.s2exp_srt
-  val test = s2rt_ltmat1 (s2t0_new, s2t0)
+s2exp_trdn
+  (loc0, s2e, s2t) = let
+  val s2t_new = s2e.s2exp_srt
+  val test = s2rt_ltmat1 (s2t_new, s2t)
 in
-  if test then s2e0 else let
-    val () = prerr_error2_loc (s1e0.s1exp_loc)
-    val () = prerr_ifdebug ": s1exp_tr_dn" // for debugging
+  if test then s2e else let
+    val () = prerr_error2_loc (loc0)
+    val () = prerr_ifdebug ": s2exp_trdn" // for debugging
     val () = prerr ": the static expression is of sort ["
-    val () = prerr_s2rt (s2t0_new)
+    val () = prerr_s2rt (s2t_new)
     val () = prerr "] but it is expectecd to be of sort ["
-    val () = prerr_s2rt (s2t0)
+    val () = prerr_s2rt (s2t)
     val () = prerr "]."
     val () = prerr_newline ()
   in
-    s2exp_err (s2t0)
+    s2exp_err (s2t)
   end (* end of [if] *)
+end // end of [s2exp_trdn]
+
+implement
+s1exp_trdn
+  (s1e, s2t) = let
+  val s2e = s1exp_trup (s1e)
+in
+  s2exp_trdn (s1e.s1exp_loc, s2e, s2t)
 end // end of [s1exp_trdn]
 
 (* ****** ****** *)

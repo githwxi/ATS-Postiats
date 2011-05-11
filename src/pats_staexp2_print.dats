@@ -39,8 +39,20 @@ staload _(*anon*) = "pats_utils.dats"
 
 (* ****** ****** *)
 
+staload SYM = "pats_symbol.sats"
+macdef fprint_symbol = $SYM.fprint_symbol
+
+(* ****** ****** *)
+
 staload "pats_staexp1.sats"
 staload "pats_staexp2.sats"
+
+(* ****** ****** *)
+
+implement
+fprint_s2rtdat (out, x) = let
+  val sym = s2rtdat_get_sym (x) in fprint_symbol (out, sym)
+end // end of [fprint_s2rtdat]
 
 (* ****** ****** *)
 
@@ -48,54 +60,61 @@ implement
 fprint_s2rtbas (out, x) = let
   macdef prstr (s) = fprint_string (out, ,(s))
 in
-  case+ x of
-  | S2RTBASpre (sym) => {
-      val () = prstr "S2ETBASpre("
-      val () = $SYM.fprint_symbol (out, sym)
-      val () = prstr ")"
-    }
-  | S2RTBASimp (sym, knd) => {
-      val () = prstr "S2ETBASimp("
-      val () = $SYM.fprint_symbol (out, sym)
-      val () = prstr ")"
-    }
-  | S2RTBASdef (s2td) => {
-      val () = prstr "S2ETBASdef("
-      val () = fprint_string (out, "...")
-      val () = prstr ")"
-    }
+//
+case+ x of
+| S2RTBASpre (sym) => {
+    val () = prstr "S2ETBASpre("
+    val () = fprint_symbol (out, sym)
+    val () = prstr ")"
+  }
+| S2RTBASimp (sym, knd) => {
+    val () = prstr "S2ETBASimp("
+    val () = fprint_symbol (out, sym)
+    val () = prstr ")"
+  }
+| S2RTBASdef (s2td) => {
+    val () = prstr "S2ETBASdef("
+    val () = fprint_s2rtdat (out, s2td)
+    val () = prstr ")"
+  }
+//
 end // end of [fprint_s2rtbas]
 
 (* ****** ****** *)
 
 implement
 fprint_s2rt (out, x) = let
+//
+  val x = s2rt_delink (x)
+//
   macdef prstr (s) = fprint_string (out, ,(s))
 in
-  case+ x of
-  | S2RTbas (s2tb) => {
-      val () = prstr "S2RTbas("
-      val () = fprint_s2rtbas (out, s2tb)
-      val () = prstr ")"
-    }
-  | S2RTfun (s2ts, s2t) => {
-      val () = prstr "S2RTfun("
-      val () = fprint_s2rtlst (out, s2ts)
-      val () = prstr "; "
-      val () = fprint_s2rt (out, s2t)
-      val () = prstr ")"
-    }
-  | S2RTtup (s2ts) => {
-      val () = prstr "S2RTtup("
-      val () = fprint_s2rtlst (out, s2ts)
-      val () = prstr ")"
-    }
-  | S2RTVar _ => {
-      val () = prstr "S2RTVar("
-      val () = fprint_string (out, "...")
-      val () = prstr ")"
-    }
-  | S2RTerr () => prstr "S2RTerr()"
+//
+case+ x of
+| S2RTbas (s2tb) => {
+    val () = prstr "S2RTbas("
+    val () = fprint_s2rtbas (out, s2tb)
+    val () = prstr ")"
+  }
+| S2RTfun (s2ts, s2t) => {
+    val () = prstr "S2RTfun("
+    val () = fprint_s2rtlst (out, s2ts)
+    val () = prstr "; "
+    val () = fprint_s2rt (out, s2t)
+    val () = prstr ")"
+  }
+| S2RTtup (s2ts) => {
+    val () = prstr "S2RTtup("
+    val () = fprint_s2rtlst (out, s2ts)
+    val () = prstr ")"
+  }
+| S2RTVar _ => {
+    val () = prstr "S2RTVar("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+| S2RTerr () => prstr "S2RTerr()"
+//
 end // end of [fprint_s2rt]
 
 implement print_s2rt (x) = fprint_s2rt (stdout_ref, x)
@@ -112,37 +131,39 @@ implement
 fprint_s2itm (out, x) = let
   macdef prstr (s) = fprint_string (out, ,(s))
 in
-  case+ x of
-  | S2ITMcst (s2cs) => {
-      val () = prstr "S2ITMcst("
-      val () = fprint_s2cstlst (out, s2cs)
-      val () = prstr ")"
-    }
-  | S2ITMdatconptr (d2c) => {
-      val () = prstr "S2ITMdatconptr("
-      val () = fprint_d2con (out, d2c)
-      val () = prstr ")"
-    }
-  | S2ITMdatcontyp (d2c) => {
-      val () = prstr "S2ITMdatcontyp("
-      val () = fprint_d2con (out, d2c)
-      val () = prstr ")"
-    }
-  | S2ITMe1xp (e1xp) => {
-      val () = prstr "S2ITMe1xp("
-      val () = fprint_e1xp (out, e1xp)
-      val () = prstr ")"
-    }
-  | S2ITMfil (fenv) => {
-      val () = prstr "S2ITMfil("
-      val () = $FIL.fprint_filename (out, filenv_get_name fenv)
-      val () = prstr ")"
-    }
-  | S2ITMvar (s2v) => {
-      val () = prstr "S2ITMvar("
-      val () = fprint_s2var (out, s2v)
-      val () = prstr ")"
-    }
+//
+case+ x of
+| S2ITMcst (s2cs) => {
+    val () = prstr "S2ITMcst("
+    val () = fprint_s2cstlst (out, s2cs)
+    val () = prstr ")"
+  }
+| S2ITMdatconptr (d2c) => {
+    val () = prstr "S2ITMdatconptr("
+    val () = fprint_d2con (out, d2c)
+    val () = prstr ")"
+  }
+| S2ITMdatcontyp (d2c) => {
+    val () = prstr "S2ITMdatcontyp("
+    val () = fprint_d2con (out, d2c)
+    val () = prstr ")"
+  }
+| S2ITMe1xp (e1xp) => {
+    val () = prstr "S2ITMe1xp("
+    val () = fprint_e1xp (out, e1xp)
+    val () = prstr ")"
+  }
+| S2ITMfil (fenv) => {
+    val () = prstr "S2ITMfil("
+    val () = $FIL.fprint_filename (out, filenv_get_name fenv)
+    val () = prstr ")"
+  }
+| S2ITMvar (s2v) => {
+    val () = prstr "S2ITMvar("
+    val () = fprint_s2var (out, s2v)
+    val () = prstr ")"
+  }
+//
 end // end of [fprint_s2itm]
 
 implement print_s2itm (xs) = fprint_s2itm (stdout_ref, xs)

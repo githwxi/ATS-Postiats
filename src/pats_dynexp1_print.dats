@@ -41,6 +41,7 @@ staload _(*anon*) = "pats_utils.dats"
 
 staload SYM = "pats_symbol.sats"
 macdef fprint_symbol = $SYM.fprint_symbol
+staload SYN = "pats_syntax.sats"
 
 (* ****** ****** *)
 
@@ -58,9 +59,155 @@ fprint_p1at
 in
 //
 case+ p1t0.p1at_node of
+//
+| P1Tany () => prstr "P1Tany()"
+| P1Tanys () => prstr "P1Tanys()"
+| P1Tdqid (q, id) => {
+    val () = prstr "P1Tdqid("
+    val () = ($SYN.fprint_d0ynq (out, q); fprint_symbol (out, id))
+    val () = prstr ")"
+  }
+| P1Tref (sym) => {
+    val () = prstr "P1Tref("
+    val () = fprint_symbol (out, sym)
+    val () = prstr ")"
+  }
+//
+| P1Tint (x) => {
+    val () = prstr "P1Tint("
+    val () = fprint_i0nt (out, x)
+    val () = prstr ")"
+  }
+| P1Tchar (x) => {
+    val () = prstr "P1Tchar("
+    val () = fprint_c0har (out, x)
+    val () = prstr ")"
+  }
+| P1Tfloat (x) => {
+    val () = prstr "P1Tfloat("
+    val () = fprint_f0loat (out, x)
+    val () = prstr ")"
+  }
+| P1Tstring (x) => {
+    val () = prstr "P1Tint("
+    val () = fprint_s0tring (out, x)
+    val () = prstr ")"
+  }
+| P1Tempty () => prstr "P1Tempty()"
+//
+| P1Tapp_sta (p1t, s1vs) => {
+    val () = prstr "P1Tapp_sta("
+    val () = $UT.fprintlst (out, s1vs, ", ", fprint_s1vararg)
+    val () = prstr ")"
+  }
+| P1Tapp_dyn (
+    p1t, locarg, npf, p1ts
+  ) => {
+    val () = prstr "P1Tapp_dyn("
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_p1atlst (out, p1ts)
+    val () = prstr ")"
+  }
+//
+| P1Tlist (npf, p1ts) => {
+    val () = prstr "P1Tlist("
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_p1atlst (out, p1ts)
+    val () = prstr ")"
+  }
+//
+| P1Tlst (p1ts) => {
+    val () = prstr "P1Tlst("
+    val () = fprint_p1atlst (out, p1ts)
+    val () = prstr ")"
+  }
+| P1Ttup (knd, npf, p1ts) => {
+    val () = prstr "P1Ttup("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_p1atlst (out, p1ts)
+    val () = prstr ")"
+  }
+| P1Trec (knd, npf, lp1ts) => {
+    val () = prstr "P1Ttup("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = $UT.fprintlst (out, lp1ts, ", ", fprint_labp1at)
+    val () = prstr ")"
+  }
+//
+| P1Tfree (p1t) => {
+    val () = prstr "P1Tfree("
+    val () = fprint_p1at (out, p1t)
+    val () = prstr ")"
+  }
+//
+| P1Tas (sym, p1t) => {
+    val () = prstr "P1Tas("
+    val () = fprint_symbol (out, sym)
+    val () = prstr "; "
+    val () = fprint_p1at (out, p1t)
+    val () = prstr ")"
+  }
+| P1Trefas (sym, p1t) => {
+    val () = prstr "P1Trefas("
+    val () = fprint_symbol (out, sym)
+    val () = prstr "; "
+    val () = fprint_p1at (out, p1t)
+    val () = prstr ")"
+  }
+//
+| P1Texist (s1as, p1t) => {
+    val () = prstr "P1Texist("
+    val () = fprint_s1arglst (out, s1as)
+    val () = prstr "; "
+    val () = fprint_p1at (out, p1t)
+    val () = prstr ")"
+  }
+| P1Tsvararg (s1v) => {
+    val () = prstr "P1Tsvararg("
+    val () = fprint_s1vararg (out, s1v)
+    val () = prstr ")"
+  }
+//
+| P1Tann (p1t, s1e) => {
+    val () = prstr "P1Tann("
+    val () = fprint_p1at (out, p1t)
+    val () = fprint_string (out, " : ")
+    val () = fprint_s1exp (out, s1e)
+    val () = prstr ")"
+  }
+//
+(*
 | _ => prstr "P1T...(...)"
+*)
 //
 end // end of [fprint_p1at]
+
+implement
+fprint_p1atlst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_p1at)
+// end of [fprint_p1atlst]
+
+implement
+fprint_labp1at (out, x) = let
+  macdef prstr (str) = fprint_string (out, ,(str))
+in
+  case+ x.labp1at_node of
+  | LABP1ATnorm (lab, p1t) => {
+      val () = prstr "LABP1ATnorm("
+      val () = fprint_l0ab (out, lab)
+      val () = fprint_p1at (out, p1t)
+      val () = prstr ")"
+    }
+  | LABP1ATomit () => prstr "LABP1ATomit()"
+end // end of [fprint_labp1at]
 
 (* ****** ****** *)
 
@@ -186,6 +333,7 @@ case+ d1e0.d1exp_node of
     val () = fprint_s1exp (out, s1e)
     val () = prstr ")"
   }
+//
 | _ => prstr "D1E...(...)"
 //
 end // end of [fprint_d1exp]
@@ -383,7 +531,9 @@ case+ d1c0.d1ecl_node of
 end // end of [fprint_d1ecl]
 
 implement
-fprint_d1eclist (out, xs) = $UT.fprintlst (out, xs, "\n", fprint_d1ecl)
+fprint_d1eclist
+  (out, xs) = $UT.fprintlst (out, xs, "\n", fprint_d1ecl)
+// end of [fprint_d1eclist]
 
 (* ****** ****** *)
 

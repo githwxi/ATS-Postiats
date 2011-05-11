@@ -107,4 +107,4 @@ counter_incget
 //
 (* ****** ****** *)
 
-(* end of [pats_counter.sats] *)
+(* end of [pats_counter.dats] *)

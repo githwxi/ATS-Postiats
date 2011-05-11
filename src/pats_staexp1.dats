@@ -551,8 +551,7 @@ wths1explst_is_none
 implement
 wths1explst_reverse (wths1es) = let
   fun aux (
-    wths1es: wths1explst
-  , res: wths1explst
+    wths1es: wths1explst, res: wths1explst
   ) : wths1explst = case+ wths1es of
     | WTHS1EXPLSTcons_some (refval, s1e, wths1es) =>
         aux (wths1es, WTHS1EXPLSTcons_some (refval, s1e, res))

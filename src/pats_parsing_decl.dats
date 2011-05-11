@@ -241,6 +241,7 @@ p_s0expdef (
   ) : s0marglst_vt // end of [val]
   val ent3 =
     pif_fun (buf, bt, err, p_colons0rtopt, err0)
+  // end of [val]
   val ent4 = pif_fun (buf, bt, err, p_EQ, err0)
   val ent5 = pif_fun (buf, bt, err, p_s0exp, err0)
 //

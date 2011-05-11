@@ -145,4 +145,4 @@ parse_from_stdin_toplevel
 
 (* ****** ****** *)
 
-(* end of [pats_parsing.sats] *)
+(* end of [pats_parsing.dats] *)

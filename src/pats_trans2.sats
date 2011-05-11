@@ -75,7 +75,11 @@ fun effcst_tr (efc: effcst): s2eff
 fun s1exp_trup (s1e: s1exp): s2exp
 fun s1explst_trup (s1es: s1explst): s2explst
 
+fun s2exp_trdn (
+  loc: location, s2e: s2exp, s2t: s2rt
+) : s2exp // end of [s2exp_trdn]
 fun s1exp_trdn (s1e: s1exp, s2t: s2rt): s2exp
+
 fun s1exp_trdn_bool (s1es: s1exp): s2exp
 fun s1exp_trdn_impredicative (s1es: s1exp): s2exp
 

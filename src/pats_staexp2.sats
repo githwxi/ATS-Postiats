@@ -99,6 +99,8 @@ fun s2rtdat_get_stamp (s2td: s2rtdat): stamp
 fun eq_s2rtdat_s2rtdat (s2td1: s2rtdat, s2td2: s2rtdat): bool
 overload = with eq_s2rtdat_s2rtdat
 
+fun fprint_s2rtdat : fprint_type (s2rtdat)
+
 (* ****** ****** *)
 
 datatype s2rtbas =
@@ -300,6 +302,9 @@ and s2explst = List (s2exp)
 and s2expopt = Option (s2exp)
 and s2explstlst = List (s2explst)
 
+and locs2exp = (location, s2exp)
+and locs2explst = List (locs2exp)
+
 and s2rtextopt_vt = Option_vt (s2rtext)
 
 (* ****** ****** *)
@@ -349,6 +354,9 @@ fun s2cst_get_arilst (x: s2cst): List int // arity list
 fun s2cst_get_argvar (x: s2cst): Option (List @(symbolopt, s2rt, int))
 fun s2cst_get_conlst (x: s2cst): Option d2conlst
 fun s2cst_set_conlst (x: s2cst, lst: Option d2conlst): void
+
+fun s2cst_get_tag (x: s2cst): int
+fun s2cst_set_tag (x: s2cst, tag: int): void
 
 fun fprint_s2cst : fprint_type (s2cst)
 fun print_s2cst (x: s2cst): void

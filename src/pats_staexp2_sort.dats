@@ -34,10 +34,12 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/pointer.dats"
 staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
+staload STP = "pats_stamp.sats"
 staload SYM = "pats_symbol.sats"
 overload = with $SYM.eq_symbol_symbol
 
@@ -65,6 +67,21 @@ local
 assume s2rtdat_type = ref (s2rtdat_struct)
 
 in // in of [local]
+
+implement
+s2rtdat_make (id) = let
+//
+  val stamp = $STP.s2rtdat_stamp_make ()
+  val (pfgc, pfat | p) = ptr_alloc<s2rtdat_struct> ()
+  prval () = free_gc_elim (pfgc)
+//
+  val () = p->s2rtdat_sym := id
+  val () = p->s2rtdat_conlst := list_nil ()
+  val () = p->s2rtdat_stamp := stamp
+//
+in // in of [let]
+  ref_make_view_ptr (pfat | p)
+end // end of [s2rtdat_make]
 
 implement
 s2rtdat_get_sym (s2td) = let
@@ -385,7 +402,7 @@ lte_s2rtbas_s2rtbas (s2tb1, s2tb2) = begin
   case+ (s2tb1, s2tb2) of
   | (S2RTBASpre id1, S2RTBASpre id2) => (id1 = id2)
   | (S2RTBASimp (id1, knd1),
-     S2RTBASimp (id2, knd2)) => lte_impknd_impknd (knd1, knd2)
+     S2RTBASimp (id2, knd2)) => lte_impkind_impkind (knd1, knd2)
   | (S2RTBASdef s2td1, S2RTBASdef s2td2) => (s2td1 = s2td2)
   | (_, _) => false
 end // end of [lte_s2rtbas_s2rtbas]

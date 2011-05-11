@@ -542,6 +542,22 @@ fprint_s1qualst
 (* ****** ****** *)
 
 implement
+fprint_s1vararg (out, x) =
+  case+ x of
+  | S1VARARGone () =>
+      fprint_string (out, "S1VARARGone()")
+  | S1VARARGall () =>
+      fprint_string (out, "S1VARARGall()")
+  | S1VARARGseq (s1as) => {
+      val () = fprint_string (out, "S1VARARGseq(")
+      val () = fprint_s1arglst (out, s1as)
+      val () = fprint_string (out, ")")
+    }
+// end of [fprint_s1vararg]
+
+(* ****** ****** *)
+
+implement
 fprint_s1exparg (out, x) =
   case+ x.s1exparg_node of
   | S1EXPARGone () =>

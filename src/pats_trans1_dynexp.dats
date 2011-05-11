@@ -779,4 +779,4 @@ end // end of [labd0exp_tr]
 
 (* ****** ****** *)
 
-(* end of [pats_trans1_dynexp.sats] *)
+(* end of [pats_trans1_dynexp.dats] *)

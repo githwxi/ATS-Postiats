@@ -671,4 +671,4 @@ end // end of [d0atcon_tr]
 
 (* ****** ****** *)
 
-(* end of [pats_trans1_staexp.sats] *)
+(* end of [pats_trans1_staexp.dats] *)

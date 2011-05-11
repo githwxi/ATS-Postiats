@@ -67,9 +67,9 @@ fn prerr_error2_loc
   (loc: location): void = (
   $LOC.prerr_location loc; prerr ": error(2)"
 ) // end of [prerr_error2_loc]
-fn prerr_interror () = prerr "INTERROR(ats_trans2_sort)"
+fn prerr_interror () = prerr "INTERROR(pats_trans2_sort)"
 fn prerr_interror_loc (loc: location) = begin
-  $LOC.prerr_location loc; prerr ": INTERROR(ats_trans2_sort)"
+  $LOC.prerr_location loc; prerr ": INTERROR(pats_trans2_sort)"
 end // end of [prerr_interror_loc]
 
 (* ****** ****** *)
@@ -187,16 +187,9 @@ case+ s1t0.s1rt_node of
   // end of [S1RTapp]
 | S1RTlist (s1ts) => S2RTtup (s1rtlst_tr s1ts) 
 | S1RTqid (q, id) => s1rt_tr_qid (s1t0, q, id)
-| _ => let
-    val () = prerr_interror_loc (loc0)
-    val () = prerr ": not yet implemented: ["
-    val () = prerr_s1rt (s1t0)
-    val () = prerr "]"
-    val () = prerr_newline ()
-  in
-    $ERR.abort ()
-  end // end of [_]
-// end of [case]
+| S1RTtype (impknd) => s2rt_impredicative (impknd)
+| S1RTerr () => s2rt_err ()
+//
 end // end of [s1rt_tr]
 
 

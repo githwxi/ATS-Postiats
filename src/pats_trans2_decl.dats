@@ -39,7 +39,13 @@ staload ERR = "pats_error.sats"
 (* ****** ****** *)
 
 staload SYM = "pats_symbol.sats"
+macdef EQEQ = $SYM.symbol_EQEQ
 overload = with $SYM.eq_symbol_symbol
+
+(* ****** ****** *)
+
+staload "pats_basics.sats"
+macdef prerr_ifdebug (x) = if (debug_flag_get () > 0) then prerr ,(x)
 
 (* ****** ****** *)
 
@@ -56,6 +62,114 @@ staload "pats_trans2_env.sats"
 (* ****** ****** *)
 
 #define l2l list_of_list_vt
+
+(* ****** ****** *)
+
+fn prerr_error2_loc
+  (loc: location): void = (
+  $LOC.prerr_location loc; prerr ": error(2)"
+) // end of [prerr_error2_loc]
+fn prerr_interror () = prerr "INTERROR(pats_trans2_decl)"
+fn prerr_interror_loc (loc: location) = (
+  $LOC.prerr_location loc; prerr ": INTERROR(pats_trans2_decl)"
+) // end of [prerr_interror_loc]
+
+(* ****** ****** *)
+
+fn d1atsrtdec_tr (
+  res: s2rt, d1c: d1atsrtdec
+) : s2cstlst = let
+//
+  fn aux (
+    i: int, res: s2rt, d1c: d1atsrtcon
+  ) : s2cst = let
+    val id = d1c.d1atsrtcon_sym
+    val loc = d1c.d1atsrtcon_loc
+    val arg = s1rtlst_tr (d1c.d1atsrtcon_arg)
+    val s2t = s2rt_fun (arg, res)
+    val s2c = s2cst_make (
+      id // sym
+    , loc // location
+    , s2t // srt
+    , None () // isabs
+    , true // iscon
+    , false // isrec
+    , false // isasp
+    , None () // islst
+    , list_nil () // argvar
+    , None () // def
+    ) // end of [s2cst_make]
+    val () = s2cst_set_tag (s2c, i)
+    val () = the_s2expenv_add_scst (s2c)
+  in
+    s2c
+  end // end of [aux]
+//
+  fun auxlst (
+    i: int, res: s2rt, d1cs: d1atsrtconlst
+  ) : s2cstlst =
+    case+ d1cs of
+    | list_cons (d1c, d1cs) => begin
+        list_cons (aux (i, res, d1c), auxlst (i+1, res, d1cs))
+      end // end of [cons]
+    | list_nil () => list_nil ()
+  // end of [auxlst]
+//
+in
+  auxlst (0, res, d1c.d1atsrtdec_con)
+end // end of [d1atsrtdec_tr]
+
+fn d1atsrtdeclst_tr
+  (d1cs: d1atsrtdeclst) = let
+//
+  typedef T = (d1atsrtdec, s2rtdat, s2rt)
+//
+  fun loop1 (xs0: List_vt (T)): void =
+    case+ xs0 of
+    | ~list_vt_cons (x, xs) => let
+        val s2cs = d1atsrtdec_tr (x.2, x.0)
+        val () = s2rtdat_set_conlst (x.1, s2cs)
+      in
+        loop1 (xs)
+      end // end of [list_vt_cons]
+    | ~list_vt_nil () => ()
+  // end of [loop1]
+//
+  fun loop2 (
+    d1cs: d1atsrtdeclst, res: List_vt (T)
+  ) : void =
+    case+ d1cs of
+    | list_cons (d1c, d1cs) => let
+        val id = d1c.d1atsrtdec_sym
+        val s2td = s2rtdat_make (id)
+        val s2t = S2RTbas (S2RTBASdef s2td)
+//
+        val s2ts_arg = '[s2t, s2t]
+        val s2t_eqeq = s2rt_fun (s2ts_arg, s2rt_bool)
+        val s2c_eqeq = s2cst_make (
+          EQEQ // sym
+        , d1c.d1atsrtdec_loc
+        , s2t_eqeq // srt
+        , None () // isabs
+        , false // iscon
+        , false // isrec
+        , false // isasp
+        , None () // islst
+        , list_nil () // argvar 
+        , None () // def
+        ) // end of [val]
+        val () = the_s2expenv_add_scst (s2c_eqeq)
+//
+        val () = the_s2rtenv_add (id, S2TEsrt s2t)
+      in
+        loop2 (d1cs, list_vt_cons (@(d1c, s2td, s2t), res))
+      end // end of [list_cons]
+    | list_nil () => loop1 res
+  // end of [loop2]
+//
+in
+  loop2 (d1cs, list_vt_nil ())
+end // end of [d1atsrtdeclst_tr]
 
 (* ****** ****** *)
 
@@ -104,16 +218,6 @@ end // end of [s1tacst_tr]
 
 (* ****** ****** *)
 
-(*
-typedef
-s1tacon = '{ // static constructor declaration
-  s1tacon_loc= location
-, s1tacon_sym= symbol
-, s1tacon_arg= a1msrtlst
-, s1tacon_def= s1expopt
-} // end of [s1tacon]
-*)
-
 fn s1tacon_tr (
   s2t_res: s2rt, d: s1tacon
 ) : void = let
@@ -128,7 +232,7 @@ fn s1tacon_tr (
       val s2t = s1rt_tr (x.a1srt_srt)
     in
       (sym, s2t)
-    end
+    end // end of [f1]
     fn f2 (x: a1msrt): syms2rtlst = l2l (list_map_fun (x.a1msrt_arg, f1))
   in
     l2l (list_map_fun (d.s1tacon_arg, f2))
@@ -151,7 +255,8 @@ fn s1tacon_tr (
     aux (s2t_res, argvar)
   end : s2rt // end of [val]
 //
-  val (pf_s2expenv | ()) = the_s2expenv_push_nil ()
+  val (pfenv | ()) = the_s2expenv_push_nil ()
+//
   val s2vss = let
     fun f1 (x: syms2rt): s2var =
       if x.0 = $SYM.symbol_empty then
@@ -191,20 +296,21 @@ fn s1tacon_tr (
        end // end of [Some]
      | None () => None ()
   end : s2expopt // end of [val]
-  val () = the_s2expenv_pop_free (pf_s2expenv | (*none*))
+//
+  val () = the_s2expenv_pop_free (pfenv | (*none*))
+//
   val s2c = s2cst_make (
-      id // sym
-    , loc // location
-    , s2t_fun // srt
-    , Some def // isabs
-    , true // iscon
-    , false // isrec
-    , false // isasp
-    , None () // islst
-    , argvar // argvar
-    , None () // def
-    ) // end of [s2cst_make]
-  // end of [val]
+    id // sym
+  , loc // location
+  , s2t_fun // srt
+  , Some def // isabs
+  , true // iscon
+  , false // isrec
+  , false // isasp
+  , None () // islst
+  , argvar // argvar
+  , None () // def
+  ) // end of [val]
 in
   the_s2expenv_add_scst (s2c)
 end // end of [s1tacon_tr]
@@ -223,6 +329,128 @@ fn s1taconlst_tr (
 in
   aux (s2t_res, ds)
 end // end of [s1taconlst_tr]
+
+(* ****** ****** *)
+
+fn s1expdef_tr_arg
+  (xss: s1arglstlst): List_vt (s2varlst) = let
+  fn f1 (x: s1arg): s2var = let
+    val s2t = (case+ x.s1arg_srt of
+      | Some s1t => s1rt_tr (s1t)
+      | None () => S2RTVar (s2rtVar_make (x.s1arg_loc))
+    ) : s2rt
+  in
+    s2var_make_id_srt (x.s1arg_sym, s2t)
+  end // end of [f1]
+  fn f2 (
+    xs: s1arglst
+  ) : s2varlst = s2vs where {
+    val s2vs = l2l (list_map_fun (xs, f1))
+    val () = the_s2expenv_add_svarlst (s2vs)
+  } // end of [f2]
+in
+  list_map_fun (xss, f2)
+end // end of [s1expdef_tr_arg]
+
+fn s1expdef_tr_def (
+  xss: s1arglstlst, res: s2rtopt, def: s1exp
+) : s2exp = let 
+//
+  val (pfenv | ()) = the_s2expenv_push_nil ()
+  val s2vss = s1expdef_tr_arg (xss)
+  val def = (case+ res of
+    | Some s2t => s1exp_trdn (def, s2t) | None () => s1exp_trup def
+  ) : s2exp // end of [val]
+  val () = the_s2expenv_pop_free (pfenv | (*none*))
+//
+  fun aux (
+    def: s2exp, s2vss: List_vt (s2varlst)
+  ) : s2exp = begin
+    case+ s2vss of
+    | ~list_vt_cons
+        (s2vs, s2vss) => let
+        val body = aux (def, s2vss)
+        val s2ts_arg = list_map_fun (s2vs, s2var_get_srt)
+        val s2ts_arg = l2l (s2ts_arg)
+        val s2t_fun = s2rt_fun (s2ts_arg, body.s2exp_srt)
+      in
+        s2exp_lam_srt (s2t_fun, s2vs, body)
+      end // end of [::]
+    | ~list_vt_nil () => def
+  end // end of [aux]
+//
+in
+  aux (def, s2vss)
+end // end of [s1expdef_tr_body]
+
+fn s1expdef_tr (
+  res: s2rtopt, d: s1expdef
+) : s2cst = let
+//
+fn auxerr (d: s1expdef): void = {
+  val () = prerr_error2_loc (d.s1expdef_loc)
+  val () = prerr_ifdebug ": s1expdef_tr"
+  val () = prerr ": the sort for the definition does not match"
+  val () = prerr " the sort assigned to the static constant ["
+  val () = $SYM.prerr_symbol (d.s1expdef_sym)
+  val () = prerr "]."
+  val () = prerr_newline ()
+} // end of [auxerr]
+//
+  val res1 = s1rtopt_tr (d.s1expdef_res)
+  val res = (case+ res of
+    | Some s2t => (case+ res1 of
+      | Some s2t1 => let
+          val test = s2rt_ltmat1 (s2t1, s2t)
+        in
+          if test then res1 else (auxerr (d); res)
+        end // end of [Some]
+      | None () => res
+      )
+    | None () => res1
+  ) : s2rtopt // end of [val]
+  val def = s1expdef_tr_def (d.s1expdef_arg, res, d.s1expdef_def)
+in
+  s2cst_make (
+    d.s1expdef_sym // symbol
+  , d.s1expdef_loc // location
+  , def.s2exp_srt // srt
+  , None () // isabs
+  , false // iscon
+  , false // isrec
+  , false // isasp
+  , None () // islst
+  , list_nil () // argvar
+  , Some (def) // def
+  ) // end of [s2cst_make]
+end // end of [s1expdef_tr]
+
+fn s1expdeflst_tr
+  (knd: int, ds: s1expdeflst): void = let
+  val res = (
+    if knd >= 0 then Some (s2rt_impredicative knd) else None ()
+  ) : s2rtopt
+  val s2cs = aux (ds) where {
+    fun aux (ds: s1expdeflst):<cloref1> List_vt (s2cst) =
+      case+ ds of
+      | list_cons (d, ds) => let
+          val s2c = s1expdef_tr (res, d) in list_vt_cons (s2c, aux ds)
+        end
+      | list_nil () => list_vt_nil ()
+    // end of [aux]
+  } // end of [val]
+  val () = aux (s2cs) where {
+    fun aux (s2cs: List_vt (s2cst)): void =
+      case+ s2cs of
+      | ~list_vt_cons (s2c, s2cs) => let
+          val () = the_s2expenv_add_scst (s2c) in aux (s2cs)
+        end
+      | ~list_vt_nil () => ()
+    // end of [aux]
+  } // end of [val]
+in
+  // nothing
+end // end of [s1expdeflst_tr]
 
 (* ****** ****** *)
 
@@ -246,15 +474,21 @@ case+ d1c0.d1ecl_node of
   in
     d2ecl_none (loc0)
   end // end of [D1Ce1xpdef]
+| D1Cdatsrts (ds) => let
+    val () = d1atsrtdeclst_tr (ds) in d2ecl_none (loc0)
+  end // end of [D1Cdatsrts]
 | D1Csrtdefs (ds) => let
     val () = list_app_fun (ds, s1rtdef_tr) in d2ecl_none (loc0)
   end // end of [D1Csrtdefs]
 | D1Cstacsts (ds) => let
     val () = list_app_fun (ds, s1tacst_tr) in d2ecl_none (loc0)
   end // end of [D1Cstacsts]
-| D1Cstacons (knd, d1cs) => let
-    val () = s1taconlst_tr (knd, d1cs) in d2ecl_none (loc0)
+| D1Cstacons (knd, ds) => let
+    val () = s1taconlst_tr (knd, ds) in d2ecl_none (loc0)
   end // end of [D1Cstacons]
+| D1Csexpdefs (knd, ds) => let
+    val () = s1expdeflst_tr (knd, ds) in d2ecl_none (loc0)
+  end // end of [D1Csexpdefs]
 | _ => let
     val () = $LOC.prerr_location (loc0)
     val () = prerr ": d1ecl_tr: not implemented: d1c0 = "

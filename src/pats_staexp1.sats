@@ -192,7 +192,7 @@ s1rt_node =
   | S1RTapp of (s1rt, s1rtlst)
   | S1RTlist of s1rtlst
   | S1RTqid of (s0rtq, symbol)
-  | S1RTtype of int(*polarity*)
+  | S1RTtype of int(*impkind*)
   | S1RTerr of ()
 // end of [s1rt_node]
 
@@ -559,6 +559,8 @@ s1vararg =
 // end of [s1vararg]
 
 typedef s1vararglst = List (s1vararg)
+
+fun fprint_s1vararg : fprint_type (s1vararg)
 
 (* ****** ****** *)
 

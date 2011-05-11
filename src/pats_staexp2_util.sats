@@ -48,7 +48,9 @@ fun s2explst_alpha
 
 (* ****** ****** *)
 
-fun s2cst_select_s2explstlst (_: s2cstlst, _: s2explstlst): s2cstlst
+fun s2cst_select_locs2explstlst
+  (_: s2cstlst, _: List (locs2explst)): s2cstlst
+// end of [s2cst_select_locs2explstlst]
 
 (* ****** ****** *)
 

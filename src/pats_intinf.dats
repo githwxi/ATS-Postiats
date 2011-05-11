@@ -97,4 +97,4 @@ atsopt_intinf_initialize
 
 (* ****** ****** *)
 
-(* end of [pats_intinf.sats] *)
+(* end of [pats_intinf.dats] *)

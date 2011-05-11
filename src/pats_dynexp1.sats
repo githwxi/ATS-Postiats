@@ -55,7 +55,7 @@ datatype p1at_node =
   | P1Tempty of () // empty pattern
 //
   | P1Tapp_sta of (p1at, s1vararglst) // static application
-  | P1Tapp_dyn of (p1at, location(*arg*), int, p1atlst)  // constructor
+  | P1Tapp_dyn of (p1at, location(*arg*), int(*npf*), p1atlst) // constructor
 //
   | P1Tlist of (int (*pfarity*), p1atlst) // pattern list
 //
@@ -131,6 +131,8 @@ fun p1at_svararg (loc: location, arg: s1vararg): p1at
 fun p1at_ann (loc: location, p1t: p1at, s1e: s1exp): p1at
 
 fun fprint_p1at : fprint_type (p1at)
+fun fprint_p1atlst : fprint_type (p1atlst)
+
 fun fprint_labp1at : fprint_type (labp1at)
 
 (* ****** ****** *)

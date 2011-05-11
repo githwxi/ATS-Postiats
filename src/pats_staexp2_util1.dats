@@ -121,15 +121,17 @@ end // end of [s2explst_alpha]
 (* ****** ****** *)
 
 implement
-s2cst_select_s2explstlst (s2cs, s2ess) = let
+s2cst_select_locs2explstlst (s2cs, xss) = let
 //
   fun test1 (
-    s2es: s2explst, s2ts: s2rtlst
+    xs: locs2explst, s2ts: s2rtlst
   ) : bool =
-    case+ s2es of
-    | list_cons (s2e, s2es) => (case+ s2ts of
-      | list_cons (s2t, s2ts) =>
-          if s2rt_ltmat0 (s2e.s2exp_srt, s2t) then test1 (s2es, s2ts) else false
+    case+ xs of
+    | list_cons (x, xs) => (case+ s2ts of
+      | list_cons (s2t, s2ts) => let
+          val s2e = x.1 in
+          if s2rt_ltmat0 (s2e.s2exp_srt, s2t) then test1 (xs, s2ts) else false
+        end // end of [list_cons]
       | list_nil () => false
       ) // end of [list_cons]
     | list_nil () => (case+ s2ts of
@@ -138,44 +140,46 @@ s2cst_select_s2explstlst (s2cs, s2ess) = let
   (* end of [test1] *)
 //
   fun test2 (
-    s2t: s2rt, s2ess: s2explstlst
+    s2t: s2rt, xss: List (locs2explst)
   ) : bool =
-    case+ s2ess of
-    | list_cons (s2es, s2ess) => (
+    case+ xss of
+    | list_cons (xs, xss) => (
         if s2rt_is_fun (s2t) then let
           val- S2RTfun (s2ts_arg, s2t_res) = s2t
         in
-          if test1 (s2es, s2ts_arg) then test2 (s2t_res, s2ess) else false
+          if test1 (xs, s2ts_arg) then test2 (s2t_res, xss) else false
         end else false
       ) // end of [list_cons]
     | list_nil () => true
   (* end of [test2] *)
 //
-  fun filter (s2cs: s2cstlst, s2ess: s2explstlst): s2cstlst =
+  fun filter (
+    s2cs: s2cstlst, xss: List (locs2explst)
+  ) : s2cstlst =
     case+ s2cs of
     | list_cons (s2c, s2cs) => let
 (*
-        val () = print "s2cst_select_s2explstlst: filter: s2c = "
+        val () = print "s2cst_select_locs2explstlst: filter: s2c = "
         val () = print_s2cst (s2c)
         val () = print_newline ()
 *)
         val s2t = s2cst_get_srt (s2c)
 (*
-        val () = print "s2cst_select_s2explstlst: filter: s2t = ";
+        val () = print "s2cst_select_locs2explstlst: filter: s2t = ";
         val () = print_s2rt (s2t)
         val () = print_newline ()
 *)
       in
-        if test2 (s2t, s2ess) then
-          list_cons (s2c, filter (s2cs, s2ess)) else filter (s2cs, s2ess)
+        if test2 (s2t, xss) then
+          list_cons (s2c, filter (s2cs, xss)) else filter (s2cs, xss)
         // end of [if]
       end // end of [S2CSTLSTcons]
     | list_nil () => list_nil ()
   (* end of [filter] *)
 //
 in
-  filter (s2cs, s2ess)
-end // end of [s2cst_select_s2explstlst]
+  filter (s2cs, xss)
+end // end of [s2cst_select_locs2explstlst]
 
 (* ****** ****** *)
 

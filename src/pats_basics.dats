@@ -78,14 +78,14 @@ end // end of [test_polkind]
 (* ****** ****** *)
 
 implement
-lte_impknd_impknd (k1, k2) = let
+lte_impkind_impkind (k1, k2) = let
   val polflag = uint_of (POLFLAG)
   val polmask = ~polflag
   val k1 = uint_of (k1) \land_uint_uint polmask
   val k2 = uint_of (k2) \land_uint_uint polmask
 in
   (k1 \land_uint_uint ~k2) = 0u
-end // end of [lte_impknd_impknd]
+end // end of [lte_impkind_impkind]
 
 (* ****** ****** *)
 
