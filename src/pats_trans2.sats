@@ -72,6 +72,13 @@ fun effcst_tr (efc: effcst): s2eff
 
 (* ****** ****** *)
 
+fun s1arg_trup (s1a: s1arg): s2var
+fun s1arglst_trup (s1as: s1arglst): s2varlst
+fun s1arglst_trdn_err
+  (s1as: s1arglst, s2ts: s2rtlst, err: &int): s2varlst
+// end of [s1arglst_trdn_err]
+fun s1marg_trdn (s1ma: s1marg, s2ts: s2rtlst): s2varlst
+
 fun s1exp_trup (s1e: s1exp): s2exp
 fun s1explst_trup (s1es: s1explst): s2explst
 
@@ -103,6 +110,10 @@ fun s1qualst_tr (s1qs: s1qualst): @(s2varlst, s2explst)
 (* ****** ****** *)
 
 fun s1rtext_tr (s1te: s1rtext): s2rtext
+
+(* ****** ****** *)
+
+fun s1aspdec_tr (d: s1aspdec): s2aspdec
 
 (* ****** ****** *)
 

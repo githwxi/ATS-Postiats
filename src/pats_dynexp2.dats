@@ -38,12 +38,36 @@ staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-implement d2ecl_none (loc) = '{
+implement
+s2tavar_make (loc, s2v) = '{
+  s2tavar_loc= loc, s2tavar_var= s2v
+}
+
+implement
+s2aspdec_make (loc, s2c, def) = '{
+  s2aspdec_loc= loc, s2aspdec_cst= s2c, s2aspdec_def= def
+}
+
+(* ****** ****** *)
+
+implement
+d2ecl_none (loc) = '{
   d2ecl_loc= loc, d2ecl_node= D2Cnone ()
 }
 
-implement d2ecl_list (loc, xs) = '{
+implement
+d2ecl_list (loc, xs) = '{
   d2ecl_loc= loc, d2ecl_node= D2Clist (xs)
+}
+
+implement
+d2ecl_stavars (loc, xs) = '{
+  d2ecl_loc= loc, d2ecl_node= D2Cstavars (xs)
+}
+
+implement
+d2ecl_saspdec (loc, d) = '{
+  d2ecl_loc= loc, d2ecl_node= D2Csaspdec (d)
 }
 
 (* ****** ****** *)

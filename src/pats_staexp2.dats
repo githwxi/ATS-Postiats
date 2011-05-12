@@ -34,11 +34,19 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/list.dats"
+
+(* ****** ****** *)
+
 staload LEX = "pats_lexing.sats"
 
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+
+(* ****** ****** *)
+
+#define l2l list_of_list_vt
 
 (* ****** ****** *)
 
@@ -72,10 +80,27 @@ in '{
 
 (* ****** ****** *)
 
-implement s2exp_lam_srt
+implement
+s2exp_lam
+  (s2vs, s2e_body) = let
+  val s2ts = l2l (list_map_fun (s2vs, s2var_get_srt))
+  val s2t_fun = s2rt_fun (s2ts, s2e_body.s2exp_srt)
+in
+  s2exp_lam_srt (s2t_fun, s2vs, s2e_body)
+end // end of [s2exp_lam]
+
+implement
+s2exp_lam_srt
   (s2t_fun, s2vs_arg, s2e_body) = '{
   s2exp_srt= s2t_fun, s2exp_node= S2Elam (s2vs_arg, s2e_body)
 } // end of [s2exp_lam_srt]
+
+implement
+s2exp_lams (s2vss, s2e_body) =
+  case+ s2vss of
+  | list_cons (s2vs, s2vss) => s2exp_lams (s2vss, s2exp_lam (s2vs, s2e_body))
+  | list_nil () => s2e_body
+// end of [s2exp_lams]
 
 implement
 s2exp_app_srt

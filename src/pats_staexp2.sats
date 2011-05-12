@@ -70,6 +70,7 @@ abstype s2var_type // assumed in [pats_staexp2_svVar.dats]
 typedef s2var = s2var_type
 typedef s2varlst = List (s2var)
 typedef s2varopt = Option (s2var)
+typedef s2varlstlst = List (s2varlst)
 abstype s2varset_type // assumed in [pats_staexp2_svVar.dats]
 typedef s2varset = s2varset_type
 
@@ -337,8 +338,11 @@ fun s2cst_make_dat (
 fun s2cst_get_loc (x: s2cst): location
 fun s2cst_get_sym (x: s2cst): symbol
 fun s2cst_get_srt (x: s2cst): s2rt
+
 fun s2cst_get_isabs (x: s2cst): Option (s2expopt)
+
 fun s2cst_get_iscon (x: s2cst): bool
+
 fun s2cst_get_isrec (x: s2cst): bool
 
 fun s2cst_get_isasp (x: s2cst): bool
@@ -357,6 +361,12 @@ fun s2cst_set_conlst (x: s2cst, lst: Option d2conlst): void
 
 fun s2cst_get_tag (x: s2cst): int
 fun s2cst_set_tag (x: s2cst, tag: int): void
+
+(* ****** ****** *)
+
+fun s2cst_is_abstract (x: s2cst): bool
+
+(* ****** ****** *)
 
 fun fprint_s2cst : fprint_type (s2cst)
 fun print_s2cst (x: s2cst): void
@@ -452,7 +462,9 @@ fun s2exp_app_srt
   (s2t: s2rt, _fun: s2exp, _arg: s2explst): s2exp
 // end of [s2exp_app_srt]
 
+fun s2exp_lam (s2vs: s2varlst, s2e: s2exp): s2exp
 fun s2exp_lam_srt (s2t: s2rt, s2vs: s2varlst, s2e: s2exp): s2exp
+fun s2exp_lams (s2vss: s2varlstlst, s2e: s2exp): s2exp
 
 fun s2exp_fun_srt (
   s2t: s2rt

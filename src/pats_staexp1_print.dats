@@ -262,6 +262,9 @@ fprint_s1arglst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_s1arg)
 // end of [fprint_s1arglst]
 
+implement
+fprint_s1marg (out, x) = fprint_s1arglst (out, x.s1marg_arg)
+
 (* ****** ****** *)
 
 implement
@@ -342,7 +345,7 @@ case+ x.s1exp_node of
     arg, res, body
   ) => {
     val () = prstr "S1Elam("
-    val () = fprint_s1arglst (out, arg)
+    val () = fprint_s1marg (out, arg)
     val () = prstr "; "
     val () = fprint_s1rtopt (out, res)
     val () = prstr "; "
@@ -618,7 +621,7 @@ fprint_s1expdef (out, x) = {
   macdef prstr (s) = fprint_string (out, ,(s))
   val () = fprint_symbol (out, x.s1expdef_sym)
   val () = prstr "("
-  val () = $UT.fprintlst (out, x.s1expdef_arg, "; ", fprint_s1arglst)
+  val () = $UT.fprintlst (out, x.s1expdef_arg, "; ", fprint_s1marg)
   val () = prstr ")"
   val () = (case+ x.s1expdef_res of
     | Some s1t => (prstr ": "; fprint_s1rt (out, s1t))
@@ -635,7 +638,7 @@ fprint_s1aspdec (out, x) = {
   macdef prstr (s) = fprint_string (out, ,(s))
   val () = fprint_sqi0de (out, x.s1aspdec_qid)
   val () = prstr "("
-  val () = $UT.fprintlst (out, x.s1aspdec_arg, "; ", fprint_s1arglst)
+  val () = $UT.fprintlst (out, x.s1aspdec_arg, "; ", fprint_s1marg)
   val () = prstr ")"
   val () = (case+ x.s1aspdec_res of
     | Some s1t => (prstr ": "; fprint_s1rt (out, s1t))

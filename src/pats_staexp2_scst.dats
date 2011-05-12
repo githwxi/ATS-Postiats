@@ -173,6 +173,11 @@ s2cst_get_srt (s2c) = let
 end // end of [s2cst_get_srt]
 
 implement
+s2cst_get_isabs (s2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_isabs
+end // end of [s2cst_get_isabs]
+
+implement
 s2cst_get_tag (s2c) = let
   val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_tag
 end // end of [s2cst_get_tag]
@@ -182,6 +187,13 @@ s2cst_set_tag (s2c, tag) = let
 end // end of [s2cst_set_tag]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+s2cst_is_abstract (x) =
+  case+ s2cst_get_isabs (x) of Some _ => true | None _ => false
+// end of [s2cst_is_abstract]
 
 (* ****** ****** *)
 

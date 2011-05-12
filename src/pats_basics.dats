@@ -186,7 +186,7 @@ fprint_dcstkind
 
 local
 
-var the_flag: int = 0
+var the_flag: int = 1 // 0
 val p_the_flag = &the_flag
 val (pf_the_flag | ()) =
   vbox_make_view_ptr {int} (view@ the_flag | p_the_flag)
@@ -205,6 +205,37 @@ debug_flag_set (x) = let
 end // end of [debug_flag_set]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+%{$
+
+ats_void_type
+atsopt_vfprintf_ifdebug (
+  ats_ptr_type out
+, ats_ptr_type fmt
+, va_list ap // variadic arguments
+) {
+//
+  if (atsopt_debug_flag_get () > 0) {
+    (void)vfprintf((FILE*)out, (char*)fmt, ap) ;
+  } // end of [if]
+//
+  return ;
+} // end of [atsopt_debug_printf]
+
+ats_void_type
+atsopt_prerrf_ifdebug (
+  ats_ptr_type fmt, ...
+) {
+  va_list ap ;
+  va_start(ap, fmt) ;
+  atsopt_vfprintf_ifdebug(stderr, (char*)fmt, ap) ;
+  va_end(ap) ;
+  return ;
+} // end of [atsopt_debug_prerrf]
+
+%} // end of [%{$]
 
 (* ****** ****** *)
 

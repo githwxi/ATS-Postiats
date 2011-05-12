@@ -47,7 +47,6 @@ staload INT = "pats_intinf.sats"
 (* ****** ****** *)
 
 staload "pats_basics.sats"
-macdef prerr_ifdebug (x) = if (debug_flag_get () > 0) then prerr ,(x)
 
 (* ****** ****** *)
 
@@ -75,9 +74,12 @@ staload "pats_trans2.sats"
 
 (* ****** ****** *)
 
+#define :: list_cons
 #define l2l list_of_list_vt
 
 (* ****** ****** *)
+
+#define THISFILENAME "pats_trans2_staexp2.dats"
 
 fn prerr_error2_loc
   (loc: location): void = (
@@ -110,21 +112,22 @@ end // end of [staspecid_of_qid]
 
 fn effvar_tr
   (efv: effvar): s2exp = let
+  val loc = efv.i0de_loc
   val sym = efv.i0de_sym
-  val ans = the_s2expenv_find (efv.i0de_sym)
+  val ans = the_s2expenv_find (sym)
 in
 //
 case+ ans of
 | ~Some_vt s2i => begin case+ s2i of
   | S2ITMvar s2v => let
-      val () = s2var_check_tmplev (efv.i0de_loc, s2v)
+      val () = s2var_check_tmplev (loc, s2v)
     in
       s2exp_var (s2v)
     end // end of [S2ITEMvar]
   | _ => s2exp_err (s2t_err) where {
       val s2t_err = s2rt_err ()
-      val () = prerr_error2_loc (efv.i0de_loc)
-      val () = prerr_ifdebug ": effvar_tr" // for debugging
+      val () = prerr_error2_loc (loc)
+      val () = filprerr_ifdebug "effvar_tr"
       val () = prerr ": the static identifer ["
       val () = $SYM.prerr_symbol (sym)
       val () = prerr "] should refer to a variable but it does not."
@@ -133,8 +136,8 @@ case+ ans of
   end // end of [Some_vt]
 | ~None_vt () => s2exp_err (s2t_err) where {
     val s2t_err = s2rt_err ()
-    val () = prerr_error2_loc (efv.i0de_loc)
-    val () = prerr_ifdebug ": effvar_tr" // for debugging
+    val () = prerr_error2_loc (loc)
+    val () = filprerr_ifdebug ("effvar_tr")
     val () = prerr ": unrecognized static identifer ["
     val () = $SYM.prerr_symbol (sym)
     val () = prerr "]."
@@ -177,6 +180,87 @@ in
     end // end of [_ when s2v_tmplev > 0]
   | _ => () // not a template variable
 end // end of [s2var_tmplev_check]
+
+(* ****** ****** *)
+
+implement
+s1arg_trup (s1a) = let
+  val s2t = (case+ s1a.s1arg_srt of
+    | Some s1t => s1rt_tr (s1t)
+    | None () => S2RTVar (s2rtVar_make (s1a.s1arg_loc))
+  ) : s2rt // end of [val]
+in
+  s2var_make_id_srt (s1a.s1arg_sym, s2t)
+end // end of [s1arg_trup]
+
+implement
+s1arglst_trup (s1as) = l2l (list_map_fun (s1as, s1arg_trup))
+
+implement
+s1arglst_trdn_err
+  (s1as, s2ts, err) = let
+//
+fun auxerr (
+  s1a: s1arg, s2t: s2rt, s2t0: s2rt
+) : void = {
+  val () = prerr_error2_loc (s1a.s1arg_loc)
+  val () = filprerr_ifdebug "s1arglst_trdn_err"
+  val () = prerr ": the argument is assigned the sort ["
+  val () = prerr_s2rt (s2t)
+  val () = prerr "] but it is expected to be applied to a static term of the sort ["
+  val () = prerr_s2rt (s2t0)
+  val () = prerr "]."
+  val () = prerr_newline ()
+} (* end of [auxerr] *)
+//
+fun auxarg (
+  s1a: s1arg, s2t0: s2rt
+) : s2var =
+  case+ s1a.s1arg_srt of
+  | Some s1t => let
+      val s2t = s1rt_tr (s1t)
+      val okay = s2rt_ltmat1 (s2t0, s2t)
+      val () = if ~okay then auxerr (s1a, s2t, s2t0)
+    in
+      s2var_make_id_srt (s1a.s1arg_sym, s2t)
+    end // end of [Some]
+  | None () => s2var_make_id_srt (s1a.s1arg_sym, s2t0)
+(* end of [auxarg] *)
+in
+//
+case+ (s1as, s2ts) of
+| (s1a :: s1as, s2t :: s2ts) => let
+    val s2v = auxarg (s1a, s2t)
+    val s2vs = s1arglst_trdn_err (s1as, s2ts, err)
+  in
+    list_cons (s2v, s2vs)
+  end
+| (list_nil _, list_nil _) => list_nil
+| (list_cons _, list_nil _) => (err := err + 1; list_nil)
+| (list_nil _, list_cons _) => (err := err - 1; list_nil)
+//
+end // end of [s1arglst_trdn_err]
+
+implement
+s1marg_trdn (s1ma, s2ts) = let
+//
+fn auxerr (
+  loc: location, err: int
+) : void = {
+  val () = prerr_error2_loc (loc)
+  val () = filprerr_ifdebug "s1marg_trdn"
+  val () = prerr ": the static function needs "
+  val () = prerr_string (if err > 0 then "less" else "more")
+  val () = prerr " arguments."
+  val () = prerr_newline ()
+} // end of [auxerr]
+//
+  var err: int = 0
+  val s2vs = s1arglst_trdn_err (s1ma.s1marg_arg, s2ts, err)
+  val () = if err > 0 then auxerr (s1ma.s1marg_loc, err)
+in
+  s2vs
+end // end of [s1marg_trdn]
 
 (* ****** ****** *)
 
@@ -228,7 +312,7 @@ case+ ans of
     val s2t_err = s2rt_err ()
     val () = the_tran2errlst_add (T2E_s1exp_qid (s1e0))
     val () = prerr_error2_loc (loc0)
-    val () = prerr_ifdebug ": s1exp_trup_qid"
+    val () = filprerr_ifdebug "s1exp_trup_qid"
     val () = prerr ": the static identifier ["
     val () = ($SYN.prerr_s0taq q; $SYM.prerr_symbol id)
     val () = prerr "] is unrecognized."
@@ -252,10 +336,10 @@ in
   if test
     then s2e else let
     val () = prerr_error2_loc (x.0)
-    val () = prerr_ifdebug ": s1exp_app_wind"
-    val () = prerr ": the static expression is of sort ["
+    val () = filprerr_ifdebug "s1exp_app_wind"
+    val () = prerr ": the static expression is of the sort ["
     val () = prerr_s2rt (s2e.s2exp_srt)
-    val () = prerr "] but it is expectecd to be of sort ["
+    val () = prerr "] but it is expectecd to be of the sort ["
     val () = prerr_s2rt (s2t)
     val () = prerr "]."
     val () = prerr_newline ()
@@ -367,7 +451,7 @@ case+ s1e0.s1exp_node of
   | _ => s2exp_err (s2t_err) where {
       val s2t_err = s2rt_err ()
       val () = prerr_error2_loc (s1e1.s1exp_loc)
-      val () = prerr_ifdebug ": s1exp_trup_arg" // for debugging
+      val () = filprerr_ifdebug "s1exp_trup_arg" // for debugging
       val () = prerr ": a refval-type must begin with !(call-by-value) or &(call-by-reference)"
       val () = prerr_newline ()
     } // end of [_]
@@ -453,7 +537,7 @@ fun auxerr (
       prval () = fold@ (xs)
       val () = list_vt_free (xs)
       val () = prerr_error2_loc (loc0)
-      val () = prerr_ifdebug ": s1exp_trup_arrow"
+      val () = filprerr_ifdebug "s1exp_trup_arrow"
       val () = prerr ": illegal static application."
     in
       // nothing
@@ -502,7 +586,7 @@ fun auxerr (
             else let
               val s2t_err = s2rt_err ()
               val () = prerr_error2_loc (s1e.s1exp_loc)
-              val () = prerr_ifdebug  ": s1exp_trup_arrow"
+              val () = filprerr_ifdebug  "s1exp_trup_arrow"
               val () = prerr ": the static expression needs to be impredicative"
               val () = prerr " but it is assigned the sort ["
               val () = prerr_s2rt (s2t)
@@ -547,6 +631,29 @@ fn s1exp_trup_app (
 , _fun: s2exp, _arg: List_vt (locs1explst)
 ) : s2exp = let
 //
+fun auxerr1 (
+  loc: location, err: int
+) : void = {
+  val () = prerr_error2_loc (loc)
+  val () = filprerr_ifdebug "s1exp_trup_app"
+  val () = prerr ": the static application needs "
+  val () = prerr_string (if err > 0 then "less" else "more")
+  val () = prerr " arguments."
+  val () = prerr_newline ()
+} // end of [auxerr1]
+fun auxerr2 (
+  loc: location, s2e: s2exp
+) : void = {
+  val () = prerr_error2_loc (loc)
+  val () = filprerr_ifdebug "s1exp_trup_app"
+  val () = prerr ": the static expresstion ["
+  val () = prerr_s2exp (s2e)
+  val () = prerr "] is expected to be of a functional sort but it is assigned the sort [";
+  val () = prerr_s2rt (s2e.s2exp_srt)
+  val () = prerr "]."
+  val () = prerr_newline ()
+} // end of [auxerr2]
+//
 fun loop (
   s2e_fun: s2exp, xs: List_vt (locs1explst)
 ) :<cloref1> s2exp = begin
@@ -565,31 +672,16 @@ fun loop (
           in
             loop (s2e_fun, xs)
           end // end of [_ when err = 0]
-        | _ => s2exp_err (s2t_res) where {
+        | _ => let
             val () = list_vt_free (xs)
-//
-            val loc_app = loc_fun + x.0
-            val () = prerr_error2_loc (loc_app)
-            val () = prerr_ifdebug ": s1exp_trup_app"
-            val () = prerr ": the static application needs "
-            val () = prerr_string (if err > 0 then "less" else "more")
-            val () = prerr " arguments."
-            val () = prerr_newline ()
-//
-          } // end of [_ when err != 0]
+            val () = auxerr1 (loc_fun + x.0, err)
+          in
+            s2exp_err (s2t_res)
+          end // end of [_ when err != 0]
         // end of [case]
       end else let
         val () = list_vt_free (xs)
-//
-        val () = prerr_error2_loc (loc_fun)
-        val () = prerr_ifdebug ": s1exp_trup_app"
-        val () = prerr ": the static expresstion ["
-        val () = prerr_s2exp (s2e_fun)
-        val () = prerr "] is expected to be of a functional sort but it is assigned the sort [";
-        val () = prerr_s2rt (s2t_fun)
-        val () = prerr "]."
-        val () = prerr_newline ()
-//
+        val () = auxerr2 (loc_fun, s2e_fun)
       in
         s2exp_err (s2t_fun)
       end // end of [if]
@@ -629,8 +721,8 @@ case+ spsid of
     | ~None_vt () => s2exp_err (s2t_err) where {
         val s2t_err = s2rt_err ()
         val () = list_vt_free (xs)
-        val () = prerr_error2_loc (s1e0.s1exp_loc)
-        val () = prerr_ifdebug ": s1exp_trup_app_qid"
+        val () = prerr_error2_loc (s1opr.s1exp_loc)
+        val () = filprerr_ifdebug "s1exp_trup_app_qid"
         val () = prerr ": unrecognized static identifier ["
         val () = ($SYN.prerr_s0taq q; $SYM.prerr_symbol id)
         val () = prerr "]."
@@ -665,10 +757,10 @@ case+ s2i of
         list_map_fun<s1exp> (x.1, lam s1e =<1> (s1e.s1exp_loc, s1exp_trup s1e))
       ) // end of [f]
     in
-      list_map_fun<T1><T2> (castvwtp1 {List(T1)} xs, f)
+      list_map_fun<T1><T2> (castvwtp1 {List(T1)} (xs), f)
     end // end of [val]
     val () = list_vt_free (xs)
-    val s2cs = s2cst_select_locs2explstlst (s2cs, castvwtp1 {List(T2)} ys)
+    val s2cs = s2cst_select_locs2explstlst (s2cs, castvwtp1 {List(T2)} (ys))
   in
     case+ s2cs of
     | list_cons (s2c, _) =>
@@ -678,7 +770,7 @@ case+ s2i of
         val s2t_err = s2rt_err ()
         val () = list_vt_free<T2> (ys)
         val () = prerr_error2_loc (s1e0.s1exp_loc)
-        val () = prerr_ifdebug ": s1exp_trup_app_qid"
+        val () = filprerr_ifdebug "s1exp_trup_app_qid"
         val () = prerr ": none of the static constants referred to by ["
         val () = ($SYN.prerr_s0taq q; $SYM.prerr_symbol id)
         val () = prerr "] is applicable."
@@ -708,11 +800,11 @@ end // end of [s1exp_trup_app_qid_itm]
 
 implement
 s1exp_trup (s1e0) = let
-(*
-  val () = begin
-    print "s1exp_trup: s1e0 = "; print s1e0; print_newline ()
-  end // end of [val]
-*)
+// (*
+  val () = (
+    print "s1exp_trup: s1e0 = "; print_s1exp (s1e0); print_newline ()
+  ) // end of [val]
+// *)
   val loc0 = s1e0.s1exp_loc
 in
 //
@@ -743,6 +835,24 @@ case+ s1e0.s1exp_node of
         s1exp_trup_app (lopr, s2opr, xs)
       end // end of [_]
   end (* end of [S1Eapp] *)
+| S1Elam (s1ma, s1topt, s1e_body) => let
+    val s2vs = s1arglst_trup (s1ma.s1marg_arg)
+    val (pfenv | ()) = the_s2expenv_push_nil ()
+    val () = the_s2expenv_add_svarlst (s2vs)
+    val s2e_body = (case+ s1topt of
+      | Some s1t => let
+          val s2t = s1rt_tr (s1t) in s1exp_trdn (s1e_body, s2t)
+        end
+      | None () => s1exp_trup (s1e_body)
+    ) : s2exp // end of [val]
+    val () = the_s2expenv_pop_free (pfenv | (*none*))  
+  in
+    s2exp_lam (s2vs, s2e_body)
+  end // end of [S1Elam]
+//
+| S1Eann (s1e, s1t) => let
+    val s2t = s1rt_tr (s1t) in s1exp_trdn (s1e, s2t)
+  end // end of [S1Eann]
 //
 | _ => let
     val () = prerr_interror_loc (loc0)
@@ -758,9 +868,54 @@ end // end of [s1exp_trup]
 (* ****** ****** *)
 
 implement
-s1explst_trup (s1es) = l2l (list_map_fun (s1es, s1exp_trup))
+s1explst_trup
+  (s1es) = l2l (list_map_fun (s1es, s1exp_trup))
+// end of [s1explst_trup]
 
 (* ****** ****** *)
+
+fn s1exp_trdn_lam (
+  s1e_lam: s1exp, s2t_fun: s2rt
+) : s2exp = let
+//
+fn auxerr (
+  s1e: s1exp, s2t1: s2rt, s2t2: s2rt
+) : void = {
+  val () = prerr_error2_loc (s1e.s1exp_loc)
+  val () = filprerr_ifdebug "s1exp_trdn_lam"
+  val () = prerr ": the body of the static function is given the sort ["
+  val () = prerr_s2rt (s2t1)
+  val () = prerr "] but it is expected to be of the sort ["
+  val () = prerr_s2rt (s2t2)
+  val () = prerr "]."
+  val () = prerr_newline ()
+} // end of [auxerr]
+//
+  val- S1Elam (
+    s1ma, s1topt_res, s1e_body
+  ) = s1e_lam.s1exp_node
+  val- S2RTfun (s2ts_arg, s2t_res) = s2t_fun
+//
+  var err: int = 0
+  val s2vs = s1marg_trdn (s1ma, s2ts_arg)
+//
+  val s2t_res = (case+ s1topt_res of
+    | Some s1t => s2t where {
+        val s2t = s1rt_tr (s1t)
+        val okay = s2rt_ltmat1 (s2t, s2t_res)
+        val () = if ~okay then auxerr (s1e_lam, s2t, s2t_res)
+      } // end of [Some]
+    | None () => s2t_res
+  ) : s2rt // end of [val]
+//
+  val (pfenv | ()) = the_s2expenv_push_nil ()
+  val () = the_s2expenv_add_svarlst (s2vs)
+  val s2e_body = s1exp_trdn (s1e_body, s2t_res)
+  val () = the_s2expenv_pop_free (pfenv | (*none*))  
+//
+in
+  s2exp_lam_srt (s2t_fun, s2vs, s2e_body)
+end // end of [s2exp_trdn_lam]
 
 implement
 s2exp_trdn
@@ -770,10 +925,10 @@ s2exp_trdn
 in
   if test then s2e else let
     val () = prerr_error2_loc (loc0)
-    val () = prerr_ifdebug ": s2exp_trdn" // for debugging
-    val () = prerr ": the static expression is of sort ["
+    val () = filprerr_ifdebug "s2exp_trdn" // for debugging
+    val () = prerr ": the static expression is of the sort ["
     val () = prerr_s2rt (s2t_new)
-    val () = prerr "] but it is expectecd to be of sort ["
+    val () = prerr "] but it is expectecd to be of the sort ["
     val () = prerr_s2rt (s2t)
     val () = prerr "]."
     val () = prerr_newline ()
@@ -783,12 +938,15 @@ in
 end // end of [s2exp_trdn]
 
 implement
-s1exp_trdn
-  (s1e, s2t) = let
-  val s2e = s1exp_trup (s1e)
-in
-  s2exp_trdn (s1e.s1exp_loc, s2e, s2t)
-end // end of [s1exp_trdn]
+s1exp_trdn (s1e, s2t) =
+  case+ (s1e.s1exp_node, s2t) of
+  | (S1Elam _, S2RTfun _) => s1exp_trdn_lam (s1e, s2t)
+  | (_, _) => let
+      val s2e = s1exp_trup (s1e)
+    in
+      s2exp_trdn (s1e.s1exp_loc, s2e, s2t)
+    end (* end of [_] *)
+// end of [s1exp_trdn]
 
 (* ****** ****** *)
 
@@ -803,7 +961,7 @@ s1exp_trdn_impredicative (s1e) = let
 in
   if s2rt_is_impredicative s2t then s2e else let
     val () = prerr_error2_loc (s1e.s1exp_loc)
-    val () = prerr_ifdebug ": s1exp_trdn_impredicative"
+    val () = filprerr_ifdebug "s1exp_trdn_impredicative"
     val () = prerr ": the static expression needs to be impredicative"
     val () = prerr " but it is assigned the sort ["
     val () = prerr_s2rt (s2t)
@@ -984,7 +1142,7 @@ case+ s1te0.s1rtext_node of
           val () = the_tran2errlst_add (T2E_s1rtext_qid (q, id))
 //
           val () = prerr_error2_loc (s1t.s1rt_loc)
-          val () = prerr_ifdebug (": s1rtext_tr") // for debugging
+          val () = filprerr_ifdebug "s1rtext_tr" // for debugging
           val () = prerr ": the identifier [";
           val () = ($SYN.prerr_s0rtq (q); $SYM.prerr_symbol (id))
           val () = prerr "] refers to an unrecognized sort.";

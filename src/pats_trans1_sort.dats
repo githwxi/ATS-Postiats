@@ -262,7 +262,12 @@ implement
 s0arglst_tr (xs) =  l2l (list_map_fun (xs, s0arg_tr))
 
 implement
-s0marg_tr (x) = s0arglst_tr (x.s0marg_arg)
+s0marg_tr (x) = let
+  val loc = x.s0marg_loc
+  val arg = s0arglst_tr (x.s0marg_arg)
+in
+  s1marg_make (loc, arg)
+end // end of [s0marg_tr]
 
 implement
 s0marglst_tr (xss) = l2l (list_map_fun (xss, s0marg_tr))

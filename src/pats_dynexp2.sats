@@ -102,7 +102,9 @@ and p2atopt = Option (p2at)
 datatype
 d2ecl_node =
   | D2Cnone of () // for something already erased
-  | D2Clist of d2eclist
+  | D2Clist of d2eclist // for list of declarations
+  | D2Cstavars of s2tavarlst // for [stavar] declarations
+  | D2Csaspdec of s2aspdec (* for static assumption *)
 // end of [d2ecl_node]
 
 and
@@ -125,8 +127,39 @@ and d2explst = List (d2exp)
 
 (* ****** ****** *)
 
+and s2tavar = '{
+  s2tavar_loc= location, s2tavar_var= s2var
+}
+and s2tavarlst = List s2tavar
+
+(* ****** ****** *)
+
+and s2aspdec = '{
+  s2aspdec_loc= location
+, s2aspdec_cst= s2cst
+, s2aspdec_def= s2exp
+} // end of [s2aspdec]
+
+(* ****** ****** *)
+
+fun s2tavar_make
+  (loc: location, s2v: s2var): s2tavar
+// end of [s2tavar_make]
+
+(* ****** ****** *)
+
+fun s2aspdec_make (
+  loc: location, s2c: s2cst, def: s2exp
+) : s2aspdec // end of [s2aspdec_make]
+
+(* ****** ****** *)
+
 fun d2ecl_none (loc: location): d2ecl
 fun d2ecl_list (loc: location, xs: d2eclist): d2ecl
+
+fun d2ecl_stavars (loc: location, xs: s2tavarlst): d2ecl
+
+fun d2ecl_saspdec (loc: location, dec: s2aspdec): d2ecl
 
 (* ****** ****** *)
 

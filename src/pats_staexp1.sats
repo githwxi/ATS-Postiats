@@ -315,6 +315,17 @@ fun fprint_s1arglst : fprint_type (s1arglst)
 
 (* ****** ****** *)
 
+typedef s1marg = '{
+  s1marg_loc= location, s1marg_arg= s1arglst
+}
+typedef s1marglst = List (s1marg)
+
+fun s1marg_make (loc: location, s1as: s1arglst): s1marg
+
+fun fprint_s1marg : fprint_type (s1marg)
+
+(* ****** ****** *)
+
 typedef s1var = '{
   s1var_loc= location, s1var_sym= symbol, s1var_srt= s1rt
 }
@@ -379,7 +390,7 @@ datatype s1exp_node =
   | S1Esqid of (s0taq, symbol) // qualified static identifer
 //
   | S1Eapp of (s1exp, location(*arg*), s1explst) // application
-  | S1Elam of (s1arglst, s1rtopt, s1exp(*body*)) // lambda-abstraction
+  | S1Elam of (s1marg, s1rtopt, s1exp(*body*)) // lambda-abstraction
   | S1Eimp of (funclo, int (*lin*), int (*prf*), effcstopt)
 //
   | S1Elist of (int(*npf*), s1explst)
@@ -466,7 +477,7 @@ fun s1exp_app (
   loc: location, _fun: s1exp, loc_arg: location, _arg: s1explst
 ) : s1exp // end of [s1exp_app]
 fun s1exp_lam (
-  loc: location, arg: s1arglst, res: s1rtopt, body: s1exp
+  loc: location, arg: s1marg, res: s1rtopt, body: s1exp
 ) : s1exp // end of [s1exp_lam]
 fun s1exp_imp (
   loc: location, fc: funclo, lin: int, prf: int, efc: effcstopt
@@ -660,7 +671,7 @@ fun fprint_s1tavar : fprint_type (s1tavar)
 typedef s1expdef = '{
   s1expdef_loc= location
 , s1expdef_sym= symbol
-, s1expdef_arg= s1arglstlst
+, s1expdef_arg= s1marglst
 , s1expdef_res= s1rtopt
 , s1expdef_def= s1exp
 } // end of [s1expdef]
@@ -669,7 +680,7 @@ typedef s1expdeflst = List s1expdef
 
 fun s1expdef_make (
   loc: location
-, sym: symbol, arg: s1arglstlst, res: s1rtopt, def: s1exp
+, sym: symbol, arg: s1marglst, res: s1rtopt, def: s1exp
 ) : s1expdef // end of [s1expdef_make]
 
 fun fprint_s1expdef : fprint_type (s1expdef)
@@ -679,7 +690,7 @@ fun fprint_s1expdef : fprint_type (s1expdef)
 typedef s1aspdec = '{
   s1aspdec_loc= location
 , s1aspdec_qid= sqi0de
-, s1aspdec_arg= s1arglstlst
+, s1aspdec_arg= s1marglst
 , s1aspdec_res= s1rtopt
 , s1aspdec_def= s1exp
 } // end of [s1aspdec]
@@ -688,7 +699,7 @@ typedef s1aspdeclst = List s1aspdec
 
 fun s1aspdec_make (
   loc: location
-, qid: sqi0de, arg: s1arglstlst, res: s1rtopt, def: s1exp
+, qid: sqi0de, arg: s1marglst, res: s1rtopt, def: s1exp
 ) : s1aspdec // end of [s1aspdec_make]
 
 fun fprint_s1aspdec : fprint_type (s1aspdec)

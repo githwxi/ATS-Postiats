@@ -142,15 +142,20 @@ fun eq_funclo_funclo (fc1: funclo, fc2: funclo): bool
 overload = with eq_funclo_funclo
 
 (* ****** ****** *)
+//
+// HX: implemented in pats_basics.dats
+//
+fun debug_flag_get (): int = "atsopt_debug_flag_get"
+fun debug_flag_set (i: int): void = "atsopt_debug_flag_set"
 
-fun debug_flag_get (): int
-fun debug_flag_set (i: int): void
+fun prerrf_ifdebug {ts:types}
+  (fmt: printf_c ts, arg: ts): void = "atsopt_prerrf_ifdebug"
+// end of [prerrf_ifdebug]
 
-(*
-fun debug_prerrf {ts:types}
-  (fmt: printf_c ts, arg: ts): void = "atsopt_debug_prerrf"
-// end of [debug_prerrf]
-*)
+macdef
+filprerr_ifdebug (x) =
+  prerrf_ifdebug (": [%s]: %s", @(#FILENAME, ,(x)))
+// end of [filprerr_ifdebug]
 
 (* ****** ****** *)
 

@@ -273,6 +273,11 @@ s1arg_make (loc, sym, res) = '{
   s1arg_loc= loc, s1arg_sym= sym, s1arg_srt= res
 }
 
+implement
+s1marg_make (loc, s1as) = '{
+  s1marg_loc= loc, s1marg_arg= s1as
+}
+
 (* ****** ****** *)
 
 implement

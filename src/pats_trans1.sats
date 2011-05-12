@@ -77,8 +77,8 @@ fun s0rtopt_tr (_: s0rtopt): s1rtopt
 
 fun s0arg_tr (x: s0arg): s1arg
 fun s0arglst_tr (x: s0arglst): s1arglst
-fun s0marg_tr (xs: s0marg): s1arglst
-fun s0marglst_tr (xss: s0marglst): s1arglstlst
+fun s0marg_tr (xs: s0marg): s1marg
+fun s0marglst_tr (xss: s0marglst): s1marglst
 
 (* ****** ****** *)
 
