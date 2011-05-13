@@ -48,6 +48,9 @@ staload ERR = "pats_error.sats"
 staload SYM = "pats_symbol.sats"
 macdef EQEQ = $SYM.symbol_EQEQ
 overload = with $SYM.eq_symbol_symbol
+staload SYN = "pats_syntax.sats"
+typedef i0de = $SYN.i0de
+typedef s0taq = $SYN.s0taq
 
 (* ****** ****** *)
 
@@ -527,30 +530,7 @@ s1aspdec_tr (
   d1c: s1aspdec
 ) : s2aspdec_vt = let
 //
-typedef s0taq = $SYN.s0taq
-//
 fn auxerr1 (
-  loc: location
-, q: s0taq, id: symbol
-, s2t_s2c: s2rt
-, s2t_s2e: s2rt
-) : s2aspdec_vt = let
-  val () = prerr_error2_loc (loc)
-  val () = filprerr_ifdebug ": s1aspdec_tr"
-  val () = prerr ": sort mismatch"
-  val () = prerr ": the sort of the static constant ["
-  val () = ($SYN.prerr_s0taq (q); $SYM.prerr_symbol id)
-  val () = prerr "] is ["
-  val () = prerr_s2rt (s2t_s2c)
-  val () = prerr "] while the sort of its definition is ["
-  val () = prerr_s2rt (s2t_s2e)
-  val () = prerr "]."
-  val () = prerr_newline ()
-in
-  None_vt ()
-end // end of [auxerr1]
-//
-fn auxerr2 (
   loc: location
 , q: s0taq, id: symbol
 ) : s2aspdec_vt = let
@@ -562,22 +542,9 @@ fn auxerr2 (
   val () = prerr_newline ()
 in
   None_vt ()
-end // end of [auxerr2]
+end // end of [auxerr1]
 //
-fn auxerr3 (
-  loc: location, q: s0taq, id: symbol
-) : s2aspdec_vt = let
-  val () = prerr_error2_loc (loc)
-  val () = filprerr_ifdebug ("s1aspdec_tr")
-  val () = prerr ": the static constant referred to by ["
-  val () = ($SYN.prerr_s0taq q; $SYM.prerr_symbol id)
-  val () = prerr "] cannot be uniquely resolved."
-  val () = prerr_newline ()
-in
-  None_vt ()
-end // end of [auxerr3]
-//
-fn auxerr4 (
+fn auxerr2 (
   loc: location, q: s0taq, id: symbol
 ) : s2aspdec_vt = let
   val () = prerr_error2_loc (loc)
@@ -588,9 +555,9 @@ fn auxerr4 (
   val () = prerr_newline ()
 in
   None_vt ()
-end // end of [auxerr4]
+end // end of [auxerr2]
 //
-fn auxerr5 (
+fn auxerr3 (
   loc: location, q: s0taq, id: symbol
 ) : s2aspdec_vt = let
   val () = prerr_error2_loc (loc)
@@ -600,7 +567,7 @@ fn auxerr5 (
   val () = prerr_newline ()
 in
   None_vt ()
-end // end of [auxerr5]
+end // end of [auxerr3]
 //
   val loc = d1c.s1aspdec_loc
   val qid = d1c.s1aspdec_qid
@@ -630,12 +597,39 @@ case+ ans of
         in
           Some_vt (s2aspdec_make (loc, s2c, s2e_def))
         end
-      | ~list_vt_nil () => auxerr2 (loc, q, id)
+      | ~list_vt_nil () => auxerr1 (loc, q, id)
       end // end of [S2ITEMcst]
-    | _ => auxerr4 (loc, q, id)
+    | _ => auxerr2 (loc, q, id)
     end // end of [Some_vt]
-  | ~None_vt () => auxerr5 (loc, q, id)
+  | ~None_vt () => auxerr3 (loc, q, id)
 end // end of [s1aspdec_tr]
+
+(* ****** ****** *)
+
+fn c1lassdec_tr (
+  id: i0de, sup: s1expopt
+) : void = () where {
+  val s2c = s2cst_make (
+      id.i0de_sym // sym
+    , id.i0de_loc // location
+    , s2rt_cls // srt
+    , None () // isabs
+    , false // iscon
+    , false // isrec
+    , false // isasp
+    , None () // islst
+    , list_nil () // argvar
+    , None () // def
+  ) // end of [s2cst_make]
+  val () = case+ sup of
+    | Some s1e => {
+        val s2e = s1exp_trdn (s1e, s2rt_cls)
+        val () = s2cst_add_supcls (s2c, s2e)
+      } // end of [Some]
+    | None () => ()
+  // end of [val]
+  val () = the_s2expenv_add_scst s2c
+} // end of [c1lassdec_tr]
 
 (* ****** ****** *)
 
@@ -681,6 +675,21 @@ case+ d1c0.d1ecl_node of
     case+ s1aspdec_tr (d1c) of
     | ~Some_vt d2c => d2ecl_saspdec (loc0, d2c) | ~None_vt () => d2ecl_none (loc0)
   ) // end of [D1Csaspdec]
+| D1Cclassdec (id, sup) => let
+    val () = c1lassdec_tr (id, sup) in d2ecl_none (loc0)
+  end // end of [D1Cclassdec]
+| D1Cextype (name, s1e_def) => let
+    val s2e_def = s1exp_trdn_impredicative (s1e_def)
+  in
+    d2ecl_extype (loc0, name, s2e_def)
+  end // end of [D1Cextype]
+| D1Cextype (knd, name, s1e_def) => let
+    val s2t_def = s2rt_impredicative (knd)
+    val s2e_def = s1exp_trdn (s1e_def, s2t_def)
+  in
+    d2ecl_extype (loc0, name, s2e_def)
+  end // end of [D1Cextype]
+//
 | _ => let
     val () = $LOC.prerr_location (loc0)
     val () = prerr ": d1ecl_tr: not implemented: d1c0 = "

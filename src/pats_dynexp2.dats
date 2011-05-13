@@ -70,6 +70,11 @@ d2ecl_saspdec (loc, d) = '{
   d2ecl_loc= loc, d2ecl_node= D2Csaspdec (d)
 }
 
+implement
+d2ecl_extype (loc, name, def) = '{
+  d2ecl_loc= loc, d2ecl_node= D2Cextype (name, def)
+}
+
 (* ****** ****** *)
 
 (* end of [pats_dynexp2.dats] *)

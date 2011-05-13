@@ -2489,12 +2489,34 @@ in '{
 implement
 d0ecl_extype
   (tok, name, s0e) = let
+  val- T_EXTYPE () = tok.token_node
+  val- T_STRING (name) = name.token_node
+  val loc = tok.token_loc + s0e.s0exp_loc
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cextype (name, s0e)
+} end // end of [d0ecl_extype]
+
+implement
+d0ecl_extype2
+  (tok, name, s0e) = let
   val- T_TYPEDEF (knd) = tok.token_node
   val- T_STRING (name) = name.token_node
   val loc = tok.token_loc + s0e.s0exp_loc
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cextype (knd, name, s0e)
-} end // end of [d0ecl_extcode]
+} end // end of [d0ecl_extype]
+
+(* ****** ****** *)
+
+implement
+d0ecl_extval
+  (tok, name, d0e) = let
+  val- T_EXTVAL () = tok.token_node
+  val- T_STRING (name) = name.token_node
+  val loc = tok.token_loc + d0e.d0exp_loc
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cextval (name, d0e)
+} end // end of [d0ecl_extval]
 
 (* ****** ****** *)
 

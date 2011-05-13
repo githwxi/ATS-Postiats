@@ -61,15 +61,15 @@ staload "pats_staexp2.sats"
 
 abstype s2cstlst_t // = s2cstlst
 extern
-castfn s2cstlst_encode (x: s2cstlst): s2cstlst_t
+castfn s2cstlst_encode (x: s2cstlst):<> s2cstlst_t
 extern
-castfn s2cstlst_decode (x: s2cstlst_t): s2cstlst
+castfn s2cstlst_decode (x: s2cstlst_t):<> s2cstlst
 
 abstype s2cstopt_t // = s2cstopt
 extern
-castfn s2cstopt_encode (x: s2cstopt): s2cstopt_t
+castfn s2cstopt_encode (x: s2cstopt):<> s2cstopt_t
 extern
-castfn s2cstopt_decode (x: s2cstopt_t): s2cstopt
+castfn s2cstopt_decode (x: s2cstopt_t):<> s2cstopt
 
 (* ****** ****** *)
 
@@ -176,6 +176,37 @@ implement
 s2cst_get_isabs (s2c) = let
   val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_isabs
 end // end of [s2cst_get_isabs]
+
+implement
+s2cst_get_argvar (s2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_argvar
+end // end of [s2cst_get_argvar]
+
+implement
+s2cst_get_sup (s2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c)
+in
+  s2cstlst_decode (p->s2cst_sup)
+end // end of [s2cst_sup_get]
+implement
+s2cst_add_sup (s2c, sup) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c)
+  val sups = s2cstlst_decode (p->s2cst_sup)
+  val sups = s2cstlst_encode (list_cons (sup, sups))
+in
+  p->s2cst_sup := sups
+end // end of [s2cst_sup_add]
+
+implement
+s2cst_get_supcls (s2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_supcls
+end // end of [s2cst_get_supcls]
+implement
+s2cst_add_supcls (s2c, sup) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c)
+in
+  p->s2cst_supcls := list_cons (sup, p->s2cst_supcls)
+end // end of [s2cst_supcls_add]
 
 implement
 s2cst_get_tag (s2c) = let

@@ -357,6 +357,8 @@ val () = ins ("else", T_ELSE)
 val () = ins ("end", T_END)
 val () = ins ("exception", T_EXCEPTION)
 val () = ins ("extern", T_EXTERN)
+val () = ins ("extype", T_EXTYPE)
+val () = ins ("extval", T_EXTVAL)
 //
 (*
 val () = ins ("for", FOR)

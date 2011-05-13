@@ -355,9 +355,14 @@ fun s2cst_get_islst (x: s2cst): Option @(d2con, d2con)
 fun s2cst_set_islst (x: s2cst, lst: Option @(d2con, d2con)): void
 
 fun s2cst_get_arilst (x: s2cst): List int // arity list
-fun s2cst_get_argvar (x: s2cst): Option (List @(symbolopt, s2rt, int))
+fun s2cst_get_argvar (x: s2cst): List (syms2rtlst) // arg variance list
 fun s2cst_get_conlst (x: s2cst): Option d2conlst
 fun s2cst_set_conlst (x: s2cst, lst: Option d2conlst): void
+
+fun s2cst_get_sup (x: s2cst): s2cstlst
+fun s2cst_add_sup (x: s2cst, sup: s2cst): void
+fun s2cst_get_supcls (x: s2cst): s2explst
+fun s2cst_add_supcls (x: s2cst, sup: s2exp): void
 
 fun s2cst_get_tag (x: s2cst): int
 fun s2cst_set_tag (x: s2cst, tag: int): void

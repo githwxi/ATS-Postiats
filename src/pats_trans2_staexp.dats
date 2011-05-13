@@ -953,6 +953,9 @@ s1exp_trdn (s1e, s2t) =
 implement
 s1exp_trdn_bool (s1e) = s1exp_trdn (s1e, s2rt_bool)
 
+implement
+s1exp_trdn_viewt0ype (s1e) = s1exp_trdn (s1e, s2rt_viewt0ype)
+
 (* ****** ****** *)
 
 implement

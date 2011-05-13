@@ -105,6 +105,7 @@ d2ecl_node =
   | D2Clist of d2eclist // for list of declarations
   | D2Cstavars of s2tavarlst // for [stavar] declarations
   | D2Csaspdec of s2aspdec (* for static assumption *)
+  | D2Cextype of (string(*name*), s2exp(*def*))
 // end of [d2ecl_node]
 
 and
@@ -160,6 +161,8 @@ fun d2ecl_list (loc: location, xs: d2eclist): d2ecl
 fun d2ecl_stavars (loc: location, xs: s2tavarlst): d2ecl
 
 fun d2ecl_saspdec (loc: location, dec: s2aspdec): d2ecl
+
+fun d2ecl_extype (loc: location, name: string, def: s2exp): d2ecl
 
 (* ****** ****** *)
 

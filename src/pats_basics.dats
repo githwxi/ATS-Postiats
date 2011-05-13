@@ -42,6 +42,10 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
+implement VIEWT0YPE_knd = VIEWT0YPE_int
+
+(* ****** ****** *)
+
 implement
 test_boxkind (knd) = let
   val knd = uint_of (knd)

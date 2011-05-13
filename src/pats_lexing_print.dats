@@ -94,6 +94,8 @@ fprint_token
   | T_END () => fprintf (out, "END()", @())
   | T_EXCEPTION () => fprintf (out, "EXCEPTION()", @())
   | T_EXTERN () => fprintf (out, "EXTERN()", @())
+  | T_EXTYPE () => fprintf (out, "EXTYPE()", @())
+  | T_EXTVAL () => fprintf (out, "EXTVAL()", @())
   | T_FIX (x) => fprintf (out, "FIX(%i)", @(x))
   | T_FIXITY (x) => fprintf (out, "FIXITY(...)", @())
   | T_FOR (x) => fprintf (out, "FOR(%i)", @(x))

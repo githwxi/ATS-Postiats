@@ -178,7 +178,9 @@ s2cst_select_locs2explstlst (s2cs, xss) = let
   (* end of [filter] *)
 //
 in
-  filter (s2cs, xss)
+  if list_is_sing (s2cs)
+    then s2cs else filter (s2cs, xss)
+  // end of [if]
 end // end of [s2cst_select_locs2explstlst]
 
 (* ****** ****** *)

@@ -491,6 +491,23 @@ case+ d1c0.d1ecl_node of
     val () = prstr "\n)"
   }
 //
+| D1Cextype (knd, name, def) => {
+    val () = prstr "D1Cextype("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_string (out, name)
+    val () = prstr " = "
+    val () = fprint_s1exp (out, def)
+    val () = prstr ")"
+  }
+| D1Cextval (name, def) => {
+    val () = prstr "D1Cextval("
+    val () = fprint_string (out, name)
+    val () = prstr " = "
+    val () = fprint_d1exp (out, def)
+    val () = prstr ")"
+  }
+//
 | D1Cmacdefs (knd, isrec, ds) => {
     val () = prstr "D1macdef("
     val () = fprint_int (out, knd)

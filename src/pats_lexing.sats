@@ -113,6 +113,8 @@ token_node =
   | T_END of () // end
   | T_EXCEPTION of () // exception
   | T_EXTERN of () // extern
+  | T_EXTYPE of () // extype
+  | T_EXTVAL of () // extval
   | T_FIX of int // fix and fix@
   | T_FIXITY of fxtykind // infix, infixl, infixr, prefix, postfix
   | T_FOR of int // for and for*

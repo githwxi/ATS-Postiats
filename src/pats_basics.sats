@@ -43,6 +43,10 @@ fprint_type (a: t@ype) = (FILEref, a) -> void
 
 (* ****** ****** *)
 
+val VIEWT0YPE_knd : int // = VIEWT0YPE_int
+
+(* ****** ****** *)
+
 fun test_boxkind (knd: int): bool
 fun test_linkind (knd: int): bool
 fun test_prfkind (knd: int): bool

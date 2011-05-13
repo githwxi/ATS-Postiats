@@ -1375,7 +1375,7 @@ case+ tok.token_node of
           pseq3_fun {s0tring,token,s0exp} (buf, bt, err, p_s0tring, p_EQ, p_s0exp)
         // end of [val]
       in
-        if err = err0 then d0ecl_extype (tok2, ent1, ent3) else synent_null ()
+        if err = err0 then d0ecl_extype2 (tok2, ent1, ent3) else synent_null ()
       end
 //
     | _ => let
@@ -1383,6 +1383,24 @@ case+ tok.token_node of
       end
 //
   end // end of [T_EXTERN]
+| T_EXTYPE () => let
+    val () = incby1 ()
+    val ~SYNENT3 (ent1, ent2, ent3) =
+      pseq3_fun {s0tring,token,s0exp} (buf, bt, err, p_s0tring, p_EQ, p_s0exp)
+    // end of [val]
+  in
+    if err = err0 then d0ecl_extype (tok, ent1, ent3) else synent_null ()
+  end
+//
+| T_EXTVAL () => let
+    val () = incby1 ()
+    val ~SYNENT3 (ent1, ent2, ent3) =
+      pseq3_fun {s0tring,token,d0exp} (buf, bt, err, p_s0tring, p_EQ, p_d0exp)
+    // end of [val]
+  in
+    if err = err0 then d0ecl_extval (tok, ent1, ent3) else synent_null ()
+  end
+//
 | T_EXTCODE _ => let
     val () = incby1 () in d0ecl_extcode (1(*dyn*), tok)
   end

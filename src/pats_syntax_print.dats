@@ -1081,9 +1081,28 @@ case+ x.d0ecl_node of
     val () = fprint_s0expopt (out, sup)
     val () = prstr "\n)"
   }
-| D0Cextype _ => {
-    val () = prstr "D0Cextype(\n"
-    val () = prstr "..."
+| D0Cextype (name, s0e) => {
+    val () = prstr "D0Cextype("
+    val () = fprint_string (out, name)
+    val () = prstr " = "
+    val () = fprint_s0exp (out, s0e)
+    val () = prstr ")"
+  }
+| D0Cextype (knd, name, s0e) => {
+    val () = prstr "D0Cextype("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_string (out, name)
+    val () = prstr "; "
+    val () = fprint_s0exp (out, s0e)
+    val () = prstr ")"
+  }
+| D0Cextval (name, d0e) => {
+    val () = prstr "D0Cextval(\n"
+    val () = fprint_string (out, name)
+    val () = prstr " = "
+    val () = fprint_d0exp (out, d0e)
+    val () = prstr ")"
     val () = prstr "\n)"
   }
 | D0Cextcode (knd, pos, code) => {

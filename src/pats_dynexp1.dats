@@ -706,9 +706,20 @@ d1ecl_dcstdecs (loc, dck, qarg, ds) = '{
 
 implement
 d1ecl_extype
+  (loc, name, def) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cextype (name, def)
+} // end of [d1ecl_extype]
+implement
+d1ecl_extype2
   (loc, knd, name, def) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cextype (knd, name, def)
 } // end of [d1ecl_extype]
+
+implement
+d1ecl_extval
+  (loc, name, def) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cextval (name, def)
+} // end of [d1ecl_extval]
 
 implement
 d1ecl_extcode

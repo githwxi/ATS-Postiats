@@ -211,14 +211,15 @@ datatype d1ecl_node =
   | D1Cdcstdecs of (dcstkind, q1marglst, d1cstdeclst) // dyn constants
 //
   | D1Cextype of (* external type *)
-      (string (* extype name *), s1exp (* extype definition *))
-  | D1Cextval of (* external type *)
-      (string (* extval name *), d1exp (* extval definition *))
+      (string (*name*), s1exp (*definition*))
   | D1Cextype of (* external type *)
       (int(*knd*), string (*name*), s1exp (*definition*))
+  | D1Cextval of (* external value *)
+      (string (*name*), d1exp (*definition*))
   | D1Cextcode of (
       int (*knd: 0/1*), int (*pos: 0/1/2 : top/?/end*), string (*code*)
     ) // end of [D1Cextcode]
+//
   | D1Cmacdefs of (int(*knd*), bool(*isrec*), m1acdeflst)
   | D1Cvaldecs of (valkind, bool(*isrec*), v1aldeclst) // val declarations
   | D1Cfundecs of (funkind, q1marglst, f1undeclst) // function declaration
@@ -789,8 +790,14 @@ fun d1ecl_dcstdecs (
 ) : d1ecl // end of [d1ec_dcstdecs]
 
 fun d1ecl_extype (
+  loc: location, name: string, def: s1exp
+) : d1ecl // end of [d1ecl_extype]
+fun d1ecl_extype2 (
   loc: location, knd: int, name: string, def: s1exp
 ) : d1ecl // end of [d1ecl_extype]
+fun d1ecl_extval (
+  loc: location, name: string, def: d1exp
+) : d1ecl // end of [d1ecl_extval]
 fun d1ecl_extcode (
   loc: location, knd: int, pos: int, code: string
 ) : d1ecl // end of [d1ecl_extcode]

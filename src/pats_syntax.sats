@@ -1159,7 +1159,9 @@ d0ecl_node =
 //
   | D0Cmacdefs of (int(*knd*), bool(*rec*), m0acdeflst) // macro definitions
 //
+  | D0Cextype of (string, s0exp) // type to be used in C
   | D0Cextype of (int(*knd*), string, s0exp) // type to be used in C
+  | D0Cextval of (string, d0exp) // value to be used in C
   | D0Cextcode of (int(*knd*), int(*pos*), string(*code*)) // external code
 //
   | D0Cvaldecs of // value declarations
@@ -1761,6 +1763,10 @@ fun d0ecl_classdec (t: token, id: i0de, sup: s0expopt): d0ecl
 //
 fun d0ecl_extype
   (tok: token, name: s0tring, s0e: s0exp): d0ecl
+fun d0ecl_extype2
+  (tok: token, name: s0tring, s0e: s0exp): d0ecl
+fun d0ecl_extval
+  (tok: token, name: s0tring, d0e: d0exp): d0ecl
 fun d0ecl_extcode (knd: int, tok: token): d0ecl
 //
 fun d0ecl_valdecs (
