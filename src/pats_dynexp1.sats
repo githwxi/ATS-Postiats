@@ -224,7 +224,7 @@ datatype d1ecl_node =
   | D1Cvaldecs of (valkind, bool(*isrec*), v1aldeclst) // val declarations
   | D1Cfundecs of (funkind, q1marglst, f1undeclst) // function declaration
   | D1Cvardecs of v1ardeclst (* variable declaration *)
-  | D1Cimpdec of (s1arglstlst, i1mpdec) (* implementation *)
+  | D1Cimpdec of (s1marglst, i1mpdec) (* implementation *)
 //
   | D1Cinclude of d1eclist (* inclusion *)
   | D1Cstaload of (* staloading a file *)
@@ -817,7 +817,7 @@ fun d1ecl_fundecs (
 fun d1ecl_vardecs (loc: location, ds: v1ardeclst): d1ecl
 
 fun d1ecl_impdec
-  (loc: location, decarg: s1arglstlst, d1c: i1mpdec): d1ecl
+  (loc: location, decarg: s1marglst, d1c: i1mpdec): d1ecl
 // end of [d1ecl_impdec]
 
 (* ****** ****** *)

@@ -1205,7 +1205,7 @@ end // end of [p_impqi0de]
 fun
 p_i0mparg (
   buf: &tokbuf, bt: int, err: &int
-) : s0arglst = let
+) : s0marg = let
   val err0 = err
   val n0 = tokbuf_get_ntok (buf)
   val tok = tokbuf_get_token (buf)
@@ -1219,7 +1219,8 @@ case+ tok.token_node of
     val ent2 = pstar_fun0_COMMA {s0arg} (buf, bt, p_s0arg)
     val ent3 = p_RBRACE (buf, bt, err)
   in
-    if err = err0 then (l2l)ent2 else let
+    if err = err0 then
+      s0marg_make_many (tok, (l2l)ent2, ent3) else let
       val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
     end (* end of [if] *)
   end
@@ -1337,7 +1338,7 @@ case+ tok.token_node of
 | T_IMPLEMENT () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = pstar_fun {s0arglst} (buf, bt, p_i0mparg)
+    val ent2 = pstar_fun {s0marg} (buf, bt, p_i0mparg)
     val ent3 = p_i0mpdec (buf, bt, err)
   in
     if err = err0 then

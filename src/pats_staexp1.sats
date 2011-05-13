@@ -382,12 +382,13 @@ fun sp1at_cstr
 
 datatype s1exp_node =
 //
+  | S1Eide of (symbol) // static identifer
+  | S1Esqid of (s0taq, symbol) // qualified static identifer
+//
   | S1Eint of string // integer constant
   | S1Echar of char // character constant
 //
   | S1Eextype of (string(*name*), s1explstlst) // extern type
-//
-  | S1Esqid of (s0taq, symbol) // qualified static identifer
 //
   | S1Eapp of (s1exp, location(*arg*), s1explst) // application
   | S1Elam of (s1marg, s1rtopt, s1exp(*body*)) // lambda-abstraction
@@ -714,6 +715,7 @@ typedef q1marglst = List (q1marg)
 fun q1marg_make (loc: location, xs: s1qualst): q1marg
 
 fun fprint_q1marg : fprint_type (q1marg)
+fun fprint_q1marglst : fprint_type (q1marglst)
 
 (* ****** ****** *)
 

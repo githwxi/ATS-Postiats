@@ -327,9 +327,9 @@ s1exp_extype (loc, name, arg) = '{
 }
 
 implement
-s1exp_ide (loc, id) = let
-  val sq = s0taq_none (loc) in s1exp_sqid (loc, sq, id)
-end // end of [s1exp_ide]
+s1exp_ide (loc, id) = '{
+  s1exp_loc= loc, s1exp_node= S1Eide (id)
+} // end of [s1exp_ide]
 
 implement
 s1exp_sqid (loc, sq, id) = '{
@@ -528,6 +528,12 @@ fun aux (
   case+ s1e0.s1exp_node of
   | S1Eint (rep) => e1xp_int (loc0, rep)
   | S1Echar (char) => e1xp_char (loc0, char)
+  | S1Eide (id) => e1xp_ide (loc0, id)
+  | S1Eapp (s1e_fun, _(*loc*), s1es_arg) => let
+      val e_fun = aux (s1e_fun); val es_arg = auxlst (s1es_arg)
+    in
+      e1xp_app (loc0, e_fun, loc0, es_arg)
+    end
   | S1Elist (_(*npf*), s1es) => e1xp_list (loc0, auxlst s1es)
   | _ => e1xp_err (loc0)
 (* end of [aux] *)

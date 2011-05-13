@@ -491,6 +491,13 @@ case+ d1c0.d1ecl_node of
     val () = prstr "\n)"
   }
 //
+| D1Cextype (name, def) => {
+    val () = prstr "D1Cextype("
+    val () = fprint_string (out, name)
+    val () = prstr " = "
+    val () = fprint_s1exp (out, def)
+    val () = prstr ")"
+  }
 | D1Cextype (knd, name, def) => {
     val () = prstr "D1Cextype("
     val () = fprint_int (out, knd)
@@ -525,6 +532,26 @@ case+ d1c0.d1ecl_node of
     val () = fprint_bool (out, isrec)
     val () = prstr "\n"
     val () = $UT.fprintlst (out, ds, "\n", fprint_v1aldec)
+    val () = prstr "\n)"
+  }
+| D1Cfundecs (knd, q1mas, ds) => {
+    val () = prstr "D1Cfundecs("
+    val () = fprint_funkind (out, knd)
+    val () = prstr "; "
+    val () = $UT.fprintlst (out, q1mas, "; ", fprint_q1marg)
+    val () = prstr "\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
+| D1Cvardecs (ds) => {
+    val () = prstr "D1Cvardecs(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
+| D1Cimpdec (s1mas, d) => {
+    val () = prstr "D1Cimpdec("
+    val () = $UT.fprintlst (out, s1mas, "; ", fprint_s1marg)
+    val () = prstr "..."
     val () = prstr "\n)"
   }
 //

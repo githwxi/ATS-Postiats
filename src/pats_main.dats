@@ -397,7 +397,7 @@ in
       val DATSDEF (id, opt) = def
       val e1xp = (case+ opt of
         | Some x => $TRANS1.e0xp_tr (x)
-        | None _ => e1xp_none ($LOC.location_none)
+        | None _ => e1xp_none ($LOC.location_dummy)
       ) : e1xp // end of [val]
     in
       $TRENV1.the_e1xpenv_add (id, e1xp)

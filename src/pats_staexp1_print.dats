@@ -325,6 +325,11 @@ case+ x.s1exp_node of
     val () = prstr ")"
   }
 //
+| S1Eide (id) => {
+    val () = prstr "S1Eide("
+    val () = fprint_symbol (out, id)
+    val () = prstr ")"
+  }
 | S1Esqid (sq, id) => {
     val () = prstr "S1Esqid("
     val () = fprint_s0taq (out, sq)

@@ -108,7 +108,7 @@ overload prerr with prerr_location
 
 (* ****** ****** *)
 
-val location_none : location (* dummy location *)
+val location_dummy : location (* dummy location *)
 
 (* ****** ****** *)
 

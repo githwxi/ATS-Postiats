@@ -189,15 +189,15 @@ prerr_location (loc) = fprint_location (stderr_ref, loc)
 (* ****** ****** *)
 
 implement
-location_none = '{
-  filename= $FIL.filename_none
+location_dummy = '{
+  filename= $FIL.filename_dummy
 , beg_ntot= ~1L
 , beg_nrow= ~1
 , beg_ncol= ~1
 , end_ntot= ~1L
 , end_nrow= ~1
 , end_ncol= ~1
-} // end of [location_none]
+} // end of [location_dummy]
 
 (* ****** ****** *)
 

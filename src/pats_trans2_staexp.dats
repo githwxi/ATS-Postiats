@@ -97,16 +97,16 @@ fn prerr_interror_loc (loc: location) = (
 *)
 datatype staspecid = SPSIDarrow | SPSIDnone
 
-fn staspecid_of_qid
-  (q: s0taq, id: symbol): staspecid = begin
+fn staspecid_of_sqid
+  (sq: s0taq, id: symbol): staspecid = begin
 //
-case+ q.s0taq_node of
+case+ sq.s0taq_node of
 | $SYN.S0TAQnone () =>
     if id = $SYM.symbol_MINUSGT then SPSIDarrow () else SPSIDnone ()
   // end of [S0TAQnone]
 | _ => SPSIDnone ()
 //
-end // end of [staspecid_of_qid]
+end // end of [staspecid_of_sqid]
 
 (* ****** ****** *)
 
@@ -264,12 +264,12 @@ end // end of [s1marg_trdn]
 
 (* ****** ****** *)
 
-fn s1exp_trup_qid (
-  s1e0: s1exp, q: $SYN.s0taq, id: symbol
+fn s1exp_trup_sqid (
+  s1e0: s1exp, sq: $SYN.s0taq, id: symbol
 ) : s2exp = let
 //
   val loc0 = s1e0.s1exp_loc
-  val ans = the_s2expenv_find_qua (q, id)
+  val ans = the_s2expenv_find_qua (sq, id)
 //
 in
 //
@@ -303,23 +303,22 @@ case+ ans of
   | _ => s2exp_err (s2t_err) where {
       val s2t_err = s2rt_err ()
       val () = prerr_interror_loc (loc0)
-      val () = prerr ": s1exp_trup_qid: s2i = "
+      val () = prerr ": s1exp_trup_sqid: s2i = "
       val () = prerr_s2itm (s2i)
       val () = prerr_newline ()
     } // end of [_]
   end // end of [Some_vt]
 | ~None_vt () => s2exp_err (s2t_err) where {
     val s2t_err = s2rt_err ()
-    val () = the_tran2errlst_add (T2E_s1exp_qid (s1e0))
     val () = prerr_error2_loc (loc0)
-    val () = filprerr_ifdebug "s1exp_trup_qid"
+    val () = filprerr_ifdebug "s1exp_trup_sqid"
     val () = prerr ": the static identifier ["
-    val () = ($SYN.prerr_s0taq q; $SYM.prerr_symbol id)
+    val () = ($SYN.prerr_s0taq sq; $SYM.prerr_symbol id)
     val () = prerr "] is unrecognized."
     val () = prerr_newline ()
   } // end of [None_vt]
 //
-end // end of [s1exp_trup_qid]
+end // end of [s1exp_trup_sqid]
 
 (* ****** ****** *)
 
@@ -386,36 +385,60 @@ typedef
 locs1explst = @(location, s1explst)
 
 fun s1exp_app_unwind (
-  s1e: s1exp, xs: &List_vt (locs1explst)
+  s1e0: s1exp, xs: &List_vt (locs1explst)
 ) : s1exp = begin
-  case+ s1e.s1exp_node of
+  case+ s1e0.s1exp_node of
   | S1Eapp (s1e, larg, s1es) => let
       val x = (larg, s1es)
       val () = xs := list_vt_cons (x, xs)
     in
       s1exp_app_unwind (s1e, xs)
     end // end of [S1Eapp]
-  | S1Esqid (q, id) => begin case+ q.s0taq_node of
-    | $SYN.S0TAQnone () => let
-        val ans = the_s2expenv_find (id)
-      in
-        case+ ans of
-        | ~Some_vt s2i => begin case+ s2i of
-(*
-          | S2ITMe1xp e1xp => let
-              val s1e_new = s1exp_make_e1xp (s1e.s1exp_loc, e1xp)
-            in
-              s1exp_app_unwind (s1e_new, s1ess)
-            end (* end of [S2ITMe1xp] *)
-*)
-          | _ => s1e
-          end // end of [Some_vt]
-        | ~None_vt () => s1e
-      end // end of [S0TAQnone]
-    | _ => s1e
-    end (* end of [S1Eqid] *)
-  | _ => s1e // end of [_]
+  | S1Eide (id) => let
+      val ans = the_s2expenv_find (id)
+    in
+      case+ ans of
+      | ~Some_vt s2i => begin case+ s2i of
+        | S2ITMe1xp e0 => s1exp_app_unwind_e1xp (s1e0, e0, xs)
+        | _ => s1e0
+        end // end of [Some_vt]
+      | ~None_vt () => s1e0
+    end (* end of [S1Eide] *)
+  | _ => s1e0 // end of [_]
 end // end of [s1exp_app_unwind]
+
+and s1exp_app_unwind_e1xp (
+  s1e0: s1exp, e0: e1xp, xs: &List_vt (locs1explst)
+) : s1exp = let
+  val loc0 = s1e0.s1exp_loc
+  val nxs = list_vt_length<locs1explst> (xs)
+in
+//
+case+ e0.e1xp_node of
+| E1XPfun _ when nxs > 0 => let
+    val+ ~list_vt_cons (x, xs1) = xs
+    val () = xs := xs1
+//
+    prval pfu = unit_v ()
+    val es = list_map_clo<s1exp> {unit_v} (pfu | x.1, !p_clo) where {
+      var !p_clo = @lam (pf: !unit_v | s1e: s1exp): e1xp => e1xp_make_s1exp (loc0, s1e)
+    } // end of [val]
+    prval unit_v () = pfu
+//
+    val e0 = e1xp_app (loc0, e0, loc0, l2l (es))
+    val e1 = e1xp_normalize (e0)
+    val s1e1 = s1exp_make_e1xp (loc0, e1)
+  in
+    s1exp_app_unwind (s1e1, xs)
+  end
+| _ => let
+    val e1 = e1xp_normalize (e0)
+    val s1e1 = s1exp_make_e1xp (loc0, e1)
+  in
+    s1exp_app_unwind (s1e1, xs)
+  end // end of [_]
+//
+end // end of [s1exp_app_unwind_e1xp]
 
 (* ****** ****** *)
 
@@ -529,10 +552,21 @@ s1exp_trup_arrow ( // arrow is a special type constructor
 #define cons list_cons
 #define :: list_cons
 //
-fun auxerr (
+fun auxerr1 (
+  xs: !List_vt (locs1explst)
+) :<cloref1> void = case+ xs of
+  | list_vt_cons _ => fold@ (xs)
+  | list_vt_nil () => {
+      prval () = fold@ (xs)
+      val () = prerr_error2_loc (loc0)
+      val () = filprerr_ifdebug "s1exp_trup_arrow"
+      val () = prerr ": illegal static application."
+      val () = $ERR.abort ()
+    } // end of [list_vt_nil]
+// end of [auxerr1]
+fun auxerr2 (
   xs: List_vt (locs1explst)
-) :<cloref1> void =
-  case+ xs of
+) :<cloref1> void = case+ xs of
   | list_vt_cons _ => let
       prval () = fold@ (xs)
       val () = list_vt_free (xs)
@@ -543,10 +577,11 @@ fun auxerr (
       // nothing
     end // end of [~list_vt_cons]
   | ~list_vt_nil () => ()
-// end of [auxerr]
+// end of [auxerr2]
 //
+  val () = auxerr1 (xs) // HX: is this really needed?
   val- ~list_vt_cons (x, xs) = xs
-  val () = auxerr (xs) // HX: reporting an error if [xs] is not nil
+  val () = auxerr2 (xs) // HX: reporting an error if [xs] is not nil
   val s1es = x.1 : s1explst
   val- s1e_arg :: s1e_res :: nil () = s1es
 //
@@ -696,14 +731,14 @@ end // end of [s1exp_trup_app]
 (* ****** ****** *)
 
 fun
-s1exp_trup_app_qid (
+s1exp_trup_app_sqid (
   s1e0: s1exp
 , s1opr: s1exp
-, q: $SYN.s0taq, id: symbol
+, sq: $SYN.s0taq, id: symbol
 , xs: List_vt (locs1explst)
 ) : s2exp = let
 //
-  val spsid = staspecid_of_qid (q, id) 
+  val spsid = staspecid_of_sqid (sq, id) 
 //
 in
 //
@@ -712,36 +747,36 @@ case+ spsid of
     s1e0.s1exp_loc, None(*fc*), false(*lin*), false(*prf*), None(*efc*), xs
   ) // end of [SPSIDarrow]
 | SPSIDnone () => let
-    val ans = the_s2expenv_find_qua (q, id)
+    val ans = the_s2expenv_find_qua (sq, id)
   in
     case+ ans of
     | ~Some_vt s2i =>
-        s1exp_trup_app_qid_itm (s1e0, s1opr, q, id, s2i, xs)
+        s1exp_trup_app_sqid_itm (s1e0, s1opr, sq, id, s2i, xs)
       // end of [Some_vt]
     | ~None_vt () => s2exp_err (s2t_err) where {
         val s2t_err = s2rt_err ()
         val () = list_vt_free (xs)
         val () = prerr_error2_loc (s1opr.s1exp_loc)
-        val () = filprerr_ifdebug "s1exp_trup_app_qid"
+        val () = filprerr_ifdebug "s1exp_trup_app_sqid"
         val () = prerr ": unrecognized static identifier ["
-        val () = ($SYN.prerr_s0taq q; $SYM.prerr_symbol id)
+        val () = ($SYN.prerr_s0taq sq; $SYM.prerr_symbol id)
         val () = prerr "]."
         val () = prerr_newline ()
       } // end of [None_vt]
   end // end of [SPSIDnone]
 //
-end // end of [s1exp_trup_app_qid]
+end // end of [s1exp_trup_app_sqid]
 
 and
-s1exp_trup_app_qid_itm (
+s1exp_trup_app_sqid_itm (
   s1e0: s1exp
 , s1opr: s1exp
-, q: $SYN.s0taq, id: symbol, s2i: s2itm
+, sq: $SYN.s0taq, id: symbol, s2i: s2itm
 , xs: List_vt (locs1explst)
 ) : s2exp = let
 //
 (*
-  val () = print "s1exp_trup_app_qid_itm: s1e0 = "
+  val () = print "s1exp_trup_app_sqid_itm: s1e0 = "
   val () = print_s1exp (s1e0)
   val () = print_newline ()
 *)
@@ -770,9 +805,9 @@ case+ s2i of
         val s2t_err = s2rt_err ()
         val () = list_vt_free<T2> (ys)
         val () = prerr_error2_loc (s1e0.s1exp_loc)
-        val () = filprerr_ifdebug "s1exp_trup_app_qid"
+        val () = filprerr_ifdebug "s1exp_trup_app_sqid_itm"
         val () = prerr ": none of the static constants referred to by ["
-        val () = ($SYN.prerr_s0taq q; $SYM.prerr_symbol id)
+        val () = ($SYN.prerr_s0taq sq; $SYM.prerr_symbol id)
         val () = prerr "] is applicable."
         val () = prerr_newline ()
       } // end of [_]
@@ -790,11 +825,11 @@ case+ s2i of
     val s2t_err = s2rt_err ()
     val () = list_vt_free (xs)
     val () = prerr_interror_loc (s1opr.s1exp_loc)
-    val () = prerr ": s1exp_trup_app_qid: not implemented yet: s2i = "
+    val () = prerr ": s1exp_trup_app_sqid_itm: not implemented yet: s2i = "
     val () = prerr_s2itm (s2i)
     val () = prerr_newline ()
   } // end of [_]
-end // end of [s1exp_trup_app_qid_itm]
+end // end of [s1exp_trup_app_sqid_itm]
 
 (* ****** ****** *)
 
@@ -809,11 +844,16 @@ s1exp_trup (s1e0) = let
 in
 //
 case+ s1e0.s1exp_node of
+//
+| S1Eide (id) => let
+    val sq = $SYN.the_s0taq_none in s1exp_trup_sqid (s1e0, sq, id)
+  end // end of [S1Eide]
+| S1Esqid (sq, id) => s1exp_trup_sqid (s1e0, sq, id)
+//
 | S1Eint (rep) => let
     val int = $INT.intinf_make_string (rep) in s2exp_intinf (int)
   end // end of [S1Eint]
 | S1Echar (char) => s2exp_char (char)
-| S1Esqid (q, id) => s1exp_trup_qid (s1e0, q, id)
 //
 | S1Eapp _ => let
     typedef T = locs1explst
@@ -822,8 +862,12 @@ case+ s1e0.s1exp_node of
     val s1opr = s1exp_app_unwind (s1e0, xs)
   in
     case+ :(xs: TS?) => s1opr.s1exp_node of
-    | S1Esqid (q, id) =>
-        s1exp_trup_app_qid (s1e0, s1opr, q, id, xs)
+    | S1Eide (id) => let
+        val sq = $SYN.the_s0taq_none in 
+        s1exp_trup_app_sqid (s1e0, s1opr, sq, id, xs)
+      end // end of [S1Eide]
+    | S1Esqid (sq, id) =>
+        s1exp_trup_app_sqid (s1e0, s1opr, sq, id, xs)
       // end of [S1Esqid]
     | S1Eimp (fc, lin, prf, oefc) =>
         s1exp_trup_arrow (loc0, Some fc, lin>0, prf>0, oefc, xs)

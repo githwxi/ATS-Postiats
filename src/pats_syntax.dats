@@ -435,6 +435,11 @@ in '{
 (* ****** ****** *)
 
 implement
+the_s0taq_none =
+  s0taq_none ($LOC.location_dummy)
+// end of [the_s0taq_none]
+
+implement
 s0taq_none (loc) = '{
   s0taq_loc= loc, s0taq_node= S0TAQnone ()
 } // end of [s0taq_none]
@@ -452,6 +457,11 @@ s0taq_symcolon (ent1, tok2) = let
 in '{
   s0taq_loc= loc, s0taq_node= S0TAQsymcolon (ent1.i0de_sym)
 } end // end of [s0taq_symcolon]
+
+implement
+s0taq_is_none (q) =
+  case q.s0taq_node of S0TAQnone () => true | _ => false
+// end of [s0taq_is_none]
 
 (* ****** ****** *)
 

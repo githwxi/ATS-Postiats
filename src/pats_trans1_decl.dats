@@ -633,7 +633,7 @@ fn guad0ecl_tr (
   // end of [loop]
 in
   loop (knd, gd.guad0ecl_node)
-end // end of [guad0ec_tr]
+end // end of [guad0ecl_tr]
 
 (* ****** ****** *)
 
@@ -675,7 +675,7 @@ case+ d0c0.d0ecl_node of
     val e1xp = e0xp_tr (e0xp)
 (*
     val () = begin
-      print "d0ec_tr: D0Ce0xpact: e1xp = "; print e1xp; print_newline ()
+      print "d0ecl_tr: D0Ce0xpact: e1xp = "; print e1xp; print_newline ()
     end // end of [val]
 *)
     val v1al = e1xp_valize (e1xp)
@@ -784,7 +784,7 @@ case+ d0c0.d0ecl_node of
     d1ecl_vardecs (loc0, d1cs)
   end // end of [D0Cvardecs]
 | D0Cimpdec (i0mparg, d0c) => let
-    val i1mparg = l2l (list_map_fun (i0mparg, s0arglst_tr))
+    val i1mparg = l2l (list_map_fun (i0mparg, s0marg_tr))
   in
     d1ecl_impdec (loc0, i1mparg, i0mpdec_tr d0c)
   end // end of [D0Cimpdec]

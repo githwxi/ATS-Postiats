@@ -695,12 +695,12 @@ case+ d1c0.d1ecl_node of
     val () = prerr ": d1ecl_tr: not implemented: d1c0 = "
     val () = fprint_d1ecl (stderr_ref, d1c0)
     val () = prerr_newline ()
-    val () =  $ERR.abort ()
+    val () = $ERR.abort ()
   in
     d2ecl_none (loc0)
   end // end of [_]
 //
-end // end of [d1ec_tr]
+end // end of [d1ecl_tr]
 
 (* ****** ****** *)
 

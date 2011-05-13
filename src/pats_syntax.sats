@@ -214,9 +214,12 @@ typedef s0taq = '{
   s0taq_loc= location, s0taq_node= s0taq_node
 }
 
+val the_s0taq_none : s0taq
 fun s0taq_none (loc: location): s0taq
 fun s0taq_symdot (ent1: i0de, tok2: token): s0taq
 fun s0taq_symcolon (ent1: i0de, tok2: token): s0taq
+
+fun s0taq_is_none (q: s0taq): bool
 
 fun fprint_s0taq : fprint_type (s0taq)
 fun print_s0taq (x: s0taq): void
@@ -1168,7 +1171,7 @@ d0ecl_node =
       (valkind, bool(*isrec*), v0aldeclst)
   | D0Cfundecs of (funkind, q0marglst, f0undeclst)
   | D0Cvardecs of v0ardeclst // variable declarations
-  | D0Cimpdec of (s0arglstlst, i0mpdec) // implementation
+  | D0Cimpdec of (s0marglst, i0mpdec) // implementation
 //
   | D0Cinclude of (* file inclusion *)
       (int(*0:sta/1:dyn*), string(*filename*))
@@ -1777,7 +1780,7 @@ fun d0ecl_fundecs (
 ) : d0ecl // end of [d0ecl_fundecs]
 fun d0ecl_vardecs (tok: token, ds: v0ardeclst): d0ecl
 fun d0ecl_impdec
-  (t_implement: token, arg: s0arglstlst, d: i0mpdec): d0ecl
+  (t_implement: token, arg: s0marglst, d: i0mpdec): d0ecl
 // end of [d0ecl_impdec]
 //
 fun d0ecl_staload_none (tok: token, tok2: token): d0ecl

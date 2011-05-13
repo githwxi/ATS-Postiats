@@ -144,9 +144,9 @@ end // [filename_is_relative]
 (* ****** ****** *)
 
 implement
-filename_none = '{
+filename_dummy = '{
   filename_name= "", filename_full= $SYM.symbol_empty
-} // end of [filename_none]
+} // end of [filename_dummy]
 
 (* ****** ****** *)
 
@@ -261,7 +261,7 @@ local
 assume the_filenamelst_push_v = unit_v
 viewtypedef filenamelst = List_vt filename
 
-val the_filename = ref_make_elt<filename> (filename_none)
+val the_filename = ref_make_elt<filename> (filename_dummy)
 val the_filenamelst = ref_make_elt<filenamelst> (list_vt_nil ())
 
 fun filename_occurs
