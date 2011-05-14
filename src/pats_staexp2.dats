@@ -81,6 +81,13 @@ in '{
 (* ****** ****** *)
 
 implement
+s2exp_extype_srt (s2t, name, s2ess) = '{
+  s2exp_srt= s2t, s2exp_node= S2Eextype (name, s2ess)
+}
+
+(* ****** ****** *)
+
+implement
 s2exp_lam
   (s2vs, s2e_body) = let
   val s2ts = l2l (list_map_fun (s2vs, s2var_get_srt))
@@ -127,6 +134,8 @@ s2exp_vararg (s2e) = '{
   s2exp_srt= s2rt_t0ype, s2exp_node= S2Evararg (s2e)
 } // end of [s2exp_vararg]
 
+(* ****** ****** *)
+
 implement
 s2exp_exi (
   s2vs, s2ps, s2e
@@ -136,6 +145,18 @@ s2exp_exi (
       s2exp_srt= s2e.s2exp_srt, s2exp_node= S2Eexi (s2vs, s2ps, s2e)
     } // end of [s2exp_exi]
 // end of [s2exp_exi]
+
+implement
+s2exp_uni (
+  s2vs, s2ps, s2e
+) = case+ (s2vs, s2ps) of
+  | (list_nil (), list_nil ()) => s2e
+  | (_, _) => '{
+      s2exp_srt= s2e.s2exp_srt, s2exp_node= S2Euni (s2vs, s2ps, s2e)
+    } // end of [s2exp_uni]
+// end of [s2exp_uni]
+
+(* ****** ****** *)
 
 implement
 s2exp_wth (s2e, wths2es) = '{

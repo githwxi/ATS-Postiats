@@ -65,6 +65,12 @@ typedef i0delst = $SYN.i0delst
 
 (* ****** ****** *)
 
+staload "pats_errmsg.sats"
+staload _(*anon*) = "pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans2_staexp"
+
+(* ****** ****** *)
+
 staload "pats_staexp1.sats"
 staload "pats_e1xpval.sats"
 staload "pats_staexp2.sats"
@@ -76,19 +82,6 @@ staload "pats_trans2.sats"
 
 #define :: list_cons
 #define l2l list_of_list_vt
-
-(* ****** ****** *)
-
-#define THISFILENAME "pats_trans2_staexp2.dats"
-
-fn prerr_error2_loc
-  (loc: location): void = (
-  $LOC.prerr_location loc; prerr ": error(2)"
-) // end of [prerr_error2_loc]
-fn prerr_interror () = prerr "INTERROR(pats_trans2_staexp)"
-fn prerr_interror_loc (loc: location) = (
-  $LOC.prerr_location loc; prerr ": INTERROR(pats_trans2_staexp)"
-) // end of [prerr_interror_loc]
 
 (* ****** ****** *)
 
@@ -323,7 +316,8 @@ end // end of [s1exp_trup_sqid]
 (* ****** ****** *)
 
 fun s2exp_app_wind (
-  s2e_fun: s2exp, s2ess_arg: List_vt (locs2explst)
+  s1e0: s1exp
+, s2e_fun: s2exp, s2ess_arg: List_vt (locs2explst)
 ) : s2exp = let
 //
 fun aux (
@@ -346,10 +340,10 @@ in
     s2exp_err (s2t)
   end // end of [if]
 end // end of [s2exp_app_wind]
-
+//
 fun auxlst (
   xs: locs2explst, s2ts: s2rtlst
-) : s2explst =
+) : s2explst = begin
   case+ xs of
   | list_cons (x, xs) => let
       val- list_cons (s2t, s2ts) = s2ts
@@ -359,26 +353,37 @@ fun auxlst (
       list_cons (s2e, s2es)
     end
   | list_nil () => list_nil ()
-// end of [auxlst]
-
+end // end of [auxlst]
+//
 fun loop (
-  s2t: s2rt
-, s2e: s2exp
+  s1e0: s1exp
+, s2t: s2rt, s2e: s2exp
 , xss: List_vt (locs2explst)
 ) : s2exp =
   case+ xss of
-  | ~list_vt_cons (xs, xss) => let
-      val- S2RTfun (s2ts, s2t) = s2t
-      var err: int = 0
-      val s2es = auxlst (xs, s2ts)
-      val s2e = s2exp_app_srt (s2t, s2e, s2es)
-    in
-      loop (s2t, s2e, xss)
-    end // end of [list_cons]
+  | ~list_vt_cons (xs, xss) =>
+      if s2rt_is_fun (s2t) then let
+        val- S2RTfun (s2ts, s2t) = s2t
+        var err: int = 0
+        val s2es = auxlst (xs, s2ts)
+        val s2e = s2exp_app_srt (s2t, s2e, s2es)
+      in
+        loop (s1e0, s2t, s2e, xss)
+      end else let
+        val () = list_vt_free (xss)
+        val () = prerr_error2_loc (s1e0.s1exp_loc)
+        val () = filprerr_ifdebug "s1exp_app_wind"
+        val () = prerr ": the static term is overly applied."
+        val () = prerr_newline ()
+      in
+        s2exp_err (s2t)
+      end // end of [if]
+    // end of [list_cons]
   | ~list_vt_nil () => s2e
-// end if [loop]
+(* end if [loop] *)
+//
 in
-  loop (s2e_fun.s2exp_srt, s2e_fun, s2ess_arg)
+  loop (s1e0, s2e_fun.s2exp_srt, s2e_fun, s2ess_arg)
 end // end of [s2exp_app_wind]
 
 typedef
@@ -799,7 +804,7 @@ case+ s2i of
   in
     case+ s2cs of
     | list_cons (s2c, _) =>
-        s2exp_app_wind (s2exp_cst s2c, ys)
+        s2exp_app_wind (s1e0, s2exp_cst s2c, ys)
       // end of [list_cons]
     | list_nil () => s2exp_err (s2t_err) where {
         val s2t_err = s2rt_err ()
@@ -855,6 +860,12 @@ case+ s1e0.s1exp_node of
   end // end of [S1Eint]
 | S1Echar (char) => s2exp_char (char)
 //
+| S1Eextype (name, s1ess) => let
+    val s2ess = list_map_fun (s1ess, s1explst_trdn_viewt0ype)
+  in
+    s2exp_extype_srt (s2rt_viewt0ype, name, (l2l)s2ess)
+  end // end of [S1Eextype]
+//
 | S1Eapp _ => let
     typedef T = locs1explst
     viewtypedef TS = List_vt (T)
@@ -893,6 +904,39 @@ case+ s1e0.s1exp_node of
   in
     s2exp_lam (s2vs, s2e_body)
   end // end of [S1Elam]
+//
+| S1Eexi (knd, s1qs, s1e_scope) => let
+(*
+    val () = begin
+      print "s1exp_trup: S1Eexi: s1e0 = "; print s1e0; print_newline ()
+    end // end of [val]
+*)
+//
+    val () = if knd > 0 then {
+      val () = prerr_error2_loc (loc0)
+      val () = prerr (
+        ": The existential quantifier #[...] is used incorrectly."
+      ) // end of [val]
+      val () = prerr_newline ()
+    } // end of [val]
+//
+    val (pfenv | ()) = the_s2expenv_push_nil ()
+    val s2vps = s1qualst_tr (s1qs)
+    val s2e_scope = s1exp_trdn_impredicative (s1e_scope)
+    val () = the_s2expenv_pop_free (pfenv | (*none*))
+  in
+    s2exp_exi (s2vps.0, s2vps.1, s2e_scope)
+  end // end of [S1Eexi]
+| S1Euni (s1qs, s1e_scope) => let
+    var s2vs: s2varlst = list_nil ()
+    and s2ps: s2explst = list_nil ()
+    val (pfenv | ()) = the_s2expenv_push_nil ()
+    val s2vps = s1qualst_tr (s1qs)
+    val s2e_scope = s1exp_trdn_impredicative s1e_scope
+    val () = the_s2expenv_pop_free (pfenv | (*none*))
+  in
+    s2exp_uni (s2vps.0, s2vps.1, s2e_scope)
+  end // end of [S1Euni]
 //
 | S1Eann (s1e, s1t) => let
     val s2t = s1rt_tr (s1t) in s1exp_trdn (s1e, s2t)
@@ -982,15 +1026,37 @@ in
 end // end of [s2exp_trdn]
 
 implement
-s1exp_trdn (s1e, s2t) =
-  case+ (s1e.s1exp_node, s2t) of
-  | (S1Elam _, S2RTfun _) => s1exp_trdn_lam (s1e, s2t)
-  | (_, _) => let
-      val s2e = s1exp_trup (s1e)
+s1exp_trdn (s1e, s2t) = let
+//
+fun auxerr // for S2Eextype
+  (s1e: s1exp, s2t: s2rt): void = {
+  val () = prerr_error2_loc (s1e.s1exp_loc)
+  val () = filprerr_ifdebug (": s1exp_trdn")
+  val () = prerr ": the extern type cannot be given the sort ["
+  val () = prerr_s2rt (s2t)
+  val () = prerr "]."
+  val () = prerr_newline ()
+} (* end of [auxerr] *)
+//
+in
+//
+case+ (s1e.s1exp_node, s2t) of
+| (S1Elam _, S2RTfun _) => s1exp_trdn_lam (s1e, s2t)
+| (S1Eextype (name, s1ess), _) =>
+    if s2rt_ltmat1 (s2t, s2rt_t0ype) then let
+      val s2ess = list_map_fun (s1ess, s1explst_trdn_viewt0ype)
     in
-      s2exp_trdn (s1e.s1exp_loc, s2e, s2t)
-    end (* end of [_] *)
-// end of [s1exp_trdn]
+      s2exp_extype_srt (s2t, name, (l2l)s2ess)
+    end else let
+      val () = auxerr (s1e, s2t) in s2exp_err (s2t)
+    end // end of [if]
+| (_, _) => let
+    val s2e = s1exp_trup (s1e)
+  in
+    s2exp_trdn (s1e.s1exp_loc, s2e, s2t)
+  end (* end of [_] *)
+//
+end // end of [s1exp_trdn]
 
 (* ****** ****** *)
 
@@ -1025,6 +1091,11 @@ implement
 s1explst_trdn_bool
   (s1es) = l2l (list_map_fun (s1es, s1exp_trdn_bool))
 // end of [s1explst_trdn_bool]
+
+implement
+s1explst_trdn_viewt0ype
+  (s1es) = l2l (list_map_fun (s1es, s1exp_trdn_viewt0ype))
+// end of [s1explst_trdn_viewt0ype]
 
 (* ****** ****** *)
 

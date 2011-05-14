@@ -55,6 +55,15 @@ staload "pats_lexing.sats"
 (* ****** ****** *)
 
 staload "pats_basics.sats"
+
+(* ****** ****** *)
+
+staload "pats_errmsg.sats"
+staload _(*anon*) = "pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans1_e0xp"
+
+(* ****** ****** *)
+
 staload "pats_fixity.sats"
 staload "pats_syntax.sats"
 staload "pats_staexp1.sats"
@@ -67,16 +76,6 @@ staload "pats_trans1_env.sats"
 (* ****** ****** *)
 
 #define l2l list_of_list_vt
-
-(* ****** ****** *)
-
-fn prerr_error1_loc
-  (loc: location): void = (
-  $LOC.prerr_location loc; prerr ": error(1)"
-) // end of [prerr_error1_loc]
-fn prerr_interror
-  (): void = prerr "INTERROR(pats_trans1_e0xp)"
-// end of [prerr_interror]
 
 (* ****** ****** *)
 

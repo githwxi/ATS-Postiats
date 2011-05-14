@@ -92,6 +92,7 @@ dynload "pats_stamp.dats"
 dynload "pats_symbol.dats"
 dynload "pats_filename.dats"
 dynload "pats_location.dats"
+dynload "pats_errmsg.dats"
 //
 (* ****** ****** *)
 

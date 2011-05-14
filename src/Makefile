@@ -68,6 +68,8 @@ SOURCES := \
   pats_filename.dats \
   pats_location.sats \
   pats_location.dats \
+  pats_errmsg.sats \
+  pats_errmsg.dats \
   pats_reader.sats \
   pats_reader.dats \
   pats_lexbuf.sats \

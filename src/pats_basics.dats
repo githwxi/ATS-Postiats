@@ -82,6 +82,14 @@ end // end of [test_polkind]
 (* ****** ****** *)
 
 implement
+impkind_neutralize (knd) = let
+  val polflag = uint_of (POLFLAG)
+  val knd = uint_of (knd) \land_uint_uint ~polflag
+in
+  int_of (knd)
+end // end of [impkind_neutralize]
+
+implement
 lte_impkind_impkind (k1, k2) = let
   val polflag = uint_of (POLFLAG)
   val polmask = ~polflag

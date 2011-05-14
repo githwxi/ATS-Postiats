@@ -103,9 +103,12 @@ datatype
 d2ecl_node =
   | D2Cnone of () // for something already erased
   | D2Clist of d2eclist // for list of declarations
+//
   | D2Cstavars of s2tavarlst // for [stavar] declarations
   | D2Csaspdec of s2aspdec (* for static assumption *)
   | D2Cextype of (string(*name*), s2exp(*def*))
+//
+  | D2Cinclude of d2eclist (* file inclusion *)
 // end of [d2ecl_node]
 
 and
@@ -163,6 +166,8 @@ fun d2ecl_stavars (loc: location, xs: s2tavarlst): d2ecl
 fun d2ecl_saspdec (loc: location, dec: s2aspdec): d2ecl
 
 fun d2ecl_extype (loc: location, name: string, def: s2exp): d2ecl
+
+fun d2ecl_include (loc: location, d2cs: d2eclist): d2ecl
 
 (* ****** ****** *)
 

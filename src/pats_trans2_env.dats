@@ -383,6 +383,7 @@ fun the_s2rtenv_initialize (): void = {
   val () = the_s2rtenv_add ($SYM.symbol_BOOL, S2TEsrt s2rt_bool)
   val () = the_s2rtenv_add ($SYM.symbol_ADDR, S2TEsrt s2rt_addr)
   val () = the_s2rtenv_add ($SYM.symbol_CHAR, S2TEsrt s2rt_char)
+  val () = the_s2rtenv_add ($SYM.symbol_CLS, S2TEsrt s2rt_cls)
 //
 // HX: pre-defined impredicative sorts
 //

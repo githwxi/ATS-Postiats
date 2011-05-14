@@ -58,6 +58,12 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
+staload "pats_errmsg.sats"
+staload _(*anon*) = "pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans2_decl"
+
+(* ****** ****** *)
+
 staload "pats_staexp1.sats"
 staload "pats_dynexp1.sats"
 staload "pats_staexp2.sats"
@@ -71,17 +77,6 @@ staload "pats_trans2_env.sats"
 (* ****** ****** *)
 
 #define l2l list_of_list_vt
-
-(* ****** ****** *)
-
-fn prerr_error2_loc
-  (loc: location): void = (
-  $LOC.prerr_location loc; prerr ": error(2)"
-) // end of [prerr_error2_loc]
-fn prerr_interror () = prerr "INTERROR(pats_trans2_decl)"
-fn prerr_interror_loc (loc: location) = (
-  $LOC.prerr_location loc; prerr ": INTERROR(pats_trans2_decl)"
-) // end of [prerr_interror_loc]
 
 (* ****** ****** *)
 
@@ -689,6 +684,10 @@ case+ d1c0.d1ecl_node of
   in
     d2ecl_extype (loc0, name, s2e_def)
   end // end of [D1Cextype]
+//
+| D1Cinclude (d1cs) => let
+    val d2cs = d1eclist_tr (d1cs) in d2ecl_include (loc0, d2cs)
+  end // end of [D1Cinclude]
 //
 | _ => let
     val () = $LOC.prerr_location (loc0)

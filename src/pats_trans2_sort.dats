@@ -48,6 +48,12 @@ macdef prerr_symbol = $SYM.prerr_symbol
 
 (* ****** ****** *)
 
+staload "pats_errmsg.sats"
+staload _(*anon*) = "pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans2_sort.dats"
+
+(* ****** ****** *)
+
 staload "pats_staexp1.sats"
 staload "pats_staexp2.sats"
 
@@ -60,17 +66,6 @@ staload "pats_trans2_env.sats"
 
 #define l2l list_of_list_vt
 macdef list_sing (x) = list_cons (,(x), list_nil)
-
-(* ****** ****** *)
-
-fn prerr_error2_loc
-  (loc: location): void = (
-  $LOC.prerr_location loc; prerr ": error(2)"
-) // end of [prerr_error2_loc]
-fn prerr_interror () = prerr "INTERROR(pats_trans2_sort)"
-fn prerr_interror_loc (loc: location) = begin
-  $LOC.prerr_location loc; prerr ": INTERROR(pats_trans2_sort)"
-end // end of [prerr_interror_loc]
 
 (* ****** ****** *)
 

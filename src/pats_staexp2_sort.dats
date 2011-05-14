@@ -53,6 +53,10 @@ staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
+fun prerr_interror (): void = prerr "INTERROR(pats_staexp2_sort)"
+
+(* ****** ****** *)
+
 typedef
 s2rtdat_struct = @{
   s2rtdat_sym= symbol // name
@@ -160,17 +164,30 @@ implement s2rt_types = S2RTbas s2tb_types
 
 implement
 s2rt_impredicative
-  (knd) = case+ knd of
-  | PROP_int => s2rt_prop
-  | TYPE_int => s2rt_type
-  | T0YPE_int => s2rt_t0ype
-  | VIEW_int => s2rt_view
-  | VIEWTYPE_int => s2rt_viewtype
-  | VIEWT0YPE_int => s2rt_viewt0ype
-  | _ => let
-      val () = assertloc (false) in s2rt_t0ype
-    end // end of [s2rt_impredicative]
-// end of [s2rt_impredicative]
+  (knd) = let
+  val knd = impkind_neutralize (knd)
+in
+//
+case+ knd of
+| PROP_int => s2rt_prop
+| TYPE_int => s2rt_type
+| T0YPE_int => s2rt_t0ype
+| VIEW_int => s2rt_view
+| VIEWTYPE_int => s2rt_viewtype
+| VIEWT0YPE_int => s2rt_viewt0ype
+| _ => let
+//
+    val () = prerr_interror ()
+    val () = prerr ": s2rt_impredicative: knd = "
+    val () = prerr_int (knd)
+    val () = prerr_newline ()
+//
+    val () = assertloc (false)
+  in
+    s2rt_t0ype // HX: this is deadcode
+  end // end of [s2rt_impredicative]
+//
+end // end of [s2rt_impredicative]
 
 end // end of [local]
 

@@ -34,52 +34,41 @@
 //
 (* ****** ****** *)
 
-staload "pats_dynexp2.sats"
+staload "pats_errmsg.sats"
 
 (* ****** ****** *)
 
-implement
-s2tavar_make (loc, s2v) = '{
-  s2tavar_loc= loc, s2tavar_var= s2v
+implement{}
+prerr_interror () = {
+  val () = prerr "INTERROR("
+  val () = prerr_FILENAME<> ()
+  val () = prerr ")"
 }
-
-implement
-s2aspdec_make (loc, s2c, def) = '{
-  s2aspdec_loc= loc, s2aspdec_cst= s2c, s2aspdec_def= def
-}
+implement{}
+prerr_interror_loc (loc) = {
+  val () = $LOC.prerr_location (loc)
+  val () = prerr ": INTERROR("
+  val () = prerr_FILENAME<> ()
+  val () = prerr ")"
+} // end of [prerr_interror_loc]
 
 (* ****** ****** *)
 
-implement
-d2ecl_none (loc) = '{
-  d2ecl_loc= loc, d2ecl_node= D2Cnone ()
-}
+implement{}
+prerr_error1_loc (loc) = (
+  $LOC.prerr_location loc; prerr ": error(1)"
+) // end of [prerr_error1_loc]
 
-implement
-d2ecl_list (loc, xs) = '{
-  d2ecl_loc= loc, d2ecl_node= D2Clist (xs)
-}
+implement{}
+prerr_error2_loc (loc) = (
+  $LOC.prerr_location loc; prerr ": error(2)"
+) // end of [prerr_error2_loc]
 
-implement
-d2ecl_stavars (loc, xs) = '{
-  d2ecl_loc= loc, d2ecl_node= D2Cstavars (xs)
-}
-
-implement
-d2ecl_saspdec (loc, d) = '{
-  d2ecl_loc= loc, d2ecl_node= D2Csaspdec (d)
-}
-
-implement
-d2ecl_extype (loc, name, def) = '{
-  d2ecl_loc= loc, d2ecl_node= D2Cextype (name, def)
-}
-
-implement
-d2ecl_include (loc, d2cs) = '{
-  d2ecl_loc= loc, d2ecl_node= D2Cinclude (d2cs)
-}
+implement{}
+prerr_error3_loc (loc) = (
+  $LOC.prerr_location loc; prerr ": error(3)"
+) // end of [prerr_error3_loc]
 
 (* ****** ****** *)
 
-(* end of [pats_dynexp2.dats] *)
+(* end of [pats_errmsg.dats] *)

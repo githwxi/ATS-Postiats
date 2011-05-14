@@ -243,6 +243,8 @@ s2exp_node =
 //
   | S2Ecst of s2cst // constant
 //
+  | S2Eextype of (string(*name*), s2explstlst) // external type
+//
   | S2Evar of s2var // variable
   | S2EVar of s2Var // existential variable
 //
@@ -460,6 +462,10 @@ fun s2exp_intinf (int: intinf): s2exp
 fun s2exp_char (c: char): s2exp
 fun s2exp_cst (x: s2cst): s2exp // HX: static constant
 fun s2exp_var (x: s2var): s2exp // HX: static variable
+
+fun s2exp_extype_srt
+  (s2t: s2rt, name: string, arg: s2explstlst): s2exp
+// end of [s2exp_extype_srt]
 
 (* ****** ****** *)
 
