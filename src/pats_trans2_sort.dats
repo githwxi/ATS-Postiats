@@ -201,10 +201,21 @@ s1rtopt_tr (opt) = (case+ opt of
 (* ****** ****** *)
 
 implement
-a1srt_tr (x) = s1rt_tr (x.a1srt_srt)
+a1srt_tr_srt (x) = s1rt_tr (x.a1srt_srt)
+implement
+a1msrt_tr_srt (x) = l2l (list_map_fun (x.a1msrt_arg, a1srt_tr_srt))
 
 implement
-a1msrt_tr (x) = l2l (list_map_fun (x.a1msrt_arg, a1srt_tr))
+a1srt_tr_symsrt (x) = let
+  val sym = (case+ x.a1srt_sym of
+    | None () => $SYM.symbol_empty | Some sym => sym
+  ) : symbol
+  val s2t = s1rt_tr (x.a1srt_srt)
+in
+  (sym, s2t)
+end // end of [a1srt_tr_symsrt]
+implement
+a1msrt_tr_symsrt (x) = l2l (list_map_fun (x.a1msrt_arg, a1srt_tr_symsrt))
 
 (* ****** ****** *)
 

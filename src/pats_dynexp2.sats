@@ -108,6 +108,8 @@ d2ecl_node =
   | D2Csaspdec of s2aspdec (* for static assumption *)
   | D2Cextype of (string(*name*), s2exp(*def*))
 //
+  | D2Cdatdec of (int(*knd*), s2cstlst) // datatype declarations
+//
   | D2Cinclude of d2eclist (* file inclusion *)
 // end of [d2ecl_node]
 
@@ -166,6 +168,8 @@ fun d2ecl_stavars (loc: location, xs: s2tavarlst): d2ecl
 fun d2ecl_saspdec (loc: location, dec: s2aspdec): d2ecl
 
 fun d2ecl_extype (loc: location, name: string, def: s2exp): d2ecl
+
+fun d2ecl_datdec (loc: location, knd: int, s2cs: s2cstlst): d2ecl
 
 fun d2ecl_include (loc: location, d2cs: d2eclist): d2ecl
 

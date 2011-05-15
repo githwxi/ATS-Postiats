@@ -195,7 +195,7 @@ fn s1tacst_tr
   ) : s2rt =
     case+ xs of
     | list_cons (x, xs) =>
-        s2rt_fun (a1msrt_tr (x), aux (xs, res))
+        s2rt_fun (a1msrt_tr_srt (x), aux (xs, res))
       // end of [list_cons]
     | list_nil () => res
   // end of [aux]
@@ -228,19 +228,7 @@ fn s1tacon_tr (
   val id = d.s1tacon_sym
   val loc = d.s1tacon_loc
 //
-  val argvar = let
-    fn f1 (x: a1srt): syms2rt = let
-      val sym = (case+ x.a1srt_sym of
-        | None () => $SYM.symbol_empty | Some sym => sym
-      ) : symbol
-      val s2t = s1rt_tr (x.a1srt_srt)
-    in
-      (sym, s2t)
-    end // end of [f1]
-    fn f2 (x: a1msrt): syms2rtlst = l2l (list_map_fun (x.a1msrt_arg, f1))
-  in
-    l2l (list_map_fun (d.s1tacon_arg, f2))
-  end : List (syms2rtlst) // end of [val]
+  val argvar = l2l (list_map_fun (d.s1tacon_arg, a1msrt_tr_symsrt))
 //
   val s2t_fun = let
     fun aux (
@@ -628,6 +616,179 @@ fn c1lassdec_tr (
 
 (* ****** ****** *)
 
+fn d1atdec_tr (
+  s2c: s2cst, s2vss0: s2varlstlst, d1c: d1atdec
+) : void = let
+//
+  val () = let
+    val n = list_length (s2vss0) in
+    if n >= 2 then {
+      val () = prerr_error2_loc (d1c.d1atdec_loc)
+      val () = filprerr_ifdebug ": d1atdec_tr" // for debugging
+      val () = prerr ": the declared type constructor is overly applied."
+      val () = prerr_newline ()
+    } // end of [if]
+  end // end of [val]
+//
+fun
+d1atconlst_tr (
+  s2c: s2cst
+, islin: bool
+, isprf: bool
+, s2vss0: s2varlstlst
+, fil: filename
+, d1cs: d1atconlst
+) : d2conlst =
+  case+ d1cs of
+  | list_cons (d1c, d1cs) => let
+      val d2c = d1atcon_tr (s2c, islin, isprf, s2vss0, fil, d1c)
+    in
+      list_cons (d2c, d1atconlst_tr (s2c, islin, isprf, s2vss0, fil, d1cs))
+    end // end of [cons]
+  | list_nil () => list_nil ()
+(* end of [d1atconlst_tr] *)
+//
+  val s2t_fun = s2cst_get_srt (s2c)
+  val s2t_res = (
+    case+ s2t_fun of S2RTfun (_, s2t) => s2t | s2t => s2t
+  ) // end of [val]
+  val islin = s2rt_is_lin s2t_res and isprf = s2rt_is_prf s2t_res
+  val d2cs = d1atconlst_tr
+    (s2c, islin, isprf, s2vss0, d1c.d1atdec_fil, d1c.d1atdec_con)
+  // end of [val]
+  val () = let // assigning tags to dynamic constructors
+    fun aux (
+      i: int, d2cs: d2conlst
+    ) : void = case+ d2cs of
+      | list_cons (d2c, d2cs) => let
+          val () = d2con_set_tag (d2c, i) in aux (i+1, d2cs)
+        end // end of [list_cons]
+      | list_nil () => () // end of [list_nil]
+    // end of [aux]
+  in
+    aux (0, d2cs)
+  end // end of [val]
+//
+  val islst = (case+ d2cs of
+    | list_cons (
+        d2c1, list_cons (d2c2, list_nil ())
+      ) =>
+        if d2con_get_arity_real (d2c1) = 0 then (
+          if d2con_get_arity_real (d2c2) > 0 then Some @(d2c1, d2c2)
+          else None ()
+        ) else (
+          if d2con_get_arity_real (d2c2) = 0 then Some @(d2c2, d2c1)
+          else None ()
+        ) // end of [if]
+      // end of [list_cons (_, list_cons (_, list_nil _))
+    | _ => None () // end of [_]
+  ) : Option @(d2con, d2con)
+  val () = s2cst_set_islst (s2c, islst)
+  val () = s2cst_set_conlst (s2c, Some d2cs)
+//
+in
+  // nothing
+end // end of [d1atdec_tr]
+
+extern
+fun d1atdeclst_tr (
+  datknd: int, d1cs_dat: d1atdeclst, d1cs_def: s1expdeflst
+) : s2cstlst // end of [d1atdeclst_tr]
+implement
+d1atdeclst_tr (
+  datknd, d1cs_dat, d1cs_def
+) = let
+//
+typedef T = (d1atdec, s2cst, s2varlstlst)
+val s2t_res = s2rt_impredicative (datknd)
+//
+val d1cs2cs2vsslst = let
+//
+  var res: List (T) = list_nil ()
+//
+  fun aux .<>. (
+    d1c: d1atdec, res: &List (T)
+  ) :<cloref1> void = let
+    val argvar = l2l (
+      list_map_fun (d1c.d1atdec_arg, a1msrt_tr_symsrt)
+    ) : List (syms2rtlst)
+    val s2vss = let
+      fun f1 (x: syms2rt): s2var =
+        if x.0 = $SYM.symbol_empty then
+          s2var_make_srt (x.1) else s2var_make_id_srt (x.0, x.1)
+        // end of [if]
+      fun f2 (
+        xs: syms2rtlst
+      ) : s2varlst = let
+        val s2vs = l2l (list_map_fun (xs, f1))
+      in
+        s2vs
+      end // end of [f2]
+    in
+      l2l (list_map_fun (argvar, f2))
+    end : s2varlstlst
+//
+    val s2tss_arg = let
+      fun aux
+        (xs: syms2rtlst): s2rtlst =
+        case+ xs of
+        | list_cons (x, xs) => list_cons (x.1, aux xs)
+        | list_nil () => list_nil ()
+      // end of [aux]
+    in
+      l2l (list_map_fun (argvar, aux))
+    end : s2rtlstlst
+//
+    val s2c = s2cst_make_dat (
+      d1c.d1atdec_sym, d1c.d1atdec_loc, s2tss_arg, s2t_res, argvar
+    ) // end of [val]
+    val () = the_s2expenv_add_scst s2c
+//
+  in
+    res := list_cons ((d1c, s2c, s2vss), res)
+  end // end of [val]
+//
+  fun auxlst (
+    d1cs: d1atdeclst, res: &List(T)
+  ) :<cloref1> void = case+ d1cs of
+    | list_cons (d1c, d1cs) => let
+        val () = aux (d1c, res) in auxlst (d1cs, res)
+      end // end of [list_cons]
+    | list_nil () => ()
+  // end of [auxlst]
+//
+in
+  auxlst (d1cs_dat, res); res
+end : List (T) // end of [d1cs2cs2vsslst]
+//
+val () = aux (d1cs_def) where {
+  fun aux (
+    d1cs: s1expdeflst
+  ) : void = begin case+ d1cs of
+    | list_cons (d1c, d1cs) => let
+        val s2c = s1expdef_tr (None, d1c)
+        val () = the_s2expenv_add_scst (s2c)
+      in
+        aux (d1cs)
+      end // end of [cons]
+    | list_nil () => () // end of [list_nil]
+  end (* end of [aux] *)
+} // end of [val]
+//
+fun aux (xs: List (T)): s2cstlst = case+ xs of
+  | list_cons (x, xs) => let
+      val () = d1atdec_tr (x.1, x.2, x.0) in list_cons (x.1, aux xs)
+    end // end of [cons]
+  | list_nil () => list_nil ()
+// end of [aux]
+in
+//
+aux (d1cs2cs2vsslst)
+//
+end // end of [d1atdeclst_tr]
+
+(* ****** ****** *)
+
 implement
 d1ecl_tr (d1c0) = let
   val loc0 = d1c0.d1ecl_loc
@@ -684,6 +845,12 @@ case+ d1c0.d1ecl_node of
   in
     d2ecl_extype (loc0, name, s2e_def)
   end // end of [D1Cextype]
+//
+| D1Cdatdecs (knd, d1cs_dat, d1cs_def) => let
+    val s2cs = d1atdeclst_tr (knd, d1cs_dat, d1cs_def)
+  in
+    d2ecl_datdec (loc0, knd, s2cs)
+  end // end of [D1Cdatdecs]
 //
 | D1Cinclude (d1cs) => let
     val d2cs = d1eclist_tr (d1cs) in d2ecl_include (loc0, d2cs)

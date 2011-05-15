@@ -136,6 +136,7 @@ datatype s2rt =
 where
 s2rtlst = List (s2rt)
 and s2rtopt = Option (s2rt)
+and s2rtlstlst = List (s2rtlst)
 and s2rtlstopt = Option (s2rtlst)
 
 (* ****** ****** *)
@@ -181,6 +182,7 @@ fun s2rt_err (): s2rt // HX: a placeholder indicating error
 fun s2rt_is_dat (x: s2rt): bool
 fun s2rt_is_fun (x: s2rt): bool
 fun s2rt_is_prf (x: s2rt): bool
+fun s2rt_is_lin (x: s2rt): bool
 fun s2rt_is_impredicative (x: s2rt): bool
 
 (* ****** ****** *)
@@ -304,6 +306,7 @@ s2exp = '{
 and s2explst = List (s2exp)
 and s2expopt = Option (s2exp)
 and s2explstlst = List (s2explst)
+and s2explstopt = Option (s2explst)
 
 and locs2exp = (location, s2exp)
 and locs2explst = List (locs2exp)
@@ -314,6 +317,15 @@ and s2rtextopt_vt = Option_vt (s2rtext)
 
 typedef syms2rt = (symbol, s2rt)
 typedef syms2rtlst = List (syms2rt)
+
+(* ****** ****** *)
+//
+// HX: there is no [s2qua]
+//
+typedef s2qualst = (s2varlst, s2explst)
+typedef s2qualstlst = List (s2qualst)
+
+(* ****** ****** *)
 
 fun s2cst_make (
   id: symbol // the name
@@ -331,8 +343,8 @@ fun s2cst_make (
 fun s2cst_make_dat (
   id: symbol
 , loc: location
-, _arg: s2rtlstopt, _res: s2rt
-, argvar: Option (List @(symbolopt, s2rt, int))
+, _arg: s2rtlstlst, _res: s2rt
+, argvar: List (syms2rtlst)
 ) : s2cst // end of [s2cst_make_dat]
 
 (* ****** ****** *)
@@ -450,13 +462,70 @@ fun fprint_s2Var : fprint_type (s2Var)
 fun s2Varset_make_nil (): s2Varset
 
 (* ****** ****** *)
-
-fun d2con_get_sym (x: d2con): symbol
-
-fun fprint_d2con : fprint_type (d2con)
+//
+// HX: [d2con] is assumed in [pats_staexp2_dcon.dats]
+//
+fun d2con_make (
+  loc: location // location
+, fil: filename // filename
+, id: symbol // the name
+, s2c: s2cst // the type constructor
+, vwtp: int
+, qua: s2qualstlst
+, npf: int // pfarity
+, arg: s2explst // arguments
+, ind: s2explstopt // indexes
+) : d2con // end of [d2con_make]
 
 (* ****** ****** *)
 
+fun d2con_make_list_nil (): d2con
+fun d2con_make_list_cons (): d2con
+
+(* ****** ****** *)
+
+fun d2con_get_fil (x: d2con): filename
+fun d2con_get_sym (x: d2con): symbol
+fun d2con_get_scst (x: d2con): s2cst
+fun d2con_get_vwtp (x: d2con): int
+fun d2con_get_npf (x: d2con): int
+fun d2con_get_qua (x: d2con): s2qualstlst
+fun d2con_get_arg (x: d2con): s2explst
+fun d2con_get_arity_full (x: d2con): int
+fun d2con_get_arity_real (x: d2con): int
+fun d2con_get_ind (x: d2con): s2explstopt
+fun d2con_get_typ (x: d2con): s2exp
+fun d2con_get_tag (x: d2con): int
+fun d2con_set_tag (x: d2con, tag: int): void
+fun d2con_get_stamp (x: d2con): stamp
+
+(* ****** ****** *)
+
+fun compare_d2con_d2con (x1: d2con, x2: d2con):<> Sgn
+overload compare with compare_d2con_d2con
+
+(* ****** ****** *)
+
+fun d2con_is_exn (d2c: d2con): bool // exn constructor
+fun d2con_is_msg (d2c: d2con): bool // msg constructor
+fun d2con_is_proof (d2c: d2con): bool // proof constructor
+
+(* ****** ****** *)
+//
+// HX: implemented in [ats_staexp2_dcon.dats]
+//
+fun fprint_d2con : fprint_type (d2con)
+fun print_d2con (x: d2con): void
+fun prerr_d2con (x: d2con): void
+
+fun fprint_d2conlst : fprint_type (d2conlst)
+fun print_d2conlst (xs: d2conlst): void
+fun prerr_d2conlst (xs: d2conlst): void
+
+(* ****** ****** *)
+//
+// HX: static expressions
+//
 fun s2exp_int (i: int): s2exp
 fun s2exp_intinf (int: intinf): s2exp
 fun s2exp_char (c: char): s2exp
@@ -482,6 +551,11 @@ fun s2exp_fun_srt (
 , fc: funclo, lin: int, s2fe: s2eff, npf: int
 , s2es_arg: s2explst, s2e_res: s2exp
 ) : s2exp // end of [s2exp_fun_srt]
+
+(* ****** ****** *)
+
+fun s2exp_cstapp (s2c: s2cst, s2es: s2explst): s2exp
+fun s2exp_confun (npf: int, s2es: s2explst, s2e: s2exp): s2exp
 
 (* ****** ****** *)
 

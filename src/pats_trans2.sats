@@ -63,8 +63,11 @@ fun s1rtopt_tr (s1topt: s1rtopt): s2rtopt
 
 (* ****** ****** *)
 
-fun a1srt_tr (x: a1srt): s2rt
-fun a1msrt_tr (x: a1msrt): s2rtlst
+fun a1srt_tr_srt (x: a1srt): s2rt
+fun a1msrt_tr_srt (x: a1msrt): s2rtlst
+
+fun a1srt_tr_symsrt (x: a1srt): syms2rt
+fun a1msrt_tr_symsrt (x: a1msrt): syms2rtlst
 
 (* ****** ****** *)
 
@@ -107,7 +110,8 @@ fun s1exp_trdn_res_impredicative (s1e: s1exp, wths1es: wths1explst): s2exp
 
 (* ****** ****** *)
 
-fun s1qualst_tr (s1qs: s1qualst): @(s2varlst, s2explst)
+fun s1qualst_tr (s1qs: s1qualst): s2qualst
+fun q1marg_tr (q1ma: q1marg): s2qualst // HX: [location] is discarded
 
 (* ****** ****** *)
 
@@ -115,7 +119,14 @@ fun s1rtext_tr (s1te: s1rtext): s2rtext
 
 (* ****** ****** *)
 
-fun s1aspdec_tr (d: s1aspdec): s2aspdec
+fun d1atcon_tr (
+   s2c: s2cst
+, islin: bool
+, isprf: bool
+, s2vss0: s2varlstlst
+, fil: filename
+, d1c: d1atcon
+) : d2con // end of [d1atcon_tr]
 
 (* ****** ****** *)
 

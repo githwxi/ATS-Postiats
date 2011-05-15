@@ -76,6 +76,11 @@ d2ecl_extype (loc, name, def) = '{
 }
 
 implement
+d2ecl_datdec (loc, knd, s2cs) = '{
+  d2ecl_loc= loc, d2ecl_node= D2Cdatdec (knd, s2cs)
+}
+
+implement
 d2ecl_include (loc, d2cs) = '{
   d2ecl_loc= loc, d2ecl_node= D2Cinclude (d2cs)
 }

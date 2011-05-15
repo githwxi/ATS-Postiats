@@ -521,11 +521,11 @@ s1exp_trdn_res_impredicative
     case+ s1e.s1exp_node of
     | S1Eexi (1(*funres*), s1qs, s1e_scope) => let
         val (pf_s2expenv | ()) = the_s2expenv_push_nil ()
-        val @(s2vs, s2ps) = s1qualst_tr (s1qs)
+        val s2qs = s1qualst_tr (s1qs)
         val s2e_scope = auxres (s1e_scope, wths1es)
         val () = the_s2expenv_pop_free (pf_s2expenv | (*none*))
       in
-        s2exp_exi (s2vs, s2ps, s2e_scope)
+        s2exp_exi (s2qs.0, s2qs.1, s2e_scope)
       end // end of [S1Eexi]
     | _ => let
         val s2e = s1exp_trdn_impredicative (s1e)
@@ -905,6 +905,23 @@ case+ s1e0.s1exp_node of
     s2exp_lam (s2vs, s2e_body)
   end // end of [S1Elam]
 //
+| S1Einvar _ => let
+    val s2t = s2rt_err ()
+    val () = prerr_error2_loc (loc0)
+    val () = prerr ": an invariant type can only be assigned to the argument of a function."
+    val () = prerr_newline ()
+  in
+    s2exp_err (s2t)
+  end // end of [S1Einvar]
+| S1Etrans _ => let
+    val s2t = s2rt_err ()
+    val () = prerr_error2_loc (loc0)
+    val () = prerr ": a transitional type can only be assigned to the argument of a function."
+    val () = prerr_newline ()
+  in
+    s2exp_err (s2t)
+  end // end of [S1Etrans]
+//
 | S1Eexi (knd, s1qs, s1e_scope) => let
 (*
     val () = begin
@@ -941,6 +958,10 @@ case+ s1e0.s1exp_node of
 | S1Eann (s1e, s1t) => let
     val s2t = s1rt_tr (s1t) in s1exp_trdn (s1e, s2t)
   end // end of [S1Eann]
+//
+| S1Eerr () => let
+    val s2t = s2rt_err () in s2exp_err (s2t)
+  end // end of [S1Eerr]
 //
 | _ => let
     val () = prerr_interror_loc (loc0)
@@ -1043,7 +1064,7 @@ in
 case+ (s1e.s1exp_node, s2t) of
 | (S1Elam _, S2RTfun _) => s1exp_trdn_lam (s1e, s2t)
 | (S1Eextype (name, s1ess), _) =>
-    if s2rt_ltmat1 (s2t, s2rt_t0ype) then let
+    if s2rt_ltmat1 (s2t, s2rt_viewt0ype) then let
       val s2ess = list_map_fun (s1ess, s1explst_trdn_viewt0ype)
     in
       s2exp_extype_srt (s2t, name, (l2l)s2ess)
@@ -1236,6 +1257,9 @@ in // in of [let]
 //
 end // end of [s1qualst_tr]
 
+(* ****** ****** *)
+
+implement q1marg_tr (q1ma) = s1qualst_tr (q1ma.q1marg_arg)
 
 (* ****** ****** *)
 
@@ -1294,6 +1318,123 @@ case+ s1te0.s1rtext_node of
    end // end of [S1TEsub]
 // end of [case]
 end // end of [s1rtext_tr]
+
+(* ****** ****** *)
+
+implement
+d1atcon_tr (
+  s2c, islin, isprf, s2vss0, fil, d1c
+) = let
+//
+fn auxerr1 (
+  loc: location, id: symbol, err: int
+) : void = {
+  val () = prerr_error2_loc (loc)
+  val () = prerr ": the constructor ["
+  val () = $SYM.prerr_symbol (id)
+  val () = prerr "] is expected to have "
+  val () = if err > 0 then prerr "less" else prerr "more"
+  val () = prerr " indexes."
+  val () = prerr_newline ();
+} // end of [auxerr1]
+fn auxerr2 (
+  loc: location, id: symbol
+) : s2explstopt = let
+  val () = prerr_error2_loc (loc)
+  val () = prerr ": the constructor ["
+  val () = $SYM.prerr_symbol (id)
+  val () = prerr "] does not need any indexes."
+  val () = prerr_newline ()
+in
+  None ()
+end // end of [auxerr2]
+//
+  val loc0 = d1c.d1atcon_loc
+//
+  val (pfenv | ()) = the_s2expenv_push_nil ()
+//
+  val () = list_app_fun
+    (s2vss0, the_s2expenv_add_svarlst)
+  var s2qss: List_vt (s2qualst) =
+    list_map_fun<q1marg> (d1c.d1atcon_qua, q1marg_tr)
+  val () = aux (s2qss, s2vss0) where {
+    fun aux (
+      s2qss: &List_vt (s2qualst), xs: s2varlstlst
+    ) : void =
+      case+ xs of
+      | list_cons (x, xs) => let
+          val () = aux (s2qss, xs) in s2qss := list_vt_cons ((x, list_nil), s2qss)
+        end // end of [list_cons]
+      | list_nil () => ()
+    // end of [aux]
+  } // end of [val]
+  val s2qss = l2l (s2qss)
+//
+  val indopt_s2ts = let
+    val s2t_fun = s2cst_get_srt (s2c) in
+    case+ s2t_fun of S2RTfun (s2ts, _) => Some s2ts | _ => None ()
+  end : s2rtlstopt // end of [val]
+  val npf = d1c.d1atcon_npf and s1es_arg = d1c.d1atcon_arg
+//
+  val s2es_arg = let
+    val s2t_pfarg = (
+      if islin then s2rt_view else s2rt_prop
+    ) : s2rt // end of [val]
+    val s2t_arg = (
+      if isprf then s2t_pfarg else begin
+        if islin then s2rt_viewt0ype else s2rt_t0ype
+      end // end of [if]
+    ) : s2rt // end of [val]
+    fun aux (
+      i: int, s1es: s1explst
+    ) :<cloref1> s2explst =
+      case+ s1es of
+      | list_cons (s1e, s1es) => let
+          val s2t = (
+            if i < npf then s2t_pfarg else s2t_arg
+          ) : s2rt
+          val s2e = s1exp_trdn (s1e, s2t)
+        in
+          list_cons (s2e, aux (i+1, s1es))
+        end // end of [cons]
+      | list_nil () => list_nil () // end of [list_nil]
+    // end of [aux]
+  in
+    aux (0, s1es_arg)
+  end // end of [val]
+//
+  val id = d1c.d1atcon_sym
+  val indopt_s1es = d1c.d1atcon_ind
+  val indopt_s2es = (
+    case+ (indopt_s1es, indopt_s2ts) of
+    | (None (), None ()) => None ()
+    | (Some s1es, Some s2ts) => let
+        var err: int = 0
+        val s2es = s1explst_trdn_err (s1es, s2ts, err)
+        val () = if err <> 0 then auxerr1 (loc0, id, err)
+      in
+        Some (s2es)
+      end
+    | (None _, Some _) => let
+        val- list_cons (s2vs, _) = s2vss0
+        val s2es = l2l (list_map_fun (s2vs, s2exp_var))
+      in
+        Some (s2es)
+      end
+    | (Some _, None _) => auxerr2 (loc0, id)
+  ) : s2explstopt // end of [val]
+//
+  val () = the_s2expenv_pop_free (pfenv | (*none*))
+//
+  val vwtp = (if isprf then 0 else if islin then 1 else 0): int
+//
+  val d2c = d2con_make
+    (loc0, fil, id, s2c, vwtp, s2qss, npf, s2es_arg, indopt_s2es)
+  // end of [val]
+//
+in
+  d2c
+end // end of [d1atcon_tr]
 
 (* ****** ****** *)
 

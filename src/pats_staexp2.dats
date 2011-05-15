@@ -42,6 +42,10 @@ staload LEX = "pats_lexing.sats"
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 
 (* ****** ****** *)
@@ -121,6 +125,28 @@ s2exp_fun_srt (
 ) = '{
   s2exp_srt= s2t, s2exp_node= S2Efun (fc, lin, s2fe, npf, _arg, _res)
 } // end of [s2exp_fun_srt]
+
+(* ****** ****** *)
+
+implement
+s2exp_cstapp
+  (s2c_fun, s2es_arg) = let
+  val s2t_fun = s2cst_get_srt s2c_fun
+  val s2e_fun = s2exp_cst s2c_fun
+  val- S2RTfun (s2ts_arg, s2t_res) = s2t_fun
+in
+  s2exp_app_srt (s2t_res, s2e_fun, s2es_arg)
+end // end of [s2exp_cstapp]
+
+implement
+s2exp_confun (
+  npf, s2es_arg, s2e_res
+) = '{
+  s2exp_srt= s2rt_type
+, s2exp_node= S2Efun (
+    FUNCLOfun (), 0(*lin*), S2EFFnil (), npf, s2es_arg, s2e_res
+  ) // end of [S2Efun]
+} (* end of [s2exp_confun] *)
 
 (* ****** ****** *)
 

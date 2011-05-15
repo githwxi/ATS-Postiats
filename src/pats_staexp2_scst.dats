@@ -183,6 +183,16 @@ s2cst_get_argvar (s2c) = let
 end // end of [s2cst_get_argvar]
 
 implement
+s2cst_set_islst (s2c, islst) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_islst := islst
+end // end of [s2cst_set_islst]
+
+implement
+s2cst_set_conlst (s2c, d2cs) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_conlst := d2cs
+end // end of [s2cst_set_conlst]
+
+implement
 s2cst_get_sup (s2c) = let
   val (vbox pf | p) = ref_get_view_ptr (s2c)
 in
@@ -218,6 +228,35 @@ s2cst_set_tag (s2c, tag) = let
 end // end of [s2cst_set_tag]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+s2cst_make_dat (
+  id, loc, s2tss_arg, s2t_res, argvar
+) = let
+  val s2t_fun =
+    aux (s2tss_arg, s2t_res) where {
+    fun aux (xs: s2rtlstlst, s2t: s2rt): s2rt =
+      case+ xs of
+      | list_cons (x, xs) => s2rt_fun (x, aux (xs, s2t))
+      | list_nil () => s2t
+    // end of [aux]
+  } // end of [val]
+in
+  s2cst_make (
+    id // name
+  , loc // the location of declaration
+  , s2t_fun // sort
+  , None () // isabs
+  , true // iscon
+  , false // isrec
+  , false // isasp
+  , None () // islst
+  , argvar // argumnet variance
+  , None () // definition
+  ) // end of [s2cst_make]
+end // end of [s2cst_make_dat]
 
 (* ****** ****** *)
 
