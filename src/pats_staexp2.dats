@@ -151,6 +151,18 @@ s2exp_confun (
 (* ****** ****** *)
 
 implement
+s2exp_top_srt (s2t, knd, s2e) = '{
+  s2exp_srt= s2t, s2exp_node= S2Etop (knd, s2e)
+} // end of [s2exp_top_srt]
+
+(* ****** ****** *)
+
+implement
+s2exp_tyarr (elt, ind) = '{
+  s2exp_srt=elt.s2exp_srt, s2exp_node= S2Etyarr (elt, ind)
+}
+
+implement
 s2exp_tyrec_srt
   (s2t, knd, npf, ls2es) = '{
   s2exp_srt= s2t, s2exp_node= S2Etyrec (knd, npf, ls2es)

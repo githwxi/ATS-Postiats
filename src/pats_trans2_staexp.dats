@@ -273,13 +273,14 @@ case+ ans of
       val () = s2var_check_tmplev (loc0, s2v) in s2exp_var (s2v)
     end // end of [S2ITMvar]
 //
-  | _ => s2exp_err (s2t_err) where {
-      val s2t_err = s2rt_err ()
+  | _ => let
       val () = prerr_interror_loc (loc0)
       val () = prerr ": s1exp_trup_sqid: s2i = "
       val () = prerr_s2itm (s2i)
       val () = prerr_newline ()
-    } // end of [_]
+    in
+      $ERR.abort {s2exp} ()
+    end (* end of [_] *)
   end // end of [Some_vt]
 | ~None_vt () => s2exp_err (s2t_err) where {
     val s2t_err = s2rt_err ()
@@ -811,15 +812,26 @@ case+ s2i of
 | S2ITMdatconptr d2c => s1exp_trup_app_datconptr (loc_app, d2c, s1ess)
 | S2ITMdatcontyp d2c => s1exp_trup_app_datcontyp (loc_app, d2c, s1ess)
 *)
-| _ => s2exp_err (s2t_err) where {
-    val s2t_err = s2rt_err ()
+| _ => let
     val () = list_vt_free (xs)
     val () = prerr_interror_loc (s1opr.s1exp_loc)
     val () = prerr ": s1exp_trup_app_sqid_itm: not implemented yet: s2i = "
     val () = prerr_s2itm (s2i)
     val () = prerr_newline ()
-  } // end of [_]
+  in
+    $ERR.abort {s2exp} ()
+  end // end of [_]
 end // end of [s1exp_trup_app_sqid_itm]
+
+(* ****** ****** *)
+
+fn s1exp_trup_top (
+  knd: int, s1e: s1exp
+) : s2exp = let
+  val s2e = s1exp_trdn_impredicative (s1e)
+in
+  s2e // s2exp_topize (knd, s2e)
+end // end of [s1exp_trup_top]
 
 (* ****** ****** *)
 
@@ -848,21 +860,28 @@ fun aux01 ( // flt/box: 0/1
 end // end of [aux01]
 
 fun aux23 ( // box_t/box_vt : 2/3
-  s2t: s2rt, i: int, s1es: s1explst
+  i: int
+, npf: int, s1es: s1explst
+, s2t_prf: s2rt
+, s2t_prgm: s2rt
 ) : labs2explst = begin case+ s1es of
   | list_cons (s1e, s1es) => let
       val lab = $LAB.label_make_int (i)
-      val s2e = s1exp_trdn (s1e, s2t)
+      val s2e = (
+        if i >= npf then
+          s1exp_trdn (s1e, s2t_prgm) else s1exp_trdn (s1e, s2t_prf)
+        // end of [if]
+      ) : s2exp // end of [val]
       val ls2e = (lab, s2e)
     in
-      list_cons (ls2e, aux23 (s2t, i+1, s1es))
+      list_cons (ls2e, aux23 (i+1, npf, s1es, s2t_prf, s2t_prgm))
     end (* end of [list_cons] *)
   | list_nil () => list_nil ()
 end // end of [aux23]
 
 in // in of [local]
 
-fn s1exp_trup_list (
+fn s1exp_trup_tytup_flt (
   s1e0: s1exp, npf: int, s1es: s1explst
 ) : s2exp = let
   var lin: int = 0
@@ -874,7 +893,160 @@ fn s1exp_trup_list (
   ) : s2rt // end of [val]
 in
   s2exp_tyrec_srt (s2t_rec, TYRECKINDflt0 (), npf, ls2es)
-end // end of [s1exp_list_tr_up]
+end // end of [s1exp_trup_tytup_flt]
+
+fn s1exp_trup_tytup (
+  s1e0: s1exp, knd: int, npf: int, s1es: s1explst
+) : s2exp = let
+(*
+  val () = begin
+    print "s1exp_trup_tytup: s1e0 = "; print_s1exp (s1e0); print_newline ()
+  end // end of [val]
+*)
+in
+//
+case+ knd of
+| TYTUPKIND_flt =>
+    s1exp_trup_tytup_flt (s1e0, npf, s1es)
+| TYTUPKIND_box => let
+    var lin: int = 0
+    var prf: int = 0 and prgm: int = 0
+    val ls2es = aux01 (0, npf, s1es, lin, prf, prgm)
+    val boxed = 1
+    val s2t_rec = (
+      s2rt_npf_lin_prf_prgm_boxed_labs2explst (npf, lin, prf, prgm, boxed, ls2es)
+    ) : s2rt // end of [val]
+  in
+    s2exp_tyrec_srt (s2t_rec, TYRECKINDbox (), npf, ls2es)
+  end
+| TYTUPKIND_box_t => let
+    val ls2es = aux23 (0, npf, s1es, s2rt_prop, s2rt_t0ype)
+  in
+    s2exp_tyrec_srt (s2rt_type, TYRECKINDbox (), npf, ls2es)
+  end
+| TYTUPKIND_box_vt => let
+    val ls2es = aux23 (0, npf, s1es, s2rt_view, s2rt_viewt0ype)
+  in
+    s2exp_tyrec_srt (s2rt_viewtype, TYRECKINDbox (), npf, ls2es)
+  end
+| _ => let
+    val () = assertloc (false) in s2exp_err (s2rt_type)
+  end (* end of [_] *)
+end // end of [s1exp_trup_tytup]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun aux01 ( // flt/box: 0/1
+  i: int
+, npf: int, ls1es: labs1explst
+, lin: &int
+, prf: &int
+, prgm: &int
+) : labs2explst = begin case+ ls1es of
+  | list_cons (ls1e, ls1es) => let
+      val $SYN.L0ABELED (l0ab, s1e) = ls1e
+      val lab = l0ab.l0ab_lab
+      val s2e = s1exp_trdn_impredicative (s1e)
+      val ls2e = (lab, s2e)
+      val s2t = s2e.s2exp_srt
+      val () = if s2rt_is_lin (s2t) then (lin := lin+1)
+      val () = if s2rt_is_prf (s2t)
+        then (prf := prf+1) else (if i >= npf then prgm := prgm+1)
+      // end of [val]
+    in
+      list_cons (ls2e, aux01 (i+1, npf, ls1es, lin, prf, prgm))
+    end (* end of [list_cons] *)
+  | list_nil () => list_nil ()
+end // end of [aux01]
+
+fun aux23 ( // box_t/box_vt : 2/3
+  i: int
+, npf: int, ls1es: labs1explst
+, s2t_prf: s2rt
+, s2t_prgm: s2rt
+) : labs2explst = begin case+ ls1es of
+  | list_cons (ls1e, ls1es) => let
+      val $SYN.L0ABELED (l0ab, s1e) = ls1e
+      val lab = l0ab.l0ab_lab
+      val s2e = (
+        if i >= npf then
+          s1exp_trdn (s1e, s2t_prgm) else s1exp_trdn (s1e, s2t_prf)
+        // end of [if]
+      ) : s2exp // end of [val]
+      val ls2e = (lab, s2e)
+    in
+      list_cons (ls2e, aux23 (i+1, npf, ls1es, s2t_prf, s2t_prgm))
+    end (* end of [list_cons] *)
+  | list_nil () => list_nil ()
+end // end of [aux23]
+
+in // in of [local]
+
+fn s1exp_trup_tyrec (
+  s1e0: s1exp, knd: int, npf: int, ls1es: labs1explst
+) : s2exp = let
+(*
+  val () = begin
+    print "s1exp_trup_tyrec: s1e0 = "; print_s1exp (s1e0); print_newline ()
+  end // end of [val]
+*)
+in
+//
+case+ knd of
+| TYRECKIND_flt => let
+    var lin: int = 0
+    var prf: int = 0 and prgm: int = 0
+    val ls2es = aux01 (0, npf, ls1es, lin, prf, prgm)
+    val boxed = 0
+    val s2t_rec = (
+      s2rt_npf_lin_prf_prgm_boxed_labs2explst (npf, lin, prf, prgm, boxed, ls2es)
+    ) : s2rt // end of [val]
+  in
+    s2exp_tyrec_srt (s2t_rec, TYRECKINDbox (), npf, ls2es)
+  end
+| TYRECKIND_box => let
+    var lin: int = 0
+    var prf: int = 0 and prgm: int = 0
+    val ls2es = aux01 (0, npf, ls1es, lin, prf, prgm)
+    val boxed = 1
+    val s2t_rec = (
+      s2rt_npf_lin_prf_prgm_boxed_labs2explst (npf, lin, prf, prgm, boxed, ls2es)
+    ) : s2rt // end of [val]
+  in
+    s2exp_tyrec_srt (s2t_rec, TYRECKINDbox (), npf, ls2es)
+  end
+| TYRECKIND_box_t => let
+    val ls2es = aux23 (0, npf, ls1es, s2rt_prop, s2rt_t0ype)
+  in
+    s2exp_tyrec_srt (s2rt_type, TYRECKINDbox (), npf, ls2es)
+  end
+| TYRECKIND_box_vt => let
+    val ls2es = aux23 (0, npf, ls1es, s2rt_view, s2rt_viewt0ype)
+  in
+    s2exp_tyrec_srt (s2rt_viewtype, TYRECKINDbox (), npf, ls2es)
+  end
+| _ => let
+    val () = assertloc (false) in s2exp_err (s2rt_type)
+  end (* end of [_] *)
+end // end of [s1exp_trup_tyrec]
+
+fn s1exp_trup_tyrec_ext (
+  s1e0: s1exp, name: string, npf: int, ls1es: labs1explst
+) : s2exp = let
+  var lin: int = 0
+  var prf: int = 0 and prgm: int = 0      
+  val ls2es = aux01 (0, npf, ls1es, lin, prf, prgm)
+  val boxed = 0
+  val s2t_rec = (
+    s2rt_npf_lin_prf_prgm_boxed_labs2explst (npf, lin, prf, prgm, boxed, ls2es)
+  ) : s2rt // end of [val]
+in
+  s2exp_tyrec_srt (s2t_rec, TYRECKINDflt_ext name, npf, ls2es)
+end // end of [s1exp_tyrec_ext_tr_up]
 
 end // end of [local]
 
@@ -947,7 +1119,27 @@ case+ s1e0.s1exp_node of
     s2exp_lam (s2vs, s2e_body)
   end // end of [S1Elam]
 //
-| S1Elist (npf, s1es) => s1exp_trup_list (s1e0, npf, s1es)
+| S1Eimp _ => let
+    val () = prerr_interror_loc (loc0)
+    val () = prerr ": s1exp_trup: S1Eimp"
+    val () = prerr_newline ()
+  in
+    $ERR.abort {s2exp} ()
+  end // end of [S1Eimp]
+//
+| S1Etop (knd, s1e) => s1exp_trup_top (knd, s1e)
+//
+| S1Elist (npf, s1es) => s1exp_trup_tytup_flt (s1e0, npf, s1es)
+//
+| S1Etyarr (s1e_elt, s1es_ind) => let
+    val s2e_elt = s1exp_trdn_viewt0ype (s1e_elt)
+    val s2es_ind = s1explst_trdn_int (s1es_ind)
+  in
+    s2exp_tyarr (s2e_elt, s2es_ind)
+  end // end of [S1Etyarr]
+| S1Etytup (knd, npf, s1es) => s1exp_trup_tytup (s1e0, knd, npf, s1es)
+| S1Etyrec (knd, npf, ls1es) => s1exp_trup_tyrec (s1e0, knd, npf, ls1es)
+| S1Etyrec_ext (name, npf, ls1es) => s1exp_trup_tyrec_ext (s1e0, name, npf, ls1es)
 //
 | S1Einvar _ => let
     val s2t = s2rt_err ()
@@ -1007,6 +1199,7 @@ case+ s1e0.s1exp_node of
     val s2t = s2rt_err () in s2exp_err (s2t)
   end // end of [S1Eerr]
 //
+(*
 | _ => let
     val () = prerr_interror_loc (loc0)
     val () = prerr ": not yet implemented: ["
@@ -1016,6 +1209,8 @@ case+ s1e0.s1exp_node of
   in
     $ERR.abort ()
   end // end of [_]
+*)
+//
 end // end of [s1exp_trup]
 
 (* ****** ****** *)
@@ -1127,8 +1322,9 @@ end // end of [s1exp_trdn]
 (* ****** ****** *)
 
 implement
+s1exp_trdn_int (s1e) = s1exp_trdn (s1e, s2rt_int)
+implement
 s1exp_trdn_bool (s1e) = s1exp_trdn (s1e, s2rt_bool)
-
 implement
 s1exp_trdn_viewt0ype (s1e) = s1exp_trdn (s1e, s2rt_viewt0ype)
 
@@ -1152,6 +1348,11 @@ in
 end // end of [s1exp_trdn_impredicative]
 
 (* ****** ****** *)
+
+implement
+s1explst_trdn_int
+  (s1es) = l2l (list_map_fun (s1es, s1exp_trdn_int))
+// end of [s1explst_trdn_int]
 
 implement
 s1explst_trdn_bool

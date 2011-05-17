@@ -394,9 +394,9 @@ datatype s1exp_node =
   | S1Elam of (s1marg, s1rtopt, s1exp(*body*)) // lambda-abstraction
   | S1Eimp of (funclo, int (*lin*), int (*prf*), effcstopt)
 //
-  | S1Elist of (int(*npf*), s1explst)
-//
   | S1Etop of (int(*knd*), s1exp) // 0/1: topization/typization
+//
+  | S1Elist of (int(*npf*), s1explst)
 //
   | S1Einvar of (int(*ref/val:1/0*), s1exp) // invariant
   | S1Etrans of (s1exp(*bef*), s1exp(*aft*)) // view(type) transform

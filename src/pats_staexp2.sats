@@ -269,6 +269,9 @@ s2exp_node =
       funclo, int(*lin*), s2eff, int(*npf*), s2explst(*arg*), s2exp(*res*)
     ) // end of S2Efun
 //
+  | S2Etop of (int(*knd*), s2exp) // knd: 0/1: topization/typization
+//
+  | S2Etyarr of (s2exp (*element*), s2explst (*dimension*))
   | S2Etyrec of (tyreckind, int(*npf*), labs2explst) // tuple and record
 //
   | S2Erefarg of (* reference argument type *)
@@ -569,6 +572,15 @@ fun s2exp_confun (npf: int, s2es: s2explst, s2e: s2exp): s2exp
 
 (* ****** ****** *)
 
+fun s2exp_topize (knd: int, s2e: s2exp): s2exp
+fun s2exp_top_srt (s2t: s2rt, knd: int, s2e: s2exp): s2exp
+
+(* ****** ****** *)
+
+fun s2exp_tyarr
+  (s2e_elt: s2exp, s2es_int: s2explst) : s2exp
+// end of [s2exp_tyarr]
+
 fun s2exp_tyrec_srt (
   s2t: s2rt, knd: tyreckind, npf: int, ls2es: labs2explst
 ) : s2exp // end of [s2exp_tyrec_srt]
@@ -577,10 +589,10 @@ fun s2exp_tyrec_srt (
 
 fun s2exp_refarg (refval: int, s2e: s2exp): s2exp
 
+fun s2exp_vararg (s2e: s2exp): s2exp
+
 fun s2exp_exi (s2vs: s2varlst, s2ps: s2explst, s2e: s2exp): s2exp
 fun s2exp_uni (s2vs: s2varlst, s2ps: s2explst, s2e: s2exp): s2exp
-
-fun s2exp_vararg (s2e: s2exp): s2exp
 
 fun s2exp_wth (_res: s2exp, _with: wths2explst): s2exp
 

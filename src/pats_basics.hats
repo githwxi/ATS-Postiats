@@ -50,18 +50,18 @@ TYPE-       = 11000 // 24
 T0YPE       = 00001 // 1
 T0YPE+      = 01001 // 9
 T0YPE-      = 11001 // 25
-PROP        = 00100 // 4
-PROP+       = 01100 // 12
-PROP-       = 11100 // 28
-VIEW        = 00110 // 6
-VIEW+       = 01110 // 14
-VIEW-       = 11110 // 30
+PROP        = 00101 // 5
+PROP+       = 01101 // 13
+PROP-       = 11101 // 29
 VIEWTYPE    = 00010 // 2
 VIEWTYPE+   = 01010 // 10
 VIEWTYPE-   = 11010 // 26
 VIEWT0YPE   = 00011 // 3
 VIEWT0YPE+  = 01011 // 11
 VIEWT0YPE-  = 11011 // 27
+VIEW        = 00111 // 7
+VIEW+       = 01111 // 15
+VIEW-       = 11111 // 31
 *)
 
 #define BOXFLAG (0x1 << 0)
@@ -77,9 +77,9 @@ VIEWT0YPE-  = 11011 // 27
 #define T0YPE_pos_int 9		// 01001
 #define T0YPE_neg_int 25	// 11001
 //
-#define PROP_int 4		// 00100
-#define PROP_pos_int 12		// 01100
-#define PROP_neg_int 28		// 11100
+#define PROP_int 5		// 00101
+#define PROP_pos_int 13		// 01101
+#define PROP_neg_int 29		// 11101
 //
 #define VIEWTYPE_int 2		// 00010
 #define VIEWTYPE_pos_int 10	// 01010
@@ -89,9 +89,9 @@ VIEWT0YPE-  = 11011 // 27
 #define VIEWT0YPE_pos_int 11	// 01011
 #define VIEWT0YPE_neg_int 27	// 11011
 //
-#define VIEW_int 6		// 00110
-#define VIEW_pos_int 14		// 01110
-#define VIEW_neg_int 30		// 11110
+#define VIEW_int 7		// 00111
+#define VIEW_pos_int 15		// 01111
+#define VIEW_neg_int 31		// 11111
 
 (* ****** ****** *)
 
