@@ -41,6 +41,7 @@ staload "pats_counter.sats"
 
 abst@ype stamp_t0ype = count
 typedef stamp = stamp_t0ype
+typedef stampopt = Option (stamp)
 
 (* ****** ****** *)
 

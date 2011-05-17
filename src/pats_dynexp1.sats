@@ -208,8 +208,6 @@ datatype d1ecl_node =
 //
   | D1Cclassdec of (i0de, s1expopt)
 //
-  | D1Cdcstdecs of (dcstkind, q1marglst, d1cstdeclst) // dyn constants
-//
   | D1Cextype of (* external type *)
       (string (*name*), s1exp (*definition*))
   | D1Cextype of (* external type *)
@@ -219,6 +217,8 @@ datatype d1ecl_node =
   | D1Cextcode of (
       int (*knd: 0/1*), int (*pos: 0/1/2 : top/?/end*), string (*code*)
     ) // end of [D1Cextcode]
+//
+  | D1Cdcstdecs of (dcstkind, q1marglst, d1cstdeclst) // dyn constants
 //
   | D1Cmacdefs of (int(*knd*), bool(*isrec*), m1acdeflst)
   | D1Cvaldecs of (valkind, bool(*isrec*), v1aldeclst) // val declarations

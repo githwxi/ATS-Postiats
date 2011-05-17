@@ -656,6 +656,13 @@ end // end of [the_d2expenv_add_dcon]
 
 (* ****** ****** *)
 
+implement
+the_d2expenv_add_dcst (d2c) = let
+  val id = d2cst_get_sym d2c in the_d2expenv_add (id, D2ITMcst d2c)
+end // end of [the_d2expenv_add_dcst]
+
+(* ****** ****** *)
+
 local
 
 assume

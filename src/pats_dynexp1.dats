@@ -703,13 +703,6 @@ d1ecl_classdec (loc, id, sup) = '{
 (* ****** ****** *)
 
 implement
-d1ecl_dcstdecs (loc, dck, qarg, ds) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cdcstdecs (dck, qarg, ds)
-} // end of [d1ecl_dcstdecs]
-
-(* ****** ****** *)
-
-implement
 d1ecl_extype
   (loc, name, def) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cextype (name, def)
@@ -735,9 +728,16 @@ d1ecl_extcode
 (* ****** ****** *)
 
 implement
+d1ecl_dcstdecs (loc, dck, qarg, ds) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cdcstdecs (dck, qarg, ds)
+} // end of [d1ecl_dcstdecs]
+
+(* ****** ****** *)
+
+implement
 d1ecl_macdefs (loc, knd, isrec, ds) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cmacdefs (knd, isrec, ds)
-}
+} // end of [d1ecl_macdefs]
 
 (* ****** ****** *)
 

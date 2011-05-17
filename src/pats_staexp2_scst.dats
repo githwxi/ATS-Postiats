@@ -45,11 +45,12 @@ staload _(*anon*) = "pats_utils.dats"
 (* ****** ****** *)
 
 staload
-CNTR = "pats_counter.sats"
-staload STP = "pats_stamp.sats"
+STP = "pats_stamp.sats"
 typedef stamp = $STP.stamp
 overload compare with $STP.compare_stamp_stamp
-staload SYM = "pats_symbol.sats"
+
+staload
+SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
 typedef symbolopt = $SYM.symbolopt
 
@@ -110,13 +111,14 @@ local
 
 assume s2cst_type = ref (s2cst_struct)
 
-fun s2rt_arity_list
-  (s2t: s2rt): List int = case+ s2t of
-  | S2RTfun (s2ts, s2t) => begin
-      list_cons (list_length s2ts, s2rt_arity_list s2t)
-    end // end of [S2RTfun]
+fun arities_get
+  (s2t: s2rt): List int =
+  case+ s2t of
+  | S2RTfun (s2ts, s2t) => 
+      list_cons (list_length s2ts, arities_get s2t)
+    // end of [S2RTfun]
   | _ => list_nil () // end of [_]
-// end of [s2rt_arity_list]
+// end of [arities_get]
 
 in // in of [local]
 
@@ -146,7 +148,7 @@ val () = p->s2cst_isrec := isrec
 val () = p->s2cst_isasp := isasp
 val () = p->s2cst_iscpy := s2cstopt_encode (None)
 val () = p->s2cst_islst := islst
-val () = p->s2cst_arilst := s2rt_arity_list (s2t)
+val () = p->s2cst_arilst := arities_get (s2t)
 val () = p->s2cst_argvar := argvar
 val () = p->s2cst_conlst := None ()
 val () = p->s2cst_def := def

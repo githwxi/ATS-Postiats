@@ -590,33 +590,6 @@ end // end of [s1aspdec_tr]
 
 (* ****** ****** *)
 
-fn c1lassdec_tr (
-  id: i0de, sup: s1expopt
-) : void = () where {
-  val s2c = s2cst_make (
-      id.i0de_sym // sym
-    , id.i0de_loc // location
-    , s2rt_cls // srt
-    , None () // isabs
-    , false // iscon
-    , false // isrec
-    , false // isasp
-    , None () // islst
-    , list_nil () // argvar
-    , None () // def
-  ) // end of [s2cst_make]
-  val () = case+ sup of
-    | Some s1e => {
-        val s2e = s1exp_trdn (s1e, s2rt_cls)
-        val () = s2cst_add_supcls (s2c, s2e)
-      } // end of [Some]
-    | None () => ()
-  // end of [val]
-  val () = the_s2expenv_add_scst s2c
-} // end of [c1lassdec_tr]
-
-(* ****** ****** *)
-
 fn d1atdec_tr (
   s2c: s2cst, s2vss0: s2varlstlst, d1c: d1atdec
 ) : void = let
@@ -840,6 +813,85 @@ end // end of [e1xndeclst_tr]
 
 (* ****** ****** *)
 
+fn c1lassdec_tr (
+  id: i0de, sup: s1expopt
+) : void = () where {
+  val s2c = s2cst_make (
+      id.i0de_sym // sym
+    , id.i0de_loc // location
+    , s2rt_cls // srt
+    , None () // isabs
+    , false // iscon
+    , false // isrec
+    , false // isasp
+    , None () // islst
+    , list_nil () // argvar
+    , None () // def
+  ) // end of [s2cst_make]
+  val () = case+ sup of
+    | Some s1e => {
+        val s2e = s1exp_trdn (s1e, s2rt_cls)
+        val () = s2cst_add_supcls (s2c, s2e)
+      } // end of [Some]
+    | None () => ()
+  // end of [val]
+  val () = the_s2expenv_add_scst s2c
+} // end of [c1lassdec_tr]
+
+(* ****** ****** *)
+
+local
+
+fun arities_get
+  (s2e: s2exp): List int =
+  case+ s2e.s2exp_node of
+  | S2Efun (_, _, _, _, s2es, s2e) =>
+      list_cons (list_length s2es, arities_get (s2e))
+  | S2Eexi (_, _, s2e) => arities_get (s2e)
+  | S2Euni (_, _, s2e) => arities_get (s2e)
+  | S2Emetfn (_, _, s2e) => arities_get (s2e)
+  | _ => list_nil ()
+// end of [arities_get_list]
+
+in // in of [local]
+
+fn d1cstdec_tr (
+  dck: dcstkind
+, s2qss: s2qualstlst
+, d1c: d1cstdec
+) : d2cst = d2c where {
+  val loc = d1c.d1cstdec_loc
+  val fil = d1c.d1cstdec_fil
+  val sym = d1c.d1cstdec_sym
+//
+// HX: it must be a prop or a t@ype; it cannot be linear
+//
+  val s2t_cst = (
+    if dcstkind_is_proof (dck) then s2rt_prop else s2rt_t0ype
+  ) : s2rt // end of [val]
+  var s2e_cst = s1exp_trdn (d1c.d1cstdec_typ, s2t_cst)
+  val arities = arities_get (s2e_cst)
+  val extdef = d1c.d1cstdec_extdef
+  val d2c = d2cst_make (sym, loc, fil, dck, s2qss, arities, s2e_cst, extdef)
+  val () = the_d2expenv_add_dcst (d2c)
+} // end of [d1cstdec_tr]
+
+end // end of [local]
+
+fun d1cstdeclst_tr (
+  dck: dcstkind, s2qss: s2qualstlst, d1cs: d1cstdeclst
+) : d2cstlst =
+  case+ d1cs of
+  | list_cons (d1c, d1cs) => let
+      val d2c = d1cstdec_tr (dck, s2qss, d1c)
+    in
+      list_cons (d2c, d1cstdeclst_tr (dck, s2qss, d1cs))
+    end // end of [cons]
+  | list_nil () => list_nil ()
+// end of [d1cstdeclst_tr]
+
+(* ****** ****** *)
+
 implement
 d1ecl_tr (d1c0) = let
   val loc0 = d1c0.d1ecl_loc
@@ -882,6 +934,16 @@ case+ d1c0.d1ecl_node of
     case+ s1aspdec_tr (d1c) of
     | ~Some_vt d2c => d2ecl_saspdec (loc0, d2c) | ~None_vt () => d2ecl_none (loc0)
   ) // end of [D1Csaspdec]
+//
+| D1Cdatdecs (knd, d1cs_dat, d1cs_def) => let
+    val s2cs = d1atdeclst_tr (knd, d1cs_dat, d1cs_def)
+  in
+    d2ecl_datdec (loc0, knd, s2cs)
+  end // end of [D1Cdatdecs]
+| D1Cexndecs (d1cs) => let
+    val d2cs = e1xndeclst_tr d1cs in d2ecl_exndec (loc0, d2cs)
+  end // end of [D1Cexndecs]
+//
 | D1Cclassdec (id, sup) => let
     val () = c1lassdec_tr (id, sup) in d2ecl_none (loc0)
   end // end of [D1Cclassdec]
@@ -897,14 +959,14 @@ case+ d1c0.d1ecl_node of
     d2ecl_extype (loc0, name, s2e_def)
   end // end of [D1Cextype]
 //
-| D1Cdatdecs (knd, d1cs_dat, d1cs_def) => let
-    val s2cs = d1atdeclst_tr (knd, d1cs_dat, d1cs_def)
+| D1Cdcstdecs (dck, decarg, d1cs) => let
+    val (pfenv | ()) = the_s2expenv_push_nil ()
+    val s2qss = l2l (list_map_fun (decarg, q1marg_tr))
+    val d2cs = d1cstdeclst_tr (dck, s2qss, d1cs)
+    val () = the_s2expenv_pop_free (pfenv | (*none*))
   in
-    d2ecl_datdec (loc0, knd, s2cs)
-  end // end of [D1Cdatdecs]
-| D1Cexndecs (d1cs) => let
-    val d2cs = e1xndeclst_tr d1cs in d2ecl_exndec (loc0, d2cs)
-  end // end of [D1Cexndecs]
+    d2ecl_dcstdec (loc0, dck, d2cs)
+  end // end of [D1Cdcstdecs]
 //
 | D1Cinclude (d1cs) => let
     val d2cs = d1eclist_tr (d1cs) in d2ecl_include (loc0, d2cs)

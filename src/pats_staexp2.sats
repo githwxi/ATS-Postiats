@@ -40,10 +40,9 @@ typedef intinf = $INT.intinf
 
 staload STP = "pats_stamp.sats"
 typedef stamp = $STP.stamp
+typedef stampopt = $STP.stampopt
 staload SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
-staload SYN = "pats_syntax.sats"
-typedef c0har = $SYN.c0har
 
 (* ****** ****** *)
 
@@ -52,6 +51,12 @@ typedef label = $LAB.label
 
 staload LOC = "pats_location.sats"
 typedef location = $LOC.location
+
+staload FIL = "pats_filename.sats"
+typedef filename = $FIL.filename
+
+staload SYN = "pats_syntax.sats"
+typedef c0har = $SYN.c0har
 
 (* ****** ****** *)
 
@@ -268,6 +273,7 @@ s2exp_node =
   | S2Efun of ( // function type
       funclo, int(*lin*), s2eff, int(*npf*), s2explst(*arg*), s2exp(*res*)
     ) // end of S2Efun
+  | S2Emetfn of (stampopt, s2explst, s2exp) // metriked function
 //
   | S2Etop of (int(*knd*), s2exp) // knd: 0/1: topization/typization
 //
@@ -423,12 +429,12 @@ fun s2var_set_sVarset (_: s2var, _: s2Varset): void
 fun s2varlst_set_sVarset (_: s2varlst, _: s2Varset): void
 fun s2var_get_stamp (s2v: s2var): stamp
 
-fun lt_s2var_s2var (x1: s2var, x2: s2var): bool
+fun lt_s2var_s2var (x1: s2var, x2: s2var):<> bool
 overload < with lt_s2var_s2var
-fun lte_s2var_s2var (x1: s2var, x2: s2var): bool
+fun lte_s2var_s2var (x1: s2var, x2: s2var):<> bool
 overload <= with lte_s2var_s2var
 
-fun compare_s2var_s2var (x1: s2var, x2: s2var): Sgn
+fun compare_s2var_s2var (x1: s2var, x2: s2var):<> Sgn
 overload compare with compare_s2var_s2var
 
 (* ****** ****** *)

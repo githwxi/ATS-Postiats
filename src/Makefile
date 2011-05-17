@@ -142,6 +142,7 @@ SOURCES := \
   pats_staexp2_util2.dats \
   pats_dynexp2.sats \
   pats_dynexp2.dats \
+  pats_dynexp2_dcst.dats \
   pats_trans2.sats \
   pats_namespace.sats \
   pats_namespace.dats \
@@ -152,6 +153,7 @@ SOURCES := \
   pats_trans2_error.dats \
   pats_trans2_sort.dats \
   pats_trans2_staexp.dats \
+  pats_trans2_p1at.dats \
   pats_trans2_dynexp.dats \
   pats_trans2_decl.dats \
   pats_comarg.sats \

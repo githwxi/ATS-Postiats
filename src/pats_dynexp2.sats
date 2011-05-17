@@ -34,7 +34,23 @@
 //
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
+staload LOC = "pats_location.sats"
+typedef location = $LOC.location
+
+staload FIL = "pats_filename.sats"
+typedef filename = $FIL.filename
+
+staload SYN = "pats_syntax.sats"
+typedef dcstextdef = $SYN.dcstextdef
+
+(* ****** ****** *)
+
 staload "pats_staexp1.sats"
+staload "pats_dynexp1.sats"
 staload "pats_staexp2.sats"
 
 (* ****** ****** *)
@@ -65,6 +81,42 @@ datatype d2itm =
 where d2itmlst = List (d2itm)
 
 viewtypedef d2itmopt_vt = Option_vt (d2itm)
+
+(* ****** ****** *)
+
+fun d2cst_make (
+  id: symbol
+, loc: location
+, fil: filename
+, dck: dcstkind
+, decarg: s2qualstlst
+, arilst: List int
+, typ: s2exp
+, extdef: dcstextdef
+) : d2cst // end of [d2cst_make]
+
+(* ****** ****** *)
+
+fun d2cst_get_loc (x: d2cst): location
+fun d2cst_get_fil (_: d2cst): filename
+fun d2cst_get_sym (x: d2cst): symbol
+fun d2cst_get_kind (x: d2cst): dcstkind
+fun d2cst_get_arilst (x: d2cst): List int
+fun d2cst_get_decarg (x: d2cst): s2qualst
+fun d2cst_set_decarg (x: d2cst, s2qss: s2qualstlst): void
+fun d2cst_get_typ (x: d2cst): s2exp
+fun d2cst_get_extdef (x: d2cst): dcstextdef
+fun d2cst_get_stamp (x: d2cst): stamp
+
+(* ****** ****** *)
+
+fun lt_d2cst_d2cst (x1: d2cst, x2: d2cst):<> bool
+overload < with lt_d2cst_d2cst
+fun lte_d2cst_d2cst (x1: d2cst, x2: d2cst):<> bool
+overload <= with lte_d2cst_d2cst
+
+fun compare_d2cst_d2cst (x1: d2cst, x2: d2cst):<> Sgn
+overload compare with compare_d2cst_d2cst
 
 (* ****** ****** *)
 
@@ -111,6 +163,8 @@ d2ecl_node =
   | D2Cdatdec of (int(*knd*), s2cstlst) // datatype declarations
   | D2Cexndec of (d2conlst) // exception constructor declarations
 //
+  | D2Cdcstdec of (dcstkind, d2cstlst) // dyn. const. declarations
+//
   | D2Cinclude of d2eclist (* file inclusion *)
 // end of [d2ecl_node]
 
@@ -133,6 +187,7 @@ d2exp = '{
   d2exp_loc= location, d2exp_node= d2exp_node
 }
 and d2explst = List (d2exp)
+and d2expopt = Option (d2exp)
 
 (* ****** ****** *)
 
@@ -188,6 +243,10 @@ fun d2ecl_datdec (
   loc: location, knd: int, s2cs: s2cstlst
 ) : d2ecl // end of [d2ecl_datdec]
 fun d2ecl_exndec (loc: location, d2cs: d2conlst): d2ecl
+
+fun d2ecl_dcstdec (
+  loc: location, knd: dcstkind, d2cs: d2cstlst
+) : d2ecl // end of [d2ecl_dcstdec]
 
 fun d2ecl_include (loc: location, d2cs: d2eclist): d2ecl
 

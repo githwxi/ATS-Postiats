@@ -113,6 +113,11 @@ d2ecl_exndec (loc, d2cs) = '{
 }
 
 implement
+d2ecl_dcstdec (loc, knd, d2cs) = '{
+  d2ecl_loc= loc, d2ecl_node= D2Cdcstdec (knd, d2cs)
+}
+
+implement
 d2ecl_include (loc, d2cs) = '{
   d2ecl_loc= loc, d2ecl_node= D2Cinclude (d2cs)
 }
