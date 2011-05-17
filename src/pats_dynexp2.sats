@@ -117,6 +117,8 @@ d2ecl_node =
 and
 d2exp_node =
   | D2Ebool of bool (* boolean values *)
+  | D2Elet of (d2eclist, d2exp) // let-expression
+  | D2Ewhere of (d2exp, d2eclist) // where-expression
   | D2Eann_type of (d2exp, s2exp) // ascribled expression
 // end of [d2exp_node]
 
@@ -146,6 +148,18 @@ and s2aspdec = '{
 , s2aspdec_cst= s2cst
 , s2aspdec_def= s2exp
 } // end of [s2aspdec]
+
+(* ****** ****** *)
+
+fun d2exp_let
+  (loc: location, d2cs: d2eclist, body: d2exp): d2exp
+// end of [d2exp_let]
+
+fun d2exp_where
+  (loc: location, body: d2exp, d2cs: d2eclist): d2exp
+// end of [d2exp_where]
+
+fun d2exp_ann_type (loc: location, d2e: d2exp, ann: s2exp): d2exp
 
 (* ****** ****** *)
 

@@ -34,89 +34,42 @@
 //
 (* ****** ****** *)
 
+staload ERR = "pats_error.sats"
+
+(* ****** ****** *)
+
+staload "pats_errmsg.sats"
+staload _(*anon*) = "pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans2_dynexp"
+
+(* ****** ****** *)
+
+staload "pats_staexp1.sats"
+staload "pats_dynexp1.sats"
+staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-implement
-s2tavar_make (loc, s2v) = '{
-  s2tavar_loc= loc, s2tavar_var= s2v
-}
-
-implement
-s2aspdec_make (loc, s2c, def) = '{
-  s2aspdec_loc= loc, s2aspdec_cst= s2c, s2aspdec_def= def
-}
+staload "pats_trans2.sats"
+staload "pats_trans2_env.sats"
 
 (* ****** ****** *)
+
+implement
+p1at_tr (p1t) = let
+  val loc0 = p1t.p1at_loc
+in
 //
-// HX: dynamic expressions
+case+ p1t.p1at_node of
+| _ => let
+    val () = prerr_interror_loc (loc0)
+  in
+    $ERR.abort {p2at} ()
+  end // end of [_]
 //
-(* ****** ****** *)
-
-implement
-d2exp_let (loc, d2cs, body) = '{
-  d2exp_loc= loc, d2exp_node= D2Elet (d2cs, body)
-}
-
-implement
-d2exp_where (loc, body, d2cs) = '{
-  d2exp_loc= loc, d2exp_node= D2Ewhere (body, d2cs)
-}
+end // end of [p1at_tr]
 
 (* ****** ****** *)
 
-implement
-d2exp_ann_type (loc, d2e, ann) = '{
-  d2exp_loc= loc, d2exp_node= D2Eann_type (d2e, ann)
-}
-
-(* ****** ****** *)
-//
-// HX: various declarations
-//
-(* ****** ****** *)
-
-implement
-d2ecl_none (loc) = '{
-  d2ecl_loc= loc, d2ecl_node= D2Cnone ()
-}
-
-implement
-d2ecl_list (loc, xs) = '{
-  d2ecl_loc= loc, d2ecl_node= D2Clist (xs)
-}
-
-implement
-d2ecl_stavars (loc, xs) = '{
-  d2ecl_loc= loc, d2ecl_node= D2Cstavars (xs)
-}
-
-implement
-d2ecl_saspdec (loc, d) = '{
-  d2ecl_loc= loc, d2ecl_node= D2Csaspdec (d)
-}
-
-implement
-d2ecl_extype (loc, name, def) = '{
-  d2ecl_loc= loc, d2ecl_node= D2Cextype (name, def)
-}
-
-implement
-d2ecl_datdec (loc, knd, s2cs) = '{
-  d2ecl_loc= loc, d2ecl_node= D2Cdatdec (knd, s2cs)
-}
-
-implement
-d2ecl_exndec (loc, d2cs) = '{
-  d2ecl_loc= loc, d2ecl_node= D2Cexndec (d2cs)
-}
-
-implement
-d2ecl_include (loc, d2cs) = '{
-  d2ecl_loc= loc, d2ecl_node= D2Cinclude (d2cs)
-}
-
-(* ****** ****** *)
-
-(* end of [pats_dynexp2.dats] *)
+(* end of [pats_trans2_p0at.dats] *)

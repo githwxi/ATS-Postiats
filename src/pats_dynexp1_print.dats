@@ -260,6 +260,17 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
+| D1Elet _ => {
+    val () = prstr "D1Elet("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| D1Ewhere _ => {
+    val () = prstr "D1Ewhere("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+//
 | D1Eapp_dyn (
     _fun, _locarg, npf, _arg
   ) => {

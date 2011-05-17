@@ -134,6 +134,14 @@ fun d1atcon_tr (
 
 (* ****** ****** *)
 
+fun p1at_tr (p1t: p1at): p2at
+
+(* ****** ****** *)
+
+fun d1exp_tr (d1e: d1exp): d2exp
+
+(* ****** ****** *)
+
 fun d1ecl_tr (d1c: d1ecl): d2ecl
 fun d1eclist_tr (d1c: d1eclist): d2eclist
 

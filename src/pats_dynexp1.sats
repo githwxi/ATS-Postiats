@@ -264,6 +264,7 @@ and d1exp_node =
   | D1Etmpid of (dqi0de, t1mpmarglst) (* template instantiation *)
 //
   | D1Elet of (d1eclist, d1exp(*body*))
+  | D1Ewhere of (d1exp(*body*), d1eclist)
 //
   | D1Eapp_dyn of (* dynamic application *)
       (d1exp, location(*arg*), int (*pfarity*), d1explst)
@@ -499,6 +500,10 @@ fun d1exp_tmpid
 fun d1exp_let (
   loc: location, d1cs: d1eclist, body: d1exp
 ) : d1exp // end of [d1exp_let]
+
+fun d1exp_where (
+  loc: location, body: d1exp, d1cs: d1eclist
+) : d1exp // end of [d1exp_where]
 
 (* ****** ****** *)
 

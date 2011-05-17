@@ -34,6 +34,67 @@
 //
 (* ****** ****** *)
 
+staload ERR = "pats_error.sats"
+
+(* ****** ****** *)
+
+staload "pats_errmsg.sats"
+staload _(*anon*) = "pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans2_dynexp"
+
+(* ****** ****** *)
+
+staload "pats_staexp1.sats"
+staload "pats_dynexp1.sats"
+staload "pats_staexp2.sats"
+staload "pats_dynexp2.sats"
+
+(* ****** ****** *)
+
+staload "pats_trans2.sats"
+staload "pats_trans2_env.sats"
+
+(* ****** ****** *)
+
+implement
+d1exp_tr (d1e0) = let
+// (*
+  val () = begin
+    print "d1exp_tr: d1e0 = "; print_d1exp d1e0; print_newline ()
+  end // end of [val]
+// *)
+  val loc0 = d1e0.d1exp_loc
+in
+//
+case+ d1e0.d1exp_node of
+| D1Elet (d1cs, d1e) => let
+    val (pfenv | ()) = the_trans2_env_push ()
+    val d2cs = d1eclist_tr (d1cs); val d2e = d1exp_tr (d1e)
+    val () = the_trans2_env_pop (pfenv | (*none*))
+  in
+    d2exp_let (loc0, d2cs, d2e)
+  end // end of [D1Elet]
+| D1Ewhere (d1e, d1cs) => let
+    val (pfenv | ()) = the_trans2_env_push ()
+    val d2cs = d1eclist_tr (d1cs); val d2e = d1exp_tr (d1e)
+    val () = the_trans2_env_pop (pfenv | (*none*))
+  in
+    d2exp_where (loc0, d2e, d2cs)
+  end // end of [D1Ewhere]
+| D1Eann_type (d1e, s1e) => let
+    val d2e = d1exp_tr d1e
+    val s2e = s1exp_trdn_impredicative (s1e)
+  in
+    d2exp_ann_type (loc0, d2e, s2e)
+  end // end of [D1Eann_type]
+| _ => let
+    val () = prerr_interror_loc (loc0)
+  in
+    $ERR.abort {d2exp} ()
+  end // end of [_]
+//
+end // end of [d1exp_tr]
+
 (* ****** ****** *)
 
 (* end of [pats_trans2_dynexp.dats] *)

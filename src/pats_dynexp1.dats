@@ -295,6 +295,11 @@ d1exp_let (loc, d1cs, body) = '{
   d1exp_loc= loc, d1exp_node= D1Elet (d1cs, body)
 }
 
+implement
+d1exp_where (loc, body, d1cs) = '{
+  d1exp_loc= loc, d1exp_node= D1Ewhere (body, d1cs)
+}
+
 (* ****** ****** *)
 
 implement

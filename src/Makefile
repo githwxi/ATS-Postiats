@@ -208,7 +208,7 @@ WCL=wc -l
 
 ######
 
-srclines:: ; $(WCL) $(SOURCES)
+srclines:: ; $(WCL) $(SOURCES) pats_main.dats
 
 ######
 

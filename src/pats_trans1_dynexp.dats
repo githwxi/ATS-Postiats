@@ -456,7 +456,7 @@ aux_item (
       val () = the_trans1_level_dec (pflev | (*none*))
       val () = the_trans1_env_pop (pfenv | (*none*))
     in
-      FXITMatm (d1exp_let (loc0, d1cs, body))
+      FXITMatm (d1exp_where (loc0, body, d1cs))
     end // end of [D0Elet]
   | D0Edeclseq d0cs => let
       val (pfenv | ()) = the_trans1_env_push ()
