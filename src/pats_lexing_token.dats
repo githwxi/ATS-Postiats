@@ -196,11 +196,11 @@ implement
 DLRREC_VT = T_DLRREC (VIEWTYPE_int)
 
 implement
-DLRTUP = T_DLRTUP (~1) // unspecified
+DLRTUP = T_DLRTUP (TYTUPKIND_box) // unspecified
 implement
-DLRTUP_T = T_DLRTUP (TYPE_int)
+DLRTUP_T = T_DLRTUP (TYTUPKIND_box_t)
 implement
-DLRTUP_VT = T_DLRTUP (VIEWTYPE_int)
+DLRTUP_VT = T_DLRTUP (TYTUPKIND_box_vt)
 
 (* ****** ****** *)
 

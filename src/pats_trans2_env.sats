@@ -67,6 +67,7 @@ fun the_s2rtenv_find_qua (q: $SYN.s0rtq, id: symbol): s2rtextopt_vt
 
 absview s2rtenv_push_v
 fun the_s2rtenv_pop (pf: s2rtenv_push_v | (*none*)): s2temap
+fun the_s2rtenv_pop_free (pf: s2rtenv_push_v | (*none*)): void
 fun the_s2rtenv_push_nil (): (s2rtenv_push_v | void)
 
 fun the_s2rtenv_localjoin
@@ -94,6 +95,8 @@ fun the_s2expenv_add_datcontyp (d2c: d2con): void
 fun the_s2expenv_find (id: symbol): s2itmopt_vt
 fun the_s2expenv_find_qua (q: $SYN.s0taq, id: symbol): s2itmopt_vt
 
+fun the_s2expenv_pervasive_find (id: symbol): Option_vt (s2itm)
+
 absview s2expenv_push_v
 fun the_s2expenv_pop (pf: s2expenv_push_v | (*none*)): s2itmmap
 fun the_s2expenv_pop_free (pf: s2expenv_push_v | (*none*)): void
@@ -102,6 +105,8 @@ fun the_s2expenv_push_nil (): (s2expenv_push_v | void)
 fun the_s2expenv_localjoin
   (pf1: s2expenv_push_v, pf2: s2expenv_push_v | (*none*)): void
 // end of [the_s2expenv_localjoin]
+
+fun the_s2expenv_pervasive_joinwth (map: s2itmmap): void
 
 (* ****** ****** *)
 
@@ -126,9 +131,32 @@ fun filenv_get_d2itmmap (fenv: filenv):
 
 (* ****** ****** *)
 
+fun the_d2expenv_add
+  (id: symbol, d2i: d2itm): void
+// end of [the_d2expenv_add]
+fun the_d2expenv_add_dcon (d2c: d2con): void
+
+fun the_d2expenv_find (id: symbol): d2itmopt_vt
+fun the_d2expenv_find_qua (q: $SYN.s0taq, id: symbol): d2itmopt_vt
+
+fun the_d2expenv_pervasive_find (id: symbol): Option_vt (d2itm)
+
+absview d2expenv_push_v
+fun the_d2expenv_pop (pf: d2expenv_push_v | (*none*)): d2itmmap
+fun the_d2expenv_pop_free (pf: d2expenv_push_v | (*none*)): void
+fun the_d2expenv_push_nil (): (d2expenv_push_v | void)
+
+fun the_d2expenv_localjoin
+  (pf1: d2expenv_push_v, pf2: d2expenv_push_v | (*none*)): void
+// end of [the_d2expenv_localjoin]
+
+fun the_d2expenv_pervasive_joinwth (map: d2itmmap): void
+
+(* ****** ****** *)
+
 absview trans2_env_push_v
 fun the_trans2_env_pop (pf: trans2_env_push_v | (*none*)): void
-fun the_trans2_env_push_nil (): (trans2_env_push_v | void)
+fun the_trans2_env_push (): (trans2_env_push_v | void)
 
 fun the_trans2_env_localjoin
   (pf1: trans2_env_push_v, pf2: trans2_env_push_v | (*none*)): void
@@ -137,6 +165,12 @@ fun the_trans2_env_localjoin
 absview trans2_env_save_v
 fun the_trans2_env_save ((*none*)): (trans2_env_save_v | void)
 fun the_trans2_env_restore (pf: trans2_env_save_v | (*none*)): void
+
+(* ****** ****** *)
+
+fun the_trans2_env_pervasive_joinwth
+  (pf: trans2_env_push_v | (*none*)): void
+// end of [the_trans2_env_pervasive_joinwth]
 
 (* ****** ****** *)
 

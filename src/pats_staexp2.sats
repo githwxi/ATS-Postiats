@@ -47,6 +47,9 @@ typedef c0har = $SYN.c0har
 
 (* ****** ****** *)
 
+staload LAB = "pats_label.sats"
+typedef label = $LAB.label
+
 staload LOC = "pats_location.sats"
 typedef location = $LOC.location
 
@@ -181,17 +184,10 @@ fun s2rt_err (): s2rt // HX: a placeholder indicating error
 
 fun s2rt_is_dat (x: s2rt): bool
 fun s2rt_is_fun (x: s2rt): bool
-fun s2rt_is_prf (x: s2rt): bool
+fun s2rt_is_prf (x: s2rt): bool // is proof?
+fun s2rt_is_prgm (x: s2rt): bool // is program?
 fun s2rt_is_lin (x: s2rt): bool
 fun s2rt_is_impredicative (x: s2rt): bool
-
-(* ****** ****** *)
-//
-// implemented in [pats_staexp2_util1.dats]
-//
-fun s2rt_prf_lin_fc
-  (loc0: location, isprf: bool, islin: bool, fc: funclo): s2rt
-// end of [s2rt_prf_lin_fc]
 
 (* ****** ****** *)
 
@@ -236,6 +232,18 @@ fun prerr_s2itm (x: s2itm): void
 
 (* ****** ****** *)
 
+datatype tyreckind =
+  | TYRECKINDbox (* boxed *)
+  | TYRECKINDflt0
+  | TYRECKINDflt1 of stamp (* flat *)
+  | TYRECKINDflt_ext of string  (* flat *)
+// end of [tyreckind]
+
+fun eq_tyreckind_tyreckind (_: tyreckind, _: tyreckind): bool
+overload = with eq_tyreckind_tyreckind
+
+(* ****** ****** *)
+
 datatype
 s2exp_node =
 //
@@ -250,9 +258,6 @@ s2exp_node =
   | S2Evar of s2var // variable
   | S2EVar of s2Var // existential variable
 //
-  | S2Etup of (s2explst) // tuple
-  | S2Etylst of (s2explst) // type list
-//
   | S2Edatconptr of (* unfolded datatype *)
       (d2con, s2explst) (* constructor and addrs of arguments *)
   | S2Edatcontyp of (* unfolded datatype *)
@@ -263,6 +268,8 @@ s2exp_node =
   | S2Efun of ( // function type
       funclo, int(*lin*), s2eff, int(*npf*), s2explst(*arg*), s2exp(*res*)
     ) // end of S2Efun
+//
+  | S2Etyrec of (tyreckind, int(*npf*), labs2explst) // tuple and record
 //
   | S2Erefarg of (* reference argument type *)
       (int(*1:ref/0:val*), s2exp) (* &/!: call-by-ref/val *)
@@ -307,6 +314,9 @@ and s2explst = List (s2exp)
 and s2expopt = Option (s2exp)
 and s2explstlst = List (s2explst)
 and s2explstopt = Option (s2explst)
+
+and labs2exp = (label, s2exp)
+and labs2explst = List (labs2exp)
 
 and locs2exp = (location, s2exp)
 and locs2explst = List (locs2exp)
@@ -556,6 +566,12 @@ fun s2exp_fun_srt (
 
 fun s2exp_cstapp (s2c: s2cst, s2es: s2explst): s2exp
 fun s2exp_confun (npf: int, s2es: s2explst, s2e: s2exp): s2exp
+
+(* ****** ****** *)
+
+fun s2exp_tyrec_srt (
+  s2t: s2rt, knd: tyreckind, npf: int, ls2es: labs2explst
+) : s2exp // end of [s2exp_tyrec_srt]
 
 (* ****** ****** *)
 

@@ -47,16 +47,16 @@ staload SYN = "pats_syntax.sats"
 
 (* ****** ****** *)
 
+staload "pats_errmsg.sats"
+staload _(*anon*) = "pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans2_env"
+
+(* ****** ****** *)
+
 staload "pats_symmap.sats"
 staload "pats_symenv.sats"
-
-(* ****** ****** *)
-
 staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
-
-(* ****** ****** *)
-
 staload "pats_namespace.sats"
 staload "pats_trans2_env.sats"
 
@@ -100,6 +100,16 @@ filenv_get_s2itmmap (fenv) = let
 in
   (pf1, fpf1 | &p->sexp)
 end // end of [filenv_get_s2itmmap]
+
+implement
+filenv_get_d2itmmap (fenv) = let
+  val (vbox pf | p) = ref_get_view_ptr (fenv)
+  prval (pf1, fpf1) = __assert (view@ (p->dexp)) where {
+    extern prfun __assert {a:viewt@ype} {l:addr} (pf: !a @ l): (a @ l, minus (filenv, a @ l))
+  } // end of [prval]
+in
+  (pf1, fpf1 | &p->dexp)
+end // end of [filenv_get_d2itmmap]
 
 end // end of [local]
 
@@ -184,12 +194,22 @@ end // end of [the_s2rtenv_find_qua]
 (* ****** ****** *)
 
 implement
-the_s2rtenv_pop
-  (pfenv | (*none*)) = map where {
+the_s2rtenv_pop (
+  pfenv | (*none*)
+) = let
   prval unit_v () = pfenv
   prval vbox pf = pf0
-  val map = symenv_pop (!p0)
-} // end of [the_s2rtenv_pop]
+in
+ symenv_pop (!p0)
+end // end of [the_s2rtenv_pop]
+
+implement
+the_s2rtenv_pop_free
+  (pfenv | (*none*)) = {
+  prval unit_v () = pfenv
+  prval vbox pf = pf0
+  val () = symenv_pop_free (!p0)
+} // end of [the_s2rtenv_pop_free]
 
 implement
 the_s2rtenv_push_nil
@@ -198,6 +218,37 @@ the_s2rtenv_push_nil
   val () = symenv_push_nil (!p0)
   prval pfenv = unit_v ()
 } // end of [the_s2rtenv_push_nil]
+
+fun the_s2rtenv_localjoin (
+  pfenv1: s2rtenv_push_v
+, pfenv2: s2rtenv_push_v
+| (*none*)
+) = () where {
+  prval unit_v () = pfenv1
+  prval unit_v () = pfenv2
+  prval vbox pf = pf0
+  val () = symenv_localjoin (!p0)
+} // end of [the_s2rtenv_localjoin]
+
+(* ****** ****** *)
+
+viewdef
+s2rtenv_save_v = unit_v
+fun the_s2rtenv_save () = let
+  prval pfsave = unit_v ()
+  prval vbox pf = pf0
+  val () = symenv_savecur (!p0)
+in
+  (pfsave | ())
+end // end of [the_s2rtenv_save]
+
+fun the_s2rtenv_restore (
+  pfsave: s2rtenv_save_v | (*none*)
+) = {
+  prval unit_v () = pfsave
+  prval vbox pf = pf0
+  val () = symenv_restore (!p0)
+} // end of [the_s2rtenv_restore]
 
 (* ****** ****** *)
 
@@ -270,12 +321,11 @@ end // end of [the_s2expenv_find]
 
 implement
 the_s2expenv_find_qua (q, id) = let
-// (*
+(*
   val () = print "the_s2expenv_find_qua: qid = "
-  val () = $SYN.print_s0taq (q)
-  val () = $SYM.print_symbol (id)
+  val () = ($SYN.print_s0taq (q); $SYM.print_symbol (id))
   val () = print_newline ()
-// *)
+*)
 in
 //
 case+ q.s0taq_node of
@@ -288,12 +338,21 @@ end // end of [the_s2expenv_find_qua]
 (* ****** ****** *)
 
 implement
-the_s2expenv_pop
-  (pfenv | (*none*)) = map where {
+the_s2expenv_pervasive_find (id) = let
+   prval vbox pf = pf0 in symenv_pervasive_search (!p0, id)
+end // end of [the_s2expenv_pervasive_find]
+
+(* ****** ****** *)
+
+implement
+the_s2expenv_pop (
+  pfenv | (*none*)
+) = let
   prval unit_v () = pfenv
   prval vbox pf = pf0
-  val map = symenv_pop (!p0)
-} // end of [the_s2expenv_pop]
+in
+  symenv_pop (!p0)
+end // end of [the_s2expenv_pop]
 
 implement
 the_s2expenv_pop_free
@@ -310,6 +369,44 @@ the_s2expenv_push_nil
   val () = symenv_push_nil (!p0)
   prval pfenv = unit_v ()
 } // end of [the_s2expenv_push_nil]
+
+fun the_s2expenv_localjoin (
+  pfenv1: s2expenv_push_v
+, pfenv2: s2expenv_push_v
+| (*none*)
+) = () where {
+  prval unit_v () = pfenv1
+  prval unit_v () = pfenv2
+  prval vbox pf = pf0
+  val () = symenv_localjoin (!p0)
+} // end of [the_s2expenv_localjoin]
+
+(* ****** ****** *)
+
+viewdef
+s2expenv_save_v = unit_v
+fun the_s2expenv_save () = let
+  prval pfsave = unit_v ()
+  prval vbox pf = pf0
+  val () = symenv_savecur (!p0)
+in
+  (pfsave | ())
+end // end of [the_s2expenv_save]
+
+fun the_s2expenv_restore (
+  pfsave: s2expenv_save_v | (*none*)
+) = {
+  prval unit_v () = pfsave
+  prval vbox pf = pf0
+  val () = symenv_restore (!p0)
+} // end of [the_s2expenv_restore]
+
+(* ****** ****** *)
+
+implement
+the_s2expenv_pervasive_joinwth (map) = let
+  prval vbox pf = pf0 in symenv_pervasive_joinwth (!p0, map)
+end // end of [fun]
 
 end // end of [local]
 
@@ -330,7 +427,7 @@ the_s2expenv_add_scst (s2c) = let
       | S2ITMcst s2cs => s2cs | _ => list_nil ()
       end // end of [Some_vt]
     | ~None_vt () => list_nil ()
-  ) : s2cstlst
+  ) : s2cstlst // end of [val]
   val s2i = S2ITMcst (list_cons (s2c, s2cs))
 in
   the_s2expenv_add (id, s2i)
@@ -346,13 +443,33 @@ the_s2expenv_add_svarlst
   (s2vs) = list_app_fun (s2vs, the_s2expenv_add_svar)
 // end of [the_s2expenv_add_svarlst]
 
+implement
+the_s2expenv_add_datconptr (d2c) = let
+  val sym = d2con_get_sym d2c
+  val name = $SYM.symbol_get_name (sym)
+  val id = $SYM.symbol_make_string (name + "_unfold")
+  val () = the_s2expenv_add (id, S2ITMdatconptr d2c)
+in
+  // empty
+end // end of [the_s2expenv_add_datconptr]
+
+implement
+the_s2expenv_add_datcontyp (d2c) = let
+  val sym = d2con_get_sym d2c
+  val name = $SYM.symbol_get_name (sym)
+  val id = $SYM.symbol_make_string (name + "_pstruct")
+  val () = the_s2expenv_add (id, S2ITMdatcontyp d2c)
+in
+  // empty
+end // end of [the_s2expenv_add_datcontyp]
+
 (* ****** ****** *)
 
 local
 
 val the_tmplev = ref_make_elt<int> (0)
 
-in
+in // in of [local]
 
 implement
 the_tmplev_get () = !the_tmplev
@@ -366,6 +483,254 @@ implement
 the_tmplev_dec () =
   !the_tmplev := !the_tmplev - 1
 // end of [tmplev_dec]
+
+end // end of [local]
+
+implement
+s2var_check_tmplev
+  (loc, s2v) = let
+  val tmplev = s2var_get_tmplev (s2v)
+in
+  case+ 0 of
+  | _ when tmplev > 0 => let
+      val tmplev0 = the_tmplev_get ()
+    in
+      if tmplev < tmplev0 then {
+        val () = prerr_error2_loc (loc)
+        val () = prerr ": the static variable ["
+        val () = prerr_s2var (s2v)
+        val () = prerr "] is out of scope."
+        val () = prerr_newline ()
+      } // end of [if]
+    end // end of [_ when s2v_tmplev > 0]
+  | _ => () // not a template variable
+end // end of [s2var_tmplev_check]
+
+(* ****** ****** *)
+
+
+local
+
+viewtypedef d2expenv = symenv (d2itm)
+val [l0:addr] (pf | p0) = symenv_make_nil ()
+val (pf0 | ()) = vbox_make_view_ptr {d2expenv} (pf | p0)
+
+assume d2expenv_push_v = unit_v
+
+fn the_d2expenv_find_namespace
+  (id: symbol): d2itmopt_vt = let
+  fn f (
+    fenv: filenv
+  ) :<cloptr1> d2itmopt_vt = let
+    val (pf, fpf | p) = filenv_get_d2itmmap (fenv)
+    val ans = symmap_search (!p, id)
+    prval () = minus_addback (fpf, pf | fenv)
+  in
+    ans
+  end // end of [f]
+in
+  the_namespace_search (f)
+end // end of [the_d2expenv_find_namespace]
+
+in // in of [local]
+
+implement
+the_d2expenv_add (id, d2i) = let
+  prval vbox pf = pf0 in symenv_insert (!p0, id, d2i)
+end // end of [the_d2expenv_add]
+
+(* ****** ****** *)
+
+implement
+the_d2expenv_find (id) = let
+  val ans = let
+    prval vbox pf = pf0 in symenv_search (!p0, id)
+  end // end of [val]
+in
+//
+case+ ans of
+| Some_vt _ => (fold@ ans; ans)
+| ~None_vt () => let
+    val ans = the_d2expenv_find_namespace (id)
+  in
+    case+ ans of
+    | Some_vt _ => (fold@ ans; ans)
+    | ~None_vt () => let
+        prval vbox pf = pf0 in symenv_pervasive_search (!p0, id)
+      end // end of [None_vt]
+  end // end of [None_vt]
+//
+end // end of [the_d2expenv_find]
+
+(* ****** ****** *)
+
+implement
+the_d2expenv_pervasive_find (id) = let
+   prval vbox pf = pf0 in symenv_pervasive_search (!p0, id)
+end // end of [the_d2expenv_pervasive_find]
+
+(* ****** ****** *)
+
+implement
+the_d2expenv_pop (
+  pfenv | (*none*)
+) = let
+  prval unit_v () = pfenv
+  prval vbox pf = pf0
+in
+  symenv_pop (!p0)
+end // end of [the_d2expenv_pop]
+
+implement
+the_d2expenv_pop_free
+  (pfenv | (*none*)) = () where {
+  prval unit_v () = pfenv
+  prval vbox pf = pf0
+  val () = symenv_pop_free (!p0)
+} // end of [the_d2expenv_pop_free]
+
+implement
+the_d2expenv_push_nil
+  () = (pfenv | ()) where {
+  prval vbox pf = pf0
+  val () = symenv_push_nil (!p0)
+  prval pfenv = unit_v ()
+} // end of [the_d2expenv_push_nil]
+
+fun the_d2expenv_localjoin (
+  pfenv1: d2expenv_push_v
+, pfenv2: d2expenv_push_v
+| (*none*)
+) = () where {
+  prval unit_v () = pfenv1
+  prval unit_v () = pfenv2
+  prval vbox pf = pf0
+  val () = symenv_localjoin (!p0)
+} // end of [the_d2expenv_localjoin]
+
+(* ****** ****** *)
+
+viewdef
+d2expenv_save_v = unit_v
+fun the_d2expenv_save () = let
+  prval pfsave = unit_v ()
+  prval vbox pf = pf0
+  val () = symenv_savecur (!p0)
+in
+  (pfsave | ())
+end // end of [the_d2expenv_save]
+
+fun the_d2expenv_restore (
+  pfsave: d2expenv_save_v | (*none*)
+) = {
+  prval unit_v () = pfsave
+  prval vbox pf = pf0
+  val () = symenv_restore (!p0)
+} // end of [the_d2expenv_restore]
+
+(* ****** ****** *)
+
+implement
+the_d2expenv_pervasive_joinwth (map) = let
+  prval vbox pf = pf0 in symenv_pervasive_joinwth (!p0, map)
+end // end of [fun]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+the_d2expenv_add_dcon (d2c) = let
+  val id = d2con_get_sym d2c
+  val d2cs = (
+    case+ the_d2expenv_find (id) of
+    | ~Some_vt d2i => begin case+ d2i of
+      | D2ITMcon d2cs => d2cs | _ => list_nil ()
+      end // end of [Some_vt]
+    | ~None_vt () => list_nil ()
+  ) : d2conlst // end of [val]
+  val d2i = D2ITMcon (list_cons (d2c, d2cs))
+in
+  the_d2expenv_add (id, d2i)
+end // end of [the_d2expenv_add_dcon]
+
+(* ****** ****** *)
+
+local
+
+assume
+trans2_env_push_v = @(
+  s2rtenv_push_v, s2expenv_push_v, d2expenv_push_v
+) // end of [trans2_env_push_v]
+
+in // in of [local]
+
+implement
+the_trans2_env_pop
+  (pfenv | (*none*)) = {
+  val () = the_s2rtenv_pop_free (pfenv.0 | (*none*))
+  val () = the_s2expenv_pop_free (pfenv.1 | (*none*))
+  val () = the_d2expenv_pop_free (pfenv.2 | (*none*))
+} // end of [the_trans2_env_pop]
+
+implement
+the_trans2_env_push () = let
+  val (pf0 | ()) = the_s2rtenv_push_nil ()
+  val (pf1 | ()) = the_s2expenv_push_nil ()
+  val (pf2 | ()) = the_d2expenv_push_nil ()
+in
+  ((pf0, pf1, pf2) | ())
+end // end of [the_trans2_env_push]
+
+implement
+the_trans2_env_localjoin
+  (pf1, pf2 | (*none*)) = {
+  val () = the_s2rtenv_localjoin (pf1.0, pf2.0 | (*none*))
+  val () = the_s2expenv_localjoin (pf1.1, pf2.1 | (*none*))
+  val () = the_d2expenv_localjoin (pf1.2, pf2.2 | (*none*))
+} // end of [trans2_env_localjoin]
+
+implement
+the_trans2_env_pervasive_joinwth
+  (pfenv | (*none*)) = {
+  val map = the_s2rtenv_pop (pfenv.0 | (*none*))
+  val () = the_s2rtenv_pervasive_joinwth (map)
+  val map = the_s2expenv_pop (pfenv.1 | (*none*))
+  val () = the_s2expenv_pervasive_joinwth (map)
+  val map = the_d2expenv_pop (pfenv.2 | (*none*))
+  val () = the_d2expenv_pervasive_joinwth (map)
+} // end of [the_trans2_env_pervasive_joinwth]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+assume
+trans2_env_save_v = @(
+  s2rtenv_save_v, s2expenv_save_v, d2expenv_save_v
+) // end of [trans2_env_save_v]
+
+in // in of [local]
+
+implement
+the_trans2_env_save () = let
+  val (pf0 | ()) = the_s2rtenv_save ()
+  val (pf1 | ()) = the_s2expenv_save ()
+  val (pf2 | ()) = the_d2expenv_save ()
+  prval pfsave = (pf0, pf1, pf2)
+in
+  (pfsave | ())
+end // end of [the_trans1_env_save]
+
+implement
+the_trans2_env_restore
+  (pfsave | (*none*)) = {
+  val () = the_s2rtenv_restore (pfsave.0 | (*none*))
+  val () = the_s2expenv_restore (pfsave.1 | (*none*))  
+  val () = the_d2expenv_restore (pfsave.2 | (*none*))
+} // end of [the_trans2_env_restore]
 
 end // end of [local]
 

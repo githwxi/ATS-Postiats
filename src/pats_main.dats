@@ -162,6 +162,7 @@ dynload "pats_dynexp2.dats"
 //
 dynload "pats_namespace.dats"
 dynload "pats_trans2_env.dats"
+dynload "pats_stacst2.dats"
 dynload "pats_trans2_error.dats"
 dynload "pats_trans2_sort.dats"
 dynload "pats_trans2_staexp.dats"
@@ -171,6 +172,8 @@ dynload "pats_trans2_decl.dats"
 dynload "pats_comarg.dats"
 //
 (* ****** ****** *)
+//
+#define PATSHOME "/home/fac2/hwxi/research/ATS/IMPLEMENT/Postiats/git"
 //
 #define PATS_MAJOR_VERSION 1
 #define PATS_MINOR_VERSION 0
@@ -334,15 +337,15 @@ fn fixity_load
     $FIL.filename_make (basename, fullname)
   // end of [val]
 //
-  val (pfpush | ()) = 
+  val (pffil | ()) = 
     $FIL.the_filenamelst_push (filename)
   val d0cs = parse_from_filename_toplevel (0(*sta*), filename)
-  val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+  val () = $FIL.the_filenamelst_pop (pffil | (*none*))
 //
   val (pfenv | ()) = $TRENV1.the_fxtyenv_push_nil ()
   val d1cs = $TRANS1.d0eclist_tr (d0cs)
-  val map = $TRENV1.the_fxtyenv_pop (pfenv | (*none*))
-  val () = $TRENV1.the_fxtyenv_pervasive_joinwth (map)
+  val fxtymap = $TRENV1.the_fxtyenv_pop (pfenv | (*none*))
+  val () = $TRENV1.the_fxtyenv_pervasive_joinwth (fxtymap)
 (*
   val () = begin
     print "[fixity_load] is finished."; print_newline ()
@@ -355,10 +358,38 @@ end // end of [fixity_load]
 (* ****** ****** *)
 
 fun
-prelude_load (
+pervasive_load (
+  ATSHOME: string, basename: string
+) : void = {
+  val fullname =
+    $FIL.filename_append (ATSHOME, basename)
+  val fullname = string_of_strptr (fullname)
+  val filename =
+    $FIL.filename_make (basename, fullname)
+  // end of [val]
+//
+  val (pfpush | ()) = 
+    $FIL.the_filenamelst_push (filename)
+  val d0cs = parse_from_filename_toplevel (0(*sta*), filename)
+  val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+//
+  val (pfenv | ()) = $TRENV1.the_trans1_env_push ()
+  val d1cs = $TRANS1.d0eclist_tr (d0cs)
+  val () = $TRENV1.the_trans1_env_pop (pfenv | (*none*))
+//
+  val (pfenv | ()) = $TRENV2.the_trans2_env_push ()
+  val d2cs = $TRANS2.d1eclist_tr (d1cs)
+  val () = $TRENV2.the_trans2_env_pervasive_joinwth (pfenv | (*none*))
+//
+} // end of [pervasive_load]
+
+(* ****** ****** *)
+
+fun prelude_load (
   ATSHOME: string
 ) : void = {
   val () = fixity_load (ATSHOME)
+  val () = pervasive_load (PATSHOME, "prelude/basics_pre.sats")
 } // end of [prelude_load]
 
 fun prelude_load_if (

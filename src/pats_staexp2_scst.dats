@@ -183,10 +183,18 @@ s2cst_get_argvar (s2c) = let
 end // end of [s2cst_get_argvar]
 
 implement
+s2cst_get_islst (s2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_islst
+end // end of [s2cst_get_islst]
+implement
 s2cst_set_islst (s2c, islst) = let
   val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_islst := islst
 end // end of [s2cst_set_islst]
 
+implement
+s2cst_get_conlst (s2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_conlst
+end // end of [s2cst_get_conlst]
 implement
 s2cst_set_conlst (s2c, d2cs) = let
   val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_conlst := d2cs

@@ -113,7 +113,8 @@ fun the_e1xpenv_localjoin (
   val () = symenv_localjoin (!p0)
 } // end of [the_e1xpenv_localjoin]
 
-viewdef e1xpenv_save_v = unit_v
+viewdef
+e1xpenv_save_v = unit_v
 fun the_e1xpenv_save () = let
   prval pfsave = unit_v ()
   prval vbox pf = pf0
@@ -199,7 +200,8 @@ the_fxtyenv_pervasive_joinwth (map) = let
   prval vbox pf = pf0 in symenv_pervasive_joinwth (!p0, map)
 end // end of [fun]
 
-viewdef fxtyenv_save_v = unit_v
+viewdef
+fxtyenv_save_v = unit_v
 fun the_fxtyenv_save () = let
   prval pfsave = unit_v ()
   prval vbox pf = pf0
@@ -235,7 +237,7 @@ in // in of [local]
 implement
 the_trans1_level_get () = let
   prval vbox pf = pf_the_level in !p_the_level
-end // end of [trans1_level_get]
+end // end of [the_trans1_level_get]
 
 implement
 the_trans1_level_inc () = let
@@ -244,7 +246,7 @@ the_trans1_level_inc () = let
   val () = !p_the_level := !p_the_level + 1
 in
   (pflev | ())
-end // end of [trans1_level_inc]
+end // end of [the_trans1_level_inc]
 
 implement
 the_trans1_level_dec
@@ -252,7 +254,7 @@ the_trans1_level_dec
   prval unit_v () = pflev
   prval vbox pf = pf_the_level
   val () = !p_the_level := !p_the_level - 1
-} // end of [trans1_level_dec]
+} // end of [the_trans1_level_dec]
 
 end // end of [local]
 
@@ -273,7 +275,7 @@ the_trans1_env_pop
   val () = symmap_free (map)
   val map = the_fxtyenv_pop (pf2env | (*none*))
   val () = symmap_free (map)
-} // end of [trans1_env_pop]
+} // end of [the_trans1_env_pop]
 
 implement
 the_trans1_env_push
@@ -281,7 +283,7 @@ the_trans1_env_push
   val (pf1env | ()) = the_e1xpenv_push_nil ()
   val (pf2env | ()) = the_fxtyenv_push_nil ()
   prval pfenv = (pf1env, pf2env)
-} // end of [trans1_env_pop]
+} // end of [the_trans1_env_pop]
 
 implement
 the_trans1_env_localjoin
@@ -290,7 +292,7 @@ the_trans1_env_localjoin
   prval (pf1env2, pf2env2) = pfenv2
   val () = the_e1xpenv_localjoin (pf1env1, pf1env2 | (*none*))
   val () = the_fxtyenv_localjoin (pf2env1, pf2env2 | (*none*))
-} // end of [trans1_env_localjoin]
+} // end of [the_trans1_env_localjoin]
 
 end // end of [local]
 
@@ -310,14 +312,14 @@ the_trans1_env_save () = let
   prval pfsave = (pf1save, pf2save)
 in
   (pfsave | ())
-end // end of [trans1_env_save]
+end // end of [the_trans1_env_save]
 
 implement
 the_trans1_env_restore
   (pfsave | (*none*)) = {
   val () = the_e1xpenv_restore (pfsave.0 | (*none*))
   val () = the_fxtyenv_restore (pfsave.1 | (*none*))  
-} // end of [trans1_env_restore]
+} // end of [the_trans1_env_restore]
 
 end // end of [local]
 

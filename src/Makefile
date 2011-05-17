@@ -147,6 +147,8 @@ SOURCES := \
   pats_namespace.dats \
   pats_trans2_env.sats \
   pats_trans2_env.dats \
+  pats_stacst2.sats \
+  pats_stacst2.dats \
   pats_trans2_error.dats \
   pats_trans2_sort.dats \
   pats_trans2_staexp.dats \

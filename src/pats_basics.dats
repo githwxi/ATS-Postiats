@@ -71,6 +71,14 @@ in
 end // end of [test_prfkind]
 
 implement
+test_prgmkind (knd) = let
+  val knd = uint_of (knd)
+  val prfflag = uint_of (PRFFLAG)
+in
+  (knd \land_uint_uint prfflag) = 0u
+end // end of [test_prgmkind]
+
+implement
 test_polkind (knd) = let
   val knd = uint_of (knd)
   val polflag = uint_of (POLFLAG)
@@ -82,12 +90,22 @@ end // end of [test_polkind]
 (* ****** ****** *)
 
 implement
+impkind_linearize (knd) = let
+  val linflag = uint_of (LINFLAG)
+  val knd = uint_of (knd) \lor_uint_uint linflag
+in
+  int_of (knd)
+end // end of [impkind_linearize]
+
+implement
 impkind_neutralize (knd) = let
   val polflag = uint_of (POLFLAG)
   val knd = uint_of (knd) \land_uint_uint ~polflag
 in
   int_of (knd)
 end // end of [impkind_neutralize]
+
+(* ****** ****** *)
 
 implement
 lte_impkind_impkind (k1, k2) = let
@@ -118,7 +136,8 @@ funkind_is_recursive fk = case+ fk of
   | _ => false
 // end of [funkind_is_recursive]
 
-implement funkind_is_tailrecur fk =
+implement
+funkind_is_tailrecur fk =
   case+ fk of FK_fnstar () => true | _ => false
 // end of [funkind_is_tailrecur]
 

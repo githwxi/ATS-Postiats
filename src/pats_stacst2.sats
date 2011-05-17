@@ -34,48 +34,30 @@
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
-
-(* ****** ****** *)
-
 staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
-fun s2rt_linearize (s2t: s2rt): s2rt
+abstype s2cstref_type // boxed type
+typedef s2cstref = s2cstref_type
+
+fun s2cstref_make (name: string): s2cstref
+
+fun s2cstref_get_cst (r: s2cstref): s2cst
+fun s2cstref_get_exp (r: s2cstref, arg: Option_vt s2explst): s2exp
+fun s2cstref_unget_exp (r: s2cstref, s2e: s2exp): Option_vt (s2explst)
+fun s2cstref_equ_cst (r: s2cstref, s2c: s2cst): bool
+fun s2cstref_equ_exp (r: s2cstref, s2e: s2exp): bool
 
 (* ****** ****** *)
 
-fun s2rt_prf_lin_fc
-  (loc0: location, isprf: bool, islin: bool, fc: funclo): s2rt
-// end of [s2rt_prf_lin_fc]
+val the_bool_t0ype_ref : s2cstref
+val the_bool_bool_t0ype_ref : s2cstref
+val the_char_t0ype_ref : s2cstref
+val the_char_char_t0ype_ref : s2cstref
+
+val the_exception_viewtype : s2cstref
 
 (* ****** ****** *)
 
-fun s2rt_npf_lin_prf_boxed
-  (npf: int, lin: int, prgm: int, boxed: int): s2rt
-// end of [s2rt_npf_lin_prg_boxed]
-
-fun s2rt_npf_lin_prf_prgm_boxed_labs2explst (
-  npf: int, lin: int, prf: int, prgm: int, boxed: int, ls2es: labs2explst
-) : s2rt // end of [s2rt_npf_lin_prf_prgm_boxed_labs2explst]
-
-(* ****** ****** *)
-
-fun s2exp_alpha 
-  (s2v: s2var, s2v_new: s2var, s2e: s2exp): s2exp
-// end of [s2exp_alpha]
-
-fun s2explst_alpha
-  (s2v: s2var, s2v_new: s2var, s2es: s2explst): s2explst
-// end of [s2explst_alpha]
-
-(* ****** ****** *)
-
-fun s2cst_select_locs2explstlst
-  (_: s2cstlst, _: List (locs2explst)): s2cstlst
-// end of [s2cst_select_locs2explstlst]
-
-(* ****** ****** *)
-
-(* end of [pats_staexp2_util.sats] *)
+(* end of [pats_stacst2.sats] *)

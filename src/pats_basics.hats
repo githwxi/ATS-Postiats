@@ -48,8 +48,8 @@ TYPE        = 00000 // 0
 TYPE+       = 01000 // 8
 TYPE-       = 11000 // 24
 T0YPE       = 00001 // 1
-T0YPE       = 01001 // 9
-T0YPE       = 11001 // 25
+T0YPE+      = 01001 // 9
+T0YPE-      = 11001 // 25
 PROP        = 00100 // 4
 PROP+       = 01100 // 12
 PROP-       = 11100 // 28
@@ -92,6 +92,18 @@ VIEWT0YPE-  = 11011 // 27
 #define VIEW_int 6		// 00110
 #define VIEW_pos_int 14		// 01110
 #define VIEW_neg_int 30		// 11110
+
+(* ****** ****** *)
+
+#define TYTUPKIND_flt 0
+#define TYTUPKIND_box 1
+#define TYTUPKIND_box_t 2
+#define TYTUPKIND_box_vt 3
+
+#define TYRECKIND_flt 0
+#define TYRECKIND_box 1
+#define TYRECKIND_box_t 2
+#define TYRECKIND_box_vt 3
 
 (* ****** ****** *)
 

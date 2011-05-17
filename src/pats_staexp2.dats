@@ -151,6 +151,14 @@ s2exp_confun (
 (* ****** ****** *)
 
 implement
+s2exp_tyrec_srt
+  (s2t, knd, npf, ls2es) = '{
+  s2exp_srt= s2t, s2exp_node= S2Etyrec (knd, npf, ls2es)
+}
+
+(* ****** ****** *)
+
+implement
 s2exp_refarg (refval, s2e) = '{
   s2exp_srt= s2e.s2exp_srt, s2exp_node= S2Erefarg (refval, s2e)
 } // end of [s2exp_refarg]

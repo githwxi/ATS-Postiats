@@ -58,6 +58,28 @@ fn prerr_error2_loc
 
 (* ****** ****** *)
 
+implement
+s2rt_linearize
+  (s2t) = let
+  var err: int = 0
+  var s2t: s2rt = s2t
+  val () = case+ s2t of
+    | S2RTbas s2tb => (case+ s2tb of
+      | S2RTBASimp (name, knd) => let
+          val knd = impkind_linearize (knd)
+        in
+          s2t := S2RTbas (S2RTBASimp (name, knd))
+        end // end of [S2RTBASimp]
+      | _ => err := 1
+      ) // end of [S2RTbas]
+    | _ => err := 1
+  val () = assertloc (err > 0)
+in
+  s2t
+end // end of [s2rt_linearize]
+
+(* ****** ****** *)
+
 local
 
 #define CLO 0
@@ -97,6 +119,62 @@ s2rt_prf_lin_fc (
 end // end of [s2rt_prf_lin_fc]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+s2rt_npf_lin_prf_boxed
+  (npf, lin, prf, boxed) =
+  if npf >= 0 then (
+    if lin = 0 then
+      if boxed > 0 then s2rt_type else s2rt_t0ype
+    else
+      if boxed > 0 then s2rt_viewtype else s2rt_viewt0ype
+    // end of [if]
+  ) else (
+    if prf = 0 then (
+      if lin = 0 then
+        if boxed > 0 then s2rt_type else s2rt_t0ype
+      else
+        if boxed > 0 then s2rt_viewtype else s2rt_viewt0ype
+      // end of [if]
+    ) else
+      if lin = 0 then
+        if boxed > 0 then s2rt_type else s2rt_prop
+      else
+        if boxed > 0 then s2rt_viewtype else s2rt_view
+      // end of [if]
+  ) (* end of [if] *)
+// end of [s2rt_lin_prg_boxed]
+
+implement
+s2rt_npf_lin_prf_prgm_boxed_labs2explst
+  (npf, lin, prf, prgm, boxed, ls2es) = let
+//
+fun aux (
+  npf: int, lin: int, xs: labs2explst
+) : s2rt =
+  if npf > 0 then let
+    val- list_cons (_, xs) = xs
+  in
+    aux (npf-1, lin, xs)
+  end else let
+    val- list_cons (x, xs) = xs
+    val s2e = x.1
+    val s2t = s2e.s2exp_srt
+  in
+    if s2rt_is_prgm (s2t) then
+      if lin = 0 then s2t else s2rt_linearize (s2t)
+    else aux (0(*npf*), lin, xs)
+  end (* end of [if] *)
+// end of [aux]
+in
+  if prgm = 1 then
+    aux (npf, lin, ls2es)
+  else
+    s2rt_npf_lin_prf_boxed (npf, lin, prf, boxed)
+  // end of [if]
+end // end of [s2rt_npf_lin_prf_prgm_boxed_labs2explst]
 
 (* ****** ****** *)
 

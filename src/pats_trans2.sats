@@ -47,10 +47,12 @@ staload "pats_dynexp2.sats"
 (* ****** ****** *)
 
 datatype tran2err =
-  | T2E_s1rt_app of (s1rt)
-  | T2E_s1rt_qid of (s1rt)
-  | T2E_s1exp_qid of (s1exp)
-  | T2E_s1rtext_qid of (s0rtq, symbol)
+  | T2E_s1rt_tr_app of (s1rt)
+  | T2E_s1rt_tr_qid of (s1rt)
+  | T2E_s1exp_trup_qid of (s1exp)
+  | T2E_s1exp_trdn_extype of (s1exp)
+  | T2E_s1rtext_tr_qid of (s0rtq, symbol)
+  | T2E_d1atdec_tr of (d1atdec)
 // end of [tran2err]
 
 fun the_tran2errlst_add (x: tran2err): void

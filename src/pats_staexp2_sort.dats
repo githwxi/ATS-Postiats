@@ -213,6 +213,14 @@ s2rt_is_prf (s2t) = (case+ s2t of
 ) // end of [s2rt_is_prf]
 
 implement
+s2rt_is_prgm (s2t) = (case+ s2t of
+  | S2RTbas s2tb => (case+ s2tb of
+    | S2RTBASimp (_, knd) => test_prgmkind (knd) | _ => false
+    ) // end of [S2RTbas]
+  | _ => false // end of [_]
+) // end of [s2rt_is_prgm]
+
+implement
 s2rt_is_lin (s2t) = (case+ s2t of
   | S2RTbas s2tb => (case+ s2tb of
     | S2RTBASimp (_, knd) => test_linkind (knd) | _ => false

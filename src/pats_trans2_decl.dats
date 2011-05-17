@@ -67,6 +67,7 @@ implement prerr_FILENAME<> () = prerr "pats_trans2_decl"
 staload "pats_staexp1.sats"
 staload "pats_dynexp1.sats"
 staload "pats_staexp2.sats"
+staload "pats_stacst2.sats"
 staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
@@ -623,6 +624,7 @@ fn d1atdec_tr (
   val () = let
     val n = list_length (s2vss0) in
     if n >= 2 then {
+      val () = the_tran2errlst_add (T2E_d1atdec_tr (d1c))
       val () = prerr_error2_loc (d1c.d1atdec_loc)
       val () = filprerr_ifdebug ": d1atdec_tr" // for debugging
       val () = prerr ": the declared type constructor is overly applied."
@@ -788,6 +790,55 @@ aux (d1cs2cs2vsslst)
 end // end of [d1atdeclst_tr]
 
 (* ****** ****** *)
+//
+// HX: [exn] is considered a viewtype constructor
+//
+fn e1xndec_tr (
+  s2c: s2cst, d1c: e1xndec
+) : d2con = let
+  val loc = d1c.e1xndec_loc
+  val fil = d1c.e1xndec_fil and id = d1c.e1xndec_sym
+  val (pfenv | ()) = the_s2expenv_push_nil ()
+  val s2qss = l2l (list_map_fun (d1c.e1xndec_qua, q1marg_tr))
+  val npf = d1c.e1xndec_npf
+  val s1es_arg = d1c.e1xndec_arg
+  val s2es_arg = s1explst_trdn_viewt0ype s1es_arg
+  val () = the_s2expenv_pop_free (pfenv | (*none*))
+  val d2c = d2con_make
+    (loc, fil, id, s2c, 1(*vwtp*), s2qss, npf, s2es_arg, None(*ind*))
+  val () = d2con_set_tag (d2c, ~1)
+  val () = the_d2expenv_add_dcon (d2c)
+in
+  d2c
+end // end of [e1xndec_tr]
+
+extern
+fun e1xndeclst_tr (d1cs: e1xndeclst): d2conlst
+implement
+e1xndeclst_tr (d1cs) = let
+  fun aux (
+    s2c: s2cst, d1cs: e1xndeclst
+  ) : d2conlst =
+    case+ d1cs of
+    | list_cons (d1c, d1cs) => let
+        val d2c = e1xndec_tr (s2c, d1c)
+      in
+        list_cons (d2c, aux (s2c, d1cs))
+      end
+    | list_nil () => list_nil ()
+  // end of [aux]
+  val s2c = s2cstref_get_cst (the_exception_viewtype)
+  val d2cs = aux (s2c, d1cs)
+  val d2cs0 = (
+    case+ s2cst_get_conlst (s2c) of
+    | Some d2cs0 => list_append (d2cs, d2cs0) | None () => d2cs
+  ) : d2conlst // end of [val]
+  val () = s2cst_set_conlst (s2c, Some d2cs0)
+in
+  d2cs
+end // end of [e1xndeclst_tr]
+
+(* ****** ****** *)
 
 implement
 d1ecl_tr (d1c0) = let
@@ -851,6 +902,9 @@ case+ d1c0.d1ecl_node of
   in
     d2ecl_datdec (loc0, knd, s2cs)
   end // end of [D1Cdatdecs]
+| D1Cexndecs (d1cs) => let
+    val d2cs = e1xndeclst_tr d1cs in d2ecl_exndec (loc0, d2cs)
+  end // end of [D1Cexndecs]
 //
 | D1Cinclude (d1cs) => let
     val d2cs = d1eclist_tr (d1cs) in d2ecl_include (loc0, d2cs)

@@ -80,6 +80,10 @@ staload "pats_trans2.sats"
 
 (* ****** ****** *)
 
+#include "pats_basics.hats"
+
+(* ****** ****** *)
+
 #define :: list_cons
 #define l2l list_of_list_vt
 
@@ -149,30 +153,6 @@ effcst_tr (efc) = begin
   | EFFCSTnil () => S2EFFnil ()
   | EFFCSTset (efs, efvs) => S2EFFset (efs, effvarlst_tr efvs)
 end // end of [effcst_tr]
-
-(* ****** ****** *)
-
-implement
-s2var_check_tmplev
-  (loc, s2v) = let
-  val tmplev = s2var_get_tmplev (s2v)
-in
-  case+ 0 of
-  | _ when tmplev > 0 => let
-      val tmplev0 = the_tmplev_get ()
-    in
-      if tmplev < tmplev0 then let
-        val () = prerr_error2_loc (loc)
-        val () = prerr ": the static variable ["
-        val () = prerr_s2var (s2v)
-        val () = prerr "] is out of scope."
-        val () = prerr_newline ()
-      in
-        $ERR.abort ()
-      end // end of [if]
-    end // end of [_ when s2v_tmplev > 0]
-  | _ => () // not a template variable
-end // end of [s2var_tmplev_check]
 
 (* ****** ****** *)
 
@@ -462,6 +442,11 @@ end // end of [s1exp_trup_invar]
 implement
 s1exp_trup_arg
   (s1e0, wths1es) = let
+(*
+  val () = begin
+    print "s1exp_trup_arg: s1e0 = "; print_s1exp (s1e0); print_newline ()
+  end // end of [val]
+*)
 in
 case+ s1e0.s1exp_node of
 | S1Einvar (refval, s1e) => let
@@ -781,9 +766,9 @@ s1exp_trup_app_sqid_itm (
 ) : s2exp = let
 //
 (*
-  val () = print "s1exp_trup_app_sqid_itm: s1e0 = "
-  val () = print_s1exp (s1e0)
-  val () = print_newline ()
+  val () = begin
+    print "s1exp_trup_app_sqid_itm: s1e0 = "; print_s1exp (s1e0); print_newline ()
+  end // end of [val]
 *)
 //
 in
@@ -838,13 +823,70 @@ end // end of [s1exp_trup_app_sqid_itm]
 
 (* ****** ****** *)
 
+local
+
+fun aux01 ( // flt/box: 0/1
+  i: int
+, npf: int, s1es: s1explst
+, lin: &int
+, prf: &int
+, prgm: &int
+) : labs2explst = begin case+ s1es of
+  | list_cons (s1e, s1es) => let
+      val lab = $LAB.label_make_int (i)
+      val s2e = s1exp_trdn_impredicative (s1e)
+      val ls2e = (lab, s2e)
+      val s2t = s2e.s2exp_srt
+      val () = if s2rt_is_lin (s2t) then (lin := lin+1)
+      val () = if s2rt_is_prf (s2t)
+        then (prf := prf+1) else (if i >= npf then prgm := prgm+1)
+      // end of [val]
+    in
+      list_cons (ls2e, aux01 (i+1, npf, s1es, lin, prf, prgm))
+    end (* end of [list_cons] *)
+  | list_nil () => list_nil ()
+end // end of [aux01]
+
+fun aux23 ( // box_t/box_vt : 2/3
+  s2t: s2rt, i: int, s1es: s1explst
+) : labs2explst = begin case+ s1es of
+  | list_cons (s1e, s1es) => let
+      val lab = $LAB.label_make_int (i)
+      val s2e = s1exp_trdn (s1e, s2t)
+      val ls2e = (lab, s2e)
+    in
+      list_cons (ls2e, aux23 (s2t, i+1, s1es))
+    end (* end of [list_cons] *)
+  | list_nil () => list_nil ()
+end // end of [aux23]
+
+in // in of [local]
+
+fn s1exp_trup_list (
+  s1e0: s1exp, npf: int, s1es: s1explst
+) : s2exp = let
+  var lin: int = 0
+  var prf: int = 0 and prgm: int = 0
+  val ls2es = aux01 (0, npf, s1es, lin, prf, prgm)
+  val boxed = 0 (* HX: this is the default *)
+  val s2t_rec = (
+    s2rt_npf_lin_prf_prgm_boxed_labs2explst (npf, lin, prf, prgm, boxed, ls2es)
+  ) : s2rt // end of [val]
+in
+  s2exp_tyrec_srt (s2t_rec, TYRECKINDflt0 (), npf, ls2es)
+end // end of [s1exp_list_tr_up]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 implement
 s1exp_trup (s1e0) = let
-// (*
+(*
   val () = (
     print "s1exp_trup: s1e0 = "; print_s1exp (s1e0); print_newline ()
   ) // end of [val]
-// *)
+*)
   val loc0 = s1e0.s1exp_loc
 in
 //
@@ -904,6 +946,8 @@ case+ s1e0.s1exp_node of
   in
     s2exp_lam (s2vs, s2e_body)
   end // end of [S1Elam]
+//
+| S1Elist (npf, s1es) => s1exp_trup_list (s1e0, npf, s1es)
 //
 | S1Einvar _ => let
     val s2t = s2rt_err ()
@@ -1051,6 +1095,7 @@ s1exp_trdn (s1e, s2t) = let
 //
 fun auxerr // for S2Eextype
   (s1e: s1exp, s2t: s2rt): void = {
+  val () = the_tran2errlst_add (T2E_s1exp_trdn_extype (s1e))
   val () = prerr_error2_loc (s1e.s1exp_loc)
   val () = filprerr_ifdebug (": s1exp_trdn")
   val () = prerr ": the extern type cannot be given the sort ["
@@ -1281,7 +1326,7 @@ case+ s1te0.s1rtext_node of
       | ~Some_vt s2te => s2te
       | ~None_vt () => S2TEerr () where {
 //
-          val () = the_tran2errlst_add (T2E_s1rtext_qid (q, id))
+          val () = the_tran2errlst_add (T2E_s1rtext_tr_qid (q, id))
 //
           val () = prerr_error2_loc (s1t.s1rt_loc)
           val () = filprerr_ifdebug "s1rtext_tr" // for debugging
@@ -1431,6 +1476,11 @@ end // end of [auxerr2]
   val d2c = d2con_make
     (loc0, fil, id, s2c, vwtp, s2qss, npf, s2es_arg, indopt_s2es)
   // end of [val]
+  val () = the_d2expenv_add_dcon (d2c)
+  val () = if not(isprf) then {
+    val () = the_s2expenv_add_datcontyp (d2c) // struct
+    val () = if islin then the_s2expenv_add_datconptr (d2c) // unfold
+  } // end of [if] // end of [val]
 //
 in
   d2c

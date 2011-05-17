@@ -112,7 +112,7 @@ case+ s1t_fun.s1rt_node of
     end // end of [_]
   ) // end of [s1rt_is_arrow]
 | _ => s2rt_err () where {
-    val () = the_tran2errlst_add (T2E_s1rt_app (s1t0))
+    val () = the_tran2errlst_add (T2E_s1rt_tr_app (s1t0))
     val () = prerr_error2_loc (s1t0.s1rt_loc)
     val () = if isdebug () then prerr (": s1rt_tr_app")
     val () = prerr ": sort application is not supported."
@@ -135,9 +135,7 @@ case+ ans of
   case+ x of
   | S2TEsrt (s2t) => s2t
   | _ => let
-//
-      val () = the_tran2errlst_add (T2E_s1rt_qid (s1t0))
-//
+      val () = the_tran2errlst_add (T2E_s1rt_tr_qid (s1t0))
       val () = prerr_error2_loc (loc0)
       val () = if isdebug () then prerr ": s1rt_tr_qid"
       val () = prerr ": the identifier ["
@@ -149,9 +147,7 @@ case+ ans of
     end (* end of [_] *)
   ) // end of [Some_vt]
 | ~None_vt () => let
-//
-      val () = the_tran2errlst_add (T2E_s1rt_qid (s1t0))
-//
+      val () = the_tran2errlst_add (T2E_s1rt_tr_qid (s1t0))
       val () = prerr_error2_loc (loc0)
       val () = if isdebug () then prerr ": s1rt_tr_qid"
       val () = prerr ": the identifier ["
@@ -209,7 +205,7 @@ implement
 a1srt_tr_symsrt (x) = let
   val sym = (case+ x.a1srt_sym of
     | None () => $SYM.symbol_empty | Some sym => sym
-  ) : symbol
+  ) : symbol // end of [val]
   val s2t = s1rt_tr (x.a1srt_srt)
 in
   (sym, s2t)
