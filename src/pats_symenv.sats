@@ -90,7 +90,7 @@ fun symenv_savecur
 // HX: restoring the last saved env
 //
 fun symenv_restore
-  {itm:type} (env: &symenv itm):<> void
+  {itm:type} (env: &symenv itm):<> symmap (itm)
 // end of [symenv_restore]
 
 (* ****** ****** *)

@@ -64,6 +64,10 @@ implement prerr_FILENAME<> () = prerr "pats_trans2_decl"
 
 (* ****** ****** *)
 
+staload NS = "pats_namespace.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp1.sats"
 staload "pats_dynexp1.sats"
 staload "pats_staexp2.sats"
@@ -892,9 +896,60 @@ fun d1cstdeclst_tr (
 
 (* ****** ****** *)
 
+fn s1taload_tr (
+  loc0: location
+, idopt: symbolopt
+, fil: filename
+, loadflag: int
+, d1cs: d1eclist
+, loaded: &int? >> int
+) : filenv = let
+(*
+  val () = print "s1taload_tr: staid = "
+  val () = (case+ idopt of
+    | Some id => $SYM.print_symbol (id) | None () => print "(*none*)"
+  ) : void // end of [val]
+  val () = print_newline ()
+  val () = begin
+    print "s1taload_tr: filename = "; $FIL.print_filename fil; print_newline ()
+  end // end of [val]
+*)
+  val filsym = $FIL.filename_get_full (fil)
+  val (pflev | ()) = the_staload_level_push ()
+  val ans = the_filenvmap_find (filsym)
+  val fenv = (case+
+    :(loaded: int) => ans of
+    | ~Some_vt fenv => let
+        val () = loaded := 1 in fenv
+      end // end of [Some_vt]
+    | ~None_vt _ => let
+        val () = loaded := 0
+        val (pfsave | ()) = the_trans2_env_save ()
+        val d2cs = d1eclist_tr (d1cs)
+        val (m0, m1, m2) = the_trans2_env_restore (pfsave | (*none*))
+        val fenv = filenv_make (fil, m0, m1, m2, d2cs)
+        val () = the_filenvmap_add (filsym, fenv)
+      in
+        fenv
+      end // end of [None_vt]
+  ) : filenv // end of [val]
+  val () = (case+ idopt of
+    | Some id => the_s2expenv_add (id, S2ITMfil fenv)
+    | None () => $NS.the_namespace_add (fenv) // opened file
+  ) : void // end of [val]
+  val () = the_staload_level_pop (pflev | (*none*))
+in
+  fenv
+end // end of [s1taload_tr]
+
+(* ****** ****** *)
+
 implement
 d1ecl_tr (d1c0) = let
   val loc0 = d1c0.d1ecl_loc
+  val () = begin
+    print "d1ecl_tr: d1c0 = "; print_d1ecl d1c0; print_newline ()
+  end // end of [val]
 in
 //
 case+ d1c0.d1ecl_node of
@@ -906,9 +961,7 @@ case+ d1c0.d1ecl_node of
   end // end of [D1Clist]
 | D1Ce1xpdef (id, def) => let
     val () = the_s2expenv_add (id, S2ITMe1xp def)
-(*
     val () = the_d2expenv_add (id, D2ITMe1xp def)
-*)
   in
     d2ecl_none (loc0)
   end // end of [D1Ce1xpdef]
@@ -971,6 +1024,13 @@ case+ d1c0.d1ecl_node of
 | D1Cinclude (d1cs) => let
     val d2cs = d1eclist_tr (d1cs) in d2ecl_include (loc0, d2cs)
   end // end of [D1Cinclude]
+//
+| D1Cstaload (idopt, fil, loadflag, d1cs) => let
+    var loaded: int
+    val fenv = s1taload_tr (loc0, idopt, fil, loadflag, d1cs, loaded)
+  in
+    d2ecl_staload (loc0, idopt, fil, loadflag, loaded, fenv)
+  end // end of [D1Cstaload]
 //
 | _ => let
     val () = $LOC.prerr_location (loc0)

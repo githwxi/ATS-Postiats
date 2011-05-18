@@ -166,6 +166,9 @@ d2ecl_node =
   | D2Cdcstdec of (dcstkind, d2cstlst) // dyn. const. declarations
 //
   | D2Cinclude of d2eclist (* file inclusion *)
+  | D2Cstaload of (
+      symbolopt(*id*), filename, int(*loadflag*), int(*loaded*), filenv
+    ) // end of [D2staload]
 // end of [d2ecl_node]
 
 and
@@ -249,6 +252,12 @@ fun d2ecl_dcstdec (
 ) : d2ecl // end of [d2ecl_dcstdec]
 
 fun d2ecl_include (loc: location, d2cs: d2eclist): d2ecl
+
+fun d2ecl_staload (
+  loc: location
+, idopt: symbolopt
+, fil: filename, loadflag: int, loaded: int, fenv: filenv
+) : d2ecl // end of [d2ecl_staload]
 
 (* ****** ****** *)
 

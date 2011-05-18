@@ -847,6 +847,9 @@ fun d1ecl_local (loc: location, ds1: d1eclist, ds2: d1eclist): d1ecl
 (* ****** ****** *)
 
 fun fprint_d1ecl : fprint_type (d1ecl)
+fun print_d1ecl (x: d1ecl): void
+fun prerr_d1ecl (x: d1ecl): void
+
 fun fprint_d1eclist : fprint_type (d1eclist)
 
 (* ****** ****** *)

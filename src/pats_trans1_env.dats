@@ -125,10 +125,11 @@ end // end of [the_e1xpenv_save]
 
 fun the_e1xpenv_restore (
   pfsave: e1xpenv_save_v | (*none*)
-) = {
-  prval unit_v () = pfsave
+) : void = {
   prval vbox pf = pf0
-  val () = symenv_restore (!p0)
+  prval unit_v () = pfsave
+  val map = symenv_restore (!p0)
+  val () = symmap_free (map)
 } // end of [the_e1xpenv_restore]
 
 end // end of [local]
@@ -212,10 +213,11 @@ end // end of [the_fxtyenv_save]
 
 fun the_fxtyenv_restore (
   pfsave: fxtyenv_save_v | (*none*)
-) = {
+) : void = {
   prval unit_v () = pfsave
   prval vbox pf = pf0
-  val () = symenv_restore (!p0)
+  val map = symenv_restore (!p0)
+  val () = symmap_free (map)
 } // end of [the_fxtyenv_restore]
 
 end // end of [local]
@@ -303,7 +305,7 @@ local
 assume
 trans1_env_save_v = (e1xpenv_save_v, fxtyenv_save_v)
 
-in
+in // in of [local]
 
 implement
 the_trans1_env_save () = let

@@ -78,9 +78,11 @@ in // in of [local]
 implement
 the_namespace_add
   (x) = () where {
-  val (vbox pf | p) = ref_get_view_ptr (the_fenvlst)
+  val (vbox pf | p) =
+    ref_get_view_ptr (the_fenvlst)
+  // end of [val]
   val () = !p := list_vt_cons (x, !p)
-} // end of [the_fenvlst_add]
+} // end of [the_namespace_add]
 
 implement
 the_namespace_search

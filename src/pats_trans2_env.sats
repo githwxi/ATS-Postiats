@@ -53,10 +53,29 @@ staload "pats_dynexp2.sats"
 // of [filenv] (for otherwise GC may reclaim [filenv]
 // while the extracted ptr is still in use!
 //
+
 viewtypedef s2temap = symmap (s2rtext)
+viewtypedef s2itmmap = symmap (s2itm)
+viewtypedef d2itmmap = symmap (d2itm)
+
+fun filenv_make (
+  fil: filename
+, m0: s2temap, m1: s2itmmap, m2: d2itmmap, d2cs: d2eclist
+) : filenv // end of [filenv_make]
+
 fun filenv_get_s2temap (fenv: filenv):
   [l:addr] (s2temap @ l, minus (filenv, s2temap @ l) | ptr l)
 // end of [filenv_get_s2temap]
+
+fun filenv_get_s2itmmap (fenv: filenv):
+  [l:addr] (s2itmmap @ l, minus (filenv, s2itmmap @ l) | ptr l)
+// end of [filenv_get_s2itmmap]
+
+fun filenv_get_d2itmmap (fenv: filenv):
+  [l:addr] (d2itmmap @ l, minus (filenv, d2itmmap @ l) | ptr l)
+// end of [filenv_get_d2itmmap]
+
+fun filenv_get_d2eclist (fenv: filenv): d2eclist
 
 (* ****** ****** *)
 
@@ -77,11 +96,6 @@ fun the_s2rtenv_localjoin
 fun the_s2rtenv_pervasive_joinwth (map: s2temap): void
 
 (* ****** ****** *)
-
-viewtypedef s2itmmap = symmap (s2itm)
-fun filenv_get_s2itmmap (fenv: filenv):
-  [l:addr] (s2itmmap @ l, minus (filenv, s2itmmap @ l) | ptr l)
-// end of [filenv_get_s2itmmap]
 
 fun the_s2expenv_add
   (id: symbol, s2i: s2itm): void
@@ -124,13 +138,6 @@ fun s2var_check_tmplev (loc: location, s2v: s2var): void
 
 (* ****** ****** *)
 
-viewtypedef d2itmmap = symmap (d2itm)
-fun filenv_get_d2itmmap (fenv: filenv):
-  [l:addr] (d2itmmap @ l, minus (filenv, d2itmmap @ l) | ptr l)
-// end of [filenv_get_d2itmmap]
-
-(* ****** ****** *)
-
 fun the_d2expenv_add
   (id: symbol, d2i: d2itm): void
 // end of [the_d2expenv_add]
@@ -155,6 +162,18 @@ fun the_d2expenv_pervasive_joinwth (map: d2itmmap): void
 
 (* ****** ****** *)
 
+absview staload_level_push_v
+fun the_staload_level_get (): int
+fun the_staload_level_push (): (staload_level_push_v | void)
+fun the_staload_level_pop (pf: staload_level_push_v | (*none*)): void
+
+(* ****** ****** *)
+
+fun the_filenvmap_add (fid: symbol, fenv: filenv): void
+fun the_filenvmap_find (fid: symbol): Option_vt (filenv)
+
+(* ****** ****** *)
+
 absview trans2_env_push_v
 fun the_trans2_env_pop (pf: trans2_env_push_v | (*none*)): void
 fun the_trans2_env_push (): (trans2_env_push_v | void)
@@ -165,7 +184,9 @@ fun the_trans2_env_localjoin
 
 absview trans2_env_save_v
 fun the_trans2_env_save ((*none*)): (trans2_env_save_v | void)
-fun the_trans2_env_restore (pf: trans2_env_save_v | (*none*)): void
+fun the_trans2_env_restore
+  (pf: trans2_env_save_v | (*none*)) : (s2temap, s2itmmap, d2itmmap)
+// end of [the_trans2_env_restore]
 
 (* ****** ****** *)
 

@@ -122,6 +122,13 @@ d2ecl_include (loc, d2cs) = '{
   d2ecl_loc= loc, d2ecl_node= D2Cinclude (d2cs)
 }
 
+implement
+d2ecl_staload (
+  loc, idopt, fil, flag, loaded, fenv
+) = '{
+  d2ecl_loc= loc, d2ecl_node= D2Cstaload (idopt, fil, flag, loaded, fenv)
+} // endof [d2ecl_staload]
+
 (* ****** ****** *)
 
 (* end of [pats_dynexp2.dats] *)

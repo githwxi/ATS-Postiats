@@ -179,13 +179,13 @@ implement
 symenv_restore
   {itm} (env) = let
   viewtypedef map = symmap (itm)
-  val () = symmap_free (env.map)  
+  val top = env.map
   val () = symmaplst_free (env.maplst)
   val- ~list_vt_cons (x, xs) = env.savedlst
   val () = env.savedlst := xs
   val () = env.map := x.0 and () = env.maplst := x.1
 in
-  // nothing
+  top
 end // end of [symenv_restore]
 
 (* ****** ****** *)

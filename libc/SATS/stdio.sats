@@ -817,7 +817,7 @@ fun setvbuf0
   {n1,n2:nat | n2 <= n1}
   {l:addr} (
   pf_buf: !b0ytes(n1) @ l | fil: FILEref, mode: bufmode_t, n2: size_t n2
-) : int = "mac#ats_setvbuf"
+) : int = "mac#atslib_setvbuf"
 overload setvbuf with setvbuf0
 fun setvbuf1
   {m:fm}
@@ -826,7 +826,7 @@ fun setvbuf1
   {l_fil:agz} (
   pf_buf: !b0ytes(n1) @ l_buf
 | fil: !FILEptr (m, l_fil), mode: bufmode_t, n2: size_t n2
-) : int = "mac#ats_setvbuf"
+) : int = "mac#atslib_setvbuf"
 overload setvbuf with setvbuf1
 
 (* ****** ****** *)

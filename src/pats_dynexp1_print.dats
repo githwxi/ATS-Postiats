@@ -586,6 +586,13 @@ case+ d1c0.d1ecl_node of
 end // end of [fprint_d1ecl]
 
 implement
+print_d1ecl (x) = fprint_d1ecl (stdout_ref, x)
+implement
+prerr_d1ecl (x) = fprint_d1ecl (stderr_ref, x)
+
+(* ****** ****** *)
+
+implement
 fprint_d1eclist
   (out, xs) = $UT.fprintlst (out, xs, "\n", fprint_d1ecl)
 // end of [fprint_d1eclist]

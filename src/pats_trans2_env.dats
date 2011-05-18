@@ -34,6 +34,7 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/pointer.dats"
 staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
@@ -70,11 +71,33 @@ filenv_struct = @{
 , sort= s2temap
 , sexp= s2itmmap
 , dexp= d2itmmap
+, decl= d2eclist
 } // end of [filenv_struct]
 
 assume filenv_type = ref (filenv_struct)
 
 in // in of [local]
+
+implement
+filenv_make (
+  fil, s2tm, s2im, d2im, d2cs
+) = let
+//
+val (
+  pfgc, pfat | p
+) = ptr_alloc<filenv_struct> ()
+prval () = free_gc_elim {filenv_struct} (pfgc)
+//
+val () = p->name := fil
+val () = p->sort := s2tm
+val () = p->sexp := s2im
+val () = p->dexp := d2im
+val () = p->decl := d2cs
+in
+//
+ref_make_view_ptr (pfat | p)
+//
+end // end of [filenv_make]
 
 implement
 filenv_get_name (fenv) = let
@@ -110,6 +133,11 @@ filenv_get_d2itmmap (fenv) = let
 in
   (pf1, fpf1 | &p->dexp)
 end // end of [filenv_get_d2itmmap]
+
+implement
+filenv_get_d2eclist (fenv) = let
+  val (vbox pf | p) = ref_get_view_ptr (fenv) in p->decl
+end // end of [filenv_get_d2eclist]
 
 end // end of [local]
 
@@ -244,11 +272,12 @@ end // end of [the_s2rtenv_save]
 
 fun the_s2rtenv_restore (
   pfsave: s2rtenv_save_v | (*none*)
-) = {
-  prval unit_v () = pfsave
+) : s2temap = let
   prval vbox pf = pf0
-  val () = symenv_restore (!p0)
-} // end of [the_s2rtenv_restore]
+  prval unit_v () = pfsave
+in
+  symenv_restore (!p0)
+end // end of [the_s2rtenv_restore]
 
 (* ****** ****** *)
 
@@ -395,11 +424,12 @@ end // end of [the_s2expenv_save]
 
 fun the_s2expenv_restore (
   pfsave: s2expenv_save_v | (*none*)
-) = {
-  prval unit_v () = pfsave
+) : s2itmmap = let
   prval vbox pf = pf0
-  val () = symenv_restore (!p0)
-} // end of [the_s2expenv_restore]
+  prval unit_v () = pfsave
+in
+  symenv_restore (!p0)
+end // end of [the_s2expenv_restore]
 
 (* ****** ****** *)
 
@@ -507,7 +537,6 @@ in
 end // end of [s2var_tmplev_check]
 
 (* ****** ****** *)
-
 
 local
 
@@ -622,11 +651,12 @@ end // end of [the_d2expenv_save]
 
 fun the_d2expenv_restore (
   pfsave: d2expenv_save_v | (*none*)
-) = {
-  prval unit_v () = pfsave
+) : d2itmmap = let
   prval vbox pf = pf0
-  val () = symenv_restore (!p0)
-} // end of [the_d2expenv_restore]
+  prval unit_v () = pfsave
+in
+  symenv_restore (!p0)
+end // end of [the_d2expenv_restore]
 
 (* ****** ****** *)
 
@@ -660,6 +690,65 @@ implement
 the_d2expenv_add_dcst (d2c) = let
   val id = d2cst_get_sym d2c in the_d2expenv_add (id, D2ITMcst d2c)
 end // end of [the_d2expenv_add_dcst]
+
+(* ****** ****** *)
+
+local
+
+val the_staload_level = ref<int> (0)
+
+assume staload_level_push_v = unit_v
+
+in // in of [local]
+
+implement
+the_staload_level_get () = !the_staload_level
+
+implement
+the_staload_level_push
+  () = (pf | ()) where {
+  prval pf = unit_v ()
+  val n = !the_staload_level
+  val () = !the_staload_level := n+1
+} // end of [the_staload_level_push]
+
+implement
+the_staload_level_pop
+  (pf | (*none*)) = let
+  prval unit_v () = pf
+  val n = !the_staload_level
+  val () = !the_staload_level := n-1
+in
+  // nothing
+end // end of [the_staload_level_pop]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+val the_filenvmap =
+  ref<symmap(filenv)> (symmap_make_nil ())
+// end of [the_filenvmap]
+
+in // in of [local]
+
+implement
+the_filenvmap_add (fid, fenv) = let
+  val (vbox pf | p) = ref_get_view_ptr (the_filenvmap)
+in
+  symmap_insert (!p, fid, fenv)
+end // end of [the_filenvmap_add]
+
+implement
+the_filenvmap_find (fid) = let
+  val (vbox pf | p) = ref_get_view_ptr (the_filenvmap)
+in
+  symmap_search (!p, fid)
+end // end of [the_filenvmap_find]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -733,11 +822,13 @@ end // end of [the_trans1_env_save]
 
 implement
 the_trans2_env_restore
-  (pfsave | (*none*)) = {
-  val () = the_s2rtenv_restore (pfsave.0 | (*none*))
-  val () = the_s2expenv_restore (pfsave.1 | (*none*))  
-  val () = the_d2expenv_restore (pfsave.2 | (*none*))
-} // end of [the_trans2_env_restore]
+  (pfsave | (*none*)) = let
+  val m0 = the_s2rtenv_restore (pfsave.0 | (*none*))
+  val m1 = the_s2expenv_restore (pfsave.1 | (*none*))  
+  val m2 = the_d2expenv_restore (pfsave.2 | (*none*))
+in
+  (m0, m1, m2)
+end // end of [the_trans2_env_restore]
 
 end // end of [local]
 
