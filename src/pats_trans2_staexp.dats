@@ -1202,7 +1202,7 @@ case+ s1e0.s1exp_node of
 (*
 | _ => let
     val () = prerr_interror_loc (loc0)
-    val () = prerr ": not yet implemented: ["
+    val () = prerr ": s1exp_tr: not yet implemented: s1e0 = "
     val () = prerr_s1exp (s1e0)
     val () = prerr "]"
     val () = prerr_newline ()
@@ -1388,6 +1388,16 @@ s1explst_trdn_err
       // end of [val]
     } // end of [list_nil]
 // end of [s1explst_trdn_err]
+
+(* ****** ****** *)
+
+implement
+witht1ype_tr (w1t) = case+ w1t of
+  | WITHT1YPEsome (knd, s1e) => let
+      val s2t = s2rt_impredicative (knd) in Some (s1exp_trdn (s1e, s2t))
+    end // end of [WiTHT1YPEsome]
+  | WITHT1YPEnone () => None ()
+// end of [witht1ype_tr]
 
 (* ****** ****** *)
 

@@ -204,24 +204,6 @@ end // end of [the_s2rtenv_find]
 (* ****** ****** *)
 
 implement
-the_s2rtenv_find_qua (q, id) = let
-(*
-  val () = print "the_s2rtenv_find_qua: qid = "
-  val () = $SYN.print_s0rtq (q)
-  val () = $SYM.print_symbol (id)
-  val () = print_newline ()
-*)
-in
-//
-case+ q.s0rtq_node of
-| $SYN.S0RTQnone _ => the_s2rtenv_find (id)
-| $SYN.S0RTQsymdot _ => None_vt ()
-//
-end // end of [the_s2rtenv_find_qua]
-
-(* ****** ****** *)
-
-implement
 the_s2rtenv_pop (
   pfenv | (*none*)
 ) = let
@@ -292,6 +274,57 @@ end // end of [local]
 
 (* ****** ****** *)
 
+implement
+the_s2rtenv_find_qua (q, id) = let
+(*
+  val () = print "the_s2rtenv_find_qua: qid = "
+  val () = $SYN.print_s0rtq (q)
+  val () = $SYM.print_symbol (id)
+  val () = print_newline ()
+*)
+in
+//
+case+ q.s0rtq_node of
+| $SYN.S0RTQnone _ =>
+    the_s2rtenv_find (id)
+| $SYN.S0RTQsymdot (sym) => let
+    val ans = the_s2expenv_find (sym)
+  in
+    case+ ans of
+    | ~Some_vt (s2i) => (case+ s2i of
+      | S2ITMfil (fenv) => let
+          val (pf, fpf | p_map) =
+            filenv_get_s2temap (fenv)
+          val ans = symmap_search (!p_map, id)
+          prval () = minus_addback (fpf, pf | fenv)
+        in
+          ans
+        end // en dof [S2ITMfil]
+      | _ => let
+        val () = prerr_error2_loc (q.s0rtq_loc)
+        val () = prerr ": the qualifier ["
+        val () = $SYM.prerr_symbol (sym)
+        val () = prerr "] should refer to a filename but it does not."
+        val () = prerr_newline ()
+      in
+        None_vt ()
+      end
+      ) // end of [Some_vt]
+    | ~None_vt () => let
+        val () = prerr_error2_loc (q.s0rtq_loc)
+        val () = prerr ": the qualifier ["
+        val () = $SYM.prerr_symbol (sym)
+        val () = prerr "] is unrecognized."
+        val () = prerr_newline ()
+      in
+        None_vt ()
+      end
+  end // end of [S2RTsymdot]
+//
+end // end of [the_s2rtenv_find_qua]
+
+(* ****** ****** *)
+
 local
 
 viewtypedef s2expenv = symenv (s2itm)
@@ -345,24 +378,6 @@ case+ ans of
   end // end of [None_vt]
 //
 end // end of [the_s2expenv_find]
-
-(* ****** ****** *)
-
-implement
-the_s2expenv_find_qua (q, id) = let
-(*
-  val () = print "the_s2expenv_find_qua: qid = "
-  val () = ($SYN.print_s0taq (q); $SYM.print_symbol (id))
-  val () = print_newline ()
-*)
-in
-//
-case+ q.s0taq_node of
-| $SYN.S0TAQnone _ => the_s2expenv_find (id)
-| $SYN.S0TAQsymdot _ => None_vt ()
-| $SYN.S0TAQsymcolon _ => None_vt ()
-//
-end // end of [the_s2expenv_find_qua]
 
 (* ****** ****** *)
 
@@ -439,6 +454,57 @@ the_s2expenv_pervasive_joinwth (map) = let
 end // end of [fun]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+the_s2expenv_find_qua (q, id) = let
+(*
+  val () = print "the_s2expenv_find_qua: qid = "
+  val () = ($SYN.print_s0taq (q); $SYM.print_symbol (id))
+  val () = print_newline ()
+*)
+in
+//
+case+ q.s0taq_node of
+| $SYN.S0TAQnone _ =>
+    the_s2expenv_find (id)
+| $SYN.S0TAQsymdot (sym) => let
+    val ans = the_s2expenv_find (sym)
+  in
+    case+ ans of
+    | ~Some_vt (s2i) => (case+ s2i of
+      | S2ITMfil (fenv) => let
+          val (pf, fpf | p_map) =
+            filenv_get_s2itmmap (fenv)
+          val ans = symmap_search (!p_map, id)
+          prval () = minus_addback (fpf, pf | fenv)
+        in
+          ans
+        end // en dof [S2ITMfil]
+      | _ => let
+        val () = prerr_error2_loc (q.s0taq_loc)
+        val () = prerr ": the qualifier ["
+        val () = $SYM.prerr_symbol (sym)
+        val () = prerr "] should refer to a filename but it does not."
+        val () = prerr_newline ()
+      in
+        None_vt ()
+      end
+      ) // end of [Some_vt]
+    | ~None_vt () => let
+        val () = prerr_error2_loc (q.s0taq_loc)
+        val () = prerr ": the qualifier ["
+        val () = $SYM.prerr_symbol (sym)
+        val () = prerr "] is unrecognized."
+        val () = prerr_newline ()
+      in
+        None_vt ()
+      end
+  end // end of [S2RTsymdot]
+| $SYN.S0TAQsymcolon _ => None_vt ()
+//
+end // end of [the_s2expenv_find_qua]
 
 (* ****** ****** *)
 
@@ -670,6 +736,58 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+the_d2expenv_find_qua (q, id) = let
+(*
+  val () = print "the_d2expenv_find_qua: qid = "
+  val () = ($SYN.print_s0taq (q); $SYM.print_symbol (id))
+  val () = print_newline ()
+*)
+in
+//
+case+ q.d0ynq_node of
+| $SYN.D0YNQnone _ =>
+    the_d2expenv_find (id)
+| $SYN.D0YNQsymdot (sym) => let
+    val ans = the_s2expenv_find (sym)
+  in
+    case+ ans of
+    | ~Some_vt (s2i) => (case+ s2i of
+      | S2ITMfil (fenv) => let
+          val (pf, fpf | p_map) =
+            filenv_get_d2itmmap (fenv)
+          val ans = symmap_search (!p_map, id)
+          prval () = minus_addback (fpf, pf | fenv)
+        in
+          ans
+        end // en dof [S2ITMfil]
+      | _ => let
+        val () = prerr_error2_loc (q.d0ynq_loc)
+        val () = prerr ": the qualifier ["
+        val () = $SYM.prerr_symbol (sym)
+        val () = prerr "] should refer to a filename but it does not."
+        val () = prerr_newline ()
+      in
+        None_vt ()
+      end
+      ) // end of [Some_vt]
+    | ~None_vt () => let
+        val () = prerr_error2_loc (q.d0ynq_loc)
+        val () = prerr ": the qualifier ["
+        val () = $SYM.prerr_symbol (sym)
+        val () = prerr "] is unrecognized."
+        val () = prerr_newline ()
+      in
+        None_vt ()
+      end
+  end // end of [S2RTsymdot]
+| $SYN.D0YNQsymcolon _ => None_vt ()
+| $SYN.D0YNQsymdotcolon _ => None_vt ()
+//
+end // end of [the_s2expenv_find_qua]
+
+(* ****** ****** *)
+
+implement
 the_d2expenv_add_dcon (d2c) = let
   val id = d2con_get_sym d2c
   val d2cs = (
@@ -688,8 +806,16 @@ end // end of [the_d2expenv_add_dcon]
 
 implement
 the_d2expenv_add_dcst (d2c) = let
-  val id = d2cst_get_sym d2c in the_d2expenv_add (id, D2ITMcst d2c)
+  val id = d2cst_get_sym (d2c) in the_d2expenv_add (id, D2ITMcst d2c)
 end // end of [the_d2expenv_add_dcst]
+
+implement
+the_d2expenv_add_dvar (d2v) = let
+  val id = d2var_get_sym (d2v) in the_d2expenv_add (id, D2ITMvar d2v)
+end // end of [the_d2expenv_add_dvar]
+implement
+the_d2expenv_add_dvarlst (d2vs) = list_app_fun (d2vs, the_d2expenv_add_dvar)
+// end of [...]
 
 (* ****** ****** *)
 

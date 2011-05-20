@@ -54,6 +54,23 @@ fprintopt (
 ) : void // end of [fprintopt]
 
 (* ****** ****** *)
+//
+abstype lstord (a: type) // HX: for ordered lists
+//
+fun lstord_nil {a:type} (): lstord (a)
+fun lstord_sing {a:type} (x: a): lstord (a)
+fun lstord_insert {a:type} (
+  xs: lstord a, x: a, cmp: (a, a) -<fun> int
+) : lstord (a) // end of [lstord_insert]
+fun lstord_union {a:type} (
+  xs: lstord a, ys: lstord a, cmp: (a, a) -<fun> int
+) : lstord (a) // end of [lstord_union]
+fun lstord_get_dups
+  {a:type} (xs: lstord a, cmp: (a, a) -<fun> int): List (a)
+// end of [lstord_get_dups]
+fun lstord_listize {a:type} (xs: lstord a): List (a)
+
+(* ****** ****** *)
 
 local
 

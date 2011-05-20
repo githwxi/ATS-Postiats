@@ -846,16 +846,16 @@ fn c1lassdec_tr (
 
 local
 
-fun arities_get
+fun s2exp_get_arylst
   (s2e: s2exp): List int =
   case+ s2e.s2exp_node of
   | S2Efun (_, _, _, _, s2es, s2e) =>
-      list_cons (list_length s2es, arities_get (s2e))
-  | S2Eexi (_, _, s2e) => arities_get (s2e)
-  | S2Euni (_, _, s2e) => arities_get (s2e)
-  | S2Emetfn (_, _, s2e) => arities_get (s2e)
+      list_cons (list_length s2es, s2exp_get_arylst (s2e))
+  | S2Eexi (_, _, s2e) => s2exp_get_arylst (s2e)
+  | S2Euni (_, _, s2e) => s2exp_get_arylst (s2e)
+  | S2Emetfn (_, _, s2e) => s2exp_get_arylst (s2e)
   | _ => list_nil ()
-// end of [arities_get_list]
+// end of [s2exp_get_arylst]
 
 in // in of [local]
 
@@ -874,9 +874,9 @@ fn d1cstdec_tr (
     if dcstkind_is_proof (dck) then s2rt_prop else s2rt_t0ype
   ) : s2rt // end of [val]
   var s2e_cst = s1exp_trdn (d1c.d1cstdec_typ, s2t_cst)
-  val arities = arities_get (s2e_cst)
+  val arylst = s2exp_get_arylst (s2e_cst)
   val extdef = d1c.d1cstdec_extdef
-  val d2c = d2cst_make (sym, loc, fil, dck, s2qss, arities, s2e_cst, extdef)
+  val d2c = d2cst_make (sym, loc, fil, dck, s2qss, arylst, s2e_cst, extdef)
   val () = the_d2expenv_add_dcst (d2c)
 } // end of [d1cstdec_tr]
 
@@ -887,12 +887,47 @@ fun d1cstdeclst_tr (
 ) : d2cstlst =
   case+ d1cs of
   | list_cons (d1c, d1cs) => let
-      val d2c = d1cstdec_tr (dck, s2qss, d1c)
-    in
+      val d2c = d1cstdec_tr (dck, s2qss, d1c) in
       list_cons (d2c, d1cstdeclst_tr (dck, s2qss, d1cs))
     end // end of [cons]
   | list_nil () => list_nil ()
 // end of [d1cstdeclst_tr]
+
+(* ****** ****** *)
+
+fn v1aldec_tr (
+  d1c: v1aldec, p2t: p2at
+) : v2aldec = let
+  val loc = d1c.v1aldec_loc
+  val def = d1exp_tr (d1c.v1aldec_def)
+  val ann = witht1ype_tr (d1c.v1aldec_ann)
+in
+  v2aldec_make (loc, p2t, def, ann)
+end // end of [v1aldec_tr]
+
+fn v1aldeclst_tr {n:nat} (
+  isrec: bool, d1cs: list (v1aldec, n)
+) : v2aldeclst = let
+  val p2ts = list_map_fun<v1aldec>
+    (d1cs, lam (d1c) =<1> p1at_tr (d1c.v1aldec_pat))
+  val p2ts = (l2l)p2ts: list (p2at, n)
+  val s2vs = $UT.lstord_listize (p2atlst_svs_union p2ts)
+  val d2vs = $UT.lstord_listize (p2atlst_dvs_union p2ts)
+in
+  if isrec then let
+    val () = the_d2expenv_add_dvarlst (d2vs)
+    val d2cs = list_map2_fun<v1aldec,p2at> (d1cs, p2ts, v1aldec_tr)
+    val () = the_s2expenv_add_svarlst (s2vs)
+  in
+    l2l (d2cs)
+  end else let
+    val d2cs = list_map2_fun<v1aldec,p2at> (d1cs, p2ts, v1aldec_tr)
+    val () = the_d2expenv_add_dvarlst d2vs
+    val () = the_s2expenv_add_svarlst s2vs
+  in
+    l2l (d2cs)
+  end // end of [if]
+end (* end of [v1aldeclst_tr] *)
 
 (* ****** ****** *)
 
@@ -904,7 +939,7 @@ fn s1taload_tr (
 , d1cs: d1eclist
 , loaded: &int? >> int
 ) : filenv = let
-(*
+// (*
   val () = print "s1taload_tr: staid = "
   val () = (case+ idopt of
     | Some id => $SYM.print_symbol (id) | None () => print "(*none*)"
@@ -913,7 +948,7 @@ fn s1taload_tr (
   val () = begin
     print "s1taload_tr: filename = "; $FIL.print_filename fil; print_newline ()
   end // end of [val]
-*)
+// *)
   val filsym = $FIL.filename_get_full (fil)
   val (pflev | ()) = the_staload_level_push ()
   val ans = the_filenvmap_find (filsym)
@@ -1012,7 +1047,9 @@ case+ d1c0.d1ecl_node of
     d2ecl_extype (loc0, name, s2e_def)
   end // end of [D1Cextype]
 //
-| D1Cdcstdecs (dck, decarg, d1cs) => let
+| D1Cdcstdecs (
+    dck, decarg, d1cs
+  ) => let
     val (pfenv | ()) = the_s2expenv_push_nil ()
     val s2qss = l2l (list_map_fun (decarg, q1marg_tr))
     val d2cs = d1cstdeclst_tr (dck, s2qss, d1cs)
@@ -1020,6 +1057,14 @@ case+ d1c0.d1ecl_node of
   in
     d2ecl_dcstdec (loc0, dck, d2cs)
   end // end of [D1Cdcstdecs]
+//
+| D1Cvaldecs (
+    knd, isrec, d1cs
+  ) => let
+    val d2cs = v1aldeclst_tr (isrec, d1cs)
+  in
+    d2ecl_valdecs (loc0, knd, d2cs)
+  end // end of [D1Cvaldecs]
 //
 | D1Cinclude (d1cs) => let
     val d2cs = d1eclist_tr (d1cs) in d2ecl_include (loc0, d2cs)

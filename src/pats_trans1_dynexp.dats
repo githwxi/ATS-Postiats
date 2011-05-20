@@ -312,7 +312,7 @@ fn m0atch_tr
   val opt = (
     case+ m0at.m0atch_pat of
     | Some p0t => Some (p0at_tr p0t) | None () => None ()
-  ) : p1atopt
+  ) : p1atopt // end of [val]
 in
   m1atch_make (m0at.m0atch_loc, d1e, opt)
 end // end of [m0atch_tr]
@@ -390,10 +390,11 @@ aux_item (
   | D0Edqid (dq, id) => FXITMatm (d1exp_dqid (loc0, dq, id))
   | D0Eopid (id) => FXITMatm (d1exp_ide (loc0, id))
 //
-  | D0Eint x => FXITMatm (d1exp_int (loc0, x))
-  | D0Echar x => FXITMatm (d1exp_char (loc0, x))
-  | D0Efloat x => FXITMatm (d1exp_float (loc0, x))
-  | D0Estring x => FXITMatm (d1exp_string (loc0, x))
+  | D0Eint x => FXITMatm (d1exp_i0nt (loc0, x))
+  | D0Echar x => FXITMatm (d1exp_c0har (loc0, x))
+  | D0Efloat x => FXITMatm (d1exp_f0loat (loc0, x))
+  | D0Estring x => FXITMatm (d1exp_s0tring (loc0, x))
+//
   | D0Eempty () => FXITMatm (d1exp_empty (loc0))
 //
   | D0Ecstsp x => FXITMatm (d1exp_cstsp (loc0, x))

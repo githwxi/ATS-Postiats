@@ -52,7 +52,6 @@ staload "pats_parsing.sats"
 
 #include "pats_basics.hats"
 
-
 (* ****** ****** *)
 
 #define l2l list_of_list_vt

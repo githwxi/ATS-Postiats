@@ -49,6 +49,10 @@ staload "pats_parsing.sats"
 
 (* ****** ****** *)
 
+#include "pats_basics.hats"
+
+(* ****** ****** *)
+
 #define l2l list_of_list_vt
 #define t2t option_of_option_vt
 
@@ -291,7 +295,9 @@ case+ tok.token_node of
     val ent3 = p_RPAREN (buf, bt, err) // err = err0
   in
     if err = err0 then let
-      val knd = if is_ATLPAREN (tnd) then 0 else 1
+      val knd = (
+        if is_ATLPAREN (tnd) then TYTUPKIND_flt else TYTUPKIND_box
+      ) : int // end of [val]
     in
       p0at_tup12 (knd, tok, ent2, ent3)
     end else let
@@ -306,7 +312,9 @@ case+ tok.token_node of
     val ent3 = p_RBRACE (buf, bt, err) // err = err0
   in
     if err = err0 then let
-      val knd = if is_ATLBRACE (tnd) then 0 else 1
+      val knd = (
+        if is_ATLBRACE (tnd) then TYRECKIND_flt else TYRECKIND_box
+      ) : int // end of [val]
     in
       p0at_rec12 (knd, tok, ent2, ent3)
     end else let

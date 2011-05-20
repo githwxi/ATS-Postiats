@@ -34,48 +34,40 @@
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload _(*anon*) = "prelude/DATS/list.dats"
 
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-fun s2rt_linearize (s2t: s2rt): s2rt
+staload "pats_dynexp2_util.sats"
 
 (* ****** ****** *)
 
-fun s2rt_prf_lin_fc
-  (loc0: location, isprf: bool, islin: bool, fc: funclo): s2rt
-// end of [s2rt_prf_lin_fc]
+#define l2l list_of_list_vt
 
 (* ****** ****** *)
 
-fun s2rt_npf_lin_prf_boxed
-  (npf: int, lin: int, prgm: int, boxed: int): s2rt
-// end of [s2rt_npf_lin_prg_boxed]
-
-fun s2rt_npf_lin_prf_prgm_boxed_labs2explst (
-  npf: int, lin: int, prf: int, prgm: int, boxed: int, ls2es: labs2explst
-) : s2rt // end of [s2rt_npf_lin_prf_prgm_boxed_labs2explst]
-
-(* ****** ****** *)
-
-fun s2exp_alpha 
-  (s2v: s2var, s2v_new: s2var, s2e: s2exp): s2exp
-// end of [s2exp_alpha]
-
-fun s2explst_alpha
-  (s2v: s2var, s2v_new: s2var, s2es: s2explst): s2explst
-// end of [s2explst_alpha]
-
-(* ****** ****** *)
-
-fun s2cst_select_locs2explstlst
-  (s2cs: s2cstlst, arg: List (locs2explst)): s2cstlst
-// end of [s2cst_select_locs2explstlst]
+implement
+d2con_select_arity
+  (d2cs, n) = let
+  val nd2cs = list_length (d2cs)
+in
+  if nd2cs >= 2 then let
+    var !p_clo = @lam
+      (pf: !unit_v | d2c: d2con): bool =<clo1> d2con_get_arity_full (d2c) = n
+    // end of [var]
+    prval pfu = unit_v ()
+    val d2cs = list_filter_clo {unit_v} (pfu | d2cs, !p_clo)
+    prval unit_v () = pfu
+  in
+    (l2l)d2cs
+  end else d2cs // end of [if]
+end // end of [d2con_select_arity]
 
 (* ****** ****** *)
 
-(* end of [pats_staexp2_util.sats] *)
+(* end of [pats_dynexp2_util.dats] *)

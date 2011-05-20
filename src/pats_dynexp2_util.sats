@@ -34,48 +34,13 @@
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
-
-(* ****** ****** *)
-
 staload "pats_staexp2.sats"
+staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-fun s2rt_linearize (s2t: s2rt): s2rt
+fun d2con_select_arity (d2cs: d2conlst, n: int): d2conlst
 
 (* ****** ****** *)
 
-fun s2rt_prf_lin_fc
-  (loc0: location, isprf: bool, islin: bool, fc: funclo): s2rt
-// end of [s2rt_prf_lin_fc]
-
-(* ****** ****** *)
-
-fun s2rt_npf_lin_prf_boxed
-  (npf: int, lin: int, prgm: int, boxed: int): s2rt
-// end of [s2rt_npf_lin_prg_boxed]
-
-fun s2rt_npf_lin_prf_prgm_boxed_labs2explst (
-  npf: int, lin: int, prf: int, prgm: int, boxed: int, ls2es: labs2explst
-) : s2rt // end of [s2rt_npf_lin_prf_prgm_boxed_labs2explst]
-
-(* ****** ****** *)
-
-fun s2exp_alpha 
-  (s2v: s2var, s2v_new: s2var, s2e: s2exp): s2exp
-// end of [s2exp_alpha]
-
-fun s2explst_alpha
-  (s2v: s2var, s2v_new: s2var, s2es: s2explst): s2explst
-// end of [s2explst_alpha]
-
-(* ****** ****** *)
-
-fun s2cst_select_locs2explstlst
-  (s2cs: s2cstlst, arg: List (locs2explst)): s2cstlst
-// end of [s2cst_select_locs2explstlst]
-
-(* ****** ****** *)
-
-(* end of [pats_staexp2_util.sats] *)
+(* end of [pats_dynexp2_util.sats] *)

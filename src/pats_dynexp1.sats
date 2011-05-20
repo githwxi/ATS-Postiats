@@ -44,14 +44,16 @@ datatype p1at_node =
 //
   | P1Tany of () // wildcard: (_)
   | P1Tanys of () // wildcards: _
+  | P1Tide of symbol // variable
   | P1Tdqid of // constructor (qualified) / variable (unqualified)
       (d0ynq, symbol)
   | P1Tref of symbol // refvar pattern
 //
-  | P1Tint of i0nt  // int constant
-  | P1Tchar of c0har // char constant
-  | P1Tfloat of f0loat // floating point constant
-  | P1Tstring of s0tring // string constant
+  | P1Tint of string  // int constant
+  | P1Tchar of char // char constant
+  | P1Tfloat of string // floating point constant
+  | P1Tstring of string // string constant
+//
   | P1Tempty of () // empty pattern
 //
   | P1Tapp_sta of (p1at, s1vararglst) // static application
@@ -74,6 +76,8 @@ datatype p1at_node =
   | P1Tsvararg of s1vararg (* static argument *)
 //
   | P1Tann of (p1at, s1exp(*ann*)) // ascribed pattern
+//
+  | P1Terr of () // HX: for indicating an error
 // end of [p1at_node]
 
 and labp1at_node =
@@ -93,16 +97,22 @@ and labp1atlst = List (labp1at)
 
 (* ****** ****** *)
 
+fun p1at_make (loc: location, node: p1at_node): p1at
+
 fun p1at_any (loc: location): p1at
 fun p1at_anys (loc: location): p1at
 fun p1at_ide (_: location, id: symbol): p1at
 fun p1at_dqid (loc: location, dq: d0ynq, id: symbol): p1at
 fun p1at_ref (loc: location, id: symbol): p1at
 
-fun p1at_int (loc: location, int: i0nt): p1at
-fun p1at_char (loc: location, char: c0har): p1at
-fun p1at_float (loc: location, char: f0loat): p1at
-fun p1at_string (loc: location, char: s0tring): p1at
+fun p1at_int (loc: location, x: string): p1at
+fun p1at_i0nt (loc: location, x: i0nt): p1at
+fun p1at_char (loc: location, c: char): p1at
+fun p1at_c0har (loc: location, x: c0har): p1at
+fun p1at_float (loc: location, f: string): p1at
+fun p1at_f0loat (loc: location, x: f0loat): p1at
+fun p1at_string (loc: location, s: string): p1at
+fun p1at_s0tring (loc: location, x: s0tring): p1at
 fun p1at_empty (loc: location): p1at
 
 fun p1at_app_dyn (
@@ -130,10 +140,28 @@ fun p1at_svararg (loc: location, arg: s1vararg): p1at
 
 fun p1at_ann (loc: location, p1t: p1at, s1e: s1exp): p1at
 
+fun p1at_err (loc: location): p1at
+
+(* ****** ****** *)
+
+fun labp1at_norm
+  (loc: location, l: l0ab, p1t: p1at): labp1at
+fun labp1at_omit (loc: location): labp1at
+
+(* ****** ****** *)
+
 fun fprint_p1at : fprint_type (p1at)
-fun fprint_p1atlst : fprint_type (p1atlst)
+fun print_p1at (p1t: p1at): void
+fun prerr_p1at (p1t: p1at): void
 
 fun fprint_labp1at : fprint_type (labp1at)
+
+fun fprint_p1atlst : fprint_type (p1atlst)
+
+(* ****** ****** *)
+
+fun p1at_make_e1xp (loc: location, e: e1xp): p1at
+fun e1xp_make_p1at (loc: location, p1t: p1at): e1xp
 
 (* ****** ****** *)
 
@@ -236,14 +264,22 @@ datatype d1ecl_node =
 
 and d1exp_node =
 //
-  | D1Edqid of (d0ynq, symbol) // qualified ids
+  | D1Eide of (symbol) // identifiers
+  | D1Edqid of (d0ynq, symbol) // qualified identifiers
 //
-  | D1Eint of i0nt // dynamic integers
+  | D1Eint of string // dynamic integers
   | D1Ebool of bool // boolean constants
-  | D1Echar of c0har // dynamic characters
-  | D1Efloat of f0loat (* dynamic floats *)
-  | D1Estring of s0tring (* dynamic strings *)
+  | D1Echar of char // dynamic characters
+  | D1Efloat of string (* dynamic floats *)
+  | D1Estring of string (* dynamic strings *)
+//
+  | D1Ei0nt of i0nt // dynamic integers
+  | D1Ec0har of c0har // dynamic characters
+  | D1Ef0loat of f0loat (* dynamic floats *)
+  | D1Es0tring of s0tring (* dynamic strings *)
+//
   | D1Ecstsp of cstsp // special constants
+//
   | D1Eempty (* empty expression *)
   | D1Etop of () // uninitialized expression
 //
@@ -466,17 +502,28 @@ and i1mpdec = '{
 //
 (* ****** ****** *)
 
+fun d1exp_make
+  (loc: location, node: d1exp_node): d1exp
+// end of [d1exp_make]
+
 fun d1exp_ide (loc: location, id: symbol): d1exp
 fun d1exp_dqid
   (loc: location, dq: d0ynq, id: symbol): d1exp
 // end of [d1exp_dqid]
 fun d1exp_opid (loc: location, id: symbol): d1exp
 
-fun d1exp_int (loc: location, x: i0nt): d1exp
-fun d1exp_char (loc: location, x: c0har): d1exp
-fun d1exp_float (loc: location, x: f0loat): d1exp
-fun d1exp_string (loc: location, x: s0tring): d1exp
+fun d1exp_int (loc: location, x: string): d1exp
+fun d1exp_char (loc: location, x: char): d1exp
+fun d1exp_float (loc: location, x: string): d1exp
+fun d1exp_string (loc: location, x: string): d1exp
+//
+fun d1exp_i0nt (loc: location, x: i0nt): d1exp
+fun d1exp_c0har (loc: location, x: c0har): d1exp
+fun d1exp_f0loat (loc: location, x: f0loat): d1exp
+fun d1exp_s0tring (loc: location, x: s0tring): d1exp
+//
 fun d1exp_cstsp (loc: location, x: cstsp): d1exp
+//
 fun d1exp_empty (loc: location): d1exp
 fun d1exp_top (loc: location): d1exp
 

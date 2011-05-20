@@ -72,7 +72,7 @@ d2cst_struct = @{
 , d2cst_fil= filename
 , d2cst_kind= dcstkind
 , d2cst_decarg= s2qualstlst // template arg
-, d2cst_arilst= List int // arity
+, d2cst_arylst= List int // arity
 , d2cst_typ= s2exp // assigned type
 , d2cst_extdef= dcstextdef // external dcst definition
 , d2cst_def= d2expopt // definition
@@ -95,7 +95,7 @@ d2cst_make (
 , fil
 , dck
 , decarg
-, arilst
+, arylst
 , typ
 , extdef
 ) = let
@@ -109,7 +109,7 @@ val () = p->d2cst_loc := loc
 val () = p->d2cst_fil := fil
 val () = p->d2cst_kind := dck
 val () = p->d2cst_decarg := decarg
-val () = p->d2cst_arilst := arilst
+val () = p->d2cst_arylst := arylst
 val () = p->d2cst_typ := typ
 val () = p->d2cst_extdef := extdef
 val () = p->d2cst_def := None ()
@@ -126,6 +126,41 @@ implement
 d2cst_get_sym (d2c) = let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_sym
 end // end of [d2cst_get_sym]
+
+implement
+d2cst_get_loc (d2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_loc
+end // end of [d2cst_get_loc]
+
+implement
+d2cst_get_fil (d2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_fil
+end // end of [d2cst_get_fil]
+
+implement
+d2cst_get_kind (d2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_kind
+end // end of [d2cst_get_kind]
+
+implement
+d2cst_get_decarg (d2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_decarg
+end // end of [d2cst_get_decarg]
+
+implement
+d2cst_get_arylst (d2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_arylst
+end // end of [d2cst_get_arylst]
+
+implement
+d2cst_get_extdef (d2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_extdef
+end // end of [d2cst_get_extdef]
+
+implement
+d2cst_get_stamp (d2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_stamp
+end // end of [d2cst_get_stamp]
 
 end // end of [local]
 

@@ -82,15 +82,6 @@ val symbol_LLAMAT : symbol // llam@
 val symbol_REFAT : symbol // ref@
 //
 (* ****** ****** *)
-
-val symbol_DEFINED : symbol // defined
-val symbol_UNDEFINED : symbol // undefined
-
-(* ****** ****** *)
-
-val symbol_TUPZ : symbol // TUPSIZE // for syndef
-
-(* ****** ****** *)
 //
 // HX: for pre-defined predicative sorts
 //
@@ -112,6 +103,20 @@ val symbol_VIEWT0YPE : symbol
 //
 val symbol_TYPES : symbol
 //
+(* ****** ****** *)
+
+val symbol_TRUE : symbol
+val symbol_FALSE : symbol
+
+(* ****** ****** *)
+
+val symbol_DEFINED : symbol // defined
+val symbol_UNDEFINED : symbol // undefined
+
+(* ****** ****** *)
+
+val symbol_TUPZ : symbol // TUPSIZE // for syndef
+
 (* ****** ****** *)
 
 val symbol_ATS_STALOADFLAG : symbol

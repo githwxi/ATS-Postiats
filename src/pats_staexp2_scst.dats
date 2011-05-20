@@ -88,7 +88,7 @@ s2cst_struct = @{ (* builtin or abstract *)
 // HX: is list-like?
 //
 , s2cst_islst= Option @(d2con(*nil*), d2con(*cons*))
-, s2cst_arilst= List int // arity list
+, s2cst_arylst= List int // arity list
 // 
 // HX: -1/0/1: contravarint/invariant/covarint
 //
@@ -109,16 +109,16 @@ s2cst_struct = @{ (* builtin or abstract *)
 
 local
 
-assume s2cst_type = ref (s2cst_struct)
-
-fun arities_get
+fun s2rt_get_arylst
   (s2t: s2rt): List int =
   case+ s2t of
   | S2RTfun (s2ts, s2t) => 
-      list_cons (list_length s2ts, arities_get s2t)
+      list_cons (list_length s2ts, s2rt_get_arylst (s2t))
     // end of [S2RTfun]
   | _ => list_nil () // end of [_]
-// end of [arities_get]
+// end of [s2rt_get_arylst]
+
+assume s2cst_type = ref (s2cst_struct)
 
 in // in of [local]
 
@@ -148,7 +148,7 @@ val () = p->s2cst_isrec := isrec
 val () = p->s2cst_isasp := isasp
 val () = p->s2cst_iscpy := s2cstopt_encode (None)
 val () = p->s2cst_islst := islst
-val () = p->s2cst_arilst := arities_get (s2t)
+val () = p->s2cst_arylst := s2rt_get_arylst (s2t)
 val () = p->s2cst_argvar := argvar
 val () = p->s2cst_conlst := None ()
 val () = p->s2cst_def := def

@@ -387,7 +387,7 @@ fun s2cst_set_iscpy (x: s2cst, cpy: s2cstopt): void
 fun s2cst_get_islst (x: s2cst): Option @(d2con, d2con)
 fun s2cst_set_islst (x: s2cst, lst: Option @(d2con, d2con)): void
 
-fun s2cst_get_arilst (x: s2cst): List int // arity list
+fun s2cst_get_arylst (x: s2cst): List int // arity list
 fun s2cst_get_argvar (x: s2cst): List (syms2rtlst) // arg variance list
 fun s2cst_get_conlst (x: s2cst): Option d2conlst
 fun s2cst_set_conlst (x: s2cst, lst: Option d2conlst): void
@@ -615,6 +615,44 @@ fun prerr_s2exp (x: s2exp): void
 (* ****** ****** *)
 
 fun fprint_s2rtext : fprint_type (s2rtext)
+
+(* ****** ****** *)
+
+datatype
+s2vararg =
+  | S2VARARGone (* {..} *)
+  | S2VARARGall (* {...} *)
+  | S2VARARGseq of s2varlst
+// end of [s2vararg]
+
+typedef s2vararglst = List (s2vararg)
+
+fun fprint_s2vararg : fprint_type (s2vararg)
+
+(* ****** ****** *)
+
+typedef
+s2tavar = '{
+  s2tavar_loc= location, s2tavar_var= s2var
+}
+typedef s2tavarlst = List s2tavar
+
+fun s2tavar_make
+  (loc: location, s2v: s2var): s2tavar
+// end of [s2tavar_make]
+
+(* ****** ****** *)
+
+typedef
+s2aspdec = '{
+  s2aspdec_loc= location
+, s2aspdec_cst= s2cst
+, s2aspdec_def= s2exp
+} // end of [s2aspdec]
+
+fun s2aspdec_make (
+  loc: location, s2c: s2cst, def: s2exp
+) : s2aspdec // end of [s2aspdec_make]
 
 (* ****** ****** *)
 

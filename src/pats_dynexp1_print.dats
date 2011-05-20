@@ -62,6 +62,11 @@ case+ p1t0.p1at_node of
 //
 | P1Tany () => prstr "P1Tany()"
 | P1Tanys () => prstr "P1Tanys()"
+| P1Tide (id) => {
+    val () = prstr "P1Tide("
+    val () = fprint_symbol (out, id)
+    val () = prstr ")"
+  }
 | P1Tdqid (q, id) => {
     val () = prstr "P1Tdqid("
     val () = ($SYN.fprint_d0ynq (out, q); fprint_symbol (out, id))
@@ -75,22 +80,22 @@ case+ p1t0.p1at_node of
 //
 | P1Tint (x) => {
     val () = prstr "P1Tint("
-    val () = fprint_i0nt (out, x)
+    val () = fprint_string (out, x)
     val () = prstr ")"
   }
 | P1Tchar (x) => {
     val () = prstr "P1Tchar("
-    val () = fprint_c0har (out, x)
+    val () = fprint_char (out, x)
     val () = prstr ")"
   }
 | P1Tfloat (x) => {
     val () = prstr "P1Tfloat("
-    val () = fprint_f0loat (out, x)
+    val () = fprint_string (out, x)
     val () = prstr ")"
   }
 | P1Tstring (x) => {
     val () = prstr "P1Tint("
-    val () = fprint_s0tring (out, x)
+    val () = fprint_string (out, x)
     val () = prstr ")"
   }
 | P1Tempty () => prstr "P1Tempty()"
@@ -184,11 +189,20 @@ case+ p1t0.p1at_node of
     val () = prstr ")"
   }
 //
+| P1Terr () => prstr "P1Terr()"
+//
 (*
 | _ => prstr "P1T...(...)"
 *)
 //
 end // end of [fprint_p1at]
+
+implement
+print_p1at (p1t) = fprint_p1at (stdout_ref, p1t)
+implement
+prerr_p1at (p1t) = fprint_p1at (stderr_ref, p1t)
+
+(* ****** ****** *)
 
 implement
 fprint_p1atlst
@@ -218,15 +232,21 @@ fprint_d1exp
 in
 //
 case+ d1e0.d1exp_node of
+| D1Eide (id) => {
+    val () = prstr "D1Eide("
+    val () = fprint_symbol (out, id)
+    val () = prstr ")"
+  }
 | D1Edqid (dq, id) => {
     val () = prstr "D1Edqid("
     val () = fprint_d0ynq (out, dq)
     val () = fprint_symbol (out, id)
     val () = prstr ")"
   }
+//
 | D1Eint (x) => {
     val () = prstr "D1Eint("
-    val () = fprint_i0nt (out, x)
+    val () = fprint_string (out, x)
     val () = prstr ")"
   }
 | D1Ebool (x) => {
@@ -236,19 +256,41 @@ case+ d1e0.d1exp_node of
   }
 | D1Echar (x) => {
     val () = prstr "D1Echar("
-    val () = fprint_c0har (out, x)
+    val () = fprint_char (out, x)
     val () = prstr ")"
   }
 | D1Efloat (x) => {
     val () = prstr "D1Efloat("
-    val () = fprint_f0loat (out, x)
+    val () = fprint_string (out, x)
     val () = prstr ")"
   }
 | D1Estring (x) => {
     val () = prstr "D1Estring("
+    val () = fprint_string (out, x)
+    val () = prstr ")"
+  }
+//
+| D1Ei0nt (x) => {
+    val () = prstr "D1Ei0nt("
+    val () = fprint_i0nt (out, x)
+    val () = prstr ")"
+  }
+| D1Ec0har (x) => {
+    val () = prstr "D1Ec0har("
+    val () = fprint_c0har (out, x)
+    val () = prstr ")"
+  }
+| D1Ef0loat (x) => {
+    val () = prstr "D1Ef0loat("
+    val () = fprint_f0loat (out, x)
+    val () = prstr ")"
+  }
+| D1Es0tring (x) => {
+    val () = prstr "D1Es0tring("
     val () = fprint_s0tring (out, x)
     val () = prstr ")"
   }
+//
 | D1Eempty () => prstr "D1Eempty()"
 | D1Etop () => prstr "D1Etop()"
 //

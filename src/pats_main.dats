@@ -160,6 +160,9 @@ dynload "pats_staexp2_util2.dats"
 //
 dynload "pats_dynexp2.dats"
 dynload "pats_dynexp2_dcst.dats"
+dynload "pats_dynexp2_dvar.dats"
+//
+dynload "pats_dynexp2_util.dats"
 //
 dynload "pats_namespace.dats"
 dynload "pats_trans2_env.dats"

@@ -254,6 +254,7 @@ typedef d0ynq = '{
   d0ynq_loc= location, d0ynq_node= d0ynq_node
 } // end of [d0ynq]
 
+val the_d0ynq_none : d0ynq
 fun d0ynq_none (loc: location): d0ynq
 fun d0ynq_symdot
   (ent1: i0de, tok2: token): d0ynq
@@ -261,6 +262,8 @@ fun d0ynq_symcolon
   (ent1: i0de, tok2: token): d0ynq
 fun d0ynq_symdotcolon
   (ent1: i0de, ent2: i0de, ent3: token): d0ynq
+
+fun d0ynq_is_none (q: d0ynq): bool
 
 fun fprint_d0ynq : fprint_type (d0ynq)
 fun print_d0ynq (x: d0ynq): void

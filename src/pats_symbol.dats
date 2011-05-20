@@ -278,6 +278,11 @@ implement symbol_TYPES = symbol_make_string "types"
 //
 (* ****** ****** *)
 
+implement symbol_TRUE = symbol_make_string "true"
+implement symbol_FALSE = symbol_make_string "false"
+
+(* ****** ****** *)
+
 implement symbol_DEFINED = symbol_make_string "defined"
 implement symbol_UNDEFINED = symbol_make_string "undefined"
 

@@ -435,9 +435,7 @@ in '{
 (* ****** ****** *)
 
 implement
-the_s0taq_none =
-  s0taq_none ($LOC.location_dummy)
-// end of [the_s0taq_none]
+the_s0taq_none = s0taq_none ($LOC.location_dummy)
 
 implement
 s0taq_none (loc) = '{
@@ -486,6 +484,9 @@ in '{
 (* ****** ****** *)
 
 implement
+the_d0ynq_none = d0ynq_none ($LOC.location_dummy)
+
+implement
 d0ynq_none (loc) = '{
   d0ynq_loc= loc, d0ynq_node= D0YNQnone ()
 } // end of [d0ynq_none]
@@ -512,6 +513,11 @@ in '{
   d0ynq_loc= loc
 , d0ynq_node= D0YNQsymdotcolon (ent1.i0de_sym, ent2.i0de_sym)
 } end // end of [d0ynq_symdotcolon]
+
+implement
+d0ynq_is_none (q) =
+  case q.d0ynq_node of D0YNQnone () => true | _ => false
+// end of [d0ynq_is_none]
 
 (* ****** ****** *)
 

@@ -160,8 +160,9 @@ fun d0cstdeclst_tr
 
 (* ****** ****** *)
 
-fun p0at_tr (x: p0at): p1at
-fun p0atlst_tr (x: p0atlst): p1atlst
+fun p0at_tr (p0t: p0at): p1at
+fun labp0at_tr (lp0t: labp0at): labp1at
+fun p0atlst_tr (p0ts: p0atlst): p1atlst
 
 (* ****** ****** *)
 

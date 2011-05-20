@@ -114,12 +114,20 @@ fun s1exp_trdn_res_impredicative (s1e: s1exp, wths1es: wths1explst): s2exp
 
 (* ****** ****** *)
 
+fun witht1ype_tr (wty: witht1ype): s2expopt
+
+(* ****** ****** *)
+
 fun s1qualst_tr (s1qs: s1qualst): s2qualst
 fun q1marg_tr (q1ma: q1marg): s2qualst // HX: [location] is discarded
 
 (* ****** ****** *)
 
 fun s1rtext_tr (s1te: s1rtext): s2rtext
+
+(* ****** ****** *)
+
+fun s1vararg_tr (s1a: s1vararg): s2vararg
 
 (* ****** ****** *)
 

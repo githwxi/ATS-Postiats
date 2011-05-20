@@ -216,4 +216,16 @@ s2exp_err (s2t) = '{
 
 (* ****** ****** *)
 
+implement
+s2tavar_make (loc, s2v) = '{
+  s2tavar_loc= loc, s2tavar_var= s2v
+}
+
+implement
+s2aspdec_make (loc, s2c, def) = '{
+  s2aspdec_loc= loc, s2aspdec_cst= s2c, s2aspdec_def= def
+}
+
+(* ****** ****** *)
+
 (* end of [pats_staexp2.dats] *)

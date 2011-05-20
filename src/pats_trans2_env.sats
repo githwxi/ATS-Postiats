@@ -143,9 +143,11 @@ fun the_d2expenv_add
 // end of [the_d2expenv_add]
 fun the_d2expenv_add_dcon (d2c: d2con): void
 fun the_d2expenv_add_dcst (d2c: d2cst): void
+fun the_d2expenv_add_dvar (d2v: d2var): void
+fun the_d2expenv_add_dvarlst (d2vs: d2varlst): void
 
 fun the_d2expenv_find (id: symbol): d2itmopt_vt
-fun the_d2expenv_find_qua (q: $SYN.s0taq, id: symbol): d2itmopt_vt
+fun the_d2expenv_find_qua (q: $SYN.d0ynq, id: symbol): d2itmopt_vt
 
 fun the_d2expenv_pervasive_find (id: symbol): Option_vt (d2itm)
 

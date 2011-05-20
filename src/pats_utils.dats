@@ -34,15 +34,13 @@
 //
 (* ****** ****** *)
 
-staload STDLIB = "libc/SATS/stdlib.sats"
-
-(* ****** ****** *)
-
 staload "pats_utils.sats"
 
 (* ****** ****** *)
 
 local
+
+staload STDLIB = "libc/SATS/stdlib.sats"
 
 fun
 llint_make_string_sgn
@@ -101,6 +99,91 @@ in
     | _ => llint_make_string_sgn (1(*sgn*), rep, 0)
   end else 0ll // end of [if]
 end // end of [llint_make_string]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+assume lstord (a: type) = List (a)
+
+in // in of [local]
+
+implement
+lstord_nil () = list_nil ()
+
+implement
+lstord_sing (x) = list_cons (x, list_nil ())
+
+implement
+lstord_insert{a}
+  (xs, x0, cmp) = let
+  fun aux {n:nat} .<n>.
+    (xs: list (a, n)):<cloref> list (a, n+1) =
+    case+ xs of
+    | list_cons (x, xs1) =>
+        if cmp (x0, x) <= 0 then
+          list_cons (x0, xs) else list_cons (x, aux (xs1))
+        // end of [if]
+    | list_nil () => list_cons (x0, list_nil)
+  // end of [aux]
+in
+  aux (xs)
+end // end of [lstord_insert]
+
+implement
+lstord_union{a}
+  (xs1, xs2, cmp) = let
+  fun aux {n1,n2:nat} .<n1+n2>. (
+    xs1: list (a, n1), xs2: list (a, n2)
+  ) :<cloref> list (a, n1+n2) =
+    case+ xs1 of
+    | list_cons (x1, xs11) => (
+      case+ xs2 of
+      | list_cons (x2, xs21) =>
+          if cmp (x1, x2) <= 0 then
+            list_cons (x1, aux (xs11, xs2))
+          else
+            list_cons (x2, aux (xs1, xs21))
+          // end of [if]
+      | list_nil () => xs1
+      ) // end of [list_cons]
+    | list_nil () => xs2
+  // end of [aux]
+in
+  aux (xs1, xs2)
+end // end of [lstord_union]
+
+implement
+lstord_get_dups
+  {a} (xs, cmp) = let
+//
+fun aux {n:nat} .<n>. (
+  x0: a, xs: list (a, n), cnt: int
+) :<cloref> List a =
+  case+ xs of
+  | list_cons (x, xs) =>
+      if cmp (x, x0) = 0 then
+        aux (x0, xs, cnt+1)
+      else ( // HX: x0 < x holds
+        if cnt > 0 then
+          list_cons (x0, aux (x, xs, 0)) else aux (x, xs, 0)
+        // end of [if]
+      ) // end of [if]
+  | list_nil () =>
+      if cnt > 0 then list_cons (x0, list_nil) else list_nil
+    // end of [list_nil]
+(* end of [aux] *)
+//
+in
+//
+case+ xs of
+| list_cons (x, xs) => aux (x, xs, 0) | list_nil () => list_nil ()
+//
+end // end of [lstord_get_dups]
+
+implement lstord_listize (xs) = xs
 
 end // end of [local]
 

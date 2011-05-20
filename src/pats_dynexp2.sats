@@ -34,6 +34,11 @@
 //
 (* ****** ****** *)
 
+staload UT = "pats_utils.sats"
+typedef lstord (a:type) = $UT.lstord (a)
+
+(* ****** ****** *)
+
 staload "pats_basics.sats"
 
 (* ****** ****** *)
@@ -46,6 +51,10 @@ typedef filename = $FIL.filename
 
 staload SYN = "pats_syntax.sats"
 typedef dcstextdef = $SYN.dcstextdef
+typedef i0nt = $SYN.i0nt
+typedef c0har = $SYN.c0har
+typedef f0loat = $SYN.f0loat
+typedef s0tring = $SYN.s0tring
 
 (* ****** ****** *)
 
@@ -55,13 +64,14 @@ staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
-abstype d2var_type
-typedef d2var = d2var_type
-typedef d2varlst = List (d2var)
-
 abstype d2cst_type
 typedef d2cst = d2cst_type
 typedef d2cstlst = List (d2cst)
+
+abstype d2var_type
+typedef d2var = d2var_type
+typedef d2varlst = List (d2var)
+typedef d2varopt = Option (d2var)
 
 abstype d2mac_type
 typedef d2mac = d2mac_type
@@ -84,13 +94,51 @@ viewtypedef d2itmopt_vt = Option_vt (d2itm)
 
 (* ****** ****** *)
 
+fun d2var_make (loc: location, id: symbol): d2var
+
+fun d2var_get_sym (x: d2var): symbol
+
+fun d2var_get_loc (x: d2var): location
+
+fun d2var_get_isfix (x: d2var): bool
+fun d2var_set_isfix (x: d2var, isfix: bool): void
+
+fun d2var_get_isprf (x: d2var): bool
+fun d2var_set_isprf (x: d2var, isprf: bool): void
+
+fun d2var_get_level (x: d2var): int
+fun d2var_set_level (x: d2var, level: int): void
+
+fun d2var_get_linval (x: d2var): int
+
+fun d2var_get_decarg (x: d2var): s2qualstlst
+fun d2var_set_decarg (x: d2var, decarg: s2qualstlst): void
+
+fun d2var_get_addr (x: d2var): s2expopt
+fun d2var_set_addr (x: d2var, s2eopt: s2expopt): void
+
+fun d2var_get_view (x: d2var): d2varopt
+fun d2var_set_view (x: d2var, d2vopt: d2varopt): void
+
+fun d2var_get_type (x: d2var): s2expopt
+fun d2var_set_type (x: d2var, s2eopt: s2expopt): void
+fun d2var_get_mastype (x: d2var): s2expopt
+fun d2var_set_mastype (x: d2var, s2eopt: s2expopt): void
+
+fun d2var_get_stamp (x: d2var): stamp
+
+fun compare_d2var_d2var (x1: d2var, x2: d2var):<> Sgn
+overload compare with compare_d2var_d2var
+
+(* ****** ****** *)
+
 fun d2cst_make (
   id: symbol
 , loc: location
 , fil: filename
 , dck: dcstkind
 , decarg: s2qualstlst
-, arilst: List int
+, arylst: List int
 , typ: s2exp
 , extdef: dcstextdef
 ) : d2cst // end of [d2cst_make]
@@ -101,8 +149,8 @@ fun d2cst_get_loc (x: d2cst): location
 fun d2cst_get_fil (_: d2cst): filename
 fun d2cst_get_sym (x: d2cst): symbol
 fun d2cst_get_kind (x: d2cst): dcstkind
-fun d2cst_get_arilst (x: d2cst): List int
-fun d2cst_get_decarg (x: d2cst): s2qualst
+fun d2cst_get_arylst (x: d2cst): List int
+fun d2cst_get_decarg (x: d2cst): s2qualstlst
 fun d2cst_set_decarg (x: d2cst, s2qss: s2qualstlst): void
 fun d2cst_get_typ (x: d2cst): s2exp
 fun d2cst_get_extdef (x: d2cst): dcstextdef
@@ -128,26 +176,76 @@ datatype p2at_node =
   | P2Tstring of string
   | P2Tfloat of float
   | P2Tempty of ()
+  | P2Tcon of ( // constructor pattern
+      d2con, s2vararglst, int(*npf*), p2atlst
+    ) // end of [P2Tcon]
   | P2Tlist of (int(*npf*), p2atlst)
   | P2Tlst of (p2atlst)
+  | P2Ttup of (int(*knd*), int(*npf*), p2atlst)
 (*
   | P2Trec of (int(*knd*), int(*npf*), labp2atlst)
 *)
   | P2Tann of (p2at, s2exp) // ascribed pattern
+//
+  | P2Terr of () // HX: placeholder for indicating an error
 // end of [p2at_node]
 
 where
 p2at = '{
   p2at_loc= location
+, p2at_svs= lstord (s2var)
+, p2at_dvs= lstord (d2var)
 (*
-, p2at_svs= s2varlstord_t
-, p2at_dvs= d2varlstord_t
 , p2at_typ= ref@ (s2expopt)
 *)
 , p2at_node= p2at_node
 }
 and p2atlst = List (p2at)
 and p2atopt = Option (p2at)
+
+(* ****** ****** *)
+
+fun p2atlst_svs_union (p2ts: p2atlst): lstord (s2var)
+fun p2atlst_dvs_union (p2ts: p2atlst): lstord (d2var)
+
+(* ****** ****** *)
+
+fun p2at_make (
+  loc: location
+, svs: lstord (s2var), dvs: lstord (d2var)
+, node: p2at_node
+) : p2at // end of [p2at_make]
+
+fun p2at_any (loc: location): p2at
+fun p2at_anys (loc: location): p2at
+
+fun p2at_var (
+  loc: location, refknd: int, d2v: d2var
+) : p2at // end of [p2at_var]
+
+fun p2at_bool (loc: location, b: bool): p2at
+
+fun p2at_char (loc: location, c: char): p2at
+fun p2at_c0har (loc: location, tok: c0har): p2at
+
+fun p2at_empty (loc: location): p2at
+
+fun p2at_con (
+  loc: location
+, d2c: d2con, sarg: s2vararglst, npf: int, darg: p2atlst
+) : p2at // end of [p2at_con]
+
+fun p2at_list // HX: flat tuple
+  (loc: location, npf: int, p2ts: p2atlst): p2at
+// end of [p2at_list]
+
+fun p2at_tup (
+  loc: location, knd: int, npf: int, p2ts: p2atlst
+) : p2at // end of [p2at_tup]
+
+fun p2at_ann (loc: location, p2t: p2at, s2e: s2exp): p2at
+
+fun p2at_err (loc: location): p2at
 
 (* ****** ****** *)
 
@@ -165,6 +263,8 @@ d2ecl_node =
 //
   | D2Cdcstdec of (dcstkind, d2cstlst) // dyn. const. declarations
 //
+  | D2Cvaldecs of (valkind, v2aldeclst) // (nonrec) value declarations
+//
   | D2Cinclude of d2eclist (* file inclusion *)
   | D2Cstaload of (
       symbolopt(*id*), filename, int(*loadflag*), int(*loaded*), filenv
@@ -174,6 +274,14 @@ d2ecl_node =
 and
 d2exp_node =
   | D2Ebool of bool (* boolean values *)
+//
+  | D2Ei0nt of i0nt
+  | D2Ec0har of c0har
+  | D2Ef0loat of f0loat
+  | D2Es0tring of s0tring
+//
+  | D2Eempty of ()
+  | D2Etup of (int(*knd*), int(*npf*), d2explst)
   | D2Elet of (d2eclist, d2exp) // let-expression
   | D2Ewhere of (d2exp, d2eclist) // where-expression
   | D2Eann_type of (d2exp, s2exp) // ascribled expression
@@ -194,20 +302,35 @@ and d2expopt = Option (d2exp)
 
 (* ****** ****** *)
 
-and s2tavar = '{
-  s2tavar_loc= location, s2tavar_var= s2var
-}
-and s2tavarlst = List s2tavar
+and v2aldec = '{
+  v2aldec_loc= location
+, v2aldec_pat= p2at
+, v2aldec_def= d2exp
+, v2aldec_ann= s2expopt
+} // end of [v2aldec]
+
+and v2aldeclst = List v2aldec
 
 (* ****** ****** *)
-
-and s2aspdec = '{
-  s2aspdec_loc= location
-, s2aspdec_cst= s2cst
-, s2aspdec_def= s2exp
-} // end of [s2aspdec]
-
+//
+// HX: dynamic expressions
+//
 (* ****** ****** *)
+
+fun d2exp_make
+  (loc: location, node: d2exp_node): d2exp
+// end of [d2exp_make]
+
+fun d2exp_i0nt (loc: location, x: i0nt): d2exp
+fun d2exp_c0har (loc: location, x: c0har): d2exp
+fun d2exp_f0loat (loc: location, x: f0loat): d2exp
+fun d2exp_s0tring (loc: location, x: s0tring): d2exp
+
+fun d2exp_empty (loc: location): d2exp
+
+fun d2exp_tup (
+  loc: location, knd: int, npf: int, d2es: d2explst
+) : d2exp // end of [d2exp_tup]
 
 fun d2exp_let
   (loc: location, d2cs: d2eclist, body: d2exp): d2exp
@@ -221,16 +344,14 @@ fun d2exp_ann_type (loc: location, d2e: d2exp, ann: s2exp): d2exp
 
 (* ****** ****** *)
 
-fun s2tavar_make
-  (loc: location, s2v: s2var): s2tavar
-// end of [s2tavar_make]
+fun v2aldec_make (
+  loc: location, p2t: p2at, def: d2exp, ann: s2expopt
+) : v2aldec // end of [v2aldec_make]
 
 (* ****** ****** *)
-
-fun s2aspdec_make (
-  loc: location, s2c: s2cst, def: s2exp
-) : s2aspdec // end of [s2aspdec_make]
-
+//
+// HX: various declarations
+//
 (* ****** ****** *)
 
 fun d2ecl_none (loc: location): d2ecl
@@ -250,6 +371,10 @@ fun d2ecl_exndec (loc: location, d2cs: d2conlst): d2ecl
 fun d2ecl_dcstdec (
   loc: location, knd: dcstkind, d2cs: d2cstlst
 ) : d2ecl // end of [d2ecl_dcstdec]
+
+fun d2ecl_valdecs (
+  loc: location, knd: valkind, d2cs: v2aldeclst
+) : d2ecl // end of [d2ecl_valdecs]
 
 fun d2ecl_include (loc: location, d2cs: d2eclist): d2ecl
 

@@ -56,6 +56,14 @@ staload "pats_trans2_env.sats"
 
 (* ****** ****** *)
 
+#include "pats_basics.hats"
+
+(* ****** ****** *)
+
+#define l2l list_of_list_vt
+
+(* ****** ****** *)
+
 implement
 d1exp_tr (d1e0) = let
 // (*
@@ -67,6 +75,22 @@ d1exp_tr (d1e0) = let
 in
 //
 case+ d1e0.d1exp_node of
+//
+| D1Ei0nt (x) => d2exp_i0nt (loc0, x)
+| D1Ec0har (x) => d2exp_c0har (loc0, x)
+| D1Ef0loat (x) => d2exp_f0loat (loc0, x)
+| D1Es0tring (x) => d2exp_s0tring (loc0, x)
+//
+| D1Elist (npf, d1es) => (
+  case+ d1es of
+  | list_cons _ => let
+      val knd = TYTUPKIND_flt // HX: flat tuple
+      val d2es = d1explst_tr (d1es)
+    in
+      d2exp_tup (loc0, knd, npf, d2es)
+    end // end of [list_cons]
+  | list_nil () => d2exp_empty (loc0)
+  ) // end of [D1Elist]
 | D1Elet (d1cs, d1e) => let
     val (pfenv | ()) = the_trans2_env_push ()
     val d2cs = d1eclist_tr (d1cs); val d2e = d1exp_tr (d1e)
@@ -89,11 +113,19 @@ case+ d1e0.d1exp_node of
   end // end of [D1Eann_type]
 | _ => let
     val () = prerr_interror_loc (loc0)
+    val () = prerr ": d1exp_tr: not yet implemented: d1e0 = "
+    val () = prerr_d1exp (d1e0)
+    val () = prerr "]"
+    val () = prerr_newline ()
   in
     $ERR.abort {d2exp} ()
   end // end of [_]
 //
 end // end of [d1exp_tr]
+
+(* ****** ****** *)
+
+implement d1explst_tr (d1es) = l2l (list_map_fun (d1es, d1exp_tr))
 
 (* ****** ****** *)
 
