@@ -914,16 +914,16 @@ fn v1aldeclst_tr {n:nat} (
   val s2vs = $UT.lstord_listize (p2atlst_svs_union p2ts)
   val d2vs = $UT.lstord_listize (p2atlst_dvs_union p2ts)
 in
-  if isrec then let
-    val () = the_d2expenv_add_dvarlst (d2vs)
+  if not(isrec) then let
     val d2cs = list_map2_fun<v1aldec,p2at> (d1cs, p2ts, v1aldec_tr)
-    val () = the_s2expenv_add_svarlst (s2vs)
+    val () = the_s2expenv_add_svarlst s2vs
+    val () = the_d2expenv_add_dvarlst d2vs
   in
     l2l (d2cs)
   end else let
+    val () = the_d2expenv_add_dvarlst (d2vs)
     val d2cs = list_map2_fun<v1aldec,p2at> (d1cs, p2ts, v1aldec_tr)
-    val () = the_d2expenv_add_dvarlst d2vs
-    val () = the_s2expenv_add_svarlst s2vs
+    val () = the_s2expenv_add_svarlst (s2vs)
   in
     l2l (d2cs)
   end // end of [if]

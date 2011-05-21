@@ -177,7 +177,7 @@ in
 case+ p0t0.p0at_node of
 //
 | P0Tide id when
-    id = UNDERSCORE => FXITMatm (p1at_anys loc0)
+    id = UNDERSCORE => FXITMatm (p1at_any (loc0))
   // end of [P0Tide when ...]
 | P0Tide id when
     id = BACKSLASH => p1atitm_backslash (loc0)

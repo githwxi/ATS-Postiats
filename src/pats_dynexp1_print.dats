@@ -61,7 +61,9 @@ in
 case+ p1t0.p1at_node of
 //
 | P1Tany () => prstr "P1Tany()"
+(*
 | P1Tanys () => prstr "P1Tanys()"
+*)
 | P1Tide (id) => {
     val () = prstr "P1Tide("
     val () = fprint_symbol (out, id)
@@ -109,6 +111,8 @@ case+ p1t0.p1at_node of
     p1t, locarg, npf, p1ts
   ) => {
     val () = prstr "P1Tapp_dyn("
+    val () = fprint_p1at (out, p1t)
+    val () = prstr "; "    
     val () = fprint_int (out, npf)
     val () = prstr "; "
     val () = fprint_p1atlst (out, p1ts)

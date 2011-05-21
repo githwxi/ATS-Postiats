@@ -59,10 +59,12 @@ implement
 p1at_any (loc) = '{
   p1at_loc= loc, p1at_node= P1Tany ()
 }
+(*
 implement
 p1at_anys (loc) = '{
   p1at_loc= loc, p1at_node= P1Tanys ()
 }
+*)
 
 implement
 p1at_ide (loc, id) = '{

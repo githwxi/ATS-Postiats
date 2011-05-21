@@ -463,7 +463,10 @@ in
 //
 case+ tok.token_node of
 | T_IDENT_alp name => let
-    val () = incby1 () in i0de_make_string (loc, name)
+    val () = incby1 ()
+    val name = "$" + name // HX: each qualifier begins with '$' 
+  in
+    i0de_make_string (loc, name)
   end
 | _ => let
     val () = err := err + 1

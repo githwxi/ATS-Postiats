@@ -36,7 +36,7 @@
 
 #include "pats_symmap_avltree.dats"
 (*
-#include "pats_symmap_htlinprb.dats" // HX: for experiment
+#include "pats_symmap_htlinprb.dats" // HX: hashtable for experiment
 *)
 
 (* ****** ****** *)

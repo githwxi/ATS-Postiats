@@ -1578,6 +1578,18 @@ end // end of [s1rtext_tr]
 (* ****** ****** *)
 
 implement
+s1vararg_tr (x) =
+  case+ x of
+  | S1VARARGone () => S2VARARGone ()
+  | S1VARARGall () => S2VARARGall ()
+  | S1VARARGseq (s1as) => let
+      val s2vs = s1arglst_trup (s1as) in S2VARARGseq (s2vs)
+    end // end of [S1VARARGseq]
+// end of [s1vararg_tr]
+
+(* ****** ****** *)
+
+implement
 d1atcon_tr (
   s2c, islin, isprf, s2vss0, fil, d1c
 ) = let
