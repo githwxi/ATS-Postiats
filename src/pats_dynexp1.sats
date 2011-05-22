@@ -71,8 +71,8 @@ datatype p1at_node =
 //
   | P1Tfree of p1at (* freed constructor *)
 //
-  | P1Tas of (symbol, p1at) // [as] pattern
-  | P1Trefas of (symbol, p1at) // refvar [as] pattern
+  | P1Tas of (symbol, location, p1at) // [as] pattern
+  | P1Trefas of (symbol, location, p1at) // refvar [as] pattern
 //
   | P1Texist of (s1arglst, p1at) // existentially qualified
   | P1Tsvararg of s1vararg (* static argument *)
@@ -135,8 +135,10 @@ fun p1at_rec (loc: location, knd: int, npf: int, xs: labp1atlst): p1at
 
 fun p1at_free (loc: location, p1t: p1at): p1at
 
-fun p1at_as (loc: location, id: symbol, p1t: p1at): p1at
-fun p1at_refas (loc: location, id: symbol, p1t: p1at): p1at
+fun p1at_as
+  (loc: location, id: symbol, loc_id: location, p1t: p1at): p1at
+fun p1at_refas
+  (loc: location, id: symbol, loc_id: location, p1t: p1at): p1at
 
 fun p1at_exist
   (loc: location, arg: s1arglst, p1t: p1at): p1at
@@ -380,6 +382,8 @@ and d1exp_node =
       (d1exp, funclo)
   | D1Eann_type of (* ascribed dynamic expressions *)
       (d1exp, s1exp)
+//
+  | D1Eerr of () // HX: placeholder for indicating an error
 // end of [d1exp_node]
 
 and d1lab_node =
@@ -713,6 +717,10 @@ fun d1exp_ann_funclo
 fun d1exp_ann_funclo_opt
   (loc: location, d1e: d1exp, fc: funclo): d1exp
 fun d1exp_ann_type (loc: location, d1e: d1exp, s1e: s1exp): d1exp
+
+(* ****** ****** *)
+
+fun d1exp_err (loc: location): d1exp
 
 (* ****** ****** *)
 

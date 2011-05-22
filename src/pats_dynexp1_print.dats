@@ -157,14 +157,14 @@ case+ p1t0.p1at_node of
     val () = prstr ")"
   }
 //
-| P1Tas (sym, p1t) => {
+| P1Tas (sym, loc_id, p1t) => {
     val () = prstr "P1Tas("
     val () = fprint_symbol (out, sym)
     val () = prstr "; "
     val () = fprint_p1at (out, p1t)
     val () = prstr ")"
   }
-| P1Trefas (sym, p1t) => {
+| P1Trefas (sym, loc_id, p1t) => {
     val () = prstr "P1Trefas("
     val () = fprint_symbol (out, sym)
     val () = prstr "; "

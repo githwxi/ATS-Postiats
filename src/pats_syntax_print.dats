@@ -689,14 +689,14 @@ case+ x.p0at_node of
     val () = prstr ")"
   }
 //
-| P0Tas (id, p0t_as) => {
+| P0Tas (id, loc_id, p0t_as) => {
     val () = prstr "P0Tas("
     val () = fprint_symbol (out, id)
     val () = prstr ", "
     val () = fprint_p0at (out, p0t_as)
     val () = prstr ")"
   }
-| P0Trefas (id, p0t_as) => {
+| P0Trefas (id, loc_id, p0t_as) => {
     val () = prstr "P0Trefas("
     val () = fprint_symbol (out, id)
     val () = prstr ", "

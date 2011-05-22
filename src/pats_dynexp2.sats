@@ -172,12 +172,13 @@ datatype p2at_node =
   | P2Tany of () // wildcard
   | P2Tvar of (int(*refknd*), d2var)
   | P2Tbool of bool
+  | P2Tint of string(*rep*)
   | P2Tchar of char
   | P2Tstring of string
-  | P2Tfloat of float
+  | P2Tfloat of string(*rep*)
   | P2Tempty of ()
   | P2Tcon of ( // constructor pattern
-      d2con, s2vararglst, int(*npf*), p2atlst
+      int(*freeknd*), d2con, s2vararglst, int(*npf*), p2atlst
     ) // end of [P2Tcon]
   | P2Tlist of (int(*npf*), p2atlst)
   | P2Tlst of (p2atlst)
@@ -185,6 +186,10 @@ datatype p2at_node =
 (*
   | P2Trec of (int(*knd*), int(*npf*), labp2atlst)
 *)
+//
+  | P2Tas of (int(*refknd*), d2var, p2at)
+  | P2Texist of (s2varlst, p2at) // existential opening
+//
   | P2Tann of (p2at, s2exp) // ascribed pattern
 //
   | P2Terr of () // HX: placeholder for indicating an error
@@ -224,14 +229,16 @@ fun p2at_var (
 ) : p2at // end of [p2at_var]
 
 fun p2at_bool (loc: location, b: bool): p2at
-
+fun p2at_int (loc: location, rep: string): p2at
 fun p2at_char (loc: location, c: char): p2at
-fun p2at_c0har (loc: location, tok: c0har): p2at
+fun p2at_string (loc: location, str: string): p2at
+fun p2at_float (loc: location, rep: string): p2at
 
 fun p2at_empty (loc: location): p2at
 
 fun p2at_con (
   loc: location
+, freeknd: int
 , d2c: d2con, sarg: s2vararglst, npf: int, darg: p2atlst
 ) : p2at // end of [p2at_con]
 
@@ -239,9 +246,19 @@ fun p2at_list // HX: flat tuple
   (loc: location, npf: int, p2ts: p2atlst): p2at
 // end of [p2at_list]
 
+fun p2at_lst (loc: location, p2ts: p2atlst): p2at
+
 fun p2at_tup (
   loc: location, knd: int, npf: int, p2ts: p2atlst
 ) : p2at // end of [p2at_tup]
+
+fun p2at_as (
+  loc: location, refknd: int, d2v: d2var, p2t: p2at
+) : p2at // end of [p2at_as]
+
+fun p2at_exist
+  (loc: location, s2vs: s2varlst, p2t: p2at): p2at
+// end of [p2at_exist]
 
 fun p2at_ann (loc: location, p2t: p2at, s2e: s2exp): p2at
 
@@ -273,6 +290,9 @@ d2ecl_node =
 
 and
 d2exp_node =
+//
+  | D2Evar of d2var
+//
   | D2Ebool of bool (* boolean values *)
 //
   | D2Ei0nt of i0nt
@@ -281,10 +301,18 @@ d2exp_node =
   | D2Es0tring of s0tring
 //
   | D2Eempty of ()
+//
+  | D2Econ of (* dynamic constructor *)
+      (d2con, s2exparglst, int (*pfarity*), d2explst)
+  | D2Ecst of d2cst
+//
   | D2Etup of (int(*knd*), int(*npf*), d2explst)
   | D2Elet of (d2eclist, d2exp) // let-expression
   | D2Ewhere of (d2exp, d2eclist) // where-expression
+//
   | D2Eann_type of (d2exp, s2exp) // ascribled expression
+//
+  | D2Eerr of () // HX: placeholder for indicating an error
 // end of [d2exp_node]
 
 where
@@ -321,12 +349,21 @@ fun d2exp_make
   (loc: location, node: d2exp_node): d2exp
 // end of [d2exp_make]
 
+fun d2exp_var (loc: location, d2v: d2var): d2exp
+
 fun d2exp_i0nt (loc: location, x: i0nt): d2exp
 fun d2exp_c0har (loc: location, x: c0har): d2exp
 fun d2exp_f0loat (loc: location, x: f0loat): d2exp
 fun d2exp_s0tring (loc: location, x: s0tring): d2exp
 
 fun d2exp_empty (loc: location): d2exp
+
+fun d2exp_con (
+  loc: location
+, d2c: d2con, sarg: s2exparglst, npf: int, darg: d2explst
+) : d2exp // end of [d2exp_con]
+
+fun d2exp_cst (loc: location, d2c: d2cst): d2exp
 
 fun d2exp_tup (
   loc: location, knd: int, npf: int, d2es: d2explst
@@ -341,6 +378,8 @@ fun d2exp_where
 // end of [d2exp_where]
 
 fun d2exp_ann_type (loc: location, d2e: d2exp, ann: s2exp): d2exp
+
+fun d2exp_err (loc: location): d2exp
 
 (* ****** ****** *)
 

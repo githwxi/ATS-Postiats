@@ -631,6 +631,17 @@ fun fprint_s2vararg : fprint_type (s2vararg)
 
 (* ****** ****** *)
 
+datatype
+s2exparg =
+  | S2EXPARGone (* {..} *)
+  | S2EXPARGall (* {...} *)
+  | S2EXPARGseq of s2explst
+// end of [s2exparg]
+
+typedef s2exparglst = List (s2exparg)
+
+(* ****** ****** *)
+
 typedef
 s2tavar = '{
   s2tavar_loc= location, s2tavar_var= s2var

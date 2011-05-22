@@ -55,8 +55,17 @@ staload "pats_dynexp2.sats"
 //
 (* ****** ****** *)
 
+typedef s2varset = $UT.lstord (s2var)
+
 val p2at_svs_nil : lstord (s2var) = $UT.lstord_nil ()
 val p2at_dvs_nil : lstord (d2var) = $UT.lstord_nil ()
+
+fun p2at_svs_add_svar (
+  svs: s2varset, s2v: s2var
+) : s2varset = let
+in
+  $UT.lstord_insert (svs, s2v, compare_s2var_s2var)
+end // end of [p2at_svs_add_svar]
 
 implement
 p2atlst_svs_union (p2ts) = let
@@ -108,10 +117,17 @@ in
   p2at_make (loc, p2at_svs_nil, dvs, P2Tvar (refknd, d2v))
 end // end of [p2at_var]
 
+(* ****** ****** *)
+
 implement
 p2at_bool (loc, b) =
   p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tbool (b))
 // end of [p2at_bool]
+
+implement
+p2at_int (loc, rep) =
+  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tint (rep))
+// end of [p2at_int]
 
 implement
 p2at_char (loc, c) =
@@ -119,10 +135,16 @@ p2at_char (loc, c) =
 // end of [p2at_char]
 
 implement
-p2at_c0har
-  (loc, tok) = let
-  val- $LEX.T_CHAR (c) = tok.token_node in p2at_char (loc, c)
-end // end of [p2at_c0har]
+p2at_string (loc, str) =
+  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tstring (str))
+// end of [p2at_string]
+
+implement
+p2at_float (loc, rep) =
+  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tfloat (rep))
+// end of [p2at_float]
+
+(* ****** ****** *)
 
 implement
 p2at_empty (loc) =
@@ -131,23 +153,15 @@ p2at_empty (loc) =
 
 implement
 p2at_con (
-  loc, d2c, sarg, npf, darg
+  loc, freeknd, d2c, sarg, npf, darg
 ) = let
-//
-  typedef s2varset = lstord (s2var)
-  fun p2at_svs_add (
-    svs: s2varset, s2v: s2var
-  ) : s2varset =
-    $UT.lstord_insert (svs, s2v, compare_s2var_s2var)
-  // end of [p2at_svs_add]
-//
   val svs = let
     fun aux (res: s2varset, x: s2vararg): s2varset =
       case+ x of
       | S2VARARGone () => res
       | S2VARARGall () => res
       | S2VARARGseq (s2vs) =>
-          list_fold_left_fun<s2varset><s2var> (p2at_svs_add, res, s2vs)
+          list_fold_left_fun<s2varset><s2var> (p2at_svs_add_svar, res, s2vs)
         // end of [S2VARARGseq]
     // end of [aux]
   in
@@ -155,7 +169,7 @@ p2at_con (
   end // end of [val]
   val dvs = p2atlst_dvs_union (darg)
 in
-  p2at_make (loc, svs, dvs, P2Tcon (d2c, sarg, npf, darg))
+  p2at_make (loc, svs, dvs, P2Tcon (freeknd, d2c, sarg, npf, darg))
 end // end of [p2at_con]
 
 implement
@@ -165,6 +179,14 @@ p2at_list
 end // end of [p2at_list]
 
 implement
+p2at_lst (loc, p2ts) = let
+  val svs = p2atlst_svs_union (p2ts)
+  val dvs = p2atlst_dvs_union (p2ts)
+in
+  p2at_make (loc, svs, dvs, P2Tlst (p2ts))
+end // end of [p2at_lst]
+
+implement
 p2at_tup
   (loc, knd, npf, p2ts) = let
   val svs = p2atlst_svs_union (p2ts)
@@ -172,6 +194,26 @@ p2at_tup
 in
   p2at_make (loc, svs, dvs, P2Ttup (knd, npf, p2ts))
 end // end of [p2at_tup]
+
+implement
+p2at_as (loc, refknd, d2v, p2t) = let
+  val svs = p2t.p2at_svs
+  val dvs = $UT.lstord_insert
+    (p2t.p2at_dvs, d2v, compare_d2var_d2var)
+  // end of [val]
+in
+  p2at_make (loc, svs, dvs, P2Tas (refknd, d2v, p2t))
+end // end of [p2at_as]
+
+implement
+p2at_exist
+  (loc, s2vs, p2t) = let
+  val svs =
+    list_fold_left_fun<s2varset><s2var> (p2at_svs_add_svar, p2t.p2at_svs, s2vs)
+  val dvs = p2t.p2at_dvs
+in
+  p2at_make (loc, svs, dvs, P2Texist (s2vs, p2t))
+end // end of [p2at_exist]
 
 implement
 p2at_ann (loc, p2t, s2e) =
@@ -193,6 +235,15 @@ implement
 d2exp_make (loc, node) = '{
   d2exp_loc= loc, d2exp_node= node
 } // end of [d2exp_make]
+
+implement
+d2exp_var (loc, d2v) = d2exp_make (loc, D2Evar (d2v))
+implement
+d2exp_cst (loc, d2c) = d2exp_make (loc, D2Ecst (d2c))
+implement
+d2exp_con (loc, d2c, sarg, npf, darg) =
+  d2exp_make (loc, D2Econ (d2c, sarg, npf, darg))
+// end of [d2exp_con]
 
 implement
 d2exp_i0nt (loc, x) = d2exp_make (loc, D2Ei0nt (x))
@@ -224,6 +275,11 @@ implement
 d2exp_ann_type (loc, d2e, ann) =
   d2exp_make (loc, D2Eann_type (d2e, ann))
 // end of [d2exp_ann_type]
+
+(* ****** ****** *)
+
+implement
+d2exp_err (loc) = d2exp_make (loc, D2Eerr ())
 
 (* ****** ****** *)
 //

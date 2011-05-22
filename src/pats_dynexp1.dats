@@ -173,12 +173,12 @@ p1at_free (loc, p1t) = '{
   p1at_loc= loc, p1at_node= P1Tfree (p1t)
 }
 implement
-p1at_as (loc, id, p1t) = '{
-  p1at_loc= loc, p1at_node= P1Tas (id, p1t)
+p1at_as (loc, id, loc_id, p1t) = '{
+  p1at_loc= loc, p1at_node= P1Tas (id, loc_id, p1t)
 }
 implement
-p1at_refas (loc, id, p1t) = '{
-  p1at_loc= loc, p1at_node= P1Trefas (id, p1t)
+p1at_refas (loc, id, loc_id, p1t) = '{
+  p1at_loc= loc, p1at_node= P1Trefas (id, loc_id, p1t)
 }
 
 implement
@@ -635,6 +635,11 @@ d1exp_ann_type (loc, d1e, s1e) =
 
 (* ****** ****** *)
 
+implement
+d1exp_err (loc) = d1exp_make (loc, D1Eerr ())
+
+(* ****** ****** *)
+
 implement labd1exp_make (l, d1e) = L0ABELED (l, d1e)
 
 (* ****** ****** *)
@@ -648,6 +653,49 @@ d1exp_is_metric (d1e) = begin
   | D1Elam_sta_syn (_, _, d1e) => d1exp_is_metric d1e
   | _ => false
 end // end of [d1exp_is_metric]
+
+implement
+d1exp_make_e1xp (loc0, e0) = let
+//
+fun aux (
+  e0: e1xp
+) :<cloref1> d1exp = let
+(*
+  val () = begin
+    print "d1exp_make_e1xp: aux: e0 = "; print_e1xp (e0); print_newline ()
+  end // end of [val]
+*)
+in
+  case+ e0.e1xp_node of
+  | E1XPide id => d1exp_ide (loc0, id)
+  | E1XPchar chr => d1exp_char (loc0, chr)
+  | E1XPfloat str => d1exp_float (loc0, str)
+  | E1XPint str => d1exp_int (loc0, str)
+  | E1XPapp (e1, loc_arg, es2) => begin
+      d1exp_app_dyn (loc0, aux e1, loc0, 0(*npf*), auxlst es2)
+    end // end of [E1XPapp]
+  | E1XPlist es =>  d1exp_list (loc0, ~1(*npf*), auxlst (es))
+  | E1XPnone () => d1exp_empty (loc0)
+  | E1XPstring (str) => d1exp_string (loc0, str)
+  | _ => let
+      val () = prerr_error1_loc (loc0)
+      val () = prerr ": the expression cannot be translated into a legal pattern."
+      val () = prerr_newline ()
+    in
+      d1exp_err (loc0)
+    end // end of [E1XPundef]
+  // end of [case]
+end // end of [aux]
+
+and auxlst (
+  es: e1xplst
+) :<cloref1> d1explst = case+ es of
+  | list_cons (e, es) => list_cons (aux e, auxlst es)
+  | list_nil () => list_nil ()
+// end of [auxlst]
+in
+  aux (e0)
+end // end of [d1exp_make_e1xp]
 
 (* ****** ****** *)
 

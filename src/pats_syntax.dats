@@ -1248,15 +1248,16 @@ in '{
 
 implement
 p0at_as_refas (p0t1, p0t2) = let
-  val loc = p0t1.p0at_loc + p0t2.p0at_loc
+  val loc1 = p0t1.p0at_loc
+  val loc = loc1 + p0t2.p0at_loc
 in
 //
 case+ p0t1.p0at_node of
 | P0Tide (id) => '{
-    p0at_loc= loc, p0at_node= P0Tas (id, p0t2)
+    p0at_loc= loc, p0at_node= P0Tas (id, loc1, p0t2)
   }
 | P0Tref (id) => '{
-    p0at_loc= loc, p0at_node= P0Trefas (id, p0t2)
+    p0at_loc= loc, p0at_node= P0Trefas (id, loc1, p0t2)
   }
 | _ => let
     val err = parerr_make (p0t1.p0at_loc, PE_p0at_as)

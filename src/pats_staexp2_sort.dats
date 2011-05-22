@@ -315,19 +315,19 @@ implement
 s2rt_delink_all (s2t0) = let
 //
   fun aux (
-    flag: &int, s2t0: s2rt
+    s2t0: s2rt, flag: &int
   ) : s2rt =
     case+ s2t0 of
     | S2RTfun (s2ts, s2t) => let
         val flag0 = flag
-        val s2ts = auxlst (flag, s2ts)
-        val s2t = aux (flag, s2t)
+        val s2ts = auxlst (s2ts, flag)
+        val s2t = aux (s2t, flag)
       in
         if flag > flag0 then S2RTfun (s2ts, s2t) else s2t0
       end
     | S2RTtup (s2ts) => let
         val flag0 = flag
-        val s2ts = auxlst (flag, s2ts)
+        val s2ts = auxlst (s2ts, flag)
       in
         if flag > flag0 then S2RTtup (s2ts) else s2t0
       end
@@ -337,7 +337,7 @@ s2rt_delink_all (s2t0) = let
       in
         if isnotnull then let
           val s2t = s2rtnul_unsome (s2t)
-          val s2t = aux (flag, s2t)
+          val s2t = aux (s2t, flag)
           val () = !r := s2rtnul_some (s2t)
           val () = flag := flag + 1
         in
@@ -348,13 +348,13 @@ s2rt_delink_all (s2t0) = let
   (* end of [aux] *)
 //
   and auxlst (
-    flag: &int, s2ts0: s2rtlst
+    s2ts0: s2rtlst, flag: &int
   ) : s2rtlst =
     case+ s2ts0 of
     | list_cons (s2t, s2ts) => let
         val flag0 = flag
-        val s2t = aux (flag, s2t)
-        val s2ts = auxlst (flag, s2ts)
+        val s2t = aux (s2t, flag)
+        val s2ts = auxlst (s2ts, flag)
       in
         if flag > flag0 then list_cons (s2t, s2ts) else s2ts0
       end
@@ -364,7 +364,7 @@ s2rt_delink_all (s2t0) = let
   var flag: int = 0
 //
 in
-  aux (flag, s2t0)
+  aux (s2t0, flag)
 end // end of [s2rt_delink_all]
 
 (* ****** ****** *)

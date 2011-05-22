@@ -94,6 +94,7 @@ case+ ans of
         | _ when sym = $SYM.symbol_TRUE => p2at_bool (loc0, true)
         | _ when sym = $SYM.symbol_FALSE => p2at_bool (loc0, false)
         | _ => p2at_var (loc0, 0(*refknd*), d2var_make (loc0, id))
+      // end of [val]
     end // end of [D2ITEMcst]
 //
    | _ => p2at_var (loc0, 0(*refknd*), d2var_make (loc0, id))
@@ -158,7 +159,7 @@ fun p1at_tr_con (
   ) : p2atlst // end of [val]
 //
 in
-  p2at_con (p1t0.p1at_loc, d2c, sarg, npf, darg)
+  p2at_con (p1t0.p1at_loc, 0(*freeknd*), d2c, sarg, npf, darg)
 end // end of [p1at_app_tr_dqid]
 
 (* ****** ****** *)
@@ -177,6 +178,7 @@ case+ ans of
   | D2ITMcon (d2cs) =>
       p1at_tr_con (p1t0, p1t1, d2cs, list_nil(*sarg*), npf, darg)
   | _ => let
+      val () = the_tran2errlst_add (T2E_p1at_tr (p1t0))
       val () = prerr_error2_loc (p1t1.p1at_loc)
       val () = prerr ": the identifier ["
       val () = ($SYN.prerr_d0ynq (dq); $SYM.prerr_symbol (id))
@@ -187,6 +189,7 @@ case+ ans of
     end // end of [_]
   )  
 | ~None_vt () => let
+    val () = the_tran2errlst_add (T2E_p1at_tr (p1t0))
     val () = prerr_error2_loc (p1t1.p1at_loc)
     val () = prerr ": the identifier ["
     val () = ($SYN.prerr_d0ynq (dq); $SYM.prerr_symbol (id))
@@ -261,6 +264,7 @@ case+ p1t_fun.p1at_node of
 | P1Tdqid (dq, id) =>
     p1at_tr_app_dyn_dqid (p1t0, p1t_fun, dq, id, npf, darg)
 | _ => let
+    val () = the_tran2errlst_add (T2E_p1at_tr (p1t0))
     val () = prerr_error2_loc (p1t_fun.p1at_loc)
     val () = prerr ": a (qualified) identifier is expected."
     val () = prerr_newline ()
@@ -293,6 +297,7 @@ case+ d2i of
     p1at_tr_app_sta_dyn (p1t0, p1t1, p1t2, sarg, npf, darg)
   end
 | _ => let
+    val () = the_tran2errlst_add (T2E_p1at_tr (p1t0))
     val () = prerr_error2_loc (p1t2.p1at_loc)
     val () = prerr ": the (qualified) identifier does not refer to any constructor."
     val () = prerr_newline ()
@@ -328,9 +333,12 @@ p1t_fun.p1at_node of
     case+ ans of
     | ~Some_vt (d2i) =>
         p1at_tr_app_sta_dyn_itm (p1t0, p1t1, p1t_fun, d2i, sarg, npf, darg)
-    | ~None_vt () =>
-        auxerr (p1t_fun.p1at_loc, $SYN.the_d0ynq_none, id)
-    // end of [case]
+    | ~None_vt () => let
+        val () = the_tran2errlst_add (T2E_p1at_tr (p1t0))
+        val dq = $SYN.the_d0ynq_none
+      in
+        auxerr (p1t_fun.p1at_loc, dq, id)
+      end (* end of [None] *)
   end // end of [P1Tide]
 | P1Tdqid (dq, id) => let
     val ans = the_d2expenv_find_qua (dq, id)
@@ -338,9 +346,14 @@ p1t_fun.p1at_node of
     case+ ans of
     | ~Some_vt (d2i) =>
         p1at_tr_app_sta_dyn_itm (p1t0, p1t1, p1t_fun, d2i, sarg, npf, darg)
-    | ~None_vt () => auxerr (p1t_fun.p1at_loc, dq, id)
+    | ~None_vt () => let
+        val () = the_tran2errlst_add (T2E_p1at_tr (p1t0))
+      in
+        auxerr (p1t_fun.p1at_loc, dq, id)
+      end (* end of [None_vt] *)
   end // end of [P1Tdqid]
 | _ => let
+    val () = the_tran2errlst_add (T2E_p1at_tr (p1t0))
     val () = prerr_error2_loc (p1t_fun.p1at_loc)
     val () = prerr ": a (qualified) identifier is expected."
     val () = prerr_newline ()
@@ -349,6 +362,30 @@ p1t_fun.p1at_node of
   end // end of [_]
 //
 end // end of [p1at_tr_app_sta_dyn]
+
+(* ****** ****** *)
+
+fun p1at_tr_free (
+  p1t0: p1at, p1t: p1at
+) : p2at = let
+  val loc0 = p1t0.p1at_loc
+  val p2t = p1at_tr (p1t)
+in
+//
+case+ p2t.p2at_node of
+| P2Tcon (freeknd, d2c, sarg, npf, darg) =>
+    p2at_con (loc0, 1-freeknd, d2c, sarg, npf, darg)
+| _ => let
+    val () = the_tran2errlst_add (T2E_p1at_tr (p1t0))
+    val () = prerr_error2_loc (loc0)
+    val () = filprerr_ifdebug ": p1at_tr_free"
+    val () = prerr ": the pattern is expected to formed with a constructor (of dataviewtype)."
+    val () = prerr_newline ()
+  in
+    p2at_err (loc0)
+  end // end of [_]
+//
+end // end of [p1at_tr_free]
 
 (* ****** ****** *)
 
@@ -368,7 +405,15 @@ case+ p1t0.p1at_node of
   in
     p1at_tr_app_dyn_dqid (p1t0, p1t0, dq, id, npf, darg)
   end // end of [P2Tdqid]
-| P1Tchar (x) => p2at_char (loc0, x)
+| P1Tref (id) =>
+    p2at_var (loc0, 1(*refknd*), d2var_make (loc0, id))
+  // end of [P1Tref]
+//
+| P1Tint (rep) => p2at_int (loc0, rep)
+| P1Tchar (c) => p2at_char (loc0, c)
+| P1Tstring (str) => p2at_string (loc0, str)
+| P1Tfloat (rep) => p2at_float (loc0, rep)
+//
 | P1Tempty () => p2at_empty (loc0)
 //
 | P1Tapp_dyn (
@@ -390,17 +435,53 @@ case+ p1t0.p1at_node of
     end // end of [list_cons]
   | list_nil _ => p2at_empty (loc0)
   ) // end of [P1Tlist]
+//
+| P1Tlst (p1ts) => let
+    val p2ts = p1atlst_tr (p1ts) in p2at_lst (loc0, p2ts)
+  end // end of [P1Tlst]
 | P1Ttup (
     knd, npf, p1ts
   ) => let
     val p2ts = p1atlst_tr p1ts in p2at_tup (loc0, knd, npf, p2ts)
   end // end of [P1Ttup]
+//
+| P1Tfree (p1t) => p1at_tr_free (p1t0, p1t)
+| P1Tas (id, loc_id, p1t) => let
+    val d2v = d2var_make (loc_id, id)
+  in
+    p2at_as (loc0, 0(*refknd*), d2v, p1at_tr (p1t))
+  end // end of [P1Tas]
+| P1Trefas (id, loc_id, p1t) => let
+    val d2v = d2var_make (loc_id, id)
+  in
+    p2at_as (loc0, 1(*refknd*), d2v, p1at_tr (p1t))
+  end // end of [P1Tas]
+//
+| P1Texist (s1as, p1t) => let
+    val (pfenv | ()) = the_s2expenv_push_nil ()
+    val s2vs = s1arglst_trup (s1as)
+    val () = the_s2expenv_add_svarlst (s2vs)
+    val p2t = p1at_tr (p1t)
+    val () = the_s2expenv_pop_free (pfenv | (*none*))
+  in
+    p2at_exist (loc0, s2vs, p2t)
+  end
+| P1Tsvararg _ => let
+    val () = prerr_interror_loc (loc0)
+    val () = prerr ": p1at_tr: P1Tsvararg: this pattern should have been eliminated."
+    val () = prerr_newline ()
+  in
+    p2at_err (loc0)
+  end // end of [P1Tavararg]
+//
 | P1Tann (p1t, ann) => let
     val p2t = p1at_tr (p1t)
     val ann = s1exp_trdn_impredicative (ann)
   in
     p2at_ann (loc0, p2t, ann)
   end
+| P1Terr () => p2at_err (loc0)
+// (*
 | _ => let
     val () = prerr_interror_loc (loc0)
     val () = prerr ": p1at_tr: not yet implemented: p1t0 = "
@@ -410,6 +491,7 @@ case+ p1t0.p1at_node of
   in
     $ERR.abort {p2at} ()
   end // end of [_]
+// *)
 //
 end // end of [p1at_tr]
 

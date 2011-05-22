@@ -952,8 +952,8 @@ p0at_node =
   | P0Texist of s0arglst
   | P0Tsvararg of s0vararg
 //
-  | P0Tas of (symbol(*id*), p0at(*p0t*))
-  | P0Trefas of (symbol(*id*), p0at(*p0t*))
+  | P0Tas of (symbol, location, p0at(*p0t*))
+  | P0Trefas of (symbol, location, p0at(*p0t*))
 //
   | P0Tann of (p0at, s0exp)
 //
@@ -1009,7 +1009,7 @@ fun p0at_svararg (
   t_beg: token, x: s0vararg, t_end: token
 ) : p0at // end of [p0at_svararg]
 
-fun p0at_as_refas (x_id: p0at, x_pat: p0at): p0at
+fun p0at_as_refas (id: p0at, pat: p0at): p0at
 
 fun p0at_free (tok: token, p0t: p0at): p0at
 

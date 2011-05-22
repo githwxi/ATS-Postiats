@@ -226,8 +226,10 @@ case+ p0t0.p0at_node of
 //
 | P0Tfree (p0t) => FXITMatm (p1at_free (loc0, p0at_tr p0t))
 //
-| P0Tas (id, p0t) => FXITMatm (p1at_as (loc0, id, p0at_tr p0t))
-| P0Trefas (id, p0t) => FXITMatm (p1at_refas (loc0, id, p0at_tr p0t))
+| P0Tas (id, loc_id, p0t) =>
+    FXITMatm (p1at_as (loc0, id, loc_id, p0at_tr p0t))
+| P0Trefas (id, loc_id, p0t) =>
+    FXITMatm (p1at_refas (loc0, id, loc_id, p0at_tr p0t))
 //
 | P0Texist (s0as) => let
     val s1as = s0arglst_tr (s0as)

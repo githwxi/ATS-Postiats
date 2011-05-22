@@ -44,10 +44,23 @@ implement prerr_FILENAME<> () = prerr "pats_trans2_dynexp"
 
 (* ****** ****** *)
 
+staload SYM = "pats_symbol.sats"
+overload = with $SYM.eq_symbol_symbol
+
+staload SYN = "pats_syntax.sats"
+typedef d0ynq = $SYN.d0ynq
+
+(* ****** ****** *)
+
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp1.sats"
 staload "pats_dynexp1.sats"
 staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
+staload "pats_dynexp2_util.sats"
 
 (* ****** ****** *)
 
@@ -64,6 +77,42 @@ staload "pats_trans2_env.sats"
 
 (* ****** ****** *)
 
+fn d1exp_tr_dqid (
+  d1e0: d1exp, dq: d0ynq, id: symbol
+) : d2exp = let
+  val loc0 = d1e0.d1exp_loc
+  val ans = the_d2expenv_find_qua (dq, id)
+in
+//
+case+ ans of
+| ~Some_vt d2i => begin case+ d2i of
+  | D2ITMcon d2cs => let
+      val d2cs = d2con_select_arity (d2cs, 0)
+      val- list_cons (d2c, _) = d2cs
+    in
+      d2exp_con (loc0, d2c, list_nil(*sarg*), ~1(*npf*), list_nil(*darg*))
+    end // end of [D2ITEMcon]
+  | D2ITMcst d2c => d2exp_cst (loc0, d2c)
+  | D2ITMe1xp e1xp => let
+      val d1e = d1exp_make_e1xp (loc0, e1xp) in d1exp_tr (d1e)
+    end // end of [D2ITMe1xp]
+  | D2ITMvar d2v => d2exp_var (loc0, d2v)
+  | _ => d2exp_err (loc0)
+  end // end of [Some_vt]
+| ~None_vt () => let
+    val () = prerr_error2_loc (loc0)
+    val () = filprerr_ifdebug ": d1exp_tr_dqid"
+    val () = prerr ": the dynamic identifier ["
+    val () = ($SYN.prerr_d0ynq dq; $SYM.prerr_symbol (id))
+    val () = prerr "] is unrecognized."
+    val () = prerr_newline ()
+  in
+    d2exp_err (loc0)
+  end // end of [None_vt]
+end // end of [d1exp_tr_dqid]
+
+(* ****** ****** *)
+
 implement
 d1exp_tr (d1e0) = let
 // (*
@@ -75,6 +124,11 @@ d1exp_tr (d1e0) = let
 in
 //
 case+ d1e0.d1exp_node of
+//
+| D1Eide (id) =>
+    d1exp_tr_dqid (d1e0, $SYN.the_d0ynq_none, id)
+  // end of [D1Eide]
+| D1Edqid (dq, id) => d1exp_tr_dqid (d1e0, dq, id)
 //
 | D1Ei0nt (x) => d2exp_i0nt (loc0, x)
 | D1Ec0har (x) => d2exp_c0har (loc0, x)

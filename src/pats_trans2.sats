@@ -53,6 +53,8 @@ datatype tran2err =
   | T2E_s1exp_trdn_extype of (s1exp)
   | T2E_s1rtext_tr_qid of (s0rtq, symbol)
   | T2E_d1atdec_tr of (d1atdec)
+  | T2E_p1at_tr of (p1at)
+  | T2E_d1exp_tr of (d1exp)
 // end of [tran2err]
 
 fun the_tran2errlst_add (x: tran2err): void
