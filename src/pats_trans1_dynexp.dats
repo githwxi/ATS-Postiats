@@ -471,17 +471,17 @@ aux_item (
     end // end of [D0Elet]
 //
   | D0Eapp _ => let 
-      val d1e = fixity_resolve (
+      val d1e0 = fixity_resolve (
         loc0, d1exp_get_loc, d1expitm_app (loc0), aux_itemlst d0e0
       ) // end of [val]
 (*
       val () = (
-        print "d0exp_tr: aux_item: d1e = "; print_d1exp d1e; print_newline ()
+        print "d0exp_tr: aux_item: d1e0 = "; print_d1exp d1e0; print_newline ()
       ) // end of [val]
 *)
-      val d1e = d1exp_idextapp_resolve (loc0, d1e)
+      val d1e0 = d1exp_idextapp_resolve (loc0, d1e0)
     in
-      FXITMatm (d1e)
+      FXITMatm (d1e0)
     end // end of [D0Eapp]
 //
   | D0Elist (npf, d0es) => let

@@ -148,6 +148,8 @@ fun i0de_make_string (loc: location, name: string) : i0de
 fun i0de_make_lrbrackets (t_beg: token, t_end: token): i0de
 
 fun fprint_i0de : fprint_type (i0de)
+fun print_i0de (x: i0de): void
+fun prerr_i0de (x: i0de): void
 
 (* ****** ****** *)
 
@@ -280,6 +282,8 @@ fun dqi0de_make_none (ent: i0de): dqi0de
 fun dqi0de_make_some (ent1: d0ynq, ent2: i0de): dqi0de
 
 fun fprint_dqi0de : fprint_type (dqi0de)
+fun print_dqi0de (x: dqi0de): void
+fun prerr_dqi0de (x: dqi0de): void
 
 (* ****** ****** *)
 

@@ -77,6 +77,26 @@ staload "pats_trans2_env.sats"
 
 (* ****** ****** *)
 
+(*
+** HX: dynamic special identifier
+*)
+datatype dynspecid =
+  | SPDIDassgn | SPDIDderef | SPDIDnone
+// end of [dynspecid]
+
+fn dynspecid_of_dqid
+  (dq: d0ynq, id: symbol): dynspecid =
+  case+ dq.d0ynq_node of
+  | $SYN.D0YNQnone () => (case+ 0 of
+    | _ when id = $SYM.symbol_BANG => SPDIDderef ()
+    | _ when id = $SYM.symbol_COLONEQ => SPDIDassgn ()
+    | _ => SPDIDnone ()        
+    ) // end of [D0YNQnone]
+  | _ => SPDIDnone ()
+// end of [dynspecid_of_dqid]
+
+(* ****** ****** *)
+
 fn d1exp_tr_dqid (
   d1e0: d1exp, dq: d0ynq, id: symbol
 ) : d2exp = let
@@ -113,6 +133,197 @@ end // end of [d1exp_tr_dqid]
 
 (* ****** ****** *)
 
+extern
+fun d1exp_tr_app_dyn (
+  d1e0: d1exp
+, d1e_fun: d1exp
+, locarg: location, npf: int, darg: d1explst
+) : d2exp // end of [d1exp_tr_app_dyn]
+extern
+fun d1exp_tr_app_sta_dyn (
+  d1e0: d1exp
+, d1e1: d1exp
+, d1e_fun: d1exp
+, sarg: s1exparglst
+, locarg: location, npf: int, darg: d1explst
+) : d2exp // end of [d1exp_tr_app_sta_dyn]
+
+(* ****** ****** *)
+
+fun
+d1exp_tr_app_dyn_dqid (
+  d1e0: d1exp, d1e1: d1exp
+, dq: d0ynq, id: symbol
+, locarg: location, npf: int, darg: d1explst 
+) : d2exp = let
+//
+val spdid = dynspecid_of_dqid (dq, id) 
+//
+in
+//
+case+ spdid of
+(*
+| SPDIDassgn
+| SPDIDderef
+*)
+| _ (*SPDIDnone*) => let
+    val ans = the_d2expenv_find_qua (dq, id)
+  in
+    case+ ans of
+    | ~Some_vt d2i => let
+        val sarg = list_nil ()
+      in
+        d1exp_tr_app_sta_dyn_dqid_itm (d1e0, d1e1, d1e1, dq, id, d2i, sarg, locarg, npf, darg)
+      end // end of [Some_vt]
+    | ~None_vt () => let
+        val () = prerr_error2_loc (d1e1.d1exp_loc)
+        val () = filprerr_ifdebug "d1exp_tr_app_dyn_dqid"
+        val () = prerr ": unrecognized dynamic identifier ["
+        val () = ($SYN.prerr_d0ynq dq; $SYM.prerr_symbol id)
+        val () = prerr "]."
+        val () = prerr_newline ()
+      in
+        d2exp_err (d1e0.d1exp_loc)
+      end
+  end // end of [_]
+//
+end // end of [d1exp_tr_app_dyn_dqid]
+
+and
+d1exp_tr_app_sta_dyn_dqid (
+  d1e0: d1exp
+, d1e1: d1exp
+, d1e2: d1exp
+, dq: d0ynq, id: symbol
+, sarg: s1exparglst
+, locarg: location, npf: int, darg: d1explst 
+) : d2exp = let
+  val ans = the_d2expenv_find_qua (dq, id)
+in
+//
+case+ ans of
+| ~Some_vt d2i => let
+    val sarg = list_nil ()
+  in
+    d1exp_tr_app_sta_dyn_dqid_itm (d1e0, d1e1, d1e1, dq, id, d2i, sarg, locarg, npf, darg)
+  end // end of [Some_vt]
+| ~None_vt () => let
+    val () = prerr_error2_loc (d1e1.d1exp_loc)
+    val () = filprerr_ifdebug "d1exp_tr_app_sta_dyn_dqid"
+    val () = prerr ": unrecognized dynamic identifier ["
+    val () = ($SYN.prerr_d0ynq dq; $SYM.prerr_symbol id)
+    val () = prerr "]."
+    val () = prerr_newline ()
+  in
+    d2exp_err (d1e0.d1exp_loc)
+  end
+end // end of [d1exp_tr_app_sta_dyn_dqid]
+
+and
+d1exp_tr_app_sta_dyn_dqid_itm (
+  d1e0: d1exp
+, d1e1: d1exp
+, d1e2: d1exp
+, dq: d0ynq, id: symbol
+, d2i: d2itm
+, sarg: s1exparglst
+, locarg: location, npf: int, darg: d1explst 
+) : d2exp = let
+in
+//
+case+ d2i of
+| D2ITMcon d2cs => let
+    val loc0 = d1e0.d1exp_loc
+    val d2cs = d2con_select_arity (d2cs, 0)
+    val- list_cons (d2c, _) = d2cs
+    val sarg = s1exparglst_tr (sarg)
+    val darg = d1explst_tr (darg)
+  in
+    d2exp_con (loc0, d2c, sarg, npf, darg)
+  end // end of [D2ITEMcon]
+| D2ITMcst d2c => let
+    val d2e_fun =
+      d2exp_cst (d1e2.d1exp_loc, d2c)
+    // end of [val]
+    val sarg = s1exparglst_tr (sarg)
+    val darg = d1explst_tr (darg)
+  in
+    d2exp_app_sta_dyn (d1e0.d1exp_loc, d1e1.d1exp_loc, d2e_fun, sarg, locarg, npf, darg)
+  end // end of [D2ITMcst]
+| D2ITMvar d2v => let
+    val d2e_fun = d2exp_var (d1e2.d1exp_loc, d2v)
+    val sarg = s1exparglst_tr (sarg)
+    val darg = d1explst_tr (darg)
+  in
+    d2exp_app_sta_dyn (d1e0.d1exp_loc, d1e1.d1exp_loc, d2e_fun, sarg, locarg, npf, darg)
+  end // end of [D2ITMvar]
+| _ => let
+    val () = prerr_error2_loc (d1e2.d1exp_loc)
+  in
+    d2exp_err (d1e0.d1exp_loc)
+  end (* end of [_] *)
+//
+end // end of [d1exp_tr_app_sta_dyn_dqid_itm]
+
+(* ****** ****** *)
+
+implement
+d1exp_tr_app_dyn (
+  d1e0, d1e_fun, locarg, npf, darg
+) = let
+(*
+  val () = begin
+    print "d1exp_tr_app_dyn: d1e0 = "; print_d1exp d1e0; print_newline ()
+  end // end of [val]
+*)
+in
+//
+case+ d1e_fun.d1exp_node of
+| D1Eide (id) => let
+    val dq = $SYN.the_d0ynq_none in
+    d1exp_tr_app_dyn_dqid (d1e0, d1e_fun, dq, id, locarg, npf, darg)
+  end
+| D1Edqid (dq, id) =>
+    d1exp_tr_app_dyn_dqid (d1e0, d1e_fun, dq, id, locarg, npf, darg)
+| _ => let
+    val d2e_fun = d1exp_tr (d1e_fun)
+    val darg = d1explst_tr (darg)
+  in
+    d2exp_app_dyn (d1e0.d1exp_loc, d2e_fun, locarg, npf, darg)
+  end // end of [_]
+//
+end // end of [d1exp_tr_app_dyn]
+
+implement
+d1exp_tr_app_sta_dyn (
+  d1e0, d1e1, d1e_fun, sarg, locarg, npf, darg
+) = let
+(*
+  val () = begin
+    print "d1exp_tr_app_sta_dyn: d1e0 = "; print_d1exp d1e0; print_newline ()
+  end // end of [val]
+*)
+in
+//
+case+ d1e_fun.d1exp_node of
+| D1Eide (id) => let
+    val dq = $SYN.the_d0ynq_none in
+    d1exp_tr_app_sta_dyn_dqid (d1e0, d1e1, d1e_fun, dq, id, sarg, locarg, npf, darg)
+  end
+| D1Edqid (dq, id) =>
+    d1exp_tr_app_sta_dyn_dqid (d1e0, d1e1, d1e_fun, dq, id, sarg, locarg, npf, darg)
+| _ => let
+    val d2e_fun = d1exp_tr (d1e_fun)
+    val sarg = s1exparglst_tr (sarg)
+    val darg = d1explst_tr (darg)
+  in
+    d2exp_app_sta_dyn (d1e0.d1exp_loc, d1e1.d1exp_loc, d2e_fun, sarg, locarg, npf, darg)
+  end // end of [_]
+//
+end // end of [d1exp_tr_app_sta_dyn]
+
+(* ****** ****** *)
+
 implement
 d1exp_tr (d1e0) = let
 // (*
@@ -130,10 +341,25 @@ case+ d1e0.d1exp_node of
   // end of [D1Eide]
 | D1Edqid (dq, id) => d1exp_tr_dqid (d1e0, dq, id)
 //
+| D1Eint (rep) => d2exp_int (loc0, rep)
+| D1Echar (c) => d2exp_char (loc0, c)
+| D1Estring (s) => d2exp_string (loc0, s)
+| D1Efloat (rep) => d2exp_float (loc0, rep)
+//
 | D1Ei0nt (x) => d2exp_i0nt (loc0, x)
 | D1Ec0har (x) => d2exp_c0har (loc0, x)
 | D1Ef0loat (x) => d2exp_f0loat (loc0, x)
 | D1Es0tring (x) => d2exp_s0tring (loc0, x)
+//
+| D1Eapp_dyn (
+    d1e1, locarg, npf, darg
+  ) => (
+    case+ d1e1.d1exp_node of
+    | D1Eapp_sta (d1e_fun, sarg) =>
+        d1exp_tr_app_sta_dyn (d1e0, d1e1, d1e_fun, sarg, locarg, npf, darg)
+      // end of [P1Tapp_sta]
+    | _ => d1exp_tr_app_dyn (d1e0, d1e1, locarg, npf, darg)
+  ) // end of [D1Eapp_dyn]
 //
 | D1Elist (npf, d1es) => (
   case+ d1es of

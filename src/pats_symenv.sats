@@ -103,13 +103,13 @@ fun symenv_localjoin
 
 (* ****** ****** *)
 
-fun symenv_pervasive_insert
-  {itm:type} (env: &symenv itm, k: symbol, i: itm):<> void
-// end of [symenv_pervasive_insert]
-
 fun symenv_pervasive_search
   {itm:type} (env: &symenv itm, k: symbol):<> Option_vt (itm)
 // end of [symenv_pervasive_search]
+
+fun symenv_pervasive_insert
+  {itm:type} (env: &symenv itm, k: symbol, i: itm):<> void
+// end of [symenv_pervasive_insert]
 
 fun symenv_pervasive_joinwth
   {itm:type} (env: &symenv itm, map: symmap itm):<> void

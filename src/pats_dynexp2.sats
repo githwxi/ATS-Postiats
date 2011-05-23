@@ -90,6 +90,7 @@ datatype d2itm =
 
 where d2itmlst = List (d2itm)
 
+typedef d2itmopt = Option (d2itm)
 viewtypedef d2itmopt_vt = Option_vt (d2itm)
 
 (* ****** ****** *)
@@ -171,11 +172,13 @@ overload compare with compare_d2cst_d2cst
 datatype p2at_node =
   | P2Tany of () // wildcard
   | P2Tvar of (int(*refknd*), d2var)
+//
   | P2Tbool of bool
   | P2Tint of string(*rep*)
   | P2Tchar of char
   | P2Tstring of string
   | P2Tfloat of string(*rep*)
+//
   | P2Tempty of ()
   | P2Tcon of ( // constructor pattern
       int(*freeknd*), d2con, s2vararglst, int(*npf*), p2atlst
@@ -271,6 +274,10 @@ d2ecl_node =
   | D2Cnone of () // for something already erased
   | D2Clist of d2eclist // for list of declarations
 //
+  | D2Csymintr of ($SYN.i0delst)
+  | D2Csymelim of ($SYN.i0delst) // for temporary use
+  | D2Coverload of ($SYN.i0de, d2itmopt) // symbol overloading
+//
   | D2Cstavars of s2tavarlst // for [stavar] declarations
   | D2Csaspdec of s2aspdec (* for static assumption *)
   | D2Cextype of (string(*name*), s2exp(*def*))
@@ -295,6 +302,12 @@ d2exp_node =
 //
   | D2Ebool of bool (* boolean values *)
 //
+  | D2Ebool of bool
+  | D2Eint of string(*rep*)
+  | D2Echar of char
+  | D2Estring of string
+  | D2Efloat of string(*rep*)
+//
   | D2Ei0nt of i0nt
   | D2Ec0har of c0har
   | D2Ef0loat of f0loat
@@ -306,6 +319,8 @@ d2exp_node =
       (d2con, s2exparglst, int (*pfarity*), d2explst)
   | D2Ecst of d2cst
 //
+  | D2Eapps of (d2exp, d2exparglst)
+//
   | D2Etup of (int(*knd*), int(*npf*), d2explst)
   | D2Elet of (d2eclist, d2exp) // let-expression
   | D2Ewhere of (d2exp, d2eclist) // where-expression
@@ -314,6 +329,11 @@ d2exp_node =
 //
   | D2Eerr of () // HX: placeholder for indicating an error
 // end of [d2exp_node]
+
+and d2exparg =
+  | D2EXPARGsta of s2exparglst
+  | D2EXPARGdyn of (location(*arg*), int (*pfarity*), d2explst)
+// end of [d2exparg]
 
 where
 d2ecl = '{
@@ -327,6 +347,8 @@ d2exp = '{
 }
 and d2explst = List (d2exp)
 and d2expopt = Option (d2exp)
+
+and d2exparglst = List (d2exparg)
 
 (* ****** ****** *)
 
@@ -351,6 +373,11 @@ fun d2exp_make
 
 fun d2exp_var (loc: location, d2v: d2var): d2exp
 
+fun d2exp_int (loc: location, rep: string): d2exp
+fun d2exp_char (loc: location, c: char): d2exp
+fun d2exp_string (loc: location, s: string): d2exp
+fun d2exp_float (loc: location, rep: string): d2exp
+
 fun d2exp_i0nt (loc: location, x: i0nt): d2exp
 fun d2exp_c0har (loc: location, x: c0har): d2exp
 fun d2exp_f0loat (loc: location, x: f0loat): d2exp
@@ -364,6 +391,25 @@ fun d2exp_con (
 ) : d2exp // end of [d2exp_con]
 
 fun d2exp_cst (loc: location, d2c: d2cst): d2exp
+
+fun d2exp_apps (
+  loc: location, d2e_fun: d2exp, d2as: d2exparglst
+) : d2exp // end of [d2exp_apps]
+fun d2exp_app_sta (
+  loc: location, d2e_fun: d2exp, sarg: s2exparglst
+) : d2exp // end of [d2exp_app_sta]
+fun d2exp_app_dyn (
+  loc: location
+, d2e_fun: d2exp
+, locarg: location, npf: int, darg: d2explst
+) : d2exp // end of [d2exp_app_dyn]
+fun d2exp_app_sta_dyn (
+  loc_dyn: location
+, loc_sta: location
+, d2e_fun: d2exp
+, sarg: s2exparglst
+, locarg: location, npf: int, darg: d2explst
+) : d2exp // end of [d2exp_app_sta_dyn]
 
 fun d2exp_tup (
   loc: location, knd: int, npf: int, d2es: d2explst
@@ -395,6 +441,14 @@ fun v2aldec_make (
 
 fun d2ecl_none (loc: location): d2ecl
 fun d2ecl_list (loc: location, xs: d2eclist): d2ecl
+
+fun d2ecl_symintr
+  (loc: location, ids: $SYN.i0delst): d2ecl
+fun d2ecl_symelim
+  (loc: location, ids: $SYN.i0delst): d2ecl
+fun d2ecl_overload
+  (loc: location, id: $SYN.i0de, opt: d2itmopt): d2ecl
+// end of [d2ecl_overload]
 
 fun d2ecl_stavars (loc: location, xs: s2tavarlst): d2ecl
 

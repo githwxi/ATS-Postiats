@@ -55,6 +55,7 @@ datatype tran2err =
   | T2E_d1atdec_tr of (d1atdec)
   | T2E_p1at_tr of (p1at)
   | T2E_d1exp_tr of (d1exp)
+  | T2E_overload_tr of (d1ecl)
 // end of [tran2err]
 
 fun the_tran2errlst_add (x: tran2err): void
@@ -120,16 +121,18 @@ fun witht1ype_tr (wty: witht1ype): s2expopt
 
 (* ****** ****** *)
 
+fun s1rtext_tr (s1te: s1rtext): s2rtext
 fun s1qualst_tr (s1qs: s1qualst): s2qualst
 fun q1marg_tr (q1ma: q1marg): s2qualst // HX: [location] is discarded
 
 (* ****** ****** *)
 
-fun s1rtext_tr (s1te: s1rtext): s2rtext
+fun s1vararg_tr (s1a: s1vararg): s2vararg
 
 (* ****** ****** *)
 
-fun s1vararg_tr (s1a: s1vararg): s2vararg
+fun s1exparg_tr (s1a: s1exparg): s2exparg
+fun s1exparglst_tr (s1as: s1exparglst): s2exparglst
 
 (* ****** ****** *)
 

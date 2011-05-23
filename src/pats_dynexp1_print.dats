@@ -459,6 +459,13 @@ case+ d1c0.d1ecl_node of
     val () = $UT.fprintlst (out, ids, ", ", fprint_i0de)
     val () = prstr ")"
   }
+| D1Coverload (id, dqid) => {
+    val () = prstr "D1Coverload("
+    val () = fprint_i0de (out, id)
+    val () = prstr "; "
+    val () = fprint_dqi0de (out, dqid)
+    val () = prstr ")"
+  }
 //
 | D1Ce1xpdef (id, def) => {
     val () = prstr "D1Ce1xpdef("

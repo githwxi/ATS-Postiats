@@ -149,6 +149,7 @@ fun the_d2expenv_add_dvarlst (d2vs: d2varlst): void
 fun the_d2expenv_find (id: symbol): d2itmopt_vt
 fun the_d2expenv_find_qua (q: $SYN.d0ynq, id: symbol): d2itmopt_vt
 
+fun the_d2expenv_current_find (id: symbol): Option_vt (d2itm)
 fun the_d2expenv_pervasive_find (id: symbol): Option_vt (d2itm)
 
 absview d2expenv_push_v

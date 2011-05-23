@@ -416,7 +416,7 @@ case+ e0.e1xp_node of
     val s1e1 = s1exp_make_e1xp (loc0, e1)
   in
     s1exp_app_unwind (s1e1, xs)
-  end
+  end // end of [E1XPfun]
 | _ => let
     val e1 = e1xp_normalize (e0)
     val s1e1 = s1exp_make_e1xp (loc0, e1)
@@ -729,15 +729,17 @@ s1exp_trup_app_sqid (
 , xs: List_vt (locs1explst)
 ) : s2exp = let
 //
-  val spsid = staspecid_of_sqid (sq, id) 
+val spsid = staspecid_of_sqid (sq, id) 
 //
 in
 //
 case+ spsid of
-| SPSIDarrow () => s1exp_trup_arrow (
-    s1e0.s1exp_loc, None(*fc*), false(*lin*), false(*prf*), None(*efc*), xs
+| SPSIDarrow () =>
+    s1exp_trup_arrow (
+    s1e0.s1exp_loc
+  , None(*fc*), false(*lin*), false(*prf*), None(*efc*), xs
   ) // end of [SPSIDarrow]
-| SPSIDnone () => let
+| _(*SPSIDnone*) => let
     val ans = the_s2expenv_find_qua (sq, id)
   in
     case+ ans of
@@ -1586,6 +1588,19 @@ s1vararg_tr (x) =
       val s2vs = s1arglst_trup (s1as) in S2VARARGseq (s2vs)
     end // end of [S1VARARGseq]
 // end of [s1vararg_tr]
+
+implement
+s1exparg_tr (x) =
+  case+ x.s1exparg_node of
+  | S1EXPARGone () => S2EXPARGone ()
+  | S1EXPARGall () => S2EXPARGall ()
+  | S1EXPARGseq (s1es) => let
+      val s2es = s1explst_trup (s1es) in S2EXPARGseq (s2es)
+    end // end of [S1EXPARGseq]
+// end of [s1exparg_tr]
+
+implement
+s1exparglst_tr (xs) = l2l (list_map_fun (xs, s1exparg_tr))
 
 (* ****** ****** *)
 

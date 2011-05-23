@@ -660,6 +660,11 @@ end // end of [the_d2expenv_find]
 (* ****** ****** *)
 
 implement
+the_d2expenv_current_find (id) = let
+   prval vbox pf = pf0 in symenv_search (!p0, id)
+end // end of [the_d2expenv_current_find]
+
+implement
 the_d2expenv_pervasive_find (id) = let
    prval vbox pf = pf0 in symenv_pervasive_search (!p0, id)
 end // end of [the_d2expenv_pervasive_find]

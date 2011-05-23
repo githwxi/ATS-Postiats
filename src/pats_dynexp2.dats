@@ -50,6 +50,11 @@ staload "pats_dynexp2.sats"
 #include "pats_basics.hats"
 
 (* ****** ****** *)
+
+#define l2l list_of_list_vt
+macdef list_sing (x) = list_cons (,(x), list_nil)
+
+(* ****** ****** *)
 //
 // HX: dynamic expressions
 //
@@ -246,6 +251,15 @@ d2exp_con (loc, d2c, sarg, npf, darg) =
 // end of [d2exp_con]
 
 implement
+d2exp_int (loc, rep) = d2exp_make (loc, D2Eint (rep))
+implement
+d2exp_char (loc, c) = d2exp_make (loc, D2Echar (c))
+implement
+d2exp_string (loc, s) = d2exp_make (loc, D2Estring (s))
+implement
+d2exp_float (loc, rep) = d2exp_make (loc, D2Efloat (rep))
+
+implement
 d2exp_i0nt (loc, x) = d2exp_make (loc, D2Ei0nt (x))
 implement
 d2exp_c0har (loc, x) = d2exp_make (loc, D2Ec0har (x))
@@ -256,6 +270,67 @@ d2exp_s0tring (loc, x) = d2exp_make (loc, D2Es0tring (x))
 
 implement
 d2exp_empty (loc) = d2exp_make (loc, D2Eempty ())
+
+(* ****** ****** *)
+
+implement
+d2exp_apps (
+  loc, d2e_fun, d2as_arg
+) = d2exp_make (loc, D2Eapps (d2e_fun, d2as_arg))
+
+implement
+d2exp_app_sta (
+  loc0, d2e_fun, s2as
+) = begin case+ s2as of
+| list_cons _ => let
+    val d2a = D2EXPARGsta (s2as)
+    val node = (
+      case+ d2e_fun.d2exp_node of
+      | D2Eapps (d2e_fun, d2as) => let
+          val d2as = l2l (list_extend (d2as, d2a))
+        in
+          D2Eapps (d2e_fun, d2as)
+        end
+      | _ => D2Eapps (d2e_fun, list_sing (d2a))
+    ) : d2exp_node // end of [val]
+  in
+    d2exp_make (loc0, node)
+  end // end of [list_cons]
+| list_nil _ => d2e_fun
+//
+end (* end of [d2exp_app_sta] *)
+
+implement
+d2exp_app_dyn (
+  loc0
+, d2e_fun, loc_arg, npf, darg
+) = let
+  val d2a = D2EXPARGdyn (loc_arg, npf, darg)
+  val node = case+ d2e_fun.d2exp_node of
+    | D2Eapps (d2e_fun, d2as) => let
+        val d2as = l2l (list_extend (d2as, (d2a)))
+      in
+        D2Eapps (d2e_fun, d2as)
+      end
+    | _ => D2Eapps (d2e_fun, list_sing (d2a))
+  // end of [val]
+in
+  d2exp_make (loc0, node)
+end // end of [d2exp_app_dyn]
+
+implement
+d2exp_app_sta_dyn (
+  loc_dyn, loc_sta
+, d2e_fun, sarg, loc_arg, npf, darg
+) = let
+  val d2e_sta =
+    d2exp_app_sta (loc_sta, d2e_fun, sarg)
+  // end of [val]
+in
+  d2exp_app_dyn (loc_dyn, d2e_sta, loc_arg, npf, darg)
+end // end of [d2exp_app_sta_dyn]
+
+(* ****** ****** *)
 
 implement
 d2exp_tup (loc, knd, npf, d2es) =
@@ -307,6 +382,20 @@ d2ecl_none (loc) = '{
 implement
 d2ecl_list (loc, xs) = '{
   d2ecl_loc= loc, d2ecl_node= D2Clist (xs)
+}
+
+implement
+d2ecl_symintr (loc, ids) = '{
+  d2ecl_loc= loc, d2ecl_node= D2Csymintr (ids)
+}
+implement
+d2ecl_symelim (loc, ids) = '{
+  d2ecl_loc= loc, d2ecl_node= D2Csymelim (ids)
+}
+
+implement
+d2ecl_overload (loc, id, def) = '{
+  d2ecl_loc= loc, d2ecl_node= D2Coverload (id, def)
 }
 
 implement

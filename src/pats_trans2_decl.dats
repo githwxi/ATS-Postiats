@@ -50,6 +50,8 @@ macdef EQEQ = $SYM.symbol_EQEQ
 overload = with $SYM.eq_symbol_symbol
 staload SYN = "pats_syntax.sats"
 typedef i0de = $SYN.i0de
+typedef i0delst = $SYN.i0delst
+typedef dqi0de = $SYN.dqi0de
 typedef s0taq = $SYN.s0taq
 
 (* ****** ****** *)
@@ -82,6 +84,151 @@ staload "pats_trans2_env.sats"
 (* ****** ****** *)
 
 #define l2l list_of_list_vt
+
+(* ****** ****** *)
+
+fn symintr_tr
+  (ids: i0delst): void = let
+  fun aux (ids: i0delst): void = case+ ids of
+    | list_cons (id, ids) => aux ids where {
+        val () = the_d2expenv_add (id.i0de_sym, D2ITMsymdef list_nil)
+      } // end of [list_cons]
+    | list_nil () => () // end of [list_nil]
+  // end of [aux]
+in
+  aux ids
+end // end of [symintr_tr]
+
+fn symelim_tr
+  (ids: i0delst): void = let
+  fn f (id: i0de): void = let
+    val sym = id.i0de_sym
+    val ans = the_d2expenv_find (sym)
+  in
+    case+ ans of
+    | ~Some_vt (d2i) => (case+ d2i of
+      | D2ITMsymdef _ => the_d2expenv_add (sym, D2ITMsymdef list_nil)
+      | _ => () // HX: should a warning be reported?
+      ) // end of [Some_vt]
+    | ~None_vt () => ()
+  end // end of [f]
+in
+  list_app_fun (ids, f)
+end // end of [symelim_tr]
+
+(* ****** ****** *)
+
+extern
+fun overload_tr_def
+  (id: i0de, def: d2itm) : void
+// end of [overload_tr_def]
+
+extern
+fun overload_tr_d2eclist (d2cs: d2eclist): void
+
+(* ****** ****** *)
+
+fun overload_tr (
+  d1c0: d1ecl, id: i0de, dqid: dqi0de
+) : d2itmopt = let
+(*
+  val () = {
+    val () = print "overload_tr: id = "
+    val () = $SYN.print_i0de (id)
+    val () = print_newline ()
+    val () = print "overload_tr: dqid = "
+    val () = $SYN.print_dqi0de (dqid)
+    val () = print_newline ();
+  } // end of [val]
+*)
+//
+fn auxerr (
+  dqid: $SYN.dqi0de
+) : void = {
+  val () = prerr_error2_loc (dqid.dqi0de_loc)
+  val () = filprerr_ifdebug (": overload_tr")
+  val () = prerr ": the dynamic identifier ["
+  val () = $SYN.prerr_dqi0de (dqid)
+  val () = prerr "] is unrecognized."
+  val () = prerr_newline ()
+} (* end of [auxerr] *)
+//
+  val ans = 
+    the_d2expenv_find_qua (dqid.dqi0de_qua, dqid.dqi0de_sym)
+  // end of [val]
+  val ans = option_of_option_vt (ans)
+  val () = case+ ans of
+    | Some (d2i) => overload_tr_def (id, d2i)
+    | None () => let
+        val () = the_tran2errlst_add (T2E_overload_tr (d1c0))
+      in
+        auxerr (dqid)
+      end // end of [None]
+  // end of [val]
+in
+  ans
+end // end of [overload_tr]
+
+implement
+overload_tr_def
+  (id, def) = let
+//
+  var err: int = 0
+//
+fn auxerr1 (
+  id: i0de, err: &int
+) : d2itmlst = let
+  val () = err := err + 1
+  val () = prerr_error2_loc (id.i0de_loc)
+  val () = filprerr_ifdebug (": overload_tr_def")
+  val () = prerr ": the identifier ["
+  val () = $SYN.prerr_i0de (id)
+  val () = prerr "] should refer to a symbol but it does not."
+  val () = prerr_newline ()
+in
+  list_nil ()
+end // end of [auxerr1]
+//
+fn auxerr2 (
+  id: i0de, err: &int
+) : d2itmlst = let
+  val () = err := err + 1
+  val () = prerr_error2_loc (id.i0de_loc)
+  val () = filprerr_ifdebug (": overload_tr_def")
+  val () = prerr ": the identifier ["
+  val () = $SYN.prerr_i0de (id)
+  val () = prerr "] should refer to a symbol but it does not."
+  val () = prerr_newline ()
+in
+  list_nil ()
+end // end of [auxerr2]
+//
+  val ans = ans where {
+    val id_sym = id.i0de_sym
+    val ans = the_d2expenv_current_find (id_sym)
+    val ans = (case+ ans of
+      | Some_vt _ => (fold@ ans; ans)
+      | ~None_vt () => the_d2expenv_pervasive_find (id_sym)
+    ) : d2itmopt_vt
+  } // end of [val]
+  val d2is = (case+ ans of
+    | ~Some_vt d2i => (case+ d2i of
+      | D2ITMsymdef d2is => d2is | _ => auxerr1 (id, err)
+      ) // end of [Some_vt]
+    | ~None_vt () => auxerr2 (id, err)
+  ) : d2itmlst // end of [val]
+(*
+  val () = begin
+    print "overload_tr_def: def := "; print_d2itm def; print_newline ();
+    print "overload_tr_def: d2is := "; print_d2itmlst d2is; print_newline ();
+  end // end of [val]
+*)
+in
+  if err = 0 then let
+    val d2is_new = list_cons (def, d2is) in
+    the_d2expenv_add (id.i0de_sym, D2ITMsymdef (d2is_new))
+  end // end of [if]
+end (* end of [overload_tr_def] *)
 
 (* ****** ****** *)
 
@@ -994,6 +1141,21 @@ case+ d1c0.d1ecl_node of
   in
     d2ecl_list (loc0, ds)
   end // end of [D1Clist]
+//
+| D1Csymintr (ids) => let
+    val () = symintr_tr (ids) in d2ecl_symintr (loc0, ids)
+  end // end of [D1Csymintr]
+| D1Csymelim (ids) => let
+    val () = symelim_tr (ids) in d2ecl_symelim (loc0, ids)
+  end // end of [D1Csymelim]
+| D1Coverload (id, dqid) => let
+    val d2iopt =
+      overload_tr (d1c0, id, dqid)
+    // end of [val]
+  in
+    d2ecl_overload (loc0, id, d2iopt)
+  end // end of [D1Coverload]
+//
 | D1Ce1xpdef (id, def) => let
     val () = the_s2expenv_add (id, S2ITMe1xp def)
     val () = the_d2expenv_add (id, D2ITMe1xp def)

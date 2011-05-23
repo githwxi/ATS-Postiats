@@ -94,6 +94,9 @@ fprint_i0de
   (out, x) = fprint_symbol (out, x.i0de_sym)
 // end of [fprint_i0de]
 
+implement print_i0de (x) = fprint_i0de (stdout_ref, x)
+implement prerr_i0de (x) = fprint_i0de (stderr_ref, x)
+
 (* ****** ****** *)
 
 implement
@@ -163,6 +166,9 @@ fprint_dqi0de (out, x) = {
   val () = fprint_d0ynq (out, x.dqi0de_qua)
   val () = fprint_symbol (out, x.dqi0de_sym)
 } // end of [fprint_dqi0de]
+
+implement print_dqi0de (x) = fprint_dqi0de (stdout_ref, x)
+implement prerr_dqi0de (x) = fprint_dqi0de (stderr_ref, x)
 
 (* ****** ****** *)
 
