@@ -431,8 +431,8 @@ case+ e0.e1xp_node of
 | E1XPide (sym) =>
     e1xplevenv_valize_ide (lev, env, e0, sym)
 //
-| E1XPint (x) => let
-    val v = e1xp_valize_int (x) in V1ALint (v)
+| E1XPint (rep) => let
+    val v = e1xp_valize_int (rep) in V1ALint (v)
   end
 | E1XPchar (x) => V1ALchar (x)
 | E1XPstring (x) => V1ALstring (x)

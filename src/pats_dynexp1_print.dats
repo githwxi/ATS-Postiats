@@ -80,9 +80,9 @@ case+ p1t0.p1at_node of
     val () = prstr ")"
   }
 //
-| P1Tint (x) => {
+| P1Tint (rep) => {
     val () = prstr "P1Tint("
-    val () = fprint_string (out, x)
+    val () = fprint_string (out, rep)
     val () = prstr ")"
   }
 | P1Tchar (x) => {
@@ -248,14 +248,14 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
-| D1Eint (x) => {
-    val () = prstr "D1Eint("
-    val () = fprint_string (out, x)
-    val () = prstr ")"
-  }
 | D1Ebool (x) => {
     val () = prstr "D1Ebool("
     val () = fprint_bool (out, x)
+    val () = prstr ")"
+  }
+| D1Eint (rep) => {
+    val () = prstr "D1Eint("
+    val () = fprint_string (out, rep)
     val () = prstr ")"
   }
 | D1Echar (x) => {

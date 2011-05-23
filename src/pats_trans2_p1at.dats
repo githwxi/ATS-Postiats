@@ -239,8 +239,11 @@ case+ e0.e1xp_node of
     p1at_tr (p1t0_new)
   end // end of [E1XPfun]
 | _ => let
-    val p1t_fun = p1at_make_e1xp (p1t1.p1at_loc, e0) in
-    p1at_tr_app_sta_dyn (p1t0, p1t1, p1t_fun, list_nil(*sarg*), npf, p1ts_arg)
+    val p1t_fun =
+      p1at_make_e1xp (p1t1.p1at_loc, e0)
+    // end of [val]
+  in
+    p1at_tr_app_dyn (p1t0, p1t_fun, npf, p1ts_arg)
   end (* end of [_] *)
 //
 end // end of [p1at_tr_app_dyn_e1xp]

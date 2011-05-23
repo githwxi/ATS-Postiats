@@ -65,88 +65,85 @@ e1xp_make (loc, node) = '{
 } // end of [e1xp_make]
 
 implement
-e1xp_ide (loc, id) = '{
-  e1xp_loc= loc, e1xp_node= E1XPide (id: symbol)
-} // end of [e1xp_ide]
+e1xp_ide (loc, id) = e1xp_make (loc, E1XPide (id: symbol))
 
 implement
-e1xp_int (loc, int) = '{
-  e1xp_loc= loc, e1xp_node= E1XPint (int: string)
-} // end of [e1xp_int]
+e1xp_int (loc, rep) = e1xp_make (loc, E1XPint (rep))
+implement
+e1xp_char (loc, c) = e1xp_make (loc, E1XPchar (c: char))
+implement
+e1xp_string (loc, str) = e1xp_make (loc, E1XPstring (str))
+implement
+e1xp_float (loc, rep) = e1xp_make (loc, E1XPfloat rep)
 
 implement
-e1xp_char (loc, c) = '{
-  e1xp_loc= loc, e1xp_node= E1XPchar c
-} // end of [e1xp_char]
+e1xp_i0nt
+  (loc, x) = let
+  val- $LEX.T_INTEGER
+    (_(*bas*), rep, _(*sfx*)) = x.token_node
+  // end of [val]
+in
+  e1xp_int (loc, rep)
+end // end of [e1xp_i0nt]
+implement
+e1xp_c0har (loc, x) = let
+  val- $LEX.T_CHAR (c) = x.token_node in e1xp_char (loc, c)
+end // end of [e1xp_c0har]
+implement
+e1xp_s0tring (loc, x) = let
+  val- $LEX.T_STRING (s) = x.token_node in e1xp_string (loc, s)
+end // end of [e1xp_s0tring]
+implement
+e1xp_f0loat (loc, x) = let
+  val- $LEX.T_FLOAT
+    (_(*bas*), rep, _(*sfx*)) = x.token_node
+  // end of [val]
+in
+  e1xp_float (loc, rep)
+end // end of [e1xp_s0tring]
 
 implement
-e1xp_string (loc, str) = '{
-  e1xp_loc= loc, e1xp_node= E1XPstring (str)
-} // end of [e1xp_string]
+e1xp_v1al (loc, v) = e1xp_make (loc, E1XPv1al (v))
 
 implement
-e1xp_float (loc, f) = '{
-  e1xp_loc= loc, e1xp_node= E1XPfloat (f: string)
-} // end of [e1xp_float]
+e1xp_none (loc) = e1xp_make (loc, E1XPnone ())
 
 implement
-e1xp_v1al (loc, v) = '{
-  e1xp_loc= loc, e1xp_node= E1XPv1al (v)
-}
-
-implement
-e1xp_none (loc) = '{
-  e1xp_loc= loc, e1xp_node= E1XPnone ()
-} // end of [e1xp_none]
-
-implement
-e1xp_undef (loc) = '{
-  e1xp_loc= loc, e1xp_node= E1XPundef ()
-} // end of [e1xp_undef]
+e1xp_undef (loc) = e1xp_make (loc, E1XPundef ())
 
 implement
 e1xp_app (
   loc, e_fun, loc_arg, es_arg
-) = '{
-  e1xp_loc= loc, e1xp_node= E1XPapp (e_fun, loc_arg, es_arg)
-} // end of [e1xp_app]
+) = e1xp_make (loc, E1XPapp (e_fun, loc_arg, es_arg))
 
 implement
-e1xp_fun (loc, arg, body) = '{
-  e1xp_loc= loc, e1xp_node= E1XPfun (arg, body)
-} // end of [e1xp_fun]
+e1xp_fun
+  (loc, arg, body) = e1xp_make (loc, E1XPfun (arg, body))
+// end of [e1xp_fun]
 
 implement
-e1xp_eval (loc, e) = '{
-  e1xp_loc= loc, e1xp_node= E1XPeval (e)
-} // end of [e1xp_eval]
+e1xp_eval (loc, e) = e1xp_make (loc, E1XPeval (e: e1xp))
 
 implement
-e1xp_list (loc, es) = '{
-  e1xp_loc= loc, e1xp_node= E1XPlist (es: e1xplst)
-} // end of [e1xp_list]
+e1xp_list (loc, es) = e1xp_make (loc, E1XPlist (es: e1xplst))
 
 implement
 e1xp_if (
   loc, _cond, _then, _else
-) = '{
-  e1xp_loc= loc, e1xp_node= E1XPif (_cond, _then, _else)
-} // end of [e1xp_if]
+) = e1xp_make (loc, E1XPif (_cond, _then, _else))
 
 implement
-e1xp_err (loc) = '{
-  e1xp_loc= loc, e1xp_node= E1XPerr ()
-}
+e1xp_err (loc) = e1xp_make (loc, E1XPerr ())
 
 (* ****** ****** *)
 
-implement e1xp_true  (loc) = e1xp_int (loc, "1")
+implement e1xp_true (loc) = e1xp_int (loc, "1")
 implement e1xp_false (loc) = e1xp_int (loc, "0")
 
 (* ****** ****** *)
 
-implement v1al_true = V1ALint 1
-implement v1al_false = V1ALint 0
+implement v1al_true = V1ALint (1)
+implement v1al_false = V1ALint (0)
 
 (* ****** ****** *)
 
@@ -300,26 +297,32 @@ sp1at_cstr
 (* ****** ****** *)
 
 implement
-s1exp_int (loc, int) = '{
-  s1exp_loc= loc, s1exp_node= S1Eint (int)
+s1exp_int (loc, rep) = '{
+  s1exp_loc= loc, s1exp_node= S1Eint (rep)
 }
-implement
-s1exp_i0nt (loc, x) = let
-  val- $LEX.T_INTEGER (_, rep, _) = x.token_node
-in
-  s1exp_int (loc, rep)
-end // end of [s1exp_i0nt]
-
 implement
 s1exp_char (loc, c) = '{
   s1exp_loc= loc, s1exp_node= S1Echar (c)
 }
+
+implement
+s1exp_i0nt
+  (loc, x) = let
+  val- $LEX.T_INTEGER
+    (_(*bas*), rep, _(*sfx*)) = x.token_node
+  // end of [val]
+in
+  s1exp_int (loc, rep)
+end // end of [s1exp_i0nt]
+
 implement
 s1exp_c0har (loc, x) = let
   val- $LEX.T_CHAR (c) = x.token_node
 in '{
   s1exp_loc= loc, s1exp_node= S1Echar (c)
 } end // end of [s1exp_c0har]
+
+(* ****** ****** *)
 
 implement
 s1exp_extype (loc, name, arg) = '{
@@ -489,21 +492,27 @@ s1exp_make_e1xp (loc0, e0) = let
 //
 fun aux (
   e0: e1xp
-) :<cloptr1> s1exp =
+) :<cloptr1> s1exp = let
+(*
+  val () = (
+    print "s1exp_make_e1xp: aux: e0 = "; print_e1xp (e0); print_newline ()
+  ) // end of [val]
+*)
+in
   case+ e0.e1xp_node of
   | E1XPapp (e1, loc_arg, es2) =>
       s1exp_app (loc0, aux e1, loc_arg, auxlst es2)
     // end of [E1XPapp]
   | E1XPide ide => s1exp_ide (loc0, ide)
-  | E1XPchar chr => s1exp_char (loc0, chr)
-  | E1XPint rep => s1exp_int (loc0, rep)
+  | E1XPint (rep) => s1exp_int (loc0, rep)
+  | E1XPchar (c) => s1exp_char (loc0, c)
   | E1XPlist es => s1exp_list (loc0, auxlst es)
   | _ => s1exp_err (loc0) where {
       val () = prerr_error1_loc (loc0)
-      val () = prerr ": illegal static expression."
+      val () = prerr ": the expression cannot be transated into a legal static expression."
       val () = prerr_newline ()
     } // end of [_]
-(* end of [aux] *)
+end (* end of [aux] *)
 //
 and auxlst (
   es0: e1xplst
@@ -526,9 +535,9 @@ fun aux (
   s1e0: s1exp
 ) :<cloptr1> e1xp =
   case+ s1e0.s1exp_node of
+  | S1Eide (id) => e1xp_ide (loc0, id)
   | S1Eint (rep) => e1xp_int (loc0, rep)
   | S1Echar (char) => e1xp_char (loc0, char)
-  | S1Eide (id) => e1xp_ide (loc0, id)
   | S1Eapp (s1e_fun, _(*loc*), s1es_arg) => let
       val e_fun = aux (s1e_fun); val es_arg = auxlst (s1es_arg)
     in

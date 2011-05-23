@@ -83,46 +83,50 @@ p1at_ref (loc, id) = '{
 (* ****** ****** *)
 
 implement
-p1at_int (loc, x) = '{
-  p1at_loc= loc, p1at_node= P1Tint (x)
+p1at_int (loc, rep) = '{
+  p1at_loc= loc, p1at_node= P1Tint (rep)
 }
 implement
-p1at_i0nt (loc, x) = let
-  val- $LEX.T_INTEGER (_(*bas*), rep, _(*sfx*)) = x.token_node
+p1at_char (loc, c) = '{
+  p1at_loc= loc, p1at_node= P1Tchar (c: char)
+}
+implement
+p1at_string (loc, str) = '{
+  p1at_loc= loc, p1at_node= P1Tstring (str)
+}
+implement
+p1at_float (loc, rep) = '{
+  p1at_loc= loc, p1at_node= P1Tfloat (rep)
+}
+
+implement
+p1at_i0nt
+  (loc, x) = let
+  val- $LEX.T_INTEGER
+    (_(*bas*), rep, _(*sfx*)) = x.token_node
+  // end of [val]
 in
   p1at_int (loc, rep)
 end // end of [p1at_i0nt]
 
-implement
-p1at_char (loc, c) = '{
-  p1at_loc= loc, p1at_node= P1Tchar (c)
-}
 implement
 p1at_c0har (loc, x) = let
   val- $LEX.T_CHAR (c) = x.token_node in p1at_char (loc, c)
 end // end of [p1at_c0har]
 
 implement
-p1at_float (loc, f) = '{
-  p1at_loc= loc, p1at_node= P1Tfloat (f)
-}
+p1at_s0tring (loc, x) = let
+  val- $LEX.T_STRING (str) = x.token_node
+in
+  p1at_string (loc, str)
+end // end of [p1at_s0tring]
+
 implement
 p1at_f0loat (loc, x) = let
   val- $LEX.T_FLOAT (_(*bas*), rep, _(*sfx*)) = x.token_node
 in
   p1at_float (loc, rep)
 end // end of [p1at_f0loat]
-
-implement
-p1at_string (loc, x) = '{
-  p1at_loc= loc, p1at_node= P1Tstring (x)
-}
-implement
-p1at_s0tring (loc, x) = let
-  val- $LEX.T_STRING (str) = x.token_node
-in
-  p1at_string (loc, str)
-end // end of [p1at_s0tring]
 
 (* ****** ****** *)
 
@@ -226,15 +230,15 @@ fun aux (
 in
   case+ e0.e1xp_node of
   | E1XPide id => p1at_ide (loc0, id)
-  | E1XPchar chr => p1at_char (loc0, chr)
-  | E1XPfloat str => p1at_float (loc0, str)
-  | E1XPint str => p1at_int (loc0, str)
+  | E1XPint (rep) => p1at_int (loc0, rep)
+  | E1XPchar (c) => p1at_char (loc0, c: char)
+  | E1XPstring (str) => p1at_string (loc0, str)
+  | E1XPfloat (rep) => p1at_float (loc0, rep)
   | E1XPapp (e1, loc_arg, es2) => begin
       p1at_app_dyn (loc0, aux e1, loc0, 0(*npf*), auxlst es2)
     end // end of [E1XPapp]
   | E1XPlist es =>  p1at_list (loc0, ~1(*npf*), auxlst (es))
   | E1XPnone () => p1at_empty (loc0)
-  | E1XPstring (str) => p1at_string (loc0, str)
   | _ => let
       val () = prerr_error1_loc (loc0)
       val () = prerr ": the expression cannot be translated into a legal pattern."
@@ -265,9 +269,9 @@ fun aux (
   p1t0: p1at
 ) :<cloptr1> e1xp =
   case+ p1t0.p1at_node of
+  | P1Tide (id) => e1xp_ide (loc0, id)
   | P1Tint (rep) => e1xp_int (loc0, rep)
   | P1Tchar (char) => e1xp_char (loc0, char)
-  | P1Tide (id) => e1xp_ide (loc0, id)
   | P1Tapp_dyn (p1t_fun, _(*loc*), npf, p1ts_arg) => let
       val e_fun = aux (p1t_fun); val es_arg = auxlst (p1ts_arg)
     in
@@ -375,13 +379,13 @@ d1exp_dqid
 implement d1exp_opid (loc, id) = d1exp_ide (loc, id)
 
 implement
-d1exp_int (loc, x) = d1exp_make (loc, D1Eint (x))
+d1exp_int (loc, rep) = d1exp_make (loc, D1Eint (rep))
 implement
-d1exp_char (loc, x) = d1exp_make (loc, D1Echar (x))
+d1exp_char (loc, c) = d1exp_make (loc, D1Echar (c: char))
 implement
-d1exp_float (loc, x) = d1exp_make (loc, D1Efloat (x))
+d1exp_string (loc, str) = d1exp_make (loc, D1Estring (str))
 implement
-d1exp_string (loc, x) = d1exp_make (loc, D1Estring (x))
+d1exp_float (loc, rep) = d1exp_make (loc, D1Efloat rep)
 
 implement
 d1exp_i0nt (loc, x) = d1exp_make (loc, D1Ei0nt (x))
@@ -647,12 +651,14 @@ implement labd1exp_make (l, d1e) = L0ABELED (l, d1e)
 implement
 d1exp_is_metric (d1e) = begin
   case+ d1e.d1exp_node of
-  | D1Elam_dyn (_, _, d1e) => d1exp_is_metric d1e
+  | D1Elam_dyn (_, _, d1e) => d1exp_is_metric (d1e)
   | D1Elam_met _ => true
-  | D1Elam_sta_ana (_, _, d1e) => d1exp_is_metric d1e
-  | D1Elam_sta_syn (_, _, d1e) => d1exp_is_metric d1e
+  | D1Elam_sta_ana (_, _, d1e) => d1exp_is_metric (d1e)
+  | D1Elam_sta_syn (_, _, d1e) => d1exp_is_metric (d1e)
   | _ => false
 end // end of [d1exp_is_metric]
+
+(* ****** ****** *)
 
 implement
 d1exp_make_e1xp (loc0, e0) = let
@@ -660,26 +666,26 @@ d1exp_make_e1xp (loc0, e0) = let
 fun aux (
   e0: e1xp
 ) :<cloref1> d1exp = let
-(*
+// (*
   val () = begin
     print "d1exp_make_e1xp: aux: e0 = "; print_e1xp (e0); print_newline ()
   end // end of [val]
-*)
+// *)
 in
   case+ e0.e1xp_node of
   | E1XPide id => d1exp_ide (loc0, id)
-  | E1XPchar chr => d1exp_char (loc0, chr)
-  | E1XPfloat str => d1exp_float (loc0, str)
-  | E1XPint str => d1exp_int (loc0, str)
+  | E1XPint (rep) => d1exp_int (loc0, rep)
+  | E1XPchar (c) => d1exp_char (loc0, c: char)
+  | E1XPstring (str) => d1exp_string (loc0, str)
+  | E1XPfloat (rep) => d1exp_float (loc0, rep)
   | E1XPapp (e1, loc_arg, es2) => begin
       d1exp_app_dyn (loc0, aux e1, loc0, 0(*npf*), auxlst es2)
     end // end of [E1XPapp]
   | E1XPlist es =>  d1exp_list (loc0, ~1(*npf*), auxlst (es))
   | E1XPnone () => d1exp_empty (loc0)
-  | E1XPstring (str) => d1exp_string (loc0, str)
   | _ => let
       val () = prerr_error1_loc (loc0)
-      val () = prerr ": the expression cannot be translated into a legal pattern."
+      val () = prerr ": the expression cannot be translated into a legal dynamic expression."
       val () = prerr_newline ()
     in
       d1exp_err (loc0)
@@ -696,6 +702,46 @@ and auxlst (
 in
   aux (e0)
 end // end of [d1exp_make_e1xp]
+
+implement
+e1xp_make_d1exp
+  (loc0, d1e0) = let
+//
+fun aux (
+  d1e0: d1exp
+) :<cloptr1> e1xp =
+  case+ d1e0.d1exp_node of
+  | D1Eide (id) => e1xp_ide (loc0, id)
+//
+  | D1Eint (rep) => e1xp_int (loc0, rep)
+  | D1Echar (c) => e1xp_char (loc0, c: char)
+  | D1Estring (str) => e1xp_string (loc0, str)
+  | D1Efloat (rep) => e1xp_float (loc0, rep)
+//
+  | D1Ei0nt (tok) => e1xp_i0nt (loc0, tok)
+  | D1Ec0har (tok) => e1xp_c0har (loc0, tok)
+  | D1Es0tring (tok) => e1xp_s0tring (loc0, tok)
+  | D1Ef0loat (tok) => e1xp_f0loat (loc0, tok)
+//
+  | D1Eapp_dyn (d1e_fun, _(*loc*), npf, d1es_arg) => let
+      val e_fun = aux (d1e_fun); val es_arg = auxlst (d1es_arg)
+    in
+      e1xp_app (loc0, e_fun, loc0, es_arg)
+    end
+  | D1Elist (_(*npf*), s1es) => e1xp_list (loc0, auxlst s1es)
+  | _ => e1xp_err (loc0)
+(* end of [aux] *)
+//
+and auxlst (
+  d1es0: d1explst
+) :<cloptr1> e1xplst = case+ d1es0 of
+  | list_cons (d1e, d1es) => list_cons (aux d1e, auxlst d1es)
+  | list_nil () => list_nil ()
+(* end of [auxlst] *)
+//
+in
+  aux (d1e0)
+end // end of [e1xp_make_d1exp]
 
 (* ****** ****** *)
 

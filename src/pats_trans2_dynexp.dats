@@ -57,6 +57,7 @@ staload "pats_basics.sats"
 (* ****** ****** *)
 
 staload "pats_staexp1.sats"
+staload "pats_e1xpval.sats"
 staload "pats_dynexp1.sats"
 staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
@@ -170,11 +171,13 @@ case+ spdid of
     val ans = the_d2expenv_find_qua (dq, id)
   in
     case+ ans of
-    | ~Some_vt d2i => let
-        val sarg = list_nil ()
-      in
-        d1exp_tr_app_sta_dyn_dqid_itm (d1e0, d1e1, d1e1, dq, id, d2i, sarg, locarg, npf, darg)
-      end // end of [Some_vt]
+    | ~Some_vt d2i => (case+ d2i of
+      | D2ITMe1xp (e0) => d1exp_tr_app_dyn_e1xp (d1e0, d1e1, e0, locarg, npf, darg)
+      | _ => let
+          val sarg = list_nil () in
+          d1exp_tr_app_sta_dyn_dqid_itm (d1e0, d1e1, d1e1, dq, id, d2i, sarg, locarg, npf, darg)
+        end // end of [Some_vt]
+      ) // end of [Some_vt]
     | ~None_vt () => let
         val () = prerr_error2_loc (d1e1.d1exp_loc)
         val () = filprerr_ifdebug "d1exp_tr_app_dyn_dqid"
@@ -184,10 +187,55 @@ case+ spdid of
         val () = prerr_newline ()
       in
         d2exp_err (d1e0.d1exp_loc)
-      end
+      end // end of [None_vt]
   end // end of [_]
 //
 end // end of [d1exp_tr_app_dyn_dqid]
+
+and
+d1exp_tr_app_dyn_e1xp (
+  d1e0: d1exp, d1e1: d1exp
+, e0: e1xp
+, locarg: location, npf: int, darg: d1explst 
+) : d2exp = let
+in
+//
+case+ e0.e1xp_node of
+| E1XPfun _ => let
+    val loc0 = d1e0.d1exp_loc
+//
+    prval pfu = unit_v ()
+    val es = list_map_clo<d1exp> {unit_v} (pfu | darg, !p_clo) where {
+      var !p_clo = @lam (pf: !unit_v | d1e: d1exp): e1xp => e1xp_make_d1exp (loc0, d1e)
+    } // end of [val]
+    prval unit_v () = pfu
+//
+    val e1 = e1xp_app (loc0, e0, loc0, (l2l)es)
+// (*
+    val () = (
+      print "d1exp_tr_app_dyn_e1xp: e1 = "; print_e1xp e1; print_newline ()
+    ) // end of [val]
+// *)
+    val e2 = e1xp_normalize (e1)
+// (*
+    val () = (
+      print "d1exp_tr_app_dyn_e1xp: e2 = "; print_e1xp e2; print_newline ()
+    ) // end of [val]
+// *)
+    val d1e0_new = d1exp_make_e1xp (loc0, e2)
+  in
+    d1exp_tr (d1e0_new)
+  end // end of [E1XPfun]
+| _ => let
+    val d1e_fun =
+      d1exp_make_e1xp (d1e1.d1exp_loc, e0)
+    // end of [val]
+  in
+    d1exp_tr_app_dyn (d1e0, d1e_fun, locarg, npf, darg)
+  end (* end of [_] *)
+//
+end // end of [d1exp_tr_app_dyn_e1xp]
+
 
 and
 d1exp_tr_app_sta_dyn_dqid (
@@ -259,6 +307,11 @@ case+ d2i of
   end // end of [D2ITMvar]
 | _ => let
     val () = prerr_error2_loc (d1e2.d1exp_loc)
+    val () = filprerr_ifdebug ": d1exp_tr_app_sta_dyn_dqid_itm"
+    val () = prerr ": the identifier ["
+    val () = ($SYN.prerr_d0ynq (dq); $SYM.prerr_symbol (id))
+    val () = prerr "] does not refer to any variable, constant or constructor."
+    val () = prerr_newline ()
   in
     d2exp_err (d1e0.d1exp_loc)
   end (* end of [_] *)

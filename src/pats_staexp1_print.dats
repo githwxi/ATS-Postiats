@@ -88,9 +88,11 @@ in
 case+ e0.e1xp_node of
 | E1XPide (id) => fprint_symbol (out, id)
 //
-| E1XPint (int(*string*)) => begin
-    prstr "E1XPint("; fprint_string (out, int); prstr ")"
-  end // end of [E1XPint]
+| E1XPint (rep) => {
+    val () = prstr "E1XPint("
+    val () = fprint_string (out, rep)
+    val () = prstr ")"
+  } // end of [E1XPint]
 | E1XPchar (c: char) => begin
     prstr "E1XPchar("; fprint_char (out, c); prstr ")"
   end // end of [E1XPchar]

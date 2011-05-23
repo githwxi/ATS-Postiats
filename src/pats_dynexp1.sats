@@ -51,10 +51,10 @@ datatype p1at_node =
       (d0ynq, symbol)
   | P1Tref of symbol // refvar pattern
 //
-  | P1Tint of string  // int constant
+  | P1Tint of (string(*rep*)) // int constant
   | P1Tchar of char // char constant
-  | P1Tfloat of string // floating point constant
   | P1Tstring of string // string constant
+  | P1Tfloat of string (*rep*)// floating point constant
 //
   | P1Tempty of () // empty pattern
 //
@@ -108,15 +108,19 @@ fun p1at_anys (loc: location): p1at
 fun p1at_ide (_: location, id: symbol): p1at
 fun p1at_dqid (loc: location, dq: d0ynq, id: symbol): p1at
 fun p1at_ref (loc: location, id: symbol): p1at
-
-fun p1at_int (loc: location, x: string): p1at
-fun p1at_i0nt (loc: location, x: i0nt): p1at
+//
+fun p1at_int
+  (loc: location, rep: string): p1at
+// end of [p1at_int]
 fun p1at_char (loc: location, c: char): p1at
-fun p1at_c0har (loc: location, x: c0har): p1at
-fun p1at_float (loc: location, f: string): p1at
-fun p1at_f0loat (loc: location, x: f0loat): p1at
 fun p1at_string (loc: location, s: string): p1at
+fun p1at_float (loc: location, rep: string): p1at
+//
+fun p1at_i0nt (loc: location, x: i0nt): p1at
+fun p1at_c0har (loc: location, x: c0har): p1at
 fun p1at_s0tring (loc: location, x: s0tring): p1at
+fun p1at_f0loat (loc: location, x: f0loat): p1at
+//
 fun p1at_empty (loc: location): p1at
 
 fun p1at_app_dyn (
@@ -273,16 +277,16 @@ and d1exp_node =
   | D1Eide of (symbol) // identifiers
   | D1Edqid of (d0ynq, symbol) // qualified identifiers
 //
-  | D1Eint of string // dynamic integers
   | D1Ebool of bool // boolean constants
+  | D1Eint of (string(*rep*)) // dynamic integers
   | D1Echar of char // dynamic characters
-  | D1Efloat of string (* dynamic floats *)
   | D1Estring of string (* dynamic strings *)
+  | D1Efloat of string(*rep*) (* dynamic floats *)
 //
   | D1Ei0nt of i0nt // dynamic integers
   | D1Ec0har of c0har // dynamic characters
-  | D1Ef0loat of f0loat (* dynamic floats *)
   | D1Es0tring of s0tring (* dynamic strings *)
+  | D1Ef0loat of f0loat (* dynamic floats *)
 //
   | D1Ecstsp of cstsp // special constants
 //
@@ -520,10 +524,12 @@ fun d1exp_dqid
 // end of [d1exp_dqid]
 fun d1exp_opid (loc: location, id: symbol): d1exp
 
-fun d1exp_int (loc: location, x: string): d1exp
-fun d1exp_char (loc: location, x: char): d1exp
-fun d1exp_float (loc: location, x: string): d1exp
-fun d1exp_string (loc: location, x: string): d1exp
+fun d1exp_int
+  (loc: location, rep: string): d1exp
+// end of [d1exp_int]
+fun d1exp_char (loc: location, c: char): d1exp
+fun d1exp_string (loc: location, str: string): d1exp
+fun d1exp_float (loc: location, rep: string): d1exp
 //
 fun d1exp_i0nt (loc: location, x: i0nt): d1exp
 fun d1exp_c0har (loc: location, x: c0har): d1exp
@@ -741,7 +747,9 @@ fun fprint_labd1explst : fprint_type (labd1explst)
 (* ****** ****** *)
 
 fun d1exp_is_metric (d1e: d1exp): bool
+
 fun d1exp_make_e1xp (loc: location, exp: e1xp): d1exp
+fun e1xp_make_d1exp (loc: location, d1e: d1exp): e1xp
 
 (* ****** ****** *)
 

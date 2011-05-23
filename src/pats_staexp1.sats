@@ -88,10 +88,10 @@ fun fprint_v1al : fprint_type (v1al)
 datatype e1xp_node =
   | E1XPide of symbol
 //
+  | E1XPint of string(*rep*)
   | E1XPchar of char
-  | E1XPfloat of string
-  | E1XPint of string
-  | E1XPstring of (string)
+  | E1XPstring of string
+  | E1XPfloat of string(*rep*)
 //
   | E1XPv1al of v1al
 //
@@ -137,10 +137,15 @@ fun e1xp_make
 //
 fun e1xp_ide (loc: location, sym: symbol): e1xp
 //
-fun e1xp_int (loc: location, int: string): e1xp
+fun e1xp_int (loc: location, rep: string): e1xp
 fun e1xp_char (loc: location, _: char): e1xp
-fun e1xp_float (loc: location, flt: string): e1xp
 fun e1xp_string (loc: location, str: string): e1xp
+fun e1xp_float (loc: location, rep: string): e1xp
+//
+fun e1xp_i0nt (loc: location, x: i0nt): e1xp
+fun e1xp_c0har (loc: location, x: c0har): e1xp
+fun e1xp_s0tring (loc: location, x: s0tring): e1xp
+fun e1xp_f0loat (loc: location, x: f0loat): e1xp
 //
 fun e1xp_v1al (loc: location, v: v1al): e1xp
 //
@@ -385,7 +390,7 @@ datatype s1exp_node =
   | S1Eide of (symbol) // static identifer
   | S1Esqid of (s0taq, symbol) // qualified static identifer
 //
-  | S1Eint of string // integer constant
+  | S1Eint of string(*rep*) // integer constant
   | S1Echar of char // character constant
 //
   | S1Eextype of (string(*name*), s1explstlst) // extern type
@@ -461,7 +466,7 @@ and s1qualstlst = List (s1qualst)
 (* ****** ****** *)
 
 fun s1exp_int
-  (loc: location, int: string): s1exp
+  (loc: location, rep: string): s1exp
 // end of [s1exp_int]
 fun s1exp_i0nt (loc: location, x: i0nt): s1exp
 fun s1exp_char (loc: location, c: char): s1exp
