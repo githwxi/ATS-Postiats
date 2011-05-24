@@ -379,12 +379,12 @@ and d1exp_node =
 //
   | D1Emacsyn of (macsynkind, d1exp) // macro syntax
 //
+  | D1Eann_type of (* ascribed dynamic expressions *)
+      (d1exp, s1exp)
   | D1Eann_effc of (* ascribed with effects *)
       (d1exp, effcst)
   | D1Eann_funclo of (* ascribed with funtype *)
       (d1exp, funclo)
-  | D1Eann_type of (* ascribed dynamic expressions *)
-      (d1exp, s1exp)
 //
   | D1Eerr of () // HX: placeholder for indicating an error
 // end of [d1exp_node]
@@ -715,13 +715,14 @@ fun d1exp_macsyn
 
 (* ****** ****** *)
 
+fun d1exp_ann_type
+  (loc: location, d1e: d1exp, s1e: s1exp): d1exp
 fun d1exp_ann_effc
   (loc: location, d1e: d1exp, efc: effcst): d1exp
 fun d1exp_ann_funclo
   (loc: location, d1e: d1exp, fc: funclo): d1exp
 fun d1exp_ann_funclo_opt
   (loc: location, d1e: d1exp, fc: funclo): d1exp
-fun d1exp_ann_type (loc: location, d1e: d1exp, s1e: s1exp): d1exp
 
 (* ****** ****** *)
 

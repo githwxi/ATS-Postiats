@@ -408,7 +408,7 @@ d1exp_top (loc) = d1exp_make (loc, D1Etop ())
 
 implement
 d1exp_extval (loc, _type, _code) =
-  d1exp_make (loc,D1Eextval (_type, _code))
+  d1exp_make (loc, D1Eextval (_type, _code))
 
 (* ****** ****** *)
 
@@ -573,19 +573,19 @@ d1exp_fix (loc, knd, id, d1e) =
 
 implement
 d1exp_raise (loc, d1e) =
-  d1exp_make (loc,D1Eraise (d1e))
+  d1exp_make (loc, D1Eraise (d1e))
 
 implement
 d1exp_delay (loc, knd, d1e) =
-  d1exp_make (loc,D1Edelay (knd, d1e))
+  d1exp_make (loc, D1Edelay (knd, d1e))
 
 implement
 d1exp_ptrof (loc, d1e) =
-  d1exp_make (loc,D1Eptrof (d1e))
+  d1exp_make (loc, D1Eptrof (d1e))
 
 implement
 d1exp_viewat (loc, d1e) =
-  d1exp_make (loc,D1Eviewat (d1e))
+  d1exp_make (loc, D1Eviewat (d1e))
 
 implement
 d1exp_sel (loc, knd, d1e, d1l) =
@@ -602,13 +602,13 @@ d1exp_trywith
 implement
 d1exp_for
   (loc, inv, ini, test, post, body) =
-  d1exp_make (loc,D1Efor (inv, ini, test, post, body))
+  d1exp_make (loc, D1Efor (inv, ini, test, post, body))
 // end of [d1exp_for]
 
 implement
 d1exp_while
   (loc, inv, test, body) =
-  d1exp_make (loc,D1Ewhile (inv, test, body))
+  d1exp_make (loc, D1Ewhile (inv, test, body))
 // end of [d1exp_while]
 
 (* ****** ****** *)
@@ -618,6 +618,11 @@ d1exp_macsyn (loc, knd, d1e) =
   d1exp_make (loc, D1Emacsyn (knd, d1e))
 
 (* ****** ****** *)
+
+implement
+d1exp_ann_type
+  (loc, d1e, s1e) = d1exp_make (loc, D1Eann_type (d1e, s1e))
+// end of [d1exp_ann_type]
 
 implement
 d1exp_ann_effc (loc, d1e, efc) =
@@ -632,10 +637,6 @@ d1exp_ann_funclo_opt
   (loc, d1e, fc) = case+ d1e.d1exp_node of
   | D1Eann_funclo _ => d1e | _ => d1exp_ann_funclo (loc, d1e, fc)
 // end of [d1exp_ann_funclo_opt]
-
-implement
-d1exp_ann_type (loc, d1e, s1e) =
-  d1exp_make (loc, D1Eann_type (d1e, s1e))
 
 (* ****** ****** *)
 

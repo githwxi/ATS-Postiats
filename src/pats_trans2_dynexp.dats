@@ -75,6 +75,7 @@ staload "pats_trans2_env.sats"
 (* ****** ****** *)
 
 #define l2l list_of_list_vt
+macdef list_sing (x) = list_cons (,(x), list_nil)
 
 (* ****** ****** *)
 
@@ -417,6 +418,118 @@ end // end of [d1exp_tr_app_sta_dyn]
 
 (* ****** ****** *)
 
+fn d2sym_lrbrackets
+  (d1e0: d1exp): d2sym = let
+  val loc0 = d1e0.d1exp_loc
+  val id = $SYM.symbol_LRBRACKETS
+  var err: int = 0
+  var d2is: d2itmlst = list_nil ()
+  val ans = the_d2expenv_find (id)
+  val () = (
+    case+ ans of
+    | ~Some_vt d2i => (
+        case+ d2i of
+        | D2ITMsymdef xs => d2is := xs | _ => err := err + 1
+      ) // end of [Some_vt]
+    | ~None_vt () => (err := err + 1)
+  ) // end of [val]
+  val () = if err > 0 then { // run-time checking
+    val () = prerr_interror_loc (loc0)
+    val () = (prerr ": d2sym_lrbrackets: d1e0 = "; prerr_d1exp d1e0)
+    val () = prerr_newline ()
+  } // end of [val]
+in
+  d2sym_make (loc0, $SYN.d0ynq_none (loc0), id, d2is)
+end // end of [d2sym_lrbrackets]
+
+fn d1exp_tr_arrsub (
+  d1e0: d1exp
+, arr: d1exp, locind: location, ind: d1explstlst
+) : d2exp = let
+  val loc0 = d1e0.d1exp_loc
+  val d2s = d2sym_lrbrackets (d1e0)
+  val arr = d1exp_tr (arr)
+  val ind = l2l (list_map_fun (ind, d1explst_tr))
+in
+  d2exp_arrsub (loc0, d2s, arr, locind, ind)
+end // end of [d1exp_tr_arrsub]
+
+(* ****** ****** *)
+//
+// HX: [w1ts] is assumed to be not empty
+//
+fun d1exp_tr_wths1explst (
+  d1e0: d1exp, w1ts: wths1explst
+) : d2exp = let
+  val loc0 = d1e0.d1exp_loc
+in
+//
+case+ d1e0.d1exp_node of
+| D1Eann_type (d1e, s1e) => let
+    val d2e = d1exp_tr (d1e)
+    val s2e = s1exp_trdn_res_impredicative (s1e, w1ts)
+  in
+    d2exp_ann_type (loc0, d2e, s2e)
+  end // end of [D1Eann_type]
+(*
+| D1Eann_effc (d1e, efc) => let
+    val d2e = d1exp_wths1explst_tr (d1e, w1ts)
+    val s2fe = effcst_tr (efc)
+  in
+    d2exp_ann_seff (loc0, d2e, s2fe)
+  end // end of [D1Eann_effc]
+*)
+| D1Eann_funclo (d1e, fc) => let
+    val d2e = d1exp_tr_wths1explst (d1e, w1ts)
+  in
+    d2exp_ann_funclo (loc0, d2e, fc)
+  end // end of[D1Eann_funclo]
+| _ => let
+    val () = prerr_error2_loc (loc0)
+    val () = filprerr_ifdebug ": d1exp_wths1explst_tr"
+    val () = prerr ": the dynamic expression is expected to be ascribed a type but it is not."
+    val () = prerr_newline ()
+  in
+    d2exp_err (loc0)
+  end // end of [_]
+end (* end of [d1exp_wths1explst_tr] *)
+
+fn d1exp_tr_arg_body (
+  p1t_arg: p1at, d1e_body: d1exp
+) : @(int, p2atlst, d2exp) = let
+  var w1ts = WTHS1EXPLSTnil ()
+  val p2t_arg = p1at_tr_arg (p1t_arg, w1ts)
+  val () = w1ts := wths1explst_reverse (w1ts)
+  var npf: int = 0
+  val p2ts_arg = (
+    case+ p2t_arg.p2at_node of
+    | P2Tlist (npf1, p2ts) => (npf := npf1; p2ts)
+    | _ => list_sing (p2t_arg)
+  ) : p2atlst // end of [val]
+  val (pfenv | ()) = the_trans2_env_push ()
+  val () = {
+    val () = the_s2expenv_add_svarlst ($UT.lstord_listize (p2t_arg.p2at_svs))
+    val () = the_d2expenv_add_dvarlst ($UT.lstord_listize (p2t_arg.p2at_dvs))
+  } // end of [val]
+  val (pfinc | ()) = the_d2varlev_inc ()
+  val d2e_body = (
+    if wths1explst_is_none w1ts then
+      d1exp_tr (d1e_body) // regular translation
+    else
+      d1exp_tr_wths1explst (d1e_body, w1ts)
+    // end of [if]
+  ) : d2exp // end of [val]
+  val () = the_d2varlev_dec (pfinc | (*none*))
+  val () = the_trans2_env_pop (pfenv | (*none*))
+//
+// val p2ts_arg = lamvararg_proc (p2ts_arg) // HX-2010-08-26: for handling variadic functions
+//
+in
+  @(npf, p2ts_arg, d2e_body)
+end // end of [d1exp_tr_arg_body]
+
+(* ****** ****** *)
+
 implement
 d1exp_tr (d1e0) = let
 // (*
@@ -434,6 +547,7 @@ case+ d1e0.d1exp_node of
   // end of [D1Eide]
 | D1Edqid (dq, id) => d1exp_tr_dqid (d1e0, dq, id)
 //
+| D1Ebool (b) => d2exp_bool (loc0, b)
 | D1Eint (rep) => d2exp_int (loc0, rep)
 | D1Echar (c) => d2exp_char (loc0, c)
 | D1Estring (s) => d2exp_string (loc0, s)
@@ -497,12 +611,64 @@ case+ d1e0.d1exp_node of
     val d2es = d1explst_tr (d1es) in d2exp_seq (loc0, d2es)
   end // end of [D1Eseq]
 //
+| D1Earrsub (arr, locind, ind) =>
+    d1exp_tr_arrsub (d1e0, arr, locind, ind)
+  // end of [D1Earrsub]
+| D1Earrinit
+    (s1e_elt, asz, ini) => let
+    val s2t_elt = (case+ asz of
+      | Some _ => begin case+ ini of
+        | list_cons _ => s2rt_t0ype // cannot be linear
+        | list_nil () (*uninitialized*) => s2rt_viewt0ype // can be linear
+        end // end of [Some]
+      | None () => s2rt_viewt0ype // can be linear
+    ) : s2rt // end of [val]
+    val s2e_elt = s1exp_trdn (s1e_elt, s2t_elt)
+    val asz = d1expopt_tr (asz)
+    val ini = d1explst_tr (ini)
+  in
+    d2exp_arrinit (loc0, s2e_elt, asz, ini)
+  end // end of [D1Earrinit]
+| D1Earrsize
+    (elt, ini) => let
+    val elt = s1expopt_trup (elt); val ini = d1explst_tr (ini)
+  in
+    d2exp_arrsize (loc0, elt, ini)
+  end // end of [D1Earrsize]
+//
+| D1Eraise (d1e) => d2exp_raise (loc0, d1exp_tr d1e)
+| D1Edelay (knd, d1e) => d2exp_delay (loc0, knd, d1exp_tr d1e)
+//
+| D1Eptrof (d1e) => d2exp_ptrof (loc0, d1exp_tr d1e)
+| D1Eviewat (d1e) => d2exp_viewat (loc0, d1exp_tr d1e)
+//
+| D1Eexist (s1a, d1e) => let
+    val s2a = s1exparg_tr (s1a); val d2e = d1exp_tr (d1e)
+  in
+    d2exp_exist (loc0, s2a, d2e)
+  end // end of [D1Eexist]
+//
+| D1Elam_dyn (lin, p1t_arg, d1e_body) => let
+    val @(npf, p2ts_arg, d2e_body) = d1exp_tr_arg_body (p1t_arg, d1e_body)
+  in
+    d2exp_lam_dyn (loc0, lin, npf, p2ts_arg, d2e_body)
+  end // end of [D1Elam_dyn]
+| D1Elaminit_dyn (lin, p1t_arg, d1e_body) => let
+    val @(npf, p2ts_arg, d2e_body) = d1exp_tr_arg_body (p1t_arg, d1e_body)
+  in
+    d2exp_laminit_dyn (loc0, lin, npf, p2ts_arg, d2e_body)
+  end // end of [D1Elam_dyn]
+//
 | D1Eann_type (d1e, s1e) => let
     val d2e = d1exp_tr d1e
     val s2e = s1exp_trdn_impredicative (s1e)
   in
     d2exp_ann_type (loc0, d2e, s2e)
   end // end of [D1Eann_type]
+| D1Eann_funclo (d1e, fc) => let
+    val d2e = d1exp_tr d1e in d2exp_ann_funclo (loc0, d2e, fc)
+  end // end of [D1Eann_funclo]
+//
 | _ => let
     val () = prerr_interror_loc (loc0)
     val () = prerr ": d1exp_tr: not yet implemented: d1e0 = "

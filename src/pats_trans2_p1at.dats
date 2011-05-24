@@ -503,4 +503,38 @@ p1atlst_tr (p1ts) = l2l (list_map_fun (p1ts, p1at_tr))
 
 (* ****** ****** *)
 
+implement
+p1at_tr_arg
+  (p1t0, wths1es) = let
+  val loc0 = p1t0.p1at_loc
+in
+  case+ p1t0.p1at_node of
+  | P1Tann (p1t, s1e) => let
+      val p2t = p1at_tr (p1t)
+      val s2e = s1exp_trdn_arg_impredicative (s1e, wths1es)
+    in
+      p2at_ann (loc0, p2t, s2e)
+    end // end of [P1Tann]
+  | P1Tlist (npf, p1ts) => let
+      val p2ts = p1atlst_tr_arg (p1ts, wths1es)
+    in
+      p2at_list (loc0, npf, p2ts)
+    end // end of [P1Tlist]
+  | _ => p1at_tr (p1t0)
+end // end of [p1at_tr_arg]
+
+implement
+p1atlst_tr_arg
+  (p1ts, wths1es) = case+ p1ts of
+  | list_cons (p1t, p1ts) => let
+      val p2t = p1at_tr_arg (p1t, wths1es)
+      val p2ts = p1atlst_tr_arg (p1ts, wths1es)
+    in
+      list_cons (p2t, p2ts)
+    end // end of [list_cons]
+  | list_nil () => list_nil ()
+// end of [p1atlst_tr_arg]
+
+(* ****** ****** *)
+
 (* end of [pats_trans2_p1at.dats] *)

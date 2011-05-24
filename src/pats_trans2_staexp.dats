@@ -449,6 +449,7 @@ s1exp_trup_arg
   end // end of [val]
 *)
 in
+//
 case+ s1e0.s1exp_node of
 | S1Einvar (refval, s1e) => let
     val () = wths1es := WTHS1EXPLSTcons_some (refval, s1e, wths1es)
@@ -475,6 +476,7 @@ case+ s1e0.s1exp_node of
   in
     s1exp_trup (s1e0)
   end // end of [_]
+//
 end // end of [s1exp_trup_arg]
 
 (* ****** ****** *)
@@ -1222,6 +1224,12 @@ s1explst_trup
   (s1es) = l2l (list_map_fun (s1es, s1exp_trup))
 // end of [s1explst_trup]
 
+implement
+s1expopt_trup
+  (s1eopt) = case+ s1eopt of
+  | Some s1e => Some (s1exp_trup s1e) | None () => None ()
+// end of [s1expopt_trup]
+
 (* ****** ****** *)
 
 fn s1exp_trdn_lam (
@@ -1390,6 +1398,27 @@ s1explst_trdn_err
       // end of [val]
     } // end of [list_nil]
 // end of [s1explst_trdn_err]
+
+(* ****** ****** *)
+
+implement
+s1exp_trdn_arg_impredicative
+  (s1e, w1ts) = s2e where {
+  val s2e = s1exp_trup_arg (s1e, w1ts)
+  val s2t = s2e.s2exp_srt
+  val () = if
+    s2rt_is_impredicative s2t then () else let
+    val () = prerr_error2_loc (s1e.s1exp_loc)
+    val () = filprerr_ifdebug (": s1exp_arg_tr_dn_impredicative")
+    val () = prerr ": the static expression needs to be impredicative"
+    val () = prerr " but it is assigned the sort ["
+    val () = prerr_s2rt (s2t)
+    val () = prerr "]."
+    val () = prerr_newline ()
+  in
+    // nothing
+  end // end of [val]
+} // end of [s1exp_trdn_arg_impredicative]
 
 (* ****** ****** *)
 

@@ -55,8 +55,15 @@ staload "pats_dynexp2.sats"
 macdef list_sing (x) = list_cons (,(x), list_nil)
 
 (* ****** ****** *)
+
+implement
+d2sym_make (loc, q, id, d2is) = '{
+  d2sym_loc= loc, d2sym_qua= q, d2sym_sym= id, d2sym_itm= d2is
+} // end of [d2sym_make]
+
+(* ****** ****** *)
 //
-// HX: dynamic expressions
+// HX: dynamic patterns
 //
 (* ****** ****** *)
 
@@ -92,10 +99,6 @@ in
   ) // end of [list_fold_left]
 end // end of [p2atlst_dvs_union]
 
-(* ****** ****** *)
-//
-// HX: dynamic patterns
-//
 (* ****** ****** *)
 
 implement
@@ -251,6 +254,8 @@ d2exp_con (loc, d2c, sarg, npf, darg) =
 // end of [d2exp_con]
 
 implement
+d2exp_bool (loc, b) = d2exp_make (loc, D2Ebool (b))
+implement
 d2exp_int (loc, rep) = d2exp_make (loc, D2Eint (rep))
 implement
 d2exp_char (loc, c) = d2exp_make (loc, D2Echar (c))
@@ -372,9 +377,62 @@ d2exp_seq
 (* ****** ****** *)
 
 implement
-d2exp_ann_type (loc, d2e, ann) =
-  d2exp_make (loc, D2Eann_type (d2e, ann))
+d2exp_arrsub (
+  loc, d2s, arr, locind, ind
+) = d2exp_make (loc, D2Earrsub (d2s, arr, locind, ind))
+
+implement
+d2exp_arrinit (
+  loc, s2e_elt, asz, init
+) = d2exp_make (loc, D2Earrinit (s2e_elt, asz, init))
+
+implement
+d2exp_arrsize (
+  loc, s2eopt_elt, d2es_ini
+) = d2exp_make (loc, D2Earrsize (s2eopt_elt, d2es_ini))
+
+(* ****** ****** *)
+
+implement
+d2exp_raise (loc, d2e) = d2exp_make (loc, D2Eraise (d2e))
+implement
+d2exp_delay (loc, knd, d2e) = d2exp_make (loc, D2Edelay (knd, d2e))
+
+(* ****** ****** *)
+
+implement
+d2exp_ptrof (loc, d2e) = d2exp_make (loc, D2Eptrof (d2e))
+implement
+d2exp_viewat (loc, d2e) = d2exp_make (loc, D2Eviewat (d2e))
+
+(* ****** ****** *)
+
+implement
+d2exp_exist (loc, s2a, d2e) = d2exp_make (loc, D2Eexist (s2a, d2e))
+
+(* ****** ****** *)
+
+implement
+d2exp_lam_dyn (
+  loc, knd, npf, arg, body
+) = d2exp_make (loc, D2Elam_dyn (knd, npf, arg, body))
+
+implement
+d2exp_laminit_dyn (
+  loc, knd, npf, arg, body
+) = d2exp_make (loc, D2Elaminit_dyn (knd, npf, arg, body))
+
+(* ****** ****** *)
+
+implement
+d2exp_ann_type
+  (loc, d2e, ann) = d2exp_make (loc, D2Eann_type (d2e, ann))
 // end of [d2exp_ann_type]
+
+implement
+d2exp_ann_funclo
+  (loc, d2e, fc) = d2exp_make (loc, D2Eann_funclo (d2e, fc))
+// end of [d2exp_ann_funclo]
 
 (* ****** ****** *)
 

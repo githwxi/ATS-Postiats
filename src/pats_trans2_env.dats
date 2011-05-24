@@ -606,6 +606,39 @@ end // end of [s2var_tmplev_check]
 
 local
 
+val the_d2varlev = ref<int> (0)
+assume the_d2varlev_inc_v = unit_v
+
+in // in of [local]
+
+implement
+the_d2varlev_get () = !the_d2varlev
+
+implement
+the_d2varlev_inc () = let
+  prval pfinc = unit_v ()
+  val n = !the_d2varlev
+  val () = !the_d2varlev := n + 1
+in
+  (pfinc | ())
+end // end of [the_d2varlev_inc]
+
+implement
+the_d2varlev_dec
+  (pfinc | (*none*)) = let
+  prval unit_v () = pfinc
+  val n = !the_d2varlev
+  val () = !the_d2varlev := n - 1
+in
+  // nothing
+end // end of [the_d2varlev_dec]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
 viewtypedef d2expenv = symenv (d2itm)
 val [l0:addr] (pf | p0) = symenv_make_nil ()
 val (pf0 | ()) = vbox_make_view_ptr {d2expenv} (pf | p0)

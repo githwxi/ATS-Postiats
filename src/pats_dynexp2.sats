@@ -95,6 +95,14 @@ viewtypedef d2itmopt_vt = Option_vt (d2itm)
 
 (* ****** ****** *)
 
+typedef d2sym = '{
+  d2sym_loc= location
+, d2sym_qua= $SYN.d0ynq, d2sym_sym= symbol
+, d2sym_itm= d2itmlst
+} // end of [d2sym]
+
+(* ****** ****** *)
+
 fun d2var_make (loc: location, id: symbol): d2var
 
 fun d2var_get_sym (x: d2var): symbol
@@ -166,6 +174,14 @@ overload <= with lte_d2cst_d2cst
 
 fun compare_d2cst_d2cst (x1: d2cst, x2: d2cst):<> Sgn
 overload compare with compare_d2cst_d2cst
+
+(* ****** ****** *)
+
+fun d2sym_make (
+  loc: location, dq: $SYN.d0ynq, id: symbol, d2is: d2itmlst
+) : d2sym // end of [d2sym_make]
+
+fun fprint_d2sym : fprint_type (d2sym)
 
 (* ****** ****** *)
 
@@ -306,8 +322,6 @@ d2exp_node =
 //
   | D2Evar of d2var
 //
-  | D2Ebool of bool (* boolean values *)
-//
   | D2Ebool of bool
   | D2Eint of string(*rep*)
   | D2Echar of char
@@ -336,7 +350,28 @@ d2exp_node =
   | D2Etup of (int(*knd*), int(*npf*), d2explst)
   | D2Eseq of d2explst // sequence-expressions
 //
+  | D2Earrsub of (* array subscription *)
+      (d2sym, d2exp, location(*ind*), d2explstlst(*ind*))
+  | D2Earrinit of (* array initialization *)
+      (s2exp (*elt*), d2expopt (*asz*), d2explst (*ini*))
+  | D2Earrsize of (* $arrsz expression *)
+      (s2expopt (*element type*), d2explst (*elements*))
+//
+  | D2Eraise of d2exp // raised exception
+  | D2Edelay of (int(*knd*), d2exp(*body*)) // $delay and $ldelay
+//
+  | D2Eptrof of d2exp // taking the address of
+  | D2Eviewat of d2exp // taking view at a given address
+//
+  | D2Eexist of (s2exparg, d2exp) // witness-carrying expression
+//
+  | D2Elam_dyn of (* boxed dynamic abstraction *)
+      (int(*knd*), int(*npf*), p2atlst(*arg*), d2exp(*body*))
+  | D2Elaminit_dyn of (* flat dynamic abstraction *)
+      (int(*knd*), int(*npf*), p2atlst(*arg*), d2exp(*body*))
+//
   | D2Eann_type of (d2exp, s2exp) // ascribled expression
+  | D2Eann_funclo of (d2exp, funclo) (* ascribed with funtype *)
 //
   | D2Eerr of () // HX: placeholder for indicating an error
 // end of [d2exp_node]
@@ -358,6 +393,7 @@ d2exp = '{
 }
 and d2explst = List (d2exp)
 and d2expopt = Option (d2exp)
+and d2explstlst = List (d2explst)
 
 and d2exparglst = List (d2exparg)
 
@@ -398,6 +434,7 @@ fun d2exp_make
 
 fun d2exp_var (loc: location, d2v: d2var): d2exp
 
+fun d2exp_bool (loc: location, b: bool): d2exp
 fun d2exp_int (loc: location, rep: string): d2exp
 fun d2exp_char (loc: location, c: char): d2exp
 fun d2exp_string (loc: location, s: string): d2exp
@@ -450,9 +487,9 @@ fun d2exp_app_sta_dyn (
 
 (* ****** ****** *)
 
-fun d2exp_lst
-  (loc: location, lin: int, elt: s2expopt, d2es: d2explst): d2exp
-// end of [d2exp_lst]
+fun d2exp_lst (
+  loc: location, lin: int, elt: s2expopt, d2es: d2explst
+) : d2exp // end of [d2exp_lst]
 
 fun d2exp_tup (
   loc: location, knd: int, npf: int, d2es: d2explst
@@ -462,7 +499,45 @@ fun d2exp_seq (loc: location, d2es: d2explst): d2exp
 
 (* ****** ****** *)
 
+fun d2exp_arrsub (
+  loc: location
+, d2s: d2sym, arr: d2exp, ind: location, ind: d2explstlst
+) : d2exp // end of [d2exp_arrsub]
+
+fun d2exp_arrinit (
+  loc: location
+, elt: s2exp, asz: d2expopt, ini: d2explst
+) : d2exp // end of [d2exp_arrinit]
+
+fun d2exp_arrsize (
+  loc: location, elt: s2expopt, elts: d2explst
+) : d2exp // end of [d2exp_arrsize]
+
+(* ****** ****** *)
+
+fun d2exp_raise (loc: location, d2e: d2exp): d2exp
+fun d2exp_delay (loc: location, knd: int, d2e: d2exp): d2exp
+
+(* ****** ****** *)
+
+fun d2exp_ptrof (loc: location, d2e: d2exp): d2exp
+fun d2exp_viewat (loc: location, d2e: d2exp): d2exp
+
+(* ****** ****** *)
+
+fun d2exp_exist (loc: location, s2a: s2exparg, d2e: d2exp): d2exp
+
+(* ****** ****** *)
+
+fun d2exp_lam_dyn
+  (loc: location, lin: int, npf: int, arg: p2atlst, body: d2exp): d2exp
+fun d2exp_laminit_dyn
+  (loc: location, knd: int, npf: int, arg: p2atlst, body: d2exp): d2exp
+
+(* ****** ****** *)
+
 fun d2exp_ann_type (loc: location, d2e: d2exp, ann: s2exp): d2exp
+fun d2exp_ann_funclo (loc: location, d2e: d2exp, fc: funclo): d2exp
 
 (* ****** ****** *)
 

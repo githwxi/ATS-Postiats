@@ -89,6 +89,8 @@ fun s1marg_trdn (s1ma: s1marg, s2ts: s2rtlst): s2varlst
 
 fun s1exp_trup (s1e: s1exp): s2exp
 fun s1explst_trup (s1es: s1explst): s2explst
+fun s1expopt_trup (s1es: s1expopt): s2expopt
+
 
 fun s2exp_trdn (
   loc: location, s2e: s2exp, s2t: s2rt
@@ -120,6 +122,14 @@ fun s1exp_trdn_res_impredicative (s1e: s1exp, wths1es: wths1explst): s2exp
 fun witht1ype_tr (wty: witht1ype): s2expopt
 
 (* ****** ****** *)
+//
+// HX: arg/res type translation
+//
+fun s1exp_tr_arg_up (s1e: s1exp, w1ts: &wths1explst): s2exp
+fun s1exp_trdn_arg_impredicative (s1e: s1exp, w1ts: &wths1explst): s2exp
+fun s1exp_trdn_res_impredicative (s1e: s1exp, w1ts:  wths1explst): s2exp
+
+(* ****** ****** *)
 
 fun s1rtext_tr (s1te: s1rtext): s2rtext
 fun s1qualst_tr (s1qs: s1qualst): s2qualst
@@ -149,6 +159,9 @@ fun d1atcon_tr (
 
 fun p1at_tr (p1t: p1at): p2at
 fun p1atlst_tr (p1ts: p1atlst): p2atlst
+
+fun p1at_tr_arg (p1t: p1at, w1ts: &wths1explst): p2at
+fun p1atlst_tr_arg (p1ts: p1atlst, w1ts: &wths1explst): p2atlst
 
 (* ****** ****** *)
 
