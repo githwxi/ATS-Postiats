@@ -33,8 +33,9 @@
 // Start Time: March, 2011
 //
 (* ****** ****** *)
-
-fun llint_make_string (rep: string): llint
+//
+// HX: the [base] of the representation is contained
+fun llint_make_string (rep: string): llint // in the [rep]
 
 (* ****** ****** *)
 

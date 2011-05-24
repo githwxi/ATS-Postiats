@@ -287,7 +287,13 @@ d2ecl_node =
 //
   | D2Cdcstdec of (dcstkind, d2cstlst) // dyn. const. declarations
 //
-  | D2Cvaldecs of (valkind, v2aldeclst) // (nonrec) value declarations
+  | D2Cvaldecs of
+      (valkind, v2aldeclst) // (nonrec) value declarations
+    // end of [D2Cvaldecs]
+  | D2Cvaldecs_rec of
+      (valkind, v2aldeclst) // (reccursive) value declarations
+    // end of [D2Cvaldecs_rec]
+  | D2Cvardecs of (v2ardeclst) // variable declarations
 //
   | D2Cinclude of d2eclist (* file inclusion *)
   | D2Cstaload of (
@@ -319,11 +325,16 @@ d2exp_node =
       (d2con, s2exparglst, int (*pfarity*), d2explst)
   | D2Ecst of d2cst
 //
-  | D2Eapps of (d2exp, d2exparglst)
-//
-  | D2Etup of (int(*knd*), int(*npf*), d2explst)
   | D2Elet of (d2eclist, d2exp) // let-expression
   | D2Ewhere of (d2exp, d2eclist) // where-expression
+//
+  | D2Eapps of (d2exp, d2exparglst)
+  | D2Eassgn of (d2exp(*left*), d2exp(*right*))
+  | D2Ederef of (d2exp(*leftval*))
+//
+  | D2Elst of (int(*lin*), s2expopt, d2explst)
+  | D2Etup of (int(*knd*), int(*npf*), d2explst)
+  | D2Eseq of d2explst // sequence-expressions
 //
   | D2Eann_type of (d2exp, s2exp) // ascribled expression
 //
@@ -359,7 +370,21 @@ and v2aldec = '{
 , v2aldec_ann= s2expopt
 } // end of [v2aldec]
 
-and v2aldeclst = List v2aldec
+and v2aldeclst = List (v2aldec)
+
+(* ****** ****** *)
+
+and v2ardec = '{
+  v2ardec_loc= location
+, v2ardec_knd= int (* BANG: knd = 1 *)
+, v2ardec_dvar= d2var // dynamic address
+, v2ardec_svar= s2var // static address
+, v2ardec_typ= s2expopt
+, v2ardec_wth= d2varopt // proof of @-view
+, v2ardec_ini= d2expopt
+} // end of [v2ardec]
+
+and v2ardeclst = List (v2ardec)
 
 (* ****** ****** *)
 //
@@ -392,6 +417,18 @@ fun d2exp_con (
 
 fun d2exp_cst (loc: location, d2c: d2cst): d2exp
 
+fun d2exp_let
+  (loc: location, d2cs: d2eclist, body: d2exp): d2exp
+// end of [d2exp_let]
+fun d2exp_where
+  (loc: location, body: d2exp, d2cs: d2eclist): d2exp
+// end of [d2exp_where]
+
+fun d2exp_assgn
+  (loc: location, _left: d2exp, _right: d2exp): d2exp
+// end of [d2exp_assgn]
+fun d2exp_deref (loc: location, d2e_lval: d2exp): d2exp
+
 fun d2exp_apps (
   loc: location, d2e_fun: d2exp, d2as: d2exparglst
 ) : d2exp // end of [d2exp_apps]
@@ -411,19 +448,23 @@ fun d2exp_app_sta_dyn (
 , locarg: location, npf: int, darg: d2explst
 ) : d2exp // end of [d2exp_app_sta_dyn]
 
+(* ****** ****** *)
+
+fun d2exp_lst
+  (loc: location, lin: int, elt: s2expopt, d2es: d2explst): d2exp
+// end of [d2exp_lst]
+
 fun d2exp_tup (
   loc: location, knd: int, npf: int, d2es: d2explst
 ) : d2exp // end of [d2exp_tup]
 
-fun d2exp_let
-  (loc: location, d2cs: d2eclist, body: d2exp): d2exp
-// end of [d2exp_let]
+fun d2exp_seq (loc: location, d2es: d2explst): d2exp
 
-fun d2exp_where
-  (loc: location, body: d2exp, d2cs: d2eclist): d2exp
-// end of [d2exp_where]
+(* ****** ****** *)
 
 fun d2exp_ann_type (loc: location, d2e: d2exp, ann: s2exp): d2exp
+
+(* ****** ****** *)
 
 fun d2exp_err (loc: location): d2exp
 
@@ -432,6 +473,16 @@ fun d2exp_err (loc: location): d2exp
 fun v2aldec_make (
   loc: location, p2t: p2at, def: d2exp, ann: s2expopt
 ) : v2aldec // end of [v2aldec_make]
+
+fun v2ardec_make (
+  loc: location
+, knd: int
+, d2v: d2var
+, s2v: s2var
+, typ: s2expopt
+, wth: d2varopt
+, ini: d2expopt
+) : v2ardec // end of [v2ardec_make]
 
 (* ****** ****** *)
 //
@@ -465,9 +516,19 @@ fun d2ecl_dcstdec (
   loc: location, knd: dcstkind, d2cs: d2cstlst
 ) : d2ecl // end of [d2ecl_dcstdec]
 
+(* ****** ****** *)
+
 fun d2ecl_valdecs (
   loc: location, knd: valkind, d2cs: v2aldeclst
 ) : d2ecl // end of [d2ecl_valdecs]
+
+fun d2ecl_valdecs_rec (
+  loc: location, knd: valkind, d2cs: v2aldeclst
+) : d2ecl // end of [d2ecl_valdecs_rec]
+
+fun d2ecl_vardecs (loc: location, d2cs: v2ardeclst): d2ecl
+
+(* ****** ****** *)
 
 fun d2ecl_include (loc: location, d2cs: d2eclist): d2ecl
 

@@ -154,6 +154,7 @@ fun p1atlst_tr (p1ts: p1atlst): p2atlst
 
 fun d1exp_tr (d1e: d1exp): d2exp
 fun d1explst_tr (d1es: d1explst): d2explst
+fun d1expopt_tr (d1es: d1expopt): d2expopt
 
 (* ****** ****** *)
 

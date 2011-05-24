@@ -274,6 +274,28 @@ d2exp_empty (loc) = d2exp_make (loc, D2Eempty ())
 (* ****** ****** *)
 
 implement
+d2exp_let (loc, d2cs, body) =
+  d2exp_make (loc, D2Elet (d2cs, body))
+implement
+d2exp_where (loc, body, d2cs) =
+  d2exp_make (loc, D2Ewhere (body, d2cs))
+
+(* ****** ****** *)
+
+implement
+d2exp_assgn (
+  loc, _left, _right
+) = d2exp_make (loc, D2Eassgn (_left, _right))
+// end of [d2exp_assgn]  
+
+implement
+d2exp_deref
+  (loc, d2e_lval) = d2exp_make (loc, D2Ederef (d2e_lval))
+// end of [d2exp_assgn]  
+
+(* ****** ****** *)
+
+implement
 d2exp_apps (
   loc, d2e_fun, d2as_arg
 ) = d2exp_make (loc, D2Eapps (d2e_fun, d2as_arg))
@@ -333,16 +355,19 @@ end // end of [d2exp_app_sta_dyn]
 (* ****** ****** *)
 
 implement
+d2exp_lst (loc, lin, elt, d2es) =
+  d2exp_make (loc, D2Elst (lin, elt, d2es))
+// end of [d2exp_lst]
+
+implement
 d2exp_tup (loc, knd, npf, d2es) =
   d2exp_make (loc, D2Etup (knd, npf, d2es))
 // end of [d2exp_tup]
 
 implement
-d2exp_let (loc, d2cs, body) =
-  d2exp_make (loc, D2Elet (d2cs, body))
-implement
-d2exp_where (loc, body, d2cs) =
-  d2exp_make (loc, D2Ewhere (body, d2cs))
+d2exp_seq
+  (loc, d2es) = d2exp_make (loc, D2Eseq (d2es))
+// end of [d2exp_seq]
 
 (* ****** ****** *)
 
@@ -371,6 +396,21 @@ v2aldec_make (
 , v2aldec_def= def
 , v2aldec_ann= ann
 } // end of [v2aldec_make]
+
+(* ****** ****** *)
+
+implement
+v2ardec_make (
+  loc, knd, d2v, s2v, typ, wth, ini
+) = '{
+  v2ardec_loc= loc
+, v2ardec_knd= knd
+, v2ardec_dvar= d2v
+, v2ardec_svar= s2v
+, v2ardec_typ= typ
+, v2ardec_wth= wth
+, v2ardec_ini= ini
+} // end of [v2ardec_make]
 
 (* ****** ****** *)
 
@@ -431,6 +471,16 @@ d2ecl_dcstdec (loc, knd, d2cs) = '{
 implement
 d2ecl_valdecs (loc, knd, d2cs) = '{
   d2ecl_loc= loc, d2ecl_node= D2Cvaldecs (knd, d2cs)
+}
+
+implement
+d2ecl_valdecs_rec (loc, knd, d2cs) = '{
+  d2ecl_loc= loc, d2ecl_node= D2Cvaldecs_rec (knd, d2cs)
+}
+
+implement
+d2ecl_vardecs (loc, d2cs) = '{
+  d2ecl_loc= loc, d2ecl_node= D2Cvardecs (d2cs)
 }
 
 implement

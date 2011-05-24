@@ -1078,6 +1078,68 @@ end (* end of [v1aldeclst_tr] *)
 
 (* ****** ****** *)
 
+fn v1ardec_tr (
+  d1c: v1ardec
+) : v2ardec = let
+  val knd = d1c.v1ardec_knd
+(*
+//
+// top-level stack allocation is now supported!!!
+//
+  val () = if knd > 0 then (*BANG*)
+    if d2var_current_level_get () = 0 then begin
+      prerr_loc_error2 (d1c.v1ardec_loc);
+      prerr ": stack allocation is not supported at the top level.";
+      prerr_newline ();
+      $Err.abort {void} ()
+    end // end of [if]
+  // end of [val]
+*)
+  val sym = d1c.v1ardec_sym
+  val loc_sym = d1c.v1ardec_sym_loc
+  val d2v_ptr = d2var_make (loc_sym, sym)
+  // [s2v_ptr] is introduced as a static variable of the
+  val s2v_ptr = s2var_make_id_srt (sym, s2rt_addr) // same name
+  val os2e_ptr = Some (s2exp_var s2v_ptr)
+  val () = d2var_set_addr (d2v_ptr, os2e_ptr)
+  val typ = (case+ d1c.v1ardec_typ of
+    | Some s1e => Some (s1exp_trdn_impredicative s1e)
+    | None () => None ()
+  ) : s2expopt
+  val wth = (
+    case+ d1c.v1ardec_wth of
+    | Some (i0de) => let
+        val d2v = d2var_make (i0de.i0de_loc, i0de.i0de_sym)
+      in
+        Some (d2v)
+      end // end of [Some]
+    | None () => None ()
+  ) : d2varopt // end of [val]
+  val ini = d1expopt_tr (d1c.v1ardec_ini)
+in
+  v2ardec_make (d1c.v1ardec_loc, knd, d2v_ptr, s2v_ptr, typ, wth, ini)
+end // end of [v1ardec_tr]
+
+fn v1ardeclst_tr (
+  d1cs: v1ardeclst
+) : v2ardeclst = d2cs where {
+  val d2cs =
+    l2l (list_map_fun (d1cs, v1ardec_tr))
+  // end of [val]
+  val () = list_app_fun (d2cs, f) where {
+    fn f (d2c: v2ardec): void = let
+      val () = the_s2expenv_add_svar (d2c.v2ardec_svar)
+      val () = the_d2expenv_add_dvar (d2c.v2ardec_dvar)
+    in
+      case+ d2c.v2ardec_wth of
+        Some (d2v) => the_d2expenv_add_dvar (d2v) | None () => ()
+      // end of [case]
+    end // end of [f]
+  } (* end of [f] *)
+} // end of [v2ardeclst_tr]
+
+(* ****** ****** *)
+
 fn s1taload_tr (
   loc0: location
 , idopt: symbolopt
@@ -1225,8 +1287,15 @@ case+ d1c0.d1ecl_node of
   ) => let
     val d2cs = v1aldeclst_tr (isrec, d1cs)
   in
-    d2ecl_valdecs (loc0, knd, d2cs)
+    if not(isrec) then
+      d2ecl_valdecs (loc0, knd, d2cs)
+    else
+      d2ecl_valdecs_rec (loc0, knd, d2cs)
+    // end of [if]
   end // end of [D1Cvaldecs]
+| D1Cvardecs (d1cs) => let
+    val d2cs = v1ardeclst_tr d1cs in d2ecl_vardecs (loc0, d2cs)
+  end // end of [D1Cvardecs]
 //
 | D1Cinclude (d1cs) => let
     val d2cs = d1eclist_tr (d1cs) in d2ecl_include (loc0, d2cs)

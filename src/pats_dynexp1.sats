@@ -334,8 +334,7 @@ and d1exp_node =
       (int (*tupknd*), int (*pfarity*), d1explst)
   | D1Erec of (* dynamic record-expression *)
       (int (*recknd*), int (*pfarity*), labd1explst)
-  | D1Eseq of (* dynamic sequence-expression *)
-      d1explst
+  | D1Eseq of d1explst // dynamic sequence-expression
 //
   | D1Earrsub of (* array subscription *)
       (d1exp, location(*ind*), d1explstlst(*ind*))

@@ -134,6 +134,48 @@ end // end of [d1exp_tr_dqid]
 
 (* ****** ****** *)
 
+fn d1exp_tr_assgn (
+  d1e0: d1exp, d1es: d1explst
+) : d2exp = let
+  val loc0 = d1e0.d1exp_loc
+in
+  case+ d1es of
+  | list_cons (
+      d1e1, list_cons (d1e2, list_nil ())
+    ) =>
+      d2exp_assgn (loc0, d1exp_tr d1e1, d1exp_tr d1e2)
+    // end of [...]
+  | _ => let
+      val () = prerr_interror_loc (loc0)
+      val () = prerr ": d1exp_tr_assgn: d1e0 = "
+      val () = prerr_d1exp (d1e0)
+      val () = prerr_newline ()
+    in
+      $ERR.abort {d2exp} ()
+    end // end of [_]
+end // end of [d1exp_tr_assgn]
+
+fn d1exp_tr_deref (
+  d1e0: d1exp, d1es: d1explst
+) : d2exp = let
+  val loc0 = d1e0.d1exp_loc
+in
+  case+ d1es of
+  | list_cons (
+      d1e, list_nil ()
+    ) => d2exp_deref (loc0, d1exp_tr d1e)
+  | _ => let
+      val () = prerr_interror_loc (loc0)
+      val () = prerr ": d1exp_tr_deref: d1e0 = "
+      val () = prerr_d1exp (d1e0)
+      val () = prerr_newline ()
+    in
+      $ERR.abort {d2exp} ()
+    end // end of [_]
+end // end of [d1exp_tr_deref]
+
+(* ****** ****** *)
+
 extern
 fun d1exp_tr_app_dyn (
   d1e0: d1exp
@@ -163,10 +205,8 @@ val spdid = dynspecid_of_dqid (dq, id)
 in
 //
 case+ spdid of
-(*
-| SPDIDassgn
-| SPDIDderef
-*)
+| SPDIDassgn () => d1exp_tr_assgn (d1e0, darg)
+| SPDIDderef () => d1exp_tr_deref (d1e0, darg)
 | _ (*SPDIDnone*) => let
     val ans = the_d2expenv_find_qua (dq, id)
   in
@@ -404,6 +444,21 @@ case+ d1e0.d1exp_node of
 | D1Ef0loat (x) => d2exp_f0loat (loc0, x)
 | D1Es0tring (x) => d2exp_s0tring (loc0, x)
 //
+| D1Elet (d1cs, d1e) => let
+    val (pfenv | ()) = the_trans2_env_push ()
+    val d2cs = d1eclist_tr (d1cs); val d2e = d1exp_tr (d1e)
+    val () = the_trans2_env_pop (pfenv | (*none*))
+  in
+    d2exp_let (loc0, d2cs, d2e)
+  end // end of [D1Elet]
+| D1Ewhere (d1e, d1cs) => let
+    val (pfenv | ()) = the_trans2_env_push ()
+    val d2cs = d1eclist_tr (d1cs); val d2e = d1exp_tr (d1e)
+    val () = the_trans2_env_pop (pfenv | (*none*))
+  in
+    d2exp_where (loc0, d2e, d2cs)
+  end // end of [D1Ewhere]
+//
 | D1Eapp_dyn (
     d1e1, locarg, npf, darg
   ) => (
@@ -424,20 +479,24 @@ case+ d1e0.d1exp_node of
     end // end of [list_cons]
   | list_nil () => d2exp_empty (loc0)
   ) // end of [D1Elist]
-| D1Elet (d1cs, d1e) => let
-    val (pfenv | ()) = the_trans2_env_push ()
-    val d2cs = d1eclist_tr (d1cs); val d2e = d1exp_tr (d1e)
-    val () = the_trans2_env_pop (pfenv | (*none*))
+//
+| D1Elst (lin, s1eopt, d1es) => let
+    val s2eopt = (
+      case+ s1eopt of
+      | Some s1e => Some (s1exp_trdn_impredicative (s1e))
+      | None () => None ()
+    ) : s2expopt // end of [val]
+    val d2es = d1explst_tr (d1es)
   in
-    d2exp_let (loc0, d2cs, d2e)
-  end // end of [D1Elet]
-| D1Ewhere (d1e, d1cs) => let
-    val (pfenv | ()) = the_trans2_env_push ()
-    val d2cs = d1eclist_tr (d1cs); val d2e = d1exp_tr (d1e)
-    val () = the_trans2_env_pop (pfenv | (*none*))
-  in
-    d2exp_where (loc0, d2e, d2cs)
-  end // end of [D1Ewhere]
+    d2exp_lst (loc0, lin, s2eopt, d2es)
+  end // end of [D1Elst]
+| D1Etup (tupknd, npf, d1es) =>
+    d2exp_tup (loc0, tupknd, npf, d1explst_tr d1es)
+  // end of [D1Etup]
+| D1Eseq d1es => let
+    val d2es = d1explst_tr (d1es) in d2exp_seq (loc0, d2es)
+  end // end of [D1Eseq]
+//
 | D1Eann_type (d1e, s1e) => let
     val d2e = d1exp_tr d1e
     val s2e = s1exp_trdn_impredicative (s1e)
@@ -458,7 +517,13 @@ end // end of [d1exp_tr]
 
 (* ****** ****** *)
 
-implement d1explst_tr (d1es) = l2l (list_map_fun (d1es, d1exp_tr))
+implement
+d1explst_tr (d1es) = l2l (list_map_fun (d1es, d1exp_tr))
+
+implement
+d1expopt_tr (d1eopt) =
+  case+ d1eopt of Some (d1e) => Some (d1exp_tr d1e) | None () => None ()
+// end of [d1expopt_tr]
 
 (* ****** ****** *)
 
