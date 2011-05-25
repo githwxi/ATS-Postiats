@@ -142,6 +142,10 @@ implement
 d2var_get_level (d2v) = let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_level
 end // end of [d2var_get_level]
+implement
+d2var_set_level (d2v, lev) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_level := lev
+end // end of [d2var_set_level]
 
 implement
 d2var_get_linval (d2v) = let

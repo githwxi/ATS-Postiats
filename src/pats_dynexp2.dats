@@ -34,6 +34,12 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) =
+  "prelude/DATS/reference.dats"
+// end of [staload]
+
+(* ****** ****** *)
+
 staload UT = "pats_utils.sats"
 
 (* ****** ****** *)
@@ -273,8 +279,31 @@ d2exp_f0loat (loc, x) = d2exp_make (loc, D2Ef0loat (x))
 implement
 d2exp_s0tring (loc, x) = d2exp_make (loc, D2Es0tring (x))
 
+(* ****** ****** *)
+
+implement
+d2exp_cstsp
+  (loc, cst) = d2exp_make (loc, D2Ecstsp (cst))
+// end of [d2exp_cstsp]
+
 implement
 d2exp_empty (loc) = d2exp_make (loc, D2Eempty ())
+
+(* ****** ****** *)
+
+implement
+d2exp_loopexn (loc, knd) = d2exp_make (loc, D2Eloopexn knd)
+
+(* ****** ****** *)
+
+implement
+d2exp_foldat
+  (loc, s2as, d2e) = d2exp_make (loc, D2Efoldat (s2as, d2e))
+// end of [d2exp_foldat]
+implement
+d2exp_freeat
+  (loc, s2as, d2e) = d2exp_make (loc, D2Efreeat (s2as, d2e))
+// end of [d2exp_freeat]
 
 (* ****** ****** *)
 
@@ -402,8 +431,24 @@ d2exp_delay (loc, knd, d2e) = d2exp_make (loc, D2Edelay (knd, d2e))
 
 implement
 d2exp_ptrof (loc, d2e) = d2exp_make (loc, D2Eptrof (d2e))
+
 implement
 d2exp_viewat (loc, d2e) = d2exp_make (loc, D2Eviewat (d2e))
+
+(* ****** ****** *)
+
+implement
+d2exp_sel_dot
+  (loc, d2e, d2ls) = d2exp_make (loc, D2Esel (d2e, d2ls))
+// end of [d2exp_sel_dot]
+
+implement
+d2exp_sel_ptr
+  (loc, d2e, d2l) = let
+  val d2e_deref = d2exp_deref (d2e.d2exp_loc, d2e)
+in
+  d2exp_make (loc, D2Esel (d2e_deref, list_sing (d2l)))
+end // end of [d2exp_sel_ptr]
 
 (* ****** ****** *)
 
@@ -422,12 +467,33 @@ d2exp_laminit_dyn (
   loc, knd, npf, arg, body
 ) = d2exp_make (loc, D2Elaminit_dyn (knd, npf, arg, body))
 
+implement
+d2exp_lam_met
+  (loc, r, met, body) = d2exp_make (loc, D2Elam_met (r, met, body))
+// end of [d2exp_lam_met]
+
+implement
+d2exp_lam_met_new
+  (loc, met, body) = let
+  val r = ref<d2varlst> (list_nil) in d2exp_lam_met (loc, r, met, body)
+end // end of [d2exp_lam_met_new]
+
+implement
+d2exp_fix (
+  loc, knd, d2v_fun, d2e_body
+) = d2exp_make (loc, D2Efix (knd, d2v_fun, d2e_body))
+
 (* ****** ****** *)
 
 implement
 d2exp_ann_type
   (loc, d2e, ann) = d2exp_make (loc, D2Eann_type (d2e, ann))
 // end of [d2exp_ann_type]
+
+implement
+d2exp_ann_seff
+  (loc, d2e, s2fe) = d2exp_make (loc, D2Eann_seff (d2e, s2fe))
+// end of [d2exp_ann_seff]
 
 implement
 d2exp_ann_funclo
@@ -438,6 +504,17 @@ d2exp_ann_funclo
 
 implement
 d2exp_err (loc) = d2exp_make (loc, D2Eerr ())
+
+(* ****** ****** *)
+
+implement
+d2lab_lab (loc, lab) = '{
+  d2lab_loc= loc, d2lab_node= D2LABlab (lab)
+}
+implement
+d2lab_ind (loc, ind) = '{
+  d2lab_loc= loc, d2lab_node= D2LABind (ind)
+}
 
 (* ****** ****** *)
 //
@@ -469,6 +546,18 @@ v2ardec_make (
 , v2ardec_wth= wth
 , v2ardec_ini= ini
 } // end of [v2ardec_make]
+
+(* ****** ****** *)
+
+implement
+f2undec_make (
+  loc, d2v, def, ann
+) = '{
+  f2undec_loc= loc
+, f2undec_var= d2v
+, f2undec_def= def
+, f2undec_ann= ann
+} // end of [f2undec_make]
 
 (* ****** ****** *)
 
@@ -539,6 +628,11 @@ d2ecl_valdecs_rec (loc, knd, d2cs) = '{
 implement
 d2ecl_vardecs (loc, d2cs) = '{
   d2ecl_loc= loc, d2ecl_node= D2Cvardecs (d2cs)
+}
+
+implement
+d2ecl_fundecs (loc, knd, decarg, d2cs) = '{
+  d2ecl_loc= loc, d2ecl_node= D2Cfundecs (knd, decarg, d2cs)
 }
 
 implement

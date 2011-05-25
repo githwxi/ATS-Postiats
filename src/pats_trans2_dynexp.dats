@@ -471,14 +471,12 @@ case+ d1e0.d1exp_node of
   in
     d2exp_ann_type (loc0, d2e, s2e)
   end // end of [D1Eann_type]
-(*
 | D1Eann_effc (d1e, efc) => let
-    val d2e = d1exp_wths1explst_tr (d1e, w1ts)
+    val d2e = d1exp_tr_wths1explst (d1e, w1ts)
     val s2fe = effcst_tr (efc)
   in
     d2exp_ann_seff (loc0, d2e, s2fe)
   end // end of [D1Eann_effc]
-*)
 | D1Eann_funclo (d1e, fc) => let
     val d2e = d1exp_tr_wths1explst (d1e, w1ts)
   in
@@ -557,6 +555,19 @@ case+ d1e0.d1exp_node of
 | D1Ec0har (x) => d2exp_c0har (loc0, x)
 | D1Ef0loat (x) => d2exp_f0loat (loc0, x)
 | D1Es0tring (x) => d2exp_s0tring (loc0, x)
+//
+| D1Ecstsp cst => d2exp_cstsp (loc0, cst)
+//
+| D1Eloopexn (knd) => d2exp_loopexn (loc0, knd)
+//
+| D1Efoldat (s1as, d1e) => let
+    val s2as = s1exparglst_tr (s1as) in
+    d2exp_foldat (loc0, s2as, d1exp_tr (d1e))
+  end // end of [D1Efoldat]
+| D1Efreeat (s1as, d1e) => let
+    val s2as = s1exparglst_tr (s1as) in
+    d2exp_freeat (loc0, s2as, d1exp_tr (d1e))
+  end // end of [D1Efreeat]
 //
 | D1Elet (d1cs, d1e) => let
     val (pfenv | ()) = the_trans2_env_push ()
@@ -641,6 +652,19 @@ case+ d1e0.d1exp_node of
 //
 | D1Eptrof (d1e) => d2exp_ptrof (loc0, d1exp_tr d1e)
 | D1Eviewat (d1e) => d2exp_viewat (loc0, d1exp_tr d1e)
+| D1Esel (knd, d1e, d1l) => let
+    val d2e = d1exp_tr d1e; val d2l = d1lab_tr d1l
+  in
+    if knd = 0 then ( // [.]
+      case+ d2e.d2exp_node of
+      | D2Esel (d2e_root, d2ls) =>
+          d2exp_sel_dot (loc0, d2e_root, l2l (list_extend (d2ls, d2l)))
+        // end of [D2Esel]
+      | _ => d2exp_sel_dot (loc0, d2e, list_sing (d2l))
+    ) else
+      d2exp_sel_ptr (loc0, d2e, d2l) // [->]
+    // end of [if]
+  end (* end of [D1Esel] *)
 //
 | D1Eexist (s1a, d1e) => let
     val s2a = s1exparg_tr (s1a); val d2e = d1exp_tr (d1e)
@@ -658,6 +682,23 @@ case+ d1e0.d1exp_node of
   in
     d2exp_laminit_dyn (loc0, lin, npf, p2ts_arg, d2e_body)
   end // end of [D1Elam_dyn]
+| D1Elam_met (locarg, met, body) => let
+    val met = s1explst_trup (met); val body = d1exp_tr (body)
+  in
+    d2exp_lam_met_new (loc0, met, body)
+  end (* end of [D1Elam_met] *)
+| D1Efix (knd, id, d1e_body) => let
+    val d2v =
+      d2var_make (id.i0de_loc, id.i0de_sym)
+    // end of [val]
+    val () = d2var_set_isfix (d2v, true)
+    val (pfenv | ()) = the_d2expenv_push_nil ()
+    val () = the_d2expenv_add_dvar (d2v)
+    val d2e_body = d1exp_tr (d1e_body)
+    val () = the_d2expenv_pop_free (pfenv | (*none*))
+  in
+    d2exp_fix (loc0, knd, d2v, d2e_body)
+  end // end of [D1Efix]
 //
 | D1Eann_type (d1e, s1e) => let
     val d2e = d1exp_tr d1e
@@ -665,9 +706,33 @@ case+ d1e0.d1exp_node of
   in
     d2exp_ann_type (loc0, d2e, s2e)
   end // end of [D1Eann_type]
+| D1Eann_effc (d1e, efc) => let
+    val d2e = d1exp_tr (d1e); val s2fe = effcst_tr (efc)
+  in
+    d2exp_ann_seff (loc0, d2e, s2fe)
+  end // end of [D1Eann_effc]
 | D1Eann_funclo (d1e, fc) => let
-    val d2e = d1exp_tr d1e in d2exp_ann_funclo (loc0, d2e, fc)
+    val d2e = d1exp_tr (d1e) in d2exp_ann_funclo (loc0, d2e, fc)
   end // end of [D1Eann_funclo]
+//
+| D1Eidextapp
+    (id, ns, d1es) => let
+    val () = prerr_error2_loc (loc0)
+    val () = prerr ": the external id ["
+    val () = $SYM.prerr_symbol (id)
+    val () = prerr "] cannot be handled."
+    val () = prerr_newline ()
+  in
+    d2exp_err (loc0)
+  end // end of [_]
+//
+| D1Esexparg _ => let
+    val () = prerr_error2_loc (loc0)
+    val () = prerr ": this form of expression is only allowd to occur as an argument."
+    val () = prerr_newline ()
+  in
+    d2exp_err (loc0)
+  end // end of [D1Esexparg]
 //
 | _ => let
     val () = prerr_interror_loc (loc0)
@@ -687,9 +752,24 @@ implement
 d1explst_tr (d1es) = l2l (list_map_fun (d1es, d1exp_tr))
 
 implement
-d1expopt_tr (d1eopt) =
-  case+ d1eopt of Some (d1e) => Some (d1exp_tr d1e) | None () => None ()
-// end of [d1expopt_tr]
+d1expopt_tr
+  (d1eopt) = (
+  case+ d1eopt of
+  | Some (d1e) => Some (d1exp_tr d1e) | None () => None ()
+) // end of [d1expopt_tr]
+
+(* ****** ****** *)
+
+implement
+d1lab_tr (d1l) = let
+  val loc0 = d1l.d1lab_loc
+in
+  case+ d1l.d1lab_node of
+  | D1LABlab lab => d2lab_lab (loc0, lab)
+  | D1LABind ind =>
+      d2lab_ind (loc0, l2l (list_map_fun (ind, d1explst_tr)))
+    // end of [D1LABind]
+end // end of [d1lab_tr]
 
 (* ****** ****** *)
 

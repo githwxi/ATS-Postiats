@@ -1876,7 +1876,7 @@ d0exp_sel_lab (sel, lab) = let
   val loc = sel.s0elop_loc + lab.l0ab_loc
 in '{
   d0exp_loc= loc, d0exp_node= D0Esel_lab (sel.s0elop_knd, lab.l0ab_lab)
-} end
+} end // end of [d0exp_sel_lab]
 
 implement
 d0exp_sel_ind (sel, ind) = let

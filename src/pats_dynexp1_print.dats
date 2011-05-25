@@ -369,11 +369,37 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
+| D1Eptrof (d1e) => {
+    val () = prstr "D1Eptrof("
+    val () = fprint_d1exp (out, d1e)
+    val () = prstr ")"
+  }
+| D1Eviewat (d1e) => {
+    val () = prstr "D1Eviewat("
+    val () = fprint_d1exp (out, d1e)
+    val () = prstr ")"
+  }
+| D1Esel (knd, d1e, d1l) => {
+    val () = prstr "D1Esel("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_d1exp (out, d1e)
+    val () = prstr "; "
+    val () = fprint_d1lab (out, d1l)
+    val () = prstr ")"
+  }
+//
 | D1Eexist (s1a, d1e) => {
     val () = prstr "D1Eexist("
     val () = fprint_s1exparg (out, s1a)
     val () = prstr "; "
     val () = fprint_d1exp (out, d1e)
+    val () = prstr ")"
+  }
+//
+| D1Elam_dyn _ => {
+    val () = prstr "D1Elam_dyn("
+    val () = prstr "..."
     val () = prstr ")"
   }
 //
@@ -389,6 +415,20 @@ case+ d1e0.d1exp_node of
     val () = prstr " : "
     val () = fprint_s1exp (out, s1e)
     val () = prstr ")"
+  }
+| D1Eann_effc _ => {
+    val () = prstr "D1Eann_effc("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| D1Eann_funclo _ => {
+    val () = prstr "D1Eann_funclo("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+//
+| D1Eerr () => {
+    val () = prstr "D1Eerr()"
   }
 //
 | _ => prstr "D1E...(...)"
@@ -409,6 +449,28 @@ implement
 fprint_d1expopt
   (out, opt) = $UT.fprintopt (out, opt, fprint_d1exp)
 // end of [fprint_d1expopt]
+
+(* ****** ****** *)
+
+implement
+fprint_d1lab
+  (out, d1l) = let
+  macdef prstr (str) = fprint_string (out, ,(str))
+in
+//
+case+ d1l.d1lab_node of
+| D1LABlab (lab) => {
+    val () = prstr "D1LABlab("
+    val () = $LAB.fprint_label (out, lab)
+    val () = prstr ")"
+  } // end of [D1LABlab]
+| D1LABind (ind) => {
+    val () = prstr "D1LABind("
+    val () = $UT.fprintlst (out, ind, "; ", fprint_d1explst)
+    val () = prstr ")"
+  } // end of [D1LABind]
+//
+end // end of [fprint_d1lab]
 
 (* ****** ****** *)
 

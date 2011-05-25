@@ -602,6 +602,21 @@ in
   | _ => () // not a template variable
 end // end of [s2var_tmplev_check]
 
+implement
+s2qualstlst_set_tmplev
+  (s2qss, tmplev) = () where {
+  fun aux (
+    pf: !unit_v | s2qs: s2qualst
+  ) :<cloptr1> void = let
+    fn f (pf: !unit_v | s2v: s2var):<cloptr1> void = s2var_set_tmplev (s2v, tmplev)
+  in
+    list_app_cloptr {unit_v} (pf | s2qs.0, f)
+  end // end of [aux]
+  prval pfu = unit_v ()
+  val () = list_app_cloptr {unit_v} (pfu | s2qss, aux)
+  prval unit_v () = pfu
+} // end of [s2qualstlst_set_tmplev]
+
 (* ****** ****** *)
 
 local

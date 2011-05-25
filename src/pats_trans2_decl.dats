@@ -1140,6 +1140,78 @@ fn v1ardeclst_tr (
 
 (* ****** ****** *)
 
+fn f1undec_tr (
+  level: int
+, decarg: s2qualstlst
+, d2v: d2var
+, d1c: f1undec
+) : f2undec = let
+  val () = d2var_set_level (d2v, level)
+  val () = d2var_set_decarg (d2v, decarg)
+  val def = d1exp_tr (d1c.f1undec_def)
+(*
+  val () = begin
+    print "f1undec_tr: d2v = "; print d2v; print_newline ()
+    print "f1undec_tr: def = "; print def; print_newline ()
+  end // end of [val]
+*)
+  val ann = witht1ype_tr (d1c.f1undec_ann)
+in
+  f2undec_make (d1c.f1undec_loc, d2v, def, ann)
+end // end of [f1undec_tr]
+
+fn f1undeclst_tr {n:nat} (
+  knd: funkind
+, level: int
+, decarg: s2qualstlst
+, d1cs: list (f1undec, n)
+) : f2undeclst = let
+  val isprf = funkind_is_proof (knd)
+  val isrec = funkind_is_recursive (knd)
+  val d2vs = let
+    fun aux1 {n:nat} (
+      isprf: bool, d1cs: list (f1undec, n)
+    ) : list (d2var, n) = 
+      case+ d1cs of
+      | list_cons (d1c, d1cs) => let
+          val d2v = d2var_make (d1c.f1undec_sym_loc, d1c.f1undec_sym)
+          val () = d2var_set_isfix (d2v, true)
+          val () = d2var_set_isprf (d2v, isprf)
+        in
+          list_cons (d2v, aux1 (isprf, d1cs))
+        end
+      | list_nil () => list_nil ()
+    // end of [aux1]
+  in
+    aux1 (isprf, d1cs)
+  end // end of [where]
+  val () = if isrec then the_d2expenv_add_dvarlst (d2vs) else ()
+  val d2cs = let
+    fun aux2 {n:nat} (
+    level: int
+  , decarg: s2qualstlst
+  , d2vs: list (d2var, n)
+  , d1cs: list (f1undec, n)
+  ) : list (f2undec, n) =
+    case+ d2vs of
+    | list_cons (d2v, d2vs) => let
+        val+ list_cons (d1c, d1cs) = d1cs
+        val d2c = f1undec_tr (level, decarg, d2v, d1c)
+        val d2cs = aux2 (level, decarg, d2vs, d1cs)
+      in
+        list_cons (d2c, d2cs)
+      end
+    | list_nil () => list_nil ()
+  in
+    aux2 (level, decarg, d2vs, d1cs)
+  end // end of [val]
+  val () = if isrec then () else the_d2expenv_add_dvarlst (d2vs)
+in
+  d2cs
+end // end of [f1undeclst_tr]
+
+(* ****** ****** *)
+
 fn s1taload_tr (
   loc0: location
 , idopt: symbolopt
@@ -1296,6 +1368,24 @@ case+ d1c0.d1ecl_node of
 | D1Cvardecs (d1cs) => let
     val d2cs = v1ardeclst_tr d1cs in d2ecl_vardecs (loc0, d2cs)
   end // end of [D1Cvardecs]
+| D1Cfundecs (funknd, decarg, d1cs) => let
+    val (pfenv | ()) = the_s2expenv_push_nil ()
+    val () = (case+ decarg of
+      | list_cons _ => the_tmplev_inc () | list_nil _ => ()
+    ) // end of [val]
+    val s2qss = l2l (list_map_fun (decarg, q1marg_tr))
+    val () = s2qualstlst_set_tmplev (s2qss, the_tmplev_get ())
+    val d2cs = let
+      val level = the_d2varlev_get () in
+      f1undeclst_tr (funknd, level, s2qss, d1cs)
+    end // end of [val]
+    val () = the_s2expenv_pop_free (pfenv | (*none*))
+    val () = (case+ decarg of
+      | list_cons _ => the_tmplev_dec () | list_nil _ => ()
+    ) // end of [val]
+  in
+    d2ecl_fundecs (loc0, funknd, s2qss, d2cs)
+  end // end of [D1Cfundecs]
 //
 | D1Cinclude (d1cs) => let
     val d2cs = d1eclist_tr (d1cs) in d2ecl_include (loc0, d2cs)

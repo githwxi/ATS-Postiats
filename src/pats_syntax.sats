@@ -1090,7 +1090,8 @@ fun f0arg_met_nil (tok: token): f0arg
 (* ****** ****** *)
 
 typedef s0elop = '{
-  s0elop_loc= location, s0elop_knd= int
+  s0elop_loc= location
+, s0elop_knd= int // 0/1 : (.)/(->)
 } // end of [s0elop]
 
 fun s0elop_make_dot (tok: token): s0elop

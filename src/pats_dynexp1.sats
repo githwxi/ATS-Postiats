@@ -291,7 +291,7 @@ and d1exp_node =
   | D1Ecstsp of cstsp // special constants
 //
   | D1Eempty (* empty expression *)
-  | D1Etop of () // uninitialized expression
+  | D1Etop of () // uninitialized expression of some size
 //
   | D1Eextval of
       (s1exp (*type*), string (*code*)) // external value
@@ -418,6 +418,7 @@ and labd1explst = List (labd1exp)
 and d1lab = '{
   d1lab_loc= location, d1lab_node= d1lab_node
 }
+and d1lablst = List (d1lab)
 
 (* ****** ****** *)
 
@@ -755,6 +756,8 @@ fun e1xp_make_d1exp (loc: location, d1e: d1exp): e1xp
 
 fun d1lab_lab (loc: location, lab: label): d1lab
 fun d1lab_ind (loc: location, ind: d1explstlst): d1lab
+
+fun fprint_d1lab : fprint_type (d1lab)
 
 (* ****** ****** *)
 

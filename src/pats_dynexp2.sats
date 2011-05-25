@@ -46,6 +46,11 @@ staload "pats_basics.sats"
 staload LOC = "pats_location.sats"
 typedef location = $LOC.location
 
+(* ****** ****** *)
+
+staload LAB = "pats_label.sats"
+typedef label = $LAB.label
+
 staload FIL = "pats_filename.sats"
 typedef filename = $FIL.filename
 
@@ -310,6 +315,7 @@ d2ecl_node =
       (valkind, v2aldeclst) // (reccursive) value declarations
     // end of [D2Cvaldecs_rec]
   | D2Cvardecs of (v2ardeclst) // variable declarations
+  | D2Cfundecs of (funkind, s2qualstlst, f2undeclst)
 //
   | D2Cinclude of d2eclist (* file inclusion *)
   | D2Cstaload of (
@@ -338,6 +344,14 @@ d2exp_node =
   | D2Econ of (* dynamic constructor *)
       (d2con, s2exparglst, int (*pfarity*), d2explst)
   | D2Ecst of d2cst
+  | D2Ecstsp of $SYN.cstsp
+//
+  | D2Eloopexn of int(*knd*)
+//
+  | D2Efoldat of (* folding at a given address *)
+      (s2exparglst, d2exp)
+  | D2Efreeat of (* freeing at a given address *)
+      (s2exparglst, d2exp)
 //
   | D2Elet of (d2eclist, d2exp) // let-expression
   | D2Ewhere of (d2exp, d2eclist) // where-expression
@@ -362,16 +376,22 @@ d2exp_node =
 //
   | D2Eptrof of d2exp // taking the address of
   | D2Eviewat of d2exp // taking view at a given address
+  | D2Esel of (d2exp, d2lablst) // record field selection
 //
   | D2Eexist of (s2exparg, d2exp) // witness-carrying expression
 //
   | D2Elam_dyn of (* boxed dynamic abstraction *)
-      (int(*knd*), int(*npf*), p2atlst(*arg*), d2exp(*body*))
+      (int(*lin*), int(*npf*), p2atlst(*arg*), d2exp(*body*))
   | D2Elaminit_dyn of (* flat dynamic abstraction *)
-      (int(*knd*), int(*npf*), p2atlst(*arg*), d2exp(*body*))
+      (int(*lin*), int(*npf*), p2atlst(*arg*), d2exp(*body*))
+  | D2Elam_met of (ref(d2varlst), s2explst(*met*), d2exp(*body*))
+  | D2Efix of (
+      int(*knd: 0/1: flat/boxed*), d2var(*fixvar*), d2exp(*body*)
+    ) // end of [D2Efix]
 //
   | D2Eann_type of (d2exp, s2exp) // ascribled expression
-  | D2Eann_funclo of (d2exp, funclo) (* ascribed with funtype *)
+  | D2Eann_seff of (d2exp, s2eff) // ascribed with effects
+  | D2Eann_funclo of (d2exp, funclo) // ascribed with funtype
 //
   | D2Eerr of () // HX: placeholder for indicating an error
 // end of [d2exp_node]
@@ -380,6 +400,10 @@ and d2exparg =
   | D2EXPARGsta of s2exparglst
   | D2EXPARGdyn of (location(*arg*), int (*pfarity*), d2explst)
 // end of [d2exparg]
+
+and d2lab_node =
+  | D2LABlab of label | D2LABind of d2explstlst
+// end of [d2lab_node]
 
 where
 d2ecl = '{
@@ -396,6 +420,14 @@ and d2expopt = Option (d2exp)
 and d2explstlst = List (d2explst)
 
 and d2exparglst = List (d2exparg)
+
+(* ****** ****** *)
+
+and d2lab = '{
+  d2lab_loc= location, d2lab_node= d2lab_node
+} // end of [d2lab]
+
+and d2lablst = List d2lab
 
 (* ****** ****** *)
 
@@ -421,6 +453,17 @@ and v2ardec = '{
 } // end of [v2ardec]
 
 and v2ardeclst = List (v2ardec)
+
+(* ****** ****** *)
+
+and f2undec = '{
+  f2undec_loc= location
+, f2undec_var= d2var
+, f2undec_def= d2exp
+, f2undec_ann= s2expopt
+} // end of [f2undec]
+
+and f2undeclst = List f2undec
 
 (* ****** ****** *)
 //
@@ -453,6 +496,14 @@ fun d2exp_con (
 ) : d2exp // end of [d2exp_con]
 
 fun d2exp_cst (loc: location, d2c: d2cst): d2exp
+fun d2exp_cstsp (loc: location, cst: $SYN.cstsp): d2exp
+
+fun d2exp_loopexn (loc: location, knd: int): d2exp
+
+fun d2exp_foldat
+  (loc: location, s2as: s2exparglst, d2e: d2exp): d2exp
+fun d2exp_freeat
+  (loc: location, s2as: s2exparglst, d2e: d2exp): d2exp
 
 fun d2exp_let
   (loc: location, d2cs: d2eclist, body: d2exp): d2exp
@@ -522,6 +573,8 @@ fun d2exp_delay (loc: location, knd: int, d2e: d2exp): d2exp
 
 fun d2exp_ptrof (loc: location, d2e: d2exp): d2exp
 fun d2exp_viewat (loc: location, d2e: d2exp): d2exp
+fun d2exp_sel_dot (loc: location, rt: d2exp, labs: d2lablst): d2exp
+fun d2exp_sel_ptr (loc: location, rt: d2exp, lab: d2lab): d2exp
 
 (* ****** ****** *)
 
@@ -534,14 +587,29 @@ fun d2exp_lam_dyn
 fun d2exp_laminit_dyn
   (loc: location, knd: int, npf: int, arg: p2atlst, body: d2exp): d2exp
 
+fun d2exp_lam_met
+  (loc: location, r: ref (d2varlst), met: s2explst, body: d2exp): d2exp
+// end of [d2exp_lam_met]
+fun d2exp_lam_met_new (loc: location, met: s2explst, body: d2exp): d2exp
+
+fun d2exp_fix (loc: location, knd: int, f: d2var, body: d2exp): d2exp
+
 (* ****** ****** *)
 
 fun d2exp_ann_type (loc: location, d2e: d2exp, ann: s2exp): d2exp
+fun d2exp_ann_seff (loc: location, d2e: d2exp, s2fe: s2eff): d2exp
 fun d2exp_ann_funclo (loc: location, d2e: d2exp, fc: funclo): d2exp
 
 (* ****** ****** *)
 
 fun d2exp_err (loc: location): d2exp
+
+(* ****** ****** *)
+
+fun d2lab_lab (loc: location, lab: label): d2lab
+fun d2lab_ind (loc: location, ind: d2explstlst): d2lab
+
+fun fprint_d2lab : fprint_type (d2lab)
 
 (* ****** ****** *)
 
@@ -558,6 +626,12 @@ fun v2ardec_make (
 , wth: d2varopt
 , ini: d2expopt
 ) : v2ardec // end of [v2ardec_make]
+
+(* ****** ****** *)
+
+fun f2undec_make (
+  loc: location, d2v_fun: d2var, def: d2exp, ann: s2expopt
+) : f2undec // end of [f2undec_make]
 
 (* ****** ****** *)
 //
@@ -602,6 +676,11 @@ fun d2ecl_valdecs_rec (
 ) : d2ecl // end of [d2ecl_valdecs_rec]
 
 fun d2ecl_vardecs (loc: location, d2cs: v2ardeclst): d2ecl
+
+fun d2ecl_fundecs (
+  loc: location
+, knd: funkind, decarg: s2qualstlst, d2cs: f2undeclst
+) : d2ecl // end of [d2ecl_fundecs]
 
 (* ****** ****** *)
 

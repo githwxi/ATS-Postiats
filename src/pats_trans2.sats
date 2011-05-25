@@ -171,6 +171,11 @@ fun d1expopt_tr (d1es: d1expopt): d2expopt
 
 (* ****** ****** *)
 
+fun d1lab_tr (d1l: d1lab): d2lab
+fun d1lablst_tr (d1ls: d1lablst): d2lablst
+
+(* ****** ****** *)
+
 fun d1ecl_tr (d1c: d1ecl): d2ecl
 fun d1eclist_tr (d1c: d1eclist): d2eclist
 
