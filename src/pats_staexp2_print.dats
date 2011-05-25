@@ -208,4 +208,21 @@ end // end of [fprint_s2rtext]
 
 (* ****** ****** *)
 
+implement
+fprint_sp2at
+  (out, sp2t) = (
+//
+case+ sp2t.sp2at_node of
+| SP2Tcon (s2c, s2vs) => {
+    val () = fprint_string (out, "SP2Tcon(")
+    val () = fprint_s2cst (out, s2c)
+    val () = fprint_string (out, "; ")
+    val () = fprint_s2varlst (out, s2vs)
+    val () = fprint_string (out, ")")
+  } // end of [SP2Tcon]
+//
+) // end of [fprint_sp2at]
+
+(* ****** ****** *)
+
 (* end of [pats_staexp2_print.dats] *)

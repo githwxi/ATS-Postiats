@@ -327,10 +327,14 @@ and s2explstopt = Option (s2explst)
 and labs2exp = (label, s2exp)
 and labs2explst = List (labs2exp)
 
-and locs2exp = (location, s2exp)
-and locs2explst = List (locs2exp)
+(* ****** ****** *)
 
-and s2rtextopt_vt = Option_vt (s2rtext)
+typedef
+locs2exp = (location, s2exp)
+typedef locs2explst = List (locs2exp)
+
+viewtypedef
+s2rtextopt_vt = Option_vt (s2rtext)
 
 (* ****** ****** *)
 
@@ -615,6 +619,21 @@ fun prerr_s2exp (x: s2exp): void
 (* ****** ****** *)
 
 fun fprint_s2rtext : fprint_type (s2rtext)
+
+(* ****** ****** *)
+
+datatype
+sp2at_node =
+  | SP2Tcon of (s2cst, s2varlst)
+// end of [sp2at_node]
+
+typedef
+sp2at = '{
+  sp2at_loc= location
+, sp2at_exp= s2exp, sp2at_node= sp2at_node
+} // end of [sp2at]
+
+fun fprint_sp2at : fprint_type (sp2at)
 
 (* ****** ****** *)
 

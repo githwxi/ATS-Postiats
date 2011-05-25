@@ -389,6 +389,33 @@ end // end of [d2exp_app_sta_dyn]
 (* ****** ****** *)
 
 implement
+d2exp_ifhead
+  (loc, r2es, _cond, _then, _else) =
+  d2exp_make (loc, D2Eifhead (r2es, _cond, _then, _else))
+// end of [d2exp_ifhead]
+
+implement
+d2exp_sifhead
+  (loc, r2es, _cond, _then, _else) =
+  d2exp_make (loc, D2Esifhead (r2es, _cond, _then, _else))
+// end of [d2exp_sifhead]
+
+(* ****** ****** *)
+
+implement
+d2exp_casehead
+  (loc, knd, inv, d2es, c2ls) =
+  d2exp_make (loc, D2Ecasehead (knd, inv, d2es, c2ls))
+// end of [d2exp_casehead]
+
+implement
+d2exp_scasehead (
+  loc, inv, s2e, sc2ls
+) = d2exp_make (loc, D2Escasehead (inv, s2e, sc2ls))
+
+(* ****** ****** *)
+
+implement
 d2exp_lst (loc, lin, elt, d2es) =
   d2exp_make (loc, D2Elst (lin, elt, d2es))
 // end of [d2exp_lst]
@@ -515,6 +542,76 @@ implement
 d2lab_ind (loc, ind) = '{
   d2lab_loc= loc, d2lab_node= D2LABind (ind)
 }
+
+(* ****** ****** *)
+
+implement
+i2nvarg_make
+  (d2v, typ) = '{
+  i2nvarg_var= d2v, i2nvarg_typ= typ
+} // end of [i2nvarg_make]
+
+implement
+i2nvresstate_nil = i2nvresstate_make (
+  list_nil(*svs*), list_nil(*gua*), list_nil(*arg*)
+) // end of [i2nvresstate_nil]
+
+implement
+i2nvresstate_make
+  (s2vs, s2ps, arg) = '{
+  i2nvresstate_svs= s2vs
+, i2nvresstate_gua= s2ps
+, i2nvresstate_arg= arg
+, i2nvresstate_met= None ()
+} // end of [i2nvresstate_make]
+
+implement
+i2nvresstate_make_met (
+  s2vs, s2ps, arg, met
+) = '{
+  i2nvresstate_svs= s2vs
+, i2nvresstate_gua= s2ps
+, i2nvresstate_arg= arg
+, i2nvresstate_met= met
+} // end of [i2nvresstate_make]
+
+(* ****** ****** *)
+
+implement
+loopi2nv_make (
+  loc, s2vs, s2ps, met, arg, res
+) = '{
+  loopi2nv_loc= loc
+, loopi2nv_svs= s2vs
+, loopi2nv_gua= s2ps
+, loopi2nv_met= met
+, loopi2nv_arg= arg
+, loopi2nv_res= res
+} // end of [loopi2nv_make]
+
+(* ****** ****** *)
+
+implement
+m2atch_make (loc, d2e, p2topt) = '{
+  m2atch_loc= loc, m2atch_exp= d2e, m2atch_pat= p2topt
+} // end of [m2atch_make]
+
+implement
+c2lau_make (
+  loc, p2t, gua, seq, neg, d2e
+) = '{
+  c2lau_loc= loc
+, c2lau_pat= p2t
+, c2lau_gua= gua
+, c2lau_seq= seq
+, c2lau_neg= neg
+, c2lau_body= d2e
+} // end of [c2lau_make]
+
+implement
+sc2lau_make (loc, sp2t, d2e) = '{
+  sc2lau_loc= loc, sc2lau_pat= sp2t, sc2lau_body= d2e
+} // end of [sc2lau_make]
 
 (* ****** ****** *)
 //

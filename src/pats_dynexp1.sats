@@ -436,7 +436,7 @@ and c1lau = '{
 , c1lau_gua= m1atchlst
 , c1lau_seq= int
 , c1lau_neg= int
-, c1lau_exp= d1exp
+, c1lau_body= d1exp
 } // end of [c1lau]
 
 and c1laulst = List c1lau
@@ -446,7 +446,7 @@ and c1laulst = List c1lau
 and sc1lau = '{
   sc1lau_loc= location
 , sc1lau_pat= sp1at
-, sc1lau_exp= d1exp
+, sc1lau_body= d1exp
 } // end of [sc1lau]
 
 and sc1laulst = List sc1lau

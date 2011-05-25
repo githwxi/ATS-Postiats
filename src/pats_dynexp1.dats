@@ -351,12 +351,12 @@ c1lau_make (
 , c1lau_gua= gua
 , c1lau_seq= seq
 , c1lau_neg= neg
-, c1lau_exp= body
+, c1lau_body= body
 } // end of [c1lau_make]
 
 implement
 sc1lau_make (loc, sp1t, body) = '{
-  sc1lau_loc= loc, sc1lau_pat= sp1t, sc1lau_exp= body
+  sc1lau_loc= loc, sc1lau_pat= sp1t, sc1lau_body= body
 }
 
 (* ****** ****** *)

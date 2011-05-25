@@ -360,6 +360,18 @@ d2exp_node =
   | D2Eassgn of (d2exp(*left*), d2exp(*right*))
   | D2Ederef of (d2exp(*leftval*))
 //
+  | D2Eifhead of // dynamic conditional
+      (i2nvresstate, d2exp, d2exp, d2expopt)
+  | D2Esifhead of // static conditional
+      (i2nvresstate, s2exp, d2exp, d2exp)
+//
+  | D2Ecasehead of ( // dynamic case-expression
+      caskind, i2nvresstate, d2explst, c2laulst
+    ) // end of [D2Ecaseof]
+  | D2Escasehead of ( // static case-expression
+      i2nvresstate, s2exp, sc2laulst
+    ) // end of [D2Escaseof]
+//
   | D2Elst of (int(*lin*), s2expopt, d2explst)
   | D2Etup of (int(*knd*), int(*npf*), d2explst)
   | D2Eseq of d2explst // sequence-expressions
@@ -428,6 +440,59 @@ and d2lab = '{
 } // end of [d2lab]
 
 and d2lablst = List d2lab
+
+(* ****** ****** *)
+
+and i2nvarg = '{
+  i2nvarg_var= d2var, i2nvarg_typ= s2expopt
+}
+and i2nvarglst = List i2nvarg
+
+and i2nvresstate = '{
+  i2nvresstate_svs= s2varlst
+, i2nvresstate_gua= s2explst
+, i2nvresstate_arg= i2nvarglst
+, i2nvresstate_met= s2explstopt
+} // end of [i2nvresstate]
+
+and loopi2nv = '{
+  loopi2nv_loc= location
+, loopi2nv_svs= s2varlst
+, loopi2nv_gua= s2explst
+, loopi2nv_met= s2explstopt (* metric *)
+, loopi2nv_arg= i2nvarglst (* argument *)
+, loopi2nv_res= i2nvresstate (* result *)
+} // end of [loopi2nv]
+
+(* ****** ****** *)
+
+and m2atch = '{
+  m2atch_loc= location
+, m2atch_exp= d2exp, m2atch_pat= p2atopt
+} // end of [m2atch]
+
+and m2atchlst = List (m2atch)
+
+(* ****** ****** *)
+
+and c2lau = '{
+  c2lau_loc= location
+, c2lau_pat= p2atlst
+, c2lau_gua= m2atchlst
+, c2lau_seq= int
+, c2lau_neg= int
+, c2lau_body= d2exp
+} // end of [c2lau]
+
+and c2laulst = List (c2lau)
+
+and sc2lau = '{
+  sc2lau_loc= location
+, sc2lau_pat= sp2at
+, sc2lau_body= d2exp
+} // end of [sc2lau]
+
+and sc2laulst = List (sc2lau)
 
 (* ****** ****** *)
 
@@ -538,6 +603,32 @@ fun d2exp_app_sta_dyn (
 
 (* ****** ****** *)
 
+fun d2exp_ifhead (
+  loc: location
+, res: i2nvresstate, _cond: d2exp, _then: d2exp, _else: d2expopt
+) : d2exp // end of [d2exp_ifhead]
+
+fun d2exp_sifhead (
+  loc: location
+, res: i2nvresstate, _cond: s2exp, _then: d2exp, _else: d2exp
+) : d2exp // end of [d2exp_sifhead]
+
+(* ****** ****** *)
+
+fun d2exp_casehead (
+  loc: location
+, knd: caskind
+, res: i2nvresstate
+, d2es: d2explst
+, c2ls: c2laulst
+) : d2exp // end of [d2exp_casehead]
+
+fun d2exp_scasehead (
+  loc: location, res: i2nvresstate, s2e: s2exp, sc2ls: sc2laulst
+) : d2exp // end of [d2exp_scasehead]
+
+(* ****** ****** *)
+
 fun d2exp_lst (
   loc: location, lin: int, elt: s2expopt, d2es: d2explst
 ) : d2exp // end of [d2exp_lst]
@@ -610,6 +701,51 @@ fun d2lab_lab (loc: location, lab: label): d2lab
 fun d2lab_ind (loc: location, ind: d2explstlst): d2lab
 
 fun fprint_d2lab : fprint_type (d2lab)
+
+(* ****** ****** *)
+
+fun i2nvarg_make (d2v: d2var, typ: s2expopt): i2nvarg
+
+val i2nvresstate_nil : i2nvresstate
+
+fun i2nvresstate_make
+  (s2vs: s2varlst, s2ps: s2explst, arg: i2nvarglst): i2nvresstate
+fun i2nvresstate_make_met (
+  s2vs: s2varlst, s2ps: s2explst, arg: i2nvarglst, met: s2explstopt
+) : i2nvresstate // end of [i2nvresstate_make_met]
+
+fun i2nvresstate_update (res: i2nvresstate): i2nvresstate
+
+(* ****** ****** *)
+
+fun loopi2nv_make (
+  loc: location
+, svs: s2varlst
+, gua: s2explst
+, met: s2explstopt
+, arg: i2nvarglst
+, res: i2nvresstate
+) : loopi2nv // end of [loopi2nv_make]
+
+fun loopi2nv_update (i2nv: loopi2nv): loopi2nv
+
+(* ****** ****** *)
+
+fun m2atch_make (
+  loc: location, d2e: d2exp, p2topt: p2atopt
+) : m2atch // end of [m2atch_make]
+
+fun c2lau_make (
+  loc: location
+, p2ts: p2atlst
+, gua: m2atchlst
+, seq: int, neg: int
+, body: d2exp
+) : c2lau // end of [c2lau_make]
+
+fun sc2lau_make
+  (loc: location, sp2t: sp2at, body: d2exp): sc2lau
+// end of [sc2lau_make]
 
 (* ****** ****** *)
 
