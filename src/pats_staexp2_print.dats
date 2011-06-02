@@ -187,6 +187,20 @@ implement prerr_s2exp (xs) = fprint_s2exp (stderr_ref, xs)
 (* ****** ****** *)
 
 implement
+fprint_labs2exp (out, x) = {
+  val () = $LAB.fprint_label (out, x.0)
+  val () = fprint_string (out, "=")
+  val () = fprint_s2exp (out, x.1)
+} // end of [fprint_labs2exp]
+
+implement
+fprint_labs2explst (out, xs) =
+  $UT.fprintlst (out, xs, ", ", fprint_labs2exp)
+// end of [fprint_labs2explst]
+
+(* ****** ****** *)
+
+implement
 fprint_s2rtext (out, x) = let
   macdef prstr (s) = fprint_string (out, ,(s))
 in
@@ -210,18 +224,21 @@ end // end of [fprint_s2rtext]
 
 implement
 fprint_sp2at
-  (out, sp2t) = (
+  (out, sp2t) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
 //
 case+ sp2t.sp2at_node of
 | SP2Tcon (s2c, s2vs) => {
-    val () = fprint_string (out, "SP2Tcon(")
+    val () = prstr "SP2Tcon("
     val () = fprint_s2cst (out, s2c)
-    val () = fprint_string (out, "; ")
+    val () = prstr "; "
     val () = fprint_s2varlst (out, s2vs)
-    val () = fprint_string (out, ")")
+    val () = prstr ")"
   } // end of [SP2Tcon]
+| SP2Terr () => prstr "SP2Terr()"
 //
-) // end of [fprint_sp2at]
+end // end of [fprint_sp2at]
 
 (* ****** ****** *)
 

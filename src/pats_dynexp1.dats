@@ -970,9 +970,8 @@ d1ecl_vardecs (loc, ds) = '{
 
 implement
 d1ecl_impdec
-  (loc, i1mparg, d1c) = '{
-  // i1mparg: s1arglstlst
-  d1ecl_loc= loc, d1ecl_node= D1Cimpdec (i1mparg, d1c)
+  (loc, imparg, d1c) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cimpdec (imparg, d1c)
 } // end of [d1ecl_impdec]
 
 (* ****** ****** *)

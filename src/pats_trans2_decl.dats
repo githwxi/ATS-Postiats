@@ -48,11 +48,19 @@ staload ERR = "pats_error.sats"
 staload SYM = "pats_symbol.sats"
 macdef EQEQ = $SYM.symbol_EQEQ
 overload = with $SYM.eq_symbol_symbol
+
 staload SYN = "pats_syntax.sats"
 typedef i0de = $SYN.i0de
 typedef i0delst = $SYN.i0delst
-typedef dqi0de = $SYN.dqi0de
 typedef s0taq = $SYN.s0taq
+typedef d0ynq = $SYN.d0ynq
+typedef dqi0de = $SYN.dqi0de
+typedef impqi0de = $SYN.impqi0de
+
+macdef
+prerr_dqid (dq, id) =
+  ($SYN.prerr_d0ynq ,(dq); $SYM.prerr_symbol ,(id))
+// end of [prerr_dqid]
 
 (* ****** ****** *)
 
@@ -74,6 +82,7 @@ staload "pats_staexp1.sats"
 staload "pats_dynexp1.sats"
 staload "pats_staexp2.sats"
 staload "pats_stacst2.sats"
+staload "pats_staexp2_util.sats"
 staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
@@ -143,28 +152,25 @@ fun overload_tr (
 *)
 //
 fn auxerr (
-  dqid: $SYN.dqi0de
-) : void = {
-  val () = prerr_error2_loc (dqid.dqi0de_loc)
+  d1c0: d1ecl, dqid: $SYN.dqi0de
+) : void = () where {
+  val loc = dqid.dqi0de_loc
+  val () = prerr_error2_loc (loc)
   val () = filprerr_ifdebug (": overload_tr")
   val () = prerr ": the dynamic identifier ["
   val () = $SYN.prerr_dqi0de (dqid)
   val () = prerr "] is unrecognized."
   val () = prerr_newline ()
+  val () = the_trans2errlst_add (T2E_overload_tr (d1c0))
 } (* end of [auxerr] *)
 //
   val ans = 
     the_d2expenv_find_qua (dqid.dqi0de_qua, dqid.dqi0de_sym)
   // end of [val]
   val ans = option_of_option_vt (ans)
-  val () = case+ ans of
-    | Some (d2i) => overload_tr_def (id, d2i)
-    | None () => let
-        val () = the_tran2errlst_add (T2E_overload_tr (d1c0))
-      in
-        auxerr (dqid)
-      end // end of [None]
-  // end of [val]
+  val () = (case+ ans of
+    | Some (d2i) => overload_tr_def (id, d2i) | None () => auxerr (d1c0, dqid)
+  ) // end of [val]
 in
   ans
 end // end of [overload_tr]
@@ -748,11 +754,11 @@ fn d1atdec_tr (
   val () = let
     val n = list_length (s2vss0) in
     if n >= 2 then {
-      val () = the_tran2errlst_add (T2E_d1atdec_tr (d1c))
       val () = prerr_error2_loc (d1c.d1atdec_loc)
       val () = filprerr_ifdebug ": d1atdec_tr" // for debugging
       val () = prerr ": the declared type constructor is overly applied."
       val () = prerr_newline ()
+      val () = the_trans2errlst_add (T2E_d1atdec_tr (d1c))
     } // end of [if]
   end // end of [val]
 //
@@ -1008,7 +1014,7 @@ in // in of [local]
 
 fn d1cstdec_tr (
   dck: dcstkind
-, s2qss: s2qualstlst
+, s2qs: s2qualst
 , d1c: d1cstdec
 ) : d2cst = d2c where {
   val loc = d1c.d1cstdec_loc
@@ -1023,19 +1029,19 @@ fn d1cstdec_tr (
   var s2e_cst = s1exp_trdn (d1c.d1cstdec_typ, s2t_cst)
   val arylst = s2exp_get_arylst (s2e_cst)
   val extdef = d1c.d1cstdec_extdef
-  val d2c = d2cst_make (sym, loc, fil, dck, s2qss, arylst, s2e_cst, extdef)
+  val d2c = d2cst_make (sym, loc, fil, dck, s2qs, arylst, s2e_cst, extdef)
   val () = the_d2expenv_add_dcst (d2c)
 } // end of [d1cstdec_tr]
 
 end // end of [local]
 
 fun d1cstdeclst_tr (
-  dck: dcstkind, s2qss: s2qualstlst, d1cs: d1cstdeclst
+  dck: dcstkind, s2qs: s2qualst, d1cs: d1cstdeclst
 ) : d2cstlst =
   case+ d1cs of
   | list_cons (d1c, d1cs) => let
-      val d2c = d1cstdec_tr (dck, s2qss, d1c) in
-      list_cons (d2c, d1cstdeclst_tr (dck, s2qss, d1cs))
+      val d2c = d1cstdec_tr (dck, s2qs, d1c) in
+      list_cons (d2c, d1cstdeclst_tr (dck, s2qs, d1cs))
     end // end of [cons]
   | list_nil () => list_nil ()
 // end of [d1cstdeclst_tr]
@@ -1142,7 +1148,7 @@ fn v1ardeclst_tr (
 
 fn f1undec_tr (
   level: int
-, decarg: s2qualstlst
+, decarg: s2qualst
 , d2v: d2var
 , d1c: f1undec
 ) : f2undec = let
@@ -1160,10 +1166,11 @@ in
   f2undec_make (d1c.f1undec_loc, d2v, def, ann)
 end // end of [f1undec_tr]
 
-fn f1undeclst_tr {n:nat} (
+fn f1undeclst_tr
+  {n:nat} (
   knd: funkind
 , level: int
-, decarg: s2qualstlst
+, decarg: s2qualst
 , d1cs: list (f1undec, n)
 ) : f2undeclst = let
   val isprf = funkind_is_proof (knd)
@@ -1188,10 +1195,10 @@ fn f1undeclst_tr {n:nat} (
   val () = if isrec then the_d2expenv_add_dvarlst (d2vs) else ()
   val d2cs = let
     fun aux2 {n:nat} (
-    level: int
-  , decarg: s2qualstlst
-  , d2vs: list (d2var, n)
-  , d1cs: list (f1undec, n)
+      level: int
+    , decarg: s2qualst
+    , d2vs: list (d2var, n)
+    , d1cs: list (f1undec, n)
   ) : list (f2undec, n) =
     case+ d2vs of
     | list_cons (d2v, d2vs) => let
@@ -1414,6 +1421,15 @@ end // end of [d1ecl_tr]
 
 implement
 d1eclist_tr (d1cs) = l2l (list_map_fun (d1cs, d1ecl_tr))
+
+(* ****** ****** *)
+
+implement
+d1eclist_tr_errck
+  (d1cs) = d2cs where {
+  val d2cs = d1eclist_tr (d1cs)
+  val () = the_trans2errlst_finalize ()
+} // end of [d1eclist_tr_errck]
 
 (* ****** ****** *)
 

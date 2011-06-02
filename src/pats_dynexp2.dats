@@ -82,13 +82,13 @@ fun p2at_svs_add_svar (
   svs: s2varset, s2v: s2var
 ) : s2varset = let
 in
-  $UT.lstord_insert (svs, s2v, compare_s2var_s2var)
+  $UT.lstord_insert (svs, s2v, compare_s2vsym_s2vsym)
 end // end of [p2at_svs_add_svar]
 
 implement
 p2atlst_svs_union (p2ts) = let
   typedef svs = lstord (s2var)
-  val cmp = compare_s2var_s2var
+  val cmp = compare_s2vsym_s2vsym
 in
   list_fold_left_fun<svs><p2at> (
     lam (svs, p2t) =<1> $UT.lstord_union (svs, p2t.p2at_svs, cmp), p2at_svs_nil, p2ts
@@ -98,7 +98,7 @@ end // end of [p2atlst_svs_union]
 implement
 p2atlst_dvs_union (p2ts) = let
   typedef dvs = lstord (d2var)
-  val cmp = compare_d2var_d2var
+  val cmp = compare_d2vsym_d2vsym
 in
   list_fold_left_fun<dvs><p2at> (
     lam (dvs, p2t) =<1> $UT.lstord_union (dvs, p2t.p2at_dvs, cmp), p2at_dvs_nil, p2ts
@@ -213,7 +213,7 @@ implement
 p2at_as (loc, refknd, d2v, p2t) = let
   val svs = p2t.p2at_svs
   val dvs = $UT.lstord_insert
-    (p2t.p2at_dvs, d2v, compare_d2var_d2var)
+    (p2t.p2at_dvs, d2v, compare_d2vsym_d2vsym)
   // end of [val]
 in
   p2at_make (loc, svs, dvs, P2Tas (refknd, d2v, p2t))
@@ -252,12 +252,8 @@ d2exp_make (loc, node) = '{
 
 implement
 d2exp_var (loc, d2v) = d2exp_make (loc, D2Evar (d2v))
-implement
-d2exp_cst (loc, d2c) = d2exp_make (loc, D2Ecst (d2c))
-implement
-d2exp_con (loc, d2c, sarg, npf, darg) =
-  d2exp_make (loc, D2Econ (d2c, sarg, npf, darg))
-// end of [d2exp_con]
+
+(* ****** ****** *)
 
 implement
 d2exp_bool (loc, b) = d2exp_make (loc, D2Ebool (b))
@@ -286,8 +282,30 @@ d2exp_cstsp
   (loc, cst) = d2exp_make (loc, D2Ecstsp (cst))
 // end of [d2exp_cstsp]
 
+(* ****** ****** *)
+
+implement
+d2exp_top (loc) = d2exp_make (loc, D2Etop ())
+
 implement
 d2exp_empty (loc) = d2exp_make (loc, D2Eempty ())
+
+(* ****** ****** *)
+
+implement
+d2exp_extval
+  (loc, typ, code) = d2exp_make (loc, D2Eextval (typ, code))
+// end of [d2exp_extval]
+
+(* ****** ****** *)
+
+implement
+d2exp_con (loc, d2c, sarg, npf, darg) =
+  d2exp_make (loc, D2Econ (d2c, sarg, npf, darg))
+// end of [d2exp_con]
+
+implement
+d2exp_cst (loc, d2c) = d2exp_make (loc, D2Ecst (d2c))
 
 (* ****** ****** *)
 
@@ -426,6 +444,11 @@ d2exp_tup (loc, knd, npf, d2es) =
 // end of [d2exp_tup]
 
 implement
+d2exp_rec (loc, knd, npf, ld2es) =
+  d2exp_make (loc, D2Erec (knd, npf, ld2es))
+// end of [d2exp_rec]
+
+implement
 d2exp_seq
   (loc, d2es) = d2exp_make (loc, D2Eseq (d2es))
 // end of [d2exp_seq]
@@ -506,6 +529,12 @@ d2exp_lam_met_new
 end // end of [d2exp_lam_met_new]
 
 implement
+d2exp_lam_sta
+  (loc, s2vs, s2ps, body) =
+  d2exp_make (loc, D2Elam_sta (s2vs, s2ps, body))
+// end of [d2exp_lam_sta]
+
+implement
 d2exp_fix (
   loc, knd, d2v_fun, d2e_body
 ) = d2exp_make (loc, D2Efix (knd, d2v_fun, d2e_body))
@@ -531,6 +560,11 @@ d2exp_ann_funclo
 
 implement
 d2exp_err (loc) = d2exp_make (loc, D2Eerr ())
+
+(* ****** ****** *)
+
+implement
+labd2exp_make (l, d2e) = $SYN.L0ABELED (l, d2e)
 
 (* ****** ****** *)
 

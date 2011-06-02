@@ -135,7 +135,7 @@ fun the_tmplev_inc (): void
 fun the_tmplev_dec (): void
 
 fun s2var_check_tmplev (loc: location, s2v: s2var): void
-fun s2qualstlst_set_tmplev (s2qss: s2qualstlst, tmplev: int): void
+fun s2qualstlst_set_tmplev (s2qs: s2qualst, tmplev: int): void
 
 (* ****** ****** *)
 

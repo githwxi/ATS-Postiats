@@ -345,8 +345,13 @@ typedef syms2rtlst = List (syms2rt)
 //
 // HX: there is no [s2qua]
 //
-typedef s2qualst = (s2varlst, s2explst)
-typedef s2qualstlst = List (s2qualst)
+typedef s2qua = @{
+  s2qua_svs= s2varlst, s2qua_sps= s2explst
+} // end of [s2qua]
+typedef s2qualst = List (s2qua)
+viewtypedef s2qualst_vt = List_vt (s2qua)
+
+fun s2qua_make (s2vs: s2varlst, s2ps: s2explst): s2qua
 
 (* ****** ****** *)
 
@@ -441,6 +446,8 @@ overload <= with lte_s2var_s2var
 fun compare_s2var_s2var (x1: s2var, x2: s2var):<> Sgn
 overload compare with compare_s2var_s2var
 
+fun compare_s2vsym_s2vsym (x1: s2var, x2: s2var):<> Sgn
+
 (* ****** ****** *)
 
 fun fprint_s2var : fprint_type (s2var)
@@ -494,7 +501,7 @@ fun d2con_make (
 , id: symbol // the name
 , s2c: s2cst // the type constructor
 , vwtp: int
-, qua: s2qualstlst
+, qua: s2qualst
 , npf: int // pfarity
 , arg: s2explst // arguments
 , ind: s2explstopt // indexes
@@ -512,7 +519,7 @@ fun d2con_get_sym (x: d2con): symbol
 fun d2con_get_scst (x: d2con): s2cst
 fun d2con_get_vwtp (x: d2con): int
 fun d2con_get_npf (x: d2con): int
-fun d2con_get_qua (x: d2con): s2qualstlst
+fun d2con_get_qua (x: d2con): s2qualst
 fun d2con_get_arg (x: d2con): s2explst
 fun d2con_get_arity_full (x: d2con): int
 fun d2con_get_arity_real (x: d2con): int
@@ -607,6 +614,7 @@ fun s2exp_uni (s2vs: s2varlst, s2ps: s2explst, s2e: s2exp): s2exp
 fun s2exp_wth (_res: s2exp, _with: wths2explst): s2exp
 
 fun s2exp_err (s2t: s2rt): s2exp // HX: error indication
+fun s2exp_s2rt_err (): s2exp // HX: it is the same as s2exp_err (s2rt_err ())
 
 (* ****** ****** *)
 
@@ -618,6 +626,11 @@ fun prerr_s2exp (x: s2exp): void
 
 (* ****** ****** *)
 
+fun fprint_labs2exp : fprint_type (labs2exp)
+fun fprint_labs2explst : fprint_type (labs2explst)
+
+(* ****** ****** *)
+
 fun fprint_s2rtext : fprint_type (s2rtext)
 
 (* ****** ****** *)
@@ -625,6 +638,7 @@ fun fprint_s2rtext : fprint_type (s2rtext)
 datatype
 sp2at_node =
   | SP2Tcon of (s2cst, s2varlst)
+  | SP2Terr of () // HX: a placeholder for indicating an error
 // end of [sp2at_node]
 
 typedef
@@ -632,6 +646,12 @@ sp2at = '{
   sp2at_loc= location
 , sp2at_exp= s2exp, sp2at_node= sp2at_node
 } // end of [sp2at]
+
+fun sp2at_con
+  (loc: location, s2c: s2cst, s2vs: s2varlst): sp2at
+// end of [sp2at_con]
+
+fun sp2at_err (loc: location): sp2at
 
 fun fprint_sp2at : fprint_type (sp2at)
 

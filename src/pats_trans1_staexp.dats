@@ -76,6 +76,42 @@ staload "pats_trans1_env.sats"
 macdef list_sing (x) = list_cons (,(x), list_nil ())
 
 (* ****** ****** *)
+
+implement
+s0arg_tr (x) = let
+  val res = s0rtopt_tr (x.s0arg_srt)
+in
+  s1arg_make (x.s0arg_loc, x.s0arg_sym, res)
+end // end of [s0arg_tr]
+
+implement
+s0arglst_tr (xs) =  l2l (list_map_fun (xs, s0arg_tr))
+
+implement
+s0marg_tr (x) = let
+  val loc = x.s0marg_loc
+  val arg = s0arglst_tr (x.s0marg_arg)
+in
+  s1marg_make (loc, arg)
+end // end of [s0marg_tr]
+
+implement
+s0marglst_tr (xss) = l2l (list_map_fun (xss, s0marg_tr))
+
+(* ****** ****** *)
+
+implement
+s0vararg_tr
+  (s0v) = case+ s0v of
+  | S0VARARGseq (s0as) => S1VARARGseq (s0arglst_tr s0as)
+  | S0VARARGone () => S1VARARGone ()
+  | S0VARARGall () => S1VARARGall ()
+// end of [s0vararg_tr]
+
+implement
+s0vararglst_tr (s0vs) = l2l (list_map_fun (s0vs, s0vararg_tr))
+
+(* ****** ****** *)
 //
 // HX: translation of static expressions
 //
@@ -151,12 +187,14 @@ s0qualstlst_tr (xss) = l2l (list_map_fun (xss, s0qualst_tr))
 local
 
 fn s0exp_tr_errmsg_opr
-  (loc: location): s1exp = let
-  val () = prerr_error1_loc (loc)
+  (s0e0: s0exp): s1exp = let
+  val loc0 = s0e0.s0exp_loc
+  val () = prerr_error1_loc (loc0)
   val () = prerr ": the operator needs to be applied."
   val () = prerr_newline ()
+  val () = the_trans1errlst_add (T1E_s0exp_tr (s0e0))
 in
-  $ERR.abort {s1exp} ()
+  s1exp_err (loc0)
 end // end of [s0exp_tr_errmsg_opr]
 
 in // in of [local]
@@ -367,7 +405,7 @@ in
 //
 case+ aux_item (s0e0) of
 | FXITMatm (s1e) => s1e
-| FXITMopr _ => s0exp_tr_errmsg_opr (s0e0.s0exp_loc)
+| FXITMopr _ => s0exp_tr_errmsg_opr (s0e0)
 //
 end // end of [s0exp_tr]
 
@@ -423,6 +461,14 @@ q0marg_tr (x) =
 // end of [q0marg_tr]
 
 implement q0marglst_tr (xs) = l2l (list_map_fun (xs, q0marg_tr))
+
+(* ****** ****** *)
+
+implement
+i0mparg_tr (x) = case+ x of
+  | I0MPARG_sarglst (s0as) => i1mparg_sarglst (s0arglst_tr s0as)
+  | I0MPARG_svararglst (s0vs) => i1mparg_svararglst (s0vararglst_tr s0vs)
+// end of [i0mparg_tr]
 
 (* ****** ****** *)
 
@@ -508,8 +554,8 @@ local
 #define :: list_cons
 //
 fun aux1 (
-  fc: funclo
-, lin: int, prf: int
+  d0c: d0cstdec
+, fc: funclo, lin: int, prf: int
 , efcopt: effcstopt
 , fst: int, lst: &int
 , xs: d0cstarglst
@@ -519,7 +565,7 @@ fun aux1 (
     | D0CSTARGdyn (npf, ys) => let
         val loc_x = x.d0cstarg_loc
         val s1e_arg = s1exp_npf_list (loc_x, npf, a0typlst_tr ys)
-        val s1e_res = aux1 (fc, lin, prf, efcopt, fst+1, lst, xs, s1e_res)
+        val s1e_res = aux1 (d0c, fc, lin, prf, efcopt, fst+1, lst, xs, s1e_res)
         val loc_res = s1e_res.s1exp_loc
         val loc = loc_x + loc_res
         val fc = (if fst > 0 then FUNCLOcloptr else fc): funclo
@@ -537,16 +583,23 @@ fun aux1 (
     | D0CSTARGsta s0qs => let
         val loc_x = x.d0cstarg_loc
         val s1qs = s0qualst_tr s0qs
-        val s1e_res = aux1 (fc, lin, prf, efcopt, fst, lst, xs, s1e_res)
+        val s1e_res = aux1 (d0c, fc, lin, prf, efcopt, fst, lst, xs, s1e_res)
         val loc_res = s1e_res.s1exp_loc
         val loc = loc_x + loc_res
-        val () = if lst = 0 then let
-          val () = prerr_error1_loc (loc_res)
+//
+        var err: int = 0
+        val () = (case+ efcopt of
+          | Some _ => if lst = 0 then (err := err + 1) | None _ => ()
+        ) : void // end of [val]
+        val () = if err > 0 then let
+          val () = prerr_error1_loc (loc)
           val () = prerr ": illegal use of effect annotation"
           val () = prerr_newline ()
+          val () = the_trans1errlst_add (T1E_d0cstdec_tr (d0c))
         in
-          $ERR.abort {void} ()
+          // nothing
         end // end of [val]
+//
       in
         s1exp_uni (loc, s1qs, s1e_res)
       end (* end of [D0CSTARGsta] *)
@@ -555,7 +608,7 @@ fun aux1 (
 end // end of [aux1]
 //
 fun aux2 .<>. (
-    loc0: location
+    d0c: d0cstdec
   , isfun: bool
   , isprf: bool
   , xs: d0cstarglst
@@ -579,6 +632,8 @@ fun aux2 .<>. (
   val () = (case+ fc of
     | FUNCLOclo knd => begin
         if knd <> CLOREF then let
+//
+          val loc0 = d0c.d0cstdec_loc
           val () = prerr_error1_loc (loc0)
           val () = if knd = 0 then {
             val () = prerr ": a closure struct is not allowed at the toplevel."
@@ -587,27 +642,29 @@ fun aux2 .<>. (
             val () = prerr ": a closure pointer is not allowed at the toplevel."
           } // end of [val]
           val () = prerr_newline ()
+          val () = the_trans1errlst_add (T1E_d0cstdec_tr (d0c))
+//
         in
-          $ERR.abort {void} ()
+          // nothing
         end // end of [if]
       end // end of [FUNCLOclo]
     | FUNCLOfun () => () // end of [FUNCLOfun]
   ) : void // end of [val]
   var lst: int = 0
 in
-  aux1 (fc, lin, prf, efcopt, 0, lst, xs, s1e_res)
+  aux1 (d0c, fc, lin, prf, efcopt, 0, lst, xs, s1e_res)
 end // end of [aux2]
 //
 fn d0cstdec_tr (
-  isfun: bool, isprf: bool, d: d0cstdec
+  isfun: bool, isprf: bool, d0c: d0cstdec
 ) : d1cstdec = let
-  val loc0 = d.d0cstdec_loc
-  val s1e_res = s0exp_tr d.d0cstdec_res
-  val arg = d.d0cstdec_arg and eff = d.d0cstdec_eff
-  val s1e = aux2 (loc0, isfun, isprf, arg, eff, s1e_res)
-  val extdef = dcstextdef_tr (d.d0cstdec_extdef)
+  val loc0 = d0c.d0cstdec_loc
+  val s1e_res = s0exp_tr d0c.d0cstdec_res
+  val arg = d0c.d0cstdec_arg and eff = d0c.d0cstdec_eff
+  val s1e = aux2 (d0c, isfun, isprf, arg, eff, s1e_res)
+  val extdef = dcstextdef_tr (d0c.d0cstdec_extdef)
 in
-  d1cstdec_make (loc0, d.d0cstdec_fil, d.d0cstdec_sym, s1e, extdef)
+  d1cstdec_make (loc0, d0c.d0cstdec_fil, d0c.d0cstdec_sym, s1e, extdef)
 end // end of [d0cstdec_tr]
 //
 in // in of [local]

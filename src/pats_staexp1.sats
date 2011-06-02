@@ -724,6 +724,17 @@ fun fprint_q1marglst : fprint_type (q1marglst)
 
 (* ****** ****** *)
 
+datatype
+i1mparg =
+  | I1MPARG_sarglst of s1arglst
+  | I1MPARG_svararglst of s1vararglst
+// end of [i1mparg]
+
+fun i1mparg_sarglst (arg: s1arglst): i1mparg
+fun i1mparg_svararglst (arg: s1vararglst): i1mparg
+
+(* ****** ****** *)
+
 typedef
 t1mpmarg = '{
   t1mpmarg_loc= location, t1mpmarg_arg= s1explst

@@ -34,7 +34,13 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload _(*anon*) = "prelude/DATS/reference.dats"
+
+(* ****** ****** *)
+
+staload
+ERR = "pats_error.sats"
 
 (* ****** ****** *)
 
@@ -43,23 +49,42 @@ staload "pats_trans2.sats"
 (* ****** ****** *)
 
 viewtypedef
-tran2errlst_vt = List_vt (tran2err)
-
-extern fun the_tran2errlst_get (): tran2errlst_vt
+trans2errlst_vt = List_vt (trans2err)
 
 (* ****** ****** *)
 
 local
 
-val the_tran2errlst = ref<tran2errlst_vt> (list_vt_nil)
+val the_trans2errlst = ref<trans2errlst_vt> (list_vt_nil)
+
+fun the_trans2errlst_get
+  (): trans2errlst_vt = let
+  val (vbox pf | p) = ref_get_view_ptr (the_trans2errlst)
+  val xs = !p
+  val () = !p := list_vt_nil ()
+in
+  xs
+end // end of [the_trans2errlst_get]
 
 in // in of [local]
 
 implement
-the_tran2errlst_add (x) = () where {
-  val (vbox pf | p) = ref_get_view_ptr (the_tran2errlst)
+the_trans2errlst_add (x) = () where {
+  val (vbox pf | p) = ref_get_view_ptr (the_trans2errlst)
   val () = !p := list_vt_cons (x, !p)
-} // end of [the_tran2errlst_add]
+} // end of [the_trans2errlst_add]
+
+implement
+the_trans2errlst_finalize () = {
+  val xs = the_trans2errlst_get ()
+  val n = list_vt_length (xs); val () = list_vt_free (xs)
+// (*
+  val () = if n > 0 then {
+    val () = fprintf (stderr_ref, "TRANS2: there are [%i] errors in total.\n", @(n))
+  }
+// *)
+  val () = if n > 0 then $ERR.abort () else ()
+} // end of [the_trans2errlst_finalize]
 
 end // end of [local]
 

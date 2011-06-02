@@ -348,7 +348,7 @@ fn fixity_load
   val () = $FIL.the_filenamelst_pop (pffil | (*none*))
 //
   val (pfenv | ()) = $TRENV1.the_fxtyenv_push_nil ()
-  val d1cs = $TRANS1.d0eclist_tr (d0cs)
+  val d1cs = $TRANS1.d0eclist_tr_errck (d0cs)
   val fxtymap = $TRENV1.the_fxtyenv_pop (pfenv | (*none*))
   val () = $TRENV1.the_fxtyenv_pervasive_joinwth (fxtymap)
 (*
@@ -379,11 +379,11 @@ pervasive_load (
   val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
 //
   val (pfenv | ()) = $TRENV1.the_trans1_env_push ()
-  val d1cs = $TRANS1.d0eclist_tr (d0cs)
+  val d1cs = $TRANS1.d0eclist_tr_errck (d0cs)
   val () = $TRENV1.the_trans1_env_pop (pfenv | (*none*))
 //
   val (pfenv | ()) = $TRENV2.the_trans2_env_push ()
-  val d2cs = $TRANS2.d1eclist_tr (d1cs)
+  val d2cs = $TRANS2.d1eclist_tr_errck (d1cs)
   val () = $TRENV2.the_trans2_env_pervasive_joinwth (pfenv | (*none*))
 //
 } // end of [pervasive_load]
@@ -465,7 +465,8 @@ fn do_trans12 (
   basename: string, d0cs: d0eclist
 ) : d2eclist = let
 //
-  val d1cs = $TRANS1.d0eclist_tr (d0cs)
+  val d1cs = $TRANS1.d0eclist_tr_errck (d0cs)
+//
   val () = if isdebug () then {
     val () = print "The 1st translation (fixity) of ["
     val () = print basename
@@ -473,7 +474,7 @@ fn do_trans12 (
     val () = print_newline ()
   } // end of [if]
 //
-  val d2cs = $TRANS2.d1eclist_tr (d1cs)
+  val d2cs = $TRANS2.d1eclist_tr_errck (d1cs)
 //
   val () = if isdebug () then {
     val () = print "The 2nd translation (binding) of ["
@@ -543,7 +544,7 @@ case+ arg of
         val () = state.ninputfile := state.ninputfile + 1
         val () = prelude_load_if (ATSHOME, state.preludeflg)
         val d0cs = parse_from_basename_toplevel (stadyn, basename)
-        val d1cs = $TRANS1.d0eclist_tr (d0cs)
+        val d1cs = $TRANS1.d0eclist_tr_errck (d0cs)
         val () = fprint_d1eclist (stdout_ref, d1cs)
         val () = fprint_newline (stdout_ref)
       in

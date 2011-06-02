@@ -77,6 +77,8 @@ staload "pats_e1xpval.sats"
 
 local
 
+fn prec_make_err () = prec_make_int (0)
+
 fn prec_tr_errmsg_fxty
   (opr: i0de): prec = let
   val () = prerr_error1_loc (opr.i0de_loc)
@@ -84,18 +86,20 @@ fn prec_tr_errmsg_fxty
   val () = $SYM.prerr_symbol (opr.i0de_sym)
   val () = prerr "] is given no fixity";
   val () = prerr_newline ()
+  val () = the_trans1errlst_add (T1E_prec_tr (opr))
 in
-  $ERR.abort ()
-end // end of [prec_tr_errmsg]
+  prec_make_err ()
+end // end of [prec_tr_errmsg_fxty]
 
 fn prec_tr_errmsg_adj
   (opr: i0de): prec = let
   val () = prerr_error1_loc (opr.i0de_loc)
   val () = prerr ": the operator for adjusting precedence can only be [+] or [-]."
   val () = prerr_newline ()
+  val () = the_trans1errlst_add (T1E_prec_tr (opr))
 in
-  $ERR.abort ()
-end // end of [prec_tr_errmsg]
+  prec_make_err ()
+end // end of [prec_tr_errmsg_adj]
 
 fn p0rec_tr
   (p0: p0rec): prec = let
@@ -130,9 +134,9 @@ in
   case+ p0 of
   | P0RECint int => prec_make_int (int)
   | P0RECi0de id => precfnd id
-  | P0RECi0de_adj (id, opr, int) => let
-      val sym = opr.i0de_sym
-    in
+  | P0RECi0de_adj
+      (id, opr, int) => let
+      val sym = opr.i0de_sym in
       case+ opr of
       | _ when sym = $SYM.symbol_ADD => precedence_inc (precfnd id, int)
       | _ when sym = $SYM.symbol_SUB => precedence_dec (precfnd id, int)
@@ -148,7 +152,7 @@ fn f0xty_tr
   | F0XTYpos p0 => let val p = p0rec_tr p0 in fxty_pos p end
 // end of [f0xty_tr]
 
-in
+in // in of [local]
 
 implement
 d0ecl_fixity_tr (f0xty, ids) = let
@@ -447,9 +451,10 @@ end // end of [i0mpdec_tr]
 (* ****** ****** *)
 
 fn i0nclude_tr (
-  loc0: location, stadyn: int, path: string
+  d0c0: d0ecl, stadyn: int, path: string
 ) : d1eclist = d1cs where {
 //
+  val loc0 = d0c0.d0ecl_loc
   val filopt = $FIL.filenameopt_make_relative (path)
 //
   val fil = (case+ filopt of
@@ -460,8 +465,9 @@ fn i0nclude_tr (
         val () = prerr path;
         val () = prerr "] is not available for inclusion"
         val () = prerr_newline ()
+        val () = the_trans1errlst_add (T1E_i0nclude_tr (d0c0))
       in
-        $ERR.abort {filename} ()
+        $FIL.filename_dummy
       end // end of [None_vt]
   ) : filename // end of [val]
 //
@@ -474,7 +480,7 @@ fn i0nclude_tr (
     val () = $FIL.prerr_filename (fil)
     val () = prerr ("] generates the following looping trace:\n")
     val () = $FIL.fprint_the_filenamelst (stderr_ref)
-    val () = $ERR.abort {void} ()
+    val () = the_trans1errlst_add (T1E_i0nclude_tr (d0c0))
   } // end of [val]
 //  
 (*
@@ -537,14 +543,17 @@ in
 end // end of [s0taload_tr_load]
 
 fn s0taload_tr (
-  loc0: location
+  d0c0: d0ecl
 , idopt: symbolopt, path: string
 , loadflag: &int? >> int
 , filref: &filename? >> filename
 ) : d1eclist = let
+  val loc0 = d0c0.d0ecl_loc
+//
   val () = loadflag := 1 // HX: this is for ATS_STALOADFLAG
 //
   val filopt = $FIL.filenameopt_make_relative (path)
+//
   val fil = (case+ filopt of
     | ~Some_vt filename => filename
     | ~None_vt () => let
@@ -553,8 +562,9 @@ fn s0taload_tr (
         val () = prerr path;
         val () = prerr "] is not available for static loading"
         val () = prerr_newline ()
+        val () = the_trans1errlst_add (T1E_s0taload_tr (d0c0))
       in
-        $ERR.abort {filename} ()
+        $FIL.filename_dummy
       end // end of [None_vt]
   ) : filename // end of [val]
   val () = filref := fil
@@ -583,8 +593,9 @@ end // end of [s0taload_tr]
 (* ****** ****** *)
 
 fn d0ynload_tr (
-  loc0: location, path: string
+  d0c0: d0ecl, path: string
 ) : filename = fil where {
+  val loc0 = d0c0.d0ecl_loc
   val filopt = $FIL.filenameopt_make_relative (path)
   val fil = (case+ filopt of
     | ~Some_vt filename => filename
@@ -595,7 +606,7 @@ fn d0ynload_tr (
         val () = prerr "] is not available for dynamic loading"
         val () = prerr_newline ()
       in
-        $ERR.abort {filename} ()
+        $FIL.filename_dummy
       end // end of [None_vt]
   ) : filename // end of [val]
 } // end of [d0ynload_tr]
@@ -785,23 +796,22 @@ case+ d0c0.d0ecl_node of
     d1ecl_vardecs (loc0, d1cs)
   end // end of [D0Cvardecs]
 | D0Cimpdec (i0mparg, d0c) => let
-    val i1mparg = l2l (list_map_fun (i0mparg, s0marg_tr))
-  in
+    val i1mparg = i0mparg_tr (i0mparg) in
     d1ecl_impdec (loc0, i1mparg, i0mpdec_tr d0c)
   end // end of [D0Cimpdec]
 //
 | D0Cinclude (stadyn, path) => let
-    val d1cs = i0nclude_tr (loc0, stadyn, path) in d1ecl_include (loc0, d1cs)
+    val d1cs = i0nclude_tr (d0c0, stadyn, path) in d1ecl_include (loc0, d1cs)
   end // end of [D0Cinclude]
 | D0Cstaload (idopt, path) => let
     var loadflag: int // unitialized
     var fil: filename // unitialized
-    val d1cs = s0taload_tr (loc0, idopt, path, loadflag, fil)
+    val d1cs = s0taload_tr (d0c0, idopt, path, loadflag, fil)
   in
     d1ecl_staload (loc0, idopt, fil, loadflag, d1cs)
   end // end of [D0Cstaload]
 | D0Cdynload (path) => let
-    val fil = d0ynload_tr (loc0, path) in d1ecl_dynload (loc0, fil)
+    val fil = d0ynload_tr (d0c0, path) in d1ecl_dynload (loc0, fil)
   end // end of [D0Cdynload]
 //
 | D0Clocal (
@@ -838,6 +848,15 @@ end // end of [d0ecl_tr]
 
 implement
 d0eclist_tr (d0cs) = l2l (list_map_fun (d0cs, d0ecl_tr))
+
+(* ****** ****** *)
+
+implement
+d0eclist_tr_errck
+  (d0cs) = d1cs where {
+  val d1cs = d0eclist_tr (d0cs)
+  val () = the_trans1errlst_finalize ()
+} // end of [d0eclist_tr_errck]
 
 (* ****** ****** *)
 

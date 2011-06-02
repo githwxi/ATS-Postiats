@@ -674,9 +674,8 @@ case+ d1c0.d1ecl_node of
     val () = prstr "..."
     val () = prstr "\n)"
   }
-| D1Cimpdec (s1mas, d) => {
-    val () = prstr "D1Cimpdec("
-    val () = $UT.fprintlst (out, s1mas, "; ", fprint_s1marg)
+| D1Cimpdec (imparg, d) => {
+    val () = prstr "D1Cimpdec(\n"
     val () = prstr "..."
     val () = prstr "\n)"
   }

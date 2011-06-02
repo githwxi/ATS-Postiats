@@ -594,6 +594,13 @@ q1marg_make
 (* ****** ****** *)
 
 implement
+i1mparg_sarglst (xs) = I1MPARG_sarglst (xs)
+implement
+i1mparg_svararglst (xs) = I1MPARG_svararglst (xs)
+
+(* ****** ****** *)
+
+implement
 t1mpmarg_make
   (loc, arg) = '{
   t1mpmarg_loc= loc, t1mpmarg_arg= arg

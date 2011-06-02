@@ -44,11 +44,18 @@ implement prerr_FILENAME<> () = prerr "pats_trans2_dynexp"
 
 (* ****** ****** *)
 
-staload SYM = "pats_symbol.sats"
+staload
+SYM = "pats_symbol.sats"
 overload = with $SYM.eq_symbol_symbol
 
-staload SYN = "pats_syntax.sats"
+staload
+SYN = "pats_syntax.sats"
 typedef d0ynq = $SYN.d0ynq
+
+macdef
+prerr_dqid (dq, id) =
+  ($SYN.prerr_d0ynq ,(dq); $SYM.prerr_symbol ,(id))
+// end of [prerr_dqid]
 
 (* ****** ****** *)
 
@@ -102,15 +109,17 @@ fn dynspecid_of_dqid
 fn d1exp_tr_dqid (
   d1e0: d1exp, dq: d0ynq, id: symbol
 ) : d2exp = let
+//
   val loc0 = d1e0.d1exp_loc
   val ans = the_d2expenv_find_qua (dq, id)
+//
 in
 //
 case+ ans of
-| ~Some_vt d2i => begin case+ d2i of
+| ~Some_vt d2i0 => (case+ d2i0 of
   | D2ITMcon d2cs => let
       val d2cs = d2con_select_arity (d2cs, 0)
-      val- list_cons (d2c, _) = d2cs
+      val- list_cons (d2c, _) = d2cs // HX: [d2cs] cannot be nil
     in
       d2exp_con (loc0, d2c, list_nil(*sarg*), ~1(*npf*), list_nil(*darg*))
     end // end of [D2ITEMcon]
@@ -120,14 +129,15 @@ case+ ans of
     end // end of [D2ITMe1xp]
   | D2ITMvar d2v => d2exp_var (loc0, d2v)
   | _ => d2exp_err (loc0)
-  end // end of [Some_vt]
+  ) // end of [Some_vt]
 | ~None_vt () => let
     val () = prerr_error2_loc (loc0)
-    val () = filprerr_ifdebug ": d1exp_tr_dqid"
+    val () = filprerr_ifdebug (": d1exp_tr_dqid")
     val () = prerr ": the dynamic identifier ["
-    val () = ($SYN.prerr_d0ynq dq; $SYM.prerr_symbol (id))
+    val () = prerr_dqid (dq, id)
     val () = prerr "] is unrecognized."
     val () = prerr_newline ()
+    val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
   in
     d2exp_err (loc0)
   end // end of [None_vt]
@@ -148,8 +158,7 @@ in
     // end of [...]
   | _ => let
       val () = prerr_interror_loc (loc0)
-      val () = prerr ": d1exp_tr_assgn: d1e0 = "
-      val () = prerr_d1exp (d1e0)
+      val () = (prerr ": d1exp_tr_assgn: d1e0 = "; prerr_d1exp d1e0)
       val () = prerr_newline ()
     in
       $ERR.abort {d2exp} ()
@@ -167,8 +176,7 @@ in
     ) => d2exp_deref (loc0, d1exp_tr d1e)
   | _ => let
       val () = prerr_interror_loc (loc0)
-      val () = prerr ": d1exp_tr_deref: d1e0 = "
-      val () = prerr_d1exp (d1e0)
+      val () = (prerr ": d1exp_tr_deref: d1e0 = "; prerr_d1exp d1e0)
       val () = prerr_newline ()
     in
       $ERR.abort {d2exp} ()
@@ -223,9 +231,10 @@ case+ spdid of
         val () = prerr_error2_loc (d1e1.d1exp_loc)
         val () = filprerr_ifdebug "d1exp_tr_app_dyn_dqid"
         val () = prerr ": unrecognized dynamic identifier ["
-        val () = ($SYN.prerr_d0ynq dq; $SYM.prerr_symbol id)
+        val () = prerr_dqid (dq, id)
         val () = prerr "]."
         val () = prerr_newline ()
+        val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
       in
         d2exp_err (d1e0.d1exp_loc)
       end // end of [None_vt]
@@ -246,7 +255,7 @@ case+ e0.e1xp_node of
     val loc0 = d1e0.d1exp_loc
 //
     prval pfu = unit_v ()
-    val es = list_map_clo<d1exp> {unit_v} (pfu | darg, !p_clo) where {
+    val es = list_map_vclo<d1exp> {unit_v} (pfu | darg, !p_clo) where {
       var !p_clo = @lam (pf: !unit_v | d1e: d1exp): e1xp => e1xp_make_d1exp (loc0, d1e)
     } // end of [val]
     prval unit_v () = pfu
@@ -277,7 +286,6 @@ case+ e0.e1xp_node of
 //
 end // end of [d1exp_tr_app_dyn_e1xp]
 
-
 and
 d1exp_tr_app_sta_dyn_dqid (
   d1e0: d1exp
@@ -300,9 +308,10 @@ case+ ans of
     val () = prerr_error2_loc (d1e1.d1exp_loc)
     val () = filprerr_ifdebug "d1exp_tr_app_sta_dyn_dqid"
     val () = prerr ": unrecognized dynamic identifier ["
-    val () = ($SYN.prerr_d0ynq dq; $SYM.prerr_symbol id)
+    val () = prerr_dqid (dq, id)
     val () = prerr "]."
     val () = prerr_newline ()
+    val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
   in
     d2exp_err (d1e0.d1exp_loc)
   end
@@ -350,9 +359,10 @@ case+ d2i of
     val () = prerr_error2_loc (d1e2.d1exp_loc)
     val () = filprerr_ifdebug ": d1exp_tr_app_sta_dyn_dqid_itm"
     val () = prerr ": the identifier ["
-    val () = ($SYN.prerr_d0ynq (dq); $SYM.prerr_symbol (id))
+    val () = prerr_dqid (dq, id)
     val () = prerr "] does not refer to any variable, constant or constructor."
     val () = prerr_newline ()
+    val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
   in
     d2exp_err (d1e0.d1exp_loc)
   end (* end of [_] *)
@@ -379,6 +389,7 @@ case+ d1e_fun.d1exp_node of
   end
 | D1Edqid (dq, id) =>
     d1exp_tr_app_dyn_dqid (d1e0, d1e_fun, dq, id, locarg, npf, darg)
+  // end of [D1Edqid]
 | _ => let
     val d2e_fun = d1exp_tr (d1e_fun)
     val darg = d1explst_tr (darg)
@@ -406,6 +417,7 @@ case+ d1e_fun.d1exp_node of
   end
 | D1Edqid (dq, id) =>
     d1exp_tr_app_sta_dyn_dqid (d1e0, d1e1, d1e_fun, dq, id, sarg, locarg, npf, darg)
+  // end of [D1Edqid]
 | _ => let
     val d2e_fun = d1exp_tr (d1e_fun)
     val sarg = s1exparglst_tr (sarg)
@@ -487,6 +499,7 @@ case+ d1e0.d1exp_node of
     val () = filprerr_ifdebug ": d1exp_wths1explst_tr"
     val () = prerr ": the dynamic expression is expected to be ascribed a type but it is not."
     val () = prerr_newline ()
+    val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
   in
     d2exp_err (loc0)
   end // end of [_]
@@ -528,49 +541,68 @@ end // end of [d1exp_tr_arg_body]
 
 (* ****** ****** *)
 
+fn i1nvarg_tr
+  (x: i1nvarg): Option_vt (i2nvarg) = let
+//
+fn auxerr1 (x: i1nvarg): void = {
+  val () = prerr_error2_loc (x.i1nvarg_loc)
+  val () = filprerr_ifdebug (": i1nvarglst_tr")
+  val () = prerr ": the dynamic identifier ["
+  val () = $SYM.prerr_symbol (x.i1nvarg_sym)
+  val () = prerr "] should refer to a variable but it does not."
+  val () = prerr_newline ()
+  val () = the_trans2errlst_add (T2E_i1nvarg_tr (x))
+} // end of [auxerr1]
+fun auxerr2 (x: i1nvarg): void = {
+  val () = prerr_error2_loc (x.i1nvarg_loc)
+  val () = filprerr_ifdebug (": i1nvarglst_tr")
+  val () = prerr ": the dynamic identifier ["
+  val () = $SYM.prerr_symbol (x.i1nvarg_sym)
+  val () = prerr "] is unrecognized."
+  val () = prerr_newline ()
+  val () = the_trans2errlst_add (T2E_i1nvarg_tr (x))
+} // end of [auxerr2]
+//
+val ans = the_d2expenv_find x.i1nvarg_sym
+//
+in
+//
+case+ ans of
+| ~Some_vt d2i => (case+ d2i of
+  | D2ITMvar d2v => let
+      val typ = (case+ x.i1nvarg_typ of
+        | Some s1e => Some (s1exp_trdn_impredicative s1e)
+        | None () => None ()
+      ) : s2expopt // end of [val]
+      val arg = i2nvarg_make (d2v, typ)
+    in
+      Some_vt (arg)
+    end // end of [D2ITEMvar]
+  | _ => let
+      val () = auxerr1 (x) in None_vt ()
+    end // end of [_]
+  ) // end of [Some_vt]
+| ~None_vt () => let
+    val () = auxerr2 (x) in None_vt ()
+  end // end of [None_vt]
+// end of [case]
+end // end of [i1nvarg_tr]
+
 fun
-i1nvarglst_tr (
-  xs: i1nvarglst
-) : i2nvarglst = let
+i1nvarglst_tr
+  (xs: i1nvarglst): i2nvarglst = let
+(*
+  val () = print "i1nvarlst_tr: xs = "
+  val () = fprint_i1nvarglst (stdout_ref, xs)
+  val () = print_newline ()
+*)
 in
 //
 case+ xs of
 | list_cons (x, xs) => let
-    val ans = the_d2expenv_find x.i1nvarg_sym
-  in
-    case+ ans of
-    | ~Some_vt d2i => (case+ d2i of
-      | D2ITMvar d2v => let
-          val typ = (case+ x.i1nvarg_typ of
-            | Some s1e => Some (s1exp_trdn_impredicative s1e)
-            | None () => None ()
-          ) : s2expopt
-          val arg = i2nvarg_make (d2v, typ)
-        in
-          list_cons (arg, i1nvarglst_tr xs)
-        end // end of [D2ITEMvar]
-      | _ => let
-          val () = prerr_error2_loc (x.i1nvarg_loc)
-          val () = filprerr_ifdebug (": i1nvarglst_tr")
-          val () = prerr ": the dynamic identifier ["
-          val () = $SYM.prerr_symbol (x.i1nvarg_sym)
-          val () = prerr "] should refer to a variable but it does not."
-          val () = prerr_newline ()
-        in
-          i1nvarglst_tr xs
-        end // end of [_]
-      ) // end of [Some_vt]
-    | ~None_vt () => let
-        val () = prerr_error2_loc (x.i1nvarg_loc)
-        val () = filprerr_ifdebug (": i1nvarglst_tr")
-        val () = prerr ": the dynamic identifier ["
-        val () = $SYM.prerr_symbol (x.i1nvarg_sym)
-        val () = prerr "] is unrecognized."
-        val () = prerr_newline ()
-      in
-        i1nvarglst_tr xs
-      end // end of [None_vt]
-    // end of [case]
+    val opt = i1nvarg_tr (x) in case+ opt of
+    | ~Some_vt (x) => list_cons (x, i1nvarglst_tr (xs))
+    | ~None_vt () => i1nvarglst_tr (xs)
   end (* end of [list_cons] *)
 | list_nil () => list_nil ()
 //
@@ -578,22 +610,22 @@ end // end of [i1nvarglst_tr]
 
 fn i1nvresstate_tr
   (r1es: i1nvresstate): i2nvresstate = let
-  val s2qs = s1qualst_tr (r1es.i1nvresstate_qua)
+  val s2q = s1qualst_tr (r1es.i1nvresstate_qua)
   val body = i1nvarglst_tr r1es.i1nvresstate_arg
 in
-  i2nvresstate_make (s2qs.0, s2qs.1, body)
+  i2nvresstate_make (s2q.s2qua_svs, s2q.s2qua_sps, body)
 end // end of [i1nvresstate_tr]
 
 fn loopi1nv_tr
   (inv: loopi1nv): loopi2nv = let
-  val s2qs = s1qualst_tr (inv.loopi1nv_qua)
+  val s2q = s1qualst_tr (inv.loopi1nv_qua)
   val met = (case+ inv.loopi1nv_met of
     | Some s1es => Some (s1explst_trdn_int s1es) | None () => None ()
   ) : s2explstopt
   val arg = i1nvarglst_tr (inv.loopi1nv_arg)
   val res = i1nvresstate_tr (inv.loopi1nv_res)
 in
-  loopi2nv_make (inv.loopi1nv_loc, s2qs.0, s2qs.1, met, arg, res)
+  loopi2nv_make (inv.loopi1nv_loc, s2q.s2qua_svs, s2q.s2qua_sps, met, arg, res)
 end // end of [loopi1nv_tr]
 
 (* ****** ****** *)
@@ -631,17 +663,17 @@ fn c1lau_tr {n:nat}
   val n1 = list_length (p2ts)
 (*
   val () = begin
-    printf ("c1lau_tr: n = %i and np2ts = %i\n", @(n, np2ts))
+    printf ("c1lau_tr: n = %i and n1 = %i\n", @(n, n1))
   end // end of [val]
 *)
-  val () = if n <> n1 then {
+  val () = if n != n1 then {
     val () = prerr_error2_loc (loc)
     val () = filprerr_ifdebug (": c1lau_tr")
-    val () = if n < n1 then
-      prerr ": this clause should contain less patterns."
-    val () = if n > n1 then
-      prerr ": this clause should contain more patterns."
+    val () = prerr ": this clause should contain "
+    val () = prerr_string (if n < n1 then "less" else "more")
+    val () = prerr " patterns."
     val () = prerr_newline ()
+    val () = the_trans2errlst_add (T2E_c1lau_tr (c1l))
   } // end of [val]
 //
   val (pfenv | ()) = the_trans2_env_push ()
@@ -664,12 +696,34 @@ in
 end // end of [c1lau_tr]
 
 fun c1laulst_tr {n:nat}
-  (n: int n, c1ls: c1laulst): c2laulst =
+  (n: int n, c1ls: c1laulst): c2laulst = (
   case+ c1ls of
   | list_cons (c1l, c1ls) =>
       list_cons (c1lau_tr (n, c1l), c1laulst_tr (n, c1ls))
   | list_nil () => list_nil ()
-// end of [c1laulst_tr]
+) // end of [c1laulst_tr]
+
+(* ****** ****** *)
+
+fn sc1lau_trdn (
+  sc1l: sc1lau, s2t_pat: s2rt
+) : sc2lau = let
+  val (pfenv | ()) = the_s2expenv_push_nil ()
+  val sp2t = sp1at_trdn (sc1l.sc1lau_pat, s2t_pat)
+  val body = d1exp_tr (sc1l.sc1lau_body)
+  val () = the_s2expenv_pop_free (pfenv | (*none*))  
+in
+  sc2lau_make (sc1l.sc1lau_loc, sp2t, body)
+end // end of [sc1lau_tr]
+
+fun sc1laulst_trdn (
+  xs: sc1laulst, s2t: s2rt
+) : sc2laulst = (
+  case+ xs of
+  | list_cons (x, xs) =>
+      list_cons (sc1lau_trdn (x, s2t), sc1laulst_trdn (xs, s2t))
+  | list_nil () => list_nil ()
+) // end of [sc1laulst_trdn]
 
 (* ****** ****** *)
 
@@ -703,6 +757,15 @@ case+ d1e0.d1exp_node of
 //
 | D1Ecstsp cst => d2exp_cstsp (loc0, cst)
 //
+| D1Etop () => d2exp_top (loc0)
+| D1Eempty () => d2exp_empty (loc0)
+//
+| D1Eextval (s1e, code) => let
+    val s2e = s1exp_trdn_viewt0ype (s1e)
+  in
+    d2exp_extval (loc0, s2e, code)
+  end (* end of [D1Eextval] *)
+//
 | D1Eloopexn (knd) => d2exp_loopexn (loc0, knd)
 //
 | D1Efoldat (s1as, d1e) => let
@@ -728,6 +791,13 @@ case+ d1e0.d1exp_node of
   in
     d2exp_where (loc0, d2e, d2cs)
   end // end of [D1Ewhere]
+| D1Edecseq (d1cs) => let
+    val (pfenv | ()) = the_trans2_env_push ()
+    val d2cs = d1eclist_tr (d1cs); val d2e = d2exp_empty (loc0)
+    val () = the_trans2_env_pop (pfenv | (*none*))
+  in
+    d2exp_let (loc0, d2cs, d2e)
+  end // end of [D1Edecseq]
 //
 | D1Eapp_dyn (
     d1e1, locarg, npf, darg
@@ -738,6 +808,10 @@ case+ d1e0.d1exp_node of
       // end of [P1Tapp_sta]
     | _ => d1exp_tr_app_dyn (d1e0, d1e1, locarg, npf, darg)
   ) // end of [D1Eapp_dyn]
+| D1Eapp_sta (d1e1, sarg) => let
+    val locarg = d1e1.d1exp_loc in
+    d1exp_tr_app_sta_dyn (d1e0, d1e1, d1e1, sarg, locarg, ~1(*npf*), list_nil(*darg*))
+  end // end of [D1Eapp_sta]
 //
 | D1Elist (npf, d1es) => (
   case+ d1es of
@@ -781,17 +855,20 @@ case+ d1e0.d1exp_node of
   in
     d2exp_casehead (loc0, knd, r2es, d2es, c2ls)
   end // end of [D1Ecaseof]
-(*
-| D1Escaseof (r1es, s1e, sc1ls) => let
+| D1Escasehead
+    (r1es, s1e, sc1ls) => let
     val r2es = i1nvresstate_tr (r1es)
-    val s2e = s1exp_tr_up (s1e)
+    val s2e = s1exp_trup (s1e)
     val s2t_pat = s2e.s2exp_srt
     val sc2ls = sc1laulst_trdn (sc1ls, s2t_pat)
-    val () = sc2laulst_covercheck (loc0, sc2ls, s2t_pat)
+(*
+    val () =
+      sc2laulst_covercheck (loc0, sc2ls, s2t_pat) // FIXME!!!
+    // end of [val]
+*)
   in
     d2exp_scasehead (loc0, r2es, s2e, sc2ls)
   end // end of [D1Escaseof]
-*)
 //
 | D1Elst (lin, s1eopt, d1es) => let
     val s2eopt = (
@@ -806,6 +883,11 @@ case+ d1e0.d1exp_node of
 | D1Etup (tupknd, npf, d1es) =>
     d2exp_tup (loc0, tupknd, npf, d1explst_tr d1es)
   // end of [D1Etup]
+| D1Erec (recknd, npf, ld1es) => let
+    val ld2es = l2l (list_map_fun (ld1es, labd1exp_tr))
+  in
+    d2exp_rec (loc0, recknd, npf, ld2es)
+  end // end of [D1Erec]
 | D1Eseq d1es => let
     val d2es = d1explst_tr (d1es) in d2exp_seq (loc0, d2es)
   end // end of [D1Eseq]
@@ -888,6 +970,15 @@ case+ d1e0.d1exp_node of
     d2exp_fix (loc0, knd, d2v, d2e_body)
   end // end of [D1Efix]
 //
+| D1Elam_sta_syn
+    (_(*locarg*), s1qs, d1e) => let
+    val (pfenv | ()) = the_s2expenv_push_nil ()
+    val s2q = s1qualst_tr (s1qs); val d2e = d1exp_tr (d1e)
+    val () = the_s2expenv_pop_free (pfenv | (*none*))
+  in
+    d2exp_lam_sta (loc0, s2q.s2qua_svs, s2q.s2qua_sps, d2e)
+  end // end of [D1Elam_sta_syn]
+//
 | D1Eann_type (d1e, s1e) => let
     val d2e = d1exp_tr d1e
     val s2e = s1exp_trdn_impredicative (s1e)
@@ -903,6 +994,8 @@ case+ d1e0.d1exp_node of
     val d2e = d1exp_tr (d1e) in d2exp_ann_funclo (loc0, d2e, fc)
   end // end of [D1Eann_funclo]
 //
+| D1Eerr () => d2exp_err (loc0)
+//
 | D1Eidextapp
     (id, ns, d1es) => let
     val () = prerr_error2_loc (loc0)
@@ -910,6 +1003,7 @@ case+ d1e0.d1exp_node of
     val () = $SYM.prerr_symbol (id)
     val () = prerr "] cannot be handled."
     val () = prerr_newline ()
+    val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
   in
     d2exp_err (loc0)
   end // end of [_]
@@ -918,10 +1012,12 @@ case+ d1e0.d1exp_node of
     val () = prerr_error2_loc (loc0)
     val () = prerr ": this form of expression is only allowd to occur as an argument."
     val () = prerr_newline ()
+    val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
   in
     d2exp_err (loc0)
   end // end of [D1Esexparg]
 //
+// (*
 | _ => let
     val () = prerr_interror_loc (loc0)
     val () = prerr ": d1exp_tr: not yet implemented: d1e0 = "
@@ -931,6 +1027,7 @@ case+ d1e0.d1exp_node of
   in
     $ERR.abort {d2exp} ()
   end // end of [_]
+// *)
 //
 end // end of [d1exp_tr]
 
@@ -941,18 +1038,24 @@ d1explst_tr (d1es) = l2l (list_map_fun (d1es, d1exp_tr))
 
 implement
 d1expopt_tr
-  (d1eopt) = (
-  case+ d1eopt of
+  (d1eopt) = (case+ d1eopt of
   | Some (d1e) => Some (d1exp_tr d1e) | None () => None ()
 ) // end of [d1expopt_tr]
 
 (* ****** ****** *)
 
 implement
-d1lab_tr (d1l) = let
-  val loc0 = d1l.d1lab_loc
+labd1exp_tr (ld1e) = let
+  val+ $SYN.L0ABELED (l, d1e) = ld1e in labd2exp_make (l, d1exp_tr (d1e))
+end // end of [labd0exp_tr]
+
+(* ****** ****** *)
+
+implement
+d1lab_tr (d1l0) = let
+  val loc0 = d1l0.d1lab_loc
 in
-  case+ d1l.d1lab_node of
+  case+ d1l0.d1lab_node of
   | D1LABlab lab => d2lab_lab (loc0, lab)
   | D1LABind ind =>
       d2lab_ind (loc0, l2l (list_map_fun (ind, d1explst_tr)))

@@ -39,7 +39,6 @@ staload ERR = "pats_error.sats"
 (* ****** ****** *)
 
 staload "pats_basics.sats"
-macdef isdebug () = (debug_flag_get () > 0)
 
 (* ****** ****** *)
 
@@ -112,11 +111,11 @@ case+ s1t_fun.s1rt_node of
     end // end of [_]
   ) // end of [s1rt_is_arrow]
 | _ => s2rt_err () where {
-    val () = the_tran2errlst_add (T2E_s1rt_tr_app (s1t0))
     val () = prerr_error2_loc (s1t0.s1rt_loc)
-    val () = if isdebug () then prerr (": s1rt_tr_app")
+    val () = filprerr_ifdebug (": s1rt_tr_app")
     val () = prerr ": sort application is not supported."
     val () = prerr_newline ()
+    val () = the_trans2errlst_add (T2E_s1rt_tr (s1t0))
   } // end of [_]
 //
 end // end of [s1rt_tr_app]
@@ -135,25 +134,25 @@ case+ ans of
   case+ x of
   | S2TEsrt (s2t) => s2t
   | _ => let
-      val () = the_tran2errlst_add (T2E_s1rt_tr_qid (s1t0))
       val () = prerr_error2_loc (loc0)
-      val () = if isdebug () then prerr ": s1rt_tr_qid"
+      val () = filprerr_ifdebug (": s1rt_tr_qid")
       val () = prerr ": the identifier ["
       val () = prerr_symbol (id)
-      val () = prerr "] refers to a subset sort that is not a sort."
+      val () = prerr "] is expected to refer to a sort (instead of a subset sort)." 
       val () = prerr_newline ()
+      val () = the_trans2errlst_add (T2E_s1rt_tr (s1t0))
     in
       s2rt_err ()
     end (* end of [_] *)
   ) // end of [Some_vt]
 | ~None_vt () => let
-      val () = the_tran2errlst_add (T2E_s1rt_tr_qid (s1t0))
-      val () = prerr_error2_loc (loc0)
-      val () = if isdebug () then prerr ": s1rt_tr_qid"
-      val () = prerr ": the identifier ["
-      val () = prerr_symbol (id)
-      val () = prerr "] does not refer to any recognized sort."
-      val () = prerr_newline ()
+    val () = prerr_error2_loc (loc0)
+    val () = filprerr_ifdebug (": s1rt_tr_qid")
+    val () = prerr ": the identifier ["
+    val () = prerr_symbol (id)
+    val () = prerr "] does not refer to any recognized sort."
+    val () = prerr_newline ()
+    val () = the_trans2errlst_add (T2E_s1rt_tr (s1t0))
   in
     s2rt_err ()
   end // end of [None_vt]
@@ -200,6 +199,8 @@ implement
 a1srt_tr_srt (x) = s1rt_tr (x.a1srt_srt)
 implement
 a1msrt_tr_srt (x) = l2l (list_map_fun (x.a1msrt_arg, a1srt_tr_srt))
+
+(* ****** ****** *)
 
 implement
 a1srt_tr_symsrt (x) = let

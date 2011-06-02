@@ -1300,6 +1300,16 @@ labp0at_omit (tok) = '{
 (* ****** ****** *)
 
 implement
+i0mparg_sarglst
+  (t_beg, xs, t_end) = I0MPARG_sarglst (xs)
+// end of [i0mparg_sarglst]
+
+implement
+i0mparg_svararglst (xs) = I0MPARG_svararglst (xs)
+
+(* ****** ****** *)
+
+implement
 t0mpmarg_make
   (tok, arg) = let
   val loc = tok.token_loc
@@ -2593,11 +2603,11 @@ in '{
 
 implement
 d0ecl_impdec (
-  t_implement, i0mparg, i0mpdec
+  t_implement, imparg, impdec
 ) = let
-  val loc = t_implement.token_loc + i0mpdec.i0mpdec_loc
+  val loc = t_implement.token_loc + impdec.i0mpdec_loc
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cimpdec (i0mparg, i0mpdec)
+  d0ecl_loc= loc, d0ecl_node= D0Cimpdec (imparg, impdec)
 } end // end of [d0ecl_impdec]
 
 (* ****** ****** *)

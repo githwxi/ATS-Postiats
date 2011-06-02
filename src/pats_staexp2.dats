@@ -55,6 +55,37 @@ staload "pats_staexp2.sats"
 (* ****** ****** *)
 
 implement
+sp2at_con
+  (loc, s2c, s2vs) = let
+  val s2es =
+    l2l (list_map_fun (s2vs, s2exp_var))
+  // end of [val]
+  val s2e_pat = s2exp_cstapp (s2c, s2es)
+in '{
+  sp2at_loc= loc
+, sp2at_exp= s2e_pat, sp2at_node = SP2Tcon (s2c, s2vs)
+} end // end of [sp2at_con]
+
+implement
+sp2at_err (loc) = let
+  val s2t_pat = s2rt_err ()
+  val s2e_pat = s2exp_err (s2t_pat)
+in '{
+  sp2at_loc= loc
+, sp2at_exp= s2e_pat, sp2at_node= SP2Terr ()
+} end // end of [sp2at_err]
+
+(* ****** ****** *)
+
+implement
+s2qua_make
+  (svs, sps) = @{
+  s2qua_svs= svs, s2qua_sps= sps
+} // end of [s2qua_make]
+
+(* ****** ****** *)
+
+implement
 s2exp_int (i) = '{
   s2exp_srt= s2rt_int, s2exp_node= S2Eint (i)
 } // end of [s2exp_int]
@@ -209,10 +240,14 @@ s2exp_wth (s2e, wths2es) = '{
   s2exp_srt= s2e.s2exp_srt, s2exp_node= S2Ewth (s2e, wths2es)
 } // end of [s2exp_wth]
 
+(* ****** ****** *)
+
 implement
 s2exp_err (s2t) = '{
   s2exp_srt= s2t, s2exp_node= S2Eerr ()
 }
+implement
+s2exp_s2rt_err () = s2exp_err (s2rt_err ())
 
 (* ****** ****** *)
 

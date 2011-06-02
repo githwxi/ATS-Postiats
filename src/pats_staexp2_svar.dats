@@ -173,10 +173,15 @@ lte_s2var_s2var
 // end of [lte_s2var_s2var]
 
 implement
-compare_s2var_s2var
+compare_s2var_s2var (x1, x2) =
+  $effmask_all (compare (s2var_get_stamp (x1), s2var_get_stamp (x2)))
+// end of [compare_s2var_s2var]
+
+implement
+compare_s2vsym_s2vsym
   (x1, x2) = $effmask_all (
-  compare (s2var_get_stamp (x1), s2var_get_stamp (x2))
-) // end of [compare_s2var_s2var]
+  $SYM.compare_symbol_symbol (s2var_get_sym (x1), s2var_get_sym (x2))
+) // end of [compare_s2vsym_s2vsym]
 
 (* ****** ****** *)
 

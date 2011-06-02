@@ -67,15 +67,6 @@ staload "pats_trans1_env.sats"
 macdef list_sing (x) = list_cons (,(x), list_nil ())
 
 (* ****** ****** *)
-
-fn s0vararg_tr
-  (s0a: s0vararg): s1vararg = case+ s0a of
-  | S0VARARGseq (s0as) => S1VARARGseq (s0arglst_tr s0as)
-  | S0VARARGone () => S1VARARGone ()
-  | S0VARARGall () => S1VARARGall ()
-// end of [s0vararg_tr]
-
-(* ****** ****** *)
 //
 // HX: translation of patterns
 //

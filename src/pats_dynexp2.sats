@@ -60,6 +60,8 @@ typedef i0nt = $SYN.i0nt
 typedef c0har = $SYN.c0har
 typedef f0loat = $SYN.f0loat
 typedef s0tring = $SYN.s0tring
+typedef l0ab = $SYN.l0ab
+typedef l0abeled (a:type) = $SYN.l0abeled (a)
 
 (* ****** ****** *)
 
@@ -125,8 +127,8 @@ fun d2var_set_level (x: d2var, level: int): void
 
 fun d2var_get_linval (x: d2var): int
 
-fun d2var_get_decarg (x: d2var): s2qualstlst
-fun d2var_set_decarg (x: d2var, decarg: s2qualstlst): void
+fun d2var_get_decarg (x: d2var): s2qualst
+fun d2var_set_decarg (x: d2var, decarg: s2qualst): void
 
 fun d2var_get_addr (x: d2var): s2expopt
 fun d2var_set_addr (x: d2var, s2eopt: s2expopt): void
@@ -144,6 +146,8 @@ fun d2var_get_stamp (x: d2var): stamp
 fun compare_d2var_d2var (x1: d2var, x2: d2var):<> Sgn
 overload compare with compare_d2var_d2var
 
+fun compare_d2vsym_d2vsym (x1: d2var, x2: d2var):<> Sgn
+
 (* ****** ****** *)
 
 fun d2cst_make (
@@ -151,7 +155,7 @@ fun d2cst_make (
 , loc: location
 , fil: filename
 , dck: dcstkind
-, decarg: s2qualstlst
+, decarg: s2qualst
 , arylst: List int
 , typ: s2exp
 , extdef: dcstextdef
@@ -164,8 +168,8 @@ fun d2cst_get_fil (_: d2cst): filename
 fun d2cst_get_sym (x: d2cst): symbol
 fun d2cst_get_kind (x: d2cst): dcstkind
 fun d2cst_get_arylst (x: d2cst): List int
-fun d2cst_get_decarg (x: d2cst): s2qualstlst
-fun d2cst_set_decarg (x: d2cst, s2qss: s2qualstlst): void
+fun d2cst_get_decarg (x: d2cst): s2qualst
+fun d2cst_set_decarg (x: d2cst, s2qs: s2qualst): void
 fun d2cst_get_typ (x: d2cst): s2exp
 fun d2cst_get_extdef (x: d2cst): dcstextdef
 fun d2cst_get_stamp (x: d2cst): stamp
@@ -315,7 +319,9 @@ d2ecl_node =
       (valkind, v2aldeclst) // (reccursive) value declarations
     // end of [D2Cvaldecs_rec]
   | D2Cvardecs of (v2ardeclst) // variable declarations
-  | D2Cfundecs of (funkind, s2qualstlst, f2undeclst)
+  | D2Cfundecs of (funkind, s2qualst, f2undeclst)
+//
+  | D2Cimpdec of i2mpdec // val/fun/prval/prfun implementation
 //
   | D2Cinclude of d2eclist (* file inclusion *)
   | D2Cstaload of (
@@ -339,12 +345,16 @@ d2exp_node =
   | D2Ef0loat of f0loat
   | D2Es0tring of s0tring
 //
-  | D2Eempty of ()
+  | D2Ecstsp of $SYN.cstsp
+//
+  | D2Etop of () // unspecified
+  | D2Eempty of () // the void-value
+//
+  | D2Eextval of (s2exp(*typ*), string(*code*))
 //
   | D2Econ of (* dynamic constructor *)
       (d2con, s2exparglst, int (*pfarity*), d2explst)
   | D2Ecst of d2cst
-  | D2Ecstsp of $SYN.cstsp
 //
   | D2Eloopexn of int(*knd*)
 //
@@ -372,9 +382,10 @@ d2exp_node =
       i2nvresstate, s2exp, sc2laulst
     ) // end of [D2Escaseof]
 //
-  | D2Elst of (int(*lin*), s2expopt, d2explst)
-  | D2Etup of (int(*knd*), int(*npf*), d2explst)
-  | D2Eseq of d2explst // sequence-expressions
+  | D2Elst of (int(*lin*), s2expopt, d2explst) // list
+  | D2Etup of (int(*knd*), int(*npf*), d2explst) // tuple
+  | D2Erec of (int (*knd*), int (*npf*), labd2explst) // record
+  | D2Eseq of d2explst // sequence-expressions // sequence
 //
   | D2Earrsub of (* array subscription *)
       (d2sym, d2exp, location(*ind*), d2explstlst(*ind*))
@@ -397,6 +408,9 @@ d2exp_node =
   | D2Elaminit_dyn of (* flat dynamic abstraction *)
       (int(*lin*), int(*npf*), p2atlst(*arg*), d2exp(*body*))
   | D2Elam_met of (ref(d2varlst), s2explst(*met*), d2exp(*body*))
+//
+  | D2Elam_sta of (s2varlst, s2explst, d2exp) // static abstraction
+//
   | D2Efix of (
       int(*knd: 0/1: flat/boxed*), d2var(*fixvar*), d2exp(*body*)
     ) // end of [D2Efix]
@@ -430,6 +444,9 @@ d2exp = '{
 and d2explst = List (d2exp)
 and d2expopt = Option (d2exp)
 and d2explstlst = List (d2explst)
+
+and labd2exp = l0abeled (d2exp)
+and labd2explst = List (labd2exp)
 
 and d2exparglst = List (d2exparg)
 
@@ -531,6 +548,18 @@ and f2undec = '{
 and f2undeclst = List f2undec
 
 (* ****** ****** *)
+
+and i2mpdec = '{
+  i2mpdec_loc= location
+, i2mpdec_locid= location
+, i2mpdec_cst= d2cst
+, i2mpdec_imparg= s2varlst
+, i2mpdec_tmparg= s2explst
+, i2mpdec_tmpgua= s2explstlst
+, i2mpdec_def= d2exp
+} // end of [i2mpdec]
+
+(* ****** ****** *)
 //
 // HX: dynamic expressions
 //
@@ -553,7 +582,12 @@ fun d2exp_c0har (loc: location, x: c0har): d2exp
 fun d2exp_f0loat (loc: location, x: f0loat): d2exp
 fun d2exp_s0tring (loc: location, x: s0tring): d2exp
 
+fun d2exp_top (loc: location): d2exp
 fun d2exp_empty (loc: location): d2exp
+
+fun d2exp_extval
+  (loc: location, typ: s2exp, code: string): d2exp
+// end of [d2exp_extval]
 
 fun d2exp_con (
   loc: location
@@ -637,6 +671,10 @@ fun d2exp_tup (
   loc: location, knd: int, npf: int, d2es: d2explst
 ) : d2exp // end of [d2exp_tup]
 
+fun d2exp_rec (
+  loc: location, knd: int, npf: int, ld2es: labd2explst
+) : d2exp // end of [d2exp_rec]
+
 fun d2exp_seq (loc: location, d2es: d2explst): d2exp
 
 (* ****** ****** *)
@@ -683,6 +721,10 @@ fun d2exp_lam_met
 // end of [d2exp_lam_met]
 fun d2exp_lam_met_new (loc: location, met: s2explst, body: d2exp): d2exp
 
+fun d2exp_lam_sta (
+  loc: location, s2vs: s2varlst, s2ps: s2explst, body: d2exp
+) : d2exp // end of [d2exp_lam_sta]
+
 fun d2exp_fix (loc: location, knd: int, f: d2var, body: d2exp): d2exp
 
 (* ****** ****** *)
@@ -694,6 +736,10 @@ fun d2exp_ann_funclo (loc: location, d2e: d2exp, fc: funclo): d2exp
 (* ****** ****** *)
 
 fun d2exp_err (loc: location): d2exp
+
+(* ****** ****** *)
+
+fun labd2exp_make (l: l0ab, d2e: d2exp): labd2exp
 
 (* ****** ****** *)
 
@@ -770,6 +816,17 @@ fun f2undec_make (
 ) : f2undec // end of [f2undec_make]
 
 (* ****** ****** *)
+
+fun i2mpdec_make (
+  loc: location
+, locid: location
+, d2c: d2cst
+, imparg: s2varlst
+, tmparg: s2explst, tmpgua: s2explstlst
+, def: d2exp
+) : i2mpdec // end of [i2mpdec_make]
+
+(* ****** ****** *)
 //
 // HX: various declarations
 //
@@ -815,7 +872,7 @@ fun d2ecl_vardecs (loc: location, d2cs: v2ardeclst): d2ecl
 
 fun d2ecl_fundecs (
   loc: location
-, knd: funkind, decarg: s2qualstlst, d2cs: f2undeclst
+, knd: funkind, decarg: s2qualst, d2cs: f2undeclst
 ) : d2ecl // end of [d2ecl_fundecs]
 
 (* ****** ****** *)

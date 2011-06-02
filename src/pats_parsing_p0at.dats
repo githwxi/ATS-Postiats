@@ -326,7 +326,7 @@ case+ tok.token_node of
     val bt = 0
     val () = incby1 ()
     val ent2 = pstar_fun0_COMMA {s0arg} (buf, bt, p_s0arg)
-    val ent3 = p_RBRACKET (buf, bt, err) // err = err0
+    val ent3 = p_RBRACKET (buf, bt, err) // HX: err = err0
   in
     if err = err0 then
       p0at_exist (tok, (l2l)ent2, ent3)

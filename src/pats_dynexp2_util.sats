@@ -43,4 +43,10 @@ fun d2con_select_arity (d2cs: d2conlst, n: int): d2conlst
 
 (* ****** ****** *)
 
+fun sc2laulst_covercheck
+  (loc0: location, xs: sc2laulst, s2t: s2rt): void
+// end of [sc2laulst_covercheck]
+
+(* ****** ****** *)
+
 (* end of [pats_dynexp2_util.sats] *)

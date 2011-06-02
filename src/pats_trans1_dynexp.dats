@@ -130,18 +130,20 @@ end // end of [d1expitm_backslash]
 fn s0expdarg_tr (
   d0e: d0exp
 ) : s1exparg = let
-  val d1e = d0exp_tr d0e
+  val d1e = d0exp_tr (d0e)
 in
-  case+ d1e.d1exp_node of
-  | D1Esexparg s1a => s1a
-  | _ => let
-      val () = prerr_interror_loc (d0e.d0exp_loc)
-      val () = prerr ": d0exp_tr: D0Efoldat: d1e = "
-      val () = fprint_d1exp (stderr_ref, d1e)
-      val () = prerr_newline ()
-    in
-      $ERR.abort {s1exparg} ()
-    end // end of [_]
+//
+case+ d1e.d1exp_node of
+| D1Esexparg s1a => s1a
+| _ => let
+    val () = prerr_interror_loc (d0e.d0exp_loc)
+    val () = prerr ": d0exp_tr: D0Efoldat: d1e = "
+    val () = fprint_d1exp (stderr_ref, d1e)
+    val () = prerr_newline ()
+  in
+    $ERR.abort {s1exparg} ()
+  end // end of [_]
+//
 end // end of [s0expdarg_tr]
 
 fn s0expdarglst_tr
@@ -255,8 +257,9 @@ termination_metric_check
         val () = prerr_error1_loc (loc)
         val () = prerr ": a termination metric is missing"
         val () = prerr_newline ()
+        val () = the_trans1errlst_add (T1E_termination_metric_check (loc))
       in
-        $ERR.abort ()
+        // nothing
       end // end of [if]
     end // end of [Some]
   | None () => () // end of [None]
@@ -357,12 +360,14 @@ fn sc0laulst_tr
 local
 
 fn d0exp_tr_errmsg_opr
-  (loc: location): d1exp = let
-  val () = prerr_error1_loc (loc)
+  (d0e0: d0exp): d1exp = let
+  val loc0 = d0e0.d0exp_loc
+  val () = prerr_error1_loc (loc0)
   val () = prerr ": the operator needs to be applied."
   val () = prerr_newline ()
+  val () = the_trans1errlst_add (T1E_d0exp_tr (d0e0))
 in
-  $ERR.abort {d1exp} ()
+  d1exp_err (loc0)
 end // end of [d0exp_tr_errmsg_opr]
 
 in // in of [local]
@@ -753,7 +758,7 @@ in
 //
 case+ aux_item (d0e0) of
 | FXITMatm (p1t) => p1t
-| FXITMopr _ => d0exp_tr_errmsg_opr (d0e0.d0exp_loc)
+| FXITMopr _ => d0exp_tr_errmsg_opr (d0e0)
 //
 end // end of [d0exp_tr]
 
@@ -770,8 +775,8 @@ d0expopt_tr (opt) = case+ opt of
 (* ****** ****** *)
 
 implement
-labd0exp_tr (x) = let
-  val+ L0ABELED (l, d0e) = x in labd1exp_make (l, d0exp_tr (d0e))
+labd0exp_tr (ld0e) = let
+  val+ L0ABELED (l, d0e) = ld0e in labd1exp_make (l, d0exp_tr (d0e))
 end // end of [labd0exp_tr]
 
 (* ****** ****** *)

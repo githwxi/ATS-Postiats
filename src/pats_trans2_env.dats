@@ -59,6 +59,10 @@ staload "pats_symenv.sats"
 staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
 staload "pats_namespace.sats"
+
+(* ****** ****** *)
+
+staload "pats_trans2.sats"
 staload "pats_trans2_env.sats"
 
 (* ****** ****** *)
@@ -585,35 +589,34 @@ end // end of [local]
 implement
 s2var_check_tmplev
   (loc, s2v) = let
-  val tmplev = s2var_get_tmplev (s2v)
+  val lev = s2var_get_tmplev (s2v)
 in
   case+ 0 of
-  | _ when tmplev > 0 => let
-      val tmplev0 = the_tmplev_get ()
+  | _ when lev > 0 => let
+      val tmplev = the_tmplev_get ()
     in
-      if tmplev < tmplev0 then {
+      if lev < tmplev then {
         val () = prerr_error2_loc (loc)
         val () = prerr ": the static variable ["
         val () = prerr_s2var (s2v)
         val () = prerr "] is out of scope."
         val () = prerr_newline ()
+        val () = the_trans2errlst_add (T2E_s2var_check_tmplev (s2v))
       } // end of [if]
-    end // end of [_ when s2v_tmplev > 0]
-  | _ => () // not a template variable
+    end // end of [_ when lev > 0]]
+  | _ => () // HX: [s2v] is not a template variable
 end // end of [s2var_tmplev_check]
 
 implement
 s2qualstlst_set_tmplev
-  (s2qss, tmplev) = () where {
+  (s2qs, tmplev) = () where {
   fun aux (
-    pf: !unit_v | s2qs: s2qualst
-  ) :<cloptr1> void = let
-    fn f (pf: !unit_v | s2v: s2var):<cloptr1> void = s2var_set_tmplev (s2v, tmplev)
-  in
-    list_app_cloptr {unit_v} (pf | s2qs.0, f)
-  end // end of [aux]
+    pf: !unit_v | s2q: s2qua
+  ) :<cloptr1> void =
+    list_app_cloptr (s2q.s2qua_svs, lam s2v =<1> s2var_set_tmplev (s2v, tmplev))
+  // end of [aux]
   prval pfu = unit_v ()
-  val () = list_app_cloptr {unit_v} (pfu | s2qss, aux)
+  val () = list_app_vcloptr {unit_v} (pfu | s2qs, aux)
   prval unit_v () = pfu
 } // end of [s2qualstlst_set_tmplev]
 

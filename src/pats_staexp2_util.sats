@@ -38,6 +38,7 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
+staload "pats_staexp1.sats"
 staload "pats_staexp2.sats"
 
 (* ****** ****** *)
@@ -62,6 +63,38 @@ fun s2rt_npf_lin_prf_prgm_boxed_labs2explst (
 
 (* ****** ****** *)
 
+fun s2cst_select_locs2explstlst
+  (s2cs: s2cstlst, arg: List (locs2explst)): s2cstlst
+// end of [s2cst_select_locs2explstlst]
+
+(* ****** ****** *)
+
+abstype
+stasub_type // for static substitution
+typedef stasub = stasub_type
+
+fun stasub_make_nil () : stasub
+
+fun stasub_add
+  (sub: stasub, s2v: s2var, s2e: s2exp): stasub
+fun stasub_addlst
+  (sub: stasub, s2vs: s2varlst, s2es: s2explst): stasub
+
+fun stasub_get_domain (_: stasub): s2varlst
+
+fun stasub_extend_svarlst
+  (sub: stasub, s2vs: s2varlst): @(stasub, s2varlst)
+fun stasub_extend_sarglst_svarlst
+  (sub: stasub, s1as: s1arglst, s2vs: s2varlst): @(stasub, s2varlst)
+
+fun s2exp_subst (sub: stasub, s2e: s2exp): s2exp
+fun s2explst_subst (sub: stasub, s2es: s2explst): s2explst
+fun s2expopt_subst (sub: stasub, os2e: s2expopt): s2expopt
+
+fun s2explstlst_subst (sub: stasub, s2ess: s2explstlst): s2explstlst
+
+(* ****** ****** *)
+
 fun s2exp_alpha 
   (s2v: s2var, s2v_new: s2var, s2e: s2exp): s2exp
 // end of [s2exp_alpha]
@@ -69,12 +102,6 @@ fun s2exp_alpha
 fun s2explst_alpha
   (s2v: s2var, s2v_new: s2var, s2es: s2explst): s2explst
 // end of [s2explst_alpha]
-
-(* ****** ****** *)
-
-fun s2cst_select_locs2explstlst
-  (s2cs: s2cstlst, arg: List (locs2explst)): s2cstlst
-// end of [s2cst_select_locs2explstlst]
 
 (* ****** ****** *)
 

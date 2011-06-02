@@ -42,23 +42,38 @@ typedef s0rtq = $SYN.s0rtq
 staload "pats_staexp1.sats"
 staload "pats_dynexp1.sats"
 staload "pats_staexp2.sats"
+staload "pats_staexp2_util.sats"
 staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
-
-datatype tran2err =
-  | T2E_s1rt_tr_app of (s1rt)
-  | T2E_s1rt_tr_qid of (s1rt)
-  | T2E_s1exp_trup_qid of (s1exp)
-  | T2E_s1exp_trdn_extype of (s1exp)
-  | T2E_s1rtext_tr_qid of (s0rtq, symbol)
+//
+// HX-2011-05:
+// the list of possible errors that may occur
+// during the level-2 translation
+//
+datatype trans2err =
+  | T2E_s1rt_tr of (s1rt)
+  | T2E_s2var_check_tmplev of (s2var)
+  | T2E_effvar_tr of (effvar)
+  | T2E_s1exp_trup of (s1exp)
+  | T2E_s1exp_trdn of (s1exp, s2rt)
+  | T2E_s1exp_trdn_impredicative of (s1exp)
+  | T2E_s2exp_trdn of (location, s2exp, s2rt)
+  | T2E_s1arg_trdn of (s1arg, s2rt)
+  | T2E_s1marg_trdn of (s1marg, s2rtlst)
+  | T2E_sp1at_trdn of (sp1at, s2rt)
+  | T2E_s1rtext_tr of (s1rtext)
+  | T2E_d1atcon_tr of (d1atcon)
   | T2E_d1atdec_tr of (d1atdec)
   | T2E_p1at_tr of (p1at)
   | T2E_d1exp_tr of (d1exp)
+  | T2E_i1nvarg_tr of (i1nvarg)
+  | T2E_c1lau_tr of (c1lau)
   | T2E_overload_tr of (d1ecl)
-// end of [tran2err]
+// end of [trans2err]
 
-fun the_tran2errlst_add (x: tran2err): void
+fun the_trans2errlst_add (x: trans2err): void
+fun the_trans2errlst_finalize (): void // cleanup all the errors
 
 (* ****** ****** *)
 
@@ -82,15 +97,27 @@ fun effcst_tr (efc: effcst): s2eff
 
 fun s1arg_trup (s1a: s1arg): s2var
 fun s1arglst_trup (s1as: s1arglst): s2varlst
+
+fun s1arg_trdn (s1a: s1arg, s2t: s2rt): s2var
 fun s1arglst_trdn_err
   (s1as: s1arglst, s2ts: s2rtlst, err: &int): s2varlst
 // end of [s1arglst_trdn_err]
+
 fun s1marg_trdn (s1ma: s1marg, s2ts: s2rtlst): s2varlst
+
+(* ****** ****** *)
+
+fun s1vararg_tr (s1a: s1vararg): s2vararg
+
+(* ****** ****** *)
+
+fun sp1at_trdn (sp1t: sp1at, s2t: s2rt): sp2at
+
+(* ****** ****** *)
 
 fun s1exp_trup (s1e: s1exp): s2exp
 fun s1explst_trup (s1es: s1explst): s2explst
 fun s1expopt_trup (s1es: s1expopt): s2expopt
-
 
 fun s2exp_trdn (
   loc: location, s2e: s2exp, s2t: s2rt
@@ -132,17 +159,25 @@ fun s1exp_trdn_res_impredicative (s1e: s1exp, w1ts:  wths1explst): s2exp
 (* ****** ****** *)
 
 fun s1rtext_tr (s1te: s1rtext): s2rtext
-fun s1qualst_tr (s1qs: s1qualst): s2qualst
-fun q1marg_tr (q1ma: q1marg): s2qualst // HX: [location] is discarded
+fun s1qualst_tr (s1qs: s1qualst): s2qua
 
 (* ****** ****** *)
 
-fun s1vararg_tr (s1a: s1vararg): s2vararg
+fun q1marg_tr (q1ma: q1marg): s2qua // HX: [location] is discarded
 
 (* ****** ****** *)
 
 fun s1exparg_tr (s1a: s1exparg): s2exparg
 fun s1exparglst_tr (s1as: s1exparglst): s2exparglst
+
+(* ****** ****** *)
+
+fun s1marg_bind_svarlst (
+  s1ma: s1marg, s2vs: s2varlst, sub: stasub
+) : (s2varlst, stasub) // end of [s1marg_bind_svarlst]
+fun t1mpmarg_bind_svarlst (
+  t1ma: t1mpmarg, s2vs: s2varlst, sub: stasub
+) : (s2explst, stasub) // end of [t1mpmarg_bind_svarlst]
 
 (* ****** ****** *)
 
@@ -171,13 +206,21 @@ fun d1expopt_tr (d1es: d1expopt): d2expopt
 
 (* ****** ****** *)
 
+fun labd1exp_tr (ld1e: labd1exp): labd2exp
+
+(* ****** ****** *)
+
 fun d1lab_tr (d1l: d1lab): d2lab
 fun d1lablst_tr (d1ls: d1lablst): d2lablst
 
 (* ****** ****** *)
 
 fun d1ecl_tr (d1c: d1ecl): d2ecl
-fun d1eclist_tr (d1c: d1eclist): d2eclist
+fun d1eclist_tr (d1cs: d1eclist): d2eclist
+
+(* ****** ****** *)
+
+fun d1eclist_tr_errck (d1cs: d1eclist): d2eclist
 
 (* ****** ****** *)
 

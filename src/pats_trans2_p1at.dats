@@ -34,6 +34,11 @@
 //
 (* ****** ****** *)
 
+staload
+_(*anon*) = "prelude/DATS/list_vt.dats"
+
+(* ****** ****** *)
+
 staload ERR = "pats_error.sats"
 
 (* ****** ****** *)
@@ -60,6 +65,7 @@ staload "pats_staexp1.sats"
 staload "pats_e1xpval.sats"
 staload "pats_dynexp1.sats"
 staload "pats_staexp2.sats"
+staload "pats_staexp2_util.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp2_util.sats"
 
@@ -126,6 +132,104 @@ fun p1atconarg_is_omit
   | _ => false
 // end of [p1atconarg_is_omit]
 
+fun
+p1at_tr_con_sapp1 (
+  d2c: d2con, sub: stasub,
+  s2qs: s2qualst, out: &List_vt(s2qua)
+) : s2exp = let
+in
+//
+case+ s2qs of
+| list_cons (s2q, s2qs) => let
+    val (sub, s2vs) =
+      stasub_extend_svarlst (sub, s2q.s2qua_svs)
+    // end of [val]
+    val s2ps = s2explst_subst (sub, s2q.s2qua_sps)
+    val s2q = s2qua_make (s2vs, s2ps)
+    val () = out := list_vt_cons (s2q, out)
+  in
+    p1at_tr_con_sapp1 (d2c, sub, s2qs, out)
+  end // end of [cons]
+| list_nil () => let
+    val npf = d2con_get_npf (d2c)
+    val s2es_arg =
+      s2explst_subst (sub, d2con_get_arg d2c)
+    val s2c = d2con_get_scst d2c
+    val indopt = d2con_get_ind (d2c)
+    val s2e_res = (
+      case+ indopt of
+      | Some s2es_ind => let
+          val s2es_ind = s2explst_subst (sub, s2es_ind)
+        in
+          s2exp_cstapp (s2c, s2es_ind)
+        end // end of [Some]
+      | None () => s2exp_cst (s2c) // end of [None]
+    ) : s2exp // end of [val]
+    val () = out := list_vt_reverse (out)
+  in
+    s2exp_confun (npf, s2es_arg, s2e_res)
+  end // end of [list_nil]
+//
+end // end of [p1at_tr_con_sapp1]
+
+fun
+p1at_tr_con_sapp2 (
+  loc0: location
+, d2c: d2con, sub: stasub, s2qs: s2qualst, s1as: s1vararglst
+, out: &s2qualst_vt
+) : s2exp = let
+//
+fn auxerr (
+  loc0: location, d2c: d2con
+) : s2exp = let
+  val () = prerr_error2_loc (loc0)
+  val () = prerr ": the constructor ["
+  val () = prerr_d2con (d2c)
+  val () = prerr "] is applied to too many static arguments."
+  val () = prerr_newline ()
+in
+  s2exp_err (s2rt_err ())
+end // end of [err]
+//
+in
+//
+case+ s1as of
+| list_cons (s1a, s1as) => (
+  case+ s1a of
+  | S1VARARGone () => begin
+    case+ s2qs of
+    | list_cons (s2q, s2qs) => let
+        val (sub, s2vs) =
+          stasub_extend_svarlst (sub, s2q.s2qua_svs)
+        // end of [val]
+        val s2ps = s2explst_subst (sub, s2q.s2qua_sps)
+        val s2q = s2qua_make (s2vs, s2ps)
+        val () = out := list_vt_cons (s2q, out)
+      in
+        p1at_tr_con_sapp2 (loc0, d2c, sub, s2qs, s1as, out)
+      end // end of [cons]
+    | list_nil () => auxerr (loc0, d2c)
+    end // end of [S1VARARGone]
+  | S1VARARGall () => p1at_tr_con_sapp1 (d2c, sub, s2qs, out)
+  | S1VARARGseq arg => begin
+    case+ s2qs of
+    | list_cons (s2q, s2qs) => let
+        val (sub, s2vs) =
+          stasub_extend_sarglst_svarlst (sub, arg, s2q.s2qua_svs)
+        // end of [val]
+        val s2ps = s2explst_subst (sub, s2q.s2qua_sps)
+        val s2q = s2qua_make (s2vs, s2ps)
+        val () = out := list_vt_cons (s2q, out)
+      in
+        p1at_tr_con_sapp2 (loc0, d2c, sub, s2qs, s1as, out)
+      end // end of [list_cons]
+    | list_nil () => auxerr (loc0, d2c)
+    end // end of [S1VARARGseq]
+  ) // end of [list_cons]
+| list_nil () =>  p1at_tr_con_sapp1 (d2c, sub, s2qs, out)
+//
+end // end of [p1at_tr_con_sapp2]
+
 fun p1at_tr_con (
   p1t0: p1at, p1t1: p1at
 , d2cs: d2conlst, sarg: s1vararglst, npf: int, darg: p1atlst
@@ -178,23 +282,23 @@ case+ ans of
   | D2ITMcon (d2cs) =>
       p1at_tr_con (p1t0, p1t1, d2cs, list_nil(*sarg*), npf, darg)
   | _ => let
-      val () = the_tran2errlst_add (T2E_p1at_tr (p1t0))
       val () = prerr_error2_loc (p1t1.p1at_loc)
       val () = prerr ": the identifier ["
       val () = ($SYN.prerr_d0ynq (dq); $SYM.prerr_symbol (id))
       val () = prerr "] does not refer to any constructor."
       val () = prerr_newline ()
+      val () = the_trans2errlst_add (T2E_p1at_tr (p1t0))
     in
       p2at_err (p1t0.p1at_loc)
     end // end of [_]
   )  
 | ~None_vt () => let
-    val () = the_tran2errlst_add (T2E_p1at_tr (p1t0))
     val () = prerr_error2_loc (p1t1.p1at_loc)
     val () = prerr ": the identifier ["
     val () = ($SYN.prerr_d0ynq (dq); $SYM.prerr_symbol (id))
     val () = prerr "] is unrecognized."
     val () = prerr_newline ()
+    val () = the_trans2errlst_add (T2E_p1at_tr (p1t0))
   in
     p2at_err (p1t0.p1at_loc)
   end // end of [None_vt]
@@ -217,7 +321,7 @@ case+ e0.e1xp_node of
     val loc0 = p1t0.p1at_loc
 //
     prval pfu = unit_v ()
-    val es = list_map_clo<p1at> {unit_v} (pfu | p1ts_arg, !p_clo) where {
+    val es = list_map_vclo<p1at> {unit_v} (pfu | p1ts_arg, !p_clo) where {
       var !p_clo = @lam (pf: !unit_v | p1t: p1at): e1xp => e1xp_make_p1at (loc0, p1t)
     } // end of [val]
     prval unit_v () = pfu
@@ -267,10 +371,10 @@ case+ p1t_fun.p1at_node of
 | P1Tdqid (dq, id) =>
     p1at_tr_app_dyn_dqid (p1t0, p1t_fun, dq, id, npf, darg)
 | _ => let
-    val () = the_tran2errlst_add (T2E_p1at_tr (p1t0))
     val () = prerr_error2_loc (p1t_fun.p1at_loc)
     val () = prerr ": a (qualified) identifier is expected."
     val () = prerr_newline ()
+    val () = the_trans2errlst_add (T2E_p1at_tr (p1t0))
   in
     p2at_err (p1t0.p1at_loc)
   end // end of [_]
@@ -300,10 +404,10 @@ case+ d2i of
     p1at_tr_app_sta_dyn (p1t0, p1t1, p1t2, sarg, npf, darg)
   end
 | _ => let
-    val () = the_tran2errlst_add (T2E_p1at_tr (p1t0))
     val () = prerr_error2_loc (p1t2.p1at_loc)
     val () = prerr ": the (qualified) identifier does not refer to any constructor."
     val () = prerr_newline ()
+    val () = the_trans2errlst_add (T2E_p1at_tr (p1t0))
   in
     p2at_err (p1t0.p1at_loc)
   end
@@ -315,13 +419,15 @@ p1at_tr_app_sta_dyn (
 ) = let
 //
 fn auxerr (
-  loc: location, dq: d0ynq, id: symbol
+  p1t0: p1at, p1t1: p1at, p1t_fun: p1at, dq: d0ynq, id: symbol
 ) : p2at = let
+  val loc = p1t_fun.p1at_loc
   val () = prerr_error2_loc (loc)
   val () = prerr ": the (qualified) identifier ["
   val () = ($SYN.prerr_d0ynq dq; $SYM.prerr_symbol id)
   val () = prerr "] is unrecognized."
   val () = prerr_newline ()
+  val () = the_trans2errlst_add (T2E_p1at_tr (p1t0))
 in
   p2at_err (loc)
 end // end of [auxerr]
@@ -337,10 +443,7 @@ p1t_fun.p1at_node of
     | ~Some_vt (d2i) =>
         p1at_tr_app_sta_dyn_itm (p1t0, p1t1, p1t_fun, d2i, sarg, npf, darg)
     | ~None_vt () => let
-        val () = the_tran2errlst_add (T2E_p1at_tr (p1t0))
-        val dq = $SYN.the_d0ynq_none
-      in
-        auxerr (p1t_fun.p1at_loc, dq, id)
+        val dq = $SYN.the_d0ynq_none in auxerr (p1t0, p1t1, p1t_fun, dq, id)
       end (* end of [None] *)
   end // end of [P1Tide]
 | P1Tdqid (dq, id) => let
@@ -349,17 +452,13 @@ p1t_fun.p1at_node of
     case+ ans of
     | ~Some_vt (d2i) =>
         p1at_tr_app_sta_dyn_itm (p1t0, p1t1, p1t_fun, d2i, sarg, npf, darg)
-    | ~None_vt () => let
-        val () = the_tran2errlst_add (T2E_p1at_tr (p1t0))
-      in
-        auxerr (p1t_fun.p1at_loc, dq, id)
-      end (* end of [None_vt] *)
+    | ~None_vt () => auxerr (p1t0, p1t1, p1t_fun, dq, id)
   end // end of [P1Tdqid]
 | _ => let
-    val () = the_tran2errlst_add (T2E_p1at_tr (p1t0))
     val () = prerr_error2_loc (p1t_fun.p1at_loc)
     val () = prerr ": a (qualified) identifier is expected."
     val () = prerr_newline ()
+    val () = the_trans2errlst_add (T2E_p1at_tr (p1t0))
   in
     p2at_err (p1t0.p1at_loc)
   end // end of [_]
@@ -379,11 +478,11 @@ case+ p2t.p2at_node of
 | P2Tcon (freeknd, d2c, sarg, npf, darg) =>
     p2at_con (loc0, 1-freeknd, d2c, sarg, npf, darg)
 | _ => let
-    val () = the_tran2errlst_add (T2E_p1at_tr (p1t0))
     val () = prerr_error2_loc (loc0)
     val () = filprerr_ifdebug ": p1at_tr_free"
     val () = prerr ": the pattern is expected to formed with a constructor (of dataviewtype)."
     val () = prerr_newline ()
+    val () = the_trans2errlst_add (T2E_p1at_tr (p1t0))
   in
     p2at_err (loc0)
   end // end of [_]

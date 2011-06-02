@@ -124,13 +124,14 @@ end // end of [s1rtitm_backslash]
 local
 
 fn s0rt_tr_errmsg_opr
-  (loc: location): s1rt = let
-  val () = prerr_error1_loc (loc)
+  (s0t0: s0rt): s1rt = let
+  val loc0 = s0t0.s0rt_loc
+  val () = the_trans1errlst_add (T1E_s0rt_tr (s0t0))
+  val () = prerr_error1_loc (loc0)
   val () = prerr ": the operator needs to be applied."
   val () = prerr_newline ()
-  val () = the_tran1errlst_add (T1E_s0rt_opr (loc))
 in
-  s1rt_err (loc)
+  s1rt_err (loc0)
 end // end of [s0rt_tr_errmsg_opr]
 
 in // in of [local]
@@ -180,7 +181,7 @@ in
 //
 case+ aux_item s0t0 of
 | FXITMatm (s1t) => s1t
-| FXITMopr (loc, _) => s0rt_tr_errmsg_opr (loc)
+| FXITMopr (loc, _) => s0rt_tr_errmsg_opr (s0t0)
 // end of [case]
 end // end of [s0rt_tr]
 
@@ -245,29 +246,6 @@ in
 end // end of [d0atsrtdec_tr]
 
 end // end of [local]
-
-(* ****** ****** *)
-
-implement
-s0arg_tr (x) = let
-  val res = s0rtopt_tr (x.s0arg_srt)
-in
-  s1arg_make (x.s0arg_loc, x.s0arg_sym, res)
-end // end of [s0arg_tr]
-
-implement
-s0arglst_tr (xs) =  l2l (list_map_fun (xs, s0arg_tr))
-
-implement
-s0marg_tr (x) = let
-  val loc = x.s0marg_loc
-  val arg = s0arglst_tr (x.s0marg_arg)
-in
-  s1marg_make (loc, arg)
-end // end of [s0marg_tr]
-
-implement
-s0marglst_tr (xss) = l2l (list_map_fun (xss, s0marg_tr))
 
 (* ****** ****** *)
 

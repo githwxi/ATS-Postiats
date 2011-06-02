@@ -76,7 +76,7 @@ d2var_struct = @{
 , d2var_linval= int // nonlinear (-1) and linear (>=0)
 , d2var_isfix= bool // is fix-variable?
 , d2var_isprf= bool // is proof?
-, d2var_decarg= s2qualstlst // template arg
+, d2var_decarg= s2qualst // template arg
 , d2var_addr= s2expopt //
 , d2var_view= d2varopt_t // 
 (*
@@ -230,6 +230,12 @@ implement
 compare_d2var_d2var (x1, x2) =
   $effmask_all (compare (d2var_get_stamp (x1), d2var_get_stamp (x2)))
 // end of [compare_d2var_d2var]
+
+implement
+compare_d2vsym_d2vsym
+  (x1, x2) = $effmask_all (
+  $SYM.compare_symbol_symbol (d2var_get_sym (x1), d2var_get_sym (x2))
+) // end of [compare_d2vsym_d2vsym]
 
 (* ****** ****** *)
 

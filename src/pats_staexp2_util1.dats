@@ -73,7 +73,9 @@ s2rt_linearize
       | _ => err := 1
       ) // end of [S2RTbas]
     | _ => err := 1
-  val () = assertloc (err > 0)
+(*
+  val () = assertloc (err > 0) // [s2t] maybe [S2RTerr]
+*)
 in
   s2t
 end // end of [s2rt_linearize]
@@ -151,6 +153,27 @@ implement
 s2rt_npf_lin_prf_prgm_boxed_labs2explst
   (npf, lin, prf, prgm, boxed, ls2es) = let
 //
+(*
+  val () = print "s2rt_npf_lin_prf_prgm_boxed_labs2explst: npf = "
+  val () = fprint_int (stdout_ref, npf)
+  val () = print_newline ()
+  val () = print "s2rt_npf_lin_prf_prgm_boxed_labs2explst: lin = "
+  val () = fprint_int (stdout_ref, lin)
+  val () = print_newline ()
+  val () = print "s2rt_npf_lin_prf_prgm_boxed_labs2explst: prf = "
+  val () = fprint_int (stdout_ref, prf)
+  val () = print_newline ()
+  val () = print "s2rt_npf_lin_prf_prgm_boxed_labs2explst: prgm = "
+  val () = fprint_int (stdout_ref, prgm)
+  val () = print_newline ()
+  val () = print "s2rt_npf_lin_prf_prgm_boxed_labs2explst: boxed = "
+  val () = fprint_int (stdout_ref, boxed)
+  val () = print_newline ()
+  val () = print "s2rt_npf_lin_prf_prgm_boxed_labs2explst: labs2explst = "
+  val () = fprint_labs2explst (stdout_ref, ls2es)
+  val () = print_newline ()
+*)
+//
 fun aux (
   npf: int, lin: int, xs: labs2explst
 ) : s2rt =
@@ -162,39 +185,24 @@ fun aux (
     val- list_cons (x, xs) = xs
     val s2e = x.1
     val s2t = s2e.s2exp_srt
+(*
+    val () = (print "aux: s2t = "; print_s2rt (s2t); print_newline ())
+*)
   in
-    if s2rt_is_prgm (s2t) then
+    if s2rt_is_prf (s2t) then
+      aux (0(*npf*), lin, xs) // HX: [xs] cannot be nil
+    else (
       if lin = 0 then s2t else s2rt_linearize (s2t)
-    else aux (0(*npf*), lin, xs)
+    ) // end of [if]
   end (* end of [if] *)
 // end of [aux]
 in
-  if prgm = 1 then
-    aux (npf, lin, ls2es)
-  else
+  if prgm = 0 then
     s2rt_npf_lin_prf_boxed (npf, lin, prf, boxed)
+  else
+    aux (npf, lin, ls2es)
   // end of [if]
 end // end of [s2rt_npf_lin_prf_prgm_boxed_labs2explst]
-
-(* ****** ****** *)
-
-implement
-s2exp_alpha (s2v, s2v_new, s2e) = s2e
-
-(* ****** ****** *)
-
-implement
-s2explst_alpha
-  (s2v, s2v_new, s2es) = let
-  var !p_clo = @lam
-    (pf: !unit_v | s2e: s2exp): s2exp => s2exp_alpha (s2v, s2v_new, s2e)
-  // end of [var]
-  prval pfu = unit_v ()
-  val s2es = list_map_clo (pfu | s2es, !p_clo)
-  prval unit_v () = pfu
-in
-  l2l (s2es)
-end // end of [s2explst_alpha]
 
 (* ****** ****** *)
 
@@ -260,6 +268,26 @@ in
     then s2cs else filter (s2cs, xss)
   // end of [if]
 end // end of [s2cst_select_locs2explstlst]
+
+(* ****** ****** *)
+
+implement
+s2exp_alpha (s2v, s2v_new, s2e) = s2e
+
+(* ****** ****** *)
+
+implement
+s2explst_alpha
+  (s2v, s2v_new, s2es) = let
+  var !p_clo = @lam
+    (pf: !unit_v | s2e: s2exp): s2exp => s2exp_alpha (s2v, s2v_new, s2e)
+  // end of [var]
+  prval pfu = unit_v ()
+  val s2es = list_map_vclo (pfu | s2es, !p_clo)
+  prval unit_v () = pfu
+in
+  l2l (s2es)
+end // end of [s2explst_alpha]
 
 (* ****** ****** *)
 

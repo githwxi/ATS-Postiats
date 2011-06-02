@@ -749,6 +749,8 @@ s0vararg =
   | S0VARARGseq of s0arglst
 // end of [s0vararg]
 
+typedef s0vararglst = List (s0vararg)
+
 datatype
 s0exparg =
   | S0EXPARGone (* {..} *)
@@ -756,7 +758,7 @@ s0exparg =
   | S0EXPARGseq of s0explst
 // end of [s0exparg]
 
-typedef s0expargopt = Option s0exparg
+typedef s0expargopt = Option (s0exparg)
 
 (* ****** ****** *)
 
@@ -1032,6 +1034,20 @@ fun fprint_labp0at : fprint_type (labp0at)
 
 (* ****** ****** *)
 
+datatype
+i0mparg =
+  | I0MPARG_sarglst of s0arglst
+  | I0MPARG_svararglst of s0vararglst
+// end of [i0mparg]
+
+fun i0mparg_sarglst (
+  t_beg: token, arg: s0arglst, t_end: token
+) : i0mparg // end of [i0mparg_sarglst]
+
+fun i0mparg_svararglst (arg: s0vararglst): i0mparg
+
+(* ****** ****** *)
+
 typedef
 t0mpmarg = '{
   t0mpmarg_loc= location, t0mpmarg_arg= s0explst
@@ -1179,7 +1195,7 @@ d0ecl_node =
       (valkind, bool(*isrec*), v0aldeclst)
   | D0Cfundecs of (funkind, q0marglst, f0undeclst)
   | D0Cvardecs of v0ardeclst // variable declarations
-  | D0Cimpdec of (s0marglst, i0mpdec) // implementation
+  | D0Cimpdec of (i0mparg, i0mpdec) // implementation
 //
   | D0Cinclude of (* file inclusion *)
       (int(*0:sta/1:dyn*), string(*filename*))
@@ -1788,7 +1804,7 @@ fun d0ecl_fundecs (
 ) : d0ecl // end of [d0ecl_fundecs]
 fun d0ecl_vardecs (tok: token, ds: v0ardeclst): d0ecl
 fun d0ecl_impdec
-  (t_implement: token, arg: s0marglst, d: i0mpdec): d0ecl
+  (t_implement: token, imparg: i0mparg, d: i0mpdec): d0ecl
 // end of [d0ecl_impdec]
 //
 fun d0ecl_staload_none (tok: token, tok2: token): d0ecl

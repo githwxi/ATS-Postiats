@@ -262,7 +262,7 @@ datatype d1ecl_node =
   | D1Cvaldecs of (valkind, bool(*isrec*), v1aldeclst) // val declarations
   | D1Cfundecs of (funkind, q1marglst, f1undeclst) // function declaration
   | D1Cvardecs of v1ardeclst (* variable declaration *)
-  | D1Cimpdec of (s1marglst, i1mpdec) (* implementation *)
+  | D1Cimpdec of (i1mparg, i1mpdec) (* implementation *)
 //
   | D1Cinclude of d1eclist (* inclusion *)
   | D1Cstaload of (* staloading a file *)
@@ -299,9 +299,6 @@ and d1exp_node =
 //
   | D1Eloopexn of int(*knd*)
 //
-  | D1Edecseq of // decseq as exp
-      d1eclist (* HX: note that there is no [D2Edecseq] *)
-//
   | D1Efoldat of (* fold at a given address *)
       (s1exparglst, d1exp)
   | D1Efreeat of (* free at a given address *)
@@ -311,6 +308,8 @@ and d1exp_node =
 //
   | D1Elet of (d1eclist, d1exp(*body*))
   | D1Ewhere of (d1exp(*body*), d1eclist)
+  | D1Edecseq of // = let decs in (*none*) end
+      d1eclist (* HX: note that there is no [D2Edecseq] *)
 //
   | D1Eapp_dyn of (* dynamic application *)
       (d1exp, location(*arg*), int (*pfarity*), d1explst)
@@ -892,7 +891,7 @@ fun d1ecl_fundecs (
 fun d1ecl_vardecs (loc: location, ds: v1ardeclst): d1ecl
 
 fun d1ecl_impdec
-  (loc: location, decarg: s1marglst, d1c: i1mpdec): d1ecl
+  (loc: location, imparg: i1mparg, d1c: i1mpdec): d1ecl
 // end of [d1ecl_impdec]
 
 (* ****** ****** *)

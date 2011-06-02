@@ -40,14 +40,25 @@ staload "pats_staexp1.sats"
 staload "pats_dynexp1.sats"
 
 (* ****** ****** *)
-
+//
+// HX-2011-05:
+// the list of possible errors that may occur
+// during the level-1 translation
+//
 datatype
-tran1err =
-  | T1E_s0rt_opr of (location)
-  | T1E_s0exp_opr of (location)
-// end of [tran1err]
+trans1err =
+  | T1E_s0rt_tr of (s0rt)
+  | T1E_s0exp_tr of (s0exp)
+  | T1E_d0cstdec_tr of (d0cstdec)
+  | T1E_termination_metric_check of (location)
+  | T1E_d0exp_tr of (d0exp)
+  | T1E_prec_tr of (i0de)
+  | T1E_i0nclude_tr of (d0ecl)
+  | T1E_s0taload_tr of (d0ecl)
+// end of [trans1err]
 
-fun the_tran1errlst_add (x: tran1err): void
+fun the_trans1errlst_add (x: trans1err): void
+fun the_trans1errlst_finalize (): void // cleanup all the errors
 
 (* ****** ****** *)
 
@@ -75,6 +86,12 @@ fun s0rtopt_tr (_: s0rtopt): s1rtopt
 
 (* ****** ****** *)
 
+fun a0srt_tr (x: a0srt): a1srt
+fun a0msrt_tr (x: a0msrt): a1msrt
+fun a0msrtlst_tr (x: a0msrtlst): a1msrtlst
+
+(* ****** ****** *)
+
 fun s0arg_tr (x: s0arg): s1arg
 fun s0arglst_tr (x: s0arglst): s1arglst
 fun s0marg_tr (xs: s0marg): s1marg
@@ -82,9 +99,8 @@ fun s0marglst_tr (xss: s0marglst): s1marglst
 
 (* ****** ****** *)
 
-fun a0srt_tr (x: a0srt): a1srt
-fun a0msrt_tr (x: a0msrt): a1msrt
-fun a0msrtlst_tr (x: a0msrtlst): a1msrtlst
+fun s0vararg_tr (s0v: s0vararg): s1vararg
+fun s0vararglst_tr (s0v: s0vararglst): s1vararglst
 
 (* ****** ****** *)
 
@@ -132,6 +148,8 @@ fun q0marg_tr (x: q0marg): q1marg
 fun q0marglst_tr (x: q0marglst): q1marglst
 
 (* ****** ****** *)
+
+fun i0mparg_tr (x: i0mparg): i1mparg
 
 fun t0mpmarg_tr (x: t0mpmarg): t1mpmarg
 
@@ -189,8 +207,12 @@ fun termination_metric_check
 
 (* ****** ****** *)
 
-fun d0ecl_tr (_: d0ecl): d1ecl
-fun d0eclist_tr (_: d0eclist): d1eclist
+fun d0ecl_tr (d0c: d0ecl): d1ecl
+fun d0eclist_tr (d0cs: d0eclist): d1eclist
+
+(* ****** ****** *)
+
+fun d0eclist_tr_errck (d0cs: d0eclist): d1eclist
 
 (* ****** ****** *)
 

@@ -65,7 +65,7 @@ d2con_struct = @{
 , d2con_sym= symbol // the name
 , d2con_scst= s2cst // datatype
 , d2con_vwtp= int //
-, d2con_qua= s2qualstlst // quantifiers
+, d2con_qua= s2qualst // quantifiers
 , d2con_npf= int // pfarity
 , d2con_arg= s2explst // views or viewtypes
 , d2con_arity_full= int // full arity
@@ -113,10 +113,10 @@ in
 end // end of [val]
 //
 val d2c_type = let
-  fun aux (s2e: s2exp, s2qss: s2qualstlst): s2exp =
-    case+ s2qss of
-    | list_cons (s2qs, s2qss) =>
-        s2exp_uni (s2qs.0, s2qs.1, aux (s2e, s2qss))
+  fun aux (s2e: s2exp, s2qs: s2qualst): s2exp =
+    case+ s2qs of
+    | list_cons (s2q, s2qs) =>
+        s2exp_uni (s2q.s2qua_svs, s2q.s2qua_sps, aux (s2e, s2qs))
       // end of [list_cons]
     | list_nil () => s2e
   // end of [aux]

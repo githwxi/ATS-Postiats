@@ -61,7 +61,7 @@ in
       (pf: !unit_v | d2c: d2con): bool =<clo1> d2con_get_arity_full (d2c) = n
     // end of [var]
     prval pfu = unit_v ()
-    val d2cs = list_filter_clo {unit_v} (pfu | d2cs, !p_clo)
+    val d2cs = list_filter_vclo {unit_v} (pfu | d2cs, !p_clo)
     prval unit_v () = pfu
   in
     (l2l)d2cs
