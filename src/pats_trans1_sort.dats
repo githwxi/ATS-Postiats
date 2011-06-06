@@ -126,10 +126,10 @@ local
 fn s0rt_tr_errmsg_opr
   (s0t0: s0rt): s1rt = let
   val loc0 = s0t0.s0rt_loc
-  val () = the_trans1errlst_add (T1E_s0rt_tr (s0t0))
   val () = prerr_error1_loc (loc0)
   val () = prerr ": the operator needs to be applied."
   val () = prerr_newline ()
+  val () = the_trans1errlst_add (T1E_s0rt_tr (s0t0))
 in
   s1rt_err (loc0)
 end // end of [s0rt_tr_errmsg_opr]

@@ -605,6 +605,7 @@ fn d0ynload_tr (
         val () = prerr path;
         val () = prerr "] is not available for dynamic loading"
         val () = prerr_newline ()
+        val () = the_trans1errlst_add (T1E_d0ynload_tr (d0c0))
       in
         $FIL.filename_dummy
       end // end of [None_vt]
@@ -695,7 +696,7 @@ case+ d0c0.d0ecl_node of
       | E0XPACTassert () =>
           do_e0xpact_assert (e0xp.e0xp_loc, v1al)
       | E0XPACTerror () => do_e0xpact_error (e0xp.e0xp_loc, v1al)
-      | E0XPACTprint () => do_e0xpact_prerr v1al
+      | E0XPACTprint () => do_e0xpact_prerr (v1al)
     ) : void // end of [val]
   in
     d1ecl_none (loc0)
@@ -835,10 +836,9 @@ case+ d0c0.d0ecl_node of
 (*
 | _ => let
     val () = $LOC.prerr_location (loc0)
-    val () = prerr ": d0ecl_tr: not implemented: d0c0 = "
+    val () = prerr ": NYI: d0ecl_tr: d0c0 = "
     val () = fprint_d0ecl (stderr_ref, d0c0)
     val () = prerr_newline ()
-    val () =  $ERR.abort ()
   in
     d1ecl_none (loc0)
   end // end of [_]

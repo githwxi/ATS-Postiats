@@ -1010,7 +1010,7 @@ case+ d1e0.d1exp_node of
 //
 | D1Esexparg _ => let
     val () = prerr_error2_loc (loc0)
-    val () = prerr ": this form of expression is only allowd to occur as an argument."
+    val () = prerr ": this form of expression is only allowed to occur as an argument."
     val () = prerr_newline ()
     val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
   in

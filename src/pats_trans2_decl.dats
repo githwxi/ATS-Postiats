@@ -1406,11 +1406,10 @@ case+ d1c0.d1ecl_node of
   end // end of [D1Cstaload]
 //
 | _ => let
-    val () = $LOC.prerr_location (loc0)
+    val () = prerr_error2_loc (loc0)
     val () = prerr ": d1ecl_tr: not implemented: d1c0 = "
     val () = fprint_d1ecl (stderr_ref, d1c0)
     val () = prerr_newline ()
-    val () = $ERR.abort ()
   in
     d2ecl_none (loc0)
   end // end of [_]

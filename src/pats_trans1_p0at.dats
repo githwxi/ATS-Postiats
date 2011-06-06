@@ -141,12 +141,14 @@ end // end of [p1atitm_backslash]
 local
 
 fn p0at_tr_errmsg_opr
-  (loc: location): p1at = let
-  val () = prerr_error1_loc (loc)
+  (p0t0: p0at): p1at = let
+  val loc0 = p0t0.p0at_loc
+  val () = prerr_error1_loc (loc0)
   val () = prerr ": the operator needs to be applied."
   val () = prerr_newline ()
+  val () = the_trans1errlst_add (T1E_p0at_tr (p0t0))
 in
-  $ERR.abort {p1at} ()
+  p1at_err (loc0)
 end // end of [p0at_tr_errmsg_opr]
 
 in // in of [local]
@@ -280,7 +282,7 @@ in
 //
 case+ aux_item (p0t0) of
 | FXITMatm (p1t) => p1t
-| FXITMopr _ => p0at_tr_errmsg_opr (p0t0.p0at_loc)
+| FXITMopr _ => p0at_tr_errmsg_opr (p0t0)
 //
 end // end of [p0at_tr]
 

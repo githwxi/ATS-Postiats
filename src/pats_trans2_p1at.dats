@@ -45,7 +45,7 @@ staload ERR = "pats_error.sats"
 
 staload "pats_errmsg.sats"
 staload _(*anon*) = "pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans2_dynexp"
+implement prerr_FILENAME<> () = prerr "pats_trans2_p1at"
 
 (* ****** ****** *)
 
@@ -125,12 +125,13 @@ fun p1at_tr_app_sta_dyn (
 (* ****** ****** *)
 
 fun p1atconarg_is_omit
-  (arg: p1atlst): bool = case+ arg of
+  (arg: p1atlst): bool = (
+  case+ arg of
   | list_cons (p1t, list_nil ()) => (
       case+ p1t.p1at_node of P1Tany _ => true | _ => false
     ) // end of [list_cons]
-  | _ => false
-// end of [p1atconarg_is_omit]
+  | _ => false // end of [_]
+) // end of [p1atconarg_is_omit]
 
 fun
 p1at_tr_con_sapp1 (
@@ -188,7 +189,7 @@ fn auxerr (
   val () = prerr "] is applied to too many static arguments."
   val () = prerr_newline ()
 in
-  s2exp_err (s2rt_err ())
+  s2exp_s2rt_err ()
 end // end of [err]
 //
 in
@@ -242,7 +243,7 @@ fun p1at_tr_con (
     end // end of [if]
   ) : d2conlst // end of [val]
 //
-  val- list_cons (d2c, _) = d2cs
+  val- list_cons (d2c, _) = d2cs // HX: [d2cs] cannot be nil
 //
   val sarg = l2l (list_map_fun (sarg, s1vararg_tr))
 //
@@ -607,24 +608,27 @@ p1at_tr_arg
   (p1t0, wths1es) = let
   val loc0 = p1t0.p1at_loc
 in
-  case+ p1t0.p1at_node of
-  | P1Tann (p1t, s1e) => let
-      val p2t = p1at_tr (p1t)
-      val s2e = s1exp_trdn_arg_impredicative (s1e, wths1es)
-    in
-      p2at_ann (loc0, p2t, s2e)
-    end // end of [P1Tann]
-  | P1Tlist (npf, p1ts) => let
-      val p2ts = p1atlst_tr_arg (p1ts, wths1es)
-    in
-      p2at_list (loc0, npf, p2ts)
-    end // end of [P1Tlist]
-  | _ => p1at_tr (p1t0)
+//
+case+ p1t0.p1at_node of
+| P1Tann (p1t, s1e) => let
+    val p2t = p1at_tr (p1t)
+    val s2e = s1exp_trdn_arg_impredicative (s1e, wths1es)
+  in
+    p2at_ann (loc0, p2t, s2e)
+  end // end of [P1Tann]
+| P1Tlist (npf, p1ts) => let
+    val p2ts = p1atlst_tr_arg (p1ts, wths1es)
+  in
+    p2at_list (loc0, npf, p2ts)
+  end // end of [P1Tlist]
+| _ => p1at_tr (p1t0)
+//
 end // end of [p1at_tr_arg]
 
 implement
 p1atlst_tr_arg
-  (p1ts, wths1es) = case+ p1ts of
+  (p1ts, wths1es) = (
+  case+ p1ts of
   | list_cons (p1t, p1ts) => let
       val p2t = p1at_tr_arg (p1t, wths1es)
       val p2ts = p1atlst_tr_arg (p1ts, wths1es)
@@ -632,7 +636,7 @@ p1atlst_tr_arg
       list_cons (p2t, p2ts)
     end // end of [list_cons]
   | list_nil () => list_nil ()
-// end of [p1atlst_tr_arg]
+) // end of [p1atlst_tr_arg]
 
 (* ****** ****** *)
 

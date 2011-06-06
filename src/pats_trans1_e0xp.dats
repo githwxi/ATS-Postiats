@@ -76,6 +76,7 @@ staload "pats_trans1_env.sats"
 (* ****** ****** *)
 
 #define l2l list_of_list_vt
+macdef list_sing (x) = list_cons (,(x), list_nil)
 
 (* ****** ****** *)
 
@@ -90,7 +91,9 @@ do_e0xpact_assert
     | V1ALstring s => let
         val s = string1_of_string s in string_is_empty s
       end // end of [V1ALstring]
-    | V1ALerr () => false // HX: this should be deadcode!
+    | V1ALerr () => let
+        val () = assertloc (false) in false // HX: this should be deadcode!
+      end (* end of [V1ALerr] *)
   ) : bool // end of [val]
 in
   if is_false then let
@@ -105,10 +108,10 @@ end // end of [do_e0xpact_assert]
 implement
 do_e0xpact_error
   (loc, v) = let
-  val () = {
-    val () = prerr_error1_loc (loc)
-    val () = prerr ": [#error] directive is encountered: "
-  } // end of [val]
+//
+  val () = prerr_error1_loc (loc)
+  val () = prerr ": [#error] directive is encountered: "
+//
   val () = (case+ v of
     | V1ALchar c => prerr c
     | V1ALfloat f => prerr f
@@ -116,7 +119,7 @@ do_e0xpact_error
     | V1ALstring s => prerr s
     | V1ALerr () => let
         val () = assertloc (false) in (*deadcode*)
-      end
+      end (* end of [V1ALerr] *)
   ) : void // end of [val]
 in
   exit {void} (1)
@@ -131,7 +134,7 @@ do_e0xpact_prerr
   | V1ALstring s => prerr s
   | V1ALerr () => let
       val () = assertloc (false) in (*deadcode*)
-    end
+    end (* end of [V1ALerr] *)
 // end of [do_e0xpact_prerr]
 
 (* ****** ****** *)
@@ -148,11 +151,12 @@ local
 fn appf (
   _fun: e1xp, _arg: e1xp
 ) :<cloref1> e1xpitm = let
+  val loc_fun = _fun.e1xp_loc
   val loc_arg = _arg.e1xp_loc
-  val loc = _fun.e1xp_loc + loc_arg
+  val loc = loc_fun + loc_arg
   val xs_arg = (
     case+ _arg.e1xp_node of
-    | E1XPlist xs => xs | _ => list_cons (_arg, list_nil ())
+    | E1XPlist xs => xs | _ => list_sing (_arg)
   ) : e1xplst // end of [val]
   val _app = e1xp_app (loc, _fun, loc_arg, xs_arg)
 in
@@ -193,21 +197,24 @@ end // end of [e1xpitm_backslash]
 local
 
 fn e0xp_tr_errmsg_opr
-  (loc: location): e1xp = let
-  val () = prerr_error1_loc (loc)
+  (e0: e0xp): e1xp = let
+  val loc0 = e0.e0xp_loc
+  val () = prerr_error1_loc (loc0)
   val () = prerr ": the operator needs to be applied."
   val () = prerr_newline ()
+  val () = the_trans1errlst_add (T1E_e0xp_tr (e0))
 in
-  $ERR.abort {e1xp} ()
+  e1xp_err (loc0)
 end // end of [e0xp_tr_errmsg_opr]
 
 fn e0xp_tr_errmsg_float
-  (loc: location): void = let
-  val () = prerr_error1_loc (loc)
+  (e0: e0xp): void = let
+  val () = prerr_error1_loc (e0.e0xp_loc)
   val () = prerr ": the floating point number is required to be of base 10."
   val () = prerr_newline ()
+  val () = the_trans1errlst_add (T1E_e0xp_tr (e0))
 in
-  $ERR.abort ()
+  // nothing
 end // end of [e0xp_tr_errmsg_float]
 
 in // in of [local]
@@ -228,19 +235,19 @@ fun aux_item (e0: e0xp): e1xpitm = let
       val- T_INTEGER (bas, rep, sfx) = x.token_node
     in
       FXITMatm (e1xp_int (loc0, rep))
-    end
+    end // end of [E0XPint]
   | E0XPchar (x) => let
       val- T_CHAR (c) = x.token_node in FXITMatm (e1xp_char (loc0, c))
-    end
+    end // end of [E0XPchar]
   | E0XPfloat (x) => let
       val- T_FLOAT (bas, rep, sfx) = x.token_node
-      val () = if bas != 10 then e0xp_tr_errmsg_float (loc0)
+      val () = if bas != 10 then e0xp_tr_errmsg_float (e0)
     in
       FXITMatm (e1xp_float (loc0, rep))
-    end
+    end // end of [E0XPfloat]
   | E0XPstring (x) => let
       val- T_STRING (str) = x.token_node in FXITMatm (e1xp_string (loc0, str))
-    end
+    end // end of [E0XPstring]
   | E0XPstringid (str) => FXITMatm (e1xp_string (loc0, str))
   | E0XPapp _ => let
       val e0_new = fixity_resolve (
@@ -283,7 +290,7 @@ in
 //
 case+ aux_item e0 of
 | FXITMatm (e) => e
-| FXITMopr _ => e0xp_tr_errmsg_opr (e0.e0xp_loc)
+| FXITMopr _ => e0xp_tr_errmsg_opr (e0)
 //
 end // end of [e0xp_tr]
 
