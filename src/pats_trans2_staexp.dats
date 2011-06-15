@@ -186,7 +186,7 @@ fn auxerr (
   s1a: s1arg, s2t: s2rt, s2t0: s2rt
 ) : void = {
   val () = prerr_error2_loc (s1a.s1arg_loc)
-  val () = filprerr_ifdebug "s1arglst_trdn_err"
+  val () = filprerr_ifdebug "s1arg_trdn"
   val () = prerr ": the argument is assigned the sort ["
   val () = prerr_s2rt (s2t)
   val () = prerr "] but it is expected to accept a static term of the sort ["
@@ -203,7 +203,7 @@ case+ s1a.s1arg_srt of
     val okay = s2rt_ltmat1 (s2t0, s2t)
     val () = if ~okay then auxerr (s1a, s2t, s2t0)
   in
-    s2var_make_id_srt (s1a.s1arg_sym, s2t)
+    s2var_make_id_srt (s1a.s1arg_sym, s2t0) // HX: yes, [s2t0] should be used!
   end // end of [Some]
 | None () => s2var_make_id_srt (s1a.s1arg_sym, s2t0)
 //
@@ -1990,6 +1990,68 @@ end // end of [auxerr2]
 in
   d2c
 end // end of [d1atcon_tr]
+
+(* ****** ****** *)
+
+implement
+stasub_extend_svarlst (sub, s2vs) = let
+//
+fun loop (
+  s2vs: s2varlst, sub: stasub, s2vs1: s2varlst_vt
+) : @(stasub, s2varlst) =
+  case+ s2vs of
+  | list_cons (s2v, s2vs) => let
+      val s2v1 = s2var_dup (s2v)
+      val s2e1 = s2exp_var (s2v1)
+      val sub = stasub_add (sub, s2v, s2e1)
+      val s2vs1 = list_vt_cons (s2v1, s2vs1)
+    in
+      loop (s2vs, sub, s2vs1)
+    end // end of [list_cons]
+  | list_nil () => let
+      val s2vs1 = list_vt_reverse (s2vs1) in (sub, (l2l)s2vs1)
+    end (* end of [list_nil] *)
+// end of [loop]
+in
+//
+loop (s2vs, sub, list_vt_nil ())
+//
+end // end of [stasub_extend_svarlst]
+
+implement
+stasub_extend_sarglst_svarlst_err
+  (sub, s1as, s2vs, err) = let
+//
+fun loop (
+  s1as: s1arglst
+, s2vs: s2varlst
+, sub: stasub
+, s2vs1: s2varlst_vt
+, err: &int
+) : @(stasub, s2varlst_vt) =
+  case+ (s1as, s2vs) of
+  | (s1a :: s1as, s2v :: s2vs) => let
+      val s2t0 = s2var_get_srt (s2v)
+      val s2v1 = s1arg_trdn (s1a, s2t0)
+      val s2e1 = s2exp_var (s2v1)
+      val sub = stasub_add (sub, s2v, s2e1)
+      val s2vs1 = list_vt_cons (s2v1, s2vs1)
+    in
+      loop (s1as, s2vs, sub, s2vs1, err)
+    end
+  | (list_nil (), list_nil ()) => @(sub, s2vs1)
+  | (_ :: _, list_nil ()) => let
+      val () = err := err + 1 in @(sub, s2vs1)
+    end
+  | (list_nil _, _ :: _) => let
+      val () = err := err - 1 in @(sub, s2vs1)
+    end
+//
+  val (sub, s2vs) = loop (s1as, s2vs, sub, list_vt_nil, err)
+  val s2vs = list_vt_reverse (s2vs)
+in
+  (sub, (l2l)s2vs)
+end // end of [stasub_extend_sarglst_svarlst_err]
 
 (* ****** ****** *)
 

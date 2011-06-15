@@ -85,6 +85,14 @@ in
   $UT.lstord_insert (svs, s2v, compare_s2vsym_s2vsym)
 end // end of [p2at_svs_add_svar]
 
+fun p2at_svs_add_svarlst (
+  svs: s2varset, s2vs: s2varlst
+) : s2varset = let
+  typedef svs = lstord (s2var)
+in
+  list_fold_left_fun<svs><s2var> (p2at_svs_add_svar, svs, s2vs)
+end // end of [p2at_svs_add_svarlst]
+
 implement
 p2atlst_svs_union (p2ts) = let
   typedef svs = lstord (s2var)
@@ -165,32 +173,36 @@ p2at_empty (loc) =
   p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tempty ())
 // end of [p2at_empty]
 
+(* ****** ****** *)
+
 implement
 p2at_con (
-  loc, freeknd, d2c, sarg, npf, darg
+  loc, freeknd, d2c, s2qs, s2e, npf, darg
 ) = let
+  val svs = p2atlst_svs_union (darg)
   val svs = let
-    fun aux (res: s2varset, x: s2vararg): s2varset =
-      case+ x of
-      | S2VARARGone () => res
-      | S2VARARGall () => res
-      | S2VARARGseq (s2vs) =>
-          list_fold_left_fun<s2varset><s2var> (p2at_svs_add_svar, res, s2vs)
-        // end of [S2VARARGseq]
-    // end of [aux]
+    fn f (
+      res: s2varset, x: s2qua
+    ) : s2varset =
+      p2at_svs_add_svarlst (res, x.s2qua_svs)
+    // end of [f]
   in
-    list_fold_left_fun<s2varset><s2vararg> (aux, p2at_svs_nil, sarg)
+    list_fold_left_fun<s2varset><s2qua> (f, svs, s2qs)
   end // end of [val]
   val dvs = p2atlst_dvs_union (darg)
 in
-  p2at_make (loc, svs, dvs, P2Tcon (freeknd, d2c, sarg, npf, darg))
+  p2at_make (loc, svs, dvs, P2Tcon (freeknd, d2c, s2qs, s2e, npf, darg))
 end // end of [p2at_con]
+
+(* ****** ****** *)
 
 implement
 p2at_list
   (loc, npf, p2ts) = let
   val knd = TYTUPKIND_flt in p2at_tup (loc, knd, npf, p2ts)
 end // end of [p2at_list]
+
+(* ****** ****** *)
 
 implement
 p2at_lst (loc, p2ts) = let
@@ -209,6 +221,8 @@ in
   p2at_make (loc, svs, dvs, P2Ttup (knd, npf, p2ts))
 end // end of [p2at_tup]
 
+(* ****** ****** *)
+
 implement
 p2at_as (loc, refknd, d2v, p2t) = let
   val svs = p2t.p2at_svs
@@ -223,16 +237,21 @@ implement
 p2at_exist
   (loc, s2vs, p2t) = let
   val svs =
-    list_fold_left_fun<s2varset><s2var> (p2at_svs_add_svar, p2t.p2at_svs, s2vs)
+    p2at_svs_add_svarlst (p2t.p2at_svs, s2vs)
+  // end of [val]
   val dvs = p2t.p2at_dvs
 in
   p2at_make (loc, svs, dvs, P2Texist (s2vs, p2t))
 end // end of [p2at_exist]
 
+(* ****** ****** *)
+
 implement
 p2at_ann (loc, p2t, s2e) =
   p2at_make (loc, p2t.p2at_svs, p2t.p2at_dvs, P2Tann (p2t, s2e))
 // end of [p2at_ann]
+
+(* ****** ****** *)
 
 implement
 p2at_err (loc) =

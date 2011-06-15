@@ -35,6 +35,7 @@
 (* ****** ****** *)
 
 staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
@@ -271,6 +272,58 @@ end // end of [s2cst_select_locs2explstlst]
 
 (* ****** ****** *)
 
+local
+
+#define :: list_cons
+assume stasub_type = List @(s2var, s2exp)
+
+in // in of [local]
+
+implement
+stasub_make_nil () = list_nil ()
+
+implement
+stasub_add (sub, s2v, s2e) = (s2v, s2e) :: sub
+
+implement
+stasub_get_domain (sub) = let
+  typedef a = (s2var, s2exp) and b = s2var
+in
+  list_map_fun<a><b> (sub, lam (x) =<0> x.0)
+end // end of [stasub_get_domain]
+
+(* ****** ****** *)
+
+extern
+fun s2exp_subst_flag
+  (sub: stasub, s2e: s2exp, flag: &int): s2exp
+// end of [s2exp_subst_flag]
+extern
+fun s2explst_subst_flag
+  (sub: stasub, s2es: s2explst, flag: &int): s2explst
+// end of [s2explst_subst_flag]
+
+implement
+s2exp_subst_flag (sub, s2e, flag) = s2e
+
+implement
+s2explst_subst_flag
+  (sub, s2es0, flag) =
+  case+ s2es0 of
+  | list_cons (s2e, s2es) => let
+      val flag0 = flag
+      val s2e = s2exp_subst_flag (sub, s2e, flag)
+      val s2es = s2explst_subst_flag (sub, s2es, flag)
+    in
+      if flag > flag0 then s2e :: s2es else s2es0
+    end (* end of [::] *)
+  | list_nil () => list_nil ()
+// end of [s2explst_subst_flag]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 implement
 s2exp_alpha (s2v, s2v_new, s2e) = s2e
 
@@ -288,6 +341,18 @@ s2explst_alpha
 in
   l2l (s2es)
 end // end of [s2explst_alpha]
+
+(* ****** ****** *)
+
+implement
+s2exp_subst (sub, s2e) = let
+  var flag: int = 0 in s2exp_subst_flag (sub, s2e, flag)
+end // end of [s2exp_subst]
+
+implement
+s2explst_subst (sub, s2es) = let
+  var flag: int = 0 in s2explst_subst_flag (sub, s2es, flag)
+end // end of [s2explst_subst]
 
 (* ****** ****** *)
 

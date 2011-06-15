@@ -82,6 +82,8 @@ typedef s2varlstlst = List (s2varlst)
 abstype s2varset_type // assumed in [pats_staexp2_svVar.dats]
 typedef s2varset = s2varset_type
 
+viewtypedef s2varlst_vt = List_vt (s2var)
+
 abstype s2Var_type // assumed in [pats_staexp2_svVar.dats]
 typedef s2Var = s2Var_type
 typedef s2Varlst = List (s2Var)
@@ -425,7 +427,7 @@ fun fprint_s2cstlst : fprint_type (s2cstlst)
 
 fun s2var_make_srt (s2t: s2rt): s2var
 fun s2var_make_id_srt (id: symbol, s2t: s2rt): s2var
-fun s2var_copy (s2v: s2var): s2var
+fun s2var_dup (s2v: s2var): s2var // HX: s2var-duplication
 
 (* ****** ****** *)
 

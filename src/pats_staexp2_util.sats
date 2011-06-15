@@ -80,12 +80,7 @@ fun stasub_add
 fun stasub_addlst
   (sub: stasub, s2vs: s2varlst, s2es: s2explst): stasub
 
-fun stasub_get_domain (_: stasub): s2varlst
-
-fun stasub_extend_svarlst
-  (sub: stasub, s2vs: s2varlst): @(stasub, s2varlst)
-fun stasub_extend_sarglst_svarlst
-  (sub: stasub, s1as: s1arglst, s2vs: s2varlst): @(stasub, s2varlst)
+fun stasub_get_domain (sub: stasub): List_vt (s2var)
 
 fun s2exp_subst (sub: stasub, s2e: s2exp): s2exp
 fun s2explst_subst (sub: stasub, s2es: s2explst): s2explst

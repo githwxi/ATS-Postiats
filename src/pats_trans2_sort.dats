@@ -43,7 +43,6 @@ staload "pats_basics.sats"
 (* ****** ****** *)
 
 staload SYM = "pats_symbol.sats"
-macdef prerr_symbol = $SYM.prerr_symbol
 
 (* ****** ****** *)
 
@@ -137,7 +136,7 @@ case+ ans of
       val () = prerr_error2_loc (loc0)
       val () = filprerr_ifdebug (": s1rt_tr_qid")
       val () = prerr ": the identifier ["
-      val () = prerr_symbol (id)
+      val () = $SYM.prerr_symbol (id)
       val () = prerr "] is expected to refer to a sort (instead of a subset sort)." 
       val () = prerr_newline ()
       val () = the_trans2errlst_add (T2E_s1rt_tr (s1t0))
@@ -149,7 +148,7 @@ case+ ans of
     val () = prerr_error2_loc (loc0)
     val () = filprerr_ifdebug (": s1rt_tr_qid")
     val () = prerr ": the identifier ["
-    val () = prerr_symbol (id)
+    val () = $SYM.prerr_symbol (id)
     val () = prerr "] does not refer to any recognized sort."
     val () = prerr_newline ()
     val () = the_trans2errlst_add (T2E_s1rt_tr (s1t0))

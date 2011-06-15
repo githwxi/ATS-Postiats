@@ -47,6 +47,7 @@ staload "pats_dynexp1.sats"
 //
 datatype
 trans1err =
+  | T1E_prec_tr of (i0de)
   | T1E_e0xp_tr of (e0xp)
   | T1E_s0rt_tr of (s0rt)
   | T1E_s0exp_tr of (s0exp)
@@ -54,10 +55,9 @@ trans1err =
   | T1E_p0at_tr of (p0at)
   | T1E_termination_metric_check of (location)
   | T1E_d0exp_tr of (d0exp)
-  | T1E_prec_tr of (i0de)
-  | T1E_i0nclude_tr of (d0ecl)
-  | T1E_s0taload_tr of (d0ecl)
-  | T1E_d0ynload_tr of (d0ecl)
+  | T1E_i0nclude_tr of (d0ecl) // file for inclusion is not available
+  | T1E_s0taload_tr of (d0ecl) // file for staloading is not available
+  | T1E_d0ynload_tr of (d0ecl) // file for dynloading is not available
 // end of [trans1err]
 
 fun the_trans1errlst_add (x: trans1err): void

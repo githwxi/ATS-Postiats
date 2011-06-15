@@ -35,10 +35,15 @@
 (* ****** ****** *)
 
 staload ERR = "pats_error.sats"
+
 staload SYM = "pats_symbol.sats"
-overload print with $SYM.print_symbol
 overload = with $SYM.eq_symbol_symbol
+macdef ADD = $SYM.symbol_ADD
+macdef SUB = $SYM.symbol_SUB
+macdef ATS_STALOADFLAG = $SYM.symbol_ATS_STALOADFLAG
+
 staload FIL = "pats_filename.sats"
+
 staload PAR = "pats_parsing.sats"
 
 (* ****** ****** *)
@@ -138,8 +143,8 @@ in
       (id, opr, int) => let
       val sym = opr.i0de_sym in
       case+ opr of
-      | _ when sym = $SYM.symbol_ADD => precedence_inc (precfnd id, int)
-      | _ when sym = $SYM.symbol_SUB => precedence_dec (precfnd id, int)
+      | _ when sym = ADD => precedence_inc (precfnd id, int)
+      | _ when sym = SUB => precedence_dec (precfnd id, int)
       | _ => prec_tr_errmsg_adj (opr)
     end // end of [P0RECi0de_adj]
 end // end of [p0rec_tr]
@@ -148,6 +153,7 @@ fn f0xty_tr
   (f0xty: f0xty): fxty = case+ f0xty of
   | F0XTYinf (p0, a) =>
       let val p = p0rec_tr p0 in fxty_inf (p, a) end
+    // F0XTYinf
   | F0XTYpre p0 => let val p = p0rec_tr p0 in fxty_pre p end
   | F0XTYpos p0 => let val p = p0rec_tr p0 in fxty_pos p end
 // end of [f0xty_tr]
@@ -530,7 +536,7 @@ fn s0taload_tr_load (
   val (pfsave | ()) = the_trans1_env_save ()
   val d1cs = d0eclist_tr (d0cs)
   val () = (case+
-    the_e1xpenv_find ($SYM.symbol_ATS_STALOADFLAG) of
+    the_e1xpenv_find (ATS_STALOADFLAG) of
     | ~Some_vt e1xp => let
         val v1al = e1xp_valize (e1xp) in if v1al_is_false v1al then loadflag := 0
       end // end of [Some_vt]

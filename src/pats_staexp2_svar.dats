@@ -152,13 +152,13 @@ s2var_make_srt (s2t) = let
 end // end of [s2var_make_srt]
 
 implement
-s2var_copy (s2v0) = let
+s2var_dup (s2v0) = let
   val id0 = s2var_get_sym s2v0
   val s2t0 = s2var_get_srt s2v0
   val id_new = s2var_name_make_prefix ($SYM.symbol_get_name id0)
 in
   s2var_make_id_srt (id_new, s2t0)
-end // end of [s2var_copy]
+end // end of [s2var_dup]
 
 (* ****** ****** *)
 

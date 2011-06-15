@@ -135,7 +135,8 @@ fun p1atconarg_is_omit
 
 fun
 p1at_tr_con_sapp1 (
-  d2c: d2con, sub: stasub,
+  p1t1: p1at
+, d2c: d2con, sub: stasub,
   s2qs: s2qualst, out: &List_vt(s2qua)
 ) : s2exp = let
 in
@@ -149,7 +150,7 @@ case+ s2qs of
     val s2q = s2qua_make (s2vs, s2ps)
     val () = out := list_vt_cons (s2q, out)
   in
-    p1at_tr_con_sapp1 (d2c, sub, s2qs, out)
+    p1at_tr_con_sapp1 (p1t1, d2c, sub, s2qs, out)
   end // end of [cons]
 | list_nil () => let
     val npf = d2con_get_npf (d2c)
@@ -175,22 +176,36 @@ end // end of [p1at_tr_con_sapp1]
 
 fun
 p1at_tr_con_sapp2 (
-  loc0: location
+  p1t1: p1at
 , d2c: d2con, sub: stasub, s2qs: s2qualst, s1as: s1vararglst
 , out: &s2qualst_vt
 ) : s2exp = let
 //
-fn auxerr (
-  loc0: location, d2c: d2con
-) : s2exp = let
-  val () = prerr_error2_loc (loc0)
+fn auxerr1 (
+  p1t1: p1at, d2c: d2con
+) : void = let
+  val () = prerr_error2_loc (p1t1.p1at_loc)
   val () = prerr ": the constructor ["
   val () = prerr_d2con (d2c)
   val () = prerr "] is applied to too many static arguments."
   val () = prerr_newline ()
 in
-  s2exp_s2rt_err ()
-end // end of [err]
+  // nothing
+end // end of [auxerr1]
+fn auxerr2 (
+  p1t1: p1at, d2c: d2con, err: int
+) : void = let
+  val () = prerr_error2_loc (p1t1.p1at_loc)
+  val () = prerr ": the constructor ["
+  val () = prerr_d2con (d2c)
+  val () = prerr "] is expected to have "
+  val () = prerr_string (if err > 0 then "less" else "more")
+  val () = prerr " static arguments."
+  val () = prerr_newline ()
+//
+in
+  // nothing
+end // end of [auxerr2]
 //
 in
 //
@@ -207,27 +222,37 @@ case+ s1as of
         val s2q = s2qua_make (s2vs, s2ps)
         val () = out := list_vt_cons (s2q, out)
       in
-        p1at_tr_con_sapp2 (loc0, d2c, sub, s2qs, s1as, out)
-      end // end of [cons]
-    | list_nil () => auxerr (loc0, d2c)
+        p1at_tr_con_sapp2 (p1t1, d2c, sub, s2qs, s1as, out)
+      end // end of [list_cons]
+    | list_nil () => let
+        val () = auxerr1 (p1t1, d2c) in s2exp_s2rt_err ()
+      end (* end of [list_nil] *)
     end // end of [S1VARARGone]
-  | S1VARARGall () => p1at_tr_con_sapp1 (d2c, sub, s2qs, out)
+  | S1VARARGall () => p1at_tr_con_sapp1 (p1t1, d2c, sub, s2qs, out)
   | S1VARARGseq arg => begin
     case+ s2qs of
     | list_cons (s2q, s2qs) => let
+//
+        var err: int = 0
         val (sub, s2vs) =
-          stasub_extend_sarglst_svarlst (sub, arg, s2q.s2qua_svs)
+          stasub_extend_sarglst_svarlst_err (sub, arg, s2q.s2qua_svs, err)
         // end of [val]
+        val () = if err != 0 then let
+          val () = auxerr2 (p1t1, d2c, err) in the_trans2errlst_add (T2E_p1at_tr (p1t1))
+        end // end of [val]
+//
         val s2ps = s2explst_subst (sub, s2q.s2qua_sps)
         val s2q = s2qua_make (s2vs, s2ps)
         val () = out := list_vt_cons (s2q, out)
       in
-        p1at_tr_con_sapp2 (loc0, d2c, sub, s2qs, s1as, out)
+        p1at_tr_con_sapp2 (p1t1, d2c, sub, s2qs, s1as, out)
       end // end of [list_cons]
-    | list_nil () => auxerr (loc0, d2c)
+    | list_nil () => let
+        val () = auxerr1 (p1t1, d2c) in s2exp_s2rt_err ()
+      end (* end of [list_nil] *)
     end // end of [S1VARARGseq]
   ) // end of [list_cons]
-| list_nil () =>  p1at_tr_con_sapp1 (d2c, sub, s2qs, out)
+| list_nil () =>  p1at_tr_con_sapp1 (p1t1, d2c, sub, s2qs, out)
 //
 end // end of [p1at_tr_con_sapp2]
 
@@ -245,7 +270,11 @@ fun p1at_tr_con (
 //
   val- list_cons (d2c, _) = d2cs // HX: [d2cs] cannot be nil
 //
-  val sarg = l2l (list_map_fun (sarg, s1vararg_tr))
+  val sub = stasub_make_nil ()
+  val s2qs = d2con_get_qua (d2c)
+  var out: List_vt (s2qua) = list_vt_nil ()
+  val s2e = p1at_tr_con_sapp2 (p1t1, d2c, sub, s2qs, sarg, out)
+  val out = (l2l)out
 //
   val darg = (
     if isargomit then let
@@ -264,7 +293,7 @@ fun p1at_tr_con (
   ) : p2atlst // end of [val]
 //
 in
-  p2at_con (p1t0.p1at_loc, 0(*freeknd*), d2c, sarg, npf, darg)
+  p2at_con (p1t0.p1at_loc, 0(*freeknd*), d2c, out, s2e, npf, darg)
 end // end of [p1at_app_tr_dqid]
 
 (* ****** ****** *)
@@ -476,8 +505,8 @@ fun p1at_tr_free (
 in
 //
 case+ p2t.p2at_node of
-| P2Tcon (freeknd, d2c, sarg, npf, darg) =>
-    p2at_con (loc0, 1-freeknd, d2c, sarg, npf, darg)
+| P2Tcon (freeknd, d2c, s2qs, s2e, npf, darg) =>
+    p2at_con (loc0, 1-freeknd, d2c, s2qs, s2e, npf, darg)
 | _ => let
     val () = prerr_error2_loc (loc0)
     val () = filprerr_ifdebug ": p1at_tr_free"

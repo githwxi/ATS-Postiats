@@ -231,6 +231,11 @@ fprint_d2con (out, x) = let
   val sym = d2con_get_sym (x) in $SYM.fprint_symbol (out, sym)
 end // end of [fprint_d2con]
 
+implement
+print_d2con (x) = fprint_d2con (stdout_ref, x)
+implement
+prerr_d2con (x) = fprint_d2con (stderr_ref, x)
+
 (* ****** ****** *)
 
 (* end of [pats_staexp2_dcon.dats] *)

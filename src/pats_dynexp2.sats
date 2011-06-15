@@ -206,7 +206,7 @@ datatype p2at_node =
 //
   | P2Tempty of ()
   | P2Tcon of ( // constructor pattern
-      int(*freeknd*), d2con, s2vararglst, int(*npf*), p2atlst
+      int(*freeknd*), d2con, s2qualst, s2exp(*con*), int(*npf*), p2atlst
     ) // end of [P2Tcon]
   | P2Tlist of (int(*npf*), p2atlst)
   | P2Tlst of (p2atlst)
@@ -267,7 +267,10 @@ fun p2at_empty (loc: location): p2at
 fun p2at_con (
   loc: location
 , freeknd: int
-, d2c: d2con, sarg: s2vararglst, npf: int, darg: p2atlst
+, d2c: d2con
+, s2qs: s2qualst
+, s2e(*con*): s2exp
+, npf: int, darg: p2atlst
 ) : p2at // end of [p2at_con]
 
 fun p2at_list // HX: flat tuple
