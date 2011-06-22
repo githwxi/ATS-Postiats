@@ -176,13 +176,36 @@ fprint_s2exp (out, x) = let
   macdef prstr (s) = fprint_string (out, ,(s))
 in
 //
-case+ x of
+case+ x.s2exp_node of
+| S2Efun _ => {
+    val () = prstr "S2Efun("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| S2Euni _ => {
+    val () = prstr "S2Euni("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| S2Eexi _ => {
+    val () = prstr "S2Eexi("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
 | _ => prstr "S2E...(...)"
 //
 end // end of [fprint_s2exp]
 
-implement print_s2exp (xs) = fprint_s2exp (stdout_ref, xs)
-implement prerr_s2exp (xs) = fprint_s2exp (stderr_ref, xs)
+implement print_s2exp (x) = fprint_s2exp (stdout_ref, x)
+implement prerr_s2exp (x) = fprint_s2exp (stderr_ref, x)
+
+implement
+fprint_s2explst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_s2exp)
+// end of [fprint_s2explst]
+
+implement print_s2explst (xs) = fprint_s2explst (stdout_ref, xs)
+implement prerr_s2explst (xs) = fprint_s2explst (stderr_ref, xs)
 
 (* ****** ****** *)
 

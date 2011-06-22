@@ -558,8 +558,8 @@ d1exp_lam_met (loc, loc_arg, s1es, d1e) =
   d1exp_make (loc, D1Elam_met (loc_arg, s1es, d1e))
 
 implement
-d1exp_lam_sta_ana (loc, loc_arg, s1as, d1e) =
-  d1exp_make (loc, D1Elam_sta_ana (loc_arg, s1as, d1e))
+d1exp_lam_sta_ana (loc, loc_arg, s1v, d1e) =
+  d1exp_make (loc, D1Elam_sta_ana (loc_arg, s1v, d1e))
 
 implement
 d1exp_lam_sta_syn (loc, loc_arg, s1qs, d1e) =
@@ -846,8 +846,8 @@ d1ecl_e1xpdef (loc, id, def) = '{
   d1ecl_loc= loc, d1ecl_node= D1Ce1xpdef (id, def)
 }
 implement
-d1ecl_e1xpundef (loc, id) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Ce1xpundef (id)
+d1ecl_e1xpundef (loc, id, def) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Ce1xpundef (id, def)
 }
 
 (* ****** ****** *)

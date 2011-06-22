@@ -402,6 +402,21 @@ case+ d1e0.d1exp_node of
     val () = prstr "..."
     val () = prstr ")"
   }
+| D1Elam_met _ => {
+    val () = prstr "D1Elam_met("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| D1Elam_sta_ana _ => {
+    val () = prstr "D1Elam_sta_ana("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| D1Elam_sta_syn _ => {
+    val () = prstr "D1Elam_sta_syn("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
 //
 | D1Etrywith _ => {
     val () = prstr "D1Etrywith("
@@ -497,6 +512,32 @@ fprint_v1aldec (out, x) = {
 
 (* ****** ****** *)
 
+extern
+fun fprint_v1ardec : fprint_type (v1ardec)
+implement
+fprint_v1ardec (out, x) = let
+  macdef prstr (str) = fprint_string (out, ,(str))
+  val () = fprint_int (out, x.v1ardec_knd)
+  val () = prstr "; "
+  val () = fprint_symbol (out, x.v1ardec_sym)
+  val () = (case+ x.v1ardec_typ of
+    | Some s1e => (prstr ": "; fprint_s1exp (out, s1e))
+    | None () => ()
+  ) // end of [val]
+  val () = (case+ x.v1ardec_wth of
+    | Some id => (prstr " with "; fprint_i0de (out, id))
+    | None () => ()
+  ) // end of [val]
+  val () = (case+ x.v1ardec_ini of
+    | Some d1e => (prstr " = "; fprint_d1exp (out, d1e))
+    | None () => ()
+  ) // end of [val]
+in
+  // nothing
+end // end of [fprint_v1ardec]
+
+(* ****** ****** *)
+
 implement
 fprint_d1ecl
   (out, d1c0) = let
@@ -536,7 +577,7 @@ case+ d1c0.d1ecl_node of
     val () = fprint_e1xp (out, def)
     val () = prstr ")"
   }
-| D1Ce1xpundef (id) => {
+| D1Ce1xpundef (id, _(*def*)) => {
     val () = prstr "D1Ce1xpundef("
     val () = fprint_symbol (out, id)
     val () = prstr ")"
@@ -640,6 +681,15 @@ case+ d1c0.d1ecl_node of
     val () = fprint_d1exp (out, def)
     val () = prstr ")"
   }
+| D1Cextcode (knd, pos, code) => {
+    val () = prstr "D1Cextcode("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_int (out, pos)
+    val () = prstr "\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  }
 //
 | D1Cmacdefs (knd, isrec, ds) => {
     val () = prstr "D1macdef("
@@ -671,12 +721,20 @@ case+ d1c0.d1ecl_node of
   }
 | D1Cvardecs (ds) => {
     val () = prstr "D1Cvardecs(\n"
-    val () = prstr "..."
+    val () = $UT.fprintlst (out, ds, "\n", fprint_v1ardec)
     val () = prstr "\n)"
   }
 | D1Cimpdec (imparg, d) => {
-    val () = prstr "D1Cimpdec(\n"
-    val () = prstr "..."
+    val qid = d.i1mpdec_qid
+    val () = prstr "D1Cimpdec"
+    val () = fprint_i1mparg (out, imparg)
+    val () = prstr "(\n"
+//
+    val q = qid.impqi0de_qua and id = qid.impqi0de_sym
+    val () = ($SYN.fprint_d0ynq (out, q); fprint_symbol (out, id))
+//
+    val () = prstr "; "
+    val () = fprint_d1exp (out, d.i1mpdec_def)
     val () = prstr "\n)"
   }
 //

@@ -84,6 +84,7 @@ staload "pats_staexp2.sats"
 staload "pats_stacst2.sats"
 staload "pats_staexp2_util.sats"
 staload "pats_dynexp2.sats"
+staload "pats_dynexp2_util.sats"
 
 (* ****** ****** *)
 
@@ -93,6 +94,7 @@ staload "pats_trans2_env.sats"
 (* ****** ****** *)
 
 #define l2l list_of_list_vt
+macdef list_sing (x) = list_cons (,(x), list_nil)
 
 (* ****** ****** *)
 
@@ -540,6 +542,7 @@ fn auxerr (d: s1expdef): void = {
   val () = $SYM.prerr_symbol (d.s1expdef_sym)
   val () = prerr "]."
   val () = prerr_newline ()
+  val () = the_trans2errlst_add (T2E_s1expdef_tr (d))
 } // end of [auxerr]
 //
   val res1 = s1rtopt_tr (d.s1expdef_res)
@@ -646,6 +649,7 @@ fn auxerr (
   val () = prerr_s2rt (s2t2)
   val () = prerr "]."
   val () = prerr_newline ()
+  val () = the_trans2errlst_add (T2E_s1aspdec_tr (d))
 } // end of [auxerr]
 //
 in
@@ -664,48 +668,50 @@ case+ d.s1aspdec_res of
 end // end of [s1aspdec_tr_res]
 
 viewtypedef
-s2aspdec_vt = Option_vt (s2aspdec)
+s2aspdecopt_vt = Option_vt (s2aspdec)
 
 fun
 s1aspdec_tr (
   d1c: s1aspdec
-) : s2aspdec_vt = let
+) : s2aspdecopt_vt = let
 //
 fn auxerr1 (
-  loc: location
-, q: s0taq, id: symbol
-) : s2aspdec_vt = let
-  val () = prerr_error2_loc (loc)
+  d: s1aspdec, q: s0taq, id: symbol
+) : s2aspdecopt_vt = let
+  val () = prerr_error2_loc (d.s1aspdec_loc)
   val () = filprerr_ifdebug ": s1aspdec_tr"
   val () = prerr ": the static constant ["
   val () = ($SYN.prerr_s0taq (q); $SYM.prerr_symbol id)
   val () = prerr "] is not abstract."
   val () = prerr_newline ()
+  val () = the_trans2errlst_add (T2E_s1aspdec_tr (d))
 in
   None_vt ()
 end // end of [auxerr1]
 //
 fn auxerr2 (
-  loc: location, q: s0taq, id: symbol
-) : s2aspdec_vt = let
-  val () = prerr_error2_loc (loc)
+  d: s1aspdec, q: s0taq, id: symbol
+) : s2aspdecopt_vt = let
+  val () = prerr_error2_loc (d.s1aspdec_loc)
   val () = filprerr_ifdebug ("s1aspdec_tr")
   val () = prerr ": the identifier ["
   val () = ($SYN.prerr_s0taq q; $SYM.prerr_symbol id)
   val () = prerr "] does not refer to a static constant."
   val () = prerr_newline ()
+  val () = the_trans2errlst_add (T2E_s1aspdec_tr (d))
 in
   None_vt ()
 end // end of [auxerr2]
 //
 fn auxerr3 (
-  loc: location, q: s0taq, id: symbol
-) : s2aspdec_vt = let
-  val () = prerr_error2_loc (loc)
+  d: s1aspdec, q: s0taq, id: symbol
+) : s2aspdecopt_vt = let
+  val () = prerr_error2_loc (d.s1aspdec_loc)
   val () = prerr ": the identifier ["
   val () = ($SYN.prerr_s0taq q; $SYM.prerr_symbol id)
   val () = prerr "] is unrecognized."
   val () = prerr_newline ()
+  val () = the_trans2errlst_add (T2E_s1aspdec_tr (d))
 in
   None_vt ()
 end // end of [auxerr3]
@@ -738,11 +744,11 @@ case+ ans of
         in
           Some_vt (s2aspdec_make (loc, s2c, s2e_def))
         end
-      | ~list_vt_nil () => auxerr1 (loc, q, id)
+      | ~list_vt_nil () => auxerr1 (d1c, q, id)
       end // end of [S2ITEMcst]
-    | _ => auxerr2 (loc, q, id)
+    | _ => auxerr2 (d1c, q, id)
     end // end of [Some_vt]
-  | ~None_vt () => auxerr3 (loc, q, id)
+  | ~None_vt () => auxerr3 (d1c, q, id)
 end // end of [s1aspdec_tr]
 
 (* ****** ****** *)
@@ -1097,7 +1103,7 @@ fn v1ardec_tr (
       prerr_loc_error2 (d1c.v1ardec_loc);
       prerr ": stack allocation is not supported at the top level.";
       prerr_newline ();
-      $Err.abort {void} ()
+      $ERR.abort {void} ()
     end // end of [if]
   // end of [val]
 *)
@@ -1219,6 +1225,15 @@ end // end of [f1undeclst_tr]
 
 (* ****** ****** *)
 
+(*
+//
+// HX: it is implemented in [pats_trans2_impdec.dats]
+//
+extern fun i1mpdec_tr (d1c: d1ecl): Option_vt (i2mpdec)
+*)
+
+(* ****** ****** *)
+
 fn s1taload_tr (
   loc0: location
 , idopt: symbolopt
@@ -1270,9 +1285,11 @@ end // end of [s1taload_tr]
 implement
 d1ecl_tr (d1c0) = let
   val loc0 = d1c0.d1ecl_loc
+// (*
   val () = begin
     print "d1ecl_tr: d1c0 = "; print_d1ecl d1c0; print_newline ()
   end // end of [val]
+// *)
 in
 //
 case+ d1c0.d1ecl_node of
@@ -1303,6 +1320,13 @@ case+ d1c0.d1ecl_node of
   in
     d2ecl_none (loc0)
   end // end of [D1Ce1xpdef]
+| D1Ce1xpundef (id, def) => let
+    val () = the_s2expenv_add (id, S2ITMe1xp def)
+    val () = the_d2expenv_add (id, D2ITMe1xp def)
+  in
+    d2ecl_none (loc0)
+  end // end of [D0Ce0xpundef]
+//
 | D1Cdatsrts (ds) => let
     val () = d1atsrtdeclst_tr (ds) in d2ecl_none (loc0)
   end // end of [D1Cdatsrts]
@@ -1321,10 +1345,12 @@ case+ d1c0.d1ecl_node of
 | D1Csexpdefs (knd, ds) => let
     val () = s1expdeflst_tr (knd, ds) in d2ecl_none (loc0)
   end // end of [D1Csexpdefs]
-| D1Csaspdec (d1c) => (
-    case+ s1aspdec_tr (d1c) of
-    | ~Some_vt d2c => d2ecl_saspdec (loc0, d2c) | ~None_vt () => d2ecl_none (loc0)
-  ) // end of [D1Csaspdec]
+| D1Csaspdec (d1c) => let
+    val d2copt = s1aspdec_tr (d1c) in
+    case+ d2copt of
+    | ~Some_vt d2c => d2ecl_saspdec (loc0, d2c)
+    | ~None_vt () => d2ecl_none (loc0) // HX: error is reported
+  end // end of [D1Csaspdec]
 //
 | D1Cdatdecs (knd, d1cs_dat, d1cs_def) => let
     val s2cs = d1atdeclst_tr (knd, d1cs_dat, d1cs_def)
@@ -1349,6 +1375,10 @@ case+ d1c0.d1ecl_node of
   in
     d2ecl_extype (loc0, name, s2e_def)
   end // end of [D1Cextype]
+| D1Cextval (name, def) => let
+    val def = d1exp_tr (def) in d2ecl_extval (loc0, name, def)
+  end // end of [D1Cextval]
+| D1Cextcode (knd, pos, code) => d2ecl_extcode (loc0, knd, pos, code)
 //
 | D1Cdcstdecs (
     dck, decarg, d1cs
@@ -1394,6 +1424,14 @@ case+ d1c0.d1ecl_node of
     d2ecl_fundecs (loc0, funknd, s2qss, d2cs)
   end // end of [D1Cfundecs]
 //
+| D1Cimpdec _ => let
+    val d2copt = i1mpdec_tr (d1c0)
+  in
+    case+ d2copt of
+    | ~Some_vt (d2c) => d2ecl_impdec (loc0, d2c)
+    | ~None_vt () => d2ecl_none (loc0) // HX: error is reported
+  end // end of [D1Cimpdec]
+//
 | D1Cinclude (d1cs) => let
     val d2cs = d1eclist_tr (d1cs) in d2ecl_include (loc0, d2cs)
   end // end of [D1Cinclude]
@@ -1404,7 +1442,19 @@ case+ d1c0.d1ecl_node of
   in
     d2ecl_staload (loc0, idopt, fil, loadflag, loaded, fenv)
   end // end of [D1Cstaload]
+| D1Cdynload (fil) => d2ecl_dynload (loc0, fil)
 //
+| D1Clocal (d1cs_head, d1cs_body) => let
+    val (pf1env | ()) = the_trans2_env_push ()
+    val d2cs_head = d1eclist_tr (d1cs_head)
+    val (pf2env | ()) = the_trans2_env_push ()
+    val d2cs_body = d1eclist_tr (d1cs_body)
+    val () = the_trans2_env_localjoin (pf1env, pf2env | (*none*))
+  in
+    d2ecl_local (loc0, d2cs_head, d2cs_body)
+  end // end of [D1Clocal]
+//
+// (*
 | _ => let
     val () = prerr_error2_loc (loc0)
     val () = prerr ": d1ecl_tr: not implemented: d1c0 = "
@@ -1413,6 +1463,7 @@ case+ d1c0.d1ecl_node of
   in
     d2ecl_none (loc0)
   end // end of [_]
+// *)
 //
 end // end of [d1ecl_tr]
 

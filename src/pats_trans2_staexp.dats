@@ -237,7 +237,7 @@ s1marg_trdn
   (s1ma, s2ts) = let
 //
 fn auxerr (
-  s1ma:s1marg, s2ts, err: int
+  s1ma: s1marg, s2ts, err: int
 ) : void = {
   val () = prerr_error2_loc (s1ma.s1marg_loc)
   val () = filprerr_ifdebug "s1marg_trdn"
@@ -880,12 +880,13 @@ end // end of [s1exp_trup_arrow]
 (* ****** ****** *)
 
 fn s1exp_trup_app (
-  s1opr: s1exp
+  s1e0: s1exp
+, s1opr: s1exp
 , _fun: s2exp, _arg: List_vt (locs1explst)
 ) : s2exp = let
 //
 fn auxerr1 (
-  loc: location, err: int
+  s1e0: s1exp, loc: location, err: int
 ) : void = {
   val () = prerr_error2_loc (loc)
   val () = filprerr_ifdebug "s1exp_trup_app"
@@ -893,9 +894,10 @@ fn auxerr1 (
   val () = prerr_string (if err > 0 then "less" else "more")
   val () = prerr " arguments."
   val () = prerr_newline ()
+  val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
 } // end of [auxerr1]
 fn auxerr2 (
-  loc: location, s2e: s2exp
+  s1e0: s1exp, loc: location, s2e: s2exp
 ) : void = {
   val () = prerr_error2_loc (loc)
   val () = filprerr_ifdebug "s1exp_trup_app"
@@ -905,10 +907,12 @@ fn auxerr2 (
   val () = prerr_s2rt (s2e.s2exp_srt)
   val () = prerr "]."
   val () = prerr_newline ()
+  val () = the_trans2errlst_add (T2E_s1exp_trup_app (s1e0))
 } // end of [auxerr2]
 //
 fun loop (
-  loc0: location
+  s1e0: s1exp
+, loc: location
 , s2e_fun: s2exp, xs: List_vt (locs1explst)
 ) : s2exp = begin
   case+ xs of
@@ -924,18 +928,18 @@ fun loop (
         | _ when err = 0 => let
             val s2e_fun = s2exp_app_srt (s2t_res, s2e_fun, s2es_arg)
           in
-            loop (loc0, s2e_fun, xs)
+            loop (s1e0, loc, s2e_fun, xs)
           end // end of [_ when err = 0]
         | _ => let
             val () = list_vt_free (xs)
-            val () = auxerr1 (loc0 + x.0, err)
+            val () = auxerr1 (s1e0, loc + x.0, err)
           in
             s2exp_err (s2t_res)
           end // end of [_ when err != 0]
         // end of [case]
       end else let
         val () = list_vt_free (xs)
-        val () = auxerr2 (loc0, s2e_fun)
+        val () = auxerr2 (s1e0, loc, s2e_fun)
       in
         s2exp_err (s2t_fun)
       end // end of [if]
@@ -944,7 +948,7 @@ fun loop (
 end // end of [loop]
 //
 in
-  loop (s1opr.s1exp_loc, _fun, _arg)
+  loop (s1e0, s1opr.s1exp_loc, _fun, _arg)
 end // end of [s1exp_trup_app]
 
 (* ****** ****** *)
@@ -1040,7 +1044,7 @@ case+ s2i0 of
       s2var_check_tmplev (s1opr.s1exp_loc, s2v)
     // end of [val]
   in
-    s1exp_trup_app (s1opr, s2exp_var (s2v), xs)
+    s1exp_trup_app (s1e0, s1opr, s2exp_var (s2v), xs)
   end // end of [S2ITEMvar]
 (*
 | S2ITMdatconptr d2c => s1exp_trup_app_datconptr (loc_app, d2c, s1ess)
@@ -1333,7 +1337,7 @@ case+ s1e0.s1exp_node of
         s1exp_trup_arrow (s1e0, Some fc, lin>0, prf>0, oefc, xs)
       // end of [S1Eimp]
     | _ => let
-        val s2opr = s1exp_trup (s1opr) in s1exp_trup_app (s1opr, s2opr, xs)
+        val s2opr = s1exp_trup (s1opr) in s1exp_trup_app (s1e0, s1opr, s2opr, xs)
       end // end of [_]
   end (* end of [S1Eapp] *)
 | S1Elam (s1ma, s1topt, s1e_body) => let
@@ -2052,6 +2056,30 @@ fun loop (
 in
   (sub, (l2l)s2vs)
 end // end of [stasub_extend_sarglst_svarlst_err]
+
+(* ****** ****** *)
+
+implement
+s1vararg_bind_svarlst_err
+  (s1v, s2vs, err) = let
+(*
+// s1vararg_bind_svarlst_err
+*)
+in
+//
+case+ s1v of
+| S1VARARGone () => let
+    val sub = stasub_make_nil () in stasub_extend_svarlst (sub, s2vs)
+  end (* end of [S1VARARGone] *)
+| S1VARARGall () => let
+    val sub = stasub_make_nil () in stasub_extend_svarlst (sub, s2vs)
+  end (* end of [S1VARARGone] *)
+| S1VARARGseq (s1as) => let
+    val sub = stasub_make_nil () in
+    stasub_extend_sarglst_svarlst_err (sub, s1as, s2vs, err)
+  end // end of [S1VARARGseq]
+//
+end // end of [s1vararg_bind_svarlst_err]
 
 (* ****** ****** *)
 

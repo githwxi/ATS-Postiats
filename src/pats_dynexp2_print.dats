@@ -30,29 +30,37 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: May, 2011
+// Start Time: June, 2011
 //
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
+staload UT = "pats_utils.sats"
+staload _(*anon*) = "pats_utils.dats"
+
+(* ****** ****** *)
+
 staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-fun d2con_select_arity
-  (d2cs: d2conlst, n: int): d2conlst
-// end of [d2con_select_arity]
+implement
+fprint_p2at
+  (out, x) = let
+  macdef prstr (x) = fprint_string (out, ,(x))
+in
+//
+case+ x.p2at_node of
+| _ => {
+    val () = prstr "P2T...(...)"
+  } // end of [_]
+//
+end // end of [fprint_p2at]
+
+implement
+fprint_p2atlst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_p2at)
+// end of [fprint_p2atlst]
 
 (* ****** ****** *)
 
-fun sc2laulst_covercheck
-  (loc0: location, xs: sc2laulst, s2t: s2rt): void
-// end of [sc2laulst_covercheck]
-
-(* ****** ****** *)
-
-fun d2cst_match_def (d2c: d2cst, def: d1exp): bool
-
-(* ****** ****** *)
-
-(* end of [pats_dynexp2_util.sats] *)
+(* end of [pats_dynexp2_print.dats] *)

@@ -38,6 +38,9 @@ staload _(*anon*) = "prelude/DATS/list.dats"
 
 (* ****** ****** *)
 
+staload "pats_staexp1.sats"
+staload "pats_dynexp1.sats"
+
 staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
 
@@ -67,6 +70,44 @@ in
     (l2l)d2cs
   end else d2cs // end of [if]
 end // end of [d2con_select_arity]
+
+(* ****** ****** *)
+
+local
+
+typedef intlst = List (int)
+
+fn p1at_arity (p1t: p1at): int =
+  case+ p1t.p1at_node of
+  | P1Tlist (npf, p1ts) => list_length (p1ts) | _ => 1
+// end of [p1at_arity]
+
+fn arityck
+  (d1e: d1exp, ns: intlst): bool = let
+  fn* loop1 (d1e: d1exp, ns: intlst): bool =
+    case+ ns of
+    | list_cons (n, ns) => loop2 (d1e, n, ns) | list_nil () => true
+  and loop2 (d1e: d1exp, n: int, ns: intlst): bool =
+    case+ d1e.d1exp_node of
+    | D1Elam_dyn (_(*lin*), p1t, d1e) =>
+        if n = p1at_arity (p1t) then loop1 (d1e, ns) else false
+    | D1Elam_met (_, _, d1e) => loop2 (d1e, n, ns)
+    | D1Elam_sta_ana (_, _, d1e) => loop2 (d1e, n, ns)
+    | D1Elam_sta_syn (_, _, d1e) => loop2 (d1e, n, ns)
+    | _ => false
+in
+  loop1 (d1e, ns)
+end // end of [arityck]
+
+in // in of [local]
+
+implement
+d2cst_match_def (d2c, def) = let
+  val ns = d2cst_get_arylst (d2c) in arityck (def, ns)
+end // end of [d2cst_match_def]
+
+end // end of [local]
+
 
 (* ****** ****** *)
 

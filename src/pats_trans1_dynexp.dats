@@ -170,7 +170,7 @@ case+ args of
     val d1e_body = aux (lamknd, args, d1e_body, flag1) where {
       val flag1 = (
         case+ arg.f0arg_node of F0ARGdyn _ => flag + 1 | _ => flag
-      ) : int
+      ) : int // end of [val]
     } // end of [where]
     val loc_body = d1e_body.d1exp_loc
     val loc = (case+ locopt of
@@ -178,11 +178,11 @@ case+ args of
     ) : location // end of [val]
   in
     case+ arg.f0arg_node of
-    | F0ARGsta1 s0qs =>
-        d1exp_lam_sta_syn (loc, loc_arg, s0qualst_tr s0qs, d1e_body)
+    | F0ARGsta1 qua =>
+        d1exp_lam_sta_syn (loc, loc_arg, s0qualst_tr qua, d1e_body)
       // end of [F0ARGsta1]
-    | F0ARGsta2 s0as =>
-        d1exp_lam_sta_ana (loc, loc_arg, s0arglst_tr s0as, d1e_body)
+    | F0ARGsta2 s0v =>
+        d1exp_lam_sta_ana (loc, loc_arg, s0vararg_tr s0v, d1e_body)
       // end of [F0ARGsta2]
     | F0ARGdyn p0t when flag = 0 => let
         val p1t = p0at_tr p0t

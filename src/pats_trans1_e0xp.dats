@@ -85,12 +85,12 @@ do_e0xpact_assert
   (loc, v) = let
   val is_false = (
     case+ v of
-    | V1ALchar c => c = '\0'
-    | V1ALfloat f => f = 0.0
     | V1ALint i => i = 0
     | V1ALstring s => let
         val s = string1_of_string s in string_is_empty s
       end // end of [V1ALstring]
+    | V1ALfloat f => f = 0.0
+    | V1ALchar c => c = '\0'
     | V1ALerr () => let
         val () = assertloc (false) in false // HX: this should be deadcode!
       end (* end of [V1ALerr] *)
@@ -113,10 +113,10 @@ do_e0xpact_error
   val () = prerr ": [#error] directive is encountered: "
 //
   val () = (case+ v of
-    | V1ALchar c => prerr c
-    | V1ALfloat f => prerr f
     | V1ALint i => prerr i
     | V1ALstring s => prerr s
+    | V1ALfloat f => prerr f
+    | V1ALchar c => prerr c
     | V1ALerr () => let
         val () = assertloc (false) in (*deadcode*)
       end (* end of [V1ALerr] *)
@@ -128,10 +128,10 @@ end // end of [do_e0xpact_error]
 implement
 do_e0xpact_prerr
   (v) = case+ v of
-  | V1ALchar c => prerr c
-  | V1ALfloat f => prerr f
   | V1ALint i => prerr i
   | V1ALstring s => prerr s
+  | V1ALfloat f => prerr f
+  | V1ALchar c => prerr c
   | V1ALerr () => let
       val () = assertloc (false) in (*deadcode*)
     end (* end of [V1ALerr] *)

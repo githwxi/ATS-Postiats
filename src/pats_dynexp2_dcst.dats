@@ -153,9 +153,23 @@ d2cst_get_arylst (d2c) = let
 end // end of [d2cst_get_arylst]
 
 implement
+d2cst_get_typ (d2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_typ
+end // end of [d2cst_get_typ]
+
+implement
 d2cst_get_extdef (d2c) = let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_extdef
 end // end of [d2cst_get_extdef]
+
+implement
+d2cst_get_def (d2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_def
+end // end of [d2cst_get_def]
+implement
+d2cst_set_def (d2c, def) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_def := def
+end // end of [d2cst_set_def]
 
 implement
 d2cst_get_stamp (d2c) = let

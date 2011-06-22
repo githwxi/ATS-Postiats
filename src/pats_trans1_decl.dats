@@ -659,6 +659,11 @@ end // end of [guad0ecl_tr]
 implement
 d0ecl_tr (d0c0) = let
   val loc0 = d0c0.d0ecl_loc
+(*
+  val () = begin
+    print "d0ecl_tr: loc0 = "; $LOC.print_location (loc0); print_newline ()
+  end // end of [val]
+*)
 in
 //
 case+ d0c0.d0ecl_node of
@@ -687,7 +692,7 @@ case+ d0c0.d0ecl_node of
     val def = e1xp_undef (loc0)
     val () = the_e1xpenv_add (id, def)
   in
-    d1ecl_e1xpundef (loc0, id)
+    d1ecl_e1xpundef (loc0, id, def)
   end // end of [D0Ce0xpundef]
 //
 | D0Ce0xpact (knd, e0xp) => let

@@ -56,6 +56,7 @@ datatype trans2err =
   | T2E_s2var_check_tmplev of (s2var)
   | T2E_effvar_tr of (effvar)
   | T2E_s1exp_trup of (s1exp)
+  | T2E_s1exp_trup_app of (s1exp)
   | T2E_s1exp_trdn of (s1exp, s2rt)
   | T2E_s1exp_trdn_impredicative of (s1exp)
   | T2E_s2exp_trdn of (location, s2exp, s2rt)
@@ -63,6 +64,8 @@ datatype trans2err =
   | T2E_s1marg_trdn of (s1marg, s2rtlst)
   | T2E_sp1at_trdn of (sp1at, s2rt)
   | T2E_s1rtext_tr of (s1rtext)
+  | T2E_s1expdef_tr of (s1expdef)
+  | T2E_s1aspdec_tr of (s1aspdec)
   | T2E_d1atcon_tr of (d1atcon)
   | T2E_d1atdec_tr of (d1atdec)
   | T2E_p1at_tr of (p1at)
@@ -70,6 +73,7 @@ datatype trans2err =
   | T2E_i1nvarg_tr of (i1nvarg)
   | T2E_c1lau_tr of (c1lau)
   | T2E_overload_tr of (d1ecl)
+  | T2E_impdec_tr of (d1ecl)
 // end of [trans2err]
 
 fun the_trans2errlst_add (x: trans2err): void
@@ -181,12 +185,18 @@ fun stasub_extend_sarglst_svarlst_err (
 
 (* ****** ****** *)
 
+fun s1vararg_bind_svarlst_err (
+  s1v: s1vararg, s2vs: s2varlst, err: &int
+) : (stasub, s2varlst) // end of [fun]
+
+(*
 fun s1marg_bind_svarlst (
   s1ma: s1marg, s2vs: s2varlst, sub: stasub
 ) : (s2varlst, stasub) // end of [s1marg_bind_svarlst]
 fun t1mpmarg_bind_svarlst (
   t1ma: t1mpmarg, s2vs: s2varlst, sub: stasub
 ) : (s2explst, stasub) // end of [t1mpmarg_bind_svarlst]
+*)
 
 (* ****** ****** *)
 
@@ -221,6 +231,10 @@ fun labd1exp_tr (ld1e: labd1exp): labd2exp
 
 fun d1lab_tr (d1l: d1lab): d2lab
 fun d1lablst_tr (d1ls: d1lablst): d2lablst
+
+(* ****** ****** *)
+
+fun i1mpdec_tr (d1c: d1ecl): Option_vt (i2mpdec)
 
 (* ****** ****** *)
 

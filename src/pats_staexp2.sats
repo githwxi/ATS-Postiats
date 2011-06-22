@@ -626,6 +626,9 @@ fun fprint_s2explst : fprint_type (s2explst)
 fun print_s2exp (x: s2exp): void
 fun prerr_s2exp (x: s2exp): void
 
+fun print_s2explst (xs: s2explst): void
+fun prerr_s2explst (xs: s2explst): void
+
 (* ****** ****** *)
 
 fun fprint_labs2exp : fprint_type (labs2exp)

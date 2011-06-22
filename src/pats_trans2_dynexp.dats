@@ -654,6 +654,21 @@ end // end of [m1atch_tr]
 
 fn c1lau_tr {n:nat}
   (n: int n, c1l: c1lau): c2lau = let
+//
+  fn auxerr (
+    c1l: c1lau, n: int, n1: int
+  ) : void = let
+    val () = prerr_error2_loc (c1l.c1lau_loc)
+    val () = filprerr_ifdebug (": c1lau_tr")
+    val () = prerr ": this clause should contain "
+    val () = prerr_string (if n < n1 then "less" else "more")
+    val () = prerr " patterns."
+    val () = prerr_newline ()
+    val () = the_trans2errlst_add (T2E_c1lau_tr (c1l))
+  in
+    // nothing
+  end // end of [auxerr]
+//
   val loc = c1l.c1lau_loc
   val p1t = c1l.c1lau_pat
   val p1ts = (case+ p1t.p1at_node of
@@ -666,15 +681,8 @@ fn c1lau_tr {n:nat}
     printf ("c1lau_tr: n = %i and n1 = %i\n", @(n, n1))
   end // end of [val]
 *)
-  val () = if n != n1 then {
-    val () = prerr_error2_loc (loc)
-    val () = filprerr_ifdebug (": c1lau_tr")
-    val () = prerr ": this clause should contain "
-    val () = prerr_string (if n < n1 then "less" else "more")
-    val () = prerr " patterns."
-    val () = prerr_newline ()
-    val () = the_trans2errlst_add (T2E_c1lau_tr (c1l))
-  } // end of [val]
+//
+  val () = if n != n1 then auxerr (c1l, n, n1)
 //
   val (pfenv | ()) = the_trans2_env_push ()
   val () = let

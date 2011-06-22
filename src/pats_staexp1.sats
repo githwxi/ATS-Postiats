@@ -733,6 +733,8 @@ i1mparg =
 fun i1mparg_sarglst (arg: s1arglst): i1mparg
 fun i1mparg_svararglst (arg: s1vararglst): i1mparg
 
+fun fprint_i1mparg : fprint_type (i1mparg)
+
 (* ****** ****** *)
 
 typedef

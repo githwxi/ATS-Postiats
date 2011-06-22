@@ -1078,7 +1078,7 @@ datatype
 f0arg_node =
   | F0ARGdyn of p0at
   | F0ARGsta1 of s0qualst
-  | F0ARGsta2 of s0arglst
+  | F0ARGsta2 of s0vararg
   | F0ARGmet of s0explst
 // end of [f0arg_node]
 
@@ -1092,10 +1092,10 @@ viewtypedef f0arglst_vt = List_vt (f0arg)
 fun f0arg_dyn (x: p0at): f0arg
 
 fun f0arg_sta1
-  (t_beg: token, xs: s0qualst, t_end: token): f0arg
+  (t_beg: token, qua: s0qualst, t_end: token): f0arg
 // end of [f0arg_sta1]
 fun f0arg_sta2
-  (t_beg: token, xs: s0arglst, t_end: token): f0arg
+  (t_beg: token, arg: s0vararg, t_end: token): f0arg
 // end of [f0arg_sta2]
 
 fun f0arg_met

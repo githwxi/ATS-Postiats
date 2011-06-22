@@ -231,7 +231,7 @@ datatype d1ecl_node =
   | D1Coverload of (i0de, dqi0de) // overloading declaration
 //
   | D1Ce1xpdef of (symbol, e1xp)
-  | D1Ce1xpundef of (symbol) // HX: undefining
+  | D1Ce1xpundef of (symbol, e1xp) // HX: undefining
 //
   | D1Cdatsrts of d1atsrtdeclst // datasorts
   | D1Csrtdefs of s1rtdeflst // sort definitions
@@ -359,7 +359,7 @@ and d1exp_node =
   | D1Elam_met of (* metric abstraction *)
       (location (*loc_arg*), s1explst, d1exp)
   | D1Elam_sta_ana of (* static abstraction: analysis *)
-      (location (*loc_arg*), s1arglst, d1exp)
+      (location (*loc_arg*), s1vararg, d1exp)
   | D1Elam_sta_syn of (* static abstraction: synthesis *)
       (location (*loc_arg*), s1qualst, d1exp)
   | D1Efix of // dynamic fixed-point expression
@@ -662,7 +662,7 @@ fun d1exp_lam_met (
 ) : d1exp // end of [d1exp_lam_met]
 
 fun d1exp_lam_sta_ana (
-  loc: location, loc_arg: location, arg: s1arglst, body: d1exp
+  loc: location, loc_arg: location, arg: s1vararg, body: d1exp
 ) : d1exp // end of [d1exp_lam_sta_ana]
 
 fun d1exp_lam_sta_syn (
@@ -835,7 +835,8 @@ fun d1ecl_overload (loc: location, id: i0de, qid: dqi0de): d1ecl
 
 fun d1ecl_e1xpdef
   (loc: location, id: symbol, def: e1xp): d1ecl
-fun d1ecl_e1xpundef (loc: location, id: symbol): d1ecl
+fun d1ecl_e1xpundef
+  (loc: location, id: symbol, def: e1xp): d1ecl
 
 fun d1ecl_datsrts (loc: location, ds: d1atsrtdeclst): d1ecl
 

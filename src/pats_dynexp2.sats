@@ -66,7 +66,12 @@ typedef l0abeled (a:type) = $SYN.l0abeled (a)
 (* ****** ****** *)
 
 staload "pats_staexp1.sats"
+typedef s1exp = s1exp
 staload "pats_dynexp1.sats"
+typedef d1exp = d1exp
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 
 (* ****** ****** *)
@@ -297,6 +302,11 @@ fun p2at_err (loc: location): p2at
 
 (* ****** ****** *)
 
+fun fprint_p2at (out: FILEref, x: p2at): void
+fun fprint_p2atlst (out: FILEref, xs: p2atlst): void
+
+(* ****** ****** *)
+
 datatype
 d2ecl_node =
   | D2Cnone of () // for something already erased
@@ -309,6 +319,8 @@ d2ecl_node =
   | D2Cstavars of s2tavarlst // for [stavar] declarations
   | D2Csaspdec of s2aspdec (* for static assumption *)
   | D2Cextype of (string(*name*), s2exp(*def*))
+  | D2Cextval of (string(*name*), d2exp(*def*))
+  | D2Cextcode of (int(*knd*), int(*pos*), string(*code*))
 //
   | D2Cdatdec of (int(*knd*), s2cstlst) // datatype declarations
   | D2Cexndec of (d2conlst) // exception constructor declarations
@@ -330,6 +342,8 @@ d2ecl_node =
   | D2Cstaload of (
       symbolopt(*id*), filename, int(*loadflag*), int(*loaded*), filenv
     ) // end of [D2staload]
+  | D2Cdynload of filename (* dynamic load *)
+  | D2Clocal of (d2eclist(*head*), d2eclist(*body*)) // local declaration
 // end of [d2ecl_node]
 
 and
@@ -556,9 +570,9 @@ and i2mpdec = '{
   i2mpdec_loc= location
 , i2mpdec_locid= location
 , i2mpdec_cst= d2cst
-, i2mpdec_imparg= s2varlst
-, i2mpdec_tmparg= s2explst
-, i2mpdec_tmpgua= s2explstlst
+, i2mpdec_imparg= s2varlst // static variables
+, i2mpdec_tmparg= s2explstlst // static args
+, i2mpdec_tmpgua= s2explstlst // static guards
 , i2mpdec_def= d2exp
 } // end of [i2mpdec]
 
@@ -825,9 +839,12 @@ fun i2mpdec_make (
 , locid: location
 , d2c: d2cst
 , imparg: s2varlst
-, tmparg: s2explst, tmpgua: s2explstlst
+, tmparg: s2explstlst, tmpgua: s2explstlst
 , def: d2exp
 ) : i2mpdec // end of [i2mpdec_make]
+
+fun d2cst_get_def (d2c: d2cst): d2expopt
+fun d2cst_set_def (d2c: d2cst, def: d2expopt): void
 
 (* ****** ****** *)
 //
@@ -850,7 +867,13 @@ fun d2ecl_stavars (loc: location, xs: s2tavarlst): d2ecl
 
 fun d2ecl_saspdec (loc: location, dec: s2aspdec): d2ecl
 
-fun d2ecl_extype (loc: location, name: string, def: s2exp): d2ecl
+fun d2ecl_extype
+  (loc: location, name: string, def: s2exp): d2ecl
+fun d2ecl_extval
+  (loc: location, name: string, def: d2exp): d2ecl
+fun d2ecl_extcode
+  (loc: location, knd: int, pos: int, code: string): d2ecl
+// end of [d2ecl_extcode]
 
 fun d2ecl_datdec (
   loc: location, knd: int, s2cs: s2cstlst
@@ -880,6 +903,10 @@ fun d2ecl_fundecs (
 
 (* ****** ****** *)
 
+fun d2ecl_impdec (loc: location, d2c: i2mpdec): d2ecl
+
+(* ****** ****** *)
+
 fun d2ecl_include (loc: location, d2cs: d2eclist): d2ecl
 
 fun d2ecl_staload (
@@ -887,6 +914,10 @@ fun d2ecl_staload (
 , idopt: symbolopt
 , fil: filename, loadflag: int, loaded: int, fenv: filenv
 ) : d2ecl // end of [d2ecl_staload]
+
+fun d2ecl_dynload (loc: location, fil: filename): d2ecl
+
+fun d2ecl_local (loc: location, ds1: d2eclist, ds2: d2eclist): d2ecl
 
 (* ****** ****** *)
 

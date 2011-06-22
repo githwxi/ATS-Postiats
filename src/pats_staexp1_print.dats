@@ -555,14 +555,14 @@ implement
 fprint_s1vararg (out, x) =
   case+ x of
   | S1VARARGone () =>
-      fprint_string (out, "S1VARARGone()")
+      fprint_string (out, "{..}")
   | S1VARARGall () =>
-      fprint_string (out, "S1VARARGall()")
+      fprint_string (out, "{...}")
   | S1VARARGseq (s1as) => {
-      val () = fprint_string (out, "S1VARARGseq(")
+      val () = fprint_string (out, "{")
       val () = fprint_s1arglst (out, s1as)
-      val () = fprint_string (out, ")")
-    }
+      val () = fprint_string (out, "}")
+    } (* end of [S1VARARGseq] *)
 // end of [fprint_s1vararg]
 
 (* ****** ****** *)
@@ -663,6 +663,23 @@ fprint_q1marg (out, x) = {
   val () = fprint_s1qualst (out, x.q1marg_arg)
   val () = fprint_string (out, "}")
 }
+
+(* ****** ****** *)
+
+implement
+fprint_i1mparg (out, x) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+  case+ x of
+  | I1MPARG_sarglst (s1as) => {
+      val () = prstr "("
+      val () = fprint_s1arglst (out, s1as)
+      val () = prstr ")"
+    } (* end of [I1MPARG_sarglst] *)
+  | I1MPARG_svararglst (s1vs) => {
+      val () = $UT.fprintlst (out, s1vs, "", fprint_s1vararg)
+    } (* end of [I1MPARG_svararglst] *)
+end // end of [fprint_i1mparg]
 
 (* ****** ****** *)
 
