@@ -581,7 +581,9 @@ fun aux_tmparg_s1explst (
 , s2vs: s2varlst, s1es: s1explst, err: &int
 ) : s2explst = let
 (*
-// aux_tmparg_s1explst
+  val () = (
+    print "aux_tmparg_s1explst: s2vs = "; print_s2varlst (s2vs); print_newline ()
+  ) // end of [val]
 *)
 in
   case+ (s2vs, s1es) of

@@ -205,6 +205,9 @@ fprint_s2varlst (out, xs) =
   $UT.fprintlst<s2var> (out, xs, ", ", fprint_s2var)
 // end of [fprint_s2varlst]
 
+implement print_s2varlst (xs) = fprint_s2varlst (stdout_ref, xs)
+implement prerr_s2varlst (xs) = fprint_s2varlst (stderr_ref, xs)
+
 (* ****** ****** *)
 
 (* end of [pats_staexp2_svar.dats] *)

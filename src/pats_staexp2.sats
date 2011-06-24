@@ -457,6 +457,8 @@ fun print_s2var (x: s2var): void
 fun prerr_s2var (x: s2var): void
 
 fun fprint_s2varlst : fprint_type (s2varlst)
+fun print_s2varlst (xs: s2varlst): void
+fun prerr_s2varlst (xs: s2varlst): void
 
 (* ****** ****** *)
 
