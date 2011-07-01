@@ -103,7 +103,7 @@ s0marglst_tr (xss) = l2l (list_map_fun (xss, s0marg_tr))
 implement
 s0vararg_tr
   (s0v) = case+ s0v of
-  | S0VARARGseq (s0as) => S1VARARGseq (s0arglst_tr s0as)
+  | S0VARARGseq (loc, s0as) => S1VARARGseq (loc, s0arglst_tr s0as)
   | S0VARARGone () => S1VARARGone ()
   | S0VARARGall () => S1VARARGall ()
 // end of [s0vararg_tr]

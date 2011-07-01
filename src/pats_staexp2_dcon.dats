@@ -39,6 +39,11 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
+staload UT = "pats_utils.sats"
+staload _(*anon*) = "pats_utils.dats"
+
+(* ****** ****** *)
+
 staload
 CNTR = "pats_counter.sats"
 staload STP = "pats_stamp.sats"
@@ -235,6 +240,16 @@ implement
 print_d2con (x) = fprint_d2con (stdout_ref, x)
 implement
 prerr_d2con (x) = fprint_d2con (stderr_ref, x)
+
+(* ****** ****** *)
+
+implement
+fprint_d2conlst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_d2con)
+// end of [fprint_d2conlst]
+
+implement print_d2conlst (xs) = fprint_d2conlst (stdout_ref, xs)
+implement prerr_d2conlst (xs) = fprint_d2conlst (stderr_ref, xs)
 
 (* ****** ****** *)
 

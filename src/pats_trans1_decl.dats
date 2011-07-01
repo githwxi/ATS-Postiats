@@ -85,7 +85,7 @@ local
 fn prec_make_err () = prec_make_int (0)
 
 fn prec_tr_errmsg_fxty
-  (opr: i0de): prec = let
+  (opr: i0de): void = let
   val () = prerr_error1_loc (opr.i0de_loc)
   val () = prerr ": the operator ["
   val () = $SYM.prerr_symbol (opr.i0de_sym)
@@ -93,17 +93,17 @@ fn prec_tr_errmsg_fxty
   val () = prerr_newline ()
   val () = the_trans1errlst_add (T1E_prec_tr (opr))
 in
-  prec_make_err ()
+  // nothing
 end // end of [prec_tr_errmsg_fxty]
 
 fn prec_tr_errmsg_adj
-  (opr: i0de): prec = let
+  (opr: i0de): void = let
   val () = prerr_error1_loc (opr.i0de_loc)
   val () = prerr ": the operator for adjusting precedence can only be [+] or [-]."
   val () = prerr_newline ()
   val () = the_trans1errlst_add (T1E_prec_tr (opr))
 in
-  prec_make_err ()
+  // nothing
 end // end of [prec_tr_errmsg_adj]
 
 fn p0rec_tr
@@ -124,9 +124,14 @@ fn p0rec_tr
         val precopt = fxty_get_prec (fxty)
       in
         case+ precopt of
-        | ~Some_vt prec => prec | ~None_vt () => prec_tr_errmsg_fxty (id)
+        | ~Some_vt prec => prec
+        | ~None_vt () => let
+            val () = prec_tr_errmsg_fxty (id) in prec_make_err ()
+          end (* end of [None_vt] *)
       end // end of [Some_vt]
-    | ~None_vt () => prec_tr_errmsg_fxty (id)
+    | ~None_vt () => let
+        val () = prec_tr_errmsg_fxty (id) in prec_make_err ()
+      end (* end of [None_vt] *)
   end // end of [precfnd]
 //
 (*
@@ -145,7 +150,9 @@ in
       case+ opr of
       | _ when sym = ADD => precedence_inc (precfnd id, int)
       | _ when sym = SUB => precedence_dec (precfnd id, int)
-      | _ => prec_tr_errmsg_adj (opr)
+      | _ => let
+          val () = prec_tr_errmsg_adj (opr) in prec_make_err ()
+        end (* end of [_] *)
     end // end of [P0RECi0de_adj]
 end // end of [p0rec_tr]
 

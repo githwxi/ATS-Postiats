@@ -239,4 +239,21 @@ compare_d2vsym_d2vsym
 
 (* ****** ****** *)
 
+implement
+fprint_d2var (out, d2v) = let
+  val () = $SYM.fprint_symbol (out, d2var_get_sym d2v)
+// (*
+  val () = fprint_string (out, "(")
+  val () = $STP.fprint_stamp (out, d2var_get_stamp d2v)
+  val () = fprint_string (out, ")")
+// *)
+in
+  // nothing
+end // end of [fprint_d2var]
+
+implement print_d2var (x) = fprint_d2var (stdout_ref, x)
+implement prerr_d2var (x) = fprint_d2var (stderr_ref, x)
+
+(* ****** ****** *)
+
 (* end of [pats_dynexp2_dvar.dats] *)

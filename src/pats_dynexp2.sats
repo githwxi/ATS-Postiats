@@ -29,7 +29,7 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
 // Start Time: May, 2011
 //
 (* ****** ****** *)
@@ -115,11 +115,57 @@ typedef d2sym = '{
 
 (* ****** ****** *)
 
+fun d2cst_make (
+  id: symbol
+, loc: location
+, fil: filename
+, dck: dcstkind
+, decarg: s2qualst
+, arylst: List int
+, typ: s2exp
+, extdef: dcstextdef
+) : d2cst // end of [d2cst_make]
+
+fun fprint_d2cst : fprint_type (d2cst)
+fun print_d2cst (x: d2cst): void
+fun prerr_d2cst (x: d2cst): void
+
+(* ****** ****** *)
+
+fun d2cst_get_loc (x: d2cst): location
+fun d2cst_get_fil (_: d2cst): filename
+fun d2cst_get_sym (x: d2cst): symbol
+fun d2cst_get_kind (x: d2cst): dcstkind
+fun d2cst_get_arylst (x: d2cst): List int
+fun d2cst_get_decarg (x: d2cst): s2qualst
+fun d2cst_set_decarg (x: d2cst, s2qs: s2qualst): void
+fun d2cst_get_typ (x: d2cst): s2exp
+fun d2cst_get_extdef (x: d2cst): dcstextdef
+fun d2cst_get_stamp (x: d2cst): stamp
+
+(* ****** ****** *)
+
+fun lt_d2cst_d2cst (x1: d2cst, x2: d2cst):<> bool
+overload < with lt_d2cst_d2cst
+fun lte_d2cst_d2cst (x1: d2cst, x2: d2cst):<> bool
+overload <= with lte_d2cst_d2cst
+
+fun compare_d2cst_d2cst (x1: d2cst, x2: d2cst):<> Sgn
+overload compare with compare_d2cst_d2cst
+
+(* ****** ****** *)
+
 fun d2var_make (loc: location, id: symbol): d2var
 
-fun d2var_get_sym (x: d2var): symbol
+fun fprint_d2var : fprint_type (d2var)
+fun print_d2var (x: d2var): void
+fun prerr_d2var (x: d2var): void
+
+(* ****** ****** *)
 
 fun d2var_get_loc (x: d2var): location
+
+fun d2var_get_sym (x: d2var): symbol
 
 fun d2var_get_isfix (x: d2var): bool
 fun d2var_set_isfix (x: d2var, isfix: bool): void
@@ -155,39 +201,37 @@ fun compare_d2vsym_d2vsym (x1: d2var, x2: d2var):<> Sgn
 
 (* ****** ****** *)
 
-fun d2cst_make (
-  id: symbol
-, loc: location
-, fil: filename
-, dck: dcstkind
-, decarg: s2qualst
-, arylst: List int
-, typ: s2exp
-, extdef: dcstextdef
-) : d2cst // end of [d2cst_make]
+datatype macarg =
+  MACARGone of d2var | {n:nat} MACARGlst of (int n, list (d2var, n))
+// end of [macarg]
+
+typedef macarglst = List (macarg)
+
+fun d2mac_get_loc (x: d2mac): location
+
+fun d2mac_get_sym (x: d2mac): symbol
+
+fun d2mac_get_kind (x: d2mac): int (* 1/0: long/short form *)
+
+fun d2mac_get_narg (x: d2mac): int
+
+fun d2mac_get_arglst (x: d2mac): macarglst
+
+fun d2mac_get_stamp (x: d2mac): stamp
+
+fun fprint_d2mac : fprint_type (d2mac)
+fun print_d2mac (x: d2mac): void
+fun prerr_d2mac (x: d2mac): void
 
 (* ****** ****** *)
 
-fun d2cst_get_loc (x: d2cst): location
-fun d2cst_get_fil (_: d2cst): filename
-fun d2cst_get_sym (x: d2cst): symbol
-fun d2cst_get_kind (x: d2cst): dcstkind
-fun d2cst_get_arylst (x: d2cst): List int
-fun d2cst_get_decarg (x: d2cst): s2qualst
-fun d2cst_set_decarg (x: d2cst, s2qs: s2qualst): void
-fun d2cst_get_typ (x: d2cst): s2exp
-fun d2cst_get_extdef (x: d2cst): dcstextdef
-fun d2cst_get_stamp (x: d2cst): stamp
+fun fprint_d2itm : fprint_type (d2itm)
+fun print_d2itm (x: d2itm): void
+fun prerr_d2itm (x: d2itm): void
 
-(* ****** ****** *)
-
-fun lt_d2cst_d2cst (x1: d2cst, x2: d2cst):<> bool
-overload < with lt_d2cst_d2cst
-fun lte_d2cst_d2cst (x1: d2cst, x2: d2cst):<> bool
-overload <= with lte_d2cst_d2cst
-
-fun compare_d2cst_d2cst (x1: d2cst, x2: d2cst):<> Sgn
-overload compare with compare_d2cst_d2cst
+fun fprint_d2itmlst : fprint_type (d2itmlst)
+fun print_d2itmlst (xs: d2itmlst): void
+fun prerr_d2itmlst (xs: d2itmlst): void
 
 (* ****** ****** *)
 
@@ -812,6 +856,20 @@ fun sc2lau_make
 
 (* ****** ****** *)
 
+fun d2cst_get_def (d2c: d2cst): d2expopt
+fun d2cst_set_def (d2c: d2cst, def: d2expopt): void
+
+(* ****** ****** *)
+
+fun d2mac_make (
+  loc: location, name: symbol, knd: int, args: macarglst, def: d2exp
+) : d2mac // end of [d2mac_make]
+
+fun d2mac_get_def (x: d2mac): d2exp
+fun d2mac_set_def (x: d2mac, def: d2exp): void
+
+(* ****** ****** *)
+
 fun v2aldec_make (
   loc: location, p2t: p2at, def: d2exp, ann: s2expopt
 ) : v2aldec // end of [v2aldec_make]
@@ -842,9 +900,6 @@ fun i2mpdec_make (
 , tmparg: s2explstlst, tmpgua: s2explstlst
 , def: d2exp
 ) : i2mpdec // end of [i2mpdec_make]
-
-fun d2cst_get_def (d2c: d2cst): d2expopt
-fun d2cst_set_def (d2c: d2cst, def: d2expopt): void
 
 (* ****** ****** *)
 //

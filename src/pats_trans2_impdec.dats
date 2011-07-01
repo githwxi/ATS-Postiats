@@ -449,11 +449,11 @@ fun aux_imparg_svararg (
     // nothing
   end // end of [auxerr1]
   fn auxerr2
-    (err: int):<cloref1> void = let
-    val () = prerr_error2_loc (d1c0.d1ecl_loc)
-    val () = prerr ": the implementation is expected to have "
-    val () = prerr_string (if err > 0 then "more" else "less")
-    val () = prerr " static arguments."
+    (loc: location, err: int):<cloref1> void = let
+    val () = prerr_error2_loc (loc)
+    val () = prerr ": the implementation argument group is expected to contain "
+    val () = prerr_string (if err > 0 then "less" else "more")
+    val () = prerr " components."
     val () = prerr_newline ()
     val () = the_trans2errlst_add (T2E_impdec_tr (d1c0))
   in
@@ -513,12 +513,12 @@ in
       end
     | list_nil () => list_nil ()
     )
-  | S1VARARGseq (s1as) => (case+ s2qs of
+  | S1VARARGseq (loc, s1as) => (case+ s2qs of
     | list_cons (s2q, s2qs) => let
         var err: int = 0
         val s2vs = auxseq (s1as, s2q.s2qua_svs, err)
         val () = the_s2expenv_add_svarlst (s2vs)
-        val () = if err != 0 then auxerr2 (err)
+        val () = if err != 0 then auxerr2 (loc, err)
         val () = out := list_cons (s2vs, out)
       in
         s2qs
@@ -606,25 +606,36 @@ end // end of [aux_tmparg_s1explst]
 fun aux_tmparg_marglst (
   d1c0: d1ecl, s2qs: s2qualst, xs: t1mpmarglst
 ) : s2explstlst = let
-  fn auxerr1 (err: int):<cloref1> void = let
-    val () = prerr_error2_loc (d1c0.d1ecl_loc)
-    val () = prerr ": the template is expected to be given "
+  fn auxerr1 (x: t1mpmarg, err: int):<cloref1> void = let
+    val () = prerr_error2_loc (x.t1mpmarg_loc)
+    val () = prerr ": the template argument group is expected to be contain "
     val () = prerr_string (if err > 0 then "more" else "less")
-    val () = prerr " static arguments."
+    val () = prerr " components."
     val () = prerr_newline ()
-    val () = the_trans2errlst_add (T2E_impdec_tr (d1c0))
   in
-    // nothing
+    the_trans2errlst_add (T2E_impdec_tr (d1c0))
   end // end of [auxerr1]
-  fn auxerr2 ():<cloref1> void = ()
-  fn auxerr3 ():<cloref1> void = ()
+  fn auxerr2 ():<cloref1> void = let
+    val () = prerr_error2_loc (d1c0.d1ecl_loc)
+    val () = prerr ": the template is expected to be fully applied but it is not."
+    val () = prerr_newline ()
+  in
+    the_trans2errlst_add (T2E_impdec_tr (d1c0))
+  end // end of [auxerr2]
+  fn auxerr3 ():<cloref1> void = let
+    val () = prerr_error2_loc (d1c0.d1ecl_loc)
+    val () = prerr ": the template is overly applied."
+    val () = prerr_newline ()
+  in
+    the_trans2errlst_add (T2E_impdec_tr (d1c0))
+  end // end of [auxerr3]
 in
   case+ (s2qs, xs) of
   | (s2q :: s2qs, x :: xs) => let
       var err: int = 0
       val s2es = aux_tmparg_s1explst
         (d1c0, s2q.s2qua_svs, x.t1mpmarg_arg, err)
-      val () = if err != 0 then auxerr1 (err)
+      val () = if err != 0 then auxerr1 (x, err)
       val s2ess = aux_tmparg_marglst (d1c0, s2qs, xs)
     in
       list_cons (s2es, s2ess)

@@ -237,13 +237,13 @@ s1marg_trdn
   (s1ma, s2ts) = let
 //
 fn auxerr (
-  s1ma: s1marg, s2ts, err: int
+  s1ma: s1marg, s2ts: s2rtlst, err: int
 ) : void = {
   val () = prerr_error2_loc (s1ma.s1marg_loc)
   val () = filprerr_ifdebug "s1marg_trdn"
-  val () = prerr ": the static function is expected to have "
+  val () = prerr ": the static argument group is expected to contain "
   val () = prerr (if err > 0 then "less" else "more")
-  val () = prerr " arguments."
+  val () = prerr " components."
   val () = prerr_newline ()
   val () = the_trans2errlst_add (T2E_s1marg_trdn (s1ma, s2ts))
 } // end of [auxerr]
@@ -251,6 +251,7 @@ fn auxerr (
   var err: int = 0
   val s2vs = s1arglst_trdn_err (s1ma.s1marg_arg, s2ts, err)
   val () = if err != 0 then auxerr (s1ma, s2ts, err)
+//
 in
   s2vs
 end // end of [s1marg_trdn]
@@ -1849,7 +1850,7 @@ s1vararg_tr (x) =
   case+ x of
   | S1VARARGone () => S2VARARGone ()
   | S1VARARGall () => S2VARARGall ()
-  | S1VARARGseq (s1as) => let
+  | S1VARARGseq (loc, s1as) => let
       val s2vs = s1arglst_trup (s1as) in S2VARARGseq (s2vs)
     end // end of [S1VARARGseq]
 // end of [s1vararg_tr]
@@ -1881,7 +1882,7 @@ fn auxerr1 (
   val () = prerr ": the constructor ["
   val () = $SYM.prerr_symbol (id)
   val () = prerr "] is expected to be given "
-  val () = prerr (if err > 0 then "less" else "more")
+  val () = prerr_string (if err > 0 then "less" else "more")
   val () = prerr " indexes."
   val () = prerr_newline ()
   val () = the_trans2errlst_add (T2E_d1atcon_tr (d1c))
@@ -2074,7 +2075,7 @@ case+ s1v of
 | S1VARARGall () => let
     val sub = stasub_make_nil () in stasub_extend_svarlst (sub, s2vs)
   end (* end of [S1VARARGone] *)
-| S1VARARGseq (s1as) => let
+| S1VARARGseq (loc, s1as) => let
     val sub = stasub_make_nil () in
     stasub_extend_sarglst_svarlst_err (sub, s1as, s2vs, err)
   end // end of [S1VARARGseq]

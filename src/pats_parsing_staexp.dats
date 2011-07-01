@@ -1197,9 +1197,21 @@ case+ tok.token_node of
   end
 | _ => let
     val xs = pstar_fun0_COMMA (buf, bt, p_s0arg)
+    val xs = (l2l)xs
+    val loc = (case+ xs of
+      | list_cons (x0, xs) => let
+          val x0 = x0: s0arg
+          val opt = list_last_opt<s0arg> (xs)
+        in
+          case+ opt of
+          | ~Some_vt x1 => $LOC.location_combine (x0.s0arg_loc, x1.s0arg_loc)
+          | ~None_vt () => x0.s0arg_loc
+        end // end of [list_cons]
+      | list_nil () => tok.token_loc
+    ) : location // end of [val]
   in
-    S0VARARGseq ((l2l)xs)
-  end
+    S0VARARGseq (loc, xs)
+  end (* end of [_] *)
 //
 end // end of [p_s0vararg]
 
@@ -1221,10 +1233,8 @@ case+ tok.token_node of
     val () = incby1 () in S0EXPARGall ()
   end
 | _ => let
-    val xs = pstar_fun0_COMMA (buf, bt, p_s0exp)
-  in
-    S0EXPARGseq ((l2l)xs)
-  end
+    val xs = pstar_fun0_COMMA (buf, bt, p_s0exp) in S0EXPARGseq ((l2l)xs)
+  end (* end of [_] *)
 //
 end // end of [p_s0exparg]
 

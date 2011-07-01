@@ -746,7 +746,7 @@ datatype
 s0vararg =
   | S0VARARGone (* {..} *)
   | S0VARARGall (* {...} *)
-  | S0VARARGseq of s0arglst
+  | S0VARARGseq of (location, s0arglst)
 // end of [s0vararg]
 
 typedef s0vararglst = List (s0vararg)
@@ -755,7 +755,7 @@ datatype
 s0exparg =
   | S0EXPARGone (* {..} *)
   | S0EXPARGall (* {...} *)
-  | S0EXPARGseq of s0explst
+  | S0EXPARGseq of (s0explst)
 // end of [s0exparg]
 
 typedef s0expargopt = Option (s0exparg)

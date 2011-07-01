@@ -558,7 +558,7 @@ fprint_s1vararg (out, x) =
       fprint_string (out, "{..}")
   | S1VARARGall () =>
       fprint_string (out, "{...}")
-  | S1VARARGseq (s1as) => {
+  | S1VARARGseq (loc, s1as) => {
       val () = fprint_string (out, "{")
       val () = fprint_s1arglst (out, s1as)
       val () = fprint_string (out, "}")

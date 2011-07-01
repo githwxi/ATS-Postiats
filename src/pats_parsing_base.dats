@@ -29,7 +29,7 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
 // Start Time: March, 2011
 //
 (* ****** ****** *)
@@ -539,4 +539,4 @@ end // end of [p_m0acarg]
 
 (* ****** ****** *)
 
-(* end of [pats_parsing_misc.dats] *)
+(* end of [pats_parsing_bas.dats] *)

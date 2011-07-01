@@ -116,7 +116,7 @@ val () = p->d2cst_def := None ()
 val () = p->d2cst_stamp := stamp
 val () = p->d2cst_hityp := hitypnul_none (null)
 //
-in
+in // in of [let]
 //
 ref_make_view_ptr (pfat | p)
 //
@@ -177,6 +177,16 @@ d2cst_get_stamp (d2c) = let
 end // end of [d2cst_get_stamp]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+fprint_d2cst (out, x) =
+  $SYM.fprint_symbol (out, d2cst_get_sym (x))
+// end of [fprint_d2cst]
+
+implement print_d2cst (x) = fprint_d2cst (stdout_ref, x)
+implement prerr_d2cst (x) = fprint_d2cst (stderr_ref, x)
 
 (* ****** ****** *)
 

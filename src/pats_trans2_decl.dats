@@ -130,18 +130,20 @@ end // end of [symelim_tr]
 (* ****** ****** *)
 
 extern
-fun overload_tr_def
-  (id: i0de, def: d2itm) : void
-// end of [overload_tr_def]
-
+fun overload_tr (
+  d1c0: d1ecl, id: i0de, dqid: dqi0de
+) : d2itmopt // end of [overload_tr]
+extern
+fun overload_tr_def (d1c0:d1ecl, id: i0de, def: d2itm) : void
 extern
 fun overload_tr_d2eclist (d2cs: d2eclist): void
 
 (* ****** ****** *)
 
-fun overload_tr (
-  d1c0: d1ecl, id: i0de, dqid: dqi0de
-) : d2itmopt = let
+implement
+overload_tr
+  (d1c0, id, dqid) = let
+//
 (*
   val () = {
     val () = print "overload_tr: id = "
@@ -171,7 +173,7 @@ fn auxerr (
   // end of [val]
   val ans = option_of_option_vt (ans)
   val () = (case+ ans of
-    | Some (d2i) => overload_tr_def (id, d2i) | None () => auxerr (d1c0, dqid)
+    | Some (d2i) => overload_tr_def (d1c0, id, d2i) | None () => auxerr (d1c0, dqid)
   ) // end of [val]
 in
   ans
@@ -179,12 +181,12 @@ end // end of [overload_tr]
 
 implement
 overload_tr_def
-  (id, def) = let
+  (d1c0, id, def) = let
 //
   var err: int = 0
 //
 fn auxerr1 (
-  id: i0de, err: &int
+  d1c0: d1ecl, id: i0de, err: &int
 ) : d2itmlst = let
   val () = err := err + 1
   val () = prerr_error2_loc (id.i0de_loc)
@@ -193,12 +195,13 @@ fn auxerr1 (
   val () = $SYN.prerr_i0de (id)
   val () = prerr "] should refer to a symbol but it does not."
   val () = prerr_newline ()
+  val () = the_trans2errlst_add (T2E_overload_tr (d1c0))
 in
   list_nil ()
 end // end of [auxerr1]
 //
 fn auxerr2 (
-  id: i0de, err: &int
+  d1c0: d1ecl, id: i0de, err: &int
 ) : d2itmlst = let
   val () = err := err + 1
   val () = prerr_error2_loc (id.i0de_loc)
@@ -207,6 +210,7 @@ fn auxerr2 (
   val () = $SYN.prerr_i0de (id)
   val () = prerr "] should refer to a symbol but it does not."
   val () = prerr_newline ()
+  val () = the_trans2errlst_add (T2E_overload_tr (d1c0))
 in
   list_nil ()
 end // end of [auxerr2]
@@ -221,19 +225,20 @@ end // end of [auxerr2]
   } // end of [val]
   val d2is = (case+ ans of
     | ~Some_vt d2i => (case+ d2i of
-      | D2ITMsymdef d2is => d2is | _ => auxerr1 (id, err)
+      | D2ITMsymdef d2is => d2is | _ => auxerr1 (d1c0, id, err)
       ) // end of [Some_vt]
-    | ~None_vt () => auxerr2 (id, err)
+    | ~None_vt () => auxerr2 (d1c0, id, err)
   ) : d2itmlst // end of [val]
 (*
   val () = begin
-    print "overload_tr_def: def := "; print_d2itm def; print_newline ();
-    print "overload_tr_def: d2is := "; print_d2itmlst d2is; print_newline ();
+    print "overload_tr_def: def := "; print_d2itm (def); print_newline ();
+    print "overload_tr_def: d2is := "; print_d2itmlst (d2is); print_newline ();
   end // end of [val]
 *)
 in
   if err = 0 then let
-    val d2is_new = list_cons (def, d2is) in
+    val d2is_new = list_cons (def, d2is)
+  in
     the_d2expenv_add (id.i0de_sym, D2ITMsymdef (d2is_new))
   end // end of [if]
 end (* end of [overload_tr_def] *)
@@ -396,11 +401,11 @@ fn s1tacon_tr (
     ) : s2rt =
       case+ xss of
       | list_cons (xs, xss) => let
-          val s2ts_arg = l2l (list_map_fun<syms2rt><s2rt> (xs, lam x =<0> x.1))
-          val s2t_res = s2rt_fun (s2ts_arg, s2t_res)
+          val s2ts_arg = list_map_fun<syms2rt><s2rt> (xs, lam x =<0> x.1)
+          val s2t_res = s2rt_fun ((l2l)s2ts_arg, s2t_res)
         in
           aux (s2t_res, xss)
-        end
+        end (* end of [list_cons] *)
       | list_nil () => s2t_res
     // end of [aux]
   in
@@ -474,7 +479,7 @@ fn s1taconlst_tr (
     case+ ds of
     | list_cons (d, ds) => let
         val () = s1tacon_tr (s2t, d) in aux (s2t, ds)
-      end
+      end // end of [list_cons]
     | list_nil () => ()
   // end of [aux]
   val s2t_res = s2rt_impredicative (knd)
@@ -554,7 +559,7 @@ fn auxerr (d: s1expdef): void = {
           if test then res1 else (auxerr (d); res)
         end // end of [Some]
       | None () => res
-      )
+      ) // end of [Some]
     | None () => res1
   ) : s2rtopt // end of [val]
   val def = s1expdef_tr_def (d.s1expdef_arg, res, d.s1expdef_def)
@@ -583,7 +588,7 @@ fn s1expdeflst_tr
       case+ ds of
       | list_cons (d, ds) => let
           val s2c = s1expdef_tr (res, d) in list_vt_cons (s2c, aux ds)
-        end
+        end // end of [list_cons]
       | list_nil () => list_vt_nil ()
     // end of [aux]
   } // end of [val]
@@ -592,7 +597,7 @@ fn s1expdeflst_tr
       case+ s2cs of
       | ~list_vt_cons (s2c, s2cs) => let
           val () = the_s2expenv_add_scst (s2c) in aux (s2cs)
-        end
+        end // end of [list_vt_cons]
       | ~list_vt_nil () => ()
     // end of [aux]
   } // end of [val]
@@ -614,7 +619,7 @@ fn auxerr
   val () = prerr_newline ()
 } // end of [auxerr]
 //
-in
+in // in of [let]
 //
 case+ xs of
 | list_cons (x, xs) => (
@@ -625,10 +630,10 @@ case+ xs of
       val () = the_s2expenv_add_svarlst (s2vs)
     in
       list_vt_cons (s2vs, s1aspdec_tr_arg (xs, s2t_fun))
-    end
+    end // end of [S2RTfun]
   | _ => let
       val () = auxerr (x.s1marg_loc) in list_vt_nil ()
-    end
+    end (* end of [_] *)
   ) // end of [list_cons]
 | list_nil () => list_vt_nil ()
 //
@@ -652,7 +657,7 @@ fn auxerr (
   val () = the_trans2errlst_add (T2E_s1aspdec_tr (d))
 } // end of [auxerr]
 //
-in
+in // in of [let]
 //
 case+ d.s1aspdec_res of
 | Some s1t => let
@@ -662,7 +667,7 @@ case+ d.s1aspdec_res of
     if test then s2t else let
       val () = auxerr (d, s2t, s2t_res) in s2t
     end (* end of [if] *)
-  end
+  end // end of [Some]
 | None () => s2t_res
 //
 end // end of [s1aspdec_tr_res]
@@ -670,10 +675,8 @@ end // end of [s1aspdec_tr_res]
 viewtypedef
 s2aspdecopt_vt = Option_vt (s2aspdec)
 
-fun
-s1aspdec_tr (
-  d1c: s1aspdec
-) : s2aspdecopt_vt = let
+fn s1aspdec_tr
+  (d1c: s1aspdec): s2aspdecopt_vt = let
 //
 fn auxerr1 (
   d: s1aspdec, q: s0taq, id: symbol
@@ -753,21 +756,8 @@ end // end of [s1aspdec_tr]
 
 (* ****** ****** *)
 
-fn d1atdec_tr (
-  s2c: s2cst, s2vss0: s2varlstlst, d1c: d1atdec
-) : void = let
-//
-  val () = let
-    val n = list_length (s2vss0) in
-    if n >= 2 then {
-      val () = prerr_error2_loc (d1c.d1atdec_loc)
-      val () = filprerr_ifdebug ": d1atdec_tr" // for debugging
-      val () = prerr ": the declared type constructor is overly applied."
-      val () = prerr_newline ()
-      val () = the_trans2errlst_add (T2E_d1atdec_tr (d1c))
-    } // end of [if]
-  end // end of [val]
-//
+local
+
 fun
 d1atconlst_tr (
   s2c: s2cst
@@ -785,6 +775,23 @@ d1atconlst_tr (
     end // end of [cons]
   | list_nil () => list_nil ()
 (* end of [d1atconlst_tr] *)
+
+in // in of [local]
+
+fn d1atdec_tr (
+  s2c: s2cst, s2vss0: s2varlstlst, d1c: d1atdec
+) : void = let
+//
+  val () = let
+    val n = list_length (s2vss0) in
+    if n >= 2 then {
+      val () = prerr_error2_loc (d1c.d1atdec_loc)
+      val () = filprerr_ifdebug ": d1atdec_tr" // for debugging
+      val () = prerr ": the declared type constructor is overly applied."
+      val () = prerr_newline ()
+      val () = the_trans2errlst_add (T2E_d1atdec_tr (d1c))
+    } // end of [if]
+  end // end of [val]
 //
   val s2t_fun = s2cst_get_srt (s2c)
   val s2t_res = (
@@ -827,6 +834,8 @@ d1atconlst_tr (
 in
   // nothing
 end // end of [d1atdec_tr]
+
+end // end of [local]
 
 extern
 fun d1atdeclst_tr (
@@ -913,10 +922,12 @@ val () = aux (d1cs_def) where {
   end (* end of [aux] *)
 } // end of [val]
 //
-fun aux (xs: List (T)): s2cstlst = case+ xs of
+fun aux (
+  xs: List (T)
+) : s2cstlst = case+ xs of
   | list_cons (x, xs) => let
       val () = d1atdec_tr (x.1, x.2, x.0) in list_cons (x.1, aux xs)
-    end // end of [cons]
+    end // end of [list_cons]
   | list_nil () => list_nil ()
 // end of [aux]
 in
@@ -945,7 +956,7 @@ fn e1xndec_tr (
   val () = d2con_set_tag (d2c, ~1)
   val () = the_d2expenv_add_dcon (d2c)
 in
-  d2c
+  d2c (* HX: the defined exception constructor *)
 end // end of [e1xndec_tr]
 
 extern
@@ -960,7 +971,7 @@ e1xndeclst_tr (d1cs) = let
         val d2c = e1xndec_tr (s2c, d1c)
       in
         list_cons (d2c, aux (s2c, d1cs))
-      end
+      end // end of [list_cons]
     | list_nil () => list_nil ()
   // end of [aux]
   val s2c = s2cstref_get_cst (the_exception_viewtype)
@@ -1147,7 +1158,7 @@ fn v1ardeclst_tr (
         Some (d2v) => the_d2expenv_add_dvar (d2v) | None () => ()
       // end of [case]
     end // end of [f]
-  } (* end of [f] *)
+  } (* end of [val] *)
 } // end of [v2ardeclst_tr]
 
 (* ****** ****** *)
@@ -1182,7 +1193,7 @@ fn f1undeclst_tr
   val isprf = funkind_is_proof (knd)
   val isrec = funkind_is_recursive (knd)
   val d2vs = let
-    fun aux1 {n:nat} (
+    fun aux1 {n:nat} .<n>. (
       isprf: bool, d1cs: list (f1undec, n)
     ) : list (d2var, n) = 
       case+ d1cs of
@@ -1192,33 +1203,39 @@ fn f1undeclst_tr
           val () = d2var_set_isprf (d2v, isprf)
         in
           list_cons (d2v, aux1 (isprf, d1cs))
-        end
+        end // end of [list_cons]
       | list_nil () => list_nil ()
     // end of [aux1]
   in
     aux1 (isprf, d1cs)
   end // end of [where]
+//
   val () = if isrec then the_d2expenv_add_dvarlst (d2vs) else ()
+//
   val d2cs = let
-    fun aux2 {n:nat} (
+    fun aux2
+      {n:nat} .<n>. (
       level: int
     , decarg: s2qualst
     , d2vs: list (d2var, n)
     , d1cs: list (f1undec, n)
-  ) : list (f2undec, n) =
-    case+ d2vs of
-    | list_cons (d2v, d2vs) => let
-        val+ list_cons (d1c, d1cs) = d1cs
-        val d2c = f1undec_tr (level, decarg, d2v, d1c)
-        val d2cs = aux2 (level, decarg, d2vs, d1cs)
-      in
-        list_cons (d2c, d2cs)
-      end
-    | list_nil () => list_nil ()
+    ) : list (f2undec, n) =
+      case+ d2vs of
+      | list_cons (d2v, d2vs) => let
+          val+ list_cons (d1c, d1cs) = d1cs
+          val d2c = f1undec_tr (level, decarg, d2v, d1c)
+          val d2cs = aux2 (level, decarg, d2vs, d1cs)
+        in
+          list_cons (d2c, d2cs)
+        end // end of [list_cons]
+      | list_nil () => list_nil ()
+    // end of [aux2]
   in
     aux2 (level, decarg, d2vs, d1cs)
   end // end of [val]
+//
   val () = if isrec then () else the_d2expenv_add_dvarlst (d2vs)
+//
 in
   d2cs
 end // end of [f1undeclst_tr]

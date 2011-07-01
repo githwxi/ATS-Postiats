@@ -187,20 +187,18 @@ fn auxerr1 (
   val () = prerr_error2_loc (p1t1.p1at_loc)
   val () = prerr ": the constructor ["
   val () = prerr_d2con (d2c)
-  val () = prerr "] is applied to too many static arguments."
+  val () = prerr "] is overly applied statically."
   val () = prerr_newline ()
 in
   // nothing
 end // end of [auxerr1]
 fn auxerr2 (
-  p1t1: p1at, d2c: d2con, err: int
+  p1t1: p1at, d2c: d2con, locarg: location, err: int
 ) : void = let
-  val () = prerr_error2_loc (p1t1.p1at_loc)
-  val () = prerr ": the constructor ["
-  val () = prerr_d2con (d2c)
-  val () = prerr "] is expected to have "
+  val () = prerr_error2_loc (locarg)
+  val () = prerr ": the static argument group is expected to contain "
   val () = prerr_string (if err > 0 then "less" else "more")
-  val () = prerr " static arguments."
+  val () = prerr " components."
   val () = prerr_newline ()
 //
 in
@@ -229,7 +227,7 @@ case+ s1as of
       end (* end of [list_nil] *)
     end // end of [S1VARARGone]
   | S1VARARGall () => p1at_tr_con_sapp1 (p1t1, d2c, sub, s2qs, out)
-  | S1VARARGseq arg => begin
+  | S1VARARGseq (loc, arg) => begin
     case+ s2qs of
     | list_cons (s2q, s2qs) => let
 //
@@ -238,7 +236,7 @@ case+ s1as of
           stasub_extend_sarglst_svarlst_err (sub, arg, s2q.s2qua_svs, err)
         // end of [val]
         val () = if err != 0 then let
-          val () = auxerr2 (p1t1, d2c, err) in the_trans2errlst_add (T2E_p1at_tr (p1t1))
+          val () = auxerr2 (p1t1, d2c, loc, err) in the_trans2errlst_add (T2E_p1at_tr (p1t1))
         end // end of [val]
 //
         val s2ps = s2explst_subst (sub, s2q.s2qua_sps)

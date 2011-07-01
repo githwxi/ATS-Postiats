@@ -29,7 +29,7 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
 // Start Time: April, 2011
 //
 (* ****** ****** *)
@@ -572,7 +572,7 @@ datatype
 s1vararg =
   | S1VARARGone (* {..} *)
   | S1VARARGall (* {...} *)
-  | S1VARARGseq of s1arglst
+  | S1VARARGseq of (location, s1arglst)
 // end of [s1vararg]
 
 typedef s1vararglst = List (s1vararg)
@@ -585,7 +585,7 @@ datatype
 s1exparg_node =
   | S1EXPARGone (* {..} *)
   | S1EXPARGall (* {...} *)
-  | S1EXPARGseq of s1explst
+  | S1EXPARGseq of (s1explst)
 // end of [s1exparg_node]
 
 typedef s1exparg = '{
