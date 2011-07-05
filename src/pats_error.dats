@@ -42,7 +42,7 @@ implement
 abort () = let
 (*
   val _ = segfault () where {
-    extern fun segfault (): int = "ats_error_segfault"
+    extern fun segfault (): int = "pats_error_segfault"
   } // end of [val]
 *)
 in

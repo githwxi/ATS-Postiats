@@ -235,8 +235,8 @@ staload _(*anon*) = "prelude/DATS/array.dats"
 staload _(*anon*) = "libats/DATS/linqueue_arr.dats"
 staload _(*anon*) = "libats/ngc/DATS/deque_arr.dats"
 //
-in
-
+in (* in of [local] *)
+//
 implement
 queue_get_strptr1
   (q, st, ln) = let
@@ -257,7 +257,7 @@ queue_get_strptr1
 in
   strptr_of_strbuf @(pfgc, pfarr | p)
 end // end of [queue_get_strptr1]
-
+//
 end // end of [local]
 
 (* ****** ****** *)

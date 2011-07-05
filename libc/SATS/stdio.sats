@@ -29,6 +29,11 @@
 
 (* ****** ****** *)
 //
+// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Start Time: April, 2011
+//
+(* ****** ****** *)
+//
 // HX-2011-04-02:
 //
 absview

@@ -34,7 +34,6 @@
 #
 ######
 
-$(ATSHOME)=/cs/coursedata/cs525/ATS-0.2.4
 ATSCC=$(ATSHOME)/bin/atscc
 ATSOPT=$(ATSHOME)/bin/atsopt
 
@@ -96,7 +95,7 @@ SOURCES := \
   pats_parsing_error.dats \
   pats_parsing_util.dats \
   pats_parsing_kwds.dats \
-  pats_parsing_misc.dats \
+  pats_parsing_base.dats \
   pats_parsing_e0xp.dats \
   pats_parsing_sort.dats \
   pats_parsing_staexp.dats \
@@ -182,15 +181,6 @@ atsopt: \
 
 ######
 
-test: \
-  test_main_dats.o $(OBJECTS)
-	$(ATSCC) \
-  $(ATSGCFLAG) $(ATSCCFLAGS) -o test \
-  test_main_dats.o $(OBJECTS) \
-  && ./test
-
-######
-
 %_sats.o: %.sats
 	$(ATSCC) $(ATSCCFLAGS) -c $<
 
@@ -226,8 +216,5 @@ clean:: ; $(RMF) $(DIR)/*_?ats.c
 
 cleanall:: clean
 cleanall:: ; $(RMF) atsopt
-cleanall:: ; $(RMF) test
-
-######
 
 ###### end of [Makefile] ######

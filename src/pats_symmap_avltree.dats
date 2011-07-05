@@ -125,7 +125,7 @@ fprint_symmap{itm} (out, map, f) = let
   var !p_clo = @lam (pf: !unit_v | k: key, i: &itm): void =<clo>
     $effmask_all (fprint (out, k); fprint (out, " -> "); f (out, i); fprint_newline (out))
   prval pfu = unit_v ()
-  val () = linmap_foreach_clo (pfu | map, !p_clo)
+  val () = linmap_foreach_vclo (pfu | map, !p_clo)
   prval unit_v () = pfu
 in
   // nothing

@@ -45,10 +45,10 @@ staload "pats_reader.sats"
 viewtypedef
 freader (v:view) =
 $extype_struct
-  "pats_reader_struct" of {
+"pats_reader_struct" of {
   pfres= v
 , getchar= (!v | (*none*)) -<cloptr1> int
-, freeres= (v | (*none*)) -<cloptr1> void  
+, freeres= ( v | (*none*)) -<cloptr1> void  
 } // end of [freader]
 
 (* ****** ****** *)
@@ -64,7 +64,7 @@ staload "libc/SATS/stdio.sats"
 assume reader0 = freader (unit_v)?
 assume reader_vt0ype = [v:view] freader (v)
 
-in // end of [val]
+in // in of [local]
 
 (* ****** ****** *)
 
@@ -91,6 +91,8 @@ fun reader0_initialize_filp
   val () = r.freeres := freeres  
 } // end of [reader0_initialize_filp]
 
+(* ****** ****** *)
+
 fun reader0_initialize_getc (
   r: &reader0 >> reader, getc: () -<cloptr1> int
 ) : void = () where {
@@ -107,6 +109,8 @@ fun reader0_initialize_getc (
   val () = r.getchar := getchar
   val () = r.freeres := freeres
 } // end of [reader0_initialize_getc]
+
+(* ****** ****** *)
 
 fun reader0_initialize_string
   {n:nat} {l:addr} (
@@ -172,7 +176,7 @@ prfun reader0_encode (r: &reader? >> reader0): void
 extern
 prfun reader0_decode (r: &reader0 >> reader?): void
 
-in // end of [local]
+in // in of [local]
 
 (* ****** ****** *)
 

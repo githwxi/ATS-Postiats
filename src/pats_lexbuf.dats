@@ -349,6 +349,7 @@ if i + k <= n then
 else
   strptr_null ()
 // end of [if]
+//
 end // end of [lexbuf_get_substrptr0]
 
 implement
