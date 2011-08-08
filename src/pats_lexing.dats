@@ -8,7 +8,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, Boston University
+** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustworthy Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -79,12 +79,8 @@ macdef T_INTEGER_hex (x, sfx) = T_INTEGER (16, ,(x), ,(sfx))
 //
 macdef posincby1
   (pos) = $LOC.position_incby_count (,(pos), 1u)
-// end of [posincby1]
-
 macdef posdecby1
   (pos) = $LOC.position_decby_count (,(pos), 1u)
-// end of [posdecby1]
-
 macdef posincbyc
   (pos, i) = $LOC.position_incby_char (,(pos), ,(i))
 // end of [posincbyc]
@@ -729,6 +725,7 @@ lexbufpos_token_reset (
 ) : token = let
   val loc =
     lexbufpos_get_location (buf, pos)
+  // end of [val]
   val () = lexbuf_reset_position (buf, pos)
 in
   token_make (loc, node)
@@ -1985,7 +1982,7 @@ end else
 
 implement
 lexing_INTEGER_hex
-  (buf, pos, k1) =
+  (buf, pos, k1) = (
   case+ 0 of
   | _ when
       testing_hexiexp (buf, pos) >= 0 => let
@@ -2004,7 +2001,7 @@ lexing_INTEGER_hex
     in
       lexbufpos_token_reset (buf, pos, T_INTEGER_hex (str, k2))
     end // end of [_]
-// end of [lexing_INTEGER_hex]
+) // end of [lexing_INTEGER_hex]
 
 (* ****** ****** *)
 
@@ -2120,7 +2117,7 @@ end else
   lexbufpos_token_reset (buf, pos, T_EOF)
 // end of [if]
 //
-end // end of [lexing_get_next_token]
+end // end of [lexing_next_token]
 
 (* ****** ****** *)
 
@@ -2132,7 +2129,9 @@ in
   case+ tok.token_node of
   | T_COMMENT_line _ => lexing_next_token_ncmnt (buf)
   | T_COMMENT_block _ => lexing_next_token_ncmnt (buf)
+//
 // HX: A rest-of-file comment is considered as EOF
+//
   | T_COMMENT_rest _ => token_make (tok.token_loc, T_EOF)
   | _ => tok
 end // end of [lexing_next_token_ncmnt]

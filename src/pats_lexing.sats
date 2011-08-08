@@ -437,7 +437,10 @@ fun the_lexerrlst_add (x: lexerr): void
 
 (* ****** ****** *)
 
-fun fprint_lexerr (out: FILEref, err: lexerr): void
+fun fprint_lexerr
+  (out: FILEref, err: lexerr): void
+// end of [fprint_lexerr]
+
 fun fprint_the_lexerrlst (out: FILEref): void
 
 (* ****** ****** *)

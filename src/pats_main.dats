@@ -553,7 +553,7 @@ case+ arg of
       in
         process_cmdline (ATSHOME, state, arglst)
       end (* end of [_] *)
-  end // end of [ _ when isinpwait]
+  end // end of [_ when isinpwait]
 //
 | _ when isoutwait (state) => let
     val () = state.waitkind := WAITKINDnone ()
@@ -562,7 +562,7 @@ case+ arg of
     val () = the_output_filename_set (stropt_some (basename))
   in
     process_cmdline (ATSHOME, state, arglst)
-  end // end of [ _ when isoutwait]
+  end // end of [_ when isoutwait]
 //
 | _ when isdatswait (state) => let
     val () = state.waitkind := WAITKINDnone ()
@@ -570,7 +570,7 @@ case+ arg of
     val () = process_DATS_def (def)
   in
     process_cmdline (ATSHOME, state, arglst)
-  end
+  end // end of [_ when isdatswait]
 //
 | _ when isiatswait (state) => let
     val () = state.waitkind := WAITKINDnone ()

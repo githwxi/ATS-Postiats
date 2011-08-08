@@ -476,9 +476,10 @@ fn i0nclude_tr (
         val () = prerr_error1_loc (loc0)
         val () = prerr ": the file ["
         val () = prerr path;
-        val () = prerr "] is not available for inclusion"
+        val () = prerr "] is not available for inclusion."
         val () = prerr_newline ()
         val () = the_trans1errlst_add (T1E_i0nclude_tr (d0c0))
+        val () = $ERR.abort ()
       in
         $FIL.filename_dummy
       end // end of [None_vt]
@@ -573,9 +574,10 @@ fn s0taload_tr (
         val () = prerr_error1_loc (loc0)
         val () = prerr ": the file ["
         val () = prerr path;
-        val () = prerr "] is not available for static loading"
+        val () = prerr "] is not available for static loading."
         val () = prerr_newline ()
         val () = the_trans1errlst_add (T1E_s0taload_tr (d0c0))
+        val () = $ERR.abort ()
       in
         $FIL.filename_dummy
       end // end of [None_vt]
@@ -619,6 +621,9 @@ fn d0ynload_tr (
         val () = prerr "] is not available for dynamic loading"
         val () = prerr_newline ()
         val () = the_trans1errlst_add (T1E_d0ynload_tr (d0c0))
+(*
+        val () = $ERR.abort () // HX: it is meaningful to continue
+*)
       in
         $FIL.filename_dummy
       end // end of [None_vt]
