@@ -944,7 +944,8 @@ in
 if i >= 0 then let
   val c = (i2c)i in
   case+ c of
-  | '%' => let
+  | '%' when // HX: '%}' closes external code only if it initiates a newline
+      $LOC.position_get_ncol (pos) = 0 => let
       val res = testing_literal (buf, pos, "%}")
     in
       if res >= 0 then let
@@ -961,11 +962,9 @@ if i >= 0 then let
       end else let
         val () = posincby1 (pos) in lexing_EXTCODE_knd (buf, pos, knd)
       end // end of [if]
-    end // end of ['%']
+    end // end of ['%' when ...]
   | _ => let
-      val () = $LOC.position_incby_char (pos, i)
-    in
-      lexing_EXTCODE_knd (buf, pos, knd)
+      val () = $LOC.position_incby_char (pos, i) in lexing_EXTCODE_knd (buf, pos, knd)
     end // end of [_]
 end else
   lexbufpos_lexerr_reset (buf, pos, LE_EXTCODE_unclose)
@@ -1153,11 +1152,12 @@ lexing_PERCENT
   val c = (i2c)i
 in
   case+ c of 
-  | '\(' => let
+  | '\(' => let // '%(' initiates macro syntax
       val () = posincby1 (pos) in
       lexbufpos_token_reset (buf, pos, T_PERCENTLPAREN)
     end // end of ['\(']
-  | '\{' => let
+  | '\{' when // '%{' must start at the beginning of a newline
+      $LOC.position_get_ncol (pos) = 1 => let
       val () = posincby1 (pos) in lexing_EXTCODE (buf, pos)
     end // end of ['\{']
   | _ => let

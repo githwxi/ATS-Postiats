@@ -351,7 +351,6 @@ val () = ins ("dataview", DATAVIEW)
 val () = ins ("dataviewtype", DATAVIEWTYPE)
 //
 val () = ins ("do", T_DO)
-val () = ins ("dyn", T_DYN)
 val () = ins ("dynload", T_DYNLOAD)
 val () = ins ("else", T_ELSE)
 val () = ins ("end", T_END)

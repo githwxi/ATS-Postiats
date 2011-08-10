@@ -107,7 +107,6 @@ token_node =
   | T_DATASORT of () // datasort
   | T_DATATYPE of int // datatype, dataprop, dataview, dataviewtype
   | T_DO of () // do
-  | T_DYN of () // dyn
   | T_DYNLOAD of () // dynload
   | T_ELSE of () // else
   | T_END of () // end

@@ -88,7 +88,6 @@ fprint_token
   | T_DATASORT () => fprintf (out, "DATASORT()", @())
   | T_DATATYPE (x) => fprintf (out, "DATATYPE(%i)", @(x))
   | T_DO () => fprintf (out, "DO()", @())
-  | T_DYN () => fprintf (out, "DYN()", @())
   | T_DYNLOAD () => fprintf (out, "DYNLOAD()", @())
   | T_ELSE () => fprintf (out, "ELSE()", @())
   | T_END () => fprintf (out, "END()", @())
