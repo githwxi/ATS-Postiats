@@ -2,13 +2,11 @@
 (*                                                                     *)
 (*                         Applied Type System                         *)
 (*                                                                     *)
-(*                              Hongwei Xi                             *)
-(*                                                                     *)
 (***********************************************************************)
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustworthy Software, Inc.
+** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -105,7 +103,7 @@ fun xdigit_get_val
   (c: char): int =
   case+ 0 of
   | _ when c <= '9' => c - '0'
-  | _ when c <= 'F' => 10 + (c - 'A')
+  | _ when c <= 'F' => 10 + (c - 'A') // HX: A = 10
   | _ => 10 + (c - 'a')
 // end of [xdigit_get_val]    
 
@@ -742,7 +740,7 @@ lexbufpos_lexerr_reset (
   val () = lexbuf_reset_position (buf, pos)
 in
   token_make (loc, T_ERR)
-end // end of [lexbufpos_token_reset]
+end // end of [lexbufpos_lexerr_reset]
 
 (* ****** ****** *)
 
@@ -964,7 +962,7 @@ if i >= 0 then let
       end // end of [if]
     end // end of ['%' when ...]
   | _ => let
-      val () = $LOC.position_incby_char (pos, i) in lexing_EXTCODE_knd (buf, pos, knd)
+      val () = posincbyc (pos, i) in lexing_EXTCODE_knd (buf, pos, knd)
     end // end of [_]
 end else
   lexbufpos_lexerr_reset (buf, pos, LE_EXTCODE_unclose)
@@ -2127,8 +2125,8 @@ lexing_next_token_ncmnt
   val tok = lexing_next_token (buf)
 in
   case+ tok.token_node of
-  | T_COMMENT_line _ => lexing_next_token_ncmnt (buf)
-  | T_COMMENT_block _ => lexing_next_token_ncmnt (buf)
+  | T_COMMENT_line _ => lexing_next_token_ncmnt (buf) // HX: skip
+  | T_COMMENT_block _ => lexing_next_token_ncmnt (buf) // HX: skip
 //
 // HX: A rest-of-file comment is considered as EOF
 //

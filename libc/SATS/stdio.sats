@@ -167,7 +167,8 @@ the global variable errno is set to indicate the error.
 *)
 
 symintr fflush_err
-fun fflush0_err (filr: FILEref):<> int = "mac#atslib_fflush_err"
+fun fflush0_err
+  (filr: FILEref):<> int = "mac#atslib_fflush_err"
 overload fflush_err with fflush0_err
 fun fflush1_err
   {m:fm} {l:agz} (
@@ -323,7 +324,6 @@ ing sequences (Additional characters may follow these sequences.):
          not  exist, otherwise it is truncated.  The stream is positioned
          at the beginning of the file.
 
-
   a      Open for appending (writing at end of file).  The file is created
          if it does not exist.  The stream is positioned at the end of the
          file.
@@ -348,6 +348,29 @@ fun fopen_ref_exn {m:fm}
   (path: !READ(string), m: file_mode m):<!exn> FILEref
   = "atslib_fopen_exn"
 // end of [fopen_ref_exn]
+
+(* ****** ****** *)
+
+(*
+//
+// HX-2011-08
+//
+absview fildes_v (fd:int)
+
+dataview fdopen_v
+  (fd:int, m: file_mode, addr) =
+  | {l:agz} fdopen_v_succ (fd, m, l) of FILE_v (m, l)
+  | fdopen_v_fail (fd, m, null) of fildes_v (fd)
+// end of [fdopen_v]
+
+fun fdopen_err {fd:int} {m:file_mode} (
+  pf: fildes_v (fd) | fd: int (fd), m: file_mode m
+) : [l:agez] (fdopen_v (fd, m, l) | ptr l)
+
+fun fdopen_exn {fd:int} {m:file_mode} (
+  pf: fildes_v (fd) | fd: int (fd), m: file_mode m
+) : FILEptr1 (m)
+*)
 
 (* ****** ****** *)
 

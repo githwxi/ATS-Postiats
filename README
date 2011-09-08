@@ -65,12 +65,90 @@ Macro support for patterns.
 (*
 HX-2011-04-27:
 there is now support for functional C-like macros. For instance,
-the following declaratioon is now available, which I plan to turn
+the following declaration is now available, which I plan to turn
 into limited macro support for patterns:
 //
 #define list_sing (x) list_cons (x, list_nil ())
 //
 *)
+
+######
+//
+// HX-2011-08
+//
+fold/unfold are proof functions
+encode/decode are casting functions (castfn)
+
+ifbrk $test then $exp
+
+for
+
+if $test then ($exp; break)
+
+ifcnt $test then $exp
+
+for
+
+if $test then ($exp; continue)
+
+######
+//
+// HX-2011-08
+//
+
+logging errors of lib functions of the names *_exn?
+
+######
+//
+// HX-2011-08
+//
+
+mutability: 
+
+structbox = '{
+  name= string, width= !int, height= !int
+} // it is just like a ref!
+
+######
+//
+// HX-2011-09
+//
+
+A flag for allocation-only GCATS.
+
+######
+
+From matthias_berndt@gmx.de Sun Sep  4 16:50:34 2011
+Date: Sun, 4 Sep 2011 22:50:19 +0200
+From: Matthias Berndt <matthias_berndt@gmx.de>
+To:  <ats-lang-users@lists.sourceforge.net>
+Subject: Re: [ats-lang-users] Error code checking with linear types
+
+Hi Hongwei, 
+
+> >>Wouldn't it be possible to just DWIM in that case? For example, an
+> >>expression like
+> >>case x of
+> >>
+> >>  | (a | b) => ...
+> >>  | (c | d) => ...
+> >>
+> >>could automatically be transformed into something like
+> >>let val+ (x1 | x2) = x in
+> >>
+> >>  case x2 of
+> >>  
+> >>  | b => let prval a = x1 in ... end
+> >>  | d => let prval c = x1 in ... end
+> 
+> When [b] matches [x2], [a] may not be the only pattern that matches x1;
+> if it is the only one, then yes.
+Yes, this would be a shorthand for the (common?) case where the fact that 
+x2 matches b also implies that x1 matches a. For all other cases, one needs 
+to resort to the solution we have now. 
+
+> By the way, what does 'DWIM' stand for?
+"Do What I Mean".
 
 ######
 

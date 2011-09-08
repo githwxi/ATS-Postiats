@@ -2,13 +2,11 @@
 (*                                                                     *)
 (*                         Applied Type System                         *)
 (*                                                                     *)
-(*                              Hongwei Xi                             *)
-(*                                                                     *)
 (***********************************************************************)
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustworthy Software, Inc.
+** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -310,25 +308,25 @@ fn isiatswait
 
 local
 
-var the_output_filename: Stropt = stropt_none
+var theOutFilename: Stropt = stropt_none
 val (pf0 | ()) = vbox_make_view_ptr {Stropt}
-  (view@ (the_output_filename) | &the_output_filename)
+  (view@ (theOutFilename) | &theOutFilename)
 // end of [prval]
 
 in // in of [local]
 
-fn the_output_filename_get
+fn theOutFilename_get
   (): Stropt = out where {
   prval vbox pf = pf0
-  val out = the_output_filename
-  val () = the_output_filename := stropt_none
-} // end of [output_filename_get]
+  val out = theOutFilename
+  val () = theOutFilename := stropt_none
+} // end of [theOutFilename_get]
 
-fn the_output_filename_set
+fn theOutFilename_set
   (name: Stropt) = () where {
   prval vbox pf = pf0
-  val () = the_output_filename := name
-} // end of [output_filename_set]
+  val () = theOutFilename := name
+} // end of [theOutFilename_set]
 
 end // end of [local]
 
@@ -535,6 +533,9 @@ in
 case+ arg of
 //
 | _ when isinpwait (state) => let
+//
+// HX: the [inpwait] state stays unchanged
+//
     val stadyn = waitkind_get_stadyn (state.waitkind)
     val nif = state.ninputfile
   in
@@ -559,7 +560,7 @@ case+ arg of
     val () = state.waitkind := WAITKINDnone ()
     val COMARGkey (_, basename) = arg
     val basename = string1_of_string (basename)
-    val () = the_output_filename_set (stropt_some (basename))
+    val () = theOutFilename_set (stropt_some (basename))
   in
     process_cmdline (ATSHOME, state, arglst)
   end // end of [_ when isoutwait]
