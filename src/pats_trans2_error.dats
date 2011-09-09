@@ -79,7 +79,7 @@ the_trans2errlst_finalize () = {
 // (*
   val () = if n > 0 then {
     val () = fprintf (stderr_ref, "TRANS2: there are [%i] errors in total.\n", @(n))
-  }
+  } // end of [val]
 // *)
   val () = if n > 0 then $ERR.abort () else ()
 } // end of [the_trans2errlst_finalize]

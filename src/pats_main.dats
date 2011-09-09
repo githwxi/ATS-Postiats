@@ -395,7 +395,10 @@ fun prelude_load (
   ATSHOME: string
 ) : void = {
   val () = fixity_load (ATSHOME)
+//
   val () = pervasive_load (PATSHOME, "prelude/basics_pre.sats")
+  val () = pervasive_load (PATSHOME, "prelude/basics_sta.sats")
+//
 } // end of [prelude_load]
 
 fun prelude_load_if (
@@ -414,10 +417,10 @@ viewtypedef comarglst (n:int) = list_vt (comarg, n)
 
 fn comarg_warning
   (str: string) = {
-  val () = prerr "waring(ATS)"
-  val () = prerr ": unrecognized command line argument ["
-  val () = prerr str
-  val () = prerr "] is ignored."
+  val () = prerr ("waring(ATS)")
+  val () = prerr (": unrecognized command line argument [")
+  val () = prerr (str)
+  val () = prerr ("] is ignored.")
   val () = prerr_newline ()
 } // end of [comarg_warning]
 
@@ -441,10 +444,10 @@ in
       $TRENV1.the_e1xpenv_add (id, e1xp)
     end // end of [Some_vt]
   | ~None_vt () => let
-      val () = prerr "error(ATS)"
-      val () = prerr ": the command-line argument ["
+      val () = prerr ("error(ATS)")
+      val () = prerr (": the command-line argument [")
       val () = prerr (def)
-      val () = prerr "] cannot be properly parsed."
+      val () = prerr ("] cannot be properly parsed.")
       val () = prerr_newline ()
     in
       $ERR.abort ()
@@ -468,7 +471,7 @@ fn do_trans12 (
 //
   val d1cs = $TRANS1.d0eclist_tr_errck (d0cs)
 //
-  val () = if isdebug () then {
+  val () = if isdebug() then {
     val () = print "The 1st translation (fixity) of ["
     val () = print basename
     val () = print "] is successfully completed!"
@@ -477,7 +480,7 @@ fn do_trans12 (
 //
   val d2cs = $TRANS2.d1eclist_tr_errck (d1cs)
 //
-  val () = if isdebug () then {
+  val () = if isdebug() then {
     val () = print "The 2nd translation (binding) of ["
     val () = print basename
     val () = print "] is successfully completed!"
@@ -590,7 +593,7 @@ case+ arg of
     val () = comarg_warning (key)
   in
     process_cmdline (ATSHOME, state, arglst)
-  end
+  end // end of [COMARGkey]
 //
 end // end of [process_cmdline2]
 

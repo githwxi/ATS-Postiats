@@ -1104,17 +1104,7 @@ fn v1ardec_tr (
 ) : v2ardec = let
   val knd = d1c.v1ardec_knd
 (*
-//
-// top-level stack allocation is now supported!!!
-//
-  val () = if knd > 0 then (*BANG*)
-    if d2var_current_level_get () = 0 then begin
-      prerr_loc_error2 (d1c.v1ardec_loc);
-      prerr ": stack allocation is not supported at the top level.";
-      prerr_newline ();
-      $ERR.abort {void} ()
-    end // end of [if]
-  // end of [val]
+// HX: toplevel stack allocation is supported.
 *)
   val sym = d1c.v1ardec_sym
   val loc_sym = d1c.v1ardec_sym_loc
