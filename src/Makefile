@@ -173,11 +173,9 @@ OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
 
 ######
 
-atsopt: \
-  pats_main_dats.o $(OBJECTS)
-	$(ATSCC) \
-  $(ATSGCFLAG) $(ATSCCFLAGS) \
-  -o atsopt pats_main_dats.o $(OBJECTS) -lgmp
+patsopt: pats_main_dats.o $(OBJECTS) ; \
+  $(ATSCC) $(ATSGCFLAG) $(ATSCCFLAGS) -o $@ pats_main_dats.o $(OBJECTS) -lgmp
+cleanall:: ; $(RMF) patsopt
 
 ######
 
@@ -215,6 +213,5 @@ clean:: ; $(RMF) $(DIR)/*_?ats.o
 clean:: ; $(RMF) $(DIR)/*_?ats.c
 
 cleanall:: clean
-cleanall:: ; $(RMF) atsopt
 
 ###### end of [Makefile] ######

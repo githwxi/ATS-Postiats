@@ -1,7 +1,12 @@
 #
 # ignoring generated files
 #
-
 *_?ats.o
 *_?ats.c
+
+#
+# The compiler for POSTIATS 
+#
+src/patsopt
+src/.depend
 
