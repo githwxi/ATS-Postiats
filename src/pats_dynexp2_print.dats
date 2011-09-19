@@ -91,9 +91,109 @@ fprint_p2at
 in
 //
 case+ x.p2at_node of
-| _ => {
-    val () = prstr "P2T...(...)"
-  } // end of [_]
+| P2Tany () => {
+    val () = prstr "P2Tany()"
+  }
+| P2Tvar (knd, d2v) => {
+    val () = prstr "P2Tvar("
+    val () = fprint_int (out, knd)
+    val () = prstr ", "
+    val () = fprint_d2var (out, d2v)
+    val () = prstr ")"
+  }
+| P2Tbool (x) => {
+    val () = prstr "P2Tbool("
+    val () = fprint_bool (out, x)
+    val () = prstr ")"
+  }
+| P2Tint (x) => {
+    val () = prstr "P2Tint("
+    val () = fprint_string (out, x)
+    val () = prstr ")"
+  }
+| P2Tchar (x) => {
+    val () = prstr "P2Tchar("
+    val () = fprint_char (out, x)
+    val () = prstr ")"
+  }
+| P2Tstring (x) => {
+    val () = prstr "P2Tstring("
+    val () = fprint_string (out, x)
+    val () = prstr ")"
+  }
+| P2Tfloat (x) => {
+    val () = prstr "P2Tfloat("
+    val () = fprint_string (out, x)
+    val () = prstr ")"
+  }
+| P2Tempty () => {
+    val () = prstr "P2Tempty()"
+  }
+| P2Tcon (knd, d2c, s2qs, s2e, npf, p2ts) => {
+    val () = prstr "P2Tcon("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_d2con (out, d2c)
+    val () = prstr "; "
+    val () = fprint_s2qualst (out, s2qs)
+    val () = prstr "; "
+    val () = fprint_s2exp (out, s2e)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_p2atlst (out, p2ts)
+    val () = prstr ")"
+  }
+| P2Tlist (npf, p2ts) => {
+    val () = prstr "P2Tlist("
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_p2atlst (out, p2ts)
+    val () = prstr ")"
+  }
+| P2Tlst (p2ts) => {
+    val () = prstr "P2Tlst("
+    val () = fprint_p2atlst (out, p2ts)
+    val () = prstr ")"
+  }
+| P2Ttup (knd, npf, p2ts) => {
+    val () = prstr "P2Ttup("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_p2atlst (out, p2ts)
+    val () = prstr ")"
+  }
+//
+| P2Tas (knd, d2v, p2t) => {
+    val () = prstr "P2Tas("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_d2var (out, d2v)
+    val () = prstr "; "
+    val () = fprint_p2at (out, p2t)
+    val () = prstr ")"
+  }
+| P2Texist (s2vs, p2t) => {
+    val () = prstr "P2Texist("
+    val () = fprint_s2varlst (out, s2vs)
+    val () = prstr "; "
+    val () = fprint_p2at (out, p2t)
+    val () = prstr ")"
+  }
+//
+| P2Tann (p2t, s2e) => {
+    val () = prstr "P2Tann("
+    val () = fprint_p2at (out, p2t)
+    val () = prstr ", "
+    val () = fprint_s2exp (out, s2e)
+    val () = prstr ")"
+  }
+| P2Terr () => prstr "P2Terr()"
+(*
+| _ => prstr "P2T...(...)"
+*)
 //
 end // end of [fprint_p2at]
 

@@ -334,10 +334,10 @@ fun fprint_d0atsrtcon
     | Some s0t => {
         val () = fprint_string (out, " of ")
         val () = fprint_s0rt (out, s0t)
-      }
+      } // end of [Some]
     | None () => {
         val () = fprint_string (out, " of ()")
-      }
+      } // end of [None]
   ) : void // end of [val]
 } // end of [fprint_d0atsrtcon]
 
@@ -383,7 +383,7 @@ case+ x.s0rtext_node of
     val () = prstr "S0TEsrt("
     val () = fprint_s0rt (out, s0t)
     val () = prstr ")"
-  }
+  } // end of [S0TEsrt]
 | S0TEsub (id, s0te, s0e, s0es) => {
     val () = prstr "S0TEsub("
     val () = fprint_i0de (out, id)
@@ -729,7 +729,7 @@ fprint_labp0at (out, x) =
       val () = fprint_l0ab (out, l)
       val () = fprint_string (out, "= ")
       val () = fprint_p0at (out, p0t)
-    }
+    } // end of [LABP0ATnorm]
   | LABP0ATomit () => fprint_string (out, "...")
 // end of [fprint_labp0at]
 
@@ -785,6 +785,22 @@ case+ x.d0exp_node of
 | D0Ecstsp (x) => {
     val () = prstr "D0Ecstsp("
     val () = fprint_cstsp (out, x)
+    val () = prstr ")"
+  }
+//
+| D0Elet _ => {
+    val () = prstr "D0Elet("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| D0Edeclseq _ => {
+    val () = prstr "D0Edeclseq("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| D0Ewhere _ => {
+    val () = prstr "D0Ewhere("
+    val () = prstr "..."
     val () = prstr ")"
   }
 //
@@ -893,6 +909,33 @@ case+ x.d0exp_node of
     val () = fprint_d0exp (out, d0e)
     val () = prstr ": "
     val () = fprint_s0exp (out, s0e)
+    val () = prstr ")"
+  }
+//
+| D0Elam _ => {
+    val () = prstr "D0Elam("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| D0Efix _ => {
+    val () = prstr "D0Efix("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+//
+| D0Etrywith _ => {
+    val () = prstr "D0Etrywith("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| D0Efor _ => {
+    val () = prstr "D0Efor("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| D0Ewhile _ => {
+    val () = prstr "D0Ewhile("
+    val () = prstr "..."
     val () = prstr ")"
   }
 //

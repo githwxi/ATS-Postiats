@@ -353,6 +353,9 @@ viewtypedef s2qualst_vt = List_vt (s2qua)
 
 fun s2qua_make (s2vs: s2varlst, s2ps: s2explst): s2qua
 
+fun fprint_s2qua (out: FILEref, s2q: s2qua): void
+fun fprint_s2qualst (out: FILEref, s2qs: s2qualst): void
+
 (* ****** ****** *)
 
 fun s2cst_make (

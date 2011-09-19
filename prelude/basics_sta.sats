@@ -33,7 +33,9 @@
 (* ****** ****** *)
 
 abst@ype bool_t0ype = $extype "atstype_bool"
+stadef bool = bool_t0ype
 abst@ype bool_bool_t0ype (b: bool) = bool_t0ype
+stadef bool = bool_bool_t0ype
 
 (* ****** ****** *)
 
@@ -97,8 +99,12 @@ abst@ype
 intknd = $extype"atstype_int"
 typedef int0 = g0int (intknd)
 typedef int1 (i:int) = g1int (intknd, i)
+stadef int = int0
+stadef int = int1
 typedef uint0 = g0uint (intknd)
 typedef uint1 (i:int) = g1uint (intknd, i)
+stadef uint = uint0
+stadef uint = uint1
 
 abst@ype
 lintknd = $extype"atstype_lint"
@@ -132,10 +138,16 @@ typedef ussint1 (i:int) = g1uint (ssintknd, i)
 
 abst@ype
 sizeknd = $extype"atstype_size"
+//
 typedef size0_t = g0uint (sizeknd)
+stadef size_t = size0_t
 typedef size1_t (i:int) = g1uint (sizeknd, i)
+stadef size_t = size1_t
+//
 typedef ssize0_t = g0int (sizeknd)
+stadef ssize_t = ssize0_t
 typedef ssize1_t (i:int) = g1int (sizeknd , i) 
+stadef ssize_t = ssize1_t
 
 (* ****** ****** *)
 

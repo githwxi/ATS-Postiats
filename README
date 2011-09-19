@@ -151,5 +151,13 @@ to resort to the solution we have now.
 "Do What I Mean".
 
 ######
+//
+// HX: this form of pseudo abstract type can also be useful
+//
+abst@ype
+E (a:t@ype, x:elt) = !a
+assume E (a:t@ype, x:elt) = top // ignored
+
+######
 
 ###### end of [README] ######

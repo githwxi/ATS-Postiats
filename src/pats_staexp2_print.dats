@@ -222,6 +222,20 @@ fprint_labs2explst (out, xs) =
 (* ****** ****** *)
 
 implement
+fprint_s2qua (out, s2q) = {
+  val () = fprint_s2varlst (out, s2q.s2qua_svs)
+  val () = fprint_string (out, "; ")
+  val () = fprint_s2explst (out, s2q.s2qua_sps)
+} // end of [fprint_s2qua]
+
+implement
+fprint_s2qualst (out, s2qs) =
+  $UT.fprintlst (out, s2qs, "; ", fprint_s2qua)
+// end of [fprint_s2qualst]
+
+(* ****** ****** *)
+
+implement
 fprint_s2rtext (out, x) = let
   macdef prstr (s) = fprint_string (out, ,(s))
 in

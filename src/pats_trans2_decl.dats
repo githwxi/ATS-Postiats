@@ -1290,11 +1290,11 @@ end // end of [s1taload_tr]
 implement
 d1ecl_tr (d1c0) = let
   val loc0 = d1c0.d1ecl_loc
-// (*
+(*
   val () = begin
     print "d1ecl_tr: d1c0 = "; print_d1ecl d1c0; print_newline ()
   end // end of [val]
-// *)
+*)
 in
 //
 case+ d1c0.d1ecl_node of

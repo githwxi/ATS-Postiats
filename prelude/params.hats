@@ -2,15 +2,11 @@
 (*                                                                     *)
 (*                         Applied Type System                         *)
 (*                                                                     *)
-(*                              Hongwei Xi                             *)
-(*                                                                     *)
 (***********************************************************************)
 
 (*
 ** ATS - Unleashing the Potential of Types!
-**
-** Copyright (C) 2002-2010 Hongwei Xi, Boston University
-**
+** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under

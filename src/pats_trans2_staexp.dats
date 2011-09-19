@@ -422,7 +422,7 @@ case+ sp1t.sp1at_node of
             | list_nil () => list_nil ()
           ) // end of [auxsel]
           var s2ts_arg: s2rtlst = list_nil ()
-          val s2cs =  auxsel (s2cs, s2t_pat, s2ts_arg)
+          val s2cs = auxsel (s2cs, s2t_pat, s2ts_arg)
         in
           case+ s2cs of
           | list_cons (s2c, _) => let
@@ -456,6 +456,18 @@ case+ ans of
 //
   | S2ITMcst s2cs => let
       val- list_cons (s2c, _) = s2cs // HX: [s2cs] cannot be empty
+//
+      fun loop (
+        s2cs: s2cstlst, s2c0: s2cst
+      ) : s2cst = // find the first non-functional one if it exists
+        case+ s2cs of
+        | list_cons (s2c, s2cs) => let
+            val s2t = s2cst_get_srt (s2c) in
+            if s2rt_is_fun (s2t) then loop (s2cs, s2c0) else s2c
+          end // end of [list_cons]
+        | list_nil () => s2c0 // end of [list_nil]
+      val s2c = loop (s2cs, s2c)
+//
       val s2e0 = s2exp_cst (s2c)
     in
       case+ s2cst_get_srt (s2c) of
@@ -1023,7 +1035,7 @@ case+ s2i0 of
   in
     case+ s2cs of
     | list_cons (s2c, _) =>
-        s2exp_app_wind (s1e0, s2exp_cst s2c, ys)
+        s2exp_app_wind (s1e0, s2exp_cst (s2c), ys)
       // end of [list_cons]
     | list_nil () => let
         val () = list_vt_free<T2> (ys)

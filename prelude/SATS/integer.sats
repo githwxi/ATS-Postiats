@@ -54,9 +54,49 @@ g0int_add
 overload + with g0int_add
 
 fun{a:t@ype}
+g0int_sub
+  (x: g0int (a), y: g0int (a)): g0int (a)
+overload - with g0int_sub
+
+fun{a:t@ype}
+g0int_mul
+  (x: g0int (a), y: g0int (a)): g0int (a)
+overload * with g0int_mul
+
+fun{a:t@ype}
+g0int_div
+  (x: g0int (a), y: g0int (a)): g0int (a)
+overload / with g0int_div
+
+(* ****** ****** *)
+
+fun{a:t@ype}
+g0int_lt (x: g0int (a), y: g0int (a)): bool
+overload < with g0int_lt
+
+fun{a:t@ype}
+g0int_lte (x: g0int (a), y: g0int (a)): bool
+overload <= with g0int_lte
+
+fun{a:t@ype}
+g0int_gt (x: g0int (a), y: g0int (a)): bool
+overload > with g0int_gt
+
+fun{a:t@ype}
+g0int_gte (x: g0int (a), y: g0int (a)): bool
+overload >= with g0int_gte
+
+(* ****** ****** *)
+
+fun{a:t@ype}
 g1int_add {i,j:int}
   (x: g1int (a, i), y: g1int (a, j)): g1int (a, i+j)
 overload + with g1int_add
+
+fun{a:t@ype}
+g1int_sub {i,j:int}
+  (x: g1int (a, i), y: g1int (a, j)): g1int (a, i-j)
+overload - with g1int_sub
 
 (* ****** ****** *)
 
@@ -72,9 +112,21 @@ g0uint_add
 overload + with g0uint_add
 
 fun{a:t@ype}
+g0uint_sub
+  (x: g0uint (a), y: g0uint (a)): g0uint (a)
+overload - with g0uint_sub
+
+(* ****** ****** *)
+
+fun{a:t@ype}
 g1uint_add {i,j:int}
   (x: g1uint (a, i), y: g1uint (a, j)): g1uint (a, i+j)
 overload + with g1uint_add
+
+fun{a:t@ype}
+g1uint_sub {i,j:int}
+  (x: g1uint (a, i), y: g1uint (a, j)): g1uint (a, i-j)
+overload - with g1uint_sub
 
 (* ****** ****** *)
 
