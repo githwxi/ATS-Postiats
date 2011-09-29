@@ -642,7 +642,7 @@ case+ d1c0.d1ecl_node of
     val () = (case+ sup of
       | Some s1e => let
           val () = prstr " : " in fprint_s1exp (out, s1e)
-        end
+        end // end of [Some]
       | None () => ()
     ) : void // end of [val]
     val () = prstr ")"

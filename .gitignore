@@ -1,6 +1,7 @@
 #
 # ignoring generated files
 #
+*~
 *_?ats.o
 *_?ats.c
 
