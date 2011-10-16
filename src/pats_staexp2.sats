@@ -55,6 +55,7 @@ typedef filename = $FIL.filename
 
 staload SYN = "pats_syntax.sats"
 typedef c0har = $SYN.c0har
+typedef sl0abeled (a:type) = $SYN.sl0abeled (a)
 
 (* ****** ****** *)
 
@@ -309,6 +310,8 @@ and s2rtext = (* extended sort *)
   | S2TEerr of ()
 // end of [s2rtext]
 
+and labs2exp = SLABELED of (label, Option(string), s2exp)
+
 and wths2explst =
   | WTHS2EXPLSTnil of ()
   | WTHS2EXPLSTcons_some of (int(*refval*), s2exp, wths2explst)
@@ -324,7 +327,6 @@ and s2expopt = Option (s2exp)
 and s2explstlst = List (s2explst)
 and s2explstopt = Option (s2explst)
 
-and labs2exp = (label, s2exp)
 and labs2explst = List (labs2exp)
 
 (* ****** ****** *)

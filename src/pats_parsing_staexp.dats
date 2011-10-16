@@ -288,8 +288,18 @@ end // end of [p_sqi0de]
 
 (* ****** ****** *)
 
+extern
+fun p_asnameopt : parser (s0tringopt) // COLON s0rt
+
+implement
+p_asnameopt
+  (buf, bt, err) =
+  t2t (ptokentopt_fun (buf, is_AS, p_s0tring))
+// end of [p_colons0rtopt]
+
 (*
-labs0exp ::= l0ab EQ s0exp
+// HX-2011-10-15:
+// labs0exp ::= l0ab [AS string] EQ s0exp
 *)
 implement
 p_labs0exp (
@@ -297,13 +307,15 @@ p_labs0exp (
 ) = let
   val err0 = err
   val tok = tokbuf_get_token (buf)
-  val+ ~SYNENT3 (ent1, ent2, ent3) =
-    pseq3_fun {l0ab,token,s0exp} (buf, bt, err, p_l0ab, p_EQ, p_s0exp)
-  // end of [val]
+  val ent1 = p_l0ab (buf, bt, err)
+  val ent2 = pif_fun (buf, bt, err, p_asnameopt, err0)
+  val bt = 0
+  val ent3 = pif_fun (buf, bt, err, p_EQ, err0)
+  val ent4 = pif_fun (buf, bt, err, p_s0exp, err0)
 in
 //
 if (err = err0) then
-  labs0exp_make (ent1, ent3)
+  labs0exp_make (ent1, ent2, ent4)
 else let
   val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_labs0exp)
 in

@@ -922,7 +922,9 @@ in '{
 (* ****** ****** *)
 
 implement
-labs0exp_make (ent1, ent2) = L0ABELED (ent1, ent2)
+labs0exp_make
+  (lab, name, s0e) = SL0ABELED (lab, name, s0e)
+// end of [labs0exp_make]
 
 (* ****** ****** *)
 
@@ -2017,7 +2019,7 @@ in '{
 (* ****** ****** *)
 
 implement
-labd0exp_make (ent1, ent2) = L0ABELED (ent1, ent2)
+labd0exp_make (ent1, ent2) = DL0ABELED (ent1, ent2)
 
 (* ****** ****** *)
 

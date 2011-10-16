@@ -53,6 +53,9 @@ staload "pats_basics.sats"
 staload LOC = "pats_location.sats"
 overload + with $LOC.location_combine
 
+staload LEX = "pats_lexing.sats"
+typedef token = $LEX.token
+
 (* ****** ****** *)
 
 staload SYM = "pats_symbol.sats"
@@ -1097,7 +1100,7 @@ fun aux01 ( // flt/box: 0/1
   | list_cons (s1e, s1es) => let
       val lab = $LAB.label_make_int (i)
       val s2e = s1exp_trdn_impredicative (s1e)
-      val ls2e = (lab, s2e)
+      val ls2e = SLABELED (lab, None(), s2e)
       val s2t = s2e.s2exp_srt
       val () = if s2rt_is_lin (s2t) then (lin := lin+1)
       val () = if s2rt_is_prf (s2t)
@@ -1122,7 +1125,7 @@ fun aux23 ( // box_t/box_vt : 2/3
           s1exp_trdn (s1e, s2t_prgm) else s1exp_trdn (s1e, s2t_prf)
         // end of [if]
       ) : s2exp // end of [val]
-      val ls2e = (lab, s2e)
+      val ls2e = SLABELED (lab, None(), s2e)
     in
       list_cons (ls2e, aux23 (i+1, npf, s1es, s2t_prf, s2t_prgm))
     end (* end of [list_cons] *)
@@ -1190,6 +1193,11 @@ end // end of [local]
 
 local
 
+fn string_of_s0tring
+  (tok: token): string = let
+  val- $LEX.T_STRING (str) = tok.token_node in str
+end // end of [string_of_s0tring]
+
 fun aux01 ( // flt/box: 0/1
   i: int
 , npf: int, ls1es: labs1explst
@@ -1198,10 +1206,16 @@ fun aux01 ( // flt/box: 0/1
 , prgm: &int
 ) : labs2explst = begin case+ ls1es of
   | list_cons (ls1e, ls1es) => let
-      val $SYN.L0ABELED (l0ab, s1e) = ls1e
+      val $SYN.SL0ABELED (l0ab, name, s1e) = ls1e
       val lab = l0ab.l0ab_lab
+      val name = (case+ name of
+        | Some tok => let
+            val str = string_of_s0tring (tok) in Some (str)
+          end // end of [Some]
+        | None () => None
+      ) : Option (string)
       val s2e = s1exp_trdn_impredicative (s1e)
-      val ls2e = (lab, s2e)
+      val ls2e = SLABELED (lab, name, s2e)
       val s2t = s2e.s2exp_srt
       val () = if s2rt_is_lin (s2t) then (lin := lin+1)
       val () = if s2rt_is_prf (s2t)
@@ -1220,14 +1234,20 @@ fun aux23 ( // box_t/box_vt : 2/3
 , s2t_prgm: s2rt
 ) : labs2explst = begin case+ ls1es of
   | list_cons (ls1e, ls1es) => let
-      val $SYN.L0ABELED (l0ab, s1e) = ls1e
+      val $SYN.SL0ABELED (l0ab, name, s1e) = ls1e
       val lab = l0ab.l0ab_lab
+      val name = (case+ name of
+        | Some tok => let
+            val str = string_of_s0tring (tok) in Some (str)
+          end // end of [Some]
+        | None () => None
+      ) : Option (string)
       val s2e = (
         if i >= npf then
           s1exp_trdn (s1e, s2t_prgm) else s1exp_trdn (s1e, s2t_prf)
         // end of [if]
       ) : s2exp // end of [val]
-      val ls2e = (lab, s2e)
+      val ls2e = SLABELED (lab, name, s2e)
     in
       list_cons (ls2e, aux23 (i+1, npf, ls1es, s2t_prf, s2t_prgm))
     end (* end of [list_cons] *)

@@ -159,5 +159,9 @@ E (a:t@ype, x:elt) = !a
 assume E (a:t@ype, x:elt) = top // ignored
 
 ######
+//
+// HX-2011-10-01: supporting offsetof?
+//
+######
 
 ###### end of [README] ######

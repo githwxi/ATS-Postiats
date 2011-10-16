@@ -59,7 +59,7 @@ typedef c0har = $SYN.c0har
 typedef f0loat = $SYN.f0loat
 typedef s0tring = $SYN.s0tring
 typedef l0ab = $SYN.l0ab
-typedef l0abeled (a:type) = $SYN.l0abeled (a)
+typedef dl0abeled (a:type) = $SYN.dl0abeled (a)
 
 (* ****** ****** *)
 
@@ -504,7 +504,7 @@ and d2explst = List (d2exp)
 and d2expopt = Option (d2exp)
 and d2explstlst = List (d2explst)
 
-and labd2exp = l0abeled (d2exp)
+and labd2exp = dl0abeled (d2exp)
 and labd2explst = List (labd2exp)
 
 and d2exparglst = List (d2exparg)

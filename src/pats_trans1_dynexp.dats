@@ -774,7 +774,7 @@ d0expopt_tr (opt) = case+ opt of
 
 implement
 labd0exp_tr (ld0e) = let
-  val+ L0ABELED (l, d0e) = ld0e in labd1exp_make (l, d0exp_tr (d0e))
+  val+ DL0ABELED (l, d0e) = ld0e in labd1exp_make (l, d0exp_tr (d0e))
 end // end of [labd0exp_tr]
 
 (* ****** ****** *)

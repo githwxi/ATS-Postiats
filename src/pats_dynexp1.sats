@@ -407,7 +407,7 @@ and d1explst = List (d1exp)
 and d1expopt = Option (d1exp)
 and d1explstlst = List (d1explst)
 
-and labd1exp = l0abeled (d1exp)
+and labd1exp = dl0abeled (d1exp)
 and labd1explst = List (labd1exp)
 
 (* ****** ****** *)

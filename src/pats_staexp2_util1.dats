@@ -182,7 +182,7 @@ fun aux (
     aux (npf-1, lin, xs)
   end else let
     val- list_cons (x, xs) = xs
-    val s2e = x.1
+    val SLABELED (_, _, s2e) = x
     val s2t = s2e.s2exp_srt
 (*
     val () = (print "aux: s2t = "; print_s2rt (s2t); print_newline ())

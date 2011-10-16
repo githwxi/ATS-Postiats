@@ -579,7 +579,7 @@ fprint_s0expopt
 implement
 fprint_labs0exp
   (out, x) = () where {
-  val+ L0ABELED (l, s0e) = x
+  val+ SL0ABELED (l, name, s0e) = x
   val () = fprint_l0ab (out, l)
   val () = fprint_string (out, "= ")
   val () = fprint_s0exp (out, s0e)
@@ -960,7 +960,7 @@ fprint_d0expopt
 implement
 fprint_labd0exp
   (out, x) = () where {
-  val+ L0ABELED (l, d0e) = x
+  val+ DL0ABELED (l, d0e) = x
   val () = fprint_l0ab (out, l)
   val () = fprint_string (out, "= ")
   val () = fprint_d0exp (out, d0e)
