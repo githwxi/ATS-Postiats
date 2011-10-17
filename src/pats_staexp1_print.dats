@@ -86,7 +86,7 @@ in
 case+ e0.e1xp_node of
 | E1XPide (id) => fprint_symbol (out, id)
 //
-| E1XPint (rep) => {
+| E1XPint (_, rep) => {
     val () = prstr "E1XPint("
     val () = fprint_string (out, rep)
     val () = prstr ")"
@@ -306,7 +306,7 @@ in
 //
 case+ x.s1exp_node of
 //
-| S1Eint (rep) => {
+| S1Eint (_, rep) => {
     val () = prstr "S1Eint("
     val () = fprint_string (out, rep)
     val () = prstr ")"

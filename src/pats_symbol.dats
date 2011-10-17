@@ -216,8 +216,11 @@ implement symbol_ADD = symbol_make_string "+"
 implement symbol_SUB = symbol_make_string "-"
 implement symbol_MUL = symbol_make_string "*"
 implement symbol_DIV = symbol_make_string "/"
-
+//
 implement symbol_AMPERSAND = symbol_make_string "&"
+implement symbol_AMPERQMARK = symbol_make_string "&?"
+implement symbol_AMPERQMARKBANG = symbol_make_string "&?!"
+//
 implement symbol_AT = symbol_make_string "@"
 implement symbol_BACKSLASH = symbol_make_string "\\"
 implement symbol_BANG = symbol_make_string "!"

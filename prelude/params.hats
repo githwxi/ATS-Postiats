@@ -31,8 +31,8 @@
 //
 (* ****** ****** *)
 
-#define VERBOSE_FIXITY 0 (* used in [prelude/fixity.ats] *)
-#define VERBOSE_PRELUDE 0 (* mainly for the purpose of debugging *)
+#define VERBOSE_FIXITY 1 (* used in [prelude/fixity.ats] *)
+#define VERBOSE_PRELUDE 1 (* mainly for the purpose of debugging *)
 
 (* ****** ****** *)
 

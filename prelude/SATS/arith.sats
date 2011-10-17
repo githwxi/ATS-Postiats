@@ -26,10 +26,9 @@
 *)
 
 (* ****** ****** *)
-//
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: September, 2011
-//
+
+(* author: Hongwei Xi (hwxi AT cs DOT bu DOT edu) *)
+
 (* ****** ****** *)
 
 #include "prelude/params.hats"
@@ -37,15 +36,21 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [string.sats] starts!\n"
+#print "Loading [arith.sats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
+
+(* ****** ****** *)
+
+dataprop MUL (int, int, int) =
+  | {n:int} MULbas (0, n, 0)
+  | {m,n,p:int | m >= 0} MULind (m+1, n, p+n) of MUL (m, n, p)
+  | {m,n,p:int | m > 0} MULneg (~m, n, ~p) of MUL (m, n, p)
+// end of [MUL]
 
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [string.sats] finishes!\n"
+#print "Loading [arith.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
-(* ****** ****** *)
-
-(* end of [string.sats] *)
+(* end of [arith.sats] *)

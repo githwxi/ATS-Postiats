@@ -41,7 +41,25 @@
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
+//
+dataprop unit_p = unit_p of ()
+dataview unit_v = unit_v of ()
+//
+dataview
+option_view_bool_view
+  (a:view+, bool) = Some_v (a, true) of a | None_v (a, false)
+// end of [option_view_bool_view]
+stadef option_v = option_view_bool_view
+// viewdef optvar_v (a:viewt@ype, l:addr) = option_v (a @ l, l > null)
+//
+(* ****** ****** *)
 
+dataviewtype // viewt@ype+: covariant
+option_viewt0ype_bool_viewtype (a:viewt@ype+, bool) =
+  | None_vt (a, false) | Some_vt (a, true) of a
+// end of [option_viewt0ype_bool_viewtype]
+stadef option_vt = option_viewt0ype_bool_viewtype
+viewtypedef Option_vt (a:viewt@ype) = [b:bool] option_vt (a, b)
 
 (* ****** ****** *)
 

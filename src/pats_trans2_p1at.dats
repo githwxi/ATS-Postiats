@@ -505,7 +505,7 @@ case+ p2t.p2at_node of
     p2at_con (loc0, 1-freeknd, d2c, s2qs, s2e, npf, darg)
 | _ => let
     val () = prerr_error2_loc (loc0)
-    val () = filprerr_ifdebug ": p1at_tr_free"
+    val () = filprerr_ifdebug ("p1at_tr_free")
     val () = prerr ": the pattern is expected to formed with a constructor (of dataviewtype)."
     val () = prerr_newline ()
     val () = the_trans2errlst_add (T2E_p1at_tr (p1t0))

@@ -32,14 +32,28 @@
 //
 (* ****** ****** *)
 
-abst@ype bool_t0ype = $extype "atstype_bool"
+#include "prelude/params.hats"
+
+(* ****** ****** *)
+
+#if VERBOSE_PRELUDE #then
+#print "Loading [basics_sta.sats] starts!\n"
+#endif // end of [VERBOSE_PRELUDE]
+
+(* ****** ****** *)
+
+abst@ype
+bool_t0ype = $extype "atstype_bool"
 stadef bool = bool_t0ype
-abst@ype bool_bool_t0ype (b: bool) = bool_t0ype
+abst@ype
+bool_bool_t0ype (b: bool) = bool_t0ype
 stadef bool = bool_bool_t0ype
 
 (* ****** ****** *)
 
-abst@ype byte_t0ype = $extype "atstype_byte"
+abst@ype
+byte_t0ype = $extype "atstype_byte"
+stadef byte = byte_t0ype
 
 (* ****** ****** *)
 
@@ -67,11 +81,13 @@ abst@ype
 charknd = $extype"atstype_char"
 typedef char0 = g0char (charknd)
 typedef char1 (i:int) = g1char (charknd, i)
+stadef char = char0 and char = char1
 
 abst@ype
 ucharknd = $extype"atstype_uchar"
 typedef uchar0 = g0uchar (ucharknd)
 typedef uchar1 (i:int) = g1uchar (ucharknd, i)
+stadef uchar = uchar0 and uchar = uchar1
 
 (* ****** ****** *)
 
@@ -83,6 +99,19 @@ g1int_t0ype_int (a:t@ype, int) = g0int (a)
 stadef g1int = g1int_t0ype_int
 typedef g1int (a:t@ype) = [i:int] g1int (a, i)
 
+typedef g1intLt
+  (knd:t@ype, n:int) = [i:int | i < n] g1int (knd, i)
+typedef g1intLte
+  (knd:t@ype, n:int) = [i:int | i <= n] g1int (knd, i)
+typedef g1intGt
+  (knd:t@ype, n:int) = [i:int | i > n] g1int (knd, i)
+typedef g1intGte
+  (knd:t@ype, n:int) = [i:int | i >= n] g1int (knd, i)
+typedef g1intBtw
+  (knd:t@ype, lb:int, ub:int) = [i: int | lb <= i; i < ub] g1int (knd, i)
+typedef g1intBtwe
+  (knd: t@ype, lb:int, ub:int) = [i: int | lb <= i; i <= ub] g1int (knd, i)
+
 (* ****** ****** *)
 
 abst@ype
@@ -93,46 +122,84 @@ g1uint_t0ype_int (a:t@ype, int) = g0uint (a)
 stadef g1uint = g1uint_t0ype_int
 typedef g1uint (a:t@ype) = [i:nat] g1uint (a, i)
 
-(* ****** ****** *)
+typedef g1uintLt
+  (knd:t@ype, n:int) = [i:nat | i < n] g1uint (knd, i)
+typedef g1uintLte
+  (knd:t@ype, n:int) = [i:nat | i <= n] g1uint (knd, i)
+typedef g1uintGt
+  (knd:t@ype, n:int) = [i:int | i > n] g1uint (knd, i)
+typedef g1uintGte
+  (knd:t@ype, n:int) = [i:int | i >= n] g1uint (knd, i)
+typedef g1uintBtw
+  (knd:t@ype, lb:int, ub:int) = [i: int | lb <= i; i < ub] g1uint (knd, i)
+typedef g1uintBtwe
+  (knd: t@ype, lb:int, ub:int) = [i: int | lb <= i; i <= ub] g1uint (knd, i)
 
+(* ****** ****** *)
+//
 abst@ype
 intknd = $extype"atstype_int"
+//
 typedef int0 = g0int (intknd)
 typedef int1 (i:int) = g1int (intknd, i)
-stadef int = int0
-stadef int = int1
+stadef int = int0 and int = int1
+typedef intLt (n:int) = g1intLt (intknd, n)
+typedef intLte (n:int) = g1intLte (intknd, n)
+typedef intGt (n:int) = g1intGt (intknd, n)
+typedef intGte (n:int) = g1intGte (intknd, n)
+typedef intBtw (lb:int, ub:int) = g1intBtw (intknd, lb, ub)
+typedef intBtwe (lb:int, ub:int) = g1intBtwe (intknd, lb, ub)
+//
+typedef natLt (n:int) = intBtw (0, n)
+typedef natLte (n:int) = intBtwe (0, n)
+//
 typedef uint0 = g0uint (intknd)
 typedef uint1 (i:int) = g1uint (intknd, i)
-stadef uint = uint0
-stadef uint = uint1
+stadef uint = uint0 and uint = uint1
+typedef uintLt (n:int) = g1uintLt (intknd, n)
+typedef uintLte (n:int) = g1uintLte (intknd, n)
+typedef uintGt (n:int) = g1uintGt (intknd, n)
+typedef uintGte (n:int) = g1uintGte (intknd, n)
+typedef uintBtw (lb:int, ub:int) = g1uintBtw (intknd, lb, ub)
+typedef uintBtwe (lb:int, ub:int) = g1uintBtwe (intknd, lb, ub)
+//
+(* ****** ****** *)
 
 abst@ype
 lintknd = $extype"atstype_lint"
 typedef lint0 = g0int (lintknd)
 typedef lint1 (i:int) = g1int (lintknd, i)
+stadef lint = lint0 and lint = lint1
 typedef ulint0 = g0uint (lintknd)
 typedef ulint1 (i:int) = g1uint (lintknd, i)
+stadef ulint = ulint0 and ulint = ulint1
 
 abst@ype
 llintknd = $extype"atstype_llint"
 typedef llint0 = g0int (llintknd)
 typedef llint1 (i:int) = g1int (llintknd, i)
+stadef llint = llint0 and llint = llint1
 typedef ullint0 = g0uint (llintknd)
 typedef ullint1 (i:int) = g1uint (llintknd, i)
+stadef ullint = ullint0 and ullint = ullint1
 
 abst@ype
 sintknd = $extype"atstype_sint"
 typedef sint0 = g0int (sintknd)
 typedef sint1 (i:int) = g1int (sintknd, i)
+stadef sint = sint0 and sint = sint1
 typedef usint0 = g0uint (sintknd)
 typedef usint1 (i:int) = g1uint (sintknd, i)
+stadef usint = usint0 and usint = usint1
 
 abst@ype
 ssintknd = $extype"atstype_ssint"
 typedef ssint0 = g0int (ssintknd)
 typedef ssint1 (i:int) = g1int (ssintknd, i)
+stadef ssint = ssint0 and ssint = ssint1
 typedef ussint0 = g0uint (ssintknd)
 typedef ussint1 (i:int) = g1uint (ssintknd, i)
+stadef ussint = ussint0 and ussint = ussint1
 
 (* ****** ****** *)
 
@@ -143,6 +210,21 @@ typedef size0_t = g0uint (sizeknd)
 stadef size_t = size0_t
 typedef size1_t (i:int) = g1uint (sizeknd, i)
 stadef size_t = size1_t
+//
+typedef Size =
+  [i:int | i >= 0] g1uint (sizeknd, i)
+typedef sizeLt
+  (n: int) = [i:int | 0 <= i; i < n] g1uint (sizeknd, i)
+typedef sizeLte
+  (n: int) = [i:int | 0 <= i; i <= n] g1uint (sizeknd, i)
+typedef sizeGt
+  (n: int) = [i:int | i > n] g1uint (sizeknd, i)
+typedef sizeGte
+  (n: int) = [i:int | i >= n] g1uint (sizeknd, i)
+typedef sizeBtw
+  (lb:int, ub:int) = [i: int | lb <= i; i < ub] g1uint (sizeknd, i)
+typedef sizeBtwe
+  (lb:int, ub:int) = [i: int | lb <= i; i <= ub] g1uint (sizeknd, i)
 //
 typedef ssize0_t = g0int (sizeknd)
 stadef ssize_t = ssize0_t
@@ -223,12 +305,28 @@ abst@ype
 g0float_t0ype (a:t@ype) = a
 stadef g0float = g0float_t0ype
 
-abst@ype fltknd = $extype"atstype_float"
-abst@ype dblknd = $extype"atstype_double"
-abst@ype ldblknd = $extype"atstype_ldouble"
+abst@ype
+fltknd = $extype"atstype_float"
 typedef float = g0float (fltknd)
+//
+abst@ype
+dblknd = $extype"atstype_double"
 typedef double = g0float (dblknd)
+//
+abst@ype
+ldblknd = $extype"atstype_ldouble"
 typedef ldouble = g0float (ldblknd)
+
+(* ****** ****** *)
+//
+// HX: unindexed type for pointers
+//
+abstype
+ptr_type = $extype"atstype_ptr"
+stadef ptr = ptr_type
+abstype
+ptr_addr_type (l:addr) = ptr_type
+stadef ptr = ptr_addr_type
 
 (* ****** ****** *)
 
@@ -249,6 +347,44 @@ stadef void = void_t0ype
 
 absviewtype exception_viewtype
 viewtypedef exn = exception_viewtype
+
+(* ****** ****** *)
+
+absviewt@ype
+READ_viewt0ype_viewt0ype
+  (a: viewt@ype+, int) = a
+stadef READ = READ_viewt0ype_viewt0ype
+
+(* ****** ****** *)
+
+absviewt@ype
+opt_viewt0ype_bool_viewt0ype
+  (a:viewt@ype+, opt:bool) = a
+stadef opt = opt_viewt0ype_bool_viewt0ype
+
+(* ****** ****** *)
+//
+// HX:
+// some built-in impredicative constructors
+//
+absview
+at_viewt0ype_addr_view (viewt@ype+, addr)
+stadef @ = at_viewt0ype_addr_view // HX: @ is infix
+
+(* ****** ****** *)
+
+typedef bytes (n:int) = @[byte][n]
+typedef b0ytes (n:int) = @[byte?][n]
+
+(* ****** ****** *)
+
+abst@ype strbuf (m:int, n:int) // [m] bytesx
+
+(* ****** ****** *)
+
+#if VERBOSE_PRELUDE #then
+#print "Loading [basics_sta.sats] finishes!\n"
+#endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 

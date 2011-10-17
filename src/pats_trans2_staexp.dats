@@ -32,7 +32,8 @@
 //
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 macdef castvwtp1 = $UN.castvwtp1
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
@@ -312,7 +313,7 @@ fn auxerr1 (
   sq: s0taq, id: symbol
 ) :<cloref1> sp2at = let
   val () = prerr_error2_loc (loc0)
-  val () = filprerr_ifdebug (": sp1at_trdn")
+  val () = filprerr_ifdebug ("sp1at_trdn")
   val () = prerr ": the static identifier ["
   val () = prerr_sqid (sq, id)
   val () = prerr "] does not refer to a static constructor associated with the sort ["
@@ -327,7 +328,7 @@ fn auxerr2 (
   sq: s0taq, id: symbol
 ) :<cloref1> sp2at = let
   val () = prerr_error2_loc (loc0)
-  val () = filprerr_ifdebug (": sp1at_trdn")
+  val () = filprerr_ifdebug ("sp1at_trdn")
   val () = prerr ": the static identifier ["
   val () = prerr_sqid (sq, id)
   val () = prerr "] does not refer to a static constructor."
@@ -341,7 +342,7 @@ fn auxerr3 (
   sq: s0taq, id: symbol
 ) :<cloref1> sp2at = let
   val () = prerr_error2_loc (loc0)
-  val () = filprerr_ifdebug (": sp1at_trdn")
+  val () = filprerr_ifdebug ("sp1at_trdn")
   val () = prerr ": the static identifier ["
   val () = prerr_sqid (sq, id)
   val () = prerr "] is unrecognized."
@@ -1335,13 +1336,35 @@ in
 case+ s1e0.s1exp_node of
 //
 | S1Eide (id) => let
-    val sq = $SYN.the_s0taq_none in s1exp_trup_sqid (s1e0, sq, id)
+    val sq = $SYN.the_s0taq_none
+  in
+    s1exp_trup_sqid (s1e0, sq, id)
   end // end of [S1Eide]
 | S1Esqid (sq, id) => s1exp_trup_sqid (s1e0, sq, id)
 //
-| S1Eint (rep) => let
-    val int = $INT.intinf_make_string (rep) in s2exp_intinf (int)
+| S1Eint (base, rep) => let
+    val [n:int] rep = string1_of_string (rep)
+    val intinf = (case+ base of
+      | 8 => let
+          prval () = __assert () where {
+            extern praxi __assert (): [n >= 1] void
+          } // end of [prval]
+        in
+          $INT.intinf_make_base_string_ofs (8, rep, 1)
+        end // end of [8]
+      | 16 => let
+          prval () = __assert () where {
+            extern praxi __assert (): [n >= 2] void
+          } // end of [prval]
+        in
+          $INT.intinf_make_base_string_ofs (16, rep, 2)
+        end // end of [8]
+      | _ => $INT.intinf_make_string (rep) // base=0 and ofs=0
+    ) : intinf // end of [val]
+  in
+    s2exp_intinf (intinf)
   end // end of [S1Eint]
+//
 | S1Echar (char) => s2exp_char (char)
 //
 | S1Eextype (name, s1ess) => let
@@ -1502,7 +1525,7 @@ fn auxerr (
   s1e: s1exp, s2t1: s2rt, s2t2: s2rt
 ) :<cloref1> void = {
   val () = prerr_error2_loc (s1e.s1exp_loc)
-  val () = filprerr_ifdebug ": s1exp_trdn_lam"
+  val () = filprerr_ifdebug "s1exp_trdn_lam"
   val () = prerr ": the body of the static function is given the sort ["
   val () = prerr_s2rt (s2t1)
   val () = prerr "] but it is expected to be of the sort ["
@@ -1546,7 +1569,7 @@ s2exp_trdn
 in
   if test then s2e else let
     val () = prerr_error2_loc (loc0)
-    val () = filprerr_ifdebug ": s2exp_trdn" // for debugging
+    val () = filprerr_ifdebug "s2exp_trdn" // for debugging
     val () = prerr ": the static expression is of the sort ["
     val () = prerr_s2rt (s2t_new)
     val () = prerr "] but it is expectecd to be of the sort ["
@@ -1565,7 +1588,7 @@ s1exp_trdn (s1e, s2t) = let
 fn auxerr // for S2Eextype
   (s1e: s1exp, s2t: s2rt): void = {
   val () = prerr_error2_loc (s1e.s1exp_loc)
-  val () = filprerr_ifdebug (": s1exp_trdn")
+  val () = filprerr_ifdebug ("s1exp_trdn")
   val () = prerr ": the static term (extype) cannot be given the sort ["
   val () = prerr_s2rt (s2t)
   val () = prerr "]."
@@ -1676,7 +1699,7 @@ s1exp_trdn_arg_impredicative
   val () = if
     s2rt_is_impredicative s2t then () else let
     val () = prerr_error2_loc (s1e.s1exp_loc)
-    val () = filprerr_ifdebug (": s1exp_trdn_arg_impredicative")
+    val () = filprerr_ifdebug ("s1exp_trdn_arg_impredicative")
     val () = prerr ": the static expression needs to be impredicative"
     val () = prerr " but it is assigned the sort ["
     val () = prerr_s2rt (s2t)

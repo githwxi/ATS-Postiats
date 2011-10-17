@@ -130,7 +130,7 @@ case+ ans of
   ) // end of [Some_vt]
 | ~None_vt () => let
     val () = prerr_error2_loc (loc0)
-    val () = filprerr_ifdebug (": d1exp_tr_dqid")
+    val () = filprerr_ifdebug "d1exp_tr_dqid"
     val () = prerr ": the dynamic identifier ["
     val () = prerr_dqid (dq, id)
     val () = prerr "] is unrecognized."
@@ -355,7 +355,7 @@ case+ d2i of
   end // end of [D2ITMvar]
 | _ => let
     val () = prerr_error2_loc (d1e2.d1exp_loc)
-    val () = filprerr_ifdebug ": d1exp_tr_app_sta_dyn_dqid_itm"
+    val () = filprerr_ifdebug "d1exp_tr_app_sta_dyn_dqid_itm"
     val () = prerr ": the identifier ["
     val () = prerr_dqid (dq, id)
     val () = prerr "] does not refer to any variable, constant or constructor."
@@ -494,7 +494,7 @@ case+ d1e0.d1exp_node of
   end // end of[D1Eann_funclo]
 | _ => let
     val () = prerr_error2_loc (loc0)
-    val () = filprerr_ifdebug ": d1exp_wths1explst_tr"
+    val () = filprerr_ifdebug "d1exp_wths1explst_tr"
     val () = prerr ": the dynamic expression is expected to be ascribed a type but it is not."
     val () = prerr_newline ()
     val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
@@ -544,7 +544,7 @@ fn i1nvarg_tr
 //
 fn auxerr1 (x: i1nvarg): void = {
   val () = prerr_error2_loc (x.i1nvarg_loc)
-  val () = filprerr_ifdebug (": i1nvarglst_tr")
+  val () = filprerr_ifdebug ("i1nvarglst_tr")
   val () = prerr ": the dynamic identifier ["
   val () = $SYM.prerr_symbol (x.i1nvarg_sym)
   val () = prerr "] should refer to a variable but it does not."
@@ -553,7 +553,7 @@ fn auxerr1 (x: i1nvarg): void = {
 } // end of [auxerr1]
 fun auxerr2 (x: i1nvarg): void = {
   val () = prerr_error2_loc (x.i1nvarg_loc)
-  val () = filprerr_ifdebug (": i1nvarglst_tr")
+  val () = filprerr_ifdebug ("i1nvarglst_tr")
   val () = prerr ": the dynamic identifier ["
   val () = $SYM.prerr_symbol (x.i1nvarg_sym)
   val () = prerr "] is unrecognized."
@@ -657,7 +657,7 @@ fn c1lau_tr {n:nat}
     c1l: c1lau, n: int, n1: int
   ) : void = let
     val () = prerr_error2_loc (c1l.c1lau_loc)
-    val () = filprerr_ifdebug (": c1lau_tr")
+    val () = filprerr_ifdebug ("c1lau_tr")
     val () = prerr ": this clause should contain "
     val () = prerr_string (if n < n1 then "less" else "more")
     val () = prerr " patterns."

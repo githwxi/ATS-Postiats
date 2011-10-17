@@ -289,7 +289,9 @@ end // end of [p_sqi0de]
 (* ****** ****** *)
 
 extern
-fun p_asnameopt : parser (s0tringopt) // COLON s0rt
+fun p_asnameopt
+  : parser (s0tringopt) // COLON s0rt
+// end of [p_asnameopt]
 
 implement
 p_asnameopt
