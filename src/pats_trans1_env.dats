@@ -350,7 +350,7 @@ staload_file_insert
     $FIL.filename_get_full (fil)
   // end of [val]
   val k0 = $SYM.symbol_get_stamp (full)
-  val x0 = (flag, d1cs)
+  var x0 = (flag, d1cs)
   val (vbox pf | p) = ref_get_view_ptr {map} (theStaloadMap)
   var res: itm?
   val _(*existed*) = $LM.linmap_insert<key,itm> (!p, k0, x0, cmp0, res)
