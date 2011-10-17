@@ -2,18 +2,16 @@
 (*                                                                     *)
 (*                         Applied Type System                         *)
 (*                                                                     *)
-(*                              Hongwei Xi                             *)
-(*                                                                     *)
 (***********************************************************************)
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, Boston University
+** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
-** the terms of  the GNU GENERAL PUBLIC LICENSE (GPL) as published by the
-** Free Software Foundation; either version 3, or (at  your  option)  any
+** the terms of the GNU LESSER GENERAL PUBLIC LICENSE as published by the
+** Free Software Foundation; either version 2.1, or (at your option)  any
 ** later version.
 ** 
 ** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
@@ -34,36 +32,9 @@
 //
 (* ****** ****** *)
 
-datasort file_mode =
-  | file_mode_r (* read *)
-  | file_mode_w (* write *)
-  | file_mode_rw (* read and write *)
-// end of [file_mode]
-//
-stadef r = file_mode_r ()
-stadef w = file_mode_w ()
-stadef rw = file_mode_rw ()
-
-(* ****** ****** *)
-
-abstype
-file_mode (file_mode) = string
-
-dataprop file_mode_lte
-  (file_mode, file_mode) =
-  | {m:file_mode} file_mode_lte_refl (m, m)
-  | {m1,m2,m3:file_mode}
-      file_mode_lte_tran (m1, m3) of
-        (file_mode_lte (m1, m2), file_mode_lte (m2, m3))
-  | {m:file_mode} file_mode_lte_rw_r (rw, r) of ()
-  | {m:file_mode} file_mode_lte_rw_w (rw, w) of ()
-// end of [file_mode_lte]
-
-prval file_mode_lte_r_r: file_mode_lte (r, r) // implemented in [file.dats]
-prval file_mode_lte_w_w: file_mode_lte (w, w) // implemented in [file.dats]
-prval file_mode_lte_rw_rw: file_mode_lte (rw, rw) // implemented in [file.dats]
-
-stadef <= = file_mode_lte
+%{#
+#include "prelude/CATS/stdio.cats"
+%} // end of [%{#]
 
 (* ****** ****** *)
 //
@@ -88,12 +59,16 @@ abstype FILEref = ptr
 
 castfn
 FILEptr_encode
-  {m:fm} {l:addr} (pf: FILE_v (m, l) | p: ptr l): FILEptr (m, l)
+  {m:fm} {l:addr} (
+  pf: FILE_v (m, l) | p: ptr l
+) : FILEptr (m, l)
 overload encode with FILEptr_encode
 
 castfn
 FILEptr_decode
-  {m:fm} {l:agz} (p: FILEptr (m, l)):<> (FILE_v (m, l) | ptr l)
+  {m:fm} {l:agz} (
+  p: FILEptr (m, l)
+) : (FILE_v (m, l) | ptr l)
 overload decode with FILEptr_decode
 
 (* ****** ****** *)

@@ -27,25 +27,23 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: September, 2011
+// Author of the file: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Start Time: October, 2011
+//
+(* ****** ****** *)
+//
+// HX-2011-10-16:
+// file_mode_lte_*_*
+// are declared in $ATSHOME/prelude/basic_dyn.ats
+//
+stadef r = r()
+stadef w = w()
+stadef rw = rw()
+//
+implement file_mode_lte_r_r = file_mode_lte_refl {r} ()
+implement file_mode_lte_w_w = file_mode_lte_refl {w} ()
+implement file_mode_lte_rw_rw = file_mode_lte_refl {rw} ()
 //
 (* ****** ****** *)
 
-#include "prelude/params.hats"
-
-(* ****** ****** *)
-
-#if VERBOSE_PRELUDE #then
-#print "Loading [string.sats] starts!\n"
-#endif // end of [VERBOSE_PRELUDE]
-
-(* ****** ****** *)
-
-#if VERBOSE_PRELUDE #then
-#print "Loading [string.sats] finishes!\n"
-#endif // end of [VERBOSE_PRELUDE]
-
-(* ****** ****** *)
-
-(* end of [string.sats] *)
+(* end of [filebas_prf.dats] *)
