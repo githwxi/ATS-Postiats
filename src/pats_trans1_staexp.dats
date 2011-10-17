@@ -38,6 +38,11 @@ overload + with $LOC.location_combine
 
 staload SYM = "pats_symbol.sats"
 //
+(*
+fun f (x: &int): void // read-only
+fun f (x: &?int): void // write-only
+fun f (x: &?!int): void // allowing both read and write
+*)
 macdef AMPERSAND = $SYM.symbol_AMPERSAND // & (r)
 macdef AMPERQMARK = $SYM.symbol_AMPERQMARK // &? (w)
 macdef AMPERQMARKBANG = $SYM.symbol_AMPERQMARKBANG // &?! (rw)

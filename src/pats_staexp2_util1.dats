@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
@@ -272,33 +276,52 @@ end // end of [s2cst_select_locs2explstlst]
 
 local
 
-#define :: list_cons
-assume stasub_type = List @(s2var, s2exp)
+#define :: list_vt_cons
+assume stasub_viewtype = List_vt @(s2var, s2exp)
 
 in // in of [local]
 
 implement
-stasub_make_nil () = list_nil ()
+stasub_make_nil () = list_vt_nil ()
 
 implement
-stasub_add (sub, s2v, s2e) = (s2v, s2e) :: sub
+stasub_copy (sub) = list_vt_copy (sub)
+
+implement
+stasub_free (sub) = list_vt_free (sub)
+
+implement
+stasub_add
+  (sub, s2v, s2e) = sub := (s2v, s2e) :: sub
+// end of [stasub_add]
+
+implement
+stasub_find (sub, s2v) = let
+  typedef a = s2var and b = s2exp; typedef ab = (a, b)
+in
+  list_assoc_fun<a,b>
+    ($UN.castvwtp1 {List(ab)} (sub), eq_s2var_s2var, s2v)
+  // end of [list_assoc_fun]
+end // end of [stasub_find]
 
 implement
 stasub_get_domain (sub) = let
   typedef a = (s2var, s2exp) and b = s2var
 in
-  list_map_fun<a><b> (sub, lam (x) =<0> x.0)
+  list_map_fun<a><b> ($UN.castvwtp1 {List(a)} (sub), lam (x) =<0> x.0)
 end // end of [stasub_get_domain]
+
+end // end of [local]
 
 (* ****** ****** *)
 
 extern
 fun s2exp_subst_flag
-  (sub: stasub, s2e: s2exp, flag: &int): s2exp
+  (sub: !stasub, s2e: s2exp, flag: &int): s2exp
 // end of [s2exp_subst_flag]
 extern
 fun s2explst_subst_flag
-  (sub: stasub, s2es: s2explst, flag: &int): s2explst
+  (sub: !stasub, s2es: s2explst, flag: &int): s2explst
 // end of [s2explst_subst_flag]
 
 implement
@@ -313,12 +336,10 @@ s2explst_subst_flag
       val s2e = s2exp_subst_flag (sub, s2e, flag)
       val s2es = s2explst_subst_flag (sub, s2es, flag)
     in
-      if flag > flag0 then s2e :: s2es else s2es0
+      if flag > flag0 then list_cons (s2e, s2es) else s2es0
     end (* end of [::] *)
   | list_nil () => list_nil ()
 // end of [s2explst_subst_flag]
-
-end // end of [local]
 
 (* ****** ****** *)
 

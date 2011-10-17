@@ -175,11 +175,11 @@ fun s1exparglst_tr (s1as: s1exparglst): s2exparglst
 (* ****** ****** *)
 
 fun stasub_extend_svarlst
-  (sub: stasub, s2vs: s2varlst): @(stasub, s2varlst)
+  (sub: &stasub, s2vs: s2varlst): s2varlst
 
 fun stasub_extend_sarglst_svarlst_err (
-  sub: stasub, s1as: s1arglst, s2vs: s2varlst, err: &int
-) : @(stasub, s2varlst) // end of [fun]
+  sub: &stasub, s1as: s1arglst, s2vs: s2varlst, err: &int
+) : s2varlst // end of [fun]
 
 (* ****** ****** *)
 

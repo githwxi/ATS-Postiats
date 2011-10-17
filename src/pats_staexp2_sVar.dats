@@ -63,6 +63,11 @@ assume s2Var_type = ref (s2Var_struct)
 in // in of [local]
 
 implement
+s2Var_get_sym (s2V) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_sym
+end // end of [s2Var_get_sym]
+
+implement
 s2Var_get_srt (s2v) = let
   val (vbox pf | p) = ref_get_view_ptr (s2v) in p->s2Var_srt
 end // end of [s2Var_get_srt]
@@ -90,6 +95,20 @@ implement
 compare_s2Var_s2Var (x1, x2) =
   compare (s2Var_get_stamp (x1), s2Var_get_stamp (x2))
 // end of [compare_s2Var_s2Var]
+
+(* ****** ****** *)
+
+implement
+fprint_s2Var (out, s2V) = let
+  val () = $SYM.fprint_symbol (out, s2Var_get_sym s2V)
+// (*
+  val () = fprint_string (out, "(")
+  val () = $STP.fprint_stamp (out, s2Var_get_stamp s2V)
+  val () = fprint_string (out, ")")
+// *)
+in
+  // empty
+end // end of [fprint_s2Var]
 
 (* ****** ****** *)
 

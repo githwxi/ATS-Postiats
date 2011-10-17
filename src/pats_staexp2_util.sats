@@ -67,24 +67,34 @@ fun s2cst_select_locs2explstlst
 
 (* ****** ****** *)
 
-abstype
-stasub_type // for static substitution
-typedef stasub = stasub_type
+absviewtype
+stasub_viewtype // for static substitution
+viewtypedef stasub = stasub_viewtype
 
 fun stasub_make_nil () : stasub
+fun stasub_copy (sub: !stasub): stasub
+fun stasub_free (sub: stasub): void
 
 fun stasub_add
-  (sub: stasub, s2v: s2var, s2e: s2exp): stasub
+  (sub: &stasub, s2v: s2var, s2e: s2exp): void
 fun stasub_addlst
-  (sub: stasub, s2vs: s2varlst, s2es: s2explst): stasub
+  (sub: &stasub, s2vs: s2varlst, s2es: s2explst): void
 
-fun stasub_get_domain (sub: stasub): List_vt (s2var)
+fun stasub_find
+  (sub: !stasub, s2v: s2var): Option_vt (s2exp)
+// end of [stasub_find]
 
-fun s2exp_subst (sub: stasub, s2e: s2exp): s2exp
-fun s2explst_subst (sub: stasub, s2es: s2explst): s2explst
-fun s2expopt_subst (sub: stasub, os2e: s2expopt): s2expopt
+fun stasub_get_domain (sub: !stasub): List_vt (s2var)
 
-fun s2explstlst_subst (sub: stasub, s2ess: s2explstlst): s2explstlst
+(* ****** ****** *)
+
+fun s2exp_subst (sub: !stasub, s2e: s2exp): s2exp
+fun s2explst_subst (sub: !stasub, s2es: s2explst): s2explst
+fun s2expopt_subst (sub: !stasub, os2e: s2expopt): s2expopt
+
+fun s2explstlst_subst
+  (sub: !stasub, s2ess: s2explstlst): s2explstlst
+// end of [s2explstlst_subst]
 
 (* ****** ****** *)
 

@@ -171,6 +171,16 @@ lte_s2var_s2var
 // end of [lte_s2var_s2var]
 
 implement
+eq_s2var_s2var
+  (x1, x2) = (compare (x1, x2) = 0)
+// end of [eq_s2var_s2var]
+
+implement
+neq_s2var_s2var
+  (x1, x2) = (compare (x1, x2) != 0)
+// end of [neq_s2var_s2var]
+
+implement
 compare_s2var_s2var (x1, x2) =
   $effmask_all (compare (s2var_get_stamp (x1), s2var_get_stamp (x2)))
 // end of [compare_s2var_s2var]

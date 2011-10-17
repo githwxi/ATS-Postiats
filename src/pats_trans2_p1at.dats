@@ -134,14 +134,14 @@ fun p1atconarg_is_omit
 fun
 p1at_tr_con_sapp1 (
   p1t1: p1at
-, d2c: d2con, sub: stasub,
+, d2c: d2con, sub: &stasub,
   s2qs: s2qualst, out: &List_vt(s2qua)
 ) : s2exp = let
 in
 //
 case+ s2qs of
 | list_cons (s2q, s2qs) => let
-    val (sub, s2vs) =
+    val s2vs =
       stasub_extend_svarlst (sub, s2q.s2qua_svs)
     // end of [val]
     val s2ps = s2explst_subst (sub, s2q.s2qua_sps)
@@ -175,7 +175,7 @@ end // end of [p1at_tr_con_sapp1]
 fun
 p1at_tr_con_sapp2 (
   p1t1: p1at
-, d2c: d2con, sub: stasub, s2qs: s2qualst, s1as: s1vararglst
+, d2c: d2con, sub: &stasub, s2qs: s2qualst, s1as: s1vararglst
 , out: &s2qualst_vt
 ) : s2exp = let
 //
@@ -211,7 +211,7 @@ case+ s1as of
   | S1VARARGone () => begin
     case+ s2qs of
     | list_cons (s2q, s2qs) => let
-        val (sub, s2vs) =
+        val s2vs =
           stasub_extend_svarlst (sub, s2q.s2qua_svs)
         // end of [val]
         val s2ps = s2explst_subst (sub, s2q.s2qua_sps)
@@ -230,9 +230,7 @@ case+ s1as of
     | list_cons (s2q, s2qs) => let
 //
         var err: int = 0
-        val (sub, s2vs) =
-          stasub_extend_sarglst_svarlst_err (sub, arg, s2q.s2qua_svs, err)
-        // end of [val]
+        val s2vs = stasub_extend_sarglst_svarlst_err (sub, arg, s2q.s2qua_svs, err)
         val () = if err != 0 then let
           val () = auxerr2 (p1t1, d2c, loc, err) in the_trans2errlst_add (T2E_p1at_tr (p1t1))
         end // end of [val]
@@ -266,10 +264,11 @@ fun p1at_tr_con (
 //
   val- list_cons (d2c, _) = d2cs // HX: [d2cs] cannot be nil
 //
-  val sub = stasub_make_nil ()
+  var sub = stasub_make_nil ()
   val s2qs = d2con_get_qua (d2c)
   var out: List_vt (s2qua) = list_vt_nil ()
   val s2e = p1at_tr_con_sapp2 (p1t1, d2c, sub, s2qs, sarg, out)
+  val () = stasub_free (sub)
   val out = (l2l)out
 //
   val darg = (

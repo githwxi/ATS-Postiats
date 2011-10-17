@@ -119,8 +119,10 @@ end // end of [fprint_s2rt]
 implement print_s2rt (x) = fprint_s2rt (stdout_ref, x)
 implement prerr_s2rt (x) = fprint_s2rt (stderr_ref, x)
 
-implement fprint_s2rtlst (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_s2rt)
-
+implement
+fprint_s2rtlst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_s2rt)
+// end of [fprint_s2rtlst]
 implement print_s2rtlst (xs) = fprint_s2rtlst (stdout_ref, xs)
 implement prerr_s2rtlst (xs) = fprint_s2rtlst (stderr_ref, xs)
 
@@ -176,6 +178,43 @@ fprint_s2exp (out, x) = let
 in
 //
 case+ x.s2exp_node of
+//
+| S2Eint (x) => {
+    val () = prstr "S2Eint("
+    val () = fprint_int (out, x)
+    val () = prstr ")"
+  }
+| S2Echar (x) => {
+    val () = prstr "S2Echar("
+    val () = fprint_char (out, x)
+    val () = prstr ")"
+  }
+//
+| S2Eextype (name, s2ess) => {
+    val () = prstr "S2Eextype("
+    val () = fprint_string (out, name)
+    val () = (
+      case+ s2ess of
+      | list_nil () => ()
+      | list_cons _ => let
+          val () = prstr ("; ") in
+          $UT.fprintlst (out, s2ess, "; ", fprint_s2explst)
+        end // end of [list_cons]
+    ) // end of [val]
+    val () = prstr ")"
+  } // end of [S2Eextype]
+//
+| S2Evar (x) => {
+    val () = prstr "S2Evar("
+    val () = fprint_s2var (out, x)
+    val () = prstr ")"
+  } // end of [S2Evar]
+| S2EVar (X) => {
+    val () = prstr "S2EVar("
+    val () = fprint_s2Var (out, X)
+    val () = prstr ")"
+  } // end of [S2EVar]
+//
 | S2Efun _ => {
     val () = prstr "S2Efun("
     val () = prstr "..."

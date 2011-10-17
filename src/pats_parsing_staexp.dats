@@ -300,8 +300,14 @@ p_asnameopt
 // end of [p_colons0rtopt]
 
 (*
+//
 // HX-2011-10-15:
 // labs0exp ::= l0ab [AS string] EQ s0exp
+//
+typedef foo =
+$extype_struct "foo_struct" of {
+  in_ as "in" = int // the C-name of the field is "in"
+} // end of [foo]
 *)
 implement
 p_labs0exp (

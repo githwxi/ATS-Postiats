@@ -204,6 +204,7 @@ case+ s2e0.s2exp_node of
       val (pf_s2expenv | ()) = the_s2expenv_push_nil ()
       val () = the_s2expenv_add_svarlst (s2vs)
       val s2ps = s2explst_subst (sub, s2ps) and s2e = s2exp_subst (sub, s2e)
+      val () = stasub_free (sub)
       val body = d1exp_tr_ann (body, s2e)
       val () = the_s2expenv_pop_free (pf_s2expenv | (*none*))
     in

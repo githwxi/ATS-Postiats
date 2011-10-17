@@ -448,6 +448,11 @@ overload < with lt_s2var_s2var
 fun lte_s2var_s2var (x1: s2var, x2: s2var):<> bool
 overload <= with lte_s2var_s2var
 
+fun eq_s2var_s2var (x1: s2var, x2: s2var):<> bool
+overload = with eq_s2var_s2var
+fun neq_s2var_s2var (x1: s2var, x2: s2var):<> bool
+overload != with neq_s2var_s2var
+
 fun compare_s2var_s2var (x1: s2var, x2: s2var):<> Sgn
 overload compare with compare_s2var_s2var
 
@@ -477,6 +482,7 @@ fun s2Var_make_var (loc: location, s2v: s2var): s2Var
 
 (* ****** ****** *)
 
+fun s2Var_get_sym (s2V: s2Var): symbol
 fun s2Var_get_srt (s2V: s2Var): s2rt
 fun s2Var_get_stamp (s2V: s2Var): stamp
 
