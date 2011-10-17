@@ -179,8 +179,6 @@ dynload "pats_comarg.dats"
 //
 (* ****** ****** *)
 //
-#define PATSHOME "/home/fac2/hwxi/research/ATS/IMPLEMENT/Postiats/git"
-//
 #define PATS_MAJOR_VERSION 1
 #define PATS_MINOR_VERSION 0
 #define PATS_MICRO_VERSION 0
@@ -395,6 +393,14 @@ fun prelude_load (
   ATSHOME: string
 ) : void = {
   val () = fixity_load (ATSHOME)
+//
+  val PATSHOME = let
+    val opt = get () where {
+      extern fun get (): Stropt = "atsopt_PATSHOME_get"
+    } // end of [val]
+  in
+    if stropt_is_some (opt) then stropt_unsome (opt) else ""
+  end : string // end of [val]
 //
   val () = pervasive_load (PATSHOME, "prelude/basics_pre.sats")
   val () = pervasive_load (PATSHOME, "prelude/basics_sta.sats")
@@ -690,6 +696,10 @@ val () = set () where { extern
   fun set (): void = "mac#atsopt_ATSHOMERELOC_set"
 } // end of [where] // end of [val]
 //
+val () = set () where { extern
+  fun set (): void = "mac#atsopt_PATSHOME_set"
+} // end of [where] // end of [val]
+//
 val ATSHOME = let
   val opt = get () where {
     extern fun get (): Stropt = "atsopt_ATSHOME_get"
@@ -737,6 +747,7 @@ val () = process_cmdline (ATSHOME, state, arglst)
 //
 static char *atsopt_ATSHOME = (char*)0 ;
 static char *atsopt_ATSHOMERELOC = (char*)0 ;
+static char *atsopt_PATSHOME = (char*)0 ;
 extern char *getenv (const char *name) ; // [stdlib.h]
 //
 ats_ptr_type
@@ -758,6 +769,16 @@ ats_void_type
 atsopt_ATSHOMERELOC_set () {
   atsopt_ATSHOMERELOC = getenv ("ATSHOMERELOC") ; return ;
 } // end of [atsopt_ATSHOMERELOC_set]
+//
+ats_ptr_type
+atsopt_PATSHOME_get () {
+  return atsopt_PATSHOME ; // optional string
+} // end of [atsopt_PATSHOME_get]
+ATSinline()
+ats_void_type
+atsopt_PATSHOME_set () {
+  atsopt_PATSHOME = getenv ("PATSHOME") ; return ;
+} // end of [atsopt_PATSHOME_set]
 //
 %} // end of [%{^]
 

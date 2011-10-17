@@ -1052,7 +1052,7 @@ d1expopt_tr
 
 implement
 labd1exp_tr (ld1e) = let
-  val+ $SYN.L0ABELED (l, d1e) = ld1e in labd2exp_make (l, d1exp_tr (d1e))
+  val+ $SYN.DL0ABELED (l, d1e) = ld1e in labd2exp_make (l, d1exp_tr (d1e))
 end // end of [labd0exp_tr]
 
 (* ****** ****** *)

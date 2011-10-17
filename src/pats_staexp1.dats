@@ -457,7 +457,10 @@ s1exp_err (loc) = '{
 
 (* ****** ****** *)
 
-implement labs1exp_make (l, s1e) = L0ABELED (l, s1e)
+implement
+labs1exp_make
+  (l, name, s1e) = SL0ABELED (l, name, s1e)
+// end of [labs1exp_make]
 
 (* ****** ****** *)
 

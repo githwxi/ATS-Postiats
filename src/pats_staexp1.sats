@@ -448,7 +448,7 @@ and s1expopt = Option (s1exp)
 and s1explstlst = List (s1explst)
 and s1explstopt = Option (s1explst)
 
-and labs1exp = l0abeled (s1exp)
+and labs1exp = sl0abeled (s1exp)
 and labs1explst = List labs1exp
 
 and s1rtext = '{
@@ -530,7 +530,9 @@ fun fprint_s1expopt : fprint_type (s1expopt)
 
 (* ****** ****** *)
 
-fun labs1exp_make (l: l0ab, s1e: s1exp): labs1exp
+fun labs1exp_make
+  (l: l0ab, name: s0tringopt, s1e: s1exp): labs1exp
+// end of [labs1exp_make]
 
 fun fprint_labs1exp : fprint_type (labs1exp)
 fun fprint_labs1explst : fprint_type (labs1explst)

@@ -124,6 +124,7 @@ typedef i0nt = token
 typedef c0har = token
 typedef f0loat = token
 typedef s0tring = token
+typedef s0tringopt = Option (s0tring)
 
 fun int_of_i0nt (x: i0nt): int
 
@@ -384,7 +385,14 @@ fun fprint_l0ab : fprint_type (l0ab)
 
 (* ****** ****** *)
 
-datatype l0abeled (a: type) = L0ABELED (a) of (l0ab, a)
+datatype
+sl0abeled (a:type) =
+  SL0ABELED (a) of (l0ab, s0tringopt, a)
+// end of [sl0abeled]
+
+datatype
+dl0abeled (a:type) = DL0ABELED (a) of (l0ab, a)
+// end of [dl0abeled]
 
 (* ****** ****** *)
 
@@ -588,7 +596,7 @@ and s0expopt_vt = Option_vt (s0exp)
 and s0explstlst = List (s0explst)
 and s0explstopt = Option (s0explst)
 
-and labs0exp = l0abeled (s0exp)
+and labs0exp = sl0abeled (s0exp)
 and labs0explst = List labs0exp
 
 and s0arrdim = '{
@@ -689,7 +697,9 @@ fun fprint_s0expopt : fprint_type (s0expopt)
 
 (* ****** ****** *)
 
-fun labs0exp_make (ent1: l0ab, ent2: s0exp): labs0exp
+fun labs0exp_make
+  (lab: l0ab, name: s0tringopt, s0e: s0exp): labs0exp
+// end of [labs0exp_make]
 
 fun fprint_labs0exp : fprint_type (labs0exp)
 
@@ -1312,7 +1322,7 @@ and d0explstlst : type = List (d0explst)
 and d0expopt : type = Option (d0exp)
 and d0expopt_vt : viewtype = Option_vt (d0exp)
 
-and labd0exp = l0abeled (d0exp)
+and labd0exp = dl0abeled (d0exp)
 and labd0explst = List labd0exp
 
 (* ****** ****** *)

@@ -423,7 +423,9 @@ s0expopt_tr (opt) = case+ opt of
 
 implement
 labs0exp_tr (x) = let
-  val+ L0ABELED (l, s0e) = x in labs1exp_make (l, s0exp_tr (s0e))
+  val+ SL0ABELED (l, name, s0e) = x
+in
+  labs1exp_make (l, name, s0exp_tr (s0e))
 end // end of [labs0exp_tr]
 
 (* ****** ****** *)

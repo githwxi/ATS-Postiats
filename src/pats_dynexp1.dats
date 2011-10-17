@@ -643,7 +643,7 @@ d1exp_err (loc) = d1exp_make (loc, D1Eerr ())
 
 (* ****** ****** *)
 
-implement labd1exp_make (l, d1e) = L0ABELED (l, d1e)
+implement labd1exp_make (l, d1e) = DL0ABELED (l, d1e)
 
 (* ****** ****** *)
 

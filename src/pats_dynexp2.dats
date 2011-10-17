@@ -584,7 +584,7 @@ d2exp_err (loc) = d2exp_make (loc, D2Eerr ())
 (* ****** ****** *)
 
 implement
-labd2exp_make (l, d2e) = $SYN.L0ABELED (l, d2e)
+labd2exp_make (l, d2e) = $SYN.DL0ABELED (l, d2e)
 
 (* ****** ****** *)
 

@@ -39,6 +39,7 @@ staload _(*anon*) = "pats_utils.dats"
 
 staload SYM = "pats_symbol.sats"
 macdef fprint_symbol = $SYM.fprint_symbol
+staload SYN = "pats_syntax.sats"
 
 (* ****** ****** *)
 
@@ -209,9 +210,10 @@ implement prerr_s2explst (xs) = fprint_s2explst (stderr_ref, xs)
 
 implement
 fprint_labs2exp (out, x) = {
-  val () = $LAB.fprint_label (out, x.0)
+  val SLABELED (l, name, s2e) = x
+  val () = $LAB.fprint_label (out, l)
   val () = fprint_string (out, "=")
-  val () = fprint_s2exp (out, x.1)
+  val () = fprint_s2exp (out, s2e)
 } // end of [fprint_labs2exp]
 
 implement
