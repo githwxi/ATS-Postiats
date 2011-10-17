@@ -32,6 +32,20 @@
 //
 (* ****** ****** *)
 
+#include "prelude/params.hats"
+
+(* ****** ****** *)
+
+#if VERBOSE_PRELUDE #then
+#print "Loading [char.sats] starts!\n"
+#endif // end of [VERBOSE_PRELUDE]
+
+(* ****** ****** *)
+
+#if VERBOSE_PRELUDE #then
+#print "Loading [char.sats] finishes!\n"
+#endif // end of [VERBOSE_PRELUDE]
+
 (* ****** ****** *)
 
 (* end of [char.sats] *)

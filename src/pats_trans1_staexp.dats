@@ -37,15 +37,20 @@ staload LOC = "pats_location.sats"
 overload + with $LOC.location_combine
 
 staload SYM = "pats_symbol.sats"
-macdef AMPERSAND = $SYM.symbol_AMPERSAND
+//
+macdef AMPERSAND = $SYM.symbol_AMPERSAND // & (r)
+macdef AMPERQMARK = $SYM.symbol_AMPERQMARK // &? (w)
+macdef AMPERQMARKBANG = $SYM.symbol_AMPERQMARKBANG // &?! (rw)
+//
 macdef BACKSLASH = $SYM.symbol_BACKSLASH
 macdef BANG = $SYM.symbol_BANG
 macdef QMARK = $SYM.symbol_QMARK
 macdef QMARKBANG = $SYM.symbol_QMARKBANG
 macdef GTGT = $SYM.symbol_GTGT
 macdef MINUSGT = $SYM.symbol_MINUSGT
+//
 overload = with $SYM.eq_symbol_symbol
-
+//
 (* ****** ****** *)
 
 staload "pats_basics.sats"
@@ -231,11 +236,34 @@ aux_item (
       ) :<cloref1> s1expitm = let
         val loc = loc0 + s1e.s1exp_loc
       in
-        FXITMatm (s1exp_invar (loc, 1(*ref*), s1e))
+        FXITMatm (s1exp_invar (loc, 1(*ref:r*), s1e))
       end // end of [f]
     in
       FXITMopr (loc0, FXOPRpre (invar_prec_sta, f))
     end // end of [S0Eide when ...]
+  | S0Eide id when id = AMPERQMARK => let
+      fn f (
+        s1e: s1exp
+      ) :<cloref1> s1expitm = let
+        val loc = loc0 + s1e.s1exp_loc
+      in
+        FXITMatm (s1exp_invar (loc, 2(*ref:w*), s1e))
+      end // end of [f]
+    in
+      FXITMopr (loc0, FXOPRpre (invar_prec_sta, f))
+    end // end of [S0Eide when ...]
+  | S0Eide id when id = AMPERQMARKBANG => let
+      fn f (
+        s1e: s1exp
+      ) :<cloref1> s1expitm = let
+        val loc = loc0 + s1e.s1exp_loc
+      in
+        FXITMatm (s1exp_invar (loc, 3(*ref:rw*), s1e))
+      end // end of [f]
+    in
+      FXITMopr (loc0, FXOPRpre (invar_prec_sta, f))
+    end // end of [S0Eide when ...]
+ //
   | S0Eide id when id = BACKSLASH => s1expitm_backslash (loc0)
   | S0Eide id when id = BANG => let
       fn f (
@@ -248,6 +276,18 @@ aux_item (
     in
       FXITMopr (loc0, FXOPRpre (invar_prec_sta, f))
     end // end of [S0Eide when ...]
+//
+  | S0Eide id when id = QMARK => let
+      fn f (
+        s1e: s1exp
+      ) :<cloref1> s1expitm = let
+        val loc = s1e.s1exp_loc + loc0
+      in
+        FXITMatm (s1exp_top (loc0, 0(*knd*), s1e))
+      end // end of [f]
+    in
+      FXITMopr (loc0, FXOPRpos (qmark_prec_sta, f))
+    end // end of [S0Eide when ...]
   | S0Eide id when id = QMARKBANG => let
       fn f (
         s1e: s1exp
@@ -259,6 +299,7 @@ aux_item (
     in
       FXITMopr (loc0, FXOPRpos (qmarkbang_prec_sta, f))
     end // end of [S0Eide when ...]
+//
   | S0Eide id when id = GTGT => let
       fn f (
         s1e1: s1exp, s1e2: s1exp

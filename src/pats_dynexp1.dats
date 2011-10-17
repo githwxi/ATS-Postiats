@@ -228,7 +228,7 @@ fun aux (
 in
   case+ e0.e1xp_node of
   | E1XPide id => p1at_ide (loc0, id)
-  | E1XPint (rep) => p1at_int (loc0, rep)
+  | E1XPint (_, rep) => p1at_int (loc0, rep)
   | E1XPchar (c) => p1at_char (loc0, c: char)
   | E1XPstring (str) => p1at_string (loc0, str)
   | E1XPfloat (rep) => p1at_float (loc0, rep)
@@ -268,7 +268,9 @@ fun aux (
 ) :<cloptr1> e1xp =
   case+ p1t0.p1at_node of
   | P1Tide (id) => e1xp_ide (loc0, id)
-  | P1Tint (rep) => e1xp_int (loc0, rep)
+  | P1Tint (rep) =>
+      e1xp_int (loc0, 0(*ignored*), rep)
+    // end of [P1Tint]
   | P1Tchar (char) => e1xp_char (loc0, char)
   | P1Tapp_dyn (p1t_fun, _(*loc*), npf, p1ts_arg) => let
       val e_fun = aux (p1t_fun); val es_arg = auxlst (p1ts_arg)
@@ -673,7 +675,7 @@ fun aux (
 in
   case+ e0.e1xp_node of
   | E1XPide id => d1exp_ide (loc0, id)
-  | E1XPint (rep) => d1exp_int (loc0, rep)
+  | E1XPint (_, rep) => d1exp_int (loc0, rep)
   | E1XPchar (c) => d1exp_char (loc0, c: char)
   | E1XPstring (str) => d1exp_string (loc0, str)
   | E1XPfloat (rep) => d1exp_float (loc0, rep)
@@ -712,7 +714,9 @@ fun aux (
   case+ d1e0.d1exp_node of
   | D1Eide (id) => e1xp_ide (loc0, id)
 //
-  | D1Eint (rep) => e1xp_int (loc0, rep)
+  | D1Eint (rep) =>
+      e1xp_int (loc0, 0(*ignore*), rep)
+    // end of [D1Eint]
   | D1Echar (c) => e1xp_char (loc0, c: char)
   | D1Estring (str) => e1xp_string (loc0, str)
   | D1Efloat (rep) => e1xp_float (loc0, rep)

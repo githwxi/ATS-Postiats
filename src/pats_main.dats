@@ -394,16 +394,11 @@ fun prelude_load (
 ) : void = {
   val () = fixity_load (ATSHOME)
 //
-  val PATSHOME = let
-    val opt = get () where {
-      extern fun get (): Stropt = "atsopt_PATSHOME_get"
-    } // end of [val]
-  in
-    if stropt_is_some (opt) then stropt_unsome (opt) else ""
-  end : string // end of [val]
+  val () = pervasive_load (ATSHOME, "prelude/basics_pre.sats")
+  val () = pervasive_load (ATSHOME, "prelude/basics_sta.sats")
+  val () = pervasive_load (ATSHOME, "prelude/basics_dyn.sats")
 //
-  val () = pervasive_load (PATSHOME, "prelude/basics_pre.sats")
-  val () = pervasive_load (PATSHOME, "prelude/basics_sta.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/arith.sats")
 //
 } // end of [prelude_load]
 
@@ -700,6 +695,7 @@ val () = set () where { extern
   fun set (): void = "mac#atsopt_PATSHOME_set"
 } // end of [where] // end of [val]
 //
+(*
 val ATSHOME = let
   val opt = get () where {
     extern fun get (): Stropt = "atsopt_ATSHOME_get"
@@ -708,6 +704,21 @@ in
   if stropt_is_some (opt)
     then stropt_unsome (opt) else let
     val () = prerr ("The environment variable ATSHOME is undefined")
+    val () = prerr_newline ()
+  in
+    $ERR.abort ()
+  end // end of [if]
+end : string // end of [ATSHOME]
+*)
+//
+val ATSHOME = let
+  val opt = get () where {
+    extern fun get (): Stropt = "atsopt_PATSHOME_get"
+  } // end of [val]
+in
+  if stropt_is_some (opt)
+    then stropt_unsome (opt) else let
+    val () = prerr ("The environment variable PATSHOME is undefined")
     val () = prerr_newline ()
   in
     $ERR.abort ()

@@ -109,7 +109,7 @@ case+ s1t_fun.s1rt_node of
   ) // end of [s1rt_is_arrow]
 | _ => s2rt_err () where {
     val () = prerr_error2_loc (s1t0.s1rt_loc)
-    val () = filprerr_ifdebug (": s1rt_tr_app")
+    val () = filprerr_ifdebug ("s1rt_tr_app")
     val () = prerr ": sort application is not supported."
     val () = prerr_newline ()
     val () = the_trans2errlst_add (T2E_s1rt_tr (s1t0))
@@ -132,7 +132,7 @@ case+ ans of
   | S2TEsrt (s2t) => s2t
   | _ => let
       val () = prerr_error2_loc (loc0)
-      val () = filprerr_ifdebug (": s1rt_tr_qid")
+      val () = filprerr_ifdebug ("s1rt_tr_qid")
       val () = prerr ": the identifier ["
       val () = $SYM.prerr_symbol (id)
       val () = prerr "] is expected to refer to a sort (instead of a subset sort)." 
@@ -144,7 +144,7 @@ case+ ans of
   ) // end of [Some_vt]
 | ~None_vt () => let
     val () = prerr_error2_loc (loc0)
-    val () = filprerr_ifdebug (": s1rt_tr_qid")
+    val () = filprerr_ifdebug ("s1rt_tr_qid")
     val () = prerr ": the identifier ["
     val () = $SYM.prerr_symbol (id)
     val () = prerr "] does not refer to any recognized sort."

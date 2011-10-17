@@ -33,6 +33,39 @@
 // Start Time: April, 2011
 //
 (* ****** ****** *)
+
+datasort file_mode =
+  | file_mode_r (* read *)
+  | file_mode_w (* write *)
+  | file_mode_rw (* read and write *)
+// end of [file_mode]
+//
+stadef r = file_mode_r ()
+stadef w = file_mode_w ()
+stadef rw = file_mode_rw ()
+
+(* ****** ****** *)
+
+abstype
+file_mode (file_mode) = string
+
+dataprop file_mode_lte
+  (file_mode, file_mode) =
+  | {m:file_mode} file_mode_lte_refl (m, m)
+  | {m1,m2,m3:file_mode}
+      file_mode_lte_tran (m1, m3) of
+        (file_mode_lte (m1, m2), file_mode_lte (m2, m3))
+  | {m:file_mode} file_mode_lte_rw_r (rw, r) of ()
+  | {m:file_mode} file_mode_lte_rw_w (rw, w) of ()
+// end of [file_mode_lte]
+
+prval file_mode_lte_r_r: file_mode_lte (r, r) // implemented in [file.dats]
+prval file_mode_lte_w_w: file_mode_lte (w, w) // implemented in [file.dats]
+prval file_mode_lte_rw_rw: file_mode_lte (rw, rw) // implemented in [file.dats]
+
+stadef <= = file_mode_lte
+
+(* ****** ****** *)
 //
 // HX-2011-04-02:
 //
@@ -49,6 +82,10 @@ viewtypedef FILEptr1 (m:fm) = [l:addr | l > null] FILEptr (m, l)
 
 (* ****** ****** *)
 
+abstype FILEref = ptr
+
+(* ****** ****** *)
+
 castfn
 FILEptr_encode
   {m:fm} {l:addr} (pf: FILE_v (m, l) | p: ptr l): FILEptr (m, l)
@@ -62,16 +99,18 @@ overload decode with FILEptr_decode
 (* ****** ****** *)
 
 fun FILEptr_free_null {m:fm}
-  (p: FILEptr (m, null)): void = "atspre_ptr_free_null"
+  (p: FILEptr (m, null)): void = "mac#atspre_ptr_free_null"
 // end of [FILEptr_free_null]
 
 (* ****** ****** *)
 
+(*
 staload TYPES = "libc/sys/SATS/types.sats"
 typedef whence_t = $TYPES.whence_t
 macdef SEEK_SET = $TYPES.SEEK_SET
 macdef SEEK_CUR = $TYPES.SEEK_CUR
 macdef SEEK_END = $TYPES.SEEK_END
+*)
 
 (* ****** ****** *)
 
@@ -84,28 +123,27 @@ the stream pointed to by stream.
 //
 *)
 symintr clearerr
-fun clearerr0 (filr: FILEref):<> void = "atslib_clearerr"
+fun clearerr0
+  (filr: FILEref):<> void = "mac#atslib_clearerr"
 overload clearerr with clearerr0
-fun clearerr1 {m:fm} {l:agz} (filp: !FILEptr (m, l)):<> void = "atslib_clearerr"
+fun clearerr1 {m:fm} {l:agz}
+  (filp: !FILEptr (m, l)):<> void = "mac#atslib_clearerr"
 overload clearerr with clearerr1
 
 (* ****** ****** *)
 
 symintr fclose_err
-
 fun fclose0_err
-  (filr: FILEref):<> int = "atslib_fclose_err"
+  (filr: FILEref):<> int = "mac#atslib_fclose_err"
 overload fclose_err with fclose0_err
-
 fun fclose1_err
   {m:fm} {l:addr} (
   filp: FILEptr (m, l)
-) :<> [i:int | i <= 0] (option_v (FILE_v (m, l), i == 0) | int i)
-  = "atslib_fclose_err"
+) :<> [i:int | i <= 0] (option_v (FILE_v (m, l), i==0) | int i)
+  = "mac#atslib_fclose_err"
 overload fclose_err with fclose1_err
 
 symintr fclose_exn
-
 fun fclose0_exn
   (filr: FILEref):<!exn> void = "atslib_fclose_exn"
 overload fclose_exn with fclose0_exn
@@ -216,9 +254,9 @@ overload fgetc_err with fgetc1_err
 dataview
 fgets_v (sz:int, n0: int, addr, addr) =
   | {l_buf:addr}
-    fgets_v_fail (sz, n0, l_buf, null) of b0ytes (sz) @ l_buf
+    fgets_v_fail (sz, n0, l_buf, null) of b0ytes(sz) @ l_buf
   | {n:nat | n < n0} {l_buf:agz}
-    fgets_v_succ (sz, n0, l_buf, l_buf) of strbuf (sz, n) @ l_buf
+    fgets_v_succ (sz, n0, l_buf, l_buf) of strbuf(sz, n) @ l_buf
 // end of [fgets_v]
 
 fun fgets_err
@@ -228,7 +266,7 @@ fun fgets_err
   {l_buf:addr}
   {l_fil:agz} (
   pf_mod: file_mode_lte (m, r)
-, pf_buf: b0ytes (sz) @ l_buf
+, pf_buf: b0ytes(sz) @ l_buf
 | p: ptr l_buf
 , n0: int n0
 , filp: !FILEptr (m, l_fil)
@@ -250,7 +288,7 @@ fun fgets_exn
   {l_buf:addr}
   {l_fil:agz} (
   pf_mod: file_mode_lte (m, r),
-  pf_buf: !b0ytes (sz) @ l_buf >> strbuf (sz, n) @ l_buf
+  pf_buf: !b0ytes(sz) @ l_buf >> strbuf (sz, n) @ l_buf
 | p: ptr l_buf
 , n0: int n0
 , filp: !FILEptr (m, l_fil)
@@ -278,8 +316,7 @@ fpos_t = $extype"ats_fpos_type"
 fun fgetpos
   {m:fm} {l:addr} (
   filp: !FILEptr (m, l), pos: &fpos_t? >> opt (fpos_t, i==0)
-) :<> #[i:int | i <= 0] int (i)
-  = "mac#atslib_fgetpos"
+) :<> #[i:int | i <= 0] int (i) = "mac#atslib_fgetpos"
 // end of [fgetpos]
 
 (* ****** ****** *)
@@ -334,18 +371,23 @@ ing sequences (Additional characters may follow these sequences.):
 
 *)
 
-fun fopen_err {m:fm}
-  (path: !READ(string), m: file_mode m):<> FILEptr0 (m)
-  = "mac#atslib_fopen_err"
+fun fopen_err
+  {m:fm} (
+  path: !READ(string), m: file_mode m
+) :<> FILEptr0 (m) = "mac#atslib_fopen_err"
 // end of [fopen_err]
 
-fun fopen_exn {m:fm}
-  (path: !READ(string), m: file_mode m):<!exn> FILEptr1 (m)
-  = "atslib_fopen_exn"
+fun fopen_exn
+  {m:fm} (
+  path: !READ(string), m: file_mode m
+) :<!exn> FILEptr1 (m) = "atslib_fopen_exn"
 // end of [fopen_exn]
 
-fun fopen_ref_exn {m:fm}
-  (path: !READ(string), m: file_mode m):<!exn> FILEref
+fun fopen_ref_exn
+  {m:fm} (
+  path: !READ(string)
+, m: file_mode m
+) :<!exn> FILEref
   = "atslib_fopen_exn"
 // end of [fopen_ref_exn]
 
@@ -456,32 +498,32 @@ must use [feof] and [ferror] to determine which occurred.
 
 fun fread
   {sz:pos}
-  {n_buf:int}
-  {n,nsz:nat | nsz <= n_buf}
+  {nbf:int}
+  {n,nsz:nat | nsz <= nbf}
   {m:fm} {l:agz} (
   pf_mod: file_mode_lte (m, r)
 , pf_mul: MUL (n, sz, nsz)
-| buf: &bytes (n_buf)
+| buf: &bytes(nbf)
 , sz: size_t sz, n: size_t n
 , filp: !FILEptr (m, l)
 ) :<> sizeLte n = "mac#atslib_fread"
 // end of [fread]
 
 fun fread_byte
-  {n_buf:int}
-  {n:nat | n <= n_buf}
+  {nbf:int}
+  {n:nat | n <= nbf}
   {m:fm} {l:agz} (
   pf_mod: file_mode_lte (m, r)
-| buf: &bytes (n_buf), n: size_t n, filp: !FILEptr (m, l)
+| buf: &bytes(nbf), n: size_t n, filp: !FILEptr (m, l)
 ) :<> sizeLte n = "atslib_fread_byte"
 // end of [fread_byte]
 
 fun fread_byte_exn
-  {n_buf:int}
-  {n:nat | n <= n_buf}
+  {nbf:int}
+  {n:nat | n <= nbf}
   {m:fm} {l:agz} (
   pf_mod: file_mode_lte (m, r)
-| buf: &bytes (n_buf), n: size_t n, filp: !FILEptr (m, l)
+| buf: &bytes(nbf), n: size_t n, filp: !FILEptr (m, l)
 ) :<!exn> void = "atslib_fread_byte_exn"
 // end of [fread_byte_exn]
 
@@ -563,6 +605,7 @@ it returns -1.
 //
 *)
 
+(*
 symintr fseek_err
 fun fseek0_err (
   filr: FILEref, offset: lint, whence: whence_t
@@ -584,6 +627,7 @@ fun fseek1_exn
   f: !FILEptr (m, l), offset: lint, whence: whence_t
 ) :<!exn> void = "atslib_fseek_exn"
 overload fseek_exn with fseek1_exn
+*)
 
 (* ****** ****** *)
 
@@ -652,7 +696,7 @@ fun fwrite // [sz]: the size of each item
   {n,nsz:nat | nsz <= bsz}
   {m:fm} {l:agz} (
   pf_mod: file_mode_lte (m, w), pf_mul: MUL (n, sz, nsz)
-| buf: &bytes (bsz), sz: size_t sz, n: size_t n, filp: !FILEptr (m, l)
+| buf: &bytes(bsz), sz: size_t sz, n: size_t n, filp: !FILEptr (m, l)
 ) :<> natLte n
   = "mac#atslib_fwrite"
 //
@@ -663,18 +707,21 @@ fun fwrite_byte // [fwrite_byte] only writes once
   {n:nat | n <= bsz}
   {m:fm} {l:agz} (
   pf_mod: file_mode_lte (m, w)
-| buf: &bytes (bsz), n: size_t n, fil: !FILEptr (m, l)
+| buf: &bytes(bsz), n: size_t n, fil: !FILEptr (m, l)
 ) :<> sizeLte n
   = "atslib_fwrite_byte"
 //
 // HX: an uncatchable exception is thrown if not all bytes are written
 //
 fun fwrite_byte_exn
-  {bsz:int} {n:nat | n <= bsz} {m:fm} {l:agz} (
+  {bsz:int}
+  {n:nat | n <= bsz}
+  {m:fm} {l:agz} (
   pf_mod: file_mode_lte (m, w)
-| buf: &bytes (bsz), n: size_t n, fil: !FILEptr (m, l)
+| buf: &bytes(bsz), n: size_t n, fil: !FILEptr (m, l)
 ) :<!exn> void
   = "atslib_fwrite_byte_exn"
+// end of [fwrite_byte_exn]
 
 (* ****** ****** *)
 

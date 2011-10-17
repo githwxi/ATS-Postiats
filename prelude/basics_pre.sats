@@ -32,6 +32,50 @@
 //
 (* ****** ****** *)
 
+#include "prelude/params.hats"
+
+(* ****** ****** *)
+
+#if VERBOSE_PRELUDE #then
+#print "Loading [basics_pre.sats] starts!\n"
+#endif // end of [VERBOSE_PRELUDE]
+
+(* ****** ****** *)
+//
+// HX:
+// some built-in static boolean constants
+//
+stacst true_bool : bool and false_bool : bool
+stadef true = true_bool and false = false_bool
+//
+stacst neg_bool
+  : bool -> bool (* boolean negation *)
+stadef ~ = neg_bool // overloaded
+//
+stacst add_bool_bool
+  : (bool, bool) -> bool (* disjunction *)
+stacst mul_bool_bool
+  : (bool, bool) -> bool (* conjunction *)
+stadef || = add_bool_bool
+stadef && = mul_bool_bool
+//
+stacst lt_bool_bool : (bool, bool) -> bool
+stacst lte_bool_bool : (bool, bool) -> bool
+stacst gt_bool_bool : (bool, bool) -> bool
+stacst gte_bool_bool : (bool, bool) -> bool
+stadef < = lt_bool_bool
+stadef <= = lte_bool_bool
+stadef > = gt_bool_bool
+stadef >= = gte_bool_bool
+//
+stacst eq_bool_bool : (bool, bool) -> bool
+stacst neq_bool_bool : (bool, bool) -> bool
+stadef == = eq_bool_bool
+stadef != = neq_bool_bool
+stadef <> = neq_bool_bool // backward compatibility
+//
+(* ****** ****** *)
+
 stacst neg_int : (int) -> int
 stadef ~ = neg_int // overloaded
 
@@ -46,16 +90,16 @@ stadef / = sub_int_int
 
 stacst lt_int_int : (int, int) -> bool
 stacst lte_int_int : (int, int) -> bool
-stadef < = lt_int_int and <= = lte_int_int
-
 stacst gt_int_int : (int, int) -> bool
 stacst gte_int_int : (int, int) -> bool
+stadef < = lt_int_int and <= = lte_int_int
 stadef > = gt_int_int and >= = gte_int_int
 
 stacst eq_int_int : (int, int) -> bool
 stacst neq_int_int : (int, int) -> bool
 stadef == = eq_int_int
-stadef != = neq_int_int and <> = neq_int_int
+stadef != = neq_int_int
+stadef <> = neq_int_int // backward compatibility
 
 (* ****** ****** *)
 
@@ -106,6 +150,12 @@ sortdef agz = { l: addr | l > null }
 sortdef agez = { l: addr | l >= null }
 
 (* ****** ****** *)
+
+#define CHAR_MAX 127
+#define CHAR_MIN ~128
+#define UCHAR_MAX 0xFF
+
+(* ****** ****** *)
 //
 // HX: some overloaded symbols
 //
@@ -122,6 +172,13 @@ symintr fprint print prerr
 symintr length (* array_length, list_length, string_length, etc. *)
 symintr ofstring ofstrptr
 symintr tostring tostrptr
+symintr encode decode
+//
+(* ****** ****** *)
+
+#if VERBOSE_PRELUDE #then
+#print "Loading [basics_pre.sats] finishes!\n"
+#endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 

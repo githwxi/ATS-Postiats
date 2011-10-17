@@ -37,14 +37,17 @@ typedef symbolopt = Option (symbol)
 val symbol_empty : symbol
 
 (* ****** ****** *)
-
+//
 val symbol_ADD : symbol // +
 val symbol_SUB : symbol // -
 val symbol_MUL : symbol // *
 val symbol_DIV : symbol // /
-
-val symbol_AT : symbol // @
+//
 val symbol_AMPERSAND : symbol // &
+val symbol_AMPERQMARK : symbol // &?
+val symbol_AMPERQMARKBANG : symbol // &?!
+//
+val symbol_AT : symbol // @
 val symbol_BACKSLASH : symbol // \
 val symbol_BANG : symbol // !
 val symbol_COLONEQ : symbol // :=

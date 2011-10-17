@@ -12,8 +12,13 @@ Another Implementation of ATS!
 //
 
 &? >> T for &T? >> T
-&T >> ? for &T >> T?
+This can be &set(T)
+
 &T >> ?! for &T >> T?! 
+This can be &get(T)
+
+&T >> ? for &T >> T?
+This can be &clr(T)
 
 ######
 //

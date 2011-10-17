@@ -32,6 +32,16 @@
 //
 (* ****** ****** *)
 
+#include "prelude/params.hats"
+
+(* ****** ****** *)
+
+#if VERBOSE_PRELUDE #then
+#print "Loading [float.sats] starts!\n"
+#endif // end of [VERBOSE_PRELUDE]
+
+(* ****** ****** *)
+
 fun{a:t@ype}
 g0float_add
   (x: g0float (a), y: g0float (a)):<> g0float (a)
@@ -51,6 +61,12 @@ fun{a:t@ype}
 g0float_div
   (x: g0float (a), y: g0float (a)):<> g0float (a)
 overload / with g0float_div
+
+(* ****** ****** *)
+
+#if VERBOSE_PRELUDE #then
+#print "Loading [float.sats] finishes!\n"
+#endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 

@@ -158,7 +158,7 @@ fn auxerr (
 ) : void = () where {
   val loc = dqid.dqi0de_loc
   val () = prerr_error2_loc (loc)
-  val () = filprerr_ifdebug (": overload_tr")
+  val () = filprerr_ifdebug "overload_tr"
   val () = prerr ": the dynamic identifier ["
   val () = $SYN.prerr_dqi0de (dqid)
   val () = prerr "] is unrecognized."
@@ -188,8 +188,8 @@ fn auxerr1 (
 ) : d2itmlst = let
   val () = err := err + 1
   val () = prerr_error2_loc (id.i0de_loc)
-  val () = filprerr_ifdebug (": overload_tr_def")
-  val () = prerr ": the identifier ["
+  val () = filprerr_ifdebug ("overload_tr_def")
+  val () = prerr ": the overloaded identifier ["
   val () = $SYN.prerr_i0de (id)
   val () = prerr "] should refer to a symbol but it does not."
   val () = prerr_newline ()
@@ -203,42 +203,44 @@ fn auxerr2 (
 ) : d2itmlst = let
   val () = err := err + 1
   val () = prerr_error2_loc (id.i0de_loc)
-  val () = filprerr_ifdebug (": overload_tr_def")
-  val () = prerr ": the identifier ["
+  val () = filprerr_ifdebug "overload_tr_def"
+  val () = prerr ": the overloaded identifier ["
   val () = $SYN.prerr_i0de (id)
-  val () = prerr "] should refer to a symbol but it does not."
+  val () = prerr "] is unrecognized."
   val () = prerr_newline ()
   val () = the_trans2errlst_add (T2E_overload_tr (d1c0))
 in
   list_nil ()
 end // end of [auxerr2]
 //
-  val ans = ans where {
-    val id_sym = id.i0de_sym
-    val ans = the_d2expenv_current_find (id_sym)
-    val ans = (case+ ans of
-      | Some_vt _ => (fold@ ans; ans)
-      | ~None_vt () => the_d2expenv_pervasive_find (id_sym)
-    ) : d2itmopt_vt
-  } // end of [val]
-  val d2is = (case+ ans of
-    | ~Some_vt d2i => (case+ d2i of
-      | D2ITMsymdef d2is => d2is | _ => auxerr1 (d1c0, id, err)
-      ) // end of [Some_vt]
-    | ~None_vt () => auxerr2 (d1c0, id, err)
-  ) : d2itmlst // end of [val]
+val ans = ans where {
+  val id_sym = id.i0de_sym
+  val ans = the_d2expenv_current_find (id_sym)
+  val ans = (case+ ans of
+    | Some_vt _ => (fold@ ans; ans)
+    | ~None_vt () => the_d2expenv_pervasive_find (id_sym)
+  ) : d2itmopt_vt
+} // end of [val]
+val d2is = (case+ ans of
+  | ~Some_vt d2i => (case+ d2i of
+    | D2ITMsymdef d2is => d2is | _ => auxerr1 (d1c0, id, err)
+    ) // end of [Some_vt]
+  | ~None_vt () => auxerr2 (d1c0, id, err)
+) : d2itmlst // end of [val]
 (*
-  val () = begin
-    print "overload_tr_def: def := "; print_d2itm (def); print_newline ();
-    print "overload_tr_def: d2is := "; print_d2itmlst (d2is); print_newline ();
-  end // end of [val]
+val () = begin
+  print "overload_tr_def: def := "; print_d2itm (def); print_newline ();
+  print "overload_tr_def: d2is := "; print_d2itmlst (d2is); print_newline ();
+end // end of [val]
 *)
 in
-  if err = 0 then let
-    val d2is_new = list_cons (def, d2is)
-  in
-    the_d2expenv_add (id.i0de_sym, D2ITMsymdef (d2is_new))
-  end // end of [if]
+//
+if err = 0 then let
+  val d2is_new = list_cons (def, d2is)
+in
+  the_d2expenv_add (id.i0de_sym, D2ITMsymdef (d2is_new))
+end // end of [if]
+//
 end (* end of [overload_tr_def] *)
 
 (* ****** ****** *)
@@ -539,7 +541,7 @@ fn s1expdef_tr (
 //
 fn auxerr (d: s1expdef): void = {
   val () = prerr_error2_loc (d.s1expdef_loc)
-  val () = filprerr_ifdebug ": s1expdef_tr"
+  val () = filprerr_ifdebug ("s1expdef_tr")
   val () = prerr ": the sort for the definition does not match"
   val () = prerr " the sort assigned to the static constant ["
   val () = $SYM.prerr_symbol (d.s1expdef_sym)
@@ -612,7 +614,7 @@ fun s1aspdec_tr_arg (
 fn auxerr
   (loc: location) : void = {
   val () = prerr_error2_loc (loc)
-  val () = filprerr_ifdebug ": s1aspdec_tr_arg"
+  val () = filprerr_ifdebug ("s1aspdec_tr_arg")
   val () = prerr ": too many arguments for the assumed static constant."
   val () = prerr_newline ()
 } // end of [auxerr]
@@ -645,7 +647,7 @@ fn auxerr (
   d: s1aspdec, s2t1: s2rt, s2t2: s2rt
 ) : void = {
   val () = prerr_error2_loc (d.s1aspdec_loc)
-  val () = filprerr_ifdebug ": s1aspdec_tr_res"
+  val () = filprerr_ifdebug ("s1aspdec_tr_res")
   val () = prerr ": the static assumption is given the sort ["
   val () = prerr_s2rt (s2t1)
   val () = prerr "] but it is expected to be of the sort ["
@@ -680,10 +682,10 @@ fn auxerr1 (
   d: s1aspdec, q: s0taq, id: symbol
 ) : s2aspdecopt_vt = let
   val () = prerr_error2_loc (d.s1aspdec_loc)
-  val () = filprerr_ifdebug ": s1aspdec_tr"
-  val () = prerr ": the static constant ["
+  val () = filprerr_ifdebug ("s1aspdec_tr")
+  val () = prerr (": the static constant [")
   val () = ($SYN.prerr_s0taq (q); $SYM.prerr_symbol id)
-  val () = prerr "] is not abstract."
+  val () = prerr ("] is not abstract.")
   val () = prerr_newline ()
   val () = the_trans2errlst_add (T2E_s1aspdec_tr (d))
 in
@@ -693,9 +695,11 @@ end // end of [auxerr1]
 fn auxerr2 (
   d: s1aspdec, q: s0taq, id: symbol
 ) : s2aspdecopt_vt = let
-  val () = prerr_error2_loc (d.s1aspdec_loc)
+  val () =
+    prerr_error2_loc (d.s1aspdec_loc)
+  // end of [val]
   val () = filprerr_ifdebug ("s1aspdec_tr")
-  val () = prerr ": the identifier ["
+  val () = prerr (": the identifier [")
   val () = ($SYN.prerr_s0taq q; $SYM.prerr_symbol id)
   val () = prerr "] does not refer to a static constant."
   val () = prerr_newline ()
@@ -784,7 +788,7 @@ fn d1atdec_tr (
     val n = list_length (s2vss0) in
     if n >= 2 then {
       val () = prerr_error2_loc (d1c.d1atdec_loc)
-      val () = filprerr_ifdebug ": d1atdec_tr" // for debugging
+      val () = filprerr_ifdebug "d1atdec_tr" // for debugging
       val () = prerr ": the declared type constructor is overly applied."
       val () = prerr_newline ()
       val () = the_trans2errlst_add (T2E_d1atdec_tr (d1c))

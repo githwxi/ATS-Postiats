@@ -102,15 +102,14 @@ implement viewat_prec_dyn = app_prec - 1
 implement invar_prec_sta = 1
 
 (* ****** ****** *)
-
+//
 implement qmark_prec_sta = app_prec - 1
-
 implement qmarkbang_prec_sta = app_prec - 1
-
+//
 implement trans_prec_sta = 0 (* lowest *)
-
+//
 implement deref_prec_dyn = 100 (* highest *)
-
+//
 (* ****** ****** *)
 
 implement int_of_prec (p) = p

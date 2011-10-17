@@ -35,7 +35,17 @@
 abstype intinf_type
 typedef intinf = intinf_type
 
+(* ****** ****** *)
+
 fun intinf_make_string (rep: string): intinf
+
+(* ****** ****** *)
+
+fun
+intinf_make_base_string_ofs
+  {n:int} {i:nat | i <= n}
+  (base: intBtw(2,36+1), rep: string n, ofs: int i): intinf
+// end of [intinf_make_base_string_ofs]
 
 (* ****** ****** *)
 
