@@ -26,50 +26,80 @@
 *)
 
 (* ****** ****** *)
-//
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: May, 2011
-//
+
+staload LOC = "pats_location.sats"
+macdef print_location = $LOC.print_location
+
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_stacst2.sats"
+staload "pats_dynexp2.sats"
+staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-abstype s2cstref_type // boxed type
-typedef s2cstref = s2cstref_type
-
-fun s2cstref_make (name: string): s2cstref
-
-fun s2cstref_get_cst (r: s2cstref): s2cst
-fun s2cstref_get_exp (r: s2cstref, arg: Option_vt s2explst): s2exp
-fun s2cstref_unget_exp (r: s2cstref, s2e: s2exp): Option_vt (s2explst)
-fun s2cstref_equ_cst (r: s2cstref, s2c: s2cst): bool
-fun s2cstref_equ_exp (r: s2cstref, s2e: s2exp): bool
+staload "pats_trans3.sats"
 
 (* ****** ****** *)
 
-val the_bool_t0ype_ref : s2cstref
-val the_bool_bool_t0ype_ref : s2cstref
-val the_char_t0ype_ref : s2cstref
-val the_char_char_t0ype_ref : s2cstref
-
-val the_exception_viewtype : s2cstref
+#define l2l list_of_list_vt
 
 (* ****** ****** *)
+
+fun d2exp_trup_bool
+  (d2e0: d2exp, b: bool): d3exp = let
+  val loc0 = d2e0.d2exp_loc
+  val s2e = s2exp_bool_bool_t0ype (b) in d3exp_bool (loc0, s2e, b)
+end // end of [d2exp_trup_bool]
+
+fun d2exp_trup_char
+  (d2e0: d2exp, c: char): d3exp = let
+  val loc0 = d2e0.d2exp_loc
+  val s2e = s2exp_char_char_t0ype (c) in d3exp_char (loc0, s2e, c)
+end // end of [d2exp_trup_char]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup
+  (d2e0) = let
 //
-fun s2exp_bool
-  (b: bool): s2exp (* static boolean terms *)
-// end of [s2exp_bool]
+  val loc0 = d2e0.d2exp_loc
 //
-fun s2exp_bool_t0ype (): s2exp // bool0
-fun s2exp_bool_bool_t0ype (b: bool): s2exp // bool1(b)
+(*
+val () = begin
+  print "d2exp_trup: loc0 = "; print_location loc0; print_newline ()
+end // end of [val]
+*)
 //
+val d3e0 = (
+case+ d2e0.d2exp_node of
+//
+| D2Ebool (b(*bool*)) => d2exp_trup_bool (d2e0, b)
+| D2Echar (c(*char*)) => d2exp_trup_char (d2e0, c)
+//
+| _ => let val () = assertfalse () in exit (1) end
+//
+) : d3exp // end of [val]
+in
+//
+d3e0 // the return value
+//
+end // end of [d2exp_trup]
+
 (* ****** ****** *)
 
-fun s2exp_char_t0ype (): s2exp // char0
-fun s2exp_char_char_t0ype (b: char): s2exp // char1(b)
+implement
+d2explst_trup
+  (d2es) = l2l (list_map_fun (d2es, d2exp_trup))
+// end of [d2explst_trup]
+
+implement
+d2explstlst_trup
+  (d2ess) = l2l (list_map_fun (d2ess, d2explst_trup))
+// end of [d2explstlst_trup]
 
 (* ****** ****** *)
 
-(* end of [pats_stacst2.sats] *)
+(* end of [pats_trans3_exp_up.dats] *)

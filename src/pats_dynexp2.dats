@@ -119,6 +119,7 @@ p2at_make (
 ) = '{
   p2at_loc= loc
 , p2at_svs= svs, p2at_dvs= dvs
+, p2at_typ= None () // s2expopt
 , p2at_node= node
 } // end of [p2at_make]
 
@@ -348,9 +349,12 @@ d2exp_freeat
 implement
 d2exp_let (loc, d2cs, body) =
   d2exp_make (loc, D2Elet (d2cs, body))
+// end of [d2exp_let]
+
 implement
 d2exp_where (loc, body, d2cs) =
   d2exp_make (loc, D2Ewhere (body, d2cs))
+// end of [d2exp_where]
 
 (* ****** ****** *)
 
@@ -494,8 +498,11 @@ d2exp_arrsize (
 
 implement
 d2exp_raise (loc, d2e) = d2exp_make (loc, D2Eraise (d2e))
+
 implement
-d2exp_delay (loc, knd, d2e) = d2exp_make (loc, D2Edelay (knd, d2e))
+d2exp_delay
+  (loc, knd, d2e) = d2exp_make (loc, D2Edelay (knd, d2e))
+// end of [d2exp_delay]
 
 (* ****** ****** *)
 
@@ -523,7 +530,9 @@ end // end of [d2exp_sel_ptr]
 (* ****** ****** *)
 
 implement
-d2exp_exist (loc, s2a, d2e) = d2exp_make (loc, D2Eexist (s2a, d2e))
+d2exp_exist
+  (loc, s2a, d2e) = d2exp_make (loc, D2Eexist (s2a, d2e))
+// end of [d2exp_exist]
 
 (* ****** ****** *)
 
@@ -545,7 +554,9 @@ d2exp_lam_met
 implement
 d2exp_lam_met_new
   (loc, met, body) = let
-  val r = ref<d2varlst> (list_nil) in d2exp_lam_met (loc, r, met, body)
+  val r = ref<d2varlst> (list_nil)
+in
+  d2exp_lam_met (loc, r, met, body)
 end // end of [d2exp_lam_met_new]
 
 implement

@@ -27,6 +27,15 @@
 
 (* ****** ****** *)
 
+staload "pats_staexp2.sats"
+staload "pats_dynexp2.sats"
+staload "pats_dynexp3.sats"
+
+(* ****** ****** *)
+
+fun d2exp_trup (d2e: d2exp): d3exp
+fun d2explst_trup (d2es: d2explst): d3explst
+fun d2explstlst_trup (d2ess: d2explstlst): d3explstlst
 
 (* ****** ****** *)
 

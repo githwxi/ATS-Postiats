@@ -275,9 +275,7 @@ p2at = '{
   p2at_loc= location
 , p2at_svs= lstord (s2var)
 , p2at_dvs= lstord (d2var)
-(*
-, p2at_typ= ref@ (s2expopt)
-*)
+, p2at_typ= s2expopt // ref@ (s2expopt)
 , p2at_node= p2at_node
 }
 and p2atlst = List (p2at)

@@ -100,7 +100,8 @@ implement MACDEF = T_MACDEF (0) // short form
 implement MACRODEF = T_MACDEF (1) // long form
 
 implement REF = T_IDENT_alp "ref"
-implement REFAT = T_REFAT // ref@ for flattened reference in a record
+// HX: ref@ for flattened reference
+implement REFAT = T_REFAT // in a boxed record
 
 (*
 implement TYPE = T_TYPE (TYPE_int)

@@ -399,6 +399,11 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/basics_dyn.sats")
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/arith.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/bool.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/char.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/float.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/integer.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/string.sats")
 //
 } // end of [prelude_load]
 

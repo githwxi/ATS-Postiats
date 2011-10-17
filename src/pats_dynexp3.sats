@@ -27,49 +27,77 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: May, 2011
+// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Start Time: October, 2011
 //
+(* ****** ****** *)
+
+staload LOC = "pats_location.sats"
+typedef location = $LOC.location
+
+(* ****** ****** *)
+
+staload
+INTINF = "pats_intinf.sats"
+typedef intinf = $INTINF.intinf
+
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+typedef s2exp = s2exp
+staload "pats_dynexp2.sats"
+typedef d2cst = d2cst_type // abstract
+typedef d2var = d2var_type // abstract
 
 (* ****** ****** *)
 
-abstype s2cstref_type // boxed type
-typedef s2cstref = s2cstref_type
-
-fun s2cstref_make (name: string): s2cstref
-
-fun s2cstref_get_cst (r: s2cstref): s2cst
-fun s2cstref_get_exp (r: s2cstref, arg: Option_vt s2explst): s2exp
-fun s2cstref_unget_exp (r: s2cstref, s2e: s2exp): Option_vt (s2explst)
-fun s2cstref_equ_cst (r: s2cstref, s2c: s2cst): bool
-fun s2cstref_equ_exp (r: s2cstref, s2e: s2exp): bool
-
-(* ****** ****** *)
-
-val the_bool_t0ype_ref : s2cstref
-val the_bool_bool_t0ype_ref : s2cstref
-val the_char_t0ype_ref : s2cstref
-val the_char_char_t0ype_ref : s2cstref
-
-val the_exception_viewtype : s2cstref
-
-(* ****** ****** *)
+datatype p3at_node =
+  | P3Tany of () // wildcard
+  | P3Tvar of (int(*refknd*), d2var)
+  | P3Tempty (* empty pattern *)
 //
-fun s2exp_bool
-  (b: bool): s2exp (* static boolean terms *)
-// end of [s2exp_bool]
-//
-fun s2exp_bool_t0ype (): s2exp // bool0
-fun s2exp_bool_bool_t0ype (b: bool): s2exp // bool1(b)
-//
+  | P3Tann of (p3at, s2exp) // ascribed pattern
+// end of [p3at_node]
+
+where p3at = '{
+  p3at_loc= location
+, p3at_node= p3at_node
+, p3at_typ= s2exp
+} // end of [p3at]
+
+and p3atlst = List (p3at)
+and p3atopt = Option p3at
+
 (* ****** ****** *)
 
-fun s2exp_char_t0ype (): s2exp // char0
-fun s2exp_char_char_t0ype (b: char): s2exp // char1(b)
+datatype d3exp_node =
+  | D3Eint of (* dynamic integer *)
+      (string, intinf)
+  | D3Eintsp of (* dynamic specified integer *)
+      (string, intinf)
+// end of [d3exp_node]
+
+where
+d3exp = '{
+  d3exp_loc= location
+, d3exp_typ= s2exp
+, d3exp_node= d3exp_node
+} // end of [d3exp]
+
+and d3explst = List (d3exp)
+and d3expopt = Option (d3exp)
+and d3explstlst = List (d3explst)
 
 (* ****** ****** *)
 
-(* end of [pats_stacst2.sats] *)
+fun d3exp_bool
+  (loc: location, s2e: s2exp, b: bool): d3exp
+// end of [d3exp_bool]
+
+fun d3exp_char
+  (loc: location, s2e: s2exp, c: char): d3exp
+// end of [d3exp_char]
+
+(* ****** ****** *)
+
+(* end of [pats_dynexp3.sats] *)
