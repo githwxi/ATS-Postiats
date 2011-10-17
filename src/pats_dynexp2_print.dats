@@ -204,4 +204,72 @@ fprint_p2atlst
 
 (* ****** ****** *)
 
+implement
+fprint_d2exp (out, x) = let
+  macdef prstr (x) = fprint_string (out, ,(x))
+in
+//
+case+ x.d2exp_node of
+| D2Evar (x) => {
+    val () = prstr "D2Evar("
+    val () = fprint_d2var (out, x)
+    val () = prstr ")"
+  } // end of [D2Evar]
+//
+| D2Ebool (x) => {
+    val () = prstr "D2Ebool("
+    val () = fprint_bool (out, x)
+    val () = prstr ")"
+  }
+| D2Echar (x) => {
+    val () = prstr "D2Echar("
+    val () = fprint_char (out, x)
+    val () = prstr ")"
+  }
+| D2Estring (x) => {
+    val () = prstr "D2Estring("
+    val () = fprint_string (out, x)
+    val () = prstr ")"
+  }
+| D2Eempty () => {
+    val () = prstr "D2Eempty()"
+  } // end of [D2Eempty]
+//
+| _ => prstr "D2C...(...)"
+//
+end // end of [fprint_d2exp]
+
+implement
+print_d2exp (x) = fprint_d2exp (stdout_ref, x)
+implement
+prerr_d2exp (x) = fprint_d2exp (stderr_ref, x)
+
+(* ****** ****** *)
+
+implement
+fprint_d2ecl (out, x) = let
+  macdef prstr (x) = fprint_string (out, ,(x))
+in
+//
+case+ x.d2ecl_node of
+| D2Cnone () => {
+    val () = prstr "D2Cnone()"
+  } // end of [D2Cnone]
+| D2Clist (xs) => {
+    val () = prstr "D2Clist(\n"
+    val () = $UT.fprintlst (out, xs, "\n", fprint_d2ecl)
+    val () = prstr ")"
+  } // end of [D2Clist]
+//
+| _ => prstr "D2C...(...)"
+//
+end // end of [fprint_d2ecl]
+
+implement
+print_d2ecl (x) = fprint_d2ecl (stdout_ref, x)
+implement
+prerr_d2ecl (x) = fprint_d2ecl (stderr_ref, x)
+
+(* ****** ****** *)
+
 (* end of [pats_dynexp2_print.dats] *)

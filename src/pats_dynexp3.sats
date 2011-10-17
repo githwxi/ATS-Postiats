@@ -70,7 +70,16 @@ and p3atopt = Option p3at
 
 (* ****** ****** *)
 
-datatype d3exp_node =
+datatype
+d3ecl_node =
+  | D3Cnone
+  | D3Clist of d3eclist
+// end of [d3ecl_node]
+
+and
+d3exp_node =
+  | D3Ebool of bool
+  | D3Echar of char
   | D3Eint of (* dynamic integer *)
       (string, intinf)
   | D3Eintsp of (* dynamic specified integer *)
@@ -78,7 +87,14 @@ datatype d3exp_node =
 // end of [d3exp_node]
 
 where
-d3exp = '{
+d3ecl = '{
+  d3ecl_loc= location
+, d3ecl_node= d3ecl_node
+}
+
+and d3eclist = List (d3ecl)
+
+and d3exp = '{
   d3exp_loc= location
 , d3exp_typ= s2exp
 , d3exp_node= d3exp_node

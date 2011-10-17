@@ -161,6 +161,12 @@ SOURCES := \
   pats_trans2_dynexp.dats \
   pats_trans2_impdec.dats \
   pats_trans2_decl.dats \
+  pats_dynexp3.sats \
+  pats_dynexp3.dats \
+  pats_trans3.sats \
+  pats_trans3_exp_up.dats \
+  pats_trans3_exp_dn.dats \
+  pats_trans3_decl.dats \
   pats_comarg.sats \
   pats_comarg.dats \
 

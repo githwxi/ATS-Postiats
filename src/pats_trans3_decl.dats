@@ -27,21 +27,55 @@
 
 (* ****** ****** *)
 
+staload LOC = "pats_location.sats"
+macdef print_location = $LOC.print_location
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-fun d2exp_trup (d2e: d2exp): d3exp
-fun d2explst_trup (d2es: d2explst): d3explst
-fun d2explstlst_trup (d2ess: d2explstlst): d3explstlst
+staload "pats_trans3.sats"
 
 (* ****** ****** *)
 
-fun d2ecl_tr (d2c: d2ecl): d3ecl
-fun d2eclist_tr (d2cs: d2eclist): d3eclist
+#define l2l list_of_list_vt
 
 (* ****** ****** *)
 
-(* end of [pats_trans3.sats] *)
+implement
+d2ecl_tr (d2c0) = let
+//
+val loc0 = d2c0.d2ecl_loc
+//
+val d3c0 = (
+case+ d2c0.d2ecl_node of
+//
+| _ => let
+    val () = (
+      print "d2ecl_tr: d2c0 = "; print_d2ecl (d2c0); print_newline ()
+    ) // end of [val]
+    val () = assertloc (false)
+  in
+    exit (1)
+  end // end of [_]
+//
+) : d3ecl // end of [val]
+//
+in
+//
+d3c0 (* the return value *)
+//
+end // end of [d2ecl_tr]
+
+(* ****** ****** *)
+
+implement
+d2eclist_tr
+  (d2cs) = l2l (list_map_fun (d2cs, d2ecl_tr))
+// end of [d2eclist_tr]
+
+(* end of [pats_trans3_decl.dats] *)

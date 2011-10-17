@@ -51,7 +51,8 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
+staload
+LOC = "pats_location.sats"
 overload + with $LOC.location_combine
 
 staload LEX = "pats_lexing.sats"
@@ -59,11 +60,13 @@ typedef token = $LEX.token
 
 (* ****** ****** *)
 
-staload SYM = "pats_symbol.sats"
+staload
+SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
 overload = with $SYM.eq_symbol_symbol
 
-staload SYN = "pats_syntax.sats"
+staload
+SYN = "pats_syntax.sats"
 typedef s0taq = $SYN.s0taq
 typedef i0delst = $SYN.i0delst
 
@@ -241,7 +244,8 @@ s1marg_trdn
 fn auxerr (
   s1ma: s1marg, s2ts: s2rtlst, err: int
 ) : void = {
-  val () = prerr_error2_loc (s1ma.s1marg_loc)
+  val loc0 = s1ma.s1marg_loc
+  val () = prerr_error2_loc (loc0)
   val () = filprerr_ifdebug "s1marg_trdn"
   val () = prerr ": the static argument group is expected to contain "
   val () = prerr (if err > 0 then "less" else "more")

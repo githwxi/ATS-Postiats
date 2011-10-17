@@ -48,14 +48,18 @@ fun s2cstref_equ_cst (r: s2cstref, s2c: s2cst): bool
 fun s2cstref_equ_exp (r: s2cstref, s2e: s2exp): bool
 
 (* ****** ****** *)
-
-val the_bool_t0ype_ref : s2cstref
-val the_bool_bool_t0ype_ref : s2cstref
-val the_char_t0ype_ref : s2cstref
-val the_char_char_t0ype_ref : s2cstref
-
+//
+val the_true_bool : s2cstref
+val the_false_bool : s2cstref
+//
+val the_bool_t0ype : s2cstref
+val the_bool_bool_t0ype : s2cstref
+//
+val the_char_t0ype : s2cstref
+val the_char_char_t0ype : s2cstref
+//
 val the_exception_viewtype : s2cstref
-
+//
 (* ****** ****** *)
 //
 fun s2exp_bool

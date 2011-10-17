@@ -617,6 +617,16 @@ and i2mpdec = '{
 } // end of [i2mpdec]
 
 (* ****** ****** *)
+
+fun fprint_d2exp : fprint_type (d2exp)
+fun print_d2exp (x: d2exp): void
+fun prerr_d2exp (x: d2exp): void
+
+fun fprint_d2ecl : fprint_type (d2ecl)
+fun print_d2ecl (x: d2ecl): void
+fun prerr_d2ecl (x: d2ecl): void
+
+(* ****** ****** *)
 //
 // HX: dynamic expressions
 //

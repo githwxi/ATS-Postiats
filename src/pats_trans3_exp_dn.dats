@@ -27,21 +27,24 @@
 
 (* ****** ****** *)
 
+staload LOC = "pats_location.sats"
+macdef print_location = $LOC.print_location
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
+staload "pats_stacst2.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-fun d2exp_trup (d2e: d2exp): d3exp
-fun d2explst_trup (d2es: d2explst): d3explst
-fun d2explstlst_trup (d2ess: d2explstlst): d3explstlst
+staload "pats_trans3.sats"
 
 (* ****** ****** *)
 
-fun d2ecl_tr (d2c: d2ecl): d3ecl
-fun d2eclist_tr (d2cs: d2eclist): d3eclist
+#define l2l list_of_list_vt
 
 (* ****** ****** *)
 
-(* end of [pats_trans3.sats] *)
+(* end of [pats_trans3_exp_dn.dats] *)

@@ -79,7 +79,7 @@ case+ d2e0.d2exp_node of
 | D2Ebool (b(*bool*)) => d2exp_trup_bool (d2e0, b)
 | D2Echar (c(*char*)) => d2exp_trup_char (d2e0, c)
 //
-| _ => let val () = assertfalse () in exit (1) end
+| _ => let val () = assertloc (false) in exit (1) end
 //
 ) : d3exp // end of [val]
 in

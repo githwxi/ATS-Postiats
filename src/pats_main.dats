@@ -74,6 +74,11 @@ staload TRENV2 = "pats_trans2_env.sats"
 
 (* ****** ****** *)
 
+staload "pats_dynexp3.sats"
+staload TRANS3 = "pats_trans3.sats"
+
+(* ****** ****** *)
+
 staload "pats_comarg.sats"
 
 (* ****** ****** *)
@@ -174,6 +179,11 @@ dynload "pats_trans2_p1at.dats"
 dynload "pats_trans2_dynexp.dats"
 dynload "pats_trans2_impdec.dats"
 dynload "pats_trans2_decl.dats"
+//
+dynload "pats_dynexp3.dats"
+dynload "pats_trans3_exp_up.dats"
+dynload "pats_trans3_exp_dn.dats"
+dynload "pats_trans3_decl.dats"
 //
 dynload "pats_comarg.dats"
 //
@@ -498,6 +508,24 @@ end // end of [do_trans12]
 
 (* ****** ****** *)
 
+fn do_trans123 (
+  basename: string, d0cs: d0eclist
+) : d3eclist = let
+  val d2cs = do_trans12 (basename, d0cs)
+  val d3cs = $TRANS3.d2eclist_tr (d2cs)
+//
+  val () = if isdebug() then {
+    val () = print "The 3rd translation (typechecking) of ["
+    val () = print basename
+    val () = print "] is successfully completed!"
+    val () = print_newline ()
+  } // end of [if]
+in
+  d3cs
+end // end of [do_trans123]
+
+(* ****** ****** *)
+
 fn*
 process_cmdline
   {i:nat} .<i,0>. (
@@ -521,7 +549,7 @@ case+ arglst of
           ATSHOME, state.preludeflg // loading once
         ) // end of [val]
         val d0cs = parse_from_stdin_toplevel (stadyn)
-        val d2cs = do_trans12 ("STDIN", d0cs)
+        val d2cs = do_trans123 ("STDIN", d0cs)
       } // end of [_ when ...]
     | _ => ()
   end // end of [list_vt_nil when ...]
