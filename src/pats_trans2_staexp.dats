@@ -2052,32 +2052,6 @@ end // end of [d1atcon_tr]
 (* ****** ****** *)
 
 implement
-stasub_extend_svarlst (sub, s2vs) = let
-//
-fun loop (
-  sub: &stasub, s2vs: s2varlst, s2vs1: s2varlst_vt
-) : s2varlst_vt =
-  case+ s2vs of
-  | list_cons (s2v, s2vs) => let
-      val s2v1 = s2var_dup (s2v)
-      val s2e1 = s2exp_var (s2v1)
-      val () = stasub_add (sub, s2v, s2e1)
-      val s2vs1 = list_vt_cons (s2v1, s2vs1)
-    in
-      loop (sub, s2vs, s2vs1)
-    end // end of [list_cons]
-  | list_nil () => s2vs1
-// end of [loop]
-//
-val s2vs1 = loop (sub, s2vs, list_vt_nil ())
-//
-in
-//
-l2l (list_vt_reverse (s2vs1))
-//
-end // end of [stasub_extend_svarlst]
-
-implement
 stasub_extend_sarglst_svarlst_err
   (sub, s1as, s2vs, err) = let
 //
@@ -2108,7 +2082,7 @@ fun loop (
 //
   val s2vs1 = loop (s1as, s2vs, sub, list_vt_nil, err)
 in
-  l2l (list_vt_reverse (s2vs1))
+  list_vt_reverse (s2vs1)
 end // end of [stasub_extend_sarglst_svarlst_err]
 
 (* ****** ****** *)

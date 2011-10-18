@@ -32,6 +32,8 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
@@ -198,7 +200,7 @@ case+ s2e0.s2exp_node of
       var err: int = 0
       val (sub, s2vs) =
         s1vararg_bind_svarlst_err (arg, s2vs, err)
-      // end of [val]
+      val s2vs = list_of_list_vt (s2vs)
       val () = if err != 0 then auxerr (d1e0, locarg, err)
 //
       val (pf_s2expenv | ()) = the_s2expenv_push_nil ()

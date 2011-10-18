@@ -269,8 +269,8 @@ s2exp_node =
   | S2Edatcontyp of (* unfolded datatype *)
       (d2con, s2explst) (* constructor and types of arguments *)
 //
-  | S2Elam of (s2varlst, s2exp) // static abstraction
   | S2Eapp of (s2exp, s2explst) // static application
+  | S2Elam of (s2varlst, s2exp) // static abstraction
   | S2Efun of ( // function type
       funclo, int(*lin*), s2eff, int(*npf*), s2explst(*arg*), s2exp(*res*)
     ) // end of S2Efun
@@ -595,10 +595,19 @@ fun s2exp_fun_srt (
 , s2es_arg: s2explst, s2e_res: s2exp
 ) : s2exp // end of [s2exp_fun_srt]
 
+fun s2exp_metfn
+  (opt: stampopt, met: s2explst, s2e: s2exp): s2exp
+// end of [s2exp_metfn]
+
 (* ****** ****** *)
 
 fun s2exp_cstapp (s2c: s2cst, s2es: s2explst): s2exp
 fun s2exp_confun (npf: int, s2es: s2explst, s2e: s2exp): s2exp
+
+(* ****** ****** *)
+
+fun s2exp_datconptr (d2c: d2con, s2es: s2explst): s2exp
+fun s2exp_datcontyp (d2c: d2con, s2es: s2explst): s2exp
 
 (* ****** ****** *)
 
@@ -621,8 +630,13 @@ fun s2exp_refarg (refval: int, s2e: s2exp): s2exp
 
 fun s2exp_vararg (s2e: s2exp): s2exp
 
-fun s2exp_exi (s2vs: s2varlst, s2ps: s2explst, s2e: s2exp): s2exp
-fun s2exp_uni (s2vs: s2varlst, s2ps: s2explst, s2e: s2exp): s2exp
+fun s2exp_exi
+  (s2vs: s2varlst, s2ps: s2explst, s2e: s2exp): s2exp
+fun s2exp_uni
+  (s2vs: s2varlst, s2ps: s2explst, s2e: s2exp): s2exp
+fun s2exp_exiuni // knd=0/1: exi/uni
+  (knd: int, s2vs: s2varlst, s2ps: s2explst, s2e: s2exp): s2exp
+// end of [s2exp_exiuni]
 
 fun s2exp_wth (_res: s2exp, _with: wths2explst): s2exp
 

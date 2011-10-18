@@ -315,6 +315,34 @@ end // end of [local]
 
 (* ****** ****** *)
 
+implement
+stasub_extend_svarlst (sub, s2vs) = let
+//
+fun loop (
+  sub: &stasub, s2vs: s2varlst, s2vs1: s2varlst_vt
+) : s2varlst_vt =
+  case+ s2vs of
+  | list_cons (s2v, s2vs) => let
+      val s2v1 = s2var_dup (s2v)
+      val s2e1 = s2exp_var (s2v1)
+      val () = stasub_add (sub, s2v, s2e1)
+      val s2vs1 = list_vt_cons (s2v1, s2vs1)
+    in
+      loop (sub, s2vs, s2vs1)
+    end // end of [list_cons]
+  | list_nil () => s2vs1
+// end of [loop]
+//
+val s2vs1 = loop (sub, s2vs, list_vt_nil ())
+//
+in
+//
+list_vt_reverse (s2vs1)
+//
+end // end of [stasub_extend_svarlst]
+
+(* ****** ****** *)
+
 extern
 fun s2exp_subst_flag
   (sub: !stasub, s2e: s2exp, flag: &int): s2exp
@@ -323,9 +351,126 @@ extern
 fun s2explst_subst_flag
   (sub: !stasub, s2es: s2explst, flag: &int): s2explst
 // end of [s2explst_subst_flag]
+extern
+fun s2explstlst_subst_flag
+  (sub: !stasub, s2ess0: s2explstlst, flag: &int): s2explstlst
+// end of [s2explstlst_subst_flag]
+extern
+fun labs2explst_subst_flag
+  (sub: !stasub, ls2es0: labs2explst, flag: &int): labs2explst
+// end of [labs2explst_subst_flag]
+
+(* ****** ****** *)
+
+fun
+s2exp_subst_flag_exiuni (
+  knd: int
+, sub: !stasub, s2e0: s2exp, flag: &int
+, s2vs: s2varlst, s2ps: s2explst, s2e: s2exp
+) : s2exp = let
+  val flag0 = flag
+  var sub1 = stasub_copy (sub)
+  val s2vs = stasub_extend_svarlst (sub1, s2vs)
+  val s2ps = s2explst_subst_flag (sub1, s2ps, flag)
+  val s2e = s2exp_subst_flag (sub1, s2e, flag)
+  val () = stasub_free (sub1)
+in
+  if flag > flag0 then let
+    val s2vs = l2l (s2vs) in
+    s2exp_exiuni (knd, s2vs, s2ps, s2e)
+  end else let
+    val () = list_vt_free (s2vs) in s2e0
+  end (* end of [if] *)
+end // end of [s2exp_subst_flag_exiuni]
 
 implement
-s2exp_subst_flag (sub, s2e, flag) = s2e
+s2exp_subst_flag
+  (sub, s2e0, flag) = let
+  val s2t0 = s2e0.s2exp_srt
+in
+//
+case+ s2e0.s2exp_node of
+//
+| S2Eint _ => s2e0
+| S2Eintinf _ => s2e0
+| S2Echar _ => s2e0
+//
+| S2Ecst _ => s2e0
+//
+| S2Eextype (name, s2ess) => let
+    val flag0 = flag
+    val s2ess = s2explstlst_subst_flag (sub, s2ess, flag)
+  in
+    if flag > flag0 then s2exp_extype_srt (s2t0, name, s2ess) else s2e0
+  end // end of [S2Eextype]
+//
+| S2Evar s2v => let
+    val ans = stasub_find (sub, s2v)
+  in
+    case+ ans of
+    | ~Some_vt (s2e) => let
+        val () = flag := flag + 1 in s2e
+      end // end of [Some_vt]
+    | ~None_vt () => s2e0
+  end // end of [S2Evar]
+//
+| S2Edatconptr (d2c, s2es) => let
+    val flag0 = flag
+    val s2es = s2explst_subst_flag (sub, s2es, flag)
+  in
+    if flag > flag0 then s2exp_datconptr (d2c, s2es) else s2e0
+  end // end of [S2Edatconptr]
+| S2Edatcontyp (d2c, s2es) => let
+    val flag0 = flag
+    val s2es = s2explst_subst_flag (sub, s2es, flag)
+  in
+    if flag > flag0 then s2exp_datcontyp (d2c, s2es) else s2e0
+  end // end of [S2Edatcontyp]
+//
+| S2Elam (s2vs, s2e) => let
+    val flag0 = flag
+    var sub1 = stasub_copy (sub)
+    val s2vs = stasub_extend_svarlst (sub1, s2vs)
+    val s2e = s2exp_subst_flag (sub1, s2e, flag)
+    val () = stasub_free (sub1)
+  in
+    if flag > flag0 then
+      s2exp_lam_srt (s2t0, (l2l)s2vs, s2e)
+    else let
+      val () = list_vt_free (s2vs) in s2e0
+    end (* end of [if] *)
+  end // end of [S2Elam]
+| S2Eapp (s2e_fun, s2es_arg) => let
+    val flag0 = flag
+    val s2e_fun = s2exp_subst_flag (sub, s2e_fun, flag)
+    val s2es_fun = s2explst_subst_flag (sub, s2es_arg, flag)
+  in
+    if flag > flag0
+      then s2exp_app_srt (s2t0, s2e_fun, s2es_arg) else s2e0
+    // end of [if]
+  end // end of [S2Eapp]
+| S2Emetfn (opt(*stamp*), s2es_met, s2e_body) => let
+    val flag0 = flag    
+    val s2es_met = s2explst_subst_flag (sub, s2es_met, flag)
+    val s2e_body = s2exp_subst_flag (sub, s2e_body, flag)
+  in
+    if flag > flag0
+      then s2exp_metfn (opt, s2es_met, s2e_body) else s2e0
+    // end of [if]
+  end // end of [S2Emetfn]
+//
+| S2Eexi (s2vs, s2ps, s2e) =>
+    s2exp_subst_flag_exiuni (0(*exi*), sub, s2e0, flag, s2vs, s2ps, s2e)
+  // end of [S2Eexi]
+| S2Euni (s2vs, s2ps, s2e) =>
+    s2exp_subst_flag_exiuni (1(*uni*), sub, s2e0, flag, s2vs, s2ps, s2e)
+  // end of [S2Euni]
+//
+| _ => s2e0
+// end of [case]
+end // end of [s2exp_subst_flag]
+
+(* ****** ****** *)
 
 implement
 s2explst_subst_flag
@@ -337,14 +482,53 @@ s2explst_subst_flag
       val s2es = s2explst_subst_flag (sub, s2es, flag)
     in
       if flag > flag0 then list_cons (s2e, s2es) else s2es0
-    end (* end of [::] *)
+    end (* end of [list_cons] *)
   | list_nil () => list_nil ()
 // end of [s2explst_subst_flag]
+
+implement
+s2explstlst_subst_flag
+  (sub, s2ess0, flag) =
+  case+ s2ess0 of
+  | list_cons (s2es, s2ess) => let
+      val flag0 = flag
+      val s2es = s2explst_subst_flag (sub, s2es, flag)
+      val s2ess = s2explstlst_subst_flag (sub, s2ess, flag) 
+    in
+      if flag > flag0 then list_cons (s2es, s2ess) else s2ess0
+    end // end of [list_cons]
+  | list_nil () => list_nil ()
+// end of [s2explstlst_subst_flag]
+
+implement
+labs2explst_subst_flag
+  (sub, ls2es0, flag) =
+  case+ ls2es0 of
+  | list_cons (ls2e, ls2es) => let
+      val SLABELED (l, name, s2e) = ls2e
+      val flag0 = flag
+      val s2e = s2exp_subst_flag (sub, s2e, flag)
+      val ls2es = labs2explst_subst_flag (sub, ls2es, flag)
+    in
+      if flag > flag0 then let
+        val ls2e = SLABELED (l, name, s2e) in list_cons (ls2e, ls2es)
+      end else ls2es0 // end of [if]
+    end // end of [LABS2EXPLSTcons]
+  | list_nil () => list_nil ()
+// end of [labs2explst_subst_flag]
 
 (* ****** ****** *)
 
 implement
-s2exp_alpha (s2v, s2v_new, s2e) = s2e
+s2exp_alpha
+  (s2v, s2v_new, s2e) = let
+  var sub = stasub_make_nil ()
+  val () = stasub_add (sub, s2v, s2exp_var (s2v_new))
+  val s2e_new = s2exp_subst (sub, s2e)
+  val () = stasub_free (sub)
+in
+  s2e_new
+end // end of [s2exp_alpha]
 
 (* ****** ****** *)
 

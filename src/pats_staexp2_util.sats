@@ -88,6 +88,11 @@ fun stasub_get_domain (sub: !stasub): List_vt (s2var)
 
 (* ****** ****** *)
 
+fun stasub_extend_svarlst
+  (sub: &stasub, s2vs: s2varlst): s2varlst_vt
+
+(* ****** ****** *)
+
 fun s2exp_subst (sub: !stasub, s2e: s2exp): s2exp
 fun s2explst_subst (sub: !stasub, s2es: s2explst): s2explst
 fun s2expopt_subst (sub: !stasub, os2e: s2expopt): s2expopt

@@ -121,6 +121,12 @@ s2exp_extype_srt (s2t, name, s2ess) = '{
 (* ****** ****** *)
 
 implement
+s2exp_app_srt
+  (s2t, _fun, _arg) = '{
+  s2exp_srt= s2t, s2exp_node= S2Eapp (_fun, _arg)
+} // end of [s2exp_app_srt]
+
+implement
 s2exp_lam
   (s2vs, s2e_body) = let
   val s2ts = l2l (list_map_fun (s2vs, s2var_get_srt))
@@ -143,17 +149,20 @@ s2exp_lams (s2vss, s2e_body) =
 // end of [s2exp_lams]
 
 implement
-s2exp_app_srt
-  (s2t, _fun, _arg) = '{
-  s2exp_srt= s2t, s2exp_node= S2Eapp (_fun, _arg)
-} // end of [s2exp_app_srt]
-
-implement
 s2exp_fun_srt (
   s2t, fc, lin, s2fe, npf, _arg, _res
 ) = '{
   s2exp_srt= s2t, s2exp_node= S2Efun (fc, lin, s2fe, npf, _arg, _res)
 } // end of [s2exp_fun_srt]
+
+implement
+s2exp_metfn (
+  opt, s2es_met, s2e_body
+) = let
+  val s2t = s2e_body.s2exp_srt
+in '{
+  s2exp_srt= s2t, s2exp_node= S2Emetfn (opt, s2es_met, s2e_body)
+} end // end of [s2exp_metfn]
 
 (* ****** ****** *)
 
@@ -176,6 +185,30 @@ s2exp_confun (
     FUNCLOfun (), 0(*lin*), S2EFFnil (), npf, s2es_arg, s2e_res
   ) // end of [S2Efun]
 } (* end of [s2exp_confun] *)
+
+(* ****** ****** *)
+
+implement
+s2exp_datconptr
+  (d2c, arg) = let
+  val arity_real = d2con_get_arity_real (d2c)
+  val s2t = (
+    if arity_real > 0 then s2rt_viewtype else s2rt_type
+  ) : s2rt // end of [val]
+in '{
+  s2exp_srt= s2t, s2exp_node= S2Edatconptr (d2c, arg)
+} end // end of [s2exp_datconptr]
+
+implement
+s2exp_datcontyp
+  (d2c, arg) = let
+  val arity_real = d2con_get_arity_real (d2c)
+  val s2t = (
+    if arity_real > 0 then s2rt_viewtype else s2rt_type
+  ) : s2rt // end of [val]
+in '{
+  s2exp_srt= s2t, s2exp_node= S2Edatcontyp (d2c, arg)
+} end // end of [s2exp_datcontyp]
 
 (* ****** ****** *)
 
@@ -230,6 +263,16 @@ s2exp_uni (
       s2exp_srt= s2e.s2exp_srt, s2exp_node= S2Euni (s2vs, s2ps, s2e)
     } // end of [s2exp_uni]
 // end of [s2exp_uni]
+
+implement
+s2exp_exiuni
+  (knd, s2vs, s2ps, s2e) =
+  if knd = 0 then
+    s2exp_exi (s2vs, s2ps, s2e)
+  else
+    s2exp_uni (s2vs, s2ps, s2e)
+  (* end of [if] *)
+// end of [s2exp_exiuni]
 
 (* ****** ****** *)
 

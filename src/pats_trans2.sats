@@ -174,26 +174,23 @@ fun s1exparglst_tr (s1as: s1exparglst): s2exparglst
 
 (* ****** ****** *)
 
-fun stasub_extend_svarlst
-  (sub: &stasub, s2vs: s2varlst): s2varlst
-
 fun stasub_extend_sarglst_svarlst_err (
   sub: &stasub, s1as: s1arglst, s2vs: s2varlst, err: &int
-) : s2varlst // end of [fun]
+) : s2varlst_vt // end of [fun]
 
 (* ****** ****** *)
 
 fun s1vararg_bind_svarlst_err (
   s1v: s1vararg, s2vs: s2varlst, err: &int
-) : (stasub, s2varlst) // end of [fun]
+) : (stasub, s2varlst_vt) // end of [fun]
 
 (*
 fun s1marg_bind_svarlst (
   s1ma: s1marg, s2vs: s2varlst, sub: stasub
-) : (s2varlst, stasub) // end of [s1marg_bind_svarlst]
+) : (stasub, s2varlst) // end of [s1marg_bind_svarlst]
 fun t1mpmarg_bind_svarlst (
   t1ma: t1mpmarg, s2vs: s2varlst, sub: stasub
-) : (s2explst, stasub) // end of [t1mpmarg_bind_svarlst]
+) : (stasub, s2explst) // end of [t1mpmarg_bind_svarlst]
 *)
 
 (* ****** ****** *)

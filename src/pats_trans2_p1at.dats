@@ -32,8 +32,10 @@
 //
 (* ****** ****** *)
 
-staload
-_(*anon*) = "prelude/DATS/list_vt.dats"
+staload UN = "prelude/SATS/unsafe.sats"
+
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
@@ -145,7 +147,8 @@ case+ s2qs of
       stasub_extend_svarlst (sub, s2q.s2qua_svs)
     // end of [val]
     val s2ps = s2explst_subst (sub, s2q.s2qua_sps)
-    val s2q = s2qua_make (s2vs, s2ps)
+    val s2q = s2qua_make ($UN.castvwtp1 (s2vs), s2ps)
+    val () = list_vt_free (s2vs)
     val () = out := list_vt_cons (s2q, out)
   in
     p1at_tr_con_sapp1 (p1t1, d2c, sub, s2qs, out)
@@ -215,7 +218,8 @@ case+ s1as of
           stasub_extend_svarlst (sub, s2q.s2qua_svs)
         // end of [val]
         val s2ps = s2explst_subst (sub, s2q.s2qua_sps)
-        val s2q = s2qua_make (s2vs, s2ps)
+        val s2q = s2qua_make ($UN.castvwtp1 (s2vs), s2ps)
+        val () = list_vt_free (s2vs)
         val () = out := list_vt_cons (s2q, out)
       in
         p1at_tr_con_sapp2 (p1t1, d2c, sub, s2qs, s1as, out)
@@ -236,7 +240,8 @@ case+ s1as of
         end // end of [val]
 //
         val s2ps = s2explst_subst (sub, s2q.s2qua_sps)
-        val s2q = s2qua_make (s2vs, s2ps)
+        val s2q = s2qua_make ($UN.castvwtp1 (s2vs), s2ps)
+        val () = list_vt_free (s2vs)
         val () = out := list_vt_cons (s2q, out)
       in
         p1at_tr_con_sapp2 (p1t1, d2c, sub, s2qs, s1as, out)
