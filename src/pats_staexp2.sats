@@ -630,6 +630,8 @@ fun s2exp_refarg (refval: int, s2e: s2exp): s2exp
 
 fun s2exp_vararg (s2e: s2exp): s2exp
 
+(* ****** ****** *)
+
 fun s2exp_exi
   (s2vs: s2varlst, s2ps: s2explst, s2e: s2exp): s2exp
 fun s2exp_uni
@@ -637,6 +639,8 @@ fun s2exp_uni
 fun s2exp_exiuni // knd=0/1: exi/uni
   (knd: int, s2vs: s2varlst, s2ps: s2explst, s2e: s2exp): s2exp
 // end of [s2exp_exiuni]
+
+(* ****** ****** *)
 
 fun s2exp_wth (_res: s2exp, _with: wths2explst): s2exp
 
