@@ -86,6 +86,8 @@ fun effset_subset (efs1: effset, efs2: effset): bool
 
 fun effset_union (efs1: effset, efs2: effset): effset
 
+fun fprint_effset (out: FILEref, efs: effset): void
+
 (* ****** ****** *)
 
 (* end of [pats_effect.sats] *)

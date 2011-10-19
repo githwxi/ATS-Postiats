@@ -516,18 +516,18 @@ fn i0nclude_tr (
 //
 static
 ats_bool_type
-atsopt_string_suffix_is_dats
+patsopt_string_suffix_is_dats
   (ats_ptr_type s0) {
   char *s = strrchr (s0, '.') ;
   if (!s) return ats_false_bool ;
   if (strcmp (s, ".dats") != 0) return ats_false_bool ;
   return ats_true_bool ;
-} // end of [atsopt_string_suffix_is_dats]
+} // end of [patsopt_string_suffix_is_dats]
 //
 %} // end of [%{^]
 
 extern fun string_suffix_is_dats
-  (s: string): bool = "atsopt_string_suffix_is_dats"
+  (s: string): bool = "patsopt_string_suffix_is_dats"
 // end of [string_suffix_is_dats]
 
 fn s0taload_tr_load (
@@ -887,7 +887,7 @@ extern
 char *atspre_string_make_substring (char*, int, int) ;
 
 ats_bool_type
-atsopt_extnam_ismac (
+patsopt_extnam_ismac (
   ats_ptr_type ext, ats_ptr_type ext_new
 ) {
   int sgn ;
@@ -905,10 +905,10 @@ atsopt_extnam_ismac (
     return ats_true_bool ;
   } // end of [if]
   return ats_false_bool ;
-} // end of [atsopt_extnam_ismac]
+} // end of [patsopt_extnam_ismac]
 
 ats_bool_type
-atsopt_extnam_issta (
+patsopt_extnam_issta (
   ats_ptr_type ext, ats_ptr_type ext_new
 ) {
   int sgn ;
@@ -921,10 +921,10 @@ atsopt_extnam_issta (
     return ats_true_bool ;
   } // end of [if]
   return ats_false_bool ;
-} // end of [atsopt_extnam_issta]
+} // end of [patsopt_extnam_issta]
 
 ats_bool_type
-atsopt_extnam_isext (
+patsopt_extnam_isext (
   ats_ptr_type ext, ats_ptr_type ext_new
 ) {
   int sgn ;
@@ -937,7 +937,7 @@ atsopt_extnam_isext (
     return ats_true_bool ;
   } // end of [if]
   return ats_false_bool ;
-} // end of [atsopt_extnam_isext]
+} // end of [patsopt_extnam_isext]
 
 %} // end of [%{$]
 

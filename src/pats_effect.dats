@@ -123,4 +123,8 @@ implement effset_union (xs1, xs2) = xs1 lor xs2
 
 (* ****** ****** *)
 
+implement fprint_effset (out, efs) = fprint_uint (out, efs)
+
+(* ****** ****** *)
+
 (* end of [pats_effect.dats] *)

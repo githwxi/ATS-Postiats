@@ -638,6 +638,18 @@ s2eff_subst_flag
 (* ****** ****** *)
 
 implement
+s2exp_subst (sub, s2e) = let
+  var flag: int = 0 in s2exp_subst_flag (sub, s2e, flag)
+end // end of [s2exp_subst]
+
+implement
+s2explst_subst (sub, s2es) = let
+  var flag: int = 0 in s2explst_subst_flag (sub, s2es, flag)
+end // end of [s2explst_subst]
+
+(* ****** ****** *)
+
+implement
 s2exp_alpha
   (s2v, s2v_new, s2e) = let
   var sub = stasub_make_nil ()
@@ -648,32 +660,103 @@ in
   s2e_new
 end // end of [s2exp_alpha]
 
-(* ****** ****** *)
-
 implement
 s2explst_alpha
   (s2v, s2v_new, s2es) = let
-  var !p_clo = @lam
-    (pf: !unit_v | s2e: s2exp): s2exp => s2exp_alpha (s2v, s2v_new, s2e)
-  // end of [var]
-  prval pfu = unit_v ()
-  val s2es = list_map_vclo (pfu | s2es, !p_clo)
-  prval unit_v () = pfu
+  fun aux (
+    s2es0: s2explst
+  ) :<cloref1> s2explst =
+    case+ s2es0 of
+    | list_cons (s2e, s2es) => let
+        var flag: int = 0
+        extern castfn ptrof {a:type} (x: a):<> ptr
+        val s2e_new = s2exp_alpha (s2v, s2v_new, s2e)
+        val () = if ptrof(s2e) != ptrof(s2e_new) then flag := flag + 1
+        val s2es_new = aux (s2es)
+        val () = if ptrof (s2es) != ptrof (s2es_new) then flag := flag + 1
+      in
+        if flag > 0 then list_cons (s2e_new, s2es_new) else s2es0
+      end // end of [list_cons]
+    | list_nil () => s2es0
+  // end of [aux]
 in
-  l2l (s2es)
+  aux (s2es)
 end // end of [s2explst_alpha]
 
 (* ****** ****** *)
 
-implement
-s2exp_subst (sub, s2e) = let
-  var flag: int = 0 in s2exp_subst_flag (sub, s2e, flag)
-end // end of [s2exp_subst]
+extern
+fun s2exp_hnfize_flag (s2e: s2exp, flag: &int): s2exp
+extern
+fun s2explst_hnfize_flag (s2es: s2explst, flag: &int): s2explst
+extern
+fun labs2explst_hnfize_flag (ls2es: labs2explst, flag: &int): labs2explst
+
+(* ****** ****** *)
 
 implement
-s2explst_subst (sub, s2es) = let
-  var flag: int = 0 in s2explst_subst_flag (sub, s2es, flag)
-end // end of [s2explst_subst]
+s2exp_hnfize_flag
+  (s2e0, flag) = let
+  val () = assertloc (false)
+in
+  s2e0
+end // end of [s2exp_hnfize_flag]
+
+
+(* ****** ****** *)
+
+implement
+s2explst_hnfize_flag
+  (s2es0, flag) =
+  case+ s2es0 of
+  | list_cons (s2e, s2es) => let
+      val flag0 = flag
+      val s2e = s2exp_hnfize_flag (s2e, flag)
+      val s2es = s2explst_hnfize_flag (s2es, flag)
+    in
+      if flag > flag0 then
+        list_cons (s2e, s2es) else s2es0
+      // end of [if]
+    end // end of [list_cons]
+  | list_nil () => list_nil ()
+// end of [s2explst_hnfize_flag]
+
+(* ****** ****** *)
+
+implement
+labs2explst_hnfize_flag
+  (ls2es0, flag) =
+  case+ ls2es0 of
+  | list_cons (ls2e, ls2es) => let
+      val flag0 = flag
+      val SLABELED (l, name, s2e) = ls2e
+      val s2e = s2exp_hnfize_flag (s2e, flag)
+      val ls2es = labs2explst_hnfize_flag (ls2es, flag)
+    in
+      if flag > flag0 then
+        list_cons (SLABELED (l, name, s2e), ls2es) else ls2es0
+      // end of [if]
+    end // end of [list_cons]
+  | list_nil () => list_nil ()
+// end of [labs2explst_hnfize_flag]
+
+(* ****** ****** *)
+
+implement
+s2exp_hnfize (s2e) = let
+  var flag: int = 0
+  val s2e = s2exp_hnfize_flag (s2e, flag)
+in
+  s2hnf_of_s2exp (s2e)
+end // end of [s2exp_hnfsize]
+
+implement
+s2explst_hnfize (s2es) = let
+  var flag: int = 0
+  val s2es = s2explst_hnfize_flag (s2es, flag)
+in
+  s2hnflst_of_s2explst (s2es)
+end // end of [s2explst_hnfsize]
 
 (* ****** ****** *)
 

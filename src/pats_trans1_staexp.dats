@@ -554,11 +554,11 @@ s0exparg_tr
 local
 
 extern fun extnam_ismac
-  (ext: string, ext_new: &string): bool = "atsopt_extnam_ismac"
+  (ext: string, ext_new: &string): bool = "patsopt_extnam_ismac"
 extern fun extnam_issta
-  (ext: string, ext_new: &string): bool = "atsopt_extnam_issta"
+  (ext: string, ext_new: &string): bool = "patsopt_extnam_issta"
 extern fun extnam_isext
-  (ext: string, ext_new: &string): bool = "atsopt_extnam_isext"
+  (ext: string, ext_new: &string): bool = "patsopt_extnam_isext"
 
 in // in of [local]
 

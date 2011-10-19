@@ -193,13 +193,13 @@ dynload "pats_comarg.dats"
 // end of [PATS_VERSION]
 *)
 //
-fn atsopt_version
+fn patsopt_version
   (out: FILEref): void = {
   val () = fprintf (out
 , "ATS/Postiats version %i.%i.%i with Copyright (c) 2011-20?? Hongwei Xi\n"
 , @(PATS_MAJOR_VERSION, PATS_MINOR_VERSION, PATS_MICRO_VERSION)
   ) // end of [fprintf]
-} // end of [atsopt_version]
+} // end of [patsopt_version]
 
 (* ****** ****** *)
 
@@ -648,7 +648,7 @@ process_cmdline2_COMARGkey1
           // nothing
         end // end of [if]
       end
-    | "-v" => atsopt_version (stdout_ref)
+    | "-v" => patsopt_version (stdout_ref)
     | _ => comarg_warning (key)
   ) : void // end of [val]
 in
@@ -668,7 +668,7 @@ process_cmdline2_COMARGkey2
     | "--static" => state.waitkind := WAITKINDinput_sta
     | "--dynamic" => state.waitkind := WAITKINDinput_dyn
     | "--output" => state.waitkind := WAITKINDoutput ()
-    | "--version" => atsopt_version (stdout_ref)
+    | "--version" => patsopt_version (stdout_ref)
     | _ => comarg_warning (key)
   ) : void // end of [val]
 in
@@ -685,20 +685,20 @@ main (
 val () = println! ("Hello from ATS/Postiats!")
 //
 val () = set () where { extern
-  fun set (): void = "mac#atsopt_ATSHOME_set"
+  fun set (): void = "mac#patsopt_ATSHOME_set"
 } // end of [where] // end of [val]
 val () = set () where { extern
-  fun set (): void = "mac#atsopt_ATSHOMERELOC_set"
+  fun set (): void = "mac#patsopt_ATSHOMERELOC_set"
 } // end of [where] // end of [val]
 //
 val () = set () where { extern
-  fun set (): void = "mac#atsopt_PATSHOME_set"
+  fun set (): void = "mac#patsopt_PATSHOME_set"
 } // end of [where] // end of [val]
 //
 (*
 val ATSHOME = let
   val opt = get () where {
-    extern fun get (): Stropt = "atsopt_ATSHOME_get"
+    extern fun get (): Stropt = "patsopt_ATSHOME_get"
   } // end of [val]
 in
   if stropt_is_some (opt)
@@ -713,7 +713,7 @@ end : string // end of [ATSHOME]
 //
 val ATSHOME = let
   val opt = get () where {
-    extern fun get (): Stropt = "atsopt_PATSHOME_get"
+    extern fun get (): Stropt = "patsopt_PATSHOME_get"
   } // end of [val]
 in
   if stropt_is_some (opt)
@@ -756,40 +756,40 @@ val () = process_cmdline (ATSHOME, state, arglst)
 // there is no need for marking these variables as
 // GC roots as the values stored in them cannot be GCed
 //
-static char *atsopt_ATSHOME = (char*)0 ;
-static char *atsopt_ATSHOMERELOC = (char*)0 ;
-static char *atsopt_PATSHOME = (char*)0 ;
+static char *patsopt_ATSHOME = (char*)0 ;
+static char *patsopt_ATSHOMERELOC = (char*)0 ;
+static char *patsopt_PATSHOME = (char*)0 ;
 extern char *getenv (const char *name) ; // [stdlib.h]
 //
 ats_ptr_type
-atsopt_ATSHOME_get () {
-  return atsopt_ATSHOME ; // optional string
-} // end of [atsopt_ATSHOME_get]
+patsopt_ATSHOME_get () {
+  return patsopt_ATSHOME ; // optional string
+} // end of [patsopt_ATSHOME_get]
 ATSinline()
 ats_void_type
-atsopt_ATSHOME_set () {
-  atsopt_ATSHOME = getenv ("ATSHOME") ; return ;
-} // end of [atsopt_ATSHOME_set]
+patsopt_ATSHOME_set () {
+  patsopt_ATSHOME = getenv ("ATSHOME") ; return ;
+} // end of [patsopt_ATSHOME_set]
 //
 ats_ptr_type
-atsopt_ATSHOMERELOC_get () {
-  return atsopt_ATSHOMERELOC ; // optional string
-} // end of [atsopt_ATSHOMERELOC_get]
+patsopt_ATSHOMERELOC_get () {
+  return patsopt_ATSHOMERELOC ; // optional string
+} // end of [patsopt_ATSHOMERELOC_get]
 ATSinline()
 ats_void_type
-atsopt_ATSHOMERELOC_set () {
-  atsopt_ATSHOMERELOC = getenv ("ATSHOMERELOC") ; return ;
-} // end of [atsopt_ATSHOMERELOC_set]
+patsopt_ATSHOMERELOC_set () {
+  patsopt_ATSHOMERELOC = getenv ("ATSHOMERELOC") ; return ;
+} // end of [patsopt_ATSHOMERELOC_set]
 //
 ats_ptr_type
-atsopt_PATSHOME_get () {
-  return atsopt_PATSHOME ; // optional string
-} // end of [atsopt_PATSHOME_get]
+patsopt_PATSHOME_get () {
+  return patsopt_PATSHOME ; // optional string
+} // end of [patsopt_PATSHOME_get]
 ATSinline()
 ats_void_type
-atsopt_PATSHOME_set () {
-  atsopt_PATSHOME = getenv ("PATSHOME") ; return ;
-} // end of [atsopt_PATSHOME_set]
+patsopt_PATSHOME_set () {
+  patsopt_PATSHOME = getenv ("PATSHOME") ; return ;
+} // end of [patsopt_PATSHOME_set]
 //
 %} // end of [%{^]
 

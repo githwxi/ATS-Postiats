@@ -139,8 +139,6 @@ macdef FUNCLOcloptr = FUNCLOclo (CLOPTR)
 macdef FUNCLOcloref = FUNCLOclo (CLOREF)
 
 fun fprint_funclo : fprint_type (funclo)
-overload fprint with fprint_funclo
-
 fun print_funclo (x: funclo): void
 fun prerr_funclo (x: funclo): void
 
@@ -151,11 +149,11 @@ overload = with eq_funclo_funclo
 //
 // HX: implemented in pats_basics.dats
 //
-fun debug_flag_get (): int = "atsopt_debug_flag_get"
-fun debug_flag_set (i: int): void = "atsopt_debug_flag_set"
+fun debug_flag_get (): int = "patsopt_debug_flag_get"
+fun debug_flag_set (i: int): void = "patsopt_debug_flag_set"
 
 fun prerrf_ifdebug {ts:types}
-  (fmt: printf_c ts, arg: ts): void = "atsopt_prerrf_ifdebug"
+  (fmt: printf_c ts, arg: ts): void = "patsopt_prerrf_ifdebug"
 // end of [prerrf_ifdebug]
 
 macdef

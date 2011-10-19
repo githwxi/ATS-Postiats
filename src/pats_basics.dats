@@ -213,6 +213,16 @@ fprint_dcstkind
 
 (* ****** ****** *)
 
+implement
+fprint_funclo
+  (out, fc) = case+ fc of
+  | FUNCLOclo (knd) =>
+      fprintf (out, "CLO(%i)", @(knd))
+  | FUNCLOfun () => fprintf (out, "FUN", @())
+// end of [fprint_funclo]
+
+(* ****** ****** *)
+
 local
 
 var the_flag: int = 1 // 0
@@ -240,29 +250,29 @@ end // end of [local]
 %{$
 
 ats_void_type
-atsopt_vfprintf_ifdebug (
+patsopt_vfprintf_ifdebug (
   ats_ptr_type out
 , ats_ptr_type fmt
 , va_list ap // variadic arguments
 ) {
 //
-  if (atsopt_debug_flag_get () > 0) {
+  if (patsopt_debug_flag_get () > 0) {
     (void)vfprintf((FILE*)out, (char*)fmt, ap) ;
   } // end of [if]
 //
   return ;
-} // end of [atsopt_debug_printf]
+} // end of [patsopt_debug_printf]
 
 ats_void_type
-atsopt_prerrf_ifdebug (
+patsopt_prerrf_ifdebug (
   ats_ptr_type fmt, ...
 ) {
   va_list ap ;
   va_start(ap, fmt) ;
-  atsopt_vfprintf_ifdebug(stderr, (char*)fmt, ap) ;
+  patsopt_vfprintf_ifdebug(stderr, (char*)fmt, ap) ;
   va_end(ap) ;
   return ;
-} // end of [atsopt_debug_prerrf]
+} // end of [patsopt_debug_prerrf]
 
 %} // end of [%{$]
 

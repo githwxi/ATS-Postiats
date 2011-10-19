@@ -238,14 +238,18 @@ fun prerr_s2itm (x: s2itm): void
 
 (* ****** ****** *)
 
-datatype tyreckind =
+datatype
+tyreckind =
   | TYRECKINDbox (* boxed *)
   | TYRECKINDflt0
   | TYRECKINDflt1 of stamp (* flat *)
   | TYRECKINDflt_ext of string  (* flat *)
 // end of [tyreckind]
 
-fun eq_tyreckind_tyreckind (_: tyreckind, _: tyreckind): bool
+fun fprint_tyreckind: fprint_type (tyreckind)
+
+fun eq_tyreckind_tyreckind
+  (knd1: tyreckind, knd2: tyreckind): bool
 overload = with eq_tyreckind_tyreckind
 
 (* ****** ****** *)
@@ -662,6 +666,14 @@ fun prerr_s2explst (xs: s2explst): void
 
 fun fprint_labs2exp : fprint_type (labs2exp)
 fun fprint_labs2explst : fprint_type (labs2explst)
+
+(* ****** ****** *)
+
+fun fprint_wths2explst : fprint_type (wths2explst)
+
+(* ****** ****** *)
+
+fun fprint_s2eff : fprint_type (s2eff)
 
 (* ****** ****** *)
 

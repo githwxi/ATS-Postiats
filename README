@@ -169,4 +169,30 @@ assume E (a:t@ype, x:elt) = top // ignored
 //
 ######
 
+######
+//
+// HX-2011-10-18: proof management?
+//
+
+#proof (?@l)
+#proof (array_v(?, ?, l))
+#typeof (exp)
+
+let
+
+prfun tyeq {a:t@ype} (x: INV(a)): void
+prfun tyeq_vt {a:t@ype} (x: !INV(a)): void
+
+prval pf = #proof(?@l)
+prval pf = #proof(free_v_gc(?, l))
+stavar i: int and j: int
+prval () = tyeq {int(i)} (x+y)
+val x = ptrget (pf | p)
+
+in
+
+end // end of [
+
+######
+
 ###### end of [README] ######

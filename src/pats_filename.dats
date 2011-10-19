@@ -524,13 +524,13 @@ end // end of [local]
 %{$
 
 ats_ptr_type
-atsopt_filename_append (
+patsopt_filename_append (
   ats_ptr_type dir, ats_ptr_type bas
 ) {
   int n1, n2, n ;
   char dirsep, *dirbas ;
 //
-  dirsep = atsopt_filename_theDirSep_get () ;
+  dirsep = patsopt_filename_theDirSep_get () ;
 //
   n1 = strlen ((char*)dir) ;
   n2 = strlen ((char*)bas) ;
@@ -543,7 +543,7 @@ atsopt_filename_append (
   dirbas[n] = '\000' ;
 //
   return dirbas ;
-} /* end of [atsopt_filename_append] */
+} /* end of [patsopt_filename_append] */
 
 %} // end of [%{$]
 

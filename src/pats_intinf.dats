@@ -76,7 +76,7 @@ end // end of [intinf_make_string]
 (* ****** ****** *)
 
 val () = intinf_initialize () where {
-  extern fun intinf_initialize (): void = "atsopt_intinf_initialize"
+  extern fun intinf_initialize (): void = "patsopt_intinf_initialize"
 } // end of [val]
 
 (* ****** ****** *)
@@ -86,30 +86,30 @@ val () = intinf_initialize () where {
 // This is necessary to prevent memory leak
 //
 static
-void* atsopt_intinf_malloc
+void* patsopt_intinf_malloc
   (size_t sz) { return ATS_MALLOC (sz) ; }
-// end of [atsopt_intinf_malloc]
+// end of [patsopt_intinf_malloc]
 
 static
-void atsopt_intinf_free
+void patsopt_intinf_free
   (void* ptr, size_t sz) { ATS_FREE (ptr) ; return ; }
-// end of [atsopt_intinf_free]
+// end of [patsopt_intinf_free]
 
 static
-void* atsopt_intinf_realloc (
+void* patsopt_intinf_realloc (
   void* ptr, size_t sz_old, size_t sz_new
 ) {
   return ATS_REALLOC (ptr, sz_new) ;
-} // end of [atsopt_intinf_realloc]
+} // end of [patsopt_intinf_realloc]
 
 ats_void_type
-atsopt_intinf_initialize
+patsopt_intinf_initialize
   (/*argumentless*/) {
   mp_set_memory_functions (
-    &atsopt_intinf_malloc, &atsopt_intinf_realloc, &atsopt_intinf_free
+    &patsopt_intinf_malloc, &patsopt_intinf_realloc, &patsopt_intinf_free
   ) ; // end of [mp_set_memory_functions]
   return ;
-} // end of [atsopt_intinf_initialize]
+} // end of [patsopt_intinf_initialize]
 
 %} // end of [%{$]
 

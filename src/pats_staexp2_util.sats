@@ -94,6 +94,7 @@ fun stasub_extend_svarlst
 (* ****** ****** *)
 
 fun s2exp_subst (sub: !stasub, s2e: s2exp): s2exp
+
 fun s2explst_subst (sub: !stasub, s2es: s2explst): s2explst
 fun s2expopt_subst (sub: !stasub, os2e: s2expopt): s2expopt
 
@@ -110,6 +111,31 @@ fun s2exp_alpha
 fun s2explst_alpha
   (s2v: s2var, s2v_new: s2var, s2es: s2explst): s2explst
 // end of [s2explst_alpha]
+
+(* ****** ****** *)
+
+abstype s2hnf_type = s2exp
+
+typedef s2hnf = s2hnf_type
+typedef s2hnflst = List (s2hnf)
+typedef s2hnfopt = Option (s2hnf)
+typedef s2hnflstlst = List (s2hnflst)
+
+castfn s2exp_of_s2hnf (x: s2hnf): s2exp
+castfn s2hnf_of_s2exp (x: s2exp): s2hnf
+castfn s2explst_of_s2hnflst (xs: s2hnflst): s2explst
+castfn s2hnflst_of_s2explst (xs: s2explst): s2hnflst
+castfn s2explstlst_of_s2hnflstlst (xss: s2hnflstlst): s2explstlst
+castfn s2hnflstlst_of_s2explstlst (xss: s2explstlst): s2hnflstlst
+
+(* ****** ****** *)
+
+fun s2exp_hnfize (s2e: s2exp): s2hnf
+
+fun s2explst_hnfize (s2es: s2explst): s2hnflst
+fun s2expopt_hnfize (os2e: s2expopt): s2hnfopt
+
+fun s2explstlst_hnfize (s2ess: s2explstlst): s2hnflstlst
 
 (* ****** ****** *)
 

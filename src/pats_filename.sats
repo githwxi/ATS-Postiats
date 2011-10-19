@@ -46,7 +46,7 @@ filenameopt_vt = Option_vt (filename)
 (* ****** ****** *)
 
 fun theDirSep_get
-  (): char = "atsopt_filename_theDirSep_get"
+  (): char = "patsopt_filename_theDirSep_get"
 // end of [theDirSep_get]
 
 fun theCurDir_get (): string // current directory
@@ -75,7 +75,7 @@ fun filename_get_full (fil: filename): $SYM.symbol
 
 fun filename_append (
   dir: string, bas: string
-) :<> strptr1 = "atsopt_filename_append"
+) :<> strptr1 = "patsopt_filename_append"
 
 (* ****** ****** *)
 
