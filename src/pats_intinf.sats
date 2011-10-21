@@ -49,4 +49,8 @@ intinf_make_base_string_ofs
 
 (* ****** ****** *)
 
+fun fprint_intinf (out: FILEref, x: intinf): void
+
+(* ****** ****** *)
+
 (* end of [pats_intinf.sats] *)

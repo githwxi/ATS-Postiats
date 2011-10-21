@@ -218,4 +218,84 @@ implement prerr_s2varlst (xs) = fprint_s2varlst (stderr_ref, xs)
 
 (* ****** ****** *)
 
+local
+
+staload
+FS = "libats/SATS/funset_avltree.sats"
+staload _ = "libats/DATS/funset_avltree.dats"
+staload
+LS = "libats/SATS/linset_avltree.sats"
+staload _ = "libats/DATS/linset_avltree.dats"
+
+val cmp = lam (
+  s2v1: s2var, s2v2: s2var
+) : int =<cloref>
+  compare_s2var_s2var (s2v1, s2v2)
+// end of [val]
+
+assume s2varset_type = $FS.set (s2var)
+assume s2varset_viewtype = $LS.set (s2var)
+
+in // in of [local]
+
+implement
+s2varset_nil () = $FS.funset_make_nil ()
+
+implement
+s2varset_add
+  (xs, x) = xs where {
+  var xs = xs
+  val _(*ins'd*) = $FS.funset_insert (xs, x, cmp)
+} // end of [s2varset_add]
+
+implement
+s2varset_del
+  (xs, x) = xs where {
+  var xs = xs
+  val _(*rem'd*) = $FS.funset_remove (xs, x, cmp)
+} // end of [s2varset_del]
+
+implement
+s2varset_union (xs, ys) = $FS.funset_union (xs, ys, cmp)
+
+(* ****** ****** *)
+
+implement
+s2varset_vt_nil () = $LS.linset_make_nil ()
+
+implement
+s2varset_vt_add
+  (xs, x) = xs where {
+  var xs = xs
+  val _(*ins'd*) = $LS.linset_insert (xs, x, cmp)
+} // end of [s2varset_vt_add]
+
+implement
+s2varset_vt_del
+  (xs, x) = xs where {
+  var xs = xs
+  val _(*rem'd*) = $LS.linset_remove (xs, x, cmp)
+} // end of [s2varset_vt_del]
+
+implement
+s2varset_vt_delist
+  (xs1, xs2) = let
+  fun loop {n:nat} .<n>. (
+    xs1: s2varset_vt, xs2: list (s2var, n)
+  ) : s2varset_vt =
+    case+ xs2 of
+    | list_cons (x2, xs2) => loop (s2varset_vt_del (xs1, x2), xs2)
+    | list_nil () => xs1
+  // end of [loop]
+in
+  loop (xs1, xs2)
+end // end of [s2varset_vt_delist]
+
+implement
+s2varset_vt_union (xs, ys) = $LS.linset_union (xs, ys, cmp)
+
+end // end of [local]
+
+(* ****** ****** *)
+
 (* end of [pats_staexp2_svar.dats] *)

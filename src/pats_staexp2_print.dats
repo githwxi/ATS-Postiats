@@ -41,6 +41,13 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
+staload
+INTINF = "pats_intinf.sats"
+macdef
+fprint_intinf = $INTINF.fprint_intinf
+
+(* ****** ****** *)
+
 staload SYM = "pats_symbol.sats"
 macdef fprint_symbol = $SYM.fprint_symbol
 staload STAMP = "pats_stamp.sats"
@@ -122,6 +129,7 @@ case+ x of
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }
+//
 | S2RTerr () => prstr "S2RTerr()"
 //
 end // end of [fprint_s2rt]
@@ -211,9 +219,20 @@ case+ x.s2exp_node of
     val () = fprint_int (out, x)
     val () = prstr ")"
   }
+| S2Eintinf (x) => {
+    val () = prstr "S2Eintinf("
+    val () = fprint_intinf (out, x)
+    val () = prstr ")"
+  }
 | S2Echar (x) => {
     val () = prstr "S2Echar("
     val () = fprint_char (out, x)
+    val () = prstr ")"
+  }
+//
+| S2Ecst (s2c) => {
+    val () = prstr "S2Ecst("
+    val () = fprint_s2cst (out, s2c)
     val () = prstr ")"
   }
 //
@@ -242,6 +261,21 @@ case+ x.s2exp_node of
     val () = prstr ")"
   } // end of [S2EVar]
 //
+| S2Edatconptr (d2c, s2es) => {
+    val () = prstr "S2Edatconptr("
+    val () = fprint_d2con (out, d2c)
+    val () = prstr "; "
+    val () = fprint_s2explst (out, s2es)
+    val () = prstr ")"
+  } // end of [S2Edatconptr]
+| S2Edatcontyp (d2c, s2es) => {
+    val () = prstr "S2Edatcontyp("
+    val () = fprint_d2con (out, d2c)
+    val () = prstr "; "
+    val () = fprint_s2explst (out, s2es)
+    val () = prstr ")"
+  } // end of [S2Edatcontyp]
+//
 | S2Eapp (s2e_fun, s2es_arg) => {
     val () = prstr "S2Eapp("
     val () = fprint_s2exp (out, s2e_fun)
@@ -255,12 +289,7 @@ case+ x.s2exp_node of
     val () = prstr "; "
     val () = fprint_s2exp (out, s2e_body)
     val () = prstr ")"
-  }
-(*
-| S2Efun of ( // function type
-    funclo, int(*lin*), s2eff, int(*npf*), s2explst(*arg*), s2exp(*res*)
-  ) // end of S2Efun
-*)
+  } // end of [S2Elam]
 | S2Efun (
     fc, lin, s2fe, npf, s2es_arg, s2e_res
   ) => {
@@ -345,11 +374,11 @@ case+ x.s2exp_node of
     val () = prstr ")"
   }
 //
-| S2Eerr _ => {
-    val () = prstr "S2Eerr()"
-  }
+| S2Eerr () => prstr "S2Eerr()"
 //
+(*
 | _ => prstr "S2E...(...)"
+*)
 //
 end // end of [fprint_s2exp]
 

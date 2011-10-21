@@ -50,6 +50,7 @@ typedef
 s2Var_struct = @{
   s2Var_sym= symbol // the name
 , s2Var_srt= s2rt  // the sort
+, s2Var_link= s2expopt // solution
 , s2Var_sVarset= s2Varset // existential Variable occurrences
 , s2Var_stamp= stamp // uniqueness
 } // end of [s2Var_struct]
@@ -71,6 +72,15 @@ implement
 s2Var_get_srt (s2v) = let
   val (vbox pf | p) = ref_get_view_ptr (s2v) in p->s2Var_srt
 end // end of [s2Var_get_srt]
+
+implement
+s2Var_get_link (s2v) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2v) in p->s2Var_link
+end // end of [s2Var_get_link]
+implement
+s2Var_set_link (s2v, link) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2v) in p->s2Var_link := link
+end // end of [s2Var_set_link]
 
 implement
 s2Var_get_stamp (s2v) = let

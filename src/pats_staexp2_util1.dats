@@ -387,7 +387,14 @@ fun
 s2Var_subst_flag (
   sub: !stasub, s2e0: s2exp, flag: &int, s2V: s2Var
 ) : s2exp = let
-  val () = assertloc (false) in s2e0
+  val opt = s2Var_get_link (s2V)
+in
+//
+case+ opt of
+| Some (s2e) =>
+    s2exp_subst_flag (sub, s2e, flag)
+| None () => s2exp_err (s2e0.s2exp_srt)
+//
 end // end of [s2Var_subst_flag]
 
 fun
@@ -527,19 +534,19 @@ case+ s2e0.s2exp_node of
     if flag > flag0 then s2exp_refarg (knd, s2e) else s2e0
   end // end of [S2Erefarg]
 //
-| S2Evararg (s2e) => let
-    val flag0 = flag
-    val s2e = s2exp_subst_flag (sub, s2e, flag)
-  in
-    if flag > flag0 then s2exp_vararg (s2e) else s2e0
-  end // end of [S2Evararg]
-//
 | S2Eexi (s2vs, s2ps, s2e) =>
     s2exp_subst_flag_exiuni (0(*exi*), sub, s2e0, flag, s2vs, s2ps, s2e)
   // end of [S2Eexi]
 | S2Euni (s2vs, s2ps, s2e) =>
     s2exp_subst_flag_exiuni (1(*uni*), sub, s2e0, flag, s2vs, s2ps, s2e)
   // end of [S2Euni]
+//
+| S2Evararg (s2e) => let
+    val flag0 = flag
+    val s2e = s2exp_subst_flag (sub, s2e, flag)
+  in
+    if flag > flag0 then s2exp_vararg (s2e) else s2e0
+  end // end of [S2Evararg]
 //
 | S2Ewth (s2e, ws2es) => let
     val flag0 = flag
@@ -647,6 +654,19 @@ s2explst_subst (sub, s2es) = let
   var flag: int = 0 in s2explst_subst_flag (sub, s2es, flag)
 end // end of [s2explst_subst]
 
+implement
+s2expopt_subst
+  (sub, opt) =
+  case+ opt of
+  | Some s2e => let
+      var flag: int = 0
+      val s2e = s2exp_subst_flag (sub, s2e, flag)
+    in
+      if flag > 0 then Some (s2e) else opt
+    end // end of [Some]
+  | None () => opt
+// end of [s2expopt_subst]
+
 (* ****** ****** *)
 
 implement
@@ -685,78 +705,153 @@ end // end of [s2explst_alpha]
 
 (* ****** ****** *)
 
-extern
-fun s2exp_hnfize_flag (s2e: s2exp, flag: &int): s2exp
-extern
-fun s2explst_hnfize_flag (s2es: s2explst, flag: &int): s2explst
-extern
-fun labs2explst_hnfize_flag (ls2es: labs2explst, flag: &int): labs2explst
+local
 
-(* ****** ****** *)
-
-implement
-s2exp_hnfize_flag
-  (s2e0, flag) = let
-  val () = assertloc (false)
-in
-  s2e0
-end // end of [s2exp_hnfize_flag]
-
-
-(* ****** ****** *)
-
-implement
-s2explst_hnfize_flag
-  (s2es0, flag) =
-  case+ s2es0 of
-  | list_cons (s2e, s2es) => let
-      val flag0 = flag
-      val s2e = s2exp_hnfize_flag (s2e, flag)
-      val s2es = s2explst_hnfize_flag (s2es, flag)
+fun aux_s2exp (
+  s2e0: s2exp, fvs: &s2varset_vt
+) : void =
+  case+ s2e0.s2exp_node of
+//
+  | S2Eint _ => ()
+  | S2Eintinf _ => ()
+  | S2Echar _ => ()
+//
+  | S2Ecst _ => ()
+//
+  | S2Eextype (_(*name*), s2ess) => aux_s2explstlst (s2ess, fvs)
+//
+  | S2Evar s2v => {
+      val () = fvs := s2varset_vt_add (fvs, s2v)
+    } // end of [S2Evar]
+  | S2EVar s2V => aux_s2Var (s2V, fvs)
+//
+  | S2Edatconptr (d2c, s2es_arg) => aux_s2explst (s2es_arg, fvs)
+  | S2Edatcontyp (d2c, s2es_arg) => aux_s2explst (s2es_arg, fvs)
+//
+  | S2Elam (s2vs, s2e) => let
+      var fvs1 = s2varset_vt_nil ()
+      val () = aux_s2exp (s2e, fvs1)
+      val () = fvs1 := s2varset_vt_delist (fvs1, s2vs)
     in
-      if flag > flag0 then
-        list_cons (s2e, s2es) else s2es0
-      // end of [if]
-    end // end of [list_cons]
-  | list_nil () => list_nil ()
-// end of [s2explst_hnfize_flag]
+      fvs := s2varset_vt_union (fvs, fvs1)
+    end // end of [S2Elam]
+  | S2Eapp (s2e_fun, s2es_arg) => (
+      aux_s2exp (s2e_fun, fvs); aux_s2explst (s2es_arg, fvs)
+    ) // end of [S2Eapp]
+  | S2Efun (
+      _,  _, s2fe, _, s2es_arg, s2e_res
+    ) => {
+      val () = aux_s2eff (s2fe, fvs)
+      val () = aux_s2explst (s2es_arg, fvs)
+      val () = aux_s2exp (s2e_res, fvs)
+    } // end of [S2Efun]
+  | S2Emetfn (opt, s2es, s2e) => (
+      aux_s2explst (s2es, fvs); aux_s2exp (s2e, fvs)
+    ) // end of [S2Emetfn]
+//
+  | S2Etop (_(*knd*), s2e) => aux_s2exp (s2e, fvs)
+//
+  | S2Etyarr (s2e_elt, s2es_dim) => (
+      aux_s2exp (s2e_elt, fvs); aux_s2explst (s2es_dim, fvs)
+    ) // end of [S2Etyarr]
+  | S2Etyrec (_(*knd*), _(*npf*), ls2es) => aux_labs2explst (ls2es, fvs)
+//
+  | S2Erefarg (_, s2e) => aux_s2exp (s2e, fvs)
+//
+  | S2Eexi (s2vs, s2ps, s2e) => aux_s2exp_exiuni (s2vs, s2ps, s2e, fvs)
+  | S2Euni (s2vs, s2ps, s2e) => aux_s2exp_exiuni (s2vs, s2ps, s2e, fvs)
+//
+  | S2Evararg s2e => aux_s2exp (s2e, fvs)
+//
+  | S2Ewth (s2e, ws2es) => (
+      aux_s2exp (s2e, fvs); aux_wths2explst (ws2es, fvs)
+    ) // end of [S2Ewth]
+//
+  | S2Eerr () => ()
+// end of [aux_s2exp]
 
-(* ****** ****** *)
+and aux_s2explst (
+  s2es0: s2explst, fvs: &s2varset_vt
+) : void = case+ s2es0 of
+  | list_cons (s2e, s2es) => (
+      aux_s2exp (s2e, fvs); aux_s2explst (s2es, fvs)
+    ) // end of [list_cons]
+  | list_nil () => ()
+// end of [aux_s2explst]
 
-implement
-labs2explst_hnfize_flag
-  (ls2es0, flag) =
-  case+ ls2es0 of
+and aux_s2explstlst (
+  s2ess0: s2explstlst, fvs: &s2varset_vt
+) : void = case+ s2ess0 of
+  | list_cons (s2es, s2ess) => (
+      aux_s2explst (s2es, fvs); aux_s2explstlst (s2ess, fvs)
+    ) // end of [list_cons]
+  | list_nil () => ()
+// end of [aux_s2explstlst]
+
+and aux_labs2explst (
+  ls2es0: labs2explst, fvs: &s2varset_vt
+) : void = case+ ls2es0 of
   | list_cons (ls2e, ls2es) => let
-      val flag0 = flag
-      val SLABELED (l, name, s2e) = ls2e
-      val s2e = s2exp_hnfize_flag (s2e, flag)
-      val ls2es = labs2explst_hnfize_flag (ls2es, flag)
+      val SLABELED (_, _, s2e) = ls2e
+      val () = aux_s2exp (s2e, fvs)
     in
-      if flag > flag0 then
-        list_cons (SLABELED (l, name, s2e), ls2es) else ls2es0
-      // end of [if]
+      aux_labs2explst (ls2es, fvs)
     end // end of [list_cons]
-  | list_nil () => list_nil ()
-// end of [labs2explst_hnfize_flag]
+  | list_nil () => ()
+// end of [aux_labs2explst]
 
-(* ****** ****** *)
+and aux_wths2explst (
+  ws2es0: wths2explst, fvs: &s2varset_vt
+) : void = case+ ws2es0 of
+  | WTHS2EXPLSTnil () => ()
+  | WTHS2EXPLSTcons_some (_, s2e, ws2es) => (
+      aux_s2exp (s2e, fvs); aux_wths2explst (ws2es, fvs)
+    )
+  | WTHS2EXPLSTcons_none (ws2es) => aux_wths2explst (ws2es, fvs)
+// end of [aux_wths2explst]
+
+and aux_s2Var (
+  s2V: s2Var, fvs: &s2varset_vt
+) : void = let
+  val opt = s2Var_get_link s2V
+in
+  case+ opt of
+  | Some s2e => aux_s2exp (s2e, fvs)
+  | None () => (
+      s2Var_set_link (s2V, Some (s2exp_err (s2Var_get_srt (s2V))))
+    ) // end of [None]
+end // end of [aux_s2Var]
+
+and aux_s2exp_exiuni (
+  s2vs: s2varlst, s2ps: s2explst, s2e: s2exp, fvs: &s2varset_vt
+) : void = let
+  var fvs1 = s2varset_vt_nil ()
+  val () = aux_s2explst (s2ps, fvs1)
+  val () = aux_s2exp (s2e, fvs1)
+  val () = fvs1 := s2varset_vt_delist (fvs1, s2vs)
+in
+  fvs := s2varset_vt_union (fvs, fvs1)
+end // end of [aux_s2exp_exiuni]
+
+and aux_s2eff (
+  s2fe: s2eff, fvs: &s2varset_vt
+) : void =
+  case+ s2fe of
+  | S2EFFall _ => ()
+  | S2EFFnil _ => ()
+  | S2EFFset (_, s2es) => aux_s2explst (s2es, fvs)
+// end of [aux_s2eff]
+
+in // in of [local]
 
 implement
-s2exp_hnfize (s2e) = let
-  var flag: int = 0
-  val s2e = s2exp_hnfize_flag (s2e, flag)
-in
-  s2hnf_of_s2exp (s2e)
-end // end of [s2exp_hnfsize]
+s2exp_freevars
+  (s2e0) = fvs where {
+  var fvs = s2varset_vt_nil ()
+  val () = aux_s2exp (s2e0, fvs)
+} // end of [s2exp_freevars]
 
-implement
-s2explst_hnfize (s2es) = let
-  var flag: int = 0
-  val s2es = s2explst_hnfize_flag (s2es, flag)
-in
-  s2hnflst_of_s2explst (s2es)
-end // end of [s2explst_hnfsize]
+end // end of [local]
 
 (* ****** ****** *)
 

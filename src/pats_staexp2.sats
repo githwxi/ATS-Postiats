@@ -73,15 +73,21 @@ typedef s2cst = s2cst_type
 typedef s2cstlst = List (s2cst)
 typedef s2cstopt = Option (s2cst)
 
+(* ****** ****** *)
+//
 abstype s2var_type // assumed in [pats_staexp2_svVar.dats]
 typedef s2var = s2var_type
 typedef s2varlst = List (s2var)
+viewtypedef s2varlst_vt = List_vt (s2var)
 typedef s2varopt = Option (s2var)
 typedef s2varlstlst = List (s2varlst)
-abstype s2varset_type // assumed in [pats_staexp2_svVar.dats]
+//
+abstype s2varset_type // assumed in [pats_staexp2_svar.dats]
 typedef s2varset = s2varset_type
-
-viewtypedef s2varlst_vt = List_vt (s2var)
+absviewtype s2varset_viewtype // assumed in [pats_staexp2_svar.dats]
+viewtypedef s2varset_vt = s2varset_viewtype
+//
+(* ****** ****** *)
 
 abstype s2Var_type // assumed in [pats_staexp2_svVar.dats]
 typedef s2Var = s2Var_type
@@ -89,6 +95,8 @@ typedef s2Varlst = List (s2Var)
 typedef s2Varopt = Option (s2Var)
 abstype s2Varset_type // assumed in [pats_staexp2_svVar.dats]
 typedef s2Varset = s2Varset_type
+
+(* ****** ****** *)
 
 abstype d2con_type // assumed in [pats_staexp2_dcon.dats]
 typedef d2con = d2con_type
@@ -478,6 +486,26 @@ fun s2var_is_boxed (s2v: s2var): bool
 fun s2var_is_unboxed (s2v: s2var): bool
 
 (* ****** ****** *)
+
+fun s2varset_nil (): s2varset
+fun s2varset_add
+  (xs: s2varset, x: s2var): s2varset
+fun s2varset_del
+  (xs: s2varset, x: s2var): s2varset
+fun s2varset_union
+  (xs: s2varset, ys: s2varset): s2varset
+
+fun s2varset_vt_nil (): s2varset_vt
+fun s2varset_vt_add
+  (xs: s2varset_vt, x: s2var): s2varset_vt
+fun s2varset_vt_del
+  (xs: s2varset_vt, x: s2var): s2varset_vt
+fun s2varset_vt_delist
+  (xs1: s2varset_vt, xs2: s2varlst): s2varset_vt
+fun s2varset_vt_union
+  (xs: s2varset_vt, ys: s2varset_vt): s2varset_vt
+
+(* ****** ****** *)
 //
 // HX: [s2Var] is assumed in [pats_staexp2_sVar.dats]
 //
@@ -488,6 +516,8 @@ fun s2Var_make_var (loc: location, s2v: s2var): s2Var
 
 fun s2Var_get_sym (s2V: s2Var): symbol
 fun s2Var_get_srt (s2V: s2Var): s2rt
+fun s2Var_get_link (s2V: s2Var): s2expopt
+fun s2Var_set_link (s2V: s2Var, link: s2expopt): void
 fun s2Var_get_stamp (s2V: s2Var): stamp
 
 (* ****** ****** *)

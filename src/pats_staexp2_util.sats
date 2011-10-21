@@ -114,6 +114,13 @@ fun s2explst_alpha
 
 (* ****** ****** *)
 
+fun s2exp_freevars (s2e: s2exp): s2varset_vt
+
+(* ****** ****** *)
+
+(*
+** HX: s2hnf for s2exp in head normal form (HNF)
+*)
 abstype s2hnf_type = s2exp
 
 typedef s2hnf = s2hnf_type

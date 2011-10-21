@@ -75,6 +75,15 @@ end // end of [intinf_make_string]
 
 (* ****** ****** *)
 
+implement
+fprint_intinf (out, x) = let
+  val (vbox pf_mpz | p) = ref_get_view_ptr (x)
+in
+  $effmask_ref (fprint0_mpz (out, !p))
+end // end of [fprint_intinf]
+
+(* ****** ****** *)
+
 val () = intinf_initialize () where {
   extern fun intinf_initialize (): void = "patsopt_intinf_initialize"
 } // end of [val]
