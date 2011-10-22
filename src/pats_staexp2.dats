@@ -52,13 +52,19 @@ staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
+macdef hnf = s2hnf_of_s2exp
+macdef unhnf = s2exp_of_s2hnf
+macdef hnflst = s2hnflst_of_s2explst
+macdef unhnflst = s2explst_of_s2hnflst
+
+(* ****** ****** *)
+
 implement
 sp2at_con
   (loc, s2c, s2vs) = let
-  val s2es =
+  val s2fs =
     l2l (list_map_fun (s2vs, s2exp_var))
-  // end of [val]
-  val s2e_pat = s2exp_cstapp (s2c, s2es)
+  val s2e_pat = s2exp_cstapp (s2c, unhnflst (s2fs))
 in '{
   sp2at_loc= loc
 , sp2at_exp= s2e_pat, sp2at_node = SP2Tcon (s2c, s2vs)
@@ -70,7 +76,8 @@ sp2at_err (loc) = let
   val s2e_pat = s2exp_err (s2t_pat)
 in '{
   sp2at_loc= loc
-, sp2at_exp= s2e_pat, sp2at_node= SP2Terr ()
+, sp2at_exp= hnf (s2e_pat)
+, sp2at_node= SP2Terr ()
 } end // end of [sp2at_err]
 
 (* ****** ****** *)
@@ -83,40 +90,46 @@ s2qua_make
 
 (* ****** ****** *)
 
+macdef hnf = s2hnf_of_s2exp
+macdef unhnf = s2exp_of_s2hnf
+
+(* ****** ****** *)
+
 implement
-s2exp_int (i) = '{
+s2exp_int (i) = hnf '{
   s2exp_srt= s2rt_int, s2exp_node= S2Eint (i)
 } // end of [s2exp_int]
 implement
-s2exp_intinf (int) = '{
+s2exp_intinf (int) = hnf '{
   s2exp_srt= s2rt_int, s2exp_node= S2Eintinf (int)
 } // end of [s2exp_intinf]
 
 implement
-s2exp_char (c) = '{
+s2exp_char (c) = hnf '{
   s2exp_srt= s2rt_char, s2exp_node= S2Echar (c)
 } // end of [s2exp_char]
 
 implement
 s2exp_cst (s2c) = let
   val s2t = s2cst_get_srt (s2c)
-in '{
+in hnf '{
   s2exp_srt= s2t, s2exp_node= S2Ecst (s2c)
 } end // end of [s2exp_cst]
 
 implement
 s2exp_var (s2v) = let
   val s2t = s2var_get_srt (s2v)
-in '{
+in hnf '{
   s2exp_srt= s2t, s2exp_node= S2Evar (s2v)
 } end // end of [s2exp_var]
 
 (* ****** ****** *)
 
 implement
-s2exp_extype_srt (s2t, name, s2ess) = '{
+s2exp_extype_srt
+  (s2t, name, s2ess) = hnf '{
   s2exp_srt= s2t, s2exp_node= S2Eextype (name, s2ess)
-}
+} // end of [s2exp_extype_srt]
 
 (* ****** ****** *)
 
@@ -151,7 +164,7 @@ s2exp_lams (s2vss, s2e_body) =
 implement
 s2exp_fun_srt (
   s2t, fc, lin, s2fe, npf, _arg, _res
-) = '{
+) = hnf '{
   s2exp_srt= s2t, s2exp_node= S2Efun (fc, lin, s2fe, npf, _arg, _res)
 } // end of [s2exp_fun_srt]
 
@@ -160,7 +173,7 @@ s2exp_metfn (
   opt, s2es_met, s2e_body
 ) = let
   val s2t = s2e_body.s2exp_srt
-in '{
+in hnf '{
   s2exp_srt= s2t, s2exp_node= S2Emetfn (opt, s2es_met, s2e_body)
 } end // end of [s2exp_metfn]
 
@@ -170,16 +183,17 @@ implement
 s2exp_cstapp
   (s2c_fun, s2es_arg) = let
   val s2t_fun = s2cst_get_srt s2c_fun
-  val s2e_fun = s2exp_cst s2c_fun
+  val s2e_fun = s2exp_cst (s2c_fun)
+  val s2e_fun = unhnf (s2e_fun)
   val- S2RTfun (s2ts_arg, s2t_res) = s2t_fun
 in
-  s2exp_app_srt (s2t_res, s2e_fun, s2es_arg)
+  hnf (s2exp_app_srt (s2t_res, s2e_fun, s2es_arg))
 end // end of [s2exp_cstapp]
 
 implement
 s2exp_confun (
   npf, s2es_arg, s2e_res
-) = '{
+) = hnf '{
   s2exp_srt= s2rt_type
 , s2exp_node= S2Efun (
     FUNCLOfun (), 0(*lin*), S2EFFnil (), npf, s2es_arg, s2e_res
@@ -195,7 +209,7 @@ s2exp_datconptr
   val s2t = (
     if arity_real > 0 then s2rt_viewtype else s2rt_type
   ) : s2rt // end of [val]
-in '{
+in hnf '{
   s2exp_srt= s2t, s2exp_node= S2Edatconptr (d2c, arg)
 } end // end of [s2exp_datconptr]
 
@@ -206,7 +220,7 @@ s2exp_datcontyp
   val s2t = (
     if arity_real > 0 then s2rt_viewtype else s2rt_type
   ) : s2rt // end of [val]
-in '{
+in hnf '{
   s2exp_srt= s2t, s2exp_node= S2Edatcontyp (d2c, arg)
 } end // end of [s2exp_datcontyp]
 
@@ -220,13 +234,13 @@ s2exp_top_srt (s2t, knd, s2e) = '{
 (* ****** ****** *)
 
 implement
-s2exp_tyarr (elt, ind) = '{
+s2exp_tyarr (elt, ind) = hnf '{
   s2exp_srt=elt.s2exp_srt, s2exp_node= S2Etyarr (elt, ind)
 }
 
 implement
 s2exp_tyrec_srt
-  (s2t, knd, npf, ls2es) = '{
+  (s2t, knd, npf, ls2es) = hnf '{
   s2exp_srt= s2t, s2exp_node= S2Etyrec (knd, npf, ls2es)
 }
 
@@ -238,7 +252,7 @@ s2exp_refarg (refval, s2e) = '{
 } // end of [s2exp_refarg]
 
 implement
-s2exp_vararg (s2e) = '{
+s2exp_vararg (s2e) = hnf '{
   s2exp_srt= s2rt_t0ype, s2exp_node= S2Evararg (s2e)
 } // end of [s2exp_vararg]
 

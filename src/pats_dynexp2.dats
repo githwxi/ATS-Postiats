@@ -176,7 +176,7 @@ p2at_empty (loc) =
 
 implement
 p2at_con (
-  loc, freeknd, d2c, s2qs, s2e, npf, darg
+  loc, freeknd, d2c, s2qs, s2f, npf, darg
 ) = let
   val svs = p2atlst_svs_union (darg)
   val svs = let
@@ -190,7 +190,7 @@ p2at_con (
   end // end of [val]
   val dvs = p2atlst_dvs_union (darg)
 in
-  p2at_make (loc, svs, dvs, P2Tcon (freeknd, d2c, s2qs, s2e, npf, darg))
+  p2at_make (loc, svs, dvs, P2Tcon (freeknd, d2c, s2qs, s2f, npf, darg))
 end // end of [p2at_con]
 
 (* ****** ****** *)
@@ -452,8 +452,8 @@ d2exp_casehead
 
 implement
 d2exp_scasehead (
-  loc, inv, s2e, sc2ls
-) = d2exp_make (loc, D2Escasehead (inv, s2e, sc2ls))
+  loc, inv, s2f, sc2ls
+) = d2exp_make (loc, D2Escasehead (inv, s2f, sc2ls))
 
 (* ****** ****** *)
 

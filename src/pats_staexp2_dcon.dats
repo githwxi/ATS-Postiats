@@ -81,6 +81,11 @@ d2con_struct = @{
 
 (* ****** ****** *)
 
+macdef hnf = s2hnf_of_s2exp
+macdef unhnf = s2exp_of_s2hnf
+
+(* ****** ****** *)
+
 local
 
 assume d2con_type = ref (d2con_struct)
@@ -125,9 +130,12 @@ val d2c_type = let
   // end of [aux]
   val s2e_res = (case+ ind of
     | Some s2es => s2exp_cstapp (s2c, s2es) | None () => s2exp_cst (s2c)
-  ) : s2exp // end of [val]
+  ) : s2hnf // end of [val]
+  val s2e_res = unhnf (s2e_res)
+  val s2e = s2exp_confun (npf, arg, s2e_res)
+  val s2e = unhnf (s2e)
 in
-  aux (s2exp_confun (npf, arg, s2e_res), qua)
+  aux (s2e, qua)
 end // end of [val]
 //
 val (pf_gc, pfat | p) = ptr_alloc<d2con_struct> ()

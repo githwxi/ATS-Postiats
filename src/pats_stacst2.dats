@@ -75,6 +75,11 @@ fun s2cstnul_isnot_null {l:addr}
 
 (* ****** ****** *)
 
+macdef hnf = s2hnf_of_s2exp
+macdef unhnf = s2exp_of_s2hnf
+
+(* ****** ****** *)
+
 local
 
 typedef
@@ -188,7 +193,7 @@ s2exp_bool_t0ype () =
 implement
 s2exp_bool_bool_t0ype (b) = let
   val s2c = s2cstref_get_cst (the_bool_bool_t0ype)
-  val ind = s2exp_bool (b)
+  val ind = unhnf (s2exp_bool (b))
 in
   s2exp_cstapp (s2c, list_sing (ind))
 end // end of [s2exp_bool_bool_t0ype]
@@ -208,7 +213,7 @@ s2exp_char_t0ype () =
 implement
 s2exp_char_char_t0ype (c) = let
   val s2c = s2cstref_get_cst (the_char_char_t0ype)
-  val ind = s2exp_char (c)
+  val ind = unhnf (s2exp_char (c))
 in
   s2exp_cstapp (s2c, list_sing (ind))
 end // end of [s2exp_char_char_t0ype]

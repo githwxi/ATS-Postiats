@@ -50,7 +50,7 @@ typedef
 s2Var_struct = @{
   s2Var_sym= symbol // the name
 , s2Var_srt= s2rt  // the sort
-, s2Var_link= s2expopt // solution
+, s2Var_link= s2hnfopt // solution
 , s2Var_sVarset= s2Varset // existential Variable occurrences
 , s2Var_stamp= stamp // uniqueness
 } // end of [s2Var_struct]

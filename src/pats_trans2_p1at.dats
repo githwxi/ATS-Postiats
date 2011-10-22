@@ -80,6 +80,12 @@ staload "pats_trans2_env.sats"
 
 (* ****** ****** *)
 
+macdef hnf = s2hnf_of_s2exp
+macdef unhnf = s2exp_of_s2hnf
+macdef unhnflst = s2explst_of_s2hnflst
+
+(* ****** ****** *)
+
 fun p1at_tr_ide (
   p1t0: p1at, id: symbol
 ) : p2at = let
@@ -138,7 +144,7 @@ p1at_tr_con_sapp1 (
   p1t1: p1at
 , d2c: d2con, sub: &stasub,
   s2qs: s2qualst, out: &List_vt(s2qua)
-) : s2exp = let
+) : s2hnf = let
 in
 //
 case+ s2qs of
@@ -159,7 +165,7 @@ case+ s2qs of
       s2explst_subst (sub, d2con_get_arg d2c)
     val s2c = d2con_get_scst d2c
     val indopt = d2con_get_ind (d2c)
-    val s2e_res = (
+    val s2f_res = (
       case+ indopt of
       | Some s2es_ind => let
           val s2es_ind = s2explst_subst (sub, s2es_ind)
@@ -167,10 +173,10 @@ case+ s2qs of
           s2exp_cstapp (s2c, s2es_ind)
         end // end of [Some]
       | None () => s2exp_cst (s2c) // end of [None]
-    ) : s2exp // end of [val]
+    ) : s2hnf // end of [val]
     val () = out := list_vt_reverse (out)
   in
-    s2exp_confun (npf, s2es_arg, s2e_res)
+    s2exp_confun (npf, s2es_arg, unhnf (s2f_res))
   end // end of [list_nil]
 //
 end // end of [p1at_tr_con_sapp1]
@@ -180,7 +186,7 @@ p1at_tr_con_sapp2 (
   p1t1: p1at
 , d2c: d2con, sub: &stasub, s2qs: s2qualst, s1as: s1vararglst
 , out: &s2qualst_vt
-) : s2exp = let
+) : s2hnf = let
 //
 fn auxerr1 (
   p1t1: p1at, d2c: d2con
@@ -225,7 +231,7 @@ case+ s1as of
         p1at_tr_con_sapp2 (p1t1, d2c, sub, s2qs, s1as, out)
       end // end of [list_cons]
     | list_nil () => let
-        val () = auxerr1 (p1t1, d2c) in s2exp_s2rt_err ()
+        val () = auxerr1 (p1t1, d2c) in hnf (s2exp_s2rt_err ())
       end (* end of [list_nil] *)
     end // end of [S1VARARGone]
   | S1VARARGall () => p1at_tr_con_sapp1 (p1t1, d2c, sub, s2qs, out)
@@ -247,7 +253,7 @@ case+ s1as of
         p1at_tr_con_sapp2 (p1t1, d2c, sub, s2qs, s1as, out)
       end // end of [list_cons]
     | list_nil () => let
-        val () = auxerr1 (p1t1, d2c) in s2exp_s2rt_err ()
+        val () = auxerr1 (p1t1, d2c) in hnf (s2exp_s2rt_err ())
       end (* end of [list_nil] *)
     end // end of [S1VARARGseq]
   ) // end of [list_cons]
@@ -609,6 +615,7 @@ case+ p1t0.p1at_node of
 | P1Tann (p1t, ann) => let
     val p2t = p1at_tr (p1t)
     val ann = s1exp_trdn_impredicative (ann)
+    val ann = s2exp_hnfize (ann)
   in
     p2at_ann (loc0, p2t, ann)
   end
@@ -639,11 +646,12 @@ p1at_tr_arg
 in
 //
 case+ p1t0.p1at_node of
-| P1Tann (p1t, s1e) => let
+| P1Tann (p1t, ann) => let
     val p2t = p1at_tr (p1t)
-    val s2e = s1exp_trdn_arg_impredicative (s1e, wths1es)
+    val ann = s1exp_trdn_arg_impredicative (ann, wths1es)
+    val ann = s2exp_hnfize (ann)
   in
-    p2at_ann (loc0, p2t, s2e)
+    p2at_ann (loc0, p2t, ann)
   end // end of [P1Tann]
 | P1Tlist (npf, p1ts) => let
     val p2ts = p1atlst_tr_arg (p1ts, wths1es)

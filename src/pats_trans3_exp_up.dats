@@ -50,13 +50,13 @@ staload "pats_trans3.sats"
 fun d2exp_trup_bool
   (d2e0: d2exp, b: bool): d3exp = let
   val loc0 = d2e0.d2exp_loc
-  val s2e = s2exp_bool_bool_t0ype (b) in d3exp_bool (loc0, s2e, b)
+  val s2f = s2exp_bool_bool_t0ype (b) in d3exp_bool (loc0, s2f, b)
 end // end of [d2exp_trup_bool]
 
 fun d2exp_trup_char
   (d2e0: d2exp, c: char): d3exp = let
   val loc0 = d2e0.d2exp_loc
-  val s2e = s2exp_char_char_t0ype (c) in d3exp_char (loc0, s2e, c)
+  val s2f = s2exp_char_char_t0ype (c) in d3exp_char (loc0, s2f, c)
 end // end of [d2exp_trup_char]
 
 (* ****** ****** *)

@@ -45,6 +45,8 @@ typedef intinf = $INTINF.intinf
 
 staload "pats_staexp2.sats"
 typedef s2exp = s2exp
+staload "pats_staexp2_util.sats"
+typedef s2hnf = s2hnf
 staload "pats_dynexp2.sats"
 typedef d2cst = d2cst_type // abstract
 typedef d2var = d2var_type // abstract
@@ -96,7 +98,7 @@ and d3eclist = List (d3ecl)
 
 and d3exp = '{
   d3exp_loc= location
-, d3exp_typ= s2exp
+, d3exp_typ= s2hnf
 , d3exp_node= d3exp_node
 } // end of [d3exp]
 
@@ -107,11 +109,11 @@ and d3explstlst = List (d3explst)
 (* ****** ****** *)
 
 fun d3exp_bool
-  (loc: location, s2e: s2exp, b: bool): d3exp
+  (loc: location, s2f: s2hnf, b: bool): d3exp
 // end of [d3exp_bool]
 
 fun d3exp_char
-  (loc: location, s2e: s2exp, c: char): d3exp
+  (loc: location, s2f: s2hnf, c: char): d3exp
 // end of [d3exp_char]
 
 (* ****** ****** *)

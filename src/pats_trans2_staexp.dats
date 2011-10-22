@@ -102,6 +102,12 @@ macdef list_sing (x) = list_cons (,(x), list_nil)
 
 (* ****** ****** *)
 
+macdef hnf = s2hnf_of_s2exp
+macdef unhnf = s2exp_of_s2hnf
+macdef unhnflst = s2explst_of_s2hnflst
+
+(* ****** ****** *)
+
 (*
 ** HX: static special identifier
 *)
@@ -121,7 +127,7 @@ end // end of [staspecid_of_sqid]
 (* ****** ****** *)
 
 fn effvar_tr
-  (efv: effvar): s2exp = let
+  (efv: effvar): s2hnf = let
   val loc = efv.i0de_loc
   val sym = efv.i0de_sym
   val ans = the_s2expenv_find (sym)
@@ -132,7 +138,7 @@ case+ ans of
   | S2ITMvar s2v => let
       val () = s2var_check_tmplev (loc, s2v) in s2exp_var (s2v)
     end // end of [S2ITEMvar]
-  | _ => s2exp_err (s2t_err) where {
+  | _ => hnf (s2exp_err s2t_err) where {
       val s2t_err = s2rt_err ()
       val () = prerr_error2_loc (loc)
       val () = filprerr_ifdebug "effvar_tr"
@@ -143,7 +149,7 @@ case+ ans of
       val () = the_trans2errlst_add (T2E_effvar_tr (efv))
     } // end of [_]
   end // end of [Some_vt]
-| ~None_vt () => s2exp_err (s2t_err) where {
+| ~None_vt () => hnf (s2exp_err s2t_err) where {
     val s2t_err = s2rt_err ()
     val () = prerr_error2_loc (loc)
     val () = filprerr_ifdebug ("effvar_tr")
@@ -156,7 +162,7 @@ case+ ans of
 end // end of [effvar_tr]
 
 fn effvarlst_tr
-  (efvs: effvarlst): s2explst = l2l (list_map_fun (efvs, effvar_tr))
+  (efvs: effvarlst): s2hnflst = l2l (list_map_fun (efvs, effvar_tr))
 // end of [effvarlst_tr]
 
 implement
@@ -476,7 +482,7 @@ case+ ans of
         | list_nil () => s2c0 // end of [list_nil]
       val s2c = loop (s2cs, s2c)
 //
-      val s2e0 = s2exp_cst (s2c)
+      val s2e0 = unhnf (s2exp_cst (s2c))
     in
       case+ s2cst_get_srt (s2c) of
       | S2RTfun (
@@ -495,7 +501,9 @@ case+ ans of
     end // end of [S1ITMe1xp]
 //
   | S2ITMvar s2v => let
-      val () = s2var_check_tmplev (loc0, s2v) in s2exp_var (s2v)
+      val () = s2var_check_tmplev (loc0, s2v)
+    in
+      unhnf (s2exp_var s2v)
     end // end of [S2ITMvar]
 //
   | _ => let
@@ -775,7 +783,7 @@ s1exp_trup_arrow ( // arrow is a special type constructor
 , isprf: bool
 , efcopt: effcstopt
 , xs: List_vt (locs1explst)
-) : s2exp = let
+) : s2hnf = let
 //
 #define nil list_nil
 #define cons list_cons
@@ -862,7 +870,7 @@ end (* end of [auxerr3] *)
           ) : void // end of [val]
           val s2e = (
             if imp > 0 then
-              if types > 0 then s2exp_vararg (s2e) else s2e
+              if types > 0 then unhnf (s2exp_vararg s2e) else s2e
             else auxerr3 (s1e0, s1e, s2t)
           ) : s2exp // end of [val]
         in
@@ -978,7 +986,7 @@ s1exp_trup_app_sqid (
 , s1opr: s1exp
 , sq: s0taq, id: symbol
 , xs: List_vt (locs1explst)
-) : s2exp = let
+) : s2hnf = let
 //
 val spsid = staspecid_of_sqid (sq, id) 
 //
@@ -996,7 +1004,8 @@ case+ spsid of
     | ~Some_vt s2i =>
         s1exp_trup_app_sqid_itm (s1e0, s1opr, sq, id, s2i, xs)
       // end of [Some_vt]
-    | ~None_vt () => s2exp_err (s2t_err) where {
+    | ~None_vt () =>
+        hnf (s2exp_err s2t_err) where {
         val s2t_err = s2rt_err ()
         val () = list_vt_free (xs)
         val () = prerr_error2_loc (s1opr.s1exp_loc)
@@ -1016,7 +1025,7 @@ s1exp_trup_app_sqid_itm (
 , s1opr: s1exp
 , sq: s0taq, id: symbol, s2i0: s2itm
 , xs: List_vt (locs1explst)
-) : s2exp = let
+) : s2hnf = let
 //
 (*
   val () = begin
@@ -1043,7 +1052,7 @@ case+ s2i0 of
   in
     case+ s2cs of
     | list_cons (s2c, _) =>
-        s2exp_app_wind (s1e0, s2exp_cst (s2c), ys)
+        hnf (s2exp_app_wind (s1e0, unhnf (s2exp_cst s2c), ys))
       // end of [list_cons]
     | list_nil () => let
         val () = list_vt_free<T2> (ys)
@@ -1055,7 +1064,7 @@ case+ s2i0 of
         val () = prerr_newline ()
         val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
       in
-        s2exp_s2rt_err ()
+        hnf (s2exp_s2rt_err ())
       end // end of [_]
   end // end of [S2ITEMcst]
 | S2ITMvar s2v => let
@@ -1063,7 +1072,7 @@ case+ s2i0 of
       s2var_check_tmplev (s1opr.s1exp_loc, s2v)
     // end of [val]
   in
-    s1exp_trup_app (s1e0, s1opr, s2exp_var (s2v), xs)
+    hnf (s1exp_trup_app (s1e0, s1opr, unhnf (s2exp_var s2v), xs))
   end // end of [S2ITEMvar]
 (*
 | S2ITMdatconptr d2c => s1exp_trup_app_datconptr (loc_app, d2c, s1ess)
@@ -1077,7 +1086,7 @@ case+ s2i0 of
     val () = (prerr ": NIY: s1exp_trup_app_sqid_itm: s2i0 = "; prerr_s2itm s2i0)
     val () = prerr_newline ()
   in
-    $ERR.abort {s2exp} ()
+    $ERR.abort {s2hnf} ()
   end // end of [_]
 end // end of [s1exp_trup_app_sqid_itm]
 
@@ -1141,7 +1150,7 @@ in // in of [local]
 
 fn s1exp_trup_tytup_flt (
   s1e0: s1exp, npf: int, s1es: s1explst
-) : s2exp = let
+) : s2hnf = let
   var lin: int = 0
   var prf: int = 0 and prgm: int = 0
   val ls2es = aux01 (0, npf, s1es, lin, prf, prgm)
@@ -1155,7 +1164,7 @@ end // end of [s1exp_trup_tytup_flt]
 
 fn s1exp_trup_tytup (
   s1e0: s1exp, knd: int, npf: int, s1es: s1explst
-) : s2exp = let
+) : s2hnf = let
 (*
   val () = begin
     print "s1exp_trup_tytup: s1e0 = "; print_s1exp (s1e0); print_newline ()
@@ -1188,7 +1197,7 @@ case+ knd of
     s2exp_tyrec_srt (s2rt_viewtype, TYRECKINDbox (), npf, ls2es)
   end
 | _ => let
-    val () = assertloc (false) in s2exp_err (s2rt_type)
+    val () = assertloc (false) in hnf (s2exp_err s2rt_type)
   end (* end of [_] *)
 end // end of [s1exp_trup_tytup]
 
@@ -1263,7 +1272,7 @@ in // in of [local]
 
 fn s1exp_trup_tyrec (
   s1e0: s1exp, knd: int, npf: int, ls1es: labs1explst
-) : s2exp = let
+) : s2hnf = let
 (*
   val () = begin
     print "s1exp_trup_tyrec: s1e0 = "; print_s1exp (s1e0); print_newline ()
@@ -1282,7 +1291,7 @@ case+ knd of
     ) : s2rt // end of [val]
   in
     s2exp_tyrec_srt (s2t_rec, TYRECKINDbox (), npf, ls2es)
-  end
+  end // end of [TYRECKIND_flt]
 | TYRECKIND_box => let
     var lin: int = 0
     var prf: int = 0 and prgm: int = 0
@@ -1293,25 +1302,25 @@ case+ knd of
     ) : s2rt // end of [val]
   in
     s2exp_tyrec_srt (s2t_rec, TYRECKINDbox (), npf, ls2es)
-  end
+  end // end of [TYRECKIND_box]
 | TYRECKIND_box_t => let
     val ls2es = aux23 (0, npf, ls1es, s2rt_prop, s2rt_t0ype)
   in
     s2exp_tyrec_srt (s2rt_type, TYRECKINDbox (), npf, ls2es)
-  end
+  end // end of [TYRECKIND_box_t]
 | TYRECKIND_box_vt => let
     val ls2es = aux23 (0, npf, ls1es, s2rt_view, s2rt_viewt0ype)
   in
     s2exp_tyrec_srt (s2rt_viewtype, TYRECKINDbox (), npf, ls2es)
-  end
+  end // end of [TYRECKIND_box_vt]
 | _ => let
-    val () = assertloc (false) in s2exp_err (s2rt_type)
+    val () = assertloc (false) in hnf (s2exp_err s2rt_type)
   end (* end of [_] *)
 end // end of [s1exp_trup_tyrec]
 
 fn s1exp_trup_tyrec_ext (
   s1e0: s1exp, name: string, npf: int, ls1es: labs1explst
-) : s2exp = let
+) : s2hnf = let
   var lin: int = 0
   var prf: int = 0 and prgm: int = 0      
   val ls2es = aux01 (0, npf, ls1es, lin, prf, prgm)
@@ -1366,15 +1375,15 @@ case+ s1e0.s1exp_node of
       | _ => $INT.intinf_make_string (rep) // base=0 and ofs=0
     ) : intinf // end of [val]
   in
-    s2exp_intinf (intinf)
+    unhnf (s2exp_intinf intinf)
   end // end of [S1Eint]
 //
-| S1Echar (char) => s2exp_char (char)
+| S1Echar (char) => unhnf (s2exp_char char)
 //
 | S1Eextype (name, s1ess) => let
     val s2ess = list_map_fun (s1ess, s1explst_trdn_viewt0ype)
   in
-    s2exp_extype_srt (s2rt_viewt0ype, name, (l2l)s2ess)
+    unhnf (s2exp_extype_srt (s2rt_viewt0ype, name, (l2l)s2ess))
   end // end of [S1Eextype]
 //
 | S1Eapp _ => let
@@ -1386,13 +1395,13 @@ case+ s1e0.s1exp_node of
     case+ :(xs: TS?) => s1opr.s1exp_node of
     | S1Eide (id) => let
         val sq = $SYN.the_s0taq_none in 
-        s1exp_trup_app_sqid (s1e0, s1opr, sq, id, xs)
+        unhnf (s1exp_trup_app_sqid (s1e0, s1opr, sq, id, xs))
       end // end of [S1Eide]
     | S1Esqid (sq, id) =>
-        s1exp_trup_app_sqid (s1e0, s1opr, sq, id, xs)
+        unhnf (s1exp_trup_app_sqid (s1e0, s1opr, sq, id, xs))
       // end of [S1Esqid]
     | S1Eimp (fc, lin, prf, oefc) =>
-        s1exp_trup_arrow (s1e0, Some fc, lin>0, prf>0, oefc, xs)
+        unhnf (s1exp_trup_arrow (s1e0, Some fc, lin>0, prf>0, oefc, xs))
       // end of [S1Eimp]
     | _ => let
         val s2opr = s1exp_trup (s1opr) in s1exp_trup_app (s1e0, s1opr, s2opr, xs)
@@ -1423,17 +1432,20 @@ case+ s1e0.s1exp_node of
 //
 | S1Etop (knd, s1e) => s1exp_trup_top (knd, s1e)
 //
-| S1Elist (npf, s1es) => s1exp_trup_tytup_flt (s1e0, npf, s1es)
+| S1Elist (npf, s1es) => unhnf (s1exp_trup_tytup_flt (s1e0, npf, s1es))
 //
 | S1Etyarr (s1e_elt, s1es_ind) => let
     val s2e_elt = s1exp_trdn_viewt0ype (s1e_elt)
     val s2es_ind = s1explst_trdn_int (s1es_ind)
   in
-    s2exp_tyarr (s2e_elt, s2es_ind)
+    unhnf (s2exp_tyarr (s2e_elt, s2es_ind))
   end // end of [S1Etyarr]
-| S1Etytup (knd, npf, s1es) => s1exp_trup_tytup (s1e0, knd, npf, s1es)
-| S1Etyrec (knd, npf, ls1es) => s1exp_trup_tyrec (s1e0, knd, npf, ls1es)
-| S1Etyrec_ext (name, npf, ls1es) => s1exp_trup_tyrec_ext (s1e0, name, npf, ls1es)
+| S1Etytup (knd, npf, s1es) =>
+    unhnf (s1exp_trup_tytup (s1e0, knd, npf, s1es))
+| S1Etyrec (knd, npf, ls1es) =>
+    unhnf (s1exp_trup_tyrec (s1e0, knd, npf, ls1es))
+| S1Etyrec_ext (name, npf, ls1es) =>
+    unhnf (s1exp_trup_tyrec_ext (s1e0, name, npf, ls1es))
 //
 | S1Einvar _ => let
     val () = prerr_error2_loc (loc0)
@@ -1608,7 +1620,7 @@ case+ (s1e.s1exp_node, s2t) of
     if s2rt_ltmat1 (s2t, s2rt_viewt0ype) then let
       val s2ess = list_map_fun (s1ess, s1explst_trdn_viewt0ype)
     in
-      s2exp_extype_srt (s2t, name, (l2l)s2ess)
+      unhnf (s2exp_extype_srt (s2t, name, (l2l)s2ess))
     end else let
       val () = auxerr (s1e, s2t) in s2exp_err (s2t)
     end // end of [if]
@@ -2029,9 +2041,9 @@ end // end of [auxerr2]
       end // end of [Some, Some]
     | (None _, Some _) => let
         val- list_cons (s2vs, _) = s2vss0
-        val s2es = l2l (list_map_fun (s2vs, s2exp_var))
+        val s2fs = l2l (list_map_fun (s2vs, s2exp_var))
       in
-        Some (s2es)
+        Some (unhnflst s2fs)
       end // end of [None, Some]
     | (Some _, None _) => auxerr2 (d1c, id)
   ) : s2explstopt // end of [val]

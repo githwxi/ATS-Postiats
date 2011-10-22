@@ -1047,8 +1047,9 @@ fn d1cstdec_tr (
   ) : s2rt // end of [val]
   var s2e_cst = s1exp_trdn (d1c.d1cstdec_typ, s2t_cst)
   val arylst = s2exp_get_arylst (s2e_cst)
+  val s2f_cst = s2exp_hnfize (s2e_cst)
   val extdef = d1c.d1cstdec_extdef
-  val d2c = d2cst_make (sym, loc, fil, dck, s2qs, arylst, s2e_cst, extdef)
+  val d2c = d2cst_make (sym, loc, fil, dck, s2qs, arylst, s2f_cst, extdef)
   val () = the_d2expenv_add_dcst (d2c)
 } // end of [d1cstdec_tr]
 
@@ -1073,6 +1074,7 @@ fn v1aldec_tr (
   val loc = d1c.v1aldec_loc
   val def = d1exp_tr (d1c.v1aldec_def)
   val ann = witht1ype_tr (d1c.v1aldec_ann)
+  val ann = s2expopt_hnfize (ann)
 in
   v2aldec_make (loc, p2t, def, ann)
 end // end of [v1aldec_tr]
@@ -1118,9 +1120,14 @@ fn v1ardec_tr (
   val os2e_ptr = Some (s2exp_var s2v_ptr)
   val () = d2var_set_addr (d2v_ptr, os2e_ptr)
   val typ = (case+ d1c.v1ardec_typ of
-    | Some s1e => Some (s1exp_trdn_impredicative s1e)
+    | Some s1e => let
+        val s2e = s1exp_trdn_impredicative (s1e)
+        val s2f = s2exp_hnfize (s2e)
+      in
+        Some (s2f)
+      end // end of [Some]
     | None () => None ()
-  ) : s2expopt
+  ) : s2hnfopt
   val wth = (
     case+ d1c.v1ardec_wth of
     | Some (i0de) => let
@@ -1171,6 +1178,7 @@ fn f1undec_tr (
   end // end of [val]
 *)
   val ann = witht1ype_tr (d1c.f1undec_ann)
+  val ann = s2expopt_hnfize (ann)
 in
   f2undec_make (d1c.f1undec_loc, d2v, def, ann)
 end // end of [f1undec_tr]
@@ -1375,14 +1383,16 @@ case+ d1c0.d1ecl_node of
   end // end of [D1Cclassdec]
 | D1Cextype (name, s1e_def) => let
     val s2e_def = s1exp_trdn_impredicative (s1e_def)
+    val s2f_def = s2exp_hnfize (s2e_def)
   in
-    d2ecl_extype (loc0, name, s2e_def)
+    d2ecl_extype (loc0, name, s2f_def)
   end // end of [D1Cextype]
 | D1Cextype (knd, name, s1e_def) => let
     val s2t_def = s2rt_impredicative (knd)
     val s2e_def = s1exp_trdn (s1e_def, s2t_def)
+    val s2f_def = s2exp_hnfize (s2e_def)
   in
-    d2ecl_extype (loc0, name, s2e_def)
+    d2ecl_extype (loc0, name, s2f_def)
   end // end of [D1Cextype]
 | D1Cextval (name, def) => let
     val def = d1exp_tr (def) in d2ecl_extval (loc0, name, def)

@@ -65,6 +65,7 @@ staload "pats_staexp1.sats"
 staload "pats_e1xpval.sats"
 staload "pats_dynexp1.sats"
 staload "pats_staexp2.sats"
+staload "pats_staexp2_util.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp2_util.sats"
 
@@ -81,6 +82,10 @@ staload "pats_trans2_env.sats"
 
 #define l2l list_of_list_vt
 macdef list_sing (x) = list_cons (,(x), list_nil)
+
+(* ****** ****** *)
+
+macdef unhnf = s2exp_of_s2hnf
 
 (* ****** ****** *)
 
@@ -478,8 +483,9 @@ case+ d1e0.d1exp_node of
 | D1Eann_type (d1e, s1e) => let
     val d2e = d1exp_tr (d1e)
     val s2e = s1exp_trdn_res_impredicative (s1e, w1ts)
+    val s2f = s2exp_hnfize (s2e)
   in
-    d2exp_ann_type (loc0, d2e, s2e)
+    d2exp_ann_type (loc0, d2e, s2f)
   end // end of [D1Eann_type]
 | D1Eann_effc (d1e, efc) => let
     val d2e = d1exp_tr_wths1explst (d1e, w1ts)
@@ -569,9 +575,14 @@ case+ ans of
 | ~Some_vt d2i => (case+ d2i of
   | D2ITMvar d2v => let
       val typ = (case+ x.i1nvarg_typ of
-        | Some s1e => Some (s1exp_trdn_impredicative s1e)
+        | Some s1e => let
+            val s2e = s1exp_trdn_impredicative (s1e)
+            val s2f = s2exp_hnfize (s2e)
+          in
+            Some (s2f)
+          end // end of [Some]
         | None () => None ()
-      ) : s2expopt // end of [val]
+      ) : s2hnfopt // end of [val]
       val arg = i2nvarg_make (d2v, typ)
     in
       Some_vt (arg)
@@ -609,21 +620,29 @@ end // end of [i1nvarglst_tr]
 fn i1nvresstate_tr
   (r1es: i1nvresstate): i2nvresstate = let
   val s2q = s1qualst_tr (r1es.i1nvresstate_qua)
+  val s2ps = s2explst_hnfize (s2q.s2qua_sps)
   val body = i1nvarglst_tr r1es.i1nvresstate_arg
 in
-  i2nvresstate_make (s2q.s2qua_svs, s2q.s2qua_sps, body)
+  i2nvresstate_make (s2q.s2qua_svs, s2ps, body)
 end // end of [i1nvresstate_tr]
 
 fn loopi1nv_tr
   (inv: loopi1nv): loopi2nv = let
   val s2q = s1qualst_tr (inv.loopi1nv_qua)
+  val s2ps = s2explst_hnfize (s2q.s2qua_sps)
   val met = (case+ inv.loopi1nv_met of
-    | Some s1es => Some (s1explst_trdn_int s1es) | None () => None ()
-  ) : s2explstopt
+    | Some s1es => let
+        val s2es = s1explst_trdn_int s1es
+        val s2fs = s2explst_hnfize (s2es)
+      in
+        Some (s2fs)
+      end // end of [Some]
+    | None () => None ()
+  ) : s2hnflstopt
   val arg = i1nvarglst_tr (inv.loopi1nv_arg)
   val res = i1nvresstate_tr (inv.loopi1nv_res)
 in
-  loopi2nv_make (inv.loopi1nv_loc, s2q.s2qua_svs, s2q.s2qua_sps, met, arg, res)
+  loopi2nv_make (inv.loopi1nv_loc, s2q.s2qua_svs, s2ps, met, arg, res)
 end // end of [loopi1nv_tr]
 
 (* ****** ****** *)
@@ -768,8 +787,9 @@ case+ d1e0.d1exp_node of
 //
 | D1Eextval (s1e, code) => let
     val s2e = s1exp_trdn_viewt0ype (s1e)
+    val s2f = s2exp_hnfize (s2e)
   in
-    d2exp_extval (loc0, s2e, code)
+    d2exp_extval (loc0, s2f, code)
   end (* end of [D1Eextval] *)
 //
 | D1Eloopexn (knd) => d2exp_loopexn (loc0, knd)
@@ -843,10 +863,10 @@ case+ d1e0.d1exp_node of
 | D1Esifhead (
     r1es, _cond, _then, _else
   ) => let
-    val r2es = i1nvresstate_tr r1es
+    val r2es = i1nvresstate_tr (r1es)
     val _cond = s1exp_trdn_bool (_cond)
-    val _then = d1exp_tr (_then)
-    val _else = d1exp_tr (_else)
+    val _cond = s2exp_hnfize (_cond)
+    val _then = d1exp_tr (_then) and _else = d1exp_tr (_else)
   in
     d2exp_sifhead (loc0, r2es, _cond, _then, _else)
   end // end of [D1Eifhead]
@@ -865,6 +885,8 @@ case+ d1e0.d1exp_node of
     (r1es, s1e, sc1ls) => let
     val r2es = i1nvresstate_tr (r1es)
     val s2e = s1exp_trup (s1e)
+    val s2f = s2exp_hnfize (s2e)
+    val s2e = unhnf (s2f)
     val s2t_pat = s2e.s2exp_srt
     val sc2ls = sc1laulst_trdn (sc1ls, s2t_pat)
 (*
@@ -873,18 +895,22 @@ case+ d1e0.d1exp_node of
     // end of [val]
 *)
   in
-    d2exp_scasehead (loc0, r2es, s2e, sc2ls)
+    d2exp_scasehead (loc0, r2es, s2f, sc2ls)
   end // end of [D1Escaseof]
 //
 | D1Elst (lin, s1eopt, d1es) => let
-    val s2eopt = (
+    val opt = (
       case+ s1eopt of
-      | Some s1e => Some (s1exp_trdn_impredicative (s1e))
+      | Some s1e => let
+          val s2e = s1exp_trdn_impredicative (s1e)
+        in
+          Some (s2exp_hnfize (s2e))
+        end // end of [Some]
       | None () => None ()
-    ) : s2expopt // end of [val]
+    ) : s2hnfopt // end of [val]
     val d2es = d1explst_tr (d1es)
   in
-    d2exp_lst (loc0, lin, s2eopt, d2es)
+    d2exp_lst (loc0, lin, opt, d2es)
   end // end of [D1Elst]
 | D1Etup (tupknd, npf, d1es) =>
     d2exp_tup (loc0, tupknd, npf, d1explst_tr d1es)
@@ -911,16 +937,21 @@ case+ d1e0.d1exp_node of
       | None () => s2rt_viewt0ype // can be linear
     ) : s2rt // end of [val]
     val s2e_elt = s1exp_trdn (s1e_elt, s2t_elt)
+    val s2f_elt = s2exp_hnfize (s2e_elt)
     val asz = d1expopt_tr (asz)
     val ini = d1explst_tr (ini)
   in
-    d2exp_arrinit (loc0, s2e_elt, asz, ini)
+    d2exp_arrinit (loc0, s2f_elt, asz, ini)
   end // end of [D1Earrinit]
 | D1Earrsize
     (elt, ini) => let
-    val elt = s1expopt_trup (elt); val ini = d1explst_tr (ini)
+    val opt = s1expopt_trup (elt)
+    val opt = (case+ opt of
+      | Some s2e => Some (s2exp_hnfize (s2e)) | None () => None
+    ) : s2hnfopt
+    val ini = d1explst_tr (ini)
   in
-    d2exp_arrsize (loc0, elt, ini)
+    d2exp_arrsize (loc0, opt, ini)
   end // end of [D1Earrsize]
 //
 | D1Eraise (d1e) => d2exp_raise (loc0, d1exp_tr d1e)
@@ -958,8 +989,11 @@ case+ d1e0.d1exp_node of
   in
     d2exp_laminit_dyn (loc0, lin, npf, p2ts_arg, d2e_body)
   end // end of [D1Elam_dyn]
-| D1Elam_met (locarg, met, body) => let
-    val met = s1explst_trup (met); val body = d1exp_tr (body)
+| D1Elam_met
+    (locarg, met, body) => let
+    val met = s1explst_trup (met)
+    val met = s2explst_hnfize (met)
+    val body = d1exp_tr (body)
   in
     d2exp_lam_met_new (loc0, met, body)
   end (* end of [D1Elam_met] *)
@@ -979,17 +1013,20 @@ case+ d1e0.d1exp_node of
 | D1Elam_sta_syn
     (_(*locarg*), s1qs, d1e) => let
     val (pfenv | ()) = the_s2expenv_push_nil ()
-    val s2q = s1qualst_tr (s1qs); val d2e = d1exp_tr (d1e)
+    val s2q = s1qualst_tr (s1qs)
+    val s2ps = s2explst_hnfize (s2q.s2qua_sps)
+    val d2e = d1exp_tr (d1e)
     val () = the_s2expenv_pop_free (pfenv | (*none*))
   in
-    d2exp_lam_sta (loc0, s2q.s2qua_svs, s2q.s2qua_sps, d2e)
+    d2exp_lam_sta (loc0, s2q.s2qua_svs, s2ps, d2e)
   end // end of [D1Elam_sta_syn]
 //
 | D1Eann_type (d1e, s1e) => let
     val d2e = d1exp_tr d1e
     val s2e = s1exp_trdn_impredicative (s1e)
+    val s2f = s2exp_hnfize (s2e)
   in
-    d2exp_ann_type (loc0, d2e, s2e)
+    d2exp_ann_type (loc0, d2e, s2f)
   end // end of [D1Eann_type]
 | D1Eann_effc (d1e, efc) => let
     val d2e = d1exp_tr (d1e); val s2fe = effcst_tr (efc)

@@ -262,6 +262,19 @@ overload = with eq_tyreckind_tyreckind
 
 (* ****** ****** *)
 
+(*
+** HX: s2hnf for s2exp in head normal form (HNF)
+*)
+abstype s2hnf_type = ptr // s2exp
+
+typedef s2hnf = s2hnf_type
+typedef s2hnflst = List (s2hnf)
+typedef s2hnfopt = Option (s2hnf)
+typedef s2hnflstlst = List (s2hnflst)
+typedef s2hnflstopt = Option (s2hnflst)
+
+(* ****** ****** *)
+
 datatype
 s2exp_node =
 //
@@ -313,7 +326,7 @@ s2exp_node =
 and s2eff =
   | S2EFFall of ()
   | S2EFFnil of ()
-  | S2EFFset of (effset, s2explst)
+  | S2EFFset of (effset, s2hnflst)
 // end of [s2eff]
 
 and s2rtext = (* extended sort *)
@@ -340,6 +353,19 @@ and s2explstlst = List (s2explst)
 and s2explstopt = Option (s2explst)
 
 and labs2explst = List (labs2exp)
+
+(* ****** ****** *)
+
+castfn s2exp_of_s2hnf (x: s2hnf): s2exp
+castfn s2hnf_of_s2exp (x: s2exp): s2hnf
+castfn s2explst_of_s2hnflst (xs: s2hnflst): s2explst
+castfn s2hnflst_of_s2explst (xs: s2explst): s2hnflst
+castfn s2expopt_of_s2hnfopt (xs: s2hnfopt): s2expopt
+castfn s2hnfopt_of_s2expopt (xs: s2expopt): s2hnfopt
+castfn s2explstlst_of_s2hnflstlst (xss: s2hnflstlst): s2explstlst
+castfn s2hnflstlst_of_s2explstlst (xss: s2explstlst): s2hnflstlst
+castfn s2explstopt_of_s2hnflstopt (xss: s2hnflstopt): s2explstopt
+castfn s2hnflstopt_of_s2explstopt (xss: s2explstopt): s2hnflstopt
 
 (* ****** ****** *)
 
@@ -516,8 +542,8 @@ fun s2Var_make_var (loc: location, s2v: s2var): s2Var
 
 fun s2Var_get_sym (s2V: s2Var): symbol
 fun s2Var_get_srt (s2V: s2Var): s2rt
-fun s2Var_get_link (s2V: s2Var): s2expopt
-fun s2Var_set_link (s2V: s2Var, link: s2expopt): void
+fun s2Var_get_link (s2V: s2Var): s2hnfopt
+fun s2Var_set_link (s2V: s2Var, link: s2hnfopt): void
 fun s2Var_get_stamp (s2V: s2Var): stamp
 
 (* ****** ****** *)
@@ -603,14 +629,14 @@ fun prerr_d2conlst (xs: d2conlst): void
 //
 // HX: static expressions
 //
-fun s2exp_int (i: int): s2exp
-fun s2exp_intinf (int: intinf): s2exp
-fun s2exp_char (c: char): s2exp
-fun s2exp_cst (x: s2cst): s2exp // HX: static constant
-fun s2exp_var (x: s2var): s2exp // HX: static variable
+fun s2exp_int (i: int): s2hnf
+fun s2exp_intinf (int: intinf): s2hnf
+fun s2exp_char (c: char): s2hnf
+fun s2exp_cst (x: s2cst): s2hnf // HX: static constant
+fun s2exp_var (x: s2var): s2hnf // HX: static variable
 
 fun s2exp_extype_srt
-  (s2t: s2rt, name: string, arg: s2explstlst): s2exp
+  (s2t: s2rt, name: string, arg: s2explstlst): s2hnf
 // end of [s2exp_extype_srt]
 
 (* ****** ****** *)
@@ -627,21 +653,21 @@ fun s2exp_fun_srt (
   s2t: s2rt
 , fc: funclo, lin: int, s2fe: s2eff, npf: int
 , s2es_arg: s2explst, s2e_res: s2exp
-) : s2exp // end of [s2exp_fun_srt]
+) : s2hnf // end of [s2exp_fun_srt]
 
 fun s2exp_metfn
-  (opt: stampopt, met: s2explst, s2e: s2exp): s2exp
+  (opt: stampopt, met: s2explst, s2e: s2exp): s2hnf
 // end of [s2exp_metfn]
 
 (* ****** ****** *)
 
-fun s2exp_cstapp (s2c: s2cst, s2es: s2explst): s2exp
-fun s2exp_confun (npf: int, s2es: s2explst, s2e: s2exp): s2exp
+fun s2exp_cstapp (s2c: s2cst, s2es: s2explst): s2hnf
+fun s2exp_confun (npf: int, s2es: s2explst, s2e: s2exp): s2hnf
 
 (* ****** ****** *)
 
-fun s2exp_datconptr (d2c: d2con, s2es: s2explst): s2exp
-fun s2exp_datcontyp (d2c: d2con, s2es: s2explst): s2exp
+fun s2exp_datconptr (d2c: d2con, s2es: s2explst): s2hnf
+fun s2exp_datcontyp (d2c: d2con, s2es: s2explst): s2hnf
 
 (* ****** ****** *)
 
@@ -651,18 +677,20 @@ fun s2exp_top_srt (s2t: s2rt, knd: int, s2e: s2exp): s2exp
 (* ****** ****** *)
 
 fun s2exp_tyarr
-  (s2e_elt: s2exp, s2es_int: s2explst) : s2exp
+  (s2e_elt: s2exp, s2es_int: s2explst): s2hnf
 // end of [s2exp_tyarr]
 
 fun s2exp_tyrec_srt (
   s2t: s2rt, knd: tyreckind, npf: int, ls2es: labs2explst
-) : s2exp // end of [s2exp_tyrec_srt]
+) : s2hnf // end of [s2exp_tyrec_srt]
 
 (* ****** ****** *)
 
-fun s2exp_refarg (refval: int, s2e: s2exp): s2exp
+fun s2exp_refarg
+  (refval: int, s2e: s2exp): s2exp
+// end of [s2exp_refarg]
 
-fun s2exp_vararg (s2e: s2exp): s2exp
+fun s2exp_vararg (s2e: s2exp): s2hnf
 
 (* ****** ****** *)
 
@@ -720,7 +748,7 @@ sp2at_node =
 typedef
 sp2at = '{
   sp2at_loc= location
-, sp2at_exp= s2exp, sp2at_node= sp2at_node
+, sp2at_exp= s2hnf, sp2at_node= sp2at_node
 } // end of [sp2at]
 
 fun sp2at_con

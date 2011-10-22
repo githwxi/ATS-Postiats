@@ -444,10 +444,11 @@ fprint_s2eff (out, s2fe) =
   case+ s2fe of
   | S2EFFall () => fprint_string (out, "all")
   | S2EFFnil () => fprint_string (out, "nil")
-  | S2EFFset (efs, s2es) => {
+  | S2EFFset (efs, s2fs) => {
       val () = fprint_string (out, "set(")
       val () = $EFF.fprint_effset (out, efs)
       val () = fprint_string (out, "; ")
+      val s2es = s2explst_of_s2hnflst (s2fs)
       val () = fprint_s2explst (out, s2es)
       val () = fprint_string (out, ")")
     } // end of [S2EFFset]

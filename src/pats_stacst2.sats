@@ -33,6 +33,7 @@
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
@@ -63,16 +64,16 @@ val the_exception_viewtype : s2cstref
 (* ****** ****** *)
 //
 fun s2exp_bool
-  (b: bool): s2exp (* static boolean terms *)
+  (b: bool): s2hnf (* static boolean terms *)
 // end of [s2exp_bool]
 //
-fun s2exp_bool_t0ype (): s2exp // bool0
-fun s2exp_bool_bool_t0ype (b: bool): s2exp // bool1(b)
+fun s2exp_bool_t0ype (): s2hnf // bool0
+fun s2exp_bool_bool_t0ype (b: bool): s2hnf // bool1(b)
 //
 (* ****** ****** *)
 
-fun s2exp_char_t0ype (): s2exp // char0
-fun s2exp_char_char_t0ype (b: char): s2exp // char1(b)
+fun s2exp_char_t0ype (): s2hnf // char0
+fun s2exp_char_char_t0ype (b: char): s2hnf // char1(b)
 
 (* ****** ****** *)
 

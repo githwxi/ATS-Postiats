@@ -47,4 +47,11 @@ staload "pats_trans3.sats"
 
 (* ****** ****** *)
 
+implement
+d2exp_trdn (d2e0, s2f0) = let
+  val () = assertloc (false) in exit(1)
+end // end of [d2exp_trdn]
+
+(* ****** ****** *)
+
 (* end of [pats_trans3_exp_dn.dats] *)

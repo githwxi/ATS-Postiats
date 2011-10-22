@@ -76,9 +76,9 @@ fun stasub_copy (sub: !stasub): stasub
 fun stasub_free (sub: stasub): void
 
 fun stasub_add
-  (sub: &stasub, s2v: s2var, s2e: s2exp): void
+  (sub: &stasub, s2v: s2var, s2f: s2hnf): void
 fun stasub_addlst
-  (sub: &stasub, s2vs: s2varlst, s2es: s2explst): void
+  (sub: &stasub, s2vs: s2varlst, s2fs: s2hnflst): void
 
 fun stasub_find
   (sub: !stasub, s2v: s2var): Option_vt (s2exp)
@@ -115,25 +115,6 @@ fun s2explst_alpha
 (* ****** ****** *)
 
 fun s2exp_freevars (s2e: s2exp): s2varset_vt
-
-(* ****** ****** *)
-
-(*
-** HX: s2hnf for s2exp in head normal form (HNF)
-*)
-abstype s2hnf_type = s2exp
-
-typedef s2hnf = s2hnf_type
-typedef s2hnflst = List (s2hnf)
-typedef s2hnfopt = Option (s2hnf)
-typedef s2hnflstlst = List (s2hnflst)
-
-castfn s2exp_of_s2hnf (x: s2hnf): s2exp
-castfn s2hnf_of_s2exp (x: s2exp): s2hnf
-castfn s2explst_of_s2hnflst (xs: s2hnflst): s2explst
-castfn s2hnflst_of_s2explst (xs: s2explst): s2hnflst
-castfn s2explstlst_of_s2hnflstlst (xss: s2hnflstlst): s2explstlst
-castfn s2hnflstlst_of_s2explstlst (xss: s2explstlst): s2hnflstlst
 
 (* ****** ****** *)
 

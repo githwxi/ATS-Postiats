@@ -43,6 +43,11 @@ staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 
+macdef unhnf = s2exp_of_s2hnf
+macdef unhnflst = s2explst_of_s2hnflst
+
+(* ****** ****** *)
+
 implement
 fprint_d2itm (out, x) = let
   macdef prstr (s) = fprint_string (out, ,(s))
@@ -129,7 +134,7 @@ case+ x.p2at_node of
 | P2Tempty () => {
     val () = prstr "P2Tempty()"
   }
-| P2Tcon (knd, d2c, s2qs, s2e, npf, p2ts) => {
+| P2Tcon (knd, d2c, s2qs, s2f, npf, p2ts) => {
     val () = prstr "P2Tcon("
     val () = fprint_int (out, knd)
     val () = prstr "; "
@@ -137,7 +142,7 @@ case+ x.p2at_node of
     val () = prstr "; "
     val () = fprint_s2qualst (out, s2qs)
     val () = prstr "; "
-    val () = fprint_s2exp (out, s2e)
+    val () = fprint_s2exp (out, unhnf (s2f))
     val () = prstr "; "
     val () = fprint_int (out, npf)
     val () = prstr "; "
@@ -183,11 +188,11 @@ case+ x.p2at_node of
     val () = prstr ")"
   }
 //
-| P2Tann (p2t, s2e) => {
+| P2Tann (p2t, s2f) => {
     val () = prstr "P2Tann("
     val () = fprint_p2at (out, p2t)
     val () = prstr ", "
-    val () = fprint_s2exp (out, s2e)
+    val () = fprint_s2exp (out, unhnf (s2f))
     val () = prstr ")"
   }
 | P2Terr () => prstr "P2Terr()"

@@ -79,6 +79,13 @@ macdef list_sing (x) = list_cons (,(x), list_nil)
 
 (* ****** ****** *)
 
+macdef hnf = s2hnf_of_s2exp
+macdef hnflst = s2hnflst_of_s2explst
+macdef unhnf = s2exp_of_s2hnf
+macdef unhnflst = s2explst_of_s2hnflst
+
+(* ****** ****** *)
+
 fn i1mpdec_select_d2cst (
   d1c0: d1ecl, impdec: i1mpdec
 ) : Option_vt (d2cst) = let
@@ -179,8 +186,9 @@ end // end of [i1mpdec_select_d2cst]
 
 fun
 d1exp_tr_ann (
-  d1e0: d1exp, s2e0: s2exp
+  d1e0: d1exp, s2f0: s2hnf
 ) : d2exp = let
+  val s2e0 = unhnf (s2f0)
 // (*
   val () = (
     print "d1exp_tr_ann: d1e0 = "; print_d1exp (d1e0); print_newline ()
@@ -207,13 +215,16 @@ case+ s2e0.s2exp_node of
       val () = the_s2expenv_add_svarlst (s2vs)
       val s2ps = s2explst_subst (sub, s2ps) and s2e = s2exp_subst (sub, s2e)
       val () = stasub_free (sub)
-      val body = d1exp_tr_ann (body, s2e)
+      val s2ps = s2explst_hnfize (s2ps) and s2f = s2exp_hnfize (s2e)
+      val body = d1exp_tr_ann (body, s2f)
       val () = the_s2expenv_pop_free (pf_s2expenv | (*none*))
     in
       d2exp_lam_sta (d1e0.d1exp_loc, s2vs, s2ps, body)
     end // end of [D1Elam_sta_ana]
   | _ => let
-      val d2e0 = d1exp_tr_ann (d1e0, s2e)
+      val s2f = hnf (s2e)
+      val d2e0 = d1exp_tr_ann (d1e0, s2f)
+      val s2ps = hnflst (s2ps)
     in
       d2exp_lam_sta (d1e0.d1exp_loc, s2vs, s2ps, d2e0)
     end // end of [_]
@@ -237,11 +248,13 @@ case+ s2e0.s2exp_node of
       d2exp_laminit_dyn (d1e0.d1exp_loc, lin1, npf1, p2ts_arg, d2e_body)
     end // end of [D2Elam_dyn]
   | _ => let
-      val d2e0 = d1exp_tr (d1e0) in d2exp_ann_type (d1e0.d1exp_loc, d2e0, s2e0)
+      val d2e0 = d1exp_tr (d1e0)
+    in
+      d2exp_ann_type (d1e0.d1exp_loc, d2e0, s2f0)
     end (* end of [_] *)
   ) // end of [S2Efun]
 | _ => let
-    val d2e0 = d1exp_tr d1e0 in d2exp_ann_type (d1e0.d1exp_loc, d2e0, s2e0)
+    val d2e0 = d1exp_tr d1e0 in d2exp_ann_type (d1e0.d1exp_loc, d2e0, s2f0)
   end (* end of [_] *)
 //
 end // end of [d1exp_tr_ann]
@@ -353,7 +366,8 @@ val p2ts_arg = let
   ) : p2atlst =
     case+ (p2ts, s2es) of
     | (p2t :: p2ts, s2e :: s2es) => let
-         val p2t = p2at_ann (p2t.p2at_loc, p2t, s2e)
+         val s2f = s2exp_hnfize (s2e)
+         val p2t = p2at_ann (p2t.p2at_loc, p2t, s2f)
          val p2ts = aux (p2ts, s2es, err)
        in
          list_cons (p2t, p2ts)
@@ -408,7 +422,8 @@ val () = auxcheck
   // end of [auxcheck]
 } (* end of [val] *)
 //
-val d2e_body = d1exp_tr_ann (d1e_body, s2e_res)
+val s2f_res = s2exp_hnfize (s2e_res)
+val d2e_body = d1exp_tr_ann (d1e_body, s2f_res)
 //
 val () = the_d2varlev_dec (pflev | (*none*))
 val () = the_trans2_env_pop (pfenv | (*none*))
@@ -580,7 +595,7 @@ fun aux_imparg (
 fun aux_tmparg_s1explst (
   d1c0: d1ecl
 , s2vs: s2varlst, s1es: s1explst, err: &int
-) : s2explst = let
+) : s2hnflst = let
 (*
   val () = (
     print "aux_tmparg_s1explst: s2vs = "; print_s2varlst (s2vs); print_newline ()
@@ -591,10 +606,11 @@ in
   | (s2v :: s2vs, s1e :: s1es) => let
       val s2t = s2var_get_srt (s2v)
       val s2e = s1exp_trdn (s1e, s2t)
-      val s2es = aux_tmparg_s1explst (d1c0, s2vs, s1es, err)
+      val s2f = s2exp_hnfize (s2e)
+      val s2fs = aux_tmparg_s1explst (d1c0, s2vs, s1es, err)
     in
-      list_cons (s2e, s2es)
-    end
+      list_cons (s2f, s2fs)
+    end // end of [::, ::]
   | (list_nil (), list_nil ()) => list_nil ()
   | (list_cons _, list_nil ()) => let
       val () = err := err + 1 in list_nil ()
@@ -606,7 +622,7 @@ end // end of [aux_tmparg_s1explst]
 //
 fun aux_tmparg_marglst (
   d1c0: d1ecl, s2qs: s2qualst, xs: t1mpmarglst
-) : s2explstlst = let
+) : s2hnflstlst = let
   fn auxerr1 (x: t1mpmarg, err: int):<cloref1> void = let
     val () = prerr_error2_loc (x.t1mpmarg_loc)
     val () = prerr ": the template argument group is expected to be contain "
@@ -652,30 +668,30 @@ end // end of [aux_tmparg_s1explstlst]
 //
 fun aux_tmparg (
   d1c0: d1ecl, s2qs: s2qualst, impdec: i1mpdec
-) : s2explstlst = let
+) : s2hnflstlst = let
 in
   aux_tmparg_marglst (d1c0, s2qs, impdec.i1mpdec_tmparg)
-end
+end // end of [aux_tmparg]
 //
 val s2qs = d2cst_get_decarg (d2c)
 val (pfenv | ()) = the_s2expenv_push_nil ()
 val () = if list_isnot_empty (s2qs) then the_tmplev_inc ()
 //
 val (imparg, opt) = aux_imparg (d1c0, s2qs, imparg)
-val s2ess = (case+ opt of
+val sfess = (case+ opt of
   | ~Some_vt (s2vss) => let
       fn f (
         s2vs: s2varlst
-      ) : s2explst =
+      ) : s2hnflst =
          l2l (list_map_fun (s2vs, s2exp_var))
       // end of [f]
     in
       l2l (list_map_fun (s2vss, f))
     end // end of [Some]
   | ~None_vt () => aux_tmparg (d1c0, s2qs, impdec)
-) : s2explstlst // end of [val]
+) : s2hnflstlst // end of [val]
 //
-val tmparg = s2ess
+val tmparg = sfess
 val tmpgua = list_nil ()
 //
 val s2e = d2cst_get_typ (d2c)

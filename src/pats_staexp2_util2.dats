@@ -72,7 +72,7 @@ in
       val () = flag := flag + 1
       var sub = stasub_make_nil ()
       fun aux (
-        s2vs: s2varlst, s2es: s2explst, sub: &stasub
+        s2vs: s2varlst, s2es: s2hnflst, sub: &stasub
       ) : void =
         case+ (s2vs, s2es) of
         | (s2v :: s2vs, s2e :: s2es) => let
@@ -80,7 +80,10 @@ in
           end // end of [::, ::]
         | (_, _) => ()
       // end of [aux]
-      val () = aux (s2vs_arg, s2es_arg, sub)
+      val s2fs_arg =
+        s2explst_hnfize (s2es_arg)
+      // end of [val]
+      val () = aux (s2vs_arg, s2fs_arg, sub)
       val s2e0 = s2exp_subst (sub, s2e_body)
       val () = stasub_free (sub)
     in
@@ -99,10 +102,11 @@ implement
 s2exp_hnfize_flag
   (s2e0, flag) = let
   val s2t0 = s2e0.s2exp_srt
-  val () = assertloc (false)
 in
 //
 case+ s2e0.s2exp_node of
+| S2Ecst _ => s2e0
+//
 | S2Eapp (s2e_fun, s2es_arg) =>
     s2exp_hnfize_app (s2e0, s2e_fun, s2es_arg, flag)
   // end of [S2Eapp]
@@ -114,8 +118,31 @@ case+ s2e0.s2exp_node of
       then s2exp_lam_srt (s2t0, s2vs_arg, s2e_body) else s2e0
     // end of [if]
   end // end of [S2Elam]
+| S2Efun _ => s2e0
 //
-| _ => s2e0
+| S2Eexi (s2vs, s2ps, s2e) => let
+    val flag0 = flag
+    val s2ps = s2explst_hnfize_flag (s2ps, flag)
+    val s2e = s2exp_hnfize_flag (s2e, flag)
+  in
+    if flag > flag0 then s2exp_exi (s2vs, s2ps, s2e) else s2e0
+  end // end of [S2Euni]
+| S2Euni (s2vs, s2ps, s2e) => let
+    val flag0 = flag
+    val s2ps = s2explst_hnfize_flag (s2ps, flag)
+    val s2e = s2exp_hnfize_flag (s2e, flag)
+  in
+    if flag > flag0 then s2exp_uni (s2vs, s2ps, s2e) else s2e0
+  end // end of [S2Euni]
+//
+| _ => let
+    val () = (
+      print "s2exp_hnfize_flag: s2e0 = "; print_s2exp (s2e0); print_newline ()
+    ) // end of [val]
+    val () = assertloc (false)
+  in
+    s2e0
+  end // end of [_]
 //
 end // end of [s2exp_hnfize_flag]
 
@@ -174,6 +201,21 @@ s2explst_hnfize (s2es) = let
 in
   s2hnflst_of_s2explst (s2es)
 end // end of [s2explst_hnfsize]
+
+implement
+s2expopt_hnfize (opt) = let
+  var flag: int = 0
+in
+  case+ opt of
+  | Some s2e => let
+      val s2e = s2exp_hnfize_flag (s2e, flag)
+    in
+      if flag > 0 then
+        Some (s2hnf_of_s2exp s2e) else s2hnfopt_of_s2expopt (opt)
+      // end of [if]
+    end // end of [Some]
+  | None () => None ()
+end // end of [s2expopt_hnfsize]
 
 (* ****** ****** *)
 

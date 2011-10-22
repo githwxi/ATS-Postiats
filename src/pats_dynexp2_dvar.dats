@@ -75,13 +75,13 @@ d2var_struct = @{
 , d2var_isfix= bool // is fix-variable?
 , d2var_isprf= bool // is proof?
 , d2var_decarg= s2qualst // template arg
-, d2var_addr= s2expopt //
+, d2var_addr= s2hnfopt //
 , d2var_view= d2varopt_t // 
 (*
 , d2var_fin= d2var_fin //
 *)
-, d2var_type= s2expopt //
-, d2var_mastype= s2expopt //
+, d2var_type= s2hnfopt //
+, d2var_mastype= s2hnfopt //
 , d2var_count= int //
 , d2var_stamp= stamp // uniqueness stamp
 } // end of [d2var_struct]
@@ -182,8 +182,8 @@ d2var_get_addr (d2v) = let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_addr
 end // end of [d2var_get_addr]
 implement
-d2var_set_addr (d2v, s2eopt) = let
-  val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_addr := s2eopt
+d2var_set_addr (d2v, s2fopt) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_addr := s2fopt
 end // end of [d2var_set_addr]
 
 implement
@@ -202,8 +202,8 @@ d2var_get_type (d2v) = let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_type
 end // end of [d2var_get_type]
 implement
-d2var_set_type (d2v, s2eopt) = let
-  val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_type := s2eopt
+d2var_set_type (d2v, opt) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_type := opt
 end // end of [d2var_set_type]
 
 implement
@@ -211,8 +211,8 @@ d2var_get_mastype (d2v) = let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_mastype
 end // end of [d2var_get_mastype]
 implement
-d2var_set_mastype (d2v, s2eopt) = let
-  val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_mastype := s2eopt
+d2var_set_mastype (d2v, opt) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_mastype := opt
 end // end of [d2var_set_mastype]
 
 implement
