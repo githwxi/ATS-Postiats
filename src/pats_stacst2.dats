@@ -117,7 +117,8 @@ end // end of [local]
 implement
 s2cstref_get_cst (r) = let
 //
-fn auxerr (id: symbol) = let
+fn auxerr
+  (id: symbol): s2cst = let
   val () = prerr_interror ()
   val () = prerr ": s2cstref_get_cst: "
   val () = prerr "the pervasive static constant ["
@@ -137,22 +138,80 @@ if isnul then let
   val id = s2cstref_get_sym (r)
   val ans = the_s2expenv_pervasive_find (id)
 in
-  case+ ans of
-  | ~Some_vt (s2i) => (
-    case+ s2i of
-    | S2ITMcst s2cs => let
-        val- list_cons (s2c, _) = s2cs
-        val () = s2cstref_set_cstnul (r, s2cstnul_some (s2c))
-      in
-        s2c
-      end // end of [S2ITMcst]
-    | _ => auxerr (id)
-    ) // end of [Some_vt]
-  | ~None_vt () => auxerr (id)
+//
+case+ ans of
+| ~Some_vt (s2i) => (
+  case+ s2i of
+  | S2ITMcst s2cs => let
+      val- list_cons (s2c, _) = s2cs
+      val () = s2cstref_set_cstnul (r, s2cstnul_some (s2c))
+    in
+      s2c
+    end // end of [S2ITMcst]
+  | _ => auxerr (id)
+  ) // end of [Some_vt]
+| ~None_vt () => auxerr (id)
+//
 end else
   s2cstnul_unsome (s2c)
 // end of [if]
 end // end of [s2cstref_get_cst]
+
+(* ****** ****** *)
+
+implement
+the_true_bool = s2cstref_make ("true_bool")
+implement
+the_false_bool = s2cstref_make ("false_bool")
+
+implement
+s2exp_bool (b) = let
+  val s2cref = (
+    if b then the_true_bool else the_false_bool
+  ) : s2cstref // end of [val]
+in
+  s2exp_cst (s2cstref_get_cst (s2cref))
+end // end of [s2exp_bool]
+
+(* ****** ****** *)
+
+implement
+the_bool_t0ype = s2cstref_make "bool_t0ype"
+implement
+the_bool_bool_t0ype = s2cstref_make "bool_bool_t0ype"
+
+implement
+s2exp_bool_t0ype () =
+  s2exp_cst (s2cstref_get_cst (the_bool_t0ype))
+// end of [s2exp_bool_t0ype]
+
+implement
+s2exp_bool_bool_t0ype (b) = let
+  val s2c = s2cstref_get_cst (the_bool_bool_t0ype)
+  val ind = s2exp_bool (b)
+in
+  s2exp_cstapp (s2c, list_sing (ind))
+end // end of [s2exp_bool_bool_t0ype]
+
+(* ****** ****** *)
+
+implement
+the_char_t0ype = s2cstref_make "char_t0ype"
+implement
+the_char_char_t0ype = s2cstref_make "char_char_t0ype"
+
+implement
+s2exp_char_t0ype () =
+  s2exp_cst (s2cstref_get_cst (the_char_t0ype))
+// end of [s2exp_char_t0ype]
+
+implement
+s2exp_char_char_t0ype (c) = let
+  val s2c = s2cstref_get_cst (the_char_char_t0ype)
+  val ind = s2exp_char (c)
+in
+  s2exp_cstapp (s2c, list_sing (ind))
+end // end of [s2exp_char_char_t0ype]
 
 (* ****** ****** *)
 

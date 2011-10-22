@@ -275,9 +275,7 @@ p2at = '{
   p2at_loc= location
 , p2at_svs= lstord (s2var)
 , p2at_dvs= lstord (d2var)
-(*
-, p2at_typ= ref@ (s2expopt)
-*)
+, p2at_typ= s2expopt // ref@ (s2expopt)
 , p2at_node= p2at_node
 }
 and p2atlst = List (p2at)
@@ -617,6 +615,16 @@ and i2mpdec = '{
 , i2mpdec_tmpgua= s2explstlst // static guards
 , i2mpdec_def= d2exp
 } // end of [i2mpdec]
+
+(* ****** ****** *)
+
+fun fprint_d2exp : fprint_type (d2exp)
+fun print_d2exp (x: d2exp): void
+fun prerr_d2exp (x: d2exp): void
+
+fun fprint_d2ecl : fprint_type (d2ecl)
+fun print_d2ecl (x: d2ecl): void
+fun prerr_d2ecl (x: d2ecl): void
 
 (* ****** ****** *)
 //

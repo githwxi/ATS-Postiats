@@ -26,22 +26,33 @@
 *)
 
 (* ****** ****** *)
+//
+// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Start Time: October, 2011
+//
+(* ****** ****** *)
 
 staload "pats_staexp2.sats"
-staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-fun d2exp_trup (d2e: d2exp): d3exp
-fun d2explst_trup (d2es: d2explst): d3explst
-fun d2explstlst_trup (d2ess: d2explstlst): d3explstlst
+implement
+d3exp_bool
+  (loc, s2e, b) = '{
+  d3exp_loc= loc
+, d3exp_typ= s2e
+, d3exp_node= D3Ebool (b)
+} // end of [d3exp_bool]
+
+implement
+d3exp_char
+  (loc, s2e, c) = '{
+  d3exp_loc= loc
+, d3exp_typ= s2e
+, d3exp_node= D3Echar (c)
+} // end of [d3exp_char]
 
 (* ****** ****** *)
 
-fun d2ecl_tr (d2c: d2ecl): d3ecl
-fun d2eclist_tr (d2cs: d2eclist): d3eclist
-
-(* ****** ****** *)
-
-(* end of [pats_trans3.sats] *)
+(* end of [pats_dynexp3.dats] *)

@@ -10,8 +10,8 @@
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
-** the terms of  the GNU GENERAL PUBLIC LICENSE (GPL) as published by the
-** Free Software Foundation; either version 3, or (at  your  option)  any
+** the terms of the GNU LESSER GENERAL PUBLIC LICENSE as published by the
+** Free Software Foundation; either version 2.1, or (at your option)  any
 ** later version.
 ** 
 ** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
@@ -26,22 +26,24 @@
 *)
 
 (* ****** ****** *)
-
-staload "pats_staexp2.sats"
-staload "pats_dynexp2.sats"
-staload "pats_dynexp3.sats"
-
+//
+// Author of the file: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Start Time: October, 2011
+//
+(* ****** ****** *)
+//
+// HX-2011-10-16:
+// file_mode_lte_*_*
+// are declared in $ATSHOME/prelude/basic_dyn.ats
+//
+stadef r = r()
+stadef w = w()
+stadef rw = rw()
+//
+implement file_mode_lte_r_r = file_mode_lte_refl {r} ()
+implement file_mode_lte_w_w = file_mode_lte_refl {w} ()
+implement file_mode_lte_rw_rw = file_mode_lte_refl {rw} ()
+//
 (* ****** ****** *)
 
-fun d2exp_trup (d2e: d2exp): d3exp
-fun d2explst_trup (d2es: d2explst): d3explst
-fun d2explstlst_trup (d2ess: d2explstlst): d3explstlst
-
-(* ****** ****** *)
-
-fun d2ecl_tr (d2c: d2ecl): d3ecl
-fun d2eclist_tr (d2cs: d2eclist): d3eclist
-
-(* ****** ****** *)
-
-(* end of [pats_trans3.sats] *)
+(* end of [filebas_prf.dats] *)
