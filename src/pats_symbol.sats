@@ -43,9 +43,9 @@ val symbol_SUB : symbol // -
 val symbol_MUL : symbol // *
 val symbol_DIV : symbol // /
 //
-val symbol_AMPERSAND : symbol // &
-val symbol_AMPERQMARK : symbol // &?
-val symbol_AMPERQMARKBANG : symbol // &?!
+val symbol_AMPERSAND : symbol // & // read-only
+val symbol_AMPERBANG : symbol // &! // read-write
+val symbol_AMPERQMARK : symbol // &? // write-only
 //
 val symbol_AT : symbol // @
 val symbol_BACKSLASH : symbol // \

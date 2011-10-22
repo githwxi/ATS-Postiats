@@ -44,8 +44,8 @@ fun f (x: &?int): void // write-only
 fun f (x: &?!int): void // allowing both read and write
 *)
 macdef AMPERSAND = $SYM.symbol_AMPERSAND // & (r)
+macdef AMPERBANG = $SYM.symbol_AMPERBANG // &! (rw)
 macdef AMPERQMARK = $SYM.symbol_AMPERQMARK // &? (w)
-macdef AMPERQMARKBANG = $SYM.symbol_AMPERQMARKBANG // &?! (rw)
 //
 macdef BACKSLASH = $SYM.symbol_BACKSLASH
 macdef BANG = $SYM.symbol_BANG
@@ -246,6 +246,17 @@ aux_item (
     in
       FXITMopr (loc0, FXOPRpre (invar_prec_sta, f))
     end // end of [S0Eide when ...]
+  | S0Eide id when id = AMPERBANG => let
+      fn f (
+        s1e: s1exp
+      ) :<cloref1> s1expitm = let
+        val loc = loc0 + s1e.s1exp_loc
+      in
+        FXITMatm (s1exp_invar (loc, 3(*ref:rw*), s1e))
+      end // end of [f]
+    in
+      FXITMopr (loc0, FXOPRpre (invar_prec_sta, f))
+    end // end of [S0Eide when ...]
   | S0Eide id when id = AMPERQMARK => let
       fn f (
         s1e: s1exp
@@ -253,17 +264,6 @@ aux_item (
         val loc = loc0 + s1e.s1exp_loc
       in
         FXITMatm (s1exp_invar (loc, 2(*ref:w*), s1e))
-      end // end of [f]
-    in
-      FXITMopr (loc0, FXOPRpre (invar_prec_sta, f))
-    end // end of [S0Eide when ...]
-  | S0Eide id when id = AMPERQMARKBANG => let
-      fn f (
-        s1e: s1exp
-      ) :<cloref1> s1expitm = let
-        val loc = loc0 + s1e.s1exp_loc
-      in
-        FXITMatm (s1exp_invar (loc, 3(*ref:rw*), s1e))
       end // end of [f]
     in
       FXITMopr (loc0, FXOPRpre (invar_prec_sta, f))

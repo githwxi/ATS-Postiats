@@ -52,14 +52,71 @@ fun s2explst_hnfize_flag (s2es: s2explst, flag: &int): s2explst
 extern
 fun labs2explst_hnfize_flag (ls2es: labs2explst, flag: &int): labs2explst
 
+extern
+fun s2exp_hnfize_app (
+  s2e0: s2exp, s2e_fun: s2exp, s2es_arg: s2explst, flag: &int
+) : s2exp // [s2exp_hnfize_app]
+
+(* ****** ****** *)
+
+implement
+s2exp_hnfize_app (
+  s2e0, s2e_fun, s2es_arg, flag
+) = let
+  val flag0 = flag
+  val s2e_fun = s2exp_hnfize_flag (s2e_fun, flag)
+in
+  case+ s2e_fun.s2exp_node of
+  | S2Elam (s2vs_arg, s2e_body) => let
+      #define :: list_cons
+      val () = flag := flag + 1
+      var sub = stasub_make_nil ()
+      fun aux (
+        s2vs: s2varlst, s2es: s2explst, sub: &stasub
+      ) : void =
+        case+ (s2vs, s2es) of
+        | (s2v :: s2vs, s2e :: s2es) => let
+            val () = stasub_add (sub, s2v, s2e) in aux (s2vs, s2es, sub)
+          end // end of [::, ::]
+        | (_, _) => ()
+      // end of [aux]
+      val () = aux (s2vs_arg, s2es_arg, sub)
+      val s2e0 = s2exp_subst (sub, s2e_body)
+      val () = stasub_free (sub)
+    in
+      s2exp_hnfize_flag (s2e0, flag)
+    end // end of [S2Elam]
+  | _ =>
+      if flag > flag0 then
+        s2exp_app_srt (s2e0.s2exp_srt, s2e_fun, s2es_arg)
+      else s2e0 (* there is no change *)
+    // end of [_]
+end // end of [s2exp_hnfize_flag_app]
+
 (* ****** ****** *)
 
 implement
 s2exp_hnfize_flag
   (s2e0, flag) = let
+  val s2t0 = s2e0.s2exp_srt
   val () = assertloc (false)
 in
-  s2e0
+//
+case+ s2e0.s2exp_node of
+| S2Eapp (s2e_fun, s2es_arg) =>
+    s2exp_hnfize_app (s2e0, s2e_fun, s2es_arg, flag)
+  // end of [S2Eapp]
+| S2Elam (s2vs_arg, s2e_body) => let
+    val flag0 = flag
+    val s2e_body = s2exp_hnfize_flag (s2e_body, flag)
+  in
+    if flag > flag0
+      then s2exp_lam_srt (s2t0, s2vs_arg, s2e_body) else s2e0
+    // end of [if]
+  end // end of [S2Elam]
+//
+| _ => s2e0
+//
 end // end of [s2exp_hnfize_flag]
 
 
