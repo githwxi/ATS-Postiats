@@ -470,6 +470,25 @@ case+ s2e0.s2exp_node of
     end else s2e0
   end // end of [S2Edatcontyp]
 //
+| S2Eat (s2e1, s2e2) => let
+    val flag0 = flag
+    val s2e1 = s2exp_subst_flag (sub, s2e1, flag)
+    val s2e2 = s2exp_subst_flag (sub, s2e2, flag)
+  in
+    if flag > flag0 then let
+      val res = s2exp_at (s2e1, s2e2) in unhnf (res)
+    end else s2e0 // end of [if]
+  end // end of [S2Eat]
+//
+| S2Eapp (s2e_fun, s2es_arg) => let
+    val flag0 = flag
+    val s2e_fun = s2exp_subst_flag (sub, s2e_fun, flag)
+    val s2es_fun = s2explst_subst_flag (sub, s2es_arg, flag)
+  in
+    if flag > flag0
+      then s2exp_app_srt (s2t0, s2e_fun, s2es_arg) else s2e0
+    // end of [if]
+  end // end of [S2Eapp]
 | S2Elam (s2vs, s2e) => let
     val flag0 = flag
     var sub1 = stasub_copy (sub)
@@ -483,15 +502,6 @@ case+ s2e0.s2exp_node of
       val () = list_vt_free (s2vs) in s2e0
     end (* end of [if] *)
   end // end of [S2Elam]
-| S2Eapp (s2e_fun, s2es_arg) => let
-    val flag0 = flag
-    val s2e_fun = s2exp_subst_flag (sub, s2e_fun, flag)
-    val s2es_fun = s2explst_subst_flag (sub, s2es_arg, flag)
-  in
-    if flag > flag0
-      then s2exp_app_srt (s2t0, s2e_fun, s2es_arg) else s2e0
-    // end of [if]
-  end // end of [S2Eapp]
 | S2Efun (
     fc, lin, s2fe, npf, s2es_arg, s2e_res
   ) => let
@@ -751,6 +761,13 @@ fun aux_s2exp (
   | S2Edatconptr (d2c, s2es_arg) => aux_s2explst (s2es_arg, fvs)
   | S2Edatcontyp (d2c, s2es_arg) => aux_s2explst (s2es_arg, fvs)
 //
+  | S2Eat (s2e1, s2e2) => (
+      aux_s2exp (s2e1, fvs); aux_s2exp (s2e2, fvs)
+    ) // end of [s2Eat]
+//
+  | S2Eapp (s2e_fun, s2es_arg) => (
+      aux_s2exp (s2e_fun, fvs); aux_s2explst (s2es_arg, fvs)
+    ) // end of [S2Eapp]
   | S2Elam (s2vs, s2e) => let
       var fvs1 = s2varset_vt_nil ()
       val () = aux_s2exp (s2e, fvs1)
@@ -758,9 +775,6 @@ fun aux_s2exp (
     in
       fvs := s2varset_vt_union (fvs, fvs1)
     end // end of [S2Elam]
-  | S2Eapp (s2e_fun, s2es_arg) => (
-      aux_s2exp (s2e_fun, fvs); aux_s2explst (s2es_arg, fvs)
-    ) // end of [S2Eapp]
   | S2Efun (
       _,  _, s2fe, _, s2es_arg, s2e_res
     ) => {

@@ -61,6 +61,8 @@ val the_char_char_t0ype : s2cstref
 //
 val the_exception_viewtype : s2cstref
 //
+val the_at_viewt0ype_addr_view: s2cstref
+//
 (* ****** ****** *)
 //
 fun s2exp_bool
@@ -74,6 +76,10 @@ fun s2exp_bool_bool_t0ype (b: bool): s2hnf // bool1(b)
 
 fun s2exp_char_t0ype (): s2hnf // char0
 fun s2exp_char_char_t0ype (b: char): s2hnf // char1(b)
+
+(* ****** ****** *)
+
+fun stacst2_initialize (): void
 
 (* ****** ****** *)
 

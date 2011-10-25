@@ -276,6 +276,14 @@ case+ x.s2exp_node of
     val () = prstr ")"
   } // end of [S2Edatcontyp]
 //
+| S2Eat (s2e1, s2e2) => {
+    val () = prstr "S2Eat("
+    val () = fprint_s2exp (out, s2e1)
+    val () = prstr "; "
+    val () = fprint_s2exp (out, s2e2)
+    val () = prstr ")"
+  } // end of [S2Eat]
+//
 | S2Eapp (s2e_fun, s2es_arg) => {
     val () = prstr "S2Eapp("
     val () = fprint_s2exp (out, s2e_fun)

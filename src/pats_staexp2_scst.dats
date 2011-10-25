@@ -182,6 +182,10 @@ implement
 s2cst_get_def (s2c) = let
   val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_def
 end // end of [s2cst_def_get]
+implement
+s2cst_set_def (s2c, opt) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_def := opt
+end // end of [s2cst_def_set]
 
 implement
 s2cst_get_isabs (s2c) = let

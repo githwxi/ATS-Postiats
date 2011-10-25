@@ -176,7 +176,13 @@ symintr encode decode
 //
 (* ****** ****** *)
 
-absviewt@ype
+absview // S2Eat
+at_viewt0ype_addr_view (viewt@ype+, addr)
+stadef @ = at_viewt0ype_addr_view // HX: @ is infix
+
+(* ****** ****** *)
+
+absviewt@ype // S2Etyvarknd
 tyvarknd (a:viewt@ype, knd: int)
 viewtypedef CO (a:viewt@ype) = tyvarknd (a, 1) // T <= X => T = X
 viewtypedef CONTRA (a:viewt@ype) = tyvarknd (a, 2) // X <= T => T = X

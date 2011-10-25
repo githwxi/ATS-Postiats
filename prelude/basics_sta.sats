@@ -363,15 +363,6 @@ opt_viewt0ype_bool_viewt0ype
 stadef opt = opt_viewt0ype_bool_viewt0ype
 
 (* ****** ****** *)
-//
-// HX:
-// some built-in impredicative constructors
-//
-absview
-at_viewt0ype_addr_view (viewt@ype+, addr)
-stadef @ = at_viewt0ype_addr_view // HX: @ is infix
-
-(* ****** ****** *)
 
 typedef bytes (n:int) = @[byte][n]
 typedef b0ytes (n:int) = @[byte?][n]

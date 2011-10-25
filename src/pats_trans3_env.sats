@@ -97,4 +97,25 @@ and h3ypo = '{
 
 (* ****** ****** *)
 
+fun c3str_prop
+  (loc: location, s2e: s2exp): c3str
+fun c3str_itmlst (
+  loc: location, knd: c3strkind, s3is: s3itemlst
+) : c3str // end of [c3str_itmlst]
+
+(* ****** ****** *)
+
+fun h3ypo_prop
+  (loc: location, s2e: s2exp): h3ypo
+fun h3ypo_bind
+  (loc: location, s2v: s2var, s2e: s2exp): h3ypo
+fun h3ypo_eqeq
+  (loc: location, s2e1: s2exp, s2e2: s2exp): h3ypo
+
+(* ****** ****** *)
+
+fun trans3_env_initialize (): void
+
+(* ****** ****** *)
+
 (* end of [pats_trans3_env.sats] *)

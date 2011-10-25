@@ -156,6 +156,13 @@ s2exp_extype_srt
 (* ****** ****** *)
 
 implement
+s2exp_at (s2e1, s2e2) = hnf '{
+  s2exp_srt= s2rt_view, s2exp_node= S2Eat (s2e1, s2e2)
+} // end of [s2exp_at]
+
+(* ****** ****** *)
+
+implement
 s2exp_app_srt
   (s2t, _fun, _arg) = '{
   s2exp_srt= s2t, s2exp_node= S2Eapp (_fun, _arg)

@@ -68,6 +68,7 @@ staload TRENV1 = "pats_trans1_env.sats"
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_stacst2.sats"
 staload "pats_dynexp2.sats"
 staload TRANS2 = "pats_trans2.sats"
 staload TRENV2 = "pats_trans2_env.sats"
@@ -411,6 +412,8 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/basics_pre.sats")
   val () = pervasive_load (ATSHOME, "prelude/basics_sta.sats")
   val () = pervasive_load (ATSHOME, "prelude/basics_dyn.sats")
+//
+  val () = stacst2_initialize () // internalizing some static constants
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/arith.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/bool.sats")

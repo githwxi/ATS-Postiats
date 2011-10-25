@@ -298,6 +298,8 @@ s2exp_node =
   | S2Edatcontyp of (* unfolded datatype *)
       (d2con, s2explst) (* constructor and types of arguments *)
 //
+  | S2Eat of (s2exp, s2exp) // for at-views
+//
   | S2Eapp of (s2exp, s2explst) // static application
   | S2Elam of (s2varlst, s2exp) // static abstraction
   | S2Efun of ( // function type
@@ -431,6 +433,7 @@ fun s2cst_get_sym (x: s2cst): symbol
 fun s2cst_get_srt (x: s2cst): s2rt
 
 fun s2cst_get_def (x: s2cst): s2expopt
+fun s2cst_set_def (x: s2cst, def: s2expopt): void
 
 fun s2cst_get_isabs (x: s2cst): Option (s2expopt)
 
@@ -679,6 +682,10 @@ fun s2exp_extype_srt
 
 (* ****** ****** *)
 
+fun s2exp_at (s2e1: s2exp, s2e2: s2exp): s2hnf
+
+(* ****** ****** *)
+
 fun s2exp_app_srt
   (s2t: s2rt, _fun: s2exp, _arg: s2explst): s2exp
 // end of [s2exp_app_srt]
@@ -689,8 +696,12 @@ fun s2exp_lams (s2vss: s2varlstlst, s2e: s2exp): s2exp
 
 fun s2exp_fun_srt (
   s2t: s2rt
-, fc: funclo, lin: int, s2fe: s2eff, npf: int
-, s2es_arg: s2explst, s2e_res: s2exp
+, fc: funclo
+, lin: int
+, s2fe: s2eff
+, npf: int
+, s2es_arg: s2explst
+, s2e_res: s2exp
 ) : s2hnf // end of [s2exp_fun_srt]
 
 fun s2exp_metfn

@@ -225,4 +225,34 @@ the_exception_viewtype = s2cstref_make "exception_viewtype"
 
 (* ****** ****** *)
 
+extern
+fun at_viewt0ype_addr_view_assume (): void
+
+implement
+stacst2_initialize () = () where {
+  val () = at_viewt0ype_addr_view_assume ()
+} // end of [stacst2_initialize]
+
+(* ****** ****** *)
+
+implement
+the_at_viewt0ype_addr_view =
+  s2cstref_make "at_viewt0ype_addr_view" // in prelude/basics_pre.sats
+// end of [the_at_viewt0ype_addr_view]
+
+implement
+at_viewt0ype_addr_view_assume () = let
+  val s2c = s2cstref_get_cst (the_at_viewt0ype_addr_view)
+  val s2t_def = s2cst_get_srt (s2c)
+  val s2v1 = s2var_make_srt s2rt_viewt0ype and s2v2 = s2var_make_srt s2rt_addr
+  val arg1 = s2exp_var (s2v1)
+  val arg2 = s2exp_var (s2v2)
+  val s2f_body = s2exp_at ((unhnf)arg1, (unhnf)arg2)
+  val s2e_def = s2exp_lam_srt (s2t_def, '[s2v1, s2v2], (unhnf)s2f_body)
+in
+  s2cst_set_def (s2c, Some s2e_def)
+end // end of [at_viewt0ype_addr_view_assume]
+
+(* ****** ****** *)
+
 (* end of [pats_stacst2.dats] *)
