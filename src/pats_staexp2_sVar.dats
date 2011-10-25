@@ -52,6 +52,7 @@ s2Var_struct = @{
 , s2Var_srt= s2rt  // the sort
 , s2Var_link= s2hnfopt // solution
 , s2Var_sVarset= s2Varset // existential Variable occurrences
+, s2Var_varknd= int // default=0; co: 1; contra: 2; in: 3
 , s2Var_stamp= stamp // uniqueness
 } // end of [s2Var_struct]
 
@@ -69,22 +70,31 @@ s2Var_get_sym (s2V) = let
 end // end of [s2Var_get_sym]
 
 implement
-s2Var_get_srt (s2v) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2v) in p->s2Var_srt
+s2Var_get_srt (s2V) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_srt
 end // end of [s2Var_get_srt]
 
 implement
-s2Var_get_link (s2v) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2v) in p->s2Var_link
+s2Var_get_link (s2V) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_link
 end // end of [s2Var_get_link]
 implement
-s2Var_set_link (s2v, link) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2v) in p->s2Var_link := link
+s2Var_set_link (s2V, link) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_link := link
 end // end of [s2Var_set_link]
 
 implement
-s2Var_get_stamp (s2v) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2v) in p->s2Var_stamp
+s2Var_get_varknd (s2V) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_varknd
+end // end of [s2Var_get_varknd]
+implement
+s2Var_set_varknd (s2V, knd) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_varknd := knd
+end // end of [s2Var_set_varknd]
+
+implement
+s2Var_get_stamp (s2V) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_stamp
 end // end of [s2Var_get_stamp]
 
 end // end of [local]
@@ -100,6 +110,16 @@ implement
 lte_s2Var_s2Var
   (x1, x2) = (compare (x1, x2) <= 0)
 // end of [lte_s2Var_s2Var]
+
+implement
+eq_s2Var_s2Var
+  (x1, x2) = (compare (x1, x2) = 0)
+// end of [eq_s2Var_s2Var]
+
+implement
+neq_s2Var_s2Var
+  (x1, x2) = (compare (x1, x2) != 0)
+// end of [neq_s2Var_s2Var]
 
 implement
 compare_s2Var_s2Var (x1, x2) =

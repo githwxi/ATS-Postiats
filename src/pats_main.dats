@@ -161,6 +161,9 @@ dynload "pats_staexp2_dcon.dats"
 dynload "pats_staexp2_util1.dats"
 dynload "pats_staexp2_util2.dats"
 //
+dynload "pats_staexp2_error.dats"
+dynload "pats_staexp2_solve.dats"
+//
 dynload "pats_dynexp2.dats"
 dynload "pats_dynexp2_print.dats"
 dynload "pats_dynexp2_dcst.dats"
@@ -181,6 +184,7 @@ dynload "pats_trans2_impdec.dats"
 dynload "pats_trans2_decl.dats"
 //
 dynload "pats_dynexp3.dats"
+dynload "pats_trans3_env.dats"
 dynload "pats_trans3_exp_up.dats"
 dynload "pats_trans3_exp_dn.dats"
 dynload "pats_trans3_decl.dats"

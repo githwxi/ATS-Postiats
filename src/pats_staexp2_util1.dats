@@ -519,7 +519,7 @@ case+ s2e0.s2exp_node of
     val flag0 = flag
     val s2e = s2exp_subst_flag (sub, s2e, flag)
   in
-    if flag0 > flag then s2exp_top_srt (s2t0, knd, s2e) else s2e0
+    if flag > flag0 then s2exp_top_srt (s2t0, knd, s2e) else s2e0
   end // end of [S2Etop]
 //
 | S2Etyarr (s2e_elt, s2es_int) => let
@@ -527,7 +527,7 @@ case+ s2e0.s2exp_node of
     val s2e_elt = s2exp_subst_flag (sub, s2e_elt, flag)
     val s2es_int = s2explst_subst_flag (sub, s2es_int, flag)
   in
-    if flag0 > flag then let
+    if flag > flag0 then let
       val res = s2exp_tyarr (s2e_elt, s2es_int) in unhnf (res)
     end else s2e0
   end // end of [S2Etyarr]
@@ -536,10 +536,17 @@ case+ s2e0.s2exp_node of
     val flag0 = flag
     val ls2es = labs2explst_subst_flag (sub, ls2es, flag)
   in
-    if flag0 > flag then let
+    if flag > flag0 then let
       val res = s2exp_tyrec_srt (s2t0, knd, npf, ls2es) in unhnf (res)
     end else s2e0 // end of [if]
   end // end of [S2Etyrec]
+//
+| S2Etyvarknd (s2e, knd) => let
+    val flag0 = flag
+    val s2e = s2exp_subst_flag (sub, s2e, flag)
+  in
+    if flag > flag0 then s2exp_tyvarknd (s2e, knd) else s2e0
+  end // end of [S2Etyvarknd]
 //
 | S2Erefarg (knd, s2e) => let
     val flag0 = flag
@@ -631,7 +638,7 @@ wths2explst_subst_flag
       val s2e = s2exp_subst_flag (sub, s2e, flag)
       val ws2es = wths2explst_subst_flag (sub, ws2es, flag)
     in
-      if flag0 > flag
+      if flag > flag0
         then WTHS2EXPLSTcons_some (knd, s2e, ws2es) else ws2es0
       // end of [if]
     end // end of [WTHS2EXPLSTcons_some]
@@ -639,7 +646,7 @@ wths2explst_subst_flag
       val flag0 = flag
       val ws2es = wths2explst_subst_flag (sub, ws2es, flag)
     in
-      if flag0 > flag then WTHS2EXPLSTcons_none (ws2es) else ws2es0
+      if flag > flag0 then WTHS2EXPLSTcons_none (ws2es) else ws2es0
     end // end of [WTHS2EXPLSTcons_none]
 // end of [wths2explst_subst_flag]
 
@@ -771,6 +778,8 @@ fun aux_s2exp (
       aux_s2exp (s2e_elt, fvs); aux_s2explst (s2es_dim, fvs)
     ) // end of [S2Etyarr]
   | S2Etyrec (_(*knd*), _(*npf*), ls2es) => aux_labs2explst (ls2es, fvs)
+//
+  | S2Etyvarknd (s2e, knd) => aux_s2exp (s2e, fvs)
 //
   | S2Erefarg (_, s2e) => aux_s2exp (s2e, fvs)
 //

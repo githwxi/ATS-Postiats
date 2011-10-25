@@ -28,37 +28,72 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: May, 2011
+// Start Time: October, 2011
 //
 (* ****** ****** *)
 
-abstype intinf_type
-typedef intinf = intinf_type
+staload
+LOC = "pats_location.sats"
+typedef location = $LOC.location
 
 (* ****** ****** *)
 
-fun intinf_make_string (rep: string): intinf
+staload "pats_basics.sats"
 
 (* ****** ****** *)
 
-fun
-intinf_make_base_string_ofs
-  {n:int} {i:nat | i <= n} (
-  base: intBtw(2,36+1), rep: string n, ofs: int i
-) : intinf // end of [intinf_make_base_string_ofs]
+staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
-fun fprint_intinf (out: FILEref, x: intinf): void
+fun label_equal_solve_err
+  (loc: location, l1: label, l2: label, err: &int): void
+// end of [label_equal_solve_err]
+
+fun stamp_equal_solve_err
+  (loc: location, s1: stamp, s2: stamp, err: &int): void
+// end of [stamp_equal_solve_err]
 
 (* ****** ****** *)
 
-fun eq_intinf_int (x1: intinf, x2: int): bool
-fun eq_intinf_intinf (x1: intinf, x2: intinf): bool
+fun funclo_equal_solve_err
+  (loc: location, _: funclo, _: funclo, err: &int): void
+// end of [funclo_equal_solve_err]
 
-fun compare_intinf_int (x1: intinf, x2: int): int
-fun compare_intinf_intinf (x1: intinf, x2: intinf): int
+fun clokind_equal_solve_err
+  (loc: location, knd1: int, knd2: int, err: &int): void
+// end of [clokind_equal_solve_err]
+
+fun linearity_equal_solve_err
+  (loc: location, lin1: int, lin2: int, err: &int): void
+// end of [linearity_equal_solve_err]
+
+fun pfarity_equal_solve_err
+  (loc: location, npf1: int, npf2: int, err: &int): void
+// end of [pfarity_equal_solve_err]
 
 (* ****** ****** *)
 
-(* end of [pats_intinf.sats] *)
+fun tyreckind_equal_solve_err
+  (loc: location, knd1: int, knd2: int, err: &int): void
+// end of [tyreckind_equal_solve_err]
+
+(* ****** ****** *)
+
+fun refval_equal_solve_err
+  (loc: location, knd1: int, knd2: int, err: &int): void
+// end of [refval_equal_solve_err]
+
+(* ****** ****** *)
+
+fun s2exp_equal_solve_err
+  (loc: location, s2e1: s2exp, s2e2: s2exp, err: &int): void
+// end of [s2exp_equal_solve]
+
+fun s2exp_tyleq_solve_err
+  (loc: location, s2e1: s2exp, s2e2: s2exp, err: &int): void
+// end of [s2exp_tyleq_solve]
+
+(* ****** ****** *)
+
+(* end of [pats_staexp2_solve.sats] *)

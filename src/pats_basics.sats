@@ -144,6 +144,8 @@ fun prerr_funclo (x: funclo): void
 
 fun eq_funclo_funclo (fc1: funclo, fc2: funclo): bool 
 overload = with eq_funclo_funclo
+fun neq_funclo_funclo (fc1: funclo, fc2: funclo): bool 
+overload != with neq_funclo_funclo
 
 (* ****** ****** *)
 //

@@ -26,59 +26,70 @@
 *)
 
 (* ****** ****** *)
+//
+// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Start Time: October, 2011
+//
+(* ****** ****** *)
 
-staload
-SYM = "pats_symbol.sats"
-overload
-compare with $SYM.compare_symbol_symbol
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-staload "pats_label.sats"
+staload "pats_staexp2_error.sats"
 
 (* ****** ****** *)
 
-datatype
-label = LABint of int | LABsym of symbol
-assume label_type = label
+local
+
+#define MAXLEN 100
+#assert (MAXLEN > 0)
+
+val the_length = ref<int> (0)
+val the_staerrlst = ref<staerrlst_vt> (list_vt_nil)
+
+in // in of [local]
+
+implement
+the_staerrlst_clear
+  () = () where {
+  val () = !the_length := 0
+  val () = () where {
+    val (vbox pf | p) = ref_get_view_ptr (the_staerrlst)
+    val () = list_vt_free (!p)
+    val () = !p := list_vt_nil ()
+  } // end of [val]
+} // end of [the_staerrlst_clear]
+
+implement
+the_staerrlst_add
+  (err) = () where {
+  val n = let
+    val (vbox pf | p) = ref_get_view_ptr (the_length)
+    val n = !p
+    val () = !p := n + 1
+  in n end // end of [val]
+  val () = if n < MAXLEN then let
+    val (vbox pf | p) = ref_get_view_ptr (the_staerrlst)
+  in
+    !p := list_vt_cons (err, !p)
+  end // end of [val]
+} // end of [the_staerrlst_add]
+
+implement
+the_staerrlst_get
+  (n) = xs where {
+  val () = n := !the_length
+  val () = !the_length := 0
+  val (vbox pf | p) = ref_get_view_ptr (the_staerrlst)
+  val xs = !p
+  val xs = list_vt_reverse (xs)
+  val () = !p := list_vt_nil ()
+} // end of [the_staerrlst_get]
+
+end // end of [local]
 
 (* ****** ****** *)
 
-implement
-label_make_int (int) = LABint (int)
-implement
-label_make_sym (sym) = LABsym (sym)
-
-implement
-label_make_string (str) = let
-  val sym = $SYM.symbol_make_string (str) in LABsym (sym)
-end // end of [label_make_string]
-
-(* ****** ****** *)
-
-implement
-eq_label_label
-  (l1, l2) = compare_label_label (l1, l2) = 0
-// end of [eq_label_label]
-
-implement
-compare_label_label (lab1, lab2) =
-  case+ (lab1, lab2) of
-  | (LABint i1, LABint i2) => compare (i1, i2)
-  | (LABsym s1, LABsym s2) => compare (s1, s2)
-  | (LABint _, LABsym _) => ~1
-  | (LABsym _, LABint _) =>  1
-// end of [compare_label_label]
-
-(* ****** ****** *)
-
-implement
-fprint_label (out, x) =
-  case+ x of
-  | LABint (int) => fprint_int (out, int)
-  | LABsym (sym) => $SYM.fprint_symbol (out, sym)
-// end of [fprint_label]
-
-(* ****** ****** *)
-
-(* end of [pats_label.dats] *)
+(* end of [pats_staexp2_error.dats] *)

@@ -28,37 +28,73 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: May, 2011
+// Start Time: October, 2011
 //
 (* ****** ****** *)
 
-abstype intinf_type
-typedef intinf = intinf_type
+staload
+LOC = "pats_location.sats"
+typedef location = $LOC.location
 
 (* ****** ****** *)
 
-fun intinf_make_string (rep: string): intinf
+staload "pats_staexp2.sats"
+staload "pats_dynexp2.sats"
+staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-fun
-intinf_make_base_string_ofs
-  {n:int} {i:nat | i <= n} (
-  base: intBtw(2,36+1), rep: string n, ofs: int i
-) : intinf // end of [intinf_make_base_string_ofs]
+datatype c3strkind =
+  | C3STRKINDnone of ()
+(*
+  | C3STRKINDmetric_nat (* metric being welfounded *)
+  | C3STRKINDmetric_dec (* metric being decreasing *)
+  | C3STRKINDpattern_match_exhaustiveness of
+      (int (* kind: warning, error, etc. *), p2atcstlst)
+  | C3STRKINDvarfin of (d2var_t, s2exp, s2exp)
+  | C3STRKINDloop of int (* 0/1/2: enter/break/continue *)
+*)
+// end of [c3strkind]
+
+datatype s3item =
+  | S3ITEMcstr of c3str
+  | S3ITEMdisj of s3itemlstlst
+  | S3ITEMhypo of h3ypo
+  | S3ITEMsvar of s2var
+  | S3ITEMsVar of s2Var
+// end of [s3item]
+
+and c3str_node =
+  | C3STRprop of s2exp
+  | C3STRitmlst of s3itemlst
+// end of [c3str_node]
+
+and h3ypo_node =
+  | H3YPOprop of s2exp
+  | H3YPObind of (s2var, s2exp)
+  | H3YPOeqeq of (s2exp, s2exp)
+// end of [h3ypo_node]
+
+where
+s3itemlst = List (s3item)
+and
+s3itemlst_vt = List_vt (s3item)
+and
+s3itemlstlst = List (s3itemlst)
+
+and c3str = '{
+  c3str_loc= location
+, c3str_kind= c3strkind
+, c3str_node= c3str_node
+} // end of [c3str]
+
+and c3stropt = Option (c3str)
+
+and h3ypo = '{
+  h3ypo_loc= location
+, h3ypo_node= h3ypo_node
+} // end of [h3ypo]
 
 (* ****** ****** *)
 
-fun fprint_intinf (out: FILEref, x: intinf): void
-
-(* ****** ****** *)
-
-fun eq_intinf_int (x1: intinf, x2: int): bool
-fun eq_intinf_intinf (x1: intinf, x2: intinf): bool
-
-fun compare_intinf_int (x1: intinf, x2: int): int
-fun compare_intinf_intinf (x1: intinf, x2: intinf): int
-
-(* ****** ****** *)
-
-(* end of [pats_intinf.sats] *)
+(* end of [pats_trans3_env.sats] *)

@@ -238,6 +238,23 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+eq_d2con_d2con
+  (x1, x2) = (compare (x1, x2) = 0)
+// end of [eq_d2con_d2con]
+
+implement
+neq_d2con_d2con
+  (x1, x2) = (compare (x1, x2) != 0)
+// end of [neq_d2con_d2con]
+
+implement
+compare_d2con_d2con (x1, x2) =
+  $effmask_all (compare (d2con_get_stamp (x1), d2con_get_stamp (x2)))
+// end of [compare_d2con_d2con]
+
+(* ****** ****** *)
+
+implement
 fprint_d2con (out, x) = let
   val sym = d2con_get_sym (x) in $SYM.fprint_symbol (out, sym)
 end // end of [fprint_d2con]

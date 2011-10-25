@@ -26,59 +26,55 @@
 *)
 
 (* ****** ****** *)
+//
+// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Start Time: October, 2011
+//
+(* ****** ****** *)
 
-staload
-SYM = "pats_symbol.sats"
-overload
-compare with $SYM.compare_symbol_symbol
+staload "pats_basics.sats"
 
 (* ****** ****** *)
 
-staload "pats_label.sats"
+staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
-datatype
-label = LABint of int | LABsym of symbol
-assume label_type = label
+datatype staerr =
+//
+  | STAERR_label_equal of (location, label, label)
+  | STAERR_stamp_equal of (location, stamp, stamp)
+//
+  | STAERR_funclo_equal of (location, funclo, funclo)
+  | STAERR_clokind_equal of (location, int(*knd*), int(*knd*))
+  | STAERR_linearity_equal of (location, int(*lin*), int(*lin*))
+  | STAERR_pfarity_equal of (location, int(*npf*), int(*npf*))
+//
+  | STAERR_tyreckind_equal of (location, int(*knd*), int(*knd*))
+//
+  | STAERR_refval_equal of (location, int(*knd*), int(*knd*))
+//
+  | STAERR_s2exp_equal of (location, s2exp, s2exp)
+  | STAERR_s2exp_tyleq of (location, s2exp, s2exp)
+  | STAERR_s2eff_leq of (location, s2eff, s2eff)
+//
+  | STAERR_s2exp_linearity of (location, s2exp)
+// end of [datatype]
+
+viewtypedef staerrlst_vt = List_vt (staerr)
 
 (* ****** ****** *)
-
-implement
-label_make_int (int) = LABint (int)
-implement
-label_make_sym (sym) = LABsym (sym)
-
-implement
-label_make_string (str) = let
-  val sym = $SYM.symbol_make_string (str) in LABsym (sym)
-end // end of [label_make_string]
-
+//
+fun the_staerrlst_clear (): void
+//
+fun the_staerrlst_add (x: staerr): void
+//
+// HX-2011-10-22:
+// [n] stores the total number of errors, some of
+// which may not be recorded
+//
+fun the_staerrlst_get (n: &int? >> int): staerrlst_vt
+//
 (* ****** ****** *)
 
-implement
-eq_label_label
-  (l1, l2) = compare_label_label (l1, l2) = 0
-// end of [eq_label_label]
-
-implement
-compare_label_label (lab1, lab2) =
-  case+ (lab1, lab2) of
-  | (LABint i1, LABint i2) => compare (i1, i2)
-  | (LABsym s1, LABsym s2) => compare (s1, s2)
-  | (LABint _, LABsym _) => ~1
-  | (LABsym _, LABint _) =>  1
-// end of [compare_label_label]
-
-(* ****** ****** *)
-
-implement
-fprint_label (out, x) =
-  case+ x of
-  | LABint (int) => fprint_int (out, int)
-  | LABsym (sym) => $SYM.fprint_symbol (out, sym)
-// end of [fprint_label]
-
-(* ****** ****** *)
-
-(* end of [pats_label.dats] *)
+(* end of [pats_staexp2_error.sats] *)

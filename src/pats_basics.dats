@@ -214,6 +214,19 @@ fprint_dcstkind
 (* ****** ****** *)
 
 implement
+eq_funclo_funclo
+  (fc1, fc2) = case+ (fc1, fc2) of
+  | (FUNCLOclo knd1, FUNCLOclo knd2) => knd1 = knd2
+  | (FUNCLOfun (), FUNCLOfun ()) => true
+  | (_, _) => false
+// end of [eq_funclo_funclo]
+
+implement
+neq_funclo_funclo (fc1, fc2) = ~eq_funclo_funclo (fc1, fc2)
+
+(* ****** ****** *)
+
+implement
 fprint_funclo
   (out, fc) = case+ fc of
   | FUNCLOclo (knd) =>

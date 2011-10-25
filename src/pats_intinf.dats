@@ -84,6 +84,36 @@ end // end of [fprint_intinf]
 
 (* ****** ****** *)
 
+implement
+eq_intinf_int (x1, x2) =
+  compare_intinf_int (x1, x2) = 0
+// end of [eq_intinf_int]
+
+implement
+eq_intinf_intinf (x1, x2) =
+  compare_intinf_intinf (x1, x2) = 0
+// end of [eq_intinf_intinf]
+
+(* ****** ****** *)
+
+implement
+compare_intinf_int (x1, x2) = let
+  val (vbox pf_mpz | p1) = ref_get_view_ptr (x1)
+in
+  mpz_cmp_int (!p1, x2)
+end // end of [compare_intinf_int]
+
+implement
+compare_intinf_intinf (x1, x2) = let
+  val (vbox pf_mpz | p1) = ref_get_view_ptr (x1)
+in $effmask_ref (let
+  val (vbox pf_mpz | p2) = ref_get_view_ptr (x2)
+in
+  mpz_cmp_mpz (!p1, !p2)
+end) end // end of [compare_intinf_intinf]
+
+(* ****** ****** *)
+
 val () = intinf_initialize () where {
   extern fun intinf_initialize (): void = "patsopt_intinf_initialize"
 } // end of [val]

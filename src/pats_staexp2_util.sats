@@ -118,12 +118,21 @@ fun s2exp_freevars (s2e: s2exp): s2varset_vt
 
 (* ****** ****** *)
 
+fun s2exp_linkrem (s2e: s2exp): s2exp
+
+(* ****** ****** *)
+
 fun s2exp_hnfize (s2e: s2exp): s2hnf
 
 fun s2explst_hnfize (s2es: s2explst): s2hnflst
 fun s2expopt_hnfize (os2e: s2expopt): s2hnfopt
 
 fun s2explstlst_hnfize (s2ess: s2explstlst): s2hnflstlst
+
+(* ****** ****** *)
+
+fun s2exp_syneq (s2e1: s2exp, s2e2: s2exp): bool
+fun s2hnf_syneq (s2f1: s2hnf, s2f2: s2hnf): bool
 
 (* ****** ****** *)
 

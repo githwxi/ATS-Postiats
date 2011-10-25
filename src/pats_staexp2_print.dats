@@ -341,6 +341,14 @@ case+ x.s2exp_node of
     val () = prstr ")"
   } // end of [S2Etyrec]
 //
+| S2Etyvarknd (s2e, knd) => {
+    val () = prstr "S2Etyvarknd("
+    val () = fprint_s2exp (out, s2e)
+    val () = prstr "; "
+    val () = fprint_int (out, knd)
+    val () = prstr ")"
+  } // end of [S2Etyvarknd]
+//
 | S2Erefarg (knd, s2e) => { // knd=0/1:val/ref
     val () = prstr "S2Erefarg("
     val () = fprint_int (out, knd)
@@ -355,16 +363,28 @@ case+ x.s2exp_node of
     val () = prstr ")"
   } // end of [S2Evararg]
 //
-| S2Eexi _ => {
+| S2Eexi (
+    s2vs, s2ps, s2e
+  ) => {
     val () = prstr "S2Eexi("
-    val () = prstr "..."
+    val () = fprint_s2varlst (out, s2vs)
+    val () = prstr "; "
+    val () = fprint_s2explst (out, s2ps)
+    val () = prstr "; "
+    val () = fprint_s2exp (out, s2e)
     val () = prstr ")"
-  }
-| S2Euni _ => {
+  } // end of [S2Eexi]
+| S2Euni (
+    s2vs, s2ps, s2e
+  ) => {
     val () = prstr "S2Euni("
-    val () = prstr "..."
+    val () = fprint_s2varlst (out, s2vs)
+    val () = prstr "; "
+    val () = fprint_s2explst (out, s2ps)
+    val () = prstr "; "
+    val () = fprint_s2exp (out, s2e)
     val () = prstr ")"
-  }
+  } // end of [S2Euni]
 //
 | S2Ewth (s2e, ws2es) => {
     val () = prstr "S2Ewth("
@@ -420,6 +440,7 @@ fprint_wths2explst
   | WTHS2EXPLSTnil () => ()
   | WTHS2EXPLSTcons_some
       (knd, s2e, ws2es) => let
+      val () = if i > 0 then fprint_string (out, ", ")
       val () = fprint_string (out, "some(")
       val () = fprint_int (out, knd)
       val () = fprint_string (out, "; ")
@@ -429,6 +450,7 @@ fprint_wths2explst
       loop (out, ws2es, i + 1)
     end // end of [WTHS2EXPLSTcons_some]
   | WTHS2EXPLSTcons_none (ws2es) => let
+      val () = if i > 0 then fprint_string (out, ", ")
       val () = fprintf (out, "none()", @())
     in
       loop (out, ws2es, i + 1)

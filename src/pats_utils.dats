@@ -36,6 +36,17 @@ staload "pats_utils.sats"
 
 (* ****** ****** *)
 
+implement
+eqref_type
+  {a} (x1, x2) = let
+  extern castfn __cast (x: a):<> ptr
+  val x1 = __cast (x1) and x2 = __cast (x2)
+in
+  eq_ptr_ptr (x1, x2)
+end // end of [eqref_type]
+
+(* ****** ****** *)
+
 local
 
 staload STDLIB = "libc/SATS/stdlib.sats"

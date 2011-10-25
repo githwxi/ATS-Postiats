@@ -44,11 +44,33 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
+staload STAMP = "pats_stamp.sats"
+macdef eq_stamp_stamp = $STAMP.eq_stamp_stamp
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
 #define l2l list_of_list_vt
+
+(* ****** ****** *)
+
+implement
+eq_tyreckind_tyreckind
+  (knd1, knd2) = case+ (knd1, knd2) of
+  | (TYRECKINDbox (), TYRECKINDbox ()) => true
+  | (TYRECKINDflt0 (), TYRECKINDflt0 ()) => true
+  | (TYRECKINDflt1 s1, TYRECKINDflt1 s2) => eq_stamp_stamp (s1, s2)
+  | (TYRECKINDflt_ext name1, TYRECKINDflt_ext name2) => name1 = name2
+  | (_, _) => false
+// end of [neq_tyreckind_tyreckind]
+
+implement
+neq_tyreckind_tyreckind
+  (knd1, knd2) = ~eq_tyreckind_tyreckind (knd1, knd2)
+// end of [neq_tyreckind_tyreckind]
 
 (* ****** ****** *)
 
@@ -243,6 +265,21 @@ s2exp_tyrec_srt
   (s2t, knd, npf, ls2es) = hnf '{
   s2exp_srt= s2t, s2exp_node= S2Etyrec (knd, npf, ls2es)
 }
+
+(* ****** ****** *)
+
+implement
+s2exp_tyvarknd (s2e, knd) =
+  case+ s2e.s2exp_node of
+  | S2Evar _ => '{
+      s2exp_srt= s2e.s2exp_srt
+    , s2exp_node= S2Etyvarknd (s2e, knd)
+    } // end of [S2Evar]
+  | S2EVar s2V => let
+      val () = s2Var_set_varknd (s2V, knd) in s2e
+    end // end of [S2EVar]
+  | _ => s2e // end of [_]
+// end of [s2exp_tyvarknd]
 
 (* ****** ****** *)
 

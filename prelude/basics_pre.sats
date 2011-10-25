@@ -176,6 +176,14 @@ symintr encode decode
 //
 (* ****** ****** *)
 
+absviewt@ype
+tyvarknd (a:viewt@ype, knd: int)
+viewtypedef CO (a:viewt@ype) = tyvarknd (a, 1) // T <= X => T = X
+viewtypedef CONTRA (a:viewt@ype) = tyvarknd (a, 2) // X <= T => T = X
+viewtypedef IN (a:viewt@ype) = tyvarknd (a, 3) // both CO and CONTRA
+
+(* ****** ****** *)
+
 #if VERBOSE_PRELUDE #then
 #print "Loading [basics_pre.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]

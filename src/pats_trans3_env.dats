@@ -26,59 +26,12 @@
 *)
 
 (* ****** ****** *)
-
-staload
-SYM = "pats_symbol.sats"
-overload
-compare with $SYM.compare_symbol_symbol
+//
+// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Start Time: October, 2011
+//
+(* ****** ****** *)
 
 (* ****** ****** *)
 
-staload "pats_label.sats"
-
-(* ****** ****** *)
-
-datatype
-label = LABint of int | LABsym of symbol
-assume label_type = label
-
-(* ****** ****** *)
-
-implement
-label_make_int (int) = LABint (int)
-implement
-label_make_sym (sym) = LABsym (sym)
-
-implement
-label_make_string (str) = let
-  val sym = $SYM.symbol_make_string (str) in LABsym (sym)
-end // end of [label_make_string]
-
-(* ****** ****** *)
-
-implement
-eq_label_label
-  (l1, l2) = compare_label_label (l1, l2) = 0
-// end of [eq_label_label]
-
-implement
-compare_label_label (lab1, lab2) =
-  case+ (lab1, lab2) of
-  | (LABint i1, LABint i2) => compare (i1, i2)
-  | (LABsym s1, LABsym s2) => compare (s1, s2)
-  | (LABint _, LABsym _) => ~1
-  | (LABsym _, LABint _) =>  1
-// end of [compare_label_label]
-
-(* ****** ****** *)
-
-implement
-fprint_label (out, x) =
-  case+ x of
-  | LABint (int) => fprint_int (out, int)
-  | LABsym (sym) => $SYM.fprint_symbol (out, sym)
-// end of [fprint_label]
-
-(* ****** ****** *)
-
-(* end of [pats_label.dats] *)
+(* end of [pats_trans3_env.dats] *)

@@ -260,6 +260,10 @@ fun eq_tyreckind_tyreckind
   (knd1: tyreckind, knd2: tyreckind): bool
 overload = with eq_tyreckind_tyreckind
 
+fun neq_tyreckind_tyreckind
+  (knd1: tyreckind, knd2: tyreckind): bool
+overload != with eq_tyreckind_tyreckind
+
 (* ****** ****** *)
 
 (*
@@ -305,6 +309,8 @@ s2exp_node =
 //
   | S2Etyarr of (s2exp (*element*), s2explst (*dimension*))
   | S2Etyrec of (tyreckind, int(*npf*), labs2explst) // tuple and record
+//
+  | S2Etyvarknd of (s2exp, int(*knd=0/1/-1*))
 //
   | S2Erefarg of (* reference argument type *)
       (int(*1:ref/0:val*), s2exp) (* &/!: call-by-ref/val *)
@@ -424,6 +430,8 @@ fun s2cst_get_loc (x: s2cst): location
 fun s2cst_get_sym (x: s2cst): symbol
 fun s2cst_get_srt (x: s2cst): s2rt
 
+fun s2cst_get_def (x: s2cst): s2expopt
+
 fun s2cst_get_isabs (x: s2cst): Option (s2expopt)
 
 fun s2cst_get_iscon (x: s2cst): bool
@@ -441,6 +449,7 @@ fun s2cst_set_islst (x: s2cst, lst: Option @(d2con, d2con)): void
 
 fun s2cst_get_arylst (x: s2cst): List int // arity list
 fun s2cst_get_argvar (x: s2cst): List (syms2rtlst) // arg variance list
+
 fun s2cst_get_conlst (x: s2cst): Option d2conlst
 fun s2cst_set_conlst (x: s2cst, lst: Option d2conlst): void
 
@@ -451,6 +460,23 @@ fun s2cst_add_supcls (x: s2cst, sup: s2exp): void
 
 fun s2cst_get_tag (x: s2cst): int
 fun s2cst_set_tag (x: s2cst, tag: int): void
+
+fun s2cst_get_stamp (x: s2cst): stamp
+
+(* ****** ****** *)
+
+fun lt_s2cst_s2cst (x1: s2cst, x2: s2cst):<> bool
+overload < with lt_s2cst_s2cst
+fun lte_s2cst_s2cst (x1: s2cst, x2: s2cst):<> bool
+overload <= with lte_s2cst_s2cst
+
+fun eq_s2cst_s2cst (x1: s2cst, x2: s2cst):<> bool
+overload = with eq_s2cst_s2cst
+fun neq_s2cst_s2cst (x1: s2cst, x2: s2cst):<> bool
+overload != with neq_s2cst_s2cst
+
+fun compare_s2cst_s2cst (x1: s2cst, x2: s2cst):<> Sgn
+overload compare with compare_s2cst_s2cst
 
 (* ****** ****** *)
 
@@ -544,6 +570,8 @@ fun s2Var_get_sym (s2V: s2Var): symbol
 fun s2Var_get_srt (s2V: s2Var): s2rt
 fun s2Var_get_link (s2V: s2Var): s2hnfopt
 fun s2Var_set_link (s2V: s2Var, link: s2hnfopt): void
+fun s2Var_get_varknd (s2V: s2Var): int
+fun s2Var_set_varknd (s2V: s2Var, knd: int): void
 fun s2Var_get_stamp (s2V: s2Var): stamp
 
 (* ****** ****** *)
@@ -552,6 +580,11 @@ fun lt_s2Var_s2Var (x1: s2Var, x2: s2Var): bool
 overload < with lt_s2Var_s2Var
 fun lte_s2Var_s2Var (x1: s2Var, x2: s2Var): bool
 overload <= with lte_s2Var_s2Var
+
+fun eq_s2Var_s2Var (x1: s2Var, x2: s2Var): bool
+overload < with eq_s2Var_s2Var
+fun neq_s2Var_s2Var (x1: s2Var, x2: s2Var): bool
+overload <= with neq_s2Var_s2Var
 
 fun compare_s2Var_s2Var (x1: s2Var, x2: s2Var): Sgn
 overload compare with compare_s2Var_s2Var
@@ -603,6 +636,11 @@ fun d2con_set_tag (x: d2con, tag: int): void
 fun d2con_get_stamp (x: d2con): stamp
 
 (* ****** ****** *)
+
+fun eq_d2con_d2con (x1: d2con, x2: d2con):<> bool
+overload = with eq_d2con_d2con
+fun neq_d2con_d2con (x1: d2con, x2: d2con):<> bool
+overload != with neq_d2con_d2con
 
 fun compare_d2con_d2con (x1: d2con, x2: d2con):<> Sgn
 overload compare with compare_d2con_d2con
@@ -683,6 +721,10 @@ fun s2exp_tyarr
 fun s2exp_tyrec_srt (
   s2t: s2rt, knd: tyreckind, npf: int, ls2es: labs2explst
 ) : s2hnf // end of [s2exp_tyrec_srt]
+
+(* ****** ****** *)
+
+fun s2exp_tyvarknd (s2e: s2exp, knd: int): s2exp
 
 (* ****** ****** *)
 

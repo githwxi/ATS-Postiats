@@ -77,6 +77,9 @@ s2cst_struct = @{ (* builtin or abstract *)
   s2cst_sym= symbol // the name
 , s2cst_loc= location // the location of declaration
 , s2cst_srt= s2rt // the sort
+//
+, s2cst_def= s2expopt // definition
+//
 , s2cst_isabs= Option (s2expopt) // is abstract?
 , s2cst_iscon= bool // constructor?
 , s2cst_isrec= bool // is it recursive?
@@ -95,11 +98,14 @@ s2cst_struct = @{ (* builtin or abstract *)
 // HX: the associated dynamic constructors
 //
 , s2cst_conlst= Option (d2conlst)
-, s2cst_def= s2expopt // definition
+//
 , s2cst_sup= s2cstlst_t // parents if any
 , s2cst_supcls= s2explst // superclasses if any
+//
 , s2cst_sVarset= s2Varset // for occurrence checks
+//
 , s2cst_stamp= stamp // unique stamp
+//
 , s2cst_tag= int // tag >= 0 if associated with a datasort
 } // end of [s2cst_struct]
 
@@ -140,6 +146,7 @@ prval () = free_gc_elim {s2cst_struct} (pfgc)
 val () = p->s2cst_sym := id
 val () = p->s2cst_loc := loc
 val () = p->s2cst_srt := s2t
+val () = p->s2cst_def := def
 val () = p->s2cst_isabs := isabs
 val () = p->s2cst_iscon := iscon
 val () = p->s2cst_isrec := isrec
@@ -149,7 +156,6 @@ val () = p->s2cst_islst := islst
 val () = p->s2cst_arylst := s2rt_get_arylst (s2t)
 val () = p->s2cst_argvar := argvar
 val () = p->s2cst_conlst := None ()
-val () = p->s2cst_def := def
 val () = p->s2cst_sup := s2cstlst_encode (list_nil)
 val () = p->s2cst_supcls := list_nil ()
 val () = p->s2cst_sVarset := s2Varset_make_nil ()
@@ -173,9 +179,24 @@ s2cst_get_srt (s2c) = let
 end // end of [s2cst_get_srt]
 
 implement
+s2cst_get_def (s2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_def
+end // end of [s2cst_def_get]
+
+implement
 s2cst_get_isabs (s2c) = let
   val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_isabs
 end // end of [s2cst_get_isabs]
+
+implement
+s2cst_get_iscon (s2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_iscon
+end // end of [s2cst_get_iscon]
+
+implement
+s2cst_get_isrec (s2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_isrec
+end // end of [s2cst_get_isrec]
 
 implement
 s2cst_get_argvar (s2c) = let
@@ -235,6 +256,11 @@ s2cst_set_tag (s2c, tag) = let
   val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_tag := tag
 end // end of [s2cst_set_tag]
 
+implement
+s2cst_get_stamp (s2v) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2v) in p->s2cst_stamp
+end // end of [s2cst_get_stamp]
+
 end // end of [local]
 
 (* ****** ****** *)
@@ -265,6 +291,33 @@ in
   , None () // definition
   ) // end of [s2cst_make]
 end // end of [s2cst_make_dat]
+
+(* ****** ****** *)
+
+implement
+lt_s2cst_s2cst
+  (x1, x2) = (compare (x1, x2) < 0)
+// end of [lt_s2cst_s2cst]
+
+implement
+lte_s2cst_s2cst
+  (x1, x2) = (compare (x1, x2) <= 0)
+// end of [lte_s2cst_s2cst]
+
+implement
+eq_s2cst_s2cst
+  (x1, x2) = (compare (x1, x2) = 0)
+// end of [eq_s2cst_s2cst]
+
+implement
+neq_s2cst_s2cst
+  (x1, x2) = (compare (x1, x2) != 0)
+// end of [neq_s2cst_s2cst]
+
+implement
+compare_s2cst_s2cst (x1, x2) =
+  $effmask_all (compare (s2cst_get_stamp (x1), s2cst_get_stamp (x2)))
+// end of [compare_s2cst_s2cst]
 
 (* ****** ****** *)
 
