@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload "pats_staexp2.sats"
+
+(* ****** ****** *)
+
 staload "pats_trans3_env.sats"
 
 (* ****** ****** *)
@@ -40,8 +44,8 @@ implement
 c3str_prop
   (loc, s2e) = '{
   c3str_loc= loc
-, c3str_kind= C3STRKINDnone
-, c3str_node= C3STRprop s2e
+, c3str_kind= C3STRKINDmain
+, c3str_node= C3STRprop (s2e)
 } // end of [c3str_prop]
 
 implement
@@ -49,14 +53,14 @@ c3str_itmlst
   (loc, knd, s3is) = '{
   c3str_loc= loc
 , c3str_kind= knd
-, c3str_node= C3STRitmlst s3is
+, c3str_node= C3STRitmlst (s3is)
 } // end of [c3str_itmlst]
 
 (* ****** ****** *)
 
 implement
 h3ypo_prop (loc, s2p) = '{
-  h3ypo_loc= loc, h3ypo_node = H3YPOprop s2p
+  h3ypo_loc= loc, h3ypo_node = H3YPOprop (s2p)
 } // end of [h3ypo_prop]
 
 implement
@@ -68,6 +72,43 @@ implement
 h3ypo_eqeq (loc, s2e1, s2e2) = '{
   h3ypo_loc= loc, h3ypo_node = H3YPOeqeq (s2e1, s2e2)
 } // end of [h3ypo_eqeq]
+
+(* ****** ****** *)
+
+implement
+s2exp_Var_make_srt
+  (loc, s2t) = let
+  val s2V = s2Var_make_srt (loc, s2t)
+  val () = trans3_env_add_sVar (s2V)
+(*
+  val () = s2Var_set_sVarset (s2V, the_s2Varset_env_get_prev ())
+*)
+in
+  s2exp_Var (s2V)
+end // end of [s2exp_Var_make_srt]
+
+(* ****** ****** *)
+
+local
+
+in // in of [local]
+
+implement
+trans3_env_add_sVar
+  (s2V) = () where {
+  val () = assertloc (false)
+(*
+  val () = the_s2Varset_env_add (s2V)
+  val s3i = S3ITEMsVar (s2V)
+  val () = let
+    val (vbox pf | p) = ref_get_view_ptr (the_s3itemlst)
+  in
+    !p := list_vt_cons (s3i, !p)
+  end // end of [val]
+*)
+} // end of [trans3_env_add_sVar]
+
+end // end of [local]
 
 (* ****** ****** *)
 

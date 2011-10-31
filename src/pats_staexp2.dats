@@ -145,6 +145,13 @@ in hnf '{
   s2exp_srt= s2t, s2exp_node= S2Evar (s2v)
 } end // end of [s2exp_var]
 
+implement
+s2exp_Var (s2V) = let
+  val s2t = s2Var_get_srt (s2V)
+in hnf '{
+  s2exp_srt= s2t, s2exp_node= S2EVar (s2V)
+} end // end of [s2exp_Var]
+
 (* ****** ****** *)
 
 implement
@@ -159,6 +166,11 @@ implement
 s2exp_at (s2e1, s2e2) = hnf '{
   s2exp_srt= s2rt_view, s2exp_node= S2Eat (s2e1, s2e2)
 } // end of [s2exp_at]
+
+implement
+s2exp_sizeof (s2e) = hnf '{
+  s2exp_srt= s2rt_int, s2exp_node= S2Esizeof (s2e)
+} // end of [s2exp_sizeof]
 
 (* ****** ****** *)
 
@@ -276,11 +288,11 @@ s2exp_tyrec_srt
 (* ****** ****** *)
 
 implement
-s2exp_tyvarknd (s2e, knd) =
+s2exp_tyvarknd (knd, s2e) =
   case+ s2e.s2exp_node of
   | S2Evar _ => '{
       s2exp_srt= s2e.s2exp_srt
-    , s2exp_node= S2Etyvarknd (s2e, knd)
+    , s2exp_node= S2Etyvarknd (knd, s2e)
     } // end of [S2Evar]
   | S2EVar s2V => let
       val () = s2Var_set_varknd (s2V, knd) in s2e

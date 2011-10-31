@@ -32,9 +32,12 @@
 //
 (* ****** ****** *)
 
-staload _(*anon*) =
-  "prelude/DATS/reference.dats"
-// end of [staload]
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
@@ -214,14 +217,29 @@ in
   p2at_make (loc, svs, dvs, P2Tlst (p2ts))
 end // end of [p2at_lst]
 
+(* ****** ****** *)
+
 implement
-p2at_tup
-  (loc, knd, npf, p2ts) = let
-  val svs = p2atlst_svs_union (p2ts)
-  val dvs = p2atlst_dvs_union (p2ts)
+p2at_rec
+  (loc, knd, npf, lp2ts) = let
+  val p2ts = aux (lp2ts) where {
+    fun aux (
+      xs: labp2atlst
+    ) : List_vt (p2at) = case+ xs of
+      | list_cons (x, xs) => (
+          case+ x of 
+          | LP2Tnorm (_, p2t) => list_vt_cons (p2t, aux xs)
+          | LP2Tomit () => aux (xs)
+        ) // end of [list_cons]
+      | list_nil () => list_vt_nil ()
+    // end of [aux]
+  } // end of [val]
+  val svs = p2atlst_svs_union ($UN.castvwtp1(p2ts))
+  val dvs = p2atlst_dvs_union ($UN.castvwtp1(p2ts))
+  val () = list_vt_free (p2ts)
 in
-  p2at_make (loc, svs, dvs, P2Ttup (knd, npf, p2ts))
-end // end of [p2at_tup]
+  p2at_make (loc, svs, dvs, P2Trec (knd, npf, lp2ts))
+end // end of [p2at_lp2ts]
 
 (* ****** ****** *)
 
@@ -268,7 +286,7 @@ p2at_err (loc) =
 
 implement
 d2exp_make (loc, node) = '{
-  d2exp_loc= loc, d2exp_node= node
+  d2exp_loc= loc, d2exp_node= node, d2exp_typ= None()
 } // end of [d2exp_make]
 
 implement
@@ -831,6 +849,29 @@ d2ecl_dynload (loc, fil) = d2ecl_make (loc, D2Cdynload (fil))
 implement d2ecl_local
   (loc, head, body) = d2ecl_make (loc, D2Clocal (head, body))
 // end of [d2ecl_local]
+
+(* ****** ****** *)
+
+extern typedef "p2at_t" = p2at
+extern typedef "d2exp_t" = d2exp
+
+%{$
+
+ats_void_type
+patsopt_p2at_set_typ (
+  ats_ptr_type p2t, ats_ptr_type opt
+) {
+  ((p2at_t)p2t)->atslab_p2at_typ = opt ; return ;
+} // end of [patsopt_p2at_set_typ]
+
+ats_void_type
+patsopt_d2exp_set_typ (
+  ats_ptr_type d2e, ats_ptr_type opt
+) {
+  ((d2exp_t)d2e)->atslab_d2exp_typ = opt ; return ;
+} // end of [patsopt_d2exp_set_typ]
+
+%} // end of [%{$]
 
 (* ****** ****** *)
 

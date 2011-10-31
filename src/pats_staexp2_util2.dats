@@ -531,9 +531,9 @@ case s2en10 of
   | _ => $raise (SYNEQexn)
   ) // end of [S2Etyrec]
 //
-| S2Etyvarknd (s2e1, knd1) => (
+| S2Etyvarknd (knd1, s2e1) => (
   case+ s2en20 of
-  | S2Etyvarknd (s2e2, knd2) =>
+  | S2Etyvarknd (knd2, s2e2) =>
       if knd1 = knd2 then s2exp_syneq_exn (s2e1, s2e2) else $raise (SYNEQexn)
   | _ => $raise (SYNEQexn)
   ) // end of [S2Etyvarknd]

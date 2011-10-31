@@ -207,6 +207,18 @@ end // end of [fprint_tyreckind]
 
 (* ****** ****** *)
 
+macdef unhnf = s2exp_of_s2hnf
+
+implement
+fprint_s2hnf (out, x) = fprint_s2exp (out, (unhnf)x)
+
+implement
+print_s2hnf (x) = fprint_s2hnf (stdout_ref, x)
+implement
+prerr_s2hnf (x) = fprint_s2hnf (stderr_ref, x)
+
+(* ****** ****** *)
+
 implement
 fprint_s2exp (out, x) = let
   macdef prstr (s) = fprint_string (out, ,(s))
@@ -283,6 +295,11 @@ case+ x.s2exp_node of
     val () = fprint_s2exp (out, s2e2)
     val () = prstr ")"
   } // end of [S2Eat]
+| S2Esizeof (s2e) => {
+    val () = prstr "S2Esizeof("
+    val () = fprint_s2exp (out, s2e)
+    val () = prstr ")"
+  }
 //
 | S2Eapp (s2e_fun, s2es_arg) => {
     val () = prstr "S2Eapp("
@@ -349,11 +366,11 @@ case+ x.s2exp_node of
     val () = prstr ")"
   } // end of [S2Etyrec]
 //
-| S2Etyvarknd (s2e, knd) => {
+| S2Etyvarknd (knd, s2e) => {
     val () = prstr "S2Etyvarknd("
-    val () = fprint_s2exp (out, s2e)
-    val () = prstr "; "
     val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_s2exp (out, s2e)
     val () = prstr ")"
   } // end of [S2Etyvarknd]
 //

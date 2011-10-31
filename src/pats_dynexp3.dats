@@ -55,4 +55,43 @@ d3exp_char
 
 (* ****** ****** *)
 
+implement
+f3undec_make
+  (loc, d2v, d3e) = '{
+  f3undec_loc= loc
+, f3undec_var= d2v
+, f3undec_def= d3e
+} // end of [f3undec_make]
+
+(* ****** ****** *)
+
+implement
+d3ecl_none (loc) = '{
+  d3ecl_loc= loc, d3ecl_node= D3Cnone ()
+} // end of [d3ecl_none]
+
+implement
+d3ecl_list (loc, xs) = '{
+  d3ecl_loc= loc, d3ecl_node= D3Clist (xs)
+} // end of [d3ecl_list]
+
+(* ****** ****** *)
+
+implement
+d3ecl_valdecs (loc, knd, d3cs) = '{
+  d3ecl_loc= loc, d3ecl_node= D3Cvaldecs (d3cs)
+} // end of [d3ecl_valdecs]
+
+(* ****** ****** *)
+
+implement
+d3ecl_fundecs (
+  loc, funknd, decarg, d3cs
+) = '{
+  d3ecl_loc= loc
+, d3ecl_node= D3Cfundecs (funknd, decarg, d3cs)
+} // end of [d3ecl_fundecs]
+
+(* ****** ****** *)
+
 (* end of [pats_dynexp3.dats] *)

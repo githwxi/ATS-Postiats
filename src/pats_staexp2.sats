@@ -36,6 +36,9 @@ staload
 INT = "pats_intinf.sats"
 typedef intinf = $INT.intinf
 
+staload
+CNTR = "pats_counter.sats"
+typedef count = $CNTR.count
 staload STP = "pats_stamp.sats"
 typedef stamp = $STP.stamp
 typedef stampopt = $STP.stampopt
@@ -75,7 +78,7 @@ typedef s2cstopt = Option (s2cst)
 
 (* ****** ****** *)
 //
-abstype s2var_type // assumed in [pats_staexp2_svVar.dats]
+abstype s2var_type // assumed in [pats_staexp2_svar.dats]
 typedef s2var = s2var_type
 typedef s2varlst = List (s2var)
 viewtypedef s2varlst_vt = List_vt (s2var)
@@ -89,11 +92,11 @@ viewtypedef s2varset_vt = s2varset_viewtype
 //
 (* ****** ****** *)
 
-abstype s2Var_type // assumed in [pats_staexp2_svVar.dats]
+abstype s2Var_type // assumed in [pats_staexp2_sVar.dats]
 typedef s2Var = s2Var_type
 typedef s2Varlst = List (s2Var)
 typedef s2Varopt = Option (s2Var)
-abstype s2Varset_type // assumed in [pats_staexp2_svVar.dats]
+abstype s2Varset_type // assumed in [pats_staexp2_sVar.dats]
 typedef s2Varset = s2Varset_type
 
 (* ****** ****** *)
@@ -277,6 +280,11 @@ typedef s2hnfopt = Option (s2hnf)
 typedef s2hnflstlst = List (s2hnflst)
 typedef s2hnflstopt = Option (s2hnflst)
 
+fun fprint_s2hnf
+  (out: FILEref, x: s2hnf): void
+fun print_s2hnf (x: s2hnf): void
+fun prerr_s2hnf (x: s2hnf): void
+
 (* ****** ****** *)
 
 datatype
@@ -299,6 +307,7 @@ s2exp_node =
       (d2con, s2explst) (* constructor and types of arguments *)
 //
   | S2Eat of (s2exp, s2exp) // for at-views
+  | S2Esizeof of (s2exp) // for sizes of types
 //
   | S2Eapp of (s2exp, s2explst) // static application
   | S2Elam of (s2varlst, s2exp) // static abstraction
@@ -312,7 +321,7 @@ s2exp_node =
   | S2Etyarr of (s2exp (*element*), s2explst (*dimension*))
   | S2Etyrec of (tyreckind, int(*npf*), labs2explst) // tuple and record
 //
-  | S2Etyvarknd of (s2exp, int(*knd=0/1/-1*))
+  | S2Etyvarknd of (int(*knd=0/1:default/invariant*), s2exp)
 //
   | S2Erefarg of (* reference argument type *)
       (int(*1:ref/0:val*), s2exp) (* &/!: call-by-ref/val *)
@@ -569,7 +578,7 @@ fun s2Var_make_var (loc: location, s2v: s2var): s2Var
 
 (* ****** ****** *)
 
-fun s2Var_get_sym (s2V: s2Var): symbol
+fun s2Var_get_cnt (s2V: s2Var): count
 fun s2Var_get_srt (s2V: s2Var): s2rt
 fun s2Var_get_link (s2V: s2Var): s2hnfopt
 fun s2Var_set_link (s2V: s2Var, link: s2hnfopt): void
@@ -598,7 +607,9 @@ fun fprint_s2Var : fprint_type (s2Var)
 
 (* ****** ****** *)
 
-fun s2Varset_make_nil (): s2Varset
+fun s2Varset_nil (): s2Varset
+
+fun s2Varset_add (xs: s2Varset, x: s2Var): s2Varset
 
 (* ****** ****** *)
 //
@@ -675,6 +686,7 @@ fun s2exp_intinf (int: intinf): s2hnf
 fun s2exp_char (c: char): s2hnf
 fun s2exp_cst (x: s2cst): s2hnf // HX: static constant
 fun s2exp_var (x: s2var): s2hnf // HX: static variable
+fun s2exp_Var (x: s2Var): s2hnf // HX: static existential variable
 
 fun s2exp_extype_srt
   (s2t: s2rt, name: string, arg: s2explstlst): s2hnf
@@ -682,7 +694,10 @@ fun s2exp_extype_srt
 
 (* ****** ****** *)
 
-fun s2exp_at (s2e1: s2exp, s2e2: s2exp): s2hnf
+fun s2exp_at
+  (s2e1: s2exp, s2e2: s2exp): s2hnf
+// end of [s2exp_at]
+fun s2exp_sizeof (s2e_type: s2exp): s2hnf
 
 (* ****** ****** *)
 
@@ -729,13 +744,17 @@ fun s2exp_tyarr
   (s2e_elt: s2exp, s2es_int: s2explst): s2hnf
 // end of [s2exp_tyarr]
 
+fun s2exp_tyrec (
+  knd: int, npf: int, ls2es: labs2explst
+) : s2hnf // end of [s2exp_tyrec]
+
 fun s2exp_tyrec_srt (
   s2t: s2rt, knd: tyreckind, npf: int, ls2es: labs2explst
 ) : s2hnf // end of [s2exp_tyrec_srt]
 
 (* ****** ****** *)
 
-fun s2exp_tyvarknd (s2e: s2exp, knd: int): s2exp
+fun s2exp_tyvarknd (knd: int, s2e: s2exp): s2exp
 
 (* ****** ****** *)
 

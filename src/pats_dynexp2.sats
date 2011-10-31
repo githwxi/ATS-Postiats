@@ -255,20 +255,28 @@ datatype p2at_node =
   | P2Tcon of ( // constructor pattern
       int(*freeknd*), d2con, s2qualst, s2hnf(*con*), int(*npf*), p2atlst
     ) // end of [P2Tcon]
-  | P2Tlist of (int(*npf*), p2atlst)
+//
   | P2Tlst of (p2atlst)
-  | P2Ttup of (int(*knd*), int(*npf*), p2atlst)
+//
 (*
-  | P2Trec of (int(*knd*), int(*npf*), labp2atlst)
+  | P2Ttup of (int(*knd*), int(*npf*), p2atlst)
 *)
+  | P2Trec of (int(*knd*), int(*npf*), labp2atlst)
 //
   | P2Tas of (int(*refknd*), d2var, p2at)
   | P2Texist of (s2varlst, p2at) // existential opening
 //
   | P2Tann of (p2at, s2hnf) // ascribed pattern
 //
+  | P2Tlist of (int(*npf*), p2atlst)
+//
   | P2Terr of () // HX: placeholder for indicating an error
 // end of [p2at_node]
+
+and labp2at =
+  | LP2Tnorm of (label, p2at)
+  | LP2Tomit of () // for [...]
+// end of [labp2at]
 
 where
 p2at = '{
@@ -280,6 +288,14 @@ p2at = '{
 }
 and p2atlst = List (p2at)
 and p2atopt = Option (p2at)
+
+and labp2atlst = List (labp2at)
+
+(* ****** ****** *)
+
+fun p2at_set_typ (
+  p2t: p2at, opt: s2hnfopt
+) : void = "patsopt_p2at_set_typ"
 
 (* ****** ****** *)
 
@@ -324,8 +340,8 @@ fun p2at_list // HX: flat tuple
 
 fun p2at_lst (loc: location, p2ts: p2atlst): p2at
 
-fun p2at_tup (
-  loc: location, knd: int, npf: int, p2ts: p2atlst
+fun p2at_rec (
+  loc: location, knd: int, npf: int, lp2ts: labp2atlst
 ) : p2at // end of [p2at_tup]
 
 fun p2at_as (
@@ -344,6 +360,7 @@ fun p2at_err (loc: location): p2at
 
 fun fprint_p2at (out: FILEref, x: p2at): void
 fun fprint_p2atlst (out: FILEref, xs: p2atlst): void
+fun fprint_labp2atlst (out: FILEref, xs: labp2atlst): void
 
 (* ****** ****** *)
 
@@ -367,14 +384,14 @@ d2ecl_node =
 //
   | D2Cdcstdec of (dcstkind, d2cstlst) // dyn. const. declarations
 //
+  | D2Cfundecs of (funkind, s2qualst, f2undeclst)
   | D2Cvaldecs of
       (valkind, v2aldeclst) // (nonrec) value declarations
     // end of [D2Cvaldecs]
   | D2Cvaldecs_rec of
-      (valkind, v2aldeclst) // (reccursive) value declarations
+      (valkind, v2aldeclst) // (recursive) value declarations
     // end of [D2Cvaldecs_rec]
   | D2Cvardecs of (v2ardeclst) // variable declarations
-  | D2Cfundecs of (funkind, s2qualst, f2undeclst)
 //
   | D2Cimpdec of i2mpdec // val/fun/prval/prfun implementation
 //
@@ -496,7 +513,9 @@ and d2eclist = List (d2ecl)
 
 and
 d2exp = '{
-  d2exp_loc= location, d2exp_node= d2exp_node
+  d2exp_loc= location
+, d2exp_node= d2exp_node
+, d2exp_typ= s2hnfopt
 }
 and d2explst = List (d2exp)
 and d2expopt = Option (d2exp)
@@ -581,6 +600,17 @@ and v2aldeclst = List (v2aldec)
 
 (* ****** ****** *)
 
+and f2undec = '{
+  f2undec_loc= location
+, f2undec_var= d2var
+, f2undec_def= d2exp
+, f2undec_ann= s2hnfopt
+} // end of [f2undec]
+
+and f2undeclst = List f2undec
+
+(* ****** ****** *)
+
 and v2ardec = '{
   v2ardec_loc= location
 , v2ardec_knd= int (* BANG: knd = 1 *)
@@ -592,17 +622,6 @@ and v2ardec = '{
 } // end of [v2ardec]
 
 and v2ardeclst = List (v2ardec)
-
-(* ****** ****** *)
-
-and f2undec = '{
-  f2undec_loc= location
-, f2undec_var= d2var
-, f2undec_def= d2exp
-, f2undec_ann= s2hnfopt
-} // end of [f2undec]
-
-and f2undeclst = List f2undec
 
 (* ****** ****** *)
 
@@ -630,6 +649,12 @@ fun prerr_d2ecl (x: d2ecl): void
 //
 // HX: dynamic expressions
 //
+(* ****** ****** *)
+
+fun d2exp_set_typ (
+  d2e: d2exp, opt: s2hnfopt
+) : void = "patsopt_d2exp_set_typ"
+
 (* ****** ****** *)
 
 fun d2exp_make
@@ -947,6 +972,11 @@ fun d2ecl_dcstdec (
 
 (* ****** ****** *)
 
+fun d2ecl_fundecs (
+  loc: location
+, knd: funkind, decarg: s2qualst, d2cs: f2undeclst
+) : d2ecl // end of [d2ecl_fundecs]
+
 fun d2ecl_valdecs (
   loc: location, knd: valkind, d2cs: v2aldeclst
 ) : d2ecl // end of [d2ecl_valdecs]
@@ -956,11 +986,6 @@ fun d2ecl_valdecs_rec (
 ) : d2ecl // end of [d2ecl_valdecs_rec]
 
 fun d2ecl_vardecs (loc: location, d2cs: v2ardeclst): d2ecl
-
-fun d2ecl_fundecs (
-  loc: location
-, knd: funkind, decarg: s2qualst, d2cs: f2undeclst
-) : d2ecl // end of [d2ecl_fundecs]
 
 (* ****** ****** *)
 

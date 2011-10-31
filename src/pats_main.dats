@@ -186,6 +186,7 @@ dynload "pats_trans2_decl.dats"
 //
 dynload "pats_dynexp3.dats"
 dynload "pats_trans3_env.dats"
+dynload "pats_trans3_pat.dats"
 dynload "pats_trans3_exp_up.dats"
 dynload "pats_trans3_exp_dn.dats"
 dynload "pats_trans3_decl.dats"

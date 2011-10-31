@@ -161,13 +161,13 @@ case+ x.p2at_node of
     val () = fprint_p2atlst (out, p2ts)
     val () = prstr ")"
   }
-| P2Ttup (knd, npf, p2ts) => {
+| P2Trec (knd, npf, lp2ts) => {
     val () = prstr "P2Ttup("
     val () = fprint_int (out, knd)
     val () = prstr "; "
     val () = fprint_int (out, npf)
     val () = prstr "; "
-    val () = fprint_p2atlst (out, p2ts)
+    val () = fprint_labp2atlst (out, lp2ts)
     val () = prstr ")"
   }
 //
@@ -207,6 +207,28 @@ fprint_p2atlst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_p2at)
 // end of [fprint_p2atlst]
 
+local
+
+fn fprint_labp2at (
+  out: FILEref, lp2t: labp2at
+) : void = case+ lp2t of
+  | LP2Tnorm (l, p2t) => {
+      val () = $LAB.fprint_label (out, l)
+      val () = fprint_string (out, "=")
+      val () = fprint_p2at (out, p2t)
+    } // end of [LP2Tnorm]
+  | LP2Tomit () => fprint_string (out, "...")
+// end of [fprint_labp2at]
+
+in // in of [local]
+
+implement
+fprint_labp2atlst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_labp2at)
+// end of [fprint_p2atlst]
+
+end // end of [local]
+
 (* ****** ****** *)
 
 implement
@@ -240,7 +262,21 @@ case+ x.d2exp_node of
     val () = prstr "D2Eempty()"
   } // end of [D2Eempty]
 //
-| _ => prstr "D2C...(...)"
+| D2Elam_dyn (
+    lin, npf, p2ts, d2e
+  ) => {
+    val () = prstr "D2Elam_dyn("
+    val () = fprint_int (out, lin)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_p2atlst (out, p2ts)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Elam_dyn]
+//
+| _ => prstr "D2E...(...)"
 //
 end // end of [fprint_d2exp]
 
@@ -263,8 +299,29 @@ case+ x.d2ecl_node of
 | D2Clist (xs) => {
     val () = prstr "D2Clist(\n"
     val () = $UT.fprintlst (out, xs, "\n", fprint_d2ecl)
-    val () = prstr ")"
+    val () = prstr "\n)"
   } // end of [D2Clist]
+//
+| D2Cvaldecs _ => {
+    val () = prstr "D2Cvaldecs(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  } // end of [D2Cvaldecs]
+| D2Cvaldecs_rec _ => {
+    val () = prstr "D2Cvaldecs_rec(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  } // end of [D2Cvaldecs_rec]
+| D2Cfundecs _ => {
+    val () = prstr "D2Cfundecs(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  } // end of [D2Cfundecs]
+| D2Cvardecs _ => {
+    val () = prstr "D2Cvardecs(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  } // end of [D2Cvardecs]
 //
 | _ => prstr "D2C...(...)"
 //

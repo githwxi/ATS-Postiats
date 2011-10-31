@@ -66,13 +66,11 @@ d2exp_trup
   (d2e0) = let
 //
   val loc0 = d2e0.d2exp_loc
-//
-(*
+// (*
 val () = begin
-  print "d2exp_trup: loc0 = "; print_location loc0; print_newline ()
+  print "d2exp_trup: d2e0 = "; print_d2exp d2e0; print_newline ()
 end // end of [val]
-*)
-//
+// *)
 val d3e0 = (
 case+ d2e0.d2exp_node of
 //

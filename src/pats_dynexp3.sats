@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
 staload LOC = "pats_location.sats"
 typedef location = $LOC.location
 
@@ -76,6 +80,8 @@ datatype
 d3ecl_node =
   | D3Cnone
   | D3Clist of d3eclist
+  | D3Cvaldecs of v3aldeclst
+  | D3Cfundecs of (funkind, s2qualst(*decarg*), f3undeclst)
 // end of [d3ecl_node]
 
 and
@@ -108,6 +114,39 @@ and d3explstlst = List (d3explst)
 
 (* ****** ****** *)
 
+and v3aldec = '{
+  v3aldec_loc= location
+, v3aldec_pat= p3at
+, v3aldec_def= d3exp
+} // end of [v3aldec]
+
+and v3aldeclst = List (v3aldec)
+
+(* ****** ****** *)
+
+and f3undec = '{
+  f3undec_loc= location
+, f3undec_var= d2var
+, f3undec_def= d3exp
+} // end of [f3undec]
+
+and f3undeclst = List f3undec
+
+(* ****** ****** *)
+
+and v3ardec = '{
+  v3ardec_loc= location
+, v3ardec_knd= int
+, v3ardec_dvar_ptr= d2var
+, v3ardec_dvar_view= d2var
+, v3ardec_typ= s2exp
+, v3ardec_ini= d3expopt
+} // end of [v3ardec]
+
+and v3ardeclst = List v3ardec
+
+(* ****** ****** *)
+
 fun d3exp_bool
   (loc: location, s2f: s2hnf, b: bool): d3exp
 // end of [d3exp_bool]
@@ -115,6 +154,29 @@ fun d3exp_bool
 fun d3exp_char
   (loc: location, s2f: s2hnf, c: char): d3exp
 // end of [d3exp_char]
+
+(* ****** ****** *)
+
+fun f3undec_make (
+  loc: location, d2v: d2var, def: d3exp
+) : f3undec // end of [f3undec_make]
+
+(* ****** ****** *)
+
+fun d3ecl_none (loc: location): d3ecl
+fun d3ecl_list (loc: location, xs: d3eclist): d3ecl
+
+(* ****** ****** *)
+
+fun d3ecl_valdecs (
+  loc: location, knd: valkind, d3cs: v3aldeclst
+) : d3ecl // end of [d3ecl_valdecs]
+
+fun d3ecl_fundecs (
+  loc: location, knd: funkind, decarg: s2qualst, d3cs: f3undeclst
+) : d3ecl // end of [d3ecl_fundecs]
+
+fun d3ec_vardecs (loc: location, ds: v3ardeclst): d3ecl
 
 (* ****** ****** *)
 

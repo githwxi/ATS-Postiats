@@ -45,7 +45,7 @@ staload "pats_dynexp3.sats"
 (* ****** ****** *)
 
 datatype c3strkind =
-  | C3STRKINDnone of ()
+  | C3STRKINDmain of () // generic
 (*
   | C3STRKINDmetric_nat (* metric being welfounded *)
   | C3STRKINDmetric_dec (* metric being decreasing *)
@@ -111,6 +111,16 @@ fun h3ypo_bind
   (loc: location, s2v: s2var, s2e: s2exp): h3ypo
 fun h3ypo_eqeq
   (loc: location, s2e1: s2exp, s2e2: s2exp): h3ypo
+
+(* ****** ****** *)
+
+fun trans3_env_add_sVar (s2V: s2Var): void
+fun trans3_env_add_sVarlst (s2Vs: s2Varlst): void
+
+(* ****** ****** *)
+
+fun s2exp_Var_make_srt (loc: location, s2t: s2rt): s2hnf
+fun s2exp_Var_make_var (loc: location, s2v: s2var): s2hnf
 
 (* ****** ****** *)
 

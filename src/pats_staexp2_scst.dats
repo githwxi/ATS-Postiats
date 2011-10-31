@@ -158,7 +158,7 @@ val () = p->s2cst_argvar := argvar
 val () = p->s2cst_conlst := None ()
 val () = p->s2cst_sup := s2cstlst_encode (list_nil)
 val () = p->s2cst_supcls := list_nil ()
-val () = p->s2cst_sVarset := s2Varset_make_nil ()
+val () = p->s2cst_sVarset := s2Varset_nil ()
 val () = p->s2cst_stamp := stamp
 val () = p->s2cst_tag := (~1)
 //

@@ -56,12 +56,24 @@ val the_false_bool : s2cstref
 val the_bool_t0ype : s2cstref
 val the_bool_bool_t0ype : s2cstref
 //
+val the_int_t0ype : s2cstref
+val the_int_int_t0ype : s2cstref
+//
 val the_char_t0ype : s2cstref
 val the_char_char_t0ype : s2cstref
 //
+val the_string_type : s2cstref
+val the_double_t0ype : s2cstref
+//
+val the_void_t0ype : s2cstref
+//
 val the_exception_viewtype : s2cstref
 //
+val the_list0_t0ype_type : s2cstref
+//
 val the_at_viewt0ype_addr_view: s2cstref
+//
+val the_sizeof_viewt0ype_int: s2cstref
 //
 (* ****** ****** *)
 //
@@ -73,9 +85,27 @@ fun s2exp_bool_t0ype (): s2hnf // bool0
 fun s2exp_bool_bool_t0ype (b: bool): s2hnf // bool1(b)
 //
 (* ****** ****** *)
+//
+fun s2exp_int_t0ype (): s2hnf // int0
+fun s2exp_int_int_t0ype (i: int): s2hnf // int1(i)
+//
+(* ****** ****** *)
 
 fun s2exp_char_t0ype (): s2hnf // char0
 fun s2exp_char_char_t0ype (b: char): s2hnf // char1(b)
+
+(* ****** ****** *)
+
+fun s2exp_string_type (): s2hnf // string0
+fun s2exp_double_t0ype (): s2hnf // double
+
+(* ****** ****** *)
+
+fun s2exp_void_t0ype (): s2hnf // void
+
+(* ****** ****** *)
+
+fun s2exp_list0_t0ype_type (s2e: s2exp): s2hnf
 
 (* ****** ****** *)
 

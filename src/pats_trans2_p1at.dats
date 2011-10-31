@@ -49,6 +49,9 @@ implement prerr_FILENAME<> () = prerr "pats_trans2_p1at"
 
 (* ****** ****** *)
 
+staload LAB = "pats_label.sats"
+macdef label_make_int = $LAB.label_make_int
+
 staload SYM = "pats_symbol.sats"
 overload = with $SYM.eq_symbol_symbol
 
@@ -580,7 +583,26 @@ case+ p1t0.p1at_node of
 | P1Ttup (
     knd, npf, p1ts
   ) => let
-    val p2ts = p1atlst_tr p1ts in p2at_tup (loc0, knd, npf, p2ts)
+    val p2ts =
+      list_map_fun (p1ts, p1at_tr)
+    // end of [val]
+    val lp2ts = aux (p2ts, 0) where {
+      fun aux (
+        p2ts: List_vt (p2at), n: int
+      ) : labp2atlst =
+        case+ p2ts of
+        | ~list_vt_cons
+            (p2t, p2ts) => let
+            val l = label_make_int (n)
+            val lp2t = LP2Tnorm (l, p2t)
+          in
+            list_cons (lp2t, aux (p2ts, n+1))
+          end // end of [list_vt_cons]
+        | ~list_vt_nil () => list_nil ()
+      // end of [aux]
+    } // end of [aux]
+  in
+    p2at_rec (loc0, knd, npf, lp2ts)
   end // end of [P1Ttup]
 //
 | P1Tfree (p1t) => p1at_tr_free (p1t0, p1t)

@@ -178,8 +178,6 @@ in
   s2exp_cst (s2cstref_get_cst (s2cref))
 end // end of [s2exp_bool]
 
-(* ****** ****** *)
-
 implement
 the_bool_t0ype = s2cstref_make "bool_t0ype"
 implement
@@ -197,6 +195,26 @@ s2exp_bool_bool_t0ype (b) = let
 in
   s2exp_cstapp (s2c, list_sing (ind))
 end // end of [s2exp_bool_bool_t0ype]
+
+(* ****** ****** *)
+
+implement
+the_int_t0ype = s2cstref_make "int_t0ype"
+implement
+the_int_int_t0ype = s2cstref_make "int_int_t0ype"
+
+implement
+s2exp_int_t0ype () =
+  s2exp_cst (s2cstref_get_cst (the_int_t0ype))
+// end of [s2exp_int_t0ype]
+
+implement
+s2exp_int_int_t0ype (i) = let
+  val s2c = s2cstref_get_cst (the_int_int_t0ype)
+  val ind = unhnf (s2exp_int (i))
+in
+  s2exp_cstapp (s2c, list_sing (ind))
+end // end of [s2exp_int_int_t0ype]
 
 (* ****** ****** *)
 
@@ -221,16 +239,58 @@ end // end of [s2exp_char_char_t0ype]
 (* ****** ****** *)
 
 implement
+the_string_type = s2cstref_make "string_type"
+implement
+s2exp_string_type () =
+  s2exp_cst (s2cstref_get_cst (the_string_type))
+// end of [s2exp_string_type]
+
+(* ****** ****** *)
+
+implement
+the_double_t0ype = s2cstref_make "double_t0ype"
+implement
+s2exp_double_t0ype () =
+  s2exp_cst (s2cstref_get_cst (the_double_t0ype))
+// end of [s2exp_double_t0ype]
+
+(* ****** ****** *)
+
+implement
+the_void_t0ype = s2cstref_make "void_t0ype"
+implement
+s2exp_void_t0ype () =
+  s2exp_cst (s2cstref_get_cst (the_void_t0ype))
+// end of [s2exp_void_t0ype]
+
+(* ****** ****** *)
+
+implement
 the_exception_viewtype = s2cstref_make "exception_viewtype"
+
+(* ****** ****** *)
+
+implement
+the_list0_t0ype_type = s2cstref_make "list0_t0ype_type"
+
+implement
+s2exp_list0_t0ype_type (s2e) = let
+  val s2c = s2cstref_get_cst (the_list0_t0ype_type)
+in
+  s2exp_cstapp (s2c, list_sing (s2e))
+end // end of [s2exp_list0_t0ype_type]
 
 (* ****** ****** *)
 
 extern
 fun at_viewt0ype_addr_view_assume (): void
+extern
+fun sizeof_viewt0ype_int_assume (): void
 
 implement
 stacst2_initialize () = () where {
   val () = at_viewt0ype_addr_view_assume ()
+  val () = sizeof_viewt0ype_int_assume ()
 } // end of [stacst2_initialize]
 
 (* ****** ****** *)
@@ -252,6 +312,25 @@ at_viewt0ype_addr_view_assume () = let
 in
   s2cst_set_def (s2c, Some s2e_def)
 end // end of [at_viewt0ype_addr_view_assume]
+
+(* ****** ****** *)
+
+implement
+the_sizeof_viewt0ype_int =
+  s2cstref_make "sizeof_viewt0ype_int" // in prelude/basics_pre.sats
+// end of [the_sizeof_viewt0ype_int]
+
+implement
+sizeof_viewt0ype_int_assume () = let
+  val s2c = s2cstref_get_cst (the_sizeof_viewt0ype_int)
+  val s2t_def = s2cst_get_srt s2c
+  val s2v = s2var_make_srt s2rt_t0ype
+  val arg = s2exp_var (s2v)
+  val s2e_body = s2exp_sizeof ((unhnf)arg)
+  val s2e_def = s2exp_lam_srt (s2t_def, '[s2v], (unhnf)s2e_body)
+in
+  s2cst_set_def (s2c, Some s2e_def)
+end // end of [sizeof_viewt0ype_int_assume]
 
 (* ****** ****** *)
 

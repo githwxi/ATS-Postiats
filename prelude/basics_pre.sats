@@ -129,7 +129,8 @@ stadef != = neq_addr_addr and <> = neq_addr_addr
 
 (* ****** ****** *)
 
-stacst sizeof_viewt0ype_int : (viewt@ype) -> int
+stacst // HX: this is a special constant!
+sizeof_viewt0ype_int : (viewt@ype) -> int
 stadef sizeof = sizeof_viewt0ype_int
 
 (* ****** ****** *)
@@ -182,12 +183,21 @@ stadef @ = at_viewt0ype_addr_view // HX: @ is infix
 
 (* ****** ****** *)
 
-absviewt@ype // S2Etyvarknd
-tyvarknd (a:viewt@ype, knd: int)
-viewtypedef CO (a:viewt@ype) = tyvarknd (a, 1) // T <= X => T = X
-viewtypedef CONTRA (a:viewt@ype) = tyvarknd (a, 2) // X <= T => T = X
-viewtypedef IN (a:viewt@ype) = tyvarknd (a, 3) // both CO and CONTRA
+absviewt@ype
+clo_viewt0ype_viewt0ype (a: viewt@ype) = a
+absviewtype
+cloptr_viewt0ype_viewtype (a: viewt@ype) // = ptr
+absviewtype cloref_t0ype_type (a: t@ype) // = ptr
 
+(* ****** ****** *)
+
+absviewt@ype // S2Etyvarknd
+tyvarknd (a:viewt@ype, knd: int) = a
+viewtypedef IN (a:viewt@ype) = tyvarknd (a, 1) // both CO and CONTRA
+(*
+viewtypedef CO (a:viewt@ype) = tyvarknd (a, 2) // T <= X => T = X
+viewtypedef CONTRA (a:viewt@ype) = tyvarknd (a, 3) // X <= T => T = X
+*)
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then

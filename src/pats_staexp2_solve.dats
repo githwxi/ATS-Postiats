@@ -162,32 +162,33 @@ refval_equal_solve_err
 implement
 s2exp_equal_solve_err
   (loc0, s2e10, s2e20, err) = let
-  val err0 = err
-  val s2f10 = s2exp_hnfize s2e10
-  and s2f20 = s2exp_hnfize s2e20
-  val s2e10 = unhnf (s2f10) and s2e20 = unhnf (s2f20)
+//
+val err0 = err
+val s2f10 = s2exp_hnfize s2e10
+and s2f20 = s2exp_hnfize s2e20
+val s2e10 = unhnf (s2f10) and s2e20 = unhnf (s2f20)
 // (*
-  val () = (
-    print "s2exp_equal_solve_err: s2e10 = "; print_s2exp s2e10; print_newline ()
-  ) // end of [val]
-  val () = (
-    print "s2exp_equal_solve_err: s2e20 = "; print_s2exp s2e20; print_newline ()
-  ) // end of [val]
-  val () = (
-    print "s2exp_equal_solve_err: err = "; print err; print_newline ()
-  ) // end of [val]
+val () = (
+  print "s2exp_equal_solve_err: s2e10 = "; print_s2exp s2e10; print_newline ()
+) // end of [val]
+val () = (
+  print "s2exp_equal_solve_err: s2e20 = "; print_s2exp s2e20; print_newline ()
+) // end of [val]
+val () = (
+  print "s2exp_equal_solve_err: err = "; print err; print_newline ()
+) // end of [val]
 // *)
   val s2en10 =s2e10.s2exp_node and s2en20 =s2e20.s2exp_node
 //
-  val () = case+
-    (s2en10, s2en20) of
-    | (_, _) when s2hnf_syneq (s2f10, s2f20) => ()
-    | (_, _) => ()
-  // end of [val]
+val () = case+
+  (s2en10, s2en20) of
+  | (_, _) when s2hnf_syneq (s2f10, s2f20) => ()
+  | (_, _) => ()
+// end of [val]
 //
-  val () = if err > err0 then
-    the_staerrlst_add (STAERR_s2exp_equal (loc0, s2e10, s2e20))
-  // end of [val]
+val () = if err > err0 then
+  the_staerrlst_add (STAERR_s2exp_equal (loc0, s2e10, s2e20))
+// end of [val]
 in
   // nothing
 end // end of [s2exp_equal_solve_err]

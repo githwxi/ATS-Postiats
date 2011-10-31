@@ -26,43 +26,66 @@
 *)
 
 (* ****** ****** *)
-
-staload "pats_staexp2.sats"
-staload "pats_dynexp2.sats"
-staload "pats_dynexp3.sats"
-
-(* ****** ****** *)
-
 //
-// HX-2011-05:
-// the list of possible errors that may occur
-// during the level-2 translation
+// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Start Time: May, 2011
 //
-datatype trans3err =
-  | T3E_fundeclst_tr_metsrts of (d2ecl, s2rtlstopt)
-// end of [trans3err]
+(* ****** ****** *)
 
-fun the_trans3errlst_add (x: trans3err): void
-fun the_trans3errlst_finalize (): void // cleanup all the errors
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-fun p2at_syn_typ (p2t: p2at): s2hnf
-fun p2atlst_syn_typ (p2ts: p2atlst): s2hnflst
+staload
+ERR = "pats_error.sats"
 
 (* ****** ****** *)
 
-fun d2exp_trup (d2e: d2exp): d3exp
-fun d2explst_trup (d2es: d2explst): d3explst
-fun d2explstlst_trup (d2ess: d2explstlst): d3explstlst
-
-fun d2exp_trdn (d2e: d2exp, s2f: s2hnf): d3exp
+staload "pats_trans3.sats"
 
 (* ****** ****** *)
 
-fun d2ecl_tr (d2c: d2ecl): d3ecl
-fun d2eclist_tr (d2cs: d2eclist): d3eclist
+viewtypedef
+trans3errlst_vt = List_vt (trans3err)
 
 (* ****** ****** *)
 
-(* end of [pats_trans3.sats] *)
+local
+
+val the_trans3errlst = ref<trans3errlst_vt> (list_vt_nil)
+
+fun the_trans3errlst_get
+  (): trans3errlst_vt = let
+  val (vbox pf | p) = ref_get_view_ptr (the_trans3errlst)
+  val xs = !p
+  val () = !p := list_vt_nil ()
+in
+  xs
+end // end of [the_trans3errlst_get]
+
+in // in of [local]
+
+implement
+the_trans3errlst_add (x) = () where {
+  val (vbox pf | p) = ref_get_view_ptr (the_trans3errlst)
+  val () = !p := list_vt_cons (x, !p)
+} // end of [the_trans3errlst_add]
+
+implement
+the_trans3errlst_finalize () = {
+  val xs = the_trans3errlst_get ()
+  val n = list_vt_length (xs); val () = list_vt_free (xs)
+// (*
+  val () = if n > 0 then {
+    val () = fprintf (stderr_ref, "TRANS3: there are [%i] errors in total.\n", @(n))
+  } // end of [val]
+// *)
+  val () = if n > 0 then $ERR.abort () else ()
+} // end of [the_trans3errlst_finalize]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+(* end of [pats_trans3_error.dats] *)
