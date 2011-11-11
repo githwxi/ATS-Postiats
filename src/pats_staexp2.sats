@@ -663,7 +663,7 @@ overload compare with compare_d2con_d2con
 
 fun d2con_is_exn (d2c: d2con): bool // exn constructor
 fun d2con_is_msg (d2c: d2con): bool // msg constructor
-fun d2con_is_proof (d2c: d2con): bool // proof constructor
+fun d2con_is_prf (d2c: d2con): bool // proof constructor
 
 (* ****** ****** *)
 //
@@ -808,6 +808,10 @@ fun fprint_s2eff : fprint_type (s2eff)
 (* ****** ****** *)
 
 fun fprint_s2rtext : fprint_type (s2rtext)
+
+(* ****** ****** *)
+
+fun s2exp_is_prf (s2e: s2exp): bool
 
 (* ****** ****** *)
 

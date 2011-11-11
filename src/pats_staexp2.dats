@@ -363,6 +363,11 @@ s2exp_s2rt_err () = s2exp_err (s2rt_err ())
 (* ****** ****** *)
 
 implement
+s2exp_is_prf (s2e) = s2rt_is_prf (s2e.s2exp_srt)
+
+(* ****** ****** *)
+
+implement
 s2tavar_make (loc, s2v) = '{
   s2tavar_loc= loc, s2tavar_var= s2v
 }
@@ -370,7 +375,7 @@ s2tavar_make (loc, s2v) = '{
 implement
 s2aspdec_make (loc, s2c, def) = '{
   s2aspdec_loc= loc, s2aspdec_cst= s2c, s2aspdec_def= def
-}
+} // end of [s2aspdec_make]
 
 (* ****** ****** *)
 

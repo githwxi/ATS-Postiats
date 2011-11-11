@@ -175,7 +175,7 @@ fn aux_fin {n:nat} (
     d2c: f2undec, d3e: d3exp
   ) : f3undec = let
     val d2v_fun = d2c.f2undec_var
-    val s2f_fun = d3e.d3exp_typ // s2hnf
+    val s2f_fun = d3e.d3exp_type // s2hnf
     val () = {
       val opt = Some (s2f_fun)
       val () = d2var_set_type (d2v_fun, opt)

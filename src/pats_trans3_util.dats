@@ -33,56 +33,39 @@ staload "pats_basics.sats"
 
 staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
-staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-//
-// HX-2011-05:
-// the list of possible errors that may occur
-// during the level-2 translation
-//
-datatype trans3err =
-  | T3E_d2exp_tr_laminit_fc of (d2exp, funclo)
-  | T3E_fundeclst_tr_metsrts of (d2ecl, s2rtlstopt)
-// end of [trans3err]
-
-fun the_trans3errlst_add (x: trans3err): void
-fun the_trans3errlst_finalize (): void // cleanup all the errors
+staload "pats_trans3.sats"
 
 (* ****** ****** *)
 
-fun p2at_syn_type (p2t: p2at): s2hnf
-fun p2atlst_syn_type (p2ts: p2atlst): s2hnflst
-
-(* ****** ****** *)
-
-fun p2at_trup_arg (p2t: p2at): p3at
-fun p2atlst_trup_arg (npf: int, p2ts: p2atlst): p3atlst
-
-(* ****** ****** *)
-
-fun d2exp_funclo_of_d2exp
-  (d2e0: d2exp, fc0: &funclo): d2exp
+implement
+d2exp_funclo_of_d2exp
+  (d2e0, fc0) =
+  case+ d2e0.d2exp_node of
+  | D2Eann_funclo (d2e, fc) => (fc0 := fc; d2e)
+  | _ => d2e0
 // end of [d2exp_funclo_of_d2exp]
 
-fun d2exp_s2eff_of_d2exp
-  (d2e0: d2exp, s2fe0: &s2eff) : d2exp
+(* ****** ****** *)
+
+implement
+d2exp_s2eff_of_d2exp
+  (d2e0, s2fe0) =
+  case+ d2e0.d2exp_node of
+  | D2Elam_dyn _ => d2e0
+  | D2Elaminit_dyn _ => d2e0
+  | D2Elam_sta _ => d2e0
+  | D2Eann_seff
+      (d2e, s2fe) => let
+      val () = s2fe0 := s2fe in d2e
+    end // end of [D2Eann_seff]
+  | _ => let
+      val () = s2fe0 := S2EFFall () in d2e0
+    end // end of [_]
 // end of [d2exp_s2eff_of_d2exp]
 
 (* ****** ****** *)
 
-fun d2exp_trup (d2e: d2exp): d3exp
-fun d2explst_trup (d2es: d2explst): d3explst
-fun d2explstlst_trup (d2ess: d2explstlst): d3explstlst
-
-fun d2exp_trdn (d2e: d2exp, s2f: s2hnf): d3exp
-
-(* ****** ****** *)
-
-fun d2ecl_tr (d2c: d2ecl): d3ecl
-fun d2eclist_tr (d2cs: d2eclist): d3eclist
-
-(* ****** ****** *)
-
-(* end of [pats_trans3.sats] *)
+(* end of [pats_trans3_util.dats] *)

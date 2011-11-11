@@ -130,6 +130,8 @@ SOURCES := \
   pats_trans1_decl.dats \
   pats_staexp2.sats \
   pats_staexp2.dats \
+  pats_stacst2.sats \
+  pats_stacst2.dats \
   pats_staexp2_print.dats \
   pats_staexp2_sort.dats \
   pats_staexp2_scst.dats \
@@ -156,8 +158,6 @@ SOURCES := \
   pats_namespace.dats \
   pats_trans2_env.sats \
   pats_trans2_env.dats \
-  pats_stacst2.sats \
-  pats_stacst2.dats \
   pats_trans2_error.dats \
   pats_trans2_sort.dats \
   pats_trans2_staexp.dats \
@@ -168,6 +168,8 @@ SOURCES := \
   pats_dynexp3.sats \
   pats_dynexp3.dats \
   pats_trans3.sats \
+  pats_trans3_error.dats \
+  pats_trans3_util.dats \
   pats_trans3_env.sats \
   pats_trans3_env.dats \
   pats_trans3_pat.dats \

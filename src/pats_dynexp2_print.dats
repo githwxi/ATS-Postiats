@@ -37,6 +37,10 @@ staload _(*anon*) = "pats_utils.dats"
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp1.sats"
 staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
@@ -203,9 +207,21 @@ case+ x.p2at_node of
 end // end of [fprint_p2at]
 
 implement
+print_p2at (x) = fprint_p2at (stdout_ref, x)
+implement
+prerr_p2at (x) = fprint_p2at (stderr_ref, x)
+
+implement
 fprint_p2atlst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_p2at)
 // end of [fprint_p2atlst]
+
+implement
+print_p2atlst (xs) = fprint_p2atlst (stdout_ref, xs)
+implement
+prerr_p2atlst (xs) = fprint_p2atlst (stderr_ref, xs)
+
+(* ****** ****** *)
 
 local
 
@@ -275,6 +291,28 @@ case+ x.d2exp_node of
     val () = fprint_d2exp (out, d2e)
     val () = prstr ")"
   } // end of [D2Elam_dyn]
+//
+| D2Eann_type (d2e, s2f) => {
+    val () = prstr "D2Eann_type("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr " : "
+    val () = fprint_s2hnf (out, s2f)
+    val () = prstr ")"
+  } // end of [D2Eann_type]
+| D2Eann_seff (d2e, s2fe) => {
+    val () = prstr "D2Eann_seff("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr " : "
+    val () = fprint_s2eff (out, s2fe)
+    val () = prstr ")"
+  } // end of [D2Eann_seff]
+| D2Eann_funclo (d2e, fc) => {
+    val () = prstr "D2Eann_funclo("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr " : "
+    val () = fprint_funclo (out, fc)
+    val () = prstr ")"
+  } // end of [D2Eann_funclo]
 //
 | _ => prstr "D2E...(...)"
 //

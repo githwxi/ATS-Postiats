@@ -124,6 +124,16 @@ fun s2exp_Var_make_var (loc: location, s2v: s2var): s2hnf
 
 (* ****** ****** *)
 
+absview trans3_env_push_v
+
+fun trans3_env_pop_and_add_main
+  (pf: trans3_env_push_v | (*none*)): void
+// end of [trans3_env_pop_and_add_main]
+
+fun trans3_env_push (): (trans3_env_push_v | void)
+
+(* ****** ****** *)
+
 fun trans3_env_initialize (): void
 
 (* ****** ****** *)

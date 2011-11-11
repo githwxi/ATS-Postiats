@@ -41,7 +41,7 @@ implement
 d3exp_bool
   (loc, s2e, b) = '{
   d3exp_loc= loc
-, d3exp_typ= s2e
+, d3exp_type= s2e
 , d3exp_node= D3Ebool (b)
 } // end of [d3exp_bool]
 
@@ -49,9 +49,29 @@ implement
 d3exp_char
   (loc, s2e, c) = '{
   d3exp_loc= loc
-, d3exp_typ= s2e
+, d3exp_type= s2e
 , d3exp_node= D3Echar (c)
 } // end of [d3exp_char]
+
+(* ****** ****** *)
+
+implement
+d3exp_lam_dyn (
+  loc, s2f_fun, lin, npf, arg, body
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f_fun
+, d3exp_node= D3Elam_dyn (lin, npf, arg, body)
+} // end of [d3exp_lam_dyn]
+
+implement
+d3exp_laminit_dyn (
+  loc, s2f_fun, lin, npf, arg, body
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f_fun
+, d3exp_node= D3Elaminit_dyn (lin, npf, arg, body)
+} // end of [d3exp_laminit_dyn]
 
 (* ****** ****** *)
 

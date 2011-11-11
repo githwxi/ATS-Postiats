@@ -92,6 +92,10 @@ d3exp_node =
       (string, intinf)
   | D3Eintsp of (* dynamic specified integer *)
       (string, intinf)
+  | D3Elam_dyn of // dynamic abstraction
+      (int(*lin*), int(*npf*), p3atlst, d3exp)
+  | D3Elaminit_dyn of // dynamic flat funtion closure
+      (int(*lin*), int(*npf*), p3atlst, d3exp)
 // end of [d3exp_node]
 
 where
@@ -104,7 +108,7 @@ and d3eclist = List (d3ecl)
 
 and d3exp = '{
   d3exp_loc= location
-, d3exp_typ= s2hnf
+, d3exp_type= s2hnf
 , d3exp_node= d3exp_node
 } // end of [d3exp]
 
@@ -154,6 +158,17 @@ fun d3exp_bool
 fun d3exp_char
   (loc: location, s2f: s2hnf, c: char): d3exp
 // end of [d3exp_char]
+
+(* ****** ****** *)
+
+fun d3exp_lam_dyn (
+  loc: location, typ: s2hnf
+, lin: int, npf: int, arg: p3atlst, body: d3exp
+) : d3exp // end of [d3exp_lam_dyn]
+fun d3exp_laminit_dyn (
+  loc: location, typ: s2hnf
+, lin: int, npf: int, arg: p3atlst, body: d3exp
+) : d3exp // end of [d3exp_laminit_dyn]
 
 (* ****** ****** *)
 

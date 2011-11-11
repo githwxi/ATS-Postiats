@@ -358,8 +358,16 @@ fun p2at_err (loc: location): p2at
 
 (* ****** ****** *)
 
-fun fprint_p2at (out: FILEref, x: p2at): void
-fun fprint_p2atlst (out: FILEref, xs: p2atlst): void
+fun fprint_p2at
+  (out: FILEref, x: p2at): void
+fun print_p2at (x: p2at): void
+and prerr_p2at (x: p2at): void
+
+fun fprint_p2atlst
+  (out: FILEref, xs: p2atlst): void
+fun print_p2atlst (xs: p2atlst): void
+and prerr_p2atlst (xs: p2atlst): void
+
 fun fprint_labp2atlst (out: FILEref, xs: labp2atlst): void
 
 (* ****** ****** *)

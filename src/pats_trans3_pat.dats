@@ -102,7 +102,7 @@ case+ p2t0.p2at_node of
       s2exp_tyrec (knd, npf, aux_labp2atlst (lp2ts))
     // end of [P2Trec]
 //
-  | P2Tas (knd, d2v, p2t) => p2at_syn_typ (p2t)
+  | P2Tas (knd, d2v, p2t) => p2at_syn_type (p2t)
 //
   | P2Tlist _ => hnf (s2exp_err s2rt_t0ype)
   | P2Texist _ => hnf (s2exp_err s2rt_t0ype)
@@ -121,7 +121,7 @@ aux_labp2atlst (lp2ts) =
   | list_cons (lp2t, lp2ts) => (
     case+ lp2t of
     | LP2Tnorm (l, p2t) => let
-        val s2f = p2at_syn_typ (p2t)
+        val s2f = p2at_syn_type (p2t)
         val ls2e = SLABELED (l, None(*name*), (unhnf)s2f)
       in
         list_cons (ls2e, aux_labp2atlst (lp2ts))
@@ -134,7 +134,7 @@ aux_labp2atlst (lp2ts) =
 in // in of [local]
 
 implement
-p2at_syn_typ
+p2at_syn_type
   (p2t0) = s2e0 where {
   val s2e0 = aux_p2at (p2t0)
   val () = p2at_set_typ (p2t0, Some (s2e0))
@@ -143,9 +143,9 @@ p2at_syn_typ
 end // end of [local]
 
 implement
-p2atlst_syn_typ (p2ts) =
-  l2l (list_map_fun (p2ts, p2at_syn_typ))
-// end of [p2atlst_syn_typ]
+p2atlst_syn_type (p2ts) =
+  l2l (list_map_fun (p2ts, p2at_syn_type))
+// end of [p2atlst_syn_type]
 
 (* ****** ****** *)
 
