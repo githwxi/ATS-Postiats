@@ -100,7 +100,7 @@ d2cst_make (
 //
 val stamp = $STP.d2cst_stamp_make ()
 val (pfgc, pfat | p) = ptr_alloc<d2cst_struct> ()
-prval () = free_gc_elim {d2cst_struct} (pfgc)
+prval () = free_gc_elim {d2cst_struct?} (pfgc)
 //
 val () = p->d2cst_sym := id
 val () = p->d2cst_loc := loc

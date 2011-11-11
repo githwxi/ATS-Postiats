@@ -112,13 +112,13 @@ fun reader0_initialize_getc (
 
 fun reader0_initialize_string
   {n:nat} {l:addr} (
-  pfgc: free_gc_v (size_t, l)
+  pfgc: free_gc_v (size_t?, l)
 , pfat: sizeLte n @ l
 | r: &reader0 >> reader, inp: string n, p: ptr l
 ) : void = () where {
 //
   viewdef v = (
-    free_gc_v (size_t, l), sizeLte n @ l
+    free_gc_v (size_t?, l), sizeLte n @ l
   ) // end of [viewdef]
 //
   val getchar = lam
@@ -138,7 +138,7 @@ fun reader0_initialize_string
   end // end of [val]
 //
   val freeres = lam
-    (pf: v | (*none*)): void =<cloptr1> ptr_free (pf.0, pf.1 | p)
+    (pf: v | (*none*)): void =<cloptr1> ptr_free {size_t} (pf.0, pf.1 | p)
   // end of [freeres]
 //
   val () = r.pfres := (pfgc, pfat)

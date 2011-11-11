@@ -95,7 +95,7 @@ implement
 s2var_make_id_srt (id, s2t) = let
   val stamp = $STP.s2var_stamp_make ()
   val (pfgc, pfat | p) = ptr_alloc<s2var_struct> ()
-  prval () = free_gc_elim {s2var_struct} (pfgc)
+  prval () = free_gc_elim {s2var_struct?} (pfgc)
 //
   val () = p->s2var_sym := id
   val () = p->s2var_srt := s2t
