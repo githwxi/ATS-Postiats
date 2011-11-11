@@ -88,7 +88,7 @@ filenv_make (
 val (
   pfgc, pfat | p
 ) = ptr_alloc<filenv_struct> ()
-prval () = free_gc_elim {filenv_struct} (pfgc)
+prval () = free_gc_elim {filenv_struct?} (pfgc)
 //
 val () = p->name := fil
 val () = p->sort := s2tm

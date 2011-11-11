@@ -99,7 +99,7 @@ d2var_make (loc, id) = let
 //
 val stamp = $STP.d2var_stamp_make ()
 val (pfgc, pfat | p) = ptr_alloc<d2var_struct> ()
-prval () = free_gc_elim {d2var_struct} (pfgc)
+prval () = free_gc_elim {d2var_struct?} (pfgc)
 //
 val () = p->d2var_sym := id
 val () = p->d2var_loc := loc

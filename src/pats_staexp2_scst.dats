@@ -141,7 +141,7 @@ s2cst_make (
 //
 val stamp = $STP.s2cst_stamp_make ()
 val (pfgc, pfat | p) = ptr_alloc<s2cst_struct> ()
-prval () = free_gc_elim {s2cst_struct} (pfgc)
+prval () = free_gc_elim {s2cst_struct?} (pfgc)
 //
 val () = p->s2cst_sym := id
 val () = p->s2cst_loc := loc

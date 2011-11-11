@@ -81,7 +81,7 @@ val n = list_length (xs)
 //
 val stamp = $STP.d2mac_stamp_make ()
 val (pfgc, pfat | p) = ptr_alloc<d2mac_struct> ()
-prval () = free_gc_elim {d2mac_struct} (pfgc)
+prval () = free_gc_elim {d2mac_struct?} (pfgc)
 //
 val () = p->d2mac_loc := loc
 val () = p->d2mac_sym := name
