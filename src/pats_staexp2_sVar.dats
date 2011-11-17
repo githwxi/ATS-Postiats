@@ -83,7 +83,7 @@ s2Var_make_srt (loc, s2t) = let
 val cnt = $CNTR.counter_getinc (the_s2Var_name_counter)
 val stamp = $STP.s2Var_stamp_make ()
 val (pfgc, pfat | p) = ptr_alloc<s2Var_struct> ()
-prval () = free_gc_elim {s2Var_struct} (pfgc)
+prval () = free_gc_elim {s2Var_struct?} (pfgc)
 //
 val () = begin
 p->s2Var_loc := loc;

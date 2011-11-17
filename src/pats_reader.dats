@@ -138,7 +138,7 @@ fun reader0_initialize_string
   end // end of [val]
 //
   val freeres = lam
-    (pf: v | (*none*)): void =<cloptr1> ptr_free {size_t} (pf.0, pf.1 | p)
+    (pf: v | (*none*)): void =<cloptr1> ptr_free (pf.0, pf.1 | p)
   // end of [freeres]
 //
   val () = r.pfres := (pfgc, pfat)

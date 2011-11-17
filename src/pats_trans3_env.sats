@@ -56,17 +56,17 @@ datatype c3strkind =
 *)
 // end of [c3strkind]
 
-datatype s3item =
-  | S3ITEMcstr of c3str
-  | S3ITEMdisj of s3itemlstlst
-  | S3ITEMhypo of h3ypo
-  | S3ITEMsvar of s2var
-  | S3ITEMsVar of s2Var
+datatype s3itm =
+  | S3ITMcstr of c3str
+  | S3ITMdisj of s3itmlstlst
+  | S3ITMhypo of h3ypo
+  | S3ITMsvar of s2var
+  | S3ITMsVar of s2Var
 // end of [s3item]
 
 and c3str_node =
   | C3STRprop of s2exp
-  | C3STRitmlst of s3itemlst
+  | C3STRitmlst of s3itmlst
 // end of [c3str_node]
 
 and h3ypo_node =
@@ -76,11 +76,11 @@ and h3ypo_node =
 // end of [h3ypo_node]
 
 where
-s3itemlst = List (s3item)
+s3itmlst = List (s3itm)
 and
-s3itemlst_vt = List_vt (s3item)
+s3itmlst_vt = List_vt (s3itm)
 and
-s3itemlstlst = List (s3itemlst)
+s3itmlstlst = List (s3itmlst)
 
 and c3str = '{
   c3str_loc= location
@@ -100,7 +100,7 @@ and h3ypo = '{
 fun c3str_prop
   (loc: location, s2e: s2exp): c3str
 fun c3str_itmlst (
-  loc: location, knd: c3strkind, s3is: s3itemlst
+  loc: location, knd: c3strkind, s3is: s3itmlst
 ) : c3str // end of [c3str_itmlst]
 
 (* ****** ****** *)

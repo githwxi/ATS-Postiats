@@ -429,14 +429,18 @@ case+ d1e0.d1exp_node of
     val () = fprint_s1exp (out, s1e)
     val () = prstr ")"
   }
-| D1Eann_effc _ => {
+| D1Eann_effc (d1e, efc) => {
     val () = prstr "D1Eann_effc("
-    val () = prstr "..."
+    val () = fprint_d1exp (out, d1e)
+    val () = prstr " : "
+    val () = fprint_effcst (out, efc)
     val () = prstr ")"
   }
-| D1Eann_funclo _ => {
+| D1Eann_funclo (d1e, fc) => {
     val () = prstr "D1Eann_funclo("
-    val () = prstr "..."
+    val () = fprint_d1exp (out, d1e)
+    val () = prstr " : "
+    val () = fprint_funclo (out, fc)
     val () = prstr ")"
   }
 //

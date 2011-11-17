@@ -37,6 +37,10 @@ staload _(*anon*) = "pats_utils.dats"
 
 (* ****** ****** *)
 
+staload EFF = "pats_effect.sats"
+
+(* ****** ****** *)
+
 staload "pats_syntax.sats"
 staload "pats_staexp1.sats"
 
@@ -163,6 +167,26 @@ fprint_e1xplst (out, xs) =
 
 implement print_e1xplst (xs) = fprint_e1xplst (stdout_ref, xs)
 implement prerr_e1xplst (xs) = fprint_e1xplst (stderr_ref, xs)
+
+(* ****** ****** *)
+
+implement
+fprint_effcst (out, efc) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+//
+case+ efc of
+| EFFCSTall () => prstr "all"
+| EFFCSTnil () => prstr "nil"
+| EFFCSTset (efs, efvs) => {
+    val () = prstr "set("
+    val () = $EFF.fprint_effset (out, efs)
+    val () = prstr "; "
+    val () = $UT.fprintlst (out, efvs, ", ", fprint_i0de)
+    val () = prstr ")"
+  } // end of [EFFCSTset]
+//
+end // end of [fprint_effcst]  
 
 (* ****** ****** *)
 

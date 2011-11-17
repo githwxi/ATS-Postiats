@@ -71,7 +71,9 @@ fun lstord_union {a:type} (
 fun lstord_get_dups
   {a:type} (xs: lstord a, cmp: (a, a) -<fun> int): List (a)
 // end of [lstord_get_dups]
-fun lstord_listize {a:type} (xs: lstord a): List (a)
+fun lstord_listize // identity
+  {a:type} (xs: lstord a): List (a)
+// end of [lstord_listize]
 
 (* ****** ****** *)
 

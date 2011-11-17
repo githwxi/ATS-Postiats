@@ -59,17 +59,20 @@ c3str_itmlst
 (* ****** ****** *)
 
 implement
-h3ypo_prop (loc, s2p) = '{
+h3ypo_prop
+  (loc, s2p) = '{
   h3ypo_loc= loc, h3ypo_node = H3YPOprop (s2p)
 } // end of [h3ypo_prop]
 
 implement
-h3ypo_bind (loc, s2v1, s2e2) = '{
+h3ypo_bind
+  (loc, s2v1, s2e2) = '{
   h3ypo_loc= loc, h3ypo_node = H3YPObind (s2v1, s2e2)
 } // end of [h3ypo_bind]
 
 implement
-h3ypo_eqeq (loc, s2e1, s2e2) = '{
+h3ypo_eqeq
+  (loc, s2e1, s2e2) = '{
   h3ypo_loc= loc, h3ypo_node = H3YPOeqeq (s2e1, s2e2)
 } // end of [h3ypo_eqeq]
 
@@ -96,17 +99,45 @@ in // in of [local]
 implement
 trans3_env_add_sVar
   (s2V) = () where {
-  val () = assertloc (false)
 (*
-  val () = the_s2Varset_env_add (s2V)
   val s3i = S3ITEMsVar (s2V)
   val () = let
-    val (vbox pf | p) = ref_get_view_ptr (the_s3itemlst)
+    val (vbox pf | p) = ref_get_view_ptr (the_s3itmlst)
   in
     !p := list_vt_cons (s3i, !p)
   end // end of [val]
+  val () = the_s2Varset_env_add (s2V)
 *)
 } // end of [trans3_env_add_sVar]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+assume trans3_env_push_v = unit_v
+
+in // in of [local]
+
+implement
+trans3_env_pop_and_add_main
+  (pf | (*none*)) = let
+  prval () = unit_v_elim (pf)
+in
+  // nothing
+end // end of [trans3_env_pop_and_add_main]
+
+implement
+trans3_env_push () = let
+(*
+  val () = the_s3itmlst_env_push ()
+  val () = the_s2varbindmap_push ()
+  val () = the_s2Varset_env_push ()
+*)
+in
+  (unit_v () | ())
+end // end of [trans3_env_push]
 
 end // end of [local]
 

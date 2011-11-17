@@ -56,10 +56,14 @@ fun p2at_syn_type (p2t: p2at): s2hnf
 fun p2atlst_syn_type (p2ts: p2atlst): s2hnflst
 
 (* ****** ****** *)
-
+//
 fun p2at_trup_arg (p2t: p2at): p3at
-fun p2atlst_trup_arg (npf: int, p2ts: p2atlst): p3atlst
-
+fun p2atlst_trup_arg
+  (npf: int, p2ts: p2atlst): p3atlst
+fun p2at_trdn_arg (p2t: p2at, s2f: s2hnf): p3at
+//
+fun p2at_trdn (p2t: p2at, s2f: s2hnf): p3at
+//
 (* ****** ****** *)
 
 fun d2exp_funclo_of_d2exp

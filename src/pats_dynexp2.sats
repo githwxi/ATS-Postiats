@@ -161,6 +161,15 @@ fun prerr_d2var (x: d2var): void
 
 (* ****** ****** *)
 
+datatype d2vfin =
+  | D2VFINdone of ()
+  | D2VFINnone of ()
+  | D2VFINsome of s2hnf
+  | D2VFINvbox of s2hnf
+// end of [d2vfin]
+
+(* ****** ****** *)
+
 fun d2var_get_loc (x: d2var): location
 
 fun d2var_get_sym (x: d2var): symbol
@@ -175,6 +184,7 @@ fun d2var_get_level (x: d2var): int
 fun d2var_set_level (x: d2var, level: int): void
 
 fun d2var_get_linval (x: d2var): int
+fun d2var_set_linval (x: d2var, linval: int): void
 
 fun d2var_get_decarg (x: d2var): s2qualst
 fun d2var_set_decarg (x: d2var, decarg: s2qualst): void
@@ -184,6 +194,9 @@ fun d2var_set_addr (x: d2var, s2eopt: s2hnfopt): void
 
 fun d2var_get_view (x: d2var): d2varopt
 fun d2var_set_view (x: d2var, d2vopt: d2varopt): void
+
+fun d2var_get_finknd (_: d2var): d2vfin
+fun d2var_set_finknd (_: d2var, knd: d2vfin): void
 
 fun d2var_get_type (x: d2var): s2hnfopt
 fun d2var_set_type (x: d2var, opt: s2hnfopt): void
@@ -283,7 +296,7 @@ p2at = '{
   p2at_loc= location
 , p2at_svs= lstord (s2var)
 , p2at_dvs= lstord (d2var)
-, p2at_typ= s2hnfopt // ref@ (s2hnfopt)
+, p2at_type= s2hnfopt // ref@ (s2hnfopt)
 , p2at_node= p2at_node
 }
 and p2atlst = List (p2at)

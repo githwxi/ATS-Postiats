@@ -57,13 +57,15 @@ staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
-
+//
+// HX: this is just for handling type recursion
+//
 abstype d2varopt_t // = d2varopt
 extern
 castfn d2varopt_encode (x: d2varopt):<> d2varopt_t
 extern
 castfn d2varopt_decode (x: d2varopt_t):<> d2varopt
-
+//
 (* ****** ****** *)
 
 typedef
@@ -77,11 +79,9 @@ d2var_struct = @{
 , d2var_decarg= s2qualst // template arg
 , d2var_addr= s2hnfopt //
 , d2var_view= d2varopt_t // 
-(*
-, d2var_fin= d2var_fin //
-*)
-, d2var_type= s2hnfopt //
-, d2var_mastype= s2hnfopt //
+, d2var_finknd= d2vfin // the status at the end of scope
+, d2var_type= s2hnfopt // the (current) type of a variable
+, d2var_mastype= s2hnfopt // the master type of a variable
 , d2var_count= int //
 , d2var_stamp= stamp // uniqueness stamp
 } // end of [d2var_struct]
@@ -110,9 +110,7 @@ val () = p->d2var_isprf := false
 val () = p->d2var_decarg := list_nil ()
 val () = p->d2var_addr := None ()
 val () = p->d2var_view := d2varopt_encode (None)
-(*
-val () = p->d2var_fin := D2VARFINnone ()
-*)
+val () = p->d2var_finknd := D2VFINnone ()
 val () = p->d2var_type := None ()
 val () = p->d2var_mastype := None ()
 val () = p->d2var_count := 0
@@ -196,6 +194,18 @@ d2var_set_view (d2v, d2vopt) = let
   val (vbox pf | p) =
     ref_get_view_ptr (d2v) in p->d2var_view := d2varopt_encode (d2vopt)
 end // end of [d2var_set_view]
+
+implement
+d2var_get_finknd (d2v) = let
+  val (vbox pf | p) =
+    ref_get_view_ptr (d2v) in p->d2var_finknd
+end // end of [d2var_get_finknd]
+implement
+d2var_set_finknd (d2v, knd) = let
+  val (vbox pf | p) =
+    ref_get_view_ptr (d2v) in p->d2var_finknd := knd
+  // end of [val]
+end // end of [d2var_set_finknd]
 
 implement
 d2var_get_type (d2v) = let

@@ -122,7 +122,7 @@ p2at_make (
 ) = '{
   p2at_loc= loc
 , p2at_svs= svs, p2at_dvs= dvs
-, p2at_typ= None () // s2expopt
+, p2at_type= None () // s2hnfopt
 , p2at_node= node
 } // end of [p2at_make]
 
@@ -861,7 +861,7 @@ ats_void_type
 patsopt_p2at_set_typ (
   ats_ptr_type p2t, ats_ptr_type opt
 ) {
-  ((p2at_t)p2t)->atslab_p2at_typ = opt ; return ;
+  ((p2at_t)p2t)->atslab_p2at_type = opt ; return ;
 } // end of [patsopt_p2at_set_typ]
 
 ats_void_type

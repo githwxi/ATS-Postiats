@@ -38,6 +38,17 @@ staload "pats_dynexp3.sats"
 (* ****** ****** *)
 
 implement
+p3at_ann (
+  loc, s2f, p3t, ann
+) = '{
+  p3at_loc= loc
+, p3at_node= P3Tann (p3t, ann)
+, p3at_type= s2f
+} // end of [p3at_ann]
+
+(* ****** ****** *)
+
+implement
 d3exp_bool
   (loc, s2e, b) = '{
   d3exp_loc= loc

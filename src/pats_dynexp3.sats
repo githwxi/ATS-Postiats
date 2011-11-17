@@ -62,17 +62,27 @@ datatype p3at_node =
   | P3Tvar of (int(*refknd*), d2var)
   | P3Tempty (* empty pattern *)
 //
-  | P3Tann of (p3at, s2exp) // ascribed pattern
+  | P3Tann of (p3at, s2hnf) // ascribed pattern
 // end of [p3at_node]
 
 where p3at = '{
   p3at_loc= location
 , p3at_node= p3at_node
-, p3at_typ= s2exp
+, p3at_type= s2hnf
 } // end of [p3at]
 
 and p3atlst = List (p3at)
 and p3atopt = Option p3at
+
+(* ****** ****** *)
+
+fun p3at_var (
+  loc: location, s2f: s2hnf, knd: int, d2v: d2var
+) : p3at // end of [p3at_var]
+
+fun p3at_ann (
+  loc: location, s2f: s2hnf, p3t: p3at, ann: s2hnf
+) : p3at // end of [p3at_ann]
 
 (* ****** ****** *)
 
