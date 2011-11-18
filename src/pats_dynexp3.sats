@@ -42,8 +42,8 @@ typedef location = $LOC.location
 (* ****** ****** *)
 
 staload
-INTINF = "pats_intinf.sats"
-typedef intinf = $INTINF.intinf
+INT = "pats_intinf.sats"
+typedef intinf = $INT.intinf
 
 (* ****** ****** *)
 
@@ -96,12 +96,19 @@ d3ecl_node =
 
 and
 d3exp_node =
+//
+  | D3Evar of d2var
   | D3Ebool of bool
   | D3Echar of char
   | D3Eint of (* dynamic integer *)
       (string, intinf)
   | D3Eintsp of (* dynamic specified integer *)
       (string, intinf)
+  | D3Efloat of string(*rep*)
+  | D3Estring of string(*val*)
+  | D3Eextval of (string(*rep*))
+  | D3Ecst of d2cst
+//
   | D3Elam_dyn of // dynamic abstraction
       (int(*lin*), int(*npf*), p3atlst, d3exp)
   | D3Elaminit_dyn of // dynamic flat funtion closure
@@ -161,6 +168,16 @@ and v3ardeclst = List v3ardec
 
 (* ****** ****** *)
 
+fun d3exp_var
+  (loc: location, s2f: s2hnf, d2v: d2var): d3exp
+// end of [d3exp_var]
+
+(* ****** ****** *)
+
+fun d3exp_int (
+  loc: location, s2f: s2hnf, rep: string, inf: intinf
+) : d3exp // end of [d3exp_int]
+
 fun d3exp_bool
   (loc: location, s2f: s2hnf, b: bool): d3exp
 // end of [d3exp_bool]
@@ -168,6 +185,26 @@ fun d3exp_bool
 fun d3exp_char
   (loc: location, s2f: s2hnf, c: char): d3exp
 // end of [d3exp_char]
+
+fun d3exp_string
+  (loc: location, s2f: s2hnf, str: string): d3exp
+// end of [d3exp_string]
+
+fun d3exp_float
+  (loc: location, s2f: s2hnf, rep: string): d3exp
+// end of [d3exp_float]
+
+(* ****** ****** *)
+
+fun d3exp_extval
+  (loc: location, s2f: s2hnf, rep: string): d3exp
+// end of [d3exp_extval]
+
+(* ****** ****** *)
+
+fun d3exp_cst
+  (loc: location, s2f: s2hnf, d2c: d2cst): d3exp
+// end of [d3exp_cst]
 
 (* ****** ****** *)
 

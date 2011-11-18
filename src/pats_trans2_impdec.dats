@@ -694,8 +694,8 @@ val sfess = (case+ opt of
 val tmparg = sfess
 val tmpgua = list_nil ()
 //
-val s2e = d2cst_get_typ (d2c)
-val d2e = d1exp_tr_ann (impdec.i1mpdec_def, s2e)
+val s2f = d2cst_get_type (d2c)
+val d2e = d1exp_tr_ann (impdec.i1mpdec_def, s2f)
 //
 val () = if list_isnot_empty (s2qs) then the_tmplev_dec ()
 val () = the_s2expenv_pop_free (pfenv | (*none*))

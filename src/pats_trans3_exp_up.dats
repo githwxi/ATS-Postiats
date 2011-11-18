@@ -36,6 +36,13 @@ macdef print_location = $LOC.print_location
 
 (* ****** ****** *)
 
+(*
+** for T_* constructors
+*)
+staload "pats_lexing.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 staload "pats_stacst2.sats"
 staload "pats_staexp2_util.sats"
@@ -53,22 +60,17 @@ staload "pats_trans3_env.sats"
 
 (* ****** ****** *)
 
+macdef hnf = s2hnf_of_s2exp
+macdef hnflst = s2hnflst_of_s2explst
 macdef unhnf = s2exp_of_s2hnf
 macdef unhnflst = s2explst_of_s2hnflst
 
 (* ****** ****** *)
 
-fun d2exp_trup_bool
-  (d2e0: d2exp, b: bool): d3exp = let
-  val loc0 = d2e0.d2exp_loc
-  val s2f = s2exp_bool_bool_t0ype (b) in d3exp_bool (loc0, s2f, b)
-end // end of [d2exp_trup_bool]
-
-fun d2exp_trup_char
-  (d2e0: d2exp, c: char): d3exp = let
-  val loc0 = d2e0.d2exp_loc
-  val s2f = s2exp_char_char_t0ype (c) in d3exp_char (loc0, s2f, c)
-end // end of [d2exp_trup_char]
+extern
+fun d2exp_trup_var (d2e0: d2exp, d2v: d2var): d3exp
+extern
+fun d2exp_trup_cst (d2e0: d2exp, d2c: d2cst): d3exp
 
 (* ****** ****** *)
 
@@ -92,8 +94,35 @@ end // end of [val]
 val d3e0 = (
 case+ d2e0.d2exp_node of
 //
+| D2Evar (d2v) => d2exp_trup_var (d2e0, d2v)
+//
 | D2Ebool (b(*bool*)) => d2exp_trup_bool (d2e0, b)
 | D2Echar (c(*char*)) => d2exp_trup_char (d2e0, c)
+//
+| D2Ei0nt (tok) => let
+    val- T_INTEGER (base, rep, sfx) = tok.token_node
+  in
+    d2exp_trup_int (d2e0, base, rep, sfx)
+  end // end of [D2Ei0nt]
+| D2Ec0har (tok) => let
+    val- T_CHAR (c) = tok.token_node
+  in
+    d2exp_trup_char (d2e0, c) // by default: char1 (c)
+  end // end of [D2Ec0har]
+| D2Es0tring (tok) => let
+    val- T_STRING (str) = tok.token_node
+  in
+    d2exp_trup_string (d2e0, str)
+  end // end of [D2Es0tring]
+| D2Ef0loat (tok) => let
+    val- T_FLOAT (_(*base*), rep, sfx) = tok.token_node
+  in
+    d2exp_trup_float (d2e0, rep, sfx)
+  end // end of [D2Ef0loat]
+//
+| D2Eextval (s2f, rep) => d3exp_extval (loc0, s2f, rep)
+//
+| D2Ecst (d2c) => d2exp_trup_cst (d2e0, d2c)
 //
 | D2Elam_dyn (
     lin, npf, p2ts_arg, d2e_body
@@ -150,6 +179,65 @@ d2explstlst_trup
 
 (* ****** ****** *)
 
+fn d2exp_trup_var_mutabl
+  (d2e0: d2exp, d2v: d2var): d3exp = let
+(*
+  val () = {
+    val () = print "d2exp_trup_var_mutabl: d2v = "
+    val () = print_d2var (d2v)
+    val () = print_newline ()
+    val () = print "d2exp_trup_var_mutabl: d2varset = "
+    val () = print_newline ()
+  } // end of [val]
+*)
+  val () = assertloc (false)
+in
+  exit (1)
+end // end of [d2exp_var_mut_tr_up]
+
+fn d2exp_trup_var_nonmut
+  (d2e0: d2exp, d2v: d2var): d3exp = let
+  val loc0 = d2e0.d2exp_loc
+  val lin = d2var_get_linval (d2v)
+  val- Some (s2f) = d2var_get_type (d2v)
+(*
+  val () = {
+    val () = print "d2exp_trup_var_nonmut: d2v = "
+    val () = print_d2var (d2v)
+    val () = print_newline ()
+    val () = print "d2exp_trup_var_nonmut: lin = "
+    val () = print_int (lin)
+    val () = print_newline ()
+    val () = print "d2exp_trup_var_nonmut: d2varset = "
+    val () = print_newline ()
+  } // end of [val]
+*)
+in
+  d3exp_var (loc0, s2f, d2v)
+end // end of [d2exp_trup_var_nonmut]
+
+implement
+d2exp_trup_var
+  (d2e0, d2v) =
+  if d2var_is_mutable (d2v) then
+    d2exp_trup_var_mutabl (d2e0, d2v)
+  else
+    d2exp_trup_var_nonmut (d2e0, d2v)
+// end of [d2exp_trup_var]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_cst
+  (d2e0, d2c) = let
+  val loc0 = d2e0.d2exp_loc
+  val s2f = d2cst_get_type (d2c)
+in
+  d3exp_cst (loc0, s2f, d2c)
+end // end of [d2cst_trup_cst]
+
+(* ****** ****** *)
+
 implement
 d2exp_trup_arg_body (
   loc0
@@ -157,12 +245,14 @@ d2exp_trup_arg_body (
 , p2ts_arg, d2e_body
 ) = let
 // (*
+val FNAME = "d2exp_trup_arg_body"
 val () = (
-  print "d2exp_trup_arg_body: arg =";
+  printf ("%s: arg = ", @(FNAME));
   print_p2atlst (p2ts_arg); print_newline ()
 ) // end of [val]
 val () = (
-  print "d2exp_trup_arg_body: body ="; print_d2exp (d2e_body); print_newline ()
+  printf ("%s: body = ", @(FNAME));
+  print_d2exp (d2e_body); print_newline ()
 ) // end of [val]
 // *)
 val (pfpush | ()) = trans3_env_push ()

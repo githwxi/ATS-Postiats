@@ -190,6 +190,7 @@ dynload "pats_trans3_error.dats"
 dynload "pats_trans3_util.dats"
 dynload "pats_trans3_env.dats"
 dynload "pats_trans3_pat.dats"
+dynload "pats_trans3_syncst.dats"
 dynload "pats_trans3_exp_up.dats"
 dynload "pats_trans3_exp_dn.dats"
 dynload "pats_trans3_decl.dats"
@@ -523,7 +524,7 @@ fn do_trans123 (
   basename: string, d0cs: d0eclist
 ) : d3eclist = let
   val d2cs = do_trans12 (basename, d0cs)
-  val d3cs = $TRANS3.d2eclist_tr (d2cs)
+  val d3cs = $TRANS3.d2eclist_tr_errck (d2cs)
 //
   val () = if isdebug() then {
     val () = print "The 3rd translation (typechecking) of ["

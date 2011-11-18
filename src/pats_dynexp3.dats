@@ -38,6 +38,15 @@ staload "pats_dynexp3.sats"
 (* ****** ****** *)
 
 implement
+p3at_var (
+  loc, s2f, knd, d2v
+) = '{
+  p3at_loc= loc
+, p3at_node= P3Tvar (knd, d2v)
+, p3at_type= s2f
+} // end of [p3at_var]
+
+implement
 p3at_ann (
   loc, s2f, p3t, ann
 ) = '{
@@ -49,20 +58,76 @@ p3at_ann (
 (* ****** ****** *)
 
 implement
-d3exp_bool
-  (loc, s2e, b) = '{
+d3exp_var (
+  loc, s2f, d2v
+) = '{
   d3exp_loc= loc
-, d3exp_type= s2e
+, d3exp_type= s2f
+, d3exp_node= D3Evar (d2v)
+} // end of [d3exp_var]
+
+(* ****** ****** *)
+
+implement
+d3exp_int
+  (loc, s2f, rep, inf) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eint (rep, inf)
+} // end of [d3exp_int]
+
+implement
+d3exp_bool
+  (loc, s2f, b) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
 , d3exp_node= D3Ebool (b)
 } // end of [d3exp_bool]
 
 implement
 d3exp_char
-  (loc, s2e, c) = '{
+  (loc, s2f, c) = '{
   d3exp_loc= loc
-, d3exp_type= s2e
+, d3exp_type= s2f
 , d3exp_node= D3Echar (c)
 } // end of [d3exp_char]
+
+implement
+d3exp_string
+  (loc, s2f, str) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Estring (str)
+} // end of [d3exp_string]
+
+implement
+d3exp_float
+  (loc, s2f, rep) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Efloat (rep)
+} // end of [d3exp_float]
+
+(* ****** ****** *)
+
+implement
+d3exp_extval
+  (loc, s2f, rep) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eextval (rep)
+} // end of [d3exp_extval]
+
+(* ****** ****** *)
+
+implement
+d3exp_cst (
+  loc, s2f, d2c
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Ecst (d2c)
+} // end of [d3exp_cst]
 
 (* ****** ****** *)
 

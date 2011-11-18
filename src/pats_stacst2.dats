@@ -199,22 +199,119 @@ end // end of [s2exp_bool_bool_t0ype]
 (* ****** ****** *)
 
 implement
-the_int_t0ype = s2cstref_make "int_t0ype"
+the_int_kind = s2cstref_make "int_kind"
 implement
-the_int_int_t0ype = s2cstref_make "int_int_t0ype"
+the_lint_kind = s2cstref_make "lint_kind"
+implement
+the_llint_kind = s2cstref_make "llint_kind"
+implement
+the_size_kind = s2cstref_make "size_kind"
+implement
+the_g0int_t0ype = s2cstref_make "g0int_t0ype"
+implement
+the_g0uint_t0ype = s2cstref_make "g0uint_t0ype"
+implement
+the_g1int_t0ype = s2cstref_make "g1int_t0ype"
+implement
+the_g1uint_t0ype = s2cstref_make "g1uint_t0ype"
+
+local
+
+fun auxg0i
+  (knd: s2cst): s2hnf = let
+  val knd = s2exp_cst (knd)
+  val g0i = s2cstref_get_cst (the_g0int_t0ype)
+in
+  s2exp_cstapp (g0i, list_sing ((unhnf)knd))
+end // end of [auxg0i]
+
+fun auxg0u
+  (knd: s2cst): s2hnf = let
+  val knd = s2exp_cst (knd)
+  val g0u = s2cstref_get_cst (the_g0uint_t0ype)
+in
+  s2exp_cstapp (g0u, list_sing ((unhnf)knd))
+end // end of [auxg0u]
+
+fun auxg1i (
+  knd: s2cst, ind: s2exp
+) : s2hnf = let
+  val knd = s2exp_cst (knd)
+  val g1i = s2cstref_get_cst (the_g0int_t0ype)
+in
+  s2exp_cstapp (g1i, list_cons ((unhnf)knd, list_sing (ind)))
+end // end of [auxg1i]
+
+fun auxg1u (
+  knd: s2cst, ind: s2exp
+) : s2hnf = let
+  val knd = s2exp_cst (knd)
+  val g1u = s2cstref_get_cst (the_g0uint_t0ype)
+in
+  s2exp_cstapp (g1u, list_cons ((unhnf)knd, list_sing (ind)))
+end // end of [auxg1u]
+
+in // in of [local]
 
 implement
 s2exp_int_t0ype () =
-  s2exp_cst (s2cstref_get_cst (the_int_t0ype))
+  auxg0i (s2cstref_get_cst (the_int_kind))
 // end of [s2exp_int_t0ype]
 
 implement
-s2exp_int_int_t0ype (i) = let
-  val s2c = s2cstref_get_cst (the_int_int_t0ype)
-  val ind = unhnf (s2exp_int (i))
+s2exp_uint_t0ype () =
+  auxg0u (s2cstref_get_cst (the_int_kind))
+// end of [s2exp_uint_t0ype]
+
+implement
+s2exp_int_intinf_t0ype (inf) = let
+  val knd = s2cstref_get_cst (the_int_kind)
+  val ind = s2exp_intinf (inf)
 in
-  s2exp_cstapp (s2c, list_sing (ind))
-end // end of [s2exp_int_int_t0ype]
+  auxg1i (knd, (unhnf)ind)
+end // end of [s2exp_int_intinf_t0ype]
+
+implement
+s2exp_uint_intinf_t0ype (inf) = let
+  val knd = s2cstref_get_cst (the_int_kind)
+  val ind = s2exp_intinf (inf)
+in
+  auxg1u (knd, (unhnf)ind)
+end // end of [s2exp_uint_intinf_t0ype]
+
+implement
+s2exp_lint_intinf_t0ype (inf) = let
+  val knd = s2cstref_get_cst (the_lint_kind)
+  val ind = s2exp_intinf (inf)
+in
+  auxg1i (knd, (unhnf)ind)
+end // end of [s2exp_lint_intinf_t0ype]
+
+implement
+s2exp_ulint_intinf_t0ype (inf) = let
+  val knd = s2cstref_get_cst (the_lint_kind)
+  val ind = s2exp_intinf (inf)
+in
+  auxg1u (knd, (unhnf)ind)
+end // end of [s2exp_ulint_intinf_t0ype]
+
+implement
+s2exp_llint_intinf_t0ype (inf) = let
+  val knd = s2cstref_get_cst (the_llint_kind)
+  val ind = s2exp_intinf (inf)
+in
+  auxg1i (knd, (unhnf)ind)
+end // end of [s2exp_llint_intinf_t0ype]
+
+implement
+s2exp_ullint_intinf_t0ype (inf) = let
+  val knd = s2cstref_get_cst (the_llint_kind)
+  val ind = s2exp_intinf (inf)
+in
+  auxg1u (knd, (unhnf)ind)
+end // end of [s2exp_ullint_intinf_t0ype]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -246,13 +343,43 @@ s2exp_string_type () =
 // end of [s2exp_string_type]
 
 (* ****** ****** *)
+//
+implement
+the_float_kind = s2cstref_make "float_kind"
+implement
+the_double_kind = s2cstref_make "double_kind"
+implement
+the_ldouble_kind = s2cstref_make "ldouble_kind"
+implement
+the_g0float_t0ype = s2cstref_make "g0float_t0ype"
+//
+local
+
+fun auxmain (knd: s2cst): s2hnf = let
+  val knd = s2exp_cst (knd)
+  val g0f = s2cstref_get_cst (the_g0float_t0ype)
+in
+  s2exp_cstapp (g0f, list_sing ((unhnf)knd))
+end // end of [auxmain]
+
+in // in of [local]
 
 implement
-the_double_t0ype = s2cstref_make "double_t0ype"
+s2exp_float_t0ype () =
+  auxmain (s2cstref_get_cst (the_float_kind))
+// end of [s2exp_float_t0ype]
+
 implement
 s2exp_double_t0ype () =
-  s2exp_cst (s2cstref_get_cst (the_double_t0ype))
+  auxmain (s2cstref_get_cst (the_double_kind))
 // end of [s2exp_double_t0ype]
+
+implement
+s2exp_ldouble_t0ype () =
+  auxmain (s2cstref_get_cst (the_ldouble_kind))
+// end of [s2exp_ldouble_t0ype]
+
+end // end of [local]
 
 (* ****** ****** *)
 

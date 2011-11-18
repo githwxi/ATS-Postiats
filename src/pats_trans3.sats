@@ -43,6 +43,8 @@ staload "pats_dynexp3.sats"
 // during the level-2 translation
 //
 datatype trans3err =
+  | T3E_intsp of (d2exp)
+  | T3E_floatsp of (d2exp)
   | T3E_d2exp_tr_laminit_fc of (d2exp, funclo)
   | T3E_fundeclst_tr_metsrts of (d2ecl, s2rtlstopt)
 // end of [trans3err]
@@ -76,6 +78,18 @@ fun d2exp_s2eff_of_d2exp
 
 (* ****** ****** *)
 
+fun d2exp_trup_int (
+  d2e0: d2exp, base: int, rep: string, sfx: uint
+) : d3exp // end of [d2exp_trup_int]
+fun d2exp_trup_bool (d2e0: d2exp, b: bool): d3exp
+fun d2exp_trup_char (d2e0: d2exp, c: char): d3exp
+fun d2exp_trup_string (d2e0: d2exp, str: string): d3exp
+fun d2exp_trup_float
+  (d2e0: d2exp, rep: string, sfx: uint): d3exp
+// end of [d2exp_trup_float]
+
+(* ****** ****** *)
+
 fun d2exp_trup (d2e: d2exp): d3exp
 fun d2explst_trup (d2es: d2explst): d3explst
 fun d2explstlst_trup (d2ess: d2explstlst): d3explstlst
@@ -86,6 +100,10 @@ fun d2exp_trdn (d2e: d2exp, s2f: s2hnf): d3exp
 
 fun d2ecl_tr (d2c: d2ecl): d3ecl
 fun d2eclist_tr (d2cs: d2eclist): d3eclist
+
+(* ****** ****** *)
+
+fun d2eclist_tr_errck (d2cs: d2eclist): d3eclist
 
 (* ****** ****** *)
 

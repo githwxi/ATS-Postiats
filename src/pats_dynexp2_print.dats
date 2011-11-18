@@ -41,6 +41,13 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
+(*
+** for T_* constructors
+*)
+staload "pats_lexing.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp1.sats"
 staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
@@ -56,28 +63,30 @@ implement
 fprint_d2itm (out, x) = let
   macdef prstr (s) = fprint_string (out, ,(s))
 in
-  case+ x of
-  | D2ITMcon d2cs => begin
-      prstr "D2ITMcon("; fprint_d2conlst (out, d2cs); prstr ")"
-    end // end of [D2ITMcon]
-  | D2ITMcst d2c => begin
-      prstr "D2ITMcst("; fprint_d2cst (out, d2c); prstr ")"
-    end // end of [D2ITMcst]
-  | D2ITMe1xp e1xp => begin
-      prstr "D2ITMe1xp("; fprint_e1xp (out, e1xp); prstr ")"
-    end // end of [D2ITMe1xp]
-  | D2ITMmacdef d2m => begin
-      prstr "D2ITMmacdef("; fprint_d2mac (out, d2m); prstr ")"
-    end // end of [D2ITMmacdef]
-  | D2ITMmacvar d2v => begin
-      prstr "D2ITMmacvar("; fprint_d2var (out, d2v); prstr ")"
-    end // end of [D2ITMmacvar]
-  | D2ITMsymdef d2is => begin
-      prstr "D2ITMsymdef("; fprint_d2itmlst (out, d2is); prstr ")";
-    end // end of [D2ITMsymdef]
-  | D2ITMvar d2v => begin
-      prstr "D2ITMvar("; fprint_d2var (out, d2v); prstr ")"
-    end // end of [D2ITMvar]
+//
+case+ x of
+| D2ITMcon d2cs => begin
+    prstr "D2ITMcon("; fprint_d2conlst (out, d2cs); prstr ")"
+  end // end of [D2ITMcon]
+| D2ITMcst d2c => begin
+    prstr "D2ITMcst("; fprint_d2cst (out, d2c); prstr ")"
+  end // end of [D2ITMcst]
+| D2ITMe1xp e1xp => begin
+    prstr "D2ITMe1xp("; fprint_e1xp (out, e1xp); prstr ")"
+  end // end of [D2ITMe1xp]
+| D2ITMmacdef d2m => begin
+    prstr "D2ITMmacdef("; fprint_d2mac (out, d2m); prstr ")"
+  end // end of [D2ITMmacdef]
+| D2ITMmacvar d2v => begin
+    prstr "D2ITMmacvar("; fprint_d2var (out, d2v); prstr ")"
+  end // end of [D2ITMmacvar]
+| D2ITMsymdef d2is => begin
+    prstr "D2ITMsymdef("; fprint_d2itmlst (out, d2is); prstr ")";
+  end // end of [D2ITMsymdef]
+| D2ITMvar d2v => begin
+    prstr "D2ITMvar("; fprint_d2var (out, d2v); prstr ")"
+  end // end of [D2ITMvar]
+// end of [case]
 end // end of [fprint_d2item]
 
 implement print_d2itm (x) = fprint_d2itm (stdout_ref, x)
@@ -263,20 +272,69 @@ case+ x.d2exp_node of
     val () = prstr "D2Ebool("
     val () = fprint_bool (out, x)
     val () = prstr ")"
-  }
+  } // end of [D2Ebool]
+| D2Eint (rep) => {
+    val () = prstr "D2Eint("
+    val () = fprint_string (out, rep)
+    val () = prstr ")"
+  } // end of [D2Erep]
 | D2Echar (x) => {
     val () = prstr "D2Echar("
     val () = fprint_char (out, x)
     val () = prstr ")"
-  }
+  } // end of [D2Echar]
 | D2Estring (x) => {
     val () = prstr "D2Estring("
     val () = fprint_string (out, x)
     val () = prstr ")"
-  }
+  } // end of [D2Estring]
+| D2Efloat (rep) => {
+    val () = prstr "D2Efloat("
+    val () = fprint_string (out, rep)
+    val () = prstr ")"
+  } // end of [D2Efloat]
+//
+| D2Ei0nt (tok) => {
+    val- T_INTEGER (_(*base*), rep, _(*sfx*)) = tok.token_node
+    val () = prstr "D2Ei0nt("
+    val () = fprint_string (out, rep)
+    val () = prstr ")"
+  } // end of [D2Ei0nt]
+| D2Ec0har (tok) => {
+    val- T_CHAR (c) = tok.token_node
+    val () = prstr "D2Ec0har("
+    val () = fprint_char (out, c)
+    val () = prstr ")"
+  } // end of [D2Ec0har]
+| D2Es0tring (tok) => {
+    val- T_STRING (str) = tok.token_node
+    val () = prstr "D2Es0tring("
+    val () = fprint_string (out, str)
+    val () = prstr ")"
+  } // end of [D2Es0tring]
+| D2Ef0loat (tok) => {
+    val- T_FLOAT (_(*base*), rep, _(*sfx*)) = tok.token_node
+    val () = prstr "D2Ef0loat("
+    val () = fprint_string (out, rep)
+    val () = prstr ")"
+  } // end of [D2Ef0loat]
+//
 | D2Eempty () => {
     val () = prstr "D2Eempty()"
   } // end of [D2Eempty]
+| D2Eextval (s2f, rep) => {
+    val () = prstr "D2Eextval("
+    val () = fprint_s2hnf (out, s2f)
+    val () = prstr "; "
+    val () = fprint_string (out, rep)
+    val () = prstr ")"
+  }
+//
+| D2Ecst (d2c) => {
+    val () = prstr "D2Ecst("
+    val () = fprint_d2cst (out, d2c)
+    val () = prstr ")"
+  }
 //
 | D2Elam_dyn (
     lin, npf, p2ts, d2e

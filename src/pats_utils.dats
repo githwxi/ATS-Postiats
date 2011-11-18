@@ -32,6 +32,11 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/unsafe.dats"
+
+(* ****** ****** *)
+
 staload "pats_utils.sats"
 
 (* ****** ****** *)
@@ -44,6 +49,25 @@ eqref_type
 in
   eq_ptr_ptr (x1, x2)
 end // end of [eqref_type]
+
+(* ****** ****** *)
+//
+// HX-2011-11-17: unsafe implementation but ...
+//
+implement
+strcasecmp (x1, x2) = let
+  fun loop (p1: ptr, p2: ptr): int = let
+    val c1 = char_toupper ($UN.ptrget<char> (p1))
+    val c2 = char_toupper ($UN.ptrget<char> (p2))
+  in
+    if c1 < c2 then ~1
+    else if c1 > c2 then 1
+    else if c1 != '\000' then loop (p1+1, p2+1)
+    else 0 // end of [if]
+  end // end of [loop]
+in
+  loop ($UN.cast2ptr(x1), $UN.cast2ptr(x2))
+end // end of [strcasecmp]
 
 (* ****** ****** *)
 

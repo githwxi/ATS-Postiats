@@ -57,38 +57,19 @@ stadef byte = byte_t0ype
 
 (* ****** ****** *)
 
-abst@ype
-g0char_t0ype (a:t@ype) = a
-stadef g0char = g0char_t0ype
-
-abst@ype
-g1char_t0ype_int (a:t@ype, int) = g0char (a)
-stadef g1char = g1char_t0ype_int
-typedef g1char (a:t@ype) = [i:int] g1char (a, i)
-
-abst@ype
-g0uchar_t0ype (a:t@ype) = a
-stadef g0uchar = g0uchar_t0ype
-
-abst@ype
-g1uchar_t0ype_int (a:t@ype, int) = g0uchar (a)
-stadef g1uchar = g1uchar_t0ype_int
-typedef g1uchar (a:t@ype) = [i:nat] g1uchar (a, i)
-
-(* ****** ****** *)
-
-abst@ype
-charknd = $extype"atstype_char"
-typedef char0 = g0char (charknd)
-typedef char1 (i:int) = g1char (charknd, i)
-stadef char = char0 and char = char1
-
-abst@ype
-ucharknd = $extype"atstype_uchar"
-typedef uchar0 = g0uchar (ucharknd)
-typedef uchar1 (i:int) = g1uchar (ucharknd, i)
-stadef uchar = uchar0 and uchar = uchar1
-
+abst@ype schar_t0ype = $extype"atstype_schar"
+abst@ype schar_char_t0ype (c:char) = schar_t0ype
+abst@ype uchar_t0ype = $extype"atstype_uchar"
+abst@ype uchar_char_t0ype (c:char) = uchar_t0ype
+//
+(*
+** HX-2011-11-17:
+** it may be more resonable to allow this to be
+** determined by a compilation flag:
+*)
+stadef char_t0ype = schar_t0ype
+stadef char_char_t0ype = schar_char_t0ype
+//
 (* ****** ****** *)
 
 abst@ype
@@ -138,112 +119,112 @@ typedef g1uintBtwe
 (* ****** ****** *)
 //
 abst@ype
-intknd = $extype"atstype_int"
+int_kind = $extype"atstype_int"
 //
-typedef int0 = g0int (intknd)
-typedef int1 (i:int) = g1int (intknd, i)
+typedef int0 = g0int (int_kind)
+typedef int1 (i:int) = g1int (int_kind, i)
 stadef int = int0 and int = int1
-typedef intLt (n:int) = g1intLt (intknd, n)
-typedef intLte (n:int) = g1intLte (intknd, n)
-typedef intGt (n:int) = g1intGt (intknd, n)
-typedef intGte (n:int) = g1intGte (intknd, n)
-typedef intBtw (lb:int, ub:int) = g1intBtw (intknd, lb, ub)
-typedef intBtwe (lb:int, ub:int) = g1intBtwe (intknd, lb, ub)
+typedef intLt (n:int) = g1intLt (int_kind, n)
+typedef intLte (n:int) = g1intLte (int_kind, n)
+typedef intGt (n:int) = g1intGt (int_kind, n)
+typedef intGte (n:int) = g1intGte (int_kind, n)
+typedef intBtw (lb:int, ub:int) = g1intBtw (int_kind, lb, ub)
+typedef intBtwe (lb:int, ub:int) = g1intBtwe (int_kind, lb, ub)
 //
 typedef natLt (n:int) = intBtw (0, n)
 typedef natLte (n:int) = intBtwe (0, n)
 //
-typedef uint0 = g0uint (intknd)
-typedef uint1 (i:int) = g1uint (intknd, i)
+typedef uint0 = g0uint (int_kind)
+typedef uint1 (i:int) = g1uint (int_kind, i)
 stadef uint = uint0 and uint = uint1
-typedef uintLt (n:int) = g1uintLt (intknd, n)
-typedef uintLte (n:int) = g1uintLte (intknd, n)
-typedef uintGt (n:int) = g1uintGt (intknd, n)
-typedef uintGte (n:int) = g1uintGte (intknd, n)
-typedef uintBtw (lb:int, ub:int) = g1uintBtw (intknd, lb, ub)
-typedef uintBtwe (lb:int, ub:int) = g1uintBtwe (intknd, lb, ub)
+typedef uintLt (n:int) = g1uintLt (int_kind, n)
+typedef uintLte (n:int) = g1uintLte (int_kind, n)
+typedef uintGt (n:int) = g1uintGt (int_kind, n)
+typedef uintGte (n:int) = g1uintGte (int_kind, n)
+typedef uintBtw (lb:int, ub:int) = g1uintBtw (int_kind, lb, ub)
+typedef uintBtwe (lb:int, ub:int) = g1uintBtwe (int_kind, lb, ub)
 //
 (* ****** ****** *)
 
 abst@ype
-lintknd = $extype"atstype_lint"
-typedef lint0 = g0int (lintknd)
-typedef lint1 (i:int) = g1int (lintknd, i)
+lint_kind = $extype"atstype_lint"
+typedef lint0 = g0int (lint_kind)
+typedef lint1 (i:int) = g1int (lint_kind, i)
 stadef lint = lint0 and lint = lint1
-typedef ulint0 = g0uint (lintknd)
-typedef ulint1 (i:int) = g1uint (lintknd, i)
+typedef ulint0 = g0uint (lint_kind)
+typedef ulint1 (i:int) = g1uint (lint_kind, i)
 stadef ulint = ulint0 and ulint = ulint1
 
 abst@ype
-llintknd = $extype"atstype_llint"
-typedef llint0 = g0int (llintknd)
-typedef llint1 (i:int) = g1int (llintknd, i)
+llint_kind = $extype"atstype_llint"
+typedef llint0 = g0int (llint_kind)
+typedef llint1 (i:int) = g1int (llint_kind, i)
 stadef llint = llint0 and llint = llint1
-typedef ullint0 = g0uint (llintknd)
-typedef ullint1 (i:int) = g1uint (llintknd, i)
+typedef ullint0 = g0uint (llint_kind)
+typedef ullint1 (i:int) = g1uint (llint_kind, i)
 stadef ullint = ullint0 and ullint = ullint1
 
 abst@ype
-sintknd = $extype"atstype_sint"
-typedef sint0 = g0int (sintknd)
-typedef sint1 (i:int) = g1int (sintknd, i)
+sint_kind = $extype"atstype_sint"
+typedef sint0 = g0int (sint_kind)
+typedef sint1 (i:int) = g1int (sint_kind, i)
 stadef sint = sint0 and sint = sint1
-typedef usint0 = g0uint (sintknd)
-typedef usint1 (i:int) = g1uint (sintknd, i)
+typedef usint0 = g0uint (sint_kind)
+typedef usint1 (i:int) = g1uint (sint_kind, i)
 stadef usint = usint0 and usint = usint1
 
 abst@ype
-ssintknd = $extype"atstype_ssint"
-typedef ssint0 = g0int (ssintknd)
-typedef ssint1 (i:int) = g1int (ssintknd, i)
+ssint_kind = $extype"atstype_ssint"
+typedef ssint0 = g0int (ssint_kind)
+typedef ssint1 (i:int) = g1int (ssint_kind, i)
 stadef ssint = ssint0 and ssint = ssint1
-typedef ussint0 = g0uint (ssintknd)
-typedef ussint1 (i:int) = g1uint (ssintknd, i)
+typedef ussint0 = g0uint (ssint_kind)
+typedef ussint1 (i:int) = g1uint (ssint_kind, i)
 stadef ussint = ussint0 and ussint = ussint1
 
 (* ****** ****** *)
 
 abst@ype
-sizeknd = $extype"atstype_size"
+size_kind = $extype"atstype_size"
 //
-typedef size0_t = g0uint (sizeknd)
+typedef size0_t = g0uint (size_kind)
 stadef size_t = size0_t
-typedef size1_t (i:int) = g1uint (sizeknd, i)
+typedef size1_t (i:int) = g1uint (size_kind, i)
 stadef size_t = size1_t
 //
 typedef Size =
-  [i:int | i >= 0] g1uint (sizeknd, i)
+  [i:int | i >= 0] g1uint (size_kind, i)
 typedef sizeLt
-  (n: int) = [i:int | 0 <= i; i < n] g1uint (sizeknd, i)
+  (n: int) = [i:int | 0 <= i; i < n] g1uint (size_kind, i)
 typedef sizeLte
-  (n: int) = [i:int | 0 <= i; i <= n] g1uint (sizeknd, i)
+  (n: int) = [i:int | 0 <= i; i <= n] g1uint (size_kind, i)
 typedef sizeGt
-  (n: int) = [i:int | i > n] g1uint (sizeknd, i)
+  (n: int) = [i:int | i > n] g1uint (size_kind, i)
 typedef sizeGte
-  (n: int) = [i:int | i >= n] g1uint (sizeknd, i)
+  (n: int) = [i:int | i >= n] g1uint (size_kind, i)
 typedef sizeBtw
-  (lb:int, ub:int) = [i: int | lb <= i; i < ub] g1uint (sizeknd, i)
+  (lb:int, ub:int) = [i: int | lb <= i; i < ub] g1uint (size_kind, i)
 typedef sizeBtwe
-  (lb:int, ub:int) = [i: int | lb <= i; i <= ub] g1uint (sizeknd, i)
+  (lb:int, ub:int) = [i: int | lb <= i; i <= ub] g1uint (size_kind, i)
 //
-typedef ssize0_t = g0int (sizeknd)
+typedef ssize0_t = g0int (size_kind)
 stadef ssize_t = ssize0_t
-typedef ssize1_t (i:int) = g1int (sizeknd , i) 
+typedef ssize1_t (i:int) = g1int (size_kind , i) 
 stadef ssize_t = ssize1_t
 
 (* ****** ****** *)
 
 abst@ype
-int8knd = $extype"atstype_int8"
+int8_kind = $extype"atstype_int8"
 //
-typedef int8_0 = g0int (intknd)
-typedef int8_1 (i:int) = g1int (int8knd, i)
+typedef int8_0 = g0int (int_kind)
+typedef int8_1 (i:int) = g1int (int8_kind, i)
 stadef int8 = int8_0
 stadef int8 = int8_1
 stadef Int8 = [i:int] int8_1 (i)
 //
-typedef uint8_0 = g0uint (intknd)
-typedef uint8_1 (i:int) = g1uint (int8knd, i)
+typedef uint8_0 = g0uint (int_kind)
+typedef uint8_1 (i:int) = g1uint (int8_kind, i)
 stadef uint8 = uint8_0
 stadef uint8 = uint8_1
 stadef uInt8 = [i:nat] uint8_1 (i)
@@ -251,16 +232,16 @@ stadef uInt8 = [i:nat] uint8_1 (i)
 (* ****** ****** *)
 
 abst@ype
-int16knd = $extype"atstype_int16"
+int16_kind = $extype"atstype_int16"
 //
-typedef int16_0 = g0int (intknd)
-typedef int16_1 (i:int) = g1int (int16knd, i)
+typedef int16_0 = g0int (int16_kind)
+typedef int16_1 (i:int) = g1int (int16_kind, i)
 stadef int16 = int16_1
 stadef Int16 = [i:int] int16_1 (i)
 stadef int16 = int16_0
 //
-typedef uint16_0 = g0uint (intknd)
-typedef uint16_1 (i:int) = g1uint (int16knd, i)
+typedef uint16_0 = g0uint (int16_kind)
+typedef uint16_1 (i:int) = g1uint (int16_kind, i)
 stadef uint16 = uint16_0
 stadef uint16 = uint16_1
 stadef uInt16 = [i:nat] uint16_1 (i)
@@ -268,16 +249,16 @@ stadef uInt16 = [i:nat] uint16_1 (i)
 (* ****** ****** *)
 
 abst@ype
-int32knd = $extype"atstype_int32"
+int32_kind = $extype"atstype_int32"
 //
-typedef int32_0 = g0int (intknd)
-typedef int32_1 (i:int) = g1int (int32knd, i)
+typedef int32_0 = g0int (int32_kind)
+typedef int32_1 (i:int) = g1int (int32_kind, i)
 stadef int32 = int32_0
 stadef int32 = int32_1
 stadef Int32 = [i:int] int32_1 (i)
 //
-typedef uint32_0 = g0uint (intknd)
-typedef uint32_1 (i:int) = g1uint (int32knd, i)
+typedef uint32_0 = g0uint (int32_kind)
+typedef uint32_1 (i:int) = g1uint (int32_kind, i)
 stadef uint32 = uint32_0
 stadef uint32 = uint32_1
 stadef uInt32 = [i:nat] uint32_1 (i)
@@ -285,38 +266,38 @@ stadef uInt32 = [i:nat] uint32_1 (i)
 (* ****** ****** *)
 
 abst@ype
-int64knd = $extype"atstype_int64"
+int64_kind = $extype"atstype_int64"
 //
-typedef int64_0 = g0int (intknd)
-typedef int64_1 (i:int) = g1int (int64knd, i)
+typedef int64_0 = g0int (int64_kind)
+typedef int64_1 (i:int) = g1int (int64_kind, i)
 stadef int64 = int64_0
 stadef int64 = int64_1
 stadef Int64 = [i:int] int64_1 (i)
 //
-typedef uint64_0 = g0uint (intknd)
-typedef uint64_1 (i:int) = g1uint (int64knd, i)
+typedef uint64_0 = g0uint (int64_kind)
+typedef uint64_1 (i:int) = g1uint (int64_kind, i)
 stadef uint64 = uint64_0
 stadef uint64 = uint64_1
 stadef uInt64 = [i:nat] uint64_1 (i)
 
 (* ****** ****** *)
-
+//
 abst@ype
 g0float_t0ype (a:t@ype) = a
 stadef g0float = g0float_t0ype
-
-abst@ype
-fltknd = $extype"atstype_float"
-typedef float = g0float (fltknd)
 //
 abst@ype
-dblknd = $extype"atstype_double"
-typedef double = g0float (dblknd)
+float_kind = $extype"atstype_float"
+typedef float = g0float (float_kind)
 //
 abst@ype
-ldblknd = $extype"atstype_ldouble"
-typedef ldouble = g0float (ldblknd)
-
+double_kind = $extype"atstype_double"
+typedef double = g0float (double_kind)
+//
+abst@ype
+ldouble_kind = $extype"atstype_ldouble"
+typedef ldouble = g0float (ldouble_kind)
+//
 (* ****** ****** *)
 //
 // HX: unindexed type for pointers

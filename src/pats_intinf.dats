@@ -71,7 +71,7 @@ intinf_make_base_string_ofs
   val () = mpz_init_set_str_exn (!p, rep_ofs, base)
 in
   ref_make_view_ptr (pfat | p)
-end // end of [intinf_make_string]
+end // end of [intinf_make_base_string_ofs]
 
 (* ****** ****** *)
 

@@ -56,14 +56,24 @@ val the_false_bool : s2cstref
 val the_bool_t0ype : s2cstref
 val the_bool_bool_t0ype : s2cstref
 //
-val the_int_t0ype : s2cstref
-val the_int_int_t0ype : s2cstref
+val the_int_kind : s2cstref
+val the_lint_kind : s2cstref
+val the_llint_kind : s2cstref
+val the_size_kind : s2cstref
+val the_g0int_t0ype : s2cstref
+val the_g0uint_t0ype : s2cstref
+val the_g1int_t0ype : s2cstref
+val the_g1uint_t0ype : s2cstref
 //
 val the_char_t0ype : s2cstref
 val the_char_char_t0ype : s2cstref
 //
 val the_string_type : s2cstref
-val the_double_t0ype : s2cstref
+//
+val the_float_kind : s2cstref
+val the_double_kind : s2cstref
+val the_ldouble_kind : s2cstref
+val the_g0float_t0ype : s2cstref
 //
 val the_void_t0ype : s2cstref
 //
@@ -87,7 +97,16 @@ fun s2exp_bool_bool_t0ype (b: bool): s2hnf // bool1(b)
 (* ****** ****** *)
 //
 fun s2exp_int_t0ype (): s2hnf // int0
-fun s2exp_int_int_t0ype (i: int): s2hnf // int1(i)
+fun s2exp_uint_t0ype (): s2hnf // uint0
+fun s2exp_lint_t0ype (): s2hnf // int0
+fun s2exp_ulint_t0ype (): s2hnf // uint0
+//
+fun s2exp_int_intinf_t0ype (inf: intinf): s2hnf // int1(i)
+fun s2exp_uint_intinf_t0ype (inf: intinf): s2hnf // uint1(i)
+fun s2exp_lint_intinf_t0ype (inf: intinf): s2hnf // lint1(i)
+fun s2exp_ulint_intinf_t0ype (inf: intinf): s2hnf // ulint1(i)
+fun s2exp_llint_intinf_t0ype (inf: intinf): s2hnf // llint1(i)
+fun s2exp_ullint_intinf_t0ype (inf: intinf): s2hnf // ullint1(i)
 //
 (* ****** ****** *)
 
@@ -95,10 +114,13 @@ fun s2exp_char_t0ype (): s2hnf // char0
 fun s2exp_char_char_t0ype (b: char): s2hnf // char1(b)
 
 (* ****** ****** *)
-
+//
 fun s2exp_string_type (): s2hnf // string0
+//
+fun s2exp_float_t0ype (): s2hnf // float
 fun s2exp_double_t0ype (): s2hnf // double
-
+fun s2exp_ldouble_t0ype (): s2hnf // ldouble
+//
 (* ****** ****** *)
 
 fun s2exp_void_t0ype (): s2hnf // void

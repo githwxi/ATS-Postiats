@@ -41,6 +41,14 @@
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
+//
+// HX: In $ATSHOME/ccomp/runtime:
+// atsbool_true/atsbool_false are mapped to 1/0, respectively
+//
+val true  : bool (true)  = "mac#atsbool_true" // macro
+and false : bool (false) = "mac#atsbool_false" // macro
+//
+(* ****** ****** *)
 
 datasort file_mode =
   | file_mode_r (* read *)

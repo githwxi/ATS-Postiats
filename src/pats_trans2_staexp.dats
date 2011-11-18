@@ -1372,7 +1372,7 @@ case+ s1e0.s1exp_node of
         in
           $INT.intinf_make_base_string_ofs (16, rep, 2)
         end // end of [8]
-      | _ => $INT.intinf_make_string (rep) // base=0 and ofs=0
+      | _ => $INT.intinf_make_string (rep) // base=10 and ofs=0
     ) : intinf // end of [val]
   in
     unhnf (s2exp_intinf intinf)

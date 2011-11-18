@@ -147,6 +147,10 @@ implement
 d2var_get_linval (d2v) = let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_linval
 end // end of [d2var_get_linval]
+implement
+d2var_set_linval (d2v, lin) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_linval := lin
+end // end of [d2var_set_linval]
 
 implement
 d2var_get_isfix (d2v) = let
@@ -231,6 +235,16 @@ d2var_get_stamp (d2v) = let
 end // end of [d2var_get_stamp]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+d2var_is_linear (d2v) = (d2var_get_linval d2v >= 0)
+
+implement
+d2var_is_mutable (d2v) =
+  case+ d2var_get_view d2v of Some _ => true | None () => false
+// end of [d2var_is_mutable]
 
 (* ****** ****** *)
 

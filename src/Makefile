@@ -173,6 +173,7 @@ SOURCES := \
   pats_trans3_env.sats \
   pats_trans3_env.dats \
   pats_trans3_pat.dats \
+  pats_trans3_syncst.dats \
   pats_trans3_exp_up.dats \
   pats_trans3_exp_dn.dats \
   pats_trans3_decl.dats \

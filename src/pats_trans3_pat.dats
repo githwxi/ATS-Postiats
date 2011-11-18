@@ -267,14 +267,16 @@ implement
 p2at_trdn
   (p2t0, s2f0) = let
   val loc0 = p2t0.p2at_loc
-(*
+// (*
   val () = begin
-    print "p2at_tr_dn: p2t0 = "; print_p2at p2t0; print_newline ();
-    print "p2at_tr_dn: s2f0 = "; print_s2hnf s2f0; print_newline ();
+    print "p2at_trdn: p2t0 = "; print_p2at p2t0; print_newline ();
+    print "p2at_trdn: s2f0 = "; print_s2hnf s2f0; print_newline ();
   end // end of [val]
-*)
+// *)
 in
   case+ p2t0.p2at_node of
+  | P2Tvar (knd, d2v) =>
+      p2at_trdn_var (p2t0, knd, d2v, s2f0)
   | P2Tann (p2t, s2f_ann) => let
 (*
       val () = $SOL.s2exp_tyleq_solve (loc0, s2f0, s2f_ann)

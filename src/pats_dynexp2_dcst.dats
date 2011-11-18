@@ -71,7 +71,7 @@ d2cst_struct = @{
 , d2cst_kind= dcstkind
 , d2cst_decarg= s2qualst // template arg
 , d2cst_arylst= List int // arity
-, d2cst_typ= s2hnf // assigned type
+, d2cst_type= s2hnf // assigned type
 , d2cst_extdef= dcstextdef // external dcst definition
 , d2cst_def= d2expopt // definition
 , d2cst_stamp= stamp // unique stamp
@@ -108,7 +108,7 @@ val () = p->d2cst_fil := fil
 val () = p->d2cst_kind := dck
 val () = p->d2cst_decarg := decarg
 val () = p->d2cst_arylst := arylst
-val () = p->d2cst_typ := typ
+val () = p->d2cst_type := typ
 val () = p->d2cst_extdef := extdef
 val () = p->d2cst_def := None ()
 val () = p->d2cst_stamp := stamp
@@ -151,9 +151,9 @@ d2cst_get_arylst (d2c) = let
 end // end of [d2cst_get_arylst]
 
 implement
-d2cst_get_typ (d2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_typ
-end // end of [d2cst_get_typ]
+d2cst_get_type (d2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2cst_type
+end // end of [d2cst_get_type]
 
 implement
 d2cst_get_extdef (d2c) = let

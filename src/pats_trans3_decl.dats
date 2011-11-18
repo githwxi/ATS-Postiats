@@ -198,4 +198,13 @@ end // end of [f2undeclst_tr]
 
 (* ****** ****** *)
 
+implement
+d2eclist_tr_errck
+  (d2cs) = d3cs where {
+  val d3cs = d2eclist_tr (d2cs)
+  val () = the_trans3errlst_finalize ()
+} // end of [d2eclist_tr_errck]
+
+(* ****** ****** *)
+
 (* end of [pats_trans3_decl.dats] *)

@@ -137,7 +137,7 @@ fun d2cst_get_kind (x: d2cst): dcstkind
 fun d2cst_get_arylst (x: d2cst): List int
 fun d2cst_get_decarg (x: d2cst): s2qualst
 fun d2cst_set_decarg (x: d2cst, s2qs: s2qualst): void
-fun d2cst_get_typ (x: d2cst): s2hnf
+fun d2cst_get_type (x: d2cst): s2hnf
 fun d2cst_get_extdef (x: d2cst): dcstextdef
 fun d2cst_get_stamp (x: d2cst): stamp
 
@@ -205,9 +205,17 @@ fun d2var_set_mastype (x: d2var, opt: s2hnfopt): void
 
 fun d2var_get_stamp (x: d2var): stamp
 
+(*
+** HX: [d2v] is linear if its linval is nonneg
+*)
+fun d2var_is_linear (d2v: d2var): bool
+(*
+** HX: [d2v] is mutable if it contains some view
+*)
+fun d2var_is_mutable (d2v: d2var): bool
+
 fun compare_d2var_d2var (x1: d2var, x2: d2var):<> Sgn
 overload compare with compare_d2var_d2var
-
 fun compare_d2vsym_d2vsym (x1: d2var, x2: d2var):<> Sgn
 
 (* ****** ****** *)
@@ -437,19 +445,19 @@ d2exp_node =
 //
   | D2Ei0nt of i0nt
   | D2Ec0har of c0har
-  | D2Ef0loat of f0loat
   | D2Es0tring of s0tring
+  | D2Ef0loat of f0loat
 //
-  | D2Ecstsp of $SYN.cstsp
+  | D2Ecstsp of $SYN.cstsp // special constants
 //
   | D2Etop of () // unspecified
-  | D2Eempty of () // the void-value
+  | D2Eempty of () // the void-value (of unspecified size)
 //
-  | D2Eextval of (s2hnf(*typ*), string(*code*))
+  | D2Eextval of (s2hnf(*type*), string(*rep*))
 //
   | D2Econ of (* dynamic constructor *)
       (d2con, s2exparglst, int (*pfarity*), d2explst)
-  | D2Ecst of d2cst
+  | D2Ecst of d2cst (* declared dynamic constants *)
 //
   | D2Eloopexn of int(*knd*)
 //
@@ -699,7 +707,7 @@ fun d2exp_top (loc: location): d2exp
 fun d2exp_empty (loc: location): d2exp
 
 fun d2exp_extval
-  (loc: location, typ: s2hnf, code: string): d2exp
+  (loc: location, typ: s2hnf, rep: string): d2exp
 // end of [d2exp_extval]
 
 fun d2exp_con (
