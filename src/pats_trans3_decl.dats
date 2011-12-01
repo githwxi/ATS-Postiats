@@ -96,6 +96,11 @@ case+ d2c0.d2ecl_node of
 | D2Csymintr _ => d3ecl_none (loc0)
 | D2Csymelim _ => d3ecl_none (loc0)
 //
+| D2Cdatdec (knd, s2cs) => let
+  in
+    d3ecl_datdec (loc0, knd, s2cs)
+  end // end of [D2Cdatdec]
+//
 | D2Cfundecs (knd, s2qs, d2cs) => let
   val d3cs = f2undeclst_tr (knd, s2qs, d2cs)
 in

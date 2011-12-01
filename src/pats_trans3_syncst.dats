@@ -33,8 +33,7 @@
 //
 (* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
+staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -45,6 +44,16 @@ macdef strcasecmp = $UT.strcasecmp
 
 staload INT = "pats_intinf.sats"
 stadef intinf = $INT.intinf // integers of infinite precision
+
+(* ****** ****** *)
+
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
+staload "pats_errmsg.sats"
+staload _(*anon*) = "pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans3_syncst"
 
 (* ****** ****** *)
 
@@ -70,7 +79,7 @@ macdef unhnflst = s2explst_of_s2hnflst
 (* ****** ****** *)
 
 implement
-d2exp_trup_int
+d2exp_trup_i0nt
   (d2e0, base, rep, sfx) = let
   val loc0 = d2e0.d2exp_loc
 //
@@ -147,10 +156,13 @@ case+ sfx of
       | LLINT () => s2exp_llint_intinf_t0ype (inf)
       | ULLINT () => s2exp_ullint_intinf_t0ype (inf)
       | _ => let
+          val () = prerr_error3_loc (loc0)
+          val () = filprerr_ifdebug "d2exp_trup_i0nt"
+          val () = prerr ": the suffix of the integer is not supported."
+          val () = prerr_newline ()
           val () = the_trans3errlst_add (T3E_intsp (d2e0))
-          val s2e = s2exp_err (s2rt_t0ype)
         in
-          (hnf)s2e
+          s2hnf_err (s2rt_t0ype)
         end // end of [_]
     ) : s2hnf // end of [val]
   in
@@ -180,13 +192,14 @@ implement
 d2exp_trup_string
   (d2e0, str) = let
   val loc0 = d2e0.d2exp_loc
-  val s2f = s2exp_string_type ()
+  val n = string_length (str)
+  val s2f = s2exp_string_int_type (n)
 in
   d3exp_string (loc0, s2f, str)
 end // end of [d2exp_trup_string]
 
 implement
-d2exp_trup_float
+d2exp_trup_f0loat
   (d2e0, rep, sfx) = let
   datatype fltknd =
     | FLOAT | DOUBLE | LDOUBLE | ERROR
@@ -215,10 +228,13 @@ case+ 0 of
       | DOUBLE () => s2exp_double_t0ype ()
       | LDOUBLE () => s2exp_ldouble_t0ype ()
       | _ => let
+          val () = prerr_error3_loc (loc0)
+          val () = filprerr_ifdebug "d2exp_trup_i0nt"
+          val () = prerr ": the suffix of the floating point number is not supported."
+          val () = prerr_newline ()
           val () = the_trans3errlst_add (T3E_floatsp (d2e0))
-          val s2e = s2exp_err (s2rt_t0ype)
         in
-          (hnf)s2e
+          s2hnf_err (s2rt_t0ype)
         end // end of [_]
     ) : s2hnf // end of [val]
   in

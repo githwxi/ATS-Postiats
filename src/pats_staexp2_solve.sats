@@ -68,6 +68,11 @@ fun linearity_equal_solve_err
   (loc: location, lin1: int, lin2: int, err: &int): void
 // end of [linearity_equal_solve_err]
 
+(* ****** ****** *)
+
+fun pfarity_equal_solve
+  (loc: location, npf1: int, npf2: int): int(*err*)
+// end of [pfarity_equal_solve]
 fun pfarity_equal_solve_err
   (loc: location, npf1: int, npf2: int, err: &int): void
 // end of [pfarity_equal_solve_err]
@@ -86,10 +91,24 @@ fun refval_equal_solve_err
 
 (* ****** ****** *)
 
+fun s2hnf_equal_solve
+  (loc: location, s2f1: s2hnf, s2f2: s2hnf): int(*err*)
+// end of [s2hnf_equal_solve]
+fun s2hnf_equal_solve_err
+  (loc: location, s2f1: s2hnf, s2f2: s2hnf, err: &int): void
+// end of [s2hnf_equal_solve_err]
 fun s2exp_equal_solve_err
   (loc: location, s2e1: s2exp, s2e2: s2exp, err: &int): void
-// end of [s2exp_equal_solve]
+// end of [s2exp_equal_solve_err]
 
+(* ****** ****** *)
+
+fun s2hnf_tyleq_solve
+  (loc: location, s2f1: s2hnf, s2f2: s2hnf): int(*err*)
+// end of [s2hnf_tyleq_solve]
+fun s2hnf_tyleq_solve_err
+  (loc: location, s2f1: s2hnf, s2f2: s2hnf, err: &int): void
+// end of [s2hnf_tyleq_solve]
 fun s2exp_tyleq_solve_err
   (loc: location, s2e1: s2exp, s2e2: s2exp, err: &int): void
 // end of [s2exp_tyleq_solve]

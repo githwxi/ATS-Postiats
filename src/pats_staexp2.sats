@@ -644,7 +644,7 @@ fun d2con_get_arg (x: d2con): s2explst
 fun d2con_get_arity_full (x: d2con): int
 fun d2con_get_arity_real (x: d2con): int
 fun d2con_get_ind (x: d2con): s2explstopt
-fun d2con_get_typ (x: d2con): s2exp
+fun d2con_get_type (x: d2con): s2exp
 fun d2con_get_tag (x: d2con): int
 fun d2con_set_tag (x: d2con, tag: int): void
 fun d2con_get_stamp (x: d2con): stamp
@@ -778,6 +778,7 @@ fun s2exp_exiuni // knd=0/1: exi/uni
 
 fun s2exp_wth (_res: s2exp, _with: wths2explst): s2exp
 
+fun s2hnf_err (s2t: s2rt): s2hnf // HX: error indication
 fun s2exp_err (s2t: s2rt): s2exp // HX: error indication
 fun s2exp_s2rt_err (): s2exp // HX: it is the same as s2exp_err (s2rt_err ())
 
@@ -858,6 +859,8 @@ s2exparg =
 // end of [s2exparg]
 
 typedef s2exparglst = List (s2exparg)
+
+fun fprint_s2exparg (out: FILEref, s2a: s2exparg): void
 
 (* ****** ****** *)
 

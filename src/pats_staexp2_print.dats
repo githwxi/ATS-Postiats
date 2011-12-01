@@ -540,6 +540,22 @@ end // end of [fprint_s2rtext]
 (* ****** ****** *)
 
 implement
+fprint_s2exparg (out, s2a) =
+  case+ s2a of
+  | S2EXPARGone () =>
+      fprint_string (out, "S2EXPARGone()")
+  | S2EXPARGall () =>
+      fprint_string (out, "S2EXPARGall()")
+  | S2EXPARGseq (s2es) => {
+      val () = fprint_string (out, "S2EXPARGseq(")
+      val () = fprint_s2explst (out, s2es)
+      val () = fprint_string (out, ")")
+    } // end of [S2EXPARGseq]
+// end of [fprint_s2exparg]
+
+(* ****** ****** *)
+
+implement
 fprint_sp2at
   (out, sp2t) = let
   macdef prstr (s) = fprint_string (out, ,(s))

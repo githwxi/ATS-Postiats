@@ -35,6 +35,16 @@ staload UT = "pats_utils.sats"
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
+staload "pats_errmsg.sats"
+staload _(*anon*) = "pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans3_exp_up"
+
+(* ****** ****** *)
+
 staload LOC = "pats_location.sats"
 macdef print_location = $LOC.print_location
 
@@ -44,6 +54,10 @@ staload "pats_staexp2.sats"
 staload "pats_stacst2.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
+
+(* ****** ****** *)
+
+staload SOL = "pats_staexp2_solve.sats"
 
 (* ****** ****** *)
 
@@ -108,9 +122,9 @@ case+ p2t0.p2at_node of
 //
   | P2Tas (knd, d2v, p2t) => p2at_syn_type (p2t)
 //
-  | P2Tlist _ => hnf (s2exp_err s2rt_t0ype)
-  | P2Texist _ => hnf (s2exp_err s2rt_t0ype)
-  | P2Terr () => hnf (s2exp_err s2rt_t0ype)
+  | P2Tlist _ => s2hnf_err (s2rt_t0ype)
+  | P2Texist _ => s2hnf_err (s2rt_t0ype)
+  | P2Terr () => s2hnf_err (s2rt_t0ype)
 (*
   | _ => let
       val () = assertloc (false) in exit (1)
@@ -225,11 +239,10 @@ p2at_trdn_arg
 
 (* ****** ****** *)
 
-fun
-p2at_trdn_var .<>. (
-  p2t0: p2at, knd: int, d2v: d2var, s2f0: s2hnf
-) : p3at = let
+fun p2at_trdn_var .<>.
+  (p2t0: p2at, s2f0: s2hnf): p3at = let
   val loc0 = p2t0.p2at_loc
+  val- P2Tvar (knd, d2v) = p2t0.p2at_node
   val s2e0 = (unhnf)s2f0
   val s2t0 = s2e0.s2exp_srt
   val islin = s2rt_is_lin (s2t0)
@@ -263,6 +276,26 @@ end // end of [p2at_trdn_var]
 
 (* ****** ****** *)
 
+fun p2at_trdn_ann .<>.
+  (p2t0: p2at, s2f0: s2hnf): p3at = let
+  val loc0 = p2t0.p2at_loc
+  val- P2Tann (p2t, s2f_ann) = p2t0.p2at_node
+  val err = $SOL.s2hnf_tyleq_solve (loc0, s2f0, s2f_ann)
+  val () = if (err != 0) then let
+    val () = prerr_error3_loc (loc0)
+    val () = filprerr_ifdebug "p2at_trdn_ann"
+    val () = prerr ": the pattern cannot be given the ascribed type."
+    val () = prerr_newline ()
+  in
+    the_trans3errlst_add (T3E_p2at_trdn_ann (p2t0, s2f0))
+  end // end of [val]
+  val p3t = p2at_trdn (p2t, s2f0)
+in
+  p3at_ann (loc0, s2f0, p3t, s2f_ann)
+end // end of [p2at_trdn_ann]
+
+(* ****** ****** *)
+
 implement
 p2at_trdn
   (p2t0, s2f0) = let
@@ -276,15 +309,8 @@ p2at_trdn
 in
   case+ p2t0.p2at_node of
   | P2Tvar (knd, d2v) =>
-      p2at_trdn_var (p2t0, knd, d2v, s2f0)
-  | P2Tann (p2t, s2f_ann) => let
-(*
-      val () = $SOL.s2exp_tyleq_solve (loc0, s2f0, s2f_ann)
-*)
-      val p3t = p2at_trdn (p2t, s2f0)
-    in
-      p3at_ann (loc0, s2f0, p3t, s2f_ann)
-    end // end of [P2Tann]
+      p2at_trdn_var (p2t0, s2f0)
+  | P2Tann _ => p2at_trdn_ann (p2t0, s2f0)
   | _ => let
       val () = assertloc (false) in exit (1)
     end // end of [_]

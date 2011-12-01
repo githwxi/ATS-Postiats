@@ -354,6 +354,9 @@ s2exp_wth (s2e, wths2es) = '{
 (* ****** ****** *)
 
 implement
+s2hnf_err (s2t) = hnf (s2exp_err (s2t))
+
+implement
 s2exp_err (s2t) = '{
   s2exp_srt= s2t, s2exp_node= S2Eerr ()
 }

@@ -69,6 +69,7 @@ val the_char_t0ype : s2cstref
 val the_char_char_t0ype : s2cstref
 //
 val the_string_type : s2cstref
+val the_string_int_type : s2cstref
 //
 val the_float_kind : s2cstref
 val the_double_kind : s2cstref
@@ -116,6 +117,9 @@ fun s2exp_char_char_t0ype (b: char): s2hnf // char1(b)
 (* ****** ****** *)
 //
 fun s2exp_string_type (): s2hnf // string0
+fun s2exp_string_int_type (n: size_t): s2hnf // string1
+//
+(* ****** ****** *)
 //
 fun s2exp_float_t0ype (): s2hnf // float
 fun s2exp_double_t0ype (): s2hnf // double

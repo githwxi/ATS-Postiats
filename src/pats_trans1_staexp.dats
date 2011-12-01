@@ -737,7 +737,7 @@ d0atcon_tr (d0c) = let
 //
 val qua = d0c.d0atcon_qua
 val qua = q0marglst_tr (qua)
-var npf0: int = 0
+var npf0: int = ~1 // HX: default
 val arg = (
   case+ d0c.d0atcon_arg of
   | Some s0e => let

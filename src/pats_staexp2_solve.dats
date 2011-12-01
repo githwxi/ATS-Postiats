@@ -121,6 +121,13 @@ linearity_equal_solve_err
 (* ****** ****** *)
 
 implement
+pfarity_equal_solve
+  (loc0, npf1, npf2) = err where {
+  var err: int = 0
+  val () = pfarity_equal_solve_err (loc0, npf1, npf2, err)
+} // end of [pfarity_equal_solve]
+
+implement
 pfarity_equal_solve_err
   (loc0, npf1, npf2, err) =
   if npf1 = npf2 then () else let
@@ -160,25 +167,22 @@ refval_equal_solve_err
 (* ****** ****** *)
 
 implement
-s2exp_equal_solve_err
-  (loc0, s2e10, s2e20, err) = let
-//
+s2hnf_equal_solve_err
+  (loc0, s2f10, s2f20, err) = let
 val err0 = err
-val s2f10 = s2exp_hnfize s2e10
-and s2f20 = s2exp_hnfize s2e20
-val s2e10 = unhnf (s2f10) and s2e20 = unhnf (s2f20)
 // (*
 val () = (
-  print "s2exp_equal_solve_err: s2e10 = "; print_s2exp s2e10; print_newline ()
+  print "s2hnf_equal_solve_err: s2f10 = "; print_s2hnf s2f10; print_newline ()
 ) // end of [val]
 val () = (
-  print "s2exp_equal_solve_err: s2e20 = "; print_s2exp s2e20; print_newline ()
+  print "s2hnf_equal_solve_err: s2f20 = "; print_s2hnf s2f20; print_newline ()
 ) // end of [val]
 val () = (
-  print "s2exp_equal_solve_err: err = "; print err; print_newline ()
+  print "s2hnf_equal_solve_err: err0 = "; print err0; print_newline ()
 ) // end of [val]
 // *)
-  val s2en10 =s2e10.s2exp_node and s2en20 =s2e20.s2exp_node
+val s2e10 = unhnf (s2f10) and s2e20 = unhnf (s2f20)
+val s2en10 = s2e10.s2exp_node and s2en20 = s2e20.s2exp_node
 //
 val () = case+
   (s2en10, s2en20) of
@@ -191,6 +195,62 @@ val () = if err > err0 then
 // end of [val]
 in
   // nothing
+end // end of [s2hnf_equal_solve_err]
+
+implement
+s2exp_equal_solve_err
+  (loc0, s2e10, s2e20, err) = let
+//
+val err0 = err
+val s2f10 = s2exp_hnfize s2e10
+and s2f20 = s2exp_hnfize s2e20
+//
+in
+//
+s2hnf_equal_solve_err (loc0, s2f10, s2f20, err)
+//
 end // end of [s2exp_equal_solve_err]
+
+(* ****** ****** *)
+
+implement
+s2hnf_tyleq_solve
+  (loc0, s2f10, s2f20) = err where {
+  var err: int = 0
+  val () = s2hnf_tyleq_solve_err (loc0, s2f10, s2f20, err)
+} // end of [s2hnf_tyleq_solve]
+
+implement
+s2hnf_tyleq_solve_err
+  (loc0, s2f10, s2f20, err) = let
+val err0 = err
+// (*
+val () = (
+  print "s2hnf_tyleq_solve_err: s2f10 = "; print_s2hnf s2f10; print_newline ()
+) // end of [val]
+val () = (
+  print "s2hnf_tyleq_solve_err: s2f20 = "; print_s2hnf s2f20; print_newline ()
+) // end of [val]
+val () = (
+  print "s2hnf_tyleq_solve_err: err0 = "; print err0; print_newline ()
+) // end of [val]
+// *)
+val s2e10 = unhnf (s2f10) and s2e20 = unhnf (s2f20)
+val s2en10 = s2e10.s2exp_node and s2en20 = s2e20.s2exp_node
+//
+val () = case+
+  (s2en10, s2en20) of
+  | (_, _) when s2hnf_syneq (s2f10, s2f20) => ()
+  | (_, _) => ()
+// end of [val]
+//
+val () = if err > err0 then
+  the_staerrlst_add (STAERR_s2exp_tyleq (loc0, s2e10, s2e20))
+// end of [val]
+in
+  // nothing
+end // end of [s2hnf_tyleq_solve_err]
+
+(* ****** ****** *)
 
 (* end of [pats_staexp2_solve.dats] *)

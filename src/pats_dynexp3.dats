@@ -111,6 +111,14 @@ d3exp_float
 (* ****** ****** *)
 
 implement
+d3exp_empty
+  (loc, s2f) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eempty ()
+} // end of [d3exp_empty]
+
+implement
 d3exp_extval
   (loc, s2f, rep) = '{
   d3exp_loc= loc
@@ -128,6 +136,15 @@ d3exp_cst (
 , d3exp_type= s2f
 , d3exp_node= D3Ecst (d2c)
 } // end of [d3exp_cst]
+
+implement
+d3exp_con (
+  loc, s2f_res, d2c, npf, d3es_arg
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f_res
+, d3exp_node= D3Econ (d2c, npf, d3es_arg)
+} // end of [d3exp_con]
 
 (* ****** ****** *)
 
@@ -152,6 +169,15 @@ d3exp_laminit_dyn (
 (* ****** ****** *)
 
 implement
+d3exp_err (loc) = '{
+  d3exp_loc= loc
+, d3exp_type= s2hnf_err (s2rt_t0ype)
+, d3exp_node= D3Eerr ()
+} // end of [d3exp_err]
+
+(* ****** ****** *)
+
+implement
 f3undec_make
   (loc, d2v, d3e) = '{
   f3undec_loc= loc
@@ -170,6 +196,14 @@ implement
 d3ecl_list (loc, xs) = '{
   d3ecl_loc= loc, d3ecl_node= D3Clist (xs)
 } // end of [d3ecl_list]
+
+(* ****** ****** *)
+
+implement
+d3ecl_datdec
+  (loc, knd, s2cs) = '{
+  d3ecl_loc= loc, d3ecl_node= D3Cdatdec (knd, s2cs)
+} // end of [d3ecl_datdet]
 
 (* ****** ****** *)
 

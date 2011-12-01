@@ -338,9 +338,24 @@ end // end of [s2exp_char_char_t0ype]
 implement
 the_string_type = s2cstref_make "string_type"
 implement
+the_string_int_type = s2cstref_make "string_int_type"
+
+implement
 s2exp_string_type () =
   s2exp_cst (s2cstref_get_cst (the_string_type))
 // end of [s2exp_string_type]
+
+implement
+s2exp_string_int_type (n) = let
+//
+// HX: the cast is okay as we do not attempt
+// to handle string of extremely long length
+//
+  val ind = s2exp_int ((int_of_size)n)
+  val s2c = s2cstref_get_cst (the_string_int_type)
+in
+  s2exp_cstapp (s2c, list_sing ((unhnf)ind))
+end // end of [s2exp_string_type]
 
 (* ****** ****** *)
 //

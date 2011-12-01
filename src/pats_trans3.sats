@@ -45,7 +45,10 @@ staload "pats_dynexp3.sats"
 datatype trans3err =
   | T3E_intsp of (d2exp)
   | T3E_floatsp of (d2exp)
-  | T3E_d2exp_tr_laminit_fc of (d2exp, funclo)
+  | T3E_p2at_trdn_ann of (p2at, s2hnf)
+  | T3E_d2exp_trup_laminit_fc of (d2exp, funclo)
+  | T3E_d2exp_trup_con_npf of (d2exp, int(*npf*))
+  | T3E_d3exp_trdn of (d3exp, s2hnf)
   | T3E_fundeclst_tr_metsrts of (d2ecl, s2rtlstopt)
 // end of [trans3err]
 
@@ -78,13 +81,26 @@ fun d2exp_s2eff_of_d2exp
 
 (* ****** ****** *)
 
-fun d2exp_trup_int (
+fun d2exp_is_varlamcst (d2e: d2exp): bool
+
+dataviewtype d23exp =
+  | D23Ed2exp of d2exp | D23Ed3exp of d3exp
+viewtypedef d23explst = List_vt (d23exp)
+
+fun d23exp_free (x: d23exp): void
+fun d23explst_free (xs: d23explst): void
+
+fun d3exp_trdn (d3e: d3exp, s2f: s2hnf): d3exp
+
+(* ****** ****** *)
+
+fun d2exp_trup_i0nt (
   d2e0: d2exp, base: int, rep: string, sfx: uint
 ) : d3exp // end of [d2exp_trup_int]
 fun d2exp_trup_bool (d2e0: d2exp, b: bool): d3exp
 fun d2exp_trup_char (d2e0: d2exp, c: char): d3exp
 fun d2exp_trup_string (d2e0: d2exp, str: string): d3exp
-fun d2exp_trup_float
+fun d2exp_trup_f0loat
   (d2e0: d2exp, rep: string, sfx: uint): d3exp
 // end of [d2exp_trup_float]
 

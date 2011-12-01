@@ -455,9 +455,8 @@ d2exp_node =
 //
   | D2Eextval of (s2hnf(*type*), string(*rep*))
 //
-  | D2Econ of (* dynamic constructor *)
-      (d2con, s2exparglst, int (*pfarity*), d2explst)
   | D2Ecst of d2cst (* declared dynamic constants *)
+  | D2Econ of (d2con, s2exparglst, int (*pfarity*), d2explst)
 //
   | D2Eloopexn of int(*knd*)
 //
@@ -667,6 +666,7 @@ and i2mpdec = '{
 (* ****** ****** *)
 
 fun fprint_d2exp : fprint_type (d2exp)
+fun fprint_d2explst : fprint_type (d2explst)
 fun print_d2exp (x: d2exp): void
 fun prerr_d2exp (x: d2exp): void
 

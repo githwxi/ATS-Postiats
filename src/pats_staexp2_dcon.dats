@@ -74,7 +74,7 @@ d2con_struct = @{
 , d2con_arity_full= int // full arity
 , d2con_arity_real= int // real arity after erasure
 , d2con_ind= s2explstopt // indexes
-, d2con_typ= s2exp // type for dynamic constructor
+, d2con_type= s2exp // type for dynamic constructor
 , d2con_tag= int // tag for dynamic constructor
 , d2con_stamp= stamp // uniqueness
 } // end of [d2con_struct]
@@ -152,7 +152,7 @@ val () = p->d2con_arg := arg
 val () = p->d2con_arity_full := arity_full
 val () = p->d2con_arity_real := arity_real
 val () = p->d2con_ind := ind
-val () = p->d2con_typ := d2c_type
+val () = p->d2con_type := d2c_type
 val () = p->d2con_tag := ~1
 val () = p->d2con_stamp := stamp
 //
@@ -215,9 +215,9 @@ d2con_get_ind (d2c) = let
 end // end of [d2con_get_ind]
 
 implement
-d2con_get_typ (d2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_typ
-end // end of [d2con_get_typ]
+d2con_get_type (d2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_type
+end // end of [d2con_get_type]
 
 implement
 d2con_get_tag (d2c) = let

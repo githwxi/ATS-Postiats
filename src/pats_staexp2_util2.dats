@@ -167,9 +167,11 @@ end // end of [s2exp_hnfize_flag_app]
 implement
 s2exp_hnfize_flag
   (s2e0, flag) = let
+(*
   val () = (
     print "s2exp_hnfize_flag: s2e0 = "; print_s2exp (s2e0); print_newline ()
   ) // end of [val]
+*)
   val s2t0 = s2e0.s2exp_srt
 in
 //

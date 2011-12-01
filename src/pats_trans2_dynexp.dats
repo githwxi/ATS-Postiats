@@ -515,11 +515,11 @@ fn d1exp_tr_arg_body (
   var w1ts = WTHS1EXPLSTnil ()
   val p2t_arg = p1at_tr_arg (p1t_arg, w1ts)
   val () = w1ts := wths1explst_reverse (w1ts)
-  var npf: int = 0
+  var npf: int = ~1 // HX: default
   val p2ts_arg = (
     case+ p2t_arg.p2at_node of
     | P2Tlist (npf1, p2ts) => (npf := npf1; p2ts)
-    | _ => list_sing (p2t_arg)
+    | _ => list_sing (p2t_arg) // HX: npf = -1
   ) : p2atlst // end of [val]
   val (pfenv | ()) = the_trans2_env_push ()
   val () = {

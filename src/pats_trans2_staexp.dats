@@ -138,7 +138,7 @@ case+ ans of
   | S2ITMvar s2v => let
       val () = s2var_check_tmplev (loc, s2v) in s2exp_var (s2v)
     end // end of [S2ITEMvar]
-  | _ => hnf (s2exp_err s2t_err) where {
+  | _ => s2hnf_err (s2t_err) where {
       val s2t_err = s2rt_err ()
       val () = prerr_error2_loc (loc)
       val () = filprerr_ifdebug "effvar_tr"
@@ -149,7 +149,7 @@ case+ ans of
       val () = the_trans2errlst_add (T2E_effvar_tr (efv))
     } // end of [_]
   end // end of [Some_vt]
-| ~None_vt () => hnf (s2exp_err s2t_err) where {
+| ~None_vt () => s2hnf_err (s2t_err) where {
     val s2t_err = s2rt_err ()
     val () = prerr_error2_loc (loc)
     val () = filprerr_ifdebug ("effvar_tr")
@@ -832,73 +832,74 @@ in
   s2exp_s2rt_err ()
 end (* end of [auxerr3] *)
 //
-  val () = auxerr1 (s1e0, xs) // HX: is this really needed?
-  val- ~list_vt_cons (x, xs) = xs
-  val () = auxerr2 (s1e0, xs) // HX: reporting an error if [xs] is not nil
-  val s1es = x.1 : s1explst
-  val- s1e_arg :: s1e_res :: nil () = s1es
+val () = auxerr1 (s1e0, xs) // HX: is this really needed?
+val- ~list_vt_cons (x, xs) = xs
+val () = auxerr2 (s1e0, xs) // HX: reporting an error if [xs] is not nil
+val s1es = x.1 : s1explst
+val- s1e_arg :: s1e_res :: nil () = s1es
 //
-  var npf: int = 0
-  var s1es_arg: s1explst = list_nil ()
+var npf: int = ~1 // HX: default
+var s1es_arg: s1explst = list_nil ()
 //
-  val () = (case+ s1e_arg.s1exp_node of
-    | S1Elist (n, s1es) => (npf := n; s1es_arg := s1es)
-    | _ => s1es_arg := list_sing (s1e_arg)
-  ) : void // end of [val]
+val () = (case+ s1e_arg.s1exp_node of
+  | S1Elist (n, s1es) => (npf := n; s1es_arg := s1es)
+  | _ => s1es_arg := list_sing (s1e_arg) // HX: npf = -1
+) : void // end of [val]
 //
-  var wths1es: wths1explst = WTHS1EXPLSTnil () // restoration
+var wths1es: wths1explst = WTHS1EXPLSTnil () // restoration
 //
-  val s2es_arg = let
-    fun aux (
-      s1es: s1explst, wths1es: &wths1explst
-    ) :<cloref1> s2explst =
-      case+ s1es of
-      | list_cons (s1e, s1es) => let
-          val s2e = s1exp_trup_arg (s1e, wths1es)
-          val s2t = s2e.s2exp_srt
-          var imp: int = 0 and types: int = 0
-          val () = (case+ s2t of
-            | S2RTbas s2tb => (
-              case+ s2tb of
-              | S2RTBASimp (id, _) => {
-                  val () = imp := 1 // impredicative
-                  val () = if id = $SYM.symbol_TYPES then types := 1
-                } // end of [S2RTBASimp]
-              | _ => () // end of [_]
-              ) // end of [S2RTbas]
+val s2es_arg = let
+  fun aux (
+    s1es: s1explst, wths1es: &wths1explst
+  ) :<cloref1> s2explst =
+    case+ s1es of
+    | list_cons (s1e, s1es) => let
+        val s2e = s1exp_trup_arg (s1e, wths1es)
+        val s2t = s2e.s2exp_srt
+        var imp: int = 0 and types: int = 0
+        val () = (case+ s2t of
+          | S2RTbas s2tb => (
+            case+ s2tb of
+            | S2RTBASimp (id, _) => {
+                val () = imp := 1 // impredicative
+                val () = if id = $SYM.symbol_TYPES then types := 1
+              } // end of [S2RTBASimp]
             | _ => () // end of [_]
-          ) : void // end of [val]
-          val s2e = (
-            if imp > 0 then
-              if types > 0 then unhnf (s2exp_vararg s2e) else s2e
-            else auxerr3 (s1e0, s1e, s2t)
-          ) : s2exp // end of [val]
-        in
-          list_cons (s2e, aux (s1es, wths1es))
-        end // end of [cons]
-      | list_nil () => list_nil ()
-    // end of [aux]
-  in
-    aux (s1es_arg, wths1es)
-  end // end of [val]
-  val () = wths1es := wths1explst_reverse wths1es
-  val s2e_res = s1exp_trdn_res_impredicative (s1e_res, wths1es)
-  val s2t_res = s2e_res.s2exp_srt
+            ) // end of [S2RTbas]
+          | _ => () // end of [_]
+        ) : void // end of [val]
+        val s2e = (
+          if imp > 0 then
+            if types > 0 then unhnf (s2exp_vararg s2e) else s2e
+          else auxerr3 (s1e0, s1e, s2t)
+        ) : s2exp // end of [val]
+      in
+        list_cons (s2e, aux (s1es, wths1es))
+      end // end of [list_cons]
+    | list_nil () => list_nil ()
+  // end of [aux]
+in
+  aux (s1es_arg, wths1es)
+end // end of [val]
 //
-  val loc0 = s1e0.s1exp_loc
-  val isprf = (if isprf then isprf else s2rt_is_prf s2t_res): bool
-  val fc = (
-    case+ fcopt of
-    | Some fc => fc | None () => FUNCLOfun () // default is [function]
-  ) : funclo // end of [val]
-  val s2t_fun = s2rt_prf_lin_fc (loc0, isprf, islin, fc)
-  val lin = (if islin then 1 else 0): int // end of [val]
-  val sf2e = (case+ efcopt of
-    | Some efc => effcst_tr (efc)
-    | None () =>
-        if isprf then S2EFFnil () else S2EFFall ()
-      // end of [None]
-  ) : s2eff // end of [val]
+val () = wths1es := wths1explst_reverse wths1es
+val s2e_res = s1exp_trdn_res_impredicative (s1e_res, wths1es)
+val s2t_res = s2e_res.s2exp_srt
+//
+val loc0 = s1e0.s1exp_loc
+val isprf = (if isprf then isprf else s2rt_is_prf s2t_res): bool
+val fc = (
+  case+ fcopt of
+  | Some fc => fc | None () => FUNCLOfun () // default is [function]
+) : funclo // end of [val]
+val s2t_fun = s2rt_prf_lin_fc (loc0, isprf, islin, fc)
+val lin = (if islin then 1 else 0): int // end of [val]
+val sf2e = (case+ efcopt of
+  | Some efc => effcst_tr (efc)
+  | None () =>
+      if isprf then S2EFFnil () else S2EFFall ()
+    // end of [None]
+) : s2eff // end of [val]
 //
 in
   s2exp_fun_srt (s2t_fun, fc, lin, sf2e, npf, s2es_arg, s2e_res)
@@ -1005,7 +1006,7 @@ case+ spsid of
         s1exp_trup_app_sqid_itm (s1e0, s1opr, sq, id, s2i, xs)
       // end of [Some_vt]
     | ~None_vt () =>
-        hnf (s2exp_err s2t_err) where {
+        s2hnf_err (s2t_err) where {
         val s2t_err = s2rt_err ()
         val () = list_vt_free (xs)
         val () = prerr_error2_loc (s1opr.s1exp_loc)
@@ -1197,7 +1198,7 @@ case+ knd of
     s2exp_tyrec_srt (s2rt_viewtype, TYRECKINDbox (), npf, ls2es)
   end
 | _ => let
-    val () = assertloc (false) in hnf (s2exp_err s2rt_type)
+    val () = assertloc (false) in s2hnf_err (s2rt_type)
   end (* end of [_] *)
 end // end of [s1exp_trup_tytup]
 
@@ -1314,7 +1315,7 @@ case+ knd of
     s2exp_tyrec_srt (s2rt_viewtype, TYRECKINDbox (), npf, ls2es)
   end // end of [TYRECKIND_box_vt]
 | _ => let
-    val () = assertloc (false) in hnf (s2exp_err s2rt_type)
+    val () = assertloc (false) in s2hnf_err (s2rt_type)
   end (* end of [_] *)
 end // end of [s1exp_trup_tyrec]
 

@@ -90,6 +90,7 @@ datatype
 d3ecl_node =
   | D3Cnone
   | D3Clist of d3eclist
+  | D3Cdatdec of (int(*knd*), s2cstlst)
   | D3Cvaldecs of v3aldeclst
   | D3Cfundecs of (funkind, s2qualst(*decarg*), f3undeclst)
 // end of [d3ecl_node]
@@ -106,13 +107,17 @@ d3exp_node =
       (string, intinf)
   | D3Efloat of string(*rep*)
   | D3Estring of string(*val*)
+  | D3Eempty of () // the void-value of void-type
   | D3Eextval of (string(*rep*))
   | D3Ecst of d2cst
+  | D3Econ of (d2con, int(*npf*), d3explst(*arg*))
 //
   | D3Elam_dyn of // dynamic abstraction
       (int(*lin*), int(*npf*), p3atlst, d3exp)
   | D3Elaminit_dyn of // dynamic flat funtion closure
       (int(*lin*), int(*npf*), p3atlst, d3exp)
+//
+  | D3Eerr of () // indication of error
 // end of [d3exp_node]
 
 where
@@ -196,6 +201,9 @@ fun d3exp_float
 
 (* ****** ****** *)
 
+fun d3exp_empty
+  (loc: location, s2f: s2hnf): d3exp
+
 fun d3exp_extval
   (loc: location, s2f: s2hnf, rep: string): d3exp
 // end of [d3exp_extval]
@@ -205,6 +213,10 @@ fun d3exp_extval
 fun d3exp_cst
   (loc: location, s2f: s2hnf, d2c: d2cst): d3exp
 // end of [d3exp_cst]
+
+fun d3exp_con (
+  loc: location, res: s2hnf, d2c: d2con, npf: int, d3es: d3explst
+) : d3exp // end of [d3exp_con]
 
 (* ****** ****** *)
 
@@ -219,6 +231,10 @@ fun d3exp_laminit_dyn (
 
 (* ****** ****** *)
 
+fun d3exp_err (loc: location): d3exp
+
+(* ****** ****** *)
+
 fun f3undec_make (
   loc: location, d2v: d2var, def: d3exp
 ) : f3undec // end of [f3undec_make]
@@ -227,6 +243,12 @@ fun f3undec_make (
 
 fun d3ecl_none (loc: location): d3ecl
 fun d3ecl_list (loc: location, xs: d3eclist): d3ecl
+
+(* ****** ****** *)
+
+fun d3ecl_datdec
+  (loc: location, knd: int, s2cs: s2cstlst): d3ecl
+// end of [d3ecl_datdec]
 
 (* ****** ****** *)
 
