@@ -169,6 +169,16 @@ d3exp_laminit_dyn (
 (* ****** ****** *)
 
 implement
+d3exp_ann_type
+  (loc, d3e, s2f) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eann_type (d3e, s2f)
+} // end of [d3exp_ann_type]
+
+(* ****** ****** *)
+
+implement
 d3exp_err (loc) = '{
   d3exp_loc= loc
 , d3exp_type= s2hnf_err (s2rt_t0ype)

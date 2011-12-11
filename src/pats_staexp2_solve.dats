@@ -194,7 +194,7 @@ val s2en10 = s2e10.s2exp_node and s2en20 = s2e20.s2exp_node
 val () = case+
   (s2en10, s2en20) of
   | (_, _) when s2hnf_syneq (s2f10, s2f20) => ()
-  | (_, _) => ()
+  | (_, _) => (err := err + 1)
 // end of [val]
 //
 val () = if err > err0 then
@@ -207,9 +207,11 @@ end // end of [s2hnf_equal_solve_err]
 implement
 s2exp_equal_solve_err
   (loc0, s2e10, s2e20, err) = let
-  val err0 = err
-  val s2f10 = s2exp_hnfize s2e10
-  and s2f20 = s2exp_hnfize s2e20
+//
+val err0 = err
+val s2f10 = s2exp_hnfize (s2e10)
+and s2f20 = s2exp_hnfize (s2e20)
+//
 in
   s2hnf_equal_solve_err (loc0, s2f10, s2f20, err)
 end // end of [s2exp_equal_solve_err]
@@ -244,7 +246,7 @@ val s2en10 = s2e10.s2exp_node and s2en20 = s2e20.s2exp_node
 val () = case+
   (s2en10, s2en20) of
   | (_, _) when s2hnf_syneq (s2f10, s2f20) => ()
-  | (_, _) => ()
+  | (_, _) => (err := err + 1)
 // end of [val]
 //
 val () = if err > err0 then
