@@ -440,6 +440,9 @@ implement prerr_s2explst (xs) = fprint_s2explst (stderr_ref, xs)
 
 (* ****** ****** *)
 
+extern
+fun fprint_labs2exp : fprint_type (labs2exp)
+
 implement
 fprint_labs2exp (out, x) = {
   val SLABELED (l, name, s2e) = x
@@ -572,6 +575,79 @@ case+ sp2t.sp2at_node of
 | SP2Terr () => prstr "SP2Terr()"
 //
 end // end of [fprint_sp2at]
+
+(* ****** ****** *)
+
+implement
+fprint_s2kexp
+  (out, s2ke) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+//
+case+ s2ke of
+| S2KEany () => {
+    val () = prstr "S2KEany()"
+  }
+| S2KEcst (s2c) => {
+    val () = prstr "S2KEcst("
+    val () = fprint_s2cst (out, s2c)
+    val () = prstr ")"
+  }
+| S2KEapp (_fun, _arg) => {
+    val () = prstr "S2KEapp("
+    val () = fprint_s2kexp (out, _fun)
+    val () = prstr "; "
+    val () = fprint_s2kexplst (out, _arg)
+    val () = prstr ")"
+  }
+| S2KEfun () => {
+    val () = prstr "S2KEfun()"
+  }
+| S2KEtyarr (s2ke) => {
+    val () = prstr "S2KEtyarr("
+    val () = fprint_s2kexp (out, s2ke)
+    val () = prstr ")"
+  }
+| S2KEtyrec (knd, ls2kes) => {
+    val () = prstr "S2KEtyrec("
+    val () = fprint_tyreckind (out, knd)
+    val () = fprint_labs2kexplst (out, ls2kes)
+    val () = prstr ")"
+  }
+| S2KEvar (s2v) => {
+    val () = prstr "S2KEvar("
+    val () = fprint_s2var (out, s2v)
+    val () = prstr ")"
+  }
+(*
+| _ => prstr "S2KE...(...)"
+*)
+//
+end // end of [fprint_s2kexp]
+
+implement
+fprint_s2kexplst (out, xs) =
+  $UT.fprintlst (out, xs, ", ", fprint_s2kexp)
+// end of [fprint_s2kexplst]
+
+(* ****** ****** *)
+
+extern
+fun fprint_labs2kexp : fprint_type (labs2kexp)
+
+implement
+fprint_labs2kexp
+  (out, x) = {
+  val SKLABELED (l, s2ke) = x
+  val () = $LAB.fprint_label (out, l)
+  val () = fprint_string (out, "=")
+  val () = fprint_s2kexp (out, s2ke)
+} // end of [fprint_labs2kexp]
+
+implement
+fprint_labs2kexplst (out, xs) =
+  $UT.fprintlst (out, xs, ", ", fprint_labs2kexp)
+// end of [fprint_labs2kexplst]
 
 (* ****** ****** *)
 

@@ -373,7 +373,7 @@ s2exp_is_prf (s2e) = s2rt_is_prf (s2e.s2exp_srt)
 implement
 s2tavar_make (loc, s2v) = '{
   s2tavar_loc= loc, s2tavar_var= s2v
-}
+} // end of [s2tavar_make]
 
 implement
 s2aspdec_make (loc, s2c, def) = '{

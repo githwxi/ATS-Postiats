@@ -200,7 +200,9 @@ s2rt_is_dat (s2t) = (case+ s2t of
 ) // end of [s2rt_is_dat]
 
 implement
-s2rt_is_fun (s2t) = case+ s2t of S2RTfun _ => true | _ => false
+s2rt_is_fun (s2t) =
+  case+ s2t of S2RTfun _ => true | _ => false
+// end of [s2rt_is_fun]
 
 implement
 s2rt_is_prf (s2t) = (case+ s2t of

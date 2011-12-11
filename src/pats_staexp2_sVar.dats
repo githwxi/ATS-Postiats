@@ -176,11 +176,11 @@ compare_s2Var_s2Var (x1, x2) =
 implement
 fprint_s2Var (out, s2V) = let
   val () = $CNTR.fprint_count (out, s2Var_get_cnt s2V)
-// (*
+(*
   val () = fprint_string (out, "(")
   val () = $STP.fprint_stamp (out, s2Var_get_stamp s2V)
   val () = fprint_string (out, ")")
-// *)
+*)
 in
   // empty
 end // end of [fprint_s2Var]

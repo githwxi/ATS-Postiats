@@ -167,6 +167,13 @@ refval_equal_solve_err
 (* ****** ****** *)
 
 implement
+s2hnf_equal_solve
+  (loc0, s2f10, s2f20) = err where {
+  var err: int = 0
+  val () = s2hnf_equal_solve_err (loc0, s2f10, s2f20, err)
+} // end of [s2hnf_equal_solve]
+
+implement
 s2hnf_equal_solve_err
   (loc0, s2f10, s2f20, err) = let
 val err0 = err
@@ -200,15 +207,11 @@ end // end of [s2hnf_equal_solve_err]
 implement
 s2exp_equal_solve_err
   (loc0, s2e10, s2e20, err) = let
-//
-val err0 = err
-val s2f10 = s2exp_hnfize s2e10
-and s2f20 = s2exp_hnfize s2e20
-//
+  val err0 = err
+  val s2f10 = s2exp_hnfize s2e10
+  and s2f20 = s2exp_hnfize s2e20
 in
-//
-s2hnf_equal_solve_err (loc0, s2f10, s2f20, err)
-//
+  s2hnf_equal_solve_err (loc0, s2f10, s2f20, err)
 end // end of [s2exp_equal_solve_err]
 
 (* ****** ****** *)
@@ -250,6 +253,16 @@ val () = if err > err0 then
 in
   // nothing
 end // end of [s2hnf_tyleq_solve_err]
+
+implement
+s2exp_tyleq_solve_err
+  (loc0, s2e10, s2e20, err) = let
+  val err0 = err
+  val s2f10 = s2exp_hnfize s2e10
+  and s2f20 = s2exp_hnfize s2e20
+in
+  s2hnf_tyleq_solve_err (loc0, s2f10, s2f20, err)
+end // end of [s2exp_tyleq_solve_err]
 
 (* ****** ****** *)
 

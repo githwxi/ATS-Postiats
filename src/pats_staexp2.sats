@@ -780,22 +780,20 @@ fun s2exp_wth (_res: s2exp, _with: wths2explst): s2exp
 
 fun s2hnf_err (s2t: s2rt): s2hnf // HX: error indication
 fun s2exp_err (s2t: s2rt): s2exp // HX: error indication
-fun s2exp_s2rt_err (): s2exp // HX: it is the same as s2exp_err (s2rt_err ())
+fun s2exp_s2rt_err (): s2exp // HX: s2exp_err (s2rt_err ())
 
 (* ****** ****** *)
 
 fun fprint_s2exp : fprint_type (s2exp)
-fun fprint_s2explst : fprint_type (s2explst)
-
 fun print_s2exp (x: s2exp): void
 fun prerr_s2exp (x: s2exp): void
 
+fun fprint_s2explst : fprint_type (s2explst)
 fun print_s2explst (xs: s2explst): void
 fun prerr_s2explst (xs: s2explst): void
 
 (* ****** ****** *)
 
-fun fprint_labs2exp : fprint_type (labs2exp)
 fun fprint_labs2explst : fprint_type (labs2explst)
 
 (* ****** ****** *)
@@ -812,7 +810,7 @@ fun fprint_s2rtext : fprint_type (s2rtext)
 
 (* ****** ****** *)
 
-fun s2exp_is_prf (s2e: s2exp): bool
+fun s2exp_is_prf (s2e: s2exp): bool // s2e.s2rt <= s2rt_prop
 
 (* ****** ****** *)
 
@@ -835,6 +833,31 @@ fun sp2at_con
 fun sp2at_err (loc: location): sp2at
 
 fun fprint_sp2at : fprint_type (sp2at)
+
+(* ****** ****** *)
+
+datatype s2kexp =
+  | S2KEany of ()
+  | S2KEapp of (s2kexp, s2kexplst)
+  | S2KEcst of s2cst
+  | S2KEfun of ()
+  | S2KEtyarr of (s2kexp)
+  | S2KEtyrec of (tyreckind, labs2kexplst)
+  | S2KEvar of s2var
+// end of [s2kexp]
+
+and labs2kexp = SKLABELED of (label, s2kexp)
+
+where
+s2kexplst = List (s2kexp)
+and
+labs2kexplst = List (labs2kexp)
+
+fun fprint_s2kexp : fprint_type (s2kexp)
+fun fprint_s2kexplst : fprint_type (s2kexplst)
+fun fprint_labs2kexplst : fprint_type (labs2kexplst)
+
+fun s2kexp_make_s2exp (s2e: s2exp): s2kexp
 
 (* ****** ****** *)
 
@@ -867,7 +890,7 @@ fun fprint_s2exparg (out: FILEref, s2a: s2exparg): void
 typedef
 s2tavar = '{
   s2tavar_loc= location, s2tavar_var= s2var
-}
+} // end of [s2tavar]
 typedef s2tavarlst = List s2tavar
 
 fun s2tavar_make
