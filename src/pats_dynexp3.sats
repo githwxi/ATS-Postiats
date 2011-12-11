@@ -117,6 +117,8 @@ d3exp_node =
   | D3Elaminit_dyn of // dynamic flat funtion closure
       (int(*lin*), int(*npf*), p3atlst, d3exp)
 //
+  | D3Eann_type of (d3exp, s2hnf)
+//
   | D3Eerr of () // indication of error
 // end of [d3exp_node]
 
@@ -228,6 +230,12 @@ fun d3exp_laminit_dyn (
   loc: location, typ: s2hnf
 , lin: int, npf: int, arg: p3atlst, body: d3exp
 ) : d3exp // end of [d3exp_laminit_dyn]
+
+(* ****** ****** *)
+
+fun d3exp_ann_type
+  (loc: location, d3e: d3exp, s2f: s2hnf): d3exp
+// end of [d3exp_ann_type]
 
 (* ****** ****** *)
 

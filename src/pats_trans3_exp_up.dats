@@ -145,6 +145,12 @@ case+ d2e0.d2exp_node of
 | D2Elam_dyn _ => d2exp_trup_lam_dyn (d2e0)
 | D2Elaminit_dyn _ => d2exp_trup_laminit_dyn (d2e0)
 //
+| D2Eann_type (d2e, s2f) => let
+    val d3e = d2exp_trdn (d2e, s2f)
+  in
+    d3exp_ann_type (loc0, d3e, s2f)
+  end // end of [D2Eann_type]
+//
 | _ => let
     val () = (
       print "d2exp_trup: d2e0 = "; print_d2exp d2e0; print_newline ()
