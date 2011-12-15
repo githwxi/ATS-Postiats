@@ -149,6 +149,25 @@ d3exp_con (
 (* ****** ****** *)
 
 implement
+d3exp_app_sta
+  (loc, s2f, d3e) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eapp_sta (d3e)
+} // end of [d3exp_app_sta]
+
+implement
+d3exp_app_dyn (
+  loc, s2f, s2fe, _fun, npf, _arg
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eapp_dyn (_fun, npf, _arg)
+} // end of [d3exp_app_dyn]
+
+(* ****** ****** *)
+
+implement
 d3exp_lam_dyn (
   loc, s2f_fun, lin, npf, arg, body
 ) = '{
@@ -218,9 +237,10 @@ d3ecl_datdec
 (* ****** ****** *)
 
 implement
-d3ecl_valdecs (loc, knd, d3cs) = '{
-  d3ecl_loc= loc, d3ecl_node= D3Cvaldecs (d3cs)
-} // end of [d3ecl_valdecs]
+d3ecl_dcstdec
+  (loc, knd, d2cs) = '{
+  d3ecl_loc= loc, d3ecl_node= D3Cdcstdec (knd, d2cs)
+} // end of [d3ecl_dcstdec]
 
 (* ****** ****** *)
 
@@ -231,6 +251,28 @@ d3ecl_fundecs (
   d3ecl_loc= loc
 , d3ecl_node= D3Cfundecs (funknd, decarg, d3cs)
 } // end of [d3ecl_fundecs]
+
+(* ****** ****** *)
+
+implement
+d3ecl_valdecs (loc, knd, d3cs) = '{
+  d3ecl_loc= loc, d3ecl_node= D3Cvaldecs (d3cs)
+} // end of [d3ecl_valdecs]
+
+(* ****** ****** *)
+
+extern typedef "d3exp_t" = d3exp
+
+%{$
+
+ats_void_type
+patsopt_d3exp_set_type (
+  ats_ptr_type d3e, ats_ptr_type s2f
+) {
+  ((d3exp_t)d3e)->atslab_d3exp_type = s2f ; return ;
+} // end of [patsopt_d3exp_set_type]
+
+%} // end of [%{$]
 
 (* ****** ****** *)
 

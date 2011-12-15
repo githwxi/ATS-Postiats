@@ -49,6 +49,8 @@ datatype trans3err =
   | T3E_d2exp_trup_laminit_fc of (d2exp, funclo)
   | T3E_d2exp_trup_con_npf of (d2exp, int(*npf*))
   | T3E_d3exp_trdn of (d3exp, s2hnf)
+  | T3E_d23explst_trdn_arity of (location, int(*-1/1*))
+  | T3E_d23exp_trup_app23_npf of (location(*fun*), int(*npf*))
   | T3E_fundeclst_tr_metsrts of (d2ecl, s2rtlstopt)
 // end of [trans3err]
 
@@ -111,6 +113,7 @@ fun d2explst_trup (d2es: d2explst): d3explst
 fun d2explstlst_trup (d2ess: d2explstlst): d3explstlst
 
 fun d2exp_trdn (d2e: d2exp, s2f: s2hnf): d3exp
+fun d2exp_trdn_rest (d2e: d2exp, s2f: s2hnf): d3exp
 
 (* ****** ****** *)
 

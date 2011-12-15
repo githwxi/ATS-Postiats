@@ -123,8 +123,11 @@ case+ ans of
   | D2ITMcon d2cs => let
       val d2cs = d2con_select_arity (d2cs, 0)
       val- list_cons (d2c, _) = d2cs // HX: [d2cs] cannot be nil
+      val locarg = $LOC.location_rightmost (loc0)
     in
-      d2exp_con (loc0, d2c, list_nil(*sarg*), ~1(*npf*), list_nil(*darg*))
+      d2exp_con (
+        loc0, d2c, list_nil(*sarg*), ~1(*npf*), locarg, list_nil(*darg*)
+      ) // end of [d2exp_con]
     end // end of [D2ITEMcon]
   | D2ITMcst d2c => d2exp_cst (loc0, d2c)
   | D2ITMe1xp e1xp => let
@@ -224,10 +227,12 @@ case+ spdid of
   in
     case+ ans of
     | ~Some_vt d2i => (case+ d2i of
-      | D2ITMe1xp (e0) => d1exp_tr_app_dyn_e1xp (d1e0, d1e1, e0, locarg, npf, darg)
+      | D2ITMe1xp (e0) =>
+          d1exp_tr_app_dyn_e1xp (d1e0, d1e1, e0, locarg, npf, darg)
       | _ => let
           val sarg = list_nil () in
-          d1exp_tr_app_sta_dyn_dqid_itm (d1e0, d1e1, d1e1, dq, id, d2i, sarg, locarg, npf, darg)
+          d1exp_tr_app_sta_dyn_dqid_itm
+            (d1e0, d1e1, d1e1, dq, id, d2i, sarg, npf, locarg, darg)
         end // end of [Some_vt]
       ) // end of [Some_vt]
     | ~None_vt () => let
@@ -305,7 +310,9 @@ case+ ans of
 | ~Some_vt d2i => let
     val sarg = list_nil ()
   in
-    d1exp_tr_app_sta_dyn_dqid_itm (d1e0, d1e1, d1e1, dq, id, d2i, sarg, locarg, npf, darg)
+    d1exp_tr_app_sta_dyn_dqid_itm (
+      d1e0, d1e1, d1e1, dq, id, d2i, sarg, npf, locarg, darg
+    ) // end of [...]
   end // end of [Some_vt]
 | ~None_vt () => let
     val () = prerr_error2_loc (d1e1.d1exp_loc)
@@ -328,7 +335,7 @@ d1exp_tr_app_sta_dyn_dqid_itm (
 , dq: d0ynq, id: symbol
 , d2i: d2itm
 , sarg: s1exparglst
-, locarg: location, npf: int, darg: d1explst 
+, npf: int, locarg: location, darg: d1explst 
 ) : d2exp = let
 in
 //
@@ -340,7 +347,7 @@ case+ d2i of
     val sarg = s1exparglst_tr (sarg)
     val darg = d1explst_tr (darg)
   in
-    d2exp_con (loc0, d2c, sarg, npf, darg)
+    d2exp_con (loc0, d2c, sarg, npf, locarg, darg)
   end // end of [D2ITEMcon]
 | D2ITMcst d2c => let
     val d2e_fun =
@@ -397,7 +404,7 @@ case+ d1e_fun.d1exp_node of
     val d2e_fun = d1exp_tr (d1e_fun)
     val darg = d1explst_tr (darg)
   in
-    d2exp_app_dyn (d1e0.d1exp_loc, d2e_fun, locarg, npf, darg)
+    d2exp_app_dyn (d1e0.d1exp_loc, d2e_fun, npf, locarg, darg)
   end // end of [_]
 //
 end // end of [d1exp_tr_app_dyn]

@@ -352,8 +352,29 @@ stasub_free (sub) = list_vt_free (sub)
 
 implement
 stasub_add
-  (sub, s2v, s2e) = sub := (s2v, s2e) :: sub
+  (sub, s2v, s2f) = sub := (s2v, s2f) :: sub
 // end of [stasub_add]
+
+implement
+stasub_addlst
+  (sub, s2vs, s2fs) = let
+  fun loop (
+    sub: &stasub, s2vs: s2varlst, s2fs: s2hnflst
+  ) : int =
+    case+ s2vs of
+    | list_cons (s2v, s2vs) => (case+ s2fs of
+      | list_cons (s2f, s2fs) => let
+          val () = stasub_add (sub, s2v, s2f) in loop (sub, s2vs, s2fs)
+        end // end of [list_cons]
+      | list_nil () => 1
+      )
+    | list_nil () => (case+ s2fs of
+      | list_cons _ => ~1 | list_nil () => 0
+      )
+  // end of [loop]
+in
+  loop (sub, s2vs, s2fs)
+end // end of [stasub_addlst]
 
 implement
 stasub_find (sub, s2v) = let
@@ -432,7 +453,8 @@ fun s2eff_subst_flag
 
 fun
 s2var_subst_flag (
-  sub: !stasub, s2e0: s2exp, flag: &int, s2v: s2var
+  sub: !stasub
+, s2e0: s2exp, flag: &int, s2v: s2var
 ) : s2exp = let
   val ans = stasub_find (sub, s2v)
 in
@@ -445,14 +467,15 @@ end // end of [S2Evar_subst_flag]
 
 fun
 s2Var_subst_flag (
-  sub: !stasub, s2e0: s2exp, flag: &int, s2V: s2Var
+  sub: !stasub
+, s2e0: s2exp, flag: &int, s2V: s2Var
 ) : s2exp = let
   val opt = s2Var_get_link (s2V)
 in
 //
 case+ opt of
 | Some (s2f) =>
-    s2exp_subst_flag (sub, unhnf (s2f), flag)
+    s2exp_subst_flag (sub, (unhnf)s2f, flag)
 | None () => s2exp_err (s2e0.s2exp_srt)
 //
 end // end of [s2Var_subst_flag]
@@ -545,7 +568,7 @@ case+ s2e0.s2exp_node of
 | S2Eapp (s2e_fun, s2es_arg) => let
     val flag0 = flag
     val s2e_fun = s2exp_subst_flag (sub, s2e_fun, flag)
-    val s2es_fun = s2explst_subst_flag (sub, s2es_arg, flag)
+    val s2es_arg = s2explst_subst_flag (sub, s2es_arg, flag)
   in
     if flag > flag0
       then s2exp_app_srt (s2t0, s2e_fun, s2es_arg) else s2e0
@@ -613,11 +636,11 @@ case+ s2e0.s2exp_node of
     end else s2e0 // end of [if]
   end // end of [S2Etyrec]
 //
-| S2Etyvarknd (knd, s2e) => let
+| S2Einvar (s2e) => let
     val flag0 = flag
     val s2e = s2exp_subst_flag (sub, s2e, flag)
   in
-    if flag > flag0 then s2exp_tyvarknd (knd, s2e) else s2e0
+    if flag > flag0 then unhnf (s2exp_invar s2e) else s2e0
   end // end of [S2Etyvarknd]
 //
 | S2Erefarg (knd, s2e) => let
@@ -856,7 +879,7 @@ fun aux_s2exp (
     ) // end of [S2Etyarr]
   | S2Etyrec (_(*knd*), _(*npf*), ls2es) => aux_labs2explst (ls2es, fvs)
 //
-  | S2Etyvarknd (_(*knd*), s2e) => aux_s2exp (s2e, fvs)
+  | S2Einvar (s2e) => aux_s2exp (s2e, fvs)
 //
   | S2Erefarg (_, s2e) => aux_s2exp (s2e, fvs)
 //

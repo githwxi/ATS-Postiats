@@ -32,11 +32,28 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
+staload "pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
 staload "pats_trans3_env.sats"
+
+(* ****** ****** *)
+
+macdef hnf = s2hnf_of_s2exp
+macdef hnflst = s2hnflst_of_s2explst
+macdef unhnf = s2exp_of_s2hnf
+macdef unhnflst = s2explst_of_s2hnflst
 
 (* ****** ****** *)
 
@@ -90,6 +107,28 @@ in
   s2exp_Var (s2V)
 end // end of [s2exp_Var_make_srt]
 
+implement
+s2exp_Var_make_var (loc, s2v) = let
+(*
+  val () = begin
+    print "s2exp_Var_make_var: s2v = "; print_s2var s2v; print_newline ()
+  end // end of [val]
+*)
+  val s2V = s2Var_make_var (loc, s2v)
+(*
+  val () = s2Var_set_sVarset (s2V, the_s2Varset_env_get_prev ())
+*)
+(*
+  val () = begin
+    print "s2exp_Var_make_var: s2V = "; print s2V; print_newline ()
+  end // end of [val]
+*)
+  val () = trans3_env_add_sVar (s2V)
+in
+  s2exp_Var (s2V)
+end // end of [s2exp_Var_make_var]
+
+
 (* ****** ****** *)
 
 local
@@ -111,6 +150,37 @@ trans3_env_add_sVar
 } // end of [trans3_env_add_sVar]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+s2hnf_uni_instantiate_all
+  (loc0, s2f, err) = let // HX: [err] is not used
+  fun loop (
+    sub: &stasub, s2f: s2hnf
+  ) :<cloref1> s2exp = let
+    val s2e = (unhnf)s2f
+  in
+    case+ s2e.s2exp_node of
+    | S2Euni (s2vs, s2ps, s2e1) => let
+        val s2es = list_map_cloptr<s2var><s2hnf>
+          (s2vs, lam (s2v) =<1> s2exp_Var_make_var (loc0, s2v))
+        val err = stasub_addlst (sub, s2vs, $UN.castvwtp1 {s2hnflst} (s2es))
+        val () = list_vt_free (s2es)
+(*
+        val s2ps = s2explst_subst (sub, s2ps)
+*)
+      in
+        loop (sub, (hnf)s2e1)
+      end
+    | _ => s2exp_subst (sub, s2e)
+  end // end of [loop]
+  var sub: stasub = stasub_make_nil ()
+  val s2e_res = loop (sub, s2f)
+  val () = stasub_free (sub)
+in
+  (hnf)s2e_res
+end // end of [s2hnf_uni_instantiate_all]
 
 (* ****** ****** *)
 

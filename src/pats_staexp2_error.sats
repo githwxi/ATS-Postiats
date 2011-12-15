@@ -77,4 +77,8 @@ fun the_staerrlst_get (n: &int? >> int): staerrlst_vt
 //
 (* ****** ****** *)
 
+fun prerr_the_staerrlst (): void
+
+(* ****** ****** *)
+
 (* end of [pats_staexp2_error.sats] *)

@@ -108,12 +108,12 @@ in
 end // end of [s2var_make_id_srt]
 
 implement
-s2var_get_sym (s2v) = let
+s2var_get_sym (s2v) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (s2v) in p->s2var_sym
 end // end of [s2var_get_sym]
 
 implement
-s2var_get_srt (s2v) = let
+s2var_get_srt (s2v) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (s2v) in p->s2var_srt
 end // end of [s2var_get_srt]
 
@@ -136,7 +136,7 @@ s2var_set_sVarset (s2v, xs) = let
 end // end of [s2var_set_sVarset]
 
 implement
-s2var_get_stamp (s2v) = let
+s2var_get_stamp (s2v) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (s2v) in p->s2var_stamp
 end // end of [s2var_get_stamp]
 
@@ -181,13 +181,20 @@ neq_s2var_s2var
 // end of [neq_s2var_s2var]
 
 implement
-compare_s2var_s2var (x1, x2) =
-  $effmask_all (compare (s2var_get_stamp (x1), s2var_get_stamp (x2)))
-// end of [compare_s2var_s2var]
+compare_s2var_s2var (x1, x2) = let
+(*
+  val () = $effmask_all (
+    print "compare_s2var_s2var: x1 = "; print_s2var x1; print_newline ();
+    print "compare_s2var_s2var: x2 = "; print_s2var x2; print_newline ();
+  ) // end of [val]
+*)
+in
+  compare (s2var_get_stamp (x1), s2var_get_stamp (x2))
+end // end of [compare_s2var_s2var]
 
 implement
 compare_s2vsym_s2vsym
-  (x1, x2) = $effmask_all (
+  (x1, x2) = (
   $SYM.compare_symbol_symbol (s2var_get_sym (x1), s2var_get_sym (x2))
 ) // end of [compare_s2vsym_s2vsym]
 

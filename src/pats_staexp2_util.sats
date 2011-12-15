@@ -78,7 +78,8 @@ fun stasub_free (sub: stasub): void
 fun stasub_add
   (sub: &stasub, s2v: s2var, s2f: s2hnf): void
 fun stasub_addlst
-  (sub: &stasub, s2vs: s2varlst, s2fs: s2hnflst): void
+  (sub: &stasub, s2vs: s2varlst, s2fs: s2hnflst): int(*err*)
+// end of [stasub_addlst]
 
 fun stasub_find
   (sub: !stasub, s2v: s2var): Option_vt (s2exp)
@@ -90,6 +91,7 @@ fun stasub_get_domain (sub: !stasub): List_vt (s2var)
 
 fun stasub_extend_svarlst
   (sub: &stasub, s2vs: s2varlst): s2varlst_vt
+// end of [stasub_extend_svarlst]
 
 (* ****** ****** *)
 

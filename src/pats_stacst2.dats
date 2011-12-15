@@ -428,11 +428,14 @@ extern
 fun at_viewt0ype_addr_view_assume (): void
 extern
 fun sizeof_viewt0ype_int_assume (): void
+extern
+fun invar_viewt0ype_viewt0ype_assume (): void
 
 implement
 stacst2_initialize () = () where {
   val () = at_viewt0ype_addr_view_assume ()
   val () = sizeof_viewt0ype_int_assume ()
+  val () = invar_viewt0ype_viewt0ype_assume ()
 } // end of [stacst2_initialize]
 
 (* ****** ****** *)
@@ -473,6 +476,25 @@ sizeof_viewt0ype_int_assume () = let
 in
   s2cst_set_def (s2c, Some s2e_def)
 end // end of [sizeof_viewt0ype_int_assume]
+
+(* ****** ****** *)
+
+implement
+the_invar_viewt0ype_viewt0ype =
+  s2cstref_make "invar_viewt0ype_viewt0ype" // in prelude/basics_pre.sats
+// end of [the_invar_viewt0ype_viewt0ype]
+
+implement
+invar_viewt0ype_viewt0ype_assume () = let
+  val s2c = s2cstref_get_cst (the_invar_viewt0ype_viewt0ype)
+  val s2t_def = s2cst_get_srt s2c
+  val s2v = s2var_make_srt s2rt_viewt0ype
+  val arg = s2exp_var (s2v)
+  val s2e_body = s2exp_invar ((unhnf)arg)
+  val s2e_def = s2exp_lam_srt (s2t_def, '[s2v], (unhnf)s2e_body)
+in
+  s2cst_set_def (s2c, Some s2e_def)
+end // end of [invar_viewt0ype_viewt0ype_assume]
 
 (* ****** ****** *)
 

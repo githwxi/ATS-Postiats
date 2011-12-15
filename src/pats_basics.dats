@@ -234,6 +234,9 @@ fprint_funclo
   | FUNCLOfun () => fprintf (out, "FUN", @())
 // end of [fprint_funclo]
 
+implement print_funclo (fc) = fprint_funclo (stdout_ref, fc)
+implement prerr_funclo (fc) = fprint_funclo (stderr_ref, fc)
+
 (* ****** ****** *)
 
 local

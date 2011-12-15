@@ -191,13 +191,18 @@ absviewtype cloref_t0ype_type (a: t@ype) // = ptr
 
 (* ****** ****** *)
 
+(*
 absviewt@ype // S2Etyvarknd
 tyvarknd (a:viewt@ype, knd: int) = a
 viewtypedef IN (a:viewt@ype) = tyvarknd (a, 1) // both CO and CONTRA
-(*
 viewtypedef CO (a:viewt@ype) = tyvarknd (a, 2) // T <= X => T = X
 viewtypedef CONTRA (a:viewt@ype) = tyvarknd (a, 3) // X <= T => T = X
 *)
+
+absviewt@ype // S2Einvar
+invar_viewt0ype_viewt0ype (a:viewt@ype) = a
+viewtypedef IN (a:viewt@ype) = invar_viewt0ype_viewt0ype (a)
+
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then

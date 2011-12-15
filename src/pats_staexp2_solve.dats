@@ -166,6 +166,21 @@ refval_equal_solve_err
 
 (* ****** ****** *)
 
+extern
+fun s2hnf_equal_solve_Var_err (
+  loc: location
+, s2f1: s2hnf, s2f2: s2hnf, s2V1: s2Var, err: &int
+) : void // end of [s2hnf_equal_solve_Var_err]
+
+implement
+s2hnf_equal_solve_Var_err
+  (loc0, s2f1, s2f2, s2V1, err) = let
+in
+  s2Var_set_link (s2V1, Some s2f2)
+end // end of [s2hnf_equal_solve_Var_err]
+
+(* ****** ****** *)
+
 implement
 s2hnf_equal_solve
   (loc0, s2f10, s2f20) = err where {
@@ -193,6 +208,13 @@ val s2en10 = s2e10.s2exp_node and s2en20 = s2e20.s2exp_node
 //
 val () = case+
   (s2en10, s2en20) of
+  | (S2EVar s2V1, _) => (
+    case+ s2en20 of
+    | S2EVar s2V2 when s2V1 = s2V2 => ()
+    | _ => s2hnf_equal_solve_Var_err (loc0, s2f10, s2f20, s2V1, err)
+    )
+  | (_, S2EVar s2V2) =>
+      s2hnf_equal_solve_Var_err (loc0, s2f20, s2f10, s2V2, err)
   | (_, _) when s2hnf_syneq (s2f10, s2f20) => ()
   | (_, _) => (err := err + 1)
 // end of [val]
@@ -215,6 +237,30 @@ and s2f20 = s2exp_hnfize (s2e20)
 in
   s2hnf_equal_solve_err (loc0, s2f10, s2f20, err)
 end // end of [s2exp_equal_solve_err]
+
+(* ****** ****** *)
+
+implement
+s2explst_equal_solve_err
+  (loc0, s2es1, s2es2, err) = let
+in
+//
+case+ s2es1 of
+| list_cons (s2e1, s2es1) => (
+  case+ s2es2 of
+  | list_cons (s2e2, s2es2) => let
+      val () = s2exp_equal_solve_err (loc0, s2e1, s2e2, err)
+    in
+      s2explst_equal_solve_err (loc0, s2es1, s2es2, err)
+    end // end of [list_cons]
+  | list_nil () => 1
+  ) // end of [list_cons]
+| list_nil () => (
+  case+ s2es2 of
+  | list_cons _ => ~1 | list_nil () => 0
+  ) // end of [list_nil]
+//
+end // end of [s2explst_equal_solve_err]
 
 (* ****** ****** *)
 
@@ -245,8 +291,37 @@ val s2en10 = s2e10.s2exp_node and s2en20 = s2e20.s2exp_node
 //
 val () = case+
   (s2en10, s2en20) of
-  | (_, _) when s2hnf_syneq (s2f10, s2f20) => ()
-  | (_, _) => (err := err + 1)
+| (S2Einvar s2e11, _) => let
+    val s2f11 = s2exp_hnfize (s2e11) in
+    s2hnf_tyleq_solve_err (loc0, s2f11, s2f20, err)
+  end // end of [S2Einvar, _]
+| (_, S2Einvar s2e21) => let
+    val s2f21 = s2exp_hnfize (s2e21)
+    val s2e21 = (unhnf)s2f21
+  in
+    case+ s2e21.s2exp_node of
+    | S2EVar s2V2 =>
+        s2hnf_equal_solve_Var_err (loc0, s2f21, s2f10, s2V2, err)
+      // end of [S2EVar]
+    | _ => s2hnf_tyleq_solve_err (loc0, s2f10, s2f21, err)
+  end // end of [_, S2Einvar]
+| (S2Eapp (s2e1_fun, s2es1_arg), _) => (
+  case+ s2en20 of
+  | S2Eapp (s2e2_fun, s2es2_arg) => (
+    case+ (
+      s2e1_fun.s2exp_node, s2e2_fun.s2exp_node
+    ) of
+    | (_, _) => let // HX: sound but incomplete!
+        val () = s2exp_equal_solve_err (loc0, s2e1_fun, s2e2_fun, err)
+        val errlen = s2explst_equal_solve_err (loc0, s2es1_arg, s2es2_arg, err)
+      in
+        // nothing
+      end // end of [_, _]
+    ) // end of [S2Eapp]
+  | _ => (err := err + 1)
+  ) // end of [S2Eapp, _]
+| (_, _) when s2hnf_syneq (s2f10, s2f20) => ()
+| (_, _) => (err := err + 1)
 // end of [val]
 //
 val () = if err > err0 then

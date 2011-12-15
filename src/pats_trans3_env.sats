@@ -124,6 +124,16 @@ fun s2exp_Var_make_var (loc: location, s2v: s2var): s2hnf
 
 (* ****** ****** *)
 
+fun s2hnf_uni_instantiate_all
+  (loc: location, s2f: s2hnf, err: &int): s2hnf
+fun s2hnf_uni_instantiate_one
+  (loc: location, s2e: s2hnf, err: &int): s2hnf
+fun s2hnf_uni_instantiate_seq (
+  loc: location, _fun: s2hnf, locarg: location, _arg: s2explst, err: &int
+) : s2hnf // end of [s2hnf_uni_instantiate_seq]
+
+(* ****** ****** *)
+
 absview trans3_env_push_v
 
 fun trans3_env_pop_and_add_main

@@ -86,6 +86,8 @@ val the_at_viewt0ype_addr_view: s2cstref
 //
 val the_sizeof_viewt0ype_int: s2cstref
 //
+val the_invar_viewt0ype_viewt0ype: s2cstref
+//
 (* ****** ****** *)
 //
 fun s2exp_bool

@@ -38,6 +38,7 @@ implement prerr_FILENAME<> () = prerr "pats_trans2_dynexp"
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_staexp2_error.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
 
@@ -129,9 +130,11 @@ d3exp_trdn
     val () = prerr_s2hnf (s2f)
     val () = prerr "]."
     val () = prerr_newline ()
+    val () = prerr_the_staerrlst ()
   in
     the_trans3errlst_add (T3E_d3exp_trdn (d3e, s2f))
   end // end of [val]
+  val () = d3exp_set_type (d3e, s2f)
 } // end of [d3exp_trdn]
 
 (* ****** ****** *)

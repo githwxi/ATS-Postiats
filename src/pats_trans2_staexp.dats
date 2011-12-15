@@ -254,7 +254,7 @@ fn auxerr (
   val () = prerr_error2_loc (loc0)
   val () = filprerr_ifdebug "s1marg_trdn"
   val () = prerr ": the static argument group is expected to contain "
-  val () = prerr (if err > 0 then "less" else "more")
+  val () = prerr (if err > 0 then "more" else "less")
   val () = prerr " components."
   val () = prerr_newline ()
   val () = the_trans2errlst_add (T2E_s1marg_trdn (s1ma, s2ts))
@@ -299,7 +299,7 @@ fn auxerr (
   val () = prerr ": the static constructor ["
   val () = prerr_sqid (sq, id)
   val () = prerr "] requires "
-  val () = prerr_string (if err > 0 then "less" else "more")
+  val () = prerr_string (if err > 0 then "more" else "less")
   val () = prerr " arguments."
   val () = prerr_newline ()
   val () = the_trans2errlst_add (T2E_sp1at_trdn (sp1t, s2t_pat))
@@ -919,7 +919,7 @@ fn auxerr1 (
   val () = prerr_error2_loc (loc)
   val () = filprerr_ifdebug "s1exp_trup_app"
   val () = prerr ": the static application needs "
-  val () = prerr_string (if err > 0 then "less" else "more")
+  val () = prerr_string (if err > 0 then "more" else "less")
   val () = prerr " arguments."
   val () = prerr_newline ()
   val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
@@ -1926,14 +1926,16 @@ s1vararg_tr (x) =
 // end of [s1vararg_tr]
 
 implement
-s1exparg_tr (x) =
+s1exparg_tr (x) = let
+  val loc = x.s1exparg_loc
+in
   case+ x.s1exparg_node of
-  | S1EXPARGone () => S2EXPARGone ()
-  | S1EXPARGall () => S2EXPARGall ()
+  | S1EXPARGone () => s2exparg_one (loc)
+  | S1EXPARGall () => s2exparg_all (loc)
   | S1EXPARGseq (s1es) => let
-      val s2es = s1explst_trup (s1es) in S2EXPARGseq (s2es)
+      val s2es = s1explst_trup (s1es) in s2exparg_seq (loc, s2es)
     end // end of [S1EXPARGseq]
-// end of [s1exparg_tr]
+end // end of [s1exparg_tr]
 
 implement
 s1exparglst_tr (xs) = l2l (list_map_fun (xs, s1exparg_tr))
@@ -1952,7 +1954,7 @@ fn auxerr1 (
   val () = prerr ": the constructor ["
   val () = $SYM.prerr_symbol (id)
   val () = prerr "] is expected to be given "
-  val () = prerr_string (if err > 0 then "less" else "more")
+  val () = prerr_string (if err > 0 then "more" else "less")
   val () = prerr " indexes."
   val () = prerr_newline ()
   val () = the_trans2errlst_add (T2E_d1atcon_tr (d1c))

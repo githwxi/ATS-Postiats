@@ -468,7 +468,7 @@ fun aux_imparg_svararg (
     (loc: location, err: int):<cloref1> void = let
     val () = prerr_error2_loc (loc)
     val () = prerr ": the implementation argument group is expected to contain "
-    val () = prerr_string (if err > 0 then "less" else "more")
+    val () = prerr_string (if err > 0 then "more" else "less")
     val () = prerr " components."
     val () = prerr_newline ()
     val () = the_trans2errlst_add (T2E_impdec_tr (d1c0))

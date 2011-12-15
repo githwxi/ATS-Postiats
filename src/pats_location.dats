@@ -223,6 +223,32 @@ location_make_fil_pos_pos
 
 (* ****** ****** *)
 
+implement
+location_leftmost
+  (loc) = '{
+  filename= loc.filename
+, beg_ntot= loc.beg_ntot
+, beg_nrow= loc.beg_nrow
+, beg_ncol= loc.beg_ncol
+, end_ntot= loc.beg_ntot
+, end_nrow= loc.beg_nrow
+, end_ncol= loc.beg_ncol
+} // end of [location_leftmost]
+
+implement
+location_rightmost
+  (loc) = '{
+  filename= loc.filename
+, beg_ntot= loc.end_ntot
+, beg_nrow= loc.end_nrow
+, beg_ncol= loc.end_ncol
+, end_ntot= loc.end_ntot
+, end_nrow= loc.end_nrow
+, end_ncol= loc.end_ncol
+} // end of [location_rightmost]
+
+(* ****** ****** *)
+
 local
 
 fun

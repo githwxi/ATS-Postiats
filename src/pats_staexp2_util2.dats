@@ -75,9 +75,11 @@ fun s2exp_linkrem_flag (s2e: s2exp, flag: &int): s2exp
 
 implement
 s2exp_linkrem_flag (s2e0, flag) = let
+(*
   val () = begin
     print "s2exp_linkrem_flag: s2e0 = "; print_s2exp s2e0; print_newline ()
   end // end of [val]
+*)
 in
 //
 case+ s2e0.s2exp_node of
@@ -129,6 +131,11 @@ implement
 s2exp_hnfize_app (
   s2e0, s2e_fun, s2es_arg, flag
 ) = let
+(*
+  val () = (
+    print "s2exp_hnfize_app: s2e0 = "; print_s2exp s2e0; print_newline ()
+  ) // end of [val]
+*)
   val flag0 = flag
   val s2e_fun = s2exp_hnfize_flag (s2e_fun, flag)
 in
@@ -167,16 +174,20 @@ end // end of [s2exp_hnfize_flag_app]
 implement
 s2exp_hnfize_flag
   (s2e0, flag) = let
-(*
+// (*
   val () = (
     print "s2exp_hnfize_flag: s2e0 = "; print_s2exp (s2e0); print_newline ()
   ) // end of [val]
-*)
+// *)
   val s2t0 = s2e0.s2exp_srt
+  val s2e0 = s2exp_linkrem_flag (s2e0, flag)
 in
 //
 case+ s2e0.s2exp_node of
+//
+| S2Evar _ => s2e0
 | S2Ecst _ => s2e0
+| S2EVar _ => s2e0
 //
 | S2Eapp (s2e_fun, s2es_arg) =>
     s2exp_hnfize_app (s2e0, s2e_fun, s2es_arg, flag)
@@ -190,6 +201,8 @@ case+ s2e0.s2exp_node of
     // end of [if]
   end // end of [S2Elam]
 | S2Efun _ => s2e0
+//
+| S2Einvar _ => s2e0
 //
 | S2Eexi (s2vs, s2ps, s2e) => let
     val flag0 = flag
@@ -533,17 +546,18 @@ case s2en10 of
   | _ => $raise (SYNEQexn)
   ) // end of [S2Etyrec]
 //
-| S2Etyvarknd (knd1, s2e1) => (
+| S2Einvar (s2e1) => (
   case+ s2en20 of
-  | S2Etyvarknd (knd2, s2e2) =>
-      if knd1 = knd2 then s2exp_syneq_exn (s2e1, s2e2) else $raise (SYNEQexn)
+  | S2Einvar (s2e2) => s2exp_syneq_exn (s2e1, s2e2)
   | _ => $raise (SYNEQexn)
-  ) // end of [S2Etyvarknd]
+  ) // end of [S2Einvar]
 //
 | S2Erefarg (knd1, s2e1) => (
   case+ s2en20 of
   | S2Erefarg (knd2, s2e2) =>
-      if knd1 = knd2 then s2exp_syneq_exn (s2e1, s2e2) else $raise (SYNEQexn)
+      if knd1 = knd2 then
+        s2exp_syneq_exn (s2e1, s2e2) else $raise (SYNEQexn)
+      // end of [if]
   | _ => $raise (SYNEQexn)
   ) // end of [S2Erefarg]
 //

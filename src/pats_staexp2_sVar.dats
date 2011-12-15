@@ -59,6 +59,10 @@ s2Var_struct = @{
 , s2Var_cnt= $CNTR.count // the count
 , s2Var_srt= s2rt  // the sort
 , s2Var_varknd= int // derived from tyvarknd
+(*
+, s2Var_skexp= s2kexp // skeleton
+*)
+, s2Var_szexp= s2zexp // unique size
 , s2Var_link= s2hnfopt // solution
 , s2Var_svar= s2varopt // instantiated static var
 , s2Var_sVarset= s2Varset // existential Variable occurrences
@@ -90,6 +94,7 @@ p->s2Var_loc := loc;
 p->s2Var_cnt := cnt;
 p->s2Var_srt := s2t;
 p->s2Var_varknd := 0;
+p->s2Var_szexp := S2ZEany (); // unknown size
 p->s2Var_link := None ();
 p->s2Var_svar := None ();
 (*
@@ -106,16 +111,45 @@ ref_make_view_ptr {s2Var_struct} (pfat | p)
 //
 end // end of [s2Var_make_srt]
 
+implement s2Var_make_var (loc, s2v) = let
+//
+val cnt = $CNTR.counter_getinc (the_s2Var_name_counter)
+val stamp = $STP.s2Var_stamp_make ()
+val s2t = s2var_get_srt s2v
+val (pfgc, pfat | p) = ptr_alloc_tsz {s2Var_struct} (sizeof<s2Var_struct>)
+prval () = free_gc_elim {s2Var_struct?} (pfgc)
+//
+val () = begin
+p->s2Var_loc := loc;
+p->s2Var_cnt := cnt;
+p->s2Var_srt := s2t;
+p->s2Var_varknd := 0;
+p->s2Var_szexp := S2ZEany (); // unknown size
+p->s2Var_link := None ();
+p->s2Var_svar := None ();
+(*
+p->s2Var_lbs := list_nil ();
+p->s2Var_ubs := list_nil ();
+*)
+p->s2Var_sVarset := s2Varset_nil ();
+p->s2Var_stamp := stamp
+end // end of [val]
+//
+in
+//
+ref_make_view_ptr {s2Var_struct} (pfat | p)
+//
+end // end of [s2Var_make_var]
 
 (* ****** ****** *)
 
 implement
-s2Var_get_cnt (s2V) = let
+s2Var_get_cnt (s2V) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_cnt
 end // end of [s2Var_get_sym]
 
 implement
-s2Var_get_srt (s2V) = let
+s2Var_get_srt (s2V) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_srt
 end // end of [s2Var_get_srt]
 
@@ -138,7 +172,7 @@ s2Var_set_link (s2V, link) = let
 end // end of [s2Var_set_link]
 
 implement
-s2Var_get_stamp (s2V) = let
+s2Var_get_stamp (s2V) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_stamp
 end // end of [s2Var_get_stamp]
 
@@ -167,9 +201,16 @@ neq_s2Var_s2Var
 // end of [neq_s2Var_s2Var]
 
 implement
-compare_s2Var_s2Var (x1, x2) =
+compare_s2Var_s2Var (x1, x2) = let
+(*
+  val () = $effmask_all (
+    print "compare_s2var_s2var: x1 = "; print_s2var x1; print_newline ();
+    print "compare_s2var_s2var: x2 = "; print_s2var x2; print_newline ();
+  ) // end of [val]
+*)
+in
   compare (s2Var_get_stamp (x1), s2Var_get_stamp (x2))
-// end of [compare_s2Var_s2Var]
+end // end of [compare_s2Var_s2Var]
 
 (* ****** ****** *)
 

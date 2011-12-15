@@ -67,14 +67,14 @@ d2con_struct = @{
 , d2con_fil= filename // filename
 , d2con_sym= symbol // the name
 , d2con_scst= s2cst // datatype
-, d2con_vwtp= int //
-, d2con_qua= s2qualst // quantifiers
 , d2con_npf= int // pfarity
+, d2con_vwtp= int // viewtype constructor
+, d2con_qua= s2qualst // quantifiers
 , d2con_arg= s2explst // views or viewtypes
 , d2con_arity_full= int // full arity
 , d2con_arity_real= int // real arity after erasure
 , d2con_ind= s2explstopt // indexes
-, d2con_type= s2exp // type for dynamic constructor
+, d2con_type= s2hnf // type for dynamic constructor
 , d2con_tag= int // tag for dynamic constructor
 , d2con_stamp= stamp // uniqueness
 } // end of [d2con_struct]
@@ -121,22 +121,26 @@ in
 end // end of [val]
 //
 val d2c_type = let
-  fun aux (s2e: s2exp, s2qs: s2qualst): s2exp =
+  fun aux (s2f: s2hnf, s2qs: s2qualst): s2hnf =
     case+ s2qs of
-    | list_cons (s2q, s2qs) =>
-        s2exp_uni (s2q.s2qua_svs, s2q.s2qua_sps, aux (s2e, s2qs))
-      // end of [list_cons]
-    | list_nil () => s2e
+    | list_cons (s2q, s2qs) => let
+        val s2f = aux (s2f, s2qs)
+        val s2e_uni =
+          s2exp_uni (s2q.s2qua_svs, s2q.s2qua_sps, (unhnf)s2f)
+        // end of [val]
+      in
+        (hnf)s2e_uni
+      end // end of [list_cons]
+    | list_nil () => s2f
   // end of [aux]
   val s2e_res = (case+ ind of
     | Some s2es => s2exp_cstapp (s2c, s2es) | None () => s2exp_cst (s2c)
   ) : s2hnf // end of [val]
   val s2e_res = unhnf (s2e_res)
-  val s2e = s2exp_confun (npf, arg, s2e_res)
-  val s2e = unhnf (s2e)
+  val s2f = s2exp_confun (npf, arg, s2e_res)
 in
-  aux (s2e, qua)
-end // end of [val]
+  aux (s2f, qua)
+end : s2hnf // end of [val]
 //
 val (pf_gc, pfat | p) = ptr_alloc<d2con_struct> ()
 prval () = free_gc_elim (pf_gc)
@@ -145,9 +149,9 @@ val () = p->d2con_loc := loc
 val () = p->d2con_fil := fil
 val () = p->d2con_sym := id
 val () = p->d2con_scst := s2c
+val () = p->d2con_npf := npf
 val () = p->d2con_vwtp := vwtp
 val () = p->d2con_qua := qua
-val () = p->d2con_npf := npf
 val () = p->d2con_arg := arg
 val () = p->d2con_arity_full := arity_full
 val () = p->d2con_arity_real := arity_real
@@ -165,59 +169,63 @@ end // end of [d2con_make]
 (* ****** ****** *)
 
 implement
-d2con_get_fil (d2c) = let
+d2con_get_fil (d2c) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_fil
 end // end of [d2con_get_fil]
 
 implement
-d2con_get_sym (d2c) = let
+d2con_get_sym (d2c) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_sym
 end // end of [d2con_get_sym]
 
 implement
-d2con_get_scst (d2c) = let
+d2con_get_scst (d2c) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_scst
 end // end of [d2con_get_scst]
 
 implement
-d2con_get_vwtp (d2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_vwtp
-end // end of [d2con_get_vwtp]
-
-implement
-d2con_get_npf (d2c) = let
+d2con_get_npf (d2c) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_npf
 end // end of [d2con_get_npf]
 
 implement
-d2con_get_qua (d2c) = let
+d2con_get_vwtp (d2c) = $effmask_ref let
+  val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_vwtp
+end // end of [d2con_get_vwtp]
+
+(* ****** ****** *)
+
+implement
+d2con_get_qua (d2c) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_qua
 end // end of [d2con_get_qua]
 
 implement
-d2con_get_arg (d2c) = let
+d2con_get_arg (d2c) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_arg
 end // end of [d2con_get_arg]
 
 implement
-d2con_get_arity_full (d2c) = let
+d2con_get_arity_full (d2c) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_arity_full
 end // end of [d2con_get_arity_full]
 
 implement
-d2con_get_arity_real (d2c) = let
+d2con_get_arity_real (d2c) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_arity_real
 end // end of [d2con_get_arity_real]
 
 implement
-d2con_get_ind (d2c) = let
+d2con_get_ind (d2c) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_ind
 end // end of [d2con_get_ind]
 
 implement
-d2con_get_type (d2c) = let
+d2con_get_type (d2c) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_type
 end // end of [d2con_get_type]
+
+(* ****** ****** *)
 
 implement
 d2con_get_tag (d2c) = let
@@ -228,8 +236,10 @@ d2con_set_tag (d2c, tag) = let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_tag := tag
 end // end of [d2con_set_tag]
 
+(* ****** ****** *)
+
 implement
-d2con_get_stamp (d2c) = let
+d2con_get_stamp (d2c) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2c) in p->d2con_stamp
 end // end of [d2con_get_stamp]
 
@@ -249,7 +259,7 @@ neq_d2con_d2con
 
 implement
 compare_d2con_d2con (x1, x2) =
-  $effmask_all (compare (d2con_get_stamp (x1), d2con_get_stamp (x2)))
+  (compare (d2con_get_stamp (x1), d2con_get_stamp (x2)))
 // end of [compare_d2con_d2con]
 
 (* ****** ****** *)

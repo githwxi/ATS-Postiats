@@ -91,8 +91,9 @@ d3ecl_node =
   | D3Cnone
   | D3Clist of d3eclist
   | D3Cdatdec of (int(*knd*), s2cstlst)
-  | D3Cvaldecs of v3aldeclst
+  | D3Cdcstdec of (dcstkind, d2cstlst)
   | D3Cfundecs of (funkind, s2qualst(*decarg*), f3undeclst)
+  | D3Cvaldecs of v3aldeclst
 // end of [d3ecl_node]
 
 and
@@ -111,6 +112,9 @@ d3exp_node =
   | D3Eextval of (string(*rep*))
   | D3Ecst of d2cst
   | D3Econ of (d2con, int(*npf*), d3explst(*arg*))
+//
+  | D3Eapp_sta of d3exp // static application
+  | D3Eapp_dyn of (d3exp, int(*npf*), d3explst)
 //
   | D3Elam_dyn of // dynamic abstraction
       (int(*lin*), int(*npf*), p3atlst, d3exp)
@@ -175,6 +179,12 @@ and v3ardeclst = List v3ardec
 
 (* ****** ****** *)
 
+fun d3exp_set_type (
+  d3e: d3exp, s2f: s2hnf
+) : void = "patsopt_d3exp_set_type"
+
+(* ****** ****** *)
+
 fun d3exp_var
   (loc: location, s2f: s2hnf, d2v: d2var): d3exp
 // end of [d3exp_var]
@@ -222,6 +232,17 @@ fun d3exp_con (
 
 (* ****** ****** *)
 
+fun d3exp_app_sta
+  (loc: location, s2f: s2hnf, d3e: d3exp): d3exp
+// end of [d3exp_app_sta]
+
+fun d3exp_app_dyn (
+  loc: location
+, s2f: s2hnf, s2fe: s2eff, _fun: d3exp, npf: int, _arg: d3explst
+) : d3exp // end of [d3exp_app_dyn]
+
+(* ****** ****** *)
+
 fun d3exp_lam_dyn (
   loc: location, typ: s2hnf
 , lin: int, npf: int, arg: p3atlst, body: d3exp
@@ -260,13 +281,19 @@ fun d3ecl_datdec
 
 (* ****** ****** *)
 
-fun d3ecl_valdecs (
-  loc: location, knd: valkind, d3cs: v3aldeclst
-) : d3ecl // end of [d3ecl_valdecs]
+fun d3ecl_dcstdec
+  (loc: location, knd: dcstkind, d2cs: d2cstlst): d3ecl
+// end of [d3ecl_dcstdec]
+
+(* ****** ****** *)
 
 fun d3ecl_fundecs (
   loc: location, knd: funkind, decarg: s2qualst, d3cs: f3undeclst
 ) : d3ecl // end of [d3ecl_fundecs]
+
+fun d3ecl_valdecs (
+  loc: location, knd: valkind, d3cs: v3aldeclst
+) : d3ecl // end of [d3ecl_valdecs]
 
 fun d3ec_vardecs (loc: location, ds: v3ardeclst): d3ecl
 

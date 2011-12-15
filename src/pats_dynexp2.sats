@@ -456,7 +456,9 @@ d2exp_node =
   | D2Eextval of (s2hnf(*type*), string(*rep*))
 //
   | D2Ecst of d2cst (* declared dynamic constants *)
-  | D2Econ of (d2con, s2exparglst, int (*pfarity*), d2explst)
+  | D2Econ of (
+      d2con, s2exparglst, int(*npf*), location(*arg*), d2explst
+    ) // end of [D2Econ]
 //
   | D2Eloopexn of int(*knd*)
 //
@@ -526,7 +528,7 @@ d2exp_node =
 
 and d2exparg =
   | D2EXPARGsta of s2exparglst
-  | D2EXPARGdyn of (location(*arg*), int (*pfarity*), d2explst)
+  | D2EXPARGdyn of (int(*npf*), location(*arg*), d2explst)
 // end of [d2exparg]
 
 and d2lab_node =
@@ -670,6 +672,9 @@ fun fprint_d2explst : fprint_type (d2explst)
 fun print_d2exp (x: d2exp): void
 fun prerr_d2exp (x: d2exp): void
 
+fun fprint_d2exparg : fprint_type (d2exparg)
+fun fprint_d2exparglst : fprint_type (d2exparglst)
+
 fun fprint_d2ecl : fprint_type (d2ecl)
 fun print_d2ecl (x: d2ecl): void
 fun prerr_d2ecl (x: d2ecl): void
@@ -712,7 +717,8 @@ fun d2exp_extval
 
 fun d2exp_con (
   loc: location
-, d2c: d2con, sarg: s2exparglst, npf: int, darg: d2explst
+, d2c: d2con, sarg: s2exparglst
+, npf: int, loc: location, darg: d2explst
 ) : d2exp // end of [d2exp_con]
 
 fun d2exp_cst (loc: location, d2c: d2cst): d2exp
@@ -746,7 +752,7 @@ fun d2exp_app_sta (
 fun d2exp_app_dyn (
   loc: location
 , d2e_fun: d2exp
-, locarg: location, npf: int, darg: d2explst
+, npf: int, locarg: location, darg: d2explst
 ) : d2exp // end of [d2exp_app_dyn]
 fun d2exp_app_sta_dyn (
   loc_dyn: location

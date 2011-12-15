@@ -101,6 +101,10 @@ fun s2exp_equal_solve_err
   (loc: location, s2e1: s2exp, s2e2: s2exp, err: &int): void
 // end of [s2exp_equal_solve_err]
 
+fun s2explst_equal_solve_err (
+  loc: location, s2es1: s2explst, s2es2: s2explst, err: &int
+) : int(*errlen*) // end of [s2explst_equal_solve_err]
+
 (* ****** ****** *)
 
 fun s2hnf_tyleq_solve

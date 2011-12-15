@@ -41,12 +41,10 @@
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
-
-castfn
-g1ofg0_int {a:t@ype} (x: g0int a): g1int (a)
-(*
-macdef g1ofg0 (x) = g1ofg0_int ,(x)
-*)
+//
+// HX: for unsigned unindexed integer types
+//
+(* ****** ****** *)
 
 fun{a:t@ype}
 g0int_add
@@ -87,6 +85,17 @@ g0int_gte (x: g0int (a), y: g0int (a)): bool
 overload >= with g0int_gte
 
 (* ****** ****** *)
+//
+// HX: for unsigned indexed integer types
+//
+castfn
+g1ofg0_int
+  {a:t@ype} (x: g0int a): g1int (a)
+(*
+macdef g1ofg0_int (x) = g1ofg0_int ,(x)
+*)
+
+(* ****** ****** *)
 
 fun{a:t@ype}
 g1int_add {i,j:int}
@@ -99,12 +108,10 @@ g1int_sub {i,j:int}
 overload - with g1int_sub
 
 (* ****** ****** *)
-
-castfn
-g1ofg0_uint {a:t@ype} (x: g0uint a): g1uint (a)
-(*
-macdef g1ofg0 (x) = g1ofg0_uint ,(x)
-*)
+//
+// HX: for unsigned unindexed integer types
+//
+(* ****** ****** *)
 
 fun{a:t@ype}
 g0uint_add
@@ -115,6 +122,22 @@ fun{a:t@ype}
 g0uint_sub
   (x: g0uint (a), y: g0uint (a)): g0uint (a)
 overload - with g0uint_sub
+
+(* ****** ****** *)
+//
+// HX: for unsigned indexed integer types
+//
+praxi
+g1uint_param_lemma
+  {a:t@ype} {i:int} (x: g1uint (a, i)): [i >= 0] void
+// end of [g1uint_param_lemma]
+
+castfn
+g1ofg0_uint
+  {a:t@ype} (x: g0uint a): g1uint (a)
+(*
+macdef g1ofg0_uint (x) = g1ofg0_uint ,(x)
+*)
 
 (* ****** ****** *)
 

@@ -331,7 +331,7 @@ case+ x.d2exp_node of
   }
 //
 | D2Econ (
-    d2c, s2as, npf, d2es
+    d2c, s2as, npf, _(*loc*), d2es
   ) => {
     val () = prstr "D2Econ("
     val () = fprint_d2con (out, d2c)
@@ -346,6 +346,26 @@ case+ x.d2exp_node of
 | D2Ecst (d2c) => {
     val () = prstr "D2Ecst("
     val () = fprint_d2cst (out, d2c)
+    val () = prstr ")"
+  }
+//
+| D2Eapps (d2e, d2as) => {
+    val () = prstr "D2Eapps("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr "; "
+    val () = fprint_d2exparglst (out, d2as)
+    val () = prstr ")"
+  }
+| D2Eassgn (d2e_l, d2e_r) => {
+    val () = prstr "D2Eassgn("
+    val () = fprint_d2exp (out, d2e_l)
+    val () = prstr " := "
+    val () = fprint_d2exp (out, d2e_r)
+    val () = prstr ")"
+  }
+| D2Ederef (d2e) => {
+    val () = prstr "D2Ederef("
+    val () = fprint_d2exp (out, d2e)
     val () = prstr ")"
   }
 //
@@ -402,6 +422,35 @@ prerr_d2exp (x) = fprint_d2exp (stderr_ref, x)
 (* ****** ****** *)
 
 implement
+fprint_d2exparg (out, x) = let
+  macdef prstr (x) = fprint_string (out, ,(x))
+in
+//
+case+ x of
+| D2EXPARGsta (s2as) => {
+    val () = prstr "D2EXPARGsta("
+    val () = fprint_s2exparglst (out, s2as)
+    val () = prstr ")"
+  }
+| D2EXPARGdyn
+    (npf, _(*loc*), d2es) => {
+    val () = prstr "D2EXPARGdyn("
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_d2explst (out, d2es)
+    val () = prstr ")"
+  }
+//
+end // end of [fprint_d2exparg]
+
+implement
+fprint_d2exparglst (out, xs) =
+  $UT.fprintlst (out, xs, ", ", fprint_d2exparg)
+// end of [fprint_d2exparglst]
+
+(* ****** ****** *)
+
+implement
 fprint_d2ecl (out, x) = let
   macdef prstr (x) = fprint_string (out, ,(x))
 in
@@ -423,6 +472,20 @@ case+ x.d2ecl_node of
     val () = $UT.fprintlst (out, s2cs, ", ", fprint_s2cst)
     val () = prstr "\n)"
   } // end of [D2Cdatdec]
+//
+| D2Cdcstdec (knd, d2cs) => {
+    val () = prstr "D2Cdcstdec("
+    val () = fprint_dcstkind (out, knd)
+    val () = prstr "; "
+    val () = $UT.fprintlst (out, d2cs, ", ", fprint_d2cst)
+    val () = prstr ")"
+  }
+//
+| D2Cfundecs _ => {
+    val () = prstr "D2Cfundecs(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  } // end of [D2Cfundecs]
 | D2Cvaldecs _ => {
     val () = prstr "D2Cvaldecs(\n"
     val () = prstr "..."
@@ -433,11 +496,6 @@ case+ x.d2ecl_node of
     val () = prstr "..."
     val () = prstr "\n)"
   } // end of [D2Cvaldecs_rec]
-| D2Cfundecs _ => {
-    val () = prstr "D2Cfundecs(\n"
-    val () = prstr "..."
-    val () = prstr "\n)"
-  } // end of [D2Cfundecs]
 | D2Cvardecs _ => {
     val () = prstr "D2Cvardecs(\n"
     val () = prstr "..."

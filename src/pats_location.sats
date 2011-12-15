@@ -120,6 +120,11 @@ fun location_make_fil_pos_pos (
 
 (* ****** ****** *)
 
+fun location_leftmost (loc: location): location
+fun location_rightmost (loc: location): location
+
+(* ****** ****** *)
+
 fun location_combine
   (loc1: location, loc2: location): location
 // end of [location_combine]

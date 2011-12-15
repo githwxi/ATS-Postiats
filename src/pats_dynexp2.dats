@@ -339,8 +339,8 @@ d2exp_extval
 (* ****** ****** *)
 
 implement
-d2exp_con (loc, d2c, sarg, npf, darg) =
-  d2exp_make (loc, D2Econ (d2c, sarg, npf, darg))
+d2exp_con (loc, d2c, sarg, npf, loc, darg) =
+  d2exp_make (loc, D2Econ (d2c, sarg, npf, loc, darg))
 // end of [d2exp_con]
 
 implement
@@ -419,9 +419,9 @@ end (* end of [d2exp_app_sta] *)
 implement
 d2exp_app_dyn (
   loc0
-, d2e_fun, loc_arg, npf, darg
+, d2e_fun, npf, loc_arg, darg
 ) = let
-  val d2a = D2EXPARGdyn (loc_arg, npf, darg)
+  val d2a = D2EXPARGdyn (npf, loc_arg, darg)
   val node = case+ d2e_fun.d2exp_node of
     | D2Eapps (d2e_fun, d2as) => let
         val d2as = l2l (list_extend (d2as, (d2a)))
@@ -443,7 +443,7 @@ d2exp_app_sta_dyn (
     d2exp_app_sta (loc_sta, d2e_fun, sarg)
   // end of [val]
 in
-  d2exp_app_dyn (loc_dyn, d2e_sta, loc_arg, npf, darg)
+  d2exp_app_dyn (loc_dyn, d2e_sta, npf, loc_arg, darg)
 end // end of [d2exp_app_sta_dyn]
 
 (* ****** ****** *)

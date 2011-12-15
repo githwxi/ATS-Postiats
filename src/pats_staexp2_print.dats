@@ -366,13 +366,11 @@ case+ x.s2exp_node of
     val () = prstr ")"
   } // end of [S2Etyrec]
 //
-| S2Etyvarknd (knd, s2e) => {
-    val () = prstr "S2Etyvarknd("
-    val () = fprint_int (out, knd)
-    val () = prstr "; "
+| S2Einvar (s2e) => {
+    val () = prstr "S2Einvar("
     val () = fprint_s2exp (out, s2e)
     val () = prstr ")"
-  } // end of [S2Etyvarknd]
+  } // end of [S2Einvar]
 //
 | S2Erefarg (knd, s2e) => { // knd=0/1:val/ref
     val () = prstr "S2Erefarg("
@@ -543,18 +541,25 @@ end // end of [fprint_s2rtext]
 (* ****** ****** *)
 
 implement
-fprint_s2exparg (out, s2a) =
-  case+ s2a of
-  | S2EXPARGone () =>
-      fprint_string (out, "S2EXPARGone()")
-  | S2EXPARGall () =>
-      fprint_string (out, "S2EXPARGall()")
-  | S2EXPARGseq (s2es) => {
-      val () = fprint_string (out, "S2EXPARGseq(")
-      val () = fprint_s2explst (out, s2es)
-      val () = fprint_string (out, ")")
-    } // end of [S2EXPARGseq]
-// end of [fprint_s2exparg]
+fprint_s2exparg (out, s2a) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+//
+case+ s2a.s2exparg_node of
+| S2EXPARGone () => prstr "S2EXPARGone()"
+| S2EXPARGall () => prstr "S2EXPARGall()"
+| S2EXPARGseq (s2es) => {
+    val () = prstr "S2EXPARGseq("
+    val () = fprint_s2explst (out, s2es)
+    val () = prstr ")"
+  } // end of [S2EXPARGseq]
+//
+end // end of [fprint_s2exparg]
+
+implement
+fprint_s2exparglst (out, xs) =
+  $UT.fprintlst (out, xs, ", ", fprint_s2exparg)
+// end of [fprint_s2exparglst]
 
 (* ****** ****** *)
 
@@ -619,6 +624,7 @@ case+ s2ke of
     val () = fprint_s2var (out, s2v)
     val () = prstr ")"
   }
+| S2KEerr () => prstr "S2KEerr()"
 (*
 | _ => prstr "S2KE...(...)"
 *)

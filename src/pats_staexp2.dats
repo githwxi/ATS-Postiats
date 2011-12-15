@@ -288,17 +288,9 @@ s2exp_tyrec_srt
 (* ****** ****** *)
 
 implement
-s2exp_tyvarknd (knd, s2e) =
-  case+ s2e.s2exp_node of
-  | S2Evar _ => '{
-      s2exp_srt= s2e.s2exp_srt
-    , s2exp_node= S2Etyvarknd (knd, s2e)
-    } // end of [S2Evar]
-  | S2EVar s2V => let
-      val () = s2Var_set_varknd (s2V, knd) in s2e
-    end // end of [S2EVar]
-  | _ => s2e // end of [_]
-// end of [s2exp_tyvarknd]
+s2exp_invar (s2e) = hnf '{
+  s2exp_srt= s2e.s2exp_srt, s2exp_node= S2Einvar (s2e)
+} // end of [s2exp_invar]
 
 (* ****** ****** *)
 
@@ -367,6 +359,21 @@ s2exp_s2rt_err () = s2exp_err (s2rt_err ())
 
 implement
 s2exp_is_prf (s2e) = s2rt_is_prf (s2e.s2exp_srt)
+
+(* ****** ****** *)
+
+implement
+s2exparg_one (loc) = '{
+  s2exparg_loc= loc, s2exparg_node= S2EXPARGone ()
+}
+implement
+s2exparg_all (loc) = '{
+  s2exparg_loc= loc, s2exparg_node= S2EXPARGall ()
+}
+implement
+s2exparg_seq (loc, s2es) = '{
+  s2exparg_loc= loc, s2exparg_node= S2EXPARGseq (s2es)
+}
 
 (* ****** ****** *)
 

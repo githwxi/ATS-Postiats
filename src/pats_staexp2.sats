@@ -321,7 +321,7 @@ s2exp_node =
   | S2Etyarr of (s2exp (*element*), s2explst (*dimension*))
   | S2Etyrec of (tyreckind, int(*npf*), labs2explst) // tuple and record
 //
-  | S2Etyvarknd of (int(*knd=0/1:default/invariant*), s2exp)
+  | S2Einvar of s2exp // HX: a special type for handling type unification
 //
   | S2Erefarg of (* reference argument type *)
       (int(*1:ref/0:val*), s2exp) (* &/!: call-by-ref/val *)
@@ -510,14 +510,14 @@ fun s2var_dup (s2v: s2var): s2var // HX: s2var-duplication
 
 (* ****** ****** *)
 
-fun s2var_get_sym (s2v: s2var): symbol
-fun s2var_get_srt (s2v: s2var): s2rt
+fun s2var_get_sym (s2v: s2var):<> symbol
+fun s2var_get_srt (s2v: s2var):<> s2rt
 fun s2var_get_tmplev (s2v: s2var): int
 fun s2var_set_tmplev (s2v: s2var, lev: int): void
 fun s2var_get_sVarset (_: s2var): s2Varset
 fun s2var_set_sVarset (_: s2var, _: s2Varset): void
-fun s2varlst_set_sVarset (_: s2varlst, _: s2Varset): void
-fun s2var_get_stamp (s2v: s2var): stamp
+fun s2varlst_set_sVarset (s2vs: s2varlst, s2Vs: s2Varset): void
+fun s2var_get_stamp (s2v: s2var):<> stamp
 
 fun lt_s2var_s2var (x1: s2var, x2: s2var):<> bool
 overload < with lt_s2var_s2var
@@ -578,27 +578,27 @@ fun s2Var_make_var (loc: location, s2v: s2var): s2Var
 
 (* ****** ****** *)
 
-fun s2Var_get_cnt (s2V: s2Var): count
-fun s2Var_get_srt (s2V: s2Var): s2rt
+fun s2Var_get_cnt (s2V: s2Var):<> count
+fun s2Var_get_srt (s2V: s2Var):<> s2rt
 fun s2Var_get_link (s2V: s2Var): s2hnfopt
 fun s2Var_set_link (s2V: s2Var, link: s2hnfopt): void
 fun s2Var_get_varknd (s2V: s2Var): int
 fun s2Var_set_varknd (s2V: s2Var, knd: int): void
-fun s2Var_get_stamp (s2V: s2Var): stamp
+fun s2Var_get_stamp (s2V: s2Var):<> stamp
 
 (* ****** ****** *)
 
-fun lt_s2Var_s2Var (x1: s2Var, x2: s2Var): bool
+fun lt_s2Var_s2Var (x1: s2Var, x2: s2Var):<> bool
 overload < with lt_s2Var_s2Var
-fun lte_s2Var_s2Var (x1: s2Var, x2: s2Var): bool
+fun lte_s2Var_s2Var (x1: s2Var, x2: s2Var):<> bool
 overload <= with lte_s2Var_s2Var
 
-fun eq_s2Var_s2Var (x1: s2Var, x2: s2Var): bool
-overload < with eq_s2Var_s2Var
-fun neq_s2Var_s2Var (x1: s2Var, x2: s2Var): bool
-overload <= with neq_s2Var_s2Var
+fun eq_s2Var_s2Var (x1: s2Var, x2: s2Var):<> bool
+overload = with eq_s2Var_s2Var
+fun neq_s2Var_s2Var (x1: s2Var, x2: s2Var):<> bool
+overload != with neq_s2Var_s2Var
 
-fun compare_s2Var_s2Var (x1: s2Var, x2: s2Var): Sgn
+fun compare_s2Var_s2Var (x1: s2Var, x2: s2Var):<> Sgn
 overload compare with compare_s2Var_s2Var
 
 (* ****** ****** *)
@@ -634,20 +634,20 @@ fun d2con_make_list_cons (): d2con
 
 (* ****** ****** *)
 
-fun d2con_get_fil (x: d2con): filename
-fun d2con_get_sym (x: d2con): symbol
-fun d2con_get_scst (x: d2con): s2cst
-fun d2con_get_vwtp (x: d2con): int
-fun d2con_get_npf (x: d2con): int
-fun d2con_get_qua (x: d2con): s2qualst
-fun d2con_get_arg (x: d2con): s2explst
-fun d2con_get_arity_full (x: d2con): int
-fun d2con_get_arity_real (x: d2con): int
-fun d2con_get_ind (x: d2con): s2explstopt
-fun d2con_get_type (x: d2con): s2exp
+fun d2con_get_fil (x: d2con):<> filename
+fun d2con_get_sym (x: d2con):<> symbol
+fun d2con_get_scst (x: d2con):<> s2cst
+fun d2con_get_npf (x: d2con):<> int
+fun d2con_get_vwtp (x: d2con):<> int
+fun d2con_get_qua (x: d2con):<> s2qualst
+fun d2con_get_arg (x: d2con):<> s2explst
+fun d2con_get_arity_full (x: d2con):<> int
+fun d2con_get_arity_real (x: d2con):<> int
+fun d2con_get_ind (x: d2con):<> s2explstopt
+fun d2con_get_type (x: d2con):<> s2hnf
 fun d2con_get_tag (x: d2con): int
 fun d2con_set_tag (x: d2con, tag: int): void
-fun d2con_get_stamp (x: d2con): stamp
+fun d2con_get_stamp (x: d2con):<> stamp
 
 (* ****** ****** *)
 
@@ -754,7 +754,7 @@ fun s2exp_tyrec_srt (
 
 (* ****** ****** *)
 
-fun s2exp_tyvarknd (knd: int, s2e: s2exp): s2exp
+fun s2exp_invar (s2e: s2exp): s2hnf
 
 (* ****** ****** *)
 
@@ -844,6 +844,7 @@ datatype s2kexp =
   | S2KEtyarr of (s2kexp)
   | S2KEtyrec of (tyreckind, labs2kexplst)
   | S2KEvar of s2var
+  | S2KEerr of () // error indication
 // end of [s2kexp]
 
 and labs2kexp = SKLABELED of (label, s2kexp)
@@ -858,6 +859,29 @@ fun fprint_s2kexplst : fprint_type (s2kexplst)
 fun fprint_labs2kexplst : fprint_type (labs2kexplst)
 
 fun s2kexp_make_s2exp (s2e: s2exp): s2kexp
+
+fun s2kexp_merge (x1: s2kexp, x2: s2kexp): s2kexp
+
+(* ****** ****** *)
+
+datatype s2zexp =
+  | S2ZEany of ()
+  | S2ZEapp of (s2zexp, s2zexplst)
+  | S2ZEcst of s2cst
+  | S2ZEptr of () (* pointer size *)
+  | S2ZEextype of string (* external type *)
+  | S2ZEtyarr of // array size
+      (s2zexp (*element*), s2explst (*dimension*))
+  | S2ZEtyrec of (tyreckind, labs2zexplst)
+  | S2ZEvar of s2var
+// end of [s2zexp]
+
+and labs2zexp = SZLABELED of (label, s2zexp)
+
+where
+s2zexplst = List (s2zexp)
+and
+labs2zexplst = List (labs2zexp)
 
 (* ****** ****** *)
 
@@ -875,15 +899,25 @@ fun fprint_s2vararg : fprint_type (s2vararg)
 (* ****** ****** *)
 
 datatype
-s2exparg =
+s2exparg_node =
   | S2EXPARGone (* {..} *)
   | S2EXPARGall (* {...} *)
   | S2EXPARGseq of s2explst
-// end of [s2exparg]
+// end of [s2exparg_node]
+
+typedef
+s2exparg = '{
+  s2exparg_loc= location, s2exparg_node= s2exparg_node
+} // end of [s2exparg]
 
 typedef s2exparglst = List (s2exparg)
 
-fun fprint_s2exparg (out: FILEref, s2a: s2exparg): void
+fun fprint_s2exparg : fprint_type (s2exparg)
+fun fprint_s2exparglst : fprint_type (s2exparglst)
+
+fun s2exparg_one (loc: location): s2exparg
+fun s2exparg_all (loc: location): s2exparg
+fun s2exparg_seq (loc: location, s2es: s2explst): s2exparg
 
 (* ****** ****** *)
 
