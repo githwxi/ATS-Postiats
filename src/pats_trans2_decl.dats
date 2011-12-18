@@ -96,6 +96,13 @@ macdef list_sing (x) = list_cons (,(x), list_nil)
 
 (* ****** ****** *)
 
+macdef hnf = s2hnf_of_s2exp
+macdef hnflst = s2hnflst_of_s2explst
+macdef unhnf = s2exp_of_s2hnf
+macdef unhnflst = s2explst_of_s2hnflst
+
+(* ****** ****** *)
+
 fn symintr_tr
   (ids: i0delst): void = let
   fun aux (ids: i0delst): void = case+ ids of
@@ -432,27 +439,32 @@ fn s1tacon_tr (
   end : List (s2varlst) // end of [val]
   val def = let
     fun aux (
-      s2t_fun: s2rt, s2vss: List (s2varlst), s2e: s2exp
-    ) : s2exp =
+      s2t_fun: s2rt, s2vss: List (s2varlst), s2f: s2hnf
+    ) : s2hnf =
       case+ s2vss of
-      | list_cons (s2vs, s2vss) => let
-          val- S2RTfun (_, s2t1_fun) = s2t_fun
+      | list_cons
+          (s2vs, s2vss) => let
+          val- S2RTfun
+            (_, s2t1_fun) = s2t_fun
+          val s2f = aux (s2t1_fun, s2vss, s2f)
+          val s2e_lam = s2exp_lam_srt (s2t_fun, s2vs, (unhnf)s2f)
         in
-          s2exp_lam_srt (s2t_fun, s2vs, aux (s2t1_fun, s2vss, s2e))
+          (hnf)s2e_lam
         end // end of [list_cons]
-      | list_nil () => s2e
+      | list_nil () => s2f
    in
      case+ d.s1tacon_def of
      | Some s1e => let
          val s2e =
            s1exp_trdn (s1e, s2t_res)
          // end of [val]
-         val s2e_def = aux (s2t_fun, s2vss, s2e)
+         val s2f = s2exp_hnfize (s2e)
+         val s2f_def = aux (s2t_fun, s2vss, s2f)
        in
-         Some s2e_def
+         Some (s2f_def)
        end // end of [Some]
      | None () => None ()
-  end : s2expopt // end of [val]
+  end : s2hnfopt // end of [val]
 //
   val () = the_s2expenv_pop_free (pfenv | (*none*))
 //

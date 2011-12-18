@@ -189,6 +189,8 @@ case+ s2e0.s2exp_node of
 | S2Ecst _ => s2e0
 | S2EVar _ => s2e0
 //
+| S2Eextype _ => s2e0
+//
 | S2Eapp (s2e_fun, s2es_arg) =>
     s2exp_hnfize_app (s2e0, s2e_fun, s2es_arg, flag)
   // end of [S2Eapp]
@@ -201,6 +203,9 @@ case+ s2e0.s2exp_node of
     // end of [if]
   end // end of [S2Elam]
 | S2Efun _ => s2e0
+//
+| S2Etyarr _ => s2e0
+| S2Etyrec _ => s2e0
 //
 | S2Einvar _ => s2e0
 //

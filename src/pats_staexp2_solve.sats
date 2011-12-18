@@ -79,9 +79,9 @@ fun pfarity_equal_solve_err
 
 (* ****** ****** *)
 
-fun tyreckind_equal_solve_err
-  (loc: location, knd1: int, knd2: int, err: &int): void
-// end of [tyreckind_equal_solve_err]
+fun tyreckind_equal_solve_err (
+  loc: location, knd1: tyreckind, knd2: tyreckind, err: &int
+) : void // end of [tyreckind_equal_solve_err]
 
 (* ****** ****** *)
 
@@ -116,6 +116,10 @@ fun s2hnf_tyleq_solve_err
 fun s2exp_tyleq_solve_err
   (loc: location, s2e1: s2exp, s2e2: s2exp, err: &int): void
 // end of [s2exp_tyleq_solve]
+
+fun labs2explst_tyleq_solve_err (
+  loc: location, ls2es1: labs2explst, ls2es2: labs2explst, err: &int
+) : void // end of [labs2explst_tyleq_solve_err]
 
 (* ****** ****** *)
 

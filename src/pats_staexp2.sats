@@ -419,7 +419,7 @@ fun s2cst_make (
   id: symbol // the name
 , loc: location // the location of declaration
 , s2t: s2rt // the sort
-, isabs: Option (s2expopt)
+, isabs: Option (s2hnfopt)
 , iscon: bool
 , isrec: bool
 , isasp: bool
@@ -431,7 +431,8 @@ fun s2cst_make (
 fun s2cst_make_dat (
   id: symbol
 , loc: location
-, _arg: s2rtlstlst, _res: s2rt
+, s2ts_arg: s2rtlstlst
+, s2t_res: s2rt
 , argvar: List (syms2rtlst)
 ) : s2cst // end of [s2cst_make_dat]
 
@@ -444,7 +445,7 @@ fun s2cst_get_srt (x: s2cst): s2rt
 fun s2cst_get_def (x: s2cst): s2expopt
 fun s2cst_set_def (x: s2cst, def: s2expopt): void
 
-fun s2cst_get_isabs (x: s2cst): Option (s2expopt)
+fun s2cst_get_isabs (x: s2cst): Option (s2hnfopt)
 
 fun s2cst_get_iscon (x: s2cst): bool
 
@@ -882,6 +883,8 @@ where
 s2zexplst = List (s2zexp)
 and
 labs2zexplst = List (labs2zexp)
+
+fun s2zexp_make_s2exp (s2e: s2exp): s2zexp
 
 (* ****** ****** *)
 

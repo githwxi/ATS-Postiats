@@ -124,12 +124,16 @@ int_kind = $extype"atstype_int"
 typedef int0 = g0int (int_kind)
 typedef int1 (i:int) = g1int (int_kind, i)
 stadef int = int0 and int = int1
+//
 typedef intLt (n:int) = g1intLt (int_kind, n)
 typedef intLte (n:int) = g1intLte (int_kind, n)
 typedef intGt (n:int) = g1intGt (int_kind, n)
 typedef intGte (n:int) = g1intGte (int_kind, n)
 typedef intBtw (lb:int, ub:int) = g1intBtw (int_kind, lb, ub)
 typedef intBtwe (lb:int, ub:int) = g1intBtwe (int_kind, lb, ub)
+//
+typedef Two = intBtw (0, 2)
+typedef Sgn = intBtwe (~1, 1)
 //
 typedef natLt (n:int) = intBtw (0, n)
 typedef natLte (n:int) = intBtwe (0, n)
@@ -319,6 +323,24 @@ stadef string = string_type
 abstype string_int_type (n: int)
 stadef string = string_int_type
 
+abstype
+stropt_int_type (n:int)
+stadef stropt = stropt_int_type
+abstype stropt_type = [n:int] stropt (n)
+
+(*
+** HX: linear strings that are modifiable 
+*)
+absviewtype
+strptr_viewtype (l:addr)
+stadef strptr = strptr_viewtype
+viewtypedef strptr0 = [l:addr] strptr (l)
+viewtypedef strptr1 = [l:addr | l > null] strptr (l)
+absviewtype
+strnptr_int_addr_viewtype (n:int, l:addr)
+stadef strnptr = strnptr_int_addr_viewtype
+viewtypedef strnptr (n:int) = [l:addr] strnptr (n, l)
+
 (* ****** ****** *)
 
 abst@ype void_t0ype
@@ -328,13 +350,6 @@ stadef void = void_t0ype
 
 absviewtype exception_viewtype
 viewtypedef exn = exception_viewtype
-
-(* ****** ****** *)
-
-absviewt@ype
-READ_viewt0ype_viewt0ype
-  (a: viewt@ype+, int) = a
-stadef READ = READ_viewt0ype_viewt0ype
 
 (* ****** ****** *)
 

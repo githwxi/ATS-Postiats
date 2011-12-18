@@ -41,8 +41,11 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_exp_up"
 
 (* ****** ****** *)
 
+staload LAB = "pats_label.sats"
 staload LOC = "pats_location.sats"
 macdef print_location = $LOC.print_location
+
+staload SYN = "pats_syntax.sats"
 
 (* ****** ****** *)
 
@@ -111,6 +114,11 @@ extern fun d2exp_trup_laminit_dyn (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
+extern fun d2exp_trup_tup (d2e0: d2exp): d3exp
+extern fun d2exp_trup_rec (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
 implement
 d2exp_trup
   (d2e0) = let
@@ -171,6 +179,9 @@ case+ d2e0.d2exp_node of
 //
 | D2Elam_dyn _ => d2exp_trup_lam_dyn (d2e0)
 | D2Elaminit_dyn _ => d2exp_trup_laminit_dyn (d2e0)
+//
+| D2Etup _ => d2exp_trup_tup (d2e0)
+| D2Erec _ => d2exp_trup_rec (d2e0)
 //
 | D2Eann_type (d2e, s2f) => let
     val d3e = d2exp_trdn (d2e, s2f)
@@ -689,6 +700,95 @@ d2exp_trup_laminit_dyn (d2e0) = let
 in
   d3exp_laminit_dyn (loc0, s2f_fun, lin, npf, p3ts_arg, d3e_body)
 end // end of [D2Elam_dyn]
+
+(* ****** ****** *)
+
+extern
+fun d3explst_get_type (d3es: d3explst): labs2explst
+
+implement
+d3explst_get_type (d3es) = let
+  fun aux (
+    d3es: d3explst, i: int
+  ) : labs2explst =
+    case+ d3es of
+    | list_cons (d3e, d3es) => let
+        val l = $LAB.label_make_int (i)
+        val s2f = d3e.d3exp_type
+        val ls2e = SLABELED (l, None, (unhnf)s2f)
+      in
+        list_cons (ls2e, aux (d3es, i+1))
+      end
+    | list_nil () => list_nil ()
+  // end of [aux]
+in
+  aux (d3es, 0)
+end // end of [d3explst_get_type]
+
+implement
+d2exp_trup_tup
+  (d2e0) = let
+  val loc0 = d2e0.d2exp_loc
+  val- D2Etup (tupknd, npf, d2es) = d2e0.d2exp_node
+  val () = begin
+    print "d2exp_trup_tup: d2es = "; print_d2explst d2es; print_newline ()
+  end // end of [val]
+//
+  val d3es = d2explst_trup (d2es)
+//
+  val ls2es = d3explst_get_type (d3es)
+  val s2f_tup = s2exp_tyrec (tupknd, npf, ls2es)
+//
+in
+  d3exp_tup (loc0, s2f_tup, tupknd, npf, d3es)
+end // end of [d2exp_trup_tup]
+
+(* ****** ****** *)
+
+extern
+fun labd3explst_get_type (ld3es: labd3explst): labs2explst
+
+implement
+labd3explst_get_type (ld3es) = let
+  fn f (
+    ld3e: labd3exp
+  ) : labs2exp = let
+    val $SYN.DL0ABELED (l, d3e) = ld3e in
+    SLABELED (l.l0ab_lab, None, unhnf(d3e.d3exp_type))
+  end // end of [f]
+in
+  l2l (list_map_fun (ld3es, f))
+end // end of [labd3explst_get_type]
+
+implement
+d2exp_trup_rec
+  (d2e0) = let
+  val loc0 = d2e0.d2exp_loc
+  val- D2Erec (recknd, npf, ld2es) = d2e0.d2exp_node
+  val () = begin
+    print "d2exp_trup_rec: ld2es = "; print_labd2explst ld2es; print_newline ()
+  end // end of [val]
+//
+  fun aux (
+    ld2es: labd2explst
+  ) : labd3explst =
+    case+ ld2es of
+    | list_cons (ld2e, ld2es) => let
+        val $SYN.DL0ABELED (l, d2e) = ld2e
+        val ld3e = $SYN.DL0ABELED (l, d2exp_trup (d2e))
+        val ld3es = aux (ld2es)
+      in
+        list_cons (ld3e, ld3es)
+      end // end of [list_cons]
+    | list_nil () => list_nil ()
+  val ld3es = aux ld2es
+//
+  val ls2es = labd3explst_get_type (ld3es)
+  val s2f_rec = s2exp_tyrec (recknd, npf, ls2es)
+//
+in
+  d3exp_rec (loc0, s2f_rec, recknd, npf, ld3es)
+end // end of [d2exp_trup_rec]
 
 (* ****** ****** *)
 

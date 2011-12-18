@@ -138,6 +138,8 @@ SOURCES := \
   pats_staexp2_svar.dats \
   pats_staexp2_sVar.dats \
   pats_staexp2_dcon.dats \
+  pats_staexp2_skexp.dats \
+  pats_staexp2_szexp.dats \
   pats_staexp2_util.sats \
   pats_staexp2_util1.dats \
   pats_staexp2_util2.dats \

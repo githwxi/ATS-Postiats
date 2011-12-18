@@ -37,75 +37,49 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [string.sats] starts!\n"
+#print "Loading [strptr.sats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
-//
-fun lt_string_string (x1: string, x2: string): bool
-fun lte_string_string (x1: string, x2: string): bool
-overload < with lt_string_string
-overload <= with lte_string_string
-//
-fun gt_string_string (x1: string, x2: string): bool
-and gte_string_string (x1: string, x2: string): bool
-overload > with gt_string_string
-overload >= with gte_string_string
-//
-fun eq_string_string (x1: string, x2: string): bool
-and neq_string_string (x1: string, x2: string): bool
-overload = with eq_string_string
-overload != with neq_string_string
-//
-fun compare_string_string (x1: string, x2: string): Sgn
-overload compare with compare_string_string
-//
-(* ****** ****** *)
 
-symintr string_length
-fun string0_length (x: string): size_t
-overload string_length with string0_length
-fun string1_length {n:nat} (x: string n): size_t (n)
-overload string_length with string1_length
+castfn
+strnptr_of_strptr
+  {l:addr} (x: strptr l): [n:int] strnptr (n, l)
+// end of [strnptr_of_strptr]
+castfn
+strptr_of_strnptr
+  {n:int}{l:addr} (x: strnptr (n, l)): strptr (l)
+// end of [strptr_of_strnptr]
 
 (* ****** ****** *)
 
-(*
-** HX: [stropt_none] is just the null pointer
-*)
-
-fun stropt_length
-  {n:int} (x: stropt (n)): ssize_t (n)
-// end of [stropt_length]
-
-fun stropt_is_none {n:int} (x: stropt n): bool (n < 0)
-fun stropt_is_some {n:int} (x: stropt n): bool (n >= 0)
-
-fun stropt_none (): stropt (~1)
-
-castfn stropt_some {n:int} (x: SHARED(string n)): stropt (n)
-castfn stropt_unsome {n:nat} (x: SHARED(stropt n)): string (n)
+viewtypedef
+rstrptr = READ(strptr0)
+viewtypedef
+rstrnptr (n:int) = READ(strnptr(n))
 
 (* ****** ****** *)
 
-fun string0_append
-  (x1: string, x2: string):<> strptr1
-// end of [string0_append]
-
-fun string1_append
-  {n1,n2:int} (x1: string n1, x2: string n2):<> strnptr (n1+n2)
-// end of [string1_append]
+fun strptr_length (x: !rstrptr): ssize_t
+fun strnptr_length {n:int} (x: !rstrnptr n): ssize_t (n)
 
 (* ****** ****** *)
 
-fun string_concat (xs: List(string)): strptr1
+fun strptr_append (
+  x1: !rstrptr, x2: !rstrptr
+) : strptr0 = "atspre_strptr_append"
+
+fun strnptr_append
+  {n1,n2:nat} (
+  x1: !rstrnptr n1, x2: !rstrnptr n2
+) : strnptr (n1+n2) = "atspre_strnptr_append"
 
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [string.sats] finishes!\n"
+#print "Loading [strptr.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-(* end of [string.sats] *)
+(* end of [strptr.sats] *)

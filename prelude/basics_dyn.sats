@@ -50,6 +50,13 @@ and false : bool (false) = "mac#atsbool_false" // macro
 //
 (* ****** ****** *)
 
+praxi
+string_param_lemma
+  {n:int} (x: string(n)): [n >= 0] void
+// end of [string_param_lemma]
+
+(* ****** ****** *)
+
 datasort file_mode =
   | file_mode_r (* read *)
   | file_mode_w (* write *)
@@ -89,25 +96,64 @@ prval file_mode_lte_rw_w
 *)
 (* ****** ****** *)
 //
+datatype // t@ype+: covariant
+list0_t0ype_type (a: t@ype+) =
+  | list0_cons (a) of (a, list0_t0ype_type a)
+  | list0_nil (a) of ()
+// end of [list0_t0ype_type]
+stadef list0 = list0_t0ype_type
+//
+datatype // t@ype+: covariant
+list_t0ype_int_type (a:t@ype+, int) =
+  | {n:int | n >= 0}
+    list_cons (a, n+1) of (a, list_t0ype_int_type (a, n))
+  | list_nil (a, 0)
+// end of [datatype]
+stadef list = list_t0ype_int_type
+typedef List (a:t@ype) = [n:int | n >= 0] list (a, n)
+//
+dataviewtype // viewt@ype+: covariant
+list_viewt0ype_int_viewtype (a:viewt@ype+, int) =
+  | {n:int | n >= 0}
+    list_vt_cons (a, n+1) of (a, list_viewt0ype_int_viewtype (a, n))
+  | list_vt_nil (a, 0)
+// end of [list_viewt0ype_int_viewtype]
+stadef list_vt = list_viewt0ype_int_viewtype
+viewtypedef List_vt (a:viewt@ype) = [n:int | n >= 0] list_vt (a, n)
+//
+(* ****** ****** *)
+//
 dataprop unit_p = unit_p of ()
 dataview unit_v = unit_v of ()
+//
+(* ****** ****** *)
+//
+datatype
+option0_t0ype_type (a: t@ype+) =
+  | option0_some (a) of (a) | option0_none (a) of ()
+// end of [datatype]
+stadef option0 = option0_t0ype_type
+//
+datatype // t@ype+: covariant
+option_t0ype_bool_type (a:t@ype+, bool) =
+  | None (a, false) | Some (a, true) of a
+// end of [datatype]
+stadef option = option_t0ype_bool_type
+typedef Option (a:t@ype) = [b:bool] option (a, b)
 //
 dataview
 option_view_bool_view
   (a:view+, bool) = Some_v (a, true) of a | None_v (a, false)
 // end of [option_view_bool_view]
 stadef option_v = option_view_bool_view
-// viewdef optvar_v (a:viewt@ype, l:addr) = option_v (a @ l, l > null)
 //
-(* ****** ****** *)
-
 dataviewtype // viewt@ype+: covariant
 option_viewt0ype_bool_viewtype (a:viewt@ype+, bool) =
   | None_vt (a, false) | Some_vt (a, true) of a
 // end of [option_viewt0ype_bool_viewtype]
 stadef option_vt = option_viewt0ype_bool_viewtype
 viewtypedef Option_vt (a:viewt@ype) = [b:bool] option_vt (a, b)
-
+//
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then

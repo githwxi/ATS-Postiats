@@ -10,8 +10,8 @@
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
-** the terms of  the GNU GENERAL PUBLIC LICENSE (GPL) as published by the
-** Free Software Foundation; either version 3, or (at  your  option)  any
+** the terms of the GNU LESSER GENERAL PUBLIC LICENSE as published by the
+** Free Software Foundation; either version 2.1, or (at your option)  any
 ** later version.
 ** 
 ** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
@@ -26,56 +26,37 @@
 *)
 
 (* ****** ****** *)
+
+(* author: Hongwei Xi (hwxi AT cs DOT bu DOT edu) *)
+
+(* ****** ****** *)
+
+#include "prelude/params.hats"
+
+(* ****** ****** *)
+
+#if VERBOSE_PRELUDE #then
+#print "Loading [extern.sats] starts!\n"
+#endif // end of [VERBOSE_PRELUDE]
+
+(* ****** ****** *)
 //
-// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
-// Start Time: December, 2011
+// HX: note that (vt1 \minus v2) roughly means that a ticket of
+// [v2] is taken from [vt1]; the ticket must be returned before
+// [vt1] is consumed.
 //
-(* ****** ****** *)
-
-staload "prelude/DATS/list.dats"
-staload "prelude/DATS/list_vt.dats"
-
-(* ****** ****** *)
-
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
+absview
+minus_viewt0ype_view
+  (vt1: viewt@ype, v2: view) = vt1
+stadef minus = minus_viewt0ype_view
+prfun minus_addback
+  {vt1:viewt@ype} {v2:view} (pf1: minus (vt1, v2), pf2: v2 | x: !vt1): void
+// end of [minus_addback]
 
 (* ****** ****** *)
 
-local
+#if VERBOSE_PRELUDE #then
+#print "Loading [extern.sats] finishes!\n"
+#endif // end of [VERBOSE_PRELUDE]
 
-absviewtype env
-extern fun env_make_nil (): env
-extern fun env_pop (env: &env): void
-extern fun env_push (env: &env, s2vs: s2varlst): void
-extern fun env_free (env: env): void
-
-in // in of [local]
-
-local
-assume env = List_vt (s2varlst)
-in // in of [local]
-implement env_make_nil () = list_vt_nil ()
-implement
-env_pop (env) =
-  case+ env of
-  | ~list_vt_cons (_, xss) => env := xss
-  | _ => ()
-// end of [env_pop]
-implement
-env_push (env, s2vs) = env := list_vt_cons (s2vs, env)
-implement
-env_free (env) = list_vt_free (env)
-end // end of [local]
-
-(* ****** ****** *)
-
-local
-in // in of [local]
-end // end of [local]
-
-end // end of [local]
-
-(* ****** ****** *)
-
-(* end of [pats_staexp2_skexp.dats] *)
+(* end of [extern.sats] *)

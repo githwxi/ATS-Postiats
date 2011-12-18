@@ -160,6 +160,9 @@ dynload "pats_staexp2_svar.dats"
 dynload "pats_staexp2_sVar.dats"
 dynload "pats_staexp2_dcon.dats"
 //
+dynload "pats_staexp2_skexp.dats"
+dynload "pats_staexp2_szexp.dats"
+//
 dynload "pats_staexp2_util1.dats"
 dynload "pats_staexp2_util2.dats"
 //
@@ -426,6 +429,9 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/SATS/float.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/integer.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/string.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/strptr.sats")
+//
+  val () = pervasive_load (ATSHOME, "prelude/SATS/extern.sats")
 //
 } // end of [prelude_load]
 

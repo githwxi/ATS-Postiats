@@ -50,7 +50,7 @@ datatype staerr =
   | STAERR_linearity_equal of (location, int(*lin*), int(*lin*))
   | STAERR_pfarity_equal of (location, int(*npf*), int(*npf*))
 //
-  | STAERR_tyreckind_equal of (location, int(*knd*), int(*knd*))
+  | STAERR_tyreckind_equal of (location, tyreckind, tyreckind)
 //
   | STAERR_refval_equal of (location, int(*knd*), int(*knd*))
 //
@@ -58,7 +58,10 @@ datatype staerr =
   | STAERR_s2exp_tyleq of (location, s2exp, s2exp)
   | STAERR_s2eff_leq of (location, s2eff, s2eff)
 //
+  | STAERR_labs2explst_length of (location, int(*-1/1*))
+//
   | STAERR_s2exp_linearity of (location, s2exp)
+//
 // end of [datatype]
 
 viewtypedef staerrlst_vt = List_vt (staerr)

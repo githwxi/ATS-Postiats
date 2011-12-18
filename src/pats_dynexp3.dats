@@ -188,6 +188,26 @@ d3exp_laminit_dyn (
 (* ****** ****** *)
 
 implement
+d3exp_tup (
+  loc, s2f, knd, npf, d3es
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Etup (knd, npf, d3es)
+} // end of [d3exp_rec]
+
+implement
+d3exp_rec (
+  loc, s2f, knd, npf, ld3es
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Erec (knd, npf, ld3es)
+} // end of [d3exp_rec]
+
+(* ****** ****** *)
+
+implement
 d3exp_ann_type
   (loc, d3e, s2f) = '{
   d3exp_loc= loc

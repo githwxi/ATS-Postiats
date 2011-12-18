@@ -191,6 +191,18 @@ absviewtype cloref_t0ype_type (a: t@ype) // = ptr
 
 (* ****** ****** *)
 
+absviewt@ype
+READ_viewt0ype_int_viewt0ype
+  (a: viewt@ype+, stamp:int) = a
+stadef READ = READ_viewt0ype_int_viewt0ype
+viewtypedef READ (a:viewt@ype) = [s:int] READ (a, s)
+
+(* ****** ****** *)
+
+viewtypedef SHARED (a:viewt@ype) = a // HX: used as a comment
+
+(* ****** ****** *)
+
 (*
 absviewt@ype // S2Etyvarknd
 tyvarknd (a:viewt@ype, knd: int) = a

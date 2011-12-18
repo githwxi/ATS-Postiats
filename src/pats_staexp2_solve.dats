@@ -320,6 +320,18 @@ val () = case+
     ) // end of [S2Eapp]
   | _ => (err := err + 1)
   ) // end of [S2Eapp, _]
+| (S2Etyrec (knd1, npf1, ls2es1), _) => (
+  case+ s2en20 of
+  | S2Etyrec (knd2, npf2, ls2es2) => let
+      val () =
+        tyreckind_equal_solve_err (loc0, knd1, knd2, err)
+      // end of [val]
+      val () = pfarity_equal_solve_err (loc0, npf1, npf2, err)
+    in
+      labs2explst_tyleq_solve_err (loc0, ls2es1, ls2es2, err)
+    end // end of [S2Etyrec]
+  | _ => (err := err + 1)
+  ) // end of [S2Etyrec]
 | (_, _) when s2hnf_syneq (s2f10, s2f20) => ()
 | (_, _) => (err := err + 1)
 // end of [val]
@@ -340,6 +352,37 @@ s2exp_tyleq_solve_err
 in
   s2hnf_tyleq_solve_err (loc0, s2f10, s2f20, err)
 end // end of [s2exp_tyleq_solve_err]
+
+(* ****** ****** *)
+
+implement
+labs2explst_tyleq_solve_err
+  (loc0, ls2es1, ls2es2, err) =
+  case+ ls2es1 of
+  | list_cons (ls2e1, ls2es1) => (
+    case+ ls2es2 of
+    | list_cons (ls2e2, ls2es2) => let
+        val SLABELED (l1, _, s2e1) = ls2e1
+        val SLABELED (l2, _, s2e2) = ls2e2
+        val () = label_equal_solve_err (loc0, l1, l2, err)
+        val () = s2exp_tyleq_solve_err (loc0, s2e1, s2e2, err)
+      in
+        labs2explst_tyleq_solve_err (loc0, ls2es1, ls2es2, err)
+      end // end of [list_cons]
+    | list_nil () => let
+        val () = err := err + 1 in
+        the_staerrlst_add (STAERR_labs2explst_length (loc0, 1))
+      end // end of [list_nil]
+    ) // end of [list_cons]
+  | list_nil () => (
+    case+ ls2es2 of
+    | list_cons (ls2e2, ls2es2) => let
+        val () = err := err + 1 in
+        the_staerrlst_add (STAERR_labs2explst_length (loc0, ~1))
+      end // end of [list_cons]
+    | list_nil () => ()
+    ) // end of [list_nil]
+// end of [labs2explst_tyleq_solve_err]
 
 (* ****** ****** *)
 

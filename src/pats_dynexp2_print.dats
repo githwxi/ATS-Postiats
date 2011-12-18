@@ -48,6 +48,10 @@ staload "pats_lexing.sats"
 
 (* ****** ****** *)
 
+staload SYN = "pats_syntax.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp1.sats"
 staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
@@ -383,6 +387,25 @@ case+ x.d2exp_node of
     val () = prstr ")"
   } // end of [D2Elam_dyn]
 //
+| D2Etup (knd, npf, d2es) => {
+    val () = prstr "D2Etup(knd="
+    val () = fprint_int (out, knd)
+    val () = prstr "; npf="
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_d2explst (out, d2es)
+    val () = prstr ")"
+  } // end of [D2Erec]
+| D2Erec (knd, npf, ld2es) => {
+    val () = prstr "D2Erec(knd="
+    val () = fprint_int (out, knd)
+    val () = prstr "; npf="
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_labd2explst (out, ld2es)
+    val () = prstr ")"
+  } // end of [D2Erec]
+//
 | D2Eann_type (d2e, s2f) => {
     val () = prstr "D2Eann_type("
     val () = fprint_d2exp (out, d2e)
@@ -410,14 +433,42 @@ case+ x.d2exp_node of
 end // end of [fprint_d2exp]
 
 implement
+print_d2exp (x) = fprint_d2exp (stdout_ref, x)
+implement
+prerr_d2exp (x) = fprint_d2exp (stderr_ref, x)
+
+implement
 fprint_d2explst (out, xs) =
   $UT.fprintlst (out, xs, ", ", fprint_d2exp)
 // end of [fprint_d2explst]
 
 implement
-print_d2exp (x) = fprint_d2exp (stdout_ref, x)
+print_d2explst (xs) = fprint_d2explst (stdout_ref, xs)
 implement
-prerr_d2exp (x) = fprint_d2exp (stderr_ref, x)
+prerr_d2explst (xs) = fprint_d2explst (stderr_ref, xs)
+
+(* ****** ****** *)
+
+extern
+fun fprint_labd2exp : fprint_type (labd2exp)
+
+implement
+fprint_labd2exp (out, x) = {
+  val $SYN.DL0ABELED (l, d2e) = x
+  val () = $SYN.fprint_l0ab (out, l)
+  val () = fprint_string (out, "=")
+  val () = fprint_d2exp (out, d2e)
+} // end of [fprint_labd2exp]
+
+implement
+fprint_labd2explst (out, xs) =
+  $UT.fprintlst (out, xs, ", ", fprint_labd2exp)
+// end of [fprint_labs2explst]
+
+implement
+print_labd2explst (xs) = fprint_labd2explst (stdout_ref, xs)
+implement
+prerr_labd2explst (xs) = fprint_labd2explst (stderr_ref, xs)
 
 (* ****** ****** *)
 

@@ -668,9 +668,16 @@ and i2mpdec = '{
 (* ****** ****** *)
 
 fun fprint_d2exp : fprint_type (d2exp)
-fun fprint_d2explst : fprint_type (d2explst)
 fun print_d2exp (x: d2exp): void
 fun prerr_d2exp (x: d2exp): void
+
+fun fprint_d2explst : fprint_type (d2explst)
+fun print_d2explst (xs: d2explst): void
+fun prerr_d2explst (xs: d2explst): void
+
+fun fprint_labd2explst : fprint_type (labd2explst)
+fun print_labd2explst (xs: labd2explst): void
+fun prerr_labd2explst (xs: labd2explst): void
 
 fun fprint_d2exparg : fprint_type (d2exparg)
 fun fprint_d2exparglst : fprint_type (d2exparglst)

@@ -121,6 +121,11 @@ d3exp_node =
   | D3Elaminit_dyn of // dynamic flat funtion closure
       (int(*lin*), int(*npf*), p3atlst, d3exp)
 //
+  | D3Etup of (* tuple expression *)
+      (int(*tupknd*), int(*npf*), d3explst)
+  | D3Erec of (* record expression *)
+      (int(*recknd*), int(*npf*), labd3explst)
+//
   | D3Eann_type of (d3exp, s2hnf)
 //
   | D3Eerr of () // indication of error
@@ -143,6 +148,9 @@ and d3exp = '{
 and d3explst = List (d3exp)
 and d3expopt = Option (d3exp)
 and d3explstlst = List (d3explst)
+
+and labd3exp = dl0abeled (d3exp)
+and labd3explst = List (labd3exp)
 
 (* ****** ****** *)
 
@@ -251,6 +259,18 @@ fun d3exp_laminit_dyn (
   loc: location, typ: s2hnf
 , lin: int, npf: int, arg: p3atlst, body: d3exp
 ) : d3exp // end of [d3exp_laminit_dyn]
+
+(* ****** ****** *)
+
+fun d3exp_tup (
+  loc: location, typ: s2hnf
+, tupknd: int, npf: int, d3es: d3explst
+) : d3exp // end of [d3exp_tup]
+
+fun d3exp_rec (
+  loc: location, typ: s2hnf
+, recknd: int, npf: int, ld3es: labd3explst
+) : d3exp // end of [d3exp_rec]
 
 (* ****** ****** *)
 

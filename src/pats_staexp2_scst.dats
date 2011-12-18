@@ -80,7 +80,7 @@ s2cst_struct = @{ (* builtin or abstract *)
 //
 , s2cst_def= s2expopt // definition
 //
-, s2cst_isabs= Option (s2expopt) // is abstract?
+, s2cst_isabs= Option (s2hnfopt) // is abstract?
 , s2cst_iscon= bool // constructor?
 , s2cst_isrec= bool // is it recursive?
 , s2cst_isasp= bool // already assumed?
@@ -167,6 +167,8 @@ in // in of [let]
 ref_make_view_ptr (pfat | p)
 //
 end // end of [s2cst_make]
+
+(* ****** ****** *)
 
 implement
 s2cst_get_sym (s2c) = let
