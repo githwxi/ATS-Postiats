@@ -209,6 +209,7 @@ case+ s2e0.s2exp_node of
 //
 | S2Einvar _ => s2e0
 //
+(*
 | S2Eexi (s2vs, s2ps, s2e) => let
     val flag0 = flag
     val s2ps = s2explst_hnfize_flag (s2ps, flag)
@@ -223,6 +224,9 @@ case+ s2e0.s2exp_node of
   in
     if flag > flag0 then s2exp_uni (s2vs, s2ps, s2e) else s2e0
   end // end of [S2Euni]
+*)
+| S2Eexi _=> s2e0
+| S2Euni _=> s2e0
 //
 | _ => let
     val () = (

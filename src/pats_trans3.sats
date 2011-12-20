@@ -45,13 +45,21 @@ staload "pats_dynexp3.sats"
 datatype trans3err =
   | T3E_intsp of (d2exp)
   | T3E_floatsp of (d2exp)
+//
+  | T3E_s2hnf_uni_instantiate_napp of (s2hnf, location(*arg*), int(*-1/1*))
+  | T3E_s2hnf_uni_instantiate_arity of (s2hnf, location(*arg*), int(*-1/1*))
+  | T3E_s2hnf_uni_instantiate_srtck of (s2hnf, location(*arg*), s2rt, s2rt)
+  | T3E_s2hnf_uni_instantiate_sexparglst of (location, s2hnf, s2exparglst)
+//
   | T3E_p2at_trdn_ann of (p2at, s2hnf)
+//
   | T3E_d2exp_trup_laminit_fc of (d2exp, funclo)
   | T3E_d2exp_trup_con_npf of (d2exp, int(*npf*))
   | T3E_d3exp_trdn of (d3exp, s2hnf)
   | T3E_d23explst_trdn_arity of (location, int(*-1/1*))
   | T3E_d23exp_trup_app23_npf of (location(*fun*), int(*npf*))
-  | T3E_fundeclst_tr_metsrts of (d2ecl, s2rtlstopt)
+//
+  | T3E_fundeclst_tr_metsrtck of (d2ecl, s2rtlstopt)
 // end of [trans3err]
 
 fun the_trans3errlst_add (x: trans3err): void

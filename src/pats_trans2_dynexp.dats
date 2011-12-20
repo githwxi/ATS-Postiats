@@ -269,17 +269,17 @@ case+ e0.e1xp_node of
     prval unit_v () = pfu
 //
     val e1 = e1xp_app (loc0, e0, loc0, (l2l)es)
-// (*
+(*
     val () = (
       print "d1exp_tr_app_dyn_e1xp: e1 = "; print_e1xp e1; print_newline ()
     ) // end of [val]
-// *)
+*)
     val e2 = e1xp_normalize (e1)
-// (*
+(*
     val () = (
       print "d1exp_tr_app_dyn_e1xp: e2 = "; print_e1xp e2; print_newline ()
     ) // end of [val]
-// *)
+*)
     val d1e0_new = d1exp_make_e1xp (loc0, e2)
   in
     d1exp_tr (d1e0_new)
@@ -308,7 +308,11 @@ in
 //
 case+ ans of
 | ~Some_vt d2i => let
-    val sarg = list_nil ()
+(*
+    val () = (
+      print "d1exp_tr_app_sta_dyn_dqid: d2i = ..."; print_newline ()
+    ) // end of [val]
+*)
   in
     d1exp_tr_app_sta_dyn_dqid_itm (
       d1e0, d1e1, d1e1, dq, id, d2i, sarg, npf, locarg, darg
@@ -324,7 +328,7 @@ case+ ans of
     val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
   in
     d2exp_err (d1e0.d1exp_loc)
-  end
+  end // end of [None_vt]
 end // end of [d1exp_tr_app_sta_dyn_dqid]
 
 and
@@ -414,9 +418,10 @@ d1exp_tr_app_sta_dyn (
   d1e0, d1e1, d1e_fun, sarg, locarg, npf, darg
 ) = let
 (*
-  val () = begin
-    print "d1exp_tr_app_sta_dyn: d1e0 = "; print_d1exp d1e0; print_newline ()
-  end // end of [val]
+  val () = (
+    print "d1exp_tr_app_sta_dyn: d1e0 = "; print_d1exp d1e0; print_newline ();
+    print "d1exp_tr_app_sta_dyn: sarg = "; fprint_s1exparglst (stdout_ref, sarg); print_newline ()
+  ) // end of [val]
 *)
 in
 //
@@ -761,11 +766,11 @@ fun sc1laulst_trdn (
 
 implement
 d1exp_tr (d1e0) = let
-// (*
+(*
   val () = begin
     print "d1exp_tr: d1e0 = "; print_d1exp d1e0; print_newline ()
   end // end of [val]
-// *)
+*)
   val loc0 = d1e0.d1exp_loc
 in
 //

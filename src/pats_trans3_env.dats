@@ -46,6 +46,10 @@ staload "pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
+staload "pats_trans3.sats"
+
+(* ****** ****** *)
+
 staload "pats_trans3_env.sats"
 
 (* ****** ****** *)
@@ -153,34 +157,180 @@ end // end of [local]
 
 (* ****** ****** *)
 
+local
+
+fun s2hnf_uni_instantiate0_stasub (
+  s2f0: s2hnf
+, locarg: location
+, sub: &stasub, s2vs: s2varlst
+, err: &int
+) : void = let
+  macdef loop = s2hnf_uni_instantiate0_stasub
+in
+//
+case+ s2vs of
+| list_cons (s2v, s2vs) => let
+    val s2f = s2exp_Var_make_var (locarg, s2v)
+    val () = stasub_add (sub, s2v, s2f)
+  in
+    loop (s2f0, locarg, sub, s2vs, err)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [s2hnf_uni_instantiate0_stasub]
+
+fun s2hnf_uni_instantiate1_stasub (
+  s2f0: s2hnf
+, locarg: location
+, sub: &stasub, s2vs: s2varlst, s2es: s2explst
+, err: &int
+) : void = let
+  macdef loop = s2hnf_uni_instantiate1_stasub
+in
+//
+case+ s2vs of
+| list_cons (s2v, s2vs) => (
+  case+ s2es of
+  | list_cons (s2e, s2es) => let
+      val s2t1 = s2var_get_srt (s2v)
+      val s2t2 = s2e.s2exp_srt
+      val ismat = s2rt_ltmat1 (s2t2, s2t1)
+    in
+    if ismat then let
+        val s2f = s2exp_hnfize (s2e)
+        val () = stasub_add (sub, s2v, s2f)
+      in
+        loop (s2f0, locarg, sub, s2vs, s2es, err)
+      end else let
+        val () = err := err + 1
+        val () = the_trans3errlst_add (
+          T3E_s2hnf_uni_instantiate_srtck (s2f0, locarg, s2t1, s2t2)
+        ) // end of [val]
+        val s2f = s2hnf_err (s2t1)
+        val () = stasub_add (sub, s2v, s2f)
+      in
+        loop (s2f0, locarg, sub, s2vs, s2es, err)
+      end (* end of [if] *)
+    end // end of [list_cons]
+  | list_nil () => let
+      val () = err := err + 1
+    in
+      the_trans3errlst_add (T3E_s2hnf_uni_instantiate_arity (s2f0, locarg, 1))
+    end // end of [list_nil]
+  ) // end of [list_cons]
+| list_nil () => (
+  case+ s2es of
+  | list_cons _ => let
+      val () = err := err + 1 in
+      the_trans3errlst_add (T3E_s2hnf_uni_instantiate_arity (s2f0, locarg, ~1))
+    end // end of [list_cons]
+  | list_nil () => ()
+  ) // end of [list_nil]
+end // end of [s2hnf_uni_instantiate1_stasub]
+
+in // in of [local]
+
 implement
 s2hnf_uni_instantiate_all
-  (loc0, s2f, err) = let // HX: [err] is not used
+  (s2f, locarg, err) = let // HX: [err] is not used
   fun loop (
-    sub: &stasub, s2f: s2hnf
+    sub: &stasub, s2f: s2hnf, err: &int
   ) :<cloref1> s2exp = let
     val s2e = (unhnf)s2f
   in
     case+ s2e.s2exp_node of
     | S2Euni (s2vs, s2ps, s2e1) => let
-        val s2es = list_map_cloptr<s2var><s2hnf>
-          (s2vs, lam (s2v) =<1> s2exp_Var_make_var (loc0, s2v))
-        val err = stasub_addlst (sub, s2vs, $UN.castvwtp1 {s2hnflst} (s2es))
-        val () = list_vt_free (s2es)
+        val () = s2hnf_uni_instantiate0_stasub (s2f, locarg, sub, s2vs, err)
 (*
         val s2ps = s2explst_subst (sub, s2ps)
 *)
+        val s2f1 = s2exp_hnfize (s2e1)
       in
-        loop (sub, (hnf)s2e1)
-      end
+        loop (sub, s2f1, err)
+      end // end of [S2Euni]
     | _ => s2exp_subst (sub, s2e)
   end // end of [loop]
   var sub: stasub = stasub_make_nil ()
-  val s2e_res = loop (sub, s2f)
+  val s2e_res = loop (sub, s2f, err)
   val () = stasub_free (sub)
 in
-  (hnf)s2e_res
+  s2exp_hnfize (s2e_res)
 end // end of [s2hnf_uni_instantiate_all]
+
+implement
+s2exp_uni_instantiate_sexparglst
+  (s2f, s2as, err) = let
+//
+fun loop (
+  sub: &stasub, s2f: s2hnf, s2as: s2exparglst, err: &int
+) : s2hnf = let
+  val s2e = s2exp_of_s2hnf (s2f)
+in
+//
+case+ s2as of
+| list_cons (s2a, s2as1) => let
+    val locarg = s2a.s2exparg_loc
+  in
+    case+ s2a.s2exparg_node of
+    | S2EXPARGall () => (
+      case+ s2e.s2exp_node of
+      | S2Euni (s2vs, s2ps, s2e1) => let
+          val () = s2hnf_uni_instantiate0_stasub (s2f, locarg, sub, s2vs, err)
+          val s2f1 = s2exp_hnfize (s2e1)
+        in
+          loop (sub, s2f1, s2as, err)
+        end
+      | _ => loop (sub, s2f, s2as1, err)
+      ) // end of [S2EXPARGall]
+    | S2EXPARGone () => (
+      case+ s2e.s2exp_node of
+      | S2Euni (s2vs, s2ps, s2e1) => let
+          val () = s2hnf_uni_instantiate0_stasub (s2f, locarg, sub, s2vs, err)
+          val s2f1 = s2exp_hnfize (s2e1)
+        in
+          loop (sub, s2f1, s2as1, err)
+        end
+      | _ => let
+          val () = err := err + 1
+          val () = the_trans3errlst_add (
+            T3E_s2hnf_uni_instantiate_napp (s2f, locarg, 1(*over*))
+          ) // end of [val]
+        in
+          loop (sub, s2f, s2as1, err)
+        end
+      ) // end of [S2EXPARGone]
+    | S2EXPARGseq (s2es) => (
+      case+ s2e.s2exp_node of
+      | S2Euni (s2vs, s2ps, s2e1) => let
+          val () = s2hnf_uni_instantiate1_stasub (s2f, locarg, sub, s2vs, s2es, err)
+          val s2f1 = s2exp_hnfize (s2e1)
+        in
+          loop (sub, s2f1, s2as1, err)
+        end
+      | _ => let
+          val () = err := err + 1
+          val () = the_trans3errlst_add (
+            T3E_s2hnf_uni_instantiate_napp (s2f, locarg, 1(*over*))
+          ) // end of [val]
+        in
+          loop (sub, s2f, s2as1, err)
+        end
+      ) // end of [S2EXPARGseq]
+  end // end of [list_cons]
+| list_nil () => let
+    val s2e_res = s2exp_subst (sub, (unhnf)s2f) in s2exp_hnfize (s2e_res)
+  end // end of [list_nil]
+//
+end // end of [loop]
+//
+var sub: stasub = stasub_make_nil ()
+val s2f_res = loop (sub, s2f, s2as, err)
+val () = stasub_free (sub)
+in
+  s2f_res
+end // end of [s2exp_uni_instantiate_sexparglst]
+
+end // end of [local]
 
 (* ****** ****** *)
 

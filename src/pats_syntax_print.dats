@@ -577,6 +577,23 @@ fprint_s0expopt
 (* ****** ****** *)
 
 implement
+fprint_s0exparg
+  (out, s0a) = let
+  macdef prstr (str) = fprint_string (out, ,(str))
+in
+  case+ s0a of
+  | S0EXPARGone () => prstr "{..}"
+  | S0EXPARGall () => prstr "{...}"
+  | S0EXPARGseq (s0es) => {
+      val () = prstr "{"
+      val () = fprint_s0explst (out, s0es)
+      val () = prstr "}"
+    } (* end of [S0EXPARGseq] *)
+end // end of [fprint_s0exparg]
+
+(* ****** ****** *)
+
+implement
 fprint_labs0exp
   (out, x) = () where {
   val+ SL0ABELED (l, name, s0e) = x
@@ -901,6 +918,12 @@ case+ x.d0exp_node of
     val () = fprint_int (out, knd)
     val () = prstr "; "
     val () = prstr "..."
+    val () = prstr ")"
+  }
+//
+| D0Esexparg (s0a) => {
+    val () = prstr "D0Esexparg("
+    val () = fprint_s0exparg (out, s0a)
     val () = prstr ")"
   }
 //

@@ -443,6 +443,9 @@ end // end of [lte_s2rtbas_s2rtbas]
 
 (* ****** ****** *)
 
+(*
+** HX: knd=0/1: dry-run / real-run
+*)
 extern
 fun s2rt_ltmat (s2t1: s2rt, s2t2: s2rt, knd: int): bool
 extern

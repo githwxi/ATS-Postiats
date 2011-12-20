@@ -326,6 +326,15 @@ case+ d1e0.d1exp_node of
     val () = fprint_d1explst (out, _arg)
     val () = prstr ")"
   }
+| D1Eapp_sta (
+    d1e, s1as
+  ) => {
+    val () = prstr "D1Eapp_sta("
+    val () = fprint_d1exp (out, d1e)
+    val () = prstr "; "
+    val () = fprint_s1exparglst (out, s1as)
+    val () = prstr ")"
+  }
 | D1Elist (npf, xs) => {
     val () = prstr "D1Elist("
     val () = fprint_int (out, npf)

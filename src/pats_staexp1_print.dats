@@ -593,15 +593,20 @@ implement
 fprint_s1exparg (out, x) =
   case+ x.s1exparg_node of
   | S1EXPARGone () =>
-      fprint_string (out, "S1EXPARGone()")
+      fprint_string (out, "{..}")
   | S1EXPARGall () =>
-      fprint_string (out, "S1EXPARGall()")
+      fprint_string (out, "{...}")
   | S1EXPARGseq (s1es) => {
-      val () = fprint_string (out, "S1EXPARGseq(")
+      val () = fprint_string (out, "{")
       val () = fprint_s1explst (out, s1es)
-      val () = fprint_string (out, ")")
+      val () = fprint_string (out, "}")
     } (* end of [S1EXPARGseq] *)
 // end of [s1exparg_node]
+
+implement
+fprint_s1exparglst
+  (out, xs) = $UT.fprintlst (out, xs, "", fprint_s1exparg)
+// end of [fprint_s1exparglst]
 
 (* ****** ****** *)
 

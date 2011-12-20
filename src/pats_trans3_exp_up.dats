@@ -383,13 +383,16 @@ d2exp_trup_con (d2e0) = let
   val loc0 = d2e0.d2exp_loc
   val- D2Econ (d2c, s2as, npf, locarg, d2es) = d2e0.d2exp_node
   val d23es = d2explst_trup_arg (d2es)
-//  val () = d23explst_open_and_add (d23es)
-  val s2f = d2con_get_type (d2c)
 (*
-  val s2f = s2exp_uni_instantiate_sexparglst (loc0, s2f, s2as)
+  val () = d23explst_open_and_add (d23es)
 *)
+  val s2f = d2con_get_type (d2c)
   var err: int = 0
-  val s2f = s2hnf_uni_instantiate_all (loc0, s2f, err)
+  val s2f = s2exp_uni_instantiate_sexparglst (s2f, s2as, err)
+  // HX: [err] is not used
+  var err: int = 0
+  val locarg = $LOC.location_rightmost (loc0)
+  val s2f = s2hnf_uni_instantiate_all (s2f, locarg, err)
   // HX: [err] is not used
   val s2e = (unhnf)s2f
 in
@@ -442,6 +445,11 @@ d23exp_trup_applst_sta (
 , s2as: s2exparglst
 , d2as: d2exparglst
 ) : d3exp = let
+//
+  val () = (
+    print "d23exp_trup_applst_sta: d2e0 = "; print_d2exp d2e0; print_newline ()
+  ) // end of [val]
+//
   val loc_fun = d3e_fun.d3exp_loc
   val s2f_fun = d3e_fun.d3exp_type
   val loc_app =
@@ -456,10 +464,10 @@ d23exp_trup_applst_sta (
         end // end of [list_cons]
       | list_nil () => loc
   } // end of [where]
-(*
+//
   var err: int = 0
   val s2f_fun =
-    s2exp_uni_instantiate_sexparglst_err (s2f_fun, s2as, err)
+    s2exp_uni_instantiate_sexparglst (s2f_fun, s2as, err)
   // end of [val]
   val () = if (err > 0) then let
     val () = prerr_error3_loc (loc_app)
@@ -468,10 +476,10 @@ d23exp_trup_applst_sta (
     val () = prerr_newline ()    
   in
     the_trans3errlst_add (
-      T3E_s2exp_uni_instantiate_sexparglst (loc_app, s2f_fun, s2as)
+      T3E_s2hnf_uni_instantiate_sexparglst (loc_app, s2f_fun, s2as)
     ) // end of [the_trans3errlst_add]
   end // end of [val]
-*)
+//
   val d3e_fun = d3exp_app_sta (loc_app, s2f_fun, d3e_fun)
 in
   d23exp_trup_applst (d2e0, d3e_fun, d2as)
@@ -490,7 +498,8 @@ fun d23exp_trup_app23 (
   end // end of [val]
 // *)
   var err: int = 0
-  val s2f_fun = s2hnf_uni_instantiate_all (loc_fun, s2f_fun, err)
+  val locsarg = $LOC.location_rightmost (loc_fun)
+  val s2f_fun = s2hnf_uni_instantiate_all (s2f_fun, locsarg, err)
   // HX: [err] is unused
 // (*
   val () = begin

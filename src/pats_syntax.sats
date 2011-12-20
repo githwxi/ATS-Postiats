@@ -768,6 +768,8 @@ s0exparg =
 
 typedef s0expargopt = Option (s0exparg)
 
+fun fprint_s0exparg : fprint_type (s0exparg)
+
 (* ****** ****** *)
 
 typedef
@@ -1277,6 +1279,7 @@ and d0exp_node =
   | D0Esel_ind of (int(*knd*), d0explstlst(*ind*))
 //
   | D0Esexparg of s0exparg // static multi-argument
+//
   | D0Eexist of (location (*qua*), s0exparg, d0exp) // existential sum
 //
   | D0Elam of (int(*knd*), f0arglst, s0expopt, e0fftaglstopt, d0exp)

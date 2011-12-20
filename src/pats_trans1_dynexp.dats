@@ -743,14 +743,15 @@ in
   loop (d0e0, list_nil ())
 end // end of [aux_itemlist]
 //
-(*
+// (*
 val () = {
-  val () = print_location (loc0)
+  val loc0 = d0e0.d0exp_loc
+  val () = $LOC. print_location (loc0)
   val () = print ": d0exp_tr: d0e0 = "
   val () = fprint_d0exp (stdout_ref, d0e0)
   val () = print_newline ()
 } // end of [val]
-*)
+// *)
 //
 in
 //

@@ -1291,7 +1291,7 @@ case+ knd of
       s2rt_npf_lin_prf_prgm_boxed_labs2explst (npf, lin, prf, prgm, boxed, ls2es)
     ) : s2rt // end of [val]
   in
-    s2exp_tyrec_srt (s2t_rec, TYRECKINDbox (), npf, ls2es)
+    s2exp_tyrec_srt (s2t_rec, TYRECKINDflt0 (), npf, ls2es)
   end // end of [TYRECKIND_flt]
 | TYRECKIND_box => let
     var lin: int = 0

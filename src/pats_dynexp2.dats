@@ -397,15 +397,21 @@ d2exp_apps (
 implement
 d2exp_app_sta (
   loc0, d2e_fun, s2as
-) = begin case+ s2as of
+) = let
+  val () = (
+    print "d2exp_app_sta: d2e_fun = "; print_d2exp d2e_fun; print_newline ()
+  ) // end of [val]
+in
+//
+case+ s2as of
 | list_cons _ => let
     val d2a = D2EXPARGsta (s2as)
     val node = (
       case+ d2e_fun.d2exp_node of
       | D2Eapps (d2e_fun, d2as) => let
-          val d2as = l2l (list_extend (d2as, d2a))
+          val d2as = list_extend (d2as, d2a)
         in
-          D2Eapps (d2e_fun, d2as)
+          D2Eapps (d2e_fun, (l2l)d2as)
         end
       | _ => D2Eapps (d2e_fun, list_sing (d2a))
     ) : d2exp_node // end of [val]
@@ -419,17 +425,23 @@ end (* end of [d2exp_app_sta] *)
 implement
 d2exp_app_dyn (
   loc0
-, d2e_fun, npf, loc_arg, darg
+, d2e_fun, npf, locarg, darg
 ) = let
-  val d2a = D2EXPARGdyn (npf, loc_arg, darg)
-  val node = case+ d2e_fun.d2exp_node of
+//
+  val () = (
+    print "d2exp_app_fun: d2e_fun = "; print_d2exp d2e_fun; print_newline ()
+  ) // end of [val]
+//
+  val d2a = D2EXPARGdyn (npf, locarg, darg)
+  val node = (
+    case+ d2e_fun.d2exp_node of
     | D2Eapps (d2e_fun, d2as) => let
         val d2as = l2l (list_extend (d2as, (d2a)))
       in
         D2Eapps (d2e_fun, d2as)
       end
     | _ => D2Eapps (d2e_fun, list_sing (d2a))
-  // end of [val]
+  ) : d2exp_node // end of [val]
 in
   d2exp_make (loc0, node)
 end // end of [d2exp_app_dyn]
@@ -437,13 +449,13 @@ end // end of [d2exp_app_dyn]
 implement
 d2exp_app_sta_dyn (
   loc_dyn, loc_sta
-, d2e_fun, sarg, loc_arg, npf, darg
+, d2e_fun, sarg, locarg, npf, darg
 ) = let
   val d2e_sta =
     d2exp_app_sta (loc_sta, d2e_fun, sarg)
   // end of [val]
 in
-  d2exp_app_dyn (loc_dyn, d2e_sta, npf, loc_arg, darg)
+  d2exp_app_dyn (loc_dyn, d2e_sta, npf, locarg, darg)
 end // end of [d2exp_app_sta_dyn]
 
 (* ****** ****** *)
