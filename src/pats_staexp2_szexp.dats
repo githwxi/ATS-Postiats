@@ -32,6 +32,11 @@
 //
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "prelude/DATS/list.dats"
 staload "prelude/DATS/list_vt.dats"
 
@@ -42,10 +47,12 @@ staload "pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
+(*
 macdef hnf = s2hnf_of_s2exp
 macdef hnflst = s2hnflst_of_s2explst
 macdef unhnf = s2exp_of_s2hnf
 macdef unhnflst = s2explst_of_s2hnflst
+*)
 
 (* ****** ****** *)
 
@@ -83,15 +90,16 @@ end // end of [local]
 
 local
 
-fun aux_s2hnf (
-  env: &env, s2f0: s2hnf
+fun aux_s2exp (
+  env: &env, s2e0: s2exp
 ) : s2zexp = let
 (*
   val () = (
-    print "s2zexp_make_s2exp: aux_s2hnf: s2f0 = "; print_s2hnf s2f0; print_newline ()
+    print "s2zexp_make_s2exp: aux_s2exp: s2e0 = "; print_s2exp s2f0; print_newline ()
   ) // end of [val]
 *)
-  val s2e0 = (unhnf)s2f0
+  val s2f0 = s2exp_hnfize (s2e0)
+  val s2e0 = $UN.cast {s2exp} (s2f0)
 in
   case+ s2e0.s2exp_node of
 //
@@ -100,7 +108,7 @@ in
     in
       case+ isabs of
       | Some (opt) => (case+ opt of
-        | Some (s2f) => aux_s2hnf (env, s2f)
+        | Some (s2e) => aux_s2exp (env, s2e)
         | None () => s2zexp_make_s2cst (s2c)
         ) // end of [Some]
       | None () => s2zexp_make_s2cst (s2c)
@@ -112,7 +120,7 @@ in
   | S2Efun _ => S2ZEptr ()
 //
   | S2Eapp (s2e_fun, s2es_arg) =>
-      aux_s2exp_app (env, s2e0.s2exp_srt, (hnf)s2e_fun, s2es_arg)
+      aux_s2exp_app (env, s2e0.s2exp_srt, s2e_fun, s2es_arg)
     // end of [S2Eapp]
 //
   | S2Etop (knd, s2e) => aux_s2exp (env, s2e)
@@ -137,20 +145,15 @@ in
     end // end of [S2Eexi]
 //
   | _ => S2ZEany ()
-end // end of [aux_s2hnf]
-
-and aux_s2exp (
-  env: &env, s2e: s2exp
-) : s2zexp =
-  aux_s2hnf (env, s2exp_hnfize (s2e))
-// end of [aux_s2exp]
+end // end of [aux_s2exp]
 
 and aux_s2exp_app (
   env: &env
 , s2t: s2rt
-, s2f_fun: s2hnf, s2es_arg: s2explst
+, s2e_fun: s2exp, s2es_arg: s2explst
 ) : s2zexp = let
-  val s2e_fun = (unhnf)s2f_fun
+  val s2f_fun = s2exp_hnfize (s2e_fun)
+  val s2e_fun = $UN.cast {s2exp} (s2f_fun)
 in
   case+ s2e_fun.s2exp_node of
   | S2Ecst s2c => let

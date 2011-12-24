@@ -118,7 +118,11 @@ fun sp1at_trdn (sp1t: sp1at, s2t: s2rt): sp2at
 (* ****** ****** *)
 
 fun s1exp_trup (s1e: s1exp): s2exp
+fun s1exp_trup_hnfize (s1e: s1exp): s2exp
+
 fun s1explst_trup (s1es: s1explst): s2explst
+fun s1explst_trup_hnfize (s1es: s1explst): s2explst
+
 fun s1expopt_trup (s1es: s1expopt): s2expopt
 
 fun s2exp_trdn (
@@ -192,6 +196,11 @@ fun t1mpmarg_bind_svarlst (
   t1ma: t1mpmarg, s2vs: s2varlst, sub: stasub
 ) : (stasub, s2explst) // end of [t1mpmarg_bind_svarlst]
 *)
+
+(* ****** ****** *)
+
+fun t1mpmarg_tr (t1ma: t1mpmarg): t2mpmarg
+fun t1mpmarglst_tr (t1mas: t1mpmarglst): t2mpmarglst
 
 (* ****** ****** *)
 

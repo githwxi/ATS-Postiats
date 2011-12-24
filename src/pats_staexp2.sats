@@ -98,6 +98,9 @@ typedef s2Varlst = List (s2Var)
 typedef s2Varopt = Option (s2Var)
 abstype s2Varset_type // assumed in [pats_staexp2_sVar.dats]
 typedef s2Varset = s2Varset_type
+abstype s2VarBound_type // assumed in [pats_staexp2_sVar.dats]
+typedef s2VarBound = s2VarBound_type
+typedef s2VarBoundlst = List (s2VarBound)
 
 (* ****** ****** *)
 
@@ -272,18 +275,9 @@ overload != with eq_tyreckind_tyreckind
 (*
 ** HX: s2hnf for s2exp in head normal form (HNF)
 *)
-abstype s2hnf_type = ptr // s2exp
-
+abstype s2hnf_type
 typedef s2hnf = s2hnf_type
 typedef s2hnflst = List (s2hnf)
-typedef s2hnfopt = Option (s2hnf)
-typedef s2hnflstlst = List (s2hnflst)
-typedef s2hnflstopt = Option (s2hnflst)
-
-fun fprint_s2hnf
-  (out: FILEref, x: s2hnf): void
-fun print_s2hnf (x: s2hnf): void
-fun prerr_s2hnf (x: s2hnf): void
 
 (* ****** ****** *)
 
@@ -343,7 +337,7 @@ s2exp_node =
 and s2eff =
   | S2EFFall of ()
   | S2EFFnil of ()
-  | S2EFFset of (effset, s2hnflst)
+  | S2EFFset of (effset, s2explst)
 // end of [s2eff]
 
 and s2rtext = (* extended sort *)
@@ -368,21 +362,9 @@ and s2explst = List (s2exp)
 and s2expopt = Option (s2exp)
 and s2explstlst = List (s2explst)
 and s2explstopt = Option (s2explst)
-
 and labs2explst = List (labs2exp)
 
-(* ****** ****** *)
-
-castfn s2exp_of_s2hnf (x: s2hnf): s2exp
-castfn s2hnf_of_s2exp (x: s2exp): s2hnf
-castfn s2explst_of_s2hnflst (xs: s2hnflst): s2explst
-castfn s2hnflst_of_s2explst (xs: s2explst): s2hnflst
-castfn s2expopt_of_s2hnfopt (xs: s2hnfopt): s2expopt
-castfn s2hnfopt_of_s2expopt (xs: s2expopt): s2hnfopt
-castfn s2explstlst_of_s2hnflstlst (xss: s2hnflstlst): s2explstlst
-castfn s2hnflstlst_of_s2explstlst (xss: s2explstlst): s2hnflstlst
-castfn s2explstopt_of_s2hnflstopt (xss: s2hnflstopt): s2explstopt
-castfn s2hnflstopt_of_s2explstopt (xss: s2explstopt): s2hnflstopt
+viewtypedef s2explst_vt = List_vt (s2exp)
 
 (* ****** ****** *)
 
@@ -419,7 +401,7 @@ fun s2cst_make (
   id: symbol // the name
 , loc: location // the location of declaration
 , s2t: s2rt // the sort
-, isabs: Option (s2hnfopt)
+, isabs: Option (s2expopt)
 , iscon: bool
 , isrec: bool
 , isasp: bool
@@ -445,7 +427,7 @@ fun s2cst_get_srt (x: s2cst): s2rt
 fun s2cst_get_def (x: s2cst): s2expopt
 fun s2cst_set_def (x: s2cst, def: s2expopt): void
 
-fun s2cst_get_isabs (x: s2cst): Option (s2hnfopt)
+fun s2cst_get_isabs (x: s2cst): Option (s2expopt)
 
 fun s2cst_get_iscon (x: s2cst): bool
 
@@ -581,11 +563,26 @@ fun s2Var_make_var (loc: location, s2v: s2var): s2Var
 
 fun s2Var_get_cnt (s2V: s2Var):<> count
 fun s2Var_get_srt (s2V: s2Var):<> s2rt
-fun s2Var_get_link (s2V: s2Var): s2hnfopt
-fun s2Var_set_link (s2V: s2Var, link: s2hnfopt): void
+fun s2Var_get_link (s2V: s2Var): s2expopt
+fun s2Var_set_link (s2V: s2Var, link: s2expopt): void
+(*
 fun s2Var_get_varknd (s2V: s2Var): int
 fun s2Var_set_varknd (s2V: s2Var, knd: int): void
+*)
+//
+fun s2Var_get_lbs (s2V: s2Var): s2VarBoundlst
+fun s2Var_set_lbs (s2V: s2Var, lbs: s2VarBoundlst): void
+fun s2Var_get_ubs (s2V: s2Var): s2VarBoundlst
+fun s2Var_set_ubs (s2V: s2Var, ubs: s2VarBoundlst): void
+//
 fun s2Var_get_stamp (s2V: s2Var):<> stamp
+
+(* ****** ****** *)
+
+fun s2VarBound_make
+  (loc: location, s2f: s2exp): s2VarBound
+fun s2VarBound_get_loc (x: s2VarBound): location
+fun s2VarBound_get_val (x: s2VarBound): s2exp
 
 (* ****** ****** *)
 
@@ -645,7 +642,7 @@ fun d2con_get_arg (x: d2con):<> s2explst
 fun d2con_get_arity_full (x: d2con):<> int
 fun d2con_get_arity_real (x: d2con):<> int
 fun d2con_get_ind (x: d2con):<> s2explstopt
-fun d2con_get_type (x: d2con):<> s2hnf
+fun d2con_get_type (x: d2con):<> s2exp
 fun d2con_get_tag (x: d2con): int
 fun d2con_set_tag (x: d2con, tag: int): void
 fun d2con_get_stamp (x: d2con):<> stamp
@@ -682,23 +679,23 @@ fun prerr_d2conlst (xs: d2conlst): void
 //
 // HX: static expressions
 //
-fun s2exp_int (i: int): s2hnf
-fun s2exp_intinf (int: intinf): s2hnf
-fun s2exp_char (c: char): s2hnf
-fun s2exp_cst (x: s2cst): s2hnf // HX: static constant
-fun s2exp_var (x: s2var): s2hnf // HX: static variable
-fun s2exp_Var (x: s2Var): s2hnf // HX: static existential variable
+fun s2exp_int (i: int): s2exp
+fun s2exp_intinf (i: intinf): s2exp
+fun s2exp_char (c: char): s2exp
+fun s2exp_cst (x: s2cst): s2exp // HX: static constant
+fun s2exp_var (x: s2var): s2exp // HX: static variable
+fun s2exp_Var (x: s2Var): s2exp // HX: static existential variable
 
 fun s2exp_extype_srt
-  (s2t: s2rt, name: string, arg: s2explstlst): s2hnf
+  (s2t: s2rt, name: string, arg: s2explstlst): s2exp
 // end of [s2exp_extype_srt]
 
 (* ****** ****** *)
 
 fun s2exp_at
-  (s2e1: s2exp, s2e2: s2exp): s2hnf
+  (s2e1: s2exp, s2e2: s2exp): s2exp
 // end of [s2exp_at]
-fun s2exp_sizeof (s2e_type: s2exp): s2hnf
+fun s2exp_sizeof (s2e_type: s2exp): s2exp
 
 (* ****** ****** *)
 
@@ -708,7 +705,7 @@ fun s2exp_app_srt
 
 fun s2exp_lam (s2vs: s2varlst, s2e: s2exp): s2exp
 fun s2exp_lam_srt (s2t: s2rt, s2vs: s2varlst, s2e: s2exp): s2exp
-fun s2exp_lams (s2vss: s2varlstlst, s2e: s2exp): s2exp
+fun s2exp_lamlst (s2vss: s2varlstlst, s2e: s2exp): s2exp
 
 fun s2exp_fun_srt (
   s2t: s2rt
@@ -718,21 +715,21 @@ fun s2exp_fun_srt (
 , npf: int
 , s2es_arg: s2explst
 , s2e_res: s2exp
-) : s2hnf // end of [s2exp_fun_srt]
+) : s2exp // end of [s2exp_fun_srt]
 
 fun s2exp_metfn
-  (opt: stampopt, met: s2explst, s2e: s2exp): s2hnf
+  (opt: stampopt, met: s2explst, s2e: s2exp): s2exp
 // end of [s2exp_metfn]
 
 (* ****** ****** *)
 
-fun s2exp_cstapp (s2c: s2cst, s2es: s2explst): s2hnf
-fun s2exp_confun (npf: int, s2es: s2explst, s2e: s2exp): s2hnf
+fun s2exp_cstapp (s2c: s2cst, s2es: s2explst): s2exp
+fun s2exp_confun (npf: int, s2es: s2explst, s2e: s2exp): s2exp
 
 (* ****** ****** *)
 
-fun s2exp_datconptr (d2c: d2con, s2es: s2explst): s2hnf
-fun s2exp_datcontyp (d2c: d2con, s2es: s2explst): s2hnf
+fun s2exp_datconptr (d2c: d2con, s2es: s2explst): s2exp
+fun s2exp_datcontyp (d2c: d2con, s2es: s2explst): s2exp
 
 (* ****** ****** *)
 
@@ -742,20 +739,20 @@ fun s2exp_top_srt (s2t: s2rt, knd: int, s2e: s2exp): s2exp
 (* ****** ****** *)
 
 fun s2exp_tyarr
-  (s2e_elt: s2exp, s2es_int: s2explst): s2hnf
+  (s2e_elt: s2exp, s2es_int: s2explst): s2exp
 // end of [s2exp_tyarr]
 
 fun s2exp_tyrec (
   knd: int, npf: int, ls2es: labs2explst
-) : s2hnf // end of [s2exp_tyrec]
+) : s2exp // end of [s2exp_tyrec]
 
 fun s2exp_tyrec_srt (
   s2t: s2rt, knd: tyreckind, npf: int, ls2es: labs2explst
-) : s2hnf // end of [s2exp_tyrec_srt]
+) : s2exp // end of [s2exp_tyrec_srt]
 
 (* ****** ****** *)
 
-fun s2exp_invar (s2e: s2exp): s2hnf
+fun s2exp_invar (s2e: s2exp): s2exp
 
 (* ****** ****** *)
 
@@ -763,23 +760,24 @@ fun s2exp_refarg
   (refval: int, s2e: s2exp): s2exp
 // end of [s2exp_refarg]
 
-fun s2exp_vararg (s2e: s2exp): s2hnf
+fun s2exp_vararg (s2e: s2exp): s2exp
 
 (* ****** ****** *)
 
 fun s2exp_exi
-  (s2vs: s2varlst, s2ps: s2explst, s2e: s2exp): s2exp
+  (s2vs: s2varlst, s2ps: s2explst, s2f: s2exp): s2exp
 fun s2exp_uni
-  (s2vs: s2varlst, s2ps: s2explst, s2e: s2exp): s2exp
+  (s2vs: s2varlst, s2ps: s2explst, s2f: s2exp): s2exp
 fun s2exp_exiuni // knd=0/1: exi/uni
-  (knd: int, s2vs: s2varlst, s2ps: s2explst, s2e: s2exp): s2exp
+  (knd: int, s2vs: s2varlst, s2ps: s2explst, s2f: s2exp): s2exp
 // end of [s2exp_exiuni]
 
 (* ****** ****** *)
 
 fun s2exp_wth (_res: s2exp, _with: wths2explst): s2exp
 
-fun s2hnf_err (s2t: s2rt): s2hnf // HX: error indication
+(* ****** ****** *)
+
 fun s2exp_err (s2t: s2rt): s2exp // HX: error indication
 fun s2exp_s2rt_err (): s2exp // HX: s2exp_err (s2rt_err ())
 
@@ -824,7 +822,7 @@ sp2at_node =
 typedef
 sp2at = '{
   sp2at_loc= location
-, sp2at_exp= s2hnf, sp2at_node= sp2at_node
+, sp2at_exp= s2exp, sp2at_node= sp2at_node
 } // end of [sp2at]
 
 fun sp2at_con
@@ -920,7 +918,20 @@ fun fprint_s2exparglst : fprint_type (s2exparglst)
 
 fun s2exparg_one (loc: location): s2exparg
 fun s2exparg_all (loc: location): s2exparg
-fun s2exparg_seq (loc: location, s2es: s2explst): s2exparg
+fun s2exparg_seq (loc: location, s2fs: s2explst): s2exparg
+
+(* ****** ****** *)
+
+typedef
+t2mpmarg = '{
+  t2mpmarg_loc= location, t2mpmarg_arg= s2explst
+} // end of [t2mpmarg]
+
+typedef t2mpmarglst = List (t2mpmarg)
+
+fun fprint_t2mpmarg : fprint_type (t2mpmarg)
+
+fun t2mpmarg_make (loc: location, arg: s2explst): t2mpmarg
 
 (* ****** ****** *)
 

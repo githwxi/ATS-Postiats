@@ -119,24 +119,37 @@ fun trans3_env_add_sVarlst (s2Vs: s2Varlst): void
 
 (* ****** ****** *)
 
-fun s2exp_Var_make_srt (loc: location, s2t: s2rt): s2hnf
-fun s2exp_Var_make_var (loc: location, s2v: s2var): s2hnf
+fun s2exp_Var_make_srt (loc: location, s2t: s2rt): s2exp
+fun s2exp_Var_make_var (loc: location, s2v: s2var): s2exp
 
 (* ****** ****** *)
 
-fun s2hnf_uni_instantiate_all
-  (s2f: s2hnf, locarg: location, err: &int): s2hnf
+fun s2exp_uni_instantiate_all
+  (s2e: s2exp, locarg: location, err: &int): s2exp
 (*
-fun s2hnf_uni_instantiate_one
-  (s2f: s2hnf, locarg: location, err: &int): s2hnf
-fun s2hnf_uni_instantiate_seq (
-  s2f: s2hnf, locarg: location, arg: s2explst, err: &int
-) : s2hnf // end of [s2hnf_uni_instantiate_seq]
+fun s2exp_uni_instantiate_one
+  (s2e: s2exp, locarg: location, err: &int): s2exp
+fun s2epx_uni_instantiate_seq (
+  s2e: s2exp, locarg: location, arg: s2explst, err: &int
+) : s2exp // end of [s2exp_uni_instantiate_seq]
 *)
 
 fun s2exp_uni_instantiate_sexparglst
-  (s2f: s2hnf, arg: s2exparglst, err: &int): s2hnf
+  (s2e: s2exp, arg: s2exparglst, err: &int): s2exp
 // end of [s2exp_uni_instantiate_sexparglst]
+
+(* ****** ****** *)
+
+fun s2exp_tmp_instantiate_rest (
+  s2f: s2exp, locarg: location, s2qs: s2qualst, err: &int
+) : (s2exp(*res*), t2mpmarglst)
+// end of [s2exp_tmp_instantiate_rest]
+
+fun s2exp_tmp_instantiate_tmpmarglst (
+  s2f: s2exp
+, locarg: location, s2qs: s2qualst, t2mas: t2mpmarglst, err: &int
+) : (s2exp(*res*), t2mpmarglst)
+// end of [s2exp_tmp_instantiate_tmpmarglst]
 
 (* ****** ****** *)
 

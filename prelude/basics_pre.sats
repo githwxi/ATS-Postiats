@@ -184,6 +184,8 @@ stadef @ = at_viewt0ype_addr_view // HX: @ is infix
 (* ****** ****** *)
 
 absviewt@ype
+clo_t0ype_t0ype (a: t@ype) = a
+absviewt@ype
 clo_viewt0ype_viewt0ype (a: viewt@ype) = a
 absviewtype
 cloptr_viewt0ype_viewtype (a: viewt@ype) // = ptr
@@ -211,10 +213,17 @@ viewtypedef CO (a:viewt@ype) = tyvarknd (a, 2) // T <= X => T = X
 viewtypedef CONTRA (a:viewt@ype) = tyvarknd (a, 3) // X <= T => T = X
 *)
 
+abst@ype // S2Einvar
+invar_t0ype_t0ype (a:t@ype) = a
 absviewt@ype // S2Einvar
 invar_viewt0ype_viewt0ype (a:viewt@ype) = a
-viewtypedef IN (a:viewt@ype) = invar_viewt0ype_viewt0ype (a)
-
+//
+// HX: this order is significant
+// 
+viewtypedef INV
+  (a:viewt@ype) = invar_viewt0ype_viewt0ype (a)
+viewtypedef INV (a:t@ype) = invar_t0ype_t0ype (a)
+//
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then

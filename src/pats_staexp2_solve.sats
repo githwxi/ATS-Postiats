@@ -91,32 +91,27 @@ fun refval_equal_solve_err
 
 (* ****** ****** *)
 
-fun s2hnf_equal_solve
-  (loc: location, s2f1: s2hnf, s2f2: s2hnf): int(*err*)
-// end of [s2hnf_equal_solve]
-fun s2hnf_equal_solve_err
-  (loc: location, s2f1: s2hnf, s2f2: s2hnf, err: &int): void
-// end of [s2hnf_equal_solve_err]
+fun s2exp_equal_solve
+  (loc: location, s2e1: s2exp, s2e2: s2exp): int
+// end of [s2exp_equal_solve]
 fun s2exp_equal_solve_err
   (loc: location, s2e1: s2exp, s2e2: s2exp, err: &int): void
 // end of [s2exp_equal_solve_err]
-
 fun s2explst_equal_solve_err (
   loc: location, s2es1: s2explst, s2es2: s2explst, err: &int
 ) : int(*errlen*) // end of [s2explst_equal_solve_err]
 
 (* ****** ****** *)
 
-fun s2hnf_tyleq_solve
-  (loc: location, s2f1: s2hnf, s2f2: s2hnf): int(*err*)
-// end of [s2hnf_tyleq_solve]
-fun s2hnf_tyleq_solve_err
-  (loc: location, s2f1: s2hnf, s2f2: s2hnf, err: &int): void
-// end of [s2hnf_tyleq_solve]
+fun s2exp_tyleq_solve
+  (loc: location, s2e1: s2exp, s2e2: s2exp): int
+// end of [s2exp_tyleq_solve]
 fun s2exp_tyleq_solve_err
   (loc: location, s2e1: s2exp, s2e2: s2exp, err: &int): void
-// end of [s2exp_tyleq_solve]
-
+// end of [s2exp_tyleq_solve_err]
+fun s2explst_tyleq_solve_err
+  (loc: location, s2e1: s2explst, s2e2: s2explst, err: &int): void
+// end of [s2explst_tyleq_solve_err]
 fun labs2explst_tyleq_solve_err (
   loc: location, ls2es1: labs2explst, ls2es2: labs2explst, err: &int
 ) : void // end of [labs2explst_tyleq_solve_err]

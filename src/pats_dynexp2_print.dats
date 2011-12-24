@@ -58,8 +58,10 @@ staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 
+(*
 macdef unhnf = s2exp_of_s2hnf
 macdef unhnflst = s2explst_of_s2hnflst
+*)
 
 (* ****** ****** *)
 
@@ -159,7 +161,7 @@ case+ x.p2at_node of
     val () = prstr "; "
     val () = fprint_s2qualst (out, s2qs)
     val () = prstr "; "
-    val () = fprint_s2exp (out, unhnf (s2f))
+    val () = fprint_s2exp (out, s2f)
     val () = prstr "; "
     val () = fprint_int (out, npf)
     val () = prstr "; "
@@ -209,7 +211,7 @@ case+ x.p2at_node of
     val () = prstr "P2Tann("
     val () = fprint_p2at (out, p2t)
     val () = prstr ", "
-    val () = fprint_s2exp (out, unhnf (s2f))
+    val () = fprint_s2exp (out, s2f)
     val () = prstr ")"
   }
 | P2Terr () => prstr "P2Terr()"
@@ -236,11 +238,9 @@ prerr_p2atlst (xs) = fprint_p2atlst (stderr_ref, xs)
 
 (* ****** ****** *)
 
-local
-
-fn fprint_labp2at (
-  out: FILEref, lp2t: labp2at
-) : void = case+ lp2t of
+implement
+fprint_labp2at
+  (out, lp2t) = case+ lp2t of
   | LP2Tnorm (l, p2t) => {
       val () = $LAB.fprint_label (out, l)
       val () = fprint_string (out, "=")
@@ -249,14 +249,10 @@ fn fprint_labp2at (
   | LP2Tomit () => fprint_string (out, "...")
 // end of [fprint_labp2at]
 
-in // in of [local]
-
 implement
 fprint_labp2atlst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_labp2at)
 // end of [fprint_p2atlst]
-
-end // end of [local]
 
 (* ****** ****** *)
 
@@ -328,12 +324,17 @@ case+ x.d2exp_node of
   } // end of [D2Eempty]
 | D2Eextval (s2f, rep) => {
     val () = prstr "D2Eextval("
-    val () = fprint_s2hnf (out, s2f)
+    val () = fprint_s2exp (out, s2f)
     val () = prstr "; "
     val () = fprint_string (out, rep)
     val () = prstr ")"
   }
 //
+| D2Ecst (d2c) => {
+    val () = prstr "D2Ecst("
+    val () = fprint_d2cst (out, d2c)
+    val () = prstr ")"
+  }
 | D2Econ (
     d2c, s2as, npf, _(*loc*), d2es
   ) => {
@@ -347,14 +348,18 @@ case+ x.d2exp_node of
     val () = fprint_d2explst (out, d2es)
     val () = prstr ")"
   }
-| D2Ecst (d2c) => {
-    val () = prstr "D2Ecst("
-    val () = fprint_d2cst (out, d2c)
+//
+| D2Etmpid
+    (d2e_id, t2mas) => {
+    val () = prstr "D2Etmpid("
+    val () = fprint_d2exp (out, d2e_id)
+    val () = prstr "; "
+    val () = $UT.fprintlst (out, t2mas, "; ", fprint_t2mpmarg)
     val () = prstr ")"
   }
 //
-| D2Eapps (d2e, d2as) => {
-    val () = prstr "D2Eapps("
+| D2Eapplst (d2e, d2as) => {
+    val () = prstr "D2Eapplst("
     val () = fprint_d2exp (out, d2e)
     val () = prstr "; "
     val () = fprint_d2exparglst (out, d2as)
@@ -387,6 +392,16 @@ case+ x.d2exp_node of
     val () = prstr ")"
   } // end of [D2Elam_dyn]
 //
+| D2Elam_sta (s2vs, s2ps, d2e) => {
+    val () = prstr "D2Elam_sta("
+    val () = fprint_s2varlst (out, s2vs)
+    val () = prstr "; "
+    val () = fprint_s2explst (out, s2ps)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Elam_sta]
+//
 | D2Etup (knd, npf, d2es) => {
     val () = prstr "D2Etup(knd="
     val () = fprint_int (out, knd)
@@ -395,7 +410,7 @@ case+ x.d2exp_node of
     val () = prstr "; "
     val () = fprint_d2explst (out, d2es)
     val () = prstr ")"
-  } // end of [D2Erec]
+  } // end of [D2Etup]
 | D2Erec (knd, npf, ld2es) => {
     val () = prstr "D2Erec(knd="
     val () = fprint_int (out, knd)
@@ -405,12 +420,17 @@ case+ x.d2exp_node of
     val () = fprint_labd2explst (out, ld2es)
     val () = prstr ")"
   } // end of [D2Erec]
+| D2Eseq (d2es) => {
+    val () = prstr "D2Eseq("
+    val () = fprint_d2explst (out, d2es)
+    val () = prstr ")"
+  } // end of [D2Eseq]
 //
 | D2Eann_type (d2e, s2f) => {
     val () = prstr "D2Eann_type("
     val () = fprint_d2exp (out, d2e)
     val () = prstr " : "
-    val () = fprint_s2hnf (out, s2f)
+    val () = fprint_s2exp (out, s2f)
     val () = prstr ")"
   } // end of [D2Eann_type]
 | D2Eann_seff (d2e, s2fe) => {
@@ -448,9 +468,6 @@ implement
 prerr_d2explst (xs) = fprint_d2explst (stderr_ref, xs)
 
 (* ****** ****** *)
-
-extern
-fun fprint_labd2exp : fprint_type (labd2exp)
 
 implement
 fprint_labd2exp (out, x) = {
@@ -515,6 +532,17 @@ case+ x.d2ecl_node of
     val () = $UT.fprintlst (out, xs, "\n", fprint_d2ecl)
     val () = prstr "\n)"
   } // end of [D2Clist]
+//
+| D2Coverload (id, opt) => {
+    val () = prstr "D2Coverload("
+    val () = $SYN.fprint_i0de (out, id)
+    val () = prstr ", "
+    val () = (case+ opt of
+      | Some d2i => fprint_d2itm (out, d2i)
+      | None () => fprint_string (out, "*ERROR*")
+    ) : void // end of [val]
+    val () = prstr ")"
+  } // end of [D2Coverload]
 //
 | D2Cdatdec (knd, s2cs) => {
     val () = prstr "D2Cdatdec(\n"

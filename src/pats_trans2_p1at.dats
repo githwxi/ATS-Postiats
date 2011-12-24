@@ -83,12 +83,6 @@ staload "pats_trans2_env.sats"
 
 (* ****** ****** *)
 
-macdef hnf = s2hnf_of_s2exp
-macdef unhnf = s2exp_of_s2hnf
-macdef unhnflst = s2explst_of_s2hnflst
-
-(* ****** ****** *)
-
 fun p1at_tr_ide (
   p1t0: p1at, id: symbol
 ) : p2at = let
@@ -147,7 +141,7 @@ p1at_tr_con_sapp1 (
   p1t1: p1at
 , d2c: d2con, sub: &stasub,
   s2qs: s2qualst, out: &List_vt(s2qua)
-) : s2hnf = let
+) : s2exp = let
 in
 //
 case+ s2qs of
@@ -155,9 +149,9 @@ case+ s2qs of
     val s2vs =
       stasub_extend_svarlst (sub, s2q.s2qua_svs)
     // end of [val]
+    val s2vs = (l2l)s2vs
     val s2ps = s2explst_subst (sub, s2q.s2qua_sps)
-    val s2q = s2qua_make ($UN.castvwtp1 (s2vs), s2ps)
-    val () = list_vt_free (s2vs)
+    val s2q = s2qua_make (s2vs, s2ps)
     val () = out := list_vt_cons (s2q, out)
   in
     p1at_tr_con_sapp1 (p1t1, d2c, sub, s2qs, out)
@@ -176,10 +170,10 @@ case+ s2qs of
           s2exp_cstapp (s2c, s2es_ind)
         end // end of [Some]
       | None () => s2exp_cst (s2c) // end of [None]
-    ) : s2hnf // end of [val]
+    ) : s2exp // end of [val]
     val () = out := list_vt_reverse (out)
   in
-    s2exp_confun (npf, s2es_arg, unhnf (s2f_res))
+    s2exp_confun (npf, s2es_arg, s2f_res)
   end // end of [list_nil]
 //
 end // end of [p1at_tr_con_sapp1]
@@ -189,7 +183,7 @@ p1at_tr_con_sapp2 (
   p1t1: p1at
 , d2c: d2con, sub: &stasub, s2qs: s2qualst, s1as: s1vararglst
 , out: &s2qualst_vt
-) : s2hnf = let
+) : s2exp = let
 //
 fn auxerr1 (
   p1t1: p1at, d2c: d2con
@@ -226,15 +220,15 @@ case+ s1as of
         val s2vs =
           stasub_extend_svarlst (sub, s2q.s2qua_svs)
         // end of [val]
+        val s2vs = (l2l)s2vs
         val s2ps = s2explst_subst (sub, s2q.s2qua_sps)
-        val s2q = s2qua_make ($UN.castvwtp1 (s2vs), s2ps)
-        val () = list_vt_free (s2vs)
+        val s2q = s2qua_make (s2vs, s2ps)
         val () = out := list_vt_cons (s2q, out)
       in
         p1at_tr_con_sapp2 (p1t1, d2c, sub, s2qs, s1as, out)
       end // end of [list_cons]
     | list_nil () => let
-        val () = auxerr1 (p1t1, d2c) in hnf (s2exp_s2rt_err ())
+        val () = auxerr1 (p1t1, d2c) in s2exp_s2rt_err ()
       end (* end of [list_nil] *)
     end // end of [S1VARARGone]
   | S1VARARGall () => p1at_tr_con_sapp1 (p1t1, d2c, sub, s2qs, out)
@@ -248,15 +242,15 @@ case+ s1as of
           val () = auxerr2 (p1t1, d2c, loc, err) in the_trans2errlst_add (T2E_p1at_tr (p1t1))
         end // end of [val]
 //
+        val s2vs = (l2l)s2vs
         val s2ps = s2explst_subst (sub, s2q.s2qua_sps)
-        val s2q = s2qua_make ($UN.castvwtp1 (s2vs), s2ps)
-        val () = list_vt_free (s2vs)
+        val s2q = s2qua_make (s2vs, s2ps)
         val () = out := list_vt_cons (s2q, out)
       in
         p1at_tr_con_sapp2 (p1t1, d2c, sub, s2qs, s1as, out)
       end // end of [list_cons]
     | list_nil () => let
-        val () = auxerr1 (p1t1, d2c) in hnf (s2exp_s2rt_err ())
+        val () = auxerr1 (p1t1, d2c) in s2exp_s2rt_err ()
       end (* end of [list_nil] *)
     end // end of [S1VARARGseq]
   ) // end of [list_cons]

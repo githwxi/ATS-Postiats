@@ -61,6 +61,15 @@ staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
+(*
+macdef hnf = s2hnf_of_s2exp
+macdef hnflst = s2hnflst_of_s2explst
+macdef unhnf = s2exp_of_s2hnf
+macdef unhnflst = s2explst_of_s2hnflst
+*)
+
+(* ****** ****** *)
+
 typedef
 d2con_struct = @{
   d2con_loc= location // location
@@ -74,15 +83,10 @@ d2con_struct = @{
 , d2con_arity_full= int // full arity
 , d2con_arity_real= int // real arity after erasure
 , d2con_ind= s2explstopt // indexes
-, d2con_type= s2hnf // type for dynamic constructor
+, d2con_type= s2exp // type for dynamic constructor
 , d2con_tag= int // tag for dynamic constructor
 , d2con_stamp= stamp // uniqueness
 } // end of [d2con_struct]
-
-(* ****** ****** *)
-
-macdef hnf = s2hnf_of_s2exp
-macdef unhnf = s2exp_of_s2hnf
 
 (* ****** ****** *)
 
@@ -121,26 +125,25 @@ in
 end // end of [val]
 //
 val d2c_type = let
-  fun aux (s2f: s2hnf, s2qs: s2qualst): s2hnf =
+  fun aux (s2f: s2exp, s2qs: s2qualst): s2exp =
     case+ s2qs of
     | list_cons (s2q, s2qs) => let
         val s2f = aux (s2f, s2qs)
-        val s2e_uni =
-          s2exp_uni (s2q.s2qua_svs, s2q.s2qua_sps, (unhnf)s2f)
+        val s2f_uni =
+          s2exp_uni (s2q.s2qua_svs, s2q.s2qua_sps, s2f)
         // end of [val]
       in
-        (hnf)s2e_uni
+        s2f_uni
       end // end of [list_cons]
     | list_nil () => s2f
   // end of [aux]
   val s2e_res = (case+ ind of
     | Some s2es => s2exp_cstapp (s2c, s2es) | None () => s2exp_cst (s2c)
-  ) : s2hnf // end of [val]
-  val s2e_res = unhnf (s2e_res)
+  ) : s2exp // end of [val]
   val s2f = s2exp_confun (npf, arg, s2e_res)
 in
   aux (s2f, qua)
-end : s2hnf // end of [val]
+end : s2exp // end of [val]
 //
 val (pf_gc, pfat | p) = ptr_alloc<d2con_struct> ()
 prval () = free_gc_elim (pf_gc)

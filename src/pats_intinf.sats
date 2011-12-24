@@ -54,6 +54,7 @@ fun fprint_intinf (out: FILEref, x: intinf): void
 (* ****** ****** *)
 
 fun eq_intinf_int (x1: intinf, x2: int): bool
+fun eq_int_intinf (x1: int, x2: intinf): bool
 fun eq_intinf_intinf (x1: intinf, x2: intinf): bool
 
 fun compare_intinf_int (x1: intinf, x2: int): int

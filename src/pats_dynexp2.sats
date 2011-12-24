@@ -120,7 +120,7 @@ fun d2cst_make (
 , dck: dcstkind
 , decarg: s2qualst
 , arylst: List int
-, typ: s2hnf
+, typ: s2exp // HX: there is no s2Var in it
 , extdef: dcstextdef
 ) : d2cst // end of [d2cst_make]
 
@@ -137,7 +137,7 @@ fun d2cst_get_kind (x: d2cst): dcstkind
 fun d2cst_get_arylst (x: d2cst): List int
 fun d2cst_get_decarg (x: d2cst): s2qualst
 fun d2cst_set_decarg (x: d2cst, s2qs: s2qualst): void
-fun d2cst_get_type (x: d2cst): s2hnf
+fun d2cst_get_type (x: d2cst): s2exp
 fun d2cst_get_extdef (x: d2cst): dcstextdef
 fun d2cst_get_stamp (x: d2cst): stamp
 
@@ -164,8 +164,8 @@ fun prerr_d2var (x: d2var): void
 datatype d2vfin =
   | D2VFINdone of ()
   | D2VFINnone of ()
-  | D2VFINsome of s2hnf
-  | D2VFINvbox of s2hnf
+  | D2VFINsome of s2exp
+  | D2VFINvbox of s2exp
 // end of [d2vfin]
 
 (* ****** ****** *)
@@ -189,8 +189,8 @@ fun d2var_set_linval (x: d2var, linval: int): void
 fun d2var_get_decarg (x: d2var): s2qualst
 fun d2var_set_decarg (x: d2var, decarg: s2qualst): void
 
-fun d2var_get_addr (x: d2var): s2hnfopt
-fun d2var_set_addr (x: d2var, s2eopt: s2hnfopt): void
+fun d2var_get_addr (x: d2var): s2expopt
+fun d2var_set_addr (x: d2var, opt: s2expopt): void
 
 fun d2var_get_view (x: d2var): d2varopt
 fun d2var_set_view (x: d2var, d2vopt: d2varopt): void
@@ -198,10 +198,10 @@ fun d2var_set_view (x: d2var, d2vopt: d2varopt): void
 fun d2var_get_finknd (_: d2var): d2vfin
 fun d2var_set_finknd (_: d2var, knd: d2vfin): void
 
-fun d2var_get_type (x: d2var): s2hnfopt
-fun d2var_set_type (x: d2var, opt: s2hnfopt): void
-fun d2var_get_mastype (x: d2var): s2hnfopt
-fun d2var_set_mastype (x: d2var, opt: s2hnfopt): void
+fun d2var_get_type (x: d2var): s2expopt
+fun d2var_set_type (x: d2var, opt: s2expopt): void
+fun d2var_get_mastype (x: d2var): s2expopt
+fun d2var_set_mastype (x: d2var, opt: s2expopt): void
 
 fun d2var_get_stamp (x: d2var): stamp
 
@@ -274,7 +274,7 @@ datatype p2at_node =
 //
   | P2Tempty of ()
   | P2Tcon of ( // constructor pattern
-      int(*freeknd*), d2con, s2qualst, s2hnf(*con*), int(*npf*), p2atlst
+      int(*freeknd*), d2con, s2qualst, s2exp(*con*), int(*npf*), p2atlst
     ) // end of [P2Tcon]
 //
   | P2Tlst of (p2atlst)
@@ -287,7 +287,7 @@ datatype p2at_node =
   | P2Tas of (int(*refknd*), d2var, p2at)
   | P2Texist of (s2varlst, p2at) // existential opening
 //
-  | P2Tann of (p2at, s2hnf) // ascribed pattern
+  | P2Tann of (p2at, s2exp) // no s2Var in the ascribed type
 //
   | P2Tlist of (int(*npf*), p2atlst)
 //
@@ -304,7 +304,7 @@ p2at = '{
   p2at_loc= location
 , p2at_svs= lstord (s2var)
 , p2at_dvs= lstord (d2var)
-, p2at_type= s2hnfopt // ref@ (s2hnfopt)
+, p2at_type= s2expopt // ref@ (s2expopt)
 , p2at_node= p2at_node
 }
 and p2atlst = List (p2at)
@@ -314,9 +314,9 @@ and labp2atlst = List (labp2at)
 
 (* ****** ****** *)
 
-fun p2at_set_typ (
-  p2t: p2at, opt: s2hnfopt
-) : void = "patsopt_p2at_set_typ"
+fun p2at_set_type
+  (p2t: p2at, opt: s2expopt): void = "patsopt_p2at_set_type"
+// end of [p2at_set_type]
 
 (* ****** ****** *)
 
@@ -351,7 +351,7 @@ fun p2at_con (
 , freeknd: int
 , d2c: d2con
 , s2qs: s2qualst
-, s2f(*con*): s2hnf
+, s2f(*con*): s2exp
 , npf: int, darg: p2atlst
 ) : p2at // end of [p2at_con]
 
@@ -373,7 +373,7 @@ fun p2at_exist
   (loc: location, s2vs: s2varlst, p2t: p2at): p2at
 // end of [p2at_exist]
 
-fun p2at_ann (loc: location, p2t: p2at, ann: s2hnf): p2at
+fun p2at_ann (loc: location, p2t: p2at, ann: s2exp): p2at
 
 fun p2at_err (loc: location): p2at
 
@@ -389,7 +389,8 @@ fun fprint_p2atlst
 fun print_p2atlst (xs: p2atlst): void
 and prerr_p2atlst (xs: p2atlst): void
 
-fun fprint_labp2atlst (out: FILEref, xs: labp2atlst): void
+fun fprint_labp2at : fprint_type (labp2at)
+fun fprint_labp2atlst : fprint_type (labp2atlst)
 
 (* ****** ****** *)
 
@@ -400,11 +401,12 @@ d2ecl_node =
 //
   | D2Csymintr of ($SYN.i0delst)
   | D2Csymelim of ($SYN.i0delst) // for temporary use
-  | D2Coverload of ($SYN.i0de, d2itmopt) // symbol overloading
+  | D2Coverload of // symbol overloading
+      ($SYN.i0de, d2itmopt) // [None] indicates error
 //
   | D2Cstavars of s2tavarlst // for [stavar] declarations
   | D2Csaspdec of s2aspdec (* for static assumption *)
-  | D2Cextype of (string(*name*), s2hnf(*def*))
+  | D2Cextype of (string(*name*), s2exp(*def*))
   | D2Cextval of (string(*name*), d2exp(*def*))
   | D2Cextcode of (int(*knd*), int(*pos*), string(*code*))
 //
@@ -453,7 +455,7 @@ d2exp_node =
   | D2Etop of () // unspecified
   | D2Eempty of () // the void-value (of unspecified size)
 //
-  | D2Eextval of (s2hnf(*type*), string(*rep*))
+  | D2Eextval of (s2exp(*type*), string(*rep*))
 //
   | D2Ecst of d2cst (* declared dynamic constants *)
   | D2Econ of (
@@ -467,36 +469,39 @@ d2exp_node =
   | D2Efreeat of (* freeing at a given address *)
       (s2exparglst, d2exp)
 //
+  | D2Etmpid of (* template instantiation *)
+      (d2exp(*id*), t2mpmarglst)
+//
   | D2Elet of (d2eclist, d2exp) // let-expression
   | D2Ewhere of (d2exp, d2eclist) // where-expression
 //
-  | D2Eapps of (d2exp, d2exparglst)
+  | D2Eapplst of (d2exp, d2exparglst)
   | D2Eassgn of (d2exp(*left*), d2exp(*right*))
   | D2Ederef of (d2exp(*leftval*))
 //
   | D2Eifhead of // dynamic conditional
       (i2nvresstate, d2exp, d2exp, d2expopt)
   | D2Esifhead of // static conditional
-      (i2nvresstate, s2hnf, d2exp, d2exp)
+      (i2nvresstate, s2exp, d2exp, d2exp)
 //
   | D2Ecasehead of ( // dynamic case-expression
       caskind, i2nvresstate, d2explst, c2laulst
     ) // end of [D2Ecaseof]
   | D2Escasehead of ( // static case-expression
-      i2nvresstate, s2hnf, sc2laulst
+      i2nvresstate, s2exp, sc2laulst
     ) // end of [D2Escaseof]
 //
-  | D2Elst of (int(*lin*), s2hnfopt, d2explst) // list
+  | D2Elst of (int(*lin*), s2expopt, d2explst) // list
   | D2Etup of (int(*knd*), int(*npf*), d2explst) // tuple
   | D2Erec of (int (*knd*), int (*npf*), labd2explst) // record
-  | D2Eseq of d2explst // sequence-expressions // sequence
+  | D2Eseq of d2explst // sequence-expressions // sequencing
 //
   | D2Earrsub of (* array subscription *)
       (d2sym, d2exp, location(*ind*), d2explstlst(*ind*))
   | D2Earrinit of (* array initialization *)
-      (s2hnf (*elt*), d2expopt (*asz*), d2explst (*ini*))
+      (s2exp (*elt*), d2expopt (*asz*), d2explst (*ini*))
   | D2Earrsize of (* $arrsz expression *)
-      (s2hnfopt (*element type*), d2explst (*elements*))
+      (s2expopt (*element type*), d2explst (*elements*))
 //
   | D2Eraise of d2exp // raised exception
   | D2Edelay of (int(*knd*), d2exp(*body*)) // $delay and $ldelay
@@ -511,15 +516,15 @@ d2exp_node =
       (int(*lin*), int(*npf*), p2atlst(*arg*), d2exp(*body*))
   | D2Elaminit_dyn of (* flat dynamic abstraction *)
       (int(*lin*), int(*npf*), p2atlst(*arg*), d2exp(*body*))
-  | D2Elam_met of (ref(d2varlst), s2hnflst(*met*), d2exp(*body*))
+  | D2Elam_met of (ref(d2varlst), s2explst(*met*), d2exp(*body*))
 //
-  | D2Elam_sta of (s2varlst, s2hnflst, d2exp) // static abstraction
+  | D2Elam_sta of (s2varlst, s2explst(*s2ps*), d2exp) // static abstraction
 //
   | D2Efix of (
       int(*knd: 0/1: flat/boxed*), d2var(*fixvar*), d2exp(*body*)
     ) // end of [D2Efix]
 //
-  | D2Eann_type of (d2exp, s2hnf) // ascribled expression
+  | D2Eann_type of (d2exp, s2exp) // ascribled expression
   | D2Eann_seff of (d2exp, s2eff) // ascribed with effects
   | D2Eann_funclo of (d2exp, funclo) // ascribed with funtype
 //
@@ -545,7 +550,7 @@ and
 d2exp = '{
   d2exp_loc= location
 , d2exp_node= d2exp_node
-, d2exp_typ= s2hnfopt
+, d2exp_type= s2expopt
 }
 and d2explst = List (d2exp)
 and d2expopt = Option (d2exp)
@@ -567,22 +572,22 @@ and d2lablst = List d2lab
 (* ****** ****** *)
 
 and i2nvarg = '{
-  i2nvarg_var= d2var, i2nvarg_typ= s2hnfopt
+  i2nvarg_var= d2var, i2nvarg_typ= s2expopt
 }
 and i2nvarglst = List i2nvarg
 
 and i2nvresstate = '{
   i2nvresstate_svs= s2varlst
-, i2nvresstate_gua= s2hnflst
+, i2nvresstate_gua= s2explst
 , i2nvresstate_arg= i2nvarglst
-, i2nvresstate_met= s2hnflstopt
+, i2nvresstate_met= s2explstopt
 } // end of [i2nvresstate]
 
 and loopi2nv = '{
   loopi2nv_loc= location
 , loopi2nv_svs= s2varlst
-, loopi2nv_gua= s2hnflst
-, loopi2nv_met= s2hnflstopt (* metric *)
+, loopi2nv_gua= s2explst
+, loopi2nv_met= s2explstopt (* metric *)
 , loopi2nv_arg= i2nvarglst (* argument *)
 , loopi2nv_res= i2nvresstate (* result *)
 } // end of [loopi2nv]
@@ -623,7 +628,7 @@ and v2aldec = '{
   v2aldec_loc= location
 , v2aldec_pat= p2at
 , v2aldec_def= d2exp
-, v2aldec_ann= s2hnfopt
+, v2aldec_ann= s2expopt
 } // end of [v2aldec]
 
 and v2aldeclst = List (v2aldec)
@@ -634,7 +639,7 @@ and f2undec = '{
   f2undec_loc= location
 , f2undec_var= d2var
 , f2undec_def= d2exp
-, f2undec_ann= s2hnfopt
+, f2undec_ann= s2expopt
 } // end of [f2undec]
 
 and f2undeclst = List f2undec
@@ -646,7 +651,7 @@ and v2ardec = '{
 , v2ardec_knd= int (* BANG: knd = 1 *)
 , v2ardec_dvar= d2var // dynamic address
 , v2ardec_svar= s2var // static address
-, v2ardec_typ= s2hnfopt
+, v2ardec_typ= s2expopt
 , v2ardec_wth= d2varopt // proof of @-view
 , v2ardec_ini= d2expopt
 } // end of [v2ardec]
@@ -660,8 +665,8 @@ and i2mpdec = '{
 , i2mpdec_locid= location
 , i2mpdec_cst= d2cst
 , i2mpdec_imparg= s2varlst // static variables
-, i2mpdec_tmparg= s2hnflstlst // static args
-, i2mpdec_tmpgua= s2hnflstlst // static guards
+, i2mpdec_tmparg= s2explstlst // static args
+, i2mpdec_tmpgua= s2explstlst // static guards
 , i2mpdec_def= d2exp
 } // end of [i2mpdec]
 
@@ -675,6 +680,7 @@ fun fprint_d2explst : fprint_type (d2explst)
 fun print_d2explst (xs: d2explst): void
 fun prerr_d2explst (xs: d2explst): void
 
+fun fprint_labd2exp : fprint_type (labd2exp)
 fun fprint_labd2explst : fprint_type (labd2explst)
 fun print_labd2explst (xs: labd2explst): void
 fun prerr_labd2explst (xs: labd2explst): void
@@ -692,9 +698,9 @@ fun prerr_d2ecl (x: d2ecl): void
 //
 (* ****** ****** *)
 
-fun d2exp_set_typ (
-  d2e: d2exp, opt: s2hnfopt
-) : void = "patsopt_d2exp_set_typ"
+fun d2exp_set_type
+  (d2e: d2exp, opt: s2expopt): void = "patsopt_d2exp_set_type"
+// end of [d2exp_set_type]
 
 (* ****** ****** *)
 
@@ -719,7 +725,7 @@ fun d2exp_top (loc: location): d2exp
 fun d2exp_empty (loc: location): d2exp
 
 fun d2exp_extval
-  (loc: location, typ: s2hnf, rep: string): d2exp
+  (loc: location, typ: s2exp, rep: string): d2exp
 // end of [d2exp_extval]
 
 fun d2exp_con (
@@ -733,10 +739,16 @@ fun d2exp_cstsp (loc: location, cst: $SYN.cstsp): d2exp
 
 fun d2exp_loopexn (loc: location, knd: int): d2exp
 
-fun d2exp_foldat
-  (loc: location, s2as: s2exparglst, d2e: d2exp): d2exp
-fun d2exp_freeat
-  (loc: location, s2as: s2exparglst, d2e: d2exp): d2exp
+fun d2exp_foldat (
+  loc: location, s2as: s2exparglst, d2e: d2exp
+) : d2exp // end of [d2exp_foldat]
+fun d2exp_freeat (
+  loc: location, s2as: s2exparglst, d2e: d2exp
+) : d2exp // end of [d2exp_freeat]
+
+fun d2exp_tmpid (
+  loc: location, d2e_id: d2exp, t2mas: t2mpmarglst
+): d2exp // end of [d2exp_tmpid]
 
 fun d2exp_let
   (loc: location, d2cs: d2eclist, body: d2exp): d2exp
@@ -750,9 +762,9 @@ fun d2exp_assgn
 // end of [d2exp_assgn]
 fun d2exp_deref (loc: location, d2e_lval: d2exp): d2exp
 
-fun d2exp_apps (
+fun d2exp_applst (
   loc: location, d2e_fun: d2exp, d2as: d2exparglst
-) : d2exp // end of [d2exp_apps]
+) : d2exp // end of [d2exp_applst]
 fun d2exp_app_sta (
   loc: location, d2e_fun: d2exp, sarg: s2exparglst
 ) : d2exp // end of [d2exp_app_sta]
@@ -778,7 +790,7 @@ fun d2exp_ifhead (
 
 fun d2exp_sifhead (
   loc: location
-, res: i2nvresstate, _cond: s2hnf, _then: d2exp, _else: d2exp
+, res: i2nvresstate, _cond: s2exp, _then: d2exp, _else: d2exp
 ) : d2exp // end of [d2exp_sifhead]
 
 (* ****** ****** *)
@@ -792,13 +804,13 @@ fun d2exp_casehead (
 ) : d2exp // end of [d2exp_casehead]
 
 fun d2exp_scasehead (
-  loc: location, res: i2nvresstate, s2f: s2hnf, sc2ls: sc2laulst
+  loc: location, res: i2nvresstate, s2f: s2exp, sc2ls: sc2laulst
 ) : d2exp // end of [d2exp_scasehead]
 
 (* ****** ****** *)
 
 fun d2exp_lst (
-  loc: location, lin: int, elt: s2hnfopt, d2es: d2explst
+  loc: location, lin: int, elt: s2expopt, d2es: d2explst
 ) : d2exp // end of [d2exp_lst]
 
 fun d2exp_tup (
@@ -820,11 +832,11 @@ fun d2exp_arrsub (
 
 fun d2exp_arrinit (
   loc: location
-, elt: s2hnf, asz: d2expopt, ini: d2explst
+, elt: s2exp, asz: d2expopt, ini: d2explst
 ) : d2exp // end of [d2exp_arrinit]
 
 fun d2exp_arrsize (
-  loc: location, elt: s2hnfopt, elts: d2explst
+  loc: location, elt: s2expopt, elts: d2explst
 ) : d2exp // end of [d2exp_arrsize]
 
 (* ****** ****** *)
@@ -851,19 +863,18 @@ fun d2exp_laminit_dyn
   (loc: location, knd: int, npf: int, arg: p2atlst, body: d2exp): d2exp
 
 fun d2exp_lam_met
-  (loc: location, r: ref (d2varlst), met: s2hnflst, body: d2exp): d2exp
-// end of [d2exp_lam_met]
-fun d2exp_lam_met_new (loc: location, met: s2hnflst, body: d2exp): d2exp
+  (loc: location, r: ref (d2varlst), met: s2explst, body: d2exp): d2exp
+fun d2exp_lam_met_new (loc: location, met: s2explst, body: d2exp): d2exp
 
 fun d2exp_lam_sta (
-  loc: location, s2vs: s2varlst, s2ps: s2hnflst, body: d2exp
+  loc: location, s2vs: s2varlst, s2ps: s2explst, body: d2exp
 ) : d2exp // end of [d2exp_lam_sta]
 
 fun d2exp_fix (loc: location, knd: int, f: d2var, body: d2exp): d2exp
 
 (* ****** ****** *)
 
-fun d2exp_ann_type (loc: location, d2e: d2exp, ann: s2hnf): d2exp
+fun d2exp_ann_type (loc: location, d2e: d2exp, ann: s2exp): d2exp
 fun d2exp_ann_seff (loc: location, d2e: d2exp, s2fe: s2eff): d2exp
 fun d2exp_ann_funclo (loc: location, d2e: d2exp, fc: funclo): d2exp
 
@@ -884,14 +895,15 @@ fun fprint_d2lab : fprint_type (d2lab)
 
 (* ****** ****** *)
 
-fun i2nvarg_make (d2v: d2var, typ: s2hnfopt): i2nvarg
+fun i2nvarg_make (d2v: d2var, s2f: s2expopt): i2nvarg
 
 val i2nvresstate_nil : i2nvresstate
 
-fun i2nvresstate_make
-  (s2vs: s2varlst, s2ps: s2hnflst, arg: i2nvarglst): i2nvresstate
+fun i2nvresstate_make (
+  s2vs: s2varlst, s2ps: s2explst, arg: i2nvarglst
+) : i2nvresstate // end of [i2nvresstate_make]
 fun i2nvresstate_make_met (
-  s2vs: s2varlst, s2ps: s2hnflst, arg: i2nvarglst, met: s2hnflstopt
+  s2vs: s2varlst, s2ps: s2explst, arg: i2nvarglst, met: s2explstopt
 ) : i2nvresstate // end of [i2nvresstate_make_met]
 
 fun i2nvresstate_update (res: i2nvresstate): i2nvresstate
@@ -901,8 +913,8 @@ fun i2nvresstate_update (res: i2nvresstate): i2nvresstate
 fun loopi2nv_make (
   loc: location
 , svs: s2varlst
-, gua: s2hnflst
-, met: s2hnflstopt
+, gua: s2explst
+, met: s2explstopt
 , arg: i2nvarglst
 , res: i2nvresstate
 ) : loopi2nv // end of [loopi2nv_make]
@@ -944,7 +956,7 @@ fun d2mac_set_def (x: d2mac, def: d2exp): void
 (* ****** ****** *)
 
 fun v2aldec_make (
-  loc: location, p2t: p2at, def: d2exp, ann: s2hnfopt
+  loc: location, p2t: p2at, def: d2exp, ann: s2expopt
 ) : v2aldec // end of [v2aldec_make]
 
 fun v2ardec_make (
@@ -952,7 +964,7 @@ fun v2ardec_make (
 , knd: int
 , d2v: d2var
 , s2v: s2var
-, typ: s2hnfopt
+, typ: s2expopt
 , wth: d2varopt
 , ini: d2expopt
 ) : v2ardec // end of [v2ardec_make]
@@ -960,7 +972,7 @@ fun v2ardec_make (
 (* ****** ****** *)
 
 fun f2undec_make (
-  loc: location, d2v_fun: d2var, def: d2exp, ann: s2hnfopt
+  loc: location, d2v_fun: d2var, def: d2exp, ann: s2expopt
 ) : f2undec // end of [f2undec_make]
 
 (* ****** ****** *)
@@ -970,7 +982,7 @@ fun i2mpdec_make (
 , locid: location
 , d2c: d2cst
 , imparg: s2varlst
-, tmparg: s2hnflstlst, tmpgua: s2hnflstlst
+, tmparg: s2explstlst, tmpgua: s2explstlst
 , def: d2exp
 ) : i2mpdec // end of [i2mpdec_make]
 
@@ -996,7 +1008,7 @@ fun d2ecl_stavars (loc: location, xs: s2tavarlst): d2ecl
 fun d2ecl_saspdec (loc: location, dec: s2aspdec): d2ecl
 
 fun d2ecl_extype
-  (loc: location, name: string, def: s2hnf): d2ecl
+  (loc: location, name: string, def: s2exp): d2ecl
 fun d2ecl_extval
   (loc: location, name: string, def: d2exp): d2ecl
 fun d2ecl_extcode

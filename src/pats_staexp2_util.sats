@@ -76,9 +76,9 @@ fun stasub_copy (sub: !stasub): stasub
 fun stasub_free (sub: stasub): void
 
 fun stasub_add
-  (sub: &stasub, s2v: s2var, s2f: s2hnf): void
+  (sub: &stasub, s2v: s2var, s2f: s2exp): void
 fun stasub_addlst
-  (sub: &stasub, s2vs: s2varlst, s2fs: s2hnflst): int(*err*)
+  (sub: &stasub, s2vs: s2varlst, s2fs: s2explst): int(*err*)
 // end of [stasub_addlst]
 
 fun stasub_find
@@ -96,13 +96,13 @@ fun stasub_extend_svarlst
 (* ****** ****** *)
 
 fun s2exp_subst (sub: !stasub, s2e: s2exp): s2exp
-
 fun s2explst_subst (sub: !stasub, s2es: s2explst): s2explst
 fun s2expopt_subst (sub: !stasub, os2e: s2expopt): s2expopt
-
+(*
 fun s2explstlst_subst
   (sub: !stasub, s2ess: s2explstlst): s2explstlst
 // end of [s2explstlst_subst]
+*)
 
 (* ****** ****** *)
 
@@ -123,18 +123,22 @@ fun s2exp_freevars (s2e: s2exp): s2varset_vt
 fun s2exp_linkrem (s2e: s2exp): s2exp
 
 (* ****** ****** *)
+//
+fun s2exp_hnfize (x: SHARED(s2exp)): s2exp
+//
+fun s2explst_hnfize (xs: SHARED(s2explst)): s2explst
+fun s2expopt_hnfize (opt: SHARED(s2expopt)): s2expopt
+fun s2explstlst_hnfize (xss: SHARED(s2explstlst)): s2explstlst
+//
+(* ****** ****** *)
 
-fun s2exp_hnfize (s2e: s2exp): s2hnf
-
-fun s2explst_hnfize (s2es: s2explst): s2hnflst
-fun s2expopt_hnfize (os2e: s2expopt): s2hnfopt
-
-fun s2explstlst_hnfize (s2ess: s2explstlst): s2hnflstlst
+fun s2exp2hnf (x: SHARED(s2exp)): s2hnf // = s2exp_hnfize
+fun s2hnf2exp (x: SHARED(s2hnf)): s2exp // HX: a cast function
 
 (* ****** ****** *)
 
-fun s2exp_syneq (s2e1: s2exp, s2e2: s2exp): bool
 fun s2hnf_syneq (s2f1: s2hnf, s2f2: s2hnf): bool
+fun s2exp_syneq (s2e1: s2exp, s2e2: s2exp): bool
 
 (* ****** ****** *)
 

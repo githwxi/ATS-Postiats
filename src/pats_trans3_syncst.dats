@@ -71,13 +71,6 @@ staload "pats_trans3.sats"
 
 (* ****** ****** *)
 
-macdef hnf = s2hnf_of_s2exp
-macdef hnflst = s2hnflst_of_s2explst
-macdef unhnf = s2exp_of_s2hnf
-macdef unhnflst = s2explst_of_s2hnflst
-
-(* ****** ****** *)
-
 implement
 d2exp_trup_i0nt
   (d2e0, base, rep, sfx) = let
@@ -148,7 +141,7 @@ case+ sfx of
 //
       | _ => ERROR ()
     ) : intknd // end of [val]
-    val s2f = (case+ knd of
+    val s2e = (case+ knd of
       | INT () => s2exp_int_intinf_t0ype (inf)
       | UINT () => s2exp_uint_intinf_t0ype (inf)
       | LINT () => s2exp_lint_intinf_t0ype (inf)
@@ -162,11 +155,11 @@ case+ sfx of
           val () = prerr_newline ()
           val () = the_trans3errlst_add (T3E_intsp (d2e0))
         in
-          s2hnf_err (s2rt_t0ype)
+          s2exp_err (s2rt_t0ype)
         end // end of [_]
-    ) : s2hnf // end of [val]
+    ) : s2exp // end of [val]
   in
-    d3exp_int (loc0, s2f, rep, inf)
+    d3exp_int (loc0, s2e, rep, inf)
   end // end of [_]
 // end of [case]
 //
@@ -223,7 +216,7 @@ case+ 0 of
       | _ when strcasecmp (sfx, "LD") = 0 => LDOUBLE
       | _ => ERROR ()
     ) : fltknd // end of [val]
-    val s2f = (case+ knd of
+    val s2e = (case+ knd of
       | FLOAT () => s2exp_float_t0ype ()
       | DOUBLE () => s2exp_double_t0ype ()
       | LDOUBLE () => s2exp_ldouble_t0ype ()
@@ -234,11 +227,11 @@ case+ 0 of
           val () = prerr_newline ()
           val () = the_trans3errlst_add (T3E_floatsp (d2e0))
         in
-          s2hnf_err (s2rt_t0ype)
+          s2exp_err (s2rt_t0ype)
         end // end of [_]
-    ) : s2hnf // end of [val]
+    ) : s2exp // end of [val]
   in
-    d3exp_float (loc0, s2f, rep)
+    d3exp_float (loc0, s2e, rep)
   end // end of [_]
 // end of [case]
 end // end of [d2exp_trup_float]

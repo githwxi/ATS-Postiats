@@ -32,6 +32,7 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/list.dats"
 
 (* ****** ****** *)
@@ -50,6 +51,7 @@ staload EFF = "pats_effect.sats"
 macdef eq_effset_effset = $EFF.eq_effset_effset
 staload INTINF = "pats_intinf.sats"
 macdef eq_intinf_int = $INTINF.eq_intinf_int
+macdef eq_int_intinf = $INTINF.eq_int_intinf
 macdef eq_intinf_intinf = $INTINF.eq_intinf_intinf
 
 (* ****** ****** *)
@@ -63,10 +65,12 @@ staload "pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
+(*
 macdef hnf = s2hnf_of_s2exp
 macdef hnflst = s2hnflst_of_s2explst
 macdef unhnf = s2exp_of_s2hnf
 macdef unhnflst = s2explst_of_s2hnflst
+*)
 
 (* ****** ****** *)
 
@@ -99,7 +103,7 @@ case+ s2e0.s2exp_node of
 | S2EVar s2V => (
   case+ s2Var_get_link (s2V) of
   | Some s2e => let
-      val () = flag := flag + 1 in s2exp_linkrem_flag ((unhnf)s2e, flag)
+      val () = flag := flag + 1 in s2exp_linkrem_flag (s2e, flag)
     end // end of [Some]
   | None () => s2e0
   ) // end of [S2EVar]
@@ -145,7 +149,7 @@ in
       val () = flag := flag + 1
       var sub = stasub_make_nil ()
       fun aux (
-        s2vs: s2varlst, s2es: s2hnflst, sub: &stasub
+        s2vs: s2varlst, s2es: s2explst, sub: &stasub
       ) : void =
         case+ (s2vs, s2es) of
         | (s2v :: s2vs, s2e :: s2es) => let
@@ -153,10 +157,9 @@ in
           end // end of [::, ::]
         | (_, _) => ()
       // end of [aux]
-      val s2fs_arg =
-        s2explst_hnfize (s2es_arg)
-      // end of [val]
-      val () = aux (s2vs_arg, s2fs_arg, sub)
+      val s2fs_arg = s2explst_hnfize (s2es_arg)
+      val s2es_arg = $UN.cast {s2explst} (s2fs_arg)
+      val () = aux (s2vs_arg, s2es_arg, sub)
       val s2e0 = s2exp_subst (sub, s2e_body)
       val () = stasub_free (sub)
     in
@@ -174,22 +177,27 @@ end // end of [s2exp_hnfize_flag_app]
 implement
 s2exp_hnfize_flag
   (s2e0, flag) = let
-// (*
+(*
   val () = (
     print "s2exp_hnfize_flag: s2e0 = "; print_s2exp (s2e0); print_newline ()
   ) // end of [val]
-// *)
+*)
   val s2t0 = s2e0.s2exp_srt
   val s2e0 = s2exp_linkrem_flag (s2e0, flag)
 in
 //
 case+ s2e0.s2exp_node of
 //
-| S2Evar _ => s2e0
+| S2Eint _ => s2e0
+| S2Eintinf _ => s2e0
+| S2Echar _ => s2e0
+//
 | S2Ecst _ => s2e0
-| S2EVar _ => s2e0
 //
 | S2Eextype _ => s2e0
+//
+| S2Evar _ => s2e0
+| S2EVar _ => s2e0
 //
 | S2Eapp (s2e_fun, s2es_arg) =>
     s2exp_hnfize_app (s2e0, s2e_fun, s2es_arg, flag)
@@ -227,6 +235,8 @@ case+ s2e0.s2exp_node of
 *)
 | S2Eexi _=> s2e0
 | S2Euni _=> s2e0
+//
+| S2Eerr () => s2e0
 //
 | _ => let
     val () = (
@@ -281,47 +291,51 @@ labs2explst_hnfize_flag
 
 implement
 s2exp_hnfize (s2e) = let
-  var flag: int = 0
-  val s2e = s2exp_hnfize_flag (s2e, flag)
-in
-  s2hnf_of_s2exp (s2e)
+  var flag: int = 0 in s2exp_hnfize_flag (s2e, flag)
 end // end of [s2exp_hnfsize]
 
 implement
 s2explst_hnfize (s2es) = let
-  var flag: int = 0
-  val s2es = s2explst_hnfize_flag (s2es, flag)
-in
-  s2hnflst_of_s2explst (s2es)
+  var flag: int = 0 in s2explst_hnfize_flag (s2es, flag)
 end // end of [s2explst_hnfsize]
 
 implement
 s2expopt_hnfize (opt) = let
   var flag: int = 0
 in
-  case+ opt of
-  | Some s2e => let
-      val s2e = s2exp_hnfize_flag (s2e, flag)
-    in
-      if flag > 0 then
-        Some (s2hnf_of_s2exp s2e) else s2hnfopt_of_s2expopt (opt)
-      // end of [if]
-    end // end of [Some]
-  | None () => None ()
+//
+case+ opt of
+| Some s2e => let
+    val s2f =
+      s2exp_hnfize_flag (s2e, flag)
+    // end of [val]
+  in
+    if flag > 0 then Some (s2f) else opt
+  end // end of [Some]
+| None () => None ()
+//
 end // end of [s2expopt_hnfsize]
 
 (* ****** ****** *)
 
-exception SYNEQexn
+implement
+s2exp2hnf
+  (s2e) = $UN.cast {s2hnf} (s2exp_hnfize (s2e))
+// end of [s2exp2hnf]
+implement s2hnf2exp (s2f) = $UN.cast {s2exp} (s2f)
 
+(* ****** ****** *)
+
+exception SYNEQexn
+//
 extern
 fun s2hnf_syneq_exn (s2f1: s2hnf, s2f2: s2hnf): void
-extern
-fun s2exp_syneq_exn (s2e1: s2exp, s2e2: s2exp): void
+and s2exp_syneq_exn (s2e1: s2exp, s2e2: s2exp): void
+//
 extern
 fun s2hnflst_syneq_exn (xs1: s2hnflst, xs2: s2hnflst): void
-extern
-fun s2explst_syneq_exn (xs1: s2explst, xs2: s2explst): void
+and s2explst_syneq_exn (xs1: s2explst, xs2: s2explst): void
+//
 extern
 fun s2explstlst_syneq_exn
   (xss1: s2explstlst, xss2: s2explstlst): void
@@ -331,8 +345,8 @@ fun s2explstlst_syneq_exn
 
 implement
 s2hnf_syneq
-  (s2e1, s2e2) = try let
-  val () = s2hnf_syneq_exn (s2e1, s2e2) in true
+  (s2f1, s2f2) = try let
+  val () = s2hnf_syneq_exn (s2f1, s2f2) in true
 end with
   | ~SYNEQexn () => false
 // end of [s2hnf_syneq]
@@ -350,8 +364,8 @@ end with
 implement
 s2exp_syneq_exn
   (s2e10, s2e20) = let
-  val s2f10 = s2exp_hnfize (s2e10)
-  and s2f20 = s2exp_hnfize (s2e20)
+  val s2f10 = s2exp2hnf (s2e10)
+  and s2f20 = s2exp2hnf (s2e20)
 in
   s2hnf_syneq_exn (s2f10, s2f20)
 end // end of [s2exp_syneq_exn]
@@ -400,7 +414,7 @@ fun s2eff_syneq_exn (
   | (S2EFFset (efs1, s2es1),
      S2EFFset (efs2, s2es2)) => (
       if eq_effset_effset (efs1, efs2)
-        then s2hnflst_syneq_exn (s2es1, s2es2) else $raise (SYNEQexn)
+        then s2explst_syneq_exn (s2es1, s2es2) else $raise (SYNEQexn)
       // end of [if]
     ) // end of [S2EFFset, S2EFFset]
   | (_, _) => $raise (SYNEQexn)
@@ -430,7 +444,8 @@ fun labs2explst_syneq_exn (
 implement
 s2hnf_syneq_exn
   (s2f10, s2f20) = let
-  val s2e10 = unhnf (s2f10) and s2e20 = unhnf (s2f20)
+  val s2e10 = $UN.cast {s2exp} (s2f10)
+  and s2e20 = $UN.cast {s2exp} (s2f20)
   val s2en10 = s2e10.s2exp_node and s2en20 = s2e20.s2exp_node
 in
 //
@@ -442,7 +457,7 @@ case s2en10 of
   | S2Eint i2 =>
       if eq_int_int (i1, i2) then () else $raise (SYNEQexn)
   | S2Eintinf i2 =>
-      if eq_intinf_int (i2, i1) then () else $raise (SYNEQexn)
+      if eq_int_intinf (i1, i2) then () else $raise (SYNEQexn)
   | _ => $raise (SYNEQexn)
   ) // end of [S2Eint]
 | S2Eintinf i1 => (

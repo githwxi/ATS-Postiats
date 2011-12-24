@@ -77,11 +77,11 @@ d2var_struct = @{
 , d2var_isfix= bool // is fix-variable?
 , d2var_isprf= bool // is proof?
 , d2var_decarg= s2qualst // template arg
-, d2var_addr= s2hnfopt //
+, d2var_addr= s2expopt //
 , d2var_view= d2varopt_t // 
 , d2var_finknd= d2vfin // the status at the end of scope
-, d2var_type= s2hnfopt // the (current) type of a variable
-, d2var_mastype= s2hnfopt // the master type of a variable
+, d2var_type= s2expopt // the (current) type of a variable
+, d2var_mastype= s2expopt // the master type of a variable
 , d2var_count= int //
 , d2var_stamp= stamp // uniqueness stamp
 } // end of [d2var_struct]

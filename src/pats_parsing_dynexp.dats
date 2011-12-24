@@ -433,7 +433,7 @@ in
     in
       list_cons (x, xs)
     end
-  | _ => list_nil ()
+  | _ => list_sing (x)
 end else let
   val () = err := err0
   val semilst = pstar_fun (buf, bt, p_SEMICOLON)
@@ -784,7 +784,7 @@ case+ tok.token_node of
     in
       d0exp_list12_if (tok, ent2, ent3, err, err0)
     end (* end of [if] *)
-  end
+  end // end of [let] // end of [T_LPAREN]
 //
 | tnd when
     is_LPAREN_deco (tnd) => let

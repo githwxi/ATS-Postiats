@@ -726,7 +726,7 @@ aux_item (
         print "d0e0 = "; fprint_d0exp (stdout_ref, d0e0); print_newline ()
       ) // end of [val]
       val () = assertloc (false) in $ERR.abort ()
-    end
+    end // end of [_]
 *)
 end (* end of [aux_item] *)
 //
@@ -743,7 +743,7 @@ in
   loop (d0e0, list_nil ())
 end // end of [aux_itemlist]
 //
-// (*
+(*
 val () = {
   val loc0 = d0e0.d0exp_loc
   val () = $LOC. print_location (loc0)
@@ -751,7 +751,7 @@ val () = {
   val () = fprint_d0exp (stdout_ref, d0e0)
   val () = print_newline ()
 } // end of [val]
-// *)
+*)
 //
 in
 //

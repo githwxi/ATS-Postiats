@@ -48,9 +48,7 @@ typedef intinf = $INT.intinf
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
-typedef s2exp = s2exp
 staload "pats_staexp2_util.sats"
-typedef s2hnf = s2hnf
 staload "pats_dynexp2.sats"
 typedef d2cst = d2cst_type // abstract
 typedef d2var = d2var_type // abstract
@@ -62,13 +60,13 @@ datatype p3at_node =
   | P3Tvar of (int(*refknd*), d2var)
   | P3Tempty (* empty pattern *)
 //
-  | P3Tann of (p3at, s2hnf) // ascribed pattern
+  | P3Tann of (p3at, s2exp) // ascribed pattern
 // end of [p3at_node]
 
 where p3at = '{
   p3at_loc= location
 , p3at_node= p3at_node
-, p3at_type= s2hnf
+, p3at_type= s2exp // HX: it may still be a s2Var
 } // end of [p3at]
 
 and p3atlst = List (p3at)
@@ -77,11 +75,11 @@ and p3atopt = Option p3at
 (* ****** ****** *)
 
 fun p3at_var (
-  loc: location, s2f: s2hnf, knd: int, d2v: d2var
+  loc: location, s2f: s2exp, knd: int, d2v: d2var
 ) : p3at // end of [p3at_var]
 
 fun p3at_ann (
-  loc: location, s2f: s2hnf, p3t: p3at, ann: s2hnf
+  loc: location, s2f: s2exp, p3t: p3at, ann: s2exp
 ) : p3at // end of [p3at_ann]
 
 (* ****** ****** *)
@@ -113,6 +111,9 @@ d3exp_node =
   | D3Ecst of d2cst
   | D3Econ of (d2con, int(*npf*), d3explst(*arg*))
 //
+  | D3Etmpcst of (d2cst, t2mpmarglst)
+  | D3Etmpvar of (d2var, t2mpmarglst)
+//
   | D3Eapp_sta of d3exp // static application
   | D3Eapp_dyn of (d3exp, int(*npf*), d3explst)
 //
@@ -120,13 +121,18 @@ d3exp_node =
       (int(*lin*), int(*npf*), p3atlst, d3exp)
   | D3Elaminit_dyn of // dynamic flat funtion closure
       (int(*lin*), int(*npf*), p3atlst, d3exp)
+  | D3Elam_sta of // static abstraction
+      (s2varlst(*s2vs*), s2explst(*s2ps*), d3exp)
 //
+  | D3Elst of (* list expression *)
+      (int(*lin*), s2exp(*elt*), d3explst)
   | D3Etup of (* tuple expression *)
       (int(*tupknd*), int(*npf*), d3explst)
   | D3Erec of (* record expression *)
       (int(*recknd*), int(*npf*), labd3explst)
+  | D3Eseq of d3explst // sequencing
 //
-  | D3Eann_type of (d3exp, s2hnf)
+  | D3Eann_type of (d3exp, s2exp)
 //
   | D3Eerr of () // indication of error
 // end of [d3exp_node]
@@ -135,13 +141,13 @@ where
 d3ecl = '{
   d3ecl_loc= location
 , d3ecl_node= d3ecl_node
-}
+} // end of [d3ecl]
 
 and d3eclist = List (d3ecl)
 
 and d3exp = '{
   d3exp_loc= location
-, d3exp_type= s2hnf
+, d3exp_type= s2exp // HX: it may still be s2Var
 , d3exp_node= d3exp_node
 } // end of [d3exp]
 
@@ -179,7 +185,7 @@ and v3ardec = '{
 , v3ardec_knd= int
 , v3ardec_dvar_ptr= d2var
 , v3ardec_dvar_view= d2var
-, v3ardec_typ= s2exp
+, v3ardec_type= s2exp
 , v3ardec_ini= d3expopt
 } // end of [v3ardec]
 
@@ -187,95 +193,119 @@ and v3ardeclst = List v3ardec
 
 (* ****** ****** *)
 
-fun d3exp_set_type (
-  d3e: d3exp, s2f: s2hnf
-) : void = "patsopt_d3exp_set_type"
+fun d3exp_set_type
+  (d3e: d3exp, s2f: s2exp): void = "patsopt_d3exp_set_type"
+// end of [d3exp_set_type]
 
 (* ****** ****** *)
 
 fun d3exp_var
-  (loc: location, s2f: s2hnf, d2v: d2var): d3exp
+  (loc: location, s2f: s2exp, d2v: d2var): d3exp
 // end of [d3exp_var]
 
 (* ****** ****** *)
 
 fun d3exp_int (
-  loc: location, s2f: s2hnf, rep: string, inf: intinf
+  loc: location, s2f: s2exp, rep: string, inf: intinf
 ) : d3exp // end of [d3exp_int]
 
 fun d3exp_bool
-  (loc: location, s2f: s2hnf, b: bool): d3exp
+  (loc: location, s2f: s2exp, b: bool): d3exp
 // end of [d3exp_bool]
 
 fun d3exp_char
-  (loc: location, s2f: s2hnf, c: char): d3exp
+  (loc: location, s2f: s2exp, c: char): d3exp
 // end of [d3exp_char]
 
 fun d3exp_string
-  (loc: location, s2f: s2hnf, str: string): d3exp
+  (loc: location, s2f: s2exp, str: string): d3exp
 // end of [d3exp_string]
 
 fun d3exp_float
-  (loc: location, s2f: s2hnf, rep: string): d3exp
+  (loc: location, s2f: s2exp, rep: string): d3exp
 // end of [d3exp_float]
 
 (* ****** ****** *)
 
 fun d3exp_empty
-  (loc: location, s2f: s2hnf): d3exp
+  (loc: location, s2f: s2exp): d3exp
 
 fun d3exp_extval
-  (loc: location, s2f: s2hnf, rep: string): d3exp
+  (loc: location, s2f: s2exp, rep: string): d3exp
 // end of [d3exp_extval]
 
 (* ****** ****** *)
 
 fun d3exp_cst
-  (loc: location, s2f: s2hnf, d2c: d2cst): d3exp
+  (loc: location, s2f: s2exp, d2c: d2cst): d3exp
 // end of [d3exp_cst]
 
 fun d3exp_con (
-  loc: location, res: s2hnf, d2c: d2con, npf: int, d3es: d3explst
+  loc: location
+, s2f_res: s2exp, d2c: d2con, npf: int, d3es: d3explst
 ) : d3exp // end of [d3exp_con]
 
 (* ****** ****** *)
 
+fun d3exp_tmpcst (
+  loc: location, s2f: s2exp, d2c: d2cst, t2mas: t2mpmarglst
+) : d3exp // end of [d3exp_tmpcst]
+fun d3exp_tmpvar (
+  loc: location, s2f: s2exp, d2v: d2var, t2mas: t2mpmarglst
+) : d3exp // end of [d3exp_tmpvar]
+
+(* ****** ****** *)
+
 fun d3exp_app_sta
-  (loc: location, s2f: s2hnf, d3e: d3exp): d3exp
+  (loc: location, s2f: s2exp, d3e: d3exp): d3exp
 // end of [d3exp_app_sta]
 
 fun d3exp_app_dyn (
   loc: location
-, s2f: s2hnf, s2fe: s2eff, _fun: d3exp, npf: int, _arg: d3explst
+, s2f: s2exp, s2fe: s2eff, _fun: d3exp, npf: int, _arg: d3explst
 ) : d3exp // end of [d3exp_app_dyn]
 
 (* ****** ****** *)
 
 fun d3exp_lam_dyn (
-  loc: location, typ: s2hnf
+  loc: location, typ: s2exp
 , lin: int, npf: int, arg: p3atlst, body: d3exp
 ) : d3exp // end of [d3exp_lam_dyn]
 fun d3exp_laminit_dyn (
-  loc: location, typ: s2hnf
+  loc: location, typ: s2exp
 , lin: int, npf: int, arg: p3atlst, body: d3exp
 ) : d3exp // end of [d3exp_laminit_dyn]
 
+fun d3exp_lam_sta (
+  loc: location, typ: s2exp
+, s2vs: s2varlst, s2ps: s2explst, body: d3exp
+) : d3exp // end of [d3exp_lam_sta]
+
 (* ****** ****** *)
 
+fun d3exp_lst (
+  loc: location, typ: s2exp
+, lin: int, s2f_elt: s2exp, d3es: d3explst
+) : d3exp // end of [d3exp_lst]
+
 fun d3exp_tup (
-  loc: location, typ: s2hnf
+  loc: location, typ: s2exp
 , tupknd: int, npf: int, d3es: d3explst
 ) : d3exp // end of [d3exp_tup]
 
 fun d3exp_rec (
-  loc: location, typ: s2hnf
+  loc: location, typ: s2exp
 , recknd: int, npf: int, ld3es: labd3explst
 ) : d3exp // end of [d3exp_rec]
+
+fun d3exp_seq (
+  loc: location, typ: s2exp, d3es: d3explst
+) : d3exp // end of [d3exp_seq]
 
 (* ****** ****** *)
 
 fun d3exp_ann_type
-  (loc: location, d3e: d3exp, s2f: s2hnf): d3exp
+  (loc: location, d3e: d3exp, s2f: s2exp): d3exp
 // end of [d3exp_ann_type]
 
 (* ****** ****** *)

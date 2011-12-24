@@ -27,6 +27,7 @@
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/list.dats"
 
 (* ****** ****** *)
@@ -51,6 +52,7 @@ macdef print_location = $LOC.print_location
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_staexp2_util.sats"
 staload "pats_stacst2.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
@@ -70,15 +72,10 @@ staload "pats_trans3_env.sats"
 
 (* ****** ****** *)
 
-macdef hnf = s2hnf_of_s2exp
-macdef unhnf = s2exp_of_s2hnf
-
-(* ****** ****** *)
-
 local
 
 extern
-fun aux_p2at (p2t0: p2at): s2hnf
+fun aux_p2at (p2t0: p2at): s2exp
 extern
 fun aux_labp2atlst (lp2ts: labp2atlst): labs2explst
 
@@ -88,7 +85,7 @@ in
 //
 case+ p2t0.p2at_node of
 //
-  | P2Tann (p2t, s2f) => s2f
+  | P2Tann (p2t, s2e_ann) => s2e_ann
 //
   | P2Tany _ =>
       s2exp_Var_make_srt (p2t0.p2at_loc, s2rt_t0ype)
@@ -113,7 +110,7 @@ case+ p2t0.p2at_node of
         s2exp_Var_make_srt (p2t0.p2at_loc, s2rt_t0ype)
       // end of [val]
     in
-      s2exp_list0_t0ype_type (unhnf (s2e_elt))
+      s2exp_list0_t0ype_type (s2e_elt)
     end // end of [P2Tlst]
 //
   | P2Trec (knd, npf, lp2ts) =>
@@ -122,9 +119,9 @@ case+ p2t0.p2at_node of
 //
   | P2Tas (knd, d2v, p2t) => p2at_syn_type (p2t)
 //
-  | P2Tlist _ => s2hnf_err (s2rt_t0ype)
-  | P2Texist _ => s2hnf_err (s2rt_t0ype)
-  | P2Terr () => s2hnf_err (s2rt_t0ype)
+  | P2Tlist _ => s2exp_err (s2rt_t0ype)
+  | P2Texist _ => s2exp_err (s2rt_t0ype)
+  | P2Terr () => s2exp_err (s2rt_t0ype)
 (*
   | _ => let
       val () = assertloc (false) in exit (1)
@@ -139,8 +136,8 @@ aux_labp2atlst (lp2ts) =
   | list_cons (lp2t, lp2ts) => (
     case+ lp2t of
     | LP2Tnorm (l, p2t) => let
-        val s2f = p2at_syn_type (p2t)
-        val ls2e = SLABELED (l, None(*name*), (unhnf)s2f)
+        val s2e = p2at_syn_type (p2t)
+        val ls2e = SLABELED (l, None(*name*), s2e)
       in
         list_cons (ls2e, aux_labp2atlst (lp2ts))
       end // end of [LP2Tnorm]
@@ -155,7 +152,7 @@ implement
 p2at_syn_type
   (p2t0) = s2e0 where {
   val s2e0 = aux_p2at (p2t0)
-  val () = p2at_set_typ (p2t0, Some (s2e0))
+  val () = p2at_set_type (p2t0, Some (s2e0))
 } // end of [p2at_syn_type]
 
 end // end of [local]
@@ -180,9 +177,9 @@ case+ p2t0.p2at_node of
 | P2Tann (p2t, s2e) =>
     p2at_trdn_arg (p2t, s2e)
 | _ => let
-    val- Some (s2f) = p2t0.p2at_type
+    val- Some (s2e) = p2t0.p2at_type
   in
-    p2at_trdn (p2t0, s2f)
+    p2at_trdn (p2t0, s2e)
   end // end of [_]
 //
 end // end of [p2at_arg_tr_up]
@@ -234,22 +231,21 @@ end // end of [local]
 
 implement
 p2at_trdn_arg
-  (p2t, s2f) = p2at_trdn (p2t, s2f)
+  (p2t, s2e) = p2at_trdn (p2t, s2e)
 // end of [p2at_trdn_arg]
 
 (* ****** ****** *)
 
 fun p2at_trdn_var .<>.
-  (p2t0: p2at, s2f0: s2hnf): p3at = let
+  (p2t0: p2at, s2e0: s2exp): p3at = let
   val loc0 = p2t0.p2at_loc
   val- P2Tvar (knd, d2v) = p2t0.p2at_node
-  val s2e0 = (unhnf)s2f0
   val s2t0 = s2e0.s2exp_srt
   val islin = s2rt_is_lin (s2t0)
 //
-  val p3t0 = p3at_var (loc0, s2f0, knd(*refval*), d2v)
+  val p3t0 = p3at_var (loc0, s2e0, knd(*refval*), d2v)
 //
-  val () = d2var_set_mastype (d2v, Some s2f0)
+  val () = d2var_set_mastype (d2v, Some s2e0)
   val () = if islin then { // linear var
     val () = d2var_set_linval (d2v, 0)
     val () = d2var_set_finknd (d2v, D2VFINnone())
@@ -257,17 +253,17 @@ fun p2at_trdn_var .<>.
 (*
   val () = begin
     print "p2at_trdn_var: d2v = "; print d2v; print_newline ();
-    print "p2at_trdn_var: s2e0 = "; print s2f0; print_newline ();
-    print "p2at_trdn_var: s2t0 = "; print s2t0; print_newline ();
+    print "p2at_trdn_var: s2e0 = "; print_s2exp s2e0; print_newline ();
+    print "p2at_trdn_var: s2t0 = "; print_s2rt s2t0; print_newline ();
   end // end of [val]
 *)
-  val s2f = s2f0
-  // val s2f = s2hnf_opnexi_and_add (loc0, s2f0)
-  val () = d2var_set_type (d2v, Some s2f)
+  val s2e = s2e0
+  // val s2e = s2hnf_opnexi_and_add (loc0, s2e0)
+  val () = d2var_set_type (d2v, Some s2e)
 (*
   val () = begin
     print "p2at_trdn_var: d2v = "; print d2v; print_newline ();
-    print "p2at_trdn_var: s2f = "; print s2f; print_newline ();
+    print "p2at_trdn_var: s2e = "; print s2e; print_newline ();
   end // end of [val]
 *)
 in
@@ -277,40 +273,40 @@ end // end of [p2at_trdn_var]
 (* ****** ****** *)
 
 fun p2at_trdn_ann .<>.
-  (p2t0: p2at, s2f0: s2hnf): p3at = let
+  (p2t0: p2at, s2e0: s2exp): p3at = let
   val loc0 = p2t0.p2at_loc
-  val- P2Tann (p2t, s2f_ann) = p2t0.p2at_node
-  val err = $SOL.s2hnf_tyleq_solve (loc0, s2f0, s2f_ann)
+  val- P2Tann (p2t, s2e_ann) = p2t0.p2at_node
+  val err = $SOL.s2exp_tyleq_solve (loc0, s2e0, s2e_ann)
   val () = if (err != 0) then let
     val () = prerr_error3_loc (loc0)
     val () = filprerr_ifdebug "p2at_trdn_ann"
     val () = prerr ": the pattern cannot be given the ascribed type."
     val () = prerr_newline ()
   in
-    the_trans3errlst_add (T3E_p2at_trdn_ann (p2t0, s2f0))
+    the_trans3errlst_add (T3E_p2at_trdn_ann (p2t0, s2e0))
   end // end of [val]
-  val p3t = p2at_trdn (p2t, s2f0)
+  val p3t = p2at_trdn (p2t, s2e0)
 in
-  p3at_ann (loc0, s2f0, p3t, s2f_ann)
+  p3at_ann (loc0, s2e0, p3t, s2e_ann)
 end // end of [p2at_trdn_ann]
 
 (* ****** ****** *)
 
 implement
 p2at_trdn
-  (p2t0, s2f0) = let
+  (p2t0, s2e0) = let
   val loc0 = p2t0.p2at_loc
 // (*
   val () = begin
     print "p2at_trdn: p2t0 = "; print_p2at p2t0; print_newline ();
-    print "p2at_trdn: s2f0 = "; print_s2hnf s2f0; print_newline ();
+    print "p2at_trdn: s2e0 = "; print_s2exp s2e0; print_newline ();
   end // end of [val]
 // *)
 in
   case+ p2t0.p2at_node of
   | P2Tvar (knd, d2v) =>
-      p2at_trdn_var (p2t0, s2f0)
-  | P2Tann _ => p2at_trdn_ann (p2t0, s2f0)
+      p2at_trdn_var (p2t0, s2e0)
+  | P2Tann _ => p2at_trdn_ann (p2t0, s2e0)
   | _ => let
       val () = assertloc (false) in exit (1)
     end // end of [_]

@@ -100,4 +100,18 @@ end // end of [d2exp_trdn_rest]
 
 (* ****** ****** *)
 
+implement
+d2explst_trdn_elt (d2es, s2f) = let
+  var !p_clo = @lam
+    (pf: !unit_v | d2e: d2exp): d3exp =<clo1> d2exp_trdn (d2e, s2f)
+  // end of [var]
+  prval pfu = unit_v
+  val d3es = list_map_vclo<d2exp><d3exp> {unit_v} (pfu | d2es, !p_clo)
+  prval unit_v () = pfu
+in
+  l2l (d3es)
+end // end of [d2explst_trdn_elt]
+
+(* ****** ****** *)
+
 (* end of [pats_trans3_exp_dn.dats] *)

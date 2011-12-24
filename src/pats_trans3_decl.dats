@@ -59,11 +59,6 @@ staload "pats_trans3.sats"
 
 (* ****** ****** *)
 
-macdef hnf = s2hnf_of_s2exp
-macdef unhnf = s2exp_of_s2hnf
-
-(* ****** ****** *)
-
 extern
 fun v2aldeclst_tr
   (knd: valkind, d2cs: v2aldeclst): v3aldeclst
@@ -95,6 +90,7 @@ case+ d2c0.d2ecl_node of
 //
 | D2Csymintr _ => d3ecl_none (loc0)
 | D2Csymelim _ => d3ecl_none (loc0)
+| D2Coverload (id, _) => d3ecl_none (loc0)
 //
 | D2Cdatdec (knd, s2cs) => let
   in
@@ -118,6 +114,9 @@ end // end of [D2Cfundecs]
 *)
 //
 | _ => let
+    val () = (
+      print_location loc0; print_newline ()
+    )
     val () = (
       print "d2ecl_tr: d2c0 = "; print_d2ecl (d2c0); print_newline ()
     ) // end of [val]
@@ -153,17 +152,17 @@ f2undec_tr (d2c0) = let
   val opt = d2c0.f2undec_ann
   val d3e_def = (
     case+ opt of
-    | Some s2f_ann => let
+    | Some s2e_ann => let
 // (*
         val () = (
-          print "f2undec_tr: s2f_ann = "; print_s2hnf (s2f_ann); print_newline ()
+          print "f2undec_tr: s2e_ann = "; print_s2exp (s2e_ann); print_newline ()
         ) // end of [val]
         val () = (
           print "f2undec_tr: d2e_def = "; print_d2exp (d2e_def); print_newline ()
         ) // end of [val]
 // *)
       in
-        d2exp_trdn (d2e_def, s2f_ann)
+        d2exp_trdn (d2e_def, s2e_ann)
       end // end of [Some]
     | None () => d2exp_trup (d2e_def)
   ) : d3exp // end of [val]
@@ -185,9 +184,9 @@ fn aux_fin {n:nat} (
     d2c: f2undec, d3e: d3exp
   ) : f3undec = let
     val d2v_fun = d2c.f2undec_var
-    val s2f_fun = d3e.d3exp_type // s2hnf
+    val s2e_fun = d3e.d3exp_type // s2hnf
     val () = {
-      val opt = Some (s2f_fun)
+      val opt = Some (s2e_fun)
       val () = d2var_set_type (d2v_fun, opt)
       val () = d2var_set_mastype (d2v_fun, opt)
     } // end of [val]

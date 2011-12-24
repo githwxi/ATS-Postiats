@@ -81,60 +81,66 @@ val the_void_t0ype : s2cstref
 val the_exception_viewtype : s2cstref
 //
 val the_list0_t0ype_type : s2cstref
+val the_list_t0ype_int_type : s2cstref
+val the_list_viewt0ype_int_viewtype : s2cstref
 //
 val the_at_viewt0ype_addr_view: s2cstref
 //
 val the_sizeof_viewt0ype_int: s2cstref
 //
+val the_invar_t0ype_t0ype: s2cstref
 val the_invar_viewt0ype_viewt0ype: s2cstref
 //
 (* ****** ****** *)
 //
 fun s2exp_bool
-  (b: bool): s2hnf (* static boolean terms *)
+  (b: bool): s2exp (* static boolean terms *)
 // end of [s2exp_bool]
 //
-fun s2exp_bool_t0ype (): s2hnf // bool0
-fun s2exp_bool_bool_t0ype (b: bool): s2hnf // bool1(b)
+fun s2exp_bool_t0ype (): s2exp // bool0
+fun s2exp_bool_bool_t0ype (b: bool): s2exp // bool1(b)
 //
 (* ****** ****** *)
 //
-fun s2exp_int_t0ype (): s2hnf // int0
-fun s2exp_uint_t0ype (): s2hnf // uint0
-fun s2exp_lint_t0ype (): s2hnf // int0
-fun s2exp_ulint_t0ype (): s2hnf // uint0
+fun s2exp_int_t0ype (): s2exp // int0
+fun s2exp_uint_t0ype (): s2exp // uint0
+fun s2exp_lint_t0ype (): s2exp // int0
+fun s2exp_ulint_t0ype (): s2exp // uint0
 //
-fun s2exp_int_intinf_t0ype (inf: intinf): s2hnf // int1(i)
-fun s2exp_uint_intinf_t0ype (inf: intinf): s2hnf // uint1(i)
-fun s2exp_lint_intinf_t0ype (inf: intinf): s2hnf // lint1(i)
-fun s2exp_ulint_intinf_t0ype (inf: intinf): s2hnf // ulint1(i)
-fun s2exp_llint_intinf_t0ype (inf: intinf): s2hnf // llint1(i)
-fun s2exp_ullint_intinf_t0ype (inf: intinf): s2hnf // ullint1(i)
-//
-(* ****** ****** *)
-
-fun s2exp_char_t0ype (): s2hnf // char0
-fun s2exp_char_char_t0ype (b: char): s2hnf // char1(b)
-
-(* ****** ****** *)
-//
-fun s2exp_string_type (): s2hnf // string0
-fun s2exp_string_int_type (n: size_t): s2hnf // string1
-//
-(* ****** ****** *)
-//
-fun s2exp_float_t0ype (): s2hnf // float
-fun s2exp_double_t0ype (): s2hnf // double
-fun s2exp_ldouble_t0ype (): s2hnf // ldouble
+fun s2exp_int_intinf_t0ype (inf: intinf): s2exp // int1(i)
+fun s2exp_uint_intinf_t0ype (inf: intinf): s2exp // uint1(i)
+fun s2exp_lint_intinf_t0ype (inf: intinf): s2exp // lint1(i)
+fun s2exp_ulint_intinf_t0ype (inf: intinf): s2exp // ulint1(i)
+fun s2exp_llint_intinf_t0ype (inf: intinf): s2exp // llint1(i)
+fun s2exp_ullint_intinf_t0ype (inf: intinf): s2exp // ullint1(i)
 //
 (* ****** ****** *)
 
-fun s2exp_void_t0ype (): s2hnf // void
+fun s2exp_char_t0ype (): s2exp // char0
+fun s2exp_char_char_t0ype (c: char): s2exp // char1(c)
 
 (* ****** ****** *)
+//
+fun s2exp_string_type (): s2exp // string0
+fun s2exp_string_int_type (n: size_t): s2exp // string1
+//
+(* ****** ****** *)
+//
+fun s2exp_float_t0ype (): s2exp // float
+fun s2exp_double_t0ype (): s2exp // double
+fun s2exp_ldouble_t0ype (): s2exp // ldouble
+//
+(* ****** ****** *)
 
-fun s2exp_list0_t0ype_type (s2e: s2exp): s2hnf
+fun s2exp_void_t0ype (): s2exp // void
 
+(* ****** ****** *)
+//
+fun s2exp_list0_t0ype_type (s2e: s2exp): s2exp
+//
+fun s2exp_list_t0ype_int_type (s2e: s2exp, n: int): s2exp
+fun s2exp_list_viewt0ype_int_viewtype (s2e: s2exp, n: int): s2exp
+//
 (* ****** ****** *)
 
 fun stacst2_initialize (): void

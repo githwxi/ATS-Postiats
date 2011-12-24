@@ -74,19 +74,12 @@ neq_tyreckind_tyreckind
 
 (* ****** ****** *)
 
-macdef hnf = s2hnf_of_s2exp
-macdef unhnf = s2exp_of_s2hnf
-macdef hnflst = s2hnflst_of_s2explst
-macdef unhnflst = s2explst_of_s2hnflst
-
-(* ****** ****** *)
-
 implement
 sp2at_con
   (loc, s2c, s2vs) = let
   val s2fs =
     l2l (list_map_fun (s2vs, s2exp_var))
-  val s2e_pat = s2exp_cstapp (s2c, unhnflst (s2fs))
+  val s2e_pat = s2exp_cstapp (s2c, s2fs)
 in '{
   sp2at_loc= loc
 , sp2at_exp= s2e_pat, sp2at_node = SP2Tcon (s2c, s2vs)
@@ -98,7 +91,7 @@ sp2at_err (loc) = let
   val s2e_pat = s2exp_err (s2t_pat)
 in '{
   sp2at_loc= loc
-, sp2at_exp= hnf (s2e_pat)
+, sp2at_exp= s2e_pat
 , sp2at_node= SP2Terr ()
 } end // end of [sp2at_err]
 
@@ -112,8 +105,9 @@ s2qua_make
 
 (* ****** ****** *)
 
-macdef hnf = s2hnf_of_s2exp
-macdef unhnf = s2exp_of_s2hnf
+extern
+castfn s2exp_of_s2exp (x: s2exp): s2exp
+macdef hnf = s2exp_of_s2exp // HX: it for commenting
 
 (* ****** ****** *)
 
@@ -122,8 +116,8 @@ s2exp_int (i) = hnf '{
   s2exp_srt= s2rt_int, s2exp_node= S2Eint (i)
 } // end of [s2exp_int]
 implement
-s2exp_intinf (int) = hnf '{
-  s2exp_srt= s2rt_int, s2exp_node= S2Eintinf (int)
+s2exp_intinf (i) = hnf '{
+  s2exp_srt= s2rt_int, s2exp_node= S2Eintinf (i)
 } // end of [s2exp_intinf]
 
 implement
@@ -148,7 +142,7 @@ in hnf '{
 implement
 s2exp_Var (s2V) = let
   val s2t = s2Var_get_srt (s2V)
-in hnf '{
+in '{ // HX: this is not hnf!
   s2exp_srt= s2t, s2exp_node= S2EVar (s2V)
 } end // end of [s2exp_Var]
 
@@ -196,11 +190,13 @@ s2exp_lam_srt
 } // end of [s2exp_lam_srt]
 
 implement
-s2exp_lams (s2vss, s2e_body) =
-  case+ s2vss of
-  | list_cons (s2vs, s2vss) => s2exp_lams (s2vss, s2exp_lam (s2vs, s2e_body))
+s2exp_lamlst (
+  s2vss, s2e_body
+) = case+ s2vss of
+  | list_cons (s2vs, s2vss) =>
+      s2exp_lamlst (s2vss, s2exp_lam (s2vs, s2e_body))
   | list_nil () => s2e_body
-// end of [s2exp_lams]
+// end of [s2exp_lamlst]
 
 implement
 s2exp_fun_srt (
@@ -225,7 +221,6 @@ s2exp_cstapp
   (s2c_fun, s2es_arg) = let
   val s2t_fun = s2cst_get_srt s2c_fun
   val s2e_fun = s2exp_cst (s2c_fun)
-  val s2e_fun = unhnf (s2e_fun)
   val- S2RTfun (s2ts_arg, s2t_res) = s2t_fun
 in
   hnf (s2exp_app_srt (s2t_res, s2e_fun, s2es_arg))
@@ -308,21 +303,21 @@ s2exp_vararg (s2e) = hnf '{
 
 implement
 s2exp_exi (
-  s2vs, s2ps, s2e
+  s2vs, s2ps, s2f
 ) = case+ (s2vs, s2ps) of
-  | (list_nil (), list_nil ()) => s2e
-  | (_, _) => '{
-      s2exp_srt= s2e.s2exp_srt, s2exp_node= S2Eexi (s2vs, s2ps, s2e)
+  | (list_nil (), list_nil ()) => s2f
+  | (_, _) => hnf '{
+      s2exp_srt= s2f.s2exp_srt, s2exp_node= S2Eexi (s2vs, s2ps, s2f)
     } // end of [s2exp_exi]
 // end of [s2exp_exi]
 
 implement
 s2exp_uni (
-  s2vs, s2ps, s2e
+  s2vs, s2ps, s2f
 ) = case+ (s2vs, s2ps) of
-  | (list_nil (), list_nil ()) => s2e
-  | (_, _) => '{
-      s2exp_srt= s2e.s2exp_srt, s2exp_node= S2Euni (s2vs, s2ps, s2e)
+  | (list_nil (), list_nil ()) => s2f
+  | (_, _) => hnf '{
+      s2exp_srt= s2f.s2exp_srt, s2exp_node= S2Euni (s2vs, s2ps, s2f)
     } // end of [s2exp_uni]
 // end of [s2exp_uni]
 
@@ -345,8 +340,10 @@ s2exp_wth (s2e, wths2es) = '{
 
 (* ****** ****** *)
 
+(*
 implement
 s2hnf_err (s2t) = hnf (s2exp_err (s2t))
+*)
 
 implement
 s2exp_err (s2t) = '{
@@ -371,9 +368,16 @@ s2exparg_all (loc) = '{
   s2exparg_loc= loc, s2exparg_node= S2EXPARGall ()
 }
 implement
-s2exparg_seq (loc, s2es) = '{
-  s2exparg_loc= loc, s2exparg_node= S2EXPARGseq (s2es)
+s2exparg_seq (loc, s2fs) = '{
+  s2exparg_loc= loc, s2exparg_node= S2EXPARGseq (s2fs)
 }
+
+(* ****** ****** *)
+
+implement
+t2mpmarg_make (loc, s2fs) = '{
+  t2mpmarg_loc= loc, t2mpmarg_arg= s2fs
+} // end of [t2mpmarg_make]
 
 (* ****** ****** *)
 

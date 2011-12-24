@@ -41,6 +41,7 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload
 LOC = "pats_location.sats"
 overload + with $LOC.location_combine
+
 staload SYM = "pats_symbol.sats"
 
 (* ****** ****** *)
@@ -974,9 +975,8 @@ s0tacon_make
   val loc = (case+ def of
     | Some s0e => loc_id + s0e.s0exp_loc
     | None () => (
-        case+ list_last_opt<a0msrt> (arg) of
-        | ~Some_vt x => loc_id + x.a0msrt_loc
-        | ~None_vt () => loc_id
+      case+ list_last_opt<a0msrt> (arg) of
+      | ~Some_vt x => loc_id + x.a0msrt_loc | ~None_vt () => loc_id
       ) // end of [None]
   ) : location // end of [val]
 in '{
@@ -1315,7 +1315,8 @@ t0mpmarg_make
   val loc = tok.token_loc
   val loc = (
     case+ list_last_opt<s0exp> (arg) of
-    ~Some_vt (x) => loc + x.s0exp_loc | ~None_vt () => loc
+    | ~Some_vt (x) => loc + x.s0exp_loc
+    | ~None_vt () => $LOC.location_leftmost (loc)
   ) : location // end of [val]
 in '{
   t0mpmarg_loc= loc, t0mpmarg_arg= arg
@@ -2062,7 +2063,7 @@ m0atch_make
     | None _ => d0e.d0exp_loc
   ) : location // end of [val]
 in '{
-  m0atch_loc= d0e.d0exp_loc, m0atch_exp= d0e, m0atch_pat= p0topt
+  m0atch_loc= loc, m0atch_exp= d0e, m0atch_pat= p0topt
 } end // end of [m0atch_make]
 
 implement
@@ -2070,12 +2071,13 @@ guap0at_make (p0t, matopt) = let
   val xs = (
     case+ matopt of Some xs => xs | None () => list_nil
   ) : m0atchlst
+  val loc = p0t.p0at_loc
   val loc = (
     case+ list_last_opt<m0atch> (xs) of
-    | ~Some_vt x => p0t.p0at_loc + x.m0atch_loc | ~None_vt () => p0t.p0at_loc
+    | ~Some_vt x => loc + x.m0atch_loc | ~None_vt () => loc
   ) : location // end of [val]
 in '{
-  guap0at_loc= p0t.p0at_loc, guap0at_pat= p0t, guap0at_gua= xs
+  guap0at_loc= loc, guap0at_pat= p0t, guap0at_gua= xs
 } end // end of [guap0at_make_some]
 
 implement
@@ -2301,9 +2303,9 @@ in '{
 implement
 d0ecl_e0xpdef
   (tok, ent2, ent3) = let
+  val loc = tok.token_loc
   val loc = (case+ ent3 of
-    | Some x => tok.token_loc + x.e0xp_loc
-    | None () => tok.token_loc + ent2.i0de_loc
+    | Some x => loc + x.e0xp_loc | None () => loc + ent2.i0de_loc
   ) : location // end of [val]
   val def = (case+ ent3 of
     | Some x => let
@@ -2434,10 +2436,10 @@ in '{
 
 implement
 d0ecl_exndecs (tok, ent2) = let
+  val loc = tok.token_loc
   val loc = (case+
     list_last_opt<e0xndec> (ent2) of
-    ~Some_vt x => tok.token_loc + x.e0xndec_loc
-  | ~None_vt () => tok.token_loc
+    ~Some_vt x => loc + x.e0xndec_loc | ~None_vt () => loc
   ) : location // end of [val]
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cexndecs (ent2)
@@ -2447,10 +2449,10 @@ implement
 d0ecl_datdecs_none (
   knd, tok, ent2
 ) = let
+  val loc = tok.token_loc
   val loc = (case+
     list_last_opt<d0atdec> (ent2) of
-    ~Some_vt x => tok.token_loc + x.d0atdec_loc
-  | ~None_vt _ => tok.token_loc
+    ~Some_vt x => loc + x.d0atdec_loc | ~None_vt _ => loc
   ) : location // end of [val]
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cdatdecs (knd, ent2, list_nil)
@@ -2460,10 +2462,11 @@ implement
 d0ecl_datdecs_some (
   knd, tok, ent2, tok2, ent4
 ) = let
+  val loc = tok.token_loc
   val loc = (case+
     list_last_opt<s0expdef> (ent4) of
-    ~Some_vt x => tok.token_loc + x.s0expdef_loc
-  | ~None_vt _ => tok.token_loc + tok2.token_loc
+    ~Some_vt x => loc + x.s0expdef_loc
+  | ~None_vt _ => loc + tok2.token_loc
   ) : location // end of [val]
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cdatdecs (knd, ent2, ent4)
@@ -2474,10 +2477,10 @@ in '{
 implement
 d0ecl_classdec
   (tok, id, sup) = let
+  val loc = tok.token_loc
   val loc = (
     case+ sup of
-    | Some x => tok.token_loc + x.s0exp_loc
-    | None _ => tok.token_loc
+    | Some x => loc + x.s0exp_loc | None _ => loc
   ) : location // end of [val]
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cclassdec (id, sup)
@@ -2488,10 +2491,10 @@ in '{
 implement
 d0ecl_dcstdecs
   (tok, ent2, ent3) = let
+  val loc = tok.token_loc
   val loc = (case+
     list_last_opt<d0cstdec> (ent3) of
-    ~Some_vt x => tok.token_loc + x.d0cstdec_loc
-  | ~None_vt _ => tok.token_loc // deadcode
+    ~Some_vt x => loc + x.d0cstdec_loc | ~None_vt _ => loc (*dead*)
   ) : location // end of [val]
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cdcstdecs (tok, ent2, ent3)
@@ -2502,10 +2505,10 @@ in '{
 implement
 d0ecl_macdefs
   (knd, isrec, tok, ent2) = let
+  val loc = tok.token_loc
   val loc = (case+
     list_last_opt<m0acdef> (ent2) of
-    ~Some_vt x => tok.token_loc + x.m0acdef_loc
-  | ~None_vt _ => tok.token_loc // deadcode
+    ~Some_vt x => loc + x.m0acdef_loc | ~None_vt _ => loc (*dead*)
   ) : location // end of [val]
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cmacdefs (knd, isrec, ent2)
@@ -2561,10 +2564,10 @@ implement
 d0ecl_valdecs (
   knd, isrec, tok, xs
 ) = let
+  val loc = tok.token_loc
   val loc = (case+
     list_last_opt<v0aldec> (xs) of
-    | ~Some_vt x => tok.token_loc + x.v0aldec_loc
-    | ~None_vt _ => tok.token_loc
+    | ~Some_vt x => loc + x.v0aldec_loc | ~None_vt _ => loc
   ) : location // end of [val]
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cvaldecs (knd, isrec, xs)
@@ -2576,10 +2579,10 @@ implement
 d0ecl_fundecs (
   knd, tok, qua, xs
 ) = let
+  val loc = tok.token_loc
   val loc = (case+
     list_last_opt<f0undec> (xs) of
-    | ~Some_vt x => tok.token_loc + x.f0undec_loc
-    | ~None_vt _ => tok.token_loc
+    | ~Some_vt x => loc + x.f0undec_loc | ~None_vt _ => loc
   ) : location // end of [val]
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cfundecs (knd, qua, xs)
@@ -2590,10 +2593,10 @@ in '{
 implement
 d0ecl_vardecs
   (tok, xs) = let
+  val loc = tok.token_loc
   val loc = (case+
     list_last_opt<v0ardec> (xs) of
-    | ~Some_vt x => tok.token_loc + x.v0ardec_loc
-    | ~None_vt _ => tok.token_loc
+    | ~Some_vt x => loc + x.v0ardec_loc | ~None_vt _ => loc
   ) : location // end of [val]
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cvardecs (xs)

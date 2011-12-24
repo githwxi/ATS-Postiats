@@ -58,13 +58,17 @@ s2Var_struct = @{
   s2Var_loc= location
 , s2Var_cnt= $CNTR.count // the count
 , s2Var_srt= s2rt  // the sort
+(*
 , s2Var_varknd= int // derived from tyvarknd
+*)
 (*
 , s2Var_skexp= s2kexp // skeleton
 *)
 , s2Var_szexp= s2zexp // unique size
-, s2Var_link= s2hnfopt // solution
+, s2Var_link= s2expopt // solution
 , s2Var_svar= s2varopt // instantiated static var
+, s2Var_lbs= s2VarBoundlst // lower bounds
+, s2Var_ubs= s2VarBoundlst // upper bounds
 , s2Var_sVarset= s2Varset // existential Variable occurrences
 , s2Var_stamp= stamp // uniqueness
 } // end of [s2Var_struct]
@@ -93,14 +97,16 @@ val () = begin
 p->s2Var_loc := loc;
 p->s2Var_cnt := cnt;
 p->s2Var_srt := s2t;
+(*
 p->s2Var_varknd := 0;
+*)
 p->s2Var_szexp := S2ZEany (); // unknown size
 p->s2Var_link := None ();
 p->s2Var_svar := None ();
-(*
+//
 p->s2Var_lbs := list_nil ();
 p->s2Var_ubs := list_nil ();
-*)
+//
 p->s2Var_sVarset := s2Varset_nil ();
 p->s2Var_stamp := stamp
 end // end of [val]
@@ -123,14 +129,16 @@ val () = begin
 p->s2Var_loc := loc;
 p->s2Var_cnt := cnt;
 p->s2Var_srt := s2t;
+(*
 p->s2Var_varknd := 0;
+*)
 p->s2Var_szexp := S2ZEany (); // unknown size
 p->s2Var_link := None ();
 p->s2Var_svar := None ();
-(*
+//
 p->s2Var_lbs := list_nil ();
 p->s2Var_ubs := list_nil ();
-*)
+//
 p->s2Var_sVarset := s2Varset_nil ();
 p->s2Var_stamp := stamp
 end // end of [val]
@@ -154,15 +162,6 @@ s2Var_get_srt (s2V) = $effmask_ref let
 end // end of [s2Var_get_srt]
 
 implement
-s2Var_get_varknd (s2V) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_varknd
-end // end of [s2Var_get_varknd]
-implement
-s2Var_set_varknd (s2V, knd) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_varknd := knd
-end // end of [s2Var_set_varknd]
-
-implement
 s2Var_get_link (s2V) = let
   val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_link
 end // end of [s2Var_get_link]
@@ -171,10 +170,59 @@ s2Var_set_link (s2V, link) = let
   val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_link := link
 end // end of [s2Var_set_link]
 
+(*
+implement
+s2Var_get_varknd (s2V) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_varknd
+end // end of [s2Var_get_varknd]
+implement
+s2Var_set_varknd (s2V, knd) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_varknd := knd
+end // end of [s2Var_set_varknd]
+*)
+
+implement
+s2Var_get_lbs (s2V) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_lbs
+end // end of [s2Var_get_lbs]
+implement
+s2Var_set_lbs (s2V, lbs) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_lbs := lbs
+end // end of [s2Var_set_lbs]
+implement
+s2Var_get_ubs (s2V) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_ubs
+end // end of [s2Var_get_ubs]
+implement
+s2Var_set_ubs (s2V, ubs) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_ubs := ubs
+end // end of [s2Var_set_ubs]
+
 implement
 s2Var_get_stamp (s2V) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_stamp
 end // end of [s2Var_get_stamp]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+assume
+s2VarBound_type = '{
+  s2VarBound_loc= location, s2VarBound_val= s2exp
+} // end of [s2VarBound_type]
+
+in // in of [local]
+
+implement
+s2VarBound_make (loc, s2f) = '{
+  s2VarBound_loc= loc, s2VarBound_val= s2f
+} // end of [s2VarBound_make]
+
+implement s2VarBound_get_loc (x) = x.s2VarBound_loc
+implement s2VarBound_get_val (x) = x.s2VarBound_val
 
 end // end of [local]
 

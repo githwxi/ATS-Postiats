@@ -39,6 +39,10 @@ implement prerr_FILENAME<> () = prerr "pats_trans2_dynexp"
 
 staload "pats_staexp2.sats"
 staload "pats_staexp2_error.sats"
+staload "pats_staexp2_util.sats"
+
+(* ****** ****** *)
+
 staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
 
@@ -114,27 +118,28 @@ d23explst_free (xs) = case+ xs of
 
 implement
 d3exp_trdn
-  (d3e, s2f) = d3e where {
-  val loc = d3e.d3exp_loc
-  val () = begin
-    print "d3exp_trdn: d3e.d3exp_type = "; print_s2hnf (d3e.d3exp_type); print_newline ()
-  end // end of [val]
-  val () = begin
-    print "d3exp_tr_dn: s2f = "; print_s2hnf (s2f); print_newline ()
-  end // end of [val]
-  val err = $SOL.s2hnf_tyleq_solve (loc, d3e.d3exp_type, s2f)
+  (d3e1, s2e2) = d3e1 where {
+  val loc = d3e1.d3exp_loc
+  val s2e1 = d3e1.d3exp_type
+// (*
+  val () = (
+    print "d3exp_trdn: s2e1 = "; print_s2exp (s2e1); print_newline ();
+    print "d3exp_trdn: s2e2 = "; print_s2exp (s2e2); print_newline ();
+  ) // end of [val]
+// *)
+  val err = $SOL.s2exp_tyleq_solve (loc, s2e1, s2e2)
   val () = if (err != 0) then let
     val () = prerr_error3_loc (loc)
     val () = filprerr_ifdebug "d3exp_trdn"
     val () = prerr ": the dynamic expression can not be assigned the type ["
-    val () = prerr_s2hnf (s2f)
+    val () = prerr_s2exp (s2e2)
     val () = prerr "]."
     val () = prerr_newline ()
     val () = prerr_the_staerrlst ()
   in
-    the_trans3errlst_add (T3E_d3exp_trdn (d3e, s2f))
+    the_trans3errlst_add (T3E_d3exp_trdn (d3e1, s2e2))
   end // end of [val]
-  val () = d3exp_set_type (d3e, s2f)
+  val () = d3exp_set_type (d3e1, s2e2)
 } // end of [d3exp_trdn]
 
 (* ****** ****** *)

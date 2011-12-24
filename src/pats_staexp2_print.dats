@@ -207,15 +207,14 @@ end // end of [fprint_tyreckind]
 
 (* ****** ****** *)
 
-macdef unhnf = s2exp_of_s2hnf
-
+(*
 implement
 fprint_s2hnf (out, x) = fprint_s2exp (out, (unhnf)x)
-
 implement
 print_s2hnf (x) = fprint_s2hnf (stdout_ref, x)
 implement
 prerr_s2hnf (x) = fprint_s2hnf (stderr_ref, x)
+*)
 
 (* ****** ****** *)
 
@@ -492,11 +491,10 @@ fprint_s2eff (out, s2fe) =
   case+ s2fe of
   | S2EFFall () => fprint_string (out, "all")
   | S2EFFnil () => fprint_string (out, "nil")
-  | S2EFFset (efs, s2fs) => {
+  | S2EFFset (efs, s2es) => {
       val () = fprint_string (out, "set(")
       val () = $EFF.fprint_effset (out, efs)
       val () = fprint_string (out, "; ")
-      val s2es = s2explst_of_s2hnflst (s2fs)
       val () = fprint_s2explst (out, s2es)
       val () = fprint_string (out, ")")
     } // end of [S2EFFset]
@@ -560,6 +558,13 @@ implement
 fprint_s2exparglst (out, xs) =
   $UT.fprintlst (out, xs, ", ", fprint_s2exparg)
 // end of [fprint_s2exparglst]
+
+(* ****** ****** *)
+
+implement
+fprint_t2mpmarg
+  (out, x) = fprint_s2explst (out, x.t2mpmarg_arg)
+// end of [fprint_t2mpmarg]
 
 (* ****** ****** *)
 

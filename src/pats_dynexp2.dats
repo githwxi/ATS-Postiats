@@ -267,9 +267,10 @@ end // end of [p2at_exist]
 (* ****** ****** *)
 
 implement
-p2at_ann (loc, p2t, s2e) =
+p2at_ann (loc, p2t, s2f) = let
+  val s2e = $UN.cast {s2exp} (s2f) in
   p2at_make (loc, p2t.p2at_svs, p2t.p2at_dvs, P2Tann (p2t, s2e))
-// end of [p2at_ann]
+end // end of [p2at_ann]
 
 (* ****** ****** *)
 
@@ -286,7 +287,7 @@ p2at_err (loc) =
 
 implement
 d2exp_make (loc, node) = '{
-  d2exp_loc= loc, d2exp_node= node, d2exp_typ= None()
+  d2exp_loc= loc, d2exp_node= node, d2exp_type= None()
 } // end of [d2exp_make]
 
 implement
@@ -365,6 +366,13 @@ d2exp_freeat
 (* ****** ****** *)
 
 implement
+d2exp_tmpid (loc, d2e_id, t2mas) =
+  d2exp_make (loc, D2Etmpid (d2e_id, t2mas))
+// end of [d2exp_tmpid]
+
+(* ****** ****** *)
+
+implement
 d2exp_let (loc, d2cs, body) =
   d2exp_make (loc, D2Elet (d2cs, body))
 // end of [d2exp_let]
@@ -390,9 +398,9 @@ d2exp_deref
 (* ****** ****** *)
 
 implement
-d2exp_apps (
+d2exp_applst (
   loc, d2e_fun, d2as_arg
-) = d2exp_make (loc, D2Eapps (d2e_fun, d2as_arg))
+) = d2exp_make (loc, D2Eapplst (d2e_fun, d2as_arg))
 
 implement
 d2exp_app_sta (
@@ -408,12 +416,12 @@ case+ s2as of
     val d2a = D2EXPARGsta (s2as)
     val node = (
       case+ d2e_fun.d2exp_node of
-      | D2Eapps (d2e_fun, d2as) => let
+      | D2Eapplst (d2e_fun, d2as) => let
           val d2as = list_extend (d2as, d2a)
         in
-          D2Eapps (d2e_fun, (l2l)d2as)
+          D2Eapplst (d2e_fun, (l2l)d2as)
         end
-      | _ => D2Eapps (d2e_fun, list_sing (d2a))
+      | _ => D2Eapplst (d2e_fun, list_sing (d2a))
     ) : d2exp_node // end of [val]
   in
     d2exp_make (loc0, node)
@@ -435,12 +443,12 @@ d2exp_app_dyn (
   val d2a = D2EXPARGdyn (npf, locarg, darg)
   val node = (
     case+ d2e_fun.d2exp_node of
-    | D2Eapps (d2e_fun, d2as) => let
-        val d2as = l2l (list_extend (d2as, (d2a)))
+    | D2Eapplst (d2e_fun, d2as) => let
+        val d2as = list_extend (d2as, (d2a))
       in
-        D2Eapps (d2e_fun, d2as)
+        D2Eapplst (d2e_fun, (l2l)d2as)
       end
-    | _ => D2Eapps (d2e_fun, list_sing (d2a))
+    | _ => D2Eapplst (d2e_fun, list_sing (d2a))
   ) : d2exp_node // end of [val]
 in
   d2exp_make (loc0, node)
@@ -604,8 +612,11 @@ d2exp_fix (
 
 implement
 d2exp_ann_type
-  (loc, d2e, ann) = d2exp_make (loc, D2Eann_type (d2e, ann))
-// end of [d2exp_ann_type]
+  (loc, d2e, s2f) = let
+  val s2e = $UN.cast {s2exp} (s2f)
+in
+  d2exp_make (loc, D2Eann_type (d2e, s2e))
+end // end of [d2exp_ann_type]
 
 implement
 d2exp_ann_seff
@@ -870,18 +881,18 @@ extern typedef "d2exp_t" = d2exp
 %{$
 
 ats_void_type
-patsopt_p2at_set_typ (
+patsopt_p2at_set_type (
   ats_ptr_type p2t, ats_ptr_type opt
 ) {
   ((p2at_t)p2t)->atslab_p2at_type = opt ; return ;
-} // end of [patsopt_p2at_set_typ]
+} // end of [patsopt_p2at_set_type]
 
 ats_void_type
-patsopt_d2exp_set_typ (
+patsopt_d2exp_set_type (
   ats_ptr_type d2e, ats_ptr_type opt
 ) {
-  ((d2exp_t)d2e)->atslab_d2exp_typ = opt ; return ;
-} // end of [patsopt_d2exp_set_typ]
+  ((d2exp_t)d2e)->atslab_d2exp_type = opt ; return ;
+} // end of [patsopt_d2exp_set_type]
 
 %} // end of [%{$]
 

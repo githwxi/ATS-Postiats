@@ -46,16 +46,17 @@ datatype trans3err =
   | T3E_intsp of (d2exp)
   | T3E_floatsp of (d2exp)
 //
-  | T3E_s2hnf_uni_instantiate_napp of (s2hnf, location(*arg*), int(*-1/1*))
-  | T3E_s2hnf_uni_instantiate_arity of (s2hnf, location(*arg*), int(*-1/1*))
-  | T3E_s2hnf_uni_instantiate_srtck of (s2hnf, location(*arg*), s2rt, s2rt)
-  | T3E_s2hnf_uni_instantiate_sexparglst of (location, s2hnf, s2exparglst)
+  | T3E_s2varlst_instantiate_napp of (location(*arg*), int(*-1/1*))
+  | T3E_s2varlst_instantiate_arity of (location(*arg*), int(*-1/1*))
+  | T3E_s2varlst_instantiate_srtck of (location(*arg*), s2rt(*s2v*), s2rt(*s2e*))
 //
-  | T3E_p2at_trdn_ann of (p2at, s2hnf)
+  | T3E_s2exp_uni_instantiate_sexparglst of (location, s2exp, s2exparglst)
+//
+  | T3E_p2at_trdn_ann of (p2at, s2exp)
 //
   | T3E_d2exp_trup_laminit_fc of (d2exp, funclo)
   | T3E_d2exp_trup_con_npf of (d2exp, int(*npf*))
-  | T3E_d3exp_trdn of (d3exp, s2hnf)
+  | T3E_d3exp_trdn of (d3exp, s2exp)
   | T3E_d23explst_trdn_arity of (location, int(*-1/1*))
   | T3E_d23exp_trup_app23_npf of (location(*fun*), int(*npf*))
 //
@@ -67,17 +68,17 @@ fun the_trans3errlst_finalize (): void // cleanup all the errors
 
 (* ****** ****** *)
 
-fun p2at_syn_type (p2t: p2at): s2hnf
-fun p2atlst_syn_type (p2ts: p2atlst): s2hnflst
+fun p2at_syn_type (p2t: p2at): s2exp
+fun p2atlst_syn_type (p2ts: p2atlst): s2explst
 
 (* ****** ****** *)
 //
 fun p2at_trup_arg (p2t: p2at): p3at
 fun p2atlst_trup_arg
   (npf: int, p2ts: p2atlst): p3atlst
-fun p2at_trdn_arg (p2t: p2at, s2f: s2hnf): p3at
+fun p2at_trdn_arg (p2t: p2at, s2f: s2exp): p3at
 //
-fun p2at_trdn (p2t: p2at, s2f: s2hnf): p3at
+fun p2at_trdn (p2t: p2at, s2f: s2exp): p3at
 //
 (* ****** ****** *)
 
@@ -100,7 +101,7 @@ viewtypedef d23explst = List_vt (d23exp)
 fun d23exp_free (x: d23exp): void
 fun d23explst_free (xs: d23explst): void
 
-fun d3exp_trdn (d3e: d3exp, s2f: s2hnf): d3exp
+fun d3exp_trdn (d3e: d3exp, s2f: s2exp): d3exp
 
 (* ****** ****** *)
 
@@ -120,8 +121,10 @@ fun d2exp_trup (d2e: d2exp): d3exp
 fun d2explst_trup (d2es: d2explst): d3explst
 fun d2explstlst_trup (d2ess: d2explstlst): d3explstlst
 
-fun d2exp_trdn (d2e: d2exp, s2f: s2hnf): d3exp
-fun d2exp_trdn_rest (d2e: d2exp, s2f: s2hnf): d3exp
+fun d2exp_trdn (d2e: d2exp, s2f: s2exp): d3exp
+fun d2exp_trdn_rest (d2e: d2exp, s2f: s2exp): d3exp
+
+fun d2explst_trdn_elt (d2es: d2explst, s2f: s2exp): d3explst
 
 (* ****** ****** *)
 

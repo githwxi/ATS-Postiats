@@ -90,6 +90,11 @@ eq_intinf_int (x1, x2) =
 // end of [eq_intinf_int]
 
 implement
+eq_int_intinf (x1, x2) =
+  compare_intinf_int (x2, x1) = 0
+// end of [eq_int_intinf]
+
+implement
 eq_intinf_intinf (x1, x2) =
   compare_intinf_intinf (x1, x2) = 0
 // end of [eq_intinf_intinf]

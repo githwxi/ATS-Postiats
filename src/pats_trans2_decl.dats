@@ -96,13 +96,6 @@ macdef list_sing (x) = list_cons (,(x), list_nil)
 
 (* ****** ****** *)
 
-macdef hnf = s2hnf_of_s2exp
-macdef hnflst = s2hnflst_of_s2explst
-macdef unhnf = s2exp_of_s2hnf
-macdef unhnflst = s2explst_of_s2hnflst
-
-(* ****** ****** *)
-
 fn symintr_tr
   (ids: i0delst): void = let
   fun aux (ids: i0delst): void = case+ ids of
@@ -439,32 +432,31 @@ fn s1tacon_tr (
   end : List (s2varlst) // end of [val]
   val def = let
     fun aux (
-      s2t_fun: s2rt, s2vss: List (s2varlst), s2f: s2hnf
-    ) : s2hnf =
+      s2t_fun: s2rt, s2vss: List (s2varlst), s2e: s2exp
+    ) : s2exp =
       case+ s2vss of
       | list_cons
           (s2vs, s2vss) => let
           val- S2RTfun
             (_, s2t1_fun) = s2t_fun
-          val s2f = aux (s2t1_fun, s2vss, s2f)
-          val s2e_lam = s2exp_lam_srt (s2t_fun, s2vs, (unhnf)s2f)
+          val s2e = aux (s2t1_fun, s2vss, s2e)
+          val s2e_lam = s2exp_lam_srt (s2t_fun, s2vs, s2e)
         in
-          (hnf)s2e_lam
+          s2e_lam
         end // end of [list_cons]
-      | list_nil () => s2f
+      | list_nil () => s2e
    in
      case+ d.s1tacon_def of
      | Some s1e => let
          val s2e =
            s1exp_trdn (s1e, s2t_res)
          // end of [val]
-         val s2f = s2exp_hnfize (s2e)
-         val s2f_def = aux (s2t_fun, s2vss, s2f)
+         val s2e_def = aux (s2t_fun, s2vss, s2e)
        in
-         Some (s2f_def)
+         Some (s2e_def)
        end // end of [Some]
      | None () => None ()
-  end : s2hnfopt // end of [val]
+  end : s2expopt // end of [val]
 //
   val () = the_s2expenv_pop_free (pfenv | (*none*))
 //
@@ -540,7 +532,7 @@ fn s1expdef_tr_def (
   ) : s2exp // end of [val]
   val () = the_s2expenv_pop_free (pfenv | (*none*))
 //
-  val s2e_def = s2exp_lams ((castvwtp1)s2vss, s2e_body)
+  val s2e_def = s2exp_lamlst ((castvwtp1)s2vss, s2e_body)
   val () = list_vt_free (s2vss)
 //
 in
@@ -753,7 +745,7 @@ case+ ans of
           val s2t_res = s1aspdec_tr_res (d1c, s2t_fun)
           val s2e_body = s1exp_trdn (d1c.s1aspdec_def, s2t_res)
           val () = the_s2expenv_pop_free (pfenv | (*none*))
-          val s2e_def = s2exp_lams ((castvwtp1)s2vss, s2e_body)
+          val s2e_def = s2exp_lamlst ((castvwtp1)s2vss, s2e_body)
           val () = list_vt_free (s2vss)
 (*
           // HX: definition binding is to be done in [pats_trans3_dec.dats]
@@ -1059,9 +1051,8 @@ fn d1cstdec_tr (
   ) : s2rt // end of [val]
   var s2e_cst = s1exp_trdn (d1c.d1cstdec_typ, s2t_cst)
   val arylst = s2exp_get_arylst (s2e_cst)
-  val s2f_cst = s2exp_hnfize (s2e_cst)
   val extdef = d1c.d1cstdec_extdef
-  val d2c = d2cst_make (sym, loc, fil, dck, s2qs, arylst, s2f_cst, extdef)
+  val d2c = d2cst_make (sym, loc, fil, dck, s2qs, arylst, s2e_cst, extdef)
   val () = the_d2expenv_add_dcst (d2c)
 } // end of [d1cstdec_tr]
 
@@ -1086,7 +1077,6 @@ fn v1aldec_tr (
   val loc = d1c.v1aldec_loc
   val def = d1exp_tr (d1c.v1aldec_def)
   val ann = witht1ype_tr (d1c.v1aldec_ann)
-  val ann = s2expopt_hnfize (ann)
 in
   v2aldec_make (loc, p2t, def, ann)
 end // end of [v1aldec_tr]
@@ -1133,13 +1123,10 @@ fn v1ardec_tr (
   val () = d2var_set_addr (d2v_ptr, os2e_ptr)
   val typ = (case+ d1c.v1ardec_typ of
     | Some s1e => let
-        val s2e = s1exp_trdn_impredicative (s1e)
-        val s2f = s2exp_hnfize (s2e)
-      in
-        Some (s2f)
+        val s2e = s1exp_trdn_impredicative (s1e) in Some (s2e)
       end // end of [Some]
     | None () => None ()
-  ) : s2hnfopt
+  ) : s2expopt // end of [val]
   val wth = (
     case+ d1c.v1ardec_wth of
     | Some (i0de) => let
@@ -1190,7 +1177,6 @@ fn f1undec_tr (
   end // end of [val]
 *)
   val ann = witht1ype_tr (d1c.f1undec_ann)
-  val ann = s2expopt_hnfize (ann)
 in
   f2undec_make (d1c.f1undec_loc, d2v, def, ann)
 end // end of [f1undec_tr]
@@ -1395,16 +1381,14 @@ case+ d1c0.d1ecl_node of
   end // end of [D1Cclassdec]
 | D1Cextype (name, s1e_def) => let
     val s2e_def = s1exp_trdn_impredicative (s1e_def)
-    val s2f_def = s2exp_hnfize (s2e_def)
   in
-    d2ecl_extype (loc0, name, s2f_def)
+    d2ecl_extype (loc0, name, s2e_def)
   end // end of [D1Cextype]
 | D1Cextype (knd, name, s1e_def) => let
     val s2t_def = s2rt_impredicative (knd)
     val s2e_def = s1exp_trdn (s1e_def, s2t_def)
-    val s2f_def = s2exp_hnfize (s2e_def)
   in
-    d2ecl_extype (loc0, name, s2f_def)
+    d2ecl_extype (loc0, name, s2e_def)
   end // end of [D1Cextype]
 | D1Cextval (name, def) => let
     val def = d1exp_tr (def) in d2ecl_extval (loc0, name, def)

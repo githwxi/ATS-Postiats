@@ -376,6 +376,30 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
+| D1Etup (knd, npf, d1es) => {
+    val () = prstr "D1Etup(knd="
+    val () = fprint_int (out, knd)
+    val () = prstr "; npf="
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_d1explst (out, d1es)
+    val () = prstr ")"
+  } // end of [D1Etup]
+| D1Erec (knd, npf, ld1es) => {
+    val () = prstr "D1Erec(knd="
+    val () = fprint_int (out, knd)
+    val () = prstr "; npf="
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_labd1explst (out, ld1es)
+    val () = prstr ")"
+  } // end of [D1Erec]
+| D1Eseq (d1es) => {
+    val () = prstr "D1Eseq("
+    val () = fprint_d1explst (out, d1es)
+    val () = prstr ")"
+  } // end of [D1Eseq]
+//
 | D1Eptrof (d1e) => {
     val () = prstr "D1Eptrof("
     val () = fprint_d1exp (out, d1e)
@@ -475,6 +499,21 @@ implement
 fprint_d1expopt
   (out, opt) = $UT.fprintopt (out, opt, fprint_d1exp)
 // end of [fprint_d1expopt]
+
+(* ****** ****** *)
+
+implement
+fprint_labd1exp (out, x) = {
+  val $SYN.DL0ABELED (l, d1e) = x
+  val () = $SYN.fprint_l0ab (out, l)
+  val () = fprint_string (out, "=")
+  val () = fprint_d1exp (out, d1e)
+} // end of [fprint_labd1exp]
+
+implement
+fprint_labd1explst (out, xs) =
+  $UT.fprintlst (out, xs, ", ", fprint_labd1exp)
+// end of [fprint_labs1explst]
 
 (* ****** ****** *)
 
