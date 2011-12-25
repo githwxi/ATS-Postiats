@@ -54,6 +54,8 @@ datatype staerr =
 //
   | STAERR_refval_equal of (location, int(*knd*), int(*knd*))
 //
+  | STAERR_s2zexp_merge of (location, s2zexp, s2zexp)
+//
   | STAERR_s2exp_equal of (location, s2exp, s2exp)
   | STAERR_s2exp_tyleq of (location, s2exp, s2exp)
   | STAERR_s2eff_leq of (location, s2eff, s2eff)

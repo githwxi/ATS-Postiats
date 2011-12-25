@@ -843,7 +843,7 @@ datatype s2kexp =
   | S2KEtyarr of (s2kexp)
   | S2KEtyrec of (tyreckind, labs2kexplst)
   | S2KEvar of s2var
-  | S2KEerr of () // error indication
+  | S2KEerr of () // indication of error
 // end of [s2kexp]
 
 and labs2kexp = SKLABELED of (label, s2kexp)
@@ -868,11 +868,12 @@ datatype s2zexp =
   | S2ZEapp of (s2zexp, s2zexplst)
   | S2ZEcst of s2cst
   | S2ZEptr of () (* pointer size *)
-  | S2ZEextype of string (* external type *)
+  | S2ZEextype of (string (*name*), s2zexplstlst)
   | S2ZEtyarr of // array size
       (s2zexp (*element*), s2explst (*dimension*))
   | S2ZEtyrec of (tyreckind, labs2zexplst)
   | S2ZEvar of s2var
+  | S2ZEerr of () // HX: indication of error 
 // end of [s2zexp]
 
 and labs2zexp = SZLABELED of (label, s2zexp)
@@ -880,8 +881,18 @@ and labs2zexp = SZLABELED of (label, s2zexp)
 where
 s2zexplst = List (s2zexp)
 and
+s2zexplstlst = List (s2zexplst)
+and
 labs2zexplst = List (labs2zexp)
 
+fun fprint_s2zexp : fprint_type (s2zexp)
+fun print_s2zexp (s2ze: s2zexp): void
+fun prerr_s2zexp (s2ze: s2zexp): void
+
+fun s2Var_get_szexp (s2V: s2Var): s2zexp
+fun s2Var_set_szexp (s2V: s2Var, s2ze: s2zexp): void
+
+fun s2zexp_is_err (s2ze: s2zexp): bool
 fun s2zexp_make_s2exp (s2e: s2exp): s2zexp
 
 (* ****** ****** *)

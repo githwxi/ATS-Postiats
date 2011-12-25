@@ -75,13 +75,6 @@ fun s2cstnul_isnot_null {l:addr}
 
 (* ****** ****** *)
 
-(*
-macdef hnf = s2hnf_of_s2exp
-macdef unhnf = s2exp_of_s2hnf
-*)
-
-(* ****** ****** *)
-
 local
 
 typedef

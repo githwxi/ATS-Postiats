@@ -181,20 +181,32 @@ fun
 d1exp_tr_ann (
   d1e0: d1exp, s2e0: s2exp
 ) : d2exp = let
-  val s2f0 = s2exp_hnfize (s2e0)
-  val s2e0 = $UN.cast {s2exp} (s2f0)
-// (*
-  val () = (
-    print "d1exp_tr_ann: d1e0 = "; print_d1exp (d1e0); print_newline ()
-  ) // end of [val]
-  val () = (
-    print "d1exp_tr_ann: s2e0 = "; print_s2exp (s2e0); print_newline ()
-  ) // end of [val]
-// *)
-  fn auxerr (d1e0: d1exp, loc: location, err: int): void = ()
+//
+val loc0 = d1e0.d1exp_loc
+val s2f0 = s2exp_hnfize (s2e0)
+//
+(*
+val () = (
+  print "d1exp_tr_ann: d1e0 = "; print_d1exp (d1e0); print_newline ()
+) // end of [val]
+val () = (
+  print "d1exp_tr_ann: s2f0 = "; print_s2exp (s2f0); print_newline ()
+) // end of [val]
+*)
+//
+fn auxerr (
+  d1e0: d1exp, locarg: location, err: int
+) : void = {
+  val () = prerr_error2_loc (locarg)
+  val () = prerr ": static arity mismatch"
+  val () = if err > 0 then prerr ": less arguments are expected."
+  val () = if err < 0 then prerr ": more arguments are expected."
+  val () = prerr_newline ()
+} // end of [auxerr]
+//
 in
 //
-case+ s2e0.s2exp_node of
+case+ s2f0.s2exp_node of
 | S2Euni (s2vs, s2ps, s2e) => (
   case+ d1e0.d1exp_node of
   | D1Elam_sta_ana (locarg, arg, body) => let
@@ -212,12 +224,12 @@ case+ s2e0.s2exp_node of
       val body = d1exp_tr_ann (body, s2e)
       val () = the_s2expenv_pop_free (pf_s2expenv | (*none*))
     in
-      d2exp_lam_sta (d1e0.d1exp_loc, s2vs, s2ps, body)
+      d2exp_lam_sta (loc0, s2vs, s2ps, body)
     end // end of [D1Elam_sta_ana]
   | _ => let
       val d2e0 = d1exp_tr_ann (d1e0, s2e)
     in
-      d2exp_lam_sta (d1e0.d1exp_loc, s2vs, s2ps, d2e0)
+      d2exp_lam_sta (loc0, s2vs, s2ps, d2e0)
     end // end of [_]
   ) // end of [S2Euni]
 | S2Efun (
@@ -229,23 +241,21 @@ case+ s2e0.s2exp_node of
         d1e0, fc, lin1, s2fe, npf1, s2es_arg, s2e_res, lin2, p1t_arg, d1e_body
       ) // end of [val]
     in
-      d2exp_lam_dyn (d1e0.d1exp_loc, lin1, npf1, p2ts_arg, d2e_body)
+      d2exp_lam_dyn (loc0, lin1, npf1, p2ts_arg, d2e_body)
     end // end of [D2Elam_dyn]
   | D1Elaminit_dyn (lin2, p1t_arg, d1e_body) => let
       val @(p2ts_arg, d2e_body) = d1exp_tr_arg_body_ann (
         d1e0, fc, lin1, s2fe, npf1, s2es_arg, s2e_res, lin2, p1t_arg, d1e_body
       ) // end of [val]
     in
-      d2exp_laminit_dyn (d1e0.d1exp_loc, lin1, npf1, p2ts_arg, d2e_body)
+      d2exp_laminit_dyn (loc0, lin1, npf1, p2ts_arg, d2e_body)
     end // end of [D2Elam_dyn]
   | _ => let
-      val d2e0 = d1exp_tr (d1e0)
-    in
-      d2exp_ann_type (d1e0.d1exp_loc, d2e0, s2f0)
+      val d2e0 = d1exp_tr (d1e0) in d2exp_ann_type (loc0, d2e0, s2f0)
     end (* end of [_] *)
   ) // end of [S2Efun]
 | _ => let
-    val d2e0 = d1exp_tr d1e0 in d2exp_ann_type (d1e0.d1exp_loc, d2e0, s2f0)
+    val d2e0 = d1exp_tr d1e0 in d2exp_ann_type (loc0, d2e0, s2f0)
   end (* end of [_] *)
 //
 end // end of [d1exp_tr_ann]
@@ -267,35 +277,40 @@ d1exp_tr_arg_body_ann (
   ) // end of [val]
 // *)
 //
-val () = auxcheck (d1e0, fc) where {
+val () = let
   fn auxcheck (
     d1e0: d1exp, fc: funclo
   ) : void =
     case+ fc of
     | FUNCLOclo (knd) when knd = 0 => let
         val () = prerr_error2_loc (d1e0.d1exp_loc)
+        val () = filprerr_ifdebug "d1exp_tr_arg_body_ann"
         val () = prerr ": the function cannot be given an unboxed closure type.";
         val () = prerr_newline ()
       in
         the_trans2errlst_add (T2E_d1exp_tr (d1e0))
       end // end of [FUNCLOclo]
     | _ => ()
-} (* end of [val] *)
+in
+  auxcheck (d1e0, fc)
+end (* end of [val] *)
 //
-val () = auxcheck
-  (d1e0, lin1, lin2) where {
+val () = let
   fn auxcheck (
     d1e0: d1exp, lin1: int, lin2: int
   ) : void =
     if lin1 != lin2 then let
       val () = prerr_error2_loc (d1e0.d1exp_loc)
+      val () = filprerr_ifdebug "d1exp_tr_arg_body_ann"
       val () = if lin1 < lin2 then prerr ": linear function is given a nonlinear type."
       val () = if lin1 > lin2 then prerr ": nonlinear function is given a linear type."
       val () = prerr_newline ()
     in
       the_trans2errlst_add (T2E_d1exp_tr (d1e0))
     end // end of [if]
-} (* end of [val] *)
+in
+  auxcheck (d1e0, lin1, lin2)
+end (* end of [val] *)
 //
 var wths1es = WTHS1EXPLSTnil ()
 val p2t_arg = 
@@ -310,6 +325,7 @@ val () = auxcheck
   in
     if ~isnone then let
       val () = prerr_error2_loc (p1t_arg.p1at_loc)
+      val () = filprerr_ifdebug "d1exp_tr_arg_body_ann"
       val () = prerr ": the function argument cannot be ascribed refval types."
       val () = prerr_newline ()
     in
@@ -332,7 +348,9 @@ val () = auxcheck
   ) : void =
     if npf1 != npf2 then let // check for pfarity match
       val () = prerr_error2_loc (d1e0.d1exp_loc)
-      val () = prerr ": the implementation contains proof arity mismatch."
+      val () = filprerr_ifdebug "d1exp_tr_arg_body_ann"
+      val () = prerr ": proof arity mismatch"
+      val () = prerrf (": the expected number of proof arguments is [%i]", @(npf1))
       val () = prerr_newline ()
     in
       the_trans2errlst_add (T2E_d1exp_tr (d1e0))
@@ -345,6 +363,8 @@ val p2ts_arg = let
     d1e0: d1exp, err: int
   ) : void = let
      val () = prerr_error2_loc (d1e0.d1exp_loc)
+     val () = filprerr_ifdebug "d1exp_tr_arg_body_ann"
+     val () = prerr ": arity mismatch"
      val () = if err > 0 then prerr ": less arguments are expected."
      val () = if err < 0 then prerr ": more arguments are expected."
      val () = prerr_newline ()
@@ -448,6 +468,7 @@ fun aux_imparg_svararg (
   fn auxerr1
     ():<cloref1> void = let
     val () = prerr_error2_loc (d1c0.d1ecl_loc)
+    val () = filprerr_ifdebug "i1mpdec_tr_main"
     val () = prerr ": the implementation is overly applied."
     val () = prerr_newline ()
     val () = the_trans2errlst_add (T2E_impdec_tr (d1c0))
@@ -457,6 +478,7 @@ fun aux_imparg_svararg (
   fn auxerr2
     (loc: location, err: int):<cloref1> void = let
     val () = prerr_error2_loc (loc)
+    val () = filprerr_ifdebug "i1mpdec_tr_main"
     val () = prerr ": the implementation argument group is expected to contain "
     val () = prerr_string (if err > 0 then "more" else "less")
     val () = prerr " components."
@@ -503,11 +525,11 @@ in
         val () = out := list_cons (s2vs, out)
       in
         s2qs
-      end
+      end // end of [list_cons]
     | list_nil () => let
         val () = auxerr1 () in list_nil ()
-      end
-    )
+      end // end of [list_nil]
+    ) // end of [S1VARARGone]
   | S1VARARGall () => (case+ s2qs of
     | list_cons (s2q, s2qs) => let
         val s2vs = list_map_fun (s2q.s2qua_svs, s2var_dup)
@@ -518,7 +540,7 @@ in
         aux_imparg_svararg (d1c0, s1v, s2qs, out)
       end
     | list_nil () => list_nil ()
-    )
+    ) // end of [S1VARARGall]
   | S1VARARGseq (loc, s1as) => (case+ s2qs of
     | list_cons (s2q, s2qs) => let
         var err: int = 0
@@ -528,11 +550,11 @@ in
         val () = out := list_cons (s2vs, out)
       in
         s2qs
-      end
+      end // end of [list_cons]
     | list_nil () => let
         val () = auxerr1 () in list_nil ()
-      end
-    )
+      end // end of [list_nil]
+    ) // end of [S1VARARGseq]
 end // end of [aux_imparg_svararg]
 //
 fun aux_imparg_svararglst (
@@ -541,6 +563,7 @@ fun aux_imparg_svararglst (
 ) : void = let
   fn auxerr ():<cloref1> void = let
     val () = prerr_error2_loc (d1c0.d1ecl_loc)
+    val () = filprerr_ifdebug "i1mpdec_tr_main"
     val () = prerr ": the implementation is expected to be fully applied."
     val () = prerr_newline ()
     val () = the_trans2errlst_add (T2E_impdec_tr (d1c0))
@@ -571,7 +594,7 @@ fun aux_imparg (
       val s2vs = aux_imparg_sarglst (d1c0, s1as)
     in
       (s2vs, None_vt ())
-    end
+    end // end of [I1MPARG_sarglst]
   | I1MPARG_svararglst (s1vs) => let
       var out: s2varlstlst = list_nil ()
       val () = aux_imparg_svararglst (d1c0, s2qs, s1vs, out)
@@ -579,7 +602,7 @@ fun aux_imparg (
       val s2vs = l2l (list_concat (out))
     in
       (s2vs, Some_vt (out))
-    end
+    end // end of [I1MPARG_svararglst]
 (* end of [aux_imparg] *)
 //
 fun aux_tmparg_s1explst (
@@ -614,6 +637,7 @@ fun aux_tmparg_marglst (
 ) : s2explstlst = let
   fn auxerr1 (x: t1mpmarg, err: int):<cloref1> void = let
     val () = prerr_error2_loc (x.t1mpmarg_loc)
+    val () = filprerr_ifdebug "i1mpdec_tr_main: aux_tmparg_marglst"
     val () = prerr ": the template argument group is expected to be contain "
     val () = prerr_string (if err > 0 then "more" else "less")
     val () = prerr " components."
@@ -623,6 +647,7 @@ fun aux_tmparg_marglst (
   end // end of [auxerr1]
   fn auxerr2 ():<cloref1> void = let
     val () = prerr_error2_loc (d1c0.d1ecl_loc)
+    val () = filprerr_ifdebug "i1mpdec_tr_main: aux_tmparg_marglst"
     val () = prerr ": the template is expected to be fully applied but it is not."
     val () = prerr_newline ()
   in
@@ -630,6 +655,7 @@ fun aux_tmparg_marglst (
   end // end of [auxerr2]
   fn auxerr3 ():<cloref1> void = let
     val () = prerr_error2_loc (d1c0.d1ecl_loc)
+    val () = filprerr_ifdebug "i1mpdec_tr_main: aux_tmparg_marglst"
     val () = prerr ": the template is overly applied."
     val () = prerr_newline ()
   in

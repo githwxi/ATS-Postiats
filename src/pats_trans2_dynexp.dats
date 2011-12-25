@@ -496,9 +496,8 @@ case+ d1e0.d1exp_node of
 | D1Eann_type (d1e, s1e) => let
     val d2e = d1exp_tr (d1e)
     val s2e = s1exp_trdn_res_impredicative (s1e, w1ts)
-    val s2f = s2exp_hnfize (s2e)
   in
-    d2exp_ann_type (loc0, d2e, s2f)
+    d2exp_ann_type (loc0, d2e, s2e)
   end // end of [D1Eann_type]
 | D1Eann_effc (d1e, efc) => let
     val d2e = d1exp_tr_wths1explst (d1e, w1ts)
@@ -1034,9 +1033,8 @@ case+ d1e0.d1exp_node of
 | D1Eann_type (d1e, s1e) => let
     val d2e = d1exp_tr d1e
     val s2e = s1exp_trdn_impredicative (s1e)
-    val s2f = s2exp_hnfize (s2e)
   in
-    d2exp_ann_type (loc0, d2e, s2f)
+    d2exp_ann_type (loc0, d2e, s2e)
   end // end of [D1Eann_type]
 | D1Eann_effc (d1e, efc) => let
     val d2e = d1exp_tr (d1e); val s2fe = effcst_tr (efc)

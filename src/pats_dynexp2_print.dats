@@ -58,13 +58,6 @@ staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-(*
-macdef unhnf = s2exp_of_s2hnf
-macdef unhnflst = s2explst_of_s2hnflst
-*)
-
-(* ****** ****** *)
-
 implement
 fprint_d2itm (out, x) = let
   macdef prstr (s) = fprint_string (out, ,(s))

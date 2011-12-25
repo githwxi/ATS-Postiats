@@ -65,15 +65,6 @@ staload "pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
-(*
-macdef hnf = s2hnf_of_s2exp
-macdef hnflst = s2hnflst_of_s2explst
-macdef unhnf = s2exp_of_s2hnf
-macdef unhnflst = s2explst_of_s2hnflst
-*)
-
-(* ****** ****** *)
-
 extern
 fun s2exp_linkrem_flag (s2e: s2exp, flag: &int): s2exp
 
@@ -157,8 +148,7 @@ in
           end // end of [::, ::]
         | (_, _) => ()
       // end of [aux]
-      val s2fs_arg = s2explst_hnfize (s2es_arg)
-      val s2es_arg = $UN.cast {s2explst} (s2fs_arg)
+      val s2es_arg = s2explst_hnfize (s2es_arg)
       val () = aux (s2vs_arg, s2es_arg, sub)
       val s2e0 = s2exp_subst (sub, s2e_body)
       val () = stasub_free (sub)
@@ -444,8 +434,8 @@ fun labs2explst_syneq_exn (
 implement
 s2hnf_syneq_exn
   (s2f10, s2f20) = let
-  val s2e10 = $UN.cast {s2exp} (s2f10)
-  and s2e20 = $UN.cast {s2exp} (s2f20)
+  val s2e10 = s2hnf2exp (s2f10)
+  and s2e20 = s2hnf2exp (s2f20)
   val s2en10 = s2e10.s2exp_node and s2en20 = s2e20.s2exp_node
 in
 //

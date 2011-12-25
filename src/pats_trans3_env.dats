@@ -202,9 +202,9 @@ fun auxerr1 (
 ) : void = {
   val () = prerr_error3_loc (locarg)
   val () = filprerr_ifdebug "stasub_s2varlst_instantiate_some"
-  val () = prerr ": arity mismatch: "
-  val () = if i > 0 then prerr "more static arguments are expected."
-  val () = if i < 0 then prerr "less static arguments are expected."
+  val () = prerr ": static arity mismatch"
+  val () = if i > 0 then prerr ": more arguments are expected."
+  val () = if i < 0 then prerr ": less arguments are expected."
   val () = prerr_newline ()
 } // end of [auxerr1]
 fun auxerr2 (

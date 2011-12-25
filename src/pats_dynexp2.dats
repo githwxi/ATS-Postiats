@@ -267,10 +267,9 @@ end // end of [p2at_exist]
 (* ****** ****** *)
 
 implement
-p2at_ann (loc, p2t, s2f) = let
-  val s2e = $UN.cast {s2exp} (s2f) in
+p2at_ann (loc, p2t, s2e) =
   p2at_make (loc, p2t.p2at_svs, p2t.p2at_dvs, P2Tann (p2t, s2e))
-end // end of [p2at_ann]
+// end of [p2at_ann]
 
 (* ****** ****** *)
 
@@ -612,11 +611,9 @@ d2exp_fix (
 
 implement
 d2exp_ann_type
-  (loc, d2e, s2f) = let
-  val s2e = $UN.cast {s2exp} (s2f)
-in
+  (loc, d2e, s2e) =
   d2exp_make (loc, D2Eann_type (d2e, s2e))
-end // end of [d2exp_ann_type]
+// end of [d2exp_ann_type]
 
 implement
 d2exp_ann_seff

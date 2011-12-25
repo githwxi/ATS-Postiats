@@ -117,7 +117,7 @@ case+ x of
   }
 | VE_E1XPappid_arity (e0, id) => {
     val () = $LOC.fprint_location (out, e0.e1xp_loc)
-    val () = prstr ": error(1): there is arity mismatching in this function application."
+    val () = prstr ": error(1): arity mismatch for this function application."
     val () = fprint_newline (out)
   }
 | VE_E1XPfun (e0) => {

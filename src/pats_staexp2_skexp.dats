@@ -37,8 +37,15 @@ staload "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 staload "pats_staexp2_util.sats"
+
+(* ****** ****** *)
+
 
 (* ****** ****** *)
 
@@ -49,9 +56,10 @@ extern fun env_make_nil (): env
 extern fun env_pop (env: &env): void
 extern fun env_push (env: &env, s2vs: s2varlst): void
 extern fun env_free (env: env): void
-
+extern fun env_find (env: &env, s2v: s2var): bool
+//
 in // in of [local]
-
+//
 local
 assume env = List_vt (s2varlst)
 in // in of [local]
@@ -66,6 +74,10 @@ implement
 env_push (env, s2vs) = env := list_vt_cons (s2vs, env)
 implement
 env_free (env) = list_vt_free (env)
+implement
+env_find (env, x0) = list_exists_cloptr<s2var> (
+  $UN.castvwtp1 {s2varlst} (env), lam x =<0> eq_s2var_s2var (x0, x)
+) // end of [env_find]
 end // end of [local]
 
 (* ****** ****** *)

@@ -207,17 +207,6 @@ end // end of [fprint_tyreckind]
 
 (* ****** ****** *)
 
-(*
-implement
-fprint_s2hnf (out, x) = fprint_s2exp (out, (unhnf)x)
-implement
-print_s2hnf (x) = fprint_s2hnf (stdout_ref, x)
-implement
-prerr_s2hnf (x) = fprint_s2hnf (stderr_ref, x)
-*)
-
-(* ****** ****** *)
-
 implement
 fprint_s2exp (out, x) = let
   macdef prstr (s) = fprint_string (out, ,(s))

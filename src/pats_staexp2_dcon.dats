@@ -61,15 +61,6 @@ staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
-(*
-macdef hnf = s2hnf_of_s2exp
-macdef hnflst = s2hnflst_of_s2explst
-macdef unhnf = s2exp_of_s2hnf
-macdef unhnflst = s2explst_of_s2hnflst
-*)
-
-(* ****** ****** *)
-
 typedef
 d2con_struct = @{
   d2con_loc= location // location

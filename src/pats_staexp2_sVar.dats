@@ -64,9 +64,9 @@ s2Var_struct = @{
 (*
 , s2Var_skexp= s2kexp // skeleton
 *)
-, s2Var_szexp= s2zexp // unique size
 , s2Var_link= s2expopt // solution
 , s2Var_svar= s2varopt // instantiated static var
+, s2Var_szexp= s2zexp // unique size
 , s2Var_lbs= s2VarBoundlst // lower bounds
 , s2Var_ubs= s2VarBoundlst // upper bounds
 , s2Var_sVarset= s2Varset // existential Variable occurrences
@@ -100,9 +100,9 @@ p->s2Var_srt := s2t;
 (*
 p->s2Var_varknd := 0;
 *)
-p->s2Var_szexp := S2ZEany (); // unknown size
 p->s2Var_link := None ();
 p->s2Var_svar := None ();
+p->s2Var_szexp := S2ZEany (); // unknown size
 //
 p->s2Var_lbs := list_nil ();
 p->s2Var_ubs := list_nil ();
@@ -132,9 +132,9 @@ p->s2Var_srt := s2t;
 (*
 p->s2Var_varknd := 0;
 *)
-p->s2Var_szexp := S2ZEany (); // unknown size
 p->s2Var_link := None ();
 p->s2Var_svar := None ();
+p->s2Var_szexp := S2ZEany (); // unknown size
 //
 p->s2Var_lbs := list_nil ();
 p->s2Var_ubs := list_nil ();
@@ -170,16 +170,14 @@ s2Var_set_link (s2V, link) = let
   val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_link := link
 end // end of [s2Var_set_link]
 
-(*
 implement
-s2Var_get_varknd (s2V) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_varknd
-end // end of [s2Var_get_varknd]
+s2Var_get_szexp (s2V) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_szexp
+end // end of [s2Var_get_szexp]
 implement
-s2Var_set_varknd (s2V, knd) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_varknd := knd
-end // end of [s2Var_set_varknd]
-*)
+s2Var_set_szexp (s2V, s2ze) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_szexp := s2ze
+end // end of [s2Var_set_szexp]
 
 implement
 s2Var_get_lbs (s2V) = let

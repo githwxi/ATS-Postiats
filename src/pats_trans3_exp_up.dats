@@ -418,9 +418,9 @@ case+ s2e.s2exp_node of
     val () = if err != 0 then let
       val () = prerr_error3_loc (loc0)
       val () = filprerr_ifdebug "d2exp_trup_con"
-      val () = prerr ": proof arity mismatching: the constructor ["
+      val () = prerr ": proof arity mismatch: the constructor ["
       val () = prerr_d2con (d2c)
-      val () = prerrf ("] requires %i arguments.", @(npf_con))
+      val () = prerrf ("] requires [%i] arguments.", @(npf_con))
       val () = prerr_newline ()
     in
       the_trans3errlst_add (T3E_d2exp_trup_con_npf (d2e0, npf)) // nothing
@@ -565,7 +565,7 @@ case+ s2e_fun.s2exp_node of
     val () = if err != 0 then let
       val () = prerr_error3_loc (loc_fun)
       val () = filprerr_ifdebug "d23exp_trup_app23"
-      val () = prerr ": proof arity mismatching"
+      val () = prerr ": proof arity mismatch"
       val () = prerrf (": the function requires %i proof arguments.", @(npf_fun))
       val () = prerr_newline ()
     in

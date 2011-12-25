@@ -142,4 +142,8 @@ fun s2exp_syneq (s2e1: s2exp, s2e2: s2exp): bool
 
 (* ****** ****** *)
 
+fun s2zexp_merge (x1: s2zexp, x2: s2zexp): s2zexp
+
+(* ****** ****** *)
+
 (* end of [pats_staexp2_util.sats] *)

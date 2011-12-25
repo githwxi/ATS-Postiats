@@ -54,15 +54,6 @@ staload "pats_staexp2_solve.sats"
 
 (* ****** ****** *)
 
-(*
-macdef hnf = s2hnf_of_s2exp
-macdef hnflst = s2hnflst_of_s2explst
-macdef unhnf = s2exp_of_s2hnf
-macdef unhnflst = s2explst_of_s2hnflst
-*)
-
-(* ****** ****** *)
-
 implement
 label_equal_solve_err
   (loc0, l1, l2, err) =
@@ -173,6 +164,25 @@ refval_equal_solve_err
 (* ****** ****** *)
 
 extern
+fun s2Var_merge_szexp_err (
+  loc: location, s2V1: s2Var, s2ze2: s2zexp, err: &int
+) : void // end of [s2Var_merge_szexp_err]
+implement
+s2Var_merge_szexp_err
+  (loc0, s2V1, s2ze2, err) = let
+  val s2ze1 = s2Var_get_szexp (s2V1)
+  val s2ze12 = s2zexp_merge (s2ze1, s2ze2)
+  val () = if s2zexp_is_err (s2ze12) then {
+    val () = err := err + 1
+    val () = the_staerrlst_add (STAERR_s2zexp_merge (loc0, s2ze1, s2ze2))
+  } // end of [val]
+in
+  s2Var_set_szexp (s2V1, s2ze12)
+end // end of [s2Var_merge_szexp_err]
+
+(* ****** ****** *)
+
+extern
 fun s2hnf_tyleq_solve_lbs_err (
   loc0: location, lbs: s2VarBoundlst, s2f: s2hnf, err: &int
 ) : void // end of [s2hnf_tyleq_solve_lbs_err]
@@ -192,6 +202,8 @@ implement
 s2hnf_equal_solve_lVar_err
   (loc0, s2f1, s2f2, s2V1, err) = let
   val s2e2 = s2hnf2exp (s2f2)
+  val s2ze2 = s2zexp_make_s2exp (s2e2)
+  val () = s2Var_merge_szexp_err (loc0, s2V1, s2ze2, err)
   val () = s2Var_set_link (s2V1, Some s2e2)
   val lbs = s2Var_get_lbs (s2V1)
   val () = s2hnf_tyleq_solve_lbs_err (loc0, lbs, s2f2, err)
@@ -210,6 +222,8 @@ implement
 s2hnf_equal_solve_rVar_err
   (loc0, s2f1, s2f2, s2V2, err) = let
   val s2e1 = s2hnf2exp (s2f1)
+  val s2ze1 = s2zexp_make_s2exp (s2e1)
+  val () = s2Var_merge_szexp_err (loc0, s2V2, s2ze1, err)
   val () = s2Var_set_link (s2V2, Some s2e1)
   val lbs = s2Var_get_lbs (s2V2)
   val () = s2hnf_tyleq_solve_lbs_err (loc0, lbs, s2f1, err)
@@ -352,12 +366,18 @@ fun s2hnf_tyleq_solve_lVar_err (
 implement
 s2hnf_tyleq_solve_lVar_err
   (loc0, s2f1, s2f2, s2V1, err) = let
+  val s2e2 = s2hnf2exp (s2f2)
+//
+  val s2ze2 = s2zexp_make_s2exp (s2e2)
+  val () = s2Var_merge_szexp_err (loc0, s2V1, s2ze2, err)
+//
   val lbs = s2Var_get_lbs (s2V1)
   val () = s2hnf_tyleq_solve_lbs_err (loc0, lbs, s2f2, err)
-  val s2e2 = s2hnf2exp (s2f2)
+//
   val ub = s2VarBound_make (loc0, s2e2)
   val ubs = s2Var_get_ubs (s2V1)
   val () = s2Var_set_ubs (s2V1, list_cons (ub, ubs))
+//
 in
   // nothing
 end // end of [s2hnf_tyleq_solve_lVar_err]
@@ -370,12 +390,18 @@ fun s2hnf_tyleq_solve_rVar_err (
 implement
 s2hnf_tyleq_solve_rVar_err
   (loc0, s2f1, s2f2, s2V2, err) = let
+  val s2e1 = s2hnf2exp (s2f1)
+//
+  val s2ze1 = s2zexp_make_s2exp (s2e1)
+  val () = s2Var_merge_szexp_err (loc0, s2V2, s2ze1, err)
+//
   val ubs = s2Var_get_ubs (s2V2)
   val () = s2hnf_tyleq_solve_ubs_err (loc0, s2f1, ubs, err)
-  val s2e1 = s2hnf2exp (s2f1)
+//
   val lb = s2VarBound_make (loc0, s2e1)
   val lbs = s2Var_get_lbs (s2V2)
   val () = s2Var_set_lbs (s2V2, list_cons (lb, lbs))
+//
 in
   // nothing
 end // end of [s2hnf_tyleq_solve_rVar_err]
