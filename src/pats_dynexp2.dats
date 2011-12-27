@@ -346,6 +346,9 @@ d2exp_con (loc, d2c, sarg, npf, loc, darg) =
 implement
 d2exp_cst (loc, d2c) = d2exp_make (loc, D2Ecst (d2c))
 
+implement
+d2exp_sym (loc, d2s) = d2exp_make (loc, D2Esym (d2s))
+
 (* ****** ****** *)
 
 implement

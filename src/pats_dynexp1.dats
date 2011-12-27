@@ -837,8 +837,8 @@ d1ecl_symelim (loc, ids) = '{
 }
 
 implement
-d1ecl_overload (loc, id, qid) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Coverload (id, qid)
+d1ecl_overload (loc, id, qid, pval) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Coverload (id, qid, pval)
 }
 
 (* ****** ****** *)

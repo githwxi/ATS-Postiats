@@ -592,7 +592,7 @@ d0ecl
   | EXCEPTION e0xndecseq
   | DATAYPE d0atdec andd0atdecseq {WHERE s0expdefseq}
   | MACDEF {REC} m0acdefseq
-  | OVERLOAD di0de WITH dqi0de
+  | OVERLOAD di0de WITH dqi0de {of INTEGER}
   | CLASSDEC si0de [EQ s0exp]
   | STALOAD staload
 *)
@@ -651,11 +651,18 @@ case+ tok.token_node of
     val ent1 = p_overi0de (buf, bt, err)
     val ent2 = pif_fun (buf, bt, err, p_WITH, err0)
     val ent3 = pif_fun (buf, bt, err, p_dqi0de, err0)
+    val ent4 = (
+      if err = err0 then
+        ptokentopt_fun (buf, is_OF, p_i0nt) else None_vt
+      // end of [if]
+    ) : Option_vt (i0nt)
   in
     if err = err0 then
-      d0ecl_overload (tok, ent1, ent3) else synent_null ()
-    // end of [val]
-  end
+      d0ecl_overload (tok, ent1, ent3, (t2t)ent4)
+    else let
+      val () = option_vt_free (ent4) in synent_null ()
+    end // end of [if]
+  end (* T_OVERLOAD *)
 //
 | T_SRPDEFINE () => let
     val bt = 0

@@ -77,8 +77,6 @@ staload "pats_trans3_env.sats"
 
 (* ****** ****** *)
 
-extern fun d2exp_trup_var (d2e0: d2exp): d3exp
-extern fun d2exp_trup_cst (d2e0: d2exp): d3exp
 extern fun d2exp_trup_con (d2e0: d2exp): d3exp
 extern fun d2exp_trup_tmpid (d2e0: d2exp): d3exp
 
@@ -93,6 +91,13 @@ extern
 fun d23exp_trup_applst
   (d2e0: d2exp, _fun: d3exp, _arg: d2exparglst): d3exp
 // end of [d23exp_trup_applst]
+
+(* ****** ****** *)
+
+extern
+fun d2exp_trup_applst_sym
+  (d2e0: d2exp, _fun: d2sym, _arg: d2exparglst): d3exp
+// end of [d2exp_trup_applst_sym]
 
 (* ****** ****** *)
 
@@ -129,7 +134,8 @@ end // end of [val]
 val d3e0 = (
 case+ d2e0.d2exp_node of
 //
-| D2Evar (d2v) => d2exp_trup_var (d2e0)
+| D2Evar (d2v) => d2exp_trup_var (loc0, d2v)
+| D2Ecst (d2c) => d2exp_trup_cst (loc0, d2c)
 //
 | D2Ebool (b(*bool*)) => d2exp_trup_bool (d2e0, b)
 | D2Echar (c(*char*)) => d2exp_trup_char (d2e0, c)
@@ -160,7 +166,6 @@ case+ d2e0.d2exp_node of
   end // end of [D2Eempty]
 | D2Eextval (s2e, rep) => d3exp_extval (loc0, s2e, rep)
 //
-| D2Ecst _ => d2exp_trup_cst (d2e0)
 | D2Econ _ => d2exp_trup_con (d2e0)
 //
 | D2Etmpid _ => d2exp_trup_tmpid (d2e0)
@@ -173,6 +178,9 @@ case+ d2e0.d2exp_node of
 *)
   in
     case+ _fun.d2exp_node of
+    | D2Esym d2s =>
+        d2exp_trup_applst_sym (d2e0, d2s, _arg)
+      // end of [D2Esym]
     | _ => d2exp_trup_applst (d2e0, _fun, _arg)
   end // end of [D2Eapplst]
 //
@@ -318,7 +326,7 @@ end // end of [d23explst_trdn]
 (* ****** ****** *)
 
 fn d2exp_trup_var_mutabl
-  (d2e0: d2exp, d2v: d2var): d3exp = let
+  (loc0: location, d2v: d2var): d3exp = let
 (*
   val () = {
     val () = print "d2exp_trup_var_mutabl: d2v = "
@@ -331,11 +339,10 @@ fn d2exp_trup_var_mutabl
   val () = assertloc (false)
 in
   exit (1)
-end // end of [d2exp_var_mut_tr_up]
+end // end of [d2exp_trup_var_mut]
 
 fn d2exp_trup_var_nonmut
-  (d2e0: d2exp, d2v: d2var): d3exp = let
-  val loc0 = d2e0.d2exp_loc
+  (loc0: location, d2v: d2var): d3exp = let
   val lin = d2var_get_linval (d2v)
   val- Some (s2e) = d2var_get_type (d2v)
 (*
@@ -356,22 +363,19 @@ end // end of [d2exp_trup_var_nonmut]
 
 implement
 d2exp_trup_var
-  (d2e0) = let
-  val- D2Evar (d2v) = d2e0.d2exp_node
+  (loc0, d2v) = let
 in
   if d2var_is_mutable (d2v) then
-    d2exp_trup_var_mutabl (d2e0, d2v)
+    d2exp_trup_var_mutabl (loc0, d2v)
   else
-    d2exp_trup_var_nonmut (d2e0, d2v)
+    d2exp_trup_var_nonmut (loc0, d2v)
   // end of [if]
 end // end of [d2exp_trup_var]
 
 (* ****** ****** *)
 
 implement
-d2exp_trup_cst (d2e0) = let
-  val loc0 = d2e0.d2exp_loc
-  val- D2Ecst (d2c) = d2e0.d2exp_node
+d2exp_trup_cst (loc0, d2c) = let
   val s2e_d2c = d2cst_get_type (d2c)
   val s2qs = d2cst_get_decarg (d2c)
 in
@@ -556,7 +560,7 @@ case+ s2e_fun.s2exp_node of
     val () = begin
       print "d23exp_trup_app: s2e_fun = "; print_s2exp s2e_fun; print_newline ();
       print "d23exp_trup_app: s2fe_fun = "; print_s2eff s2fe_fun; print_newline ();
-      printf ("d23exp_app_tr_up: npf = %i and npf_fun = %i", @(npf, npf_fun));
+      printf ("d23exp_trup_app23: npf = %i and npf_fun = %i", @(npf, npf_fun));
       print_newline ()
     end // end of [val]
 *)
@@ -651,6 +655,14 @@ case+ d2as of
 | list_nil () => d3e_fun
 //
 end // end of [d2exp_trup_applst]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_applst_sym
+  (d2e0, d2s, _arg) = let
+  val () = assertloc (false) in exit (1)
+end // end of [d2exp_trup_applst_sym]
 
 (* ****** ****** *)
 
@@ -926,7 +938,7 @@ case+ d2es of
   end // end of [cons]
 | list_nil () => d3exp_empty (loc0, s2e_void)
 //
-end // end of [d2exp_seq_tr_up]
+end // end of [d2exp_trup_seq]
 
 (* ****** ****** *)
 

@@ -40,6 +40,7 @@ staload "pats_staexp1.sats"
 staload "pats_dynexp1.sats"
 
 staload "pats_staexp2.sats"
+staload "pats_staexp2_util.sats"
 staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
@@ -80,7 +81,7 @@ fn p1at_arity (p1t: p1at): int =
   | P1Tlist (npf, p1ts) => list_length (p1ts) | _ => 1
 // end of [p1at_arity]
 
-fn arityck
+fn aritest
   (d1e: d1exp, ns: intlst): bool = let
   fn* loop1 (d1e: d1exp, ns: intlst): bool =
     case+ ns of
@@ -95,17 +96,16 @@ fn arityck
     | _ => false
 in
   loop1 (d1e, ns)
-end // end of [arityck]
+end // end of [aritest]
 
 in // in of [local]
 
 implement
 d2cst_match_def (d2c, def) = let
-  val ns = d2cst_get_arylst (d2c) in arityck (def, ns)
+  val ns = d2cst_get_arylst (d2c) in aritest (def, ns)
 end // end of [d2cst_match_def]
 
 end // end of [local]
-
 
 (* ****** ****** *)
 

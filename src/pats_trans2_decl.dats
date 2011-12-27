@@ -100,7 +100,8 @@ fn symintr_tr
   (ids: i0delst): void = let
   fun aux (ids: i0delst): void = case+ ids of
     | list_cons (id, ids) => aux ids where {
-        val () = the_d2expenv_add (id.i0de_sym, D2ITMsymdef list_nil)
+        val sym = id.i0de_sym
+        val () = the_d2expenv_add (sym, D2ITMsymdef (sym, list_nil))
       } // end of [list_cons]
     | list_nil () => () // end of [list_nil]
   // end of [aux]
@@ -116,7 +117,8 @@ fn symelim_tr
   in
     case+ ans of
     | ~Some_vt (d2i) => (case+ d2i of
-      | D2ITMsymdef _ => the_d2expenv_add (sym, D2ITMsymdef list_nil)
+      | D2ITMsymdef _ =>
+          the_d2expenv_add (sym, D2ITMsymdef (sym, list_nil))
       | _ => () // HX: should a warning be reported?
       ) // end of [Some_vt]
     | ~None_vt () => ()
@@ -213,17 +215,17 @@ in
   list_nil ()
 end // end of [auxerr2]
 //
+val sym = id.i0de_sym
 val ans = ans where {
-  val id_sym = id.i0de_sym
-  val ans = the_d2expenv_current_find (id_sym)
+  val ans = the_d2expenv_current_find (sym)
   val ans = (case+ ans of
     | Some_vt _ => (fold@ ans; ans)
-    | ~None_vt () => the_d2expenv_pervasive_find (id_sym)
+    | ~None_vt () => the_d2expenv_pervasive_find (sym)
   ) : d2itmopt_vt
 } // end of [val]
 val d2is = (case+ ans of
   | ~Some_vt d2i => (case+ d2i of
-    | D2ITMsymdef d2is => d2is | _ => auxerr1 (d1c0, id, err)
+    | D2ITMsymdef (sym, d2is) => d2is | _ => auxerr1 (d1c0, id, err)
     ) // end of [Some_vt]
   | ~None_vt () => auxerr2 (d1c0, id, err)
 ) : d2itmlst // end of [val]
@@ -238,7 +240,7 @@ in
 if err = 0 then let
   val d2is_new = list_cons (def, d2is)
 in
-  the_d2expenv_add (id.i0de_sym, D2ITMsymdef (d2is_new))
+  the_d2expenv_add (sym, D2ITMsymdef (sym, d2is_new))
 end // end of [if]
 //
 end (* end of [overload_tr_def] *)
@@ -1321,7 +1323,8 @@ case+ d1c0.d1ecl_node of
 | D1Csymelim (ids) => let
     val () = symelim_tr (ids) in d2ecl_symelim (loc0, ids)
   end // end of [D1Csymelim]
-| D1Coverload (id, dqid) => let
+| D1Coverload
+    (id, dqid, pval) => let
     val d2iopt =
       overload_tr (d1c0, id, dqid)
     // end of [val]

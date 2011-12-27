@@ -2279,10 +2279,17 @@ end // end of [local]
 
 implement
 d0ecl_overload
-  (tok, id, dqid) = let
-  val loc = tok.token_loc + dqid.dqi0de_loc
+  (tok, id, dqid, opt) = let
+  val loc1 = tok.token_loc
+  val loc2 = (case+ opt of
+    | Some x => x.token_loc | None () => dqid.dqi0de_loc
+  ) : location // end of [val]
+  val loc = loc1 + loc2
+  val pval = (case+ opt of
+    | Some x => int_of_i0nt (x) | None () => 0
+  ) : int // end of [val]
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Coverload (id, dqid)
+  d0ecl_loc= loc, d0ecl_node= D0Coverload (id, dqid, pval)
 } end // end of [d0ecl_overload]
 
 (* ****** ****** *)

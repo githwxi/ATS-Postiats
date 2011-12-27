@@ -364,12 +364,23 @@ case+ d2i of
     d2exp_app_sta_dyn (d1e0.d1exp_loc, d1e1.d1exp_loc, d2e_fun, sarg, locarg, npf, darg)
   end // end of [D2ITMcst]
 | D2ITMvar d2v => let
-    val d2e_fun = d2exp_var (d1e2.d1exp_loc, d2v)
+    val d2e_fun =
+      d2exp_var (d1e2.d1exp_loc, d2v)
+    // end of [val]
     val sarg = s1exparglst_tr (sarg)
     val darg = d1explst_tr (darg)
   in
     d2exp_app_sta_dyn (d1e0.d1exp_loc, d1e1.d1exp_loc, d2e_fun, sarg, locarg, npf, darg)
   end // end of [D2ITMvar]
+| D2ITMsymdef (sym, d2is) => let
+    val loc = d1e2.d1exp_loc
+    val d2s = d2sym_make (loc, dq, id, d2is)
+    val d2e_fun = d2exp_sym (loc, d2s)
+    val sarg = s1exparglst_tr (sarg)
+    val darg = d1explst_tr (darg)
+  in
+    d2exp_app_sta_dyn (d1e0.d1exp_loc, d1e1.d1exp_loc, d2e_fun, sarg, locarg, npf, darg)
+  end // end of [D2ITMsymdef]
 | _ => let
     val () = prerr_error2_loc (d1e2.d1exp_loc)
     val () = filprerr_ifdebug "d1exp_tr_app_sta_dyn_dqid_itm"
@@ -457,7 +468,7 @@ fn d2sym_lrbrackets
     case+ ans of
     | ~Some_vt d2i => (
         case+ d2i of
-        | D2ITMsymdef xs => d2is := xs | _ => err := err + 1
+        | D2ITMsymdef (sym, xs) => d2is := xs | _ => err := err + 1
       ) // end of [Some_vt]
     | ~None_vt () => (err := err + 1)
   ) // end of [val]

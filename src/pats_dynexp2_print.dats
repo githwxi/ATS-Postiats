@@ -48,6 +48,7 @@ staload "pats_lexing.sats"
 
 (* ****** ****** *)
 
+staload SYM = "pats_symbol.sats"
 staload SYN = "pats_syntax.sats"
 
 (* ****** ****** *)
@@ -64,9 +65,11 @@ fprint_d2itm (out, x) = let
 in
 //
 case+ x of
-| D2ITMcon d2cs => begin
-    prstr "D2ITMcon("; fprint_d2conlst (out, d2cs); prstr ")"
-  end // end of [D2ITMcon]
+| D2ITMcon d2cs => {
+    val () = prstr "D2ITMcon("
+    val () = fprint_d2conlst (out, d2cs)
+    val () = prstr ")"
+  } // end of [D2ITMcon]
 | D2ITMcst d2c => begin
     prstr "D2ITMcst("; fprint_d2cst (out, d2c); prstr ")"
   end // end of [D2ITMcst]
@@ -79,9 +82,13 @@ case+ x of
 | D2ITMmacvar d2v => begin
     prstr "D2ITMmacvar("; fprint_d2var (out, d2v); prstr ")"
   end // end of [D2ITMmacvar]
-| D2ITMsymdef d2is => begin
-    prstr "D2ITMsymdef("; fprint_d2itmlst (out, d2is); prstr ")";
-  end // end of [D2ITMsymdef]
+| D2ITMsymdef (sym, d2is) => {
+    val () = prstr "D2ITMsymdef("
+    val () = $SYM.fprint_symbol (out, sym)
+    val () = prstr "; "
+    val () = fprint_d2itmlst (out, d2is)
+    val () = prstr ")"
+  } // end of [D2ITMsymdef]
 | D2ITMvar d2v => begin
     prstr "D2ITMvar("; fprint_d2var (out, d2v); prstr ")"
   end // end of [D2ITMvar]
@@ -98,6 +105,15 @@ fprint_d2itmlst
 
 implement print_d2itmlst (xs) = fprint_d2itmlst (stdout_ref, xs)
 implement prerr_d2itmlst (xs) = fprint_d2itmlst (stderr_ref, xs)
+
+(* ****** ****** *)
+
+implement
+fprint_d2sym (out, d2s) = {
+  val () = $SYN.fprint_d0ynq (out, d2s.d2sym_qua)
+  val () = $SYM.fprint_symbol (out, d2s.d2sym_sym)
+} // end of [d2sym]
+
 
 (* ****** ****** *)
 
@@ -339,6 +355,12 @@ case+ x.d2exp_node of
     val () = fprint_int (out, npf)
     val () = prstr "; "
     val () = fprint_d2explst (out, d2es)
+    val () = prstr ")"
+  }
+//
+| D2Esym (d2s) => {
+    val () = prstr "D2Esym("
+    val () = fprint_d2sym (out, d2s)
     val () = prstr ")"
   }
 //

@@ -121,6 +121,7 @@ overload fprint with fprint_cstsp
 (* ****** ****** *)
 
 typedef i0nt = token
+typedef i0ntopt = Option (i0nt)
 typedef c0har = token
 typedef f0loat = token
 typedef s0tring = token
@@ -1174,7 +1175,7 @@ d0ecl_node =
 //
   | D0Csymintr of (i0delst) // introducing symbols for overloading
   | D0Csymelim of (i0delst) // eliminating symbols for overloading
-  | D0Coverload of (i0de, dqi0de) // overloading
+  | D0Coverload of (i0de, dqi0de, int(*pval*)) // overloading
 //
   | D0Ce0xpdef of (symbol, e0xpopt)
   | D0Ce0xpundef of (symbol) (* undefinition *)
@@ -1796,7 +1797,8 @@ fun d0ecl_macdefs (
   knd: int, isrec: bool, t: token, defs: m0acdeflst
 ) : d0ecl // end of [d0ecl_macdefs]
 //
-fun d0ecl_overload (t: token, id: i0de, dqid: dqi0de): d0ecl
+fun d0ecl_overload
+  (t: token, id: i0de, dqid: dqi0de, opt: i0ntopt): d0ecl
 fun d0ecl_classdec (t: token, id: i0de, sup: s0expopt): d0ecl
 //
 fun d0ecl_extype

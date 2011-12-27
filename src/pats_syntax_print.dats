@@ -1056,13 +1056,16 @@ case+ x.d0ecl_node of
     val () = $UT.fprintlst<i0de> (out, ids, ", ", fprint_i0de)
     val () = prstr ")"
   }
-| D0Coverload (id, qid) => {
+| D0Coverload
+    (id, qid, pval) => {
     val () = prstr "D0Coverload(\n"
     val () = fprint_i0de (out, id)
     val () = prstr "; "
     val () = fprint_dqi0de (out, qid)
+    val () = prstr "; "
+    val () = fprint_int (out, pval)
     val () = prstr "\n)"
-  }
+  } // end of [D0Coverload]
 //
 | D0Ce0xpdef (id, def) => {
     val () = prstr "D0Ce0xpdef("

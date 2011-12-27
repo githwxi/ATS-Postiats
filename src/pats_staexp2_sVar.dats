@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload _(*anon*) = "prelude/DATS/pointer.dats"
 staload _(*anon*) = "prelude/DATS/reference.dats"
 
@@ -102,7 +106,7 @@ p->s2Var_varknd := 0;
 *)
 p->s2Var_link := None ();
 p->s2Var_svar := None ();
-p->s2Var_szexp := S2ZEany (); // unknown size
+p->s2Var_szexp := S2ZEVar ($UN.cast {s2Var} (p));
 //
 p->s2Var_lbs := list_nil ();
 p->s2Var_ubs := list_nil ();
@@ -134,7 +138,7 @@ p->s2Var_varknd := 0;
 *)
 p->s2Var_link := None ();
 p->s2Var_svar := None ();
-p->s2Var_szexp := S2ZEany (); // unknown size
+p->s2Var_szexp := S2ZEVar ($UN.cast {s2Var} (p));
 //
 p->s2Var_lbs := list_nil ();
 p->s2Var_ubs := list_nil ();

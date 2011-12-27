@@ -117,6 +117,11 @@ fun d2exp_trup_f0loat
 
 (* ****** ****** *)
 
+fun d2exp_trup_var (loc: location, d2v: d2var): d3exp
+fun d2exp_trup_cst (loc: location, d2c: d2cst): d3exp
+
+(* ****** ****** *)
+
 fun d2exp_trup (d2e: d2exp): d3exp
 fun d2explst_trup (d2es: d2explst): d3explst
 fun d2explstlst_trup (d2ess: d2explstlst): d3explstlst

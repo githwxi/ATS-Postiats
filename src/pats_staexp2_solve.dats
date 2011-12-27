@@ -172,7 +172,7 @@ s2Var_merge_szexp_err
   (loc0, s2V1, s2ze2, err) = let
   val s2ze1 = s2Var_get_szexp (s2V1)
   val s2ze12 = s2zexp_merge (s2ze1, s2ze2)
-  val () = if s2zexp_is_err (s2ze12) then {
+  val () = if s2zexp_is_bot (s2ze12) then {
     val () = err := err + 1
     val () = the_staerrlst_add (STAERR_s2zexp_merge (loc0, s2ze1, s2ze2))
   } // end of [val]

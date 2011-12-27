@@ -226,6 +226,10 @@ case+ s2e0.s2exp_node of
 | S2Eexi _=> s2e0
 | S2Euni _=> s2e0
 //
+| S2Evararg _ => s2e0
+| S2Erefarg _ => s2e0
+| S2Ewth _ => s2e0
+//
 | S2Eerr () => s2e0
 //
 | _ => let
@@ -348,6 +352,16 @@ s2exp_syneq
 end with
   | ~SYNEQexn () => false
 // end of [s2exp_syneq]
+
+(* ****** ****** *)
+
+implement
+s2explst_syneq
+  (xs1, xs2) = try let
+  val () = s2explst_syneq_exn (xs1, xs2) in true
+end with
+  | ~SYNEQexn () => false
+// end of [s2explst_syneq]
 
 (* ****** ****** *)
 

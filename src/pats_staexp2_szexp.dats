@@ -58,6 +58,7 @@ staload _(*anon*) = "pats_utils.dats"
 (* ****** ****** *)
 
 staload LAB = "pats_label.sats"
+overload = with $LAB.eq_label_label
 
 (* ****** ****** *)
 
@@ -75,34 +76,12 @@ fprint_s2zexp (out, x) = let
 in
 //
 case+ x of
-| S2ZEany () => prstr "S2ZEany()"
-| S2ZEapp (_fun, _arg) => {
-    val () = prstr "S2ZEapp("
-    val () = fprint_s2zexp (out, _fun)
-    val () = prstr "; "
-    val () = $UT.fprintlst (out, _arg, ", ", fprint_s2zexp)
-    val () = prstr ")"
-  }
+//
+| S2ZEptr () => prstr "S2ZEptr()"
+//
 | S2ZEcst (s2c) => {
     val () = prstr "S2ZEcst("
     val () = fprint_s2cst (out, s2c)
-    val () = prstr ")"
-  }
-| S2ZEptr () => prstr "S2ZEptr()"
-| S2ZEextype (name, _arg) => {
-    val () = prstr "S2ZEextype("
-    val () = fprint_string (out, name)
-    val () = prstr ")"
-  }
-| S2ZEtyarr (_elt, _dim) => {
-    val () = prstr "S2ZEtyarr("
-    val () = fprint_s2zexp (out, _elt)
-    val () = fprint_s2explst (out, _dim)
-    val () = prstr ")"
-  }
-| S2ZEtyrec (knd, ls2zes) => {
-    val () = prstr "S2ZEtyrec("
-    val () = $UT.fprintlst (out, ls2zes, ", ", fprint_labs2zexp)
     val () = prstr ")"
   }
 | S2ZEvar (s2v) => {
@@ -110,7 +89,41 @@ case+ x of
     val () = fprint_s2var (out, s2v)
     val () = prstr ")"
   }
-| S2ZEerr () => prstr "S2ZEerr()"
+//
+| S2ZEVar (s2V) => {
+    val () = prstr "S2ZE("
+    val () = fprint_s2Var (out, s2V)
+    val () = prstr ")"
+  }
+//
+| S2ZEextype (name, _arg) => {
+    val () = prstr "S2ZEextype("
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  } // end of [S2ZEextype]
+//
+| S2ZEapp (_fun, _arg) => {
+    val () = prstr "S2ZEapp("
+    val () = fprint_s2zexp (out, _fun)
+    val () = prstr "; "
+    val () = $UT.fprintlst (out, _arg, ", ", fprint_s2zexp)
+    val () = prstr ")"
+  } // end of [S2ZEapp]
+//
+| S2ZEtyarr (_elt, _dim) => {
+    val () = prstr "S2ZEtyarr("
+    val () = fprint_s2zexp (out, _elt)
+    val () = fprint_s2explst (out, _dim)
+    val () = prstr ")"
+  } // end of [S2ZEtyarr]
+| S2ZEtyrec (knd, ls2zes) => {
+    val () = prstr "S2ZEtyrec("
+    val () = $UT.fprintlst (out, ls2zes, ", ", fprint_labs2zexp)
+    val () = prstr ")"
+  } // end of [S2ZEtyrec]
+//
+| S2ZEbot () => prstr "S2ZEbot()"
+//
 end // end of [fprint_s2zexp]
 
 implement
@@ -132,9 +145,9 @@ end // end of [fprint_labs2zexp]
 (* ****** ****** *)
 
 implement
-s2zexp_is_err (x) =
-  case+ x of S2ZEerr () => true | _ => false
-// end of [s2zexp_is_err]
+s2zexp_is_bot (x) =
+  case+ x of S2ZEbot () => true | _ => false
+// end of [s2zexp_is_bot]
 
 (* ****** ****** *)
 
@@ -168,9 +181,22 @@ env_push (env, s2vs) = env := list_vt_cons (s2vs, env)
 implement
 env_free (env) = list_vt_free (env)
 implement
-env_find (env, x0) = list_exists_cloptr<s2var> (
-  $UN.castvwtp1 {s2varlst} (env), lam x =<0> eq_s2var_s2var (x0, x)
-) // end of [env_find]
+env_find (env, x0) = let
+  fun loop1 (s2vs: s2varlst):<cloref1> bool =
+    case+ s2vs of
+    | list_cons (s2v, s2vs) =>
+        if x0 = s2v then true else loop1 (s2vs)
+    | list_nil () => false
+  // end of [loop1]
+  fun loop2 (s2vss: s2varlstlst):<cloref1> bool =
+    case+ s2vss of
+    | list_cons (s2vs, s2vss) =>
+        if loop1 (s2vs) then true else loop2 (s2vss)
+    | list_nil () => false
+  // end of [loop2]
+in
+  loop2 ($UN.castvwtp1 {s2varlstlst} (env))
+end // end of [env_find]
 
 end // end of [local]
 
@@ -191,18 +217,22 @@ in
 //
 case+ s2f0.s2exp_node of
 //
-| S2Evar s2v => let
-    val isexi = env_find (env, s2v)
-  in
-    if isexi then S2ZEvar (s2v) else S2ZEerr ()
-  end // end of [S2Evar]
-| S2Ecst s2c => let
+| S2Ecst (s2c) => let
     val isabs = s2cst_get_isabs (s2c)
   in
     case+ isabs of
     | Some (Some s2e) => aux_s2exp (env, s2e)
     | _ => s2zexp_make_s2cst (s2c)
   end // end of [S2Ecst]
+//
+| S2Evar (s2v) => let
+    val isexi = env_find (env, s2v)
+  in
+    if isexi then S2ZEbot () else S2ZEvar (s2v)
+  end // end of [S2Evar]
+| S2EVar (s2V) => let
+    val s2ze = s2Var_get_szexp (s2V) in s2ze
+  end // end of [S2EVar]
 //
 | S2Edatconptr _ => S2ZEptr ()
 | S2Edatcontyp _ => S2ZEptr ()
@@ -223,9 +253,6 @@ case+ s2f0.s2exp_node of
     val ls2zes = aux_labs2explst (env, npf, ls2es) in S2ZEtyrec (knd, ls2zes)
   end // end of [S2Etyrec]
 //
-| S2Einvar (s2e) => aux_s2exp (env, s2e)
-| S2Evararg _ => S2ZEany ()
-//
 | S2Eexi (
     s2vs, _(*s2ps*), s2e
   ) => let
@@ -245,9 +272,13 @@ case+ s2f0.s2exp_node of
     s2ze
   end // end of [S2Eexi]
 //
+| S2Einvar (s2e) => aux_s2exp (env, s2e)
+//
+| S2Evararg _ => S2ZEbot ()
+//
 | S2Ewth (s2e, _) => aux_s2exp (env, s2e)
-| S2Eerr () => S2ZEerr ()
-| _ => S2ZEany ()
+//
+| _ => S2ZEbot () // HX no available info
 end // end of [aux_s2exp]
 
 and aux_s2exp_app (
@@ -281,7 +312,7 @@ in
           S2ZEapp (s2ze_fun, aux_arglst (env, s2es_arg))
         end // HX: can be incorrect for certain constructors
     end (* end of [S2Ecst] *)
-  | _ => S2ZEany () (* HX: ??? *)
+  | _ => S2ZEbot () (* HX: ??? *)
 end // end of [aux_s2exp_app]
 
 and aux_arglst (
@@ -359,16 +390,56 @@ extern
 fun s2zexplst_merge_exn
   (xs1: s2zexplst, xs2: s2zexplst): s2zexplst
 // end of [s2zexplst_merge_exn]
+extern
+fun s2zexplstlst_merge_exn
+  (xss1: s2zexplstlst, xss2: s2zexplstlst): s2zexplstlst
+// end of [s2zexplstlst_merge_exn]
+extern
+fun labs2zexplst_merge_exn
+  (lxs1: labs2zexplst, lxs2: labs2zexplst): labs2zexplst
+// end of [labs2zexplst_merge_exn]
+
+(* ****** ****** *)
+
+fun s2zexp_linkrem
+  (x: s2zexp): s2zexp = case+ x of
+  | S2ZEVar (s2V) => s2Var_get_szexp (s2V) | _ => x
+// end of [s2zexp_linkrem]
 
 implement
 s2zexp_merge_exn
-  (s2ze1, s2ze2) = let
-  fn abort (): s2zexp = $raise S2ZEXPMERGEexn ()
+  (x1, x2) = let
+//
+fn abort (): s2zexp = $raise S2ZEXPMERGEexn()
+//
+val s2ze1 = s2zexp_linkrem (x1)
+val s2ze2 = s2zexp_linkrem (x2)
+//
 in
 //
 case+ (s2ze1, s2ze2) of
-| (S2ZEany (), _) => s2ze2
-| (_, S2ZEany ()) => s2ze1
+//
+| (S2ZEptr (), S2ZEptr ()) => s2ze1
+//
+| (S2ZEcst s2c1, S2ZEcst s2c2) =>
+    if s2c1 = s2c2 then s2ze1 else abort ()
+| (S2ZEvar s2v1, S2ZEvar s2v2) =>
+    if s2v1 = s2v2 then s2ze1 else abort ()
+//
+| (S2ZEVar s2V1, _) => let
+     val () = s2Var_set_szexp (s2V1, s2ze2) in s2ze2
+  end // end of [S2ZEVar, _]
+| (_, S2ZEVar s2V2) => let
+     val () = s2Var_set_szexp (s2V2, s2ze1) in s2ze1
+  end // end of [_, S2ZEVar]
+//
+| (S2ZEextype (name1, _arg1),
+   S2ZEextype (name2, _arg2)) =>
+     if name1 = name2 then let
+       val _arg = s2zexplstlst_merge_exn (_arg1, _arg2)
+     in
+       S2ZEextype (name1, _arg)
+     end else abort ()
 | (S2ZEapp (s2ze11, s2zes12),
    S2ZEapp (s2ze21, s2zes22)) => let
     val s2ze = s2zexp_merge_exn (s2ze11, s2ze21)
@@ -376,16 +447,21 @@ case+ (s2ze1, s2ze2) of
   in
     S2ZEapp (s2ze, s2zes)
   end
-| (S2ZEcst s2c1, S2ZEcst s2c2) =>
-    if s2c1 = s2c2 then s2ze1 else abort ()
-| (S2ZEptr (), S2ZEptr ()) => s2ze1
-| (S2ZEextype (name1, _),
-   S2ZEextype (name2, _)) =>
-     if name1 = name2 then s2ze1 else abort ()
-| (S2ZEvar s2v1, S2ZEvar s2v2) =>
-    if s2v1 = s2v2 then s2ze1 else abort ()
-| (S2ZEerr (), _) => abort ()
-| (_, S2ZEerr ()) => abort ()
+| (S2ZEtyarr (elt1, dim1),
+   S2ZEtyarr (elt2, dim2)) => let
+    val elt = s2zexp_merge_exn (elt1, elt2)
+  in
+    if s2explst_syneq (dim1, dim2)
+      then S2ZEtyarr (elt, dim1) else abort ()
+    // end of [if]
+  end
+| (S2ZEtyrec (knd1, ls2zes1),
+   S2ZEtyrec (knd2, ls2zes2)) =>
+    if knd1 = knd2 then
+      S2ZEtyrec (knd1, labs2zexplst_merge_exn (ls2zes1, ls2zes2))
+    else $raise S2ZEXPMERGEexn() // end of [if]
+| (S2ZEbot (), _) => abort ()
+| (_, S2ZEbot ()) => abort ()
 | (_, _) => abort ()
 //
 end // end of [s2zexp]
@@ -393,19 +469,64 @@ end // end of [s2zexp]
 implement
 s2zexplst_merge_exn (xs1, xs2) =
   case+ (xs1, xs2) of
-  | (list_cons (x1, xs1), list_cons (x2, xs2)) =>
-      list_cons (s2zexp_merge_exn (x1, x2), s2zexplst_merge_exn (xs1, xs2))
-  | (_, _) => list_nil ()
+  | (list_cons (x1, xs1),
+     list_cons (x2, xs2)) => let
+      val x12 = s2zexp_merge_exn (x1, x2)
+    in
+      list_cons (x12, s2zexplst_merge_exn (xs1, xs2))
+    end // end of [cons, cons]
+  | (list_nil (), list_nil ()) => list_nil ()
+  | (_, _) => $raise S2ZEXPMERGEexn()
 // end of [s2zexplst_merge_exn]
+
+implement
+s2zexplstlst_merge_exn (xss1, xss2) =
+  case+ (xss1, xss2) of
+  | (list_cons (xs1, xss1),
+     list_cons (xs2, xss2)) => let
+      val xs12 = s2zexplst_merge_exn (xs1, xs2)
+    in
+      list_cons (xs12, s2zexplstlst_merge_exn (xss1, xss2))
+    end // end of [cons, cons]
+  | (list_nil (), list_nil ()) => list_nil ()
+  | (_, _) => $raise S2ZEXPMERGEexn()
+// end of [s2zexplstlst_merge_exn]
+
+implement
+labs2zexplst_merge_exn
+  (lxs1, lxs2) = let
+in
+  case+ (lxs1, lxs2) of
+  | (list_cons (lx1, lxs1),
+     list_cons (lx2, lxs2)) => let
+      val SZLABELED (l1, x1) = lx1
+      and SZLABELED (l2, x2) = lx2
+    in
+      if l1 = l2 then let
+        val x12 = s2zexp_merge_exn (x1, x2)
+        val lx = SZLABELED (l1, x12)
+        val lxs = labs2zexplst_merge_exn (lxs1, lxs2)
+      in
+        list_cons (lx, lxs)
+      end else
+        $raise S2ZEXPMERGEexn()
+      // end of [if]
+    end // end of [cons, cons]
+  | (list_nil (), list_nil ()) => list_nil ()
+  | (_, _) => $raise S2ZEXPMERGEexn()
+end // end of [labs2zexplst_ismat_exn]
 
 (* ****** ****** *)
 
+(*
+** HX: this one is declared in pats_staexp2_util.sats
+*)
 implement
 s2zexp_merge
   (x1, x2) = try
   s2zexp_merge_exn (x1, x2)
 with
-  ~S2ZEXPMERGEexn () => S2ZEerr ()
+  ~S2ZEXPMERGEexn () => S2ZEbot () // HX: indication of error!
 // end of [s2zexp_merge]
 
 (* ****** ****** *)

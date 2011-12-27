@@ -164,9 +164,9 @@ in
 case+ ans of
 | ~Some_vt (d2i) => (case+ d2i of
   | D2ITMcst (d2c) => Some_vt (d2c)
-  | D2ITMsymdef (d2is) => let
+  | D2ITMsymdef (sym, d2is) => let
       val d2cs = aux1 (d2is) in aux2 (d2cs)
-    end
+    end // end of [D2ITMsymdef]
   | _ => let
       val () = auxerr2 (impdec) in None_vt () // HX: error is reported
     end (* end of [_] *)

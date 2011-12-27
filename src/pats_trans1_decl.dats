@@ -140,7 +140,9 @@ fn p0rec_tr
 //
 in
   case+ p0 of
-  | P0RECint int => prec_make_int (int)
+  | P0RECint int =>
+      prec_make_int (int)
+    // end of [P0RECint]
   | P0RECi0de id => precfnd id
   | P0RECi0de_adj
       (id, opr, int) => let
@@ -167,32 +169,36 @@ in // in of [local]
 
 implement
 d0ecl_fixity_tr (f0xty, ids) = let
-  fun loop (fxty: fxty, ids: i0delst): void =
-    case+ ids of
-    | list_cons (id, ids) => let
+//
+fun loop (
+  fxty: fxty, ids: i0delst
+) : void =
+  case+ ids of
+  | list_cons (id, ids) => let
 (*
-        val sym =  id.i0de_sym
-        val stamp = $SYM.symbol_get_stamp (sym)
-        val () = (
-          println! ("d0ecl_fixity_tr: loop: id = ", sym);
-          println! ("d0ecl_fixity_tr: loop: id = ", stamp)
-        ) // end of [val]
+      val sym =  id.i0de_sym
+      val stamp = $SYM.symbol_get_stamp (sym)
+      val () = (
+        println! ("d0ecl_fixity_tr: loop: id = ", sym);
+        println! ("d0ecl_fixity_tr: loop: id = ", stamp)
+      ) // end of [val]
 *)
 (*
-        val () = (
-          print "the_fxtyenv_add(bef): \n"; fprint_the_fxtyenv (stdout_ref)
-        ) // end of [val]
+      val () = (
+        print "the_fxtyenv_add(bef): \n"; fprint_the_fxtyenv (stdout_ref)
+      ) // end of [val]
 *)
-        val () = the_fxtyenv_add (id.i0de_sym, fxty)
+      val () = the_fxtyenv_add (id.i0de_sym, fxty)
 (*
-        val () = begin
-          print "the_fxtyenv_add(aft): \n"; fprint_the_fxtyenv (stdout_ref)
-        end // end of [val]
+      val () = begin
+        print "the_fxtyenv_add(aft): \n"; fprint_the_fxtyenv (stdout_ref)
+      end // end of [val]
 *)
-      in
-        loop (fxty, ids)
-      end
-    | list_nil () => ()
+    in
+      loop (fxty, ids)
+    end
+  | list_nil () => ()
+// end of [loop]
 in
   loop (f0xty_tr f0xty, ids)
 end // end of [d0ecl_fixity_tr]
@@ -686,7 +692,7 @@ case+ d0c0.d0ecl_node of
 //
 | D0Csymintr (ids) => d1ecl_symintr (loc0, ids)
 | D0Csymelim (ids) => d1ecl_symelim (loc0, ids)
-| D0Coverload (id, qid) => d1ecl_overload (loc0, id, qid)
+| D0Coverload (id, qid, pval) => d1ecl_overload (loc0, id, qid, pval)
 //
 | D0Ce0xpdef (id, def) => let
     val def = (case+ def of

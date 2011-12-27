@@ -317,17 +317,17 @@ s2exp_node =
 //
   | S2Einvar of s2exp // HX: a special type for handling type unification
 //
-  | S2Erefarg of (* reference argument type *)
-      (int(*1:ref/0:val*), s2exp) (* &/!: call-by-ref/val *)
-//
-  | S2Evararg of s2exp // variadic argument type
-//
   | S2Eexi of ( // exist. quantified type
       s2varlst(*vars*), s2explst(*props*), s2exp(*body*)
     ) // end of [S2Euni]
   | S2Euni of ( // universally quantified type
       s2varlst(*vars*), s2explst(*props*), s2exp(*body*)
     ) // end of [S2Euni]
+//
+  | S2Erefarg of (* reference argument type *)
+      (int(*1:ref/0:val*), s2exp) (* &/!: call-by-ref/val *)
+//
+  | S2Evararg of s2exp // variadic argument type
 //
   | S2Ewth of (s2exp, wths2explst) // the result part of a fun type
 //
@@ -837,13 +837,13 @@ fun fprint_sp2at : fprint_type (sp2at)
 
 datatype s2kexp =
   | S2KEany of ()
-  | S2KEapp of (s2kexp, s2kexplst)
   | S2KEcst of s2cst
-  | S2KEfun of ()
+  | S2KEvar of s2var
+  | S2KEextype of (string (*name*), s2kexplstlst)
+  | S2KEfun of (s2kexplst(*arg*), s2kexp(*res*))
+  | S2KEapp of (s2kexp, s2kexplst)
   | S2KEtyarr of (s2kexp)
   | S2KEtyrec of (tyreckind, labs2kexplst)
-  | S2KEvar of s2var
-  | S2KEerr of () // indication of error
 // end of [s2kexp]
 
 and labs2kexp = SKLABELED of (label, s2kexp)
@@ -851,29 +851,33 @@ and labs2kexp = SKLABELED of (label, s2kexp)
 where
 s2kexplst = List (s2kexp)
 and
+s2kexplstlst = List (s2kexplst)
+and
 labs2kexplst = List (labs2kexp)
 
 fun fprint_s2kexp : fprint_type (s2kexp)
-fun fprint_s2kexplst : fprint_type (s2kexplst)
-fun fprint_labs2kexplst : fprint_type (labs2kexplst)
+fun print_s2kexp (x: s2kexp): void
+fun prerr_s2kexp (x: s2kexp): void
+fun fprint_labs2kexp : fprint_type (labs2kexp)
 
 fun s2kexp_make_s2exp (s2e: s2exp): s2kexp
-
-fun s2kexp_merge (x1: s2kexp, x2: s2kexp): s2kexp
 
 (* ****** ****** *)
 
 datatype s2zexp =
-  | S2ZEany of ()
-  | S2ZEapp of (s2zexp, s2zexplst)
-  | S2ZEcst of s2cst
+//
   | S2ZEptr of () (* pointer size *)
+//
+  | S2ZEcst of s2cst
+  | S2ZEvar of s2var
+  | S2ZEVar of s2Var
   | S2ZEextype of (string (*name*), s2zexplstlst)
+  | S2ZEapp of (s2zexp, s2zexplst)
   | S2ZEtyarr of // array size
       (s2zexp (*element*), s2explst (*dimension*))
   | S2ZEtyrec of (tyreckind, labs2zexplst)
-  | S2ZEvar of s2var
-  | S2ZEerr of () // HX: indication of error 
+//
+  | S2ZEbot of () // HX: no available info
 // end of [s2zexp]
 
 and labs2zexp = SZLABELED of (label, s2zexp)
@@ -892,7 +896,7 @@ fun prerr_s2zexp (s2ze: s2zexp): void
 fun s2Var_get_szexp (s2V: s2Var): s2zexp
 fun s2Var_set_szexp (s2V: s2Var, s2ze: s2zexp): void
 
-fun s2zexp_is_err (s2ze: s2zexp): bool
+fun s2zexp_is_bot (s2ze: s2zexp): bool
 fun s2zexp_make_s2exp (s2e: s2exp): s2zexp
 
 (* ****** ****** *)

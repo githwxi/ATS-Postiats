@@ -72,6 +72,7 @@ d2cst_struct = @{
 , d2cst_decarg= s2qualst // template arg
 , d2cst_arylst= List int // arity
 , d2cst_type= s2exp // assigned type
+, d2cst_skexp= s2kexp // skeleton of the assigned type
 , d2cst_extdef= dcstextdef // external dcst definition
 , d2cst_def= d2expopt // definition
 , d2cst_stamp= stamp // unique stamp
@@ -109,6 +110,7 @@ val () = p->d2cst_kind := dck
 val () = p->d2cst_decarg := decarg
 val () = p->d2cst_arylst := arylst
 val () = p->d2cst_type := typ
+val () = p->d2cst_skexp := s2kexp_make_s2exp (typ)
 val () = p->d2cst_extdef := extdef
 val () = p->d2cst_def := None ()
 val () = p->d2cst_stamp := stamp

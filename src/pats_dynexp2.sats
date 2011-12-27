@@ -46,11 +46,17 @@ typedef location = $LOC.location
 
 (* ****** ****** *)
 
-staload LAB = "pats_label.sats"
+staload
+LAB = "pats_label.sats"
 typedef label = $LAB.label
 
-staload FIL = "pats_filename.sats"
+staload
+FIL = "pats_filename.sats"
 typedef filename = $FIL.filename
+
+staload
+SYM = "pats_symbol.sats"
+typedef symbol = $SYM.symbol
 
 staload SYN = "pats_syntax.sats"
 typedef dcstextdef = $SYN.dcstextdef
@@ -94,7 +100,7 @@ datatype d2itm =
   | D2ITMe1xp of e1xp
   | D2ITMmacdef of d2mac
   | D2ITMmacvar of d2var
-  | D2ITMsymdef of d2itmlst (* overloaded symbol *)
+  | D2ITMsymdef of (symbol, d2itmlst) (* overloaded symbol *)
   | D2ITMvar of d2var
 // end of [d2itm]
 
@@ -437,7 +443,8 @@ d2ecl_node =
 and
 d2exp_node =
 //
-  | D2Evar of d2var
+  | D2Evar of d2var (* dynamic variables *)
+  | D2Ecst of d2cst (* dynamic constants *)
 //
   | D2Ebool of bool
   | D2Eint of string(*rep*)
@@ -457,10 +464,12 @@ d2exp_node =
 //
   | D2Eextval of (s2exp(*type*), string(*rep*))
 //
-  | D2Ecst of d2cst (* declared dynamic constants *)
   | D2Econ of (
       d2con, s2exparglst, int(*npf*), location(*arg*), d2explst
     ) // end of [D2Econ]
+//
+  | D2Esym of d2sym // overloaded dynamic symbol
+//
 //
   | D2Eloopexn of int(*knd*)
 //
@@ -721,6 +730,8 @@ fun d2exp_c0har (loc: location, x: c0har): d2exp
 fun d2exp_f0loat (loc: location, x: f0loat): d2exp
 fun d2exp_s0tring (loc: location, x: s0tring): d2exp
 
+fun d2exp_cstsp (loc: location, cst: $SYN.cstsp): d2exp
+
 fun d2exp_top (loc: location): d2exp
 fun d2exp_empty (loc: location): d2exp
 
@@ -728,14 +739,15 @@ fun d2exp_extval
   (loc: location, typ: s2exp, rep: string): d2exp
 // end of [d2exp_extval]
 
+fun d2exp_cst (loc: location, d2c: d2cst): d2exp
+
 fun d2exp_con (
   loc: location
 , d2c: d2con, sarg: s2exparglst
 , npf: int, loc: location, darg: d2explst
 ) : d2exp // end of [d2exp_con]
 
-fun d2exp_cst (loc: location, d2c: d2cst): d2exp
-fun d2exp_cstsp (loc: location, cst: $SYN.cstsp): d2exp
+fun d2exp_sym (loc: location, d2s: d2sym): d2exp
 
 fun d2exp_loopexn (loc: location, knd: int): d2exp
 
