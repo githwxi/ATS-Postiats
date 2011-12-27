@@ -424,7 +424,8 @@ fun prelude_load (
 //
   val () = stacst2_initialize () // internalizing some static constants
 //
-  val () = pervasive_load (ATSHOME, "prelude/SATS/arith.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/arith_prf.sats")
+//
   val () = pervasive_load (ATSHOME, "prelude/SATS/bool.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/char.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/float.sats")

@@ -98,14 +98,31 @@ macdef g1ofg0_int (x) = g1ofg0_int ,(x)
 (* ****** ****** *)
 
 fun{a:t@ype}
-g1int_add {i,j:int}
-  (x: g1int (a, i), y: g1int (a, j)): g1int (a, i+j)
-overload + with g1int_add
+g1int_add {i,j:int} (
+  x: g1int (a, i), y: g1int (a, j)
+) : g1int (a, i+j)
+overload + with g1int_add of 1
 
 fun{a:t@ype}
-g1int_sub {i,j:int}
-  (x: g1int (a, i), y: g1int (a, j)): g1int (a, i-j)
-overload - with g1int_sub
+g1int_sub {i,j:int} (
+  x: g1int (a, i), y: g1int (a, j)
+) : g1int (a, i-j)
+overload - with g1int_sub of 1
+
+fun{a:t@ype}
+g1int_mul {i,j:int}
+  (x: g1int (a, i), y: g1int (a, j)): g1int (a)
+overload * with g1int_mul of 1
+
+fun{a:t@ype}
+g1int_div {i,j:int | j != 0}
+  (x: g1int (a, i), y: g1int (a, j)): g1int (a)
+overload / with g1int_div of 1
+
+fun{a:t@ype}
+g1int_mul2 {i,j:int} (
+  x: g1int (a, i), y: g1int (a, j)
+) : [ij:int] (MUL (i, j, ij) | g1int (a, ij))
 
 (* ****** ****** *)
 //
