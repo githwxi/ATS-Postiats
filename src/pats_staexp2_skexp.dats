@@ -83,7 +83,7 @@ case+ s2ke of
   }
 | S2KEfun (_arg, _res) => {
     val () = prstr "S2KEfun("
-    val () = $UT.fprintlst (out, _arg, ", ", fprint_s2kexp)
+    val () = fprint_s2kexplst (out, _arg)
     val () = prstr "; "
     val () = fprint_s2kexp (out, _res)
     val () = prstr ")"
@@ -92,7 +92,7 @@ case+ s2ke of
     val () = prstr "S2KEapp("
     val () = fprint_s2kexp (out, _fun)
     val () = prstr "; "
-    val () = $UT.fprintlst (out, _arg, ", ", fprint_s2kexp)
+    val () = fprint_s2kexplst (out, _arg)
     val () = prstr ")"
   }
 | S2KEtyarr (s2ke) => {
@@ -103,6 +103,7 @@ case+ s2ke of
 | S2KEtyrec (knd, ls2kes) => {
     val () = prstr "S2KEtyrec("
     val () = fprint_tyreckind (out, knd)
+    val () = prstr "; "
     val () = $UT.fprintlst (out, ls2kes, ", ", fprint_labs2kexp)
     val () = prstr ")"
   }
@@ -111,6 +112,11 @@ case+ s2ke of
 *)
 //
 end // end of [fprint_s2kexp]
+
+implement
+fprint_s2kexplst (out, xs) =
+  $UT.fprintlst (out, xs, ", ", fprint_s2kexp)
+// end of [fprint_s2kexplst]
 
 implement
 fprint_labs2kexp
@@ -383,10 +389,18 @@ case+ (x1, x2) of
   // end of [if]
 | (S2KEfun (_arg1, _res1),
    S2KEfun (_arg2, _res2)) => let
-    val () = s2kexplst_ismat_exn (_arg1, _arg2)
+    val () =
+      s2kexplst_ismat_exn (_arg1, _arg2)
+    // end of [val]
   in
     s2kexp_ismat_exn (_res1, _res2)
   end // end of [fun, fun]
+| (S2KEapp (_fun1, _arg1),
+   S2KEapp (_fun2, _arg2)) => let
+    val () = s2kexp_ismat_exn (_fun1, _fun2)
+  in
+    s2kexplst_ismat_exn (_arg1, _arg2)
+  end // end of [app, app]
 | (S2KEtyarr (elt1),
    S2KEtyarr (elt2)) => s2kexp_ismat_exn (elt1, elt2)
 | (S2KEtyrec (knd1, ls2kes1),
@@ -461,7 +475,15 @@ s2kexp_ismat
   val () = s2kexp_ismat_exn (x1, x2) in true
 end with
   ~S2KEXPISMATexn () => false // HX: indication of error!
-// end of [s2zexp_merge]
+// end of [s2kexp_ismat]
+
+implement
+s2kexplst_ismat
+  (xs1, xs2) = try let
+  val () = s2kexplst_ismat_exn (xs1, xs2) in true
+end with
+  ~S2KEXPISMATexn () => false // HX: indication of error!
+// end of [s2kexplst_ismat]
 
 (* ****** ****** *)
 

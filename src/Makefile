@@ -178,7 +178,7 @@ SOURCES := \
   pats_trans3_syncst.dats \
   pats_trans3_exp_up.dats \
   pats_trans3_exp_dn.dats \
-  pats_trans3_funsel.dats \
+  pats_trans3_appsym.dats \
   pats_trans3_decl.dats \
   pats_comarg.sats \
   pats_comarg.dats \

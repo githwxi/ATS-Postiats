@@ -64,8 +64,12 @@ macdef list_sing (x) = list_cons (,(x), list_nil)
 (* ****** ****** *)
 
 implement
-d2sym_make (loc, q, id, d2is) = '{
-  d2sym_loc= loc, d2sym_qua= q, d2sym_sym= id, d2sym_itm= d2is
+d2sym_make (
+  loc, q, id, d2is
+) = '{
+  d2sym_loc= loc
+, d2sym_qua= q, d2sym_sym= id
+, d2sym_itmlst= d2is
 } // end of [d2sym_make]
 
 (* ****** ****** *)

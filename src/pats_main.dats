@@ -196,7 +196,7 @@ dynload "pats_trans3_pat.dats"
 dynload "pats_trans3_syncst.dats"
 dynload "pats_trans3_exp_up.dats"
 dynload "pats_trans3_exp_dn.dats"
-dynload "pats_trans3_funsel.dats"
+dynload "pats_trans3_appsym.dats"
 dynload "pats_trans3_decl.dats"
 //
 dynload "pats_comarg.dats"

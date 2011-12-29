@@ -839,7 +839,8 @@ datatype s2kexp =
   | S2KEany of ()
   | S2KEcst of s2cst
   | S2KEvar of s2var
-  | S2KEextype of (string (*name*), s2kexplstlst)
+  | S2KEextype of
+      (string (*name*), s2kexplstlst)
   | S2KEfun of (s2kexplst(*arg*), s2kexp(*res*))
   | S2KEapp of (s2kexp, s2kexplst)
   | S2KEtyarr of (s2kexp)
@@ -858,6 +859,9 @@ labs2kexplst = List (labs2kexp)
 fun fprint_s2kexp : fprint_type (s2kexp)
 fun print_s2kexp (x: s2kexp): void
 fun prerr_s2kexp (x: s2kexp): void
+
+fun fprint_s2kexplst : fprint_type (s2kexplst)
+
 fun fprint_labs2kexp : fprint_type (labs2kexp)
 
 fun s2kexp_make_s2exp (s2e: s2exp): s2kexp

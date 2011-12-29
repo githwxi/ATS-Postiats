@@ -465,7 +465,13 @@ d1exp_idextapp
 
 implement
 d1exp_list
-  (loc, npf, d1es) = d1exp_make (loc, D1Elist (npf, d1es))
+  (loc, npf, d1es) =
+  if npf >= 0 then
+    d1exp_make (loc, D1Elist (npf, d1es))
+  else (case+ d1es of
+    | list_cons (d1e, list_nil ()) => d1e
+    | _ => d1exp_make (loc, D1Elist (npf, d1es))
+  ) // end of [if]
 // end of [d1exp_list]
 
 (* ****** ****** *)

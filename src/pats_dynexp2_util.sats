@@ -37,6 +37,10 @@ staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 
+fun d2exp_is_varlamcst (d2e: d2exp): bool
+
+(* ****** ****** *)
+
 fun d2con_select_arity
   (d2cs: d2conlst, n: int): d2conlst
 // end of [d2con_select_arity]

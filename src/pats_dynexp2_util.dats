@@ -54,6 +54,25 @@ staload "pats_dynexp2_util.sats"
 (* ****** ****** *)
 
 implement
+d2exp_is_varlamcst
+  (d2e0) = begin
+  case+ d2e0.d2exp_node of
+  | D2Evar _ => true
+  | D2Elam_dyn _ => true
+  | D2Eint _ => true
+  | D2Ebool _ => true
+  | D2Echar _ => true
+  | D2Estring _ => true
+  | D2Ei0nt _ => true
+  | D2Ec0har _ => true
+  | D2Es0tring _ => true
+  | D2Etop _ => true
+  | _ => false
+end // end of [d2exp_is_varlamcst]
+
+(* ****** ****** *)
+
+implement
 d2con_select_arity
   (d2cs, n) = let
   val nd2cs = list_length (d2cs)

@@ -57,6 +57,12 @@ string_param_lemma
 
 (* ****** ****** *)
 
+dataprop SGN (int, int) =
+  | SGNzero (0, 0) | {i:neg} SGNneg (i, ~1) | {i:pos} SGNpos (i,  1)
+// end of [SGN]
+
+(* ****** ****** *)
+
 datasort file_mode =
   | file_mode_r (* read *)
   | file_mode_w (* write *)

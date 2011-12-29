@@ -114,7 +114,7 @@ viewtypedef d2itmopt_vt = Option_vt (d2itm)
 typedef d2sym = '{
   d2sym_loc= location
 , d2sym_qua= $SYN.d0ynq, d2sym_sym= symbol
-, d2sym_itm= d2itmlst
+, d2sym_itmlst= d2itmlst
 } // end of [d2sym]
 
 (* ****** ****** *)

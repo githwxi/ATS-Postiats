@@ -60,6 +60,7 @@ staload "pats_staexp2.sats"
 staload "pats_stacst2.sats"
 staload "pats_staexp2_util.sats"
 staload "pats_dynexp2.sats"
+staload "pats_dynexp2_util.sats"
 staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
@@ -79,25 +80,6 @@ staload "pats_trans3_env.sats"
 
 extern fun d2exp_trup_con (d2e0: d2exp): d3exp
 extern fun d2exp_trup_tmpid (d2e0: d2exp): d3exp
-
-(* ****** ****** *)
-
-extern
-fun d2exp_trup_applst
-  (d2e0: d2exp, _fun: d2exp, _arg: d2exparglst): d3exp
-// end of [d2exp_trup_applst]
-
-extern
-fun d23exp_trup_applst
-  (d2e0: d2exp, _fun: d3exp, _arg: d2exparglst): d3exp
-// end of [d23exp_trup_applst]
-
-(* ****** ****** *)
-
-extern
-fun d2exp_trup_applst_sym
-  (d2e0: d2exp, _fun: d2sym, _arg: d2exparglst): d3exp
-// end of [d2exp_trup_applst_sym]
 
 (* ****** ****** *)
 
@@ -655,14 +637,6 @@ case+ d2as of
 | list_nil () => d3e_fun
 //
 end // end of [d2exp_trup_applst]
-
-(* ****** ****** *)
-
-implement
-d2exp_trup_applst_sym
-  (d2e0, d2s, _arg) = let
-  val () = assertloc (false) in exit (1)
-end // end of [d2exp_trup_applst_sym]
 
 (* ****** ****** *)
 

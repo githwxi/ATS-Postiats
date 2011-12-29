@@ -85,25 +85,6 @@ d2exp_s2eff_of_d2exp
 (* ****** ****** *)
 
 implement
-d2exp_is_varlamcst
-  (d2e0) = begin
-  case+ d2e0.d2exp_node of
-  | D2Evar _ => true
-  | D2Elam_dyn _ => true
-  | D2Eint _ => true
-  | D2Ebool _ => true
-  | D2Echar _ => true
-  | D2Estring _ => true
-  | D2Ei0nt _ => true
-  | D2Ec0har _ => true
-  | D2Es0tring _ => true
-  | D2Etop _ => true
-  | _ => false
-end // end of [d2exp_is_varlamcst]
-
-(* ****** ****** *)
-
-implement
 d23exp_free (x) = case+ x of
   | ~D23Ed2exp (d2e) => () | ~D23Ed3exp (d3e) => ()
 // end of [d23exp_free]
@@ -141,6 +122,24 @@ d3exp_trdn
   end // end of [val]
   val () = d3exp_set_type (d3e1, s2e2)
 } // end of [d3exp_trdn]
+
+(* ****** ****** *)
+
+implement
+d3explst_trdn_arg
+  (d3es, s2es) =
+  case+ d3es of
+  | list_cons (d3e, d3es) => (
+    case+ s2es of
+    | list_cons (s2e, s2es) => let
+        val d3e = d3exp_trdn (d3e, s2e)
+      in
+        list_cons (d3e, d3explst_trdn_arg (d3es, s2es))
+      end // end of [list_cons]
+    | list_nil () => list_nil ()
+    ) // end of [list_cons]
+  | list_nil () => list_nil ()
+// end of [d3explst_trdn_arg]
 
 (* ****** ****** *)
 

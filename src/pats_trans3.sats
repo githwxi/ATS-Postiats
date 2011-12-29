@@ -54,11 +54,16 @@ datatype trans3err =
 //
   | T3E_p2at_trdn_ann of (p2at, s2exp)
 //
+  | T3E_d2exp_trup_item of (location, d2itm)
+//
   | T3E_d2exp_trup_laminit_fc of (d2exp, funclo)
   | T3E_d2exp_trup_con_npf of (d2exp, int(*npf*))
   | T3E_d3exp_trdn of (d3exp, s2exp)
   | T3E_d23explst_trdn_arity of (location, int(*-1/1*))
   | T3E_d23exp_trup_app23_npf of (location(*fun*), int(*npf*))
+//
+  | T3E_d2exp_trup_applst_sym_nil of (d2exp, d2sym) // found none
+  | T3E_d2exp_trup_applst_sym_cons2 of (d2exp, d2sym) // found too many
 //
   | T3E_fundeclst_tr_metsrtck of (d2ecl, s2rtlstopt)
 // end of [trans3err]
@@ -92,8 +97,6 @@ fun d2exp_s2eff_of_d2exp
 
 (* ****** ****** *)
 
-fun d2exp_is_varlamcst (d2e: d2exp): bool
-
 dataviewtype d23exp =
   | D23Ed2exp of d2exp | D23Ed3exp of d3exp
 viewtypedef d23explst = List_vt (d23exp)
@@ -102,6 +105,10 @@ fun d23exp_free (x: d23exp): void
 fun d23explst_free (xs: d23explst): void
 
 fun d3exp_trdn (d3e: d3exp, s2f: s2exp): d3exp
+
+fun d3explst_trdn_arg
+  (d3es: d3explst, s2es: s2explst): d3explst
+// end of [d3explst_trdn_arg]
 
 (* ****** ****** *)
 
@@ -119,6 +126,19 @@ fun d2exp_trup_f0loat
 
 fun d2exp_trup_var (loc: location, d2v: d2var): d3exp
 fun d2exp_trup_cst (loc: location, d2c: d2cst): d3exp
+
+(* ****** ****** *)
+
+fun d2exp_trup_applst
+  (d2e0: d2exp, _fun: d2exp, _arg: d2exparglst): d3exp
+// end of [d2exp_trup_applst]
+fun d2exp_trup_applst_sym
+  (d2e0: d2exp, _fun: d2sym, _arg: d2exparglst): d3exp
+// end of [d2exp_trup_applst_sym]
+
+fun d23exp_trup_applst
+  (d2e0: d2exp, _fun: d3exp, _arg: d2exparglst): d3exp
+// end of [d23exp_trup_applst]
 
 (* ****** ****** *)
 

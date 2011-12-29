@@ -64,6 +64,45 @@ overload / with g0float_div
 
 (* ****** ****** *)
 
+fun{a:t@ype}
+g0float_lt
+  (x: g0float (a), y: g0float (a)):<> bool
+overload < with g0float_lt
+
+fun{a:t@ype}
+g0float_lte
+  (x: g0float (a), y: g0float (a)):<> bool
+overload <= with g0float_lte
+
+fun{a:t@ype}
+g0float_gt
+  (x: g0float (a), y: g0float (a)):<> bool
+overload > with g0float_gt
+
+fun{a:t@ype}
+g0float_gte
+  (x: g0float (a), y: g0float (a)):<> bool
+overload >= with g0float_gte
+
+fun{a:t@ype}
+g0float_compare
+  (x: g0float (a), y: g0float (a)):<> bool
+overload compare with g0float_compare
+
+(* ****** ****** *)
+
+fun{a:t@ype}
+g0float_max
+  (x: g0float (a), y: g0float (a)):<> g0float (a)
+overload max with g0float_max
+
+fun{a:t@ype}
+g0float_min
+  (x: g0float (a), y: g0float (a)):<> g0float (a)
+overload min with g0float_min
+
+(* ****** ****** *)
+
 #if VERBOSE_PRELUDE #then
 #print "Loading [float.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]

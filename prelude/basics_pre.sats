@@ -101,6 +101,11 @@ stadef == = eq_int_int
 stadef != = neq_int_int
 stadef <> = neq_int_int // backward compatibility
 
+stacst max_int_int : (int, int) -> int
+stadef max = max_int_int
+stacst min_int_int : (int, int) -> int
+stadef min = min_int_int
+
 (* ****** ****** *)
 
 stacst null_addr : addr
