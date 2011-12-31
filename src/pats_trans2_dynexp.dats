@@ -372,9 +372,11 @@ case+ d2i of
   in
     d2exp_app_sta_dyn (d1e0.d1exp_loc, d1e1.d1exp_loc, d2e_fun, sarg, locarg, npf, darg)
   end // end of [D2ITMvar]
-| D2ITMsymdef (sym, d2is) => let
+| D2ITMsymdef (sym, d2pis) => let
     val loc = d1e2.d1exp_loc
-    val d2s = d2sym_make (loc, dq, id, d2is)
+    val d2s =
+      d2sym_make (loc, dq, id, d2pis)
+    // end of [val]
     val d2e_fun = d2exp_sym (loc, d2s)
     val sarg = s1exparglst_tr (sarg)
     val darg = d1explst_tr (darg)
@@ -462,13 +464,13 @@ fn d2sym_lrbrackets
   val loc0 = d1e0.d1exp_loc
   val id = $SYM.symbol_LRBRACKETS
   var err: int = 0
-  var d2is: d2itmlst = list_nil ()
+  var d2pis: d2pitmlst = list_nil ()
   val ans = the_d2expenv_find (id)
   val () = (
     case+ ans of
     | ~Some_vt d2i => (
         case+ d2i of
-        | D2ITMsymdef (sym, xs) => d2is := xs | _ => err := err + 1
+        | D2ITMsymdef (sym, xs) => d2pis := xs | _ => err := err + 1
       ) // end of [Some_vt]
     | ~None_vt () => (err := err + 1)
   ) // end of [val]
@@ -478,7 +480,7 @@ fn d2sym_lrbrackets
     val () = prerr_newline ()
   } // end of [val]
 in
-  d2sym_make (loc0, $SYN.d0ynq_none (loc0), id, d2is)
+  d2sym_make (loc0, $SYN.d0ynq_none (loc0), id, d2pis)
 end // end of [d2sym_lrbrackets]
 
 fn d1exp_tr_arrsub (

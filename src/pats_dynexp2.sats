@@ -100,11 +100,16 @@ datatype d2itm =
   | D2ITMe1xp of e1xp
   | D2ITMmacdef of d2mac
   | D2ITMmacvar of d2var
-  | D2ITMsymdef of (symbol, d2itmlst) (* overloaded symbol *)
+  | D2ITMsymdef of (symbol, d2pitmlst) (* overloaded symbol *)
   | D2ITMvar of d2var
 // end of [d2itm]
 
-where d2itmlst = List (d2itm)
+and d2pitm = D2PITM of (int(*pval*), d2itm)
+
+where
+d2itmlst = List (d2itm)
+and
+d2pitmlst = List (d2pitm)
 
 typedef d2itmopt = Option (d2itm)
 viewtypedef d2itmopt_vt = Option_vt (d2itm)
@@ -114,7 +119,7 @@ viewtypedef d2itmopt_vt = Option_vt (d2itm)
 typedef d2sym = '{
   d2sym_loc= location
 , d2sym_qua= $SYN.d0ynq, d2sym_sym= symbol
-, d2sym_itmlst= d2itmlst
+, d2sym_pitmlst= d2pitmlst
 } // end of [d2sym]
 
 (* ****** ****** *)
@@ -251,17 +256,17 @@ fun prerr_d2mac (x: d2mac): void
 (* ****** ****** *)
 
 fun fprint_d2itm : fprint_type (d2itm)
+fun fprint_d2itmlst : fprint_type (d2itmlst)
 fun print_d2itm (x: d2itm): void
 fun prerr_d2itm (x: d2itm): void
 
-fun fprint_d2itmlst : fprint_type (d2itmlst)
-fun print_d2itmlst (xs: d2itmlst): void
-fun prerr_d2itmlst (xs: d2itmlst): void
+fun fprint_d2pitm : fprint_type (d2pitm)
+fun fprint_d2pitmlst : fprint_type (d2pitmlst)
 
 (* ****** ****** *)
 
 fun d2sym_make (
-  loc: location, dq: $SYN.d0ynq, id: symbol, d2is: d2itmlst
+  loc: location, dq: $SYN.d0ynq, id: symbol, d2pis: d2pitmlst
 ) : d2sym // end of [d2sym_make]
 
 fun fprint_d2sym : fprint_type (d2sym)

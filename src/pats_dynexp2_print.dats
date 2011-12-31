@@ -82,11 +82,12 @@ case+ x of
 | D2ITMmacvar d2v => begin
     prstr "D2ITMmacvar("; fprint_d2var (out, d2v); prstr ")"
   end // end of [D2ITMmacvar]
-| D2ITMsymdef (sym, d2is) => {
+| D2ITMsymdef
+    (sym, d2pis) => {
     val () = prstr "D2ITMsymdef("
     val () = $SYM.fprint_symbol (out, sym)
     val () = prstr "; "
-    val () = fprint_d2itmlst (out, d2is)
+    val () = fprint_d2pitmlst (out, d2pis)
     val () = prstr ")"
   } // end of [D2ITMsymdef]
 | D2ITMvar d2v => begin
@@ -103,8 +104,21 @@ fprint_d2itmlst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_d2itm)
 // end of [fprint_d2itmlst]
 
-implement print_d2itmlst (xs) = fprint_d2itmlst (stdout_ref, xs)
-implement prerr_d2itmlst (xs) = fprint_d2itmlst (stderr_ref, xs)
+implement
+fprint_d2pitm
+  (out, x) = {
+  val D2PITM (pval, d2i) = x
+  val () = fprint_string (out, "D2PITM(")
+  val () = fprint_int (out, pval)
+  val () = fprint_string (out, ", ")
+  val () = fprint_d2itm (out, d2i)
+  val () = fprint_string (out, ")")
+} // end of [fprint_d2pitm]
+
+implement
+fprint_d2pitmlst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_d2pitm)
+// end of [fprint_d2pitmlst]
 
 (* ****** ****** *)
 

@@ -131,18 +131,21 @@ val dq = qid.impqi0de_qua and id = qid.impqi0de_sym
 val def = impdec.i1mpdec_def
 //
 fun aux1 (
-  d2is: d2itmlst
+  d2pis: d2pitmlst
 ) :<cloref1> List_vt (d2cst) =
-  case+ d2is of
-  | list_cons (d2i, d2is) => (
-    case+ d2i of
-    | D2ITMcst (d2c) => let
-        val ismat = d2cst_match_def (d2c, def)
-      in
-        if ismat then list_vt_cons (d2c, aux1 (d2is)) else aux1 (d2is)
-      end (* end of [D2ITMcst] *)
-    | _ => aux1 (d2is)
-    ) // end of [list_cons]
+  case+ d2pis of
+  | list_cons (d2pi, d2pis) => let
+      val D2PITM (_(*pval*), d2i) = d2pi
+    in
+      case+ d2i of
+      | D2ITMcst (d2c) => let
+          val d2cs = aux1 (d2pis)
+          val ismat = d2cst_match_def (d2c, def)
+        in
+          if ismat then list_vt_cons (d2c, d2cs) else d2cs
+        end (* end of [D2ITMcst] *)
+      | _ => aux1 (d2pis)
+    end // end of [list_cons]
   | list_nil () => list_vt_nil ()
 (* end of [aux1] *)
 fun aux2 (
@@ -162,10 +165,11 @@ val ans = the_d2expenv_find_qua (dq, id)
 in
 //
 case+ ans of
-| ~Some_vt (d2i) => (case+ d2i of
+| ~Some_vt (d2i) => (
+  case+ d2i of
   | D2ITMcst (d2c) => Some_vt (d2c)
-  | D2ITMsymdef (sym, d2is) => let
-      val d2cs = aux1 (d2is) in aux2 (d2cs)
+  | D2ITMsymdef (sym, d2pis) => let
+      val d2cs = aux1 (d2pis) in aux2 (d2cs)
     end // end of [D2ITMsymdef]
   | _ => let
       val () = auxerr2 (impdec) in None_vt () // HX: error is reported
