@@ -85,7 +85,8 @@ extern fun d2exp_trup_tmpid (d2e0: d2exp): d3exp
 
 extern
 fun d2exp_trup_arg_body (
-  loc0: location, fc0: funclo, lin: int, npf: int, p2ts: p2atlst, d2e: d2exp
+  loc0: location
+, fc0: funclo, lin: int, npf: int, p2ts: p2atlst, d2e: d2exp
 ) : (s2exp, p3atlst, d3exp)
 
 (* ****** ****** *)
@@ -120,6 +121,7 @@ case+ d2e0.d2exp_node of
 | D2Ecst (d2c) => d2exp_trup_cst (loc0, d2c)
 //
 | D2Ebool (b(*bool*)) => d2exp_trup_bool (d2e0, b)
+| D2Eint (rep(*string*)) => d2exp_trup_int (d2e0, rep)
 | D2Echar (c(*char*)) => d2exp_trup_char (d2e0, c)
 //
 | D2Ei0nt (tok) => let

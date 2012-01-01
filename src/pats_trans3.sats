@@ -111,13 +111,15 @@ fun d3explst_trdn_arg
 // end of [d3explst_trdn_arg]
 
 (* ****** ****** *)
-
+//
+fun d2exp_trup_bool (d2e0: d2exp, b: bool): d3exp
+fun d2exp_trup_int (d2e0: d2exp, rep: string): d3exp
+fun d2exp_trup_char (d2e0: d2exp, c: char): d3exp
+fun d2exp_trup_string (d2e0: d2exp, str: string): d3exp
+//
 fun d2exp_trup_i0nt (
   d2e0: d2exp, base: int, rep: string, sfx: uint
 ) : d3exp // end of [d2exp_trup_int]
-fun d2exp_trup_bool (d2e0: d2exp, b: bool): d3exp
-fun d2exp_trup_char (d2e0: d2exp, c: char): d3exp
-fun d2exp_trup_string (d2e0: d2exp, str: string): d3exp
 fun d2exp_trup_f0loat
   (d2e0: d2exp, rep: string, sfx: uint): d3exp
 // end of [d2exp_trup_float]

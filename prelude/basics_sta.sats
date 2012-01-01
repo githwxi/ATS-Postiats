@@ -76,8 +76,8 @@ abst@ype
 g0int_t0ype (a:t@ype) = a
 stadef g0int = g0int_t0ype
 abst@ype
-g1int_t0ype_int (a:t@ype, int) = g0int (a)
-stadef g1int = g1int_t0ype_int
+g1int_int_t0ype (a:t@ype, int) = g0int (a)
+stadef g1int = g1int_int_t0ype
 typedef g1int (a:t@ype) = [i:int] g1int (a, i)
 
 typedef g1intLt
@@ -99,8 +99,8 @@ abst@ype
 g0uint_t0ype (a:t@ype) = a
 stadef g0uint = g0uint_t0ype
 abst@ype
-g1uint_t0ype_int (a:t@ype, int) = g0uint (a)
-stadef g1uint = g1uint_t0ype_int
+g1uint_int_t0ype (a:t@ype, int) = g0uint (a)
+stadef g1uint = g1uint_int_t0ype
 typedef g1uint (a:t@ype) = [i:nat] g1uint (a, i)
 
 typedef g1uintLt

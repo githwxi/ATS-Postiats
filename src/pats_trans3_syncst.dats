@@ -72,6 +72,43 @@ staload "pats_trans3.sats"
 (* ****** ****** *)
 
 implement
+d2exp_trup_int
+  (d2e0, rep) = let
+  val loc0 = d2e0.d2exp_loc
+  val rep1 = (s2s)rep
+  val inf = $INT.intinf_make_string (rep1)
+  val s2e = s2exp_int_intinf_t0ype (inf)
+in
+  d3exp_int (loc0, s2e, rep, inf)
+end // end of [d2exp_trup_int]
+
+implement
+d2exp_trup_bool
+  (d2e0, b) = let
+  val loc0 = d2e0.d2exp_loc
+  val s2f = s2exp_bool_bool_t0ype (b) in d3exp_bool (loc0, s2f, b)
+end // end of [d2exp_trup_bool]
+
+implement
+d2exp_trup_char
+  (d2e0, c) = let
+  val loc0 = d2e0.d2exp_loc
+  val s2f = s2exp_char_char_t0ype (c) in d3exp_char (loc0, s2f, c)
+end // end of [d2exp_trup_char]
+
+implement
+d2exp_trup_string
+  (d2e0, str) = let
+  val loc0 = d2e0.d2exp_loc
+  val n = string_length (str)
+  val s2f = s2exp_string_int_type (n)
+in
+  d3exp_string (loc0, s2f, str)
+end // end of [d2exp_trup_string]
+
+(* ****** ****** *)
+
+implement
 d2exp_trup_i0nt
   (d2e0, base, rep, sfx) = let
   val loc0 = d2e0.d2exp_loc
@@ -124,7 +161,11 @@ in
 //
 case+ sfx of
 | _ when sfx = 0u => let
-    val s2f = s2exp_int_t0ype () in d3exp_int (loc0, s2f, rep, inf)
+    val s2e =
+      s2exp_int_intinf_t0ype (inf)
+    // end of [val]
+  in
+    d3exp_int (loc0, s2e, rep, inf)
   end // end of [default]
 | _ => let
     val sfx = $UN.cast {string} (p_sfx)
@@ -163,33 +204,7 @@ case+ sfx of
   end // end of [_]
 // end of [case]
 //
-end // end of [d2exp_trup_int]
-
-(* ****** ****** *)
-
-implement
-d2exp_trup_bool
-  (d2e0, b) = let
-  val loc0 = d2e0.d2exp_loc
-  val s2f = s2exp_bool_bool_t0ype (b) in d3exp_bool (loc0, s2f, b)
-end // end of [d2exp_trup_bool]
-
-implement
-d2exp_trup_char
-  (d2e0, c) = let
-  val loc0 = d2e0.d2exp_loc
-  val s2f = s2exp_char_char_t0ype (c) in d3exp_char (loc0, s2f, c)
-end // end of [d2exp_trup_char]
-
-implement
-d2exp_trup_string
-  (d2e0, str) = let
-  val loc0 = d2e0.d2exp_loc
-  val n = string_length (str)
-  val s2f = s2exp_string_int_type (n)
-in
-  d3exp_string (loc0, s2f, str)
-end // end of [d2exp_trup_string]
+end // end of [d2exp_trup_i0nt]
 
 implement
 d2exp_trup_f0loat
@@ -234,7 +249,7 @@ case+ 0 of
     d3exp_float (loc0, s2e, rep)
   end // end of [_]
 // end of [case]
-end // end of [d2exp_trup_float]
+end // end of [d2exp_trup_f0loat]
 
 (* ****** ****** *)
 

@@ -206,9 +206,9 @@ the_g0int_t0ype = s2cstref_make "g0int_t0ype"
 implement
 the_g0uint_t0ype = s2cstref_make "g0uint_t0ype"
 implement
-the_g1int_t0ype = s2cstref_make "g1int_t0ype"
+the_g1int_t0ype = s2cstref_make "g1int_int_t0ype"
 implement
-the_g1uint_t0ype = s2cstref_make "g1uint_t0ype"
+the_g1uint_t0ype = s2cstref_make "g1uint_int_t0ype"
 
 local
 
@@ -232,7 +232,7 @@ fun auxg1i (
   knd: s2cst, ind: s2exp
 ) : s2exp = let
   val knd = s2exp_cst (knd)
-  val g1i = s2cstref_get_cst (the_g0int_t0ype)
+  val g1i = s2cstref_get_cst (the_g1int_t0ype)
 in
   s2exp_cstapp (g1i, list_cons (knd, list_sing (ind)))
 end // end of [auxg1i]
@@ -241,7 +241,7 @@ fun auxg1u (
   knd: s2cst, ind: s2exp
 ) : s2exp = let
   val knd = s2exp_cst (knd)
-  val g1u = s2cstref_get_cst (the_g0uint_t0ype)
+  val g1u = s2cstref_get_cst (the_g1uint_t0ype)
 in
   s2exp_cstapp (g1u, list_cons (knd, list_sing (ind)))
 end // end of [auxg1u]
