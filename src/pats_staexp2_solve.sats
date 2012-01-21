@@ -116,6 +116,13 @@ fun labs2explst_tyleq_solve_err (
   loc: location, ls2es1: labs2explst, ls2es2: labs2explst, err: &int
 ) : void // end of [labs2explst_tyleq_solve_err]
 
+fun // HX: handling abstract types
+s2explst_tyleq_solve_argsrtlst_err (
+  loc: location
+, argsrts: syms2rtlst // HX: containing info on argument variances
+, s2es1: s2explst, s2es2: s2explst, err: &int
+) : void // end of [s2explst_tyleq_solve_argvarlst_err]
+
 (* ****** ****** *)
 
 (* end of [pats_staexp2_solve.sats] *)

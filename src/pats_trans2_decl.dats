@@ -277,7 +277,7 @@ fn d1atsrtdec_tr (
     , false // isrec
     , false // isasp
     , None () // islst
-    , list_nil () // argvar
+    , list_nil () // argvarlst
     , None () // def
     ) // end of [s2cst_make]
     val () = s2cst_set_tag (s2c, i)
@@ -329,14 +329,14 @@ fn d1atsrtdeclst_tr
         val s2t_eqeq = s2rt_fun (s2ts_arg, s2rt_bool)
         val s2c_eqeq = s2cst_make (
           EQEQ // sym
-        , d1c.d1atsrtdec_loc
+        , d1c.d1atsrtdec_loc // location
         , s2t_eqeq // srt
         , None () // isabs
         , false // iscon
         , false // isrec
         , false // isasp
         , None () // islst
-        , list_nil () // argvar 
+        , list_nil () // argvarlst
         , None () // def
         ) // end of [val]
         val () = the_s2expenv_add_scst (s2c_eqeq)
@@ -390,7 +390,7 @@ fn s1tacst_tr
   , false // isrec
   , false // isasp
   , None () // islst
-  , list_nil () // argvar
+  , list_nil () // argvarlst
   , None () // def
   ) // end of [s2cst_make]
 in
@@ -405,7 +405,9 @@ fn s1tacon_tr (
   val id = d.s1tacon_sym
   val loc = d.s1tacon_loc
 //
-  val argvar = l2l (list_map_fun (d.s1tacon_arg, a1msrt_tr_symsrt))
+  val argvars = l2l (
+    list_map_fun (d.s1tacon_arg, a1msrt_tr_symsrt)
+  ) // end of [val]
 //
   val s2t_fun = let
     fun aux (
@@ -413,7 +415,8 @@ fn s1tacon_tr (
     ) : s2rt =
       case+ xss of
       | list_cons (xs, xss) => let
-          val s2ts_arg = list_map_fun<syms2rt><s2rt> (xs, lam x =<0> x.1)
+          val s2ts_arg =
+            list_map_fun<syms2rt><s2rt> (xs, lam x =<0> x.1)
           val s2t_res = s2rt_fun ((l2l)s2ts_arg, s2t_res)
         in
           aux (s2t_res, xss)
@@ -421,9 +424,14 @@ fn s1tacon_tr (
       | list_nil () => s2t_res
     // end of [aux]
   in
-    aux (s2t_res, argvar)
+    aux (s2t_res, argvars)
   end : s2rt // end of [val]
-//
+(*
+  val () = (
+    print "s1tacon_tr: sym = "; $SYM.print_symbol (id); print_newline ();
+    print "s1tacon_tr: s2t_fun = "; print_s2rt (s2t_fun); print_newline ();
+  ) // end of [val]
+*)
   val (pfenv | ()) = the_s2expenv_push_nil ()
 //
   val s2vss = let
@@ -439,8 +447,9 @@ fn s1tacon_tr (
     in
       s2vs
     end // end of [f2]
+    val s2vss = list_map_fun (argvars, f2)
   in
-    l2l (list_map_fun (argvar, f2))
+    l2l (s2vss)
   end : List (s2varlst) // end of [val]
   val def = let
     fun aux (
@@ -457,8 +466,10 @@ fn s1tacon_tr (
           s2e_lam
         end // end of [list_cons]
       | list_nil () => s2e
+     // end of [aux]
+     val def = d.s1tacon_def
    in
-     case+ d.s1tacon_def of
+     case+ def of
      | Some s1e => let
          val s2e =
            s1exp_trdn (s1e, s2t_res)
@@ -481,7 +492,7 @@ fn s1tacon_tr (
   , false // isrec
   , false // isasp
   , None () // islst
-  , argvar // argvar
+  , argvars // argvarlst
   , None () // def
   ) // end of [val]
 in
@@ -566,32 +577,42 @@ fn auxerr (d: s1expdef): void = {
   val () = the_trans2errlst_add (T2E_s1expdef_tr (d))
 } // end of [auxerr]
 //
-  val res1 = s1rtopt_tr (d.s1expdef_res)
-  val res = (case+ res of
-    | Some s2t => (case+ res1 of
-      | Some s2t1 => let
-          val test = s2rt_ltmat1 (s2t1, s2t)
-        in
-          if test then res1 else (auxerr (d); res)
-        end // end of [Some]
-      | None () => res
-      ) // end of [Some]
-    | None () => res1
-  ) : s2rtopt // end of [val]
-  val def = s1expdef_tr_def (d.s1expdef_arg, res, d.s1expdef_def)
+val sym = d.s1expdef_sym
+and loc = d.s1expdef_loc
+and arg = d.s1expdef_arg
+and def = d.s1expdef_def
+val res1 =
+  s1rtopt_tr (d.s1expdef_res)
+// end of [val]
+val res2 = (case+ res of
+  | Some s2t => (case+ res1 of
+    | Some s2t1 => let
+        val test = s2rt_ltmat1 (s2t1, s2t)
+      in
+        if test then res1 else (auxerr (d); res)
+      end // end of [Some]
+    | None () => res
+    ) // end of [Some]
+  | None () => res1
+) : s2rtopt // end of [val]
+//
+val def2 = s1expdef_tr_def (arg, res2, def)
+//
 in
-  s2cst_make (
-    d.s1expdef_sym // symbol
-  , d.s1expdef_loc // location
-  , def.s2exp_srt // srt
-  , None () // isabs
-  , false // iscon
-  , false // isrec
-  , false // isasp
-  , None () // islst
-  , list_nil () // argvar
-  , Some (def) // def
-  ) // end of [s2cst_make]
+//
+s2cst_make (
+  sym // name
+, loc // location
+, def2.s2exp_srt // srt
+, None () // isabs
+, false // iscon
+, false // isrec
+, false // isasp
+, None () // islst
+, list_nil () // argvar
+, Some (def2) // definition
+) (* end of [s2cst_make] *)
+//
 end // end of [s1expdef_tr]
 
 fn s1expdeflst_tr
@@ -1061,7 +1082,7 @@ fn d1cstdec_tr (
   val s2t_cst = (
     if dcstkind_is_proof (dck) then s2rt_prop else s2rt_t0ype
   ) : s2rt // end of [val]
-  var s2e_cst = s1exp_trdn (d1c.d1cstdec_typ, s2t_cst)
+  var s2e_cst = s1exp_trdn (d1c.d1cstdec_type, s2t_cst)
   val arylst = s2exp_get_arylst (s2e_cst)
   val extdef = d1c.d1cstdec_extdef
   val d2c = d2cst_make (sym, loc, fil, dck, s2qs, arylst, s2e_cst, extdef)
@@ -1133,7 +1154,8 @@ fn v1ardec_tr (
   val s2v_ptr = s2var_make_id_srt (sym, s2rt_addr) // same name
   val os2e_ptr = Some (s2exp_var s2v_ptr)
   val () = d2var_set_addr (d2v_ptr, os2e_ptr)
-  val typ = (case+ d1c.v1ardec_typ of
+  val typ = (
+    case+ d1c.v1ardec_type of
     | Some s1e => let
         val s2e = s1exp_trdn_impredicative (s1e) in Some (s2e)
       end // end of [Some]
@@ -1412,7 +1434,7 @@ case+ d1c0.d1ecl_node of
     dck, decarg, d1cs
   ) => let
     val (pfenv | ()) = the_s2expenv_push_nil ()
-    val s2qss = l2l (list_map_fun (decarg, q1marg_tr))
+    val s2qss = l2l (list_map_fun (decarg, q1marg_tr_dec))
     val d2cs = d1cstdeclst_tr (dck, s2qss, d1cs)
     val () = the_s2expenv_pop_free (pfenv | (*none*))
   in
@@ -1438,7 +1460,7 @@ case+ d1c0.d1ecl_node of
     val () = (case+ decarg of
       | list_cons _ => the_tmplev_inc () | list_nil _ => ()
     ) // end of [val]
-    val s2qss = l2l (list_map_fun (decarg, q1marg_tr))
+    val s2qss = l2l (list_map_fun (decarg, q1marg_tr_dec))
     val () = s2qualstlst_set_tmplev (s2qss, the_tmplev_get ())
     val d2cs = let
       val level = the_d2varlev_get () in

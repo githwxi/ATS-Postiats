@@ -179,7 +179,7 @@ end // end of [s1expitm_backslash]
 fn s0qua_tr
   (s0q: s0qua): s1qua =
   case+ s0q.s0qua_node of
-  | S0QUAprop s0p => s1qua_prop (s0q.s0qua_loc, s0exp_tr s0p)
+  | S0QUAprop (s0p) => s1qua_prop (s0q.s0qua_loc, s0exp_tr s0p)
   | S0QUAvars (id, ids, s0te) =>
       s1qua_vars (s0q.s0qua_loc, list_cons (id, ids), s0rtext_tr s0te)
     // end of [S0QUAvars]

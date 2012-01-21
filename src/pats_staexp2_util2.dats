@@ -34,6 +34,7 @@
 
 staload UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
@@ -598,6 +599,137 @@ case s2en10 of
 | _ => $raise (SYNEQexn)
 //
 end // end of [s2hnf_syneq]
+
+(* ****** ****** *)
+
+local
+
+fun s2exp_prenexize (
+  knd: int // 0/1: exi/uni
+, s2e0: s2exp
+, s2vs_res: &s2varlst_vt
+, s2ps_res: &s2explst_vt
+, flag: &int
+) : s2exp = let
+  val s2e0 = s2exp_hnfize s2e0
+in
+//
+case+ s2e0.s2exp_node of
+| S2Eexi (s2vs, s2ps, s2e_body) => (
+    if knd = 0 then
+      s2exp_prenexize_work (knd, s2vs, s2ps, s2e_body, s2vs_res, s2ps_res, flag)
+    else s2e0 // end of [if]
+  ) // end of [S2Eexi]
+| S2Euni (s2vs, s2ps, s2e_body) => (
+    if knd > 0 then
+      s2exp_prenexize_work (knd, s2vs, s2ps, s2e_body, s2vs_res, s2ps_res, flag)
+    else s2e0 // end of [if]
+  ) // end of [S2Euni]
+| S2Etyrec (tyrecknd, npf, ls2es) => let
+    val flag0 = flag
+    val ls2es = labs2explst_prenexize (knd, ls2es, s2vs_res, s2ps_res, flag)
+  in
+    if flag > flag0 then
+      s2exp_tyrec_srt (s2e0.s2exp_srt, tyrecknd, npf, ls2es)
+    else s2e0 // end of [if]
+  end // end of [S2Etyrec]
+| _ => s2e0 // end of [_]
+//
+end // end of [s2exp_prenexize]
+
+and s2exp_prenexize_work (
+  knd: int
+, s2vs: s2varlst, s2ps: s2explst, s2e_body: s2exp
+, s2vs_res: &s2varlst_vt
+, s2ps_res: &s2explst_vt
+, flag: &int
+) : s2exp = let
+  var sub = stasub_make_nil ()
+  val s2vs = stasub_extend_svarlst (sub, s2vs)
+  val s2ps = s2explst_subst_vt (sub, s2ps) // HX: returning a linear list
+  val s2e_body = s2exp_subst (sub, s2e_body)
+  val () = stasub_free (sub)
+  val () = flag := flag + 1
+  val () = s2vs_res := list_vt_reverse_append (s2vs, s2vs_res);
+  val () = s2ps_res := list_vt_reverse_append (s2ps, s2ps_res);
+  val s2e_body = s2exp_prenexize (knd, s2e_body, s2vs_res, s2ps_res, flag)
+in
+  s2e_body
+end // end of [s2exp_prenexize_main]
+
+and s2explst_prenexize (
+  knd: int
+, s2es0: s2explst
+, s2vs_res: &s2varlst_vt
+, s2ps_res: &s2explst_vt
+, flag: &int
+) : s2explst = let
+in
+//
+case+ s2es0 of
+| list_cons (s2e, s2es) => let
+    val flag0 = flag
+    val s2e = s2exp_prenexize (knd, s2e, s2vs_res, s2ps_res, flag)
+    val s2es = s2explst_prenexize (knd, s2es, s2vs_res, s2ps_res, flag)
+  in
+    if flag > flag0 then list_cons (s2e, s2es) else s2es0
+  end // end of [cons]
+| list_nil () => list_nil ()
+//
+end // end of [s2explst_prenexize]
+
+and labs2explst_prenexize (
+  knd: int
+, ls2es0: labs2explst
+, s2vs_res: &s2varlst_vt
+, s2ps_res: &s2explst_vt
+, flag: &int
+) : labs2explst = let
+in
+//
+case+ ls2es0 of
+| list_cons (ls2e, ls2es) => let
+    val flag0 = flag
+    val SLABELED (l, name, s2e) = ls2e
+    val s2e = s2exp_prenexize (knd, s2e, s2vs_res, s2ps_res, flag)
+    val ls2e = (
+      if flag > flag0 then SLABELED (l, name, s2e) else ls2e
+    ) : labs2exp // end of [val]
+    val ls2es = labs2explst_prenexize (knd, ls2es, s2vs_res, s2ps_res, flag)
+  in
+    if flag > flag0 then list_cons (ls2e, ls2es) else ls2es0
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [labs2explst_prenexize]
+
+in // in of [local]
+
+implement
+s2exp_absuni (s2e) = let
+  var flag: int = 0
+  var s2vs_res: s2varlst_vt = list_vt_nil ()
+  and s2ps_res: s2explst_vt = list_vt_nil ()
+  val s2e = s2exp_prenexize (1(*uni*), s2e, s2vs_res, s2ps_res, flag)
+  val s2vs = list_vt_reverse s2vs_res
+  and s2ps = list_vt_reverse s2ps_res
+in
+  (s2e, s2vs, s2ps)
+end // end of [s2exp_absuni]
+
+implement
+s2exp_opnexi (s2e) = let
+  var flag: int = 0
+  var s2vs_res: s2varlst_vt = list_vt_nil ()
+  and s2ps_res: s2explst_vt = list_vt_nil ()
+  val s2e = s2exp_prenexize (0(*exi*), s2e, s2vs_res, s2ps_res, flag)
+  val s2vs = list_vt_reverse s2vs_res
+  and s2ps = list_vt_reverse s2ps_res
+in
+  (s2e, s2vs, s2ps)
+end // end of [s2exp_opnexi]
+
+end // end of [local]
 
 (* ****** ****** *)
 

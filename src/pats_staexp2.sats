@@ -90,6 +90,9 @@ typedef s2varset = s2varset_type
 absviewtype s2varset_viewtype // assumed in [pats_staexp2_svar.dats]
 viewtypedef s2varset_vt = s2varset_viewtype
 //
+absviewtype s2varbindmap_viewtype
+viewtypedef s2varbindmap = s2varbindmap_viewtype
+//
 (* ****** ****** *)
 
 abstype s2Var_type // assumed in [pats_staexp2_sVar.dats]
@@ -186,11 +189,28 @@ val s2rt_eff : s2rt // effects
 // HX: pre-defined predicative sorts
 //
 val s2rt_prop : s2rt
+val s2rt_prop_pos : s2rt
+val s2rt_prop_neg : s2rt
+//
 val s2rt_type : s2rt
+val s2rt_type_pos : s2rt
+val s2rt_type_neg : s2rt
+//
 val s2rt_t0ype : s2rt
+val s2rt_t0ype_pos : s2rt
+val s2rt_t0ype_neg : s2rt
+//
 val s2rt_view : s2rt
+val s2rt_view_pos : s2rt
+val s2rt_view_neg : s2rt
+//
 val s2rt_viewtype : s2rt
+val s2rt_viewtype_pos : s2rt
+val s2rt_viewtype_neg : s2rt
+//
 val s2rt_viewt0ype : s2rt
+val s2rt_viewt0ype_pos : s2rt
+val s2rt_viewt0ype_neg : s2rt
 //
 val s2rt_types : s2rt
 //
@@ -208,6 +228,8 @@ fun s2rt_is_prf (x: s2rt): bool // is proof?
 fun s2rt_is_prgm (x: s2rt): bool // is program?
 fun s2rt_is_lin (x: s2rt): bool
 fun s2rt_is_impredicative (x: s2rt): bool
+
+fun s2rt_get_pol (x: s2rt): int // neg/neu/pos: -1/0/1
 
 (* ****** ****** *)
 
@@ -302,6 +324,8 @@ s2exp_node =
 //
   | S2Eat of (s2exp, s2exp) // for at-views
   | S2Esizeof of (s2exp) // for sizes of types
+//
+  | S2Eeqeq of (s2exp, s2exp) // static equality
 //
   | S2Eapp of (s2exp, s2explst) // static application
   | S2Elam of (s2varlst, s2exp) // static abstraction
@@ -406,7 +430,7 @@ fun s2cst_make (
 , isrec: bool
 , isasp: bool
 , islst: Option @(d2con(*nil*), d2con(*cons*))
-, argvar: List (syms2rtlst) // information on arg variance
+, argsrtss: List (syms2rtlst) // HX: containing info on arg variances
 , def: s2expopt
 ) : s2cst // end of [s2cst_make]
 
@@ -415,7 +439,7 @@ fun s2cst_make_dat (
 , loc: location
 , s2ts_arg: s2rtlstlst
 , s2t_res: s2rt
-, argvar: List (syms2rtlst)
+, argsrtss: List (syms2rtlst) // HX: containing info on arg variances
 ) : s2cst // end of [s2cst_make_dat]
 
 (* ****** ****** *)
@@ -443,7 +467,7 @@ fun s2cst_get_islst (x: s2cst): Option @(d2con, d2con)
 fun s2cst_set_islst (x: s2cst, lst: Option @(d2con, d2con)): void
 
 fun s2cst_get_arylst (x: s2cst): List int // arity list
-fun s2cst_get_argvar (x: s2cst): List (syms2rtlst) // arg variance list
+fun s2cst_get_argsrtss (x: s2cst): List (syms2rtlst) // arg variances
 
 fun s2cst_get_conlst (x: s2cst): Option d2conlst
 fun s2cst_set_conlst (x: s2cst, lst: Option d2conlst): void
@@ -476,6 +500,9 @@ overload compare with compare_s2cst_s2cst
 (* ****** ****** *)
 
 fun s2cst_is_abstract (x: s2cst): bool
+fun s2cst_is_listlike (x: s2cst): bool
+fun s2cst_is_singular (x: s2cst): bool
+fun s2cst_subeq (s2c1: s2cst, s2c2: s2cst): bool
 
 (* ****** ****** *)
 
@@ -553,6 +580,12 @@ fun s2varset_vt_union
   (xs: s2varset_vt, ys: s2varset_vt): s2varset_vt
 
 (* ****** ****** *)
+
+fun s2varbindmap_make_nil (): s2varbindmap
+fun s2varbindmap_remove (map: &s2varbindmap, s2v: s2var): void
+fun s2varbindmap_listize (map: !s2varbindmap): List_vt @(s2var, s2exp)
+
+(* ****** ****** *)
 //
 // HX: [s2Var] is assumed in [pats_staexp2_sVar.dats]
 //
@@ -605,9 +638,9 @@ fun fprint_s2Var : fprint_type (s2Var)
 
 (* ****** ****** *)
 
-fun s2Varset_nil (): s2Varset
-
+fun s2Varset_make_nil (): s2Varset
 fun s2Varset_add (xs: s2Varset, x: s2Var): s2Varset
+fun s2Varset_is_member (xs: s2Varset, x: s2Var): bool
 
 (* ****** ****** *)
 //
@@ -696,6 +729,10 @@ fun s2exp_at
   (s2e1: s2exp, s2e2: s2exp): s2exp
 // end of [s2exp_at]
 fun s2exp_sizeof (s2e_type: s2exp): s2exp
+
+(* ****** ****** *)
+
+fun s2exp_eqeq (s2e1: s2exp, s2e2: s2exp): s2exp
 
 (* ****** ****** *)
 
@@ -791,11 +828,7 @@ fun fprint_s2explst : fprint_type (s2explst)
 fun print_s2explst (xs: s2explst): void
 fun prerr_s2explst (xs: s2explst): void
 
-(* ****** ****** *)
-
 fun fprint_labs2explst : fprint_type (labs2explst)
-
-(* ****** ****** *)
 
 fun fprint_wths2explst : fprint_type (wths2explst)
 
@@ -808,8 +841,24 @@ fun fprint_s2eff : fprint_type (s2eff)
 fun fprint_s2rtext : fprint_type (s2rtext)
 
 (* ****** ****** *)
+//
+// HX: for reporting error messages
+//
+fun fpprint_s2exp : fprint_type (s2exp)
+fun pprint_s2exp (s2e: s2exp): void
+and pprerr_s2exp (s2e: s2exp): void
 
-fun s2exp_is_prf (s2e: s2exp): bool // s2e.s2rt <= s2rt_prop
+fun fpprint_s2explst : fprint_type (s2explst)
+fun pprint_s2explst (s2es: s2explst): void
+and pprerr_s2explst (s2es: s2explst): void
+
+fun fpprint_labs2explst : fprint_type (labs2explst)
+fun fpprint_wths2explst : fprint_type (wths2explst)
+//
+(* ****** ****** *)
+
+fun s2exp_is_prf (x: s2exp): bool
+fun s2exp_is_impredicative (x: s2exp): bool
 
 (* ****** ****** *)
 
@@ -947,6 +996,7 @@ t2mpmarg = '{
 } // end of [t2mpmarg]
 
 typedef t2mpmarglst = List (t2mpmarg)
+viewtypedef t2mpmarglst_vt = List_vt (t2mpmarg)
 
 fun fprint_t2mpmarg : fprint_type (t2mpmarg)
 

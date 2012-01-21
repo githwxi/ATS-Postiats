@@ -438,15 +438,16 @@ end (* end of [d2exp_app_sta] *)
 
 implement
 d2exp_app_dyn (
-  loc0
-, d2e_fun, npf, locarg, darg
+  loc0, d2e_fun, npf, locarg, darg
 ) = let
-//
+(*
   val () = (
     print "d2exp_app_fun: d2e_fun = "; print_d2exp d2e_fun; print_newline ()
   ) // end of [val]
-//
-  val d2a = D2EXPARGdyn (npf, locarg, darg)
+*)
+  val d2a =
+    D2EXPARGdyn (npf, locarg, darg)
+  // end of [val]
   val node = (
     case+ d2e_fun.d2exp_node of
     | D2Eapplst (d2e_fun, d2as) => let

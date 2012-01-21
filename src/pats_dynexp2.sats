@@ -475,7 +475,6 @@ d2exp_node =
 //
   | D2Esym of d2sym // overloaded dynamic symbol
 //
-//
   | D2Eloopexn of int(*knd*)
 //
   | D2Efoldat of (* folding at a given address *)

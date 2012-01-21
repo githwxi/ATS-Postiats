@@ -155,10 +155,8 @@ f2undec_tr (d2c0) = let
     | Some s2e_ann => let
 // (*
         val () = (
-          print "f2undec_tr: s2e_ann = "; print_s2exp (s2e_ann); print_newline ()
-        ) // end of [val]
-        val () = (
-          print "f2undec_tr: d2e_def = "; print_d2exp (d2e_def); print_newline ()
+          print "f2undec_tr: s2e_ann = "; print_s2exp (s2e_ann); print_newline ();
+          print "f2undec_tr: d2e_def = "; print_d2exp (d2e_def); print_newline ();
         ) // end of [val]
 // *)
       in

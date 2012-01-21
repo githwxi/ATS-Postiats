@@ -85,7 +85,11 @@ fun stasub_find
   (sub: !stasub, s2v: s2var): Option_vt (s2exp)
 // end of [stasub_find]
 
+(*
 fun stasub_get_domain (sub: !stasub): List_vt (s2var)
+*)
+
+fun stasub_occurcheck (sub: !stasub, s2V: s2Var): bool
 
 (* ****** ****** *)
 
@@ -94,16 +98,14 @@ fun stasub_extend_svarlst
 // end of [stasub_extend_svarlst]
 
 (* ****** ****** *)
-
+//
 fun s2exp_subst (sub: !stasub, s2e: s2exp): s2exp
+//
 fun s2explst_subst (sub: !stasub, s2es: s2explst): s2explst
+fun s2explst_subst_vt (sub: !stasub, s2es: s2explst): s2explst_vt
+//
 fun s2expopt_subst (sub: !stasub, os2e: s2expopt): s2expopt
-(*
-fun s2explstlst_subst
-  (sub: !stasub, s2ess: s2explstlst): s2explstlst
-// end of [s2explstlst_subst]
-*)
-
+//
 (* ****** ****** *)
 
 fun s2exp_alpha 
@@ -148,6 +150,15 @@ fun s2kexplst_ismat (xs1: s2kexplst, xs2: s2kexplst): bool
 
 fun s2zexp_merge (x1: s2zexp, x2: s2zexp): s2zexp
 
+(* ****** ****** *)
+//
+// HX: implemented in [pats_staexp2_util2.dats]
+//
+fun s2exp_absuni (s2e: s2exp): @(s2exp, s2varlst_vt, s2explst_vt)
+//
+fun s2exp_opnexi (s2e: s2exp): @(s2exp, s2varlst_vt, s2explst_vt)
+fun s2explst_opnexi (s2es: s2explst): @(s2explst, s2varlst_vt, s2explst_vt)
+//
 (* ****** ****** *)
 
 (* end of [pats_staexp2_util.sats] *)

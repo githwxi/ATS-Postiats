@@ -114,4 +114,23 @@ end // end of [d2explst_trdn_elt]
 
 (* ****** ****** *)
 
+implement
+d2exp_trdn_ifhead
+  (d2e0, s2e_if) = let
+  val loc0 = d2e0.d2exp_loc
+  val- D2Eifhead
+    (inv, d2e_test, d2e_then, od2e_else) = d2e0.d2exp_node
+  // end of [val]
+  val d3e_test = d2exp_trup (d2e_test)
+(*
+  val res = i2nvresstate_update (res)
+  val sbis = the_d2varset_env_stbefitemlst_save ()
+  val sac = staftscstr_initialize (res, sbis)
+*)
+in
+  exit (1)
+end // end of [d2exp_trdn_ifhead]
+
+(* ****** ****** *)
+
 (* end of [pats_trans3_exp_dn.dats] *)

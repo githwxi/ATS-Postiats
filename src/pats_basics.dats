@@ -82,7 +82,7 @@ test_polkind (knd) = let
   val polflag = uint_of (POLFLAG)
   val knd = knd \land_uint_uint polflag
 in
-  if knd = 0u then 0 else if knd = 1u then 1 else ~1
+  if knd = 0u then 0 else (if knd < polflag then 1 else ~1)
 end // end of [test_polkind]
 
 (* ****** ****** *)

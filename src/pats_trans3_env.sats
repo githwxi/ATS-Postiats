@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
 staload
 LOC = "pats_location.sats"
 typedef location = $LOC.location
@@ -114,8 +118,12 @@ fun h3ypo_eqeq
 
 (* ****** ****** *)
 
-fun trans3_env_add_sVar (s2V: s2Var): void
-fun trans3_env_add_sVarlst (s2Vs: s2Varlst): void
+fun fprint_c3str : fprint_type (c3str)
+fun fprint_c3strkind : fprint_type (c3strkind)
+fun fprint_h3ypo : fprint_type (h3ypo)
+fun fprint_s3itm : fprint_type (s3itm)
+fun fprint_s3itmlst : fprint_type (s3itmlst)
+fun fprint_s3itmlstlst : fprint_type (s3itmlstlst)
 
 (* ****** ****** *)
 
@@ -125,17 +133,10 @@ fun s2exp_Var_make_var (loc: location, s2v: s2var): s2exp
 (* ****** ****** *)
 
 fun s2exp_uni_instantiate_all
-  (s2e: s2exp, locarg: location, err: &int): s2exp
-(*
-fun s2exp_uni_instantiate_one
-  (s2e: s2exp, locarg: location, err: &int): s2exp
-fun s2epx_uni_instantiate_seq (
-  s2e: s2exp, locarg: location, arg: s2explst, err: &int
-) : s2exp // end of [s2exp_uni_instantiate_seq]
-*)
+  (s2e: s2exp, locarg: location, err: &int): (s2exp, s2explst_vt)
 
 fun s2exp_uni_instantiate_sexparglst
-  (s2e: s2exp, arg: s2exparglst, err: &int): s2exp
+  (s2e: s2exp, arg: s2exparglst, err: &int): (s2exp, s2explst_vt)
 // end of [s2exp_uni_instantiate_sexparglst]
 
 (* ****** ****** *)
@@ -155,11 +156,61 @@ fun s2exp_tmp_instantiate_tmpmarglst (
 
 absview trans3_env_push_v
 
+fun trans3_env_pop
+  (pf: trans3_env_push_v | (*none*)): s3itmlst_vt
+// end of [trans3_env_pop]
+
+fun trans3_env_pop_and_add
+  (pf: trans3_env_push_v | loc: location, knd: c3strkind): void
+// end of [trans3_env_pop_and_add]
+
 fun trans3_env_pop_and_add_main
-  (pf: trans3_env_push_v | (*none*)): void
+  (pf: trans3_env_push_v | loc: location): void
 // end of [trans3_env_pop_and_add_main]
 
 fun trans3_env_push (): (trans3_env_push_v | void)
+
+(* ****** ****** *)
+
+fun trans3_env_add_svar (s2v: s2var): void
+fun trans3_env_add_svarlst (s2vs: s2varlst): void
+
+fun trans3_env_add_sVar (s2V: s2Var): void
+fun trans3_env_add_sVarlst (s2Vs: s2Varlst): void
+
+fun trans3_env_add_cstr (c3s: c3str): void
+
+fun trans3_env_add_prop (loc: location, s2p: s2exp): void
+fun trans3_env_add_proplst (loc: location, s2ps: s2explst): void
+
+fun trans3_env_add_eqeq
+  (loc: location, s2e1: s2exp, s2e2: s2exp): void
+// end of [trans3_env_add_eqeq]
+
+(* ****** ****** *)
+
+fun trans3_env_hypadd_prop (loc: location, s2p: s2exp): void
+fun trans3_env_hypadd_proplst (loc: location, s2ps: s2explst): void
+
+(* ****** ****** *)
+//
+// HX: for the purpose of debugging
+//
+fun fprint_the_s2varbindmap (out: FILEref): void
+//
+fun fprint_the_s3itmlst (out: FILEref): void
+fun fprint_the_s3itmlstlst (out: FILEref): void
+//
+(* ****** ****** *)
+
+fun s2exp_opnexi_and_add
+  (loc: location, s2e: s2exp): s2exp
+// end of [s2exp_opnexi_and_add]
+
+(* ****** ****** *)
+
+fun d3exp_open_and_add (d3e: d3exp): void
+fun d3explst_open_and_add (d3es: d3explst): void
 
 (* ****** ****** *)
 

@@ -1752,7 +1752,9 @@ fun loop (
 ) : void = let
 //
 fun auxsrt (
-  s2t1: s2rt, ids: i0delst, s2vs: &s2varlst_vt
+  s2t1: s2rt
+, ids: i0delst
+, s2vs: &s2varlst_vt
 ) : void =
   case+ ids of
   | list_cons (id, ids) => let
@@ -1761,7 +1763,7 @@ fun auxsrt (
       val () = s2vs := list_vt_cons (s2v, s2vs);
     in
       auxsrt (s2t1, ids, s2vs)
-    end
+    end // end of [list_cons]
   | list_nil () => ()
 (* end of [auxsrt] *)
 //
@@ -1838,23 +1840,46 @@ case+ s1qs of
 //
 end // end of [loop]
 //
-var s2vs: s2varlst_vt = list_vt_nil ()
-var s2ps: s2explst_vt = list_vt_nil ()
+var s2vs
+  : s2varlst_vt = list_vt_nil ()
+var s2ps
+  : s2explst_vt = list_vt_nil ()
 //
 val () = loop (s1qs, s2vs, s2ps)
 //
-val s2vs = l2l (list_vt_reverse (s2vs))
-val s2ps = l2l (list_vt_reverse (s2ps))
+val s2vs = list_vt_reverse (s2vs)
+val s2ps = list_vt_reverse (s2ps)
 //
 in // in of [let]
 //
-s2qua_make (s2vs, s2ps)
+s2qua_make ((l2l)s2vs, (l2l)s2ps)
 //
 end // end of [s1qualst_tr]
 
 (* ****** ****** *)
 
-implement q1marg_tr (q1ma) = s1qualst_tr (q1ma.q1marg_arg)
+implement
+q1marg_tr (q1ma) = s1qualst_tr (q1ma.q1marg_arg)
+
+implement
+q1marg_tr_dec (q1ma) = let
+//
+val s2q = s1qualst_tr (q1ma.q1marg_arg)
+//
+in
+//
+if list_is_nil (s2q.s2qua_sps) then s2q else let
+  val loc = q1ma.q1marg_loc
+  val () = prerr_error3_loc (loc)
+  val () = filprerr_ifdebug "q1marg_tr_dec"
+  val () = prerr ": template arguments cannot be constrained."
+  val () = prerr_newline ()
+  val () = the_trans2errlst_add (T2E_q1marg_tr_dec (q1ma))
+in
+  s2qua_make (s2q.s2qua_svs, list_nil) // HX: sps is discarded
+end // end of [if]
+//
+end // end of [q1marg_tr_dec]
 
 (* ****** ****** *)
 

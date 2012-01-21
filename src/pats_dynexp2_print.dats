@@ -285,11 +285,17 @@ fprint_d2exp (out, x) = let
 in
 //
 case+ x.d2exp_node of
+//
 | D2Evar (x) => {
     val () = prstr "D2Evar("
     val () = fprint_d2var (out, x)
     val () = prstr ")"
   } // end of [D2Evar]
+| D2Ecst (d2c) => {
+    val () = prstr "D2Ecst("
+    val () = fprint_d2cst (out, d2c)
+    val () = prstr ")"
+  } // end of [D2Ecst]
 //
 | D2Ebool (x) => {
     val () = prstr "D2Ebool("
@@ -342,22 +348,26 @@ case+ x.d2exp_node of
     val () = prstr ")"
   } // end of [D2Ef0loat]
 //
+| D2Ecstsp (csp) => {
+    val () = prstr "D2Ecstsp("
+    val () = $SYN.fprint_cstsp (out, csp)
+    val () = prstr ")"
+  } // end of [D2Ecstsp]
+//
+| D2Etop () => {
+    val () = prstr "D2Etop()"
+  } // end of [D2Etop]
 | D2Eempty () => {
     val () = prstr "D2Eempty()"
   } // end of [D2Eempty]
-| D2Eextval (s2f, rep) => {
-    val () = prstr "D2Eextval("
-    val () = fprint_s2exp (out, s2f)
-    val () = prstr "; "
-    val () = fprint_string (out, rep)
-    val () = prstr ")"
-  }
 //
-| D2Ecst (d2c) => {
-    val () = prstr "D2Ecst("
-    val () = fprint_d2cst (out, d2c)
-    val () = prstr ")"
-  }
+| D2Eextval (s2e, name) => {
+    val () = prstr "D2Eextval("
+    val () = fprint_s2exp (out, s2e)
+    val () = prstr "; "
+    val () = fprint_string (out, name)
+  } // end of [D2Eextval]
+//
 | D2Econ (
     d2c, s2as, npf, _(*loc*), d2es
   ) => {
@@ -370,13 +380,34 @@ case+ x.d2exp_node of
     val () = prstr "; "
     val () = fprint_d2explst (out, d2es)
     val () = prstr ")"
-  }
+  } // end of [D2Econ]
 //
 | D2Esym (d2s) => {
     val () = prstr "D2Esym("
     val () = fprint_d2sym (out, d2s)
     val () = prstr ")"
   }
+//
+| D2Eloopexn (knd) => {
+    val () = prstr "D2Eloopexn("
+    val () = fprint_int (out, knd)
+    val () = prstr ")"
+  } // end of [D2Eloopexn]
+//
+| D2Efoldat (s2as, d2e) => {
+    val () = prstr "D2Efoldat("
+    val () = fprint_s2exparglst (out, s2as)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Efoldat]
+| D2Efreeat (s2as, d2e) => {
+    val () = prstr "D2Efreeat("
+    val () = fprint_s2exparglst (out, s2as)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Efreeat]
 //
 | D2Etmpid
     (d2e_id, t2mas) => {
@@ -386,6 +417,21 @@ case+ x.d2exp_node of
     val () = $UT.fprintlst (out, t2mas, "; ", fprint_t2mpmarg)
     val () = prstr ")"
   }
+//
+| D2Elet (d2cs, d2e) => {
+    val () = prstr "D2Elet("
+    val () = prstr "..."
+    val () = prstr "; "
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Elet]
+| D2Ewhere (d2e, d2cs) => {
+    val () = prstr "D2Ewhere("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr "; "
+    val () = prstr "..."
+    val () = prstr ")"
+  } // end of [D2Ewhere]
 //
 | D2Eapplst (d2e, d2as) => {
     val () = prstr "D2Eapplst("
@@ -406,6 +452,34 @@ case+ x.d2exp_node of
     val () = fprint_d2exp (out, d2e)
     val () = prstr ")"
   }
+//
+| D2Eifhead (
+    invres, _test, _then, _else
+  ) => {
+    val () = prstr "D2Eifhead("
+    val () = fprint_d2exp (out, _test)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, _then)
+    val () = (
+      case+ _else of
+      | Some (d2e) => {
+          val () = prstr "; "; val () = fprint_d2exp (out, d2e)
+        } // end of [Some]
+      | None () => ()
+    ) : void // end of [val]
+    val () = prstr ")"
+  } // end of [D2Eifhead]
+| D2Esifhead (
+    invres, _test, _then, _else
+  ) => {
+    val () = prstr "D2Esifhead("
+    val () = fprint_s2exp (out, _test)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, _then)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, _else)
+    val () = prstr ")"
+  } // end of [D2Eifhead]
 //
 | D2Elam_dyn (
     lin, npf, p2ts, d2e
@@ -431,6 +505,12 @@ case+ x.d2exp_node of
     val () = prstr ")"
   } // end of [D2Elam_sta]
 //
+| D2Elam_met _ => {
+    val () = prstr "D2Elam_met("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+//
 | D2Etup (knd, npf, d2es) => {
     val () = prstr "D2Etup(knd="
     val () = fprint_int (out, knd)
@@ -455,6 +535,19 @@ case+ x.d2exp_node of
     val () = prstr ")"
   } // end of [D2Eseq]
 //
+| D2Eraise (d2e) => {
+    val () = prstr "D2Eraise("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Eraise]
+| D2Edelay (knd, d2e) => {
+    val () = prstr "D2Edelay("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Edelay]
+//
 | D2Eann_type (d2e, s2f) => {
     val () = prstr "D2Eann_type("
     val () = fprint_d2exp (out, d2e)
@@ -476,6 +569,10 @@ case+ x.d2exp_node of
     val () = fprint_funclo (out, fc)
     val () = prstr ")"
   } // end of [D2Eann_funclo]
+//
+| D2Eerr () => {
+    val () = prstr "D2Eerr()"
+  } // end of [D2Eerr]
 //
 | _ => prstr "D2E...(...)"
 //

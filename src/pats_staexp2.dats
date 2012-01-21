@@ -169,6 +169,13 @@ s2exp_sizeof (s2e) = hnf '{
 (* ****** ****** *)
 
 implement
+s2exp_eqeq (s2e1, s2e2) = hnf '{
+  s2exp_srt= s2rt_bool, s2exp_node= S2Eeqeq (s2e1, s2e2)
+} // end of [s2exp_eqeq]
+
+(* ****** ****** *)
+
+implement
 s2exp_app_srt
   (s2t, _fun, _arg) = '{
   s2exp_srt= s2t, s2exp_node= S2Eapp (_fun, _arg)
@@ -355,7 +362,13 @@ s2exp_s2rt_err () = s2exp_err (s2rt_err ())
 (* ****** ****** *)
 
 implement
-s2exp_is_prf (s2e) = s2rt_is_prf (s2e.s2exp_srt)
+s2exp_is_prf
+  (s2e) = s2rt_is_prf (s2e.s2exp_srt)
+// end of [s2exp_is_prf]
+implement
+s2exp_is_impredicative
+  (s2e) = s2rt_is_impredicative (s2e.s2exp_srt)
+// end of [s2exp_is_impredicative]
 
 (* ****** ****** *)
 

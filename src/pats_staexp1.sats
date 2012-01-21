@@ -827,7 +827,7 @@ d1cstdec = '{
   d1cstdec_loc= location
 , d1cstdec_fil= filename
 , d1cstdec_sym= symbol
-, d1cstdec_typ= s1exp
+, d1cstdec_type= s1exp
 , d1cstdec_extdef= dcstextdef
 } // end of [d1cstdec]
 
@@ -836,7 +836,7 @@ typedef d1cstdeclst = List d1cstdec
 fun d1cstdec_make (
   loc: location
 , fil: filename
-, sym: symbol, typ: s1exp, extdef: dcstextdef
+, sym: symbol, s1e: s1exp, extdef: dcstextdef
 ) : d1cstdec // end of [d1cstdec_make]
 
 fun fprint_d1cstdec : fprint_type (d1cstdec)

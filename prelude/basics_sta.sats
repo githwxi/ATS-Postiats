@@ -123,7 +123,11 @@ int_kind = $extype"atstype_int"
 //
 typedef int0 = g0int (int_kind)
 typedef int1 (i:int) = g1int (int_kind, i)
-stadef int = int0 and int = int1
+stadef int = int0
+stadef int = int1
+//
+typedef Int = [i:int] int1 (i)
+typedef Nat = [i:int | i >= 0] int1 (i)
 //
 typedef intLt (n:int) = g1intLt (int_kind, n)
 typedef intLte (n:int) = g1intLte (int_kind, n)
@@ -139,8 +143,11 @@ typedef natLt (n:int) = intBtw (0, n)
 typedef natLte (n:int) = intBtwe (0, n)
 //
 typedef uint0 = g0uint (int_kind)
-typedef uint1 (i:int) = g1uint (int_kind, i)
-stadef uint = uint0 and uint = uint1
+typedef uint1 (n:int) = g1uint (int_kind, n)
+stadef uint = uint0
+stadef uint = uint1
+stadef uInt = [n:int] uint1 (n)
+//
 typedef uintLt (n:int) = g1uintLt (int_kind, n)
 typedef uintLte (n:int) = g1uintLte (int_kind, n)
 typedef uintGt (n:int) = g1uintGt (int_kind, n)
@@ -154,37 +161,45 @@ abst@ype
 lint_kind = $extype"atstype_lint"
 typedef lint0 = g0int (lint_kind)
 typedef lint1 (i:int) = g1int (lint_kind, i)
-stadef lint = lint0 and lint = lint1
+stadef lint = lint0
+stadef lint = lint1
 typedef ulint0 = g0uint (lint_kind)
 typedef ulint1 (i:int) = g1uint (lint_kind, i)
-stadef ulint = ulint0 and ulint = ulint1
+stadef ulint = ulint0
+stadef ulint = ulint1
 
 abst@ype
 llint_kind = $extype"atstype_llint"
 typedef llint0 = g0int (llint_kind)
 typedef llint1 (i:int) = g1int (llint_kind, i)
-stadef llint = llint0 and llint = llint1
+stadef llint = llint0
+stadef llint = llint1
 typedef ullint0 = g0uint (llint_kind)
 typedef ullint1 (i:int) = g1uint (llint_kind, i)
-stadef ullint = ullint0 and ullint = ullint1
+stadef ullint = ullint0
+stadef ullint = ullint1
 
 abst@ype
 sint_kind = $extype"atstype_sint"
 typedef sint0 = g0int (sint_kind)
 typedef sint1 (i:int) = g1int (sint_kind, i)
-stadef sint = sint0 and sint = sint1
+stadef sint = sint0
+stadef sint = sint1
 typedef usint0 = g0uint (sint_kind)
 typedef usint1 (i:int) = g1uint (sint_kind, i)
-stadef usint = usint0 and usint = usint1
+stadef usint = usint0
+stadef usint = usint1
 
 abst@ype
 ssint_kind = $extype"atstype_ssint"
 typedef ssint0 = g0int (ssint_kind)
 typedef ssint1 (i:int) = g1int (ssint_kind, i)
-stadef ssint = ssint0 and ssint = ssint1
+stadef ssint = ssint0
+stadef ssint = ssint1
 typedef ussint0 = g0uint (ssint_kind)
 typedef ussint1 (i:int) = g1uint (ssint_kind, i)
-stadef ussint = ussint0 and ussint = ussint1
+stadef ussint = ussint0
+stadef ussint = ussint1
 
 (* ****** ****** *)
 
@@ -240,9 +255,9 @@ int16_kind = $extype"atstype_int16"
 //
 typedef int16_0 = g0int (int16_kind)
 typedef int16_1 (i:int) = g1int (int16_kind, i)
+stadef int16 = int16_0
 stadef int16 = int16_1
 stadef Int16 = [i:int] int16_1 (i)
-stadef int16 = int16_0
 //
 typedef uint16_0 = g0uint (int16_kind)
 typedef uint16_1 (i:int) = g1uint (int16_kind, i)

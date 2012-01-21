@@ -89,11 +89,12 @@ s2cst_struct = @{ (* builtin or abstract *)
 // HX: is list-like?
 //
 , s2cst_islst= Option @(d2con(*nil*), d2con(*cons*))
+//
 , s2cst_arylst= List int // arity list
 // 
 // HX: -1/0/1: contravarint/invariant/covarint
 //
-, s2cst_argvar= List (syms2rtlst)
+, s2cst_argsrtss= List (syms2rtlst)
 //
 // HX: the associated dynamic constructors
 //
@@ -128,15 +129,9 @@ in // in of [local]
 
 implement
 s2cst_make (
-  id, loc
-, s2t
-, isabs
-, iscon
-, isrec
-, isasp
-, islst
-, argvar
-, def
+  id, loc, s2t
+, isabs, iscon, isrec, isasp, islst
+, argsrtss, def
 ) = let
 //
 val stamp = $STP.s2cst_stamp_make ()
@@ -154,11 +149,11 @@ val () = p->s2cst_isasp := isasp
 val () = p->s2cst_iscpy := s2cstopt_encode (None)
 val () = p->s2cst_islst := islst
 val () = p->s2cst_arylst := s2rt_get_arylst (s2t)
-val () = p->s2cst_argvar := argvar
+val () = p->s2cst_argsrtss := argsrtss
 val () = p->s2cst_conlst := None ()
 val () = p->s2cst_sup := s2cstlst_encode (list_nil)
 val () = p->s2cst_supcls := list_nil ()
-val () = p->s2cst_sVarset := s2Varset_nil ()
+val () = p->s2cst_sVarset := s2Varset_make_nil ()
 val () = p->s2cst_stamp := stamp
 val () = p->s2cst_tag := (~1)
 //
@@ -205,9 +200,9 @@ s2cst_get_isrec (s2c) = let
 end // end of [s2cst_get_isrec]
 
 implement
-s2cst_get_argvar (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_argvar
-end // end of [s2cst_get_argvar]
+s2cst_get_argsrtss (s2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_argsrtss
+end // end of [s2cst_get_argsrtss]
 
 implement
 s2cst_get_islst (s2c) = let
@@ -229,9 +224,8 @@ end // end of [s2cst_set_conlst]
 
 implement
 s2cst_get_sup (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c)
-in
-  s2cstlst_decode (p->s2cst_sup)
+  val (vbox pf | p) =
+    ref_get_view_ptr (s2c) in s2cstlst_decode (p->s2cst_sup)
 end // end of [s2cst_sup_get]
 implement
 s2cst_add_sup (s2c, sup) = let
@@ -273,29 +267,32 @@ end // end of [local]
 
 implement
 s2cst_make_dat (
-  id, loc, s2tss_arg, s2t_res, argvar
+  id, loc, s2tss_arg, s2t_res, argsrtss
 ) = let
-  val s2t_fun =
-    aux (s2tss_arg, s2t_res) where {
-    fun aux (xs: s2rtlstlst, s2t: s2rt): s2rt =
-      case+ xs of
-      | list_cons (x, xs) => s2rt_fun (x, aux (xs, s2t))
-      | list_nil () => s2t
-    // end of [aux]
-  } // end of [val]
+//
+fun aux (
+  xs: s2rtlstlst, s2t: s2rt
+) : s2rt = case+ xs of
+  | list_cons (x, xs) => s2rt_fun (x, aux (xs, s2t))
+  | list_nil () => s2t
+// end of [aux]
+val s2t_fun = aux (s2tss_arg, s2t_res)
+//
 in
-  s2cst_make (
-    id // name
-  , loc // the location of declaration
-  , s2t_fun // sort
-  , None () // isabs
-  , true // iscon
-  , false // isrec
-  , false // isasp
-  , None () // islst
-  , argvar // argumnet variance
-  , None () // definition
-  ) // end of [s2cst_make]
+//
+s2cst_make (
+  id // name
+, loc // the location of declaration
+, s2t_fun // sort
+, None () // isabs
+, true // iscon
+, false // isrec
+, false // isasp
+, None () // islst
+, argsrtss // argsortlstlst
+, None () // definition
+) (* end of [s2cst_make] *)
+//
 end // end of [s2cst_make_dat]
 
 (* ****** ****** *)
@@ -331,6 +328,40 @@ implement
 s2cst_is_abstract (x) =
   case+ s2cst_get_isabs (x) of Some _ => true | None _ => false
 // end of [s2cst_is_abstract]
+
+implement
+s2cst_is_listlike (x) =
+  case+ s2cst_get_islst (x) of Some _ => true | None _ => false
+// end of [s2cst_is_listlike]
+
+implement
+s2cst_is_singular (s2c) = let
+  val opt = s2cst_get_conlst (s2c) in
+  case+ opt of Some d2cs => list_is_sing (d2cs) | None () => false
+end // end of [s2cst_is_singular]
+
+(* ****** ****** *)
+
+implement
+s2cst_subeq
+  (s2c1, s2c2) = let
+  fun aux (
+    s2c1: s2cst, s2c2: s2cst
+  ) : bool =
+    if s2c1 = s2c2 then
+      true else auxlst (s2cst_get_sup (s2c1), s2c2)
+    // end of [if]
+  and auxlst (
+    s2cs1: s2cstlst, s2c2: s2cst
+  ) : bool =
+    case+ s2cs1 of
+    | list_cons (s2c1, s2cs1) =>
+        if aux (s2c1, s2c2) then true else auxlst (s2cs1, s2c2)
+    | list_nil () => false
+  // end of [auxlst]
+in
+  aux (s2c1, s2c2)
+end // end of [s2cst_subeq]
 
 (* ****** ****** *)
 

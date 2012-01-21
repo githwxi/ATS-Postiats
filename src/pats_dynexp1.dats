@@ -298,7 +298,7 @@ implement
 i1nvarg_make (
   loc, id, os1e
 ) = '{
-  i1nvarg_loc= loc, i1nvarg_sym= id, i1nvarg_typ= os1e
+  i1nvarg_loc= loc, i1nvarg_sym= id, i1nvarg_type= os1e
 } // end of [i1nvarg_make]
 
 implement
@@ -797,13 +797,13 @@ f1undec_make
 
 implement
 v1ardec_make (
-  loc, knd, id, loc_id, typ, wth, ini
+  loc, knd, id, loc_id, s1e, wth, ini
 ) = '{
   v1ardec_loc= loc
 , v1ardec_knd= knd
 , v1ardec_sym= id
 , v1ardec_sym_loc= loc_id
-, v1ardec_typ= typ
+, v1ardec_type= s1e
 , v1ardec_wth= wth // i0deopt
 , v1ardec_ini= ini
 } // end of [v1ardec_make]

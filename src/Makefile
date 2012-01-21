@@ -133,6 +133,7 @@ SOURCES := \
   pats_stacst2.sats \
   pats_stacst2.dats \
   pats_staexp2_print.dats \
+  pats_staexp2_pprint.dats \
   pats_staexp2_sort.dats \
   pats_staexp2_scst.dats \
   pats_staexp2_svar.dats \
@@ -174,6 +175,7 @@ SOURCES := \
   pats_trans3_util.dats \
   pats_trans3_env.sats \
   pats_trans3_env.dats \
+  pats_trans3_env_print.dats \
   pats_trans3_pat.dats \
   pats_trans3_syncst.dats \
   pats_trans3_exp_up.dats \

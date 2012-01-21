@@ -100,7 +100,7 @@ s2var_make_id_srt (id, s2t) = let
   val () = p->s2var_sym := id
   val () = p->s2var_srt := s2t
   val () = p->s2var_tmplev := 0
-  val () = p->s2var_sVarset := s2Varset_nil ()
+  val () = p->s2var_sVarset := s2Varset_make_nil ()
   val () = p->s2var_stamp := stamp
 //
 in
@@ -134,6 +134,14 @@ implement
 s2var_set_sVarset (s2v, xs) = let
   val (vbox pf | p) = ref_get_view_ptr (s2v) in p->s2var_sVarset := xs
 end // end of [s2var_set_sVarset]
+implement
+s2varlst_set_sVarset
+  (s2vs, xs) = case+ s2vs of
+  | list_cons (s2v, s2vs) => (
+      s2var_set_sVarset (s2v, xs); s2varlst_set_sVarset (s2vs, xs)
+    ) // end of [list_cons]
+  | list_nil () => ()
+// end of [s2varlst_set_sVarset]
 
 implement
 s2var_get_stamp (s2v) = $effmask_ref let
@@ -300,6 +308,37 @@ end // end of [s2varset_vt_delist]
 
 implement
 s2varset_vt_union (xs, ys) = $LS.linset_union (xs, ys, cmp)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+staload
+MAP = "libats/SATS/linmap_avltree.sats"
+staload _ = "libats/DATS/linmap_avltree.dats"
+
+val cmp = lam (
+  s2v1: s2var, s2v2: s2var
+) : int =<cloref>
+  compare_s2var_s2var (s2v1, s2v2)
+// end of [val]
+
+assume s2varbindmap_viewtype = $MAP.map (s2var, s2exp)
+
+in // in of [local]
+
+implement
+s2varbindmap_make_nil () = $MAP.linmap_make_nil ()
+
+implement
+s2varbindmap_remove (map, k) = let
+  val _(*removed*) = $MAP.linmap_remove<s2var,s2exp> (map, k, cmp) in (*nothing*)
+end // end of [s2varbindmap_remove]
+
+implement
+s2varbindmap_listize (map) = $MAP.linmap_listize<s2var,s2exp> (map)
 
 end // end of [local]
 

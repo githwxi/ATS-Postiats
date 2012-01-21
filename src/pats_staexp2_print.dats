@@ -82,17 +82,20 @@ case+ x of
     val () = prstr "S2ETBASpre("
     val () = fprint_symbol (out, sym)
     val () = prstr ")"
-  }
+  } // end of [S2RTBASpre]
 | S2RTBASimp (sym, knd) => {
     val () = prstr "S2ETBASimp("
     val () = fprint_symbol (out, sym)
+    val pol = test_polkind (knd)
+    val () = if pol > 0 then prstr "+"
+    val () = if pol < 0 then prstr "-"
     val () = prstr ")"
-  }
+  } // end of [S2RTBASimp]
 | S2RTBASdef (s2td) => {
     val () = prstr "S2ETBASdef("
     val () = fprint_s2rtdat (out, s2td)
     val () = prstr ")"
-  }
+  } // end of [S2RTBASdef]
 //
 end // end of [fprint_s2rtbas]
 
@@ -287,7 +290,15 @@ case+ x.s2exp_node of
     val () = prstr "S2Esizeof("
     val () = fprint_s2exp (out, s2e)
     val () = prstr ")"
-  }
+  } // end of [S2Esizeof]
+//
+| S2Eeqeq (s2e1, s2e2) => {
+    val () = prstr "S2Eeqeq("
+    val () = fprint_s2exp (out, s2e1)
+    val () = prstr "; "
+    val () = fprint_s2exp (out, s2e2)
+    val () = prstr ")"
+  } // end of [S2Eeqeq]
 //
 | S2Eapp (s2e_fun, s2es_arg) => {
     val () = prstr "S2Eapp("

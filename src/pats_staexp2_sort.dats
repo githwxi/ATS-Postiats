@@ -141,38 +141,86 @@ local
 #include "pats_basics.hats"
 //
 val s2tb_prop: s2rtbas = S2RTBASimp ($SYM.symbol_PROP, PROP_int)
+val s2tb_prop_pos: s2rtbas = S2RTBASimp ($SYM.symbol_PROP, PROP_pos_int)
+val s2tb_prop_neg: s2rtbas = S2RTBASimp ($SYM.symbol_PROP, PROP_neg_int)
+//
 val s2tb_type: s2rtbas = S2RTBASimp ($SYM.symbol_TYPE, TYPE_int)
+val s2tb_type_pos: s2rtbas = S2RTBASimp ($SYM.symbol_TYPE, TYPE_pos_int)
+val s2tb_type_neg: s2rtbas = S2RTBASimp ($SYM.symbol_TYPE, TYPE_neg_int)
+//
 val s2tb_t0ype: s2rtbas = S2RTBASimp ($SYM.symbol_T0YPE, T0YPE_int)
+val s2tb_t0ype_pos: s2rtbas = S2RTBASimp ($SYM.symbol_T0YPE, T0YPE_pos_int)
+val s2tb_t0ype_neg: s2rtbas = S2RTBASimp ($SYM.symbol_T0YPE, T0YPE_neg_int)
+//
 val s2tb_view: s2rtbas = S2RTBASimp ($SYM.symbol_VIEW, VIEW_int)
+val s2tb_view_pos: s2rtbas = S2RTBASimp ($SYM.symbol_VIEW, VIEW_pos_int)
+val s2tb_view_neg: s2rtbas = S2RTBASimp ($SYM.symbol_VIEW, VIEW_neg_int)
+//
 val s2tb_viewtype: s2rtbas = S2RTBASimp ($SYM.symbol_VIEWTYPE, VIEWTYPE_int)
+val s2tb_viewtype_pos: s2rtbas = S2RTBASimp ($SYM.symbol_VIEWTYPE, VIEWTYPE_pos_int)
+val s2tb_viewtype_neg: s2rtbas = S2RTBASimp ($SYM.symbol_VIEWTYPE, VIEWTYPE_neg_int)
+//
 val s2tb_viewt0ype: s2rtbas = S2RTBASimp ($SYM.symbol_VIEWT0YPE, VIEWT0YPE_int)
+val s2tb_viewt0ype_pos: s2rtbas = S2RTBASimp ($SYM.symbol_VIEWT0YPE, VIEWT0YPE_pos_int)
+val s2tb_viewt0ype_neg: s2rtbas = S2RTBASimp ($SYM.symbol_VIEWT0YPE, VIEWT0YPE_neg_int)
 //
 val s2tb_types: s2rtbas = S2RTBASimp ($SYM.symbol_TYPES, T0YPE_int)
 //
 in // in of [local]
 
 implement s2rt_prop = S2RTbas s2tb_prop
+implement s2rt_prop_pos = S2RTbas s2tb_prop_pos
+implement s2rt_prop_neg = S2RTbas s2tb_prop_neg
+
 implement s2rt_type = S2RTbas s2tb_type
+implement s2rt_type_pos = S2RTbas s2tb_type_pos
+implement s2rt_type_neg = S2RTbas s2tb_type_neg
+
 implement s2rt_t0ype = S2RTbas s2tb_t0ype
+implement s2rt_t0ype_pos = S2RTbas s2tb_t0ype_pos
+implement s2rt_t0ype_neg = S2RTbas s2tb_t0ype_neg
+
 implement s2rt_view = S2RTbas s2tb_view
+implement s2rt_view_pos = S2RTbas s2tb_view_pos
+implement s2rt_view_neg = S2RTbas s2tb_view_neg
+
 implement s2rt_viewtype = S2RTbas s2tb_viewtype
+implement s2rt_viewtype_pos = S2RTbas s2tb_viewtype_pos
+implement s2rt_viewtype_neg = S2RTbas s2tb_viewtype_neg
+
 implement s2rt_viewt0ype = S2RTbas s2tb_viewt0ype
+implement s2rt_viewt0ype_pos = S2RTbas s2tb_viewt0ype_pos
+implement s2rt_viewt0ype_neg = S2RTbas s2tb_viewt0ype_neg
 
 implement s2rt_types = S2RTbas s2tb_types
 
 implement
 s2rt_impredicative
   (knd) = let
-  val knd = impkind_neutralize (knd)
 in
 //
 case+ knd of
+//
 | PROP_int => s2rt_prop
 | TYPE_int => s2rt_type
 | T0YPE_int => s2rt_t0ype
 | VIEW_int => s2rt_view
 | VIEWTYPE_int => s2rt_viewtype
 | VIEWT0YPE_int => s2rt_viewt0ype
+//
+| PROP_pos_int => s2rt_prop_pos
+| PROP_neg_int => s2rt_prop_neg
+| TYPE_pos_int => s2rt_type_pos
+| TYPE_neg_int => s2rt_type_neg
+| T0YPE_pos_int => s2rt_t0ype_pos
+| T0YPE_neg_int => s2rt_t0ype_neg
+| VIEW_pos_int => s2rt_view_pos
+| VIEW_neg_int => s2rt_view_neg
+| VIEWTYPE_pos_int => s2rt_viewtype_pos
+| VIEWTYPE_neg_int => s2rt_viewtype_neg
+| VIEWT0YPE_pos_int => s2rt_viewt0ype_pos
+| VIEWT0YPE_neg_int => s2rt_viewt0ype_neg
+//
 | _ => let
 //
     val () = prerr_interror ()
@@ -221,7 +269,8 @@ s2rt_is_prgm (s2t) = (case+ s2t of
 ) // end of [s2rt_is_prgm]
 
 implement
-s2rt_is_lin (s2t) = (case+ s2t of
+s2rt_is_lin (s2t) = (
+  case+ s2t of
   | S2RTbas s2tb => (case+ s2tb of
     | S2RTBASimp (_, knd) => test_linkind (knd) | _ => false
     ) // end of [S2RTbas]
@@ -229,12 +278,21 @@ s2rt_is_lin (s2t) = (case+ s2t of
 ) // end of [s2rt_is_lin]
 
 implement
-s2rt_is_impredicative (s2t) = case+ s2t of
+s2rt_is_impredicative
+  (s2t) = case+ s2t of
   | S2RTbas s2tb => (
       case+ s2tb of S2RTBASimp _ => true | _ => false
     ) // end of [S2RTbas]
   | _ => false
 // end of [s2rt_is_impredicative]
+
+implement
+s2rt_get_pol (s2t) = case+ s2t of
+  | S2RTbas (s2tb) => (case+ s2tb of
+    | S2RTBASimp (_, knd) => test_polkind (knd) | _ => 0
+    ) // end of [S2RTbas]
+  | _ => 0 // polarity is neutral
+// end of [s2rt_get_pol]
 
 (* ****** ****** *)
 
@@ -263,9 +321,9 @@ fun s2rtnul_isnot_null {l:addr}
 (* ****** ****** *)
 
 local
-
+//
 assume s2rtVar = ref (s2rtnul)
-
+//
 in // in of [local]
 
 implement
@@ -481,7 +539,8 @@ case+ s2t1 of
     s2ts1, s2t1
   ) => (case+ s2t2 of
   | S2RTfun (s2ts2, s2t2) =>
-     if s2rtlst_ltmat (s2ts2, s2ts1, knd) then s2rt_ltmat (s2t1, s2t2, knd) else false
+     if s2rtlst_ltmat (s2ts2, s2ts1, knd)
+       then s2rt_ltmat (s2t1, s2t2, knd) else false
     // end of [S2RTfun]
   | _ => false
   )

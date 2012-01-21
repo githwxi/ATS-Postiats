@@ -61,6 +61,7 @@ datatype trans2err =
   | T2E_s1arg_trdn of (s1arg, s2rt)
   | T2E_s1marg_trdn of (s1marg, s2rtlst)
   | T2E_sp1at_trdn of (sp1at, s2rt)
+  | T2E_q1marg_tr_dec of (q1marg)
   | T2E_s1rtext_tr of (s1rtext)
   | T2E_s1expdef_tr of (s1expdef)
   | T2E_s1aspdec_tr of (s1aspdec)
@@ -169,7 +170,11 @@ fun s1qualst_tr (s1qs: s1qualst): s2qua
 
 (* ****** ****** *)
 
-fun q1marg_tr (q1ma: q1marg): s2qua // HX: [location] is discarded
+fun q1marg_tr (q1ma: q1marg): s2qua // HX: loc is discarded
+(*
+** HX: [q1marg_tr_dec] for (template) decarg
+*)
+fun q1marg_tr_dec (q1ma: q1marg): s2qua // HX: [s2ps] must be nil
 
 (* ****** ****** *)
 

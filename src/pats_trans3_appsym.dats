@@ -204,10 +204,8 @@ case+ d3as of
     end // end of [D3EXPARGsta]
   | D3EXPARGdyn
       (npf, locarg, d3es_arg) => let
-(*
-      val () = d3explst_open_and_add d3es_arg
-*)
       val s2e_fun = d3e_fun.d3exp_type
+      val () = d3explst_open_and_add (d3es_arg)
       var err: int = 0
       val s2e_fun = s2exp_uni_instantiate_all (s2e_fun, locarg, err)
       // HX: [err] is not used

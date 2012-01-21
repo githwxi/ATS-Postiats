@@ -177,7 +177,7 @@ typedef
 i1nvarg = '{
   i1nvarg_loc= location
 , i1nvarg_sym= symbol
-, i1nvarg_typ= s1expopt
+, i1nvarg_type= s1expopt
 } // end of [i1nvarg]
 
 typedef i1nvarglst = List i1nvarg
@@ -489,7 +489,7 @@ and v1ardec = '{
 , v1ardec_knd= int (* BANG: knd = 1 *)
 , v1ardec_sym= symbol
 , v1ardec_sym_loc= location
-, v1ardec_typ= s1expopt
+, v1ardec_type= s1expopt
 , v1ardec_wth= i0deopt
 , v1ardec_ini= d1expopt
 } // end of [v1ardec]

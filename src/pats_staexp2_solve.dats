@@ -50,6 +50,13 @@ overload compare with $STAMP.compare_stamp_stamp
 staload "pats_staexp2.sats"
 staload "pats_staexp2_util.sats"
 staload "pats_staexp2_error.sats"
+
+(* ****** ****** *)
+
+staload "pats_trans3_env.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2_solve.sats"
 
 (* ****** ****** *)
@@ -202,13 +209,18 @@ implement
 s2hnf_equal_solve_lVar_err
   (loc0, s2f1, s2f2, s2V1, err) = let
   val s2e2 = s2hnf2exp (s2f2)
-  val s2ze2 = s2zexp_make_s2exp (s2e2)
-  val () = s2Var_merge_szexp_err (loc0, s2V1, s2ze2, err)
+  val isimp = s2exp_is_impredicative (s2e2)
+  val () = if isimp then {
+    val s2ze2 = s2zexp_make_s2exp (s2e2)
+    val () = s2Var_merge_szexp_err (loc0, s2V1, s2ze2, err)
+  } // end of [val]
   val () = s2Var_set_link (s2V1, Some s2e2)
-  val lbs = s2Var_get_lbs (s2V1)
-  val () = s2hnf_tyleq_solve_lbs_err (loc0, lbs, s2f2, err)
-  val ubs = s2Var_get_ubs (s2V1)
-  val () = s2hnf_tyleq_solve_ubs_err (loc0, s2f2, ubs, err)
+  val () = if isimp then {
+    val lbs = s2Var_get_lbs (s2V1)
+    val () = s2hnf_tyleq_solve_lbs_err (loc0, lbs, s2f2, err)
+    val ubs = s2Var_get_ubs (s2V1)
+    val () = s2hnf_tyleq_solve_ubs_err (loc0, s2f2, ubs, err)
+  } // end of [val]
 in
   // nothing  
 end // end of [s2hnf_equal_solve_lVar_err]
@@ -222,13 +234,18 @@ implement
 s2hnf_equal_solve_rVar_err
   (loc0, s2f1, s2f2, s2V2, err) = let
   val s2e1 = s2hnf2exp (s2f1)
-  val s2ze1 = s2zexp_make_s2exp (s2e1)
-  val () = s2Var_merge_szexp_err (loc0, s2V2, s2ze1, err)
+  val isimp = s2exp_is_impredicative (s2e1)
+  val () = if isimp then {
+    val s2ze1 = s2zexp_make_s2exp (s2e1)
+    val () = s2Var_merge_szexp_err (loc0, s2V2, s2ze1, err)
+  } // end of [val]
   val () = s2Var_set_link (s2V2, Some s2e1)
-  val lbs = s2Var_get_lbs (s2V2)
-  val () = s2hnf_tyleq_solve_lbs_err (loc0, lbs, s2f1, err)
-  val ubs = s2Var_get_ubs (s2V2)
-  val () = s2hnf_tyleq_solve_ubs_err (loc0, s2f1, ubs, err)
+  val () = if isimp then {
+    val lbs = s2Var_get_lbs (s2V2)
+    val () = s2hnf_tyleq_solve_lbs_err (loc0, lbs, s2f1, err)
+    val ubs = s2Var_get_ubs (s2V2)
+    val () = s2hnf_tyleq_solve_ubs_err (loc0, s2f1, ubs, err)
+  } // end of [val]
 in
   // nothing
 end // end of [s2hnf_equal_solve_rVar_err]
@@ -310,7 +327,10 @@ val () = case+
   end // end of [_, S2Einvar]
 //
 | (_, _) when s2hnf_syneq (s2f10, s2f20) => ()
+| (_, _) => trans3_env_add_eqeq (loc0, s2e10, s2e20)
+(*
 | (_, _) => (err := err + 1)
+*)
 // end of [val]
 //
 val () = if err > err0 then
@@ -469,10 +489,28 @@ val () = case+
 //
 | (S2Eapp (s2e1_fun, s2es1_arg), _) => (
   case+ s2en20 of
+  | S2Ecst s2c2 => (
+    case+ (
+      s2e1_fun.s2exp_node
+    ) of // [case]
+    | S2Ecst s2c1 =>
+        if s2cst_subeq (s2c1, s2c2) then () else (err := err + 1)
+      // end of [S2Ecst]
+    | _ => (err := err + 1)
+    ) // end of [S2Ecst]
   | S2Eapp (s2e2_fun, s2es2_arg) => (
     case+ (
-      s2e1_fun.s2exp_node, s2e2_fun.s2exp_node
-    ) of
+      s2e1_fun.s2exp_node
+    , s2e2_fun.s2exp_node
+    ) of // [case]
+    | (S2Ecst s2c1, S2Ecst s2c2) => let
+        val subeq = s2cst_subeq (s2c1, s2c2)
+      in
+        if subeq then let
+          val- list_cons (argsrts, _) = s2cst_get_argsrtss (s2c1) in
+          s2explst_tyleq_solve_argsrtlst_err (loc0, argsrts, s2es1_arg, s2es2_arg, err)
+        end else (err := err + 1)
+      end // end of [S2Ecst, S2Ecst]
     | (_, _) => let // HX: sound but incomplete!
         val () = s2exp_equal_solve_err (loc0, s2e1_fun, s2e2_fun, err)
         val errlen = s2explst_equal_solve_err (loc0, s2es1_arg, s2es2_arg, err)
@@ -577,6 +615,44 @@ in
     end // end of [list_cons]
   | list_nil () => ()
 end // end of [s2hnf_tyleq_solve_ubs_err]
+
+(* ****** ****** *)
+
+implement
+s2explst_tyleq_solve_argsrtlst_err
+  (loc0, argsrts, s2es1, s2es2, err) = let
+(*
+  val () = (
+    print "s2explst_tyleq_solve_argsrtlst_err: enter"; print_newline ()
+  ) // end of [val]
+*)
+in
+//
+case+ s2es1 of
+| list_cons (s2e1, s2es1) => (
+  case+ s2es2 of
+  | list_cons (s2e2, s2es2) => let
+      val- list_cons
+        (argsrt, argsrts) = argsrts
+      // end of [val]
+      val pol = s2rt_get_pol (argsrt.1)
+      val () = (
+        if pol = 0 then
+          s2exp_equal_solve_err (loc0, s2e1, s2e2, err)
+        else if pol > 0 then
+          s2exp_tyleq_solve_err (loc0, s2e1, s2e2, err)
+        else // pol < 0
+          s2exp_tyleq_solve_err (loc0, s2e2, s2e1, err)
+        // end of [if]
+      ) : void // end of [val]
+    in
+      s2explst_tyleq_solve_argsrtlst_err (loc0, argsrts, s2es1, s2es2, err)
+    end // end of [list_cons]
+  | list_nil () => ()
+  ) // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [s2explst_tyleq_solve_argsrtlst_err]
 
 (* ****** ****** *)
 

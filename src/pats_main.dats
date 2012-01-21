@@ -77,6 +77,7 @@ staload TRENV2 = "pats_trans2_env.sats"
 
 staload "pats_dynexp3.sats"
 staload TRANS3 = "pats_trans3.sats"
+staload TRENV3 = "pats_trans3_env.sats"
 
 (* ****** ****** *)
 
@@ -153,7 +154,10 @@ dynload "pats_trans1_decl.dats"
 //
 dynload "pats_staexp2.dats"
 dynload "pats_stacst2.dats"
+//
 dynload "pats_staexp2_print.dats"
+dynload "pats_staexp2_pprint.dats"
+//
 dynload "pats_staexp2_sort.dats"
 dynload "pats_staexp2_scst.dats"
 dynload "pats_staexp2_svar.dats"
@@ -192,6 +196,7 @@ dynload "pats_dynexp3.dats"
 dynload "pats_trans3_error.dats"
 dynload "pats_trans3_util.dats"
 dynload "pats_trans3_env.dats"
+dynload "pats_trans3_env_print.dats"
 dynload "pats_trans3_pat.dats"
 dynload "pats_trans3_syncst.dats"
 dynload "pats_trans3_exp_up.dats"
@@ -531,8 +536,16 @@ end // end of [do_trans12]
 fn do_trans123 (
   basename: string, d0cs: d0eclist
 ) : d3eclist = let
+//
   val d2cs = do_trans12 (basename, d0cs)
+  val () = $TRENV3.trans3_env_initialize ()
   val d3cs = $TRANS3.d2eclist_tr_errck (d2cs)
+//
+  val () = {
+    val () = print "do_trans123: the_s3itmlst =\n"
+    val () = $TRENV3.fprint_the_s3itmlst (stdout_ref)
+    val () = print_newline ()
+  } // end of [val]
 //
   val () = if isdebug() then {
     val () = print "The 3rd translation (typechecking) of ["

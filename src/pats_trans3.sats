@@ -155,6 +155,10 @@ fun d2explst_trdn_elt (d2es: d2explst, s2f: s2exp): d3explst
 
 (* ****** ****** *)
 
+fun d2exp_trdn_ifhead (d2e: d2exp, s2f: s2exp): d3exp
+
+(* ****** ****** *)
+
 fun d2ecl_tr (d2c: d2ecl): d3ecl
 fun d2eclist_tr (d2cs: d2eclist): d3eclist
 

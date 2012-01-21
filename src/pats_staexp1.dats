@@ -706,7 +706,7 @@ d1cstdec_make (
   d1cstdec_loc= loc
 , d1cstdec_fil= fil
 , d1cstdec_sym= id
-, d1cstdec_typ= s1e
+, d1cstdec_type= s1e
 , d1cstdec_extdef= extdef
 } // end of [d1cstdec_make]
 

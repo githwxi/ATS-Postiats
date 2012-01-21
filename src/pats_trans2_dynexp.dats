@@ -114,8 +114,22 @@ fn d1exp_tr_dqid (
   d1e0: d1exp, dq: d0ynq, id: symbol
 ) : d2exp = let
 //
-  val loc0 = d1e0.d1exp_loc
-  val ans = the_d2expenv_find_qua (dq, id)
+fn auxerr (
+  d1e0: d1exp, dq: d0ynq, id: symbol
+) : void = {
+  val () =
+    prerr_error2_loc (d1e0.d1exp_loc)
+  // end of [val]
+  val () = filprerr_ifdebug "d1exp_tr_dqid"
+  val () = prerr ": the dynamic identifier ["
+  val () = prerr_dqid (dq, id)
+  val () = prerr "] is unrecognized."
+  val () = prerr_newline ()
+  val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
+} // end of [auxerr]
+//
+val loc0 = d1e0.d1exp_loc
+val ans = the_d2expenv_find_qua (dq, id)
 //
 in
 //
@@ -135,18 +149,19 @@ case+ ans of
       val d1e = d1exp_make_e1xp (loc0, e1xp) in d1exp_tr (d1e)
     end // end of [D2ITMe1xp]
   | D2ITMvar d2v => d2exp_var (loc0, d2v)
-  | _ => d2exp_err (loc0)
+  | _ => let
+(*
+      val () = (
+        print "d1exp_tr_dqid: d2i0 = "; print_d2itm d2i0; print_newline ()
+      ) // end of [val]
+*)
+      val () = auxerr (d1e0, dq, id)
+    in
+      d2exp_err (loc0)
+    end // end of [_]
   ) // end of [Some_vt]
 | ~None_vt () => let
-    val () = prerr_error2_loc (loc0)
-    val () = filprerr_ifdebug "d1exp_tr_dqid"
-    val () = prerr ": the dynamic identifier ["
-    val () = prerr_dqid (dq, id)
-    val () = prerr "] is unrecognized."
-    val () = prerr_newline ()
-    val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
-  in
-    d2exp_err (loc0)
+    val () = auxerr (d1e0, dq, id) in d2exp_err (loc0)
   end // end of [None_vt]
 end // end of [d1exp_tr_dqid]
 
@@ -599,7 +614,8 @@ in
 case+ ans of
 | ~Some_vt d2i => (case+ d2i of
   | D2ITMvar d2v => let
-      val typ = (case+ x.i1nvarg_typ of
+      val typ = (
+        case+ x.i1nvarg_type of
         | Some s1e => let
             val s2e = s1exp_trdn_impredicative (s1e)
           in

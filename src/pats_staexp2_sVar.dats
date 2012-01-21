@@ -111,7 +111,7 @@ p->s2Var_szexp := S2ZEVar ($UN.cast {s2Var} (p));
 p->s2Var_lbs := list_nil ();
 p->s2Var_ubs := list_nil ();
 //
-p->s2Var_sVarset := s2Varset_nil ();
+p->s2Var_sVarset := s2Varset_make_nil ();
 p->s2Var_stamp := stamp
 end // end of [val]
 //
@@ -143,7 +143,7 @@ p->s2Var_szexp := S2ZEVar ($UN.cast {s2Var} (p));
 p->s2Var_lbs := list_nil ();
 p->s2Var_ubs := list_nil ();
 //
-p->s2Var_sVarset := s2Varset_nil ();
+p->s2Var_sVarset := s2Varset_make_nil ();
 p->s2Var_stamp := stamp
 end // end of [val]
 //
@@ -279,15 +279,54 @@ end // end of [fprint_s2Var]
 (* ****** ****** *)
 
 local
-
-staload SET = "libats/SATS/funset_avltree.sats"
-staload _(*anon*) = "libats/DATS/funset_avltree.dats"
-
+//
+%{^
+typedef ats_ptr_type s2Var ;
+%} // end of [%{^]
+//
+staload SET =
+"libats/SATS/funset_avltree.sats"
+staload _(*anon*) =
+"libats/DATS/funset_avltree.dats"
+//
 assume s2Varset_type = $SET.set (s2Var)
+//
+abstype s2Var1 = $extype "s2Var"
+typedef s2Var1set = $SET.set (s2Var1)
+//
+extern castfn of_s2Var (x: s2Var):<> s2Var1
+extern castfn to_s2Var (x: s2Var1):<> s2Var
+extern castfn of_s2Varset (x: s2Varset):<> s2Var1set
+extern castfn to_s2Varset (x: s2Var1set):<> s2Varset
+//
+val cmp = $extval ($SET.cmp(s2Var1), "0")
+
+implement
+$SET.compare_elt_elt<s2Var1> (x1, x2, cmp) =
+  compare_s2Var_s2Var (to_s2Var(x1), to_s2Var(x2))
+// end of [implement]
 
 in // in of [local]
 
-implement s2Varset_nil () = $SET.funset_make_nil ()
+implement
+s2Varset_make_nil () = $SET.funset_make_nil ()
+
+implement
+s2Varset_add
+  (xs, x) = xs where {
+  val x = of_s2Var (x)
+  var xs = of_s2Varset (xs)
+  val _(*inserted*) = $SET.funset_insert<s2Var1> (xs, x, cmp)
+  val xs = to_s2Varset (xs)
+} // end of [s2Varset_add]
+
+implement
+s2Varset_is_member
+  (xs, x) = found where {
+  val x = of_s2Var (x)
+  var xs = of_s2Varset (xs)
+  val found = $SET.funset_is_member<s2Var1> (xs, x, cmp)
+} // end of [s2Varset_is_member]
 
 end // end of [local]
 

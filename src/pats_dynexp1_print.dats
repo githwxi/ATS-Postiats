@@ -570,7 +570,8 @@ fprint_v1ardec (out, x) = let
   val () = fprint_int (out, x.v1ardec_knd)
   val () = prstr "; "
   val () = fprint_symbol (out, x.v1ardec_sym)
-  val () = (case+ x.v1ardec_typ of
+  val () = (
+    case+ x.v1ardec_type of
     | Some s1e => (prstr ": "; fprint_s1exp (out, s1e))
     | None () => ()
   ) // end of [val]

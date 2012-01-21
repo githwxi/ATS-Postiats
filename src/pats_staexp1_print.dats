@@ -728,7 +728,7 @@ implement
 fprint_d1cstdec (out, x) = {
   val () = fprint_symbol (out, x.d1cstdec_sym)
   val () = fprint_string (out, " : ")
-  val () = fprint_s1exp (out, x.d1cstdec_typ)
+  val () = fprint_s1exp (out, x.d1cstdec_type)
 } // end of [d1cstdec]
 
 (* ****** ****** *)

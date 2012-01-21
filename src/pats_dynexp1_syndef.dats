@@ -94,7 +94,8 @@ d1exp_app_syndef (
         end // end of [_]
       ) // end of [D1Esexparg]
     | _ => let
-        val npf = 0 and d1es = list_sing (d1e_arg) in
+        val npf = ~1 // HX: default
+        val d1es = list_sing (d1e_arg) in
         d1exp_app_dyn (loc0, d1e_fun, d1e_arg.d1exp_loc, npf, d1es)
       end // end of [_]    
     ) // end of [_]
