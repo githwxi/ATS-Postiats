@@ -803,6 +803,8 @@ trans3_env_add_cstr
   val () = the_s3itmlst_env_add (s3i)
 } // end of [trans3_env_add_cstr]
 
+(* ****** ****** *)
+
 implement
 trans3_env_add_prop
   (loc, s2p) = case+ s2p.s2exp_node of
@@ -819,6 +821,15 @@ trans3_env_add_proplst
     ) // end of [list_cons]
   | list_nil () => ()
 // end of [trans3_env_add_proplst]
+
+implement
+trans3_env_add_proplst_vt
+  (loc, s2ps) = () where {
+  val () = trans3_env_add_proplst (loc, $UN.castvwtp1 {s2explst} (s2ps))
+  val () = list_vt_free (s2ps)
+} // end of [trans3_env_add_proplst_vt]
+
+(* ****** ****** *)
 
 implement
 trans3_env_add_eqeq
@@ -968,11 +979,25 @@ d3explst_open_and_add
 
 implement
 trans3_env_initialize () = {
-  val () =
-    s2cst_add_sup (s2c1, s2c0) where {
-    val s2c0 = s2cstref_get_cst (the_bool_t0ype)
-    val s2c1 = s2cstref_get_cst (the_bool_bool_t0ype)
-  } // end of [where]
+//
+val () =
+  s2cst_add_sup (s2c1, s2c0) where {
+  val s2c0 = s2cstref_get_cst (the_bool_t0ype)
+  val s2c1 = s2cstref_get_cst (the_bool_bool_t0ype)
+} // end of [val]
+//
+val () =
+  s2cst_add_sup (s2c1, s2c0) where {
+  val s2c0 = s2cstref_get_cst (the_g0int_t0ype)
+  val s2c1 = s2cstref_get_cst (the_g1int_int_t0ype)
+} // end of [val]
+//
+val () =
+  s2cst_add_sup (s2c1, s2c0) where {
+  val s2c0 = s2cstref_get_cst (the_g0uint_t0ype)
+  val s2c1 = s2cstref_get_cst (the_g1uint_int_t0ype)
+} // end of [val]
+//
 } // end of [trans3_env_initialize]
 
 (* ****** ****** *)

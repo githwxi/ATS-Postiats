@@ -61,9 +61,9 @@ val the_lint_kind : s2cstref
 val the_llint_kind : s2cstref
 val the_size_kind : s2cstref
 val the_g0int_t0ype : s2cstref
+val the_g1int_int_t0ype : s2cstref
 val the_g0uint_t0ype : s2cstref
-val the_g1int_t0ype : s2cstref
-val the_g1uint_t0ype : s2cstref
+val the_g1uint_int_t0ype : s2cstref
 //
 val the_char_t0ype : s2cstref
 val the_char_char_t0ype : s2cstref

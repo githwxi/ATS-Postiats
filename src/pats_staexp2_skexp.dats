@@ -380,7 +380,7 @@ case+ (x1, x2) of
 | (S2KEany (), _) => ()
 | (_, S2KEany ()) => ()
 | (S2KEcst s2c1, S2KEcst s2c2) =>
-    if s2c1 = s2c2 then () else abort ()
+    if s2cst_subeq (s2c1, s2c2) then () else abort ()
 | (S2KEvar s2v1, S2KEvar s2v2) =>
     if s2v1 = s2v2 then () else abort ()
 | (S2KEextype (name1, _arg1),

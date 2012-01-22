@@ -169,6 +169,16 @@ d3exp_tmpvar (
 (* ****** ****** *)
 
 implement
+d3exp_item
+  (loc, s2f, d2i) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eitem (d2i)
+} // end of [d3exp_item]
+
+(* ****** ****** *)
+
+implement
 d3exp_app_sta
   (loc, s2f, d3e) = '{
   d3exp_loc= loc

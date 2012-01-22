@@ -369,7 +369,7 @@ case+ x.d2exp_node of
   } // end of [D2Eextval]
 //
 | D2Econ (
-    d2c, s2as, npf, _(*loc*), d2es
+    d2c, _(*loc*), s2as, npf, _(*loc*), d2es
   ) => {
     val () = prstr "D2Econ("
     val () = fprint_d2con (out, d2c)

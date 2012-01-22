@@ -49,54 +49,54 @@
 fun{a:t@ype}
 g0int_add
   (x: g0int (a), y: g0int (a)):<> g0int (a)
-overload + with g0int_add
+overload + with g0int_add of 0
 
 fun{a:t@ype}
 g0int_sub
   (x: g0int (a), y: g0int (a)):<> g0int (a)
-overload - with g0int_sub
+overload - with g0int_sub of 0
 
 fun{a:t@ype}
 g0int_mul
   (x: g0int (a), y: g0int (a)):<> g0int (a)
-overload * with g0int_mul
+overload * with g0int_mul of 0
 
 fun{a:t@ype}
 g0int_div
   (x: g0int (a), y: g0int (a)):<> g0int (a)
-overload / with g0int_div
+overload / with g0int_div of 0
 
 (* ****** ****** *)
 
 fun{a:t@ype}
 g0int_lt (x: g0int (a), y: g0int (a)):<> bool
-overload < with g0int_lt
+overload < with g0int_lt of 0
 
 fun{a:t@ype}
 g0int_lte (x: g0int (a), y: g0int (a)):<> bool
-overload <= with g0int_lte
+overload <= with g0int_lte of 0
 
 fun{a:t@ype}
 g0int_gt (x: g0int (a), y: g0int (a)):<> bool
-overload > with g0int_gt
+overload > with g0int_gt of 0
 
 fun{a:t@ype}
 g0int_gte (x: g0int (a), y: g0int (a)):<> bool
-overload >= with g0int_gte
+overload >= with g0int_gte of 0
 
 fun{a:t@ype}
 g0int_compare (x: g0int (a), y: g0int (a)):<> bool
-overload compare with g0int_compare
+overload compare with g0int_compare of 0
 
 (* ****** ****** *)
 
 fun{a:t@ype}
 g0int_max (x: g0int (a), y: g0int (a)): g0int (a)
-overload max with g0int_max
+overload max with g0int_max of 0
 
 fun{a:t@ype}
 g0int_min (x: g0int (a), y: g0int (a)): g0int (a)
-overload min with g0int_min
+overload min with g0int_min of 0
 
 (* ****** ****** *)
 //
@@ -191,54 +191,54 @@ overload min with g1int_min of 1
 fun{a:t@ype}
 g0uint_add
   (x: g0uint (a), y: g0uint (a)):<> g0uint (a)
-overload + with g0uint_add
+overload + with g0uint_add of 0
 
 fun{a:t@ype}
 g0uint_sub
   (x: g0uint (a), y: g0uint (a)):<> g0uint (a)
-overload - with g0uint_sub
+overload - with g0uint_sub of 0
 
 fun{a:t@ype}
 g0uint_mul
   (x: g0uint (a), y: g0uint (a)):<> g0uint (a)
-overload * with g0uint_mul
+overload * with g0uint_mul of 0
 
 fun{a:t@ype}
 g0uint_div
   (x: g0uint (a), y: g0uint (a)):<> g0uint (a)
-overload / with g0uint_div
+overload / with g0uint_div of 0
 
 (* ****** ****** *)
 
 fun{a:t@ype}
 g0uint_lt (x: g0uint (a), y: g0uint (a)):<> bool
-overload < with g0uint_lt
+overload < with g0uint_lt of 0
 
 fun{a:t@ype}
 g0uint_lte (x: g0uint (a), y: g0uint (a)):<> bool
-overload <= with g0uint_lte
+overload <= with g0uint_lte of 0
 
 fun{a:t@ype}
 g0uint_gt (x: g0uint (a), y: g0uint (a)):<> bool
-overload > with g0uint_gt
+overload > with g0uint_gt of 0
 
 fun{a:t@ype}
 g0uint_gte (x: g0uint (a), y: g0uint (a)):<> bool
-overload >= with g0uint_gte
+overload >= with g0uint_gte of 0
 
 fun{a:t@ype}
 g0uint_compare (x: g0uint (a), y: g0uint (a)):<> int
-overload compare with g0uint_compare
+overload compare with g0uint_compare of 0
 
 (* ****** ****** *)
 
 fun{a:t@ype}
 g0uint_max (x: g0uint (a), y: g0uint (a)): g0uint (a)
-overload max with g0uint_max
+overload max with g0uint_max of 0
 
 fun{a:t@ype}
 g0uint_min (x: g0uint (a), y: g0uint (a)): g0uint (a)
-overload min with g0uint_min
+overload min with g0uint_min of 0
 
 (* ****** ****** *)
 //
@@ -261,12 +261,12 @@ macdef g1ofg0_uint (x) = g1ofg0_uint ,(x)
 fun{a:t@ype}
 g1uint_add {i,j:int}
   (x: g1uint (a, i), y: g1uint (a, j)):<> g1uint (a, i+j)
-overload + with g1uint_add
+overload + with g1uint_add of 1
 
 fun{a:t@ype}
 g1uint_sub {i,j:int}
   (x: g1uint (a, i), y: g1uint (a, j)):<> g1uint (a, i-j)
-overload - with g1uint_sub
+overload - with g1uint_sub of 1
 
 fun{a:t@ype}
 g1uint_mul {i,j:int}

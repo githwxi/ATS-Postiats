@@ -811,6 +811,10 @@ fun s2exp_exiuni // knd=0/1: exi/uni
 
 (* ****** ****** *)
 
+fun s2exp_unis (s2qs: s2qualst, s2f: s2exp): s2exp
+
+(* ****** ****** *)
+
 fun s2exp_wth (_res: s2exp, _with: wths2explst): s2exp
 
 (* ****** ****** *)

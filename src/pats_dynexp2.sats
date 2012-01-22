@@ -470,7 +470,7 @@ d2exp_node =
   | D2Eextval of (s2exp(*type*), string(*rep*))
 //
   | D2Econ of (
-      d2con, s2exparglst, int(*npf*), location(*arg*), d2explst
+      d2con, location(*fun*), s2exparglst, int(*npf*), location(*arg*), d2explst
     ) // end of [D2Econ]
 //
   | D2Esym of d2sym // overloaded dynamic symbol
@@ -747,8 +747,12 @@ fun d2exp_cst (loc: location, d2c: d2cst): d2exp
 
 fun d2exp_con (
   loc: location
-, d2c: d2con, sarg: s2exparglst
-, npf: int, loc: location, darg: d2explst
+, d2c: d2con
+, locfun: location // HX: for d2c+sarg
+, sarg: s2exparglst
+, npf: int
+, locarg: location
+, darg: d2explst
 ) : d2exp // end of [d2exp_con]
 
 fun d2exp_sym (loc: location, d2s: d2sym): d2exp

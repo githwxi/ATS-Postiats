@@ -343,8 +343,9 @@ d2exp_extval
 (* ****** ****** *)
 
 implement
-d2exp_con (loc, d2c, sarg, npf, loc, darg) =
-  d2exp_make (loc, D2Econ (d2c, sarg, npf, loc, darg))
+d2exp_con
+  (loc, d2c, locfun, sarg, npf, locarg, darg) =
+  d2exp_make (loc, D2Econ (d2c, locfun, sarg, npf, locarg, darg))
 // end of [d2exp_con]
 
 implement

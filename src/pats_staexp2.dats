@@ -341,6 +341,17 @@ s2exp_exiuni
 (* ****** ****** *)
 
 implement
+s2exp_unis (s2qs, s2f) =
+  case+ s2qs of
+  | list_nil () => s2f
+  | list_cons (s2q, s2qs) => (
+      s2exp_uni (s2q.s2qua_svs, s2q.s2qua_sps, s2exp_unis (s2qs, s2f))
+    ) // end of [list_cons]
+// end of [s2exp_unis]
+
+(* ****** ****** *)
+
+implement
 s2exp_wth (s2e, wths2es) = '{
   s2exp_srt= s2e.s2exp_srt, s2exp_node= S2Ewth (s2e, wths2es)
 } // end of [s2exp_wth]

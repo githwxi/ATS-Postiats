@@ -122,8 +122,22 @@ fun d2exp_trup_item (
 in
 //
 case+ d2i of
-| D2ITMcst d2c => d2exp_trup_cst (loc0, d2c)
-| D2ITMvar d2v => d2exp_trup_var (loc0, d2v)
+| D2ITMcst d2c => let
+    val s2qs =
+      d2cst_get_decarg (d2c)
+    // end of [val]
+    val s2e = d2cst_get_type (d2c)
+    val s2e = s2exp_unis (s2qs, s2e)
+  in
+    d3exp_item (loc0, s2e, d2i)
+  end
+| D2ITMvar d2v => let
+    val s2qs = d2var_get_decarg (d2v)
+    val- Some (s2e) = d2var_get_type (d2v)
+    val s2e = s2exp_unis (s2qs, s2e)
+  in
+    d3exp_item (loc0, s2e, d2i)
+  end
 | _ => let
     val () = prerr_error3_loc (loc0)
     val () = filprerr_ifdebug "d2exp_trup_item"
@@ -135,6 +149,21 @@ case+ d2i of
   end // end of [_]
 //
 end // end of [d2exp_trup_item]
+
+(* ****** ****** *)
+
+fun d3exp_trup_item
+  (d3e0: d3exp): d3exp = let
+  val loc0 = d3e0.d3exp_loc
+  val- D3Eitem (d2i) = d3e0.d3exp_node
+in
+  case+ d2i of
+  | D2ITMcst d2c => d2exp_trup_cst (loc0, d2c)
+  | D2ITMvar d2v => d2exp_trup_var (loc0, d2v)
+  | _ => let
+      val () = assertloc (false) in exit (1)
+    end // end of [_]
+end // end of [d3exp_trup_item]
 
 (* ****** ****** *)
 
@@ -166,8 +195,8 @@ fun d3pitm_make
 
 datatype
 d3exparg = 
-  | D3EXPARGdyn of
-      (int(*npf*), location(*arg*), d3explst)
+  | D3EXPARGdyn of // HX: notice the argument list [d3es]
+      (int(*npf*), location(*arg*), d3explst) // are not opened
   | D3EXPARGsta of s2exparglst
 typedef d3exparglst = List d3exparg
 viewtypedef d3exparglst_vt = List_vt d3exparg
@@ -193,22 +222,27 @@ case+ d3as of
 | list_cons (d3a, d3as) => (
   case+ d3a of
   | D3EXPARGsta s2as => let
-      var err: int = 0
+      val loc_fun = d3e_fun.d3exp_loc
       val s2e_fun = d3e_fun.d3exp_type
-      val s2e_fun =
+      var err: int = 0
+      val (s2e_fun, s2ps) =
         s2exp_uni_instantiate_sexparglst (s2e_fun, s2as, err)
       // end of [val]
+      val () = trans3_env_add_proplst_vt (loc_fun, s2ps)
       val d3e_fun = d3exp_app_sta (loc0, s2e_fun, d3e_fun)
     in
       d3exp_trup_applst (d2e0, d3e_fun, d3as)
     end // end of [D3EXPARGsta]
   | D3EXPARGdyn
       (npf, locarg, d3es_arg) => let
+      val loc_fun = d3e_fun.d3exp_loc
       val s2e_fun = d3e_fun.d3exp_type
       val () = d3explst_open_and_add (d3es_arg)
       var err: int = 0
-      val s2e_fun = s2exp_uni_instantiate_all (s2e_fun, locarg, err)
+      val (s2e_fun, s2ps) =
+        s2exp_uni_instantiate_all (s2e_fun, locarg, err)
       // HX: [err] is not used
+      val () = trans3_env_add_proplst_vt (loc_fun, s2ps)
       val d3e_fun = d3exp_app_sta (loc0, s2e_fun, d3e_fun)
     in
       case+ s2e_fun.s2exp_node of
@@ -367,12 +401,12 @@ case+ d2as of
             val d3as = list_vt_cons (D3EXPARGdyn (npf, locarg, d3es), d3as)
           in
             auxsel_arglst (xs, d2as, d3as)
-          end
+          end (* D2EXPARGdyn *)
         | D2EXPARGsta (s2as) => let
             val d3as = list_vt_cons (D3EXPARGsta (s2as), d3as)
           in
             auxsel_arglst (xs, d2as, d3as)
-          end
+          end (* D2EXPARGsta *)
       end // end of [_]
     ) // end of [list_vt_cons]
   | ~list_vt_nil () => let
@@ -426,7 +460,7 @@ d2exp_trup_applst_sym
     end // end of [f]
   in
     list_map_fun ($UN.castvwtp1 {d3pitmlst} (d3pis), f)
-  end
+  end // end of [val]
   val () = list_vt_free (d3pis)
   val xyz = auxsel_arglst (xs, d2as, list_vt_nil)
   val d3pis = xyz.0
@@ -438,6 +472,7 @@ case+ d3pis of
     d3pi, list_nil ()
   ) => let
     val d3e_fun = d3pitm_get_dexp (d3pi)
+    val d3e_fun = d3exp_trup_item (d3e_fun)
     val d3e_fun = d3exp_trup_applst (d2e0, d3e_fun, xyz.1)
   in
     d23exp_trup_applst (d2e0, d3e_fun, xyz.2)

@@ -141,7 +141,7 @@ case+ ans of
       val locarg = $LOC.location_rightmost (loc0)
     in
       d2exp_con (
-        loc0, d2c, list_nil(*sarg*), ~1(*npf*), locarg, list_nil(*darg*)
+        loc0, d2c, loc0, list_nil(*sarg*), ~1(*npf*), locarg, list_nil(*darg*)
       ) // end of [d2exp_con]
     end // end of [D2ITEMcon]
   | D2ITMcst d2c => d2exp_cst (loc0, d2c)
@@ -209,15 +209,15 @@ end // end of [d1exp_tr_deref]
 
 extern
 fun d1exp_tr_app_dyn (
-  d1e0: d1exp
-, d1e_fun: d1exp
+  d1e0: d1exp // all
+, d1e1: d1exp // fun
 , locarg: location, npf: int, darg: d1explst
 ) : d2exp // end of [d1exp_tr_app_dyn]
 extern
 fun d1exp_tr_app_sta_dyn (
-  d1e0: d1exp
-, d1e1: d1exp
-, d1e_fun: d1exp
+  d1e0: d1exp // all
+, d1e1: d1exp // sapp
+, d1e2: d1exp // fun
 , sarg: s1exparglst
 , locarg: location, npf: int, darg: d1explst
 ) : d2exp // end of [d1exp_tr_app_sta_dyn]
@@ -226,8 +226,9 @@ fun d1exp_tr_app_sta_dyn (
 
 fun
 d1exp_tr_app_dyn_dqid (
-  d1e0: d1exp, d1e1: d1exp
-, dq: d0ynq, id: symbol
+  d1e0: d1exp // all
+, d1e1: d1exp // sapp
+, dq: d0ynq, id: symbol // d1e1 -> dqid
 , locarg: location, npf: int, darg: d1explst 
 ) : d2exp = let
 //
@@ -268,8 +269,9 @@ end // end of [d1exp_tr_app_dyn_dqid]
 
 and
 d1exp_tr_app_dyn_e1xp (
-  d1e0: d1exp, d1e1: d1exp
-, e0: e1xp
+  d1e0: d1exp // all
+, d1e1: d1exp // fun
+, e0: e1xp // d1e1 -> e0
 , locarg: location, npf: int, darg: d1explst 
 ) : d2exp = let
 in
@@ -312,9 +314,9 @@ end // end of [d1exp_tr_app_dyn_e1xp]
 
 and
 d1exp_tr_app_sta_dyn_dqid (
-  d1e0: d1exp
-, d1e1: d1exp
-, d1e2: d1exp
+  d1e0: d1exp // all
+, d1e1: d1exp // sapp
+, d1e2: d1exp // fun
 , dq: d0ynq, id: symbol
 , sarg: s1exparglst
 , locarg: location, npf: int, darg: d1explst 
@@ -349,9 +351,9 @@ end // end of [d1exp_tr_app_sta_dyn_dqid]
 
 and
 d1exp_tr_app_sta_dyn_dqid_itm (
-  d1e0: d1exp
-, d1e1: d1exp
-, d1e2: d1exp
+  d1e0: d1exp // all
+, d1e1: d1exp // sapp
+, d1e2: d1exp // fun
 , dq: d0ynq, id: symbol
 , d2i: d2itm
 , sarg: s1exparglst
@@ -362,12 +364,13 @@ in
 case+ d2i of
 | D2ITMcon d2cs => let
     val loc0 = d1e0.d1exp_loc
+    val loc1 = d1e1.d1exp_loc
     val d2cs = d2con_select_arity (d2cs, 0)
     val- list_cons (d2c, _) = d2cs
     val sarg = s1exparglst_tr (sarg)
     val darg = d1explst_tr (darg)
   in
-    d2exp_con (loc0, d2c, sarg, npf, locarg, darg)
+    d2exp_con (loc0, d2c, loc1, sarg, npf, locarg, darg)
   end // end of [D2ITEMcon]
 | D2ITMcst d2c => let
     val d2e_fun =
@@ -392,7 +395,9 @@ case+ d2i of
     val d2s =
       d2sym_make (loc, dq, id, d2pis)
     // end of [val]
-    val d2e_fun = d2exp_sym (loc, d2s)
+    val d2e_fun =
+      d2exp_sym (loc, d2s)
+    // end of [val]
     val sarg = s1exparglst_tr (sarg)
     val darg = d1explst_tr (darg)
   in
@@ -416,7 +421,7 @@ end // end of [d1exp_tr_app_sta_dyn_dqid_itm]
 
 implement
 d1exp_tr_app_dyn (
-  d1e0, d1e_fun, locarg, npf, darg
+  d1e0, d1e1, locarg, npf, darg
 ) = let
 (*
   val () = begin
@@ -425,26 +430,26 @@ d1exp_tr_app_dyn (
 *)
 in
 //
-case+ d1e_fun.d1exp_node of
+case+ d1e1.d1exp_node of
 | D1Eide (id) => let
     val dq = $SYN.the_d0ynq_none in
-    d1exp_tr_app_dyn_dqid (d1e0, d1e_fun, dq, id, locarg, npf, darg)
+    d1exp_tr_app_dyn_dqid (d1e0, d1e1, dq, id, locarg, npf, darg)
   end
 | D1Edqid (dq, id) =>
-    d1exp_tr_app_dyn_dqid (d1e0, d1e_fun, dq, id, locarg, npf, darg)
+    d1exp_tr_app_dyn_dqid (d1e0, d1e1, dq, id, locarg, npf, darg)
   // end of [D1Edqid]
 | _ => let
-    val d2e_fun = d1exp_tr (d1e_fun)
+    val d2e1 = d1exp_tr (d1e1)
     val darg = d1explst_tr (darg)
   in
-    d2exp_app_dyn (d1e0.d1exp_loc, d2e_fun, npf, locarg, darg)
+    d2exp_app_dyn (d1e0.d1exp_loc, d2e1, npf, locarg, darg)
   end // end of [_]
 //
 end // end of [d1exp_tr_app_dyn]
 
 implement
 d1exp_tr_app_sta_dyn (
-  d1e0, d1e1, d1e_fun, sarg, locarg, npf, darg
+  d1e0, d1e1, d1e2, sarg, locarg, npf, darg
 ) = let
 (*
   val () = (
@@ -454,20 +459,20 @@ d1exp_tr_app_sta_dyn (
 *)
 in
 //
-case+ d1e_fun.d1exp_node of
+case+ d1e2.d1exp_node of
 | D1Eide (id) => let
     val dq = $SYN.the_d0ynq_none in
-    d1exp_tr_app_sta_dyn_dqid (d1e0, d1e1, d1e_fun, dq, id, sarg, locarg, npf, darg)
+    d1exp_tr_app_sta_dyn_dqid (d1e0, d1e1, d1e2, dq, id, sarg, locarg, npf, darg)
   end
 | D1Edqid (dq, id) =>
-    d1exp_tr_app_sta_dyn_dqid (d1e0, d1e1, d1e_fun, dq, id, sarg, locarg, npf, darg)
+    d1exp_tr_app_sta_dyn_dqid (d1e0, d1e1, d1e2, dq, id, sarg, locarg, npf, darg)
   // end of [D1Edqid]
 | _ => let
-    val d2e_fun = d1exp_tr (d1e_fun)
+    val d2e2 = d1exp_tr (d1e2)
     val sarg = s1exparglst_tr (sarg)
     val darg = d1explst_tr (darg)
   in
-    d2exp_app_sta_dyn (d1e0.d1exp_loc, d1e1.d1exp_loc, d2e_fun, sarg, locarg, npf, darg)
+    d2exp_app_sta_dyn (d1e0.d1exp_loc, d1e1.d1exp_loc, d2e2, sarg, locarg, npf, darg)
   end // end of [_]
 //
 end // end of [d1exp_tr_app_sta_dyn]

@@ -98,6 +98,8 @@ and
 d3exp_node =
 //
   | D3Evar of d2var
+  | D3Ecst of d2cst
+//
   | D3Ebool of bool
   | D3Echar of char
   | D3Eint of (* dynamic integer *)
@@ -108,11 +110,12 @@ d3exp_node =
   | D3Estring of string(*val*)
   | D3Eempty of () // the void-value of void-type
   | D3Eextval of (string(*rep*))
-  | D3Ecst of d2cst
   | D3Econ of (d2con, int(*npf*), d3explst(*arg*))
 //
   | D3Etmpcst of (d2cst, t2mpmarglst)
   | D3Etmpvar of (d2var, t2mpmarglst)
+//
+  | D3Eitem of d2itm // HX: for temporary use
 //
   | D3Eapp_sta of d3exp // static application
   | D3Eapp_dyn of (d3exp, int(*npf*), d3explst)
@@ -253,6 +256,10 @@ fun d3exp_tmpcst (
 fun d3exp_tmpvar (
   loc: location, s2f: s2exp, d2v: d2var, t2mas: t2mpmarglst
 ) : d3exp // end of [d3exp_tmpvar]
+
+(* ****** ****** *)
+
+fun d3exp_item (loc: location, s2f: s2exp, d2i: d2itm): d3exp
 
 (* ****** ****** *)
 
