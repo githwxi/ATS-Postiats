@@ -399,7 +399,7 @@ fn f0undec_tr (
   ) : @(funcloopt, effcstopt)
 //
   val d1e_def =
-    d0exp_lams_dyn_tr (
+    d0exp_tr_lams_dyn (
       LAMKINDifix
     , None (*locopt*)
     , fcopt, 0 (*lin*)
@@ -454,7 +454,7 @@ fn i0mpdec_tr
   val qid = d.i0mpdec_qid
   val tmparg = l2l (list_map_fun (qid.impqi0de_arg, t0mpmarg_tr))
   val def =
-    d0exp_lams_dyn_tr (
+    d0exp_tr_lams_dyn (
       LAMKINDifix
     , None(*locopt*), None(*fcopt*), 0(*lin*)
     , d.i0mpdec_arg, d.i0mpdec_res, None(*efcopt*)

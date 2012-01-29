@@ -283,8 +283,8 @@ end // end of [stasub_s2varlst_instcollect]
 in // in of [local]
 
 implement
-s2exp_uni_instantiate_all
-  (s2e0, locarg, err) = let // HX: [err] is not used
+s2exp_exiuni_instantiate_all
+  (knd, s2e0, locarg, err) = let // HX: [err] is not used
 //
 fun loop (
   sub: &stasub
@@ -293,10 +293,14 @@ fun loop (
 , err: &int
 ) :<cloref1> s2exp = let
   val s2e = s2hnf2exp (s2f)
+  var s2vs: s2varlst
+  and s2ps: s2explst
+  var s2e1: s2exp // scope
+  val ans = uns2exp_exiuni (knd, s2e, s2vs, s2ps, s2e1)
 in
 //
-case+ s2e.s2exp_node of
-| S2Euni (s2vs, s2ps, s2e1) => let
+case+ ans of
+| true => let
     // HX: [sub] should be properly extended first
     val () = stasub_s2varlst_instantiate_none (sub, locarg, s2vs, err)
     val s2ps = s2explst_subst_vt (sub, s2ps)
@@ -305,7 +309,7 @@ case+ s2e.s2exp_node of
   in
     loop (sub, s2f1, s2ps_res, err)
   end // end of [S2Euni]
-| _ => s2exp_subst (sub, s2e)
+| false => s2exp_subst (sub, s2e)
 //
 end // end of [loop]
 //
@@ -321,6 +325,17 @@ val s2ps_res = list_vt_reverse (s2ps_res)
 in
   (s2e_res, s2ps_res)
 end // end of [s2exp_uni_instantiate_all]
+
+implement
+s2exp_exi_instantiate_all
+  (s2e0, locarg, err) =
+  s2exp_exiuni_instantiate_all (0, s2e0, locarg, err)
+// end of [s2exp_exi_instantiate_all]
+implement
+s2exp_uni_instantiate_all
+  (s2e0, locarg, err) =
+  s2exp_exiuni_instantiate_all (1, s2e0, locarg, err)
+// end of [s2exp_uni_instantiate_all]
 
 (* ****** ****** *)
 
@@ -915,6 +930,39 @@ end // end of [local]
 
 (* ****** ****** *)
 
+implement
+s2exp_absuni_and_add (loc0, s2e0) = let
+(*
+  val () = begin
+    print "s2exp_absuni_and_add: before: s2e0 = "; print_s2exp s2e0;
+    print_newline ()
+  end // end of [val]
+*)
+  val s2es2vss2ps = s2exp_absuni (s2e0)
+(*
+  val () = begin
+    print "s2exp_absuni_and_add: after: s2e = "; print_s2exp s2es2vss2ps.0;
+    print_newline ()
+  end // end of [val]
+*)
+  val s2vs = s2es2vss2ps.1
+  val () = let
+    val s2vs =
+      $UN.castvwtp1 {s2varlst} (s2vs)
+    // end of [val]
+    val s2Vs = the_s2Varset_env_get ()
+    val () = s2varlst_set_sVarset (s2vs, s2Vs)
+    val () = trans3_env_add_svarlst (s2vs)
+  in
+    // nothing
+  end // end of [val]
+  val () = list_vt_free (s2vs)
+  val s2ps = s2es2vss2ps.2
+  val () = trans3_env_hypadd_proplst (loc0, $UN.castvwtp1 {s2explst} (s2ps))
+  val () = list_vt_free (s2ps)
+in
+  s2es2vss2ps.0
+end // end of [s2exp_absuni_and_add]
 
 implement
 s2exp_opnexi_and_add (loc0, s2e0) = let

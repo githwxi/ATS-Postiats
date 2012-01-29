@@ -259,6 +259,28 @@ s2exp_uint_t0ype () =
 // end of [s2exp_uint_t0ype]
 
 implement
+s2exp_lint_t0ype () =
+  auxg0u (s2cstref_get_cst (the_lint_kind))
+// end of [s2exp_lint_t0ype]
+
+implement
+s2exp_ulint_t0ype () =
+  auxg0u (s2cstref_get_cst (the_lint_kind))
+// end of [s2exp_ulint_t0ype]
+
+implement
+s2exp_llint_t0ype () =
+  auxg0u (s2cstref_get_cst (the_llint_kind))
+// end of [s2exp_llint_t0ype]
+
+implement
+s2exp_ullint_t0ype () =
+  auxg0u (s2cstref_get_cst (the_llint_kind))
+// end of [s2exp_ullint_t0ype]
+
+(* ****** ****** *)
+
+implement
 s2exp_int_intinf_t0ype (inf) = let
   val knd = s2cstref_get_cst (the_int_kind)
   val ind = s2exp_intinf (inf)

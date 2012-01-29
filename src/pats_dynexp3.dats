@@ -198,35 +198,6 @@ d3exp_app_dyn (
 (* ****** ****** *)
 
 implement
-d3exp_lam_dyn (
-  loc, s2f_fun, lin, npf, arg, body
-) = '{
-  d3exp_loc= loc
-, d3exp_type= s2f_fun
-, d3exp_node= D3Elam_dyn (lin, npf, arg, body)
-} // end of [d3exp_lam_dyn]
-
-implement
-d3exp_laminit_dyn (
-  loc, s2f_fun, lin, npf, arg, body
-) = '{
-  d3exp_loc= loc
-, d3exp_type= s2f_fun
-, d3exp_node= D3Elaminit_dyn (lin, npf, arg, body)
-} // end of [d3exp_laminit_dyn]
-
-implement
-d3exp_lam_sta (
-  loc, s2f_uni, s2vs, s2ps, body
-) = '{
-  d3exp_loc= loc
-, d3exp_type= s2f_uni
-, d3exp_node= D3Elam_sta (s2vs, s2ps, body)
-} // end of [d3exp_lam_sta]
-
-(* ****** ****** *)
-
-implement
 d3exp_lst (
   loc, s2f_lst, lin, s2f_elt, d3es
 ) = '{
@@ -261,6 +232,46 @@ d3exp_seq (
 , d3exp_type= s2f
 , d3exp_node= D3Eseq (d3es)
 } // end of [d3exp_seq]
+
+(* ****** ****** *)
+
+implement
+d3exp_if (
+  loc, s2e_if, _cond, _then, _else
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2e_if
+, d3exp_node= D3Eif (_cond, _then, _else)
+} // end of [d3exp_if]
+
+(* ****** ****** *)
+
+implement
+d3exp_lam_dyn (
+  loc, s2f_fun, lin, npf, arg, body
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f_fun
+, d3exp_node= D3Elam_dyn (lin, npf, arg, body)
+} // end of [d3exp_lam_dyn]
+
+implement
+d3exp_laminit_dyn (
+  loc, s2f_fun, lin, npf, arg, body
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f_fun
+, d3exp_node= D3Elaminit_dyn (lin, npf, arg, body)
+} // end of [d3exp_laminit_dyn]
+
+implement
+d3exp_lam_sta (
+  loc, s2f_uni, s2vs, s2ps, body
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f_uni
+, d3exp_node= D3Elam_sta (s2vs, s2ps, body)
+} // end of [d3exp_lam_sta]
 
 (* ****** ****** *)
 

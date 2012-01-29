@@ -45,12 +45,17 @@ implement VIEWT0YPE_knd = VIEWT0YPE_int
 (* ****** ****** *)
 
 implement
-test_boxkind (knd) = let
+test_fltkind (knd) = let
   val knd = uint_of (knd)
-  val boxflag = uint_of (BOXFLAG)
+  val fltflag = uint_of (FLTFLAG)
 in
-  (knd \land_uint_uint boxflag) > 0u
-end // end of [test_boxkind]
+  (knd \land_uint_uint fltflag) > 0u
+end // end of [test_fltkind]
+
+implement
+test_boxkind (knd) =
+  if test_fltkind (knd) then false else true
+// end of [test_boxkind]
 
 implement
 test_linkind (knd) = let

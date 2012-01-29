@@ -45,10 +45,11 @@ val VIEWT0YPE_knd : int // = VIEWT0YPE_int
 
 (* ****** ****** *)
 
-fun test_boxkind (knd: int): bool
-fun test_linkind (knd: int): bool
-fun test_prfkind (knd: int): bool
-fun test_prgmkind (knd: int): bool
+fun test_fltkind (knd: int): bool // is flat?
+fun test_boxkind (knd: int): bool // is boxed?
+fun test_linkind (knd: int): bool // is linear?
+fun test_prfkind (knd: int): bool // is proof?
+fun test_prgmkind (knd: int): bool // is program?
 fun test_polkind (knd: int): int // 0/1/-1
 
 fun impkind_linearize (knd: int): int

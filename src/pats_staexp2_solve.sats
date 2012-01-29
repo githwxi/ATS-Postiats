@@ -56,14 +56,22 @@ fun stamp_equal_solve_err
 
 (* ****** ****** *)
 
+fun funclo_equal_solve
+  (loc: location, fc1: funclo, fc2: funclo): int(*err*)
 fun funclo_equal_solve_err
-  (loc: location, _: funclo, _: funclo, err: &int): void
+  (loc: location, fc1: funclo, fc2: funclo, err: &int): void
 // end of [funclo_equal_solve_err]
+
+(* ****** ****** *)
 
 fun clokind_equal_solve_err
   (loc: location, knd1: int, knd2: int, err: &int): void
 // end of [clokind_equal_solve_err]
 
+(* ****** ****** *)
+
+fun linearity_equal_solve
+  (loc: location, lin1: int, lin2: int): int(*err*)
 fun linearity_equal_solve_err
   (loc: location, lin1: int, lin2: int, err: &int): void
 // end of [linearity_equal_solve_err]
@@ -72,7 +80,6 @@ fun linearity_equal_solve_err
 
 fun pfarity_equal_solve
   (loc: location, npf1: int, npf2: int): int(*err*)
-// end of [pfarity_equal_solve]
 fun pfarity_equal_solve_err
   (loc: location, npf1: int, npf2: int, err: &int): void
 // end of [pfarity_equal_solve_err]
@@ -91,6 +98,15 @@ fun refval_equal_solve_err
 
 (* ****** ****** *)
 
+fun s2eff_effleq_solve
+  (loc: location, s2fe1: s2eff, s2fe2: s2eff): int(*err*)
+// end of [s2eff_effleq_solve]
+fun s2eff_effleq_solve_err
+  (loc: location, s2fe1: s2eff, s2fe2: s2eff, err: &int): void
+// end of [s2eff_effleq_solve_err]
+
+(* ****** ****** *)
+
 fun s2exp_equal_solve
   (loc: location, s2e1: s2exp, s2e2: s2exp): int
 // end of [s2exp_equal_solve]
@@ -99,7 +115,7 @@ fun s2exp_equal_solve_err
 // end of [s2exp_equal_solve_err]
 fun s2explst_equal_solve_err (
   loc: location, s2es1: s2explst, s2es2: s2explst, err: &int
-) : int(*errlen*) // end of [s2explst_equal_solve_err]
+) : void // end of [s2explst_equal_solve_err]
 
 (* ****** ****** *)
 
@@ -109,12 +125,14 @@ fun s2exp_tyleq_solve
 fun s2exp_tyleq_solve_err
   (loc: location, s2e1: s2exp, s2e2: s2exp, err: &int): void
 // end of [s2exp_tyleq_solve_err]
-fun s2explst_tyleq_solve_err
-  (loc: location, s2e1: s2explst, s2e2: s2explst, err: &int): void
-// end of [s2explst_tyleq_solve_err]
+fun s2explst_tyleq_solve_err (
+  loc: location, s2e1: s2explst, s2e2: s2explst, err: &int
+) : void // end of [s2explst_tyleq_solve_err]
 fun labs2explst_tyleq_solve_err (
   loc: location, ls2es1: labs2explst, ls2es2: labs2explst, err: &int
 ) : void // end of [labs2explst_tyleq_solve_err]
+
+(* ****** ****** *)
 
 fun // HX: handling abstract types
 s2explst_tyleq_solve_argsrtlst_err (

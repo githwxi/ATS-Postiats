@@ -120,12 +120,9 @@ d3exp_node =
   | D3Eapp_sta of d3exp // static application
   | D3Eapp_dyn of (d3exp, int(*npf*), d3explst)
 //
-  | D3Elam_dyn of // dynamic abstraction
-      (int(*lin*), int(*npf*), p3atlst, d3exp)
-  | D3Elaminit_dyn of // dynamic flat funtion closure
-      (int(*lin*), int(*npf*), p3atlst, d3exp)
-  | D3Elam_sta of // static abstraction
-      (s2varlst(*s2vs*), s2explst(*s2ps*), d3exp)
+  | D3Eif of (
+      d3exp(*cond*), d3exp(*then*), d3expopt(*else*)
+    ) // end of [D3Eif]
 //
   | D3Elst of (* list expression *)
       (int(*lin*), s2exp(*elt*), d3explst)
@@ -134,6 +131,13 @@ d3exp_node =
   | D3Erec of (* record expression *)
       (int(*recknd*), int(*npf*), labd3explst)
   | D3Eseq of d3explst // sequencing
+//
+  | D3Elam_dyn of // dynamic abstraction
+      (int(*lin*), int(*npf*), p3atlst, d3exp)
+  | D3Elaminit_dyn of // dynamic flat funtion closure
+      (int(*lin*), int(*npf*), p3atlst, d3exp)
+  | D3Elam_sta of // static abstraction
+      (s2varlst(*s2vs*), s2explst(*s2ps*), d3exp)
 //
   | D3Eann_type of (d3exp, s2exp)
 //
@@ -274,22 +278,6 @@ fun d3exp_app_dyn (
 
 (* ****** ****** *)
 
-fun d3exp_lam_dyn (
-  loc: location, typ: s2exp
-, lin: int, npf: int, arg: p3atlst, body: d3exp
-) : d3exp // end of [d3exp_lam_dyn]
-fun d3exp_laminit_dyn (
-  loc: location, typ: s2exp
-, lin: int, npf: int, arg: p3atlst, body: d3exp
-) : d3exp // end of [d3exp_laminit_dyn]
-
-fun d3exp_lam_sta (
-  loc: location, typ: s2exp
-, s2vs: s2varlst, s2ps: s2explst, body: d3exp
-) : d3exp // end of [d3exp_lam_sta]
-
-(* ****** ****** *)
-
 fun d3exp_lst (
   loc: location, typ: s2exp
 , lin: int, s2f_elt: s2exp, d3es: d3explst
@@ -308,6 +296,30 @@ fun d3exp_rec (
 fun d3exp_seq (
   loc: location, typ: s2exp, d3es: d3explst
 ) : d3exp // end of [d3exp_seq]
+
+(* ****** ****** *)
+
+fun d3exp_if (
+  loc: location
+, s2e_if: s2exp
+, _cond: d3exp, _then: d3exp, _else: d3expopt
+) : d3exp // end of [d3exp_if]
+
+(* ****** ****** *)
+
+fun d3exp_lam_dyn (
+  loc: location, typ: s2exp
+, lin: int, npf: int, arg: p3atlst, body: d3exp
+) : d3exp // end of [d3exp_lam_dyn]
+fun d3exp_laminit_dyn (
+  loc: location, typ: s2exp
+, lin: int, npf: int, arg: p3atlst, body: d3exp
+) : d3exp // end of [d3exp_laminit_dyn]
+
+fun d3exp_lam_sta (
+  loc: location, typ: s2exp
+, s2vs: s2varlst, s2ps: s2explst, body: d3exp
+) : d3exp // end of [d3exp_lam_sta]
 
 (* ****** ****** *)
 

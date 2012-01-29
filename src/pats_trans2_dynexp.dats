@@ -795,11 +795,11 @@ fun sc1laulst_trdn (
 
 implement
 d1exp_tr (d1e0) = let
-(*
+// (*
   val () = begin
     print "d1exp_tr: d1e0 = "; print_d1exp d1e0; print_newline ()
   end // end of [val]
-*)
+// *)
   val loc0 = d1e0.d1exp_loc
 in
 //

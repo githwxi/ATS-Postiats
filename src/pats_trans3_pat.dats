@@ -223,9 +223,7 @@ p2atlst_trup_arg
   // end of [loop]
   var res: p3atlst // uninitialized
   val () = loop (npf, p2ts, res)
-} // end of [p2atlst_arg_tr_up]
-
-end // end of [local]
+} // end of [p2atlst_trup_arg]
 
 (* ****** ****** *)
 
@@ -233,6 +231,47 @@ implement
 p2at_trdn_arg
   (p2t, s2e) = p2at_trdn (p2t, s2e)
 // end of [p2at_trdn_arg]
+
+(* ****** ****** *)
+
+implement
+p2atlst_trdn_arg (
+  npf, p2ts, s2es, err
+) = let
+  fun aux (
+    npf: int
+  , p2ts: p2atlst, s2es: s2explst
+  , err: &int
+  ) : p3atlst =
+    case+ p2ts of
+    | list_cons (p2t, p2ts) => (
+      case+ s2es of
+      | list_cons (s2e, s2es) => let
+          val () =
+            if npf > 0 then p2at_proofize (p2t)
+          val p3t = p2at_trdn_arg (p2t, s2e)
+        in
+          list_cons (p3t, aux (npf-1, p2ts, s2es, err))
+        end // end of [list_cons]
+      | list_nil () => let
+          val () = err := err + 1 in list_nil ()
+        end
+      ) // end of [list_cons]
+    | list_nil () => (
+      case+ s2es of
+      | list_cons _ => let
+          val () = err := err - 1 in list_nil ()
+        end
+      | list_nil () => list_nil ()
+      ) // end of [list_nil]
+  // end of [aux]  
+in
+  aux (npf, p2ts, s2es, err)
+end (* end of [p2atlst_arg_tr_dn] *)
+
+(* ****** ****** *)
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -258,7 +297,7 @@ fun p2at_trdn_var .<>.
   end // end of [val]
 *)
   val s2e = s2e0
-  // val s2e = s2hnf_opnexi_and_add (loc0, s2e0)
+  val s2e = s2exp_opnexi_and_add (loc0, s2e0)
   val () = d2var_set_type (d2v, Some s2e)
 (*
   val () = begin

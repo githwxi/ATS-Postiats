@@ -151,7 +151,7 @@ fn s0expdarglst_tr
 (* ****** ****** *)
 
 implement
-d0exp_lams_dyn_tr (
+d0exp_tr_lams_dyn (
   lamknd, locopt, fcopt, lin, args, res, efcopt, d0e_body
 ) = let
 //
@@ -239,7 +239,7 @@ val d1e_body = (case+ fcopt of
 //
 in
   aux (lamknd, args, d1e_body, 0(*flag*))
-end // end of [d0exp_lams_dyn_tr]
+end // end of [d0exp_tr_lams_dyn]
 
 (* ****** ****** *)
 
@@ -623,7 +623,7 @@ aux_item (
           end // end of [Some]
         | None () => (None (), lin0, None ())
       ) : (funcloopt, int, effcstopt)
-      val d1e_lam = d0exp_lams_dyn_tr
+      val d1e_lam = d0exp_tr_lams_dyn
         (knd, Some loc0, fcopt, lin, args, res, efcopt, body)
       // end of [val]
     in
@@ -642,7 +642,7 @@ aux_item (
             None () (*fcopt*), 0 (*lin*), None () (*efcopt*)
           ) // end of [None]
       ) : (funcloopt, int, effcstopt)
-      val d1e_def = d0exp_lams_dyn_tr (
+      val d1e_def = d0exp_tr_lams_dyn (
         knd, Some loc0, fcopt, lin, args, res, efcopt, d0e_def
       ) // end of [val]
 //

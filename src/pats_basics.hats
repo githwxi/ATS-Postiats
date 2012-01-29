@@ -62,7 +62,7 @@ VIEW+       = 01111 // 15
 VIEW-       = 11111 // 31
 *)
 
-#define BOXFLAG (0x1 << 0)
+#define FLTFLAG (0x1 << 0)
 #define LINFLAG (0x1 << 1)
 #define PRFFLAG (0x1 << 2)
 #define POLFLAG (0x3 << 3)

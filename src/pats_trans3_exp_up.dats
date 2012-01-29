@@ -49,6 +49,7 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_exp_up"
 staload LAB = "pats_label.sats"
 staload LOC = "pats_location.sats"
 macdef print_location = $LOC.print_location
+macdef prerr_location = $LOC.prerr_location
 
 staload SYN = "pats_syntax.sats"
 
@@ -388,19 +389,13 @@ end // end of [d2exp_trup_var_mut]
 fn d2exp_trup_var_nonmut
   (loc0: location, d2v: d2var): d3exp = let
   val lin = d2var_get_linval (d2v)
+// (*
+  val () = (
+    print "d2exp_trup_var_nonmut: d2v = "; print_d2var (d2v); print_newline ()
+  ) // end of [val]
+  val () = println! ("d2exp_trup_var_nonmut: lin = ", lin)
+// *)
   val- Some (s2e) = d2var_get_type (d2v)
-(*
-  val () = {
-    val () = print "d2exp_trup_var_nonmut: d2v = "
-    val () = print_d2var (d2v)
-    val () = print_newline ()
-    val () = print "d2exp_trup_var_nonmut: lin = "
-    val () = print_int (lin)
-    val () = print_newline ()
-    val () = print "d2exp_trup_var_nonmut: d2varset = "
-    val () = print_newline ()
-  } // end of [val]
-*)
 in
   d3exp_var (loc0, s2e, d2v)
 end // end of [d2exp_trup_var_nonmut]

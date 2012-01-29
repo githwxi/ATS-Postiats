@@ -413,9 +413,11 @@ implement
 d2exp_app_sta (
   loc0, d2e_fun, s2as
 ) = let
+(*
   val () = (
     print "d2exp_app_sta: d2e_fun = "; print_d2exp d2e_fun; print_newline ()
   ) // end of [val]
+*)
 in
 //
 case+ s2as of

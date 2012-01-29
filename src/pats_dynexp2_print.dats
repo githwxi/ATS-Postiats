@@ -481,36 +481,22 @@ case+ x.d2exp_node of
     val () = prstr ")"
   } // end of [D2Eifhead]
 //
-| D2Elam_dyn (
-    lin, npf, p2ts, d2e
-  ) => {
-    val () = prstr "D2Elam_dyn("
-    val () = fprint_int (out, lin)
-    val () = prstr "; "
-    val () = fprint_int (out, npf)
-    val () = prstr "; "
-    val () = fprint_p2atlst (out, p2ts)
-    val () = prstr "; "
-    val () = fprint_d2exp (out, d2e)
+| D2Ecasehead _ => {
+    val () = prstr "D2Ecasehead("
+    val () = fprint_string (out, "...")
     val () = prstr ")"
-  } // end of [D2Elam_dyn]
-//
-| D2Elam_sta (s2vs, s2ps, d2e) => {
-    val () = prstr "D2Elam_sta("
-    val () = fprint_s2varlst (out, s2vs)
-    val () = prstr "; "
-    val () = fprint_s2explst (out, s2ps)
-    val () = prstr "; "
-    val () = fprint_d2exp (out, d2e)
-    val () = prstr ")"
-  } // end of [D2Elam_sta]
-//
-| D2Elam_met _ => {
-    val () = prstr "D2Elam_met("
+  }
+| D2Escasehead _ => {
+    val () = prstr "D2Escasehead("
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }
 //
+| D2Elst (lin, s2eopt, d2es) => {
+    val () = prstr "D2Elst("
+    val () = fprint_d2explst (out, d2es)
+    val () = prstr ")"
+  }
 | D2Etup (knd, npf, d2es) => {
     val () = prstr "D2Etup(knd="
     val () = fprint_int (out, knd)
@@ -548,6 +534,97 @@ case+ x.d2exp_node of
     val () = prstr ")"
   } // end of [D2Edelay]
 //
+| D2Earrsub _ => {
+    val () = prstr "D2Earrsub("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+| D2Earrinit _ => {
+    val () = prstr "D2Earrinit("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+| D2Earrsize _ => {
+    val () = prstr "D2Earrsize("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+//
+| D2Eptrof (d2e) => {
+    val () = prstr "D2Eptrof("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Eptrof]
+| D2Eviewat (d2e) => {
+    val () = prstr "D2Eviewat("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Eviewat]
+| D2Esel (d2e, d2ls) => {
+    val () = prstr "D2Esel("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ";"
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  } // end of [D2Esel]
+//
+| D2Eexist (s2a, d2e) => {
+    val () = prstr "D2Eexist("
+    val () = fprint_s2exparg (out, s2a)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Eexist]
+//
+| D2Elam_dyn (
+    lin, npf, p2ts, d2e
+  ) => {
+    val () = prstr "D2Elam_dyn("
+    val () = fprint_int (out, lin)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_p2atlst (out, p2ts)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Elam_dyn]
+| D2Elaminit_dyn (
+    lin, npf, p2ts, d2e
+  ) => {
+    val () = prstr "D2Elaminit_dyn("
+    val () = fprint_int (out, lin)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_p2atlst (out, p2ts)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Elaminit_dyn]
+//
+| D2Elam_sta (s2vs, s2ps, d2e) => {
+    val () = prstr "D2Elam_sta("
+    val () = fprint_s2varlst (out, s2vs)
+    val () = prstr "; "
+    val () = fprint_s2explst (out, s2ps)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Elam_sta]
+//
+| D2Elam_met _ => {
+    val () = prstr "D2Elam_met("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+//
+| D2Efix _ => {
+    val () = prstr "D2Efix("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+//
 | D2Eann_type (d2e, s2f) => {
     val () = prstr "D2Eann_type("
     val () = fprint_d2exp (out, d2e)
@@ -574,7 +651,9 @@ case+ x.d2exp_node of
     val () = prstr "D2Eerr()"
   } // end of [D2Eerr]
 //
+(*
 | _ => prstr "D2E...(...)"
+*)
 //
 end // end of [fprint_d2exp]
 

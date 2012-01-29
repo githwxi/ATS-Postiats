@@ -82,6 +82,8 @@ in
   d3exp_int (loc0, s2e, rep, inf)
 end // end of [d2exp_trup_int]
 
+(* ****** ****** *)
+
 implement
 d2exp_trup_bool
   (d2e0, b) = let
@@ -89,12 +91,16 @@ d2exp_trup_bool
   val s2f = s2exp_bool_bool_t0ype (b) in d3exp_bool (loc0, s2f, b)
 end // end of [d2exp_trup_bool]
 
+(* ****** ****** *)
+
 implement
 d2exp_trup_char
   (d2e0, c) = let
   val loc0 = d2e0.d2exp_loc
   val s2f = s2exp_char_char_t0ype (c) in d3exp_char (loc0, s2f, c)
 end // end of [d2exp_trup_char]
+
+(* ****** ****** *)
 
 implement
 d2exp_trup_string
@@ -108,14 +114,71 @@ end // end of [d2exp_trup_string]
 
 (* ****** ****** *)
 
+local
+
+datatype intknd =
+  | INT | UINT | LINT | ULINT | LLINT | ULLINT | ERROR
+// end of [intknd]
+
+in // in of [local]
+
+implement
+i0nt_syn_type (
+  d2e0, base, rep, sfx
+) = let
+  var p_sfx: ptr = null
+  val () = if
+    sfx > 0u then let
+    val n = string_length (rep)
+    val ln = n - (size_of_uint)sfx
+    val () = p_sfx := $UN.cast2ptr (rep) + ln
+  in
+    // nothing
+  end // end of [val]
+in
+//
+case+ sfx of
+| _ when sfx = 0u => s2exp_int_t0ype ()
+| _ => let
+    val sfx = $UN.cast {string} (p_sfx)
+    val knd = (case+ 0 of
+      | _ when strcasecmp (sfx, "U") = 0 => UINT
+//
+      | _ when strcasecmp (sfx, "L") = 0 => LINT
+      | _ when strcasecmp (sfx, "UL") = 0 => ULINT
+      | _ when strcasecmp (sfx, "LU") = 0 => ULINT
+//
+      | _ when strcasecmp (sfx, "LL") = 0 => LLINT
+      | _ when strcasecmp (sfx, "ULL") = 0 => ULLINT
+      | _ when strcasecmp (sfx, "LLU") = 0 => ULLINT
+//
+      | _ => ERROR ()
+    ) : intknd // end of [val]
+  in
+    case+ knd of
+    | INT () => s2exp_int_t0ype ()
+    | UINT () => s2exp_uint_t0ype ()
+    | LINT () => s2exp_lint_t0ype ()
+    | ULINT () => s2exp_ulint_t0ype ()
+    | LLINT () => s2exp_llint_t0ype ()
+    | ULLINT () => s2exp_ullint_t0ype ()
+    | _ => let
+        val loc0 = d2e0.d2exp_loc
+        val () = prerr_error3_loc (loc0)
+        val () = filprerr_ifdebug "i0nt_syn_type"
+        val () = prerr ": the suffix of the integer is not supported."
+        val () = prerr_newline ()
+        val () = the_trans3errlst_add (T3E_intsp (d2e0))
+      in
+        s2exp_err (s2rt_t0ype)
+      end // end of [_]
+   end // end of [_]
+end // end of [i0nt_syn_type]
+
 implement
 d2exp_trup_i0nt
   (d2e0, base, rep, sfx) = let
   val loc0 = d2e0.d2exp_loc
-//
-  datatype intknd =
-    | INT | UINT | LINT | ULINT | LLINT | ULLINT | ERROR
-  // end of [intknd]
 //
   var p_sfx: ptr = null
 //
@@ -205,6 +268,10 @@ case+ sfx of
 // end of [case]
 //
 end // end of [d2exp_trup_i0nt]
+
+end // end of [local]
+
+(* ****** ****** *)
 
 implement
 d2exp_trup_f0loat

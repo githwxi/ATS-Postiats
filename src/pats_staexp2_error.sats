@@ -60,6 +60,7 @@ datatype staerr =
   | STAERR_s2exp_tyleq of (location, s2exp, s2exp)
   | STAERR_s2eff_leq of (location, s2eff, s2eff)
 //
+  | STAERR_s2explst_length of (location, int(*-1/1*))
   | STAERR_labs2explst_length of (location, int(*-1/1*))
 //
   | STAERR_s2exp_linearity of (location, s2exp)

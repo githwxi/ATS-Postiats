@@ -191,7 +191,7 @@ fun d0expopt_tr (xs: d0expopt): d1expopt
 
 fun labd0exp_tr (x: labd0exp): labd1exp
 
-fun d0exp_lams_dyn_tr (
+fun d0exp_tr_lams_dyn (
   lamknd : int
 , locopt : Option (location)
 , fcopt : funcloopt

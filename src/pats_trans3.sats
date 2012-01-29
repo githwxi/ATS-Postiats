@@ -65,6 +65,11 @@ datatype trans3err =
   | T3E_d2exp_trup_applst_sym_nil of (d2exp, d2sym) // found none
   | T3E_d2exp_trup_applst_sym_cons2 of (d2exp, d2sym) // found too many
 //
+  | T3E_d2exp_trdn_lam_dyn_pfarity of (d2exp, s2exp) // pfarity mistmatch
+  | T3E_d2exp_trdn_lam_dyn_linearity of (d2exp, s2exp) // linearity mistmatch
+  | T3E_d2exp_trdn_lam_dyn_funclo of (d2exp, s2exp) // funclo mistmatch
+  | T3E_d2exp_trdn_lam_dyn_s2eff of (d2exp, s2exp) // s2eff mistmatch
+//
   | T3E_fundeclst_tr_metsrtck of (d2ecl, s2rtlstopt)
 // end of [trans3err]
 
@@ -82,6 +87,9 @@ fun p2at_trup_arg (p2t: p2at): p3at
 fun p2atlst_trup_arg
   (npf: int, p2ts: p2atlst): p3atlst
 fun p2at_trdn_arg (p2t: p2at, s2f: s2exp): p3at
+fun p2atlst_trdn_arg (
+  npf: int, p2ts: p2atlst, s2fs: s2explst, err: &int
+) : p3atlst // end of [p2atlst_trdn_arg]
 //
 fun p2at_trdn (p2t: p2at, s2f: s2exp): p3at
 //
@@ -92,8 +100,12 @@ fun d2exp_funclo_of_d2exp
 // end of [d2exp_funclo_of_d2exp]
 
 fun d2exp_s2eff_of_d2exp
-  (d2e0: d2exp, s2fe0: &s2eff) : d2exp
+  (d2e0: d2exp, s2fe0: &s2eff? >> s2eff): d2exp
 // end of [d2exp_s2eff_of_d2exp]
+
+(* ****** ****** *)
+
+fun d2exp_syn_type (d2e: d2exp): s2exp
 
 (* ****** ****** *)
 
@@ -112,14 +124,18 @@ fun d3explst_trdn_arg
 
 (* ****** ****** *)
 //
-fun d2exp_trup_bool (d2e0: d2exp, b: bool): d3exp
 fun d2exp_trup_int (d2e0: d2exp, rep: string): d3exp
+fun d2exp_trup_bool (d2e0: d2exp, b: bool): d3exp
 fun d2exp_trup_char (d2e0: d2exp, c: char): d3exp
 fun d2exp_trup_string (d2e0: d2exp, str: string): d3exp
 //
+fun i0nt_syn_type (
+  d2e0: d2exp, base: int, rep: string, sfx: uint
+) : s2exp // end of [i0nt_syn_type]
 fun d2exp_trup_i0nt (
   d2e0: d2exp, base: int, rep: string, sfx: uint
 ) : d3exp // end of [d2exp_trup_int]
+//
 fun d2exp_trup_f0loat
   (d2e0: d2exp, rep: string, sfx: uint): d3exp
 // end of [d2exp_trup_float]
@@ -156,6 +172,8 @@ fun d2explst_trdn_elt (d2es: d2explst, s2f: s2exp): d3explst
 (* ****** ****** *)
 
 fun d2exp_trdn_ifhead (d2e: d2exp, s2f: s2exp): d3exp
+
+fun d2exp_trdn_lam_dyn (d2e: d2exp, s2f: s2exp): d3exp
 
 (* ****** ****** *)
 

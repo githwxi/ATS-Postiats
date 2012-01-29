@@ -106,6 +106,8 @@ fun s2exp_int_t0ype (): s2exp // int0
 fun s2exp_uint_t0ype (): s2exp // uint0
 fun s2exp_lint_t0ype (): s2exp // int0
 fun s2exp_ulint_t0ype (): s2exp // uint0
+fun s2exp_llint_t0ype (): s2exp // lint0
+fun s2exp_ullint_t0ype (): s2exp // ulint0
 //
 fun s2exp_int_intinf_t0ype (inf: intinf): s2exp // int1(i)
 fun s2exp_uint_intinf_t0ype (inf: intinf): s2exp // uint1(i)

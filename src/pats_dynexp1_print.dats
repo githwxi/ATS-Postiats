@@ -433,8 +433,8 @@ case+ d1e0.d1exp_node of
     val () = prstr "..."
     val () = prstr ")"
   }
-| D1Elam_met _ => {
-    val () = prstr "D1Elam_met("
+| D1Elaminit_dyn _ => {
+    val () = prstr "D1Elaminit_dyn("
     val () = prstr "..."
     val () = prstr ")"
   }
@@ -445,6 +445,11 @@ case+ d1e0.d1exp_node of
   }
 | D1Elam_sta_syn _ => {
     val () = prstr "D1Elam_sta_syn("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| D1Elam_met _ => {
+    val () = prstr "D1Elam_met("
     val () = prstr "..."
     val () = prstr ")"
   }

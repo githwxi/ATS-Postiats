@@ -1268,11 +1268,13 @@ p_witht0ype
   val err0 = err
   val n0 = tokbuf_get_ntok (buf)
   val tok = tokbuf_get_token (buf)
+  macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
 case+ tok.token_node of
 | T_WITHTYPE (knd) => let
     val bt = 0
+    val () = incby1 ()
     val ent2 = p_s0exp (buf, bt, err)
   in
     if err = err0 then

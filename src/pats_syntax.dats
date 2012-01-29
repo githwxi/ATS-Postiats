@@ -67,7 +67,9 @@ macdef list_sing (x) = list_cons (,(x), list_nil)
 
 implement
 lamkind_isbox (knd) =
-  if test_boxkind (knd) then 1 else 0 // HX: (-1) is boxed
+  if knd >= 0 then
+    (if test_boxkind (knd) then 1 else 0)
+  else 1 // HX: (-1) is boxed
 // end of [lamkind_isbox]
 
 implement

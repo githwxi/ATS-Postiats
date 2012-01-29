@@ -120,13 +120,44 @@ fn prerr_staerr_funclo_equal (
   prerr "The needed funclo kind is: "; prerr_funclo fc2; prerr_newline ();
 end // end of [prerr_staerr_funclo_equal]
 
+fn prerr_staerr_clokind_equal (
+  loc: location, knd1: int, knd2: int
+) : void = begin
+  prerr_error3_loc (loc);
+  prerr ": closure mismatch:\n";
+  prerr "The actual closure kind is: "; prerr_int knd1; prerr_newline ();
+  prerr "The needed closure kind is: "; prerr_int knd2; prerr_newline ();
+end // end of [prerr_staerr_clokind_equal]
+
+fn prerr_staerr_linearity_equal (
+  loc: location, lin1: int, lin2: int
+) : void = let
+  macdef prlin (lin) =
+    prerr_string (if ,(lin) > 0 then "linear" else "nonlinear")
+  // end of [macdef]
+in
+  prerr_error3_loc (loc);
+  prerr ": linearity mismatch:\n";
+  prerr "The actual linearity is: "; prlin (lin1); prerr_newline ();
+  prerr "The needed linearity is: "; prlin (lin2); prerr_newline ();
+end // end of [prerr_staerr_linearity_equal]
+
+fn prerr_staerr_pfarity_equal (
+  loc: location, npf1: int, npf2: int
+) : void = begin
+  prerr_error3_loc (loc);
+  prerr ": proof arity mismatch:\n";
+  prerr "The actual proof arity is: "; prerr_int npf1; prerr_newline ();
+  prerr "The needed proof arity is: "; prerr_int npf2; prerr_newline ();
+end // end of [prerr_staerr_pfarity_equal]
+
 fn prerr_staerr_s2exp_tyleq (
   loc: location, s2e1: s2exp, s2e2: s2exp
 ) : void = begin
   prerr_error3_loc (loc);
   prerr ": mismatch of static terms (tyleq):\n";
-  prerr "The actual term is: "; prerr_s2exp s2e1; prerr_newline ();
-  prerr "The needed term is: "; prerr_s2exp s2e2; prerr_newline ();
+  prerr "The actual term is: "; pprerr_s2exp (s2e1); prerr_newline ();
+  prerr "The needed term is: "; pprerr_s2exp (s2e2); prerr_newline ();
 end // end of [prerr_staerr_s2exp_tyleq]
 
 fn prerr_staerr_s2exp_equal (
@@ -134,29 +165,41 @@ fn prerr_staerr_s2exp_equal (
 ) : void = begin
   prerr_error3_loc (loc);
   prerr ": mismatch of static terms (equal):\n";
-  prerr "The actual term is: "; prerr_s2exp s2e1; prerr_newline ();
-  prerr "The needed term is: "; prerr_s2exp s2e2; prerr_newline ();
+  prerr "The actual term is: "; pprerr_s2exp (s2e1); prerr_newline ();
+  prerr "The needed term is: "; pprerr_s2exp (s2e2); prerr_newline ();
 end // end of [prerr_staerr_s2exp_equal]
 
 in // in of [local]
 
 implement
 prerr_the_staerrlst () = let
-  fun loop (xs: staerrlst_vt): void = case+ xs of
-    | ~list_vt_cons (x, xs) => let
-        val () = (case+ x of
-          | STAERR_funclo_equal (loc, fc1, fc2) => prerr_staerr_funclo_equal (loc, fc1, fc2)
-          | STAERR_s2exp_equal (loc, s2e1, s2e2) => prerr_staerr_s2exp_equal (loc, s2e1, s2e2)
-          | STAERR_s2exp_tyleq (loc, s2e1, s2e2) => prerr_staerr_s2exp_tyleq (loc, s2e1, s2e2)
-          | _ => ()
-        ) : void // end of [case] // end of [val]
-      in
-        loop (xs)
-      end // end of [list_vt_cons]
-    | ~list_vt_nil () => ()
-  // end of [loop]
-  var n: int
-  val xs = the_staerrlst_get (n)
+//
+fun loop (
+  xs: staerrlst_vt
+) : void = let
+in
+//
+case+ xs of
+| ~list_vt_cons (x, xs) => let
+    val () = (case+ x of
+    | STAERR_funclo_equal (loc, fc1, fc2) => prerr_staerr_funclo_equal (loc, fc1, fc2)
+    | STAERR_clokind_equal (loc, knd1, knd2) => prerr_staerr_clokind_equal (loc, knd1, knd2)
+    | STAERR_linearity_equal (loc, lin1, lin2) => prerr_staerr_linearity_equal (loc, lin1, lin2)
+    | STAERR_pfarity_equal (loc, npf1, npf2) => prerr_staerr_pfarity_equal (loc, npf1, npf2)
+    | STAERR_s2exp_equal (loc, s2e1, s2e2) => prerr_staerr_s2exp_equal (loc, s2e1, s2e2)
+    | STAERR_s2exp_tyleq (loc, s2e1, s2e2) => prerr_staerr_s2exp_tyleq (loc, s2e1, s2e2)
+    | _ => ()
+    ) : void // end of [case] // end of [val]
+  in
+    loop (xs)
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => ()
+//
+end // end of [loop]
+//
+var n: int
+val xs = the_staerrlst_get (n)
+//
 in
   loop (xs)
 end // end of [prerr_the_staerrlst]

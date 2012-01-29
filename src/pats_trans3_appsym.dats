@@ -318,10 +318,12 @@ end // end of [auxsel_arity]
 fun auxsel_skexplst (
   xs: List_vt @(d3pitm, s2kexp), s2kes: s2kexplst
 ) : List_vt @(d3pitm, s2kexp) = let
+(*
   val () = (
     print "auxsel_skexplst: s2kes = ";
     fprint_s2kexplst (stdout_ref, s2kes); print_newline ()
   ) // end of [val]
+*)
 in
 //
 case+ xs of

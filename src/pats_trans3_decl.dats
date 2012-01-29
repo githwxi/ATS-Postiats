@@ -175,6 +175,32 @@ f2undeclst_tr
 //
 val isrec = funkind_is_recursive (knd)
 //
+fun aux_ini (
+  d2cs: f2undeclst, d2vs_fun: d2varlst
+) : void = let
+in
+//
+case+ d2cs of
+| list_cons
+    (d2c, d2cs) => let
+    val d2v_fun = d2c.f2undec_var
+    val d2e_def = d2c.f2undec_def
+(*
+    val () = d2exp_metfn_load (d2e_def, d2vs_fun)
+*)
+    val s2e_fun = (case+ d2c.f2undec_ann of
+      | Some s2e_ann => s2e_ann | None () => d2exp_syn_type (d2e_def)
+    ) : s2exp // end of [val]
+    val opt = Some (s2e_fun)
+    val () = d2var_set_type (d2v_fun, opt)
+    val () = d2var_set_mastype (d2v_fun, opt)
+  in
+    aux_ini (d2cs, d2vs_fun)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [aux_ini]
+//
 fn aux_fin {n:nat} (
   d2cs: list (f2undec, n), d3es: list (d3exp, n)
 ) : f3undeclst = let
@@ -183,6 +209,9 @@ fn aux_fin {n:nat} (
   ) : f3undec = let
     val d2v_fun = d2c.f2undec_var
     val s2e_fun = d3e.d3exp_type // s2hnf
+//
+// HX-2012-01-22: it is unnecessary if recursive
+//
     val () = {
       val opt = Some (s2e_fun)
       val () = d2var_set_type (d2v_fun, opt)
@@ -191,9 +220,21 @@ fn aux_fin {n:nat} (
   in
     f3undec_make (d2c.f2undec_loc, d2v_fun, d3e)
   end // end of [f]
+  val d3cs = list_map2_fun (d2cs, d3es, f)
 in
-  l2l (list_map2_fun (d2cs, d3es, f))
+  (l2l)d3cs
 end // end of [aux_fin]
+//
+val () = if isrec then let
+  typedef a = f2undec and b = d2var
+  val d2vs_fun =
+    list_map_fun<a><b> (d2cs, lam (d2c) =<1> d2c.f2undec_var)
+  // end of [val]
+  val () = aux_ini (d2cs, $UN.castvwtp1 {d2varlst} (d2vs_fun))
+  val () = list_vt_free (d2vs_fun)
+in
+  // nothing
+end // end of [val]
 //
 val d3es = list_map_fun (d2cs, f2undec_tr)
 val d3cs = aux_fin (d2cs, $UN.castvwtp1 (d3es))

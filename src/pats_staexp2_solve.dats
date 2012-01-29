@@ -86,6 +86,13 @@ stamp_equal_solve_err
 (* ****** ****** *)
 
 implement
+funclo_equal_solve
+  (loc0, fc1, fc2) = err where {
+  var err: int = 0
+  val () = funclo_equal_solve_err (loc0, fc1, fc2, err)
+} // end of [funclo_equal_solve]
+
+implement
 funclo_equal_solve_err
   (loc0, fc1, fc2, err) =
   if fc1 = fc2 then () else let
@@ -110,6 +117,13 @@ clokind_equal_solve_err
 // end of [clokind_equal_solve_err]
 
 (* ****** ****** *)
+
+implement
+linearity_equal_solve
+  (loc0, lin1, lin2) = err where {
+  var err: int = 0
+  val () = linearity_equal_solve_err (loc0, lin1, lin2, err)
+} // end of [linearity_equal_solve]
 
 implement
 linearity_equal_solve_err
@@ -167,6 +181,25 @@ refval_equal_solve_err
     // nothing
   end // end of [if]
 // end of [refval_equal_solve_err]
+
+(* ****** ****** *)
+
+implement
+s2eff_effleq_solve
+  (loc0, s2fe1, s2fe2) = err where {
+  var err: int = 0
+  val () = s2eff_effleq_solve_err (loc0, s2fe1, s2fe2, err)
+} // end of [s2eff_effleq_solve]
+
+implement
+s2eff_effleq_solve_err
+  (loc0, s2fe1, s2fe2, err) = let
+(*
+  // HX: this is yet to be fixed!!!
+*)
+in
+  // nothing
+end // end of [s2eff_effleq_solve]
 
 (* ****** ****** *)
 
@@ -357,23 +390,38 @@ end // end of [s2exp_equal_solve_err]
 implement
 s2explst_equal_solve_err
   (loc0, s2es1, s2es2, err) = let
+//
+fun loop (
+  loc0: location
+, s2es1: s2explst, s2es2: s2explst
+, err: &int
+) : int = case+ s2es1 of
+  | list_cons (s2e1, s2es1) => (
+    case+ s2es2 of
+    | list_cons (s2e2, s2es2) => let
+        val () =
+          s2exp_equal_solve_err (loc0, s2e1, s2e2, err)
+        // end of [val]
+      in
+        loop (loc0, s2es1, s2es2, err)
+      end // end of [list_cons]
+    | list_nil () => 1
+    ) // end of [list_cons]
+  | list_nil () => (
+    case+ s2es2 of
+    | list_cons _ => ~1 | list_nil () => 0
+    ) // end of [list_nil]
+// end of [loop]
+//
+val sgn = loop (
+  loc0, s2es1, s2es2, err
+) // end of [val]
+val () = if (sgn != 0) then {
+  val () = err := err + 1
+  val () = the_staerrlst_add (STAERR_s2explst_length (loc0, sgn))
+} // end of [val]
 in
-//
-case+ s2es1 of
-| list_cons (s2e1, s2es1) => (
-  case+ s2es2 of
-  | list_cons (s2e2, s2es2) => let
-      val () = s2exp_equal_solve_err (loc0, s2e1, s2e2, err)
-    in
-      s2explst_equal_solve_err (loc0, s2es1, s2es2, err)
-    end // end of [list_cons]
-  | list_nil () => 1
-  ) // end of [list_cons]
-| list_nil () => (
-  case+ s2es2 of
-  | list_cons _ => ~1 | list_nil () => 0
-  ) // end of [list_nil]
-//
+  // nothing
 end // end of [s2explst_equal_solve_err]
 
 (* ****** ****** *)
@@ -487,6 +535,42 @@ val () = case+
     | _ => s2hnf_tyleq_solve_err (loc0, s2f10, s2f21, err)
   end // end of [_, S2Einvar]
 //
+| (S2Euni _, _) => let
+    val (pfpush | ()) = trans3_env_push ()
+    // this order is mandatary!
+    val s2e2 = s2exp_absuni_and_add (loc0, s2e20)
+    val (s2e1, s2ps) = s2exp_uni_instantiate_all (s2e10, loc0, err)
+    val () = trans3_env_add_proplst_vt (loc0, s2ps)
+    val () = s2exp_tyleq_solve_err (loc0, s2e1, s2e2, err)
+  in
+    trans3_env_pop_and_add_main (pfpush | loc0)
+  end // end of [S2Euni, _]
+| (_, S2Eexi _) => let
+    val (pfpush | ()) = trans3_env_push ()
+    // this order is mandatary!
+    val s2e1 = s2exp_opnexi_and_add (loc0, s2e10)
+    val (s2e2, s2ps) = s2exp_exi_instantiate_all (s2e20, loc0, err)
+    val () = trans3_env_add_proplst_vt (loc0, s2ps)
+    val () = s2exp_tyleq_solve_err (loc0, s2e1, s2e2, err)
+  in
+    trans3_env_pop_and_add_main (pfpush | loc0)
+  end // end of [_, S2Eexi]
+//
+| (_, S2Euni _) => let
+    val (pfpush | ()) = trans3_env_push ()
+    val s2e2 = s2exp_absuni_and_add (loc0, s2e20)
+    val () = s2exp_tyleq_solve_err (loc0, s2e10, s2e2, err)
+  in
+    trans3_env_pop_and_add_main (pfpush | loc0)
+  end // end of [_, S2Euni]
+| (S2Eexi _, _) => let
+    val (pfpush | ()) = trans3_env_push ()
+    val s2e1 = s2exp_opnexi_and_add (loc0, s2e10)
+    val () = s2exp_tyleq_solve_err (loc0, s2e1, s2e20, err)
+  in
+    trans3_env_pop_and_add_main (pfpush | loc0)
+  end // end of [S2Eexi, _]
+//
 | (S2Eapp (s2e1_fun, s2es1_arg), _) => (
   case+ s2en20 of
   | S2Ecst s2c2 => (
@@ -519,7 +603,20 @@ val () = case+
       end // end of [_, _]
     ) // end of [S2Eapp]
   | _ => (err := err + 1)
-  ) // end of [S2Eapp, _]
+  ) (* end of [S2Eapp, _] *)
+| (S2Efun (fc1, lin1, s2fe1, npf1, s2es1_arg, s2e1_res), _) => (
+  case+ s2en20 of
+  | S2Efun (fc2, lin2, s2fe2, npf2, s2es2_arg, s2e2_res) => let
+      val () = funclo_equal_solve_err (loc0, fc1, fc2, err)
+      val () = linearity_equal_solve_err (loc0, lin1, lin2, err)
+      val () = pfarity_equal_solve_err (loc0, npf1, npf2, err)
+      val () = s2explst_tyleq_solve_err (loc0, s2es2_arg, s2es1_arg, err) // contravariant!
+      val () = s2exp_tyleq_solve_err (loc0, s2e1_res, s2e2_res, err)
+    in
+      // nothing
+    end (* end of [S2Efun] *)
+  | _ => (err := err + 1)
+  ) // end of [S2Efun, _]
 | (S2Etyrec (knd1, npf1, ls2es1), _) => (
   case+ s2en20 of
   | S2Etyrec (knd2, npf2, ls2es2) => let
@@ -531,7 +628,7 @@ val () = case+
       labs2explst_tyleq_solve_err (loc0, ls2es1, ls2es2, err)
     end // end of [S2Etyrec]
   | _ => (err := err + 1)
-  ) // end of [S2Etyrec]
+  ) (* end of [S2Etyrec, _] *)
 | (_, _) when s2hnf_syneq (s2f10, s2f20) => ()
 | (_, _) => (err := err + 1)
 // end of [val]
@@ -556,9 +653,53 @@ end // end of [s2exp_tyleq_solve_err]
 (* ****** ****** *)
 
 implement
+s2explst_tyleq_solve_err
+  (loc0, s2es1, s2es2, err) = let
+//
+fun loop (
+  loc0: location
+, s2es1: s2explst, s2es2: s2explst
+, err: &int
+) : int = case+ s2es1 of
+  | list_cons (s2e1, s2es1) => (
+    case+ s2es2 of
+    | list_cons (s2e2, s2es2) => let
+        val () =
+          s2exp_tyleq_solve_err (loc0, s2e1, s2e2, err)
+        // end of [val]
+      in
+        loop (loc0, s2es1, s2es2, err)
+      end // end of [list_cons]
+    | list_nil () => 1
+    ) // end of [list_cons]
+  | list_nil () => (
+    case+ s2es2 of
+    | list_cons _ => ~1 | list_nil () => 0
+    ) // end of [list_nil]
+// end of [loop]
+//
+val sgn = loop (
+  loc0, s2es1, s2es2, err
+) // end of [val]
+val () = if (sgn != 0) then {
+  val () = err := err + 1
+  val () = the_staerrlst_add (STAERR_s2explst_length (loc0, sgn))
+} // end of [val] 
+in
+  // nothing
+end // end of [s2explst_tyleq_solve_err]
+
+(* ****** ****** *)
+
+implement
 labs2explst_tyleq_solve_err
-  (loc0, ls2es1, ls2es2, err) =
-  case+ ls2es1 of
+  (loc0, ls2es1, ls2es2, err) = let
+//
+fun loop (
+  loc0: location
+, ls2es1: labs2explst, ls2es2: labs2explst
+, err: &int
+) : int = case+ ls2es1 of
   | list_cons (ls2e1, ls2es1) => (
     case+ ls2es2 of
     | list_cons (ls2e2, ls2es2) => let
@@ -567,22 +708,25 @@ labs2explst_tyleq_solve_err
         val () = label_equal_solve_err (loc0, l1, l2, err)
         val () = s2exp_tyleq_solve_err (loc0, s2e1, s2e2, err)
       in
-        labs2explst_tyleq_solve_err (loc0, ls2es1, ls2es2, err)
+        loop (loc0, ls2es1, ls2es2, err)
       end // end of [list_cons]
-    | list_nil () => let
-        val () = err := err + 1 in
-        the_staerrlst_add (STAERR_labs2explst_length (loc0, 1))
-      end // end of [list_nil]
+    | list_nil () => 1
     ) // end of [list_cons]
   | list_nil () => (
-    case+ ls2es2 of
-    | list_cons (ls2e2, ls2es2) => let
-        val () = err := err + 1 in
-        the_staerrlst_add (STAERR_labs2explst_length (loc0, ~1))
-      end // end of [list_cons]
-    | list_nil () => ()
+    case+ ls2es2 of list_cons _ => ~1 | list_nil () => 0
     ) // end of [list_nil]
-// end of [labs2explst_tyleq_solve_err]
+// end of [loop]
+//
+val sgn = loop (
+  loc0, ls2es1, ls2es2, err
+) // end of [val]
+val () = if (sgn != 0) then {
+  val () = err := err + 1
+  val () = the_staerrlst_add (STAERR_labs2explst_length (loc0, sgn))
+} // end of [val]
+in
+  // nothing
+end // end of [labs2explst_tyleq_solve_err]
 
 (* ****** ****** *)
 

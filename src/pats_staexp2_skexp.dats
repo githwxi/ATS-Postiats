@@ -321,19 +321,19 @@ in // in of [local]
 implement
 s2kexp_make_s2exp
   (s2e0) = let
-// (*
+(*
   val () = (
     print "s2kexp_make_s2exp: s2e0 = "; print_s2exp s2e0; print_newline ()
   ) // end of [val]
-// *)
+*)
   var env = env_make_nil ()
   val s2ke = aux_s2exp (env, s2e0)
   val () = env_free (env)
-// (*
+(*
   val () = (
     print "s2kexp_make_s2exp: s2ke = "; print_s2kexp s2ke; print_newline ()
   ) // end of [val]
-// *)
+*)
 in
   s2ke
 end // end of [s2kexp_make_s2exp]

@@ -338,6 +338,24 @@ s2exp_exiuni
   (* end of [if] *)
 // end of [s2exp_exiuni]
 
+implement
+uns2exp_exiuni (
+  knd, s2f, s2vs, s2ps, scope
+) =
+  case+ s2f.s2exp_node of
+  | S2Eexi (s2vs1, s2ps1, s2e1) when knd = 0 =>
+      (s2vs := s2vs1; s2ps := s2ps1; scope := s2e1; true)
+  | S2Euni (s2vs1, s2ps1, s2e1) when knd = 1 =>
+      (s2vs := s2vs1; s2ps := s2ps1; scope := s2e1; true)
+  | _ => let
+      val () = s2vs := list_nil
+      and () = s2ps := list_nil
+      val () = scope := s2f // dummy value
+    in
+      false
+    end // end of [_]
+// end of [uns2exp_exiuni]
+
 (* ****** ****** *)
 
 implement

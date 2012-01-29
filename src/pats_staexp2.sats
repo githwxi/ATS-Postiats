@@ -809,6 +809,13 @@ fun s2exp_exiuni // knd=0/1: exi/uni
   (knd: int, s2vs: s2varlst, s2ps: s2explst, s2f: s2exp): s2exp
 // end of [s2exp_exiuni]
 
+fun uns2exp_exiuni (
+  knd: int, s2f: s2exp // knd=0/1:exi/uni
+, s2vs: &s2varlst? >> s2varlst
+, s2ps: &s2explst? >> s2explst
+, scope: &s2exp? >> s2exp
+) : bool // succ/fail: true/false
+
 (* ****** ****** *)
 
 fun s2exp_unis (s2qs: s2qualst, s2f: s2exp): s2exp

@@ -132,6 +132,10 @@ fun s2exp_Var_make_var (loc: location, s2v: s2var): s2exp
 
 (* ****** ****** *)
 
+fun s2exp_exiuni_instantiate_all // knd=0/1:exi/uni
+  (knd: int, s2e: s2exp, locarg: location, err: &int): (s2exp, s2explst_vt)
+fun s2exp_exi_instantiate_all
+  (s2e: s2exp, locarg: location, err: &int): (s2exp, s2explst_vt)
 fun s2exp_uni_instantiate_all
   (s2e: s2exp, locarg: location, err: &int): (s2exp, s2explst_vt)
 
@@ -203,6 +207,10 @@ fun fprint_the_s3itmlst (out: FILEref): void
 fun fprint_the_s3itmlstlst (out: FILEref): void
 //
 (* ****** ****** *)
+
+fun s2exp_absuni_and_add
+  (loc: location, s2e: s2exp): s2exp
+// end of [s2exp_absuni_and_add]
 
 fun s2exp_opnexi_and_add
   (loc: location, s2e: s2exp): s2exp
