@@ -901,6 +901,51 @@ case+ tok.token_node of
     end (* end of [if] *)
   end
 //
+| T_DLRLST (knd) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_s0expelt (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_LPAREN, err0)
+    val ent4 = (
+      if err = err0 then
+        pstar_fun0_COMMA {d0exp} (buf, bt, p_d0exp) else list_vt_nil ()
+      // end of [if]
+    ) : d0explst_vt // end of [val]
+    val ent5 = pif_fun (buf, bt, err, p_RPAREN, err0)
+  in
+    if err = err0 then 
+      d0exp_lst (knd, tok, ent2, ent3, (l2l)ent4, ent5)
+    else let
+      val () = list_vt_free (ent4) in synent_null ()
+    end (* end of [if] *)
+  end
+| T_DLRTUP (knd) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_LPAREN (buf, bt, err) // err = err0
+    val ent3 = p_d0expseq_BAR_d0expseq (buf, bt, err)
+    val ent4 = pif_fun (buf, bt, err, p_RPAREN, err0)
+  in
+    if err = err0 then 
+      d0exp_tup12 (knd, tok, ent3, ent4)
+    else let
+      val () = list12_free (ent3) in synent_null ()
+    end // end of [if]
+  end
+| T_DLRREC (knd) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_LBRACE (buf, bt, err) // err = err0
+    val ent3 = p_labd0expseq_BAR_labd0expseq (buf, bt, err)
+    val ent4 = pif_fun (buf, bt, err, p_RBRACE, err0)
+  in
+    if err = err0 then 
+      d0exp_rec12 (knd, tok, ent3, ent4)
+    else let
+      val () = list12_free (ent3) in synent_null ()
+    end // end of [if]
+  end
+//
 | T_BEGIN () => let
     val bt = 0
     val () = incby1 ()

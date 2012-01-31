@@ -148,14 +148,19 @@ end // end of [p2at_var]
 (* ****** ****** *)
 
 implement
+p2at_int (loc, i) =
+  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tint (i))
+// end of [p2at_int]
+
+implement
+p2at_intrep (loc, rep) =
+  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tintrep (rep))
+// end of [p2at_int]
+
+implement
 p2at_bool (loc, b) =
   p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tbool (b))
 // end of [p2at_bool]
-
-implement
-p2at_int (loc, rep) =
-  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tint (rep))
-// end of [p2at_int]
 
 implement
 p2at_char (loc, c) =
@@ -299,9 +304,11 @@ d2exp_var (loc, d2v) = d2exp_make (loc, D2Evar (d2v))
 (* ****** ****** *)
 
 implement
-d2exp_bool (loc, b) = d2exp_make (loc, D2Ebool (b))
+d2exp_int (loc, i) = d2exp_make (loc, D2Eint (i))
 implement
-d2exp_int (loc, rep) = d2exp_make (loc, D2Eint (rep))
+d2exp_intrep (loc, rep) = d2exp_make (loc, D2Eintrep (rep))
+implement
+d2exp_bool (loc, b) = d2exp_make (loc, D2Ebool (b))
 implement
 d2exp_char (loc, c) = d2exp_make (loc, D2Echar (c))
 implement

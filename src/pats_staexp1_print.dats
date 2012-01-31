@@ -90,11 +90,16 @@ in
 case+ e0.e1xp_node of
 | E1XPide (id) => fprint_symbol (out, id)
 //
-| E1XPint (_, rep) => {
+| E1XPint (int) => {
     val () = prstr "E1XPint("
-    val () = fprint_string (out, rep)
+    val () = fprint_int (out, int)
     val () = prstr ")"
   } // end of [E1XPint]
+| E1XPintrep (rep) => {
+    val () = prstr "E1XPintrep("
+    val () = fprint_string (out, rep)
+    val () = prstr ")"
+  } // end of [E1XPi0nt]
 | E1XPchar (c: char) => begin
     prstr "E1XPchar("; fprint_char (out, c); prstr ")"
   end // end of [E1XPchar]
@@ -330,8 +335,13 @@ in
 //
 case+ x.s1exp_node of
 //
-| S1Eint (_, rep) => {
+| S1Eint (int) => {
     val () = prstr "S1Eint("
+    val () = fprint_int (out, int)
+    val () = prstr ")"
+  }
+| S1Eintrep (rep) => {
+    val () = prstr "S1Eintrep("
     val () = fprint_string (out, rep)
     val () = prstr ")"
   }

@@ -810,8 +810,9 @@ case+ d1e0.d1exp_node of
   // end of [D1Eide]
 | D1Edqid (dq, id) => d1exp_tr_dqid (d1e0, dq, id)
 //
+| D1Eint (i) => d2exp_int (loc0, i)
+| D1Eintrep (rep) => d2exp_intrep (loc0, rep)
 | D1Ebool (b) => d2exp_bool (loc0, b)
-| D1Eint (rep) => d2exp_int (loc0, rep)
 | D1Echar (c) => d2exp_char (loc0, c)
 | D1Estring (s) => d2exp_string (loc0, s)
 | D1Efloat (rep) => d2exp_float (loc0, rep)

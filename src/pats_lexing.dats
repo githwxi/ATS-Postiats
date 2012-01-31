@@ -1965,7 +1965,9 @@ lexing_INTEGER_dec
 
 implement
 lexing_INTEGER_oct
-  (buf, pos, k1) =
+  (buf, pos, k1) = let
+in
+//
 if k1 >= 2u then let
   val k2 = testing_intspseq0 (buf, pos)
   val str = lexbuf_get_strptr1 (buf, k1+k2+1u) // 0: 1u
@@ -1975,6 +1977,8 @@ in
 end else
   lexing_INTEGER_dec (buf, pos, k1)
 // end of [lexing_INTEGER_oct]
+//
+end // end of [lexing_INTEGER_oct]
 
 (* ****** ****** *)
 

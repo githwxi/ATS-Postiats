@@ -102,13 +102,20 @@ d3exp_node =
 //
   | D3Ebool of bool
   | D3Echar of char
-  | D3Eint of (* dynamic integer *)
-      (string, intinf)
-  | D3Eintsp of (* dynamic specified integer *)
-      (string, intinf)
+//
+  | D3Eint of (int)
+  | D3Ei0nt of (string, intinf)
+//
   | D3Efloat of string(*rep*)
+  | D3Ef0loat of string(*rep*)
+//
   | D3Estring of string(*val*)
+//
+  | D3Ecstsp of ($SYN.cstsp)
+//
+  | D3Etop of () // unspecified value
   | D3Eempty of () // the void-value of void-type
+//
   | D3Eextval of (string(*rep*))
   | D3Econ of (d2con, int(*npf*), d3explst(*arg*))
 //
@@ -132,12 +139,18 @@ d3exp_node =
       (int(*recknd*), int(*npf*), labd3explst)
   | D3Eseq of d3explst // sequencing
 //
+  | D3Earrinit of // For instance, @[int](1,2,3)
+      (s2exp(*elt*), d3exp(*asz*), d3explst(*elt*))
+  | D3Earrsize of (d3explst, int(*size*))
+//
   | D3Elam_dyn of // dynamic abstraction
       (int(*lin*), int(*npf*), p3atlst, d3exp)
   | D3Elaminit_dyn of // dynamic flat funtion closure
       (int(*lin*), int(*npf*), p3atlst, d3exp)
   | D3Elam_sta of // static abstraction
       (s2varlst(*s2vs*), s2explst(*s2ps*), d3exp)
+//
+  | D3Eloopexn of (int(*knd*))
 //
   | D3Eann_type of (d3exp, s2exp)
 //
@@ -213,8 +226,12 @@ fun d3exp_var
 (* ****** ****** *)
 
 fun d3exp_int (
-  loc: location, s2f: s2exp, rep: string, inf: intinf
+  loc: location, s2f: s2exp, i: int
 ) : d3exp // end of [d3exp_int]
+
+fun d3exp_i0nt (
+  loc: location, s2f: s2exp, rep: string, inf: intinf
+) : d3exp // end of [d3exp_i0nt]
 
 fun d3exp_bool
   (loc: location, s2f: s2exp, b: bool): d3exp
@@ -231,6 +248,12 @@ fun d3exp_string
 fun d3exp_float
   (loc: location, s2f: s2exp, rep: string): d3exp
 // end of [d3exp_float]
+
+(* ****** ****** *)
+
+fun d3exp_cstsp
+  (loc: location, s2f: s2exp, x: $SYN.cstsp): d3exp
+// end of [d3exp_cstsp]
 
 (* ****** ****** *)
 
@@ -307,6 +330,16 @@ fun d3exp_if (
 
 (* ****** ****** *)
 
+fun d3exp_arrinit (
+  loc: location
+, s2e_arr: s2exp, elt: s2exp, asz: d3exp, d3es: d3explst
+) : d3exp // end of [d3exp_arrinit]
+fun d3exp_arrsize (
+  loc: location, s2e_arrsz: s2exp, d3es: d3explst, asz: int
+) : d3exp // end of [d3exp_arrsize]
+
+(* ****** ****** *)
+
 fun d3exp_lam_dyn (
   loc: location, typ: s2exp
 , lin: int, npf: int, arg: p3atlst, body: d3exp
@@ -320,6 +353,11 @@ fun d3exp_lam_sta (
   loc: location, typ: s2exp
 , s2vs: s2varlst, s2ps: s2explst, body: d3exp
 ) : d3exp // end of [d3exp_lam_sta]
+
+(* ****** ****** *)
+
+fun d3exp_loopexn
+  (loc: location, s2f: s2exp, knd: int): d3exp
 
 (* ****** ****** *)
 

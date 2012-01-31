@@ -49,7 +49,8 @@ datatype p1at_node =
       (d0ynq, symbol)
   | P1Tref of symbol // refvar pattern
 //
-  | P1Tint of (string(*rep*)) // int constant
+  | P1Tint of (int) // int constant
+  | P1Tintrep of string(*rep*) // int constant
   | P1Tchar of char // char constant
   | P1Tstring of string // string constant
   | P1Tfloat of string (*rep*)// floating point constant
@@ -107,9 +108,8 @@ fun p1at_ide (_: location, id: symbol): p1at
 fun p1at_dqid (loc: location, dq: d0ynq, id: symbol): p1at
 fun p1at_ref (loc: location, id: symbol): p1at
 //
-fun p1at_int
-  (loc: location, rep: string): p1at
-// end of [p1at_int]
+fun p1at_int (loc: location, int: int): p1at
+fun p1at_intrep (loc: location, rep: string): p1at
 fun p1at_char (loc: location, c: char): p1at
 fun p1at_string (loc: location, s: string): p1at
 fun p1at_float (loc: location, rep: string): p1at
@@ -275,8 +275,9 @@ and d1exp_node =
   | D1Eide of (symbol) // identifiers
   | D1Edqid of (d0ynq, symbol) // qualified identifiers
 //
+  | D1Eint of int // dynamic integers
+  | D1Eintrep of string(*rep*) // dynamic integers
   | D1Ebool of bool // boolean constants
-  | D1Eint of (string(*rep*)) // dynamic integers
   | D1Echar of char // dynamic characters
   | D1Estring of string (* dynamic strings *)
   | D1Efloat of string(*rep*) (* dynamic floats *)
@@ -521,9 +522,8 @@ fun d1exp_dqid
 // end of [d1exp_dqid]
 fun d1exp_opid (loc: location, id: symbol): d1exp
 
-fun d1exp_int
-  (loc: location, rep: string): d1exp
-// end of [d1exp_int]
+fun d1exp_int (loc: location, i: int): d1exp
+fun d1exp_intrep (loc: location, rep: string): d1exp
 fun d1exp_char (loc: location, c: char): d1exp
 fun d1exp_string (loc: location, str: string): d1exp
 fun d1exp_float (loc: location, rep: string): d1exp

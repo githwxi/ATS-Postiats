@@ -66,9 +66,12 @@ implement
 e1xp_ide (loc, id) = e1xp_make (loc, E1XPide (id: symbol))
 
 implement
-e1xp_int (loc, base, rep) =
-  e1xp_make (loc, E1XPint (base, rep))
-// end of [e1xp_int]
+e1xp_int (loc, i) =
+  e1xp_make (loc, E1XPint (i))
+implement
+e1xp_intrep (loc, rep) =
+  e1xp_make (loc, E1XPintrep (rep))
+// end of [e1xp_intrep]
 implement
 e1xp_char (loc, c) = e1xp_make (loc, E1XPchar (c: char))
 implement
@@ -83,7 +86,7 @@ e1xp_i0nt
     (base, rep, _(*sfx*)) = x.token_node
   // end of [val]
 in
-  e1xp_int (loc, base, rep)
+  e1xp_intrep (loc, rep)
 end // end of [e1xp_i0nt]
 implement
 e1xp_c0har (loc, x) = let
@@ -137,8 +140,8 @@ e1xp_err (loc) = e1xp_make (loc, E1XPerr ())
 
 (* ****** ****** *)
 
-implement e1xp_true (loc) = e1xp_int (loc, 10, "1")
-implement e1xp_false (loc) = e1xp_int (loc, 10, "0")
+implement e1xp_true (loc) = e1xp_int (loc, 1)
+implement e1xp_false (loc) = e1xp_int (loc, 0)
 
 (* ****** ****** *)
 
@@ -303,9 +306,15 @@ s1exp_char (loc, c) = '{
 
 implement
 s1exp_int
-  (loc, base, rep) = '{
-  s1exp_loc= loc, s1exp_node= S1Eint (base, rep)
+  (loc, int) = '{
+  s1exp_loc= loc, s1exp_node= S1Eint (int)
 } // end of [s1exp_int]
+
+implement
+s1exp_intrep
+  (loc, rep) = '{
+  s1exp_loc= loc, s1exp_node= S1Eintrep (rep)
+} // end of [s1exp_intrep]
 
 implement
 s1exp_i0nt
@@ -314,12 +323,7 @@ s1exp_i0nt
     (base, rep, _(*sfx*)) = x.token_node
   // end of [val]
 in
-//
-case+ base of
-| 8 => s1exp_int (loc, 8, rep)
-| 16 => s1exp_int (loc, 16, rep)
-| _ => s1exp_int (loc, 10, rep)
-//
+  s1exp_intrep (loc, rep)
 end // end of [s1exp_i0nt]
 
 implement
@@ -514,7 +518,8 @@ in
       s1exp_app (loc0, aux e1, loc_arg, auxlst es2)
     // end of [E1XPapp]
   | E1XPide ide => s1exp_ide (loc0, ide)
-  | E1XPint (base, rep) => s1exp_int (loc0, base, rep)
+  | E1XPint (int) => s1exp_int (loc0, int)
+  | E1XPintrep (rep) => s1exp_intrep (loc0, rep)
   | E1XPchar (c) => s1exp_char (loc0, c)
   | E1XPlist es => s1exp_list (loc0, auxlst es)
   | _ => s1exp_err (loc0) where {
@@ -546,7 +551,8 @@ fun aux (
 ) :<cloptr1> e1xp =
   case+ s1e0.s1exp_node of
   | S1Eide (id) => e1xp_ide (loc0, id)
-  | S1Eint (base, rep) => e1xp_int (loc0, base, rep)
+  | S1Eint (int) => e1xp_int (loc0, int)
+  | S1Eintrep (rep) => e1xp_intrep (loc0, rep)
   | S1Echar (char) => e1xp_char (loc0, char)
   | S1Eapp (s1e_fun, _(*loc*), s1es_arg) => let
       val e_fun = aux (s1e_fun); val es_arg = auxlst (s1es_arg)

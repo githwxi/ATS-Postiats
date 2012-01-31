@@ -191,6 +191,12 @@ case+ d2cs of
     val s2e_fun = (case+ d2c.f2undec_ann of
       | Some s2e_ann => s2e_ann | None () => d2exp_syn_type (d2e_def)
     ) : s2exp // end of [val]
+// (*
+    val () = (
+      print "f2undeclst_tr: aux_ini: d2v_fun = "; print_d2var (d2v_fun); print_newline ();
+      print "f2undeclst_tr: aux_ini: s2e_fun = "; print_s2exp (s2e_fun); print_newline ();
+    ) // end of [val]
+// *)
     val opt = Some (s2e_fun)
     val () = d2var_set_type (d2v_fun, opt)
     val () = d2var_set_mastype (d2v_fun, opt)

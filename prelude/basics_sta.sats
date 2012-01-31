@@ -384,6 +384,14 @@ abst@ype strbuf (m:int, n:int) // [m] bytesx
 
 (* ****** ****** *)
 
+absview
+arrsz_viewt0ype_int_viewt0ype
+  (a:viewt@ype+, n:int) = (ptr, size_t)
+// end of [arrsz_viewt0ype_int_viewt0ype]
+stadef arrsz = arrsz_viewt0ype_int_viewt0ype
+
+(* ****** ****** *)
+
 #if VERBOSE_PRELUDE #then
 #print "Loading [basics_sta.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]

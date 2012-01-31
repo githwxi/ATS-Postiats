@@ -45,6 +45,10 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
+staload LAB = "pats_label.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 staload "pats_staexp2_util.sats"
 
@@ -220,6 +224,27 @@ in
 end // end of [s2rt_npf_lin_prf_prgm_boxed_labs2explst]
 
 (* ****** ****** *)
+
+implement
+s2exp_tytup
+  (knd, npf, s2es) = let
+  fun aux (
+    i: int, s2es: s2explst
+  ) : labs2explst =
+    case+ s2es of
+    | list_cons (s2e, s2es) => let
+        val lab = $LAB.label_make_int (i)
+        val ls2e = SLABELED (lab, None(*name*), s2e)
+        val ls2es = aux (i+1, s2es)
+      in
+        list_cons (ls2e, ls2es)
+      end
+    | list_nil () => list_nil ()
+  // end of [aux]
+  val ls2es = aux (0, s2es)
+in
+  s2exp_tyrec (knd, npf, ls2es)
+end // end of [s2exp_tytup]
 
 implement
 s2exp_tyrec

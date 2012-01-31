@@ -85,6 +85,9 @@ staload "pats_trans3_env.sats"
 (* ****** ****** *)
 
 extern fun d2exp_trup_con (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
 extern fun d2exp_trup_tmpid (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
@@ -125,15 +128,11 @@ case+ d2e0.d2exp_node of
 | D2Evar (d2v) => d2exp_trup_var (loc0, d2v)
 | D2Ecst (d2c) => d2exp_trup_cst (loc0, d2c)
 //
+| D2Eint (i(*int*)) => d2exp_trup_int (d2e0, i)
 | D2Ebool (b(*bool*)) => d2exp_trup_bool (d2e0, b)
-| D2Eint (rep(*string*)) => d2exp_trup_int (d2e0, rep)
 | D2Echar (c(*char*)) => d2exp_trup_char (d2e0, c)
 //
-| D2Ei0nt (tok) => let
-    val- T_INTEGER (base, rep, sfx) = tok.token_node
-  in
-    d2exp_trup_i0nt (d2e0, base, rep, sfx)
-  end // end of [D2Ei0nt]
+| D2Ei0nt (tok) => d2exp_trup_i0nt (d2e0, tok)
 | D2Ec0har (tok) => let
     val- T_CHAR (c) = tok.token_node
   in
@@ -142,13 +141,11 @@ case+ d2e0.d2exp_node of
 | D2Es0tring (tok) => let
     val- T_STRING (str) = tok.token_node
   in
-    d2exp_trup_string (d2e0, str)
+    d2exp_trup_string (d2e0, str) // by default: string1 (len)
   end // end of [D2Es0tring]
-| D2Ef0loat (tok) => let
-    val- T_FLOAT (_(*base*), rep, sfx) = tok.token_node
-  in
-    d2exp_trup_f0loat (d2e0, rep, sfx)
-  end // end of [D2Ef0loat]
+| D2Ef0loat (tok) => d2exp_trup_f0loat (d2e0, tok)
+//
+| D2Ecstsp (csp) => d2exp_trup_cstsp (d2e0, csp)
 //
 | D2Eempty () => let
     val s2e = s2exp_void_t0ype () in d3exp_empty (loc0, s2e)
@@ -183,14 +180,58 @@ case+ d2e0.d2exp_node of
     d2exp_trdn_ifhead (d2e0, s2e_if)
   end // end of [D2Eifhead]
 //
-| D2Elam_dyn _ => d2exp_trup_lam_dyn (d2e0)
-| D2Elaminit_dyn _ => d2exp_trup_laminit_dyn (d2e0)
-| D2Elam_sta _ => d2exp_trup_lam_sta (d2e0)
-//
 | D2Elst _ => d2exp_trup_lst (d2e0)
 | D2Etup _ => d2exp_trup_tup (d2e0)
 | D2Erec _ => d2exp_trup_rec (d2e0)
 | D2Eseq _ => d2exp_trup_seq (d2e0)
+//
+| D2Earrinit
+    (s2e_elt, opt, d2es) => let
+    var s2i_asz : s2exp
+    val d3e_asz : d3exp = (
+      case+ opt of
+      | Some (d2e_asz) => let
+          val () =
+            s2i_asz := s2exp_err (s2rt_int)
+          // end of [val]
+        in
+          d2exp_trup (d2e_asz)
+        end // end of [Some]
+      | None () => let
+          val n = list_length (d2es)
+          val () = s2i_asz := s2exp_int (n)
+          val s2e_asz = s2exp_int_index_t0ype (s2i_asz)
+        in
+          d3exp_int (loc0, s2e_asz, n)
+        end // end of [None]
+    ) // end of [val]
+    val d3es = d2explst_trdn_elt (d2es, s2e_elt)
+    val s2es_dim = list_sing (s2i_asz)
+    val s2e_arr = s2exp_tyarr (s2e_elt, s2es_dim)
+  in
+    d3exp_arrinit (loc0, s2e_arr, s2e_elt, d3e_asz, d3es)
+  end // end of [D2Earrinit]
+| D2Earrsize (opt, d2es) => let
+    val s2e = (
+      case+ opt of
+      | Some s2e => s2e | None () => let
+          val s2t = s2rt_t0ype in s2exp_Var_make_srt (loc0, s2t)
+        end // end of [None]
+    ) : s2exp // end of [val]
+    val d3es = d2explst_trdn_elt (d2es, s2e)
+    val n = list_length (d2es)
+    val s2e_arrsz =
+      s2exp_arrsz_viewt0ype_int_viewt0ype (s2e, n)
+    // end of [val]
+  in
+    d3exp_arrsize (loc0, s2e_arrsz, d3es, n)
+  end // end of [D2Earrsize]
+//
+| D2Elam_dyn _ => d2exp_trup_lam_dyn (d2e0)
+| D2Elaminit_dyn _ => d2exp_trup_laminit_dyn (d2e0)
+| D2Elam_sta _ => d2exp_trup_lam_sta (d2e0)
+//
+| D2Eloopexn (knd) => d2exp_trup_loopexn (d2e0, knd)
 //
 | D2Eann_type (d2e, s2e_ann) => let
     val d3e = d2exp_trdn (d2e, s2e_ann)
@@ -388,16 +429,31 @@ end // end of [d2exp_trup_var_mut]
 
 fn d2exp_trup_var_nonmut
   (loc0: location, d2v: d2var): d3exp = let
-  val lin = d2var_get_linval (d2v)
-// (*
-  val () = (
-    print "d2exp_trup_var_nonmut: d2v = "; print_d2var (d2v); print_newline ()
-  ) // end of [val]
-  val () = println! ("d2exp_trup_var_nonmut: lin = ", lin)
-// *)
-  val- Some (s2e) = d2var_get_type (d2v)
+//
+val lin = d2var_get_linval (d2v)
+(*
+val () = (
+  print "d2exp_trup_var_nonmut: d2v = "; print_d2var (d2v); print_newline ()
+) // end of [val]
+val () = println! ("d2exp_trup_var_nonmut: lin = ", lin)
+*)
+val s2qs = d2var_get_decarg (d2v)
+val- Some (s2e) = d2var_get_type (d2v)
+//
 in
-  d3exp_var (loc0, s2e, d2v)
+//
+case+ s2qs of
+| list_nil () => d3exp_var (loc0, s2e, d2v)
+| list_cons _ => let
+    val locsarg = $LOC.location_rightmost (loc0)
+    var err: int = 0
+    val (
+      s2e_tmp, s2ess
+    ) = s2exp_tmp_instantiate_rest (s2e, locsarg, s2qs, err)
+  in
+    d3exp_tmpvar (loc0, s2e_tmp, d2v, s2ess)
+  end // end of [list_cons]
+//
 end // end of [d2exp_trup_var_nonmut]
 
 implement
@@ -429,7 +485,7 @@ case+ s2qs of
     ) = s2exp_tmp_instantiate_rest (s2e, locsarg, s2qs, err)
   in
     d3exp_tmpcst (loc0, s2e_tmp, d2c, s2ess)
-  end // end of [cons]
+  end // end of [list_cons]
 | list_nil () => d3exp_cst (loc0, s2e, d2c)
 //
 end // end of [d2cst_trup_cst]
@@ -843,6 +899,9 @@ d2exp_trup_lst
   (d2e0) = let
   val loc0 = d2e0.d2exp_loc
   val- D2Elst (lin, opt, d2es) = d2e0.d2exp_node
+// (*
+val () = (print "d2exp_trup_lst: lin = "; print lin; print_newline ())
+// *)
   val s2e_elt = (case+ opt of
     | Some s2e => s2e | None () => let
         val s2t = (
@@ -854,8 +913,9 @@ d2exp_trup_lst
   ) : s2exp // end of [val]
   val n = list_length d2es
   val d3es = d2explst_trdn_elt (d2es, s2e_elt)
+  val isnonlin = s2exp_is_nonlin (s2e_elt)
   val s2e_lst = (
-    if lin = 0 then
+    if isnonlin then
       s2exp_list_t0ype_int_type (s2e_elt, n)
     else
       s2exp_list_viewt0ype_int_viewtype (s2e_elt, n)

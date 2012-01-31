@@ -1348,28 +1348,10 @@ case+ s1e0.s1exp_node of
   end // end of [S1Eide]
 | S1Esqid (sq, id) => s1exp_trup_sqid (s1e0, sq, id)
 //
-| S1Eint (base, rep) => let
-    val [n:int] rep = string1_of_string (rep)
-    val intinf = (case+ base of
-      | 8 => let
-          prval () = __assert () where {
-            extern praxi __assert (): [n >= 1] void
-          } // end of [prval]
-        in
-          $INT.intinf_make_base_string_ofs (8, rep, 1)
-        end // end of [8]
-      | 16 => let
-          prval () = __assert () where {
-            extern praxi __assert (): [n >= 2] void
-          } // end of [prval]
-        in
-          $INT.intinf_make_base_string_ofs (16, rep, 2)
-        end // end of [8]
-      | _ => $INT.intinf_make_string (rep) // base=10 and ofs=0
-    ) : intinf // end of [val]
-  in
-    s2exp_intinf (intinf)
-  end // end of [S1Eint]
+| S1Eint (i) => s2exp_int (i)
+| S1Eintrep (rep) => let
+    val i = $INTINF.intinf_make_string (rep) in s2exp_intinf (i)
+  end // end of [S1Eintrep]
 //
 | S1Echar (char) => s2exp_char (char)
 //

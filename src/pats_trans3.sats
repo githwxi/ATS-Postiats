@@ -106,6 +106,8 @@ fun d2exp_s2eff_of_d2exp
 (* ****** ****** *)
 
 fun d2exp_syn_type (d2e: d2exp): s2exp
+fun d2explst_syn_type (d2es: d2explst): s2explst
+fun labd2explst_syn_type (ld2es: labd2explst): labs2explst
 
 (* ****** ****** *)
 
@@ -124,21 +126,29 @@ fun d3explst_trdn_arg
 
 (* ****** ****** *)
 //
-fun d2exp_trup_int (d2e0: d2exp, rep: string): d3exp
+fun d2exp_trup_int (d2e0: d2exp, i: int): d3exp
 fun d2exp_trup_bool (d2e0: d2exp, b: bool): d3exp
 fun d2exp_trup_char (d2e0: d2exp, c: char): d3exp
 fun d2exp_trup_string (d2e0: d2exp, str: string): d3exp
 //
-fun i0nt_syn_type (
-  d2e0: d2exp, base: int, rep: string, sfx: uint
-) : s2exp // end of [i0nt_syn_type]
-fun d2exp_trup_i0nt (
-  d2e0: d2exp, base: int, rep: string, sfx: uint
-) : d3exp // end of [d2exp_trup_int]
+fun i0nt_syn_type
+  (d2e0: d2exp, x: i0nt): s2exp
+fun d2exp_trup_i0nt
+  (d2e0: d2exp, x: i0nt): d3exp
 //
+fun f0loat_syn_type
+  (d2e0: d2exp, x: f0loat): s2exp
 fun d2exp_trup_f0loat
-  (d2e0: d2exp, rep: string, sfx: uint): d3exp
+  (d2e0: d2exp, x: f0loat): d3exp
 // end of [d2exp_trup_float]
+
+(* ****** ****** *)
+
+fun cstsp_syn_type
+  (d2e0: d2exp, x: $SYN.cstsp): s2exp
+fun d2exp_trup_cstsp
+  (d2e0: d2exp, x: $SYN.cstsp): d3exp
+// end of [d2exp_trup_cstsp]
 
 (* ****** ****** *)
 
@@ -157,6 +167,10 @@ fun d2exp_trup_applst_sym
 fun d23exp_trup_applst
   (d2e0: d2exp, _fun: d3exp, _arg: d2exparglst): d3exp
 // end of [d23exp_trup_applst]
+
+(* ****** ****** *)
+
+fun d2exp_trup_loopexn (d2e0: d2exp, knd: int): d3exp
 
 (* ****** ****** *)
 

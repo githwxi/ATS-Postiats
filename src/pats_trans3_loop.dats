@@ -26,50 +26,28 @@
 *)
 
 (* ****** ****** *)
-//
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: May, 2011
-//
-(* ****** ****** *)
 
-abstype intinf_type
-typedef intinf = intinf_type
+staload "pats_staexp2.sats"
+staload "pats_stacst2.sats"
+
+staload "pats_dynexp2.sats"
+staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-fun intinf_make_int (i: int): intinf
+staload "pats_trans3.sats"
 
 (* ****** ****** *)
 
-(*
-//
-// HX: [rep] is unsigned!
-// 0 -> base 8; 0x -> base 16; _ => base 10
-//
-*)
-fun intinf_make_string (rep: string): intinf
+implement
+d2exp_trup_loopexn
+  (d2e0, knd) = let
+  val loc0 = d2e0.d2exp_loc
+  val s2f = s2exp_void_t0ype ()
+in
+  d3exp_loopexn (loc0, s2f, knd)
+end // end of [d2exp_trup_loopexn]
 
 (* ****** ****** *)
 
-fun
-intinf_make_base_string_ofs
-  {n:int} {i:nat | i <= n} (
-  base: intBtw(2,36+1), rep: string n, ofs: int i
-) : intinf // end of [intinf_make_base_string_ofs]
-
-(* ****** ****** *)
-
-fun fprint_intinf (out: FILEref, x: intinf): void
-
-(* ****** ****** *)
-
-fun eq_intinf_int (x1: intinf, x2: int): bool
-fun eq_int_intinf (x1: int, x2: intinf): bool
-fun eq_intinf_intinf (x1: intinf, x2: intinf): bool
-
-fun compare_intinf_int (x1: intinf, x2: int): int
-fun compare_intinf_intinf (x1: intinf, x2: intinf): int
-
-(* ****** ****** *)
-
-(* end of [pats_intinf.sats] *)
+(* end of [pats_trans3_loop.dats] *)

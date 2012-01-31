@@ -78,8 +78,13 @@ case+ p1t0.p1at_node of
     val () = prstr ")"
   }
 //
-| P1Tint (rep) => {
+| P1Tint (int) => {
     val () = prstr "P1Tint("
+    val () = fprint_int (out, int)
+    val () = prstr ")"
+  }
+| P1Tintrep (rep) => {
+    val () = prstr "P1Tintrep("
     val () = fprint_string (out, rep)
     val () = prstr ")"
   }
@@ -246,14 +251,19 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
+| D1Eint (x) => {
+    val () = prstr "D1Eint("
+    val () = fprint_int (out, x)
+    val () = prstr ")"
+  }
+| D1Eintrep (x) => {
+    val () = prstr "D1Eintrep("
+    val () = fprint_string (out, x)
+    val () = prstr ")"
+  }
 | D1Ebool (x) => {
     val () = prstr "D1Ebool("
     val () = fprint_bool (out, x)
-    val () = prstr ")"
-  }
-| D1Eint (rep) => {
-    val () = prstr "D1Eint("
-    val () = fprint_string (out, rep)
     val () = prstr ")"
   }
 | D1Echar (x) => {
@@ -399,6 +409,22 @@ case+ d1e0.d1exp_node of
     val () = fprint_d1explst (out, d1es)
     val () = prstr ")"
   } // end of [D1Eseq]
+//
+| D1Earrsub _ => {
+    val () = prstr "D1Earrsub("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+| D1Earrinit _ => {
+    val () = prstr "D1Earrinit("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+| D1Earrsize _ => {
+    val () = prstr "D1Earrsize("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
 //
 | D1Eptrof (d1e) => {
     val () = prstr "D1Eptrof("

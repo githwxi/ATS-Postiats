@@ -429,9 +429,10 @@ case+ e0.e1xp_node of
 | E1XPide (sym) =>
     e1xplevenv_valize_ide (lev, env, e0, sym)
 //
-| E1XPint (_, rep) => let
+| E1XPint (i) => V1ALint (i)
+| E1XPintrep (rep) => let
     val v = e1xp_valize_int (rep) in V1ALint (v)
-  end // end of [E1XPint]
+  end // end of [E1XPi0nt]
 | E1XPchar (x) => V1ALchar (x)
 | E1XPstring (x) => V1ALstring (x)
 | E1XPfloat (x) => V1ALfloat (double_of_string x)
@@ -971,6 +972,7 @@ e1xplevenv_normalize_main
   | E1XPide id => e1xplevenv_normalize_ide (lorg, lev, env, e0, id)
 //
   | E1XPint _ => e1xp_make (lorg, node)
+  | E1XPintrep _ => e1xp_make (lorg, node)
   | E1XPchar _ => e1xp_make (lorg, node)
   | E1XPstring _ => e1xp_make (lorg, node)
   | E1XPfloat _ => e1xp_make (lorg, node)

@@ -80,6 +80,8 @@ val the_void_t0ype : s2cstref
 //
 val the_exception_viewtype : s2cstref
 //
+val the_arrsz_viewt0ype_int_viewt0ype : s2cstref
+//
 val the_list0_t0ype_type : s2cstref
 val the_list_t0ype_int_type : s2cstref
 val the_list_viewt0ype_int_viewtype : s2cstref
@@ -109,12 +111,18 @@ fun s2exp_ulint_t0ype (): s2exp // uint0
 fun s2exp_llint_t0ype (): s2exp // lint0
 fun s2exp_ullint_t0ype (): s2exp // ulint0
 //
-fun s2exp_int_intinf_t0ype (inf: intinf): s2exp // int1(i)
+fun s2exp_int_int_t0ype (i: int): s2exp // int1(i)
+fun s2exp_int_intinf_t0ype (inf: intinf): s2exp // int1(inf)
+//
+fun s2exp_uint_int_t0ype (i: int): s2exp // uint1(i)
 fun s2exp_uint_intinf_t0ype (inf: intinf): s2exp // uint1(i)
+//
 fun s2exp_lint_intinf_t0ype (inf: intinf): s2exp // lint1(i)
 fun s2exp_ulint_intinf_t0ype (inf: intinf): s2exp // ulint1(i)
 fun s2exp_llint_intinf_t0ype (inf: intinf): s2exp // llint1(i)
 fun s2exp_ullint_intinf_t0ype (inf: intinf): s2exp // ullint1(i)
+//
+fun s2exp_int_index_t0ype (s2i: s2exp): s2exp // int1(s2i)
 //
 (* ****** ****** *)
 
@@ -135,6 +143,10 @@ fun s2exp_ldouble_t0ype (): s2exp // ldouble
 (* ****** ****** *)
 
 fun s2exp_void_t0ype (): s2exp // void
+
+(* ****** ****** *)
+
+fun s2exp_arrsz_viewt0ype_int_viewt0ype (s2e: s2exp, n: int): s2exp
 
 (* ****** ****** *)
 //

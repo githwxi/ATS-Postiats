@@ -281,12 +281,30 @@ s2exp_ullint_t0ype () =
 (* ****** ****** *)
 
 implement
+s2exp_int_int_t0ype (i) = let
+  val knd = s2cstref_get_cst (the_int_kind)
+  val ind = s2exp_int (i)
+in
+  auxg1i (knd, ind)
+end // end of [s2exp_int_int_t0ype]
+
+implement
 s2exp_int_intinf_t0ype (inf) = let
   val knd = s2cstref_get_cst (the_int_kind)
   val ind = s2exp_intinf (inf)
 in
   auxg1i (knd, ind)
 end // end of [s2exp_int_intinf_t0ype]
+
+(* ****** ****** *)
+
+implement
+s2exp_uint_int_t0ype (i) = let
+  val knd = s2cstref_get_cst (the_int_kind)
+  val ind = s2exp_int (i)
+in
+  auxg1u (knd, ind)
+end // end of [s2exp_uint_intinf_t0ype]
 
 implement
 s2exp_uint_intinf_t0ype (inf) = let
@@ -295,6 +313,8 @@ s2exp_uint_intinf_t0ype (inf) = let
 in
   auxg1u (knd, ind)
 end // end of [s2exp_uint_intinf_t0ype]
+
+(* ****** ****** *)
 
 implement
 s2exp_lint_intinf_t0ype (inf) = let
@@ -327,6 +347,15 @@ s2exp_ullint_intinf_t0ype (inf) = let
 in
   auxg1u (knd, ind)
 end // end of [s2exp_ullint_intinf_t0ype]
+
+(* ****** ****** *)
+
+implement
+s2exp_int_index_t0ype (ind) = let
+  val knd = s2cstref_get_cst (the_int_kind)
+in
+  auxg1i (knd, ind)
+end // end of [s2exp_int_index_t0ype]
 
 end // end of [local]
 
@@ -431,6 +460,19 @@ the_exception_viewtype = s2cstref_make "exception_viewtype"
 (* ****** ****** *)
 
 implement
+the_arrsz_viewt0ype_int_viewt0ype =
+  s2cstref_make "arrsz_viewt0ype_int_viewt0ype"
+implement
+s2exp_arrsz_viewt0ype_int_viewt0ype (s2e, s2i) = let
+  val ind = s2exp_int (s2i)
+  val s2c = s2cstref_get_cst (the_arrsz_viewt0ype_int_viewt0ype)
+in
+  s2exp_cstapp (s2c, list_cons (s2e, list_sing ind))
+end // end of [s2exp_list_viewt0ype_int_viewtype]
+
+(* ****** ****** *)
+
+implement
 the_list0_t0ype_type =
   s2cstref_make "list0_t0ype_type"
 implement
@@ -475,9 +517,14 @@ fun invar_viewt0ype_viewt0ype_assume (): void
 
 implement
 stacst2_initialize () = () where {
+//
   val () = at_viewt0ype_addr_view_assume ()
-  val () = sizeof_viewt0ype_int_assume ()
+//
+  val () = sizeof_viewt0ype_int_assume () // sizeof(VT)
+//
+  val () = invar_t0ype_t0ype_assume ()
   val () = invar_viewt0ype_viewt0ype_assume ()
+//
 } // end of [stacst2_initialize]
 
 (* ****** ****** *)

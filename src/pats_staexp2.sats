@@ -301,6 +301,10 @@ abstype s2hnf_type
 typedef s2hnf = s2hnf_type
 typedef s2hnflst = List (s2hnf)
 
+fun fprint_s2hnf : fprint_type (s2hnf)
+fun print_s2hnf (x: s2hnf): void
+fun prerr_s2hnf (x: s2hnf): void
+
 (* ****** ****** *)
 
 datatype
@@ -779,6 +783,10 @@ fun s2exp_tyarr
   (s2e_elt: s2exp, s2es_int: s2explst): s2exp
 // end of [s2exp_tyarr]
 
+fun s2exp_tytup (
+  knd: int, npf: int, s2es: s2explst
+) : s2exp // end of [s2exp_tytup]
+
 fun s2exp_tyrec (
   knd: int, npf: int, ls2es: labs2explst
 ) : s2exp // end of [s2exp_tyrec]
@@ -869,6 +877,8 @@ fun fpprint_wths2explst : fprint_type (wths2explst)
 (* ****** ****** *)
 
 fun s2exp_is_prf (x: s2exp): bool
+fun s2exp_is_lin (x: s2exp): bool
+fun s2exp_is_nonlin (x: s2exp): bool
 fun s2exp_is_impredicative (x: s2exp): bool
 
 (* ****** ****** *)

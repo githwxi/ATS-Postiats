@@ -37,6 +37,10 @@ implement prerr_FILENAME<> () = prerr "pats_trans2_dynexp"
 
 (* ****** ****** *)
 
+staload SYN = "pats_syntax.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 staload "pats_staexp2_error.sats"
 staload "pats_staexp2_util.sats"
@@ -58,6 +62,10 @@ staload SOL = "pats_staexp2_solve.sats"
 
 staload "pats_trans3.sats"
 staload "pats_trans3_env.sats"
+
+(* ****** ****** *)
+
+#define l2l list_of_list_vt
 
 (* ****** ****** *)
 
@@ -132,12 +140,69 @@ case+ d2e0.d2exp_node of
 | D2Ebool _ => s2exp_bool_t0ype ()
 | D2Echar _ => s2exp_char_t0ype ()
 | D2Estring _ => s2exp_string_type ()
+| D2Efloat _ => s2exp_double_t0ype ()
+//
+| D2Ei0nt (x) => i0nt_syn_type (d2e0, x)
 | D2Ec0har _ => s2exp_char_t0ype ()
 | D2Es0tring _ => s2exp_string_type ()
-| D2Ef0loat _ => s2exp_double_t0ype ()
+| D2Ef0loat (x) => f0loat_syn_type (d2e0, x)
+//
+| D2Ecstsp (x) => cstsp_syn_type (d2e0, x)
 //
 | D2Eempty () => s2exp_void_t0ype ()
+//
+| D2Eextval (s2e, _(*name*)) => s2e
+//
 | D2Eassgn _ => s2exp_void_t0ype ()
+//
+| D2Elst (lin, opt, d2es) => let
+    val s2e = (
+      case+ opt of
+      | Some s2e => s2e
+      | None () => let
+          val s2t = (
+            if lin = 0 then s2rt_t0ype else s2rt_viewt0ype
+          ) : s2rt // end of [val]
+        in
+          s2exp_Var_make_srt (loc0, s2t)
+        end // end of [None]
+    ) : s2exp // end of [val]
+    val n = list_length (d2es)
+    val isnonlin = s2exp_is_nonlin (s2e)
+  in
+    if isnonlin then
+      s2exp_list_t0ype_int_type (s2e, n)
+    else
+      s2exp_list_viewt0ype_int_viewtype (s2e, n)
+    // end of [if]
+  end // end of [D2Elst]
+| D2Etup (knd, npf, d2es) => let
+    val s2es = d2explst_syn_type (d2es)
+  in
+    s2exp_tytup (knd, npf, s2es)
+  end // end of [D2Etup]
+| D2Erec (knd, npf, ld2es) => let
+    val ls2es = labd2explst_syn_type (ld2es)
+  in
+    s2exp_tyrec (knd, npf, ls2es)
+  end // end of [D2Erec]
+| D2Eseq (d2es) => (case+ d2es of
+  | list_cons _ => let
+      val d2e = list_last (d2es) in d2exp_syn_type (d2e)
+    end
+  | list_nil () => s2exp_void_t0ype ()
+  ) // end of [D2Eseq]
+//
+| D2Earrsize (opt, d2es) => let
+    val s2e = (
+      case+ opt of
+      | Some s2e => s2e
+      | None () => s2exp_Var_make_srt (loc0, s2rt_t0ype)
+    ) : s2exp // end of [val]
+    val n = list_length (d2es)
+  in
+    s2exp_arrsz_viewt0ype_int_viewt0ype (s2e, n)
+  end // end of [D2Earrsize]
 //
 | D2Elam_dyn _ => d2exp_syn_type_arg_body (d2e0)
 | D2Elam_sta (s2vs, s2ps, d2e) => let
@@ -162,6 +227,24 @@ case+ d2e0.d2exp_node of
 in
   s2e0
 end // end of [d2exp_syn_type]
+
+implement
+d2explst_syn_type
+  (xs) = l2l (list_map_fun (xs, d2exp_syn_type))
+// end of [d2explst_syn_type]
+
+implement
+labd2explst_syn_type (xs) = let
+  fn f (
+    x: labd2exp
+  ) : labs2exp = let
+    val $SYN.DL0ABELED (l0, d2e) = x
+  in
+    SLABELED (l0.l0ab_lab, None(*none*), d2exp_syn_type d2e)
+  end // end of [f]
+in
+  l2l (list_map_fun (xs, f))
+end // end of labd2explst_syn_type]
 
 (* ****** ****** *)
 

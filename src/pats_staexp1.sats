@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload
+INTINF = "pats_intinf.sats"
+typedef intinf = $INTINF.intinf
+
 staload FIL = "pats_filename.sats"
 typedef filename = $FIL.filename
 staload LOC = "pats_location.sats"
@@ -86,7 +90,8 @@ fun fprint_v1al : fprint_type (v1al)
 datatype e1xp_node =
   | E1XPide of symbol
 //
-  | E1XPint of (int(*base*), string(*rep*))
+  | E1XPint of (int)
+  | E1XPintrep of string(*rep*)
 //
   | E1XPchar of char
   | E1XPstring of string
@@ -136,10 +141,10 @@ fun e1xp_make
 //
 fun e1xp_ide (loc: location, sym: symbol): e1xp
 //
-fun e1xp_int
-  (loc: location, base: int, rep: string): e1xp
-// end of [e1xp_int]
-fun e1xp_char (loc: location, _: char): e1xp
+fun e1xp_int (loc: location, i: int): e1xp
+fun e1xp_intrep (loc: location, rep: string): e1xp
+//
+fun e1xp_char (loc: location, c: char): e1xp
 fun e1xp_string (loc: location, str: string): e1xp
 fun e1xp_float (loc: location, rep: string): e1xp
 //
@@ -391,9 +396,9 @@ datatype s1exp_node =
   | S1Eide of (symbol) // static identifer
   | S1Esqid of (s0taq, symbol) // qualified static identifer
 //
-  | S1Eint of (
-      int(*base*), string(*rep*)
-    ) // integer constant
+  | S1Eint of int
+  | S1Eintrep of string(*rep*)
+//
   | S1Echar of char // character constant
 //
   | S1Eextype of (string(*name*), s1explstlst) // extern type
@@ -471,10 +476,12 @@ and s1qualstlst = List (s1qualst)
 fun s1exp_char (loc: location, c: char): s1exp
 fun s1exp_c0har (loc: location, c: c0har): s1exp
 
-fun s1exp_int (
-  loc: location, base: int, rep: string
-) : s1exp // end of [s1exp_int]
-fun s1exp_i0nt (loc: location, x: i0nt): s1exp
+fun s1exp_int
+  (loc: location, i: int): s1exp
+fun s1exp_intrep
+  (loc: location, rep: string): s1exp
+fun s1exp_i0nt
+  (loc: location, x: i0nt): s1exp
 
 fun s1exp_extype (
   loc: location, name: string, arg: s1explstlst

@@ -544,7 +544,8 @@ case+ p1t0.p1at_node of
     p2at_var (loc0, 1(*refknd*), d2var_make (loc0, id))
   // end of [P1Tref]
 //
-| P1Tint (rep) => p2at_int (loc0, rep)
+| P1Tint (int) => p2at_int (loc0, int)
+| P1Tintrep (rep) => p2at_intrep (loc0, rep)
 | P1Tchar (c) => p2at_char (loc0, c)
 | P1Tstring (str) => p2at_string (loc0, str)
 | P1Tfloat (rep) => p2at_float (loc0, rep)

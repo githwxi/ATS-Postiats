@@ -203,7 +203,8 @@ DLRTUP_VT = T_DLRTUP (TYTUPKIND_box_vt)
 
 (* ****** ****** *)
 
-implement ZERO = T_INTEGER (10(*base*), "0", 0u(*sfx*))
+implement
+ZERO = T_INTEGER (10(*base*), "0", 0u(*sfx*))
 
 (* ****** ****** *)
 

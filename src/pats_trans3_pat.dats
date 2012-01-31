@@ -94,8 +94,9 @@ case+ p2t0.p2at_node of
       s2exp_Var_make_srt (p2t0.p2at_loc, s2rt_t0ype)
     // end of [P2Tvar]
 //
-  | P2Tbool _ => s2exp_bool_t0ype () // bool0
   | P2Tint _ => s2exp_int_t0ype () // int0
+  | P2Tintrep _ => s2exp_int_t0ype () // intrep
+  | P2Tbool _ => s2exp_bool_t0ype () // bool0
   | P2Tchar _ => s2exp_char_t0ype () // char0
   | P2Tstring _ => s2exp_string_type () // string0
   | P2Tfloat _ => s2exp_double_t0ype () // double

@@ -266,6 +266,12 @@ fun s2hnf_equal_solve_rVar_err (
 implement
 s2hnf_equal_solve_rVar_err
   (loc0, s2f1, s2f2, s2V2, err) = let
+// (*
+  val () = (
+    print "s2hnf_equal_solve_rVar_err: s2f1 = "; print_s2hnf s2f1; print_newline ();
+    print "s2hnf_equal_solve_rVar_err: s2f2 = "; print_s2hnf s2f2; print_newline ();
+  ) // end of [val]
+// *)
   val s2e1 = s2hnf2exp (s2f1)
   val isimp = s2exp_is_impredicative (s2e1)
   val () = if isimp then {

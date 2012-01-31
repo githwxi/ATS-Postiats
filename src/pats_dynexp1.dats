@@ -81,8 +81,12 @@ p1at_ref (loc, id) = '{
 (* ****** ****** *)
 
 implement
-p1at_int (loc, rep) = '{
-  p1at_loc= loc, p1at_node= P1Tint (rep)
+p1at_int (loc, i) = '{
+  p1at_loc= loc, p1at_node= P1Tint (i)
+}
+implement
+p1at_intrep (loc, rep) = '{
+  p1at_loc= loc, p1at_node= P1Tintrep (rep)
 }
 implement
 p1at_char (loc, c) = '{
@@ -101,10 +105,10 @@ implement
 p1at_i0nt
   (loc, x) = let
   val- $LEX.T_INTEGER
-    (_(*bas*), rep, _(*sfx*)) = x.token_node
+    (base, rep, _(*sfx*)) = x.token_node
   // end of [val]
 in
-  p1at_int (loc, rep)
+  p1at_intrep (loc, rep)
 end // end of [p1at_i0nt]
 
 implement
@@ -228,8 +232,9 @@ fun aux (
 in
   case+ e0.e1xp_node of
   | E1XPide id => p1at_ide (loc0, id)
-  | E1XPint (_, rep) => p1at_int (loc0, rep)
-  | E1XPchar (c) => p1at_char (loc0, c: char)
+  | E1XPint (i) => p1at_int (loc0, i:int)
+  | E1XPintrep (rep) => p1at_intrep (loc0, rep)
+  | E1XPchar (c) => p1at_char (loc0, c:char)
   | E1XPstring (str) => p1at_string (loc0, str)
   | E1XPfloat (rep) => p1at_float (loc0, rep)
   | E1XPapp (e1, loc_arg, es2) => begin
@@ -268,9 +273,8 @@ fun aux (
 ) :<cloptr1> e1xp =
   case+ p1t0.p1at_node of
   | P1Tide (id) => e1xp_ide (loc0, id)
-  | P1Tint (rep) =>
-      e1xp_int (loc0, 0(*ignored*), rep)
-    // end of [P1Tint]
+  | P1Tint (int) => e1xp_int (loc0, int)
+  | P1Tintrep (rep) => e1xp_intrep (loc0, rep)
   | P1Tchar (char) => e1xp_char (loc0, char)
   | P1Tapp_dyn (p1t_fun, _(*loc*), npf, p1ts_arg) => let
       val e_fun = aux (p1t_fun); val es_arg = auxlst (p1ts_arg)
@@ -379,9 +383,11 @@ d1exp_dqid
 implement d1exp_opid (loc, id) = d1exp_ide (loc, id)
 
 implement
-d1exp_int (loc, rep) = d1exp_make (loc, D1Eint (rep))
+d1exp_int (loc, i) = d1exp_make (loc, D1Eint (i:int))
 implement
-d1exp_char (loc, c) = d1exp_make (loc, D1Echar (c: char))
+d1exp_intrep (loc, rep) = d1exp_make (loc, D1Eintrep (rep))
+implement
+d1exp_char (loc, c) = d1exp_make (loc, D1Echar (c:char))
 implement
 d1exp_string (loc, str) = d1exp_make (loc, D1Estring (str))
 implement
@@ -681,7 +687,8 @@ fun aux (
 in
   case+ e0.e1xp_node of
   | E1XPide id => d1exp_ide (loc0, id)
-  | E1XPint (_, rep) => d1exp_int (loc0, rep)
+  | E1XPint (int) => d1exp_int (loc0, int)
+  | E1XPintrep (rep) => d1exp_intrep (loc0, rep)
   | E1XPchar (c) => d1exp_char (loc0, c: char)
   | E1XPstring (str) => d1exp_string (loc0, str)
   | E1XPfloat (rep) => d1exp_float (loc0, rep)
@@ -720,10 +727,8 @@ fun aux (
   case+ d1e0.d1exp_node of
   | D1Eide (id) => e1xp_ide (loc0, id)
 //
-  | D1Eint (rep) =>
-      e1xp_int (loc0, 0(*ignore*), rep)
-    // end of [D1Eint]
-  | D1Echar (c) => e1xp_char (loc0, c: char)
+  | D1Eint (i) => e1xp_int (loc0, i)
+  | D1Echar (c) => e1xp_char (loc0, c:char)
   | D1Estring (str) => e1xp_string (loc0, str)
   | D1Efloat (rep) => e1xp_float (loc0, rep)
 //

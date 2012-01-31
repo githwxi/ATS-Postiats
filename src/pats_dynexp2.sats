@@ -277,8 +277,9 @@ datatype p2at_node =
   | P2Tany of () // wildcard
   | P2Tvar of (int(*refknd*), d2var)
 //
+  | P2Tint of int
+  | P2Tintrep of string(*rep*)
   | P2Tbool of bool
-  | P2Tint of string(*rep*)
   | P2Tchar of char
   | P2Tstring of string
   | P2Tfloat of string(*rep*)
@@ -349,8 +350,9 @@ fun p2at_var (
   loc: location, refknd: int, d2v: d2var
 ) : p2at // end of [p2at_var]
 
+fun p2at_int (loc: location, i: int): p2at
+fun p2at_intrep (loc: location, rep: string): p2at
 fun p2at_bool (loc: location, b: bool): p2at
-fun p2at_int (loc: location, rep: string): p2at
 fun p2at_char (loc: location, c: char): p2at
 fun p2at_string (loc: location, str: string): p2at
 fun p2at_float (loc: location, rep: string): p2at
@@ -451,8 +453,9 @@ d2exp_node =
   | D2Evar of d2var (* dynamic variables *)
   | D2Ecst of d2cst (* dynamic constants *)
 //
+  | D2Eint of int
+  | D2Eintrep of string(*rep*)
   | D2Ebool of bool
-  | D2Eint of string(*rep*)
   | D2Echar of char
   | D2Estring of string
   | D2Efloat of string(*rep*)
@@ -475,8 +478,6 @@ d2exp_node =
 //
   | D2Esym of d2sym // overloaded dynamic symbol
 //
-  | D2Eloopexn of int(*knd*)
-//
   | D2Efoldat of (* folding at a given address *)
       (s2exparglst, d2exp)
   | D2Efreeat of (* freeing at a given address *)
@@ -490,7 +491,7 @@ d2exp_node =
 //
   | D2Eapplst of (d2exp, d2exparglst)
   | D2Eassgn of (d2exp(*left*), d2exp(*right*))
-  | D2Ederef of (d2exp(*leftval*))
+  | D2Ederef of (d2exp(*leftval or lazyclo*))
 //
   | D2Eifhead of // dynamic conditional
       (i2nvresstate, d2exp, d2exp, d2expopt)
@@ -530,12 +531,13 @@ d2exp_node =
   | D2Elaminit_dyn of (* flat dynamic abstraction *)
       (int(*lin*), int(*npf*), p2atlst(*arg*), d2exp(*body*))
   | D2Elam_met of (ref(d2varlst), s2explst(*met*), d2exp(*body*))
-//
   | D2Elam_sta of (s2varlst, s2explst(*s2ps*), d2exp) // static abstraction
 //
   | D2Efix of (
       int(*knd: 0/1: flat/boxed*), d2var(*fixvar*), d2exp(*body*)
     ) // end of [D2Efix]
+//
+  | D2Eloopexn of int(*knd*)
 //
   | D2Eann_type of (d2exp, s2exp) // ascribled expression
   | D2Eann_seff of (d2exp, s2eff) // ascribed with effects
@@ -723,8 +725,9 @@ fun d2exp_make
 
 fun d2exp_var (loc: location, d2v: d2var): d2exp
 
+fun d2exp_int (loc: location, i: int): d2exp
+fun d2exp_intrep (loc: location, rep: string): d2exp
 fun d2exp_bool (loc: location, b: bool): d2exp
-fun d2exp_int (loc: location, rep: string): d2exp
 fun d2exp_char (loc: location, c: char): d2exp
 fun d2exp_string (loc: location, s: string): d2exp
 fun d2exp_float (loc: location, rep: string): d2exp

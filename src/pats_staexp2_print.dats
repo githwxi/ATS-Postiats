@@ -62,6 +62,7 @@ staload EFF = "pats_effect.sats"
 
 staload "pats_staexp1.sats"
 staload "pats_staexp2.sats"
+staload "pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
@@ -207,6 +208,17 @@ in
     } // end of [TYRECKINDflt1]
   | TYRECKINDflt_ext (name) => fprintf (out, "flt_ext(%s)", @(name))
 end // end of [fprint_tyreckind]
+
+(* ****** ****** *)
+
+implement
+fprint_s2hnf
+  (out, x) = fprint_s2exp (out, s2hnf2exp x)
+// end of [fprint_s2hnf]
+implement
+print_s2hnf (x) = print_s2exp (s2hnf2exp x)
+implement
+prerr_s2hnf (x) = prerr_s2exp (s2hnf2exp x)
 
 (* ****** ****** *)
 

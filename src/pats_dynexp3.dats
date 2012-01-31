@@ -70,11 +70,21 @@ d3exp_var (
 
 implement
 d3exp_int
+  (loc, s2f, i) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eint (i)
+} // end of [d3exp_i0nt]
+
+implement
+d3exp_i0nt
   (loc, s2f, rep, inf) = '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Eint (rep, inf)
-} // end of [d3exp_int]
+, d3exp_node= D3Ei0nt (rep, inf)
+} // end of [d3exp_i0nt]
+
+(* ****** ****** *)
 
 implement
 d3exp_bool
@@ -111,12 +121,24 @@ d3exp_float
 (* ****** ****** *)
 
 implement
+d3exp_cstsp
+  (loc, s2f, csp) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Ecstsp (csp)
+} // end of [d3exp_cstsp]
+
+(* ****** ****** *)
+
+implement
 d3exp_empty
   (loc, s2f) = '{
   d3exp_loc= loc
 , d3exp_type= s2f
 , d3exp_node= D3Eempty ()
 } // end of [d3exp_empty]
+
+(* ****** ****** *)
 
 implement
 d3exp_extval
@@ -247,6 +269,26 @@ d3exp_if (
 (* ****** ****** *)
 
 implement
+d3exp_arrinit (
+  loc, s2e_arr, elt, asz, d3es
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2e_arr
+, d3exp_node= D3Earrinit (elt, asz, d3es)
+} // end of [d3exp_arrinit]
+
+implement
+d3exp_arrsize (
+  loc, s2e_arrsz, d3es, asz
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2e_arrsz
+, d3exp_node= D3Earrsize (d3es, asz)
+} // end of [d3exp_arrsize]
+
+(* ****** ****** *)
+
+implement
 d3exp_lam_dyn (
   loc, s2f_fun, lin, npf, arg, body
 ) = '{
@@ -272,6 +314,16 @@ d3exp_lam_sta (
 , d3exp_type= s2f_uni
 , d3exp_node= D3Elam_sta (s2vs, s2ps, body)
 } // end of [d3exp_lam_sta]
+
+(* ****** ****** *)
+
+implement
+d3exp_loopexn
+  (loc, s2f, knd) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eloopexn (knd)
+} // end of [d3exp_loopexn]
 
 (* ****** ****** *)
 

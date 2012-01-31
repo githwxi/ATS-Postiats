@@ -57,6 +57,13 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_syncst"
 
 (* ****** ****** *)
 
+(*
+** for T_* constructors
+*)
+staload "pats_lexing.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 staload "pats_stacst2.sats"
 staload "pats_dynexp3.sats"
@@ -73,13 +80,11 @@ staload "pats_trans3.sats"
 
 implement
 d2exp_trup_int
-  (d2e0, rep) = let
+  (d2e0, i) = let
   val loc0 = d2e0.d2exp_loc
-  val rep1 = (s2s)rep
-  val inf = $INT.intinf_make_string (rep1)
-  val s2e = s2exp_int_intinf_t0ype (inf)
+  val s2f = s2exp_int_int_t0ype (i)
 in
-  d3exp_int (loc0, s2e, rep, inf)
+  d3exp_int (loc0, s2f, i)
 end // end of [d2exp_trup_int]
 
 (* ****** ****** *)
@@ -123,18 +128,22 @@ datatype intknd =
 in // in of [local]
 
 implement
-i0nt_syn_type (
-  d2e0, base, rep, sfx
-) = let
-  var p_sfx: ptr = null
-  val () = if
-    sfx > 0u then let
-    val n = string_length (rep)
-    val ln = n - (size_of_uint)sfx
-    val () = p_sfx := $UN.cast2ptr (rep) + ln
-  in
-    // nothing
-  end // end of [val]
+i0nt_syn_type
+  (d2e0, x(*i0nt*)) = let
+//
+val- T_INTEGER
+  (base, rep, sfx) = x.token_node
+// end of [val]
+var p_sfx: ptr = null
+val () = if
+  sfx > 0u then let
+  val n = string_length (rep)
+  val ln = n - (size_of_uint)sfx
+  val () = p_sfx := $UN.cast2ptr (rep) + ln
+in
+  // nothing
+end // end of [val]
+//
 in
 //
 case+ sfx of
@@ -177,8 +186,9 @@ end // end of [i0nt_syn_type]
 
 implement
 d2exp_trup_i0nt
-  (d2e0, base, rep, sfx) = let
+  (d2e0, x(*i0nt*)) = let
   val loc0 = d2e0.d2exp_loc
+  val- T_INTEGER (base, rep, sfx) = x.token_node
 //
   var p_sfx: ptr = null
 //
@@ -213,7 +223,9 @@ d2exp_trup_i0nt
       in
         $INT.intinf_make_base_string_ofs (16, rep1, 2(*0x*))
       end // end of [16]
-    | _ => $INT.intinf_make_string (rep1) // base=10 and ofs=0
+    | _ => // base=10 and ofs=0
+        $INT.intinf_make_base_string_ofs (10, rep1, 0)
+      // end of [_]
   ) : intinf // end of [val]
   val () = if
     sfx > 0u then __free (rep1) where {
@@ -228,7 +240,7 @@ case+ sfx of
       s2exp_int_intinf_t0ype (inf)
     // end of [val]
   in
-    d3exp_int (loc0, s2e, rep, inf)
+    d3exp_i0nt (loc0, s2e, rep, inf)
   end // end of [default]
 | _ => let
     val sfx = $UN.cast {string} (p_sfx)
@@ -263,7 +275,7 @@ case+ sfx of
         end // end of [_]
     ) : s2exp // end of [val]
   in
-    d3exp_int (loc0, s2e, rep, inf)
+    d3exp_i0nt (loc0, s2e, rep, inf)
   end // end of [_]
 // end of [case]
 //
@@ -273,24 +285,27 @@ end // end of [local]
 
 (* ****** ****** *)
 
+local
+
+datatype fltknd =
+  | FLOAT | DOUBLE | LDOUBLE | ERROR
+// end of [fltknd]
+
+in // in of [local]
+
 implement
-d2exp_trup_f0loat
-  (d2e0, rep, sfx) = let
-  datatype fltknd =
-    | FLOAT | DOUBLE | LDOUBLE | ERROR
-  // end of [fltknd]
-  val loc0 = d2e0.d2exp_loc
+f0loat_syn_type
+  (d2e0, x(*f0loat*)) = let
+  val- T_FLOAT (base, rep, sfx) = x.token_node
 in
 //
 case+ 0 of
-| _ when sfx = 0u => let
-    val s2f = s2exp_double_t0ype () in d3exp_float (loc0, s2f, rep)
-  end // end of [default]
-| _ => let
-    val rep = (s2s)rep
-    val n = string_length (rep)
+| _ when sfx = 0u => s2exp_double_t0ype ()
+| _ (*sfx > 0*) => let
+    val rep1 = (s2s)rep
+    val n = string_length (rep1)
     val ln = n - (size_of_uint)sfx
-    val p_sfx = $UN.cast2ptr (rep) + ln
+    val p_sfx = $UN.cast2ptr (rep1) + ln
     val sfx = $UN.cast {string} (p_sfx)
     val knd = (case+ 0 of
       | _ when strcasecmp (sfx, "F") = 0 => FLOAT
@@ -298,25 +313,58 @@ case+ 0 of
       | _ when strcasecmp (sfx, "LD") = 0 => LDOUBLE
       | _ => ERROR ()
     ) : fltknd // end of [val]
-    val s2e = (case+ knd of
-      | FLOAT () => s2exp_float_t0ype ()
-      | DOUBLE () => s2exp_double_t0ype ()
-      | LDOUBLE () => s2exp_ldouble_t0ype ()
-      | _ => let
-          val () = prerr_error3_loc (loc0)
-          val () = filprerr_ifdebug "d2exp_trup_i0nt"
-          val () = prerr ": the suffix of the floating point number is not supported."
-          val () = prerr_newline ()
-          val () = the_trans3errlst_add (T3E_floatsp (d2e0))
-        in
-          s2exp_err (s2rt_t0ype)
-        end // end of [_]
-    ) : s2exp // end of [val]
   in
-    d3exp_float (loc0, s2e, rep)
-  end // end of [_]
-// end of [case]
+    case+ knd of
+    | FLOAT () => s2exp_float_t0ype ()
+    | DOUBLE () => s2exp_double_t0ype ()
+    | LDOUBLE () => s2exp_ldouble_t0ype ()
+    | _ => let
+        val loc0 = d2e0.d2exp_loc
+        val () = prerr_error3_loc (loc0)
+        val () = filprerr_ifdebug "f0loat_syn_type"
+        val () = prerr ": the suffix of the floating point number is not supported."
+        val () = prerr_newline ()
+        val () = the_trans3errlst_add (T3E_floatsp (d2e0))
+      in
+        s2exp_err (s2rt_t0ype)
+      end // end of [_]
+   end // end of [_]
+//
+end // end of [f0loat_syn_type]
+
+implement
+d2exp_trup_f0loat
+  (d2e0, x(*f0loat*)) = let
+  val loc0 = d2e0.d2exp_loc
+  val s2f = f0loat_syn_type (d2e0, x)
+  val- T_FLOAT (base, rep, sfx) = x.token_node
+in
+  d3exp_float (loc0, s2f, rep)
 end // end of [d2exp_trup_f0loat]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+cstsp_syn_type (d2e0, x) =
+  case+ x of
+  | $SYN.CSTSPfilename () => s2exp_string_type ()
+  | $SYN.CSTSPlocation () => s2exp_string_type ()
+(*
+  | CSTSPcharcount (int) => s2exp_int_t0ype ()
+  | CSTSPlinecount (int) => s2exp_int_t0ype ()
+*)
+// end of [cstsp_syn_type]
+
+implement
+d2exp_trup_cstsp
+  (d2e0, x(*cstsp*)) = let
+  val loc0 = d2e0.d2exp_loc
+  val s2f = cstsp_syn_type (d2e0, x)
+in
+  d3exp_cstsp (loc0, s2f, x)
+end // end of [d2exp_trup_cstsp]
 
 (* ****** ****** *)
 

@@ -47,6 +47,12 @@
 (* ****** ****** *)
 
 fun{a:t@ype}
+g0int_neg (x: g0int (a)):<> g0int (a)
+overload ~ with g0int_neg of 0
+
+(* ****** ****** *)
+
+fun{a:t@ype}
 g0int_add
   (x: g0int (a), y: g0int (a)):<> g0int (a)
 overload + with g0int_add of 0
@@ -108,6 +114,13 @@ g1ofg0_int
 (*
 macdef g1ofg0_int (x) = g1ofg0_int ,(x)
 *)
+
+(* ****** ****** *)
+
+fun{a:t@ype}
+g1int_neg {i:int}
+  (x: g1int (a, i)):<> g1int (a, ~i)
+overload ~ with g1int_neg of 1
 
 (* ****** ****** *)
 

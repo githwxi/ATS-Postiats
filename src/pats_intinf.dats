@@ -45,12 +45,43 @@ assume intinf_type = ref (mpz_vt)
 (* ****** ****** *)
 
 implement
-intinf_make_string (rep) = let
-  val @(pfgc, pfat | p) = ptr_alloc_tsz {mpz_vt} (sizeof<mpz_vt>)
+intinf_make_int (i) = let
+  val (pfgc, pfat | p) = ptr_alloc_tsz {mpz_vt} (sizeof<mpz_vt>)
   prval () = free_gc_elim (pfgc)
-  val () = mpz_init_set_str_exn (!p, rep, 10(*base*))
+  val () = mpz_init_set_int (!p, i)
 in
   ref_make_view_ptr (pfat | p)
+end // end of [intinf_make_int]
+
+(* ****** ****** *)
+(*
+** HX: [rep] is unsigned!
+*)
+implement
+intinf_make_string (rep) = let
+  val rep = string1_of_string (rep)
+in
+//
+if string_is_at_end (rep, 0) then intinf_make_int (0)
+else let
+  val c0 = rep[0]
+in
+  if c0 = '0' then (
+    if string_is_at_end (rep, 1) then intinf_make_int (0)
+    else let
+      val c1 = rep[1]
+    in
+      if (c1 != 'x' andalso c1 != 'X') then
+        intinf_make_base_string_ofs (8, rep, 1)
+      else
+        intinf_make_base_string_ofs (16, rep, 2)
+      // end of [if]
+    end
+  ) else
+    intinf_make_base_string_ofs (10, rep, 0)
+  // end of [if]
+end // end of [if]
+//
 end // end of [intinf_make_string]
 
 (* ****** ****** *)
@@ -66,7 +97,7 @@ intinf_make_base_string_ofs
     __cast (rep + ofs) where {
     extern castfn __cast (x: ptr): string
   }
-  val @(pfgc, pfat | p) = ptr_alloc_tsz {mpz_vt} (sizeof<mpz_vt>)
+  val (pfgc, pfat | p) = ptr_alloc_tsz {mpz_vt} (sizeof<mpz_vt>)
   prval () = free_gc_elim (pfgc)
   val () = mpz_init_set_str_exn (!p, rep_ofs, base)
 in
