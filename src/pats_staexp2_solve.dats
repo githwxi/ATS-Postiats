@@ -577,6 +577,13 @@ val () = case+
     trans3_env_pop_and_add_main (pfpush | loc0)
   end // end of [S2Eexi, _]
 //
+| (S2Ecst s2c1, s2en20) => (case+ s2en20 of
+  | S2Ecst s2c2 =>
+      if s2cst_subeq (s2c1, s2c2) then () else (err := err + 1)
+    // end of [S2Ecst]
+  | _ => (err := err + 1)
+  ) // end of [S2Ecst, _]
+//
 | (S2Eapp (s2e1_fun, s2es1_arg), _) => (
   case+ s2en20 of
   | S2Ecst s2c2 => (

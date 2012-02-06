@@ -108,6 +108,11 @@ stadef min = min_int_int
 
 (* ****** ****** *)
 
+stacst int_of_bool : bool -> int and bool_of_int : int -> bool
+stacst int_of_char : char -> int and char_of_int : int -> char
+
+(* ****** ****** *)
+
 stacst null_addr : addr
 stadef null = null_addr
 stadef NULL = null_addr

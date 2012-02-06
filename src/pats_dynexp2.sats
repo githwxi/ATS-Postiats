@@ -164,7 +164,9 @@ overload compare with compare_d2cst_d2cst
 
 (* ****** ****** *)
 
-fun d2var_make (loc: location, id: symbol): d2var
+fun d2var_make
+  (loc: location, id: symbol): d2var
+fun d2var_make_any (loc: location): d2var
 
 fun fprint_d2var : fprint_type (d2var)
 fun print_d2var (x: d2var): void
@@ -274,6 +276,7 @@ fun fprint_d2sym : fprint_type (d2sym)
 (* ****** ****** *)
 
 datatype p2at_node =
+//
   | P2Tany of () // wildcard
   | P2Tvar of (int(*refknd*), d2var)
 //
@@ -284,17 +287,19 @@ datatype p2at_node =
   | P2Tstring of string
   | P2Tfloat of string(*rep*)
 //
+  | P2Ti0nt of i0nt
+  | P2Tf0loat of f0loat
+//
   | P2Tempty of ()
   | P2Tcon of ( // constructor pattern
       int(*freeknd*), d2con, s2qualst, s2exp(*con*), int(*npf*), p2atlst
     ) // end of [P2Tcon]
 //
-  | P2Tlst of (p2atlst)
-//
 (*
   | P2Ttup of (int(*knd*), int(*npf*), p2atlst)
 *)
   | P2Trec of (int(*knd*), int(*npf*), labp2atlst)
+  | P2Tlst of (int(*lin*), p2atlst) // pattern list
 //
   | P2Tas of (int(*refknd*), d2var, p2at)
   | P2Texist of (s2varlst, p2at) // existential opening
@@ -307,8 +312,8 @@ datatype p2at_node =
 // end of [p2at_node]
 
 and labp2at =
-  | LP2Tnorm of (label, p2at)
-  | LP2Tomit of () // for [...]
+  | LABP2ATnorm of (l0ab, p2at)
+  | LABP2ATomit of (location) // for [...]
 // end of [labp2at]
 
 where
@@ -356,7 +361,10 @@ fun p2at_bool (loc: location, b: bool): p2at
 fun p2at_char (loc: location, c: char): p2at
 fun p2at_string (loc: location, str: string): p2at
 fun p2at_float (loc: location, rep: string): p2at
-
+//
+fun p2at_i0nt (loc: location, x: i0nt): p2at
+fun p2at_f0loat (loc: location, x: f0loat): p2at
+//
 fun p2at_empty (loc: location): p2at
 
 fun p2at_con (
@@ -372,11 +380,13 @@ fun p2at_list // HX: flat tuple
   (loc: location, npf: int, p2ts: p2atlst): p2at
 // end of [p2at_list]
 
-fun p2at_lst (loc: location, p2ts: p2atlst): p2at
-
 fun p2at_rec (
   loc: location, knd: int, npf: int, lp2ts: labp2atlst
 ) : p2at // end of [p2at_tup]
+
+fun p2at_lst (
+  loc: location, lin: int, p2ts: p2atlst
+) : p2at // end of [p2at_lst]
 
 fun p2at_as (
   loc: location, refknd: int, d2v: d2var, p2t: p2at

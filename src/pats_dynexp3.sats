@@ -56,12 +56,32 @@ typedef d2var = d2var_type // abstract
 (* ****** ****** *)
 
 datatype p3at_node =
-  | P3Tany of () // wildcard
+//
+  | P3Tany of d2var // wildcard
   | P3Tvar of (int(*refknd*), d2var)
+//
+  | P3Tint of (int)
+  | P3Tintrep of string(*rep*)
+  | P3Tbool of (bool)
+  | P3Tchar of (char)
+  | P3Tstring of (string)  
+//
+  | P3Ti0nt of i0nt
+  | P3Tf0loat of f0loat
+//
   | P3Tempty (* empty pattern *)
 //
+  | P3Trec of (int(*knd*), int(*npf*), labp3atlst)
+  | P3Tlst of (int(*lin*), p3atlst) // pattern list
+//
+  | P3Texist of (s2varlst, p3at) // existential opening
+//
   | P3Tann of (p3at, s2exp) // ascribed pattern
+//
+  | P3Terr of () // indication of error
 // end of [p3at_node]
+
+and labp3at = LABP3AT of (label, p3at)
 
 where p3at = '{
   p3at_loc= location
@@ -72,15 +92,60 @@ where p3at = '{
 and p3atlst = List (p3at)
 and p3atopt = Option p3at
 
+and labp3atlst = List (labp3at)
+
 (* ****** ****** *)
+
+fun p3at_any (
+  loc: location, s2f: s2exp, d2v: d2var
+) : p3at // end of [p3at_any]
 
 fun p3at_var (
   loc: location, s2f: s2exp, knd: int, d2v: d2var
 ) : p3at // end of [p3at_var]
+//
+fun p3at_int (
+  loc: location, s2f: s2exp, i: int
+) : p3at // end of [p3at_int]
+fun p3at_intrep (
+  loc: location, s2f: s2exp, rep: string
+) : p3at // end of [p3at_intrep]
+fun p3at_bool (
+  loc: location, s2f: s2exp, b: bool
+) : p3at // end of [p3at_bool]
+fun p3at_char (
+  loc: location, s2f: s2exp, c: char
+) : p3at // end of [p3at_char]
+fun p3at_string (
+  loc: location, s2f: s2exp, str: string
+) : p3at // end of [p3at_string]
+//
+fun p3at_i0nt (
+  loc: location, s2f: s2exp, x: i0nt
+) : p3at // end of [p3at_i0nt]
+fun p3at_f0loat (
+  loc: location, s2f: s2exp, x: f0loat
+) : p3at // end of [p3at_f0loat]
+//
+fun p3at_empty (loc: location, s2f: s2exp): p3at
+
+fun p3at_rec (
+  loc: location
+, s2f: s2exp, knd: int, npf: int, lp3ts: labp3atlst
+) : p3at // end of [p3at_rec]
+fun p3at_lst (
+  loc: location, s2f: s2exp, lin: int, p3ts: p3atlst
+) : p3at // end of [p3at_lst]
+
+fun p3at_exist (
+  loc: location, s2f: s2exp, s2vs: s2varlst, p3t: p3at
+) : p3at // end of [p3at_exist]
 
 fun p3at_ann (
   loc: location, s2f: s2exp, p3t: p3at, ann: s2exp
 ) : p3at // end of [p3at_ann]
+
+fun p3at_err (loc: location, s2f: s2exp): p3at
 
 (* ****** ****** *)
 
@@ -100,16 +165,15 @@ d3exp_node =
   | D3Evar of d2var
   | D3Ecst of d2cst
 //
+  | D3Eint of (int)
+  | D3Eintrep of (string(*rep*))
   | D3Ebool of bool
   | D3Echar of char
-//
-  | D3Eint of (int)
-  | D3Ei0nt of (string, intinf)
-//
-  | D3Efloat of string(*rep*)
-  | D3Ef0loat of string(*rep*)
-//
   | D3Estring of string(*val*)
+  | D3Efloat of string(*rep*)
+//
+  | D3Ei0nt of i0nt
+  | D3Ef0loat of f0loat
 //
   | D3Ecstsp of ($SYN.cstsp)
 //
@@ -225,13 +289,12 @@ fun d3exp_var
 
 (* ****** ****** *)
 
-fun d3exp_int (
-  loc: location, s2f: s2exp, i: int
-) : d3exp // end of [d3exp_int]
-
-fun d3exp_i0nt (
-  loc: location, s2f: s2exp, rep: string, inf: intinf
-) : d3exp // end of [d3exp_i0nt]
+fun d3exp_int
+  (loc: location, s2f: s2exp, i: int) : d3exp
+// end of [d3exp_int]
+fun d3exp_intrep
+  (loc: location, s2f: s2exp, rep: string) : d3exp
+// end of [d3exp_intrep]
 
 fun d3exp_bool
   (loc: location, s2f: s2exp, b: bool): d3exp
@@ -245,8 +308,14 @@ fun d3exp_string
   (loc: location, s2f: s2exp, str: string): d3exp
 // end of [d3exp_string]
 
-fun d3exp_float
-  (loc: location, s2f: s2exp, rep: string): d3exp
+(* ****** ****** *)
+
+fun d3exp_i0nt (
+  loc: location, s2f: s2exp, x: i0nt
+) : d3exp // end of [d3exp_i0nt]
+
+fun d3exp_f0loat
+  (loc: location, s2f: s2exp, x: f0loat): d3exp
 // end of [d3exp_float]
 
 (* ****** ****** *)

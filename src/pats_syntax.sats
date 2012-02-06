@@ -379,6 +379,8 @@ typedef l0ab = '{
   l0ab_loc= location, l0ab_lab= label
 } // end of [l0ab]
 
+fun l0ab_make_label
+  (loc: location, l: label): l0ab
 fun l0ab_make_i0de (x: i0de): l0ab
 fun l0ab_make_i0nt (x: i0nt): l0ab
 
@@ -960,9 +962,9 @@ p0at_node =
 //
   | P0Tlist of (int(*npf*), p0atlst)
 //
-  | P0Tlst of p0atlst
   | P0Ttup of (int (*knd*), int(*npf*), p0atlst)
   | P0Trec of (int (*recknd*), int(*npf*), labp0atlst)
+  | P0Tlst of (int(*lin*), p0atlst) // pattern list
 //
   | P0Tfree of p0at
 //
@@ -984,8 +986,9 @@ where p0at = '{
    p0at_loc= location, p0at_node= p0at_node
 } (* end of [p0at] *)
 
-and p0atlst: type = List p0at
-and p0atopt: type = Option p0at
+and p0atlst = List (p0at)
+and p0atlst_vt = List_vt (p0at)
+and p0atopt = Option p0at
 
 and labp0at = '{
   labp0at_loc= location, labp0at_node= labp0at_node
@@ -1011,12 +1014,26 @@ fun p0at_list
   (t_beg: token, npf: int, xs: p0atlst, t_end: token): p0at
 // end of [p0ats_list]
 
+(* ****** ****** *)
+
 fun p0at_tup (
   knd: int, t_beg: token, npf: int, xs: p0atlst, t_end: token
 ) : p0at // end of [p0at_tup]
 fun p0at_rec (
   knd: int, t_beg: token, npf: int, xs: labp0atlst, t_end: token
 ) : p0at // end of [p0at_rec]
+
+(* ****** ****** *)
+
+fun p0at_lst (
+  lin: int
+, t_beg: token, p0ts: p0atlst, t_end: token
+) : p0at // end of [p0at_lst]
+fun p0at_lst_quote (
+  t_beg: token, p0ts: p0atlst, t_end: token
+) : p0at // end of [p0at_lst_quote]
+
+(* ****** ****** *)
 
 fun p0at_exist (
   t_beg: token, qua: s0arglst, t_end: token
@@ -1546,7 +1563,8 @@ fun d0exp_scasehead
 
 (* ****** ****** *)
 
-fun d0exp_lst (
+fun
+d0exp_lst (
   lin: int
 , t_beg: token
 , elt: s0expopt
@@ -1559,12 +1577,16 @@ fun d0exp_lst_quote
   (t_beg: token, elts: d0explst, t_end: token): d0exp
 // end of [d0exp_lst_quote]
 
+(* ****** ****** *)
+
 fun d0exp_tup (
   knd: int, t_beg: token, npf: int, xs: d0explst, t_end: token
 ) : d0exp // end of [d0exp_tup]
 fun d0exp_rec (
   knd: int, t_beg: token, npf: int, xs: labd0explst, t_end: token
 ) : d0exp // end of [d0exp_rec]
+
+(* ****** ****** *)
 
 fun d0exp_seq
   (t_beg: token, xs: d0explst, t_end: token): d0exp

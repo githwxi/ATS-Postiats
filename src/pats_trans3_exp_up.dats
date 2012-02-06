@@ -855,14 +855,14 @@ d2exp_trup_laminit_dyn (d2e0) = let
   val () = (
     case+ s2e_fun.s2exp_node of
     | S2Efun (fc, _, _, _, _, _) => (case+ fc of
-      | FUNCLOclo 0 => ()
+      | FUNCLOclo 0 => () // [CLO]
       | _ => let
          val () = prerr_error3_loc (loc0)
          val () = filprerr_ifdebug "d2exp_trup_laminit_dyn"
          val () = prerr ": the initializing value is expected to be a flat closure but it is not."
          val () = prerr_newline ()
        in
-         the_trans3errlst_add (T3E_d2exp_trup_laminit_fc (d2e0, fc))
+         the_trans3errlst_add (T3E_d2exp_trup_laminit_funclo (d2e0, fc))
        end // end of [_]
       ) // end of [S2Efun]
     | _ => () // HX: deadcode

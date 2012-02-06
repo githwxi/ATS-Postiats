@@ -103,6 +103,18 @@ case+ p1t0.p1at_node of
     val () = fprint_string (out, x)
     val () = prstr ")"
   }
+//
+| P1Ti0nt (x) => {
+    val () = prstr "P1Ti0nt("
+    val () = fprint_i0nt (out, x)
+    val () = prstr ")"
+  }
+| P1Tf0loat (x) => {
+    val () = prstr "P1Tf0loat("
+    val () = fprint_f0loat (out, x)
+    val () = prstr ")"
+  }
+//
 | P1Tempty () => prstr "P1Tempty()"
 //
 | P1Tapp_sta (p1t, s1vs) => {
@@ -130,11 +142,6 @@ case+ p1t0.p1at_node of
     val () = prstr ")"
   }
 //
-| P1Tlst (p1ts) => {
-    val () = prstr "P1Tlst("
-    val () = fprint_p1atlst (out, p1ts)
-    val () = prstr ")"
-  }
 | P1Ttup (knd, npf, p1ts) => {
     val () = prstr "P1Ttup("
     val () = fprint_int (out, knd)
@@ -151,6 +158,13 @@ case+ p1t0.p1at_node of
     val () = fprint_int (out, npf)
     val () = prstr "; "
     val () = $UT.fprintlst (out, lp1ts, ", ", fprint_labp1at)
+    val () = prstr ")"
+  }
+| P1Tlst (lin, p1ts) => {
+    val () = prstr "P1Tlst("
+    val () = fprint_int (out, lin)
+    val () = prstr "; "
+    val () = fprint_p1atlst (out, p1ts)
     val () = prstr ")"
   }
 //

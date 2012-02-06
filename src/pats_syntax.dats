@@ -380,19 +380,27 @@ datsdef_make
 (* ****** ****** *)
 
 implement
+l0ab_make_label
+  (loc, lab) = '{
+  l0ab_loc= loc, l0ab_lab= lab
+} // end of [l0ab_make_lab]
+
+implement
 l0ab_make_i0de (x) = let
-  val lab = $LAB.label_make_sym (x.i0de_sym)
-in '{
-  l0ab_loc= x.i0de_loc, l0ab_lab= lab
-} end // end of [l0ab_make_i0de]
+  val lab =
+    $LAB.label_make_sym (x.i0de_sym)
+  // end of [val]
+in
+  l0ab_make_label (x.i0de_loc, lab)
+end // end of [l0ab_make_i0de]
 
 implement
 l0ab_make_i0nt (x) = let
-  val int = int_of_i0nt (x)
-  val lab = $LAB.label_make_int (int)
-in '{
-  l0ab_loc= x.token_loc, l0ab_lab= lab
-} end // end of [l0ab_make_i0nt]
+  val i = int_of_i0nt (x)
+  val lab = $LAB.label_make_int (i)
+in
+  l0ab_make_label (x.token_loc, lab)
+end // end of [l0ab_make_i0nt]
 
 (* ****** ****** *)
 
@@ -1198,6 +1206,22 @@ p0at_list
 in '{
   p0at_loc= loc, p0at_node= P0Tlist (npf, xs)
 } end // end of [p0at_list]
+
+(* ****** ****** *)
+
+implement
+p0at_lst
+  (lin, t_beg, p0ts, t_end) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  p0at_loc= loc, p0at_node= P0Tlst (lin, p0ts)
+} end // end of [p0at_lst]
+
+implement
+p0at_lst_quote
+  (t_beg, p0ts, t_end) =
+  p0at_lst (0(*lin*), t_beg, p0ts, t_end)
+// end of [p0at_lst_quote]
 
 (* ****** ****** *)
 

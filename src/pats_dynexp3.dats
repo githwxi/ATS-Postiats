@@ -38,6 +38,14 @@ staload "pats_dynexp3.sats"
 (* ****** ****** *)
 
 implement
+p3at_any
+  (loc, s2f, d2v) = '{
+  p3at_loc= loc
+, p3at_node= P3Tany (d2v)
+, p3at_type= s2f
+} // end of [p3at_any]
+
+implement
 p3at_var (
   loc, s2f, knd, d2v
 ) = '{
@@ -47,6 +55,100 @@ p3at_var (
 } // end of [p3at_var]
 
 implement
+p3at_int
+  (loc, s2f, i) = '{
+  p3at_loc= loc
+, p3at_node= P3Tint (i)
+, p3at_type= s2f
+} // end of [p3at_int]
+implement
+p3at_intrep
+  (loc, s2f, rep) = '{
+  p3at_loc= loc
+, p3at_node= P3Tintrep (rep)
+, p3at_type= s2f
+} // end of [p3at_intrep]
+
+implement
+p3at_bool
+  (loc, s2f, b) = '{
+  p3at_loc= loc
+, p3at_node= P3Tbool (b)
+, p3at_type= s2f
+} // end of [p3at_bool]
+
+implement
+p3at_char
+  (loc, s2f, c) = '{
+  p3at_loc= loc
+, p3at_node= P3Tchar (c)
+, p3at_type= s2f
+} // end of [p3at_char]
+
+implement
+p3at_string
+  (loc, s2f, str) = '{
+  p3at_loc= loc
+, p3at_node= P3Tstring (str)
+, p3at_type= s2f
+} // end of [p3at_string]
+
+//
+
+implement
+p3at_i0nt
+  (loc, s2f, x) = '{
+  p3at_loc= loc
+, p3at_node= P3Ti0nt (x)
+, p3at_type= s2f
+} // end of [p3at_i0nt]
+
+implement
+p3at_f0loat
+  (loc, s2f, x) = '{
+  p3at_loc= loc
+, p3at_node= P3Tf0loat (x)
+, p3at_type= s2f
+} // end of [p3at_f0loat]
+
+//
+
+implement
+p3at_empty
+  (loc, s2f) = '{
+  p3at_loc= loc
+, p3at_node= P3Tempty ()
+, p3at_type= s2f
+} // end of [p3at_empty]
+
+implement
+p3at_rec (
+  loc, s2f, knd, npf, lp3ts
+) = '{
+  p3at_loc= loc
+, p3at_node= P3Trec (knd, npf, lp3ts)
+, p3at_type= s2f  
+} // end of [p3at_rec]
+
+implement
+p3at_lst (
+  loc, s2f, lin, p3ts
+) = '{
+  p3at_loc= loc
+, p3at_node= P3Tlst (lin, p3ts)
+, p3at_type= s2f
+} // end of [p3at_lst]
+
+implement
+p3at_exist (
+  loc, s2f, s2vs, p3t
+) = '{
+  p3at_loc= loc
+, p3at_node= P3Texist (s2vs, p3t)
+, p3at_type= s2f
+} // end of [p3at_exist]
+
+implement
 p3at_ann (
   loc, s2f, p3t, ann
 ) = '{
@@ -54,6 +156,14 @@ p3at_ann (
 , p3at_node= P3Tann (p3t, ann)
 , p3at_type= s2f
 } // end of [p3at_ann]
+
+implement
+p3at_err
+  (loc, s2f) = '{
+  p3at_loc= loc
+, p3at_node= P3Terr ()
+, p3at_type= s2f
+} // end of [p3at_err]
 
 (* ****** ****** *)
 
@@ -74,17 +184,14 @@ d3exp_int
   d3exp_loc= loc
 , d3exp_type= s2f
 , d3exp_node= D3Eint (i)
-} // end of [d3exp_i0nt]
-
+} // end of [d3exp_int]
 implement
-d3exp_i0nt
-  (loc, s2f, rep, inf) = '{
+d3exp_intrep
+  (loc, s2f, rep) = '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Ei0nt (rep, inf)
-} // end of [d3exp_i0nt]
-
-(* ****** ****** *)
+, d3exp_node= D3Eintrep (rep)
+} // end of [d3exp_intrep]
 
 implement
 d3exp_bool
@@ -110,13 +217,23 @@ d3exp_string
 , d3exp_node= D3Estring (str)
 } // end of [d3exp_string]
 
+(* ****** ****** *)
+
 implement
-d3exp_float
-  (loc, s2f, rep) = '{
+d3exp_i0nt
+  (loc, s2f, x) = '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Efloat (rep)
-} // end of [d3exp_float]
+, d3exp_node= D3Ei0nt (x)
+} // end of [d3exp_i0nt]
+
+implement
+d3exp_f0loat
+  (loc, s2f, x) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Ef0loat (x)
+} // end of [d3exp_f0loat]
 
 (* ****** ****** *)
 

@@ -49,7 +49,12 @@ staload "pats_lexing.sats"
 (* ****** ****** *)
 
 staload SYM = "pats_symbol.sats"
+macdef fprint_symbol = $SYM.fprint_symbol
 staload SYN = "pats_syntax.sats"
+macdef fprint_cstsp = $SYN.fprint_cstsp
+macdef fprint_l0ab = $SYN.fprint_l0ab
+macdef fprint_i0de = $SYN.fprint_i0de
+macdef fprint_d0ynq = $SYN.fprint_d0ynq
 
 (* ****** ****** *)
 
@@ -85,7 +90,7 @@ case+ x of
 | D2ITMsymdef
     (sym, d2pis) => {
     val () = prstr "D2ITMsymdef("
-    val () = $SYM.fprint_symbol (out, sym)
+    val () = fprint_symbol (out, sym)
     val () = prstr "; "
     val () = fprint_d2pitmlst (out, d2pis)
     val () = prstr ")"
@@ -124,8 +129,8 @@ fprint_d2pitmlst
 
 implement
 fprint_d2sym (out, d2s) = {
-  val () = $SYN.fprint_d0ynq (out, d2s.d2sym_qua)
-  val () = $SYM.fprint_symbol (out, d2s.d2sym_sym)
+  val () = fprint_d0ynq (out, d2s.d2sym_qua)
+  val () = fprint_symbol (out, d2s.d2sym_sym)
 } // end of [d2sym]
 
 
@@ -159,7 +164,7 @@ case+ x.p2at_node of
     val () = prstr ")"
   }
 | P2Tintrep (rep) => {
-    val () = prstr "P2Ti0nt("
+    val () = prstr "P2Tintrep("
     val () = fprint_string (out, rep)
     val () = prstr ")"
   }
@@ -178,10 +183,24 @@ case+ x.p2at_node of
     val () = fprint_string (out, x)
     val () = prstr ")"
   }
+//
+| P2Ti0nt (x) => {
+    val () = prstr "P2Ti0nt("
+    val () = $SYN.fprint_i0nt (out, x)
+    val () = prstr ")"
+  }
+| P2Tf0loat (x) => {
+    val () = prstr "P2Tf0loat("
+    val () = $SYN.fprint_f0loat (out, x)
+    val () = prstr ")"
+  }
+//
 | P2Tempty () => {
     val () = prstr "P2Tempty()"
   }
-| P2Tcon (knd, d2c, s2qs, s2f, npf, p2ts) => {
+| P2Tcon (
+    knd, d2c, s2qs, s2f, npf, p2ts
+  ) => {
     val () = prstr "P2Tcon("
     val () = fprint_int (out, knd)
     val () = prstr "; "
@@ -196,6 +215,7 @@ case+ x.p2at_node of
     val () = fprint_p2atlst (out, p2ts)
     val () = prstr ")"
   }
+//
 | P2Tlist (npf, p2ts) => {
     val () = prstr "P2Tlist("
     val () = fprint_int (out, npf)
@@ -203,11 +223,7 @@ case+ x.p2at_node of
     val () = fprint_p2atlst (out, p2ts)
     val () = prstr ")"
   }
-| P2Tlst (p2ts) => {
-    val () = prstr "P2Tlst("
-    val () = fprint_p2atlst (out, p2ts)
-    val () = prstr ")"
-  }
+//
 | P2Trec (knd, npf, lp2ts) => {
     val () = prstr "P2Ttup("
     val () = fprint_int (out, knd)
@@ -215,6 +231,13 @@ case+ x.p2at_node of
     val () = fprint_int (out, npf)
     val () = prstr "; "
     val () = fprint_labp2atlst (out, lp2ts)
+    val () = prstr ")"
+  }
+| P2Tlst (lin, p2ts) => {
+    val () = prstr "P2Tlst("
+    val () = fprint_int (out, lin)
+    val () = prstr "; "
+    val () = fprint_p2atlst (out, p2ts)
     val () = prstr ")"
   }
 //
@@ -269,12 +292,12 @@ prerr_p2atlst (xs) = fprint_p2atlst (stderr_ref, xs)
 implement
 fprint_labp2at
   (out, lp2t) = case+ lp2t of
-  | LP2Tnorm (l, p2t) => {
-      val () = $LAB.fprint_label (out, l)
+  | LABP2ATnorm (l0, p2t) => {
+      val () = fprint_l0ab (out, l0)
       val () = fprint_string (out, "=")
       val () = fprint_p2at (out, p2t)
-    } // end of [LP2Tnorm]
-  | LP2Tomit () => fprint_string (out, "...")
+    } // end of [LABP2ATnorm]
+  | LABP2ATomit (loc) => fprint_string (out, "...")
 // end of [fprint_labp2at]
 
 implement
@@ -360,7 +383,7 @@ case+ x.d2exp_node of
 //
 | D2Ecstsp (csp) => {
     val () = prstr "D2Ecstsp("
-    val () = $SYN.fprint_cstsp (out, csp)
+    val () = fprint_cstsp (out, csp)
     val () = prstr ")"
   } // end of [D2Ecstsp]
 //
@@ -686,8 +709,8 @@ prerr_d2explst (xs) = fprint_d2explst (stderr_ref, xs)
 
 implement
 fprint_labd2exp (out, x) = {
-  val $SYN.DL0ABELED (l, d2e) = x
-  val () = $SYN.fprint_l0ab (out, l)
+  val $SYN.DL0ABELED (l0, d2e) = x
+  val () = fprint_l0ab (out, l0)
   val () = fprint_string (out, "=")
   val () = fprint_d2exp (out, d2e)
 } // end of [fprint_labd2exp]
@@ -750,7 +773,7 @@ case+ x.d2ecl_node of
 //
 | D2Coverload (id, opt) => {
     val () = prstr "D2Coverload("
-    val () = $SYN.fprint_i0de (out, id)
+    val () = fprint_i0de (out, id)
     val () = prstr ", "
     val () = (case+ opt of
       | Some d2i => fprint_d2itm (out, d2i)

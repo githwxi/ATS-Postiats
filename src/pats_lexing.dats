@@ -384,7 +384,7 @@ fun XDIGIT_test
 fun INTSP_test
   (c: char): bool = string_contains ("LlUu", c)
 fun FLOATSP_test
-  (c: char): bool = string_contains ("dDfFlL", c)
+  (c: char): bool = string_contains ("fFlL", c)
 
 (* ****** ****** *)
 

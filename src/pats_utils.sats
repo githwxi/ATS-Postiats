@@ -44,7 +44,21 @@ fun strcasecmp (x1: string, x2: string): int
 //
 // HX: the [base] of the representation is contained
 fun llint_make_string (rep: string): llint // in the [rep]
-
+//
+(* ****** ****** *)
+//
+// HX: finding the base of [rep]
+//
+fun intrep_get_base (rep: string): int
+//
+// HX: finding the length of the suffix [UuLl]*
+fun intrep_get_nsfx (rep: string): uint // in the [rep]
+//
+(* ****** ****** *)
+//
+// HX: finding the length of the suffix [FfLl]*
+fun float_get_nsfx (rep: string): uint // in the [rep]
+//
 (* ****** ****** *)
 
 fun{a:t@ype}

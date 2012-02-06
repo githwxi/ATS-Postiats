@@ -67,6 +67,10 @@ val the_g1uint_int_t0ype : s2cstref
 //
 val the_char_t0ype : s2cstref
 val the_char_char_t0ype : s2cstref
+val the_schar_t0ype : s2cstref
+val the_schar_char_t0ype : s2cstref
+val the_uchar_t0ype : s2cstref
+val the_uchar_char_t0ype : s2cstref
 //
 val the_string_type : s2cstref
 val the_string_int_type : s2cstref
@@ -83,6 +87,7 @@ val the_exception_viewtype : s2cstref
 val the_arrsz_viewt0ype_int_viewt0ype : s2cstref
 //
 val the_list0_t0ype_type : s2cstref
+//
 val the_list_t0ype_int_type : s2cstref
 val the_list_viewt0ype_int_viewtype : s2cstref
 //
@@ -101,6 +106,8 @@ fun s2exp_bool
 //
 fun s2exp_bool_t0ype (): s2exp // bool0
 fun s2exp_bool_bool_t0ype (b: bool): s2exp // bool1(b)
+//
+fun s2exp_bool_index_t0ype (ind: s2exp): s2exp // bool1(ind)
 //
 (* ****** ****** *)
 //
@@ -122,17 +129,31 @@ fun s2exp_ulint_intinf_t0ype (inf: intinf): s2exp // ulint1(i)
 fun s2exp_llint_intinf_t0ype (inf: intinf): s2exp // llint1(i)
 fun s2exp_ullint_intinf_t0ype (inf: intinf): s2exp // ullint1(i)
 //
-fun s2exp_int_index_t0ype (s2i: s2exp): s2exp // int1(s2i)
+fun s2exp_g0int_kind_t0ype (knd: s2exp): s2exp
+fun s2exp_g1int_kind_index_t0ype (knd: s2exp, ind: s2exp): s2exp
+fun s2exp_g0uint_kind_t0ype (knd: s2exp): s2exp
+fun s2exp_g1uint_kind_index_t0ype (knd: s2exp, ind: s2exp): s2exp
+//
+fun s2exp_int_index_t0ype (ind: s2exp): s2exp
+fun s2exp_uint_index_t0ype (ind: s2exp): s2exp
 //
 (* ****** ****** *)
-
+//
 fun s2exp_char_t0ype (): s2exp // char0
 fun s2exp_char_char_t0ype (c: char): s2exp // char1(c)
-
+fun s2exp_char_index_t0ype (ind: s2exp): s2exp // char1(ind)
+//
+fun s2exp_schar_t0ype (): s2exp // schar0
+fun s2exp_schar_char_t0ype (c: char): s2exp // schar1(c)
+//
+fun s2exp_uchar_t0ype (): s2exp // schar0
+fun s2exp_uchar_char_t0ype (c: char): s2exp // uchar1(c)
+//
 (* ****** ****** *)
 //
 fun s2exp_string_type (): s2exp // string0
 fun s2exp_string_int_type (n: size_t): s2exp // string1
+fun s2exp_string_index_type (ind: s2exp): s2exp // string1(ind)
 //
 (* ****** ****** *)
 //

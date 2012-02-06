@@ -193,10 +193,13 @@ fun trans3_env_add_eqeq
 // end of [trans3_env_add_eqeq]
 
 (* ****** ****** *)
-
+//
 fun trans3_env_hypadd_prop (loc: location, s2p: s2exp): void
 fun trans3_env_hypadd_proplst (loc: location, s2ps: s2explst): void
-
+fun trans3_env_hypadd_proplst_vt (loc: location, s2ps: s2explst_vt): void
+//
+fun trans3_env_hypadd_eqeq (loc: location, s2e1: s2exp, s2e2: s2exp): void
+//
 (* ****** ****** *)
 //
 // HX: for the purpose of debugging

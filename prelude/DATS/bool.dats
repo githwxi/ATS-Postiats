@@ -10,8 +10,8 @@
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
-** the terms of  the GNU GENERAL PUBLIC LICENSE (GPL) as published by the
-** Free Software Foundation; either version 3, or (at  your  option)  any
+** the terms of the GNU LESSER GENERAL PUBLIC LICENSE as published by the
+** Free Software Foundation; either version 2.1, or (at your option)  any
 ** later version.
 ** 
 ** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
@@ -27,50 +27,16 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: May, 2011
+// Author of the file: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Start Time: February, 2012
 //
 (* ****** ****** *)
 
-abstype intinf_type
-typedef intinf = intinf_type
+implement
+compare_bool_bool
+  (x1, x2) = int_of_bool(x1) - int_of_bool(x2)
+// end of [compare_bool_bool]
 
 (* ****** ****** *)
 
-fun intinf_make_int (i: int): intinf
-fun intinf_make_size (sz: size_t): intinf
-
-(* ****** ****** *)
-
-(*
-//
-// HX: [rep] is unsigned!
-// 0 -> base 8; 0x -> base 16; _ => base 10
-//
-*)
-fun intinf_make_string (rep: string): intinf
-
-(* ****** ****** *)
-
-fun
-intinf_make_base_string_ofs
-  {n:int} {i:nat | i <= n} (
-  base: intBtw(2,36+1), rep: string n, ofs: int i
-) : intinf // end of [intinf_make_base_string_ofs]
-
-(* ****** ****** *)
-
-fun fprint_intinf (out: FILEref, x: intinf): void
-
-(* ****** ****** *)
-
-fun eq_intinf_int (x1: intinf, x2: int): bool
-fun eq_int_intinf (x1: int, x2: intinf): bool
-fun eq_intinf_intinf (x1: intinf, x2: intinf): bool
-
-fun compare_intinf_int (x1: intinf, x2: int): int
-fun compare_intinf_intinf (x1: intinf, x2: intinf): int
-
-(* ****** ****** *)
-
-(* end of [pats_intinf.sats] *)
+(* end of [bool.dats] *)

@@ -53,6 +53,16 @@ in
   ref_make_view_ptr (pfat | p)
 end // end of [intinf_make_int]
 
+implement
+intinf_make_size (sz) = let
+  val (pfgc, pfat | p) = ptr_alloc_tsz {mpz_vt} (sizeof<mpz_vt>)
+  prval () = free_gc_elim (pfgc)
+  val sz = ulint_of_size (sz)
+  val () = mpz_init_set_ulint (!p, sz)
+in
+  ref_make_view_ptr (pfat | p)
+end // end of [intinf_make_size]
+
 (* ****** ****** *)
 (*
 ** HX: [rep] is unsigned!

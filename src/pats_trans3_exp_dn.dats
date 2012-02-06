@@ -224,9 +224,7 @@ case+ s2f0.s2exp_node of
     // end of [val]
     val () = if err != 0 then {
       val () = prerr_the_staerrlst ()
-      val () = the_trans3errlst_add (
-        T3E_d2exp_trdn_lam_dyn_pfarity (d2e0, s2f0)
-      ) // end of [the_trans3errlst_add]
+      val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2f0))
     } // end of [val]
     val err =
       $SOL.linearity_equal_solve (loc0, lin, lin1)
@@ -242,9 +240,7 @@ case+ s2f0.s2exp_node of
       val () = prerr_newline ()
 *)
       val () = prerr_the_staerrlst ()
-      val () = the_trans3errlst_add (
-        T3E_d2exp_trdn_lam_dyn_linearity (d2e0, s2f0)
-      ) // end of [the_trans3errlst_add]
+      val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2f0))
     } // end of [val]
 //
     val (pfpush | ()) = trans3_env_push ()
@@ -258,9 +254,7 @@ case+ s2f0.s2exp_node of
     ) : void // end of [val]
     val () = if err != 0 then {
       val () = prerr_the_staerrlst ()
-      val () = the_trans3errlst_add (
-        T3E_d2exp_trdn_lam_dyn_funclo (d2e0, s2f0)
-      ) // end of [the_trans3errlst_add]
+      val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2f0))
     } // end of [val]
 //
     var err: int = 0
@@ -272,9 +266,7 @@ case+ s2f0.s2exp_node of
     ) : void // end of [val]
     val () = if err != 0 then {
       val () = prerr_the_staerrlst ()
-      val () = the_trans3errlst_add (
-        T3E_d2exp_trdn_lam_dyn_s2eff (d2e0, s2f0)
-      ) // end of [the_trans3errlst_add]
+      val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2f0))
     } // end of [val]
 //
     var err: int = 0
@@ -285,9 +277,7 @@ case+ s2f0.s2exp_node of
       val () = prerr_error3_loc (loc0)
       val () = prerr ": dynamic arity mismatch"
       val () = prerr_newline ()
-      val () = the_trans3errlst_add (
-        T3E_d2exp_trdn_lam_dyn_linearity (d2e0, s2f0)
-      ) // end of [the_trans3errlst_add]
+      val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2f0))
     } // end of [val]
     val d3e_body = d2exp_trdn (d2e_body, s2e_res)
 //

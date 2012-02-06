@@ -90,6 +90,17 @@ end // end of [d2exp_trup_int]
 (* ****** ****** *)
 
 implement
+d2exp_trup_intrep
+  (d2e0, rep) = let
+  val loc0 = d2e0.d2exp_loc
+  val s2f = intrep_syn_type (loc0, rep)
+in
+  d3exp_intrep (loc0, s2f, rep)
+end // end of [d2exp_trup_int]
+
+(* ****** ****** *)
+
+implement
 d2exp_trup_bool
   (d2e0, b) = let
   val loc0 = d2e0.d2exp_loc
@@ -127,13 +138,11 @@ datatype intknd =
 
 in // in of [local]
 
-implement
-i0nt_syn_type
-  (d2e0, x(*i0nt*)) = let
+fun
+intrepsfx_syn_type (
+  loc0: location, rep: string, sfx: uint
+) : s2exp = let
 //
-val- T_INTEGER
-  (base, rep, sfx) = x.token_node
-// end of [val]
 var p_sfx: ptr = null
 val () = if
   sfx > 0u then let
@@ -172,24 +181,21 @@ case+ sfx of
     | LLINT () => s2exp_llint_t0ype ()
     | ULLINT () => s2exp_ullint_t0ype ()
     | _ => let
-        val loc0 = d2e0.d2exp_loc
         val () = prerr_error3_loc (loc0)
         val () = filprerr_ifdebug "i0nt_syn_type"
         val () = prerr ": the suffix of the integer is not supported."
         val () = prerr_newline ()
-        val () = the_trans3errlst_add (T3E_intsp (d2e0))
+        val () = the_trans3errlst_add (T3E_intsp (loc0, rep))
       in
         s2exp_err (s2rt_t0ype)
       end // end of [_]
    end // end of [_]
-end // end of [i0nt_syn_type]
+end // end of [intrepsfx_syn_type]
 
-implement
-d2exp_trup_i0nt
-  (d2e0, x(*i0nt*)) = let
-  val loc0 = d2e0.d2exp_loc
-  val- T_INTEGER (base, rep, sfx) = x.token_node
-//
+fun
+intbaserepsfx_syn_type_ind (
+  loc0: location, base: int, rep: string, sfx: uint
+) : s2exp = let
   var p_sfx: ptr = null
 //
   var rep1: string = rep
@@ -235,13 +241,9 @@ d2exp_trup_i0nt
 in
 //
 case+ sfx of
-| _ when sfx = 0u => let
-    val s2e =
+| _ when sfx = 0u =>
       s2exp_int_intinf_t0ype (inf)
-    // end of [val]
-  in
-    d3exp_i0nt (loc0, s2e, rep, inf)
-  end // end of [default]
+  // end of [default]
 | _ => let
     val sfx = $UN.cast {string} (p_sfx)
     val knd = (case+ 0 of
@@ -257,31 +259,76 @@ case+ sfx of
 //
       | _ => ERROR ()
     ) : intknd // end of [val]
-    val s2e = (case+ knd of
-      | INT () => s2exp_int_intinf_t0ype (inf)
-      | UINT () => s2exp_uint_intinf_t0ype (inf)
-      | LINT () => s2exp_lint_intinf_t0ype (inf)
-      | ULINT () => s2exp_ulint_intinf_t0ype (inf)
-      | LLINT () => s2exp_llint_intinf_t0ype (inf)
-      | ULLINT () => s2exp_ullint_intinf_t0ype (inf)
-      | _ => let
-          val () = prerr_error3_loc (loc0)
-          val () = filprerr_ifdebug "d2exp_trup_i0nt"
-          val () = prerr ": the suffix of the integer is not supported."
-          val () = prerr_newline ()
-          val () = the_trans3errlst_add (T3E_intsp (d2e0))
-        in
-          s2exp_err (s2rt_t0ype)
-        end // end of [_]
-    ) : s2exp // end of [val]
   in
-    d3exp_i0nt (loc0, s2e, rep, inf)
+    case+ knd of
+    | INT () => s2exp_int_intinf_t0ype (inf)
+    | UINT () => s2exp_uint_intinf_t0ype (inf)
+    | LINT () => s2exp_lint_intinf_t0ype (inf)
+    | ULINT () => s2exp_ulint_intinf_t0ype (inf)
+    | LLINT () => s2exp_llint_intinf_t0ype (inf)
+    | ULLINT () => s2exp_ullint_intinf_t0ype (inf)
+    | _ => let
+        val () = prerr_error3_loc (loc0)
+        val () = filprerr_ifdebug "d2exp_trup_i0nt"
+        val () = prerr ": the suffix of the integer is not supported."
+        val () = prerr_newline ()
+        val () = the_trans3errlst_add (T3E_intsp (loc0, rep))
+      in
+        s2exp_err (s2rt_t0ype)
+      end // end of [_]
   end // end of [_]
 // end of [case]
 //
-end // end of [d2exp_trup_i0nt]
+end // end of [intbaserepsfx_syn_type_ind]
 
 end // end of [local]
+
+implement
+intrep_syn_type
+  (loc0, rep) = let
+  val sfx = $UT.intrep_get_nsfx (rep)
+in
+  intrepsfx_syn_type (loc0, rep, sfx)
+end // end of [intrep_syn_type]
+
+implement
+intrep_syn_type_ind
+  (loc0, rep) = let
+  val base =
+    $UT.intrep_get_base (rep)
+  val sfx = $UT.intrep_get_nsfx (rep)
+in
+  intbaserepsfx_syn_type_ind (loc0, base, rep, sfx)
+end // end of [intrep_syn_type_ind]
+
+implement
+i0nt_syn_type
+  (x(*i0nt*)) = let
+  val loc0 = x.token_loc
+  val- T_INTEGER (base, rep, sfx) = x.token_node
+in
+  intrepsfx_syn_type (loc0, rep, sfx)
+end // end of [i0nt_syn_t0ype]
+
+implement
+i0nt_syn_type_ind
+  (x(*i0nt*)) = let
+  val loc0 = x.token_loc
+  val- T_INTEGER (base, rep, sfx) = x.token_node
+in
+  intbaserepsfx_syn_type_ind (loc0, base, rep, sfx)
+end // end of [i0nt_syn_type_ind]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_i0nt
+  (d2e0, x(*i0nt*)) = let
+  val loc0 = d2e0.d2exp_loc
+  val s2e = i0nt_syn_type_ind (x)
+in
+  d3exp_i0nt (loc0, s2e, x)
+end // end of [d2exp_trup_i0nt]
 
 (* ****** ****** *)
 
@@ -293,13 +340,9 @@ datatype fltknd =
 
 in // in of [local]
 
-implement
-f0loat_syn_type
-  (d2e0, x(*f0loat*)) = let
-  val- T_FLOAT (base, rep, sfx) = x.token_node
-in
-//
-case+ 0 of
+fun floatsfx_syn_type (
+  loc0: location, rep: string, sfx: uint
+) : s2exp = (case+ 0 of
 | _ when sfx = 0u => s2exp_double_t0ype ()
 | _ (*sfx > 0*) => let
     val rep1 = (s2s)rep
@@ -309,8 +352,10 @@ case+ 0 of
     val sfx = $UN.cast {string} (p_sfx)
     val knd = (case+ 0 of
       | _ when strcasecmp (sfx, "F") = 0 => FLOAT
+(*
       | _ when strcasecmp (sfx, "D") = 0 => DOUBLE
-      | _ when strcasecmp (sfx, "LD") = 0 => LDOUBLE
+*)
+      | _ when strcasecmp (sfx, "L") = 0 => LDOUBLE
       | _ => ERROR ()
     ) : fltknd // end of [val]
   in
@@ -319,30 +364,47 @@ case+ 0 of
     | DOUBLE () => s2exp_double_t0ype ()
     | LDOUBLE () => s2exp_ldouble_t0ype ()
     | _ => let
-        val loc0 = d2e0.d2exp_loc
         val () = prerr_error3_loc (loc0)
         val () = filprerr_ifdebug "f0loat_syn_type"
         val () = prerr ": the suffix of the floating point number is not supported."
         val () = prerr_newline ()
-        val () = the_trans3errlst_add (T3E_floatsp (d2e0))
+        val () = the_trans3errlst_add (T3E_floatsp (loc0, rep))
       in
         s2exp_err (s2rt_t0ype)
       end // end of [_]
    end // end of [_]
-//
+) // end of [floatsfx_syn_type]
+
+end // end of [local]
+
+implement
+float_syn_type
+  (loc0, rep) = let
+  val sfx = $UT.float_get_nsfx (rep)
+in
+  floatsfx_syn_type (loc0, rep, sfx)
 end // end of [f0loat_syn_type]
+
+implement
+f0loat_syn_type
+  (x(*f0loat*)) = let
+  val loc0 = x.token_loc
+  val- T_FLOAT (base, rep, sfx) = x.token_node
+in
+  floatsfx_syn_type (loc0, rep, sfx)
+end // end of [f0loat_syn_type]
+
+(* ****** ****** *)
 
 implement
 d2exp_trup_f0loat
   (d2e0, x(*f0loat*)) = let
   val loc0 = d2e0.d2exp_loc
-  val s2f = f0loat_syn_type (d2e0, x)
+  val s2f = f0loat_syn_type (x)
   val- T_FLOAT (base, rep, sfx) = x.token_node
 in
-  d3exp_float (loc0, s2f, rep)
+  d3exp_f0loat (loc0, s2f, x)
 end // end of [d2exp_trup_f0loat]
-
-end // end of [local]
 
 (* ****** ****** *)
 

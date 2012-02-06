@@ -100,6 +100,10 @@ prval file_mode_lte_rw_r
 prval file_mode_lte_rw_w
   : file_mode_lte (rw(), w()) // implemented in [filebas_prf.dats]
 *)
+
+abstype FILEref_type = ptr
+typedef FILEref = FILEref_type
+
 (* ****** ****** *)
 //
 datatype // t@ype+: covariant

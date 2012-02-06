@@ -550,6 +550,9 @@ case+ p1t0.p1at_node of
 | P1Tstring (str) => p2at_string (loc0, str)
 | P1Tfloat (rep) => p2at_float (loc0, rep)
 //
+| P1Ti0nt (x) => p2at_i0nt (loc0, x)
+| P1Tf0loat (x) => p2at_f0loat (loc0, x)
+//
 | P1Tempty () => p2at_empty (loc0)
 //
 | P1Tapp_dyn (
@@ -564,17 +567,13 @@ case+ p1t0.p1at_node of
 | P1Tapp_sta (p1t_fun, sarg) =>
     p1at_tr_app_sta_dyn (p1t0, p1t_fun, p1t_fun, sarg, ~1(*npf*), list_nil)
 //
-| P1Tlist (npf, p1ts) => (
-  case+ p1ts of
+| P1Tlist (npf, p1ts) => (case+ p1ts of
   | list_cons _ => let
       val p2ts = p1atlst_tr p1ts in p2at_list (loc0, npf, p2ts)
     end // end of [list_cons]
   | list_nil _ => p2at_empty (loc0)
   ) // end of [P1Tlist]
 //
-| P1Tlst (p1ts) => let
-    val p2ts = p1atlst_tr (p1ts) in p2at_lst (loc0, p2ts)
-  end // end of [P1Tlst]
 | P1Ttup (
     knd, npf, p1ts
   ) => let
@@ -588,17 +587,29 @@ case+ p1t0.p1at_node of
         case+ p2ts of
         | ~list_vt_cons
             (p2t, p2ts) => let
+            val loc = p2t.p2at_loc
             val l = label_make_int (n)
-            val lp2t = LP2Tnorm (l, p2t)
+            val l0 = $SYN.l0ab_make_label (loc, l)
+            val lp2t = LABP2ATnorm (l0, p2t)
           in
             list_cons (lp2t, aux (p2ts, n+1))
           end // end of [list_vt_cons]
         | ~list_vt_nil () => list_nil ()
       // end of [aux]
-    } // end of [aux]
+    } // end of [val]
   in
     p2at_rec (loc0, knd, npf, lp2ts)
   end // end of [P1Ttup]
+| P1Trec (
+    knd, npf, lp1ts
+  ) => let
+    val lp2ts = 
+      list_map_fun (lp1ts, labp1at_tr)
+    // end of [val]
+  in
+    p2at_rec (loc0, knd, npf, (l2l)lp2ts)
+  end // end of [P1Trec]
+| P1Tlst (lin, p1ts) => p2at_lst (loc0, lin, p1atlst_tr (p1ts))
 //
 | P1Tfree (p1t) => p1at_tr_free (p1t0, p1t)
 | P1Tas (id, loc_id, p1t) => let
@@ -637,7 +648,8 @@ case+ p1t0.p1at_node of
     p2at_ann (loc0, p2t, ann)
   end
 | P1Terr () => p2at_err (loc0)
-// (*
+//
+(*
 | _ => let
     val () = prerr_interror_loc (loc0)
     val () = prerr ": p1at_tr: not yet implemented: p1t0 = "
@@ -647,12 +659,21 @@ case+ p1t0.p1at_node of
   in
     $ERR.abort {p2at} ()
   end // end of [_]
-// *)
+*)
 //
 end // end of [p1at_tr]
 
 implement
 p1atlst_tr (p1ts) = l2l (list_map_fun (p1ts, p1at_tr))
+
+implement
+labp1at_tr (lp1t) =
+  case+ lp1t.labp1at_node of
+  | LABP1ATnorm (l0, p1t) => let
+      val p2t = p1at_tr (p1t) in LABP2ATnorm (l0, p2t)
+    end // end of [LABP1ATnorm]
+  | LABP1ATomit () => LABP2ATomit (lp1t.labp1at_loc)
+// end of [labp1at_tr]
 
 (* ****** ****** *)
 

@@ -180,6 +180,18 @@ p2at_float (loc, rep) =
 (* ****** ****** *)
 
 implement
+p2at_i0nt (loc, x) =
+  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Ti0nt (x))
+// end of [p2at_i0nt]
+
+implement
+p2at_f0loat (loc, x) =
+  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tf0loat (x))
+// end of [p2at_f0loat]
+
+(* ****** ****** *)
+
+implement
 p2at_empty (loc) =
   p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tempty ())
 // end of [p2at_empty]
@@ -219,26 +231,15 @@ end // end of [p2at_list]
 (* ****** ****** *)
 
 implement
-p2at_lst (loc, p2ts) = let
-  val svs = p2atlst_svs_union (p2ts)
-  val dvs = p2atlst_dvs_union (p2ts)
-in
-  p2at_make (loc, svs, dvs, P2Tlst (p2ts))
-end // end of [p2at_lst]
-
-(* ****** ****** *)
-
-implement
 p2at_rec
   (loc, knd, npf, lp2ts) = let
   val p2ts = aux (lp2ts) where {
     fun aux (
       xs: labp2atlst
     ) : List_vt (p2at) = case+ xs of
-      | list_cons (x, xs) => (
-          case+ x of 
-          | LP2Tnorm (_, p2t) => list_vt_cons (p2t, aux xs)
-          | LP2Tomit () => aux (xs)
+      | list_cons (x, xs) => (case+ x of 
+        | LABP2ATnorm (l0, p2t) => list_vt_cons (p2t, aux xs)
+        | LABP2ATomit (loc) => aux (xs)
         ) // end of [list_cons]
       | list_nil () => list_vt_nil ()
     // end of [aux]
@@ -249,6 +250,16 @@ p2at_rec
 in
   p2at_make (loc, svs, dvs, P2Trec (knd, npf, lp2ts))
 end // end of [p2at_lp2ts]
+
+(* ****** ****** *)
+
+implement
+p2at_lst (loc, lin, p2ts) = let
+  val svs = p2atlst_svs_union (p2ts)
+  val dvs = p2atlst_dvs_union (p2ts)
+in
+  p2at_make (loc, svs, dvs, P2Tlst (lin, p2ts))
+end // end of [p2at_lst]
 
 (* ****** ****** *)
 

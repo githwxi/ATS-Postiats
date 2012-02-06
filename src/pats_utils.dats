@@ -137,6 +137,78 @@ end // end of [local]
 
 (* ****** ****** *)
 
+implement
+intrep_get_base (rep) = let
+  val rep = string1_of_string (rep)
+in
+  if string_isnot_at_end (rep, 0) then let
+    val c0 = rep[0]
+  in
+    if c0 = '0' then (
+      if string_isnot_at_end (rep, 1) then let
+        val c1 = rep[1]
+      in
+        if (c1 = 'x' || c1 = 'X') then 16
+        else (
+          if char_isdigit (c1) then 8 else 10
+        ) // end of [if]
+      end else 10 // end of [if]
+    ) else 10 // end of [if]
+  end else 10 // end of [if]
+end // end of [intrep_get_base]
+
+implement
+intrep_get_nsfx (rep) = let
+//
+macdef test (c) =
+  string_contains ("lLuU", ,(c))
+//
+val [n:int] rep = string1_of_string (rep)
+fun loop
+  {i:nat | i <= n} .<i>. (
+  rep: string n, i: size_t i, k: uint
+) : uint =
+  if i > 0 then let
+    val i1 = i - 1
+    val c = rep[i1]
+  in
+    if test (c) then loop (rep, i1, k+1u) else k
+  end else k
+// end of [loop]
+val n = string_length (rep)
+//
+in
+  loop (rep, n, 0u)
+end // end of [intrep_get_nsfx]
+
+(* ****** ****** *)
+
+implement
+float_get_nsfx (rep) = let
+//
+macdef test (c) =
+  string_contains ("fFlL", ,(c))
+//
+val [n:int] rep = string1_of_string (rep)
+fun loop
+  {i:nat | i <= n} .<i>. (
+  rep: string n, i: size_t i, k: uint
+) : uint =
+  if i > 0 then let
+    val i1 = i - 1
+    val c = rep[i1]
+  in
+    if test (c) then loop (rep, i1, k+1u) else k
+  end else k
+// end of [loop]
+val n = string_length (rep)
+//
+in
+  loop (rep, n, 0u)
+end // end of [float_get_nsfx]
+
+(* ****** ****** *)
+
 local
 
 assume lstord (a: type) = List (a)

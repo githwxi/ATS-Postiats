@@ -142,10 +142,10 @@ case+ d2e0.d2exp_node of
 | D2Estring _ => s2exp_string_type ()
 | D2Efloat _ => s2exp_double_t0ype ()
 //
-| D2Ei0nt (x) => i0nt_syn_type (d2e0, x)
+| D2Ei0nt (x) => i0nt_syn_type (x)
 | D2Ec0har _ => s2exp_char_t0ype ()
 | D2Es0tring _ => s2exp_string_type ()
-| D2Ef0loat (x) => f0loat_syn_type (d2e0, x)
+| D2Ef0loat (x) => f0loat_syn_type (x)
 //
 | D2Ecstsp (x) => cstsp_syn_type (d2e0, x)
 //

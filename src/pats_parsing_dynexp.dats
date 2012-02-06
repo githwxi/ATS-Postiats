@@ -817,6 +817,9 @@ case+ tok.token_node of
     end // end of [if]
   end
 //
+(*
+| QUOTELBRACKET d0expseq RBRACKET
+*)
 | T_QUOTELBRACKET () => let
     val bt = 0
     val () = incby1 ()
@@ -901,7 +904,7 @@ case+ tok.token_node of
     end (* end of [if] *)
   end
 //
-| T_DLRLST (knd) => let
+| T_DLRLST (lin) => let
     val bt = 0
     val () = incby1 ()
     val ent2 = p_s0expelt (buf, bt, err)
@@ -914,7 +917,7 @@ case+ tok.token_node of
     val ent5 = pif_fun (buf, bt, err, p_RPAREN, err0)
   in
     if err = err0 then 
-      d0exp_lst (knd, tok, ent2, ent3, (l2l)ent4, ent5)
+      d0exp_lst (lin, tok, ent2, ent3, (l2l)ent4, ent5)
     else let
       val () = list_vt_free (ent4) in synent_null ()
     end (* end of [if] *)

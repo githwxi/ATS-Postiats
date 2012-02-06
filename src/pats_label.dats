@@ -79,6 +79,11 @@ fprint_label (out, x) =
   | LABsym (sym) => $SYM.fprint_symbol (out, sym)
 // end of [fprint_label]
 
+implement
+print_label (x) = fprint_label (stdout_ref, x)
+implement
+prerr_label (x) = fprint_label (stderr_ref, x)
+
 (* ****** ****** *)
 
 (* end of [pats_label.dats] *)

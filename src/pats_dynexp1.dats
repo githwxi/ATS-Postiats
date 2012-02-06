@@ -103,17 +103,15 @@ p1at_float (loc, rep) = '{
 
 implement
 p1at_i0nt
-  (loc, x) = let
-  val- $LEX.T_INTEGER
-    (base, rep, _(*sfx*)) = x.token_node
-  // end of [val]
-in
-  p1at_intrep (loc, rep)
-end // end of [p1at_i0nt]
+  (loc, x) = '{
+  p1at_loc= loc, p1at_node= P1Ti0nt (x)
+} // end of [p1at_i0nt]
 
 implement
 p1at_c0har (loc, x) = let
-  val- $LEX.T_CHAR (c) = x.token_node in p1at_char (loc, c)
+  val- $LEX.T_CHAR (c) = x.token_node
+in
+  p1at_char (loc, c)
 end // end of [p1at_c0har]
 
 implement
@@ -124,11 +122,9 @@ in
 end // end of [p1at_s0tring]
 
 implement
-p1at_f0loat (loc, x) = let
-  val- $LEX.T_FLOAT (_(*bas*), rep, _(*sfx*)) = x.token_node
-in
-  p1at_float (loc, rep)
-end // end of [p1at_f0loat]
+p1at_f0loat (loc, x) = '{
+  p1at_loc= loc, p1at_node= P1Tf0loat (x)
+} // end of [p1at_f0loat]
 
 (* ****** ****** *)
 
@@ -162,16 +158,16 @@ p1at_list (loc, npf, p1ts) =
 (* end of [p1at_list] *)
 
 implement
-p1at_lst (loc, p1ts) = '{
-  p1at_loc= loc, p1at_node= P1Tlst (p1ts)
-}
-implement
 p1at_tup (loc, knd, npf, p1ts) = '{
   p1at_loc= loc, p1at_node= P1Ttup (knd, npf, p1ts)
 }
 implement
 p1at_rec (loc, knd, npf, lp1ts) = '{
   p1at_loc= loc, p1at_node= P1Trec (knd, npf, lp1ts)
+}
+implement
+p1at_lst (loc, lin, p1ts) = '{
+  p1at_loc= loc, p1at_node= P1Tlst (lin, p1ts)
 }
 
 implement

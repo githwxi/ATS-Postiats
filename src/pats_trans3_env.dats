@@ -883,6 +883,21 @@ trans3_env_hypadd_proplst
   | list_nil () => ()
 // end of [trans3_env_hypadd_proplst]
 
+implement
+trans3_env_hypadd_proplst_vt
+  (loc, s2ps) = () where {
+  val () = trans3_env_hypadd_proplst (loc, $UN.castvwtp1 {s2explst} (s2ps))
+  val () = list_vt_free (s2ps)
+} // end of [trans3_env_hypadd_proplst_vt]
+
+implement
+trans3_env_hypadd_eqeq
+  (loc, s2e1, s2e2) = let
+  val h3p = h3ypo_eqeq (loc, s2e1, s2e2); val s3i = S3ITMhypo (h3p)
+in
+  the_s3itmlst_env_add (s3i)
+end // end of [trans3_env_hypo_add_eqeq]
+
 (* ****** ****** *)
 
 local
@@ -1044,6 +1059,30 @@ val () =
   s2cst_add_sup (s2c1, s2c0) where {
   val s2c0 = s2cstref_get_cst (the_g0uint_t0ype)
   val s2c1 = s2cstref_get_cst (the_g1uint_int_t0ype)
+} // end of [val]
+//
+val () =
+  s2cst_add_sup (s2c1, s2c0) where {
+  val s2c0 = s2cstref_get_cst (the_char_t0ype)
+  val s2c1 = s2cstref_get_cst (the_char_char_t0ype)
+} // end of [val]
+//
+val () =
+  s2cst_add_sup (s2c1, s2c0) where {
+  val s2c0 = s2cstref_get_cst (the_schar_t0ype)
+  val s2c1 = s2cstref_get_cst (the_schar_char_t0ype)
+} // end of [val]
+//
+val () =
+  s2cst_add_sup (s2c1, s2c0) where {
+  val s2c0 = s2cstref_get_cst (the_uchar_t0ype)
+  val s2c1 = s2cstref_get_cst (the_uchar_char_t0ype)
+} // end of [val]
+//
+val () =
+  s2cst_add_sup (s2c1, s2c0) where {
+  val s2c0 = s2cstref_get_cst (the_string_type)
+  val s2c1 = s2cstref_get_cst (the_string_int_type)
 } // end of [val]
 //
 } // end of [trans3_env_initialize]

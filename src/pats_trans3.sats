@@ -43,8 +43,9 @@ staload "pats_dynexp3.sats"
 // during the level-2 translation
 //
 datatype trans3err =
-  | T3E_intsp of (d2exp)
-  | T3E_floatsp of (d2exp)
+//
+  | T3E_intsp of (location, string(*rep*))
+  | T3E_floatsp of (location, string(*rep*))
 //
   | T3E_s2varlst_instantiate_napp of (location(*arg*), int(*-1/1*))
   | T3E_s2varlst_instantiate_arity of (location(*arg*), int(*-1/1*))
@@ -53,11 +54,22 @@ datatype trans3err =
   | T3E_s2exp_uni_instantiate_sexparglst of (location, s2exp, s2exparglst)
 //
   | T3E_p2at_trdn_ann of (p2at, s2exp)
+  | T3E_p2at_trdn_int of (p2at, s2exp)
+  | T3E_p2at_trdn_intrep of (p2at, s2exp)
+  | T3E_p2at_trdn_bool of (p2at, s2exp)
+  | T3E_p2at_trdn_char of (p2at, s2exp)
+  | T3E_p2at_trdn_i0nt of (p2at, s2exp)
+  | T3E_p2at_trdn_f0loat of (p2at, s2exp)
+  | T3E_p2at_trdn_empty of (p2at, s2exp)
+  | T3E_p2at_trdn_rec of (p2at, s2exp)
+  | T3E_p2at_trdn_lst of (p2at, s2exp)
+  | T3E_p2at_trdn_exist of (p2at, s2exp)
 //
   | T3E_d2exp_trup_item of (location, d2itm)
 //
-  | T3E_d2exp_trup_laminit_fc of (d2exp, funclo)
   | T3E_d2exp_trup_con_npf of (d2exp, int(*npf*))
+  | T3E_d2exp_trup_laminit_funclo of (d2exp, funclo)
+//
   | T3E_d3exp_trdn of (d3exp, s2exp)
   | T3E_d23explst_trdn_arity of (location, int(*-1/1*))
   | T3E_d23exp_trup_app23_npf of (location(*fun*), int(*npf*))
@@ -65,10 +77,7 @@ datatype trans3err =
   | T3E_d2exp_trup_applst_sym_nil of (d2exp, d2sym) // found none
   | T3E_d2exp_trup_applst_sym_cons2 of (d2exp, d2sym) // found too many
 //
-  | T3E_d2exp_trdn_lam_dyn_pfarity of (d2exp, s2exp) // pfarity mistmatch
-  | T3E_d2exp_trdn_lam_dyn_linearity of (d2exp, s2exp) // linearity mistmatch
-  | T3E_d2exp_trdn_lam_dyn_funclo of (d2exp, s2exp) // funclo mistmatch
-  | T3E_d2exp_trdn_lam_dyn_s2eff of (d2exp, s2exp) // s2eff mistmatch
+  | T3E_d2exp_trdn_lam_dyn of (d2exp, s2exp)
 //
   | T3E_fundeclst_tr_metsrtck of (d2ecl, s2rtlstopt)
 // end of [trans3err]
@@ -127,21 +136,28 @@ fun d3explst_trdn_arg
 (* ****** ****** *)
 //
 fun d2exp_trup_int (d2e0: d2exp, i: int): d3exp
+//
+fun intrep_syn_type
+  (loc0: location, rep: string): s2exp // g0int
+fun intrep_syn_type_ind
+  (loc0: location, rep: string): s2exp // g1int
+fun d2exp_trup_intrep (d2e0: d2exp, rep: string): d3exp
+//
 fun d2exp_trup_bool (d2e0: d2exp, b: bool): d3exp
 fun d2exp_trup_char (d2e0: d2exp, c: char): d3exp
 fun d2exp_trup_string (d2e0: d2exp, str: string): d3exp
 //
-fun i0nt_syn_type
-  (d2e0: d2exp, x: i0nt): s2exp
-fun d2exp_trup_i0nt
-  (d2e0: d2exp, x: i0nt): d3exp
+fun float_syn_type
+  (loc0: location, rep: string): s2exp
+fun d2exp_trup_float (d2e0: d2exp, rep: string): d3exp
 //
-fun f0loat_syn_type
-  (d2e0: d2exp, x: f0loat): s2exp
-fun d2exp_trup_f0loat
-  (d2e0: d2exp, x: f0loat): d3exp
-// end of [d2exp_trup_float]
-
+fun i0nt_syn_type (x: i0nt): s2exp // g0int ...
+fun i0nt_syn_type_ind (x: i0nt): s2exp // g1int ...
+fun d2exp_trup_i0nt (d2e0: d2exp, x: i0nt): d3exp
+//
+fun f0loat_syn_type (x: f0loat): s2exp
+fun d2exp_trup_f0loat (d2e0: d2exp, x: f0loat): d3exp
+//
 (* ****** ****** *)
 
 fun cstsp_syn_type

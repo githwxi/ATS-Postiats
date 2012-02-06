@@ -55,6 +55,9 @@ datatype p1at_node =
   | P1Tstring of string // string constant
   | P1Tfloat of string (*rep*)// floating point constant
 //
+  | P1Ti0nt of i0nt
+  | P1Tf0loat of f0loat
+//
   | P1Tempty of () // empty pattern
 //
   | P1Tapp_sta of (p1at, s1vararglst) // static application
@@ -62,11 +65,11 @@ datatype p1at_node =
 //
   | P1Tlist of (int (*pfarity*), p1atlst) // pattern list
 //
-  | P1Tlst of p1atlst // list pattern
   | P1Ttup of (* boxed/unboxed tuples *)
       (int (*tupknd*), int (*pfarity*), p1atlst)
   | P1Trec of (* boxed/unboxed records *)
       (int (*recknd*), int (*pfarity*), labp1atlst)
+  | P1Tlst of (int(*lin*), p1atlst) // list pattern
 //
   | P1Tfree of p1at (* freed constructor *)
 //
@@ -131,9 +134,11 @@ fun p1at_app_sta
 
 fun p1at_list (loc: location, npf: int, xs: p1atlst): p1at
 
-fun p1at_lst (loc: location, xs: p1atlst): p1at
-fun p1at_tup (loc: location, knd: int, npf: int, xs: p1atlst): p1at
-fun p1at_rec (loc: location, knd: int, npf: int, xs: labp1atlst): p1at
+fun p1at_tup
+  (loc: location, knd: int, npf: int, xs: p1atlst): p1at
+fun p1at_rec
+  (loc: location, knd: int, npf: int, xs: labp1atlst): p1at
+fun p1at_lst (loc: location, lin: int, xs: p1atlst): p1at
 
 fun p1at_free (loc: location, p1t: p1at): p1at
 

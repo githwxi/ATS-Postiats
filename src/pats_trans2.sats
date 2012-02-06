@@ -223,6 +223,8 @@ fun d1atcon_tr (
 fun p1at_tr (p1t: p1at): p2at
 fun p1atlst_tr (p1ts: p1atlst): p2atlst
 
+fun labp1at_tr (lp1t: labp1at): labp2at
+
 fun p1at_tr_arg (p1t: p1at, w1ts: &wths1explst): p2at
 fun p1atlst_tr_arg (p1ts: p1atlst, w1ts: &wths1explst): p2atlst
 

@@ -48,7 +48,9 @@ stadef bool = bool_t0ype
 abst@ype
 bool_bool_t0ype (b: bool) = bool_t0ype
 stadef bool = bool_bool_t0ype
-
+//
+typedef Bool = [b:bool] bool (b)
+//
 (* ****** ****** *)
 
 abst@ype
@@ -56,19 +58,30 @@ byte_t0ype = $extype "atstype_byte"
 stadef byte = byte_t0ype
 
 (* ****** ****** *)
-
+//
+// no commitment to signed or unsigned
+//
+abst@ype char_t0ype = $extype"atstype_char"
+abst@ype char_char_t0ype (c:char) = char_t0ype
+stadef char = char_t0ype
+stadef char = char_char_t0ype
+typedef Char = [c:char] char (c)
+//
+// signed characters
+//
 abst@ype schar_t0ype = $extype"atstype_schar"
 abst@ype schar_char_t0ype (c:char) = schar_t0ype
+stadef schar = schar_t0ype
+stadef schar = schar_char_t0ype
+typedef sChar = [c:char] schar (c)
+//
+// unsigned characters
+//
 abst@ype uchar_t0ype = $extype"atstype_uchar"
 abst@ype uchar_char_t0ype (c:char) = uchar_t0ype
-//
-(*
-** HX-2011-11-17:
-** it may be more resonable to allow this to be
-** determined by a compilation flag:
-*)
-stadef char_t0ype = schar_t0ype
-stadef char_char_t0ype = schar_char_t0ype
+stadef uchar = uchar_t0ype
+stadef uchar = uchar_char_t0ype
+typedef uChar = [c:char] uchar (c)
 //
 (* ****** ****** *)
 

@@ -285,6 +285,19 @@ case+ tok.token_node of
     end // end of [if]
   end
 //
+| T_LBRACKET () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = pstar_fun0_COMMA {s0arg} (buf, bt, p_s0arg)
+    val ent3 = p_RBRACKET (buf, bt, err) // HX: err = err0
+  in
+    if err = err0 then
+      p0at_exist (tok, (l2l)ent2, ent3)
+    else let
+      val () = list_vt_free (ent2) in synent_null ()
+    end (* end of [if] *)
+  end
+//
 | tnd when
     is_LPAREN_deco (tnd) => let
     val bt = 0
@@ -320,16 +333,33 @@ case+ tok.token_node of
     end // end of [if]
   end
 //
-| T_LBRACKET () => let
+| T_QUOTELBRACKET () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = pstar_fun0_COMMA {s0arg} (buf, bt, p_s0arg)
-    val ent3 = p_RBRACKET (buf, bt, err) // HX: err = err0
+    val ent2 = pstar_fun0_COMMA {p0at} (buf, bt, p_p0at)
+    val ent3 = p_RBRACKET (buf, bt, err)
   in
     if err = err0 then
-      p0at_exist (tok, (l2l)ent2, ent3)
+      p0at_lst_quote (tok, (l2l)ent2, ent3)
     else let
       val () = list_vt_free (ent2) in synent_null ()
+    end (* end of [if] *)
+  end
+| T_DLRLST (lin) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_LPAREN (buf, bt, err)
+    val ent3 = (
+      if err = err0 then
+        pstar_fun0_COMMA {p0at} (buf, bt, p_p0at) else list_vt_nil ()
+      // end of [if]
+    ) : p0atlst_vt // end of [val]
+    val ent4 = pif_fun (buf, bt, err, p_RPAREN, err0)
+  in
+    if err = err0 then 
+      p0at_lst (lin, tok, (l2l)ent3, ent4)
+    else let
+      val () = list_vt_free (ent3) in synent_null ()
     end (* end of [if] *)
   end
 | _ => let

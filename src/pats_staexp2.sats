@@ -277,10 +277,12 @@ fun prerr_s2itm (x: s2itm): void
 datatype
 tyreckind =
   | TYRECKINDbox (* boxed *)
-  | TYRECKINDflt0
+  | TYRECKINDflt0 (* flat *)
   | TYRECKINDflt1 of stamp (* flat *)
   | TYRECKINDflt_ext of string  (* flat *)
 // end of [tyreckind]
+
+fun tyreckind_is_box (knd: tyreckind): bool
 
 fun fprint_tyreckind: fprint_type (tyreckind)
 

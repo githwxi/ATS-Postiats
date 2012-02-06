@@ -58,6 +58,11 @@ staload "pats_staexp2.sats"
 (* ****** ****** *)
 
 implement
+tyreckind_is_box (knd) =
+  case+ knd of TYRECKINDbox () => true | _ => false
+// end of [tyreckind_is_box]
+
+implement
 eq_tyreckind_tyreckind
   (knd1, knd2) = case+ (knd1, knd2) of
   | (TYRECKINDbox (), TYRECKINDbox ()) => true

@@ -122,6 +122,11 @@ ref_make_view_ptr (pfat | p)
 //
 end // end of [d2var_make]
 
+implement
+d2var_make_any
+  (loc) = d2var_make (loc, $SYM.symbol_UNDERSCORE)
+// end of [d2var_make_any]
+
 (* ****** ****** *)
 
 implement
