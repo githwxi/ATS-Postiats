@@ -197,12 +197,12 @@ in
   // nothing
 end // end of [auxerr1]
 fn auxerr2 (
-  p1t1: p1at, d2c: d2con, locarg: location, err: int
+  p1t1: p1at, d2c: d2con, locarg: location, serr: int
 ) : void = let
   val () = prerr_error2_loc (locarg)
   val () = prerr ": the static argument group is expected to contain "
-  val () = prerr_string (if err > 0 then "less" else "more")
-  val () = prerr " components."
+  val () = if serr > 0 then prerr_string ("less components.")
+  val () = if serr < 0 then prerr_string ("more components.")
   val () = prerr_newline ()
 //
 in
@@ -232,14 +232,17 @@ case+ s1as of
       end (* end of [list_nil] *)
     end // end of [S1VARARGone]
   | S1VARARGall () => p1at_tr_con_sapp1 (p1t1, d2c, sub, s2qs, out)
-  | S1VARARGseq (loc, arg) => begin
+  | S1VARARGseq (loc, sarg) => begin
     case+ s2qs of
     | list_cons (s2q, s2qs) => let
 //
-        var err: int = 0
-        val s2vs = stasub_extend_sarglst_svarlst_err (sub, arg, s2q.s2qua_svs, err)
-        val () = if err != 0 then let
-          val () = auxerr2 (p1t1, d2c, loc, err) in the_trans2errlst_add (T2E_p1at_tr (p1t1))
+        var serr: int = 0
+        val s2vs = s2q.s2qua_svs
+        val s2vs = stasub_extend_sarglst_svarlst (sub, sarg, s2vs, serr)
+        val () = if serr != 0 then let
+          val () = auxerr2 (p1t1, d2c, loc, serr)
+        in
+          the_trans2errlst_add (T2E_p1at_tr (p1t1))
         end // end of [val]
 //
         val s2vs = (l2l)s2vs

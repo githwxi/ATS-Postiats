@@ -227,7 +227,6 @@ case+ knd of
     val () = prerr ": s2rt_impredicative: knd = "
     val () = prerr_int (knd)
     val () = prerr_newline ()
-//
     val () = assertloc (false)
   in
     s2rt_t0ype // HX: this is deadcode

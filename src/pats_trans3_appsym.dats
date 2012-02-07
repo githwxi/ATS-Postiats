@@ -161,7 +161,7 @@ in
   | D2ITMcst d2c => d2exp_trup_cst (loc0, d2c)
   | D2ITMvar d2v => d2exp_trup_var (loc0, d2v)
   | _ => let
-      val () = assertloc (false) in exit (1)
+      val () = assertloc (false) in d3exp_err (loc0)
     end // end of [_]
 end // end of [d3exp_trup_item]
 

@@ -352,6 +352,38 @@ end // end of [s2cst_select_locs2explstlst]
 
 (* ****** ****** *)
 
+implement
+s2hnf_get_head (s2f) = let
+  fun loop (s2e: s2exp): s2exp =
+    case+ s2e.s2exp_node of S2Eapp (s2e, _) => loop s2e | _ => s2e
+  // end of [loop]
+  val s2e = s2hnf2exp (s2f)
+in
+  s2exp2hnf_cast (loop (s2e))
+end // end of [s2hnf_get_head]
+
+(* ****** ****** *)
+
+implement
+s2hnf_is_abscon (s2f) = let
+//
+fun loop (
+  s2e: s2exp
+) : bool =
+  case+ s2e.s2exp_node of
+  | S2Ecst s2c =>
+      if s2cst_is_abstract s2c then true else s2cst_get_iscon (s2c)
+    // end of [S2Ecst]
+  | S2Eapp (s2e, _) => loop (s2e)
+  | _ => false
+// end of [loop]
+val s2e = s2hnf2exp (s2f)
+in
+  loop (s2e)
+end // end of [s2hnf_is_abscon]
+
+(* ****** ****** *)
+
 local
 
 #define :: list_vt_cons

@@ -432,6 +432,11 @@ case+ x.s0qua_node of
 //
 end // end of [fprint_s0qua]
 
+implement
+fprint_s0qualst (out, xs) =
+  $UT.fprintlst (out, xs, ", ", fprint_s0qua)
+// end of [fprint_s0qualst]
+
 (* ****** ****** *)
 
 implement
@@ -601,6 +606,21 @@ fprint_labs0exp
   val () = fprint_string (out, "= ")
   val () = fprint_s0exp (out, s0e)
 } // end of [fprint_labs0exp]
+
+(* ****** ****** *)
+
+implement
+fprint_q0marg
+  (out, x) = {
+  val () = fprint_string (out, "{")
+  val () = fprint_s0qualst (out, x.q0marg_arg)
+  val () = fprint_string (out, "}")
+} // end of [fprint_q0marg]
+
+implement
+fprint_q0marglst
+  (out, xs) = $UT.fprintlst (out, xs, "", fprint_q0marg)
+// end of [fprint_q0marglst]
 
 (* ****** ****** *)
 

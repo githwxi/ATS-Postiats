@@ -198,6 +198,7 @@ fun trans3_env_hypadd_prop (loc: location, s2p: s2exp): void
 fun trans3_env_hypadd_proplst (loc: location, s2ps: s2explst): void
 fun trans3_env_hypadd_proplst_vt (loc: location, s2ps: s2explst_vt): void
 //
+fun trans3_env_hypadd_bind (loc: location, s2v1: s2var, s2e2: s2exp): void
 fun trans3_env_hypadd_eqeq (loc: location, s2e1: s2exp, s2e2: s2exp): void
 //
 (* ****** ****** *)
@@ -205,19 +206,18 @@ fun trans3_env_hypadd_eqeq (loc: location, s2e1: s2exp, s2e2: s2exp): void
 // HX: for the purpose of debugging
 //
 fun fprint_the_s2varbindmap (out: FILEref): void
-//
 fun fprint_the_s3itmlst (out: FILEref): void
 fun fprint_the_s3itmlstlst (out: FILEref): void
 //
 (* ****** ****** *)
 
-fun s2exp_absuni_and_add
-  (loc: location, s2e: s2exp): s2exp
-// end of [s2exp_absuni_and_add]
+fun s2hnf_absuni_and_add
+  (loc: location, s2f: s2hnf): s2exp
+// end of [s2hnf_absuni_and_add]
 
-fun s2exp_opnexi_and_add
-  (loc: location, s2e: s2exp): s2exp
-// end of [s2exp_opnexi_and_add]
+fun s2hnf_opnexi_and_add
+  (loc: location, s2f: s2hnf): s2exp
+// end of [s2hnf_opnexi_and_add]
 
 (* ****** ****** *)
 

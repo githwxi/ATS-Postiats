@@ -1970,14 +1970,14 @@ d1atcon_tr (
 ) = let
 //
 fn auxerr1 (
-  d1c: d1atcon, id: symbol, err: int
+  d1c: d1atcon, id: symbol, serr: int
 ) : void = {
   val () = prerr_error2_loc (d1c.d1atcon_loc)
   val () = prerr ": the constructor ["
   val () = $SYM.prerr_symbol (id)
   val () = prerr "] is expected to be given "
-  val () = prerr_string (if err > 0 then "more" else "less")
-  val () = prerr " indexes."
+  val () = if serr > 0 then prerr_string "less indexes."
+  val () = if serr < 0 then prerr_string "more indexes."
   val () = prerr_newline ()
   val () = the_trans2errlst_add (T2E_d1atcon_tr (d1c))
 } // end of [auxerr1]
@@ -1995,113 +1995,113 @@ in
   None ()
 end // end of [auxerr2]
 //
-  val (pfenv | ()) = the_s2expenv_push_nil ()
+val (pfenv | ()) = the_s2expenv_push_nil ()
 //
-  val () = list_app_fun
-    (s2vss0, the_s2expenv_add_svarlst)
-  var s2qs: List_vt (s2qua) =
-    list_map_fun<q1marg> (d1c.d1atcon_qua, q1marg_tr)
-  val () = let
-    fun aux (
-      s2qs: &List_vt (s2qua), xs: s2varlstlst
-    ) : void =
-      case+ xs of
-      | list_cons (x, xs) => let
-          val () = aux (s2qs, xs)
-          val s2q = s2qua_make (x, list_nil)
-        in
-          s2qs := list_vt_cons (s2q, s2qs)
-        end // end of [list_cons]
-      | list_nil () => ()
-    // end of [aux]
-  in
-    aux (s2qs, s2vss0)
-  end // end of [val]
-  val s2qs = l2l (s2qs)
-//
-  val indopt_s2ts = let
-    val s2t_fun = s2cst_get_srt (s2c) in
-    case+ s2t_fun of S2RTfun (s2ts, _) => Some s2ts | _ => None ()
-  end : s2rtlstopt // end of [val]
-  val npf = d1c.d1atcon_npf and s1es_arg = d1c.d1atcon_arg
-//
-  val s2es_arg = let
-    val s2t_pfarg = (
-      if islin then s2rt_view else s2rt_prop
-    ) : s2rt // end of [val]
-    val s2t_arg = (
-      if isprf then s2t_pfarg else begin
-        if islin then s2rt_viewt0ype else s2rt_t0ype
-      end // end of [if]
-    ) : s2rt // end of [val]
-    fun aux (
-      i: int, s1es: s1explst
-    ) :<cloref1> s2explst =
-      case+ s1es of
-      | list_cons (s1e, s1es) => let
-          val s2t = (
-            if i < npf then s2t_pfarg else s2t_arg
-          ) : s2rt
-          val s2e = s1exp_trdn (s1e, s2t)
-        in
-          list_cons (s2e, aux (i+1, s1es))
-        end // end of [cons]
-      | list_nil () => list_nil () // end of [list_nil]
-    // end of [aux]
-  in
-    aux (0, s1es_arg)
-  end // end of [val]
-//
-  val id = d1c.d1atcon_sym
-  val indopt_s1es = d1c.d1atcon_ind
-  val indopt_s2es = (
-    case+ (indopt_s1es, indopt_s2ts) of
-    | (None (), None ()) => None ()
-    | (Some s1es, Some s2ts) => let
-        var err: int = 0
-        val s2es = s1explst_trdn_err (s1es, s2ts, err)
-        val () = if err != 0 then auxerr1 (d1c, id, err)
+val () = list_app_fun
+  (s2vss0, the_s2expenv_add_svarlst)
+var s2qs: List_vt (s2qua) =
+  list_map_fun<q1marg> (d1c.d1atcon_qua, q1marg_tr)
+val () = let
+  fun aux (
+    s2qs: &List_vt (s2qua), xs: s2varlstlst
+  ) : void =
+    case+ xs of
+    | list_cons (x, xs) => let
+        val () = aux (s2qs, xs)
+        val s2q = s2qua_make (x, list_nil)
       in
-        Some (s2es)
-      end // end of [Some, Some]
-    | (None _, Some _) => let
-        val- list_cons (s2vs, _) = s2vss0
-        val s2fs = l2l (list_map_fun (s2vs, s2exp_var))
+        s2qs := list_vt_cons (s2q, s2qs)
+      end // end of [list_cons]
+    | list_nil () => ()
+  // end of [aux]
+in
+  aux (s2qs, s2vss0)
+end // end of [val]
+val s2qs = l2l (s2qs)
+//
+val indopt_s2ts = let
+  val s2t_fun = s2cst_get_srt (s2c) in
+  case+ s2t_fun of S2RTfun (s2ts, _) => Some s2ts | _ => None ()
+end : s2rtlstopt // end of [val]
+val npf = d1c.d1atcon_npf and s1es_arg = d1c.d1atcon_arg
+//
+val s2es_arg = let
+  val s2t_pfarg = (
+    if islin then s2rt_view else s2rt_prop
+  ) : s2rt // end of [val]
+  val s2t_arg = (
+    if isprf then s2t_pfarg else begin
+      if islin then s2rt_viewt0ype else s2rt_t0ype
+    end // end of [if]
+  ) : s2rt // end of [val]
+  fun aux (
+    i: int, s1es: s1explst
+  ) :<cloref1> s2explst =
+    case+ s1es of
+    | list_cons (s1e, s1es) => let
+        val s2t = (
+          if i < npf then s2t_pfarg else s2t_arg
+        ) : s2rt
+        val s2e = s1exp_trdn (s1e, s2t)
       in
-        Some (s2fs)
-      end // end of [None, Some]
-    | (Some _, None _) => auxerr2 (d1c, id)
-  ) : s2explstopt // end of [val]
+        list_cons (s2e, aux (i+1, s1es))
+      end // end of [cons]
+    | list_nil () => list_nil () // end of [list_nil]
+  // end of [aux]
+in
+  aux (0, s1es_arg)
+end // end of [val]
 //
-  val () = the_s2expenv_pop_free (pfenv | (*none*))
+val id = d1c.d1atcon_sym
+val indopt_s1es = d1c.d1atcon_ind
+val indopt_s2es = (
+  case+ (indopt_s1es, indopt_s2ts) of
+  | (None (), None ()) => None ()
+  | (Some s1es, Some s2ts) => let
+      var err: int = 0
+      val s2es = s1explst_trdn_err (s1es, s2ts, err)
+      val () = if err != 0 then auxerr1 (d1c, id, err)
+    in
+      Some (s2es)
+    end // end of [Some, Some]
+  | (None _, Some _) => let
+      val- list_cons (s2vs, _) = s2vss0
+      val s2fs = l2l (list_map_fun (s2vs, s2exp_var))
+    in
+      Some (s2fs)
+    end // end of [None, Some]
+  | (Some _, None _) => auxerr2 (d1c, id)
+) : s2explstopt // end of [val]
 //
-  val loc0 = d1c.d1atcon_loc
-  val vwtp = (if isprf then 0 else if islin then 1 else 0): int
-  val d2c = d2con_make
-    (loc0, fil, id, s2c, vwtp, s2qs, npf, s2es_arg, indopt_s2es)
-  // end of [val]
-  val () = the_d2expenv_add_dcon (d2c)
-  val () = if not(isprf) then {
-    val () = the_s2expenv_add_datcontyp (d2c) // struct
-    val () = if islin then the_s2expenv_add_datconptr (d2c) // unfold
-  } // end of [if] // end of [val]
+val () = the_s2expenv_pop_free (pfenv | (*none*))
+//
+val loc0 = d1c.d1atcon_loc
+val vwtp = (if isprf then 0 else if islin then 1 else 0): int
+val d2c = d2con_make
+  (loc0, fil, id, s2c, vwtp, s2qs, npf, s2es_arg, indopt_s2es)
+// end of [val]
+val () = the_d2expenv_add_dcon (d2c)
+val () = if not(isprf) then {
+  val () = the_s2expenv_add_datcontyp (d2c) // struct
+  val () = if islin then the_s2expenv_add_datconptr (d2c) // unfold
+} // end of [if] // end of [val]
 //
 in
-  d2c
+  d2c (*d2con*)
 end // end of [d1atcon_tr]
 
 (* ****** ****** *)
 
 implement
-stasub_extend_sarglst_svarlst_err
-  (sub, s1as, s2vs, err) = let
+stasub_extend_sarglst_svarlst
+  (sub, s1as, s2vs, serr) = let
 //
 fun loop (
   s1as: s1arglst
 , s2vs: s2varlst
 , sub: &stasub
 , s2vs1: s2varlst_vt
-, err: &int
+, serr: &int
 ) : s2varlst_vt =
   case+ (s1as, s2vs) of
   | (s1a :: s1as, s2v :: s2vs) => let
@@ -2111,26 +2111,26 @@ fun loop (
       val () = stasub_add (sub, s2v, s2e1)
       val s2vs1 = list_vt_cons (s2v1, s2vs1)
     in
-      loop (s1as, s2vs, sub, s2vs1, err)
+      loop (s1as, s2vs, sub, s2vs1, serr)
     end
   | (list_nil (), list_nil ()) => s2vs1
   | (_ :: _, list_nil ()) => let
-      val () = err := err + 1 in s2vs1
+      val () = serr := serr + 1 in s2vs1
     end
   | (list_nil _, _ :: _) => let
-      val () = err := err - 1 in s2vs1
+      val () = serr := serr - 1 in s2vs1
     end
 //
-  val s2vs1 = loop (s1as, s2vs, sub, list_vt_nil, err)
+  val s2vs1 = loop (s1as, s2vs, sub, list_vt_nil, serr)
 in
   list_vt_reverse (s2vs1)
-end // end of [stasub_extend_sarglst_svarlst_err]
+end // end of [stasub_extend_sarglst_svarlst]
 
 (* ****** ****** *)
 
 implement
-s1vararg_bind_svarlst_err
-  (s1v, s2vs, err) = let
+s1vararg_bind_svarlst
+  (s1v, s2vs, serr) = let
 (*
 // s1vararg_bind_svarlst_err
 *)
@@ -2151,12 +2151,12 @@ case+ s1v of
   end (* end of [S1VARARGone] *)
 | S1VARARGseq (loc, s1as) => let
     var sub = stasub_make_nil ()
-    val s2vs1 = stasub_extend_sarglst_svarlst_err (sub, s1as, s2vs, err)
+    val s2vs1 = stasub_extend_sarglst_svarlst (sub, s1as, s2vs, serr)
   in
     (sub, s2vs1)
   end // end of [S1VARARGseq]
 //
-end // end of [s1vararg_bind_svarlst_err]
+end // end of [s1vararg_bind_svarlst]
 
 (* ****** ****** *)
 

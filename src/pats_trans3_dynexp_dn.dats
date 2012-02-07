@@ -33,7 +33,7 @@ staload "pats_basics.sats"
 
 staload "pats_errmsg.sats"
 staload _(*anon*) = "pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans3_exp_dn"
+implement prerr_FILENAME<> () = prerr "pats_trans3_dynexp_dn"
 
 (* ****** ****** *)
 
@@ -303,4 +303,4 @@ end // end of [d2exp_trdn_lam_dyn]
 
 (* ****** ****** *)
 
-(* end of [pats_trans3_exp_dn.dats] *)
+(* end of [pats_trans3_dynexp_dn.dats] *)

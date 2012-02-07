@@ -588,6 +588,10 @@ fun s2varset_vt_union
 (* ****** ****** *)
 
 fun s2varbindmap_make_nil (): s2varbindmap
+fun s2varbindmap_search
+  (map: !s2varbindmap, s2v: s2var): Option_vt (s2exp)
+fun s2varbindmap_insert
+  (map: &s2varbindmap, s2v: s2var, s2e: s2exp): void
 fun s2varbindmap_remove (map: &s2varbindmap, s2v: s2var): void
 fun s2varbindmap_listize (map: !s2varbindmap): List_vt @(s2var, s2exp)
 
@@ -720,6 +724,9 @@ fun prerr_d2conlst (xs: d2conlst): void
 //
 fun s2exp_int (i: int): s2exp
 fun s2exp_intinf (i: intinf): s2exp
+(*
+fun s2exp_bool (b: bool): s2exp // HX: in stacst.sats
+*)
 fun s2exp_char (c: char): s2exp
 fun s2exp_cst (x: s2cst): s2exp // HX: static constant
 fun s2exp_var (x: s2var): s2exp // HX: static variable

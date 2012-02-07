@@ -56,6 +56,8 @@ macdef MINUSGT = $SYM.symbol_MINUSGT
 //
 overload = with $SYM.eq_symbol_symbol
 //
+macdef fprint_symbol = $SYM.fprint_symbol
+//
 (* ****** ****** *)
 
 staload "pats_basics.sats"
@@ -735,8 +737,17 @@ end // end of [local]
 implement
 d0atcon_tr (d0c) = let
 //
+val sym = d0c.d0atcon_sym
 val qua = d0c.d0atcon_qua
 val qua = q0marglst_tr (qua)
+(*
+val () = (
+  print "d0atcon_tr: id = ";
+  fprint_symbol (stdout_ref, sym); print_newline ();
+  print "d0atcon_tr: qua = ";
+  fprint_q1marglst (stdout_ref, qua); print_newline ();
+) // end of [val]
+*)
 var npf0: int = ~1 // HX: default
 val arg = (
   case+ d0c.d0atcon_arg of
@@ -769,7 +780,7 @@ val ind = (
 ) : s1explstopt // end of [val]
 //
 in
-  d1atcon_make (d0c.d0atcon_loc, d0c.d0atcon_sym, qua, npf0, arg, ind)
+  d1atcon_make (d0c.d0atcon_loc, sym, qua, npf0, arg, ind)
 end // end of [d0atcon_tr]
 
 (* ****** ****** *)

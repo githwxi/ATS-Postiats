@@ -194,4 +194,31 @@ implement prerr_d2cst (x) = fprint_d2cst (stderr_ref, x)
 
 (* ****** ****** *)
 
+implement
+lt_d2cst_d2cst
+  (x1, x2) = (compare (x1, x2) < 0)
+// end of [lt_d2cst_d2cst]
+
+implement
+lte_d2cst_d2cst
+  (x1, x2) = (compare (x1, x2) <= 0)
+// end of [lte_d2cst_d2cst]
+
+implement
+eq_d2cst_d2cst
+  (x1, x2) = (compare (x1, x2) = 0)
+// end of [eq_d2cst_d2cst]
+
+implement
+neq_d2cst_d2cst
+  (x1, x2) = (compare (x1, x2) != 0)
+// end of [neq_d2cst_d2cst]
+
+implement
+compare_d2cst_d2cst (x1, x2) =
+  $effmask_all (compare (d2cst_get_stamp (x1), d2cst_get_stamp (x2)))
+// end of [compare_d2cst_d2cst]
+
+(* ****** ****** *)
+
 (* end of [pats_dynexp2_dcst.dats] *)

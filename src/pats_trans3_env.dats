@@ -615,6 +615,10 @@ extern
 fun the_s2varbindmap_pop (): void
 extern
 fun the_s2varbindmap_push (): void
+extern
+fun the_s2varbindmap_search (s2v: s2var): Option_vt (s2exp)
+extern
+fun the_s2varbindmap_insert (s2v: s2var, s2e: s2exp): void
 
 local
 
@@ -698,7 +702,37 @@ in
   aux (out, kis)
 end // end of [fprint_the_s2varbindmap]
 
+implement
+the_s2varbindmap_search (s2v) = let
+  val (vbox pf | p) = ref_get_view_ptr (the_s2varbindmap)
+in
+  $effmask_ref (s2varbindmap_search (!p, s2v))
+end // end of [the_s2varbindmap_search]
+
+implement
+the_s2varbindmap_insert (s2v, s2e) = let
+  val (vbox pf | p) = ref_get_view_ptr (the_s2varbindmap)
+in
+  $effmask_ref (s2varbindmap_insert (!p, s2v, s2e))
+end // end of [the_s2varbindmap_insert]
+
 end // end of [local]
+
+(* ****** ****** *)
+//
+// HX: it is declared in [pats_staexp2_util.sats]
+//
+implement
+s2exp_hnfize_flag_svar
+  (s2e0, s2v, flag) = let
+  val ans = the_s2varbindmap_search (s2v)
+in
+  case+ ans of
+  | ~Some_vt s2e => let
+      val () = flag := flag + 1 in s2exp_hnfize (s2e)
+    end // end of [Some_vt]
+  | ~None_vt () => s2e0 // end of [None_vt]
+end // end of [s2exp_hnfize_flag_svar]
 
 (* ****** ****** *)
 
@@ -863,6 +897,33 @@ end // end of [trans3_env_add_eqeq]
 (* ****** ****** *)
 
 implement
+trans3_env_hypadd_bind
+  (loc, s2v1, s2e2) = let
+// (*
+  val () = begin
+    print "trans3_env_hypadd_bind: s2v1 = "; print_s2var s2v1; print_newline ();
+    print "trans3_env_hypadd_bind: s2e2 = "; print_s2exp s2e2; print_newline ();
+  end // end of [val]
+// *)
+  val ans = the_s2varbindmap_search (s2v1)
+in
+//
+case+ ans of
+| ~Some_vt (s2e1) =>
+    trans3_env_hypadd_eqeq (loc, s2e1, s2e2)
+  // end of [Some_vt]
+| ~None_vt () => let
+    val () = the_s2varbindmap_insert (s2v1, s2e2)
+    val h3p = h3ypo_bind (loc, s2v1, s2e2); val s3i = S3ITMhypo (h3p)
+  in
+    the_s3itmlst_env_add (s3i)
+  end // end of [None_vt]
+//
+end // end of [trans3_env_hypadd_bind]
+
+(* ****** ****** *)
+
+implement
 trans3_env_hypadd_prop (loc, s2p) = let
 (*
   val () = (
@@ -896,7 +957,7 @@ trans3_env_hypadd_eqeq
   val h3p = h3ypo_eqeq (loc, s2e1, s2e2); val s3i = S3ITMhypo (h3p)
 in
   the_s3itmlst_env_add (s3i)
-end // end of [trans3_env_hypo_add_eqeq]
+end // end of [trans3_env_hypadd_eqeq]
 
 (* ****** ****** *)
 
@@ -946,7 +1007,9 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-s2exp_absuni_and_add (loc0, s2e0) = let
+s2hnf_absuni_and_add
+  (loc0, s2f0) = let
+  val s2e0 = s2hnf2exp (s2f0)
 (*
   val () = begin
     print "s2exp_absuni_and_add: before: s2e0 = "; print_s2exp s2e0;
@@ -980,7 +1043,9 @@ in
 end // end of [s2exp_absuni_and_add]
 
 implement
-s2exp_opnexi_and_add (loc0, s2e0) = let
+s2hnf_opnexi_and_add
+  (loc0, s2f0) = let
+  val s2e0 = s2hnf2exp (s2f0)
 (*
   val () = begin
     print "s2exp_opnexi_and_add: before: s2e0 = "; print_s2exp s2e0;
@@ -1018,12 +1083,13 @@ end // end of [s2exp_opnexi_and_add]
 implement
 d3exp_open_and_add (d3e) = let
   val s2e = d3e.d3exp_type
+  val s2f = s2exp2hnf (s2e)
 (*
   val () = (
     print "d3exp_open_and_add: bef: s2e = "; print_s2exp (s2e); print_newline ()
   ) // end of [val]
 *)
-  val s2e = s2exp_opnexi_and_add (d3e.d3exp_loc, s2e)
+  val s2e = s2hnf_opnexi_and_add (d3e.d3exp_loc, s2f)
 (*
   val () = (
     print "d3exp_open_and_add: aft: s2e = "; print_s2exp (s2e); print_newline ()

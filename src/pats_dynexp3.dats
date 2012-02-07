@@ -55,6 +55,15 @@ p3at_var (
 } // end of [p3at_var]
 
 implement
+p3at_con (
+  loc, s2f, freeknd, d2c, npf, p3ts
+) = '{
+  p3at_loc= loc
+, p3at_node= P3Tcon (freeknd, d2c, npf, p3ts)
+, p3at_type= s2f
+} // end of [p3at_con]
+
+implement
 p3at_int
   (loc, s2f, i) = '{
   p3at_loc= loc
@@ -457,7 +466,7 @@ d3exp_ann_type
 implement
 d3exp_err (loc) = '{
   d3exp_loc= loc
-, d3exp_type= s2exp_err (s2rt_t0ype)
+, d3exp_type= s2exp_err (s2rt_type)
 , d3exp_node= D3Eerr ()
 } // end of [d3exp_err]
 

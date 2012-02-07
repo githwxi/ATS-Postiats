@@ -187,7 +187,8 @@ case+ s2e0.s2exp_node of
 //
 | S2Eextype _ => s2e0
 //
-| S2Evar _ => s2e0
+| S2Evar (s2v) =>
+    s2exp_hnfize_flag_svar (s2e0, s2v, flag)
 | S2EVar _ => s2e0
 //
 | S2Eapp (s2e_fun, s2es_arg) =>
@@ -243,7 +244,6 @@ case+ s2e0.s2exp_node of
   end // end of [_]
 //
 end // end of [s2exp_hnfize_flag]
-
 
 (* ****** ****** *)
 
@@ -312,13 +312,15 @@ case+ opt of
 end // end of [s2expopt_hnfsize]
 
 (* ****** ****** *)
-
+//
 implement
 s2exp2hnf
   (s2e) = $UN.cast {s2hnf} (s2exp_hnfize (s2e))
 // end of [s2exp2hnf]
+implement s2exp2hnf_cast (s2e) = $UN.cast {s2hnf} (s2e)
+//
 implement s2hnf2exp (s2f) = $UN.cast {s2exp} (s2f)
-
+//
 (* ****** ****** *)
 
 exception SYNEQexn

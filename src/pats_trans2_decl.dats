@@ -46,6 +46,7 @@ staload ERR = "pats_error.sats"
 staload SYM = "pats_symbol.sats"
 macdef EQEQ = $SYM.symbol_EQEQ
 overload = with $SYM.eq_symbol_symbol
+overload != with $SYM.neq_symbol_symbol
 
 staload SYN = "pats_syntax.sats"
 typedef i0de = $SYN.i0de
@@ -899,19 +900,21 @@ val d1cs2cs2vsslst = let
       list_map_fun (d1c.d1atdec_arg, a1msrt_tr_symsrt)
     ) : List (syms2rtlst)
     val s2vss = let
-      fun f1 (x: syms2rt): s2var =
-        if x.0 = $SYM.symbol_empty then
-          s2var_make_srt (x.1) else s2var_make_id_srt (x.0, x.1)
-        // end of [if]
-      fun f2 (
+      fun f (
         xs: syms2rtlst
-      ) : s2varlst = let
-        val s2vs = l2l (list_map_fun (xs, f1))
-      in
-        s2vs
-      end // end of [f2]
+      ) : s2varlst =
+        case+ xs of
+        | list_cons (x, xs) => let
+            val isnamed = (x.0 != $SYM.symbol_empty)
+          in
+            if isnamed then let
+              val s2v = s2var_make_id_srt (x.0, x.1) in list_cons (s2v, f (xs))
+            end else f (xs) // end of [if]
+          end // end of [list_cons]
+        | list_nil () => list_nil ()
+      // end of [f]
     in
-      l2l (list_map_fun (argvar, f2))
+      l2l (list_map_fun (argvar, f))
     end : s2varlstlst
 //
     val s2tss_arg = let
@@ -928,7 +931,7 @@ val d1cs2cs2vsslst = let
     val s2c = s2cst_make_dat (
       d1c.d1atdec_sym, d1c.d1atdec_loc, s2tss_arg, s2t_res, argvar
     ) // end of [val]
-    val () = the_s2expenv_add_scst s2c
+    val () = the_s2expenv_add_scst (s2c)
 //
   in
     res := list_cons ((d1c, s2c, s2vss), res)

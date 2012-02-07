@@ -42,7 +42,7 @@ staload "pats_basics.sats"
 
 staload "pats_errmsg.sats"
 staload _(*anon*) = "pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans3_exp_up"
+implement prerr_FILENAME<> () = prerr "pats_trans3_dynexp_up"
 
 (* ****** ****** *)
 
@@ -63,8 +63,9 @@ staload "pats_lexing.sats"
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
-staload "pats_stacst2.sats"
+staload "pats_staexp2_error.sats"
 staload "pats_staexp2_util.sats"
+staload "pats_stacst2.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp2_util.sats"
 staload "pats_dynexp3.sats"
@@ -391,17 +392,17 @@ fun aux (
     ) // end of [list_vt_nil]
 end // end of [aux]
 //
-var err: int = 0
-val d3es = aux (d23es, s2es, err)
-val () = if (err != 0) then let
+var serr: int = 0
+val d3es = aux (d23es, s2es, serr)
+val () = if (serr != 0) then let
   val () = prerr_error3_loc (locarg)
   val () = filprerr_ifdebug "d23explst_trdn"
   val () = prerr ": arity mismatch"
-  val () = if err > 0 then prerr ": less arguments are expected."
-  val () = if err < 0 then prerr ": more arguments are expected."
+  val () = if serr > 0 then prerr ": less arguments are expected."
+  val () = if serr < 0 then prerr ": more arguments are expected."
   val () = prerr_newline ()
 in
-  the_trans3errlst_add (T3E_d23explst_trdn_arity (locarg, err))
+  the_trans3errlst_add (T3E_d23explst_trdn_arity (locarg, serr))
 end // end of [val]
 in
 //
@@ -509,7 +510,7 @@ d2exp_trup_con (d2e0) = let
     val () = prerr_error3_loc (locfun)
     val () = filprerr_ifdebug "d2exp_trup_con"
     val () = prerr ": static application cannot be properly typechecked."
-    val () = prerr_newline ()    
+    val () = prerr_newline ()
   in
     the_trans3errlst_add (
       T3E_s2exp_uni_instantiate_sexparglst (locfun, s2e_con, s2as)
@@ -534,13 +535,14 @@ case+ s2e.s2exp_node of
     _fc, _lin, _s2fe, npf_con, s2es_arg, s2e_res
   ) => let
     val err = $SOL.pfarity_equal_solve (loc0, npf_con, npf)
-    val () = if err != 0 then let
+    val () = if (err > 0) then let
       val () = prerr_error3_loc (loc0)
       val () = filprerr_ifdebug "d2exp_trup_con"
       val () = prerr ": proof arity mismatch: the constructor ["
       val () = prerr_d2con (d2c)
       val () = prerrf ("] requires [%i] arguments.", @(npf_con))
       val () = prerr_newline ()
+      val () = prerr_the_staerrlst ()
     in
       the_trans3errlst_add (T3E_d2exp_trup_con_npf (d2e0, npf)) // nothing
     end // end of [val]
@@ -689,12 +691,14 @@ case+ s2e_fun.s2exp_node of
 //
     val err =
       $SOL.pfarity_equal_solve (loc_fun, npf_fun, npf)
-    val () = if err != 0 then let
+    // end of [val]
+    val () = if (err > 0) then let
       val () = prerr_error3_loc (loc_fun)
       val () = filprerr_ifdebug "d23exp_trup_app23"
       val () = prerr ": proof arity mismatch"
       val () = prerrf (": the function requires %i proof arguments.", @(npf_fun))
       val () = prerr_newline ()
+      val () = prerr_the_staerrlst ()
     in
       the_trans3errlst_add (T3E_d23exp_trup_app23_npf (loc_fun, npf))
     end // end of [val]
@@ -1066,4 +1070,4 @@ end // end of [d2exp_trup_seq]
 
 (* ****** ****** *)
 
-(* end of [pats_trans3_exp_up.dats] *)
+(* end of [pats_trans3_dynexp_up.dats] *)

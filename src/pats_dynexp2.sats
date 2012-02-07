@@ -155,9 +155,15 @@ fun d2cst_get_stamp (x: d2cst): stamp
 (* ****** ****** *)
 
 fun lt_d2cst_d2cst (x1: d2cst, x2: d2cst):<> bool
+and lte_d2cst_d2cst (x1: d2cst, x2: d2cst):<> bool
 overload < with lt_d2cst_d2cst
-fun lte_d2cst_d2cst (x1: d2cst, x2: d2cst):<> bool
 overload <= with lte_d2cst_d2cst
+
+fun eq_d2cst_d2cst (x1: d2cst, x2: d2cst):<> bool
+and neq_d2cst_d2cst (x1: d2cst, x2: d2cst):<> bool
+overload = with eq_d2cst_d2cst
+overload <> with neq_d2cst_d2cst
+overload != with neq_d2cst_d2cst
 
 fun compare_d2cst_d2cst (x1: d2cst, x2: d2cst):<> Sgn
 overload compare with compare_d2cst_d2cst
@@ -280,6 +286,10 @@ datatype p2at_node =
   | P2Tany of () // wildcard
   | P2Tvar of (int(*refknd*), d2var)
 //
+  | P2Tcon of ( // constructor pattern
+      int(*freeknd*), d2con, s2qualst, s2exp(*con*), int(*npf*), p2atlst
+    ) // end of [P2Tcon]
+//
   | P2Tint of int
   | P2Tintrep of string(*rep*)
   | P2Tbool of bool
@@ -291,13 +301,7 @@ datatype p2at_node =
   | P2Tf0loat of f0loat
 //
   | P2Tempty of ()
-  | P2Tcon of ( // constructor pattern
-      int(*freeknd*), d2con, s2qualst, s2exp(*con*), int(*npf*), p2atlst
-    ) // end of [P2Tcon]
 //
-(*
-  | P2Ttup of (int(*knd*), int(*npf*), p2atlst)
-*)
   | P2Trec of (int(*knd*), int(*npf*), labp2atlst)
   | P2Tlst of (int(*lin*), p2atlst) // pattern list
 //
@@ -355,6 +359,16 @@ fun p2at_var (
   loc: location, refknd: int, d2v: d2var
 ) : p2at // end of [p2at_var]
 
+fun p2at_con (
+  loc: location
+, freeknd: int
+, d2c: d2con
+, s2qs: s2qualst
+, s2f_con: s2exp
+, npf: int
+, darg: p2atlst
+) : p2at // end of ...
+
 fun p2at_int (loc: location, i: int): p2at
 fun p2at_intrep (loc: location, rep: string): p2at
 fun p2at_bool (loc: location, b: bool): p2at
@@ -366,15 +380,6 @@ fun p2at_i0nt (loc: location, x: i0nt): p2at
 fun p2at_f0loat (loc: location, x: f0loat): p2at
 //
 fun p2at_empty (loc: location): p2at
-
-fun p2at_con (
-  loc: location
-, freeknd: int
-, d2c: d2con
-, s2qs: s2qualst
-, s2f(*con*): s2exp
-, npf: int, darg: p2atlst
-) : p2at // end of [p2at_con]
 
 fun p2at_list // HX: flat tuple
   (loc: location, npf: int, p2ts: p2atlst): p2at

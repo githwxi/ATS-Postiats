@@ -53,7 +53,7 @@ datatype trans3err =
 //
   | T3E_s2exp_uni_instantiate_sexparglst of (location, s2exp, s2exparglst)
 //
-  | T3E_p2at_trdn_ann of (p2at, s2exp)
+  | T3E_p2at_trdn_con of (p2at, s2exp)
   | T3E_p2at_trdn_int of (p2at, s2exp)
   | T3E_p2at_trdn_intrep of (p2at, s2exp)
   | T3E_p2at_trdn_bool of (p2at, s2exp)
@@ -64,6 +64,10 @@ datatype trans3err =
   | T3E_p2at_trdn_rec of (p2at, s2exp)
   | T3E_p2at_trdn_lst of (p2at, s2exp)
   | T3E_p2at_trdn_exist of (p2at, s2exp)
+  | T3E_p2at_trdn_ann of (p2at, s2exp)
+//
+  | T3E_p2at_trup_con_npf of (p2at, int(*npf*))
+  | T3E_p2at_trdn_con_arity of (p2at, int(*serr*))
 //
   | T3E_d2exp_trup_item of (location, d2itm)
 //
@@ -71,7 +75,7 @@ datatype trans3err =
   | T3E_d2exp_trup_laminit_funclo of (d2exp, funclo)
 //
   | T3E_d3exp_trdn of (d3exp, s2exp)
-  | T3E_d23explst_trdn_arity of (location, int(*-1/1*))
+  | T3E_d23explst_trdn_arity of (location, int(*serr*))
   | T3E_d23exp_trup_app23_npf of (location(*fun*), int(*npf*))
 //
   | T3E_d2exp_trup_applst_sym_nil of (d2exp, d2sym) // found none
@@ -95,12 +99,16 @@ fun p2atlst_syn_type (p2ts: p2atlst): s2explst
 fun p2at_trup_arg (p2t: p2at): p3at
 fun p2atlst_trup_arg
   (npf: int, p2ts: p2atlst): p3atlst
-fun p2at_trdn_arg (p2t: p2at, s2f: s2exp): p3at
+fun p2at_trdn_arg (p2t: p2at, s2e: s2exp): p3at
 fun p2atlst_trdn_arg (
-  npf: int, p2ts: p2atlst, s2fs: s2explst, err: &int
+  npf: int, p2ts: p2atlst, s2es: s2explst, serr: &int
 ) : p3atlst // end of [p2atlst_trdn_arg]
 //
-fun p2at_trdn (p2t: p2at, s2f: s2exp): p3at
+fun p2at_trdn (p2t: p2at, s2e: s2exp): p3at
+fun p2at_trdn_con (p2t: p2at, s2f: s2hnf): p3at
+fun p2atlst_trdn
+  (p2ts: p2atlst, s2es: s2explst, serr: &int): p3atlst
+// end of [p2atlst_trdn]
 //
 (* ****** ****** *)
 

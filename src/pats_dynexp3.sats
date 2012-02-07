@@ -60,6 +60,8 @@ datatype p3at_node =
   | P3Tany of d2var // wildcard
   | P3Tvar of (int(*refknd*), d2var)
 //
+  | P3Tcon of (int(*freeknd*), d2con, int(*npf*), p3atlst(*arg*))
+//
   | P3Tint of (int)
   | P3Tintrep of string(*rep*)
   | P3Tbool of (bool)
@@ -97,13 +99,18 @@ and labp3atlst = List (labp3at)
 (* ****** ****** *)
 
 fun p3at_any (
-  loc: location, s2f: s2exp, d2v: d2var
+  loc: location, s2e: s2exp, d2v: d2var
 ) : p3at // end of [p3at_any]
 
 fun p3at_var (
-  loc: location, s2f: s2exp, knd: int, d2v: d2var
+  loc: location, s2e: s2exp, knd: int, d2v: d2var
 ) : p3at // end of [p3at_var]
-//
+
+fun p3at_con (
+  loc: location
+, s2e: s2exp, freeknd: int, d2c: d2con, npf: int, arg: p3atlst
+) : p3at // end of [p3at_con]
+
 fun p3at_int (
   loc: location, s2f: s2exp, i: int
 ) : p3at // end of [p3at_int]

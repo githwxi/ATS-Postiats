@@ -333,8 +333,31 @@ implement
 s2varbindmap_make_nil () = $MAP.linmap_make_nil ()
 
 implement
+s2varbindmap_search (map, k) = let
+  var res: s2exp? // uninitialized
+  val found = $MAP.linmap_search<s2var,s2exp> (map, k, cmp, res)
+in
+  if found then let
+    prval () = opt_unsome {s2exp} (res) in Some_vt (res)
+  end else let
+    prval () = opt_unnone {s2exp} (res) in None_vt ()
+  end // end of [if]
+end (* end of [s2varbindmap_search] *)
+
+implement
+s2varbindmap_insert (map, k, x) = let
+  var res: s2exp? // unintialized
+  val inserted = $MAP.linmap_insert<s2var,s2exp> (map, k, x, cmp, res)
+  prval () = opt_clear (res)
+in
+  // nothing
+end // end of [s2varbindmap_insert]
+
+implement
 s2varbindmap_remove (map, k) = let
-  val _(*removed*) = $MAP.linmap_remove<s2var,s2exp> (map, k, cmp) in (*nothing*)
+  val _(*removed*) = $MAP.linmap_remove<s2var,s2exp> (map, k, cmp)
+in
+  (*nothing*)
 end // end of [s2varbindmap_remove]
 
 implement

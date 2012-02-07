@@ -699,7 +699,12 @@ fprint_q1marg (out, x) = {
   val () = fprint_string (out, "{")
   val () = fprint_s1qualst (out, x.q1marg_arg)
   val () = fprint_string (out, "}")
-}
+} // end of [fprint_q1marg]
+
+implement
+fprint_q1marglst
+  (out, xs) = $UT.fprintlst (out, xs, "", fprint_q1marg)
+// end of [fprint_q1marglst]
 
 (* ****** ****** *)
 

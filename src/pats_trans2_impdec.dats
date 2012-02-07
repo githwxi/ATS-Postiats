@@ -199,12 +199,12 @@ val () = (
 *)
 //
 fn auxerr (
-  d1e0: d1exp, locarg: location, err: int
+  d1e0: d1exp, locarg: location, serr: int
 ) : void = {
   val () = prerr_error2_loc (locarg)
   val () = prerr ": static arity mismatch"
-  val () = if err > 0 then prerr ": less arguments are expected."
-  val () = if err < 0 then prerr ": more arguments are expected."
+  val () = if serr > 0 then prerr ": less arguments are expected."
+  val () = if serr < 0 then prerr ": more arguments are expected."
   val () = prerr_newline ()
 } // end of [auxerr]
 //
@@ -215,11 +215,11 @@ case+ s2f0.s2exp_node of
   case+ d1e0.d1exp_node of
   | D1Elam_sta_ana (locarg, arg, body) => let
 //
-      var err: int = 0
+      var serr: int = 0
       val (sub, s2vs) =
-        s1vararg_bind_svarlst_err (arg, s2vs, err)
+        s1vararg_bind_svarlst (arg, s2vs, serr)
       val s2vs = list_of_list_vt (s2vs)
-      val () = if err != 0 then auxerr (d1e0, locarg, err)
+      val () = if serr != 0 then auxerr (d1e0, locarg, serr)
 //
       val (pf_s2expenv | ()) = the_s2expenv_push_nil ()
       val () = the_s2expenv_add_svarlst (s2vs)

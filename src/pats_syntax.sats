@@ -639,6 +639,7 @@ fun s0qua_prop (_: s0exp): s0qua
 fun s0qua_vars (_fst: i0de, _rst: i0delst, _: s0rtext): s0qua
 
 fun fprint_s0qua : fprint_type (s0qua)
+fun fprint_s0qualst : fprint_type (s0qualst)
 
 (* ****** ****** *)
 
@@ -716,6 +717,9 @@ typedef q0marglst = List (q0marg)
 fun q0marg_make
   (t_beg: token, xs: s0qualst, t_end: token): q0marg
 // end of [q0marg]
+
+fun fprint_q0marg : fprint_type (q0marg)
+fun fprint_q0marglst : fprint_type (q0marglst)
 
 (* ****** ****** *)
 

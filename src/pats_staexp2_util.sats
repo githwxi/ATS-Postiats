@@ -67,6 +67,11 @@ fun s2cst_select_locs2explstlst
 
 (* ****** ****** *)
 
+fun s2hnf_get_head (s2f: s2hnf): s2hnf // the head in HNF
+fun s2hnf_is_abscon (s2f: s2hnf): bool // is abstract or datatype
+
+(* ****** ****** *)
+
 absviewtype
 stasub_viewtype // for static substitution
 viewtypedef stasub = stasub_viewtype
@@ -127,16 +132,21 @@ fun s2exp_linkrem (s2e: s2exp): s2exp
 (* ****** ****** *)
 //
 fun s2exp_hnfize (x: SHARED(s2exp)): s2exp
-//
 fun s2explst_hnfize (xs: SHARED(s2explst)): s2explst
 fun s2expopt_hnfize (opt: SHARED(s2expopt)): s2expopt
 fun s2explstlst_hnfize (xss: SHARED(s2explstlst)): s2explstlst
 //
+// HX: this one is implemented in [pats_trans3_env.sats]
+//
+fun s2exp_hnfize_flag_svar (s2e0: s2exp, s2v: s2var, flag: &int): s2exp
+//
 (* ****** ****** *)
-
+//
 fun s2exp2hnf (x: SHARED(s2exp)): s2hnf // = s2exp_hnfize
+fun s2exp2hnf_cast (x: SHARED(s2exp)): s2hnf // HX: a cast function
+//
 fun s2hnf2exp (x: SHARED(s2hnf)): s2exp // HX: a cast function
-
+//
 (* ****** ****** *)
 
 fun s2hnf_syneq (s2f1: s2hnf, s2f2: s2hnf): bool
