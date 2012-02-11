@@ -26,6 +26,16 @@
 *)
 
 (* ****** ****** *)
+//
+// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Start Time: November, 2011
+//
+(* ****** ****** *)
+
+staload UN = "prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/option_vt.dats"
+
+(* ****** ****** *)
 
 staload "pats_basics.sats"
 
@@ -45,6 +55,7 @@ macdef prerr_location = $LOC.prerr_location
 
 staload "pats_staexp2.sats"
 staload "pats_staexp2_error.sats"
+staload "pats_staexp2_util.sats"
 staload "pats_stacst2.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
@@ -98,20 +109,22 @@ fn d2exp_s2effopt_of_d2exp (
 (* ****** ****** *)
 
 implement
-d2exp_trdn (d2e0, s2f0) = let
+d2exp_trdn (d2e0, s2e0) = let
 // (*
   val () = (
-    print "d2exp_trdn: d2e0 = "; print_d2exp (d2e0); print_newline ()
-  ) // end of [val]
-  val () = (
-    print "d2exp_trdn: s2f0 = "; print_s2exp (s2f0); print_newline ()
+    print "d2exp_trdn: d2e0 = "; print_d2exp (d2e0); print_newline ();
+    print "d2exp_trdn: s2e0 = "; print_s2exp (s2e0); print_newline ();
   ) // end of [val]
 // *)
+  val s2f0 = s2exp2hnf (s2e0)
 in
 //
 case+ d2e0.d2exp_node of
 | D2Eifhead _ =>
     d2exp_trdn_ifhead (d2e0, s2f0)
+  // end of [D2Eifhead]
+| D2Ecasehead _ =>
+    d2exp_trdn_casehead (d2e0, s2f0)
   // end of [D2Eifhead]
 | D2Elam_dyn _ =>
     d2exp_trdn_lam_dyn (d2e0, s2f0)
@@ -138,7 +151,8 @@ d2exp_trdn_rest
       s2f0 // not a type with state
     end // end of [if]
 *)
-  val d3e0 = d3exp_trdn (d3e0, s2f0)
+  val s2e0 = s2hnf2exp (s2f0)
+  val d3e0 = d3exp_trdn (d3e0, s2e0)
 (*
   val () = if iswth > 0 then funarg_varfin_check (loc0)
 *)
@@ -164,57 +178,18 @@ end // end of [d2explst_trdn_elt]
 (* ****** ****** *)
 
 implement
-d2exp_trdn_ifhead
-  (d2e0, s2e_if) = let
-  val loc0 = d2e0.d2exp_loc
-  val- D2Eifhead
-    (inv, d2e_cond, d2e_then, od2e_else) = d2e0.d2exp_node
-  // end of [val]
-  val d3e_cond = d2exp_trup (d2e_cond)
-  val () = d3exp_open_and_add (d3e_cond)
-//
-  val d3e_then = let
-    val loc_then = d2e_then.d2exp_loc
-    val (pfpush | ()) = trans3_env_push ()
-    val d3e_then = d2exp_trdn (d2e_then, s2e_if)
-    val () = trans3_env_pop_and_add_main (pfpush | loc_then)
-  in
-    d3e_then
-  end // end of [val]
-  val od3e_else = (
-    case+ od2e_else of
-    | Some (d2e_else) => let
-        val loc_else = d2e_else.d2exp_loc
-        val (pfpush | ()) = trans3_env_push ()
-        val d3e_else = d2exp_trdn (d2e_else, s2e_if)
-        val () = trans3_env_pop_and_add_main (pfpush | loc_else)
-      in
-        Some (d3e_else)
-      end // end of [Some]
-    | None () => None ()
-  ) : Option (d3exp) // end of [val]
-//
-(*
-  val res = i2nvresstate_update (res)
-  val sbis = the_d2varset_env_stbefitemlst_save ()
-  val sac = staftscstr_initialize (res, sbis)
-*)
-in
-  d3exp_if (loc0, s2e_if, d3e_cond, d3e_then, od3e_else)
-end // end of [d2exp_trdn_ifhead]
-
-(* ****** ****** *)
-
-implement
 d2exp_trdn_lam_dyn
   (d2e0, s2f0) = let
-  val loc0 = d2e0.d2exp_loc
-  val- D2Elam_dyn
-    (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
-  // end of [val]
+//
+val loc0 = d2e0.d2exp_loc
+val- D2Elam_dyn
+  (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
+// end of [val]
+val s2e0 = s2hnf2exp (s2f0)
+//
 in
 //
-case+ s2f0.s2exp_node of
+case+ s2e0.s2exp_node of
 | S2Efun (
     fc1, lin1, s2fe1, npf1, s2es_arg, s2e_res
   ) => let
@@ -224,7 +199,7 @@ case+ s2f0.s2exp_node of
     // end of [val]
     val () = if err != 0 then {
       val () = prerr_the_staerrlst ()
-      val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2f0))
+      val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2e0))
     } // end of [val]
     val err =
       $SOL.linearity_equal_solve (loc0, lin, lin1)
@@ -240,7 +215,7 @@ case+ s2f0.s2exp_node of
       val () = prerr_newline ()
 *)
       val () = prerr_the_staerrlst ()
-      val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2f0))
+      val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2e0))
     } // end of [val]
 //
     val (pfpush | ()) = trans3_env_push ()
@@ -254,7 +229,7 @@ case+ s2f0.s2exp_node of
     ) : void // end of [val]
     val () = if err != 0 then {
       val () = prerr_the_staerrlst ()
-      val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2f0))
+      val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2e0))
     } // end of [val]
 //
     var err: int = 0
@@ -266,25 +241,27 @@ case+ s2f0.s2exp_node of
     ) : void // end of [val]
     val () = if err != 0 then {
       val () = prerr_the_staerrlst ()
-      val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2f0))
+      val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2e0))
     } // end of [val]
 //
-    var err: int = 0
+    var serr: int = 0
     val p3ts_arg =
-      p2atlst_trdn_arg (npf, p2ts_arg, s2es_arg, err)
+      p2atlst_trdn_arg (loc0, npf, p2ts_arg, s2es_arg, serr)
     // end of [val]
-    val () = if (err != 0) then {
+    val () = if (serr != 0) then {
       val () = prerr_error3_loc (loc0)
       val () = prerr ": dynamic arity mismatch"
+      val () = if serr > 0 then prerr ": less arguments are expected."
+      val () = if serr < 0 then prerr ": more arguments are expected."
       val () = prerr_newline ()
-      val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2f0))
+      val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2e0))
     } // end of [val]
     val d3e_body = d2exp_trdn (d2e_body, s2e_res)
 //
     val () = trans3_env_pop_and_add_main (pfpush | loc0)
 //
   in
-    d3exp_lam_dyn (loc0, s2f0, lin, npf, p3ts_arg, d3e_body)
+    d3exp_lam_dyn (loc0, s2e0, lin, npf, p3ts_arg, d3e_body)
   end // end of [S2Efun]
 | S2Euni (s2vs, s2ps, s2e) => let
     val (pfpush | ()) = trans3_env_push ()
@@ -293,13 +270,70 @@ case+ s2f0.s2exp_node of
     val d3e0 = d2exp_trdn (d2e0, s2e)
     val () = trans3_env_pop_and_add_main (pfpush | loc0)
   in
-    d3exp_lam_sta (loc0, s2f0, s2vs, s2ps, d3e0)
+    d3exp_lam_sta (loc0, s2e0, s2vs, s2ps, d3e0)
   end // end of [S2Euni]
 | _ => let
-    val d3e0 = d2exp_trup (d2e0) in d3exp_trdn (d3e0, s2f0)
+    val d3e0 = d2exp_trup (d2e0) in d3exp_trdn (d3e0, s2e0)
   end // end of [let]
 //
 end // end of [d2exp_trdn_lam_dyn]
+
+(* ****** ****** *)
+
+implement
+d2exp_trdn_ifhead
+  (d2e0, s2f_if) = let
+//
+val loc0 = d2e0.d2exp_loc
+val- D2Eifhead
+  (inv, d2e_cond, d2e_then, od2e_else) = d2e0.d2exp_node
+// end of [val]
+val d3e_cond = d2exp_trup (d2e_cond)
+val () = d3exp_open_and_add (d3e_cond)
+//
+val loc_cond = d3e_cond.d3exp_loc
+val s2e_cond = d3exp_get_type (d3e_cond)
+val s2f_cond = s2exp2hnf (s2e_cond)
+val os2p_cond = un_s2exp_bool_index_t0ype (s2f_cond)
+//
+val s2e_if = s2hnf2exp (s2f_if)
+//
+val d3e_then = let
+  val loc_then = d2e_then.d2exp_loc
+  val (pfpush | ()) = trans3_env_push ()
+  val () = trans3_env_hypadd_propopt
+    (loc_cond, $UN.castvwtp1 {s2expopt}{s2expopt_vt} (os2p_cond))
+  val d3e_then = d2exp_trdn (d2e_then, s2e_if)
+  val () = trans3_env_pop_and_add_main (pfpush | loc_then)
+in
+  d3e_then
+end // end of [val]
+//
+val od3e_else = (
+case+ od2e_else of
+| Some (d2e_else) => let
+    val loc_else = d2e_else.d2exp_loc
+    val (pfpush | ()) = trans3_env_push ()
+    val () = trans3_env_hypadd_propopt_neg
+      (loc_cond, $UN.castvwtp1 {s2expopt}{s2expopt_vt} (os2p_cond))
+    val d3e_else = d2exp_trdn (d2e_else, s2e_if)
+    val () = trans3_env_pop_and_add_main (pfpush | loc_else)
+  in
+    Some (d3e_else)
+  end // end of [Some]
+| None () => None ()
+) : Option (d3exp) // end of [val]
+//
+val () = option_vt_free (os2p_cond)
+//
+(*
+val res = i2nvresstate_update (res)
+val sbis = the_d2varset_env_stbefitemlst_save ()
+val sac = staftscstr_initialize (res, sbis)
+*)
+in
+  d3exp_if (loc0, s2e_if, d3e_cond, d3e_then, od3e_else)
+end // end of [d2exp_trdn_ifhead]
 
 (* ****** ****** *)
 

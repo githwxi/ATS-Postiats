@@ -128,18 +128,18 @@ fun{a:t@ype}
 g1int_add {i,j:int} (
   x: g1int (a, i), y: g1int (a, j)
 ) :<> g1int (a, i+j)
-overload + with g1int_add of 1
+overload + with g1int_add of 2
 
 fun{a:t@ype}
 g1int_sub {i,j:int} (
   x: g1int (a, i), y: g1int (a, j)
 ) :<> g1int (a, i-j)
-overload - with g1int_sub of 1
+overload - with g1int_sub of 2
 
 fun{a:t@ype}
 g1int_mul {i,j:int}
   (x: g1int (a, i), y: g1int (a, j)):<> g1int (a)
-overload * with g1int_mul of 1
+overload * with g1int_mul of 2
 
 fun{a:t@ype}
 g1int_mul2 {i,j:int} (
@@ -149,34 +149,34 @@ g1int_mul2 {i,j:int} (
 fun{a:t@ype}
 g1int_div {i,j:int | j != 0}
   (x: g1int (a, i), y: g1int (a, j)):<> g1int (a)
-overload / with g1int_div of 1
+overload / with g1int_div of 2
 
 (* ****** ****** *)
 
 fun{a:t@ype}
 g1int_lt {i,j:int}
   (x: g1int (a, i), y: g1int (a, j)):<> bool (i < j)
-overload < with g1int_lt of 1
+overload < with g1int_lt of 2
 
 fun{a:t@ype}
 g1int_lte {i,j:int}
   (x: g1int (a, i), y: g1int (a, j)):<> bool (i <= j)
-overload <= with g1int_lte of 1
+overload <= with g1int_lte of 2
 
 fun{a:t@ype}
 g1int_gt {i,j:int}
   (x: g1int (a, i), y: g1int (a, j)):<> bool (i > j)
-overload > with g1int_gt of 1
+overload > with g1int_gt of 2
 
 fun{a:t@ype}
 g1int_gte {i,j:int}
   (x: g1int (a, i), y: g1int (a, j)):<> bool (i >= j)
-overload >= with g1int_gte of 1
+overload >= with g1int_gte of 2
 
 fun{a:t@ype}
 g1int_compare
   {i,j:int} (x: g1int (a, i), y: g1int (a, j)):<> Sgn
-overload compare with g1int_compare of 1
+overload compare with g1int_compare of 2
 
 fun{a:t@ype}
 g1int_compare2 {i,j:int} (
@@ -188,12 +188,12 @@ g1int_compare2 {i,j:int} (
 fun{a:t@ype}
 g1int_max {i,j:int}
   (x: g1int (a, i), y: g1int (a, j)):<> g1int (a, max(i, j))
-overload max with g1int_max of 1
+overload max with g1int_max of 2
 
 fun{a:t@ype}
 g1int_min {i,j:int}
   (x: g1int (a, i), y: g1int (a, j)):<> g1int (a, min(i, j))
-overload min with g1int_min of 1
+overload min with g1int_min of 2
 
 (* ****** ****** *)
 //
@@ -274,17 +274,17 @@ macdef g1ofg0_uint (x) = g1ofg0_uint ,(x)
 fun{a:t@ype}
 g1uint_add {i,j:int}
   (x: g1uint (a, i), y: g1uint (a, j)):<> g1uint (a, i+j)
-overload + with g1uint_add of 1
+overload + with g1uint_add of 2
 
 fun{a:t@ype}
 g1uint_sub {i,j:int}
   (x: g1uint (a, i), y: g1uint (a, j)):<> g1uint (a, i-j)
-overload - with g1uint_sub of 1
+overload - with g1uint_sub of 2
 
 fun{a:t@ype}
 g1uint_mul {i,j:int}
   (x: g1uint (a, i), y: g1uint (a, j)):<> g1uint (a)
-overload * with g1uint_mul of 1
+overload * with g1uint_mul of 2
 
 fun{a:t@ype}
 g1uint_mul2 {i,j:int} (
@@ -294,34 +294,34 @@ g1uint_mul2 {i,j:int} (
 fun{a:t@ype}
 g1uint_div {i,j:int | j != 0}
   (x: g1uint (a, i), y: g1uint (a, j)):<> g1uint (a)
-overload / with g1uint_div of 1
+overload / with g1uint_div of 2
 
 (* ****** ****** *)
 
 fun{a:t@ype}
 g1uint_lt {i,j:int}
   (x: g1uint (a, i), y: g1uint (a, j)):<> bool (i < j)
-overload < with g1uint_lt of 1
+overload < with g1uint_lt of 2
 
 fun{a:t@ype}
 g1uint_lte {i,j:int}
   (x: g1uint (a, i), y: g1uint (a, j)):<> bool (i <= j)
-overload <= with g1uint_lte of 1
+overload <= with g1uint_lte of 2
 
 fun{a:t@ype}
 g1uint_gt {i,j:int}
   (x: g1uint (a, i), y: g1uint (a, j)):<> bool (i > j)
-overload > with g1uint_gt of 1
+overload > with g1uint_gt of 2
 
 fun{a:t@ype}
 g1uint_gte {i,j:int}
   (x: g1uint (a, i), y: g1uint (a, j)):<> bool (i >= j)
-overload >= with g1uint_gte of 1
+overload >= with g1uint_gte of 2
 
 fun{a:t@ype}
 g1uint_compare
   {i,j:int} (x: g1uint (a, i), y: g1uint (a, j)):<> Sgn
-overload compare with g1uint_compare of 1
+overload compare with g1uint_compare of 2
 
 fun{a:t@ype}
 g1uint_compare2 {i,j:int} (
@@ -333,12 +333,12 @@ g1uint_compare2 {i,j:int} (
 fun{a:t@ype}
 g1uint_max {i,j:int}
   (x: g1uint (a, i), y: g1uint (a, j)):<> g1uint (a, max(i, j))
-overload max with g1uint_max of 1
+overload max with g1uint_max of 2
 
 fun{a:t@ype}
 g1uint_min {i,j:int}
   (x: g1uint (a, i), y: g1uint (a, j)):<> g1uint (a, min(i, j))
-overload min with g1uint_min of 1
+overload min with g1uint_min of 2
 
 (* ****** ****** *)
 

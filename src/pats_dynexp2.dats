@@ -135,8 +135,6 @@ p2at_any (loc) =
   p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tany ())
 // end of [p2at_any]
 
-implement p2at_anys (loc) = p2at_any (loc)
-
 implement
 p2at_var
   (loc, refknd, d2v) = let

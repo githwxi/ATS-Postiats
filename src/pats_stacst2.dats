@@ -48,8 +48,12 @@ implement prerr_FILENAME<> () = prerr "pats_stacst2"
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
-staload "pats_trans2_env.sats"
+staload "pats_staexp2_util.sats"
 staload "pats_stacst2.sats"
+
+(* ****** ****** *)
+
+staload "pats_trans2_env.sats"
 
 (* ****** ****** *)
 
@@ -213,6 +217,35 @@ s2exp_bool_index_t0ype (ind) = let
 in
   s2exp_cstapp (s2c, list_sing (ind))
 end // end of [s2exp_bool_index_t0ype]
+
+(* ****** ****** *)
+
+implement
+un_s2exp_bool_index_t0ype (s2f) = let
+  val s2e = s2hnf2exp (s2f)
+in
+//
+case+ s2e.s2exp_node of
+| S2Eapp (s2e_fun, s2es_arg) 
+    when s2cstref_equ_exp (
+    the_bool_bool_t0ype, s2e_fun
+  ) => let
+    val- list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
+  end // end of [S2Eapp when ...]
+| _ => None_vt ()
+//
+end // end of [un_s2exp_bool_index_t0ype]
+
+(* ****** ****** *)
+
+implement
+the_neg_bool = s2cstref_make "neg_bool"
+implement
+s2exp_negate (s2p) = let
+  val s2c = s2cstref_get_cst (the_neg_bool)
+in
+  s2exp_cstapp (s2c, list_sing (s2p))
+end // end of [s2exp_negate]
 
 (* ****** ****** *)
 
@@ -617,6 +650,24 @@ s2exp_list_viewt0ype_int_viewtype (s2e, s2i) = let
 in
   s2exp_cstapp (s2c, list_pair (s2e, ind))
 end // end of [s2exp_list_viewt0ype_int_viewtype]
+
+(* ****** ****** *)
+
+implement
+the_bottom_viewt0ype_uni =
+  s2cstref_make "bottom_viewt0ype_uni"
+implement
+s2exp_bottom_viewt0ype_uni () =
+  s2exp_cst (s2cstref_get_cst (the_bottom_viewt0ype_uni))
+// end of [s2exp_bottom_viewt0ype_uni]
+
+implement
+the_bottom_viewt0ype_exi =
+  s2cstref_make "bottom_viewt0ype_exi"
+implement
+s2exp_bottom_viewt0ype_exi () =
+  s2exp_cst (s2cstref_get_cst (the_bottom_viewt0ype_exi))
+// end of [s2exp_bottom_viewt0ype_exi]
 
 (* ****** ****** *)
 

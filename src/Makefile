@@ -182,6 +182,7 @@ SOURCES := \
   pats_trans3_dynexp_up.dats \
   pats_trans3_dynexp_dn.dats \
   pats_trans3_appsym.dats \
+  pats_trans3_caseof.dats \
   pats_trans3_loop.dats \
   pats_trans3_decl.dats \
   pats_comarg.sats \

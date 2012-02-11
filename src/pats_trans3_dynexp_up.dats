@@ -26,6 +26,11 @@
 *)
 
 (* ****** ****** *)
+//
+// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Start Time: November, 2011
+//
+(* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
 
@@ -157,6 +162,24 @@ case+ d2e0.d2exp_node of
 //
 | D2Etmpid _ => d2exp_trup_tmpid (d2e0)
 //
+| D2Elet (d2cs, d2e) => let
+(*
+    val (pf_effect | ()) = the_effect_env_push ()
+    val (pf_s2cstlst | ()) = the_s2cstlst_env_push ()
+    val (pf_d2varset | ()) = the_d2varset_env_push_let ()
+*)
+    val d3cs = d2eclist_tr (d2cs)
+    val d3e = d2exp_trup (d2e)
+(*
+    val () = the_d2varset_env_check loc0
+    val () = the_d2varset_env_pop_let (pf_d2varset | (*none*))
+    val () = the_s2cstlst_env_pop_and_unbind (pf_s2cstlst | (*none*))
+    val () = the_effect_env_pop (pf_effect | (*none*))
+*)
+  in
+    d3exp_let (loc0, d3cs, d3e)
+  end // end of [D2Elet]
+//
 | D2Eapplst (_fun, _arg) => let
 (*
     val () = (
@@ -177,9 +200,16 @@ case+ d2e0.d2exp_node of
       | Some _ => s2exp_Var_make_srt (loc0, s2rt_t0ype)
       | None _ => s2exp_void_t0ype () // HX: missing else-branch
     ) : s2exp // end of [val]
+    val s2f_if = s2exp2hnf_cast (s2e_if)
   in
-    d2exp_trdn_ifhead (d2e0, s2e_if)
+    d2exp_trdn_ifhead (d2e0, s2f_if)
   end // end of [D2Eifhead]
+| D2Ecasehead _ => let
+    val s2e_case = s2exp_Var_make_srt (loc0, s2rt_t0ype)
+    val s2f_case = s2exp2hnf_cast (s2e_case)
+  in
+    d2exp_trdn_casehead (d2e0, s2f_case)
+  end // end of [D2Ecasehead]
 //
 | D2Elst _ => d2exp_trup_lst (d2e0)
 | D2Etup _ => d2exp_trup_tup (d2e0)

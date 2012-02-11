@@ -98,7 +98,7 @@ s2cst_struct = @{ (* builtin or abstract *)
 //
 // HX: the associated dynamic constructors
 //
-, s2cst_conlst= Option (d2conlst)
+, s2cst_dconlst= Option (d2conlst)
 //
 , s2cst_sup= s2cstlst_t // parents if any
 , s2cst_supcls= s2explst // superclasses if any
@@ -150,7 +150,7 @@ val () = p->s2cst_iscpy := s2cstopt_encode (None)
 val () = p->s2cst_islst := islst
 val () = p->s2cst_arylst := s2rt_get_arylst (s2t)
 val () = p->s2cst_argsrtss := argsrtss
-val () = p->s2cst_conlst := None ()
+val () = p->s2cst_dconlst := None ()
 val () = p->s2cst_sup := s2cstlst_encode (list_nil)
 val () = p->s2cst_supcls := list_nil ()
 val () = p->s2cst_sVarset := s2Varset_make_nil ()
@@ -214,13 +214,13 @@ s2cst_set_islst (s2c, islst) = let
 end // end of [s2cst_set_islst]
 
 implement
-s2cst_get_conlst (s2c) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_conlst
-end // end of [s2cst_get_conlst]
+s2cst_get_dconlst (s2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_dconlst
+end // end of [s2cst_get_dconlst]
 implement
-s2cst_set_conlst (s2c, d2cs) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_conlst := d2cs
-end // end of [s2cst_set_conlst]
+s2cst_set_dconlst (s2c, d2cs) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_dconlst := d2cs
+end // end of [s2cst_set_dconlst]
 
 implement
 s2cst_get_sup (s2c) = let
@@ -336,7 +336,7 @@ s2cst_is_listlike (x) =
 
 implement
 s2cst_is_singular (s2c) = let
-  val opt = s2cst_get_conlst (s2c) in
+  val opt = s2cst_get_dconlst (s2c) in
   case+ opt of Some d2cs => list_is_sing (d2cs) | None () => false
 end // end of [s2cst_is_singular]
 

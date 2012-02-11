@@ -177,6 +177,12 @@ p3at_err
 (* ****** ****** *)
 
 implement
+d3exp_get_type (d3e) = d3e.d3exp_type
+// end of [implement]
+
+(* ****** ****** *)
+
+implement
 d3exp_var (
   loc, s2f, d2v
 ) = '{
@@ -321,8 +327,21 @@ d3exp_item
   (loc, s2f, d2i) = '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Eitem (d2i)
+, d3exp_node= D3Eitem (d2i) // d2i: d2itm
 } // end of [d3exp_item]
+
+(* ****** ****** *)
+
+implement
+d3exp_let (
+  loc, d3cs, d3e
+) = let
+  val s2f = d3exp_get_type (d3e)
+in '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Elet (d3cs, d3e)
+} end // end of [d3exp_let]
 
 (* ****** ****** *)
 
@@ -391,6 +410,16 @@ d3exp_if (
 , d3exp_type= s2e_if
 , d3exp_node= D3Eif (_cond, _then, _else)
 } // end of [d3exp_if]
+
+implement
+d3exp_case (
+  loc, s2e_case, casknd, d3es, c3ls
+) = let
+in '{
+  d3exp_loc= loc
+, d3exp_type= s2e_case
+, d3exp_node= D3Ecase (casknd, d3es, c3ls)
+} end // end of [d3exp_case]
 
 (* ****** ****** *)
 
@@ -473,12 +502,42 @@ d3exp_err (loc) = '{
 (* ****** ****** *)
 
 implement
+m3atch_make
+  (loc, d3e, op3t) = '{
+  m3atch_loc= loc, m3atch_exp= d3e, m3atch_pat= op3t
+} // end of [m3atch_make]
+
+implement
+c3lau_make (
+  loc, p3ts, gua, seq, neg, d3e
+) = '{
+  c3lau_loc= loc
+, c3lau_pat= p3ts
+, c3lau_gua= gua
+, c3lau_seq= seq, c3lau_neg= neg
+, c3lau_body= d3e
+} // end of [c3lau_make]
+
+
+(* ****** ****** *)
+
+implement
 f3undec_make
   (loc, d2v, d3e) = '{
   f3undec_loc= loc
 , f3undec_var= d2v
 , f3undec_def= d3e
 } // end of [f3undec_make]
+
+(* ****** ****** *)
+
+implement
+v3aldec_make
+  (loc, p3t, def) = '{
+  v3aldec_loc= loc
+, v3aldec_pat= p3t
+, v3aldec_def= def
+} // end of [v3aldec_make]
 
 (* ****** ****** *)
 
@@ -522,8 +581,13 @@ d3ecl_fundecs (
 
 implement
 d3ecl_valdecs (loc, knd, d3cs) = '{
-  d3ecl_loc= loc, d3ecl_node= D3Cvaldecs (d3cs)
+  d3ecl_loc= loc, d3ecl_node= D3Cvaldecs (knd, d3cs)
 } // end of [d3ecl_valdecs]
+
+implement
+d3ecl_valdecs_rec (loc, knd, d3cs) = '{
+  d3ecl_loc= loc, d3ecl_node= D3Cvaldecs_rec (knd, d3cs)
+} // end of [d3ecl_valdecs_rec]
 
 (* ****** ****** *)
 

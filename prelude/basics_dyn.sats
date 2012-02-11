@@ -108,8 +108,7 @@ typedef FILEref = FILEref_type
 //
 datatype // t@ype+: covariant
 list0_t0ype_type (a: t@ype+) =
-  | list0_cons (a) of (a, list0_t0ype_type a)
-  | list0_nil (a) of ()
+  | list0_cons of (a, list0_t0ype_type a) | list0_nil of ()
 // end of [list0_t0ype_type]
 stadef list0 = list0_t0ype_type
 //
@@ -140,7 +139,7 @@ dataview unit_v = unit_v of ()
 //
 datatype
 option0_t0ype_type (a: t@ype+) =
-  | option0_some (a) of (a) | option0_none (a) of ()
+  | option0_some of (a) | option0_none of ()
 // end of [datatype]
 stadef option0 = option0_t0ype_type
 //

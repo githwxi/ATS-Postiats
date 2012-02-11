@@ -55,6 +55,7 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_exp_up"
 staload "pats_staexp2.sats"
 staload "pats_staexp2_util.sats"
 staload "pats_stacst2.sats"
+staload "pats_patcst2.sats"
 staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
@@ -86,6 +87,14 @@ c3str_itmlst
 , c3str_kind= knd
 , c3str_node= C3STRitmlst (s3is)
 } // end of [c3str_itmlst]
+
+implement
+c3str_case_exhaustiveness
+  (loc, casknd, p2tcs) = '{
+  c3str_loc= loc
+, c3str_kind= C3STRKINDcase_exhaustiveness (casknd, p2tcs)
+, c3str_node= C3STRprop (s2exp_bool (false))
+} // end of [c3str_case_exhaustiveness]
 
 (* ****** ****** *)
 
@@ -180,18 +189,20 @@ fun stasub_s2varlst_instantiate_some (
 macdef loop = stasub_s2varlst_instantiate_some
 //
 fun auxerr1 (
-  locarg: location, i: int
-) : void = {
+  locarg: location, serr: int
+) : void = let
   val () = prerr_error3_loc (locarg)
   val () = filprerr_ifdebug "stasub_s2varlst_instantiate_some"
   val () = prerr ": static arity mismatch"
-  val () = if i > 0 then prerr ": more arguments are expected."
-  val () = if i < 0 then prerr ": less arguments are expected."
+  val () = if serr > 0 then prerr ": more arguments are expected."
+  val () = if serr < 0 then prerr ": less arguments are expected."
   val () = prerr_newline ()
-} // end of [auxerr1]
+in
+  the_trans3errlst_add (T3E_s2varlst_instantiate_arity (locarg, serr))
+end // end of [auxerr1]
 fun auxerr2 (
   locarg: location, s2t1: s2rt, s2t2: s2rt
-) : void = {
+) : void = let
   val () = prerr_error3_loc (locarg)
   val () = filprerr_ifdebug "stasub_s2varlst_instantiate_some"
   val () = prerr ": mismatch of sorts:\n"
@@ -203,7 +214,9 @@ fun auxerr2 (
   val () = prerr_s2rt (s2t2)
   val () = prerr "]."
   val () = prerr_newline ()
-} // end of [auxerr1]
+in
+  the_trans3errlst_add (T3E_s2varlst_instantiate_srtck (locarg, s2t1, s2t2))
+end // end of [auxerr2]
 //
 in
 //
@@ -222,9 +235,6 @@ case+ s2vs of
       end else let
         val () = err := err + 1
         val () = auxerr2 (locarg, s2t1, s2t2)
-        val () = the_trans3errlst_add (
-          T3E_s2varlst_instantiate_srtck (locarg, s2t1, s2t2)
-        ) // end of [val]
         val s2e = s2exp_err (s2t1)
         val () = stasub_add (sub, s2v, s2e)
       in
@@ -235,7 +245,7 @@ case+ s2vs of
       val () = err := err + 1
       val () = auxerr1 (locarg, 1) // HX: more arguments expected
     in
-      the_trans3errlst_add (T3E_s2varlst_instantiate_arity (locarg, 1))
+      // nothing
     end // end of [list_nil]
   ) // end of [list_cons]
 | list_nil () => (
@@ -244,7 +254,7 @@ case+ s2vs of
       val () = err := err + 1
       val () = auxerr1 (locarg, ~1) // HX: less arguments expected
     in
-      the_trans3errlst_add (T3E_s2varlst_instantiate_arity (locarg, ~1))
+      // nothing
     end // end of [list_cons]
   | list_nil () => ()
   ) // end of [list_nil]
@@ -343,13 +353,16 @@ implement
 s2exp_uni_instantiate_sexparglst
   (s2e0, s2as, err) = let
 //
-fun auxerr
-  (locarg: location): void = {
+fun auxerr (
+  locarg: location
+) : void = let
   val () = prerr_error3_loc (locarg)
   val () = filprerr_ifdebug "s2exp_uni_instantiate_sexparglst"
   val () = prerr ": the static application is overly done."
   val () = prerr_newline ()
-} (* end of [auxerr] *)
+in
+  the_trans3errlst_add (T3E_s2varlst_instantiate_napp (locarg, 1))
+end (* end of [auxerr] *)
 //
 fun loop (
   sub: &stasub
@@ -393,9 +406,6 @@ case+ s2as of
       | _ => let
           val () = err := err + 1
           val () = auxerr (locarg)
-          val () = the_trans3errlst_add (
-            T3E_s2varlst_instantiate_napp (locarg, 1(*over*))
-          ) // end of [val]
         in
           loop (sub, s2f, s2ps_res, s2as1, err)
         end (* end of [_] *)
@@ -414,9 +424,6 @@ case+ s2as of
       | _ => let
           val () = err := err + 1
           val () = auxerr (locarg)
-          val () = the_trans3errlst_add (
-            T3E_s2varlst_instantiate_napp (locarg, 1(*over*))
-          ) // end of [val]
         in
           loop (sub, s2f, s2ps_res, s2as1, err)
         end (* end of [_] *)
@@ -485,13 +492,16 @@ implement
 s2exp_tmp_instantiate_tmpmarglst
   (s2e_tmp, locarg, s2qs, t2mas, err) = let
 //
-fun auxerr
-  (locarg: location): void = {
+fun auxerr (
+  locarg: location
+) : void = let
   val () = prerr_error3_loc (locarg)
   val () = filprerr_ifdebug "s2exp_tmp_instantiate_tmpmarglst"
   val () = prerr ": the template instantiation is overly done."
   val () = prerr_newline ()
-} (* end of [auxerr] *)
+in
+  the_trans3errlst_add (T3E_s2varlst_instantiate_napp (locarg, 1))
+end (* end of [auxerr] *)
 //
 var locarg: location = locarg
 //
@@ -520,11 +530,9 @@ case+ s2qs of
 | list_nil () => (
   case+ t2mas of
   | list_cons (t2ma, t2mas) => let
+      val () = err := err + 1
+      val () = auxerr (locarg)
       val () = locarg := t2ma.t2mpmarg_loc
-      val () = err := err + 1; val () = auxerr (locarg)
-      val () = the_trans3errlst_add (
-        T3E_s2varlst_instantiate_napp (locarg, 1(*over*))
-      ) // end of [val]
     in
       auxsome (sub, locarg, s2qs, t2mas, err)
     end // end of [list_cons]
@@ -711,9 +719,21 @@ end // end of [the_s2varbindmap_search]
 
 implement
 the_s2varbindmap_insert (s2v, s2e) = let
+//
+val () = let
+  val (vbox pf | p) = ref_get_view_ptr (the_s2varlst)
+in
+  !p := list_vt_cons (s2v, !p)
+end // end of [val]
+//
+val () = let
   val (vbox pf | p) = ref_get_view_ptr (the_s2varbindmap)
 in
   $effmask_ref (s2varbindmap_insert (!p, s2v, s2e))
+end // end of [val]
+//
+in
+  (* nothing *)
 end // end of [the_s2varbindmap_insert]
 
 end // end of [local]
@@ -725,7 +745,13 @@ end // end of [local]
 implement
 s2exp_hnfize_flag_svar
   (s2e0, s2v, flag) = let
-  val ans = the_s2varbindmap_search (s2v)
+// (*
+val () = (
+  print "s2exp_hnfize_flag_svar: s2v = "; print_s2var (s2v); print_newline ()
+) // end of [val]
+// *)
+val ans = the_s2varbindmap_search (s2v)
+//
 in
   case+ ans of
   | ~Some_vt s2e => let
@@ -895,31 +921,31 @@ in
 end // end of [trans3_env_add_eqeq]
 
 (* ****** ****** *)
-
+//
+// HX: for checking pattern matching exhaustiveness
+//
 implement
-trans3_env_hypadd_bind
-  (loc, s2v1, s2e2) = let
-// (*
-  val () = begin
-    print "trans3_env_hypadd_bind: s2v1 = "; print_s2var s2v1; print_newline ();
-    print "trans3_env_hypadd_bind: s2e2 = "; print_s2exp s2e2; print_newline ();
-  end // end of [val]
-// *)
-  val ans = the_s2varbindmap_search (s2v1)
+trans3_env_add_patcstlstlst_false
+  (loc0, casknd, cp2tcss, s2es) = let
+//
+fun loop (
+  xss: p2atcstlstlst
+) :<cloptr1> void =
+  case+ xss of
+  | list_cons (xs, xss) => let
+      val (pfpush | ()) = trans3_env_push ()
+      val () = trans3_env_hypadd_patcstlst (loc0, xs, s2es)
+      val c3t = c3str_case_exhaustiveness (loc0, casknd, xs)
+      val () = trans3_env_add_cstr (c3t)
+      val () = trans3_env_pop_and_add_main (pfpush | loc0)
+    in
+      loop (xss)
+    end // end of [list_cons]
+  | list_nil () => () // end of [list_nil]
+// end of [aux]
 in
-//
-case+ ans of
-| ~Some_vt (s2e1) =>
-    trans3_env_hypadd_eqeq (loc, s2e1, s2e2)
-  // end of [Some_vt]
-| ~None_vt () => let
-    val () = the_s2varbindmap_insert (s2v1, s2e2)
-    val h3p = h3ypo_bind (loc, s2v1, s2e2); val s3i = S3ITMhypo (h3p)
-  in
-    the_s3itmlst_env_add (s3i)
-  end // end of [None_vt]
-//
-end // end of [trans3_env_hypadd_bind]
+  loop (cp2tcss)
+end // end of [trans3_env_add_patcstlstlst_false]
 
 (* ****** ****** *)
 
@@ -950,6 +976,47 @@ trans3_env_hypadd_proplst_vt
   val () = trans3_env_hypadd_proplst (loc, $UN.castvwtp1 {s2explst} (s2ps))
   val () = list_vt_free (s2ps)
 } // end of [trans3_env_hypadd_proplst_vt]
+
+(* ****** ****** *)
+
+implement
+trans3_env_hypadd_propopt
+  (loc, opt) = case+ opt of
+  | Some (s2p) => trans3_env_hypadd_prop (loc, s2p)
+  | None () => ()
+// end of [trans3_env_hypadd_propopt]
+
+implement
+trans3_env_hypadd_propopt_neg
+  (loc, opt) = case+ opt of
+  | Some (s2p) =>
+      trans3_env_hypadd_prop (loc, s2exp_negate (s2p))
+    // end of [Some]
+  | None () => ()
+// end of [trans3_env_hypadd_propopt]
+
+(* ****** ****** *)
+
+implement
+trans3_env_hypadd_bind
+  (loc, s2v1, s2e2) = let
+//
+// HX: [s2v1] cannot be bound at this point
+//
+(*
+  val () = begin
+    print "trans3_env_hypadd_bind: s2v1 = "; print_s2var s2v1; print_newline ();
+    print "trans3_env_hypadd_bind: s2e2 = "; print_s2exp s2e2; print_newline ();
+  end // end of [val]
+*)
+  val () =
+    the_s2varbindmap_insert (s2v1, s2e2)
+  // end of [val]
+  val h3p = h3ypo_bind (loc, s2v1, s2e2)
+  val s3i = S3ITMhypo (h3p)
+in
+  the_s3itmlst_env_add (s3i)
+end // end of [trans3_env_hypadd_bind]
 
 implement
 trans3_env_hypadd_eqeq

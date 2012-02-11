@@ -26,6 +26,11 @@
 *)
 
 (* ****** ****** *)
+//
+// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Start Time: October, 2011
+//
+(* ****** ****** *)
 
 staload "pats_basics.sats"
 
@@ -53,20 +58,8 @@ datatype trans3err =
 //
   | T3E_s2exp_uni_instantiate_sexparglst of (location, s2exp, s2exparglst)
 //
-  | T3E_p2at_trdn_con of (p2at, s2exp)
-  | T3E_p2at_trdn_int of (p2at, s2exp)
-  | T3E_p2at_trdn_intrep of (p2at, s2exp)
-  | T3E_p2at_trdn_bool of (p2at, s2exp)
-  | T3E_p2at_trdn_char of (p2at, s2exp)
-  | T3E_p2at_trdn_i0nt of (p2at, s2exp)
-  | T3E_p2at_trdn_f0loat of (p2at, s2exp)
-  | T3E_p2at_trdn_empty of (p2at, s2exp)
-  | T3E_p2at_trdn_rec of (p2at, s2exp)
-  | T3E_p2at_trdn_lst of (p2at, s2exp)
-  | T3E_p2at_trdn_exist of (p2at, s2exp)
-  | T3E_p2at_trdn_ann of (p2at, s2exp)
-//
-  | T3E_p2at_trup_con_npf of (p2at, int(*npf*))
+  | T3E_p2at_trdn of (p2at, s2exp)
+  | T3E_p2at_trup_con of p2at // pfarity // ill-typed
   | T3E_p2at_trdn_con_arity of (p2at, int(*serr*))
 //
   | T3E_d2exp_trup_item of (location, d2itm)
@@ -83,7 +76,13 @@ datatype trans3err =
 //
   | T3E_d2exp_trdn_lam_dyn of (d2exp, s2exp)
 //
-  | T3E_fundeclst_tr_metsrtck of (d2ecl, s2rtlstopt)
+  | T3E_guard_trdn of
+      (location, bool(*gval*), s2exp(*gtyp*))
+  | T3E_c2lau_trdn_arity of (c2lau, s2explst)
+  | T3E_c2lau_trdn_noclause of (location)
+//
+  | T3E_f2undeclst_tr_metsrtck of (f2undec, s2rtlstopt)
+  | T3E_v2aldecreclst_tr_linearity of (v2aldec, s2exp(*linear*))
 // end of [trans3err]
 
 fun the_trans3errlst_add (x: trans3err): void
@@ -100,15 +99,21 @@ fun p2at_trup_arg (p2t: p2at): p3at
 fun p2atlst_trup_arg
   (npf: int, p2ts: p2atlst): p3atlst
 fun p2at_trdn_arg (p2t: p2at, s2e: s2exp): p3at
-fun p2atlst_trdn_arg (
-  npf: int, p2ts: p2atlst, s2es: s2explst, serr: &int
-) : p3atlst // end of [p2atlst_trdn_arg]
+fun p2atlst_trdn_arg {n:nat} (
+  loc: location, npf: int
+, p2ts: p2atlst, s2es: list (s2exp, n), serr: &int
+) : list (p3at, n) // end of [p2atlst_trdn_arg]
 //
 fun p2at_trdn (p2t: p2at, s2e: s2exp): p3at
 fun p2at_trdn_con (p2t: p2at, s2f: s2hnf): p3at
-fun p2atlst_trdn
-  (p2ts: p2atlst, s2es: s2explst, serr: &int): p3atlst
-// end of [p2atlst_trdn]
+fun p2atlst_trdn {n:nat} (
+  loc: location
+, p2ts: p2atlst, s2es: list (s2exp, n), serr: &int
+) : list (p3at, n) // end of [p2atlst_trdn]
+//
+fun guard_trdn
+  (loc: location, gval: bool, gtyp: s2exp): void
+// end of [guard_trdn]
 //
 (* ****** ****** *)
 
@@ -202,16 +207,15 @@ fun d2exp_trup (d2e: d2exp): d3exp
 fun d2explst_trup (d2es: d2explst): d3explst
 fun d2explstlst_trup (d2ess: d2explstlst): d3explstlst
 
-fun d2exp_trdn (d2e: d2exp, s2f: s2exp): d3exp
-fun d2exp_trdn_rest (d2e: d2exp, s2f: s2exp): d3exp
-
-fun d2explst_trdn_elt (d2es: d2explst, s2f: s2exp): d3explst
+fun d2exp_trdn (d2e: d2exp, s2e: s2exp): d3exp
+fun d2explst_trdn_elt (d2es: d2explst, s2e: s2exp): d3explst
 
 (* ****** ****** *)
 
-fun d2exp_trdn_ifhead (d2e: d2exp, s2f: s2exp): d3exp
-
-fun d2exp_trdn_lam_dyn (d2e: d2exp, s2f: s2exp): d3exp
+fun d2exp_trdn_rest (d2e: d2exp, s2f: s2hnf): d3exp
+fun d2exp_trdn_ifhead (d2e: d2exp, s2f: s2hnf): d3exp
+fun d2exp_trdn_casehead (d2e: d2exp, s2f: s2hnf): d3exp
+fun d2exp_trdn_lam_dyn (d2e: d2exp, s2f: s2hnf): d3exp
 
 (* ****** ****** *)
 

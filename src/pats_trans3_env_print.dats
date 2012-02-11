@@ -77,7 +77,9 @@ case+ knd of
 (*
 | C3STRKINDmetric_nat () => prstr "metric_nat"
 | C3STRKINDmetric_dec () => prstr "metric_dec"
-| C3STRKINDpattern_match_exhaustiveness _ => prstr "pattern"
+*)
+| C3STRKINDcase_exhaustiveness _ => prstr "case_exhaustiveness"
+(*
 | C3STRKINDvarfin _ => prstr "varfin"
 | C3STRKINDloop (knd) => begin
     prstr "loop("; fprint1_int (out, knd); prstr ")"

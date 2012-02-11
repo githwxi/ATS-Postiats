@@ -26,6 +26,11 @@
 *)
 
 (* ****** ****** *)
+//
+// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Start Time: January, 2012
+//
+(* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/list.dats"
@@ -189,6 +194,7 @@ in
 case+ p2t0.p2at_node of
 | P2Tann (p2t, s2e) =>
     p2at_trdn_arg (p2t, s2e)
+  // end of [P2Tann]
 | _ => let
     val- Some (s2e) = p2t0.p2at_type
   in
@@ -249,37 +255,43 @@ p2at_trdn_arg
 
 implement
 p2atlst_trdn_arg (
-  npf, p2ts, s2es, serr
+  loc0, npf, p2ts, s2es, serr
 ) = let
-  fun aux (
-    npf: int
-  , p2ts: p2atlst, s2es: s2explst
-  , serr: &int
-  ) : p3atlst =
-    case+ p2ts of
-    | list_cons (p2t, p2ts) => (
-      case+ s2es of
-      | list_cons (s2e, s2es) => let
-          val () =
-            if npf > 0 then p2at_proofize (p2t)
-          // end of [val]
-          val p3t = p2at_trdn_arg (p2t, s2e)
-          val p3ts = aux (npf-1, p2ts, s2es, serr)
-        in
-          list_cons (p3t, p3ts)
-        end // end of [list_cons]
-      | list_nil () => let
-          val () = serr := serr + 1 in list_nil ()
-        end // end of [list_nil]
-      ) // end of [list_cons]
-    | list_nil () => (
-      case+ s2es of
-      | list_cons (s2e, s2es) => let
-          val () = serr := serr - 1 in list_nil ()
-        end // end of [list_cons]
-      | list_nil () => list_nil ()
-      ) // end of [list_nil]
-  // end of [aux]  
+//
+fun aux
+  {n:nat} .<n>. (
+  npf: int
+, p2ts: p2atlst, s2es: list (s2exp, n)
+, serr: &int
+) :<cloref1> list (p3at, n) =
+  case+ p2ts of
+  | list_cons (p2t, p2ts) => (
+    case+ s2es of
+    | list_cons (s2e, s2es) => let
+        val () =
+          if npf > 0 then p2at_proofize (p2t)
+        // end of [val]
+        val p3t = p2at_trdn_arg (p2t, s2e)
+        val p3ts = aux (npf-1, p2ts, s2es, serr)
+      in
+        list_cons (p3t, p3ts)
+      end // end of [list_cons]
+    | list_nil () => let
+        val () = serr := serr + 1 in list_nil ()
+      end // end of [list_nil]
+    ) // end of [list_cons]
+  | list_nil () => (
+    case+ s2es of
+    | list_cons (s2e, s2es) => let
+        val () = serr := serr - 1
+        val p3t = p3at_err (loc0, s2e)
+        val p3ts = aux (npf-1, p2ts, s2es, serr)
+      in
+        list_cons (p3t, p3ts)
+      end // end of [list_cons]
+    | list_nil () => list_nil ()
+    ) // end of [list_nil]
+// end of [aux]  
 in
   aux (npf, p2ts, s2es, serr)
 end (* end of [p2atlst_trdn_arg] *)
@@ -376,7 +388,7 @@ case+ p2t0.p2at_node of
 | P2Tann _ => p2at_trdn_ann (p2t0, s2f0)
 //
 | P2Terr () => let
-    val s2e0 = s2hnf2exp (s2f0) in p3at_err (loc0, s2e0)
+    val s2e = s2hnf2exp (s2f0) in p3at_err (loc0, s2e)
   end // end of [P2Terr]
 //
 | _ => let
@@ -392,7 +404,7 @@ end // end of [p2at_trdn]
 
 implement
 p2atlst_trdn
-  (p2ts, s2es, serr) = let
+  (loc0, p2ts, s2es, serr) = let
 (*
 val () = (
   print "p2atlst_trdn: p2ts = "; print_p2atlst (p2ts); print_newline ();
@@ -406,7 +418,7 @@ case+ p2ts of
   case+ s2es of
   | list_cons (s2e, s2es) => let
       val p3t = p2at_trdn (p2t, s2e)
-      val p3ts = p2atlst_trdn (p2ts, s2es, serr)
+      val p3ts = p2atlst_trdn (loc0, p2ts, s2es, serr)
     in
       list_cons (p3t, p3ts)
     end
@@ -416,9 +428,13 @@ case+ p2ts of
   ) // end of [list_cons]
 | list_nil () => (
   case+ s2es of
-  | list_cons _ => let
-      val () = serr := serr - 1 in list_nil ()
-    end
+  | list_cons (s2e, s2es) => let
+      val () = serr := serr - 1
+      val p3t = p3at_err (loc0, s2e)
+      val p3ts = p2atlst_trdn (loc0, p2ts, s2es, serr)
+    in
+      list_cons (p3t, p3ts)
+    end // end of [list_cons]
   | list_nil () => list_nil ()
   )
 //
@@ -432,14 +448,11 @@ p2at_trdn_any
   val loc0 = p2t0.p2at_loc
   val s2e0 = s2hnf2exp (s2f0)
   val d2v = d2var_make_any (loc0)
-  val p3t = p3at_any (loc0, s2e0, d2v)
-(*
-  val () = d2var_set_type (d2v, None ())
-  val () = d2var_set_mastype (d2v, Some (s2e))
-*)
+  val () = d2var_set_mastype (d2v, Some (s2e0))
   val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
+  val () = d2var_set_type (d2v, None ())
 in
-  p3t
+  p3at_any (loc0, s2e, d2v)
 end // end of [p2at_trdn_any]
 
 (* ****** ****** *)
@@ -449,11 +462,10 @@ p2at_trdn_var
   (p2t0, s2f0) = let
   val loc0 = p2t0.p2at_loc
   val- P2Tvar (knd, d2v) = p2t0.p2at_node
+//
   val s2e0 = s2hnf2exp (s2f0)
   val s2t0 = s2e0.s2exp_srt
   val islin = s2rt_is_lin (s2t0)
-//
-  val p3t0 = p3at_var (loc0, s2e0, knd(*refval*), d2v)
 //
   val () = d2var_set_mastype (d2v, Some s2e0)
   val () = if islin then { // linear var
@@ -462,7 +474,7 @@ p2at_trdn_var
   } // end of [val]
 (*
   val () = begin
-    print "p2at_trdn_var: d2v = "; print d2v; print_newline ();
+    print "p2at_trdn_var: d2v = "; print_d2var d2v; print_newline ();
     print "p2at_trdn_var: s2e0 = "; print_s2exp s2e0; print_newline ();
     print "p2at_trdn_var: s2t0 = "; print_s2rt s2t0; print_newline ();
   end // end of [val]
@@ -476,7 +488,7 @@ p2at_trdn_var
   end // end of [val]
 *)
 in
-  p3t0
+  p3at_var (loc0, s2e, knd(*refval*), d2v)
 end // end of [p2at_trdn_var]
 
 (* ****** ****** *)
@@ -519,7 +531,7 @@ val () = if (nerr > 0) then {
   val () = prerr_newline ()
   val () = prerr_the_staerrlst ()
   val s2e0 = s2hnf2exp (s2f0)
-  val () = the_trans3errlst_add (T3E_p2at_trdn_int (p2t0, s2e0))
+  val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
 } // end of [val]
 //
 in
@@ -559,7 +571,7 @@ case+ s2e.s2exp_node of
       val () = prerr_newline ()
       val () = prerr_the_staerrlst ()
       val s2e0 = s2hnf2exp (s2f0)
-      val () = the_trans3errlst_add (T3E_p2at_trdn_bool (p2t0, s2e0))
+      val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
     } // end of [val]
   in
     p3t0
@@ -600,7 +612,7 @@ case+ s2e.s2exp_node of
       val () = prerr_newline ()
       val () = prerr_the_staerrlst ()
       val s2e0 = s2hnf2exp (s2f0)
-      val () = the_trans3errlst_add (T3E_p2at_trdn_char (p2t0, s2e0))
+      val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
     } // end of [val]
   in
     p3t0
@@ -642,7 +654,7 @@ case+ s2e.s2exp_node of
       val () = prerr_newline ()
       val () = prerr_the_staerrlst ()
       val s2e0 = s2hnf2exp (s2f0)
-      val () = the_trans3errlst_add (T3E_p2at_trdn_char (p2t0, s2e0))
+      val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
     } // end of [val]
   in
     p3t0
@@ -708,7 +720,7 @@ val () = if (nerr > 0) then {
   val () = prerr_newline ()
   val () = prerr_the_staerrlst ()
   val s2e0 = s2hnf2exp (s2f0)
-  val () = the_trans3errlst_add (T3E_p2at_trdn_intrep (p2t0, s2e0))
+  val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
 } (* end of [val] *)
 //
 in
@@ -734,7 +746,7 @@ val () = if (nerr > 0) then {
   val () = prerr_newline ()
   val () = prerr_the_staerrlst ()
   val s2e0 = s2hnf2exp (s2f0)
-  val () = the_trans3errlst_add (T3E_p2at_trdn_i0nt (p2t0, s2e0))
+  val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
 } (* end of [val] *)
 //
 in
@@ -759,7 +771,7 @@ p2at_trdn_f0loat
     val () = prerr_newline ()
     val () = prerr_the_staerrlst ()
     val s2e0 = s2hnf2exp (s2f0)
-    val () = the_trans3errlst_add (T3E_p2at_trdn_f0loat (p2t0, s2e0))
+    val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
   } // end of [val]
 in
   p3at_f0loat (loc0, s2e, x)
@@ -781,7 +793,7 @@ p2at_trdn_empty
     val () = prerr_newline ()
     val () = prerr_the_staerrlst ()
     val s2e0 = s2hnf2exp (s2f0)
-    val () = the_trans3errlst_add (T3E_p2at_trdn_empty (p2t0, s2e0))
+    val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
   } // end of [val]
 in
   p3at_empty (loc0, s2e)
@@ -931,19 +943,19 @@ case+ s2e.s2exp_node of
       val () = if ~isbox then prerr "flat/unboxed but it is assigned a boxed type."
       val () = prerr_newline ()
       val s2e0 = s2hnf2exp (s2f0)
-      val () = the_trans3errlst_add (T3E_p2at_trdn_rec (p2t0, s2e0))
+      val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
     } // end of [val]
     val nerr = $SOL.pfarity_equal_solve (loc0, npf, npf1)
     val () = if (nerr > 0) then {
       val () = prerr_the_staerrlst ()
       val s2e0 = s2hnf2exp (s2f0)
-      val () = the_trans3errlst_add (T3E_p2at_trdn_rec (p2t0, s2e0))
+      val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
     } // end of [val]
     var nerr: int = 0
     val lp3ts = labp2atlst_trdn (loc0, lp2ts, ls2es, nerr)
     val () = if (nerr > 0) then {
       val s2e0 = s2hnf2exp (s2f0)
-      val () = the_trans3errlst_add (T3E_p2at_trdn_rec (p2t0, s2e0))
+      val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
     } // end of [val]
   in
     p3at_rec (loc0, s2e, knd, npf, lp3ts)
@@ -953,7 +965,7 @@ case+ s2e.s2exp_node of
     val () = prerr ": the tuple/record pattern is ill-typed.";
     val () = prerr_newline ()
     val s2e0 = s2hnf2exp (s2f0)
-    val () = the_trans3errlst_add (T3E_p2at_trdn_rec (p2t0, s2e0))
+    val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
   in
     p3at_err (loc0, s2e)
   end // end of [_]
@@ -1000,7 +1012,7 @@ case+ s2e.s2exp_node of
     val () = prerr ": the list pattern is ill-typed.";
     val () = prerr_newline ()
     val s2e0 = s2hnf2exp (s2f0)
-    val () = the_trans3errlst_add (T3E_p2at_trdn_lst (p2t0, s2e0))
+    val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
   in
     p3at_err (loc0, s2e)
   end // end of [_]
@@ -1063,8 +1075,8 @@ case+ s2vs1 of
       var s2e2: s2exp = s2exp_var (s2v2)
       val ismat = s2rt_ltmat1 (s2t2, s2t1)
       val () = if ~ismat then {
-        val () = auxerr1 (loc0, s2v1, s2v2)
         val () = err := err + 1
+        val () = auxerr1 (loc0, s2v1, s2v2)
         val () = s2e2 := s2exp_err (s2t1)
       } // end of [val]
       val () = stasub_add (sub, s2v1, s2e2)
@@ -1072,6 +1084,7 @@ case+ s2vs1 of
       auxbind (sub, s2vs1, s2vs2, err)
     end // end of [list_cons]
   | list_nil () => let
+      val () = err := err + 1
       val () = auxerr2 (loc0, s2v1)
       val s2t1 = s2var_get_srt (s2v1)
       val s2e2 = s2exp_err (s2t1)
@@ -1100,7 +1113,7 @@ case+ s2e0.s2exp_node of
     var err: int = 0
     val () = auxbind (sub, s2vs, s2vs2, err)
     val () = if (err > 0) then {
-      val () = the_trans3errlst_add (T3E_p2at_trdn_exist (p2t0, s2e0))
+      val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
     } // end of [val]
     val () = trans3_env_add_svarlst (s2vs)
     val s2ps2 = s2explst_subst_vt (sub, s2ps2)
@@ -1117,7 +1130,7 @@ case+ s2e0.s2exp_node of
     val () = prerr_s2exp (s2e0)
     val () = prerr "] but an existentially quantified type is expected."
     val () = prerr_newline ()
-    val () = the_trans3errlst_add (T3E_p2at_trdn_exist (p2t0, s2e0))
+    val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
   in
     p3at_err (loc0, s2e0)
   end (* end of [_] *)
@@ -1140,12 +1153,47 @@ p2at_trdn_ann
     val () = prerr_newline ()
     val () = prerr_the_staerrlst ()
   in
-    the_trans3errlst_add (T3E_p2at_trdn_ann (p2t0, s2e0))
+    the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
   end // end of [val]
   val p3t = p2at_trdn (p2t, s2e0)
 in
   p3at_ann (loc0, s2e0, p3t, s2e_ann)
 end // end of [p2at_trdn_ann]
+
+(* ****** ****** *)
+
+implement
+guard_trdn
+  (loc0, gval, s2e0) = let
+  val s2f0 = s2exp2hnf (s2e0)
+  val s2e_ind = s2exp_bool (gval)
+  val s2e_gval = s2exp_bool_index_t0ype (s2e_ind)
+  val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
+in
+//
+case+ s2e.s2exp_node of
+| S2Eapp (s2e_fun, s2es_arg)
+    when s2cstref_equ_exp (
+    the_bool_bool_t0ype, s2e_fun
+  ) => let
+    val- list_cons (s2e1_arg, _) = s2es_arg
+  in
+    trans3_env_hypadd_eqeq (loc0, s2e_ind, s2e1_arg)
+  end // end of [S2Eapp]
+| _ => let
+    val nerr = $SOL.s2exp_tyleq_solve (loc0, s2e_gval, s2e)
+    val () = if (nerr > 0) then {
+      val () = prerr_error3_loc (loc0)
+      val () = prerr ": the guard is ill-typed."
+      val () = prerr_newline ()
+      val () = prerr_the_staerrlst ()
+      val s2e0 = s2hnf2exp (s2f0)
+      val () = the_trans3errlst_add (T3E_guard_trdn (loc0, gval, s2e0))
+    } // end of [val]
+  in
+    (* nothing *)
+  end // end of [_]
+end // end of [guard_trdn]
 
 (* ****** ****** *)
 

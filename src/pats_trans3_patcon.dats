@@ -26,6 +26,11 @@
 *)
 
 (* ****** ****** *)
+//
+// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Start Time: February, 2012
+//
+(* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/list.dats"
@@ -61,6 +66,10 @@ staload SOL = "pats_staexp2_solve.sats"
 
 staload "pats_trans3.sats"
 staload "pats_trans3_env.sats"
+
+(* ****** ****** *)
+
+#define l2l list_of_list_vt
 
 (* ****** ****** *)
 
@@ -125,12 +134,33 @@ case+ s2e_con.s2exp_node of
       val () = prerrf ("] requires [%i] arguments.", @(npf_con))
       val () = prerr_newline ()
       val () = prerr_the_staerrlst ()
-      val () = the_trans3errlst_add (T3E_p2at_trup_con_npf (p2t0, npf))
+      val () = the_trans3errlst_add (T3E_p2at_trup_con (p2t0))
     } // end of [val]
   in
     PATCONTRUP (p2ts_arg, s2es_arg, s2e_res)
   end // end of [S2Efun]
-| _ => exitloc (1)
+| _ => let
+    val () = prerr_error3_loc (loc0)
+    val () = filprerr_ifdebug "p2at_trup_con"
+    val () = prerr ": the constructor pattern is ill-typed."
+    val () = prerr_newline ()
+    val () = the_trans3errlst_add (T3E_p2at_trup_con (p2t0))
+    val s2es_arg =
+      aux (p2ts_arg) where {
+      fun aux (
+        p2ts: p2atlst
+      ) : s2explst =
+        case+ p2ts of
+        | list_cons (_, p2ts) => let
+            val s2e = s2exp_err (s2rt_t0ype) in list_cons (s2e, aux p2ts)
+          end // end of [list_cons]
+        | list_nil () => list_nil ()
+      // end of [aux]
+    } // end of [val]
+    val s2e_res = s2exp_err (s2rt_type)
+  in
+    PATCONTRUP (p2ts_arg, s2es_arg, s2e_res)
+  end // end of [_]
 //
 end // end of [p2at_trup_con]
 
@@ -169,7 +199,7 @@ val () = if (flag < 0) then {
   val () = prerr "]."
   val () = prerr_newline ()
   val s2e0 = s2hnf2exp (s2f0)
-  val () = the_trans3errlst_add (T3E_p2at_trdn_con (p2t0, s2e0))
+  val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
 } // end of [val]
 //
 val flag_vwtp = (if flag > 0 then 1 else d2con_get_vwtp (d2c)): int
@@ -180,12 +210,13 @@ val p3t0 = (case+ 0 of
       (p2ts, s2es_arg, s2e_res) = p2at_trup_con (p2t0)
     val () = $SOL.s2exp_hypequal_solve (loc0, s2e_res, s2e)
     var serr: int = 0
-    val p3ts_arg = p2atlst_trdn (p2ts_arg, s2es_arg, serr)
+    val p3ts_arg = p2atlst_trdn (loc0, p2ts_arg, s2es_arg, serr)
     val () = if (serr != 0) then {
       val () = prerr_error3_loc (loc0)
       val () = prerr ": arity mismatch"
       val () = if serr > 0 then prerr ": less arguments are expected."
       val () = if serr < 0 then prerr ": more arguments are expected."
+      val () = prerr_newline ()
       val () = the_trans3errlst_add (T3E_p2at_trdn_con_arity (p2t0, serr))
     } // end of [val]
   in

@@ -260,14 +260,14 @@ implement
 s2varset_add
   (xs, x) = xs where {
   var xs = xs
-  val _(*ins'd*) = $FS.funset_insert (xs, x, cmp)
+  val _(*replaced*) = $FS.funset_insert (xs, x, cmp)
 } // end of [s2varset_add]
 
 implement
 s2varset_del
   (xs, x) = xs where {
   var xs = xs
-  val _(*rem'd*) = $FS.funset_remove (xs, x, cmp)
+  val _(*removed*) = $FS.funset_remove (xs, x, cmp)
 } // end of [s2varset_del]
 
 implement
@@ -282,14 +282,14 @@ implement
 s2varset_vt_add
   (xs, x) = xs where {
   var xs = xs
-  val _(*ins'd*) = $LS.linset_insert (xs, x, cmp)
+  val _(*replaced*) = $LS.linset_insert (xs, x, cmp)
 } // end of [s2varset_vt_add]
 
 implement
 s2varset_vt_del
   (xs, x) = xs where {
   var xs = xs
-  val _(*rem'd*) = $LS.linset_remove (xs, x, cmp)
+  val _(*removed*) = $LS.linset_remove (xs, x, cmp)
 } // end of [s2varset_vt_del]
 
 implement
@@ -334,6 +334,11 @@ s2varbindmap_make_nil () = $MAP.linmap_make_nil ()
 
 implement
 s2varbindmap_search (map, k) = let
+(*
+  val () = (
+    print "s2varbindmap_search: k = "; print_s2var (k); print_newline ();
+  ) // end of [val]
+*)
   var res: s2exp? // uninitialized
   val found = $MAP.linmap_search<s2var,s2exp> (map, k, cmp, res)
 in
@@ -346,8 +351,14 @@ end (* end of [s2varbindmap_search] *)
 
 implement
 s2varbindmap_insert (map, k, x) = let
+(*
+  val () = (
+    print "s2varbindmap_insert: k = "; print_s2var (k); print_newline ();
+    print "s2varbindmap_insert: x = "; print_s2exp (x); print_newline ();
+  ) // end of [val]
+*)
   var res: s2exp? // unintialized
-  val inserted = $MAP.linmap_insert<s2var,s2exp> (map, k, x, cmp, res)
+  val replaced = $MAP.linmap_insert<s2var,s2exp> (map, k, x, cmp, res)
   prval () = opt_clear (res)
 in
   // nothing

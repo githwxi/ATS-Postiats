@@ -353,7 +353,6 @@ fun p2at_make (
 ) : p2at // end of [p2at_make]
 
 fun p2at_any (loc: location): p2at
-fun p2at_anys (loc: location): p2at
 
 fun p2at_var (
   loc: location, refknd: int, d2v: d2var
@@ -431,6 +430,7 @@ d2ecl_node =
   | D2Csymelim of ($SYN.i0delst) // for temporary use
   | D2Coverload of // symbol overloading
       ($SYN.i0de, d2itmopt) // [None] indicates error
+    // end of [D2Coverload]
 //
   | D2Cstavars of s2tavarlst // for [stavar] declarations
   | D2Csaspdec of s2aspdec (* for static assumption *)
@@ -462,8 +462,7 @@ d2ecl_node =
   | D2Clocal of (d2eclist(*head*), d2eclist(*body*)) // local declaration
 // end of [d2ecl_node]
 
-and
-d2exp_node =
+and d2exp_node =
 //
   | D2Evar of d2var (* dynamic variables *)
   | D2Ecst of d2cst (* dynamic constants *)
@@ -626,7 +625,8 @@ and loopi2nv = '{
 
 and m2atch = '{
   m2atch_loc= location
-, m2atch_exp= d2exp, m2atch_pat= p2atopt
+, m2atch_exp= d2exp
+, m2atch_pat= p2atopt
 } // end of [m2atch]
 
 and m2atchlst = List (m2atch)
@@ -658,7 +658,7 @@ and v2aldec = '{
   v2aldec_loc= location
 , v2aldec_pat= p2at
 , v2aldec_def= d2exp
-, v2aldec_ann= s2expopt
+, v2aldec_ann= s2expopt // [withtype] annotation
 } // end of [v2aldec]
 
 and v2aldeclst = List (v2aldec)

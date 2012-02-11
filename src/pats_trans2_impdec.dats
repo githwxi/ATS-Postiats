@@ -93,9 +93,8 @@ fn auxerr1 (
   val () = prerr_dqid (dq, id)
   val () = prerr "]."
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_impdec_tr (d1c0))
 in
-  // nothing
+  the_trans2errlst_add (T2E_impdec_tr (d1c0))
 end // end of [auxerr1]
 fn auxerr2 (
   d1c: i1mpdec
@@ -107,9 +106,8 @@ fn auxerr2 (
   val () = prerr_dqid (dq, id)
   val () = prerr "] does not refer to a declared dynamic constant."
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_impdec_tr (d1c0))
 in
-  // nothing
+  the_trans2errlst_add (T2E_impdec_tr (d1c0))
 end // end of [auxerr2]
 fn auxerr3 (
   d1c: i1mpdec
@@ -121,9 +119,8 @@ fn auxerr3 (
   val () = prerr_dqid (dq, id)
   val () = prerr "] is unrecognized."
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_impdec_tr (d1c0))
 in
-  // nothing
+  the_trans2errlst_add (T2E_impdec_tr (d1c0))
 end // end of [auxerr3]
 //
 val qid = impdec.i1mpdec_qid
@@ -187,7 +184,8 @@ d1exp_tr_ann (
 ) : d2exp = let
 //
 val loc0 = d1e0.d1exp_loc
-val s2f0 = s2exp_hnfize (s2e0)
+val s2f0 = s2exp2hnf (s2e0)
+val s2e0 = s2hnf2exp (s2f0)
 //
 (*
 val () = (
@@ -199,18 +197,20 @@ val () = (
 *)
 //
 fn auxerr (
-  d1e0: d1exp, locarg: location, serr: int
-) : void = {
+  d1e0: d1exp, s2e0: s2exp, locarg: location, serr: int
+) : void = let
   val () = prerr_error2_loc (locarg)
   val () = prerr ": static arity mismatch"
   val () = if serr > 0 then prerr ": less arguments are expected."
   val () = if serr < 0 then prerr ": more arguments are expected."
   val () = prerr_newline ()
-} // end of [auxerr]
+in
+  the_trans2errlst_add (T2E_d1exp_tr_ann (d1e0, s2e0))
+end // end of [auxerr]
 //
 in
 //
-case+ s2f0.s2exp_node of
+case+ s2e0.s2exp_node of
 | S2Euni (s2vs, s2ps, s2e) => (
   case+ d1e0.d1exp_node of
   | D1Elam_sta_ana (locarg, arg, body) => let
@@ -219,7 +219,7 @@ case+ s2f0.s2exp_node of
       val (sub, s2vs) =
         s1vararg_bind_svarlst (arg, s2vs, serr)
       val s2vs = list_of_list_vt (s2vs)
-      val () = if serr != 0 then auxerr (d1e0, locarg, serr)
+      val () = if serr != 0 then auxerr (d1e0, s2e0, locarg, serr)
 //
       val (pf_s2expenv | ()) = the_s2expenv_push_nil ()
       val () = the_s2expenv_add_svarlst (s2vs)
@@ -255,11 +255,11 @@ case+ s2f0.s2exp_node of
       d2exp_laminit_dyn (loc0, lin1, npf1, p2ts_arg, d2e_body)
     end // end of [D2Elam_dyn]
   | _ => let
-      val d2e0 = d1exp_tr (d1e0) in d2exp_ann_type (loc0, d2e0, s2f0)
+      val d2e0 = d1exp_tr (d1e0) in d2exp_ann_type (loc0, d2e0, s2e0)
     end (* end of [_] *)
   ) // end of [S2Efun]
 | _ => let
-    val d2e0 = d1exp_tr d1e0 in d2exp_ann_type (loc0, d2e0, s2f0)
+    val d2e0 = d1exp_tr d1e0 in d2exp_ann_type (loc0, d2e0, s2e0)
   end (* end of [_] *)
 //
 end // end of [d1exp_tr_ann]
@@ -393,7 +393,7 @@ val p2ts_arg = let
       end
     | (list_nil (), list_cons _) => let
         val () = err := err - 1 in list_nil ()
-      end
+      end // end of [nil, cons]
   (* end of [aux] *)
 //
   var err: int = 0
@@ -493,7 +493,7 @@ fun aux_imparg_svararg (
   end // end of [auxerr2]
 //
   fun auxseq (
-    s1as: s1arglst, s2vs: s2varlst, err: &int
+    s1as: s1arglst, s2vs: s2varlst, serr: &int
   ) : s2varlst = (
     case+ (s1as, s2vs) of
     | (s1a :: s1as,
@@ -506,16 +506,16 @@ fun aux_imparg_svararg (
           | None () => true
         ) : bool // end of [val]
         val s2v = s1arg_trdn (s1a, s2t0)
-        val s2vs = auxseq (s1as, s2vs, err)
+        val s2vs = auxseq (s1as, s2vs, serr)
       in
         list_cons (s2v, s2vs)
       end
     | (list_nil (), list_nil ()) => list_nil ()
     | (list_cons _, list_nil ()) => let
-        val () = err := err + 1 in list_nil ()
+        val () = serr := serr + 1 in list_nil ()
       end
     | (list_nil (), list_cons _) => let
-        val () = err := err - 1 in list_nil ()
+        val () = serr := serr - 1 in list_nil ()
       end
   ) (* end of [auxseq] *)
 //
@@ -547,10 +547,10 @@ in
     ) // end of [S1VARARGall]
   | S1VARARGseq (loc, s1as) => (case+ s2qs of
     | list_cons (s2q, s2qs) => let
-        var err: int = 0
-        val s2vs = auxseq (s1as, s2q.s2qua_svs, err)
+        var serr: int = 0
+        val s2vs = auxseq (s1as, s2q.s2qua_svs, serr)
         val () = the_s2expenv_add_svarlst (s2vs)
-        val () = if err != 0 then auxerr2 (loc, err)
+        val () = if serr != 0 then auxerr2 (loc, serr)
         val () = out := list_cons (s2vs, out)
       in
         s2qs
@@ -611,7 +611,7 @@ fun aux_imparg (
 //
 fun aux_tmparg_s1explst (
   d1c0: d1ecl
-, s2vs: s2varlst, s1es: s1explst, err: &int
+, s2vs: s2varlst, s1es: s1explst, serr: &int
 ) : s2explst = let
 (*
   val () = (
@@ -623,28 +623,28 @@ in
   | (s2v :: s2vs, s1e :: s1es) => let
       val s2t = s2var_get_srt (s2v)
       val s2e = s1exp_trdn (s1e, s2t)
-      val s2es = aux_tmparg_s1explst (d1c0, s2vs, s1es, err)
+      val s2es = aux_tmparg_s1explst (d1c0, s2vs, s1es, serr)
     in
       list_cons (s2e, s2es)
     end // end of [::, ::]
   | (list_nil (), list_nil ()) => list_nil ()
   | (list_cons _, list_nil ()) => let
-      val () = err := err + 1 in list_nil ()
+      val () = serr := serr + 1 in list_nil ()
     end
   | (list_nil (), list_cons _) => let 
-      val () = err := err - 1 in list_nil ()
+      val () = serr := serr - 1 in list_nil ()
     end
 end // end of [aux_tmparg_s1explst]
 //
 fun aux_tmparg_marglst (
   d1c0: d1ecl, s2qs: s2qualst, xs: t1mpmarglst
 ) : s2explstlst = let
-  fn auxerr1 (x: t1mpmarg, err: int):<cloref1> void = let
+  fn auxerr1 (x: t1mpmarg, serr: int):<cloref1> void = let
     val () = prerr_error2_loc (x.t1mpmarg_loc)
     val () = filprerr_ifdebug "i1mpdec_tr_main: aux_tmparg_marglst"
     val () = prerr ": the template argument group is expected to be contain "
-    val () = prerr_string (if err > 0 then "more" else "less")
-    val () = prerr " components."
+    val () = if serr > 0 then prerr_string "more components."
+    val () = if serr < 0 then prerr_string "less components."
     val () = prerr_newline ()
   in
     the_trans2errlst_add (T2E_impdec_tr (d1c0))
@@ -668,10 +668,10 @@ fun aux_tmparg_marglst (
 in
   case+ (s2qs, xs) of
   | (s2q :: s2qs, x :: xs) => let
-      var err: int = 0
+      var serr: int = 0
       val s2es = aux_tmparg_s1explst
-        (d1c0, s2q.s2qua_svs, x.t1mpmarg_arg, err)
-      val () = if err != 0 then auxerr1 (x, err)
+        (d1c0, s2q.s2qua_svs, x.t1mpmarg_arg, serr)
+      val () = if serr != 0 then auxerr1 (x, serr)
       val s2ess = aux_tmparg_marglst (d1c0, s2qs, xs)
     in
       list_cons (s2es, s2ess)

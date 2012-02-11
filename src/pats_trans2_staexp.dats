@@ -187,7 +187,7 @@ s1arg_trdn (s1a, s2t0) = let
 //
 fn auxerr (
   s1a: s1arg, s2t: s2rt, s2t0: s2rt
-) : void = {
+) : void = let
   val () = prerr_error2_loc (s1a.s1arg_loc)
   val () = filprerr_ifdebug "s1arg_trdn"
   val () = prerr ": the argument is assigned the sort ["
@@ -196,8 +196,9 @@ fn auxerr (
   val () = prerr_s2rt (s2t0)
   val () = prerr "]."
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_s1arg_trdn (s1a, s2t0))
-} (* end of [auxerr] *)
+in
+  the_trans2errlst_add (T2E_s1arg_trdn (s1a, s2t0))
+end (* end of [auxerr] *)
 //
 in
 case+ s1a.s1arg_srt of
@@ -214,10 +215,10 @@ end (* end of [s1arg_trdn] *)
 
 implement
 s1arglst_trdn_err
-  (s1as, s2ts, err) = let
+  (s1as, s2ts, serr) = let
 (*
   val () = (
-    print "s1arglst_trdn_err: err"; print err; print_newline ()
+    print "s1arglst_trdn_err: serr"; print serr; print_newline ()
   ) // end of [val]
 *)
 in
@@ -225,13 +226,13 @@ in
 case+ (s1as, s2ts) of
 | (s1a :: s1as, s2t :: s2ts) => let
     val s2v = s1arg_trdn (s1a, s2t)
-    val s2vs = s1arglst_trdn_err (s1as, s2ts, err)
+    val s2vs = s1arglst_trdn_err (s1as, s2ts, serr)
   in
     list_cons (s2v, s2vs)
   end
 | (list_nil _, list_nil _) => list_nil
-| (list_cons _, list_nil _) => (err := err + 1; list_nil)
-| (list_nil _, list_cons _) => (err := err - 1; list_nil)
+| (list_cons _, list_nil _) => (serr := serr + 1; list_nil)
+| (list_nil _, list_cons _) => (serr := serr - 1; list_nil)
 //
 end // end of [s1arglst_trdn_err]
 
@@ -241,7 +242,7 @@ s1marg_trdn
 //
 fn auxerr (
   s1ma: s1marg, s2ts: s2rtlst, err: int
-) : void = {
+) : void = let
   val loc0 = s1ma.s1marg_loc
   val () = prerr_error2_loc (loc0)
   val () = filprerr_ifdebug "s1marg_trdn"
@@ -249,8 +250,9 @@ fn auxerr (
   val () = prerr (if err > 0 then "more" else "less")
   val () = prerr " components."
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_s1marg_trdn (s1ma, s2ts))
-} // end of [auxerr]
+in
+  the_trans2errlst_add (T2E_s1marg_trdn (s1ma, s2ts))
+end // end of [auxerr]
 //
   var err: int = 0
   val s2vs = s1arglst_trdn_err (s1ma.s1marg_arg, s2ts, err)
@@ -294,9 +296,8 @@ fn auxerr (
   val () = prerr_string (if err > 0 then "more" else "less")
   val () = prerr " arguments."
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_sp1at_trdn (sp1t, s2t_pat))
 in
-  // nothing
+  the_trans2errlst_add (T2E_sp1at_trdn (sp1t, s2t_pat))
 end // end of [auxerr]
 //
   var err: int = 0
@@ -313,7 +314,7 @@ sp1at_trdn
 //
 fn auxerr1 (
   sq: s0taq, id: symbol
-) :<cloref1> sp2at = let
+) :<cloref1> void = let
   val () = prerr_error2_loc (loc0)
   val () = filprerr_ifdebug ("sp1at_trdn")
   val () = prerr ": the static identifier ["
@@ -321,37 +322,34 @@ fn auxerr1 (
   val () = prerr "] does not refer to a static constructor associated with the sort ["
   val () = prerr_s2rt (s2t_pat)
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_sp1at_trdn (sp1t, s2t_pat))
 in
-  sp2at_err (loc0)
+  the_trans2errlst_add (T2E_sp1at_trdn (sp1t, s2t_pat))
 end // end of [auxerr1]
 //
 fn auxerr2 (
   sq: s0taq, id: symbol
-) :<cloref1> sp2at = let
+) :<cloref1> void = let
   val () = prerr_error2_loc (loc0)
   val () = filprerr_ifdebug ("sp1at_trdn")
   val () = prerr ": the static identifier ["
   val () = prerr_sqid (sq, id)
   val () = prerr "] does not refer to a static constructor."
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_sp1at_trdn (sp1t, s2t_pat))
 in
-  sp2at_err (loc0)
+  the_trans2errlst_add (T2E_sp1at_trdn (sp1t, s2t_pat))
 end // end of [auxerr2]
 //
 fn auxerr3 (
   sq: s0taq, id: symbol
-) :<cloref1> sp2at = let
+) :<cloref1> void = let
   val () = prerr_error2_loc (loc0)
   val () = filprerr_ifdebug ("sp1at_trdn")
   val () = prerr ": the static identifier ["
   val () = prerr_sqid (sq, id)
   val () = prerr "] is unrecognized."
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_sp1at_trdn (sp1t, s2t_pat))
 in
-  sp2at_err (loc0)
+  the_trans2errlst_add (T2E_sp1at_trdn (sp1t, s2t_pat))
 end // end of [auxerr3]
 //
 fn auxcheck (
@@ -407,7 +405,8 @@ case+ sp1t.sp1at_node of
       | S2ITMcst (s2cs) => let
           fun auxsel (
             s2cs: s2cstlst
-          , s2t_pat: s2rt, s2ts_arg: &s2rtlst
+          , s2t_pat: s2rt
+          , s2ts_arg: &s2rtlst
           ) : s2cstlst = (
             case+ s2cs of
             | list_cons (s2c, s2cs1) => let
@@ -432,16 +431,27 @@ case+ sp1t.sp1at_node of
         in
           case+ s2cs of
           | list_cons (s2c, _) => let
-              val s2vs = sp1at_trdn_arg (sp1t, s2t_pat, sq, id, s1as, s2ts_arg)
-              val () = auxcheck (sp1t, s2vs) // HX: checking for repeated occurrences
+              val s2vs = sp1at_trdn_arg
+                (sp1t, s2t_pat, sq, id, s1as, s2ts_arg)
+              // HX: checking for repeated occurrences
+              val () = auxcheck (sp1t, s2vs)
             in
               sp2at_con (loc0, s2c, s2vs)
             end // end of [list_cons]
-          | list_nil () => auxerr1 (sq, id) // HX: [sqid] is not applicable
+          | list_nil () => let
+              // HX: [sqid] is not applicable
+              val () = auxerr1 (sq, id) in sp2at_err (loc0)
+            end // end of [list_nil]
         end // end of [S2ITMcst]
-      | _ => auxerr2 (sq, id) // HX: [sqid] does not refer to a static constructor
+      | _ => let
+          // HX: [sqid] does not refer to a static constructor
+          val () = auxerr2 (sq, id) in sp2at_err (loc0)
+        end (* end of [_] *)
       end // end of [Some_vt]
-    | ~None_vt () => auxerr3 (sq, id) // HX: [sqid] is unrecognized
+    | ~None_vt () => let
+        // HX: [sqid] is unrecognized
+        val () = auxerr3 (sq, id) in sp2at_err (loc0)
+      end // end of [None_vt]
   end // end of [SP1Tcstr]
 //
 end // end of [sp1at_trdn]
@@ -539,8 +549,7 @@ fun aux (
   val s2e = x.1
   val test = s2rt_ltmat1 (s2e.s2exp_srt, s2t)
 in
-  if test
-    then s2e else let
+  if test then s2e else let
     val () = prerr_error2_loc (x.0)
     val () = filprerr_ifdebug "s1exp_app_wind"
     val () = prerr ": the static expression is of the sort ["
@@ -557,16 +566,41 @@ end // end of [s2exp_app_wind]
 //
 fun auxlst (
   s1e0: s1exp, xs: locs2explst, s2ts: s2rtlst
-) : s2explst = begin
-  case+ xs of
-  | list_cons (x, xs) => let
-      val- list_cons (s2t, s2ts) = s2ts
+) : s2explst = let
+in
+//
+case+ xs of
+| list_cons (x, xs) => (
+  case+ s2ts of
+  | list_cons (s2t, s2ts) => let
       val s2e = aux (s1e0, x, s2t)
-      val s2es = auxlst (s1e0, xs, s2ts)
     in
-      list_cons (s2e, s2es)
+      list_cons (s2e, auxlst (s1e0, xs, s2ts))
     end
+  | list_nil () => let
+      val () = prerr_error2_loc (x.0)
+      val () = filprerr_ifdebug "s1exp_app_wind"
+      val () = prerr ": arity mismatch: the static argument is discarded."
+      val () = prerr_newline ()
+      val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
+    in
+      auxlst (s1e0, xs, s2ts)
+    end // end of [list_nil]
+  ) // end of [list_cons]
+| list_nil () => (
+  case+ s2ts of
+  | list_cons (s2t, s2ts) => let
+      val () = prerr_error2_loc (s1e0.s1exp_loc)
+      val () = filprerr_ifdebug "s1exp_app_wind"
+      val () = prerr ": arity mismatch: more static arguments are needed."
+      val () = prerr_newline ()
+      val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
+      val s2e = s2exp_err (s2t) // HX: a placeholder for continuing
+    in
+      list_cons (s2e, auxlst (s1e0, xs, s2ts))
+    end // end of [list_cons]
   | list_nil () => list_nil ()
+  ) // end of [list_nil]
 end // end of [auxlst]
 //
 fun loop (
@@ -1667,24 +1701,24 @@ s1explst_trdn_viewt0ype
 
 implement
 s1explst_trdn_err
-  (s1es, s2ts, err) = begin
+  (s1es, s2ts, serr) = begin
 //
 case+ s1es of
 | list_cons (s1e, s1es) => (
   case+ s2ts of
   | list_cons (s2t, s2ts) => let
       val s2e = s1exp_trdn (s1e, s2t)
-      val s2es = s1explst_trdn_err (s1es, s2ts, err)
+      val s2es = s1explst_trdn_err (s1es, s2ts, serr)
     in
       list_cons (s2e, s2es)
     end // end of [list_cons]
   | list_nil () => let
-      val () = err := err + 1 in list_nil ()
+      val () = serr := serr + 1 in list_nil ()
     end // end of [list_nil]
   )
 | list_nil () => list_nil () where {
     val () = (case+ s2ts of
-      | list_cons _ => (err := err - 1) | list_nil () => ()
+      | list_cons _ => (serr := serr - 1) | list_nil () => ()
     ) : void // end of [val]
   } // end of [list_nil]
 //
@@ -1697,8 +1731,8 @@ s1exp_trdn_arg_impredicative
   (s1e, w1ts) = s2e where {
   val s2e = s1exp_trup_arg (s1e, w1ts)
   val s2t = s2e.s2exp_srt
-  val () = if
-    s2rt_is_impredicative s2t then () else let
+  val isimp = s2rt_is_impredicative (s2t)
+  val () = if not(isimp) then let
     val () = prerr_error2_loc (s1e.s1exp_loc)
     val () = filprerr_ifdebug ("s1exp_trdn_arg_impredicative")
     val () = prerr ": the static expression needs to be impredicative"
@@ -1706,16 +1740,16 @@ s1exp_trdn_arg_impredicative
     val () = prerr_s2rt (s2t)
     val () = prerr "]."
     val () = prerr_newline ()
-    val () = the_trans2errlst_add (T2E_s1exp_trdn_impredicative (s1e))
   in
-    // nothing
+    the_trans2errlst_add (T2E_s1exp_trdn_impredicative (s1e))
   end // end of [val]
 } // end of [s1exp_trdn_arg_impredicative]
 
 (* ****** ****** *)
 
 implement
-witht1ype_tr (w1t) = (case+ w1t of
+witht1ype_tr
+  (w1t) = (case+ w1t of
   | WITHT1YPEsome (knd, s1e) => let
       val s2t = s2rt_impredicative (knd) in Some (s1exp_trdn (s1e, s2t))
     end // end of [WiTHT1YPEsome]
@@ -1852,11 +1886,13 @@ in
 //
 if list_is_nil (s2q.s2qua_sps) then s2q else let
   val loc = q1ma.q1marg_loc
+//
   val () = prerr_error3_loc (loc)
   val () = filprerr_ifdebug "q1marg_tr_dec"
   val () = prerr ": template arguments cannot be constrained."
   val () = prerr_newline ()
   val () = the_trans2errlst_add (T2E_q1marg_tr_dec (q1ma))
+//
 in
   s2qua_make (s2q.s2qua_svs, list_nil) // HX: sps is discarded
 end // end of [if]
@@ -1868,28 +1904,38 @@ end // end of [q1marg_tr_dec]
 implement
 s1rtext_tr (s1te0) = let
 (*
-  val () = print "s1rtext_tr: s1te0 = "
-  val () = fprint_s1rtext (stdout_ref, s1te0)
-  val () = print_newline ()
+val () = print "s1rtext_tr: s1te0 = "
+val () = fprint_s1rtext (stdout_ref, s1te0)
+val () = print_newline ()
 *)
+fn auxerr (
+  s1t: s1rt, q: s0rtq, id: symbol
+) :<cloref1> void = let
+  val () = prerr_error2_loc (s1t.s1rt_loc)
+  val () = filprerr_ifdebug "s1rtext_tr" // for debugging
+  val () = prerr ": the identifier [";
+  val () = ($SYN.prerr_s0rtq (q); $SYM.prerr_symbol (id))
+  val () = prerr "] refers to an unrecognized sort.";
+  val () = prerr_newline ()
+in
+  the_trans2errlst_add (T2E_s1rtext_tr (s1te0))
+end // end of [auxerr]
+//
 in
 //
-case+ s1te0.s1rtext_node of
-| S1TEsrt (s1t) => (case+ s1t.s1rt_node of
+case+
+s1te0.s1rtext_node
+of // of [case+]
+| S1TEsrt (s1t) => (
+  case+ s1t.s1rt_node of
   | S1RTqid (q, id) => let
       val ans = the_s2rtenv_find_qua (q, id)
     in
       case+ ans of
       | ~Some_vt s2te => s2te
-      | ~None_vt () => S2TEerr () where {
-          val () = prerr_error2_loc (s1t.s1rt_loc)
-          val () = filprerr_ifdebug "s1rtext_tr" // for debugging
-          val () = prerr ": the identifier [";
-          val () = ($SYN.prerr_s0rtq (q); $SYM.prerr_symbol (id))
-          val () = prerr "] refers to an unrecognized sort.";
-          val () = prerr_newline ()
-          val () = the_trans2errlst_add (T2E_s1rtext_tr (s1te0))
-        } // end of [None_vt]
+      | ~None_vt () => let
+          val () = auxerr (s1t, q, id) in S2TEerr ()
+        end // end of [None_vt]
     end (* end of [S1RTqid] *)
   | _ => S2TEsrt (s1rt_tr s1t)
   ) // end of [S1TEsrt]
@@ -1946,7 +1992,9 @@ case+ x.s1exparg_node of
 end // end of [s1exparg_tr]
 
 implement
-s1exparglst_tr (xs) = l2l (list_map_fun (xs, s1exparg_tr))
+s1exparglst_tr (xs) = let
+  val xs = list_map_fun (xs, s1exparg_tr) in (l2l)xs
+end // end of [s1exparglst_tr]
 
 (* ****** ****** *)
 
@@ -1960,7 +2008,9 @@ in
 end // end of [t1mpmarg_tr]
 
 implement
-t1mpmarglst_tr (xs) = l2l (list_map_fun (xs, t1mpmarg_tr))
+t1mpmarglst_tr (xs) = let
+  val xs = list_map_fun (xs, t1mpmarg_tr) in (l2l)xs
+end // end of [t1mpmarglst_tr]
 
 (* ****** ****** *)
 
@@ -1982,18 +2032,27 @@ fn auxerr1 (
   val () = the_trans2errlst_add (T2E_d1atcon_tr (d1c))
 } // end of [auxerr1]
 //
-fn auxerr2 (
+fun auxerr2 (
   d1c: d1atcon, id: symbol
-) : s2explstopt = let
+) : void = {
   val () = prerr_error2_loc (d1c.d1atcon_loc)
   val () = prerr ": the constructor ["
   val () = $SYM.prerr_symbol (id)
-  val () = prerr "] does not need any indexes (but some are given)."
+  val () = prerr "] needs some indexes (but is given none)."
   val () = prerr_newline ()
   val () = the_trans2errlst_add (T2E_d1atcon_tr (d1c))
-in
-  None ()
-end // end of [auxerr2]
+} // end of [auxerr2]
+//
+fn auxerr3 (
+  d1c: d1atcon, id: symbol
+) : void = {
+  val () = prerr_error2_loc (d1c.d1atcon_loc)
+  val () = prerr ": the constructor ["
+  val () = $SYM.prerr_symbol (id)
+  val () = prerr "] needs no indexes (but is given some)."
+  val () = prerr_newline ()
+  val () = the_trans2errlst_add (T2E_d1atcon_tr (d1c))
+} // end of [auxerr3]
 //
 val (pfenv | ()) = the_s2expenv_push_nil ()
 //
@@ -2055,22 +2114,38 @@ end // end of [val]
 val id = d1c.d1atcon_sym
 val indopt_s1es = d1c.d1atcon_ind
 val indopt_s2es = (
-  case+ (indopt_s1es, indopt_s2ts) of
-  | (None (), None ()) => None ()
-  | (Some s1es, Some s2ts) => let
-      var err: int = 0
-      val s2es = s1explst_trdn_err (s1es, s2ts, err)
-      val () = if err != 0 then auxerr1 (d1c, id, err)
-    in
-      Some (s2es)
-    end // end of [Some, Some]
-  | (None _, Some _) => let
-      val- list_cons (s2vs, _) = s2vss0
-      val s2fs = l2l (list_map_fun (s2vs, s2exp_var))
-    in
-      Some (s2fs)
-    end // end of [None, Some]
-  | (Some _, None _) => auxerr2 (d1c, id)
+case+ (
+  indopt_s1es, indopt_s2ts
+) of // of [case+]
+| (None (), None ()) => None ()
+| (Some s1es, Some s2ts) => let
+    var serr: int = 0
+    val s2es = s1explst_trdn_err (s1es, s2ts, serr)
+    val () = if (serr != 0) then auxerr1 (d1c, id, serr)
+  in
+    Some (s2es)
+  end // end of [Some, Some]
+| (None (), Some s2ts) => let
+    val- list_cons (s2vs, _) = s2vss0
+    val sgn = list_length_compare (s2vs, s2ts)
+    val s2es = (
+      if sgn = 0 then let
+        val s2es = list_map_fun (s2vs, s2exp_var)
+      in
+        (l2l)s2es
+      end else let // sgn < 0
+        val () = auxerr2 (d1c, id)
+        val s2es = list_map_fun (s2ts, s2exp_err)
+      in
+        (l2l)s2es // HX: placeholder for continuing
+      end // end of [if]
+    ) : s2explst // end of [val]
+  in
+    Some (s2es)
+  end // end of [None, Some]
+| (Some _, None ()) => let
+    val () = auxerr3 (d1c, id) in None ()
+  end // end of [Some, None]
 ) : s2explstopt // end of [val]
 //
 val () = the_s2expenv_pop_free (pfenv | (*none*))
@@ -2116,10 +2191,10 @@ fun loop (
   | (list_nil (), list_nil ()) => s2vs1
   | (_ :: _, list_nil ()) => let
       val () = serr := serr + 1 in s2vs1
-    end
+    end // end of [nil, ::]
   | (list_nil _, _ :: _) => let
       val () = serr := serr - 1 in s2vs1
-    end
+    end // end of [::, nil]
 //
   val s2vs1 = loop (s1as, s2vs, sub, list_vt_nil, serr)
 in
@@ -2130,13 +2205,16 @@ end // end of [stasub_extend_sarglst_svarlst]
 
 implement
 s1vararg_bind_svarlst
-  (s1v, s2vs, serr) = let
+  (s1va, s2vs, serr) = let
 (*
-// s1vararg_bind_svarlst_err
+val () = (
+  print "s1vararg_bind_svarlst: s1va = "; print_s1vararg (s1va); print_newline ();
+  print "s1vararg_bind_svarlst: s2vs = "; print_s2varlst (s2vs); print_newline ();
+) // end of [val]
 *)
 in
 //
-case+ s1v of
+case+ s1va of
 | S1VARARGone () => let
     var sub = stasub_make_nil ()
     val s2vs1 = stasub_extend_svarlst (sub, s2vs)
@@ -2149,7 +2227,8 @@ case+ s1v of
   in
     (sub, s2vs1)
   end (* end of [S1VARARGone] *)
-| S1VARARGseq (loc, s1as) => let
+| S1VARARGseq
+    (locarg, s1as) => let
     var sub = stasub_make_nil ()
     val s2vs1 = stasub_extend_sarglst_svarlst (sub, s1as, s2vs, serr)
   in

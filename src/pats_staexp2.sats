@@ -119,8 +119,8 @@ typedef s2rtdat = s2rtdat_type
 fun s2rtdat_make (id: symbol): s2rtdat
 
 fun s2rtdat_get_sym (s2td: s2rtdat): symbol
-fun s2rtdat_get_conlst (s2td: s2rtdat): s2cstlst
-fun s2rtdat_set_conlst (s2td: s2rtdat, s2cs: s2cstlst): void
+fun s2rtdat_get_sconlst (s2td: s2rtdat): s2cstlst
+fun s2rtdat_set_sconlst (s2td: s2rtdat, s2cs: s2cstlst): void
 fun s2rtdat_get_stamp (s2td: s2rtdat): stamp
 
 fun eq_s2rtdat_s2rtdat (s2td1: s2rtdat, s2td2: s2rtdat): bool
@@ -395,6 +395,7 @@ and s2explstopt = Option (s2explst)
 and labs2explst = List (labs2exp)
 
 viewtypedef s2explst_vt = List_vt (s2exp)
+viewtypedef s2expopt_vt = Option_vt (s2exp)
 
 (* ****** ****** *)
 
@@ -475,8 +476,8 @@ fun s2cst_set_islst (x: s2cst, lst: Option @(d2con, d2con)): void
 fun s2cst_get_arylst (x: s2cst): List int // arity list
 fun s2cst_get_argsrtss (x: s2cst): List (syms2rtlst) // arg variances
 
-fun s2cst_get_conlst (x: s2cst): Option d2conlst
-fun s2cst_set_conlst (x: s2cst, lst: Option d2conlst): void
+fun s2cst_get_dconlst (x: s2cst): Option d2conlst
+fun s2cst_set_dconlst (x: s2cst, lst: Option d2conlst): void
 
 fun s2cst_get_sup (x: s2cst): s2cstlst
 fun s2cst_add_sup (x: s2cst, sup: s2cst): void

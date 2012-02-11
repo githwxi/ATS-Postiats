@@ -316,17 +316,15 @@ val err0 = err
 val s2e10 = s2hnf2exp (s2f10)
 and s2e20 = s2hnf2exp (s2f20)
 val s2en10 = s2e10.s2exp_node and s2en20 = s2e20.s2exp_node
-// (*
+(*
 val () = (
-  print "s2hnf_equal_solve_err: s2e10 = "; print_s2exp s2e10; print_newline ()
-) // end of [val]
-val () = (
-  print "s2hnf_equal_solve_err: s2e20 = "; print_s2exp s2e20; print_newline ()
+  print "s2hnf_equal_solve_err: s2e10 = "; print_s2exp s2e10; print_newline ();
+  print "s2hnf_equal_solve_err: s2e20 = "; print_s2exp s2e20; print_newline ();
 ) // end of [val]
 val () = (
   print "s2hnf_equal_solve_err: err0 = "; print err0; print_newline ()
 ) // end of [val]
-// *)
+*)
 val () = case+
   (s2en10, s2en20) of
 //
@@ -363,10 +361,10 @@ in
 end // end of [s2hnf_equal_solve_err]
 
 implement
-s2exp_equal_solve_err
-  (loc0, s2e10, s2e20, err) = let
+s2exp_equal_solve_err (
+  loc0, s2e10, s2e20, err
+) = let
 //
-val err0 = err
 val s2f10 = s2exp2hnf (s2e10)
 and s2f20 = s2exp2hnf (s2e20)
 //
@@ -761,11 +759,11 @@ end // end of [s2hnf_tyleq_solve_ubs_err]
 implement
 s2explst_tyleq_solve_argsrtlst_err
   (loc0, argsrts, s2es1, s2es2, err) = let
-(*
+// (*
   val () = (
     print "s2explst_tyleq_solve_argsrtlst_err: enter"; print_newline ()
   ) // end of [val]
-*)
+// *)
 in
 //
 case+ s2es1 of

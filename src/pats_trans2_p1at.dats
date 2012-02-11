@@ -194,7 +194,7 @@ fn auxerr1 (
   val () = prerr "] is overly applied statically."
   val () = prerr_newline ()
 in
-  // nothing
+  the_trans2errlst_add (T2E_p1at_tr (p1t1))
 end // end of [auxerr1]
 fn auxerr2 (
   p1t1: p1at, d2c: d2con, locarg: location, serr: int
@@ -204,9 +204,8 @@ fn auxerr2 (
   val () = if serr > 0 then prerr_string ("less components.")
   val () = if serr < 0 then prerr_string ("more components.")
   val () = prerr_newline ()
-//
 in
-  // nothing
+  the_trans2errlst_add (T2E_p1at_tr (p1t1))
 end // end of [auxerr2]
 //
 in
@@ -240,9 +239,7 @@ case+ s1as of
         val s2vs = s2q.s2qua_svs
         val s2vs = stasub_extend_sarglst_svarlst (sub, sarg, s2vs, serr)
         val () = if serr != 0 then let
-          val () = auxerr2 (p1t1, d2c, loc, serr)
-        in
-          the_trans2errlst_add (T2E_p1at_tr (p1t1))
+          val () = auxerr2 (p1t1, d2c, loc, serr) in (*nothing*)
         end // end of [val]
 //
         val s2vs = (l2l)s2vs
@@ -266,37 +263,37 @@ fun p1at_tr_con (
 , d2cs: d2conlst, sarg: s1vararglst, npf: int, darg: p1atlst
 ) : p2at = let
 //
-  val isargomit = p1atconarg_is_omit (darg)
-  val d2cs = (
-    if isargomit then d2cs else let
-      val n = list_length (darg) in d2con_select_arity (d2cs, n)
-    end // end of [if]
-  ) : d2conlst // end of [val]
+val isargomit = p1atconarg_is_omit (darg)
+val d2cs = (
+  if isargomit then d2cs else let
+    val n = list_length (darg) in d2con_select_arity (d2cs, n)
+  end // end of [if]
+) : d2conlst // end of [val]
 //
-  val- list_cons (d2c, _) = d2cs // HX: [d2cs] cannot be nil
+val- list_cons (d2c, _) = d2cs // HX: [d2cs] cannot be nil
 //
-  var sub = stasub_make_nil ()
-  val s2qs = d2con_get_qua (d2c)
-  var out: List_vt (s2qua) = list_vt_nil ()
-  val s2e = p1at_tr_con_sapp2 (p1t1, d2c, sub, s2qs, sarg, out)
-  val () = stasub_free (sub)
-  val out = (l2l)out
+var sub = stasub_make_nil ()
+val s2qs = d2con_get_qua (d2c)
+var out: List_vt (s2qua) = list_vt_nil ()
+val s2e = p1at_tr_con_sapp2 (p1t1, d2c, sub, s2qs, sarg, out)
+val () = stasub_free (sub)
+val out = (l2l)out
 //
-  val darg = (
-    if isargomit then let
-      val- list_cons (p1t_any, _) = darg
-      val n = d2con_get_arity_full (d2c)
-      fun aux (loc: location, i: int): p2atlst =
-        if i > 0 then let
-          val p2t = p2at_any (loc) in list_cons (p2t, aux (loc, i-1))
-        end else list_nil // end of [if]
-      // end of [aux]
-    in
-      aux (p1t_any.p1at_loc, n)
-    end else
-      p1atlst_tr (darg)
-    // end of [if]
-  ) : p2atlst // end of [val]
+val darg = let
+  fun nanys (loc: location, i: int): p2atlst =
+    if i > 0 then let
+      val p2t = p2at_any (loc) in list_cons (p2t, nanys (loc, i-1))
+    end else list_nil // end of [if]
+  // end of [nanys]
+in
+  if isargomit then let
+    val- list_cons (p1t, _) = darg
+  in
+    nanys (p1t.p1at_loc, d2con_get_arity_full (d2c))
+  end else
+    p1atlst_tr (darg)
+  // end of [if]
+end : p2atlst // end of [val]
 //
 in
   p2at_con (p1t0.p1at_loc, 0(*freeknd*), d2c, out, s2e, npf, darg)
@@ -456,16 +453,15 @@ p1at_tr_app_sta_dyn (
 //
 fn auxerr (
   p1t0: p1at, p1t1: p1at, p1t_fun: p1at, dq: d0ynq, id: symbol
-) : p2at = let
+) : void = let
   val loc = p1t_fun.p1at_loc
   val () = prerr_error2_loc (loc)
   val () = prerr ": the (qualified) identifier ["
   val () = ($SYN.prerr_d0ynq dq; $SYM.prerr_symbol id)
   val () = prerr "] is unrecognized."
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_p1at_tr (p1t0))
 in
-  p2at_err (loc)
+  the_trans2errlst_add (T2E_p1at_tr (p1t0))
 end // end of [auxerr]
 //
 in
@@ -479,7 +475,10 @@ p1t_fun.p1at_node of
     | ~Some_vt (d2i) =>
         p1at_tr_app_sta_dyn_itm (p1t0, p1t1, p1t_fun, d2i, sarg, npf, darg)
     | ~None_vt () => let
-        val dq = $SYN.the_d0ynq_none in auxerr (p1t0, p1t1, p1t_fun, dq, id)
+        val dq = $SYN.the_d0ynq_none
+        val () = auxerr (p1t0, p1t1, p1t_fun, dq, id)
+      in
+        p2at_err (p1t_fun.p1at_loc)
       end (* end of [None] *)
   end // end of [P1Tide]
 | P1Tdqid (dq, id) => let
@@ -488,7 +487,11 @@ p1t_fun.p1at_node of
     case+ ans of
     | ~Some_vt (d2i) =>
         p1at_tr_app_sta_dyn_itm (p1t0, p1t1, p1t_fun, d2i, sarg, npf, darg)
-    | ~None_vt () => auxerr (p1t0, p1t1, p1t_fun, dq, id)
+    | ~None_vt () => let
+        val () = auxerr (p1t0, p1t1, p1t_fun, dq, id)
+      in
+        p2at_err (p1t_fun.p1at_loc)
+      end // end of [None_vt]
   end // end of [P1Tdqid]
 | _ => let
     val () = prerr_error2_loc (p1t_fun.p1at_loc)
@@ -534,9 +537,6 @@ in
 //
 case+ p1t0.p1at_node of
 | P1Tany _ => p2at_any (loc0)
-(*
-| P1Tany _ => p2at_anys (loc0)
-*)
 | P1Tide (id) => p1at_tr_ide (p1t0, id)
 | P1Tdqid (dq, id) => let
     val npf = ~1; val darg = list_nil ()

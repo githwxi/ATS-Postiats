@@ -194,5 +194,12 @@ in
 end // end of [
 
 ######
+//
+// HX-2012-02-08: caseof-expressions
+//
+fun fact
+  (x: int): int =
+  caseof x > 0 => x * f (x-1) | (*else*) => 1
+// end of [fact]
 
 ###### end of [README] ######

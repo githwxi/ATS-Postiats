@@ -26,6 +26,11 @@
 *)
 
 (* ****** ****** *)
+//
+// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Start Time: November, 2011
+//
+(* ****** ****** *)
 
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
@@ -37,6 +42,12 @@ staload UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload "pats_basics.sats"
+
+(* ****** ****** *)
+
+staload "pats_errmsg.sats"
+staload _(*anon*) = "pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans3_decl"
 
 (* ****** ****** *)
 
@@ -60,18 +71,25 @@ staload "pats_trans3.sats"
 (* ****** ****** *)
 
 extern
-fun v2aldeclst_tr
-  (knd: valkind, d2cs: v2aldeclst): v3aldeclst
-// end of [v2aldeclst_tr]
-
-(* ****** ****** *)
-
-extern
 fun f2undec_tr (d2c: f2undec): d3exp
 extern
 fun f2undeclst_tr (
   knd: funkind, decarg: s2qualst, d2cs: f2undeclst
 ) : f3undeclst // end of [f2undeclst_tr]
+
+(* ****** ****** *)
+
+extern
+fun v2aldec_tr
+  (knd: valkind, d2c: v2aldec): v3aldec
+extern
+fun v2aldeclst_tr
+  (knd: valkind, d2cs: v2aldeclst): v3aldeclst
+// end of [v2aldeclst_tr]
+extern
+fun v2aldecreclst_tr
+  (knd: valkind, d2cs: v2aldeclst): v3aldeclst
+// end of [v2aldecreclst_tr]
 
 (* ****** ****** *)
 
@@ -92,26 +110,28 @@ case+ d2c0.d2ecl_node of
 | D2Csymelim _ => d3ecl_none (loc0)
 | D2Coverload (id, _) => d3ecl_none (loc0)
 //
-| D2Cdatdec (knd, s2cs) => let
-  in
-    d3ecl_datdec (loc0, knd, s2cs)
-  end // end of [D2Cdatdec]
+| D2Cdatdec (knd, s2cs) => d3ecl_datdec (loc0, knd, s2cs)
+| D2Cdcstdec (knd, d2cs) => d3ecl_dcstdec (loc0, knd, d2cs)
 //
-| D2Cdcstdec (knd, d2cs) => let
+| D2Cfundecs
+    (knd, s2qs, d2cs) => let
+    val d3cs = f2undeclst_tr (knd, s2qs, d2cs)
   in
-    d3ecl_dcstdec (loc0, knd, d2cs)
-  end // end of [D2Cdcstdec]
+    d3ecl_fundecs (loc0, knd, s2qs, d3cs)
+  end // end of [D2Cfundecs]
 //
-| D2Cfundecs (knd, s2qs, d2cs) => let
-  val d3cs = f2undeclst_tr (knd, s2qs, d2cs)
-in
-  d3ecl_fundecs (loc0, knd, s2qs, d3cs)
-end // end of [D2Cfundecs]
-(*
-| D2Cvaldecs (knd, d2cs) => let
-    val d3cs = v2aldeclst_tr (knd, d2cs) in d3ecl_valdecs (loc0, knd, d3cs)
+| D2Cvaldecs
+    (knd, d2cs) => let
+    val d3cs = v2aldeclst_tr (knd, d2cs)
+  in
+    d3ecl_valdecs (loc0, knd, d3cs)
   end // end of [D2Cvaldecs]
-*)
+| D2Cvaldecs_rec
+    (knd, d2cs) => let
+    val d3cs = v2aldecreclst_tr (knd, d2cs)
+  in
+    d3ecl_valdecs_rec (loc0, knd, d3cs)
+  end // end of [D2Cvaldecs_rec]
 //
 | _ => let
     val () = (
@@ -136,9 +156,18 @@ end // end of [d2ecl_tr]
 (* ****** ****** *)
 
 implement
-d2eclist_tr
-  (d2cs) = l2l (list_map_fun (d2cs, d2ecl_tr))
-// end of [d2eclist_tr]
+d2eclist_tr (d2cs) = let
+  val d3cs =list_map_fun (d2cs, d2ecl_tr) in (l2l)d3cs
+end // end of [d2eclist_tr]
+
+(* ****** ****** *)
+
+implement
+d2eclist_tr_errck
+  (d2cs) = d3cs where {
+  val d3cs = d2eclist_tr (d2cs)
+  val () = the_trans3errlst_finalize ()
+} // end of [d2eclist_tr_errck]
 
 (* ****** ****** *)
 
@@ -253,11 +282,95 @@ end // end of [f2undeclst_tr]
 (* ****** ****** *)
 
 implement
-d2eclist_tr_errck
-  (d2cs) = d3cs where {
-  val d3cs = d2eclist_tr (d2cs)
-  val () = the_trans3errlst_finalize ()
-} // end of [d2eclist_tr_errck]
+v2aldec_tr
+  (knd, d2c) = let
+//
+val loc0 = d2c.v2aldec_loc
+val isprf = valkind_is_proof (knd)
+val [b:bool] isprf = bool1_of_bool (isprf)
+//
+val p2t_val = d2c.v2aldec_pat
+(*
+val () = begin
+  print "v2aldec_tr: p2t_val = "; print_p2at (p2t_val); print_newline ()
+end // end of [val]
+*)
+val d3e_def = let
+  val d2e = d2c.v2aldec_def
+  val opt = d2c.v2aldec_ann // [withtype] annotation
+in
+  case+ opt of
+  | Some s2e => d2exp_trdn (d2e, s2e) | None () => d2exp_trup (d2e)
+end : d3exp // end of [val]
+val s2e_def = d3exp_get_type (d3e_def)
+val () = begin
+  print "v2aldec_tr: s2e_def = "; print_s2exp s2e_def; print_newline ();
+end // end of [val]
+//
+val p3t_val = p2at_trdn (p2t_val, s2e_def)
+//
+in
+  v3aldec_make (loc0, p3t_val, d3e_def)
+end // end of [v2aldec_tr]
+
+(* ****** ****** *)
+
+implement
+v2aldeclst_tr (knd, d2cs) = let
+  val f = lam
+    (d2c: v2aldec) =<cloptr1> v2aldec_tr (knd, d2c)
+  val d3cs = list_map_cloptr<v2aldec><v3aldec> (d2cs, f)
+  val () = cloptr_free (f)
+in
+  (l2l)d3cs
+end // end of [v2aldeclst_tr]
+
+(* ****** ****** *)
+
+implement
+v2aldecreclst_tr
+  (knd, d2cs) = let
+//
+val p3ts = let
+  fn aux1 (
+    d2c: v2aldec
+  ) : p3at = let
+    val p2t = d2c.v2aldec_pat
+    val s2e_pat = (case+ d2c.v2aldec_ann of
+      | Some s2e => s2e | None () => p2at_syn_type (p2t)
+    ) : s2exp // end of [val]
+    val () = // checking for nonlinearity
+      if s2exp_is_lin (s2e_pat) then let
+        val () = prerr_error3_loc (p2t.p2at_loc)
+        val () = prerr ": this pattern cannot be assigned a linear type."
+        val () = prerr_newline ()
+      in
+        the_trans3errlst_add (T3E_v2aldecreclst_tr_linearity (d2c, s2e_pat))
+      end // end of [if]
+  in
+    p2at_trdn (p2t, s2e_pat)
+  end // end of [aux1]
+in
+  l2l (list_map_fun (d2cs, aux1))
+end // end of [val]
+//
+val d3cs = let
+  fun aux2 (
+    d2c: v2aldec, p3t: p3at
+  ) : v3aldec = let
+    val d2e_def = d2c.v2aldec_def
+    val s2e_pat = p3t.p3at_type
+    val d3e_def = d2exp_trdn (d2e_def, s2e_pat)
+  in
+    v3aldec_make (d2c.v2aldec_loc, p3t, d3e_def)
+  end // end of [aux2]
+in
+  l2l (list_map2_fun (d2cs, p3ts, aux2))
+end // end of [val]
+//
+in
+  d3cs
+end // end of [v2aldeclst_rec_tr]
 
 (* ****** ****** *)
 

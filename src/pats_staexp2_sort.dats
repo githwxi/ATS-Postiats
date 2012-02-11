@@ -58,7 +58,7 @@ fun prerr_interror (): void = prerr "INTERROR(pats_staexp2_sort)"
 typedef
 s2rtdat_struct = @{
   s2rtdat_sym= symbol // name
-, s2rtdat_conlst= s2cstlst
+, s2rtdat_sconlst= s2cstlst
 , s2rtdat_stamp= stamp // unique stamp
 } // end of [s2rtdat_struct]
 
@@ -78,7 +78,7 @@ s2rtdat_make (id) = let
   prval () = free_gc_elim (pfgc)
 //
   val () = p->s2rtdat_sym := id
-  val () = p->s2rtdat_conlst := list_nil ()
+  val () = p->s2rtdat_sconlst := list_nil ()
   val () = p->s2rtdat_stamp := stamp
 //
 in // in of [let]
@@ -91,13 +91,13 @@ s2rtdat_get_sym (s2td) = let
 end // end of [s2rtdat_get_sym]
 
 implement
-s2rtdat_get_conlst (s2td) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2td) in p->s2rtdat_conlst
-end // end of [s2rtdat_get_conlst]
+s2rtdat_get_sconlst (s2td) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2td) in p->s2rtdat_sconlst
+end // end of [s2rtdat_get_sconlst]
 implement
-s2rtdat_set_conlst (s2td, cs) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2td) in p->s2rtdat_conlst := cs
-end // end of [s2rtdat_set_conlst]
+s2rtdat_set_sconlst (s2td, s2cs) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2td) in p->s2rtdat_sconlst := s2cs
+end // end of [s2rtdat_set_sconlst]
 
 implement
 s2rtdat_get_stamp (s2td) = let

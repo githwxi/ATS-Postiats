@@ -43,6 +43,7 @@ typedef location = $LOC.location
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_patcst2.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
 
@@ -53,8 +54,10 @@ datatype c3strkind =
 (*
   | C3STRKINDmetric_nat (* metric being welfounded *)
   | C3STRKINDmetric_dec (* metric being decreasing *)
-  | C3STRKINDpattern_match_exhaustiveness of
-      (int (* kind: warning, error, etc. *), p2atcstlst)
+*)
+  | C3STRKINDcase_exhaustiveness of
+      (caskind (*case/case+*), p2atcstlst) // HX: no [case-]
+(*
   | C3STRKINDvarfin of (d2var_t, s2exp, s2exp)
   | C3STRKINDloop of int (* 0/1/2: enter/break/continue *)
 *)
@@ -106,6 +109,9 @@ fun c3str_prop
 fun c3str_itmlst (
   loc: location, knd: c3strkind, s3is: s3itmlst
 ) : c3str // end of [c3str_itmlst]
+fun c3str_case_exhaustiveness (
+  loc: location, casknd: caskind, p2tcs: p2atcstlst
+) : c3str // end of [c3str_case_exhaustiveness]
 
 (* ****** ****** *)
 
@@ -192,14 +198,27 @@ fun trans3_env_add_eqeq
   (loc: location, s2e1: s2exp, s2e2: s2exp): void
 // end of [trans3_env_add_eqeq]
 
+fun trans3_env_add_patcstlstlst_false (
+  loc: location
+, casknd: caskind, cp2tcss: p2atcstlstlst, s2es_pat: s2explst
+) : void // end of [trans3_env_add_p2atcstlstlst_false]
+
 (* ****** ****** *)
 //
 fun trans3_env_hypadd_prop (loc: location, s2p: s2exp): void
 fun trans3_env_hypadd_proplst (loc: location, s2ps: s2explst): void
 fun trans3_env_hypadd_proplst_vt (loc: location, s2ps: s2explst_vt): void
 //
+fun trans3_env_hypadd_propopt (loc: location, os2p: s2expopt): void
+fun trans3_env_hypadd_propopt_neg (loc: location, os2p: s2expopt): void
+//
 fun trans3_env_hypadd_bind (loc: location, s2v1: s2var, s2e2: s2exp): void
 fun trans3_env_hypadd_eqeq (loc: location, s2e1: s2exp, s2e2: s2exp): void
+//
+fun trans3_env_hypadd_patcst
+  (loc: location, p2tc: p2atcst, s2e: s2exp): void
+fun trans3_env_hypadd_patcstlst
+  (loc: location, p2tcs: p2atcstlst, s2es: s2explst): void
 //
 (* ****** ****** *)
 //

@@ -163,11 +163,11 @@ d3ecl_node =
   | D3Cdatdec of (int(*knd*), s2cstlst)
   | D3Cdcstdec of (dcstkind, d2cstlst)
   | D3Cfundecs of (funkind, s2qualst(*decarg*), f3undeclst)
-  | D3Cvaldecs of v3aldeclst
+  | D3Cvaldecs of (valkind, v3aldeclst)
+  | D3Cvaldecs_rec of (valkind, v3aldeclst)
 // end of [d3ecl_node]
 
-and
-d3exp_node =
+and d3exp_node =
 //
   | D3Evar of d2var
   | D3Ecst of d2cst
@@ -195,12 +195,17 @@ d3exp_node =
 //
   | D3Eitem of d2itm // HX: for temporary use
 //
+  | D3Elet of (d3eclist, d3exp)
+//
   | D3Eapp_sta of d3exp // static application
   | D3Eapp_dyn of (d3exp, int(*npf*), d3explst)
 //
   | D3Eif of (
       d3exp(*cond*), d3exp(*then*), d3expopt(*else*)
     ) // end of [D3Eif]
+  | D3Ecase of (
+      caskind, d3explst(*values*), c3laulst(*clauses*)
+    ) // end of [D3Ecase]
 //
   | D3Elst of (* list expression *)
       (int(*lin*), s2exp(*elt*), d3explst)
@@ -251,6 +256,31 @@ and labd3explst = List (labd3exp)
 
 (* ****** ****** *)
 
+and m3atch = '{
+  m3atch_loc= location
+, m3atch_exp= d3exp
+, m3atch_pat= p3atopt
+} // end of [m3atch]
+
+and m3atchlst = List m3atch
+
+and c3lau (n:int) = '{
+  c3lau_loc= location
+, c3lau_pat= list (p3at, n)
+, c3lau_gua= m3atchlst // clause guard
+, c3lau_seq= int // sequentiality
+, c3lau_neg= int // negativativity
+, c3lau_body= d3exp // expression body
+} // end of [c3lau]
+
+and c3lau = [n:nat] c3lau (n)
+
+and c3laulst
+  (n:int) = List (c3lau (n))
+and c3laulst = [n:nat] c3laulst (n)
+
+(* ****** ****** *)
+
 and v3aldec = '{
   v3aldec_loc= location
 , v3aldec_pat= p3at
@@ -284,6 +314,7 @@ and v3ardeclst = List v3ardec
 
 (* ****** ****** *)
 
+fun d3exp_get_type (d3e: d3exp): s2exp 
 fun d3exp_set_type
   (d3e: d3exp, s2f: s2exp): void = "patsopt_d3exp_set_type"
 // end of [d3exp_set_type]
@@ -362,8 +393,16 @@ fun d3exp_tmpvar (
 
 (* ****** ****** *)
 
-fun d3exp_item (loc: location, s2f: s2exp, d2i: d2itm): d3exp
+fun d3exp_item
+  (loc: location, s2f: s2exp, d2i: d2itm): d3exp
+// end of [d3exp_item]
 
+(* ****** ****** *)
+
+fun d3exp_let
+  (loc: location, d3cs: d3eclist, d3e: d3exp): d3exp
+// end of [d3exp_let]
+ 
 (* ****** ****** *)
 
 fun d3exp_app_sta
@@ -403,6 +442,12 @@ fun d3exp_if (
 , s2e_if: s2exp
 , _cond: d3exp, _then: d3exp, _else: d3expopt
 ) : d3exp // end of [d3exp_if]
+
+fun d3exp_case (
+  loc: location
+, s2e_case: s2exp
+, knd: caskind, d3es: d3explst, c3ls: c3laulst
+) : d3exp // end of [d3exp_case]
 
 (* ****** ****** *)
 
@@ -447,9 +492,28 @@ fun d3exp_err (loc: location): d3exp
 
 (* ****** ****** *)
 
+fun m3atch_make (
+  loc: location, d3e: d3exp, opt: p3atopt
+) : m3atch // end of [m3atch_make]
+
+fun c3lau_make
+  {n:nat} (
+  loc: location
+, pat: list (p3at, n)
+, gua: m3atchlst
+, seq: int, neg: int
+, body: d3exp
+): c3lau (n) // end of [c3lau_make]
+
+(* ****** ****** *)
+
 fun f3undec_make (
   loc: location, d2v: d2var, def: d3exp
 ) : f3undec // end of [f3undec_make]
+
+fun v3aldec_make (
+  loc: location, p3t: p3at, def: d3exp
+) : v3aldec // end of [v3aldec_make]
 
 (* ****** ****** *)
 
@@ -477,6 +541,10 @@ fun d3ecl_fundecs (
 fun d3ecl_valdecs (
   loc: location, knd: valkind, d3cs: v3aldeclst
 ) : d3ecl // end of [d3ecl_valdecs]
+
+fun d3ecl_valdecs_rec (
+  loc: location, knd: valkind, d3cs: v3aldeclst
+) : d3ecl // end of [d3ecl_valdecs_rec]
 
 fun d3ec_vardecs (loc: location, ds: v3ardeclst): d3ecl
 

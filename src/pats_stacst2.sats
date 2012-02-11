@@ -56,6 +56,8 @@ val the_false_bool : s2cstref
 val the_bool_t0ype : s2cstref
 val the_bool_bool_t0ype : s2cstref
 //
+val the_neg_bool : s2cstref // neg_bool: bool -> bool
+//
 val the_int_kind : s2cstref
 val the_lint_kind : s2cstref
 val the_llint_kind : s2cstref
@@ -99,6 +101,11 @@ val the_invar_t0ype_t0ype: s2cstref
 val the_invar_viewt0ype_viewt0ype: s2cstref
 //
 (* ****** ****** *)
+
+val the_bottom_viewt0ype_uni: s2cstref // = {a:viewt@ype} a
+val the_bottom_viewt0ype_exi: s2cstref // = [a:viewt@ype | false] a
+
+(* ****** ****** *)
 //
 fun s2exp_bool
   (b: bool): s2exp (* static boolean terms *)
@@ -109,6 +116,12 @@ fun s2exp_bool_bool_t0ype (b: bool): s2exp // bool1(b)
 //
 fun s2exp_bool_index_t0ype (ind: s2exp): s2exp // bool1(ind)
 //
+fun un_s2exp_bool_index_t0ype (s2f: s2hnf): Option_vt (s2exp)
+//
+(* ****** ****** *)
+
+fun s2exp_negate (s2p: s2exp): s2exp
+
 (* ****** ****** *)
 //
 fun s2exp_int_t0ype (): s2exp // int0
@@ -176,6 +189,11 @@ fun s2exp_list0_t0ype_type (s2e: s2exp): s2exp
 fun s2exp_list_t0ype_int_type (s2e: s2exp, n: int): s2exp
 fun s2exp_list_viewt0ype_int_viewtype (s2e: s2exp, n: int): s2exp
 //
+(* ****** ****** *)
+
+fun s2exp_bottom_viewt0ype_uni (): s2exp // = {a:viewt@ype} a
+fun s2exp_bottom_viewt0ype_exi (): s2exp // = [a:viewt@ype | false] a
+
 (* ****** ****** *)
 
 fun stacst2_initialize (): void

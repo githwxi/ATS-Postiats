@@ -173,6 +173,8 @@ dynload "pats_staexp2_util2.dats"
 dynload "pats_staexp2_error.dats"
 dynload "pats_staexp2_solve.dats"
 //
+dynload "pats_patcst2.dats"
+//
 dynload "pats_dynexp2.dats"
 dynload "pats_dynexp2_print.dats"
 dynload "pats_dynexp2_dcst.dats"
@@ -203,6 +205,7 @@ dynload "pats_trans3_patcon.dats"
 dynload "pats_trans3_dynexp_up.dats"
 dynload "pats_trans3_dynexp_dn.dats"
 dynload "pats_trans3_appsym.dats"
+dynload "pats_trans3_caseof.dats"
 dynload "pats_trans3_loop.dats"
 dynload "pats_trans3_decl.dats"
 //

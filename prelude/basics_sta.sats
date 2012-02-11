@@ -405,6 +405,13 @@ stadef arrsz = arrsz_viewt0ype_int_viewt0ype
 
 (* ****** ****** *)
 
+viewtypedef
+bottom_viewt0ype_uni = {a:viewt@ype} a
+viewtypedef
+bottom_viewt0ype_exi = [a:viewt@ype | false] a
+
+(* ****** ****** *)
+
 #if VERBOSE_PRELUDE #then
 #print "Loading [basics_sta.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]

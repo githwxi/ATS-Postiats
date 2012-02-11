@@ -161,7 +161,7 @@ overload_tr
 //
 fn auxerr (
   d1c0: d1ecl, dqid: $SYN.dqi0de
-) : void = () where {
+) : void = let
   val loc = dqid.dqi0de_loc
   val () = prerr_error2_loc (loc)
   val () = filprerr_ifdebug "overload_tr"
@@ -169,8 +169,9 @@ fn auxerr (
   val () = $SYN.prerr_dqi0de (dqid)
   val () = prerr "] is unrecognized."
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_overload_tr (d1c0))
-} (* end of [auxerr] *)
+in
+  the_trans2errlst_add (T2E_overload_tr (d1c0))
+end (* end of [auxerr] *)
 //
   val ans = 
     the_d2expenv_find_qua (dqid.dqi0de_qua, dqid.dqi0de_sym)
@@ -200,9 +201,8 @@ fn auxerr1 (
   val () = $SYN.prerr_i0de (id)
   val () = prerr "] should refer to a symbol but it does not."
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_overload_tr (d1c0))
 in
-  // nothing
+  the_trans2errlst_add (T2E_overload_tr (d1c0))
 end // end of [auxerr1]
 //
 fn auxerr2 (
@@ -215,9 +215,8 @@ fn auxerr2 (
   val () = $SYN.prerr_i0de (id)
   val () = prerr "] is unrecognized."
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_overload_tr (d1c0))
 in
-  // nothing
+  the_trans2errlst_add (T2E_overload_tr (d1c0))
 end // end of [auxerr2]
 //
 val sym = id.i0de_sym
@@ -310,7 +309,7 @@ fn d1atsrtdeclst_tr
     case+ xs0 of
     | ~list_vt_cons (x, xs) => let
         val s2cs = d1atsrtdec_tr (x.2, x.0)
-        val () = s2rtdat_set_conlst (x.1, s2cs)
+        val () = s2rtdat_set_sconlst (x.1, s2cs)
       in
         loop1 (xs)
       end // end of [list_vt_cons]
@@ -567,7 +566,8 @@ fn s1expdef_tr (
   res: s2rtopt, d: s1expdef
 ) : s2cst = let
 //
-fn auxerr (d: s1expdef): void = {
+fn auxerr
+  (d: s1expdef): void = let
   val () = prerr_error2_loc (d.s1expdef_loc)
   val () = filprerr_ifdebug ("s1expdef_tr")
   val () = prerr ": the sort for the definition does not match"
@@ -575,8 +575,9 @@ fn auxerr (d: s1expdef): void = {
   val () = $SYM.prerr_symbol (d.s1expdef_sym)
   val () = prerr "]."
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_s1expdef_tr (d))
-} // end of [auxerr]
+in
+  the_trans2errlst_add (T2E_s1expdef_tr (d))
+end // end of [auxerr]
 //
 val sym = d.s1expdef_sym
 and loc = d.s1expdef_loc
@@ -646,16 +647,19 @@ end // end of [s1expdeflst_tr]
 (* ****** ****** *)
 
 fun s1aspdec_tr_arg (
-  xs: s1marglst, s2t_fun: &s2rt
+  d: s1aspdec, xs: s1marglst, s2t_fun: &s2rt
 ) : List_vt (s2varlst) = let
 //
-fn auxerr
-  (loc: location) : void = {
-  val () = prerr_error2_loc (loc)
+fn auxerr (
+  d: s1aspdec, x: s1marg
+) : void = let
+  val () = prerr_error2_loc (x.s1marg_loc)
   val () = filprerr_ifdebug ("s1aspdec_tr_arg")
   val () = prerr ": too many arguments for the assumed static constant."
   val () = prerr_newline ()
-} // end of [auxerr]
+in
+  the_trans2errlst_add (T2E_s1aspdec_tr_arg (d, x))
+end // end of [auxerr]
 //
 in // in of [let]
 //
@@ -667,10 +671,10 @@ case+ xs of
       val s2vs = s1marg_trdn (x, s2ts_arg)
       val () = the_s2expenv_add_svarlst (s2vs)
     in
-      list_vt_cons (s2vs, s1aspdec_tr_arg (xs, s2t_fun))
+      list_vt_cons (s2vs, s1aspdec_tr_arg (d, xs, s2t_fun))
     end // end of [S2RTfun]
   | _ => let
-      val () = auxerr (x.s1marg_loc) in list_vt_nil ()
+      val () = auxerr (d, x) in list_vt_nil ()
     end (* end of [_] *)
   ) // end of [list_cons]
 | list_nil () => list_vt_nil ()
@@ -692,7 +696,7 @@ fn auxerr (
   val () = prerr_s2rt (s2t2)
   val () = prerr "]."
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_s1aspdec_tr (d))
+  val () = the_trans2errlst_add (T2E_s1aspdec_tr_res (d, s2t1, s2t2))
 } // end of [auxerr]
 //
 in // in of [let]
@@ -718,21 +722,20 @@ fn s1aspdec_tr
 //
 fn auxerr1 (
   d: s1aspdec, q: s0taq, id: symbol
-) : s2aspdecopt_vt = let
+) : void = let
   val () = prerr_error2_loc (d.s1aspdec_loc)
   val () = filprerr_ifdebug ("s1aspdec_tr")
   val () = prerr (": the static constant [")
   val () = ($SYN.prerr_s0taq (q); $SYM.prerr_symbol id)
   val () = prerr ("] is not abstract.")
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_s1aspdec_tr (d))
 in
-  None_vt ()
+  the_trans2errlst_add (T2E_s1aspdec_tr (d))
 end // end of [auxerr1]
 //
 fn auxerr2 (
   d: s1aspdec, q: s0taq, id: symbol
-) : s2aspdecopt_vt = let
+) : void = let
   val () =
     prerr_error2_loc (d.s1aspdec_loc)
   // end of [val]
@@ -741,22 +744,20 @@ fn auxerr2 (
   val () = ($SYN.prerr_s0taq q; $SYM.prerr_symbol id)
   val () = prerr "] does not refer to a static constant."
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_s1aspdec_tr (d))
 in
-  None_vt ()
+  the_trans2errlst_add (T2E_s1aspdec_tr (d))
 end // end of [auxerr2]
 //
 fn auxerr3 (
   d: s1aspdec, q: s0taq, id: symbol
-) : s2aspdecopt_vt = let
+) : void = let
   val () = prerr_error2_loc (d.s1aspdec_loc)
   val () = prerr ": the identifier ["
   val () = ($SYN.prerr_s0taq q; $SYM.prerr_symbol id)
   val () = prerr "] is unrecognized."
   val () = prerr_newline ()
-  val () = the_trans2errlst_add (T2E_s1aspdec_tr (d))
 in
-  None_vt ()
+  the_trans2errlst_add (T2E_s1aspdec_tr (d))
 end // end of [auxerr3]
 //
   val loc = d1c.s1aspdec_loc
@@ -775,7 +776,7 @@ case+ ans of
           val () = list_vt_free (s2cs)
           val (pfenv | ()) = the_s2expenv_push_nil ()
           var s2t_fun = s2cst_get_srt (s2c)
-          val s2vss = s1aspdec_tr_arg (d1c.s1aspdec_arg, s2t_fun)
+          val s2vss = s1aspdec_tr_arg (d1c, d1c.s1aspdec_arg, s2t_fun)
           val s2t_res = s1aspdec_tr_res (d1c, s2t_fun)
           val s2e_body = s1exp_trdn (d1c.s1aspdec_def, s2t_res)
           val () = the_s2expenv_pop_free (pfenv | (*none*))
@@ -787,11 +788,17 @@ case+ ans of
         in
           Some_vt (s2aspdec_make (loc, s2c, s2e_def))
         end
-      | ~list_vt_nil () => auxerr1 (d1c, q, id)
+      | ~list_vt_nil () => let
+          val () = auxerr1 (d1c, q, id) in None_vt ()
+        end // end of [list_vt_nil]
       end // end of [S2ITEMcst]
-    | _ => auxerr2 (d1c, q, id)
+    | _ => let
+        val () = auxerr2 (d1c, q, id) in None_vt ()
+      end (* end of [_] *)
     end // end of [Some_vt]
-  | ~None_vt () => auxerr3 (d1c, q, id)
+  | ~None_vt () => let
+      val () = auxerr3 (d1c, q, id) in None_vt ()
+    end // end of [None_vt]
 end // end of [s1aspdec_tr]
 
 (* ****** ****** *)
@@ -869,7 +876,7 @@ fn d1atdec_tr (
     | _ => None () // end of [_]
   ) : Option @(d2con, d2con)
   val () = s2cst_set_islst (s2c, islst)
-  val () = s2cst_set_conlst (s2c, Some d2cs)
+  val () = s2cst_set_dconlst (s2c, Some d2cs)
 //
 in
   // nothing
@@ -1019,12 +1026,12 @@ e1xndeclst_tr (d1cs) = let
   val s2c = s2cstref_get_cst (the_exception_viewtype)
   val d2cs = aux (s2c, d1cs)
   val d2cs0 = (
-    case+ s2cst_get_conlst (s2c) of
+    case+ s2cst_get_dconlst (s2c) of
     | Some d2cs0 => list_append (d2cs, d2cs0) | None () => d2cs
   ) : d2conlst // end of [val]
-  val () = s2cst_set_conlst (s2c, Some d2cs0)
+  val () = s2cst_set_dconlst (s2c, Some d2cs0)
 in
-  d2cs
+  d2cs (*d2conlst*)
 end // end of [e1xndeclst_tr]
 
 (* ****** ****** *)
@@ -1243,7 +1250,7 @@ fn f1undeclst_tr
     // end of [aux1]
   in
     aux1 (isprf, d1cs)
-  end // end of [where]
+  end // end of [val]
 //
   val () = if isrec then the_d2expenv_add_dvarlst (d2vs) else ()
 //
@@ -1294,7 +1301,7 @@ fn s1taload_tr (
 , d1cs: d1eclist
 , loaded: &int? >> int
 ) : filenv = let
-// (*
+(*
   val () = print "s1taload_tr: staid = "
   val () = (case+ idopt of
     | Some id => $SYM.print_symbol (id) | None () => print "(*none*)"
@@ -1303,7 +1310,7 @@ fn s1taload_tr (
   val () = begin
     print "s1taload_tr: filename = "; $FIL.print_filename fil; print_newline ()
   end // end of [val]
-// *)
+*)
   val filsym = $FIL.filename_get_full (fil)
   val (pflev | ()) = the_staload_level_push ()
   val ans = the_filenvmap_find (filsym)
@@ -1399,10 +1406,13 @@ case+ d1c0.d1ecl_node of
     val () = s1expdeflst_tr (knd, ds) in d2ecl_none (loc0)
   end // end of [D1Csexpdefs]
 | D1Csaspdec (d1c) => let
-    val d2copt = s1aspdec_tr (d1c) in
+    val d2copt = s1aspdec_tr (d1c)
+  in
     case+ d2copt of
     | ~Some_vt d2c => d2ecl_saspdec (loc0, d2c)
-    | ~None_vt () => d2ecl_none (loc0) // HX: error is reported
+    | ~None_vt () =>
+        d2ecl_none (loc0) // HX: error already reported
+    // end of [case]
   end // end of [D1Csaspdec]
 //
 | D1Cdatdecs (knd, d1cs_dat, d1cs_def) => let
@@ -1523,7 +1533,9 @@ end // end of [d1ecl_tr]
 (* ****** ****** *)
 
 implement
-d1eclist_tr (d1cs) = l2l (list_map_fun (d1cs, d1ecl_tr))
+d1eclist_tr (d1cs) = let
+  val d2cs = list_map_fun (d1cs, d1ecl_tr) in (l2l)d2cs
+end // end of [d1eclist_tr]
 
 (* ****** ****** *)
 
