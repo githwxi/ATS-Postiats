@@ -39,6 +39,7 @@ staload "pats_basics.sats"
 staload
 INTINF = "pats_intinf.sats"
 typedef intinf = $INTINF.intinf
+macdef fprint_intinf = $INTINF.fprint_intinf
 
 (* ****** ****** *)
 
@@ -62,20 +63,27 @@ typedef c2lau = $DYNEXP2.c2lau
 abstype intinfset_type
 typedef intinfset = intinfset_type
 
-fun intinfset_listize (xs: intinfset): List (intinf)
+fun fprint_intinfset (out: FILEref, xs: intinfset): void
+
+fun intinfset_sing (x: intinf): intinfset
+
+typedef intinflst = List (intinf)
+viewtypedef intinflst_vt = List_vt (intinf)
+fun intinfset_listize (xs: intinfset): intinflst_vt
 
 (* ****** ****** *)
 
 datatype p2atcst =
   | P2TCany of ()
+  | P2TCcon of (d2con, p2atcstlst)
+  | P2TCempty of ()
   | P2TCint of intinf
   | P2TCbool of bool
   | P2TCchar of char
   | P2TCstring of string
   | P2TCfloat of string(*rep*)
-  | P2TCcon of (d2con, p2atcstlst)
-  | P2TCempty of ()
   | P2TCrec of (int(*reckind*), labp2atcstlst)
+  | P2TCintc of intinfset
 // end of [p2atcst]
 
 and labp2atcst = LABP2ATCST of (label, p2atcst)
@@ -106,6 +114,7 @@ labp2atcstlstlst_vt = List_vt (labp2atcstlst_vt)
 (* ****** ****** *)
 
 fun p2atcstlstlst_vt_free (xss: p2atcstlstlst_vt): void
+fun p2atcstlstlst_vt_copy (xss: !p2atcstlstlst_vt): p2atcstlstlst_vt
 
 (* ****** ****** *)
 
@@ -116,6 +125,8 @@ and prerr_p2atcst (x: p2atcst): void
 fun fprint_p2atcstlst : fprint_type (p2atcstlst)
 fun print_p2atcstlst (xs: p2atcstlst): void
 and prerr_p2atcstlst (xs: p2atcstlst): void
+fun print_p2atcstlst_vt (xs: !p2atcstlst_vt): void
+and prerr_p2atcstlst_vt (xs: !p2atcstlst_vt): void
 
 fun fprint_labp2atcstlst : fprint_type (labp2atcstlst)
 fun print_labp2atcstlst (xs: labp2atcstlst): void
@@ -124,6 +135,8 @@ and prerr_labp2atcstlst (xs: labp2atcstlst): void
 fun fprint_p2atcstlstlst : fprint_type (p2atcstlstlst)
 fun print_p2atcstlstlst (xss: p2atcstlstlst): void
 and prerr_p2atcstlstlst (xss: p2atcstlstlst): void
+fun print_p2atcstlstlst_vt (xss: !p2atcstlstlst_vt): void
+fun prerr_p2atcstlstlst_vt (xss: !p2atcstlstlst_vt): void
 
 (* ****** ****** *)
 

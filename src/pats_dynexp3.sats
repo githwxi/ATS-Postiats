@@ -278,6 +278,8 @@ and c3lau = [n:nat] c3lau (n)
 and c3laulst
   (n:int) = List (c3lau (n))
 and c3laulst = [n:nat] c3laulst (n)
+and c3laulst_vt
+  (n:int) = List_vt (c3lau (n))
 
 (* ****** ****** *)
 

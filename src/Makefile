@@ -148,6 +148,8 @@ SOURCES := \
   pats_staexp2_error.dats \
   pats_staexp2_solve.sats \
   pats_staexp2_solve.dats \
+  pats_patcst2.sats \
+  pats_patcst2.dats \
   pats_dynexp2.sats \
   pats_dynexp2.dats \
   pats_dynexp2_print.dats \

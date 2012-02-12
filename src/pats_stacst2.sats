@@ -53,10 +53,11 @@ fun s2cstref_equ_exp (r: s2cstref, s2e: s2exp): bool
 val the_true_bool : s2cstref
 val the_false_bool : s2cstref
 //
+val the_neg_bool : s2cstref // bool -> bool
+val the_neq_int_int_bool : s2cstref // : (int, int) -> bool
+//
 val the_bool_t0ype : s2cstref
 val the_bool_bool_t0ype : s2cstref
-//
-val the_neg_bool : s2cstref // neg_bool: bool -> bool
 //
 val the_int_kind : s2cstref
 val the_lint_kind : s2cstref
@@ -121,6 +122,7 @@ fun un_s2exp_bool_index_t0ype (s2f: s2hnf): Option_vt (s2exp)
 (* ****** ****** *)
 
 fun s2exp_negate (s2p: s2exp): s2exp
+fun s2exp_intneq (s2i1: s2exp, s2i2: s2exp): s2exp
 
 (* ****** ****** *)
 //
@@ -147,6 +149,9 @@ fun s2exp_g1int_kind_index_t0ype (knd: s2exp, ind: s2exp): s2exp
 fun s2exp_g0uint_kind_t0ype (knd: s2exp): s2exp
 fun s2exp_g1uint_kind_index_t0ype (knd: s2exp, ind: s2exp): s2exp
 //
+fun un_s2exp_g1int_index_t0ype (s2f: s2hnf): Option_vt (s2exp)
+fun un_s2exp_g1uint_index_t0ype (s2f: s2hnf): Option_vt (s2exp)
+//
 fun s2exp_int_index_t0ype (ind: s2exp): s2exp
 fun s2exp_uint_index_t0ype (ind: s2exp): s2exp
 //
@@ -155,6 +160,8 @@ fun s2exp_uint_index_t0ype (ind: s2exp): s2exp
 fun s2exp_char_t0ype (): s2exp // char0
 fun s2exp_char_char_t0ype (c: char): s2exp // char1(c)
 fun s2exp_char_index_t0ype (ind: s2exp): s2exp // char1(ind)
+//
+fun un_s2exp_char_index_t0ype (s2f: s2hnf): Option_vt (s2exp)
 //
 fun s2exp_schar_t0ype (): s2exp // schar0
 fun s2exp_schar_char_t0ype (c: char): s2exp // schar1(c)

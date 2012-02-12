@@ -232,6 +232,14 @@ fun p1at_tr_arg (p1t: p1at, w1ts: &wths1explst): p2at
 fun p1atlst_tr_arg (p1ts: p1atlst, w1ts: &wths1explst): p2atlst
 
 (* ****** ****** *)
+//
+// HX: used in [pats_trans3_env]
+//
+fun d2con_instantiate
+  (loc: location, d2c: d2con): @(s2qualst, s2exp)
+// end of [d2con_instantiate]
+
+(* ****** ****** *)
 
 fun d1exp_tr (d1e: d1exp): d2exp
 fun d1explst_tr (d1es: d1explst): d2explst

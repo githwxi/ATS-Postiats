@@ -138,9 +138,9 @@ fun p1atconarg_is_omit
 
 fun
 p1at_tr_con_sapp1 (
-  p1t1: p1at
-, d2c: d2con, sub: &stasub,
-  s2qs: s2qualst, out: &List_vt(s2qua)
+  loc0: location // p1t1.p1at_loc
+, d2c: d2con, sub: &stasub
+, s2qs: s2qualst, out: &List_vt(s2qua)
 ) : s2exp = let
 in
 //
@@ -154,13 +154,13 @@ case+ s2qs of
     val s2q = s2qua_make (s2vs, s2ps)
     val () = out := list_vt_cons (s2q, out)
   in
-    p1at_tr_con_sapp1 (p1t1, d2c, sub, s2qs, out)
+    p1at_tr_con_sapp1 (loc0, d2c, sub, s2qs, out)
   end // end of [cons]
 | list_nil () => let
     val npf = d2con_get_npf (d2c)
     val s2es_arg =
       s2explst_subst (sub, d2con_get_arg d2c)
-    val s2c = d2con_get_scst d2c
+    val s2c = d2con_get_scst (d2c)
     val indopt = d2con_get_ind (d2c)
     val s2f_res = (
       case+ indopt of
@@ -230,7 +230,7 @@ case+ s1as of
         val () = auxerr1 (p1t1, d2c) in s2exp_s2rt_err ()
       end (* end of [list_nil] *)
     end // end of [S1VARARGone]
-  | S1VARARGall () => p1at_tr_con_sapp1 (p1t1, d2c, sub, s2qs, out)
+  | S1VARARGall () => p1at_tr_con_sapp1 (p1t1.p1at_loc, d2c, sub, s2qs, out)
   | S1VARARGseq (loc, sarg) => begin
     case+ s2qs of
     | list_cons (s2q, s2qs) => let
@@ -254,7 +254,7 @@ case+ s1as of
       end (* end of [list_nil] *)
     end // end of [S1VARARGseq]
   ) // end of [list_cons]
-| list_nil () =>  p1at_tr_con_sapp1 (p1t1, d2c, sub, s2qs, out)
+| list_nil () =>  p1at_tr_con_sapp1 (p1t1.p1at_loc, d2c, sub, s2qs, out)
 //
 end // end of [p1at_tr_con_sapp2]
 
@@ -297,7 +297,7 @@ end : p2atlst // end of [val]
 //
 in
   p2at_con (p1t0.p1at_loc, 0(*freeknd*), d2c, out, s2e, npf, darg)
-end // end of [p1at_app_tr_dqid]
+end // end of [p1at_tr_con]
 
 (* ****** ****** *)
 
@@ -715,6 +715,23 @@ p1atlst_tr_arg
     end // end of [list_cons]
   | list_nil () => list_nil ()
 ) // end of [p1atlst_tr_arg]
+
+(* ****** ****** *)
+
+implement
+d2con_instantiate
+  (loc0, d2c) = let
+//
+var sub = stasub_make_nil ()
+val s2qs = d2con_get_qua (d2c)
+var out: List_vt (s2qua) = list_vt_nil ()
+val s2e = p1at_tr_con_sapp1 (loc0, d2c, sub, s2qs, out)
+val () = stasub_free (sub)
+val out = (l2l)out
+//
+in
+  @(out, s2e)
+end // end of [p1at_con_instantiate]
 
 (* ****** ****** *)
 

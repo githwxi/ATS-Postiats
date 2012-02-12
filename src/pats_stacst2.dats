@@ -184,6 +184,31 @@ the_true_bool = s2cstref_make ("true_bool")
 implement
 the_false_bool = s2cstref_make ("false_bool")
 
+(* ****** ****** *)
+
+implement
+the_neg_bool = s2cstref_make "neg_bool"
+implement
+s2exp_negate (s2p) = let
+  val s2c = s2cstref_get_cst (the_neg_bool)
+in
+  s2exp_cstapp (s2c, list_sing (s2p))
+end // end of [s2exp_negate]
+
+(* ****** ****** *)
+
+implement
+the_neq_int_int_bool =
+  s2cstref_make "neq_int_int"
+implement
+s2exp_intneq (s2i1, s2i2) = let
+  val s2c = s2cstref_get_cst (the_neq_int_int_bool)
+in
+  s2exp_cstapp (s2c, list_pair (s2i1, s2i2))
+end // end of [s2exp_intneq]
+
+(* ****** ****** *)
+
 implement
 s2exp_bool (b) = let
   val s2cref = (
@@ -211,14 +236,14 @@ in
   s2exp_cstapp (s2c, list_sing (ind))
 end // end of [s2exp_bool_bool_t0ype]
 
+(* ****** ****** *)
+
 implement
 s2exp_bool_index_t0ype (ind) = let
   val s2c = s2cstref_get_cst (the_bool_bool_t0ype)
 in
   s2exp_cstapp (s2c, list_sing (ind))
 end // end of [s2exp_bool_index_t0ype]
-
-(* ****** ****** *)
 
 implement
 un_s2exp_bool_index_t0ype (s2f) = let
@@ -235,17 +260,6 @@ case+ s2e.s2exp_node of
 | _ => None_vt ()
 //
 end // end of [un_s2exp_bool_index_t0ype]
-
-(* ****** ****** *)
-
-implement
-the_neg_bool = s2cstref_make "neg_bool"
-implement
-s2exp_negate (s2p) = let
-  val s2c = s2cstref_get_cst (the_neg_bool)
-in
-  s2exp_cstapp (s2c, list_sing (s2p))
-end // end of [s2exp_negate]
 
 (* ****** ****** *)
 
@@ -423,6 +437,25 @@ in
   s2exp_cstapp (g1i, list_pair (knd, ind))
 end // end of [s2exp_g1int_kind_index_t0ype]
 
+implement
+un_s2exp_g1int_index_t0ype (s2f) = let
+  val s2e = s2hnf2exp (s2f)
+in
+//
+case+ s2e.s2exp_node of
+| S2Eapp (s2e_fun, s2es_arg) 
+    when s2cstref_equ_exp (
+    the_g1int_int_t0ype, s2e_fun
+  ) => let
+    val- list_cons (s2e1_knd, s2es_arg) = s2es_arg
+    val- list_cons (s2e2_ind, s2es_arg) = s2es_arg
+  in
+    Some_vt (s2e2_ind)
+  end // end of [S2Eapp when ...]
+| _ => None_vt ()
+//
+end // end of [un_s2exp_g1int_index_t0ype]
+
 (* ****** ****** *)
 
 implement
@@ -439,6 +472,25 @@ s2exp_g1uint_kind_index_t0ype
 in
   s2exp_cstapp (g1u, list_pair (knd, ind))
 end // end of [s2exp_g1uint_kind_index_t0ype]
+
+implement
+un_s2exp_g1uint_index_t0ype (s2f) = let
+  val s2e = s2hnf2exp (s2f)
+in
+//
+case+ s2e.s2exp_node of
+| S2Eapp (s2e_fun, s2es_arg) 
+    when s2cstref_equ_exp (
+    the_g1uint_int_t0ype, s2e_fun
+  ) => let
+    val- list_cons (s2e1_knd, s2es_arg) = s2es_arg
+    val- list_cons (s2e2_ind, s2es_arg) = s2es_arg
+  in
+    Some_vt (s2e2_ind)
+  end // end of [S2Eapp when ...]
+| _ => None_vt ()
+//
+end // end of [un_s2exp_g1uint_index_t0ype]
 
 (* ****** ****** *)
 
@@ -474,12 +526,30 @@ in
   s2exp_cstapp (s2c, list_sing (ind))
 end // end of [s2exp_char_char_t0ype]
 
+(* ****** ****** *)
+
 implement
 s2exp_char_index_t0ype (ind) = let
   val s2c = s2cstref_get_cst (the_char_char_t0ype)
 in
   s2exp_cstapp (s2c, list_sing (ind))
 end // end of [s2exp_char_index_t0ype]
+
+implement
+un_s2exp_char_index_t0ype (s2f) = let
+  val s2e = s2hnf2exp (s2f)
+in
+//
+case+ s2e.s2exp_node of
+| S2Eapp (s2e_fun, s2es_arg) 
+    when s2cstref_equ_exp (
+    the_char_char_t0ype, s2e_fun
+  ) => let
+    val- list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
+  end // end of [S2Eapp when ...]
+| _ => None_vt ()
+//
+end // end of [un_s2exp_char_index_t0ype]
 
 (* ****** ****** *)
 

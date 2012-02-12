@@ -110,7 +110,7 @@ fun c3str_itmlst (
   loc: location, knd: c3strkind, s3is: s3itmlst
 ) : c3str // end of [c3str_itmlst]
 fun c3str_case_exhaustiveness (
-  loc: location, casknd: caskind, p2tcs: p2atcstlst
+  loc: location, casknd: caskind, p2tcs: !p2atcstlst_vt
 ) : c3str // end of [c3str_case_exhaustiveness]
 
 (* ****** ****** *)
@@ -200,7 +200,7 @@ fun trans3_env_add_eqeq
 
 fun trans3_env_add_patcstlstlst_false (
   loc: location
-, casknd: caskind, cp2tcss: p2atcstlstlst, s2es_pat: s2explst
+, casknd: caskind, cp2tcss: p2atcstlstlst_vt, s2es_pat: s2explst
 ) : void // end of [trans3_env_add_p2atcstlstlst_false]
 
 (* ****** ****** *)
@@ -218,7 +218,11 @@ fun trans3_env_hypadd_eqeq (loc: location, s2e1: s2exp, s2e2: s2exp): void
 fun trans3_env_hypadd_patcst
   (loc: location, p2tc: p2atcst, s2e: s2exp): void
 fun trans3_env_hypadd_patcstlst
-  (loc: location, p2tcs: p2atcstlst, s2es: s2explst): void
+  (loc: location, p2tcs: p2atcstlst_vt, s2es: s2explst): void
+fun trans3_env_hypadd_labpatcstlst
+  (loc: location, lp2tcs: labp2atcstlst_vt, ls2es: labs2explst): void
+fun trans3_env_hypadd_patcstlstlst
+  (loc: location, p2tcs: p2atcstlstlst_vt, s2es: s2explst): void
 //
 (* ****** ****** *)
 //

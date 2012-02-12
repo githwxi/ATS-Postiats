@@ -114,7 +114,7 @@ fun c2lau_trdn
 , c2l: c2lau
 , s2es_pat: list (s2exp, n)
 , s2e_res: s2exp
-, cp2tss: p2atcstlstlst
+, cp2tss: p2atcstlstlst_vt
 ) : c3lau (n) // end of [c2lau_trdn]
 extern
 fun c2laulst_trdn
@@ -144,20 +144,27 @@ end // end of [val]
 // *)
 val (pfpush | ()) = trans3_env_push ()
 //
+val seq = c2l.c2lau_seq
+and neg = c2l.c2lau_neg
+//
+val () = if seq > 0 then let
+  val cp2tcss = p2atcstlstlst_vt_copy (cp2tcss) in
+  trans3_env_hypadd_patcstlstlst (loc0, cp2tcss, s2es_pat)
+end // end of [val]
 var serr: int = 0
 val p3ts = p2atlst_trdn (loc0, p2ts, s2es_pat, serr)
 val () = if (serr != 0) then {
-(*
   val () = the_trans3errlst_add (T3E_c2lau_trdn_arity (c2l, s2es_pat))
-*)
 } // end of [val]
 //
 val gua = m2atchlst_trup (c2l.c2lau_gua)
-val seq = c2l.c2lau_seq and neg = c2l.c2lau_neg
+//
 val d3e_body = let
   val s2e_res = (
     if neg > 0 then s2exp_bottom_viewt0ype_exi () else s2e_res
   ) : s2exp // end of [val]
+//
+val () = p2atcstlstlst_vt_free (cp2tcss)
 //
 in
   d2exp_trdn (c2l.c2lau_body, s2e_res)
@@ -193,7 +200,7 @@ case+ casknd of
     val () = prerr ": a case+-expression is required to have at least one match clause."
     val () = prerr_newline ()
   in
-    the_trans3errlst_add (T3E_c2lau_trdn_noclause (loc0))
+    the_trans3errlst_add (T3E_c2laulst0_trdn_noclause (loc0))
   end // end of [CK_case_pos]
 | CK_case_neg () => ()
 //
@@ -216,24 +223,18 @@ and c2laulst2_trdn_rest
   {n:nat} (
   loc0: location
 , casknd: caskind
-, c3l_fst: c3lau
+, c3l_fst: c3lau n
 , c2ls_rest: c2laulst
 , s2es_pat: list (s2exp, n)
 , s2e_res: s2exp
-, cp2tcss: &p2atcstlstlst
+, cp2tcss: &p2atcstlstlst_vt
 ) : c3laulst n
 
 (* ****** ****** *)
 
 implement
-c2laulst2_trdn
-  {n} (
-  loc0
-, casknd
-, c2l_fst
-, c2ls_rest
-, s2es_pat
-, s2e_res: s2exp
+c2laulst2_trdn {n} (
+  loc0, casknd, c2l_fst, c2ls_rest, s2es_pat, s2e_res
 ) : c3laulst n = let
 (*
 val () = begin
@@ -241,24 +242,169 @@ val () = begin
 end // end of [val]
 *)
 //
-val cp2tcss = c2lau_pat_comp (c2l_fst)
-var cp2tcss: p2atcstlstlst = __cast (cp2tcss) where {
-  extern castfn __cast (xss: p2atcstlstlst_vt): p2atcstlstlst
-} // end of [val]
-val c3l_fst =
-  c2lau_trdn (casknd, c2l_fst, s2es_pat, s2e_res, cp2tcss)
+val cp2tcss = (
+  case+ casknd of
+  | CK_case () => c2lau_pat_comp (c2l_fst)
+  | CK_case_pos () => c2lau_pat_comp (c2l_fst)
+  | CK_case_neg () => list_vt_nil ()
+) : p2atcstlstlst_vt // end of [val]
+var cp2tcss : p2atcstlstlst_vt = cp2tcss
+//
+val c3l_fst = let
+  val cp2tcss1 = p2atcstlstlst_vt_copy (cp2tcss)
+in
+  c2lau_trdn (casknd, c2l_fst, s2es_pat, s2e_res, cp2tcss1)
+end // end of [val]
 val c3ls_rest = c2laulst2_trdn_rest
   (loc0, casknd, c3l_fst, c2ls_rest, s2es_pat, s2e_res, cp2tcss)
-val isexhaust = (
-  if list_is_nil (cp2tcss) then true else false
+val isexhaust = ( // HX: always true for [case-]
+  if list_vt_is_nil (cp2tcss) then true else false
 ) : bool // end of [val]
-val () = if ~isexhaust then begin
+val () = if ~isexhaust then let
+  val cp2tcss = p2atcstlstlst_vt_copy (cp2tcss) in
   trans3_env_add_patcstlstlst_false (loc0, casknd, cp2tcss, s2es_pat)
 end // end of [val]
+val () = p2atcstlstlst_vt_free (cp2tcss)
 //
 in
   c3ls_rest
 end (* end of [c2laulst2_trdn] *)
+
+(* ****** ****** *)
+
+implement
+c2laulst2_trdn_rest
+  {n} (
+  loc0, casknd
+, c3l_fst, c2ls_rest, s2es_pat, s2e_res
+, cp2tcss // : &patcstlstlst_vt
+) = let
+//
+fun auxred (
+  casknd: caskind, c2l: c2lau, cp2tcss_inter: !p2atcstlstlst_vt
+) :<cloref1> void = let
+//
+fun auxerr (
+  xss: !p2atcstlstlst_vt
+) :<cloref1> void = let
+  val isnil = list_vt_is_nil (xss)
+  val () = if isnil then {
+    val () = prerr_error3_loc (c2l.c2lau_loc)
+    val () = prerr ": this pattern match clause is redundant."
+    val () = prerr_newline ()
+    val () = the_trans3errlst_add (T3E_c2laulst2_trdn_redundant (loc0, c2l))
+  } // end of [val]
+in
+  // nothing
+end // end of [auxerr]
+//
+in
+//
+case+ casknd of
+| CK_case () => auxerr (cp2tcss_inter)
+| CK_case_pos () => auxerr (cp2tcss_inter)
+| CK_case_neg () => ()
+//
+end // end of [auxred]
+//
+fun auxmain (
+  c2ls: c2laulst
+, c3ls: c3laulst_vt (n)
+, cp2tcss: &p2atcstlstlst_vt
+) :<cloref1> c3laulst n = let
+in
+case+ c2ls of
+| list_cons
+    (c2l, c2ls) => let
+    val p2tcs_c2l = p2at2cstlst (c2l.c2lau_pat)
+(*
+    val () = begin
+      print "c2laulst2_trdn_rest: p2tcs = "; print p2tcs; print_newline ();
+      print "c2laulst2_trdn_rest: cp2tcss =\n"; print cp2tcss; print_newline ();
+    end (* end of [val] *)
+*)
+    val cp2tcss_inter = let
+      fun aux (
+        xss: !p2atcstlstlst_vt
+      ) :<cloref1> p2atcstlstlst_vt =
+        case+ xss of
+        | list_vt_cons
+            (!p1_xs, !p2_xss) => let
+            val res = aux (!p2_xss)
+            val test = p2atcstlst_inter_test
+              ($UN.castvwtp1 {p2atcstlst}{p2atcstlst_vt} (!p1_xs), p2tcs_c2l)
+            // end of [val]
+          in
+            if test then let
+              val xs = list_vt_copy (!p1_xs)
+              prval () = fold@ (xss)
+            in
+              list_vt_cons (xs, res)
+            end else let
+              prval () = fold@ (xss) in res
+            end // end of [if]
+          end // end of [list_vt_cons]
+        | list_vt_nil () => (fold@ (xss); list_vt_nil)
+      // end of [aux]
+    in
+      aux (cp2tcss)
+    end // end of [val]
+    val () = auxred (casknd, c2l, cp2tcss_inter) // HX: redundancy checking
+(*
+    val () = begin
+      print "c2laulst2_trdn_rest: auxmain";
+      print ": cp2tcss_inter =\n"; print_p2atcstlstlst_vt (cp2tcss_inter); print_newline ()
+    end // end of [val]
+*)
+//
+    val c3l = c2lau_trdn
+      (casknd, c2l, s2es_pat, s2e_res, cp2tcss_inter)
+    // end of [val]
+    val () = let
+      val gua = c2l.c2lau_gua
+    in
+      case+ gua of
+      | list_nil () => let
+          fun aux (
+            xss: p2atcstlstlst_vt
+          ) :<cloref1> p2atcstlstlst_vt =
+            case+ xss of
+            | ~list_vt_cons (xs, xss) => let
+                val diff = p2atcstlst_diff
+                  ($UN.castvwtp1 {p2atcstlst} (xs), p2tcs_c2l)
+                val () = list_vt_free (xs)
+              in
+                list_vt_append (diff, aux (xss))
+              end // end of [list_vt_cons]
+            | ~list_vt_nil () => list_vt_nil ()
+          // end of [aux]
+        in
+          cp2tcss := aux (cp2tcss)
+        end // end of [list_cons]
+      | list_cons _ => ()
+    end // end of [val]
+// (*
+    val () = begin
+      print "c2laulst2_trdn_rest: auxmain";
+      print ": cp2tcss(aft) =\n"; print_p2atcstlstlst_vt (cp2tcss); print_newline ()
+    end // end of [val]
+// *)
+  in
+    auxmain (c2ls, list_vt_cons (c3l, c3ls), cp2tcss)
+  end // end of [list_cons]
+| list_nil () => let
+    val c3ls = list_vt_reverse (c3ls) in (l2l)c3ls
+  end // end of [list_nil]
+end (* end of [aux_main] *)
+val c3ls_rest  = auxmain (c2ls_rest, list_vt_nil (), cp2tcss)
+// (*
+val () = (
+  print "c2laulst2_trdn_rest: cp2tcss =\n"; print_p2atcstlstlst_vt (cp2tcss); print_newline ()
+) // end of [val]
+// *)
+in
+  list_cons (c3l_fst, c3ls_rest)
+end // end of [c2laulst2_trdn_rest]
 
 (* ****** ****** *)
 

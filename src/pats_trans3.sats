@@ -79,7 +79,8 @@ datatype trans3err =
   | T3E_guard_trdn of
       (location, bool(*gval*), s2exp(*gtyp*))
   | T3E_c2lau_trdn_arity of (c2lau, s2explst)
-  | T3E_c2lau_trdn_noclause of (location)
+  | T3E_c2laulst0_trdn_noclause of (location)
+  | T3E_c2laulst2_trdn_redundant of (location, c2lau)
 //
   | T3E_f2undeclst_tr_metsrtck of (f2undec, s2rtlstopt)
   | T3E_v2aldecreclst_tr_linearity of (v2aldec, s2exp(*linear*))
