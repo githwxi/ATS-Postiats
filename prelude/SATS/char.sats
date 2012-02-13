@@ -42,6 +42,53 @@
 
 (* ****** ****** *)
 
+fun lt_char_char
+  (c1: char, c2: char): bool = "mac#atspre_lt_char_char"
+overload < with lt_char_char of 0
+fun lte_char_char
+  (c1: char, c2: char): bool  = "mac#atspre_lte_char_char"
+overload <= with lte_char_char of 0
+
+fun gt_char_char
+  (c1: char, c2: char): bool = "mac#atspre_gt_char_char"
+overload > with gt_char_char of 0
+fun gte_char_char
+  (c1: char, c2: char): bool  = "mac#atspre_gte_char_char"
+overload >= with gte_char_char of 0
+
+fun eq_char_char
+  (c1: char, c2: char): bool = "mac#atspre_eq_char_char"
+overload = with eq_char_char of 0
+fun neq_char_char
+  (c1: char, c2: char): bool = "mac#atspre_neq_char_char"
+overload <> with neq_char_char of 0
+overload != with neq_char_char of 0
+
+fun compare_char_char
+  (c1: char, c2: char): bool = "mac#atspre_compare_char_char"
+overload compare with compare_char_char of 0
+
+(* ****** ****** *)
+
+fun fprint_char
+  (out: FILEref, x: char): void
+overload fprint with fprint_char
+
+fun print_char (x: char): void
+and prerr_char (x: char): void
+overload print with print_char
+overload prerr with prerr_char
+
+(* ****** ****** *)
+//
+// HX: the return is dynamically allocated
+//
+fun tostring_char
+  (c: char):<> strnptr(1) = "atspre_tostring_char"
+overload tostring with tostring_char
+
+(* ****** ****** *)
+
 #if VERBOSE_PRELUDE #then
 #print "Loading [char.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]

@@ -443,6 +443,9 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/SATS/string.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/strptr.sats")
 //
+  val () = pervasive_load (ATSHOME, "prelude/SATS/array.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/array_prf.sats")
+//
   val () = pervasive_load (ATSHOME, "prelude/SATS/extern.sats")
 //
 } // end of [prelude_load]

@@ -66,6 +66,7 @@ typedef intinfset = intinfset_type
 fun fprint_intinfset (out: FILEref, xs: intinfset): void
 
 fun intinfset_sing (x: intinf): intinfset
+fun intinfset_is_member (xs: intinfset, x: intinf): bool
 
 typedef intinflst = List (intinf)
 viewtypedef intinflst_vt = List_vt (intinf)

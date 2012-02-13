@@ -86,7 +86,7 @@ overload >= with g0float_gte
 
 fun{a:t@ype}
 g0float_compare
-  (x: g0float (a), y: g0float (a)):<> bool
+  (x: g0float (a), y: g0float (a)):<> int
 overload compare with g0float_compare
 
 (* ****** ****** *)

@@ -43,7 +43,8 @@
 //
 // HX: note that (vt1 \minus v2) roughly means that a ticket of
 // [v2] is taken from [vt1]; the ticket must be returned before
-// [vt1] is consumed.
+// [vt1] is consumed. However, the ticket should not be issued
+// repeatedly for otherwise safety may be potentially compromised.
 //
 absview
 minus_viewt0ype_view

@@ -350,13 +350,12 @@ case+ c2ls of
       aux (cp2tcss)
     end // end of [val]
     val () = auxred (casknd, c2l, cp2tcss_inter) // HX: redundancy checking
-(*
+// (*
     val () = begin
       print "c2laulst2_trdn_rest: auxmain";
       print ": cp2tcss_inter =\n"; print_p2atcstlstlst_vt (cp2tcss_inter); print_newline ()
     end // end of [val]
-*)
-//
+// *)
     val c3l = c2lau_trdn
       (casknd, c2l, s2es_pat, s2e_res, cp2tcss_inter)
     // end of [val]

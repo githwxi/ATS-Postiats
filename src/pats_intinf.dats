@@ -143,20 +143,24 @@ eq_intinf_intinf (x1, x2) =
 (* ****** ****** *)
 
 implement
-compare_intinf_int (x1, x2) = let
+compare_intinf_int
+  (x1, x2) = $effmask_ref let
   val (vbox pf_mpz | p1) = ref_get_view_ptr (x1)
 in
   mpz_cmp_int (!p1, x2)
 end // end of [compare_intinf_int]
 
 implement
-compare_intinf_intinf (x1, x2) = let
+compare_intinf_intinf
+  (x1, x2) =
+  $effmask_ref (let
   val (vbox pf_mpz | p1) = ref_get_view_ptr (x1)
-in $effmask_ref (let
+in
+  $effmask_ref (let
   val (vbox pf_mpz | p2) = ref_get_view_ptr (x2)
 in
   mpz_cmp_mpz (!p1, !p2)
-end) end // end of [compare_intinf_intinf]
+end) end) // end of [compare_intinf_intinf]
 
 (* ****** ****** *)
 

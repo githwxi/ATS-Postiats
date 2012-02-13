@@ -28,7 +28,7 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: September, 2011
+// Start Time: February, 2012
 //
 (* ****** ****** *)
 
@@ -37,49 +37,66 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [strptr.sats] starts!\n"
+#print "Loading [array.sats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-castfn
-strnptr_of_strptr
-  {l:addr} (x: strptr l): [n:int] strnptr (l, n)
-// end of [strnptr_of_strptr]
-castfn
-strptr_of_strnptr
-  {l:addr}{n:int} (x: strnptr (l, n)): strptr (l)
-// end of [strptr_of_strnptr]
+(*
+//
+// HX: [array_v] can also be defined as follows:
+//
+dataview
+array_v (
+  a:viewt@ype+, addr, int
+) =
+  | {n:int | n >= 0} {l:addr}
+    array_v_cons (a, l, n+1) of (a @ l, array_v (a, l+sizeof a, n))
+  | {l:addr} array_v_nil (a, l, 0)
+// end of [array_v]
+*)
+viewdef
+array_v (a:viewt@ype, l:addr, n:int) = @[a][n] @ l
 
 (* ****** ****** *)
 
-viewtypedef
-rstrptr = READ(strptr0)
-viewtypedef
-rstrnptr (n:int) = READ(strnptr(n))
+praxi array_v_nil :
+  {a:viewt@ype} {l:addr} () -<prf> array_v (a, l, 0)
+praxi array_v_unnil :
+  {a:viewt@ype} {l:addr} array_v (a, l, 0) -<prf> void
+
+praxi array_v_cons :
+  {a:viewt@ype} {l:addr} {n:nat}
+  (a @ l, array_v (INV(a), l+sizeof(a), n)) -<prf> array_v (a, l, n+1)
+praxi array_v_uncons :
+  {a:viewt@ype} {l:addr} {n:int | n > 0}
+  array_v (INV(a), l, n) -<prf> (a @ l, array_v (a, l+sizeof(a), n-1))
 
 (* ****** ****** *)
 
-fun strptr_length (x: !rstrptr): ssize_t
-fun strnptr_length {n:int} (x: !rstrnptr n): ssize_t (n)
+prfun array_v_sing
+  {a:viewt@ype} {l:addr} (pf: INV(a) @ l): array_v (a, l, 1)
+prfun array_v_unsing
+  {a:viewt@ype} {l:addr} (pf: array_v (INV(a), l, 1)): a @ l
 
 (* ****** ****** *)
 
-fun strptr_append (
-  x1: !rstrptr, x2: !rstrptr
-) : strptr0 = "atspre_strptr_append"
-
-fun strnptr_append
-  {n1,n2:nat} (
-  x1: !rstrnptr n1, x2: !rstrnptr n2
-) : strnptr (n1+n2) = "atspre_strnptr_append"
+dataview
+arrayopt_v (
+  a:viewt@ype+, addr, int, bool
+) =
+  | {n:nat} {l:addr}
+    arrayopt_v_some (a, l, n, true) of array_v (a, l, n)
+  | {n:nat} {l:addr}
+    arrayopt_v_none (a, l, n, false) of array_v (a?, l, n)
+// end of [arrayopt_v]
 
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [strptr.sats] finishes!\n"
+#print "Loading [array.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-(* end of [strptr.sats] *)
+(* end of [array.sats] *)

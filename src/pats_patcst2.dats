@@ -76,12 +76,23 @@ local
 staload "libats/SATS/funset_listord.sats"
 staload _(*anon*) = "libats/DATS/funset_listord.dats"
 //
+fn cmp (
+  x1: intinf, x2: intinf
+) :<cloref> int =
+  $INTINF.compare_intinf_intinf (x1, x2)
+//
 assume intinfset_type = set (intinf)
 //
 in
 
 implement
 intinfset_sing (x) = funset_make_sing (x)
+
+implement
+intinfset_is_member
+  (xs, x) = funset_is_member (xs, x, cmp)
+// end of [val]
+
 implement
 intinfset_listize (xs) = funset_listize (xs)
 
@@ -615,8 +626,6 @@ case+ (
 ) of
 | (P2TCany (), _) => true
 | (_, P2TCany ()) => true
-| (P2TCbool b1, P2TCbool b2) => b1 = b2
-| (P2TCchar c1, P2TCchar c2) => c1 = c2
 | (P2TCcon (d2c1, p2tcs1),
    P2TCcon (d2c2, p2tcs2)) => (
     if d2c1 = d2c2 then
@@ -624,11 +633,19 @@ case+ (
     // end of [if]
   ) // end of [P2TCcon, P2TCcon]
 | (P2TCempty (), P2TCempty ()) => true
+| (P2TCint i1, P2TCint i2) =>
+    $INTINF.eq_intinf_intinf (i1, i2)
+| (P2TCint x, P2TCintc xs) =>
+    if intinfset_is_member (xs, x) then false else true
+| (P2TCintc xs, P2TCint x) =>
+    if intinfset_is_member (xs, x) then false else true
+| (P2TCbool b1, P2TCbool b2) => b1 = b2
+| (P2TCchar c1, P2TCchar c2) => c1 = c2
 | (P2TCrec (_, lp2atcs1),
    P2TCrec (_, lp2atcs2)) =>
     labp2atcstlst_inter_test (lp2atcs1, lp2atcs2)
   // end of [P2TCrec, P2TCrec]
-| (_, _) => false
+| (_, _) => true (* HX: being conservative *)
 //
 end (* end of [p2atcst_inter_test] *)
 

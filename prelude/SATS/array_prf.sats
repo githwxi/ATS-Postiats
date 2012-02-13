@@ -28,7 +28,7 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: September, 2011
+// Start Time: February, 2012
 //
 (* ****** ****** *)
 
@@ -37,49 +37,38 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [strptr.sats] starts!\n"
+#print "Loading [array_prf.sats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-castfn
-strnptr_of_strptr
-  {l:addr} (x: strptr l): [n:int] strnptr (l, n)
-// end of [strnptr_of_strptr]
-castfn
-strptr_of_strnptr
-  {l:addr}{n:int} (x: strnptr (l, n)): strptr (l)
-// end of [strptr_of_strnptr]
+prfun
+array_v_split
+  {a:viewt@ype}
+  {l:addr}
+  {n:int} {i:nat | i <= n}
+  {ofs:int} (
+  pfmul: MUL (i, sizeof a, ofs), pfarr: array_v (INV(a), l, n)
+) :<prf> @(
+  array_v (a, l, i), array_v (a, l+ofs, n-i)
+) // end of [array_v_split]
 
-(* ****** ****** *)
-
-viewtypedef
-rstrptr = READ(strptr0)
-viewtypedef
-rstrnptr (n:int) = READ(strnptr(n))
-
-(* ****** ****** *)
-
-fun strptr_length (x: !rstrptr): ssize_t
-fun strnptr_length {n:int} (x: !rstrnptr n): ssize_t (n)
-
-(* ****** ****** *)
-
-fun strptr_append (
-  x1: !rstrptr, x2: !rstrptr
-) : strptr0 = "atspre_strptr_append"
-
-fun strnptr_append
-  {n1,n2:nat} (
-  x1: !rstrnptr n1, x2: !rstrnptr n2
-) : strnptr (n1+n2) = "atspre_strnptr_append"
+prfun
+array_v_unsplit
+  {a:viewt@ype}
+  {l:addr}
+  {n1,n2:int}
+  {ofs:int} (
+  pfmul: MUL (n1, sizeof a, ofs)
+, pf1arr: array_v (INV(a), l, n1), pf2arr: array_v (a, l+ofs, n2)
+) :<prf> array_v (a, l, n1+n2) // end of [array_v_unsplit]
 
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [strptr.sats] finishes!\n"
+#print "Loading [array_prf.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-(* end of [strptr.sats] *)
+(* end of [array_prf.sats] *)

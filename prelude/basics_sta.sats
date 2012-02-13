@@ -365,9 +365,9 @@ stadef strptr = strptr_viewtype
 viewtypedef strptr0 = [l:addr] strptr (l)
 viewtypedef strptr1 = [l:addr | l > null] strptr (l)
 absviewtype
-strnptr_int_addr_viewtype (n:int, l:addr)
-stadef strnptr = strnptr_int_addr_viewtype
-viewtypedef strnptr (n:int) = [l:addr] strnptr (n, l)
+strnptr_addr_int_viewtype (l:addr, n:int)
+stadef strnptr = strnptr_addr_int_viewtype
+viewtypedef strnptr (n:int) = [l:addr] strnptr (l, n)
 
 (* ****** ****** *)
 
