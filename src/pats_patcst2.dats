@@ -94,6 +94,13 @@ intinfset_is_member
 // end of [val]
 
 implement
+intinfset_add
+  (xs, x) = xs where {
+  var xs = xs
+  val _(*exist*) = funset_insert (xs, x, cmp)
+} // end of [val]
+
+implement
 intinfset_listize (xs) = funset_listize (xs)
 
 end // end of [local]
@@ -145,27 +152,20 @@ case+ p2tc of
 //
 | P2TCempty () => prstr "P2TCempty()"
 //
-| P2TCint (int) =>
-    $INTINF.fprint_intinf (out, int)
+| P2TCint (int) => {
+    val () = fprint_intinf (out, int)
+  }
 | P2TCbool (b) => {
-    val () = prstr "P2TCbool("
     val () = fprint_bool (out, b)
-    val () = prstr ")"
   }
 | P2TCchar (c) => {
-    val () = prstr "P2TCbool("
     val () = fprint_char (out, c)
-    val () = prstr ")"
   }
 | P2TCstring (x) => {
-    val () = prstr "P2TCstring("
-    val () = fprint_string (out, x)
-    val () = prstr ")"
+    val () = fprintf (out, "\"%s\"", @(x))
   }
 | P2TCfloat (rep) => {
-    val () = prstr "P2TCfloat("
     val () = fprint_string (out, rep)
-    val () = prstr ")"
   }
 //
 | P2TCrec (knd, lp2tcs) => {
@@ -177,9 +177,9 @@ case+ p2tc of
   } // end of [P2TCrec]
 //
 | P2TCintc (ints) => {
-    val () = prstr "P2TCintc("
+    val () = prstr "[^"
     val () = fprint_intinfset (out, ints)
-    val () = prstr ")"
+    val () = prstr "]"
   } // end of [P2TCintc]
 //
 end // end of [fprint_p2atcst]
@@ -633,14 +633,13 @@ case+ (
     // end of [if]
   ) // end of [P2TCcon, P2TCcon]
 | (P2TCempty (), P2TCempty ()) => true
-| (P2TCint i1, P2TCint i2) =>
-    $INTINF.eq_intinf_intinf (i1, i2)
+| (P2TCint i1, P2TCint i2) => (i1 = i2)
 | (P2TCint x, P2TCintc xs) =>
     if intinfset_is_member (xs, x) then false else true
 | (P2TCintc xs, P2TCint x) =>
     if intinfset_is_member (xs, x) then false else true
-| (P2TCbool b1, P2TCbool b2) => b1 = b2
-| (P2TCchar c1, P2TCchar c2) => c1 = c2
+| (P2TCbool b1, P2TCbool b2) => (b1 = b2)
+| (P2TCchar c1, P2TCchar c2) => (c1 = c2)
 | (P2TCrec (_, lp2atcs1),
    P2TCrec (_, lp2atcs2)) =>
     labp2atcstlst_inter_test (lp2atcs1, lp2atcs2)
@@ -708,11 +707,17 @@ in
 case+ (p2tc1, p2tc2) of
 | (_, P2TCany ()) => list_vt_nil ()
 | (P2TCany (), _) => p2atcst_comp (p2tc2)
-(*
 | (P2TCint i1, P2TCint i2) =>
     if i1 = i2 then list_vt_nil else list_vt_sing (p2tc1)
   // end of [P2TCint, P2TCint]
-*)
+| (P2TCintc xs, P2TCint x) => (
+    if intinfset_is_member (xs, x)
+      then list_vt_sing (p2tc1) else let
+      val xs = intinfset_add (xs, x) in list_vt_sing (P2TCintc (xs))
+    end // end of [if]
+  ) // end of [P2TCintc, P2TCint]
+| (P2TCint x, P2TCintc xs) =>
+    if intinfset_is_member (xs, x) then list_vt_sing (p2tc1) else list_vt_nil
 | (P2TCbool b1, P2TCbool b2) =>
     if b1 = b2 then list_vt_nil else list_vt_sing (p2tc1)
   // end of [P2TCbool, P2TCbool]
@@ -727,7 +732,7 @@ case+ (p2tc1, p2tc2) of
       val p2tcss = p2atcstlst_diff (p2tcs1, p2tcs2)
       val p2tcss = __cast (p2tcss) where {
         extern castfn __cast (xs: p2atcstlstlst_vt): List_vt (p2atcstlst)
-      } // end of [val]
+      } // end of [val] // HX: this is a safe cast
       val res = list_map_cloptr
         ($UN.castvwtp1 {p2atcstlstlst} (p2tcss), lam xs =<0> P2TCcon (d2c1, xs))
       val () = list_vt_free (p2tcss)

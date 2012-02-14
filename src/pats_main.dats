@@ -209,6 +209,8 @@ dynload "pats_trans3_caseof.dats"
 dynload "pats_trans3_loop.dats"
 dynload "pats_trans3_decl.dats"
 //
+dynload "pats_constraint3.dats"
+//
 dynload "pats_comarg.dats"
 //
 (* ****** ****** *)
@@ -442,6 +444,8 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/SATS/integer.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/string.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/strptr.sats")
+//
+  val () = pervasive_load (ATSHOME, "prelude/SATS/fcontainer.sats")
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/array.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/array_prf.sats")

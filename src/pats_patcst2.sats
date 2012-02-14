@@ -40,6 +40,7 @@ staload
 INTINF = "pats_intinf.sats"
 typedef intinf = $INTINF.intinf
 macdef fprint_intinf = $INTINF.fprint_intinf
+overload = with $INTINF.eq_intinf_intinf
 
 (* ****** ****** *)
 
@@ -67,6 +68,7 @@ fun fprint_intinfset (out: FILEref, xs: intinfset): void
 
 fun intinfset_sing (x: intinf): intinfset
 fun intinfset_is_member (xs: intinfset, x: intinf): bool
+fun intinfset_add (xs: intinfset, x: intinf): intinfset
 
 typedef intinflst = List (intinf)
 viewtypedef intinflst_vt = List_vt (intinf)

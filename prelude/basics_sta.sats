@@ -340,7 +340,11 @@ stadef ptr = ptr_type
 abstype
 ptr_addr_type (l:addr) = ptr_type
 stadef ptr = ptr_addr_type
-
+//
+// HX-2012-02-14: it is an expriment for now:
+//
+stadef ptr (n:int) = ptr_addr_type (addr_of_int(n))
+//
 (* ****** ****** *)
 
 (*

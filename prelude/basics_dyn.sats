@@ -50,6 +50,11 @@ and false : bool (false) = "mac#atsbool_false" // macro
 //
 (* ****** ****** *)
 
+val null : ptr (null) = "mac#atsptr_null" // macro
+val NULL : ptr (null) = "mac#atsptr_null" // macro
+
+(* ****** ****** *)
+
 praxi
 string_param_lemma
   {n:int} (x: string(n)): [n >= 0] void

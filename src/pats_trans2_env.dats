@@ -1023,10 +1023,11 @@ fun the_s2rtenv_initialize (): void = {
 // HX: pre-defined predicative sorts
 //
   val () = the_s2rtenv_add ($SYM.symbol_INT, S2TEsrt s2rt_int)
-  val () = the_s2rtenv_add ($SYM.symbol_BOOL, S2TEsrt s2rt_bool)
   val () = the_s2rtenv_add ($SYM.symbol_ADDR, S2TEsrt s2rt_addr)
+  val () = the_s2rtenv_add ($SYM.symbol_BOOL, S2TEsrt s2rt_bool)
   val () = the_s2rtenv_add ($SYM.symbol_CHAR, S2TEsrt s2rt_char)
-  val () = the_s2rtenv_add ($SYM.symbol_CLS, S2TEsrt s2rt_cls)
+  val () = the_s2rtenv_add ($SYM.symbol_EFF, S2TEsrt s2rt_cls)
+  val () = the_s2rtenv_add ($SYM.symbol_CLS, S2TEsrt s2rt_eff)
 //
 // HX: pre-defined impredicative sorts
 //

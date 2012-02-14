@@ -191,6 +191,8 @@ case+ s2e0.s2exp_node of
     s2exp_hnfize_flag_svar (s2e0, s2v, flag)
 | S2EVar _ => s2e0
 //
+| S2Eat _ => s2e0
+//
 | S2Eapp (s2e_fun, s2es_arg) =>
     s2exp_hnfize_app (s2e0, s2e_fun, s2es_arg, flag)
   // end of [S2Eapp]

@@ -37,45 +37,59 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [array_prf.sats] starts!\n"
+#print "Loading [fcontainer.sats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-prfun lemma_array_params
-  {a:viewt@ype} {l:addr} {n:int}
-  (pf: !array_v (INV(a), l, n)):<prf> [n >= 0] void
-// end of [lemma_array_params]
+fun{
+xs:t@ype // container
+}{
+x:t@ype // type for elements
+} foreach_funenv
+  {v:view}{env:viewtype}{f:eff} (
+  pf: !v | xs: xs, f: (!v | x, !env) -<fun,f> void, env: !env
+) :<f> void // end of [foreach_funenv]
 
-(* ****** ****** *)
+fun{
+xs:t@ype}{x:t@ype
+} foreach_fun {f:eff}
+  (xs: xs, f: (x) -<fun,f> void):<f> void
+// end of [foreach_fun]
 
-prfun
-array_v_split
-  {a:viewt@ype}
-  {l:addr}
-  {n:int} {i:nat | i <= n}
-  {ofs:int} (
-  pfmul: MUL (i, sizeof a, ofs), pfarr: array_v (INV(a), l, n)
-) :<prf> @(
-  array_v (a, l, i), array_v (a, l+ofs, n-i)
-) // end of [array_v_split]
+fun{
+xs:t@ype}{x:t@ype
+} foreach_clo {f:eff}
+  (xs: xs, f: &(x) -<clo,f> void):<f> void
+// end of [foreach_clo]
+fun{
+xs:t@ype}{x:t@ype
+} foreach_vclo {v:view} {f:eff}
+  (pf: !v | xs: xs, f: &(!v | x) -<clo,f> void):<f> void
+// end of [foreach_vclo]
 
-prfun
-array_v_unsplit
-  {a:viewt@ype}
-  {l:addr}
-  {n1,n2:int}
-  {ofs:int} (
-  pfmul: MUL (n1, sizeof a, ofs)
-, pf1arr: array_v (INV(a), l, n1), pf2arr: array_v (a, l+ofs, n2)
-) :<prf> array_v (a, l, n1+n2) // end of [array_v_unsplit]
+fun{
+xs:t@ype}{x:t@ype
+} foreach_cloptr {f:eff}
+  (xs: xs, f: !(x) -<cloptr,f> void):<f> void
+fun{
+xs:t@ype}{x:t@ype
+} foreach_vcloptr {v:view} {f:eff}
+  (pf: !v | xs: xs, f: !(!v | x) -<cloptr,f> void):<f> void
+// end of [foreach_vcloptr]
+
+fun{
+xs:t@ype}{x:t@ype
+} foreach_cloref {f:eff}
+  (xs: xs, f: (x) -<cloref,f> void):<f> void
+// end of [foreach_cloref]
 
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [array_prf.sats] finishes!\n"
+#print "Loading [fcontainer.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-(* end of [array_prf.sats] *)
+(* end of [fcontainer.sats] *)

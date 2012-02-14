@@ -187,6 +187,8 @@ SOURCES := \
   pats_trans3_caseof.dats \
   pats_trans3_loop.dats \
   pats_trans3_decl.dats \
+  pats_constraint3.sats \
+  pats_constraint3.dats \
   pats_comarg.sats \
   pats_comarg.dats \
 
