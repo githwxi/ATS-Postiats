@@ -37,43 +37,37 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [array_prf.sats] starts!\n"
+#print "Loading [list.sats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-prfun lemma_array_params
-  {a:viewt@ype} {l:addr} {n:int}
-  (pf: !array_v (INV(a), l, n)):<prf> [n >= 0] void
-// end of [lemma_array_params]
+fun{
+a:viewt@ype
+} list_vt_append
+  {n1,n2:nat} (
+  xs1: list_vt (a, n1), xs2: list_vt (a, n2)
+) : list_vt (a, n1+n2) // end of [list_vt_append]
 
 (* ****** ****** *)
 
-prfun
-array_v_split
-  {a:viewt@ype}
-  {l:addr}
-  {n:int} {i:nat | i <= n} (
-  pfarr: array_v (INV(a), l, n)
-) :<prf> @(
-  array_v (a, l, i), array_v (a, l+i*sizeof(a), n-i)
-) // end of [array_v_split]
+fun{
+x:viewt@ype
+} list_vt_reverse
+  {n:nat} (xs: list_vt (x, n)): list_vt (x, n)
+// end of [list_vt_reverse]
 
-prfun
-array_v_unsplit
-  {a:viewt@ype}
-  {l:addr}
-  {n1,n2:int} (
-  pf1arr: array_v (INV(a), l, n1)
-, pf2arr: array_v (a, l+n1*sizeof(a), n2)
-) :<prf> array_v (a, l, n1+n2) // end of [array_v_unsplit]
+fun{a:viewt@ype}
+list_vt_reverse_append {m,n:nat}
+  (xs: list_vt (a, m), ys: list_vt (a, n)): list_vt (a, m+n)
+// end of [list_vt_reverse_append]
 
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [array_prf.sats] finishes!\n"
+#print "Loading [list.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-(* end of [array_prf.sats] *)
+(* end of [list_vt.sats] *)

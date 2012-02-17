@@ -37,43 +37,82 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [array_prf.sats] starts!\n"
+#print "Loading [list.dats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-prfun lemma_array_params
-  {a:viewt@ype} {l:addr} {n:int}
-  (pf: !array_v (INV(a), l, n)):<prf> [n >= 0] void
-// end of [lemma_array_params]
+(*
+staload "fiterator.sats"
+staload "fcontainer.sats"
+*)
 
 (* ****** ****** *)
 
-prfun
-array_v_split
-  {a:viewt@ype}
-  {l:addr}
-  {n:int} {i:nat | i <= n} (
-  pfarr: array_v (INV(a), l, n)
-) :<prf> @(
-  array_v (a, l, i), array_v (a, l+i*sizeof(a), n-i)
-) // end of [array_v_split]
+implement{x}
+list_copy (xs) = let
+  viewtypedef res = List_vt (x)
+  fun loop {n:nat} .<n>. (
+    xs: list (x, n), res: &res? >> list_vt (x, n)
+  ) :<> void = case+ xs of
+    | list_cons (x, xs) => let
+        val () = res := list_vt_cons {x}{0} (x, ?)
+        val+ list_vt_cons (_, !p_tl) = res; val () = loop (xs, !p_tl)
+      in
+        fold@ (res)
+      end // end of [cons]
+    | list_nil () => res := list_vt_nil ()
+  // end of [loop]
+  var res: res // uninitialized
+  val () = loop (xs, res)
+in
+  res (*linear list*)
+end // end of [list_copy]
 
-prfun
-array_v_unsplit
-  {a:viewt@ype}
-  {l:addr}
-  {n1,n2:int} (
-  pf1arr: array_v (INV(a), l, n1)
-, pf2arr: array_v (a, l+n1*sizeof(a), n2)
-) :<prf> array_v (a, l, n1+n2) // end of [array_v_unsplit]
+(* ****** ****** *)
+
+implement{x}
+list_reverse (xs) = list_append2_vt (xs, list_vt_nil)
+
+(* ****** ****** *)
+
+implement{x}
+list_foreach_funenv
+  {v}{vt}{fe}
+  (pfv | xs, f, env) = let
+//
+fun loop {n:nat} .<n>. (
+  pfv: !v
+| xs: list (x, n), f: (!v | x, !vt) -<fun,fe> void, env: !vt
+) :<fe> void =
+  case+ xs of
+  | list_cons (x, xs) => let
+      val () = f (pfv | x, env) in loop (pfv | xs, f, env)
+    end // end of [list_cons]
+  | list_nil () => ()
+// end of [loop]
+in
+  loop (pfv | xs, f, env)
+end // end of [list_foreach_funenv]
+
+(* ****** ****** *)
+
+implement{x}{y}
+list_map_funenv
+  {v}{vt}{n}{fe}
+  (pfv | xs, f, env) = ys where {
+  val [n2:int] ys = listize_funenv (pfv | xs, f, env)
+  prval () = __assert () where {
+    extern praxi __assert (): [n==n2] void
+  } (* end of [prval] *)
+} // end of [list_map_funenv]
 
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [array_prf.sats] finishes!\n"
+#print "Loading [list.dats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-(* end of [array_prf.sats] *)
+(* end of [list.dats] *)

@@ -37,43 +37,54 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [array_prf.sats] starts!\n"
+#print "Loading [list.sats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-prfun lemma_array_params
-  {a:viewt@ype} {l:addr} {n:int}
-  (pf: !array_v (INV(a), l, n)):<prf> [n >= 0] void
-// end of [lemma_array_params]
+fun{
+x:t@ype // type for elements
+} list_copy {n:nat} (xs: list (x, n)):<> list_vt (x, n)
 
 (* ****** ****** *)
 
-prfun
-array_v_split
-  {a:viewt@ype}
-  {l:addr}
-  {n:int} {i:nat | i <= n} (
-  pfarr: array_v (INV(a), l, n)
-) :<prf> @(
-  array_v (a, l, i), array_v (a, l+i*sizeof(a), n-i)
-) // end of [array_v_split]
+fun{x:t@ype}
+list_reverse {n:nat} (xs: list (x, n)): list_vt (x, n)
 
-prfun
-array_v_unsplit
-  {a:viewt@ype}
-  {l:addr}
-  {n1,n2:int} (
-  pf1arr: array_v (INV(a), l, n1)
-, pf2arr: array_v (a, l+n1*sizeof(a), n2)
-) :<prf> array_v (a, l, n1+n2) // end of [array_v_unsplit]
+fun{a:t@ype}
+list_append1_vt {i,j:nat}
+  (xs: list_vt (a, i), ys: list (a, j)):<> list (a, i+j)
+// end of [list_append1_vt]
+
+fun{a:t@ype}
+list_append2_vt {i,j:nat}
+  (xs: list (a, i), ys: list_vt (a, j)):<> list_vt (a, i+j)
+// end of [list_append2_vt]
+
+(* ****** ****** *)
+
+fun{
+x:t@ype // type for elements
+} list_foreach_funenv
+  {v:view}{env:viewtype}{fe:eff} (
+  pfv: !v | xs: List (x), f: (!v | x, !env) -<fun,fe> void, env: !env
+) :<fe> void // end of [list_foreach_funenv]
+
+(* ****** ****** *)
+
+fun{
+x:t@ype}{y:t@ype
+} list_map_funenv
+  {v:view}{vt:viewtype}{n:nat}{fe:eff} (
+  pfv: !v | xs: list (x, n), f: (!v | x, !vt) -<fun,fe> y, env: !vt
+) : list_vt (y, n) // end of [list_map_funenv]
 
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [array_prf.sats] finishes!\n"
+#print "Loading [list.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-(* end of [array_prf.sats] *)
+(* end of [list.sats] *)

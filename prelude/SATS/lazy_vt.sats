@@ -37,43 +37,34 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [array_prf.sats] starts!\n"
+#print "Loading [lazy_vt.sats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
-
-prfun lemma_array_params
-  {a:viewt@ype} {l:addr} {n:int}
-  (pf: !array_v (INV(a), l, n)):<prf> [n >= 0] void
-// end of [lemma_array_params]
-
+//
+// HX: [lazy_vt(VT)] :
+// suspended computation of a linear value of viewtype VT
+//
+absviewtype
+lazy_viewt0ype_viewtype
+  (viewt@ype+) // boxed linear type // unnamed
+stadef lazy_vt = lazy_viewt0ype_viewtype
+//
 (* ****** ****** *)
-
-prfun
-array_v_split
-  {a:viewt@ype}
-  {l:addr}
-  {n:int} {i:nat | i <= n} (
-  pfarr: array_v (INV(a), l, n)
-) :<prf> @(
-  array_v (a, l, i), array_v (a, l+i*sizeof(a), n-i)
-) // end of [array_v_split]
-
-prfun
-array_v_unsplit
-  {a:viewt@ype}
-  {l:addr}
-  {n1,n2:int} (
-  pf1arr: array_v (INV(a), l, n1)
-, pf2arr: array_v (a, l+n1*sizeof(a), n2)
-) :<prf> array_v (a, l, n1+n2) // end of [array_v_unsplit]
-
+//
+// HX: lazy linear streams
+//
+dataviewtype
+stream_vt_con (a:viewt@ype+) =
+  | stream_vt_nil (a) | stream_vt_cons (a) of (a, stream_vt a)
+where stream_vt (a:viewt@ype) = lazy_vt (stream_vt_con a)
+//
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [array_prf.sats] finishes!\n"
+#print "Loading [lazy_vt.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-(* end of [array_prf.sats] *)
+(* end of [lazy_vt.sats] *)

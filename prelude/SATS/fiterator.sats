@@ -37,43 +37,86 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [array_prf.sats] starts!\n"
+#print "Loading [fiterator.sats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-prfun lemma_array_params
-  {a:viewt@ype} {l:addr} {n:int}
-  (pf: !array_v (INV(a), l, n)):<prf> [n >= 0] void
-// end of [lemma_array_params]
+absviewt@ype iterator (
+  xs: t@ype, x: t@ype+, f: int, r: int
+) // end of [absviewt@ype]
+
+prfun lemma_iterator_params
+  {xs:t@ype}{x:t@ype}{f,r:int}
+  (iter: !iterator (xs, x, f, r)): [f>=0;r>=0] void
+// end of [lemma_iterator_params]
 
 (* ****** ****** *)
 
-prfun
-array_v_split
-  {a:viewt@ype}
-  {l:addr}
-  {n:int} {i:nat | i <= n} (
-  pfarr: array_v (INV(a), l, n)
-) :<prf> @(
-  array_v (a, l, i), array_v (a, l+i*sizeof(a), n-i)
-) // end of [array_v_split]
+fun{
+xs:t@ype}{x:t@ype
+} iter_make (xs: xs):<> [r:nat] iterator (xs, x, 0, r)
 
-prfun
-array_v_unsplit
-  {a:viewt@ype}
-  {l:addr}
-  {n1,n2:int} (
-  pf1arr: array_v (INV(a), l, n1)
-, pf2arr: array_v (a, l+n1*sizeof(a), n2)
-) :<prf> array_v (a, l, n1+n2) // end of [array_v_unsplit]
+fun{
+xs:t@ype}{x:t@ype
+} iter_free {f,r:int} (iter: iterator (xs, x, f, r)):<> void
+
+(* ****** ****** *)
+
+fun{
+xs:t@ype}{x:t@ype
+} iter_is_atend {f,r:int}
+  (iter: &iterator (xs, x, f, r)):<> bool (r==0)
+// end of [iter_is_atend]
+
+fun{
+xs:t@ype}{x:t@ype
+} iter_isnot_atend {f,r:int}
+  (iter: &iterator (xs, x, f, r)):<> bool (r > 0)
+// end of [iter_isnot_atend]
+
+(* ****** ****** *)
+
+fun{
+xs:t@ype}{x:t@ype
+} iter_get_at
+  {f,r:int | r > 0} (iter: &iterator (xs, x, f, r)):<> x
+// end of [iter_get_at]
+
+fun{
+xs:t@ype}{x:t@ype
+} iter_getinc_at
+  {f,r:int | r > 0}
+  (iter: &iterator (xs, x, f, r) >> iterator (xs, x, f+1, r-1)):<> x
+// end of [iter_getinc_at]
+
+fun{
+xs:t@ype}{x:t@ype
+} iter_getdec_at
+  {f,r:int | f > 0; r > 0}
+  (iter: &iterator (xs, x, f, r) >> iterator (xs, x, f-1, r+1)):<> x
+// end of [iter_getdec_at]
+
+(* ****** ****** *)
+
+fun{
+xs:t@ype}{x:t@ype
+} iter_inc {f,r:int | r > 0} (
+  iter: &iterator (xs, x, f, r) >> iterator (xs, x, f+1, r-1)
+) :<> void // end of [iter_inc]
+
+fun{
+xs:t@ype}{x:t@ype
+} iter_dec {f,r:int | f > 0} (
+  iter: &iterator (xs, x, f, r) >> iterator (xs, x, f-1, r+1)
+) :<> void // end of [iter_dec]
 
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [array_prf.sats] finishes!\n"
+#print "Loading [fiterator.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-(* end of [array_prf.sats] *)
+(* end of [fiterator.sats] *)

@@ -47,42 +47,88 @@ xs:t@ype // container
 }{
 x:t@ype // type for elements
 } foreach_funenv
-  {v:view}{env:viewtype}{f:eff} (
-  pf: !v | xs: xs, f: (!v | x, !env) -<fun,f> void, env: !env
-) :<f> void // end of [foreach_funenv]
+  {v:view}{vt:viewtype}{fe:eff} (
+  pfv: !v | xs: xs, f: (!v | x, !vt) -<fun,fe> void, env: !vt
+) :<fe> void // end of [foreach_funenv]
 
 fun{
 xs:t@ype}{x:t@ype
-} foreach_fun {f:eff}
-  (xs: xs, f: (x) -<fun,f> void):<f> void
+} foreach_fun {fe:eff}
+  (xs: xs, f: (x) -<fun,fe> void):<fe> void
 // end of [foreach_fun]
 
 fun{
 xs:t@ype}{x:t@ype
-} foreach_clo {f:eff}
-  (xs: xs, f: &(x) -<clo,f> void):<f> void
+} foreach_clo {fe:eff}
+  (xs: xs, f: &(x) -<clo,fe> void):<fe> void
 // end of [foreach_clo]
 fun{
 xs:t@ype}{x:t@ype
-} foreach_vclo {v:view} {f:eff}
-  (pf: !v | xs: xs, f: &(!v | x) -<clo,f> void):<f> void
+} foreach_vclo {v:view} {fe:eff}
+  (pfv: !v | xs: xs, f: &(!v | x) -<clo,fe> void):<fe> void
 // end of [foreach_vclo]
 
 fun{
 xs:t@ype}{x:t@ype
-} foreach_cloptr {f:eff}
-  (xs: xs, f: !(x) -<cloptr,f> void):<f> void
+} foreach_cloptr {fe:eff}
+  (xs: xs, f: !(x) -<cloptr,fe> void):<fe> void
 fun{
 xs:t@ype}{x:t@ype
-} foreach_vcloptr {v:view} {f:eff}
-  (pf: !v | xs: xs, f: !(!v | x) -<cloptr,f> void):<f> void
+} foreach_vcloptr {v:view} {fe:eff}
+  (pfv: !v | xs: xs, f: !(!v | x) -<cloptr,fe> void):<fe> void
 // end of [foreach_vcloptr]
 
 fun{
 xs:t@ype}{x:t@ype
-} foreach_cloref {f:eff}
-  (xs: xs, f: (x) -<cloref,f> void):<f> void
+} foreach_cloref {fe:eff}
+  (xs: xs, f: (x) -<cloref,fe> void):<fe> void
 // end of [foreach_cloref]
+
+(* ****** ****** *)
+
+fun{
+xs:t@ype}{x:t@ype
+} exists_funenv
+  {v:view} {vt:viewtype} {pe:eff} (
+  pf: !v | xs: xs, p: (!v | x, !vt) -<fun,pe> bool, env: !vt
+) :<pe> bool // end of [exists_funenv]
+
+(* ****** ****** *)
+
+fun{
+xs:t@ype}{x:t@ype
+} listize (xs: xs):<> List_vt (x)
+fun{
+xs:t@ype
+}{
+x:t@ype}{y:viewt@ype
+} listize_funenv
+  {v:view}{vt:viewtype}{fe:eff} (
+  pfv: !v | xs: xs, f: (!v | x, !vt) -<fun,fe> y, env: !vt
+) :<fe> List_vt (y)
+
+(* ****** ****** *)
+
+fun{
+xs:t@ype}{x:t@ype
+} rlistize (xs: xs):<> List_vt (x)
+fun{
+xs:t@ype
+}{
+x:t@ype}{y:viewt@ype
+} rlistize_funenv
+  {v:view}{vt:viewtype}{fe:eff} (
+  pfv: !v | xs: xs, f: (!v | x, !vt) -<fun,fe> y, env: !vt
+) :<fe> List_vt (y)
+
+(* ****** ****** *)
+
+fun{
+xs:t@ype}{x:t@ype
+} streamize (xs: xs):<> stream (x)
+fun{
+xs:t@ype}{x:t@ype
+} streamize_vt (xs: xs):<> stream_vt (x)
 
 (* ****** ****** *)
 

@@ -316,6 +316,56 @@ end // end of [local]
 local
 
 staload
+MSET = "libats/SATS/funmset_listord.sats"
+staload _ = "libats/DATS/funmset_listord.dats"
+
+assume s2varmset_type = $MSET.mset (s2var)
+
+val cmp = lam (
+  s2v1: s2var, s2v2: s2var
+) : int =<cloref>
+  compare_s2var_s2var (s2v1, s2v2)
+// end of [val]
+
+in // in of [local]
+
+implement
+s2varmset_nil () = $MSET.funmset_make_nil ()
+
+implement
+s2varmset_sing (x) = $MSET.funmset_make_sing (x)
+
+implement
+s2varmset_pair
+  (x1, x2) = $MSET.funmset_make_pair (x1, x2, cmp)
+// end of [s2varmset_pair]
+
+implement
+s2varmset_add
+  (xs, x) = xs where {
+  var xs = xs
+  val () = $MSET.funmset_insert (xs, x, cmp)
+} // end of [s2varmset_add]
+
+implement
+s2varmset_del
+  (xs, x) = xs where {
+  var xs = xs
+  val _(*removed*) = $MSET.funmset_remove (xs, x, cmp)
+} // end of [s2varmset_del]
+
+implement
+s2varmset_union
+  (xs1, xs2) = $MSET.funmset_union (xs1, xs2, cmp)
+// end of [s2varmset_union]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+staload
 MAP = "libats/SATS/linmap_avltree.sats"
 staload _ = "libats/DATS/linmap_avltree.dats"
 

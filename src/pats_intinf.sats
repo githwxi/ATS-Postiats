@@ -67,9 +67,34 @@ fun fprint_intinf (out: FILEref, x: intinf): void
 fun eq_intinf_int (x1: intinf, x2: int):<> bool
 fun eq_int_intinf (x1: int, x2: intinf):<> bool
 fun eq_intinf_intinf (x1: intinf, x2: intinf):<> bool
+overload = with eq_intinf_int
+overload = with eq_int_intinf
+overload = with eq_intinf_intinf
 
 fun compare_intinf_int (x1: intinf, x2: int):<> int
 fun compare_intinf_intinf (x1: intinf, x2: intinf):<> int
+
+(* ****** ****** *)
+
+fun neg_intinf (x: intinf):<> intinf
+overload ~ with neg_intinf
+
+fun add_intinf_int (x1: intinf, x2: int):<> intinf
+fun add_int_intinf (x1: int, x2: intinf):<> intinf
+fun add_intinf_intinf (x1: intinf, x2: intinf):<> intinf
+overload + with add_intinf_int
+overload + with add_int_intinf
+overload + with add_intinf_intinf
+
+fun sub_intinf_intinf (x1: intinf, x2: intinf):<> intinf
+overload - with sub_intinf_intinf
+
+fun mul_intinf_int (x1: intinf, x2: int):<> intinf
+fun mul_int_intinf (x1: int, x2: intinf):<> intinf
+fun mul_intinf_intinf (x1: intinf, x2: intinf):<> intinf
+overload * with mul_intinf_int
+overload * with mul_int_intinf
+overload * with mul_intinf_intinf
 
 (* ****** ****** *)
 

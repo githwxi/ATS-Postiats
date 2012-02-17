@@ -43,50 +43,50 @@ staload "pats_trans3_env.sats"
 (* ****** ****** *)
 
 implement
-fprint_c3str (out, c3t) = let
+fprint_c3nstr (out, c3t) = let
   macdef prstr (x) = fprint_string (out, ,(x))
 in
 //
-case+ c3t.c3str_node of
-| C3STRprop s2p => {
-    val () = prstr "C3STRprop("
-    val () = fprint_c3strkind (out, c3t.c3str_kind)
+case+ c3t.c3nstr_node of
+| C3NSTRprop s2p => {
+    val () = prstr "C3NSTRprop("
+    val () = fprint_c3nstrkind (out, c3t.c3nstr_kind)
     val () = prstr "; "
     val () = fpprint_s2exp (out, s2p)
     val () = prstr ")"
-  } // end of [C3STRprop]
-| C3STRitmlst s3is => {
-    val () = prstr "C3STRitmlst("
-    val () = fprint_c3strkind (out, c3t.c3str_kind)
+  } // end of [C3NSTRprop]
+| C3NSTRitmlst s3is => {
+    val () = prstr "C3NSTRitmlst("
+    val () = fprint_c3nstrkind (out, c3t.c3nstr_kind)
     val () = prstr "; "
     val () = fprint_s3itmlst (out, s3is)
     val () = prstr ")"
-  } // end of [C3STRitmlst]
+  } // end of [C3NSTRitmlst]
 //
-end // end of [fprint_c3str]
+end // end of [fprint_c3nstr]
 
 (* ****** ****** *)
 
 implement
-fprint_c3strkind (out, knd) = let
+fprint_c3nstrkind (out, knd) = let
   macdef prstr (x) = fprint_string (out, ,(x))
 in
 //
 case+ knd of
-| C3STRKINDmain () => prstr "main"
+| C3NSTRKINDmain () => prstr "main"
 (*
-| C3STRKINDmetric_nat () => prstr "metric_nat"
-| C3STRKINDmetric_dec () => prstr "metric_dec"
+| C3NSTRKINDmetric_nat () => prstr "metric_nat"
+| C3NSTRKINDmetric_dec () => prstr "metric_dec"
 *)
-| C3STRKINDcase_exhaustiveness _ => prstr "case_exhaustiveness"
+| C3NSTRKINDcase_exhaustiveness _ => prstr "case_exhaustiveness"
 (*
-| C3STRKINDvarfin _ => prstr "varfin"
-| C3STRKINDloop (knd) => begin
+| C3NSTRKINDvarfin _ => prstr "varfin"
+| C3NSTRKINDloop (knd) => begin
     prstr "loop("; fprint1_int (out, knd); prstr ")"
-  end (* end of [C3STRKINDloop] *)
+  end (* end of [C3NSTRKINDloop] *)
 *)
 //
-end // end of [fprint_c3strkind]
+end // end of [fprint_c3nstrkind]
 
 (* ****** ****** *)
 
@@ -128,7 +128,7 @@ in
 case+ s3i of
 | S3ITMcstr (c3t) => {
     val () =  prstr "S3ITMcstr("
-    val () = fprint_c3str (out, c3t)
+    val () = fprint_c3nstr (out, c3t)
     val () = prstr ")"
   } // end of [S3ITMcstr]
 | S3ITMdisj (s3iss) => {

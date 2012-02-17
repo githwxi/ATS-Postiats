@@ -37,43 +37,47 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [array_prf.sats] starts!\n"
+#print "Loading [list_vt.dats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-prfun lemma_array_params
-  {a:viewt@ype} {l:addr} {n:int}
-  (pf: !array_v (INV(a), l, n)):<prf> [n >= 0] void
-// end of [lemma_array_params]
+implement{a}
+list_vt_reverse (xs) =
+  list_vt_reverse_append (xs, list_vt_nil)
+// end of [list_vt_reverse]
 
 (* ****** ****** *)
 
-prfun
-array_v_split
-  {a:viewt@ype}
-  {l:addr}
-  {n:int} {i:nat | i <= n} (
-  pfarr: array_v (INV(a), l, n)
-) :<prf> @(
-  array_v (a, l, i), array_v (a, l+i*sizeof(a), n-i)
-) // end of [array_v_split]
-
-prfun
-array_v_unsplit
-  {a:viewt@ype}
-  {l:addr}
-  {n1,n2:int} (
-  pf1arr: array_v (INV(a), l, n1)
-, pf2arr: array_v (a, l+n1*sizeof(a), n2)
-) :<prf> array_v (a, l, n1+n2) // end of [array_v_unsplit]
+implement{a}
+list_vt_reverse_append
+  (xs, ys) = let
+//
+fun loop
+  {m,n:nat} .<m>. (
+  xs: list_vt (a, m), ys: list_vt (a, n)
+) :<> list_vt (a, m+n) =
+  case xs of
+  | list_vt_cons
+      (_, !p_tl) => let
+      val xs1 = !p_tl
+      val () = !p_tl := ys
+      prval () = fold@ (xs)
+    in
+      loop (xs1, xs)
+    end
+  | ~list_vt_nil () => ys
+// end of [loop]
+in
+  loop (xs, ys)
+end // end of [list_vt_reverse_append]
 
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [array_prf.sats] finishes!\n"
+#print "Loading [list_vt.dats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-(* end of [array_prf.sats] *)
+(* end of [list_vt.dats] *)

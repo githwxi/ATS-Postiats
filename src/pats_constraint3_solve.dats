@@ -1,4 +1,4 @@
-(***********************************************************************)
+
 (*                                                                     *)
 (*                         Applied Type System                         *)
 (*                                                                     *)
@@ -10,8 +10,8 @@
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
-** the terms of the GNU LESSER GENERAL PUBLIC LICENSE as published by the
-** Free Software Foundation; either version 2.1, or (at your option)  any
+** the terms of  the GNU GENERAL PUBLIC LICENSE (GPL) as published by the
+** Free Software Foundation; either version 3, or (at  your  option)  any
 ** later version.
 ** 
 ** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
@@ -27,53 +27,17 @@
 
 (* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
 // Start Time: February, 2012
 //
 (* ****** ****** *)
 
-#include "prelude/params.hats"
+staload "pats_constraint3.sats"
 
 (* ****** ****** *)
 
-#if VERBOSE_PRELUDE #then
-#print "Loading [array_prf.sats] starts!\n"
-#endif // end of [VERBOSE_PRELUDE]
+implement c3nstr_solve (c3t) = ()
 
 (* ****** ****** *)
 
-prfun lemma_array_params
-  {a:viewt@ype} {l:addr} {n:int}
-  (pf: !array_v (INV(a), l, n)):<prf> [n >= 0] void
-// end of [lemma_array_params]
-
-(* ****** ****** *)
-
-prfun
-array_v_split
-  {a:viewt@ype}
-  {l:addr}
-  {n:int} {i:nat | i <= n} (
-  pfarr: array_v (INV(a), l, n)
-) :<prf> @(
-  array_v (a, l, i), array_v (a, l+i*sizeof(a), n-i)
-) // end of [array_v_split]
-
-prfun
-array_v_unsplit
-  {a:viewt@ype}
-  {l:addr}
-  {n1,n2:int} (
-  pf1arr: array_v (INV(a), l, n1)
-, pf2arr: array_v (a, l+n1*sizeof(a), n2)
-) :<prf> array_v (a, l, n1+n2) // end of [array_v_unsplit]
-
-(* ****** ****** *)
-
-#if VERBOSE_PRELUDE #then
-#print "Loading [array_prf.sats] finishes!\n"
-#endif // end of [VERBOSE_PRELUDE]
-
-(* ****** ****** *)
-
-(* end of [array_prf.sats] *)
+(* end of [pats_constraint3_solve.dats] *)

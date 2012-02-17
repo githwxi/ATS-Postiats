@@ -49,32 +49,32 @@ staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-datatype c3strkind =
-  | C3STRKINDmain of () // generic
+datatype c3nstrkind =
+  | C3NSTRKINDmain of () // generic
 (*
-  | C3STRKINDmetric_nat (* metric being welfounded *)
-  | C3STRKINDmetric_dec (* metric being decreasing *)
+  | C3NSTRKINDmetric_nat (* metric being welfounded *)
+  | C3NSTRKINDmetric_dec (* metric being decreasing *)
 *)
-  | C3STRKINDcase_exhaustiveness of
+  | C3NSTRKINDcase_exhaustiveness of
       (caskind (*case/case+*), p2atcstlst) // HX: no [case-]
 (*
-  | C3STRKINDvarfin of (d2var_t, s2exp, s2exp)
-  | C3STRKINDloop of int (* 0/1/2: enter/break/continue *)
+  | C3NSTRKINDvarfin of (d2var_t, s2exp, s2exp)
+  | C3NSTRKINDloop of int (* 0/1/2: enter/break/continue *)
 *)
-// end of [c3strkind]
+// end of [c3nstrkind]
 
 datatype s3itm =
-  | S3ITMcstr of c3str
+  | S3ITMcstr of c3nstr
   | S3ITMdisj of s3itmlstlst
   | S3ITMhypo of h3ypo
   | S3ITMsvar of s2var
   | S3ITMsVar of s2Var
 // end of [s3item]
 
-and c3str_node =
-  | C3STRprop of s2exp
-  | C3STRitmlst of s3itmlst
-// end of [c3str_node]
+and c3nstr_node =
+  | C3NSTRprop of s2exp
+  | C3NSTRitmlst of s3itmlst
+// end of [c3nstr_node]
 
 and h3ypo_node =
   | H3YPOprop of s2exp
@@ -89,13 +89,13 @@ s3itmlst_vt = List_vt (s3itm)
 and
 s3itmlstlst = List (s3itmlst)
 
-and c3str = '{
-  c3str_loc= location
-, c3str_kind= c3strkind
-, c3str_node= c3str_node
-} // end of [c3str]
+and c3nstr = '{
+  c3nstr_loc= location
+, c3nstr_kind= c3nstrkind
+, c3nstr_node= c3nstr_node
+} // end of [c3nstr]
 
-and c3stropt = Option (c3str)
+and c3nstropt = Option (c3nstr)
 
 and h3ypo = '{
   h3ypo_loc= location
@@ -104,14 +104,14 @@ and h3ypo = '{
 
 (* ****** ****** *)
 
-fun c3str_prop
-  (loc: location, s2e: s2exp): c3str
-fun c3str_itmlst (
-  loc: location, knd: c3strkind, s3is: s3itmlst
-) : c3str // end of [c3str_itmlst]
-fun c3str_case_exhaustiveness (
+fun c3nstr_prop
+  (loc: location, s2e: s2exp): c3nstr
+fun c3nstr_itmlst (
+  loc: location, knd: c3nstrkind, s3is: s3itmlst
+) : c3nstr // end of [c3nstr_itmlst]
+fun c3nstr_case_exhaustiveness (
   loc: location, casknd: caskind, p2tcs: !p2atcstlst_vt
-) : c3str // end of [c3str_case_exhaustiveness]
+) : c3nstr // end of [c3nstr_case_exhaustiveness]
 
 (* ****** ****** *)
 
@@ -124,8 +124,8 @@ fun h3ypo_eqeq
 
 (* ****** ****** *)
 
-fun fprint_c3str : fprint_type (c3str)
-fun fprint_c3strkind : fprint_type (c3strkind)
+fun fprint_c3nstr : fprint_type (c3nstr)
+fun fprint_c3nstrkind : fprint_type (c3nstrkind)
 fun fprint_h3ypo : fprint_type (h3ypo)
 fun fprint_s3itm : fprint_type (s3itm)
 fun fprint_s3itmlst : fprint_type (s3itmlst)
@@ -171,7 +171,7 @@ fun trans3_env_pop
 // end of [trans3_env_pop]
 
 fun trans3_env_pop_and_add
-  (pf: trans3_env_push_v | loc: location, knd: c3strkind): void
+  (pf: trans3_env_push_v | loc: location, knd: c3nstrkind): void
 // end of [trans3_env_pop_and_add]
 
 fun trans3_env_pop_and_add_main
@@ -188,7 +188,7 @@ fun trans3_env_add_svarlst (s2vs: s2varlst): void
 fun trans3_env_add_sVar (s2V: s2Var): void
 fun trans3_env_add_sVarlst (s2Vs: s2Varlst): void
 
-fun trans3_env_add_cstr (c3s: c3str): void
+fun trans3_env_add_cstr (c3s: c3nstr): void
 
 fun trans3_env_add_prop (loc: location, s2p: s2exp): void
 fun trans3_env_add_proplst (loc: location, s2ps: s2explst): void
@@ -250,6 +250,10 @@ fun d3explst_open_and_add (d3es: d3explst): void
 (* ****** ****** *)
 
 fun trans3_env_initialize (): void
+
+(* ****** ****** *)
+
+fun trans3_finget_constraint (): c3nstr
 
 (* ****** ****** *)
 

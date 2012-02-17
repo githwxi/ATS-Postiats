@@ -78,30 +78,30 @@ staload "pats_trans3_env.sats"
 (* ****** ****** *)
 
 implement
-c3str_prop
+c3nstr_prop
   (loc, s2e) = '{
-  c3str_loc= loc
-, c3str_kind= C3STRKINDmain
-, c3str_node= C3STRprop (s2e)
-} // end of [c3str_prop]
+  c3nstr_loc= loc
+, c3nstr_kind= C3NSTRKINDmain
+, c3nstr_node= C3NSTRprop (s2e)
+} // end of [c3nstr_prop]
 
 implement
-c3str_itmlst
+c3nstr_itmlst
   (loc, knd, s3is) = '{
-  c3str_loc= loc
-, c3str_kind= knd
-, c3str_node= C3STRitmlst (s3is)
-} // end of [c3str_itmlst]
+  c3nstr_loc= loc
+, c3nstr_kind= knd
+, c3nstr_node= C3NSTRitmlst (s3is)
+} // end of [c3nstr_itmlst]
 
 implement
-c3str_case_exhaustiveness
+c3nstr_case_exhaustiveness
   (loc, casknd, p2tcs) = let
   val p2tcs = list_vt_copy (p2tcs)
 in '{
-  c3str_loc= loc
-, c3str_kind= C3STRKINDcase_exhaustiveness (casknd, (l2l)p2tcs)
-, c3str_node= C3STRprop (s2exp_bool (false))
-} end // end of [c3str_case_exhaustiveness]
+  c3nstr_loc= loc
+, c3nstr_kind= C3NSTRKINDcase_exhaustiveness (casknd, (l2l)p2tcs)
+, c3nstr_node= C3NSTRprop (s2exp_bool (false))
+} end // end of [c3nstr_case_exhaustiveness]
 
 (* ****** ****** *)
 
@@ -891,7 +891,7 @@ implement
 trans3_env_add_prop
   (loc, s2p) = case+ s2p.s2exp_node of
   | _ => let
-      val c3s = c3str_prop (loc, s2p) in trans3_env_add_cstr (c3s)
+      val c3s = c3nstr_prop (loc, s2p) in trans3_env_add_cstr (c3s)
     end // end of [_]
 // end of [trans3_env_add_prop]
 
@@ -942,7 +942,7 @@ fun loop (
   | ~list_vt_cons (xs, xss) => let
       val (pfpush | ()) = trans3_env_push ()
       val c3t =
-        c3str_case_exhaustiveness (loc0, casknd, xs)
+        c3nstr_case_exhaustiveness (loc0, casknd, xs)
       // end of [val]
       val () = trans3_env_hypadd_patcstlst (loc0, xs, s2es)
       val () = trans3_env_add_cstr (c3t)
@@ -1326,7 +1326,7 @@ implement
 trans3_env_pop_and_add
   (pf | loc, knd) = let
   val s3is = trans3_env_pop (pf | (*none*))
-  val c3s = c3str_itmlst (loc, knd, (l2l)s3is)
+  val c3s = c3nstr_itmlst (loc, knd, (l2l)s3is)
 in
   trans3_env_add_cstr (c3s)
 end // end of [trans3_env_pop_and_add]
@@ -1334,7 +1334,7 @@ end // end of [trans3_env_pop_and_add]
 implement
 trans3_env_pop_and_add_main
   (pf | loc) =
-  trans3_env_pop_and_add (pf | loc, C3STRKINDmain())
+  trans3_env_pop_and_add (pf | loc, C3NSTRKINDmain())
 // end of [trans3_env_pop_and_add_main]
 
 implement
@@ -1496,6 +1496,22 @@ val () =
 } // end of [val]
 //
 } // end of [trans3_env_initialize]
+
+(* ****** ****** *)
+
+implement
+trans3_finget_constraint () = let
+ val s3is = the_s3itmlst_env_pop ()
+ val s3is = list_of_list_vt (s3is)
+// (*
+ val () = begin
+   print "trans3_finget_constraint: s3is = ";
+   fprint_s3itmlst (stdout_ref, s3is); print_newline ()
+ end // end of [val]
+// *)
+in
+  c3nstr_itmlst ($LOC.location_dummy, C3NSTRKINDmain, s3is)
+end // end of [c3nstr_get_final]
 
 (* ****** ****** *)
 

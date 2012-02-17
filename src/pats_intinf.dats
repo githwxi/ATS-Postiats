@@ -164,6 +164,106 @@ end) end) // end of [compare_intinf_intinf]
 
 (* ****** ****** *)
 
+implement
+neg_intinf
+  (x) = $effmask_ref let
+  val (vbox pf | p) = ref_get_view_ptr (x)
+  val (pfgc_res, pfat_res | p_res) = ptr_alloc_tsz {mpz_vt} (sizeof<mpz_vt>)
+  prval () = free_gc_elim (pfgc_res)
+  val () = mpz_init_set_mpz (!p_res, !p)
+  val () = mpz_neg1 (!p_res)
+in
+  ref_make_view_ptr (pfat_res | p_res)
+end // end of [neg_intinf]
+
+(* ****** ****** *)
+
+implement
+add_intinf_int
+  (x1, x2) =
+  $effmask_ref (let
+  val (vbox pf1 | p1) = ref_get_view_ptr (x1)
+  val (pfgc_res, pfat_res | p_res) = ptr_alloc_tsz {mpz_vt} (sizeof<mpz_vt>)
+  prval () = free_gc_elim (pfgc_res)
+  val () = mpz_init_set_mpz (!p_res, !p1)
+  val () = mpz_add (!p_res, x2)
+in
+  ref_make_view_ptr (pfat_res | p_res)
+end) // end of [add_intinf_int]
+
+implement
+add_int_intinf (x1, x2) = add_intinf_int (x2, x1)
+
+implement
+add_intinf_intinf
+  (x1, x2) =
+  $effmask_ref (let
+  val (vbox pf1 | p1) = ref_get_view_ptr (x1)
+in
+  $effmask_ref (let
+  val (vbox pf2 | p2) = ref_get_view_ptr (x2)
+  val (pfgc_res, pfat_res | p_res) = ptr_alloc_tsz {mpz_vt} (sizeof<mpz_vt>)
+  prval () = free_gc_elim (pfgc_res)
+  val () = mpz_init_set_mpz (!p_res, !p1)
+  val () = mpz_add (!p_res, !p2)
+in
+  ref_make_view_ptr (pfat_res | p_res)
+end) end) // end of [add_intinf_intinf]
+
+(* ****** ****** *)
+
+implement
+sub_intinf_intinf
+  (x1, x2) =
+  $effmask_ref (let
+  val (vbox pf1 | p1) = ref_get_view_ptr (x1)
+in
+  $effmask_ref (let
+  val (vbox pf2 | p2) = ref_get_view_ptr (x2)
+  val (pfgc_res, pfat_res | p_res) = ptr_alloc_tsz {mpz_vt} (sizeof<mpz_vt>)
+  prval () = free_gc_elim (pfgc_res)
+  val () = mpz_init_set_mpz (!p_res, !p1)
+  val () = mpz_sub (!p_res, !p2)
+in
+  ref_make_view_ptr (pfat_res | p_res)
+end) end) // end of [sub_intinf_intinf]
+
+(* ****** ****** *)
+
+implement
+mul_intinf_int
+  (x1, x2) =
+  $effmask_ref (let
+  val (vbox pf1 | p1) = ref_get_view_ptr (x1)
+  val (pfgc_res, pfat_res | p_res) = ptr_alloc_tsz {mpz_vt} (sizeof<mpz_vt>)
+  prval () = free_gc_elim (pfgc_res)
+  val () = mpz_init_set_mpz (!p_res, !p1)
+  val () = mpz_mul (!p_res, x2)
+in
+  ref_make_view_ptr (pfat_res | p_res)
+end) // end of [mul_intinf_int]
+
+implement
+mul_int_intinf (x1, x2) = mul_intinf_int (x2, x1)
+
+implement
+mul_intinf_intinf
+  (x1, x2) =
+  $effmask_ref (let
+  val (vbox pf1 | p1) = ref_get_view_ptr (x1)
+in
+  $effmask_ref (let
+  val (vbox pf2 | p2) = ref_get_view_ptr (x2)
+  val (pfgc_res, pfat_res | p_res) = ptr_alloc_tsz {mpz_vt} (sizeof<mpz_vt>)
+  prval () = free_gc_elim (pfgc_res)
+  val () = mpz_init_set_mpz (!p_res, !p1)
+  val () = mpz_mul (!p_res, !p2)
+in
+  ref_make_view_ptr (pfat_res | p_res)
+end) end) // end of [mul_intinf_intinf]
+
+(* ****** ****** *)
+
 val () = intinf_initialize () where {
   extern fun intinf_initialize (): void = "patsopt_intinf_initialize"
 } // end of [val]

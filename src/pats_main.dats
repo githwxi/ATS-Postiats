@@ -81,6 +81,10 @@ staload TRENV3 = "pats_trans3_env.sats"
 
 (* ****** ****** *)
 
+staload CNSTR3 = "pats_constraint3.sats"
+
+(* ****** ****** *)
+
 staload "pats_comarg.sats"
 
 (* ****** ****** *)
@@ -210,6 +214,11 @@ dynload "pats_trans3_loop.dats"
 dynload "pats_trans3_decl.dats"
 //
 dynload "pats_constraint3.dats"
+dynload "pats_constraint3_print.dats"
+dynload "pats_constraint3_saexp.dats"
+dynload "pats_constraint3_sbexp.dats"
+dynload "pats_constraint3_siexp.dats"
+dynload "pats_constraint3_solve.dats"
 //
 dynload "pats_comarg.dats"
 //
@@ -445,10 +454,15 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/SATS/string.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/strptr.sats")
 //
+  val () = pervasive_load (ATSHOME, "prelude/SATS/lazy.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/lazy_vt.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/fcontainer.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/fiterator.sats")
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/array.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/array_prf.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/list.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/list_vt.sats")
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/extern.sats")
 //
@@ -553,15 +567,22 @@ fn do_trans123 (
   val () = $TRENV3.trans3_env_initialize ()
   val d3cs = $TRANS3.d2eclist_tr_errck (d2cs)
 //
+(*
   val () = {
     val () = print "do_trans123: the_s3itmlst =\n"
     val () = $TRENV3.fprint_the_s3itmlst (stdout_ref)
     val () = print_newline ()
   } // end of [val]
+*)
+//
+  val () = // constraint solving
+    $CNSTR3.c3nstr_solve (c3t) where {
+    val c3t = $TRENV3.trans3_finget_constraint ()
+  } // end of [val]
 //
   val () = if isdebug() then {
     val () = print "The 3rd translation (typechecking) of ["
-    val () = print basename
+    val () = print_string (basename)
     val () = print "] is successfully completed!"
     val () = print_newline ()
   } // end of [if]

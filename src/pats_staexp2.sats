@@ -83,12 +83,16 @@ typedef s2var = s2var_type
 typedef s2varlst = List (s2var)
 viewtypedef s2varlst_vt = List_vt (s2var)
 typedef s2varopt = Option (s2var)
+viewtypedef s2varopt_vt = Option_vt (s2var)
 typedef s2varlstlst = List (s2varlst)
 //
 abstype s2varset_type // assumed in [pats_staexp2_svar.dats]
 typedef s2varset = s2varset_type
 absviewtype s2varset_viewtype // assumed in [pats_staexp2_svar.dats]
 viewtypedef s2varset_vt = s2varset_viewtype
+//
+abstype s2varmset_type // assumed in [pats_staexp2_svar.dats]
+typedef s2varmset = s2varmset_type
 //
 absviewtype s2varbindmap_viewtype
 viewtypedef s2varbindmap = s2varbindmap_viewtype
@@ -585,6 +589,18 @@ fun s2varset_vt_delist
   (xs1: s2varset_vt, xs2: s2varlst): s2varset_vt
 fun s2varset_vt_union
   (xs: s2varset_vt, ys: s2varset_vt): s2varset_vt
+
+(* ****** ****** *)
+
+fun s2varmset_nil (): s2varmset
+fun s2varmset_sing (x: s2var): s2varmset
+fun s2varmset_pair (x1: s2var, x2: s2var): s2varmset
+fun s2varmset_add
+  (xs: s2varmset, x: s2var): s2varmset
+fun s2varmset_del
+  (xs: s2varmset, x: s2var): s2varmset
+fun s2varmset_union
+  (xs: s2varmset, ys: s2varmset): s2varmset
 
 (* ****** ****** *)
 

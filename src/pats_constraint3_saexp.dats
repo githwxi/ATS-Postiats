@@ -1,4 +1,4 @@
-(***********************************************************************)
+
 (*                                                                     *)
 (*                         Applied Type System                         *)
 (*                                                                     *)
@@ -10,8 +10,8 @@
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
-** the terms of the GNU LESSER GENERAL PUBLIC LICENSE as published by the
-** Free Software Foundation; either version 2.1, or (at your option)  any
+** the terms of  the GNU GENERAL PUBLIC LICENSE (GPL) as published by the
+** Free Software Foundation; either version 3, or (at  your  option)  any
 ** later version.
 ** 
 ** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
@@ -27,42 +27,11 @@
 
 (* ****** ****** *)
 //
-// Author of the file: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
 // Start Time: February, 2012
 //
 (* ****** ****** *)
 
-implement
-add_bool_bool
-  (x1, x2) = if x1 then true else x2
-// end of [add_bool_bool]
-
-implement
-mul_bool_bool
-  (x1, x2) = if x1 then x2 else false
-// end of [mul_bool_bool]
-
 (* ****** ****** *)
 
-implement
-lt_bool_bool (x1, x2) = if x1 then false else x2
-implement
-lte_bool_bool (x1, x2) = if x1 then x2 else true
-implement
-gt_bool_bool (x1, x2) = if x2 then false else x1
-implement
-gte_bool_bool (x1, x2) = if x2 then x1 else true
-
-implement
-eq_bool_bool (x1, x2) = if x1 then x2 else ~x2
-implement
-neq_bool_bool (x1, x2) = if x1 then ~x2 else x1
-
-implement
-compare_bool_bool
-  (x1, x2) = int_of_bool(x1) - int_of_bool(x2)
-// end of [compare_bool_bool]
-
-(* ****** ****** *)
-
-(* end of [bool.dats] *)
+(* end of [pats_constraint3_saexp.dats] *)

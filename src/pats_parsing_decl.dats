@@ -1132,7 +1132,7 @@ case+ 0 of
   end
 | _ => let
     val () = err := err + 1 in synent_null ()
-  end
+  end (* end of [_] *)
 //
 end // end of [p_f0undec]
 
@@ -1295,10 +1295,6 @@ d0ec_dyn
   | d0ec
   | valkind {REC} v0aldecseq
   | funkind q0margseq f0undecseq
-/*
-  | VAL PAR v0aldecseq
-*/
-  | funkind f0undecseq
   | VAR v0ardecseq
 //
   | IMPLEMENT i0mpargseq i0mpdec
@@ -1339,7 +1335,7 @@ case+ tok.token_node of
     else let
       val () = list_vt_free (ent3) in synent_null ()
     end (* end of [if] *)
-  end
+  end // end of [T_VAL]
 | T_FUN (knd) => let
     val bt = 0
     val () = incby1 ()
@@ -1354,7 +1350,7 @@ case+ tok.token_node of
     in
       synent_null ()
     end (* end of [if] *)
-  end    
+  end // end of [T_FUN]
 | T_VAR () => let
     val bt = 0
     val () = incby1 ()
@@ -1365,7 +1361,7 @@ case+ tok.token_node of
     else let
       val () = list_vt_free (ent2) in synent_null ()
     end (* end of [if] *)
-  end
+  end // end of [T_VAR]
 //
 | T_IMPLEMENT () => let
     val bt = 0
@@ -1411,7 +1407,7 @@ case+ tok.token_node of
 //
     | _ => let
         val () = err := err + 1 in synent_null ()
-      end
+      end (* end of [_] *)
 //
   end // end of [T_EXTERN]
 | T_EXTYPE () => let
@@ -1489,7 +1485,7 @@ case+ tok.token_node of
   end
 | _ => let
     val () = err := err + 1 in synent_null ()
-  end
+  end (* end of [_] *)
 //
 end // end of [p_d0ecl_dyn_tok]
 

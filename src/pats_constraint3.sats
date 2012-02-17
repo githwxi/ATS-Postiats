@@ -40,7 +40,7 @@ staload "pats_staexp2.sats"
 staload
 TRENV3 = "pats_trans3_env.sats"
 typedef h3ypo = $TRENV3.h3ypo
-typedef c3str = $TRENV3.c3str
+typedef c3nstr = $TRENV3.c3nstr
 
 (* ****** ****** *)
 
@@ -56,24 +56,24 @@ s3aexp = // static address expression
 and
 s3bexp = // static boolean expression
   | S3BEvar of s2var
-  | S3BEexp of s2exp
   | S3BEcst of s2cst // abstract constant
+  | S3BEexp of s2exp
   | S3BEbool of bool (* boolean constant *)
+  | S3BEbneg of s3bexp
   | S3BEbadd of (s3bexp, s3bexp)
   | S3BEbmul of (s3bexp, s3bexp)
-  | S3BEbneg of s3bexp
-  // gte/lt : 2/~2; eq/neq: 1/~1
+  // eq/neq: 1/~1; gte/lt : 2/~2
   | S3BEiexp of (int(*knd*), s3iexp)
 // end of [s3bexp]
 
 and
 s3iexp = // static integer expression
   | S3IEvar of s2var
-  | S3IEexp of s2exp
-  | S3IEint of int
-  | S3IEintinf of intinf
   | S3IEcst of s2cst (* abstract constant *)
-  | S3IEineg of s3iexp
+  | S3IEexp of s2exp
+  | S3IEint of intinf
+  | S3IEatm of s2varmset (* mononomial term *)
+  | S3IEcff of (intinf, s3iexp) // HX: coefficient
   | S3IEiadd of (s3iexp, s3iexp)
   | S3IEisub of (s3iexp, s3iexp)
   | S3IEimul of (s3iexp, s3iexp)
@@ -82,7 +82,7 @@ s3iexp = // static integer expression
 
 (* ****** ****** *)
 //
-typedef s3bexplst = List s3bexp
+typedef s3bexplst = List (s3bexp)
 typedef s3bexpopt = Option (s3bexp)
 //
 viewtypedef s3aexpopt_vt = Option_vt (s3aexp)
@@ -154,16 +154,21 @@ fun s3bexp_pneq (s3ae1: s3aexp, s3ae2: s3aexp): s3bexp
 
 (* ****** ****** *)
 
+val intinf_0 : intinf
+val intinf_1 : intinf
+val intinf_neg_1 : intinf
+
 val s3iexp_0 : s3iexp
 val s3iexp_1 : s3iexp
 val s3iexp_neg_1 : s3iexp
 
 fun s3iexp_int (i: int): s3iexp
-fun s3iexp_intinf (int: intinf): s3iexp
+fun s3iexp_intinf (i: intinf): s3iexp
 fun s3iexp_var (s2v: s2var): s3iexp
 fun s3iexp_cst (s2c: s2cst): s3iexp
 
-fun s3iexp_ineg (s3ie: s3iexp): s3iexp
+fun s3iexp_neg (s3ie: s3iexp): s3iexp
+fun s3iexp_cff (i: intinf, s3ie: s3iexp): s3iexp
 
 fun s3iexp_isucc (s3ie: s3iexp): s3iexp
 fun s3iexp_ipred (s3ie: s3iexp): s3iexp
@@ -179,6 +184,37 @@ fun s3iexp_pdiff (s3ae1: s3aexp, s3ae2: s3aexp): s3iexp
 absviewtype s2cfdefmap_viewtype
 viewtypedef s2cfdefmap = s2cfdefmap_viewtype
 
+fun s2cfdefmap_free (fds: s2cfdefmap): void
+
+fun s2cfdefmap_pop (fds: &s2cfdefmap): void
+fun s2cfdefmap_push (fds: &s2cfdefmap): void
+
+fun s2cfdefmap_find (
+  fds: &s2cfdefmap, s2c: s2cst, arg: s2explst
+) : s2varopt_vt // end of [s2cfdefmap_find]
+
+(*
+// HX: for handling a special static function
+*)
+fun
+s2cfdefmap_add (
+  fds: &s2cfdefmap
+, s2c: s2cst, arg: s2explst, res: s2var
+, s2cs: &s2cstlst
+) : void // end of [s2cfdefmap_add]
+
+(*
+// HX: for handling a generic static function
+*)
+fun
+s2cfdefmap_add_none (
+  fds: &s2cfdefmap
+, s2c: s2cst, arg: s2explst, res: s2var
+, s2cs: &s2cstlst
+): void // end of [s2cfdefmap_add_none]
+
+(* ****** ****** *)
+
 fun s3aexp_make_s2exp
   (s2e: s2exp, s2cs: &s2cstlst, fds: &s2cfdefmap): s3aexpopt_vt
 
@@ -192,7 +228,7 @@ fun s3iexp_make_s2exp
 
 (* ****** ****** *)
 
-fun c3str_solve (c3t: c3str): void
+fun c3nstr_solve (c3t: c3nstr): void
 
 (* ****** ****** *)
 
