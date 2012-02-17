@@ -382,10 +382,28 @@ s2cfdefmap_add
   val s2e_var = s2exp_var (s2v)
   val s2es1 = list_extend (s2es, s2e_var)
   val s2e_rel = s2exp_app_srt (s2rt_bool, s2e_cst, (l2l)s2es1)
-  val os3be = s3bexp_make_s2exp (s2e_rel, s2cs, fds)
+  val os3be = s3bexp_make_s2exp (fds, s2e_rel, s2cs)
 in
   fds := S2CFDEFLSTcons (s2c, s2es, s2v, os3be, fds)
 end // end of [s2cfdefmap_add]
+
+implement
+s2cfdefmap_replace (
+  fds, s2t, s2c, s2es, s2cs
+) : s2var = let
+  val ans = s2cfdefmap_find (fds, s2c, s2es) 
+in
+//
+case+ ans of
+| ~Some_vt (s2v) => s2v
+| ~None_vt () => s2v where {
+    val s2v = s2var_make_srt (s2t)
+    val () = s2cfdefmap_add (fds, s2c, s2es, s2v, s2cs)
+  } // end of [None_vt]
+//
+end // end of [s2cfdeflst_replace]
+
+(* ****** ****** *)
 
 implement
 s2cfdefmap_add_none
@@ -400,6 +418,22 @@ s2cfdefmap_add_none
 in
   fds := S2CFDEFLSTcons (s2c, s2es, s2v, None_vt (), fds)
 end // end of [s2cfdefmap_add_none]
+
+implement
+s2cfdefmap_replace_none (
+  fds, s2t, s2c, s2es, s2cs
+) : s2var = let
+  val ans = s2cfdefmap_find (fds, s2c, s2es) 
+in
+//
+case+ ans of
+| ~Some_vt (s2v) => s2v
+| ~None_vt () => s2v where {
+    val s2v = s2var_make_srt (s2t)
+    val () = s2cfdefmap_add_none (fds, s2c, s2es, s2v, s2cs)
+  } // end of [None_vt]
+//
+end // end of [s2cfdeflst_replace_node]
 
 (* ****** ****** *)
 

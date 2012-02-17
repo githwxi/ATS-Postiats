@@ -1016,7 +1016,8 @@ end // end of [local]
 
 local
 
-fun the_s2rtenv_initialize (): void = {
+fun
+the_s2rtenv_initialize (): void = {
 //
   val (pfenv | ()) = the_s2rtenv_push_nil ()
 //
@@ -1039,17 +1040,37 @@ fun the_s2rtenv_initialize (): void = {
   val () = the_s2rtenv_add ($SYM.symbol_VIEWT0YPE, S2TEsrt s2rt_viewt0ype)
   val () = the_s2rtenv_add ($SYM.symbol_TYPES, S2TEsrt s2rt_types)
 //
-  val map = the_s2rtenv_pop (pfenv | (*none*))
+  val map =
+    the_s2rtenv_pop (pfenv | (*none*))
+  // end of [val]
   val () = the_s2rtenv_pervasive_joinwth (map)
 //
 } // end of [trans2_env_initialize]
+
+fun 
+the_d2expenv_initialize (): void = {
+  val (pfenv | ()) = the_d2expenv_push_nil ()
+//
+  val () = let
+    val sym = $SYM.symbol_LRBRACKETS
+  in
+    the_d2expenv_add (sym, D2ITMsymdef (sym, list_nil))
+  end // end of [val]
+//
+  val map =
+    the_d2expenv_pop (pfenv | (*none*))
+  // end of [val]
+  val () = the_d2expenv_pervasive_joinwth (map)
+//
+} // end of [the_d2expenv_initialize]
 
 in // in of [local]
 
 implement
 the_trans2_env_initialize () = {
   val () = the_s2rtenv_initialize ()
-}
+  val () = the_d2expenv_initialize ()
+} // end of [the_trans2_env_initialize]
 
 end // end of [local]
 

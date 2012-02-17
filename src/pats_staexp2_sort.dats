@@ -239,6 +239,14 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+s2rt_is_int (s2t) = (case+ s2t of
+  | S2RTbas s2tb => (case+ s2tb of
+    | S2RTBASpre (sym) => $SYM.symbol_INT = sym | _ => false
+    ) // end of [S2RTbas]
+  | _ => false
+) // end of [s2rt_is_int]
+
+implement
 s2rt_is_dat (s2t) = (case+ s2t of
   | S2RTbas s2tb => (
       case+ s2tb of S2RTBASdef _ => true | _ => false

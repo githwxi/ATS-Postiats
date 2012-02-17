@@ -54,7 +54,18 @@ val the_true_bool : s2cstref
 val the_false_bool : s2cstref
 //
 val the_neg_bool : s2cstref // bool -> bool
-val the_neq_int_int_bool : s2cstref // : (int, int) -> bool
+val the_add_bool_bool : s2cstref // (bool, bool) -> bool
+val the_mul_bool_bool : s2cstref // (bool, bool) -> bool
+//
+val the_lt_int_int : s2cstref // : (int, int) -> bool
+val the_lte_int_int : s2cstref // : (int, int) -> bool
+val the_neq_int_int : s2cstref // : (int, int) -> bool
+//
+val the_null_addr : s2cstref
+val the_add_addr_int : s2cstref // (addr, int) -> addr
+val the_sub_addr_int : s2cstref // (addr, int) -> addr
+//
+(* ****** ****** *)
 //
 val the_bool_t0ype : s2cstref
 val the_bool_bool_t0ype : s2cstref
@@ -121,7 +132,12 @@ fun un_s2exp_bool_index_t0ype (s2f: s2hnf): Option_vt (s2exp)
 //
 (* ****** ****** *)
 
-fun s2exp_negate (s2p: s2exp): s2exp
+fun s2exp_bneg (s2p: s2exp): s2exp
+fun s2exp_badd (s2p1: s2exp, s2p2: s2exp): s2exp
+fun s2exp_bmul (s2p1: s2exp, s2p2: s2exp): s2exp
+
+fun s2exp_intlt (s2i1: s2exp, s2i2: s2exp): s2exp
+fun s2exp_intlte (s2i1: s2exp, s2i2: s2exp): s2exp
 fun s2exp_intneq (s2i1: s2exp, s2i2: s2exp): s2exp
 
 (* ****** ****** *)

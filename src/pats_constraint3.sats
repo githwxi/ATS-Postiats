@@ -200,8 +200,15 @@ fun
 s2cfdefmap_add (
   fds: &s2cfdefmap
 , s2c: s2cst, arg: s2explst, res: s2var
-, s2cs: &s2cstlst
+, s2cs: &s2cstset_vt
 ) : void // end of [s2cfdefmap_add]
+fun
+s2cfdefmap_replace (
+  fds: &s2cfdefmap
+, s2t: s2rt
+, s2c: s2cst, s2es: s2explst
+, s2cs: &s2cstset_vt
+) : s2var // end of [s2cfdefmap_replace]
 
 (*
 // HX: for handling a generic static function
@@ -210,22 +217,39 @@ fun
 s2cfdefmap_add_none (
   fds: &s2cfdefmap
 , s2c: s2cst, arg: s2explst, res: s2var
-, s2cs: &s2cstlst
+, s2cs: &s2cstset_vt
 ): void // end of [s2cfdefmap_add_none]
+fun
+s2cfdefmap_replace_none (
+  fds: &s2cfdefmap
+, s2t: s2rt
+, s2c: s2cst, s2es: s2explst
+, s2cs: &s2cstset_vt
+) : s2var // end of [s2cfdefmap_replace]
 
 (* ****** ****** *)
-
+//
 fun s3aexp_make_s2exp
-  (s2e: s2exp, s2cs: &s2cstlst, fds: &s2cfdefmap): s3aexpopt_vt
-
+  (fds: &s2cfdefmap, s2e: s2exp, s2cs: &s2cstset_vt): s3aexpopt_vt
 fun s3bexp_make_s2exp
-  (s2e: s2exp, s2cs: &s2cstlst, fds: &s2cfdefmap): s3bexpopt_vt
+  (fds: &s2cfdefmap, s2e: s2exp, s2cs: &s2cstset_vt): s3bexpopt_vt
 fun s3bexp_make_h3ypo
-  (h3p: h3ypo, s2cs: &s2cstlst, fds: &s2cfdefmap): s3bexpopt_vt
-
+  (fds: &s2cfdefmap, h3p: h3ypo, s2cs: &s2cstset_vt): s3bexpopt_vt
 fun s3iexp_make_s2exp
-  (s2e: s2exp, s2cs: &s2cstlst, fds: &s2cfdefmap): s3iexpopt_vt
-
+  (fds: &s2cfdefmap, s2e: s2exp, s2cs: &s2cstset_vt): s3iexpopt_vt
+//
+// HX: these are auxiliary functions
+//
+fun s3aexp_make_s2cst_s2explst (
+  fds: &s2cfdefmap, s2c: s2cst, s2es: s2explst, s2cs: &s2cstset_vt
+) : s3aexpopt_vt // end of [fun s3aexp_make_s2cst_s2explst]
+fun s3bexp_make_s2cst_s2explst (
+  fds: &s2cfdefmap, s2c: s2cst, s2es: s2explst, s2cs: &s2cstset_vt
+) : s3bexpopt_vt // end of [fun s3bexp_make_s2cst_s2explst]
+fun s3iexp_make_s2cst_s2explst (
+  fds: &s2cfdefmap, s2c: s2cst, s2es: s2explst, s2cs: &s2cstset_vt
+) : s3iexpopt_vt // end of [fun s3iexp_make_s2cst_s2explst]
+//
 (* ****** ****** *)
 
 fun c3nstr_solve (c3t: c3nstr): void

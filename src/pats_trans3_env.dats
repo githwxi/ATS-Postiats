@@ -48,7 +48,7 @@ staload "pats_basics.sats"
 
 staload "pats_errmsg.sats"
 staload _(*anon*) = "pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans3_exp_up"
+implement prerr_FILENAME<> () = prerr "pats_trans3_env"
 
 (* ****** ****** *)
 
@@ -999,7 +999,7 @@ implement
 trans3_env_hypadd_propopt_neg
   (loc, opt) = case+ opt of
   | Some (s2p) =>
-      trans3_env_hypadd_prop (loc, s2exp_negate (s2p))
+      trans3_env_hypadd_prop (loc, s2exp_bneg (s2p))
     // end of [Some]
   | None () => ()
 // end of [trans3_env_hypadd_propopt]

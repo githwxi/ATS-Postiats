@@ -257,8 +257,8 @@ s2cst_set_tag (s2c, tag) = let
 end // end of [s2cst_set_tag]
 
 implement
-s2cst_get_stamp (s2v) = let
-  val (vbox pf | p) = ref_get_view_ptr (s2v) in p->s2cst_stamp
+s2cst_get_stamp (s2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_stamp
 end // end of [s2cst_get_stamp]
 
 end // end of [local]
@@ -375,6 +375,36 @@ implement prerr_s2cst (x) = fprint_s2cst (stderr_ref, x)
 
 implement
 fprint_s2cstlst (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_s2cst)
+
+(* ****** ****** *)
+
+local
+
+staload
+LS = "libats/SATS/linset_listord.sats"
+staload _ = "libats/DATS/linset_listord.dats"
+
+val cmp = lam (
+  s2c1: s2cst, s2c2: s2cst
+) : int =<cloref>
+  compare_s2cst_s2cst (s2c1, s2c2)
+// end of [val]
+
+assume s2cstset_viewtype = $LS.set (s2cst)
+
+in // in of [local]
+
+implement
+s2cstset_vt_nil () = $LS.linset_make_nil ()
+
+implement
+s2cstset_vt_add
+  (xs, x) = xs where {
+  var xs = xs
+  val _(*replaced*) = $LS.linset_insert (xs, x, cmp)
+} // end of [s2cstset_vt_add]
+
+end // end of [local]
 
 (* ****** ****** *)
 

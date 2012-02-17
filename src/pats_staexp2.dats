@@ -229,6 +229,15 @@ in hnf '{
 (* ****** ****** *)
 
 implement
+s2exp_metlt (
+  s2es1, s2es2
+) = hnf '{
+  s2exp_srt= s2rt_bool, s2exp_node= S2Emetlt (s2es1, s2es2)
+} // end of [s2exp_metlt]
+
+(* ****** ****** *)
+
+implement
 s2exp_cstapp
   (s2c_fun, s2es_arg) = let
   val s2t_fun = s2cst_get_srt s2c_fun

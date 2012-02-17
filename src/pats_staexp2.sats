@@ -70,12 +70,12 @@ staload "pats_effect.sats"
 staload "pats_staexp1.sats"
 
 (* ****** ****** *)
-
+//
 abstype s2cst_type // assumed in [pats_staexp2_scst.dats]
 typedef s2cst = s2cst_type
 typedef s2cstlst = List (s2cst)
 typedef s2cstopt = Option (s2cst)
-
+//
 (* ****** ****** *)
 //
 abstype s2var_type // assumed in [pats_staexp2_svar.dats]
@@ -226,6 +226,8 @@ fun s2rt_fun (_arg: s2rtlst, _res: s2rt): s2rt
 fun s2rt_tup (s2ts: s2rtlst): s2rt // HX: tuple sorts are not yet supported
 fun s2rt_err (): s2rt // HX: a placeholder indicating error
 
+fun s2rt_is_int (x: s2rt): bool
+
 fun s2rt_is_dat (x: s2rt): bool
 fun s2rt_is_fun (x: s2rt): bool
 fun s2rt_is_prf (x: s2rt): bool // is proof?
@@ -343,6 +345,7 @@ s2exp_node =
       funclo, int(*lin*), s2eff, int(*npf*), s2explst(*arg*), s2exp(*res*)
     ) // end of S2Efun
   | S2Emetfn of (stampopt, s2explst, s2exp) // metriked function
+  | S2Emetlt of (s2explst, s2explst) (* strict metric ordering *)
 //
   | S2Etop of (int(*knd*), s2exp) // knd: 0/1: topization/typization
 //
@@ -524,6 +527,14 @@ fun prerr_s2cst (x: s2cst): void
 fun fprint_s2cstlst : fprint_type (s2cstlst)
 
 (* ****** ****** *)
+//
+absviewtype
+s2cstset_viewtype // assumed in [pats_staexp2_scst.dats]
+viewtypedef s2cstset_vt = s2cstset_viewtype
+fun s2cstset_vt_nil (): s2cstset_vt
+fun s2cstset_vt_add (xs: s2cstset_vt, x: s2cst): s2cstset_vt
+//
+(* ****** ****** *)
 
 fun s2var_make_srt (s2t: s2rt): s2var
 fun s2var_make_id_srt (id: symbol, s2t: s2rt): s2var
@@ -573,12 +584,9 @@ fun s2var_is_unboxed (s2v: s2var): bool
 (* ****** ****** *)
 
 fun s2varset_nil (): s2varset
-fun s2varset_add
-  (xs: s2varset, x: s2var): s2varset
-fun s2varset_del
-  (xs: s2varset, x: s2var): s2varset
-fun s2varset_union
-  (xs: s2varset, ys: s2varset): s2varset
+fun s2varset_add (xs: s2varset, x: s2var): s2varset
+fun s2varset_del (xs: s2varset, x: s2var): s2varset
+fun s2varset_union (xs: s2varset, ys: s2varset): s2varset
 
 fun s2varset_vt_nil (): s2varset_vt
 fun s2varset_vt_add
@@ -787,6 +795,10 @@ fun s2exp_fun_srt (
 fun s2exp_metfn
   (opt: stampopt, met: s2explst, s2e: s2exp): s2exp
 // end of [s2exp_metfn]
+
+(* ****** ****** *)
+
+fun s2exp_metlt (s2es1: s2explst, s2es2: s2explst): s2exp
 
 (* ****** ****** *)
 

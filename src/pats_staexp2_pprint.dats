@@ -180,13 +180,24 @@ case+ s2e0.s2exp_node of
     val () = aux_s2exp (out, n, s2e_res)
     val () = prstr ")"
   } // end of [S2Efun]
-| S2Emetfn (opt, s2es_met, s2e_body) => {
+| S2Emetfn (
+    opt, s2es_met, s2e_body
+  ) => {
     val () = prstr "S2Emetfn("
     val () = aux_s2explst (out, n, s2es_met)
     val () = prstr "; "
     val () = aux_s2exp (out, n, s2e_body)
     val () = prstr ")"
   } // end of [S2Emetfn]
+//
+| S2Emetlt
+    (s2es1, s2es2) => {
+    val () = prstr "S2Emetlt(("
+    val () = aux_s2explst (out, n, s2es1)
+    val () = prstr ") < ("
+    val () = aux_s2explst (out, n, s2es2)
+    val () = prstr "))"
+  } // end of [S2Emetlt]
 //
 | S2Etop (knd, s2e) => {
     val () = prstr "S2Etop("

@@ -184,25 +184,70 @@ the_true_bool = s2cstref_make ("true_bool")
 implement
 the_false_bool = s2cstref_make ("false_bool")
 
-(* ****** ****** *)
-
 implement
 the_neg_bool = s2cstref_make "neg_bool"
 implement
-s2exp_negate (s2p) = let
-  val s2c = s2cstref_get_cst (the_neg_bool)
-in
-  s2exp_cstapp (s2c, list_sing (s2p))
-end // end of [s2exp_negate]
+the_add_bool_bool = s2cstref_make "add_bool_bool"
+implement
+the_mul_bool_bool = s2cstref_make "mul_bool_bool"
+
+implement
+the_lt_int_int = s2cstref_make "lt_int_int"
+implement
+the_lte_int_int = s2cstref_make "lte_int_int"
+implement
+the_neq_int_int = s2cstref_make "neq_int_int"
+
+implement
+the_null_addr = s2cstref_make "null_addr"
+
+implement
+the_add_addr_int = s2cstref_make "add_addr_int"
+implement
+the_sub_addr_int = s2cstref_make "sub_addr_int"
 
 (* ****** ****** *)
 
 implement
-the_neq_int_int_bool =
-  s2cstref_make "neq_int_int"
+s2exp_bneg (s2p) = let
+  val s2c = s2cstref_get_cst (the_neg_bool)
+in
+  s2exp_cstapp (s2c, list_sing (s2p))
+end // end of [s2exp_bneg]
+
+implement
+s2exp_badd (s2p1, s2p2) = let
+  val s2c = s2cstref_get_cst (the_add_bool_bool)
+in
+  s2exp_cstapp (s2c, list_pair (s2p1, s2p2))
+end // end of [s2exp_badd]
+
+implement
+s2exp_bmul (s2p1, s2p2) = let
+  val s2c = s2cstref_get_cst (the_mul_bool_bool)
+in
+  s2exp_cstapp (s2c, list_pair (s2p1, s2p2))
+end // end of [s2exp_bmul]
+
+(* ****** ****** *)
+
+implement
+s2exp_intlt (s2i1, s2i2) = let
+  val s2c = s2cstref_get_cst (the_lt_int_int)
+in
+  s2exp_cstapp (s2c, list_pair (s2i1, s2i2))
+end // end of [s2exp_intlt]
+
+implement
+s2exp_intlte (s2i1, s2i2) = let
+  val s2c = s2cstref_get_cst (the_lte_int_int)
+in
+  s2exp_cstapp (s2c, list_pair (s2i1, s2i2))
+end // end of [s2exp_intlte]
+
 implement
 s2exp_intneq (s2i1, s2i2) = let
-  val s2c = s2cstref_get_cst (the_neq_int_int_bool)
+  val s2c = s2cstref_get_cst (the_neq_int_int)
 in
   s2exp_cstapp (s2c, list_pair (s2i1, s2i2))
 end // end of [s2exp_intneq]

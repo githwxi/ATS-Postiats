@@ -704,6 +704,14 @@ case+ s2e0.s2exp_node of
     end else s2e0 // end of [if]
   end // end of [S2Emetfn]
 //
+| S2Emetlt (s2es1, s2es2) => let
+    val flag0 = flag
+    val s2es1 = s2explst_subst_flag (sub, s2es1, flag)
+    val s2es2 = s2explst_subst_flag (sub, s2es2, flag)
+  in
+    if flag > flag0 then s2exp_metlt (s2es1, s2es2) else s2e0
+  end // end of [S2Emetlt]
+//
 | S2Etop (knd, s2e) => let
     val flag0 = flag
     val s2e = s2exp_subst_flag (sub, s2e, flag)
@@ -988,6 +996,10 @@ case+ s2e0.s2exp_node of
 | S2Emetfn (opt, s2es, s2e) => (
     aux_s2explst (s2es, fvs); aux_s2exp (s2e, fvs)
   ) // end of [S2Emetfn]
+//
+| S2Emetlt (s2es1, s2es2) => (
+    aux_s2explst (s2es1, fvs); aux_s2explst (s2es2, fvs)
+  ) // end of [S2Emetlt]
 //
 | S2Etop (_(*knd*), s2e) => aux_s2exp (s2e, fvs)
 //
