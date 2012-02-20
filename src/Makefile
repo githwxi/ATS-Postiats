@@ -189,6 +189,7 @@ SOURCES := \
   pats_trans3_decl.dats \
   pats_constraint3.sats \
   pats_constraint3.dats \
+  pats_constraint3_init.dats \
   pats_constraint3_print.dats \
   pats_constraint3_saexp.dats \
   pats_constraint3_sbexp.dats \

@@ -65,6 +65,11 @@ case+ c3t.c3nstr_node of
 //
 end // end of [fprint_c3nstr]
 
+implement
+print_c3nstr (x) = fprint_c3nstr (stdout_ref, x)
+implement
+prerr_c3nstr (x) = fprint_c3nstr (stderr_ref, x)
+
 (* ****** ****** *)
 
 implement
@@ -117,6 +122,11 @@ case+ h3p.h3ypo_node of
   } // end of [H3YPOeqeq]
 //
 end // end of [fprint_h3ypo]
+
+implement
+print_h3ypo (x) = fprint_h3ypo (stdout_ref, x)
+implement
+prerr_h3ypo (x) = fprint_h3ypo (stderr_ref, x)
 
 (* ****** ****** *)
 

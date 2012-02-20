@@ -178,8 +178,9 @@ symintr < <= > >= = <> !=
 symintr succ pred
 symintr abs square sqrt cube cbrt
 symintr compare max min pow
-symintr foreach // foreach without index
-symintr iforeach (* foreach with index *)
+(*
+symintr foreach iforeach rforeach
+*)
 symintr fprint print prerr
 symintr length (* array_length, list_length, string_length, etc. *)
 symintr ofstring ofstrptr

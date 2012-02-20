@@ -126,6 +126,28 @@ end // end of [fprint_intinf]
 (* ****** ****** *)
 
 implement
+lt_intinf_int (x1, x2) =
+  compare_intinf_int (x1, x2) < 0
+// end of [lt_intinf_int]
+
+implement
+lte_intinf_int (x1, x2) =
+  compare_intinf_int (x1, x2) <= 0
+// end of [lte_intinf_int]
+
+implement
+gt_intinf_int (x1, x2) =
+  compare_intinf_int (x1, x2) > 0
+// end of [gt_intinf_int]
+
+implement
+gte_intinf_int (x1, x2) =
+  compare_intinf_int (x1, x2) >= 0
+// end of [gte_intinf_int]
+
+(* ****** ****** *)
+
+implement
 eq_intinf_int (x1, x2) =
   compare_intinf_int (x1, x2) = 0
 // end of [eq_intinf_int]
@@ -139,6 +161,23 @@ implement
 eq_intinf_intinf (x1, x2) =
   compare_intinf_intinf (x1, x2) = 0
 // end of [eq_intinf_intinf]
+
+(* ****** ****** *)
+
+implement
+neq_intinf_int (x1, x2) =
+  compare_intinf_int (x1, x2) != 0
+// end of [neq_intinf_int]
+
+implement
+neq_int_intinf (x1, x2) =
+  compare_intinf_int (x2, x1) != 0
+// end of [neq_int_intinf]
+
+implement
+neq_intinf_intinf (x1, x2) =
+  compare_intinf_intinf (x1, x2) != 0
+// end of [neq_intinf_intinf]
 
 (* ****** ****** *)
 

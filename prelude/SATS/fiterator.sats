@@ -42,37 +42,38 @@
 
 (* ****** ****** *)
 
-absviewt@ype iterator (
+absviewt@ype
+fiterator (
   xs: t@ype, x: t@ype+, f: int, r: int
 ) // end of [absviewt@ype]
 
 prfun lemma_iterator_params
   {xs:t@ype}{x:t@ype}{f,r:int}
-  (iter: !iterator (xs, x, f, r)): [f>=0;r>=0] void
+  (iter: !fiterator (xs, x, f, r)): [f>=0;r>=0] void
 // end of [lemma_iterator_params]
 
 (* ****** ****** *)
 
 fun{
 xs:t@ype}{x:t@ype
-} iter_make (xs: xs):<> [r:nat] iterator (xs, x, 0, r)
+} iter_make (xs: xs):<> [r:nat] fiterator (xs, x, 0, r)
 
 fun{
 xs:t@ype}{x:t@ype
-} iter_free {f,r:int} (iter: iterator (xs, x, f, r)):<> void
+} iter_free {f,r:int} (iter: fiterator (xs, x, f, r)):<> void
 
 (* ****** ****** *)
 
 fun{
 xs:t@ype}{x:t@ype
 } iter_is_atend {f,r:int}
-  (iter: &iterator (xs, x, f, r)):<> bool (r==0)
+  (iter: &fiterator (xs, x, f, r)):<> bool (r==0)
 // end of [iter_is_atend]
 
 fun{
 xs:t@ype}{x:t@ype
 } iter_isnot_atend {f,r:int}
-  (iter: &iterator (xs, x, f, r)):<> bool (r > 0)
+  (iter: &fiterator (xs, x, f, r)):<> bool (r > 0)
 // end of [iter_isnot_atend]
 
 (* ****** ****** *)
@@ -80,21 +81,21 @@ xs:t@ype}{x:t@ype
 fun{
 xs:t@ype}{x:t@ype
 } iter_get_at
-  {f,r:int | r > 0} (iter: &iterator (xs, x, f, r)):<> x
+  {f,r:int | r > 0} (iter: &fiterator (xs, x, f, r)):<> x
 // end of [iter_get_at]
 
 fun{
 xs:t@ype}{x:t@ype
 } iter_getinc_at
   {f,r:int | r > 0}
-  (iter: &iterator (xs, x, f, r) >> iterator (xs, x, f+1, r-1)):<> x
+  (iter: &fiterator (xs, x, f, r) >> fiterator (xs, x, f+1, r-1)):<> x
 // end of [iter_getinc_at]
 
 fun{
 xs:t@ype}{x:t@ype
 } iter_getdec_at
   {f,r:int | f > 0; r > 0}
-  (iter: &iterator (xs, x, f, r) >> iterator (xs, x, f-1, r+1)):<> x
+  (iter: &fiterator (xs, x, f, r) >> fiterator (xs, x, f-1, r+1)):<> x
 // end of [iter_getdec_at]
 
 (* ****** ****** *)
@@ -102,13 +103,13 @@ xs:t@ype}{x:t@ype
 fun{
 xs:t@ype}{x:t@ype
 } iter_inc {f,r:int | r > 0} (
-  iter: &iterator (xs, x, f, r) >> iterator (xs, x, f+1, r-1)
+  iter: &fiterator (xs, x, f, r) >> fiterator (xs, x, f+1, r-1)
 ) :<> void // end of [iter_inc]
 
 fun{
 xs:t@ype}{x:t@ype
 } iter_dec {f,r:int | f > 0} (
-  iter: &iterator (xs, x, f, r) >> iterator (xs, x, f-1, r+1)
+  iter: &fiterator (xs, x, f, r) >> fiterator (xs, x, f-1, r+1)
 ) :<> void // end of [iter_dec]
 
 (* ****** ****** *)

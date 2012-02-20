@@ -341,6 +341,11 @@ s2varmset_pair
 // end of [s2varmset_pair]
 
 implement
+s2varmset_is_equal
+  (xs1, xs2) = $MSET.funmset_is_equal (xs1, xs2, cmp)
+// end of [s2varmset_is_equal]
+
+implement
 s2varmset_add
   (xs, x) = xs where {
   var xs = xs

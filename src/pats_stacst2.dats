@@ -190,16 +190,52 @@ implement
 the_add_bool_bool = s2cstref_make "add_bool_bool"
 implement
 the_mul_bool_bool = s2cstref_make "mul_bool_bool"
+implement
+the_eq_bool_bool = s2cstref_make "eq_bool_bool"
+implement
+the_neq_bool_bool = s2cstref_make "neq_bool_bool"
+
+(* ****** ****** *)
+
+implement
+the_add_int_int = s2cstref_make "add_int_int"
+implement
+the_sub_int_int = s2cstref_make "sub_int_int"
+implement
+the_mul_int_int = s2cstref_make "mul_int_int"
+implement
+the_div_int_int = s2cstref_make "div_int_int"
 
 implement
 the_lt_int_int = s2cstref_make "lt_int_int"
 implement
 the_lte_int_int = s2cstref_make "lte_int_int"
 implement
+the_gt_int_int = s2cstref_make "gt_int_int"
+implement
+the_gte_int_int = s2cstref_make "gte_int_int"
+implement
+the_eq_int_int = s2cstref_make "eq_int_int"
+implement
 the_neq_int_int = s2cstref_make "neq_int_int"
+
+(* ****** ****** *)
 
 implement
 the_null_addr = s2cstref_make "null_addr"
+
+implement
+the_lt_addr_addr = s2cstref_make "lt_addr_addr"
+implement
+the_lte_addr_addr = s2cstref_make "lte_addr_addr"
+implement
+the_gt_addr_addr = s2cstref_make "gt_addr_addr"
+implement
+the_gte_addr_addr = s2cstref_make "gte_addr_addr"
+implement
+the_eq_addr_addr = s2cstref_make "eq_addr_addr"
+implement
+the_neq_addr_addr = s2cstref_make "neq_addr_addr"
 
 implement
 the_add_addr_int = s2cstref_make "add_addr_int"

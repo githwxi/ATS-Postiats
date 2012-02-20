@@ -398,11 +398,62 @@ implement
 s2cstset_vt_nil () = $LS.linset_make_nil ()
 
 implement
+s2cstset_vt_free (xs) = $LS.linset_free (xs)
+
+implement
 s2cstset_vt_add
   (xs, x) = xs where {
   var xs = xs
   val _(*replaced*) = $LS.linset_insert (xs, x, cmp)
 } // end of [s2cstset_vt_add]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+staload
+MAP = "libats/SATS/funmap_avltree.sats"
+staload _ = "libats/DATS/funmap_avltree.dats"
+
+assume
+s2cstmap_type_type
+  (a:type) = $MAP.map (s2cst, a)
+// end of [s2cstmap_type_type]
+
+val cmp = lam (
+  s2c1: s2cst, s2c2: s2cst
+) : int =<cloref>
+  compare_s2cst_s2cst (s2c1, s2c2)
+// end of [val]
+
+in // in of [local]
+
+implement
+s2cstmap_nil () = $MAP.funmap_make_nil ()
+
+implement
+s2cstmap_add
+  (map, s2c, itm) = map where {
+  var map = map
+  val _(*replaced*) = $MAP.funmap_insert (map, s2c, itm, cmp)
+} // end of [s2cstmap_add]
+
+implement
+s2cstmap_find
+  {a} (map, s2c) = let
+  var res: a?
+  val found =
+    $MAP.funmap_search<s2cst,a> (map, s2c, cmp, res)
+  // end of [val]
+in
+  if found then let
+    prval () = opt_unsome {a} (res) in Some_vt (res)
+  end else let
+    prval () = opt_unnone {a} (res) in None_vt (*empty*)
+  end (* end of [if] *)
+end // end of [s2cstmap_find]
 
 end // end of [local]
 

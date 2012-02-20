@@ -627,15 +627,13 @@ end // end of [local]
 (* ****** ****** *)
 
 extern
-fun the_s2varbindmap_pop (): void
-extern
-fun the_s2varbindmap_push (): void
-extern
 fun the_s2varbindmap_search (s2v: s2var): Option_vt (s2exp)
 extern
 fun the_s2varbindmap_insert (s2v: s2var, s2e: s2exp): void
 
 local
+
+assume s2varbindmap_push_v = unit_v
 
 val the_s2varbindmap =
   ref_make_elt<s2varbindmap> (s2varbindmap_make_nil ())
@@ -648,33 +646,37 @@ val the_s2varlstlst = ref_make_elt<s2varlstlst_vt> (list_vt_nil)
 in // in of [local]
 
 implement
-the_s2varbindmap_pop () = let
-  fun auxrmv (
-    map: &s2varbindmap, s2vs: s2varlst_vt
-  ) : void =
-    case+ s2vs of
-    | ~list_vt_cons (s2v, s2vs) => let
-        val () = s2varbindmap_remove (map, s2v) in auxrmv (map, s2vs)
-      end // end of [list_vt_cons]
-    | ~list_vt_nil () => ()
-  // end of [auxrmv]
-  val s2vs = let
-    val (vbox pf | pp) = ref_get_view_ptr (the_s2varlstlst)
-  in
-    case+ !pp of
-    | ~list_vt_cons (xs, xss) => let val () = !pp := xss in xs end
-    | list_vt_nil () => let prval () = fold@ (!pp) in list_vt_nil end
-  end : s2varlst_vt
-  val s2vs = xs where {
-    val (vbox pf | p) = ref_get_view_ptr (the_s2varlst)
-    val xs = !p
-    val () = !p := s2vs
-  } // end of [val]
-  val () = let
-    val (vbox pf | p) = ref_get_view_ptr (the_s2varbindmap)
-  in
-    $effmask_ref (auxrmv (!p, s2vs))
-  end // end of [val]
+the_s2varbindmap_pop
+  (pf | (*nothing*)) = let
+//
+fun auxrmv (
+  map: &s2varbindmap, s2vs: s2varlst_vt
+) : void =
+  case+ s2vs of
+  | ~list_vt_cons (s2v, s2vs) => let
+      val () = s2varbindmap_remove (map, s2v) in auxrmv (map, s2vs)
+    end // end of [list_vt_cons]
+  | ~list_vt_nil () => ()
+// end of [auxrmv]
+prval unit_v () = pf
+val s2vs = let
+  val (vbox pf | pp) = ref_get_view_ptr (the_s2varlstlst)
+in
+  case+ !pp of
+  | ~list_vt_cons (xs, xss) => let val () = !pp := xss in xs end
+  | list_vt_nil () => let prval () = fold@ (!pp) in list_vt_nil end
+end : s2varlst_vt
+val s2vs = xs where {
+  val (vbox pf | p) = ref_get_view_ptr (the_s2varlst)
+  val xs = !p
+  val () = !p := s2vs
+} // end of [val]
+val () = let
+  val (vbox pf | p) = ref_get_view_ptr (the_s2varbindmap)
+in
+  $effmask_ref (auxrmv (!p, s2vs))
+end // end of [val]
+//
 in
   // nothing
 end // end of [the_s2varbindmap_pop]
@@ -689,7 +691,7 @@ the_s2varbindmap_push () = let
   val (vbox pf | pp) = ref_get_view_ptr (the_s2varlstlst)
   val () = !pp := list_vt_cons (s2vs, !pp)
 in
-  // nothing
+  (unit_v () | ())
 end // end of [the_s2varbindmap_push]
 
 implement
@@ -743,6 +745,37 @@ in
   (* nothing *)
 end // end of [the_s2varbindmap_insert]
 
+implement
+the_s2varbindmap_freeall () = let
+//
+val xs = xs where {
+  val (vbox pf | p) = ref_get_view_ptr (the_s2varlst)
+  val xs = !p
+  val () = !p := list_vt_nil ()
+} // end of [val]
+val () = list_vt_free (xs)
+//
+val xss = xss where {
+  val (vbox pf | pp) = ref_get_view_ptr (the_s2varlstlst)
+  val xss = !pp
+  val () = !pp := list_vt_nil ()
+} // end of [val]
+val () = let
+  fun loop (
+    xss: s2varlstlst_vt
+  ) : void =
+    case+ xss of
+    | ~list_vt_cons (xs, xss) => (list_vt_free (xs); loop (xss))
+    | ~list_vt_nil () => ()
+  // end of [loop]
+in
+  loop (xss)
+end // end of [val]
+//
+in
+  (*nothing*)
+end // end of [the_s2varbinmap_freeall]
+
 end // end of [local]
 
 (* ****** ****** *)
@@ -752,11 +785,11 @@ end // end of [local]
 implement
 s2exp_hnfize_flag_svar
   (s2e0, s2v, flag) = let
-// (*
+(*
 val () = (
   print "s2exp_hnfize_flag_svar: s2v = "; print_s2var (s2v); print_newline ()
 ) // end of [val]
-// *)
+*)
 val ans = the_s2varbindmap_search (s2v)
 //
 in
@@ -1317,7 +1350,10 @@ trans3_env_pop
   (pf | (*none*)) = let
   prval () = unit_v_elim (pf)
   val _(*s2Vs*) = the_s2Varset_env_pop ()
-  val () = the_s2varbindmap_pop ()
+  prval pf = __assert () where {
+    extern praxi __assert (): s2varbindmap_push_v
+  } // end of [prval]
+  val () = the_s2varbindmap_pop (pf | (*none*))
 in
   the_s3itmlst_env_pop ()
 end // end of [trans3_env_pop]
@@ -1339,9 +1375,16 @@ trans3_env_pop_and_add_main
 
 implement
 trans3_env_push () = let
-  val () = the_s2Varset_env_push ()
-  val () = the_s2varbindmap_push ()
-  val () = the_s3itmlst_env_push ()
+//
+val () = the_s2Varset_env_push ()
+//
+val (pf | ()) = the_s2varbindmap_push ()
+prval () = __assert (pf) where {
+  extern praxi __assert (pf: s2varbindmap_push_v): void
+} // end of [val]
+//
+val () = the_s3itmlst_env_push ()
+//
 in
   (unit_v () | ())
 end // end of [trans3_env_push]

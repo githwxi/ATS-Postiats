@@ -51,170 +51,162 @@ staload "pats_constraint3.sats"
 (* ****** ****** *)
 
 implement
-fprint_s3aexp (out, x) = let
+fprint_s3exp (out, x) = let
   macdef prstr (s) = fprint_string (out, ,(s))
 in
 //
 case+ x of
-| S3AEvar (s2v) => {
-    val () = prstr "S3AEvar("
+| S3Evar (s2v) => {
+    val () = prstr "S3Evar("
     val () = fprint_s2var (out, s2v)
     val () = prstr ")" 
-  } // end of [S3AEvar]
-| S3AEcst (s2c) => {
-    val () = prstr "S3AEcst("
+  } // end of [S3Evar]
+| S3Ecst (s2c) => {
+    val () = prstr "S3Ecst("
     val () = fprint_s2cst (out, s2c)
     val () = prstr ")" 
-  } // end of [S3AEcst]
-| S3AEexp (s2e) => {
-    val () = prstr "S3AEexp("
+  } // end of [S3Ecst]
+| S3Eapp (s3e, s3es) => {
+    val () = prstr "S3Eapp("
+    val () = fprint_s3exp (out, s3e)
+    val () = prstr "; "
+    val () = fprint_s3explst (out, s3es)
+    val () = prstr ")" 
+  } // end of [S3Eapp]
+| S3Eexp (s2e) => {
+    val () = prstr "S3Eexp("
     val () = fprint_s2exp (out, s2e)
     val () = prstr ")"
-  } // end of [S3AEexp]
-| S3AEnull () => prstr "S3AEnull()"
-| S3AEpadd (s3ae, s3ie) => {
-    val () = prstr "S3AEpadd("
-    val () = fprint_s3aexp (out, s3ae)
+  } // end of [S3Eexp]
+//
+| S3Enull () => prstr "S3Enull()"
+| S3Epadd (s3e1, s3e2) => {
+    val () = prstr "S3Epadd("
+    val () = fprint_s3exp (out, s3e1)
     val () = prstr ", "
-    val () = fprint_s3iexp (out, s3ie)
+    val () = fprint_s3exp (out, s3e2)
     val () = prstr ")"
-  } // end of [S3AEpadd]
+  } // end of [S3Epadd]
 //
-end // end of [s3aexp]
-
-(* ****** ****** *)
-
-implement
-fprint_s3bexp (out, x) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
-in
-//
-case+ x of
-| S3BEvar (s2v) => {
-    val () = prstr "S3BEvar("
-    val () = fprint_s2var (out, s2v)
-    val () = prstr ")" 
-  } // end of [S3BEvar]
-| S3BEcst (s2c) => {
-    val () = prstr "S3BEcst("
-    val () = fprint_s2cst (out, s2c)
-    val () = prstr ")" 
-  } // end of [S3BEcst]
-| S3BEexp (s2e) => {
-    val () = prstr "S3BEexp("
-    val () = fprint_s2exp (out, s2e)
-    val () = prstr ")"
-  } // end of [S3BEexp]
-| S3BEbool (b) => {
-    val () = prstr "S3BEbool("
+| S3Ebool (b) => {
+    val () = prstr "S3Ebool("
     val () = fprint_bool (out, b)
     val () = prstr ")"
-  } // end of [S3BEbool]
-| S3BEbneg (s2be) => {
-    val () = prstr "S3BEbneg("
-    val () = fprint_s3bexp (out, s2be)
+  } // end of [S3Ebool]
+| S3Ebneg (s3e) => {
+    val () = prstr "S3Ebneg("
+    val () = fprint_s3exp (out, s3e)
     val () = prstr ")"
-  } // end of [S3BEbadd]
-| S3BEbadd (s2be1, s2be2) => {
-    val () = prstr "S3BEbadd("
-    val () = fprint_s3bexp (out, s2be1)
+  } // end of [S3Ebadd]
+| S3Ebadd (s3e1, s3e2) => {
+    val () = prstr "S3Ebadd("
+    val () = fprint_s3exp (out, s3e1)
     val () = prstr ", "
-    val () = fprint_s3bexp (out, s2be2)
+    val () = fprint_s3exp (out, s3e2)
     val () = prstr ")"
-  } // end of [S3BEbadd]
-| S3BEbmul (s2be1, s2be2) => {
-    val () = prstr "S3BEbmul("
-    val () = fprint_s3bexp (out, s2be1)
+  } // end of [S3Ebadd]
+| S3Ebmul (s3e1, s3e2) => {
+    val () = prstr "S3Ebmul("
+    val () = fprint_s3exp (out, s3e1)
     val () = prstr ", "
-    val () = fprint_s3bexp (out, s2be2)
+    val () = fprint_s3exp (out, s3e2)
     val () = prstr ")"
-  } // end of [S3BEbmul]
-| S3BEiexp (knd, s3ie) => { // eq/neq: 1/~1; gte/lt : 2/~2
-    val () = prstr "S3BEiexp("
-    val () = fprint_int (out, knd)
+  } // end of [S3Ebmul]
+| S3Ebeq (s3e1, s3e2) => {
+    val () = prstr "S3Ebeq("
+    val () = fprint_s3exp (out, s3e1)
     val () = prstr ", "
-    val () = fprint_s3iexp (out, s3ie)
+    val () = fprint_s3exp (out, s3e2)
     val () = prstr ")"
-  } // end of [S3BEiexp]
+  } // end of [S3Ebeq]
+| S3Ebneq (s3e1, s3e2) => {
+    val () = prstr "S3Ebneq("
+    val () = fprint_s3exp (out, s3e1)
+    val () = prstr ", "
+    val () = fprint_s3exp (out, s3e2)
+    val () = prstr ")"
+  } // end of [S3Ebneq]
+| S3Ebineq (knd, s3e) => { // eq/neq: 1/~1; gte/lt : 2/~2
+    val () = prstr "S3Eiexp("
+    val () = (
+      case+ knd of
+      |  1 => prstr "="
+      | ~1 => prstr "!="
+      |  2 => prstr ">="
+      | ~2 => prstr "<"
+      |  _ => prstr "?"
+    ) : void // end of [val]
+    val () = prstr ", "
+    val () = fprint_s3exp (out, s3e)
+    val () = prstr ")"
+  } // end of [S3Eineq]
 //
-end // end of [fprint_s3bexp]
-
-(* ****** ****** *)
-
-implement
-fprint_s3iexp (out, x) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
-in
-//
-case+ x of
-| S3IEvar (s2v) => {
-    val () = prstr "S3IEvar("
-    val () = fprint_s2var (out, s2v)
-    val () = prstr ")" 
-  } // end of [S3IEvar]
-| S3IEcst (s2c) => {
-    val () = prstr "S3IEcst("
-    val () = fprint_s2cst (out, s2c)
-    val () = prstr ")"
-  } // end of [S3IEcst]
-| S3IEexp (s2e) => {
-    val () = prstr "S3IEexp("
-    val () = fprint_s2exp (out, s2e)
-    val () = prstr ")"
-  } // end of [S3IEexp]
-| S3IEint (int) => {
-    val () = prstr "S3IEintinf("
+| S3Eint (int) => {
+    val () = prstr "S3Eintinf("
     val () = fprint_intinf (out, int)
     val () = prstr ")"
-  } // end of [S3IEintinf]
-| S3IEatm (s2vs) => {
-    val () = prstr "S3IEatm("
+  } // end of [S3Eint]
+| S3Eiatm (s2vs) => {
+    val () = prstr "S3Eiatm("
     val () = fprint_string (out, "...")
     val () = prstr ")"
-  } // end of [S3IEatm]
-| S3IEcff (c, s3ie) => {
-    val () = prstr "S3IEcff("
+  } // end of [S3Eiatm]
+| S3Eicff (c, s3e) => {
+    val () = prstr "S3Eicff("
     val () = fprint_intinf (out, c)
-    val () = fprint_s3iexp (out, s3ie)
-    val () = prstr ")"
-  } // end of [S3IEineg]
-| S3IEiadd (s3ie1, s3ie2) => {
-    val () = prstr "S3IEiadd("
-    val () = fprint_s3iexp (out, s3ie1)
     val () = prstr ", "
-    val () = fprint_s3iexp (out, s3ie2)
+    val () = fprint_s3exp (out, s3e)
     val () = prstr ")"
-  } // end of [S3IEiadd]
-| S3IEisub (s3ie1, s3ie2) => {
-    val () = prstr "S3IEisub("
-    val () = fprint_s3iexp (out, s3ie1)
+  } // end of [S3Eicff]
+| S3Eiadd (s3e1, s3e2) => {
+    val () = prstr "S3Eiadd("
+    val () = fprint_s3exp (out, s3e1)
     val () = prstr ", "
-    val () = fprint_s3iexp (out, s3ie2)
+    val () = fprint_s3exp (out, s3e2)
     val () = prstr ")"
-  } // end of [S3IEisub]
-| S3IEimul (s3ie1, s3ie2) => {
-    val () = prstr "S3IEimul("
-    val () = fprint_s3iexp (out, s3ie1)
+  } // end of [S3Eiadd]
+| S3Eisub (s3e1, s3e2) => {
+    val () = prstr "S3Eisub("
+    val () = fprint_s3exp (out, s3e1)
     val () = prstr ", "
-    val () = fprint_s3iexp (out, s3ie2)
+    val () = fprint_s3exp (out, s3e2)
     val () = prstr ")"
-  } // end of [S3IEimul]
-| S3IEpdiff (s3ae1, s3ae2) => {
-    val () = prstr "S3IEpdiff("
-    val () = fprint_s3aexp (out, s3ae1)
+  } // end of [S3Eisub]
+| S3Eimul (s3e1, s3e2) => {
+    val () = prstr "S3Eimul("
+    val () = fprint_s3exp (out, s3e1)
     val () = prstr ", "
-    val () = fprint_s3aexp (out, s3ae2)
+    val () = fprint_s3exp (out, s3e2)
     val () = prstr ")"
-  } // end of [S3IEpdiff]
+  } // end of [S3Eimul]
+| S3Epdiff (s3e1, s3e2) => {
+    val () = prstr "S3Epdiff("
+    val () = fprint_s3exp (out, s3e1)
+    val () = prstr ", "
+    val () = fprint_s3exp (out, s3e2)
+    val () = prstr ")"
+  } // end of [S3Epdiff]
 //
-end // end of [fprint_s3iexp]
+| S3Eerr () => prstr "S3Eerr()"
+//
+end // end of [fprint_s3exp]
+
+implement
+print_s3exp (x) = fprint_s3exp (stdout_ref, x)
+implement
+prerr_s3exp (x) = fprint_s3exp (stderr_ref, x)
 
 (* ****** ****** *)
 
 implement
-fprint_s3bexplst (out, xs) =
-  $UT.fprintlst (out, xs, ", ", fprint_s3bexp)
-// end of [fprint_s3bexplst]
+fprint_s3explst (out, xs) =
+  $UT.fprintlst (out, xs, ", ", fprint_s3exp)
+// end of [fprint_s3explst]
+
+implement
+print_s3explst (xs) = fprint_s3explst (stdout_ref, xs)
+implement
+prerr_s3explst (xs) = fprint_s3explst (stderr_ref, xs)
 
 (* ****** ****** *)
 

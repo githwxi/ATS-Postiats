@@ -56,12 +56,29 @@ val the_false_bool : s2cstref
 val the_neg_bool : s2cstref // bool -> bool
 val the_add_bool_bool : s2cstref // (bool, bool) -> bool
 val the_mul_bool_bool : s2cstref // (bool, bool) -> bool
+val the_eq_bool_bool : s2cstref // (bool, bool) -> bool
+val the_neq_bool_bool : s2cstref // (bool, bool) -> bool
+//
+val the_add_int_int : s2cstref // : (int, int) -> int
+val the_sub_int_int : s2cstref // : (int, int) -> int
+val the_mul_int_int : s2cstref // : (int, int) -> int
+val the_div_int_int : s2cstref // : (int, int) -> int
 //
 val the_lt_int_int : s2cstref // : (int, int) -> bool
 val the_lte_int_int : s2cstref // : (int, int) -> bool
+val the_gt_int_int : s2cstref // : (int, int) -> bool
+val the_gte_int_int : s2cstref // : (int, int) -> bool
+val the_eq_int_int : s2cstref // : (int, int) -> bool
 val the_neq_int_int : s2cstref // : (int, int) -> bool
 //
 val the_null_addr : s2cstref
+val the_lt_addr_addr : s2cstref // : (addr, addr) -> bool
+val the_lte_addr_addr : s2cstref // : (addr, addr) -> bool
+val the_gt_addr_addr : s2cstref // : (addr, addr) -> bool
+val the_gte_addr_addr : s2cstref // : (addr, addr) -> bool
+val the_eq_addr_addr : s2cstref // : (addr, addr) -> bool
+val the_neq_addr_addr : s2cstref // : (addr, addr) -> bool
+//
 val the_add_addr_int : s2cstref // (addr, int) -> addr
 val the_sub_addr_int : s2cstref // (addr, int) -> addr
 //

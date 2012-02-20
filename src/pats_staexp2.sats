@@ -532,7 +532,20 @@ absviewtype
 s2cstset_viewtype // assumed in [pats_staexp2_scst.dats]
 viewtypedef s2cstset_vt = s2cstset_viewtype
 fun s2cstset_vt_nil (): s2cstset_vt
+fun s2cstset_vt_free (xs: s2cstset_vt): void
 fun s2cstset_vt_add (xs: s2cstset_vt, x: s2cst): s2cstset_vt
+//
+(* ****** ****** *)
+//
+abstype
+s2cstmap_type_type (a:type)
+stadef s2cstmap = s2cstmap_type_type
+//
+fun s2cstmap_nil {a:type} (): s2cstmap (a)
+fun s2cstmap_add {a:type}
+  (map: s2cstmap (a), key: s2cst, itm: a):<> s2cstmap (a)
+fun s2cstmap_find
+  {a:type} (map: s2cstmap (a), key: s2cst):<> Option_vt (a)
 //
 (* ****** ****** *)
 
@@ -603,13 +616,17 @@ fun s2varset_vt_union
 fun s2varmset_nil (): s2varmset
 fun s2varmset_sing (x: s2var): s2varmset
 fun s2varmset_pair (x1: s2var, x2: s2var): s2varmset
+//
+fun s2varmset_is_equal
+  (xs: s2varmset, ys: s2varmset): bool
+//
 fun s2varmset_add
   (xs: s2varmset, x: s2var): s2varmset
 fun s2varmset_del
   (xs: s2varmset, x: s2var): s2varmset
 fun s2varmset_union
   (xs: s2varmset, ys: s2varmset): s2varmset
-
+//
 (* ****** ****** *)
 
 fun s2varbindmap_make_nil (): s2varbindmap

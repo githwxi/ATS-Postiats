@@ -42,6 +42,95 @@
 
 (* ****** ****** *)
 
+(*
+staload "fiterator.sats" // HX: it is preloaded
+*)
+
+(* ****** ****** *)
+//
+// arrszref: a reference to an array with size information attached
+//
+(* ****** ****** *)
+
+abstype
+arrszref_viewt0ype_type (a: viewt@ype)
+stadef arrszref = arrszref_viewt0ype_type
+stadef array0 = arrszref // backward compatibility
+
+(* ****** ****** *)
+
+fun{a:t@ype}
+arrszref_get_at (A: arrszref (a), i: size_t):<!exnref> a
+overload [] with arrszref_get_at
+fun{a:t@ype}
+arrszref_set_at (A: arrszref (a), i: size_t, x: a):<!exnref> void
+overload [] with arrszref_set_at
+
+(* ****** ****** *)
+
+fun{
+a:viewt@ype
+} arrszref_exch_at
+  (A: arrszref (a), i: size_t, x: &a >> a):<!exnref> void
+// end of [arrszref_exch_at]
+
+(* ****** ****** *)
+
+fun{a:t@ype}
+arrszref_make_iter_beg
+  (A: arrszref (a)): [n:nat] fiterator (arrszref (a), a, 0, n)
+// end of [arrszref_make_iter_beg]
+
+fun{a:t@ype}
+arrszref_make_iter_end
+  (A: arrszref (a)): [n:nat] fiterator (arrszref (a), a, n, 0)
+// end of [arrszref_make_iter_end]
+
+(* ****** ****** *)
+//
+// arrayref: a reference to an array with no size information attached
+//
+(* ****** ****** *)
+
+abstype
+arrayref_viewt0ype_int_type (a: viewt@ype, n: int)
+stadef arrayref = arrayref_viewt0ype_int_type
+stadef array = arrayref // backward compatibility
+
+typedef Arrayref (a: viewt@ype) = [n:int] arrayref (a, n)
+
+(* ****** ****** *)
+
+fun{a:t@ype}
+arrayref_get_at
+  {n:int}{i:nat | i < n} (A: arrayref (a, n), i: size_t i):<0> a
+overload [] with arrayref_get_at
+fun{a:t@ype}
+arrayref_set_at
+  {n:int}{i:nat | i < n} (A: arrayref (a, n), i: size_t i, x: a):<0> void
+overload [] with arrayref_set_at
+
+(* ****** ****** *)
+
+fun{
+a:viewt@ype
+} arrayref_exch_at
+  {n:int}{i:nat | i < n}
+  (A: arrayref (a, n), i: size_t i, x: &a >> a):<0> void
+// end of [arrayref_exch_at]
+
+(* ****** ****** *)
+
+fun{a:t@ype}
+arrayref_make_iter_beg{n:nat}
+  (A: arrayref (a, n)): fiterator (Arrayref (a), a, 0, n)
+// end of [arrszref_make_iter_beg]
+
+fun{a:t@ype}
+arrayref_make_iter_end{n:nat}
+  (A: arrayref (a, n), n: size_t n): fiterator (Arrayref (a), a, n, 0)
+// end of [arrszref_make_iter_end]
+
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then

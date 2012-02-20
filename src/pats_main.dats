@@ -214,10 +214,8 @@ dynload "pats_trans3_loop.dats"
 dynload "pats_trans3_decl.dats"
 //
 dynload "pats_constraint3.dats"
+dynload "pats_constraint3_init.dats"
 dynload "pats_constraint3_print.dats"
-dynload "pats_constraint3_saexp.dats"
-dynload "pats_constraint3_sbexp.dats"
-dynload "pats_constraint3_siexp.dats"
 dynload "pats_constraint3_solve.dats"
 //
 dynload "pats_comarg.dats"
@@ -443,7 +441,8 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/basics_sta.sats")
   val () = pervasive_load (ATSHOME, "prelude/basics_dyn.sats")
 //
-  val () = stacst2_initialize () // internalizing some static constants
+  val () = stacst2_initialize () // internalizing some static consts
+  val () = $CNSTR3.constraint3_initialize () // internalizing some maps
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/arith_prf.sats")
 //

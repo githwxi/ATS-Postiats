@@ -125,8 +125,15 @@ fun h3ypo_eqeq
 (* ****** ****** *)
 
 fun fprint_c3nstr : fprint_type (c3nstr)
+fun print_c3nstr (x: c3nstr): void
+and prerr_c3nstr (x: c3nstr): void
+
 fun fprint_c3nstrkind : fprint_type (c3nstrkind)
+
 fun fprint_h3ypo : fprint_type (h3ypo)
+fun print_h3ypo (x: h3ypo): void
+and prerr_h3ypo (x: h3ypo): void
+
 fun fprint_s3itm : fprint_type (s3itm)
 fun fprint_s3itmlst : fprint_type (s3itmlst)
 fun fprint_s3itmlstlst : fprint_type (s3itmlstlst)
@@ -225,6 +232,12 @@ fun trans3_env_hypadd_patcstlstlst
   (loc: location, p2tcs: p2atcstlstlst_vt, s2es: s2explst): void
 //
 (* ****** ****** *)
+//
+absview s2varbindmap_push_v
+fun the_s2varbindmap_freeall (): void
+fun the_s2varbindmap_pop
+  (pf: s2varbindmap_push_v | (*nothing*)): void
+fun the_s2varbindmap_push (): (s2varbindmap_push_v | void)
 //
 // HX: for the purpose of debugging
 //
