@@ -74,7 +74,7 @@ val s3p = (
   | S3Eerr () => let
       val () = prerr_warning3_loc (loc0)
       val () = prerr ": the constraint ["
-      val () = prerr_s2exp (s2p)
+      val () = pprerr_s2exp (s2p)
       val () = prerr "] cannot be translated into a form accepted by the constraint solver."
       val () = prerr_newline ()
     in
@@ -209,12 +209,14 @@ case+ s3is of
 | list_cons (s3i, s3is) => (
   case+ s3i of
   | S3ITMcstr c3t => let
-      val (pf | ()) =
-        s2vbcfenv_push (env)
-      // end of [val]
+      val (pf1 | ()) = s2vbcfenv_push (env)
+      val (pf2 | ()) = the_s2varbindmap_push ()
       val ans1 = c3nstr_solve_main (env, c3t, unsolved, err)
-      val () = s2vbcfenv_pop (pf | env)
+      val () = the_s2varbindmap_pop (pf2 | (*none*))
+      val () = s2vbcfenv_pop (pf1 | env)
+//
       val ans2 = c3nstr_solve_itmlst (loc0, env, s3is, unsolved, err)
+//
     in
       if ans1 >= 0 then 0(*unsolved*) else ans2
     end // end of [S3ITMcstr]
@@ -265,11 +267,12 @@ in
 //
 case+ s3iss of
 | list_cons (s3is, s3iss) => let
-    val (pf | ()) =
-      s2vbcfenv_push (env)
-    // end of [val]
+    val (pf1 | ()) = s2vbcfenv_push (env)
+    val (pf2 | ()) = the_s2varbindmap_push ()
     val s3is1 = list_append (s3is, s3is0)
-    val () = s2vbcfenv_pop (pf |env)
+    val ans = c3nstr_solve_itmlst (loc0, env, s3is1, unsolved, err)
+    val () = the_s2varbindmap_pop (pf2 | (*none*))
+    val () = s2vbcfenv_pop (pf1 |env)
   in
     c3nstr_solve_itmlst_disj (loc0, env, s3is0, s3iss, unsolved, err)
   end // end of [list_cons]
@@ -286,11 +289,11 @@ c3nstr_solve (c3t) = let
     print "c3nstr_solve: c3t = "; print c3t; print_newline ()
   end // end of [val]
 *)
+  var env: s2vbcfenv = s2vbcfenv_nil ()
 //
 // HX-2010-09-09: this is needed for solving top-level constraints!!!
-  val () = the_s2varbindmap_freeall ()
+  val () = the_s2varbindmap_freetop ()
 //
-  var env: s2vbcfenv = s2vbcfenv_nil ()
   var unsolved: uint = 0u and err: int = 0
   val _(*status*) = c3nstr_solve_main (env, c3t, unsolved, err)
   val () = s2vbcfenv_free (env)
@@ -299,7 +302,7 @@ in
 case+ 0 of
 | _ when unsolved = 0u => let
     val () = (
-      prerr "typechecking is finished successfully"; prerr_newline ()
+      prerr "typechecking is finished successfully!"; prerr_newline ()
     ) // end of [val]
   in
     // nothing

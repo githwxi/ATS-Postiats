@@ -79,7 +79,12 @@ case+ x of
     val () = prstr ")"
   } // end of [S3Eexp]
 //
-| S3Enull () => prstr "S3Enull()"
+| S3Enull () => prstr "0"
+| S3Eunit () => prstr "1"
+| S3Ebool (b) => {
+    val () = fprint_bool (out, b)
+  } // end of [S3Ebool]
+//
 | S3Epadd (s3e1, s3e2) => {
     val () = prstr "S3Epadd("
     val () = fprint_s3exp (out, s3e1)
@@ -88,11 +93,6 @@ case+ x of
     val () = prstr ")"
   } // end of [S3Epadd]
 //
-| S3Ebool (b) => {
-    val () = prstr "S3Ebool("
-    val () = fprint_bool (out, b)
-    val () = prstr ")"
-  } // end of [S3Ebool]
 | S3Ebneg (s3e) => {
     val () = prstr "S3Ebneg("
     val () = fprint_s3exp (out, s3e)
@@ -127,7 +127,7 @@ case+ x of
     val () = prstr ")"
   } // end of [S3Ebneq]
 | S3Ebineq (knd, s3e) => { // eq/neq: 1/~1; gte/lt : 2/~2
-    val () = prstr "S3Eiexp("
+    val () = prstr "S3Ebineq("
     val () = (
       case+ knd of
       |  1 => prstr "="
@@ -139,16 +139,11 @@ case+ x of
     val () = prstr ", "
     val () = fprint_s3exp (out, s3e)
     val () = prstr ")"
-  } // end of [S3Eineq]
+  } // end of [S3Ebineq]
 //
-| S3Eint (int) => {
-    val () = prstr "S3Eintinf("
-    val () = fprint_intinf (out, int)
-    val () = prstr ")"
-  } // end of [S3Eint]
 | S3Eiatm (s2vs) => {
     val () = prstr "S3Eiatm("
-    val () = fprint_string (out, "...")
+    val () = fprint_s2varmset (out, s2vs)
     val () = prstr ")"
   } // end of [S3Eiatm]
 | S3Eicff (c, s3e) => {
@@ -158,20 +153,11 @@ case+ x of
     val () = fprint_s3exp (out, s3e)
     val () = prstr ")"
   } // end of [S3Eicff]
-| S3Eiadd (s3e1, s3e2) => {
-    val () = prstr "S3Eiadd("
-    val () = fprint_s3exp (out, s3e1)
-    val () = prstr ", "
-    val () = fprint_s3exp (out, s3e2)
+| S3Eisum (s3es) => {
+    val () = prstr "S3Eisum("
+    val () = fprint_s3explst (out, s3es)
     val () = prstr ")"
   } // end of [S3Eiadd]
-| S3Eisub (s3e1, s3e2) => {
-    val () = prstr "S3Eisub("
-    val () = fprint_s3exp (out, s3e1)
-    val () = prstr ", "
-    val () = fprint_s3exp (out, s3e2)
-    val () = prstr ")"
-  } // end of [S3Eisub]
 | S3Eimul (s3e1, s3e2) => {
     val () = prstr "S3Eimul("
     val () = fprint_s3exp (out, s3e1)

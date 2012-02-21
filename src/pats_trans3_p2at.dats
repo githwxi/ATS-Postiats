@@ -210,7 +210,7 @@ local
 fn p2at_proofize
   (p2t: p2at) = let
   val dvs = p2t.p2at_dvs
-  val dvs = $UT.lstord_listize (dvs)
+  val dvs = $UT.lstord2list (dvs)
 in
   list_foreach_fun<d2var>
     (dvs, lam d2v =<1> d2var_set_isprf (d2v, true))

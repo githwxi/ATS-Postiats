@@ -32,6 +32,7 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/option_vt.dats"
 
@@ -92,16 +93,20 @@ case+ x1 of
 //
 | S3Enull () => (
   case+ x2 of S3Enull () => true | _ => false
-  )
+  ) // end of [S3Enull]
+| S3Eunit () => (
+  case+ x2 of S3Eunit () => true | _ => false
+  ) // end of [S3Eunit]
+| S3Ebool b1 => (
+  case+ x2 of S3Ebool b2 => b1 = b2 | _ => false
+  ) // end of [S3Ebool]
+//
 | S3Epadd (x11, x12) => (case+ x2 of
   | S3Epadd (x21, x22) =>
       if s3exp_syneq (x11, x21) then s3exp_syneq (x12, x22) else false
   | _ => false // end of [_]
   ) // end of [S3Epadd]
 //
-| S3Ebool b1 => (
-  case+ x2 of S3Ebool b2 => b1 = b2 | _ => false
-  ) // end of [S3Ebool]
 | S3Ebneg (x1) => (
   case+ x2 of S3Ebneg (x2) => s3exp_syneq (x1, x2) | _ => false
   ) // end of [S3Ebneg]
@@ -131,27 +136,17 @@ case+ x1 of
   | _ => false // end of [_]
   ) // end of [S3Ebineq]
 //
-| S3Eint (int1) => (
-  case+ x2 of S3Eint (int2) => int1 = int2 | _ => false
-  ) // end of [S3Eint]
-| S3Eiatm (vs1) => (case+ x2 of
-  | S3Eiatm (vs2) => s2varmset_is_equal (vs1, vs2) | _ => false
+| S3Eiatm (s2vs1) => (case+ x2 of
+  | S3Eiatm (s2vs2) => s2varmset_is_equal (s2vs1, s2vs2) | _ => false
   ) // end of [S3Eiatm]
 | S3Eicff (c1, x1) => (case+ x2 of
   | S3Eicff (c2, x2) =>
       if c1 = c2 then s3exp_syneq (x1, x2) else false
   | _ => false // end of [_]
   ) // end of [S3Eicff]
-| S3Eiadd (x11, x12) => (case+ x2 of
-  | S3Eiadd (x21, x22) =>
-      if s3exp_syneq (x11, x21) then s3exp_syneq (x12, x22) else false
-  | _ => false // end of [_]
+| S3Eisum (xs1) => (case+ x2 of
+  | S3Eisum (xs2) => s3explst_syneq (xs1, xs2) | _ => false
   ) // end of [S3Eiadd]
-| S3Eisub (x11, x12) => (case+ x2 of
-  | S3Eisub (x21, x22) =>
-      if s3exp_syneq (x11, x21) then s3exp_syneq (x12, x22) else false
-  | _ => false // end of [_]
-  ) // end of [S3Eisub]
 | S3Eimul (x11, x12) => (case+ x2 of
   | S3Eimul (x21, x22) =>
       if s3exp_syneq (x11, x21) then s3exp_syneq (x12, x22) else false
@@ -182,324 +177,6 @@ s3explst_syneq
     | list_cons _ => false | list_nil () => true
     ) // end of [list_nil]
 ) // end of [s3explst_syneq]
-
-(* ****** ****** *)
-
-implement s3exp_err () = S3Eerr ()
-implement s3exp_var (s2v) = S3Evar (s2v)
-implement s3exp_cst (s2c) = S3Ecst (s2c)
-
-(* ****** ****** *)
-
-implement s3exp_null = S3Enull ()
-
-implement
-s3exp_padd
-  (s3e1, s3e2) = (
-  case+ s3e1 of
-  | S3Epadd (s3e11, s3e12) =>
-      s3exp_padd (s3e11, s3exp_iadd (s3e12, s3e2))
-    // end of [S3Epadd]
-  | _ => S3Epadd (s3e1, s3e2)
-) // end of [s3exp_padd]
-
-implement
-s3exp_psub
-  (s3e1, s3e2) = (
-  case+ s3e1 of
-  | S3Epadd (s3e11, s3e12) =>
-      s3exp_padd (s3e11, s3exp_isub (s3e12, s3e2))
-    // end of [S3Epadd]
-  | _ => S3Epadd (s3e1, s3exp_ineg s3e2)
-) // end of [s3exp_psub]
-
-implement s3exp_psucc (s3e) = s3exp_padd (s3e, s3exp_1)
-implement s3exp_ppred (s3e) = s3exp_padd (s3e, s3exp_neg_1)
-
-(* ****** ****** *)
-
-implement s3exp_true = S3Ebool (true)
-implement s3exp_false = S3Ebool (false)
-
-(* ****** ****** *)
-
-implement
-s3exp_bneg (s3e0) = (
-  case+ s3e0 of
-  | S3Ebool b => S3Ebool (not b)
-  | S3Ebneg (s3e) => s3e
-  | S3Ebadd (s3e1, s3e2) => S3Ebmul (S3Ebneg s3e1, S3Ebneg s3e2)
-  | S3Ebmul (s3e1, s3e2) => S3Ebadd (S3Ebneg s3e1, S3Ebneg s3e2)
-  | S3Ebeq (s3e1, s3e2) => S3Ebneq (s3e1, s3e2)
-  | S3Ebneq (s3e1, s3e2) => S3Ebeq (s3e1, s3e2)
-  | S3Ebineq (knd, s3e) => S3Ebineq (~knd, s3e)
-  | _ => S3Ebneg (s3e0)
-) // end of [s3exp_bneg]
-
-(* ****** ****** *)
-
-implement
-s3exp_badd
-  (s3e1, s3e2) = (
-  case+ s3e1 of
-  | S3Ebool b1 => if b1 then s3exp_true else s3e2
-  | _ => begin case+ s3e2 of
-    | S3Ebool b2 => if b2 then s3exp_true else s3e1
-    | _ => S3Ebadd (s3e1, s3e2)
-    end // end of [_]
-) // end of [s3exp_badd]
-
-implement
-s3exp_bmul
-  (s3e1, s3e2) = (
-  case+ s3e1 of
-  | S3Ebool b1 => if b1 then s3e2 else s3exp_false
-  | _ => begin case+ s3e2 of
-    | S3Ebool b2 => if b2 then s3e1 else s3exp_false
-    | _ => S3Ebmul (s3e1, s3e2)
-    end // end of [_]
-) // end of [s3exp_bmul]
-
-(* ****** ****** *)
-
-implement
-s3exp_beq
-  (s3e1, s3e2) = (
-  case+ s3e1 of
-  | S3Ebool b1 =>
-      if b1 then s3e2 else s3exp_bneg (s3e2)
-  | _ => (case+ s3e2 of
-    | S3Ebool b2 =>
-        if b2 then s3e1 else s3exp_bneg (s3e1)
-    | _ => S3Ebeq (s3e1, s3e2)
-    ) // end of [_]
-) // end of [s3exp_beq]
-
-implement
-s3exp_bneq (s3e1, s3e2) = (
-  case+ s3e1 of
-  | S3Ebool b1 =>
-      if b1 then s3exp_bneg (s3e2) else s3e2
-  | _ => (case+ s3e2 of
-    | S3Ebool b2 =>
-        if b2 then s3exp_bneg (s3e1) else s3e1
-    | _ => S3Ebneq (s3e1, s3e2)
-    ) // end of [_]
-) // end of [s3exp_bneq]
-
-(* ****** ****** *)
-
-implement
-s3exp_bineq (knd, s3e) = let
-(*
-  val () = (
-    print "s3exp_bineq: knd = "; print knd; print_newline ()
-  ) // end of [val]
-*)
-//
-in
-//
-case+ s3e of
-| S3Eint i => (case+ knd of
-  | ~2(*lt*) => if i < 0 then s3exp_true else s3exp_false
-  |  2(*gte*) => if i >= 0 then s3exp_true else s3exp_false
-  |  1(*eq*) => if i = 0 then s3exp_true else s3exp_false
-  | ~1(*neq*) => if i != 0 then s3exp_true else s3exp_false
-  | _ => let
-      val () = prerr_interror ()
-      val () = (
-        prerr ": s3exp_bineq: knd = "; prerr_int knd; prerr_newline ()
-      ) // end of [val]
-    in
-      s3exp_false
-    end // end of [_]
-  ) // end of [S3Eint]
-| _ => S3Ebineq (knd, s3e)
-end // end of [s3exp_bineq]
-
-(* ****** ****** *)
-
-implement
-s3exp_igt (s3e1, s3e2) =
-  s3exp_bineq (~2(*lt*), s3exp_isub (s3e2, s3e1))
-// end of [s3exp_igt]
-
-implement
-s3exp_igte (s3e1, s3e2) =
-  s3exp_bineq (2(*gte*), s3exp_isub (s3e1, s3e2))
-// end of [s3exp_igte]
-
-implement
-s3exp_ilt (s3e1, s3e2) =
-  s3exp_bineq (~2(*lt*), s3exp_isub (s3e1, s3e2))
-// end of [s3exp_ilt]
-
-implement
-s3exp_ilte (s3e1, s3e2) =
-  s3exp_bineq (2(*gte*), s3exp_isub (s3e2, s3e1))
-// end of [s3exp_ilte]
-
-implement
-s3exp_ieq (s3e1, s3e2) =
-  s3exp_bineq (1(*eq*), s3exp_isub (s3e1, s3e2))
-// end of [s3exp_ieq]
-
-implement
-s3exp_ineq (s3e1, s3e2) =
-  s3exp_bineq (~1(*neq*), s3exp_isub (s3e1, s3e2))
-// end of [s3exp_ineq]
-
-(* ****** ****** *)
-
-implement
-s3exp_pgt (s3e1, s3e2) =
-  s3exp_bineq (~2(*lt*), s3exp_pdiff (s3e2, s3e1))
-// end of [s3exp_pgt]
-
-implement
-s3exp_pgte (s3e1, s3e2) =
-  s3exp_bineq (2(*gte*), s3exp_pdiff (s3e1, s3e2))
-// end of [s3exp_pgte]
-
-implement
-s3exp_plt (s3e1, s3e2) =
-  s3exp_bineq (~2(*lt*), s3exp_pdiff (s3e1, s3e2))
-// end of [s3exp_plt]
-
-implement
-s3exp_plte (s3e1, s3e2) =
-  s3exp_bineq (2(*gte*), s3exp_pdiff (s3e2, s3e1))
-// end of [s3exp_plte]
-
-implement
-s3exp_peq (s3e1, s3e2) =
-  s3exp_bineq (1(*eq*), s3exp_pdiff (s3e1, s3e2))
-// end of [s3exp_peq]
-
-implement
-s3exp_pneq (s3e1, s3e2) =
-  s3exp_bineq (~1(*neq*), s3exp_pdiff (s3e1, s3e2))
-// end of [s3exp_pneq]
-
-(* ****** ****** *)
-//
-implement intinf_0 = intinf_make_int (0)
-implement intinf_1 = intinf_make_int (1)
-implement intinf_neg_1 = intinf_make_int (~1)
-//
-implement s3exp_0 = S3Eint (intinf_0)
-implement s3exp_1 = S3Eint (intinf_1)
-implement s3exp_neg_1 = S3Eint (intinf_neg_1)
-//
-(* ****** ****** *)
-
-implement
-s3exp_int (i) =
-  S3Eint (intinf_make_int (i))
-implement
-s3exp_intinf (int) = S3Eint (int)
-
-(* ****** ****** *)
-
-implement
-s3exp_icff (c, x) = let
-(*
-  val () = print "s3exp_icff"
-*)
-in
-case+ 0 of
-| _ when c = 1 => x
-| _ when c = 0 => s3exp_0
-| _ => (
-  case+ x of
-  | S3Eint i => S3Eint (c * i)
-  | S3Eicff (c1, x) => s3exp_icff (c * c1, x)
-  | S3Eiadd (x1, x2) =>
-      s3exp_iadd (s3exp_icff (c, x1), s3exp_icff (c, x2))
-  | S3Eisub (x1, x2) =>
-      s3exp_isub (s3exp_icff (c, x1), s3exp_icff (c, x2))
-  | _ => S3Eicff (c, x)
-  ) // end of [_]
-end // end of [s3exp_icff]
-
-implement
-s3exp_ineg (x) = s3exp_icff (intinf_neg_1, x)
-
-(* ****** ****** *)
-
-implement
-s3exp_iadd
-  (x1, x2) = (
-  case+ (x1, x2) of
-  | (S3Eint i, _) when i = 0 => x2
-  | (_, S3Eint i) when i = 0 => x1
-  | (S3Eint i1, S3Eint i2) => S3Eint (i1 + i2)
-  | (_, _) => S3Eiadd (x1, x2)
-) // end of [s3exp_iadd]
-
-(* ****** ****** *)
-
-implement
-s3exp_isub
-  (x1, x2) = (
-  case+ (x1, x2) of
-  | (_, S3Eint i) when i = 0 => x1
-  | (S3Eint i, _) when i = 0 => s3exp_ineg (x2)
-  | (S3Eint i1, S3Eint i2) => S3Eint (i1 - i2)
-  | (_, _) => S3Eisub (x1, x2)
-) // end of [s3exp_isub]
-
-(* ****** ****** *)
-
-implement
-s3exp_isucc (s3e) = s3exp_iadd (s3e, s3exp_1)
-
-implement
-s3exp_ipred (s3e) = s3exp_isub (s3e, s3exp_1)
-
-(* ****** ****** *)
-
-implement
-s3exp_imul
-  (x1, x2) = let
-in
-//
-case+ (x1, x2) of
-| (S3Eint i, _) => s3exp_icff (i, x2)
-| (_, S3Eint i) => s3exp_icff (i, x1)
-| (S3Eicff (c, x1), x2) => s3exp_icff (c, s3exp_imul (x1, x2))
-| (x1, S3Eicff (c, x2)) => s3exp_icff (c, s3exp_imul (x1, x2))
-//
-  | (S3Evar (s2v1), S3Evar (s2v2)) =>
-      S3Eiatm (s2varmset_pair (s2v1, s2v2))
-  | (S3Eiatm (s2vs1), S3Evar (s2v2)) =>
-      S3Eiatm (s2varmset_add (s2vs1, s2v2))
-  | (S3Evar (s2v1), S3Eiatm (s2vs2)) =>
-      S3Eiatm (s2varmset_add (s2vs2, s2v1))
-  | (S3Eiatm (s2vs1), S3Eiatm (s2vs2)) =>
-      S3Eiatm (s2varmset_union (s2vs1, s2vs2))
-//
-  | (S3Eiadd (x11, x12), _) =>
-      s3exp_iadd (s3exp_imul (x11, x2), s3exp_imul (x12, x2))
-    // end of [S3Eiadd, _]
-  | (_, S3Eiadd (x21, x22)) =>
-      s3exp_iadd (s3exp_imul (x1, x21), s3exp_imul (x1, x22))
-    // end of [_, S3Eiadd]
-  | (S3Eisub (x11, x12), _) =>
-      s3exp_isub (s3exp_imul (x11, x2), s3exp_imul (x12, x2))
-    // end of [S3Eisub, _]
-  | (_, S3Eisub (x21, x22)) =>
-      s3exp_isub (s3exp_imul (x1, x21), s3exp_imul (x1, x22))
-    // end of [_, S3Eisub]
-//
-  | (_, _) => S3Eimul (x1, x2)
-//
-end // end of [s3exp_imul]
-
-(* ****** ****** *)
-
-implement
-s3exp_pdiff (s3e1, s3e2) = S3Epdiff (s3e1, s3e2)
 
 (* ****** ****** *)
 
@@ -653,12 +330,33 @@ end // end of [local]
 local
 
 fun auxeq (
-  fds: &s2vbcfenv, s2e1: s2exp, s2e2: s2exp
+  env: &s2vbcfenv, s2e1: s2exp, s2e2: s2exp
 ) : s3exp = let
   val s2t1 = s2e1.s2exp_srt
 in
 //
 case+ 0 of
+| _ when
+    s2rt_is_int (s2t1) => let
+    val s3e1 = s3exp_make (env, s2e1)
+    and s3e2 = s3exp_make (env, s2e2)
+  in
+    s3exp_ieq (s3e1, s3e2)
+  end // end of [s2t1 = int]
+| _ when
+    s2rt_is_bool (s2t1) => let
+    val s3e1 = s3exp_make (env, s2e1)
+    and s3e2 = s3exp_make (env, s2e2)
+  in
+    s3exp_beq (s3e1, s3e2)
+  end // end of [s2t1 = bool]
+| _ when
+    s2rt_is_char (s2t1) => let
+    val s3e1 = s3exp_make (env, s2e1)
+    and s3e2 = s3exp_make (env, s2e2)
+  in
+    s3exp_ieq (s3e1, s3e2)
+  end // end of [s2t1 = char]
 | _ => (
     if s2exp_syneq (s2e1, s2e2) then s3exp_true else s3exp_err ()
   ) // end of [_]
@@ -667,7 +365,7 @@ end // end of [auxeq]
 
 fun auxbind (
   loc0: location
-, fds: &s2vbcfenv, s2v1: s2var, s2e2: s2exp
+, env: &s2vbcfenv, s2v1: s2var, s2e2: s2exp
 ) : s3exp = let
 (*
   val () = begin
@@ -676,9 +374,10 @@ fun auxbind (
   end // end of [val]
 *)
   val s2e1 = s2exp_var (s2v1)
+  val s3be = auxeq (env, s2e1, s2e2)
   val () = trans3_env_hypadd_bind (loc0, s2v1, s2e2)
 in
-  auxeq (fds, s2e1, s2e2)
+  s3be
 end // end of [aux_bind]
 
 in // in of [local]
@@ -1112,11 +811,15 @@ in
 case+ opt of
 | ~Some_vt f => f (env, s2es)
 | ~None_vt _ => let
+(*
     val () = begin
       print "s3exp_make_s2cst_s2explst: s2c = "; print_s2cst (s2c); print_newline ();
     end // end of [val]
+*)
+    val s3e = s3exp_cst (s2c)
+    val s3es = s3explst_make (env, s2es)
   in
-    s3exp_err ()
+    s3exp_app (s3e, s3es)
   end // end of [None_vt]
 //  
 end // end of [s3exp_make_s2cst_s2explst]

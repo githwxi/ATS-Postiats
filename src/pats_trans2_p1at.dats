@@ -530,6 +530,37 @@ end // end of [p1at_tr_free]
 
 (* ****** ****** *)
 
+fun p1at_tr_tup (
+  p1t0: p1at
+, knd: int, npf: int, p1ts: p1atlst
+) : p2at = let
+  val loc0 = p1t0.p1at_loc
+  val p2ts = list_map_fun (p1ts, p1at_tr)
+  val lp2ts = let
+    fun aux (
+      p2ts: List_vt (p2at), n: int
+    ) : labp2atlst =
+      case+ p2ts of
+      | ~list_vt_cons
+          (p2t, p2ts) => let
+          val loc = p2t.p2at_loc
+          val l = label_make_int (n)
+          val l0 = $SYN.l0ab_make_label (loc, l)
+          val lp2t = LABP2ATnorm (l0, p2t)
+        in
+          list_cons (lp2t, aux (p2ts, n+1))
+        end // end of [list_vt_cons]
+      | ~list_vt_nil () => list_nil ()
+    // end of [aux]
+  in
+    aux (p2ts, 0)
+  end // end of [val]
+in
+  p2at_rec (loc0, knd, npf, lp2ts)
+end // end of [p1at_tr_tup]
+  
+(* ****** ****** *)
+
 implement
 p1at_tr (p1t0) = let
   val loc0 = p1t0.p1at_loc
@@ -570,39 +601,13 @@ case+ p1t0.p1at_node of
 | P1Tapp_sta (p1t_fun, sarg) =>
     p1at_tr_app_sta_dyn (p1t0, p1t_fun, p1t_fun, sarg, ~1(*npf*), list_nil)
 //
-| P1Tlist (npf, p1ts) => (case+ p1ts of
-  | list_cons _ => let
-      val p2ts = p1atlst_tr p1ts in p2at_list (loc0, npf, p2ts)
-    end // end of [list_cons]
+| P1Tlist (npf, p1ts) => (
+  case+ p1ts of
+  | list_cons _ => p1at_tr_tup (p1t0, 0(*tupknd*), npf, p1ts)
   | list_nil _ => p2at_empty (loc0)
   ) // end of [P1Tlist]
 //
-| P1Ttup (
-    knd, npf, p1ts
-  ) => let
-    val p2ts =
-      list_map_fun (p1ts, p1at_tr)
-    // end of [val]
-    val lp2ts = aux (p2ts, 0) where {
-      fun aux (
-        p2ts: List_vt (p2at), n: int
-      ) : labp2atlst =
-        case+ p2ts of
-        | ~list_vt_cons
-            (p2t, p2ts) => let
-            val loc = p2t.p2at_loc
-            val l = label_make_int (n)
-            val l0 = $SYN.l0ab_make_label (loc, l)
-            val lp2t = LABP2ATnorm (l0, p2t)
-          in
-            list_cons (lp2t, aux (p2ts, n+1))
-          end // end of [list_vt_cons]
-        | ~list_vt_nil () => list_nil ()
-      // end of [aux]
-    } // end of [val]
-  in
-    p2at_rec (loc0, knd, npf, lp2ts)
-  end // end of [P1Ttup]
+| P1Ttup (knd, npf, p1ts) => p1at_tr_tup (p1t0, knd, npf, p1ts)
 | P1Trec (
     knd, npf, lp1ts
   ) => let

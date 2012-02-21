@@ -192,6 +192,7 @@ case+ s2e0.s2exp_node of
 | S2EVar _ => s2e0
 //
 | S2Eat _ => s2e0
+| S2Eeqeq _ => s2e0
 //
 | S2Eapp (s2e_fun, s2es_arg) =>
     s2exp_hnfize_app (s2e0, s2e_fun, s2es_arg, flag)

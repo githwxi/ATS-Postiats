@@ -191,9 +191,7 @@ SOURCES := \
   pats_constraint3.dats \
   pats_constraint3_init.dats \
   pats_constraint3_print.dats \
-  pats_constraint3_saexp.dats \
-  pats_constraint3_sbexp.dats \
-  pats_constraint3_siexp.dats \
+  pats_constraint3_simplify.dats \
   pats_constraint3_solve.dats \
   pats_comarg.sats \
   pats_comarg.dats \

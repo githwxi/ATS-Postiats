@@ -77,7 +77,6 @@ overload / with g0int_div of 0
 fun{a:t@ype}
 g0int_lt (x: g0int (a), y: g0int (a)):<> bool
 overload < with g0int_lt of 0
-
 fun{a:t@ype}
 g0int_lte (x: g0int (a), y: g0int (a)):<> bool
 overload <= with g0int_lte of 0
@@ -85,10 +84,16 @@ overload <= with g0int_lte of 0
 fun{a:t@ype}
 g0int_gt (x: g0int (a), y: g0int (a)):<> bool
 overload > with g0int_gt of 0
-
 fun{a:t@ype}
 g0int_gte (x: g0int (a), y: g0int (a)):<> bool
 overload >= with g0int_gte of 0
+
+fun{a:t@ype}
+g0int_eq (x: g0int (a), y: g0int (a)):<> bool
+overload = with g0int_eq of 0
+fun{a:t@ype}
+g0int_neq (x: g0int (a), y: g0int (a)):<> bool
+overload != with g0int_neq of 0
 
 fun{a:t@ype}
 g0int_compare (x: g0int (a), y: g0int (a)):<> int
@@ -138,7 +143,7 @@ overload - with g1int_sub of 2
 
 fun{a:t@ype}
 g1int_mul {i,j:int}
-  (x: g1int (a, i), y: g1int (a, j)):<> g1int (a)
+  (x: g1int (a, i), y: g1int (a, j)):<> g1int (a, i*j)
 overload * with g1int_mul of 2
 
 fun{a:t@ype}
@@ -151,13 +156,20 @@ g1int_div {i,j:int | j != 0}
   (x: g1int (a, i), y: g1int (a, j)):<> g1int (a)
 overload / with g1int_div of 2
 
+fun{a:t@ype}
+g1int_ndiv {i,j:int | j > 0}
+  (x: g1int (a, i), y: g1int (a, j)):<> g1int (a)
+fun{a:t@ype}
+g1int_ndiv2 {i,j:int | j > 0} (
+  x: g1int (a, i), y: g1int (a, j)
+) :<> [q,r:int | 0 <= r; r < j] (DIVMOD (i, j, q, r) | g1int (a, q))
+
 (* ****** ****** *)
 
 fun{a:t@ype}
 g1int_lt {i,j:int}
   (x: g1int (a, i), y: g1int (a, j)):<> bool (i < j)
 overload < with g1int_lt of 2
-
 fun{a:t@ype}
 g1int_lte {i,j:int}
   (x: g1int (a, i), y: g1int (a, j)):<> bool (i <= j)
@@ -167,11 +179,19 @@ fun{a:t@ype}
 g1int_gt {i,j:int}
   (x: g1int (a, i), y: g1int (a, j)):<> bool (i > j)
 overload > with g1int_gt of 2
-
 fun{a:t@ype}
 g1int_gte {i,j:int}
   (x: g1int (a, i), y: g1int (a, j)):<> bool (i >= j)
 overload >= with g1int_gte of 2
+
+fun{a:t@ype}
+g1int_eq {i,j:int}
+  (x: g1int (a, i), y: g1int (a, j)):<> bool (i == j)
+overload = with g1int_eq of 2
+fun{a:t@ype}
+g1int_neq {i,j:int}
+  (x: g1int (a, i), y: g1int (a, j)):<> bool (i != j)
+overload != with g1int_neq of 2
 
 fun{a:t@ype}
 g1int_compare

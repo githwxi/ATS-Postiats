@@ -234,7 +234,7 @@ fun trans3_env_hypadd_patcstlstlst
 (* ****** ****** *)
 //
 absview s2varbindmap_push_v
-fun the_s2varbindmap_freeall (): void
+fun the_s2varbindmap_freetop (): void
 fun the_s2varbindmap_pop
   (pf: s2varbindmap_push_v | (*nothing*)): void
 fun the_s2varbindmap_push (): (s2varbindmap_push_v | void)

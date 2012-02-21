@@ -85,8 +85,8 @@ stacst mul_int_int : (int, int) -> int
 stacst div_int_int : (int, int) -> int
 stadef + = add_int_int
 stadef - = sub_int_int
-stadef * = sub_int_int
-stadef / = sub_int_int
+stadef * = mul_int_int
+stadef / = div_int_int
 
 stacst lt_int_int : (int, int) -> bool
 stacst lte_int_int : (int, int) -> bool

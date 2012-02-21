@@ -405,12 +405,12 @@ end // end of [val]
 //
 val (pfenv | ()) = the_trans2_env_push ()
 val () = let
-  val s2vs = $UT.lstord_listize (p2t_arg.p2at_svs)
+  val s2vs = $UT.lstord2list (p2t_arg.p2at_svs)
 in
   the_s2expenv_add_svarlst s2vs
 end // end of [val]
 val () = let
-  val d2vs = $UT.lstord_listize (p2t_arg.p2at_dvs)
+  val d2vs = $UT.lstord2list (p2t_arg.p2at_dvs)
 in
   the_d2expenv_add_dvarlst d2vs
 end // end of [val]

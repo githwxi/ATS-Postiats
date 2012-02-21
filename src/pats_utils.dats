@@ -284,11 +284,13 @@ fun aux {n:nat} .<n>. (
 in
 //
 case+ xs of
-| list_cons (x, xs) => aux (x, xs, 0) | list_nil () => list_nil ()
+| list_cons
+    (x, xs) => aux (x, xs, 0)
+| list_nil () => list_nil ()
 //
 end // end of [lstord_get_dups]
 
-implement lstord_listize (xs) = xs
+implement lstord2list (xs) = xs
 
 end // end of [local]
 

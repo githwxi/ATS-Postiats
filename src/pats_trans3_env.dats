@@ -643,12 +643,6 @@ viewtypedef s2varlstlst_vt = List_vt (s2varlst_vt)
 val the_s2varlst = ref_make_elt<s2varlst_vt> (list_vt_nil)
 val the_s2varlstlst = ref_make_elt<s2varlstlst_vt> (list_vt_nil)
 
-in // in of [local]
-
-implement
-the_s2varbindmap_pop
-  (pf | (*nothing*)) = let
-//
 fun auxrmv (
   map: &s2varbindmap, s2vs: s2varlst_vt
 ) : void =
@@ -658,6 +652,13 @@ fun auxrmv (
     end // end of [list_vt_cons]
   | ~list_vt_nil () => ()
 // end of [auxrmv]
+
+in // in of [local]
+
+implement
+the_s2varbindmap_pop
+  (pf | (*nothing*)) = let
+//
 prval unit_v () = pf
 val s2vs = let
   val (vbox pf | pp) = ref_get_view_ptr (the_s2varlstlst)
@@ -746,35 +747,23 @@ in
 end // end of [the_s2varbindmap_insert]
 
 implement
-the_s2varbindmap_freeall () = let
+the_s2varbindmap_freetop () = let
 //
-val xs = xs where {
+val s2vs = xs where {
   val (vbox pf | p) = ref_get_view_ptr (the_s2varlst)
   val xs = !p
   val () = !p := list_vt_nil ()
 } // end of [val]
-val () = list_vt_free (xs)
 //
-val xss = xss where {
-  val (vbox pf | pp) = ref_get_view_ptr (the_s2varlstlst)
-  val xss = !pp
-  val () = !pp := list_vt_nil ()
-} // end of [val]
 val () = let
-  fun loop (
-    xss: s2varlstlst_vt
-  ) : void =
-    case+ xss of
-    | ~list_vt_cons (xs, xss) => (list_vt_free (xs); loop (xss))
-    | ~list_vt_nil () => ()
-  // end of [loop]
+  val (vbox pf | p) = ref_get_view_ptr (the_s2varbindmap)
 in
-  loop (xss)
+  $effmask_ref (auxrmv (!p, s2vs))
 end // end of [val]
 //
 in
   (*nothing*)
-end // end of [the_s2varbinmap_freeall]
+end // end of [the_s2varbinmap_freetop]
 
 end // end of [local]
 

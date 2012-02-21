@@ -51,10 +51,12 @@ s3exp =
   | S3Eapp of (s3exp, s3explst)
   | S3Eexp of s2exp
 //
-  | S3Enull of () (* the null address *)
+  | S3Enull of () // = 0
+  | S3Eunit of () // = 1
+  | S3Ebool of bool (* boolean constant *)
+//
   | S3Epadd of (s3exp, s3exp) // ptr arith
 //
-  | S3Ebool of bool (* boolean constant *)
   | S3Ebneg of s3exp
   | S3Ebadd of (s3exp, s3exp)
   | S3Ebmul of (s3exp, s3exp)
@@ -62,11 +64,9 @@ s3exp =
   | S3Ebneq of (s3exp, s3exp)
   | S3Ebineq of (int(*knd*), s3exp)
 //
-  | S3Eint of intinf
   | S3Eiatm of s2varmset (* mononomial term *)
   | S3Eicff of (intinf, s3exp) // HX: coefficient
-  | S3Eiadd of (s3exp, s3exp)
-  | S3Eisub of (s3exp, s3exp)
+  | S3Eisum of s3explst (* sum of list of icffs *)
   | S3Eimul of (s3exp, s3exp)
   | S3Epdiff of (s3exp, s3exp)
 //
@@ -91,22 +91,49 @@ fun prerr_s3explst (s3es: s3explst): void
 //
 (* ****** ****** *)
 
-fun s3exp_var (s2v: s2var): s3exp
-fun s3exp_cst (s2c: s2cst): s3exp
-
-fun s3exp_err ((* void *)): s3exp
+fun s3exp_syneq (x1: s3exp, x2: s3exp): bool
+fun s3explst_syneq (xs1: s3explst, xs2: s3explst): bool
 
 (* ****** ****** *)
 
+(*
+** HX-2012-02-20:
+** this one is used to implement S3Eisum
+*)
+fun s3exp_gte (x1: s3exp, x2: s3exp): bool
+
+(* ****** ****** *)
+
+fun s3exp_err ((* void *)): s3exp
+
+fun s3exp_var (s2v: s2var): s3exp
+fun s3exp_cst (s2c: s2cst): s3exp
+fun s3exp_app (_fun: s3exp, _arg: s3explst): s3exp
+
+(* ****** ****** *)
+//
 val s3exp_null : s3exp
+val s3exp_unit : s3exp
+val s3exp_true: s3exp and s3exp_false: s3exp
+//
+val intinf_0 : intinf
+and intinf_1 : intinf
+and intinf_2 : intinf
+and intinf_neg_1 : intinf
+//
+val s3exp_0 : s3exp
+and s3exp_1 : s3exp
+and s3exp_2 : s3exp
+and s3exp_neg_1 : s3exp
+//
+(* ****** ****** *)
+
 fun s3exp_psucc (s3e: s3exp): s3exp
 fun s3exp_ppred (s3e: s3exp): s3exp
 fun s3exp_padd (s3e1: s3exp, s3e2: s3exp): s3exp
 fun s3exp_psub (s3e1: s3exp, s3e2: s3exp): s3exp
 
 (* ****** ****** *)
-
-val s3exp_true: s3exp and s3exp_false: s3exp
 
 fun s3exp_bneg (s3e: s3exp): s3exp
 fun s3exp_beq (s3e1: s3exp, s3e2: s3exp): s3exp
@@ -131,20 +158,15 @@ fun s3exp_pneq (s3e1: s3exp, s3e2: s3exp): s3exp
 
 (* ****** ****** *)
 
-val intinf_0 : intinf
-val intinf_1 : intinf
-val intinf_neg_1 : intinf
-
-val s3exp_0 : s3exp
-val s3exp_1 : s3exp
-val s3exp_neg_1 : s3exp
-
 fun s3exp_int (i: int): s3exp
-fun s3exp_intinf (i: intinf): s3exp
+fun s3exp_intinf (int: intinf): s3exp
 fun s3exp_var (s2v: s2var): s3exp
 fun s3exp_cst (s2c: s2cst): s3exp
 
 fun s3exp_icff (c: intinf, s3e: s3exp): s3exp
+fun s3explst_icff (c: intinf, s3es: s3explst): s3explst_vt
+
+fun s3exp_isum (s3es: s3explst): s3exp
 
 fun s3exp_ineg (s3e: s3exp): s3exp
 fun s3exp_isucc (s3e: s3exp): s3exp
@@ -155,11 +177,6 @@ fun s3exp_isub (s3e1: s3exp, s3e2: s3exp): s3exp
 fun s3exp_imul (s3e1: s3exp, s3e2: s3exp): s3exp
 
 fun s3exp_pdiff (s3e1: s3exp, s3e2: s3exp): s3exp
-
-(* ****** ****** *)
-
-fun s3exp_syneq (x1: s3exp, x2: s3exp): bool
-fun s3explst_syneq (xs1: s3explst, xs2: s3explst): bool
 
 (* ****** ****** *)
 

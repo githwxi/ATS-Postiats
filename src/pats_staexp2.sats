@@ -227,8 +227,10 @@ fun s2rt_tup (s2ts: s2rtlst): s2rt // HX: tuple sorts are not yet supported
 fun s2rt_err (): s2rt // HX: a placeholder indicating error
 
 fun s2rt_is_int (x: s2rt): bool
-
+fun s2rt_is_bool (x: s2rt): bool
+fun s2rt_is_char (x: s2rt): bool
 fun s2rt_is_dat (x: s2rt): bool
+
 fun s2rt_is_fun (x: s2rt): bool
 fun s2rt_is_prf (x: s2rt): bool // is proof?
 fun s2rt_is_prgm (x: s2rt): bool // is program?
@@ -617,6 +619,9 @@ fun s2varmset_nil (): s2varmset
 fun s2varmset_sing (x: s2var): s2varmset
 fun s2varmset_pair (x1: s2var, x2: s2var): s2varmset
 //
+fun s2varmset_gte
+  (xs: s2varmset, ys: s2varmset): bool
+//
 fun s2varmset_is_equal
   (xs: s2varmset, ys: s2varmset): bool
 //
@@ -626,6 +631,8 @@ fun s2varmset_del
   (xs: s2varmset, x: s2var): s2varmset
 fun s2varmset_union
   (xs: s2varmset, ys: s2varmset): s2varmset
+//
+fun fprint_s2varmset : fprint_type (s2varmset)
 //
 (* ****** ****** *)
 

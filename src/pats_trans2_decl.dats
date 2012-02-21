@@ -1130,8 +1130,8 @@ fn v1aldeclst_tr {n:nat} (
   val p2ts = list_map_fun<v1aldec>
     (d1cs, lam (d1c) =<1> p1at_tr (d1c.v1aldec_pat))
   val p2ts = (l2l)p2ts: list (p2at, n)
-  val s2vs = $UT.lstord_listize (p2atlst_svs_union p2ts)
-  val d2vs = $UT.lstord_listize (p2atlst_dvs_union p2ts)
+  val s2vs = $UT.lstord2list (p2atlst_svs_union p2ts)
+  val d2vs = $UT.lstord2list (p2atlst_dvs_union p2ts)
 in
   if not(isrec) then let
     val d2cs = list_map2_fun<v1aldec,p2at> (d1cs, p2ts, v1aldec_tr)

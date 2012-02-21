@@ -32,6 +32,8 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload _(*anon*) = "prelude/DATS/pointer.dats"
 staload _(*anon*) = "prelude/DATS/reference.dats"
 
@@ -324,21 +326,24 @@ assume s2varmset_type = $MSET.mset (s2var)
 val cmp = lam (
   s2v1: s2var, s2v2: s2var
 ) : int =<cloref>
-  compare_s2var_s2var (s2v1, s2v2)
+  ~compare_s2var_s2var (s2v1, s2v2) // HX: decending
 // end of [val]
 
 in // in of [local]
 
 implement
 s2varmset_nil () = $MSET.funmset_make_nil ()
-
 implement
 s2varmset_sing (x) = $MSET.funmset_make_sing (x)
-
 implement
 s2varmset_pair
   (x1, x2) = $MSET.funmset_make_pair (x1, x2, cmp)
 // end of [s2varmset_pair]
+
+implement
+s2varmset_gte
+  (xs1, xs2) = $MSET.funmset_gte (xs1, xs2, cmp)
+// end of [s2varmset_gte]
 
 implement
 s2varmset_is_equal
@@ -363,6 +368,16 @@ implement
 s2varmset_union
   (xs1, xs2) = $MSET.funmset_union (xs1, xs2, cmp)
 // end of [s2varmset_union]
+
+implement
+fprint_s2varmset
+  (out, xs) = let
+  val xs = $MSET.funmset_listize (xs)
+  val xs = list_vt_reverse (xs)
+  val () = fprint_s2varlst (out, $UN.castvwtp1 {s2varlst} (xs))
+  val () = list_vt_free (xs)
+in
+end // end of [fprint_s2varmset]
 
 end // end of [local]
 
