@@ -64,10 +64,6 @@ implement
 s3explst_solve_s2exp
   (loc0, env, s2p, err) = let
 //
-val (
-  s2vs, s3ps, s2cs
-) = s2vbcfenv_extract (env)
-//
 val s3p = s3exp_make (env, s2p)
 val s3p = (
   case+ s3p of
@@ -83,6 +79,10 @@ val s3p = (
   | _ => s3p // end of [_]
 ) : s3exp // end of [val]
 //
+val (
+  s2vs, s3ps, s2cs
+) = s2vbcfenv_extract (env)
+//
 val () = begin
   print "s3explst_solve_s2exp: s2vs = ";
   print_s2varlst ($UN.castvwtp1 {s2varlst} (s2vs)); print_newline ();
@@ -92,12 +92,19 @@ val () = begin
   print "s3explst_solve_s2exp: s3p = "; print_s3exp (s3p); print_newline ();
 end // end of [val]
 //
+var status: int = 0
+val () = (
+  case+ s3p of
+  | S3Ebool (true) => status := ~1
+  | _ => ()
+) // end of [val]
+//
 val () = list_vt_free (s2vs)
 val () = list_vt_free (s3ps)
 val () = s2cstset_vt_free (s2cs)
 //
 in
-  0(*unsolved*)
+  status(*~1/0/1*)
 end // end of [s3explst_solve_s2exp]
 
 end // end of [local]
@@ -208,7 +215,7 @@ in
 case+ s3is of
 | list_cons (s3i, s3is) => (
   case+ s3i of
-  | S3ITMcstr c3t => let
+  | S3ITMcnstr c3t => let
       val (pf1 | ()) = s2vbcfenv_push (env)
       val (pf2 | ()) = the_s2varbindmap_push ()
       val ans1 = c3nstr_solve_main (env, c3t, unsolved, err)
@@ -219,7 +226,7 @@ case+ s3is of
 //
     in
       if ans1 >= 0 then 0(*unsolved*) else ans2
-    end // end of [S3ITMcstr]
+    end // end of [S3ITMcnstr]
   | S3ITMhypo (h3p) => let
       val s3p = s3exp_make_h3ypo (env, h3p)
       val () = (
@@ -227,7 +234,7 @@ case+ s3is of
         | S3Eerr () => let
             val () = begin
               prerr_warning3_loc (loc0);
-              prerr "warning(3): unused hypothesis: ["; prerr_h3ypo (h3p); prerr "]";
+              prerr ": unused hypothesis: ["; prerr_h3ypo (h3p); prerr "]";
               prerr_newline ()
             end // end of [val]
           in

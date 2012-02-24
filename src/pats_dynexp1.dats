@@ -778,13 +778,16 @@ m1acdef_make
 (* ****** ****** *)
 
 implement
-v1aldec_make
-  (loc, p1t, d1e, ann) = '{
-  v1aldec_loc= loc
-, v1aldec_pat= p1t
-, v1aldec_def= d1e
-, v1aldec_ann= ann
-} // end of [v1aldec_make]
+i1mpdec_make (
+  loc, qid, tmparg, def
+) = '{
+  i1mpdec_loc= loc
+, i1mpdec_qid= qid
+, i1mpdec_tmparg= tmparg
+, i1mpdec_def= def
+} // end of [i1mpdec_make]
+
+(* ****** ****** *)
 
 implement
 f1undec_make
@@ -795,6 +798,15 @@ f1undec_make
 , f1undec_def= d1e
 , f1undec_ann= ann
 } // end of [f1undec_make]
+
+implement
+v1aldec_make
+  (loc, p1t, d1e, ann) = '{
+  v1aldec_loc= loc
+, v1aldec_pat= p1t
+, v1aldec_def= d1e
+, v1aldec_ann= ann
+} // end of [v1aldec_make]
 
 implement
 v1ardec_make (
@@ -808,16 +820,6 @@ v1ardec_make (
 , v1ardec_wth= wth // i0deopt
 , v1ardec_ini= ini
 } // end of [v1ardec_make]
-
-implement
-i1mpdec_make (
-  loc, qid, tmparg, def
-) = '{
-  i1mpdec_loc= loc
-, i1mpdec_qid= qid
-, i1mpdec_tmparg= tmparg
-, i1mpdec_def= def
-} // end of [i1mpdec_make]
 
 (* ****** ****** *)
 
@@ -963,6 +965,14 @@ d1ecl_macdefs (loc, knd, isrec, ds) = '{
 (* ****** ****** *)
 
 implement
+d1ecl_impdec
+  (loc, imparg, d1c) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cimpdec (imparg, d1c)
+} // end of [d1ecl_impdec]
+
+(* ****** ****** *)
+
+implement
 d1ecl_valdecs
   (loc, knd, isrec, ds) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cvaldecs (knd, isrec, ds)
@@ -976,12 +986,6 @@ implement
 d1ecl_vardecs (loc, ds) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cvardecs (ds)
 }
-
-implement
-d1ecl_impdec
-  (loc, imparg, d1c) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cimpdec (imparg, d1c)
-} // end of [d1ecl_impdec]
 
 (* ****** ****** *)
 

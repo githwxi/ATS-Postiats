@@ -43,29 +43,29 @@
 (* ****** ****** *)
 
 fun lt_char_char
-  (c1: char, c2: char): bool = "mac#atspre_lt_char_char"
+  (c1: char, c2: char):<> bool = "mac#atspre_lt_char_char"
 overload < with lt_char_char of 0
 fun lte_char_char
-  (c1: char, c2: char): bool  = "mac#atspre_lte_char_char"
+  (c1: char, c2: char):<> bool  = "mac#atspre_lte_char_char"
 overload <= with lte_char_char of 0
 
 fun gt_char_char
-  (c1: char, c2: char): bool = "mac#atspre_gt_char_char"
+  (c1: char, c2: char):<> bool = "mac#atspre_gt_char_char"
 overload > with gt_char_char of 0
 fun gte_char_char
-  (c1: char, c2: char): bool  = "mac#atspre_gte_char_char"
+  (c1: char, c2: char):<> bool  = "mac#atspre_gte_char_char"
 overload >= with gte_char_char of 0
 
 fun eq_char_char
-  (c1: char, c2: char): bool = "mac#atspre_eq_char_char"
+  (c1: char, c2: char):<> bool = "mac#atspre_eq_char_char"
 overload = with eq_char_char of 0
 fun neq_char_char
-  (c1: char, c2: char): bool = "mac#atspre_neq_char_char"
+  (c1: char, c2: char):<> bool = "mac#atspre_neq_char_char"
 overload <> with neq_char_char of 0
 overload != with neq_char_char of 0
 
 fun compare_char_char
-  (c1: char, c2: char): bool = "mac#atspre_compare_char_char"
+  (c1: char, c2: char):<> int = "mac#atspre_compare_char_char"
 overload compare with compare_char_char of 0
 
 (* ****** ****** *)
@@ -86,6 +86,35 @@ overload prerr with prerr_char
 fun tostring_char
   (c: char):<> strnptr(1) = "atspre_tostring_char"
 overload tostring with tostring_char
+
+(* ****** ****** *)
+
+castfn
+char1_of_schar1 {c:char} (c: schar (c)):<> char (c)
+castfn
+char1_of_uchar1 {c:char} (c: uchar (c)):<> char (c)
+
+castfn
+schar1_of_char1 {c:char} (c: char (c)):<> schar (c)
+castfn
+uchar1_of_char1 {c:char} (c: char (c)):<> uchar (c)
+
+fun{knd:t@ype}
+g1int_of_schar1
+  {c:char} (c: schar (c)):<> g1int (knd, c2i(c))
+// end of [g1int_of_schar1]
+fun{knd:t@ype}
+g1int_of_uchar1
+  {c:char} (c: uchar (c)):<> g1int (knd, c2u(c))
+// end of [g1int_of_uchar1]
+
+(*
+** HX: g1uint_of_schar1: schar -> int -> uint
+*)
+fun{knd:t@ype}
+g1uint_of_uchar1
+  {c:char} (c: uchar (c)):<> g1uint (knd, c2u(c))
+// end of [g1uint_of_uchar1]
 
 (* ****** ****** *)
 

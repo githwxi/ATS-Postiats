@@ -79,11 +79,9 @@ in
 //
 case+ knd of
 | C3NSTRKINDmain () => prstr "main"
-(*
-| C3NSTRKINDmetric_nat () => prstr "metric_nat"
-| C3NSTRKINDmetric_dec () => prstr "metric_dec"
-*)
 | C3NSTRKINDcase_exhaustiveness _ => prstr "case_exhaustiveness"
+| C3NSTRKINDtermet_isnat () => prstr "termet_isnat"
+| C3NSTRKINDtermet_isdec () => prstr "termet_isdec"
 (*
 | C3NSTRKINDvarfin _ => prstr "varfin"
 | C3NSTRKINDloop (knd) => begin
@@ -136,11 +134,11 @@ fprint_s3itm (out, s3i) = let
 in
 //
 case+ s3i of
-| S3ITMcstr (c3t) => {
-    val () =  prstr "S3ITMcstr("
+| S3ITMcnstr (c3t) => {
+    val () =  prstr "S3ITMcnstr("
     val () = fprint_c3nstr (out, c3t)
     val () = prstr ")"
-  } // end of [S3ITMcstr]
+  } // end of [S3ITMcnstr]
 | S3ITMdisj (s3iss) => {
     val () =  prstr "S3ITMdisj("
     val () = fprint_s3itmlstlst (out, s3iss)

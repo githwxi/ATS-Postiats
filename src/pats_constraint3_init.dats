@@ -47,6 +47,16 @@ staload "pats_constraint3.sats"
 
 local
 //
+fun f_identity (
+  env: &s2vbcfenv, s2es: s2explst
+) : s3exp = let
+  val- list_cons (s2e1, s2es) = s2es
+in
+  s3exp_make (env, s2e1)
+end // end of [identity]
+//
+// HX: functions on static booleans
+//
 fun f_neg_bool (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
@@ -99,6 +109,67 @@ fun f_neq_bool_bool (
 in
   s3exp_bneq (s3be1, s3be2)
 end // end of [f_neq_bool_bool]
+//
+// HX: functions on static integers
+//
+fun f_neg_int (
+  env: &s2vbcfenv, s2es: s2explst
+) : s3exp = let 
+  val- list_cons (s2e1, s2es) = s2es
+  val s3ie1 = s3exp_make (env, s2e1)
+in
+  s3exp_ineg (s3ie1)
+end // end of [f_neg_int]
+//
+fun f_add_int_int (
+  env: &s2vbcfenv, s2es: s2explst
+) : s3exp = let 
+  val- list_cons (s2e1, s2es) = s2es
+  val- list_cons (s2e2, s2es) = s2es
+  val s3ie1 = s3exp_make (env, s2e1)
+  val s3ie2 = s3exp_make (env, s2e2)
+in
+  s3exp_iadd (s3ie1, s3ie2)
+end // end of [f_add_int_int]
+//
+fun f_sub_int_int (
+  env: &s2vbcfenv, s2es: s2explst
+) : s3exp = let 
+  val- list_cons (s2e1, s2es) = s2es
+  val- list_cons (s2e2, s2es) = s2es
+  val s3ie1 = s3exp_make (env, s2e1)
+  val s3ie2 = s3exp_make (env, s2e2)
+in
+  s3exp_isub (s3ie1, s3ie2)
+end // end of [f_sub_int_int]
+//
+fun f_mul_int_int (
+  env: &s2vbcfenv, s2es: s2explst
+) : s3exp = let 
+  val- list_cons (s2e1, s2es) = s2es
+  val- list_cons (s2e2, s2es) = s2es
+  val s3ie1 = s3exp_make (env, s2e1)
+  val s3ie2 = s3exp_make (env, s2e2)
+in
+  s3exp_imul (s3ie1, s3ie2)
+end // end of [f_mul_int_int]
+//
+fun f_ndiv_int_int (
+  env: &s2vbcfenv, s2es: s2explst
+) : s3exp = let
+  val s2c = s2cstref_get_cst (the_ndivrel_int_int_int)
+  val s2v = s2vbcfenv_replace (env, s2rt_int, s2c, s2es)
+in
+  s3exp_var (s2v)
+end // end of [f_ndiv_int_int]
+fun f_idiv_int_int (
+  env: &s2vbcfenv, s2es: s2explst
+) : s3exp = let
+  val s2c = s2cstref_get_cst (the_idivrel_int_int_int)
+  val s2v = s2vbcfenv_replace (env, s2rt_int, s2c, s2es)
+in
+  s3exp_var (s2v)
+end // end of [f_idiv_int_int]
 //
 fun f_lt_int_int (
   env: &s2vbcfenv, s2es: s2explst
@@ -165,6 +236,62 @@ fun f_neq_int_int (
 in
   s3exp_ineq (s3ie1, s3ie2)
 end // end of [f_neq_int_int]
+//
+fun f_abs_int (
+  env: &s2vbcfenv, s2es: s2explst
+) : s3exp = let
+  val s2c = s2cstref_get_cst (the_absrel_int_int)
+  val s2v = s2vbcfenv_replace (env, s2rt_int, s2c, s2es)
+in
+  s3exp_var (s2v)
+end // end of [f_abs_int]
+//
+fun f_sgn_int (
+  env: &s2vbcfenv, s2es: s2explst
+) : s3exp = let
+  val s2c = s2cstref_get_cst (the_sgnrel_int_int)
+  val s2v = s2vbcfenv_replace (env, s2rt_int, s2c, s2es)
+in
+  s3exp_var (s2v)
+end // end of [f_sgn_int]
+//
+fun f_max_int_int (
+  env: &s2vbcfenv, s2es: s2explst
+) : s3exp = let
+  val s2c = s2cstref_get_cst (the_maxrel_int_int_int)
+  val s2v = s2vbcfenv_replace (env, s2rt_int, s2c, s2es)
+in
+  s3exp_var (s2v)
+end // end of [f_max_int_int]
+//
+fun f_min_int_int (
+  env: &s2vbcfenv, s2es: s2explst
+) : s3exp = let
+  val s2c = s2cstref_get_cst (the_minrel_int_int_int)
+  val s2v = s2vbcfenv_replace (env, s2rt_int, s2c, s2es)
+in
+  s3exp_var (s2v)
+end // end of [f_min_int_int]
+//
+fun f_int_of_bool (
+  env: &s2vbcfenv, s2es: s2explst
+) : s3exp = let
+  val s2c = s2cstref_get_cst (the_b2irel_bool_int)
+  val s2v = s2vbcfenv_replace (env, s2rt_int, s2c, s2es)
+in
+  s3exp_var (s2v)
+end // end of [f_int_of_bool]
+//
+fun f_int_of_char (
+  env: &s2vbcfenv, s2es: s2explst
+) : s3exp = let
+  val s2c = s2cstref_get_cst (the_c2irel_char_int)
+  val s2v = s2vbcfenv_replace (env, s2rt_int, s2c, s2es)
+in
+  s3exp_var (s2v)
+end // end of [f_int_of_char]
+//
+// HX: functions on static addresses
 //
 fun f_lt_addr_addr (
   env: &s2vbcfenv, s2es: s2explst
@@ -234,41 +361,6 @@ end // end of [f_neq_addr_addr]
 
 (* ****** ****** *)
 
-fun f_add_int_int (
-  env: &s2vbcfenv, s2es: s2explst
-) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
-  val s3ie1 = s3exp_make (env, s2e1)
-  val s3ie2 = s3exp_make (env, s2e2)
-in
-  s3exp_iadd (s3ie1, s3ie2)
-end // end of [f_add_int_int]
-//
-fun f_sub_int_int (
-  env: &s2vbcfenv, s2es: s2explst
-) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
-  val s3ie1 = s3exp_make (env, s2e1)
-  val s3ie2 = s3exp_make (env, s2e2)
-in
-  s3exp_isub (s3ie1, s3ie2)
-end // end of [f_sub_int_int]
-//
-fun f_mul_int_int (
-  env: &s2vbcfenv, s2es: s2explst
-) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
-  val s3ie1 = s3exp_make (env, s2e1)
-  val s3ie2 = s3exp_make (env, s2e2)
-in
-  s3exp_imul (s3ie1, s3ie2)
-end // end of [f_mul_int_int]
-
-(* ****** ****** *)
-
 in // in of [local]
 
 (* ****** ****** *)
@@ -295,6 +387,14 @@ val () = ins (map, the_mul_bool_bool, f_mul_bool_bool)
 val () = ins (map, the_eq_bool_bool, f_eq_bool_bool)
 val () = ins (map, the_neq_bool_bool, f_neq_bool_bool)
 //
+val () = ins (map, the_neg_int, f_neg_int)
+val () = ins (map, the_add_int_int, f_add_int_int)
+val () = ins (map, the_sub_int_int, f_sub_int_int)
+val () = ins (map, the_mul_int_int, f_mul_int_int)
+val () = ins (map, the_div_int_int, f_idiv_int_int)
+val () = ins (map, the_ndiv_int_int, f_ndiv_int_int)
+val () = ins (map, the_idiv_int_int, f_idiv_int_int)
+//
 val () = ins (map, the_lt_int_int, f_lt_int_int)
 val () = ins (map, the_lte_int_int, f_lte_int_int)
 val () = ins (map, the_gt_int_int, f_gt_int_int)
@@ -302,16 +402,30 @@ val () = ins (map, the_gte_int_int, f_gte_int_int)
 val () = ins (map, the_eq_int_int, f_eq_int_int)
 val () = ins (map, the_neq_int_int, f_neq_int_int)
 //
+val () = ins (map, the_abs_int, f_abs_int)
+val () = ins (map, the_sgn_int, f_sgn_int)
+val () = ins (map, the_max_int_int, f_max_int_int)
+val () = ins (map, the_min_int_int, f_min_int_int)
+//
+val () = ins (map, the_int_of_bool, f_int_of_bool)
+(*
+val () = ins (map, the_bool_of_int, f_bool_of_int)
+*)
+val () = ins (map, the_int_of_char, f_int_of_char)
+(*
+val () = ins (map, the_char_of_int, f_char_of_int)
+*)
+val () = ins (map, the_uint_of_char, f_identity)
+val () = ins (map, the_char_of_uint, f_identity)
+val () = ins (map, the_int_of_addr, f_identity)
+val () = ins (map, the_addr_of_int, f_identity)
+//
 val () = ins (map, the_lt_addr_addr, f_lt_addr_addr)
 val () = ins (map, the_lte_addr_addr, f_lte_addr_addr)
 val () = ins (map, the_gt_addr_addr, f_gt_addr_addr)
 val () = ins (map, the_gte_addr_addr, f_gte_addr_addr)
 val () = ins (map, the_eq_addr_addr, f_eq_addr_addr)
 val () = ins (map, the_neq_addr_addr, f_neq_addr_addr)
-//
-val () = ins (map, the_add_int_int, f_add_int_int)
-val () = ins (map, the_sub_int_int, f_sub_int_int)
-val () = ins (map, the_mul_int_int, f_mul_int_int)
 //
 in
   (*nothing*)

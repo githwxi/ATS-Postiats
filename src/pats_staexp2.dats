@@ -218,22 +218,23 @@ s2exp_fun_srt (
 } // end of [s2exp_fun_srt]
 
 implement
-s2exp_metfn (
+s2exp_metfun (
   opt, s2es_met, s2e_body
 ) = let
   val s2t = s2e_body.s2exp_srt
 in hnf '{
-  s2exp_srt= s2t, s2exp_node= S2Emetfn (opt, s2es_met, s2e_body)
-} end // end of [s2exp_metfn]
+  s2exp_srt= s2t
+, s2exp_node= S2Emetfun (opt, s2es_met, s2e_body)
+} end // end of [s2exp_metfun]
 
 (* ****** ****** *)
 
 implement
-s2exp_metlt (
+s2exp_metdec (
   s2es1, s2es2
 ) = hnf '{
-  s2exp_srt= s2rt_bool, s2exp_node= S2Emetlt (s2es1, s2es2)
-} // end of [s2exp_metlt]
+  s2exp_srt= s2rt_bool, s2exp_node= S2Emetdec (s2es1, s2es2)
+} // end of [s2exp_metdec]
 
 (* ****** ****** *)
 

@@ -2594,17 +2594,13 @@ in '{
 (* ****** ****** *)
 
 implement
-d0ecl_valdecs (
-  knd, isrec, tok, xs
+d0ecl_impdec (
+  t_implement, imparg, impdec
 ) = let
-  val loc = tok.token_loc
-  val loc = (case+
-    list_last_opt<v0aldec> (xs) of
-    | ~Some_vt x => loc + x.v0aldec_loc | ~None_vt _ => loc
-  ) : location // end of [val]
+  val loc = t_implement.token_loc + impdec.i0mpdec_loc
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cvaldecs (knd, isrec, xs)
-} end // end of [d0ecl_valdecs]
+  d0ecl_loc= loc, d0ecl_node= D0Cimpdec (imparg, impdec)
+} end // end of [d0ecl_impdec]
 
 (* ****** ****** *)
 
@@ -2624,6 +2620,21 @@ in '{
 (* ****** ****** *)
 
 implement
+d0ecl_valdecs (
+  knd, isrec, tok, xs
+) = let
+  val loc = tok.token_loc
+  val loc = (case+
+    list_last_opt<v0aldec> (xs) of
+    | ~Some_vt x => loc + x.v0aldec_loc | ~None_vt _ => loc
+  ) : location // end of [val]
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Cvaldecs (knd, isrec, xs)
+} end // end of [d0ecl_valdecs]
+
+(* ****** ****** *)
+
+implement
 d0ecl_vardecs
   (tok, xs) = let
   val loc = tok.token_loc
@@ -2634,17 +2645,6 @@ d0ecl_vardecs
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cvardecs (xs)
 } end // end of [d0ecl_vardecs]
-
-(* ****** ****** *)
-
-implement
-d0ecl_impdec (
-  t_implement, imparg, impdec
-) = let
-  val loc = t_implement.token_loc + impdec.i0mpdec_loc
-in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cimpdec (imparg, impdec)
-} end // end of [d0ecl_impdec]
 
 (* ****** ****** *)
 

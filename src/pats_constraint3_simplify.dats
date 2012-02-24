@@ -104,6 +104,11 @@ implement s3exp_ppred (s3e) = s3exp_padd (s3e, s3exp_neg_1)
 (* ****** ****** *)
 
 implement
+s3exp_bool (b) = if b then s3exp_true else s3exp_false
+
+(* ****** ****** *)
+
+implement
 s3exp_bneg (s3e0) = (
   case+ s3e0 of
   | S3Ebool b => S3Ebool (not b)
@@ -169,8 +174,37 @@ s3exp_bneq (s3e1, s3e2) = (
 
 (* ****** ****** *)
 
+fun uns3exp_intinf
+  (s3e: s3exp): Option_vt (intinf) =
+  case+ s3e of
+  | S3Enull () => Some_vt (intinf_0)
+  | S3Eunit () => Some_vt (intinf_1)
+  | S3Eicff (c, s3e) => let
+      val opt = uns3exp_intinf (s3e)
+    in
+      case+ opt of
+      | ~Some_vt (i) => Some_vt (c * i)
+      | ~None_vt () => None_vt ()
+    end // end of [S3Eicff]
+  | _ => None_vt ()
+// end of [uns3exp_intinf]
+
 implement
-s3exp_bineq (knd, s3e) = S3Ebineq (knd, s3e)
+s3exp_bineq (knd, s3e) = let
+  val opt = uns3exp_intinf (s3e)
+in
+  case+ opt of
+  | ~Some_vt (i) => (case+ 0 of
+    | _ when knd =  2 => s3exp_bool (i >= 0)
+    | _ when knd = ~2 => s3exp_bool (i < 0)
+    | _ when knd =  1 => s3exp_bool (i = 0)
+    | _ when knd = ~1 => s3exp_bool (i != 0)
+    | _ => let
+        val () = assertloc (false) in s3exp_false
+      end // end of [_]
+    ) // end of [Some_vt]
+  | ~None_vt () => S3Ebineq (knd, s3e)
+end // end of [s3exp_bineq]
 
 (* ****** ****** *)
 

@@ -1223,11 +1223,12 @@ d0ecl_node =
   | D0Cextval of (string, d0exp) // value to be used in C
   | D0Cextcode of (int(*knd*), int(*pos*), string(*code*)) // external code
 //
+  | D0Cimpdec of (i0mparg, i0mpdec) // implementation
+//
+  | D0Cfundecs of (funkind, q0marglst, f0undeclst)
   | D0Cvaldecs of // value declarations
       (valkind, bool(*isrec*), v0aldeclst)
-  | D0Cfundecs of (funkind, q0marglst, f0undeclst)
   | D0Cvardecs of v0ardeclst // variable declarations
-  | D0Cimpdec of (i0mparg, i0mpdec) // implementation
 //
   | D0Cinclude of (* file inclusion *)
       (int(*0:sta/1:dyn*), string(*filename*))
@@ -1835,16 +1836,17 @@ fun d0ecl_extval
   (tok: token, name: s0tring, d0e: d0exp): d0ecl
 fun d0ecl_extcode (knd: int, tok: token): d0ecl
 //
-fun d0ecl_valdecs (
-  knd: valkind, isrec: bool, tok: token, ds: v0aldeclst
-) : d0ecl // end of [d0ecl_valdecs]
-fun d0ecl_fundecs (
-  knd: funkind, tok: token, arg: q0marglst, ds: f0undeclst
-) : d0ecl // end of [d0ecl_fundecs]
-fun d0ecl_vardecs (tok: token, ds: v0ardeclst): d0ecl
 fun d0ecl_impdec
   (t_implement: token, imparg: i0mparg, d: i0mpdec): d0ecl
 // end of [d0ecl_impdec]
+//
+fun d0ecl_fundecs (
+  knd: funkind, tok: token, arg: q0marglst, ds: f0undeclst
+) : d0ecl // end of [d0ecl_fundecs]
+fun d0ecl_valdecs (
+  knd: valkind, isrec: bool, tok: token, ds: v0aldeclst
+) : d0ecl // end of [d0ecl_valdecs]
+fun d0ecl_vardecs (tok: token, ds: v0ardeclst): d0ecl
 //
 fun d0ecl_staload_none (tok: token, tok2: token): d0ecl
 fun d0ecl_staload_some (tok: token, ent2: i0de, ent4: token): d0ecl

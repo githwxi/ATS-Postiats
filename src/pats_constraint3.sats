@@ -135,6 +135,8 @@ fun s3exp_psub (s3e1: s3exp, s3e2: s3exp): s3exp
 
 (* ****** ****** *)
 
+fun s3exp_bool (b: bool): s3exp
+
 fun s3exp_bneg (s3e: s3exp): s3exp
 fun s3exp_beq (s3e1: s3exp, s3e2: s3exp): s3exp
 fun s3exp_bneq (s3e1: s3exp, s3e2: s3exp): s3exp
@@ -160,8 +162,6 @@ fun s3exp_pneq (s3e1: s3exp, s3e2: s3exp): s3exp
 
 fun s3exp_int (i: int): s3exp
 fun s3exp_intinf (int: intinf): s3exp
-fun s3exp_var (s2v: s2var): s3exp
-fun s3exp_cst (s2c: s2cst): s3exp
 
 fun s3exp_icff (c: intinf, s3e: s3exp): s3exp
 fun s3explst_icff (c: intinf, s3es: s3explst): s3explst_vt

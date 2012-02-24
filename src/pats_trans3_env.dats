@@ -103,6 +103,26 @@ in '{
 , c3nstr_node= C3NSTRprop (s2exp_bool (false))
 } end // end of [c3nstr_case_exhaustiveness]
 
+implement
+c3nstr_termet_isnat
+  (loc, s2e) = '{
+  c3nstr_loc= loc
+, c3nstr_kind= C3NSTRKINDtermet_isnat
+, c3nstr_node=
+    C3NSTRprop (s2exp_intgte (s2e, s2exp_int(0)))
+  // end of [c3str_node]
+} // end of [c3nstr_termet_isnat]
+
+implement
+c3nstr_termet_isdec
+  (loc, met, met_bound) = '{
+  c3nstr_loc= loc
+, c3nstr_kind= C3NSTRKINDtermet_isdec
+, c3nstr_node=
+    C3NSTRprop (s2exp_metdec (met, met_bound))
+  // end of [c3str_node]
+} // end of [c3nstr_termet_isdec]
+
 (* ****** ****** *)
 
 implement
@@ -113,15 +133,18 @@ h3ypo_prop
 
 implement
 h3ypo_bind
-  (loc, s2v1, s2e2) = '{
+  (loc, s2v1, s2f2) = let
+  val s2e2 = s2hnf2exp (s2f2) in '{
   h3ypo_loc= loc, h3ypo_node = H3YPObind (s2v1, s2e2)
-} // end of [h3ypo_bind]
+} end // end of [h3ypo_bind]
 
 implement
 h3ypo_eqeq
-  (loc, s2e1, s2e2) = '{
+  (loc, s2f1, s2f2) = let
+  val s2e1 = s2hnf2exp (s2f1)
+  val s2e2 = s2hnf2exp (s2f2) in '{
   h3ypo_loc= loc, h3ypo_node = H3YPOeqeq (s2e1, s2e2)
-} // end of [h3ypo_eqeq]
+} end // end of [h3ypo_eqeq]
 
 (* ****** ****** *)
 
@@ -341,18 +364,51 @@ val s2ps_res = list_vt_reverse (s2ps_res)
 //
 in
   (s2e_res, s2ps_res)
-end // end of [s2exp_uni_instantiate_all]
+end // end of [s2exp_exiuni_instantiate_all]
 
 implement
 s2exp_exi_instantiate_all
   (s2e0, locarg, err) =
   s2exp_exiuni_instantiate_all (0, s2e0, locarg, err)
 // end of [s2exp_exi_instantiate_all]
+
 implement
 s2exp_uni_instantiate_all
   (s2e0, locarg, err) =
   s2exp_exiuni_instantiate_all (1, s2e0, locarg, err)
 // end of [s2exp_uni_instantiate_all]
+
+implement
+s2exp_unimet_instantiate_all
+  (s2e0, locarg, err) = let
+  val (s2e, s2ps_fst) =
+    s2exp_uni_instantiate_all (s2e0, locarg, err)
+  val s2f = s2exp2hnf (s2e)
+  val s2e = s2hnf2exp (s2f)
+in
+//
+case s2e.s2exp_node of
+| S2Emetfun
+    (opt, s2es_met, s2e) => (
+  case+ opt of
+  | Some stamp => let
+      val () = s2exp_termet_instantiate (locarg, stamp, s2es_met)
+      val (s2e, s2ps_rest) = s2exp_uni_instantiate_all (s2e, locarg, err)
+      val s2ps_all = (
+        case+ s2ps_rest of
+        | list_vt_cons _ => let
+            prval () = fold@ (s2ps_rest) in list_vt_append (s2ps_fst, s2ps_rest)
+          end // end of [list_vt_cons]
+        | ~list_vt_nil () => s2ps_fst
+      ) : s2explst_vt // end of [val]
+    in
+      (s2e, s2ps_all)
+    end // end of [S2Emetfun]
+  | None () => (s2e, s2ps_fst)
+  ) // end of [S2Emetfun]
+| _ => (s2e, s2ps_fst)
+//
+end // end of [s2exp_unimet_instantiate_all]
 
 (* ****** ****** *)
 
@@ -629,7 +685,7 @@ end // end of [local]
 extern
 fun the_s2varbindmap_search (s2v: s2var): Option_vt (s2exp)
 extern
-fun the_s2varbindmap_insert (s2v: s2var, s2e: s2exp): void
+fun the_s2varbindmap_insert (s2v: s2var, s2f: s2hnf): void
 
 local
 
@@ -728,7 +784,7 @@ in
 end // end of [the_s2varbindmap_search]
 
 implement
-the_s2varbindmap_insert (s2v, s2e) = let
+the_s2varbindmap_insert (s2v, s2f) = let
 //
 val () = let
   val (vbox pf | p) = ref_get_view_ptr (the_s2varlst)
@@ -739,7 +795,7 @@ end // end of [val]
 val () = let
   val (vbox pf | p) = ref_get_view_ptr (the_s2varbindmap)
 in
-  $effmask_ref (s2varbindmap_insert (!p, s2v, s2e))
+  $effmask_ref (s2varbindmap_insert (!p, s2v, s2f))
 end // end of [val]
 //
 in
@@ -901,11 +957,10 @@ trans3_env_add_sVarlst (s2Vs) =
 // end of [trans3_env_add_sVarlst]
 
 implement
-trans3_env_add_cstr
-  (c3s) = () where {
-  val s3i = S3ITMcstr (c3s)
-  val () = the_s3itmlst_env_add (s3i)
-} // end of [trans3_env_add_cstr]
+trans3_env_add_cnstr
+  (c3t) = () where {
+  val () = the_s3itmlst_env_add (S3ITMcnstr (c3t))
+} // end of [trans3_env_add_cnstr]
 
 (* ****** ****** *)
 
@@ -913,7 +968,7 @@ implement
 trans3_env_add_prop
   (loc, s2p) = case+ s2p.s2exp_node of
   | _ => let
-      val c3s = c3nstr_prop (loc, s2p) in trans3_env_add_cstr (c3s)
+      val c3t = c3nstr_prop (loc, s2p) in trans3_env_add_cnstr (c3t)
     end // end of [_]
 // end of [trans3_env_add_prop]
 
@@ -967,7 +1022,7 @@ fun loop (
         c3nstr_case_exhaustiveness (loc0, casknd, xs)
       // end of [val]
       val () = trans3_env_hypadd_patcstlst (loc0, xs, s2es)
-      val () = trans3_env_add_cstr (c3t)
+      val () = trans3_env_add_cnstr (c3t)
       val () = trans3_env_pop_and_add_main (pfpush | loc0)
     in
       loop (xss)
@@ -1030,7 +1085,7 @@ trans3_env_hypadd_propopt_neg
 
 implement
 trans3_env_hypadd_bind
-  (loc, s2v1, s2e2) = let
+  (loc, s2v1, s2f2) = let
 //
 // HX: [s2v1] cannot be bound at this point
 //
@@ -1041,9 +1096,9 @@ trans3_env_hypadd_bind
   end // end of [val]
 *)
   val () =
-    the_s2varbindmap_insert (s2v1, s2e2)
+    the_s2varbindmap_insert (s2v1, s2f2)
   // end of [val]
-  val h3p = h3ypo_bind (loc, s2v1, s2e2)
+  val h3p = h3ypo_bind (loc, s2v1, s2f2)
   val s3i = S3ITMhypo (h3p)
 in
   the_s3itmlst_env_add (s3i)
@@ -1051,10 +1106,26 @@ end // end of [trans3_env_hypadd_bind]
 
 implement
 trans3_env_hypadd_eqeq
-  (loc, s2e1, s2e2) = let
-  val h3p = h3ypo_eqeq (loc, s2e1, s2e2); val s3i = S3ITMhypo (h3p)
+  (loc, s2f1, s2f2) = let
+  val s2e1 = s2hnf2exp (s2f1)
+  val s2e2 = s2hnf2exp (s2f2)
 in
-  the_s3itmlst_env_add (s3i)
+//
+case+ (
+  s2e1.s2exp_node, s2e2.s2exp_node
+) of // end of [case]
+(*
+| (S2Evar (s2v1), _) => trans3_env_hypadd_bind (loc, s2v1, s2f2)
+| (_, S2Evar (s2v2)) => trans3_env_hypadd_bind (loc, s2v2, s2f1)
+*)
+| (_, _) => let
+    val h3p =
+      h3ypo_eqeq (loc, s2f1, s2f2)
+    // end of [val]
+  in
+    the_s3itmlst_env_add (S3ITMhypo (h3p))
+  end (* end of [_, _] *)
+//
 end // end of [trans3_env_hypadd_eqeq]
 
 (* ****** ****** *)
@@ -1351,9 +1422,9 @@ implement
 trans3_env_pop_and_add
   (pf | loc, knd) = let
   val s3is = trans3_env_pop (pf | (*none*))
-  val c3s = c3nstr_itmlst (loc, knd, (l2l)s3is)
+  val c3t = c3nstr_itmlst (loc, knd, (l2l)s3is)
 in
-  trans3_env_add_cstr (c3s)
+  trans3_env_add_cnstr (c3t)
 end // end of [trans3_env_pop_and_add]
 
 implement

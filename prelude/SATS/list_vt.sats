@@ -37,7 +37,7 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [list.sats] starts!\n"
+#print "Loading [list_vt.sats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
@@ -64,8 +64,17 @@ list_vt_reverse_append {m,n:nat}
 
 (* ****** ****** *)
 
+fun{
+a:viewt@ype
+} list_vt_foreach_funenv
+  {v:view}{vt:viewtype}{n:nat}{fe:eff} (
+  xs: !list_vt (a, n), f: (!v | &a, !vt) -<fe> void
+) :<fe> void // end of [list_vt_foreach_funenv]
+
+(* ****** ****** *)
+
 #if VERBOSE_PRELUDE #then
-#print "Loading [list.sats] finishes!\n"
+#print "Loading [list_vt.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)

@@ -42,6 +42,11 @@ staload "pats_intinf.sats"
 
 (* ****** ****** *)
 
+staload
+STMP = "pats_stamp.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 
 (* ****** ****** *)
@@ -180,24 +185,30 @@ case+ s2e0.s2exp_node of
     val () = aux_s2exp (out, n, s2e_res)
     val () = prstr ")"
   } // end of [S2Efun]
-| S2Emetfn (
+| S2Emetfun (
     opt, s2es_met, s2e_body
   ) => {
-    val () = prstr "S2Emetfn("
+    val () = prstr "S2Emetfun("
     val () = aux_s2explst (out, n, s2es_met)
+    val () = prstr "; "
+    val () = (
+      case+ opt of
+      | Some stamp => $STMP.fprint_stamp (out, stamp)
+      | None () => ()
+    ) // end of [val]
     val () = prstr "; "
     val () = aux_s2exp (out, n, s2e_body)
     val () = prstr ")"
-  } // end of [S2Emetfn]
+  } // end of [S2Emetfun]
 //
-| S2Emetlt
+| S2Emetdec
     (s2es1, s2es2) => {
-    val () = prstr "S2Emetlt(("
+    val () = prstr "S2Emetdec(("
     val () = aux_s2explst (out, n, s2es1)
     val () = prstr ") < ("
     val () = aux_s2explst (out, n, s2es2)
     val () = prstr "))"
-  } // end of [S2Emetlt]
+  } // end of [S2Emetdec]
 //
 | S2Etop (knd, s2e) => {
     val () = prstr "S2Etop("

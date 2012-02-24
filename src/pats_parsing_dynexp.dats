@@ -1173,9 +1173,11 @@ fun p_i0nvmet (
   val tok = tokbuf_get_token (buf)
   macdef incby1 () = tokbuf_incby1 (buf)
 in
+//
 case tok.token_node of
-| T_DOTLTGTDOT () => Some (list_nil)
 | T_DOTLT () => let
+    val bt = 0
+    val () = incby1 ()
     val ent2 = pstar_fun0_COMMA {s0exp} (buf, bt, p_s0exp)
     val ent3 = p_GTDOT (buf, bt, err) // err = err0
   in
@@ -1184,7 +1186,11 @@ case tok.token_node of
       val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
     end (* end of [if] *)
   end
+| T_DOTLTGTDOT () => let
+    val () = incby1 () in Some (list_nil)
+  end // end of [T_DOTLTGTDOT]
 | _ => None () // HX: there is no error
+//
 end // end of [p_i0nvmet]
 
 (*

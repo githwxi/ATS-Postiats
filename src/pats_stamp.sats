@@ -83,5 +83,17 @@ fun d2mac_stamp_make (): stamp
 fun d2var_stamp_make (): stamp
 //
 (* ****** ****** *)
+//
+absviewtype stampset_viewtype
+viewtypedef stampset_vt = stampset_viewtype
+//
+fun stampset_vt_nil ():<> stampset_vt
+fun stampset_vt_is_nil (xs: !stampset_vt):<> bool
+fun stampset_vt_isnot_nil (xs: !stampset_vt):<> bool
+fun stampset_vt_is_member (xs: !stampset_vt, x: stamp):<> bool
+fun stampset_vt_add (xs: stampset_vt, x: stamp):<> stampset_vt
+fun stampset_vt_free (xs: stampset_vt):<> void
+//
+(* ****** ****** *)
 
 (* end of [pats_stamp.sats] *)

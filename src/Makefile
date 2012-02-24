@@ -40,7 +40,7 @@ ATSOPT=$(ATSHOME)/bin/atsopt
 ######
 
 ATSGCFLAG=
-ATSGCFLAG=-D_ATS_GCATS
+#ATSGCFLAG=-D_ATS_GCATS
 
 ATSCCFLAGS=-g
 ATSCCFLAGS=-g -O
@@ -178,6 +178,7 @@ SOURCES := \
   pats_trans3_env.sats \
   pats_trans3_env.dats \
   pats_trans3_env_print.dats \
+  pats_trans3_env_termet.dats \
   pats_trans3_syncst.dats \
   pats_trans3_p2at.dats \
   pats_trans3_patcon.dats \

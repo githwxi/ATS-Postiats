@@ -886,19 +886,19 @@ fun d1ecl_macdefs (
   loc: location, knd: int, isrec: bool, ds: m1acdeflst
 ) : d1ecl // end of [d1ecl_macdefs]
 
-fun d1ecl_valdecs (
-  loc: location, knd: valkind, isrec: bool, ds: v1aldeclst
-) : d1ecl // end of [d1ecl_valdecs]
+fun d1ecl_impdec
+  (loc: location, imparg: i1mparg, d1c: i1mpdec): d1ecl
+// end of [d1ecl_impdec]
 
 fun d1ecl_fundecs (
   loc: location, knd: funkind, qarg: q1marglst, ds: f1undeclst
 ) : d1ecl // end of [d1ecl_fundecs]
 
-fun d1ecl_vardecs (loc: location, ds: v1ardeclst): d1ecl
+fun d1ecl_valdecs (
+  loc: location, knd: valkind, isrec: bool, ds: v1aldeclst
+) : d1ecl // end of [d1ecl_valdecs]
 
-fun d1ecl_impdec
-  (loc: location, imparg: i1mparg, d1c: i1mpdec): d1ecl
-// end of [d1ecl_impdec]
+fun d1ecl_vardecs (loc: location, ds: v1ardeclst): d1ecl
 
 (* ****** ****** *)
 

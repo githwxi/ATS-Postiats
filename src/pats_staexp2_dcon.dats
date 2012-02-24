@@ -44,9 +44,9 @@ staload _(*anon*) = "pats_utils.dats"
 
 staload
 CNTR = "pats_counter.sats"
-staload STP = "pats_stamp.sats"
-typedef stamp = $STP.stamp
-overload compare with $STP.compare_stamp_stamp
+staload STMP = "pats_stamp.sats"
+typedef stamp = $STMP.stamp
+overload compare with $STMP.compare_stamp_stamp
 staload SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
 
@@ -94,7 +94,9 @@ d2con_make (
   loc, fil, id, s2c, vwtp, qua, npf, arg, ind
 ) = let
 //
-val stamp = $STP.d2con_stamp_make ()
+val stamp =
+  $STMP.d2con_stamp_make ()
+// end of [val]
 val arity_full = list_length (arg)
 val arity_real = let
   fun aux1 (

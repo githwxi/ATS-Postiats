@@ -206,6 +206,8 @@ case+ s2e0.s2exp_node of
     // end of [if]
   end // end of [S2Elam]
 | S2Efun _ => s2e0
+| S2Emetfun _ => s2e0
+| S2Emetdec _ => s2e0
 //
 | S2Etyarr _ => s2e0
 | S2Etyrec _ => s2e0

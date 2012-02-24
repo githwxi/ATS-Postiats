@@ -153,7 +153,7 @@ g1int_mul2 {i,j:int} (
 
 fun{a:t@ype}
 g1int_div {i,j:int | j != 0}
-  (x: g1int (a, i), y: g1int (a, j)):<> g1int (a)
+  (x: g1int (a, i), y: g1int (a, j)):<> g1int (a, i/j)
 overload / with g1int_div of 2
 
 fun{a:t@ype}

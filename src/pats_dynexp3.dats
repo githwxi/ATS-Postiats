@@ -470,6 +470,15 @@ d3exp_lam_sta (
 , d3exp_node= D3Elam_sta (s2vs, s2ps, body)
 } // end of [d3exp_lam_sta]
 
+implement
+d3exp_lam_met (
+  loc, s2es_met, d3e_body
+) = '{
+  d3exp_loc= loc
+, d3exp_type= d3e_body.d3exp_type
+, d3exp_node= D3Elam_met (s2es_met, d3e_body)
+} // end of [d3exp_lam_met]
+
 (* ****** ****** *)
 
 implement
@@ -518,6 +527,18 @@ c3lau_make (
 , c3lau_body= d3e
 } // end of [c3lau_make]
 
+(* ****** ****** *)
+
+implement
+i3mpdec_make (
+  loc, d2c, imparg, tmparg, d3e
+) = '{
+  i3mpdec_loc= loc
+, i3mpdec_cst= d2c
+, i3mpdec_imparg= imparg
+, i3mpdec_tmparg= tmparg
+, i3mpdec_def= d3e
+} // end of [i3mpdec_make]
 
 (* ****** ****** *)
 
@@ -566,6 +587,14 @@ d3ecl_dcstdec
   (loc, knd, d2cs) = '{
   d3ecl_loc= loc, d3ecl_node= D3Cdcstdec (knd, d2cs)
 } // end of [d3ecl_dcstdec]
+
+(* ****** ****** *)
+
+implement
+d3ecl_impdec
+  (loc, d3c) = '{
+  d3ecl_loc= loc, d3ecl_node= D3Cimpdec (d3c)
+} // end of [d3ecl_impdec]
 
 (* ****** ****** *)
 

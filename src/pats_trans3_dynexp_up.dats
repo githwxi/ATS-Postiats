@@ -109,6 +109,7 @@ fun d2exp_trup_arg_body (
 extern fun d2exp_trup_lam_dyn (d2e0: d2exp): d3exp
 extern fun d2exp_trup_laminit_dyn (d2e0: d2exp): d3exp
 extern fun d2exp_trup_lam_sta (d2e0: d2exp): d3exp
+extern fun d2exp_trup_lam_met (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
@@ -116,6 +117,13 @@ extern fun d2exp_trup_lst (d2e0: d2exp): d3exp
 extern fun d2exp_trup_tup (d2e0: d2exp): d3exp
 extern fun d2exp_trup_rec (d2e0: d2exp): d3exp
 extern fun d2exp_trup_seq (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
+extern
+fun d2exp_trup_letwhere
+  (d2e0: d2exp, d2cs: d2eclist, d2e: d2exp): d3exp
+// end of [d2exp_trup_letwhere]
 
 (* ****** ****** *)
 
@@ -162,23 +170,8 @@ case+ d2e0.d2exp_node of
 //
 | D2Etmpid _ => d2exp_trup_tmpid (d2e0)
 //
-| D2Elet (d2cs, d2e) => let
-(*
-    val (pf_effect | ()) = the_effect_env_push ()
-    val (pf_s2cstlst | ()) = the_s2cstlst_env_push ()
-    val (pf_d2varset | ()) = the_d2varset_env_push_let ()
-*)
-    val d3cs = d2eclist_tr (d2cs)
-    val d3e = d2exp_trup (d2e)
-(*
-    val () = the_d2varset_env_check loc0
-    val () = the_d2varset_env_pop_let (pf_d2varset | (*none*))
-    val () = the_s2cstlst_env_pop_and_unbind (pf_s2cstlst | (*none*))
-    val () = the_effect_env_pop (pf_effect | (*none*))
-*)
-  in
-    d3exp_let (loc0, d3cs, d3e)
-  end // end of [D2Elet]
+| D2Elet (d2cs, d2e) => d2exp_trup_letwhere (d2e0, d2cs, d2e)
+| D2Ewhere (d2e, d2cs) => d2exp_trup_letwhere (d2e0, d2cs, d2e)
 //
 | D2Eapplst (_fun, _arg) => let
 (*
@@ -261,6 +254,7 @@ case+ d2e0.d2exp_node of
 | D2Elam_dyn _ => d2exp_trup_lam_dyn (d2e0)
 | D2Elaminit_dyn _ => d2exp_trup_laminit_dyn (d2e0)
 | D2Elam_sta _ => d2exp_trup_lam_sta (d2e0)
+| D2Elam_met _ => d2exp_trup_lam_met (d2e0)
 //
 | D2Eloopexn (knd) => d2exp_trup_loopexn (d2e0, knd)
 //
@@ -695,7 +689,7 @@ fun d23exp_trup_app23 (
 //
   var err: int = 0
   val locsarg = $LOC.location_rightmost (loc_fun)
-  val (s2e_fun, s2ps) = s2exp_uni_instantiate_all (s2e_fun, locsarg, err)
+  val (s2e_fun, s2ps) = s2exp_unimet_instantiate_all (s2e_fun, locsarg, err)
   val () = trans3_env_add_proplst_vt (locarg, s2ps)
 // (*
   val () = begin
@@ -839,6 +833,7 @@ val () = (
 val (pfpush | ()) = trans3_env_push ()
 //
 var fc: funclo = fc0
+val d2e_body = d2exp_funclo_of_d2exp (d2e_body, fc)
 var s2fe: s2eff = S2EFFnil ()
 val d2e_body = d2exp_s2eff_of_d2exp (d2e_body, s2fe)
 //
@@ -925,6 +920,22 @@ d2exp_trup_lam_sta (d2e0) = let
 in
   d3exp_lam_sta (loc0, s2e_uni, s2vs, s2ps, d3e_body)
 end // end of [d2exp_trup_lam_sta]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_lam_met (d2e0) = let
+  val loc0 = d2e0.d2exp_loc
+  val- D2Elam_met
+    (d2vs_ref, s2es_met, d2e_body) = d2e0.d2exp_node
+  // end of [val]
+  val () = s2explst_check_termet (loc0, s2es_met)
+  val (pfpush | ()) = termetenv_push_dvarlst (!d2vs_ref, s2es_met)
+  val d3e_body = d2exp_trup (d2e_body)
+  val () = termetenv_pop (pfpush | (*none*))
+in
+  d3exp_lam_met (loc0, s2es_met, d3e_body)
+end // end of [D2Elam_met]
 
 (* ****** ****** *)
 
@@ -1097,6 +1108,29 @@ case+ d2es of
 | list_nil () => d3exp_empty (loc0, s2e_void)
 //
 end // end of [d2exp_trup_seq]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_letwhere
+  (d2e0, d2cs, d2e_scope) = let
+  val loc0 = d2e0.d2exp_loc
+(*
+  val (pf_effect | ()) = the_effect_env_push ()
+  val (pf_s2cstlst | ()) = the_s2cstlst_env_push ()
+  val (pf_d2varset | ()) = the_d2varset_env_push_let ()
+*)
+  val d3cs = d2eclist_tr (d2cs)
+  val d3e_scope = d2exp_trup (d2e_scope)
+(*
+  val () = the_d2varset_env_check loc0
+  val () = the_d2varset_env_pop_let (pf_d2varset | (*none*))
+  val () = the_s2cstlst_env_pop_and_unbind (pf_s2cstlst | (*none*))
+  val () = the_effect_env_pop (pf_effect | (*none*))
+*)
+in
+  d3exp_let (loc0, d3cs, d3e_scope)
+end // end of [d2exp_trup_letwhere]
 
 (* ****** ****** *)
 

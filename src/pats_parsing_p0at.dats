@@ -555,7 +555,9 @@ case+ tok.token_node of
       val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
     end (* end of [if] *)
   end
-| T_DOTLTGTDOT () => f0arg_met_nil (tok)
+| T_DOTLTGTDOT () => let
+    val () = incby1 () in f0arg_met_nil (tok)
+  end // end of [T_DOTLTGTDOT]
 | _ => let
     val () = err := err + 1 in synent_null ()
   end

@@ -39,9 +39,9 @@ typedef intinf = $INT.intinf
 staload
 CNTR = "pats_counter.sats"
 typedef count = $CNTR.count
-staload STP = "pats_stamp.sats"
-typedef stamp = $STP.stamp
-typedef stampopt = $STP.stampopt
+staload STMP = "pats_stamp.sats"
+typedef stamp = $STMP.stamp
+typedef stampopt = $STMP.stampopt
 staload SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
 
@@ -346,8 +346,8 @@ s2exp_node =
   | S2Efun of ( // function type
       funclo, int(*lin*), s2eff, int(*npf*), s2explst(*arg*), s2exp(*res*)
     ) // end of S2Efun
-  | S2Emetfn of (stampopt, s2explst, s2exp) // metriked function
-  | S2Emetlt of (s2explst, s2explst) (* strict metric ordering *)
+  | S2Emetfun of (stampopt, s2explst, s2exp) // metricked function
+  | S2Emetdec of (s2explst(*met*), s2explst(*metbound*)) // strictly decreasing
 //
   | S2Etop of (int(*knd*), s2exp) // knd: 0/1: topization/typization
 //
@@ -433,7 +433,11 @@ viewtypedef s2qualst_vt = List_vt (s2qua)
 fun s2qua_make (s2vs: s2varlst, s2ps: s2explst): s2qua
 
 fun fprint_s2qua (out: FILEref, s2q: s2qua): void
-fun fprint_s2qualst (out: FILEref, s2qs: s2qualst): void
+
+fun fprint_s2qualst
+  (out: FILEref, s2qs: s2qualst): void
+fun print_s2qualst (xs: s2qualst): void
+fun prerr_s2qualst (xs: s2qualst): void
 
 (* ****** ****** *)
 
@@ -640,7 +644,7 @@ fun s2varbindmap_make_nil (): s2varbindmap
 fun s2varbindmap_search
   (map: !s2varbindmap, s2v: s2var): Option_vt (s2exp)
 fun s2varbindmap_insert
-  (map: &s2varbindmap, s2v: s2var, s2e: s2exp): void
+  (map: &s2varbindmap, s2v: s2var, s2f: s2hnf): void
 fun s2varbindmap_remove (map: &s2varbindmap, s2v: s2var): void
 fun s2varbindmap_listize (map: !s2varbindmap): List_vt @(s2var, s2exp)
 
@@ -816,13 +820,13 @@ fun s2exp_fun_srt (
 , s2e_res: s2exp
 ) : s2exp // end of [s2exp_fun_srt]
 
-fun s2exp_metfn
+fun s2exp_metfun
   (opt: stampopt, met: s2explst, s2e: s2exp): s2exp
-// end of [s2exp_metfn]
+// end of [s2exp_metfun]
 
 (* ****** ****** *)
 
-fun s2exp_metlt (s2es1: s2explst, s2es2: s2explst): s2exp
+fun s2exp_metdec (s2es1: s2explst, s2es2: s2explst): s2exp
 
 (* ****** ****** *)
 

@@ -46,15 +46,16 @@ staload _(*anon*) = "pats_utils.dats"
 
 staload
 CNTR = "pats_counter.sats"
-staload STP = "pats_stamp.sats"
-typedef stamp = $STP.stamp
-overload compare with $STP.compare_stamp_stamp
+staload STMP = "pats_stamp.sats"
+typedef stamp = $STMP.stamp
+overload compare with $STMP.compare_stamp_stamp
 staload SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
 
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
@@ -95,7 +96,7 @@ in // in of [local]
 
 implement
 s2var_make_id_srt (id, s2t) = let
-  val stamp = $STP.s2var_stamp_make ()
+  val stamp = $STMP.s2var_stamp_make ()
   val (pfgc, pfat | p) = ptr_alloc<s2var_struct> ()
   prval () = free_gc_elim {s2var_struct?} (pfgc)
 //
@@ -215,7 +216,7 @@ fprint_s2var (out, s2v) = let
   val () = $SYM.fprint_symbol (out, s2var_get_sym s2v)
 // (*
   val () = fprint_string (out, "(")
-  val () = $STP.fprint_stamp (out, s2var_get_stamp s2v)
+  val () = $STMP.fprint_stamp (out, s2var_get_stamp s2v)
   val () = fprint_string (out, ")")
 // *)
 in
@@ -326,7 +327,7 @@ assume s2varmset_type = $MSET.mset (s2var)
 val cmp = lam (
   s2v1: s2var, s2v2: s2var
 ) : int =<cloref>
-  ~compare_s2var_s2var (s2v1, s2v2) // HX: decending
+  compare_s2var_s2var (s2v2, s2v1) // first-in-first-occur
 // end of [val]
 
 in // in of [local]
@@ -342,7 +343,8 @@ s2varmset_pair
 
 implement
 s2varmset_gte
-  (xs1, xs2) = $MSET.funmset_gte (xs1, xs2, cmp)
+  (xs1, xs2) =
+  $MSET.funmset_compare (xs1, xs2, cmp) >= 0
 // end of [s2varmset_gte]
 
 implement
@@ -373,7 +375,6 @@ implement
 fprint_s2varmset
   (out, xs) = let
   val xs = $MSET.funmset_listize (xs)
-  val xs = list_vt_reverse (xs)
   val () = fprint_s2varlst (out, $UN.castvwtp1 {s2varlst} (xs))
   val () = list_vt_free (xs)
 in
@@ -424,9 +425,10 @@ s2varbindmap_insert (map, k, x) = let
 (*
   val () = (
     print "s2varbindmap_insert: k = "; print_s2var (k); print_newline ();
-    print "s2varbindmap_insert: x = "; print_s2exp (x); print_newline ();
+    print "s2varbindmap_insert: x = "; print_s2hnf (x); print_newline ();
   ) // end of [val]
 *)
+  val x = s2hnf2exp (x)
   var res: s2exp? // unintialized
   val replaced = $MAP.linmap_insert<s2var,s2exp> (map, k, x, cmp, res)
   prval () = opt_clear (res)

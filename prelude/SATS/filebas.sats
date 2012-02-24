@@ -28,7 +28,7 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: February, 2012
+// Start Time: Feburary, 2012
 //
 (* ****** ****** *)
 
@@ -37,74 +37,21 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [list_vt.dats] starts!\n"
+#print "Loading [filebas.sats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-implement{a}
-list_vt_reverse (xs) =
-  list_vt_reverse_append (xs, list_vt_nil)
-// end of [list_vt_reverse]
-
-(* ****** ****** *)
-
-implement{a}
-list_vt_reverse_append
-  (xs, ys) = let
-//
-fun loop
-  {m,n:nat} .<m>. (
-  xs: list_vt (a, m), ys: list_vt (a, n)
-) :<> list_vt (a, m+n) =
-  case xs of
-  | list_vt_cons
-      (_, !p_tl) => let
-      val xs1 = !p_tl
-      val () = !p_tl := ys
-      prval () = fold@ (xs)
-    in
-      loop (xs1, xs)
-    end
-  | ~list_vt_nil () => ys
-// end of [loop]
-in
-  loop (xs, ys)
-end // end of [list_vt_reverse_append]
-
-(* ****** ****** *)
-
-implement{a}
-list_vt_foreach_funenv
-  {v}{vt}{n}{fe}
-  (pf | xs, f, env) = let
-  fun loop
-    {n:nat} .<n>. (
-    pf: !v
-  | xs: !list_vt (a, n)
-  , f: (!v | &a, !vt) -<fe> void
-  , env: !vt
-  ) :<fe> void =
-    case+ xs of
-    | list_vt_cons
-        (!p1_x, !p2_xs) => let
-        val () = f (pf | !p1_x, env)
-        val () = loop (pf | !p2_xs, f, env)
-      in
-        fold@ (xs)
-      end // end of [list_vt_cons]
-    | list_vt_nil () => fold@ (xs)
-  // end of [loop]
-in
-  loop (pf | xs, f, env)
-end // end of [list_vt_foreach_funenv]
+val stdin_ref : FILEref
+val stdout_ref : FILEref
+val stderr_ref : FILEref
 
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [list_vt.dats] finishes!\n"
+#print "Loading [filebas.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-(* end of [list_vt.dats] *)
+(* end of [filebas.sats] *)

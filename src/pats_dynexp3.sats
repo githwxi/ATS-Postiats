@@ -162,6 +162,7 @@ d3ecl_node =
   | D3Clist of d3eclist
   | D3Cdatdec of (int(*knd*), s2cstlst)
   | D3Cdcstdec of (dcstkind, d2cstlst)
+  | D3Cimpdec of (i3mpdec)
   | D3Cfundecs of (funkind, s2qualst(*decarg*), f3undeclst)
   | D3Cvaldecs of (valkind, v3aldeclst)
   | D3Cvaldecs_rec of (valkind, v3aldeclst)
@@ -225,6 +226,7 @@ and d3exp_node =
       (int(*lin*), int(*npf*), p3atlst, d3exp)
   | D3Elam_sta of // static abstraction
       (s2varlst(*s2vs*), s2explst(*s2ps*), d3exp)
+  | D3Elam_met of (s2explst(*met*), d3exp) // term. metric
 //
   | D3Eloopexn of (int(*knd*))
 //
@@ -283,13 +285,13 @@ and c3laulst_vt
 
 (* ****** ****** *)
 
-and v3aldec = '{
-  v3aldec_loc= location
-, v3aldec_pat= p3at
-, v3aldec_def= d3exp
-} // end of [v3aldec]
-
-and v3aldeclst = List (v3aldec)
+and i3mpdec = '{
+  i3mpdec_loc= location
+, i3mpdec_cst= d2cst
+, i3mpdec_imparg= s2varlst
+, i3mpdec_tmparg= s2explstlst
+, i3mpdec_def= d3exp
+} // end of [i3mpdec]
 
 (* ****** ****** *)
 
@@ -300,6 +302,16 @@ and f3undec = '{
 } // end of [f3undec]
 
 and f3undeclst = List f3undec
+
+(* ****** ****** *)
+
+and v3aldec = '{
+  v3aldec_loc= location
+, v3aldec_pat= p3at
+, v3aldec_def= d3exp
+} // end of [v3aldec]
+
+and v3aldeclst = List (v3aldec)
 
 (* ****** ****** *)
 
@@ -477,6 +489,10 @@ fun d3exp_lam_sta (
 , s2vs: s2varlst, s2ps: s2explst, body: d3exp
 ) : d3exp // end of [d3exp_lam_sta]
 
+fun d3exp_lam_met (
+  loc: location, met: s2explst, body: d3exp
+) : d3exp // end of [d3exp_lam_met]
+
 (* ****** ****** *)
 
 fun d3exp_loopexn
@@ -509,6 +525,16 @@ fun c3lau_make
 
 (* ****** ****** *)
 
+fun
+i3mpdec_make (
+  loc: location
+, d2c: d2cst
+, imparg: s2varlst, tmparg: s2explstlst
+, def: d3exp
+) : i3mpdec // end of [i3mpdec_make]
+
+(* ****** ****** *)
+
 fun f3undec_make (
   loc: location, d2v: d2var, def: d3exp
 ) : f3undec // end of [f3undec_make]
@@ -533,6 +559,12 @@ fun d3ecl_datdec
 fun d3ecl_dcstdec
   (loc: location, knd: dcstkind, d2cs: d2cstlst): d3ecl
 // end of [d3ecl_dcstdec]
+
+(* ****** ****** *)
+
+fun d3ecl_impdec
+  (loc: location, d3c: i3mpdec) : d3ecl
+// end of [d3ecl_impdec]
 
 (* ****** ****** *)
 

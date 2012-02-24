@@ -612,15 +612,15 @@ d2exp_laminit_dyn (
 
 implement
 d2exp_lam_met
-  (loc, r, met, body) = d2exp_make (loc, D2Elam_met (r, met, body))
+  (loc, ref, met, body) = d2exp_make (loc, D2Elam_met (ref, met, body))
 // end of [d2exp_lam_met]
 
 implement
 d2exp_lam_met_new
   (loc, met, body) = let
-  val r = ref<d2varlst> (list_nil)
+  val ref = ref<d2varlst> (list_nil)
 in
-  d2exp_lam_met (loc, r, met, body)
+  d2exp_lam_met (loc, ref, met, body)
 end // end of [d2exp_lam_met_new]
 
 implement

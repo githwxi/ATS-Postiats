@@ -59,10 +59,13 @@ val the_mul_bool_bool : s2cstref // (bool, bool) -> bool
 val the_eq_bool_bool : s2cstref // (bool, bool) -> bool
 val the_neq_bool_bool : s2cstref // (bool, bool) -> bool
 //
+val the_neg_int : s2cstref // : (int) -> int
 val the_add_int_int : s2cstref // : (int, int) -> int
 val the_sub_int_int : s2cstref // : (int, int) -> int
 val the_mul_int_int : s2cstref // : (int, int) -> int
 val the_div_int_int : s2cstref // : (int, int) -> int
+val the_ndiv_int_int : s2cstref // : (int, int) -> int
+val the_idiv_int_int : s2cstref // : (int, int) -> int
 //
 val the_lt_int_int : s2cstref // : (int, int) -> bool
 val the_lte_int_int : s2cstref // : (int, int) -> bool
@@ -70,6 +73,40 @@ val the_gt_int_int : s2cstref // : (int, int) -> bool
 val the_gte_int_int : s2cstref // : (int, int) -> bool
 val the_eq_int_int : s2cstref // : (int, int) -> bool
 val the_neq_int_int : s2cstref // : (int, int) -> bool
+//
+val the_abs_int : s2cstref // (int) -> int
+val the_absrel_int_int : s2cstref // : (int, int) -> bool
+val the_sgn_int : s2cstref // (int) -> int
+val the_sgnrel_int_int : s2cstref // : (int, int) -> bool
+//
+val the_max_int_int : s2cstref // : (int, int) -> int
+val the_min_int_int : s2cstref // : (int, int) -> int
+val the_maxrel_int_int_int : s2cstref // : (int, int, int) -> bool
+val the_minrel_int_int_int : s2cstref // : (int, int, int) -> bool
+//
+val the_ndivrel_int_int_int : s2cstref // : (int, int, int) -> bool
+val the_idivrel_int_int_int : s2cstref // : (int, int, int) -> bool
+//
+val the_int_of_bool : s2cstref // : (bool) -> int
+val the_b2irel_bool_int : s2cstref // : (bool, int) -> bool
+(*
+val the_bool_of_int : s2cstref // : (int) -> bool
+*)
+val the_int_of_char : s2cstref // : (char) -> int
+val the_c2irel_char_int : s2cstref // : (char, int) -> bool
+(*
+//
+// HX: bool_of_int (i) = (i != 0)
+//
+and the_bool_of_int : s2cstref // : (int) -> bool
+*)
+val the_int_of_char : s2cstref // : (char) -> int
+and the_char_of_int : s2cstref // : (int) -> char
+val the_uint_of_char : s2cstref // : (char) -> int
+val the_char_of_uint : s2cstref // : (char) -> int
+
+val the_int_of_addr : s2cstref // : (addr) -> int
+and the_addr_of_int : s2cstref // : (int) -> addr
 //
 val the_null_addr : s2cstref
 val the_lt_addr_addr : s2cstref // : (addr, addr) -> bool
@@ -155,6 +192,8 @@ fun s2exp_bmul (s2p1: s2exp, s2p2: s2exp): s2exp
 
 fun s2exp_intlt (s2i1: s2exp, s2i2: s2exp): s2exp
 fun s2exp_intlte (s2i1: s2exp, s2i2: s2exp): s2exp
+fun s2exp_intgt (s2i1: s2exp, s2i2: s2exp): s2exp
+fun s2exp_intgte (s2i1: s2exp, s2i2: s2exp): s2exp
 fun s2exp_intneq (s2i1: s2exp, s2i2: s2exp): s2exp
 
 (* ****** ****** *)

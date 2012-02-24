@@ -201,17 +201,17 @@ prfun exp2_ispos
 //
 // HX: proven in [arith_prf.dats]
 //
-prfun exp2_monotone
+prfun exp2_is_mono
   {n1,n2:nat | n1 <= n2} {p1,p2:int}
   (pf1: EXP2 (n1, p1), pf2: EXP2 (n2, p2)): [p1 <= p2] void
-// end of [exp2_monotone]
+// end of [exp2_is_mono]
 //
 // HX: proven in [arith_prf.dats]
 //
-prfun exp2_mul
+prfun exp2_muladd
   {n1,n2:nat | n1 <= n2} {p1,p2:int} {p:int} (
   pf1: EXP2 (n1, p1), pf2: EXP2 (n2, p2), pf3: MUL (p1, p2, p)
-) : EXP2 (n1+n2, p) // end of [exp2_mul]
+) : EXP2 (n1+n2, p) // end of [exp2_muladd]
 //
 (* ****** ****** *)
 
@@ -233,10 +233,15 @@ praxi exp_elim_b_0 {b:int}{p:int} (pf: EXP (b, 0, p)): [p==1] void
 praxi exp_elim_b_1 {b:int}{p:int} (pf: EXP (b, 1, p)): [p==b] void
 praxi exp_elim_b_2 {b:int}{p:int} (pf: EXP (b, 2, p)): MUL (b, b, p)
 
-praxi exp_mul
+praxi exp_muladd
   {b:int}{n1,n2:int}{p1,p2:int}{p:int} (
-  pf1: EXP (b, n1, p1), pf2: EXP (b, n2, p2), pf3: MUL (p1, p2, p)
-) : EXP (b, n1+n2, p) // end of [exp_mul]
+  pf1: EXP (b, n1, p1), pf2: EXP (b, n2, p2)
+) : EXP (b, n1+n2, p1*p2) // end of [exp_muladd]
+
+praxi exp_expmul
+  {b:int}{n1,n2:int}{bn1:int}{bn1n2:int} (
+  pf1: EXP (b, n1, bn1), pf2: EXP (bn1, n2, bn1n2)
+) : EXP (b, n1*n2, bn1n2) // end of [exp_muladd]
 
 (* ****** ****** *)
 

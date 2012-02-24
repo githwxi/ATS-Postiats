@@ -47,9 +47,9 @@ staload UT = "pats_utils.sats"
 
 staload
 CNTR = "pats_counter.sats"
-staload STP = "pats_stamp.sats"
-typedef stamp = $STP.stamp
-overload compare with $STP.compare_stamp_stamp
+staload STMP = "pats_stamp.sats"
+typedef stamp = $STMP.stamp
+overload compare with $STMP.compare_stamp_stamp
 
 (* ****** ****** *)
 
@@ -93,7 +93,7 @@ implement
 s2Var_make_srt (loc, s2t) = let
 //
 val cnt = $CNTR.counter_getinc (the_s2Var_name_counter)
-val stamp = $STP.s2Var_stamp_make ()
+val stamp = $STMP.s2Var_stamp_make ()
 val (pfgc, pfat | p) = ptr_alloc<s2Var_struct> ()
 prval () = free_gc_elim {s2Var_struct?} (pfgc)
 //
@@ -124,7 +124,7 @@ end // end of [s2Var_make_srt]
 implement s2Var_make_var (loc, s2v) = let
 //
 val cnt = $CNTR.counter_getinc (the_s2Var_name_counter)
-val stamp = $STP.s2Var_stamp_make ()
+val stamp = $STMP.s2Var_stamp_make ()
 val s2t = s2var_get_srt s2v
 val (pfgc, pfat | p) = ptr_alloc_tsz {s2Var_struct} (sizeof<s2Var_struct>)
 prval () = free_gc_elim {s2Var_struct?} (pfgc)
@@ -269,7 +269,7 @@ fprint_s2Var (out, s2V) = let
   val () = $CNTR.fprint_count (out, s2Var_get_cnt s2V)
 (*
   val () = fprint_string (out, "(")
-  val () = $STP.fprint_stamp (out, s2Var_get_stamp s2V)
+  val () = $STMP.fprint_stamp (out, s2Var_get_stamp s2V)
   val () = fprint_string (out, ")")
 *)
 in

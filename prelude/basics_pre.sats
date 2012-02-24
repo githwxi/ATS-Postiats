@@ -88,6 +88,16 @@ stadef - = sub_int_int
 stadef * = mul_int_int
 stadef / = div_int_int
 
+stacst ndiv_int_int : (int, int) -> int
+stadef ndiv = ndiv_int_int
+stacst idiv_int_int : (int, int) -> int // HX: alias for div_int_int
+stadef idiv = idiv_int_int
+
+stadef mod_int_int
+  (x:int, y:int) = x - (x \ndiv_int_int y) * y
+stadef mod = mod_int_int
+stadef % (*adopted from C*) = mod_int_int
+
 stacst lt_int_int : (int, int) -> bool
 stacst lte_int_int : (int, int) -> bool
 stacst gt_int_int : (int, int) -> bool
@@ -101,16 +111,89 @@ stadef == = eq_int_int
 stadef != = neq_int_int
 stadef <> = neq_int_int // backward compatibility
 
+(* ****** ****** *)
+//
+stacst abs_int : (int) -> int
+stadef abs = abs_int
+stadef absrel_int_int
+  (x: int, v: int): bool =
+  (x >= 0 && x == v) || (x <= 0 && ~x == v)
+stadef absrel = absrel_int_int
+//
+stacst sgn_int : (int) -> int
+stadef sgn = sgn_int
+stadef sgnrel_int_int
+  (x: int, v: int): bool =
+  (x > 0 && v==1) || (x==0 && v==0) || (x < 0 && v==(~1))
+stadef sgnrel = sgnrel_int_int
+//
 stacst max_int_int : (int, int) -> int
 stadef max = max_int_int
 stacst min_int_int : (int, int) -> int
 stadef min = min_int_int
-
+stadef maxrel_int_int_int
+  (x: int, y: int, v: int): bool =
+  (x >= y && x == v) || (x <= y && y == v)
+stadef maxrel = maxrel_int_int_int
+stadef minrel_int_int_int
+  (x: int, y: int, v: int): bool =
+  (x >= y && y == v) || (x <= y && x == v)
+stadef minrel = minrel_int_int_int
+//
+stadef nsub (x:int, y:int) = max (x-y, 0)
+//
+stadef
+ndivrel_int_int_int // HX: y > 0
+  (x: int, y: int, q: int): bool =
+  (q * y <= x && x < q * y + y)
+stadef ndivrel = ndivrel_int_int_int
+stadef
+idivrel_int_int_int
+  (x: int, y: int, q: int) = // HX: y != 0
+  (x >= 0 && y > 0 && ndivrel_int_int_int ( x,  y,  q)) ||
+  (x >= 0 && y < 0 && ndivrel_int_int_int ( x, ~y, ~q)) ||
+  (x <= 0 && y > 0 && ndivrel_int_int_int (~x,  y, ~q)) ||
+  (x <= 0 && y < 0 && ndivrel_int_int_int (~x, ~y,  q))
+stadef idivrel = idivrel_int_int_int
+//
+stadef
+divmodrel_int_int_int_int
+  (x: int, y: int, q: int, r: int) : bool =
+  (0 <= r && r < y && x == q*y + r)
+stadef divmodrel = divmodrel_int_int_int_int
+//
 (* ****** ****** *)
 
-stacst int_of_bool : bool -> int and bool_of_int : int -> bool
-stacst int_of_char : char -> int and char_of_int : int -> char
-stacst int_of_addr : char -> int and addr_of_int : int -> addr
+stacst int_of_bool : bool -> int
+stadef bool_of_int (i: int) = i != 0
+stadef b2i = int_of_bool and i2b = bool_of_int
+stadef b2irel_bool_int
+  (b: bool, i: int): bool = (b && i==1) || (~b && i==0)
+stadef b2irel = b2irel_bool_int
+
+stacst int_of_char: char -> int
+stadef c2i = int_of_char
+stacst char_of_int : int -> char
+stadef i2c = char_of_int
+
+stacst uint_of_char : char -> int
+stadef c2u = uint_of_char
+stacst char_of_uint : int -> char
+stadef u2c = char_of_uint
+
+stadef
+c2irel_char_int (c: char, i: int): bool =
+  (c2u(c) < 128 && i==c2u(c)) || (c2u(c) >= 128 && i+256==c2u(c))
+stadef c2irel = c2irel_char_int
+stadef
+i2crel_int_char (i: int, c: char): bool = // it is the inverse
+  (i >= 0 && i==c2u(c)) || (i < 0 && i+256==c2u(c)) // of [c2irel]
+stadef i2crel = i2crel_int_char
+
+stacst int_of_addr : char -> int
+stacst addr_of_int : int -> addr
+stadef a2i = int_of_addr
+stadef i2a = addr_of_int
 
 (* ****** ****** *)
 

@@ -38,9 +38,9 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 (* ****** ****** *)
 
 staload
-STP = "pats_stamp.sats"
-typedef stamp = $STP.stamp
-overload compare with $STP.compare_stamp_stamp
+STMP = "pats_stamp.sats"
+typedef stamp = $STMP.stamp
+overload compare with $STMP.compare_stamp_stamp
 
 staload
 SYM = "pats_symbol.sats"
@@ -101,7 +101,7 @@ d2cst_make (
 , extdef
 ) = let
 //
-val stamp = $STP.d2cst_stamp_make ()
+val stamp = $STMP.d2cst_stamp_make ()
 val (pfgc, pfat | p) = ptr_alloc<d2cst_struct> ()
 prval () = free_gc_elim {d2cst_struct?} (pfgc)
 //

@@ -590,7 +590,10 @@ s1vararg =
 
 typedef s1vararglst = List (s1vararg)
 
-fun fprint_s1vararg : fprint_type (s1vararg)
+fun fprint_s1vararg
+  : fprint_type (s1vararg)
+fun print_s1vararg (x: s1vararg): void
+fun prerr_s1vararg (x: s1vararg): void
 
 (* ****** ****** *)
 

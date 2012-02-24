@@ -38,9 +38,9 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 (* ****** ****** *)
 
 staload
-STP = "pats_stamp.sats"
-typedef stamp = $STP.stamp
-overload compare with $STP.compare_stamp_stamp
+STMP = "pats_stamp.sats"
+typedef stamp = $STMP.stamp
+overload compare with $STMP.compare_stamp_stamp
 
 staload
 SYM = "pats_symbol.sats"
@@ -97,7 +97,7 @@ in // in of [local]
 implement
 d2var_make (loc, id) = let
 //
-val stamp = $STP.d2var_stamp_make ()
+val stamp = $STMP.d2var_stamp_make ()
 val (pfgc, pfat | p) = ptr_alloc<d2var_struct> ()
 prval () = free_gc_elim {d2var_struct?} (pfgc)
 //
@@ -271,7 +271,7 @@ fprint_d2var (out, d2v) = let
   val () = $SYM.fprint_symbol (out, d2var_get_sym d2v)
 // (*
   val () = fprint_string (out, "(")
-  val () = $STP.fprint_stamp (out, d2var_get_stamp d2v)
+  val () = $STMP.fprint_stamp (out, d2var_get_stamp d2v)
   val () = fprint_string (out, ")")
 // *)
 in
@@ -280,6 +280,41 @@ end // end of [fprint_d2var]
 
 implement print_d2var (x) = fprint_d2var (stdout_ref, x)
 implement prerr_d2var (x) = fprint_d2var (stderr_ref, x)
+
+(* ****** ****** *)
+
+local
+
+staload
+FS = "libats/SATS/funset_avltree.sats"
+staload _ = "libats/DATS/funset_avltree.dats"
+
+val cmp = lam (
+  d2v1: d2var, d2v2: d2var
+) : int =<cloref>
+  compare_d2var_d2var (d2v1, d2v2)
+// end of [val]
+
+assume d2varset_type = $FS.set (d2var)
+
+in // in of [local]
+
+implement
+d2varset_nil () = $FS.funset_make_nil ()
+
+implement
+d2varset_is_member
+  (xs, x) = $FS.funset_is_member (xs, x, cmp)
+// end of [d2varset_is_member]
+
+implement
+d2varset_add
+  (xs, x) = xs where {
+  var xs = xs
+  val _(*replaced*) = $FS.funset_insert (xs, x, cmp)
+} // end of [d2varset_add]
+
+end // end of [local]
 
 (* ****** ****** *)
 

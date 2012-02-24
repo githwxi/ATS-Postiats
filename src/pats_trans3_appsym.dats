@@ -86,7 +86,7 @@ in
     // end of [S2Efun]
   | S2Eexi (_(*s2vs*), _(*s2ps*), s2e) => loop (d2as, s2e, npf, d2es)
   | S2Euni (_(*s2vs*), _(*s2ps*), s2e) => loop (d2as, s2e, npf, d2es)
-  | S2Emetfn (_(*stamp*), _(*met*), s2e) => loop (d2as, s2e, npf, d2es)
+  | S2Emetfun (_(*opt*), _(*met*), s2e) => loop (d2as, s2e, npf, d2es)
   | _ => false // end of [_]
 end // end of [loop]
 //
@@ -240,7 +240,7 @@ case+ d3as of
       val () = d3explst_open_and_add (d3es_arg)
       var err: int = 0
       val (s2e_fun, s2ps) =
-        s2exp_uni_instantiate_all (s2e_fun, locarg, err)
+        s2exp_unimet_instantiate_all (s2e_fun, locarg, err)
       // HX: [err] is not used
       val () = trans3_env_add_proplst_vt (loc_fun, s2ps)
       val d3e_fun = d3exp_app_sta (loc0, s2e_fun, d3e_fun)

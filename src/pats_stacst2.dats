@@ -198,6 +198,8 @@ the_neq_bool_bool = s2cstref_make "neq_bool_bool"
 (* ****** ****** *)
 
 implement
+the_neg_int = s2cstref_make "neg_int"
+implement
 the_add_int_int = s2cstref_make "add_int_int"
 implement
 the_sub_int_int = s2cstref_make "sub_int_int"
@@ -205,6 +207,10 @@ implement
 the_mul_int_int = s2cstref_make "mul_int_int"
 implement
 the_div_int_int = s2cstref_make "div_int_int"
+implement
+the_ndiv_int_int = s2cstref_make "ndiv_int_int"
+implement
+the_idiv_int_int = s2cstref_make "idiv_int_int"
 
 implement
 the_lt_int_int = s2cstref_make "lt_int_int"
@@ -218,6 +224,53 @@ implement
 the_eq_int_int = s2cstref_make "eq_int_int"
 implement
 the_neq_int_int = s2cstref_make "neq_int_int"
+
+implement
+the_abs_int = s2cstref_make "abs_int"
+implement
+the_absrel_int_int = s2cstref_make "absrel_int_int"
+implement
+the_sgn_int = s2cstref_make "sgn_int"
+implement
+the_sgnrel_int_int = s2cstref_make "sgnrel_int_int"
+
+implement
+the_max_int_int = s2cstref_make "max_int_int"
+implement
+the_min_int_int = s2cstref_make "min_int_int"
+implement
+the_maxrel_int_int_int = s2cstref_make "maxrel_int_int_int"
+implement
+the_minrel_int_int_int = s2cstref_make "minrel_int_int_int"
+
+implement
+the_ndivrel_int_int_int = s2cstref_make "ndivrel_int_int_int"
+implement
+the_idivrel_int_int_int = s2cstref_make "idivrel_int_int_int"
+
+(* ****** ****** *)
+
+implement
+the_int_of_bool = s2cstref_make "int_of_bool"
+implement
+the_b2irel_bool_int = s2cstref_make "b2irel_bool_int"
+//
+implement
+the_int_of_char = s2cstref_make "int_of_char"
+implement
+the_char_of_int = s2cstref_make "char_of_int"
+implement
+the_uint_of_char = s2cstref_make "uint_of_char"
+implement
+the_char_of_uint = s2cstref_make "char_of_uint"
+//
+implement
+the_c2irel_char_int = s2cstref_make "c2irel_char_int"
+//
+implement
+the_int_of_addr = s2cstref_make "int_of_addr"
+implement
+the_addr_of_int = s2cstref_make "addr_of_int"
 
 (* ****** ****** *)
 
@@ -280,6 +333,20 @@ s2exp_intlte (s2i1, s2i2) = let
 in
   s2exp_cstapp (s2c, list_pair (s2i1, s2i2))
 end // end of [s2exp_intlte]
+
+implement
+s2exp_intgt (s2i1, s2i2) = let
+  val s2c = s2cstref_get_cst (the_gt_int_int)
+in
+  s2exp_cstapp (s2c, list_pair (s2i1, s2i2))
+end // end of [s2exp_intgt]
+
+implement
+s2exp_intgte (s2i1, s2i2) = let
+  val s2c = s2cstref_get_cst (the_gte_int_int)
+in
+  s2exp_cstapp (s2c, list_pair (s2i1, s2i2))
+end // end of [s2exp_intgte]
 
 implement
 s2exp_intneq (s2i1, s2i2) = let

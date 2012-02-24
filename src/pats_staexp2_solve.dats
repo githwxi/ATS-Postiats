@@ -858,20 +858,20 @@ case+ (s2e1.s2exp_node, s2e2.s2exp_node) of
   in
     case+ sgn of 
     | _ when sgn > 0 =>
-        trans3_env_hypadd_bind (loc0, s2v1, s2e2)
+        trans3_env_hypadd_bind (loc0, s2v1, s2f2)
     | _ when sgn < 0 =>
-        trans3_env_hypadd_bind (loc0, s2v2, s2e1)
+        trans3_env_hypadd_bind (loc0, s2v2, s2f1)
     | _ (*sgn = 0*) => ()
   end // end of [S2Evar _, S2Evar _]
-| (S2Evar s2v1, _) => trans3_env_hypadd_bind (loc0, s2v1, s2e2)
-| (_, S2Evar s2v2) => trans3_env_hypadd_bind (loc0, s2v2, s2e1)
+| (S2Evar s2v1, _) => trans3_env_hypadd_bind (loc0, s2v1, s2f2)
+| (_, S2Evar s2v2) => trans3_env_hypadd_bind (loc0, s2v2, s2f1)
 | (S2Efun (_, _, _, _, s2es11, s2e12),
    S2Efun (_, _, _, _, s2es21, s2e22)) => let
     val () = s2explst_hypequal_solve (loc0, s2es21, s2es11)
   in
     s2exp_hypequal_solve (loc0, s2e12, s2e22)
   end // end of [S2Efun _, S2Efun _]
-| (_, _) => trans3_env_hypadd_eqeq (loc0, s2e1, s2e2)
+| (_, _) => trans3_env_hypadd_eqeq (loc0, s2f1, s2f2)
 //
 end // end of [s2exp_hypequal_solve]
 

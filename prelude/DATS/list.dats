@@ -101,7 +101,8 @@ implement{x}{y}
 list_map_funenv
   {v}{vt}{n}{fe}
   (pfv | xs, f, env) = ys where {
-  val [n2:int] ys = listize_funenv (pfv | xs, f, env)
+  typedef xs = List (x)
+  val [n2:int] ys = listize_funenv<xs><x> (pfv | xs, f, env)
   prval () = __assert () where {
     extern praxi __assert (): [n==n2] void
   } (* end of [prval] *)

@@ -279,7 +279,7 @@ fun auxlst (
 ) : s2exp = let
 (*
   val () = (
-    print "s2exp_metlt_reduce: auxlst"; print_newline ()
+    print "s2exp_metdec_reduce: auxlst"; print_newline ()
   ) // end of [val]
 *)
 in
@@ -317,11 +317,11 @@ end // end of [auxlst]
 
 in // in of [local]
 
-fun s2exp_metlt_reduce (
+fun s2exp_metdec_reduce (
   met: s2explst, met_bound: s2explst
 ) : s2exp = (
   auxlst (met, met_bound)
-) // end of [s2exp_metlt_reduce]
+) // end of [s2exp_metdec_reduce]
 
 end // end of [local]
 
@@ -375,7 +375,8 @@ fun auxbind (
 *)
   val s2e1 = s2exp_var (s2v1)
   val s3be = auxeq (env, s2e1, s2e2)
-  val () = trans3_env_hypadd_bind (loc0, s2v1, s2e2)
+  val s2f2 = s2exp2hnf (s2e2)
+  val () = trans3_env_hypadd_bind (loc0, s2v1, s2f2)
 in
   s3be
 end // end of [aux_bind]
@@ -430,14 +431,14 @@ case+ s2e0.s2exp_node of
     end
   ) // end of [S2Eapp]
 | S2Eeqeq (s2e1, s2e2) => auxeq (env, s2e1, s2e2)
-| S2Emetlt
+| S2Emetdec
     (met, met_bound) => let
     val s2e_met =
-      s2exp_metlt_reduce (met, met_bound)
+      s2exp_metdec_reduce (met, met_bound)
     // end of [val]
   in
     s3exp_make (env, s2e_met)
-  end // end of [S3Emetlt]
+  end // end of [S3Emetdec]
 | _ => let // an expression that cannot be handled
     val () = begin
       prerr "warning(3): s3exp_make_s2exp: s2e0 = "; prerr_s2exp (s2e0); prerr_newline ();
@@ -663,8 +664,12 @@ end // end of [s2vbcfenv_extract]
 
 fun s2vbcfenv_add2 (
   env: &s2vbcfenv
-, s2c: s2cst, arg1: s2explst, arg2: s3explst, s2v: s2var
+// HX: [s2c] is a defined (stadef) constant
+, s2c: s2cst, arg1: s2explst, arg2: s3explst
+, s2v: s2var
 ) : void = let
+//
+  val () = env := S2VBCFLSTsvar (s2v, env)
 //
   val s2e_cst = s2exp_cst (s2c)
   val s2e_var = s2exp_var (s2v)
@@ -676,10 +681,14 @@ in
   env := S2VBCFLSTcons (s2c, arg2, s2v, Some_vt (s3be), env)
 end // end of [s2vbcfenv_add2]
 
-fun s2vbcfenv_add2_none (
+fun
+s2vbcfenv_add2_none (
   env: &s2vbcfenv
-, s2c: s2cst, arg1: s2explst, arg2: s3explst, s2v: s2var
+// HX: [s2c] is treated generially
+, s2c: s2cst, arg1: s2explst, arg2: s3explst
+, s2v: s2var
 ) : void = let
+  val () = env := S2VBCFLSTsvar (s2v, env)
 in
   env := S2VBCFLSTcons (s2c, arg2, s2v, None_vt (), env)
 end // end of [s2vbcfenv_add2_none]

@@ -920,19 +920,30 @@ val d1cs2cs2vsslst = let
           end // end of [list_cons]
         | list_nil () => list_nil ()
       // end of [f]
+      fun ff (
+        xss: List (syms2rtlst)
+      ) : s2varlstlst =
+        case+ xss of
+        | list_cons (xs, xss) => let
+             val s2vs = f (xs) and s2vss = ff (xss)
+           in
+             if list_is_cons (s2vs) then list_cons (s2vs, s2vss) else s2vss
+           end // end of [list_vt_cons]
+        | list_nil () => list_nil ()
+      // end of [ff]
     in
-      l2l (list_map_fun (argvar, f))
+      ff (argvar)
     end : s2varlstlst
 //
     val s2tss_arg = let
-      fun aux
+      fun f
         (xs: syms2rtlst): s2rtlst =
         case+ xs of
-        | list_cons (x, xs) => list_cons (x.1, aux xs)
+        | list_cons (x, xs) => list_cons (x.1, f (xs))
         | list_nil () => list_nil ()
-      // end of [aux]
+      // end of []
     in
-      l2l (list_map_fun (argvar, aux))
+      l2l (list_map_fun (argvar, f))
     end : s2rtlstlst
 //
     val s2c = s2cst_make_dat (
@@ -1072,7 +1083,7 @@ fun s2exp_get_arylst
       list_cons (list_length s2es, s2exp_get_arylst (s2e))
   | S2Eexi (_, _, s2e) => s2exp_get_arylst (s2e)
   | S2Euni (_, _, s2e) => s2exp_get_arylst (s2e)
-  | S2Emetfn (_, _, s2e) => s2exp_get_arylst (s2e)
+  | S2Emetfun (_, _, s2e) => s2exp_get_arylst (s2e)
   | _ => list_nil ()
 // end of [s2exp_get_arylst]
 

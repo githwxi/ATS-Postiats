@@ -37,7 +37,7 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-staload STP = "pats_stamp.sats"
+staload STMP = "pats_stamp.sats"
 staload SYM = "pats_symbol.sats"
 overload = with $SYM.eq_symbol_symbol
 
@@ -73,7 +73,7 @@ in // in of [local]
 implement
 s2rtdat_make (id) = let
 //
-  val stamp = $STP.s2rtdat_stamp_make ()
+  val stamp = $STMP.s2rtdat_stamp_make ()
   val (pfgc, pfat | p) = ptr_alloc<s2rtdat_struct> ()
   prval () = free_gc_elim (pfgc)
 //

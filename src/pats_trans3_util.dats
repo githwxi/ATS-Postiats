@@ -208,6 +208,10 @@ case+ d2e0.d2exp_node of
 | D2Elam_sta (s2vs, s2ps, d2e) => let
     val s2e = d2exp_syn_type (d2e) in s2exp_uni (s2vs, s2ps, s2e)
   end // end of [D2Elam_sta]
+| D2Elam_met (_ref, met, d2e) => let
+    val s2e = d2exp_syn_type (d2e) in s2exp_metfun (None(*stamp*), met, s2e)
+  end // end of [D2Elam_met]
+//
 | D2Efix (knd, d2v, d2e) => d2exp_syn_type (d2e)
 //
 | D2Eann_type (_, s2e) => s2e
@@ -276,7 +280,7 @@ d3exp_trdn
   val () = if (err != 0) then let
     val () = prerr_error3_loc (loc)
     val () = filprerr_ifdebug "d3exp_trdn"
-    val () = prerr ": the dynamic expression can not be assigned the type ["
+    val () = prerr ": the dynamic expression cannot be assigned the type ["
     val () = prerr_s2exp (s2e2)
     val () = prerr "]."
     val () = prerr_newline ()

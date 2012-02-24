@@ -43,9 +43,9 @@ staload _(*anon*) = "pats_utils.dats"
 (* ****** ****** *)
 
 staload
-STP = "pats_stamp.sats"
-typedef stamp = $STP.stamp
-overload compare with $STP.compare_stamp_stamp
+STMP = "pats_stamp.sats"
+typedef stamp = $STMP.stamp
+overload compare with $STMP.compare_stamp_stamp
 
 staload
 SYM = "pats_symbol.sats"
@@ -134,7 +134,7 @@ s2cst_make (
 , argsrtss, def
 ) = let
 //
-val stamp = $STP.s2cst_stamp_make ()
+val stamp = $STMP.s2cst_stamp_make ()
 val (pfgc, pfat | p) = ptr_alloc<s2cst_struct> ()
 prval () = free_gc_elim {s2cst_struct?} (pfgc)
 //

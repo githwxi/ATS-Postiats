@@ -184,7 +184,11 @@ p1at_tr_con_sapp2 (
 , d2c: d2con, sub: &stasub, s2qs: s2qualst, s1as: s1vararglst
 , out: &s2qualst_vt
 ) : s2exp = let
-//
+(*
+val () = (
+  print "p1at_tr_con_sapp2: d2c.type = "; print_s2exp (d2con_get_type d2c); print_newline ()
+) // end of [val]
+*)
 fn auxerr1 (
   p1t1: p1at, d2c: d2con
 ) : void = let

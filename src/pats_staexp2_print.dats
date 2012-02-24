@@ -344,24 +344,30 @@ case+ x.s2exp_node of
     val () = fprint_s2exp (out, s2e_res)
     val () = prstr ")"
   } // end of [S2Efun]
-| S2Emetfn (
+| S2Emetfun (
     opt, s2es_met, s2e_body
   ) => {
-    val () = prstr "S2Emetfn("
+    val () = prstr "S2Emetfun("
     val () = fprint_s2explst (out, s2es_met)
+    val () = prstr "; "
+    val () = (
+      case+ opt of
+      | Some stamp => $STMP.fprint_stamp (out, stamp)
+      | None () => ()
+    ) // end of [val]
     val () = prstr "; "
     val () = fprint_s2exp (out, s2e_body)
     val () = prstr ")"
-  } // end of [S2Emetfn]
+  } // end of [S2Emetfun]
 //
-| S2Emetlt
+| S2Emetdec
     (s2es1, s2es2) => {
-    val () = prstr "S2Emetlt(("
+    val () = prstr "S2Emetdec(("
     val () = fprint_s2explst (out, s2es1)
     val () = prstr ") < ("
     val () = fprint_s2explst (out, s2es2)
     val () = prstr "))"
-  } // end of [S2Emetlt]
+  } // end of [S2Emetdec]
 //
 | S2Etop (knd, s2e) => {
     val () = prstr "S2Etop("
@@ -536,6 +542,11 @@ implement
 fprint_s2qualst (out, s2qs) =
   $UT.fprintlst (out, s2qs, "; ", fprint_s2qua)
 // end of [fprint_s2qualst]
+
+implement
+print_s2qualst (xs) = fprint_s2qualst (stdout_ref, xs)
+implement
+prerr_s2qualst (xs) = fprint_s2qualst (stderr_ref, xs)
 
 (* ****** ****** *)
 

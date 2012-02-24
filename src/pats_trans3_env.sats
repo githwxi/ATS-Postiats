@@ -42,6 +42,11 @@ typedef location = $LOC.location
 
 (* ****** ****** *)
 
+staload STMP = "pats_stamp.sats"
+viewtypedef stampset_vt = $STMP.stampset_vt
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 staload "pats_patcst2.sats"
 staload "pats_dynexp2.sats"
@@ -51,12 +56,10 @@ staload "pats_dynexp3.sats"
 
 datatype c3nstrkind =
   | C3NSTRKINDmain of () // generic
-(*
-  | C3NSTRKINDmetric_nat (* metric being welfounded *)
-  | C3NSTRKINDmetric_dec (* metric being decreasing *)
-*)
   | C3NSTRKINDcase_exhaustiveness of
       (caskind (*case/case+*), p2atcstlst) // HX: no [case-]
+  | C3NSTRKINDtermet_isnat (* term. metric being welfounded *)
+  | C3NSTRKINDtermet_isdec (* term. metric being decreasing *)
 (*
   | C3NSTRKINDvarfin of (d2var_t, s2exp, s2exp)
   | C3NSTRKINDloop of int (* 0/1/2: enter/break/continue *)
@@ -64,7 +67,7 @@ datatype c3nstrkind =
 // end of [c3nstrkind]
 
 datatype s3itm =
-  | S3ITMcstr of c3nstr
+  | S3ITMcnstr of c3nstr
   | S3ITMdisj of s3itmlstlst
   | S3ITMhypo of h3ypo
   | S3ITMsvar of s2var
@@ -106,21 +109,31 @@ and h3ypo = '{
 
 fun c3nstr_prop
   (loc: location, s2e: s2exp): c3nstr
+
 fun c3nstr_itmlst (
   loc: location, knd: c3nstrkind, s3is: s3itmlst
 ) : c3nstr // end of [c3nstr_itmlst]
+
 fun c3nstr_case_exhaustiveness (
   loc: location, casknd: caskind, p2tcs: !p2atcstlst_vt
 ) : c3nstr // end of [c3nstr_case_exhaustiveness]
+
+fun c3nstr_termet_isnat
+  (loc: location, s2e: s2exp): c3nstr
+// end of [c3nstr_termet_isnat]
+fun c3nstr_termet_isdec
+  (loc: location, met: s2explst, metbd: s2explst): c3nstr
+// end of [c3nstr_termet_isdec]
 
 (* ****** ****** *)
 
 fun h3ypo_prop
   (loc: location, s2e: s2exp): h3ypo
 fun h3ypo_bind
-  (loc: location, s2v: s2var, s2e: s2exp): h3ypo
+  (loc: location, s2v: s2var, s2f: s2hnf): h3ypo
 fun h3ypo_eqeq
-  (loc: location, s2e1: s2exp, s2e2: s2exp): h3ypo
+  (loc: location, s2f1: s2hnf, s2f2: s2hnf): h3ypo
+// end of [h3ypo_eqeq]
 
 (* ****** ****** *)
 
@@ -150,6 +163,12 @@ fun s2exp_exiuni_instantiate_all // knd=0/1:exi/uni
 fun s2exp_exi_instantiate_all
   (s2e: s2exp, locarg: location, err: &int): (s2exp, s2explst_vt)
 fun s2exp_uni_instantiate_all
+  (s2e: s2exp, locarg: location, err: &int): (s2exp, s2explst_vt)
+
+fun s2exp_termet_instantiate
+  (loc: location, stamp: stamp, met: s2explst): void
+fun s2exp_unimet_instantiate_all
+// HX: instantiating universal quantifiers and term. metrics
   (s2e: s2exp, locarg: location, err: &int): (s2exp, s2explst_vt)
 
 fun s2exp_uni_instantiate_sexparglst
@@ -195,7 +214,7 @@ fun trans3_env_add_svarlst (s2vs: s2varlst): void
 fun trans3_env_add_sVar (s2V: s2Var): void
 fun trans3_env_add_sVarlst (s2Vs: s2Varlst): void
 
-fun trans3_env_add_cstr (c3s: c3nstr): void
+fun trans3_env_add_cnstr (c3t: c3nstr): void
 
 fun trans3_env_add_prop (loc: location, s2p: s2exp): void
 fun trans3_env_add_proplst (loc: location, s2ps: s2explst): void
@@ -219,8 +238,8 @@ fun trans3_env_hypadd_proplst_vt (loc: location, s2ps: s2explst_vt): void
 fun trans3_env_hypadd_propopt (loc: location, os2p: s2expopt): void
 fun trans3_env_hypadd_propopt_neg (loc: location, os2p: s2expopt): void
 //
-fun trans3_env_hypadd_bind (loc: location, s2v1: s2var, s2e2: s2exp): void
-fun trans3_env_hypadd_eqeq (loc: location, s2e1: s2exp, s2e2: s2exp): void
+fun trans3_env_hypadd_bind (loc: location, s2v1: s2var, s2f2: s2hnf): void
+fun trans3_env_hypadd_eqeq (loc: location, s2f1: s2hnf, s2f2: s2hnf): void
 //
 fun trans3_env_hypadd_patcst
   (loc: location, p2tc: p2atcst, s2e: s2exp): void
@@ -245,6 +264,31 @@ fun fprint_the_s2varbindmap (out: FILEref): void
 fun fprint_the_s3itmlst (out: FILEref): void
 fun fprint_the_s3itmlstlst (out: FILEref): void
 //
+(* ****** ****** *)
+
+fun s2explst_check_termet
+  (loc0: location, met: s2explst): void
+// end of [s2explst_check_termet]
+
+absview termetenv_push_v
+
+fun termetenv_pop
+  (pf: termetenv_push_v | (*none*)): void
+
+fun termetenv_push
+  (d2vs: stampset_vt, met: s2explst): (termetenv_push_v | void)
+// end of [termetenv_push]
+
+fun termetenv_push_dvarlst
+  (d2vs: d2varlst, met: s2explst): (termetenv_push_v | void)
+// end of [termetenv_push_dvarlst]
+
+fun termetenv_get_termet (x: stamp): Option_vt (s2explst)
+
+fun s2exp_metfun_load
+  (s2e0: s2exp, d2v0: d2var): Option_vt @(s2exp, s2rtlst)
+// end of [s2exp_metfun_load]
+
 (* ****** ****** *)
 
 fun s2hnf_absuni_and_add

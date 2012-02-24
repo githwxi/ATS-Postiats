@@ -203,6 +203,7 @@ dynload "pats_trans3_error.dats"
 dynload "pats_trans3_util.dats"
 dynload "pats_trans3_env.dats"
 dynload "pats_trans3_env_print.dats"
+dynload "pats_trans3_env_termet.dats"
 dynload "pats_trans3_syncst.dats"
 dynload "pats_trans3_p2at.dats"
 dynload "pats_trans3_patcon.dats"
@@ -464,6 +465,8 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/SATS/arrayref.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/list.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/list_vt.sats")
+//
+  val () = pervasive_load (ATSHOME, "prelude/SATS/filebas.sats")
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/extern.sats")
 //

@@ -95,7 +95,7 @@ exp2_isfun
 (* ****** ****** *)
 
 implement
-exp2_ismono
+exp2_is_mono
   (pf1, pf2) =
   aux (pf1, pf2) where {
   prfun aux
@@ -109,10 +109,12 @@ exp2_ismono
       ) // end of [EXP2ind]
     | EXP2bas () => let prval EXP2bas () = pf1 in () end
   // end of [aux]
-} // end of [exp2_ismono]
+} // end of [exp2_is_mono]
+
+(* ****** ****** *)
 
 implement
-exp2_mul
+exp2_muladd
   (pf1, pf2, pf3) = let
   prfun aux
     {n1,n2:nat} {p1,p2:nat} {p:int} .<n2>. (
@@ -130,7 +132,7 @@ exp2_mul
   // end of [aux]
 in
   aux (pf1, pf2, pf3)
-end // end of [exp2_mul]
+end // end of [exp2_muladd]
 
 (* ****** ****** *)
 

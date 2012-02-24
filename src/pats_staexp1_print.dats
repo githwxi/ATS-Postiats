@@ -597,6 +597,11 @@ fprint_s1vararg (out, x) =
     } (* end of [S1VARARGseq] *)
 // end of [fprint_s1vararg]
 
+implement
+print_s1vararg (x) = fprint_s1vararg (stdout_ref, x)
+implement
+prerr_s1vararg (x) = fprint_s1vararg (stderr_ref, x)
+
 (* ****** ****** *)
 
 implement
@@ -625,7 +630,7 @@ fprint_s1rtdef (out, x) = {
   val () = fprint_symbol (out, x.s1rtdef_sym)
   val () = fprint_string (out, " = ")
   val () = fprint_s1rtext (out, x.s1rtdef_def)
-}
+} // end of [fprint_s1rtdef]
 
 (* ****** ****** *)
 

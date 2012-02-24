@@ -504,6 +504,7 @@ val s2c_knd =
   s2cstref_get_cst (the_int_kind)
 val s2e_knd = s2exp_cst (s2c_knd)
 val s2e_ind = s2exp_int (i)
+val s2f_ind = s2exp2hnf_cast (s2e_ind)
 val s2e_pat = s2exp_g1int_kind_index_t0ype (s2e_knd, s2e_ind)
 //
 val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
@@ -519,8 +520,9 @@ case+ s2e.s2exp_node of
     val- list_cons (s2e1_arg, s2es_arg) = s2es_arg
     val- list_cons (s2e2_arg, s2es_arg) = s2es_arg
     val () = $SOL.s2exp_tyleq_solve_err (loc0, s2e_knd, s2e1_arg, nerr)
+    val s2f2_arg = s2exp2hnf (s2e2_arg)
   in
-    trans3_env_hypadd_eqeq (loc0, s2e_ind, s2e2_arg)
+    trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f2_arg)
   end (* end of [S2Eapp] *)
 | _ => $SOL.s2exp_tyleq_solve_err (loc0, s2e_pat, s2e, nerr)
 ) (* end of [val] *)
@@ -547,6 +549,7 @@ p2at_trdn_bool
 val loc0 = p2t0.p2at_loc
 val- P2Tbool (b) = p2t0.p2at_node
 val s2e_ind = s2exp_bool (b)
+val s2f_ind = s2exp2hnf_cast (s2e_ind)
 val s2e_pat = s2exp_bool_index_t0ype (s2e_ind)
 val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
 val p3t0 = p3at_bool (loc0, s2e, b)
@@ -559,7 +562,8 @@ case+ s2e.s2exp_node of
     the_bool_bool_t0ype, s2e_fun
   ) => let
     val- list_cons (s2e_arg, _) = s2es_arg
-    val () = trans3_env_hypadd_eqeq (loc0, s2e_ind, s2e_arg)
+    val s2f_arg = s2exp2hnf (s2e_arg)
+    val () = trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f_arg)
   in
     p3t0
   end (* end of [S2Eapp] *)
@@ -588,6 +592,7 @@ p2at_trdn_char
 val loc0 = p2t0.p2at_loc
 val- P2Tchar (c) = p2t0.p2at_node
 val s2e_ind = s2exp_char (c)
+val s2f_ind = s2exp2hnf_cast (s2e_ind)
 val s2e_pat = s2exp_char_index_t0ype (s2e_ind)
 val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
 val p3t0 = p3at_char (loc0, s2e, c)
@@ -600,7 +605,8 @@ case+ s2e.s2exp_node of
     the_char_char_t0ype, s2e_fun
   ) => let
     val- list_cons (s2e_arg, _) = s2es_arg
-    val () = trans3_env_hypadd_eqeq (loc0, s2e_ind, s2e_arg)
+    val s2f_arg = s2exp2hnf (s2e_arg)
+    val () = trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f_arg)
   in
     p3t0
   end (* end of [S2Eapp] *)
@@ -630,6 +636,7 @@ val- P2Tstring (str) = p2t0.p2at_node
 val n = string_length (str)
 val n = $INTINF.intinf_make_size (n)
 val s2e_ind = s2exp_intinf (n)
+val s2f_ind = s2exp2hnf_cast (s2e_ind)
 val s2e_pat = s2exp_string_index_type (s2e_ind)
 val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
 val p3t0 = p3at_string (loc0, s2e, str)
@@ -642,7 +649,8 @@ case+ s2e.s2exp_node of
     the_string_int_type, s2e_fun
   ) => let
     val- list_cons (s2e_arg, _) = s2es_arg
-    val () = trans3_env_hypadd_eqeq (loc0, s2e_ind, s2e_arg)
+    val s2f_arg = s2exp2hnf (s2e_arg)
+    val () = trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f_arg)
   in
     p3t0
   end (* end of [S2Eapp] *)
@@ -690,8 +698,14 @@ case+ s2e.s2exp_node of
         // end of [val]
       in
         case+ s2es_arg of
-        | list_cons (s2e2_arg, _) =>
-            trans3_env_hypadd_eqeq (loc0, s2e_pat_ind, s2e2_arg)
+        | list_cons (s2e2_arg, _) => let
+            val s2f_pat_ind =
+              s2exp2hnf (s2e_pat_ind)
+            // end of [val]
+            val s2f2_arg = s2exp2hnf (s2e2_arg)
+          in
+            trans3_env_hypadd_eqeq (loc0, s2f_pat_ind, s2f2_arg)
+          end // end of [list_cons]
         | list_nil () => ()
       end // end of [list_cons]
     | list_nil () => (nerr := nerr + 1)
@@ -1003,7 +1017,11 @@ case+ s2e.s2exp_node of
     val p3ts = p2atlst_trdn_elt (p2ts, s2e1_arg)
     val n = list_length (p3ts)
     val s2e_ind = s2exp_int (n)
-    val () = trans3_env_hypadd_eqeq (loc0, s2e_ind, s2e2_arg)
+    val s2f_ind =
+      s2exp2hnf_cast (s2e_ind)
+    // end of [val]
+    val s2f2_arg = s2exp2hnf (s2e2_arg)
+    val () = trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f2_arg)
   in
     p3at_lst (loc0, s2e, lin, p3ts)
   end // list1
@@ -1165,10 +1183,12 @@ end // end of [p2at_trdn_ann]
 implement
 guard_trdn
   (loc0, gval, s2e0) = let
-  val s2f0 = s2exp2hnf (s2e0)
-  val s2e_ind = s2exp_bool (gval)
-  val s2e_gval = s2exp_bool_index_t0ype (s2e_ind)
-  val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
+//
+val s2f0 = s2exp2hnf (s2e0)
+val s2e_ind = s2exp_bool (gval)
+val s2f_ind = s2exp2hnf_cast (s2e_ind)
+val s2e_gval = s2exp_bool_index_t0ype (s2e_ind)
+val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
 in
 //
 case+ s2e.s2exp_node of
@@ -1176,9 +1196,12 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_bool_bool_t0ype, s2e_fun
   ) => let
-    val- list_cons (s2e1_arg, _) = s2es_arg
+    val- list_cons
+      (s2e_arg, _) = s2es_arg
+    // end of [val]
+    val s2f_arg = s2exp2hnf (s2e_arg)
   in
-    trans3_env_hypadd_eqeq (loc0, s2e_ind, s2e1_arg)
+    trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f_arg)
   end // end of [S2Eapp]
 | _ => let
     val nerr = $SOL.s2exp_tyleq_solve (loc0, s2e_gval, s2e)

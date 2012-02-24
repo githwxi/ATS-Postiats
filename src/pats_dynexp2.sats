@@ -84,10 +84,19 @@ abstype d2cst_type
 typedef d2cst = d2cst_type
 typedef d2cstlst = List (d2cst)
 
+(* ****** ****** *)
+
 abstype d2var_type
 typedef d2var = d2var_type
 typedef d2varlst = List (d2var)
 typedef d2varopt = Option (d2var)
+//
+viewtypedef d2varopt_vt = Option_vt (d2var)
+//
+abstype d2varset_type // assumed in [pats_dynexp2_dvar.dats]
+typedef d2varset = d2varset_type
+//
+(* ****** ****** *)
 
 abstype d2mac_type
 typedef d2mac = d2mac_type
@@ -236,6 +245,12 @@ fun d2var_is_mutable (d2v: d2var): bool
 fun compare_d2var_d2var (x1: d2var, x2: d2var):<> Sgn
 overload compare with compare_d2var_d2var
 fun compare_d2vsym_d2vsym (x1: d2var, x2: d2var):<> Sgn
+
+(* ****** ****** *)
+
+fun d2varset_nil (): d2varset
+fun d2varset_is_member (xs: d2varset, x: d2var): bool
+fun d2varset_add (xs: d2varset, x: d2var): d2varset
 
 (* ****** ****** *)
 
@@ -443,6 +458,8 @@ d2ecl_node =
 //
   | D2Cdcstdec of (dcstkind, d2cstlst) // dyn. const. declarations
 //
+  | D2Cimpdec of i2mpdec // val/fun/prval/prfun implementation
+//
   | D2Cfundecs of (funkind, s2qualst, f2undeclst)
   | D2Cvaldecs of
       (valkind, v2aldeclst) // (nonrec) value declarations
@@ -451,8 +468,6 @@ d2ecl_node =
       (valkind, v2aldeclst) // (recursive) value declarations
     // end of [D2Cvaldecs_rec]
   | D2Cvardecs of (v2ardeclst) // variable declarations
-//
-  | D2Cimpdec of i2mpdec // val/fun/prval/prfun implementation
 //
   | D2Cinclude of d2eclist (* file inclusion *)
   | D2Cstaload of (
@@ -654,14 +669,15 @@ and sc2laulst = List (sc2lau)
 
 (* ****** ****** *)
 
-and v2aldec = '{
-  v2aldec_loc= location
-, v2aldec_pat= p2at
-, v2aldec_def= d2exp
-, v2aldec_ann= s2expopt // [withtype] annotation
-} // end of [v2aldec]
-
-and v2aldeclst = List (v2aldec)
+and i2mpdec = '{
+  i2mpdec_loc= location
+, i2mpdec_locid= location
+, i2mpdec_cst= d2cst
+, i2mpdec_imparg= s2varlst // static variables
+, i2mpdec_tmparg= s2explstlst // static args
+, i2mpdec_tmpgua= s2explstlst // static guards
+, i2mpdec_def= d2exp
+} // end of [i2mpdec]
 
 (* ****** ****** *)
 
@@ -676,6 +692,17 @@ and f2undeclst = List f2undec
 
 (* ****** ****** *)
 
+and v2aldec = '{
+  v2aldec_loc= location
+, v2aldec_pat= p2at
+, v2aldec_def= d2exp
+, v2aldec_ann= s2expopt // [withtype] annotation
+} // end of [v2aldec]
+
+and v2aldeclst = List (v2aldec)
+
+(* ****** ****** *)
+
 and v2ardec = '{
   v2ardec_loc= location
 , v2ardec_knd= int (* BANG: knd = 1 *)
@@ -687,18 +714,6 @@ and v2ardec = '{
 } // end of [v2ardec]
 
 and v2ardeclst = List (v2ardec)
-
-(* ****** ****** *)
-
-and i2mpdec = '{
-  i2mpdec_loc= location
-, i2mpdec_locid= location
-, i2mpdec_cst= d2cst
-, i2mpdec_imparg= s2varlst // static variables
-, i2mpdec_tmparg= s2explstlst // static args
-, i2mpdec_tmpgua= s2explstlst // static guards
-, i2mpdec_def= d2exp
-} // end of [i2mpdec]
 
 (* ****** ****** *)
 
@@ -901,7 +916,7 @@ fun d2exp_laminit_dyn
   (loc: location, knd: int, npf: int, arg: p2atlst, body: d2exp): d2exp
 
 fun d2exp_lam_met
-  (loc: location, r: ref (d2varlst), met: s2explst, body: d2exp): d2exp
+  (loc: location, r: ref(d2varlst), met: s2explst, body: d2exp): d2exp
 fun d2exp_lam_met_new (loc: location, met: s2explst, body: d2exp): d2exp
 
 fun d2exp_lam_sta (
@@ -1064,6 +1079,10 @@ fun d2ecl_dcstdec (
 
 (* ****** ****** *)
 
+fun d2ecl_impdec (loc: location, d2c: i2mpdec): d2ecl
+
+(* ****** ****** *)
+
 fun d2ecl_fundecs (
   loc: location
 , knd: funkind, decarg: s2qualst, d2cs: f2undeclst
@@ -1078,10 +1097,6 @@ fun d2ecl_valdecs_rec (
 ) : d2ecl // end of [d2ecl_valdecs_rec]
 
 fun d2ecl_vardecs (loc: location, d2cs: v2ardeclst): d2ecl
-
-(* ****** ****** *)
-
-fun d2ecl_impdec (loc: location, d2c: i2mpdec): d2ecl
 
 (* ****** ****** *)
 

@@ -63,12 +63,16 @@ staload "pats_dynexp3.sats"
 (* ****** ****** *)
 
 staload "pats_trans3.sats"
+staload "pats_trans3_env.sats"
 
 (* ****** ****** *)
 
 #define l2l list_of_list_vt
 
 (* ****** ****** *)
+
+extern
+fun i2mpdec_tr (d2c: i2mpdec): i3mpdec
 
 extern
 fun f2undec_tr (d2c: f2undec): d3exp
@@ -112,6 +116,13 @@ case+ d2c0.d2ecl_node of
 //
 | D2Cdatdec (knd, s2cs) => d3ecl_datdec (loc0, knd, s2cs)
 | D2Cdcstdec (knd, d2cs) => d3ecl_dcstdec (loc0, knd, d2cs)
+//
+| D2Cimpdec (d2c) => let
+  //
+  // HX: should combined imps be supported?
+  //
+    val d3c = i2mpdec_tr (d2c) in d3ecl_impdec (loc0, d3c)
+  end // end of [D2Cimpdec]
 //
 | D2Cfundecs
     (knd, s2qs, d2cs) => let
@@ -172,6 +183,32 @@ d2eclist_tr_errck
 (* ****** ****** *)
 
 implement
+i2mpdec_tr (impdec) = let
+  val loc0 = impdec.i2mpdec_loc
+  val locid = impdec.i2mpdec_locid
+  val d2c = impdec.i2mpdec_cst
+  val imparg = impdec.i2mpdec_imparg
+  val tmparg = impdec.i2mpdec_tmparg
+  val tmpgua = impdec.i2mpdec_tmpgua
+(*
+  val () = begin
+    print "d2ec_tr: D2Cimpdec: impdec = "; print_d2ecl (impdec); print_newline ()
+  end // end of [val]
+*)
+  val (pfpush | ()) = trans3_env_push ()
+  val () = trans3_env_add_svarlst (imparg)
+(*
+  val () = trans3_env_add_proplstlst (locid, tmpgua)
+*)
+  val d3e_def = d2exp_trup (impdec.i2mpdec_def)
+  val () = trans3_env_pop_and_add_main (pfpush | loc0)
+in
+  i3mpdec_make (loc0, d2c, imparg, tmparg, d3e_def)
+end // end of [i2mpdec_tr]
+
+(* ****** ****** *)
+
+implement
 f2undec_tr (d2c0) = let
   val d2v_loc = d2c0.f2undec_loc
   val d2v_fun = d2c0.f2undec_var
@@ -198,6 +235,62 @@ in
   d3e_def
 end // end of [f2undec_tr]
 
+local
+
+fun d2exp_metfun_load (
+  d2e0: d2exp, d2vs_fun: SHARED(d2varlst)
+) : void = aux (d2e0) where {
+  fun aux (
+    d2e0: d2exp
+  ) :<cloref1> void =
+    case+ d2e0.d2exp_node of
+    | D2Elam_dyn (_, _, _, d2e) => aux (d2e)
+    | D2Elam_met (ref, _, _) => !ref := d2vs_fun
+    | D2Elam_sta (_, _, d2e) => aux (d2e)
+    | _ => ()
+  // end of [aux]
+} // end of [d2exp_metfn_load]
+
+fun termet_sortcheck (
+  os2ts0: &s2rtlstopt, os2ts: s2rtlstopt
+) : bool = let
+  fun aux (
+    s2ts0: s2rtlst, s2ts: s2rtlst, sgn: &int(0) >> int
+  ) : bool =
+    case+ s2ts0 of
+    | list_cons (s2t0, s2ts0) => (
+      case+ s2ts of
+      | list_cons (s2t, s2ts) =>
+          if s2rt_ltmat1 (s2t, s2t0) then aux (s2ts0, s2ts, sgn) else false
+      | list_nil () => (sgn := 1; true)
+      ) // end of [list_cons]
+    | list_nil () => (
+      case+ s2ts of
+      | list_cons _ => (sgn := ~1; true) | list_nil () => true
+      ) // end of [list_nil]
+  // end of [aux]
+in
+//
+case+ os2ts0 of
+| Some s2ts0 => (
+  case+ os2ts of
+  | Some s2ts => let
+      var sgn: int = 0
+      val test = aux (s2ts0, s2ts, sgn)
+      val () = if test then (
+        if sgn < 0 then (os2ts0 := os2ts)
+      ) // end of [val]
+    in
+      test
+    end // end of [Some]
+  | None () => true
+  ) // end of [Some]
+| None () => (os2ts0 := os2ts; true)
+//
+end // end of [termet_sortcheck]
+
+in // in of [local]
+
 implement
 f2undeclst_tr
   (knd, decarg, d2cs) = let
@@ -205,7 +298,9 @@ f2undeclst_tr
 val isrec = funkind_is_recursive (knd)
 //
 fun aux_ini (
-  d2cs: f2undeclst, d2vs_fun: d2varlst
+  d2cs: f2undeclst
+, d2vs_fun: SHARED(d2varlst)
+, os2ts0: &s2rtlstopt
 ) : void = let
 in
 //
@@ -214,30 +309,48 @@ case+ d2cs of
     (d2c, d2cs) => let
     val d2v_fun = d2c.f2undec_var
     val d2e_def = d2c.f2undec_def
-(*
-    val () = d2exp_metfn_load (d2e_def, d2vs_fun)
-*)
-    val s2e_fun = (case+ d2c.f2undec_ann of
+    val () = d2exp_metfun_load (d2e_def, d2vs_fun)
+    var s2e_fun: s2exp = (
+      case+ d2c.f2undec_ann of
       | Some s2e_ann => s2e_ann | None () => d2exp_syn_type (d2e_def)
-    ) : s2exp // end of [val]
+    ) // end of [val]
+    var os2ts: s2rtlstopt = None ()
+    val opt = s2exp_metfun_load (s2e_fun, d2v_fun)
+    val () = (
+      case+ opt of
+      | ~Some_vt (x) => (s2e_fun := x.0; os2ts := Some (x.1))
+      | ~None_vt () => ()
+    ) : void // end of [val]
 // (*
     val () = (
       print "f2undeclst_tr: aux_ini: d2v_fun = "; print_d2var (d2v_fun); print_newline ();
       print "f2undeclst_tr: aux_ini: s2e_fun = "; print_s2exp (s2e_fun); print_newline ();
     ) // end of [val]
 // *)
+    val () = let
+      val test = termet_sortcheck (os2ts0, os2ts)
+      val () = if ~test then let
+        val () = prerr_error3_loc (d2c.f2undec_loc);
+        val () = prerr ": incompatible termination metric for this function."
+        val () = prerr_newline ()
+      in
+        the_trans3errlst_add (T3E_f2undeclst_tr_termetsrtck (d2c, os2ts))
+      end // end of [val]
+    in
+      (*nothing*)
+    end // end of [val]
     val opt = Some (s2e_fun)
     val () = d2var_set_type (d2v_fun, opt)
     val () = d2var_set_mastype (d2v_fun, opt)
   in
-    aux_ini (d2cs, d2vs_fun)
+    aux_ini (d2cs, d2vs_fun, os2ts0)
   end // end of [list_cons]
 | list_nil () => ()
 //
 end // end of [aux_ini]
 //
 fn aux_fin {n:nat} (
-  d2cs: list (f2undec, n), d3es: list (d3exp, n)
+  d2cs: list (f2undec, n), d3es: !list_vt (d3exp, n)
 ) : f3undeclst = let
   fn f (
     d2c: f2undec, d3e: d3exp
@@ -255,29 +368,34 @@ fn aux_fin {n:nat} (
   in
     f3undec_make (d2c.f2undec_loc, d2v_fun, d3e)
   end // end of [f]
-  val d3cs = list_map2_fun (d2cs, d3es, f)
+  typedef d3es = list (d3exp, n)
+  val d3cs = list_map2_fun (d2cs, $UN.castvwtp1{d3es} (d3es), f)
 in
   (l2l)d3cs
 end // end of [aux_fin]
 //
 val () = if isrec then let
   typedef a = f2undec and b = d2var
-  val d2vs_fun =
+  val d2vs_fun = l2l (
     list_map_fun<a><b> (d2cs, lam (d2c) =<1> d2c.f2undec_var)
-  // end of [val]
-  val () = aux_ini (d2cs, $UN.castvwtp1 {d2varlst} (d2vs_fun))
-  val () = list_vt_free (d2vs_fun)
+  ) // end of [val]
+  var os2ts0: s2rtlstopt = None ()
+  val () = aux_ini (d2cs, d2vs_fun, os2ts0)
 in
   // nothing
 end // end of [val]
 //
-val d3es = list_map_fun (d2cs, f2undec_tr)
-val d3cs = aux_fin (d2cs, $UN.castvwtp1 (d3es))
+val d3es =
+  list_map_fun (d2cs, f2undec_tr)
+// end of [val]
+val d3cs = aux_fin (d2cs, d3es(*list_vt*))
 val () = list_vt_free (d3es)
 //
 in
   d3cs
 end // end of [f2undeclst_tr]
+
+end // end of [local]
 
 (* ****** ****** *)
 
