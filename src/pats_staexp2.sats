@@ -322,7 +322,9 @@ s2exp_node =
 //
   | S2Eint of int // integer
   | S2Eintinf of intinf // integer of flexible precision
+(*
   | S2Echar of char // character
+*)
 //
   | S2Ecst of s2cst // constant
 //
@@ -777,10 +779,12 @@ fun prerr_d2conlst (xs: d2conlst): void
 //
 fun s2exp_int (i: int): s2exp
 fun s2exp_intinf (i: intinf): s2exp
+fun s2exp_int_char (c: char): s2exp
+fun s2exp_int_uchar (c: uchar): s2exp
 (*
 fun s2exp_bool (b: bool): s2exp // HX: in stacst.sats
+fun s2exp_char (c: char): s2exp // HX: merged into S2Eint
 *)
-fun s2exp_char (c: char): s2exp
 fun s2exp_cst (x: s2cst): s2exp // HX: static constant
 fun s2exp_var (x: s2var): s2exp // HX: static variable
 fun s2exp_Var (x: s2Var): s2exp // HX: static existential variable

@@ -204,6 +204,10 @@ and d3exp_node =
   | D3Eif of (
       d3exp(*cond*), d3exp(*then*), d3expopt(*else*)
     ) // end of [D3Eif]
+  | D3Esif of (
+      s2exp(*cond*), d3exp(*then*), d3exp(*else*)
+    ) // end of [D3Esif]
+//
   | D3Ecase of (
       caskind, d3explst(*values*), c3laulst(*clauses*)
     ) // end of [D3Ecase]
@@ -456,6 +460,14 @@ fun d3exp_if (
 , s2e_if: s2exp
 , _cond: d3exp, _then: d3exp, _else: d3expopt
 ) : d3exp // end of [d3exp_if]
+
+fun d3exp_sif (
+  loc: location
+, s2e_sif: s2exp
+, _cond: s2exp, _then: d3exp, _else: d3exp
+) : d3exp // end of [d3exp_sif]
+
+(* ****** ****** *)
 
 fun d3exp_case (
   loc: location

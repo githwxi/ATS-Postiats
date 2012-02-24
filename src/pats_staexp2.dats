@@ -124,11 +124,10 @@ implement
 s2exp_intinf (i) = hnf '{
   s2exp_srt= s2rt_int, s2exp_node= S2Eintinf (i)
 } // end of [s2exp_intinf]
-
 implement
-s2exp_char (c) = hnf '{
-  s2exp_srt= s2rt_char, s2exp_node= S2Echar (c)
-} // end of [s2exp_char]
+s2exp_int_char (c) = s2exp_int (int_of_char(c))
+implement
+s2exp_int_uchar (c) = s2exp_int (int_of_uchar(c))
 
 implement
 s2exp_cst (s2c) = let

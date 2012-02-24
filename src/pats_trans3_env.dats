@@ -1207,7 +1207,7 @@ case+ p2tc of
     un_s2exp_char_index_t0ype (s2f)
   of // of [case]
   | ~Some_vt (s2e_arg) =>
-      $SOL.s2exp_hypequal_solve (loc0, s2e_arg, s2exp_char (c))
+      $SOL.s2exp_hypequal_solve (loc0, s2e_arg, s2exp_int_char (c))
     // end of [Some_vt]
   | ~None_vt () => ()
   ) // end of [P2TCchar]
@@ -1577,19 +1577,19 @@ val () =
 val () =
   s2cst_add_sup (s2c1, s2c0) where {
   val s2c0 = s2cstref_get_cst (the_char_t0ype)
-  val s2c1 = s2cstref_get_cst (the_char_char_t0ype)
+  val s2c1 = s2cstref_get_cst (the_char_int_t0ype)
 } // end of [val]
 //
 val () =
   s2cst_add_sup (s2c1, s2c0) where {
   val s2c0 = s2cstref_get_cst (the_schar_t0ype)
-  val s2c1 = s2cstref_get_cst (the_schar_char_t0ype)
+  val s2c1 = s2cstref_get_cst (the_schar_int_t0ype)
 } // end of [val]
 //
 val () =
   s2cst_add_sup (s2c1, s2c0) where {
   val s2c0 = s2cstref_get_cst (the_uchar_t0ype)
-  val s2c1 = s2cstref_get_cst (the_uchar_char_t0ype)
+  val s2c1 = s2cstref_get_cst (the_uchar_int_t0ype)
 } // end of [val]
 //
 val () =

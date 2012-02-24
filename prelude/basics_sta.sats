@@ -59,29 +59,35 @@ stadef byte = byte_t0ype
 
 (* ****** ****** *)
 //
-// no commitment to signed or unsigned
+// char is signed
 //
+sortdef int8 = {
+  i:int | ~128 <= i; i < 128
+} // end of [int8]
+sortdef uint8 =
+  {i:int | 0 <= i; i < 256}
+// end of [uint8]
 abst@ype char_t0ype = $extype"atstype_char"
-abst@ype char_char_t0ype (c:char) = char_t0ype
+abst@ype char_int_t0ype (c:int) = char_t0ype
 stadef char = char_t0ype
-stadef char = char_char_t0ype
-typedef Char = [c:char] char (c)
+stadef char = char_int_t0ype
+typedef Char = [c:int8] char (c)
 //
 // signed characters
 //
 abst@ype schar_t0ype = $extype"atstype_schar"
-abst@ype schar_char_t0ype (c:char) = schar_t0ype
+abst@ype schar_int_t0ype (c:int) = schar_t0ype
 stadef schar = schar_t0ype
-stadef schar = schar_char_t0ype
-typedef sChar = [c:char] schar (c)
+stadef schar = schar_int_t0ype
+typedef sChar = [c:int8] schar (c)
 //
 // unsigned characters
 //
 abst@ype uchar_t0ype = $extype"atstype_uchar"
-abst@ype uchar_char_t0ype (c:char) = uchar_t0ype
+abst@ype uchar_int_t0ype (c:int) = uchar_t0ype
 stadef uchar = uchar_t0ype
-stadef uchar = uchar_char_t0ype
-typedef uChar = [c:char] uchar (c)
+stadef uchar = uchar_int_t0ype
+typedef uChar = [c:uint8] uchar (c)
 //
 (* ****** ****** *)
 

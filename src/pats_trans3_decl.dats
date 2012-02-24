@@ -144,6 +144,10 @@ case+ d2c0.d2ecl_node of
     d3ecl_valdecs_rec (loc0, knd, d3cs)
   end // end of [D2Cvaldecs_rec]
 //
+| D2Cinclude d2cs => (
+    d3ecl_list (loc0, d2eclist_tr d2cs)
+  ) // end of [D2Cinclude]
+//
 | _ => let
     val () = (
       print_location loc0; print_newline ()

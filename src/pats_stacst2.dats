@@ -251,21 +251,16 @@ the_idivrel_int_int_int = s2cstref_make "idivrel_int_int_int"
 (* ****** ****** *)
 
 implement
-the_int_of_bool = s2cstref_make "int_of_bool"
+the_ifint_bool_int_int =
+  s2cstref_make "ifint_bool_int_int"
 implement
-the_b2irel_bool_int = s2cstref_make "b2irel_bool_int"
+the_ifintrel_bool_int_int_int =
+  s2cstref_make "ifintrel_bool_int_int_int"
 //
 implement
 the_int_of_char = s2cstref_make "int_of_char"
 implement
 the_char_of_int = s2cstref_make "char_of_int"
-implement
-the_uint_of_char = s2cstref_make "uint_of_char"
-implement
-the_char_of_uint = s2cstref_make "char_of_uint"
-//
-implement
-the_c2irel_char_int = s2cstref_make "c2irel_char_int"
 //
 implement
 the_int_of_addr = s2cstref_make "int_of_addr"
@@ -659,7 +654,7 @@ end // end of [s2exp_uint_index_t0ype]
 implement
 the_char_t0ype = s2cstref_make "char_t0ype"
 implement
-the_char_char_t0ype = s2cstref_make "char_char_t0ype"
+the_char_int_t0ype = s2cstref_make "char_int_t0ype"
 
 implement
 s2exp_char_t0ype () =
@@ -667,18 +662,18 @@ s2exp_char_t0ype () =
 // end of [s2exp_char_t0ype]
 
 implement
-s2exp_char_char_t0ype (c) = let
-  val s2c = s2cstref_get_cst (the_char_char_t0ype)
-  val ind = s2exp_char (c)
+s2exp_char_int_t0ype (c) = let
+  val s2c = s2cstref_get_cst (the_char_int_t0ype)
+  val ind = s2exp_int (c)
 in
   s2exp_cstapp (s2c, list_sing (ind))
-end // end of [s2exp_char_char_t0ype]
+end // end of [s2exp_char_int_t0ype]
 
 (* ****** ****** *)
 
 implement
 s2exp_char_index_t0ype (ind) = let
-  val s2c = s2cstref_get_cst (the_char_char_t0ype)
+  val s2c = s2cstref_get_cst (the_char_int_t0ype)
 in
   s2exp_cstapp (s2c, list_sing (ind))
 end // end of [s2exp_char_index_t0ype]
@@ -691,7 +686,7 @@ in
 case+ s2e.s2exp_node of
 | S2Eapp (s2e_fun, s2es_arg) 
     when s2cstref_equ_exp (
-    the_char_char_t0ype, s2e_fun
+    the_char_int_t0ype, s2e_fun
   ) => let
     val- list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
   end // end of [S2Eapp when ...]
@@ -704,7 +699,7 @@ end // end of [un_s2exp_char_index_t0ype]
 implement
 the_schar_t0ype = s2cstref_make "schar_t0ype"
 implement
-the_schar_char_t0ype = s2cstref_make "schar_char_t0ype"
+the_schar_int_t0ype = s2cstref_make "schar_int_t0ype"
 
 implement
 s2exp_schar_t0ype () =
@@ -712,17 +707,17 @@ s2exp_schar_t0ype () =
 // end of [s2exp_schar_t0ype]
 
 implement
-s2exp_schar_char_t0ype (c) = let
-  val s2c = s2cstref_get_cst (the_schar_char_t0ype)
-  val ind = s2exp_char (c)
+s2exp_schar_int_t0ype (c) = let
+  val s2c = s2cstref_get_cst (the_schar_int_t0ype)
+  val ind = s2exp_int (c)
 in
   s2exp_cstapp (s2c, list_sing (ind))
-end // end of [s2exp_schar_char_t0ype]
+end // end of [s2exp_schar_int_t0ype]
 
 implement
 the_uchar_t0ype = s2cstref_make "uchar_t0ype"
 implement
-the_uchar_char_t0ype = s2cstref_make "uchar_char_t0ype"
+the_uchar_int_t0ype = s2cstref_make "uchar_int_t0ype"
 
 implement
 s2exp_uchar_t0ype () =
@@ -730,12 +725,12 @@ s2exp_uchar_t0ype () =
 // end of [s2exp_uchar_t0ype]
 
 implement
-s2exp_uchar_char_t0ype (c) = let
-  val s2c = s2cstref_get_cst (the_uchar_char_t0ype)
-  val ind = s2exp_char (c)
+s2exp_uchar_int_t0ype (c) = let
+  val s2c = s2cstref_get_cst (the_uchar_int_t0ype)
+  val ind = s2exp_int (c)
 in
   s2exp_cstapp (s2c, list_sing (ind))
-end // end of [s2exp_uchar_char_t0ype]
+end // end of [s2exp_uchar_int_t0ype]
 
 (* ****** ****** *)
 

@@ -113,7 +113,8 @@ implement
 d2exp_trup_char
   (d2e0, c) = let
   val loc0 = d2e0.d2exp_loc
-  val s2f = s2exp_char_char_t0ype (c) in d3exp_char (loc0, s2f, c)
+  val i = int_of_char (c)
+  val s2f = s2exp_char_int_t0ype (i) in d3exp_char (loc0, s2f, c)
 end // end of [d2exp_trup_char]
 
 (* ****** ****** *)

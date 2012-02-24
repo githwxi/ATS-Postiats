@@ -164,36 +164,51 @@ stadef divmodrel = divmodrel_int_int_int_int
 //
 (* ****** ****** *)
 
-stacst int_of_bool : bool -> int
-stadef bool_of_int (i: int) = i != 0
-stadef b2i = int_of_bool and i2b = bool_of_int
-stadef b2irel_bool_int
-  (b: bool, i: int): bool = (b && i==1) || (~b && i==0)
-stadef b2irel = b2irel_bool_int
+stacst
+ifint_bool_int_int
+  : (bool, int, int) -> int
+stadef ifint = ifint_bool_int_int
+stadef
+ifintrel_bool_int_int_int
+  (b:bool, x:int, y:int, r:int): bool =
+  (b && r==x) || (~b && r==y)
+// end of [ifintrel]
 
+(* ****** ****** *)
+
+stadef
+int_of_bool (b: bool): int = ifint (b, 1, 0)
+stadef bool_of_int (i: int): bool = (i != 0)
+stadef b2i = int_of_bool and i2b = bool_of_int
+
+(*
+** HX: char is treated as int8
+*)
 stacst int_of_char: char -> int
 stadef c2i = int_of_char
 stacst char_of_int : int -> char
 stadef i2c = char_of_int
 
-stacst uint_of_char : char -> int
-stadef c2u = uint_of_char
-stacst char_of_uint : int -> char
-stadef u2c = char_of_uint
-
-stadef
-c2irel_char_int (c: char, i: int): bool =
-  (c2u(c) < 128 && i==c2u(c)) || (c2u(c) >= 128 && i+256==c2u(c))
-stadef c2irel = c2irel_char_int
-stadef
-i2crel_int_char (i: int, c: char): bool = // it is the inverse
-  (i >= 0 && i==c2u(c)) || (i < 0 && i+256==c2u(c)) // of [c2irel]
-stadef i2crel = i2crel_int_char
-
 stacst int_of_addr : char -> int
 stacst addr_of_int : int -> addr
 stadef a2i = int_of_addr
 stadef i2a = addr_of_int
+
+(* ****** ****** *)
+
+stadef pow2_7 = 128
+stadef pow2_8 = 256
+stadef i2u_int8 (i:int) = ifint (i >= 0, i, i+pow2_8)
+stadef i2u8 = i2u_int8
+stadef u2i_int8 (u:int) = ifint (u < pow2_7, u, u-pow2_8)
+stadef u2i8 = u2i_int8
+//
+stadef pow2_15 = 32768
+stadef pow2_16 = 65536
+stadef i2u_int16 (i:int) = ifint (i >= 0, i, i+pow2_16)
+stadef i2u8 = i2u_int16
+stadef u2i_int16 (u:int) = ifint (u < pow2_15, u, u-pow2_16)
+stadef u2i8 = u2i_int16
 
 (* ****** ****** *)
 

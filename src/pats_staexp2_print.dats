@@ -239,11 +239,6 @@ case+ x.s2exp_node of
     val () = fprint_intinf (out, x)
     val () = prstr ")"
   }
-| S2Echar (x) => {
-    val () = prstr "S2Echar("
-    val () = fprint_char (out, x)
-    val () = prstr ")"
-  }
 //
 | S2Ecst (s2c) => {
     val () = prstr "S2Ecst("

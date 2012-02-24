@@ -87,24 +87,21 @@ val the_minrel_int_int_int : s2cstref // : (int, int, int) -> bool
 val the_ndivrel_int_int_int : s2cstref // : (int, int, int) -> bool
 val the_idivrel_int_int_int : s2cstref // : (int, int, int) -> bool
 //
-val the_int_of_bool : s2cstref // : (bool) -> int
-val the_b2irel_bool_int : s2cstref // : (bool, int) -> bool
+val the_ifint_bool_int_int : s2cstref // : (bool, int, int) -> int
+val the_ifintrel_bool_int_int_int : s2cstref // : (bool, int, int, int) -> bool
+//
 (*
+val the_int_of_bool : s2cstref // : (bool) -> int
 val the_bool_of_int : s2cstref // : (int) -> bool
 *)
-val the_int_of_char : s2cstref // : (char) -> int
-val the_c2irel_char_int : s2cstref // : (char, int) -> bool
 (*
-//
-// HX: bool_of_int (i) = (i != 0)
-//
-and the_bool_of_int : s2cstref // : (int) -> bool
+** HX: char is treated as int8
 *)
 val the_int_of_char : s2cstref // : (char) -> int
 and the_char_of_int : s2cstref // : (int) -> char
-val the_uint_of_char : s2cstref // : (char) -> int
-val the_char_of_uint : s2cstref // : (char) -> int
-
+(*
+** HX: addr is treated as (signed) int
+*)
 val the_int_of_addr : s2cstref // : (addr) -> int
 and the_addr_of_int : s2cstref // : (int) -> addr
 //
@@ -134,11 +131,11 @@ val the_g0uint_t0ype : s2cstref
 val the_g1uint_int_t0ype : s2cstref
 //
 val the_char_t0ype : s2cstref
-val the_char_char_t0ype : s2cstref
+val the_char_int_t0ype : s2cstref
 val the_schar_t0ype : s2cstref
-val the_schar_char_t0ype : s2cstref
+val the_schar_int_t0ype : s2cstref
 val the_uchar_t0ype : s2cstref
-val the_uchar_char_t0ype : s2cstref
+val the_uchar_int_t0ype : s2cstref
 //
 val the_string_type : s2cstref
 val the_string_int_type : s2cstref
@@ -230,16 +227,16 @@ fun s2exp_uint_index_t0ype (ind: s2exp): s2exp
 (* ****** ****** *)
 //
 fun s2exp_char_t0ype (): s2exp // char0
-fun s2exp_char_char_t0ype (c: char): s2exp // char1(c)
+fun s2exp_char_int_t0ype (c: int): s2exp // char1(c)
 fun s2exp_char_index_t0ype (ind: s2exp): s2exp // char1(ind)
 //
 fun un_s2exp_char_index_t0ype (s2f: s2hnf): Option_vt (s2exp)
 //
 fun s2exp_schar_t0ype (): s2exp // schar0
-fun s2exp_schar_char_t0ype (c: char): s2exp // schar1(c)
+fun s2exp_schar_int_t0ype (c: int): s2exp // schar1(c)
 //
 fun s2exp_uchar_t0ype (): s2exp // schar0
-fun s2exp_uchar_char_t0ype (c: char): s2exp // uchar1(c)
+fun s2exp_uchar_int_t0ype (c: int): s2exp // uchar1(c)
 //
 (* ****** ****** *)
 //

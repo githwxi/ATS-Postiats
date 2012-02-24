@@ -597,7 +597,6 @@ case+ s2e0.s2exp_node of
 //
 | S2Eint _ => s2e0
 | S2Eintinf _ => s2e0
-| S2Echar _ => s2e0
 //
 | S2Ecst _ => s2e0
 //
@@ -953,7 +952,6 @@ case+ s2e0.s2exp_node of
 //
 | S2Eint _ => ()
 | S2Eintinf _ => ()
-| S2Echar _ => ()
 //
 | S2Ecst _ => ()
 //

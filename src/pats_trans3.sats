@@ -216,6 +216,8 @@ fun d2explst_trdn_elt (d2es: d2explst, s2e: s2exp): d3explst
 fun d2exp_trdn_rest (d2e: d2exp, s2f: s2hnf): d3exp
 fun d2exp_trdn_ifhead (d2e: d2exp, s2f: s2hnf): d3exp
 fun d2exp_trdn_casehead (d2e: d2exp, s2f: s2hnf): d3exp
+fun d2exp_trdn_sifhead (d2e: d2exp, s2f: s2hnf): d3exp
+fun d2exp_trdn_scasehead (d2e: d2exp, s2f: s2hnf): d3exp
 fun d2exp_trdn_lam_dyn (d2e: d2exp, s2f: s2hnf): d3exp
 
 (* ****** ****** *)

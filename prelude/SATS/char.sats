@@ -88,24 +88,26 @@ fun tostring_char
 overload tostring with tostring_char
 
 (* ****** ****** *)
-
+//
 castfn
-char1_of_schar1 {c:char} (c: schar (c)):<> char (c)
+char1_of_schar1 {c:int} (c: schar (c)):<> char (c)
 castfn
-char1_of_uchar1 {c:char} (c: uchar (c)):<> char (c)
-
+schar1_of_char1 {c:int} (c: char (c)):<> schar (c)
+//
 castfn
-schar1_of_char1 {c:char} (c: char (c)):<> schar (c)
+char1_of_uchar1 {c:int} (c: uchar (c)):<> char (u2i8(c))
 castfn
-uchar1_of_char1 {c:char} (c: char (c)):<> uchar (c)
+uchar1_of_char1 {c:int} (c: char (c)):<> uchar (i2u8(c))
+//
+(* ****** ****** *)
 
 fun{knd:t@ype}
 g1int_of_schar1
-  {c:char} (c: schar (c)):<> g1int (knd, c2i(c))
+  {c:int} (c: schar (c)):<> g1int (knd, c)
 // end of [g1int_of_schar1]
 fun{knd:t@ype}
 g1int_of_uchar1
-  {c:char} (c: uchar (c)):<> g1int (knd, c2u(c))
+  {c:int} (c: uchar (c)):<> g1int (knd, u2i8(c))
 // end of [g1int_of_uchar1]
 
 (*
@@ -113,7 +115,7 @@ g1int_of_uchar1
 *)
 fun{knd:t@ype}
 g1uint_of_uchar1
-  {c:char} (c: uchar (c)):<> g1uint (knd, c2u(c))
+  {c:int} (c: uchar (c)):<> g1uint (knd, c)
 // end of [g1uint_of_uchar1]
 
 (* ****** ****** *)

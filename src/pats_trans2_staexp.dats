@@ -1387,7 +1387,7 @@ case+ s1e0.s1exp_node of
     val i = $INTINF.intinf_make_string (rep) in s2exp_intinf (i)
   end // end of [S1Eintrep]
 //
-| S1Echar (char) => s2exp_char (char)
+| S1Echar (char) => s2exp_int_char (char) // HX: it is signed!
 //
 | S1Eextype (name, s1ess) => let
     val s2ess = list_map_fun (s1ess, s1explst_trdn_viewt0ype)

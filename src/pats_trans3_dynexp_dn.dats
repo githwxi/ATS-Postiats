@@ -120,12 +120,18 @@ d2exp_trdn (d2e0, s2e0) = let
 in
 //
 case+ d2e0.d2exp_node of
+//
 | D2Eifhead _ =>
     d2exp_trdn_ifhead (d2e0, s2f0)
   // end of [D2Eifhead]
+| D2Esifhead _ =>
+    d2exp_trdn_sifhead (d2e0, s2f0)
+  // end of [D2Esifhead]
+//
 | D2Ecasehead _ =>
     d2exp_trdn_casehead (d2e0, s2f0)
   // end of [D2Eifhead]
+//
 | D2Elam_dyn _ =>
     d2exp_trdn_lam_dyn (d2e0, s2f0)
   // end of [D2Elam_dyn]
@@ -326,14 +332,45 @@ case+ od2e_else of
 //
 val () = option_vt_free (os2p_cond)
 //
-(*
-val res = i2nvresstate_update (res)
-val sbis = the_d2varset_env_stbefitemlst_save ()
-val sac = staftscstr_initialize (res, sbis)
-*)
 in
   d3exp_if (loc0, s2e_if, d3e_cond, d3e_then, od3e_else)
 end // end of [d2exp_trdn_ifhead]
+
+(* ****** ****** *)
+
+implement
+d2exp_trdn_sifhead
+  (d2e0, s2f_sif) = let
+//
+val loc0 = d2e0.d2exp_loc
+val- D2Esifhead
+  (inv, s2p_cond, d2e_then, d2e_else) = d2e0.d2exp_node
+// end of [val]
+//
+val s2e_sif = s2hnf2exp (s2f_sif)
+val d3e_then = let
+  val loc_then = d2e_then.d2exp_loc
+  val (pfpush | ()) = trans3_env_push ()
+  val () = trans3_env_hypadd_prop (loc0, s2p_cond)
+  val d3e_then = d2exp_trdn (d2e_then, s2e_sif)
+  val () = trans3_env_pop_and_add_main (pfpush | loc_then)
+in
+  d3e_then
+end // end of [val]
+//
+val d3e_else = let
+  val loc_else = d2e_then.d2exp_loc
+  val (pfpush | ()) = trans3_env_push ()
+  val () = trans3_env_hypadd_prop (loc0, s2p_cond)
+  val d3e_else = d2exp_trdn (d2e_else, s2e_sif)
+  val () = trans3_env_pop_and_add_main (pfpush | loc_else)
+in
+  d3e_else
+end // end of [val]
+//
+in
+  d3exp_sif (loc0, s2e_sif, s2p_cond, d3e_then, d3e_else)
+end // end of [d2exp_trdn_sifhead]
 
 (* ****** ****** *)
 

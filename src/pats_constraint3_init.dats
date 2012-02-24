@@ -273,23 +273,14 @@ in
   s3exp_var (s2v)
 end // end of [f_min_int_int]
 //
-fun f_int_of_bool (
+fun f_ifint_bool_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
-  val s2c = s2cstref_get_cst (the_b2irel_bool_int)
+  val s2c = s2cstref_get_cst (the_ifintrel_bool_int_int_int)
   val s2v = s2vbcfenv_replace (env, s2rt_int, s2c, s2es)
 in
   s3exp_var (s2v)
-end // end of [f_int_of_bool]
-//
-fun f_int_of_char (
-  env: &s2vbcfenv, s2es: s2explst
-) : s3exp = let
-  val s2c = s2cstref_get_cst (the_c2irel_char_int)
-  val s2v = s2vbcfenv_replace (env, s2rt_int, s2c, s2es)
-in
-  s3exp_var (s2v)
-end // end of [f_int_of_char]
+end // end of [f_ifint_bool_int_int]
 //
 // HX: functions on static addresses
 //
@@ -407,16 +398,14 @@ val () = ins (map, the_sgn_int, f_sgn_int)
 val () = ins (map, the_max_int_int, f_max_int_int)
 val () = ins (map, the_min_int_int, f_min_int_int)
 //
-val () = ins (map, the_int_of_bool, f_int_of_bool)
+val () = ins (map, the_ifint_bool_int_int, f_ifint_bool_int_int)
+//
 (*
+val () = ins (map, the_int_of_bool, f_int_of_bool)
 val () = ins (map, the_bool_of_int, f_bool_of_int)
 *)
-val () = ins (map, the_int_of_char, f_int_of_char)
-(*
-val () = ins (map, the_char_of_int, f_char_of_int)
-*)
-val () = ins (map, the_uint_of_char, f_identity)
-val () = ins (map, the_char_of_uint, f_identity)
+val () = ins (map, the_int_of_char, f_identity)
+val () = ins (map, the_char_of_int, f_identity)
 val () = ins (map, the_int_of_addr, f_identity)
 val () = ins (map, the_addr_of_int, f_identity)
 //

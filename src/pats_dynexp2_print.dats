@@ -819,6 +819,28 @@ case+ x.d2ecl_node of
     val () = prstr "\n)"
   } // end of [D2Cvardecs]
 //
+| D2Cinclude (d2cs) => {
+    val () = prstr "D2Cinclude(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  } // end of [D2Cinclude]    
+| D2Cstaload _ => {
+    val () = prstr "D2Cstaload(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  } // end of [D2Cstaload]    
+| D2Cdynload _ => {
+    val () = prstr "D2Cdynload(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  } // end of [D2Cdynload]    
+//
+| D2Clocal _ => {
+    val () = prstr "D2Clocal(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  } // end of [D2Clocal]    
+//
 | _ => prstr "D2C...(...)"
 //
 end // end of [fprint_d2ecl]

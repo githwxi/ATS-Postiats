@@ -412,6 +412,17 @@ d3exp_if (
 } // end of [d3exp_if]
 
 implement
+d3exp_sif (
+  loc, s2e_sif, _cond, _then, _else
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2e_sif
+, d3exp_node= D3Esif (_cond, _then, _else)
+} // end of [d3exp_sif]
+
+(* ****** ****** *)
+
+implement
 d3exp_case (
   loc, s2e_case, casknd, d3es, c3ls
 ) = let

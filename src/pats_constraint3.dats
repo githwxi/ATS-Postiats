@@ -401,9 +401,6 @@ case+ s2e0.s2exp_node of
 //
 | S2Eint i => s3exp_int (i)
 | S2Eintinf (int) => s3exp_intinf (int)
-| S2Echar c => let
-    val i = int_of_uint (uint_of_char (c)) in s3exp_int (i)
-  end // end of [S2Echar]
 //
 | S2Ecst s2c => (case+ s2c of
   | _ when

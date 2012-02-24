@@ -591,7 +591,7 @@ p2at_trdn_char
 //
 val loc0 = p2t0.p2at_loc
 val- P2Tchar (c) = p2t0.p2at_node
-val s2e_ind = s2exp_char (c)
+val s2e_ind = s2exp_int_char (c)
 val s2f_ind = s2exp2hnf_cast (s2e_ind)
 val s2e_pat = s2exp_char_index_t0ype (s2e_ind)
 val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
@@ -602,7 +602,7 @@ in
 case+ s2e.s2exp_node of
 | S2Eapp (s2e_fun, s2es_arg)
     when s2cstref_equ_exp (
-    the_char_char_t0ype, s2e_fun
+    the_char_int_t0ype, s2e_fun
   ) => let
     val- list_cons (s2e_arg, _) = s2es_arg
     val s2f_arg = s2exp2hnf (s2e_arg)

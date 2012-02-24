@@ -181,7 +181,6 @@ case+ s2e0.s2exp_node of
 //
 | S2Eint _ => s2e0
 | S2Eintinf _ => s2e0
-| S2Echar _ => s2e0
 //
 | S2Ecst _ => s2e0
 //
@@ -480,12 +479,6 @@ case s2en10 of
       if eq_intinf_intinf (i1, i2) then () else $raise (SYNEQexn)
   | _ => $raise (SYNEQexn)
   ) // end of [S2Eintinf]
-| S2Echar c1 => (
-  case+ s2en20 of
-  | S2Echar c2 =>
-      if eq_char_char (c1, c2) then () else $raise (SYNEQexn)
-  | _ => $raise (SYNEQexn)
-  ) // end of [S2Echar]
 //
 | S2Ecst s2c1 => (
   case+ s2en20 of
