@@ -87,6 +87,44 @@ xs:t@ype}{x:t@ype
 (* ****** ****** *)
 
 fun{
+xs:t@ype // container
+}{
+x:t@ype // type for elements
+} iforeach_funenv
+  {v:view}{vt:viewtype}{fe:eff} (
+  pfv: !v | xs: xs, f: (!v | int, x, !vt) -<fun,fe> void, env: !vt
+) :<fe> uint // end of [iforeach_funenv]
+
+fun{
+xs:t@ype}{x:t@ype
+} iforeach_clo {fe:eff}
+  (xs: xs, f: &(int, x) -<clo,fe> void):<fe> uint
+// end of [iforeach_clo]
+fun{
+xs:t@ype}{x:t@ype
+} iforeach_vclo {v:view} {fe:eff}
+  (pfv: !v | xs: xs, f: &(!v | int, x) -<clo,fe> void):<fe> uint
+// end of [iforeach_vclo]
+
+fun{
+xs:t@ype}{x:t@ype
+} iforeach_cloptr {fe:eff}
+  (xs: xs, f: !(int, x) -<cloptr,fe> void):<fe> uint
+fun{
+xs:t@ype}{x:t@ype
+} iforeach_vcloptr {v:view} {fe:eff}
+  (pfv: !v | xs: xs, f: !(!v | int, x) -<cloptr,fe> void):<fe> uint
+// end of [iforeach_vcloptr]
+
+fun{
+xs:t@ype}{x:t@ype
+} iforeach_cloref {fe:eff}
+  (xs: xs, f: (int, x) -<cloref,fe> void):<fe> uint
+// end of [iforeach_cloref]
+
+(* ****** ****** *)
+
+fun{
 xs:t@ype}{x:t@ype
 } exists_funenv
   {v:view} {vt:viewtype} {pe:eff} (

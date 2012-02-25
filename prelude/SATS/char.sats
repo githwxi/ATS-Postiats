@@ -101,13 +101,106 @@ uchar1_of_char1 {c:int} (c: char (c)):<> uchar (i2u8(c))
 //
 (* ****** ****** *)
 
+fun lt_char1_char1
+  {c1,c2:int} (
+  c1: char (c1), c2: char (c2)
+) :<> bool (c1 < c2) = "mac#atspre_lt_char1_char1"
+fun lte_char1_char1
+  {c1,c2:int} (
+  c1: char (c1), c2: char (c2)
+) :<> bool (c1 <= c2) = "mac#atspre_lte_char1_char1"
+overload < with lt_char1_char1 of 2
+overload <= with lte_char1_char1 of 2
+
+fun gt_char1_char1
+  {c1,c2:int} (
+  c1: char (c1), c2: char (c2)
+) :<> bool (c1 > c2) = "mac#atspre_gt_char1_char1"
+fun gte_char1_char1
+  {c1,c2:int} (
+  c1: char (c1), c2: char (c2)
+) :<> bool (c1 >= c2) = "mac#atspre_gte_char1_char1"
+overload > with gt_char1_char1 of 2
+overload >= with gte_char1_char1 of 2
+
+fun eq_char1_char1
+  {c1,c2:int} (
+  c1: char (c1), c2: char (c2)
+) :<> bool (c1 == c2) = "mac#atspre_eq_char1_char1"
+fun neq_char1_char1
+  {c1,c2:int} (
+  c1: char (c1), c2: char (c2)
+) :<> bool (c1 != c2) = "mac#atspre_neq_char1_char1"
+overload = with eq_char1_char1 of 2
+overload <> with neq_char1_char1 of 2
+overload != with neq_char1_char1 of 2
+
+(* ****** ****** *)
+
+fun compare_char1_char1
+  {c1,c2:int} (
+  c1: char c2, c2: char c2
+) :<> int (c1-c2)
+  = "mac#atspre_compare_char1_char1"
+overload compare with compare_char1_char1 of 2
+
+(* ****** ****** *)
+//
+// unsigned characters
+//
+(* ****** ****** *)
+
+fun lt_uchar_uchar
+  (c1: uchar, c2: uchar):<> bool = "mac#atspre_lt_uchar_uchar"
+overload < with lt_uchar_uchar of 0
+fun lte_uchar_uchar
+  (c1: uchar, c2: uchar):<> bool  = "mac#atspre_lte_uchar_uchar"
+overload <= with lte_uchar_uchar of 0
+
+fun gt_uchar_uchar
+  (c1: uchar, c2: uchar):<> bool = "mac#atspre_gt_uchar_uchar"
+overload > with gt_uchar_uchar of 0
+fun gte_uchar_uchar
+  (c1: uchar, c2: uchar):<> bool  = "mac#atspre_gte_uchar_uchar"
+overload >= with gte_uchar_uchar of 0
+
+fun eq_uchar_uchar
+  (c1: uchar, c2: uchar):<> bool = "mac#atspre_eq_uchar_uchar"
+overload = with eq_uchar_uchar of 0
+fun neq_uchar_uchar
+  (c1: uchar, c2: uchar):<> bool = "mac#atspre_neq_uchar_uchar"
+overload <> with neq_uchar_uchar of 0
+overload != with neq_uchar_uchar of 0
+
+fun compare_uchar_uchar
+  (c1: uchar, c2: uchar):<> int = "mac#atspre_compare_uchar_uchar"
+overload compare with compare_uchar_uchar of 0
+
+(* ****** ****** *)
+
 fun{knd:t@ype}
-g1int_of_schar1
+g0int_of_char (c: char): g0int (knd)
+fun{knd:t@ype}
+g0int_of_schar (c: schar): g0int (knd)
+fun{knd:t@ype}
+g0int_of_uchar (c: uchar): g0int (knd)
+
+fun{knd:t@ype}
+g0uint_of_uchar (c: uchar): g0uint (knd)
+
+(* ****** ****** *)
+
+fun{knd:t@ype}
+g1int_of_char1 // c:int8
+  {c:int} (c: char (c)):<> g1int (knd, c)
+// end of [g1int_of_char1]
+fun{knd:t@ype}
+g1int_of_schar1 // c:int8
   {c:int} (c: schar (c)):<> g1int (knd, c)
 // end of [g1int_of_schar1]
 fun{knd:t@ype}
-g1int_of_uchar1
-  {c:int} (c: uchar (c)):<> g1int (knd, u2i8(c))
+g1int_of_uchar1 // c:uint8
+  {c:int} (c: uchar (c)):<> g1int (knd, c)
 // end of [g1int_of_uchar1]
 
 (*

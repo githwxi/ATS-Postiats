@@ -219,6 +219,7 @@ dynload "pats_constraint3_init.dats"
 dynload "pats_constraint3_print.dats"
 dynload "pats_constraint3_simplify.dats"
 dynload "pats_constraint3_solve.dats"
+dynload "pats_lintprgm_solver.dats"
 //
 dynload "pats_comarg.dats"
 //

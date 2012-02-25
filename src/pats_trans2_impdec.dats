@@ -187,14 +187,12 @@ val loc0 = d1e0.d1exp_loc
 val s2f0 = s2exp2hnf (s2e0)
 val s2e0 = s2hnf2exp (s2f0)
 //
-(*
+// (*
 val () = (
-  print "d1exp_tr_ann: d1e0 = "; print_d1exp (d1e0); print_newline ()
+  print "d1exp_tr_ann: d1e0 = "; print_d1exp (d1e0); print_newline ();
+  print "d1exp_tr_ann: s2f0 = "; print_s2exp (s2e0); print_newline ();
 ) // end of [val]
-val () = (
-  print "d1exp_tr_ann: s2f0 = "; print_s2exp (s2f0); print_newline ()
-) // end of [val]
-*)
+// *)
 //
 fn auxerr (
   d1e0: d1exp, s2e0: s2exp, locarg: location, serr: int
@@ -452,6 +450,23 @@ end // end of [d2exp_tr_arg_body_ann]
 
 (* ****** ****** *)
 
+fun
+stasub_add_tmparg (
+  sub: &stasub, s2qs: s2qualst, s2fss: s2explstlst
+) : void = (
+  case+ s2qs of
+  | list_cons (s2q, s2qs) => (
+    case+ s2fss of
+    | list_cons (s2fs, s2fss) => let
+        val _(*err*) = stasub_addlst (sub, s2q.s2qua_svs, s2fs)
+      in
+        stasub_add_tmparg (sub, s2qs, s2fss)
+      end // end of [list_cons]
+    | list_nil () => ()
+    )
+  | list_nil () => ()
+) // end of [stasub_add_tmparg]
+
 fun i1mpdec_tr_main (
   d1c0: d1ecl
 , d2c: d2cst, imparg: i1mparg, impdec: i1mpdec
@@ -694,7 +709,8 @@ end // end of [aux_tmparg]
 //
 val s2qs = d2cst_get_decarg (d2c)
 val (pfenv | ()) = the_s2expenv_push_nil ()
-val () = if list_isnot_empty (s2qs) then the_tmplev_inc ()
+val () =
+  if list_is_cons (s2qs) then the_tmplev_inc ()
 //
 val (imparg, opt) = aux_imparg (d1c0, s2qs, imparg)
 val sfess = (case+ opt of
@@ -713,10 +729,18 @@ val sfess = (case+ opt of
 val tmparg = sfess
 val tmpgua = list_nil ()
 //
-val s2f = d2cst_get_type (d2c)
-val d2e = d1exp_tr_ann (impdec.i1mpdec_def, s2f)
+val d2e = let
+  var sub = stasub_make_nil ()
+  val () = stasub_add_tmparg (sub, s2qs, tmparg)
+  val s2e = d2cst_get_type (d2c)
+  val s2e = s2exp_subst (sub, s2e) // proper instantiation
+  val () = stasub_free (sub)
+in
+  d1exp_tr_ann (impdec.i1mpdec_def, s2e)
+end // end of [val]
 //
-val () = if list_isnot_empty (s2qs) then the_tmplev_dec ()
+val () =
+  if list_is_cons (s2qs) then the_tmplev_dec ()
 val () = the_s2expenv_pop_free (pfenv | (*none*))
 //
 val () = d2cst_set_def (d2c, Some d2e)

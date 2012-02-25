@@ -194,15 +194,14 @@ g1int_neq {i,j:int}
 overload != with g1int_neq of 2
 
 fun{a:t@ype}
-g1int_compare
-  {i,j:int} (x: g1int (a, i), y: g1int (a, j)):<> int
+g1int_compare {i,j:int}
+  (x: g1int (a, i), y: g1int (a, j)):<> int (i-j)
 overload compare with g1int_compare of 2
 
+(* ****** ****** *)
+
 fun{a:t@ype}
-g1int_compare2
-  {i,j:int} (
-  x: g1int (a, i), y: g1int (a, j)
-) :<> [k:int] (SGN (i-j, k) | int (k))
+g1int_sgn {i:int} (x: g1int (a, i)): int(sgn(i))
 
 (* ****** ****** *)
 
@@ -341,14 +340,10 @@ overload >= with g1uint_gte of 2
 
 fun{a:t@ype}
 g1uint_compare
-  {i,j:int} (x: g1uint (a, i), y: g1uint (a, j)):<> int
-overload compare with g1uint_compare of 2
-
-fun{a:t@ype}
-g1uint_compare2
   {i,j:int} (
   x: g1uint (a, i), y: g1uint (a, j)
-) :<> [k:int] (SGN (i-j, k) | int (k))
+) :<> int (sgn(i-j))
+overload compare with g1uint_compare of 2
 
 (* ****** ****** *)
 

@@ -42,8 +42,58 @@
 
 (* ****** ****** *)
 
-implement print_char (c) = fprint_char (stdout_ref, c)
-implement prerr_char (c) = fprint_char (stderr_ref, c)
+implement
+print_char (c) = fprint_char (stdout_ref, c)
+implement
+prerr_char (c) = fprint_char (stderr_ref, c)
+
+(* ****** ****** *)
+
+implement{a}
+g0int_of_char
+  (c) = __cast (c) where {
+  extern castfn __cast (c: char): g0int (a)
+} // end of [g0int_of_char]
+implement{a}
+g0int_of_schar
+  (c) = __cast (c) where {
+  extern castfn __cast (c: schar): g0int (a)
+} // end of [g0int_of_schar]
+implement{a}
+g0int_of_uchar
+  (c) = __cast (c) where {
+  extern castfn __cast (c: uchar): g0int (a)
+} // end of [g0int_of_uchar]
+
+implement{a}
+g0uint_of_uchar
+  (c) = __cast (c) where {
+  extern castfn __cast (c: uchar): g0uint (a)
+} // end of [g0uint_of_uchar]
+
+(* ****** ****** *)
+
+implement{a}
+g1int_of_char1
+  {c} (c) = __cast (c) where {
+  extern castfn __cast (c: char c): g1int (a, c)
+} // end of [g1int_of_char1]
+implement{a}
+g1int_of_schar1
+  {c} (c) = __cast (c) where {
+  extern castfn __cast (c: schar c): g1int (a, c)
+} // end of [g1int_of_schar1]
+implement{a}
+g1int_of_uchar1
+  {c} (c) = __cast (c) where {
+  extern castfn __cast (c: uchar c): g1int (a, c)
+} // end of [g1int_of_uchar1]
+
+implement{a}
+g1uint_of_uchar1
+  {c} (c) = __cast (c) where {
+  extern castfn __cast (c: uchar c): g1uint (a, c)
+} // end of [g1uint_of_uchar1]
 
 (* ****** ****** *)
 

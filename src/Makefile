@@ -194,6 +194,8 @@ SOURCES := \
   pats_constraint3_print.dats \
   pats_constraint3_simplify.dats \
   pats_constraint3_solve.dats \
+  pats_lintprgm_solver.sats \
+  pats_lintprgm_solver.dats \
   pats_comarg.sats \
   pats_comarg.dats \
 

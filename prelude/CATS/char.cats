@@ -83,6 +83,16 @@ atspre_neq_char_char
 
 /* ****** ****** */
 
+#define atspre_lt_char1_char1 atspre_lt_char_char
+#define atspre_lte_char1_char1 atspre_lte_char_char
+#define atspre_gt_char1_char1 atspre_gt_char_char
+#define atspre_gte_char1_char1 atspre_gte_char_char
+#define atspre_eq_char1_char1 atspre_eq_char_char
+#define atspre_neq_char1_char1 atspre_neq_char_char
+#define atspre_compare_char1_char1 atspre_compare_char_char
+
+/* ****** ****** */
+
 ATSinline
 atstype_int
 atspre_compare_char_char
@@ -99,6 +109,62 @@ atspre_fprint_char (
 ) {
   fprintf ((FILE*)out, "%c", c) ; return ;
 } // end of [atspre_fprint_char]
+
+/* ****** ****** */
+//
+// unsigned characters
+//
+/* ****** ****** */
+
+ATSinline
+atstype_bool
+atspre_lt_uchar_uchar
+  (atstype_uchar c1, atstype_uchar c2) {
+  return (c1 < c2 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_lt_uchar_uchar]
+ATSinline
+atstype_bool
+atspre_lte_uchar_uchar
+  (atstype_uchar c1, atstype_uchar c2) {
+  return (c1 <= c2 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_lte_uchar_uchar]
+
+ATSinline
+atstype_bool
+atspre_gt_uchar_uchar
+  (atstype_uchar c1, atstype_uchar c2) {
+  return (c1 > c2 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_gt_uchar_uchar]
+ATSinline
+atstype_bool
+atspre_gte_uchar_uchar
+  (atstype_uchar c1, atstype_uchar c2) {
+  return (c1 >= c2 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_gte_uchar_uchar]
+
+ATSinline
+atstype_bool
+atspre_eq_uchar_uchar
+  (atstype_uchar c1, atstype_uchar c2) {
+  return (c1 == c2 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_eq_uchar_uchar]
+ATSinline
+atstype_bool
+atspre_neq_uchar_uchar
+  (atstype_uchar c1, atstype_uchar c2) {
+  return (c1 != c2 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_neq_uchar_uchar]
+
+/* ****** ****** */
+
+ATSinline
+atstype_int
+atspre_compare_uchar_uchar
+  (atstype_uchar c1, atstype_uchar c2) {
+  if c1 < c2 then return -1 ;
+  if c1 > c2 then return  1 ;
+  return 0 ; // HX: c1 == c2
+} // end of [atspre_compare_uchar_uchar]
 
 /* ****** ****** */
 
