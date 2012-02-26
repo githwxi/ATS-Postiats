@@ -302,6 +302,24 @@ s2rt_is_lin (s2t) = (
 ) // end of [s2rt_is_lin]
 
 implement
+s2rt_is_flat (s2t) = (
+  case+ s2t of
+  | S2RTbas s2tb => (case+ s2tb of
+    | S2RTBASimp (_, knd) => test_fltkind (knd) | _ => false
+    ) // end of [S2RTbas]
+  | _ => false // end of [_]
+) // end of [s2rt_is_flat]
+
+implement
+s2rt_is_boxed (s2t) = (
+  case+ s2t of
+  | S2RTbas s2tb => (case+ s2tb of
+    | S2RTBASimp (_, knd) => test_boxkind (knd) | _ => false
+    ) // end of [S2RTbas]
+  | _ => false // end of [_]
+) // end of [s2rt_is_boxed]
+
+implement
 s2rt_is_impredicative
   (s2t) = case+ s2t of
   | S2RTbas s2tb => (

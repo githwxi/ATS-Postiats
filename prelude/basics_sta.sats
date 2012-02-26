@@ -250,6 +250,9 @@ stadef ssize_t = ssize0_t
 typedef ssize1_t (i:int) = g1int (size_kind , i) 
 stadef ssize_t = ssize1_t
 
+typedef
+sizeof_t (a:viewt@ype) = size_t (sizeof(a?))
+
 (* ****** ****** *)
 
 abst@ype

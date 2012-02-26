@@ -37,54 +37,26 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [arraypr.sats] starts!\n"
+#print "Loading [array.dats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-absviewtype
-arrayptr (a:viewt@ype+, l: addr, n: int) = ptr
+extern
+val{a:viewt@ype} sizeof : sizeof_t (a)
 
-(* ****** ****** *)
-
-sortdef t0p = t@ype
-sortdef vt0p = viewt@ype
-
-(* ****** ****** *)
-
-castfn
-ptr_of_arrayptr
-  {a:vt0p}{l:addr}{n:int}
-  (A: !arrayptr (INV(a), l, n)):<> ptr l
-overload ptr_of with ptr_of_arrayptr
-
-(* ****** ****** *)
-
-fun{a:t0p}
-arrayptr_get_at
-  {l:addr}{n:int}
-  (A: !arrayptr (INV(a), l, n), i: sizeLt (n)):<> a
-fun{a:t0p}
-arrayptr_set_at
-  {l:addr}{n:int}
-  (A: !arrayptr (INV(a), l, n), i: sizeLt (n), x: a):<> void
-overload [] with arrayptr_get_at
-overload [] with arrayptr_set_at
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-arrayptr_exch_at
-  {l:addr}{n:int}
-  (A: !arrayptr (INV(a), l, n), i: sizeLt (n), x: &WRT(a)): void
-// end of [arrayptr_exch_at]
+implement{a}
+array_foreach_funenv
+  (pfv | A, f, env, asz) =
+  array_foreach_funenv_tsz (pfv | A, f, env, asz, sizeof<a>)
+// end of [array_foreach_funenv]
 
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [arrayptr.sats] finishes!\n"
+#print "Loading [array.dats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-(* end of [arrayptr.sats] *)
+(* end of [array.sats] *)

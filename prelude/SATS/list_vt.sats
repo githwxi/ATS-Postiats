@@ -42,8 +42,26 @@
 
 (* ****** ****** *)
 
+sortdef t0p = t@ype
+sortdef vt0p = viewt@ype
+
+(* ****** ****** *)
+
+typedef cmp (a: viewt@ype) = (&a, &a) -<fun> int
+typedef cmp
+  (a: viewt@ype, vt: viewtype) = (&a, &a, !vt) -<fun> int
+// end of [typedef]
+
+fun{a:vt0p}
+compare_elt_elt
+  {vt:viewtype}
+  (x1: &a, x2: &a, cmp: cmp (a, vt), env: !vt):<> int
+// end of [compare_elt_elt]
+
+(* ****** ****** *)
+
 fun{
-a:viewt@ype
+a:vt0p
 } list_vt_append
   {n1,n2:nat} (
   xs1: list_vt (a, n1), xs2: list_vt (a, n2)
@@ -52,12 +70,12 @@ a:viewt@ype
 (* ****** ****** *)
 
 fun{
-x:viewt@ype
+x:vt0p
 } list_vt_reverse
   {n:nat} (xs: list_vt (x, n)): list_vt (x, n)
 // end of [list_vt_reverse]
 
-fun{a:viewt@ype}
+fun{a:vt0p}
 list_vt_reverse_append {m,n:nat}
   (xs: list_vt (a, m), ys: list_vt (a, n)): list_vt (a, m+n)
 // end of [list_vt_reverse_append]
@@ -65,11 +83,40 @@ list_vt_reverse_append {m,n:nat}
 (* ****** ****** *)
 
 fun{
-a:viewt@ype
+a:vt0p
 } list_vt_foreach_funenv
   {v:view}{vt:viewtype}{n:nat}{fe:eff} (
-  xs: !list_vt (a, n), f: (!v | &a, !vt) -<fe> void
+  pfv: !v
+| xs: !list_vt (a, n), f: (!v | &a, !vt) -<fe> void, env: !vt
 ) :<fe> void // end of [list_vt_foreach_funenv]
+
+(* ****** ****** *)
+
+fun{
+a:vt0p
+} list_vt_mergesort
+  {vt:viewtype}{n:nat} (
+  xs: list_vt (a, n), cmp: cmp (a)
+) : list_vt (a, n) // end of [list_vt_mergesort_env]
+fun{
+a:vt0p
+} list_vt_mergesort_env
+  {vt:viewtype}{n:nat} (
+  xs: list_vt (a, n), cmp: cmp (a, vt), env: !vt
+) : list_vt (a, n) // end of [list_vt_mergesort_env]
+
+fun{
+a:vt0p
+} list_vt_quicksort
+  {vt:viewtype}{n:nat} (
+  xs: list_vt (a, n), cmp: cmp (a)
+) : list_vt (a, n) // end of [list_vt_quicksort]
+fun{
+a:vt0p
+} list_vt_quicksort_env // HX: via array-based quicksort
+  {vt:viewtype}{n:nat} (
+  xs: list_vt (a, n), cmp: cmp (a, vt), env: !vt
+) : list_vt (a, n) // end of [list_vt_quicksort_env]
 
 (* ****** ****** *)
 

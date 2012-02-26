@@ -131,6 +131,12 @@ fun s2exp_linkrem (s2e: s2exp): s2exp
 
 (* ****** ****** *)
 //
+fun s2exp_topize_0 (s2e: s2exp): s2exp
+and s2exp_topize_1 (s2e: s2exp): s2exp
+fun s2exp_topize (knd: int, s2e: s2exp): s2exp
+//
+(* ****** ****** *)
+//
 fun s2exp_hnfize (x: SHARED(s2exp)): s2exp
 fun s2explst_hnfize (xs: SHARED(s2explst)): s2explst
 fun s2expopt_hnfize (opt: SHARED(s2expopt)): s2expopt

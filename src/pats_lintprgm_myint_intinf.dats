@@ -34,8 +34,12 @@
 //
 (* ****** ****** *)
 
+#define ATS_DYNLOADFLAG 0 // no need for dynloading at run-time
+
+(* ****** ****** *)
+
 staload "pats_lintprgm.sats"
 
 (* ****** ****** *)
 
-(* end of [pats_lintprgm_solver.dats] *)
+(* end of [pats_lintprgm_myint_intinf.dats] *)

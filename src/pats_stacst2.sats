@@ -145,7 +145,11 @@ val the_double_kind : s2cstref
 val the_ldouble_kind : s2cstref
 val the_g0float_t0ype : s2cstref
 //
+val the_ptr_type : s2cstref
 val the_void_t0ype : s2cstref
+//
+val the_unit_prop : s2cstref
+val the_unit_view : s2cstref
 //
 val the_exception_viewtype : s2cstref
 //
@@ -156,9 +160,9 @@ val the_list0_t0ype_type : s2cstref
 val the_list_t0ype_int_type : s2cstref
 val the_list_viewt0ype_int_viewtype : s2cstref
 //
-val the_at_viewt0ype_addr_view: s2cstref
+val the_sizeof_t0ype_int: s2cstref
 //
-val the_sizeof_viewt0ype_int: s2cstref
+val the_at_viewt0ype_addr_view: s2cstref
 //
 val the_invar_t0ype_t0ype: s2cstref
 val the_invar_viewt0ype_viewt0ype: s2cstref
@@ -252,7 +256,13 @@ fun s2exp_ldouble_t0ype (): s2exp // ldouble
 //
 (* ****** ****** *)
 
+fun s2exp_ptr_type (): s2exp // ptr
 fun s2exp_void_t0ype (): s2exp // void
+
+(* ****** ****** *)
+
+fun s2exp_unit_prop (): s2exp // unit_p
+fun s2exp_unit_view (): s2exp // unit_v
 
 (* ****** ****** *)
 

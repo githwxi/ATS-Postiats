@@ -37,8 +37,8 @@
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
-staload "fiterator.sats" // HX: preloaded
-staload "fcontainer.sats" // HX: preloaded
+staload "prelude/SATS/fiterator.sats" // HX: preloaded
+staload "prelude/SATS/fcontainer.sats" // HX: preloaded
 
 (* ****** ****** *)
 
@@ -54,8 +54,6 @@ foreach_fun
 in
   // empty
 end // end of [foreach_fun]
-
-(* ****** ****** *)
 
 implement{xs}{x}
 foreach_clo
@@ -87,8 +85,6 @@ in
   (*nothing*)
 end // end of [foreach_vclo]
 
-(* ****** ****** *)
-
 implement{xs}{x}
 foreach_cloptr
   {fe:eff} (xs, f) = let
@@ -115,8 +111,6 @@ in
   foreach_funenv<xs><x> {v} {cloptr_t} (pf | xs, app, f)
 end // end of [foreach_vcloptr]
 
-(* ****** ****** *)
-
 implement{xs}{x}
 foreach_cloref
   {fe:eff} (xs, f) = let
@@ -136,37 +130,36 @@ iforeach_funenv
   {v}{vt}{fe} (
   pfv | xs, f, env
 ) = let
-  var i: int = 0
-  viewtypedef
-    ivt = (ptr(i), vt)
+var i: int = 0
+viewtypedef ivt = (ptr(i), vt)
 //
-  val env1 = __cast (env) where {
-    extern castfn __cast (env: !vt >> vt?):<> vt
-  } // end of [val]
+val env1 = __cast (env) where {
+  extern castfn __cast (env: !vt >> vt?):<> vt
+} // end of [val]
 //
-  var ienv: ivt = (&i, env1)
-  viewdef v1 = (v, int@i, ivt @ ienv)
-  fn f1 (
-    pf: !v1 | x: x, ienv: !ptr(ienv)
-  ) :<fe> void = let
-    prval (pfv, pf1, pf2) = pf
-    val i = !(ienv->0)
-    val () = f (pfv | i, x, ienv->1)
-    val () = !(ienv->0) := i + 1
-    prval () = pf := (pfv, pf1, pf2)
-  in
-    (*nothing*)
-  end // end of [f1]
+var ienv: ivt = (&i, env1)
+viewdef v1 = (v, int@i, ivt @ ienv)
+fn f1 (
+  pf: !v1 | x: x, ienv: !ptr(ienv)
+) :<fe> void = let
+  prval (pfv, pf1, pf2) = pf
+  val i = !(ienv->0)
+  val () = f (pfv | i, x, ienv->1)
+  val () = !(ienv->0) := i + 1
+  prval () = pf := (pfv, pf1, pf2)
+in
+  (*nothing*)
+end // end of [f1]
 //
-  prval pfv1 = (pfv, view@(i), view@(ienv))
-  val () = foreach_funenv{v1}{ptr(ienv)} (pfv1 | xs, f1, &ienv)
-  prval () = pfv := pfv1.0
-  prval () = view@(i) := pfv1.1
-  prval () = view@(ienv) := pfv1.2
+prval pfv1 = (pfv, view@(i), view@(ienv))
+val () = foreach_funenv{v1}{ptr(ienv)} (pfv1 | xs, f1, &ienv)
+prval () = pfv := pfv1.0
+prval () = view@(i) := pfv1.1
+prval () = view@(ienv) := pfv1.2
 //
-  prval () = __free (env, ienv.1) where {
-    extern praxi __free (env: !vt? >> vt, env1: vt): void
-  } // end of [prval]
+prval () = __free (env, ienv.1) where {
+  extern praxi __free (env: !vt? >> vt, env1: vt): void
+} // end of [prval]
 //
 in
   uint_of_int (i)

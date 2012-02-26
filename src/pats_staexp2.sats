@@ -235,6 +235,8 @@ fun s2rt_is_fun (x: s2rt): bool
 fun s2rt_is_prf (x: s2rt): bool // is proof?
 fun s2rt_is_prgm (x: s2rt): bool // is program?
 fun s2rt_is_lin (x: s2rt): bool
+fun s2rt_is_flat (x: s2rt): bool // is flat?
+fun s2rt_is_boxed (x: s2rt): bool // is boxed?
 fun s2rt_is_impredicative (x: s2rt): bool
 
 fun s2rt_get_pol (x: s2rt): int // neg/neu/pos: -1/0/1
@@ -844,7 +846,7 @@ fun s2exp_datcontyp (d2c: d2con, s2es: s2explst): s2exp
 
 (* ****** ****** *)
 
-fun s2exp_topize (knd: int, s2e: s2exp): s2exp
+fun s2exp_top (knd: int, s2e: s2exp): s2exp
 fun s2exp_top_srt (s2t: s2rt, knd: int, s2e: s2exp): s2exp
 
 (* ****** ****** *)
@@ -852,6 +854,9 @@ fun s2exp_top_srt (s2t: s2rt, knd: int, s2e: s2exp): s2exp
 fun s2exp_tyarr
   (s2e_elt: s2exp, s2es_int: s2explst): s2exp
 // end of [s2exp_tyarr]
+fun s2exp_tyarr_srt
+  (s2t: s2rt, s2e_elt: s2exp, s2es_int: s2explst): s2exp
+// end of [s2exp_tyarr_srt]
 
 fun s2exp_tytup (
   knd: int, npf: int, s2es: s2explst
@@ -949,6 +954,7 @@ fun fpprint_wths2explst : fprint_type (wths2explst)
 fun s2exp_is_prf (x: s2exp): bool
 fun s2exp_is_lin (x: s2exp): bool
 fun s2exp_is_nonlin (x: s2exp): bool
+fun s2exp_is_boxed (x: s2exp): bool
 fun s2exp_is_impredicative (x: s2exp): bool
 
 (* ****** ****** *)

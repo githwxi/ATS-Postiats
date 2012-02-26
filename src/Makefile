@@ -194,7 +194,10 @@ SOURCES := \
   pats_constraint3_print.dats \
   pats_constraint3_simplify.dats \
   pats_constraint3_solve.dats \
-  pats_lintprgm_solver.sats \
+  pats_lintprgm.sats \
+  pats_lintprgm.dats \
+  pats_lintprgm_myint_int.dats \
+  pats_lintprgm_myint_intinf.dats \
   pats_lintprgm_solver.dats \
   pats_comarg.sats \
   pats_comarg.dats \
@@ -240,6 +243,7 @@ WCL=wc -l
 ######
 
 srclines:: ; $(WCL) $(SOURCES) pats_main.dats
+liblines:: ; $(WCL) ../prelude/*.sats ../prelude/?ATS/*.?ats
 
 ######
 

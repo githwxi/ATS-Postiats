@@ -60,10 +60,12 @@ stadef array0 = arrszref // backward compatibility
 (* ****** ****** *)
 
 fun{a:t@ype}
-arrszref_get_at (A: arrszref (a), i: size_t):<!exnref> a
+arrszref_get_at
+  (A: arrszref (a), i: size_t):<!exnref> a
 overload [] with arrszref_get_at
 fun{a:t@ype}
-arrszref_set_at (A: arrszref (a), i: size_t, x: a):<!exnref> void
+arrszref_set_at
+  (A: arrszref (a), i: size_t, x: a):<!exnref> void
 overload [] with arrszref_set_at
 
 (* ****** ****** *)

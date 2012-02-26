@@ -284,6 +284,19 @@ in hnf '{
 (* ****** ****** *)
 
 implement
+s2exp_top
+  (knd, s2e) = let
+  val s2t = s2e.s2exp_srt
+  val s2t_new = (
+    if s2rt_is_prf s2t then s2rt_prop else
+      (if s2rt_is_boxed s2t then s2rt_type else s2rt_t0ype)
+    // end of [if]
+  ) : s2rt // end of [val]
+in
+  s2exp_top_srt (s2t_new, knd, s2e)
+end // end of [s2exp_top]
+
+implement
 s2exp_top_srt (s2t, knd, s2e) = '{
   s2exp_srt= s2t, s2exp_node= S2Etop (knd, s2e)
 } // end of [s2exp_top_srt]
@@ -291,15 +304,28 @@ s2exp_top_srt (s2t, knd, s2e) = '{
 (* ****** ****** *)
 
 implement
-s2exp_tyarr (elt, ind) = hnf '{
-  s2exp_srt=elt.s2exp_srt, s2exp_node= S2Etyarr (elt, ind)
-}
+s2exp_tyarr
+  (s2e_elt, dim) = let
+  val s2t = (
+    if s2exp_is_lin (s2e_elt) then s2rt_viewt0ype else s2rt_t0ype
+  ) : s2rt // end of [val
+in
+  s2exp_tyarr_srt (s2t, s2e_elt, dim)
+end // end of [s2exp_tyarr]
+
+implement
+s2exp_tyarr_srt
+  (s2t, s2e_elt, dim) = hnf '{
+  s2exp_srt=s2t, s2exp_node= S2Etyarr (s2e_elt, dim)
+} // end of [s2exp_tyarr_srt]
+
+(* ****** ****** *)
 
 implement
 s2exp_tyrec_srt
   (s2t, knd, npf, ls2es) = hnf '{
   s2exp_srt= s2t, s2exp_node= S2Etyrec (knd, npf, ls2es)
-}
+} // end of [s2exp_tyrec_srt]
 
 (* ****** ****** *)
 
@@ -415,6 +441,11 @@ s2exp_is_lin
 // end of [s2exp_is_lin]
 implement
 s2exp_is_nonlin (s2e) = ~s2exp_is_lin (s2e)
+
+implement
+s2exp_is_boxed
+  (s2e) = s2rt_is_boxed (s2e.s2exp_srt)
+// end of [s2exp_is_boxed]
 
 implement
 s2exp_is_impredicative

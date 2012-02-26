@@ -43,12 +43,183 @@
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
-staload "fiterator.sats" // HX: preloaded
-staload "fcontainer.sats" // HX: preloaded
+staload "prelude/SATS/fiterator.sats" // HX: preloaded
+staload "prelude/SATS/fcontainer.sats" // HX: preloaded
 
 (* ****** ****** *)
 
 #include "fcontainer_foreach.dats"
+
+(* ****** ****** *)
+
+implement
+{xs}{x}{init}
+foldleft_funenv
+  {v}{vt}{fe:eff}
+  (pfv | f, init, xs, env) = let
+//
+var res: init = init
+viewtypedef pvt = (ptr(res), vt)
+//
+val env1 = __cast (env) where {
+  extern castfn __cast (env: !vt >> vt?):<> vt
+} // end of [val]
+//
+var penv: pvt = (&res, env1)
+viewdef v1 = (v, init@res, pvt @ penv)
+fn f1 (
+  pf: !v1 | x: x, penv: !ptr(penv)
+) :<fe> void = let
+  prval (pfv, pf1, pf2) = pf
+  val p = penv->0
+  val () = !p := f (pfv | !p, x, penv->1)
+  prval () = pf := (pfv, pf1, pf2)
+in
+  (*nothing*)
+end // end of [f1]
+//
+prval pfv1 = (pfv, view@(res), view@(penv))
+val () = foreach_funenv{v1}{ptr(penv)} (pfv1 | xs, f1, &penv)
+prval () = pfv := pfv1.0
+prval () = view@(res) := pfv1.1
+prval () = view@(penv) := pfv1.2
+//
+prval () = __free (env, penv.1) where {
+  extern praxi __free (env: !vt? >> vt, env1: vt): void
+} // end of [prval]
+//
+in
+  res
+end // end of [foldleft_funenv]
+
+implement
+{xs}{x}{init}
+foldleft_clo
+  {fe:eff}(f, init, xs) = let
+  typedef clo_t =
+    (init, x) -<clo,fe> init
+  // end of [typedef]
+  stavar lf: addr; val lf: ptr lf = &f
+  viewdef v = clo_t @ lf
+  fn app (
+    pf: !v | init: init, x: x, lf: !ptr(lf)
+  ) :<fe> init = !lf (init, x)
+in
+  foldleft_funenv<xs><x> {v}{ptr(lf)} (view@ f | app, init, xs, lf)
+end // end of [foldleft_clo]
+implement
+{xs}{x}{init}
+foldleft_vclo
+  {v} {fe:eff}
+  (pfv | f, init, xs) = let
+  typedef clo_t =
+    (!v | init, x) -<clo,fe> init
+  // end of [typedef]
+  stavar lf: addr; val lf: ptr lf = &f
+  viewdef v2 = (v, clo_t @ lf)
+  fn app (
+    pf: !v2 | init: init, x: x, lf: !ptr lf
+  ) :<fe> init = res where {
+    prval (pf1, pf2) = pf
+    val res = !lf (pf1 | init, x)
+    prval () = pf := (pf1, pf2)
+  } // end of [val]
+  prval pf = (pfv, view@ f)
+  val res = foldleft_funenv<xs><x> {v2} {ptr(lf)} (pf | app, init, xs, lf)
+  prval () = pfv := pf.0 and () = view@ (f) := pf.1
+in
+  res(*init*)
+end // end of [foldleft_vclo]
+
+implement
+{xs}{x}{init}
+foldleft_cloref
+  {fe:eff} (f, init, xs) = let
+  typedef cloref_t = (init, x) -<cloref,fe> init
+  fn app (
+    pf: !unit_v | init: init, x: x, f: !cloref_t 
+  ) :<fe> init = f (init, x)
+  prval pfu = unit_v ()
+  val res = foldleft_funenv<xs><x> {unit_v} {cloref_t} (pfu | app, init, xs, f)
+  prval unit_v () = pfu
+in
+  res(*init*)
+end // end of [foldleft_cloref]
+
+(* ****** ****** *)
+
+implement
+{xs}{x}{sink}
+foldright_funenv
+  {v}{vt}{fe:eff}
+  (pfv | f, xs, sink, env) = let
+  typedef tfun = (!v | x, sink, !vt) -<fun,fe> sink
+  fun loop {n:nat} .<n>. (
+    pfv: !v
+  | f: tfun, xs: list_vt (x, n), sink: sink, env: !vt
+  ) :<fe> sink = (
+    case+ xs of
+    | ~list_vt_cons (x, xs) =>
+        loop (pfv | f, xs, f (pfv | x, sink, env), env)
+    | ~list_vt_nil () => sink
+  ) // end of [loop]
+in
+  loop (pfv | f, rlistize (xs), sink, env)
+end // end of [foldright_funenv]
+
+implement
+{xs}{x}{sink}
+foldright_clo
+  {fe:eff}(f, xs, sink) = let
+  typedef clo_t =
+    (x, sink) -<clo,fe> sink
+  // end of [typedef]
+  stavar lf: addr; val lf: ptr lf = &f
+  viewdef v = clo_t @ lf
+  fn app (
+    pf: !v | x: x, sink: sink, lf: !ptr(lf)
+  ) :<fe> sink = !lf (x, sink)
+in
+  foldright_funenv<xs><x> {v}{ptr(lf)} (view@ f | app, xs, sink, lf)
+end // end of [foldright_clo]
+implement
+{xs}{x}{sink}
+foldright_vclo
+  {v} {fe:eff}
+  (pfv | f, xs, sink) = let
+  typedef clo_t =
+    (!v | x, sink) -<clo,fe> sink
+  // end of [typedef]
+  stavar lf: addr; val lf: ptr lf = &f
+  viewdef v2 = (v, clo_t @ lf)
+  fn app (
+    pf: !v2 | x: x, sink: sink, lf: !ptr lf
+  ) :<fe> sink = res where {
+    prval (pf1, pf2) = pf
+    val res = !lf (pf1 | x, sink)
+    prval () = pf := (pf1, pf2)
+  } // end of [val]
+  prval pf = (pfv, view@ f)
+  val res = foldright_funenv<xs><x> {v2} {ptr(lf)} (pf | app, xs, sink, lf)
+  prval () = pfv := pf.0 and () = view@ (f) := pf.1
+in
+  res(*sink*)
+end // end of [foldright_vclo]
+
+implement
+{xs}{x}{sink}
+foldright_cloref
+  {fe:eff} (f, xs, sink) = let
+  typedef cloref_t = (x, sink) -<cloref,fe> sink
+  fn app (
+    pf: !unit_v | x: x, sink: sink, f: !cloref_t 
+  ) :<fe> sink = f (x, sink)
+  prval pfu = unit_v ()
+  val res = foldright_funenv<xs><x> {unit_v} {cloref_t} (pfu | app, xs, sink, f)
+  prval unit_v () = pfu
+in
+  res(*sink*)
+end // end of [foldright_cloref]
 
 (* ****** ****** *)
 //
@@ -87,6 +258,25 @@ end with
   ~Found () => false
 // end of [try]
 end // end of [exists_funenv]
+
+implement{xs}{x}
+forall_funenv
+  {v}{vt}{fe:eff}
+  (pfv | xs, p, env) = let
+  fn np (pfv: !v | x: x, env: !vt):<fe> bool = ~p (pfv | x, env)
+in
+  ~(exists_funenv<xs><x> (pfv | xs, np, env))
+end // end of [forall_funenv]
+
+(* ****** ****** *)
+
+implement{xs}{x}
+ismember_fun
+  {fe} (xs, x0, eq) = let
+  var !p_clo = @lam (x: x) =<fe> eq (x0, x)
+in
+  exists_clo<xs><x> (xs, !p_clo)
+end // end of [ismemer_fun]
 
 (* ****** ****** *)
 

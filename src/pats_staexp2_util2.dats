@@ -59,6 +59,7 @@ macdef eq_intinf_intinf = $INTINF.eq_intinf_intinf
 
 staload "pats_staexp2.sats"
 staload "pats_staexp2_util.sats"
+staload "pats_stacst2.sats"
 
 (* ****** ****** *)
 
@@ -109,8 +110,31 @@ end // end of [s2exp_linkrem]
 
 (* ****** ****** *)
 
+fun labs2explst_top (
+  knd: int, ls2es0: labs2explst
+) : labs2explst = (
+  case+ ls2es0 of
+  | list_cons (ls2e, ls2es) => let
+      val SLABELED (l, name, s2e) = ls2e
+      val s2e = s2exp_top (knd, s2e)
+      val ls2e = SLABELED (l, name, s2e) 
+      val ls2es = labs2explst_top (knd, ls2es)
+    in
+      list_cons (ls2e, ls2es)
+    end // end of [list_cons]
+  | list_nil () => list_nil ()
+) // end of [labs2explst_top]
+
+(* ****** ****** *)
+
+extern
+fun s2exp_topize_flag
+  (knd: int, s2e: s2exp, flag: &int): s2exp
+// end of [s2exp_topize_flag]
+
 extern
 fun s2exp_hnfize_flag (s2e: s2exp, flag: &int): s2exp
+
 extern
 fun s2explst_hnfize_flag (s2es: s2explst, flag: &int): s2explst
 extern
@@ -120,6 +144,64 @@ extern
 fun s2exp_hnfize_app (
   s2e0: s2exp, s2e_fun: s2exp, s2es_arg: s2explst, flag: &int
 ) : s2exp // [s2exp_hnfize_app]
+
+(* ****** ****** *)
+
+implement
+s2exp_topize_flag
+  (knd, s2e0, flag) = let
+in
+//
+case+ 0 of
+| _ when
+    s2exp_is_prf (s2e0) => let
+    val () = flag := flag + 1 in s2exp_unit_prop ()
+  end // end of [_ when ...]
+| _ (*isprf=false*) => let
+    val isdone = (
+      if knd > 0 (*typization*) then
+        (if s2exp_is_lin (s2e0) then false else true)
+      else false // end of [if]
+    ) : bool // end of [val]
+    val s2e0 = s2exp_hnfize_flag (s2e0, flag)
+  in
+    if isdone then
+      s2e0 // there is no need for any change
+    else let
+      val () = flag := flag + 1
+    in
+      case+ s2e0.s2exp_node of
+      | _ when
+          s2exp_is_boxed (s2e0) =>
+          s2exp_ptr_type () // HX: this seems adequate
+      | S2Etop (_, s2e) =>
+          s2exp_top_srt (s2rt_t0ype, knd, s2e)
+      | S2Etyarr (s2e_elt, dim) => let
+          val s2e_elt = s2exp_top (knd, s2e_elt)
+        in
+          s2exp_tyarr_srt (s2rt_t0ype, s2e_elt, dim)
+        end // end of [S2Etyarr]
+      | S2Etyrec
+          (recknd, npf, ls2es) => let
+          val ls2es = labs2explst_top (knd, ls2es)
+        in
+          s2exp_tyrec_srt (s2rt_t0ype, recknd, npf, ls2es)
+        end // end of [S2Etyrec]
+      | _ => s2exp_top_srt (s2rt_t0ype, knd, s2e0)
+    end (* end of [if] *)
+  end // end of [_]
+//
+end (* end of [s2exp_topize_flag] *)
+
+implement
+s2exp_topize (knd, s2e) = let
+  var flag: int = 0 in s2exp_topize_flag (knd, s2e, flag)
+end // end of [s2exp_topize_0]
+
+implement
+s2exp_topize_0 (s2e) = s2exp_topize (0(*knd*), s2e)
+implement
+s2exp_topize_1 (s2e) = s2exp_topize (1(*knd*), s2e)
 
 (* ****** ****** *)
 
@@ -191,6 +273,7 @@ case+ s2e0.s2exp_node of
 | S2EVar _ => s2e0
 //
 | S2Eat _ => s2e0
+| S2Esizeof _ => s2e0
 | S2Eeqeq _ => s2e0
 //
 | S2Eapp (s2e_fun, s2es_arg) =>
@@ -207,6 +290,8 @@ case+ s2e0.s2exp_node of
 | S2Efun _ => s2e0
 | S2Emetfun _ => s2e0
 | S2Emetdec _ => s2e0
+//
+| S2Etop (knd, s2e) => s2exp_topize_flag (knd, s2e, flag)
 //
 | S2Etyarr _ => s2e0
 | S2Etyrec _ => s2e0

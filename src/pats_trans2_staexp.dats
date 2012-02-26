@@ -542,11 +542,20 @@ fun s2exp_app_wind (
   s1e0: s1exp
 , s2e_fun: s2exp, s2ess_arg: List_vt (locs2explst)
 ) : s2exp = let
-//
+(*
+val () = (
+  print "s2exp_app_wind: aux: s1e0 = "; print_s1exp (s1e0); print_newline ();
+) // end of [val]
+*)
 fun aux (
   s1e0: s1exp, x: locs2exp, s2t: s2rt
 ) : s2exp = let
   val s2e = x.1
+(*
+  val () = (
+    print "s2exp_app_wind: aux: s2e = "; print_s2exp (s2e); print_newline ()
+  ) // end of [val]
+*)
   val test = s2rt_ltmat1 (s2e.s2exp_srt, s2t)
 in
   if test then s2e else let
@@ -1124,7 +1133,7 @@ fn s1exp_trup_top (
 ) : s2exp = let
   val s2e = s1exp_trdn_impredicative (s1e)
 in
-  s2e // s2exp_topize (knd, s2e)
+  s2exp_top (knd, s2e)
 end // end of [s1exp_trup_top]
 
 (* ****** ****** *)

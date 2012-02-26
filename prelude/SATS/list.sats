@@ -44,20 +44,20 @@
 
 fun{
 x:t@ype // type for elements
-} list_copy {n:nat} (xs: list (x, n)):<> list_vt (x, n)
+} list_copy {n:int} (xs: list (x, n)):<> list_vt (x, n)
 
 (* ****** ****** *)
 
 fun{x:t@ype}
-list_reverse {n:nat} (xs: list (x, n)): list_vt (x, n)
+list_reverse {n:int} (xs: list (x, n)): list_vt (x, n)
 
 fun{a:t@ype}
-list_append1_vt {i,j:nat}
+list_append1_vt {i,j:int}
   (xs: list_vt (a, i), ys: list (a, j)):<> list (a, i+j)
 // end of [list_append1_vt]
 
 fun{a:t@ype}
-list_append2_vt {i,j:nat}
+list_append2_vt {i,j:int}
   (xs: list (a, i), ys: list_vt (a, j)):<> list_vt (a, i+j)
 // end of [list_append2_vt]
 
@@ -70,12 +70,19 @@ x:t@ype // type for elements
   pfv: !v | xs: List (x), f: (!v | x, !env) -<fun,fe> void, env: !env
 ) :<fe> void // end of [list_foreach_funenv]
 
+fun{
+x:t@ype // type for elements
+} list_iforeach_funenv
+  {v:view}{env:viewtype}{n:nat}{fe:eff} (
+  pfv: !v | xs: list (x, n), f: (!v | natLt(n), x, !env) -<fun,fe> void, env: !env
+) :<fe> void // end of [list_iforeach_funenv]
+
 (* ****** ****** *)
 
 fun{
 x:t@ype}{y:t@ype
 } list_map_funenv
-  {v:view}{vt:viewtype}{n:nat}{fe:eff} (
+  {v:view}{vt:viewtype}{n:int}{fe:eff} (
   pfv: !v | xs: list (x, n), f: (!v | x, !vt) -<fun,fe> y, env: !vt
 ) : list_vt (y, n) // end of [list_map_funenv]
 

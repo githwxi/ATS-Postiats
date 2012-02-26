@@ -815,6 +815,30 @@ s2exp_void_t0ype () =
 (* ****** ****** *)
 
 implement
+the_ptr_type = s2cstref_make "ptr_type"
+implement
+s2exp_ptr_type () =
+  s2exp_cst (s2cstref_get_cst (the_ptr_type))
+// end of [s2exp_ptr_type]
+
+(* ****** ****** *)
+
+implement
+the_unit_prop = s2cstref_make "unit_p"
+implement
+s2exp_unit_prop () =
+  s2exp_cst (s2cstref_get_cst (the_unit_prop))
+// end of [s2exp_unit_prop]
+implement
+the_unit_view = s2cstref_make "unit_v"
+implement
+s2exp_unit_view () =
+  s2exp_cst (s2cstref_get_cst (the_unit_view))
+// end of [s2exp_unit_view]
+
+(* ****** ****** *)
+
+implement
 the_exception_viewtype = s2cstref_make "exception_viewtype"
 
 (* ****** ****** *)
@@ -885,9 +909,9 @@ s2exp_bottom_viewt0ype_exi () =
 (* ****** ****** *)
 
 extern
-fun at_viewt0ype_addr_view_assume (): void
+fun sizeof_t0ype_int_assume (): void
 extern
-fun sizeof_viewt0ype_int_assume (): void
+fun at_viewt0ype_addr_view_assume (): void
 extern
 fun invar_t0ype_t0ype_assume (): void
 extern
@@ -896,9 +920,9 @@ fun invar_viewt0ype_viewt0ype_assume (): void
 implement
 stacst2_initialize () = () where {
 //
-  val () = at_viewt0ype_addr_view_assume ()
+  val () = sizeof_t0ype_int_assume () // sizeof(VT)
 //
-  val () = sizeof_viewt0ype_int_assume () // sizeof(VT)
+  val () = at_viewt0ype_addr_view_assume ()
 //
   val () = invar_t0ype_t0ype_assume ()
   val () = invar_viewt0ype_viewt0ype_assume ()
@@ -928,13 +952,13 @@ end // end of [at_viewt0ype_addr_view_assume]
 (* ****** ****** *)
 
 implement
-the_sizeof_viewt0ype_int =
-  s2cstref_make "sizeof_viewt0ype_int" // in prelude/basics_pre.sats
-// end of [the_sizeof_viewt0ype_int]
+the_sizeof_t0ype_int =
+  s2cstref_make "sizeof_t0ype_int" // in prelude/basics_pre.sats
+// end of [the_sizeof_t0ype_int]
 
 implement
-sizeof_viewt0ype_int_assume () = let
-  val s2c = s2cstref_get_cst (the_sizeof_viewt0ype_int)
+sizeof_t0ype_int_assume () = let
+  val s2c = s2cstref_get_cst (the_sizeof_t0ype_int)
   val s2t_def = s2cst_get_srt s2c
   val s2v = s2var_make_srt s2rt_t0ype
   val arg = s2exp_var (s2v)
@@ -942,7 +966,7 @@ sizeof_viewt0ype_int_assume () = let
   val s2e_def = s2exp_lam_srt (s2t_def, '[s2v], s2e_body)
 in
   s2cst_set_def (s2c, Some s2e_def)
-end // end of [sizeof_viewt0ype_int_assume]
+end // end of [sizeof_t0ype_int_assume]
 
 (* ****** ****** *)
 

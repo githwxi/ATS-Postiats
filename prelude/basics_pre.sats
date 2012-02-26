@@ -237,11 +237,14 @@ stadef == = eq_addr_addr
 stadef != = neq_addr_addr and <> = neq_addr_addr
 
 (* ****** ****** *)
-
-stacst // HX: this is a special constant!
-sizeof_viewt0ype_int : (viewt@ype) -> int
-stadef sizeof = sizeof_viewt0ype_int
-
+//
+// HX: this is a special constant!
+//
+stacst
+sizeof_t0ype_int : t@ype -> int
+stadef
+sizeof (a:viewt@ype): int = sizeof_t0ype_int (a?)
+//
 (* ****** ****** *)
 
 sortdef nat = { i: int | i >= 0 } // natural numbers
@@ -308,10 +311,18 @@ READ_viewt0ype_int_viewt0ype
   (a: viewt@ype+, stamp:int) = a
 stadef READ = READ_viewt0ype_int_viewt0ype
 viewtypedef READ (a:viewt@ype) = [s:int] READ (a, s)
+stadef RD = READ
+
+absviewt@ype
+WRITE_viewt0ype_viewt0ype (a: viewt@ype+) = a
+viewtypedef
+WRITE (a:viewt@ype) = WRITE_viewt0ype_viewt0ype (a)
+stadef WRT = WRITE
 
 (* ****** ****** *)
 
 viewtypedef SHARED (a:viewt@ype) = a // HX: used as a comment
+viewtypedef NSHARED (a:viewt@ype) = a // HX: used as a comment
 
 (* ****** ****** *)
 
