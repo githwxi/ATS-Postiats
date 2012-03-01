@@ -8,7 +8,7 @@
 
 (*
 ** ATS/Anairiats - Unleashing the Potential of Types!
-** Copyright (C) 2002-2008 Hongwei Xi, Boston University
+** Copyright (C) 2011-20?? Hongwei Xi, Boston University
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -57,6 +57,7 @@ fun{a:t@ype} myint_copy (x: !myint(a)):<> myint(a)
 
 fun{a:t@ype}
 neg_myint (x: myint(a)):<> myint(a)
+overload ~ with neg_myint
 
 fun{a:t@ype}
 succ_myint (x: myint(a)):<> myint(a)
@@ -64,33 +65,34 @@ fun{a:t@ype}
 pred_myint (x: myint(a)):<> myint(a)
 
 fun{a:t@ype}
-add_myint_myint (x: myint(a), y: !myint(a)):<> myint(a)
+add01_myint_myint (x: myint(a), y: !myint(a)):<> myint(a)
 fun{a:t@ype}
-sub_myint_myint (x: myint(a), y: !myint(a)):<> myint(a)
+sub01_myint_myint (x: myint(a), y: !myint(a)):<> myint(a)
 
 fun{a:t@ype}
-mul_myint_myint (x: myint(a), y: !myint(a)):<> myint(a)
+mul01_myint_myint (x: myint(a), y: !myint(a)):<> myint(a)
 fun{a:t@ype}
-mul1_myint_myint (x: !myint(a), y: !myint(a)):<> myint(a)
+mul10_myint_myint (x: !myint(a), y: myint(a)):<> myint(a)
+fun{a:t@ype}
+mul11_myint_myint (x: !myint(a), y: !myint(a)):<> myint(a)
 
 fun{a:t@ype}
-div_myint_myint (x: myint(a), y: !myint(a)):<> myint(a)
+div01_myint_myint (x: myint(a), y: !myint(a)):<> myint(a)
 fun{a:t@ype}
-div1_myint_myint (x: !myint(a), y: !myint(a)):<> myint(a)
-
+div11_myint_myint (x: !myint(a), y: !myint(a)):<> myint(a)
 //
 // HX: ediv: even division is assumed
 //
 fun{a:t@ype}
-ediv_myint_myint (x: myint(a), y: !myint(a)):<> myint(a)
+ediv01_myint_myint (x: myint(a), y: !myint(a)):<> myint(a)
 
 fun{a:t@ype}
-mod_myint_myint (x: myint(a), y: !myint(a)):<> myint(a)
+mod01_myint_myint (x: myint(a), y: !myint(a)):<> myint(a)
 fun{a:t@ype}
-mod1_myint_myint (x: !myint(a), y: !myint(a)):<> myint(a)
+mod11_myint_myint (x: !myint(a), y: !myint(a)):<> myint(a)
 
 fun{a:t@ype}
-gcd_myint_myint (x: myint(a), y: !myint(a)):<> myint(a)
+gcd01_myint_myint (x: myint(a), y: !myint(a)):<> myint(a)
 
 (* ****** ****** *)
 
@@ -114,6 +116,10 @@ fun{a:t@ype}
 neq_myint_int (x: !myint(a), y: int):<> bool
 overload = with eq_myint_int
 overload != with neq_myint_int
+
+fun{a:t@ype}
+compare_myint_int (x: !myint(a), y: int):<> int
+overload compare with compare_myint_int
 
 fun{a:t@ype}
 lt_myint_myint (x: !myint(a), y: !myint(a)):<> bool
@@ -147,46 +153,64 @@ fun{a:t@ype} prerr_myint (x: !myint(a)): void
 ** inequality:
 **
 ** A[0] + A[1]*x1 + A[2]*x2 + ... + A[n]*xn >= 0
+**
 *)
 absviewtype myintvec (a:t@ype, n: int) // initialized
 absviewtype myintvec0 (a:t@ype, n: int) // uninitialized
 absviewtype myintvecout (a:t@ype, n: int, l:addr) // SHELL
 
+praxi lemma_myintvec_params
+  {a:t@ype}{n:int} (iv: !myintvec (a, n)): [n>=0] void
+// end of [lemma_myintvec_params]
+
 castfn
 myintvec_takeout
-  {a:t@ype}{n:nat} (
+  {a:t@ype}{n:int} (
   iv: !myintvec (a, n) >> myintvecout (a, n, l)
 ) :<> #[l:addr] (array_v (myint(a), n, l) | ptr l)
 castfn
 myintvec0_takeout
-  {a:t@ype}{n:nat} (
+  {a:t@ype}{n:int} (
   iv: !myintvec0 (a, n) >> myintvecout (a, n, l)
 ) :<> #[l:addr] (array_v (myint(a)?, n, l) | ptr l)
 prfun
 myintvecout_addback
-  {a:t@ype}{n:nat}{l:addr} (
-  pf: array_v (myint(a), n, l) | iv: !myintvecout (a, n, l) >> myintvec (a, n)
+  {a:t@ype}{n:int}{l:addr} (
+  pf: array_v (myint(a), n, l)
+| iv: !myintvecout (a, n, l) >> myintvec (a, n)
 ) : void // end of [myintvecout_addback]
+
+fun{a:t@ype}
+myintvec_get_at
+  {n:int} (iv: !myintvec (a, n), i: natLt n):<> myint(a)
+overload [] with myintvec_get_at
+
+fun{a:t@ype}
+myintvec_compare_at
+  {n:int} (iv: !myintvec (a, n), i: natLt n, x: int): int
+// end of [myintvec_compare_at]
+
+(* ****** ****** *)
 
 fun{a:t@ype}
 myintvec0_make
   {n:nat} (n: int n):<> myintvec0 (a, n)
 // end of [myintvec0_make]
 fun myintvec0_free
-  {a:t@ype}{n:nat} (iv: myintvec0 (a, n), n: int n):<> void
+  {a:t@ype}{n:int} (iv: myintvec0 (a, n), n: int n):<> void
 // end of [myintvec0_free]
 
 fun{a:t@ype}
 myintvec_free
-  {n:nat} (iv: myintvec (a, n), n: int n):<> void
+  {n:int} (iv: myintvec (a, n), n: int n):<> void
 // end of [myintvec_free]
 
 fun{a:t@ype}
-fprint_myintvec {n:nat}
+fprint_myintvec {n:int}
   (out: FILEref, iv: !myintvec(a, n), n: int n): void
 // end of [fprint_myintvec]
 fun{a:t@ype}
-print_myintvec {n:nat} (iv: !myintvec(a, n), n: int n): void
+print_myintvec {n:int} (iv: !myintvec(a, n), n: int n): void
 
 (* ****** ****** *)
 
@@ -195,16 +219,16 @@ myintveclst (a:t@ype, n:int) = List_vt (myintvec (a, n))
 
 fun{a:t@ype}
 myintveclst_free
-  {n:nat} (ivs: myintveclst (a, n), n: int n):<> void
+  {n:int} (ivs: myintveclst (a, n), n: int n):<> void
 // end of [myintveclst_free]
 
 fun{a:t@ype}
-fprint_myintveclst {n:nat}
+fprint_myintveclst {n:int}
   (out: FILEref, ivs: !myintveclst (a, n), n: int n): void
 // end of [fprint_myintveclst]
 fun{a:t@ype}
 print_myintveclst
-  {n:nat} (ivs: !myintveclst (a, n), n: int n): void
+  {n:int} (ivs: !myintveclst (a, n), n: int n): void
 // end of [print_myintveclst]
 
 (* ****** ****** *)
@@ -226,25 +250,25 @@ where icnstrlst
 (* ****** ****** *)
 
 fun{a:t@ype}
-icnstr_free {n:nat} (ic: icnstr (a, n), n: int n): void
+icnstr_free {n:int} (ic: icnstr (a, n), n: int n): void
 fun{a:t@ype}
-icnstrlst_free {n:nat} (ics: icnstrlst (a, n), n: int n): void
+icnstrlst_free {n:int} (ics: icnstrlst (a, n), n: int n): void
 
 (* ****** ****** *)
 
 fun{a:t@ype}
-fprint_icnstr {n:nat}
+fprint_icnstr {n:int}
   (out: FILEref, ic: !icnstr(a, n), n: int n): void
 fun{a:t@ype}
-print_icnstr {n:nat} (ic: !icnstr(a, n), n: int n): void
+print_icnstr {n:int} (ic: !icnstr(a, n), n: int n): void
 
 fun{a:t@ype}
 fprint_icnstrlst
-  {n:nat}{s:nat} (
+  {n:int}{s:int} (
   out: FILEref, ics: !list_vt (icnstr(a, n), s), n: int n
 ) : void // end of [fprint_icnstrlst]
 fun{a:t@ype}
-print_icnstrlst {n:nat}{s:nat}
+print_icnstrlst {n:int}{s:int}
   (ics: !list_vt (icnstr(a, n), s), n: int n): void
 
 (* ****** ****** *)
@@ -286,37 +310,28 @@ myintvec_normalize // knd=2/1:gte/eq
   {n:pos} (knd: int, vec: !myintvec (a, n), n: int n): int(*~1/0*)
 // end of [myintvec_normalize]
 
-fun{a:t@ype}
-myintvec_normalize_eq
-  {n:pos} (vec: !myintvec (a, n), n: int n): int
-// end of [myintvec_normalize_eqe]
-fun{a:t@ype}
-myintvec_normalize_gte
-  {n:pos} (vec: !myintvec (a, n), n: int n): void
-// end of [myintvec_normalize_gte]
-
 (* ****** ****** *)
 //
 // HX: return a copy of [vec]
 //
 fun{a:t@ype}
-myintvec_copy {n:nat}
-  (vec: !myintvec (a, n), n: int n): myintvec (a, n)
+myintvec_copy {n:int}
+  (vec: !myintvec (a, n), n: int n):<> myintvec (a, n)
 // end of [myintvec_copy]
 //
 // HX: return a copy of [cff*vec]
 //
 fun{a:t@ype}
-myintvec_copy_cff {n:nat} (
+myintvec_copy_cff {n:int} (
   cff: !myint(a), vec: !myintvec (a, n), n: int n
-) : myintvec (a, n) // end of [myintvec_copy_cff]
+) :<> myintvec (a, n) // end of [myintvec_copy_cff]
 
 (* ****** ****** *)
 //
 // vec1 := vec2
 //
 fun{a:t@ype}
-myintvec_assign {n:nat} (
+myintvec_assign {n:int} (
   iv1: !myintvec (a, n), iv2: !myintvec (a, n), n: int n
 ) :<> void // end of [myintvec_assign]
 
@@ -325,42 +340,39 @@ myintvec_assign {n:nat} (
 // vec1 := -vec1
 //
 fun{a:t@ype}
-myintvec_negate {n:nat}
+myintvec_negate {n:int}
   (vec: !myintvec (a, n), n: int n):<> void
 // end of [myintvec_negate]
+
+(* ****** ****** *)
+
+fun{a:t@ype}
+myintvec_scale {n:int}
+  (cff: !myint (a), vec: !myintvec (a, n), n: int n):<> void
+// end of [myintvec_scale]
 
 (* ****** ****** *)
 //
 // vec1 := vec1 + vec2
 //
 fun{a:t@ype}
-myintvec_addby {n:nat} (
+myintvec_addby {n:int} (
   vec1: !myintvec (a, n), vec2: !myintvec (a, n), n: int n
 ) :<> void // end of [myintvec_addby]
 //
 // vec1 := vec1 - vec2
 //
 fun{a:t@ype}
-myintvec_subby {n:nat} (
+myintvec_subby {n:int} (
   vec1: !myintvec (a, n), vec2: !myintvec (a, n), n: int n
 ) :<> void // end of [myintvec_subby]
 //
 // vec1 := vec1 + cff * vec2
 //
 fun{a:t@ype}
-myintvec_addby_cff {n:nat} (
+myintvec_addby_cff {n:int} (
   vec1: !myintvec (a, n), cff: !myint(a), vec2: !myintvec (a, n), n: int n
 ) :<> void // end of [myintvec_addby_cff]
-
-(* ****** ****** *)
-
-fun{a:t@ype}
-intvec_combine_at
-  {n,i:int | 0 < i; i < n} (
-  iv_pos: !myintvec (a, n)
-, iv_neg: !myintvec (a, n)
-, n: int n, i: int i
-) :<> myintvec (a, n) // end of [intvec_combine_at]
 
 (* ****** ****** *)
 //
@@ -368,8 +380,26 @@ intvec_combine_at
 //
 fun{a:t@ype}
 icnstrlst_solve {n:pos}
-  (ics: &icnstrlst (a, n), n: int n): [i:int | i <= 0] int(i)
+  (ics: &icnstrlst (a, n), n: int n): int
 // end of [icnstrlst_solve]
+
+local
+//
+typedef intknd = int
+//
+in
+fun icnstrlst_int_solve {n:pos}
+  (ics: &icnstrlst (intknd, n), n: int n): int
+end // end of [local]
+
+local
+//
+typedef intknd = intinf
+//
+in
+fun icnstrlst_intinf_solve {n:pos}
+  (ics: &icnstrlst (intknd, n), n: int n): int
+end // end of [local]
 
 (* ****** ****** *)
 

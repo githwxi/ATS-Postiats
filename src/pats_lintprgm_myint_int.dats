@@ -8,7 +8,7 @@
 
 (*
 ** ATS/Anairiats - Unleashing the Potential of Types!
-** Copyright (C) 2002-2008 Hongwei Xi, Boston University
+** Copyright (C) 2011-20?? Hongwei Xi, Boston University
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -42,10 +42,12 @@ staload "pats_lintprgm.sats"
 
 (* ****** ****** *)
 
-extern castfn myint2int (x: !myint(int)):<> int
+extern castfn myint2int0 (x: myint(int)):<> int
+extern castfn myint2int1 (x: !myint(int)):<> int
 extern castfn int2myint (x: int):<> myint(int)
 macdef i2mi = int2myint
-macdef mi2i = myint2int
+macdef mi2i0 = myint2int0
+macdef mi2i1 = myint2int1
 
 (* ****** ****** *)
 
@@ -53,6 +55,11 @@ extern
 praxi myint_int_free (x: myint(int)): void
 extern
 castfn myint_int_copy (x: !myint(int)):<> myint(int)
+
+(* ****** ****** *)
+
+implement
+myint_make_int<int> (x) = int2myint (x)
 
 (* ****** ****** *)
 
@@ -66,73 +73,87 @@ implement myint_copy<int> (x) = myint_int_copy (x)
 (* ****** ****** *)
 
 implement
-add_myint_myint<int>
+neg_myint<int> (x) = i2mi(~(mi2i0)x)
+
+implement
+add01_myint_myint<int>
   (x, y) = i2mi(res) where {
-  val res = (mi2i)x + (mi2i)y
-  prval () = myint_int_free (x)
+  val res = (mi2i0)x + (mi2i1)y
 } // end of [add_myint_myint<int>]
 
 implement
-sub_myint_myint<int>
+sub01_myint_myint<int>
   (x, y) = (i2mi)res where {
-  val res = (mi2i)x - (mi2i)y
-  prval () = myint_int_free (x)
+  val res = (mi2i0)x - (mi2i1)y
 } // end of [sub_myint_myint<int>]
+
+implement
+succ_myint<int> (x) = i2mi((mi2i0)x + 1)
+implement
+pred_myint<int> (x) = i2mi((mi2i0)x - 1)
 
 (* ****** ****** *)
 
 implement
-div_myint_myint<int>
-  (x, y) = (i2mi)res where {
-  val res = (mi2i)x / (mi2i)y
-  prval () = myint_int_free (x)
-} // end of [div_myint_myint<int>]
+mul01_myint_myint<int> (x, y) = i2mi((mi2i0)x * (mi2i1)y)
+implement
+mul10_myint_myint<int> (x, y) = i2mi((mi2i1)x * (mi2i0)y)
+implement
+mul11_myint_myint<int> (x, y) = i2mi((mi2i1)x * (mi2i1)y)
+
+(* ****** ****** *)
 
 implement
-ediv_myint_myint<int>
+div01_myint_myint<int>
   (x, y) = (i2mi)res where {
-  val res = (mi2i)x / (mi2i)y
-  prval () = myint_int_free (x)
+  val res = (mi2i0)x / (mi2i1)y
+} // end of [div01_myint_myint<int>]
+
+implement
+div11_myint_myint<int> (x, y) = i2mi((mi2i1)x / (mi2i1)y)
+
+implement
+ediv01_myint_myint<int>
+  (x, y) = (i2mi)res where {
+  val res = (mi2i0)x / (mi2i1)y
 } // end of [ediv_myint_myint<int>]
 
 (* ****** ****** *)
 
 implement
-mul1_myint_myint<int> (x, y) = i2mi((mi2i)x * (mi2i)y)
+mod01_myint_myint<int>
+  (x, y) = (i2mi)res where {
+  val res = op mod ((mi2i0)x, (mi2i1)y)
+} // end of [mod01_myint_myint<int>]
+
 implement
-div1_myint_myint<int> (x, y) = i2mi((mi2i)x / (mi2i)y)
-implement
-mod1_myint_myint<int> (x, y) = i2mi((mi2i)x mod (mi2i)y)
+mod11_myint_myint<int> (x, y) = i2mi((mi2i1)x mod (mi2i1)y)
 
 (* ****** ****** *)
 
 implement
-mod_myint_myint<int>
+gcd01_myint_myint<int>
   (x, y) = (i2mi)res where {
-  val res = op mod ((mi2i)x, (mi2i)y)
-  prval () = myint_int_free (x)
-} // end of [mod_myint_myint<int>]
-
-implement
-gcd_myint_myint<int>
-  (x, y) = (i2mi)res where {
-  val res = op gcd ((mi2i)x, (mi2i)y)
-  prval () = myint_int_free (x)
+  val res = op gcd ((mi2i0)x, (mi2i1)y)
 } // end of [gcd_myint_myint<int>]
 
 (* ****** ****** *)
 
-implement lt_myint_int<int> (x, y) = (mi2i)x < y
-implement lte_myint_int<int> (x, y) = (mi2i)x <= y
-implement gt_myint_int<int> (x, y) = (mi2i)x > y
-implement gte_myint_int<int> (x, y) = (mi2i)x >= y
-implement eq_myint_int<int> (x, y) = (mi2i)x = y
-implement neq_myint_int<int> (x, y) = (mi2i)x != y
+implement lt_myint_int<int> (x, y) = (mi2i1)x < y
+implement lte_myint_int<int> (x, y) = (mi2i1)x <= y
+implement gt_myint_int<int> (x, y) = (mi2i1)x > y
+implement gte_myint_int<int> (x, y) = (mi2i1)x >= y
+implement eq_myint_int<int> (x, y) = (mi2i1)x = y
+implement neq_myint_int<int> (x, y) = (mi2i1)x != y
+implement
+compare_myint_int<int> (x, y) = compare ((mi2i1)x, y)
 
-implement lt_myint_myint<int> (x, y) = ((mi2i)x < (mi2i)y)
-implement lte_myint_myint<int> (x, y) = ((mi2i)x <= (mi2i)y)
-implement gt_myint_myint<int> (x, y) = ((mi2i)x > (mi2i)y)
-implement gte_myint_myint<int> (x, y) = ((mi2i)x >= (mi2i)y)
+(* ****** ****** *)
+
+implement lt_myint_myint<int> (x, y) = ((mi2i1)x < (mi2i1)y)
+implement lte_myint_myint<int> (x, y) = ((mi2i1)x <= (mi2i1)y)
+implement gt_myint_myint<int> (x, y) = ((mi2i1)x > (mi2i1)y)
+implement gte_myint_myint<int> (x, y) = ((mi2i1)x >= (mi2i1)y)
 
 (* ****** ****** *)
 
