@@ -326,13 +326,21 @@ myintvec_inspect
 // end of [myintvec_inspect]
 
 fun{a:t@ype}
-myintvec_inspect_eq
+myintvec_inspect_lt
   {n:pos} (vec: !myintvec (a, n), n: int n): int
-// end of [myintvec_inspect_eqe]
+// end of [myintvec_inspect_lt]
 fun{a:t@ype}
 myintvec_inspect_gte
   {n:pos} (vec: !myintvec (a, n), n: int n): int
 // end of [myintvec_inspect_gte]
+fun{a:t@ype}
+myintvec_inspect_eq
+  {n:pos} (vec: !myintvec (a, n), n: int n): int
+// end of [myintvec_inspect_eq]
+fun{a:t@ype}
+myintvec_inspect_neq
+  {n:pos} (vec: !myintvec (a, n), n: int n): int
+// end of [myintvec_inspect_neq]
 
 fun{a:t@ype}
 myintveclst_inspect_gte
@@ -351,9 +359,9 @@ myintvec_cffgcd
 // end of [myintvec_cffgcd]
 
 fun{a:t@ype}
-myintvec_normalize // knd=2/1:gte/eq
-  {n:pos} (knd: int, vec: !myintvec (a, n), n: int n): int(*~1/0*)
-// end of [myintvec_normalize]
+myintvec_normalize_gte
+  {n:pos} (vec: !myintvec (a, n), n: int n): void
+// end of [myintvec_normalize_gte]
 
 (* ****** ****** *)
 //
@@ -420,13 +428,27 @@ myintvec_addby_cff {n:int} (
 ) :<> void // end of [myintvec_addby_cff]
 
 (* ****** ****** *)
+
+typedef
+index (n:int) = intBtw (1, n)
+abstype indexset (n:int)
+
+fun indexset_nil {n:int} ():<> indexset (n)
+fun indexset_is_member
+  {n:int} (xs: indexset n, x: index n):<> bool
+fun indexset_add
+  {n:pos} (xs: indexset n, x: index n):<> indexset n
+// end of [indexset_add]
+
+(*
 //
 // HX: 0/~1: unsolved constraints/contradiction reached
 //
+*)
 fun{a:t@ype}
-icnstrlst_solve {n:pos}
-  (ics: &icnstrlst (a, n), n: int n): int
-// end of [icnstrlst_solve]
+icnstrlst_solve {n:pos} (
+  iset(*hint*): indexset (n), ics: &icnstrlst (a, n), n: int n
+) : int // end of [icnstrlst_solve]
 
 (* ****** ****** *)
 

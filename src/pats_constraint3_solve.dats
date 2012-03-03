@@ -73,15 +73,44 @@ staload _(*anon*) =
 "pats_constraint3_icnstr.dats"
 
 fun{a:t@ype}
+indexset_make_s3exp {n:nat} (
+  vim: !s2varindmap (n), s3e: s3exp
+) : indexset (n+1) = let
+  typedef res = indexset (n+1)
+  viewtypedef map = s2varindmap (n)
+  fun loop (
+    s2vs: s2varlst_vt, vim: !map, res: res
+  ) : res =
+    case+ s2vs of
+    | ~list_vt_cons
+        (s2v, s2vs) => let
+        val ind = s2varindmap_find (vim, s2v)
+        val res = (
+          if ind > 0 then indexset_add (res, ind) else res
+        ) : res // end of [val]
+      in
+        loop (s2vs, vim, res)
+      end // end of [list_vt_cons]
+    | ~list_vt_nil () => res
+  // end of [loop]
+  val s2vs = s3exp_get_fvs (s3e)
+  val s2vs = s2varset_vt_listize_free (s2vs)
+in
+  loop (s2vs, vim, indexset_nil ())
+end // end of [indexset_make_s3exp]
+
+fun{a:t@ype}
 auxsolve {n:nat} (
   loc0: location
 , vim: !s2varindmap (n), n: int n
 , s3ps_asmp: s3explst, s3p_conc: s3exp
 ) : int(*~1/0*) = let
 //
+// HX: note that the order is reversed:
+//
 val ics_asmp = let
   viewtypedef res = icnstrlst (a, n+1)
-  fun aux (
+  fun loop (
     loc0: location
   , vim: !s2varindmap (n), n: int n, s3ps: s3explst
   , res: res
@@ -91,28 +120,30 @@ val ics_asmp = let
         val ic =
           s3exp2icnstr<a> (loc0, vim, n, s3p)
         // end ofl[val]
+(*
         val () = (
-          print "auxsolve: s3p = ";
+          print "auxsolve: loop: s3p = ";
           print_s3exp (s3p); print_newline ();
-          print "auxsolve: ic = ";
+          print "auxsolve: loop: ic = ";
           fprint_icnstr (stdout_ref, ic, n+1);
           print_newline ();
         ) // end of [val]
+*)
       in
-        aux (loc0, vim, n, s3ps, list_vt_cons (ic, res))
+        loop (loc0, vim, n, s3ps, list_vt_cons (ic, res))
       end // end of [list_cons]
     | list_nil () => res
-  // end of [aux]
+  // end of [loop]
 in
-  aux (loc0, vim, n, s3ps_asmp, list_vt_nil)
+  loop (loc0, vim, n, s3ps_asmp, list_vt_nil)
 end // end of [val]
-val ic_conc =
-  s3exp2icnstr<a> (loc0, vim, n, s3p_conc)
+val ic_conc = s3exp2icnstr<a> (loc0, vim, n, s3p_conc)
 val ic_conc = icnstr_negate<a> (ic_conc)
 //
+val iset = indexset_make_s3exp (vim, s3p_conc)
 var ics_all
   : icnstrlst (a, n+1) = list_vt_cons (ic_conc, ics_asmp)
-val ans = icnstrlst_solve<a> (ics_all, n+1)
+val ans = icnstrlst_solve<a> (iset, ics_all, n+1)
 val () = icnstrlst_free<a> (ics_all, n+1)
 //
 in
@@ -150,7 +181,8 @@ val () = (
 ) // end of [val]
 //
 val () = if status >= 0 then {
-val s3p_conc = s3exp_lintize (env, s3p) // HX: it is processed for turning into a vector
+val s3p_conc =
+  s3exp_lintize (env, s3p) // HX: processed for being turned into a vector
 //
 val (s2vs, s3ps) = s2vbcfenv_extract (env)
 val s3ps_asmp =

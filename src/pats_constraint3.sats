@@ -86,6 +86,10 @@ viewtypedef s3explst_vt = List_vt (s3exp)
 (* ****** ****** *)
 
 fun s3exp_get_srt (s3e: s3exp): s2rt
+(*
+** HX: compute the freevar set of [s3e]
+*)
+fun s3exp_get_fvs (s3e: s3exp): s2varset_vt
 
 (* ****** ****** *)
 //
@@ -278,7 +282,7 @@ fun s2varindmap_free
 // HX: if 0 is returned, then [s2v] is not found
 //
 fun s2varindmap_find {n:nat}
-  (map: !s2varindmap (n), s2v: s2var): natLte n
+  (map: !s2varindmap (n), s2v: s2var): natLte (n)
 // end of [s2varindmap_find]
 
 fun{a:t@ype}

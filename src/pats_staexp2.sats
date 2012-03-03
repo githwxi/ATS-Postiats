@@ -621,6 +621,9 @@ fun s2varset_vt_delist
 fun s2varset_vt_union
   (xs: s2varset_vt, ys: s2varset_vt): s2varset_vt
 
+fun s2varset_vt_free (xs: s2varset_vt): void
+fun s2varset_vt_listize_free (xs: s2varset_vt): s2varlst_vt
+
 (* ****** ****** *)
 
 fun s2varmset_nil (): s2varmset
@@ -639,6 +642,8 @@ fun s2varmset_del
   (xs: s2varmset, x: s2var): s2varmset
 fun s2varmset_union
   (xs: s2varmset, ys: s2varmset): s2varmset
+//
+fun s2varmset_listize (xs: s2varmset): s2varlst_vt
 //
 fun fprint_s2varmset : fprint_type (s2varmset)
 //

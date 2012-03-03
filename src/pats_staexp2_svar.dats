@@ -312,6 +312,11 @@ end // end of [s2varset_vt_delist]
 implement
 s2varset_vt_union (xs, ys) = $LS.linset_union (xs, ys, cmp)
 
+implement
+s2varset_vt_free (xs) = $LS.linset_free (xs)
+implement
+s2varset_vt_listize_free (xs) = $LS.linset_listize_free (xs)
+
 end // end of [local]
 
 (* ****** ****** *)
@@ -370,6 +375,9 @@ implement
 s2varmset_union
   (xs1, xs2) = $MSET.funmset_union (xs1, xs2, cmp)
 // end of [s2varmset_union]
+
+implement
+s2varmset_listize (xs) = $MSET.funmset_listize (xs)
 
 implement
 fprint_s2varmset

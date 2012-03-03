@@ -283,46 +283,88 @@ end // end of [myintvec_get_index_of_absmincff]
 
 (* ****** ****** *)
 
-absviewtype indexset (n:int)
+absviewtype indexlst (n:int)
+
+(*
+extern
+fun fprint_indexlst
+  {n:int} (out: FILEref, xs: !indexlst n): void
+// end of [fprint_indexlst]
+*)
 
 extern
-fun indexset_make {n:pos} (n: int n): indexset (n)
+fun indexlst_make
+  {n:pos} (xs: indexset (n), n: int n): indexlst (n)
+// end of [indexlst_make]
 extern
-fun indexset_free {n:int} (xs: indexset (n)): void
+fun indexlst_choose {n:pos} (xs: &indexlst n): natLt (n)
 extern
-fun indexset_select {n:pos} (xs: &indexset n): natLt (n)
+fun indexlst_free {n:int} (xs: indexlst n): void
+
+(* ****** ****** *)
 
 local
 
-typedef
-index (n:int) = intBtw (1, n)
-assume indexset (n:int) = List_vt (index (n))
+staload FS = "libats/SATS/funset_listord.sats"
+staload _(*anon*) = "libats/DATS/funset_listord.dats"
+
+fn cmp (
+  x1: int, x2: int
+) :<cloref> int = compare_int_int (x1, x2)
+
+assume indexset (n:int) = $FS.set (index(n))
+assume indexlst (n:int) = List_vt (index (n))
 
 in // in of [local]
 
 implement
-indexset_make {n} (n) = let
+indexset_nil () = $FS.funset_make_nil ()
+
+implement
+indexset_is_member
+  (xs, x) = $FS.funset_is_member (xs, x, cmp)
+// end of [indexset_is_member]
+
+implement
+indexset_add (xs, x) = xs where {
+  var xs = xs
+  val _(*found*) = $FS.funset_insert (xs, x, cmp)
+} // end of [indexset_add]
+
+(* ****** ****** *)
+
+implement
+indexlst_make
+  {n} (iset, n) = let
+  viewtypedef res = List_vt (index (n))
   fun loop
-    {k:nat | k < n} .<k>.
-    (k: int k, res: indexset n):<> indexset (n) =
-    if k > 0 then loop (k-1, list_vt_cons (k, res)) else res
+    {k:nat | k < n} .<k>. (
+    k: int k, res1: res, res2: res
+  ) :<cloref> res =
+    if k > 0 then let
+      val ismem = indexset_is_member {n} (iset, k)
+    in
+      if ismem then
+        loop (k-1, list_vt_cons (k, res1), res2)
+      else
+        loop (k-1, res1, list_vt_cons (k, res2))
+      // end of [if]
+    end else
+      list_vt_append (res1, res2)
+    (* end of [if] *)
   // end of [loop]
 in
-  loop (n-1, list_vt_nil)
-end // end of [indexset_make]
+  loop (n-1, list_vt_nil, list_vt_nil)
+end // end of [indexlst_make]
 
 implement
-indexset_free (xs) = list_vt_free (xs)
-
-implement
-indexset_select (xs) =
+indexlst_choose (xs) =
   case+ xs of
-  | ~list_vt_cons
-      (x, xs1) => let
-      val () = xs := xs1 in x
-    end // end of [list_vt_cons]
-  | list_vt_nil () => (fold@ (xs); 0)
-// end of[indexset_select]
+  | ~list_vt_cons (x, xs1) => (xs := xs1; x)
+  | list_vt_nil () => (fold@ (xs); 0) // HX: error indication
+// end of [indexlst_choose]
+
+implement indexlst_free (xs) = list_vt_free (xs)
 
 end // end of [local]
 
@@ -332,26 +374,24 @@ extern
 fun{a:t@ype}
 myintveclst_solve
   {n:pos} (
-  ivs: myintveclst (a, n), n: int n
+  iset: indexset (n), ivs: myintveclst (a, n), n: int n
 ) : int(*~1/0*) // end of [myintveclst_solve]
 implement{a}
 myintveclst_solve
-  {n} (ivs, n) = let
-// (*
+  {n} (iset, ivs, n) = let
+(*
 val () = begin
   print "myintveclst_solve: ivs =\n"; print_myintveclst (ivs, n); print_newline ();
 end // end of [val]
-// *)
+*)
 //
 viewtypedef ivs = myintveclst (a, n)
 //
 fun solve (
-  ivs: &ivs
-, n: int n
-, iset: &indexset (n)
+  ivs: &ivs, ilst: &indexlst (n), n: int n
 ) : int(*~1/0*) = let
 //
-val i = indexset_select (iset)
+val i = indexlst_choose (ilst)
 //
 val () = (
   print "myintveclst_solve: i = "; print i; print_newline ()
@@ -361,14 +401,15 @@ in
   if i > 0 then let
     val ans = myintveclst_split_at<a> (ivs, n, i)
   in
-    if ans >= 0 then solve (ivs, n, iset) else ~1(*solved*)
+    if ans >= 0 then solve (ivs, ilst, n) else ~1(*solved*)
   end else 0(*UNDECIDED*)
 end // end of [solve]
+//
 var ivs: ivs = ivs
-var iset = indexset_make (n)
-val ans = solve (ivs, n, iset)
+var ilst = indexlst_make (iset, n)
+val ans = solve (ivs, ilst, n)
 val () = myintveclst_free (ivs, n)
-val () = indexset_free (iset)
+val () = indexlst_free (ilst)
 //
 in
   ans
@@ -532,6 +573,9 @@ myiveqlst (a:t@ype, int) =
 
 (* ****** ****** *)
 
+(*
+** HX: for the purpose of debugging
+*)
 extern
 fun{a:t@ype}
 fprint_myiveqlst {n:int} (
@@ -845,12 +889,27 @@ pred_myintvec_unit
 
 (* ****** ****** *)
 
+local
+
+extern
+fun{
+a:t@ype
+} auxmain {n:pos}{s:int} (
+  stamp: int
+, iset: indexset (n)
+, i1vs: &myivlst (a, n)
+, i1veqs: &myiveqlst (a, n)
+, n: int n
+, ics: &list_vt(icnstr (a, n), s)
+) : int (*~1/0*)
+
 extern
 fun{
 a:t@ype
 } auxmain_conj
   {n:pos}{s:int} (
   stamp: int
+, iset: indexset (n)
 , i1vs: &myivlst (a, n)
 , i1veqs: &myiveqlst (a, n)
 , n: int n
@@ -863,6 +922,7 @@ a:t@ype
 } auxmain_disj
   {n:pos}{s:int} (
   stamp: int
+, iset: indexset (n)
 , i1vs: &myivlst (a, n)
 , i1veqs: &myiveqlst (a, n)
 , n: int n
@@ -871,18 +931,40 @@ a:t@ype
 , rics1: icnstrlst (a, n)
 ) : int (*~1/0*)
 
-local
+(* ****** ****** *)
 
-extern
 fun{
 a:t@ype
-} auxmain {n:pos}{s:int} (
+} auxlt {n:pos} (
   stamp: int
 , i1vs: &myivlst (a, n)
 , i1veqs: &myiveqlst (a, n)
+, iv: myintvec (a, n)
 , n: int n
-, ics: &list_vt(icnstr (a, n), s)
-) : int (*~1/0*)
+) : int (*~1/0/1*) = let
+//
+val () = (
+  print "auxlt: stamp = "; print stamp; print_newline ()
+) // end of [val]
+//
+val () =
+  myintvec_elimeqlst<a> (0(*stamp*), iv, i1veqs, n)
+val ans = myintvec_inspect_lt<a> (iv, n)
+//
+in
+//
+if ans = 0 then let
+  val () = myintvec_negate (iv, n)
+  val () = pred_myintvec_unit (iv)
+  val () = myintvec_normalize_gte (iv, n)
+  val () = i1vs := MYIVLSTcons (stamp, iv, i1vs)
+in
+  0(*undecided*)
+end else let
+  val () = myintvec_free<a> (iv, n) in ans
+end // end of [if]
+//
+end // end of [auxlt]
 
 fun{
 a:t@ype
@@ -905,9 +987,8 @@ val ans = myintvec_inspect_gte<a> (iv, n)
 in
 //
 if ans = 0 then let
-  val () = i1vs :=
-    MYIVLSTcons (stamp, iv, i1vs)
-  // end of [val]
+  val () = myintvec_normalize_gte (iv, n)
+  val () = i1vs := MYIVLSTcons (stamp, iv, i1vs)
 in
   0(*undecided*)
 end else let
@@ -956,6 +1037,7 @@ a:t@ype
 } auxcont
   {n:pos}{s:int} (
   stamp: int
+, iset: indexset (n)
 , i1vs: &myivlst (a, n)
 , i1veqs: &myiveqlst (a, n)
 , n: int n
@@ -970,7 +1052,7 @@ val () = (
 in
 //
 if sgn > 0 then let
-  val ans = auxmain (stamp, i1vs, i1veqs, n, ics)
+  val ans = auxmain (stamp, iset, i1vs, i1veqs, n, ics)
 in
   ans
 end else if sgn < 0 then ~1(*solved*)
@@ -984,14 +1066,14 @@ else let // sgn = 0
   ) // end of [val]
   val () = (
     if ans >= 0 then (
-      ans := myintveclst_solve (ivs, n)
+      ans := myintveclst_solve (iset, ivs, n)
     ) else let
       val () = myintveclst_free (ivs, n) in // nil
     end // end of [if]
   ) : void // end of [if]
   val () = if
     ans >= 0 then (
-    ans := auxmain (stamp+1, i1vs, i1veqs, n, ics)
+    ans := auxmain (stamp+1, iset, i1vs, i1veqs, n, ics)
   ) // end of [val]
 in
   ans
@@ -1008,9 +1090,19 @@ auxneq {n:pos} (
 , n: int n
 ) : icnstrlst (a, n) = let
 //
+val () = (
+  print "auxneq: iv = ";
+  print_myintvec (iv, n); print_newline ()
+) // end of [val]
+//
+val () =
+  myintvec_elimeqlst<a> (0(*stamp*), iv, i1veqs, n)
+val ans = myintvec_inspect_neq<a> (iv, n)  
+in
+//
+if ans = 0 then let
   val iv1_new = myintvec_copy (iv, n)
   val () = pred_myintvec_unit (iv1_new)
-//
   val cff = myint_make_int (~1)
   val iv2_new = myintvec_copy_cff (cff, iv, n)
   val () = myint_free (cff)
@@ -1019,16 +1111,21 @@ auxneq {n:pos} (
   val () = myintvec_free (iv, n)
 //
   val knd = (2(*gte*))
+  val () = myintvec_normalize_gte (iv1_new, n)
+  val () = myintvec_normalize_gte (iv2_new, n)
   val ic1 = ICvec (knd, iv1_new)
   val ic2 = ICvec (knd, iv2_new)
-//
 in
-  list_vt_pair (ic1, ic2)
+  list_vt_pair (ic1, ic2) // disj
+end else let
+  val () = myintvec_free<a> (iv, n) in list_vt_nil (*contra*)
+end // end of [if]
+//
 end // end of [auxneq]
 
 implement{a}
 auxmain {n}{s} (
-  stamp, i1vs, i1veqs, n, ics
+  stamp, iset, i1vs, i1veqs, n, ics
 ) = let
 //
 viewtypedef ic = icnstr (a, n)
@@ -1045,38 +1142,39 @@ case+ ics of
   | ICvec (knd, !p_iv) => (
     case 0 of
     | _ when (
-        knd = 2(*gte*) orelse knd = ~2(*lt*)
+        knd = ~2(*lt*)
       ) => let
-        val iv_new = (
-          if knd > 0 then
-            myintvec_copy (!p_iv, n)
-          else let
-            val cff = myint_make_int (~1)
-            val iv_new = myintvec_copy_cff (cff, !p_iv, n)
-            val () = myint_free (cff)
-            val () = pred_myintvec_unit (iv_new)
-          in
-            iv_new
-          end // end of [if]
-        ) : myintvec (a, n) // end of [val]
+        val iv_new = myintvec_copy (!p_iv, n)
         prval () = fold@ (!p_ic)
-        val sgn = auxgte (stamp, i1vs, i1veqs, iv_new, n)
-        val ans = auxcont (stamp, i1vs, i1veqs, n, !p_ics, sgn)
+        val sgn = auxlt (stamp, i1vs, i1veqs, iv_new, n)
+        val ans = auxcont (stamp, iset, i1vs, i1veqs, n, !p_ics, sgn)
       in
         fold@ (ics); ans
-      end // end of [knd = 2/~2]
+      end // end of [knd=~2]
+    | _ when (
+        knd = 2(*gte*)
+      ) => let
+        val iv_new = myintvec_copy (!p_iv, n)
+        prval () = fold@ (!p_ic)
+        val sgn = auxgte (stamp, i1vs, i1veqs, iv_new, n)
+        val ans = auxcont (stamp, iset, i1vs, i1veqs, n, !p_ics, sgn)
+      in
+        fold@ (ics); ans
+      end // end of [knd = 2]
     | _ when knd = 1(*eq*) => let
         val iv_new = myintvec_copy (!p_iv, n)
         prval () = fold@ (!p_ic)
         val sgn = auxeq (stamp, i1vs, i1veqs, iv_new, n)
-        val ans = auxcont (stamp, i1vs, i1veqs, n, !p_ics, sgn)
+        val ans = auxcont (stamp, iset, i1vs, i1veqs, n, !p_ics, sgn)
       in
         fold@ (ics); ans
       end // end of [knd = 1]
     | _ (* knd = ~1 *) => let
         var ics1 = auxneq (stamp, i1vs, i1veqs, !p_iv, n)
         val () = free@ {a}{0} (!p_ic)
-        val ans = auxmain_disj (stamp, i1vs, i1veqs, n, !p_ics, ics1, list_vt_nil)
+        val ans = auxmain_disj (
+          stamp, iset, i1vs, i1veqs, n, !p_ics, ics1, list_vt_nil
+        ) // end of [val]
         val () = !p_ic := ICveclst (1(*disj*), ics1)
       in
         fold@ (ics); ans
@@ -1086,14 +1184,15 @@ case+ ics of
     case+ 0 of
     | _ when knd = 0 => let
         val ans = auxmain_conj
-          (stamp, i1vs, i1veqs, n, !p_ics, !p_ics1)
+          (stamp, iset, i1vs, i1veqs, n, !p_ics, !p_ics1)
         prval () = fold@ (!p_ic); prval () = fold@ (ics)
       in
         ans
       end // end of [conj]
     | _ (* knd = 1 *) => let
-        val ans = auxmain_disj
-          (stamp, i1vs, i1veqs, n, !p_ics, !p_ics1, list_vt_nil)
+        val ans = auxmain_disj (
+          stamp, iset, i1vs, i1veqs, n, !p_ics, !p_ics1, list_vt_nil
+        ) // end of [val]
         prval () = fold@ (!p_ic); prval () = fold@ (ics)
       in
         ans
@@ -1109,7 +1208,7 @@ end // end of [auxmain]
 
 implement{a}
 auxmain_conj {n}{s} (
-  stamp, i1vs, i1veqs, n, ics, ics1
+  stamp, iset, i1vs, i1veqs, n, ics, ics1
 ) = ans where {
   prval () =
     list_vt_length_is_nonnegative (ics)
@@ -1117,13 +1216,13 @@ auxmain_conj {n}{s} (
     list_vt_length_is_nonnegative (ics1)
   val s1 = list_vt_length (ics1)
   val () = ics := list_vt_append (ics1, ics)
-  val ans = auxmain (stamp, i1vs, i1veqs, n, ics)
+  val ans = auxmain (stamp, iset, i1vs, i1veqs, n, ics)
   val () = ics1 := list_vt_split_at (ics, s1)
 } // end of [auxmain_conj]
 
 implement{a}
 auxmain_disj {n}{s} (
-  stamp, i1vs, i1veqs, n, ics, ics1, rics1
+  stamp, iset, i1vs, i1veqs, n, ics, ics1, rics1
 ) = let
   viewtypedef ic = icnstr (a, n)
   prval () = list_vt_length_is_nonnegative{ic} (ics)
@@ -1141,7 +1240,7 @@ case+ ics1 of
 //
     val () = i1vs := myivlst_mark (i1vs)
     val () = i1veqs := myiveqlst_mark (i1veqs)
-    val ans = auxmain (stamp, i1vs, i1veqs, n, ics)
+    val ans = auxmain (stamp, iset, i1vs, i1veqs, n, ics)
     val () = i1vs := myivlst_unmark (i1vs, n)
     val () = i1veqs := myiveqlst_unmark (i1veqs, n)
 //
@@ -1159,7 +1258,7 @@ case+ ics1 of
     in
       0(*unsolved*)
     end else // solved and continue
-      auxmain_disj (stamp, i1vs, i1veqs, n, ics, ics1, rics1)
+      auxmain_disj (stamp, iset, i1vs, i1veqs, n, ics, ics1, rics1)
     // end of [if]
   end // end of [list_vt_cons]
 | ~list_vt_nil () => let
@@ -1172,17 +1271,17 @@ in // in of [local]
 
 implement{a}
 icnstrlst_solve
-  {n} (ics, n) = let
-//
+  {n} (iset, ics, n) = let
+(*
   val () = (
     print "icnstrlst_solve: ics =\n";
     fprint_icnstrlst (stdout_ref, ics, n);
     print "icnstrlst_solve: n = "; print n; print_newline ()
   ) (* end of [val] *)
-//
+*)
 var i1vs: myivlst (a, n) = MYIVLSTnil ()
 var i1veqs: myiveqlst (a, n) = MYIVEQLSTnil ()
-val ans = auxmain (0(*stamp*), i1vs, i1veqs, n, ics)
+val ans = auxmain (0(*stamp*), iset, i1vs, i1veqs, n, ics)
 val () = myivlst_free (i1vs, n)
 val () = myiveqlst_free (i1veqs, n)
 //

@@ -107,6 +107,83 @@ end // end of [s3exp_get_srt]
 (* ****** ****** *)
 
 implement
+s3exp_get_fvs (s3e0) = let
+//
+viewtypedef res = s2varset_vt
+fun loop (
+  res: res, s3e0: s3exp
+) : res = let
+in
+//
+case+ s3e0 of
+| S3Evar (s2v) => s2varset_vt_add (res, s2v)
+| S3Ecst _ => res
+| S3Enull _ => res
+| S3Eunit _ => res
+| S3Ebool _ => res
+//
+| S3Ebneg (s3e) => loop (res, s3e)
+| S3Ebadd (s3e1, s3e2) => let
+    val res = loop (res, s3e1) in loop (res, s3e2)
+  end // end of [S3Ebadd]
+| S3Ebmul (s3e1, s3e2) => let
+    val res = loop (res, s3e1) in loop (res, s3e2)
+  end // end of [S3Ebmul]
+| S3Ebeq (s3e1, s3e2) => let
+    val res = loop (res, s3e1) in loop (res, s3e2)
+  end // end of [S3Ebeq]
+| S3Ebneq (s3e1, s3e2) => let
+    val res = loop (res, s3e1) in loop (res, s3e2)
+  end // end of [S3Ebneq]
+| S3Ebineq (_, s3e) => loop (res, s3e)
+//
+| S3Eiatm (s2vs) => let
+    fun traux (
+      res: s2varset_vt, xs: s2varlst_vt
+    ) : s2varset_vt =
+      case+ xs of
+      | ~list_vt_cons (x, xs) => let
+          val res = s2varset_vt_add (res, x) in traux (res, xs)
+        end // end of [list_vt_cons]
+      | ~list_vt_nil () => res
+    // end of [traux]
+  in
+    traux (res, s2varmset_listize (s2vs))
+  end // end of [S3Eiatm]
+| S3Eicff (_, s3e) => loop (res, s3e)
+| S3Eisum (s3es) =>
+    list_fold_left_fun<res><s3exp> (loop, res, s3es)
+  // end of [S3Eisum]
+| S3Eimul (s3e1, s3e2) => let
+    val res = loop (res, s3e1) in loop (res, s3e2)
+  end // end of [S3Eimul]
+| S3Epdiff (s3e1, s3e2) => let
+    val res = loop (res, s3e1) in loop (res, s3e2)
+  end // end of [S3Epdiff]
+//
+| S3Epadd  (s3e1, s3e2) => let
+    val res = loop (res, s3e1) in loop (res, s3e2)
+  end // end of [S3Epadd]
+//
+| S3Eapp (s3e1, s3es2) => let
+    val res = loop (res, s3e1)
+  in
+    list_fold_left_fun<res><s3exp> (loop, res, s3es2)
+  end // end of [S3Eapp]
+//
+| S3Eerr (s2t) => res
+//
+end // end of [loop]
+//
+val res = s2varset_vt_nil ()
+//
+in
+  loop (res, s3e0)
+end // end of [s3exp_get_fvs]
+
+(* ****** ****** *)
+
+implement
 s3exp_syneq
   (x1, x2) = let
 in

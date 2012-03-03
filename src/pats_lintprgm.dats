@@ -175,6 +175,16 @@ icnstrlst_free (xs, n) =
 #define TAUTOLOGY 1
 #define CONTRADICTION ~1
 
+(* ****** ****** *)
+
+extern
+fun{a:t@ype}
+myintvec_normalize // knd=2/1:gte/eq
+  {n:pos} (knd: int, vec: !myintvec (a, n), n: int n): int(*~1/0*)
+// end of [myintvec_normalize]
+
+(* ****** ****** *)
+
 implement{a}
 myintvec_inspect
   {n} (knd, iv, n) = let
@@ -204,32 +214,52 @@ myintvec_inspect
   val () = (
     if cffsAllZero then (
       case+ knd of
-      | 1 => (
-          if !p = 0 then ans := TAUTOLOGY else ans := CONTRADICTION
-        ) // end of [eq]
-      | 2 => (
+      |  2 => (
           if !p >= 0 then ans := TAUTOLOGY else ans := CONTRADICTION
         ) // end of [gte]
+      | ~2 => (
+          if !p < 0 then ans := TAUTOLOGY else ans := CONTRADICTION
+        ) // end of [gte]
+      |  1 => (
+          if !p = 0 then ans := TAUTOLOGY else ans := CONTRADICTION
+        ) // end of [eq]
+      | ~1 => (
+          if !p != 0 then ans := TAUTOLOGY else ans := CONTRADICTION
+        ) // end of [eq]
       |  _ => () // HX: this should not happen
     ) // end of [if]
   ) : void // end of [val]
   prval () = pf := array_v_cons {vt} (pf1, pf2)
   prval () = myintvecout_addback (pf | iv)
-//
-  val () = if ans = 0 then ans := myintvec_normalize (knd, iv, n)
-//
 in
   ans(*~1/0/1*)
 end // end of [myintvec_inspect]
 
 implement{a}
-myintvec_inspect_eq
-  (iv, n) = myintvec_inspect (1(*eq*), iv, n)
-// end of [myintvec_inspect_eq]
+myintvec_inspect_lt
+  (iv, n) = myintvec_inspect (~2(*lt*), iv, n)
+// end of [myintvec_inspect_gte]
+
 implement{a}
 myintvec_inspect_gte
   (iv, n) = myintvec_inspect (2(*gte*), iv, n)
 // end of [myintvec_inspect_gte]
+
+implement{a}
+myintvec_inspect_eq
+  (iv, n) = let
+  val knd = 1(*eq*)
+  val ans = myintvec_inspect (knd, iv, n)
+in
+  if ans = 0 then
+    myintvec_normalize (knd, iv, n) else ans
+  // end of [if]
+end // end of [myintvec_inspect_eq]
+
+implement{a}
+myintvec_inspect_neq
+  (iv, n) = myintvec_inspect (~1(*neq*), iv, n)
+// end of [myintvec_inspect_neq]
 
 (* ****** ****** *)
 
@@ -394,7 +424,7 @@ if gcd > 1 then let
         in
           !p := (!p \div gcd)
         end // end of [if]
-      ) // end of [knd=2:gte]
+      ) // end of [knd=2/gte]
     | _ when knd = 1 => let
         val rmd = mod11_myint_myint (!p, gcd)
         val () = // HX: a contradiction may be reached
@@ -402,7 +432,7 @@ if gcd > 1 then let
         val () = myint_free (rmd)
       in
         (*nothing*)
-      end // end of [knd=1:eq]
+      end // end of [knd=1/eq]
     | _ => let
         val () = assertloc (false) in ans := ~1
       end // end of [_]
@@ -417,6 +447,12 @@ end else let
 end // end of [if]
 //
 end // end of [myintvec_normalize]
+
+implement{a}
+myintvec_normalize_gte
+  (iv, n) = () where {
+  val _(*0*) = myintvec_normalize<a> (2(*knd*), iv, n)
+} // end of [myintvec_normalize_gte]
 
 (* ****** ****** *)
 
