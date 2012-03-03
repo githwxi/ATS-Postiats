@@ -66,32 +66,12 @@ case+ x of
     val () = fprint_s2cst (out, s2c)
     val () = prstr ")" 
   } // end of [S3Ecst]
-| S3Eapp (s3e, s3es) => {
-    val () = prstr "S3Eapp("
-    val () = fprint_s3exp (out, s3e)
-    val () = prstr "; "
-    val () = fprint_s3explst (out, s3es)
-    val () = prstr ")" 
-  } // end of [S3Eapp]
-| S3Eexp (s2e) => {
-    val () = prstr "S3Eexp("
-    val () = fprint_s2exp (out, s2e)
-    val () = prstr ")"
-  } // end of [S3Eexp]
 //
 | S3Enull () => prstr "0"
 | S3Eunit () => prstr "1"
 | S3Ebool (b) => {
     val () = fprint_bool (out, b)
   } // end of [S3Ebool]
-//
-| S3Epadd (s3e1, s3e2) => {
-    val () = prstr "S3Epadd("
-    val () = fprint_s3exp (out, s3e1)
-    val () = prstr ", "
-    val () = fprint_s3exp (out, s3e2)
-    val () = prstr ")"
-  } // end of [S3Epadd]
 //
 | S3Ebneg (s3e) => {
     val () = prstr "S3Ebneg("
@@ -173,7 +153,27 @@ case+ x of
     val () = prstr ")"
   } // end of [S3Epdiff]
 //
-| S3Eerr () => prstr "S3Eerr()"
+| S3Epadd (s3e1, s3e2) => {
+    val () = prstr "S3Epadd("
+    val () = fprint_s3exp (out, s3e1)
+    val () = prstr ", "
+    val () = fprint_s3exp (out, s3e2)
+    val () = prstr ")"
+  } // end of [S3Epadd]
+//
+| S3Eapp (s3e, s3es) => {
+    val () = prstr "S3Eapp("
+    val () = fprint_s3exp (out, s3e)
+    val () = prstr "; "
+    val () = fprint_s3explst (out, s3es)
+    val () = prstr ")" 
+  } // end of [S3Eapp]
+//
+| S3Eerr (s2t) => {
+    val () = prstr "S3Eerr("
+    val () = fprint_s2rt (out, s2t)
+    val () = prstr ")"
+  } // end of [S3Eerr]
 //
 end // end of [fprint_s3exp]
 

@@ -42,9 +42,6 @@ staload "pats_intinf.sats"
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
-
-(* ****** ****** *)
-
 staload "pats_constraint3.sats"
 
 (* ****** ****** *)
@@ -53,7 +50,7 @@ staload "pats_constraint3.sats"
 
 (* ****** ****** *)
 
-implement s3exp_err () = S3Eerr ()
+implement s3exp_err (s2t) = S3Eerr (s2t)
 implement s3exp_var (s2v) = S3Evar (s2v)
 implement s3exp_cst (s2c) = S3Ecst (s2c)
 implement s3exp_app (_fun, _arg) = S3Eapp (_fun, _arg)
@@ -581,7 +578,7 @@ case+ (x1, x2) of
     val xs1xs2 = s3exp_imul_list (xs1, xs2)
   in
     s3exp_isum ((l2l)xs1xs2)
-  end // end of [S3Eisum, S2Eisum]
+  end // end of [S3Eisum, S3Eisum]
 | (S3Eisum (xs1), _) => let
     val ys1 = list_map_cloptr (xs1, lam x1 =<1> s3exp_imul (x1, x2))
   in
@@ -598,6 +595,160 @@ case+ (x1, x2) of
 end // end of [s3exp_imul]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+extern
+fun s3exp_lintize_flag (
+  env: &s2vbcfenv, s3e: s3exp, flag: &int
+) : s3exp // end of [s3exp_lintize_flag]
+extern
+fun s3explst_lintize_flag (
+  env: &s2vbcfenv, s3es: s3explst, flag: &int
+) : s3explst // end of [s3explst_lintize_flag]
+
+(* ****** ****** *)
+
+implement
+s3exp_lintize
+  (env, s3e) = let
+  var flag: int = 0 in s3exp_lintize_flag (env, s3e, flag)
+end // end of [s3exp_lintize]
+
+(* ****** ****** *)
+
+implement
+s3exp_lintize_flag
+  (env, s3e0, flag) = let
+  val flag0 = flag
+in
+//
+case+ s3e0 of
+//
+| S3Evar _ => s3e0
+| S3Ecst _ => let
+    val () = flag := flag + 1
+    val s2v = s2vbcfenv_replace_nonlin (env, s3e0)
+  in
+    S3Evar (s2v)
+  end // end of [val]
+| S3Enull _ => s3e0
+| S3Eunit _ => s3e0
+| S3Ebool _ => s3e0
+//
+| S3Ebneg (s3e) => let
+    val s3e =
+      s3exp_lintize_flag (env, s3e, flag)
+    // end of [val]
+  in
+    if flag > flag0 then S3Ebneg (s3e) else s3e0
+  end // end of [S3Ebneg]
+| S3Ebadd (s3e1, s3e2) => let
+    val s3e1 = s3exp_lintize_flag (env, s3e1, flag)
+    val s3e2 = s3exp_lintize_flag (env, s3e2, flag)
+  in
+    if flag > flag0 then S3Ebadd (s3e1, s3e2) else s3e0
+  end // end of [S3Ebadd]
+| S3Ebmul (s3e1, s3e2) => let
+    val s3e1 = s3exp_lintize_flag (env, s3e1, flag)
+    val s3e2 = s3exp_lintize_flag (env, s3e2, flag)
+  in
+    if flag > flag0 then S3Ebmul (s3e1, s3e2) else s3e0
+  end // end of [S3Ebmul]
+| S3Ebeq (s3e1, s3e2) => let
+    val s3e1 = s3exp_lintize_flag (env, s3e1, flag)
+    val s3e2 = s3exp_lintize_flag (env, s3e2, flag)
+  in
+    if flag > flag0 then S3Ebeq (s3e1, s3e2) else s3e0
+  end // end of [S3Ebeq]
+| S3Ebneq (s3e1, s3e2) => let
+    val s3e1 = s3exp_lintize_flag (env, s3e1, flag)
+    val s3e2 = s3exp_lintize_flag (env, s3e2, flag)
+  in
+    if flag > flag0 then S3Ebneq (s3e1, s3e2) else s3e0
+  end // end of [S3Ebneq]
+| S3Ebineq (knd, s3e) => let
+    val s3e = s3exp_lintize_flag (env, s3e, flag)
+  in
+    if flag > flag0 then S3Ebineq (knd, s3e) else s3e0
+  end // end of [S3Ebineq]
+//
+| S3Eiatm _ => let
+    val () = flag := flag + 1
+    val s2v = s2vbcfenv_replace_nonlin (env, s3e0)
+  in
+    S3Evar (s2v)
+  end // end of [val]
+| S3Eicff (cff, s3e) => let
+    val s3e = s3exp_lintize_flag (env, s3e, flag)
+  in
+    if flag > flag0 then S3Eicff (cff, s3e) else s3e0
+  end // end of [S3Eicff
+//
+| S3Eisum (s3es) => let
+    val s3es =
+      s3explst_lintize_flag (env, s3es, flag)
+    // end of [s3es]
+  in
+    if flag > flag0 then S3Eisum (s3es) else s3e0
+  end // end of [S3Eisum]
+| S3Eimul (s3e1, s3e2) => let
+    val s3e1 = s3exp_lintize_flag (env, s3e1, flag)
+    val s3e2 = s3exp_lintize_flag (env, s3e2, flag)
+    val s3e0 = (
+      if flag > flag0 then S3Eimul (s3e1, s3e2) else s3e0
+    ) : s3exp // end of [val]
+    val () = flag := flag + 1
+    val s2v = s2vbcfenv_replace_nonlin (env, s3e0)
+  in
+    S3Evar (s2v)
+  end // end of [S3Eimul]
+| S3Epdiff (s3e1, s3e2) => let
+    val s3e1 = s3exp_lintize_flag (env, s3e1, flag)
+    val s3e2 = s3exp_lintize_flag (env, s3e2, flag)
+  in
+    if flag > flag0 then S3Epdiff (s3e1, s3e2) else s3e0
+  end // end of [S3Epdiff]
+//
+| S3Epadd (s3e1, s3e2) => let
+    val s3e1 = s3exp_lintize_flag (env, s3e1, flag)
+    val s3e2 = s3exp_lintize_flag (env, s3e2, flag)
+  in
+    if flag > flag0 then S3Epadd (s3e1, s3e2) else s3e0
+  end // end of [S3Epadd]
+//
+| S3Eapp (s3e1, s3es2) => let
+    val s3e1 = s3exp_lintize_flag (env, s3e1, flag)
+    val s3es2 = s3explst_lintize_flag (env, s3es2, flag)
+    val s3e0 = (
+      if flag > flag0 then S3Eapp (s3e1, s3es2) else s3e0
+    ) : s3exp // end of [val]
+    val () = flag := flag + 1
+    val s2v = s2vbcfenv_replace_nonlin (env, s3e0)
+  in
+    S3Evar (s2v)
+  end // end of [_]
+//
+| S3Eerr _ => s3e0
+//
+end // end of [s3exp_lintize]
+
+implement
+s3explst_lintize_flag
+  (env, s3es0, flag) = let
+  val flag0 = flag
+in
+//
+case+ s3es0 of
+| list_cons (s3e, s3es) => let
+    val s3e = s3exp_lintize_flag (env, s3e, flag)
+    val s3es = s3explst_lintize_flag (env, s3es, flag)
+  in
+    if flag > flag0 then list_cons (s3e, s3es) else s3es0
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [s3explst_lintize_flag]
 
 (* ****** ****** *)
 

@@ -552,10 +552,16 @@ s2Var_subst_flag (
 in
 //
 case+ opt of
-| Some (s2f) =>
+| Some (s2f) => let
+    val () = flag := flag + 1
+  in
     s2exp_subst_flag (sub, s2f, flag)
+  end // end of [Some]
 | None () => let
-    val isfound = stasub_occurcheck (sub, s2V)
+    val isfound =
+      stasub_occurcheck (sub, s2V)
+    // end of [val]
+    val () = if isfound then flag := flag + 1
   in
     if ~isfound then s2e0 else s2exp_err (s2e0.s2exp_srt)
   end // end of [None]

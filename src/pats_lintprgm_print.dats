@@ -41,6 +41,11 @@ staload "pats_lintprgm.sats"
 implement{a}
 fprint_myintvec
   (out, iv, n) = let
+//
+  prval () =
+    lemma_myintvec_params (iv)
+  // end of [prval]
+//
   viewtypedef x = myint(a)
   val (pf | p) = myintvec_takeout (iv)
   var i: int = 0
@@ -100,16 +105,15 @@ case+ ic of
     val () = prstr "ICvec("
     val () = (
       case+ knd of
-      |  1 => prstr "="
+      |  1 => prstr "=="
       | ~1 => prstr "!="
       |  2 => prstr ">="
-      | ~2 => prstr "<"
+      | ~2 => prstr "<<"
       | _ => fprint_int (out, knd)
     ) : void // end of [val]
     val () = prstr "; "
     val () = fprint_myintvec<a> (out, !p_ivec, n)
     val () = prstr ")"
-    val () = fprint_newline (out)
   in
     fold@ (ic)
   end // end of [ICvec]
@@ -125,10 +129,17 @@ case+ ic of
     val () = prstr "; "
     val () = fprint_icnstrlst (out, !p_ics, n)
     val () = prstr ")"
-    val () = fprint_newline (out)
   in
     fold@ (ic)
   end // end of [ICveclst]
+//
+  | ICerr _ => let
+      val () = prstr "ICerr("
+      val () = fprint_string (out, "...")
+      val () = prstr ")"
+    in
+      fold@ (ic)
+    end // end of [ICerr]
 //
 end // end of [fprint_icnstr]
 
@@ -146,6 +157,7 @@ fprint_icnstrlst
   | list_vt_cons
       (!p_ic, !p_ics) => let
       val () = fprint_icnstr<a> (out, !p_ic, n)
+      val () = fprint_newline (out)
       val () = fprint_icnstrlst<a> (out, !p_ics, n)
     in
       fold@ (ics)

@@ -150,6 +150,15 @@ in '{ // HX: this is not hnf!
   s2exp_srt= s2t, s2exp_node= S2EVar (s2V)
 } end // end of [s2exp_Var]
 
+(*
+** HX: for implementing [p2at_trdn_exist]
+*)
+implement
+s2exp_var_srt
+ (s2t, s2v) = hnf '{
+  s2exp_srt= s2t, s2exp_node= S2Evar (s2v)
+} // end of [s2exp_var_srt]
+
 (* ****** ****** *)
 
 implement

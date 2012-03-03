@@ -38,6 +38,10 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
+staload LOC = "pats_location.sats"
+
+(* ****** ****** *)
+
 staload "pats_intinf.sats"
 
 (* ****** ****** *)
@@ -47,8 +51,15 @@ myint(a:t@ype) = a // [a] is a kind
 
 (* ****** ****** *)
 
-fun{a:t@ype} myint_make_int (x: int): myint(a)
-fun{a:t@ype} myint_make_intinf (x: intinf): myint(a)
+fun{a:t@ype}
+fprint_myint (out: FILEref, x: !myint(a)): void
+fun{a:t@ype} print_myint (x: !myint(a)): void
+fun{a:t@ype} prerr_myint (x: !myint(a)): void
+
+(* ****** ****** *)
+
+fun{a:t@ype} myint_make_int (x: int):<> myint(a)
+fun{a:t@ype} myint_make_intinf (x: intinf):<> myint(a)
 
 fun{a:t@ype} myint_free (x: myint(a)):<> void
 fun{a:t@ype} myint_copy (x: !myint(a)):<> myint(a)
@@ -57,7 +68,8 @@ fun{a:t@ype} myint_copy (x: !myint(a)):<> myint(a)
 
 fun{a:t@ype}
 neg_myint (x: myint(a)):<> myint(a)
-overload ~ with neg_myint
+fun{a:t@ype}
+neg1_myint (x: !myint(a)):<> myint(a)
 
 fun{a:t@ype}
 succ_myint (x: myint(a)):<> myint(a)
@@ -137,13 +149,6 @@ overload >= with gte_myint_myint
 
 (* ****** ****** *)
 
-fun{a:t@ype}
-fprint_myint (out: FILEref, x: !myint(a)): void
-fun{a:t@ype} print_myint (x: !myint(a)): void
-fun{a:t@ype} prerr_myint (x: !myint(a)): void
-
-(* ****** ****** *)
-
 (*
 **
 ** HX-2012-02:
@@ -163,6 +168,17 @@ praxi lemma_myintvec_params
   {a:t@ype}{n:int} (iv: !myintvec (a, n)): [n>=0] void
 // end of [lemma_myintvec_params]
 
+(* ****** ****** *)
+
+fun{a:t@ype}
+fprint_myintvec {n:int}
+  (out: FILEref, iv: !myintvec(a, n), n: int n): void
+// end of [fprint_myintvec]
+fun{a:t@ype}
+print_myintvec {n:int} (iv: !myintvec(a, n), n: int n): void
+
+(* ****** ****** *)
+
 castfn
 myintvec_takeout
   {a:t@ype}{n:int} (
@@ -180,10 +196,16 @@ myintvecout_addback
 | iv: !myintvecout (a, n, l) >> myintvec (a, n)
 ) : void // end of [myintvecout_addback]
 
+(* ****** ****** *)
+
 fun{a:t@ype}
 myintvec_get_at
   {n:int} (iv: !myintvec (a, n), i: natLt n):<> myint(a)
 overload [] with myintvec_get_at
+fun{a:t@ype}
+myintvec_set_at
+  {n:int} (iv: !myintvec (a, n), i: natLt n, x: myint(a)):<> void
+overload [] with myintvec_set_at
 
 fun{a:t@ype}
 myintvec_compare_at
@@ -201,26 +223,18 @@ fun myintvec0_free
 // end of [myintvec0_free]
 
 fun{a:t@ype}
+myintvec_make
+  {n:nat} (n: int n):<> myintvec (a, n) // initialized with zeros
+// end of [myintvec_make]
+fun{a:t@ype}
 myintvec_free
   {n:int} (iv: myintvec (a, n), n: int n):<> void
 // end of [myintvec_free]
-
-fun{a:t@ype}
-fprint_myintvec {n:int}
-  (out: FILEref, iv: !myintvec(a, n), n: int n): void
-// end of [fprint_myintvec]
-fun{a:t@ype}
-print_myintvec {n:int} (iv: !myintvec(a, n), n: int n): void
 
 (* ****** ****** *)
 
 viewtypedef
 myintveclst (a:t@ype, n:int) = List_vt (myintvec (a, n))
-
-fun{a:t@ype}
-myintveclst_free
-  {n:int} (ivs: myintveclst (a, n), n: int n):<> void
-// end of [myintveclst_free]
 
 fun{a:t@ype}
 fprint_myintveclst {n:int}
@@ -231,28 +245,32 @@ print_myintveclst
   {n:int} (ivs: !myintveclst (a, n), n: int n): void
 // end of [print_myintveclst]
 
+fun{a:t@ype}
+myintveclst_free
+  {n:int} (ivs: myintveclst (a, n), n: int n):<> void
+// end of [myintveclst_free]
+
 (* ****** ****** *)
+//
+// HX: it is mapped
+abstype s3exp // to [s3exp] in pats_constraint3
+typedef nat2 = natLt (2)
+typedef int2 = intBtwe (~2, 2)
 
 dataviewtype
 icnstr (a:t@ype, int) =
   | {n:int}
     // knd: gte/lt: 2/~2; eq/neq: 1/~1
-    ICvec (a, n) of (int(*knd*), myintvec (a, n))
+    ICvec (a, n) of (int2(*knd*), myintvec (a, n))
   | {n:int}
     // knd:conj/disj: 0/1
-    ICveclst (a, n) of (int(*knd*), icnstrlst (a, n))
+    ICveclst (a, n) of (nat2(*knd*), icnstrlst (a, n))
+  | {n:int} ICerr (a, n) of ($LOC.location, s3exp)
 // end of [icnstr]
 
 where icnstrlst
   (a:t@ype, n:int) = List_vt (icnstr(a, n))
 // end of [icnstrlst]
-
-(* ****** ****** *)
-
-fun{a:t@ype}
-icnstr_free {n:int} (ic: icnstr (a, n), n: int n): void
-fun{a:t@ype}
-icnstrlst_free {n:int} (ics: icnstrlst (a, n), n: int n): void
 
 (* ****** ****** *)
 
@@ -270,6 +288,33 @@ fprint_icnstrlst
 fun{a:t@ype}
 print_icnstrlst {n:int}{s:int}
   (ics: !list_vt (icnstr(a, n), s), n: int n): void
+
+(* ****** ****** *)
+
+fun{a:t@ype}
+icnstr_copy {n:int}
+  (ic: !icnstr (a, n), n: int n): icnstr (a, n)
+// end of [icnstr_copy]
+fun{a:t@ype}
+icnstrlst_copy {n:int}
+  (ics: !icnstrlst (a, n), n: int n): icnstrlst (a, n)
+// end of [icnstrlst_copy]
+
+fun{a:t@ype}
+icnstr_negate {n:int}
+  (ic: icnstr (a, n)): icnstr (a, n)
+// end of [icnstr_negate]
+fun{a:t@ype}
+icnstrlst_negate {n:int}
+  (ics: icnstrlst (a, n)): icnstrlst (a, n)
+// end of [icnstrlst_negate]
+
+(* ****** ****** *)
+
+fun{a:t@ype}
+icnstr_free {n:int} (ic: icnstr (a, n), n: int n): void
+fun{a:t@ype}
+icnstrlst_free {n:int} (ics: icnstrlst (a, n), n: int n): void
 
 (* ****** ****** *)
 (*
@@ -382,24 +427,6 @@ fun{a:t@ype}
 icnstrlst_solve {n:pos}
   (ics: &icnstrlst (a, n), n: int n): int
 // end of [icnstrlst_solve]
-
-local
-//
-typedef intknd = int
-//
-in
-fun icnstrlst_int_solve {n:pos}
-  (ics: &icnstrlst (intknd, n), n: int n): int
-end // end of [local]
-
-local
-//
-typedef intknd = intinf
-//
-in
-fun icnstrlst_intinf_solve {n:pos}
-  (ics: &icnstrlst (intknd, n), n: int n): int
-end // end of [local]
 
 (* ****** ****** *)
 

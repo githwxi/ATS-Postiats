@@ -63,6 +63,12 @@ intinf_make_base_string_ofs
 fun fprint_intinf (out: FILEref, x: intinf): void
 
 (* ****** ****** *)
+//
+// HX: this is unsafe because of potential overflow
+//
+fun intinf_get_int (n: intinf):<> int
+
+(* ****** ****** *)
 
 fun lt_intinf_int (x1: intinf, x2: int):<> bool
 overload < with lt_intinf_int

@@ -214,13 +214,8 @@ dynload "pats_trans3_caseof.dats"
 dynload "pats_trans3_loop.dats"
 dynload "pats_trans3_decl.dats"
 //
-dynload "pats_constraint3.dats"
-dynload "pats_constraint3_init.dats"
-dynload "pats_constraint3_print.dats"
-dynload "pats_constraint3_simplify.dats"
-dynload "pats_constraint3_solve.dats"
-//
 dynload "pats_lintprgm.dats"
+dynload "pats_lintprgm_print.dats"
 (*
 //
 // HX: ATS_DYNLOADFLAG set to 0
@@ -228,7 +223,14 @@ dynload "pats_lintprgm.dats"
 dynload pats_lintprgm_myint_int.dats
 dynload pats_lintprgm_myint_intinf.dats
 *)
-dynload "pats_lintprgm_solver.dats"
+dynload "pats_lintprgm_solve.dats"
+//
+dynload "pats_constraint3.dats"
+dynload "pats_constraint3_init.dats"
+dynload "pats_constraint3_print.dats"
+dynload "pats_constraint3_simplify.dats"
+dynload "pats_constraint3_icnstr.dats"
+dynload "pats_constraint3_solve.dats"
 //
 dynload "pats_comarg.dats"
 //

@@ -791,6 +791,11 @@ fun s2exp_cst (x: s2cst): s2exp // HX: static constant
 fun s2exp_var (x: s2var): s2exp // HX: static variable
 fun s2exp_Var (x: s2Var): s2exp // HX: static existential variable
 
+(*
+** HX: please be cautious!
+*)
+fun s2exp_var_srt (s2t: s2rt, s2v: s2var): s2exp
+
 fun s2exp_extype_srt
   (s2t: s2rt, name: string, arg: s2explstlst): s2exp
 // end of [s2exp_extype_srt]

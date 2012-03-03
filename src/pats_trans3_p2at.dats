@@ -1090,23 +1090,23 @@ case+ s2vs1 of
       (s2v2, s2vs2) => let
       val s2t1 = s2var_get_srt (s2v1)
       val s2t2 = s2var_get_srt (s2v2)
-      var s2e2: s2exp = s2exp_var (s2v2)
+      var s2e1 // HX: [s2e1] is for [s2v2]
+        : s2exp = s2exp_var_srt (s2t2, s2v1)
+      // end of [var]
       val ismat = s2rt_ltmat1 (s2t2, s2t1)
-      val () = if ~ismat then {
+      val () = if
+        not(ismat) then {
         val () = err := err + 1
         val () = auxerr1 (loc0, s2v1, s2v2)
-        val () = s2e2 := s2exp_err (s2t1)
+        val () = s2e1 := s2exp_err (s2t2) // for [s2v2]
       } // end of [val]
-      val () = stasub_add (sub, s2v1, s2e2)
+      val () = stasub_add (sub, s2v2, s2e1)
     in
       auxbind (sub, s2vs1, s2vs2, err)
     end // end of [list_cons]
   | list_nil () => let
       val () = err := err + 1
       val () = auxerr2 (loc0, s2v1)
-      val s2t1 = s2var_get_srt (s2v1)
-      val s2e2 = s2exp_err (s2t1)
-      val () = stasub_add (sub, s2v1, s2e2)
     in
       auxbind (sub, s2vs1, s2vs2, err)
     end // end of [list_nil]

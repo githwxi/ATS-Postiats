@@ -44,25 +44,27 @@ typedef c3nstr = $TRENV3.c3nstr
 
 (* ****** ****** *)
 
-datatype
-s3exp =
+staload "pats_lintprgm.sats"
+
+(* ****** ****** *)
+
+typedef int2 = intBtwe (~2, 2)
+
+datatype s3exp =
+//
   | S3Evar of s2var
   | S3Ecst of s2cst // abstract constant
-  | S3Eapp of (s3exp, s3explst)
-  | S3Eexp of s2exp
 //
   | S3Enull of () // = 0
   | S3Eunit of () // = 1
   | S3Ebool of bool (* boolean constant *)
-//
-  | S3Epadd of (s3exp, s3exp) // ptr arith
 //
   | S3Ebneg of s3exp
   | S3Ebadd of (s3exp, s3exp)
   | S3Ebmul of (s3exp, s3exp)
   | S3Ebeq of (s3exp, s3exp)
   | S3Ebneq of (s3exp, s3exp)
-  | S3Ebineq of (int(*knd*), s3exp)
+  | S3Ebineq of (int2(*knd*), s3exp)
 //
   | S3Eiatm of s2varmset (* mononomial term *)
   | S3Eicff of (intinf, s3exp) // HX: coefficient
@@ -70,13 +72,21 @@ s3exp =
   | S3Eimul of (s3exp, s3exp)
   | S3Epdiff of (s3exp, s3exp)
 //
-  | S3Eerr of ()
+  | S3Epadd of (s3exp, s3exp) // ptr arith
+//
+  | S3Eapp of (s3exp, s3explst)
+//
+  | S3Eerr of (s2rt)
 // end of [s3exp]
 
 where s3explst = List (s3exp)
 //
 viewtypedef s3explst_vt = List_vt (s3exp)
 //
+(* ****** ****** *)
+
+fun s3exp_get_srt (s3e: s3exp): s2rt
+
 (* ****** ****** *)
 //
 fun fprint_s3exp
@@ -104,7 +114,7 @@ fun s3exp_gte (x1: s3exp, x2: s3exp): bool
 
 (* ****** ****** *)
 
-fun s3exp_err ((* void *)): s3exp
+fun s3exp_err (s2t: s2rt): s3exp
 
 fun s3exp_var (s2v: s2var): s3exp
 fun s3exp_cst (s2c: s2cst): s3exp
@@ -149,7 +159,7 @@ fun s3exp_igt (s3e1: s3exp, s3e2: s3exp): s3exp
 fun s3exp_igte (s3e1: s3exp, s3e2: s3exp): s3exp
 fun s3exp_ieq (s3e1: s3exp, s3e2: s3exp): s3exp
 fun s3exp_ineq (s3e1: s3exp, s3e2: s3exp): s3exp
-fun s3exp_bineq (knd: int, s3e: s3exp): s3exp
+fun s3exp_bineq (knd: int2, s3e: s3exp): s3exp
 
 fun s3exp_plt (s3e1: s3exp, s3e2: s3exp): s3exp
 fun s3exp_plte (s3e1: s3exp, s3e2: s3exp): s3exp
@@ -191,53 +201,38 @@ fun s2vbcfenv_pop
   (pf: s2vbcfenv_push_v | env: &s2vbcfenv): void
 fun s2vbcfenv_push (env: &s2vbcfenv): (s2vbcfenv_push_v | void)
 
-fun s2vbcfenv_find (
+fun s2vbcfenv_find_nonlin (
+  env: &s2vbcfenv, s3e: s3exp
+) : Option_vt (s2var) // end of [s2vbcfenv_find_nonlin]
+
+fun s2vbcfenv_find_cstapp (
   env: &s2vbcfenv, s2c: s2cst, arg: s3explst
-) : Option_vt (s2var) // end of [s2vbcfenv_find]
+) : Option_vt (s2var) // end of [s2vbcfenv_find_cstapp]
 
 fun s2vbcfenv_extract
-  (env: !s2vbcfenv): (s2varlst_vt, s3explst_vt, s2cstset_vt)
+  (env: !s2vbcfenv): (s2varlst_vt, s3explst_vt)
 // end of [s2vbcfenv_extract]
 
-(*
-// HX: for handling a special static function
-*)
-fun
-s2vbcfenv_add (
-  env: &s2vbcfenv
-, s2c: s2cst, arg: s2explst, res: s2var
-) : void // end of [s2vbcfenv_add]
-fun
-s2vbcfenv_replace (
-  env: &s2vbcfenv
-, s2t: s2rt, s2c: s2cst, arg: s2explst
-) : s2var // end of [s2vbcfenv_replace]
+fun s2vbcfenv_add_svar (env: &s2vbcfenv, s2v: s2var): void
+fun s2vbcfenv_add_sbexp (env: &s2vbcfenv, s3p: s3exp): void
 
 (*
-// HX: for handling a generic static function
+// HX: for handling special static functions
 *)
-fun
-s2vbcfenv_add_none (
-  env: &s2vbcfenv
-, s2c: s2cst, arg: s2explst, res: s2var
-): void // end of [s2vbcfenv_add_none]
-fun
-s2vbcfenv_replace_none (
-  env: &s2vbcfenv
-, s2t: s2rt, s2c: s2cst, arg: s2explst
-) : s2var // end of [s2vbcfenv_replace]
+fun s2vbcfenv_add_cstapp (
+  env: &s2vbcfenv, s2c: s2cst, arg: s2explst, res: s2var
+) : void // end of [s2vbcfenv_add_cstapp]
+fun s2vbcfenv_replace_cstapp (
+  env: &s2vbcfenv, s2t: s2rt, s2c: s2cst, arg: s2explst
+) : s2var // end of [s2vbcfenv_replace_cstapp]
 
-fun s2vbcfenv_add_svar
-  (env: &s2vbcfenv, s2v: s2var): void
-// end of [s2vbcfenv_add_svar]
-
-fun s2vbcfenv_add_sexp
-  (env: &s2vbcfenv, s3p: s3exp): void
-// end of [s2vbcfenv_add_sbexp]
-
-fun s2vbcfenv_add_scst
-  (env: &s2vbcfenv, s2c: s2cst): void
-// end of [s2vbcfenv_add_scst]
+(*
+// HX: for handling genericn onlinear expressions
+*)
+fun s2vbcfenv_add_nonlin
+  (env: &s2vbcfenv, s2v: s2var, s3e: s3exp): void
+// end of [s2vbcfenv_add_nonlin]
+fun s2vbcfenv_replace_nonlin (env: &s2vbcfenv, s3e: s3exp): s2var
 
 (* ****** ****** *)
 //
@@ -250,7 +245,7 @@ fun s3exp_make_h3ypo (env: &s2vbcfenv, h3p: h3ypo): s3exp
 //
 fun s3exp_make_s2cst_s2explst (
   env: &s2vbcfenv, s2c: s2cst, s2es: s2explst
-) : s3exp // end of [fun s3exp_make_s2cst_s2explst]
+) : s3exp // end of [s3exp_make_s2cst_s2explst]
 //
 (* ****** ****** *)
 //
@@ -262,6 +257,40 @@ fun s3explst_solve_s2exp (
   loc0: location, env: &s2vbcfenv, s2p: s2exp, err: &int >> int
 ) : int(*status*)
 // end of [s3explst_solve_s2exp]
+
+(* ****** ****** *)
+
+fun s3exp_lintize (env: &s2vbcfenv, s3e: s3exp): s3exp
+
+(* ****** ****** *)
+
+absviewtype s2varindmap (n:int)
+
+fun s2varindmap_make
+  {n:nat} (s2vs: !list_vt (s2var, n)): @(s2varindmap (n), int n)
+// end of [s2varindmap_make]
+
+fun s2varindmap_free
+  {n:int} (map: s2varindmap (n)): void
+// end of [s2varindmap_free]
+
+//
+// HX: if 0 is returned, then [s2v] is not found
+//
+fun s2varindmap_find {n:nat}
+  (map: !s2varindmap (n), s2v: s2var): natLte n
+// end of [s2varindmap_find]
+
+fun{a:t@ype}
+s3exp2icnstr {n:nat} (
+  loc: location
+, vim: !s2varindmap (n), n: int n, s3e: s3exp
+) : icnstr (a, n+1) // end of [s3exp2icnstr]
+
+fun{a:t@ype}
+s3exp2myintvec {n:nat} (
+  vim: !s2varindmap (n), n: int n, s3e: s3exp, err: &int
+) : myintvec (a, n+1) // end of [s3exp2myintvec]
 
 (* ****** ****** *)
 

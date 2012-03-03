@@ -158,7 +158,7 @@ fun f_ndiv_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
   val s2c = s2cstref_get_cst (the_ndivrel_int_int_int)
-  val s2v = s2vbcfenv_replace (env, s2rt_int, s2c, s2es)
+  val s2v = s2vbcfenv_replace_cstapp (env, s2rt_int, s2c, s2es)
 in
   s3exp_var (s2v)
 end // end of [f_ndiv_int_int]
@@ -166,7 +166,7 @@ fun f_idiv_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
   val s2c = s2cstref_get_cst (the_idivrel_int_int_int)
-  val s2v = s2vbcfenv_replace (env, s2rt_int, s2c, s2es)
+  val s2v = s2vbcfenv_replace_cstapp (env, s2rt_int, s2c, s2es)
 in
   s3exp_var (s2v)
 end // end of [f_idiv_int_int]
@@ -241,7 +241,7 @@ fun f_abs_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
   val s2c = s2cstref_get_cst (the_absrel_int_int)
-  val s2v = s2vbcfenv_replace (env, s2rt_int, s2c, s2es)
+  val s2v = s2vbcfenv_replace_cstapp (env, s2rt_int, s2c, s2es)
 in
   s3exp_var (s2v)
 end // end of [f_abs_int]
@@ -250,7 +250,7 @@ fun f_sgn_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
   val s2c = s2cstref_get_cst (the_sgnrel_int_int)
-  val s2v = s2vbcfenv_replace (env, s2rt_int, s2c, s2es)
+  val s2v = s2vbcfenv_replace_cstapp (env, s2rt_int, s2c, s2es)
 in
   s3exp_var (s2v)
 end // end of [f_sgn_int]
@@ -259,7 +259,7 @@ fun f_max_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
   val s2c = s2cstref_get_cst (the_maxrel_int_int_int)
-  val s2v = s2vbcfenv_replace (env, s2rt_int, s2c, s2es)
+  val s2v = s2vbcfenv_replace_cstapp (env, s2rt_int, s2c, s2es)
 in
   s3exp_var (s2v)
 end // end of [f_max_int_int]
@@ -268,7 +268,7 @@ fun f_min_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
   val s2c = s2cstref_get_cst (the_minrel_int_int_int)
-  val s2v = s2vbcfenv_replace (env, s2rt_int, s2c, s2es)
+  val s2v = s2vbcfenv_replace_cstapp (env, s2rt_int, s2c, s2es)
 in
   s3exp_var (s2v)
 end // end of [f_min_int_int]
@@ -277,7 +277,7 @@ fun f_ifint_bool_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
   val s2c = s2cstref_get_cst (the_ifintrel_bool_int_int_int)
-  val s2v = s2vbcfenv_replace (env, s2rt_int, s2c, s2es)
+  val s2v = s2vbcfenv_replace_cstapp (env, s2rt_int, s2c, s2es)
 in
   s3exp_var (s2v)
 end // end of [f_ifint_bool_int_int]

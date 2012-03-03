@@ -38,6 +38,11 @@
 
 (* ****** ****** *)
 
+staload
+INTINF = "pats_intinf.sats"
+
+(* ****** ****** *)
+
 staload "pats_lintprgm.sats"
 
 (* ****** ****** *)
@@ -61,6 +66,11 @@ castfn myint_int_copy (x: !myint(int)):<> myint(int)
 implement
 myint_make_int<int> (x) = int2myint (x)
 
+implement
+myint_make_intinf<int> (x) = let
+  val x = $INTINF.intinf_get_int (x) in int2myint (x)
+end // end of [myint_make_intinf<int>]
+
 (* ****** ****** *)
 
 implement
@@ -74,6 +84,8 @@ implement myint_copy<int> (x) = myint_int_copy (x)
 
 implement
 neg_myint<int> (x) = i2mi(~(mi2i0)x)
+implement
+neg1_myint<int> (x) = i2mi(~(mi2i1)x)
 
 implement
 add01_myint_myint<int>
@@ -154,6 +166,11 @@ implement lt_myint_myint<int> (x, y) = ((mi2i1)x < (mi2i1)y)
 implement lte_myint_myint<int> (x, y) = ((mi2i1)x <= (mi2i1)y)
 implement gt_myint_myint<int> (x, y) = ((mi2i1)x > (mi2i1)y)
 implement gte_myint_myint<int> (x, y) = ((mi2i1)x >= (mi2i1)y)
+
+(* ****** ****** *)
+
+implement
+fprint_myint<int> (out, x) = fprint_int (out, mi2i1(x))
 
 (* ****** ****** *)
 

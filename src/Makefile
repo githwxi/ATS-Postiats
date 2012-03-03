@@ -188,17 +188,19 @@ SOURCES := \
   pats_trans3_caseof.dats \
   pats_trans3_loop.dats \
   pats_trans3_decl.dats \
+  pats_lintprgm.sats \
+  pats_lintprgm.dats \
+  pats_lintprgm_print.dats \
+  pats_lintprgm_myint_int.dats \
+  pats_lintprgm_myint_intinf.dats \
+  pats_lintprgm_solve.dats \
   pats_constraint3.sats \
   pats_constraint3.dats \
   pats_constraint3_init.dats \
   pats_constraint3_print.dats \
   pats_constraint3_simplify.dats \
+  pats_constraint3_icnstr.dats \
   pats_constraint3_solve.dats \
-  pats_lintprgm.sats \
-  pats_lintprgm.dats \
-  pats_lintprgm_myint_int.dats \
-  pats_lintprgm_myint_intinf.dats \
-  pats_lintprgm_solver.dats \
   pats_comarg.sats \
   pats_comarg.dats \
 

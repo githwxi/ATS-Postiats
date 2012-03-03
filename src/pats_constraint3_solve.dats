@@ -52,11 +52,74 @@ staload "pats_trans3_env.sats"
 
 (* ****** ****** *)
 
+staload "pats_lintprgm.sats"
 staload "pats_constraint3.sats"
 
 (* ****** ****** *)
 
 local
+#include "pats_lintprgm_myint_int.dats"
+in (*nothing*) end
+
+(* ****** ****** *)
+
+local
+
+staload _(*anon*) =
+"pats_lintprgm.dats"
+staload _(*anon*) =
+"pats_lintprgm_solve.dats"
+staload _(*anon*) =
+"pats_constraint3_icnstr.dats"
+
+fun{a:t@ype}
+auxsolve {n:nat} (
+  loc0: location
+, vim: !s2varindmap (n), n: int n
+, s3ps_asmp: s3explst, s3p_conc: s3exp
+) : int(*~1/0*) = let
+//
+val ics_asmp = let
+  viewtypedef res = icnstrlst (a, n+1)
+  fun aux (
+    loc0: location
+  , vim: !s2varindmap (n), n: int n, s3ps: s3explst
+  , res: res
+  ) : res =
+    case+ s3ps of
+    | list_cons (s3p, s3ps) => let
+        val ic =
+          s3exp2icnstr<a> (loc0, vim, n, s3p)
+        // end ofl[val]
+        val () = (
+          print "auxsolve: s3p = ";
+          print_s3exp (s3p); print_newline ();
+          print "auxsolve: ic = ";
+          fprint_icnstr (stdout_ref, ic, n+1);
+          print_newline ();
+        ) // end of [val]
+      in
+        aux (loc0, vim, n, s3ps, list_vt_cons (ic, res))
+      end // end of [list_cons]
+    | list_nil () => res
+  // end of [aux]
+in
+  aux (loc0, vim, n, s3ps_asmp, list_vt_nil)
+end // end of [val]
+val ic_conc =
+  s3exp2icnstr<a> (loc0, vim, n, s3p_conc)
+val ic_conc = icnstr_negate<a> (ic_conc)
+//
+var ics_all
+  : icnstrlst (a, n+1) = list_vt_cons (ic_conc, ics_asmp)
+val ans = icnstrlst_solve<a> (ics_all, n+1)
+val () = icnstrlst_free<a> (ics_all, n+1)
+//
+in
+//
+ans // ~1: contradiction reached; 0: undecided yet
+//
+end // end of [auxsolve]
 
 in // in of [local]
 
@@ -67,7 +130,7 @@ s3explst_solve_s2exp
 val s3p = s3exp_make (env, s2p)
 val s3p = (
   case+ s3p of
-  | S3Eerr () => let
+  | S3Eerr _ => let
       val () = prerr_warning3_loc (loc0)
       val () = prerr ": the constraint ["
       val () = pprerr_s2exp (s2p)
@@ -75,22 +138,9 @@ val s3p = (
       val () = prerr_newline ()
     in
       s3exp_false // HX: make it the worst scenario
-    end // end of [S2BEerr]
+    end // end of [S3Eerr]
   | _ => s3p // end of [_]
 ) : s3exp // end of [val]
-//
-val (
-  s2vs, s3ps, s2cs
-) = s2vbcfenv_extract (env)
-//
-val () = begin
-  print "s3explst_solve_s2exp: s2vs = ";
-  print_s2varlst ($UN.castvwtp1 {s2varlst} (s2vs)); print_newline ();
-  print "s3explst_solve_s2exp: s3ps = ";
-  print_s3explst ($UN.castvwtp1 {s3explst} (s3ps)); print_newline ();
-  print "s3explst_solve_s2exp: s2p = "; pprint_s2exp (s2p); print_newline ();
-  print "s3explst_solve_s2exp: s3p = "; print_s3exp (s3p); print_newline ();
-end // end of [val]
 //
 var status: int = 0
 val () = (
@@ -99,12 +149,35 @@ val () = (
   | _ => ()
 ) // end of [val]
 //
-val () = list_vt_free (s2vs)
-val () = list_vt_free (s3ps)
-val () = s2cstset_vt_free (s2cs)
+val () = if status >= 0 then {
+val s3p_conc = s3exp_lintize (env, s3p) // HX: it is processed for turning into a vector
+//
+val (s2vs, s3ps) = s2vbcfenv_extract (env)
+val s3ps_asmp =
+  $UN.castvwtp1 {s3explst} (s3ps) // HX: cannot be SHARED!
+val () = begin
+  print "s3explst_solve_s2exp: s2vs = ";
+  print_s2varlst ($UN.castvwtp1 {s2varlst} (s2vs)); print_newline ();
+  print "s3explst_solve_s2exp: s3ps = ";
+  print_s3explst (s3ps_asmp); print_newline ();
+  print "s3explst_solve_s2exp: s2p = "; pprint_s2exp (s2p); print_newline ();
+  print "s3explst_solve_s2exp: s3p = "; print_s3exp (s3p); print_newline ();
+end // end of [val]
+//
+val (vim, n) =
+  s2varindmap_make (s2vs)
+val ans = auxsolve<int> (loc0, vim, n, s3ps_asmp, s3p_conc)
+val () = s2varindmap_free (vim)
+val () = list_vt_free (s2vs) and () = list_vt_free (s3ps)
+val () = status := ans
+} (* end of [status >= 0] *)
+//
+val () = (
+  print "s3explst_solve_s2exp: status = "; print status; print_newline ()
+) // end of [val]
 //
 in
-  status(*~1/0/1*)
+  status(*~1/0*)
 end // end of [s3explst_solve_s2exp]
 
 end // end of [local]
@@ -173,7 +246,6 @@ fn prerr_c3nstr_if (
   if (unsolved = 0u) then (prerr ": "; prerr_c3nstr c3t)
 // end of [prerr_c3nstr_if]
 //
-  var status: int = status
   val () = if status >= 0 then (unsolved := unsolved + 1u)
 in
   status (* 0: unsolved; ~1: solved *)
@@ -218,12 +290,14 @@ case+ s3is of
   | S3ITMcnstr c3t => let
       val (pf1 | ()) = s2vbcfenv_push (env)
       val (pf2 | ()) = the_s2varbindmap_push ()
-      val ans1 = c3nstr_solve_main (env, c3t, unsolved, err)
+      val ans1 =
+        c3nstr_solve_main (env, c3t, unsolved, err)
+      // end of [val]
       val () = the_s2varbindmap_pop (pf2 | (*none*))
       val () = s2vbcfenv_pop (pf1 | env)
-//
-      val ans2 = c3nstr_solve_itmlst (loc0, env, s3is, unsolved, err)
-//
+      val ans2 =
+        c3nstr_solve_itmlst (loc0, env, s3is, unsolved, err)
+      // end of [val]
     in
       if ans1 >= 0 then 0(*unsolved*) else ans2
     end // end of [S3ITMcnstr]
@@ -231,7 +305,7 @@ case+ s3is of
       val s3p = s3exp_make_h3ypo (env, h3p)
       val () = (
         case+ s3p of
-        | S3Eerr () => let
+        | S3Eerr _ => let
             val () = begin
               prerr_warning3_loc (loc0);
               prerr ": unused hypothesis: ["; prerr_h3ypo (h3p); prerr "]";
@@ -239,8 +313,10 @@ case+ s3is of
             end // end of [val]
           in
             // nothing
-          end // end of [None_vt]
-        | _ => s2vbcfenv_add_sexp (env, s3p)
+          end // end of [S3Eerr]
+        | _ => let
+            val s3p = s3exp_lintize (env, s3p) in s2vbcfenv_add_sbexp (env, s3p)
+          end // end of [_]
       ) : void // end of [val]
     in
       c3nstr_solve_itmlst (loc0, env, s3is, unsolved, err)

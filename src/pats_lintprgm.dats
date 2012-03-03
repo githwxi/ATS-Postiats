@@ -84,6 +84,66 @@ end // end of [myintvec0_free]
 (* ****** ****** *)
 
 implement{a}
+icnstr_copy (ic, n) =
+  case+ ic of
+  | ICvec (knd, !p_iv) => let
+      val iv_new = myintvec_copy<a> (!p_iv, n)
+    in
+      fold@ (ic); ICvec (knd, iv_new)
+    end // end of [ICvec]
+  | ICveclst (knd, !p_ics) => let
+      val ics_new = icnstrlst_copy (!p_ics, n)
+    in
+      fold@ (ic); ICveclst (knd, ics_new)
+    end // end of [ICveclst]
+  | ICerr (loc, s3e) => (fold@ (ic); ICerr (loc, s3e))
+// end of [icnstr_copy]
+
+implement{a}
+icnstrlst_copy (ics, n) =
+  case+ ics of
+  | list_vt_cons
+      (!p_ic, !p_ics1) => let
+      val ic = icnstr_copy<a> (!p_ic, n)
+      val ics1 = icnstrlst_copy<a> (!p_ics1, n)
+      prval () = fold@ (ics)
+    in
+      list_vt_cons (ic, ics1)
+    end // end of [list_vt_cons]
+  | list_vt_nil () => let
+      prval () = fold@ (ics) in list_vt_nil ()
+    end // end of [list_vt_nil]
+// end of [icnstrlst_copy]
+
+(* ****** ****** *)
+
+implement{a}
+icnstr_negate (ic) =
+  case+ ic of
+  | ICvec (!p_knd, _) => (
+      !p_knd := ~(!p_knd); fold@ (ic); ic
+    ) // end of [ICvec]
+  | ICveclst (!p_knd, !p_ics) => (
+      !p_knd := 1-(!p_knd); !p_ics := icnstrlst_negate (!p_ics); fold@ ic; ic
+    ) // end of [ICveclst]
+  | ICerr _ => (fold@ (ic); ic)
+// end of [icnstr_negate]
+
+implement{a}
+icnstrlst_negate (ics) =
+  case+ ics of
+  | list_vt_cons (!p_ic, !p_ics) => let
+      val () = !p_ic := icnstr_negate (!p_ic)
+      val () = !p_ics := icnstrlst_negate (!p_ics)
+    in
+      fold@ (ics); ics
+    end // end of [list_vt_cons]
+  | list_vt_nil () => (fold@ (ics); ics)
+// end of [icnstrlst_negate]
+
+(* ****** ****** *)
+
+implement{a}
 myintveclst_free (ivs, n) =
   case+ ivs of
   | ~list_vt_cons (iv, ivs) =>
@@ -98,6 +158,7 @@ icnstr_free (x, n) =
   case+ x of
   | ~ICvec (knd, obj) => myintvec_free<a> (obj, n)
   | ~ICveclst (knd, xs) => icnstrlst_free<a> (xs, n)
+  | ~ICerr (loc, s3e) => ()
 // end of [icnstr_free]
 
 implement{a}
@@ -363,13 +424,41 @@ implement{a}
 myintvec0_make
   {n} (n) = let
   val n = size1_of_int1 (n)
-  val (pfgc, pfarr | p) = array_ptr_alloc (n)
+  val (pfgc, pfarr | p) = array_ptr_alloc<myint(a)> (n)
 in
   __cast (pfgc, pfarr | p) where {
     extern castfn
       __cast {v1,v2:view} (_:v1, _:v2 | p: ptr):<> myintvec0(a, n)
   } // end of [__cast]
 end // end of [myintvec0_make]
+
+(* ****** ****** *)
+
+implement{a}
+myintvec_make
+  {n} (n) = let
+  viewtypedef x = myint (a)
+  fun loop {n:nat} {l:addr} .<n>. (
+    pf: !array_v (x?, n, l) >> array_v (x, n, l) | p: ptr l, n: int n
+  ) :<> void =
+    if n > 0 then let
+      prval (pf1, pf2) = array_v_uncons {x?} (pf)
+      val () = !p := myint_make_int<a> (0)
+      val () = loop (pf2 | p+sizeof<x>, n-1)
+      prval () = pf := array_v_cons {x} (pf1, pf2)
+    in
+      // nothing
+    end else let
+      prval () = array_v_unnil (pf) in pf := array_v_nil {x} ()
+    end // end of [if]
+  // end of [loop]
+  val iv = myintvec0_make<a> (n)
+  val (pf | p) = myintvec0_takeout (iv)
+  val () = loop (pf | p, n)
+  prval () = myintvecout_addback (pf | iv)
+in
+  iv(* initialized with zeros *)
+end // end of [myintvec_make]
 
 (* ****** ****** *)
 
