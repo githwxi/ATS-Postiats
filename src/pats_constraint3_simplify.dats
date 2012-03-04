@@ -101,7 +101,13 @@ implement s3exp_ppred (s3e) = s3exp_padd (s3e, s3exp_neg_1)
 (* ****** ****** *)
 
 implement
-s3exp_bool (b) = if b then s3exp_true else s3exp_false
+s3exp_bool (b) =
+  if b then s3exp_true else s3exp_false
+// end of [s3exp_bool]
+
+(* ****** ****** *)
+
+implement s3exp_bvar (s2v) = S3Ebvar (s2v)
 
 (* ****** ****** *)
 
@@ -636,6 +642,7 @@ case+ s3e0 of
 | S3Eunit _ => s3e0
 | S3Ebool _ => s3e0
 //
+| S3Ebvar _ => s3e0
 | S3Ebneg (s3e) => let
     val s3e =
       s3exp_lintize_flag (env, s3e, flag)

@@ -81,6 +81,7 @@ case+ s3e of
 | S3Eunit () => s2rt_int
 | S3Ebool (b) => s2rt_bool
 //
+| S3Ebvar _ => s2rt_bool
 | S3Ebneg _ => s2rt_bool
 | S3Ebadd _ => s2rt_bool
 | S3Ebmul _ => s2rt_bool
@@ -122,6 +123,7 @@ case+ s3e0 of
 | S3Eunit _ => res
 | S3Ebool _ => res
 //
+| S3Ebvar (s2v) => s2varset_vt_add (res, s2v)
 | S3Ebneg (s3e) => loop (res, s3e)
 | S3Ebadd (s3e1, s3e2) => let
     val res = loop (res, s3e1) in loop (res, s3e2)
@@ -206,6 +208,9 @@ case+ x1 of
   case+ x2 of S3Ebool b2 => b1 = b2 | _ => false
   ) // end of [S3Ebool]
 //
+| S3Ebvar s2v1 => (
+  case+ x2 of S3Ebvar s2v2 => s2v1 = s2v2 | _ => false
+  ) // end of [S3Ebvar]
 | S3Ebneg (x1) => (
   case+ x2 of S3Ebneg (x2) => s3exp_syneq (x1, x2) | _ => false
   ) // end of [S3Ebneg]
@@ -508,7 +513,11 @@ in
 //
 case+ s2e0.s2exp_node of
 //
-| S2Evar s2v => s3exp_var (s2v)
+| S2Evar s2v => let
+    val isb = s2var_is_bool (s2v)
+  in
+    if isb then s3exp_bvar (s2v) else s3exp_var (s2v)
+  end // end of [S2Evar]
 //
 | S2Eint i => s3exp_int (i)
 | S2Eintinf (int) => s3exp_intinf (int)
@@ -777,6 +786,10 @@ case+ env of
 | S2VBCFLSTsvar
     (s2v, !p_env) => let
     val () = s2vs := list_vt_cons (s2v, s2vs)
+    val isb = s2var_is_bool (s2v)
+    val () = if isb then
+      s3bes := list_vt_cons (S3Ebvar (s2v), s3bes)
+    // end of [val]
     val () = loop (!p_env, s2vs, s3bes) in fold@ (env)
   end // end of [S2VBCFLSTsvar]
 | S2VBCFLSTsbexp
@@ -854,14 +867,14 @@ s2vbcfenv_add_sbexp
 implement
 s2vbcfenv_add_nonlin
   (env, s2v, s3e) = let
-//
+(*
   val () = begin
     print "s2vbcfenv_add_nonlin: s2v = ";
     print_s2var (s2v); print_newline ();
     print "s2vbcfenv_add_nonlin: s3e = ";
     print_s3exp (s3e); print_newline ();
   end // end of [val]
-//
+*)
 in
   env := S2VBCFLSTnonlin (s2v, s3e, env)
 end // end of [s2vbcfenv_add_nonlin]

@@ -73,6 +73,11 @@ case+ x of
     val () = fprint_bool (out, b)
   } // end of [S3Ebool]
 //
+| S3Ebvar (s2v) => {
+    val () = prstr "S3Ebvar("
+    val () = fprint_s2var (out, s2v)
+    val () = prstr ")" 
+  } // end of [S3Ebvar]
 | S3Ebneg (s3e) => {
     val () = prstr "S3Ebneg("
     val () = fprint_s3exp (out, s3e)

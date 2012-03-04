@@ -50,6 +50,11 @@ and false : bool (false) = "mac#atsbool_false" // macro
 //
 (* ****** ****** *)
 
+prfun prop_verify {b:bool} ():<prf> void
+prfun prop_verify_and_add {b:bool} ():<prf> [b] void
+
+(* ****** ****** *)
+
 val null : ptr (null) = "mac#atsptr_null" // macro
 val NULL : ptr (null) = "mac#atsptr_null" // macro
 

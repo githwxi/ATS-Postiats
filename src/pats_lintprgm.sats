@@ -212,6 +212,9 @@ myintvec_compare_at
   {n:int} (iv: !myintvec (a, n), i: natLt n, x: int): int
 // end of [myintvec_compare_at]
 
+fun{a:t@ype}
+myintvec_pred_unit {n:pos} (iv: !myintvec (a, n)): void
+
 (* ****** ****** *)
 
 fun{a:t@ype}

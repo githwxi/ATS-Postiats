@@ -167,7 +167,8 @@ fun{a:viewt@ype}
 array_foreach_vclo
   {v:view} {n:int} {fe:eff} (
   pfv: !v
-| base: &(@[a][n]), f: &(!v | &a) -<clo,fe> void, asz: size_t n
+| base: &(@[a][n])
+, f: &(!v | &a) -<clo,fe> void, asz: size_t n
 ) :<fe> void // end of [array_foreach_vclo]
 
 fun{a:viewt@ype}
@@ -179,7 +180,8 @@ fun{a:viewt@ype}
 array_foreach_vcloptr
   {v:view} {n:int} {fe:eff} (
   pfv: !v
-| base: &(@[a][n]), f: (!v | &a) -<cloptr,fe> void, asz: size_t n
+| base: &(@[a][n])
+, f: (!v | &a) -<cloptr,fe> void, asz: size_t n
 ) :<fe> void // end of [array_foreach_vcloptr]
 
 fun{a:viewt@ype}

@@ -37,6 +37,10 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
 staload ERR = "pats_error.sats"
 
 (* ****** ****** *)
@@ -187,6 +191,8 @@ val s3p_conc =
 val (s2vs, s3ps) = s2vbcfenv_extract (env)
 val s3ps_asmp =
   $UN.castvwtp1 {s3explst} (s3ps) // HX: cannot be SHARED!
+//
+// (*
 val () = begin
   print "s3explst_solve_s2exp: s2vs = ";
   print_s2varlst ($UN.castvwtp1 {s2varlst} (s2vs)); print_newline ();
@@ -195,6 +201,7 @@ val () = begin
   print "s3explst_solve_s2exp: s2p = "; pprint_s2exp (s2p); print_newline ();
   print "s3explst_solve_s2exp: s3p = "; print_s3exp (s3p); print_newline ();
 end // end of [val]
+// *)
 //
 val (vim, n) =
   s2varindmap_make (s2vs)
@@ -204,9 +211,11 @@ val () = list_vt_free (s2vs) and () = list_vt_free (s3ps)
 val () = status := ans
 } (* end of [status >= 0] *)
 //
+(*
 val () = (
   print "s3explst_solve_s2exp: status = "; print status; print_newline ()
 ) // end of [val]
+*)
 //
 in
   status(*~1/0*)
@@ -214,6 +223,16 @@ end // end of [s3explst_solve_s2exp]
 
 end // end of [local]
 
+(* ****** ****** *)
+//
+// HX-2012-03:
+// for errmsg reporting; the function returns 0
+// normally; if it returns 1, then the reported
+// error should be treated as a warning instead.
+//
+extern fun
+c3nstr_solve_errmsg (c3t: c3nstr, unsolved: uint): int
+//
 (* ****** ****** *)
 
 extern fun
@@ -246,6 +265,63 @@ c3nstr_solve_itmlst_disj (
 (* ****** ****** *)
 
 implement
+c3nstr_solve_errmsg
+  (c3t, unsolved) = let
+//
+val loc0 = c3t.c3nstr_loc
+val c3tknd = c3t.c3nstr_kind
+//
+fn prerr_c3nstr_if (
+  unsolved: uint, c3t: c3nstr
+) : void =
+  if (unsolved = 0u) then (prerr ": "; prerr_c3nstr c3t)
+// end of [prerr_c3nstr_if]
+//
+in
+//
+case+ c3tknd of
+| C3NSTRKINDmain () => (
+    if unsolved > 0u then (
+      0 // errmsg reporting has already be done
+    ) else (
+      prerr_error3_loc (loc0);
+      prerr ": unsolved constraint";
+      prerr_c3nstr (c3t);
+      prerr_newline ();
+      0 // it is treated as an error
+    ) (* end of [if] *)
+  ) // end of [C3STRKINDnone]
+| C3NSTRKINDcase_exhaustiveness
+    (casknd, p2tcs) => let
+(*
+    val () = pattern_match_exhaustiveness_msg (loc0, casknd, p2tcs)
+*)
+  in
+    case+ casknd of
+    | CK_case () => 1 (*warning*)
+    | CK_case_pos () => 0 (*error*)
+    | CK_case_neg () => 0 (*deadcode*)
+  end // end of [C3NSTRKINDcase_exhaustiveness]
+| C3NSTRKINDtermet_isnat
+    () => 0 where {
+    val () = prerr_error3_loc (loc0)
+    val () = prerr ": unsolved constraint for termination metric being welfounded"
+    val () = prerr_c3nstr_if (unsolved, c3t)
+    val () = prerr_newline ()
+  } // end of [C3NSTRKINDtermet_isnat]
+| C3NSTRKINDtermet_isdec
+    () => 0 where {
+    val () = prerr_error3_loc (loc0)
+    val () = prerr ": unsolved constraint for termination metric being decreasing"
+    val () = prerr_c3nstr_if (unsolved, c3t)
+    val () = prerr_newline ()
+  } // end of [C3STRKINDmetric_dec]
+//
+end // end of [c3nstr_solve_errmsg]
+
+(* ****** ****** *)
+
+implement
 c3nstr_solve_main
   (env, c3t, unsolved, err) = let
 //
@@ -256,7 +332,7 @@ val () = begin
 end // end of [val]
 *)
 //
-val status = (
+var status: int = (
 //
 // ~1: solved; 0: unsolved
 //
@@ -266,19 +342,22 @@ val status = (
   | C3NSTRitmlst s3is =>
       c3nstr_solve_itmlst (loc0, env, s3is, unsolved, err)
 ) : int // end of [val]
+//
+val () = if status >= 0 then {
+  val iswarn =
+    c3nstr_solve_errmsg (c3t, unsolved)
+  // end of [val]
+  val () = if iswarn > 0 then (status := ~1)
+} // end of [val]
+//
 (*
 val () = begin
   print "c3nstr_solve_main: status = "; print status; print_newline ()
 end // end of [val]
 *)
 //
-fn prerr_c3nstr_if (
-  unsolved: uint, c3t: c3nstr
-) : void =
-  if (unsolved = 0u) then (prerr ": "; prerr_c3nstr c3t)
-// end of [prerr_c3nstr_if]
+val () = if status >= 0 then (unsolved := unsolved + 1u)
 //
-  val () = if status >= 0 then (unsolved := unsolved + 1u)
 in
   status (* 0: unsolved; ~1: solved *)
 end // end of [c3nstr_solve_main]

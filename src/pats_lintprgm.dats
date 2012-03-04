@@ -68,6 +68,18 @@ myintvec_compare_at
 
 (* ****** ****** *)
 
+implement{a}
+myintvec_pred_unit (iv) = {
+  viewtypedef x = myint(a)
+  val (pf | p) = myintvec_takeout {a} (iv)
+  prval (pf1, pf2) = array_v_uncons {x} (pf)
+  val () = !p := pred_myint (!p)
+  prval () = pf := array_v_cons {x} (pf1, pf2)
+  prval () = myintvecout_addback (pf | iv)
+} // end of [pred_myintvec_unit]
+
+(* ****** ****** *)
+
 implement
 myintvec0_free
   {a}{n} (xs, n) = let

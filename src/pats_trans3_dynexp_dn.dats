@@ -132,6 +132,13 @@ case+ d2e0.d2exp_node of
     d2exp_trdn_casehead (d2e0, s2f0)
   // end of [D2Eifhead]
 //
+| D2Elet (d2cs, d2e) =>
+    d2exp_trdn_letwhere (d2e0, d2cs, d2e)
+  // end of [D2Elet]
+| D2Ewhere (d2e, d2cs) =>
+    d2exp_trdn_letwhere (d2e0, d2cs, d2e)
+  // end of [D2Ewhere]
+//
 | D2Elam_dyn _ =>
     d2exp_trdn_lam_dyn (d2e0, s2f0)
   // end of [D2Elam_dyn]
@@ -361,7 +368,7 @@ end // end of [val]
 val d3e_else = let
   val loc_else = d2e_then.d2exp_loc
   val (pfpush | ()) = trans3_env_push ()
-  val () = trans3_env_hypadd_prop (loc0, s2p_cond)
+  val () = trans3_env_hypadd_prop (loc0, s2exp_bneg (s2p_cond))
   val d3e_else = d2exp_trdn (d2e_else, s2e_sif)
   val () = trans3_env_pop_and_add_main (pfpush | loc_else)
 in
@@ -371,6 +378,20 @@ end // end of [val]
 in
   d3exp_sif (loc0, s2e_sif, s2p_cond, d3e_then, d3e_else)
 end // end of [d2exp_trdn_sifhead]
+
+(* ****** ****** *)
+
+implement
+d2exp_trdn_letwhere
+  (d2e0, d2cs, d2e_scope) = let
+  val loc0 = d2e0.d2exp_loc
+//
+  val d3cs = d2eclist_tr (d2cs)
+  val d3e_scope = d2exp_trup (d2e_scope)
+//
+in
+  d3exp_let (loc0, d3cs, d3e_scope)
+end // end of [d2exp_trdn_letwhere]
 
 (* ****** ****** *)
 

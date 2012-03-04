@@ -105,10 +105,21 @@ mul_expand2_linear // a1,b1,c1,a2,b2,c2: constants!
 
 (* ****** ****** *)
 
+prfun mul_gte_gte_gte
+  : {m,n:int | m >= 0; n >= 0} () -<prf> [m*n >= 0] void
+prfun mul_lte_gte_lte
+  : {m,n:int | m <= 0; n >= 0} () -<prf> [m*n <= 0] void
+prfun mul_gte_lte_lte
+  : {m,n:int | m >= 0; n <= 0} () -<prf> [m*n <= 0] void
+prfun mul_lte_lte_gte
+  : {m,n:int | m <= 0; n <= 0} () -<prf> [m*n >= 0] void
+
+(* ****** ****** *)
+
 prfun mul_nat_nat_nat :
   {m,n:nat} {p:int} MUL (m, n, p) -<prf> [p >= 0] void
 prfun mul_pos_pos_pos :
-  {m,n:pos} {p:int} MUL (m, n, p) -<prf> [p >= m; p >= n] void
+  {m,n:pos} {p:int} MUL (m, n, p) -<prf> [p >= m+n-1] void
 
 (* ****** ****** *)
 
@@ -118,7 +129,9 @@ prfun mul_negate2
   {m,n:int} {p:int} (pf: MUL (m, n, p)):<prf> MUL (m, ~n, ~p)
 
 (* ****** ****** *)
-
+//
+// HX: m*n = n*m
+//
 prfun mul_commute
   {m,n:int} {p:int} (pf: MUL (m, n, p)):<prf> MUL (n, m, p)
 prfun mul_is_commutative

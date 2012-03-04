@@ -601,8 +601,14 @@ fun prerr_s2varlst (xs: s2varlst): void
 
 (* ****** ****** *)
 
+fun s2var_is_bool
+  (s2v: s2var): bool // is boolean?
+// end of [s2var_is_bool]
+
+(*
 fun s2var_is_boxed (s2v: s2var): bool
 fun s2var_is_unboxed (s2v: s2var): bool
+*)
 
 (* ****** ****** *)
 

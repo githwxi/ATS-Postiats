@@ -156,6 +156,13 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+s2var_is_bool (s2v) = let
+  val s2t = s2var_get_srt (s2v) in s2rt_is_bool (s2t)
+end // end of [s2var_is_bool]
+
+(* ****** ****** *)
+
+implement
 s2var_make_srt (s2t) = let
   val id = s2var_name_make () in s2var_make_id_srt (id, s2t)
 end // end of [s2var_make_srt]

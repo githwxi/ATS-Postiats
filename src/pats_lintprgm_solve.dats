@@ -392,11 +392,11 @@ fun solve (
 ) : int(*~1/0*) = let
 //
 val i = indexlst_choose (ilst)
-//
+(*
 val () = (
   print "myintveclst_solve: i = "; print i; print_newline ()
 ) // end of [val]
-//
+*)
 in
   if i > 0 then let
     val ans = myintveclst_split_at<a> (ivs, n, i)
@@ -874,21 +874,6 @@ end // end of [myivlst_elimeqlst]
 
 (* ****** ****** *)
 
-fun{a:t@ype}
-pred_myintvec_unit
-  {n:pos} (
-  iv: !myintvec (a, n)
-) : void = {
-  viewtypedef x = myint(a)
-  val (pf | p) = myintvec_takeout {a} (iv)
-  prval (pf1, pf2) = array_v_uncons {x} (pf)
-  val () = !p := pred_myint (!p)
-  prval () = pf := array_v_cons {x} (pf1, pf2)
-  prval () = myintvecout_addback (pf | iv)
-} // end of [pred_myintvec_unit]
-
-(* ****** ****** *)
-
 local
 
 extern
@@ -942,11 +927,11 @@ a:t@ype
 , iv: myintvec (a, n)
 , n: int n
 ) : int (*~1/0/1*) = let
-//
+(*
 val () = (
   print "auxlt: stamp = "; print stamp; print_newline ()
 ) // end of [val]
-//
+*)
 val () =
   myintvec_elimeqlst<a> (0(*stamp*), iv, i1veqs, n)
 val ans = myintvec_inspect_lt<a> (iv, n)
@@ -955,7 +940,7 @@ in
 //
 if ans = 0 then let
   val () = myintvec_negate (iv, n)
-  val () = pred_myintvec_unit (iv)
+  val () = myintvec_pred_unit (iv)
   val () = myintvec_normalize_gte (iv, n)
   val () = i1vs := MYIVLSTcons (stamp, iv, i1vs)
 in
@@ -975,11 +960,11 @@ a:t@ype
 , iv: myintvec (a, n)
 , n: int n
 ) : int (*~1/0/1*) = let
-//
+(*
 val () = (
   print "auxgte: stamp = "; print stamp; print_newline ()
 ) // end of [val]
-//
+*)
 val () =
   myintvec_elimeqlst<a> (0(*stamp*), iv, i1veqs, n)
 val ans = myintvec_inspect_gte<a> (iv, n)
@@ -1006,12 +991,12 @@ a:t@ype
 , iv: myintvec (a, n)
 , n: int n
 ) : int (*~1/0/1*) = let
-//
+(*
 val () = (
   print "auxeq: iv = ";
   print_myintvec (iv, n); print_newline ()
 ) // end of [val]
-//
+*)
 val () =
   myintvec_elimeqlst<a> (0(*stamp*), iv, i1veqs, n)
 val ans = myintvec_inspect_eq<a> (iv, n)  
@@ -1044,11 +1029,11 @@ a:t@ype
 , ics: &list_vt(icnstr (a, n), s)
 , sgn: int // ~1/0/1
 ) : int(*~1/0*) = let
-//
+(*
 val () = (
   print "auxcont: sgn = "; print_int sgn; print_newline ()
 ) // end of [val]
-//
+*)
 in
 //
 if sgn > 0 then let
@@ -1061,9 +1046,6 @@ else let // sgn = 0
     myivlst_elimeqlst (i1vs, i1veqs, n)
   // end of [var]
   var ans: int = myintveclst_inspect_gte (ivs, n)
-  val () = (
-    print "auxcont: ans = "; print ans; print_newline ()
-  ) // end of [val]
   val () = (
     if ans >= 0 then (
       ans := myintveclst_solve (iset, ivs, n)
@@ -1089,12 +1071,12 @@ auxneq {n:pos} (
 , iv: myintvec (a, n)
 , n: int n
 ) : icnstrlst (a, n) = let
-//
+(*
 val () = (
   print "auxneq: iv = ";
   print_myintvec (iv, n); print_newline ()
 ) // end of [val]
-//
+*)
 val () =
   myintvec_elimeqlst<a> (0(*stamp*), iv, i1veqs, n)
 val ans = myintvec_inspect_neq<a> (iv, n)  
@@ -1102,11 +1084,11 @@ in
 //
 if ans = 0 then let
   val iv1_new = myintvec_copy (iv, n)
-  val () = pred_myintvec_unit (iv1_new)
+  val () = myintvec_pred_unit (iv1_new)
   val cff = myint_make_int (~1)
   val iv2_new = myintvec_copy_cff (cff, iv, n)
   val () = myint_free (cff)
-  val () = pred_myintvec_unit (iv2_new)
+  val () = myintvec_pred_unit (iv2_new)
 //
   val () = myintvec_free (iv, n)
 //
@@ -1129,11 +1111,11 @@ auxmain {n}{s} (
 ) = let
 //
 viewtypedef ic = icnstr (a, n)
-//
+(*
 val () = (
   print "auxmain: stamp = "; print stamp; print_newline ()
 ) // end of [val]
-//
+*)
 in
 //
 case+ ics of

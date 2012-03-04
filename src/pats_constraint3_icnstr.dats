@@ -175,18 +175,6 @@ s3exp2icnstr
 in
 //
 case+ s3e0 of
-| S3Evar (s2v) => let
-    val knd = 1(*eq*)
-    val iv = myintvec_make<a> (n+1)
-    val cff = myint_make_int<a> (1)
-    var err: int = 0
-    val () = myintvec_addby_cffvar<a> (iv, vim, cff, s2v, err)
-  in
-    if err > 0 then let
-      val () = myintvec_free<a> (iv, n+1) in ICerr (loc0, $UN.cast(s3e0))
-    end else ICvec (knd, iv)
-  end // end of [S3Evar]
-//
 | S3Ebool (b) => (
     if b then
       ICveclst (0(*conj*), list_vt_nil) // ic_true
@@ -195,6 +183,21 @@ case+ s3e0 of
     // end of [if]
   ) // end of [S3Ebool]
 //
+| S3Ebvar (s2v) => let
+    val iv = myintvec_make<a> (n+1)
+    val cff = myint_make_int<a> (1)
+    var err: int = 0
+    val () = myintvec_addby_cffvar<a> (iv, vim, cff, s2v, err)
+    val () = myintvec_pred_unit (iv)
+  in
+    if err > 0 then let
+      val () = myintvec_free<a> (iv, n+1) in ICerr (loc0, $UN.cast(s3e0))
+    end else ICvec (1(*eq*), iv)
+  end // end of [S3Ebvar]
+//
+| S3Ebneg (s3e) => let
+    val ic = s3exp2icnstr<a> (loc0, vim, n, s3e) in icnstr_negate (ic)
+  end // end of [S3Ebneg]
 | S3Ebadd (s3e1, s3e2) => let
     val ic1 = s3exp2icnstr<a> (loc0, vim, n, s3e1)
     val ic2 = s3exp2icnstr<a> (loc0, vim, n, s3e2)

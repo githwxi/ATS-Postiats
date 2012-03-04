@@ -59,6 +59,7 @@ datatype s3exp =
   | S3Eunit of () // = 1
   | S3Ebool of bool (* boolean constant *)
 //
+  | S3Ebvar of s2var
   | S3Ebneg of s3exp
   | S3Ebadd of (s3exp, s3exp)
   | S3Ebmul of (s3exp, s3exp)
@@ -150,7 +151,7 @@ fun s3exp_psub (s3e1: s3exp, s3e2: s3exp): s3exp
 (* ****** ****** *)
 
 fun s3exp_bool (b: bool): s3exp
-
+fun s3exp_bvar (s2v: s2var): s3exp
 fun s3exp_bneg (s3e: s3exp): s3exp
 fun s3exp_beq (s3e1: s3exp, s3e2: s3exp): s3exp
 fun s3exp_bneq (s3e1: s3exp, s3e2: s3exp): s3exp
