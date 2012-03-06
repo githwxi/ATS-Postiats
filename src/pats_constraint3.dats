@@ -847,6 +847,7 @@ fun s2vbcfenv_add2_cstapp (
   val s2es1 = list_extend (arg1, s2e_var)
   val s2e_rel = s2exp_app_srt (s2rt_bool, s2e_cst, (l2l)s2es1)
   val s3be = s3exp_make (env, s2e_rel)
+  val s3be = s3exp_lintize (env, s3be) // replacing nonlinear terms with vars
 //
 in
   env := S2VBCFLSTcons (s2c, arg2, s2v, Some_vt (s3be), env)
@@ -867,14 +868,14 @@ s2vbcfenv_add_sbexp
 implement
 s2vbcfenv_add_nonlin
   (env, s2v, s3e) = let
-(*
+// (*
   val () = begin
     print "s2vbcfenv_add_nonlin: s2v = ";
     print_s2var (s2v); print_newline ();
     print "s2vbcfenv_add_nonlin: s3e = ";
     print_s3exp (s3e); print_newline ();
   end // end of [val]
-*)
+// *)
 in
   env := S2VBCFLSTnonlin (s2v, s3e, env)
 end // end of [s2vbcfenv_add_nonlin]

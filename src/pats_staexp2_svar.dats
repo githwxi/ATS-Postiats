@@ -389,7 +389,7 @@ s2varmset_listize (xs) = $MSET.funmset_listize (xs)
 implement
 fprint_s2varmset
   (out, xs) = let
-  val xs = $MSET.funmset_listize (xs)
+  val xs = $MSET.funmset_mlistize (xs)
   val () = fprint_s2varlst (out, $UN.castvwtp1 {s2varlst} (xs))
   val () = list_vt_free (xs)
 in

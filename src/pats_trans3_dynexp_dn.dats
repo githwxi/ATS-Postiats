@@ -133,11 +133,13 @@ case+ d2e0.d2exp_node of
   // end of [D2Eifhead]
 //
 | D2Elet (d2cs, d2e) =>
-    d2exp_trdn_letwhere (d2e0, d2cs, d2e)
+    d2exp_trdn_letwhere (d2e0, s2f0, d2cs, d2e)
   // end of [D2Elet]
 | D2Ewhere (d2e, d2cs) =>
-    d2exp_trdn_letwhere (d2e0, d2cs, d2e)
+    d2exp_trdn_letwhere (d2e0, s2f0, d2cs, d2e)
   // end of [D2Ewhere]
+//
+| D2Eseq _ => d2exp_trdn_seq (d2e0, s2f0)
 //
 | D2Elam_dyn _ =>
     d2exp_trdn_lam_dyn (d2e0, s2f0)
@@ -383,15 +385,63 @@ end // end of [d2exp_trdn_sifhead]
 
 implement
 d2exp_trdn_letwhere
-  (d2e0, d2cs, d2e_scope) = let
+  (d2e0, s2f0, d2cs, d2e_scope) = let
   val loc0 = d2e0.d2exp_loc
+  val s2e0 = s2hnf2exp (s2f0)
 //
   val d3cs = d2eclist_tr (d2cs)
-  val d3e_scope = d2exp_trup (d2e_scope)
+  val d3e_scope = d2exp_trdn (d2e_scope, s2e0)
 //
 in
   d3exp_let (loc0, d3cs, d3e_scope)
 end // end of [d2exp_trdn_letwhere]
+
+(* ****** ****** *)
+
+implement
+d2exp_trdn_seq (d2e0, s2f0) = let
+//
+val loc0 = d2e0.d2exp_loc
+val- D2Eseq (d2es) = d2e0.d2exp_node
+val s2e0 = s2hnf2exp (s2f0)
+//
+fun aux (
+  d2e: d2exp
+, d2es: d2explst
+, s2e_void: s2exp
+, s2e0: s2exp
+) : d3explst =
+  case+ d2es of
+  | list_cons (d2e1, d2es1) => let
+      val d3e = d2exp_trdn (d2e, s2e_void)
+      val d3es = aux (d2e1, d2es1, s2e_void, s2e0)
+    in
+      list_cons (d3e, d3es)
+    end // end of [cons]
+  | list_nil () => let
+      val d3e = d2exp_trdn (d2e, s2e0) in list_sing (d3e)
+    end // end of [nil]
+// end of [aux]
+//
+val s2e_void = s2exp_void_t0ype ()
+//
+in
+//
+case+ d2es of
+| list_cons (d2e, d2es) => let
+    var s2e_res: s2exp // uninitialized
+    val d3es = aux (d2e, d2es, s2e_void, s2e0)
+  in
+    d3exp_seq (loc0, s2e0, d3es)
+  end // end of [cons]
+| list_nil () => let
+    val d3e =
+      d3exp_empty (loc0, s2e_void)
+    // end of [val]
+  in
+    d3exp_trdn (d3e, s2e0)
+  end // end of [list_nil]
+end // end of [d2exp_trdn_seq]
 
 (* ****** ****** *)
 

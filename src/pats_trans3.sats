@@ -218,9 +218,10 @@ fun d2exp_trdn_ifhead (d2e: d2exp, s2f: s2hnf): d3exp
 fun d2exp_trdn_casehead (d2e: d2exp, s2f: s2hnf): d3exp
 fun d2exp_trdn_sifhead (d2e: d2exp, s2f: s2hnf): d3exp
 fun d2exp_trdn_scasehead (d2e: d2exp, s2f: s2hnf): d3exp
-fun d2exp_trdn_letwhere
-  (d2e0: d2exp, d2cs: d2eclist, d2e_scope: d2exp): d3exp
-// end of [d2exp_trdn_letwhere]
+fun d2exp_trdn_letwhere (
+  d2e0: d2exp, s2f0: s2hnf, d2cs: d2eclist, d2e_scope: d2exp
+) : d3exp // end of [d2exp_trdn_letwhere]
+fun d2exp_trdn_seq (d2e0: d2exp, s2f0: s2hnf): d3exp
 fun d2exp_trdn_lam_dyn (d2e: d2exp, s2f: s2hnf): d3exp
 
 (* ****** ****** *)

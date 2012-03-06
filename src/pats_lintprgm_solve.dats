@@ -149,10 +149,11 @@ case+ poss of
     val ans = myintvec_inspect_gte (iv_new, n)
     val () = (
       if ans != 0 then
-        myintvec_free (iv_new, n)
-      else
+        myintvec_free (iv_new, n) else let
+        val () = myintvec_normalize_gte (iv_new, n)
+      in
         neus := list_vt_cons (iv_new, neus)
-      // end of [if]
+      end // end of [if]
     ) : void // end of [val]
     in
       if (ans >= 0) then let
@@ -379,11 +380,11 @@ myintveclst_solve
 implement{a}
 myintveclst_solve
   {n} (iset, ivs, n) = let
-(*
+// (*
 val () = begin
   print "myintveclst_solve: ivs =\n"; print_myintveclst (ivs, n); print_newline ();
 end // end of [val]
-*)
+// *)
 //
 viewtypedef ivs = myintveclst (a, n)
 //
@@ -392,11 +393,15 @@ fun solve (
 ) : int(*~1/0*) = let
 //
 val i = indexlst_choose (ilst)
-(*
+// (*
 val () = (
-  print "myintveclst_solve: i = "; print i; print_newline ()
+  print "myintveclst_solve: solve: i = "; print i; print_newline ()
 ) // end of [val]
-*)
+// *)
+val () = (
+  print "myintveclst_solve: solve: ivs =\n"; print_myintveclst (ivs, n); print_newline ()
+) // end of [val]
+// *)
 in
   if i > 0 then let
     val ans = myintveclst_split_at<a> (ivs, n, i)
@@ -408,6 +413,11 @@ end // end of [solve]
 var ivs: ivs = ivs
 var ilst = indexlst_make (iset, n)
 val ans = solve (ivs, ilst, n)
+// (*
+val () = (
+  print "myintveclst_solve: ans = "; print ans; print_newline ()
+) // end of [val]
+// *)
 val () = myintveclst_free (ivs, n)
 val () = indexlst_free (ilst)
 //
@@ -441,13 +451,13 @@ myintveclst_elimeq_at {n:int} (
 implement{a}
 myintvec_elimeq_at
   (iv, iveq, n, i) = let
-(*
+// (*
 val () = (
   print "myintvec_elimeq_at: i = "; print_int (i); print_newline ();
   print "myintvec_elimeq_at: iv = "; print_myintvec (iv, n); print_newline ();
   print "myintvec_elimeq_at: iveq = "; print_myintvec (iveq, n); print_newline ()
 ) // end of [val]
-*)
+// *)
 //
 val sgn = myintvec_compare_at (iv, i, 0)
 //
@@ -1029,11 +1039,11 @@ a:t@ype
 , ics: &list_vt(icnstr (a, n), s)
 , sgn: int // ~1/0/1
 ) : int(*~1/0*) = let
-(*
+// (*
 val () = (
   print "auxcont: sgn = "; print_int sgn; print_newline ()
 ) // end of [val]
-*)
+// *)
 in
 //
 if sgn > 0 then let
@@ -1045,11 +1055,14 @@ else let // sgn = 0
   var ivs =
     myivlst_elimeqlst (i1vs, i1veqs, n)
   // end of [var]
-  var ans: int = myintveclst_inspect_gte (ivs, n)
+  var ans
+    : int = myintveclst_inspect_gte (ivs, n)
   val () = (
-    if ans >= 0 then (
+    if ans >= 0 then let
+      val () = myintveclst_normalize_gte (ivs, n)
+    in
       ans := myintveclst_solve (iset, ivs, n)
-    ) else let
+    end else let
       val () = myintveclst_free (ivs, n) in // nil
     end // end of [if]
   ) : void // end of [if]
@@ -1111,11 +1124,11 @@ auxmain {n}{s} (
 ) = let
 //
 viewtypedef ic = icnstr (a, n)
-(*
+// (*
 val () = (
   print "auxmain: stamp = "; print stamp; print_newline ()
 ) // end of [val]
-*)
+// *)
 in
 //
 case+ ics of

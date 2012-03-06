@@ -36,6 +36,11 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload
+INTINF = "pats_intinf.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 staload "pats_stacst2.sats"
 
@@ -165,10 +170,33 @@ end // end of [f_ndiv_int_int]
 fun f_idiv_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
-  val s2c = s2cstref_get_cst (the_idivrel_int_int_int)
+  val s2es0 = s2es
+  val- list_cons (s2e1, s2es) = s2es
+  val- list_cons (s2e2, s2es) = s2es
+  val sgn = (
+    case+ s2e2.s2exp_node of
+    | S2Eint (i) => compare_int_int (i, 0)
+    | S2Eintinf (i) => $INTINF.compare_intinf_int (i, 0)
+    | _ => 0 (* HX: no integer constant *)
+  ) : int // end of [val]
+  val s2c = (
+    if sgn != 0 then
+      s2cstref_get_cst (the_ndivrel_int_int_int)
+    else 
+      s2cstref_get_cst (the_idivrel_int_int_int)
+  ) : s2cst // end of [val]
+//
+// HX: note that x/y = ~(x/(~y)) if y < 0
+//
+  val s2es = (
+    if sgn >= 0 then
+      s2es0 else list_pair (s2e1, s2exp_ineg (s2e2))
+    // end of [if]
+  ) : s2explst // end of [val]
   val s2v = s2vbcfenv_replace_cstapp (env, s2rt_int, s2c, s2es)
+  val s3e = s3exp_var (s2v)
 in
-  s3exp_var (s2v)
+  if sgn >= 0 then s3e else s3exp_ineg (s3e)
 end // end of [f_idiv_int_int]
 //
 fun f_lt_int_int (

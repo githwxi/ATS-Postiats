@@ -48,6 +48,10 @@ staload "arith_prf.sats" // HX: preloaded
 
 (* ****** ****** *)
 
+implement inteq_make () = INTEQ ()
+
+(* ****** ****** *)
+
 implement
 mul_gte_gte_gte {m,n} () = let
   fun loop
@@ -59,7 +63,7 @@ mul_gte_gte_gte {m,n} () = let
       prval MULbas () = pf in (*nothing*)
     end // end of [sif]
   // end of [loop]
-  prval pf = mul_istot {m,n} ()
+  prval pf = mul_make {m,n} ()
 in
   loop {m} (pf)
 end // end of [mul_gte_gte_gte]
@@ -68,14 +72,14 @@ implement
 mul_gte_lte_lte {m,n} () = let
   fun loop
     {m:nat}{p:int} .<m>.
-    (pf: MUL (m, n, p)): [p >= 0] void =
+    (pf: MUL (m, n, p)): [p <= 0] void =
     sif m > 0 then let
       prval MULind (pf1) = pf in loop (pf1)
     end else let
       prval MULbas () = pf in (*nothing*)
     end // end of [sif]
   // end of [loop]
-  prval pf = mul_istot {m,n} ()
+  prval pf = mul_make {m,n} ()
 in
   loop {m} (pf)
 end // end of [mul_gte_lte_lte]
@@ -109,8 +113,20 @@ end // end of [mul_pos_pos_pos]
 (* ****** ****** *)
 
 implement
+mul_negate {m,n} (pf) = let
+  prval () = mul_elim (pf) in mul_make {~m,n} ()
+end // end of [mul_negate]
+
+implement
+mul_negate2 {m,n} (pf) = let
+  prval () = mul_elim (pf) in mul_make {m,~n} ()
+end // end of [mul_negate2]
+
+(* ****** ****** *)
+
+implement
 mul_commute {m,n} (pf) = let
-  prval () = mul_elim (pf) in mul_istot {n,m} ()
+  prval () = mul_elim (pf) in mul_make {n,m} ()
 end // end of [mul_commute]
 
 implement
@@ -128,7 +144,7 @@ mul_distribute
   {m}{n1,n2} (pf1, pf2) = let
   prval () = mul_elim (pf1) and () = mul_elim (pf2)
 in
-  mul_istot {m,n1+n2} ()
+  mul_make {m,n1+n2} ()
 end // end of [mul_distribute]
 
 implement
@@ -136,28 +152,25 @@ mul_distribute2
   {m1,m2}{n} (pf1, pf2) = let
   prval () = mul_elim (pf1) and () = mul_elim (pf2)
 in
-  mul_istot {m1+m2,n} ()
+  mul_make {m1+m2,n} ()
 end // end of [mul_distribute]
 
 (* ****** ****** *)
 
 implement
 mul_is_associative
+  {x,y,z}{xy,yz}
   (pf1, pf2, pf3, pf4) = {
-  prval () = mul_elim (pf1) and () = mul_elim (pf2)
-  prval () = mul_elim (pf3) and () = mul_elim (pf4)
+  prval pf1_alt = mul_make {x,y} ()
+  prval INTEQ () = mul_isfun2 (pf1, pf1_alt)
+  prval pf2_alt = mul_make {y,z} ()
+  prval INTEQ () = mul_isfun2 (pf2, pf2_alt)
+  prval pf3_alt = mul_make {xy,z} ()
+  prval INTEQ () = mul_isfun2 (pf3, pf3_alt)
+  prval pf4_alt = mul_make {x,yz} ()
+  prval INTEQ () = mul_isfun2 (pf4, pf4_alt)
+//
 } // end of [mul_is_associative]
-
-(* ****** ****** *)
-
-implement
-mul_negate (pf) = {
-  prval () = mul_elim (pf)
-} // end of [mul_negate]
-implement
-mul_negate2 (pf) = {
-  prval () = mul_elim (pf)
-} // end of [mul_negate2]
 
 (* ****** ****** *)
 
@@ -230,8 +243,12 @@ implement
 exp2_muladd
   (pf1, pf2, pf3) = let
   prfun aux
-    {n1,n2:nat} {p1,p2:int} {p:int} .<n2>. (
-    pf1: EXP2 (n1, p1), pf2: EXP2 (n2, p2), pf3: MUL (p1, p2, p)
+    {n1,n2:nat}
+    {p1,p2:int}
+    {p:int} .<n2>. (
+    pf1: EXP2 (n1, p1)
+  , pf2: EXP2 (n2, p2)
+  , pf3: MUL (p1, p2, p)
   ) : [p>=0] EXP2 (n1+n2, p) = case+ pf2 of
     | EXP2ind {n21} {p21} (pf21) => let // n2 = n21+1; p2 = p21 + p21
         prval pf31 = mul_istot {p1,p21} ()
@@ -241,7 +258,11 @@ exp2_muladd
       in
         EXP2ind pf1_res
       end // end of [EXP2ind]
-    | EXP2bas () => let prval () = mul_elim (pf3) in pf1 end
+    | EXP2bas () => let
+        val () =
+          lemma_exp2_params (pf1)
+        prval () = mul_elim (pf3) in pf1
+      end // end of [EXP2bas]
   // end of [aux]
 in
   aux (pf1, pf2, pf3)

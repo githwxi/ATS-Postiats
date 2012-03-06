@@ -147,13 +147,19 @@ ndivrel_int_int_int // HX: y > 0
   (x: int, y: int, q: int): bool =
   (q * y <= x && x < q * y + y)
 stadef ndivrel = ndivrel_int_int_int
+//
 stadef
 idivrel_int_int_int
-  (x: int, y: int, q: int) = // HX: y != 0
-  (x >= 0 && y > 0 && ndivrel_int_int_int ( x,  y,  q)) ||
-  (x >= 0 && y < 0 && ndivrel_int_int_int ( x, ~y, ~q)) ||
-  (x <= 0 && y > 0 && ndivrel_int_int_int (~x,  y, ~q)) ||
-  (x <= 0 && y < 0 && ndivrel_int_int_int (~x, ~y,  q))
+  (x: int, y: int, q: int) = ( // HX: y != 0
+  x >= 0 && y > 0 && ndivrel_int_int_int ( x,  y,  q)
+) || (
+  x >= 0 && y < 0 && ndivrel_int_int_int ( x, ~y, ~q)
+) || (
+  x <  0 && y > 0 && ndivrel_int_int_int (~x,  y, ~q)
+) || (
+  x <  0 && y < 0 && ndivrel_int_int_int (~x, ~y,  q)
+) // end of [idivrel_int_int_int]
+//
 stadef idivrel = idivrel_int_int_int
 //
 stadef

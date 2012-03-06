@@ -316,6 +316,15 @@ end // end of [s2exp_bmul]
 (* ****** ****** *)
 
 implement
+s2exp_ineg (s2e) = let
+  val s2c = s2cstref_get_cst (the_neg_int)
+in
+  s2exp_cstapp (s2c, list_sing (s2e))
+end // end of [s2exp_ineg]
+
+(* ****** ****** *)
+
+implement
 s2exp_intlt (s2i1, s2i2) = let
   val s2c = s2cstref_get_cst (the_lt_int_int)
 in

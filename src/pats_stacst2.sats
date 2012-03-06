@@ -191,6 +191,8 @@ fun s2exp_bneg (s2p: s2exp): s2exp
 fun s2exp_badd (s2p1: s2exp, s2p2: s2exp): s2exp
 fun s2exp_bmul (s2p1: s2exp, s2p2: s2exp): s2exp
 
+fun s2exp_ineg (s2i: s2exp): s2exp
+
 fun s2exp_intlt (s2i1: s2exp, s2i2: s2exp): s2exp
 fun s2exp_intlte (s2i1: s2exp, s2i2: s2exp): s2exp
 fun s2exp_intgt (s2i1: s2exp, s2i2: s2exp): s2exp

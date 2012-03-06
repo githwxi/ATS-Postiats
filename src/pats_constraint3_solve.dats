@@ -41,6 +41,11 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
+staload UT = "pats_utils.sats"
+staload _(*anon*) = "pats_utils.dats"
+
+(* ****** ****** *)
+
 staload ERR = "pats_error.sats"
 
 (* ****** ****** *)
@@ -124,7 +129,7 @@ val ics_asmp = let
         val ic =
           s3exp2icnstr<a> (loc0, vim, n, s3p)
         // end ofl[val]
-(*
+// (*
         val () = (
           print "auxsolve: loop: s3p = ";
           print_s3exp (s3p); print_newline ();
@@ -132,7 +137,7 @@ val ics_asmp = let
           fprint_icnstr (stdout_ref, ic, n+1);
           print_newline ();
         ) // end of [val]
-*)
+// *)
       in
         loop (loc0, vim, n, s3ps, list_vt_cons (ic, res))
       end // end of [list_cons]
@@ -189,15 +194,18 @@ val s3p_conc =
   s3exp_lintize (env, s3p) // HX: processed for being turned into a vector
 //
 val (s2vs, s3ps) = s2vbcfenv_extract (env)
+val s2vs_ =
+  $UN.castvwtp1 {s2varlst} (s2vs) // HX: cannot be SHARED!
 val s3ps_asmp =
   $UN.castvwtp1 {s3explst} (s3ps) // HX: cannot be SHARED!
 //
 // (*
 val () = begin
   print "s3explst_solve_s2exp: s2vs = ";
-  print_s2varlst ($UN.castvwtp1 {s2varlst} (s2vs)); print_newline ();
-  print "s3explst_solve_s2exp: s3ps = ";
-  print_s3explst (s3ps_asmp); print_newline ();
+  print_s2varlst (s2vs_); print_newline ();
+  print "s3explst_solve_s2exp: s3ps =\n";
+  $UT.fprintlst (stdout_ref, s3ps_asmp, "\n", fprint_s3exp);
+  print_newline ();
   print "s3explst_solve_s2exp: s2p = "; pprint_s2exp (s2p); print_newline ();
   print "s3explst_solve_s2exp: s3p = "; print_s3exp (s3p); print_newline ();
 end // end of [val]

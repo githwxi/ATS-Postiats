@@ -366,6 +366,11 @@ myintvec_normalize_gte
   {n:pos} (vec: !myintvec (a, n), n: int n): void
 // end of [myintvec_normalize_gte]
 
+fun{a:t@ype}
+myintveclst_normalize_gte
+  {n:pos} (ivs: &myintveclst (a, n), n: int n): void
+// end of [myintveclst_normalize_gte]
+
 (* ****** ****** *)
 //
 // HX: return a copy of [vec]

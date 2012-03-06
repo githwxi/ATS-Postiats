@@ -466,6 +466,24 @@ myintvec_normalize_gte
   val _(*0*) = myintvec_normalize<a> (2(*knd*), iv, n)
 } // end of [myintvec_normalize_gte]
 
+implement{a}
+myintveclst_normalize_gte
+  {n} (ivs, n) = let
+  viewtypedef vt = myintvec (a,n)
+in
+//
+case+ ivs of
+| list_vt_cons
+    (!p_iv, !p_ivs) => let
+    val () = myintvec_normalize_gte (!p_iv, n)
+    val () = myintveclst_normalize_gte (!p_ivs, n)
+  in
+    fold@ (ivs)
+  end // end of [list_vt_cons]
+| list_vt_nil () => fold@ (ivs)
+//
+end // end of [myintveclst_normalize_gte]
+
 (* ****** ****** *)
 
 implement{a}

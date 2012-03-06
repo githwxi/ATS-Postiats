@@ -47,7 +47,9 @@ typedef c3nstr = $TRENV3.c3nstr
 staload "pats_lintprgm.sats"
 
 (* ****** ****** *)
-
+//
+// eq=1/neq=~1/gte=2/lt=~2
+//
 typedef int2 = intBtwe (~2, 2)
 
 datatype s3exp =
@@ -232,7 +234,7 @@ fun s2vbcfenv_replace_cstapp (
 ) : s2var // end of [s2vbcfenv_replace_cstapp]
 
 (*
-// HX: for handling genericn onlinear expressions
+// HX: for handling generic nonlinear expressions
 *)
 fun s2vbcfenv_add_nonlin
   (env: &s2vbcfenv, s2v: s2var, s3e: s3exp): void

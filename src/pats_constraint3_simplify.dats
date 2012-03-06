@@ -561,6 +561,12 @@ s3exp_isub
 implement
 s3exp_imul
   (x1, x2) = let
+(*
+val () = (
+  print "s3exp_imul: x1 = "; print_s3exp (x1); print_newline ();
+  print "s3exp_imul: x2 = "; print_s3exp (x2); print_newline ();
+) // end of [val]
+*)
 in
 //
 case+ (x1, x2) of
@@ -618,7 +624,16 @@ fun s3explst_lintize_flag (
 implement
 s3exp_lintize
   (env, s3e) = let
-  var flag: int = 0 in s3exp_lintize_flag (env, s3e, flag)
+(*
+val () = (
+  print "s3exp_lintize: s3e = "; print_s3exp (s3e); print_newline ()
+) // end of [val]
+*)
+var flag: int = 0
+val s3e_res = s3exp_lintize_flag (env, s3e, flag)
+//
+in
+  s3e_res
 end // end of [s3exp_lintize]
 
 (* ****** ****** *)
@@ -743,10 +758,7 @@ end // end of [s3exp_lintize]
 implement
 s3explst_lintize_flag
   (env, s3es0, flag) = let
-  val flag0 = flag
-in
-//
-case+ s3es0 of
+  val flag0 = flag in case+ s3es0 of
 | list_cons (s3e, s3es) => let
     val s3e = s3exp_lintize_flag (env, s3e, flag)
     val s3es = s3explst_lintize_flag (env, s3es, flag)

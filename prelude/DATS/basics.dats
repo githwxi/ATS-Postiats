@@ -42,6 +42,11 @@
 
 (* ****** ****** *)
 
+implement
+false_elim () = case+ 0 of _ =/=> ()
+
+(* ****** ****** *)
+
 implement prop_verify () = ()
 implement prop_verify_and_add () = ()
 

@@ -49,6 +49,12 @@ val true  : bool (true)  = "mac#atsbool_true" // macro
 and false : bool (false) = "mac#atsbool_false" // macro
 //
 (* ****** ****** *)
+//
+// HX: [false] implies all
+//
+prfun false_elim {X:prop | false} (): X
+//
+(* ****** ****** *)
 
 prfun prop_verify {b:bool} ():<prf> void
 prfun prop_verify_and_add {b:bool} ():<prf> [b] void

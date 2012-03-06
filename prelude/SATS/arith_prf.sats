@@ -43,6 +43,22 @@
 (* ****** ****** *)
 
 dataprop
+INTEQ (int, int) = {x:int} INTEQ (x, x)
+//
+// HX-2012-03:
+//
+// this can be used to put an integer equality [x == y]
+// into the current store of assumptions during the phase
+// of constraint-gathering:
+//
+// prval INTEQ (x, y) = inteq_make {x,y} ()
+//
+//
+prfun inteq_make {x,y:int | x == y} ():<prf> INTEQ (x, y)
+
+(* ****** ****** *)
+
+dataprop
 MUL (int, int, int) =
   | {n:int}
     MULbas (0, n, 0)
@@ -60,8 +76,11 @@ praxi mul_elim : {m,n:int} {p:int} MUL (m, n, p) -<prf> [p == m*n] void
 (* ****** ****** *)
 
 prfun mul_istot {m,n:int} ():<prf> [p:int] MUL (m, n, p)
+
 prfun mul_isfun {m,n:int} {p1,p2:int}
   (pf1: MUL (m, n, p1), pf2: MUL (m, n, p2)):<prf> [p1==p2] void
+prfun mul_isfun2 {m,n:int} {p1,p2:int}
+  (pf1: MUL (m, n, p1), pf2: MUL (m, n, p2)):<prf> INTEQ (p1, p2)
 
 (* ****** ****** *)
 //

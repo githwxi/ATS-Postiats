@@ -172,6 +172,12 @@ end // end of [myintvec_addby_cffvar]
 implement{a}
 s3exp2icnstr
   {n} (loc0, vim, n, s3e0) = let
+//
+val () = (
+  print "s3exp2icnstr: s3e0 = ";
+  print_s3exp (s3e0); print_newline ()
+) // end of [val]
+//
 in
 //
 case+ s3e0 of
