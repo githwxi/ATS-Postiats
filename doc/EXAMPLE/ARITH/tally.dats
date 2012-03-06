@@ -29,7 +29,7 @@
 //
 (* ****** ****** *)
 
-staload "doc/EXAMPLE/ARITH/tally.sats"
+// staload "doc/EXAMPLE/ARITH/tally.sats"
 
 (* ****** ****** *)
 
@@ -38,16 +38,16 @@ sum1 (pf) = let
 //
 prfun sum1
   {n:nat}{s:int} .<n>. (
-  pf: SUM2 (n, s)
-) : [2*s==n*(n+1)] void =
-  if n > 0 then let
-    val SUM2ind (pf1) = pf
-    val () = sum1 (n-1, pf1)
+  pf: SUM1 (n, s)
+) : [cff1*s==csum1(n)] void =
+  sif n > 0 then let
+    val SUM1ind (pf1) = pf
+    val () = sum1 {n-1} (pf1)
   in
     // nothing
   end else let
-    val SUM2bas () = pf in (*nothing*)
-  end // end of [if]
+    val SUM1bas () = pf in (*nothing*)
+  end // end of [sif]
 //
 in
   sum1 (pf)
@@ -61,15 +61,15 @@ sum2 (pf) = let
 prfun sum2
   {n:nat}{s:int} .<n>. (
   pf: SUM2 (n, s)
-) : [6*s==n*(n+1)*(2*n+1)] void =
-  if n > 0 then let
+) : [cff2*s==csum2(n)] void =
+  sif n > 0 then let
     val SUM2ind (pf1) = pf
-    val () = sum2 (n-1, pf1)
+    val () = sum2 {n-1} (pf1)
   in
     // nothing
   end else let
     val SUM2bas () = pf in (*nothing*)
-  end // end of [if]
+  end // end of [sif]
 //
 in
   sum2 (pf)
@@ -83,19 +83,173 @@ sum3 (pf) = let
 prfun sum3
   {n:nat}{s:int} .<n>. (
   pf: SUM3 (n, s)
-) : [4*s==n*n*(n+1)*(n+1)] void =
-  if n > 0 then let
+) : [cff3*s==csum3(n)] void =
+  sif n > 0 then let
     val SUM3ind (pf1) = pf
-    val () = sum3 (n-1, pf1)
+    val () = sum3 {n-1} (pf1)
   in
     // nothing
   end else let
     val SUM3bas () = pf in (*nothing*)
-  end // end of [if]
+  end // end of [sif]
 //
 in
   sum3 (pf)
 end // end of [sum3]
+
+(* ****** ****** *)
+
+implement
+sum4 (pf) = let
+//
+prfun sum4
+  {n:nat}{s:int} .<n>. (
+  pf: SUM4 (n, s)
+) : [cff4*s==csum4(n)] void =
+  sif n > 0 then let
+    val SUM4ind (pf1) = pf
+    val () = sum4 {n-1} (pf1)
+  in
+    // nothing
+  end else let
+    val SUM4bas () = pf in (*nothing*)
+  end // end of [sif]
+//
+in
+  sum4 (pf)
+end // end of [sum4]
+
+(* ****** ****** *)
+
+implement
+sum5 (pf) = let
+//
+prfun sum5
+  {n:nat}{s:int} .<n>. (
+  pf: SUM5 (n, s)
+) : [cff5*s==csum5(n)] void =
+  sif n > 0 then let
+    val SUM5ind (pf1) = pf
+    val () = sum5 {n-1} (pf1)
+  in
+    // nothing
+  end else let
+    val SUM5bas () = pf in (*nothing*)
+  end // end of [sif]
+//
+in
+  sum5 (pf)
+end // end of [sum5]
+
+(* ****** ****** *)
+
+implement
+sum6 (pf) = let
+//
+prfun sum6
+  {n:nat}{s:int} .<n>. (
+  pf: SUM6 (n, s)
+) : [cff6*s==csum6(n)] void =
+  sif n > 0 then let
+    val SUM6ind (pf1) = pf
+    val () = sum6 {n-1} (pf1)
+  in
+    // nothing
+  end else let
+    val SUM6bas () = pf in (*nothing*)
+  end // end of [sif]
+//
+in
+  sum6 (pf)
+end // end of [sum6]
+
+(* ****** ****** *)
+
+implement
+sum7 (pf) = let
+//
+prfun sum7
+  {n:nat}{s:int} .<n>. (
+  pf: SUM7 (n, s)
+) : [cff7*s==csum7(n)] void =
+  sif n > 0 then let
+    val SUM7ind (pf1) = pf
+    val () = sum7 {n-1} (pf1)
+  in
+    // nothing
+  end else let
+    val SUM7bas () = pf in (*nothing*)
+  end // end of [sif]
+//
+in
+  sum7 (pf)
+end // end of [sum7]
+
+(* ****** ****** *)
+
+implement
+sum8 (pf) = let
+//
+prfun sum8
+  {n:nat}{s:int} .<n>. (
+  pf: SUM8 (n, s)
+) : [cff8*s==csum8(n)] void =
+  sif n > 0 then let
+    val SUM8ind (pf1) = pf
+    val () = sum8 {n-1} (pf1)
+  in
+    // nothing
+  end else let
+    val SUM8bas () = pf in (*nothing*)
+  end // end of [sif]
+//
+in
+  sum8 (pf)
+end // end of [sum8]
+
+(* ****** ****** *)
+
+implement
+sum9 (pf) = let
+//
+prfun sum9
+  {n:nat}{s:int} .<n>. (
+  pf: SUM9 (n, s)
+) : [cff9*s==csum9(n)] void =
+  sif n > 0 then let
+    val SUM9ind (pf1) = pf
+    val () = sum9 {n-1} (pf1)
+  in
+    // nothing
+  end else let
+    val SUM9bas () = pf in (*nothing*)
+  end // end of [sif]
+//
+in
+  sum9 (pf)
+end // end of [sum9]
+
+(* ****** ****** *)
+
+implement
+sum10 (pf) = let
+//
+prfun sum10
+  {n:nat}{s:int} .<n>. (
+  pf: SUM10 (n, s)
+) : [cff10*s==csum10(n)] void =
+  sif n > 0 then let
+    val SUM10ind (pf1) = pf
+    val () = sum10 {n-1} (pf1)
+  in
+    // nothing
+  end else let
+    val SUM10bas () = pf in (*nothing*)
+  end // end of [sif]
+//
+in
+  sum10 (pf)
+end // end of [sum10]
 
 (* ****** ****** *)
 
