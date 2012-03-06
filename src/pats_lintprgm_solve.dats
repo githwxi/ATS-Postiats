@@ -1308,9 +1308,7 @@ end // end of [local]
 
 local
 //
-staload
-INTINF = "pats_intinf.sats"
-typedef intknd = intinf
+typedef intknd = $extype "intinf"
 fun icnstrlst_intinf_solve {n:pos}
   (ics: &icnstrlst (intknd, n), n: int n): int
 end // end of [local]

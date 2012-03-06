@@ -45,6 +45,13 @@ staload LOC = "pats_location.sats"
 staload "pats_intinf.sats"
 
 (* ****** ****** *)
+(*
+** HX: only the names are needed
+*)
+abstype intknd = $extype "int"
+abstype intinfknd = $extype "intinf"
+
+(* ****** ****** *)
 
 absviewt@ype
 myint(a:t@ype) = a // [a] is a kind
@@ -59,7 +66,7 @@ fun{a:t@ype} prerr_myint (x: !myint(a)): void
 (* ****** ****** *)
 
 fun{a:t@ype} myint_make_int (x: int):<> myint(a)
-fun{a:t@ype} myint_make_intinf (x: intinf):<> myint(a)
+fun{a:t@ype} myint_make_intinf (x: intinf): myint(a)
 
 fun{a:t@ype} myint_free (x: myint(a)):<> void
 fun{a:t@ype} myint_copy (x: !myint(a)):<> myint(a)
@@ -147,6 +154,9 @@ gte_myint_myint (x: !myint(a), y: !myint(a)):<> bool
 overload > with gt_myint_myint
 overload >= with gte_myint_myint
 
+fun{a:t@ype}
+compare_myint_myint (x: !myint(a), y: !myint(a)):<> int
+
 (* ****** ****** *)
 
 (*
@@ -189,12 +199,19 @@ myintvec0_takeout
   {a:t@ype}{n:int} (
   iv: !myintvec0 (a, n) >> myintvecout (a, n, l)
 ) :<> #[l:addr] (array_v (myint(a)?, n, l) | ptr l)
+
 prfun
 myintvecout_addback
   {a:t@ype}{n:int}{l:addr} (
   pf: array_v (myint(a), n, l)
 | iv: !myintvecout (a, n, l) >> myintvec (a, n)
 ) : void // end of [myintvecout_addback]
+prfun
+myintvecout0_addback
+  {a:t@ype}{n:int}{l:addr} (
+  pf: array_v (myint(a)?, n, l)
+| iv: !myintvecout (a, n, l) >> myintvec0 (a, n)
+) : void // end of [myintvecout0_addback]
 
 (* ****** ****** *)
 

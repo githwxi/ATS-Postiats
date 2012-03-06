@@ -68,6 +68,7 @@ staload "pats_constraint3.sats"
 
 local
 #include "pats_lintprgm_myint_int.dats"
+#include "pats_lintprgm_myint_intinf.dats"
 in (*nothing*) end
 
 (* ****** ****** *)
@@ -213,7 +214,23 @@ end // end of [val]
 //
 val (vim, n) =
   s2varindmap_make (s2vs)
-val ans = auxsolve<int> (loc0, vim, n, s3ps_asmp, s3p_conc)
+//
+(*
+#define INTKIND "int"
+*)
+// (*
+#define INTKIND "intinf"
+// *)
+//
+#if INTKIND="int" #then
+val ans = auxsolve<intknd> (loc0, vim, n, s3ps_asmp, s3p_conc)
+#elif INTKIND="intinf" #then
+val ans = auxsolve<intinfknd> (loc0, vim, n, s3ps_asmp, s3p_conc)
+#else
+val () = assertloc (false)
+val ans = 0 // HX: it is never executed at run-time
+#endif // end of [#if]
+//
 val () = s2varindmap_free (vim)
 val () = list_vt_free (s2vs) and () = list_vt_free (s3ps)
 val () = status := ans

@@ -47,9 +47,15 @@ staload "pats_lintprgm.sats"
 
 (* ****** ****** *)
 
-extern castfn myint2int0 (x: myint(int)):<> int
-extern castfn myint2int1 (x: !myint(int)):<> int
-extern castfn int2myint (x: int):<> myint(int)
+viewtypedef myint = myint(intknd)
+
+extern castfn myint2int0 (x: myint):<> int
+//
+// HX: it is okay to use a castfn here as [myint] contains
+extern castfn myint2int1 (x: !myint):<> int // no resources
+//
+extern castfn int2myint (x: int):<> myint
+//
 macdef i2mi = int2myint
 macdef mi2i0 = myint2int0
 macdef mi2i1 = myint2int1
@@ -57,133 +63,133 @@ macdef mi2i1 = myint2int1
 (* ****** ****** *)
 
 extern
-praxi myint_int_free (x: myint(int)): void
+praxi myint_int_free (x: myint): void
 extern
-castfn myint_int_copy (x: !myint(int)):<> myint(int)
+castfn myint_int_copy (x: !myint):<> myint
 
 (* ****** ****** *)
 
 implement
-myint_make_int<int> (x) = int2myint (x)
+myint_make_int<intknd> (x) = int2myint (x)
 
 implement
-myint_make_intinf<int> (x) = let
+myint_make_intinf<intknd> (x) = let
   val x = $INTINF.intinf_get_int (x) in int2myint (x)
 end // end of [myint_make_intinf<int>]
 
 (* ****** ****** *)
 
 implement
-myint_free<int> (x) = let
+myint_free<intknd> (x) = let
   prval () = myint_int_free (x) in (*nothing*)
 end // end of [myint_free]
 
-implement myint_copy<int> (x) = myint_int_copy (x)
+implement myint_copy<intknd> (x) = myint_int_copy (x)
 
 (* ****** ****** *)
 
 implement
-neg_myint<int> (x) = i2mi(~(mi2i0)x)
+neg_myint<intknd> (x) = i2mi(~(mi2i0)x)
 implement
-neg1_myint<int> (x) = i2mi(~(mi2i1)x)
+neg1_myint<intknd> (x) = i2mi(~(mi2i1)x)
 
 implement
-add01_myint_myint<int>
+add01_myint_myint<intknd>
   (x, y) = i2mi(res) where {
   val res = (mi2i0)x + (mi2i1)y
-} // end of [add_myint_myint<int>]
+} // end of [add_myint_myint<intknd>]
 
 implement
-sub01_myint_myint<int>
+sub01_myint_myint<intknd>
   (x, y) = (i2mi)res where {
   val res = (mi2i0)x - (mi2i1)y
-} // end of [sub_myint_myint<int>]
+} // end of [sub_myint_myint<intknd>]
 
 implement
-succ_myint<int> (x) = i2mi((mi2i0)x + 1)
+succ_myint<intknd> (x) = i2mi((mi2i0)x + 1)
 implement
-pred_myint<int> (x) = i2mi((mi2i0)x - 1)
-
-(* ****** ****** *)
-
-implement
-mul01_myint_myint<int> (x, y) = i2mi((mi2i0)x * (mi2i1)y)
-implement
-mul10_myint_myint<int> (x, y) = i2mi((mi2i1)x * (mi2i0)y)
-implement
-mul11_myint_myint<int> (x, y) = i2mi((mi2i1)x * (mi2i1)y)
+pred_myint<intknd> (x) = i2mi((mi2i0)x - 1)
 
 (* ****** ****** *)
 
 implement
-div01_myint_myint<int>
+mul01_myint_myint<intknd> (x, y) = i2mi((mi2i0)x * (mi2i1)y)
+implement
+mul10_myint_myint<intknd> (x, y) = i2mi((mi2i1)x * (mi2i0)y)
+implement
+mul11_myint_myint<intknd> (x, y) = i2mi((mi2i1)x * (mi2i1)y)
+
+(* ****** ****** *)
+
+implement
+div01_myint_myint<intknd>
   (x, y) = (i2mi)res where {
   val res = (mi2i0)x / (mi2i1)y
-} // end of [div01_myint_myint<int>]
+} // end of [div01_myint_myint<intknd>]
 
 implement
-div11_myint_myint<int> (x, y) = i2mi((mi2i1)x / (mi2i1)y)
+div11_myint_myint<intknd> (x, y) = i2mi((mi2i1)x / (mi2i1)y)
 
 implement
-ediv01_myint_myint<int>
+ediv01_myint_myint<intknd>
   (x, y) = (i2mi)res where {
   val res = (mi2i0)x / (mi2i1)y
-} // end of [ediv_myint_myint<int>]
+} // end of [ediv_myint_myint<intknd>]
 
 (* ****** ****** *)
 
 implement
-mod01_myint_myint<int>
+mod01_myint_myint<intknd>
   (x, y) = (i2mi)res where {
   val res = op mod ((mi2i0)x, (mi2i1)y)
-} // end of [mod01_myint_myint<int>]
+} // end of [mod01_myint_myint<intknd>]
 
 implement
-mod11_myint_myint<int> (x, y) = i2mi((mi2i1)x mod (mi2i1)y)
+mod11_myint_myint<intknd> (x, y) = i2mi((mi2i1)x mod (mi2i1)y)
 
 (* ****** ****** *)
 
 implement
-gcd01_myint_myint<int>
+gcd01_myint_myint<intknd>
   (x, y) = (i2mi)res where {
   val res = op gcd ((mi2i0)x, (mi2i1)y)
-} // end of [gcd_myint_myint<int>]
+} // end of [gcd_myint_myint<intknd>]
 
 (* ****** ****** *)
 
-implement lt_myint_int<int> (x, y) = (mi2i1)x < y
-implement lte_myint_int<int> (x, y) = (mi2i1)x <= y
-implement gt_myint_int<int> (x, y) = (mi2i1)x > y
-implement gte_myint_int<int> (x, y) = (mi2i1)x >= y
-implement eq_myint_int<int> (x, y) = (mi2i1)x = y
-implement neq_myint_int<int> (x, y) = (mi2i1)x != y
+implement lt_myint_int<intknd> (x, y) = (mi2i1)x < y
+implement lte_myint_int<intknd> (x, y) = (mi2i1)x <= y
+implement gt_myint_int<intknd> (x, y) = (mi2i1)x > y
+implement gte_myint_int<intknd> (x, y) = (mi2i1)x >= y
+implement eq_myint_int<intknd> (x, y) = (mi2i1)x = y
+implement neq_myint_int<intknd> (x, y) = (mi2i1)x != y
 implement
-compare_myint_int<int> (x, y) = compare ((mi2i1)x, y)
+compare_myint_int<intknd> (x, y) = compare ((mi2i1)x, y)
 
 (* ****** ****** *)
 
-implement lt_myint_myint<int> (x, y) = ((mi2i1)x < (mi2i1)y)
-implement lte_myint_myint<int> (x, y) = ((mi2i1)x <= (mi2i1)y)
-implement gt_myint_myint<int> (x, y) = ((mi2i1)x > (mi2i1)y)
-implement gte_myint_myint<int> (x, y) = ((mi2i1)x >= (mi2i1)y)
-
-(* ****** ****** *)
-
-implement
-fprint_myint<int> (out, x) = fprint_int (out, mi2i1(x))
+implement lt_myint_myint<intknd> (x, y) = ((mi2i1)x < (mi2i1)y)
+implement lte_myint_myint<intknd> (x, y) = ((mi2i1)x <= (mi2i1)y)
+implement gt_myint_myint<intknd> (x, y) = ((mi2i1)x > (mi2i1)y)
+implement gte_myint_myint<intknd> (x, y) = ((mi2i1)x >= (mi2i1)y)
 
 (* ****** ****** *)
 
 implement
-myintvec_free<int>
+fprint_myint<intknd> (out, x) = fprint_int (out, mi2i1(x))
+
+(* ****** ****** *)
+
+implement
+myintvec_free<intknd>
   {n} (xs, n) = let
 //
-// HX: myint(int) is actually a  type
+// HX: myint(int) is actually a type
 //
-  viewtypedef vt = myint(int)
+  viewtypedef vt = myint
   val (pfgc, pf | p) = __cast (xs) where {
     extern castfn __cast
-      (x: myintvec (int, n))
+      (x: myintvec (intknd, n))
       :<> [l:addr] (free_gc_v (vt?, n, l), array_v(vt?, n, l) | ptr l)
   } // end of [val]
 in

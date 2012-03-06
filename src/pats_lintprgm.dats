@@ -43,6 +43,35 @@ staload "pats_lintprgm.sats"
 (* ****** ****** *)
 
 implement{a}
+lt_myint_int (x, i) = (compare_myint_int (x, i) < 0)
+implement{a}
+lte_myint_int (x, i) = (compare_myint_int (x, i) <= 0)
+
+implement{a}
+gt_myint_int (x, i) = (compare_myint_int (x, i) > 0)
+implement{a}
+gte_myint_int (x, i) = (compare_myint_int (x, i) >= 0)
+
+implement{a}
+eq_myint_int (x, i) = (compare_myint_int (x, i) = 0)
+implement{a}
+neq_myint_int (x, i) = (compare_myint_int (x, i) != 0)
+
+(* ****** ****** *)
+
+implement{a}
+lt_myint_myint (x1, x2) = (compare_myint_myint (x1, x2) < 0)
+implement{a}
+lte_myint_myint (x1, x2) = (compare_myint_myint (x1, x2) <= 0)
+
+implement{a}
+gt_myint_myint (x1, x2) = (compare_myint_myint (x1, x2) > 0)
+implement{a}
+gte_myint_myint (x1, x2) = (compare_myint_myint (x1, x2) >= 0)
+
+(* ****** ****** *)
+
+implement{a}
 myintvec_get_at
   (iv, i) = x where {
   val (pf | p) = myintvec_takeout (iv)
@@ -92,6 +121,18 @@ myintvec0_free
 in
   array_ptr_free (pfgc, pf | p)
 end // end of [myintvec0_free]
+
+implement{a}
+myintvec_free (iv, n) = let
+  viewtypedef x = myint(a)
+  prval () = lemma_myintvec_params (iv)
+  val (pfarr | p) = myintvec_takeout (iv)
+  val asz = size1_of_int1 (n)
+  val () = array_ptr_clear_fun<x> (!p, asz, lam (x) =<0> myint_free<a> (x))
+  prval () = myintvecout0_addback {a} (pfarr | iv)
+in
+  myintvec0_free (iv, n)
+end // end of [myintvec_free]
 
 (* ****** ****** *)
 
