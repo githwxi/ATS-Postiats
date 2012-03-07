@@ -104,7 +104,7 @@ in
 //
 sif m > 0 then let
   prval FIBind (pf30, pf31) = pf3
-  prval () = fib_isfun (pf1, pf31)
+  prval INTEQ () = fib_isfun2 (pf1, pf31)
 in
   lemma {m-1,n+1}
     (pf30, pf4, pf31, FIBind (pf2, pf4))

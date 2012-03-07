@@ -39,7 +39,7 @@
 (* ****** ****** *)
 
 %{^
-#include "pats_lintprgm_myint_intinf.cats"
+#include "pats_lintprgm_myint.cats"
 %} // end of [%{^]
 
 (* ****** ****** *)

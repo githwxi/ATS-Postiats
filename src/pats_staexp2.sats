@@ -76,6 +76,8 @@ typedef s2cst = s2cst_type
 typedef s2cstlst = List (s2cst)
 typedef s2cstopt = Option (s2cst)
 //
+viewtypedef s2cstlst_vt = List_vt (s2cst)
+//
 (* ****** ****** *)
 //
 abstype s2var_type // assumed in [pats_staexp2_svar.dats]
@@ -535,6 +537,8 @@ fun print_s2cst (x: s2cst): void
 fun prerr_s2cst (x: s2cst): void
 
 fun fprint_s2cstlst : fprint_type (s2cstlst)
+fun print_s2cstlst (xs: s2cstlst): void
+fun prerr_s2cstlst (xs: s2cstlst): void
 
 (* ****** ****** *)
 //

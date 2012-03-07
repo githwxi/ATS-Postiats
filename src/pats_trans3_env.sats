@@ -253,10 +253,14 @@ fun trans3_env_hypadd_patcstlstlst
 (* ****** ****** *)
 //
 absview s2varbindmap_push_v
+//
 fun the_s2varbindmap_freetop (): void
 fun the_s2varbindmap_pop
   (pf: s2varbindmap_push_v | (*nothing*)): void
 fun the_s2varbindmap_push (): (s2varbindmap_push_v | void)
+//
+fun the_s2varbindmap_search (s2v: s2var): Option_vt (s2exp)
+fun the_s2varbindmap_insert (s2v: s2var, s2f: s2hnf): void
 //
 // HX: for the purpose of debugging
 //
@@ -264,6 +268,24 @@ fun fprint_the_s2varbindmap (out: FILEref): void
 fun fprint_the_s3itmlst (out: FILEref): void
 fun fprint_the_s3itmlstlst (out: FILEref): void
 //
+(* ****** ****** *)
+//
+absview s2cstbindlst_push_v
+//
+fun the_s2cstbindlst_add (s2c: s2cst): void
+fun the_s2cstbindlst_addlst (s2cs: s2cstlst_vt): void
+
+fun the_s2cstbindlst_bind_and_add
+  (loc: location, s2c: s2cst, s2f: s2hnf): void
+// end of [the_s2cstbindlst_bind_and_add]
+
+fun the_s2cstbindlst_pop
+  (pf: s2cstbindlst_push_v | (*none*)): s2cstlst_vt
+fun the_s2cstbindlst_pop_and_unbind
+  (pf: s2cstbindlst_push_v | (*none*)): void
+
+fun the_s2cstbindlst_push (): (s2cstbindlst_push_v | void)
+
 (* ****** ****** *)
 
 fun s2explst_check_termet

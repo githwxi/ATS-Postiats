@@ -160,12 +160,18 @@ datatype
 d3ecl_node =
   | D3Cnone
   | D3Clist of d3eclist
+//
   | D3Cdatdec of (int(*knd*), s2cstlst)
+//
   | D3Cdcstdec of (dcstkind, d2cstlst)
+//
   | D3Cimpdec of (i3mpdec)
+//
   | D3Cfundecs of (funkind, s2qualst(*decarg*), f3undeclst)
   | D3Cvaldecs of (valkind, v3aldeclst)
   | D3Cvaldecs_rec of (valkind, v3aldeclst)
+//
+  | D3Cstaload of (filename, int(*loadflag*), int(*loaded*), filenv)
 // end of [d3ecl_node]
 
 and d3exp_node =
@@ -592,7 +598,14 @@ fun d3ecl_valdecs_rec (
   loc: location, knd: valkind, d3cs: v3aldeclst
 ) : d3ecl // end of [d3ecl_valdecs_rec]
 
-fun d3ec_vardecs (loc: location, ds: v3ardeclst): d3ecl
+fun d3ecl_vardecs (loc: location, ds: v3ardeclst): d3ecl
+
+(* ****** ****** *)
+
+fun d3ecl_staload (
+  loc: location
+, fil: filename, loadflag: int, loaded: int, fenv: filenv
+) : d3ecl // end of [d2ecl_staload]
 
 (* ****** ****** *)
 

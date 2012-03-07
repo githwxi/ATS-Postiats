@@ -573,61 +573,78 @@ v3aldec_make
 
 (* ****** ****** *)
 
-implement
-d3ecl_none (loc) = '{
-  d3ecl_loc= loc, d3ecl_node= D3Cnone ()
-} // end of [d3ecl_none]
+fun d3ecl_make (
+  loc: location, node: d3ecl_node
+) : d3ecl = '{
+  d3ecl_loc= loc, d3ecl_node= node
+} // end of [d3ecl_make]
+
+(* ****** ****** *)
 
 implement
-d3ecl_list (loc, xs) = '{
-  d3ecl_loc= loc, d3ecl_node= D3Clist (xs)
-} // end of [d3ecl_list]
+d3ecl_none
+  (loc) = d3ecl_make (loc, D3Cnone ())
+// end of [d3ecl_none]
+implement
+d3ecl_list
+  (loc, xs) = d3ecl_make (loc, D3Clist (xs))
+// end of [d3ecl_list]
 
 (* ****** ****** *)
 
 implement
 d3ecl_datdec
-  (loc, knd, s2cs) = '{
-  d3ecl_loc= loc, d3ecl_node= D3Cdatdec (knd, s2cs)
-} // end of [d3ecl_datdet]
+  (loc, knd, s2cs) =
+  d3ecl_make (loc, D3Cdatdec (knd, s2cs))
+// end of [d3ecl_datdet]
 
 (* ****** ****** *)
 
 implement
 d3ecl_dcstdec
-  (loc, knd, d2cs) = '{
-  d3ecl_loc= loc, d3ecl_node= D3Cdcstdec (knd, d2cs)
-} // end of [d3ecl_dcstdec]
+  (loc, knd, d2cs) =
+  d3ecl_make (loc, D3Cdcstdec (knd, d2cs))
+// end of [d3ecl_dcstdec]
 
 (* ****** ****** *)
 
 implement
 d3ecl_impdec
-  (loc, d3c) = '{
-  d3ecl_loc= loc, d3ecl_node= D3Cimpdec (d3c)
-} // end of [d3ecl_impdec]
+  (loc, d3c) =
+  d3ecl_make (loc, D3Cimpdec (d3c))
+// end of [d3ecl_impdec]
 
 (* ****** ****** *)
 
 implement
 d3ecl_fundecs (
   loc, funknd, decarg, d3cs
-) = '{
-  d3ecl_loc= loc
-, d3ecl_node= D3Cfundecs (funknd, decarg, d3cs)
-} // end of [d3ecl_fundecs]
+) =
+  d3ecl_make (loc, D3Cfundecs (funknd, decarg, d3cs))
+// end of [d3ecl_fundecs]
 
 (* ****** ****** *)
 
 implement
-d3ecl_valdecs (loc, knd, d3cs) = '{
-  d3ecl_loc= loc, d3ecl_node= D3Cvaldecs (knd, d3cs)
-} // end of [d3ecl_valdecs]
+d3ecl_valdecs
+  (loc, knd, d3cs) =
+  d3ecl_make (loc, D3Cvaldecs (knd, d3cs))
+// end of [d3ecl_valdecs]
 
 implement
-d3ecl_valdecs_rec (loc, knd, d3cs) = '{
-  d3ecl_loc= loc, d3ecl_node= D3Cvaldecs_rec (knd, d3cs)
-} // end of [d3ecl_valdecs_rec]
+d3ecl_valdecs_rec
+  (loc, knd, d3cs) =
+  d3ecl_make (loc, D3Cvaldecs_rec (knd, d3cs))
+// end of [d3ecl_valdecs_rec]
+
+(* ****** ****** *)
+
+implement
+d3ecl_staload (
+  loc, fil, flag, loaded, fenv
+) =
+  d3ecl_make (loc, D3Cstaload (fil, flag, loaded, fenv))
+// endof [d3ecl_staload]
 
 (* ****** ****** *)
 

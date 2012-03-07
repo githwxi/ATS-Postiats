@@ -380,11 +380,11 @@ myintveclst_solve
 implement{a}
 myintveclst_solve
   {n} (iset, ivs, n) = let
-// (*
+(*
 val () = begin
   print "myintveclst_solve: ivs =\n"; print_myintveclst (ivs, n); print_newline ();
 end // end of [val]
-// *)
+*)
 //
 viewtypedef ivs = myintveclst (a, n)
 //
@@ -393,15 +393,14 @@ fun solve (
 ) : int(*~1/0*) = let
 //
 val i = indexlst_choose (ilst)
-// (*
+(*
 val () = (
   print "myintveclst_solve: solve: i = "; print i; print_newline ()
 ) // end of [val]
-// *)
 val () = (
   print "myintveclst_solve: solve: ivs =\n"; print_myintveclst (ivs, n); print_newline ()
 ) // end of [val]
-// *)
+*)
 in
   if i > 0 then let
     val ans = myintveclst_split_at<a> (ivs, n, i)
@@ -413,11 +412,11 @@ end // end of [solve]
 var ivs: ivs = ivs
 var ilst = indexlst_make (iset, n)
 val ans = solve (ivs, ilst, n)
-// (*
+(*
 val () = (
   print "myintveclst_solve: ans = "; print ans; print_newline ()
 ) // end of [val]
-// *)
+*)
 val () = myintveclst_free (ivs, n)
 val () = indexlst_free (ilst)
 //
@@ -451,13 +450,13 @@ myintveclst_elimeq_at {n:int} (
 implement{a}
 myintvec_elimeq_at
   (iv, iveq, n, i) = let
-// (*
+(*
 val () = (
   print "myintvec_elimeq_at: i = "; print_int (i); print_newline ();
   print "myintvec_elimeq_at: iv = "; print_myintvec (iv, n); print_newline ();
   print "myintvec_elimeq_at: iveq = "; print_myintvec (iveq, n); print_newline ()
 ) // end of [val]
-// *)
+*)
 //
 val sgn = myintvec_compare_at (iv, i, 0)
 //

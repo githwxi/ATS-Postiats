@@ -38,8 +38,13 @@
 
 (* ****** ****** *)
 
-staload
-INTINF = "pats_intinf.sats"
+%{^
+#include "pats_lintprgm_myint.cats"
+%} // end of [%{^]
+
+(* ****** ****** *)
+
+staload INTINF = "pats_intinf.sats"
 
 (* ****** ****** *)
 

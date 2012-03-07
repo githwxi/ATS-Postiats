@@ -200,6 +200,15 @@ s2cst_get_isrec (s2c) = let
 end // end of [s2cst_get_isrec]
 
 implement
+s2cst_get_isasp (s2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_isasp
+end // end of [s2cst_get_isasp]
+implement
+s2cst_set_isasp (s2c, isasp) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_isasp := isasp
+end // end of [s2cst_set_isasp]
+
+implement
 s2cst_get_argsrtss (s2c) = let
   val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_argsrtss
 end // end of [s2cst_get_argsrtss]
@@ -374,7 +383,14 @@ implement print_s2cst (x) = fprint_s2cst (stdout_ref, x)
 implement prerr_s2cst (x) = fprint_s2cst (stderr_ref, x)
 
 implement
-fprint_s2cstlst (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_s2cst)
+fprint_s2cstlst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_s2cst)
+// end of [fprint_s2cstlst]
+
+implement
+print_s2cstlst (xs) = fprint_s2cstlst (stdout_ref, xs)
+implement
+prerr_s2cstlst (xs) = fprint_s2cstlst (stderr_ref, xs)
 
 (* ****** ****** *)
 

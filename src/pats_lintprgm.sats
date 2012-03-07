@@ -48,8 +48,8 @@ staload "pats_intinf.sats"
 (*
 ** HX: only the names are needed
 *)
-abstype intknd = $extype "int"
-abstype intinfknd = $extype "intinf"
+abstype intknd = $extype "intknd"
+abstype intinfknd = $extype "intinfknd"
 
 (* ****** ****** *)
 

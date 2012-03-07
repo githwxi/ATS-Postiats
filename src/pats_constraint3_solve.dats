@@ -1,4 +1,4 @@
-
+(***********************************************************************)
 (*                                                                     *)
 (*                         Applied Type System                         *)
 (*                                                                     *)
@@ -30,6 +30,10 @@
 // Author: Hongwei Xi (gmhwxi AT gmail DOT com)
 // Start Time: February, 2012
 //
+(* ****** ****** *)
+
+#include "pats_params.hats"
+
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
@@ -130,7 +134,7 @@ val ics_asmp = let
         val ic =
           s3exp2icnstr<a> (loc0, vim, n, s3p)
         // end ofl[val]
-// (*
+(*
         val () = (
           print "auxsolve: loop: s3p = ";
           print_s3exp (s3p); print_newline ();
@@ -138,7 +142,7 @@ val ics_asmp = let
           fprint_icnstr (stdout_ref, ic, n+1);
           print_newline ();
         ) // end of [val]
-// *)
+*)
       in
         loop (loc0, vim, n, s3ps, list_vt_cons (ic, res))
       end // end of [list_cons]
@@ -212,19 +216,11 @@ val () = begin
 end // end of [val]
 // *)
 //
-val (vim, n) =
-  s2varindmap_make (s2vs)
+val (vim, n) = s2varindmap_make (s2vs)
 //
-(*
-#define INTKIND "int"
-*)
-// (*
-#define INTKIND "intinf"
-// *)
-//
-#if INTKIND="int" #then
+#if C3NSTRINTKIND="intknd" #then
 val ans = auxsolve<intknd> (loc0, vim, n, s3ps_asmp, s3p_conc)
-#elif INTKIND="intinf" #then
+#elif C3NSTRINTKIND="intinfknd" #then
 val ans = auxsolve<intinfknd> (loc0, vim, n, s3ps_asmp, s3p_conc)
 #else
 val () = assertloc (false)

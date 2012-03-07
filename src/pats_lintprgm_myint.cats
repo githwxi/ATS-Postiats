@@ -30,12 +30,13 @@
 /* ****** ****** */
 //
 // Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Time: February 2012
+// Time: March 2012
 //
 /* ****** ****** */
 
-typedef ats_ptr_type intinf ; // -> intinf in libats/SATS/intinf.sats
+typedef ats_int_type intknd ; // -> int
+typedef ats_ptr_type intinfknd ; // -> intinf in libats/SATS/intinf.sats
 
 /* ****** ****** */
 
-/* end of [pats_lintprgm_myint_intinf.cats] */
+/* end of [pats_lintprgm_myint.cats] */

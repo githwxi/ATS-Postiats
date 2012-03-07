@@ -97,6 +97,10 @@ fun v2aldecreclst_tr
 
 (* ****** ****** *)
 
+extern fun d2ecl_tr_staload (d2c: d2ecl): d3ecl
+
+(* ****** ****** *)
+
 implement
 d2ecl_tr (d2c0) = let
 //
@@ -147,6 +151,8 @@ case+ d2c0.d2ecl_node of
 | D2Cinclude d2cs => (
     d3ecl_list (loc0, d2eclist_tr d2cs)
   ) // end of [D2Cinclude]
+//
+| D2Cstaload _ => d2ecl_tr_staload (d2c0)
 //
 | _ => let
     val () = (
@@ -492,7 +498,20 @@ end // end of [val]
 //
 in
   d3cs
-end // end of [v2aldeclst_rec_tr]
+end // end of [v2aldecreclst_tr]
+
+(* ****** ****** *)
+
+implement
+d2ecl_tr_staload
+  (d2c0) = let
+  val loc0 = d2c0.d2ecl_loc
+  val- D2Cstaload (
+    idopt, fil, loadflag, loaded, filenv
+  ) = d2c0.d2ecl_node // end of [val]
+in
+  d3ecl_staload (loc0, fil, loadflag, loaded, filenv)
+end // end of [d2ecl_tr_staload]
 
 (* ****** ****** *)
 

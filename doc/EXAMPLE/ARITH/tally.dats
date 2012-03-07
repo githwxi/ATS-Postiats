@@ -29,7 +29,7 @@
 //
 (* ****** ****** *)
 
-// staload "doc/EXAMPLE/ARITH/tally.sats"
+staload "doc/EXAMPLE/ARITH/tally.sats"
 
 (* ****** ****** *)
 
