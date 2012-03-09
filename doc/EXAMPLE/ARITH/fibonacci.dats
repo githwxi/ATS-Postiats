@@ -29,6 +29,7 @@
 //
 (* ****** ****** *)
 
+staload "doc/EXAMPLE/ARITH/basics.sats"
 staload "doc/EXAMPLE/ARITH/fibonacci.sats"
 
 (* ****** ******)
@@ -120,6 +121,51 @@ in
 lemma (pf1, pf2, pf3, pf4)
 //
 end // end of [fibeq1]
+
+(* ****** ****** *)
+//
+// HX-2012-03:
+// fib(n)*fib(n+2) + (-1)^n = (fib(n+1))^2
+//
+implement
+fibeq2 (
+  pf0, pf1, pf2, pf3
+) = let
+//
+prfun
+fibeq2
+  {n:nat}{i:int}
+  {f0,f1,f2:int} .<n>. (
+  pf0: FIB (n, f0)
+, pf1: FIB (n+1, f1)
+, pf2: FIB (n+2, f2)
+, pf3: SGN (n, i)
+) : [
+  f0*f2 + i == f1*f1
+] void =
+  sif n > 0 then let
+    prval FIBind (pf11, pf12) = pf1
+    prval INTEQ () = fib_isfun2 (pf0, pf12)
+    prval pf_n_n = fibeq1 (pf0, pf0, pf1, pf1)
+    prval pf_1n_n1 = fibeq1 (pf11, pf1, pf0, pf2)
+    prval () = fib_isfun (pf_n_n, pf_1n_n1)
+    prval SGNind (pf31) = pf3
+    prval () = fibeq2 {n-1} (pf11, pf12, pf1, pf31) // IH
+  in
+    // nothing
+  end else let
+    prval FIBbas1 () = pf0
+    prval FIBbas2 () = pf1
+    prval FIBind (FIBbas1 (), FIBbas2 ()) = pf2
+    prval SGNbas () = pf3
+  in
+    // nothing
+  end // end of [sif]
+// end of [fibeq2]
+//
+in
+  fibeq2 (pf0, pf1, pf2, pf3)
+end // end of [fibeq2]
 
 (* ****** ****** *)
 

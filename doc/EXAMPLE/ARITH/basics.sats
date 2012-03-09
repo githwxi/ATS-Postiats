@@ -29,64 +29,13 @@
 //
 (* ****** ****** *)
 //
-// HX: the defintion of fib function:
-// fib(0) = 0; fib(1) = 1; fib(n+2)=fib(n)+fib(n+1)
+// SGN (n, i) : i = (-1)^n
 //
-dataprop
-FIB (int, int) =
-  | FIBbas1 (0, 0) of ()
-  | FIBbas2 (1, 1) of ()
-  | {n:nat}{r0,r1:int}
-    FIBind (n+2, r0+r1) of (FIB (n, r0), FIB (n+1, r1))
-// end of [FIB]
-
-(* ****** ****** *)
-//
-// HX: [FIB] is a total functional relation
-//
-prfun fib_istot {n:nat} (): [r:nat] FIB (n, r)
-
-prfun fib_isfun
-  {n:nat}{r1,r2:int}
-  (pf1: FIB (n, r1), pf2: FIB (n, r2)): [r1==r2] void
-// end of [fib_isfun]
-prfun fib_isfun2
-  {n:nat}{r1,r2:int}
-  (pf1: FIB (n, r1), pf2: FIB (n, r2)): INTEQ (r1, r2)
-// end of [fib_isfun2]
-
-(* ****** ****** *)
-//
-// HX-2012-03:
-// fib(m+n+1)=fib(m)*fib(n)+fib(m+1)*fib(n+1)
-//
-prfun fibeq1
-  {m,n:nat}
-  {r1,r2,r3,r4:int} (
-  pf1: FIB (m, r1) // r1 = fib(m)
-, pf2: FIB (n, r2) // r2 = fib(n)
-, pf3: FIB (m+1, r3) // r3 = fib(m+1)
-, pf4: FIB (n+1, r4) // r4 = fib(n+1)
-) : FIB (m+n+1, r1*r2+r3*r4)
-
-(* ****** ****** *)
-//
-// Cassini's formula states:
-//
-// fib(n)*fib(n+2) + (-1)^n = (fib(n+1))^2
-//
-(* ****** ****** *)
-
-prfun
-fibeq2
-  {n:nat}{i:int}
-  {f0,f1,f2:int} (
-  pf0: FIB (n, f0)
-, pf1: FIB (n+1, f1)
-, pf2: FIB (n+2, f2)
-, pf3: SGN (n, i)
-) : [f0*f2 + i == f1*f1] void
+datatype SGN (int, int) =
+  | SGNbas (0, 1)
+  | {n:nat} {i:int} SGNind (n+1, ~i) of SGN (n, i)
+// end of [SGN]
 
 (* ****** ****** *)
 
-(* end of [fibonacci.sats] *)
+(* end of [basics.sats] *)
