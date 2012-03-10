@@ -51,14 +51,14 @@ assume effect_t0ype = uint
 #define EFFexn 0 // exception
 #define EFFntm 1 // nontermination
 #define EFFref 2 // reference
-#define EFFwrt 3 // not supported
+#define EFFwrt 3 // writeover
 //
-// HX: the maximal number of effect
+// HX-2012-03:
+// the maximal numberof effect is required to
+// strictly less than the size of unsigned int
+// as one bit is needed for the-rest-of-effects
 //
 #define MAX_EFFECT_NUMBER 4
-(*
-#assert (MAX_EFFECT_NUMBER < __WORDSIZE)
-*)
 //
 (* ****** ****** *)
 
@@ -97,17 +97,36 @@ assume effset_t0ype = uint
 (* ****** ****** *)
 
 implement effset_nil = uint_of_int (0) // 0U
-implement effset_all = uint_of ((1 << MAX_EFFECT_NUMBER) - 1)
+implement effset_all = uint_of_int (~1) // 1...1U
+
+implement effset_sing (x) = (1u << x)
 
 implement eq_effset_effset (efs1, efs2) = eq_uint_uint (efs1, efs2)
 
 (* ****** ****** *)
 
 implement effset_add (xs, x) = xs lor (1u << x)
-
 implement effset_del (xs, x) = xs land ~(1u << x)
 
-implement effset_ismem (xs, x) = (xs land (1u << x)) > 0u
+(* ****** ****** *)
+
+implement
+effset_isnil (xs) = eq_effect_effect (xs, effset_nil)
+implement
+effset_isall (xs) = eq_effect_effect (xs, effset_all)
+implement
+effset_isfin (xs) = // finite
+  (xs land (1u << MAX_EFFECT_NUMBER)) \eq_uint_uint 0u
+// end of [effset_isfin]
+implement
+effset_iscof (xs) = // cofinite
+  (xs land (1u << MAX_EFFECT_NUMBER)) \lt_uint_uint 0u
+// end of [effset_iscof]
+
+(* ****** ****** *)
+
+implement
+effset_ismem (xs, x) = (xs land (1u << x)) > 0u
 
 implement
 effset_supset

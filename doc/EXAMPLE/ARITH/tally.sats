@@ -50,6 +50,24 @@ stadef S5 (n:int) = (n*n*n*n*n*n+15*S4(n)-20*S3(n)+15*S2(n)-6*S1(n)+S0(n))/6
 *)
 
 (* ****** ****** *)
+//
+// HX: for testing the level-1 macro system of ATS:
+//
+#define pow1(n) n
+#define pow2(n) n*n
+#define pow3(n) n*pow2(n)
+#define pow4(n) n*pow3(n)
+#define pow5(n) n*pow4(n)
+#define pow6(n) n*pow5(n)
+#define pow7(n) n*pow6(n)
+#define pow8(n) n*pow7(n)
+#define pow9(n) n*pow8(n)
+//
+#define pow(n,k)
+  if k >= 1 then n*pow(n,k-1) else 1
+#define pow10(n) pow(n,10)
+//
+(* ****** ****** *)
 
 dataprop
 SUM1 (int, int) = 
@@ -71,7 +89,7 @@ dataprop
 SUM2 (int, int) = 
   | SUM2bas (0, 0)
   | {n:pos}{s:int}
-    SUM2ind (n, s + n*n) of SUM2 (n-1, s)
+    SUM2ind (n, s + pow2(n)) of SUM2 (n-1, s)
 // end of [SUM2]
 
 stadef cff2 = 6
@@ -87,7 +105,7 @@ dataprop
 SUM3 (int, int) = 
   | SUM3bas (0, 0)
   | {n:pos}{s:int}
-    SUM3ind (n, s + n*n*n) of SUM3 (n-1, s)
+    SUM3ind (n, s + pow3(n)) of SUM3 (n-1, s)
 // end of [SUM3]
 
 stadef cff3 = 4
@@ -103,7 +121,7 @@ dataprop
 SUM4 (int, int) = 
   | SUM4bas (0, 0)
   | {n:pos}{s:int}
-    SUM4ind (n, s + n*n*n*n) of SUM4 (n-1, s)
+    SUM4ind (n, s + pow4(n)) of SUM4 (n-1, s)
 // end of [SUM4]
 
 stadef cff4 = 30
@@ -120,7 +138,7 @@ dataprop
 SUM5 (int, int) = 
   | SUM5bas (0, 0)
   | {n:pos}{s:int}
-    SUM5ind (n, s + n*n*n*n*n) of SUM5 (n-1, s)
+    SUM5ind (n, s + pow5(n)) of SUM5 (n-1, s)
 // end of [SUM5]
 
 stadef cff5 = 12
@@ -137,12 +155,12 @@ dataprop
 SUM6 (int, int) = 
   | SUM6bas (0, 0)
   | {n:pos}{s:int}
-    SUM6ind (n, s + n*n*n*n*n*n) of SUM6 (n-1, s)
+    SUM6ind (n, s + pow6(n)) of SUM6 (n-1, s)
 // end of [SUM6]
 
 stadef cff6 = 42
 stadef csum6
-  (n:int) = n*(n+1)*(2*n+1)*(3*n*n*n*n+6*n*n*n-3*n+1)
+  (n:int) = n*(n+1)*(2*n+1)*(((((3*n+6)*n+0)*n)-3)*n+1)
 prfun sum6
   {n:nat}{s:int}
   (pf: SUM6 (n, s)) : [cff6*s==csum6(n)] void
@@ -154,12 +172,12 @@ dataprop
 SUM7 (int, int) = 
   | SUM7bas (0, 0)
   | {n:pos}{s:int}
-    SUM7ind (n, s + n*n*n*n*n*n*n) of SUM7 (n-1, s)
+    SUM7ind (n, s + pow7(n)) of SUM7 (n-1, s)
 // end of [SUM7]
 
 stadef cff7 = 24
 stadef csum7
-  (n:int) = n*n*(n+1)*(n+1)*(3*n*n*n*n+6*n*n*n-n*n-4*n+2)
+  (n:int) = n*n*(n+1)*(n+1)*((((3*n+6)*n-1)*n-4)*n+2)
 prfun sum7
   {n:nat}{s:int}
   (pf: SUM7 (n, s)) : [cff7*s==csum7(n)] void
@@ -171,7 +189,7 @@ dataprop
 SUM8 (int, int) = 
   | SUM8bas (0, 0)
   | {n:pos}{s:int}
-    SUM8ind (n, s + n*n*n*n*n*n*n*n) of SUM8 (n-1, s)
+    SUM8ind (n, s + pow8(n)) of SUM8 (n-1, s)
 // end of [SUM8]
 
 stadef cff8 = 90
@@ -188,12 +206,12 @@ dataprop
 SUM9 (int, int) = 
   | SUM9bas (0, 0)
   | {n:pos}{s:int}
-    SUM9ind (n, s + n*n*n*n*n*n*n*n*n) of SUM9 (n-1, s)
+    SUM9ind (n, s + pow9(n)) of SUM9 (n-1, s)
 // end of [SUM9]
 
 stadef cff9 = 20
 stadef csum9
-  (n:int) = n*n*(n+1)*(n+1)*(n*n+n-1)*(2*n*n*n*n+4*n*n*n-n*n-3*n+3)
+  (n:int) = n*n*(n+1)*(n+1)*(n*n+n-1)*((((((2*n+4)*n)-1)*n)-3)*n+3)
 prfun sum9
   {n:nat}{s:int}
   (pf: SUM9 (n, s)) : [cff9*s==csum9(n)] void
@@ -205,7 +223,7 @@ dataprop
 SUM10 (int, int) = 
   | SUM10bas (0, 0)
   | {n:pos}{s:int}
-    SUM10ind (n, s + n*n*n*n*n*n*n*n*n*n) of SUM10 (n-1, s)
+    SUM10ind (n, s + pow10(n)) of SUM10 (n-1, s)
 // end of [SUM10]
 
 stadef cff10 = 66

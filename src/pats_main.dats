@@ -206,6 +206,7 @@ dynload "pats_trans3_env_scst.dats"
 dynload "pats_trans3_env_svar.dats"
 dynload "pats_trans3_env_print.dats"
 dynload "pats_trans3_env_termet.dats"
+dynload "pats_trans3_env_effect.dats"
 dynload "pats_trans3_syncst.dats"
 dynload "pats_trans3_p2at.dats"
 dynload "pats_trans3_patcon.dats"
@@ -466,6 +467,7 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/SATS/char.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/float.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/integer.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/pointer.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/string.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/strptr.sats")
 //

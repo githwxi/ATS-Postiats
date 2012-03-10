@@ -47,9 +47,9 @@ staload "pats_basics.sats"
 (* ****** ****** *)
 
 staload LAB = "pats_label.sats"
-macdef eq_label_label = $LAB.eq_label_label
+overload = with $LAB.eq_label_label
 staload EFF = "pats_effect.sats"
-macdef eq_effset_effset = $EFF.eq_effset_effset
+overload = with $EFF.eq_effset_effset
 staload INTINF = "pats_intinf.sats"
 macdef eq_intinf_int = $INTINF.eq_intinf_int
 macdef eq_int_intinf = $INTINF.eq_int_intinf
@@ -505,27 +505,30 @@ fun s2eff_syneq_exn (
   s2fe1: s2eff, s2fe2: s2eff
 ) : void = begin
   case+ (s2fe1, s2fe2) of
-  | (S2EFFall (), S2EFFall ()) => ()
-  | (S2EFFnil (), S2EFFnil ()) => ()
-  | (S2EFFset (efs1, s2es1),
-     S2EFFset (efs2, s2es2)) => (
-      if eq_effset_effset (efs1, efs2)
-        then s2explst_syneq_exn (s2es1, s2es2) else $raise (SYNEQexn)
-      // end of [if]
-    ) // end of [S2EFFset, S2EFFset]
+  | (S2EFFset (efs1),
+     S2EFFset (efs2)) =>
+      if not(efs1=efs2) then $raise (SYNEQexn)
+    // end of [S2EFFset, S2EFFset]
+  | (S2EFFexp (s2e1),
+     S2EFFexp (s2e2)) => s2exp_syneq_exn (s2e1, s2e2)
+  | (S2EFFadd (s2fe11, s2fe12),
+     S2EFFadd (s2fe21, s2fe22)) => {
+      val () = s2eff_syneq_exn (s2fe11, s2fe21)
+      val () = s2eff_syneq_exn (s2fe21, s2fe22)
+    } // end of [S2EFFadd, S2EFFadd]
   | (_, _) => $raise (SYNEQexn)
 end // end of [s2eff]
 
 fun labs2explst_syneq_exn (
   ls2es1: labs2explst, ls2es2: labs2explst
-) : void =
+) : void = (
   case+ (ls2es1, ls2es2) of
   | (list_cons (ls2e1, ls2es1),
      list_cons (ls2e2, ls2es2)) => let
       val SLABELED (l1, _(*opt*), s2e1) = ls2e1
       val SLABELED (l2, _(*opt*), s2e2) = ls2e2
     in
-      if eq_label_label (l1, l2) then let
+      if (l1 = l2) then let
         val () = s2exp_syneq_exn (s2e1, s2e2)
       in
         labs2explst_syneq_exn (ls2es1, ls2es2)
@@ -533,7 +536,7 @@ fun labs2explst_syneq_exn (
     end // end of [cons, cons]
   | (list_nil (), list_nil ()) => ()
   | (_, _) => $raise (SYNEQexn)
-// end of [labs2explst_syneq]
+) // end of [labs2explst_syneq]
 
 (* ****** ****** *)
 

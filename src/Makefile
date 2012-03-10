@@ -181,6 +181,7 @@ SOURCES := \
   pats_trans3_env_svar.dats \
   pats_trans3_env_print.dats \
   pats_trans3_env_termet.dats \
+  pats_trans3_env_effect.dats \
   pats_trans3_syncst.dats \
   pats_trans3_p2at.dats \
   pats_trans3_patcon.dats \

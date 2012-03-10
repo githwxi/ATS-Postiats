@@ -90,8 +90,10 @@ val symbol_INT : symbol
 val symbol_BOOL : symbol
 val symbol_ADDR : symbol
 val symbol_CHAR : symbol
-val symbol_CLS : symbol
-val symbol_EFF : symbol
+//
+val symbol_CLS : symbol // for nominal classes
+//
+val symbol_EFF : symbol // for sets of effects
 //
 // HX: for pre-defined impredicative sorts
 //

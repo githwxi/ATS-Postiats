@@ -36,16 +36,19 @@ staload _(*anon*) = "prelude/DATS/list.dats"
 
 (* ****** ****** *)
 
-staload LEX = "pats_lexing.sats"
-
-(* ****** ****** *)
-
 staload "pats_basics.sats"
 
 (* ****** ****** *)
 
-staload STAMP = "pats_stamp.sats"
-macdef eq_stamp_stamp = $STAMP.eq_stamp_stamp
+staload LEX = "pats_lexing.sats"
+
+(* ****** ****** *)
+
+staload
+STMP = "pats_stamp.sats"
+macdef eq_stamp_stamp = $STMP.eq_stamp_stamp
+
+staload EFF = "pats_effect.sats"
 
 (* ****** ****** *)
 
@@ -262,7 +265,7 @@ s2exp_confun (
 ) = hnf '{
   s2exp_srt= s2rt_type
 , s2exp_node= S2Efun (
-    FUNCLOfun (), 0(*lin*), S2EFFnil (), npf, s2es_arg, s2e_res
+    FUNCLOfun (), 0(*lin*), s2eff_nil, npf, s2es_arg, s2e_res
   ) // end of [S2Efun]
 } (* end of [s2exp_confun] *)
 
@@ -460,6 +463,25 @@ implement
 s2exp_is_impredicative
   (s2e) = s2rt_is_impredicative (s2e.s2exp_srt)
 // end of [s2exp_is_impredicative]
+
+(* ****** ****** *)
+
+implement
+s2eff_nil = S2EFFset ($EFF.effset_nil)
+implement
+s2eff_all = S2EFFset ($EFF.effset_all)
+
+implement s2eff_set (efs) = S2EFFset (efs)
+
+implement
+s2eff_var (s2v) = let
+  val s2e = s2exp_var (s2v) in S2EFFexp (s2e)
+end // end of [s2eff_var]
+
+implement s2eff_exp (s2e) = S2EFFexp (s2e)
+
+implement
+s2eff_add (s2fe1, s2fe2) = S2EFFadd (s2fe1, s2fe2)
 
 (* ****** ****** *)
 

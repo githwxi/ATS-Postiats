@@ -36,6 +36,13 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
+staload
+EFF = "pats_effect.sats"
+typedef effect = $EFF.effect
+typedef effset = $EFF.effset
+
+(* ****** ****** *)
+
 staload "pats_staexp1.sats"
 staload "pats_staexp2.sats"
 
@@ -70,6 +77,14 @@ fun s2cst_select_locs2explstlst
 fun s2hnf_get_head (s2f: s2hnf): s2hnf // the head in HNF
 fun s2hnf_is_abscon (s2f: s2hnf): bool // is abstract or datatype
 
+(* ****** ****** *)
+//
+fun s2eff_add_set (s2fe: s2eff, eff: effset):<> s2eff
+//
+fun s2eff_contain_set (s2fe: s2eff, efs: effset): bool
+fun s2eff_contain_var (s2fe: s2eff, s2v: s2var): bool
+fun s2eff_contain_s2eff (s2fe1: s2eff, s2fe2: s2eff): bool
+//
 (* ****** ****** *)
 
 absviewtype

@@ -63,7 +63,7 @@ overload prerr with prerr_effect
 fun fprint_effectlst : fprint_type (effectlst)
 overload fprint with fprint_effectlst
 
-fun eq_effect_effect (x1: effect, x2: effect): bool
+fun eq_effect_effect (x1: effect, x2: effect):<> bool
 overload = with eq_effect_effect
 
 (* ****** ****** *)
@@ -71,22 +71,45 @@ overload = with eq_effect_effect
 val effset_all: effset
 and effset_nil: effset
 
-fun fprint_effset : fprint_type (effset)
+fun effset_sing (eff: effect):<> effset
 
-fun eq_effset_effset (x1: effset, x2: effset): bool
+fun eq_effset_effset (x1: effset, x2: effset):<> bool
 overload = with eq_effset_effset
 
-fun effset_add (efs: effset, eff: effect): effset
-fun effset_del (efs: effset, eff: effect): effset
+fun effset_add (efs: effset, eff: effect):<> effset
+fun effset_del (efs: effset, eff: effect):<> effset
 
-fun effset_ismem (efs: effset, eff: effect): bool
+fun effset_isnil (efs: effset):<> bool
+fun effset_isall (efs: effset):<> bool
+(*
+** HX-2012-03:
+** [efs] is finite if its sign bit is clr
+** [efs] is cofinite if its sign bit is set
+*)
+fun effset_isfin (efs: effset):<> bool
+fun effset_iscof (efs: effset):<> bool
 
-fun effset_supset (efs1: effset, efs2: effset): bool
-fun effset_subset (efs1: effset, efs2: effset): bool
+fun effset_ismem (efs: effset, eff: effect):<> bool
 
-fun effset_union (efs1: effset, efs2: effset): effset
+fun effset_supset (efs1: effset, efs2: effset):<> bool
+fun effset_subset (efs1: effset, efs2: effset):<> bool
 
-fun fprint_effset (out: FILEref, efs: effset): void
+(*
+** HX: complement and difference
+*)
+fun effset_cmpl (efs: effset):<> effset
+fun effset_diff (efs1: effset, efs2: effset):<> effset
+(*
+** HX: intersection and union
+*)
+fun effset_inter (efs1: effset, efs2: effset):<> effset
+fun effset_union (efs1: effset, efs2: effset):<> effset
+
+fun effset_is_inter (efs1: effset, efs2: effset):<> bool
+
+(* ****** ****** *)
+
+fun fprint_effset : fprint_type (effset)
 
 (* ****** ****** *)
 

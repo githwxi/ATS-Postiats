@@ -189,8 +189,10 @@ val s2rt_int : s2rt
 val s2rt_bool : s2rt
 val s2rt_addr : s2rt
 val s2rt_char : s2rt
-val s2rt_cls : s2rt // classes
-val s2rt_eff : s2rt // effects
+//
+val s2rt_cls : s2rt // nominal classes
+//
+val s2rt_eff : s2rt // sets of effects
 //
 // HX: pre-defined predicative sorts
 //
@@ -380,9 +382,9 @@ s2exp_node =
 // end of [s2exp_node]
 
 and s2eff =
-  | S2EFFall of ()
-  | S2EFFnil of ()
-  | S2EFFset of (effset, s2explst)
+  | S2EFFset of effset
+  | S2EFFexp of (s2exp)
+  | S2EFFadd of (s2eff, s2eff)
 // end of [s2eff]
 
 and s2rtext = (* extended sort *)
@@ -947,6 +949,13 @@ fun fprint_labs2explst : fprint_type (labs2explst)
 fun fprint_wths2explst : fprint_type (wths2explst)
 
 (* ****** ****** *)
+
+val s2eff_nil: s2eff
+val s2eff_all: s2eff
+fun s2eff_set (efs: effset): s2eff
+fun s2eff_var (s2v: s2var): s2eff
+fun s2eff_exp (s2e: s2exp): s2eff
+fun s2eff_add (s2fe1: s2eff, s2fe2: s2eff): s2eff
 
 fun fprint_s2eff : fprint_type (s2eff)
 

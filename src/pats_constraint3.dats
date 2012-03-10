@@ -302,12 +302,12 @@ fun synlt_s2hnf_s2hnf (
   s2f1: s2hnf, s2f2: s2hnf
 ) : bool = let
   val s2e2 = s2hnf2exp s2f2
-// (*
+(*
   val () = begin
     print "synlt_s2hnf_s2hnf: s2f1 = "; print_s2hnf (s2f1); print_newline ();
     print "synlt_synlt_s2hnf: s2f2 = "; print_s2hnf (s2f2); print_newline ();
   end // end of [val]
-// *)
+*)
 in
   case+ s2e2.s2exp_node of
   | S2Eapp (_, s2es2) => synlte_s2hnf_s2explst (s2f1, s2es2)
@@ -868,14 +868,14 @@ s2vbcfenv_add_sbexp
 implement
 s2vbcfenv_add_nonlin
   (env, s2v, s3e) = let
-// (*
+(*
   val () = begin
     print "s2vbcfenv_add_nonlin: s2v = ";
     print_s2var (s2v); print_newline ();
     print "s2vbcfenv_add_nonlin: s3e = ";
     print_s3exp (s3e); print_newline ();
   end // end of [val]
-// *)
+*)
 in
   env := S2VBCFLSTnonlin (s2v, s3e, env)
 end // end of [s2vbcfenv_add_nonlin]
@@ -889,7 +889,7 @@ end // end of [local]
 implement
 s2vbcfenv_add_cstapp
   (env, s2c, s2es_arg, s2v) = let
-//
+(*
   val () = begin
     print "s2vbcfenv_add: s2c = ";
     print_s2cst (s2c); print_newline ();
@@ -898,7 +898,7 @@ s2vbcfenv_add_cstapp
     print "s2vbcfenv_add: s2v = ";
     print_s2var (s2v); print_newline ();
   end // end of [val]
-//
+*)
   val s3es_arg = s3explst_make (env, s2es_arg)
 in
   s2vbcfenv_add2_cstapp (env, s2c, s2es_arg, s3es_arg, s2v)

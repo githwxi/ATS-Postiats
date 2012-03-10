@@ -86,17 +86,17 @@ d2exp_s2eff_of_d2exp
   (d2e0, s2fe0) =
   case+ d2e0.d2exp_node of
   | D2Elam_dyn _ =>
-      (s2fe0 := S2EFFnil (); d2e0)
+      (s2fe0 := s2eff_nil; d2e0)
   | D2Elaminit_dyn _ =>
-      (s2fe0 := S2EFFnil (); d2e0)
+      (s2fe0 := s2eff_nil; d2e0)
   | D2Elam_sta _ =>
-      (s2fe0 := S2EFFnil (); d2e0)
+      (s2fe0 := s2eff_nil; d2e0)
   | D2Eann_seff
       (d2e, s2fe) => let
       val () = s2fe0 := s2fe in d2e
     end // end of [D2Eann_seff]
   | _ => let
-      val () = s2fe0 := S2EFFall () in d2e0
+      val () = s2fe0 := s2eff_all in d2e0
     end // end of [_]
 // end of [d2exp_s2eff_of_d2exp]
 

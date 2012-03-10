@@ -204,7 +204,7 @@ val s2vs_ =
 val s3ps_asmp =
   $UN.castvwtp1 {s3explst} (s3ps) // HX: cannot be SHARED!
 //
-// (*
+(*
 val () = begin
   print "s3explst_solve_s2exp: s2vs = ";
   print_s2varlst (s2vs_); print_newline ();
@@ -214,7 +214,7 @@ val () = begin
   print "s3explst_solve_s2exp: s2p = "; pprint_s2exp (s2p); print_newline ();
   print "s3explst_solve_s2exp: s3p = "; print_s3exp (s3p); print_newline ();
 end // end of [val]
-// *)
+*)
 //
 val (vim, n) = s2varindmap_make (s2vs)
 //

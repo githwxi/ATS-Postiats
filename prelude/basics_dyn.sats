@@ -61,6 +61,37 @@ prfun prop_verify_and_add {b:bool} ():<prf> [b] void
 
 (* ****** ****** *)
 
+(*
+** HX-2012-03: handling read-only views and viewtypes
+*)
+castfn
+read_getval // copy out a non-linear value
+  {a:t@ype}{s:int}{n:int} (x: !READ (a, s, n)):<> a
+// end of [read_getval]
+
+praxi
+read_takeout {v:view}
+  (pf: !v >> READOUT (v, s)): #[s:int] READ (v, s, 0)
+// end of [read_takeout]
+praxi
+read_addback // HX: there is no need to check
+  {v1:view}{v2:view}{s:int} // if v1 and v2 match
+  (pf1: !READOUT (v1, s) >> v1, pf2: READ (v2, s, 0)): void
+// end of [read0_addback]
+
+praxi
+read_split
+  {v:view}{s:int}{n:int}
+  (pf: !READ (v, s, n) >> READ (v, s, n+1)): READ (v, s, 0)
+// end of [read_split]
+praxi
+read_unsplit // HX: there is no need to check
+  {v1:view}{v2:view}{s:int}{n1,n2:int} // if v1 and v2 match
+  (pf1: READ (v1, s, n1), pf2: READ (v2, s, n2)): READ (v1, s, n1+n2-1)
+// end of [read_unsplit]
+
+(* ****** ****** *)
+
 val null : ptr (null) = "mac#atsptr_null" // macro
 val NULL : ptr (null) = "mac#atsptr_null" // macro
 

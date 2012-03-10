@@ -52,23 +52,22 @@ fn name_is_nil (name: string): bool =
 fn name_is_all (name: string): bool =
   if name = "1" then true else name = "all"
 
-fn name_is_exn (name: string): bool =
-  if name = "exn" then true else name = "exception"
-
-fn name_is_exnref (name: string): bool = name = "exnref"
-
 fn name_is_ntm (name: string): bool =
   if name = "ntm" then true else name = "nonterm"
 
+fn name_is_exn (name: string): bool =
+  if name = "exn" then true else name = "exception"
 fn name_is_ref (name:string): bool =
   if name = "ref" then true else name = "reference"
+fn name_is_exnref (name: string): bool = name = "exnref"
 
 fn name_is_wrt (name: string): bool =
   if name = "wrt" then true else name = "write"
+// end of [name_is_wrt]
 
-//
+(*
 // HX: !laz = 1,~ref
-//
+*)
 fn name_is_lazy (name: string): bool = name = "laz"
 
 (* ****** ****** *)
@@ -131,6 +130,10 @@ fun loop (
         } // end of [E0FFTAGcst when ...]
 //
       | E0FFTAGcst (isneg, name) => begin case+ 0 of
+        | _ when name_is_ntm name => {
+            val () = if isneg > 0 then efs := effset_del (efs, effect_ntm)
+            val () = if isneg = 0 then efs := effset_add (efs, effect_ntm)
+          } // end of [_ when ...]
         | _ when name_is_exn name => {
             val () = if isneg > 0 then efs := effset_del (efs, effect_exn)
             val () = if isneg = 0 then efs := effset_add (efs, effect_exn)
@@ -141,13 +144,13 @@ fun loop (
             val () = if isneg = 0 then
               efs := effset_add (effset_add (efs, effect_exn), effect_ref)
           } // end of [_ when ...]
-        | _ when name_is_ntm name => {
-            val () = if isneg > 0 then efs := effset_del (efs, effect_ntm)
-            val () = if isneg = 0 then efs := effset_add (efs, effect_ntm)
-          } // end of [_ when ...]
         | _ when name_is_ref name => {
             val () = if isneg > 0 then efs := effset_del (efs, effect_ref)
             val () = if isneg = 0 then efs := effset_add (efs, effect_ref)
+          } // end of [_ when ...]
+        | _ when name_is_wrt name => {
+            val () = if isneg > 0 then efs := effset_del (efs, effect_wrt)
+            val () = if isneg = 0 then efs := effset_add (efs, effect_wrt)
           } // end of [_ when ...]
         | _ => loop_err (tag, name)
         end // end of [E0FFTAGcst]

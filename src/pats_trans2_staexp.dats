@@ -153,16 +153,30 @@ case+ ans of
   } // end of [None_vt]
 end // end of [effvar_tr]
 
-fn effvarlst_tr
-  (efvs: effvarlst): s2explst = l2l (list_map_fun (efvs, effvar_tr))
-// end of [effvarlst_tr]
+fun effvarlst_tr
+  (efvs: effvarlst): s2eff = (
+  case+ efvs of
+  | list_cons
+      (efv, efvs) => let
+      val s2fe = s2eff_exp (effvar_tr (efv))
+    in
+      case+ efvs of
+      | list_cons _ => let
+          val s2fe2 = effvarlst_tr (efvs) in s2eff_add (s2fe, s2fe2)
+        end // end of [list_cons]
+      | list_nil () => s2fe
+    end // end of [list_cons]
+  | list_nil () => s2eff_nil
+) // end of [effvarlst_tr]
 
 implement
 effcst_tr (efc) = begin
   case+ efc of
-  | EFFCSTall () => S2EFFall ()
-  | EFFCSTnil () => S2EFFnil ()
-  | EFFCSTset (efs, efvs) => S2EFFset (efs, effvarlst_tr efvs)
+  | EFFCSTall () => s2eff_all
+  | EFFCSTnil () => s2eff_nil
+  | EFFCSTset (efs, efvs) =>
+      s2eff_add (s2eff_set (efs), effvarlst_tr (efvs))
+    // end of [EFFSTset]
 end // end of [effcst_tr]
 
 (* ****** ****** *)
@@ -932,7 +946,7 @@ val lin = (if islin then 1 else 0): int // end of [val]
 val sf2e = (case+ efcopt of
   | Some efc => effcst_tr (efc)
   | None () =>
-      if isprf then S2EFFnil () else S2EFFall ()
+      if isprf then s2eff_nil else s2eff_all
     // end of [None]
 ) : s2eff // end of [val]
 //

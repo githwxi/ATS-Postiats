@@ -46,6 +46,7 @@ staload "pats_basics.sats"
 (* ****** ****** *)
 
 staload LAB = "pats_label.sats"
+staload EFF = "pats_effect.sats"
 
 (* ****** ****** *)
 
@@ -381,6 +382,80 @@ val s2e = s2hnf2exp (s2f)
 in
   loop (s2e)
 end // end of [s2hnf_is_abscon]
+
+(* ****** ****** *)
+
+implement
+s2eff_add_set
+  (s2fe, efs) = (
+  case+ 0 of
+  | _ when $EFF.effset_isnil (efs) => s2fe
+  | _ when $EFF.effset_isall (efs) => s2eff_all
+  | _ => let
+      val s2fe2 = s2eff_set (efs) in s2eff_add (s2fe, s2fe2)
+    end // end of [_]
+) // end of [s2eff_add_set]
+
+(* ****** ****** *)
+
+implement
+s2eff_contain_set
+  (s2fe, efs0) = let
+//
+fun aux (
+  s2e: s2exp, efs0: effset
+) : bool = let
+  val s2f = s2exp2hnf (s2e)
+  val s2e = s2hnf2exp (s2f)
+in
+  case+ s2e.s2exp_node of
+  | _ => false
+end // end of [aux]
+//
+in
+//
+case+ s2fe of
+| S2EFFset (efs) =>
+    $EFF.effset_supset (efs, efs0)
+| S2EFFexp (s2e) => aux (s2e, efs0)
+| S2EFFadd (s2fe1, s2fe2) => let
+    val ans = s2eff_contain_set (s2fe1, efs0)
+  in
+    if ans then true else s2eff_contain_set (s2fe2, efs0)
+  end // end of [S2EFFadd]
+//
+end // end of [s2eff_contain_set]
+
+(* ****** ****** *)
+
+implement
+s2eff_contain_var
+  (s2fe, s2v0) = let
+//
+fun aux (
+  s2e: s2exp, s2v0: s2var
+) : bool = let
+  val s2f = s2exp2hnf (s2e)
+  val s2e = s2hnf2exp (s2f)
+in
+  case+ s2e.s2exp_node of
+  | S2Evar (s2v) => eq_s2var_s2var (s2v0, s2v)
+  | _ => false
+end // end of [aux]
+//
+in
+//
+case+ s2fe of
+| S2EFFset (efs) =>
+    if $EFF.effset_isall (efs) then true else false
+| S2EFFexp (s2e) => aux (s2e, s2v0)
+| S2EFFadd (s2fe1, s2fe2) => let
+    val ans = s2eff_contain_var (s2fe1, s2v0)
+  in
+    if ans then true else s2eff_contain_var (s2fe2, s2v0)
+  end // end of [S2EFFadd]
+//
+end // end of [s2eff_contain_var]
 
 (* ****** ****** *)
 
@@ -857,16 +932,23 @@ wths2explst_subst_flag
 
 implement
 s2eff_subst_flag
-  (sub, s2fe0, flag) =
+  (sub, s2fe0, flag) = (
   case+ s2fe0 of
-  | S2EFFset (efs, s2es) => let
+  | S2EFFset (efs) => s2fe0
+  | S2EFFexp (s2e) => let
       val flag0 = flag
-      val s2es = s2explst_subst_flag (sub, s2es, flag)
+      val s2e = s2exp_subst_flag (sub, s2e, flag)
     in
-      if flag > flag0 then S2EFFset (efs, s2es) else s2fe0
-    end // end of [S2EFFset]
-  | _ => s2fe0 // end of [_]
-// end of s2eff_subst_flag
+      if flag > flag0 then S2EFFexp (s2e) else s2fe0
+    end // end of [S2EFFexp]
+  | S2EFFadd (s2fe1, s2fe2) => let
+      val flag0 = flag
+      val s2fe1 = s2eff_subst_flag (sub, s2fe1, flag)
+      val s2fe2 = s2eff_subst_flag (sub, s2fe2, flag)
+    in
+      if flag > flag0 then S2EFFadd (s2fe1, s2fe2) else s2fe0
+    end // end of [S2EFFadd]
+) // end of s2eff_subst_flag
 
 (* ****** ****** *)
 
@@ -1098,9 +1180,11 @@ and aux_s2eff (
   s2fe: s2eff, fvs: &s2varset_vt
 ) : void =
   case+ s2fe of
-  | S2EFFall _ => ()
-  | S2EFFnil _ => ()
-  | S2EFFset (_, s2es) => aux_s2explst (s2es, fvs)
+  | S2EFFset _ => ()
+  | S2EFFexp (s2e) => aux_s2exp (s2e, fvs)
+  | S2EFFadd (s2fe1, s2fe2) => let
+      val () = aux_s2eff (s2fe1, fvs) in aux_s2eff (s2fe2, fvs)
+    end // end of [S2EFFadd]
 // end of [aux_s2eff]
 
 in // in of [local]

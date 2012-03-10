@@ -42,8 +42,8 @@ staload "pats_basics.sats"
 
 staload LAB = "pats_label.sats"
 overload compare with $LAB.compare_label_label
-staload STAMP = "pats_stamp.sats"
-overload compare with $STAMP.compare_stamp_stamp
+staload STMP = "pats_stamp.sats"
+overload compare with $STMP.compare_stamp_stamp
 
 (* ****** ****** *)
 

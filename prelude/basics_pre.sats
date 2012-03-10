@@ -276,6 +276,16 @@ sortdef agez = { l: addr | l >= null }
 
 (* ****** ****** *)
 //
+stacst the_ntm_eff : eff // nonterm
+stacst the_exn_eff : eff // exception
+stacst the_ref_eff : eff // reference
+stacst the_wrt_eff : eff // writeover
+//
+stacst add_eff_eff : (eff, eff) -> eff
+stadef + = add_eff_eff // union of effsets
+//
+(* ****** ****** *)
+//
 // HX: some overloaded symbols
 //
 symintr ~ not
@@ -311,18 +321,39 @@ cloptr_viewt0ype_viewtype (a: viewt@ype) // = ptr
 absviewtype cloref_t0ype_type (a: t@ype) // = ptr
 
 (* ****** ****** *)
-
-absviewt@ype
-READ_viewt0ype_int_viewt0ype
-  (a: viewt@ype+, stamp:int) = a
-stadef READ = READ_viewt0ype_int_viewt0ype
-viewtypedef READ (a:viewt@ype) = [s:int] READ (a, s)
+//
+absview
+read_view_int_int_view
+  (v:view, stamp:int, n:int)
+stadef READ = read_view_int_int_view
+viewdef READ (v:view) = [s,n:int] READ (v, s, n)
 stadef RD = READ
+//
+absview
+readout_view_int_view (v:view, stamp:int)
+stadef READOUT = readout_view_int_view
+viewdef READOUT (v:view) = [s:int] READOUT (v, s)
+//
+(* ****** ****** *)
 
 absviewt@ype
-WRITE_viewt0ype_viewt0ype (a: viewt@ype+) = a
+read_viewt0ype_int_int_viewt0ype
+  (a:viewt@ype, stamp:int, n:int) = a
+stadef READ = read_viewt0ype_int_int_viewt0ype
+viewtypedef READ (a:viewt@ype) = [s,n:int] READ (a, s, n)
+stadef RD = READ
+//
+absviewt@ype
+readout_viewt0ype_int_viewt0ype (a:viewt@ype, stamp: int) = a
+stadef READOUT = readout_viewt0ype_int_viewt0ype
+viewtypedef READOUT (a:viewt@ype) = [s:int] READOUT (a, s)
+//
+(* ****** ****** *)
+
+absviewt@ype
+write_viewt0ype_viewt0ype (a: viewt@ype) = a
 viewtypedef
-WRITE (a:viewt@ype) = WRITE_viewt0ype_viewt0ype (a)
+WRITE (a:viewt@ype) = write_viewt0ype_viewt0ype (a)
 stadef WRT = WRITE
 
 (* ****** ****** *)

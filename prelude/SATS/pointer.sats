@@ -58,15 +58,24 @@ fun ptr_isnot_null {l:addr}
 
 (* ****** ****** *)
 //
-// implemented in [prelude/DATS/pointer.dats]
+// HX: implemented in [prelude/DATS/pointer.dats]
 //
 fun{a:t@ype}
-ptr_get {l:addr} (pf: !a @ l | p: ptr l):<> a
-
+ptr_get {l:addr} (pf: !RD(a @ l) | p: ptr l):<> a
 fun{a:t@ype}
+ptr_get_vt {l:addr} (pf: !a @ l >> a?! @ l | p: ptr l):<> a
+
+fun{a:viewt@ype}
 ptr_set {l:addr}
   (pf: !a? @ l >> a @ l | p: ptr l, x: a):<!wrt> void
 // end of [ptr_set]
+
+(* ****** ****** *)
+
+fun{a:viewt@ype}
+ptr_exch {l:addr}
+  (pf: !a @ l >> a @ l | p: ptr l, x: &WRT(a) >> a):<!wrt> void
+// end of [ptr_exch]
 
 (* ****** ****** *)
 

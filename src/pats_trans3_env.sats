@@ -42,8 +42,18 @@ typedef location = $LOC.location
 
 (* ****** ****** *)
 
-staload STMP = "pats_stamp.sats"
-viewtypedef stampset_vt = $STMP.stampset_vt
+staload
+STMP = "pats_stamp.sats"
+viewtypedef
+stampset_vt = $STMP.stampset_vt
+
+(* ****** ****** *)
+
+staload
+EFF = "pats_effect.sats"
+typedef effect = $EFF.effect
+typedef effectlst = $EFF.effectlst
+typedef effset = $EFF.effset
 
 (* ****** ****** *)
 
@@ -310,6 +320,22 @@ fun termetenv_get_termet (x: stamp): Option_vt (s2explst)
 fun s2exp_metfun_load
   (s2e0: s2exp, d2v0: d2var): Option_vt @(s2exp, s2rtlst)
 // end of [s2exp_metfun_load]
+
+(* ****** ****** *)
+
+absview effenv_push_v
+
+fun the_effenv_add_eff (eff: effect): void
+
+fun the_effenv_pop (pf: effenv_push_v | (*none*)): void
+
+fun the_effenv_push (): (effenv_push_v | void)
+fun the_effenv_push_lam (s2fe: s2eff): (effenv_push_v | void)
+fun the_effenv_push_eff (efs: effset): (effenv_push_v | void)
+fun the_effenv_push_effmask (efs: effset): (effenv_push_v | void)
+
+fun the_effenv_check_eff (efs: effset): int (*succ/fail: 0/1*)
+fun the_effenv_check_svar (s2v: s2var): int (*succ/fail: 0/1*)
 
 (* ****** ****** *)
 

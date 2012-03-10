@@ -265,8 +265,9 @@ implement symbol_INT = symbol_make_string "int"
 implement symbol_BOOL = symbol_make_string "bool"
 implement symbol_ADDR = symbol_make_string "addr"
 implement symbol_CHAR = symbol_make_string "char"
-implement symbol_CLS = symbol_make_string "cls"
-implement symbol_EFF = symbol_make_string "eff"
+//
+implement symbol_CLS = symbol_make_string "cls" // nominal classes
+implement symbol_EFF = symbol_make_string "eff" // sets of effects
 //
 implement symbol_PROP = symbol_make_string "prop"
 implement symbol_TYPE = symbol_make_string "type"

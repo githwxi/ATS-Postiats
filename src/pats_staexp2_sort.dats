@@ -115,23 +115,29 @@ end // end of [local]
 (* ****** ****** *)
 
 local
-
+//
 val s2tb_int: s2rtbas = S2RTBASpre ($SYM.symbol_INT)
 val s2tb_bool: s2rtbas = S2RTBASpre ($SYM.symbol_BOOL)
 val s2tb_addr: s2rtbas = S2RTBASpre ($SYM.symbol_ADDR)
 val s2tb_char: s2rtbas = S2RTBASpre ($SYM.symbol_CHAR)
-val s2tb_cls: s2rtbas = S2RTBASpre ($SYM.symbol_CLS)
-val s2tb_eff: s2rtbas = S2RTBASpre ($SYM.symbol_EFF)
-
+//
+val s2tb_cls
+  : s2rtbas = S2RTBASpre ($SYM.symbol_CLS) // for nominal classes
+//
+val s2tb_eff
+  : s2rtbas = S2RTBASpre ($SYM.symbol_EFF) // for sets of effects
+//
 in // in of [local]
-
+//
 implement s2rt_int = S2RTbas s2tb_int
 implement s2rt_bool = S2RTbas s2tb_bool
 implement s2rt_addr = S2RTbas s2tb_addr
 implement s2rt_char = S2RTbas s2tb_char
+//
 implement s2rt_cls = S2RTbas s2tb_cls
+//
 implement s2rt_eff = S2RTbas s2tb_eff
-
+//
 end // end of [local]
 
 (* ****** ****** *)

@@ -1038,11 +1038,11 @@ a:t@ype
 , ics: &list_vt(icnstr (a, n), s)
 , sgn: int // ~1/0/1
 ) : int(*~1/0*) = let
-// (*
+(*
 val () = (
   print "auxcont: sgn = "; print_int sgn; print_newline ()
 ) // end of [val]
-// *)
+*)
 in
 //
 if sgn > 0 then let
@@ -1123,11 +1123,11 @@ auxmain {n}{s} (
 ) = let
 //
 viewtypedef ic = icnstr (a, n)
-// (*
+(*
 val () = (
   print "auxmain: stamp = "; print stamp; print_newline ()
 ) // end of [val]
-// *)
+*)
 in
 //
 case+ ics of

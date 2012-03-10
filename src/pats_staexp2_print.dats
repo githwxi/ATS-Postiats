@@ -50,8 +50,8 @@ fprint_intinf = $INTINF.fprint_intinf
 
 staload SYM = "pats_symbol.sats"
 macdef fprint_symbol = $SYM.fprint_symbol
-staload STAMP = "pats_stamp.sats"
-macdef fprint_stamp = $STAMP.fprint_stamp
+staload STMP = "pats_stamp.sats"
+macdef fprint_stamp = $STMP.fprint_stamp
 staload SYN = "pats_syntax.sats"
 
 (* ****** ****** *)
@@ -511,18 +511,34 @@ end // end of [fprint_wths2explst]
 (* ****** ****** *)
 
 implement
-fprint_s2eff (out, s2fe) =
-  case+ s2fe of
-  | S2EFFall () => fprint_string (out, "all")
-  | S2EFFnil () => fprint_string (out, "nil")
-  | S2EFFset (efs, s2es) => {
-      val () = fprint_string (out, "set(")
-      val () = $EFF.fprint_effset (out, efs)
-      val () = fprint_string (out, "; ")
-      val () = fprint_s2explst (out, s2es)
-      val () = fprint_string (out, ")")
-    } // end of [S2EFFset]
-// end of [s2eff]
+fprint_s2eff
+  (out, s2fe) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+//
+case+ s2fe of
+| S2EFFset
+    (efs) => {
+    val () = prstr "S2EFFset("
+    val () = $EFF.fprint_effset (out, efs)
+    val () = prstr ")"
+  } // end of [S2EFFset]
+| S2EFFexp
+    (s2e) => {
+    val () = prstr "S2EFFexp("
+    val () = fprint_s2exp (out, s2e)
+    val () = prstr ")"
+  } // end of [S2EFFexp]
+| S2EFFadd
+    (s2fe1, s2fe2) => {
+    val () = prstr "S2EFFadd("
+    val () = fprint_s2eff (out, s2fe1)
+    val () = prstr ", "
+    val () = fprint_s2eff (out, s2fe2)
+    val () = prstr ")"
+  } // end of [S2EFFadd]
+//
+end // end of [s2eff]
 
 (* ****** ****** *)
 

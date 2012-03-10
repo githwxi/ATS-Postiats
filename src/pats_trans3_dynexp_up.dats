@@ -837,18 +837,23 @@ val () = (
   print_d2exp (d2e_body); print_newline ()
 ) // end of [val]
 // *)
-val (pfpush | ()) = trans3_env_push ()
+val (pfenv | ()) = trans3_env_push ()
 //
 var fc: funclo = fc0
 val d2e_body = d2exp_funclo_of_d2exp (d2e_body, fc)
-var s2fe: s2eff = S2EFFnil ()
+var s2fe: s2eff = s2eff_nil
 val d2e_body = d2exp_s2eff_of_d2exp (d2e_body, s2fe)
 //
+val (pfeff | ()) =
+  the_effenv_push_lam (s2fe)
+// end of [val]
 val s2es_arg = p2atlst_syn_type (p2ts_arg)
 val p3ts_arg = p2atlst_trup_arg (npf, p2ts_arg)
 val d3e_body = d2exp_trup (d2e_body)
 //
-val () = trans3_env_pop_and_add_main (pfpush | loc0)
+val () = the_effenv_pop (pfeff | (*none*))
+//
+val () = trans3_env_pop_and_add_main (pfenv | loc0)
 //
 val s2e_res = d3e_body.d3exp_type
 val isprf = s2exp_is_prf (s2e_res)
@@ -914,13 +919,13 @@ d2exp_trup_lam_sta (d2e0) = let
   val loc0 = d2e0.d2exp_loc
   val- D2Elam_sta (s2vs, s2ps, d2e_body) = d2e0.d2exp_node
 //
-  val (pfpush | ()) = trans3_env_push ()
+  val (pfenv | ()) = trans3_env_push ()
   val () = trans3_env_add_svarlst (s2vs)
   val () = trans3_env_hypadd_proplst (loc0, s2ps)
 //
   val d3e_body = d2exp_trup (d2e_body)
 //
-  val () = trans3_env_pop_and_add_main (pfpush | loc0)
+  val () = trans3_env_pop_and_add_main (pfenv | loc0)
 //
   val s2e = d3e_body.d3exp_type
   val s2e_uni = s2exp_uni (s2vs, s2ps, s2e)
@@ -937,9 +942,9 @@ d2exp_trup_lam_met (d2e0) = let
     (d2vs_ref, s2es_met, d2e_body) = d2e0.d2exp_node
   // end of [val]
   val () = s2explst_check_termet (loc0, s2es_met)
-  val (pfpush | ()) = termetenv_push_dvarlst (!d2vs_ref, s2es_met)
+  val (pfmet | ()) = termetenv_push_dvarlst (!d2vs_ref, s2es_met)
   val d3e_body = d2exp_trup (d2e_body)
-  val () = termetenv_pop (pfpush | (*none*))
+  val () = termetenv_pop (pfmet | (*none*))
 in
   d3exp_lam_met (loc0, s2es_met, d3e_body)
 end // end of [D2Elam_met]
