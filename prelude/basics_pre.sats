@@ -276,13 +276,18 @@ sortdef agez = { l: addr | l >= null }
 
 (* ****** ****** *)
 //
-stacst the_ntm_eff : eff // nonterm
-stacst the_exn_eff : eff // exception
-stacst the_ref_eff : eff // reference
-stacst the_wrt_eff : eff // writeover
+stacst effnil : eff // nothing
+stacst effall : eff // everything
+//
+stacst effntm : eff // nonterm
+stacst effexn : eff // exception
+stacst effref : eff // reference
+stacst effwrt : eff // writeover
 //
 stacst add_eff_eff : (eff, eff) -> eff
 stadef + = add_eff_eff // union of effsets
+stacst sub_eff_eff : (eff, eff) -> eff
+stadef - = add_eff_eff // difference of effsets
 //
 (* ****** ****** *)
 //

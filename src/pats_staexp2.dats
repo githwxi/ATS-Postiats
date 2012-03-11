@@ -48,8 +48,13 @@ staload
 STMP = "pats_stamp.sats"
 macdef eq_stamp_stamp = $STMP.eq_stamp_stamp
 
+(* ****** ****** *)
+//
 staload EFF = "pats_effect.sats"
-
+//
+macdef effset_isnil = $EFF.effset_isnil
+macdef effset_isall = $EFF.effset_isall
+//
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
@@ -471,7 +476,8 @@ s2eff_nil = S2EFFset ($EFF.effset_nil)
 implement
 s2eff_all = S2EFFset ($EFF.effset_all)
 
-implement s2eff_set (efs) = S2EFFset (efs)
+implement
+s2eff_effset (efs) = S2EFFset (efs)
 
 implement
 s2eff_var (s2v) = let
@@ -481,7 +487,18 @@ end // end of [s2eff_var]
 implement s2eff_exp (s2e) = S2EFFexp (s2e)
 
 implement
-s2eff_add (s2fe1, s2fe2) = S2EFFadd (s2fe1, s2fe2)
+s2eff_add
+  (s2fe1, s2fe2) = (
+  case+ (s2fe1, s2fe2) of
+  | (S2EFFset (efs1), _) when effset_isnil efs1 => s2fe2
+  | (_, S2EFFset (efs2)) when effset_isnil efs2 => s2fe1
+  | (S2EFFset (efs1), _) when effset_isall efs1 => s2eff_all
+  | (_, S2EFFset (efs2)) when effset_isall efs2 => s2eff_all
+  | (S2EFFset efs1, S2EFFset efs2) => let
+      val efs = $EFF.effset_union (efs1, efs2) in s2eff_effset (efs)
+    end // end of [S2EFFset, S2EFFset]
+  | (_, _) => S2EFFadd (s2fe1, s2fe2)
+) // end of [s2eff_add]
 
 (* ****** ****** *)
 

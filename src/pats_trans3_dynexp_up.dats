@@ -634,9 +634,7 @@ end // end of [d2exp_trup_applst]
 fun
 d23exp_trup_applst_sta (
   d2e0: d2exp
-, d3e_fun: d3exp
-, s2as: s2exparglst
-, d2as: d2exparglst
+, d3e_fun: d3exp, s2as: s2exparglst, d2as: d2exparglst
 ) : d3exp = let
 (*
   val () = (
@@ -752,8 +750,20 @@ case+ s2e_fun.s2exp_node of
     val d3es_arg = (
       if iswth then d3explst_arg_restore (d3es_arg, wths2es) else d3es_arg
     ) : d3explst
-    val () = the_effect_env_check_seff (loc_app, s2fe_fun)
 *)
+    val err =
+      the_effenv_check_s2eff (loc_app, s2fe_fun)
+    // end of [val]
+    val () = if (err > 0) then let
+(*
+      val () = prerr_error3_loc (loc_app)
+      val () = filprerr_ifdebug "d23exp_trup_app23"
+      val () = prerr ": the application may incur disallowed effects."
+      val () = prerr_newline ()
+*)
+    in
+      the_trans3errlst_add (T3E_d23exp_trup_app23_eff (loc_app, s2fe_fun))
+    end // end of [val]
   in
     d3exp_app_dyn (loc_app, s2e_res, s2fe_fun, d3e_fun, npf, d3es_arg)
   end // end of [S2Efun]
@@ -761,8 +771,9 @@ case+ s2e_fun.s2exp_node of
     val () = d23explst_free (d23es_arg)
     val () = prerr_error3_loc (loc_fun)
     val () = filprerr_ifdebug "d23exp_trup_app23"
-    val () = prerr ": the applied dynamic expression is not assigned a function type."
+    val () = prerr ": the applied dynamic expression is not of a function type."
     val () = prerr_newline ()
+    val () = the_trans3errlst_add (T3E_d23exp_trup_app23_fun (loc_fun, s2e_fun))
   in
     d3exp_err (loc_fun)
   end // end of [_]

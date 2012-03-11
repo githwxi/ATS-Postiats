@@ -47,6 +47,7 @@ implement prerr_FILENAME<> () = prerr "pats_stacst2"
 
 (* ****** ****** *)
 
+staload "pats_effect.sats"
 staload "pats_staexp2.sats"
 staload "pats_staexp2_util.sats"
 staload "pats_stacst2.sats"
@@ -914,6 +915,56 @@ implement
 s2exp_bottom_viewt0ype_exi () =
   s2exp_cst (s2cstref_get_cst (the_bottom_viewt0ype_exi))
 // end of [s2exp_bottom_viewt0ype_exi]
+
+(* ****** ****** *)
+
+implement
+the_effnil = s2cstref_make "effnil"
+implement
+the_effall = s2cstref_make "effall"
+implement
+the_effntm = s2cstref_make "effntm"
+implement
+the_effexn = s2cstref_make "effexn"
+implement
+the_effref = s2cstref_make "effref"
+implement
+the_effwrt = s2cstref_make "effwrt"
+
+(* ****** ****** *)
+
+implement
+s2eff_hnfize (s2fe) = let
+  fun aux .<>. (
+    s2fe: s2eff, s2e: s2exp
+  ) : s2eff = let
+    val s2f = s2exp2hnf (s2e)
+    val s2e = s2hnf2exp (s2f)
+  in
+    case+ s2e.s2exp_node of
+    | S2Ecst (s2c) => (
+      case+ 0 of
+      | _ when s2cstref_equ_cst (the_effnil, s2c) => s2eff_effset (effset_nil)
+      | _ when s2cstref_equ_cst (the_effall, s2c) => s2eff_effset (effset_all)
+      | _ when s2cstref_equ_cst (the_effntm, s2c) => s2eff_effset (effset_ntm)
+      | _ when s2cstref_equ_cst (the_effexn, s2c) => s2eff_effset (effset_exn)
+      | _ when s2cstref_equ_cst (the_effref, s2c) => s2eff_effset (effset_ref)
+      | _ when s2cstref_equ_cst (the_effwrt, s2c) => s2eff_effset (effset_wrt)
+      | _ => s2fe
+      ) // end of [S2Ecst]
+    | S2Evar (s2v) => s2fe
+    | _ => let
+        val s2e = s2exp_err (s2rt_eff) in s2eff_exp (s2e)
+      end // end of [_]
+  end // end of [aux]
+in
+//
+case+ s2fe of
+| S2EFFset _ => s2fe
+| S2EFFexp (s2e) => aux (s2fe, s2e)
+| S2EFFadd _ => s2fe
+//
+end // end of [s2eff_make_s2exp]
 
 (* ****** ****** *)
 

@@ -173,6 +173,17 @@ val the_bottom_viewt0ype_uni: s2cstref // = {a:viewt@ype} a
 val the_bottom_viewt0ype_exi: s2cstref // = [a:viewt@ype | false] a
 
 (* ****** ****** *)
+
+val the_effnil : s2cstref
+val the_effall : s2cstref
+val the_effntm : s2cstref
+val the_effexn : s2cstref
+val the_effref : s2cstref
+val the_effwrt : s2cstref
+val the_add_eff_eff : s2cstref // = add_eff_eff
+val the_sub_eff_eff : s2cstref // = sub_eff_eff
+
+(* ****** ****** *)
 //
 fun s2exp_bool
   (b: bool): s2exp (* static boolean terms *)
@@ -281,6 +292,10 @@ fun s2exp_list_viewt0ype_int_viewtype (s2e: s2exp, n: int): s2exp
 
 fun s2exp_bottom_viewt0ype_uni (): s2exp // = {a:viewt@ype} a
 fun s2exp_bottom_viewt0ype_exi (): s2exp // = [a:viewt@ype | false] a
+
+(* ****** ****** *)
+
+fun s2eff_hnfize (s2fe: s2eff): s2eff
 
 (* ****** ****** *)
 

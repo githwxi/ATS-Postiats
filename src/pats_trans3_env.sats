@@ -331,11 +331,15 @@ fun the_effenv_pop (pf: effenv_push_v | (*none*)): void
 
 fun the_effenv_push (): (effenv_push_v | void)
 fun the_effenv_push_lam (s2fe: s2eff): (effenv_push_v | void)
-fun the_effenv_push_eff (efs: effset): (effenv_push_v | void)
-fun the_effenv_push_effmask (efs: effset): (effenv_push_v | void)
+fun the_effenv_push_set (efs: effset): (effenv_push_v | void)
+fun the_effenv_push_setmask (efs: effset): (effenv_push_v | void)
 
-fun the_effenv_check_eff (efs: effset): int (*succ/fail: 0/1*)
-fun the_effenv_check_svar (s2v: s2var): int (*succ/fail: 0/1*)
+fun the_effenv_check_set
+  (loc: location, efs: effset): int (*succ/fail: 0/1*)
+fun the_effenv_check_sexp
+  (loc: location, s2e: s2exp): int (*succ/fail: 0/1*)
+fun the_effenv_check_s2eff
+  (loc: location, s2fe: s2eff): int (*succ/fail: 0/1*)
 
 (* ****** ****** *)
 

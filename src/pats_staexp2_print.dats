@@ -540,6 +540,11 @@ case+ s2fe of
 //
 end // end of [s2eff]
 
+implement
+print_s2eff (x) = fprint_s2eff (stdout_ref, x)
+implement
+prerr_s2eff (x) = fprint_s2eff (stderr_ref, x)
+
 (* ****** ****** *)
 
 implement

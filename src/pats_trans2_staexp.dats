@@ -85,8 +85,12 @@ staload "pats_staexp1.sats"
 staload "pats_e1xpval.sats"
 staload "pats_staexp2.sats"
 staload "pats_staexp2_util.sats"
-staload "pats_trans2_env.sats"
+staload "pats_stacst2.sats"
+
+(* ****** ****** *)
+
 staload "pats_trans2.sats"
+staload "pats_trans2_env.sats"
 
 (* ****** ****** *)
 
@@ -126,21 +130,27 @@ fn effvar_tr
 in
 //
 case+ ans of
-| ~Some_vt s2i => begin case+ s2i of
-  | S2ITMvar s2v => let
-      val () = s2var_check_tmplev (loc, s2v) in s2exp_var (s2v)
+| ~Some_vt s2i => (
+  case+ s2i of
+  | S2ITMvar (s2v) => let
+      val () = s2var_check_tmplev (loc, s2v)
+    in
+      s2exp_var (s2v)
     end // end of [S2ITEMvar]
+  | S2ITMcst (s2cs) => let
+      val- list_cons (s2c, _) = s2cs in s2exp_cst (s2c)
+    end // end of [S2ITMcst]
   | _ => s2exp_err (s2t_err) where {
       val s2t_err = s2rt_err ()
       val () = prerr_error2_loc (loc)
       val () = filprerr_ifdebug "effvar_tr"
       val () = prerr ": the static identifer ["
       val () = $SYM.prerr_symbol (sym)
-      val () = prerr "] should refer to a variable but it does not."
+      val () = prerr "] should refer to a variable or constant."
       val () = prerr_newline ()
       val () = the_trans2errlst_add (T2E_effvar_tr (efv))
     } // end of [_]
-  end // end of [Some_vt]
+  ) // end of [Some_vt]
 | ~None_vt () => s2exp_err (s2t_err) where {
     val s2t_err = s2rt_err ()
     val () = prerr_error2_loc (loc)
@@ -158,13 +168,11 @@ fun effvarlst_tr
   case+ efvs of
   | list_cons
       (efv, efvs) => let
-      val s2fe = s2eff_exp (effvar_tr (efv))
+      val s2e = effvar_tr (efv)
+      val s2fe1 = s2eff_exp (s2e)
+      val s2fe2 = effvarlst_tr (efvs)
     in
-      case+ efvs of
-      | list_cons _ => let
-          val s2fe2 = effvarlst_tr (efvs) in s2eff_add (s2fe, s2fe2)
-        end // end of [list_cons]
-      | list_nil () => s2fe
+      s2eff_add (s2fe1, s2fe2)
     end // end of [list_cons]
   | list_nil () => s2eff_nil
 ) // end of [effvarlst_tr]
@@ -175,7 +183,7 @@ effcst_tr (efc) = begin
   | EFFCSTall () => s2eff_all
   | EFFCSTnil () => s2eff_nil
   | EFFCSTset (efs, efvs) =>
-      s2eff_add (s2eff_set (efs), effvarlst_tr (efvs))
+      s2eff_add (s2eff_effset (efs), effvarlst_tr (efvs))
     // end of [EFFSTset]
 end // end of [effcst_tr]
 

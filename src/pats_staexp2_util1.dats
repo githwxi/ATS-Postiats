@@ -392,7 +392,7 @@ s2eff_add_set
   | _ when $EFF.effset_isnil (efs) => s2fe
   | _ when $EFF.effset_isall (efs) => s2eff_all
   | _ => let
-      val s2fe2 = s2eff_set (efs) in s2eff_add (s2fe, s2fe2)
+      val s2fe2 = s2eff_effset (efs) in s2eff_add (s2fe, s2fe2)
     end // end of [_]
 ) // end of [s2eff_add_set]
 
@@ -429,33 +429,21 @@ end // end of [s2eff_contain_set]
 (* ****** ****** *)
 
 implement
-s2eff_contain_var
-  (s2fe, s2v0) = let
-//
-fun aux (
-  s2e: s2exp, s2v0: s2var
-) : bool = let
-  val s2f = s2exp2hnf (s2e)
-  val s2e = s2hnf2exp (s2f)
-in
-  case+ s2e.s2exp_node of
-  | S2Evar (s2v) => eq_s2var_s2var (s2v0, s2v)
-  | _ => false
-end // end of [aux]
-//
+s2eff_contain_exp
+  (s2fe, s2e0) = let
 in
 //
 case+ s2fe of
 | S2EFFset (efs) =>
     if $EFF.effset_isall (efs) then true else false
-| S2EFFexp (s2e) => aux (s2e, s2v0)
+| S2EFFexp (s2e) => s2exp_syneq (s2e0, s2e)
 | S2EFFadd (s2fe1, s2fe2) => let
-    val ans = s2eff_contain_var (s2fe1, s2v0)
+    val ans = s2eff_contain_exp (s2fe1, s2e0)
   in
-    if ans then true else s2eff_contain_var (s2fe2, s2v0)
+    if ans then true else s2eff_contain_exp (s2fe2, s2e0)
   end // end of [S2EFFadd]
 //
-end // end of [s2eff_contain_var]
+end // end of [s2eff_contain_exp]
 
 (* ****** ****** *)
 

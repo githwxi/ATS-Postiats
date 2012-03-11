@@ -952,12 +952,15 @@ fun fprint_wths2explst : fprint_type (wths2explst)
 
 val s2eff_nil: s2eff
 val s2eff_all: s2eff
-fun s2eff_set (efs: effset): s2eff
+fun s2eff_effset (efs: effset):<> s2eff
 fun s2eff_var (s2v: s2var): s2eff
 fun s2eff_exp (s2e: s2exp): s2eff
 fun s2eff_add (s2fe1: s2eff, s2fe2: s2eff): s2eff
 
-fun fprint_s2eff : fprint_type (s2eff)
+fun fprint_s2eff
+  : fprint_type (s2eff)
+fun print_s2eff (s2fe: s2eff): void
+fun prerr_s2eff (s2fe: s2eff): void
 
 (* ****** ****** *)
 

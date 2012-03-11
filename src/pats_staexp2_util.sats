@@ -79,10 +79,10 @@ fun s2hnf_is_abscon (s2f: s2hnf): bool // is abstract or datatype
 
 (* ****** ****** *)
 //
-fun s2eff_add_set (s2fe: s2eff, eff: effset):<> s2eff
+fun s2eff_add_set (s2fe: s2eff, eff: effset): s2eff
 //
 fun s2eff_contain_set (s2fe: s2eff, efs: effset): bool
-fun s2eff_contain_var (s2fe: s2eff, s2v: s2var): bool
+fun s2eff_contain_exp (s2fe: s2eff, s2e: s2exp): bool
 fun s2eff_contain_s2eff (s2fe1: s2eff, s2fe2: s2eff): bool
 //
 (* ****** ****** *)

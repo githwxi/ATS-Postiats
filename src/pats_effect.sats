@@ -44,8 +44,8 @@ typedef fprint_type (a:t@ype) = (FILEref, a) -> void
 
 (* ****** ****** *)
 
-val effect_exn : effect
 val effect_ntm : effect
+val effect_exn : effect
 val effect_ref : effect
 val effect_wrt : effect
 val effectlst_all : effectlst
@@ -70,6 +70,10 @@ overload = with eq_effect_effect
 
 val effset_all: effset
 and effset_nil: effset
+val effset_ntm : effset
+val effset_exn : effset
+val effset_ref : effset
+val effset_wrt : effset
 
 fun effset_sing (eff: effect):<> effset
 
@@ -109,7 +113,10 @@ fun effset_is_inter (efs1: effset, efs2: effset):<> bool
 
 (* ****** ****** *)
 
-fun fprint_effset : fprint_type (effset)
+fun fprint_effset
+  : fprint_type (effset)
+fun print_effset (efs: effset): void
+fun prerr_effset (efs: effset): void
 
 (* ****** ****** *)
 
