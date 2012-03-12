@@ -1295,6 +1295,9 @@ and d0exp_node =
   | D0Eraise of d0exp // $raise
   | D0Edelay of (int(*knd*), d0exp(*body*)) // $delay and $ldelay
 //
+  | D0Eeffmask of (e0fftaglst, d0exp)
+  | D0Eeffmask_arg of (int(*knd*), d0exp)
+//
   | D0Eptrof of () // taking the addr of a left-value
   | D0Eviewat of () // taking the view at the addr of a left-value
 //
@@ -1613,6 +1616,16 @@ fun d0exp_arrsize (
 
 fun d0exp_raise (tok: token, d0e: d0exp): d0exp
 fun d0exp_delay (knd: int, tok: token, body: d0exp): d0exp
+
+(* ****** ****** *)
+
+fun d0exp_effmask (
+  tok: token, eff: e0fftaglst, d0e: d0exp
+) : d0exp // end of [d0exp_effmask]
+
+fun d0exp_effmask_arg
+  (knd: int, tok: token, d0e: d0exp): d0exp
+// end of [d0exp_effmask_arg]
 
 (* ****** ****** *)
 

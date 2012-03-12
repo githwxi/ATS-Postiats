@@ -195,17 +195,16 @@ end // end of [the_effenv_push_set]
 (* ****** ****** *)
 
 implement
-the_effenv_push_setmask (efs) = let
+the_effenv_push_effmask (s2fe) = let
 //
-val s2e = s2eff_effset (efs)
-val efi = EFFENVITMeffmask (s2e)
+val efi = EFFENVITMeffmask (s2fe)
 val (vbox pf | p) = ref_get_view_ptr (the_efis)
 val efis = EFILSTmark (0(*soft*), !p)
 val () = !p := EFILSTcons (efi, efis)
 //
 in
   (unit_v () | ())
-end // end of [the_effenv_push_setmask]
+end // end of [the_effenv_push_effmask]
 
 (* ****** ****** *)
 

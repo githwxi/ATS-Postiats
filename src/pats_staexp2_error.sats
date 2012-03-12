@@ -50,6 +50,8 @@ datatype staerr =
   | STAERR_linearity_equal of (location, int(*lin*), int(*lin*))
   | STAERR_pfarity_equal of (location, int(*npf*), int(*npf*))
 //
+  | STAERR_s2eff_subeq of (location, s2eff, s2eff)
+//
   | STAERR_tyreckind_equal of (location, tyreckind, tyreckind)
 //
   | STAERR_refval_equal of (location, int(*knd*), int(*knd*))

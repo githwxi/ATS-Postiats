@@ -292,6 +292,43 @@ end // end of [s2hnf_equal_solve_rVar_err]
 
 (* ****** ****** *)
 
+extern
+fun s2hnf_equal_solve_rVar_err (
+  loc: location
+, s2f1: s2hnf, s2f2: s2hnf, s2V2: s2Var, err: &int
+) : void // end of [s2hnf_equal_solve_rVar_err]
+implement
+s2eff_subeq_solve_err
+  (loc0, s2fe1, s2fe2, err) = let
+//
+val s2fe2 = s2eff_hnfize (s2fe2)
+//
+in
+//
+case+ s2fe2 of
+| S2EFFexp (s2e2) => (
+  case+ s2e2.s2exp_node of
+  | S2EVar s2V2 => let
+      val s2e1 = s2exp_eff (s2fe1)
+      val s2f1 = s2exp2hnf_cast (s2e1)
+      val s2f2 = s2exp2hnf_cast (s2e2)
+    in
+      s2hnf_equal_solve_rVar_err (loc0, s2f1, s2f2, s2V2, err)
+    end // end of [S2EVar]
+  | _ => let
+      val () = err := err + 1 in
+      the_staerrlst_add (STAERR_s2eff_subeq (loc0, s2fe1, s2fe2))
+    end // end of [_]
+  ) // end of [S2EFFexp]
+| _ => let
+    val () = err := err + 1 in
+    the_staerrlst_add (STAERR_s2eff_subeq (loc0, s2fe1, s2fe2))
+  end // end of [_]
+//
+end // end of [s2eff_subeq_solve_err]
+
+(* ****** ****** *)
+
 implement
 s2hnf_equal_solve
   (loc0, s2f10, s2f20) = err where {
@@ -604,6 +641,7 @@ val () = case+
       val () = funclo_equal_solve_err (loc0, fc1, fc2, err)
       val () = linearity_equal_solve_err (loc0, lin1, lin2, err)
       val () = pfarity_equal_solve_err (loc0, npf1, npf2, err)
+      val () = s2eff_subeq_solve_err (loc0, s2fe1, s2fe2, err)
       val () = s2explst_tyleq_solve_err (loc0, s2es2_arg, s2es1_arg, err) // contravariant!
       val () = s2exp_tyleq_solve_err (loc0, s2e1_res, s2e2_res, err)
     in

@@ -1298,17 +1298,16 @@ case+ tok.token_node of
 | T_EQLT () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = pstar_fun0_COMMA {e0fftag} (buf, bt, p_e0fftag)
-    val ent3 = p_GT (buf, bt, err) // err = err0
+    val ent2 = p_e0fftaglst (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_GT, err0)
   in
     if err = err0 then
-      Some ((l2l)ent2) else let
-      val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
-    end (* end of [if] *)
+      Some (ent2) else tokbuf_set_ntok_null (buf, n0)
+    (* end of [if] *)
   end
 | _ => let
     val () = err := err + 1 in synent_null ()
-  end
+  end // end of [_]
 //
 end // end of [p_funarrow]
 
@@ -1691,7 +1690,7 @@ case+ tok.token_node of
 | T_DLRRAISE () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = p_d0exp (buf, bt, err)
+    val ent2 = p_atmd0exp (buf, bt, err)
   in
     if err = err0 then
       d0exp_raise (tok, ent2) else synent_null ()
@@ -1700,10 +1699,32 @@ case+ tok.token_node of
 | T_DLRDELAY (knd) => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = p_d0exp (buf, bt, err)
+    val ent2 = p_atmd0exp (buf, bt, err)
   in
     if err = err0 then
       d0exp_delay (knd, tok, ent2) else synent_null ()
+    (* end of [if] *)
+  end
+//
+| T_DLREFFMASK () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = pif_fun (buf, bt, err, p_LBRACE, err0)
+    val ent3 = pif_fun (buf, bt, err, p_e0fftaglst, err0)
+    val ent4 = pif_fun (buf, bt, err, p_RBRACE, err0)
+    val ent5 = pif_fun (buf, bt, err, p_atmd0exp, err0)
+  in
+    if err = err0 then
+      d0exp_effmask (tok, ent3, ent5) else synent_null ()
+    (* end of [if] *)
+  end
+| T_DLREFFMASK_ARG (knd) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_atmd0exp (buf, bt, err)
+  in
+    if err = err0 then
+      d0exp_effmask_arg (knd, tok, ent2) else synent_null ()
     // end of [if]
   end
 //

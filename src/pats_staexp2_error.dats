@@ -151,6 +151,15 @@ fn prerr_staerr_pfarity_equal (
   prerr "The needed proof arity is: "; prerr_int npf2; prerr_newline ();
 end // end of [prerr_staerr_pfarity_equal]
 
+fn prerr_staerr_s2eff_subeq (
+  loc: location, s2fe1: s2eff, s2fe2: s2eff
+) : void = begin
+  prerr_error3_loc (loc);
+  prerr ": maybe incurring disallowed effects:\n";
+  prerr "The actual effects are: "; prerr_s2eff s2fe1; prerr_newline ();
+  prerr "The allowed effects are: "; prerr_s2eff s2fe2; prerr_newline ();
+end // end of [prerr_staerr_s2eff_subeq]
+
 fn prerr_staerr_s2exp_tyleq (
   loc: location, s2e1: s2exp, s2e2: s2exp
 ) : void = begin
@@ -186,6 +195,7 @@ case+ xs of
     | STAERR_clokind_equal (loc, knd1, knd2) => prerr_staerr_clokind_equal (loc, knd1, knd2)
     | STAERR_linearity_equal (loc, lin1, lin2) => prerr_staerr_linearity_equal (loc, lin1, lin2)
     | STAERR_pfarity_equal (loc, npf1, npf2) => prerr_staerr_pfarity_equal (loc, npf1, npf2)
+    | STAERR_s2eff_subeq (loc, s2fe1, s2fe2) => prerr_staerr_s2eff_subeq (loc, s2fe1, s2fe2)
     | STAERR_s2exp_equal (loc, s2e1, s2e2) => prerr_staerr_s2exp_equal (loc, s2e1, s2e2)
     | STAERR_s2exp_tyleq (loc, s2e1, s2e2) => prerr_staerr_s2exp_tyleq (loc, s2e1, s2e2)
     | _ => ()

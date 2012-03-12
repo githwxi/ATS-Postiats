@@ -190,6 +190,11 @@ s2exp_sizeof (s2e) = hnf '{
 (* ****** ****** *)
 
 implement
+s2exp_eff (s2fe) = hnf '{
+  s2exp_srt= s2rt_eff, s2exp_node= S2Eeff (s2fe)
+} // end of [s2exp_eff]
+
+implement
 s2exp_eqeq (s2e1, s2e2) = hnf '{
   s2exp_srt= s2rt_bool, s2exp_node= S2Eeqeq (s2e1, s2e2)
 } // end of [s2exp_eqeq]

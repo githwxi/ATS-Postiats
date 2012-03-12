@@ -86,6 +86,12 @@ fun pfarity_equal_solve_err
 
 (* ****** ****** *)
 
+fun s2eff_subeq_solve_err
+  (loc: location, s2fe1: s2eff, s2fe2: s2eff, err: &int): void
+// end of [s2eff_subeq_solve_err]
+
+(* ****** ****** *)
+
 fun tyreckind_equal_solve_err (
   loc: location, knd1: tyreckind, knd2: tyreckind, err: &int
 ) : void // end of [tyreckind_equal_solve_err]

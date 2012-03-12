@@ -48,8 +48,8 @@ assume effect_t0ype = uint
 
 (* ****** ****** *)
 //
-#define EFFexn 0 // exception
-#define EFFntm 1 // nontermination
+#define EFFntm 0 // nonterm
+#define EFFexn 1 // exception
 #define EFFref 2 // reference
 #define EFFwrt 3 // writeover
 //
@@ -62,14 +62,14 @@ assume effect_t0ype = uint
 //
 (* ****** ****** *)
 
-implement effect_exn = (uint_of)EFFexn
 implement effect_ntm = (uint_of)EFFntm
+implement effect_exn = (uint_of)EFFexn
 implement effect_ref = (uint_of)EFFref
 implement effect_wrt = (uint_of)EFFwrt
 
 implement
 effectlst_all = '[
-  effect_exn, effect_ntm, effect_ref, effect_wrt
+  effect_ntm, effect_exn, effect_ref, effect_wrt
 ] // end of [effectlst_all]
 
 implement
@@ -78,8 +78,8 @@ eq_effect_effect (eff1, eff2) = eq_uint_uint (eff1, eff2)
 implement
 effect_get_name
   (eff) = (case+ (int_of)eff of
-  | EFFexn => "exn"
   | EFFntm => "ntm"
+  | EFFexn => "exn"
   | EFFref => "ref"
   | EFFwrt => "wrt"
   | _ => let

@@ -47,6 +47,10 @@ STMP = "pats_stamp.sats"
 
 (* ****** ****** *)
 
+staload EFF = "pats_effect.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 
 (* ****** ****** *)
@@ -140,6 +144,12 @@ case+ s2e0.s2exp_node of
     val () = prstr ")"
   } // end of [S2Esizeof]
 //
+| S2Eeff (s2fe) => {
+    val () = prstr "S2Eeff("
+    val () = aux_s2eff (out, n, s2fe)
+    val () = prstr ")"
+  } // end of [S2Eeff]
+//
 | S2Eeqeq (s2e1, s2e2) => {
     val () = prstr "S2Eeqeq("
     val () = aux_s2exp (out, n, s2e1)
@@ -171,7 +181,7 @@ case+ s2e0.s2exp_node of
     val () = fprintf (out, "lin=%i", @(lin))
     val () = prstr "; "
     val () = prstr "eff="
-    val () = fprint_s2eff (out, s2fe)
+    val () = aux_s2eff (out, n, s2fe)
     val () = prstr "; "
     val () = fprintf (out, "npf=%i", @(npf))
     val () = prstr "; "
@@ -383,7 +393,37 @@ fun loop (
 // end of [loop]
 in
   loop (out, ws2es, 0)
-end // end of [fprint_wths2explst]
+end // end of [aux_wths2explst]
+
+and aux_s2eff (
+  out: FILEref, n: int, s2fe: s2eff
+) : void = let
+  macdef prstr (x) = fprint_string (out, ,(x))
+in
+//
+case+ s2fe of
+| S2EFFset
+    (efs) => {
+    val () = prstr "S2EFFset("
+    val () = $EFF.fprint_effset (out, efs)
+    val () = prstr ")"
+  } // end of [S2EFFset]
+| S2EFFexp
+    (s2e) => {
+    val () = prstr "S2EFFexp("
+    val () = aux_s2exp (out, n, s2e)
+    val () = prstr ")"
+  } // end of [S2EFFexp]
+| S2EFFadd
+    (s2fe1, s2fe2) => {
+    val () = prstr "S2EFFadd("
+    val () = aux_s2eff (out, n, s2fe1)
+    val () = prstr ", "
+    val () = aux_s2eff (out, n, s2fe2)
+    val () = prstr ")"
+  } // end of [S2EFFadd]
+//
+end // end of [aux_s2eff]
 
 in // in of [local]
 

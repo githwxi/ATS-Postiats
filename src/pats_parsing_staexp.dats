@@ -575,14 +575,12 @@ case+ tok.token_node of
 | T_MINUSLT () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = pstar_fun0_COMMA {e0fftag} (buf, bt, p_e0fftag)
+    val ent2 = p_e0fftaglst (buf, bt, err)
     val ent3 = p_GT (buf, bt, err) // err = err0
   in
     if err = err0 then
-      s0exp_imp (tok, (l2l)ent2, ent3)
-    else let
-      val () = list_vt_free (ent2) in synent_null ()
-    end (* end of [if] *)
+      s0exp_imp (tok, ent2, ent3) else synent_null ()
+    (* end of [if] *)
   end
 | T_MINUSLTGT () => let
     val () = incby1 () in s0exp_imp_nil (tok)

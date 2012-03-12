@@ -440,6 +440,23 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
+| D1Eraise _ => {
+    val () = prstr "D1Eraise("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+| D1Edelay _ => {
+    val () = prstr "D1Edelay("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+//
+| D1Eeffmask _ => {
+    val () = prstr "D1Eeffmask("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+//
 | D1Eptrof (d1e) => {
     val () = prstr "D1Eptrof("
     val () = fprint_d1exp (out, d1e)

@@ -571,6 +571,13 @@ d2exp_delay
 (* ****** ****** *)
 
 implement
+d2exp_effmask
+  (loc, s2fe, d2e) = d2exp_make (loc, D2Eeffmask (s2fe, d2e))
+// end of [d2exp_effmask]
+
+(* ****** ****** *)
+
+implement
 d2exp_ptrof (loc, d2e) = d2exp_make (loc, D2Eptrof (d2e))
 
 implement

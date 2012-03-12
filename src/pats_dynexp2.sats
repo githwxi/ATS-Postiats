@@ -549,6 +549,8 @@ and d2exp_node =
   | D2Eraise of d2exp // raised exception
   | D2Edelay of (int(*knd*), d2exp(*body*)) // $delay and $ldelay
 //
+  | D2Eeffmask of (s2eff, d2exp) // $effmask (s2eff, d2exp)
+//
   | D2Eptrof of d2exp // taking the address of
   | D2Eviewat of d2exp // taking view at a given address
   | D2Esel of (d2exp, d2lablst) // record field selection
@@ -896,6 +898,10 @@ fun d2exp_arrsize (
 
 fun d2exp_raise (loc: location, d2e: d2exp): d2exp
 fun d2exp_delay (loc: location, knd: int, d2e: d2exp): d2exp
+
+(* ****** ****** *)
+
+fun d2exp_effmask (loc: location, s2fe: s2eff, d2e: d2exp): d2exp
 
 (* ****** ****** *)
 

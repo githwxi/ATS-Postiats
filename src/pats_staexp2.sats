@@ -347,6 +347,7 @@ s2exp_node =
   | S2Eat of (s2exp, s2exp) // for at-views
   | S2Esizeof of (s2exp) // for sizes of types
 //
+  | S2Eeff of s2eff // effects
   | S2Eeqeq of (s2exp, s2exp) // static equality
 //
   | S2Eapp of (s2exp, s2explst) // static application
@@ -826,6 +827,7 @@ fun s2exp_sizeof (s2e_type: s2exp): s2exp
 
 (* ****** ****** *)
 
+fun s2exp_eff (s2fe: s2eff): s2exp
 fun s2exp_eqeq (s2e1: s2exp, s2e2: s2exp): s2exp
 
 (* ****** ****** *)

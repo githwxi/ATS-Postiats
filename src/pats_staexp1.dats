@@ -150,6 +150,13 @@ implement v1al_false = V1ALint (0)
 
 (* ****** ****** *)
 
+implement effcst_nil = EFFCSTnil ()
+implement effcst_all = EFFCSTall ()
+implement effcst_ntm = EFFCSTset (effset_ntm, list_nil)
+implement effcst_exn = EFFCSTset (effset_exn, list_nil)
+implement effcst_ref = EFFCSTset (effset_ref, list_nil)
+implement effcst_wrt = EFFCSTset (effset_wrt, list_nil)
+
 implement
 effcst_contain
   (efc, eff) = case+ efc of
@@ -159,7 +166,7 @@ effcst_contain
 // end of [effcst_contain]
 
 implement
-effcst_contain_ntm efc = effcst_contain (efc, effect_ntm)
+effcst_contain_ntm (efc) = effcst_contain (efc, effect_ntm)
 
 (* ****** ****** *)
 

@@ -98,6 +98,17 @@ extern fun d2exp_trup_tmpid (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
+extern fun d2exp_trup_lst (d2e0: d2exp): d3exp
+extern fun d2exp_trup_tup (d2e0: d2exp): d3exp
+extern fun d2exp_trup_rec (d2e0: d2exp): d3exp
+extern fun d2exp_trup_seq (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
+extern fun d2exp_trup_effmask (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
 extern
 fun d2exp_trup_arg_body (
   loc0: location
@@ -106,24 +117,17 @@ fun d2exp_trup_arg_body (
 
 (* ****** ****** *)
 
-extern fun d2exp_trup_lam_dyn (d2e0: d2exp): d3exp
-extern fun d2exp_trup_laminit_dyn (d2e0: d2exp): d3exp
-extern fun d2exp_trup_lam_sta (d2e0: d2exp): d3exp
-extern fun d2exp_trup_lam_met (d2e0: d2exp): d3exp
-
-(* ****** ****** *)
-
-extern fun d2exp_trup_lst (d2e0: d2exp): d3exp
-extern fun d2exp_trup_tup (d2e0: d2exp): d3exp
-extern fun d2exp_trup_rec (d2e0: d2exp): d3exp
-extern fun d2exp_trup_seq (d2e0: d2exp): d3exp
-
-(* ****** ****** *)
-
 extern
 fun d2exp_trup_letwhere
   (d2e0: d2exp, d2cs: d2eclist, d2e: d2exp): d3exp
 // end of [d2exp_trup_letwhere]
+
+(* ****** ****** *)
+
+extern fun d2exp_trup_lam_dyn (d2e0: d2exp): d3exp
+extern fun d2exp_trup_laminit_dyn (d2e0: d2exp): d3exp
+extern fun d2exp_trup_lam_sta (d2e0: d2exp): d3exp
+extern fun d2exp_trup_lam_met (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
@@ -257,6 +261,8 @@ case+ d2e0.d2exp_node of
   in
     d3exp_arrsize (loc0, s2e_arrsz, d3es, n)
   end // end of [D2Earrsize]
+//
+| D2Eeffmask _ => d2exp_trup_effmask (d2e0)
 //
 | D2Elam_dyn _ => d2exp_trup_lam_dyn (d2e0)
 | D2Elaminit_dyn _ => d2exp_trup_laminit_dyn (d2e0)
@@ -828,141 +834,6 @@ end // end of [d2exp_trup_applst]
 (* ****** ****** *)
 
 implement
-d2exp_trup_arg_body (
-  loc0
-, fc0, lin, npf
-, p2ts_arg, d2e_body
-) = let
-// (*
-val FNAME = "d2exp_trup_arg_body"
-val () = (
-  printf ("%s: npf = ", @(FNAME));
-  print_int (npf); print_newline ()
-) // end of [val]
-val () = (
-  printf ("%s: arg = ", @(FNAME));
-  print_p2atlst (p2ts_arg); print_newline ()
-) // end of [val]
-val () = (
-  printf ("%s: body = ", @(FNAME));
-  print_d2exp (d2e_body); print_newline ()
-) // end of [val]
-// *)
-val (pfenv | ()) = trans3_env_push ()
-//
-var fc: funclo = fc0
-val d2e_body = d2exp_funclo_of_d2exp (d2e_body, fc)
-var s2fe: s2eff = s2eff_nil
-val d2e_body = d2exp_s2eff_of_d2exp (d2e_body, s2fe)
-//
-val (pfeff | ()) =
-  the_effenv_push_lam (s2fe)
-// end of [val]
-val s2es_arg = p2atlst_syn_type (p2ts_arg)
-val p3ts_arg = p2atlst_trup_arg (npf, p2ts_arg)
-val d3e_body = d2exp_trup (d2e_body)
-//
-val () = the_effenv_pop (pfeff | (*none*))
-//
-val () = trans3_env_pop_and_add_main (pfenv | loc0)
-//
-val s2e_res = d3e_body.d3exp_type
-val isprf = s2exp_is_prf (s2e_res)
-val islin = lin > 0
-val s2t_fun = s2rt_prf_lin_fc (loc0, isprf, islin, fc)
-val s2e_fun = s2exp_fun_srt (
-  s2t_fun, fc, lin, s2fe, npf, s2es_arg, s2e_res
-) // end of [val]
-//
-in
-//
-(s2e_fun, p3ts_arg, d3e_body)
-//
-end // end of [d2exp_trup_arg_body]
-
-(* ****** ****** *)
-
-implement
-d2exp_trup_lam_dyn (d2e0) = let
-  val loc0 = d2e0.d2exp_loc
-  val- D2Elam_dyn (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
-  val fc0 = FUNCLOfun () // default
-  val s2ep3tsd3e = d2exp_trup_arg_body (loc0, fc0, lin, npf, p2ts_arg, d2e_body)
-  val s2e_fun = s2ep3tsd3e.0
-  val p3ts_arg = s2ep3tsd3e.1
-  val d3e_body = s2ep3tsd3e.2
-in
-  d3exp_lam_dyn (loc0, s2e_fun, lin, npf, p3ts_arg, d3e_body)
-end // end of [D2Elam_dyn]
-
-implement
-d2exp_trup_laminit_dyn (d2e0) = let
-  val loc0 = d2e0.d2exp_loc
-  val- D2Elaminit_dyn (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
-  val fc0 = FUNCLOclo (0) // default
-  val s2ep3tsd3e = d2exp_trup_arg_body (loc0, fc0, lin, npf, p2ts_arg, d2e_body)
-  val s2e_fun = s2ep3tsd3e.0
-  val p3ts_arg = s2ep3tsd3e.1
-  val d3e_body = s2ep3tsd3e.2
-  val () = (
-    case+ s2e_fun.s2exp_node of
-    | S2Efun (fc, _, _, _, _, _) => (case+ fc of
-      | FUNCLOclo 0 => () // [CLO]
-      | _ => let
-         val () = prerr_error3_loc (loc0)
-         val () = filprerr_ifdebug "d2exp_trup_laminit_dyn"
-         val () = prerr ": the initializing value is expected to be a flat closure but it is not."
-         val () = prerr_newline ()
-       in
-         the_trans3errlst_add (T3E_d2exp_trup_laminit_funclo (d2e0, fc))
-       end // end of [_]
-      ) // end of [S2Efun]
-    | _ => () // HX: deadcode
-  ) : void // end of [val]
-in
-  d3exp_laminit_dyn (loc0, s2e_fun, lin, npf, p3ts_arg, d3e_body)
-end // end of [D2Elam_dyn]
-
-(* ****** ****** *)
-
-implement
-d2exp_trup_lam_sta (d2e0) = let
-  val loc0 = d2e0.d2exp_loc
-  val- D2Elam_sta (s2vs, s2ps, d2e_body) = d2e0.d2exp_node
-//
-  val (pfenv | ()) = trans3_env_push ()
-  val () = trans3_env_add_svarlst (s2vs)
-  val () = trans3_env_hypadd_proplst (loc0, s2ps)
-//
-  val d3e_body = d2exp_trup (d2e_body)
-//
-  val () = trans3_env_pop_and_add_main (pfenv | loc0)
-//
-  val s2e = d3e_body.d3exp_type
-  val s2e_uni = s2exp_uni (s2vs, s2ps, s2e)
-in
-  d3exp_lam_sta (loc0, s2e_uni, s2vs, s2ps, d3e_body)
-end // end of [d2exp_trup_lam_sta]
-
-(* ****** ****** *)
-
-implement
-d2exp_trup_lam_met (d2e0) = let
-  val loc0 = d2e0.d2exp_loc
-  val- D2Elam_met
-    (d2vs_ref, s2es_met, d2e_body) = d2e0.d2exp_node
-  // end of [val]
-  val () = s2explst_check_termet (loc0, s2es_met)
-  val (pfmet | ()) = termetenv_push_dvarlst (!d2vs_ref, s2es_met)
-  val d3e_body = d2exp_trup (d2e_body)
-  val () = termetenv_pop (pfmet | (*none*))
-in
-  d3exp_lam_met (loc0, s2es_met, d3e_body)
-end // end of [D2Elam_met]
-
-(* ****** ****** *)
-
-implement
 d2exp_trup_lst
   (d2e0) = let
   val loc0 = d2e0.d2exp_loc
@@ -1154,6 +1025,155 @@ d2exp_trup_letwhere
 in
   d3exp_let (loc0, d3cs, d3e_scope)
 end // end of [d2exp_trup_letwhere]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_effmask
+  (d2e0) = let
+  val loc0 = d2e0.d2exp_loc
+  val- D2Eeffmask (s2fe, d2e) = d2e0.d2exp_node
+  val (pfpush | ()) = the_effenv_push_effmask (s2fe)
+  val d3e = d2exp_trup (d2e)
+  val () = the_effenv_pop (pfpush | (*none*))
+in
+  d3exp_effmask (loc0, s2fe, d3e)
+end // end of [d2exp_trup_effmask]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_arg_body (
+  loc0
+, fc0, lin, npf
+, p2ts_arg, d2e_body
+) = let
+// (*
+val FNAME = "d2exp_trup_arg_body"
+val () = (
+  printf ("%s: npf = ", @(FNAME));
+  print_int (npf); print_newline ()
+) // end of [val]
+val () = (
+  printf ("%s: arg = ", @(FNAME));
+  print_p2atlst (p2ts_arg); print_newline ()
+) // end of [val]
+val () = (
+  printf ("%s: body = ", @(FNAME));
+  print_d2exp (d2e_body); print_newline ()
+) // end of [val]
+// *)
+val (pfenv | ()) = trans3_env_push ()
+//
+var fc: funclo = fc0
+val d2e_body = d2exp_funclo_of_d2exp (d2e_body, fc)
+var s2fe: s2eff = s2eff_nil
+val d2e_body = d2exp_s2eff_of_d2exp (d2e_body, s2fe)
+//
+val (pfeff | ()) =
+  the_effenv_push_lam (s2fe)
+// end of [val]
+val s2es_arg = p2atlst_syn_type (p2ts_arg)
+val p3ts_arg = p2atlst_trup_arg (npf, p2ts_arg)
+val d3e_body = d2exp_trup (d2e_body)
+//
+val () = the_effenv_pop (pfeff | (*none*))
+//
+val () = trans3_env_pop_and_add_main (pfenv | loc0)
+//
+val s2e_res = d3e_body.d3exp_type
+val isprf = s2exp_is_prf (s2e_res)
+val islin = lin > 0
+val s2t_fun = s2rt_prf_lin_fc (loc0, isprf, islin, fc)
+val s2e_fun = s2exp_fun_srt (
+  s2t_fun, fc, lin, s2fe, npf, s2es_arg, s2e_res
+) // end of [val]
+//
+in
+//
+(s2e_fun, p3ts_arg, d3e_body)
+//
+end // end of [d2exp_trup_arg_body]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_lam_dyn (d2e0) = let
+  val loc0 = d2e0.d2exp_loc
+  val- D2Elam_dyn (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
+  val fc0 = FUNCLOfun () // default
+  val s2ep3tsd3e = d2exp_trup_arg_body (loc0, fc0, lin, npf, p2ts_arg, d2e_body)
+  val s2e_fun = s2ep3tsd3e.0
+  val p3ts_arg = s2ep3tsd3e.1
+  val d3e_body = s2ep3tsd3e.2
+in
+  d3exp_lam_dyn (loc0, s2e_fun, lin, npf, p3ts_arg, d3e_body)
+end // end of [D2Elam_dyn]
+
+implement
+d2exp_trup_laminit_dyn (d2e0) = let
+  val loc0 = d2e0.d2exp_loc
+  val- D2Elaminit_dyn (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
+  val fc0 = FUNCLOclo (0) // default
+  val s2ep3tsd3e = d2exp_trup_arg_body (loc0, fc0, lin, npf, p2ts_arg, d2e_body)
+  val s2e_fun = s2ep3tsd3e.0
+  val p3ts_arg = s2ep3tsd3e.1
+  val d3e_body = s2ep3tsd3e.2
+  val () = (
+    case+ s2e_fun.s2exp_node of
+    | S2Efun (fc, _, _, _, _, _) => (case+ fc of
+      | FUNCLOclo 0 => () // [CLO]
+      | _ => let
+         val () = prerr_error3_loc (loc0)
+         val () = filprerr_ifdebug "d2exp_trup_laminit_dyn"
+         val () = prerr ": the initializing value is expected to be a flat closure but it is not."
+         val () = prerr_newline ()
+       in
+         the_trans3errlst_add (T3E_d2exp_trup_laminit_funclo (d2e0, fc))
+       end // end of [_]
+      ) // end of [S2Efun]
+    | _ => () // HX: deadcode
+  ) : void // end of [val]
+in
+  d3exp_laminit_dyn (loc0, s2e_fun, lin, npf, p3ts_arg, d3e_body)
+end // end of [D2Elam_dyn]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_lam_sta (d2e0) = let
+  val loc0 = d2e0.d2exp_loc
+  val- D2Elam_sta (s2vs, s2ps, d2e_body) = d2e0.d2exp_node
+//
+  val (pfenv | ()) = trans3_env_push ()
+  val () = trans3_env_add_svarlst (s2vs)
+  val () = trans3_env_hypadd_proplst (loc0, s2ps)
+//
+  val d3e_body = d2exp_trup (d2e_body)
+//
+  val () = trans3_env_pop_and_add_main (pfenv | loc0)
+//
+  val s2e = d3e_body.d3exp_type
+  val s2e_uni = s2exp_uni (s2vs, s2ps, s2e)
+in
+  d3exp_lam_sta (loc0, s2e_uni, s2vs, s2ps, d3e_body)
+end // end of [d2exp_trup_lam_sta]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_lam_met (d2e0) = let
+  val loc0 = d2e0.d2exp_loc
+  val- D2Elam_met
+    (d2vs_ref, s2es_met, d2e_body) = d2e0.d2exp_node
+  // end of [val]
+  val () = s2explst_check_termet (loc0, s2es_met)
+  val (pfmet | ()) = termetenv_push_dvarlst (!d2vs_ref, s2es_met)
+  val d3e_body = d2exp_trup (d2e_body)
+  val () = termetenv_pop (pfmet | (*none*))
+in
+  d3exp_lam_met (loc0, s2es_met, d3e_body)
+end // end of [D2Elam_met]
 
 (* ****** ****** *)
 

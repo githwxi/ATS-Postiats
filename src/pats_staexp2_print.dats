@@ -299,6 +299,12 @@ case+ x.s2exp_node of
     val () = prstr ")"
   } // end of [S2Esizeof]
 //
+| S2Eeff (s2fe) => {
+    val () = prstr "S2Eeff("
+    val () = fprint_s2eff (out, s2fe)
+    val () = prstr ")"
+  } // end of [S2Eeff]
+//
 | S2Eeqeq (s2e1, s2e2) => {
     val () = prstr "S2Eeqeq("
     val () = fprint_s2exp (out, s2e1)

@@ -953,6 +953,8 @@ s2eff_hnfize (s2fe) = let
       | _ => s2fe
       ) // end of [S2Ecst]
     | S2Evar (s2v) => s2fe
+    | S2EVar (s2v) => s2fe
+    | S2Eeff (s2fe) => s2fe
     | _ => let
         val s2e = s2exp_err (s2rt_eff) in s2eff_exp (s2e)
       end // end of [_]

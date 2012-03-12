@@ -349,6 +349,8 @@ and d1exp_node =
   | D1Eraise of d1exp // raised exception
   | D1Edelay of (int(*knd*), d1exp(*body*)) // $delay and $ldelay
 //
+  | D1Eeffmask of (effcst(*eff*), d1exp(*body*)) // $effmask(...)
+//
   | D1Eptrof of d1exp // taking the address of
   | D1Eviewat of d1exp // taking view at a given address
   | D1Esel of (int(*knd*), d1exp, d1lab)
@@ -680,6 +682,16 @@ fun d1exp_fix
 
 fun d1exp_raise (loc: location, d1e: d1exp): d1exp
 fun d1exp_delay (loc: location, knd: int, d1e: d1exp): d1exp
+
+(* ****** ****** *)
+
+fun d1exp_effmask (
+  loc: location, eff: effcst, d1e: d1exp
+) : d1exp // end of [d1exp_effmask]
+
+fun d1exp_effmask_arg
+  (loc: location, knd: int, d1e: d1exp): d1exp
+// end of [d1exp_effmask_arg]
 
 (* ****** ****** *)
 

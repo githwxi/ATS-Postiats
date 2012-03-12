@@ -383,6 +383,12 @@ case+ tok.token_node of
 //
 end // end of [p_e0fftag]
 
+implement
+p_e0fftaglst
+  (buf, bt, err) = l2l (
+  pstar_fun0_COMMA {e0fftag} (buf, bt, p_e0fftag)
+) // end of [p_e0fftaglst]
+
 (* ****** ****** *)
 
 (*
@@ -414,14 +420,12 @@ case+ tok.token_node of
 | T_COLONLT () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = pstar_fun0_COMMA {e0fftag} (buf, bt, p_e0fftag)
+    val ent2 = p_e0fftaglst (buf, bt, err)
     val ent3 = p_GT (buf, bt, err) // err = err0
   in
     if err = err0 then
-      Some ((l2l)ent2)
-    else let
-      val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
-    end (* end of [if] *)
+      Some (ent2) else tokbuf_set_ntok_null (buf, n0)
+    (* end of [if] *)
   end
 | _ => let
     val () = err := err + 1

@@ -274,6 +274,8 @@ case+ s2e0.s2exp_node of
 //
 | S2Eat _ => s2e0
 | S2Esizeof _ => s2e0
+//
+| S2Eeff _ => s2e0
 | S2Eeqeq _ => s2e0
 //
 | S2Eapp (s2e_fun, s2es_arg) =>

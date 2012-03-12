@@ -561,6 +561,14 @@ case+ x.d2exp_node of
     val () = prstr ")"
   } // end of [D2Edelay]
 //
+| D2Eeffmask (s2fe, d2e) => {
+    val () = prstr "D2Eeffmask("
+    val () = fprint_s2eff (out, s2fe)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Eeffmask]
+//
 | D2Earrsub _ => {
     val () = prstr "D2Earrsub("
     val () = fprint_string (out, "...")

@@ -519,6 +519,7 @@ fun p_l0ab : parser (l0ab)
 fun p_p0rec : parser (p0rec)
 
 fun p_e0fftag : parser (e0fftag)
+fun p_e0fftaglst : parser (e0fftaglst)
 fun p_colonwith : parser (e0fftaglstopt)
 
 fun p_dcstkind : parser (token)

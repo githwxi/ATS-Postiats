@@ -108,6 +108,11 @@ fn d2exp_s2effopt_of_d2exp (
 
 (* ****** ****** *)
 
+extern
+fun d2exp_trdn_effmask (d2e0: d2exp, s2f0: s2hnf): d3exp
+
+(* ****** ****** *)
+
 implement
 d2exp_trdn (d2e0, s2e0) = let
 // (*
@@ -140,6 +145,8 @@ case+ d2e0.d2exp_node of
   // end of [D2Ewhere]
 //
 | D2Eseq _ => d2exp_trdn_seq (d2e0, s2f0)
+//
+| D2Eeffmask _ => d2exp_trdn_effmask (d2e0, s2f0)
 //
 | D2Elam_dyn _ =>
     d2exp_trdn_lam_dyn (d2e0, s2f0)
@@ -442,6 +449,21 @@ case+ d2es of
     d3exp_trdn (d3e, s2e0)
   end // end of [list_nil]
 end // end of [d2exp_trdn_seq]
+
+(* ****** ****** *)
+
+implement
+d2exp_trdn_effmask
+  (d2e0, s2f0) = let
+  val loc0 = d2e0.d2exp_loc
+  val- D2Eeffmask (s2fe, d2e) = d2e0.d2exp_node
+  val (pfpush | ()) = the_effenv_push_effmask (s2fe)
+  val s2e0 = s2hnf2exp (s2f0)
+  val d3e = d2exp_trdn (d2e, s2e0)
+  val () = the_effenv_pop (pfpush | (*none*))
+in
+  d3exp_effmask (loc0, s2fe, d3e)
+end // end of [d2exp_trdn_effmask]
 
 (* ****** ****** *)
 

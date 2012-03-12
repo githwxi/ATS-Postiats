@@ -146,7 +146,7 @@ token_node =
   | T_VAR of () // var
   | T_WHEN of () // when
   | T_WHERE of () // where
-  | T_WHILE of int // while and while*
+  | T_WHILE of int // while(0) and while*(1)
   | T_WITH of () // with
   | T_WITHTYPE of int // withtype, withprop, withview, withviewtype
 //
@@ -158,7 +158,8 @@ token_node =
   | T_DLRARRSZ of () // $arrsz
   | T_DLRDYNLOAD of () // $dynload
   | T_DLRDELAY of int // $delay and $ldelay
-  | T_DLREFFMASK of int // all, exn, ref, ntm
+  | T_DLREFFMASK of () // $effmask
+  | T_DLREFFMASK_ARG of int // ntm(0), exn(1), ref(2), wrt(3), all(4)
   | T_DLREXTERN of () // $extern
   | T_DLREXTVAL of () // $extval
   | T_DLREXTYPE of () // $extype
@@ -353,6 +354,13 @@ val WITHVIEWTYPE : tnode
 
 val DLRDELAY : tnode
 val DLRLDELAY : tnode
+
+val DLREFFMASK : tnode
+val DLREFFMASK_NTM : tnode
+val DLREFFMASK_EXN : tnode
+val DLREFFMASK_REF : tnode
+val DLREFFMASK_WRT : tnode
+val DLREFFMASK_ALL : tnode
 
 val DLRLST : tnode
 val DLRLST_T : tnode

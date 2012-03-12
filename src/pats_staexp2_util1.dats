@@ -717,6 +717,13 @@ case+ s2e0.s2exp_node of
     end else s2e0 // end of [if]
   end // end of [S2Esizeof]
 //
+| S2Eeff (s2fe) => let
+    val flag0 = flag
+    val s2fe = s2eff_subst_flag (sub, s2fe, flag)
+  in
+    if flag > flag0 then s2exp_eff (s2fe) else s2e0
+  end // end of [S2Eeff]
+//
 | S2Eeqeq (s2e1, s2e2) => let
     val flag0 = flag
     val s2e1 = s2exp_subst_flag (sub, s2e1, flag)
@@ -1046,6 +1053,7 @@ case+ s2e0.s2exp_node of
   ) // end of [s2Eat]
 | S2Esizeof (s2e) => aux_s2exp (s2e, fvs)
 //
+| S2Eeff (s2fe) => aux_s2eff (s2fe, fvs)
 | S2Eeqeq (s2e1, s2e2) => (
     aux_s2exp (s2e1, fvs); aux_s2exp (s2e2, fvs)
   ) // end of [s2Eeqeq]

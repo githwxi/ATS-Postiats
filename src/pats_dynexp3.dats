@@ -445,12 +445,25 @@ d3exp_arrinit (
 
 implement
 d3exp_arrsize (
-  loc, s2e_arrsz, d3es, asz
+  loc, s2f_arrsz, d3es, asz
 ) = '{
   d3exp_loc= loc
-, d3exp_type= s2e_arrsz
+, d3exp_type= s2f_arrsz
 , d3exp_node= D3Earrsize (d3es, asz)
 } // end of [d3exp_arrsize]
+
+(* ****** ****** *)
+
+implement
+d3exp_effmask (
+  loc, s2fe, d3e
+) = let
+  val s2f = d3exp_get_type (d3e)
+in '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eeffmask (s2fe, d3e)
+} end // end of [d3exp_effmask]
 
 (* ****** ****** *)
 

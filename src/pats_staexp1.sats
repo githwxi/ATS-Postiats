@@ -190,6 +190,13 @@ datatype effcst =
   | EFFCSTall | EFFCSTnil | EFFCSTset of (effset, effvarlst)
 typedef effcstopt = Option (effcst)
 
+val effcst_nil : effcst
+val effcst_all : effcst
+val effcst_ntm : effcst
+val effcst_exn : effcst
+val effcst_ref : effcst
+val effcst_wrt : effcst
+
 fun effcst_contain
   (efc: effcst, eff: effect): bool
 fun effcst_contain_ntm (efc: effcst): bool

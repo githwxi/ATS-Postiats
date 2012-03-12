@@ -247,9 +247,9 @@ implement
 termination_metric_check
   (loc, ismet, efcopt) = case+ efcopt of
   | Some efc => let
-      val is_okay = begin
-        if ismet then true else effcst_contain_ntm efc
-      end : bool // end of [val]
+      val is_okay = (
+        if ismet then true else effcst_contain_ntm (efc)
+      ) : bool // end of [val]
     in
       if (is_okay) then () else let
         val () = prerr_error1_loc (loc)
@@ -585,6 +585,18 @@ aux_item (
       val d1e = d0exp_tr (d0e) in FXITMatm (d1exp_delay (loc0, knd, d1e))
     end // end of [D0Edelay]
 //
+  | D0Eeffmask (eff, d0e) => let
+      val (
+        fcopt, lin, prf, efc // HX: fcopt, lin, prf are all ignored!
+      ) = e0fftaglst_tr (eff)
+      val d1e = d0exp_tr (d0e)
+    in
+      FXITMatm (d1exp_effmask (loc0, efc, d1e))
+    end // end of [D0Eeffmask_arg]
+  | D0Eeffmask_arg (knd, d0e) => let
+      val d1e = d0exp_tr (d0e) in FXITMatm (d1exp_effmask_arg (loc0, knd, d1e))
+    end // end of [D0Eeffmask_arg]
+//
   | D0Eptrof () => let
       fn f (d1e: d1exp):<cloref1> d1expitm = let
         val loc = loc0 + d1e.d1exp_loc in FXITMatm (d1exp_ptrof (loc, d1e))
@@ -616,7 +628,9 @@ aux_item (
       val lin0 = lamkind_islin (knd)
       val (fcopt, lin, efcopt) = (case+ effopt of
         | Some eff => let
-            val (fcopt, lin, prf, efc) = e0fftaglst_tr (eff)
+            val (
+              fcopt, lin, prf, efc
+            ) = e0fftaglst_tr (eff)
             val lin = (if lin0 > 0 then 1 else lin): int
           in
             (fcopt, lin, Some efc)

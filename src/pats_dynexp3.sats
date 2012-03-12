@@ -230,6 +230,8 @@ and d3exp_node =
       (s2exp(*elt*), d3exp(*asz*), d3explst(*elt*))
   | D3Earrsize of (d3explst, int(*size*))
 //
+  | D3Eeffmask of (s2eff, d3exp) // $effmask(s2eff, d3exp)
+//
   | D3Elam_dyn of // dynamic abstraction
       (int(*lin*), int(*npf*), p3atlst, d3exp)
   | D3Elaminit_dyn of // dynamic flat funtion closure
@@ -487,9 +489,16 @@ fun d3exp_arrinit (
   loc: location
 , s2e_arr: s2exp, elt: s2exp, asz: d3exp, d3es: d3explst
 ) : d3exp // end of [d3exp_arrinit]
+
 fun d3exp_arrsize (
   loc: location, s2e_arrsz: s2exp, d3es: d3explst, asz: int
 ) : d3exp // end of [d3exp_arrsize]
+
+(* ****** ****** *)
+
+fun d3exp_effmask
+  (loc: location, s2fe: s2eff, d3e: d3exp): d3exp
+// end of [d3exp_effmask]
 
 (* ****** ****** *)
 

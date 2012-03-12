@@ -1897,6 +1897,24 @@ in '{
 (* ****** ****** *)
 
 implement
+d0exp_effmask
+  (tok, eff, body) = let
+  val loc = tok.token_loc + body.d0exp_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Eeffmask (eff, body)
+} end // end of [d0exp_effmask]
+
+implement
+d0exp_effmask_arg
+  (knd, tok, body) = let
+  val loc = tok.token_loc + body.d0exp_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Eeffmask_arg (knd, body)
+} end // end of [d0exp_effmask_arg]
+
+(* ****** ****** *)
+
+implement
 d0exp_ptrof (t_addrat) = '{
   d0exp_loc= t_addrat.token_loc, d0exp_node= D0Eptrof ()
 } // end of [d0exp_ptrof]

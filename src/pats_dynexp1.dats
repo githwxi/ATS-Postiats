@@ -587,6 +587,29 @@ implement
 d1exp_delay (loc, knd, d1e) =
   d1exp_make (loc, D1Edelay (knd, d1e))
 
+(* ****** ****** *)
+
+implement
+d1exp_effmask (loc, efc, d1e) =
+  d1exp_make (loc, D1Eeffmask (efc, d1e))
+
+implement
+d1exp_effmask_arg
+  (loc, knd, d1e) = let
+  val efc = (
+    case+ knd of
+    | 0 => effcst_ntm
+    | 1 => effcst_exn
+    | 2 => effcst_ref
+    | 3 => effcst_wrt
+    | _ => effcst_all
+  ) : effcst // end of [val]
+in
+  d1exp_effmask (loc, efc, d1e)
+end // end of [d1exp_effmask_arg]
+
+(* ****** ****** *)
+
 implement
 d1exp_ptrof (loc, d1e) =
   d1exp_make (loc, D1Eptrof (d1e))

@@ -180,6 +180,18 @@ DLRDELAY = T_DLRDELAY (TYPE_int)
 implement
 DLRLDELAY = T_DLRDELAY (VIEWTYPE_int)
 
+(* ****** ****** *)
+//
+implement DLREFFMASK = T_DLREFFMASK ()
+//
+implement DLREFFMASK_NTM = T_DLREFFMASK_ARG (0)
+implement DLREFFMASK_EXN = T_DLREFFMASK_ARG (1)
+implement DLREFFMASK_REF = T_DLREFFMASK_ARG (2)
+implement DLREFFMASK_WRT = T_DLREFFMASK_ARG (3)
+implement DLREFFMASK_ALL = T_DLREFFMASK_ARG (4)
+//
+(* ****** ****** *)
+
 implement
 DLRLST = T_DLRLST (~1) // unspecified
 implement
@@ -449,6 +461,13 @@ val () = ins ("$arrsz", T_DLRARRSZ)
 //
 val () = ins ("$delay", DLRDELAY)
 val () = ins ("$ldelay", DLRLDELAY)
+//
+val () = ins ("$effmask", DLREFFMASK)
+val () = ins ("$effmask_ntm", DLREFFMASK_NTM)
+val () = ins ("$effmask_exn", DLREFFMASK_EXN)
+val () = ins ("$effmask_ref", DLREFFMASK_REF)
+val () = ins ("$effmask_wrt", DLREFFMASK_WRT)
+val () = ins ("$effmask_all", DLREFFMASK_ALL)
 //
 val () = ins ("$extern", T_DLREXTERN)
 val () = ins ("$extval", T_DLREXTVAL)
