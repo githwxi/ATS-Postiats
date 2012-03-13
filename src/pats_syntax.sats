@@ -1518,7 +1518,7 @@ fun d0exp_extval (
 fun d0exp_label_int (t_dot: token, lab: token): d0exp
 fun d0exp_label_sym (t_dot: token, lab: token): d0exp
 
-fun d0exp_loopexn (knd: int, tok: token): d0exp // brk/cnt: 0/1
+fun d0exp_loopexn (tok: token): d0exp // brk/cnt: 0/1
 
 fun d0exp_foldat (t_foldat: token, _: d0explst): d0exp
 fun d0exp_freeat (t_freeat: token, _: d0explst): d0exp
@@ -1632,9 +1632,13 @@ fun d0exp_effmask_arg
 fun d0exp_ptrof (t_addrat: token): d0exp // addr@
 fun d0exp_viewat (t_viewat: token): d0exp // view@
 
+(* ****** ****** *)
+//
 fun d0exp_sel_lab (sel: s0elop, lab: l0ab): d0exp
 fun d0exp_sel_ind (sel: s0elop, ind: d0arrind): d0exp
-
+//
+fun d0exp_sel_int (tok: token): d0exp // tok=T_DOTINT(...)
+//
 (* ****** ****** *)
 
 fun d0exp_sexparg

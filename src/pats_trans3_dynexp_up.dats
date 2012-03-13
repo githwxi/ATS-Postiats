@@ -105,7 +105,8 @@ extern fun d2exp_trup_seq (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
-extern fun d2exp_trup_effmask (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_effmask (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
@@ -263,6 +264,8 @@ case+ d2e0.d2exp_node of
   end // end of [D2Earrsize]
 //
 | D2Eeffmask _ => d2exp_trup_effmask (d2e0)
+//
+| D2Eselab (d2e, d2ls) => d2exp_trup_selab (d2e0, d2e, d2ls)
 //
 | D2Elam_dyn _ => d2exp_trup_lam_dyn (d2e0)
 | D2Elaminit_dyn _ => d2exp_trup_laminit_dyn (d2e0)

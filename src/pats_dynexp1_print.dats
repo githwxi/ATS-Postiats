@@ -467,8 +467,8 @@ case+ d1e0.d1exp_node of
     val () = fprint_d1exp (out, d1e)
     val () = prstr ")"
   }
-| D1Esel (knd, d1e, d1l) => {
-    val () = prstr "D1Esel("
+| D1Eselab (knd, d1e, d1l) => {
+    val () = prstr "D1Eselab("
     val () = fprint_int (out, knd)
     val () = prstr "; "
     val () = fprint_d1exp (out, d1e)

@@ -70,6 +70,8 @@ token_node =
   | T_DOTDOT of () // ..
   | T_DOTDOTDOT of () // ...
 //
+  | T_DOTINT of int // .[0-9]+
+//
   | T_EQ of () // =
   | T_EQGT of () // =>
   | T_EQLT of () // =<

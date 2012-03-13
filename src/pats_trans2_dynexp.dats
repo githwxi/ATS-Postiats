@@ -1011,19 +1011,19 @@ case+ d1e0.d1exp_node of
 //
 | D1Eptrof (d1e) => d2exp_ptrof (loc0, d1exp_tr d1e)
 | D1Eviewat (d1e) => d2exp_viewat (loc0, d1exp_tr d1e)
-| D1Esel (knd, d1e, d1l) => let
+| D1Eselab (knd, d1e, d1l) => let
     val d2e = d1exp_tr d1e; val d2l = d1lab_tr d1l
   in
     if knd = 0 then ( // [.]
       case+ d2e.d2exp_node of
-      | D2Esel (d2e_root, d2ls) =>
+      | D2Eselab (d2e_root, d2ls) =>
           d2exp_sel_dot (loc0, d2e_root, l2l (list_extend (d2ls, d2l)))
-        // end of [D2Esel]
+        // end of [D2Eselab]
       | _ => d2exp_sel_dot (loc0, d2e, list_sing (d2l))
     ) else
       d2exp_sel_ptr (loc0, d2e, d2l) // [->]
     // end of [if]
-  end (* end of [D1Esel] *)
+  end (* end of [D1Eselab] *)
 //
 | D1Eexist (s1a, d1e) => let
     val s2a = s1exparg_tr (s1a); val d2e = d1exp_tr (d1e)

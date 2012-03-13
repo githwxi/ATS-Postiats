@@ -360,6 +360,11 @@ in
   s2exp_cstapp (s2c, list_pair (s2i1, s2i2))
 end // end of [s2exp_intneq]
 
+implement
+s2exp_igtez (s2i) = let
+  val _0 = s2exp_int (0) in s2exp_intgte (s2i, _0)
+end // end of [s2exp_igtez]
+
 (* ****** ****** *)
 
 implement

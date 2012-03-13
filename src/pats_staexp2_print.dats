@@ -304,7 +304,6 @@ case+ x.s2exp_node of
     val () = fprint_s2eff (out, s2fe)
     val () = prstr ")"
   } // end of [S2Eeff]
-//
 | S2Eeqeq (s2e1, s2e2) => {
     val () = prstr "S2Eeqeq("
     val () = fprint_s2exp (out, s2e1)
@@ -312,6 +311,13 @@ case+ x.s2exp_node of
     val () = fprint_s2exp (out, s2e2)
     val () = prstr ")"
   } // end of [S2Eeqeq]
+| S2Eproj (s2e, s2l) => {
+    val () = prstr "S2Eproj("
+    val () = fprint_s2exp (out, s2e)
+    val () = prstr "; "
+    val () = fprint_s2lab (out, s2l)
+    val () = prstr ")"
+  } // end of [S2Eproj]
 //
 | S2Eapp (s2e_fun, s2es_arg) => {
     val () = prstr "S2Eapp("
@@ -513,6 +519,28 @@ fprint_wths2explst
 in
   loop (out, ws2es, 0)
 end // end of [fprint_wths2explst]
+
+(* ****** ****** *)
+
+implement
+fprint_s2lab
+  (out, s2l) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+//
+case+ s2l of
+| S2LABlab (lab) => {
+    val () = prstr "S2LABlab("
+    val () = $LAB.fprint_label (out, lab)
+    val () = prstr ")"
+  }
+| S2LABind (s2ess) => {
+    val () = prstr "S2LABind("
+    val () = $UT.fprintlst (out, s2ess, "; ", fprint_s2explst)
+    val () = prstr ")"
+  }
+//
+end // end of [fprint_s2lab]
 
 (* ****** ****** *)
 

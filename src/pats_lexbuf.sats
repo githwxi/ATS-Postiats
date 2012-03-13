@@ -80,6 +80,8 @@ fun lexbuf_get_position
   (buf: &lexbuf, res: &position? >> position): void
 // end of [lexbuf_get_position]
 
+(* ****** ****** *)
+
 fun lexbuf_get_nspace (buf: &lexbuf): int
 fun lexbuf_set_nspace (buf: &lexbuf, n: int): void
 

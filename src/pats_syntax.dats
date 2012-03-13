@@ -1620,9 +1620,11 @@ in '{
 (* ****** ****** *)
 
 implement
-d0exp_loopexn (knd, tok) = '{
+d0exp_loopexn (tok) = let
+  val- T_BRKCONT (knd) = tok.token_node
+in '{
   d0exp_loc= tok.token_loc, d0exp_node= D0Eloopexn (knd)
-} // end of [d0exp_loopexn]
+} end // end of [d0exp_loopexn]
 
 (* ****** ****** *)
 
@@ -1939,6 +1941,15 @@ d0exp_sel_ind (sel, ind) = let
 in '{
   d0exp_loc= loc, d0exp_node= D0Esel_ind (sel.s0elop_knd, ind.d0arrind_ind)
 } end // end of [d0exp_sel_ind]
+
+implement
+d0exp_sel_int (tok) = let
+  val knd = 0 // HX: dot selection
+  val- T_DOTINT (int) = tok.token_node
+  val lab = $LAB.label_make_int (int)
+in '{
+  d0exp_loc= tok.token_loc, d0exp_node= D0Esel_lab (knd, lab)
+} end // end of [d0exp_sel_int]
 
 (* ****** ****** *)
 

@@ -674,7 +674,7 @@ aux_item (
       val d1l = d1lab_lab (loc0, lab)
       fn f (d1e: d1exp):<cloref1> d1expitm =
         let val loc = d1e.d1exp_loc + loc0 in
-          FXITMatm (d1exp_sel (loc, knd, d1e, d1l))
+          FXITMatm (d1exp_selab (loc, knd, d1e, d1l))
         end // end of [let]
       // end of [f]
     in
@@ -685,7 +685,7 @@ aux_item (
       val d1l = d1lab_ind (loc0, ind)
       fn f (d1e: d1exp):<cloref1> d1expitm =
         let val loc = d1e.d1exp_loc + loc0 in
-          FXITMatm (d1exp_sel (loc, knd, d1e, d1l))
+          FXITMatm (d1exp_selab (loc, knd, d1e, d1l))
         end // end of [let]
       // end of [f]
     in

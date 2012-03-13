@@ -1086,6 +1086,27 @@ fun FLOATDOT_test
   if lexbuf_get_nspace (buf) > 0 then DIGIT_test (c) else false
 // end of [testing_float_dot]
 
+fun
+string2int (x: string) = let
+//
+fun loop
+  {n:int}
+  {i:nat | i <= n} .<n-i>. (
+  x: string n, i: size_t i, res: int
+) :<> int =
+  if string_isnot_at_end (x, i) then let
+    val c = x[i]; val res = 10 * res + (c - '0')
+  in
+    loop (x, i+1, res)
+  end else res // end of [if]
+// end of [loop]
+//
+val x = string1_of_string (x)
+//
+in
+  loop (x, 0, 0)
+end // end of [string2int]
+
 extern
 fun lexing_DOT
   (buf: &lexbuf, pos: &position): token
@@ -1096,46 +1117,37 @@ lexing_DOT
   val c = (i2c)i
   val nspace = lexbuf_get_nspace (buf)
 in
-  case+ 0 of
-  | _ when
-      SYMBOLIC_test (c) => let
-      val () = posincby1 (pos)
-      val k = testing_symbolicseq0 (buf, pos) in
-      lexing_IDENT_sym (buf, pos, k+2u)
-    end
-(*
-  | _ when nspace = 0 => let
-    in
-      if IDENTFST_test (c) then let
-        val () = posincby1 (pos)
-        val k = testing_identrstseq0 (buf, pos)
-        val str = lexbuf_get_substrptr1 (buf, 1u, k+1u)
-        val str = string_of_strptr (str)
-      in
-        lexbufpos_token_reset (buf, pos, T_LABEL (0(*sym*), str))
-      end else if DIGIT_test (c) then let
-        val () = posincby1 (pos)
-        val k = testing_digitseq0 (buf, pos)
-        val str = lexbuf_get_substrptr1 (buf, 1u, k+1u)
-        val str = string_of_strptr (str)
-      in
-        lexbufpos_token_reset (buf, pos, T_LABEL (1(*int*), str))
-      end else
-        lexbufpos_token_reset (buf, pos, DOT)
-      // end of [if]
-    end // end of [nspace = 0u]
-*)
-  | _ when
-      FLOATDOT_test (buf, c) => let
-      val () = posdecby1 (pos)
-    in
-      if testing_deciexp (buf, pos) >= 0 then
-        lexing_FLOAT_deciexp (buf, pos)
-      else (* HX: it cannot be taken *)
-        lexbufpos_token_reset (buf, pos, T_ERR)
-      // end of [if]
-    end // end of [nspace > 0]
-  | _ => lexbufpos_token_reset (buf, pos, DOT)
+//
+case+ 0 of
+| _ when
+    SYMBOLIC_test (c) => let
+    val () = posincby1 (pos)
+    val k = testing_symbolicseq0 (buf, pos) in
+    lexing_IDENT_sym (buf, pos, k+2u)
+  end // HX: a symbolic token
+| _ when
+    FLOATDOT_test
+      (buf, c) => let
+    val () = posdecby1 (pos)
+  in
+    if testing_deciexp (buf, pos) >= 0 then
+      lexing_FLOAT_deciexp (buf, pos)
+    else (* HX: it cannot be taken *)
+      lexbufpos_token_reset (buf, pos, T_ERR)
+    // end of [if]
+  end // end of [nspace > 0]
+| _ when
+    DIGIT_test (c) => let
+    val () = posincby1 (pos)
+    val k = testing_digitseq0 (buf, pos)
+    val str = lexbuf_get_substrptr1 (buf, 1u, k+1u)
+    val int = string2int ($UN.castvwtp1 {string} (str))
+    val () = strptr_free (str)
+  in
+    lexbufpos_token_reset (buf, pos, T_DOTINT (int))
+  end // end of [DOTINT]
+| _ => lexbufpos_token_reset (buf, pos, DOT)
+//
 end // end of [lexing_DOT]
   
 (* ****** ****** *)
@@ -2057,7 +2069,7 @@ in
   case+ 0 of
 //
   | _ when c = '\(' =>
-      lexing_LPAREN (buf, pos)
+      lexing_LPAREN (buf, pos) // HX: handling "(*"
   | _ when c = ')' =>
       lexbufpos_token_reset (buf, pos, T_RPAREN)
   | _ when c = '\[' =>

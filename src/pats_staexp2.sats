@@ -347,8 +347,9 @@ s2exp_node =
   | S2Eat of (s2exp, s2exp) // for at-views
   | S2Esizeof of (s2exp) // for sizes of types
 //
-  | S2Eeff of s2eff // effects
-  | S2Eeqeq of (s2exp, s2exp) // static equality
+  | S2Eeff of (s2eff) // effects
+  | S2Eeqeq of (s2exp, s2exp) // generic static equality
+  | S2Eproj of (s2exp(*addr*), s2lab) // projection
 //
   | S2Eapp of (s2exp, s2explst) // static application
   | S2Elam of (s2varlst, s2exp) // static abstraction
@@ -381,6 +382,11 @@ s2exp_node =
 //
   | S2Eerr of () // HX: placeholder for indicating error
 // end of [s2exp_node]
+
+and s2lab = 
+  | S2LABlab of label
+  | S2LABind of s2explstlst
+// end of [s2lab]
 
 and s2eff =
   | S2EFFset of effset
@@ -829,6 +835,7 @@ fun s2exp_sizeof (s2e_type: s2exp): s2exp
 
 fun s2exp_eff (s2fe: s2eff): s2exp
 fun s2exp_eqeq (s2e1: s2exp, s2e2: s2exp): s2exp
+fun s2exp_proj (s2e: s2exp, s2l: s2lab): s2exp
 
 (* ****** ****** *)
 
@@ -949,6 +956,13 @@ fun prerr_s2explst (xs: s2explst): void
 fun fprint_labs2explst : fprint_type (labs2explst)
 
 fun fprint_wths2explst : fprint_type (wths2explst)
+
+(* ****** ****** *)
+
+fun fprint_s2lab
+  : fprint_type (s2lab)
+fun print_s2lab (s2l: s2lab): void
+fun prerr_s2lab (s2l: s2lab): void
 
 (* ****** ****** *)
 

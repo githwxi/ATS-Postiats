@@ -687,19 +687,28 @@ case+ tok.token_node of
         if err = err0 then
           d0exp_sel_ind (ent1, ent2) else synent_null ()
         // end of [if]
-      end
+      end // end of [T_LBRACKET]
     | _ when
-        ptest_fun (buf, p_l0ab, ent) => let
-        val ent2 = synent_decode {l0ab} (ent) in d0exp_sel_lab (ent1, ent2)
-      end
+        ptest_fun (
+        buf, p_l0ab, ent
+      ) => let
+        val ent2 =
+          synent_decode {l0ab} (ent) in d0exp_sel_lab (ent1, ent2)
+        // end of [val]
+      end // end of [when ...]
     | _ => let
-        val () = err := err + 1 in synent_null ((*dangling [s0elop]*))
-      end
-  end
+        val () = err := err + 1
+      in
+        synent_null ((*dangling [s0elop]*))
+      end // end of [_]
+  end // end of [p_s0elop]
+| T_DOTINT _ => let
+    val () = incby1 () in d0exp_sel_int (tok)
+  end // end of [T_DOTINT]
 //
 | T_BRKCONT (knd) => let
-    val () = incby1 () in d0exp_loopexn (knd, tok)
-  end
+    val () = incby1 () in d0exp_loopexn (tok)
+  end // end of [T_BRKCONT]
 //
 | T_ADDRAT () => let
     val () = incby1 () in d0exp_ptrof (tok)

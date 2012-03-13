@@ -199,6 +199,11 @@ s2exp_eqeq (s2e1, s2e2) = hnf '{
   s2exp_srt= s2rt_bool, s2exp_node= S2Eeqeq (s2e1, s2e2)
 } // end of [s2exp_eqeq]
 
+implement
+s2exp_proj (s2e1, s2l2) = hnf '{
+  s2exp_srt= s2rt_addr, s2exp_node= S2Eproj (s2e1, s2l2)
+} // end of [s2exp_proj]
+
 (* ****** ****** *)
 
 implement

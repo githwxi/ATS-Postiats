@@ -53,6 +53,7 @@ fprint_token
   | T_EQ () => fprintf (out, "EQ()", @())
   | T_HASH () => fprintf (out, "HASH()", @())
   | T_TILDE () => fprintf (out, "TILDE()", @())
+  | T_DOTINT (x) => fprintf (out, "DOTINT(%i)", @(x))
   | T_DOTDOT () => fprintf (out, "DOTDOT()", @())
   | T_DOTDOTDOT () => fprintf (out, "DOTDOTDOT()", @())
   | T_EQGT () => fprintf (out, "EQGT()", @())
@@ -69,13 +70,15 @@ fprint_token
   | T_DOTLT () => fprintf (out, "DOTLT()", @())
   | T_GTDOT () => fprintf (out, "GTDOT()", @())
 //
-  | T_DOTLTGTDOT () => fprintf (out, "DOTLTGTDOT()", @())
+  | T_DOTLTGTDOT () =>
+      fprintf (out, "DOTLTGTDOT()", @())
   | T_MINUSGT () => fprintf (out, "MINUSGT()", @())
   | T_MINUSLT () => fprintf (out, "MINUSLT()", @())
   | T_MINUSLTGT () => fprintf (out, "MINUSLTGT()", @())
   | T_COLONLT () => fprintf (out, "COLONLT()", @())
 //
-  | T_ABSTYPE (x) => fprintf (out, "ABSTYPE(%i)", @(x))
+  | T_ABSTYPE (x) =>
+      fprintf (out, "ABSTYPE(%i)", @(x))
   | T_AND () => fprintf (out, "AND()", @())
   | T_AS () => fprintf (out, "AS()", @())
   | T_ASSUME () => fprintf (out, "ASSUME()", @())

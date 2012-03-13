@@ -78,6 +78,13 @@ datatype trans3err =
 //
   | T3E_d2exp_trdn_lam_dyn of (d2exp, s2exp)
 //
+  | T3E_d3exp_trup_selab_tyrec of (s2exp)
+  | T3E_d3exp_trup_selab_labnot of (d3lab) // label is not found
+  | T3E_d3exp_trup_selab_tyarr of (s2exp)
+  | T3E_d3exp_trup_selab_arrind of (d3exp) // not a generic integer
+  | T3E_d3exp_trup_selab_arrdim of (d3lab, s2explst) // dim/index mismatch
+  | T3E_d3exp_trup_selab_linrest of (location, d3exp, d3lablst)
+//
   | T3E_guard_trdn of
       (location, bool(*gval*), s2exp(*gtyp*))
   | T3E_c2lau_trdn_arity of (c2lau, s2explst)
@@ -199,6 +206,17 @@ fun d2exp_trup_applst_sym
 fun d23exp_trup_applst
   (d2e0: d2exp, _fun: d3exp, _arg: d2exparglst): d3exp
 // end of [d23exp_trup_applst]
+
+(* ****** ****** *)
+
+fun
+d3explstlst_get_ind
+  (d3ess: d3explstlst): s2explstlst
+// end of [d3explstlst_get_ind]
+
+fun d2exp_trup_selab
+  (d2e0: d2exp, tup: d2exp, labs: d2lablst): d3exp
+// end of [d2exp_trup_selab]
 
 (* ****** ****** *)
 

@@ -212,6 +212,30 @@ viewtypedef Option_vt (a:viewt@ype) = [b:bool] option_vt (a, b)
 //
 (* ****** ****** *)
 
+symintr assert
+
+fun assert_bool0
+  (assertion: bool):<!exn> void = "atspre_assert"
+fun assert_bool1 {b:bool}
+  (assertion: bool b):<!exn> [b] void = "atspre_assert"
+overload assert with assert_bool0 of 0
+overload assert with assert_bool1 of 1
+
+(* ****** ****** *)
+
+symintr main
+
+fun main_void (): void = "mainats"
+fun main_argc_argv {n:int | n >= 1}
+  (argc: int n, argv: &(@[string][n])): void = "mainats"
+fun main_argc_argv_env {n:int | n >= 1}
+  (argc: int n, argv: &(@[string][n]), env: ptr): void = "mainats"
+overload main with main_void
+overload main with main_argc_argv
+overload main with main_argc_argv_env
+
+(* ****** ****** *)
+
 #if VERBOSE_PRELUDE #then
 #print "Loading [basics_dyn.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]

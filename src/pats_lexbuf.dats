@@ -185,6 +185,8 @@ in
   $LOC.position_init (pos, ntot, nrow, ncol)
 end // end of [lexbuf_get_position]
 
+(* ****** ****** *)
+
 implement
 lexbuf_get_nspace (buf) = buf.nspace
 implement

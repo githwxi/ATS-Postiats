@@ -595,13 +595,13 @@ case+ x.d2exp_node of
     val () = fprint_d2exp (out, d2e)
     val () = prstr ")"
   } // end of [D2Eviewat]
-| D2Esel (d2e, d2ls) => {
-    val () = prstr "D2Esel("
+| D2Eselab (d2e, d2ls) => {
+    val () = prstr "D2Eselab("
     val () = fprint_d2exp (out, d2e)
     val () = prstr ";"
     val () = fprint_string (out, "...")
     val () = prstr ")"
-  } // end of [D2Esel]
+  } // end of [D2Eselab]
 //
 | D2Eexist (s2a, d2e) => {
     val () = prstr "D2Eexist("

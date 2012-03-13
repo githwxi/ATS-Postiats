@@ -149,7 +149,6 @@ case+ s2e0.s2exp_node of
     val () = aux_s2eff (out, n, s2fe)
     val () = prstr ")"
   } // end of [S2Eeff]
-//
 | S2Eeqeq (s2e1, s2e2) => {
     val () = prstr "S2Eeqeq("
     val () = aux_s2exp (out, n, s2e1)
@@ -157,6 +156,13 @@ case+ s2e0.s2exp_node of
     val () = aux_s2exp (out, n, s2e2)
     val () = prstr ")"
   } // end of [S2Eeqeq]
+| S2Eproj (s2e, s2l) => {
+    val () = prstr "S2Eproj("
+    val () = aux_s2exp (out, n, s2e)
+    val () = prstr "; "
+    val () = aux_s2lab (out, n, s2l)
+    val () = prstr ")"
+  } // end of [S2Eproj]
 //
 | S2Eapp (s2e_fun, s2es_arg) => {
     val () = prstr "S2Eapp("
@@ -394,6 +400,26 @@ fun loop (
 in
   loop (out, ws2es, 0)
 end // end of [aux_wths2explst]
+
+and aux_s2lab (
+  out: FILEref, n: int, s2l: s2lab
+) : void = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+//
+case+ s2l of
+| S2LABlab (lab) => {
+    val () = prstr "S2LABlab("
+    val () = $LAB.fprint_label (out, lab)
+    val () = prstr ")"
+  }
+| S2LABind (s2ess) => {
+    val () = prstr "S2LABind("
+    val () = aux_s2explstlst (out, n, s2ess)
+    val () = prstr ")"
+  }
+//
+end // end of [aux_s2lab]
 
 and aux_s2eff (
   out: FILEref, n: int, s2fe: s2eff

@@ -468,6 +468,17 @@ in '{
 (* ****** ****** *)
 
 implement
+d3exp_selab (
+  loc, s2f, d3e, d3ls
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eselab (d3e, d3ls)
+} // end of [d3exp_selab]
+
+(* ****** ****** *)
+
+implement
 d3exp_lam_dyn (
   loc, s2f_fun, lin, npf, arg, body
 ) = '{
@@ -531,6 +542,20 @@ d3exp_err (loc) = '{
 , d3exp_type= s2exp_err (s2rt_type)
 , d3exp_node= D3Eerr ()
 } // end of [d3exp_err]
+
+(* ****** ****** *)
+
+implement
+d3lab_lab
+  (loc, lab) = '{
+  d3lab_loc= loc, d3lab_node= D3LABlab (lab)
+} // end of [d3lab_lab]
+
+implement
+d3lab_ind
+  (loc, ind) = '{
+  d3lab_loc= loc, d3lab_node= D3LABind (ind)
+} // end of [d3lab_ind]
 
 (* ****** ****** *)
 

@@ -546,14 +546,14 @@ and d2exp_node =
   | D2Earrsize of (* $arrsz expression *)
       (s2expopt (*element type*), d2explst (*elements*))
 //
-  | D2Eraise of d2exp // raised exception
+  | D2Eraise of (d2exp) // raised exception
   | D2Edelay of (int(*knd*), d2exp(*body*)) // $delay and $ldelay
 //
   | D2Eeffmask of (s2eff, d2exp) // $effmask (s2eff, d2exp)
 //
-  | D2Eptrof of d2exp // taking the address of
-  | D2Eviewat of d2exp // taking view at a given address
-  | D2Esel of (d2exp, d2lablst) // record field selection
+  | D2Eptrof of (d2exp) // taking the address of
+  | D2Eviewat of (d2exp) // taking view at a given address
+  | D2Eselab of (d2exp, d2lablst) // record/tuple field selection
 //
   | D2Eexist of (s2exparg, d2exp) // witness-carrying expression
 //
@@ -907,8 +907,13 @@ fun d2exp_effmask (loc: location, s2fe: s2eff, d2e: d2exp): d2exp
 
 fun d2exp_ptrof (loc: location, d2e: d2exp): d2exp
 fun d2exp_viewat (loc: location, d2e: d2exp): d2exp
-fun d2exp_sel_dot (loc: location, rt: d2exp, labs: d2lablst): d2exp
-fun d2exp_sel_ptr (loc: location, rt: d2exp, lab: d2lab): d2exp
+
+fun d2exp_sel_dot (
+  loc: location, _rec: d2exp, labs: d2lablst
+) : d2exp // end of [d2exp_sel_dot]
+fun d2exp_sel_ptr
+  (loc: location, _rec: d2exp, lab: d2lab): d2exp
+// end of [d2exp_sel_ptr]
 
 (* ****** ****** *)
 

@@ -33,7 +33,7 @@
 (* ****** ****** *)
 
 stacst offsetof : (t@ype, label) -> int
-absprop OFFSETOF (a:t@ype, x: label, n: addr)
+absprop OFFSETOF (a:t@ype, x: label, n: int)
 
 (* ****** ****** *)
 

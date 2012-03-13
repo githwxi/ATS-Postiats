@@ -232,6 +232,9 @@ and d3exp_node =
 //
   | D3Eeffmask of (s2eff, d3exp) // $effmask(s2eff, d3exp)
 //
+  | D3Eptrof of (d2exp) // taking the address of
+  | D3Eselab of (d3exp, d3lablst) // record/tuple field selection
+//
   | D3Elam_dyn of // dynamic abstraction
       (int(*lin*), int(*npf*), p3atlst, d3exp)
   | D3Elaminit_dyn of // dynamic flat funtion closure
@@ -247,10 +250,13 @@ and d3exp_node =
   | D3Eerr of () // indication of error
 // end of [d3exp_node]
 
+and d3lab_node =
+  | D3LABlab of label | D3LABind of d3explstlst
+// end of [d3lab_node]
+
 where
 d3ecl = '{
-  d3ecl_loc= location
-, d3ecl_node= d3ecl_node
+  d3ecl_loc= location, d3ecl_node= d3ecl_node
 } // end of [d3ecl]
 
 and d3eclist = List (d3ecl)
@@ -267,6 +273,14 @@ and d3explstlst = List (d3explst)
 
 and labd3exp = dl0abeled (d3exp)
 and labd3explst = List (labd3exp)
+
+(* ****** ****** *)
+
+and d3lab = '{
+  d3lab_loc= location, d3lab_node= d3lab_node
+} // end of [d3lab]
+
+and d3lablst = List (d3lab)
 
 (* ****** ****** *)
 
@@ -502,6 +516,14 @@ fun d3exp_effmask
 
 (* ****** ****** *)
 
+fun d3exp_ptrof
+  (loc: location, d3e: d3exp): d3exp
+fun d3exp_selab
+  (loc: location, s2f: s2exp, d3e: d3exp, d3ls: d3lablst): d3exp
+// end of [d3exp_selab]
+
+(* ****** ****** *)
+
 fun d3exp_lam_dyn (
   loc: location, typ: s2exp
 , lin: int, npf: int, arg: p3atlst, body: d3exp
@@ -534,6 +556,11 @@ fun d3exp_ann_type
 (* ****** ****** *)
 
 fun d3exp_err (loc: location): d3exp
+
+(* ****** ****** *)
+
+fun d3lab_lab (loc: location, lab: label): d3lab
+fun d3lab_ind (loc: location, ind: d3explstlst): d3lab
 
 (* ****** ****** *)
 

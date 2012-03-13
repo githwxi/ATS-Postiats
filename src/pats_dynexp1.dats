@@ -619,8 +619,9 @@ d1exp_viewat (loc, d1e) =
   d1exp_make (loc, D1Eviewat (d1e))
 
 implement
-d1exp_sel (loc, knd, d1e, d1l) =
-  d1exp_make (loc, D1Esel (knd, d1e, d1l))
+d1exp_selab (loc, knd, d1e, d1l) =
+  d1exp_make (loc, D1Eselab (knd, d1e, d1l))
+// end of [d1exp_selab]
 
 (* ****** ****** *)
 

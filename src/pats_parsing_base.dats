@@ -237,7 +237,7 @@ case+ tok.token_node of
     ) => l0ab_make_i0de (synent_decode {i0de} (ent))
 | T_INTEGER _ => let
     val () = incby1 () in l0ab_make_i0nt (tok)
-  end
+  end // end of [T_INTEGER]
 //
 | _ => let
     val () = err := err + 1

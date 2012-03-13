@@ -311,4 +311,31 @@ d3explst_trdn_arg
 
 (* ****** ****** *)
 
+local
+
+fun
+d3exp_get_ind
+  (x: d3exp): s2exp = let
+  val () =
+    d3exp_open_and_add (x) in d3exp_get_type (x)
+  // end of [val]
+end // end of [d3exp_get_ind]
+
+fun
+d3explst_get_ind
+  (xs: d3explst): s2explst =
+  l2l (list_map_fun (xs, d3exp_get_ind))
+// end of [d3explst_get_ind]
+
+in // in of [local]
+
+implement
+d3explstlst_get_ind (xss) =
+  l2l (list_map_fun (xss, d3explst_get_ind))
+// end of [d3explstlst_get_ind]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 (* end of [pats_trans3_util.dats] *)

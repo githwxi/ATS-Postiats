@@ -353,7 +353,7 @@ and d1exp_node =
 //
   | D1Eptrof of d1exp // taking the address of
   | D1Eviewat of d1exp // taking view at a given address
-  | D1Esel of (int(*knd*), d1exp, d1lab)
+  | D1Eselab of (int(*knd*), d1exp, d1lab)
 //
   | D1Esexparg of s1exparg (* for temporary use *)
   | D1Eexist of (s1exparg, d1exp) // witness-carrying expression
@@ -700,9 +700,9 @@ fun d1exp_viewat (loc: location, d1e: d1exp): d1exp
 
 (* ****** ****** *)
 
-fun d1exp_sel
+fun d1exp_selab
   (loc: location, kind: int, root: d1exp, lab: d1lab): d1exp
-// end of [d1exp_sel]
+// end of [d1exp_selab]
 
 (* ****** ****** *)
 
