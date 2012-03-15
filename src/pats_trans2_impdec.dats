@@ -199,8 +199,8 @@ fn auxerr (
 ) : void = let
   val () = prerr_error2_loc (locarg)
   val () = prerr ": static arity mismatch"
-  val () = if serr > 0 then prerr ": less arguments are expected."
   val () = if serr < 0 then prerr ": more arguments are expected."
+  val () = if serr > 0 then prerr ": fewer arguments are expected."
   val () = prerr_newline ()
 in
   the_trans2errlst_add (T2E_d1exp_tr_ann (d1e0, s2e0))
@@ -362,13 +362,13 @@ val () = auxcheck
 val p2ts_arg = let
 //
   fn auxerr (
-    d1e0: d1exp, err: int
+    d1e0: d1exp, serr: int
   ) : void = let
      val () = prerr_error2_loc (d1e0.d1exp_loc)
      val () = filprerr_ifdebug "d1exp_tr_arg_body_ann"
      val () = prerr ": arity mismatch"
-     val () = if err > 0 then prerr ": less arguments are expected."
-     val () = if err < 0 then prerr ": more arguments are expected."
+     val () = if serr < 0 then prerr ": more arguments are expected."
+     val () = if serr > 0 then prerr ": fewer arguments are expected."
      val () = prerr_newline ()
    in
       the_trans2errlst_add (T2E_d1exp_tr (d1e0))
@@ -394,9 +394,9 @@ val p2ts_arg = let
       end // end of [nil, cons]
   (* end of [aux] *)
 //
-  var err: int = 0
-  val p2ts_arg = aux (p2ts_arg, s2es_arg, err)
-  val () = if err != 0 then auxerr (d1e0, err)
+  var serr: int = 0
+  val p2ts_arg = aux (p2ts_arg, s2es_arg, serr)
+  val () = if serr != 0 then auxerr (d1e0, serr)
 in
   p2ts_arg
 end // end of [val]
@@ -494,12 +494,13 @@ fun aux_imparg_svararg (
   in
     // nothing
   end // end of [auxerr1]
-  fn auxerr2
-    (loc: location, err: int):<cloref1> void = let
+  fn auxerr2 (
+    loc: location, serr: int
+  ) :<cloref1> void = let
     val () = prerr_error2_loc (loc)
     val () = filprerr_ifdebug "i1mpdec_tr_main"
     val () = prerr ": the implementation argument group is expected to contain "
-    val () = prerr_string (if err > 0 then "more" else "less")
+    val () = prerr_string (if serr > 0 then "more" else "fewer")
     val () = prerr " components."
     val () = prerr_newline ()
     val () = the_trans2errlst_add (T2E_impdec_tr (d1c0))
@@ -659,7 +660,7 @@ fun aux_tmparg_marglst (
     val () = filprerr_ifdebug "i1mpdec_tr_main: aux_tmparg_marglst"
     val () = prerr ": the template argument group is expected to be contain "
     val () = if serr > 0 then prerr_string "more components."
-    val () = if serr < 0 then prerr_string "less components."
+    val () = if serr < 0 then prerr_string "fewer components."
     val () = prerr_newline ()
   in
     the_trans2errlst_add (T2E_impdec_tr (d1c0))

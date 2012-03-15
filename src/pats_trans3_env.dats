@@ -225,7 +225,7 @@ fun auxerr1 (
   val () = filprerr_ifdebug "stasub_s2varlst_instantiate_some"
   val () = prerr ": static arity mismatch"
   val () = if serr > 0 then prerr ": more arguments are expected."
-  val () = if serr < 0 then prerr ": less arguments are expected."
+  val () = if serr < 0 then prerr ": fewer arguments are expected."
   val () = prerr_newline ()
 in
   the_trans3errlst_add (T3E_s2varlst_instantiate_arity (locarg, serr))
@@ -282,7 +282,7 @@ case+ s2vs of
   case+ s2es of
   | list_cons _ => let
       val () = err := err + 1
-      val () = auxerr1 (locarg, ~1) // HX: less arguments expected
+      val () = auxerr1 (locarg, ~1) // HX: fewer arguments expected
     in
       // nothing
     end // end of [list_cons]

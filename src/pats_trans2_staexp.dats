@@ -263,22 +263,24 @@ s1marg_trdn
   (s1ma, s2ts) = let
 //
 fn auxerr (
-  s1ma: s1marg, s2ts: s2rtlst, err: int
+  s1ma: s1marg, s2ts: s2rtlst, serr: int
 ) : void = let
   val loc0 = s1ma.s1marg_loc
   val () = prerr_error2_loc (loc0)
   val () = filprerr_ifdebug "s1marg_trdn"
   val () = prerr ": the static argument group is expected to contain "
-  val () = prerr (if err > 0 then "more" else "less")
+  val () = prerr (if serr > 0 then "more" else "fewer")
   val () = prerr " components."
   val () = prerr_newline ()
 in
   the_trans2errlst_add (T2E_s1marg_trdn (s1ma, s2ts))
 end // end of [auxerr]
 //
-  var err: int = 0
-  val s2vs = s1arglst_trdn_err (s1ma.s1marg_arg, s2ts, err)
-  val () = if err != 0 then auxerr (s1ma, s2ts, err)
+  var serr: int = 0
+  val s2vs =
+    s1arglst_trdn_err (s1ma.s1marg_arg, s2ts, serr)
+  // end of [val]
+  val () = if serr != 0 then auxerr (s1ma, s2ts, serr)
 //
 in
   s2vs
@@ -309,22 +311,24 @@ fun sp1at_trdn_arg (
 ) : s2varlst = let
 //
 fn auxerr (
-  sp1t: sp1at, err: int
+  sp1t: sp1at, serr: int
 ) :<cloref1> void = let
   val () = prerr_error2_loc (sp1t.sp1at_loc)
   val () = prerr ": the static constructor ["
   val () = prerr_sqid (sq, id)
   val () = prerr "] requires "
-  val () = prerr_string (if err > 0 then "more" else "less")
+  val () = prerr_string (if serr > 0 then "more" else "fewer")
   val () = prerr " arguments."
   val () = prerr_newline ()
 in
   the_trans2errlst_add (T2E_sp1at_trdn (sp1t, s2t_pat))
 end // end of [auxerr]
 //
-  var err: int = 0
-  val s2vs = s1arglst_trdn_err (s1as, s2ts, err)
-  val () = if err != 0 then auxerr (sp1t, err)
+  var serr: int = 0
+  val s2vs =
+    s1arglst_trdn_err (s1as, s2ts, serr)
+  // end of [val]
+  val () = if serr != 0 then auxerr (sp1t, serr)
 in
   s2vs
 end // end of [sp2at_trdn_arg]
@@ -971,12 +975,12 @@ fn s1exp_trup_app (
 ) : s2exp = let
 //
 fn auxerr1 (
-  s1e0: s1exp, loc: location, err: int
+  s1e0: s1exp, loc: location, serr: int
 ) : void = {
   val () = prerr_error2_loc (loc)
   val () = filprerr_ifdebug "s1exp_trup_app"
   val () = prerr ": the static application needs "
-  val () = prerr_string (if err > 0 then "more" else "less")
+  val () = prerr_string (if serr > 0 then "more" else "fewer")
   val () = prerr " arguments."
   val () = prerr_newline ()
   val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
@@ -1006,18 +1010,18 @@ fun loop (
     in
       if s2rt_is_fun (s2t_fun) then let
         val- S2RTfun (s2ts_arg, s2t_res) = s2t_fun
-        var err: int = 0
-        val s2es_arg = s1explst_trdn_err (x.1, s2ts_arg, err)
+        var serr: int = 0
+        val s2es_arg = s1explst_trdn_err (x.1, s2ts_arg, serr)
       in
         case+ 0 of
-        | _ when err = 0 => let
+        | _ when serr = 0 => let
             val s2e_fun = s2exp_app_srt (s2t_res, s2e_fun, s2es_arg)
           in
             loop (s1e0, loc, s2e_fun, xs)
-          end // end of [_ when err = 0]
+          end // end of [_ when serr = 0]
         | _ => let
             val () = list_vt_free (xs)
-            val () = auxerr1 (s1e0, loc + x.0, err)
+            val () = auxerr1 (s1e0, loc + x.0, serr)
           in
             s2exp_err (s2t_res)
           end // end of [_ when err != 0]
@@ -2057,8 +2061,8 @@ fn auxerr1 (
   val () = prerr ": the constructor ["
   val () = $SYM.prerr_symbol (id)
   val () = prerr "] is expected to be given "
-  val () = if serr > 0 then prerr_string "less indexes."
   val () = if serr < 0 then prerr_string "more indexes."
+  val () = if serr > 0 then prerr_string "fewer indexes."
   val () = prerr_newline ()
   val () = the_trans2errlst_add (T2E_d1atcon_tr (d1c))
 } // end of [auxerr1]

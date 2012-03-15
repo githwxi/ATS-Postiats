@@ -438,8 +438,8 @@ val () = if (serr != 0) then let
   val () = prerr_error3_loc (locarg)
   val () = filprerr_ifdebug "d23explst_trdn"
   val () = prerr ": arity mismatch"
-  val () = if serr > 0 then prerr ": less arguments are expected."
   val () = if serr < 0 then prerr ": more arguments are expected."
+  val () = if serr > 0 then prerr ": fewer arguments are expected."
   val () = prerr_newline ()
 in
   the_trans3errlst_add (T3E_d23explst_trdn_arity (locarg, serr))

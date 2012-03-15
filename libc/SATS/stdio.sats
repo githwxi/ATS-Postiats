@@ -80,7 +80,8 @@ fun FILEptr_free_null {m:fm}
 (* ****** ****** *)
 
 (*
-staload TYPES = "libc/sys/SATS/types.sats"
+staload
+TYPES = "libc/sys/SATS/types.sats"
 typedef whence_t = $TYPES.whence_t
 macdef SEEK_SET = $TYPES.SEEK_SET
 macdef SEEK_CUR = $TYPES.SEEK_CUR
@@ -289,7 +290,7 @@ abst@ype
 fpos_t = $extype"ats_fpos_type"
 
 fun fgetpos
-  {m:fm} {l:addr} (
+  {m:fm} {l:agz} (
   filp: !FILEptr (m, l), pos: &fpos_t? >> opt (fpos_t, i==0)
 ) :<> #[i:int | i <= 0] int (i) = "mac#atslib_fgetpos"
 // end of [fgetpos]
@@ -833,9 +834,10 @@ overload setbuf_null with setbuf1_null
 // the stream to which it is attached!!!
 //
 symintr setbuffer
-fun setbuffer0 {n1,n2:nat | n2 <= n1} {l:addr}
-  (pf_buf: !b0ytes n1 @ l | f: FILEref, p_buf: ptr l, n2: size_t n2): void
-  = "mac#atslib_setbuffer"
+fun setbuffer0
+  {n1,n2:nat | n2 <= n1} {l:addr} (
+  pf_buf: !b0ytes n1 @ l | f: FILEref, p_buf: ptr l, n2: size_t n2
+) : void = "mac#atslib_setbuffer"
 overload setbuffer with setbuffer0
 fun setbuffer1
   {m:fm}

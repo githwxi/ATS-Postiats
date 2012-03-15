@@ -273,8 +273,8 @@ case+ s2e0.s2exp_node of
     val () = if (serr != 0) then {
       val () = prerr_error3_loc (loc0)
       val () = prerr ": dynamic arity mismatch"
-      val () = if serr > 0 then prerr ": less arguments are expected."
       val () = if serr < 0 then prerr ": more arguments are expected."
+      val () = if serr > 0 then prerr ": fewer arguments are expected."
       val () = prerr_newline ()
       val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2e0))
     } // end of [val]

@@ -122,8 +122,10 @@ stadef rw() = file_mode_rw ()
 
 (* ****** ****** *)
 
-abstype
-file_mode (file_mode) = string
+abstype file_mode (file_mode) = string
+typedef file_mode = [fm:file_mode] file_mode (fm)
+
+(* ****** ****** *)
 
 dataprop file_mode_lte
   (file_mode, file_mode) =
@@ -191,24 +193,30 @@ option0_t0ype_type (a: t@ype+) =
 stadef option0 = option0_t0ype_type
 //
 datatype // t@ype+: covariant
-option_t0ype_bool_type (a:t@ype+, bool) =
-  | None (a, false) | Some (a, true) of a
+option_t0ype_bool_type
+  (a:t@ype+, bool) = Some (a, true) of a | None (a, false)
 // end of [datatype]
 stadef option = option_t0ype_bool_type
 typedef Option (a:t@ype) = [b:bool] option (a, b)
+//
+dataviewtype // viewt@ype+: covariant
+option_viewt0ype_bool_viewtype
+  (a:viewt@ype+, bool) = Some_vt (a, true) of a | None_vt (a, false)
+// end of [option_viewt0ype_bool_viewtype]
+stadef option_vt = option_viewt0ype_bool_viewtype
+viewtypedef Option_vt (a:viewt@ype) = [b:bool] option_vt (a, b)
+//
+dataview
+option_prop_bool_prop
+  (a:prop+, bool) = Some_p (a, true) of a | None_p (a, false)
+// end of [option_prop_bool_prop]
+stadef option_v = option_prop_bool_prop
 //
 dataview
 option_view_bool_view
   (a:view+, bool) = Some_v (a, true) of a | None_v (a, false)
 // end of [option_view_bool_view]
 stadef option_v = option_view_bool_view
-//
-dataviewtype // viewt@ype+: covariant
-option_viewt0ype_bool_viewtype (a:viewt@ype+, bool) =
-  | None_vt (a, false) | Some_vt (a, true) of a
-// end of [option_viewt0ype_bool_viewtype]
-stadef option_vt = option_viewt0ype_bool_viewtype
-viewtypedef Option_vt (a:viewt@ype) = [b:bool] option_vt (a, b)
 //
 (* ****** ****** *)
 

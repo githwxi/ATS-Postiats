@@ -28,7 +28,7 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: Feburary, 2012
+// Start Time: February, 2012
 //
 (* ****** ****** *)
 
@@ -37,44 +37,34 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [filebas.sats] starts!\n"
+#print "Loading [option.dats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-val stdin_ref : FILEref
-val stdout_ref : FILEref
-val stderr_ref : FILEref
+implement{}
+option_is_some (opt) =
+  case+ opt of Some _ => true | None _ => false
+// end of [option_is_some]
+
+implement{}
+option_is_none (opt) =
+  case+ opt of Some _ => false | None _ => true
+// end of [option_is_none]
 
 (* ****** ****** *)
 
-val file_mode_r : file_mode (r()) // = "r"
-val file_mode_rr : file_mode (rw()) // = "r+"
-val file_mode_w : file_mode (w()) // = "w"
-val file_mode_ww : file_mode (rw()) // = "w+"
-
-castfn file_mode (x: string):<> file_mode
-
-(* ****** ****** *)
-
-fun open_fileref_exn
-  (path: string, fm: file_mode):<!exn> FILEref
-// end of [open_fileref_exn]
-
-fun open_fileref_opt
-  (path: string, fm: file_mode):<!exn> Option_vt (FILEref)
-// end of [open_fileref_opt]
-
-(* ****** ****** *)
-
-fun close_fileref (r: FILEref): void
+implement{a}
+option_unsome
+  (opt) = x where { val+ Some (x) = opt }
+// end of [option_unsome]
 
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [filebas.sats] finishes!\n"
+#print "Loading [option.dats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-(* end of [filebas.sats] *)
+(* end of [option.dats] *)

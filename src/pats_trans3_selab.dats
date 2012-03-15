@@ -243,7 +243,7 @@ fun auxerr (
   val () = prerr_error3_loc (loc)
   val () = prerr ": the label is expected to contain "
   val () = if sgn < 0 then prerr "more array indexes."
-  val () = if sgn > 0 then prerr "less array indexes."
+  val () = if sgn > 0 then prerr "fewer array indexes."
   val () = prerr_newline ()
 in
   the_trans3errlst_add (T3E_d3exp_trup_selab_arrdim (d3l, dim))

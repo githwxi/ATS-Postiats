@@ -214,8 +214,8 @@ val p3t0 = (case+ 0 of
     val () = if (serr != 0) then {
       val () = prerr_error3_loc (loc0)
       val () = prerr ": arity mismatch"
-      val () = if serr > 0 then prerr ": less arguments are expected."
       val () = if serr < 0 then prerr ": more arguments are expected."
+      val () = if serr > 0 then prerr ": fewer arguments are expected."
       val () = prerr_newline ()
       val () = the_trans3errlst_add (T3E_p2at_trdn_con_arity (p2t0, serr))
     } // end of [val]

@@ -719,7 +719,7 @@ fn c1lau_tr {n:nat}
     val () = prerr_error2_loc (c1l.c1lau_loc)
     val () = filprerr_ifdebug ("c1lau_tr")
     val () = prerr ": this clause should contain "
-    val () = prerr_string (if n < n1 then "less" else "more")
+    val () = prerr_string (if n >= n1 then "more" else "fewer")
     val () = prerr " patterns."
     val () = prerr_newline ()
     val () = the_trans2errlst_add (T2E_c1lau_tr (c1l))

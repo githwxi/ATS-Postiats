@@ -213,6 +213,33 @@ g1uint_of_uchar1
 
 (* ****** ****** *)
 
+fun isalpha (c: int):<> bool = "atspre_isalpha"
+fun isalnum (c: int):<> bool = "atspre_isalnum"
+
+fun isascii (c: int):<> bool = "atspre_isascii"
+
+fun isblank (c: int):<> bool = "atspre_isblank"
+fun isspace (c: int):<> bool = "atspre_isspace"
+
+fun iscntrl (c: int):<> bool = "atspre_iscntrl"
+
+fun isdigit (c: int):<> bool = "atspre_isdigit"
+fun isxdigit (c: int):<> bool = "atspre_isxdigit"
+
+fun isgraph (c: int):<> bool = "atspre_isgraph"
+fun isprint (c: int):<> bool = "atspre_isprint"
+fun ispunct (c: int):<> bool = "atspre_ispunct"
+
+fun islower (c: int):<> bool = "atspre_islower"
+fun isupper (c: int):<> bool = "atspre_isupper"
+
+fun toascii (c: int):<> bool = "atspre_toascii"
+
+fun tolower (c: int):<> bool = "atspre_tolower"
+fun toupper (c: int):<> bool = "atspre_toupper"
+
+(* ****** ****** *)
+
 #if VERBOSE_PRELUDE #then
 #print "Loading [char.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]

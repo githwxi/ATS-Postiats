@@ -205,8 +205,8 @@ fn auxerr2 (
 ) : void = let
   val () = prerr_error2_loc (locarg)
   val () = prerr ": the static argument group is expected to contain "
-  val () = if serr > 0 then prerr_string ("less components.")
   val () = if serr < 0 then prerr_string ("more components.")
+  val () = if serr > 0 then prerr_string ("fewer components.")
   val () = prerr_newline ()
 in
   the_trans2errlst_add (T2E_p1at_tr (p1t1))
