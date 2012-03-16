@@ -186,7 +186,8 @@ end // end of [s2exp_Var_make_var]
 
 local
 
-fun stasub_s2varlst_instantiate_none (
+fun
+stasub_s2varlst_instantiate_none (
   sub: &stasub
 , locarg: location, s2vs: s2varlst
 , err: &int // HX: [err] is not used
@@ -348,7 +349,7 @@ case+ ans of
     val s2f1 = s2exp2hnf (s2e1)
   in
     loop (sub, s2f1, s2ps_res, err)
-  end // end of [S2Euni]
+  end // end of [S2Euni/S2Eexi]
 | false => s2exp_subst (sub, s2e)
 //
 end // end of [loop]

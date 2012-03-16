@@ -82,8 +82,9 @@ case+ knd of
 | C3NSTRKINDcase_exhaustiveness _ => prstr "case_exhaustiveness"
 | C3NSTRKINDtermet_isnat () => prstr "termet_isnat"
 | C3NSTRKINDtermet_isdec () => prstr "termet_isdec"
+| C3NSTRKINDsome_fin _ => prstr "some_fin"
+| C3NSTRKINDsome_box _ => prstr "some_box"
 (*
-| C3NSTRKINDvarfin _ => prstr "varfin"
 | C3NSTRKINDloop (knd) => begin
     prstr "loop("; fprint1_int (out, knd); prstr ")"
   end (* end of [C3NSTRKINDloop] *)

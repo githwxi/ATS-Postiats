@@ -76,6 +76,7 @@ datatype p3at_node =
   | P3Trec of (int(*knd*), int(*npf*), labp3atlst)
   | P3Tlst of (int(*lin*), p3atlst) // pattern list
 //
+  | P3Tas of (int(*refknd*), d2var, p3at)
   | P3Texist of (s2varlst, p3at) // existential opening
 //
   | P3Tann of (p3at, s2exp) // ascribed pattern
@@ -144,6 +145,11 @@ fun p3at_lst (
   loc: location, s2f: s2exp, lin: int, p3ts: p3atlst
 ) : p3at // end of [p3at_lst]
 
+fun p3at_as (
+  loc: location
+, s2f: s2exp, refknd: int, d2v: d2var, p3t: p3at
+) : p3at // end of [p3at_as]
+
 fun p3at_exist (
   loc: location, s2f: s2exp, s2vs: s2varlst, p3t: p3at
 ) : p3at // end of [p3at_exist]
@@ -153,6 +159,12 @@ fun p3at_ann (
 ) : p3at // end of [p3at_ann]
 
 fun p3at_err (loc: location, s2f: s2exp): p3at
+
+(* ****** ****** *)
+
+fun p3at_set_type
+  (p3t: p3at, s2f: s2exp): void = "patsopt_p3at_set_type"
+// end of [p3at_set_type]
 
 (* ****** ****** *)
 

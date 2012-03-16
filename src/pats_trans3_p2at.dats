@@ -86,6 +86,13 @@ staload "pats_trans3_env.sats"
 
 (* ****** ****** *)
 
+extern
+fun p2at_trdn_any (p2t0: p2at, s2f0: s2hnf): p3at
+extern
+fun p2at_trdn_var (p2t0: p2at, s2f0: s2hnf): p3at
+
+(* ****** ****** *)
+
 local
 
 extern
@@ -201,7 +208,7 @@ case+ p2t0.p2at_node of
     p2at_trdn (p2t0, s2e)
   end // end of [_]
 //
-end // end of [p2at_arg_tr_up]
+end // end of [p2at_trup_arg]
 
 (* ****** ****** *)
 
@@ -246,10 +253,87 @@ p2atlst_trup_arg
 
 (* ****** ****** *)
 
+local
+
+fun p2at_trdn_arg_refarg_var
+  (p2t0: p2at, s2e0: s2exp): p3at = let
+//
+val loc0 = p2t0.p2at_loc
+val- S2Erefarg
+  (refknd, s2e) = s2e0.s2exp_node
+val s2f = s2exp2hnf (s2e)
+val- P2Tvar (refknd2, d2v) = p2t0.p2at_node
+//
+in
+//
+case+ 0 of
+| _ when refknd = 0 => let // call-by-value
+    val p3t0 = p2at_trdn_var (p2t0, s2f)
+    val () = d2var_set_mastype (d2v, Some s2e)
+    val () = p3at_set_type (p3t0, s2e0)
+  in
+    p3t0
+  end // end of [refknd = 0]
+| _ (*refval = 1*) => let // call-by-reference
+    val loc0 = p2t0.p2at_loc
+    val p3t0 = p3at_var (loc0, s2e0, refknd, d2v)
+    val s2e_opn = s2hnf_opnexi_and_add (loc0, s2f)
+    val sym = d2var_get_sym (d2v)
+    val s2v_addr = s2var_make_id_srt (sym, s2rt_addr)
+    val () = trans3_env_add_svar (s2v_addr) // adding svar
+    val s2e_addr = s2exp_var (s2v_addr)
+    val () = d2var_set_addr (d2v, Some s2e_addr)
+    val () = let
+      val s2p = s2exp_agtz (s2e_addr) in trans3_env_hypadd_prop (loc0, s2p)
+    end // end of [val]
+    val d2vw = d2var_ptr_viewat_make_none (d2v)
+    val () = the_d2varenv_add (d2vw) // adding dvar
+    val () = d2var_set_view (d2v, Some d2vw) // [d2v] is mutable
+    val s2e_at = s2exp_at (s2e, s2e_addr)
+    val () = d2var_set_mastype (d2vw, Some s2e_at)
+    val s2e_opn_at = s2exp_at (s2e_opn, s2e_addr)
+    val () = d2var_set_type (d2vw, Some (s2e_opn_at))
+  in
+    p3t0
+  end // end of [refval = 1]
+end // end of [p2at_trdn_arg_refarg_var]
+
+fun
+p2at_trdn_arg_refarg_err (
+  p2t0: p2at, s2e0: s2exp
+) : p3at = let
+  val loc0 = p2t0.p2at_loc
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": the pattern is expected to be a variable."
+  val () = prerr_newline ()
+  val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
+in
+  p3at_err (loc0, s2e0)
+end // end of [p2at_trdn_arg_refarg_err]
+
+in // in of [local]
+
 implement
 p2at_trdn_arg
-  (p2t, s2e) = p2at_trdn (p2t, s2e)
-// end of [p2at_trdn_arg]
+  (p2t0, s2e0) = let
+//
+val s2f0 = s2exp2hnf (s2e0)
+val s2e0 = s2hnf2exp (s2f0)
+//
+in
+//
+case+ s2e0.s2exp_node of
+| S2Erefarg _ => (
+  case+ p2t0.p2at_node of
+  | P2Tvar _ =>
+      p2at_trdn_arg_refarg_var (p2t0, s2e0)
+  | _ => p2at_trdn_arg_refarg_err (p2t0, s2e0)
+  )
+| _ => p2at_trdn (p2t0, s2e0)
+//
+end // end of [p2at_trdn_arg]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -318,10 +402,6 @@ p2atlst_trdn_elt
 
 (* ****** ****** *)
 
-extern
-fun p2at_trdn_any (p2t0: p2at, s2f0: s2hnf): p3at
-extern
-fun p2at_trdn_var (p2t0: p2at, s2f0: s2hnf): p3at
 extern
 fun p2at_trdn_int (p2t0: p2at, s2f0: s2hnf): p3at
 extern

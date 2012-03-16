@@ -267,6 +267,36 @@ compare_d2vsym_d2vsym
 (* ****** ****** *)
 
 implement
+d2var_ptr_viewat_make
+  (ptr, opt) = d2v where {
+  val loc = d2var_get_loc (ptr)
+  and sym = d2var_get_sym (ptr)
+  val d2v = (
+    case+ opt of
+    | Some d2v => d2v
+    | None () => let
+       val nam = $SYM.symbol_get_name (sym)
+       val sym1 = $SYM.symbol_make_string (nam + "$view")
+     in
+       d2var_make (loc, sym1)
+     end // end of [None]
+  ) : d2var // end of [val]
+  val () =
+    d2var_set_linval (d2v, 0)
+  // end of [val]
+  val () =
+    d2var_set_addr (d2v, d2var_get_addr ptr)
+  // end of [val]
+} // end of [d2var_ptr_viewat_make]
+
+implement
+d2var_ptr_viewat_make_none
+  (d2v_ptr) = d2var_ptr_viewat_make (d2v_ptr, None)
+// end of [d2var_ptr_viewat_make_none]
+
+(* ****** ****** *)
+
+implement
 fprint_d2var (out, d2v) = let
   val () = $SYM.fprint_symbol (out, d2var_get_sym d2v)
 // (*
@@ -289,6 +319,10 @@ staload
 FS = "libats/SATS/funset_avltree.sats"
 staload _ = "libats/DATS/funset_avltree.dats"
 
+staload
+LS = "libats/SATS/linset_avltree.sats"
+staload _ = "libats/DATS/linset_avltree.dats"
+
 val cmp = lam (
   d2v1: d2var, d2v2: d2var
 ) : int =<cloref>
@@ -296,6 +330,7 @@ val cmp = lam (
 // end of [val]
 
 assume d2varset_type = $FS.set (d2var)
+assume d2varset_viewtype = $LS.set (d2var)
 
 in // in of [local]
 
@@ -313,6 +348,29 @@ d2varset_add
   var xs = xs
   val _(*replaced*) = $FS.funset_insert (xs, x, cmp)
 } // end of [d2varset_add]
+
+(* ****** ****** *)
+
+implement
+d2varset_vt_nil () = $LS.linset_make_nil ()
+
+implement
+d2varset_vt_free (xs) = $LS.linset_free (xs)
+
+implement
+d2varset_vt_is_member
+  (xs, x) = $LS.linset_is_member (xs, x, cmp)
+// end of [d2varset_vt_is_member]
+
+implement
+d2varset_vt_add
+  (xs, x) = xs where {
+  var xs = xs
+  val _(*replaced*) = $LS.linset_insert (xs, x, cmp)
+} // end of [d2varset_vt_add]
+
+implement
+d2varset_vt_listize (xs) = $LS.linset_listize (xs)
 
 end // end of [local]
 

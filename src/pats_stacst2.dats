@@ -294,6 +294,17 @@ the_sub_addr_int = s2cstref_make "sub_addr_int"
 (* ****** ****** *)
 
 implement
+s2exp_agtz (s2a) = let
+  val s2c =
+    s2cstref_get_cst (the_gt_addr_addr)
+  val _0 = s2exp_int (0) // HX: 0 for null
+in
+  s2exp_cstapp (s2c, list_pair (s2a, _0))
+end // end of [s2exp_agtz]
+
+(* ****** ****** *)
+
+implement
 s2exp_bneg (s2p) = let
   val s2c = s2cstref_get_cst (the_neg_bool)
 in

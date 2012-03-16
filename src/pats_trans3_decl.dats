@@ -435,7 +435,11 @@ val () = begin
   print "v2aldec_tr: s2e_def = "; print_s2exp s2e_def; print_newline ();
 end // end of [val]
 //
-val p3t_val = p2at_trdn (p2t_val, s2e_def)
+val p3t_val =
+  p2at_trdn (p2t_val, s2e_def)
+// end of [val]
+//
+val () = the_d2varenv_add_p2at (p2t_val)
 //
 in
   v3aldec_make (loc0, p3t_val, d3e_def)

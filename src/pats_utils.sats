@@ -88,6 +88,10 @@ fun lstord_insert {a:type} (
 fun lstord_union {a:type} (
   xs: lstord a, ys: lstord a, cmp: (a, a) -<fun> int
 ) : lstord (a) // end of [lstord_union]
+
+(*
+** HX: it returns a list of the duplicates in [xs]
+*)
 fun lstord_get_dups
   {a:type} (xs: lstord a, cmp: (a, a) -<fun> int): List (a)
 // end of [lstord_get_dups]

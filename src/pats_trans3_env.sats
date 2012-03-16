@@ -70,8 +70,9 @@ datatype c3nstrkind =
       (caskind (*case/case+*), p2atcstlst) // HX: no [case-]
   | C3NSTRKINDtermet_isnat (* term. metric being welfounded *)
   | C3NSTRKINDtermet_isdec (* term. metric being decreasing *)
+  | C3NSTRKINDsome_fin of (d2var, s2exp(*fin*), s2exp)
+  | C3NSTRKINDsome_box of (d2var, s2exp(*box*), s2exp)
 (*
-  | C3NSTRKINDvarfin of (d2var_t, s2exp, s2exp)
   | C3NSTRKINDloop of int (* 0/1/2: enter/break/continue *)
 *)
 // end of [c3nstrkind]
@@ -355,6 +356,59 @@ fun s2hnf_opnexi_and_add
 
 fun d3exp_open_and_add (d3e: d3exp): void
 fun d3explst_open_and_add (d3es: d3explst): void
+
+(* ****** ****** *)
+//
+// HX: for tracking linear dynamic variables
+//
+
+absview d2varenv_push_v
+
+fun the_d2varenv_add (d2v: d2var): void
+fun the_d2varenv_addlst (d2vs: d2varlst): void
+fun the_d2varenv_add_p2at (p2t: p2at): void
+fun the_d2varenv_add_p2atlst (p2ts: p2atlst): void
+
+fun the_d2varenv_get_top (): d2varlst_vt
+fun the_d2varenv_get_llamd2vs (): d2varlst_vt
+
+fun the_d2varenv_pop
+  (pf: d2varenv_push_v | (*none*)): void
+fun the_d2varenv_push (): (d2varenv_push_v | void)
+
+fun the_d2varenv_push_lam
+  (knd(*lin*): int): (d2varenv_push_v | void)
+fun the_d2varenv_push_let (): (d2varenv_push_v | void)
+fun the_d2varenv_push_try (): (d2varenv_push_v | void)
+
+fun the_d2varenv_d2var_is_llamlocal (d2v: d2var): bool
+
+(*
+** HX-2012-03:
+** [funarg_d2vfin_check] checks d2var_finknd of funarg
+*)
+fun funarg_d2vfin_check (loc0: location): void
+(*
+** HX-2012-03:
+** [s2exp_wth_instantiate] resets d2var_finknd of funarg
+*)
+fun s2exp_wth_instantiate (loc: location, s2e: s2exp): s2exp
+
+fun the_d2varenv_check (loc0: location): void
+fun the_d2varenv_check_llam (loc0: location): void
+
+(* ****** ****** *)
+
+absview lamlpenv_push_v
+
+fun the_lamlpenv_get_funarg (): Option_vt (p3atlst)
+
+fun the_lamlpenv_pop (pf: lamlpenv_push_v | (*none*)): void
+
+fun the_lamlpenv_push_lam
+  (p3ts: p3atlst): (lamlpenv_push_v | void)
+fun the_lamlpenv_push_loop0 () : (lamlpenv_push_v | void)
+fun the_lamlpenv_push_loop1 () : (lamlpenv_push_v | void)
 
 (* ****** ****** *)
 

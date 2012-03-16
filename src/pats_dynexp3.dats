@@ -149,6 +149,15 @@ p3at_lst (
 } // end of [p3at_lst]
 
 implement
+p3at_as (
+  loc, s2f, refknd, d2v, p3t
+) = '{
+  p3at_loc= loc
+, p3at_node= P3Tas (refknd, d2v, p3t)
+, p3at_type= s2f
+} // end of [p3at_as]
+
+implement
 p3at_exist (
   loc, s2f, s2vs, p3t
 ) = '{
@@ -686,9 +695,17 @@ d3ecl_staload (
 
 (* ****** ****** *)
 
+extern typedef "p3at_t" = p3at
 extern typedef "d3exp_t" = d3exp
 
 %{$
+
+ats_void_type
+patsopt_p3at_set_type (
+  ats_ptr_type p3t, ats_ptr_type s2f
+) {
+  ((p3at_t)p3t)->atslab_p3at_type = s2f ; return ;
+} // end of [patsopt_p3at_set_type]
 
 ats_void_type
 patsopt_d3exp_set_type (

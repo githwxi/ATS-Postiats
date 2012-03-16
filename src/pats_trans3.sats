@@ -58,9 +58,16 @@ datatype trans3err =
 //
   | T3E_s2exp_uni_instantiate_sexparglst of (location, s2exp, s2exparglst)
 //
+  | T3E_d2var_typeless of (location, d2var) // accessing a consumed linear d2var
+  | T3E_d2var_fin_some_none of (location, d2var) // should be preserved but is consumed
+  | T3E_d2var_fin_none_some of (location, d2var) // should be consumed but is preserved
+  | T3E_d2var_fin_some_some of (location, d2var) // is preserved but with something incompatible
+//
   | T3E_p2at_trdn of (p2at, s2exp)
   | T3E_p2at_trup_con of p2at // pfarity // ill-typed
   | T3E_p2at_trdn_con_arity of (p2at, int(*serr*))
+//
+  | T3E_d2var_trup_llamlocal of (d2var) // non-local linear variable
 //
   | T3E_d2exp_trup_item of (location, d2itm)
 //
@@ -97,6 +104,10 @@ datatype trans3err =
 
 fun the_trans3errlst_add (x: trans3err): void
 fun the_trans3errlst_finalize (): void // cleanup all the errors
+
+(* ****** ****** *)
+
+fun s2exp_is_wth (s2e: s2exp):<> bool
 
 (* ****** ****** *)
 
@@ -190,6 +201,10 @@ fun d2exp_trup_cstsp
 // end of [d2exp_trup_cstsp]
 
 (* ****** ****** *)
+
+fun d2var_get_type_some
+  (loc: location, d2v: d2var): s2exp
+// end of [d2var_get_type_some]
 
 fun d2exp_trup_var (loc: location, d2v: d2var): d3exp
 fun d2exp_trup_cst (loc: location, d2c: d2cst): d3exp

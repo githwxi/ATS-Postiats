@@ -177,14 +177,16 @@ SOURCES := \
   pats_trans3_util.dats \
   pats_trans3_env.sats \
   pats_trans3_env.dats \
+  pats_trans3_env_print.dats \
   pats_trans3_env_scst.dats \
   pats_trans3_env_svar.dats \
-  pats_trans3_env_print.dats \
   pats_trans3_env_termet.dats \
   pats_trans3_env_effect.dats \
-  pats_trans3_syncst.dats \
+  pats_trans3_env_dvar.dats \
+  pats_trans3_env_lamlp.dats \
   pats_trans3_p2at.dats \
   pats_trans3_patcon.dats \
+  pats_trans3_syncst.dats \
   pats_trans3_dynexp_up.dats \
   pats_trans3_dynexp_dn.dats \
   pats_trans3_appsym.dats \

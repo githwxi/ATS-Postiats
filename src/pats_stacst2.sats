@@ -198,6 +198,8 @@ fun un_s2exp_bool_index_t0ype (s2f: s2hnf): Option_vt (s2exp)
 //
 (* ****** ****** *)
 
+fun s2exp_agtz (s2a: s2exp): s2exp
+
 fun s2exp_bneg (s2p: s2exp): s2exp
 fun s2exp_badd (s2p1: s2exp, s2p2: s2exp): s2exp
 fun s2exp_bmul (s2p1: s2exp, s2p2: s2exp): s2exp
@@ -209,6 +211,8 @@ fun s2exp_intlte (s2i1: s2exp, s2i2: s2exp): s2exp
 fun s2exp_intgt (s2i1: s2exp, s2i2: s2exp): s2exp
 fun s2exp_intgte (s2i1: s2exp, s2i2: s2exp): s2exp
 fun s2exp_intneq (s2i1: s2exp, s2i2: s2exp): s2exp
+
+(* ****** ****** *)
 
 fun s2exp_igtez (s2i: s2exp): s2exp // s2i >= 0
 

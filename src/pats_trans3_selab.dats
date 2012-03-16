@@ -422,7 +422,7 @@ d2exp_trup_selab
   (d2e0, d2e, d2ls) = let
 (*
 val () = (
-  print "d2exp_trup_sel: d2e0 = "; print_d2exp (d2e0); print_newline ()
+  print "d2exp_trup_selab: d2e0 = "; print_d2exp (d2e0); print_newline ()
 ) // end of [val]
 *)
 //

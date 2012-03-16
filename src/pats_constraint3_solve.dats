@@ -337,6 +337,16 @@ case+ c3tknd of
     val () = prerr_c3nstr_if (unsolved, c3t)
     val () = prerr_newline ()
   } // end of [C3STRKINDmetric_dec]
+| C3NSTRKINDsome_fin _ => 0 where {
+    val () = prerr_error3_loc (loc0)
+    val () = prerr ": unsolved constraint for dvar preservation"
+    val () = prerr_newline ()
+  } // end of [C3NSTRKINDsome_fin]
+| C3NSTRKINDsome_box _ => 0 where {
+    val () = prerr_error3_loc (loc0)
+    val () = prerr ": unsolved constraint for vbox preservation"
+    val () = prerr_newline ()
+  } // end of [C3NSTRKINDsome_box]
 //
 end // end of [c3nstr_solve_errmsg]
 

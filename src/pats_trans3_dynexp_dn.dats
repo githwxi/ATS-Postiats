@@ -161,23 +161,25 @@ implement
 d2exp_trdn_rest
   (d2e0, s2f0) = let
   val loc0 = d2e0.d2exp_loc
-  val d3e0 = d2exp_trup (d2e0)
-(*
-  var iswth: int = 0
-  val s2f0: s2hnf =
-    if s2exp_is_wth s2f0 then let
-      val () = iswth := 1; val () = d3exp_open_and_add d3e0
-    in
-      s2exp_wth_instantiate (loc0, s2f0)
-    end else begin
-      s2f0 // not a type with state
-    end // end of [if]
-*)
   val s2e0 = s2hnf2exp (s2f0)
+  val d3e0 = d2exp_trup (d2e0)
+//
+  val iswth = s2exp_is_wth (s2e0)
+  val s2e0 = (
+    if iswth then let
+      val () =
+        d3exp_open_and_add (d3e0)
+      // end of [val]
+    in
+      s2exp_wth_instantiate (loc0, s2e0)
+    end else begin
+      s2e0 // HX: [s2e0] does not carry a state
+    end // end of [if]
+  ) : s2exp // end of [val]
+//
+  val () = if iswth then funarg_d2vfin_check (loc0)
+//
   val d3e0 = d3exp_trdn (d3e0, s2e0)
-(*
-  val () = if iswth > 0 then funarg_varfin_check (loc0)
-*)
 in
   d3e0
 end // end of [d2exp_trdn_rest]
@@ -396,8 +398,18 @@ d2exp_trdn_letwhere
   val loc0 = d2e0.d2exp_loc
   val s2e0 = s2hnf2exp (s2f0)
 //
+  val (pfpush_eff | ()) = the_effenv_push ()
+  val (pfpush_s2cst | ()) = the_s2cstbindlst_push ()
+  val (pfpush_d2var | ()) = the_d2varenv_push_let ()
+//
   val d3cs = d2eclist_tr (d2cs)
   val d3e_scope = d2exp_trdn (d2e_scope, s2e0)
+//
+  val () = the_d2varenv_check (loc0)
+//
+  val () = the_effenv_pop (pfpush_eff | (*none*))
+  val () = the_s2cstbindlst_pop_and_unbind (pfpush_s2cst | (*none*))
+  val () = the_d2varenv_pop (pfpush_d2var | (*none*))
 //
 in
   d3exp_let (loc0, d3cs, d3e_scope)

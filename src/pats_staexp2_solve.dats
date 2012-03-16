@@ -383,6 +383,17 @@ val () = case+
     s2hnf_equal_solve_err (loc0, s2f10, s2f21, err)
   end // end of [_, S2Einvar]
 //
+| (S2Eat (s2e11, s2e12), _) => (
+  case+ s2en20 of
+  | S2Eat (s2e21, s2e22) => let
+      val () = s2exp_equal_solve_err (loc0, s2e11, s2e21, err)
+      val () = s2exp_equal_solve_err (loc0, s2e12, s2e22, err)
+    in
+      // nothing
+    end // end of [S2Eat]
+  | _ => (err := err + 1)
+  )
+//
 | (_, _) when s2hnf_syneq (s2f10, s2f20) => ()
 | (_, _) => trans3_env_add_eqeq (loc0, s2e10, s2e20)
 (*
@@ -649,6 +660,18 @@ val () = case+
     end (* end of [S2Efun] *)
   | _ => (err := err + 1)
   ) // end of [S2Efun, _]
+//
+| (S2Eat (s2e11, s2e12), _) => (
+  case+ s2en20 of
+  | S2Eat (s2e21, s2e22) => let
+      val () = s2exp_tyleq_solve_err (loc0, s2e11, s2e21, err)
+      val () = s2exp_equal_solve_err (loc0, s2e12, s2e22, err)
+    in
+      // nothing
+    end // end of [S2Eat]
+  | _ => (err := err + 1)
+  )
+//
 | (S2Etyrec (knd1, npf1, ls2es1), _) => (
   case+ s2en20 of
   | S2Etyrec (knd2, npf2, ls2es2) => let

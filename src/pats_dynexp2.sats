@@ -91,10 +91,13 @@ typedef d2var = d2var_type
 typedef d2varlst = List (d2var)
 typedef d2varopt = Option (d2var)
 //
+viewtypedef d2varlst_vt = List_vt (d2var)
 viewtypedef d2varopt_vt = Option_vt (d2var)
 //
 abstype d2varset_type // assumed in [pats_dynexp2_dvar.dats]
 typedef d2varset = d2varset_type
+absviewtype d2varset_viewtype // assumed in [pats_dynexp2_dvar.dats]
+viewtypedef d2varset_vt = d2varset_viewtype
 //
 (* ****** ****** *)
 
@@ -183,7 +186,14 @@ fun d2var_make
   (loc: location, id: symbol): d2var
 fun d2var_make_any (loc: location): d2var
 
-fun fprint_d2var : fprint_type (d2var)
+fun d2var_ptr_viewat_make
+  (ptr: d2var, opt: d2varopt): d2var
+fun d2var_ptr_viewat_make_none (ptr: d2var): d2var
+
+(* ****** ****** *)
+
+fun fprint_d2var
+  : fprint_type (d2var)
 fun print_d2var (x: d2var): void
 fun prerr_d2var (x: d2var): void
 
@@ -248,9 +258,16 @@ fun compare_d2vsym_d2vsym (x1: d2var, x2: d2var):<> Sgn
 
 (* ****** ****** *)
 
-fun d2varset_nil (): d2varset
-fun d2varset_is_member (xs: d2varset, x: d2var): bool
-fun d2varset_add (xs: d2varset, x: d2var): d2varset
+fun d2varset_nil ():<> d2varset
+fun d2varset_is_member (xs: d2varset, x: d2var):<> bool
+fun d2varset_add (xs: d2varset, x: d2var):<> d2varset
+
+fun d2varset_vt_nil ():<> d2varset_vt
+fun d2varset_vt_free (xs: d2varset_vt):<> void
+fun d2varset_vt_is_member (xs: !d2varset_vt, x: d2var):<> bool
+fun d2varset_vt_add (xs: d2varset_vt, x: d2var):<> d2varset_vt
+
+fun d2varset_vt_listize (xs: !d2varset_vt):<> d2varlst_vt
 
 (* ****** ****** *)
 

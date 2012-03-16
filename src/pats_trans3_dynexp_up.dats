@@ -452,7 +452,35 @@ end // end of [d23explst_trdn]
 
 (* ****** ****** *)
 
-fn d2exp_trup_var_mutabl
+implement
+d2var_get_type_some
+  (loc0, d2v) = let
+//
+fun auxerr (
+  loc0: location, d2v: d2var
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": the linear dynamic variable ["
+  val () = prerr_d2var (d2v)
+  val () = prerr "] is no longer available."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d2var_typeless (loc0, d2v))
+end // end of [auxerr]
+//
+val opt = d2var_get_type (d2v)
+//
+in
+//
+case+ opt of
+| Some s2e => s2e
+| None () => let
+    val () = auxerr (loc0, d2v) in s2exp_err (s2rt_t0ype)
+  end // end of [None]
+//
+end // end of [d2var_get_type_some]
+
+fun d2exp_trup_var_mutabl .<>.
   (loc0: location, d2v: d2var): d3exp = let
 (*
   val () = {
@@ -468,18 +496,40 @@ in
   exit (1)
 end // end of [d2exp_trup_var_mut]
 
-fn d2exp_trup_var_nonmut
+fun d2exp_trup_var_nonmut .<>.
   (loc0: location, d2v: d2var): d3exp = let
 //
-val lin = d2var_get_linval (d2v)
-(*
+val lin = d2var_get_linval (d2v) // lin >= 0; nonlin = ~1
+// (*
 val () = (
   print "d2exp_trup_var_nonmut: d2v = "; print_d2var (d2v); print_newline ()
 ) // end of [val]
 val () = println! ("d2exp_trup_var_nonmut: lin = ", lin)
-*)
+// *)
 val s2qs = d2var_get_decarg (d2v)
-val- Some (s2e) = d2var_get_type (d2v)
+val s2e = d2var_get_type_some (loc0, d2v)
+//
+val () = if lin >= 0 then let
+  val isllamlocal =
+    the_d2varenv_d2var_is_llamlocal (d2v)
+  // end of [val]
+in
+//
+if isllamlocal then let
+  val () = d2var_set_linval (d2v, lin+1)
+in
+  d2var_set_type (d2v, None) // HX: [d2v] is consumed
+end else let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": the linear dynamic variable ["
+  val () = prerr_d2var (d2v)
+  val () = prerr "] is expected to be local but it is not."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d2var_trup_llamlocal (d2v))
+end // end of [if]
+//
+end // end of [if] // end of [val]
 //
 in
 //
@@ -1012,19 +1062,18 @@ implement
 d2exp_trup_letwhere
   (d2e0, d2cs, d2e_scope) = let
   val loc0 = d2e0.d2exp_loc
-(*
-  val (pf_effect | ()) = the_effect_env_push ()
-  val (pf_s2cstlst | ()) = the_s2cstlst_env_push ()
-  val (pf_d2varset | ()) = the_d2varset_env_push_let ()
-*)
+  val (pfpush_eff | ()) = the_effenv_push ()
+  val (pfpush_s2cst | ()) = the_s2cstbindlst_push ()
+  val (pfpush_d2var | ()) = the_d2varenv_push_let ()
+//
   val d3cs = d2eclist_tr (d2cs)
   val d3e_scope = d2exp_trup (d2e_scope)
-(*
-  val () = the_d2varset_env_check loc0
-  val () = the_d2varset_env_pop_let (pf_d2varset | (*none*))
-  val () = the_s2cstlst_env_pop_and_unbind (pf_s2cstlst | (*none*))
-  val () = the_effect_env_pop (pf_effect | (*none*))
-*)
+//
+  val () = the_d2varenv_check (loc0)
+//
+  val () = the_effenv_pop (pfpush_eff | (*none*))
+  val () = the_s2cstbindlst_pop_and_unbind (pfpush_s2cst | (*none*))
+  val () = the_d2varenv_pop (pfpush_d2var | (*none*))
 in
   d3exp_let (loc0, d3cs, d3e_scope)
 end // end of [d2exp_trup_letwhere]
@@ -1073,14 +1122,23 @@ val d2e_body = d2exp_funclo_of_d2exp (d2e_body, fc)
 var s2fe: s2eff = s2eff_nil
 val d2e_body = d2exp_s2eff_of_d2exp (d2e_body, s2fe)
 //
-val (pfeff | ()) =
-  the_effenv_push_lam (s2fe)
-// end of [val]
+val (pfeff | ()) = the_effenv_push_lam (s2fe)
+val (pfd2v | ()) = the_d2varenv_push_lam (lin)
+//
+val () = the_d2varenv_add_p2atlst (p2ts_arg)
+//
 val s2es_arg = p2atlst_syn_type (p2ts_arg)
 val p3ts_arg = p2atlst_trup_arg (npf, p2ts_arg)
+//
+val (pflamlp | ()) =
+  the_lamlpenv_push_lam (p3ts_arg)
 val d3e_body = d2exp_trup (d2e_body)
+val () = the_d2varenv_check (loc0)
+val () = if lin > 0 then the_d2varenv_check_llam (loc0)
+val () = the_lamlpenv_pop (pflamlp | (*none*))
 //
 val () = the_effenv_pop (pfeff | (*none*))
+val () = the_d2varenv_pop (pfd2v | (*none*))
 //
 val () = trans3_env_pop_and_add_main (pfenv | loc0)
 //

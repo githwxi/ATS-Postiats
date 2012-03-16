@@ -376,6 +376,11 @@ viewtypedef CO (a:viewt@ype) = tyvarknd (a, 2) // T <= X => T = X
 viewtypedef CONTRA (a:viewt@ype) = tyvarknd (a, 3) // X <= T => T = X
 *)
 
+(* ****** ****** *)
+//
+absprop invar_prop_prop (a:prop)
+absview invar_view_view (a:view)
+//
 abst@ype // S2Einvar
 invar_t0ype_t0ype (a:t@ype) = a
 absviewt@ype // S2Einvar
@@ -383,9 +388,29 @@ invar_viewt0ype_viewt0ype (a:viewt@ype) = a
 //
 // HX: this order is significant
 // 
+viewdef INV (a:view) = invar_view_view (a)
+propdef INV (a:prop) = invar_prop_prop (a)
 viewtypedef INV
   (a:viewt@ype) = invar_viewt0ype_viewt0ype (a)
 viewtypedef INV (a:t@ype) = invar_t0ype_t0ype (a)
+//
+(* ****** ****** *)
+//
+absprop optarg_prop_prop (a:prop)
+absview optarg_view_view (a:view)
+//
+abst@ype
+optarg_t0ype_t0ype (a:t@ype) = a
+absviewt@ype
+optarg_viewt0ype_viewt0ype (a:viewt@ype) = a
+//
+// HX: this order is significant
+// 
+viewdef OPT (a:view) = optarg_view_view (a)
+propdef OPT (a:prop) = optarg_prop_prop (a)
+viewtypedef OPT
+  (a:viewt@ype) = optarg_viewt0ype_viewt0ype (a)
+viewtypedef OPT (a:t@ype) = optarg_t0ype_t0ype (a)
 //
 (* ****** ****** *)
 

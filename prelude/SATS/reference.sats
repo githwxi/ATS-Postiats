@@ -37,7 +37,7 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [pointer.sats] starts!\n"
+#print "Loading [reference.sats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
@@ -46,48 +46,10 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 (* ****** ****** *)
 
-praxi ptr_is_gtez
-  {l:addr} (p: ptr l):<> [l >= null] void
-// end of [ptr_is_gtez]
-
-(* ****** ****** *)
-
-fun ptr_is_null {l:addr}
-  (p: ptr l):<> bool (l==null) = "atspre_ptr_is_null"
-// end of [ptr_is_null]
-
-fun ptr_isnot_null {l:addr}
-  (p: ptr):<> bool (l > null) = "atspre_ptr_isnot_null"
-// end of [ptr_isnot_null]
-
-(* ****** ****** *)
-//
-// HX: implemented in [prelude/DATS/pointer.dats]
-//
-fun{a:t@ype}
-ptr_get {l:addr}
-  (pf: !RD(INV(a) @ l) | p: ptr l):<> a
-fun{a:t@ype}
-ptr_get_vt {l:addr}
-  (pf: !INV(a) @ l >> a?! @ l | p: ptr l):<> a
-// end of [ptr_get_vt]
-
-fun{a:vt0p}
-ptr_set {l:addr} (
-  pf: !a? @ l >> a @ l | p: ptr l, x: INV(a)
-) :<!wrt> void // end of [ptr_set]
-
-fun{a:vt0p}
-ptr_exch {l:addr}
-  (pf: !a @ l | p: ptr l, x: &a >> a):<!wrt> void
-// end of [ptr_exch]
-
-(* ****** ****** *)
-
 #if VERBOSE_PRELUDE #then
-#print "Loading [pointer.sats] finishes!\n"
+#print "Loading [reference.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-(* end of [pointer.sats] *)
+(* end of [reference.sats] *)
