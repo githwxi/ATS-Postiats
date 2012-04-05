@@ -221,6 +221,8 @@ case+ d2e0.d2exp_node of
 | D2Erec _ => d2exp_trup_rec (d2e0)
 | D2Eseq _ => d2exp_trup_seq (d2e0)
 //
+| D2Ederef (d2e) => d2exp_trup_deref (loc0, d2e, list_nil)
+//
 | D2Earrinit
     (s2e_elt, opt, d2es) => let
     var s2i_asz : s2exp
@@ -480,24 +482,18 @@ case+ opt of
 //
 end // end of [d2var_get_type_some]
 
-fun d2exp_trup_var_mutabl .<>.
-  (loc0: location, d2v: d2var): d3exp = let
-(*
-  val () = {
-    val () = print "d2exp_trup_var_mutabl: d2v = "
-    val () = print_d2var (d2v)
-    val () = print_newline ()
-    val () = print "d2exp_trup_var_mutabl: d2varset = "
-    val () = print_newline ()
-  } // end of [val]
-*)
+fn d2exp_trup_var_mutabl (
+  loc0: location, d2v: d2var
+) : d3exp = let
+  val- Some (s2e_addr) = d2var_get_addr (d2v)
   val () = assertloc (false)
 in
   exit (1)
 end // end of [d2exp_trup_var_mut]
 
-fun d2exp_trup_var_nonmut .<>.
-  (loc0: location, d2v: d2var): d3exp = let
+fn d2exp_trup_var_nonmut (
+  loc0: location, d2v: d2var
+) : d3exp = let
 //
 val lin = d2var_get_linval (d2v) // lin >= 0; nonlin = ~1
 // (*

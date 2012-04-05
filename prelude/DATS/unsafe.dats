@@ -26,56 +26,54 @@
 *)
 
 (* ****** ****** *)
-//
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: March, 2012
-//
-(* ****** ****** *)
 
-#include "prelude/params.hats"
+(* author: Hongwei Xi (hwxi AT cs DOT bu DOT edu) *)
 
 (* ****** ****** *)
 
-#if VERBOSE_PRELUDE #then
-#print "Loading [reference.sats] starts!\n"
-#endif // end of [VERBOSE_PRELUDE]
+implement{a}
+ptr_get (p) = x where {
+  val [l:addr] p = (ptr1_of_ptr)p
+  prval (pf, fpf) = __assert () where {
+    extern praxi __assert (): (a @ l, a? @ l -<lin,prf> void)
+  } // end of [prval]
+  val x = !p
+  prval () = fpf (pf)
+} // end of [ptr_get]
+
+implement{a}
+ptr_set (p, x) = () where {
+  val [l:addr] p = (ptr1_of_ptr)p
+  prval (pf, fpf) = __assert () where {
+    extern praxi __assert (): (a? @ l, a @ l -<lin,prf> void)
+  } // end of [prval]
+  val () = !p := x
+  prval () = fpf (pf)
+} // end of [ptr_set]
+
+implement{a}
+ptr_exch (p, x) = () where {
+  val [l:addr] p = (ptr1_of_ptr)p
+  prval (pf, fpf) = __assert () where {
+    extern praxi __assert (): (a? @ l, a @ l -<lin,prf> void)
+  } // end of [prval]
+  val tmp = !p
+  val () = !p := x
+  val () = x := tmp
+  prval () = fpf (pf)
+} // end of [ptr_exch]
 
 (* ****** ****** *)
 
-sortdef t0p = t@ype and vt0p = viewt@ype
+implement{a}
+cptr_get (p) = ptr_get<a> (cptr2ptr (p))
+
+implement{a}
+cptr_set (p, x) = ptr_set<a> (cptr2ptr (p), x)
+
+implement{a}
+cptr_exch (p, x) = ptr_exch<a> (cptr2ptr (p), x)
 
 (* ****** ****** *)
 
-castfn ref_get_ptr
-  {a:viewt@ype} (r: ref a):<> [l:agz] ptr (l)
-castfn ref_get_view_ptr
-  {a:viewt@ype} (r: ref a):<> [l:agz] (vbox (a @ l) | ptr l)
-// end of [ref_get_view_ptr]
-
-(* ****** ****** *)
-
-(*
-macdef ptr_of_ref = ref_get_ptr
-*)
-
-(* ****** ****** *)
-
-fun{a:vt0p} ref (x: a):<> ref a
-fun{a:vt0p} ref_make_elt (x: a):<> ref a
-
-(* ****** ****** *)
-
-fun{a:t0p} ref_get_elt (r: ref a):<!ref> a
-fun{a:t0p} ref_set_elt (r: ref a, x: a):<!ref> void
-
-fun{a:vt0p} ref_exch_elt (r: ref a, x: &a):<!ref> void
-
-(* ****** ****** *)
-
-#if VERBOSE_PRELUDE #then
-#print "Loading [reference.sats] finishes!\n"
-#endif // end of [VERBOSE_PRELUDE]
-
-(* ****** ****** *)
-
-(* end of [reference.sats] *)
+(* end of [unsafe.dats] *)

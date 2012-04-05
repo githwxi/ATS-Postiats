@@ -139,7 +139,7 @@ fprint_d2sym (out, d2s) = {
 implement
 fprint_p2at
   (out, x) = let
-  macdef prstr (x) = fprint_string (out, ,(x))
+  macdef prstr (s) = fprint_string (out, ,(s))
 in
 //
 case+ x.p2at_node of
@@ -309,7 +309,7 @@ fprint_labp2atlst
 
 implement
 fprint_d2exp (out, x) = let
-  macdef prstr (x) = fprint_string (out, ,(x))
+  macdef prstr (s) = fprint_string (out, ,(s))
 in
 //
 case+ x.d2exp_node of
@@ -467,18 +467,6 @@ case+ x.d2exp_node of
     val () = fprint_d2exparglst (out, d2as)
     val () = prstr ")"
   }
-| D2Eassgn (d2e_l, d2e_r) => {
-    val () = prstr "D2Eassgn("
-    val () = fprint_d2exp (out, d2e_l)
-    val () = prstr " := "
-    val () = fprint_d2exp (out, d2e_r)
-    val () = prstr ")"
-  }
-| D2Ederef (d2e) => {
-    val () = prstr "D2Ederef("
-    val () = fprint_d2exp (out, d2e)
-    val () = prstr ")"
-  }
 //
 | D2Eifhead (
     invres, _test, _then, _else
@@ -568,6 +556,19 @@ case+ x.d2exp_node of
     val () = fprint_d2exp (out, d2e)
     val () = prstr ")"
   } // end of [D2Eeffmask]
+//
+| D2Eassgn (d2e_l, d2e_r) => {
+    val () = prstr "D2Eassgn("
+    val () = fprint_d2exp (out, d2e_l)
+    val () = prstr " := "
+    val () = fprint_d2exp (out, d2e_r)
+    val () = prstr ")"
+  }
+| D2Ederef (d2e) => {
+    val () = prstr "D2Ederef("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  }
 //
 | D2Earrsub _ => {
     val () = prstr "D2Earrsub("
@@ -737,7 +738,7 @@ prerr_labd2explst (xs) = fprint_labd2explst (stderr_ref, xs)
 
 implement
 fprint_d2exparg (out, x) = let
-  macdef prstr (x) = fprint_string (out, ,(x))
+  macdef prstr (s) = fprint_string (out, ,(s))
 in
 //
 case+ x of
@@ -762,11 +763,51 @@ fprint_d2exparglst (out, xs) =
   $UT.fprintlst (out, xs, ", ", fprint_d2exparg)
 // end of [fprint_d2exparglst]
 
+implement
+print_d2exparglst
+  (xs) = fprint_d2exparglst (stdout_ref, xs)
+// end of [print_d2exparglst]
+implement
+prerr_d2exparglst
+  (xs) = fprint_d2exparglst (stderr_ref, xs)
+// end of [prerr_d2exparglst]
+
+(* ****** ****** *)
+
+implement
+fprint_d2lab (out, x) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+//
+case+ x.d2lab_node of
+| D2LABlab (lab) => {
+    val () = prstr "D2LABlab("
+    val () = $LAB.fprint_label (out, lab)
+    val () = prstr ")"
+  } // end of [D2LABlab]
+| D2LABind (ind) => {
+    val () = prstr "D2LABind("
+    val () = $UT.fprintlst (out, ind, "; ", fprint_d2explst)
+    val () = prstr ")"
+  } // end of [D2LABind]
+//
+end // end of [fprint_d2lab]
+
+implement
+fprint_d2lablst (out, xs) =
+  $UT.fprintlst (out, xs, ", ", fprint_d2lab)
+// end of [fprint_d2lablst]
+
+implement
+print_d2lablst (xs) = fprint_d2lablst (stdout_ref, xs)
+implement
+prerr_d2lablst (xs) = fprint_d2lablst (stderr_ref, xs)
+
 (* ****** ****** *)
 
 implement
 fprint_d2ecl (out, x) = let
-  macdef prstr (x) = fprint_string (out, ,(x))
+  macdef prstr (s) = fprint_string (out, ,(s))
 in
 //
 case+ x.d2ecl_node of
@@ -857,6 +898,51 @@ implement
 print_d2ecl (x) = fprint_d2ecl (stdout_ref, x)
 implement
 prerr_d2ecl (x) = fprint_d2ecl (stderr_ref, x)
+
+(* ****** ****** *)
+
+implement
+fprint_d2lval (out, x) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+//
+case+ x of
+| D2LVALptr (d2e, d2ls) => {
+    val () = prstr "D2LVALptr("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr "; "
+    val () = fprint_d2lablst (out, d2ls)
+    val () = prstr ")"
+  }
+| D2LVALvar_lin (d2v, d2ls) => {
+    val () = prstr "D2LVALvar_lin("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr "; "
+    val () = fprint_d2lablst (out, d2ls)
+    val () = prstr ")"
+  }
+| D2LVALvar_mut (d2v, d2ls) => {
+    val () = prstr "D2LVALvar_mul("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr "; "
+    val () = fprint_d2lablst (out, d2ls)
+    val () = prstr ")"
+  }
+| D2LVALarrsub
+    (d2s, d2e, loc, ind) => {
+    val () = prstr "D2LVALarrsub("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr "; "
+    val () = $UT.fprintlst (out, ind, "; ", fprint_d2explst)
+    val () = prstr ")"
+  }
+| D2LVALnone (d2e) => {
+    val () = prstr "D2LVALnone("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  }
+//
+end // end of [fprint_d2lval]
 
 (* ****** ****** *)
 

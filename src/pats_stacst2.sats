@@ -146,6 +146,7 @@ val the_ldouble_kind : s2cstref
 val the_g0float_t0ype : s2cstref
 //
 val the_ptr_type : s2cstref
+val the_ptr_addr_type : s2cstref
 val the_void_t0ype : s2cstref
 //
 val the_unit_prop : s2cstref
@@ -159,6 +160,8 @@ val the_list0_t0ype_type : s2cstref
 //
 val the_list_t0ype_int_type : s2cstref
 val the_list_viewt0ype_int_viewtype : s2cstref
+//
+val the_ref_viewt0ype_type : s2cstref
 //
 val the_sizeof_t0ype_int: s2cstref
 //
@@ -275,7 +278,13 @@ fun s2exp_ldouble_t0ype (): s2exp // ldouble
 //
 (* ****** ****** *)
 
-fun s2exp_ptr_type (): s2exp // ptr
+fun s2exp_ptr_type (): s2exp // ptr0
+
+fun s2exp_ptr_addr_type (s2e: s2exp): s2exp // ptr1
+fun un_s2exp_ptr_addr_type (s2f: s2hnf): Option_vt (s2exp)
+
+(* ****** ****** *)
+
 fun s2exp_void_t0ype (): s2exp // void
 
 (* ****** ****** *)
@@ -293,6 +302,12 @@ fun s2exp_list0_t0ype_type (s2e: s2exp): s2exp
 //
 fun s2exp_list_t0ype_int_type (s2e: s2exp, n: int): s2exp
 fun s2exp_list_viewt0ype_int_viewtype (s2e: s2exp, n: int): s2exp
+//
+(* ****** ****** *)
+//
+fun s2exp_ref_viewt0ype_type (s2e: s2exp): s2exp
+//
+fun un_s2exp_ref_viewt0ype_type (s2f: s2hnf): Option_vt (s2exp)
 //
 (* ****** ****** *)
 

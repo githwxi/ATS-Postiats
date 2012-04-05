@@ -238,6 +238,9 @@ and d3exp_node =
       (int(*recknd*), int(*npf*), labd3explst)
   | D3Eseq of d3explst // sequencing
 //
+  | D3Esel_ptr of (d3exp, d3lablst) // pointed record/tuple selection
+  | D3Esel_ref of (d3exp, d3lablst) // referenced record/tuple selection
+//
   | D3Earrinit of // For instance, @[int](1,2,3)
       (s2exp(*elt*), d3exp(*asz*), d3explst(*elt*))
   | D3Earrsize of (d3explst, int(*size*))
@@ -508,6 +511,13 @@ fun d3exp_case (
 , s2e_case: s2exp
 , knd: caskind, d3es: d3explst, c3ls: c3laulst
 ) : d3exp // end of [d3exp_case]
+
+(* ****** ****** *)
+
+fun d3exp_sel_ptr
+  (loc: location, s2e: s2exp, d3e: d3exp, d3ls: d3lablst): d3exp
+fun d3exp_sel_ref
+  (loc: location, s2e: s2exp, d3e: d3exp, d3ls: d3lablst): d3exp
 
 (* ****** ****** *)
 

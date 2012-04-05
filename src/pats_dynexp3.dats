@@ -444,6 +444,24 @@ in '{
 (* ****** ****** *)
 
 implement
+d3exp_sel_ptr
+  (loc, s2f, d3e, d3ls) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Esel_ptr (d3e, d3ls)
+} // end of [d3exp_sel_ptr]
+
+implement
+d3exp_sel_ref
+  (loc, s2f, d3e, d3ls) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Esel_ref (d3e, d3ls)
+} // end of [d3exp_sel_ref]
+
+(* ****** ****** *)
+
+implement
 d3exp_arrinit (
   loc, s2e_arr, elt, asz, d3es
 ) = '{

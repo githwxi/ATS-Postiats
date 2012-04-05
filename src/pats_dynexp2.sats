@@ -536,8 +536,6 @@ and d2exp_node =
   | D2Ewhere of (d2exp, d2eclist) // where-expression
 //
   | D2Eapplst of (d2exp, d2exparglst)
-  | D2Eassgn of (d2exp(*left*), d2exp(*right*))
-  | D2Ederef of (d2exp(*leftval or lazyclo*))
 //
   | D2Eifhead of // dynamic conditional
       (i2nvresstate, d2exp, d2exp, d2expopt)
@@ -555,6 +553,9 @@ and d2exp_node =
   | D2Etup of (int(*knd*), int(*npf*), d2explst) // tuple
   | D2Erec of (int (*knd*), int (*npf*), labd2explst) // record
   | D2Eseq of d2explst // sequence-expressions // sequencing
+//
+  | D2Eassgn of (d2exp(*left*), d2exp(*right*))
+  | D2Ederef of (d2exp) // dereferencing a left-val
 //
   | D2Earrsub of (* array subscription *)
       (d2sym, d2exp, location(*ind*), d2explstlst(*ind*))
@@ -736,25 +737,50 @@ and v2ardeclst = List (v2ardec)
 
 (* ****** ****** *)
 
+datatype d2lval = // type for left-values
+  | D2LVALptr of (* pointer path selection *)
+      (d2exp(*pointer*), d2lablst)
+  | D2LVALvar_lin of (d2var, d2lablst) // linear d2var
+  | D2LVALvar_mut of (d2var, d2lablst) // mutable d2var
+  | D2LVALarrsub of (* array subscription *)
+      (d2sym (*brackets*), d2exp, location(*ind*), d2explstlst)
+  | D2LVALnone of d2exp (* non-left-values *)
+// end of [d2lval]
+
+(* ****** ****** *)
+
 fun fprint_d2exp : fprint_type (d2exp)
 fun print_d2exp (x: d2exp): void
-fun prerr_d2exp (x: d2exp): void
+and prerr_d2exp (x: d2exp): void
 
 fun fprint_d2explst : fprint_type (d2explst)
 fun print_d2explst (xs: d2explst): void
-fun prerr_d2explst (xs: d2explst): void
+and prerr_d2explst (xs: d2explst): void
 
 fun fprint_labd2exp : fprint_type (labd2exp)
 fun fprint_labd2explst : fprint_type (labd2explst)
 fun print_labd2explst (xs: labd2explst): void
-fun prerr_labd2explst (xs: labd2explst): void
+and prerr_labd2explst (xs: labd2explst): void
 
 fun fprint_d2exparg : fprint_type (d2exparg)
 fun fprint_d2exparglst : fprint_type (d2exparglst)
+fun print_d2exparglst (xs: d2exparglst): void
+and prerr_d2exparglst (xs: d2exparglst): void
+
+fun fprint_d2lab : fprint_type (d2lab)
+fun fprint_d2lablst : fprint_type (d2lablst)
+fun print_d2lablst (xs: d2lablst): void
+fun prerr_d2lablst (xs: d2lablst): void
 
 fun fprint_d2ecl : fprint_type (d2ecl)
 fun print_d2ecl (x: d2ecl): void
-fun prerr_d2ecl (x: d2ecl): void
+and prerr_d2ecl (x: d2ecl): void
+
+(* ****** ****** *)
+
+fun fprint_d2lval : fprint_type (d2lval)
+fun print_d2lval (x: d2lval): void
+and prerr_d2lval (x: d2lval): void
 
 (* ****** ****** *)
 //

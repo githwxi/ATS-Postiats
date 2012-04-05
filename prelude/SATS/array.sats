@@ -96,7 +96,7 @@ prfun array_v_unsing
 dataview
 arrayopt_v (
   a:viewt@ype+, addr, int, bool
-) =
+) = // HX: for optional array view
   | {n:int} {l:addr}
     arrayopt_v_some (a, l, n, true) of array_v (a, l, n)
   | {n:int} {l:addr}
@@ -106,9 +106,9 @@ arrayopt_v (
 (* ****** ****** *)
 
 fun{a:t0p}
-array_get_at {n:int} (A: &(@[a][n]), i: sizeLt n):<> a
+array_get_at {n:int} (A: &(@[INV(a)][n]), i: sizeLt n):<> a
 fun{a:t0p}
-array_set_at {n:int} (A: &(@[a][n]), i: sizeLt n, x: a): void
+array_set_at {n:int} (A: &(@[INV(a)][n]), i: sizeLt n, x: a): void
 overload [] with array_get_at
 overload [] with array_set_at
 

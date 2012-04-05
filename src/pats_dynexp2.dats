@@ -408,19 +408,6 @@ d2exp_where (loc, body, d2cs) =
 (* ****** ****** *)
 
 implement
-d2exp_assgn (
-  loc, _left, _right
-) = d2exp_make (loc, D2Eassgn (_left, _right))
-// end of [d2exp_assgn]  
-
-implement
-d2exp_deref
-  (loc, d2e_lval) = d2exp_make (loc, D2Ederef (d2e_lval))
-// end of [d2exp_assgn]  
-
-(* ****** ****** *)
-
-implement
 d2exp_applst (
   loc, d2e_fun, d2as_arg
 ) = d2exp_make (loc, D2Eapplst (d2e_fun, d2as_arg))
@@ -540,6 +527,19 @@ implement
 d2exp_seq
   (loc, d2es) = d2exp_make (loc, D2Eseq (d2es))
 // end of [d2exp_seq]
+
+(* ****** ****** *)
+
+implement
+d2exp_assgn (
+  loc, _left, _right
+) = d2exp_make (loc, D2Eassgn (_left, _right))
+// end of [d2exp_assgn]  
+
+implement
+d2exp_deref
+  (loc, d2e_lval) = d2exp_make (loc, D2Ederef (d2e_lval))
+// end of [d2exp_assgn]  
 
 (* ****** ****** *)
 

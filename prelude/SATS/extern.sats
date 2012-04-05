@@ -40,6 +40,17 @@
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
+
+abstype
+cptr_viewt0ype_addr_type
+  (a:viewt@ype+, addr) // HX: simulating C pointers
+stadef cptr = cptr_viewt0ype_addr_type
+
+castfn
+cptr2ptr {a:viewt@ype}{l:addr} (p: cptr (a, l)): ptr l
+// end of [castfn]
+
+(* ****** ****** *)
 //
 // HX: note that (vt1 \minus v2) roughly means that a ticket of
 // [v2] is taken from [vt1]; the ticket must be returned before

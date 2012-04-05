@@ -46,6 +46,11 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 (* ****** ****** *)
 
+castfn ptr1_of_ptr (p: ptr): [l:addr] ptr (l)
+castfn ptr1_of_ptr0 (p: ptr): [l:addr] ptr (l)
+
+(* ****** ****** *)
+
 praxi ptr_is_gtez
   {l:addr} (p: ptr l):<> [l >= null] void
 // end of [ptr_is_gtez]

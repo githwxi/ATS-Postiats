@@ -410,11 +410,23 @@ abst@ype strbuf (m:int, n:int) // [m] bytesx
 
 (* ****** ****** *)
 
-absview
+absviewt@ype
 arrsz_viewt0ype_int_viewt0ype
   (a:viewt@ype+, n:int) = (ptr, size_t)
 // end of [arrsz_viewt0ype_int_viewt0ype]
 stadef arrsz = arrsz_viewt0ype_int_viewt0ype
+
+(* ****** ****** *)
+
+absprop
+vbox_view_prop
+  (v:view) // [vbox] is invariant!
+stadef vbox = vbox_view_prop
+
+abstype
+ref_viewt0ype_type
+  (a:viewt@ype) // [ref] is invariant!
+stadef ref = ref_viewt0ype_type
 
 (* ****** ****** *)
 

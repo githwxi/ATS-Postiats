@@ -31,7 +31,8 @@
 //
 // SGN (n, i) : i = (-1)^n
 //
-datatype SGN (int, int) =
+datatype
+SGN (int, int) =
   | SGNbas (0, 1)
   | {n:nat} {i:int} SGNind (n+1, ~i) of SGN (n, i)
 // end of [SGN]

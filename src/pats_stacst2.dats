@@ -415,7 +415,8 @@ in
 end // end of [s2exp_bool_index_t0ype]
 
 implement
-un_s2exp_bool_index_t0ype (s2f) = let
+un_s2exp_bool_index_t0ype
+  (s2f) = let
   val s2e = s2hnf2exp (s2f)
 in
 //
@@ -424,7 +425,7 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_bool_bool_t0ype, s2e_fun
   ) => let
-    val- list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
+    val- list_cons (s2b, _) = s2es_arg in Some_vt (s2b)
   end // end of [S2Eapp when ...]
 | _ => None_vt ()
 //
@@ -832,20 +833,49 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-the_void_t0ype = s2cstref_make "void_t0ype"
-implement
-s2exp_void_t0ype () =
-  s2exp_cst (s2cstref_get_cst (the_void_t0ype))
-// end of [s2exp_void_t0ype]
-
-(* ****** ****** *)
-
-implement
 the_ptr_type = s2cstref_make "ptr_type"
 implement
 s2exp_ptr_type () =
   s2exp_cst (s2cstref_get_cst (the_ptr_type))
 // end of [s2exp_ptr_type]
+
+(* ****** ****** *)
+
+implement
+the_ptr_addr_type =
+  s2cstref_make "ptr_addr_type"
+implement
+s2exp_ptr_addr_type (s2a) = let
+  val s2c = s2cstref_get_cst (the_ptr_addr_type)
+in
+  s2exp_cstapp (s2c, list_sing (s2a))
+end // end of [s2exp_ptr_addr_type]
+
+implement
+un_s2exp_ptr_addr_type
+  (s2f) = let
+  val s2e = s2hnf2exp (s2f)
+in
+//
+case+ s2e.s2exp_node of
+| S2Eapp (s2e_fun, s2es_arg) 
+    when s2cstref_equ_exp (
+    the_ptr_addr_type, s2e_fun
+  ) => let
+    val- list_cons (s2a, _) = s2es_arg in Some_vt (s2a)
+  end // end of [S2Eapp when ...]
+| _ => None_vt ()
+//
+end // end of [un_s2exp_ptr_addr_type]
+
+(* ****** ****** *)
+
+implement
+the_void_t0ype = s2cstref_make "void_t0ype"
+implement
+s2exp_void_t0ype () =
+  s2exp_cst (s2cstref_get_cst (the_void_t0ype))
+// end of [s2exp_void_t0ype]
 
 (* ****** ****** *)
 
@@ -913,6 +943,35 @@ s2exp_list_viewt0ype_int_viewtype (s2e, s2i) = let
 in
   s2exp_cstapp (s2c, list_pair (s2e, ind))
 end // end of [s2exp_list_viewt0ype_int_viewtype]
+
+(* ****** ****** *)
+
+implement
+the_ref_viewt0ype_type =
+  s2cstref_make "ref_viewt0ype_type"
+implement
+s2exp_ref_viewt0ype_type (s2e) = let
+  val s2c = s2cstref_get_cst (the_ref_viewt0ype_type)
+in
+  s2exp_cstapp (s2c, list_sing (s2e))
+end // end of [s2exp_ref_viewt0ype_type]
+
+implement
+un_s2exp_ref_viewt0ype_type
+  (s2f) = let
+  val s2e = s2hnf2exp (s2f)
+in
+//
+case+ s2e.s2exp_node of
+| S2Eapp (s2e_fun, s2es_arg) 
+    when s2cstref_equ_exp (
+    the_ref_viewt0ype_type, s2e_fun
+  ) => let
+    val- list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
+  end // end of [S2Eapp when ...]
+| _ => None_vt ()
+//
+end // end of [un_s2exp_ref_viewt0ype_type]
 
 (* ****** ****** *)
 

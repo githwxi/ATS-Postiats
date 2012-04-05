@@ -41,7 +41,6 @@ staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
-
 //
 // HX-2011-05:
 // the list of possible errors that may occur
@@ -91,6 +90,8 @@ datatype trans3err =
   | T3E_d3exp_trup_selab_arrind of (d3exp) // not a generic integer
   | T3E_d3exp_trup_selab_arrdim of (d3lab, s2explst) // dim/index mismatch
   | T3E_d3exp_trup_selab_linrest of (location, d3exp, d3lablst)
+//
+  | T3E_d3exp_trup_deref_linsel of (d3exp, d3lablst) // linear selection
 //
   | T3E_guard_trdn of
       (location, bool(*gval*), s2exp(*gtyp*))
@@ -224,10 +225,13 @@ fun d23exp_trup_applst
 
 (* ****** ****** *)
 
-fun
-d3explstlst_get_ind
-  (d3ess: d3explstlst): s2explstlst
-// end of [d3explstlst_get_ind]
+fun d2lablst_trup (d2ls: d2lablst) : d3lablst
+
+fun d3explstlst_get_ind (d3ess: d3explstlst): s2explstlst
+
+fun s2exp_get_dlablst_linrest (
+  loc0: location, s2e: s2exp, d3ls: d3lablst, linrest: &int
+) : (s2exp, s2explst_vt) // end of [fun]
 
 fun d2exp_trup_selab
   (d2e0: d2exp, tup: d2exp, labs: d2lablst): d3exp
@@ -236,6 +240,12 @@ fun d2exp_trup_selab
 (* ****** ****** *)
 
 fun d2exp_trup_loopexn (d2e0: d2exp, knd: int): d3exp
+
+(* ****** ****** *)
+
+fun d2exp_trup_deref
+  (loc0: location, d2e: d2exp, d2ls: d2lablst): d3exp
+// end of [d2exp_trup_deref]
 
 (* ****** ****** *)
 

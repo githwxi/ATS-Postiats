@@ -184,6 +184,7 @@ SOURCES := \
   pats_trans3_env_effect.dats \
   pats_trans3_env_dvar.dats \
   pats_trans3_env_lamlp.dats \
+  pats_trans3_env_pfman.dats \
   pats_trans3_p2at.dats \
   pats_trans3_patcon.dats \
   pats_trans3_syncst.dats \
@@ -192,6 +193,7 @@ SOURCES := \
   pats_trans3_appsym.dats \
   pats_trans3_caseof.dats \
   pats_trans3_selab.dats \
+  pats_trans3_deref.dats \
   pats_trans3_loopexn.dats \
   pats_trans3_decl.dats \
   pats_lintprgm.sats \

@@ -79,19 +79,12 @@ in
     end // end of [D2LABind]
 end // end of [d2lab_trup]
 
-fun
-d2lablst_trup (
-  d2ls: d2lablst
-) : d3lablst = let
+implement
+d2lablst_trup (d2ls) = let
   val d3ls = list_map_fun (d2ls, d2lab_trup) in (l2l)d3ls
 end // end of [d2lablst_trup]
 
 (* ****** ****** *)
-
-extern
-fun s2exp_get_dlablst_linrest (
-  loc0: location, s2e: s2exp, d3ls: d3lablst, linrest: &int
-) : (s2exp, s2explst_vt) // end of [fun]
 
 local
 
@@ -378,10 +371,14 @@ end // end of [local]
 
 (* ****** ****** *)
 
-fun
-d3exp_trup_selab (
-  loc0: location, d3e: d3exp, d3ls: d3lablst
-) : d3exp = let
+extern
+fun d3exp_trup_selab
+  (loc0: location, d3e: d3exp, d3ls: d3lablst): d3exp
+// end of [d3exp_trup_selab]
+
+implement
+d3exp_trup_selab
+  (loc0, d3e, d3ls) = let
 //
 fun auxerr (
   loc0: location, d3e: d3exp, d3ls: d3lablst
@@ -431,6 +428,9 @@ val loc0 = d2e0.d2exp_loc
 in
 //
 case+ d2e.d2exp_node of
+| D2Ederef d2e =>
+    d2exp_trup_deref (loc0, d2e, d2ls)
+  // end of [D2Ederef]
 | _ => let
     val d3e = d2exp_trup (d2e)
     val d3ls = d2lablst_trup (d2ls)

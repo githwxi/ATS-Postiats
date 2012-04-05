@@ -26,56 +26,28 @@
 *)
 
 (* ****** ****** *)
+
+(* author: Hongwei Xi (hwxi AT cs DOT bu DOT edu) *)
+
+(* ****** ****** *)
 //
-// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: March, 2012
+// HX: only if you know what you are doing ...
+//
+fun{a:viewt@ype} ptr_get (p: ptr):<> a
+fun{a:viewt@ype} ptr_set (p: ptr, x: a):<> void
+fun{a:viewt@ype} ptr_exch (p: ptr, x: &a >> a):<> void
+//
+(* ****** ****** *)
+//
+// HX: only if you know what you are doing ...
+//
+castfn
+ptr2cptr {a:viewt@ype}{l:addr} (p: ptr l): cptr (a, l)
+//
+fun{a:viewt@ype} cptr_get (p: cptr (INV(a))):<> a
+fun{a:viewt@ype} cptr_set (p: cptr (a), x: a):<> void
+fun{a:viewt@ype} cptr_exch (p: cptr (a), x: &a >> a):<> void
 //
 (* ****** ****** *)
 
-#include "prelude/params.hats"
-
-(* ****** ****** *)
-
-#if VERBOSE_PRELUDE #then
-#print "Loading [reference.sats] starts!\n"
-#endif // end of [VERBOSE_PRELUDE]
-
-(* ****** ****** *)
-
-sortdef t0p = t@ype and vt0p = viewt@ype
-
-(* ****** ****** *)
-
-castfn ref_get_ptr
-  {a:viewt@ype} (r: ref a):<> [l:agz] ptr (l)
-castfn ref_get_view_ptr
-  {a:viewt@ype} (r: ref a):<> [l:agz] (vbox (a @ l) | ptr l)
-// end of [ref_get_view_ptr]
-
-(* ****** ****** *)
-
-(*
-macdef ptr_of_ref = ref_get_ptr
-*)
-
-(* ****** ****** *)
-
-fun{a:vt0p} ref (x: a):<> ref a
-fun{a:vt0p} ref_make_elt (x: a):<> ref a
-
-(* ****** ****** *)
-
-fun{a:t0p} ref_get_elt (r: ref a):<!ref> a
-fun{a:t0p} ref_set_elt (r: ref a, x: a):<!ref> void
-
-fun{a:vt0p} ref_exch_elt (r: ref a, x: &a):<!ref> void
-
-(* ****** ****** *)
-
-#if VERBOSE_PRELUDE #then
-#print "Loading [reference.sats] finishes!\n"
-#endif // end of [VERBOSE_PRELUDE]
-
-(* ****** ****** *)
-
-(* end of [reference.sats] *)
+(* end of [unsafe.sats] *)
