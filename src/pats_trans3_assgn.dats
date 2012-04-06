@@ -48,6 +48,7 @@ staload "pats_staexp2.sats"
 staload "pats_staexp2_util.sats"
 staload "pats_stacst2.sats"
 staload "pats_dynexp2.sats"
+staload "pats_dynexp2_util.sats"
 staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
@@ -62,7 +63,9 @@ local
 fun aux1 (
   loc0: location
 , s2f0: s2hnf
-, d3e: d3exp, d2ls: d2lablst
+, d3e_l: d3exp
+, d2ls: d2lablst
+, d2e_r: d2exp
 ) : d3exp = let
   val opt = un_s2exp_ptr_addr_type (s2f0)
 in
@@ -72,14 +75,16 @@ case+ opt of
   in
     exitloc (1)
   end // end of [Some_vt]
-| ~None_vt () => aux2 (loc0, s2f0, d3e, d2ls)
+| ~None_vt () => aux2 (loc0, s2f0, d3e_l, d2ls, d2e_r)
 //
 end // end of [aux1]
 
 and aux2 (
   loc0: location
 , s2f0: s2hnf
-, d3e: d3exp, d2ls: d2lablst
+, d3e_l: d3exp
+, d2ls: d2lablst
+, d2e_r: d2exp
 ) : d3exp = let
   val opt = un_s2exp_ref_viewt0ype_type (s2f0)
 in
@@ -92,27 +97,28 @@ case+ opt of
       s2exp_get_dlablst_linrest (loc0, s2e, d3ls, linrest)
     // end of [val]
     val () = trans3_env_add_proplst_vt (loc0, s2ps)
-    val s2e_sel =
-      s2exp_hnfize (s2e_sel)
-    // end of [val]
+    val s2e_sel = s2exp_hnfize (s2e_sel)
     val islin = s2exp_is_lin (s2e_sel)
     val () = if islin then {
       val () = prerr_error3_loc (loc0)
-      val () = prerr ": a linear component is taken out of a given reference."
+      val () = prerr ": a linear component of a given reference is abandoned."
       val () = prerr_newline ()
-      val () = the_trans3errlst_add (T3E_d3exp_trup_deref_linsel (d3e, d3ls))
+      val () = the_trans3errlst_add (T3E_d3exp_trup_deref_linsel (d3e_l, d3ls))
     } // end of [val]
+    val d3e_r = d2exp_trdn (d2e_r, s2e_sel)
   in
-    d3exp_sel_ref (loc0, s2e_sel, d3e, d3ls)
+    d3exp_assgn_ref (loc0, d3e_l, d3ls, d3e_r)
   end // end of [Some_vt]
-| ~None_vt () => aux3 (loc0, s2f0, d3e, d2ls)
+| ~None_vt () => aux3 (loc0, s2f0, d3e_l, d2ls, d2e_r)
 //
 end // end of [aux2]
 
 and aux3 (
   loc0: location
 , s2f0: s2hnf
-, d3e: d3exp, d2ls: d2lablst
+, d3e_l: d3exp
+, d2ls: d2lablst
+, d2e_r: d2exp
 ) : d3exp = let
 in
   d3exp_err (loc0)
@@ -121,24 +127,41 @@ end // end of [aux3]
 in // in of [local]
 
 implement
-d2exp_trup_deref
-  (loc0, d2e, d2ls) = let
+d2exp_trup_assgn_deref
+  (loc0, d2e_l, d2ls, d2e_r) = let
 // (*
 val () = (
-  print "d2exp_trup_deref: d2e = "; print_d2exp (d2e); print_newline ()
+  print "d2exp_trup_deref: d2e_l = "; print_d2exp (d2e_l); print_newline ();
+  print "d2exp_trup_deref: d2e_r = "; print_d2exp (d2e_r); print_newline ();
 ) // end of [val]
 // *)
-val d3e = d2exp_trup (d2e)
-val () = d3exp_open_and_add (d3e)
-val s2e0 = d3exp_get_type (d3e)
+val d3e_l = d2exp_trup (d2e_l)
+val () = d3exp_open_and_add (d3e_l)
+val s2e0 = d3exp_get_type (d3e_l)
 val s2f0 = s2exp2hnf_cast (s2e0)
 //
 in
-  aux1 (loc0, s2f0, d3e, d2ls)
+  aux1 (loc0, s2f0, d3e_l, d2ls, d2e_r)
 end // end of [d2exp_trup_deref]
 
 end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [pats_trans3_deref.dats] *)
+implement
+d2exp_trup_assgn
+  (loc0, d2e_l, d2e_r) = let
+  val d2lv = d2exp_lvalize (d2e_l)
+in
+//
+case+ d2lv of
+| D2LVALderef (d2e_l, d2ls) =>
+    d2exp_trup_assgn_deref (loc0, d2e_l, d2ls, d2e_r)
+| _ => exitloc (1)
+//
+end // end of [d2exp_trup_assgn]
+
+
+(* ****** ****** *)
+
+(* end of [pats_trans3_assgn.dats] *)

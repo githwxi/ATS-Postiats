@@ -907,8 +907,8 @@ fprint_d2lval (out, x) = let
 in
 //
 case+ x of
-| D2LVALptr (d2e, d2ls) => {
-    val () = prstr "D2LVALptr("
+| D2LVALderef (d2e, d2ls) => {
+    val () = prstr "D2LVALderef("
     val () = fprint_d2exp (out, d2e)
     val () = prstr "; "
     val () = fprint_d2lablst (out, d2ls)

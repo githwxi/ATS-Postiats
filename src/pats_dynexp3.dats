@@ -33,6 +33,7 @@
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_stacst2.sats"
 staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
@@ -458,6 +459,30 @@ d3exp_sel_ref
 , d3exp_type= s2f
 , d3exp_node= D3Esel_ref (d3e, d3ls)
 } // end of [d3exp_sel_ref]
+
+(* ****** ****** *)
+
+implement
+d3exp_assgn_ptr (
+  loc, d3e_l, d3ls, d3e_r
+) = let
+  val s2f = s2exp_void_t0ype ()
+in '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eassgn_ptr (d3e_l, d3ls, d3e_r)
+} end // end of [d3exp_assgn_ptr]
+
+implement
+d3exp_assgn_ref (
+  loc, d3e_l, d3ls, d3e_r
+) = let
+  val s2f = s2exp_void_t0ype ()
+in '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eassgn_ref (d3e_l, d3ls, d3e_r)
+} end // end of [d3exp_assgn_ref]
 
 (* ****** ****** *)
 

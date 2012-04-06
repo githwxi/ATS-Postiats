@@ -222,6 +222,7 @@ case+ d2e0.d2exp_node of
 | D2Eseq _ => d2exp_trup_seq (d2e0)
 //
 | D2Ederef (d2e) => d2exp_trup_deref (loc0, d2e, list_nil)
+| D2Eassgn (d2e_l, d2e_r) => d2exp_trup_assgn (loc0, d2e_l, d2e_r)
 //
 | D2Earrinit
     (s2e_elt, opt, d2es) => let

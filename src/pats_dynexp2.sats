@@ -737,9 +737,10 @@ and v2ardeclst = List (v2ardec)
 
 (* ****** ****** *)
 
-datatype d2lval = // type for left-values
-  | D2LVALptr of (* pointer path selection *)
-      (d2exp(*pointer*), d2lablst)
+datatype
+d2lval = // type for left-values
+  | D2LVALderef of (* ptr/ref path selection *)
+      (d2exp(*ptr/ref*), d2lablst)
   | D2LVALvar_lin of (d2var, d2lablst) // linear d2var
   | D2LVALvar_mut of (d2var, d2lablst) // mutable d2var
   | D2LVALarrsub of (* array subscription *)

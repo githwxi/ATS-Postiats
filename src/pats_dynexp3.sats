@@ -241,6 +241,9 @@ and d3exp_node =
   | D3Esel_ptr of (d3exp, d3lablst) // pointed record/tuple selection
   | D3Esel_ref of (d3exp, d3lablst) // referenced record/tuple selection
 //
+  | D3Eassgn_ptr of (d3exp(*left*), d3lablst, d3exp(*right*))
+  | D3Eassgn_ref of (d3exp(*left*), d3lablst, d3exp(*right*))
+//
   | D3Earrinit of // For instance, @[int](1,2,3)
       (s2exp(*elt*), d3exp(*asz*), d3explst(*elt*))
   | D3Earrsize of (d3explst, int(*size*))
@@ -518,6 +521,11 @@ fun d3exp_sel_ptr
   (loc: location, s2e: s2exp, d3e: d3exp, d3ls: d3lablst): d3exp
 fun d3exp_sel_ref
   (loc: location, s2e: s2exp, d3e: d3exp, d3ls: d3lablst): d3exp
+
+fun d3exp_assgn_ptr
+  (loc: location, d3e_l: d3exp, d3ls: d3lablst, d3e_r: d3exp): d3exp
+fun d3exp_assgn_ref
+  (loc: location, d3e_l: d3exp, d3ls: d3lablst, d3e_r: d3exp): d3exp
 
 (* ****** ****** *)
 

@@ -194,6 +194,7 @@ SOURCES := \
   pats_trans3_caseof.dats \
   pats_trans3_selab.dats \
   pats_trans3_deref.dats \
+  pats_trans3_assgn.dats \
   pats_trans3_loopexn.dats \
   pats_trans3_decl.dats \
   pats_lintprgm.sats \

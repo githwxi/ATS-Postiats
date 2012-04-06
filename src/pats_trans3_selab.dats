@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
@@ -132,7 +136,7 @@ case+ ls2es of
 //
 end // end of [labfind_lincheck]
 
-fun auxlab .<>. (
+fun auxlab (
   d3l: d3lab, s2e: s2exp, l0: label, linrest: &int
 ) : s2exp = let
   val s2f = s2exp2hnf (s2e)
@@ -160,6 +164,13 @@ case+ s2e.s2exp_node of
   in
     s2e1
   end // end of [S2Etyrec]
+| S2Eexi _ => let
+    val loc = d3l.d3lab_loc
+    val s2f = s2exp2hnf (s2e)
+    val s2e = s2hnf_opn1exi_and_add (loc, s2f)
+  in
+    auxlab (d3l, s2e, l0, linrest)
+  end // end of [S2Eexi]
 | _ => let
     val loc = d3l.d3lab_loc
     val () =
@@ -285,7 +296,7 @@ end else check1 (ind, dim) // end of [if]
 //
 end // end of [arrbnd_check]
 
-fun auxind .<>. (
+fun auxind (
   d3l: d3lab, s2e: s2exp, ind: d3explstlst
 ) : (
   s2exp(*elt*), s2explst_vt(*array bounds checking*)
@@ -301,6 +312,13 @@ case+ s2e.s2exp_node of
   in
     (s2e_elt, s2ps)
   end // end of [S2Etyarr]
+| S2Eexi _ => let
+    val loc = d3l.d3lab_loc
+    val s2f = s2exp2hnf (s2e)
+    val s2e = s2hnf_opn1exi_and_add (loc, s2f)
+  in
+    auxind (d3l, s2e, ind)
+  end // end of [S2Eexi]
 | _ => let
     val loc = d3l.d3lab_loc
     val () =
@@ -394,9 +412,7 @@ in
 //
 case+ d3ls of
 | list_cons _ => let
-    val () =
-      d3exp_open_and_add (d3e)
-    // end of [val]
+//
     val s2e = d3exp_get_type (d3e)
 //
     var linrest: int = 0
@@ -409,7 +425,8 @@ case+ d3ls of
   in
     d3exp_selab (loc0, s2e_sel, d3e, d3ls)
   end // end of [list_cons]
-| list_nil () => d3e
+| list_nil () => d3e // HX: there is no need to open the type
+//
 end (* end of [d3exp_trup_selab] *)
 
 (* ****** ****** *)

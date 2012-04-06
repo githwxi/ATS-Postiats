@@ -92,6 +92,7 @@ datatype trans3err =
   | T3E_d3exp_trup_selab_linrest of (location, d3exp, d3lablst)
 //
   | T3E_d3exp_trup_deref_linsel of (d3exp, d3lablst) // linear selection
+  | T3E_d3exp_trup_assgn_deref_linsel of (d3exp, d3lablst) // linear selection
 //
   | T3E_guard_trdn of
       (location, bool(*gval*), s2exp(*gtyp*))
@@ -246,6 +247,16 @@ fun d2exp_trup_loopexn (d2e0: d2exp, knd: int): d3exp
 fun d2exp_trup_deref
   (loc0: location, d2e: d2exp, d2ls: d2lablst): d3exp
 // end of [d2exp_trup_deref]
+
+(* ****** ****** *)
+
+fun d2exp_trup_assgn (
+  loc0: location, d2e_l: d2exp, d2e_r: d2exp
+) : d3exp // end of [d2exp_trup_assgn]
+
+fun d2exp_trup_assgn_deref (
+  loc0: location, d2e_l: d2exp, d2ls: d2lablst, d2e_r: d2exp
+) : d3exp // end of [d2exp_trup_assgn_deref]
 
 (* ****** ****** *)
 

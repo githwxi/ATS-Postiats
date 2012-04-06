@@ -41,6 +41,12 @@ fun d2exp_is_varlamcst (d2e: d2exp): bool
 
 (* ****** ****** *)
 
+fun d2exp_lvalize
+  (d2e: d2exp): d2lval // HX: translating [d2e] into a left-value
+// end of [d2exp_lvalize]
+
+(* ****** ****** *)
+
 fun d2con_select_arity
   (d2cs: d2conlst, n: int): d2conlst
 // end of [d2con_select_arity]

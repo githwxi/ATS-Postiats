@@ -221,6 +221,7 @@ dynload "pats_trans3_appsym.dats"
 dynload "pats_trans3_caseof.dats"
 dynload "pats_trans3_selab.dats"
 dynload "pats_trans3_deref.dats"
+dynload "pats_trans3_assgn.dats"
 dynload "pats_trans3_loopexn.dats"
 dynload "pats_trans3_decl.dats"
 //

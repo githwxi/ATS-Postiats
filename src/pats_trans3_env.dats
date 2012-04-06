@@ -1345,7 +1345,7 @@ s2hnf_absuni_and_add
   val () = list_vt_free (s2ps)
 in
   s2es2vss2ps.0
-end // end of [s2exp_absuni_and_add]
+end // end of [s2hnf_absuni_and_add]
 
 implement
 s2hnf_opnexi_and_add
@@ -1353,7 +1353,7 @@ s2hnf_opnexi_and_add
   val s2e0 = s2hnf2exp (s2f0)
 (*
   val () = begin
-    print "s2exp_opnexi_and_add: before: s2e0 = "; print_s2exp s2e0;
+    print "s2hnf_opnexi_and_add: before: s2e0 = "; print_s2exp s2e0;
     print_newline ()
   end // end of [val]
 *)
@@ -1377,11 +1377,48 @@ s2hnf_opnexi_and_add
   end // end of [val]
   val () = list_vt_free (s2vs)
   val s2ps = s2es2vss2ps.2
-  val () = trans3_env_hypadd_proplst (loc0, $UN.castvwtp1 {s2explst} (s2ps))
-  val () = list_vt_free (s2ps)
+  val () = trans3_env_hypadd_proplst_vt (loc0, s2ps)
 in
   s2es2vss2ps.0
-end // end of [s2exp_opnexi_and_add]
+end // end of [s2hnf_opnexi_and_add]
+
+implement
+s2hnf_opn1exi_and_add
+  (loc0, s2f0) = let
+  val s2e0 = s2hnf2exp (s2f0)
+in
+//
+case+ s2e0.s2exp_node of
+| S2Eexi (
+    s2vs, s2ps, s2e_body
+  ) => let
+//
+    var sub = stasub_make_nil ()
+    val s2vs = stasub_extend_svarlst (sub, s2vs)
+    val s2ps = s2explst_subst_vt (sub, s2ps) // HX: returning a linear list
+    val s2e_body = s2exp_subst (sub, s2e_body)
+    val () = stasub_free (sub)
+//
+    val () = let
+      val s2vs =
+        $UN.castvwtp1 {s2varlst} (s2vs)
+      // end of [val]
+      val s2Vs = the_s2Varset_env_get ()
+      val () = s2varlst_set_sVarset (s2vs, s2Vs)
+      val () = trans3_env_add_svarlst (s2vs)
+    in
+      // nothing
+    end // end of [val]
+    val () = list_vt_free (s2vs)
+//
+    val () = trans3_env_hypadd_proplst_vt (loc0, s2ps)
+//
+  in
+    s2e_body
+  end // end of [S2Eexi]
+| _ => s2e0 // end of [_]
+//
+end // end of [s2hnf_opn1exi_and_add]
 
 (* ****** ****** *)
 
