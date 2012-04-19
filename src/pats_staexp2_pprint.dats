@@ -116,14 +116,16 @@ case+ s2e0.s2exp_node of
     val () = prstr ")"
   } // end of [S2EVar]
 //
-| S2Edatconptr (d2c, s2es) => {
+| S2Edatconptr
+    (d2c, s2es) => {
     val () = prstr "S2Edatconptr("
     val () = fprint_d2con (out, d2c)
     val () = prstr "; "
     val () = aux_s2explst (out, n, s2es)
     val () = prstr ")"
   } // end of [S2Edatconptr]
-| S2Edatcontyp (d2c, s2es) => {
+| S2Edatcontyp
+    (d2c, s2es) => {
     val () = prstr "S2Edatcontyp("
     val () = fprint_d2con (out, d2c)
     val () = prstr "; "
@@ -156,11 +158,13 @@ case+ s2e0.s2exp_node of
     val () = aux_s2exp (out, n, s2e2)
     val () = prstr ")"
   } // end of [S2Eeqeq]
-| S2Eproj (s2e, s2l) => {
+| S2Eproj (s2a, s2e, s2ls) => {
     val () = prstr "S2Eproj("
+    val () = aux_s2exp (out, n, s2a)
+    val () = prstr "; "
     val () = aux_s2exp (out, n, s2e)
     val () = prstr "; "
-    val () = aux_s2lab (out, n, s2l)
+    val () = aux_s2lablst (out, n, s2ls)
     val () = prstr ")"
   } // end of [S2Eproj]
 //
@@ -390,7 +394,8 @@ fun loop (
     in
       loop (out, ws2es, i+1)
     end // end of [WTHS2EXPLSTcons_some]
-  | WTHS2EXPLSTcons_none (ws2es) => let
+  | WTHS2EXPLSTcons_none
+      (ws2es) => let
       val () = if i > 0 then fprint_string (out, ", ")
       val () = fprintf (out, "none()", @())
     in
@@ -420,6 +425,26 @@ case+ s2l of
   }
 //
 end // end of [aux_s2lab]
+
+and aux_s2lablst (
+  out: FILEref, n: int, s2ls: s2lablst
+) : void = let
+  fun loop (
+    s2ls: s2lablst, i: int
+  ) :<cloref1> void =
+    case+ s2ls of
+    | list_cons
+        (s2l, s2ls) => let
+        val () = if i > 0 then fprint_string (out, ", ")
+        val () = aux_s2lab (out, n, s2l)
+      in
+        loop (s2ls, i+1)
+      end // end of [list_cons]
+    | list_nil () => () // end of [list_nil]
+  // end of [loop]
+in
+  loop (s2ls, 0)
+end // end of [aux_s2lablst]
 
 and aux_s2eff (
   out: FILEref, n: int, s2fe: s2eff

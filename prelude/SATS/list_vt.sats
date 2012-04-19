@@ -47,16 +47,25 @@ sortdef vt0p = viewt@ype
 
 (* ****** ****** *)
 
-typedef cmp (a: viewt@ype) = (&a, &a) -<fun> int
+typedef cmp
+  (a: viewt@ype) = (&a, &a) -<fun> int
 typedef cmp
   (a: viewt@ype, vt: viewtype) = (&a, &a, !vt) -<fun> int
 // end of [typedef]
 
+(* ****** ****** *)
+
 fun{a:vt0p}
 compare_elt_elt
   {vt:viewtype}
-  (x1: &a, x2: &a, cmp: cmp (a, vt), env: !vt):<> int
+  (x1: &a, x2: &a, cmp: cmp (a)):<> int
 // end of [compare_elt_elt]
+
+fun{a:vt0p}
+compare_elt_elt_env
+  {vt:viewtype}
+  (x1: &a, x2: &a, cmp: cmp (a, vt), env: !vt):<> int
+// end of [compare_elt_elt_env]
 
 (* ****** ****** *)
 

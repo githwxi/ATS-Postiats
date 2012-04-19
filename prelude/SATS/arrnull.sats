@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2002-2010 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,8 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author of the file: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: March, 2012
+// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Start Time: April, 2012
 //
 (* ****** ****** *)
 
@@ -36,36 +36,40 @@
 
 (* ****** ****** *)
 
-#if VERBOSE_PRELUDE #then
-#print "Loading [basics.dats] starts!\n"
-#endif // end of [VERBOSE_PRELUDE]
+sortdef vtp = viewtype
 
 (* ****** ****** *)
 
-implement
-false_elim () = case+ 0 of _ =/=> ()
+dataview
+arrnull_v (
+  a:viewtype+, addr(*l*), int(*n*)
+) = // for arrays with a sentinel at the end
+  | {l:addr}
+    arrnull_v_nil (a, l, 0) of (ptr null @ l)
+  | {n:int}{l:addr}
+    arrnull_v_cons (a, l, n+1) of (a @ l, arrnull_v (a, l+sizeof(a), n))
+// end of [arrnull_v]
 
 (* ****** ****** *)
 
-implement prop_verify () = ()
-implement prop_verify_and_add () = ()
+prfun
+lemma_arrnull_v_params{a:vtp}
+  {l:addr}{n:int} (pf: !arrnull_v (INV(a), l, n)): [n >= 0] void
+// end of [lemma_arrnull_v_params]
 
 (* ****** ****** *)
 
-implement
-argv_get_at
-  (argv, i) = x where {
-  val (pf, fpf | p) = argv_takeout_strarr (argv, i)
-  val x = !p.[i]
-  prval () = fpf (pf)
-} // end of [argv_get_at]
+fun{a:vtp} ptr_of_elt (x: !INV(a)): [l:agz] ptr l
 
 (* ****** ****** *)
 
-#if VERBOSE_PRELUDE #then
-#print "Loading [basics.dats] finishes!\n"
-#endif // end of [VERBOSE_PRELUDE]
+fun{
+a:vtp
+} arrnull_size
+  {n:int}{l:addr}
+  (pf: !arrnull_v (INV(a), l, n) | p: ptr l):<> size_t (n)
+// end of [arrnull_size]
 
 (* ****** ****** *)
 
-(* end of [basics.dats] *)
+(* end of [arrnull.sats] *)

@@ -531,15 +531,21 @@ d2exp_seq
 (* ****** ****** *)
 
 implement
+d2exp_deref
+  (loc, _lval) = d2exp_make (loc, D2Ederef (_lval))
+// end of [d2exp_assgn]  
+
+implement
 d2exp_assgn (
   loc, _left, _right
 ) = d2exp_make (loc, D2Eassgn (_left, _right))
 // end of [d2exp_assgn]  
 
 implement
-d2exp_deref
-  (loc, d2e_lval) = d2exp_make (loc, D2Ederef (d2e_lval))
-// end of [d2exp_assgn]  
+d2exp_xchng (
+  loc, _left, _right
+) = d2exp_make (loc, D2Exchng (_left, _right))
+// end of [d2exp_xchng]  
 
 (* ****** ****** *)
 

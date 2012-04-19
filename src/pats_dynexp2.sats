@@ -554,8 +554,9 @@ and d2exp_node =
   | D2Erec of (int (*knd*), int (*npf*), labd2explst) // record
   | D2Eseq of d2explst // sequence-expressions // sequencing
 //
-  | D2Eassgn of (d2exp(*left*), d2exp(*right*))
   | D2Ederef of (d2exp) // dereferencing a left-val
+  | D2Eassgn of (d2exp(*left*), d2exp(*right*))
+  | D2Exchng of (d2exp(*left*), d2exp(*right*))
 //
   | D2Earrsub of (* array subscription *)
       (d2sym, d2exp, location(*ind*), d2explstlst(*ind*))
@@ -856,11 +857,6 @@ fun d2exp_where
   (loc: location, body: d2exp, d2cs: d2eclist): d2exp
 // end of [d2exp_where]
 
-fun d2exp_assgn
-  (loc: location, _left: d2exp, _right: d2exp): d2exp
-// end of [d2exp_assgn]
-fun d2exp_deref (loc: location, d2e_lval: d2exp): d2exp
-
 fun d2exp_applst (
   loc: location, d2e_fun: d2exp, d2as: d2exparglst
 ) : d2exp // end of [d2exp_applst]
@@ -921,6 +917,17 @@ fun d2exp_rec (
 ) : d2exp // end of [d2exp_rec]
 
 fun d2exp_seq (loc: location, d2es: d2explst): d2exp
+
+(* ****** ****** *)
+
+fun d2exp_deref
+  (loc: location, d2e_lval: d2exp): d2exp
+fun d2exp_assgn
+  (loc: location, _left: d2exp, _right: d2exp): d2exp
+// end of [d2exp_assgn]
+fun d2exp_xchng
+  (loc: location, _left: d2exp, _right: d2exp): d2exp
+// end of [d2exp_xchng]
 
 (* ****** ****** *)
 

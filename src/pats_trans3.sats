@@ -260,6 +260,12 @@ fun d2exp_trup_assgn_deref (
 
 (* ****** ****** *)
 
+fun d2exp_trup_xchng (
+  loc0: location, d2e_l: d2exp, d2e_r: d2exp
+) : d3exp // end of [d2exp_trup_xchng]
+
+(* ****** ****** *)
+
 fun d2exp_trup (d2e: d2exp): d3exp
 fun d2explst_trup (d2es: d2explst): d3explst
 fun d2explstlst_trup (d2ess: d2explstlst): d3explstlst

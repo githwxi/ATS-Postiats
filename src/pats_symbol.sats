@@ -50,7 +50,8 @@ val symbol_AMPERQMARK : symbol // &? // write-only
 val symbol_AT : symbol // @
 val symbol_BACKSLASH : symbol // \
 val symbol_BANG : symbol // !
-val symbol_COLONEQ : symbol // :=
+val symbol_COLONEQ : symbol // := // assign
+val symbol_COLONEQCOLON : symbol // :=: // exhange
 val symbol_FUN: symbol // fun
 //
 val symbol_GT : symbol // >

@@ -557,6 +557,11 @@ case+ x.d2exp_node of
     val () = prstr ")"
   } // end of [D2Eeffmask]
 //
+| D2Ederef (d2e) => {
+    val () = prstr "D2Ederef("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  }
 | D2Eassgn (d2e_l, d2e_r) => {
     val () = prstr "D2Eassgn("
     val () = fprint_d2exp (out, d2e_l)
@@ -564,9 +569,11 @@ case+ x.d2exp_node of
     val () = fprint_d2exp (out, d2e_r)
     val () = prstr ")"
   }
-| D2Ederef (d2e) => {
-    val () = prstr "D2Ederef("
-    val () = fprint_d2exp (out, d2e)
+| D2Exchng (d2e_l, d2e_r) => {
+    val () = prstr "D2Exchng("
+    val () = fprint_d2exp (out, d2e_l)
+    val () = prstr " :=: "
+    val () = fprint_d2exp (out, d2e_r)
     val () = prstr ")"
   }
 //
@@ -596,11 +603,12 @@ case+ x.d2exp_node of
     val () = fprint_d2exp (out, d2e)
     val () = prstr ")"
   } // end of [D2Eviewat]
+//
 | D2Eselab (d2e, d2ls) => {
     val () = prstr "D2Eselab("
     val () = fprint_d2exp (out, d2e)
     val () = prstr ";"
-    val () = fprint_string (out, "...")
+    val () = fprint_d2lablst (out, d2ls)
     val () = prstr ")"
   } // end of [D2Eselab]
 //

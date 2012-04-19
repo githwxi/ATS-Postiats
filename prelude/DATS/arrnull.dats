@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2002-2010 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,8 +27,8 @@
 
 (* ****** ****** *)
 //
-// Author of the file: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: March, 2012
+// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Start Time: April, 2012
 //
 (* ****** ****** *)
 
@@ -36,36 +36,30 @@
 
 (* ****** ****** *)
 
-#if VERBOSE_PRELUDE #then
-#print "Loading [basics.dats] starts!\n"
-#endif // end of [VERBOSE_PRELUDE]
+implement{a}
+arrnull_size (pf | p) = let
+  prval () = lemma_arrnull_v_params (pf)
+  fun loop
+    {i,j:nat} .<i>. (
+    pf: !arrnull_v (a, l, i) | p: ptr l, j: size_t j
+  ) :<> size_t (i+j) = let
+    val x = $UN.ptr_get<ptr> (p)
+  in
+    if x > null then let
+      val () = __assert () where {
+        extern praxi __assert (): [i > 0] void
+      } // end of [val]
+      prval arrnull_v_cons (pf1, pf2) = pf
+      val n = loop (pf2 | p+sizeof<a>, j+1)
+      prval () = pf := arrnull_v_cons (pf1, pf2)
+    in
+      n
+    end else j
+  end (* end of [loop] *)
+in
+  loop (pf | p, 0)
+end // end of [arrnull_size]
 
 (* ****** ****** *)
 
-implement
-false_elim () = case+ 0 of _ =/=> ()
-
-(* ****** ****** *)
-
-implement prop_verify () = ()
-implement prop_verify_and_add () = ()
-
-(* ****** ****** *)
-
-implement
-argv_get_at
-  (argv, i) = x where {
-  val (pf, fpf | p) = argv_takeout_strarr (argv, i)
-  val x = !p.[i]
-  prval () = fpf (pf)
-} // end of [argv_get_at]
-
-(* ****** ****** *)
-
-#if VERBOSE_PRELUDE #then
-#print "Loading [basics.dats] finishes!\n"
-#endif // end of [VERBOSE_PRELUDE]
-
-(* ****** ****** *)
-
-(* end of [basics.dats] *)
+(* end of [arrnull.dats] *)

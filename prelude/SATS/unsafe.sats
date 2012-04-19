@@ -30,23 +30,27 @@
 (* author: Hongwei Xi (hwxi AT cs DOT bu DOT edu) *)
 
 (* ****** ****** *)
+
+sortdef vt0p = viewt@ype
+
+(* ****** ****** *)
 //
 // HX: only if you know what you are doing ...
 //
-fun{a:viewt@ype} ptr_get (p: ptr):<> a
-fun{a:viewt@ype} ptr_set (p: ptr, x: a):<> void
-fun{a:viewt@ype} ptr_exch (p: ptr, x: &a >> a):<> void
+fun{a:vt0p} ptr_get (p: ptr):<> a
+fun{a:vt0p} ptr_set (p: ptr, x: a):<> void
+fun{a:vt0p} ptr_exch (p: ptr, x: &a >> a):<> void
 //
 (* ****** ****** *)
 //
 // HX: only if you know what you are doing ...
 //
 castfn
-ptr2cptr {a:viewt@ype}{l:addr} (p: ptr l): cptr (a, l)
+ptr2cptr {a:vt0p}{l:addr} (p: ptr l): cptr (a, l)
 //
-fun{a:viewt@ype} cptr_get (p: cptr (INV(a))):<> a
-fun{a:viewt@ype} cptr_set (p: cptr (a), x: a):<> void
-fun{a:viewt@ype} cptr_exch (p: cptr (a), x: &a >> a):<> void
+fun{a:vt0p} cptr_get (p: cptr (INV(a))):<> a
+fun{a:vt0p} cptr_set (p: cptr (a), x: a):<> void
+fun{a:vt0p} cptr_exch (p: cptr (a), x: &a >> a):<> void
 //
 (* ****** ****** *)
 

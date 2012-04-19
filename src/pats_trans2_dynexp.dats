@@ -94,7 +94,7 @@ macdef list_sing (x) = list_cons (,(x), list_nil)
 ** HX: dynamic special identifier
 *)
 datatype dynspecid =
-  | SPDIDassgn | SPDIDderef | SPDIDnone
+  | SPDIDderef | SPDIDassgn | SPDIDxchng | SPDIDnone
 // end of [dynspecid]
 
 fn dynspecid_of_dqid
@@ -103,6 +103,7 @@ fn dynspecid_of_dqid
   | $SYN.D0YNQnone () => (case+ 0 of
     | _ when id = $SYM.symbol_BANG => SPDIDderef ()
     | _ when id = $SYM.symbol_COLONEQ => SPDIDassgn ()
+    | _ when id = $SYM.symbol_COLONEQCOLON => SPDIDxchng ()
     | _ => SPDIDnone ()        
     ) // end of [D0YNQnone]
   | _ => SPDIDnone ()
@@ -167,46 +168,6 @@ end // end of [d1exp_tr_dqid]
 
 (* ****** ****** *)
 
-fn d1exp_tr_assgn (
-  d1e0: d1exp, d1es: d1explst
-) : d2exp = let
-  val loc0 = d1e0.d1exp_loc
-in
-  case+ d1es of
-  | list_cons (
-      d1e1, list_cons (d1e2, list_nil ())
-    ) =>
-      d2exp_assgn (loc0, d1exp_tr d1e1, d1exp_tr d1e2)
-    // end of [...]
-  | _ => let
-      val () = prerr_interror_loc (loc0)
-      val () = (prerr ": d1exp_tr_assgn: d1e0 = "; prerr_d1exp d1e0)
-      val () = prerr_newline ()
-    in
-      $ERR.abort {d2exp} ()
-    end // end of [_]
-end // end of [d1exp_tr_assgn]
-
-fn d1exp_tr_deref (
-  d1e0: d1exp, d1es: d1explst
-) : d2exp = let
-  val loc0 = d1e0.d1exp_loc
-in
-  case+ d1es of
-  | list_cons (
-      d1e, list_nil ()
-    ) => d2exp_deref (loc0, d1exp_tr d1e)
-  | _ => let
-      val () = prerr_interror_loc (loc0)
-      val () = (prerr ": d1exp_tr_deref: d1e0 = "; prerr_d1exp d1e0)
-      val () = prerr_newline ()
-    in
-      $ERR.abort {d2exp} ()
-    end // end of [_]
-end // end of [d1exp_tr_deref]
-
-(* ****** ****** *)
-
 extern
 fun d1exp_tr_app_dyn (
   d1e0: d1exp // all
@@ -224,6 +185,75 @@ fun d1exp_tr_app_sta_dyn (
 
 (* ****** ****** *)
 
+extern
+fun d1exp_tr_deref
+  (d1e0: d1exp, d1es: d1explst) : d2exp
+and d1exp_tr_assgn
+  (d1e0: d1exp, d1es: d1explst) : d2exp
+and d1exp_tr_xchng
+  (d1e0: d1exp, d1es: d1explst) : d2exp
+// end of [extern]
+
+implement
+d1exp_tr_deref
+  (d1e0, d1es) = let
+  val loc0 = d1e0.d1exp_loc
+in
+  case+ d1es of
+  | list_cons (
+      d1e, list_nil ()
+    ) => d2exp_deref (loc0, d1exp_tr d1e)
+  | _ => let
+      val () = prerr_interror_loc (loc0)
+      val () = (prerr ": d1exp_tr_deref: d1e0 = "; prerr_d1exp d1e0)
+      val () = prerr_newline ()
+    in
+      $ERR.abort {d2exp} ()
+    end // end of [_]
+end // end of [d1exp_tr_deref]
+
+implement
+d1exp_tr_assgn
+  (d1e0, d1es) = let
+  val loc0 = d1e0.d1exp_loc
+in
+  case+ d1es of
+  | list_cons (
+      d1e1, list_cons (d1e2, list_nil ())
+    ) =>
+      d2exp_assgn (loc0, d1exp_tr d1e1, d1exp_tr d1e2)
+    // end of [...]
+  | _ => let
+      val () = prerr_interror_loc (loc0)
+      val () = (prerr ": d1exp_tr_assgn: d1e0 = "; prerr_d1exp d1e0)
+      val () = prerr_newline ()
+    in
+      $ERR.abort {d2exp} ()
+    end // end of [_]
+end // end of [d1exp_tr_assgn]
+
+implement
+d1exp_tr_xchng
+  (d1e0, d1es) = let
+  val loc0 = d1e0.d1exp_loc
+in
+  case+ d1es of
+  | list_cons (
+      d1e1, list_cons (d1e2, list_nil ())
+    ) =>
+      d2exp_xchng (loc0, d1exp_tr d1e1, d1exp_tr d1e2)
+    // end of [...]
+  | _ => let
+      val () = prerr_interror_loc (loc0)
+      val () = (prerr ": d1exp_tr_xchng: d1e0 = "; prerr_d1exp d1e0)
+      val () = prerr_newline ()
+    in
+      $ERR.abort {d2exp} ()
+    end // end of [_]
+end // end of [d1exp_tr_xchng]
+
+(* ****** ****** *)
+
 fun
 d1exp_tr_app_dyn_dqid (
   d1e0: d1exp // all
@@ -237,8 +267,9 @@ val spdid = dynspecid_of_dqid (dq, id)
 in
 //
 case+ spdid of
-| SPDIDassgn () => d1exp_tr_assgn (d1e0, darg)
 | SPDIDderef () => d1exp_tr_deref (d1e0, darg)
+| SPDIDassgn () => d1exp_tr_assgn (d1e0, darg)
+| SPDIDxchng () => d1exp_tr_xchng (d1e0, darg)
 | _ (*SPDIDnone*) => let
     val ans = the_d2expenv_find_qua (dq, id)
   in

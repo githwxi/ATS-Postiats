@@ -222,6 +222,7 @@ dynload "pats_trans3_caseof.dats"
 dynload "pats_trans3_selab.dats"
 dynload "pats_trans3_deref.dats"
 dynload "pats_trans3_assgn.dats"
+dynload "pats_trans3_xchng.dats"
 dynload "pats_trans3_loopexn.dats"
 dynload "pats_trans3_decl.dats"
 //
@@ -487,10 +488,15 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/SATS/array.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/array_prf.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/arrayref.sats")
+//
+  val () = pervasive_load (ATSHOME, "prelude/SATS/arrnull.sats") // null-terminated
+//
   val () = pervasive_load (ATSHOME, "prelude/SATS/list.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/list_vt.sats")
+//
   val () = pervasive_load (ATSHOME, "prelude/SATS/option.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/option_vt.sats")
+//
   val () = pervasive_load (ATSHOME, "prelude/SATS/reference.sats")
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/filebas.sats")

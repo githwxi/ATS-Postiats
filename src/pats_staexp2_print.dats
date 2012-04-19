@@ -311,11 +311,13 @@ case+ x.s2exp_node of
     val () = fprint_s2exp (out, s2e2)
     val () = prstr ")"
   } // end of [S2Eeqeq]
-| S2Eproj (s2e, s2l) => {
+| S2Eproj (s2ae, s2te, s2ls) => {
     val () = prstr "S2Eproj("
-    val () = fprint_s2exp (out, s2e)
+    val () = fprint_s2exp (out, s2ae)
     val () = prstr "; "
-    val () = fprint_s2lab (out, s2l)
+    val () = fprint_s2exp (out, s2te)
+    val () = prstr "; "
+    val () = fprint_s2lablst (out, s2ls)
     val () = prstr ")"
   } // end of [S2Eproj]
 //
@@ -541,6 +543,16 @@ case+ s2l of
   }
 //
 end // end of [fprint_s2lab]
+
+implement
+print_s2lab (x) = fprint_s2lab (stdout_ref, x)
+implement
+prerr_s2lab (x) = fprint_s2lab (stderr_ref, x)
+
+implement
+fprint_s2lablst
+  (out, xs) = $UT.fprintlst (out, xs, " ,", fprint_s2lab)
+// end of [fprint_s2lablst]
 
 (* ****** ****** *)
 

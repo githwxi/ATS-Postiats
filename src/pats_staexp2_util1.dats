@@ -589,6 +589,10 @@ extern
 fun s2lab_subst_flag
   (sub: !stasub, s2l0: s2lab, flag: &int): s2lab
 // end of [s2lab_subst_flag]
+extern
+fun s2lablst_subst_flag
+  (sub: !stasub, s2ls0: s2lablst, flag: &int): s2lablst
+// end of [s2lablst_subst_flag]
 
 extern
 fun s2eff_subst_flag
@@ -609,7 +613,7 @@ in
       val () = flag := flag + 1 in s2e
     end // end of [Some_vt]
   | ~None_vt () => s2e0
-end // end of [S2Evar_subst_flag]
+end // end of [s2var_subst_flag]
 
 fun
 s2Var_subst_flag (
@@ -737,12 +741,15 @@ case+ s2e0.s2exp_node of
       val s2e_res = s2exp_eqeq (s2e1, s2e2) in s2e_res
     end else s2e0 // end of [if]
   end // end of [S2Eeqeq]
-| S2Eproj (s2e, s2l) => let
+| S2Eproj (s2ae, s2te, s2ls) => let
     val flag0 = flag
-    val s2e = s2exp_subst_flag (sub, s2e, flag)
-    val s2l = s2lab_subst_flag (sub, s2l, flag)
+    val s2ae = s2exp_subst_flag (sub, s2ae, flag)
+    val s2te = s2exp_subst_flag (sub, s2te, flag)
+    val s2ls = s2lablst_subst_flag (sub, s2ls, flag)
   in
-    if flag > flag0 then s2exp_proj (s2e, s2l) else s2e0
+    if flag > flag0
+      then s2exp_proj (s2ae, s2te, s2ls) else s2e0
+    // end of [if]
   end // end of [S2Eproj]
 //
 | S2Eapp (s2e_fun, s2es_arg) => let
@@ -958,6 +965,22 @@ s2lab_subst_flag
 ) // end of [s2lab_subst_flag]
 
 implement
+s2lablst_subst_flag
+  (sub, s2ls0, flag) = (
+  case+ s2ls0 of
+  | list_cons (s2l, s2ls) => let
+      val flag0 = flag
+      val s2l = s2lab_subst_flag (sub, s2l, flag)
+      val s2ls = s2lablst_subst_flag (sub, s2ls, flag)
+    in
+      if flag > flag0 then list_cons (s2l, s2ls) else s2ls0
+    end // end of [list_cons]
+  | list_nil () => list_nil ()
+) // end of [s2lablst_subst_flag]
+
+(* ****** ****** *)
+
+implement
 s2eff_subst_flag
   (sub, s2fe0, flag) = (
   case+ s2fe0 of
@@ -1089,9 +1112,12 @@ case+ s2e0.s2exp_node of
 | S2Eeqeq (s2e1, s2e2) => (
     aux_s2exp (s2e1, fvs); aux_s2exp (s2e2, fvs)
   ) // end of [S2Eeqeq]
-| S2Eproj (s2e, s2l) => (
-    aux_s2exp (s2e, fvs); aux_s2lab (s2l, fvs)
-  ) // end of [S2Eproj]
+| S2Eproj
+    (s2ae, s2te, s2ls) => {
+    val () = aux_s2exp (s2ae, fvs)
+    val () = aux_s2exp (s2te, fvs)
+    val () = aux_s2lablst (s2ls, fvs)
+  } // end of [S2Eproj]
 //
 | S2Eapp (s2e_fun, s2es_arg) => (
     aux_s2exp (s2e_fun, fvs); aux_s2explst (s2es_arg, fvs)
@@ -1214,6 +1240,16 @@ and aux_s2lab (
   | S2LABlab _ => ()
   | S2LABind (s2ess) => aux_s2explstlst (s2ess, fvs)
 // end of [aux_s2lab]
+
+and aux_s2lablst (
+  s2ls: s2lablst, fvs: &s2varset_vt
+) : void =
+  case+ s2ls of
+  | list_cons (s2l, s2ls) => (
+      aux_s2lab (s2l, fvs); aux_s2lablst (s2ls, fvs)
+    ) // end of [list_cons]
+  | list_nil () => ()
+// end of [aux_s2lablst]
 
 and aux_s2eff (
   s2fe: s2eff, fvs: &s2varset_vt

@@ -349,7 +349,7 @@ s2exp_node =
 //
   | S2Eeff of (s2eff) // effects
   | S2Eeqeq of (s2exp, s2exp) // generic static equality
-  | S2Eproj of (s2exp(*addr*), s2lab) // projection
+  | S2Eproj of (s2exp(*addr*), s2exp(*type*), s2lablst) // projection
 //
   | S2Eapp of (s2exp, s2explst) // static application
   | S2Elam of (s2varlst, s2exp) // static abstraction
@@ -416,6 +416,7 @@ and s2explst = List (s2exp)
 and s2expopt = Option (s2exp)
 and s2explstlst = List (s2explst)
 and s2explstopt = Option (s2explst)
+and s2lablst = List (s2lab)
 and labs2explst = List (labs2exp)
 
 viewtypedef s2explst_vt = List_vt (s2exp)
@@ -835,7 +836,7 @@ fun s2exp_sizeof (s2e_type: s2exp): s2exp
 
 fun s2exp_eff (s2fe: s2eff): s2exp
 fun s2exp_eqeq (s2e1: s2exp, s2e2: s2exp): s2exp
-fun s2exp_proj (s2e: s2exp, s2l: s2lab): s2exp
+fun s2exp_proj (s2ae: s2exp, s2te: s2exp, s2ls: s2lablst): s2exp
 
 (* ****** ****** *)
 
@@ -959,10 +960,11 @@ fun fprint_wths2explst : fprint_type (wths2explst)
 
 (* ****** ****** *)
 
-fun fprint_s2lab
-  : fprint_type (s2lab)
+fun fprint_s2lab : fprint_type (s2lab)
 fun print_s2lab (s2l: s2lab): void
 fun prerr_s2lab (s2l: s2lab): void
+
+fun fprint_s2lablst : fprint_type (s2lablst)
 
 (* ****** ****** *)
 

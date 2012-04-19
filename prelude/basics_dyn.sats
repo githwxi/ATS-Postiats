@@ -231,13 +231,31 @@ overload assert with assert_bool1 of 1
 
 (* ****** ****** *)
 
+absviewtype
+argv_int_viewtype (n:int)
+stadef argv = argv_int_viewtype
+
+(*
+[argv_takeout_array] is declared in prelude/SATS/extern.sats
+[argv_takeout_arrnull] is declared in prelude/SATS/extern.sats
+*)
+
+fun argv_get_at
+  {n:int} (argv: !argv (n), i: natLt n): string
+overload [] with argv_get_at
+
+(* ****** ****** *)
+
 symintr main
 
-fun main_void (): void = "mainats"
-fun main_argc_argv {n:int | n >= 1}
-  (argc: int n, argv: &(@[string][n])): void = "mainats"
-fun main_argc_argv_env {n:int | n >= 1}
-  (argc: int n, argv: &(@[string][n]), env: ptr): void = "mainats"
+fun main_void
+  ((*void*)): int = "mainats"
+fun main_argc_argv
+  {n:int | n >= 1}
+  (argc: int n, argv: !argv n): int = "mainats"
+fun main_argc_argv_env
+  {n:int | n >= 1}
+  (argc: int n, argv: !argv n, env: ptr): int = "mainats"
 overload main with main_void
 overload main with main_argc_argv
 overload main with main_argc_argv_env

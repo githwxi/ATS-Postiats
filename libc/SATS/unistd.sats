@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2002-2010 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -27,45 +27,19 @@
 
 (* ****** ****** *)
 //
-// Author of the file: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: March, 2012
+// Author: Hongwei Xi (gmhwxi AT gmail DOT com)
+// Start Time: April, 2012
 //
 (* ****** ****** *)
 
-#include "prelude/params.hats"
+fun execv {n:pos}{l:addr} (
+  pf: !arrnull_v (string, l, n) | path: string, argv: ptr l
+) : int = "mac#atslib_execv" // end of [execv]
+
+fun execvp {n:pos}{l:addr} (
+  pf: !arrnull_v (string, l, n) | file: string, argv: ptr l
+) : int = "mac#atslib_execvp" // end of [execvp]
 
 (* ****** ****** *)
 
-#if VERBOSE_PRELUDE #then
-#print "Loading [basics.dats] starts!\n"
-#endif // end of [VERBOSE_PRELUDE]
-
-(* ****** ****** *)
-
-implement
-false_elim () = case+ 0 of _ =/=> ()
-
-(* ****** ****** *)
-
-implement prop_verify () = ()
-implement prop_verify_and_add () = ()
-
-(* ****** ****** *)
-
-implement
-argv_get_at
-  (argv, i) = x where {
-  val (pf, fpf | p) = argv_takeout_strarr (argv, i)
-  val x = !p.[i]
-  prval () = fpf (pf)
-} // end of [argv_get_at]
-
-(* ****** ****** *)
-
-#if VERBOSE_PRELUDE #then
-#print "Loading [basics.dats] finishes!\n"
-#endif // end of [VERBOSE_PRELUDE]
-
-(* ****** ****** *)
-
-(* end of [basics.dats] *)
+(* end of [unistd.sats] *)

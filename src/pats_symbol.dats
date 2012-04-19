@@ -226,6 +226,7 @@ implement symbol_BACKSLASH = symbol_make_string "\\"
 implement symbol_BANG = symbol_make_string "!"
 //
 implement symbol_COLONEQ = symbol_make_string ":="
+implement symbol_COLONEQCOLON = symbol_make_string ":=:"
 //
 implement symbol_GT = symbol_make_string ">"
 implement symbol_GTEQ = symbol_make_string ">="

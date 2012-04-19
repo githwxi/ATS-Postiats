@@ -62,8 +62,26 @@ minus_viewt0ype_view
   (vt1: viewt@ype, v2: view) = vt1
 stadef minus = minus_viewt0ype_view
 prfun minus_addback
-  {vt1:viewt@ype} {v2:view} (pf1: minus (vt1, v2), pf2: v2 | x: !vt1): void
+  {vt1:viewt@ype}{v2:view} (pf1: minus (vt1, v2), pf2: v2 | x: !vt1): void
 // end of [minus_addback]
+
+(* ****** ****** *)
+
+castfn
+argv_takeout_array
+  {n:int} (
+  argv: !argv (n)
+) : [l:addr] (
+  array_v (string, l, n), minus (argv n, array_v (string, l, n)) | ptr l
+) // end of [argv_takeout_array]
+
+castfn
+argv_takeout_arrnull
+  {n:int} (
+  argv: !argv (n)
+) : [l:addr] (
+  arrnull_v (string, l, n), minus (argv n, arrnull_v (string, l, n)) | ptr l
+) // end of [argv_takeout_arrnull]
 
 (* ****** ****** *)
 
