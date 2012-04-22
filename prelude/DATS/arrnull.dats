@@ -37,18 +37,37 @@
 (* ****** ****** *)
 
 implement{a}
+arrnull_is_empty
+  {l}{n} (pf | p) = let
+  val x = $UN.ptr_get<ptr> (p)
+  val [lx:addr] x = ptr1_of_ptr0 (x)
+  extern praxi __assert (): [(lx > null && n > 0) || (lx <= null && n == 0)] void
+in
+  x = null
+end // end of [arrnull_is_empty]
+
+implement{a}
+arrnull_isnot_empty
+  {l}{n} (pf | p) = let
+  val x = $UN.ptr_get<ptr> (p)
+  val [lx:addr] x = ptr1_of_ptr0 (x)
+  extern praxi __assert (): [(lx > null && n > 0) || (lx <= null && n == 0)] void
+in
+  x > null
+end // end of [arrnull_isnot_empty]
+
+(* ****** ****** *)
+
+implement{a}
 arrnull_size (pf | p) = let
   prval () = lemma_arrnull_v_params (pf)
   fun loop
     {i,j:nat} .<i>. (
     pf: !arrnull_v (a, l, i) | p: ptr l, j: size_t j
   ) :<> size_t (i+j) = let
-    val x = $UN.ptr_get<ptr> (p)
+    val isnemp = arrnull_isnot_empty<a> (pf | p)
   in
-    if x > null then let
-      val () = __assert () where {
-        extern praxi __assert (): [i > 0] void
-      } // end of [val]
+    if isnemp then let
       prval arrnull_v_cons (pf1, pf2) = pf
       val n = loop (pf2 | p+sizeof<a>, j+1)
       prval () = pf := arrnull_v_cons (pf1, pf2)

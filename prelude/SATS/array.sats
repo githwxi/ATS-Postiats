@@ -55,7 +55,7 @@ dataview
 array_v (
   a:viewt@ype+, addr, int
 ) =
-  | {n:int} {l:addr}
+  | {l:addr}{n:int}
     array_v_cons (a, l, n+1) of (a @ l, array_v (a, l+sizeof a, n))
   | {l:addr} array_v_nil (a, l, 0)
 // end of [array_v]
@@ -78,10 +78,10 @@ praxi array_v_unnil :
   {a:vt0p} {l:addr} array_v (a, l, 0) -<prf> void
 
 praxi array_v_cons :
-  {a:vt0p} {l:addr} {n:int}
+  {a:vt0p}{l:addr}{n:int}
   (a @ l, array_v (INV(a), l+sizeof(a), n)) -<prf> array_v (a, l, n+1)
 praxi array_v_uncons :
-  {a:vt0p} {l:addr} {n:int | n > 0}
+  {a:vt0p}{l:addr}{n:int | n > 0}
   array_v (INV(a), l, n) -<prf> (a @ l, array_v (a, l+sizeof(a), n-1))
 
 (* ****** ****** *)
@@ -97,9 +97,9 @@ dataview
 arrayopt_v (
   a:viewt@ype+, addr, int, bool
 ) = // HX: for optional array view
-  | {n:int} {l:addr}
+  | {l:addr}{n:int}
     arrayopt_v_some (a, l, n, true) of array_v (a, l, n)
-  | {n:int} {l:addr}
+  | {l:addr}{n:int}
     arrayopt_v_none (a, l, n, false) of array_v (a?, l, n)
 // end of [arrayopt_v]
 

@@ -1,0 +1,86 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+staload "libatsdoc/SATS/atsdoc_text.sats"
+//
+%}\
+\
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT=="txt")
+#include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
+#elif (ATSCODEFORMAT=="xml")
+#include "utils/atsdoc/HATS/postiatsatxt_xml.hats"
+#elif (ATSCODEFORMAT=="tex")
+#include "utils/atsdoc/HATS/postiatsatxt_tex.hats"
+#endif // end of [ATSCCODEFORMAT]
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("April, 2012")
+
+#atscode_separator()
+
+sortdef vtp = viewtype
+
+#atscode_separator()
+
+(*
+** HX: for null-pointer terminated arrays
+*)
+
+dataview
+arrnull_v (
+  a:viewt@ype+, addr(*l*), int(*n*)
+) = // for arrays with a sentinel at the end
+  | {l:addr}{n:int}
+    arrnull_v_cons (a, l, n+1) of (a @ l, arrnull_v (a, l+sizeof(a), n))
+  | {l:addr} arrnull_v_nil (a, l, 0) of (ptr null @ l)
+// end of [arrnull_v]
+
+#atscode_separator()
+
+prfun
+lemma_arrnull_v_params{a:vtp}
+  {l:addr}{n:int} (pf: !arrnull_v (INV(a), l, n)): [l > null;n >= 0] void
+// end of [lemma_arrnull_v_params]
+
+#atscode_separator()
+
+fun{
+a:vtp
+} arrnull_is_empty
+  {l:addr}{n:int} (
+  pf: !arrnull_v (INV(a), l, n) | p: ptr l
+) :<> bool (n == 0) // end of [arrnull_is_empty]
+
+fun{
+a:vtp
+} arrnull_isnot_empty
+  {l:addr}{n:int}
+  (pf: !arrnull_v (INV(a), l, n) | p: ptr l):<> bool (n > 0)
+// end of [arrnull_isnot_empty]
+
+#atscode_separator()
+
+fun{
+a:vtp
+} arrnull_size
+  {l:addr}{n:int}
+  (pf: !arrnull_v (INV(a), l, n) | p: ptr l):<> size_t (n)
+// end of [arrnull_size]
+
+#atscode_separator()
+
+#atscode_eof("arrnull.sats")
+
+%{
+implement main () = fprint_filsub (stdout_ref, "arrnull_atxt.txt")
+%}
