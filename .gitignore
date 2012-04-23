@@ -11,3 +11,5 @@
 src/patsopt
 src/.depend
 
+prelude/SATS/CODEGEN/*.sats
+prelude/DATS/CODEGEN/*.dats

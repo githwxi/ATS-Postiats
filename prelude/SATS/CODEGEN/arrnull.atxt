@@ -1,12 +1,4 @@
 %{
-//
-dynload "libatsdoc/dynloadall.dats"
-//
-staload "libatsdoc/SATS/atsdoc_text.sats"
-//
-%}\
-\
-%{
 #define ATSCODEFORMAT "txt"
 #if (ATSCODEFORMAT=="txt")
 #include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
@@ -15,10 +7,20 @@ staload "libatsdoc/SATS/atsdoc_text.sats"
 #elif (ATSCODEFORMAT=="tex")
 #include "utils/atsdoc/HATS/postiatsatxt_tex.hats"
 #endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"arrnull.sats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
 #atscode_banner()
 #atscode_copyright_LGPL()
+\
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/arrnull.atxt
+** Time of generation: #timestamp()
+*)
 
 #atscode_separator()
 
@@ -28,7 +30,7 @@ staload "libatsdoc/SATS/atsdoc_text.sats"
 
 #atscode_separator()
 
-sortdef vtp = viewtype
+#atscode_decl_strcst("sortdef vtp = viewtype")
 
 #atscode_separator()
 
@@ -36,6 +38,7 @@ sortdef vtp = viewtype
 ** HX: for null-pointer terminated arrays
 *)
 
+#atscode_decl_strcst("\
 dataview
 arrnull_v (
   a:viewt@ype+, addr(*l*), int(*n*)
@@ -44,43 +47,52 @@ arrnull_v (
     arrnull_v_cons (a, l, n+1) of (a @ l, arrnull_v (a, l+sizeof(a), n))
   | {l:addr} arrnull_v_nil (a, l, 0) of (ptr null @ l)
 // end of [arrnull_v]
+")\
 
 #atscode_separator()
 
+#atscode_decl_strcst("\
 prfun
 lemma_arrnull_v_params{a:vtp}
   {l:addr}{n:int} (pf: !arrnull_v (INV(a), l, n)): [l > null;n >= 0] void
 // end of [lemma_arrnull_v_params]
+")\
 
 #atscode_separator()
 
+#atscode_decl_strcst("\
 fun{
 a:vtp
 } arrnull_is_empty
   {l:addr}{n:int} (
   pf: !arrnull_v (INV(a), l, n) | p: ptr l
 ) :<> bool (n == 0) // end of [arrnull_is_empty]
+")\
 
+#atscode_decl_strcst("\
 fun{
 a:vtp
 } arrnull_isnot_empty
   {l:addr}{n:int}
   (pf: !arrnull_v (INV(a), l, n) | p: ptr l):<> bool (n > 0)
 // end of [arrnull_isnot_empty]
+")\
 
 #atscode_separator()
 
+#atscode_decl_strcst("\
 fun{
 a:vtp
 } arrnull_size
   {l:addr}{n:int}
   (pf: !arrnull_v (INV(a), l, n) | p: ptr l):<> size_t (n)
 // end of [arrnull_size]
+")\
 
 #atscode_separator()
 
-#atscode_eof("arrnull.sats")
+#atscode_eof_strsub("\#thisfilename$")\
 
 %{
 implement main () = fprint_filsub (stdout_ref, "arrnull_atxt.txt")
-%}
+%}\

@@ -1,0 +1,64 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT=="txt")
+#include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
+#elif (ATSCODEFORMAT=="xml")
+#include "utils/atsdoc/HATS/postiatsatxt_xml.hats"
+#elif (ATSCODEFORMAT=="tex")
+#include "utils/atsdoc/HATS/postiatsatxt_tex.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"array.sats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+\
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/array.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("April, 2012")
+
+#atscode_separator()
+
+sortdef vt0p = viewt@ype
+
+#atscode_separator()
+#atscode_decl_strcst('\
+//
+// HX: only if you know what you are doing ...
+//
+fun{a:vt0p} ptr_get (p: ptr):<> a
+fun{a:vt0p} ptr_set (p: ptr, x: a):<> void
+fun{a:vt0p} ptr_exch (p: ptr, x: &a >> a):<> void
+//
+')\
+#atscode_separator()
+#atscode_decl_strcst('\
+//
+// HX: only if you know what you are doing ...
+//
+castfn
+ptr2cptr {a:vt0p}{l:addr} (p: ptr l): cptr (a, l)
+//
+fun{a:vt0p} cptr_get (p: cptr (INV(a))):<> a
+fun{a:vt0p} cptr_set (p: cptr (a), x: a):<> void
+fun{a:vt0p} cptr_exch (p: cptr (a), x: &a >> a):<> void
+//
+')\
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "array_atxt.txt")
+%}\

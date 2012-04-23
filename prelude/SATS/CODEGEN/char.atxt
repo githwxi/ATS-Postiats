@@ -1,0 +1,301 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT=="txt")
+#include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
+#elif (ATSCODEFORMAT=="xml")
+#include "utils/atsdoc/HATS/postiatsatxt_xml.hats"
+#elif (ATSCODEFORMAT=="tex")
+#include "utils/atsdoc/HATS/postiatsatxt_tex.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"array.sats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+\
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/array.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("September, 2011")
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+sortdef t0p = t@ype
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun lt_char_char
+  (c1: char, c2: char):<> bool = "mac\#atspre_lt_char_char"
+overload < with lt_char_char of 0
+fun lte_char_char
+  (c1: char, c2: char):<> bool  = "mac\#atspre_lte_char_char"
+overload <= with lte_char_char of 0
+')\
+
+#atscode_decl_strcst('\
+fun gt_char_char
+  (c1: char, c2: char):<> bool = "mac\#atspre_gt_char_char"
+overload > with gt_char_char of 0
+fun gte_char_char
+  (c1: char, c2: char):<> bool  = "mac\#atspre_gte_char_char"
+overload >= with gte_char_char of 0
+')\
+
+#atscode_decl_strcst('\
+fun eq_char_char
+  (c1: char, c2: char):<> bool = "mac\#atspre_eq_char_char"
+overload = with eq_char_char of 0
+fun neq_char_char
+  (c1: char, c2: char):<> bool = "mac\#atspre_neq_char_char"
+overload <> with neq_char_char of 0
+overload != with neq_char_char of 0
+')\
+
+#atscode_decl_strcst('\
+fun compare_char_char
+  (c1: char, c2: char):<> int = "mac\#atspre_compare_char_char"
+overload compare with compare_char_char of 0
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun fprint_char
+  (out: FILEref, x: char): void
+overload fprint with fprint_char
+')\
+
+#atscode_decl_strcst('\
+fun print_char (x: char): void
+and prerr_char (x: char): void
+overload print with print_char
+overload prerr with prerr_char
+')\
+
+#atscode_separator()
+#atscode_decl_strcst('\
+//
+// HX: the return is dynamically allocated
+//
+fun tostring_char
+  (c: char):<> strnptr(1) = "atspre_tostring_char"
+overload tostring with tostring_char
+')\
+
+#atscode_separator()
+#atscode_decl_strcst('\
+//
+castfn
+char1_of_schar1 {c:int} (c: schar (c)):<> char (c)
+castfn
+schar1_of_char1 {c:int} (c: char (c)):<> schar (c)
+//
+castfn
+char1_of_uchar1 {c:int} (c: uchar (c)):<> char (u2i8(c))
+castfn
+uchar1_of_char1 {c:int} (c: char (c)):<> uchar (i2u8(c))
+//
+')\
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun lt_char1_char1
+  {c1,c2:int} (
+  c1: char (c1), c2: char (c2)
+) :<> bool (c1 < c2) = "mac\#atspre_lt_char1_char1"
+fun lte_char1_char1
+  {c1,c2:int} (
+  c1: char (c1), c2: char (c2)
+) :<> bool (c1 <= c2) = "mac\#atspre_lte_char1_char1"
+overload < with lt_char1_char1 of 2
+overload <= with lte_char1_char1 of 2
+')\
+
+#atscode_decl_strcst('\
+fun gt_char1_char1
+  {c1,c2:int} (
+  c1: char (c1), c2: char (c2)
+) :<> bool (c1 > c2) = "mac\#atspre_gt_char1_char1"
+fun gte_char1_char1
+  {c1,c2:int} (
+  c1: char (c1), c2: char (c2)
+) :<> bool (c1 >= c2) = "mac\#atspre_gte_char1_char1"
+overload > with gt_char1_char1 of 2
+overload >= with gte_char1_char1 of 2
+')\
+
+#atscode_decl_strcst('\
+fun eq_char1_char1
+  {c1,c2:int} (
+  c1: char (c1), c2: char (c2)
+) :<> bool (c1 == c2) = "mac\#atspre_eq_char1_char1"
+fun neq_char1_char1
+  {c1,c2:int} (
+  c1: char (c1), c2: char (c2)
+) :<> bool (c1 != c2) = "mac\#atspre_neq_char1_char1"
+overload = with eq_char1_char1 of 2
+overload <> with neq_char1_char1 of 2
+overload != with neq_char1_char1 of 2
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun compare_char1_char1
+  {c1,c2:int} (
+  c1: char c2, c2: char c2
+) :<> int (c1-c2)
+  = "mac\#atspre_compare_char1_char1"
+overload compare with compare_char1_char1 of 2
+')\
+
+#atscode_separator()
+//
+// unsigned characters
+//
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun lt_uchar_uchar
+  (c1: uchar, c2: uchar):<> bool = "mac\#atspre_lt_uchar_uchar"
+overload < with lt_uchar_uchar of 0
+fun lte_uchar_uchar
+  (c1: uchar, c2: uchar):<> bool  = "mac\#atspre_lte_uchar_uchar"
+overload <= with lte_uchar_uchar of 0
+')\
+
+#atscode_decl_strcst('\
+fun gt_uchar_uchar
+  (c1: uchar, c2: uchar):<> bool = "mac\#atspre_gt_uchar_uchar"
+overload > with gt_uchar_uchar of 0
+fun gte_uchar_uchar
+  (c1: uchar, c2: uchar):<> bool  = "mac\#atspre_gte_uchar_uchar"
+overload >= with gte_uchar_uchar of 0
+')\
+
+#atscode_decl_strcst('\
+fun eq_uchar_uchar
+  (c1: uchar, c2: uchar):<> bool = "mac\#atspre_eq_uchar_uchar"
+overload = with eq_uchar_uchar of 0
+fun neq_uchar_uchar
+  (c1: uchar, c2: uchar):<> bool = "mac\#atspre_neq_uchar_uchar"
+overload <> with neq_uchar_uchar of 0
+overload != with neq_uchar_uchar of 0
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun compare_uchar_uchar
+  (c1: uchar, c2: uchar):<> int = "mac\#atspre_compare_uchar_uchar"
+overload compare with compare_uchar_uchar of 0
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun{knd:t0p}
+g0int_of_char (c: char): g0int (knd)
+fun{knd:t0p}
+g0int_of_schar (c: schar): g0int (knd)
+fun{knd:t0p}
+g0int_of_uchar (c: uchar): g0int (knd)
+')\
+
+#atscode_decl_strcst('\
+fun{knd:t0p}
+g0uint_of_uchar (c: uchar): g0uint (knd)
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun{knd:t0p}
+g1int_of_char1 // c:int8
+  {c:int} (c: char (c)):<> g1int (knd, c)
+// end of [g1int_of_char1]
+fun{knd:t0p}
+g1int_of_schar1 // c:int8
+  {c:int} (c: schar (c)):<> g1int (knd, c)
+// end of [g1int_of_schar1]
+fun{knd:t0p}
+g1int_of_uchar1 // c:uint8
+  {c:int} (c: uchar (c)):<> g1int (knd, c)
+// end of [g1int_of_uchar1]
+')\
+
+#atscode_decl_strcst('\
+(*
+** HX: g1uint_of_schar1: schar -> int -> uint
+*)
+fun{knd:t0p}
+g1uint_of_uchar1
+  {c:int} (c: uchar (c)):<> g1uint (knd, c)
+// end of [g1uint_of_uchar1]
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun isalpha (c: int):<> bool = "atspre_isalpha"
+fun isalnum (c: int):<> bool = "atspre_isalnum"
+')\
+
+#atscode_decl_strcst('\
+fun isascii (c: int):<> bool = "atspre_isascii"
+')\
+
+#atscode_decl_strcst('\
+fun isblank (c: int):<> bool = "atspre_isblank"
+fun isspace (c: int):<> bool = "atspre_isspace"
+')\
+
+#atscode_decl_strcst('\
+fun iscntrl (c: int):<> bool = "atspre_iscntrl"
+')\
+
+#atscode_decl_strcst('\
+fun isdigit (c: int):<> bool = "atspre_isdigit"
+fun isxdigit (c: int):<> bool = "atspre_isxdigit"
+')\
+
+#atscode_decl_strcst('\
+fun isgraph (c: int):<> bool = "atspre_isgraph"
+fun isprint (c: int):<> bool = "atspre_isprint"
+fun ispunct (c: int):<> bool = "atspre_ispunct"
+')\
+
+#atscode_decl_strcst('\
+fun islower (c: int):<> bool = "atspre_islower"
+fun isupper (c: int):<> bool = "atspre_isupper"
+')\
+
+#atscode_decl_strcst('\
+fun toascii (c: int):<> bool = "atspre_toascii"
+')\
+
+#atscode_decl_strcst('\
+fun tolower (c: int):<> bool = "atspre_tolower"
+fun toupper (c: int):<> bool = "atspre_toupper"
+')\
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "array_atxt.txt")
+%}\

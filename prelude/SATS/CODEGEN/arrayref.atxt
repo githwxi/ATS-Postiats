@@ -1,0 +1,158 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT=="txt")
+#include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
+#elif (ATSCODEFORMAT=="xml")
+#include "utils/atsdoc/HATS/postiatsatxt_xml.hats"
+#elif (ATSCODEFORMAT=="tex")
+#include "utils/atsdoc/HATS/postiatsatxt_tex.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"arrayref.sats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+\
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/arrayref.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("February, 2012")
+
+#atscode_separator()
+
+sortdef t0p = t@ype
+sortdef vt0p = viewt@ype
+
+#atscode_separator()
+//
+// arrszref: a reference to an array with size information attached
+//
+#atscode_separator()
+
+#atscode_decl_strcst('\
+sortdef t0p = t@ype
+sortdef vt0p = viewt@ype
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+abstype
+arrszref_viewt0ype_type (a: viewt@ype)
+stadef arrszref = arrszref_viewt0ype_type
+stadef array0 = arrszref // backward compatibility
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun{a:t0p}
+arrszref_get_at
+  (A: arrszref (a), i: size_t):<!exnref> a
+overload [] with arrszref_get_at
+fun{a:t0p}
+arrszref_set_at
+  (A: arrszref (a), i: size_t, x: a):<!exnref> void
+overload [] with arrszref_set_at
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun{
+a:vt0p
+} arrszref_exch_at
+  (A: arrszref (a), i: size_t, x: &a >> a):<!exnref> void
+// end of [arrszref_exch_at]
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun{a:t0p}
+arrszref_make_iter_beg
+  (A: arrszref (a)): [n:nat] fiterator (arrszref (a), a, 0, n)
+// end of [arrszref_make_iter_beg]
+')\
+
+#atscode_decl_strcst('\
+fun{a:t0p}
+arrszref_make_iter_end
+  (A: arrszref (a)): [n:nat] fiterator (arrszref (a), a, n, 0)
+// end of [arrszref_make_iter_end]
+')\
+
+#atscode_separator()
+//
+// arrayref: a reference to an array with no size information attached
+//
+#atscode_separator()
+
+#atscode_decl_strcst('\
+abstype
+arrayref_viewt0ype_int_type (a: viewt@ype, n: int)
+stadef arrayref = arrayref_viewt0ype_int_type
+stadef array = arrayref // backward compatibility
+')\
+
+#atscode_decl_strcst('\
+typedef Arrayref (a: viewt@ype) = [n:int] arrayref (a, n)
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun{a:t0p}
+arrayref_get_at
+  {n:int}{i:nat | i < n} (A: arrayref (a, n), i: size_t i):<0> a
+overload [] with arrayref_get_at
+fun{a:t0p}
+arrayref_set_at
+  {n:int}{i:nat | i < n} (A: arrayref (a, n), i: size_t i, x: a):<0> void
+overload [] with arrayref_set_at
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun{
+a:vt0p
+} arrayref_exch_at
+  {n:int}{i:nat | i < n}
+  (A: arrayref (a, n), i: size_t i, x: &a >> a):<0> void
+// end of [arrayref_exch_at]
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun{a:t0p}
+arrayref_make_iter_beg{n:nat}
+  (A: arrayref (a, n)): fiterator (Arrayref (a), a, 0, n)
+// end of [arrszref_make_iter_beg]
+')\
+
+#atscode_decl_strcst('\
+fun{a:t0p}
+arrayref_make_iter_end{n:nat}
+  (A: arrayref (a, n), n: size_t n): fiterator (Arrayref (a), a, n, 0)
+// end of [arrszref_make_iter_end]
+')\
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "arrayref_atxt.txt")
+%}\

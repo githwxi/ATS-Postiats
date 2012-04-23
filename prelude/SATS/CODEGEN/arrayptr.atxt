@@ -1,0 +1,81 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT=="txt")
+#include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
+#elif (ATSCODEFORMAT=="xml")
+#include "utils/atsdoc/HATS/postiatsatxt_xml.hats"
+#elif (ATSCODEFORMAT=="tex")
+#include "utils/atsdoc/HATS/postiatsatxt_tex.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"arrayptr.sats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+\
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/arrayptr.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("February, 2012")
+
+#atscode_separator()
+
+sortdef t0p = t@ype
+sortdef vt0p = viewt@ype
+
+#atscode_separator()
+
+absviewtype
+arrayptr (a:viewt@ype+, l: addr, n: int) = ptr
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+castfn
+ptr_of_arrayptr
+  {a:vt0p}{l:addr}{n:int} (A: !arrayptr (INV(a), l, n)):<> ptr l
+overload ptr_of with ptr_of_arrayptr
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun{a:t0p}
+arrayptr_get_at
+  {l:addr}{n:int}
+  (A: !arrayptr (INV(a), l, n), i: sizeLt (n)):<> a
+fun{a:t0p}
+arrayptr_set_at
+  {l:addr}{n:int}
+  (A: !arrayptr (INV(a), l, n), i: sizeLt (n), x: a):<> void
+overload [] with arrayptr_get_at
+overload [] with arrayptr_set_at
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun{a:vt0p}
+arrayptr_exch_at
+  {l:addr}{n:int}
+  (A: !arrayptr (INV(a), l, n), i: sizeLt (n), x: &WRT(a)): void
+// end of [arrayptr_exch_at]
+')\
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "arrayptr_atxt.txt")
+%}\
