@@ -1,0 +1,96 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT=="txt")
+#include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"pointer.sats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+\
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/pointer.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("March, 2012")
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+sortdef t0p = t@ype and vt0p = viewt@ype
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+castfn ptr1_of_ptr (p: ptr): [l:addr] ptr (l)
+castfn ptr1_of_ptr0 (p: ptr): [l:addr] ptr (l)
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+praxi ptr_is_gtez
+  {l:addr} (p: ptr l):<> [l >= null] void
+// end of [ptr_is_gtez]
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun ptr_is_null {l:addr}
+  (p: ptr l):<> bool (l==null) = "atspre_ptr_is_null"
+// end of [ptr_is_null]
+')\
+
+#atscode_decl_strcst('\
+fun ptr_isnot_null {l:addr}
+  (p: ptr):<> bool (l > null) = "atspre_ptr_isnot_null"
+// end of [ptr_isnot_null]
+')\
+
+#atscode_separator()
+#atscode_decl_strcst('\
+//
+// HX: implemented in [prelude/DATS/pointer.dats]
+//
+fun{a:t@ype}
+ptr_get {l:addr}
+  (pf: !RD(INV(a) @ l) | p: ptr l):<> a
+fun{a:t@ype}
+ptr_get_vt {l:addr}
+  (pf: !INV(a) @ l >> a?! @ l | p: ptr l):<> a
+// end of [ptr_get_vt]
+')\
+
+#atscode_decl_strcst('\
+fun{a:vt0p}
+ptr_set {l:addr} (
+  pf: !a? @ l >> a @ l | p: ptr l, x: INV(a)
+) :<!wrt> void // end of [ptr_set]
+')\
+
+#atscode_decl_strcst('\
+fun{a:vt0p}
+ptr_exch {l:addr}
+  (pf: !a @ l | p: ptr l, x: &a >> a):<!wrt> void
+// end of [ptr_exch]
+')\
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "pointer_atxt.txt")
+%}\

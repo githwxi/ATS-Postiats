@@ -1,0 +1,77 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"strptr.sats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+\
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/strptr.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("September, 2011")
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+castfn
+strnptr_of_strptr
+  {l:addr} (x: strptr l): [n:int] strnptr (l, n)
+// end of [strnptr_of_strptr]
+castfn
+strptr_of_strnptr
+  {l:addr}{n:int} (x: strnptr (l, n)): strptr (l)
+// end of [strptr_of_strnptr]
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+viewtypedef
+rstrptr = READ(strptr0)
+viewtypedef
+rstrnptr (n:int) = READ(strnptr(n))
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun strptr_length (x: !rstrptr): ssize_t
+fun strnptr_length {n:int} (x: !rstrnptr n): ssize_t (n)
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun strptr_append (
+  x1: !rstrptr, x2: !rstrptr
+) : strptr0 = "atspre_strptr_append"
+')\
+
+#atscode_decl_strcst('\
+fun strnptr_append
+  {n1,n2:nat} (
+  x1: !rstrnptr n1, x2: !rstrnptr n2
+) : strnptr (n1+n2) = "atspre_strnptr_append"
+')\
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "strptr_atxt.txt")
+%}\

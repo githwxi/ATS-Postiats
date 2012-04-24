@@ -2,12 +2,8 @@
 #define ATSCODEFORMAT "txt"
 #if (ATSCODEFORMAT=="txt")
 #include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
-#elif (ATSCODEFORMAT=="xml")
-#include "utils/atsdoc/HATS/postiatsatxt_xml.hats"
-#elif (ATSCODEFORMAT=="tex")
-#include "utils/atsdoc/HATS/postiatsatxt_tex.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"array.sats"
+val _thisfilename = atext_strcst"bool.sats"
 val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
@@ -18,7 +14,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 (*
 ** Source:
-** $PATSHOME/prelude/SATS/CODEGEN/array.atxt
+** $PATSHOME/prelude/SATS/CODEGEN/bool.atxt
 ** Time of generation: #timestamp()
 *)
 
@@ -243,5 +239,5 @@ overload compare with compare_bool1_bool1 of 2
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "array_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "bool_atxt.txt")
 %}\

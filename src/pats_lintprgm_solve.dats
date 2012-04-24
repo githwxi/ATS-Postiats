@@ -671,7 +671,7 @@ myiveqlst_cons
   {n} (stamp, i, i1veq, i1veqs) = let
   val p_prev =
     myiveqlst_get_prev (i1veqs)
-  // end of [val]
+  val p_prev = ptr1_of_ptr (p_prev)
   val res = MYIVEQLSTcons (stamp, i1veq, i, null(*prev*), i1veqs)
   val () = if p_prev > null then
     $UN.ptrset<ptr> (p_prev, myiveqlst2ptr (res))
@@ -692,7 +692,7 @@ myiveqlst_mark
   {n} (i1veqs) = let
   val p_prev =
     myiveqlst_get_prev (i1veqs)
-  // end of [val]
+  val p_prev = ptr1_of_ptr (p_prev)
   val res = MYIVEQLSTmark (null(*prev*), i1veqs)
   val () = if p_prev > null then
     $UN.ptrset<ptr> (p_prev, myiveqlst2ptr (res))

@@ -2,12 +2,8 @@
 #define ATSCODEFORMAT "txt"
 #if (ATSCODEFORMAT=="txt")
 #include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
-#elif (ATSCODEFORMAT=="xml")
-#include "utils/atsdoc/HATS/postiatsatxt_xml.hats"
-#elif (ATSCODEFORMAT=="tex")
-#include "utils/atsdoc/HATS/postiatsatxt_tex.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"array.sats"
+val _thisfilename = atext_strcst"char.sats"
 val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
@@ -18,7 +14,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 (*
 ** Source:
-** $PATSHOME/prelude/SATS/CODEGEN/array.atxt
+** $PATSHOME/prelude/SATS/CODEGEN/char.atxt
 ** Time of generation: #timestamp()
 *)
 
@@ -297,5 +293,5 @@ fun toupper (c: int):<> bool = "atspre_toupper"
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "array_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "char_atxt.txt")
 %}\

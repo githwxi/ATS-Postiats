@@ -1,0 +1,140 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"list_vt.sats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+\
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/list_vt.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("February, 2012")
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+sortdef t0p = t@ype
+sortdef vt0p = viewt@ype
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+typedef cmp
+  (a: viewt@ype) = (&a, &a) -<fun> int
+typedef cmp
+  (a: viewt@ype, vt: viewtype) = (&a, &a, !vt) -<fun> int
+// end of [typedef]
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun{a:vt0p}
+compare_elt_elt
+  {vt:viewtype}
+  (x1: &a, x2: &a, cmp: cmp (a)):<> int
+// end of [compare_elt_elt]
+')\
+
+#atscode_decl_strcst('\
+fun{a:vt0p}
+compare_elt_elt_env
+  {vt:viewtype}
+  (x1: &a, x2: &a, cmp: cmp (a, vt), env: !vt):<> int
+// end of [compare_elt_elt_env]
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun{
+a:vt0p
+} list_vt_append
+  {n1,n2:nat} (
+  xs1: list_vt (a, n1), xs2: list_vt (a, n2)
+) : list_vt (a, n1+n2) // end of [list_vt_append]
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun{
+x:vt0p
+} list_vt_reverse
+  {n:nat} (xs: list_vt (x, n)): list_vt (x, n)
+// end of [list_vt_reverse]
+')\
+
+#atscode_decl_strcst('\
+fun{a:vt0p}
+list_vt_reverse_append {m,n:nat}
+  (xs: list_vt (a, m), ys: list_vt (a, n)): list_vt (a, m+n)
+// end of [list_vt_reverse_append]
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun{
+a:vt0p
+} list_vt_foreach_funenv
+  {v:view}{vt:viewtype}{n:nat}{fe:eff} (
+  pfv: !v
+| xs: !list_vt (a, n), f: (!v | &a, !vt) -<fe> void, env: !vt
+) :<fe> void // end of [list_vt_foreach_funenv]
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun{
+a:vt0p
+} list_vt_mergesort
+  {vt:viewtype}{n:nat} (
+  xs: list_vt (a, n), cmp: cmp (a)
+) : list_vt (a, n) // end of [list_vt_mergesort_env]
+fun{
+a:vt0p
+} list_vt_mergesort_env
+  {vt:viewtype}{n:nat} (
+  xs: list_vt (a, n), cmp: cmp (a, vt), env: !vt
+) : list_vt (a, n) // end of [list_vt_mergesort_env]
+')\
+
+#atscode_decl_strcst('\
+fun{
+a:vt0p
+} list_vt_quicksort
+  {vt:viewtype}{n:nat} (
+  xs: list_vt (a, n), cmp: cmp (a)
+) : list_vt (a, n) // end of [list_vt_quicksort]
+fun{
+a:vt0p
+} list_vt_quicksort_env // HX: via array-based quicksort
+  {vt:viewtype}{n:nat} (
+  xs: list_vt (a, n), cmp: cmp (a, vt), env: !vt
+) : list_vt (a, n) // end of [list_vt_quicksort_env]
+')\
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "list_vt_atxt.txt")
+%}\

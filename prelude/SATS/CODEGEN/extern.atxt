@@ -1,0 +1,93 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"extern.sats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+\
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/extern.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("March, 2012")
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+sortdef vt0p = viewt@ype
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+abstype
+cptr_viewt0ype_addr_type
+  (a:viewt@ype+, addr) // HX: simulating C pointers
+stadef cptr = cptr_viewt0ype_addr_type
+')\
+
+#atscode_decl_strcst('\
+castfn
+cptr2ptr {a:vt0p}{l:addr} (p: cptr (a, l)): ptr l
+// end of [castfn]
+')\
+
+#atscode_separator()
+#atscode_decl_strcst('\
+//
+// HX: note that (vt1 \minus v2) roughly means that a ticket of
+// [v2] is taken from [vt1]; the ticket must be returned before
+// [vt1] is consumed. However, the ticket should not be issued
+// repeatedly for otherwise safety may be potentially compromised.
+//
+absview
+minus_viewt0ype_view
+  (vt1: viewt@ype, v2: view) = vt1
+stadef minus = minus_viewt0ype_view
+prfun minus_addback
+  {vt1:vt0p}{v2:view} (pf1: minus (vt1, v2), pf2: v2 | x: !vt1): void
+// end of [minus_addback]
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+castfn
+argv_takeout_array
+  {n:int} (
+  argv: !argv (n)
+) : [l:addr] (
+  array_v (string, l, n), minus (argv n, array_v (string, l, n)) | ptr l
+) // end of [argv_takeout_array]
+')\
+
+#atscode_decl_strcst('\
+castfn
+argv_takeout_arrnull
+  {n:int} (
+  argv: !argv (n)
+) : [l:addr] (
+  arrnull_v (string, l, n), minus (argv n, arrnull_v (string, l, n)) | ptr l
+) // end of [argv_takeout_arrnull]
+')\
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "extern_atxt.txt")
+%}\

@@ -2,10 +2,6 @@
 #define ATSCODEFORMAT "txt"
 #if (ATSCODEFORMAT=="txt")
 #include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
-#elif (ATSCODEFORMAT=="xml")
-#include "utils/atsdoc/HATS/postiatsatxt_xml.hats"
-#elif (ATSCODEFORMAT=="tex")
-#include "utils/atsdoc/HATS/postiatsatxt_tex.hats"
 #endif // end of [ATSCCODEFORMAT]
 val _thisfilename = atext_strcst"arrayref.sats"
 val () = theTextMap_insert_str ("thisfilename", _thisfilename)

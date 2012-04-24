@@ -56,7 +56,7 @@ end // end of [eqref_type]
 //
 implement
 strcasecmp (x1, x2) = let
-  fun loop (p1: ptr, p2: ptr): int = let
+  fun loop (p1: Ptr1, p2: Ptr1): int = let
     val c1 = char_toupper ($UN.ptrget<char> (p1))
     val c2 = char_toupper ($UN.ptrget<char> (p2))
   in
@@ -66,7 +66,7 @@ strcasecmp (x1, x2) = let
     else 0 // end of [if]
   end // end of [loop]
 in
-  loop ($UN.cast2ptr(x1), $UN.cast2ptr(x2))
+  loop ($UN.cast2Ptr1(x1), $UN.cast2Ptr1(x2))
 end // end of [strcasecmp]
 
 (* ****** ****** *)

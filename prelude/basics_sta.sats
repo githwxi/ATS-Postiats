@@ -349,6 +349,8 @@ stadef ptr = ptr_type
 abstype
 ptr_addr_type (l:addr) = ptr_type
 stadef ptr = ptr_addr_type
+typedef Ptr0 = [l:addr] ptr (l)
+typedef Ptr1 = [l:addr | l > null] ptr (l)
 //
 // HX-2012-02-14: it is an expriment for now:
 //
