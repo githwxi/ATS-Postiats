@@ -91,6 +91,25 @@ clean:: ; $(RMF) strptr_atxt.exe
 cleanall:: ; $(RMF) strptr.sats
 
 
+all:: lazy.sats
+lazy.sats: lazy_atxt.exe ; ./$< > $@
+lazy_atxt.exe: lazy_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ lazy_atxt.dats -latsdoc
+lazy_atxt.dats: lazy.atxt
+	$(ATSDOC) -do $@ -i lazy.atxt > lazy_atxt.txt
+clean:: ; $(RMF) lazy_atxt.exe
+cleanall:: ; $(RMF) lazy.sats
+
+all:: lazy_vt.sats
+lazy_vt.sats: lazy_vt_atxt.exe ; ./$< > $@
+lazy_vt_atxt.exe: lazy_vt_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ lazy_vt_atxt.dats -latsdoc
+lazy_vt_atxt.dats: lazy_vt.atxt
+	$(ATSDOC) -do $@ -i lazy_vt.atxt > lazy_vt_atxt.txt
+clean:: ; $(RMF) lazy_vt_atxt.exe
+cleanall:: ; $(RMF) lazy_vt.sats
+
+
 all:: array.sats
 array.sats: array_atxt.exe ; ./$< > $@
 array_atxt.exe: array_atxt.dats
@@ -193,6 +212,25 @@ reference_atxt.dats: reference.atxt
 	$(ATSDOC) -do $@ -i reference.atxt > reference_atxt.txt
 clean:: ; $(RMF) reference_atxt.exe
 cleanall:: ; $(RMF) reference.sats
+
+
+all:: fiterator.sats
+fiterator.sats: fiterator_atxt.exe ; ./$< > $@
+fiterator_atxt.exe: fiterator_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ fiterator_atxt.dats -latsdoc
+fiterator_atxt.dats: fiterator.atxt
+	$(ATSDOC) -do $@ -i fiterator.atxt > fiterator_atxt.txt
+clean:: ; $(RMF) fiterator_atxt.exe
+cleanall:: ; $(RMF) fiterator.sats
+
+all:: fcontainer.sats
+fcontainer.sats: fcontainer_atxt.exe ; ./$< > $@
+fcontainer_atxt.exe: fcontainer_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ fcontainer_atxt.dats -latsdoc
+fcontainer_atxt.dats: fcontainer.atxt
+	$(ATSDOC) -do $@ -i fcontainer.atxt > fcontainer_atxt.txt
+clean:: ; $(RMF) fcontainer_atxt.exe
+cleanall:: ; $(RMF) fcontainer.sats
 
 
 all:: extern.sats

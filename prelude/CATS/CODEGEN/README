@@ -1,0 +1,9 @@
+Here are the steps to generate the lib code:
+
+make -f Makefile_gen
+make -f Makefile all
+make -f Makefile clean
+
+Note that the source of the generated [Makefile] is [Makefile.atxt].
+
+###### end of [README] ######

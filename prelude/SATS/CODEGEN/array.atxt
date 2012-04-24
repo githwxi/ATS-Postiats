@@ -1,7 +1,7 @@
 %{
 #define ATSCODEFORMAT "txt"
-#if (ATSCODEFORMAT=="txt")
-#include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
 val _thisfilename = atext_strcst"array.sats"
 val () = theTextMap_insert_str ("thisfilename", _thisfilename)
@@ -9,7 +9,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 \
 #atscode_banner()
 #atscode_copyright_LGPL()
-\
+
 #atscode_separator()
 
 (*
@@ -26,8 +26,9 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-sortdef t0p = t@ype
-sortdef vt0p = viewt@ype
+#atscode_decl_strcst("\
+sortdef t0p = t@ypea and vt0p = viewt@ype
+")\
 
 #atscode_separator()
 

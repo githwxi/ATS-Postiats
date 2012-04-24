@@ -1,7 +1,7 @@
 %{
 #define ATSCODEFORMAT "txt"
-#if (ATSCODEFORMAT=="txt")
-#include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
 val _thisfilename = atext_strcst"bool.sats"
 val () = theTextMap_insert_str ("thisfilename", _thisfilename)
@@ -9,7 +9,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 \
 #atscode_banner()
 #atscode_copyright_LGPL()
-\
+
 #atscode_separator()
 
 (*
@@ -68,33 +68,43 @@ overload && with mul_bool_bool of 0
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-fun lt_bool_bool
-  (b1: bool, b2: bool):<> bool = "mac\#atspre_lt_bool_bool"
-and lte_bool_bool
-  (b1: bool, b2: bool):<> bool = "mac\#atspre_lte_bool_bool"
-overload < with lt_bool_bool of 0
-overload <= with lte_bool_bool of 0
-')\
+%{
+fun
+fun_bool_cmp0_decl (
+  opr: string
+) : atext = let
+//
+val fopr_d = (
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "=" | "neq" => "!="
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+fun %s_bool_bool
+  (b1: bool, b2: bool):<> bool = \"mac#atspre_%s_bool_bool\"
+overload %s with %s_bool_bool of 0\
+", @(
+ opr, opr, fopr_d, opr
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_bool_cmp0_decl]
+%}\
+\
+#fun_bool_cmp0_decl("lt")
+#fun_bool_cmp0_decl("lte")
 
-#atscode_decl_strcst('\
-fun gt_bool_bool
-  (b1: bool, b2: bool):<> bool = "mac\#atspre_gt_bool_bool"
-and gte_bool_bool
-  (b1: bool, b2: bool):<> bool = "mac\#atspre_gte_bool_bool"
-overload > with gt_bool_bool of 0
-overload >= with gte_bool_bool of 0
-')\
+#fun_bool_cmp0_decl("gt")
+#fun_bool_cmp0_decl("gte")
 
-#atscode_decl_strcst('\
-fun eq_bool_bool
-  (b1: bool, b2: bool):<> bool = "mac\#atspre_eq_bool_bool"
-and neq_bool_bool
-  (b1: bool, b2: bool):<> bool = "mac\#atspre_neq_bool_bool"
-overload = with eq_bool_bool of 0
+#fun_bool_cmp0_decl("eq")
+#fun_bool_cmp0_decl("neq")
 overload <> with neq_bool_bool of 0
-overload != with neq_bool_bool of 0
-')\
 
 #atscode_decl_strcst('\
 fun compare_bool_bool // HX: this one is a function
@@ -108,9 +118,6 @@ overload compare with compare_bool_bool
 fun fprint_bool
   (out: FILEref, x: bool): void
 overload fprint with fprint_bool
-')\
-
-#atscode_decl_strcst('\
 fun print_bool (x: bool): void
 and prerr_bool (x: bool): void
 overload print with print_bool
@@ -190,41 +197,64 @@ overload && with mul_bool1_bool1 of 2
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-fun lt_bool1_bool1 {b1,b2:bool}
-  (b1: bool b1, b2: bool b2):<> bool (b1 < b2) // ~b1 && b2
-  = "mac\#atspre_lt_bool1_bool1"
-and lte_bool1_bool1 {b1,b2:bool}
-  (b1: bool b1, b2: bool b2):<> bool (b1 <= b2) // ~b1 || b2
-  = "mac\#atspre_lte_bool1_bool1"
-overload < with lt_bool1_bool1 of 2
-overload <= with lte_bool1_bool1 of 2
-')\
+%{
+fun
+fun_bool_cmp1_decl (
+  opr: string
+) : atext = let
+//
+val fopr_s = (
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "==" | "neq" => "!="
+  | _ => opr
+) : string // end of [val]
+val fopr_d = (
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "=" | "neq" => "!="
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+fun %s_bool1_bool1
+  {b1,b2:bool} (
+  b1: bool (b1), b2: bool (b2)
+) :<> bool (b1 %s b2) = \"mac#atspre_%s_bool1_bool1\"
+overload %s with %s_bool1_bool1 of 2\
+", @(
+ opr, fopr_s, opr, fopr_d, opr
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_bool_cmp1_decl]
+%}\
+\
+//
+// (b1 < b2) == (~b1 && b2)
+//
+#fun_bool_cmp1_decl("lt")
+//
+// (b1 <= b2) == (~b1 || b2)
+//
+#fun_bool_cmp1_decl("lte")
 
-#atscode_decl_strcst('\
-fun gt_bool1_bool1 {b1,b2:bool}
-  (b1: bool b1, b2: bool b2):<> bool (b1 > b2) // b1 && ~b2
-  = "mac\#atspre_gt_bool1_bool1"
-and gte_bool1_bool1 {b1,b2:bool}
-  (b1: bool b1, b2: bool b2):<> bool (b1 >= b2) // b1 || ~b2
-  = "mac\#atspre_gte_bool1_bool1"
-overload > with gt_bool1_bool1 of 2
-overload >= with gte_bool1_bool1 of 2
-')\
+//
+// (b1 > b2) == (b1 && ~b2)
+//
+#fun_bool_cmp1_decl("gt")
+//
+// (b1 >= b2) == (b1 || ~b2)
+//
+#fun_bool_cmp1_decl("gte")
 
-#atscode_decl_strcst('\
-fun eq_bool1_bool1 {b1,b2:bool}
-  (b1: bool b1, b2: bool b2):<> bool (b1 == b2)
-  = "mac\#atspre_eq_bool1_bool1"
-and neq_bool1_bool1 {b1,b2:bool}
-  (b1: bool b1, b2: bool b2):<> bool (b1 <> b2)
-  = "mac\#atspre_neq_bool1_bool1"
-overload = with eq_bool1_bool1 of 2
+#fun_bool_cmp1_decl("eq")
+#fun_bool_cmp1_decl("neq")
 overload <> with neq_bool1_bool1 of 2
-overload != with neq_bool1_bool1 of 2
-')\
-
-#atscode_separator()
 
 #atscode_decl_strcst('\
 fun compare_bool1_bool1

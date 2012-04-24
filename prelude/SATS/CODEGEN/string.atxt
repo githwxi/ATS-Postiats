@@ -1,7 +1,7 @@
 %{
 #define ATSCODEFORMAT "txt"
 #if (ATSCODEFORMAT == "txt")
-#include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
 val _thisfilename = atext_strcst"string.sats"
 val () = theTextMap_insert_str ("thisfilename", _thisfilename)
@@ -9,7 +9,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 \
 #atscode_banner()
 #atscode_copyright_LGPL()
-\
+
 #atscode_separator()
 
 (*
@@ -26,30 +26,60 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-fun lt_string_string (x1: string, x2: string): bool
-fun lte_string_string (x1: string, x2: string): bool
-overload < with lt_string_string
-overload <= with lte_string_string
-')\
+%{
+fun
+fun_string_cmp0_decl (
+  opr: string
+) : atext = let
+//
+val fopr_d = (
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "=" | "neq" => "!="
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+fun %s_string_string
+  (x1: string, x2: string):<> bool = \"mac#atspre_%s_string_string\"
+overload %s with %s_string_string of 0\
+", @(
+ opr, opr, fopr_d, opr
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_string_cmp0_decl]
+%}\
+\
+#fun_string_cmp0_decl("lt")
+#fun_string_cmp0_decl("lte")
+
+#fun_string_cmp0_decl("gt")
+#fun_string_cmp0_decl("gte")
+
+#fun_string_cmp0_decl("eq")
+#fun_string_cmp0_decl("neq")
+overload <> with neq_string_string of 0
 
 #atscode_decl_strcst('\
-fun gt_string_string (x1: string, x2: string): bool
-and gte_string_string (x1: string, x2: string): bool
-overload > with gt_string_string
-overload >= with gte_string_string
-')\
-
-#atscode_decl_strcst('\
-fun eq_string_string (x1: string, x2: string): bool
-and neq_string_string (x1: string, x2: string): bool
-overload = with eq_string_string
-overload != with neq_string_string
-')\
-
-#atscode_decl_strcst('\
-fun compare_string_string (x1: string, x2: string): Sgn
+fun compare_string_string
+  (x1: string, x2: string): Sgn = "mac\#atspre_compare_string_string"
 overload compare with compare_string_string
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun fprint_string
+  (out: FILEref, x: string): void
+overload fprint with fprint_string
+fun print_string (x: string): void
+and prerr_string (x: string): void
+overload print with print_string
+overload prerr with prerr_string
 ')\
 
 #atscode_separator()

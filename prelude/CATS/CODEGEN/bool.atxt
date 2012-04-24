@@ -1,0 +1,45 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"bool.cats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_LGPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/prelude/CATS/CODEGEN/bool.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("February, 2012")
+*/
+
+#atscode_separator_for_C()
+
+\#define lt_bool1_bool1 lt_bool_bool
+\#define lte_bool1_bool1 lte_bool_bool
+\#define gt_bool1_bool1 gt_bool_bool
+\#define gte_bool1_bool1 gte_bool_bool
+\#define eq_bool1_bool1 eq_bool_bool
+\#define neq_bool1_bool1 neq_bool_bool
+\#define compare_bool1_bool1 compare_bool_bool
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "bool_atxt.txt")
+%}\

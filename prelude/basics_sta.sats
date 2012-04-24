@@ -408,7 +408,7 @@ typedef b0ytes (n:int) = @[byte?][n]
 
 (* ****** ****** *)
 
-abst@ype strbuf (m:int, n:int) // [m] bytesx
+abst@ype strbuf (m:int, n:int) // [m] bytesz
 
 (* ****** ****** *)
 

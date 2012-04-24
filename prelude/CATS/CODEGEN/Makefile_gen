@@ -38,4 +38,4 @@ cleanall:: ; $(RMF) Makefile
 
 ######
 
-###### end of [Makefile_book] ######
+###### end of [Makefile_gen] ######

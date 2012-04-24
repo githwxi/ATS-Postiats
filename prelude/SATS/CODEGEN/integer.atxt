@@ -1,7 +1,7 @@
 %{
 #define ATSCODEFORMAT "txt"
 #if (ATSCODEFORMAT == "txt")
-#include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
 val _thisfilename = atext_strcst"integer.sats"
 val () = theTextMap_insert_str ("thisfilename", _thisfilename)
@@ -9,7 +9,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 \
 #atscode_banner()
 #atscode_copyright_LGPL()
-\
+
 #atscode_separator()
 
 (*

@@ -1,20 +1,20 @@
 %{
 #define ATSCODEFORMAT "txt"
 #if (ATSCODEFORMAT=="txt")
-#include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"array.sats"
+val _thisfilename = atext_strcst"unsafe.sats"
 val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
 #atscode_banner()
 #atscode_copyright_LGPL()
-\
+
 #atscode_separator()
 
 (*
 ** Source:
-** $PATSHOME/prelude/SATS/CODEGEN/array.atxt
+** $PATSHOME/prelude/SATS/CODEGEN/unsafe.atxt
 ** Time of generation: #timestamp()
 *)
 
@@ -56,5 +56,5 @@ fun{a:vt0p} cptr_exch (p: cptr (a), x: &a >> a):<> void
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "array_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "unsafe_atxt.txt")
 %}\

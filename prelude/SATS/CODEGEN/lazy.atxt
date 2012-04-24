@@ -1,0 +1,45 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"lazy.sats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/lazy.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+//
+// HX:
+// [lazy(T)] : suspended computation of a value of type T
+//
+abstype
+lazy_t0ype_type (t@ype+) // boxed type // unnamed
+stadef lazy = lazy_t0ype_type
+//
+#atscode_separator()
+//
+// HX: lazy streams
+//
+datatype
+stream_con (a:t@ype+) =
+  | stream_nil (a) | stream_cons (a) of (a, stream a)
+where stream (a:t@ype) = lazy (stream_con a)
+//
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "lazy_atxt.txt")
+%}\

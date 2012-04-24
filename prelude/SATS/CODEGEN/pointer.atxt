@@ -1,7 +1,7 @@
 %{
 #define ATSCODEFORMAT "txt"
 #if (ATSCODEFORMAT=="txt")
-#include "utils/atsdoc/HATS/postiatsatxt_txt.hats"
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
 val _thisfilename = atext_strcst"pointer.sats"
 val () = theTextMap_insert_str ("thisfilename", _thisfilename)
@@ -9,7 +9,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 \
 #atscode_banner()
 #atscode_copyright_LGPL()
-\
+
 #atscode_separator()
 
 (*
@@ -35,6 +35,52 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 #atscode_decl_strcst('\
 castfn ptr1_of_ptr (p: ptr): [l:addr] ptr (l)
 castfn ptr1_of_ptr0 (p: ptr): [l:addr] ptr (l)
+')\
+
+#atscode_separator()
+
+%{
+fun
+fun_ptr_cmp0_decl (
+  opr: string
+) : atext = let
+//
+val fopr_d = (
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "=" | "neq" => "!="
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+fun %s_ptr_ptr
+  (p1: ptr, p2: ptr):<> bool = \"mac#atspre_%s_ptr_ptr\"
+overload %s with %s_ptr_ptr of 0\
+", @(
+ opr, opr, fopr_d, opr
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_ptr_cmp0_decl]
+%}\
+\
+#fun_ptr_cmp0_decl("lt")
+#fun_ptr_cmp0_decl("lte")
+
+#fun_ptr_cmp0_decl("gt")
+#fun_ptr_cmp0_decl("gte")
+
+#fun_ptr_cmp0_decl("eq")
+#fun_ptr_cmp0_decl("neq")
+overload <> with neq_ptr_ptr of 0
+
+#atscode_decl_strcst('\
+fun compare_ptr_ptr
+  (p1: ptr, p2: ptr):<> int = "mac\#atspre_compare_ptr_ptr"
+overload compare with compare_ptr_ptr of 0
 ')\
 
 #atscode_separator()

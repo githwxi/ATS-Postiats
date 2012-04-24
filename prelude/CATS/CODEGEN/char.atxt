@@ -1,0 +1,235 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"char.cats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_LGPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/prelude/CATS/CODEGEN/char.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("February, 2012")
+*/
+
+#atscode_separator_for_C()
+
+%{
+fun
+fun_char_cmp0_decl (
+  opr: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "==" | "neq" => "!="
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_bool
+atspre_%s_char_char
+  (atstype_char c1, atstype_char c2) {
+  return (c1 %s c2 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_%s_char_char]\
+", @(
+ opr, fopr, opr
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_char_cmp0_decl]
+%}\
+\
+#fun_char_cmp0_decl("lt")
+#fun_char_cmp0_decl("lte")
+
+#fun_char_cmp0_decl("gt")
+#fun_char_cmp0_decl("gte")
+
+#fun_char_cmp0_decl("eq")
+#fun_char_cmp0_decl("neq")
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_int
+atspre_compare_char_char
+  (atstype_char c1, atstype_char c2) {
+  return ((atstype_int)c1) - ((atstype_int)c2)
+} // end of [atspre_compare_char_char]
+
+#atscode_separator_for_C()
+
+\#define atspre_lt_char1_char1 atspre_lt_char_char
+\#define atspre_lte_char1_char1 atspre_lte_char_char
+\#define atspre_gt_char1_char1 atspre_gt_char_char
+\#define atspre_gte_char1_char1 atspre_gte_char_char
+\#define atspre_eq_char1_char1 atspre_eq_char_char
+\#define atspre_neq_char1_char1 atspre_neq_char_char
+\#define atspre_compare_char1_char1 atspre_compare_char_char
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_void
+atspre_fprint_char (
+  atstype_ref out, atstype_char c
+) {
+  fprintf ((FILE*)out, "%c", c) ; return ;
+} // end of [atspre_fprint_char]
+
+#atscode_separator_for_C()
+//
+// unsigned characters
+//
+#atscode_separator_for_C()
+
+%{
+fun
+fun_uchar_cmp0_decl (
+  opr: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "==" | "neq" => "!="
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_bool
+atspre_%s_uchar_uchar
+  (atstype_uchar c1, atstype_uchar c2) {
+  return (c1 %s c2 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_%s_uchar_uchar]\
+", @(
+ opr, fopr, opr
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_uchar_cmp0_decl]
+%}\
+\
+#fun_uchar_cmp0_decl("lt")
+#fun_uchar_cmp0_decl("lte")
+
+#fun_uchar_cmp0_decl("gt")
+#fun_uchar_cmp0_decl("gte")
+
+#fun_uchar_cmp0_decl("eq")
+#fun_uchar_cmp0_decl("neq")
+
+ATSinline()
+atstype_int
+atspre_compare_uchar_uchar
+  (atstype_uchar c1, atstype_uchar c2) {
+  return ((atstype_int)c1 - (atstype_int)c2) ;
+} // end of [atspre_compare_uchar_uchar]
+
+#atscode_separator_for_C()
+
+\#define atspre_lt_uchar1_uchar1 atspre_lt_uchar_uchar
+\#define atspre_lte_uchar1_uchar1 atspre_lte_uchar_uchar
+\#define atspre_gt_uchar1_uchar1 atspre_gt_uchar_uchar
+\#define atspre_gte_uchar1_uchar1 atspre_gte_uchar_uchar
+\#define atspre_eq_uchar1_uchar1 atspre_eq_uchar_uchar
+\#define atspre_neq_uchar1_uchar1 atspre_neq_uchar_uchar
+\#define atspre_compare_uchar1_uchar1 atspre_compare_uchar_char
+
+#atscode_separator_for_C()
+
+%{
+fun
+fun_isX_decl (
+  isX: string
+) : atext = let
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_bool
+atspre_%s_int
+  (atstype_int c) {
+  return (%s(c) ? atsbool_true : atsbool_false) ;
+} // end of [atspre_%s_int]
+#define atspre_%s_char(c) atspre_%s_int((atstype_int)(c))\
+", @(
+ isX, isX, isX, isX, isX
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_isX_decl]
+%}\
+\
+#fun_isX_decl("isalpha")
+#fun_isX_decl("isalnum")
+
+#fun_isX_decl("isascii")
+
+#fun_isX_decl("isblank")
+#fun_isX_decl("isspace")
+
+#fun_isX_decl("iscntrl")
+
+#fun_isX_decl("isdigit")
+#fun_isX_decl("isxdigit")
+
+#fun_isX_decl("isgraph")
+#fun_isX_decl("isprint")
+#fun_isX_decl("ispunct")
+
+#fun_isX_decl("islower")
+#fun_isX_decl("isupper")
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_int
+atspre_toascii
+  (atstype_int c) { return toascii(c) ; }
+// end of [atspre_toascii]
+
+ATSinline()
+atstype_int
+atspre_tolower
+  (atstype_int c) { return tolower(c) ; }
+// end of [atspre_tolower]
+
+ATSinline()
+atstype_int
+atspre_toupper
+  (atstype_int c) { return toupper(c) ; }
+// end of [atspre_toupper]
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "char_atxt.txt")
+%}\
