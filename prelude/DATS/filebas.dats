@@ -45,4 +45,37 @@ implement file_mode_aa = file_mode ("a+")
 
 (* ****** ****** *)
 
+implement fileref_load<int> = fileref_load_int
+implement fileref_load<char> = fileref_load_char
+implement fileref_load<float> = fileref_load_float
+implement fileref_load<double> = fileref_load_double
+implement fileref_load<string> = fileref_load_string
+
+(* ****** ****** *)
+
+implement{a}
+fileref_get_opt (r) = let
+  var x: a
+  val yn = fileref_load<a> (r, x)
+in
+  option_vt_make_opt<a> (yn, x)
+end // end of [fileref_get_opt]
+
+(* ****** ****** *)
+
+implement
+fileref_get_exnmsg
+  (r, msg) = let
+  var x: a
+  val yn = fileref_load<a> (r, x)
+in
+  if yn then let
+    prval () = opt_unsome (x) in x
+  end else let
+    prval () = opt_unnone (x) in exit_errmsg {a} (1, errmsg)
+  end (* end of [if] *)
+end // end of [fileref_get_exnmsg]
+
+(* ****** ****** *)
+
 (* end of [filebas.dats] *)

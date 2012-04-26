@@ -41,29 +41,53 @@ val file_mode_w : file_mode (w()) // = "w"
 val file_mode_ww : file_mode (rw()) // = "w+"
 ')\
 
-#atscode_decl_strcst('\
 castfn file_mode (x: string):<> file_mode
-')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-fun open_fileref_exn
+fun fileref_open_exn
   (path: string, fm: file_mode):<!exn> FILEref
-// end of [open_fileref_exn]
-')\
+// end of [fileref_open_exn]
 
-#atscode_decl_strcst('\
-fun open_fileref_opt
+fun fileref_open_opt
   (path: string, fm: file_mode):<!exn> Option_vt (FILEref)
-// end of [open_fileref_opt]
-')\
+// end of [fileref_open_opt]
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-fun close_fileref (r: FILEref): void
-')\
+fun fileref_close (r: FILEref): void
+
+#atscode_separator()
+
+typedef
+fileref_load_type (a:t@ype) =
+  (FILEref, &a? >> option (a, b)) -> #[b:bool] bool (b)
+// end of [fileref_load_type]
+
+fun{a:t@ype}
+fileref_load : fileref_load_type (a)
+
+fun fileref_load_int : fileref_load_type (int)
+fun fileref_load_char : fileref_load_type (char)
+fun fileref_load_float : fileref_load_type (float)
+fun fileref_load_double : fileref_load_type (double)
+fun fileref_load_string : fileref_load_type (string)
+
+#atscode_separator()
+
+fun{a:t@ype}
+fileref_get_opt (r: FILEref): Option_vt (a)
+
+fun{
+a:t@ype
+} fileref_get_exnmsg
+  (r: FILEref, msg: NSHARED(string)):<!exn> a
+// end of [fileref_get_exnmsg]
+
+macdef
+fileref_get_exnloc
+  (r) = fileref_get_exnmsg (r, \#LOCATION)
+// end of [fileref_get_exnloc]
 
 #atscode_separator()
 

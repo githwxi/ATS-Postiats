@@ -18,7 +18,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 ** Time of generation: #timestamp()
 */
 
-#atscode_separator()
+#atscode_separator_for_C()
 
 /*
 #atscode_author("Hongwei Xi")
@@ -27,6 +27,11 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 */
 
 #atscode_separator_for_C()
+
+\#ifndef ATSHOME_PRELUDE_CHAR_CATS
+\#define ATSHOME_PRELUDE_CHAR_CATS
+
+#atscode_separator()
 
 %{
 fun
@@ -96,6 +101,9 @@ atspre_fprint_char (
 ) {
   fprintf ((FILE*)out, "%c", c) ; return ;
 } // end of [atspre_fprint_char]
+
+\#define atspre_print_char(c) atspre_fprint_char(stdout_ref, (c))
+\#define atspre_prerr_char(c) atspre_fprint_char(stderr_ref, (c))
 
 #atscode_separator_for_C()
 //
@@ -225,6 +233,10 @@ atstype_int
 atspre_toupper
   (atstype_int c) { return toupper(c) ; }
 // end of [atspre_toupper]
+
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSHOME_PRELUDE_CHAR_CATS
 
 #atscode_separator_for_C()
 

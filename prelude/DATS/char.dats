@@ -43,9 +43,7 @@
 (* ****** ****** *)
 
 implement
-print_char (c) = fprint_char (stdout_ref, c)
-implement
-prerr_char (c) = fprint_char (stderr_ref, c)
+fprint_elt<char> (out, c) = fprint_char (out, c)
 
 (* ****** ****** *)
 

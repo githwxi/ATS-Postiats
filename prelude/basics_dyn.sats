@@ -262,6 +262,16 @@ overload main with main_argc_argv_env
 
 (* ****** ****** *)
 
+fun{
+a:viewt@ype
+} fprint_elt (out: FILEref, x: !INV(a)): void
+fun{a:viewt@ype}
+print_elt (x: !INV(a)): void // = fprintf (stdout_ref, x)
+fun{a:viewt@ype}
+prerr_elt (x: !INV(a)): void // = fprintf (stderr_ref, x)
+
+(* ****** ****** *)
+
 #if VERBOSE_PRELUDE #then
 #print "Loading [basics_dyn.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]

@@ -80,10 +80,10 @@ overload compare with compare_char_char of 0
 
 #atscode_decl_strcst('\
 fun fprint_char
-  (out: FILEref, x: char): void
+  (out: FILEref, x: char): void = "mac\#atspre_fprint_char"
 overload fprint with fprint_char
-fun print_char (x: char): void
-and prerr_char (x: char): void
+fun print_char (x: char): void = "mac\#atspre_fprint_char"
+and prerr_char (x: char): void = "mac\#atspre_fprint_char"
 overload print with print_char
 overload prerr with prerr_char
 ')\
@@ -279,7 +279,7 @@ fun compare_uchar1_uchar1
   c1: uchar c2, c2: uchar c2
 ) :<> int (c1-c2)
   = "mac\#atspre_compare_uchar1_uchar1"
-overload compare with compare_uchar1_char1 of 2
+overload compare with compare_uchar1_uchar1 of 2
 ')\
 
 #atscode_separator()

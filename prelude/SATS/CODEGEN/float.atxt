@@ -26,63 +26,81 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-fun{a:t@ype}
-g0float_add
+%{
+fun
+fun_gfloat_aop0_decl (
+  opr: string
+) : atext = let
+//
+val fopr_d = (
+  case+ opr of
+  | "add" => "+" | "sub" => "-"
+  | "mul" => "+" | "div" => "/" | "mod" => "mod"
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+fun{
+a:t@ype
+} g0float_%s
   (x: g0float (a), y: g0float (a)):<> g0float (a)
-overload + with g0float_add
-')\
-
-#atscode_decl_strcst('\
-fun{a:t@ype}
-g0float_sub
-  (x: g0float (a), y: g0float (a)):<> g0float (a)
-overload - with g0float_sub
-')\
-
-#atscode_decl_strcst('\
-fun{a:t@ype}
-g0float_mul
-  (x: g0float (a), y: g0float (a)):<> g0float (a)
-overload * with g0float_mul
-')\
-
-#atscode_decl_strcst('\
-fun{a:t@ype}
-g0float_div
-  (x: g0float (a), y: g0float (a)):<> g0float (a)
-overload / with g0float_div
-')\
+overload %s with g0float_%s of 0\
+", @(
+ opr, fopr_d, opr
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_gfloat_cmp0_decl]
+%}\
+#fun_gfloat_aop0_decl("add")
+#fun_gfloat_aop0_decl("sub")
+#fun_gfloat_aop0_decl("mul")
+#fun_gfloat_aop0_decl("div")
+#fun_gfloat_aop0_decl("mod")
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-fun{a:t@ype}
-g0float_lt
+%{
+fun
+fun_gfloat_cmp0_decl (
+  opr: string
+) : atext = let
+//
+val fopr_d = (
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "=" | "neq" => "!="
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+fun{
+a:t@ype
+} g0float_%s
   (x: g0float (a), y: g0float (a)):<> bool
-overload < with g0float_lt
-')\
+overload %s with g0float_%s of 0\
+", @(
+ opr, fopr_d, opr
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_gfloat_cmp0_decl]
+%}\
+\
+#fun_gfloat_cmp0_decl("lt")
+#fun_gfloat_cmp0_decl("lte")
 
-#atscode_decl_strcst('\
-fun{a:t@ype}
-g0float_lte
-  (x: g0float (a), y: g0float (a)):<> bool
-overload <= with g0float_lte
-')\
+#fun_gfloat_cmp0_decl("gt")
+#fun_gfloat_cmp0_decl("gte")
 
-#atscode_decl_strcst('\
-fun{a:t@ype}
-g0float_gt
-  (x: g0float (a), y: g0float (a)):<> bool
-overload > with g0float_gt
-')\
-
-#atscode_decl_strcst('\
-fun{a:t@ype}
-g0float_gte
-  (x: g0float (a), y: g0float (a)):<> bool
-overload >= with g0float_gte
-')\
+#fun_gfloat_cmp0_decl("eq")
+#fun_gfloat_cmp0_decl("neq")
+overload <> with g0float_neq of 0
 
 #atscode_decl_strcst('\
 fun{a:t@ype}

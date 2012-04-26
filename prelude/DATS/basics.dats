@@ -62,6 +62,13 @@ argv_get_at
 
 (* ****** ****** *)
 
+implement{a}
+print_elt (x) = fprint_elt (stdout_ref, x)
+implement{a}
+prerr_elt (x) = fprint_elt (stderr_ref, x)
+
+(* ****** ****** *)
+
 #if VERBOSE_PRELUDE #then
 #print "Loading [basics.dats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
