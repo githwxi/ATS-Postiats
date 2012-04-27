@@ -1,0 +1,45 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"pointer.dats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/pointer.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("March, 2012")
+
+#atscode_separator()
+
+implement{a} ptr_get (pf | p) = !p
+implement{a} ptr_get_vt (pf | p) = !p
+
+implement{a} ptr_set (pf | p, x) = !p := x
+
+implement{a}
+ptr_exch (pf | p, x) = let
+  val tmp = x; val () = x := !p; val () = !p := tmp
+end // end of [ptr_exch]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "pointer_atxt.txt")
+%}\

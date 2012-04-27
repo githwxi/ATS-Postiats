@@ -28,7 +28,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 %{
 fun
-fun_gfloat_aop0_decl (
+fun_g0float_aop_decl (
   opr: string
 ) : atext = let
 //
@@ -54,17 +54,17 @@ in
   atext_strptr (ent)
 end // end of [fun_gfloat_cmp0_decl]
 %}\
-#fun_gfloat_aop0_decl("add")
-#fun_gfloat_aop0_decl("sub")
-#fun_gfloat_aop0_decl("mul")
-#fun_gfloat_aop0_decl("div")
-#fun_gfloat_aop0_decl("mod")
+#fun_g0float_aop_decl("add")
+#fun_g0float_aop_decl("sub")
+#fun_g0float_aop_decl("mul")
+#fun_g0float_aop_decl("div")
+#fun_g0float_aop_decl("mod")
 
 #atscode_separator()
 
 %{
 fun
-fun_gfloat_cmp0_decl (
+fun_g0float_cmp_decl (
   opr: string
 ) : atext = let
 //
@@ -89,17 +89,17 @@ overload %s with g0float_%s of 0\
 //
 in
   atext_strptr (ent)
-end // end of [fun_gfloat_cmp0_decl]
+end // end of [fun_g0float_cmp_decl]
 %}\
 \
-#fun_gfloat_cmp0_decl("lt")
-#fun_gfloat_cmp0_decl("lte")
+#fun_g0float_cmp_decl("lt")
+#fun_g0float_cmp_decl("lte")
 
-#fun_gfloat_cmp0_decl("gt")
-#fun_gfloat_cmp0_decl("gte")
+#fun_g0float_cmp_decl("gt")
+#fun_g0float_cmp_decl("gte")
 
-#fun_gfloat_cmp0_decl("eq")
-#fun_gfloat_cmp0_decl("neq")
+#fun_g0float_cmp_decl("eq")
+#fun_g0float_cmp_decl("neq")
 overload <> with g0float_neq of 0
 
 #atscode_decl_strcst('\

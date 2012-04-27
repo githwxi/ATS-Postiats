@@ -1,0 +1,60 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"basics.dats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/basics.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("March, 2012")
+
+#atscode_separator()
+
+implement
+false_elim () = case+ 0 of _ =/=> ()
+
+#atscode_separator()
+
+implement prop_verify () = ()
+implement prop_verify_and_add () = ()
+
+#atscode_separator()
+
+implement
+argv_get_at
+  (argv, i) = x where {
+  val (pf, fpf | p) = argv_takeout_strarr (argv, i)
+  val x = !p.[i]
+  prval () = fpf (pf)
+} // end of [argv_get_at]
+
+#atscode_separator()
+
+implement{a}
+print_elt (x) = fprint_elt (stdout_ref, x)
+implement{a}
+prerr_elt (x) = fprint_elt (stderr_ref, x)
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "basics_atxt.txt")
+%}\

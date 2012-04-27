@@ -1,0 +1,185 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"list.dats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/list.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("Feburary, 2012")
+
+#atscode_separator()
+
+implement{x}
+list_copy (xs) = let
+  viewtypedef res = List_vt (x)
+  fun loop {n:nat} .<n>. (
+    xs: list (x, n), res: &res? >> list_vt (x, n)
+  ) :<> void = case+ xs of
+    | list_cons (x, xs) => let
+        val () = res := list_vt_cons {x}{0} (x, ?)
+        val+ list_vt_cons (_, !p_tl) = res; val () = loop (xs, !p_tl)
+      in
+        fold@ (res)
+      end // end of [cons]
+    | list_nil () => res := list_vt_nil ()
+  // end of [loop]
+  var res: res // uninitialized
+  val () = loop (xs, res)
+in
+  res (*linear list*)
+end // end of [list_copy]
+
+implement(x)
+listize<List(x)><x> (xs) = list_copy (xs)
+
+#atscode_separator()
+
+implement{x}
+list_reverse (xs) = list_append2_vt (xs, list_vt_nil)
+
+implement(x)
+rlistize<List(x)><x> (xs) = list_reverse (xs)
+
+#atscode_separator()
+
+implement{x}
+list_foreach_funenv
+  {v}{vt}{fe}
+  (pfv | xs, f, env) = let
+//
+fun loop {n:nat} .<n>. (
+  pfv: !v
+| xs: list (x, n), f: (!v | x, !vt) -<fun,fe> void, env: !vt
+) :<fe> void =
+  case+ xs of
+  | list_cons (x, xs) => let
+      val () = f (pfv | x, env) in loop (pfv | xs, f, env)
+    end // end of [list_cons]
+  | list_nil () => ()
+// end of [loop]
+in
+  loop (pfv | xs, f, env)
+end // end of [list_foreach_funenv]
+
+implement(x)
+foreach_funenv<List(x)><x>
+  (pfv | xs, f, env) = list_foreach_funenv (pfv | xs, f, env)
+// end of [foreach_funenv]
+
+#atscode_separator()
+
+implement{x}
+list_iforeach_funenv
+  {v}{vt}{fe}
+  (pfv | xs, f, env) = let
+//
+fun loop {n:nat} .<n>. (
+  pfv: !v
+| xs: list (x, n)
+, f: (!v | natLt(n), x, !vt) -<fun,fe> void
+, env: !vt, i: int
+) :<fe> void =
+  case+ xs of
+  | list_cons (x, xs) => let
+      val () = f (pfv | i, x, env) in loop (pfv | xs, f, env, i+1)
+    end // end of [list_cons]
+  | list_nil () => i(*size(xs*)
+// end of [loop]
+in
+  loop (pfv | xs, f, env, 0)
+end // end of [list_iforeach_funenv]
+
+implement(x)
+iforeach_funenv<List(x)><a>
+  (pfv | xs, f, env) = list_iforeach_funenv (pfv | xs, f, env)
+// end of [iforeach_funenv]
+
+#atscode_separator()
+
+implement{x}
+list_copy {n} (xs) = let
+  viewtypedef res = List_vt (x)
+  fun loop {n:nat} .<n>. (
+    xs: list (x, n), res: &res? >> list_vt (x, n)
+  ) :<> void =
+    case+ xs of
+    | list_cons
+        (x, xs) => let
+        val () =
+          res := list_vt_cons {x}{0} (x, ?)
+        val+ list_vt_cons (_, !p_res) = res
+        val () = loop (xs, !p_res)
+        prval () = fold@ (res)
+      in
+        (*nothing*)
+      end // end of [list_vt_cons]
+    | list_nil () => res := list_vt_nil
+  // end of [loop]
+  var res: res // uninitialized
+  val () = loop (xs, res)
+in
+  res(*list_vt(x,n)*)
+end // end of [list_copy]
+
+#atscode_separator()
+
+implement{x}{y}
+list_map_funenv
+  {v}{vt}{n}{fe}
+  (pfv | xs, f, env) = let
+  viewtypedef ys = List_vt (y)
+  fun loop {n:nat} .<n>. (
+    pfv: !v
+  | xs: list (x, n)
+  , f: (!v | x, !vt) -<fun,fe> y
+  , env: !vt
+  , res: &ys? >> list_vt (y, n)
+  ) :<fe> void =
+    case+ xs of
+    | list_cons
+        (x, xs) => let
+        val y = f (pfv | x, env)
+        val () = res := list_vt_cons {y}{0} (y, ?)
+        val+ list_vt_cons (_, !p_res) = res
+        val () = loop (pfv | xs, f, env, !p_res)
+        prval () = fold@ (res)
+      in
+        (*nothing*)
+      end // end of [list_vt_cons]
+    | list_nil () => res := list_vt_nil
+  // end of [loop]
+  var res: ys // uninitialized
+  val () = loop (pfv | xs, f, env, res)
+in
+  res(*list_vt(y,n)*)
+end // end of [list_map_funenv]
+
+implement(x,y)
+listize_funenv<List(x)><x><y>
+  (pfv | xs, f, env) = list_map_funenv (pfv | xs, f, env)
+// end of [listize_funenv]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "list_atxt.txt")
+%}\

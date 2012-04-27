@@ -1,0 +1,75 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"filebas.dats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/filebas.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("Feburary, 2012")
+
+#atscode_separator()
+
+implement file_mode_r = file_mode ("r")
+implement file_mode_rr = file_mode ("r+")
+implement file_mode_w = file_mode ("w")
+implement file_mode_ww = file_mode ("w+")
+implement file_mode_a = file_mode ("a")
+implement file_mode_aa = file_mode ("a+")
+
+#atscode_separator()
+
+implement fileref_load<int> = fileref_load_int
+implement fileref_load<char> = fileref_load_char
+implement fileref_load<float> = fileref_load_float
+implement fileref_load<double> = fileref_load_double
+implement fileref_load<string> = fileref_load_string
+
+#atscode_separator()
+
+implement{a}
+fileref_get_opt (r) = let
+  var x: a
+  val yn = fileref_load<a> (r, x)
+in
+  option_vt_make_opt<a> (yn, x)
+end // end of [fileref_get_opt]
+
+(* ****** ****** *)
+
+implement
+fileref_get_exnmsg
+  (r, msg) = let
+  var x: a
+  val yn = fileref_load<a> (r, x)
+in
+  if yn then let
+    prval () = opt_unsome (x) in x
+  end else let
+    prval () = opt_unnone (x) in exit_errmsg {a} (1, errmsg)
+  end (* end of [if] *)
+end // end of [fileref_get_exnmsg]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "filebas_atxt.txt")
+%}\

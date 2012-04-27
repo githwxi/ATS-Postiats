@@ -116,10 +116,10 @@ overload compare with compare_bool_bool
 
 #atscode_decl_strcst('\
 fun fprint_bool
-  (out: FILEref, x: bool): void
+  (out: FILEref, x: bool): void = "atspre_fprint_bool"
 overload fprint with fprint_bool
-fun print_bool (x: bool): void
-and prerr_bool (x: bool): void
+fun print_bool (x: bool): void = "mac\#atspre_fprint_bool"
+and prerr_bool (x: bool): void = "mac\#atspre_fprint_bool"
 overload print with print_bool
 overload prerr with prerr_bool
 ')\

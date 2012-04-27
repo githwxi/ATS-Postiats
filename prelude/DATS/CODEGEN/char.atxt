@@ -1,0 +1,86 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"char.dats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/char.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("Feburary, 2012")
+
+#atscode_separator()
+
+implement
+fprint_elt<char> (out, x) = fprint_char (out, x)
+
+#atscode_separator()
+
+implement{a}
+g0int_of_char
+  (c) = __cast (c) where {
+  extern castfn __cast (c: char): g0int (a)
+} // end of [g0int_of_char]
+implement{a}
+g0int_of_schar
+  (c) = __cast (c) where {
+  extern castfn __cast (c: schar): g0int (a)
+} // end of [g0int_of_schar]
+implement{a}
+g0int_of_uchar
+  (c) = __cast (c) where {
+  extern castfn __cast (c: uchar): g0int (a)
+} // end of [g0int_of_uchar]
+
+implement{a}
+g0uint_of_uchar
+  (c) = __cast (c) where {
+  extern castfn __cast (c: uchar): g0uint (a)
+} // end of [g0uint_of_uchar]
+
+#atscode_separator()
+
+implement{a}
+g1int_of_char1
+  {c} (c) = __cast (c) where {
+  extern castfn __cast (c: char c): g1int (a, c)
+} // end of [g1int_of_char1]
+implement{a}
+g1int_of_schar1
+  {c} (c) = __cast (c) where {
+  extern castfn __cast (c: schar c): g1int (a, c)
+} // end of [g1int_of_schar1]
+implement{a}
+g1int_of_uchar1
+  {c} (c) = __cast (c) where {
+  extern castfn __cast (c: uchar c): g1int (a, c)
+} // end of [g1int_of_uchar1]
+
+implement{a}
+g1uint_of_uchar1
+  {c} (c) = __cast (c) where {
+  extern castfn __cast (c: uchar c): g1uint (a, c)
+} // end of [g1uint_of_uchar1]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "char_atxt.txt")
+%}\

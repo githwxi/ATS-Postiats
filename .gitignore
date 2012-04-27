@@ -13,7 +13,13 @@ src/.depend
 
 prelude/SATS/CODEGEN/*.exe
 prelude/SATS/CODEGEN/*.sats
+prelude/SATS/CODEGEN/*_atxt.txt
+prelude/SATS/CODEGEN/*_atxt.dats
 prelude/DATS/CODEGEN/*.exe
 prelude/DATS/CODEGEN/*.dats
+prelude/DATS/CODEGEN/*_atxt.txt
+prelude/DATS/CODEGEN/*_atxt.dats
 prelude/CATS/CODEGEN/*.exe
 prelude/CATS/CODEGEN/*.cats
+prelude/CATS/CODEGEN/*_atxt.txt
+prelude/CATS/CODEGEN/*_atxt.dats

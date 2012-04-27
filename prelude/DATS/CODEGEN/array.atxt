@@ -1,0 +1,44 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"array.dats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/array.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("Feburary, 2012")
+
+#atscode_separator()
+
+extern
+val{a:viewt@ype} sizeof : sizeof_t (a)
+
+implement{a}
+array_foreach_funenv
+  (pfv | A, f, env, asz) =
+  array_foreach_funenv_tsz (pfv | A, f, env, asz, sizeof<a>)
+// end of [array_foreach_funenv]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "array_atxt.txt")
+%}\

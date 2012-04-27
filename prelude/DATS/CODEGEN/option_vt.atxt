@@ -1,0 +1,69 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"option_vt.dats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/option_vt.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("Feburary, 2012")
+
+#atscode_separator()
+
+implement{a} option_vt_some (x) = Some_vt (x)
+implement{ } option_vt_none ( ) = None_vt ( )
+
+#atscode_separator()
+
+implement{a}
+option_vt_make_opt
+  (b, x) = (
+  if b then let
+    prval () = opt_unsome {a} (x) in Some_vt (x)
+  end else let
+    prval () = opt_unnone {a} (x) in None_vt ( )
+  end // end of [if]
+) (* end of [option_vt_make_opt] *)
+
+#atscode_separator()
+
+implement{}
+option_vt_is_some (opt) = case+ opt of
+  | Some _ => (fold@ (opt); true) | None _ => (fold@ (opt); false)
+// end of [option_is_some]
+
+implement{}
+option_vt_is_none (opt) = case+ opt of
+  | Some _ => (fold@ (opt); false) | None _ => (fold@ (opt); true)
+// end of [option_is_none]
+
+#atscode_separator()
+
+implement{a}
+option_vt_unsome
+  (opt) = x where { val+ ~Some_vt (x) = opt }
+// end of [option_unsome]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "option_vt_atxt.txt")
+%}\

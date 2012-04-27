@@ -35,6 +35,15 @@ char_atxt.dats: char.atxt
 clean:: ; $(RMF) char_atxt.exe
 cleanall:: ; $(RMF) char.cats
 
+all:: float.cats
+float.cats: float_atxt.exe ; ./$< > $@
+float_atxt.exe: float_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ float_atxt.dats -latsdoc
+float_atxt.dats: float.atxt
+	$(ATSDOC) -do $@ -i float.atxt > float_atxt.txt
+clean:: ; $(RMF) float_atxt.exe
+cleanall:: ; $(RMF) float.cats
+
 
 ######
 

@@ -1,0 +1,84 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"array_prf.dats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/array_prf.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("Feburary, 2012")
+
+#atscode_separator()
+
+implement
+array_v_split {a}
+  (pf_arr) = split (pf_arr) where {
+  prfun split
+    {l:addr} 
+    {n,i:nat | i <= n}
+    .<i>. (
+    pf_arr: array_v (a, l, n)
+  ) : @(
+    array_v (a, l, i), array_v (a, l+i*sizeof(a), n-i)
+  ) =
+    sif i > 0 then let
+      prval @(pf1_elt, pf2_arr) = array_v_uncons (pf_arr)
+      prval @(pf1_arr_res, pf2_arr_res) = split {n-1,i-1} (pf2_arr)
+    in
+      @(array_v_cons (pf1_elt, pf1_arr_res), pf2_arr_res)
+    end else
+      (array_v_nil {a} {l} (), pf_arr)
+    // end of [sif]
+} // end of [array_v_split]
+
+#atscode_separator()
+
+implement
+array_v_unsplit{a}
+  (pf1_arr, pf2_arr) =
+  unsplit (pf1_arr, pf2_arr) where {
+//
+  prval () = lemma_array_params (pf1_arr)
+  prval () = lemma_array_params (pf2_arr) 
+//
+  prfun unsplit
+    {l:addr}
+    {n1,n2:nat} .<n1>. (
+    pf1_arr: array_v (a, l, n1)
+  , pf2_arr: array_v (a, l+n1*sizeof(a), n2)
+  ) : array_v (a, l, n1+n2) =
+    sif n1 > 0 then let
+      prval @(
+        pf11_elt, pf12_arr
+      ) = array_v_uncons (pf1_arr)
+      prval pf_arr_res = unsplit (pf12_arr, pf2_arr)
+    in
+      array_v_cons (pf11_elt, pf_arr_res)
+    end else let
+      prval () = array_v_unnil (pf1_arr) in pf2_arr
+    end // end of [sif]
+} // end of [array_v_unsplit]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "array_prf_atxt.txt")
+%}\

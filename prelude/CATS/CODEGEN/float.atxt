@@ -1,0 +1,113 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"float.cats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_LGPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/prelude/CATS/CODEGEN/float.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("April, 2012")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSHOME_PRELUDE_BOOL_CATS
+\#define ATSHOME_PRELUDE_BOOL_CATS
+
+#atscode_separator_for_C()
+
+extern
+int fprintf (FILE *stream, char *format, ...) ;
+// in stdio.h
+
+#atscode_separator_for_C()
+
+%{
+fun
+fun_float_cmp0_decl (
+  opr: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "==" | "neq" => "!="
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_bool
+atspre_g0float_%s_float
+  (atstype_char f1, atstype_char f2) {
+  return (f1 %s f2 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_g0float_%s_float]\
+", @(
+ opr, fopr, opr
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_char_cmp0_decl]
+%}\
+\
+#fun_float_cmp0_decl("lt")
+#fun_float_cmp0_decl("lte")
+
+#fun_float_cmp0_decl("gt")
+#fun_float_cmp0_decl("gte")
+
+#fun_float_cmp0_decl("eq")
+#fun_float_cmp0_decl("neq")
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_void
+atspre_fprint_float (
+  atstype_ref r, atstype_float x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%f", x) ;
+  return ;
+} // end [atspre_fprint_float]
+
+\#define atspre_print_float(x) atspre_fprint_float(stdout_ref, (x))
+\#define atspre_prerr_float(x) atspre_fprint_float(stderr_ref, (x))
+
+#atscode_separator_for_C()
+
+#atscode_separator_for_C()
+
+#atscode_separator_for_C()
+
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSHOME_PRELUDE_BOOL_CATS
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "float_atxt.txt")
+%}\

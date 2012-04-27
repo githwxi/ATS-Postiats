@@ -33,6 +33,12 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+extern
+int fprintf (FILE *stream, char *format, ...) ;
+// in stdio.h
+
+#atscode_separator()
+
 %{
 fun
 fun_char_cmp0_decl (

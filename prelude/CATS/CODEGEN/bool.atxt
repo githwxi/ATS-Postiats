@@ -34,9 +34,8 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator_for_C()
 
 extern
-int fprintf (
-  FILE *stream, char *format, ...
-) ; // stdio.h
+int fprintf (FILE *stream, char *format, ...) ;
+// in stdio.h
 
 #atscode_separator_for_C()
 
@@ -125,9 +124,9 @@ atspre_compare_bool_bool (
 ATSinline()
 atstype_string
 atspre_tostring_bool (
-  atstype_bool b
+  atstype_bool x
 ) {
-  return (b) ? "true" : "false" ;
+  return (x) ? "true" : "false" ;
 } // end of [atspre_tostring_bool]
 
 #atscode_separator_for_C()
@@ -135,15 +134,15 @@ atspre_tostring_bool (
 ATSinline()
 atstype_void
 atspre_fprint_bool (
-  atstype_ref r, atstype_bool b
+  atstype_ref r, atstype_bool x
 ) {
   int err ;
-  err = fprintf((FILE*)r, "%s", atspre_tostring_bool(b)) ;
+  err = fprintf((FILE*)r, "%s", atspre_tostring_bool(x)) ;
   return ;
 } // end [atspre_fprint_bool]
 
-\#define atspre_print_bool(b) atspre_fprint_bool(stdout_ref, (b))
-\#define atspre_prerr_bool(b) atspre_fprint_bool(stderr_ref, (b))
+\#define atspre_print_bool(x) atspre_fprint_bool(stdout_ref, (x))
+\#define atspre_prerr_bool(x) atspre_fprint_bool(stderr_ref, (x))
 
 #atscode_separator_for_C()
 

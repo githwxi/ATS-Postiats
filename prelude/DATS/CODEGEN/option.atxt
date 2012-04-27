@@ -1,9 +1,9 @@
 %{
 #define ATSCODEFORMAT "txt"
-#if (ATSCODEFORMAT=="txt")
+#if (ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"option.sats"
+val _thisfilename = atext_strcst"option.dats"
 val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
@@ -14,7 +14,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 (*
 ** Source:
-** $PATSHOME/prelude/SATS/CODEGEN/option.atxt
+** $PATSHOME/prelude/DATS/CODEGEN/option.atxt
 ** Time of generation: #timestamp()
 *)
 
@@ -22,41 +22,26 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_author("Hongwei Xi")
 #atscode_authoremail("hwxi AT cs DOT bu DOT edu")
-#atscode_start_time("February, 2012")
+#atscode_start_time("Feburary, 2012")
 
 #atscode_separator()
 
-#atscode_decl_strcst("sortdef t0p = t@ype")
-
-#atscode_separator()
-
-fun{a:t@ype}
-option_some (x: a): option (a, true)
-fun{}
-option_none {a:vt0p} (): option (a, false)
-
-#atscode_separator()
-
-#atscode_decl_strcst('\
-fun{}
-option_is_some{a:t0p}
-  {b:bool} (opt: option (a, b)):<> bool (b)
+implement{}
+option_is_some (opt) =
+  case+ opt of Some _ => true | None _ => false
 // end of [option_is_some]
-')\
 
-#atscode_decl_strcst('\
-fun{}
-option_is_none{a:t0p}
-  {b:bool} (opt: option (a, b)):<> bool (~b)
+implement{}
+option_is_none (opt) =
+  case+ opt of Some _ => false | None _ => true
 // end of [option_is_none]
-')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-fun{a:t0p}
-option_unsome (opt: option (a, true)):<> a
-')\
+implement{a}
+option_unsome
+  (opt) = x where { val+ Some (x) = opt }
+// end of [option_unsome]
 
 #atscode_separator()
 
