@@ -26,6 +26,12 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+(*
+** HX: a strptr is a null-terminated arrayptr of characters
+*)
+
+#atscode_separator()
+
 #atscode_decl_strcst('\
 castfn
 strnptr_of_strptr
@@ -44,6 +50,52 @@ viewtypedef
 rstrptr = READ(strptr0)
 viewtypedef
 rstrnptr (n:int) = READ(strnptr(n))
+')\
+
+#atscode_separator()
+
+%{
+fun
+fun_strptr_cmp_decl (
+  opr: string
+) : atext = let
+//
+val fopr_d = (
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "=" | "neq" => "!="
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+fun %s_strptr_strptr
+  (x1: !rstrptr, x2: !rstrptr):<> bool = \"mac#atspre_%s_strptr_strptr\"
+overload %s with %s_strptr_strptr\
+", @(
+ opr, opr, fopr_d, opr
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_strptr_cmp_decl]
+%}\
+\
+#fun_strptr_cmp_decl("lt")
+#fun_strptr_cmp_decl("lte")
+
+#fun_strptr_cmp_decl("gt")
+#fun_strptr_cmp_decl("gte")
+
+#fun_strptr_cmp_decl("eq")
+#fun_strptr_cmp_decl("neq")
+overload <> with neq_strptr_strptr
+
+#atscode_decl_strcst('\
+fun compare_strptr_strptr
+  (x1: !rstrptr, x2: !rstrptr):<> Sgn = "mac\#atspre_compare_strptr_strptr"
+overload compare with compare_strptr_strptr
 ')\
 
 #atscode_separator()

@@ -62,6 +62,24 @@ pointer_atxt.dats: pointer.atxt
 clean:: ; $(RMF) pointer_atxt.exe
 cleanall:: ; $(RMF) pointer.dats
 
+all:: string.dats
+string.dats: string_atxt.exe ; ./$< > $@
+string_atxt.exe: string_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ string_atxt.dats -latsdoc
+string_atxt.dats: string.atxt
+	$(ATSDOC) -do $@ -i string.atxt > string_atxt.txt
+clean:: ; $(RMF) string_atxt.exe
+cleanall:: ; $(RMF) string.dats
+
+all:: strptr.dats
+strptr.dats: strptr_atxt.exe ; ./$< > $@
+strptr_atxt.exe: strptr_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ strptr_atxt.dats -latsdoc
+strptr_atxt.dats: strptr.atxt
+	$(ATSDOC) -do $@ -i strptr.atxt > strptr_atxt.txt
+clean:: ; $(RMF) strptr_atxt.exe
+cleanall:: ; $(RMF) strptr.dats
+
 
 all:: basics.dats
 basics.dats: basics_atxt.exe ; ./$< > $@

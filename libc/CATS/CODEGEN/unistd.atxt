@@ -1,0 +1,53 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"unistd.cats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_LGPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/libc/CATS/CODEGEN/unistd.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("April, 2012")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSHOME_LIBC_UNISTD_CATS
+\#define ATSHOME_LIBC_UNISTD_CATS
+
+#atscode_separator_for_C()
+
+\#include <unistd.h>
+
+#atscode_separator_for_C()
+
+\#define atslib_execv(path, argv) execv((char*)path, (char**)argv)
+\#define atslib_execvp(path, argv) execvp((char*)path, (char**)argv)
+
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSHOME_LIBC_UNISTD_CATS
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "unistd_atxt.txt")
+%}\

@@ -1,0 +1,67 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"string.dats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/string.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("April, 2012")
+
+#atscode_separator()
+
+%{
+fun
+fun_string_cmp_decl
+  (opr: string): atext = let
+//
+val fopr_d = (
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "=" | "neq" => "!="
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+implement
+%s_string_string (x1, x2) = (compare_string_string (x1, x2) %s 0)\
+", @(
+ opr, fopr_d
+)
+) // end of [sprintf] // end of [val]
+in
+  atext_strptr (ent)
+end // end of [fun_char_cmp0_decl]
+%}\
+\
+#fun_string_cmp_decl("lt")
+#fun_string_cmp_decl("lte")
+#fun_string_cmp_decl("gt")
+#fun_string_cmp_decl("gte")
+#fun_string_cmp_decl("eq")
+#fun_string_cmp_decl("neq")
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "string_atxt.txt")
+%}\

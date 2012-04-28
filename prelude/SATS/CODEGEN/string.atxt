@@ -26,9 +26,15 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+(*
+** HX: a string is a null-terminated arrayref of characters
+*)
+
+#atscode_separator()
+
 %{
 fun
-fun_string_cmp0_decl (
+fun_string_cmp_decl (
   opr: string
 ) : atext = let
 //
@@ -43,7 +49,7 @@ val fopr_d = (
 val ent = sprintf ("\
 fun %s_string_string
   (x1: string, x2: string):<> bool = \"mac#atspre_%s_string_string\"
-overload %s with %s_string_string of 0\
+overload %s with %s_string_string\
 ", @(
  opr, opr, fopr_d, opr
 )
@@ -51,22 +57,22 @@ overload %s with %s_string_string of 0\
 //
 in
   atext_strptr (ent)
-end // end of [fun_string_cmp0_decl]
+end // end of [fun_string_cmp_decl]
 %}\
 \
-#fun_string_cmp0_decl("lt")
-#fun_string_cmp0_decl("lte")
+#fun_string_cmp_decl("lt")
+#fun_string_cmp_decl("lte")
 
-#fun_string_cmp0_decl("gt")
-#fun_string_cmp0_decl("gte")
+#fun_string_cmp_decl("gt")
+#fun_string_cmp_decl("gte")
 
-#fun_string_cmp0_decl("eq")
-#fun_string_cmp0_decl("neq")
-overload <> with neq_string_string of 0
+#fun_string_cmp_decl("eq")
+#fun_string_cmp_decl("neq")
+overload <> with neq_string_string
 
 #atscode_decl_strcst('\
 fun compare_string_string
-  (x1: string, x2: string): Sgn = "mac\#atspre_compare_string_string"
+  (x1: string, x2: string):<> Sgn = "mac\#atspre_compare_string_string"
 overload compare with compare_string_string
 ')\
 

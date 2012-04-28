@@ -1,0 +1,1 @@
+CODEGEN/strobjref.sats

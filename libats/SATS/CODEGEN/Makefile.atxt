@@ -15,14 +15,14 @@ fun make_entry
   (nm: string): atext = let
 //
 val ent = sprintf ("\
-all:: %s.dats\n\
-%s.dats: %s_atxt.exe ; ./$< > $@\n\
+all:: %s.sats\n\
+%s.sats: %s_atxt.exe ; ./$< > $@\n\
 %s_atxt.exe: %s_atxt.dats\n\
 	$(ATSCC) -D_ATS_GCATS -o $@ %s_atxt.dats -latsdoc\n\
 %s_atxt.dats: %s.atxt\n\
 	$(ATSDOC) -do $@ -i %s.atxt > %s_atxt.txt\n\
 clean:: ; $(RMF) %s_atxt.exe\n\
-cleanall:: ; $(RMF) %s.dats\n\
+cleanall:: ; $(RMF) %s.sats\n\
 ", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
 ) // end of [val]
 //
@@ -51,26 +51,7 @@ all::
 
 ######
 
-#make_entry("bool")
-#make_entry("char")
-#make_entry("filebas")
-#make_entry("filebas_prf")
-#make_entry("pointer")
-#make_entry("string")
-#make_entry("strptr")
-
-#make_entry("basics")
-
-#make_entry("arith_prf")
-#make_entry("array")
-#make_entry("array_prf")
-#make_entry("arrnull")
-#make_entry("list")
-#make_entry("list_vt")
-#make_entry("option")
-#make_entry("option_vt")
-
-#make_entry("unsafe")
+#make_entry("strobjref")
 
 ######
 

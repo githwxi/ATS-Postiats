@@ -1,0 +1,126 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"strobjref.sats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/libats/SATS/CODEGEN/strobjref.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("April, 2012")
+
+#atscode_separator()
+
+viewtypedef strobjref0 = [l:addr] strobjref (l)
+viewtypedef strobjref1 = [l:addr | l > null] strobjref (l)
+
+#atscode_separator()
+
+castfn ptr_of_strobjref {l:addr} (x: !strobjref l): ptr (l)
+overload ptr_of with ptr_of_strobjref
+
+#atscode_separator()
+
+fun strobjref_make_nil ():<> strobjref (null)
+fun strobjref_make_strptr0 (x: strptr0):<> strobjref0
+fun strobjref_make_strptr1 (x: strptr1):<> strobjref1
+
+#atscode_separator()
+
+fun strobjref_ref
+  {l:addr} (x: !strpbjref l): strpbjref l
+// end of [strobjref_ref]
+
+fun strobjref_unref (x: strpbjref0): void
+
+#atscode_separator()
+
+fun
+strobjref_get0_strptr
+  {l:agz} (
+  x: !strobjref l
+) :<> #[l1:agz] (
+  minus (strobjref l, strptr l1) | strptr l1
+) // end of [strobjref_get0_strptr]
+
+#atscode_separator()
+
+%{
+fun
+fun_strobjref_cmp0_decl (
+  opr: string
+) : atext = let
+//
+val fopr_d = (
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "=" | "neq" => "!="
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+fun %s_strobjref_strobjref
+  {l1,l2:addr} (x1: !strobjref l1, x2: !strobjref l2):<> bool
+overload %s with %s_strobjref_strobjref\
+", @(
+ opr, fopr_d, opr
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_strobjref_cmp0_decl]
+%}\
+\
+#fun_strobjref_cmp0_decl("lt")
+#fun_strobjref_cmp0_decl("lte")
+
+#fun_strobjref_cmp0_decl("gt")
+#fun_strobjref_cmp0_decl("gte")
+
+#fun_strobjref_cmp0_decl("eq")
+#fun_strobjref_cmp0_decl("neq")
+overload <> with neq_strobjref_strobjref
+
+#atscode_decl_strcst('\
+fun compare_strobjref_strobjref
+  {l1,l2:addr} (x1: !strobjref l1, x2: !strobjref l2
+) :<> Sgn = "atslib_compare_strobjref_strobjref"
+overload compare with compare_strobjref_strobjref
+')\
+
+#atscode_separator()
+
+#atscode_decl_strcst('\
+fun fprint_strobjref
+  {l:addr} (out: FILEref, x: !strobjref l): void
+overload fprint with fprint_strobjref
+fun print_strobjref {l:addr} (x: !strobjref l): void
+and prerr_strobjref {l:addr} (x: !strobjref l): void
+overload print with print_strobjref
+overload prerr with prerr_strobjref
+')\
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "strobjref_atxt.txt")
+%}\

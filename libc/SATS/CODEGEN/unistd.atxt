@@ -1,0 +1,45 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"unistd.sats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/libats/SATS/CODEGEN/unistd.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("April, 2012")
+
+#atscode_separator()
+
+fun execv {n:pos}{l:addr} (
+  pf: !arrnull_v (string, l, n) | path: string, argv: ptr l
+) : int = "mac\#atslib_execv" // end of [execv]
+fun execv_unsafe (path: string, argv: ptr): int = "mac\#atslib_execv"
+
+fun execvp {n:pos}{l:addr} (
+  pf: !arrnull_v (string, l, n) | file: string, argv: ptr l
+) : int = "mac\#atslib_execvp" // end of [execvp]
+fun execvp_unsafe (path: string, argv: ptr): int = "mac\#atslib_execvp"
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "unistd_atxt.txt")
+%}\

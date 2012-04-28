@@ -1,0 +1,63 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"bool.cats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_LGPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/prelude/CATS/CODEGEN/bool.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("April, 2012")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSHOME_PRELUDE_STRING_CATS
+\#define ATSHOME_PRELUDE_STRING_CATS
+
+#atscode_separator_for_C()
+
+extern
+int strcmp (char *x1, char *x2) ; // string.h
+
+extern
+int fprintf (FILE *stream, char *format, ...) ;
+// in stdio.h
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_int
+atspre_compare_string_string (
+  atstype_string x1, atstype_string x2
+) {
+  return strcmp((char*)x1, (char*)x2) ;
+} // [atspre_compare_string_string]
+
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSHOME_PRELUDE_STRING_CATS
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "bool_atxt.txt")
+%}\
