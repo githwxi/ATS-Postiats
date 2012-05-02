@@ -111,6 +111,18 @@ val cntr = $CNTR.counter_make ()
 //
 in
 //
+implement s2hole_stamp_make () = $CNTR.counter_getinc (cntr)
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+//
+val cntr = $CNTR.counter_make ()
+//
+in
+//
 implement d2con_stamp_make () = $CNTR.counter_getinc (cntr)
 //
 end // end of [local]

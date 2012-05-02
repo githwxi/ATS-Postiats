@@ -313,6 +313,35 @@ implement prerr_d2var (x) = fprint_d2var (stderr_ref, x)
 
 (* ****** ****** *)
 
+implement
+fprint_d2vfin
+  (out, d2vfin) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+  case+ d2vfin of
+  | D2VFINdone () =>
+      prstr "D2VFINdone()"
+  | D2VFINnone () =>
+      prstr "D2VFINnone()"
+  | D2VFINsome (s2e) => {
+      val () = prstr "D2VFINsome("
+      val () = fprint_s2exp (out, s2e)
+      val () = prstr ")"
+    }
+  | D2VFINvbox (s2e) => {
+      val () = prstr "D2VFINvbox("
+      val () = fprint_s2exp (out, s2e)
+      val () = prstr ")"
+    }
+end // end of [fprint_d2vfin]
+
+implement
+print_d2vfin (x) = fprint_d2vfin (stdout_ref, x)
+implement
+prerr_d2vfin (x) = fprint_d2vfin (stderr_ref, x)
+
+(* ****** ****** *)
+
 local
 
 staload

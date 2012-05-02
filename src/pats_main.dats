@@ -166,6 +166,7 @@ dynload "pats_staexp2_sort.dats"
 dynload "pats_staexp2_scst.dats"
 dynload "pats_staexp2_svar.dats"
 dynload "pats_staexp2_sVar.dats"
+dynload "pats_staexp2_hole.dats"
 dynload "pats_staexp2_dcon.dats"
 //
 dynload "pats_staexp2_skexp.dats"

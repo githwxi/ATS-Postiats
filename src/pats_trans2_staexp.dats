@@ -756,7 +756,7 @@ in
 //
 case+ s1e0.s1exp_node of
 | S1Einvar (refval, s1e) => let
-    val () = wths1es := WTHS1EXPLSTcons_some (refval, s1e, wths1es)
+    val () = wths1es := WTHS1EXPLSTcons_none (wths1es)
   in
     s1exp_trup_invar (refval, s1e)
   end // end of [S1Einvar]

@@ -690,6 +690,8 @@ case+ s2e0.s2exp_node of
 | S2Evar (s2v) => s2var_subst_flag (sub, s2e0, flag, s2v)
 | S2EVar (s2V) => s2Var_subst_flag (sub, s2e0, flag, s2V)
 //
+| S2Ehole _ => s2e0
+//
 | S2Edatconptr (d2c, s2es) => let
     val flag0 = flag
     val s2es = s2explst_subst_flag (sub, s2es, flag)
@@ -1079,6 +1081,83 @@ end // end of [s2explst_alpha]
 
 (* ****** ****** *)
 
+extern
+fun labs2explst_hrepl0
+  (ls2es: labs2explst, repl: s2exp): Option_vt (labs2explst)
+// end of [labs2explst_hrepl0]
+
+implement
+s2exp_hrepl0
+  (s2e0, repl) = let
+in
+//
+case+ s2e0.s2exp_node of
+//
+| S2Ehole _ => Some_vt (repl)
+//
+| S2Eat (s2e, s2a) => let
+    val res = s2exp_hrepl0 (s2e, repl)
+  in
+    case+ res of
+    | ~Some_vt (s2e) => Some_vt (s2exp_at (s2e, s2a))
+    | ~None_vt () => None_vt ()
+  end // end of [S2Eat]
+| S2Etyrec (knd, npf, ls2es) => let
+    val res = labs2explst_hrepl0 (ls2es, repl)
+  in
+    case+ res of
+    | ~Some_vt (ls2es) => let
+        val s2t = s2e0.s2exp_srt
+      in
+        Some_vt (s2exp_tyrec_srt (s2t, knd, npf, ls2es))
+      end // end of [Some_vt]
+    | ~None_vt () => None_vt ()
+  end // end of [S2Etyrec]
+//
+| _ => None_vt ()
+//
+end // end of [s2exp_hrepl0]
+
+implement
+labs2explst_hrepl0
+  (ls2es, repl) = let
+in
+//
+case+ ls2es of
+| list_cons (ls2e, ls2es) => let
+    val SLABELED (l, name, s2e) = ls2e
+    val res = s2exp_hrepl0 (s2e, repl)
+  in
+    case+ res of
+    | ~Some_vt (s2e) => let
+        val ls2e =
+          SLABELED (l, name, s2e)
+        // end of [val]
+      in
+        Some_vt (list_cons (ls2e, ls2es))
+      end // end of [Some_vt]
+    | ~None_vt () => let
+        val res = labs2explst_hrepl0 (ls2es, repl)
+      in
+        case+ res of
+        | ~Some_vt (ls2es) => Some_vt (list_cons (ls2e, ls2es))
+        | ~None_vt () => None_vt ()
+      end (* end of [None_vt] *)
+  end // end of [list_cons]
+| list_nil () => None_vt ()
+//
+end // end of [labs2explst_hrepl0]
+
+implement
+s2expopt_hrepl0
+  (opt, repl) = (
+  case+ opt of
+  | Some s2e_ctx => s2exp_hrepl0 (s2e_ctx, repl)
+  | None () => None_vt ()
+) // end of [s2expopt_hrepl0]
+
+(* ****** ****** *)
+
 local
 
 fun aux_s2exp (
@@ -1099,6 +1178,8 @@ case+ s2e0.s2exp_node of
     val () = fvs := s2varset_vt_add (fvs, s2v)
   } // end of [S2Evar]
 | S2EVar s2V => aux_s2Var (s2V, fvs)
+//
+| S2Ehole _ => ()
 //
 | S2Edatconptr (d2c, s2es_arg) => aux_s2explst (s2es_arg, fvs)
 | S2Edatcontyp (d2c, s2es_arg) => aux_s2explst (s2es_arg, fvs)

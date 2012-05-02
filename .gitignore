@@ -49,3 +49,5 @@ libats/CATS/CODEGEN/*.exe
 libats/CATS/CODEGEN/*.cats
 libats/CATS/CODEGEN/*_atxt.txt
 libats/CATS/CODEGEN/*_atxt.dats
+
+contrib/cairo/cairo-1.12.*

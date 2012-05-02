@@ -238,6 +238,7 @@ and d3exp_node =
       (int(*recknd*), int(*npf*), labd3explst)
   | D3Eseq of d3explst // sequencing
 //
+  | D3Esel_var of (int(*0/1: val/ref*), d2var, d3lablst)
   | D3Esel_ptr of (d3exp, d3lablst) // pointed record/tuple selection
   | D3Esel_ref of (d3exp, d3lablst) // referenced record/tuple selection
 //
@@ -516,6 +517,10 @@ fun d3exp_case (
 ) : d3exp // end of [d3exp_case]
 
 (* ****** ****** *)
+
+fun d3exp_sel_var (
+  loc: location, s2e: s2exp, knd: int, d2v: d2var, d3ls: d3lablst
+) : d3exp // end of [d3exp_sel_var]
 
 fun d3exp_sel_ptr
   (loc: location, s2e: s2exp, d3e: d3exp, d3ls: d3lablst): d3exp

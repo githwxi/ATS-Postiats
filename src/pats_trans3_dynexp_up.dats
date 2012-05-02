@@ -290,9 +290,8 @@ case+ d2e0.d2exp_node of
       print_location (loc0); print_newline ();
       print "d2exp_trup: d2e0 = "; print_d2exp d2e0; print_newline ()
     ) // end of [val]
-    val () = assertloc (false)
   in
-    exit (1)
+    exitloc (1)
   end // end of [_]
 //
 ) : d3exp // end of [val]
@@ -484,18 +483,19 @@ case+ opt of
 //
 end // end of [d2var_get_type_some]
 
-fn d2exp_trup_var_mutabl (
-  loc0: location, d2v: d2var
-) : d3exp = let
+(* ****** ****** *)
+
+implement
+d2exp_trup_var_mutabl
+  (loc0, d2v) = let
   val- Some (s2e_addr) = d2var_get_addr (d2v)
-  val () = assertloc (false)
 in
-  exit (1)
+  exitloc (1)
 end // end of [d2exp_trup_var_mut]
 
-fn d2exp_trup_var_nonmut (
-  loc0: location, d2v: d2var
-) : d3exp = let
+implement
+d2exp_trup_var_nonmut
+  (loc0, d2v) = let
 //
 val lin = d2var_get_linval (d2v) // lin >= 0; nonlin = ~1
 // (*
@@ -668,9 +668,8 @@ case+ d2e_id.d2exp_node of
     val () = (
       print "d2exp_trup_tmpid: d2e_id = "; print_d2exp d2e_id; print_newline ()
     ) // end of [val]
-    val () = assertloc (false)
   in
-    exit (1)
+    exitloc (1)
   end // end of [_]
 //
 end // end of [d2exp_trup_tmpid]
@@ -1121,22 +1120,27 @@ var s2fe: s2eff = s2eff_nil
 val d2e_body = d2exp_s2eff_of_d2exp (d2e_body, s2fe)
 //
 val (pfeff | ()) = the_effenv_push_lam (s2fe)
-val (pfd2v | ()) = the_d2varenv_push_lam (lin)
-//
-val () = the_d2varenv_add_p2atlst (p2ts_arg)
 //
 val s2es_arg = p2atlst_syn_type (p2ts_arg)
 val p3ts_arg = p2atlst_trup_arg (npf, p2ts_arg)
 //
-val (pflamlp | ()) =
-  the_lamlpenv_push_lam (p3ts_arg)
+val (pfd2v | ()) = the_d2varenv_push_lam (lin)
+val () = the_d2varenv_add_p2atlst (p2ts_arg)
+val (pfman | ()) =
+  the_pfmanenv_push_lam (lin) // lin:0/1:stopping/continuing search
+val () = the_pfmanenv_add_p2atlst (p2ts_arg)
+//
+val (pflamlp | ()) = the_lamlpenv_push_lam (p3ts_arg)
+//
 val d3e_body = d2exp_trup (d2e_body)
+//
 val () = the_d2varenv_check (loc0)
 val () = if lin > 0 then the_d2varenv_check_llam (loc0)
-val () = the_lamlpenv_pop (pflamlp | (*none*))
 //
 val () = the_effenv_pop (pfeff | (*none*))
 val () = the_d2varenv_pop (pfd2v | (*none*))
+val () = the_pfmanenv_pop (pfman | (*none*))
+val () = the_lamlpenv_pop (pflamlp | (*none*))
 //
 val () = trans3_env_pop_and_add_main (pfenv | loc0)
 //

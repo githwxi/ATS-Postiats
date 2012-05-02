@@ -262,6 +262,7 @@ val loc0 = p2t0.p2at_loc
 val- S2Erefarg
   (refknd, s2e) = s2e0.s2exp_node
 val s2f = s2exp2hnf (s2e)
+val s2e = s2hnf2exp (s2f)
 val- P2Tvar (refknd2, d2v) = p2t0.p2at_node
 //
 in
@@ -269,12 +270,14 @@ in
 case+ 0 of
 | _ when refknd = 0 => let // call-by-value
     val p3t0 = p2at_trdn_var (p2t0, s2f)
-    val () = d2var_set_mastype (d2v, Some s2e)
     val () = p3at_set_type (p3t0, s2e0)
+    val () = d2var_set_mastype (d2v, Some s2e)
+    val- Some (s2e) = d2var_get_type (d2v)
+    val () = d2var_set_finknd (d2v, D2VFINsome (s2e)) // HX: this can be overwritten
   in
     p3t0
   end // end of [refknd = 0]
-| _ (*refval = 1*) => let // call-by-reference
+| _ (*refknd = 1*) => let // call-by-reference
     val loc0 = p2t0.p2at_loc
     val p3t0 = p3at_var (loc0, s2e0, refknd, d2v)
     val s2e_opn = s2hnf_opnexi_and_add (loc0, s2f)
@@ -295,7 +298,7 @@ case+ 0 of
     val () = d2var_set_type (d2vw, Some (s2e_opn_at))
   in
     p3t0
-  end // end of [refval = 1]
+  end // end of [refknd = 1]
 end // end of [p2at_trdn_arg_refarg_var]
 
 fun

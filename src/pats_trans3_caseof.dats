@@ -143,6 +143,8 @@ val () = begin
 end // end of [val]
 // *)
 val (pfpush | ()) = trans3_env_push ()
+val (pfpush_d2var | ()) = the_d2varenv_push_let ()
+val () = the_d2varenv_add_p2atlst (p2ts)
 //
 val seq = c2l.c2lau_seq
 and neg = c2l.c2lau_neg
@@ -171,6 +173,7 @@ in
 end // end of [val]
 //
 val () = trans3_env_pop_and_add_main (pfpush | loc0)
+val () = the_d2varenv_pop (pfpush_d2var | (*none*))
 //
 in
   c3lau_make (loc0, p3ts, gua, seq, neg, d3e_body)

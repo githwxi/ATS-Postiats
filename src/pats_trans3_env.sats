@@ -378,7 +378,7 @@ fun the_d2varenv_get_llamd2vs (): d2varlst_vt
 
 fun the_d2varenv_pop
   (pf: d2varenv_push_v | (*none*)): void
-fun the_d2varenv_push (): (d2varenv_push_v | void)
+// end of [the_d2varenv_pop]
 
 fun the_d2varenv_push_lam
   (knd(*lin*): int): (d2varenv_push_v | void)
@@ -413,6 +413,31 @@ fun the_lamlpenv_push_lam
   (p3ts: p3atlst): (lamlpenv_push_v | void)
 fun the_lamlpenv_push_loop0 () : (lamlpenv_push_v | void)
 fun the_lamlpenv_push_loop1 () : (lamlpenv_push_v | void)
+
+(* ****** ****** *)
+
+absview pfmanenv_push_v
+
+fun fprint_the_pfmanenv (out: FILEref): void
+
+fun the_pfmanenv_push_let (): (pfmanenv_push_v | void)
+fun the_pfmanenv_push_lam (lin: int): (pfmanenv_push_v | void)
+fun the_pfmanenv_push_try (): (pfmanenv_push_v | void)
+
+fun the_pfmanenv_pop (pf: pfmanenv_push_v | (*none*)): void
+
+fun the_pfmanenv_add_dvar (d2v: d2var): void
+fun the_pfmanenv_add_dvarlst (d2vs: d2varlst): void
+fun the_pfmanenv_add_p2at (p2t: p2at): void
+fun the_pfmanenv_add_p2atlst (p2ts: p2atlst): void
+
+(* ****** ****** *)
+
+dataviewtype pfobj = PFOBJ of
+  (d2var, s2exp(*ctx*), s2exp(*elt*), s2exp(*addr*))
+viewtypedef pfobjopt = Option_vt (pfobj)
+
+fun pfobj_search_atview (s2l0: s2exp): pfobjopt
 
 (* ****** ****** *)
 

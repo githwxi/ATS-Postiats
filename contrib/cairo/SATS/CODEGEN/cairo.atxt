@@ -1,0 +1,308 @@
+(* ****** ****** *)
+//
+// API for cairo in ATS // this one is based on cairo-1.12
+//
+(* ****** ****** *)
+
+%{#
+#include "contrib/cairo/CATS/cairo.cats"
+%} // end of [%{#]
+
+(* ****** ****** *)
+
+#define ATS_STALOADFLAG 0 // no static loading at run-time
+
+(* ****** ****** *)
+
+#macextval ("int", "CAIRO_VERSION_MAJOR")
+#macextval ("int", "CAIRO_VERSION_MINOR")
+#macextval ("int", "CAIRO_VERSION_MICRO")
+
+fun CAIRO_VERSION_ENCODE
+  (major: int, minor: int, micro: int): int = "mac#CAIRO_VERSION_ENCODE"
+// end of [CAIRO_VERSION_ENCODE]
+
+(* ****** ****** *)
+
+fun cairo_version
+  ((*void*)): int = "mac#atsctrb_cairo_version"
+// end of [cairo_version]
+fun cairo_version_string
+  ((*void*)): string = "mac#atsctrb_cairo_version_string"
+// end of [cairo_version_string]
+
+(* ****** ****** *)
+//
+// [cairo_bool_t] and [bool] are the same
+//
+(* ****** ****** *)
+//
+// [cairo_ref] is reference counted
+//
+absviewtype cairo_ref (l:addr) // cairo_t*
+viewtypedef cairo_ref1 = [l:addr | l > null] cairo_ref (l)
+stadef xr = cairo_ref
+stadef xr1 = cairo_ref1
+
+fun
+cairo_reference
+  {l:agz} (x: !xr l): xr (l)
+  = "mac#atsctrb_cairo_reference"
+// end of [fun]
+fun cairo_destroy
+  (x: xr1): void = "mac#cairo_destroy"
+// end of [cairo_destroy]
+
+(* ****** ****** *)
+//
+// [cairo_surface_ref] is reference counted
+//
+absviewtype cairo_surface_ref (l:addr) // cairo_surface_t*
+viewtypedef cairo_surface_ref1 = [l:addr | l > null] cairo_surface_ref (l)
+stadef xrsf = cairo_surface_ref
+stadef xrsf1 = cairo_surface_ref1
+
+fun
+cairo_surface_reference
+  {l:agz} (
+  x: !xrsf l
+) : xrsf (l)
+  = "mac#atsctrb_cairo_surface_reference"
+// end of [fun]
+fun cairo_surface_destroy
+  (x: xrsf1): void = "mac#cairo_surface_destroy"
+// end of [cairo_surface_destroy]
+
+(* ****** ****** *)
+//
+// [cairo_device_ref] is reference counted
+//
+absviewtype cairo_device_ref (l:addr) // cairo_device_t*
+viewtypedef cairo_device_ref1 = [l:addr | l > null] cairo_device_ref (l)
+stadef xrdev = cairo_device_ref
+stadef xrdev1 = cairo_device_ref1
+
+fun
+cairo_device_reference
+  {l:agz} (
+  x: !xrdev l
+) : xrdev (l)
+  = "mac#atsctrb_cairo_device_reference"
+// end of [fun]
+fun cairo_device_destroy
+  (x: xrdev1): void = "mac#cairo_device_destroy"
+// end of [cairo_device_destroy]
+
+(* ****** ****** *)
+
+typedef
+cairo_matrix_t = $extype_struct "cairo_matrix_t" {
+  double xx; double yx;
+  double xy; double yy;
+  double x0; double y0;
+} // end of [cairo_matrix_t]
+
+(* ****** ****** *)
+//
+// [cairo_pattern_ref] is reference counted
+//
+absviewtype cairo_pattern_ref (l:addr) // cairo_pattern_t*
+viewtypedef cairo_pattern_ref1 = [l:addr | l > null] cairo_pattern_ref (l)
+stadef xrpat = cairo_pattern_ref
+stadef xrpat1 = cairo_pattern_ref1
+
+fun
+cairo_pattern_reference
+  {l:agz} (
+  x: !xrpat l
+) : xrpat (l)
+  = "mac#atsctrb_cairo_pattern_reference"
+// end of [fun]
+fun cairo_pattern_destroy
+  (x: xrpat1): void = "mac#cairo_pattern_destroy"
+// end of [cairo_pattern_destroy]
+
+(* ****** ****** *)
+
+typedef
+cairo_destroy_func_t = ptr(*/void*/*) -> void
+
+(* ****** ****** *)
+
+abst@ype
+cairo_user_data_key_t
+  = $extype"cairo_user_data_key_t"
+// end of ...
+
+(* ****** ****** *)
+//
+abst@ype cairo_status_t = $extype"cairo_status_t"
+//
+#macextval("cairo_status_t", "CAIRO_STATUS_SUCCESS")
+#macextval("cairo_status_t", "CAIRO_STATUS_NO_MEMORY")
+#macextval("cairo_status_t", "CAIRO_STATUS_INVALID_RESTORE")
+#macextval("cairo_status_t", "CAIRO_STATUS_INVALID_POP_GROUP")
+#macextval("cairo_status_t", "CAIRO_STATUS_NO_CURRENT_POINT")
+#macextval("cairo_status_t", "CAIRO_STATUS_INVALID_MATRIX")
+#macextval("cairo_status_t", "CAIRO_STATUS_INVALID_STATUS")
+#macextval("cairo_status_t", "CAIRO_STATUS_NULL_POINTER")
+#macextval("cairo_status_t", "CAIRO_STATUS_INVALID_STRING")
+#macextval("cairo_status_t", "CAIRO_STATUS_INVALID_PATH_DATA")
+#macextval("cairo_status_t", "CAIRO_STATUS_READ_ERROR")
+#macextval("cairo_status_t", "CAIRO_STATUS_WRITE_ERROR")
+#macextval("cairo_status_t", "CAIRO_STATUS_SURFACE_FINISHED")
+#macextval("cairo_status_t", "CAIRO_STATUS_SURFACE_TYPE_MISMATCH")
+#macextval("cairo_status_t", "CAIRO_STATUS_PATTERN_TYPE_MISMATCH")
+#macextval("cairo_status_t", "CAIRO_STATUS_INVALID_CONTENT")
+#macextval("cairo_status_t", "CAIRO_STATUS_INVALID_FORMAT")
+#macextval("cairo_status_t", "CAIRO_STATUS_INVALID_VISUAL")
+#macextval("cairo_status_t", "CAIRO_STATUS_FILE_NOT_FOUND")
+#macextval("cairo_status_t", "CAIRO_STATUS_INVALID_DASH")
+#macextval("cairo_status_t", "CAIRO_STATUS_INVALID_DSC_COMMENT")
+#macextval("cairo_status_t", "CAIRO_STATUS_INVALID_INDEX")
+#macextval("cairo_status_t", "CAIRO_STATUS_CLIP_NOT_REPRESENTABLE")
+#macextval("cairo_status_t", "CAIRO_STATUS_TEMP_FILE_ERROR")
+#macextval("cairo_status_t", "CAIRO_STATUS_INVALID_STRIDE")
+#macextval("cairo_status_t", "CAIRO_STATUS_FONT_TYPE_MISMATCH")
+#macextval("cairo_status_t", "CAIRO_STATUS_USER_FONT_IMMUTABLE")
+#macextval("cairo_status_t", "CAIRO_STATUS_USER_FONT_ERROR")
+#macextval("cairo_status_t", "CAIRO_STATUS_NEGATIVE_COUNT")
+#macextval("cairo_status_t", "CAIRO_STATUS_INVALID_CLUSTERS")
+#macextval("cairo_status_t", "CAIRO_STATUS_INVALID_SLANT")
+#macextval("cairo_status_t", "CAIRO_STATUS_INVALID_WEIGHT")
+#macextval("cairo_status_t", "CAIRO_STATUS_INVALID_SIZE")
+#macextval("cairo_status_t", "CAIRO_STATUS_USER_FONT_NOT_IMPLEMENTED")
+#macextval("cairo_status_t", "CAIRO_STATUS_DEVICE_TYPE_MISMATCH")
+#macextval("cairo_status_t", "CAIRO_STATUS_DEVICE_ERROR")
+#macextval("cairo_status_t", "CAIRO_STATUS_INVALID_MESH_CONSTRUCTION")
+#macextval("cairo_status_t", "CAIRO_STATUS_DEVICE_FINISHED")
+#macextval("cairo_status_t", "CAIRO_STATUS_LAST_STATUS")
+//
+(* ****** ****** *)
+//
+abst@ype cairo_content_t = $extype"cairo_content_t"
+//
+#macextval("cairo_content_t", "CAIRO_CONTENT_COLOR")
+#macextval("cairo_content_t", "CAIRO_CONTENT_ALPHA")
+#macextval("cairo_content_t", "CAIRO_CONTENT_COLOR_ALPHA")
+//
+(* ****** ****** *)
+//
+abst@ype cairo_format_t = $extype"cairo_format_t"
+//
+#macextval("cairo_format_t", "CAIRO_FORMAT_INVALID")
+#macextval("cairo_format_t", "CAIRO_FORMAT_ARGB32")
+#macextval("cairo_format_t", "CAIRO_FORMAT_RGB24")
+#macextval("cairo_format_t", "CAIRO_FORMAT_A8")
+#macextval("cairo_format_t", "CAIRO_FORMAT_A1")
+#macextval("cairo_format_t", "CAIRO_FORMAT_RGB16_565")
+#macextval("cairo_format_t", "CAIRO_FORMAT_RGB30")
+//
+(* ****** ****** *)
+
+typedef
+cairo_read_func_t =
+ (voidptr(*closure*), charptr(*data*), uint(*length*)) -> cairo_status_t
+// end of [cairo_wirte_func_t]
+typedef
+cairo_write_func_t =
+ (voidptr(*closure*), constcharptr(*data*), uint(*length*)) -> cairo_status_t
+// end of [cairo_wirte_func_t]
+
+(* ****** ****** *)
+
+typedef
+cairo_rectangle_int_t = $extype_struct "cairo_rectangle_int_t" of {
+  int x, y;
+  int width, height;
+} // end of [cairo_rectangle_int_t]
+
+(* ****** ****** *)
+
+absview cairo_save_v (l:addr)
+
+(* ****** ****** *)
+
+fun cairo_create
+  (target: !xrsf1) : xr1 = "mac#atsctrb_cairo_create"
+// end of [cairo_create]
+
+(* ****** ****** *)
+
+fun cairo_status
+  (ctx: !xr1) : cairo_status_t = "mac#atsctrb_cairo_status"
+// end of [cairo_status]
+
+fun cairo_get_reference_count
+  (ctx: !xr1): uint = "mac#atsctrb_cairo_get_reference_count"
+// end of [cairo_get_reference_count]
+
+(* ****** ****** *)
+
+fun
+cairo_get_user_data (
+  ctx: !xr1
+, key: &cairo_user_data_key_t
+) : ptr // pointer to data
+  = "mac#atsctrb_cairo_get_user_data"
+// end of [fun]
+
+fun
+cairo_set_user_data (
+  xr: !xr1
+, key: &cairo_user_data_key_t
+, data: ptr
+, fdestroy: cairo_destroy_func_t
+) : cairo_status_t
+  = "mac#atsctrb_cairo_set_user_data"
+// end of [fun]
+
+(* ****** ****** *)
+
+fun cairo_save
+  {l:agz} (
+  ctx: !xr l
+) : (cairo_save_v l | void)
+  = "mac#atsctrb_cairo_save" // a macro
+// end of [cairo_save]
+
+fun cairo_restore
+  {l:agz} (
+  pf: cairo_save_v l | ctx: !xr l
+) : void = "mac#atsctrb_cairo_restore" // a macro
+
+(* ****** ****** *)
+
+(*
+cairo_public void
+cairo_push_group (cairo_t *cr);
+
+cairo_public void
+cairo_push_group_with_content (cairo_t *cr, cairo_content_t content);
+
+cairo_public cairo_pattern_t *
+cairo_pop_group (cairo_t *cr);
+
+cairo_public void
+cairo_pop_group_to_source (cairo_t *cr);
+*)
+
+(* ****** ****** *)
+
+fun cairo_get0_target
+  {l1:agz} (
+  ctx: !xr l1
+) : [l2:agz] (
+  minus (xr l1, xrsf l2) | xrsf l2
+) = "mac#atsctrb_cairo_get0_target"
+
+fun cairo_get0_group_target
+  {l1:agz} (
+  ctx: !xr l1
+) : [l2:agz] (
+  minus (xr l1, xrsf l2) | xrsf l2
+) = "mac#atsctrb_cairo_get0_group_target"
+
+(* ****** ****** *)
+
+(* end of [cairo.sats] *)

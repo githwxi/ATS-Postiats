@@ -113,6 +113,11 @@ typedef s2VarBoundlst = List (s2VarBound)
 
 (* ****** ****** *)
 
+abstype s2hole_type
+typedef s2hole = s2hole_type
+
+(* ****** ****** *)
+
 abstype d2con_type // assumed in [pats_staexp2_dcon.dats]
 typedef d2con = d2con_type
 typedef d2conlst = List (d2con)
@@ -338,6 +343,7 @@ s2exp_node =
 //
   | S2Evar of s2var // variable
   | S2EVar of s2Var // existential variable
+  | S2Ehole of s2hole // it used to form contexts
 //
   | S2Edatconptr of (* unfolded datatype *)
       (d2con, s2explst) (* constructor and addrs of arguments *)
@@ -364,7 +370,8 @@ s2exp_node =
   | S2Etyarr of (s2exp (*element*), s2explst (*dimension*))
   | S2Etyrec of (tyreckind, int(*npf*), labs2explst) // tuple and record
 //
-  | S2Einvar of s2exp // HX: a special type for handling type unification
+// HX: note that [S2Einvar] is *not* related to [S1Einvar]; it is
+  | S2Einvar of (s2exp) // a special type for handling type unification
 //
   | S2Eexi of ( // exist. quantified type
       s2varlst(*vars*), s2explst(*props*), s2exp(*body*)
@@ -374,7 +381,7 @@ s2exp_node =
     ) // end of [S2Euni]
 //
   | S2Erefarg of (* reference argument type *)
-      (int(*1:ref/0:val*), s2exp) (* &/!: call-by-ref/val *)
+      (int(*0/1:val/ref*), s2exp) (* !/&: call-by-val/ref *) // related to [S1Einvar]
 //
   | S2Evararg of s2exp // variadic argument type
 //
@@ -735,6 +742,15 @@ fun s2Varset_add (xs: s2Varset, x: s2Var): s2Varset
 fun s2Varset_is_member (xs: s2Varset, x: s2Var): bool
 
 (* ****** ****** *)
+
+fun s2hole_make_srt (s2t: s2rt): s2hole
+
+fun s2hole_get_srt (s2h: s2hole):<> s2rt
+fun s2hole_get_stamp (s2h: s2hole):<> stamp
+
+fun fprint_s2hole (out: FILEref, x: s2hole): void
+
+(* ****** ****** *)
 //
 // HX: [d2con] is assumed in [pats_staexp2_dcon.dats]
 //
@@ -815,6 +831,7 @@ fun s2exp_char (c: char): s2exp // HX: merged into S2Eint
 fun s2exp_cst (x: s2cst): s2exp // HX: static constant
 fun s2exp_var (x: s2var): s2exp // HX: static variable
 fun s2exp_Var (x: s2Var): s2exp // HX: static existential variable
+fun s2exp_hole (x: s2hole): s2exp // HX: static context hole
 
 (*
 ** HX: please be cautious!

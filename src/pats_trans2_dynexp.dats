@@ -1062,8 +1062,14 @@ case+ d1e0.d1exp_node of
     d2exp_exist (loc0, s2a, d2e)
   end // end of [D1Eexist]
 //
-| D1Elam_dyn (lin, p1t_arg, d1e_body) => let
-    val @(npf, p2ts_arg, d2e_body) = d1exp_tr_arg_body (p1t_arg, d1e_body)
+| D1Elam_dyn (
+    lin, p1t_arg, d1e_body
+  ) => let
+    val @(
+      npf, p2ts_arg, d2e_body
+    ) =
+      d1exp_tr_arg_body (p1t_arg, d1e_body)
+    // end of [val]
   in
     d2exp_lam_dyn (loc0, lin, npf, p2ts_arg, d2e_body)
   end // end of [D1Elam_dyn]

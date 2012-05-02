@@ -268,6 +268,8 @@ case+ s2e0.s2exp_node of
       val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2e0))
     } // end of [val]
 //
+    val (pfeff | ()) = the_effenv_push_lam (s2fe1)
+//
     var serr: int = 0
     val p3ts_arg =
       p2atlst_trdn_arg (loc0, npf, p2ts_arg, s2es_arg, serr)
@@ -280,7 +282,19 @@ case+ s2e0.s2exp_node of
       val () = prerr_newline ()
       val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2e0))
     } // end of [val]
+//
+    val (pfd2v | ()) = the_d2varenv_push_lam (lin1)
+    val () = the_d2varenv_add_p2atlst (p2ts_arg)
+    val (pfman | ()) = the_pfmanenv_push_lam (lin1) // lin:0/1:stopping/continuing
+    val () = the_pfmanenv_add_p2atlst (p2ts_arg)
+    val (pflamlp | ()) = the_lamlpenv_push_lam (p3ts_arg)
+//
     val d3e_body = d2exp_trdn (d2e_body, s2e_res)
+//
+    val () = the_effenv_pop (pfeff | (*none*))
+    val () = the_d2varenv_pop (pfd2v | (*none*))
+    val () = the_pfmanenv_pop (pfman | (*none*))
+    val () = the_lamlpenv_pop (pflamlp | (*none*))
 //
     val () = trans3_env_pop_and_add_main (pfpush | loc0)
 //

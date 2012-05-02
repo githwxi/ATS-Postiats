@@ -35,7 +35,7 @@ fun_g0float_aop_decl (
 val fopr_d = (
   case+ opr of
   | "add" => "+" | "sub" => "-"
-  | "mul" => "+" | "div" => "/" | "mod" => "mod"
+  | "mul" => "*" | "div" => "/" | "mod" => "mod"
   | _ => opr
 ) : string // end of [val]
 //

@@ -32,19 +32,19 @@ typedef symbol = symbol_type
 
 (* ****** ****** *)
 
-staload SYM = "pats_symbol.sats"
+staload
+SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
 
 (* ****** ****** *)
 
-abstype label_type // boxed
+abstype label_type
 typedef label = label_type
 
 (* ****** ****** *)
 
 fun label_make_int (i: int): label
 fun label_make_sym (sym: symbol): label
-
 fun label_make_string (str: string): label
 
 (* ****** ****** *)
@@ -57,11 +57,12 @@ overload compare with compare_label_label
 
 (* ****** ****** *)
 
-fun fprint_label (out: FILEref, x: label): void
+fun fprint_label
+  (out: FILEref, x: label): void
 overload fprint with fprint_label
 
 fun print_label (l: label): void
-fun prerr_label (l: label): void
+and prerr_label (l: label): void
 overload print with print_label
 overload prerr with prerr_label
 

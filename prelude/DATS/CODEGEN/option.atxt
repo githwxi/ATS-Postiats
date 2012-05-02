@@ -26,6 +26,11 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+implement{a} option_some (x) = Some (x)
+implement{a} option_none ( ) = None ( )
+
+#atscode_separator()
+
 implement{}
 option_is_some (opt) =
   case+ opt of Some _ => true | None _ => false

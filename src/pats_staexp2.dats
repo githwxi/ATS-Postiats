@@ -151,13 +151,6 @@ in hnf '{
   s2exp_srt= s2t, s2exp_node= S2Evar (s2v)
 } end // end of [s2exp_var]
 
-implement
-s2exp_Var (s2V) = let
-  val s2t = s2Var_get_srt (s2V)
-in '{ // HX: this is not hnf!
-  s2exp_srt= s2t, s2exp_node= S2EVar (s2V)
-} end // end of [s2exp_Var]
-
 (*
 ** HX: for implementing [p2at_trdn_exist]
 *)
@@ -166,6 +159,20 @@ s2exp_var_srt
  (s2t, s2v) = hnf '{
   s2exp_srt= s2t, s2exp_node= S2Evar (s2v)
 } // end of [s2exp_var_srt]
+
+implement
+s2exp_Var (s2V) = let
+  val s2t = s2Var_get_srt (s2V)
+in '{ // HX: this is not hnf!
+  s2exp_srt= s2t, s2exp_node= S2EVar (s2V)
+} end // end of [s2exp_Var]
+
+implement
+s2exp_hole (s2h) = let
+  val s2t = s2hole_get_srt (s2h)
+in hnf '{
+  s2exp_srt= s2t, s2exp_node= S2Ehole (s2h)
+} end // end of [s2exp_hole]  
 
 (* ****** ****** *)
 

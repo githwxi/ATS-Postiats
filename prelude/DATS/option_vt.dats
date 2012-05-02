@@ -1,1 +1,1 @@
-CODEGEN/option_vt.atxt
+CODEGEN/option_vt.dats

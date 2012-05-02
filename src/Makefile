@@ -138,6 +138,7 @@ SOURCES := \
   pats_staexp2_scst.dats \
   pats_staexp2_svar.dats \
   pats_staexp2_sVar.dats \
+  pats_staexp2_hole.dats \
   pats_staexp2_dcon.dats \
   pats_staexp2_skexp.dats \
   pats_staexp2_szexp.dats \
@@ -255,7 +256,7 @@ WCL=wc -l
 ######
 
 srclines:: ; $(WCL) $(SOURCES) pats_main.dats
-liblines:: ; $(WCL) ../prelude/*.sats ../prelude/?ATS/*.?ats
+liblines:: ; $(WCL) ../prelude/*.sats ../prelude/?ATS/*.?ats ../libc/?ATS/*.?ats ../libats/?ATS/*.?ats
 
 ######
 

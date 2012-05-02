@@ -47,7 +47,7 @@ fun_gint_aop0_decl (
 val fopr_d = (
   case+ opr of
   | "add" => "+" | "sub" => "-"
-  | "mul" => "+" | "div" => "/" | "mod" => "mod"
+  | "mul" => "*" | "div" => "/" | "mod" => "mod"
   | _ => opr
 ) : string // end of [val]
 //
@@ -284,7 +284,7 @@ fun_guint_aop0_decl (
 val fopr_d = (
   case+ opr of
   | "add" => "+" | "sub" => "-"
-  | "mul" => "+" | "div" => "/" | "mod" => "mod"
+  | "mul" => "*" | "div" => "/" | "mod" => "mod"
   | _ => opr
 ) : string // end of [val]
 //

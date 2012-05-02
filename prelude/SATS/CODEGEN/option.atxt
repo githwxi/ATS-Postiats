@@ -30,10 +30,10 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-fun{a:t@ype}
+fun{a:t0p}
 option_some (x: a): option (a, true)
-fun{}
-option_none {a:vt0p} (): option (a, false)
+fun{a:t0p}
+option_none ((*void*)): option (a, false)
 
 #atscode_separator()
 

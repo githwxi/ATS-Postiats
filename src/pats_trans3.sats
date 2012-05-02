@@ -91,6 +91,8 @@ datatype trans3err =
   | T3E_d3exp_trup_selab_arrdim of (d3lab, s2explst) // dim/index mismatch
   | T3E_d3exp_trup_selab_linrest of (location, d3exp, d3lablst)
 //
+  | T3E_d2var_trup_selab_linsel of (location, d2var, d3lablst) // linsel
+//
   | T3E_d3exp_trup_deref_linsel of (d3exp, d3lablst) // linear selection
   | T3E_d3exp_trup_assgn_deref_linsel of (d3exp, d3lablst) // linear selection
 //
@@ -209,6 +211,8 @@ fun d2var_get_type_some
 // end of [d2var_get_type_some]
 
 fun d2exp_trup_var (loc: location, d2v: d2var): d3exp
+fun d2exp_trup_var_mutabl (loc: location, d2v: d2var): d3exp
+fun d2exp_trup_var_nonmut (loc: location, d2v: d2var): d3exp
 fun d2exp_trup_cst (loc: location, d2c: d2cst): d3exp
 
 (* ****** ****** *)
@@ -243,6 +247,10 @@ fun d2exp_trup_selab
 fun d2exp_trup_loopexn (d2e0: d2exp, knd: int): d3exp
 
 (* ****** ****** *)
+
+fun s2exp_get_dlablst_context (
+  loc0: location, s2e: s2exp, d3ls: d3lablst, context: &s2expopt
+) : s2exp (*selected*) // end of [fun]
 
 fun d2exp_trup_deref
   (loc0: location, d2e: d2exp, d2ls: d2lablst): d3exp

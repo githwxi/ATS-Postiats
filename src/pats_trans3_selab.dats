@@ -47,9 +47,14 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_selab"
 
 (* ****** ****** *)
 
-staload LAB = "pats_label.sats"
+staload
+LAB = "pats_label.sats"
 overload = with $LAB.eq_label_label
 macdef prerr_label = $LAB.prerr_label
+
+staload
+LOC = "pats_location.sats"
+stadef location = $LOC.location
 
 (* ****** ****** *)
 
@@ -136,10 +141,18 @@ case+ ls2es of
 //
 end // end of [labfind_lincheck]
 
-fun auxlab (
+fun
+auxlab_sexp (
   d3l: d3lab, s2e: s2exp, l0: label, linrest: &int
 ) : s2exp = let
   val s2f = s2exp2hnf (s2e)
+in
+  auxlab_shnf (d3l, s2f, l0, linrest)
+end // and [auxlab_sexp]
+
+and auxlab_shnf (
+  d3l: d3lab, s2f: s2hnf, l0: label, linrest: &int
+) : s2exp = let
   val s2e = s2hnf2exp (s2f)
 in
 //
@@ -169,7 +182,7 @@ case+ s2e.s2exp_node of
     val s2f = s2exp2hnf (s2e)
     val s2e = s2hnf_opn1exi_and_add (loc, s2f)
   in
-    auxlab (d3l, s2e, l0, linrest)
+    auxlab_sexp (d3l, s2e, l0, linrest)
   end // end of [S2Eexi]
 | _ => let
     val loc = d3l.d3lab_loc
@@ -185,7 +198,7 @@ case+ s2e.s2exp_node of
     s2exp_err (s2rt_t0ype)
   end // end of [_]
 //
-end // end of [auxlab]
+end // end of [auxlab_shnf]
 
 fun bndck .<>. (
   d3e1: d3exp, s2i2: s2exp
@@ -344,12 +357,11 @@ fun auxsel (
   s2exp, s2explst_vt
 ) = let
   val s2f = s2exp2hnf (s2e)
-  val s2e = s2hnf2exp (s2f)
 in
 //
 case+ d3l.d3lab_node of
 | D3LABlab (lab) => let
-    val s2e = auxlab (d3l, s2e, lab, linrest)
+    val s2e = auxlab_shnf (d3l, s2f, lab, linrest)
   in
     (s2e, list_vt_nil)
   end // end of [S3LABlab]
@@ -390,9 +402,111 @@ end // end of [local]
 (* ****** ****** *)
 
 extern
+fun d2var_trup_selab (
+  loc0: location, locvar: location, d2v: d2var, d2ls: d2lablst
+) : d3exp // end of [d2var_trup_selab]
+
+extern
+fun d2var_trup_selab_lin (
+  loc0: location, locvar: location, d2v: d2var, d2ls: d2lablst
+) : d3exp // end of [d2var_trup_selab_lin]
+extern
+fun d2var_trup_selab_mut (
+  loc0: location, locvar: location, d2v: d2var, d2ls: d2lablst
+) : d3exp // end of [d2var_trup_selab_mut]
+
+extern
 fun d3exp_trup_selab
   (loc0: location, d3e: d3exp, d3ls: d3lablst): d3exp
 // end of [d3exp_trup_selab]
+
+(* ****** ****** *)
+
+implement
+d2var_trup_selab
+  (loc0, loc, d2v, d2ls) =
+  if d2var_is_linear (d2v) then
+    d2var_trup_selab_lin (loc0, loc, d2v, d2ls)
+  else if d2var_is_mutable (d2v) then
+    d2var_trup_selab_mut (loc0, loc, d2v, d2ls)
+  else let
+    val d3e =
+      d2exp_trup_var_nonmut (loc, d2v)
+    val d3ls = d2lablst_trup (d2ls)
+  in
+    d3exp_trup_selab (loc0, d3e, d3ls)
+  end // end of [if]
+(* end of [d2var_trup_selab] *)
+
+implement
+d2var_trup_selab_lin
+  (loc0, loc, d2v, d2ls) = let
+(*
+  val () = begin
+    print "d2exp_trup_selab: D2Evar(lin): d2v = "; print_d2var d2v; print_newline ()
+  end // end of [val]
+*)
+  val s2e =
+    d2var_get_type_some (loc, d2v)
+  val d3ls = d2lablst_trup (d2ls)
+  var linrest: int = 0
+  val (s2e_sel, s2ps) =
+    s2exp_get_dlablst_linrest (loc0, s2e, d3ls, linrest)
+  // end of [val]
+  val s2e_sel =
+    s2exp_hnfize (s2e_sel)
+  val islin = s2exp_is_lin (s2e_sel)
+in
+//
+if islin then let
+  val () = list_vt_free (s2ps)
+  val s2t = s2e.s2exp_srt
+  var context: s2expopt = None ()
+  val s2e_sel =
+    s2exp_get_dlablst_context (loc0, s2e, d3ls, context)
+  // end of [val]
+  val () = (
+    case+ context of
+    | None () => {
+        val () = prerr_error3_loc (loc0)
+        val () = prerr (
+          ": a linear component cannot be taken out of the left-value."
+        ) // end of [val]
+        val () = prerr_newline ()
+        val () = the_trans3errlst_add (T3E_d2var_trup_selab_linsel (loc0, d2v, d3ls))
+      } // end of [val]
+    | Some _ => () // end of [_]
+  ) : void // end of [val]
+  val () = let
+    val s2e_sel = s2exp_topize (1, s2e_sel)
+    val s2e = let
+      val opt = s2expopt_hrepl0 (context, s2e_sel)
+    in
+      case+ opt of
+      | ~Some_vt (s2e) => s2e | ~None_vt () => s2e
+    end : s2exp // end of [val]
+    val () = d2var_set_type (d2v, Some (s2e))
+  in
+    // nothing
+  end // end of [val]
+in
+  d3exp_sel_var (loc0, s2e_sel, 0(*val*), d2v, d3ls)
+end else let
+  val () = trans3_env_add_proplst_vt (loc0, s2ps)
+in
+  d3exp_sel_var (loc0, s2e_sel, 0(*val*), d2v, d3ls)
+end // end of [if]
+//
+end // end of [d2var_trup_selab_lin]
+
+implement
+d2var_trup_selab_mut
+  (loc0, loc, d2v, d2ls) = let
+in
+  exitloc (1)
+end // end of [d2var_trup_selab_mut]
+
+(* ****** ****** *)
 
 implement
 d3exp_trup_selab
@@ -445,6 +559,11 @@ val loc0 = d2e0.d2exp_loc
 in
 //
 case+ d2e.d2exp_node of
+| D2Evar (d2v) => let
+    val loc = d2e.d2exp_loc
+  in
+    d2var_trup_selab (loc0, loc, d2v, d2ls)
+  end // end of [D2Evar]
 | D2Ederef d2e =>
     d2exp_trup_deref (loc0, d2e, d2ls)
   // end of [D2Ederef]

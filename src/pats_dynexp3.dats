@@ -445,6 +445,17 @@ in '{
 (* ****** ****** *)
 
 implement
+d3exp_sel_var (
+  loc, s2f, knd, d2v, d3ls
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Esel_var (knd, d2v, d3ls)
+} // end of [d3exp_sel_var]
+
+(* ****** ****** *)
+
+implement
 d3exp_sel_ptr
   (loc, s2f, d3e, d3ls) = '{
   d3exp_loc= loc

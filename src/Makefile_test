@@ -1,0 +1,15 @@
+#
+# A simple Makefile
+#
+
+######
+
+test:: tally
+test:: fibonacci
+
+######
+
+tally: ; ./patsopt -d < ../doc/EXAMPLE/ARITH/tally.dats
+fibonacci: ; ./patsopt -d < ../doc/EXAMPLE/ARITH/fibonacci.dats
+
+###### end of [Makefile_test] ######

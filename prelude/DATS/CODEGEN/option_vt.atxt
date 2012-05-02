@@ -27,7 +27,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 implement{a} option_vt_some (x) = Some_vt (x)
-implement{ } option_vt_none ( ) = None_vt ( )
+implement{a} option_vt_none ( ) = None_vt ( )
 
 #atscode_separator()
 
@@ -59,6 +59,11 @@ implement{a}
 option_vt_unsome
   (opt) = x where { val+ ~Some_vt (x) = opt }
 // end of [option_unsome]
+
+implement{a}
+option_vt_unnone
+  (opt) = () where { val+ ~None_vt () = opt }
+// end of [option_unnone]
 
 #atscode_separator()
 

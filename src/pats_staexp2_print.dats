@@ -271,6 +271,12 @@ case+ x.s2exp_node of
     val () = prstr ")"
   } // end of [S2EVar]
 //
+| S2Ehole (s2h) => {
+    val () = prstr "S2Ehole("
+    val () = fprint_s2hole (out, s2h)
+    val () = prstr ")"
+  } // end of [S2Ehole]
+//
 | S2Edatconptr (d2c, s2es) => {
     val () = prstr "S2Edatconptr("
     val () = fprint_d2con (out, d2c)

@@ -192,8 +192,7 @@ fun d2var_ptr_viewat_make_none (ptr: d2var): d2var
 
 (* ****** ****** *)
 
-fun fprint_d2var
-  : fprint_type (d2var)
+fun fprint_d2var : fprint_type (d2var)
 fun print_d2var (x: d2var): void
 fun prerr_d2var (x: d2var): void
 
@@ -205,6 +204,10 @@ datatype d2vfin =
   | D2VFINsome of s2exp
   | D2VFINvbox of s2exp
 // end of [d2vfin]
+
+fun fprint_d2vfin : fprint_type (d2vfin)
+fun print_d2vfin (x: d2vfin): void
+fun prerr_d2vfin (x: d2vfin): void
 
 (* ****** ****** *)
 

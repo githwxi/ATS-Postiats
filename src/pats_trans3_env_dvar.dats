@@ -70,13 +70,17 @@ staload "pats_trans3_env.sats"
 
 local
 
-dataviewtype ld2vsetlst = // local dynamic variables
+dataviewtype
+ld2vsetlst = // local dynamic variables
   | LD2VSset of
       (d2varset_vt, ld2vsetlst) // local dynamic variable set
   | LD2VSlam of
       (int(*lin*), d2varlst_vt, ld2vsetlst) // marker for lambdas
   | LD2VSnil of ()
 // end of [ld2vsetlst]
+
+extern
+fun the_d2varenv_push (): (d2varenv_push_v | void)
 
 assume d2varenv_push_v = unit_v
 
@@ -273,6 +277,7 @@ fun auxerr1 (
   val () = prerr "] is preserved but with an incompatible type."
   val () = prerr_newline ()
   val () = prerr_the_staerrlst ()
+  val () =  the_trans3errlst_add (T3E_d2var_fin_some_some (loc0, d2v))
 } (* end of [auxerr1] *)
 fun auxerr2 (
   loc0: location, d2v: d2var, s2e: s2exp
@@ -284,9 +289,14 @@ fun auxerr2 (
   val () = prerr_s2exp (s2e)
   val () = prerr "] instead."
   val () = prerr_newline ()
+  val () = the_trans3errlst_add (T3E_d2var_fin_none_some (loc0, d2v))
 } (* end of [auxerr2] *)
 //
 val d2vfin = d2var_get_finknd (d2v)
+//
+val () = (
+  print "d2vfin_check_some: d2vfin = "; print_d2vfin (d2vfin); print_newline ()
+) (* end of [val] *)
 //
 in
 //
@@ -312,11 +322,7 @@ case+ d2vfin of
 | D2VFINdone () => () // HX: handled by [funarg_d2vfin_check]
 | D2VFINnone () => let
     val islin = s2exp_is_lin (s2e)
-    val () = if islin then let
-      val () = auxerr2 (loc0, d2v, s2e)
-    in
-      the_trans3errlst_add (T3E_d2var_fin_none_some (loc0, d2v))
-    end // end of [if]
+    val () = if islin then auxerr2 (loc0, d2v, s2e)
     val linval = d2var_get_linval (d2v)
   in
     if linval >= 0 then d2var_set_type (d2v, None ())
@@ -373,8 +379,13 @@ val opt = d2var_get_type (d2v)
 in
 //
 case+ opt of
-| Some (s2e) =>
+| Some (s2e) => let
+    val () = (
+      print "d2vfin_check: s2e = "; print_s2exp (s2e); print_newline ()
+    ) // end of [val]
+  in
     d2vfin_check_some (loc0, d2v, s2e)
+  end // end of [Some]
 | None () => d2vfin_check_none (loc0, d2v)
 //
 end // end of [d2vfin_check]
@@ -457,7 +468,7 @@ implement
 funarg_d2vfin_check (loc0) = let
 //
 val () = (
-  print ": funarg_d2vfin_check"; print_newline ()
+  print "funarg_d2vfin_check: enter"; print_newline ()
 ) // end of [val]
 //
 fun auxvar

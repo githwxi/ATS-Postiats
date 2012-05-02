@@ -375,8 +375,8 @@ abstype stropt_type = [n:int] stropt (n)
 ** HX: linear strings that are modifiable 
 *)
 absviewtype
-strptr_viewtype (l:addr)
-stadef strptr = strptr_viewtype
+strptr_addr_viewtype (l:addr)
+stadef strptr = strptr_addr_viewtype
 viewtypedef strptr0 = [l:addr] strptr (l)
 viewtypedef strptr1 = [l:addr | l > null] strptr (l)
 absviewtype

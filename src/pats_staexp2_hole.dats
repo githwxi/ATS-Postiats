@@ -28,76 +28,77 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: May, 2011
+// Start Time: April, 2012
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
-staload "pats_counter.sats"
+staload _(*anon*) = "prelude/DATS/pointer.dats"
+staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-abst@ype stamp_t0ype = count
-typedef stamp = stamp_t0ype
-typedef stampopt = Option (stamp)
+staload
+CNTR = "pats_counter.sats"
+staload STMP = "pats_stamp.sats"
+typedef stamp = $STMP.stamp
 
 (* ****** ****** *)
 
-fun lt_stamp_stamp (x1: stamp, x2: stamp):<> bool
-overload < with lt_stamp_stamp
-
-fun lte_stamp_stamp (x1: stamp, x2: stamp):<> bool
-overload <= with lte_stamp_stamp
-
-fun eq_stamp_stamp (x1: stamp, x2: stamp):<> bool
-overload = with eq_stamp_stamp
-
-fun neq_stamp_stamp (x1: stamp, x2: stamp):<> bool
-overload <> with neq_stamp_stamp
-
-fun compare_stamp_stamp (x1: stamp, x2: stamp):<> Sgn
-overload compare with compare_stamp_stamp
+staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
-fun fprint_stamp : fprint_type (stamp)
+typedef
+s2hole_struct = @{
+  s2hole_srt= s2rt
+, s2hole_stamp= stamp // uniqueness
+} // end of [s2hole_struct]
 
 (* ****** ****** *)
+
+local
+
+assume s2hole_type = ref (s2hole_struct)
+
+in // in of [local]
+
+implement
+s2hole_make_srt (s2t) = let
+  val stamp = $STMP.s2hole_stamp_make ()
+  val (pfgc, pfat | p) = ptr_alloc<s2hole_struct> ()
+  prval () = free_gc_elim {s2hole_struct?} (pfgc)
 //
-fun
-s2rtdat_stamp_make (): stamp
+  val () = p->s2hole_srt := s2t
+  val () = p->s2hole_stamp := stamp
 //
-fun s2cst_stamp_make (): stamp
-//
-fun s2var_stamp_make (): stamp
-fun s2Var_stamp_make (): stamp
-//
+in
+  ref_make_view_ptr (pfat | p)
+end // end of [s2hole_make_srt]
+
+implement
+s2hole_get_srt (s2h) = $effmask_ref let
+  val (vbox pf | p) = ref_get_view_ptr (s2h) in p->s2hole_srt
+end // end of [s2hole_get_srt]
+
+implement
+s2hole_get_stamp (s2h) = $effmask_ref let
+  val (vbox pf | p) = ref_get_view_ptr (s2h) in p->s2hole_stamp
+end // end of [s2hole_get_stamp]
+
+end // end of [local]
+
 (* ****** ****** *)
 
-fun s2hole_stamp_make (): stamp
+implement
+fprint_s2hole
+  (out, s2h) = let
+  val stamp =
+    s2hole_get_stamp (s2h)
+  // end of [val]
+in
+  $STMP.fprint_stamp (out, stamp)
+end // end of [fprint_s2hole]
 
 (* ****** ****** *)
-//
-fun d2con_stamp_make (): stamp
-//
-fun d2cst_stamp_make (): stamp
-//
-fun d2mac_stamp_make (): stamp
-//
-fun d2var_stamp_make (): stamp
-//
-(* ****** ****** *)
-//
-absviewtype stampset_viewtype
-viewtypedef stampset_vt = stampset_viewtype
-//
-fun stampset_vt_nil ():<> stampset_vt
-fun stampset_vt_is_nil (xs: !stampset_vt):<> bool
-fun stampset_vt_isnot_nil (xs: !stampset_vt):<> bool
-fun stampset_vt_is_member (xs: !stampset_vt, x: stamp):<> bool
-fun stampset_vt_add (xs: stampset_vt, x: stamp):<> stampset_vt
-fun stampset_vt_free (xs: stampset_vt):<> void
-//
-(* ****** ****** *)
 
-(* end of [pats_stamp.sats] *)
+(* end of [pats_staexp2_hole.dats] *)
