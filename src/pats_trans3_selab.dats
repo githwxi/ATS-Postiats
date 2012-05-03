@@ -490,11 +490,11 @@ if islin then let
     // nothing
   end // end of [val]
 in
-  d3exp_sel_var (loc0, s2e_sel, 0(*val*), d2v, d3ls)
+  d3exp_sel_var (loc0, s2e_sel, d2v, d3ls)
 end else let
   val () = trans3_env_add_proplst_vt (loc0, s2ps)
 in
-  d3exp_sel_var (loc0, s2e_sel, 0(*val*), d2v, d3ls)
+  d3exp_sel_var (loc0, s2e_sel, d2v, d3ls)
 end // end of [if]
 //
 end // end of [d2var_trup_selab_lin]

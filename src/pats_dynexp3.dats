@@ -446,14 +446,12 @@ in '{
 
 implement
 d3exp_sel_var (
-  loc, s2f, knd, d2v, d3ls
+  loc, s2f, d2v, d3ls
 ) = '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Esel_var (knd, d2v, d3ls)
+, d3exp_node= D3Esel_var (d2v, d3ls)
 } // end of [d3exp_sel_var]
-
-(* ****** ****** *)
 
 implement
 d3exp_sel_ptr
@@ -472,6 +470,17 @@ d3exp_sel_ref
 } // end of [d3exp_sel_ref]
 
 (* ****** ****** *)
+
+implement
+d3exp_assgn_var (
+  loc, d2v_l, d3ls, d3e_r
+) = let
+  val s2f = s2exp_void_t0ype ()
+in '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eassgn_var (d2v_l, d3ls, d3e_r)
+} end // end of [d3exp_assgn_var]
 
 implement
 d3exp_assgn_ptr (

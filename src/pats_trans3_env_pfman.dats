@@ -197,10 +197,34 @@ end // end of [local]
 
 (* ****** ****** *)
 
+fun // for mutable vars
+the_pfmanenv_add_d2vw_if
+  (p2t: p2at): void = let
+//
+val () = (
+  print "the_pfmanenv_add_d2vw_if: p2t = "; print_p2at (p2t); print_newline ()
+) (* end of [val] *)
+//
+in
+  case+ p2t.p2at_node of
+  | P2Tvar (
+      knd, d2v
+    ) when d2var_is_mutable (d2v) => let
+      val- Some (d2vw) = d2var_get_view (d2v)
+    in
+      the_pfmanenv_add_dvar (d2vw)
+    end // end of [P2Tvar]
+  | P2Tann (p2t, _) => the_pfmanenv_add_d2vw_if (p2t)
+  | _ => () // end of [val]
+end // end of [the_pfmanenv_add_d2var_view]
+
 implement
-the_pfmanenv_add_p2at (p2t) = (
+the_pfmanenv_add_p2at
+  (p2t) = let
+  val () = the_pfmanenv_add_d2vw_if (p2t)
+in
   the_pfmanenv_add_dvarlst ($UT.lstord2list (p2t.p2at_dvs))
-) // end of [the_pfmanenv_add_p2at]
+end // end of [the_pfmanenv_add_p2at]
 
 implement
 the_pfmanenv_add_p2atlst
@@ -244,7 +268,14 @@ in // in of [local]
 implement
 d2var_search
   (d2v, s2l, res) = let
-  val opt = d2var_get_type (d2v)
+//
+val () = (
+  print "d2var_search: d2v = "; print_d2var (d2v); print_newline ();
+  print "d2var_search: s2l = "; print_s2exp (s2l); print_newline ();
+) (* end of [val] *)
+//
+val opt = d2var_get_type (d2v)
+//
 in
 //
 case+ opt of
@@ -351,6 +382,10 @@ end // end of [d2var_search_sexp_tyrec]
 implement
 pfobj_search_atview (s2l0) = let
 //
+val () = (
+  print "pfobj_search_atview: s2l0 = "; print_s2exp (s2l0); print_newline ()
+) (* end of [val] *)
+//
 fun loop (
   xs: !d2varmrklst, s2l0: s2exp, res: &s2exp
 ) : Option_vt @(d2var, s2exp) = let
@@ -373,7 +408,7 @@ case+ xs of
     if knd > 0 then let
       val opt = loop (!p_xs, s2l0, res) in fold@ (xs); opt
     end else (fold@ (xs); None_vt ())
-  ) (* end of [D2VMARKLST] *)
+  ) (* end of [D2VMARKLSTmark] *)
 | D2VMRKLSTnil () => (fold@ (xs); None_vt ())
 //
 end // end of [loop]

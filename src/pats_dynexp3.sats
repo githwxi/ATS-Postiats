@@ -238,10 +238,11 @@ and d3exp_node =
       (int(*recknd*), int(*npf*), labd3explst)
   | D3Eseq of d3explst // sequencing
 //
-  | D3Esel_var of (int(*0/1: val/ref*), d2var, d3lablst)
+  | D3Esel_var of (d2var, d3lablst) // call-by-val/ref
   | D3Esel_ptr of (d3exp, d3lablst) // pointed record/tuple selection
   | D3Esel_ref of (d3exp, d3lablst) // referenced record/tuple selection
 //
+  | D3Eassgn_var of (d2var(*left*), d3lablst, d3exp(*right*))
   | D3Eassgn_ptr of (d3exp(*left*), d3lablst, d3exp(*right*))
   | D3Eassgn_ref of (d3exp(*left*), d3lablst, d3exp(*right*))
 //
@@ -518,15 +519,15 @@ fun d3exp_case (
 
 (* ****** ****** *)
 
-fun d3exp_sel_var (
-  loc: location, s2e: s2exp, knd: int, d2v: d2var, d3ls: d3lablst
-) : d3exp // end of [d3exp_sel_var]
-
+fun d3exp_sel_var
+  (loc: location, s2e: s2exp, d2v: d2var, d3ls: d3lablst): d3exp
 fun d3exp_sel_ptr
   (loc: location, s2e: s2exp, d3e: d3exp, d3ls: d3lablst): d3exp
 fun d3exp_sel_ref
   (loc: location, s2e: s2exp, d3e: d3exp, d3ls: d3lablst): d3exp
 
+fun d3exp_assgn_var
+  (loc: location, d2v_l: d2var, d3ls: d3lablst, d3e_r: d3exp): d3exp
 fun d3exp_assgn_ptr
   (loc: location, d3e_l: d3exp, d3ls: d3lablst, d3e_r: d3exp): d3exp
 fun d3exp_assgn_ref

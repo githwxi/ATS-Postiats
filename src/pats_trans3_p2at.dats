@@ -290,12 +290,12 @@ case+ 0 of
       val s2p = s2exp_agtz (s2e_addr) in trans3_env_hypadd_prop (loc0, s2p)
     end // end of [val]
     val d2vw = d2var_ptr_viewat_make_none (d2v)
-    val () = the_d2varenv_add (d2vw) // adding dvar
     val () = d2var_set_view (d2v, Some d2vw) // [d2v] is mutable
     val s2e_at = s2exp_at (s2e, s2e_addr)
     val () = d2var_set_mastype (d2vw, Some s2e_at)
     val s2e_opn_at = s2exp_at (s2e_opn, s2e_addr)
     val () = d2var_set_type (d2vw, Some (s2e_opn_at))
+    val () = d2var_set_finknd (d2vw, D2VFINsome (s2e_opn_at)) // can be overwritten
   in
     p3t0
   end // end of [refknd = 1]

@@ -488,9 +488,10 @@ end // end of [d2var_get_type_some]
 implement
 d2exp_trup_var_mutabl
   (loc0, d2v) = let
-  val- Some (s2e_addr) = d2var_get_addr (d2v)
+  val- Some (s2l) = d2var_get_addr (d2v)
+  val s2e = s2exp_trup_deref_addr (loc0, s2l, list_nil)
 in
-  exitloc (1)
+  d3exp_var (loc0, s2e, d2v)
 end // end of [d2exp_trup_var_mut]
 
 implement

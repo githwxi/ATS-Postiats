@@ -243,41 +243,14 @@ end // end of [local]
 
 local
 
-fun aux1 (
+fun aux .<>. (
   loc0: location
-, s2f0: s2hnf
-, d3e: d3exp, d2ls: d2lablst
-) : d3exp = let
-  val opt = un_s2exp_ptr_addr_type (s2f0)
-in
-//
-case+ opt of
-| ~Some_vt (s2l) => let
-    val () =
-      fprint_the_pfmanenv (stdout_ref)
-    // end of [val]
-    val opt = pfobj_search_atview (s2l)
-  in
-    case+ opt of
-    | ~Some_vt (pfobj) =>
-        aux1obj (loc0, s2f0, d3e, d2ls, pfobj)
-    | ~None_vt () => aux3 (loc0, s2f0, d3e, d2ls)
-  end // end of [Some_vt]
-| ~None_vt () => aux2 (loc0, s2f0, d3e, d2ls)
-//
-end // end of [aux1]
-
-and aux1obj (
-  loc0: location
-, s2f0: s2hnf
-, d3e: d3exp
-, d2ls: d2lablst
 , pfobj: pfobj
-) : d3exp = let
+, d3ls: d3lablst
+) : s2exp = let
   val+ ~PFOBJ (
     d2v, s2e_ctx, s2e_elt, s2l
   ) = pfobj // end of [val]
-  val d3ls = d2lablst_trup (d2ls)
   var linrest: int = 0
   val (s2e_sel, s2ps) =
     s2exp_get_dlablst_linrest (loc0, s2e_elt, d3ls, linrest)
@@ -303,7 +276,7 @@ if islin then let
           ": a linear component cannot be taken out of the left-value."
         ) // end of [val]
         val () = prerr_newline ()
-        val () = the_trans3errlst_add (T3E_d3exp_trup_deref_linsel (d3e, d3ls))
+        val () = the_trans3errlst_add (T3E_s2exp_trup_deref_linsel (loc0, s2e_elt, d3ls))
       } // end of [val]
     | Some _ => () // end of [_]
   ) : void // end of [val]
@@ -323,28 +296,69 @@ if islin then let
     // nothing
   end // end of [val]
 in
-  d3exp_sel_ptr (loc0, s2e_sel, d3e, d3ls)
+  s2e_sel
 end else let
   val () =
     trans3_env_add_proplst_vt (loc0, s2ps)
   // end of [val]
 in
-  d3exp_sel_ptr (loc0, s2e_sel, d3e, d3ls)
+  s2e_sel
 end // end of [if]
 //
-end // end of [aux1obj]
+end // end of [aux]
+
+in // in of [local]
+
+implement
+s2exp_trup_deref_addr
+  (loc0, s2l, d3ls) = let
+  val () =
+    fprint_the_pfmanenv (stdout_ref)
+  // end of [val]
+  val opt = pfobj_search_atview (s2l)
+in
+  case+ opt of
+  | ~Some_vt
+      (pfobj) => aux (loc0, pfobj, d3ls)
+  | ~None_vt () => s2exp_err (s2rt_t0ype)
+end // end of [s2exp_trup_deref_addr]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun aux1 (
+  loc0: location
+, s2f0: s2hnf
+, d3e: d3exp, d3ls: d3lablst
+) : d3exp = let
+  val opt = un_s2exp_ptr_addr_type (s2f0)
+in
+//
+case+ opt of
+| ~Some_vt (s2l) => let
+    val s2e_sel =
+      s2exp_trup_deref_addr (loc0, s2l, d3ls)
+    // end of [val]
+  in
+    d3exp_sel_ptr (loc0, s2e_sel, d3e, d3ls)
+  end // end of [Some_vt]
+| ~None_vt () => aux2 (loc0, s2f0, d3e, d3ls)
+//
+end // end of [aux1]
 
 and aux2 (
   loc0: location
 , s2f0: s2hnf
-, d3e: d3exp, d2ls: d2lablst
+, d3e: d3exp, d3ls: d3lablst
 ) : d3exp = let
   val opt = un_s2exp_ref_viewt0ype_type (s2f0)
 in
 //
 case+ opt of
 | ~Some_vt (s2e) => let
-    val d3ls = d2lablst_trup (d2ls)
     var linrest: int = 0
     val (s2e_sel, s2ps) =
       s2exp_get_dlablst_linrest (loc0, s2e, d3ls, linrest)
@@ -363,14 +377,14 @@ case+ opt of
   in
     d3exp_sel_ref (loc0, s2e_sel, d3e, d3ls)
   end // end of [Some_vt]
-| ~None_vt () => aux3 (loc0, s2f0, d3e, d2ls)
+| ~None_vt () => aux3 (loc0, s2f0, d3e, d3ls)
 //
 end // end of [aux2]
 
 and aux3 (
   loc0: location
 , s2f0: s2hnf
-, d3e: d3exp, d2ls: d2lablst
+, d3e: d3exp, d3ls: d3lablst
 ) : d3exp = let
 in
   d3exp_err (loc0)
@@ -387,12 +401,13 @@ val () = (
 ) // end of [val]
 // *)
 val d3e = d2exp_trup (d2e)
+val d3ls = d2lablst_trup (d2ls)
 val () = d3exp_open_and_add (d3e)
 val s2e0 = d3exp_get_type (d3e)
 val s2f0 = s2exp2hnf_cast (s2e0)
 //
 in
-  aux1 (loc0, s2f0, d3e, d2ls)
+  aux1 (loc0, s2f0, d3e, d3ls)
 end // end of [d2exp_trup_deref]
 
 end // end of [local]

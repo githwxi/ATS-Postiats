@@ -244,10 +244,34 @@ end // end of [local]
 
 (* ****** ****** *)
 
+fun // for mutable vars
+the_d2varenv_add_d2vw_if
+  (p2t: p2at): void = let
+//
+val () = (
+  print "the_d2varenv_add_d2vw_if: p2t = "; print_p2at (p2t); print_newline ()
+) (* end of [val] *)
+//
+in
+  case+ p2t.p2at_node of
+  | P2Tvar (
+      knd, d2v
+    ) when d2var_is_mutable (d2v) => let
+      val- Some (d2vw) = d2var_get_view (d2v)
+    in
+      the_d2varenv_add (d2vw)
+    end // end of [P2Tvar]
+  | P2Tann (p2t, _) => the_d2varenv_add_d2vw_if (p2t)
+  | _ => () // end of [val]
+end // end of [the_d2varenv_add_d2var_view]
+
 implement
-the_d2varenv_add_p2at (p2t) = (
+the_d2varenv_add_p2at
+  (p2t) = let
+  val () = the_d2varenv_add_d2vw_if (p2t)
+in
   the_d2varenv_addlst ($UT.lstord2list (p2t.p2at_dvs))
-) // end of [the_d2varenv_add_p2at]
+end // end of [the_d2varenv_add_p2at]
 
 implement
 the_d2varenv_add_p2atlst
