@@ -3,7 +3,7 @@
 #if (ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"arrnull.sats"
+val _thisfilename = atext_strcst"parrnull.sats"
 val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
@@ -14,7 +14,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 (*
 ** Source:
-** $PATSHOME/prelude/SATS/CODEGEN/arrnull.atxt
+** $PATSHOME/prelude/SATS/CODEGEN/parrnull.atxt
 ** Time of generation: #timestamp()
 *)
 
@@ -36,22 +36,22 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_decl_strcst("\
 dataview
-arrnull_v (
+parrnull_v (
   a:viewt@ype+, addr(*l*), int(*n*)
 ) = // for arrays with a sentinel at the end
   | {l:addr}{n:int}
-    arrnull_v_cons (a, l, n+1) of (a @ l, arrnull_v (a, l+sizeof(a), n))
-  | {l:addr} arrnull_v_nil (a, l, 0) of (ptr null @ l)
-// end of [arrnull_v]
+    parrnull_v_cons (a, l, n+1) of (a @ l, parrnull_v (a, l+sizeof(a), n))
+  | {l:addr} parrnull_v_nil (a, l, 0) of (ptr null @ l)
+// end of [parrnull_v]
 ")\
 
 #atscode_separator()
 
 #atscode_decl_strcst("\
 prfun
-lemma_arrnull_v_params{a:vtp}
-  {l:addr}{n:int} (pf: !arrnull_v (INV(a), l, n)): [l > null;n >= 0] void
-// end of [lemma_arrnull_v_params]
+lemma_parrnull_v_params{a:vtp}
+  {l:addr}{n:int} (pf: !parrnull_v (INV(a), l, n)): [l > null;n >= 0] void
+// end of [lemma_parrnull_v_params]
 ")\
 
 #atscode_separator()
@@ -59,19 +59,19 @@ lemma_arrnull_v_params{a:vtp}
 #atscode_decl_strcst("\
 fun{
 a:vtp
-} arrnull_is_empty
+} parrnull_is_empty
   {l:addr}{n:int} (
-  pf: !arrnull_v (INV(a), l, n) | p: ptr l
-) :<> bool (n == 0) // end of [arrnull_is_empty]
+  pf: !parrnull_v (INV(a), l, n) | p: ptr l
+) :<> bool (n == 0) // end of [parrnull_is_empty]
 ")\
 
 #atscode_decl_strcst("\
 fun{
 a:vtp
-} arrnull_isnot_empty
+} parrnull_isnot_empty
   {l:addr}{n:int}
-  (pf: !arrnull_v (INV(a), l, n) | p: ptr l):<> bool (n > 0)
-// end of [arrnull_isnot_empty]
+  (pf: !parrnull_v (INV(a), l, n) | p: ptr l):<> bool (n > 0)
+// end of [parrnull_isnot_empty]
 ")\
 
 #atscode_separator()
@@ -79,10 +79,10 @@ a:vtp
 #atscode_decl_strcst("\
 fun{
 a:vtp
-} arrnull_size
+} parrnull_size
   {l:addr}{n:int}
-  (pf: !arrnull_v (INV(a), l, n) | p: ptr l):<> size_t (n)
-// end of [arrnull_size]
+  (pf: !parrnull_v (INV(a), l, n) | p: ptr l):<> size_t (n)
+// end of [parrnull_size]
 ")\
 
 #atscode_separator()
@@ -90,5 +90,5 @@ a:vtp
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "arrnull_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "parrnull_atxt.txt")
 %}\

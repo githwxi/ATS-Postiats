@@ -11,6 +11,10 @@ staload "libatsdoc/SATS/atsdoc_text.sats"
 %}\
 %{
 
+fun comment
+  (x: string): atext = atext_nil ()
+// end of [comment]
+
 fun make_entry
   (nm: string): atext = let
 //
@@ -68,7 +72,11 @@ all::
 #make_entry("array_prf")
 #make_entry("arrayptr")
 #make_entry("arrayref")
-#make_entry("arrnull")
+
+#comment("
+for pointer arrays terminated with the null pointer
+")
+#make_entry("parrnull")
 
 #make_entry("filebas")
 

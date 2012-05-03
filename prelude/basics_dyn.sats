@@ -262,12 +262,14 @@ overload main with main_argc_argv_env
 
 (* ****** ****** *)
 
+sortdef vt0p = viewt@ype
+
 fun{
-a:viewt@ype
+a:vt0p
 } fprint_elt (out: FILEref, x: !INV(a)): void
-fun{a:viewt@ype}
+fun{a:vt0p}
 print_elt (x: !INV(a)): void // = fprintf (stdout_ref, x)
-fun{a:viewt@ype}
+fun{a:vt0p}
 prerr_elt (x: !INV(a)): void // = fprintf (stderr_ref, x)
 
 (* ****** ****** *)

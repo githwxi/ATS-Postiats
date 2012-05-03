@@ -26,6 +26,11 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+typedef
+g0float_aop_type
+  (a:t@ype) = (g0float (a), g0float (a)) -<> g0float (a)
+// end of [typedef]
+
 %{
 fun
 fun_g0float_aop_decl (
@@ -40,10 +45,8 @@ val fopr_d = (
 ) : string // end of [val]
 //
 val ent = sprintf ("\
-fun{
-a:t@ype
-} g0float_%s
-  (x: g0float (a), y: g0float (a)):<> g0float (a)
+fun{a:t@ype}
+g0float_%s : g0float_aop_type (a)
 overload %s with g0float_%s of 0\
 ", @(
  opr, fopr_d, opr
@@ -62,6 +65,11 @@ end // end of [fun_gfloat_cmp0_decl]
 
 #atscode_separator()
 
+typedef
+g0float_cmp_type
+  (a:t@ype) = (g0float (a), g0float (a)) -<> bool
+// end of [typedef]
+
 %{
 fun
 fun_g0float_cmp_decl (
@@ -77,10 +85,8 @@ val fopr_d = (
 ) : string // end of [val]
 //
 val ent = sprintf ("\
-fun{
-a:t@ype
-} g0float_%s
-  (x: g0float (a), y: g0float (a)):<> bool
+fun{a:t@ype}
+g0float_%s : g0float_cmp_type (a)
 overload %s with g0float_%s of 0\
 ", @(
  opr, fopr_d, opr
@@ -102,28 +108,67 @@ end // end of [fun_g0float_cmp_decl]
 #fun_g0float_cmp_decl("neq")
 overload <> with g0float_neq of 0
 
-#atscode_decl_strcst('\
+typedef
+g0float_compare_type
+  (a:t@ype) =  (g0float (a), g0float (a)) -<> int
+// end of [typedef]
+
 fun{a:t@ype}
-g0float_compare
-  (x: g0float (a), y: g0float (a)):<> int
+g0float_compare : g0float_compare_type (a)
 overload compare with g0float_compare
-')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 fun{a:t@ype}
-g0float_max
-  (x: g0float (a), y: g0float (a)):<> g0float (a)
+g0float_max : g0float_aop_type (a)
 overload max with g0float_max
-')\
-
-#atscode_decl_strcst('\
 fun{a:t@ype}
-g0float_min
-  (x: g0float (a), y: g0float (a)):<> g0float (a)
+g0float_min : g0float_aop_type (a)
 overload min with g0float_min
-')\
+
+#atscode_separator()
+
+fun g0float_add_float : g0float_aop_type (float)
+fun g0float_sub_float : g0float_aop_type (float)
+fun g0float_mul_float : g0float_aop_type (float)
+fun g0float_div_float : g0float_aop_type (float)
+fun g0float_mod_float : g0float_aop_type (float)
+
+fun g0float_lt_float : g0float_cmp_type (float)
+fun g0float_lte_float : g0float_cmp_type (float)
+fun g0float_gt_float : g0float_cmp_type (float)
+fun g0float_gte_float : g0float_cmp_type (float)
+fun g0float_eq_float : g0float_cmp_type (float)
+fun g0float_neq_float : g0float_cmp_type (float)
+
+fun g0float_compare_float : g0float_compare_type (float)
+
+fun g0float_max_float : g0float_aop_type (float)
+fun g0float_min_float : g0float_aop_type (float)
+
+fun fprint_float (out: FILEref, x: float): void
+
+#atscode_separator()
+
+fun g0float_add_double : g0float_aop_type (double)
+fun g0float_sub_double : g0float_aop_type (double)
+fun g0float_mul_double : g0float_aop_type (double)
+fun g0float_div_double : g0float_aop_type (double)
+fun g0float_mod_double : g0float_aop_type (double)
+
+fun g0float_lt_double : g0float_cmp_type (double)
+fun g0float_lte_double : g0float_cmp_type (double)
+fun g0float_gt_double : g0float_cmp_type (double)
+fun g0float_gte_double : g0float_cmp_type (double)
+fun g0float_eq_double : g0float_cmp_type (double)
+fun g0float_neq_double : g0float_cmp_type (double)
+
+fun g0float_compare_double : g0float_compare_type (double)
+
+fun g0float_max_double : g0float_aop_type (double)
+fun g0float_min_double : g0float_aop_type (double)
+
+fun fprint_double (out: FILEref, x: double): void
 
 #atscode_separator()
 

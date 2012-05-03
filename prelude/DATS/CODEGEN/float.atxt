@@ -32,8 +32,6 @@ implement g0float_mul<float_kind> = g0float_mul_float
 implement g0float_div<float_kind> = g0float_div_float
 implement g0float_mod<float_kind> = g0float_mod_float
 
-#atscode_separator()
-
 implement g0float_lt<float_kind> = g0float_lt_float
 implement g0float_lte<float_kind> = g0float_lte_float
 implement g0float_gt<float_kind> = g0float_gt_float
@@ -41,15 +39,36 @@ implement g0float_gte<float_kind> = g0float_gte_float
 implement g0float_eq<float_kind> = g0float_eq_float
 implement g0float_neq<float_kind> = g0float_neq_float
 
-#atscode_separator()
+implement g0float_compare<float_kind> = g0float_compare_float
 
 implement g0float_max<float_kind> = g0float_max_float
 implement g0float_min<float_kind> = g0float_min_float
 
-#atscode_separator()
-
 implement
 fprint_elt<float> (out, x) = fprint_float (out, x)
+
+#atscode_separator()
+
+implement g0float_add<double_kind> = g0float_add_double
+implement g0float_sub<double_kind> = g0float_sub_double
+implement g0float_mul<double_kind> = g0float_mul_double
+implement g0float_div<double_kind> = g0float_div_double
+implement g0float_mod<double_kind> = g0float_mod_double
+
+implement g0float_lt<double_kind> = g0float_lt_double
+implement g0float_lte<double_kind> = g0float_lte_double
+implement g0float_gt<double_kind> = g0float_gt_double
+implement g0float_gte<double_kind> = g0float_gte_double
+implement g0float_eq<double_kind> = g0float_eq_double
+implement g0float_neq<double_kind> = g0float_neq_double
+
+implement g0float_compare<double_kind> = g0float_compare_double
+
+implement g0float_max<double_kind> = g0float_max_double
+implement g0float_min<double_kind> = g0float_min_double
+
+implement
+fprint_elt<double> (out, x) = fprint_double (out, x)
 
 #atscode_separator()
 

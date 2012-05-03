@@ -44,13 +44,15 @@ option_vt_make_opt
 #atscode_separator()
 
 implement{}
-option_vt_is_some (opt) = case+ opt of
-  | Some _ => (fold@ (opt); true) | None _ => (fold@ (opt); false)
+option_vt_is_some
+  (opt) = case+ opt of
+  | !Some_vt _ => true | !None_vt _ => false
 // end of [option_is_some]
 
 implement{}
-option_vt_is_none (opt) = case+ opt of
-  | Some _ => (fold@ (opt); false) | None _ => (fold@ (opt); true)
+option_vt_is_none
+  (opt) = case+ opt of
+  | !Some_vt _ => false | !None_vt _ => true
 // end of [option_is_none]
 
 #atscode_separator()

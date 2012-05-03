@@ -146,14 +146,16 @@ arrayref_atxt.dats: arrayref.atxt
 clean:: ; $(RMF) arrayref_atxt.exe
 cleanall:: ; $(RMF) arrayref.sats
 
-all:: arrnull.sats
-arrnull.sats: arrnull_atxt.exe ; ./$< > $@
-arrnull_atxt.exe: arrnull_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ arrnull_atxt.dats -latsdoc
-arrnull_atxt.dats: arrnull.atxt
-	$(ATSDOC) -do $@ -i arrnull.atxt > arrnull_atxt.txt
-clean:: ; $(RMF) arrnull_atxt.exe
-cleanall:: ; $(RMF) arrnull.sats
+
+
+all:: parrnull.sats
+parrnull.sats: parrnull_atxt.exe ; ./$< > $@
+parrnull_atxt.exe: parrnull_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ parrnull_atxt.dats -latsdoc
+parrnull_atxt.dats: parrnull.atxt
+	$(ATSDOC) -do $@ -i parrnull.atxt > parrnull_atxt.txt
+clean:: ; $(RMF) parrnull_atxt.exe
+cleanall:: ; $(RMF) parrnull.sats
 
 
 all:: filebas.sats
