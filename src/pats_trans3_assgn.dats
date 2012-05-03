@@ -236,7 +236,7 @@ val s2f0 = s2exp2hnf_cast (s2e0)
 //
 in
   aux1 (loc0, s2f0, d3e_l, d3ls, d2e_r)
-end // end of [d2exp_trup_deref]
+end // end of [d2exp_trup_assgn_deref]
 
 end // end of [local]
 

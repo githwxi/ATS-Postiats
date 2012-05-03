@@ -507,6 +507,41 @@ in '{
 (* ****** ****** *)
 
 implement
+d3exp_xchng_var (
+  loc, d2v_l, d3ls, d3e_r
+) = let
+  val s2f = s2exp_void_t0ype ()
+in '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Exchng_var (d2v_l, d3ls, d3e_r)
+} end // end of [d3exp_xchng_var]
+
+implement
+d3exp_xchng_ptr (
+  loc, d3e_l, d3ls, d3e_r
+) = let
+  val s2f = s2exp_void_t0ype ()
+in '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Exchng_ptr (d3e_l, d3ls, d3e_r)
+} end // end of [d3exp_xchng_ptr]
+
+implement
+d3exp_xchng_ref (
+  loc, d3e_l, d3ls, d3e_r
+) = let
+  val s2f = s2exp_void_t0ype ()
+in '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Exchng_ref (d3e_l, d3ls, d3e_r)
+} end // end of [d3exp_xchng_ref]
+
+(* ****** ****** *)
+
+implement
 d3exp_arrinit (
   loc, s2e_arr, elt, asz, d3es
 ) = '{

@@ -246,6 +246,10 @@ and d3exp_node =
   | D3Eassgn_ptr of (d3exp(*left*), d3lablst, d3exp(*right*))
   | D3Eassgn_ref of (d3exp(*left*), d3lablst, d3exp(*right*))
 //
+  | D3Exchng_var of (d2var(*left*), d3lablst, d3exp(*right*))
+  | D3Exchng_ptr of (d3exp(*left*), d3lablst, d3exp(*right*))
+  | D3Exchng_ref of (d3exp(*left*), d3lablst, d3exp(*right*))
+//
   | D3Earrinit of // For instance, @[int](1,2,3)
       (s2exp(*elt*), d3exp(*asz*), d3explst(*elt*))
   | D3Earrsize of (d3explst, int(*size*))
@@ -531,6 +535,13 @@ fun d3exp_assgn_var
 fun d3exp_assgn_ptr
   (loc: location, d3e_l: d3exp, d3ls: d3lablst, d3e_r: d3exp): d3exp
 fun d3exp_assgn_ref
+  (loc: location, d3e_l: d3exp, d3ls: d3lablst, d3e_r: d3exp): d3exp
+
+fun d3exp_xchng_var
+  (loc: location, d2v_l: d2var, d3ls: d3lablst, d3e_r: d3exp): d3exp
+fun d3exp_xchng_ptr
+  (loc: location, d3e_l: d3exp, d3ls: d3lablst, d3e_r: d3exp): d3exp
+fun d3exp_xchng_ref
   (loc: location, d3e_l: d3exp, d3ls: d3lablst, d3e_r: d3exp): d3exp
 
 (* ****** ****** *)

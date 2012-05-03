@@ -34,7 +34,7 @@ implement
 mul_gte_gte_gte {m,n} () = let
   fun loop
     {m:nat}{p:int} .<m>.
-    (pf: MUL (m, n, p)): [p >= 0] void =
+    (pf: MUL (m, n, p)):<> [p >= 0] void =
     sif m > 0 then let
       prval MULind (pf1) = pf in loop (pf1)
     end else let
@@ -50,7 +50,7 @@ implement
 mul_gte_lte_lte {m,n} () = let
   fun loop
     {m:nat}{p:int} .<m>.
-    (pf: MUL (m, n, p)): [p <= 0] void =
+    (pf: MUL (m, n, p)):<> [p <= 0] void =
     sif m > 0 then let
       prval MULind (pf1) = pf in loop (pf1)
     end else let

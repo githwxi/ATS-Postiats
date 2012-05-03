@@ -98,6 +98,8 @@ datatype trans3err =
   | T3E_s2exp_trup_assgn_deref_linsel of (location, s2exp, d3lablst) // linsel
   | T3E_d3exp_trup_assgn_deref_linsel of (d3exp, d3lablst) // linear selection
 //
+  | T3E_d2exp_trdn_xchng_deref of (d3exp, d3lablst, s2exp) // type mismatch
+//
   | T3E_guard_trdn of
       (location, bool(*gval*), s2exp(*gtyp*))
   | T3E_c2lau_trdn_arity of (c2lau, s2explst)
@@ -280,6 +282,13 @@ fun d2exp_trup_xchng (
   loc0: location, d2e_l: d2exp, d2e_r: d2exp
 ) : d3exp // end of [d2exp_trup_xchng]
 
+fun d2exp_trup_xchng_deref (
+  loc0: location, d2e_l: d2exp, d2ls: d2lablst, d2e_r: d2exp
+) : d3exp // end of [d2exp_trup_xchng_deref]
+fun s2exp_trup_xchng_deref_addr
+  (loc0: location, s2l: s2exp, d3ls: d3lablst, d2e_r: d2exp): d3exp(*rval*)
+// end of [s2exp_trup_xchng_deref_addr]
+
 (* ****** ****** *)
 
 fun d2exp_trup (d2e: d2exp): d3exp
@@ -301,7 +310,13 @@ fun d2exp_trdn_letwhere (
 ) : d3exp // end of [d2exp_trdn_letwhere]
 fun d2exp_trdn_seq (d2e0: d2exp, s2f0: s2hnf): d3exp
 fun d2exp_trdn_lam_dyn (d2e: d2exp, s2f: s2hnf): d3exp
-
+//
+fun d2exp_trdn_xchng (d2e: d2exp, s2f: s2hnf): d3exp
+fun d2exp_trdn_xchng_deref
+  (loc0: location, d2e: d2exp, d2ls: d2lablst, s2f: s2hnf): d3exp
+fun s2exp_trdn_xchng
+  (loc0: location, s2l: s2exp, d3ls: d3lablst, s2f: s2hnf): s2exp
+//
 (* ****** ****** *)
 
 fun d2ecl_tr (d2c: d2ecl): d3ecl

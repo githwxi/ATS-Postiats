@@ -130,6 +130,9 @@ fun s2exp_equal_solve_err
 fun s2explst_equal_solve_err (
   loc: location, s2es1: s2explst, s2es2: s2explst, err: &int
 ) : void // end of [s2explst_equal_solve_err]
+fun labs2explst_equal_solve_err (
+  loc: location, ls2es1: labs2explst, ls2es2: labs2explst, err: &int
+) : void // end of [labs2explst_equal_solve_err]
 
 (* ****** ****** *)
 
@@ -148,7 +151,7 @@ fun s2exp_tyleq_solve_err
 // end of [s2exp_tyleq_solve_err]
 
 fun s2explst_tyleq_solve_err (
-  loc: location, s2e1: s2explst, s2e2: s2explst, err: &int
+  loc: location, s2es1: s2explst, s2es2: s2explst, err: &int
 ) : void // end of [s2explst_tyleq_solve_err]
 fun labs2explst_tyleq_solve_err (
   loc: location, ls2es1: labs2explst, ls2es2: labs2explst, err: &int

@@ -27,7 +27,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 implement
-array_v_split {a}
+array_v_split{a}
   (pf_arr) = split (pf_arr) where {
   prfun split
     {l:addr} 
@@ -39,7 +39,7 @@ array_v_split {a}
   ) =
     sif i > 0 then let
       prval @(pf1_elt, pf2_arr) = array_v_uncons (pf_arr)
-      prval @(pf1_arr_res, pf2_arr_res) = split {n-1,i-1} (pf2_arr)
+      prval @(pf1_arr_res, pf2_arr_res) = split {..}{n-1,i-1} (pf2_arr)
     in
       @(array_v_cons (pf1_elt, pf1_arr_res), pf2_arr_res)
     end else
