@@ -66,22 +66,22 @@ prfun minus_addback
 
 #atscode_decl_strcst('\
 castfn
-argv_takeout_array
+argv_takeout_strarr
   {n:int} (
   argv: !argv (n)
 ) : [l:addr] (
   array_v (string, l, n), minus (argv n, array_v (string, l, n)) | ptr l
-) // end of [argv_takeout_array]
+) // end of [argv_takeout_strarr]
 ')\
 
 #atscode_decl_strcst('\
 castfn
-argv_takeout_arrnull
+argv_takeout_parrnull
   {n:int} (
   argv: !argv (n)
 ) : [l:addr] (
-  arrnull_v (string, l, n), minus (argv n, arrnull_v (string, l, n)) | ptr l
-) // end of [argv_takeout_arrnull]
+  parrnull_v (string, l, n), minus (argv n, parrnull_v (string, l, n)) | ptr l
+) // end of [argv_takeout_parrnull]
 ')\
 
 #atscode_separator()

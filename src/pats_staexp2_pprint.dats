@@ -391,6 +391,14 @@ in
 //
 case+ ws2es of
 | WTHS2EXPLSTnil () => ()
+| WTHS2EXPLSTcons_invar
+    (knd, ws2es) => let
+    val () = if i > 0
+      then fprint_string (out, ", ")
+    val () = fprintf (out, "invar(%d)", @(knd))
+  in
+    loop (out, ws2es, i+1)
+  end // end of [WTHS2EXPLSTcons_invar]
 | WTHS2EXPLSTcons_trans
     (knd, s2e, ws2es) => let
     val () = if i > 0 then fprint_string (out, ", ")
@@ -402,13 +410,6 @@ case+ ws2es of
   in
     loop (out, ws2es, i+1)
   end // end of [WTHS2EXPLSTcons_trans]
-| WTHS2EXPLSTcons_invar
-    (ws2es) => let
-    val () = if i > 0 then fprint_string (out, ", ")
-    val () = fprintf (out, "invar()", @())
-  in
-    loop (out, ws2es, i+1)
-  end // end of [WTHS2EXPLSTcons_invar]
 | WTHS2EXPLSTcons_none
     (ws2es) => let
     val () = if i > 0 then fprint_string (out, ", ")

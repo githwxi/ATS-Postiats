@@ -603,6 +603,12 @@ fun auxlst (
 in
 //
 case+ wths2es of
+| WTHS2EXPLSTcons_invar
+    (refknd, wths2es) => let // HX: already handled
+    val- list_cons (p3t, p3ts) = p3ts
+  in
+    auxlst (loc0, p3ts, wths2es)
+  end // end of [WTHS2EXPLSTcons_invar]
 | WTHS2EXPLSTcons_trans
     (refknd, s2e, wths2es) => let
     val- list_cons (p3t, p3ts) = p3ts
@@ -610,12 +616,6 @@ case+ wths2es of
   in
     auxlst (loc0, p3ts, wths2es)     
   end // end of [WTHS2EXPLSTcons_some]
-| WTHS2EXPLSTcons_invar
-    (wths2es) => let // HX: already handled
-    val- list_cons (p3t, p3ts) = p3ts
-  in
-    auxlst (loc0, p3ts, wths2es)
-  end // end of [WTHS2EXPLSTcons_none]
 | WTHS2EXPLSTcons_none
     (wths2es) => let
     val- list_cons (p3t, p3ts) = p3ts

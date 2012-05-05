@@ -756,7 +756,7 @@ in
 //
 case+ s1e0.s1exp_node of
 | S1Einvar (refval, s1e) => let
-    val () = wths1es := WTHS1EXPLSTcons_invar (wths1es)
+    val () = wths1es := WTHS1EXPLSTcons_invar (refval, wths1es)
   in
     s1exp_trup_invar (refval, s1e)
   end // end of [S1Einvar]
@@ -794,6 +794,8 @@ s1exp_trdn_res_impredicative
     wths1es: wths1explst
   ) : wths2explst = begin
     case+ wths1es of
+    | WTHS1EXPLSTcons_invar (refval, wths1es) =>
+        WTHS2EXPLSTcons_invar (refval, auxwth wths1es)
     | WTHS1EXPLSTcons_trans
         (refval, s1e, wths1es) => let
         val s2t = (
@@ -803,8 +805,6 @@ s1exp_trdn_res_impredicative
       in
         WTHS2EXPLSTcons_trans (refval, s2e, auxwth wths1es)
       end // end of [WTHS1EXPLSTcons_trans]
-    | WTHS1EXPLSTcons_invar (wths1es) =>
-        WTHS2EXPLSTcons_invar (auxwth wths1es)
     | WTHS1EXPLSTcons_none (wths1es) =>
         WTHS2EXPLSTcons_none (auxwth wths1es)
     | WTHS1EXPLSTnil () => WTHS2EXPLSTnil ()
