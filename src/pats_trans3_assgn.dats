@@ -63,13 +63,72 @@ staload "pats_trans3_env.sats"
 
 (* ****** ****** *)
 
+extern
+fun d2var_assgn_lin (
+  loc0: location, d2v: d2var, d3ls: d3lablst, s2e_r: s2exp
+) : void // end of [d2var_assgn_lin]
+
+implement
+d2var_assgn_lin
+  (loc, d2v, d3ls, s2e_new) = let
+  val s2e = d2var_get_type_some (loc, d2v)
+  var context: s2expopt = None ()
+  val s2e_sel =
+    s2exp_get_dlablst_context (loc, s2e, d3ls, context)
+  // end of [val]
+  val isprf = s2exp_is_prf (s2e_sel)
+  val () = if ~(isprf) then {
+    val () = prerr_error3_loc (loc)
+    val () = prerr ": a non-proof component of the following type is replaced: "
+    val () = (prerr "["; prerr_s2exp (s2e_sel); prerr "].")
+    val () = prerr_newline ()
+    val () = the_trans3errlst_add (T3E_s2addr_assgn_deref_proof (loc, s2e, d3ls))
+  } // end of [val]
+  val islin = s2exp_is_lin (s2e_sel)
+  val () = if islin then {
+    val () = prerr_error3_loc (loc)
+    val () = prerr ": a linear component of the following type is abandoned: "
+    val () = (prerr "["; prerr_s2exp (s2e_sel); prerr "].")
+    val () = prerr_newline ()
+    val () = the_trans3errlst_add (T3E_s2addr_assgn_deref_linsel (loc, s2e, d3ls))
+  } // end of [val]
+  val isctx = (
+    case+ context of Some _ => true | None _ => false
+  ) : bool // end of [val]
+  val () = if ~(isctx) then {
+    val () = prerr_error3_loc (loc)
+    val () = prerr ": the type of the selected component cannot be changed: "
+    val () = (prerr "["; prerr_s2exp (s2e_sel); prerr "].")
+    val () = prerr_newline ()
+    val () = the_trans3errlst_add (T3E_s2addr_assgn_deref_context (loc, s2e, d3ls))
+  } // end of [val]
+  val- ~Some_vt (s2e) = s2expopt_hrepl0 (context, s2e_new)
+  val () = d2var_set_type (d2v, Some (s2e))
+in
+  // nothing
+end // end of [d2var_assgn_lin]
+
+(* ****** ****** *)
+
 local
 
-fun aux .<>. (
+fun auxerr (
+  loc0: location, s2l: s2exp
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": the proof search for view located at ["
+  val () = prerr_s2exp (s2l)
+  val () = prerr "] failed to turn up a result."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_pfobj_search (loc0, s2l))
+end // end of [auxerr]
+
+fun auxmain .<>. (
   loc0: location
 , pfobj: pfobj
 , d3ls: d3lablst
-, d2e_r: d2exp
+, d3e_r: d3exp
 ) : d3exp = let
   val+ ~PFOBJ (
     d2v, s2e_ctx, s2e_elt, s2l
@@ -90,9 +149,9 @@ if islin then let
   val () = prerr ": a linear component of the following type is abandoned: "
   val () = (prerr "["; prerr_s2exp (s2e_sel); prerr "].")
   val () = prerr_newline ()
-  val () = the_trans3errlst_add (T3E_s2exp_trup_assgn_deref_linsel (loc0, s2e_elt, d3ls))
+  val () = the_trans3errlst_add (T3E_s2addr_assgn_deref_linsel (loc0, s2e_elt, d3ls))
 in
-  d2exp_trup (d2e_r)
+  d3e_r
 end else let
   var context: s2expopt = None ()
   val s2e_sel1 =
@@ -103,7 +162,6 @@ in
 case+ context of
 | Some (s2e_elt_ctx) => let
     val () = list_vt_free (s2ps)
-    val d3e_r = d2exp_trup (d2e_r)
     val () = d3exp_open_and_add (d3e_r)
     val s2e_sel2 = d3exp_get_type (d3e_r)
     val s2e_elt = let
@@ -120,18 +178,18 @@ case+ context of
 | None () => let
     val () = trans3_env_add_proplst_vt (loc0, s2ps)
   in
-    d2exp_trdn (d2e_r, s2e_sel)
+    d3exp_trdn (d3e_r, s2e_sel) // HX: assignment changes no type
   end // end of [None]
 //
 end // end of [if]
 //
-end // end of [aux]
+end // end of [auxmain]
 
 in // in of [local]
 
 implement
-s2exp_trup_assgn_deref_addr
-  (loc0, s2l, d3ls, d2e_r) = let
+s2addr_assgn_deref
+  (loc0, s2l, d3ls, d3e_r) = let
   val () =
     fprint_the_pfmanenv (stdout_ref)
   // end of [val]
@@ -139,11 +197,12 @@ s2exp_trup_assgn_deref_addr
 in
   case+ opt of
   | ~Some_vt
-      (pfobj) => aux (loc0, pfobj, d3ls, d2e_r)
+      (pfobj) => auxmain (loc0, pfobj, d3ls, d3e_r)
+    // end of [Some_vt]
   | ~None_vt () => let
-      val s2e_sel = s2exp_err (s2rt_t0ype) in d2exp_trdn (d2e_r, s2e_sel)
+      val () = auxerr (loc0, s2l) in d3e_r
     end // end of [None_vt]
-end // end of [s2exp_trup_assgn_deref_addr]
+end // end of [s2addr_assgn_deref]
 
 end // end of [local]
 
@@ -156,7 +215,7 @@ fun aux1 (
 , s2f0: s2hnf
 , d3e_l: d3exp
 , d3ls: d3lablst
-, d2e_r: d2exp
+, d3e_r: d3exp
 ) : d3exp = let
   val opt = un_s2exp_ptr_addr_type (s2f0)
 in
@@ -164,12 +223,12 @@ in
 case+ opt of
 | ~Some_vt (s2l) => let
     val d3e_r =
-      s2exp_trup_assgn_deref_addr (loc0, s2l, d3ls, d2e_r)
+      s2addr_assgn_deref (loc0, s2l, d3ls, d3e_r)
     // end of [val]
   in
     d3exp_assgn_ptr (loc0, d3e_l, d3ls, d3e_r)
   end // end of [Some_vt]
-| ~None_vt () => aux2 (loc0, s2f0, d3e_l, d3ls, d2e_r)
+| ~None_vt () => aux2 (loc0, s2f0, d3e_l, d3ls, d3e_r)
 //
 end // end of [aux1]
 
@@ -178,7 +237,7 @@ and aux2 (
 , s2f0: s2hnf
 , d3e_l: d3exp
 , d3ls: d3lablst
-, d2e_r: d2exp
+, d3e_r: d3exp
 ) : d3exp = let
   val opt = un_s2exp_ref_viewt0ype_type (s2f0)
 in
@@ -198,11 +257,13 @@ case+ opt of
       val () = prerr_newline ()
       val () = the_trans3errlst_add (T3E_d3exp_trup_assgn_deref_linsel (d3e_l, d3ls))
     } // end of [val]
-    val d3e_r = d2exp_trdn (d2e_r, s2e_sel)
+    val d3e_r = d3exp_trdn (d3e_r, s2e_sel)
   in
     d3exp_assgn_ref (loc0, d3e_l, d3ls, d3e_r)
   end // end of [Some_vt]
-| ~None_vt () => aux3 (loc0, s2f0, d3e_l, d3ls, d2e_r)
+| ~None_vt () =>
+    aux3 (loc0, s2f0, d3e_l, d3ls, d3e_r)
+  // end of [None_vt]
 //
 end // end of [aux2]
 
@@ -211,7 +272,7 @@ and aux3 (
 , s2f0: s2hnf
 , d3e_l: d3exp
 , d3ls: d3lablst
-, d2e_r: d2exp
+, d3e_r: d3exp
 ) : d3exp = let
 in
   d3exp_err (loc0)
@@ -234,8 +295,11 @@ val () = d3exp_open_and_add (d3e_l)
 val s2e0 = d3exp_get_type (d3e_l)
 val s2f0 = s2exp2hnf_cast (s2e0)
 //
+val d3e_r = d2exp_trup (d2e_r)
+val () = d3exp_open_and_add (d3e_r)
+//
 in
-  aux1 (loc0, s2f0, d3e_l, d3ls, d2e_r)
+  aux1 (loc0, s2f0, d3e_l, d3ls, d3e_r)
 end // end of [d2exp_trup_assgn_deref]
 
 end // end of [local]
@@ -246,6 +310,11 @@ implement
 d2exp_trup_assgn
   (loc0, d2e_l, d2e_r) = let
   val d2lv = d2exp_lvalize (d2e_l)
+//
+  val () = (
+    print "d2exp_trup_assgn: d2lv = "; print_d2lval (d2lv); print_newline ()
+  ) // end of [val]
+//
 in
 //
 case+ d2lv of
@@ -253,14 +322,36 @@ case+ d2lv of
     (d2v, d2ls) => let
     val d3ls = d2lablst_trup (d2ls)
     val- Some (s2l) = d2var_get_addr (d2v)
-    val d3e_r = s2exp_trup_assgn_deref_addr (loc0, s2l, d3ls, d2e_r)
+    val d3e_r = d2exp_trup (d2e_r)
+    val () = d3exp_open_and_add (d3e_r)
+    val d3e_r =
+      s2addr_assgn_deref (loc0, s2l, d3ls, d3e_r)
+    // end of [val]
   in
     d3exp_assgn_var (loc0, d2v, d3ls, d3e_r)
   end // end of [D2LVALvar_mut]
+| D2LVALvar_lin
+    (d2v, d2ls) => let
+    val loc_l = d2e_l.d2exp_loc
+    val d3ls = d2lablst_trup (d2ls)
+    val d3e_r = d2exp_trup (d2e_r)
+    val () = d3exp_open_and_add (d3e_r)
+    val s2e_r = d3exp_get_type (d3e_r)
+    val () = d2var_assgn_lin (loc_l, d2v, d3ls, s2e_r)
+  in
+    d3exp_assgn_var (loc0, d2v, d3ls, d3e_r)
+  end // end of [D2LVALvar_lin]
 | D2LVALderef
     (d2e_l, d2ls) =>
     d2exp_trup_assgn_deref (loc0, d2e_l, d2ls, d2e_r)
-| _ => exitloc (1)
+| _ => let
+    val () = prerr_error3_loc (d2e_l.d2exp_loc)
+    val () = prerr ": a left-value is required but a non-left-value is given."
+    val () = prerr_newline ()
+    val () = the_trans3errlst_add (T3E_nonlval (d2e_l))
+  in
+    d3exp_err (loc0)
+  end // end of [_]
 //
 end // end of [d2exp_trup_assgn]
 

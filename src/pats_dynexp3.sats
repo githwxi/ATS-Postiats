@@ -250,6 +250,11 @@ and d3exp_node =
   | D3Exchng_ptr of (d3exp(*left*), d3lablst, d3exp(*right*))
   | D3Exchng_ref of (d3exp(*left*), d3lablst, d3exp(*right*))
 //
+  | D3Erefarg of
+      // refval=1/0: call-by-ref/val argument
+      // freeknd=1/0: to be freed or not after call
+      (int(*refval*), int(*freeknd*), d3exp) 
+//
   | D3Earrinit of // For instance, @[int](1,2,3)
       (s2exp(*elt*), d3exp(*asz*), d3explst(*elt*))
   | D3Earrsize of (d3explst, int(*size*))
@@ -543,6 +548,12 @@ fun d3exp_xchng_ptr
   (loc: location, d3e_l: d3exp, d3ls: d3lablst, d3e_r: d3exp): d3exp
 fun d3exp_xchng_ref
   (loc: location, d3e_l: d3exp, d3ls: d3lablst, d3e_r: d3exp): d3exp
+
+(* ****** ****** *)
+
+fun d3exp_refarg (
+  loc: location, s2e: s2exp, refval: int, freeknd: int, d3e: d3exp
+) : d3exp // end of [d3exp_refarg]
 
 (* ****** ****** *)
 

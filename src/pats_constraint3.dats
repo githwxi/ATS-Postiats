@@ -93,9 +93,6 @@ case+ s3e of
 | S3Eicff _ => s2rt_int
 | S3Eisum _ => s2rt_int
 | S3Eimul _ => s2rt_int
-| S3Epdiff _ => s2rt_int
-//
-| S3Epadd _ => s2rt_addr
 //
 | S3Eapp (s3e_fun, _) => s2t where {
     val- S2RTfun (_, s2t) = s3exp_get_srt (s3e_fun)
@@ -159,13 +156,6 @@ case+ s3e0 of
 | S3Eimul (s3e1, s3e2) => let
     val res = loop (res, s3e1) in loop (res, s3e2)
   end // end of [S3Eimul]
-| S3Epdiff (s3e1, s3e2) => let
-    val res = loop (res, s3e1) in loop (res, s3e2)
-  end // end of [S3Epdiff]
-//
-| S3Epadd  (s3e1, s3e2) => let
-    val res = loop (res, s3e1) in loop (res, s3e2)
-  end // end of [S3Epadd]
 //
 | S3Eapp (s3e1, s3es2) => let
     val res = loop (res, s3e1)
@@ -256,17 +246,6 @@ case+ x1 of
       if s3exp_syneq (x11, x21) then s3exp_syneq (x12, x22) else false
   | _ => false // end of [_]
   ) // end of [S3Eimul]
-| S3Epdiff (x11, x12) => (case+ x2 of
-  | S3Epdiff (x21, x22) =>
-      if s3exp_syneq (x11, x21) then s3exp_syneq (x12, x22) else false
-  | _ => false // end of [_]
-  ) // end of [S3Epdiff]
-//
-| S3Epadd (x11, x12) => (case+ x2 of
-  | S3Epadd (x21, x22) =>
-      if s3exp_syneq (x11, x21) then s3exp_syneq (x12, x22) else false
-  | _ => false // end of [_]
-  ) // end of [S3Epadd]
 //
 | S3Eapp (x1, xs1) => (case+ x2 of
   | S3Eapp (x2, xs2) =>

@@ -489,7 +489,7 @@ implement
 d2exp_trup_var_mutabl
   (loc0, d2v) = let
   val- Some (s2l) = d2var_get_addr (d2v)
-  val s2e = s2exp_trup_deref_addr (loc0, s2l, list_nil)
+  val s2e = s2addr_deref (loc0, s2l, list_nil)
 in
   d3exp_var (loc0, s2e, d2v)
 end // end of [d2exp_trup_var_mut]
@@ -791,23 +791,26 @@ case+ s2e_fun.s2exp_node of
 //
     val d3es_arg = d23explst_trdn (locarg, d23es_arg, s2es_fun_arg)
     var s2e_res: s2exp = s2e_fun_res
-(*
+//
     var wths2es
       : wths2explst = WTHS2EXPLSTnil ()
     // end of [var]
     val iswth = s2exp_is_wth (s2e_fun_res)
     val () = if iswth then let
-      val s2e_fun_res =
-        s2exp_opnexi_and_add (loc_app, s2e_fun_res)
-      val- S2Ewth (s2e, wths2es1) = s2e_fun_res.s2exp_node
+      val s2f = s2exp2hnf (s2e_fun_res)
+      val s2e = s2hnf_opnexi_and_add (loc_app, s2f)
+      val- S2Ewth (s2e, wths2es1) = s2e.s2exp_node
     in
       s2e_res := s2e; wths2es := wths2es1
     end : void // end of [val]
+(*
     val d3e_fun = d3exp_funclo_restore (fc, d3e_fun)
-    val d3es_arg = (
-      if iswth then d3explst_arg_restore (d3es_arg, wths2es) else d3es_arg
-    ) : d3explst
 *)
+    val d3es_arg = (
+      if iswth then
+        d3explst_arg_restore (d3es_arg, s2es_fun_arg, wths2es)
+      else d3es_arg
+    ) : d3explst // end of [val]
     val err =
       the_effenv_check_s2eff (loc_app, s2fe_fun)
     // end of [val]

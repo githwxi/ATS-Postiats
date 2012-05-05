@@ -150,21 +150,6 @@ case+ x of
     val () = fprint_s3exp (out, s3e2)
     val () = prstr ")"
   } // end of [S3Eimul]
-| S3Epdiff (s3e1, s3e2) => {
-    val () = prstr "S3Epdiff("
-    val () = fprint_s3exp (out, s3e1)
-    val () = prstr ", "
-    val () = fprint_s3exp (out, s3e2)
-    val () = prstr ")"
-  } // end of [S3Epdiff]
-//
-| S3Epadd (s3e1, s3e2) => {
-    val () = prstr "S3Epadd("
-    val () = fprint_s3exp (out, s3e1)
-    val () = prstr ", "
-    val () = fprint_s3exp (out, s3e2)
-    val () = prstr ")"
-  } // end of [S3Epadd]
 //
 | S3Eapp (s3e, s3es) => {
     val () = prstr "S3Eapp("

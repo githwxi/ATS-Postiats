@@ -272,18 +272,23 @@ d23explst_free (xs) = case+ xs of
 
 (* ****** ****** *)
 
-implement
-d3exp_trdn
-  (d3e1, s2e2) = d3e1 where {
+local
+
+fun aux .<>. (
+  d3e1: d3exp, s2f2: s2hnf
+) : d3exp = let
   val loc = d3e1.d3exp_loc
   val s2e1 = d3e1.d3exp_type
+  val s2f1 = s2exp2hnf (s2e1)
+  val s2e1 = s2hnf2exp (s2f1)
+  val s2e2 = s2hnf2exp (s2f2)
 // (*
   val () = (
     print "d3exp_trdn: s2e1 = "; print_s2exp (s2e1); print_newline ();
     print "d3exp_trdn: s2e2 = "; print_s2exp (s2e2); print_newline ();
   ) // end of [val]
 // *)
-  val err = $SOL.s2exp_tyleq_solve (loc, s2e1, s2e2)
+  val err = $SOL.s2hnf_tyleq_solve (loc, s2f1, s2f2)
   val () = if (err != 0) then let
     val () = prerr_error3_loc (loc)
     val () = filprerr_ifdebug "d3exp_trdn"
@@ -296,7 +301,26 @@ d3exp_trdn
     the_trans3errlst_add (T3E_d3exp_trdn (d3e1, s2e2))
   end // end of [val]
   val () = d3exp_set_type (d3e1, s2e2)
-} // end of [d3exp_trdn]
+in
+  d3e1
+end // end of [_]
+
+in // in of [local]
+
+implement
+d3exp_trdn
+  (d3e1, s2e2) = let
+  val s2f2 = s2exp2hnf (s2e2)
+in
+//
+case+ s2e2.s2exp_node of
+| S2Erefarg
+    (_, s2e2) => d3exp_trdn (d3e1, s2e2)
+| _ => aux (d3e1, s2f2)
+//
+end (* end of [d3exp_trdn] *)
+
+end // end of [local]
 
 (* ****** ****** *)
 

@@ -290,6 +290,8 @@ implement
 the_add_addr_int = s2cstref_make "add_addr_int"
 implement
 the_sub_addr_int = s2cstref_make "sub_addr_int"
+implement
+the_sub_addr_addr = s2cstref_make "sub_addr_addr"
 
 (* ****** ****** *)
 

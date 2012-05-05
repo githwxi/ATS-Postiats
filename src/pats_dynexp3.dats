@@ -542,6 +542,17 @@ in '{
 (* ****** ****** *)
 
 implement
+d3exp_refarg (
+  loc, s2e, refval, freeknd, d3e
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2e
+, d3exp_node= D3Erefarg (refval, freeknd, d3e)
+} // end of [d3exp_refarg]
+
+(* ****** ****** *)
+
+implement
 d3exp_arrinit (
   loc, s2e_arr, elt, asz, d3es
 ) = '{

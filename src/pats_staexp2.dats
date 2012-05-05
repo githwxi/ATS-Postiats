@@ -469,6 +469,8 @@ implement
 s2exp_is_prf
   (s2e) = s2rt_is_prf (s2e.s2exp_srt)
 // end of [s2exp_is_prf]
+implement
+s2exp_is_nonprf (s2e) = ~s2exp_is_prf (s2e)
 
 implement
 s2exp_is_lin

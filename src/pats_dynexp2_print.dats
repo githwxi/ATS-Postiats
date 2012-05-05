@@ -607,7 +607,7 @@ case+ x.d2exp_node of
 | D2Eselab (d2e, d2ls) => {
     val () = prstr "D2Eselab("
     val () = fprint_d2exp (out, d2e)
-    val () = prstr ";"
+    val () = prstr "; "
     val () = fprint_d2lablst (out, d2ls)
     val () = prstr ")"
   } // end of [D2Eselab]
@@ -951,6 +951,11 @@ case+ x of
   }
 //
 end // end of [fprint_d2lval]
+
+implement
+print_d2lval (d2lv) = fprint_d2lval (stdout_ref, d2lv)
+implement
+prerr_d2lval (d2lv) = fprint_d2lval (stderr_ref, d2lv)
 
 (* ****** ****** *)
 

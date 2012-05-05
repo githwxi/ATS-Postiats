@@ -312,71 +312,20 @@ end // end of [f_ifint_bool_int_int]
 //
 // HX: functions on static addresses
 //
-fun f_lt_addr_addr (
-  env: &s2vbcfenv, s2es: s2explst
-) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
-  val s3ae1 = s3exp_make (env, s2e1)
-  val s3ae2 = s3exp_make (env, s2e2)
-in
-  s3exp_plt (s3ae1, s3ae2)
-end // end of [f_lt_addr_addr]
+(*
 //
-fun f_lte_addr_addr (
-  env: &s2vbcfenv, s2es: s2explst
-) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
-  val s3ae1 = s3exp_make (env, s2e1)
-  val s3ae2 = s3exp_make (env, s2e2)
-in
-  s3exp_plte (s3ae1, s3ae2)
-end // end of [f_lte_addr_addr]
+fun f_add_addr_int = f_add_int_int
+fun f_sub_addr_int = f_sub_int_int
+fun f_sub_addr_addr = f_sub_int_int
 //
-fun f_gt_addr_addr (
-  env: &s2vbcfenv, s2es: s2explst
-) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
-  val s3ae1 = s3exp_make (env, s2e1)
-  val s3ae2 = s3exp_make (env, s2e2)
-in
-  s3exp_pgt (s3ae1, s3ae2)
-end // end of [f_gt_addr_addr]
+fun f_lt_addr_addr = f_lt_int_int
+fun f_lte_addr_addr = f_lte_int_int
+fun f_gt_addr_addr = f_gt_int_int
+fun f_gte_addr_addr = f_gte_int_int
+fun f_eq_addr_addr = f_eq_int_int
+fun f_neq_addr_addr = f_neq_int_int
 //
-fun f_gte_addr_addr (
-  env: &s2vbcfenv, s2es: s2explst
-) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
-  val s3ae1 = s3exp_make (env, s2e1)
-  val s3ae2 = s3exp_make (env, s2e2)
-in
-  s3exp_pgte (s3ae1, s3ae2)
-end // end of [f_gte_addr_addr]
-//
-fun f_eq_addr_addr (
-  env: &s2vbcfenv, s2es: s2explst
-) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
-  val s3ae1 = s3exp_make (env, s2e1)
-  val s3ae2 = s3exp_make (env, s2e2)
-in
-  s3exp_peq (s3ae1, s3ae2)
-end // end of [f_eq_addr_addr]
-//
-fun f_neq_addr_addr (
-  env: &s2vbcfenv, s2es: s2explst
-) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
-  val s3ae1 = s3exp_make (env, s2e1)
-  val s3ae2 = s3exp_make (env, s2e2)
-in
-  s3exp_pneq (s3ae1, s3ae2)
-end // end of [f_neq_addr_addr]
+*)
 
 (* ****** ****** *)
 
@@ -437,12 +386,16 @@ val () = ins (map, the_char_of_int, f_identity)
 val () = ins (map, the_int_of_addr, f_identity)
 val () = ins (map, the_addr_of_int, f_identity)
 //
-val () = ins (map, the_lt_addr_addr, f_lt_addr_addr)
-val () = ins (map, the_lte_addr_addr, f_lte_addr_addr)
-val () = ins (map, the_gt_addr_addr, f_gt_addr_addr)
-val () = ins (map, the_gte_addr_addr, f_gte_addr_addr)
-val () = ins (map, the_eq_addr_addr, f_eq_addr_addr)
-val () = ins (map, the_neq_addr_addr, f_neq_addr_addr)
+val () = ins (map, the_add_addr_int, f_add_int_int)
+val () = ins (map, the_sub_addr_int, f_sub_int_int)
+val () = ins (map, the_sub_addr_addr, f_sub_int_int)
+//
+val () = ins (map, the_lt_addr_addr, f_lt_int_int)
+val () = ins (map, the_lte_addr_addr, f_lte_int_int)
+val () = ins (map, the_gt_addr_addr, f_gt_int_int)
+val () = ins (map, the_gte_addr_addr, f_gte_int_int)
+val () = ins (map, the_eq_addr_addr, f_eq_int_int)
+val () = ins (map, the_neq_addr_addr, f_neq_int_int)
 //
 in
   (*nothing*)

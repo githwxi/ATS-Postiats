@@ -47,9 +47,9 @@ argv_get_at
 #atscode_separator()
 
 implement{a}
-print_elt (x) = fprint_elt (stdout_ref, x)
+print_elt (x) = fprint_elt<a> (stdout_ref, x)
 implement{a}
-prerr_elt (x) = fprint_elt (stderr_ref, x)
+prerr_elt (x) = fprint_elt<a> (stderr_ref, x)
 
 #atscode_separator()
 

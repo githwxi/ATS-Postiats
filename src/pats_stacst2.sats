@@ -115,6 +115,7 @@ val the_neq_addr_addr : s2cstref // : (addr, addr) -> bool
 //
 val the_add_addr_int : s2cstref // (addr, int) -> addr
 val the_sub_addr_int : s2cstref // (addr, int) -> addr
+val the_sub_addr_addr : s2cstref // (addr, addr) -> int
 //
 (* ****** ****** *)
 //

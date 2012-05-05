@@ -272,11 +272,9 @@ if islin then let
     case+ context of
     | None () => {
         val () = prerr_error3_loc (loc0)
-        val () = prerr (
-          ": a linear component cannot be taken out of the left-value."
-        ) // end of [val]
+        val () = prerr ": the type of the selected component cannot be changed: "
         val () = prerr_newline ()
-        val () = the_trans3errlst_add (T3E_s2exp_trup_deref_linsel (loc0, s2e_elt, d3ls))
+        val () = the_trans3errlst_add (T3E_s2addr_deref_context (loc0, s2e_elt, d3ls))
       } // end of [val]
     | Some _ => () // end of [_]
   ) : void // end of [val]
@@ -310,7 +308,7 @@ end // end of [aux]
 in // in of [local]
 
 implement
-s2exp_trup_deref_addr
+s2addr_deref
   (loc0, s2l, d3ls) = let
   val () =
     fprint_the_pfmanenv (stdout_ref)
@@ -321,7 +319,7 @@ in
   | ~Some_vt
       (pfobj) => aux (loc0, pfobj, d3ls)
   | ~None_vt () => s2exp_err (s2rt_t0ype)
-end // end of [s2exp_trup_deref_addr]
+end // end of [s2addr_deref]
 
 end // end of [local]
 
@@ -340,7 +338,7 @@ in
 case+ opt of
 | ~Some_vt (s2l) => let
     val s2e_sel =
-      s2exp_trup_deref_addr (loc0, s2l, d3ls)
+      s2addr_deref (loc0, s2l, d3ls)
     // end of [val]
   in
     d3exp_sel_ptr (loc0, s2e_sel, d3e, d3ls)

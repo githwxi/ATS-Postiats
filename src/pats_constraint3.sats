@@ -73,9 +73,6 @@ datatype s3exp =
   | S3Eicff of (intinf, s3exp) // HX: coefficient
   | S3Eisum of s3explst (* sum of list of icffs *)
   | S3Eimul of (s3exp, s3exp)
-  | S3Epdiff of (s3exp, s3exp)
-//
-  | S3Epadd of (s3exp, s3exp) // ptr arith
 //
   | S3Eapp of (s3exp, s3explst)
 //
@@ -145,13 +142,6 @@ and s3exp_neg_1 : s3exp
 //
 (* ****** ****** *)
 
-fun s3exp_psucc (s3e: s3exp): s3exp
-fun s3exp_ppred (s3e: s3exp): s3exp
-fun s3exp_padd (s3e1: s3exp, s3e2: s3exp): s3exp
-fun s3exp_psub (s3e1: s3exp, s3e2: s3exp): s3exp
-
-(* ****** ****** *)
-
 fun s3exp_bool (b: bool): s3exp
 fun s3exp_bvar (s2v: s2var): s3exp
 fun s3exp_bneg (s3e: s3exp): s3exp
@@ -167,13 +157,6 @@ fun s3exp_igte (s3e1: s3exp, s3e2: s3exp): s3exp
 fun s3exp_ieq (s3e1: s3exp, s3e2: s3exp): s3exp
 fun s3exp_ineq (s3e1: s3exp, s3e2: s3exp): s3exp
 fun s3exp_bineq (knd: int2, s3e: s3exp): s3exp
-
-fun s3exp_plt (s3e1: s3exp, s3e2: s3exp): s3exp
-fun s3exp_plte (s3e1: s3exp, s3e2: s3exp): s3exp
-fun s3exp_pgt (s3e1: s3exp, s3e2: s3exp): s3exp
-fun s3exp_pgte (s3e1: s3exp, s3e2: s3exp): s3exp
-fun s3exp_peq (s3e1: s3exp, s3e2: s3exp): s3exp
-fun s3exp_pneq (s3e1: s3exp, s3e2: s3exp): s3exp
 
 (* ****** ****** *)
 
@@ -192,8 +175,6 @@ fun s3exp_ipred (s3e: s3exp): s3exp
 fun s3exp_iadd (s3e1: s3exp, s3e2: s3exp): s3exp
 fun s3exp_isub (s3e1: s3exp, s3e2: s3exp): s3exp
 fun s3exp_imul (s3e1: s3exp, s3e2: s3exp): s3exp
-
-fun s3exp_pdiff (s3e1: s3exp, s3e2: s3exp): s3exp
 
 (* ****** ****** *)
 

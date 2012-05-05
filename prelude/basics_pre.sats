@@ -224,8 +224,10 @@ stadef NULL = null_addr
 
 stacst add_addr_int : (addr, int) -> addr
 stacst sub_addr_int : (addr, int) -> addr
+stacst sub_addr_addr : (addr, addr) -> int
 stadef + = add_addr_int
 stadef - = sub_addr_int
+stadef - = sub_addr_addr
 
 stacst lt_addr_addr : (addr, addr) -> bool
 stacst lte_addr_addr : (addr, addr) -> bool

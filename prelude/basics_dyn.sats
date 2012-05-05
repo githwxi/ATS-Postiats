@@ -236,8 +236,8 @@ argv_int_viewtype (n:int)
 stadef argv = argv_int_viewtype
 
 (*
-[argv_takeout_array] is declared in prelude/SATS/extern.sats
-[argv_takeout_arrnull] is declared in prelude/SATS/extern.sats
+[argv_takeout_strarr] is declared in prelude/SATS/extern.sats
+[argv_takeout_parrnull] is declared in prelude/SATS/extern.sats
 *)
 
 fun argv_get_at

@@ -79,12 +79,9 @@ in (*nothing*) end
 
 local
 
-staload _(*anon*) =
-"pats_lintprgm.dats"
-staload _(*anon*) =
-"pats_lintprgm_solve.dats"
-staload _(*anon*) =
-"pats_constraint3_icnstr.dats"
+staload _(*anon*) = "pats_lintprgm.dats"
+staload _(*anon*) = "pats_lintprgm_solve.dats"
+staload _(*anon*) = "pats_constraint3_icnstr.dats"
 
 fun{a:t@ype}
 indexset_make_s3exp {n:nat} (
@@ -134,7 +131,7 @@ val ics_asmp = let
         val ic =
           s3exp2icnstr<a> (loc0, vim, n, s3p)
         // end ofl[val]
-(*
+// (*
         val () = (
           print "auxsolve: loop: s3p = ";
           print_s3exp (s3p); print_newline ();
@@ -142,7 +139,7 @@ val ics_asmp = let
           fprint_icnstr (stdout_ref, ic, n+1);
           print_newline ();
         ) // end of [val]
-*)
+// *)
       in
         loop (loc0, vim, n, s3ps, list_vt_cons (ic, res))
       end // end of [list_cons]
@@ -204,7 +201,7 @@ val s2vs_ =
 val s3ps_asmp =
   $UN.castvwtp1 {s3explst} (s3ps) // HX: cannot be SHARED!
 //
-(*
+// (*
 val () = begin
   print "s3explst_solve_s2exp: s2vs = ";
   print_s2varlst (s2vs_); print_newline ();
@@ -214,7 +211,7 @@ val () = begin
   print "s3explst_solve_s2exp: s2p = "; pprint_s2exp (s2p); print_newline ();
   print "s3explst_solve_s2exp: s3p = "; print_s3exp (s3p); print_newline ();
 end // end of [val]
-*)
+// *)
 //
 val (vim, n) = s2varindmap_make (s2vs)
 //
@@ -306,7 +303,7 @@ case+ c3tknd of
       0 // errmsg reporting has already be done
     ) else (
       prerr_error3_loc (loc0);
-      prerr ": unsolved constraint";
+      prerr ": unsolved constraint: ";
       prerr_c3nstr (c3t);
       prerr_newline ();
       0 // it is treated as an error
@@ -398,16 +395,12 @@ end // end of [c3nstr_solve_main]
 implement
 c3nstr_solve_prop
   (loc0, env, s2p, err) = let
-(*
+// (*
   val () = begin
-    print "c3nstr_solve_prop: s2vs = ";
-    print_s2varlst (s2vs); print_newline ();
-    print "c3nstr_solve_prop: s3ps = ";
-    print_s3explst (s3ps); print_newline ();
     print "c3nstr_solve_prop: s2p = ";
     pprint_s2exp (s2p); print_newline ();
   end // end of [val]
-*)
+// *)
 in
   s3explst_solve_s2exp (loc0, env, s2p, err)
 end // end of [c3nstr_solve_prop]

@@ -71,10 +71,11 @@ staload "pats_trans3_env.sats"
 local
 
 fun aux .<>. (
-  loc0: location
+  loc0: location // all
+, loc1: location // right
 , pfobj: pfobj
 , d3ls: d3lablst
-, s2f0_sel: s2hnf
+, s2f0_sel: s2hnf // left
 ) : s2exp = let
 //
 val+ ~PFOBJ (
@@ -83,13 +84,13 @@ val+ ~PFOBJ (
 //
 var context: s2expopt = None ()
 val s2e_sel =
-  s2exp_get_dlablst_context (loc0, s2e_elt, d3ls, context)
+  s2exp_get_dlablst_context (loc1, s2e_elt, d3ls, context)
 // end of [val]
+val s2e0_sel = s2hnf2exp (s2f0_sel)
 in
 //
 case+ context of
 | Some (s2e_elt_ctx) => let
-    val s2e0_sel = s2hnf2exp (s2f0_sel)
     val s2e_elt = let
       val- ~Some_vt (s2e_elt) =
         s2exp_hrepl0 (s2e_elt_ctx, s2e0_sel) in s2e_elt
@@ -104,11 +105,19 @@ case+ context of
 | None () => let
     var linrest: int = 0
     val (s2e_sel, s2ps) =
-      s2exp_get_dlablst_linrest (loc0, s2e_elt, d3ls, linrest)
+      s2exp_get_dlablst_linrest (loc1, s2e_elt, d3ls, linrest)
     // end of [val]
-    val () = trans3_env_add_proplst_vt (loc0, s2ps)
+    val () = trans3_env_add_proplst_vt (loc1, s2ps)
     val s2f_sel = s2exp2hnf (s2e_sel)
-    val err = $SOL.s2hnf_tyleq_solve (loc0, s2f0_sel, s2f_sel)
+    val err = $SOL.s2hnf_tyleq_solve (loc1, s2f0_sel, s2f_sel)
+    val () = if err > 0 then let
+      val () = prerr_error3_loc (loc1)
+      val () = prerr ": the LHS of exchange cannot be given its RHS type."
+      val () = prerr_newline ()
+      val () = prerr_the_staerrlst ()
+    in
+      the_trans3errlst_add (T3E_s2addr_xchng_check_RHS (loc1, s2e0_sel, s2e_sel))
+    end // end of [if] // end of [val]
   in
     s2e_sel
   end // end of [None]
@@ -118,8 +127,11 @@ end // end of [aux]
 in // in of [local]
 
 implement
-s2exp_trdn_xchng
-  (loc0, s2l, d3ls, s2f0) = let
+s2addr_xchng_check (
+  loc0(*all*)
+, loc1(*right*)
+, s2l, d3ls, s2f0(*left*)
+) = let
   val () =
     fprint_the_pfmanenv (stdout_ref)
   // end of [val]
@@ -127,9 +139,9 @@ s2exp_trdn_xchng
 in
   case+ opt of
   | ~Some_vt (pfobj) =>
-      aux (loc0, pfobj, d3ls, s2f0)
+      aux (loc0, loc1, pfobj, d3ls, s2f0)
   | ~None_vt () => s2exp_err (s2rt_t0ype)
-end // end of [s2exp_trdn_xchng]
+end // end of [s2addr_xchng_check]
 
 end // end of [local]
 
@@ -137,22 +149,43 @@ end // end of [local]
 
 local
 
-fun auxerr (
-  loc0: location
-, d3e: d3exp, d3ls: d3lablst
-, s2f0_sel: s2hnf
+fun auxerr1 (
+  loc0: location // all
+, loc1: location // right
+, s2f0_sel: s2hnf // left
+, s2f1_sel: s2hnf // right
 ) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": the RHS of exchange cannot be given its LHS type."
+  val () = prerr_newline ()
   val () = prerr_the_staerrlst ()
   val s2e0_sel = s2hnf2exp (s2f0_sel)
+  val s2e1_sel = s2hnf2exp (s2f1_sel)
 in
-  the_trans3errlst_add (T3E_d2exp_trdn_xchng_deref (d3e, d3ls, s2e0_sel))
-end // end of [auxerr]
+  the_trans3errlst_add (T3E_s2addr_xchng_check_LHS (loc1, s2e0_sel, s2e1_sel))
+end // end of [auxerr1]
+fun auxerr2 (
+  loc0: location // all
+, loc1: location // right
+, s2f0_sel: s2hnf // left
+, s2f1_sel: s2hnf // right
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": the LHS of exchange cannot be given its RHS type."
+  val () = prerr_newline ()
+  val () = prerr_the_staerrlst ()
+  val s2e0_sel = s2hnf2exp (s2f0_sel)
+  val s2e1_sel = s2hnf2exp (s2f1_sel)
+in
+  the_trans3errlst_add (T3E_s2addr_xchng_check_RHS (loc0, s2e0_sel, s2e1_sel))
+end // end of [auxerr2]
 
 fun aux1 (
-  loc0: location
-, s2f0: s2hnf
+  loc0: location // all
+, loc1: location // right
+, s2f0: s2hnf // right
 , d3e: d3exp, d3ls: d3lablst
-, s2f0_sel: s2hnf
+, s2f0_sel: s2hnf // left
 ) : d3exp = let
   val opt = un_s2exp_ptr_addr_type (s2f0)
 in
@@ -160,23 +193,24 @@ in
 case+ opt of
 | ~Some_vt (s2l) => let
     val s2e_sel =
-      s2exp_trdn_xchng (loc0, s2l, d3ls, s2f0_sel)
+      s2addr_xchng_check (loc0, loc1, s2l, d3ls, s2f0_sel)
     // end of [val]
     val s2f_sel = s2exp2hnf (s2e_sel)
     val err = $SOL.s2hnf_tyleq_solve (loc0, s2f_sel, s2f0_sel)
-    val () = if err > 0 then auxerr (loc0, d3e, d3ls, s2f0_sel)
+    val () = if err > 0 then auxerr1 (loc0, loc1, s2f0_sel, s2f_sel)
   in
-    d3exp_sel_ptr (loc0, s2e_sel, d3e, d3ls)
+    d3exp_sel_ptr (loc1, s2e_sel, d3e, d3ls)
   end // end of [Some_vt]
-| ~None_vt () => aux2 (loc0, s2f0, d3e, d3ls, s2f0_sel)
+| ~None_vt () => aux2 (loc0, loc1, s2f0, d3e, d3ls, s2f0_sel)
 //
 end // end of [aux1]
 
 and aux2 (
-  loc0: location
-, s2f0: s2hnf
+  loc0: location // all
+, loc1: location // right
+, s2f0: s2hnf // right
 , d3e: d3exp, d3ls: d3lablst
-, s2f0_sel: s2hnf
+, s2f0_sel: s2hnf // left
 ) : d3exp = let
   val opt = un_s2exp_ref_viewt0ype_type (s2f0)
 in
@@ -185,24 +219,27 @@ case+ opt of
 | ~Some_vt (s2e) => let
     var linrest: int = 0
     val (s2e_sel, s2ps) =
-      s2exp_get_dlablst_linrest (loc0, s2e, d3ls, linrest)
+      s2exp_get_dlablst_linrest (loc1, s2e, d3ls, linrest)
     // end of [val]
-    val () = trans3_env_add_proplst_vt (loc0, s2ps)
+    val () = trans3_env_add_proplst_vt (loc1, s2ps)
     val s2f_sel = s2exp2hnf (s2e_sel)
+    val err = $SOL.s2hnf_tyleq_solve (loc1, s2f0_sel, s2f_sel)
+    val () = if err > 0 then auxerr1 (loc0, loc1, s2f0_sel, s2f_sel)
     val err = $SOL.s2hnf_tyleq_solve (loc0, s2f_sel, s2f0_sel)
-    val () = if err > 0 then auxerr (loc0, d3e, d3ls, s2f0_sel)
+    val () = if err > 0 then auxerr2 (loc0, loc1, s2f0_sel, s2f_sel)
   in
-    d3exp_sel_ref (loc0, s2e_sel, d3e, d3ls)
+    d3exp_sel_ref (loc1, s2e_sel, d3e, d3ls)
   end // end of [Some_vt]
-| ~None_vt () => aux3 (loc0, s2f0, d3e, d3ls, s2f0_sel)
+| ~None_vt () => aux3 (loc0, loc1, s2f0, d3e, d3ls, s2f0_sel)
 //
 end // end of [aux2]
 
 and aux3 (
-  loc0: location
-, s2f0: s2hnf
+  loc0: location // all
+, loc1: location // right
+, s2f0: s2hnf // right
 , d3e: d3exp, d3ls: d3lablst
-, s2f0_sel: s2hnf
+, s2f0_sel: s2hnf // left
 ) : d3exp = let
 in
   d3exp_err (loc0)
@@ -212,7 +249,7 @@ in // in of [local]
 
 implement
 d2exp_trdn_xchng_deref
-  (loc0, d2e, d2ls, s2f0_sel) = let
+  (loc0, loc1, d2e, d2ls, s2f0_sel) = let
 //
 val d3e = d2exp_trup (d2e)
 val d3ls = d2lablst_trup (d2ls)
@@ -221,15 +258,13 @@ val s2e0 = d3exp_get_type (d3e)
 val s2f0 = s2exp2hnf_cast (s2e0)
 //
 in
-  aux1 (loc0, s2f0, d3e, d3ls, s2f0_sel)
+  aux1 (loc0, loc1, s2f0, d3e, d3ls, s2f0_sel)
 end // end of [d2exp_trdn_xchng_deref]
-
-end // end of [local]
 
 implement
 d2exp_trdn_xchng
-  (d2e, s2f0_sel) = let
-  val loc0 = d2e.d2exp_loc
+  (loc0, d2e, s2f0_sel) = let
+  val loc1 = d2e.d2exp_loc
   val d2lv = d2exp_lvalize (d2e)
 in
 //
@@ -238,16 +273,29 @@ case+ d2lv of
     (d2v, d2ls) => let
     val d3ls = d2lablst_trup (d2ls)
     val- Some (s2l) = d2var_get_addr (d2v)
-    val s2e_sel = s2exp_trdn_xchng (loc0, s2l, d3ls, s2f0_sel)
+    val s2e_sel = s2addr_xchng_check (loc0, loc1, s2l, d3ls, s2f0_sel)
+    val s2f_sel = s2exp2hnf (s2e_sel)
+    val s2e_sel = s2hnf2exp (s2f_sel)
+    val err = $SOL.s2hnf_tyleq_solve (loc0, s2f_sel, s2f0_sel)
+    val () = if err > 0 then auxerr1 (loc0, loc1, s2f0_sel, s2f_sel)
   in
-    d3exp_sel_var (loc0, s2e_sel, d2v, d3ls)
+    d3exp_sel_var (loc1, s2e_sel, d2v, d3ls)
   end // end of [D2LVALvar_mut]
 | D2LVALderef
     (d2e, d2ls) =>
-    d2exp_trdn_xchng_deref (loc0, d2e, d2ls, s2f0_sel)
-| _ => exitloc (1)
+    d2exp_trdn_xchng_deref (loc0, loc1, d2e, d2ls, s2f0_sel)
+| _ => let
+    val () = prerr_error3_loc (loc1)
+    val () = prerr ": a left-value is required but a non-left-value is given."
+    val () = prerr_newline ()
+    val () = the_trans3errlst_add (T3E_nonlval (d2e))
+  in
+    d3exp_err (loc1)
+  end // end of [_]
 //
 end // end of [d2exp_trdn_xchng]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -269,13 +317,13 @@ fun aux .<>. (
   val s2f_sel = s2exp2hnf (s2e_sel)
   val () = trans3_env_add_proplst_vt (loc0, s2ps)
 in
-  d2exp_trdn_xchng (d2e_r, s2f_sel)
+  d2exp_trdn_xchng (loc0, d2e_r, s2f_sel)
 end // end of [Some_vt]
 
 in // in of [local]
 
 implement
-s2exp_trup_xchng_deref_addr
+s2addr_xchng_deref
   (loc0, s2l, d3ls, d2e_r) = let
   val () =
     fprint_the_pfmanenv (stdout_ref)
@@ -288,7 +336,7 @@ in
   | ~None_vt () => let
       val s2e_sel = s2exp_err (s2rt_t0ype) in d2exp_trdn (d2e_r, s2e_sel)
     end // end of [None_vt]
-end // end of [s2exp_trup_xchng_deref_addr]
+end // end of [s2addr_xchng_deref]
 
 end // end of [local]
 
@@ -298,7 +346,7 @@ local
 
 fun aux1 (
   loc0: location
-, s2f0: s2hnf
+, s2f0: s2hnf // left
 , d3e_l: d3exp
 , d3ls: d3lablst
 , d2e_r: d2exp
@@ -309,7 +357,7 @@ in
 case+ opt of
 | ~Some_vt (s2l) => let
     val d3e_r = 
-      s2exp_trup_xchng_deref_addr (loc0, s2l, d3ls, d2e_r)
+      s2addr_xchng_deref (loc0, s2l, d3ls, d2e_r)
     // end of [val]
    in
      d3exp_xchng_ptr (loc0, d3e_l, d3ls, d3e_r)
@@ -320,7 +368,7 @@ end // end of [aux1]
 
 and aux2 (
   loc0: location
-, s2f0: s2hnf
+, s2f0: s2hnf // left
 , d3e_l: d3exp
 , d3ls: d3lablst
 , d2e_r: d2exp
@@ -336,7 +384,7 @@ case+ opt of
     // end of [val]
     val () = trans3_env_add_proplst_vt (loc0, s2ps)
     val s2f_sel = s2exp2hnf (s2e_sel)
-    val d3e_r = d2exp_trdn_xchng (d2e_r, s2f_sel)
+    val d3e_r = d2exp_trdn_xchng (loc0, d2e_r, s2f_sel)
   in
     d3exp_xchng_ref (loc0, d3e_l, d3ls, d3e_r)
   end // end of [Some_vt]
@@ -346,7 +394,7 @@ end // end of [aux2]
 
 and aux3 (
   loc0: location
-, s2f0: s2hnf
+, s2f0: s2hnf // left
 , d3e_l: d3exp
 , d3ls: d3lablst
 , d2e_r: d2exp
@@ -380,6 +428,10 @@ end // end of [local]
 
 (* ****** ****** *)
 
+(*
+** HX-2012-05-04:
+** evaluation of [d2e_r] should not involve proofs of views!
+*)
 implement
 d2exp_trup_xchng
   (loc0, d2e_l, d2e_r) = let
@@ -391,14 +443,21 @@ case+ d2lv_l of
     (d2v_l, d2ls) => let
     val d3ls = d2lablst_trup (d2ls)
     val- Some (s2l) = d2var_get_addr (d2v_l)
-    val d3e_r = s2exp_trup_xchng_deref_addr  (loc0, s2l, d3ls, d2e_r)
+    val d3e_r = s2addr_xchng_deref (loc0, s2l, d3ls, d2e_r)
   in
     d3exp_xchng_var (loc0, d2v_l, d3ls, d3e_r)
   end // end of [D2LVALvar_mut]
 | D2LVALderef
     (d2e_l, d2ls) =>
     d2exp_trup_xchng_deref (loc0, d2e_l, d2ls, d2e_r)
-| _ => exitloc (1)
+| _ => let
+    val () = prerr_error3_loc (d2e_l.d2exp_loc)
+    val () = prerr ": a left-value is required but a non-left-value is given."
+    val () = prerr_newline ()
+    val () = the_trans3errlst_add (T3E_nonlval (d2e_l))
+  in
+    d3exp_err (loc0)
+  end // end of [_]
 //
 end // end of [d2exp_trup_xchng]
 

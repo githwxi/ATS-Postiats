@@ -1360,7 +1360,7 @@ s2hnf_opnexi_and_add
   val s2es2vss2ps = s2exp_opnexi (s2e0)
 (*
   val () = begin
-    print "s2exp_opnexi_and_add: after: s2e = "; print_s2exp s2es2vss2ps.0;
+    print "s2exp_opnexi: after: s2e = "; print_s2exp s2es2vss2ps.0;
     print_newline ()
   end // end of [val]
 *)

@@ -1019,6 +1019,7 @@ fun fpprint_wths2explst : fprint_type (wths2explst)
 (* ****** ****** *)
 
 fun s2exp_is_prf (x: s2exp): bool
+fun s2exp_is_nonprf (x: s2exp): bool
 fun s2exp_is_lin (x: s2exp): bool
 fun s2exp_is_nonlin (x: s2exp): bool
 fun s2exp_is_boxed (x: s2exp): bool

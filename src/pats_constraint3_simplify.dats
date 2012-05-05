@@ -76,31 +76,6 @@ implement s3exp_neg_1 = s3exp_intinf (intinf_neg_1)
 (* ****** ****** *)
 
 implement
-s3exp_padd
-  (s3e1, s3e2) = (
-  case+ s3e1 of
-  | S3Epadd (s3e11, s3e12) =>
-      s3exp_padd (s3e11, s3exp_iadd (s3e12, s3e2))
-    // end of [S3Epadd]
-  | _ => S3Epadd (s3e1, s3e2)
-) // end of [s3exp_padd]
-
-implement
-s3exp_psub
-  (s3e1, s3e2) = (
-  case+ s3e1 of
-  | S3Epadd (s3e11, s3e12) =>
-      s3exp_padd (s3e11, s3exp_isub (s3e12, s3e2))
-    // end of [S3Epadd]
-  | _ => S3Epadd (s3e1, s3exp_ineg s3e2)
-) // end of [s3exp_psub]
-
-implement s3exp_psucc (s3e) = s3exp_padd (s3e, s3exp_1)
-implement s3exp_ppred (s3e) = s3exp_padd (s3e, s3exp_neg_1)
-
-(* ****** ****** *)
-
-implement
 s3exp_bool (b) =
   if b then s3exp_true else s3exp_false
 // end of [s3exp_bool]
@@ -244,38 +219,6 @@ s3exp_ineq (s3e1, s3e2) =
 (* ****** ****** *)
 
 implement
-s3exp_plt (s3e1, s3e2) =
-  s3exp_bineq (~2(*lt*), s3exp_pdiff (s3e1, s3e2))
-// end of [s3exp_plt]
-
-implement
-s3exp_plte (s3e1, s3e2) =
-  s3exp_bineq (2(*gte*), s3exp_pdiff (s3e2, s3e1))
-// end of [s3exp_plte]
-
-implement
-s3exp_pgt (s3e1, s3e2) =
-  s3exp_bineq (~2(*lt*), s3exp_pdiff (s3e2, s3e1))
-// end of [s3exp_pgt]
-
-implement
-s3exp_pgte (s3e1, s3e2) =
-  s3exp_bineq (2(*gte*), s3exp_pdiff (s3e1, s3e2))
-// end of [s3exp_pgte]
-
-implement
-s3exp_peq (s3e1, s3e2) =
-  s3exp_bineq (1(*eq*), s3exp_pdiff (s3e1, s3e2))
-// end of [s3exp_peq]
-
-implement
-s3exp_pneq (s3e1, s3e2) =
-  s3exp_bineq (~1(*neq*), s3exp_pdiff (s3e1, s3e2))
-// end of [s3exp_pneq]
-
-(* ****** ****** *)
-
-implement
 s3exp_int (i) = let
   val int = intinf_make_int (i) in s3exp_intinf (int)
 end // end of [s3exp_int]
@@ -331,16 +274,6 @@ implement
 s3exp_isucc (s3e) = s3exp_iadd (s3e, s3exp_1)
 implement
 s3exp_ipred (s3e) = s3exp_iadd (s3e, s3exp_neg_1)
-
-(* ****** ****** *)
-
-implement
-s3exp_pdiff
-  (s3e1, s3e2) = (
-  case+ s3e2 of
-  | S3Enull () => s3e1
-  | _ => S3Epdiff (s3e1, s3e2)
-) // end of [s3exp_pdiff]
 
 (* ****** ****** *)
 
@@ -725,19 +658,6 @@ case+ s3e0 of
   in
     S3Evar (s2v)
   end // end of [S3Eimul]
-| S3Epdiff (s3e1, s3e2) => let
-    val s3e1 = s3exp_lintize_flag (env, s3e1, flag)
-    val s3e2 = s3exp_lintize_flag (env, s3e2, flag)
-  in
-    if flag > flag0 then S3Epdiff (s3e1, s3e2) else s3e0
-  end // end of [S3Epdiff]
-//
-| S3Epadd (s3e1, s3e2) => let
-    val s3e1 = s3exp_lintize_flag (env, s3e1, flag)
-    val s3e2 = s3exp_lintize_flag (env, s3e2, flag)
-  in
-    if flag > flag0 then S3Epadd (s3e1, s3e2) else s3e0
-  end // end of [S3Epadd]
 //
 | S3Eapp (s3e1, s3es2) => let
     val s3e1 = s3exp_lintize_flag (env, s3e1, flag)
