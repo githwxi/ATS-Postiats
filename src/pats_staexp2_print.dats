@@ -502,28 +502,41 @@ fprint_labs2explst (out, xs) =
 implement
 fprint_wths2explst
   (out, ws2es) = let
-  fun loop (
-    out: FILEref, ws2es: wths2explst, i: int
-  ) : void =
-  case+ ws2es of
-  | WTHS2EXPLSTnil () => ()
-  | WTHS2EXPLSTcons_some
-      (knd, s2e, ws2es) => let
-      val () = if i > 0 then fprint_string (out, ", ")
-      val () = fprint_string (out, "some(")
-      val () = fprint_int (out, knd)
-      val () = fprint_string (out, "; ")
-      val () = fprint_s2exp (out, s2e)
-      val () = fprint_string (out, ")")
-    in
-      loop (out, ws2es, i + 1)
-    end // end of [WTHS2EXPLSTcons_some]
-  | WTHS2EXPLSTcons_none (ws2es) => let
-      val () = if i > 0 then fprint_string (out, ", ")
-      val () = fprintf (out, "none()", @())
-    in
-      loop (out, ws2es, i + 1)
-    end // end of [WTHS2EXPLSTcons_none]
+//
+fun loop (
+  out: FILEref, ws2es: wths2explst, i: int
+) : void = let
+in
+//
+case+ ws2es of
+| WTHS2EXPLSTnil () => ()
+| WTHS2EXPLSTcons_trans
+    (knd, s2e, ws2es) => let
+    val () = if i > 0
+      then fprint_string (out, ", ")
+    val () = fprint_string (out, "trans(")
+    val () = fprint_int (out, knd)
+    val () = fprint_string (out, "; ")
+    val () = fprint_s2exp (out, s2e)
+    val () = fprint_string (out, ")")
+  in
+    loop (out, ws2es, i + 1)
+  end // end of [WTHS2EXPLSTcons_trans]
+| WTHS2EXPLSTcons_invar (ws2es) => let
+    val () = if i > 0 then fprint_string (out, ", ")
+    val () = fprintf (out, "invar()", @())
+  in
+    loop (out, ws2es, i + 1)
+  end // end of [WTHS2EXPLSTcons_invar]
+| WTHS2EXPLSTcons_none (ws2es) => let
+    val () = if i > 0 then fprint_string (out, ", ")
+    val () = fprintf (out, "none()", @())
+  in
+    loop (out, ws2es, i + 1)
+  end // end of [WTHS2EXPLSTcons_none]
+//
+end // end of [loop]
+//
 in
   loop (out, ws2es, 0)
 end // end of [fprint_wths2explst]

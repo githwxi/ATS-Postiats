@@ -264,8 +264,10 @@ end // end of [d2exp_trdn_xchng_deref]
 implement
 d2exp_trdn_xchng
   (loc0, d2e, s2f0_sel) = let
-  val loc1 = d2e.d2exp_loc
-  val d2lv = d2exp_lvalize (d2e)
+//
+val loc1 = d2e.d2exp_loc
+val d2lv = d2exp_lvalize (d2e)
+//
 in
 //
 case+ d2lv of
@@ -408,12 +410,12 @@ in // end of [local]
 implement
 d2exp_trup_xchng_deref
   (loc0, d2e_l, d2ls, d2e_r) = let
-// (*
+(*
 val () = (
   print "d2exp_trup_deref: d2e_l = "; print_d2exp (d2e_l); print_newline ();
   print "d2exp_trup_deref: d2e_r = "; print_d2exp (d2e_r); print_newline ();
 ) // end of [val]
-// *)
+*)
 val d3e_l = d2exp_trup (d2e_l)
 val d3ls = d2lablst_trup (d2ls)
 val () = d3exp_open_and_add (d3e_l)
@@ -435,7 +437,9 @@ end // end of [local]
 implement
 d2exp_trup_xchng
   (loc0, d2e_l, d2e_r) = let
-  val d2lv_l = d2exp_lvalize (d2e_l)
+//
+val d2lv_l = d2exp_lvalize (d2e_l)
+//
 in
 //
 case+ d2lv_l of

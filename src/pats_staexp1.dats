@@ -586,7 +586,8 @@ end // end of [e1xp_make_s1exp]
 implement
 wths1explst_is_none
   (wths1es) = case+ wths1es of
-  | WTHS1EXPLSTcons_some _ => false
+  | WTHS1EXPLSTcons_trans _ => false
+  | WTHS1EXPLSTcons_invar _ => false
   | WTHS1EXPLSTcons_none (wths1es) => wths1explst_is_none (wths1es)
   | WTHS1EXPLSTnil () => true
 // end of [wths1explst_is_none]
@@ -596,8 +597,11 @@ wths1explst_reverse (wths1es) = let
   fun aux (
     wths1es: wths1explst, res: wths1explst
   ) : wths1explst = case+ wths1es of
-    | WTHS1EXPLSTcons_some (refval, s1e, wths1es) =>
-        aux (wths1es, WTHS1EXPLSTcons_some (refval, s1e, res))
+    | WTHS1EXPLSTcons_trans
+        (refval, s1e, wths1es) =>
+        aux (wths1es, WTHS1EXPLSTcons_trans (refval, s1e, res))
+    | WTHS1EXPLSTcons_invar (wths1es) =>
+        aux (wths1es, WTHS1EXPLSTcons_invar res)
     | WTHS1EXPLSTcons_none (wths1es) =>
         aux (wths1es, WTHS1EXPLSTcons_none res)
     | WTHS1EXPLSTnil () => res // end of [WTHS1EXPLSTnil]

@@ -930,15 +930,24 @@ wths2explst_subst_flag
   (sub, ws2es0, flag) =
   case+ ws2es0 of
   | WTHS2EXPLSTnil () => WTHS2EXPLSTnil ()
-  | WTHS2EXPLSTcons_some (knd, s2e, ws2es) => let
+  | WTHS2EXPLSTcons_trans
+      (knd, s2e, ws2es) => let
       val flag0 = flag
       val s2e = s2exp_subst_flag (sub, s2e, flag)
       val ws2es = wths2explst_subst_flag (sub, ws2es, flag)
     in
       if flag > flag0
-        then WTHS2EXPLSTcons_some (knd, s2e, ws2es) else ws2es0
+        then WTHS2EXPLSTcons_trans (knd, s2e, ws2es) else ws2es0
       // end of [if]
-    end // end of [WTHS2EXPLSTcons_some]
+    end // end of [WTHS2EXPLSTcons_trans]
+  | WTHS2EXPLSTcons_invar (ws2es) => let
+      val flag0 = flag
+      val ws2es = wths2explst_subst_flag (sub, ws2es, flag)
+    in
+      if flag > flag0
+        then WTHS2EXPLSTcons_invar (ws2es) else ws2es0
+      // end of [if]
+    end // end of [WTHS2EXPLSTcons_invar]
   | WTHS2EXPLSTcons_none (ws2es) => let
       val flag0 = flag
       val ws2es = wths2explst_subst_flag (sub, ws2es, flag)
@@ -1281,13 +1290,18 @@ and aux_labs2explst (
 
 and aux_wths2explst (
   ws2es0: wths2explst, fvs: &s2varset_vt
-) : void = case+ ws2es0 of
+) : void = (
+  case+ ws2es0 of
   | WTHS2EXPLSTnil () => ()
-  | WTHS2EXPLSTcons_some (_, s2e, ws2es) => (
+  | WTHS2EXPLSTcons_trans
+      (_, s2e, ws2es) => (
       aux_s2exp (s2e, fvs); aux_wths2explst (ws2es, fvs)
-    )
-  | WTHS2EXPLSTcons_none (ws2es) => aux_wths2explst (ws2es, fvs)
-// end of [aux_wths2explst]
+    ) // end of [WTHS2EXPLSTcons_trans]
+  | WTHS2EXPLSTcons_invar
+      (ws2es) => aux_wths2explst (ws2es, fvs)
+  | WTHS2EXPLSTcons_none
+      (ws2es) => aux_wths2explst (ws2es, fvs)
+) // end of [aux_wths2explst]
 
 and aux_s2Var (
   s2V: s2Var, fvs: &s2varset_vt
