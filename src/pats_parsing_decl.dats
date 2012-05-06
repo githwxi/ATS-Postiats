@@ -1199,6 +1199,11 @@ p_i0mparg (
 in
 //
 case+ tok.token_node of
+| T_LBRACE () => let
+    val ent = pstar_fun {s0vararg} (buf, bt, p_i0mpsvararg)
+  in
+    i0mparg_svararglst ((l2l)ent)
+  end (* end of [_] *)
 | T_LPAREN () => let
     val bt = 0
     val () = incby1 ()
@@ -1206,15 +1211,11 @@ case+ tok.token_node of
     val ent3 = p_RPAREN (buf, bt, err)
   in
     if err = err0 then
-      i0mparg_sarglst (tok, (l2l)ent2, ent3) else let
+      i0mparg_sarglst_some (tok, (l2l)ent2, ent3) else let
       val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
     end (* end of [if] *)
   end
-| _ => let
-    val ent = pstar_fun {s0vararg} (buf, bt, p_i0mpsvararg)
-  in
-    i0mparg_svararglst ((l2l)ent)
-  end (* end of [_] *)
+| _ => i0mparg_sarglst_none ()
 //
 end // end of [p_i0mparg]
 

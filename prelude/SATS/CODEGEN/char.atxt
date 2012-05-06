@@ -286,16 +286,16 @@ overload compare with compare_uchar1_uchar1 of 2
 
 #atscode_decl_strcst('\
 fun{knd:t0p}
-g0int_of_char (c: char): g0int (knd)
+g0int_of_char (c: char):<> g0int (knd)
 fun{knd:t0p}
-g0int_of_schar (c: schar): g0int (knd)
+g0int_of_schar (c: schar):<> g0int (knd)
 fun{knd:t0p}
-g0int_of_uchar (c: uchar): g0int (knd)
+g0int_of_uchar (c: uchar):<> g0int (knd)
 ')\
 
 #atscode_decl_strcst('\
 fun{knd:t0p}
-g0uint_of_uchar (c: uchar): g0uint (knd)
+g0uint_of_uchar (c: uchar):<> g0uint (knd)
 ')\
 
 #atscode_separator()

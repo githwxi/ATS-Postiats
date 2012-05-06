@@ -247,11 +247,11 @@ implement
 termination_metric_check
   (loc, ismet, efcopt) = case+ efcopt of
   | Some efc => let
-      val is_okay = (
+      val okay = (
         if ismet then true else effcst_contain_ntm (efc)
       ) : bool // end of [val]
     in
-      if (is_okay) then () else let
+      if ~okay then let
         val () = prerr_error1_loc (loc)
         val () = prerr ": a termination metric is missing"
         val () = prerr_newline ()

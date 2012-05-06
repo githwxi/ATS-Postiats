@@ -513,13 +513,6 @@ fun aux_imparg_svararg (
     | (s1a :: s1as,
        s2v :: s2vs) => let
         val s2t0 = s2var_get_srt (s2v)
-        val okay = (
-          case+ s1a.s1arg_srt of
-          | Some s1t => let
-              val s2t = s1rt_tr (s1t) in s2rt_ltmat1 (s2t0, s2t)
-            end // end of [Some]
-          | None () => true
-        ) : bool // end of [val]
         val s2v = s1arg_trdn (s1a, s2t0)
         val s2vs = auxseq (s1as, s2vs, serr)
       in

@@ -84,10 +84,12 @@ a:t@ype
   (r: FILEref, msg: NSHARED(string)):<!exn> a
 // end of [fileref_get_exnmsg]
 
+(*
 macdef
 fileref_get_exnloc
   (r) = fileref_get_exnmsg (r, \#LOCATION)
 // end of [fileref_get_exnloc]
+*)
 
 #atscode_separator()
 

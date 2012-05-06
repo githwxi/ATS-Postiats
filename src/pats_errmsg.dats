@@ -70,6 +70,11 @@ prerr_error3_loc (loc) = (
 (* ****** ****** *)
 
 implement{}
+prerr_warning2_loc (loc) = (
+  $LOC.prerr_location loc; prerr ": warning(2)"
+) // end of [prerr_warning_loc]
+
+implement{}
 prerr_warning3_loc (loc) = (
   $LOC.prerr_location loc; prerr ": warning(3)"
 ) // end of [prerr_warning_loc]

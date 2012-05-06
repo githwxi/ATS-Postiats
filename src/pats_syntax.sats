@@ -1072,9 +1072,11 @@ i0mparg =
   | I0MPARG_svararglst of s0vararglst
 // end of [i0mparg]
 
-fun i0mparg_sarglst (
+fun i0mparg_sarglst_none (): i0mparg
+
+fun i0mparg_sarglst_some (
   t_beg: token, arg: s0arglst, t_end: token
-) : i0mparg // end of [i0mparg_sarglst]
+) : i0mparg // end of [i0mparg_sarglst_some]
 
 fun i0mparg_svararglst (arg: s0vararglst): i0mparg
 

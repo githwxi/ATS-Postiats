@@ -1326,7 +1326,12 @@ labp0at_omit (tok) = '{
 (* ****** ****** *)
 
 implement
-i0mparg_sarglst
+i0mparg_sarglst_none
+  () = I0MPARG_sarglst (list_nil)
+// end of [i0mparg_sarglst_none]
+
+implement
+i0mparg_sarglst_some
   (t_beg, xs, t_end) = I0MPARG_sarglst (xs)
 // end of [i0mparg_sarglst]
 
