@@ -752,7 +752,7 @@ fun d23exp_trup_app23 (
   var err: int = 0
   val locsarg = $LOC.location_rightmost (loc_fun)
   val (s2e_fun, s2ps) = s2exp_unimet_instantiate_all (s2e_fun, locsarg, err)
-  val () = trans3_env_add_proplst_vt (locarg, s2ps)
+  val () = trans3_env_add_proplst_vt (locsarg, s2ps)
 // (*
   val () = begin
     print "d23exp_trup_app23: s2e_fun = "; pprint_s2exp s2e_fun; print_newline ()
