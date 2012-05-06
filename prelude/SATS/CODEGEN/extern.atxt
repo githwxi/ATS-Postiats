@@ -37,6 +37,8 @@ abstype
 cptr_viewt0ype_addr_type
   (a:viewt@ype+, addr) // HX: simulating C pointers
 stadef cptr = cptr_viewt0ype_addr_type
+stadef cPtr0 (a:viewt@ype) = [l:addr] cptr (a, l)
+stadef cPtr1 (a:viewt@ype) = [l:addr | l > null] cptr (a, l)
 ')\
 
 #atscode_decl_strcst('\

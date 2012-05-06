@@ -70,15 +70,12 @@ end // end of [fun_char_cmp0_decl]
 #fun_char_cmp0_decl("neq")
 overload <> with neq_char_char of 0
 
-#atscode_decl_strcst('\
 fun compare_char_char
   (c1: char, c2: char):<> int = "atspre_compare_char_char"
 overload compare with compare_char_char of 0
-')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 fun fprint_char
   (out: FILEref, x: char): void = "mac\#atspre_fprint_char"
 overload fprint with fprint_char
@@ -86,7 +83,6 @@ fun print_char (x: char): void = "mac\#atspre_fprint_char"
 and prerr_char (x: char): void = "mac\#atspre_fprint_char"
 overload print with print_char
 overload prerr with prerr_char
-')\
 
 #atscode_separator()
 #atscode_decl_strcst('\

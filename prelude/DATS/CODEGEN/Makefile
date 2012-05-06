@@ -100,15 +100,6 @@ clean:: ; $(RMF) basics_atxt.exe
 cleanall:: ; $(RMF) basics.dats
 
 
-all:: arith_prf.dats
-arith_prf.dats: arith_prf_atxt.exe ; ./$< > $@
-arith_prf_atxt.exe: arith_prf_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ arith_prf_atxt.dats -latsdoc
-arith_prf_atxt.dats: arith_prf.atxt
-	$(ATSDOC) -do $@ -i arith_prf.atxt > arith_prf_atxt.txt
-clean:: ; $(RMF) arith_prf_atxt.exe
-cleanall:: ; $(RMF) arith_prf.dats
-
 all:: array.dats
 array.dats: array_atxt.exe ; ./$< > $@
 array_atxt.exe: array_atxt.dats
@@ -127,14 +118,16 @@ array_prf_atxt.dats: array_prf.atxt
 clean:: ; $(RMF) array_prf_atxt.exe
 cleanall:: ; $(RMF) array_prf.dats
 
-all:: arrnull.dats
-arrnull.dats: arrnull_atxt.exe ; ./$< > $@
-arrnull_atxt.exe: arrnull_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ arrnull_atxt.dats -latsdoc
-arrnull_atxt.dats: arrnull.atxt
-	$(ATSDOC) -do $@ -i arrnull.atxt > arrnull_atxt.txt
-clean:: ; $(RMF) arrnull_atxt.exe
-cleanall:: ; $(RMF) arrnull.dats
+
+all:: parrnull.dats
+parrnull.dats: parrnull_atxt.exe ; ./$< > $@
+parrnull_atxt.exe: parrnull_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ parrnull_atxt.dats -latsdoc
+parrnull_atxt.dats: parrnull.atxt
+	$(ATSDOC) -do $@ -i parrnull.atxt > parrnull_atxt.txt
+clean:: ; $(RMF) parrnull_atxt.exe
+cleanall:: ; $(RMF) parrnull.dats
+
 
 all:: list.dats
 list.dats: list_atxt.exe ; ./$< > $@

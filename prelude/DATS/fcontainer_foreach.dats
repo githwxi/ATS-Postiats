@@ -42,7 +42,8 @@ staload "prelude/SATS/fcontainer.sats" // HX: preloaded
 
 (* ****** ****** *)
 
-implement{xs}{x}
+implement
+{xs}{x}
 foreach_fun
   {fe:eff} (xs, f) = let
   val f = coerce (f) where { extern castfn
@@ -55,7 +56,8 @@ in
   // empty
 end // end of [foreach_fun]
 
-implement{xs}{x}
+implement
+{xs}{x}
 foreach_clo
   {fe:eff}
   (xs, f) = let
@@ -66,7 +68,8 @@ foreach_clo
 in
   foreach_funenv<xs><x> {v}{ptr lf} (view@ f | xs, app, lf)
 end // end of [foreach_clo]
-implement{xs}{x}
+implement
+{xs}{x}
 foreach_vclo
   {v} {fe:eff}
   (pfv | xs, f) = let
@@ -85,7 +88,8 @@ in
   (*nothing*)
 end // end of [foreach_vclo]
 
-implement{xs}{x}
+implement
+{xs}{x}
 foreach_cloptr
   {fe:eff} (xs, f) = let
   viewtypedef cloptr0_t = (x) -<cloptr,fe> void
@@ -102,7 +106,8 @@ foreach_cloptr
 in
   (*nothing*)
 end // end of [foreach_cloptr]
-implement{xs}{x}
+implement
+{xs}{x}
 foreach_vcloptr
   {v} {fe:eff} (pf | xs, f) = let
   viewtypedef cloptr_t = (!v | x) -<cloptr,fe> void
@@ -111,7 +116,8 @@ in
   foreach_funenv<xs><x> {v} {cloptr_t} (pf | xs, app, f)
 end // end of [foreach_vcloptr]
 
-implement{xs}{x}
+implement
+{xs}{x}
 foreach_cloref
   {fe:eff} (xs, f) = let
   typedef cloref_t = (x) -<cloref,fe> void
@@ -125,7 +131,8 @@ end // end of [foreach_cloref]
 
 (* ****** ****** *)
 
-implement{xs}{x}
+implement
+{xs}{x}
 iforeach_funenv
   {v}{vt}{fe} (
   pfv | xs, f, env
@@ -167,7 +174,8 @@ end // end of [iforeach_funenv]
 
 (* ****** ****** *)
 
-implement{xs}{x}
+implement
+{xs}{x}
 iforeach_clo
   {fe:eff}
   (xs, f) = let
@@ -178,7 +186,8 @@ iforeach_clo
 in
   iforeach_funenv<xs><x> {v}{ptr lf} (view@ f | xs, app, lf)
 end // end of [iforeach_clo]
-implement{xs}{x}
+implement
+{xs}{x}
 iforeach_vclo
   {v} {fe:eff}
   (pfv | xs, f) = let
@@ -201,7 +210,8 @@ end // end of [iforeach_vclo]
 
 (* ****** ****** *)
 
-implement{xs}{x}
+implement
+{xs}{x}
 iforeach_cloptr
   {fe:eff} (xs, f) = let
   viewtypedef cloptr0_t = (int, x) -<cloptr,fe> void
@@ -218,7 +228,8 @@ iforeach_cloptr
 in
   nxs
 end // end of [iforeach_cloptr]
-implement{xs}{x}
+implement
+{xs}{x}
 iforeach_vcloptr
   {v} {fe:eff} (pf | xs, f) = let
   viewtypedef cloptr_t = (!v | int, x) -<cloptr,fe> void
@@ -229,7 +240,8 @@ end // end of [iforeach_vcloptr]
 
 (* ****** ****** *)
 
-implement{xs}{x}
+implement
+{xs}{x}
 iforeach_cloref
   {fe:eff} (xs, f) = let
   typedef cloref_t = (int, x) -<cloref,fe> void

@@ -32,9 +32,9 @@ implement{a} ptr_get_vt (pf | p) = !p
 implement{a} ptr_set (pf | p, x) = !p := x
 
 implement{a}
-ptr_exch (pf | p, x) = let
+ptr_exch (pf | p, x) = {
   val tmp = x; val () = x := !p; val () = !p := tmp
-end // end of [ptr_exch]
+} // end of [ptr_exch]
 
 #atscode_separator()
 

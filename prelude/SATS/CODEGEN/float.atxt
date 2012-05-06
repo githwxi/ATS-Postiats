@@ -127,46 +127,50 @@ g0float_min : g0float_aop_type (a)
 overload min with g0float_min
 
 #atscode_separator()
+//
+typedef fltknd = float_kind
+//
+fun g0float_add_float : g0float_aop_type (fltknd)
+fun g0float_sub_float : g0float_aop_type (fltknd)
+fun g0float_mul_float : g0float_aop_type (fltknd)
+fun g0float_div_float : g0float_aop_type (fltknd)
+fun g0float_mod_float : g0float_aop_type (fltknd)
 
-fun g0float_add_float : g0float_aop_type (float)
-fun g0float_sub_float : g0float_aop_type (float)
-fun g0float_mul_float : g0float_aop_type (float)
-fun g0float_div_float : g0float_aop_type (float)
-fun g0float_mod_float : g0float_aop_type (float)
+fun g0float_lt_float : g0float_cmp_type (fltknd)
+fun g0float_lte_float : g0float_cmp_type (fltknd)
+fun g0float_gt_float : g0float_cmp_type (fltknd)
+fun g0float_gte_float : g0float_cmp_type (fltknd)
+fun g0float_eq_float : g0float_cmp_type (fltknd)
+fun g0float_neq_float : g0float_cmp_type (fltknd)
 
-fun g0float_lt_float : g0float_cmp_type (float)
-fun g0float_lte_float : g0float_cmp_type (float)
-fun g0float_gt_float : g0float_cmp_type (float)
-fun g0float_gte_float : g0float_cmp_type (float)
-fun g0float_eq_float : g0float_cmp_type (float)
-fun g0float_neq_float : g0float_cmp_type (float)
+fun g0float_compare_float : g0float_compare_type (fltknd)
 
-fun g0float_compare_float : g0float_compare_type (float)
-
-fun g0float_max_float : g0float_aop_type (float)
-fun g0float_min_float : g0float_aop_type (float)
+fun g0float_max_float : g0float_aop_type (fltknd)
+fun g0float_min_float : g0float_aop_type (fltknd)
 
 fun fprint_float (out: FILEref, x: float): void
 
 #atscode_separator()
+//
+typedef dblknd = double_kind
+//
+fun g0float_add_double : g0float_aop_type (dblknd)
+fun g0float_sub_double : g0float_aop_type (dblknd)
+fun g0float_mul_double : g0float_aop_type (dblknd)
+fun g0float_div_double : g0float_aop_type (dblknd)
+fun g0float_mod_double : g0float_aop_type (dblknd)
 
-fun g0float_add_double : g0float_aop_type (double)
-fun g0float_sub_double : g0float_aop_type (double)
-fun g0float_mul_double : g0float_aop_type (double)
-fun g0float_div_double : g0float_aop_type (double)
-fun g0float_mod_double : g0float_aop_type (double)
+fun g0float_lt_double : g0float_cmp_type (dblknd)
+fun g0float_lte_double : g0float_cmp_type (dblknd)
+fun g0float_gt_double : g0float_cmp_type (dblknd)
+fun g0float_gte_double : g0float_cmp_type (dblknd)
+fun g0float_eq_double : g0float_cmp_type (dblknd)
+fun g0float_neq_double : g0float_cmp_type (dblknd)
 
-fun g0float_lt_double : g0float_cmp_type (double)
-fun g0float_lte_double : g0float_cmp_type (double)
-fun g0float_gt_double : g0float_cmp_type (double)
-fun g0float_gte_double : g0float_cmp_type (double)
-fun g0float_eq_double : g0float_cmp_type (double)
-fun g0float_neq_double : g0float_cmp_type (double)
+fun g0float_compare_double : g0float_compare_type (dblknd)
 
-fun g0float_compare_double : g0float_compare_type (double)
-
-fun g0float_max_double : g0float_aop_type (double)
-fun g0float_min_double : g0float_aop_type (double)
+fun g0float_max_double : g0float_aop_type (dblknd)
+fun g0float_min_double : g0float_aop_type (dblknd)
 
 fun fprint_double (out: FILEref, x: double): void
 

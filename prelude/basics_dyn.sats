@@ -6,7 +6,7 @@
 
 (*
 ** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2002-2010 Hongwei Xi, ATS Trustful Software, Inc.
+** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -58,6 +58,10 @@ prfun false_elim {X:prop | false} (): X
 
 prfun prop_verify {b:bool} ():<prf> void
 prfun prop_verify_and_add {b:bool} ():<prf> [b] void
+
+(* ****** ****** *)
+
+val{a:viewt@ype} sizeof : size_t (sizeof(a))
 
 (* ****** ****** *)
 
@@ -261,12 +265,23 @@ overload main with main_argc_argv
 overload main with main_argc_argv_env
 
 (* ****** ****** *)
+//
+sortdef t0p = t@ype and vt0p = viewt@ype
+//
+(* ****** ****** *)
+//
+praxi opt_some {a:vt0p} (x: !INV(a) >> opt (a, true)):<prf> void
+praxi opt_unsome {a:vt0p} (x: !opt (INV(a), true) >> a):<prf> void
+//
+praxi opt_none {a:vt0p} (x: !(a?) >> opt (a, false)):<prf> void
+praxi opt_unnone {a:vt0p} (x: !opt (INV(a), false) >> a?):<prf> void
+//
+praxi opt_clear {a:t0p} {b:bool} (x: !opt (a, b) >> a?):<prf> void
+//
+(* ****** ****** *)
 
-sortdef vt0p = viewt@ype
-
-fun{
-a:vt0p
-} fprint_elt (out: FILEref, x: !INV(a)): void
+fun{a:vt0p}
+fprint_elt (out: FILEref, x: !INV(a)): void
 fun{a:vt0p}
 print_elt (x: !INV(a)): void // = fprintf (stdout_ref, x)
 fun{a:vt0p}

@@ -48,7 +48,7 @@ staload "prelude/SATS/fcontainer.sats" // HX: preloaded
 
 (* ****** ****** *)
 
-#include "fcontainer_foreach.dats"
+#include "prelude/DATS/fcontainer_foreach.dats"
 
 (* ****** ****** *)
 
@@ -220,7 +220,7 @@ foldright_cloref
 in
   res(*sink*)
 end // end of [foldright_cloref]
-
+////
 (* ****** ****** *)
 //
 // HX-2012-02:
@@ -273,7 +273,7 @@ end // end of [forall_funenv]
 implement{xs}{x}
 ismember_fun
   {fe} (xs, x0, eq) = let
-  var !p_clo = @lam (x: x) =<fe> eq (x0, x)
+  var !p_clo = lam@ (x: x) =<fe> eq (x0, x)
 in
   exists_clo<xs><x> (xs, !p_clo)
 end // end of [ismemer_fun]
@@ -285,7 +285,7 @@ rlistize (xs) = res where {
   var res
     : List_vt (x) = list_vt_nil ()
   viewdef v = List_vt (x) @ res
-  var !p_clo = @lam
+  var !p_clo = lam@
     (pf: !v | x: x): void =<clo> res := list_vt_cons (x, res)
   val () = foreach_vclo {v} (view@ (res) | xs, !p_clo)
 } // end of [rlistize]
@@ -301,7 +301,7 @@ rlistize_funenv
   val ptr =
     $UN.castvwtp1 {ptr}{vt} (env)
   // end of [val]
-  var !p_clo = @lam
+  var !p_clo = lam@
     (pf: !v2 | x: x): void =<clo,fe> let
     extern castfn __encode (x: ptr):<> vt
     extern castfn __decode (x: vt):<> ptr

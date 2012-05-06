@@ -4,12 +4,22 @@
 
 ######
 
+test:: prelude
+
 test:: tally
 test:: fibonacci
+test:: ferryman
 
 ######
 
-tally: ; ./patsopt -d < ../doc/EXAMPLE/ARITH/tally.dats
-fibonacci: ; ./patsopt -d < ../doc/EXAMPLE/ARITH/fibonacci.dats
+prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/bool.dats
+prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/char.dats
+prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/float.dats
+
+######
+
+tally: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/ARITH/tally.dats
+fibonacci: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/ARITH/fibonacci.dats
+ferryman: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/MISC/ferryman.dats
 
 ###### end of [Makefile_test] ######

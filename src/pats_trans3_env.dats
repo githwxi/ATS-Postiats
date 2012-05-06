@@ -1459,18 +1459,6 @@ val () =
 //
 val () =
   s2cst_add_sup (s2c1, s2c0) where {
-  val s2c0 = s2cstref_get_cst (the_g0int_t0ype)
-  val s2c1 = s2cstref_get_cst (the_g1int_int_t0ype)
-} // end of [val]
-//
-val () =
-  s2cst_add_sup (s2c1, s2c0) where {
-  val s2c0 = s2cstref_get_cst (the_g0uint_t0ype)
-  val s2c1 = s2cstref_get_cst (the_g1uint_int_t0ype)
-} // end of [val]
-//
-val () =
-  s2cst_add_sup (s2c1, s2c0) where {
   val s2c0 = s2cstref_get_cst (the_char_t0ype)
   val s2c1 = s2cstref_get_cst (the_char_int_t0ype)
 } // end of [val]
@@ -1485,6 +1473,24 @@ val () =
   s2cst_add_sup (s2c1, s2c0) where {
   val s2c0 = s2cstref_get_cst (the_uchar_t0ype)
   val s2c1 = s2cstref_get_cst (the_uchar_int_t0ype)
+} // end of [val]
+//
+val () =
+  s2cst_add_sup (s2c1, s2c0) where {
+  val s2c0 = s2cstref_get_cst (the_g0int_t0ype)
+  val s2c1 = s2cstref_get_cst (the_g1int_int_t0ype)
+} // end of [val]
+//
+val () =
+  s2cst_add_sup (s2c1, s2c0) where {
+  val s2c0 = s2cstref_get_cst (the_g0uint_t0ype)
+  val s2c1 = s2cstref_get_cst (the_g1uint_int_t0ype)
+} // end of [val]
+//
+val () =
+  s2cst_add_sup (s2c1, s2c0) where {
+  val s2c0 = s2cstref_get_cst (the_ptr_type)
+  val s2c1 = s2cstref_get_cst (the_ptr_addr_type)
 } // end of [val]
 //
 val () =

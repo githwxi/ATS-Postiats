@@ -1,0 +1,75 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"pointer.cats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_LGPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/prelude/CATS/CODEGEN/pointer.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("February, 2012")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSHOME_PRELUDE_POINTER_CATS
+\#define ATSHOME_PRELUDE_POINTER_CATS
+
+#atscode_separator_for_C()
+
+extern
+int fprintf (FILE *stream, char *format, ...) ;
+// in stdio.h
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_void
+atspre_fprint_ptr (
+  atstype_ref r, atstype_ptr x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%p", x) ;
+  return ;
+} // end [atspre_fprint_ptr]
+
+\#define atspre_print_ptr(x) atspre_fprint_ptr(stdout_ref, (x))
+\#define atspre_prerr_ptr(x) atspre_fprint_ptr(stderr_ref, (x))
+
+#atscode_separator_for_C()
+
+\#define lt_ptr1_ptr1 lt_ptr_ptr
+\#define lte_ptr1_ptr1 lte_ptr_ptr
+\#define gt_ptr1_ptr1 gt_ptr_ptr
+\#define gte_ptr1_ptr1 gte_ptr_ptr
+\#define eq_ptr1_ptr1 eq_ptr_ptr
+\#define neq_ptr1_ptr1 neq_ptr_ptr
+\#define compare_ptr1_ptr1 compare_ptr_ptr
+
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSHOME_PRELUDE_POINTER_CATS
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "pointer_atxt.txt")
+%}\

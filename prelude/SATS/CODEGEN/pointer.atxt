@@ -33,9 +33,25 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 #atscode_separator()
 
 #atscode_decl_strcst('\
-castfn ptr1_of_ptr (p: ptr): [l:addr] ptr (l)
-castfn ptr1_of_ptr0 (p: ptr): [l:addr] ptr (l)
+castfn ptr1_of_ptr (p: ptr):<> [l:addr] ptr (l)
+castfn ptr1_of_ptr0 (p: ptr):<> [l:addr] ptr (l)
 ')\
+
+#atscode_separator()
+
+fun add_ptr_int
+  (p: ptr, df: int):<> ptr = "mac\#atspre_add_ptr_int"
+overload + with add_ptr_int of 0
+fun sub_ptr_int
+  (p: ptr, df: int):<> ptr = "mac\#atspre_sub_ptr_int"
+overload - with sub_ptr_int of 0
+
+fun add_ptr_size
+  (p: ptr, df: size_t):<> ptr = "mac\#atspre_add_ptr_size"
+overload + with add_ptr_size of 0
+fun sub_ptr_size
+  (p: ptr, df: size_t):<> ptr = "mac\#atspre_sub_ptr_size"
+overload - with sub_ptr_size of 0
 
 #atscode_separator()
 
@@ -69,19 +85,15 @@ end // end of [fun_ptr_cmp0_decl]
 \
 #fun_ptr_cmp0_decl("lt")
 #fun_ptr_cmp0_decl("lte")
-
 #fun_ptr_cmp0_decl("gt")
 #fun_ptr_cmp0_decl("gte")
-
 #fun_ptr_cmp0_decl("eq")
 #fun_ptr_cmp0_decl("neq")
 overload <> with neq_ptr_ptr of 0
 
-#atscode_decl_strcst('\
 fun compare_ptr_ptr
   (p1: ptr, p2: ptr):<> int = "mac\#atspre_compare_ptr_ptr"
 overload compare with compare_ptr_ptr of 0
-')\
 
 #atscode_separator()
 
@@ -94,16 +106,88 @@ praxi ptr_is_gtez
 #atscode_separator()
 
 #atscode_decl_strcst('\
-fun ptr_is_null {l:addr}
+fun ptr1_is_null {l:addr}
   (p: ptr l):<> bool (l==null) = "atspre_ptr_is_null"
-// end of [ptr_is_null]
+fun ptr1_isnot_null {l:addr}
+  (p: ptr):<> bool (l > null) = "atspre_ptr_isnot_null"
 ')\
 
-#atscode_decl_strcst('\
-fun ptr_isnot_null {l:addr}
-  (p: ptr):<> bool (l > null) = "atspre_ptr_isnot_null"
-// end of [ptr_isnot_null]
-')\
+#atscode_separator()
+
+fun add_ptr1_int1
+  {l:addr;df:int} (
+  p: ptr l, df: int df
+) :<> ptr (l+df) = "mac\#atspre_add_ptr1_int1"
+fun sub_ptr1_int1
+  {l:addr;df:int} (
+  p: ptr l, df: int df
+) :<> ptr (l-df) = "mac\#atspre_sub_ptr1_int1"
+overload + with add_ptr1_int1 of 2
+overload - with sub_ptr1_int1 of 2
+
+fun add_ptr1_size1
+  {l:addr;df:int} (
+  p: ptr l, df: size_t df
+) :<> ptr (l+df) = "mac\#atspre_add_ptr1_size1"
+fun sub_ptr1_size1
+  {l:addr;df:int} (
+  p: ptr l, df: size_t df
+) :<> ptr (l-df) = "mac\#atspre_sub_ptr1_size1"
+overload + with add_ptr1_size1 of 2
+overload - with sub_ptr1_size1 of 2
+
+#atscode_separator()
+
+%{
+fun
+fun_ptr_cmp1_decl (
+  opr: string
+) : atext = let
+//
+val fopr_s = (
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "==" | "neq" => "!="
+  | _ => opr
+) : string // end of [val]
+val fopr_d = (
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "=" | "neq" => "!="
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+fun %s_ptr1_ptr1
+  {l1,l2:addr} (
+  p1: ptr (l1), p2: ptr (l2)
+) :<> bool (l1 %s l2) = \"mac#atspre_%s_ptr1_ptr1\"
+overload %s with %s_ptr1_ptr1 of 2\
+", @(
+ opr, fopr_s, opr, fopr_d, opr
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_ptr_cmp1_decl]
+%}\
+\
+#fun_ptr_cmp1_decl("lt")
+#fun_ptr_cmp1_decl("lte")
+#fun_ptr_cmp1_decl("gt")
+#fun_ptr_cmp1_decl("gte")
+#fun_ptr_cmp1_decl("eq")
+#fun_ptr_cmp1_decl("neq")
+overload <> with neq_ptr1_ptr1 of 2
+
+fun compare_ptr1_ptr1
+  {l1,l2:addr} (
+  p1: ptr l1, p2: ptr l2
+) :<> int = "mac\#atspre_compare_ptr1_ptr1"
+overload compare with compare_ptr1_ptr1 of 2
 
 #atscode_separator()
 #atscode_decl_strcst('\

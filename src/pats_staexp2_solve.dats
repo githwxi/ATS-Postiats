@@ -47,6 +47,13 @@ overload compare with $STMP.compare_stamp_stamp
 
 (* ****** ****** *)
 
+staload EFF = "pats_effect.sats"
+//
+macdef effset_isnil = $EFF.effset_isnil
+macdef effset_isall = $EFF.effset_isall
+//
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 staload "pats_staexp2_util.sats"
 staload "pats_staexp2_error.sats"
@@ -292,21 +299,23 @@ end // end of [s2hnf_equal_solve_rVar_err]
 
 (* ****** ****** *)
 
-extern
-fun s2hnf_equal_solve_rVar_err (
-  loc: location
-, s2f1: s2hnf, s2f2: s2hnf, s2V2: s2Var, err: &int
-) : void // end of [s2hnf_equal_solve_rVar_err]
 implement
 s2eff_subeq_solve_err
   (loc0, s2fe1, s2fe2, err) = let
 //
+val s2fe1 = s2eff_hnfize (s2fe1)
 val s2fe2 = s2eff_hnfize (s2fe2)
 //
 in
 //
-case+ s2fe2 of
-| S2EFFexp (s2e2) => (
+case+ (s2fe1, s2fe2) of
+| (S2EFFset (efs1), _)
+    when effset_isnil efs1 => ()
+| (_, S2EFFset (efs2))
+    when effset_isall efs2 => ()
+| (S2EFFset (efs1), S2EFFset (efs2))
+    when $EFF.effset_subset (efs1, efs2) => ()
+| (_, S2EFFexp (s2e2)) => (
   case+ s2e2.s2exp_node of
   | S2EVar s2V2 => let
       val s2e1 = s2exp_eff (s2fe1)
@@ -320,7 +329,7 @@ case+ s2fe2 of
       the_staerrlst_add (STAERR_s2eff_subeq (loc0, s2fe1, s2fe2))
     end // end of [_]
   ) // end of [S2EFFexp]
-| _ => let
+| (_, _) => let
     val () = err := err + 1 in
     the_staerrlst_add (STAERR_s2eff_subeq (loc0, s2fe1, s2fe2))
   end // end of [_]
