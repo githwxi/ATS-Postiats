@@ -79,7 +79,7 @@ fun aux .<>. (
 ) : s2exp = let
 //
 val+ ~PFOBJ (
-  d2v, s2e_ctx, s2e_elt, s2l
+  d2vw, s2e_ctx, s2e_elt, s2l
 ) = pfobj // end of [val]
 //
 var context: s2expopt = None ()
@@ -98,7 +98,7 @@ case+ context of
     val s2e = let
       val- ~Some_vt (s2e) = s2exp_hrepl0 (s2e_ctx, s2e_elt) in s2e
     end : s2exp // end of [val]
-    val () = d2var_set_type (d2v, Some (s2e))
+    val () = d2var_set_type (d2vw, Some (s2e))
   in
     s2e_sel
   end // end of [Some]
@@ -310,7 +310,7 @@ fun aux .<>. (
 , d2e_r: d2exp
 ) : d3exp = let
   val+ ~PFOBJ (
-    d2v, s2e_ctx, s2e_elt, s2l
+    d2vw, s2e_ctx, s2e_elt, s2l
   ) = pfobj // end of [val]
   var linrest: int = 0
   val (s2e_sel, s2ps) =

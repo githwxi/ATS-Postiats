@@ -107,7 +107,12 @@ datatype trans3err =
   | T3E_d3exp_trup_assgn_deref_linsel of (d3exp, d3lablst) // linear selection
   | T3E_d2exp_trdn_xchng_deref of (d3exp, d3lablst, s2exp) // type mismatch
 //
-  | T3E_d3lval_arg_set_type of (d3exp) // a non-lval provided for a lval arg
+  | T3E_d3lval_funarg of (d3exp) // a non-lval provided for a lval arg
+  | T3E_d3lval_refval of (location, d2var) // non-mutable dvar used for call-by-ref
+//
+  | T3E_s2addr_set_type_linold of (location, s2exp, d3lablst) // linear abandonment
+  | T3E_s2addr_set_type_oldnew of (location, s2exp, d3lablst, s2exp(*new*))
+  | T3E_d3lval_set_type_linold of (location, d3exp, d3lablst) // linear abandonment
 //
   | T3E_guard_trdn of
       (location, bool(*gval*), s2exp(*gtyp*))
@@ -338,6 +343,10 @@ fun d3lval_set_type_err (
   loc0: location
 , refval: int, d3e: d3exp, s2e: s2exp, err: &int
 ) : void // end of [d3lval_set_type_err]
+fun s2addr_set_type_err (
+  loc0: location
+, s2l: s2exp, d3ls: d3lablst, s2e_new: s2exp, err: &int
+) : void // end of [s2addr_set_type_err]
 
 fun d3lval_arg_set_type
   (refval: int, d3e0: d3exp, s2e: s2exp): int (*freeknd*)

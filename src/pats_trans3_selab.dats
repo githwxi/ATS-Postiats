@@ -427,7 +427,7 @@ d2var_trup_selab
   (loc0, loc, d2v, d2ls) =
   if d2var_is_linear (d2v) then
     d2var_trup_selab_lin (loc0, loc, d2v, d2ls)
-  else if d2var_is_mutable (d2v) then
+  else if d2var_is_mutabl (d2v) then
     d2var_trup_selab_mut (loc0, loc, d2v, d2ls)
   else let
     val d3e =
@@ -499,11 +499,18 @@ end // end of [if]
 //
 end // end of [d2var_trup_selab_lin]
 
+(*
+** HX-2012-05:
+** [s2addr] is implemented in [pats_trans3_deref]
+*)
 implement
 d2var_trup_selab_mut
   (loc0, loc, d2v, d2ls) = let
+  val- Some (s2l) = d2var_get_addr (d2v)
+  val d3ls = d2lablst_trup (d2ls)
+  val s2e_sel = s2addr_deref (loc0, s2l, d3ls)
 in
-  exitloc (1)
+  d3exp_sel_var (loc0, s2e_sel, d2v, d3ls)
 end // end of [d2var_trup_selab_mut]
 
 (* ****** ****** *)

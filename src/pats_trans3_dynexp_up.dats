@@ -550,7 +550,7 @@ implement
 d2exp_trup_var
   (loc0, d2v) = let
 in
-  if d2var_is_mutable (d2v) then
+  if d2var_is_mutabl (d2v) then
     d2exp_trup_var_mutabl (loc0, d2v)
   else
     d2exp_trup_var_nonmut (loc0, d2v)

@@ -394,6 +394,18 @@ val () = case+
   | _ => (err := err + 1)
   )
 //
+| (S2Etop (knd1, s2e1), _) => (
+  case+ s2en20 of
+  | S2Etop (knd2, s2e2) => (
+      if knd1 >= knd2 then let
+        val () = s2exp_equal_solve_err (loc0, s2e1, s2e2, err)
+      in
+        // nothing
+      end else (err := err + 1) // end of [if]
+    ) // end of [S2Etop]
+  | _ => (err := err + 1)
+  )
+//
 | (S2Etyarr (s2e11, s2es12), _) => (
   case+ s2en20 of
   | S2Etyarr (s2e21, s2es22) => let
@@ -731,6 +743,18 @@ val () = case+
     in
       // nothing
     end // end of [S2Eat]
+  | _ => (err := err + 1)
+  )
+//
+| (S2Etop (knd1, s2e1), _) => (
+  case+ s2en20 of
+  | S2Etop (knd2, s2e2) => (
+      if knd1 >= knd2 then let
+        val () = s2exp_tyleq_solve_err (loc0, s2e1, s2e2, err)
+      in
+        // nothing
+      end else (err := err + 1) // end of [if]
+    ) // end of [S2Etop]
   | _ => (err := err + 1)
   )
 //

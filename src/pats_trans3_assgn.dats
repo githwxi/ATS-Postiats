@@ -70,40 +70,40 @@ fun d2var_assgn_lin (
 
 implement
 d2var_assgn_lin
-  (loc, d2v, d3ls, s2e_new) = let
-  val s2e = d2var_get_type_some (loc, d2v)
+  (loc0, d2vw, d3ls, s2e_new) = let
+  val s2e = d2var_get_type_some (loc0, d2vw)
   var context: s2expopt = None ()
   val s2e_sel =
-    s2exp_get_dlablst_context (loc, s2e, d3ls, context)
+    s2exp_get_dlablst_context (loc0, s2e, d3ls, context)
   // end of [val]
   val isprf = s2exp_is_prf (s2e_sel)
   val () = if ~(isprf) then {
-    val () = prerr_error3_loc (loc)
+    val () = prerr_error3_loc (loc0)
     val () = prerr ": a non-proof component of the following type is replaced: "
     val () = (prerr "["; prerr_s2exp (s2e_sel); prerr "].")
     val () = prerr_newline ()
-    val () = the_trans3errlst_add (T3E_s2addr_assgn_deref_proof (loc, s2e, d3ls))
+    val () = the_trans3errlst_add (T3E_s2addr_assgn_deref_proof (loc0, s2e, d3ls))
   } // end of [val]
   val islin = s2exp_is_lin (s2e_sel)
   val () = if islin then {
-    val () = prerr_error3_loc (loc)
+    val () = prerr_error3_loc (loc0)
     val () = prerr ": a linear component of the following type is abandoned: "
     val () = (prerr "["; prerr_s2exp (s2e_sel); prerr "].")
     val () = prerr_newline ()
-    val () = the_trans3errlst_add (T3E_s2addr_assgn_deref_linsel (loc, s2e, d3ls))
+    val () = the_trans3errlst_add (T3E_s2addr_assgn_deref_linsel (loc0, s2e, d3ls))
   } // end of [val]
   val isctx = (
     case+ context of Some _ => true | None _ => false
   ) : bool // end of [val]
   val () = if ~(isctx) then {
-    val () = prerr_error3_loc (loc)
+    val () = prerr_error3_loc (loc0)
     val () = prerr ": the type of the selected component cannot be changed: "
     val () = (prerr "["; prerr_s2exp (s2e_sel); prerr "].")
     val () = prerr_newline ()
-    val () = the_trans3errlst_add (T3E_s2addr_assgn_deref_context (loc, s2e, d3ls))
+    val () = the_trans3errlst_add (T3E_s2addr_assgn_deref_context (loc0, s2e, d3ls))
   } // end of [val]
   val- ~Some_vt (s2e) = s2expopt_hrepl0 (context, s2e_new)
-  val () = d2var_set_type (d2v, Some (s2e))
+  val () = d2var_set_type (d2vw, Some (s2e))
 in
   // nothing
 end // end of [d2var_assgn_lin]
@@ -131,7 +131,7 @@ fun auxmain .<>. (
 , d3e_r: d3exp
 ) : d3exp = let
   val+ ~PFOBJ (
-    d2v, s2e_ctx, s2e_elt, s2l
+    d2vw, s2e_ctx, s2e_elt, s2l
   ) = pfobj // end of [val]
   var linrest: int = 0
   val (s2e_sel, s2ps) =
@@ -171,7 +171,7 @@ case+ context of
     val s2e = let
       val- ~Some_vt (s2e) = s2exp_hrepl0 (s2e_ctx, s2e_elt) in s2e
     end : s2exp // end of [val]
-    val () = d2var_set_type (d2v, Some (s2e))
+    val () = d2var_set_type (d2vw, Some (s2e))
   in
     d3e_r
   end // end of [Some]

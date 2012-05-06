@@ -243,13 +243,13 @@ end // end of [local]
 
 local
 
-fun aux .<>. (
+fun auxmain .<>. (
   loc0: location
 , pfobj: pfobj
 , d3ls: d3lablst
 ) : s2exp = let
   val+ ~PFOBJ (
-    d2v, s2e_ctx, s2e_elt, s2l
+    d2vw, s2e_ctx, s2e_elt, s2l
   ) = pfobj // end of [val]
   var linrest: int = 0
   val (s2e_sel, s2ps) =
@@ -289,7 +289,7 @@ if islin then let
     val s2e = let
       val- ~Some_vt (s2e) = s2exp_hrepl0 (s2e_ctx, s2e_elt) in s2e
     end : s2exp // end of [val]
-    val () = d2var_set_type (d2v, Some (s2e))
+    val () = d2var_set_type (d2vw, Some (s2e))
   in
     // nothing
   end // end of [val]
@@ -303,7 +303,7 @@ in
   s2e_sel
 end // end of [if]
 //
-end // end of [aux]
+end // end of [auxmain]
 
 in // in of [local]
 
@@ -316,8 +316,8 @@ s2addr_deref
   val opt = pfobj_search_atview (s2l)
 in
   case+ opt of
-  | ~Some_vt
-      (pfobj) => aux (loc0, pfobj, d3ls)
+  | ~Some_vt (pfobj) =>
+      auxmain (loc0, pfobj, d3ls)
   | ~None_vt () => s2exp_err (s2rt_t0ype)
 end // end of [s2addr_deref]
 

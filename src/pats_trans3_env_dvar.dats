@@ -256,7 +256,7 @@ in
   case+ p2t.p2at_node of
   | P2Tvar (
       knd, d2v
-    ) when d2var_is_mutable (d2v) => let
+    ) when d2var_is_mutabl (d2v) => let
       val- Some (d2vw) = d2var_get_view (d2v)
     in
       the_d2varenv_add (d2vw)

@@ -244,6 +244,8 @@ fun d2var_set_type (x: d2var, opt: s2expopt): void
 fun d2var_get_mastype (x: d2var): s2expopt
 fun d2var_set_mastype (x: d2var, opt: s2expopt): void
 
+fun d2var_exch_type (x: d2var, opt: s2expopt): s2expopt 
+
 fun d2var_get_stamp (x: d2var): stamp
 
 (*
@@ -253,7 +255,7 @@ fun d2var_is_linear (d2v: d2var): bool
 (*
 ** HX: [d2v] is mutable if it contains some view
 *)
-fun d2var_is_mutable (d2v: d2var): bool
+fun d2var_is_mutabl (d2v: d2var): bool
 
 fun compare_d2var_d2var (x1: d2var, x2: d2var):<> Sgn
 overload compare with compare_d2var_d2var

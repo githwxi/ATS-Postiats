@@ -247,9 +247,9 @@ implement
 d2var_is_linear (d2v) = (d2var_get_linval d2v >= 0)
 
 implement
-d2var_is_mutable (d2v) =
+d2var_is_mutabl (d2v) =
   case+ d2var_get_view d2v of Some _ => true | None () => false
-// end of [d2var_is_mutable]
+// end of [d2var_is_mutabl]
 
 (* ****** ****** *)
 
@@ -263,6 +263,17 @@ compare_d2vsym_d2vsym
   (x1, x2) = $effmask_all (
   $SYM.compare_symbol_symbol (d2var_get_sym (x1), d2var_get_sym (x2))
 ) // end of [compare_d2vsym_d2vsym]
+
+(* ****** ****** *)
+
+implement
+d2var_exch_type
+  (d2v, _new) = _old where {
+  val _old =
+    d2var_get_type (d2v)
+  // end of [val]
+  val () = d2var_set_type (d2v, _new)
+} // end of [d2var_exch_type]
 
 (* ****** ****** *)
 

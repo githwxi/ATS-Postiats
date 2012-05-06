@@ -77,7 +77,7 @@ fun d2exp_lvalize_d2var (
 ) : d2lval =
   case+ 0 of
   | _ when d2var_is_linear (d2v) => D2LVALvar_lin (d2v, d2ls)
-  | _ when d2var_is_mutable (d2v) => D2LVALvar_mut (d2v, d2ls)
+  | _ when d2var_is_mutabl (d2v) => D2LVALvar_mut (d2v, d2ls)
   | _ => D2LVALnone (d2e0) // end of [_]
 // end of [d2var_lvalize]
 
