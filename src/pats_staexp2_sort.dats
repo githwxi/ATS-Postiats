@@ -553,13 +553,13 @@ end // end of [lte_s2rtbas_s2rtbas]
 ** HX: knd=0/1: dry-run / real-run
 *)
 extern
-fun s2rt_ltmat (s2t1: s2rt, s2t2: s2rt, knd: int): bool
+fun s2rt_ltmat (knd: int, s2t1: s2rt, s2t2: s2rt): bool
 extern
-fun s2rtlst_ltmat (xs1: s2rtlst, xs2: s2rtlst, knd: int): bool
+fun s2rtlst_ltmat (knd: int, xs1: s2rtlst, xs2: s2rtlst): bool
 
 implement
 s2rt_ltmat
-  (s2t1, s2t2, knd) = let
+  (knd, s2t1, s2t2) = let
 //
   fun auxVar (
     V: s2rtVar, s2t: s2rt, knd: int
@@ -587,13 +587,13 @@ case+ s2t1 of
     s2ts1, s2t1
   ) => (case+ s2t2 of
   | S2RTfun (s2ts2, s2t2) =>
-     if s2rtlst_ltmat (s2ts2, s2ts1, knd)
-       then s2rt_ltmat (s2t1, s2t2, knd) else false
+     if s2rtlst_ltmat (knd, s2ts2, s2ts1)
+       then s2rt_ltmat (knd, s2t1, s2t2) else false
     // end of [S2RTfun]
   | _ => false
   )
 | S2RTtup (s2ts1) => (case+ s2t2 of
-  | S2RTtup (s2ts2) => s2rtlst_ltmat (s2ts1, s2ts2, knd) | _ => false
+  | S2RTtup (s2ts2) => s2rtlst_ltmat (knd, s2ts1, s2ts2) | _ => false
   )
 | S2RTVar (V1) => (case+ s2t2 of
   | S2RTVar (V2) when V1 = V2 => true | _ => auxVar (V1, s2t2, knd)
@@ -603,18 +603,19 @@ case+ s2t1 of
 end // end of [s2rt_ltmat]
 
 implement
-s2rtlst_ltmat (xs1, xs2, knd) =
+s2rtlst_ltmat
+  (knd, xs1, xs2) = (
   case+ (xs1, xs2) of
   | (list_cons (x1, xs1), list_cons (x2, xs2)) =>
-      if s2rt_ltmat (x1, x2, knd) then s2rtlst_ltmat (xs1, xs2, knd) else false
+      if s2rt_ltmat (knd, x1, x2) then s2rtlst_ltmat (knd, xs1, xs2) else false
   | (list_nil (), list_nil ()) => true
   | (_, _) => false
-// end of [s2rtlst_ltmat]
+) // end of [s2rtlst_ltmat]
 
 (* ****** ****** *)
 
-implement s2rt_ltmat0 (x1, x2) = s2rt_ltmat (x1, x2, 0)
-implement s2rt_ltmat1 (x1, x2) = s2rt_ltmat (x1, x2, 1)
+implement s2rt_ltmat0 (x1, x2) = s2rt_ltmat (0, x1, x2)
+implement s2rt_ltmat1 (x1, x2) = s2rt_ltmat (1, x1, x2)
 
 (* ****** ****** *)
 

@@ -2,8 +2,6 @@
 (*                                                                     *)
 (*                         Applied Type System                         *)
 (*                                                                     *)
-(*                              Hongwei Xi                             *)
-(*                                                                     *)
 (***********************************************************************)
 
 (*
@@ -1325,4 +1323,4 @@ end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [pats_lintprgm_solver.dats] *)
+(* end of [pats_lintprgm_solve.dats] *)

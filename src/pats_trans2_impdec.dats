@@ -490,9 +490,8 @@ fun aux_imparg_svararg (
     val () = filprerr_ifdebug "i1mpdec_tr_main"
     val () = prerr ": the implementation is overly applied."
     val () = prerr_newline ()
-    val () = the_trans2errlst_add (T2E_impdec_tr (d1c0))
   in
-    // nothing
+    the_trans2errlst_add (T2E_impdec_tr (d1c0))
   end // end of [auxerr1]
   fn auxerr2 (
     loc: location, serr: int
@@ -503,9 +502,8 @@ fun aux_imparg_svararg (
     val () = prerr_string (if serr > 0 then "more" else "fewer")
     val () = prerr " components."
     val () = prerr_newline ()
-    val () = the_trans2errlst_add (T2E_impdec_tr (d1c0))
   in
-    // nothing
+    the_trans2errlst_add (T2E_impdec_tr (d1c0))
   end // end of [auxerr2]
 //
   fun auxseq (
@@ -515,7 +513,8 @@ fun aux_imparg_svararg (
     | (s1a :: s1as,
        s2v :: s2vs) => let
         val s2t0 = s2var_get_srt (s2v)
-        val okay = (case+ s1a.s1arg_srt of
+        val okay = (
+          case+ s1a.s1arg_srt of
           | Some s1t => let
               val s2t = s1rt_tr (s1t) in s2rt_ltmat1 (s2t0, s2t)
             end // end of [Some]
@@ -586,14 +585,15 @@ fun aux_imparg_svararglst (
     val () = filprerr_ifdebug "i1mpdec_tr_main"
     val () = prerr ": the implementation is expected to be fully applied."
     val () = prerr_newline ()
-    val () = the_trans2errlst_add (T2E_impdec_tr (d1c0))
   in
-    // nothing
+    the_trans2errlst_add (T2E_impdec_tr (d1c0))
   end // end of [auxerr]
 in
   case+ s1vs of
   | s1v :: s1vs => let
-      val s2qs = aux_imparg_svararg (d1c0, s1v, s2qs, out)
+      val s2qs =
+        aux_imparg_svararg (d1c0, s1v, s2qs, out)
+      // end of [val]
     in
       aux_imparg_svararglst (d1c0, s2qs, s1vs, out)
     end // end of [::]

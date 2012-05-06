@@ -477,4 +477,4 @@ icnstrlst_solve {n:pos} (
 
 (* ****** ****** *)
 
-(* end of [pats_lintprgm_solver.sats] *)
+(* end of [pats_lintprgm.sats] *)
