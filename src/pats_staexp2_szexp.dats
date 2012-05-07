@@ -77,6 +77,7 @@ in
 //
 case+ x of
 //
+| S2ZEprf () => prstr "S2ZEprf()"
 | S2ZEptr () => prstr "S2ZEptr()"
 //
 | S2ZEcst (s2c) => {
@@ -362,6 +363,12 @@ in // in of [local]
 implement
 s2zexp_make_s2exp
   (s2e0) = let
+  val isprf = s2exp_is_prf (s2e0)
+in
+//
+if isprf then
+  S2ZEprf () // it equals 0
+else let
   var env = env_make_nil ()
   val s2ze = aux_s2exp (env, s2e0)
   val () = env_free (env)
@@ -372,6 +379,8 @@ s2zexp_make_s2exp
 // *)
 in
   s2ze
+end (* end of [if] *)
+//
 end // end of [s2zexp_make_s2exp]
 
 end // end of [local]
@@ -419,6 +428,7 @@ in
 //
 case+ (s2ze1, s2ze2) of
 //
+| (S2ZEprf (), S2ZEprf ()) => s2ze1
 | (S2ZEptr (), S2ZEptr ()) => s2ze1
 //
 | (S2ZEcst s2c1, S2ZEcst s2c2) =>

@@ -269,6 +269,22 @@ overload main with main_argc_argv_env
 sortdef t0p = t@ype and vt0p = viewt@ype
 //
 (* ****** ****** *)
+
+fun exit
+  {a:vt0p} (ecode: int):<> a = "mac#ats_exit"
+fun exit_errmsg
+  {a:vt0p} (ecode: int, msg: string):<> a = "mac#ats_exit_errmsg"
+(*
+fun exit_fprintf
+  {a:vt0p} {ts:types} (
+  ecode: int
+, out: FILEref
+, fmt: printf_c ts, args: ts
+) :<> a = "mac#atspre_exit_fprintf"
+// end of [exit_fprintf]
+*)
+
+(* ****** ****** *)
 //
 praxi opt_some {a:vt0p} (x: !INV(a) >> opt (a, true)):<prf> void
 praxi opt_unsome {a:vt0p} (x: !opt (INV(a), true) >> a):<prf> void

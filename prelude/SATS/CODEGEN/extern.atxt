@@ -43,7 +43,7 @@ stadef cPtr1 (a:viewt@ype) = [l:addr | l > null] cptr (a, l)
 
 #atscode_decl_strcst('\
 castfn
-cptr2ptr {a:vt0p}{l:addr} (p: cptr (a, l)): ptr l
+cptr2ptr {a:vt0p}{l:addr} (p: cptr (a, l)):<> ptr l
 // end of [castfn]
 ')\
 
@@ -59,7 +59,7 @@ absview
 minus_viewt0ype_view
   (vt1: viewt@ype, v2: view) = vt1
 stadef minus = minus_viewt0ype_view
-prfun minus_addback
+praxi minus_addback
   {vt1:vt0p}{v2:view} (pf1: minus (vt1, v2), pf2: v2 | x: !vt1): void
 // end of [minus_addback]
 ')\
@@ -71,7 +71,7 @@ castfn
 argv_takeout_strarr
   {n:int} (
   argv: !argv (n)
-) : [l:addr] (
+) :<> [l:addr] (
   array_v (string, l, n), minus (argv n, array_v (string, l, n)) | ptr l
 ) // end of [argv_takeout_strarr]
 ')\
@@ -81,7 +81,7 @@ castfn
 argv_takeout_parrnull
   {n:int} (
   argv: !argv (n)
-) : [l:addr] (
+) :<> [l:addr] (
   parrnull_v (string, l, n), minus (argv n, parrnull_v (string, l, n)) | ptr l
 ) // end of [argv_takeout_parrnull]
 ')\

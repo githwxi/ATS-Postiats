@@ -34,8 +34,8 @@ sortdef vt0p = viewt@ype
 // HX: only if you know what you are doing ...
 //
 fun{a:vt0p} ptr_get (p: Ptr1):<> a
-fun{a:vt0p} ptr_set (p: Ptr1, x: a):<> void
-fun{a:vt0p} ptr_exch (p: Ptr1, x: &a >> a):<> void
+fun{a:vt0p} ptr_set (p: Ptr1, x: INV(a)):<!wrt> void
+fun{a:vt0p} ptr_exch (p: Ptr1, x: &INV(a) >> a):<!wrt> void
 //
 ')\
 #atscode_separator()
@@ -44,11 +44,11 @@ fun{a:vt0p} ptr_exch (p: Ptr1, x: &a >> a):<> void
 // HX: only if you know what you are doing ...
 //
 castfn
-ptr2cptr {a:vt0p}{l:addr} (p: ptr l): cptr (a, l)
+ptr2cptr {a:vt0p}{l:addr} (p: ptr l):<> cptr (a, l)
 //
 fun{a:vt0p} cptr_get (p: cPtr1 (INV(a))):<> a
-fun{a:vt0p} cptr_set (p: cPtr1 (a), x: a):<> void
-fun{a:vt0p} cptr_exch (p: cPtr1 (a), x: &a >> a):<> void
+fun{a:vt0p} cptr_set (p: cPtr1 (INV(a)), x: a):<!wrt> void
+fun{a:vt0p} cptr_exch (p: cPtr1 (INV(a)), x: &a >> a):<!wrt> void
 //
 ')\
 #atscode_separator()

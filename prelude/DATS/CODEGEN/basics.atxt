@@ -39,9 +39,10 @@ implement prop_verify_and_add () = ()
 implement
 argv_get_at
   (argv, i) = x where {
-  val (pf, fpf | p) = argv_takeout_strarr (argv, i)
+  val (pf, fpf | p) =
+    argv_takeout_strarr (argv)
   val x = !p.[i]
-  prval () = fpf (pf)
+  prval () = minus_addback (fpf, pf | argv)
 } // end of [argv_get_at]
 
 #atscode_separator()

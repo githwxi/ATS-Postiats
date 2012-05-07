@@ -1,0 +1,24 @@
+######
+#
+# This is for generating atslib source code
+# [atslib] currently includes the following ones:
+# [prelude], [libc] and [libats]
+#
+#
+######
+
+prelude:: prelude_sats
+prelude:: prelude_dats
+prelude:: prelude_cats
+
+prelude_sats:
+	make -C prelude/SATS/CODEGEN -f Makefile_gen
+	make -C prelude/SATS/CODEGEN -f Makefile all
+prelude_dats:
+	make -C prelude/DATS/CODEGEN -f Makefile_gen
+	make -C prelude/DATS/CODEGEN -f Makefile all
+prelude_cats:
+	make -C prelude/CATS/CODEGEN -f Makefile_gen
+	make -C prelude/CATS/CODEGEN -f Makefile all
+
+###### end of [Makefile_atslib] ######

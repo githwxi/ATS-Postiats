@@ -440,6 +440,7 @@ val p3t_val =
 // end of [val]
 //
 val () = the_d2varenv_add_p2at (p2t_val)
+val () = the_pfmanenv_add_p2at (p2t_val)
 //
 in
   v3aldec_make (loc0, p3t_val, d3e_def)

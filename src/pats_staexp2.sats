@@ -1085,6 +1085,7 @@ fun s2kexp_make_s2exp (s2e: s2exp): s2kexp
 
 datatype s2zexp =
 //
+  | S2ZEprf of () (* proof size *)
   | S2ZEptr of () (* pointer size *)
 //
   | S2ZEcst of s2cst

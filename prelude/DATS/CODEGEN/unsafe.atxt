@@ -26,6 +26,10 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+staload "prelude/SATS/unsafe.sats"
+
+#atscode_separator()
+
 implement{a}
 ptr_get (p) = x where {
   val [l:addr] p = (ptr1_of_ptr)p
@@ -50,7 +54,7 @@ implement{a}
 ptr_exch (p, x) = () where {
   val [l:addr] p = (ptr1_of_ptr)p
   prval (pf, fpf) = __assert () where {
-    extern praxi __assert (): (a? @ l, a @ l -<lin,prf> void)
+    extern praxi __assert (): (a @ l, a @ l -<lin,prf> void)
   } // end of [prval]
   val tmp = !p
   val () = !p := x

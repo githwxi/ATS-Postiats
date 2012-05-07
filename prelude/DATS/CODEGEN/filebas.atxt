@@ -53,7 +53,7 @@ end // end of [fileref_get_opt]
 
 (* ****** ****** *)
 
-implement
+implement{a}
 fileref_get_exnmsg
   (r, msg) = let
   var x: a
@@ -62,7 +62,7 @@ in
   if yn then let
     prval () = opt_unsome (x) in x
   end else let
-    prval () = opt_unnone (x) in exit_errmsg {a} (1, errmsg)
+    prval () = opt_unnone (x) in exit_errmsg {a} (1, msg)
   end (* end of [if] *)
 end // end of [fileref_get_exnmsg]
 
