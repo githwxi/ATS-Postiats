@@ -51,3 +51,11 @@ libats/CATS/CODEGEN/*_atxt.txt
 libats/CATS/CODEGEN/*_atxt.dats
 
 contrib/cairo/cairo-1.12.*
+contrib/cairo/SATS/CODEGEN/*.exe
+contrib/cairo/SATS/CODEGEN/*.sats
+contrib/cairo/SATS/CODEGEN/*_atxt.txt
+contrib/cairo/SATS/CODEGEN/*_atxt.dats
+contrib/cairo/CATS/CODEGEN/*.exe
+contrib/cairo/CATS/CODEGEN/*.sats
+contrib/cairo/CATS/CODEGEN/*_atxt.txt
+contrib/cairo/CATS/CODEGEN/*_atxt.dats

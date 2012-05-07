@@ -25,6 +25,10 @@ prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/unsafe.dats
 
 ######
 
+contrib:: ; ./patsopt -s < $(PATSHOME)/contrib/cairo/SATS/cairo.sats
+
+######
+
 tally: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/ARITH/tally.dats
 fibonacci: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/ARITH/fibonacci.dats
 ferryman: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/MISC/ferryman.dats
