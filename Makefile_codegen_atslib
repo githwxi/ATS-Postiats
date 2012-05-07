@@ -7,6 +7,10 @@
 #
 ######
 
+all:: prelude
+
+######
+
 prelude:: prelude_sats
 prelude:: prelude_dats
 prelude:: prelude_cats
@@ -21,4 +25,4 @@ prelude_cats:
 	make -C prelude/CATS/CODEGEN -f Makefile_gen
 	make -C prelude/CATS/CODEGEN -f Makefile all
 
-###### end of [Makefile_atslib] ######
+###### end of [Makefile_codegen_atslib] ######
