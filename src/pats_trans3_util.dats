@@ -225,7 +225,7 @@ case+ d2e0.d2exp_node of
 | D2Eann_seff (d2e, _) => d2exp_syn_type (d2e)
 | D2Eann_funclo (d2e, _) => d2exp_syn_type (d2e)
 //
-| D2Eerr () => s2exp_err (s2rt_t0ype)
+| D2Eerr () => s2exp_t0ype_err ()
 //
 | _ => let
     val s2e =

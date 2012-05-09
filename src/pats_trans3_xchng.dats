@@ -70,7 +70,20 @@ staload "pats_trans3_env.sats"
 
 local
 
-fun aux .<>. (
+fun auxerr_pfobj (
+  loc0: location, loc1: location, s2l: s2exp
+) : void = let
+  val () = prerr_error3_loc (loc1)
+  val () = prerr ": exchange cannot be performed"
+  val () = prerr ": the proof search for view located at ["
+  val () = prerr_s2exp (s2l)
+  val () = prerr "] failed to turn up a result."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_pfobj_search_none (loc1, s2l))
+end // end of [auxerr_pfobj]
+
+fun auxmain .<>. (
   loc0: location // all
 , loc1: location // right
 , pfobj: pfobj
@@ -103,8 +116,8 @@ case+ ctxtopt of
     val (s2e_sel, s2ps) =
       s2exp_get_dlablst_linrest (loc1, s2e_elt, d3ls, linrest)
     // end of [val]
-    val () = trans3_env_add_proplst_vt (loc1, s2ps)
     val s2f_sel = s2exp2hnf (s2e_sel)
+    val () = trans3_env_add_proplst_vt (loc1, s2ps)
     val err = $SOL.s2hnf_tyleq_solve (loc1, s2f0_sel, s2f_sel)
     val () = if err > 0 then let
       val () = prerr_error3_loc (loc1)
@@ -118,7 +131,7 @@ case+ ctxtopt of
     s2e_sel
   end // end of [None]
 //
-end // end of [aux]
+end // end of [auxmain]
 
 in // in of [local]
 
@@ -135,8 +148,10 @@ s2addr_xchng_check (
 in
   case+ opt of
   | ~Some_vt (pfobj) =>
-      aux (loc0, loc1, pfobj, d3ls, s2f0)
-  | ~None_vt () => s2exp_err (s2rt_t0ype)
+      auxmain (loc0, loc1, pfobj, d3ls, s2f0)
+  | ~None_vt () => let
+      val () = auxerr_pfobj (loc0, loc1, s2l) in s2exp_t0ype_err ()
+    end // end of [None_vt]
 end // end of [s2addr_xchng_check]
 
 end // end of [local]
@@ -217,8 +232,8 @@ case+ opt of
     val (s2e_sel, s2ps) =
       s2exp_get_dlablst_linrest (loc1, s2e, d3ls, linrest)
     // end of [val]
-    val () = trans3_env_add_proplst_vt (loc1, s2ps)
     val s2f_sel = s2exp2hnf (s2e_sel)
+    val () = trans3_env_add_proplst_vt (loc1, s2ps)
     val err = $SOL.s2hnf_tyleq_solve (loc1, s2f0_sel, s2f_sel)
     val () = if err > 0 then auxerr1 (loc0, loc1, s2f0_sel, s2f_sel)
     val err = $SOL.s2hnf_tyleq_solve (loc0, s2f_sel, s2f0_sel)
@@ -286,7 +301,7 @@ case+ d2lv of
     val () = prerr_error3_loc (loc1)
     val () = prerr ": a left-value is required but a non-left-value is given."
     val () = prerr_newline ()
-    val () = the_trans3errlst_add (T3E_nonlval (d2e))
+    val () = the_trans3errlst_add (T3E_d2exp_nonlval (d2e))
   in
     d3exp_err (loc1)
   end // end of [_]
@@ -299,10 +314,22 @@ end // end of [local]
 
 local
 
-fun aux .<>. (
+fun auxerr_pfobj (
+  loc0: location, s2l: s2exp
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": exchange cannot be performed"
+  val () = prerr ": the proof search for view located at ["
+  val () = prerr_s2exp (s2l)
+  val () = prerr "] failed to turn up a result."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_pfobj_search_none (loc0, s2l))
+end // end of [auxerr_pfobj]
+
+fun auxmain .<>. (
   loc0: location
-, pfobj: pfobj
-, d3ls: d3lablst
+, pfobj: pfobj, d3ls: d3lablst
 , d2e_r: d2exp
 ) : d3exp = let
   val+ ~PFOBJ (
@@ -316,7 +343,7 @@ fun aux .<>. (
   val () = trans3_env_add_proplst_vt (loc0, s2ps)
 in
   d2exp_trdn_xchng (loc0, d2e_r, s2f_sel)
-end // end of [Some_vt]
+end // end of [auxmain]
 
 in // in of [local]
 
@@ -329,10 +356,10 @@ s2addr_xchng_deref
   val opt = pfobj_search_atview (s2l)
 in
   case+ opt of
-  | ~Some_vt
-      (pfobj) => aux (loc0, pfobj, d3ls, d2e_r)
+  | ~Some_vt (pfobj) =>
+      auxmain (loc0, pfobj, d3ls, d2e_r)
   | ~None_vt () => let
-      val s2e_sel = s2exp_err (s2rt_t0ype) in d2exp_trdn (d2e_r, s2e_sel)
+      val () = auxerr_pfobj (loc0, s2l) in d2exp_trup (d2e_r)
     end // end of [None_vt]
 end // end of [s2addr_xchng_deref]
 
@@ -380,8 +407,8 @@ case+ opt of
     val (s2e_sel, s2ps) =
       s2exp_get_dlablst_linrest (loc0, s2e, d3ls, linrest)
     // end of [val]
-    val () = trans3_env_add_proplst_vt (loc0, s2ps)
     val s2f_sel = s2exp2hnf (s2e_sel)
+    val () = trans3_env_add_proplst_vt (loc0, s2ps)
     val d3e_r = d2exp_trdn_xchng (loc0, d2e_r, s2f_sel)
   in
     d3exp_xchng_ref (loc0, d3e_l, d3ls, d3e_r)
@@ -454,7 +481,7 @@ case+ d2lv_l of
     val () = prerr_error3_loc (d2e_l.d2exp_loc)
     val () = prerr ": a left-value is required but a non-left-value is given."
     val () = prerr_newline ()
-    val () = the_trans3errlst_add (T3E_nonlval (d2e_l))
+    val () = the_trans3errlst_add (T3E_d2exp_nonlval (d2e_l))
   in
     d3exp_err (loc0)
   end // end of [_]

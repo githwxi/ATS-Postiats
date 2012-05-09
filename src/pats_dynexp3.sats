@@ -264,7 +264,8 @@ and d3exp_node =
   | D3Eselab of (d3exp, d3lablst) // record/tuple field selection
 //
   | D3Eptrof_var of (d2var) // taking the address of
-  | D3Eptrof_ptr of (d3exp, s2exp, d3lablst) // taking the address of
+  | D3Eptrof_ptrsel of (d3exp, s2exp(*root*), d3lablst) // taking the address of
+  | D3Eviewat of (d3exp, d3lablst) // taking the atview of
 //
   | D3Elam_dyn of // dynamic abstraction
       (int(*lin*), int(*npf*), p3atlst, d3exp)
@@ -590,9 +591,13 @@ fun d3exp_selab
 
 fun d3exp_ptrof_var
   (loc: location, s2f: s2exp, d2v: d2var): d3exp
-fun d3exp_ptrof_ptr (
+fun d3exp_ptrof_ptrsel (
   loc: location, s2f: s2exp, d3e: d3exp, root: s2exp, d3ls: d3lablst
-) : d3exp // end of [d3exp_ptrof_ptr]
+) : d3exp // end of [d3exp_ptrof_ptrsel]
+
+fun d3exp_viewat
+  (loc: location, s2at: s2exp, d3e: d3exp, d3ls: d3lablst): d3exp
+// end of [d3exp_viewat]
 
 (* ****** ****** *)
 

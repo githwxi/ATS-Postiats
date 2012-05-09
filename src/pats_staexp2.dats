@@ -336,6 +336,11 @@ s2exp_top_srt (s2t, knd, s2e) = '{
   s2exp_srt= s2t, s2exp_node= S2Etop (knd, s2e)
 } // end of [s2exp_top_srt]
 
+implement
+s2exp_without (s2e) = '{
+  s2exp_srt= s2rt_t0ype, s2exp_node= S2Ewithout (s2e)
+}
+
 (* ****** ****** *)
 
 implement
@@ -462,6 +467,8 @@ s2exp_err (s2t) = '{
 }
 implement
 s2exp_s2rt_err () = s2exp_err (s2rt_err ())
+implement
+s2exp_t0ype_err () = s2exp_err (s2rt_t0ype)
 
 (* ****** ****** *)
 

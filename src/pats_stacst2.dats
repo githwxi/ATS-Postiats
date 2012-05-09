@@ -296,12 +296,12 @@ the_sub_addr_addr = s2cstref_make "sub_addr_addr"
 (* ****** ****** *)
 
 implement
-s2exp_agtz (s2a) = let
+s2exp_agtz (s2l) = let
   val s2c =
     s2cstref_get_cst (the_gt_addr_addr)
   val _0 = s2exp_int (0) // HX: 0 for null
 in
-  s2exp_cstapp (s2c, list_pair (s2a, _0))
+  s2exp_cstapp (s2c, list_pair (s2l, _0))
 end // end of [s2exp_agtz]
 
 (* ****** ****** *)
@@ -847,10 +847,10 @@ implement
 the_ptr_addr_type =
   s2cstref_make "ptr_addr_type"
 implement
-s2exp_ptr_addr_type (s2a) = let
+s2exp_ptr_addr_type (s2l) = let
   val s2c = s2cstref_get_cst (the_ptr_addr_type)
 in
-  s2exp_cstapp (s2c, list_sing (s2a))
+  s2exp_cstapp (s2c, list_sing (s2l))
 end // end of [s2exp_ptr_addr_type]
 
 implement
@@ -864,7 +864,7 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_ptr_addr_type, s2e_fun
   ) => let
-    val- list_cons (s2a, _) = s2es_arg in Some_vt (s2a)
+    val- list_cons (s2l, _) = s2es_arg in Some_vt (s2l)
   end // end of [S2Eapp when ...]
 | _ => None_vt ()
 //

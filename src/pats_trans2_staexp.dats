@@ -140,7 +140,7 @@ case+ ans of
   | S2ITMcst (s2cs) => let
       val- list_cons (s2c, _) = s2cs in s2exp_cst (s2c)
     end // end of [S2ITMcst]
-  | _ => s2exp_err (s2t_err) where {
+  | _ => let
       val s2t_err = s2rt_err ()
       val () = prerr_error2_loc (loc)
       val () = filprerr_ifdebug "effvar_tr"
@@ -149,9 +149,11 @@ case+ ans of
       val () = prerr "] should refer to a variable or constant."
       val () = prerr_newline ()
       val () = the_trans2errlst_add (T2E_effvar_tr (efv))
-    } // end of [_]
+    in
+      s2exp_s2rt_err ()
+    end // end of [_]
   ) // end of [Some_vt]
-| ~None_vt () => s2exp_err (s2t_err) where {
+| ~None_vt () => let
     val s2t_err = s2rt_err ()
     val () = prerr_error2_loc (loc)
     val () = filprerr_ifdebug ("effvar_tr")
@@ -160,7 +162,9 @@ case+ ans of
     val () = prerr "]."
     val () = prerr_newline ()
     val () = the_trans2errlst_add (T2E_effvar_tr (efv))
-  } // end of [None_vt]
+  in
+    s2exp_s2rt_err ()
+  end // end of [None_vt]
 end // end of [effvar_tr]
 
 fun effvarlst_tr
@@ -767,14 +771,15 @@ case+ s1e0.s1exp_node of
     in
       s1exp_trup_invar (refval, s1e_arg)
     end // end of [S1Einvar]
-  | _ => s2exp_err (s2t_err) where {
-      val s2t_err = s2rt_err ()
+  | _ => let
       val () = prerr_error2_loc (s1e1.s1exp_loc)
       val () = filprerr_ifdebug "s1exp_trup_arg" // for debugging
       val () = prerr ": a refval-type must begin with !(call-by-value) or &(call-by-reference)"
       val () = prerr_newline ()
       val () = the_trans2errlst_add (T2E_s1exp_trup (s1e0))
-    } // end of [_]
+    in
+      s2exp_s2rt_err ()
+    end // end of [_]
   ) // end of [S1Etrans]
 | _ => let
     val () = wths1es := WTHS1EXPLSTcons_none (wths1es)
@@ -1068,9 +1073,7 @@ case+ spsid of
     | ~Some_vt s2i =>
         s1exp_trup_app_sqid_itm (s1e0, s1opr, sq, id, s2i, xs)
       // end of [Some_vt]
-    | ~None_vt () =>
-        s2exp_err (s2t_err) where {
-        val s2t_err = s2rt_err ()
+    | ~None_vt () => let
         val () = list_vt_free (xs)
         val () = prerr_error2_loc (s1opr.s1exp_loc)
         val () = filprerr_ifdebug "s1exp_trup_app_sqid"
@@ -1078,7 +1081,9 @@ case+ spsid of
         val () = prerr_sqid (sq, id)
         val () = prerr "]."
         val () = prerr_newline ()
-      } // end of [None_vt]
+      in
+        s2exp_s2rt_err ()
+      end // end of [None_vt]
   end // end of [SPSIDnone]
 //
 end // end of [s1exp_trup_app_sqid]
@@ -1261,7 +1266,7 @@ case+ knd of
     s2exp_tyrec_srt (s2rt_viewtype, TYRECKINDbox (), npf, ls2es)
   end
 | _ => let
-    val () = assertloc (false) in s2exp_err (s2rt_type)
+    val () = assertloc (false) in s2exp_t0ype_err ()
   end (* end of [_] *)
 end // end of [s1exp_trup_tytup]
 
@@ -1378,7 +1383,7 @@ case+ knd of
     s2exp_tyrec_srt (s2rt_viewtype, TYRECKINDbox (), npf, ls2es)
   end // end of [TYRECKIND_box_vt]
 | _ => let
-    val () = assertloc (false) in s2exp_err (s2rt_type)
+    val () = assertloc (false) in s2exp_t0ype_err ()
   end (* end of [_] *)
 end // end of [s1exp_trup_tyrec]
 
@@ -1548,9 +1553,7 @@ case+ s1e0.s1exp_node of
     val s2t = s1rt_tr (s1t) in s1exp_trdn (s1e, s2t)
   end // end of [S1Eann]
 //
-| S1Eerr () => let
-    val s2t = s2rt_err () in s2exp_err (s2t)
-  end // end of [S1Eerr]
+| S1Eerr () => s2exp_s2rt_err ()
 //
 (*
 | _ => let

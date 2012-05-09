@@ -371,6 +371,7 @@ s2exp_node =
   | S2Emetdec of (s2explst(*met*), s2explst(*metbound*)) // strictly decreasing
 //
   | S2Etop of (int(*knd*), s2exp) // knd: 0/1: topization/typization
+  | S2Ewithout of (s2exp) // for a component taken out by the [view@] operation
 //
   | S2Etyarr of (s2exp (*element*), s2explst (*dimension*))
   | S2Etyrec of (tyreckind, int(*npf*), labs2explst) // tuple and record
@@ -910,6 +911,10 @@ fun s2exp_top_srt (s2t: s2rt, knd: int, s2e: s2exp): s2exp
 
 (* ****** ****** *)
 
+fun s2exp_without (s2e: s2exp): s2exp
+
+(* ****** ****** *)
+
 fun s2exp_tyarr
   (s2e_elt: s2exp, s2es_int: s2explst): s2exp
 // end of [s2exp_tyarr]
@@ -970,6 +975,7 @@ fun s2exp_wth (_res: s2exp, _with: wths2explst): s2exp
 
 fun s2exp_err (s2t: s2rt): s2exp // HX: error indication
 fun s2exp_s2rt_err (): s2exp // HX: s2exp_err (s2rt_err ())
+fun s2exp_t0ype_err (): s2exp // HX: s2exp_err (s2rt_t0ype)
 
 (* ****** ****** *)
 

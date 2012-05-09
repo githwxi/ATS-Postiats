@@ -152,12 +152,12 @@ case+ s2e_con.s2exp_node of
       ) : s2explst =
         case+ p2ts of
         | list_cons (_, p2ts) => let
-            val s2e = s2exp_err (s2rt_t0ype) in list_cons (s2e, aux p2ts)
+            val s2e = s2exp_t0ype_err () in list_cons (s2e, aux p2ts)
           end // end of [list_cons]
         | list_nil () => list_nil ()
       // end of [aux]
     } // end of [val]
-    val s2e_res = s2exp_err (s2rt_type)
+    val s2e_res = s2exp_t0ype_err ()
   in
     PATCONTRUP (p2ts_arg, s2es_arg, s2e_res)
   end // end of [_]

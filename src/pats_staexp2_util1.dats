@@ -813,6 +813,12 @@ case+ s2e0.s2exp_node of
   in
     if flag > flag0 then s2exp_top_srt (s2t0, knd, s2e) else s2e0
   end // end of [S2Etop]
+| S2Ewithout (s2e) => let
+    val flag0 = flag
+    val s2e = s2exp_subst_flag (sub, s2e, flag)
+  in
+    if flag > flag0 then s2exp_without (s2e) else s2e0
+  end // end of [S2Ewithout]
 //
 | S2Etyarr (s2e_elt, s2es_int) => let
     val flag0 = flag
@@ -1159,6 +1165,7 @@ case+ s2e0.s2exp_node of
   ) // end of [S2Emetdec]
 //
 | S2Etop (_(*knd*), s2e) => aux_s2exp (s2e, fvs)
+| S2Ewithout (s2e) => aux_s2exp (s2e, fvs) // taken out by [view@]
 //
 | S2Etyarr (s2e_elt, s2es_dim) => (
     aux_s2exp (s2e_elt, fvs); aux_s2explst (s2es_dim, fvs)

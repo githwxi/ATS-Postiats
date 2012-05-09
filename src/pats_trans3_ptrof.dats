@@ -52,15 +52,18 @@ staload "pats_trans3.sats"
 local
 
 fun auxerr1 (
-  d2e0: d2exp
+  loc0: location, d2v: d2var
 ) : void = let
-  val loc0 = d2e0.d2exp_loc
   val () = prerr_error3_loc (loc0)
+  val () = prerr ": the dynamic variable ["
+  val () = prerr_d2var (d2v)
+  val () = prerr "] is not mutable and thus [addr@] cannot be applied."
+  val () = prerr_newline ()
 in
-  the_trans3errlst_add (T3E_d2exp_trup_ptrof (d2e0))
+  the_trans3errlst_add (T3E_d2exp_trup_ptrof_dvar (loc0, d2v))
 end // end of [auxerr1]
 
-in
+in // in of [local]
 
 implement
 d2exp_trup_ptrof
@@ -74,15 +77,15 @@ case+
     val opt = d2var_get_addr (d2v)
   in
     case+ opt of
-    | Some (s2l) => let
-        val s2f =
-          s2exp_ptr_addr_type (s2l)
+    | Some _ => let
+        val s2e =
+          d2var_get_type_some (loc0, d2v)
         // end of [val]
       in
-        d3exp_ptrof_var (loc0, s2f, d2v)
+        d3exp_ptrof_var (loc0, s2e, d2v)
       end // end of [Some]
     | None () => let
-        val () = auxerr1 (d2e0) in d3exp_err (loc0)
+        val () = auxerr1 (loc0, d2v) in d3exp_err (loc0)
       end // end of [None]
   end (* end of [D2Evar] *)
 | _ => exitloc (1)

@@ -69,6 +69,19 @@ staload "pats_trans3_env.sats"
 
 local
 
+fun auxerr_pfobj (
+  loc0: location, s2l: s2exp
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": dereference cannot be performed"
+  val () = prerr ": the proof search for view located at ["
+  val () = prerr_s2exp (s2l)
+  val () = prerr "] failed to turn up a result."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_pfobj_search_none (loc0, s2l))
+end // end of [auxerr_pfobj]
+
 fun auxmain .<>. (
   loc0: location
 , pfobj: pfobj
@@ -80,30 +93,26 @@ fun auxmain .<>. (
   var linrest: int = 0
   val (s2e_sel, s2ps) =
     s2exp_get_dlablst_linrest (loc0, s2e_elt, d3ls, linrest)
-  // end of [val]
-  val s2e_sel =
-    s2exp_hnfize (s2e_sel)
-  // end of [val]
+  val s2e_sel = s2exp_hnfize (s2e_sel)
+  val () = trans3_env_add_proplst_vt (loc0, s2ps)
   val islin = s2exp_is_lin (s2e_sel)
 in
 //
 if islin then let
-  val () = list_vt_free (s2ps)
   val s2t_elt = s2e_elt.s2exp_srt
   var ctxtopt: s2ctxtopt = None ()
   val s2e_sel =
     s2exp_get_dlablst_context (loc0, s2e_elt, d3ls, ctxtopt)
   // end of [val]
-  val () = (
-    case+ ctxtopt of
-    | None () => {
-        val () = prerr_error3_loc (loc0)
-        val () = prerr ": the type of the selected component cannot be changed: "
-        val () = prerr_newline ()
-        val () = the_trans3errlst_add (T3E_s2addr_deref_context (loc0, s2e_elt, d3ls))
-      } // end of [val]
-    | Some _ => () // end of [_]
-  ) : void // end of [val]
+  val isctx = (
+    case+ ctxtopt of Some _ => true | None _ => false
+  ) : bool // end of [val]
+  val () = if ~isctx then {
+    val () = prerr_error3_loc (loc0)
+    val () = prerr ": the linear component cannot taken out."
+    val () = prerr_newline ()
+    val () = the_trans3errlst_add (T3E_s2addr_deref_context (loc0, s2e_elt, d3ls))
+  } // end of [val]
   val () = let
     val s2e_sel = s2exp_topize (1, s2e_sel)
     val s2e_elt = (
@@ -117,11 +126,7 @@ if islin then let
   end // end of [val]
 in
   s2e_sel
-end else let
-  val () = trans3_env_add_proplst_vt (loc0, s2ps)
-in
-  s2e_sel
-end // end of [if]
+end else s2e_sel // end of [if]
 //
 end // end of [auxmain]
 
@@ -136,9 +141,10 @@ s2addr_deref
   val opt = pfobj_search_atview (s2l)
 in
   case+ opt of
-  | ~Some_vt (pfobj) =>
-      auxmain (loc0, pfobj, d3ls)
-  | ~None_vt () => s2exp_err (s2rt_t0ype)
+  | ~Some_vt (pfobj) => auxmain (loc0, pfobj, d3ls)
+  | ~None_vt () => let
+      val () = auxerr_pfobj (loc0, s2l) in s2exp_t0ype_err ()
+    end // end of [None]
 end // end of [s2addr_deref]
 
 end // end of [local]
@@ -146,6 +152,29 @@ end // end of [local]
 (* ****** ****** *)
 
 local
+
+fun
+auxerr_reflinsel (
+  loc0: location
+, d3e: d3exp, d3ls: d3lablst, s2e_sel: s2exp
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": the linear component cannot taken out."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d3exp_deref_reflinsel (d3e, d3ls))
+end // end of [auxerr_reflinsel]
+
+fun
+auxerr_nonderef (
+  loc0: location, d3e: d3exp
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": the dynamic expression cannot be derefenced."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d3exp_nonderef (d3e))
+end // end of [auxerr_nonrefptr]
 
 fun aux1 (
   loc0: location
@@ -181,17 +210,10 @@ case+ opt of
     val (s2e_sel, s2ps) =
       s2exp_get_dlablst_linrest (loc0, s2e, d3ls, linrest)
     // end of [val]
+    val s2e_sel = s2exp_hnfize (s2e_sel)
     val () = trans3_env_add_proplst_vt (loc0, s2ps)
-    val s2e_sel =
-      s2exp_hnfize (s2e_sel)
-    // end of [val]
     val islin = s2exp_is_lin (s2e_sel)
-    val () = if islin then {
-      val () = prerr_error3_loc (loc0)
-      val () = prerr ": a linear component is taken out of a given reference."
-      val () = prerr_newline ()
-      val () = the_trans3errlst_add (T3E_d3exp_trup_deref_linsel (d3e, d3ls))
-    } // end of [val]
+    val () = if islin then auxerr_reflinsel (loc0, d3e, d3ls, s2e_sel)
   in
     d3exp_sel_ref (loc0, s2e_sel, d3e, d3ls)
   end // end of [Some_vt]
@@ -204,6 +226,7 @@ and aux3 (
 , s2f0: s2hnf
 , d3e: d3exp, d3ls: d3lablst
 ) : d3exp = let
+  val () = auxerr_nonderef (loc0, d3e)
 in
   d3exp_err (loc0)
 end // end of [aux3]

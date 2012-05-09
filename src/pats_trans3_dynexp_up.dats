@@ -481,7 +481,7 @@ in
 case+ opt of
 | Some s2e => s2e
 | None () => let
-    val () = auxerr (loc0, d2v) in s2exp_err (s2rt_t0ype)
+    val () = auxerr (loc0, d2v) in s2exp_t0ype_err ()
   end // end of [None]
 //
 end // end of [d2var_get_type_some]

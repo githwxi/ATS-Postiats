@@ -384,13 +384,19 @@ case+ x.s2exp_node of
     val () = prstr "))"
   } // end of [S2Emetdec]
 //
-| S2Etop (knd, s2e) => {
+| S2Etop
+    (knd, s2e) => {
     val () = prstr "S2Etop("
     val () = fprintf (out, "knd=%i", @(knd))
     val () = prstr "; "
     val () = fprint_s2exp (out, s2e)
     val () = prstr ")"
   } // end of [S2Etop]
+| S2Ewithout (s2e) => {
+    val () = prstr "S2Ewithout("
+    val () = fprint_s2exp (out, s2e)
+    val () = prstr ")"
+  }
 //
 | S2Etyarr (s2e_elt, s2es_dim) => {
     val () = prstr "S2Etyarr("

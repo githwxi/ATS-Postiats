@@ -297,6 +297,7 @@ case+ s2e0.s2exp_node of
 | S2Emetdec _ => s2e0
 //
 | S2Etop (knd, s2e) => s2exp_topize_flag (knd, s2e, flag)
+| S2Ewithout _ => s2e0
 //
 | S2Etyarr _ => s2e0
 | S2Etyrec _ => s2e0

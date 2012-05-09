@@ -137,7 +137,7 @@ case+ ls2es of
     end // end of [if]
   end // end of [list_cons]
 | list_nil () => let
-    val () = err := err + 1 in s2exp_err (s2rt_t0ype)
+    val () = err := err + 1 in s2exp_t0ype_err ()
   end // end of [list_nil]
 //
 end // end of [labfind_lincheck]
@@ -186,14 +186,13 @@ case+ s2e.s2exp_node of
 | _ => let
     val () =
       prerr_error3_loc (loc0)
-    // end of [val]
     val () = prerr ": the type ["
     val () = prerr_s2exp (s2e)
     val () = prerr "] is expected to be a tyrec (record-type)."
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_s2exp_selab_tyrec (loc0, s2e))
   in
-    s2exp_err (s2rt_t0ype)
+    s2exp_t0ype_err ()
   end // end of [_]
 //
 end // end of [auxlab_shnf]
@@ -338,8 +337,7 @@ case+ s2e.s2exp_node of
     val () = prerr "] is expected to be a tyarr (array-type)."
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_s2exp_selab_tyarr (loc0, s2e))
-    val s2e_elt =
-      s2exp_err (s2rt_t0ype)
+    val s2e_elt = s2exp_t0ype_err ()
     val s2ps = list_vt_nil ()
   in
     (s2e_elt, s2ps)
@@ -436,7 +434,7 @@ case+ ls2es of
     end // end of [if]
   end // end of [list_cons]
 | list_nil () => let
-    val () = err := err + 1 in s2exp_err (s2rt_t0ype)
+    val () = err := err + 1 in s2exp_t0ype_err ()
   end // end of [list_nil]
 //
 end // end of [labfind_context]
@@ -492,7 +490,7 @@ case+ s2e.s2exp_node of
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_s2exp_selab_tyrec (loc0, s2e))
   in
-    s2exp_err (s2rt_t0ype)
+    s2exp_t0ype_err ()
   end // end of [_]
 //
 end // end of [auxlab]
@@ -512,7 +510,7 @@ case+ d3l.d3lab_node of
   in
     auxlab (loc, s2f, lab, context)
   end // end of [S3LABlab]
-| D3LABind (ind) => s2exp_err (s2rt_t0ype)
+| D3LABind (ind) => s2exp_t0ype_err ()
 //
 end // end of [auxsel]
 
@@ -606,22 +604,6 @@ fun d3exp_trup_selab
 (* ****** ****** *)
 
 implement
-d2var_trup_selab
-  (loc0, loc, d2v, d2ls) =
-  if d2var_is_linear (d2v) then
-    d2var_trup_selab_lin (loc0, loc, d2v, d2ls)
-  else if d2var_is_mutabl (d2v) then
-    d2var_trup_selab_mut (loc0, loc, d2v, d2ls)
-  else let
-    val d3e =
-      d2exp_trup_var_nonmut (loc, d2v)
-    val d3ls = d2lablst_trup (d2ls)
-  in
-    d3exp_trup_selab (loc0, d3e, d3ls)
-  end // end of [if]
-(* end of [d2var_trup_selab] *)
-
-implement
 d2var_trup_selab_lin
   (loc0, loc, d2v, d2ls) = let
 (*
@@ -636,36 +618,32 @@ d2var_trup_selab_lin
   val (s2e_sel, s2ps) =
     s2exp_get_dlablst_linrest (loc0, s2e, d3ls, linrest)
   // end of [val]
-  val s2e_sel =
-    s2exp_hnfize (s2e_sel)
+  val s2e_sel = s2exp_hnfize (s2e_sel)
+  val () = trans3_env_add_proplst_vt (loc0, s2ps)
   val islin = s2exp_is_lin (s2e_sel)
 in
 //
 if islin then let
-  val () = list_vt_free (s2ps)
   val s2t = s2e.s2exp_srt
   var ctxtopt: s2expopt = None ()
   val s2e_sel =
     s2exp_get_dlablst_context (loc0, s2e, d3ls, ctxtopt)
-  // end of [val]
-  val () = (
-    case+ ctxtopt of
-    | None () => {
-        val () = prerr_error3_loc (loc0)
-        val () = prerr (
-          ": a linear component cannot be taken out of the left-value."
-        ) // end of [val]
-        val () = prerr_newline ()
-        val () = the_trans3errlst_add (T3E_d2var_trup_selab_linsel (loc0, d2v, d3ls))
-      } // end of [val]
-    | Some _ => () // end of [_]
-  ) : void // end of [val]
+//
+  val isctx = (
+    case+ ctxtopt of Some _ => true | None _ => false
+  ) : bool // end of [val]
+  val () = if ~isctx then {
+    val () = prerr_error3_loc (loc0)
+    val () = prerr ": the linear component cannot be taken out."
+    val () = prerr_newline ()
+    val () = the_trans3errlst_add (T3E_d2var_selab_context (loc0, d2v, d3ls))
+  } // end of [if] // end of [val]
+//
   val () = let
     val s2e_sel = s2exp_topize (1, s2e_sel)
     val s2e = (
       case+ ctxtopt of
-      | Some (ctxt) => s2ctxt_hrepl (ctxt, s2e_sel)
-      | None () => s2e
+      | Some (ctxt) => s2ctxt_hrepl (ctxt, s2e_sel) | None () => s2e
     ) : s2exp // end of [val]
     val () = d2var_set_type (d2v, Some (s2e))
   in
@@ -673,11 +651,9 @@ if islin then let
   end // end of [val]
 in
   d3exp_sel_var (loc0, s2e_sel, d2v, d3ls)
-end else let
-  val () = trans3_env_add_proplst_vt (loc0, s2ps)
-in
-  d3exp_sel_var (loc0, s2e_sel, d2v, d3ls)
-end // end of [if]
+end else
+  d3exp_sel_var (loc0, s2e_sel, d2v, d3ls) // there is no type-change
+// end of [if]
 //
 end // end of [d2var_trup_selab_lin]
 
@@ -695,13 +671,27 @@ in
   d3exp_sel_var (loc0, s2e_sel, d2v, d3ls)
 end // end of [d2var_trup_selab_mut]
 
+implement
+d2var_trup_selab
+  (loc0, loc, d2v, d2ls) =
+  if d2var_is_linear (d2v) then
+    d2var_trup_selab_lin (loc0, loc, d2v, d2ls)
+  else if d2var_is_mutabl (d2v) then
+    d2var_trup_selab_mut (loc0, loc, d2v, d2ls)
+  else let
+    val d3e =
+      d2exp_trup_var_nonmut (loc, d2v)
+    val d3ls = d2lablst_trup (d2ls)
+  in
+    d3exp_trup_selab (loc0, d3e, d3ls)
+  end // end of [if]
+(* end of [d2var_trup_selab] *)
+
 (* ****** ****** *)
 
-implement
-d3exp_trup_selab
-  (loc0, d3e, d3ls) = let
-//
-fun auxerr (
+local
+
+fun auxerr_linrest (
   loc0: location, d3e: d3exp, d3ls: d3lablst
 ) : void = let
   val () = prerr_error3_loc (loc0)
@@ -709,8 +699,13 @@ fun auxerr (
   val () = prerr_newline ()
 in
   the_trans3errlst_add (T3E_d3exp_selab_linrest (loc0, d3e, d3ls))
-end // end of [auxerr]
-//
+end // end of [auxerr_linrest]
+
+in // in of [local]
+
+implement
+d3exp_trup_selab
+  (loc0, d3e, d3ls) = let
 in
 //
 case+ d3ls of
@@ -722,8 +717,9 @@ case+ d3ls of
     val (s2e_sel, s2ps) =
       s2exp_get_dlablst_linrest (loc0, s2e, d3ls, linrest)
     // end of [val]
+    val s2e_sel = s2exp_hnfize (s2e_sel)
     val () = trans3_env_add_proplst_vt (loc0, s2ps)
-    val () = if (linrest > 0) then auxerr (loc0, d3e, d3ls)
+    val () = if (linrest > 0) then auxerr_linrest (loc0, d3e, d3ls)
 //
   in
     d3exp_selab (loc0, s2e_sel, d3e, d3ls)
@@ -731,6 +727,8 @@ case+ d3ls of
 | list_nil () => d3e // HX: there is no need to open the type
 //
 end (* end of [d3exp_trup_selab] *)
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -749,8 +747,7 @@ in
 //
 case+ d2e.d2exp_node of
 | D2Evar (d2v) => let
-    val loc = d2e.d2exp_loc
-  in
+    val loc = d2e.d2exp_loc in
     d2var_trup_selab (loc0, loc, d2v, d2ls)
   end // end of [D2Evar]
 | D2Ederef d2e =>

@@ -188,7 +188,7 @@ case+ sfx of
         val () = prerr_newline ()
         val () = the_trans3errlst_add (T3E_intsp (loc0, rep))
       in
-        s2exp_err (s2rt_t0ype)
+        s2exp_t0ype_err ()
       end // end of [_]
    end // end of [_]
 end // end of [intrepsfx_syn_type]
@@ -275,7 +275,7 @@ case+ sfx of
         val () = prerr_newline ()
         val () = the_trans3errlst_add (T3E_intsp (loc0, rep))
       in
-        s2exp_err (s2rt_t0ype)
+        s2exp_t0ype_err ()
       end // end of [_]
   end // end of [_]
 // end of [case]
@@ -371,7 +371,7 @@ fun floatsfx_syn_type (
         val () = prerr_newline ()
         val () = the_trans3errlst_add (T3E_floatsp (loc0, rep))
       in
-        s2exp_err (s2rt_t0ype)
+        s2exp_t0ype_err ()
       end // end of [_]
    end // end of [_]
 ) // end of [floatsfx_syn_type]

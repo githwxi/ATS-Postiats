@@ -104,6 +104,7 @@ case+ d2e0.d2exp_node of
   | D2Ederef (d2e) => D2LVALderef (d2e, d2ls)
   | _ => D2LVALnone (d2e0)
   ) // end of [D2Esel]
+| D2Eviewat (d2e) => D2LVALviewat (d2e)
 | _ => D2LVALnone (d2e0)
 //
 end // end of [d2exp_lvalize]

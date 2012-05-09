@@ -463,6 +463,14 @@ d3exp_ptrof_var
 , d3exp_node= D3Eptrof_var (d2v)
 } // end of [d3exp_ptrof_var]
 
+implement
+d3exp_viewat
+  (loc, s2at, d3e, d3ls) = '{
+  d3exp_loc= loc
+, d3exp_type= s2at
+, d3exp_node= D3Eviewat (d3e, d3ls)
+} // end of [d3exp_viewat]
+
 (* ****** ****** *)
 
 implement
@@ -665,11 +673,13 @@ d3exp_ann_type
 (* ****** ****** *)
 
 implement
-d3exp_err (loc) = '{
+d3exp_err (loc) = let
+  val s2f = s2exp_t0ype_err ()
+in '{
   d3exp_loc= loc
-, d3exp_type= s2exp_err (s2rt_type)
+, d3exp_type= s2f
 , d3exp_node= D3Eerr ()
-} // end of [d3exp_err]
+} end // end of [d3exp_err]
 
 (* ****** ****** *)
 

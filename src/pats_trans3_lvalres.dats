@@ -75,53 +75,57 @@ staload "pats_trans3_env.sats"
 
 local
 
+fun auxerr_pfobj (
+  loc0: location, s2l: s2exp
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": type-restoration cannot be performed"
+  val () = prerr_newline ()
+  val () = prerr ": the proof search for view located at ["
+  val () = prerr_s2exp (s2l)
+  val () = prerr "] failed to turn up a result."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_pfobj_search_none (loc0, s2l))
+end // end of [auxerr_pfobj]
+
+fun auxerr_nonatview (
+  loc0: location, s2e: s2exp
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": type-restoration cannot be performed"  
+  val () = prerr ": proof of some atview is needed but one of the following type is given: "
+  val () = (prerr "["; prerr_s2exp (s2e); prerr "]")
+in
+  // nothing
+end // end of [auxerr_nonatview]
+
 fun auxmain (
   loc0: location
 , pfobj: pfobj
 , d3ls: d3lablst
 , s2e_new: s2exp
-, err: & int
-) : void = let
+) : s2exp = let
   val+ ~PFOBJ (
     d2v, s2e_ctx, s2e_elt, s2l
   ) = pfobj // end of [val]
-  var linrest: int = 0
-  val (s2e_old, s2ps) =
-    s2exp_get_dlablst_linrest (loc0, s2e_elt, d3ls, linrest)
-  // end of [val]
-  val s2e_old =
-    s2exp_hnfize (s2e_old)
-  // end of [val]
-  val islin = s2exp_is_lin (s2e_old)
-in
-//
-if islin then let
-  val () = list_vt_free (s2ps)
-  val () = prerr_error3_loc (loc0)
-  val () = prerr ": a linear component of the following type is abandoned: "
-  val () = (prerr "["; prerr_s2exp (s2e_old); prerr "].")
-  val () = prerr_newline ()
-  val () = the_trans3errlst_add (T3E_s2addr_set_type_linold (loc0, s2e_elt, d3ls))
-in
-  // nothing
-end else let
   var ctxtopt: s2ctxtopt = None ()
-  val s2e_sel1 =
+  val s2e_old =
     s2exp_get_dlablst_context (loc0, s2e_elt, d3ls, ctxtopt)
   // end of [val]
 in
 //
 case+ ctxtopt of
 | Some (ctxt) => let
-    val () = list_vt_free (s2ps)
-    val s2e_elt = s2ctxt_hrepl (ctxt, s2e_new)
+    val s2e_elt =
+      s2ctxt_hrepl (ctxt, s2e_new)
+    // end of [val]
     val s2e = s2exp_hrepl (s2e_ctx, s2e_elt)
     val () = d2var_set_type (d2v, Some (s2e))
   in
-    // nothing
+    s2e_old
   end // end of [Some]
 | None () => let
-    val () = trans3_env_add_proplst_vt (loc0, s2ps)
     val err = $SOL.s2exp_tyleq_solve (loc0, s2e_new, s2e_old)
     val () = if err > 0 then let
       val () = prerr_error3_loc (loc0)
@@ -129,31 +133,48 @@ case+ ctxtopt of
       val () = prerr_newline ()
       val () = prerr_the_staerrlst ()
     in
-      the_trans3errlst_add (T3E_s2addr_set_type_oldnew (loc0, s2e_elt, d3ls, s2e_new))
+      the_trans3errlst_add (T3E_s2addr_exch_type_oldnew (loc0, s2e_elt, d3ls, s2e_new))
     end // end of [if] // end of [val]
   in
-    // nothing
+    s2e_old
   end // end of [None]
-//
-end // end of [if]
 //
 end // end of [auxmain]
 
 in // in of [local]
 
 implement
-s2addr_set_type_err (
-  loc0, s2l, d3ls, s2e_new, err
+s2addr_exch_type (
+  loc0, s2l, d3ls, s2e_new
 ) = let
   val opt = pfobj_search_atview (s2l)
 in
 //
 case+ opt of
 | ~Some_vt (pfobj) =>
-    auxmain (loc0, pfobj, d3ls, s2e_new, err)
-| ~None_vt () => ()
+    auxmain (loc0, pfobj, d3ls, s2e_new)
+| ~None_vt () => let
+    val () = auxerr_pfobj (loc0, s2l) in s2exp_t0ype_err ()
+  end // end of [None_vt]
 //
-end // end of [s2addr_set_type_err]
+end // end of [s2addr_exch_type]
+
+implement
+s2addr_set_type_viewat (
+  loc0, s2l, d3ls, s2e_new
+) = let
+  val s2e_new = s2exp_hnfize (s2e_new)
+in
+//
+case+
+  s2e_new.s2exp_node of
+| S2Eat (s2e1, s2e2) => let
+    val s2e_old = s2addr_exch_type (loc0,s2l, d3ls, s2e1)
+  in
+  end // end of [S2Eat]
+| _ => auxerr_nonatview (loc0, s2e_new)
+//
+end // end of [s2addr_set_type_viewat]
 
 end // end of [local]
 
@@ -170,7 +191,7 @@ fun auxerr_linold (
   val () = (prerr "["; prerr_s2exp (s2e_old); prerr "].")
   val () = prerr_newline ()
 in
-  the_trans3errlst_add (T3E_d3lval_set_type_linold (loc0, d3e, d3ls))
+  the_trans3errlst_add (T3E_d3lval_exch_type_linold (loc0, d3e, d3ls))
 end // end of [auxerr_linold]
 
 fun d2var_refval_check (
@@ -191,37 +212,40 @@ in // in of [local]
 
 implement
 d3lval_set_type_err (
-  loc0, refval, d3e, s2e_new, err
+  refval, d3e0, s2e_new, err
 ) = let
-// (*
+//
+val loc0 = d3e0.d3exp_loc
 val () = (
-  print "d3lval_set_type_err: d3e = "; print_d3exp (d3e); print_newline ()
-) // end of [val]
-// *)
+  print "d3lval_set_type_err: s2e_new = "; print_s2exp (s2e_new); print_newline ()
+) (* end of [val] *)
+//
 in
 //
-case+
-d3e.d3exp_node of
-| D3Evar d2v
+case+ d3e0.d3exp_node of
+| D3Evar (d2v)
     when d2var_is_mutabl (d2v) => let
     val- Some (s2l) = d2var_get_addr (d2v)
     val d3ls = list_nil // HX: a special case of sel_var
+    val _(*old*) = s2addr_exch_type (loc0, s2l, d3ls, s2e_new)
   in
-    s2addr_set_type_err (loc0, s2l, d3ls, s2e_new, err)
+    // nothing
   end // end of [D2Evar/mutabl]
-| D3Evar d2v
+| D3Evar (d2v)
     when d2var_is_linear (d2v) => let
     val () =
       d2var_refval_check (loc0, d2v, refval)
     // end of [val]
-    val () = d3exp_set_type (d3e, s2e_new)
-    val opt = d2var_exch_type (d2v, Some (s2e_new))
+    val opt =
+      d2var_exch_type (d2v, Some (s2e_new))
+    // end of [val]
+    val () = d3exp_set_type (d3e0, s2e_new)
   in
     case+ opt of
     | Some (s2e_old) => let
         val islin = s2exp_is_lin (s2e_old)
         val () = if islin then
-          auxerr_linold (loc0, d3e, list_nil(*d3ls*), s2e_old)
+          auxerr_linold (loc0, d3e0, list_nil(*d3ls*), s2e_old)
         // end of [if] // end of [val]
       in
         // nothing
@@ -232,8 +256,9 @@ d3e.d3exp_node of
 | D3Esel_var (d2v, d3ls)
     when d2var_is_mutabl (d2v) => let
     val- Some (s2l) = d2var_get_addr (d2v)
+    val _(*old*) = s2addr_exch_type (loc0, s2l, d3ls, s2e_new)
   in
-    s2addr_set_type_err (loc0, s2l, d3ls, s2e_new, err)
+    // nothing
   end // end of [D2Evar/mutabl]
 | D3Esel_var (d2v, d3ls)
     when d2var_is_linear (d2v) => let
@@ -244,10 +269,9 @@ d3e.d3exp_node of
     var ctxtopt: s2expopt = None ()
     val s2e_old =
       s2exp_get_dlablst_context (loc0, s2e, d3ls, ctxtopt)
+    val s2e_old = s2exp_hnfize (s2e_old)
     val islin = s2exp_is_lin (s2e_old)
-    val () = if islin
-      then auxerr_linold (loc0, d3e, d3ls, s2e_old)
-    // end of [val]
+    val () = if islin then auxerr_linold (loc0, d3e0, d3ls, s2e_old)
   in
     case+ ctxtopt of
     | Some (ctxt) => let
@@ -258,36 +282,42 @@ d3e.d3exp_node of
         d2var_set_type (d2v, Some (s2e))
       end // end of [Some]
     | None () => let
-        val err = $SOL.s2exp_tyleq_solve (loc0, s2e_new, s2e_old)
-        val () = if err > 0 then {
-          val () = prerr_error3_loc (loc0)
-          val () = prerr ": the type-restoration for the left-value failed."
-          val () = prerr_newline ()
-          val () = prerr_the_staerrlst ()
-        } // end of [val]
+        val () = prerr_interror_loc (loc0)
+        val () = prerr ": type-restoration for the left-value failed."
+        val () = prerr_newline ()
+        val () = assertloc (false)
       in
-        // nothing
+        // this error can occur in theory, but will it do in practice?
       end // end of [None]
   end // end of [D3Evar/linear]
 //
 | D3Esel_ptr (d3e_ptr, d3ls) => let
-    val s2e_ptr =
-      d3exp_get_type (d3e_ptr)
+    val s2e_ptr = d3exp_get_type (d3e_ptr)
+    val s2f_ptr = s2exp2hnf (s2e_ptr)
+    val- ~Some_vt (s2l) = un_s2exp_ptr_addr_type (s2f_ptr)
+    val _(*old*) = s2addr_exch_type (loc0, s2l, d3ls, s2e_new)
+  in
+    // nothing
+  end // end of [D2Esel_ptr]
+//
+| D3Eviewat (d3e_ptr, d3ls) => let
+    val s2e_ptr = d3exp_get_type (d3e_ptr)
     val s2f_ptr = s2exp2hnf (s2e_ptr)
     val- ~Some_vt (s2l) = un_s2exp_ptr_addr_type (s2f_ptr)
   in
-    s2addr_set_type_err (loc0, s2l, d3ls, s2e_new, err)
-  end // end of [D2Esel_ptr]
+    s2addr_set_type_viewat (loc0, s2l, d3ls, s2e_new)
+  end // end of [D2Eviewat]
 //
+(*
 | _ => let
-    val loc = d3e.d3exp_loc
-    val () = prerr_interror_loc (loc)
-    val () = prerr ": the expression for type-restoration is not a left-value."
+    val () = prerr_error3_loc (loc0)
+    val () = prerr ": type-restoration cannot be applied to a non-left-value."
     val () = prerr_newline ()
-    val () = assertloc (false)
   in
-    // nothing
+    the_trans3errlst_add (T3E_d3lval_funarg (d3e0))
   end // end of [_]
+*)
+| _ => (err := err + 1)
 //
 end // end of [d3lval_set_type_err]
 
@@ -316,15 +346,15 @@ implement
 d3lval_arg_set_type
   (refval, d3e0, s2e_new) = let
 //
-val loc0 = d3e0.d3exp_loc
 var err: int = 0
-var freeknd: int = 0 // free the expression if it is set to 1
-val () = d3lval_set_type_err (loc0, refval, d3e0, s2e_new, err)
+var freeknd: int = 0 // free [d3e0] if it is set to 1
+val () = d3lval_set_type_err (refval, d3e0, s2e_new, err)
 val () = (if err > 0 then begin
   case+ 0 of
   | _ when s2exp_is_nonlin (s2e_new) => () // HX: safely discarded!
-  | _ when s2exp_fun_is_freeptr s2e_new => (freeknd := 1) // HX: leak
+  | _ when s2exp_fun_is_freeptr s2e_new => (freeknd := 1) // HX: leak if not freed
   | _  => let
+      val loc0 = d3e0.d3exp_loc
       val () = prerr_error3_loc (loc0)
       val () = prerr ": the function argument needs to be a left-value."
       val () = prerr_newline ()

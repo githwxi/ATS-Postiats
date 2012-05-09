@@ -145,9 +145,9 @@ case+ p2t0.p2at_node of
 //
   | P2Tas (knd, d2v, p2t) => p2at_syn_type (p2t)
 //
-  | P2Tlist _ => s2exp_err (s2rt_t0ype)
-  | P2Texist _ => s2exp_err (s2rt_t0ype)
-  | P2Terr () => s2exp_err (s2rt_t0ype)
+  | P2Tlist _ => s2exp_t0ype_err ()
+  | P2Texist _ => s2exp_t0ype_err ()
+  | P2Terr () => s2exp_t0ype_err ()
 (*
   | _ => exitloc (1)
 *)
@@ -286,6 +286,8 @@ case+ 0 of
     val () = trans3_env_add_svar (s2v_addr) // adding svar
     val s2e_addr = s2exp_var (s2v_addr)
     val () = d2var_set_addr (d2v, Some s2e_addr)
+    val s2e_ptr = s2exp_ptr_addr_type (s2e_addr)
+    val () = d2var_set_type (d2v, Some (s2e_ptr))
 //
     val () = let
       val s2p = s2exp_agtz (s2e_addr) in trans3_env_hypadd_prop (loc0, s2p)

@@ -93,10 +93,11 @@ datatype trans3err =
     // end of [T3E_d3exp_arrdim]
   | T3E_d3exp_selab_linrest of (location, d3exp, d3lablst)
 //
-  | T3E_d2exp_trup_ptrof of (d2exp)
+  | T3E_d2exp_trup_ptrof_dvar of (location, d2var) // no address for d2var
 //
-  | T3E_nonlval of (d2exp)
-  | T3E_pfobj_search of (location, s2exp(*addr*))
+  | T3E_d2exp_nonlval of (d2exp) // non-lval expression
+  | T3E_d3exp_nonderef of (d3exp) // non-deref expression
+  | T3E_pfobj_search_none of (location, s2exp(*addr*)) // pfobj not found
 //
   | T3E_s2addr_deref_context of (location, s2exp, d3lablst)
   | T3E_s2addr_assgn_deref_linsel of (location, s2exp, d3lablst)
@@ -106,17 +107,17 @@ datatype trans3err =
   | T3E_s2addr_xchng_check_LHS of (location, s2exp(*LHS*), s2exp(*RHS*))
   | T3E_s2addr_xchng_check_RHS of (location, s2exp(*LHS*), s2exp(*RHS*))
 //
-  | T3E_d2var_trup_selab_linsel of (location, d2var, d3lablst) // linsel
-  | T3E_d3exp_trup_deref_linsel of (d3exp, d3lablst) // linear selection
-  | T3E_d3exp_trup_assgn_deref_linsel of (d3exp, d3lablst) // linear selection
-  | T3E_d2exp_trdn_xchng_deref of (d3exp, d3lablst, s2exp) // type mismatch
+  | T3E_d2var_selab_context of (location, d2var, d3lablst) // linsel
+  | T3E_d3exp_deref_reflinsel of (d3exp, d3lablst) // ref linear selection
+  | T3E_d3exp_assgn_deref_reflinsel of (d3exp, d3lablst) // linear selection
+  | T3E_d3exp_trdn_xchng_deref of (d3exp, d3lablst, s2exp) // type mismatch
 //
-  | T3E_d3lval_funarg of (d3exp) // a non-lval provided for a lval arg
+  | T3E_d3lval_funarg of (d3exp) // a non-left-val provided for call-by-ref
   | T3E_d3lval_refval of (location, d2var) // non-mutable dvar used for call-by-ref
 //
-  | T3E_s2addr_set_type_linold of (location, s2exp, d3lablst) // linear abandonment
-  | T3E_s2addr_set_type_oldnew of (location, s2exp, d3lablst, s2exp(*new*))
-  | T3E_d3lval_set_type_linold of (location, d3exp, d3lablst) // linear abandonment
+  | T3E_s2addr_exch_type_linold of (location, s2exp, d3lablst) // linear abandonment
+  | T3E_s2addr_exch_type_oldnew of (location, s2exp, d3lablst, s2exp(*new*))
+  | T3E_d3lval_exch_type_linold of (location, d3exp, d3lablst) // linear abandonment
 //
   | T3E_guard_trdn of
       (location, bool(*gval*), s2exp(*gtyp*))
@@ -348,14 +349,15 @@ fun s2addr_xchng_check (
 
 (* ****** ****** *)
 
+fun s2addr_exch_type (
+  loc0: location, s2l: s2exp, d3ls: d3lablst, s2e_new: s2exp
+) : s2exp(*old*) // end of [s2addr_exch_type]
+fun s2addr_set_type_viewat (
+  loc0: location, s2l: s2exp, d3ls: d3lablst, s2e_new: s2exp
+) : void // end of [s2addr_set_type_viewat]
 fun d3lval_set_type_err (
-  loc0: location
-, refval: int, d3e: d3exp, s2e: s2exp, err: &int
+  refval: int, d3e: d3exp, s2e: s2exp, err: &int
 ) : void // end of [d3lval_set_type_err]
-fun s2addr_set_type_err (
-  loc0: location
-, s2l: s2exp, d3ls: d3lablst, s2e_new: s2exp, err: &int
-) : void // end of [s2addr_set_type_err]
 
 fun d3lval_arg_set_type
   (refval: int, d3e0: d3exp, s2e: s2exp): int (*freeknd*)

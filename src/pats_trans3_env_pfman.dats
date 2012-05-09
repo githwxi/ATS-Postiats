@@ -414,7 +414,7 @@ case+ xs of
 end // end of [loop]
 //
 var res
-  : s2exp = s2exp_err (s2rt_t0ype)
+  : s2exp = s2exp_t0ype_err ()
 val (pf, fpf | p) = the_d2varmrklst_get_view_ptr ()
 val opt = loop (!p, s2l0, res)
 prval () = fpf (pf)
