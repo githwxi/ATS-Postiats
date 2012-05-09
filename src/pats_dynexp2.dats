@@ -45,6 +45,11 @@ staload UT = "pats_utils.sats"
 
 (* ****** ****** *)
 
+staload LOC = "pats_location.sats"
+macdef location_combine = $LOC.location_combine
+
+(* ****** ****** *)
+
 staload LEX = "pats_lexing.sats"
 
 (* ****** ****** *)
@@ -593,13 +598,15 @@ d2exp_viewat (loc, d2e) = d2exp_make (loc, D2Eviewat (d2e))
 
 implement
 d2exp_sel_dot
-  (loc, d2e, d2ls) = d2exp_make (loc, D2Eselab (d2e, d2ls))
+  (loc, d2e, d2ls) =
+  d2exp_make (loc, D2Eselab (d2e, d2ls))
 // end of [d2exp_sel_dot]
 
 implement
 d2exp_sel_ptr
   (loc, d2e, d2l) = let
-  val d2e_deref = d2exp_deref (d2e.d2exp_loc, d2e)
+  val loc2 = d2e.d2exp_loc
+  val d2e_deref = d2exp_deref (loc2, d2e)
 in
   d2exp_make (loc, D2Eselab (d2e_deref, list_sing (d2l)))
 end // end of [d2exp_sel_ptr]

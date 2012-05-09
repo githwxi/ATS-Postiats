@@ -84,12 +84,16 @@ datatype trans3err =
 //
   | T3E_d2exp_trdn_lam_dyn of (d2exp, s2exp)
 //
-  | T3E_d3exp_trup_selab_tyrec of (s2exp)
-  | T3E_d3exp_trup_selab_labnot of (d3lab) // label is not found
-  | T3E_d3exp_trup_selab_tyarr of (s2exp)
-  | T3E_d3exp_trup_selab_arrind of (d3exp) // not a generic integer
-  | T3E_d3exp_trup_selab_arrdim of (d3lab, s2explst) // dim/index mismatch
-  | T3E_d3exp_trup_selab_linrest of (location, d3exp, d3lablst)
+  | T3E_s2exp_selab_tyrec of (location, s2exp)
+  | T3E_s2exp_selab_labnot of (location, s2exp, label) // label is not found
+  | T3E_s2exp_selab_tyarr of (location, s2exp)
+  | T3E_d3exp_arrind of (d3exp) // arrind is not a generic integer
+  | T3E_d3exp_arrdim of
+      (location, s2explst, d3explstlst) // array dimen/index mismatch
+    // end of [T3E_d3exp_arrdim]
+  | T3E_d3exp_selab_linrest of (location, d3exp, d3lablst)
+//
+  | T3E_d2exp_trup_ptrof of (d2exp)
 //
   | T3E_nonlval of (d2exp)
   | T3E_pfobj_search of (location, s2exp(*addr*))
@@ -262,12 +266,17 @@ fun d2exp_trup_selab
 
 (* ****** ****** *)
 
+fun d2exp_trup_ptrof (d2e0: d2exp): d3exp
+fun d2exp_trup_viewat (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
 fun d2exp_trup_loopexn (d2e0: d2exp, knd: int): d3exp
 
 (* ****** ****** *)
 
 fun s2exp_get_dlablst_context (
-  loc0: location, s2e: s2exp, d3ls: d3lablst, context: &s2expopt
+  loc0: location, s2e: s2exp, d3ls: d3lablst, context: &s2ctxtopt
 ) : s2exp (*selected*) // end of [fun]
 
 fun d2exp_trup_deref

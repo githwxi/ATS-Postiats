@@ -31,6 +31,10 @@
 // Start Time: May, 2012
 //
 (* ****** ****** *)
+//
+// for handling left-value type restoration after a function call
+//
+(* ****** ****** *)
 
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
@@ -54,6 +58,7 @@ staload "pats_syntax.sats"
 staload "pats_staexp2.sats"
 staload "pats_staexp2_error.sats"
 staload "pats_staexp2_util.sats"
+staload "pats_stacst2.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
 
@@ -100,22 +105,17 @@ if islin then let
 in
   // nothing
 end else let
-  var context: s2expopt = None ()
+  var ctxtopt: s2ctxtopt = None ()
   val s2e_sel1 =
-    s2exp_get_dlablst_context (loc0, s2e_elt, d3ls, context)
+    s2exp_get_dlablst_context (loc0, s2e_elt, d3ls, ctxtopt)
   // end of [val]
 in
 //
-case+ context of
-| Some (s2e_elt_ctx) => let
+case+ ctxtopt of
+| Some (ctxt) => let
     val () = list_vt_free (s2ps)
-    val s2e_elt = let
-      val- ~Some_vt (s2e_elt) =
-        s2exp_hrepl0 (s2e_elt_ctx, s2e_new) in s2e_elt
-    end // end of [val]
-    val s2e = let
-      val- ~Some_vt (s2e) = s2exp_hrepl0 (s2e_ctx, s2e_elt) in s2e
-    end : s2exp // end of [val]
+    val s2e_elt = s2ctxt_hrepl (ctxt, s2e_new)
+    val s2e = s2exp_hrepl (s2e_ctx, s2e_elt)
     val () = d2var_set_type (d2v, Some (s2e))
   in
     // nothing
@@ -193,11 +193,11 @@ implement
 d3lval_set_type_err (
   loc0, refval, d3e, s2e_new, err
 ) = let
-(*
+// (*
 val () = (
   print "d3lval_set_type_err: d3e = "; print_d3exp (d3e); print_newline ()
 ) // end of [val]
-*)
+// *)
 in
 //
 case+
@@ -208,7 +208,7 @@ d3e.d3exp_node of
     val d3ls = list_nil // HX: a special case of sel_var
   in
     s2addr_set_type_err (loc0, s2l, d3ls, s2e_new, err)
-  end // end of [D2Evar/mutable]
+  end // end of [D2Evar/mutabl]
 | D3Evar d2v
     when d2var_is_linear (d2v) => let
     val () =
@@ -234,9 +234,60 @@ d3e.d3exp_node of
     val- Some (s2l) = d2var_get_addr (d2v)
   in
     s2addr_set_type_err (loc0, s2l, d3ls, s2e_new, err)
-  end // end of [D2Evar/mutable]
+  end // end of [D2Evar/mutabl]
+| D3Esel_var (d2v, d3ls)
+    when d2var_is_linear (d2v) => let
+    val () =
+      d2var_refval_check (loc0, d2v, refval)
+    // end of [val]
+    val s2e = d2var_get_type_some (loc0, d2v)
+    var ctxtopt: s2expopt = None ()
+    val s2e_old =
+      s2exp_get_dlablst_context (loc0, s2e, d3ls, ctxtopt)
+    val islin = s2exp_is_lin (s2e_old)
+    val () = if islin
+      then auxerr_linold (loc0, d3e, d3ls, s2e_old)
+    // end of [val]
+  in
+    case+ ctxtopt of
+    | Some (ctxt) => let
+        val s2e =
+          s2ctxt_hrepl (ctxt, s2e_new)
+        // end of [val]
+      in
+        d2var_set_type (d2v, Some (s2e))
+      end // end of [Some]
+    | None () => let
+        val err = $SOL.s2exp_tyleq_solve (loc0, s2e_new, s2e_old)
+        val () = if err > 0 then {
+          val () = prerr_error3_loc (loc0)
+          val () = prerr ": the type-restoration for the left-value failed."
+          val () = prerr_newline ()
+          val () = prerr_the_staerrlst ()
+        } // end of [val]
+      in
+        // nothing
+      end // end of [None]
+  end // end of [D3Evar/linear]
 //
-| _ => exitloc (1)
+| D3Esel_ptr (d3e_ptr, d3ls) => let
+    val s2e_ptr =
+      d3exp_get_type (d3e_ptr)
+    val s2f_ptr = s2exp2hnf (s2e_ptr)
+    val- ~Some_vt (s2l) = un_s2exp_ptr_addr_type (s2f_ptr)
+  in
+    s2addr_set_type_err (loc0, s2l, d3ls, s2e_new, err)
+  end // end of [D2Esel_ptr]
+//
+| _ => let
+    val loc = d3e.d3exp_loc
+    val () = prerr_interror_loc (loc)
+    val () = prerr ": the expression for type-restoration is not a left-value."
+    val () = prerr_newline ()
+    val () = assertloc (false)
+  in
+    // nothing
+  end // end of [_]
 //
 end // end of [d3lval_set_type_err]
 

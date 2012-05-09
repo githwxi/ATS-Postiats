@@ -445,6 +445,27 @@ in '{
 (* ****** ****** *)
 
 implement
+d3exp_selab (
+  loc, s2f, d3e, d3ls
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eselab (d3e, d3ls)
+} // end of [d3exp_selab]
+
+(* ****** ****** *)
+
+implement
+d3exp_ptrof_var
+  (loc, s2f, d2v) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eptrof_var (d2v)
+} // end of [d3exp_ptrof_var]
+
+(* ****** ****** *)
+
+implement
 d3exp_sel_var (
   loc, s2f, d2v, d3ls
 ) = '{
@@ -582,17 +603,6 @@ in '{
 , d3exp_type= s2f
 , d3exp_node= D3Eeffmask (s2fe, d3e)
 } end // end of [d3exp_effmask]
-
-(* ****** ****** *)
-
-implement
-d3exp_selab (
-  loc, s2f, d3e, d3ls
-) = '{
-  d3exp_loc= loc
-, d3exp_type= s2f
-, d3exp_node= D3Eselab (d3e, d3ls)
-} // end of [d3exp_selab]
 
 (* ****** ****** *)
 

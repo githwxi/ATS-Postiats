@@ -59,8 +59,10 @@ fun cairo_version_string
 //
 // [cairo_ref] is reference counted
 //
-absviewtype cairo_ref (l:addr) // cairo_t*
-viewtypedef cairo_ref1 = [l:addr | l > null] cairo_ref (l)
+absviewtype
+cairo_ref (l:addr) // cairo_t*
+viewtypedef
+cairo_ref1 = [l:addr | l > null] cairo_ref (l)
 stadef xr = cairo_ref
 stadef xr1 = cairo_ref1
 
@@ -83,8 +85,10 @@ fun cairo_destroy (x: xr1): void = "mac\#cairo_destroy"
 //
 // [cairo_surface_ref] is reference counted
 //
-absviewtype cairo_surface_ref (l:addr) // cairo_surface_t*
-viewtypedef cairo_surface_ref1 = [l:addr | l > null] cairo_surface_ref (l)
+absviewtype
+cairo_surface_ref (l:addr) // cairo_surface_t*
+viewtypedef
+cairo_surface_ref1 = [l:addr | l > null] cairo_surface_ref (l)
 stadef xrsf = cairo_surface_ref
 stadef xrsf1 = cairo_surface_ref1
 
@@ -103,8 +107,10 @@ fun cairo_surface_destroy
 //
 // [cairo_device_ref] is reference counted
 //
-absviewtype cairo_device_ref (l:addr) // cairo_device_t*
-viewtypedef cairo_device_ref1 = [l:addr | l > null] cairo_device_ref (l)
+absviewtype
+cairo_device_ref (l:addr) // cairo_device_t*
+viewtypedef
+cairo_device_ref1 = [l:addr | l > null] cairo_device_ref (l)
 stadef xrdev = cairo_device_ref
 stadef xrdev1 = cairo_device_ref1
 
@@ -132,8 +138,10 @@ cairo_matrix_t = $extype_struct "cairo_matrix_t" of {
 //
 // [cairo_pattern_ref] is reference counted
 //
-absviewtype cairo_pattern_ref (l:addr) // cairo_pattern_t*
-viewtypedef cairo_pattern_ref1 = [l:addr | l > null] cairo_pattern_ref (l)
+absviewtype
+cairo_pattern_ref (l:addr) // cairo_pattern_t*
+viewtypedef
+cairo_pattern_ref1 = [l:addr | l > null] cairo_pattern_ref (l)
 stadef xrpat = cairo_pattern_ref
 stadef xrpat1 = cairo_pattern_ref1
 
@@ -662,6 +670,11 @@ cairo_public void
 cairo_new_path (cairo_t *cr);
 *)
 fun cairo_new_path (ctx: !xr1): void = "mac\#cairo_new_path"
+
+#cairo_fun_decl("
+cairo_public void
+cairo_move_to (cairo_t *cr, double x, double y);
+")\
 
 #atscode_separator()
 //

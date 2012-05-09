@@ -261,8 +261,10 @@ and d3exp_node =
 //
   | D3Eeffmask of (s2eff, d3exp) // $effmask(s2eff, d3exp)
 //
-  | D3Eptrof of (d2exp) // taking the address of
   | D3Eselab of (d3exp, d3lablst) // record/tuple field selection
+//
+  | D3Eptrof_var of (d2var) // taking the address of
+  | D3Eptrof_ptr of (d3exp, s2exp, d3lablst) // taking the address of
 //
   | D3Elam_dyn of // dynamic abstraction
       (int(*lin*), int(*npf*), p3atlst, d3exp)
@@ -387,6 +389,12 @@ fun d3exp_get_type (d3e: d3exp): s2exp
 fun d3exp_set_type
   (d3e: d3exp, s2f: s2exp): void = "patsopt_d3exp_set_type"
 // end of [d3exp_set_type]
+
+(* ****** ****** *)
+
+fun fprint_d3exp : fprint_type (d3exp)
+fun print_d3exp (d3e: d3exp): void
+and prerr_d3exp (d3e: d3exp): void
 
 (* ****** ****** *)
 
@@ -574,11 +582,17 @@ fun d3exp_effmask
 
 (* ****** ****** *)
 
-fun d3exp_ptrof
-  (loc: location, d3e: d3exp): d3exp
 fun d3exp_selab
   (loc: location, s2f: s2exp, d3e: d3exp, d3ls: d3lablst): d3exp
 // end of [d3exp_selab]
+
+(* ****** ****** *)
+
+fun d3exp_ptrof_var
+  (loc: location, s2f: s2exp, d2v: d2var): d3exp
+fun d3exp_ptrof_ptr (
+  loc: location, s2f: s2exp, d3e: d3exp, root: s2exp, d3ls: d3lablst
+) : d3exp // end of [d3exp_ptrof_ptr]
 
 (* ****** ****** *)
 

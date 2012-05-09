@@ -557,6 +557,25 @@ case+ x.d2exp_node of
     val () = prstr ")"
   } // end of [D2Eeffmask]
 //
+| D2Eselab (d2e, d2ls) => {
+    val () = prstr "D2Eselab("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr "; "
+    val () = fprint_d2lablst (out, d2ls)
+    val () = prstr ")"
+  } // end of [D2Eselab]
+//
+| D2Eptrof (d2e) => {
+    val () = prstr "D2Eptrof("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Eptrof]
+| D2Eviewat (d2e) => {
+    val () = prstr "D2Eviewat("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Eviewat]
+//
 | D2Ederef (d2e) => {
     val () = prstr "D2Ederef("
     val () = fprint_d2exp (out, d2e)
@@ -592,25 +611,6 @@ case+ x.d2exp_node of
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }
-//
-| D2Eptrof (d2e) => {
-    val () = prstr "D2Eptrof("
-    val () = fprint_d2exp (out, d2e)
-    val () = prstr ")"
-  } // end of [D2Eptrof]
-| D2Eviewat (d2e) => {
-    val () = prstr "D2Eviewat("
-    val () = fprint_d2exp (out, d2e)
-    val () = prstr ")"
-  } // end of [D2Eviewat]
-//
-| D2Eselab (d2e, d2ls) => {
-    val () = prstr "D2Eselab("
-    val () = fprint_d2exp (out, d2e)
-    val () = prstr "; "
-    val () = fprint_d2lablst (out, d2ls)
-    val () = prstr ")"
-  } // end of [D2Eselab]
 //
 | D2Eexist (s2a, d2e) => {
     val () = prstr "D2Eexist("
@@ -942,6 +942,11 @@ case+ x of
     val () = fprint_d2exp (out, d2e)
     val () = prstr "; "
     val () = $UT.fprintlst (out, ind, "; ", fprint_d2explst)
+    val () = prstr ")"
+  }
+| D2LVALviewat (d2e) => {
+    val () = prstr "D2LVALviewat("
+    val () = fprint_d2exp (out, d2e)
     val () = prstr ")"
   }
 | D2LVALnone (d2e) => {

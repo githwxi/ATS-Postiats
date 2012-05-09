@@ -290,8 +290,8 @@ fun s2exp_void_t0ype (): s2exp // void
 
 (* ****** ****** *)
 
-fun s2exp_unit_prop (): s2exp // unit_p
-fun s2exp_unit_view (): s2exp // unit_v
+fun s2exp_unit_prop (): s2exp // unit_p // how about uprop?
+fun s2exp_unit_view (): s2exp // unit_v // how about uview?
 
 (* ****** ****** *)
 

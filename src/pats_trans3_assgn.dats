@@ -72,9 +72,9 @@ implement
 d2var_assgn_lin
   (loc0, d2vw, d3ls, s2e_new) = let
   val s2e = d2var_get_type_some (loc0, d2vw)
-  var context: s2expopt = None ()
+  var ctxtopt: s2ctxtopt = None ()
   val s2e_sel =
-    s2exp_get_dlablst_context (loc0, s2e, d3ls, context)
+    s2exp_get_dlablst_context (loc0, s2e, d3ls, ctxtopt)
   // end of [val]
   val isprf = s2exp_is_prf (s2e_sel)
   val () = if ~(isprf) then {
@@ -93,7 +93,7 @@ d2var_assgn_lin
     val () = the_trans3errlst_add (T3E_s2addr_assgn_deref_linsel (loc0, s2e, d3ls))
   } // end of [val]
   val isctx = (
-    case+ context of Some _ => true | None _ => false
+    case+ ctxtopt of Some _ => true | None _ => false
   ) : bool // end of [val]
   val () = if ~(isctx) then {
     val () = prerr_error3_loc (loc0)
@@ -102,7 +102,10 @@ d2var_assgn_lin
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_s2addr_assgn_deref_context (loc0, s2e, d3ls))
   } // end of [val]
-  val- ~Some_vt (s2e) = s2expopt_hrepl0 (context, s2e_new)
+  val s2e = (
+    case+ ctxtopt of
+    | Some (ctxt) => s2ctxt_hrepl (ctxt, s2e_new) | None () => s2e
+  ) : s2exp // end of [val]
   val () = d2var_set_type (d2vw, Some (s2e))
 in
   // nothing
@@ -153,24 +156,19 @@ if islin then let
 in
   d3e_r
 end else let
-  var context: s2expopt = None ()
+  var ctxtopt: s2ctxtopt = None ()
   val s2e_sel1 =
-    s2exp_get_dlablst_context (loc0, s2e_elt, d3ls, context)
+    s2exp_get_dlablst_context (loc0, s2e_elt, d3ls, ctxtopt)
   // end of [val]
 in
 //
-case+ context of
-| Some (s2e_elt_ctx) => let
+case+ ctxtopt of
+| Some (ctxt) => let
     val () = list_vt_free (s2ps)
     val () = d3exp_open_and_add (d3e_r)
     val s2e_sel2 = d3exp_get_type (d3e_r)
-    val s2e_elt = let
-      val- ~Some_vt (s2e_elt) =
-        s2exp_hrepl0 (s2e_elt_ctx, s2e_sel2) in s2e_elt
-    end // end of [val]
-    val s2e = let
-      val- ~Some_vt (s2e) = s2exp_hrepl0 (s2e_ctx, s2e_elt) in s2e
-    end : s2exp // end of [val]
+    val s2e_elt = s2ctxt_hrepl (ctxt, s2e_sel2)
+    val s2e = s2exp_hrepl (s2e_ctx, s2e_elt)
     val () = d2var_set_type (d2vw, Some (s2e))
   in
     d3e_r
@@ -354,7 +352,6 @@ case+ d2lv of
   end // end of [_]
 //
 end // end of [d2exp_trup_assgn]
-
 
 (* ****** ****** *)
 

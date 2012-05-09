@@ -116,6 +116,11 @@ typedef s2VarBoundlst = List (s2VarBound)
 abstype s2hole_type
 typedef s2hole = s2hole_type
 
+abstype s2ctxt_type
+typedef s2ctxt = s2ctxt_type
+typedef s2ctxtopt = Option (s2ctxt)
+typedef s2ctxtopt_vt = Option (s2ctxt)
+
 (* ****** ****** *)
 
 abstype d2con_type // assumed in [pats_staexp2_dcon.dats]
@@ -750,6 +755,10 @@ fun s2hole_get_srt (s2h: s2hole):<> s2rt
 fun s2hole_get_stamp (s2h: s2hole):<> stamp
 
 fun fprint_s2hole (out: FILEref, x: s2hole): void
+
+(* ****** ****** *)
+
+fun s2ctxt_make (s2e: s2exp, s2h: s2hole): s2ctxt
 
 (* ****** ****** *)
 //

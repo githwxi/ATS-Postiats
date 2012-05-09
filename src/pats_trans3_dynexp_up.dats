@@ -221,6 +221,11 @@ case+ d2e0.d2exp_node of
 | D2Erec _ => d2exp_trup_rec (d2e0)
 | D2Eseq _ => d2exp_trup_seq (d2e0)
 //
+| D2Eselab (d2e, d2ls) => d2exp_trup_selab (d2e0, d2e, d2ls)
+//
+| D2Eptrof (d2e) => d2exp_trup_ptrof (d2e)
+| D2Eviewat (d2e) => d2exp_trup_viewat (d2e)
+//
 | D2Ederef (d2e) => d2exp_trup_deref (loc0, d2e, list_nil)
 | D2Eassgn (d2e_l, d2e_r) => d2exp_trup_assgn (loc0, d2e_l, d2e_r)
 | D2Exchng (d2e_l, d2e_r) => d2exp_trup_xchng (loc0, d2e_l, d2e_r)
@@ -268,8 +273,6 @@ case+ d2e0.d2exp_node of
   end // end of [D2Earrsize]
 //
 | D2Eeffmask _ => d2exp_trup_effmask (d2e0)
-//
-| D2Eselab (d2e, d2ls) => d2exp_trup_selab (d2e0, d2e, d2ls)
 //
 | D2Elam_dyn _ => d2exp_trup_lam_dyn (d2e0)
 | D2Elaminit_dyn _ => d2exp_trup_laminit_dyn (d2e0)

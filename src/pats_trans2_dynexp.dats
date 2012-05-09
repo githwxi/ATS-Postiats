@@ -274,21 +274,22 @@ case+ spdid of
     val ans = the_d2expenv_find_qua (dq, id)
   in
     case+ ans of
-    | ~Some_vt d2i => (case+ d2i of
+    | ~Some_vt d2i => (
+      case+ d2i of
       | D2ITMe1xp (e0) =>
           d1exp_tr_app_dyn_e1xp (d1e0, d1e1, e0, locarg, npf, darg)
       | _ => let
           val sarg = list_nil () in
           d1exp_tr_app_sta_dyn_dqid_itm
             (d1e0, d1e1, d1e1, dq, id, d2i, sarg, npf, locarg, darg)
-        end // end of [Some_vt]
+        end // end of [_]
       ) // end of [Some_vt]
     | ~None_vt () => let
         val () = prerr_error2_loc (d1e1.d1exp_loc)
         val () = filprerr_ifdebug "d1exp_tr_app_dyn_dqid"
-        val () = prerr ": unrecognized dynamic identifier ["
+        val () = prerr ": the dynamic identifier ["
         val () = prerr_dqid (dq, id)
-        val () = prerr "]."
+        val () = prerr "] is unrecognized."
         val () = prerr_newline ()
         val () = the_trans2errlst_add (T2E_d1exp_tr (d1e0))
       in

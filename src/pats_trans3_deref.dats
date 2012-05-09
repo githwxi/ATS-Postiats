@@ -69,180 +69,6 @@ staload "pats_trans3_env.sats"
 
 local
 
-fun
-labfind_context (
-  l0: label
-, ls2es: labs2explst
-, context: &labs2explst
-, err: &int
-) : s2exp = let
-in
-//
-case+ ls2es of
-| list_cons (ls2e, ls2es) => let
-    val SLABELED (l, name, s2e) = ls2e
-  in
-    if l0 = l then let
-      val s2t = s2e.s2exp_srt
-      val s2h = s2hole_make_srt (s2t)
-      val s2e_ctx = s2exp_hole (s2h)
-      val ls2e_ctx = SLABELED (l, name, s2e_ctx)
-      val () = context := list_cons (ls2e_ctx, ls2es)
-    in
-      s2e
-    end else let
-      val s2e = labfind_context (l0, ls2es, context, err)
-      val () = if (err = 0) then context := list_cons (ls2e, context)
-    in
-      s2e
-    end // end of [if]
-  end // end of [list_cons]
-| list_nil () => let
-    val () = err := err + 1 in s2exp_err (s2rt_t0ype)
-  end // end of [list_nil]
-//
-end // end of [labfind_context]
-
-fun auxlab (
-  d3l: d3lab
-, s2f: s2hnf
-, l0: label
-, context_vt: &s2expopt_vt? >> s2expopt_vt
-) : s2exp = let
-  val s2e = s2hnf2exp (s2f)
-in
-//
-case+ s2e.s2exp_node of
-| S2Etyrec (
-    knd, npf, ls2es
-  ) => let
-    var context2 : labs2explst = list_nil
-    var err: int = 0
-    val s2e1 =
-      labfind_context (l0, ls2es, context2, err)
-    // end of [val]
-    val () = if :(
-      context_vt: s2expopt_vt
-    ) =>
-      (err > 0) then let
-      val () = context_vt := None_vt
-    in
-      // nothing
-    end else let
-      val s2t = s2e.s2exp_srt
-      val s2e_ctx =
-        s2exp_tyrec_srt (s2t, knd, npf, context2)
-      val () = context_vt := Some_vt (s2e_ctx)
-    in
-      // nothing
-    end // end of [if]
-    val () = if
-      (err > 0) then let
-      val loc = d3l.d3lab_loc
-      val () = prerr_error3_loc (loc)
-      val () = prerr ": the record-type ["
-      val () = prerr_s2exp (s2e)
-      val () = prerr "] is expected to contain the label ["
-      val () = prerr_label (l0)
-      val () = prerr "]."
-      val () = prerr_newline ()
-    in
-      the_trans3errlst_add (T3E_d3exp_trup_selab_labnot (d3l))
-    end // end of [val]
-  in
-    s2e1
-  end // end of [S2Etyrec]
-| _ => let
-    val () = context_vt := None_vt () in s2exp_err (s2rt_t0ype)
-  end // end of [_]
-//
-end // end of [auxlab]
-
-fun auxsel (
-  s2e: s2exp
-, d3l: d3lab
-, context_vt: &s2expopt_vt? >> s2expopt_vt
-) : s2exp = let
-  val s2f = s2exp2hnf (s2e)
-in
-//
-case+ d3l.d3lab_node of
-| D3LABlab (lab) =>
-    auxlab (d3l, s2f, lab, context_vt)
-  // end of [S3LABlab]
-| D3LABind (ind) => let
-    val () = context_vt := None_vt ()
-  in
-    s2exp_err (s2rt_t0ype)
-  end // end of [D3LABind]
-//
-end // end of [auxsel]
-
-and auxselist (
-  s2e: s2exp
-, d3ls: d3lablst
-, context_vt: &s2expopt_vt? >> s2expopt_vt
-) : s2exp = let
-in
-//
-case+ d3ls of
-| list_cons (
-    d3l, list_nil ()
-  ) => auxsel (s2e, d3l, context_vt)
-| list_cons (d3l, d3ls) => let
-    var context1: s2expopt_vt?
-    var context2: s2expopt_vt?
-    val s2e = auxsel (s2e, d3l, context1)
-    val s2e = auxselist (s2e, d3ls, context2)
-    val opt = (
-      case+ context1 of
-      | ~Some_vt s2e1_ctx => (
-        case+ context2 of
-        | ~Some_vt s2e2_ctx => s2exp_hrepl0 (s2e1_ctx, s2e2_ctx)
-        | ~None_vt () => None_vt ()
-        ) // end of [Some_vt]
-      | ~None_vt () => (
-        case+ context2 of
-        | ~Some_vt _ => None_vt () | ~None_vt () => None_vt ()
-        ) // end of [None_vt]
-    ) : s2expopt_vt // end of [val]
-    val () = context_vt := opt
-  in
-    s2e
-  end // end of [list_cons]
-| list_nil () => let
-    val s2h =
-      s2hole_make_srt (s2e.s2exp_srt)
-    val s2e_ctx = s2exp_hole (s2h)
-    val () = context_vt := Some_vt (s2e_ctx)
-  in
-    s2e
-  end // end of [list_nil]
-//
-end // end of [auxselist]
-
-in // in of [local]
-
-implement
-s2exp_get_dlablst_context
-  (loc0, s2e, d3ls, context) = let
-  var context_vt: s2expopt_vt // uninitialized
-  val s2es2ps = auxselist (s2e, d3ls, context_vt)
-  val () = (
-    case+ context_vt of
-    | ~Some_vt (s2e_ctx) => context := Some (s2e_ctx)
-    | ~None_vt () => ()
-  ) : void // end of [val]
-in
-  s2es2ps
-end // end of [s2exp_get_dlablst_context]
-
-end // end of [local]
-
-(* ****** ****** *)
-
-local
-
 fun auxmain .<>. (
   loc0: location
 , pfobj: pfobj
@@ -264,12 +90,12 @@ in
 if islin then let
   val () = list_vt_free (s2ps)
   val s2t_elt = s2e_elt.s2exp_srt
-  var context: s2expopt = None ()
+  var ctxtopt: s2ctxtopt = None ()
   val s2e_sel =
-    s2exp_get_dlablst_context (loc0, s2e_elt, d3ls, context)
+    s2exp_get_dlablst_context (loc0, s2e_elt, d3ls, ctxtopt)
   // end of [val]
   val () = (
-    case+ context of
+    case+ ctxtopt of
     | None () => {
         val () = prerr_error3_loc (loc0)
         val () = prerr ": the type of the selected component cannot be changed: "
@@ -280,15 +106,11 @@ if islin then let
   ) : void // end of [val]
   val () = let
     val s2e_sel = s2exp_topize (1, s2e_sel)
-    val s2e_elt = let
-      val opt = s2expopt_hrepl0 (context, s2e_sel)
-    in
-      case+ opt of
-      | ~Some_vt (s2e_elt) => s2e_elt | ~None_vt () => s2e_elt
-    end : s2exp // end of [val]
-    val s2e = let
-      val- ~Some_vt (s2e) = s2exp_hrepl0 (s2e_ctx, s2e_elt) in s2e
-    end : s2exp // end of [val]
+    val s2e_elt = (
+      case+ ctxtopt of
+      | Some (ctxt) => s2ctxt_hrepl (ctxt, s2e_sel) | None () => s2e_elt
+    ) : s2exp // end of [val]
+    val s2e = s2exp_hrepl (s2e_ctx, s2e_elt)
     val () = d2var_set_type (d2vw, Some (s2e))
   in
     // nothing
@@ -296,9 +118,7 @@ if islin then let
 in
   s2e_sel
 end else let
-  val () =
-    trans3_env_add_proplst_vt (loc0, s2ps)
-  // end of [val]
+  val () = trans3_env_add_proplst_vt (loc0, s2ps)
 in
   s2e_sel
 end // end of [if]

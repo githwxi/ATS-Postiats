@@ -82,22 +82,18 @@ val+ ~PFOBJ (
   d2vw, s2e_ctx, s2e_elt, s2l
 ) = pfobj // end of [val]
 //
-var context: s2expopt = None ()
+var ctxtopt: s2ctxtopt = None ()
 val s2e_sel =
-  s2exp_get_dlablst_context (loc1, s2e_elt, d3ls, context)
+  s2exp_get_dlablst_context (loc1, s2e_elt, d3ls, ctxtopt)
 // end of [val]
 val s2e0_sel = s2hnf2exp (s2f0_sel)
 in
 //
-case+ context of
-| Some (s2e_elt_ctx) => let
-    val s2e_elt = let
-      val- ~Some_vt (s2e_elt) =
-        s2exp_hrepl0 (s2e_elt_ctx, s2e0_sel) in s2e_elt
-    end // end of [val]
-    val s2e = let
-      val- ~Some_vt (s2e) = s2exp_hrepl0 (s2e_ctx, s2e_elt) in s2e
-    end : s2exp // end of [val]
+case+ ctxtopt of
+| Some (ctxt) => let
+    val s2e_elt =
+      s2ctxt_hrepl (ctxt, s2e0_sel)
+    val s2e = s2exp_hrepl (s2e_ctx, s2e_elt)
     val () = d2var_set_type (d2vw, Some (s2e))
   in
     s2e_sel

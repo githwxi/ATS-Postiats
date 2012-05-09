@@ -145,6 +145,7 @@ SOURCES := \
   pats_staexp2_util.sats \
   pats_staexp2_util1.dats \
   pats_staexp2_util2.dats \
+  pats_staexp2_ctxt.dats \
   pats_staexp2_error.sats \
   pats_staexp2_error.dats \
   pats_staexp2_solve.sats \
@@ -173,6 +174,7 @@ SOURCES := \
   pats_trans2_decl.dats \
   pats_dynexp3.sats \
   pats_dynexp3.dats \
+  pats_dynexp3_print.dats \
   pats_trans3.sats \
   pats_trans3_error.dats \
   pats_trans3_util.dats \
@@ -194,6 +196,8 @@ SOURCES := \
   pats_trans3_appsym.dats \
   pats_trans3_caseof.dats \
   pats_trans3_selab.dats \
+  pats_trans3_ptrof.dats \
+  pats_trans3_viewat.dats \
   pats_trans3_deref.dats \
   pats_trans3_assgn.dats \
   pats_trans3_xchng.dats \

@@ -559,7 +559,12 @@ and d2exp_node =
   | D2Erec of (int (*knd*), int (*npf*), labd2explst) // record
   | D2Eseq of d2explst // sequence-expressions // sequencing
 //
-  | D2Ederef of (d2exp) // dereferencing a left-val
+  | D2Eselab of (d2exp, d2lablst) // record/tuple field selection
+//
+  | D2Eptrof of (d2exp) // taking the address of
+  | D2Eviewat of (d2exp) // taking view at a given address
+//
+  | D2Ederef of (d2exp) // deref a left-value
   | D2Eassgn of (d2exp(*left*), d2exp(*right*))
   | D2Exchng of (d2exp(*left*), d2exp(*right*))
 //
@@ -574,10 +579,6 @@ and d2exp_node =
   | D2Edelay of (int(*knd*), d2exp(*body*)) // $delay and $ldelay
 //
   | D2Eeffmask of (s2eff, d2exp) // $effmask (s2eff, d2exp)
-//
-  | D2Eptrof of (d2exp) // taking the address of
-  | D2Eviewat of (d2exp) // taking view at a given address
-  | D2Eselab of (d2exp, d2lablst) // record/tuple field selection
 //
   | D2Eexist of (s2exparg, d2exp) // witness-carrying expression
 //
@@ -750,7 +751,8 @@ d2lval = // type for left-values
   | D2LVALvar_lin of (d2var, d2lablst) // linear d2var
   | D2LVALvar_mut of (d2var, d2lablst) // mutable d2var
   | D2LVALarrsub of (* array subscription *)
-      (d2sym (*brackets*), d2exp, location(*ind*), d2explstlst)
+      (d2sym(*brackets*), d2exp, location(*ind*), d2explstlst)
+  | D2LVALviewat of (d2exp(*lval*)) // [lval] is 'addresssed'
   | D2LVALnone of d2exp (* non-left-values *)
 // end of [d2lval]
 

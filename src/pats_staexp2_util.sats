@@ -138,16 +138,13 @@ fun s2explst_alpha
 
 (* ****** ****** *)
 
-fun s2exp_hrepl0 // hole replacement
-  (s2e0: s2exp, repl: s2exp): Option_vt (s2exp)
-// end of [s2exp_hrepl0]
-fun s2expopt_hrepl0 // hole replacement
-  (s2e0: s2expopt, repl: s2exp): Option_vt (s2exp)
-// end of [s2expopt_hrepl0]
+fun s2ctxt_hrepl
+  (ctxt: s2ctxt, repl: s2exp): s2exp
+fun s2ctxtopt_hrepl
+  (ctxtopt: s2ctxtopt, repl: s2exp): s2expopt
+// end of [s2ctxtopt_hrepl]
 
-fun s2exp_hrepl1 // hole replacement
-  (s2e0: s2exp, s2h: s2hole, repl: s2exp): Option_vt (s2exp)
-// end of [s2exp_hrepl1]
+fun s2exp_hrepl (s2e: s2exp, repl: s2exp): s2exp
 
 (* ****** ****** *)
 

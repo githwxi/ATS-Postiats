@@ -25,4 +25,4 @@ prelude_cats:
 	make -C prelude/CATS/CODEGEN -f Makefile_gen
 	make -C prelude/CATS/CODEGEN -f Makefile all
 
-###### end of [Makefile_codegen_atslib] ######
+###### end of [Makefile_atslib] ######

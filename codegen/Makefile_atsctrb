@@ -13,4 +13,4 @@ cairo_sats: ; make -C contrib/cairo/SATS/CODEGEN -f Makefile all
 cairo:: cairo_cats
 cairo_cats: ; make -C contrib/cairo/CATS/CODEGEN -f Makefile all
 
-###### end of [Makefile_codegen_atsctrb] ######
+###### end of [Makefile_atsctrb] ######
