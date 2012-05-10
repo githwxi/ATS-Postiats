@@ -60,7 +60,7 @@ fun auxerr1 (
   val () = prerr "] is not mutable and thus [addr@] cannot be applied."
   val () = prerr_newline ()
 in
-  the_trans3errlst_add (T3E_d2exp_trup_ptrof_dvar (loc0, d2v))
+  the_trans3errlst_add (T3E_d2var_nonmut (loc0, d2v))
 end // end of [auxerr1]
 
 in // in of [local]

@@ -184,10 +184,17 @@ fun s2hnf_syneq (s2f1: s2hnf, s2f2: s2hnf): bool
 fun s2exp_syneq (s2e1: s2exp, s2e2: s2exp): bool
 fun s2explst_syneq (xs1: s2explst, xs2: s2explst): bool
 
+fun s2hnf_tszeq
+  (s2f1: s2hnf, s2f2: s2hnf): bool // type-size-equality-test
+fun s2exp_tszeq
+  (s2e1: s2exp, s2e2: s2exp): bool // type-size-equality-test
+
 (* ****** ****** *)
 
 fun s2kexp_ismat (x1: s2kexp, x2: s2kexp): bool
 fun s2kexplst_ismat (xs1: s2kexplst, xs2: s2kexplst): bool
+
+(* ****** ****** *)
 
 fun s2zexp_merge (x1: s2zexp, x2: s2zexp): s2zexp
 

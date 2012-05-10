@@ -142,6 +142,27 @@ in
   the_trans3errlst_add (T3E_s2addr_assgn_deref_linsel (loc0, s2e_elt, d3ls))
 end // end of [auxerr_linsel]
 
+fun auxck_tszeq (
+  loc0: location
+, s2e1: s2exp, s2e2: s2exp
+) : void = let
+  val tszeq = s2exp_tszeq (s2e1, s2e2)
+in
+//
+if ~tszeq then let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": assginment cannot be performed"
+  val () = prerr ": mismatch of bef/aft type-sizes:\n"
+  val () = (prerr "bef: ["; prerr_s2exp (s2e1); prerr "]")
+  val () = prerr_newline ()
+  val () = (prerr "aft: ["; prerr_s2exp (s2e2); prerr "]")
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_s2exp_assgn_tszeq (loc0, s2e1, s2e2))
+end // end of [if] // end of [val]
+//
+end // end of [auxck_tszeq]
+
 fun auxmain .<>. (
   loc0: location
 , pfobj: pfobj
@@ -168,15 +189,15 @@ fun auxmain .<>. (
 in
 //
 case+ ctxtopt of
-| Some (ctxt) => let
+| Some (ctxt) =>
+    d3e_r where {
     val () = d3exp_open_and_add (d3e_r)
     val s2e_sel2 = d3exp_get_type (d3e_r)
+    val () = auxck_tszeq (loc0, s2e_sel, s2e_sel2)
     val s2e_elt = s2ctxt_hrepl (ctxt, s2e_sel2)
     val s2e = s2exp_hrepl (s2e_ctx, s2e_elt)
     val () = d2var_set_type (d2vw, Some (s2e))
-  in
-    d3e_r
-  end // end of [Some]
+  } // end of [Some]
 | None () =>
     d3exp_trdn (d3e_r, s2e_sel) // HX: assignment changes no type
   (* end of [None] *)

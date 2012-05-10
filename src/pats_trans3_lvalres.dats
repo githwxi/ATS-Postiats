@@ -89,17 +89,6 @@ in
   the_trans3errlst_add (T3E_pfobj_search_none (loc0, s2l))
 end // end of [auxerr_pfobj]
 
-fun auxerr_nonatview (
-  loc0: location, s2e: s2exp
-) : void = let
-  val () = prerr_error3_loc (loc0)
-  val () = prerr ": type-restoration cannot be performed"  
-  val () = prerr ": proof of some atview is needed but one of the following type is given: "
-  val () = (prerr "["; prerr_s2exp (s2e); prerr "]")
-in
-  // nothing
-end // end of [auxerr_nonatview]
-
 fun auxmain (
   loc0: location
 , pfobj: pfobj
@@ -158,23 +147,6 @@ case+ opt of
   end // end of [None_vt]
 //
 end // end of [s2addr_exch_type]
-
-implement
-s2addr_set_type_viewat (
-  loc0, s2l, d3ls, s2e_new
-) = let
-  val s2e_new = s2exp_hnfize (s2e_new)
-in
-//
-case+
-  s2e_new.s2exp_node of
-| S2Eat (s2e1, s2e2) => let
-    val s2e_old = s2addr_exch_type (loc0,s2l, d3ls, s2e1)
-  in
-  end // end of [S2Eat]
-| _ => auxerr_nonatview (loc0, s2e_new)
-//
-end // end of [s2addr_set_type_viewat]
 
 end // end of [local]
 
@@ -305,7 +277,7 @@ case+ d3e0.d3exp_node of
     val s2f_ptr = s2exp2hnf (s2e_ptr)
     val- ~Some_vt (s2l) = un_s2exp_ptr_addr_type (s2f_ptr)
   in
-    s2addr_set_type_viewat (loc0, s2l, d3ls, s2e_new)
+    s2addr_set_viewat (loc0, s2l, d3ls, s2e_new)
   end // end of [D2Eviewat]
 //
 (*

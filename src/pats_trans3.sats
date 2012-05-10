@@ -93,11 +93,13 @@ datatype trans3err =
     // end of [T3E_d3exp_arrdim]
   | T3E_d3exp_selab_linrest of (location, d3exp, d3lablst)
 //
-  | T3E_d2exp_trup_ptrof_dvar of (location, d2var) // no address for d2var
+  | T3E_d2var_nonmut of (location, d2var) // no address for d2var
 //
   | T3E_d2exp_nonlval of (d2exp) // non-lval expression
   | T3E_d3exp_nonderef of (d3exp) // non-deref expression
   | T3E_pfobj_search_none of (location, s2exp(*addr*)) // pfobj not found
+  | T3E_s2exp_assgn_tszeq of (location, s2exp(*bef*), s2exp(*aft*))
+  | T3E_s2addr_viewat_addreq of (location, s2exp(*bef*), d3lablst, s2exp(*aft*))
 //
   | T3E_s2addr_deref_context of (location, s2exp, d3lablst)
   | T3E_s2addr_assgn_deref_linsel of (location, s2exp, d3lablst)
@@ -111,6 +113,11 @@ datatype trans3err =
   | T3E_d3exp_deref_reflinsel of (d3exp, d3lablst) // ref linear selection
   | T3E_d3exp_assgn_deref_reflinsel of (d3exp, d3lablst) // linear selection
   | T3E_d3exp_trdn_xchng_deref of (d3exp, d3lablst, s2exp) // type mismatch
+//
+  | T3E_s2exp_set_viewat_atview of (location, s2exp(*root*))
+  | T3E_s2exp_set_viewat_without of (location, s2exp(*root*))
+  | T3E_s2exp_set_viewat_size of (location, s2exp(*old*), s2exp(*new*))
+  | T3E_s2exp_set_viewat_addr of (location, s2exp(*root*), d3lablst, s2exp(*new*))
 //
   | T3E_d3lval_funarg of (d3exp) // a non-left-val provided for call-by-ref
   | T3E_d3lval_refval of (location, d2var) // non-mutable dvar used for call-by-ref
@@ -350,11 +357,21 @@ fun s2addr_xchng_check (
 (* ****** ****** *)
 
 fun s2addr_exch_type (
-  loc0: location, s2l: s2exp, d3ls: d3lablst, s2e_new: s2exp
+  loc0: location
+, s2l: s2exp, d3ls: d3lablst, s2e_new: s2exp
 ) : s2exp(*old*) // end of [s2addr_exch_type]
-fun s2addr_set_type_viewat (
-  loc0: location, s2l: s2exp, d3ls: d3lablst, s2e_new: s2exp
-) : void // end of [s2addr_set_type_viewat]
+fun s2addr_set_viewat (
+  loc0: location
+, s2l: s2exp, d3ls: d3lablst, s2at_new: s2exp
+) : void // end of [s2addr_set_viewat]
+fun s2addr_set_viewat_check (
+  loc0: location
+, s2l: s2exp, d3ls: d3lablst, s2at_new: s2exp
+, s2e_old: s2exp, s2e_new: s2exp, s2l_new: s2exp
+) : void // end of [s2addr_set_viewat_check]
+
+(* ****** ****** *)
+
 fun d3lval_set_type_err (
   refval: int, d3e: d3exp, s2e: s2exp, err: &int
 ) : void // end of [d3lval_set_type_err]

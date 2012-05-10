@@ -360,6 +360,7 @@ s2exp_node =
 //
   | S2Eeff of (s2eff) // effects
   | S2Eeqeq of (s2exp, s2exp) // generic static equality
+//
   | S2Eproj of (s2exp(*addr*), s2exp(*type*), s2lablst) // projection
 //
   | S2Eapp of (s2exp, s2explst) // static application
