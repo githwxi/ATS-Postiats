@@ -459,9 +459,10 @@ end // end of [local]
 *)
 implement
 d2exp_trup_xchng
-  (loc0, d2e_l, d2e_r) = let
-//
-val d2lv_l = d2exp_lvalize (d2e_l)
+  (d2e0) = let
+  val loc0 = d2e0.d2exp_loc
+  val- D2Eassgn(d2e_l, d2e_r) = d2e0.d2exp_node
+  val d2lv_l = d2exp_lvalize (d2e_l)
 //
 in
 //

@@ -496,6 +496,17 @@ d3exp_viewat
 , d3exp_node= D3Eviewat (d3e, d3ls)
 } // end of [d3exp_viewat]
 
+implement
+d3exp_viewat_assgn (
+  loc, d3e_l, d3ls, d3e_r
+) = let
+  val s2f = s2exp_void_t0ype ()
+in '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eviewat_assgn (d3e_l, d3ls, d3e_r)
+} end // end of [d3exp_viewat_assgn]
+
 (* ****** ****** *)
 
 implement

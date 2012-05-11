@@ -302,9 +302,7 @@ fun s2addr_deref
 
 (* ****** ****** *)
 
-fun d2exp_trup_assgn (
-  loc0: location, d2e_l: d2exp, d2e_r: d2exp
-) : d3exp // end of [d2exp_trup_assgn]
+fun d2exp_trup_assgn (d2e0: d2exp): d3exp
 
 fun s2addr_assgn_deref
   (loc0: location, s2l: s2exp, d3ls: d3lablst, d3e_r: d3exp): d3exp(*rval*)
@@ -315,9 +313,7 @@ fun d2exp_trup_assgn_deref (
 
 (* ****** ****** *)
 
-fun d2exp_trup_xchng (
-  loc0: location, d2e_l: d2exp, d2e_r: d2exp
-) : d3exp // end of [d2exp_trup_xchng]
+fun d2exp_trup_xchng (d2e0: d2exp): d3exp
 
 (*
 ** HX: evaluation of [d2e_r] should involving no proofs of views

@@ -45,6 +45,7 @@ overload = with $LAB.eq_label_label
 
 staload "pats_staexp2.sats"
 staload "pats_staexp2_util.sats"
+staload "pats_stacst2.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp2_util.sats"
 staload "pats_dynexp3.sats"
@@ -357,6 +358,40 @@ end // end of [local]
 
 local
 
+fun auxerr_nonderef (
+  loc0: location, d3e: d3exp
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": the dynamic expression cannot be derefenced."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d3exp_nonderef (d3e))
+end // end of [auxerr_nonderef]
+
+fun aux1 (
+  loc0: location
+, s2f0: s2hnf
+, d3e_l: d3exp
+, d3ls: d3lablst
+, d3e_r: d3exp
+) : d3exp = let
+  val opt = un_s2exp_ptr_addr_type (s2f0)
+in
+//
+case+ opt of
+| ~Some_vt (s2l) => let
+    val s2e_r = d3exp_get_type (d3e_r)
+    val () =
+      s2addr_set_viewat (loc0, s2l, d3ls, s2e_r)
+    // end of [val]
+  in
+    d3exp_viewat_assgn (loc0, d3e_l, d3ls, d3e_r)
+  end // end of [Some_vt]
+| ~None_vt () => let
+    val () = auxerr_nonderef (loc0, d3e_l) in d3exp_void_err (loc0)
+  end // end of [None_vt]
+end // end of [aux1]
+
 in // in of [local]
 
 implement
@@ -385,13 +420,16 @@ case+ d2lv_l of
     d3exp_viewat_assgn (loc0, d3e_ptr, d3ls, d3e_r)
   end // end of [D2LVALvar_mut]
 | D2LVALderef
-    (d2e, d2ls) => let
-    val d3e = d2exp_trup (d2e)
-    val () = d3exp_open_and_add (d3e_1)
+    (d2e_l, d2ls) => let
+    val d3e_l = d2exp_trup (d2e_l)
+    val () = d3exp_open_and_add (d3e_l)
     val d3ls = d2lablst_trup (d2ls)
     val d3e_r = d2exp_trup (d2e_r)
     val () = d3exp_open_and_add (d3e_r)
+    val s2e0 = d3exp_get_type (d3e_l)
+    val s2f0 = s2exp2hnf (s2e0)
   in
+    aux1 (loc0, s2f0, d3e_l, d3ls, d3e_r)
   end // end of [D2LVALderef]
 //
 | D2LVALvar_lin _ => let

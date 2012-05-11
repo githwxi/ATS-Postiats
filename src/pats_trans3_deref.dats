@@ -153,8 +153,17 @@ end // end of [local]
 
 local
 
-fun
-auxerr_reflinsel (
+fun auxerr_nonderef (
+  loc0: location, d3e: d3exp
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": the dynamic expression cannot be derefenced."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d3exp_nonderef (d3e))
+end // end of [auxerr_nonderef]
+
+fun auxerr_reflinsel (
   loc0: location
 , d3e: d3exp, d3ls: d3lablst, s2e_sel: s2exp
 ) : void = let
@@ -164,17 +173,6 @@ auxerr_reflinsel (
 in
   the_trans3errlst_add (T3E_d3exp_deref_reflinsel (d3e, d3ls))
 end // end of [auxerr_reflinsel]
-
-fun
-auxerr_nonderef (
-  loc0: location, d3e: d3exp
-) : void = let
-  val () = prerr_error3_loc (loc0)
-  val () = prerr ": the dynamic expression cannot be derefenced."
-  val () = prerr_newline ()
-in
-  the_trans3errlst_add (T3E_d3exp_nonderef (d3e))
-end // end of [auxerr_nonrefptr]
 
 fun aux1 (
   loc0: location
