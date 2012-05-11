@@ -46,12 +46,102 @@ overload = with $LAB.eq_label_label
 staload "pats_staexp2.sats"
 staload "pats_staexp2_util.sats"
 staload "pats_dynexp2.sats"
+staload "pats_dynexp2_util.sats"
 staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
 
 staload "pats_trans3.sats"
 staload "pats_trans3_env.sats"
+
+(* ****** ****** *)
+
+local
+
+fun auxerr_pfobj (
+  loc0: location, s2l: s2exp
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": [view@] operation cannot be performed"
+  val () = prerr ": the proof search for view located at ["
+  val () = prerr_s2exp (s2l)
+  val () = prerr "] failed to turn up a result."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_pfobj_search_none (loc0, s2l))
+end // end of [auxerr_pfobj]
+
+fun auxerr_context (
+  loc0: location, s2e: s2exp, d3ls: d3lablst
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": [view@] operation cannot be performed"
+  val () = prerr ": context cannot be formed for the atview being taken."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_s2addr_viewat_deref_context (loc0, s2e, d3ls))
+end // end of [auxerr_context]
+
+fun auxlabs (
+  d3ls: d3lablst
+) : s2lablst = (
+  case+ d3ls of
+  | list_cons (d3l, d3ls) => (
+    case+ d3l.d3lab_node of
+    | D3LABlab (l) =>
+        list_cons (S2LABlab (l), auxlabs d3ls)
+    | _ => list_nil () // deadcode
+    ) // end of [list_cons]
+  | list_nil () => list_nil ()
+) // end of [auxlabs]
+
+fun auxmain (
+  loc0: location
+, pfobj: pfobj, d3ls: d3lablst
+) : s2exp(*atview*) = let
+  val+ ~PFOBJ (
+    d2vw, s2e_ctx, s2e_elt, s2l
+  ) = pfobj // end of [val]
+  var ctxtopt: s2ctxtopt = None ()
+  val s2e_sel =
+    s2exp_get_dlablst_context (loc0, s2e_elt, d3ls, ctxtopt)
+  // end of [val]
+in
+//
+case+ ctxtopt of
+| Some (ctxt) => let
+    val s2e_out = s2exp_without (s2e_sel)
+    val s2e_elt = s2ctxt_hrepl (ctxt, s2e_out)
+    val s2e = s2exp_hrepl (s2e_ctx, s2e_elt)
+    val () = d2var_set_type (d2vw, Some (s2e))
+    val s2ls = auxlabs (d3ls)
+    val s2rt = s2exp_proj (s2l, s2e_elt, s2ls)
+  in
+    s2exp_at (s2e_sel, s2rt)
+  end // end of [Some]
+| None () => let
+    val () = auxerr_context (loc0, s2e_elt, d3ls) in s2exp_err (s2rt_view)
+  end // end of [None]
+//
+end // end of [auxmain]
+
+in // in of [local]
+
+implement
+s2addr_viewat_deref
+  (loc0, s2l, d3ls) = let
+  val opt = pfobj_search_atview (s2l)
+in
+//
+case+ opt of
+| ~Some_vt (pfobj) =>
+    auxmain (loc0, pfobj, d3ls)
+| ~None_vt () => let
+    val () = auxerr_pfobj (loc0, s2l) in s2exp_err (s2rt_view)
+  end (* end of [None_vt] *)
+end // end of [s2addr_viewat_deref]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -99,6 +189,7 @@ fun auxerr_nonatview (
   val () = prerr ": viewat-restoration cannot be performed"  
   val () = prerr ": proof of some atview is needed but one of the following type is given: "
   val () = (prerr "["; prerr_s2exp (s2at_new); prerr "]")
+  val () = prerr_newline ()
 in
   the_trans3errlst_add (T3E_s2exp_set_viewat_atview (loc0, s2at_new))
 end // end of [auxerr_nonatview]
@@ -110,6 +201,7 @@ fun auxerr_nonwithout (
   val () = prerr ": viewat-restoration cannot be performed"  
   val () = prerr ": the following type is expected to be a without-type but it is not: "
   val () = (prerr "["; prerr_s2exp (s2e_old); prerr "]")
+  val () = prerr_newline ()
 in
   the_trans3errlst_add (T3E_s2exp_set_viewat_without (loc0, s2e_old))
 end // end of [auxerr_nonwithout]
@@ -223,46 +315,107 @@ implement
 d2exp_trup_viewat
   (d2e0) = let
   val loc0 = d2e0.d2exp_loc
+  val d2lv = d2exp_lvalize (d2e0)
 in
 //
-case+
-  d2e0.d2exp_node of
-| D2Evar (d2v) => let
-    val opt = d2var_get_addr (d2v)
+case+ d2lv of
+| D2LVALvar_mut
+    (d2v, d2ls) => let
+    val d3ls = d2lablst_trup (d2ls)
+    val- Some (s2l) = d2var_get_addr (d2v)
+    val s2e_ptr = d2var_get_type_some (loc0, d2v)
+    val d3e_ptr = d3exp_ptrof_var (loc0, s2e_ptr, d2v)
+    val s2e_at = s2addr_viewat_deref (loc0, s2l, d3ls)
   in
-    case+ opt of
-    | Some (s2l) => let
-        val s2e_ptr =
-          d2var_get_type_some (loc0, d2v)
-        val d3e_ptr =
-          d3exp_ptrof_var (loc0, s2e_ptr, d2v)
-        val opt = pfobj_search_atview (s2l)
-      in
-        case+ opt of
-        | ~Some_vt (pfobj) => let
-            val+ ~PFOBJ (
-              d2vw, s2e_ctx, s2e_elt, s2l
-            ) = pfobj // end of [val]
-            val s2e_out = s2exp_without (s2e_elt)
-            val s2e = s2exp_hrepl (s2e_ctx, s2e_out)
-            val () = d2var_set_type (d2vw, Some (s2e))
-            val s2e_at = s2exp_at (s2e_elt, s2l)
-          in
-            d3exp_viewat (loc0, s2e_at, d3e_ptr, list_nil(*d3ls*))
-          end // end of [Some_vt]
-        | ~None_vt () => let
-            val s2e_at = s2exp_t0ype_err () in
-            d3exp_viewat (loc0, s2e_at, d3e_ptr, list_nil(*d3ls*))
-          end // end of [None]
-      end // end of [Some]
-    | None () => let
-        val () = auxerr1 (loc0, d2v) in d3exp_err (loc0)
-      end // end of [None]
-  end (* end of [D2Evar] *)
+    d3exp_viewat (loc0, s2e_at, d3e_ptr, d3ls)
+  end // end of [D2LVALvar_mut]
 //
-| _ => exitloc (1)
+| D2LVALvar_lin _ => let
+    val () = prerr_error3_loc (loc0)
+    val () = prerr ": [view@] operation cannot be applied"
+    val () = prerr ": the dynamic expression is addressless."
+    val () = prerr_newline ()
+    val () = the_trans3errlst_add (T3E_d2exp_addrless (d2e0))
+  in
+    d3exp_err (loc0)
+  end // end of [D2LVALvar_lin]
+//
+| _ => let
+    val () = prerr_error3_loc (loc0)
+    val () = prerr ": [view@] operation cannot be applied: "
+    val () = prerr_newline ()
+    val () = the_trans3errlst_add (T3E_d2exp_nonlval (d2e0))
+  in
+    d3exp_err (loc0)
+  end // end of [_]
 //
 end // end of [d2exp_trup_viewat]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+in // in of [local]
+
+implement
+d2exp_trup_viewat_assgn
+  (d2e0) = let
+  val loc0 = d2e0.d2exp_loc
+  val- D2Eassgn
+    (d2e_l, d2e_r) = d2e0.d2exp_node
+  val- D2Eviewat (d2e_l) = d2e_l.d2exp_node
+  val d2lv_l = d2exp_lvalize (d2e_l)
+in
+//
+case+ d2lv_l of
+| D2LVALvar_mut
+    (d2v, d2ls) => let
+    val d3ls = d2lablst_trup (d2ls)
+    val- Some (s2l) = d2var_get_addr (d2v)
+    val d3e_r = d2exp_trup (d2e_r)
+    val () = d3exp_open_and_add (d3e_r)
+    val s2e_r = d3exp_get_type (d3e_r)
+    val () = s2addr_set_viewat (loc0, s2l, d3ls, s2e_r)
+    val loc = d2e_l.d2exp_loc
+    val s2e_ptr = d2var_get_type_some (loc, d2v)
+    val d3e_ptr = d3exp_ptrof_var (loc, s2e_ptr, d2v)
+  in
+    d3exp_viewat_assgn (loc0, d3e_ptr, d3ls, d3e_r)
+  end // end of [D2LVALvar_mut]
+| D2LVALderef
+    (d2e, d2ls) => let
+    val d3e = d2exp_trup (d2e)
+    val () = d3exp_open_and_add (d3e_1)
+    val d3ls = d2lablst_trup (d2ls)
+    val d3e_r = d2exp_trup (d2e_r)
+    val () = d3exp_open_and_add (d3e_r)
+  in
+  end // end of [D2LVALderef]
+//
+| D2LVALvar_lin _ => let
+    val loc = d2e_l.d2exp_loc
+    val () = prerr_error3_loc (loc)
+    val () = prerr ": [view@] operation cannot be applied"
+    val () = prerr ": the dynamic expression is addressless."
+    val () = prerr_newline ()
+    val () = the_trans3errlst_add (T3E_d2exp_addrless (d2e0))
+  in
+    d3exp_void_err (loc0)
+  end // end of [D2LVALvar_lin]
+//
+| _ => let
+    val loc = d2e_l.d2exp_loc
+    val () = prerr_error3_loc (loc)
+    val () = prerr ": [view@] operation cannot be applied: "
+    val () = prerr_newline ()
+    val () = the_trans3errlst_add (T3E_d2exp_nonlval (d2e0))
+  in
+    d3exp_void_err (loc0)
+  end // end of [_]
+//
+end // end of [d2exp_trup_viewat_assgn]
 
 end // end of [local]
 

@@ -281,6 +281,8 @@ case+ s2e0.s2exp_node of
 | S2Eeff _ => s2e0
 | S2Eeqeq _ => s2e0
 //
+| S2Eproj _ => s2e0
+//
 | S2Eapp (s2e_fun, s2es_arg) =>
     s2exp_hnfize_app (s2e0, s2e_fun, s2es_arg, flag)
   // end of [S2Eapp]
@@ -525,6 +527,40 @@ fun s2eff_syneq_exn (
   | (_, _) => $raise (SYNEQexn)
 end // end of [s2eff]
 
+fun s2lab_syneq_exn (
+  s2l1: s2lab, s2l2: s2lab
+) : void = (
+  case+ s2l1 of
+  | S2LABlab l1 => (
+    case+ s2l2 of
+    | S2LABlab l2 =>
+        if l1 = l2 then () else $raise (SYNEQexn)
+      // end of [S2LABlab]
+    | S2LABind _ => $raise (SYNEQexn)
+    )
+  | S2LABind ind1 => (
+    case+ s2l2 of
+    | S2LABlab _ => $raise (SYNEQexn)
+    | S2LABind ind2 => s2explstlst_syneq_exn (ind1, ind2)
+    )
+) // end of [s2lab_syneq_exn]
+
+fun s2lablst_syneq_exn (
+  s2ls1: s2lablst, s2ls2: s2lablst
+) : void = (
+  case+ (s2ls1, s2ls2) of
+  | (list_cons (s2l1, s2ls1),
+     list_cons (s2l2, s2ls2)) => let
+      val () =
+        s2lab_syneq_exn (s2l1, s2l2)
+      // end of [val]
+    in
+      s2lablst_syneq_exn (s2ls1, s2ls2)
+    end
+  | (list_nil (), list_nil ()) => ()
+  | (_, _) => $raise (SYNEQexn)
+) // end of [s2lablst_syneq_exn]
+
 fun labs2explst_syneq_exn (
   ls2es1: labs2explst, ls2es2: labs2explst
 ) : void = (
@@ -620,6 +656,29 @@ case s2en10 of
   | _ => $raise (SYNEQexn)
   ) // end of [S2Edatcontyp]
 //
+| S2Eeff (s2fe1) => (
+  case+ s2en20 of
+  | S2Eeff (s2fe2) =>
+      s2eff_syneq_exn (s2fe1, s2fe2)
+  | _ => $raise (SYNEQexn)
+  ) // end of [S2Eeff]
+| S2Eeqeq (s2e11, s2e12) => (
+  case+ s2en20 of
+  | S2Eeqeq (s2e21, s2e22) => {
+      val () = s2exp_syneq_exn (s2e11, s2e21)
+      val () = s2exp_syneq_exn (s2e12, s2e22)
+    } // end of [S2Eeqeq]
+  | _ => $raise (SYNEQexn)
+  ) // end of[S2Eeqeq]
+| S2Eproj (s2e1, _, s2ls1) => (
+  case+ s2en20 of
+  | S2Eproj (s2e2, _, s2ls2) => {
+      val () = s2exp_syneq_exn (s2e1, s2e2)
+      val () = s2lablst_syneq_exn (s2ls1, s2ls2)
+    } // end of [S2Eproj]
+  | _ => $raise (SYNEQexn)
+  ) // end of[S2Eproj]
+//
 | S2Eapp (s2e11, s2es12) => (
   case+ s2en20 of
   | S2Eapp (s2e21, s2es22) => {
@@ -650,6 +709,11 @@ case s2en10 of
       if knd1 = knd2 then s2exp_syneq_exn (s2e1, s2e2) else $raise (SYNEQexn)
   | _ => $raise (SYNEQexn)
   ) // end of [S2Etop]
+| S2Ewithout (s2e1) => (
+  case+ s2en20 of
+  | S2Ewithout (s2e2) => s2exp_syneq_exn (s2e1, s2e2)
+  | _ => $raise (SYNEQexn)
+  ) // end of [S2Ewithout]
 //
 | S2Etyarr (s2e1_elt, s2es1_int) => (
   case+ s2en20 of

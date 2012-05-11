@@ -32,6 +32,11 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+
+(* ****** ****** *)
+
 staload "pats_errmsg.sats"
 staload _(*anon*) = "pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_trans3_selab"
@@ -39,6 +44,7 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_selab"
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_staexp2_util.sats"
 staload "pats_stacst2.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
@@ -46,12 +52,91 @@ staload "pats_dynexp3.sats"
 (* ****** ****** *)
 
 staload "pats_trans3.sats"
+staload "pats_trans3_env.sats"
+
+(* ****** ****** *)
+
+extern
+fun s2addr_ptrof
+  (loc0: location, s2l: s2exp, d3ls: d3lablst): s2exp
+// end of [s2addr_ptrof]
+
+local
+
+fun auxerr_pfobj (
+  loc0: location, s2l: s2exp
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": [addr@] operation cannot be performed"
+  val () = prerr ": the proof search for view located at ["
+  val () = prerr_s2exp (s2l)
+  val () = prerr "] failed to turn up a result."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_pfobj_search_none (loc0, s2l))
+end // end of [auxerr_pfobj]
+
+fun auxlabs (
+  d3ls: d3lablst
+) : s2lablst = (
+  case+ d3ls of
+  | list_cons (d3l, d3ls) => (
+    case+ d3l.d3lab_node of
+    | D3LABlab (lab) => let
+        val s2l = S2LABlab (lab)
+      in
+        list_cons (s2l, auxlabs d3ls)
+      end // end of [D3LABlab]
+    | D3LABind (ind) => let
+        val ind = d3explstlst_get_type (ind)
+        val s2l = S2LABind (ind)
+      in
+        list_cons (s2l, auxlabs d3ls)      
+      end // end of [D3LABind]
+    ) // end of [list_ons]
+  | list_nil () => list_nil ()
+) // end of [auxlabs]
+
+fun auxmain .<>. (
+  loc0: location
+, pfobj: pfobj
+, d3ls: d3lablst
+) : s2exp = let
+  val+ ~PFOBJ (
+    d2vw, s2e_ctx, s2e_elt, s2l
+  ) = pfobj // end of [val]
+  var linrest: int = 0
+  val (s2e_sel, s2ps) =
+    s2exp_get_dlablst_linrest (loc0, s2e_elt, d3ls, linrest)
+  val s2e_sel = s2exp_hnfize (s2e_sel)
+  val () = list_vt_free (s2ps) // HX: no need as this is only a probe
+  val s2ls = auxlabs (d3ls)
+  val s2e_prj = s2exp_proj (s2l, s2e_elt, s2ls)
+in
+  s2exp_ptr_addr_type (s2e_prj)
+end // end of [auxmain]
+
+in // in of [local]
+
+implement
+s2addr_ptrof
+  (loc0, s2l, d3ls) = let
+  val opt = pfobj_search_atview (s2l)
+in
+  case+ opt of
+  | ~Some_vt (pfobj) => auxmain (loc0, pfobj, d3ls)
+  | ~None_vt () => let
+      val () = auxerr_pfobj (loc0, s2l) in s2exp_t0ype_err ()
+    end // end of [None]
+end // end of [s2addr_ptrof]
+
+end // end of [local]
 
 (* ****** ****** *)
 
 local
 
-fun auxerr1 (
+fun auxerr_nonmut (
   loc0: location, d2v: d2var
 ) : void = let
   val () = prerr_error3_loc (loc0)
@@ -61,9 +146,30 @@ fun auxerr1 (
   val () = prerr_newline ()
 in
   the_trans3errlst_add (T3E_d2var_nonmut (loc0, d2v))
-end // end of [auxerr1]
+end // end of [auxerr_nonmut]
+
+fun auxerr_nonlval (
+  d2e0: d2exp
+) : void = let
+  val loc0 = d2e0.d2exp_loc
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": [addr@] operation cannot be performed"
+  val () = prerr ": a left-value is required but a non-left-value is given."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d2exp_nonlval (d2e0))
+end // end of [auxerr_nonlval]
 
 in // in of [local]
+
+extern
+fun d2exp_trup_ptrof_varsel
+  (loc0: location, d2v: d2var, d2ls: d2lablst): d3exp
+(*
+extern
+fun d2exp_trup_ptrof_ptrsel
+  (loc0: location, d2e: d2exp, d2ls: d2lablst): d3exp
+*)
 
 implement
 d2exp_trup_ptrof
@@ -85,12 +191,62 @@ case+
         d3exp_ptrof_var (loc0, s2e, d2v)
       end // end of [Some]
     | None () => let
-        val () = auxerr1 (loc0, d2v) in d3exp_err (loc0)
+        val () = auxerr_nonmut (loc0, d2v) in d3exp_err (loc0)
       end // end of [None]
   end (* end of [D2Evar] *)
+| D2Eselab
+    (d2e, d2ls) => (
+  case+ d2e.d2exp_node of
+  | D2Evar (d2v) =>
+      d2exp_trup_ptrof_varsel (loc0, d2v, d2ls)
+    // end of [D2Evar]
+(*
+  | D2Ederef (d2e) =>
+      d2exp_trup_ptrof_ptrsel (loc0, d2e, d2ls)
+*)
+  | _ => let
+      val () = auxerr_nonlval (d2e0) in d3exp_err (loc0)
+    end // end of [_]
+  ) // end of [D2Esel]
+(*
+| D2Ederef (d2e) =>
+    d2exp_trup_ptrof_ptrsel (loc0, d2e, list_nil)
+  // end of [D2Ederef]
+*)
 | _ => exitloc (1)
 //
 end // end of [d2exp_trup_ptrof]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_ptrof_varsel
+  (loc0, d2v, d2ls) = let
+  val ismut = d2var_is_mutabl (d2v)
+in
+//
+if ismut then let
+  val d3ls = d2lablst_trup (d2ls)
+  val- Some (s2e_ptr) = d2var_get_type (d2v)
+  val d3e_ptr = d3exp_ptrof_var (loc0, s2e_ptr, d2v)
+in
+//
+case+ d3ls of
+| list_cons _ => let
+    val- Some (s2l) = d2var_get_addr (d2v)
+    val s2e_prj = s2addr_ptrof (loc0, s2l, d3ls)
+  in
+    d3exp_ptrof_ptrsel (loc0, s2e_prj, d3e_ptr, d3ls)  
+  end // end of [list_cons]
+| list_nil () => d3e_ptr // end of [list_nil]
+//
+end else let
+  val () = auxerr_nonmut (loc0, d2v) in d3exp_err (loc0)
+end // end of [if]
+//
+end // end of [d2exp_trup_ptrof_varsel]
+
+(* ****** ****** *)
 
 end // end of [local]
 

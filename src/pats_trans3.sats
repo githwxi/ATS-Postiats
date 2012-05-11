@@ -96,6 +96,7 @@ datatype trans3err =
   | T3E_d2var_nonmut of (location, d2var) // no address for d2var
 //
   | T3E_d2exp_nonlval of (d2exp) // non-lval expression
+  | T3E_d2exp_addrless of (d2exp) // addressless lval
   | T3E_d3exp_nonderef of (d3exp) // non-deref expression
   | T3E_pfobj_search_none of (location, s2exp(*addr*)) // pfobj not found
   | T3E_s2exp_assgn_tszeq of (location, s2exp(*bef*), s2exp(*aft*))
@@ -114,10 +115,14 @@ datatype trans3err =
   | T3E_d3exp_assgn_deref_reflinsel of (d3exp, d3lablst) // linear selection
   | T3E_d3exp_trdn_xchng_deref of (d3exp, d3lablst, s2exp) // type mismatch
 //
+  | T3E_s2addr_viewat_deref_context of (location, s2exp, d3lablst)
+//
   | T3E_s2exp_set_viewat_atview of (location, s2exp(*root*))
   | T3E_s2exp_set_viewat_without of (location, s2exp(*root*))
-  | T3E_s2exp_set_viewat_size of (location, s2exp(*old*), s2exp(*new*))
-  | T3E_s2exp_set_viewat_addr of (location, s2exp(*root*), d3lablst, s2exp(*new*))
+(*
+  | T3E_s2exp_set_viewat_tszeq of (location, s2exp(*old*), s2exp(*new*))
+  | T3E_s2exp_set_viewat_addreq of (location, s2exp(*root*), d3lablst, s2exp(*new*))
+*)
 //
   | T3E_d3lval_funarg of (d3exp) // a non-left-val provided for call-by-ref
   | T3E_d3lval_refval of (location, d2var) // non-mutable dvar used for call-by-ref
@@ -274,18 +279,19 @@ fun d2exp_trup_selab
 
 (* ****** ****** *)
 
-fun d2exp_trup_ptrof (d2e0: d2exp): d3exp
-fun d2exp_trup_viewat (d2e0: d2exp): d3exp
+fun d2exp_trup_loopexn (d2e0: d2exp, knd: int): d3exp
 
 (* ****** ****** *)
 
-fun d2exp_trup_loopexn (d2e0: d2exp, knd: int): d3exp
+fun d2exp_trup_ptrof (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
 fun s2exp_get_dlablst_context (
   loc0: location, s2e: s2exp, d3ls: d3lablst, context: &s2ctxtopt
 ) : s2exp (*selected*) // end of [fun]
+
+(* ****** ****** *)
 
 fun d2exp_trup_deref
   (loc0: location, d2e: d2exp, d2ls: d2lablst): d3exp
@@ -300,12 +306,12 @@ fun d2exp_trup_assgn (
   loc0: location, d2e_l: d2exp, d2e_r: d2exp
 ) : d3exp // end of [d2exp_trup_assgn]
 
-fun d2exp_trup_assgn_deref (
-  loc0: location, d2e_l: d2exp, d2ls: d2lablst, d2e_r: d2exp
-) : d3exp // end of [d2exp_trup_assgn_deref]
 fun s2addr_assgn_deref
   (loc0: location, s2l: s2exp, d3ls: d3lablst, d3e_r: d3exp): d3exp(*rval*)
 // end of [s2addr_assgn_deref]
+fun d2exp_trup_assgn_deref (
+  loc0: location, d2e_l: d2exp, d2ls: d2lablst, d2e_r: d2exp
+) : d3exp // end of [d2exp_trup_assgn_deref]
 
 (* ****** ****** *)
 
@@ -322,6 +328,11 @@ fun d2exp_trup_xchng_deref (
 fun s2addr_xchng_deref
   (loc0: location, s2l: s2exp, d3ls: d3lablst, d2e_r: d2exp): d3exp(*rval*)
 // end of [s2addr_xchng_deref]
+
+(* ****** ****** *)
+
+fun d2exp_trup_viewat (d2e0: d2exp): d3exp
+fun d2exp_trup_viewat_assgn (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
@@ -356,10 +367,17 @@ fun s2addr_xchng_check (
 
 (* ****** ****** *)
 
+fun s2addr_viewat_deref
+  (loc0: location, s2l: s2exp, d3ls: d3lablst): s2exp(*atview*)
+// end of [s2addr_viewat_deref]
+
+(* ****** ****** *)
+
 fun s2addr_exch_type (
   loc0: location
 , s2l: s2exp, d3ls: d3lablst, s2e_new: s2exp
 ) : s2exp(*old*) // end of [s2addr_exch_type]
+
 fun s2addr_set_viewat (
   loc0: location
 , s2l: s2exp, d3ls: d3lablst, s2at_new: s2exp

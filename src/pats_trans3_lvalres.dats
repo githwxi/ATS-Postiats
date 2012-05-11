@@ -266,18 +266,24 @@ case+ d3e0.d3exp_node of
 | D3Esel_ptr (d3e_ptr, d3ls) => let
     val s2e_ptr = d3exp_get_type (d3e_ptr)
     val s2f_ptr = s2exp2hnf (s2e_ptr)
-    val- ~Some_vt (s2l) = un_s2exp_ptr_addr_type (s2f_ptr)
-    val _(*old*) = s2addr_exch_type (loc0, s2l, d3ls, s2e_new)
+    val opt = un_s2exp_ptr_addr_type (s2f_ptr)
   in
-    // nothing
+    case+ opt of
+    | ~Some_vt (s2l) => {
+        val _(*old*) = s2addr_exch_type (loc0, s2l, d3ls, s2e_new)
+       } // end of [Some_vt]
+    | ~None_vt () => () // HX: error already registered at this point
   end // end of [D2Esel_ptr]
 //
 | D3Eviewat (d3e_ptr, d3ls) => let
     val s2e_ptr = d3exp_get_type (d3e_ptr)
     val s2f_ptr = s2exp2hnf (s2e_ptr)
-    val- ~Some_vt (s2l) = un_s2exp_ptr_addr_type (s2f_ptr)
+    val opt = un_s2exp_ptr_addr_type (s2f_ptr)
   in
-    s2addr_set_viewat (loc0, s2l, d3ls, s2e_new)
+    case+ opt of
+    | ~Some_vt (s2l) =>
+        s2addr_set_viewat (loc0, s2l, d3ls, s2e_new)
+    | ~None_vt () => () // HX: error already registered at this point
   end // end of [D2Eviewat]
 //
 (*

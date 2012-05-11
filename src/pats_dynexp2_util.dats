@@ -96,7 +96,8 @@ case+ d2e0.d2exp_node of
     d2exp_lvalize_d2var (d2e0, d2v, list_nil)
   // end of [D2Evar]
 | D2Ederef (d2e) => D2LVALderef (d2e, list_nil)
-| D2Eselab (d2e, d2ls) => (
+| D2Eselab
+    (d2e, d2ls) => (
   case+ d2e.d2exp_node of
   | D2Evar (d2v) =>
       d2exp_lvalize_d2var (d2e0, d2v, d2ls)

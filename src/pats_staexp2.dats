@@ -208,9 +208,13 @@ s2exp_eqeq (s2e1, s2e2) = hnf '{
 
 implement
 s2exp_proj
-  (s2ae, s2te, s2ls) = hnf '{
-  s2exp_srt= s2rt_addr, s2exp_node= S2Eproj (s2ae, s2te, s2ls)
-} // end of [s2exp_proj]
+  (s2rt, s2te, s2ls) = (
+  case+ s2ls of
+  | list_cons _ => hnf '{
+      s2exp_srt= s2rt_addr, s2exp_node= S2Eproj (s2rt, s2te, s2ls)
+    } // end of [list_cons]
+  | list_nil () => s2rt
+) // end of [s2exp_proj]
 
 (* ****** ****** *)
 

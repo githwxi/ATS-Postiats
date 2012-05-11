@@ -193,7 +193,9 @@ case+ ctxtopt of
     d3e_r where {
     val () = d3exp_open_and_add (d3e_r)
     val s2e_sel2 = d3exp_get_type (d3e_r)
+//
     val () = auxck_tszeq (loc0, s2e_sel, s2e_sel2)
+//
     val s2e_elt = s2ctxt_hrepl (ctxt, s2e_sel2)
     val s2e = s2exp_hrepl (s2e_ctx, s2e_elt)
     val () = d2var_set_type (d2vw, Some (s2e))
@@ -299,7 +301,7 @@ and aux3 (
 , d3e_r: d3exp
 ) : d3exp = let
 in
-  d3exp_err (loc0)
+  d3exp_void_err (loc0)
 end // end of [aux3]
 
 in // in of [local]
@@ -314,8 +316,8 @@ val () = (
 ) // end of [val]
 // *)
 val d3e_l = d2exp_trup (d2e_l)
-val d3ls = d2lablst_trup (d2ls)
 val () = d3exp_open_and_add (d3e_l)
+val d3ls = d2lablst_trup (d2ls)
 val s2e0 = d3exp_get_type (d3e_l)
 val s2f0 = s2exp2hnf_cast (s2e0)
 //
@@ -368,13 +370,14 @@ case+ d2lv of
 | D2LVALderef
     (d2e_l, d2ls) =>
     d2exp_trup_assgn_deref (loc0, d2e_l, d2ls, d2e_r)
+| D2LVALviewat _ => d2exp_trup_viewat_assgn (d2e0)
 | _ => let
     val () = prerr_error3_loc (d2e_l.d2exp_loc)
     val () = prerr ": a left-value is required but a non-left-value is given."
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_d2exp_nonlval (d2e_l))
   in
-    d3exp_err (loc0)
+    d3exp_void_err (loc0)
   end // end of [_]
 //
 end // end of [d2exp_trup_assgn]

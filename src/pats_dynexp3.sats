@@ -264,8 +264,10 @@ and d3exp_node =
   | D3Eselab of (d3exp, d3lablst) // record/tuple field selection
 //
   | D3Eptrof_var of (d2var) // taking the address of
-  | D3Eptrof_ptrsel of (d3exp, s2exp(*root*), d3lablst) // taking the address of
+  | D3Eptrof_ptrsel of (d3exp, d3lablst) // taking the address of
+//
   | D3Eviewat of (d3exp, d3lablst) // taking the atview of
+  | D3Eviewat_assgn of (d3exp, d3lablst, d3exp) // returing the atview of
 //
   | D3Elam_dyn of // dynamic abstraction
       (int(*lin*), int(*npf*), p3atlst, d3exp)
@@ -386,7 +388,10 @@ and v3ardeclst = List v3ardec
 
 (* ****** ****** *)
 
-fun d3exp_get_type (d3e: d3exp): s2exp 
+fun d3exp_get_type (d3e: d3exp): s2exp
+fun d3explst_get_type (d3es: d3explst): s2explst
+fun d3explstlst_get_type (d3ess: d3explstlst): s2explstlst
+
 fun d3exp_set_type
   (d3e: d3exp, s2f: s2exp): void = "patsopt_d3exp_set_type"
 // end of [d3exp_set_type]
@@ -592,12 +597,15 @@ fun d3exp_selab
 fun d3exp_ptrof_var
   (loc: location, s2f: s2exp, d2v: d2var): d3exp
 fun d3exp_ptrof_ptrsel (
-  loc: location, s2f: s2exp, d3e: d3exp, root: s2exp, d3ls: d3lablst
+  loc: location, s2f: s2exp, d3e: d3exp, d3ls: d3lablst
 ) : d3exp // end of [d3exp_ptrof_ptrsel]
 
 fun d3exp_viewat
   (loc: location, s2at: s2exp, d3e: d3exp, d3ls: d3lablst): d3exp
 // end of [d3exp_viewat]
+fun d3exp_viewat_assgn
+  (loc: location, d3e_l: d3exp, d3ls: d3lablst, d3e_r: d3exp): d3exp
+// end of [d3exp_viewat_assgn]
 
 (* ****** ****** *)
 
@@ -633,6 +641,7 @@ fun d3exp_ann_type
 (* ****** ****** *)
 
 fun d3exp_err (loc: location): d3exp
+fun d3exp_void_err (loc: location): d3exp
 
 (* ****** ****** *)
 

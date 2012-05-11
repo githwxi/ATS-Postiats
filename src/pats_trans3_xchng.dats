@@ -263,8 +263,8 @@ d2exp_trdn_xchng_deref
   (loc0, loc1, d2e, d2ls, s2f0_sel) = let
 //
 val d3e = d2exp_trup (d2e)
-val d3ls = d2lablst_trup (d2ls)
 val () = d3exp_open_and_add (d3e)
+val d3ls = d2lablst_trup (d2ls)
 val s2e0 = d3exp_get_type (d3e)
 val s2f0 = s2exp2hnf_cast (s2e0)
 //
@@ -425,7 +425,7 @@ and aux3 (
 , d2e_r: d2exp
 ) : d3exp = let
 in
-  d3exp_err (loc0)
+  d3exp_void_err (loc0)
 end // end of [aux3]
 
 in // end of [local]
@@ -440,8 +440,8 @@ val () = (
 ) // end of [val]
 *)
 val d3e_l = d2exp_trup (d2e_l)
-val d3ls = d2lablst_trup (d2ls)
 val () = d3exp_open_and_add (d3e_l)
+val d3ls = d2lablst_trup (d2ls)
 val s2e0 = d3exp_get_type (d3e_l)
 val s2f0 = s2exp2hnf_cast (s2e0)
 //
@@ -483,7 +483,7 @@ case+ d2lv_l of
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_d2exp_nonlval (d2e_l))
   in
-    d3exp_err (loc0)
+    d3exp_void_err (loc0)
   end // end of [_]
 //
 end // end of [d2exp_trup_xchng]

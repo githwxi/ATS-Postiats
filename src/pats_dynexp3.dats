@@ -190,6 +190,20 @@ implement
 d3exp_get_type (d3e) = d3e.d3exp_type
 // end of [implement]
 
+implement
+d3explst_get_type (d3es) = let
+  val s2es = list_map_fun (d3es, d3exp_get_type)
+in
+  list_of_list_vt (s2es)
+end // end of [d3explst_get_type]
+
+implement
+d3explstlst_get_type (d3ess) = let
+  val s2ess = list_map_fun (d3ess, d3explst_get_type)
+in
+  list_of_list_vt (s2ess)
+end // end of [d3explstlst_get_type]
+
 (* ****** ****** *)
 
 implement
@@ -464,6 +478,17 @@ d3exp_ptrof_var
 } // end of [d3exp_ptrof_var]
 
 implement
+d3exp_ptrof_ptrsel (
+  loc, s2f, d3e, d3ls
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eptrof_ptrsel (d3e, d3ls)
+} // end of [d3exp_ptrof_ptrsel]
+
+(* ****** ****** *)
+
+implement
 d3exp_viewat
   (loc, s2at, d3e, d3ls) = '{
   d3exp_loc= loc
@@ -680,6 +705,15 @@ in '{
 , d3exp_type= s2f
 , d3exp_node= D3Eerr ()
 } end // end of [d3exp_err]
+
+implement
+d3exp_void_err (loc) = let
+  val s2f = s2exp_void_t0ype ()
+in '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eerr ()
+} end // end of [d3exp_void_err]
 
 (* ****** ****** *)
 
