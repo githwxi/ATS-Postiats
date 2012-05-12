@@ -136,6 +136,16 @@ end // end of [local]
 
 local
 
+fun auxerr_nonptr (
+  loc0: location, d3e: d3exp
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": the dynamic expression is expected to be a pointer."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d3exp_nonderef (d3e))
+end // end of [auxerr_nonptr]
+
 fun auxerr_nonmut (
   loc0: location, d2v: d2var
 ) : void = let
@@ -165,20 +175,21 @@ in // in of [local]
 extern
 fun d2exp_trup_ptrof_varsel
   (loc0: location, d2v: d2var, d2ls: d2lablst): d3exp
-(*
 extern
 fun d2exp_trup_ptrof_ptrsel
   (loc0: location, d2e: d2exp, d2ls: d2lablst): d3exp
-*)
 
 implement
 d2exp_trup_ptrof
   (d2e0) = let
-  val loc0 = d2e0.d2exp_loc
+//
+val loc0 = d2e0.d2exp_loc
+val- D2Eptrof (d2e) = d2e0.d2exp_node
+//
 in
 //
 case+
-  d2e0.d2exp_node of
+  d2e.d2exp_node of
 | D2Evar (d2v) => let
     val opt = d2var_get_addr (d2v)
   in
@@ -200,20 +211,19 @@ case+
   | D2Evar (d2v) =>
       d2exp_trup_ptrof_varsel (loc0, d2v, d2ls)
     // end of [D2Evar]
-(*
   | D2Ederef (d2e) =>
       d2exp_trup_ptrof_ptrsel (loc0, d2e, d2ls)
-*)
+    // end of [D2Ederef]
   | _ => let
       val () = auxerr_nonlval (d2e0) in d3exp_err (loc0)
     end // end of [_]
   ) // end of [D2Esel]
-(*
 | D2Ederef (d2e) =>
     d2exp_trup_ptrof_ptrsel (loc0, d2e, list_nil)
   // end of [D2Ederef]
-*)
-| _ => exitloc (1)
+| _ => let
+    val () = auxerr_nonlval (d2e0) in d3exp_err (loc0)
+  end // end of [_]
 //
 end // end of [d2exp_trup_ptrof]
 
@@ -236,7 +246,7 @@ case+ d3ls of
     val- Some (s2l) = d2var_get_addr (d2v)
     val s2e_prj = s2addr_ptrof (loc0, s2l, d3ls)
   in
-    d3exp_ptrof_ptrsel (loc0, s2e_prj, d3e_ptr, d3ls)  
+    d3exp_ptrof_ptrsel (loc0, s2e_prj, d3e_ptr, d3ls)
   end // end of [list_cons]
 | list_nil () => d3e_ptr // end of [list_nil]
 //
@@ -245,6 +255,36 @@ end else let
 end // end of [if]
 //
 end // end of [d2exp_trup_ptrof_varsel]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_ptrof_ptrsel
+  (loc0, d2e, d2ls) = let
+  val d3e = d2exp_trup (d2e)
+  val () = d3exp_open_and_add (d3e)
+  val d3ls = d2lablst_trup (d2ls)
+  val s2e = d3exp_get_type (d3e)
+  val s2f = s2exp2hnf (s2e)
+  val opt = un_s2exp_ptr_addr_type (s2f)
+in
+//
+case+ opt of
+| ~Some_vt (s2l) => let
+    val s2e_prj = (
+      case+ d3ls of
+      | list_cons _ =>
+          s2addr_ptrof (loc0, s2l, d3ls)
+      | list_nil () => s2exp_ptr_addr_type (s2l)
+    ) : s2exp // end of [val]
+  in
+    d3exp_ptrof_ptrsel (loc0, s2e_prj, d3e, d3ls)
+  end // end of [Some_vt]
+| ~None_vt () => let
+    val () = auxerr_nonptr (loc0, d3e) in d3exp_err (loc0)
+  end // end of [None_vt]
+//
+end // end of [d2exp_trup_ptrof_ptrset]
 
 (* ****** ****** *)
 

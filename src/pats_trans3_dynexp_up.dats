@@ -141,6 +141,10 @@ val () = (
 ) // end of [val]
 // *)
 val loc0 = d2e0.d2exp_loc
+val () = (
+  print "d2exp_trup: loc0 = "; print_location loc0; print_newline ()
+) // end of [val]
+// *)
 val d3e0 = (
 case+ d2e0.d2exp_node of
 //
@@ -223,8 +227,8 @@ case+ d2e0.d2exp_node of
 //
 | D2Eselab (d2e, d2ls) => d2exp_trup_selab (d2e0, d2e, d2ls)
 //
-| D2Eptrof (d2e) => d2exp_trup_ptrof (d2e)
-| D2Eviewat (d2e) => d2exp_trup_viewat (d2e)
+| D2Eptrof _ => d2exp_trup_ptrof (d2e0)
+| D2Eviewat _ => d2exp_trup_viewat (d2e0)
 //
 | D2Ederef (d2e) => d2exp_trup_deref (loc0, d2e, list_nil)
 //

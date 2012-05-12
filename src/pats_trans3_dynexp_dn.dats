@@ -116,12 +116,14 @@ fun d2exp_trdn_effmask (d2e0: d2exp, s2f0: s2hnf): d3exp
 implement
 d2exp_trdn (d2e0, s2e0) = let
 // (*
-  val () = (
-    print "d2exp_trdn: d2e0 = "; print_d2exp (d2e0); print_newline ();
-    print "d2exp_trdn: s2e0 = "; print_s2exp (s2e0); print_newline ();
-  ) // end of [val]
+val () = (
+  print "d2exp_trdn: d2e0 = "; print_d2exp (d2e0); print_newline ();
+  print "d2exp_trdn: loc0 = "; print_location (d2e0.d2exp_loc); print_newline ();
+  print "d2exp_trdn: s2e0 = "; print_s2exp (s2e0); print_newline ();
+) // end of [val]
 // *)
-  val s2f0 = s2exp2hnf (s2e0)
+val s2f0 = s2exp2hnf (s2e0)
+//
 in
 //
 case+ d2e0.d2exp_node of

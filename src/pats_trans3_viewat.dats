@@ -298,6 +298,16 @@ end // end of [local]
 
 local
 
+fun auxerr_nonptr (
+  loc0: location, d3e: d3exp
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": the dynamic expression is expected to be a pointer."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d3exp_nonderef (d3e))
+end // end of [auxerr_nonptr]
+
 fun auxerr1 (
   loc0: location, d2v: d2var
 ) : void = let
@@ -310,13 +320,33 @@ in
   the_trans3errlst_add (T3E_d2var_nonmut (loc0, d2v))
 end // end of [auxerr1]
 
+fun aux1 (
+  loc0: location
+, s2f0: s2hnf
+, d3e_l: d3exp
+, d3ls: d3lablst
+) : s2exp = let
+  val opt = un_s2exp_ptr_addr_type (s2f0)
+in
+//
+case+ opt of
+| ~Some_vt (s2l) =>
+    s2addr_viewat_deref (loc0, s2l, d3ls)
+| ~None_vt () => let
+    val () = auxerr_nonptr (loc0, d3e_l) in s2exp_t0ype_err ()
+  end // end of [None_vt]
+end // end of [aux1]
+
 in // in of [local]
 
 implement
 d2exp_trup_viewat
   (d2e0) = let
-  val loc0 = d2e0.d2exp_loc
-  val d2lv = d2exp_lvalize (d2e0)
+//
+val loc0 = d2e0.d2exp_loc
+val- D2Eviewat (d2e) = d2e0.d2exp_node
+val d2lv = d2exp_lvalize (d2e)
+//
 in
 //
 case+ d2lv of
@@ -324,12 +354,23 @@ case+ d2lv of
     (d2v, d2ls) => let
     val d3ls = d2lablst_trup (d2ls)
     val- Some (s2l) = d2var_get_addr (d2v)
-    val s2e_ptr = d2var_get_type_some (loc0, d2v)
-    val d3e_ptr = d3exp_ptrof_var (loc0, s2e_ptr, d2v)
+    val s2e = d2var_get_type_some (loc0, d2v)
+    val d3e = d3exp_ptrof_var (loc0, s2e, d2v)
     val s2e_at = s2addr_viewat_deref (loc0, s2l, d3ls)
   in
-    d3exp_viewat (loc0, s2e_at, d3e_ptr, d3ls)
+    d3exp_viewat (loc0, s2e_at, d3e, d3ls)
   end // end of [D2LVALvar_mut]
+| D2LVALderef
+    (d2e, d2ls) => let
+    val d3e = d2exp_trup (d2e)
+    val () = d3exp_open_and_add (d3e)
+    val d3ls = d2lablst_trup (d2ls)
+    val s2e0 = d3exp_get_type (d3e)
+    val s2f0 = s2exp2hnf (s2e0)
+    val s2e_at = aux1 (loc0, s2f0, d3e, d3ls)
+  in
+    d3exp_viewat (loc0, s2e_at, d3e, d3ls)
+  end // end of [D2LVALderef]
 //
 | D2LVALvar_lin _ => let
     val () = prerr_error3_loc (loc0)
@@ -358,15 +399,15 @@ end // end of [local]
 
 local
 
-fun auxerr_nonderef (
+fun auxerr_nonptr (
   loc0: location, d3e: d3exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
-  val () = prerr ": the dynamic expression cannot be derefenced."
+  val () = prerr ": the dynamic expression is expected to be a pointer."
   val () = prerr_newline ()
 in
   the_trans3errlst_add (T3E_d3exp_nonderef (d3e))
-end // end of [auxerr_nonderef]
+end // end of [auxerr_nonptr]
 
 fun aux1 (
   loc0: location
@@ -388,7 +429,7 @@ case+ opt of
     d3exp_viewat_assgn (loc0, d3e_l, d3ls, d3e_r)
   end // end of [Some_vt]
 | ~None_vt () => let
-    val () = auxerr_nonderef (loc0, d3e_l) in d3exp_void_err (loc0)
+    val () = auxerr_nonptr (loc0, d3e_l) in d3exp_void_err (loc0)
   end // end of [None_vt]
 end // end of [aux1]
 
@@ -414,10 +455,10 @@ case+ d2lv_l of
     val s2e_r = d3exp_get_type (d3e_r)
     val () = s2addr_set_viewat (loc0, s2l, d3ls, s2e_r)
     val loc = d2e_l.d2exp_loc
-    val s2e_ptr = d2var_get_type_some (loc, d2v)
-    val d3e_ptr = d3exp_ptrof_var (loc, s2e_ptr, d2v)
+    val s2e_l = d2var_get_type_some (loc, d2v)
+    val d3e_l = d3exp_ptrof_var (loc, s2e_l, d2v)
   in
-    d3exp_viewat_assgn (loc0, d3e_ptr, d3ls, d3e_r)
+    d3exp_viewat_assgn (loc0, d3e_l, d3ls, d3e_r)
   end // end of [D2LVALvar_mut]
 | D2LVALderef
     (d2e_l, d2ls) => let
