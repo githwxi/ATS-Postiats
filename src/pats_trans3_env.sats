@@ -368,10 +368,11 @@ fun d3explst_open_and_add (d3es: d3explst): void
 
 absview d2varenv_push_v
 
-fun the_d2varenv_add (d2v: d2var): void
-fun the_d2varenv_addlst (d2vs: d2varlst): void
-fun the_d2varenv_add_p2at (p2t: p2at): void
-fun the_d2varenv_add_p2atlst (p2ts: p2atlst): void
+fun the_d2varenv_add_dvar (d2v: d2var): void
+fun the_d2varenv_add_dvarlst (d2vs: d2varlst): void
+fun the_d2varenv_add_dvaropt (opt: d2varopt): void
+fun the_d2varenv_add_p3at (p3t: p3at): void
+fun the_d2varenv_add_p3atlst (p3ts: p3atlst): void
 
 fun the_d2varenv_get_top (): d2varlst_vt
 fun the_d2varenv_get_llamd2vs (): d2varlst_vt
@@ -428,8 +429,9 @@ fun the_pfmanenv_pop (pf: pfmanenv_push_v | (*none*)): void
 
 fun the_pfmanenv_add_dvar (d2v: d2var): void
 fun the_pfmanenv_add_dvarlst (d2vs: d2varlst): void
-fun the_pfmanenv_add_p2at (p2t: p2at): void
-fun the_pfmanenv_add_p2atlst (p2ts: p2atlst): void
+fun the_pfmanenv_add_dvaropt (opt: d2varopt): void
+fun the_pfmanenv_add_p3at (p3t: p3at): void
+fun the_pfmanenv_add_p3atlst (p3ts: p3atlst): void
 
 (* ****** ****** *)
 

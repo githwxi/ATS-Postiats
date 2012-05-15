@@ -51,6 +51,7 @@ typedef label = $LAB.label
 staload "pats_staexp2.sats"
 staload "pats_staexp2_util.sats"
 staload "pats_dynexp2.sats"
+staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
 
@@ -177,13 +178,28 @@ the_pfmanenv_push_try () = pushenv (0) // stopping search
 
 implement
 the_pfmanenv_add_dvar
-  (d2v) = (
-  if d2var_is_linear (d2v) then let
-    val (vbox pf | p) = ref_get_view_ptr (the_d2varmrklst)
-  in
-    !p := D2VMRKLSTcons (d2v, !p)
-  end else () // end of [if]
-) // end of [the_pfmanenv_add_dvar]
+  (d2v) = let
+//
+val islin =
+  d2var_is_linear (d2v)
+val () = if islin then let
+  val (vbox pf | p) = ref_get_view_ptr (the_d2varmrklst)
+in
+  !p := D2VMRKLSTcons (d2v, !p)
+end // end of [if]
+//
+val ismut =
+  d2var_is_mutabl (d2v)
+val () = if ismut then let
+  val- Some (d2vw) = d2var_get_view (d2v)
+  val (vbox pf | p) = ref_get_view_ptr (the_d2varmrklst)
+in
+  !p := D2VMRKLSTcons (d2vw, !p)
+end // end of [if]
+//
+in
+  // nothing
+end // end of [the_pfmanenv_add_dvar]
 
 implement
 the_pfmanenv_add_dvarlst
@@ -191,45 +207,90 @@ the_pfmanenv_add_dvarlst
   list_app_fun (d2vs, the_pfmanenv_add_dvar)
 ) // end of [the_pfmanenv_add_dvarlst]
 
+implement
+the_pfmanenv_add_dvaropt
+  (opt) = (
+  case+ opt of
+  | Some (d2v) => the_pfmanenv_add_dvar (d2v)
+  | None () => ()
+) // end of [the_pfmanenv_add_dvaropt]
+
 (* ****** ****** *)
 
 end // end of [local]
 
 (* ****** ****** *)
 
-fun // for mutable vars
-the_pfmanenv_add_d2vw_if
-  (p2t: p2at): void = let
-//
-val () = (
-  print "the_pfmanenv_add_d2vw_if: p2t = "; print_p2at (p2t); print_newline ()
-) (* end of [val] *)
-//
-in
-  case+ p2t.p2at_node of
-  | P2Tvar (
-      knd, d2v
-    ) when d2var_is_mutabl (d2v) => let
-      val- Some (d2vw) = d2var_get_view (d2v)
-    in
-      the_pfmanenv_add_dvar (d2vw)
-    end // end of [P2Tvar]
-  | P2Tann (p2t, _) => the_pfmanenv_add_d2vw_if (p2t)
-  | _ => () // end of [val]
-end // end of [the_pfmanenv_add_d2var_view]
+extern
+fun the_pfmanenv_add_labp3atlst (xs: labp3atlst): void
 
 implement
-the_pfmanenv_add_p2at
-  (p2t) = let
-  val () = the_pfmanenv_add_d2vw_if (p2t)
+the_pfmanenv_add_p3at
+  (p3t) = let
+//
+val opt = p3at_get_dvaropt (p3t)
+val () = the_pfmanenv_add_dvaropt (opt)
+//
 in
-  the_pfmanenv_add_dvarlst ($UT.lstord2list (p2t.p2at_dvs))
-end // end of [the_pfmanenv_add_p2at]
+//
+case+ p3t.p3at_node of
+| P3Tany (d2v) => the_pfmanenv_add_dvar (d2v)
+| P3Tvar (refknd, d2v) => the_pfmanenv_add_dvar (d2v)
+| P3Tcon (
+    freeknd, d2c, npf, p3ts
+  ) => the_pfmanenv_add_p3atlst (p3ts)
+//
+| P3Tann (p3t, s2e) => the_pfmanenv_add_p3at (p3t)
+//
+| P3Tint _ => ()
+| P3Tintrep _ => ()
+| P3Tbool _ => ()
+| P3Tchar _ => ()
+| P3Tstring _ => ()
+//
+| P3Ti0nt _ => ()
+| P3Tf0loat _ => ()
+//
+| P3Tempty _ => ()
+//
+| P3Trec (
+    knd, npf, lp3ts
+  ) =>
+    the_pfmanenv_add_labp3atlst (lp3ts)
+  // end of [P3Trec]
+| P3Tlst (lin, p3ts) => the_pfmanenv_add_p3atlst (p3ts)
+//
+| P3Tas (refknd, d2v, p3t) => {
+    val () = the_pfmanenv_add_dvar (d2v)
+    val () = the_pfmanenv_add_p3at (p3t)
+  } // end of [P3Tas]
+| P3Texist (s2vs, p3t) => the_pfmanenv_add_p3at (p3t)
+//
+| P3Terr _ => ()
+//
+end // end of [the_pfmanenv_add_p3at]
 
 implement
-the_pfmanenv_add_p2atlst
-  (p2ts) = list_app_fun (p2ts, the_pfmanenv_add_p2at)
-// end of [the_pfmanenv_add_p2atlst]
+the_pfmanenv_add_p3atlst
+  (p3ts) = list_app_fun<p3at> (p3ts, the_pfmanenv_add_p3at)
+// end of [the_pfmanenv_add_p3atlst]
+
+implement
+the_pfmanenv_add_labp3atlst
+  (xs) = loop (xs) where {
+  fun loop (
+    xs: labp3atlst
+  ) : void =
+    case+ xs of
+    | list_cons (x, xs) => let
+        val LABP3AT (l, p3t) = x
+        val () = the_pfmanenv_add_p3at (p3t)
+      in
+        loop (xs)
+      end // end of [list_cons]
+    | list_nil () => ()
+  // end of [loop]
+} // end of [the_pfmanenv_add_labp3atlst]
 
 (* ****** ****** *)
 

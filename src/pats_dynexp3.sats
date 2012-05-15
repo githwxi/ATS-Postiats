@@ -90,6 +90,8 @@ where p3at = '{
   p3at_loc= location
 , p3at_node= p3at_node
 , p3at_type= s2exp // HX: it may still be a s2Var
+, p3at_dvaropt= d2varopt // for presevation purpose
+, p3at_type_left= s2expopt // for presevation purpose
 } // end of [p3at]
 
 and p3atlst = List (p3at)
@@ -98,6 +100,10 @@ and p3atopt = Option p3at
 and labp3atlst = List (labp3at)
 
 (* ****** ****** *)
+
+fun p3at_make_node (
+  loc: location, s2e: s2exp, node: p3at_node
+) : p3at // end of [p3at_make_node]
 
 fun p3at_any (
   loc: location, s2e: s2exp, d2v: d2var
@@ -162,9 +168,20 @@ fun p3at_err (loc: location, s2f: s2exp): p3at
 
 (* ****** ****** *)
 
+fun p3at_get_type (p3t: p3at): s2exp
 fun p3at_set_type
   (p3t: p3at, s2f: s2exp): void = "patsopt_p3at_set_type"
 // end of [p3at_set_type]
+
+fun p3at_get_dvaropt (p3t: p3at): d2varopt
+fun p3at_set_dvaropt
+  (p3t: p3at, opt: d2varopt): void = "patsopt_p3at_set_dvaropt"
+// end of [p3at_set_dvaropt]
+
+fun p3at_get_type_left (p3t: p3at): s2expopt
+fun p3at_set_type_left
+  (p3t: p3at, opt: s2expopt): void = "patsopt_p3at_set_type_left"
+// end of [p3at_set_type_left]
 
 (* ****** ****** *)
 
@@ -208,6 +225,9 @@ and d3exp_node =
 //
   | D3Eextval of (string(*rep*))
   | D3Econ of (d2con, int(*npf*), d3explst(*arg*))
+//
+  | D3Efoldat of (d3exp)
+  | D3Efreeat of (d3exp)
 //
   | D3Etmpcst of (d2cst, t2mpmarglst)
   | D3Etmpvar of (d2var, t2mpmarglst)
@@ -447,6 +467,11 @@ fun d3exp_cstsp
 
 (* ****** ****** *)
 
+fun d3exp_top
+  (loc: location, s2f: s2exp): d3exp
+
+(* ****** ****** *)
+
 fun d3exp_empty
   (loc: location, s2f: s2exp): d3exp
 
@@ -464,6 +489,11 @@ fun d3exp_con (
   loc: location
 , s2f_res: s2exp, d2c: d2con, npf: int, d3es: d3explst
 ) : d3exp // end of [d3exp_con]
+
+(* ****** ****** *)
+
+fun d3exp_foldat (loc: location, d3e: d3exp): d3exp
+fun d3exp_freeat (loc: location, d3e: d3exp): d3exp
 
 (* ****** ****** *)
 

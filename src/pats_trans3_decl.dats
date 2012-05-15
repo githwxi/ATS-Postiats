@@ -435,12 +435,11 @@ val () = begin
   print "v2aldec_tr: s2e_def = "; print_s2exp s2e_def; print_newline ();
 end // end of [val]
 //
-val p3t_val =
-  p2at_trdn (p2t_val, s2e_def)
-// end of [val]
+val p3t_val = p2at_trdn (p2t_val, s2e_def)
+val () = d3lval_set_pat_type_left (d3e_def, p3t_val)
 //
-val () = the_d2varenv_add_p2at (p2t_val)
-val () = the_pfmanenv_add_p2at (p2t_val)
+val () = the_d2varenv_add_p3at (p3t_val)
+val () = the_pfmanenv_add_p3at (p3t_val)
 //
 in
   v3aldec_make (loc0, p3t_val, d3e_def)
@@ -492,7 +491,7 @@ val d3cs = let
     d2c: v2aldec, p3t: p3at
   ) : v3aldec = let
     val d2e_def = d2c.v2aldec_def
-    val s2e_pat = p3t.p3at_type
+    val s2e_pat = p3at_get_type (p3t)
     val d3e_def = d2exp_trdn (d2e_def, s2e_pat)
   in
     v3aldec_make (d2c.v2aldec_loc, p3t, d3e_def)

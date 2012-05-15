@@ -20,6 +20,7 @@ prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/filebas_prf.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/string.dats
 
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/basics.dats
+prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/option.dats
 
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/unsafe.dats
 

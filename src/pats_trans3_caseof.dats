@@ -143,8 +143,6 @@ val () = begin
 end // end of [val]
 // *)
 val (pfpush | ()) = trans3_env_push ()
-val (pfpush_d2var | ()) = the_d2varenv_push_let ()
-val () = the_d2varenv_add_p2atlst (p2ts)
 //
 val seq = c2l.c2lau_seq
 and neg = c2l.c2lau_neg
@@ -159,6 +157,11 @@ val () = if (serr != 0) then {
   val () = the_trans3errlst_add (T3E_c2lau_trdn_arity (c2l, s2es_pat))
 } // end of [val]
 //
+val (pfd2v | ()) = the_d2varenv_push_let ()
+val () = the_d2varenv_add_p3atlst (p3ts)
+val (pfman | ()) = the_pfmanenv_push_let ()
+val () = the_pfmanenv_add_p3atlst (p3ts)
+//
 val gua = m2atchlst_trup (c2l.c2lau_gua)
 //
 val d3e_body = let
@@ -172,8 +175,9 @@ in
   d2exp_trdn (c2l.c2lau_body, s2e_res)
 end // end of [val]
 //
+val () = the_d2varenv_pop (pfd2v | (*none*))
+val () = the_pfmanenv_pop (pfman | (*none*))
 val () = trans3_env_pop_and_add_main (pfpush | loc0)
-val () = the_d2varenv_pop (pfpush_d2var | (*none*))
 //
 in
   c3lau_make (loc0, p3ts, gua, seq, neg, d3e_body)

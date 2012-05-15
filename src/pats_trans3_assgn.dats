@@ -232,9 +232,10 @@ end // end of [local]
 local
 
 fun auxerr_nonderef (
-  loc0: location, d3e: d3exp
+  d3e: d3exp
 ) : void = let
-  val () = prerr_error3_loc (loc0)
+  val loc = d3e.d3exp_loc
+  val () = prerr_error3_loc (loc)
   val () = prerr ": the dynamic expression cannot be derefenced."
   val () = prerr_newline ()
 in
@@ -310,7 +311,7 @@ and aux3 (
 , d3ls: d3lablst
 , d3e_r: d3exp
 ) : d3exp = let
-  val () = auxerr_nonderef (loc0, d3e_l) in d3exp_void_err (loc0)
+  val () = auxerr_nonderef (d3e_l) in d3exp_void_err (loc0)
 end // end of [aux3]
 
 in // in of [local]

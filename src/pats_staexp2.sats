@@ -1042,6 +1042,8 @@ fun s2exp_is_nonlin (x: s2exp): bool
 fun s2exp_is_boxed (x: s2exp): bool
 fun s2exp_is_impredicative (x: s2exp): bool
 
+fun s2exp_is_lin2 (x: s2exp): bool // HX: more elaborate checking
+
 (* ****** ****** *)
 
 datatype

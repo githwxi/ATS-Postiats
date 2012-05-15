@@ -188,6 +188,8 @@ fun s2hnf_tszeq
   (s2f1: s2hnf, s2f2: s2hnf): bool // type-size-equality-test
 fun s2exp_tszeq
   (s2e1: s2exp, s2e2: s2exp): bool // type-size-equality-test
+fun s2explst_tszeq
+  (s2es1: s2explst, s2es2: s2explst): bool // type-size-equality-test
 
 (* ****** ****** *)
 

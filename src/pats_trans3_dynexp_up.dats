@@ -177,6 +177,9 @@ case+ d2e0.d2exp_node of
 //
 | D2Econ _ => d2exp_trup_con (d2e0)
 //
+| D2Efoldat _ => d2exp_trup_foldat (d2e0)
+| D2Efreeat _ => d2exp_trup_freeat (d2e0)
+//
 | D2Etmpid _ => d2exp_trup_tmpid (d2e0)
 //
 | D2Elet (d2cs, d2e) => d2exp_trup_letwhere (d2e0, d2cs, d2e)
@@ -1137,10 +1140,9 @@ val s2es_arg = p2atlst_syn_type (p2ts_arg)
 val p3ts_arg = p2atlst_trup_arg (npf, p2ts_arg)
 //
 val (pfd2v | ()) = the_d2varenv_push_lam (lin)
-val () = the_d2varenv_add_p2atlst (p2ts_arg)
-val (pfman | ()) =
-  the_pfmanenv_push_lam (lin) // lin:0/1:stopping/continuing search
-val () = the_pfmanenv_add_p2atlst (p2ts_arg)
+val () = the_d2varenv_add_p3atlst (p3ts_arg)
+val (pfman | ()) = the_pfmanenv_push_lam (lin) // lin:0/1:stopping/continuing search
+val () = the_pfmanenv_add_p3atlst (p3ts_arg)
 //
 val (pflamlp | ()) = the_lamlpenv_push_lam (p3ts_arg)
 //

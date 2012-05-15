@@ -160,6 +160,17 @@ end // end of [local]
 
 local
 
+fun auxerr_nonderef (
+  d3e: d3exp
+) : void = let
+  val loc = d3e.d3exp_loc
+  val () = prerr_error3_loc (loc)
+  val () = prerr ": the dynamic expression cannot be derefenced."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d3exp_nonderef (d3e))
+end // end of [auxerr_nonderef]
+
 fun auxerr1 (
   loc0: location // all
 , loc1: location // right
@@ -252,8 +263,7 @@ and aux3 (
 , d3e: d3exp, d3ls: d3lablst
 , s2f0_sel: s2hnf // left
 ) : d3exp = let
-in
-  d3exp_err (loc0)
+  val () = auxerr_nonderef (d3e) in d3exp_err (loc0)
 end // end of [aux3]
 
 in // in of [local]
@@ -461,7 +471,7 @@ implement
 d2exp_trup_xchng
   (d2e0) = let
   val loc0 = d2e0.d2exp_loc
-  val- D2Eassgn(d2e_l, d2e_r) = d2e0.d2exp_node
+  val- D2Exchng (d2e_l, d2e_r) = d2e0.d2exp_node
   val d2lv_l = d2exp_lvalize (d2e_l)
 //
 in

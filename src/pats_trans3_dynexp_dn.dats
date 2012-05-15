@@ -109,6 +109,8 @@ fn d2exp_s2effopt_of_d2exp (
 (* ****** ****** *)
 
 extern
+fun d2exp_trdn_top (d2e0: d2exp, s2f0: s2hnf): d3exp
+extern
 fun d2exp_trdn_effmask (d2e0: d2exp, s2f0: s2hnf): d3exp
 
 (* ****** ****** *)
@@ -127,6 +129,8 @@ val s2f0 = s2exp2hnf (s2e0)
 in
 //
 case+ d2e0.d2exp_node of
+//
+| D2Etop _ => d2exp_trdn_top (d2e0, s2f0)
 //
 | D2Eifhead _ =>
     d2exp_trdn_ifhead (d2e0, s2f0)
@@ -286,9 +290,9 @@ case+ s2e0.s2exp_node of
     } // end of [val]
 //
     val (pfd2v | ()) = the_d2varenv_push_lam (lin1)
-    val () = the_d2varenv_add_p2atlst (p2ts_arg)
+    val () = the_d2varenv_add_p3atlst (p3ts_arg)
     val (pfman | ()) = the_pfmanenv_push_lam (lin1) // lin:0/1:stopping/continuing
-    val () = the_pfmanenv_add_p2atlst (p2ts_arg)
+    val () = the_pfmanenv_add_p3atlst (p3ts_arg)
     val (pflamlp | ()) = the_lamlpenv_push_lam (p3ts_arg)
 //
     val d3e_body = d2exp_trdn (d2e_body, s2e_res)
@@ -432,6 +436,15 @@ in
 end // end of [d2exp_trdn_letwhere]
 
 (* ****** ****** *)
+
+implement
+d2exp_trdn_top
+  (d2e0, s2f0) = let
+  val loc0 = d2e0.d2exp_loc
+  val s2e0 = s2hnf2exp (s2f0)
+in
+  d3exp_top (loc0, s2e0)
+end // end of [d2exp_trdn_top]
 
 implement
 d2exp_trdn_seq (d2e0, s2f0) = let

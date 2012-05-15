@@ -38,6 +38,7 @@ overload + with $LOC.location_combine
 
 staload SYM = "pats_symbol.sats"
 macdef BACKSLASH = $SYM.symbol_BACKSLASH
+macdef UNDERSCORE = $SYM.symbol_UNDERSCORE
 overload = with $SYM.eq_symbol_symbol
 
 (* ****** ****** *)
@@ -104,24 +105,31 @@ end // end of [local]
 
 fn d1exp_get_loc (x: d1exp): location = x.d1exp_loc
 
-fn d1exp_make_opr (
+fn
+d1exp_make_opr (
   opr: d1exp, f: fxty
 ) : d1expitm = begin
-  fxopr_make {d1exp} (
-    d1exp_get_loc
-  , lam (loc, x, loc_arg, xs) => d1exp_app_dyn (loc, x, loc_arg, ~1(*npf*), xs)
-  , opr, f
-  ) // end of [oper_make]
+fxopr_make {d1exp} (
+  d1exp_get_loc
+, lam (loc, x, loc_arg, xs) => d1exp_app_dyn (loc, x, loc_arg, ~1(*npf*), xs)
+, opr, f
+) // end of [fxopr_make]
 end // end of [d1exp_make_opr]
 
-fn d1expitm_backslash
-  (loc_opr: location) = begin
-  fxopr_make_backslash {d1exp} (
-    lam x => x.d1exp_loc
-  , lam (loc, x, loc_arg, xs) => d1exp_app_dyn (loc, x, loc_arg, ~1(*npf*), xs)
-  , loc_opr
-  ) // end of [oper_make_backslash]
+fn
+d1expitm_backslash (
+  loc_opr: location
+) : d1expitm = begin
+fxopr_make_backslash {d1exp} (
+  lam x => x.d1exp_loc
+, lam (loc, x, loc_arg, xs) => d1exp_app_dyn (loc, x, loc_arg, ~1(*npf*), xs)
+, loc_opr
+) // end of [fxopr_make_backslash]
 end // end of [d1expitm_backslash]
+
+fn d1expitm_underscore
+  (loc: location): d1expitm = FXITMatm (d1exp_top (loc))
+// end of [d1expitm_underscore]
 
 (* ****** ****** *)
 
@@ -132,11 +140,12 @@ fn s0expdarg_tr (
 in
 //
 case+ d1e.d1exp_node of
-| D1Esexparg s1a => s1a
+| D1Esexparg (s1a) => s1a
 | _ => let
-    val () = prerr_interror_loc (d0e.d0exp_loc)
-    val () = prerr ": d0exp_tr: D0Efoldat: d1e = "
-    val () = fprint_d1exp (stderr_ref, d1e)
+    val loc = d0e.d0exp_loc
+    val () = prerr_interror_loc (loc)
+    val () = prerr ": s0expdarg_tr: d1e = "
+    val () = prerr_d1exp (d1e)
     val () = prerr_newline ()
   in
     $ERR.abort {s1exparg} ()
@@ -382,7 +391,11 @@ aux_item (
   val loc0 = d0e0.d0exp_loc in
   case+ d0e0.d0exp_node of
 //
-  | D0Eide id when id = BACKSLASH => d1expitm_backslash (loc0)
+  | D0Eide id
+      when id = BACKSLASH => d1expitm_backslash (loc0)
+  | D0Eide id
+      when id = UNDERSCORE => d1expitm_underscore (loc0)
+//
   | D0Eide id => let
       val d1e = d1exp_ide (loc0, id)
     in

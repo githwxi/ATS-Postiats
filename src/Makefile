@@ -202,6 +202,7 @@ SOURCES := \
   pats_trans3_assgn.dats \
   pats_trans3_xchng.dats \
   pats_trans3_lvalres.dats \
+  pats_trans3_fldfrat.dats \
   pats_trans3_loopexn.dats \
   pats_trans3_decl.dats \
   pats_lintprgm.sats \

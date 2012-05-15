@@ -150,11 +150,12 @@ fun s2exp_hnfize_app (
 implement
 s2exp_topize_flag
   (knd, s2e0, flag) = let
+  val s2t0 = s2e0.s2exp_srt
 in
 //
 case+ 0 of
 | _ when
-    s2exp_is_prf (s2e0) => let
+    s2rt_is_prf (s2t0) => let
     val () = flag := flag + 1 in s2exp_unit_prop ()
   end // end of [_ when ...]
 | _ (*isprf=false*) => let
@@ -172,7 +173,7 @@ case+ 0 of
     in
       case+ s2e0.s2exp_node of
       | _ when
-          s2exp_is_boxed (s2e0) =>
+          s2rt_is_boxed (s2t0) =>
           s2exp_ptr_type () // HX: this seems adequate
       | S2Etop (_, s2e) =>
           s2exp_top_srt (s2rt_t0ype, knd, s2e)
@@ -275,6 +276,9 @@ case+ s2e0.s2exp_node of
 | S2EVar _ => s2e0
 | S2Ehole _ => s2e0
 //
+| S2Edatconptr _ => s2e0
+| S2Edatcontyp _ => s2e0
+//
 | S2Eat _ => s2e0
 | S2Esizeof _ => s2e0
 //
@@ -331,6 +335,7 @@ case+ s2e0.s2exp_node of
 //
 | S2Eerr () => s2e0
 //
+(*
 | _ => let
     val () = (
       print "s2exp_hnfize_flag: s2e0 = "; print_s2exp (s2e0); print_newline ()
@@ -339,6 +344,7 @@ case+ s2e0.s2exp_node of
   in
     s2e0
   end // end of [_]
+*)
 //
 end // end of [s2exp_hnfize_flag]
 

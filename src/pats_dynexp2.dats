@@ -126,18 +126,18 @@ end // end of [p2atlst_dvs_union]
 (* ****** ****** *)
 
 implement
-p2at_make (
+p2at_make_node (
   loc, svs, dvs, node
 ) = '{
   p2at_loc= loc
 , p2at_svs= svs, p2at_dvs= dvs
 , p2at_type= None () // s2hnfopt
 , p2at_node= node
-} // end of [p2at_make]
+} // end of [p2at_make_node]
 
 implement
 p2at_any (loc) =
-  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tany ())
+  p2at_make_node (loc, p2at_svs_nil, p2at_dvs_nil, P2Tany ())
 // end of [p2at_any]
 
 implement
@@ -145,58 +145,58 @@ p2at_var
   (loc, refknd, d2v) = let
   val dvs = $UT.lstord_sing (d2v)
 in
-  p2at_make (loc, p2at_svs_nil, dvs, P2Tvar (refknd, d2v))
+  p2at_make_node (loc, p2at_svs_nil, dvs, P2Tvar (refknd, d2v))
 end // end of [p2at_var]
 
 (* ****** ****** *)
 
 implement
 p2at_int (loc, i) =
-  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tint (i))
+  p2at_make_node (loc, p2at_svs_nil, p2at_dvs_nil, P2Tint (i))
 // end of [p2at_int]
 
 implement
 p2at_intrep (loc, rep) =
-  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tintrep (rep))
+  p2at_make_node (loc, p2at_svs_nil, p2at_dvs_nil, P2Tintrep (rep))
 // end of [p2at_int]
 
 implement
 p2at_bool (loc, b) =
-  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tbool (b))
+  p2at_make_node (loc, p2at_svs_nil, p2at_dvs_nil, P2Tbool (b))
 // end of [p2at_bool]
 
 implement
 p2at_char (loc, c) =
-  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tchar (c))
+  p2at_make_node (loc, p2at_svs_nil, p2at_dvs_nil, P2Tchar (c))
 // end of [p2at_char]
 
 implement
 p2at_string (loc, str) =
-  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tstring (str))
+  p2at_make_node (loc, p2at_svs_nil, p2at_dvs_nil, P2Tstring (str))
 // end of [p2at_string]
 
 implement
 p2at_float (loc, rep) =
-  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tfloat (rep))
+  p2at_make_node (loc, p2at_svs_nil, p2at_dvs_nil, P2Tfloat (rep))
 // end of [p2at_float]
 
 (* ****** ****** *)
 
 implement
 p2at_i0nt (loc, x) =
-  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Ti0nt (x))
+  p2at_make_node (loc, p2at_svs_nil, p2at_dvs_nil, P2Ti0nt (x))
 // end of [p2at_i0nt]
 
 implement
 p2at_f0loat (loc, x) =
-  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tf0loat (x))
+  p2at_make_node (loc, p2at_svs_nil, p2at_dvs_nil, P2Tf0loat (x))
 // end of [p2at_f0loat]
 
 (* ****** ****** *)
 
 implement
 p2at_empty (loc) =
-  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Tempty ())
+  p2at_make_node (loc, p2at_svs_nil, p2at_dvs_nil, P2Tempty ())
 // end of [p2at_empty]
 
 (* ****** ****** *)
@@ -217,7 +217,7 @@ p2at_con (
   end // end of [val]
   val dvs = p2atlst_dvs_union (darg)
 in
-  p2at_make (loc, svs, dvs, P2Tcon (freeknd, d2c, s2qs, s2f, npf, darg))
+  p2at_make_node (loc, svs, dvs, P2Tcon (freeknd, d2c, s2qs, s2f, npf, darg))
 end // end of [p2at_con]
 
 (* ****** ****** *)
@@ -228,7 +228,7 @@ p2at_list
   val svs = p2atlst_svs_union (p2ts)
   val dvs = p2atlst_dvs_union (p2ts)
 in
-  p2at_make (loc, svs, dvs, P2Tlist (npf, p2ts))
+  p2at_make_node (loc, svs, dvs, P2Tlist (npf, p2ts))
 end // end of [p2at_list]
 
 (* ****** ****** *)
@@ -251,7 +251,7 @@ p2at_rec
   val dvs = p2atlst_dvs_union ($UN.castvwtp1(p2ts))
   val () = list_vt_free (p2ts)
 in
-  p2at_make (loc, svs, dvs, P2Trec (knd, npf, lp2ts))
+  p2at_make_node (loc, svs, dvs, P2Trec (knd, npf, lp2ts))
 end // end of [p2at_lp2ts]
 
 (* ****** ****** *)
@@ -261,7 +261,7 @@ p2at_lst (loc, lin, p2ts) = let
   val svs = p2atlst_svs_union (p2ts)
   val dvs = p2atlst_dvs_union (p2ts)
 in
-  p2at_make (loc, svs, dvs, P2Tlst (lin, p2ts))
+  p2at_make_node (loc, svs, dvs, P2Tlst (lin, p2ts))
 end // end of [p2at_lst]
 
 (* ****** ****** *)
@@ -273,7 +273,7 @@ p2at_as (loc, refknd, d2v, p2t) = let
     (p2t.p2at_dvs, d2v, compare_d2vsym_d2vsym)
   // end of [val]
 in
-  p2at_make (loc, svs, dvs, P2Tas (refknd, d2v, p2t))
+  p2at_make_node (loc, svs, dvs, P2Tas (refknd, d2v, p2t))
 end // end of [p2at_as]
 
 implement
@@ -284,21 +284,21 @@ p2at_exist
   // end of [val]
   val dvs = p2t.p2at_dvs
 in
-  p2at_make (loc, svs, dvs, P2Texist (s2vs, p2t))
+  p2at_make_node (loc, svs, dvs, P2Texist (s2vs, p2t))
 end // end of [p2at_exist]
 
 (* ****** ****** *)
 
 implement
 p2at_ann (loc, p2t, s2e) =
-  p2at_make (loc, p2t.p2at_svs, p2t.p2at_dvs, P2Tann (p2t, s2e))
+  p2at_make_node (loc, p2t.p2at_svs, p2t.p2at_dvs, P2Tann (p2t, s2e))
 // end of [p2at_ann]
 
 (* ****** ****** *)
 
 implement
 p2at_err (loc) =
-  p2at_make (loc, p2at_svs_nil, p2at_dvs_nil, P2Terr ())
+  p2at_make_node (loc, p2at_svs_nil, p2at_dvs_nil, P2Terr ())
 // end of [p2at_err]
 
 (* ****** ****** *)

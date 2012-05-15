@@ -33,156 +33,117 @@
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_staexp2_util.sats"
 staload "pats_stacst2.sats"
 staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
 
 implement
+p3at_make_node
+  (loc, s2f, node) = '{
+  p3at_loc= loc
+, p3at_node= node
+, p3at_type= s2f
+, p3at_dvaropt= None ()
+, p3at_type_left= None ()
+} // end of [p3at_make_node]
+
+implement
 p3at_any
-  (loc, s2f, d2v) = '{
-  p3at_loc= loc
-, p3at_node= P3Tany (d2v)
-, p3at_type= s2f
-} // end of [p3at_any]
+  (loc, s2f, d2v) =
+  p3at_make_node (loc, s2f, P3Tany (d2v))
+// end of [p3at_any]
 
 implement
-p3at_var (
-  loc, s2f, knd, d2v
-) = '{
-  p3at_loc= loc
-, p3at_node= P3Tvar (knd, d2v)
-, p3at_type= s2f
-} // end of [p3at_var]
+p3at_var
+  (loc, s2f, refknd, d2v) =
+  p3at_make_node (loc, s2f, P3Tvar (refknd, d2v))
+// end of [p3at_var]
 
 implement
-p3at_con (
-  loc, s2f, freeknd, d2c, npf, p3ts
-) = '{
-  p3at_loc= loc
-, p3at_node= P3Tcon (freeknd, d2c, npf, p3ts)
-, p3at_type= s2f
-} // end of [p3at_con]
+p3at_con
+  (loc, s2f, freeknd, d2c, npf, p3ts) =
+  p3at_make_node (loc, s2f, P3Tcon (freeknd, d2c, npf, p3ts))
+// end of [p3at_con]
 
 implement
 p3at_int
-  (loc, s2f, i) = '{
-  p3at_loc= loc
-, p3at_node= P3Tint (i)
-, p3at_type= s2f
-} // end of [p3at_int]
+  (loc, s2f, i) = p3at_make_node (loc, s2f, P3Tint (i))
+// end of [p3at_int]
 implement
 p3at_intrep
-  (loc, s2f, rep) = '{
-  p3at_loc= loc
-, p3at_node= P3Tintrep (rep)
-, p3at_type= s2f
-} // end of [p3at_intrep]
+  (loc, s2f, rep) = p3at_make_node (loc, s2f, P3Tintrep (rep))
+// end of [p3at_intrep]
 
 implement
 p3at_bool
-  (loc, s2f, b) = '{
-  p3at_loc= loc
-, p3at_node= P3Tbool (b)
-, p3at_type= s2f
-} // end of [p3at_bool]
+  (loc, s2f, b) = p3at_make_node (loc, s2f, P3Tbool (b))
+// end of [p3at_bool]
 
 implement
 p3at_char
-  (loc, s2f, c) = '{
-  p3at_loc= loc
-, p3at_node= P3Tchar (c)
-, p3at_type= s2f
-} // end of [p3at_char]
+  (loc, s2f, c) = p3at_make_node (loc, s2f, P3Tchar (c))
+// end of [p3at_char]
 
 implement
 p3at_string
-  (loc, s2f, str) = '{
-  p3at_loc= loc
-, p3at_node= P3Tstring (str)
-, p3at_type= s2f
-} // end of [p3at_string]
-
-//
+  (loc, s2f, str) = p3at_make_node (loc, s2f, P3Tstring (str))
+// end of [p3at_string]
 
 implement
 p3at_i0nt
-  (loc, s2f, x) = '{
-  p3at_loc= loc
-, p3at_node= P3Ti0nt (x)
-, p3at_type= s2f
-} // end of [p3at_i0nt]
+  (loc, s2f, x) = p3at_make_node (loc, s2f, P3Ti0nt (x))
+// end of [p3at_i0nt]
 
 implement
 p3at_f0loat
-  (loc, s2f, x) = '{
-  p3at_loc= loc
-, p3at_node= P3Tf0loat (x)
-, p3at_type= s2f
-} // end of [p3at_f0loat]
-
-//
+  (loc, s2f, x) = p3at_make_node (loc, s2f, P3Tf0loat (x))
+// end of [p3at_f0loat]
 
 implement
 p3at_empty
-  (loc, s2f) = '{
-  p3at_loc= loc
-, p3at_node= P3Tempty ()
-, p3at_type= s2f
-} // end of [p3at_empty]
+  (loc, s2f) = p3at_make_node (loc, s2f, P3Tempty ())
+// end of [p3at_empty]
 
 implement
 p3at_rec (
   loc, s2f, knd, npf, lp3ts
-) = '{
-  p3at_loc= loc
-, p3at_node= P3Trec (knd, npf, lp3ts)
-, p3at_type= s2f  
-} // end of [p3at_rec]
+) = p3at_make_node (loc, s2f, P3Trec (knd, npf, lp3ts))
 
 implement
 p3at_lst (
   loc, s2f, lin, p3ts
-) = '{
-  p3at_loc= loc
-, p3at_node= P3Tlst (lin, p3ts)
-, p3at_type= s2f
-} // end of [p3at_lst]
+) = p3at_make_node (loc, s2f, P3Tlst (lin, p3ts))
 
 implement
 p3at_as (
   loc, s2f, refknd, d2v, p3t
-) = '{
-  p3at_loc= loc
-, p3at_node= P3Tas (refknd, d2v, p3t)
-, p3at_type= s2f
-} // end of [p3at_as]
+) = p3at_make_node (loc, s2f, P3Tas (refknd, d2v, p3t))
 
 implement
 p3at_exist (
   loc, s2f, s2vs, p3t
-) = '{
-  p3at_loc= loc
-, p3at_node= P3Texist (s2vs, p3t)
-, p3at_type= s2f
-} // end of [p3at_exist]
+) = p3at_make_node (loc, s2f, P3Texist (s2vs, p3t))
 
 implement
 p3at_ann (
   loc, s2f, p3t, ann
-) = '{
-  p3at_loc= loc
-, p3at_node= P3Tann (p3t, ann)
-, p3at_type= s2f
-} // end of [p3at_ann]
+) = p3at_make_node (loc, s2f, P3Tann (p3t, ann))
 
 implement
 p3at_err
-  (loc, s2f) = '{
-  p3at_loc= loc
-, p3at_node= P3Terr ()
-, p3at_type= s2f
-} // end of [p3at_err]
+  (loc, s2f) = p3at_make_node (loc, s2f, P3Terr ())
+// end of [p3at_err]
+
+(* ****** ****** *)
+
+implement
+p3at_get_type (p3t) = p3t.p3at_type
+implement
+p3at_get_dvaropt (p3t) = p3t.p3at_dvaropt
+implement
+p3at_get_type_left (p3t) = p3t.p3at_type_left
 
 (* ****** ****** *)
 
@@ -287,6 +248,14 @@ d3exp_cstsp
 (* ****** ****** *)
 
 implement
+d3exp_top
+  (loc, s2f) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Etop ()
+} // end of [d3exp_top]
+
+implement
 d3exp_empty
   (loc, s2f) = '{
   d3exp_loc= loc
@@ -315,6 +284,9 @@ d3exp_cst (
 , d3exp_node= D3Ecst (d2c)
 } // end of [d3exp_cst]
 
+(* ****** ****** *)
+
+(*
 implement
 d3exp_con (
   loc, s2f_res, d2c, npf, d3es_arg
@@ -323,6 +295,81 @@ d3exp_con (
 , d3exp_type= s2f_res
 , d3exp_node= D3Econ (d2c, npf, d3es_arg)
 } // end of [d3exp_con]
+*)
+
+local
+
+fun aux1 (
+  d3es: d3explst
+) : bool = let
+  fn f (d3e: d3exp): bool =
+  case+ d3e.d3exp_node of
+  | D3Etop _ => true | _ => false
+in
+  list_exists_fun<d3exp> (d3es, f)
+end // end of [aux1]
+
+fun aux2 (
+  d3es: d3explst
+) : s2explst = (
+  case+ d3es of
+  | list_cons
+      (d3e, d3es) => let
+      val s2e = d3exp_get_type (d3e)
+      val s2e = (
+        case+ d3e.d3exp_node of
+        | D3Etop () => s2exp_topize_0 (s2e) | _ => s2e
+      ) : s2exp // end of [val]
+      val s2es = aux2 (d3es)
+    in
+      list_cons (s2e, s2es)
+    end // end of [list_cons]
+  | list_nil () => list_nil ()
+) // end of [aux2]
+
+in // in of [local]
+
+implement
+d3exp_con (
+  loc, s2e, d2c, npf, d3es_arg
+) = let
+  var s2e: s2exp = s2e
+  val istop = aux1 (d3es_arg)
+  val () =
+    if istop then let
+      val s2es_arg = aux2 (d3es_arg)
+    in
+      s2e := s2exp_datcontyp (d2c, s2es_arg)
+    end // end of [if]
+in '{
+  d3exp_loc= loc
+, d3exp_type= s2e
+, d3exp_node= D3Econ (d2c, npf, d3es_arg)
+} end // end of [d3exp_con]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+d3exp_foldat
+  (loc, d3e) = let
+  val s2f = s2exp_void_t0ype ()
+in '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Efoldat (d3e)
+} end // end of [d3exp_foldat]
+
+implement
+d3exp_freeat
+  (loc, d3e) = let
+  val s2f = s2exp_void_t0ype ()
+in '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Efreeat (d3e)
+} end // end of [d3exp_freeat]
 
 (* ****** ****** *)
 
@@ -880,6 +927,20 @@ patsopt_p3at_set_type (
 ) {
   ((p3at_t)p3t)->atslab_p3at_type = s2f ; return ;
 } // end of [patsopt_p3at_set_type]
+
+ats_void_type
+patsopt_p3at_set_dvaropt (
+  ats_ptr_type p3t, ats_ptr_type opt
+) {
+  ((p3at_t)p3t)->atslab_p3at_dvaropt = opt ; return ;
+} // end of [patsopt_p3at_set_dvaropt]
+
+ats_void_type
+patsopt_p3at_set_type_left (
+  ats_ptr_type p3t, ats_ptr_type opt
+) {
+  ((p3at_t)p3t)->atslab_p3at_type_left = opt ; return ;
+} // end of [patsopt_p3at_set_type_left]
 
 ats_void_type
 patsopt_d3exp_set_type (

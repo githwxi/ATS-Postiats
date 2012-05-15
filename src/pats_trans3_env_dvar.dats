@@ -113,16 +113,25 @@ in
   | LD2VSnil _ => (fold@ (!pp); list_vt_nil)
 end // end of [the_d2varenv_get_llamd2vs]
 
+(* ****** ****** *)
+
 implement
-the_d2varenv_add
+the_d2varenv_add_dvar
   (d2v) = let
-  val (vbox pf | p) = ref_get_view_ptr (the_ld2vs)
+  val (vbox pf | p) =
+    ref_get_view_ptr (the_ld2vs)
+  val () = !p := d2varset_vt_add (!p, d2v)
+  val opt = d2var_get_view (d2v)
 in
-  !p := d2varset_vt_add (!p, d2v)
+//
+case+ opt of
+| Some (d2vw) => !p := d2varset_vt_add (!p, d2vw)
+| None () => ()
+//
 end // end of [the_d2varenv_add]
 
 implement
-the_d2varenv_addlst
+the_d2varenv_add_dvarlst
   (d2vs) = let
   fun loop {n:nat} .<n>. (
     set: d2varset_vt, d2vs: list (d2var, n)
@@ -138,27 +147,46 @@ in
   !p := loop (!p, d2vs)
 end // end of [the_d2varenv_addlst]
 
+implement
+the_d2varenv_add_dvaropt
+  (opt) = (
+  case+ opt of
+  | Some (d2v) => the_d2varenv_add_dvar (d2v)
+  | None () => ()
+) // end of [the_d2varenv_add_dvaropt]
+
 (* ****** ****** *)
 
 implement
 the_d2varenv_pop
    (pfpush | (*none*)) = let
+   viewtypedef lset = d2varset_vt
    fun loop (
-     ld2vss: ld2vsetlst
+     ld2vss: ld2vsetlst, res: &lset? >> lset
    ) : ld2vsetlst =
      case+ ld2vss of
-     | ~LD2VSset (d2vs, ld2vss) => let
-         val () = d2varset_vt_free (d2vs) in ld2vss
+     | ~LD2VSset
+         (d2vs, ld2vss) => let
+         val () = res := d2vs in ld2vss
        end // end of [LD2VSset]
      | ~LD2VSlam (lin, d2vs, ld2vss) => let
-         val () = list_vt_free (d2vs) in loop (ld2vss)
+         val () = list_vt_free (d2vs) in loop (ld2vss, res)
        end // end of [LD2VSlam]
-     | ~LD2VSnil () => LD2VSnil ()
+     | ~LD2VSnil () => let
+         val () = res := d2varset_vt_nil () in LD2VSnil ()
+       end // end of [LD2VSnil]
    // end of [loop]
    prval unit_v () = pfpush
-   val (vbox pf | pp) = ref_get_view_ptr (the_ld2vss)
+   val (vbox pf1 | p) =
+     ref_get_view_ptr (the_ld2vs)
+   val () = d2varset_vt_free (!p)
+   val () = $effmask_ref let
+     val (vbox pf2 | pp) = ref_get_view_ptr (the_ld2vss)
+   in
+     !pp := $effmask_ref (loop (!pp, !p))
+   end // end of [val]
 in
-   !pp := $effmask_ref (loop (!pp))
+  // nothing
 end // end of [the_d2varenv_pop]
 
 (* ****** ****** *)
@@ -244,45 +272,81 @@ end // end of [local]
 
 (* ****** ****** *)
 
-fun // for mutable vars
-the_d2varenv_add_d2vw_if
-  (p2t: p2at): void = let
-//
-val () = (
-  print "the_d2varenv_add_d2vw_if: p2t = "; print_p2at (p2t); print_newline ()
-) (* end of [val] *)
-//
-in
-  case+ p2t.p2at_node of
-  | P2Tvar (
-      knd, d2v
-    ) when d2var_is_mutabl (d2v) => let
-      val- Some (d2vw) = d2var_get_view (d2v)
-    in
-      the_d2varenv_add (d2vw)
-    end // end of [P2Tvar]
-  | P2Tann (p2t, _) => the_d2varenv_add_d2vw_if (p2t)
-  | _ => () // end of [val]
-end // end of [the_d2varenv_add_d2var_view]
+extern
+fun the_d2varenv_add_labp3atlst (xs: labp3atlst): void
 
 implement
-the_d2varenv_add_p2at
-  (p2t) = let
-  val () = the_d2varenv_add_d2vw_if (p2t)
+the_d2varenv_add_p3at
+  (p3t) = let
+//
+val opt = p3at_get_dvaropt (p3t)
+val () = the_d2varenv_add_dvaropt (opt)
+//
 in
-  the_d2varenv_addlst ($UT.lstord2list (p2t.p2at_dvs))
-end // end of [the_d2varenv_add_p2at]
+//
+case+ p3t.p3at_node of
+| P3Tany (d2v) => the_d2varenv_add_dvar (d2v)
+| P3Tvar (refknd, d2v) => the_d2varenv_add_dvar (d2v)
+| P3Tcon (
+    freeknd, d2c, npf, p3ts
+  ) => the_d2varenv_add_p3atlst (p3ts)
+//
+| P3Tann (p3t, s2e) => the_d2varenv_add_p3at (p3t)
+//
+| P3Tint _ => ()
+| P3Tintrep _ => ()
+| P3Tbool _ => ()
+| P3Tchar _ => ()
+| P3Tstring _ => ()
+//
+| P3Ti0nt _ => ()
+| P3Tf0loat _ => ()
+//
+| P3Tempty _ => ()
+//
+| P3Trec (
+    knd, npf, lp3ts
+  ) =>
+    the_d2varenv_add_labp3atlst (lp3ts)
+  // end of [P3Trec]
+| P3Tlst (lin, p3ts) => the_d2varenv_add_p3atlst (p3ts)
+//
+| P3Tas (refknd, d2v, p3t) => {
+    val () = the_d2varenv_add_dvar (d2v)
+    val () = the_d2varenv_add_p3at (p3t)
+  } // end of [P3Tas]
+| P3Texist (s2vs, p3t) => the_d2varenv_add_p3at (p3t)
+//
+| P3Terr _ => ()
+//
+end // end of [the_d2varenv_add_p3at]
 
 implement
-the_d2varenv_add_p2atlst
-  (p2ts) = list_app_fun (p2ts, the_d2varenv_add_p2at)
-// end of [the_d2varenv_add_p2atlst]
+the_d2varenv_add_p3atlst
+  (p3ts) = list_app_fun<p3at> (p3ts, the_d2varenv_add_p3at)
+// end of [the_d2varenv_add_p3atlst]
+
+implement
+the_d2varenv_add_labp3atlst
+  (xs) = loop (xs) where {
+  fun loop (
+    xs: labp3atlst
+  ) : void =
+    case+ xs of
+    | list_cons (x, xs) => let
+        val LABP3AT (l, p3t) = x
+        val () = the_d2varenv_add_p3at (p3t)
+      in
+        loop (xs)
+      end // end of [list_cons]
+    | list_nil () => ()
+  // end of [loop]
+} // end of [the_d2varenv_add_labp3atlst]
 
 (* ****** ****** *)
 
-extern fun d2vfin_check
-  (loc0: location, d2v: d2var): void
-// end of [d2vfin_check]
+extern
+fun d2vfin_check (loc0: location, d2v: d2var): void
 
 local
 
@@ -345,7 +409,7 @@ case+ d2vfin of
   end // end of [D2VFINvbox]
 | D2VFINdone () => () // HX: handled by [funarg_d2vfin_check]
 | D2VFINnone () => let
-    val islin = s2exp_is_lin (s2e)
+    val islin = s2exp_is_lin2 (s2e)
     val () = if islin then auxerr2 (loc0, d2v, s2e)
     val linval = d2var_get_linval (d2v)
   in
@@ -370,6 +434,9 @@ fun auxerr (
 } (* end of [auxerr] *)
 //
 val d2vfin = d2var_get_finknd (d2v)
+val () = (
+  print "d2vfin_check_none: d2vfin = "; print_d2vfin (d2vfin); print_newline ()
+) (* end of [val] *)
 //
 in
 //
@@ -416,11 +483,11 @@ end // end of [d2vfin_check]
 
 implement
 the_d2varenv_check (loc0) = let
-(*
+// (*
 val () = (
   print "the_d2varenv_check"; print_newline ()
 ) // end of [val]
-*)
+// *)
 fun loop (
   loc0: location, d2vs: d2varlst_vt
 ) : void =

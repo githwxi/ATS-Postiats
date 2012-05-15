@@ -211,42 +211,42 @@ fun prerr_d2vfin (x: d2vfin): void
 
 (* ****** ****** *)
 
-fun d2var_get_loc (x: d2var): location
+fun d2var_get_loc (x: d2var):<> location
 
-fun d2var_get_sym (x: d2var): symbol
+fun d2var_get_sym (x: d2var):<> symbol
 
-fun d2var_get_isfix (x: d2var): bool
+fun d2var_get_isfix (x: d2var):<> bool
 fun d2var_set_isfix (x: d2var, isfix: bool): void
 
-fun d2var_get_isprf (x: d2var): bool
+fun d2var_get_isprf (x: d2var):<> bool
 fun d2var_set_isprf (x: d2var, isprf: bool): void
 
-fun d2var_get_level (x: d2var): int
+fun d2var_get_level (x: d2var):<> int
 fun d2var_set_level (x: d2var, level: int): void
 
-fun d2var_get_linval (x: d2var): int
+fun d2var_get_linval (x: d2var):<> int
 fun d2var_set_linval (x: d2var, linval: int): void
 
-fun d2var_get_decarg (x: d2var): s2qualst
+fun d2var_get_decarg (x: d2var):<> s2qualst
 fun d2var_set_decarg (x: d2var, decarg: s2qualst): void
 
-fun d2var_get_addr (x: d2var): s2expopt
+fun d2var_get_addr (x: d2var):<> s2expopt
 fun d2var_set_addr (x: d2var, opt: s2expopt): void
 
-fun d2var_get_view (x: d2var): d2varopt
+fun d2var_get_view (x: d2var):<> d2varopt
 fun d2var_set_view (x: d2var, d2vopt: d2varopt): void
 
-fun d2var_get_finknd (_: d2var): d2vfin
+fun d2var_get_finknd (_: d2var):<> d2vfin
 fun d2var_set_finknd (_: d2var, knd: d2vfin): void
 
-fun d2var_get_type (x: d2var): s2expopt
+fun d2var_get_type (x: d2var):<> s2expopt
 fun d2var_set_type (x: d2var, opt: s2expopt): void
-fun d2var_get_mastype (x: d2var): s2expopt
+fun d2var_get_mastype (x: d2var):<> s2expopt
 fun d2var_set_mastype (x: d2var, opt: s2expopt): void
 
 fun d2var_exch_type (x: d2var, opt: s2expopt): s2expopt 
 
-fun d2var_get_stamp (x: d2var): stamp
+fun d2var_get_stamp (x: d2var):<> stamp
 
 (*
 ** HX: [d2v] is linear if its linval is nonneg
@@ -383,11 +383,11 @@ fun p2atlst_dvs_union (p2ts: p2atlst): lstord (d2var)
 
 (* ****** ****** *)
 
-fun p2at_make (
+fun p2at_make_node (
   loc: location
 , svs: lstord (s2var), dvs: lstord (d2var)
 , node: p2at_node
-) : p2at // end of [p2at_make]
+) : p2at // end of [p2at_make_node]
 
 fun p2at_any (loc: location): p2at
 

@@ -62,6 +62,15 @@ filebas_prf_atxt.dats: filebas_prf.atxt
 clean:: ; $(RMF) filebas_prf_atxt.exe
 cleanall:: ; $(RMF) filebas_prf.dats
 
+all:: integer.dats
+integer.dats: integer_atxt.exe ; ./$< > $@
+integer_atxt.exe: integer_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ integer_atxt.dats -latsdoc
+integer_atxt.dats: integer.atxt
+	$(ATSDOC) -do $@ -i integer.atxt > integer_atxt.txt
+clean:: ; $(RMF) integer_atxt.exe
+cleanall:: ; $(RMF) integer.dats
+
 all:: pointer.dats
 pointer.dats: pointer_atxt.exe ; ./$< > $@
 pointer_atxt.exe: pointer_atxt.dats

@@ -130,17 +130,20 @@ d2var_make_any
 (* ****** ****** *)
 
 implement
-d2var_get_sym (d2v) = let
+d2var_get_sym
+  (d2v) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_sym
 end // end of [d2var_get_sym]
 
 implement
-d2var_get_loc (d2v) = let
+d2var_get_loc
+  (d2v) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_loc
 end // end of [d2var_get_loc]
 
 implement
-d2var_get_level (d2v) = let
+d2var_get_level
+  (d2v) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_level
 end // end of [d2var_get_level]
 implement
@@ -149,7 +152,8 @@ d2var_set_level (d2v, lev) = let
 end // end of [d2var_set_level]
 
 implement
-d2var_get_linval (d2v) = let
+d2var_get_linval
+  (d2v) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_linval
 end // end of [d2var_get_linval]
 implement
@@ -158,7 +162,8 @@ d2var_set_linval (d2v, lin) = let
 end // end of [d2var_set_linval]
 
 implement
-d2var_get_isfix (d2v) = let
+d2var_get_isfix
+  (d2v) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_isfix
 end // end of [d2var_get_isfix]
 implement
@@ -167,7 +172,8 @@ d2var_set_isfix (d2v, isfix) = let
 end // end of [d2var_set_isfix]
 
 implement
-d2var_get_isprf (d2v) = let
+d2var_get_isprf
+  (d2v) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_isprf
 end // end of [d2var_get_isprf]
 implement
@@ -176,7 +182,8 @@ d2var_set_isprf (d2v, isprf) = let
 end // end of [d2var_set_isprf]
 
 implement
-d2var_get_decarg (d2v) = let
+d2var_get_decarg
+  (d2v) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_decarg
 end // end of [d2var_get_decarg]
 implement
@@ -185,7 +192,8 @@ d2var_set_decarg (d2v, decarg) = let
 end // end of [d2var_set_decarg]
 
 implement
-d2var_get_addr (d2v) = let
+d2var_get_addr
+  (d2v) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_addr
 end // end of [d2var_get_addr]
 implement
@@ -194,7 +202,8 @@ d2var_set_addr (d2v, s2fopt) = let
 end // end of [d2var_set_addr]
 
 implement
-d2var_get_view (d2v) = let
+d2var_get_view
+  (d2v) = $effmask_ref let
   val (vbox pf | p) =
     ref_get_view_ptr (d2v) in d2varopt_decode (p->d2var_view)
 end // end of [d2var_get_view]
@@ -205,19 +214,18 @@ d2var_set_view (d2v, d2vopt) = let
 end // end of [d2var_set_view]
 
 implement
-d2var_get_finknd (d2v) = let
-  val (vbox pf | p) =
-    ref_get_view_ptr (d2v) in p->d2var_finknd
+d2var_get_finknd
+  (d2v) = $effmask_ref let
+  val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_finknd
 end // end of [d2var_get_finknd]
 implement
 d2var_set_finknd (d2v, knd) = let
-  val (vbox pf | p) =
-    ref_get_view_ptr (d2v) in p->d2var_finknd := knd
-  // end of [val]
+  val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_finknd := knd
 end // end of [d2var_set_finknd]
 
 implement
-d2var_get_type (d2v) = let
+d2var_get_type (d2v) =
+  $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_type
 end // end of [d2var_get_type]
 implement
@@ -226,7 +234,8 @@ d2var_set_type (d2v, opt) = let
 end // end of [d2var_set_type]
 
 implement
-d2var_get_mastype (d2v) = let
+d2var_get_mastype
+  (d2v) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_mastype
 end // end of [d2var_get_mastype]
 implement
@@ -235,7 +244,7 @@ d2var_set_mastype (d2v, opt) = let
 end // end of [d2var_set_mastype]
 
 implement
-d2var_get_stamp (d2v) = let
+d2var_get_stamp (d2v) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_stamp
 end // end of [d2var_get_stamp]
 

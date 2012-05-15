@@ -303,6 +303,32 @@ end // end of [local]
 
 (* ****** ****** *)
 
+implement
+d3lval_set_pat_type_left
+  (d3e0, p3t) = let
+  val opt = p3at_get_type_left (p3t)
+in
+//
+case+ opt of
+| Some (s2e) => let
+    var err: int = 0
+    val () = d3lval_set_type_err (0(*refval*), d3e0, s2e, err)
+  in
+    if err > 0 then let
+      val loc0 = d3e0.d3exp_loc
+      val () = prerr_error3_loc (loc0)
+      val () = prerr ": the dynamic expression should be a left-value but it is not."
+      val () = prerr_newline ()
+    in
+      the_trans3errlst_add (T3E_d3lval_linpatcon (d3e0, s2e))
+    end (* end of [if] *)
+  end // end of [Some]
+| None () => ()
+//
+end // end of [d3lval_set_pat_type_left]
+
+(* ****** ****** *)
+
 local
 
 fn s2exp_fun_is_freeptr

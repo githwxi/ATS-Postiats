@@ -363,23 +363,32 @@ in // in of [local]
 implement
 s2zexp_make_s2exp
   (s2e0) = let
-  val isprf = s2exp_is_prf (s2e0)
+  val s2t0 = s2e0.s2exp_srt
+  val isprf = s2rt_is_prf (s2t0)
 in
 //
 if isprf then
   S2ZEprf () // it equals 0
 else let
+  val isbox = s2rt_is_boxed (s2t0)
+in
+//
+if isbox then
+  S2ZEptr () // it equals 1 word
+else let
   var env = env_make_nil ()
   val s2ze = aux_s2exp (env, s2e0)
-  val () = env_free (env)
-// (*
+(*
   val () = (
     print "s2zexp_make_s2exp: s2ze = "; print_s2zexp s2ze; print_newline ()
   ) // end of [val]
-// *)
+*)
+  val () = env_free (env)
 in
   s2ze
-end (* end of [if] *)
+end // end of [if]
+//
+end // end of [if]
 //
 end // end of [s2zexp_make_s2exp]
 

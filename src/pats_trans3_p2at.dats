@@ -273,7 +273,7 @@ case+ 0 of
     val () = p3at_set_type (p3t0, s2e0)
     val () = d2var_set_mastype (d2v, Some s2e)
     val- Some (s2e) = d2var_get_type (d2v)
-    val () = d2var_set_finknd (d2v, D2VFINsome (s2e)) // HX: this can be overwritten
+    val () = d2var_set_finknd (d2v, D2VFINsome (s2e)) // HX: this may be overwritten
   in
     p3t0
   end // end of [refknd = 0]
@@ -288,22 +288,22 @@ case+ 0 of
     val () = d2var_set_addr (d2v, Some s2e_addr)
     val s2e_ptr = s2exp_ptr_addr_type (s2e_addr)
     val () = d2var_set_type (d2v, Some (s2e_ptr))
-//
+(*
     val () = let
       val s2p = s2exp_agtz (s2e_addr) in trans3_env_hypadd_prop (loc0, s2p)
     end // end of [val]
-//
+*)
     val d2vw = d2var_ptr_viewat_make_none (d2v)
     val () = d2var_set_view (d2v, Some d2vw) // [d2v] is mutable
-    val s2e_at = s2exp_at (s2e, s2e_addr)
-    val () = d2var_set_mastype (d2vw, Some s2e_at)
-    val s2e_opn_at = s2exp_at (s2e_opn, s2e_addr)
-    val () = d2var_set_type (d2vw, Some (s2e_opn_at))
-    val () = d2var_set_finknd (d2vw, D2VFINsome (s2e_opn_at)) // can be overwritten
+    val s2at = s2exp_at (s2e, s2e_addr)
+    val () = d2var_set_mastype (d2vw, Some s2at)
+    val s2at_opn = s2exp_at (s2e_opn, s2e_addr)
+    val () = d2var_set_type (d2vw, Some (s2at_opn))
+    val () = d2var_set_finknd (d2vw, D2VFINsome (s2at_opn)) // HX: this may be overwritten
   in
     p3t0
   end // end of [refknd = 1]
-end // end of [p2at_trdn_arg_refarg_var]
+end (* end of [p2at_trdn_arg_refarg_var] *)
 
 fun
 p2at_trdn_arg_refarg_err (
@@ -538,8 +538,11 @@ p2at_trdn_any
   val () = d2var_set_mastype (d2v, Some (s2e0))
   val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
   val () = d2var_set_type (d2v, None ())
+  val islin = s2exp_is_lin (s2e0)
+  val p3t0 = p3at_any (loc0, s2e, d2v)
+  val () = if islin then p3at_set_type_left (p3t0, Some (s2e0))
 in
-  p3at_any (loc0, s2e, d2v)
+  p3t0
 end // end of [p2at_trdn_any]
 
 (* ****** ****** *)
@@ -566,7 +569,8 @@ p2at_trdn_var
     print "p2at_trdn_var: s2t0 = "; print_s2rt s2t0; print_newline ();
   end // end of [val]
 *)
-  val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
+  val s2e =
+    s2hnf_opnexi_and_add (loc0, s2f0)
   val () = d2var_set_type (d2v, Some s2e)
 (*
   val () = begin

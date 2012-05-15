@@ -52,19 +52,29 @@ overload ~ with neg_bool of 0
 overload not with neg_bool of 0
 ')\
 
-#atscode_decl_strcst('\
+(*
 fun add_bool_bool
   (b1: bool, b2: bool):<> bool = "mac\#atspre_add_bool_bool"
+*)
+macdef
+add_bool_bool
+  (b1, b2) = (if b1 then true else b2): bool
+(*
 overload + with add_bool_bool of 0
 overload || with add_bool_bool of 0
-')\
+*)
 
-#atscode_decl_strcst('\
+(*
 fun mul_bool_bool
   (b1: bool, b2: bool):<> bool = "mac\#atspre_mul_bool_bool"
+*)
+macdef
+mul_bool_bool
+  (b1, b2) = (if b1 then b2 else false): bool
+(*
 overload * with mul_bool_bool of 0
 overload && with mul_bool_bool of 0
-')\
+*)
 
 #atscode_separator()
 

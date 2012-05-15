@@ -65,6 +65,8 @@ datatype trans3err =
   | T3E_p2at_trdn of (p2at, s2exp)
   | T3E_p2at_trup_con of p2at // pfarity // ill-typed
   | T3E_p2at_trdn_con_arity of (p2at, int(*serr*))
+  | T3E_p2at_con_varpat of (p3at) // nonlin constructor having var-patterns
+  | T3E_p2at_lincon_update of (p3at) // involving linear constructor unfolding or freeing
 //
   | T3E_d2var_trup_llamlocal of (d2var) // non-local linear variable
 //
@@ -124,12 +126,16 @@ datatype trans3err =
   | T3E_s2exp_set_viewat_addreq of (location, s2exp(*root*), d3lablst, s2exp(*new*))
 *)
 //
-  | T3E_d3lval_funarg of (d3exp) // a non-left-val provided for call-by-ref
+  | T3E_d3lval_funarg of (d3exp) // non-left-val provided for call-by-ref
   | T3E_d3lval_refval of (location, d2var) // non-mutable dvar used for call-by-ref
+  | T3E_d3lval_linpatcon of (d3exp, s2exp) // non-left-val is matched against linpatcon
 //
   | T3E_s2addr_exch_type_linold of (location, s2exp, d3lablst) // linear abandonment
   | T3E_s2addr_exch_type_oldnew of (location, s2exp, d3lablst, s2exp(*new*))
   | T3E_d3lval_exch_type_linold of (location, d3exp, d3lablst) // linear abandonment
+//
+  | T3E_d3exp_foldat of (location, d3exp)
+  | T3E_d3exp_freeat of (location, d3exp)
 //
   | T3E_guard_trdn of
       (location, bool(*gval*), s2exp(*gtyp*))
@@ -279,6 +285,11 @@ fun d2exp_trup_selab
 
 (* ****** ****** *)
 
+fun d2exp_trup_foldat (d2e0: d2exp): d3exp
+fun d2exp_trup_freeat (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
 fun d2exp_trup_loopexn (d2e0: d2exp, knd: int): d3exp
 
 (* ****** ****** *)
@@ -390,11 +401,13 @@ fun d3lval_set_type_err (
   refval: int, d3e: d3exp, s2e: s2exp, err: &int
 ) : void // end of [d3lval_set_type_err]
 
+fun d3lval_set_pat_type_left (d3e0: d3exp, p3t: p3at): void
+
+(* ****** ****** *)
+
 fun d3lval_arg_set_type
   (refval: int, d3e0: d3exp, s2e: s2exp): int (*freeknd*)
 // end of [d3lval_arg_set_type]
-
-fun d3exp_lval_set_typ_pat (d3e0: d3exp, p3t: p3at): void
 
 fun d3explst_arg_restore (
   d3es: d3explst, s2es_arg: s2explst, wths2es: wths2explst

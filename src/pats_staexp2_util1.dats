@@ -365,6 +365,29 @@ end // end of [s2hnf_get_head]
 
 (* ****** ****** *)
 
+extern
+fun s2exp_is_without (s2e: s2exp): bool
+implement
+s2exp_is_without (s2e) =
+  case+ s2e.s2exp_node of
+  | S2Ewithout _ => true | _ => false
+// end of [s2exp_is_without]
+
+implement
+s2exp_is_lin2
+  (s2e) = let
+  val s2e = s2exp_hnfize (s2e)
+in
+//
+case+ s2e.s2exp_node of
+| S2Eat (s2e1, _) =>
+    if s2exp_is_without (s2e1) then false else true
+| _ => s2exp_is_lin (s2e)
+//
+end // end of [s2exp_is_lin2]
+
+(* ****** ****** *)
+
 implement
 s2hnf_is_abscon (s2f) = let
 //
