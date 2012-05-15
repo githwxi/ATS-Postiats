@@ -252,6 +252,7 @@ fun auxvar (
   val () = d2var_set_addr (d2v, Some s2e_addr)
   val s2e_ptr = s2exp_ptr_addr_type (s2e_addr)
   val () = d2var_set_type (d2v, Some (s2e_ptr))
+  val () = d2var_set_linval (d2v, ~1(*nonlin*))
 (*
   val () = let
     val s2p = s2exp_agtz (s2e_addr) in trans3_env_hypadd_prop (loc0, s2p)

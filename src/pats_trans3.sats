@@ -152,10 +152,6 @@ fun the_trans3errlst_finalize (): void // cleanup all the errors
 
 (* ****** ****** *)
 
-fun s2exp_is_wth (s2e: s2exp):<> bool
-
-(* ****** ****** *)
-
 fun p2at_syn_type (p2t: p2at): s2exp
 fun p2atlst_syn_type (p2ts: p2atlst): s2explst
 

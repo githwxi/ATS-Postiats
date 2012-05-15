@@ -13,4 +13,14 @@ cairo_sats: ; make -C contrib/cairo/SATS/CODEGEN -f Makefile all
 cairo:: cairo_cats
 cairo_cats: ; make -C contrib/cairo/CATS/CODEGEN -f Makefile all
 
+######
+
+clean:: ; make -C contrib/cairo/SATS/CODEGEN -f Makefile clean
+#clean:: ; make -C contrib/cairo/DATS/CODEGEN -f Makefile clean
+clean:: ; make -C contrib/cairo/CATS/CODEGEN -f Makefile clean
+
+cleanall:: ; make -C contrib/cairo/SATS/CODEGEN -f Makefile cleanall
+#cleanall:: ; make -C contrib/cairo/DATS/CODEGEN -f Makefile cleanall
+cleanall:: ; make -C contrib/cairo/CATS/CODEGEN -f Makefile cleanall
+
 ###### end of [Makefile_atsctrb] ######

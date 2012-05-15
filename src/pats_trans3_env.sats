@@ -356,6 +356,10 @@ fun s2hnf_opn1exi_and_add
   (loc: location, s2f: s2hnf): s2exp
 // end of [s2hnf_opn1exi_and_add]
 
+fun s2fun_opninv_and_add
+  (loc: location, arg: s2explst, res: s2exp): s2explst
+// end of [s2fun_opninv_and_add]
+
 (* ****** ****** *)
 
 fun d3exp_open_and_add (d3e: d3exp): void

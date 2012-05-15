@@ -74,6 +74,14 @@ fun s2cst_select_locs2explstlst
 
 (* ****** ****** *)
 
+fun s2exp_is_wthtype (s2e: s2exp):<> bool
+fun s2exp_is_without (s2e: s2exp):<> bool
+
+// HX-2012-05: this one does more elaborate checking
+fun s2exp_is_lin2 (x: s2exp): bool // when compared to [s2exp_is_lin]
+
+(* ****** ****** *)
+
 fun s2hnf_get_head (s2f: s2hnf): s2hnf // the head in HNF
 fun s2hnf_is_abscon (s2f: s2hnf): bool // is abstract or datatype
 

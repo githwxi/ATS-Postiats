@@ -54,6 +54,7 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_env_dvar"
 
 staload "pats_staexp2.sats"
 staload "pats_staexp2_error.sats"
+staload "pats_staexp2_util.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
 

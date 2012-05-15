@@ -354,24 +354,16 @@ end // end of [s2cst_select_locs2explstlst]
 (* ****** ****** *)
 
 implement
-s2hnf_get_head (s2f) = let
-  fun loop (s2e: s2exp): s2exp =
-    case+ s2e.s2exp_node of S2Eapp (s2e, _) => loop s2e | _ => s2e
-  // end of [loop]
-  val s2e = s2hnf2exp (s2f)
-in
-  s2exp2hnf_cast (loop (s2e))
-end // end of [s2hnf_get_head]
+s2exp_is_wthtype (s2e) = (
+  case+ s2e.s2exp_node of S2Ewth _ => true | _ => false
+) // end of [s2exp_is_wth]
 
-(* ****** ****** *)
-
-extern
-fun s2exp_is_without (s2e: s2exp): bool
 implement
 s2exp_is_without (s2e) =
-  case+ s2e.s2exp_node of
-  | S2Ewithout _ => true | _ => false
+  case+ s2e.s2exp_node of S2Ewithout _ => true | _ => false
 // end of [s2exp_is_without]
+
+(* ****** ****** *)
 
 implement
 s2exp_is_lin2
@@ -385,6 +377,18 @@ case+ s2e.s2exp_node of
 | _ => s2exp_is_lin (s2e)
 //
 end // end of [s2exp_is_lin2]
+
+(* ****** ****** *)
+
+implement
+s2hnf_get_head (s2f) = let
+  fun loop (s2e: s2exp): s2exp =
+    case+ s2e.s2exp_node of S2Eapp (s2e, _) => loop s2e | _ => s2e
+  // end of [loop]
+  val s2e = s2hnf2exp (s2f)
+in
+  s2exp2hnf_cast (loop (s2e))
+end // end of [s2hnf_get_head]
 
 (* ****** ****** *)
 

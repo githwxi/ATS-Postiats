@@ -1422,6 +1422,70 @@ end // end of [s2hnf_opn1exi_and_add]
 
 (* ****** ****** *)
 
+local
+
+viewtypedef
+ws2elstopt = Option_vt (wths2explst)
+
+fun auxres (
+  s2e: s2exp
+) : ws2elstopt =
+  case+ s2e.s2exp_node of
+  | S2Ewth
+      (_, ws2es) => Some_vt (ws2es)
+  | S2Eexi (_, _, s2e) => auxres (s2e)
+  | _ => None_vt ()
+// end of [auxres]
+
+fun auxarg (
+  loc: location, s2es: s2explst, ws2es: wths2explst
+) : s2explst = let
+in
+//
+case+ s2es of
+| list_cons
+    (s2e, s2es) => (
+  case+ ws2es of
+  | WTHS2EXPLSTcons_invar
+      (_, ws2es) => let
+      val- S2Erefarg
+        (knd, s2e) = s2e.s2exp_node
+      var err: int = 0
+      val (s2e, s2ps) =
+        s2exp_exi_instantiate_all (s2e, loc, err)
+      val () = trans3_env_add_proplst_vt (loc, s2ps)
+      val s2e = s2exp_refarg (knd, s2e)
+    in
+      list_cons (s2e, auxarg (loc, s2es, ws2es))
+    end // end of [WTHS2EXPLSTcons_invar]
+  | WTHS2EXPLSTcons_trans
+      (_, _, ws2es) =>
+      list_cons (s2e, auxarg (loc, s2es, ws2es))
+  | WTHS2EXPLSTcons_none (ws2es) =>
+      list_cons (s2e, auxarg (loc, s2es, ws2es))
+  | WTHS2EXPLSTnil () => list_nil ()
+  ) // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [auxarg]
+
+in // in of [local]
+
+implement
+s2fun_opninv_and_add
+  (locarg, s2es_arg, s2e_res) = let
+  val opt = auxres (s2e_res)
+in
+  case+ opt of
+  | ~Some_vt
+      (ws2es) => auxarg (locarg, s2es_arg, ws2es)
+  | ~None_vt () => s2es_arg
+end // end of [s2fun_arg_res_opninv_and_add]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 implement
 d3exp_open_and_add (d3e) = let
   val s2e = d3e.d3exp_type

@@ -170,16 +170,14 @@ d2exp_trdn_rest
   val s2e0 = s2hnf2exp (s2f0)
   val d3e0 = d2exp_trup (d2e0)
 //
-  val iswth = s2exp_is_wth (s2e0)
+  val iswth = s2exp_is_wthtype (s2e0)
   val s2e0 = (
     if iswth then let
-      val () =
-        d3exp_open_and_add (d3e0)
-      // end of [val]
+      val () = d3exp_open_and_add (d3e0)
     in
       s2exp_wth_instantiate (loc0, s2e0)
     end else begin
-      s2e0 // HX: [s2e0] does not carry a state
+      s2e0 // HX: [s2e0] does not carry a state type
     end // end of [if]
   ) : s2exp // end of [val]
 //
@@ -257,10 +255,11 @@ case+ s2e0.s2exp_node of
       | ~Some_vt (fc) => $SOL.funclo_equal_solve_err (loc0, fc, fc1, err)
       | ~None_vt () => ()
     ) : void // end of [val]
-    val () = if err != 0 then {
+    val () = if err != 0 then let
       val () = prerr_the_staerrlst ()
-      val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2e0))
-    } // end of [val]
+    in
+      the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2e0))
+    end // end of [if] // end of [val]
 //
     var err: int = 0
     var opt: s2effopt_vt
@@ -269,10 +268,11 @@ case+ s2e0.s2exp_node of
       | ~Some_vt s2fe => $SOL.s2eff_effleq_solve_err (loc0, s2fe, s2fe1, err)
       | ~None_vt () => ()
     ) : void // end of [val]
-    val () = if err != 0 then {
+    val () = if err != 0 then let
       val () = prerr_the_staerrlst ()
-      val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2e0))
-    } // end of [val]
+    in
+      the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2e0))
+    end // end of [if] // end of [val]
 //
     val (pfeff | ()) = the_effenv_push_lam (s2fe1)
 //
@@ -280,14 +280,15 @@ case+ s2e0.s2exp_node of
     val p3ts_arg =
       p2atlst_trdn_arg (loc0, npf, p2ts_arg, s2es_arg, serr)
     // end of [val]
-    val () = if (serr != 0) then {
+    val () = if (serr != 0) then let
       val () = prerr_error3_loc (loc0)
       val () = prerr ": dynamic arity mismatch"
       val () = if serr < 0 then prerr ": more arguments are expected."
       val () = if serr > 0 then prerr ": fewer arguments are expected."
       val () = prerr_newline ()
-      val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2e0))
-    } // end of [val]
+    in
+      the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2e0))
+    end // end of [if] // end of [val]
 //
     val (pfd2v | ()) = the_d2varenv_push_lam (lin1)
     val () = the_d2varenv_add_p3atlst (p3ts_arg)

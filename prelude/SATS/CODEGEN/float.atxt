@@ -110,7 +110,7 @@ overload <> with g0float_neq of 0
 
 typedef
 g0float_compare_type
-  (a:t@ype) =  (g0float (a), g0float (a)) -<> int
+  (a:t@ype) = (g0float (a), g0float (a)) -<> int
 // end of [typedef]
 
 fun{a:t@ype}
@@ -129,50 +129,68 @@ overload min with g0float_min
 #atscode_separator()
 //
 typedef fltknd = float_kind
+typedef dblknd = double_kind
+typedef ldblknd = ldouble_kind
 //
-fun g0float_add_float : g0float_aop_type (fltknd)
-fun g0float_sub_float : g0float_aop_type (fltknd)
-fun g0float_mul_float : g0float_aop_type (fltknd)
-fun g0float_div_float : g0float_aop_type (fltknd)
-fun g0float_mod_float : g0float_aop_type (fltknd)
+#atscode_separator()
 
-fun g0float_lt_float : g0float_cmp_type (fltknd)
-fun g0float_lte_float : g0float_cmp_type (fltknd)
-fun g0float_gt_float : g0float_cmp_type (fltknd)
-fun g0float_gte_float : g0float_cmp_type (fltknd)
-fun g0float_eq_float : g0float_cmp_type (fltknd)
-fun g0float_neq_float : g0float_cmp_type (fltknd)
+%{
+//
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+//
+fun g0float_declist (
+  kname: string, tname: string
+) : atext = let
+//
+fun f (
+  opknd: string, opnam: string
+) :<cloref1> atext = let
+//
+val x = sprintf (
+"fun g0float_%s_%s: g0float_%s_type(%s)\n", @(opnam, tname, opknd, kname)
+) (* end of [val] *)
+//
+in
+  atext_strptr (x)
+end // end of [f]
+//
+var res: atextlst = list_nil
+//
+val () = res := list_cons (f ("aop", "add"), res)
+val () = res := list_cons (f ("aop", "sub"), res)
+val () = res := list_cons (f ("aop", "mul"), res)
+val () = res := list_cons (f ("aop", "div"), res)
+val () = res := list_cons (f ("aop", "mod"), res)
+val () = res := list_cons (atext_newline, res)
+val () = res := list_cons (f ("cmp", "lt"), res)
+val () = res := list_cons (f ("cmp", "lte"), res)
+val () = res := list_cons (f ("cmp", "gt"), res)
+val () = res := list_cons (f ("cmp", "gte"), res)
+val () = res := list_cons (f ("cmp", "eq"), res)
+val () = res := list_cons (f ("cmp", "neq"), res)
+val () = res := list_cons (f ("compare", "compare"), res)
+val () = res := list_cons (atext_newline, res)
+val () = res := list_cons (f ("aop", "max"), res)
+val () = res := list_cons (f ("aop", "min"), res)
+val res = list_reverse (res)
+in
+  atext_concatxt (list_of_list_vt (res))
+end // end of [g0float_declist]
+%}
 
-fun g0float_compare_float : g0float_compare_type (fltknd)
-
-fun g0float_max_float : g0float_aop_type (fltknd)
-fun g0float_min_float : g0float_aop_type (fltknd)
-
+#g0float_declist("fltknd", "float")
 fun fprint_float (out: FILEref, x: float): void
 
 #atscode_separator()
-//
-typedef dblknd = double_kind
-//
-fun g0float_add_double : g0float_aop_type (dblknd)
-fun g0float_sub_double : g0float_aop_type (dblknd)
-fun g0float_mul_double : g0float_aop_type (dblknd)
-fun g0float_div_double : g0float_aop_type (dblknd)
-fun g0float_mod_double : g0float_aop_type (dblknd)
 
-fun g0float_lt_double : g0float_cmp_type (dblknd)
-fun g0float_lte_double : g0float_cmp_type (dblknd)
-fun g0float_gt_double : g0float_cmp_type (dblknd)
-fun g0float_gte_double : g0float_cmp_type (dblknd)
-fun g0float_eq_double : g0float_cmp_type (dblknd)
-fun g0float_neq_double : g0float_cmp_type (dblknd)
-
-fun g0float_compare_double : g0float_compare_type (dblknd)
-
-fun g0float_max_double : g0float_aop_type (dblknd)
-fun g0float_min_double : g0float_aop_type (dblknd)
-
+#g0float_declist("dblknd", "double")
 fun fprint_double (out: FILEref, x: double): void
+
+#atscode_separator()
+
+#g0float_declist("ldblknd", "ldouble")
+fun fprint_ldouble (out: FILEref, x: ldouble): void
 
 #atscode_separator()
 

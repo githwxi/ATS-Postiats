@@ -50,7 +50,7 @@ x:t0p // type for elements
 
 #atscode_decl_strcst('\
 fun{x:t0p}
-list_reverse {n:int} (xs: list (x, n)): list_vt (x, n)
+list_reverse {n:int} (xs: list (x, n)):<> list_vt (x, n)
 ')\
 
 #atscode_decl_strcst('\

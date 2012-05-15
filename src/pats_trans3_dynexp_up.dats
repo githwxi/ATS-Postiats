@@ -754,21 +754,20 @@ fun d23exp_trup_app23 (
 ) : d3exp = let
   val loc_fun = d3e_fun.d3exp_loc
   val s2e_fun = d3e_fun.d3exp_type
-// (*
+(*
   val () = begin
     print "d23exp_trup_app23: s2e_fun = "; pprint_s2exp s2e_fun; print_newline ()
   end // end of [val]
-// *)
-//
+*)
   var err: int = 0
   val locsarg = $LOC.location_rightmost (loc_fun)
   val (s2e_fun, s2ps) = s2exp_unimet_instantiate_all (s2e_fun, locsarg, err)
   val () = trans3_env_add_proplst_vt (locsarg, s2ps)
-// (*
+(*
   val () = begin
     print "d23exp_trup_app23: s2e_fun = "; pprint_s2exp s2e_fun; print_newline ()
   end // end of [val]
-// *)
+*)
   val d3e_fun = d3exp_app_sta (loc_fun, s2e_fun, d3e_fun)
   val loc_app = $LOC.location_combine (loc_fun, locarg)
 in
@@ -800,13 +799,15 @@ case+ s2e_fun.s2exp_node of
       the_trans3errlst_add (T3E_d23exp_trup_app23_npf (loc_fun, npf))
     end // end of [val]
 //
+    val s2es_fun_arg = 
+      s2fun_opninv_and_add (locarg, s2es_fun_arg, s2e_fun_res)
     val d3es_arg = d23explst_trdn (locarg, d23es_arg, s2es_fun_arg)
     var s2e_res: s2exp = s2e_fun_res
 //
     var wths2es
       : wths2explst = WTHS2EXPLSTnil ()
     // end of [var]
-    val iswth = s2exp_is_wth (s2e_fun_res)
+    val iswth = s2exp_is_wthtype (s2e_fun_res)
     val () = if iswth then let
       val s2f = s2exp2hnf (s2e_fun_res)
       val s2e = s2hnf_opnexi_and_add (loc_app, s2f)

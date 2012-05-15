@@ -45,6 +45,11 @@ fun int1_of_bool1 {b:bool} (b: bool b):<> int (int_of_bool b)
 
 #atscode_separator()
 
+val true_bool : bool (true)
+val false_bool : bool (false)
+
+#atscode_separator()
+
 #atscode_decl_strcst('\
 fun neg_bool
   (b: bool):<> bool = "mac\#atspre_neg_bool"

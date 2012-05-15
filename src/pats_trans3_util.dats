@@ -70,13 +70,6 @@ staload "pats_trans3_env.sats"
 (* ****** ****** *)
 
 implement
-s2exp_is_wth (s2e) = (
-  case+ s2e.s2exp_node of S2Ewth _ => true | _ => false
-) // end of [s2exp_is_wth]
-
-(* ****** ****** *)
-
-implement
 d2exp_funclo_of_d2exp
   (d2e0, fc0) =
   case+ d2e0.d2exp_node of
