@@ -199,7 +199,9 @@ atmp0at ::=
   | LITERAL_float
   | LITERAL_string
   | pi0de
-  | BANG pi0de
+(*
+  | BANG pi0de // HX-2012-05: removed
+*)
   | OP pi0de
   | d0ynq pi0de
 //
@@ -229,15 +231,6 @@ case+ tok.token_node of
     ptest_fun (
     buf, p_pi0de, ent
   ) => p0at_i0de (synent_decode (ent))
-| T_BANG () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = p_pi0de (buf, bt, err)
-  in
-    if err = err0 then
-      p0at_ref (tok, ent2) else synent_null ()
-    // end of [if]
-  end
 | T_OP _ => let
     val bt = 0
     val () = incby1 ()
@@ -481,7 +474,7 @@ case+ tok.token_node of
         val ent3 = p_p0at (buf, bt, err)
       in
         if err = err0 then
-          p0at_as_refas (p0t, ent3) else tokbuf_set_ntok_null (buf, n0)
+          p0at_refas (p0t, ent3) else tokbuf_set_ntok_null (buf, n0)
         // end of [if]        
       end
     | T_COLON () => let

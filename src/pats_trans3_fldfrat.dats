@@ -145,8 +145,8 @@ in
 case
   s2e_ptr.s2exp_node of
 | S2Edatconptr
-    (d2c, s2es_addr) => let
-    val s2es_elt = auxfind (loc0, s2es_addr)
+    (d2c, _(*rt*), arg) => let
+    val s2es_elt = auxfind (loc0, arg)
     val s2e_dcon = d2con_get_type (d2c)
     var err: int = 0
     val (s2e_dcon, s2ps) =

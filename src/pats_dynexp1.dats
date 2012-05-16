@@ -73,11 +73,6 @@ p1at_dqid (loc, dq, id) = '{
   p1at_loc= loc, p1at_node= P1Tdqid (dq, id)
 }
 
-implement
-p1at_ref (loc, id) = '{
-  p1at_loc= loc, p1at_node= P1Tref (id)
-}
-
 (* ****** ****** *)
 
 implement
@@ -180,18 +175,15 @@ p1at_unfold (loc, p1t) = '{
 }
 
 implement
-p1at_as (loc, id, loc_id, p1t) = '{
-  p1at_loc= loc, p1at_node= P1Tas (id, loc_id, p1t)
-}
-implement
-p1at_refas (loc, id, loc_id, p1t) = '{
-  p1at_loc= loc, p1at_node= P1Trefas (id, loc_id, p1t)
+p1at_refas (loc, id, locid, p1t) = '{
+  p1at_loc= loc, p1at_node= P1Trefas (id, locid, p1t)
 }
 
 implement
 p1at_exist (loc, arg, p1t) = '{
   p1at_loc= loc, p1at_node= P1Texist (arg, p1t)
 }
+
 implement
 p1at_svararg (loc, arg) = '{
   p1at_loc= loc, p1at_node= P1Tsvararg (arg)

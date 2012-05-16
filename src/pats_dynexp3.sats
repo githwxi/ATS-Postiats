@@ -58,7 +58,7 @@ typedef d2var = d2var_type // abstract
 datatype p3at_node =
 //
   | P3Tany of d2var // wildcard
-  | P3Tvar of (int(*refknd*), d2var)
+  | P3Tvar of (d2var) // mutability from the context
 //
   | P3Tcon of (pckind, d2con, int(*npf*), p3atlst(*arg*))
 //
@@ -76,7 +76,7 @@ datatype p3at_node =
   | P3Trec of (int(*knd*), int(*npf*), labp3atlst)
   | P3Tlst of (int(*lin*), p3atlst) // pattern list
 //
-  | P3Trefas of (int(*refknd*), d2var, p3at)
+  | P3Trefas of (d2var, p3at) // referenced pattern
   | P3Texist of (s2varlst, p3at) // existential opening
 //
   | P3Tann of (p3at, s2exp) // ascribed pattern
@@ -110,7 +110,7 @@ fun p3at_any (
 ) : p3at // end of [p3at_any]
 
 fun p3at_var (
-  loc: location, s2e: s2exp, knd: int, d2v: d2var
+  loc: location, s2e: s2exp, d2v: d2var
 ) : p3at // end of [p3at_var]
 
 fun p3at_con (
@@ -152,8 +152,7 @@ fun p3at_lst (
 ) : p3at // end of [p3at_lst]
 
 fun p3at_refas (
-  loc: location
-, s2f: s2exp, refknd: int, d2v: d2var, p3t: p3at
+  loc: location, s2f: s2exp, d2v: d2var, p3t: p3at
 ) : p3at // end of [p3at_refas]
 
 fun p3at_exist (

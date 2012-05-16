@@ -143,7 +143,7 @@ case+ p2t0.p2at_node of
       s2exp_tyrec (knd, npf, aux_labp2atlst (lp2ts))
     // end of [P2Trec]
 //
-  | P2Trefas (knd, d2v, p2t) => p2at_syn_type (p2t)
+  | P2Trefas (d2v, p2t) => p2at_syn_type (p2t)
 //
   | P2Tlist _ => s2exp_t0ype_err ()
   | P2Texist _ => s2exp_t0ype_err ()
@@ -263,7 +263,7 @@ val- S2Erefarg
   (refknd, s2e) = s2e0.s2exp_node
 val s2f = s2exp2hnf (s2e)
 val s2e = s2hnf2exp (s2f)
-val- P2Tvar (refknd2, d2v) = p2t0.p2at_node
+val- P2Tvar (d2v) = p2t0.p2at_node
 //
 in
 //
@@ -279,7 +279,7 @@ case+ 0 of
   end // end of [refknd = 0]
 | _ (*refknd = 1*) => let // call-by-reference
     val loc0 = p2t0.p2at_loc
-    val p3t0 = p3at_var (loc0, s2e0, refknd, d2v)
+    val p3t0 = p3at_var (loc0, s2e0, d2v)
     val s2e_opn = s2hnf_opnexi_and_add (loc0, s2f)
     val sym = d2var_get_sym (d2v)
     val s2v_addr = s2var_make_id_srt (sym, s2rt_addr)
@@ -430,7 +430,7 @@ fun p2at_trdn_rec (p2t0: p2at, s2f0: s2hnf): p3at
 extern
 fun p2at_trdn_lst (p2t0: p2at, s2f0: s2hnf): p3at
 extern
-fun p2at_trdn_aspat (p2t0: p2at, s2f0: s2hnf): p3at
+fun p2at_trdn_refas (p2t0: p2at, s2f0: s2hnf): p3at
 extern
 fun p2at_trdn_exist (p2t0: p2at, s2f0: s2hnf): p3at
 extern
@@ -472,7 +472,8 @@ case+ p2t0.p2at_node of
 | P2Trec _ => p2at_trdn_rec (p2t0, s2f0)
 | P2Tlst _ => p2at_trdn_lst (p2t0, s2f0)
 //
-| P2Trefas _ => p2at_trdn_aspat (p2t0, s2f0)
+| P2Trefas _ => p2at_trdn_refas (p2t0, s2f0)
+//
 | P2Texist _ => p2at_trdn_exist (p2t0, s2f0)
 //
 | P2Tann _ => p2at_trdn_ann (p2t0, s2f0)
@@ -554,7 +555,7 @@ implement
 p2at_trdn_var
   (p2t0, s2f0) = let
   val loc0 = p2t0.p2at_loc
-  val- P2Tvar (knd, d2v) = p2t0.p2at_node
+  val- P2Tvar (d2v) = p2t0.p2at_node
 //
   val s2e0 = s2hnf2exp (s2f0)
   val s2t0 = s2e0.s2exp_srt
@@ -582,7 +583,7 @@ p2at_trdn_var
   end // end of [val]
 *)
 in
-  p3at_var (loc0, s2e, knd(*refval*), d2v)
+  p3at_var (loc0, s2e, d2v)
 end // end of [p2at_trdn_var]
 
 (* ****** ****** *)
@@ -1134,17 +1135,16 @@ end // end of [p2at_trdn_lst]
 (* ****** ****** *)
 
 implement
-p2at_trdn_aspat
+p2at_trdn_refas
   (p2t0, s2f0) = let
 //
 val loc0 = p2t0.p2at_loc
-val- P2Trefas
-  (refknd, d2v, p2t) = p2t0.p2at_node
+val- P2Trefas (d2v, p2t) = p2t0.p2at_node
 val s2e0 = s2hnf2exp (s2f0)
 val () = d2var_set_mastype (d2v, Some s2e0)
 val s2e1 = s2hnf_opnexi_and_add (loc0, s2f0)
 val p3t = p2at_trdn (p2t, s2e1)
-val p3t0 = p3at_refas (loc0, s2e0, refknd, d2v, p3t)
+val p3t0 = p3at_refas (loc0, s2e0, d2v, p3t)
 val () = let
   val opt = p3at_get_type_left (p3t)
 in
@@ -1166,7 +1166,7 @@ end // end of [val]
 //
 in
   p3t0
-end // end of [p2at_trdn_aspat]
+end // end of [p2at_trdn_refas]
 
 (* ****** ****** *)
 
@@ -1355,6 +1355,7 @@ end // end of [guard_trdn]
 
 (* ****** ****** *)
 
+(*
 implement
 p3at_mutablize
   (p3t0) = let
@@ -1376,17 +1377,14 @@ end // end of [auxvar]
 in
 //
 case+ p3t0.p3at_node of
-| P3Tvar (
-    refknd, d2v
-  ) when refknd > 0 => auxvar (loc0, d2v)
-| P3Trefas (
-    refknd, d2v, p3t
-  ) when refknd > 0 => auxvar (loc0, d2v)
+| P3Tvar (d2v) => auxvar (loc0, d2v)
+| P3Trefas (d2v, _) => auxvar (loc0, d2v)
 | P3Tann (p3t, _) => p3at_mutablize (p3t)
 //
 | _ => ()
 //
 end // end of [p3at_mutablize]
+*)
 
 (* ****** ****** *)
 

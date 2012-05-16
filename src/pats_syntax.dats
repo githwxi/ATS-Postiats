@@ -1162,13 +1162,6 @@ in '{
   p0at_loc= loc, p0at_node= P0Topid (x2.i0de_sym)
 } end // end of [p0at_opid]
 
-implement
-p0at_ref (t_bang, id) = let
-  val loc = t_bang.token_loc + id.i0de_loc
-in '{
-  p0at_loc= loc, p0at_node= P0Tref (id.i0de_sym)
-} end // end of [p0at_ref]
-
 (* ****** ****** *)
 
 implement
@@ -1280,18 +1273,16 @@ in '{
 (* ****** ****** *)
 
 implement
-p0at_as_refas (p0t1, p0t2) = let
+p0at_refas (p0t1, p0t2) = let
   val loc1 = p0t1.p0at_loc
   val loc = loc1 + p0t2.p0at_loc
 in
 //
 case+ p0t1.p0at_node of
 | P0Tide (id) => '{
-    p0at_loc= loc, p0at_node= P0Tas (id, loc1, p0t2)
-  }
-| P0Tref (id) => '{
-    p0at_loc= loc, p0at_node= P0Trefas (id, loc1, p0t2)
-  }
+    p0at_loc= loc
+  , p0at_node= P0Trefas (id, loc1, p0t2)
+  } // end of [P0Tide]
 | _ => let
     val err = parerr_make (p0t1.p0at_loc, PE_p0at_as)
     val () = the_parerrlst_add (err)

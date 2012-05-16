@@ -48,6 +48,7 @@ staload "pats_basics.sats"
 
 staload LAB = "pats_label.sats"
 overload = with $LAB.eq_label_label
+overload != with $LAB.neq_label_label
 staload EFF = "pats_effect.sats"
 overload = with $EFF.eq_effset_effset
 staload INTINF = "pats_intinf.sats"
@@ -540,7 +541,7 @@ fun s2lab_syneq_exn (
   | S2LABlab l1 => (
     case+ s2l2 of
     | S2LABlab l2 =>
-        if l1 = l2 then () else $raise (SYNEQexn)
+        if l1 != l2 then $raise (SYNEQexn)
       // end of [S2LABlab]
     | S2LABind _ => $raise (SYNEQexn)
     )
@@ -602,24 +603,24 @@ case s2en10 of
 | S2Eint i1 => (
   case+ s2en20 of
   | S2Eint i2 =>
-      if eq_int_int (i1, i2) then () else $raise (SYNEQexn)
+      if i1 != i2 then $raise (SYNEQexn)
   | S2Eintinf i2 =>
-      if eq_int_intinf (i1, i2) then () else $raise (SYNEQexn)
+      if ~eq_int_intinf (i1, i2) then $raise (SYNEQexn)
   | _ => $raise (SYNEQexn)
   ) // end of [S2Eint]
 | S2Eintinf i1 => (
   case+ s2en20 of
   | S2Eint i2 =>
-      if eq_intinf_int (i1, i2) then () else $raise (SYNEQexn)
+      if ~eq_intinf_int (i1, i2) then $raise (SYNEQexn)
   | S2Eintinf i2 =>
-      if eq_intinf_intinf (i1, i2) then () else $raise (SYNEQexn)
+      if ~eq_intinf_intinf (i1, i2) then $raise (SYNEQexn)
   | _ => $raise (SYNEQexn)
   ) // end of [S2Eintinf]
 //
 | S2Ecst s2c1 => (
   case+ s2en20 of
   | S2Ecst s2c2 =>
-      if eq_s2cst_s2cst (s2c1, s2c2) then () else $raise (SYNEQexn)
+      if s2c1 != s2c2 then $raise (SYNEQexn)
   | _ => $raise (SYNEQexn)
   ) // end of [S2Ecst]
 //
@@ -635,32 +636,34 @@ case s2en10 of
 | S2Evar (s2v1) => (
   case+ s2en20 of
   | S2Evar s2v2 =>
-      if eq_s2var_s2var (s2v1, s2v2) then () else $raise (SYNEQexn)
+      if s2v1 != s2v2 then $raise (SYNEQexn)
   | _ => $raise (SYNEQexn)
   ) // end of [S2Evar]
 | S2EVar (s2V1) => (
   case+ s2en20 of
   | S2EVar s2V2 =>
-      if eq_s2Var_s2Var (s2V1, s2V2) then () else $raise (SYNEQexn)
+      if s2V1 != s2V2 then $raise (SYNEQexn)
   | _ => $raise (SYNEQexn)
   ) // end of [S2EVar]
 //
-| S2Edatconptr (d2c1, s2es1) => (
+| S2Edatcontyp
+    (d2c1, arg1) => (
   case+ s2en20 of
-  | S2Edatconptr (d2c2, s2es2) =>
-      if eq_d2con_d2con (d2c1, d2c2)
-        then s2explst_syneq_exn (s2es1, s2es2) else $raise (SYNEQexn)
-      // end of [if]
-  | _ => $raise (SYNEQexn)
-  ) // end of [S2Edatconptr]
-| S2Edatcontyp (d2c1, s2es1) => (
-  case+ s2en20 of
-  | S2Edatcontyp (d2c2, s2es2) =>
-      if eq_d2con_d2con (d2c1, d2c2)
-        then s2explst_syneq_exn (s2es1, s2es2) else $raise (SYNEQexn)
+  | S2Edatcontyp (d2c2, arg2) =>
+      if eq_d2con_d2con (d2c1, d2c2) then
+        s2explst_syneq_exn (arg1, arg2) else $raise (SYNEQexn)
       // end of [if]
   | _ => $raise (SYNEQexn)
   ) // end of [S2Edatcontyp]
+| S2Edatconptr
+    (d2c1, rt1, _) => (
+  case+ s2en20 of
+  | S2Edatconptr (d2c2, rt2, _) =>
+      if eq_d2con_d2con (d2c1, d2c2)
+        then s2exp_syneq_exn (rt1, rt2) else $raise (SYNEQexn)
+      // end of [if]
+  | _ => $raise (SYNEQexn)
+  ) // end of [S2Edatconptr]
 //
 | S2Eeff (s2fe1) => (
   case+ s2en20 of

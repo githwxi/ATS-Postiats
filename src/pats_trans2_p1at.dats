@@ -102,15 +102,13 @@ case+ ans of
       val sym = d2cst_get_sym (d2c) in case+ 0 of
         | _ when sym = $SYM.symbol_TRUE => p2at_bool (loc0, true)
         | _ when sym = $SYM.symbol_FALSE => p2at_bool (loc0, false)
-        | _ => p2at_var (loc0, 0(*refknd*), d2var_make (loc0, id))
+        | _ => p2at_var (loc0, d2var_make (loc0, id))
       // end of [val]
     end // end of [D2ITEMcst]
 //
-   | _ => p2at_var (loc0, 0(*refknd*), d2var_make (loc0, id))
+   | _ => p2at_var (loc0, d2var_make (loc0, id))
    end // end of [Some_vt]
-| ~None_vt () =>
-    p2at_var (loc0, 0(*refknd*), d2var_make (loc0, id))
-  // end of [None_vt]
+| ~None_vt () => p2at_var (loc0, d2var_make (loc0, id))
 end // end of [p1at_tr_ide]
 
 (* ****** ****** *)
@@ -583,9 +581,6 @@ case+ p1t0.p1at_node of
   in
     p1at_tr_app_dyn_dqid (p1t0, p1t0, dq, id, npf, darg)
   end // end of [P2Tdqid]
-| P1Tref (id) =>
-    p2at_var (loc0, 1(*refknd*), d2var_make (loc0, id))
-  // end of [P1Tref]
 //
 | P1Tint (int) => p2at_int (loc0, int)
 | P1Tintrep (rep) => p2at_intrep (loc0, rep)
@@ -632,16 +627,11 @@ case+ p1t0.p1at_node of
 | P1Tfree (p1t) => p1at_tr_free_unfold (PCKfree, p1t0, p1t)
 | P1Tunfold (p1t) => p1at_tr_free_unfold (PCKunfold, p1t0, p1t)
 //
-| P1Tas (id, loc_id, p1t) => let
-    val d2v = d2var_make (loc_id, id)
-  in
-    p2at_refas (loc0, 0(*refknd*), d2v, p1at_tr (p1t))
-  end // end of [P1Tas]
 | P1Trefas (id, loc_id, p1t) => let
     val d2v = d2var_make (loc_id, id)
   in
-    p2at_refas (loc0, 1(*refknd*), d2v, p1at_tr (p1t))
-  end // end of [P1Tas]
+    p2at_refas (loc0, d2v, p1at_tr (p1t))
+  end // end of [P1Trefas]
 //
 | P1Texist (s1as, p1t) => let
     val (pfenv | ()) = the_s2expenv_push_nil ()

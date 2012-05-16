@@ -181,7 +181,6 @@ case+ p0t0.p0at_node of
     | ~None_vt () => FXITMatm (p1t)
   end // end of [P0Tide]
 //
-| P0Tref (id) => FXITMatm (p1at_ref (loc0, id))
 | P0Tdqid (dq, id) => FXITMatm (p1at_dqid (loc0, dq, id))
 | P0Topid (id) => FXITMatm (p1at_ide (loc0, id))
 //
@@ -218,8 +217,6 @@ case+ p0t0.p0at_node of
 | P0Tfree (p0t) => FXITMatm (p1at_free (loc0, p0at_tr p0t))
 | P0Tunfold (p0t) => FXITMatm (p1at_unfold (loc0, p0at_tr p0t))
 //
-| P0Tas (id, loc_id, p0t) =>
-    FXITMatm (p1at_as (loc0, id, loc_id, p0at_tr p0t))
 | P0Trefas (id, loc_id, p0t) =>
     FXITMatm (p1at_refas (loc0, id, loc_id, p0at_tr p0t))
 //

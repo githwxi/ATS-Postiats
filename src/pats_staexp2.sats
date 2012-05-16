@@ -282,8 +282,8 @@ fun filenv_get_name (x: filenv): filename
 datatype
 s2itm = // static items
   | S2ITMcst of s2cstlst
-  | S2ITMdatconptr of d2con
   | S2ITMdatcontyp of d2con
+  | S2ITMdatconptr of d2con
   | S2ITMe1xp of e1xp
   | S2ITMfil of filenv
   | S2ITMvar of s2var
@@ -350,10 +350,10 @@ s2exp_node =
   | S2EVar of s2Var // existential variable
   | S2Ehole of s2hole // it used to form contexts
 //
-  | S2Edatconptr of (* unfolded datatype *)
-      (d2con, s2explst) (* constructor and addrs of arguments *)
   | S2Edatcontyp of (* unfolded datatype *)
       (d2con, s2explst) (* constructor and types of arguments *)
+  | S2Edatconptr of (* unfolded datatype *)
+      (d2con, s2exp, s2explst) (* constructor and addrs of arguments *)
 //
   | S2Eat of (s2exp, s2exp) // for at-views
   | S2Esizeof of (s2exp) // for sizes of types
@@ -902,8 +902,8 @@ fun s2exp_confun (npf: int, s2es: s2explst, s2e: s2exp): s2exp
 
 (* ****** ****** *)
 
-fun s2exp_datconptr (d2c: d2con, s2es: s2explst): s2exp
-fun s2exp_datcontyp (d2c: d2con, s2es: s2explst): s2exp
+fun s2exp_datcontyp (d2c: d2con, arg: s2explst): s2exp
+fun s2exp_datconptr (d2c: d2con, rt: s2exp, arg: s2explst): s2exp
 
 (* ****** ****** *)
 

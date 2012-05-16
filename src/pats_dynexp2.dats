@@ -130,9 +130,9 @@ eq_pckind_pckind
   (x1, x2) = (
   case+ (x1, x2) of
   | (PCKcon (), PCKcon ()) => true
-  | (PCKunfold (), PCKunfold ()) => true
+  | (PCKlincon (), PCKlincon ()) => true
   | (PCKfree (), PCKfree ()) => true
-  | (PCKnonlin (), PCKnonlin ()) => true
+  | (PCKunfold (), PCKunfold ()) => true
   | (_, _) => false
 ) // end of [eq_pckind_pckind]
 
@@ -155,10 +155,10 @@ p2at_any (loc) =
 
 implement
 p2at_var
-  (loc, refknd, d2v) = let
+  (loc, d2v) = let
   val dvs = $UT.lstord_sing (d2v)
 in
-  p2at_make_node (loc, p2at_svs_nil, dvs, P2Tvar (refknd, d2v))
+  p2at_make_node (loc, p2at_svs_nil, dvs, P2Tvar (d2v))
 end // end of [p2at_var]
 
 (* ****** ****** *)
@@ -282,14 +282,16 @@ end // end of [p2at_lst]
 (* ****** ****** *)
 
 implement
-p2at_refas (loc, refknd, d2v, p2t) = let
+p2at_refas (loc, d2v, p2t) = let
   val svs = p2t.p2at_svs
   val dvs = $UT.lstord_insert
     (p2t.p2at_dvs, d2v, compare_d2vsym_d2vsym)
   // end of [val]
 in
-  p2at_make_node (loc, svs, dvs, P2Trefas (refknd, d2v, p2t))
+  p2at_make_node (loc, svs, dvs, P2Trefas (d2v, p2t))
 end // end of [p2at_refas]
+
+(* ****** ****** *)
 
 implement
 p2at_exist

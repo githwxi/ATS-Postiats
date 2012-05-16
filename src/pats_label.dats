@@ -60,10 +60,14 @@ implement
 eq_label_label
   (l1, l2) = compare_label_label (l1, l2) = 0
 // end of [eq_label_label]
+implement
+neq_label_label
+  (l1, l2) = compare_label_label (l1, l2) != 0
+// end of [neq_label_label]
 
 implement
-compare_label_label (lab1, lab2) =
-  case+ (lab1, lab2) of
+compare_label_label (l1, l2) =
+  case+ (l1, l2) of
   | (LABint i1, LABint i2) => compare (i1, i2)
   | (LABsym s1, LABsym s2) => compare (s1, s2)
   | (LABint _, LABsym _) => ~1

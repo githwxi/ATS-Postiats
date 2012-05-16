@@ -234,8 +234,10 @@ val () = the_pfmanenv_add_dvaropt (opt)
 in
 //
 case+ p3t.p3at_node of
+//
 | P3Tany (d2v) => the_pfmanenv_add_dvar (d2v)
-| P3Tvar (refknd, d2v) => the_pfmanenv_add_dvar (d2v)
+| P3Tvar (d2v) => the_pfmanenv_add_dvar (d2v)
+//
 | P3Tcon (
     _(*pck*), d2c, npf, p3ts
   ) => the_pfmanenv_add_p3atlst (p3ts)
@@ -260,10 +262,11 @@ case+ p3t.p3at_node of
   // end of [P3Trec]
 | P3Tlst (lin, p3ts) => the_pfmanenv_add_p3atlst (p3ts)
 //
-| P3Trefas (refknd, d2v, p3t) => {
+| P3Trefas (d2v, p3t) => {
     val () = the_pfmanenv_add_dvar (d2v)
     val () = the_pfmanenv_add_p3at (p3t)
   } // end of [P3Trefas]
+//
 | P3Texist (s2vs, p3t) => the_pfmanenv_add_p3at (p3t)
 //
 | P3Terr _ => ()

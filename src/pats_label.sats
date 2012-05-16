@@ -51,6 +51,8 @@ fun label_make_string (str: string): label
 
 fun eq_label_label (l1: label, l2: label):<> bool
 overload = with eq_label_label
+fun neq_label_label (l1: label, l2: label):<> bool
+overload != with neq_label_label
 
 fun compare_label_label (l1: label, l2: label):<> Sgn
 overload compare with compare_label_label

@@ -57,8 +57,8 @@ p3at_any
 
 implement
 p3at_var
-  (loc, s2f, refknd, d2v) =
-  p3at_make_node (loc, s2f, P3Tvar (refknd, d2v))
+  (loc, s2f, d2v) =
+  p3at_make_node (loc, s2f, P3Tvar (d2v))
 // end of [p3at_var]
 
 implement
@@ -118,8 +118,8 @@ p3at_lst (
 
 implement
 p3at_refas (
-  loc, s2f, refknd, d2v, p3t
-) = p3at_make_node (loc, s2f, P3Trefas (refknd, d2v, p3t))
+  loc, s2f, d2v, p3t
+) = p3at_make_node (loc, s2f, P3Trefas (d2v, p3t))
 
 implement
 p3at_exist (

@@ -141,9 +141,9 @@ fprint_pckind (out, pck) = let
 in
   case+ pck of
   | PCKcon () => prstr "PCKcon"
-  | PCKunfold () => prstr "PCKunfold"
+  | PCKlincon () => prstr "PCKlincon"
   | PCKfree () => prstr "PCKfree"
-  | PCKnonlin () => prstr "PCKnonlin"
+  | PCKunfold () => prstr "PCKunfold"
 end // end of [fprint_pckind]
 
 (* ****** ****** *)
@@ -158,10 +158,8 @@ case+ x.p2at_node of
 | P2Tany () => {
     val () = prstr "P2Tany()"
   }
-| P2Tvar (knd, d2v) => {
+| P2Tvar (d2v) => {
     val () = prstr "P2Tvar("
-    val () = fprint_int (out, knd)
-    val () = prstr ", "
     val () = fprint_d2var (out, d2v)
     val () = prstr ")"
   }
@@ -253,15 +251,14 @@ case+ x.p2at_node of
     val () = prstr ")"
   }
 //
-| P2Trefas (knd, d2v, p2t) => {
+| P2Trefas (d2v, p2t) => {
     val () = prstr "P2Trefas("
-    val () = fprint_int (out, knd)
-    val () = prstr "; "
     val () = fprint_d2var (out, d2v)
     val () = prstr "; "
     val () = fprint_p2at (out, p2t)
     val () = prstr ")"
   }
+//
 | P2Texist (s2vs, p2t) => {
     val () = prstr "P2Texist("
     val () = fprint_s2varlst (out, s2vs)

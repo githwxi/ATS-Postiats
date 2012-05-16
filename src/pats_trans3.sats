@@ -65,8 +65,7 @@ datatype trans3err =
   | T3E_p2at_trdn of (p2at, s2exp)
   | T3E_p2at_trup_con of p2at // pfarity // ill-typed
   | T3E_p2at_trdn_con_arity of (p2at, int(*serr*))
-  | T3E_p2at_con_varpat of (p3at) // nonlin constructor having var-patterns
-  | T3E_p2at_lincon_update of (p3at) // involving linear constructor unfolding or freeing
+  | T3E_p2at_free_update of (p3at) // linear constructor freeing
 //
   | T3E_d2var_trup_llamlocal of (d2var) // non-local linear variable
 //
@@ -177,7 +176,9 @@ fun guard_trdn
   (loc: location, gval: bool, gtyp: s2exp): void
 // end of [guard_trdn]
 
-fun p3at_mutablize (p3t0: p3at): void // HX: val !x = ...
+(*
+fun p3at_mutablize (p3t0: p3at): void // HX: var [pat] = ...
+*)
 
 (* ****** ****** *)
 

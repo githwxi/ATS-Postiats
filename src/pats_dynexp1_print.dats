@@ -72,11 +72,6 @@ case+ p1t0.p1at_node of
     val () = ($SYN.fprint_d0ynq (out, q); fprint_symbol (out, id))
     val () = prstr ")"
   }
-| P1Tref (sym) => {
-    val () = prstr "P1Tref("
-    val () = fprint_symbol (out, sym)
-    val () = prstr ")"
-  }
 //
 | P1Tint (int) => {
     val () = prstr "P1Tint("
@@ -179,14 +174,8 @@ case+ p1t0.p1at_node of
     val () = prstr ")"
   }
 //
-| P1Tas (sym, loc_id, p1t) => {
-    val () = prstr "P1Tas("
-    val () = fprint_symbol (out, sym)
-    val () = prstr "; "
-    val () = fprint_p1at (out, p1t)
-    val () = prstr ")"
-  }
-| P1Trefas (sym, loc_id, p1t) => {
+| P1Trefas
+    (sym, loc_id, p1t) => {
     val () = prstr "P1Trefas("
     val () = fprint_symbol (out, sym)
     val () = prstr "; "

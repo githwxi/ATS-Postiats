@@ -630,6 +630,7 @@ fprint_p0at (out, x) = let
 in
 //
 case+ x.p0at_node of
+//
 | P0Tide (sym) => {
     val () = prstr "P0Tide("
     val () = fprint_symbol (out, sym)
@@ -644,11 +645,6 @@ case+ x.p0at_node of
     val () = prstr "P0Tdqid("
     val () = fprint_d0ynq (out, dq)
     val () = fprint_symbol (out, sym)
-    val () = prstr ")"
-  }
-| P0Tref (id) => {
-    val () = prstr "P0Tref("
-    val () = fprint_symbol (out, id)
     val () = prstr ")"
   }
 //
@@ -736,13 +732,6 @@ case+ x.p0at_node of
     val () = prstr ")"
   }
 //
-| P0Tas (id, loc_id, p0t_as) => {
-    val () = prstr "P0Tas("
-    val () = fprint_symbol (out, id)
-    val () = prstr ", "
-    val () = fprint_p0at (out, p0t_as)
-    val () = prstr ")"
-  }
 | P0Trefas (id, loc_id, p0t_as) => {
     val () = prstr "P0Trefas("
     val () = fprint_symbol (out, id)

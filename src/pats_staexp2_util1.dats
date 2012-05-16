@@ -719,22 +719,23 @@ case+ s2e0.s2exp_node of
 //
 | S2Ehole _ => s2e0
 //
-| S2Edatconptr (d2c, s2es) => let
+| S2Edatcontyp (d2c, arg) => let
     val flag0 = flag
-    val s2es = s2explst_subst_flag (sub, s2es, flag)
+    val arg = s2explst_subst_flag (sub, arg, flag)
   in
     if flag > flag0 then let
-      val s2e_res = s2exp_datconptr (d2c, s2es) in s2e_res
-    end else s2e0
-  end // end of [S2Edatconptr]
-| S2Edatcontyp (d2c, s2es) => let
-    val flag0 = flag
-    val s2es = s2explst_subst_flag (sub, s2es, flag)
-  in
-    if flag > flag0 then let
-      val s2e_res = s2exp_datcontyp (d2c, s2es) in s2e_res
+      val s2e_res = s2exp_datcontyp (d2c, arg) in s2e_res
     end else s2e0
   end // end of [S2Edatcontyp]
+| S2Edatconptr (d2c, rt, arg) => let
+    val flag0 = flag
+    val rt = s2exp_subst_flag (sub, rt, flag)
+    val arg = s2explst_subst_flag (sub, arg, flag)
+  in
+    if flag > flag0 then let
+      val s2e_res = s2exp_datconptr (d2c, rt, arg) in s2e_res
+    end else s2e0
+  end // end of [S2Edatconptr]
 //
 | S2Eat (s2e1, s2e2) => let
     val flag0 = flag
@@ -1147,8 +1148,11 @@ case+ s2e0.s2exp_node of
 //
 | S2Ehole _ => ()
 //
-| S2Edatconptr (d2c, s2es_arg) => aux_s2explst (s2es_arg, fvs)
-| S2Edatcontyp (d2c, s2es_arg) => aux_s2explst (s2es_arg, fvs)
+| S2Edatcontyp
+    (d2c, arg) => aux_s2explst (arg, fvs)
+| S2Edatconptr (d2c, rt, arg) => (
+    aux_s2exp (rt, fvs); aux_s2explst (arg, fvs)
+  )
 //
 | S2Eat (s2e1, s2e2) => (
     aux_s2exp (s2e1, fvs); aux_s2exp (s2e2, fvs)

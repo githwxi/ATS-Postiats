@@ -277,20 +277,22 @@ case+ x.s2exp_node of
     val () = prstr ")"
   } // end of [S2Ehole]
 //
-| S2Edatconptr (d2c, s2es) => {
-    val () = prstr "S2Edatconptr("
-    val () = fprint_d2con (out, d2c)
-    val () = prstr "; "
-    val () = fprint_s2explst (out, s2es)
-    val () = prstr ")"
-  } // end of [S2Edatconptr]
-| S2Edatcontyp (d2c, s2es) => {
+| S2Edatcontyp (d2c, arg) => {
     val () = prstr "S2Edatcontyp("
     val () = fprint_d2con (out, d2c)
     val () = prstr "; "
-    val () = fprint_s2explst (out, s2es)
+    val () = fprint_s2explst (out, arg)
     val () = prstr ")"
   } // end of [S2Edatcontyp]
+| S2Edatconptr (d2c, rt, arg) => {
+    val () = prstr "S2Edatconptr("
+    val () = fprint_d2con (out, d2c)
+    val () = prstr "; "
+    val () = fprint_s2exp (out, rt)
+    val () = prstr "; "
+    val () = fprint_s2explst (out, arg)
+    val () = prstr ")"
+  } // end of [S2Edatconptr]
 //
 | S2Eat (s2e1, s2e2) => {
     val () = prstr "S2Eat("

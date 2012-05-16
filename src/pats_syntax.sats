@@ -955,7 +955,6 @@ p0at_node =
   | P0Tide of symbol
   | P0Tdqid of (d0ynq, symbol)
   | P0Topid of symbol
-  | P0Tref of symbol // reference variable
 //
   | P0Tint of i0nt
   | P0Tchar of c0har
@@ -976,7 +975,6 @@ p0at_node =
   | P0Texist of s0arglst
   | P0Tsvararg of s0vararg
 //
-  | P0Tas of (symbol, location, p0at(*p0t*))
   | P0Trefas of (symbol, location, p0at(*p0t*))
 //
   | P0Tann of (p0at, s0exp)
@@ -1010,8 +1008,6 @@ fun p0at_i0nt (x: i0nt): p0at
 fun p0at_c0har (x: c0har): p0at
 fun p0at_f0loat (x: f0loat): p0at
 fun p0at_s0tring (x: s0tring): p0at
-
-fun p0at_ref (_: token, id: i0de): p0at
 
 fun p0at_app (x1: p0at, x2: p0at): p0at
 
@@ -1048,7 +1044,7 @@ fun p0at_svararg (
   t_beg: token, x: s0vararg, t_end: token
 ) : p0at // end of [p0at_svararg]
 
-fun p0at_as_refas (id: p0at, pat: p0at): p0at
+fun p0at_refas (id: p0at, pat: p0at): p0at
 
 fun p0at_free (tok: token, p0t: p0at): p0at
 fun p0at_unfold (tok: token, p0t: p0at): p0at
