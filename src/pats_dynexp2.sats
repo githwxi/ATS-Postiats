@@ -318,13 +318,28 @@ fun fprint_d2sym : fprint_type (d2sym)
 
 (* ****** ****** *)
 
+datatype pckind =
+  | PCKcon of () // 0 // auto folding
+  | PCKunfold of () // 2 // manual folding
+  | PCKfree of () // 1 // freeing
+  | PCKnonlin of () // ~1 // nonlinear constructor
+// end of [pckind]
+
+fun fprint_pckind : fprint_type (pckind)
+
+fun eq_pckind_pckind
+  (x1: pckind, x2: pckind): bool
+overload = with eq_pckind_pckind
+
+(* ****** ****** *)
+
 datatype p2at_node =
 //
   | P2Tany of () // wildcard
   | P2Tvar of (int(*refknd*), d2var)
 //
   | P2Tcon of ( // constructor pattern
-      int(*freeknd*), d2con, s2qualst, s2exp(*con*), int(*npf*), p2atlst
+      pckind, d2con, s2qualst, s2exp(*con*), int(*npf*), p2atlst
     ) // end of [P2Tcon]
 //
   | P2Tint of int
@@ -342,7 +357,7 @@ datatype p2at_node =
   | P2Trec of (int(*knd*), int(*npf*), labp2atlst)
   | P2Tlst of (int(*lin*), p2atlst) // pattern list
 //
-  | P2Tas of (int(*refknd*), d2var, p2at)
+  | P2Trefas of (int(*refknd*), d2var, p2at)
   | P2Texist of (s2varlst, p2at) // existential opening
 //
   | P2Tann of (p2at, s2exp) // no s2Var in the ascribed type
@@ -397,7 +412,7 @@ fun p2at_var (
 
 fun p2at_con (
   loc: location
-, freeknd: int
+, pck: pckind
 , d2c: d2con
 , s2qs: s2qualst
 , s2f_con: s2exp
@@ -429,9 +444,9 @@ fun p2at_lst (
   loc: location, lin: int, p2ts: p2atlst
 ) : p2at // end of [p2at_lst]
 
-fun p2at_as (
+fun p2at_refas (
   loc: location, refknd: int, d2v: d2var, p2t: p2at
-) : p2at // end of [p2at_as]
+) : p2at // end of [p2at_refas]
 
 fun p2at_exist
   (loc: location, s2vs: s2varlst, p2t: p2at): p2at

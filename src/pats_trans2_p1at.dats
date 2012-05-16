@@ -300,7 +300,7 @@ in
 end : p2atlst // end of [val]
 //
 in
-  p2at_con (p1t0.p1at_loc, 0(*freeknd*), d2c, out, s2e, npf, darg)
+  p2at_con (p1t0.p1at_loc, PCKcon, d2c, out, s2e, npf, darg)
 end // end of [p1at_tr_con]
 
 (* ****** ****** *)
@@ -509,17 +509,22 @@ p1t_fun.p1at_node of
 end // end of [p1at_tr_app_sta_dyn]
 
 (* ****** ****** *)
-
-fun p1at_tr_free (
-  p1t0: p1at, p1t: p1at
+//
+// HX: free=0/unfold=2
+//
+fun p1at_tr_free_unfold (
+  pck: pckind, p1t0: p1at, p1t: p1at
 ) : p2at = let
   val loc0 = p1t0.p1at_loc
   val p2t = p1at_tr (p1t)
 in
 //
 case+ p2t.p2at_node of
-| P2Tcon (freeknd, d2c, s2qs, s2e, npf, darg) =>
-    p2at_con (loc0, 1-freeknd, d2c, s2qs, s2e, npf, darg)
+| P2Tcon (
+    PCKcon (), d2c, s2qs, s2e, npf, darg
+  ) =>
+    p2at_con (loc0, pck, d2c, s2qs, s2e, npf, darg)
+  // end of [P2Tcon]
 | _ => let
     val () = prerr_error2_loc (loc0)
     val () = filprerr_ifdebug ("p1at_tr_free")
@@ -530,7 +535,7 @@ case+ p2t.p2at_node of
     p2at_err (loc0)
   end // end of [_]
 //
-end // end of [p1at_tr_free]
+end // end of [p1at_tr_free_unfold]
 
 (* ****** ****** *)
 
@@ -607,7 +612,8 @@ case+ p1t0.p1at_node of
 //
 | P1Tlist (npf, p1ts) => (
   case+ p1ts of
-  | list_cons _ => p1at_tr_tup (p1t0, 0(*tupknd*), npf, p1ts)
+  | list_cons _ =>
+      p1at_tr_tup (p1t0, 0(*tupknd*), npf, p1ts)
   | list_nil _ => p2at_empty (loc0)
   ) // end of [P1Tlist]
 //
@@ -623,16 +629,18 @@ case+ p1t0.p1at_node of
   end // end of [P1Trec]
 | P1Tlst (lin, p1ts) => p2at_lst (loc0, lin, p1atlst_tr (p1ts))
 //
-| P1Tfree (p1t) => p1at_tr_free (p1t0, p1t)
+| P1Tfree (p1t) => p1at_tr_free_unfold (PCKfree, p1t0, p1t)
+| P1Tunfold (p1t) => p1at_tr_free_unfold (PCKunfold, p1t0, p1t)
+//
 | P1Tas (id, loc_id, p1t) => let
     val d2v = d2var_make (loc_id, id)
   in
-    p2at_as (loc0, 0(*refknd*), d2v, p1at_tr (p1t))
+    p2at_refas (loc0, 0(*refknd*), d2v, p1at_tr (p1t))
   end // end of [P1Tas]
 | P1Trefas (id, loc_id, p1t) => let
     val d2v = d2var_make (loc_id, id)
   in
-    p2at_as (loc0, 1(*refknd*), d2v, p1at_tr (p1t))
+    p2at_refas (loc0, 1(*refknd*), d2v, p1at_tr (p1t))
   end // end of [P1Tas]
 //
 | P1Texist (s1as, p1t) => let
@@ -659,6 +667,7 @@ case+ p1t0.p1at_node of
   in
     p2at_ann (loc0, p2t, ann)
   end
+//
 | P1Terr () => p2at_err (loc0)
 //
 (*

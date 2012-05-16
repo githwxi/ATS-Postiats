@@ -55,6 +55,7 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_env_dvar"
 staload "pats_staexp2.sats"
 staload "pats_staexp2_error.sats"
 staload "pats_staexp2_util.sats"
+staload "pats_stacst2.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
 
@@ -66,6 +67,46 @@ staload SOL = "pats_staexp2_solve.sats"
 
 staload "pats_trans3.sats"
 staload "pats_trans3_env.sats"
+
+(* ****** ****** *)
+
+implement
+d2var_mutablize
+  (loc0, d2v, s2e0) = let
+(*
+  val () = (
+    print ": d2var_mutablize: d2v = "; print_d2var (d2v); print_newline ()
+  ) // end of [val]
+*)
+//
+  val sym = d2var_get_sym (d2v)
+  val s2v_addr = s2var_make_id_srt (sym, s2rt_addr)
+  val () = trans3_env_add_svar (s2v_addr) // adding svar
+  val s2e_addr = s2exp_var (s2v_addr)
+  val () = d2var_set_addr (d2v, Some s2e_addr)
+  val s2e_elt = d2var_get_type_some (loc0, d2v)
+  val s2e_ptr = s2exp_ptr_addr_type (s2e_addr)
+  val () = d2var_set_type (d2v, Some (s2e_ptr))
+  val () = d2var_set_mastype (d2v, None(*useless*))
+  val () = d2var_set_linval (d2v, ~1(*nonlin*))
+(*
+//
+// HX-2012-05: this is rarely needed and can be readily asserted
+//
+   val () = let
+    val s2p = s2exp_agtz (s2e_addr) in trans3_env_hypadd_prop (loc0, s2p)
+  end // end of [val]
+*)
+  val d2vw = d2var_ptr_viewat_make_none (d2v)
+  val () = d2var_set_view (d2v, Some d2vw) // [d2v] is mutable
+//
+  val s2at0 = s2exp_at (s2e0, s2e_addr)
+  val () = d2var_set_mastype (d2vw, Some (s2at0))
+  val s2at_elt = s2exp_at (s2e_elt, s2e_addr)
+  val () = d2var_set_type (d2vw, Some (s2at_elt))
+in
+  d2vw
+end // end of [d2var_mutablize]
 
 (* ****** ****** *)
 
@@ -289,7 +330,7 @@ case+ p3t.p3at_node of
 | P3Tany (d2v) => the_d2varenv_add_dvar (d2v)
 | P3Tvar (refknd, d2v) => the_d2varenv_add_dvar (d2v)
 | P3Tcon (
-    freeknd, d2c, npf, p3ts
+    _(*pck*), d2c, npf, p3ts
   ) => the_d2varenv_add_p3atlst (p3ts)
 //
 | P3Tann (p3t, s2e) => the_d2varenv_add_p3at (p3t)
@@ -312,10 +353,10 @@ case+ p3t.p3at_node of
   // end of [P3Trec]
 | P3Tlst (lin, p3ts) => the_d2varenv_add_p3atlst (p3ts)
 //
-| P3Tas (refknd, d2v, p3t) => {
+| P3Trefas (refknd, d2v, p3t) => {
     val () = the_d2varenv_add_dvar (d2v)
     val () = the_d2varenv_add_p3at (p3t)
-  } // end of [P3Tas]
+  } // end of [P3Trefas]
 | P3Texist (s2vs, p3t) => the_d2varenv_add_p3at (p3t)
 //
 | P3Terr _ => ()
@@ -636,7 +677,7 @@ fun aux .<>. (
     case+ p3t.p3at_node of
     | P3Tvar
         (_(*refknd*), d2v) => d2v
-    | P3Tas
+    | P3Trefas
         (_(*refknd*), d2v, _) => d2v
     | _ => let
         val () = prerr_interror_loc (loc0)

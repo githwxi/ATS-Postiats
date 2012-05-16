@@ -72,46 +72,6 @@ end // end of [d2exp_is_varlamcst]
 
 (* ****** ****** *)
 
-fun d2exp_lvalize_d2var (
-  d2e0: d2exp, d2v: d2var, d2ls: d2lablst
-) : d2lval =
-  case+ 0 of
-  | _ when d2var_is_linear (d2v) => D2LVALvar_lin (d2v, d2ls)
-  | _ when d2var_is_mutabl (d2v) => D2LVALvar_mut (d2v, d2ls)
-  | _ => D2LVALnone (d2e0) // end of [_]
-// end of [d2var_lvalize]
-
-implement
-d2exp_lvalize
-  (d2e0) = let
-//
-val () = (
-  print "d2exp_lvalize: d2e0 = "; print_d2exp (d2e0); print_newline ()
-) // end of [val]
-//
-in
-//
-case+ d2e0.d2exp_node of
-| D2Evar (d2v) =>
-    d2exp_lvalize_d2var (d2e0, d2v, list_nil)
-  // end of [D2Evar]
-| D2Ederef (d2e) => D2LVALderef (d2e, list_nil)
-| D2Eselab
-    (d2e, d2ls) => (
-  case+ d2e.d2exp_node of
-  | D2Evar (d2v) =>
-      d2exp_lvalize_d2var (d2e0, d2v, d2ls)
-    // end of [D2Evar]
-  | D2Ederef (d2e) => D2LVALderef (d2e, d2ls)
-  | _ => D2LVALnone (d2e0)
-  ) // end of [D2Esel]
-| D2Eviewat (d2e) => D2LVALviewat (d2e)
-| _ => D2LVALnone (d2e0)
-//
-end // end of [d2exp_lvalize]
-
-(* ****** ****** *)
-
 implement
 d2con_select_arity
   (d2cs, n) = let
@@ -165,6 +125,46 @@ d2cst_match_def (d2c, def) = let
 end // end of [d2cst_match_def]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+fun d2exp_d2var_lvalize (
+  d2e0: d2exp, d2v: d2var, d2ls: d2lablst
+) : d2lval =
+  case+ 0 of
+  | _ when d2var_is_linear (d2v) => D2LVALvar_lin (d2v, d2ls)
+  | _ when d2var_is_mutabl (d2v) => D2LVALvar_mut (d2v, d2ls)
+  | _ => D2LVALnone (d2e0) // end of [_]
+// end of [d2var_lvalize]
+
+implement
+d2exp_lvalize
+  (d2e0) = let
+//
+val () = (
+  print "d2exp_lvalize: d2e0 = "; print_d2exp (d2e0); print_newline ()
+) // end of [val]
+//
+in
+//
+case+ d2e0.d2exp_node of
+| D2Evar (d2v) =>
+    d2exp_d2var_lvalize (d2e0, d2v, list_nil)
+  // end of [D2Evar]
+| D2Ederef (d2e) => D2LVALderef (d2e, list_nil)
+| D2Eselab
+    (d2e, d2ls) => (
+  case+ d2e.d2exp_node of
+  | D2Evar (d2v) =>
+      d2exp_d2var_lvalize (d2e0, d2v, d2ls)
+    // end of [D2Evar]
+  | D2Ederef (d2e) => D2LVALderef (d2e, d2ls)
+  | _ => D2LVALnone (d2e0)
+  ) // end of [D2Esel]
+| D2Eviewat (d2e) => D2LVALviewat (d2e)
+| _ => D2LVALnone (d2e0)
+//
+end // end of [d2exp_lvalize]
 
 (* ****** ****** *)
 

@@ -126,6 +126,19 @@ end // end of [p2atlst_dvs_union]
 (* ****** ****** *)
 
 implement
+eq_pckind_pckind
+  (x1, x2) = (
+  case+ (x1, x2) of
+  | (PCKcon (), PCKcon ()) => true
+  | (PCKunfold (), PCKunfold ()) => true
+  | (PCKfree (), PCKfree ()) => true
+  | (PCKnonlin (), PCKnonlin ()) => true
+  | (_, _) => false
+) // end of [eq_pckind_pckind]
+
+(* ****** ****** *)
+
+implement
 p2at_make_node (
   loc, svs, dvs, node
 ) = '{
@@ -203,7 +216,8 @@ p2at_empty (loc) =
 
 implement
 p2at_con (
-  loc, freeknd, d2c, s2qs, s2f, npf, darg
+  loc, pck // '~' and '@'
+, d2c, s2qs, s2f, npf, darg
 ) = let
   val svs = p2atlst_svs_union (darg)
   val svs = let
@@ -216,8 +230,9 @@ p2at_con (
     list_fold_left_fun<s2varset><s2qua> (f, svs, s2qs)
   end // end of [val]
   val dvs = p2atlst_dvs_union (darg)
+  val node = P2Tcon (pck, d2c, s2qs, s2f, npf, darg)
 in
-  p2at_make_node (loc, svs, dvs, P2Tcon (freeknd, d2c, s2qs, s2f, npf, darg))
+  p2at_make_node (loc, svs, dvs, node)
 end // end of [p2at_con]
 
 (* ****** ****** *)
@@ -267,14 +282,14 @@ end // end of [p2at_lst]
 (* ****** ****** *)
 
 implement
-p2at_as (loc, refknd, d2v, p2t) = let
+p2at_refas (loc, refknd, d2v, p2t) = let
   val svs = p2t.p2at_svs
   val dvs = $UT.lstord_insert
     (p2t.p2at_dvs, d2v, compare_d2vsym_d2vsym)
   // end of [val]
 in
-  p2at_make_node (loc, svs, dvs, P2Tas (refknd, d2v, p2t))
-end // end of [p2at_as]
+  p2at_make_node (loc, svs, dvs, P2Trefas (refknd, d2v, p2t))
+end // end of [p2at_refas]
 
 implement
 p2at_exist

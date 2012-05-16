@@ -81,7 +81,7 @@ dataviewtype patcontrup =
 (* ****** ****** *)
 //
 // HX-2012-05:
-// [freeknd]: nonlin/free/preserve: ~1/1/0
+// [patconknd]: nonlin/preserve/free/unfold: ~1/0/1/2
 //
 extern
 fun p2at_trup_con (p2t0: p2at): patcontrup
@@ -91,7 +91,7 @@ p2at_trup_con
 //
 val loc0 = p2t0.p2at_loc
 val- P2Tcon (
-  freeknd, d2c, s2qs, s2e_con, npf, p2ts_arg
+  _(*pck*), d2c, s2qs, s2e_con, npf, p2ts_arg
 ) = p2t0.p2at_node
 //
 val () = let
@@ -174,7 +174,7 @@ fun p3at_is_varpat
   (p3t: p3at): bool = (
   case+ p3t.p3at_node of
   | P3Tvar (refknd, _) => refknd > 0
-  | P3Tas (refknd, _, _) => refknd > 0
+  | P3Trefas (refknd, _, _) => refknd > 0
   | _ => false
 ) // end of [p3at_is_varpat]
 
@@ -226,49 +226,14 @@ end // end of [local]
 (* ****** ****** *)
 //
 // HX-2012-05:
-// [freeknd]: nonlin/free/preserve: ~1/1/0
+// [patconknd]: nonlin/preserve/free/unfold: ~1/0/1/2
 //
 extern
 fun p3at_lincon_update (
-  p3t0: p3at, freeknd: int, d2c: d2con, p3ts_arg: p3atlst
+  p3t0: p3at, pck: pckind, d2c: d2con, p3ts_arg: p3atlst
 ) : void // end of [p3at_lincon_update]
 
 local
-
-fun auxvar (
-  loc0: location, d2v: d2var, s2f: s2hnf
-) : d2var = let
-(*
-  val () = (
-    print ": auxvar: d2v = "; print_d2var (d2v); print_newline ()
-  ) // end of [val]
-*)
-  val s2e = s2hnf2exp (s2f)
-//
-  val sym = d2var_get_sym (d2v)
-  val s2v_addr = s2var_make_id_srt (sym, s2rt_addr)
-  val () = trans3_env_add_svar (s2v_addr) // adding svar
-  val s2e_addr = s2exp_var (s2v_addr)
-  val () = d2var_set_addr (d2v, Some s2e_addr)
-  val s2e_ptr = s2exp_ptr_addr_type (s2e_addr)
-  val () = d2var_set_type (d2v, Some (s2e_ptr))
-  val () = d2var_set_linval (d2v, ~1(*nonlin*))
-(*
-  val () = let
-    val s2p = s2exp_agtz (s2e_addr) in trans3_env_hypadd_prop (loc0, s2p)
-  end // end of [val]
-*)
-  val d2vw = d2var_ptr_viewat_make_none (d2v)
-  val () = d2var_set_view (d2v, Some d2vw) // [d2v] is mutable
-//
-  val s2at = s2exp_at (s2e, s2e_addr)
-  val () = d2var_set_mastype (d2vw, Some (s2at))
-  val s2e_opn = s2hnf_opnexi_and_add (loc0, s2f)
-  val s2at_opn = s2exp_at (s2e_opn, s2e_addr)
-  val () = d2var_set_type (d2vw, Some (s2at_opn))
-in
-  d2vw
-end // end of [auxvar]
 
 fun auxpat1
   (p3t: p3at): d2var = let
@@ -289,9 +254,18 @@ case+ p3t.p3at_node of
 | P3Tvar (
     refknd, d2v
   ) when refknd > 0 => d2v
-| P3Tas (
+| P3Trefas (
     refknd, d2v, p3t_as
-  ) when refknd > 0 => d2v
+  ) when refknd > 0 => let
+    val opt = p3at_get_type_left (p3t)
+    val () = (
+      case+ opt of
+      | Some _ => d2var_set_type (d2v, opt)
+      | None _ => ()
+    ) : void // end of [val]
+  in
+    d2v
+  end // end of [P3Trefas]
 | _ => let
     val d2v =
       d2var_make_any (p3t.p3at_loc)
@@ -311,16 +285,13 @@ end // end of [auxpat1]
 
 fun auxpat2 (
   p3t: p3at
-) : s2exp(*addr*) = let
+) : d2var = let
   val loc = p3t.p3at_loc
   val d2v = auxpat1 (p3t)
   val- Some (s2e) = d2var_get_type (d2v)
-  val s2f = s2exp2hnf (s2e)
-  val s2e = s2hnf2exp (s2f)
-  val d2vw = auxvar (loc, d2v, s2f) // turning [d2v] into a mutable d2var
-  val- Some (s2l) = d2var_get_addr (d2v)
+  val d2vw = d2var_mutablize (loc, d2v, s2e) // making [d2v] mutable
 in
-  s2l
+  d2vw
 end (* end of [auxpat2] *)
 
 fun auxpat3 (
@@ -348,29 +319,61 @@ in // in of [local]
 
 implement
 p3at_lincon_update
-  (p3t0, freeknd, d2c, p3ts_arg) = let
+  (p3t0, pck, d2c, p3ts_arg) = let
 (*
 val () = begin
 (*
   print "p3at_lincon_update: p3t0 = "; print_p3at p3t0; print_newline ();
 *)
-  print "p3at_lincon_update: freeknd = "; print_int freeknd; print_newline ();
+  print "p3at_lincon_update: pck = "; print_int pck; print_newline ();
   print "p3at_lincon_update: d2c = "; print_d2con d2c; print_newline ();
 end // end of [val]
 *)
+//
+fun s2addr_get
+  (d2vw: d2var): s2exp = let
+  val- Some (s2l) = d2var_get_addr (d2vw) in s2l
+end // end of [s2addr_get]
+fun finknd_set
+  (d2vw: d2var): void = let
+  val- Some
+    (s2e) = d2var_get_mastype (d2vw)
+  // end of [val]
+in
+  d2var_set_finknd (d2vw, D2VFINsome (s2e)) 
+end // end of [finknd_set]
+//
 in
 //
-if freeknd = 0 then let
-//
-val s2es =
-  list_map_fun<p3at> (p3ts_arg, auxpat2)
-val s2dcp = s2exp_datconptr (d2c, (l2l)s2es)
-//
-in
-  p3at_set_type_left (p3t0, Some (s2dcp))
-end else (
-  list_app_fun<p3at> (p3ts_arg, auxpat3)
-) (* end of [if] *)
+case+ pck of
+| PCKcon () => let
+    val d2vws =
+      list_map_fun<p3at> (p3ts_arg, auxpat2)
+    val d2vws1 = $UN.castvwtp1 {d2varlst} (d2vws)
+    val s2ls =
+      list_map_fun<d2var> (d2vws1, s2addr_get)
+    val () =
+      list_app_fun<d2var> (d2vws1, finknd_set)
+    val () = list_vt_free (d2vws)
+    val s2dcp = s2exp_datconptr (d2c, (l2l)s2ls)
+  in
+    p3at_set_type_left (p3t0, Some (s2dcp))
+  end // end of [PCKcon]
+| PCKunfold () => let
+    val d2vws =
+      list_map_fun<p3at> (p3ts_arg, auxpat2)
+    val d2vws1 = $UN.castvwtp1{d2varlst} (d2vws)
+    val s2ls =
+      list_map_fun<d2var> (d2vws1, s2addr_get)
+    val () = list_vt_free (d2vws)
+    val s2dcp = s2exp_datconptr (d2c, (l2l)s2ls)
+  in
+    p3at_set_type_left (p3t0, Some (s2dcp))
+  end // end of [PCKunfold]
+| PCKfree () =>
+    list_app_fun<p3at> (p3ts_arg, auxpat3)
+  // end of [PCKfree]
+| PCKnonlin => ()
 //
 end // end of [p3at_lincon_update]
 
@@ -400,8 +403,9 @@ p2at_trdn_con
   (p2t0, s2f0) = let
 //
 val loc0 = p2t0.p2at_loc
+val s2e0 = s2hnf2exp (s2f0)
 val- P2Tcon (
-  freeknd, d2c, s2qs, s2e_con, npf, p2ts_arg
+  pck, d2c, s2qs, s2e_con, npf, p2ts_arg
 ) = p2t0.p2at_node
 //
 val s2c = d2con_get_scst (d2c)
@@ -421,22 +425,40 @@ case+ s2e_head.s2exp_node of
     if eq_d2con_d2con (d2c, d2c1) then (flag := 1; s2es_arg_alt := s2es)
 | _ => ()
 ) // end of [val]
-val () = if (flag < 0) then {
+val () = if (flag > 0) then (
+  case+ pck of
+  | PCKfree () => let
+      val () = prerr_error3_loc (loc0)
+      val () = prerr ": the pattern decoration ~(freeing) is wrongly applied."
+      val () = prerr_newline ()
+    in
+      the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
+    end // end of [PCKfree]
+  | PCKunfold () => let
+      val () = prerr_error3_loc (loc0)
+      val () = prerr ": the pattern decoration @(unfolding) is wrongly applied."
+      val () = prerr_newline ()
+    in
+      the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
+    end // end of [PCKunfold]
+  | _ => ()
+) // end of [if] // end of [val]
+val () = if (flag < 0) then let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": the constructor pattern cannot be assigned the type ["
   val () = prerr_s2exp (s2e)
   val () = prerr "]."
   val () = prerr_newline ()
-  val s2e0 = s2hnf2exp (s2f0)
-  val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
-} (* end of [if] // end of [val] *)
+in
+  the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
+end (* end of [if] // end of [val] *)
 //
 val flag_vwtp = (
   if flag > 0 then 1 else d2con_get_vwtp (d2c)
 ) : int // end of [val]
-var freeknd: int = freeknd
-val () = if freeknd = 0 then
-  (if flag_vwtp > 0 then () else freeknd := ~1)
+var pck: pckind = pck
+val () = if pck = PCKcon then
+  (if flag_vwtp > 0 then () else pck := PCKnonlin)
 // end of [if] // end of [val]
 //
 val p3t0 = (case+ 0 of
@@ -447,11 +469,16 @@ val p3t0 = (case+ 0 of
     var serr: int = 0
     val p3ts_arg = p2atlst_trdn (loc0, p2ts_arg, s2es_arg, serr)
     val () = if serr != 0 then auxerr_arity (p2t0, serr)
-    val p3t0 = p3at_con (loc0, s2e, freeknd, d2c, npf, p3ts_arg)
-    val () = if freeknd != 0 then
-      p3at_con_check (p3t0, d2c, p3ts_arg)
-    val () = if freeknd >= 0 then
-      p3at_lincon_update (p3t0, freeknd, d2c, p3ts_arg)
+    val p3t0 = p3at_con (loc0, s2e, pck, d2c, npf, p3ts_arg)
+//
+    val () = (
+      case+ pck of
+      | PCKcon () => p3at_lincon_update (p3t0, pck, d2c, p3ts_arg)
+      | PCKunfold () => p3at_lincon_update (p3t0, pck, d2c, p3ts_arg)
+      | PCKfree () => p3at_con_check (p3t0, d2c, p3ts_arg)
+      | PCKnonlin () => p3at_con_check (p3t0, d2c, p3ts_arg)
+    ) : void // end of [val]
+//
   in
     p3t0
   end // end of [flag=0]
@@ -460,8 +487,8 @@ val p3t0 = (case+ 0 of
     val p3ts_arg =
       p2atlst_trdn (loc0, p2ts_arg, s2es_arg_alt, serr)
     val () = if serr != 0 then auxerr_arity (p2t0, serr)
-    val p3t0 = p3at_con (loc0, s2e, freeknd, d2c, npf, p3ts_arg)
-    val () = p3at_lincon_update (p3t0, freeknd, d2c, p3ts_arg)
+    val p3t0 = p3at_con (loc0, s2e, pck, d2c, npf, p3ts_arg)
+    val () = p3at_lincon_update (p3t0, PCKunfold, d2c, p3ts_arg)
   in
     p3t0
   end // end of [flag>0]

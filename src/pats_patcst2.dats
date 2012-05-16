@@ -339,7 +339,7 @@ case+ p2t0.p2at_node of
     P2TCrec (recknd, (l2l)lp2tcs)
   end // end of [P2Trec]
 //
-| P2Tas (_, _(*d2v*), p2t) => p2at2cst (p2t)
+| P2Trefas (_, d2v, p2t) => p2at2cst (p2t)
 | P2Texist (_(*s2vs*), p2t) => p2at2cst (p2t)
 //
 | P2Tann (p2t, _) => p2at2cst (p2t)

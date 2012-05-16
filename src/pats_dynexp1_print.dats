@@ -173,6 +173,11 @@ case+ p1t0.p1at_node of
     val () = fprint_p1at (out, p1t)
     val () = prstr ")"
   }
+| P1Tunfold (p1t) => {
+    val () = prstr "P1Tunfold("
+    val () = fprint_p1at (out, p1t)
+    val () = prstr ")"
+  }
 //
 | P1Tas (sym, loc_id, p1t) => {
     val () = prstr "P1Tas("

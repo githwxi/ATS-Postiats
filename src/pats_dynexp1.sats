@@ -72,6 +72,7 @@ datatype p1at_node =
   | P1Tlst of (int(*lin*), p1atlst) // list pattern
 //
   | P1Tfree of p1at (* freed constructor *)
+  | P1Tunfold of p1at (* unfolded constructor *)
 //
   | P1Tas of (symbol, location, p1at) // [as] pattern
   | P1Trefas of (symbol, location, p1at) // refvar [as] pattern
@@ -141,6 +142,7 @@ fun p1at_rec
 fun p1at_lst (loc: location, lin: int, xs: p1atlst): p1at
 
 fun p1at_free (loc: location, p1t: p1at): p1at
+fun p1at_unfold (loc: location, p1t: p1at): p1at
 
 fun p1at_as
   (loc: location, id: symbol, loc_id: location, p1t: p1at): p1at

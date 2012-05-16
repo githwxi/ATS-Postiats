@@ -217,8 +217,24 @@ a:viewt@ype
 } list_vt_length
   (xs: !list_vt (a, n)): int n =
   case+ xs of
-  | !list_vt_cons (x, xs) => 1 + list_vt_length (xs)
-  | !list_vt_nil () => 0
+  | list_vt_cons (x, xs) => 1 + list_vt_length (xs)
+  | list_vt_nil () => 0
 // end of [list_vt_length]
+
+fun{
+a:viewt@ype
+} list_vt_append
+  {m,n:int | m > 0} (
+  xs: !list_vt (a, m) >> list_vt (a, m+n)
+, ys: list_vt (a, n)
+) : void = let
+  val @list_vt_cons (_, xs1) = xs
+in
+  case+ xs1 of
+  | list_cons _ => let
+      val () = list_vt_append (xs1, ys) in fold@ (xs)
+    end // end of [list_cons]
+  | ~list_vt_nil () => xs1 := ys
+end // end of [list_vt_append]
 
 ###### end of [README] ######

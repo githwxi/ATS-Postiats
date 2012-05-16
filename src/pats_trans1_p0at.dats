@@ -216,6 +216,7 @@ case+ p0t0.p0at_node of
   end // end of [P0Trec]
 //
 | P0Tfree (p0t) => FXITMatm (p1at_free (loc0, p0at_tr p0t))
+| P0Tunfold (p0t) => FXITMatm (p1at_unfold (loc0, p0at_tr p0t))
 //
 | P0Tas (id, loc_id, p0t) =>
     FXITMatm (p1at_as (loc0, id, loc_id, p0at_tr p0t))

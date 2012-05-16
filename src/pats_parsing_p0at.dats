@@ -454,7 +454,8 @@ p0at
   | p0at0
   | p0at0 AS p0at
   | p0at0 COLON s0exp
-  | TILDE p0at
+  | AT p0at // unfolded
+  | TILDE p0at // freeed
 *)
 implement
 p_p0at (buf, bt, err) = let
@@ -500,6 +501,15 @@ case+ tok.token_node of
   in
     if err = err0 then
       p0at_free (tok, ent2) else tokbuf_set_ntok_null (buf, n0)
+    // end of [if]
+  end
+| T_AT () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_p0at (buf, bt, err)
+  in
+    if err = err0 then
+      p0at_unfold (tok, ent2) else tokbuf_set_ntok_null (buf, n0)
     // end of [if]
   end
 | _ => let

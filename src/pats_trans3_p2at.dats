@@ -143,7 +143,7 @@ case+ p2t0.p2at_node of
       s2exp_tyrec (knd, npf, aux_labp2atlst (lp2ts))
     // end of [P2Trec]
 //
-  | P2Tas (knd, d2v, p2t) => p2at_syn_type (p2t)
+  | P2Trefas (knd, d2v, p2t) => p2at_syn_type (p2t)
 //
   | P2Tlist _ => s2exp_t0ype_err ()
   | P2Texist _ => s2exp_t0ype_err ()
@@ -430,6 +430,8 @@ fun p2at_trdn_rec (p2t0: p2at, s2f0: s2hnf): p3at
 extern
 fun p2at_trdn_lst (p2t0: p2at, s2f0: s2hnf): p3at
 extern
+fun p2at_trdn_aspat (p2t0: p2at, s2f0: s2hnf): p3at
+extern
 fun p2at_trdn_exist (p2t0: p2at, s2f0: s2hnf): p3at
 extern
 fun p2at_trdn_ann (p2t0: p2at, s2f0: s2hnf): p3at
@@ -470,6 +472,7 @@ case+ p2t0.p2at_node of
 | P2Trec _ => p2at_trdn_rec (p2t0, s2f0)
 | P2Tlst _ => p2at_trdn_lst (p2t0, s2f0)
 //
+| P2Trefas _ => p2at_trdn_aspat (p2t0, s2f0)
 | P2Texist _ => p2at_trdn_exist (p2t0, s2f0)
 //
 | P2Tann _ => p2at_trdn_ann (p2t0, s2f0)
@@ -1131,13 +1134,47 @@ end // end of [p2at_trdn_lst]
 (* ****** ****** *)
 
 implement
-p2at_trdn_exist
+p2at_trdn_aspat
   (p2t0, s2f0) = let
 //
 val loc0 = p2t0.p2at_loc
+val- P2Trefas
+  (refknd, d2v, p2t) = p2t0.p2at_node
+val s2e0 = s2hnf2exp (s2f0)
+val () = d2var_set_mastype (d2v, Some s2e0)
+val s2e1 = s2hnf_opnexi_and_add (loc0, s2f0)
+val p3t = p2at_trdn (p2t, s2e1)
+val p3t0 = p3at_refas (loc0, s2e0, refknd, d2v, p3t)
+val () = let
+  val opt = p3at_get_type_left (p3t)
+in
 //
+case+ opt of
+| Some _ => {
+//
+// HX-2012-05:
+// [d2v] must be linear in this case
+//
+    val () = d2var_set_type (d2v, opt)
+    val () = d2var_set_linval (d2v, 0)
+  } // end of [Some]
+| None () => (
+    d2var_set_type (d2v, Some (s2exp_topize_1 (s2e1)))
+  ) // end of [None]
+//
+end // end of [val]
+//
+in
+  p3t0
+end // end of [p2at_trdn_aspat]
+
+(* ****** ****** *)
+
+local
+
 fun auxerr1 (
-  loc0: location, s2v1: s2var, s2v2: s2var
+  loc0: location
+, s2v1: s2var, s2v2: s2var
 ) : void = let
   val s2t1 = s2var_get_srt (s2v1)
   val s2t2 = s2var_get_srt (s2v2)
@@ -1167,10 +1204,10 @@ in
 end // end of [auxerr2]
 //
 fun auxbind (
-  sub: &stasub
-, s2vs1: s2varlst, s2vs2: s2varlst
+  loc0: location
+, sub: &stasub, s2vs1: s2varlst, s2vs2: s2varlst
 , err: &int
-) :<cloref1> void = let
+) : void = let
 in
 //
 case+ s2vs1 of
@@ -1193,25 +1230,30 @@ case+ s2vs1 of
       } // end of [val]
       val () = stasub_add (sub, s2v2, s2e1)
     in
-      auxbind (sub, s2vs1, s2vs2, err)
+      auxbind (loc0, sub, s2vs1, s2vs2, err)
     end // end of [list_cons]
   | list_nil () => let
       val () = err := err + 1
       val () = auxerr2 (loc0, s2v1)
     in
-      auxbind (sub, s2vs1, s2vs2, err)
+      auxbind (loc0, sub, s2vs1, s2vs2, err)
     end // end of [list_nil]
   ) // end of [list_cons]
-| list_nil () => (
-  case+ s2vs2 of
-  | list_cons _ => auxbind (sub, s2vs1, s2vs2, err)
+| list_nil () => (case+ s2vs2 of
+  | list_cons _ => auxbind (loc0, sub, s2vs1, s2vs2, err)
   | list_nil () => ()
   ) // end of [list_nil]
 //
 end // end of [auxbind]
+
+in // in of [local]
+
+implement
+p2at_trdn_exist
+  (p2t0, s2f0) = let
 //
+val loc0 = p2t0.p2at_loc
 val- P2Texist (s2vs, p2t) = p2t0.p2at_node
-//
 val s2e0 = s2hnf2exp (s2f0)
 //
 in
@@ -1220,7 +1262,7 @@ case+ s2e0.s2exp_node of
 | S2Eexi (s2vs2, s2ps2, s2e) => let
     var sub: stasub = stasub_make_nil ()
     var err: int = 0
-    val () = auxbind (sub, s2vs, s2vs2, err)
+    val () = auxbind (loc0, sub, s2vs, s2vs2, err)
     val () = if (err > 0) then {
       val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
     } // end of [val]
@@ -1245,6 +1287,8 @@ case+ s2e0.s2exp_node of
   end (* end of [_] *)
 //
 end // end of [p2at_trdn_exist]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -1308,6 +1352,41 @@ case+ s2e.s2exp_node of
     (* nothing *)
   end // end of [_]
 end // end of [guard_trdn]
+
+(* ****** ****** *)
+
+implement
+p3at_mutablize
+  (p3t0) = let
+  val loc0 = p3t0.p3at_loc
+//
+fun auxvar (
+  loc0: location, d2v: d2var
+) : void = let
+  val- Some
+    (s2e0) = d2var_get_mastype (d2v)
+  val d2vw = d2var_mutablize (loc0, d2v, s2e0)
+  val- Some (s2l) = d2var_get_addr (d2v)
+  val s2at0 = s2exp_at (s2exp_topize_0 (s2e0), s2l)
+  val () = d2var_set_finknd (d2vw, D2VFINsome s2at0)
+in
+  // nothing
+end // end of [auxvar]
+//
+in
+//
+case+ p3t0.p3at_node of
+| P3Tvar (
+    refknd, d2v
+  ) when refknd > 0 => auxvar (loc0, d2v)
+| P3Trefas (
+    refknd, d2v, p3t
+  ) when refknd > 0 => auxvar (loc0, d2v)
+| P3Tann (p3t, _) => p3at_mutablize (p3t)
+//
+| _ => ()
+//
+end // end of [p3at_mutablize]
 
 (* ****** ****** *)
 

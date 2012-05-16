@@ -133,6 +133,18 @@ fprint_d2sym (out, d2s) = {
   val () = fprint_symbol (out, d2s.d2sym_sym)
 } // end of [d2sym]
 
+(* ****** ****** *)
+
+implement
+fprint_pckind (out, pck) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+  case+ pck of
+  | PCKcon () => prstr "PCKcon"
+  | PCKunfold () => prstr "PCKunfold"
+  | PCKfree () => prstr "PCKfree"
+  | PCKnonlin () => prstr "PCKnonlin"
+end // end of [fprint_pckind]
 
 (* ****** ****** *)
 
@@ -199,10 +211,10 @@ case+ x.p2at_node of
     val () = prstr "P2Tempty()"
   }
 | P2Tcon (
-    knd, d2c, s2qs, s2f, npf, p2ts
+    pck, d2c, s2qs, s2f, npf, p2ts
   ) => {
     val () = prstr "P2Tcon("
-    val () = fprint_int (out, knd)
+    val () = fprint_pckind (out, pck)
     val () = prstr "; "
     val () = fprint_d2con (out, d2c)
     val () = prstr "; "
@@ -241,8 +253,8 @@ case+ x.p2at_node of
     val () = prstr ")"
   }
 //
-| P2Tas (knd, d2v, p2t) => {
-    val () = prstr "P2Tas("
+| P2Trefas (knd, d2v, p2t) => {
+    val () = prstr "P2Trefas("
     val () = fprint_int (out, knd)
     val () = prstr "; "
     val () = fprint_d2var (out, d2v)

@@ -305,6 +305,7 @@ fun insert (
 } // end of [insert]
 macdef ins (k, i) = insert (ptbl, ,(k), ,(i))
 //
+val () = ins ("@", T_AT)
 val () = ins ("!", T_BANG)
 val () = ins ("|", T_BAR)
 val () = ins ("`", T_BQUOTE)

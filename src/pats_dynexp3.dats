@@ -63,8 +63,8 @@ p3at_var
 
 implement
 p3at_con
-  (loc, s2f, freeknd, d2c, npf, p3ts) =
-  p3at_make_node (loc, s2f, P3Tcon (freeknd, d2c, npf, p3ts))
+  (loc, s2f, pck, d2c, npf, p3ts) =
+  p3at_make_node (loc, s2f, P3Tcon (pck, d2c, npf, p3ts))
 // end of [p3at_con]
 
 implement
@@ -117,9 +117,9 @@ p3at_lst (
 ) = p3at_make_node (loc, s2f, P3Tlst (lin, p3ts))
 
 implement
-p3at_as (
+p3at_refas (
   loc, s2f, refknd, d2v, p3t
-) = p3at_make_node (loc, s2f, P3Tas (refknd, d2v, p3t))
+) = p3at_make_node (loc, s2f, P3Trefas (refknd, d2v, p3t))
 
 implement
 p3at_exist (

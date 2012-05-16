@@ -436,6 +436,7 @@ val () = begin
 end // end of [val]
 //
 val p3t_val = p2at_trdn (p2t_val, s2e_def)
+val () = p3at_mutablize (p3t_val) // val2var change
 val () = d3lval_set_pat_type_left (d3e_def, p3t_val)
 //
 val () = the_d2varenv_add_p3at (p3t_val)

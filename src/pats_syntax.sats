@@ -971,6 +971,7 @@ p0at_node =
   | P0Tlst of (int(*lin*), p0atlst) // pattern list
 //
   | P0Tfree of p0at
+  | P0Tunfold of p0at
 //
   | P0Texist of s0arglst
   | P0Tsvararg of s0vararg
@@ -1050,6 +1051,7 @@ fun p0at_svararg (
 fun p0at_as_refas (id: p0at, pat: p0at): p0at
 
 fun p0at_free (tok: token, p0t: p0at): p0at
+fun p0at_unfold (tok: token, p0t: p0at): p0at
 
 fun p0at_ann (p0t: p0at, ann: s0exp): p0at
 

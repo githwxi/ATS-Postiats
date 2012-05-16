@@ -189,7 +189,8 @@ d3lval_set_type_err (
 //
 val loc0 = d3e0.d3exp_loc
 val () = (
-  print "d3lval_set_type_err: s2e_new = "; print_s2exp (s2e_new); print_newline ()
+  print "d3lval_set_type_err: d3e0 = "; print_d3exp(d3e0); print_newline();
+  print "d3lval_set_type_err: s2e_new = "; print_s2exp(s2e_new); print_newline();
 ) (* end of [val] *)
 //
 in

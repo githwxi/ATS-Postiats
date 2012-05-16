@@ -176,7 +176,9 @@ fun p2atlst_trdn {n:nat} (
 fun guard_trdn
   (loc: location, gval: bool, gtyp: s2exp): void
 // end of [guard_trdn]
-//
+
+fun p3at_mutablize (p3t0: p3at): void // HX: val !x = ...
+
 (* ****** ****** *)
 
 fun d2exp_funclo_of_d2exp

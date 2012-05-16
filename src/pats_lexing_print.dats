@@ -44,6 +44,8 @@ implement
 fprint_token
   (out, tok) = case+ tok.token_node of
 //
+  | T_AT () => fprintf (out, "AT()", @())
+  | T_BACKSLASH () => fprintf (out, "BACKSLASH()", @())
   | T_BANG () => fprintf (out, "BANG()", @())
   | T_BAR () => fprintf (out, "BAR()", @())
   | T_BQUOTE () => fprintf (out, "BQUOTE()", @())
@@ -198,7 +200,6 @@ fprint_token
 //
   | T_COMMA () => fprintf (out, "COMMA()", @())
   | T_SEMICOLON () => fprintf (out, "SEMICOLON()", @())
-  | T_BACKSLASH () => fprintf (out, "BACKSLASH()", @())
 //
   | T_ATLPAREN () => fprintf (out, "ATLPAREN()", @())
   | T_QUOTELPAREN () => fprintf (out, "QUOTELPAREN()", @())

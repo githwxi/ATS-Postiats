@@ -175,6 +175,11 @@ p1at_free (loc, p1t) = '{
   p1at_loc= loc, p1at_node= P1Tfree (p1t)
 }
 implement
+p1at_unfold (loc, p1t) = '{
+  p1at_loc= loc, p1at_node= P1Tunfold (p1t)
+}
+
+implement
 p1at_as (loc, id, loc_id, p1t) = '{
   p1at_loc= loc, p1at_node= P1Tas (id, loc_id, p1t)
 }

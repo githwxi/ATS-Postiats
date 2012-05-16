@@ -1252,6 +1252,13 @@ in '{
   p0at_loc= loc, p0at_node= P0Tfree (p0t)
 } end // end of [p0at_free]
 
+implement
+p0at_unfold (t_tilde, p0t) = let
+  val loc = t_tilde.token_loc + p0t.p0at_loc
+in '{
+  p0at_loc= loc, p0at_node= P0Tunfold (p0t)
+} end // end of [p0at_unfold]
+
 (* ****** ****** *)
 
 implement

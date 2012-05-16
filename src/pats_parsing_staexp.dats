@@ -143,11 +143,12 @@ si0de
 (*
   | R0EAD // this one is removed in Postiats
 *)
+  | AT
+  | BANG
   | LT
   | GT
   | AMPERSAND
   | BACKSLASH
-  | BANG
   | TILDE
   | MINUSGT
 //
@@ -171,6 +172,12 @@ case+ tok.token_node of
     val () = incby1 () in i0de_make_string (loc, x)
   end
 //
+| T_AT () => let
+    val () = incby1 () in i0de_make_sym (loc, symbol_AT)
+  end
+| T_BANG () => let
+    val () = incby1 () in i0de_make_sym (loc, symbol_BANG)
+  end
 | T_LT () => let
     val () = incby1 () in i0de_make_sym (loc, symbol_LT)
   end
@@ -180,9 +187,6 @@ case+ tok.token_node of
 //
 | T_BACKSLASH () => let
     val () = incby1 () in i0de_make_sym (loc, symbol_BACKSLASH)
-  end
-| T_BANG () => let
-    val () = incby1 () in i0de_make_sym (loc, symbol_BANG)
   end
 | T_TILDE () => let
     val () = incby1 () in i0de_make_sym (loc, symbol_TILDE)

@@ -60,7 +60,7 @@ datatype p3at_node =
   | P3Tany of d2var // wildcard
   | P3Tvar of (int(*refknd*), d2var)
 //
-  | P3Tcon of (int(*freeknd*), d2con, int(*npf*), p3atlst(*arg*))
+  | P3Tcon of (pckind, d2con, int(*npf*), p3atlst(*arg*))
 //
   | P3Tint of (int)
   | P3Tintrep of string(*rep*)
@@ -76,7 +76,7 @@ datatype p3at_node =
   | P3Trec of (int(*knd*), int(*npf*), labp3atlst)
   | P3Tlst of (int(*lin*), p3atlst) // pattern list
 //
-  | P3Tas of (int(*refknd*), d2var, p3at)
+  | P3Trefas of (int(*refknd*), d2var, p3at)
   | P3Texist of (s2varlst, p3at) // existential opening
 //
   | P3Tann of (p3at, s2exp) // ascribed pattern
@@ -115,7 +115,7 @@ fun p3at_var (
 
 fun p3at_con (
   loc: location
-, s2e: s2exp, freeknd: int, d2c: d2con, npf: int, arg: p3atlst
+, s2e: s2exp, pck: pckind, d2c: d2con, npf: int, arg: p3atlst
 ) : p3at // end of [p3at_con]
 
 fun p3at_int (
@@ -151,10 +151,10 @@ fun p3at_lst (
   loc: location, s2f: s2exp, lin: int, p3ts: p3atlst
 ) : p3at // end of [p3at_lst]
 
-fun p3at_as (
+fun p3at_refas (
   loc: location
 , s2f: s2exp, refknd: int, d2v: d2var, p3t: p3at
-) : p3at // end of [p3at_as]
+) : p3at // end of [p3at_refas]
 
 fun p3at_exist (
   loc: location, s2f: s2exp, s2vs: s2varlst, p3t: p3at

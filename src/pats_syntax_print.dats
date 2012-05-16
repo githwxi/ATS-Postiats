@@ -719,6 +719,11 @@ case+ x.p0at_node of
     val () = fprint_p0at (out, p0t)
     val () = prstr ")"
   }
+| P0Tunfold (p0t) => {
+    val () = prstr "P0Tunfold("
+    val () = fprint_p0at (out, p0t)
+    val () = prstr ")"
+  }
 //
 | P0Texist (s0as) => {
     val () = prstr "P0Texist("

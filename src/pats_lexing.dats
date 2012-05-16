@@ -1053,7 +1053,10 @@ in
     end
 //
   | _ => let
-      val k = testing_symbolicseq0 (buf, pos) in
+      val k =
+        testing_symbolicseq0 (buf, pos)
+      // end of [val]
+    in
       lexing_IDENT_sym (buf, pos, succ(k))
     end // end of [_]
 // end of [case]

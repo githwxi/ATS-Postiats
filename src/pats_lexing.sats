@@ -54,6 +54,9 @@ token_node =
 //
   | T_NONE of () // dummy
 //
+  | T_AT of () // @
+//
+  | T_BACKSLASH of () // \
   | T_BANG of () // !
   | T_BAR of () // |
   | T_BQUOTE of () // `
@@ -221,7 +224,6 @@ token_node =
 //
   | T_COMMA of () // ,
   | T_SEMICOLON of () // ;
-  | T_BACKSLASH of () // \
 //
   | T_ATLPAREN of ()  // @(
   | T_QUOTELPAREN of ()  // '(
