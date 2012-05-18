@@ -63,9 +63,9 @@ lemma_array_v_params{a:vt0p}
 
 #atscode_decl_strcst("\
 praxi array_v_nil :
-  {a:vt0p} {l:addr} () -<prf> array_v (a, l, 0)
+  {a:vt0p}{l:addr} () -<prf> array_v (a, l, 0)
 praxi array_v_unnil :
-  {a:vt0p} {l:addr} array_v (a, l, 0) -<prf> void
+  {a:vt0p}{l:addr} array_v (a, l, 0) -<prf> void
 ")\
 
 #atscode_decl_strcst("\
@@ -81,9 +81,9 @@ praxi array_v_uncons :
 
 #atscode_decl_strcst("\
 prfun array_v_sing
-  {a:vt0p} {l:addr} (pf: INV(a) @ l): array_v (a, l, 1)
+  {a:vt0p}{l:addr} (pf: INV(a) @ l): array_v (a, l, 1)
 prfun array_v_unsing
-  {a:vt0p} {l:addr} (pf: array_v (INV(a), l, 1)): a @ l
+  {a:vt0p}{l:addr} (pf: array_v (INV(a), l, 1)): a @ l
 ")\
 
 #atscode_separator()
@@ -160,7 +160,7 @@ array_foreach_funenv
 #atscode_decl_strcst("\
 fun{a:vt0p}
 array_foreach_fun
-  {n:int} {fe:eff} (
+  {n:int}{fe:eff} (
   A: &(@[a][n]), f: (&a) -<fun,fe> void, asz: size_t n
 ) :<fe> void // end of [array_foreach_fun]
 ")\
@@ -168,12 +168,12 @@ array_foreach_fun
 #atscode_decl_strcst('\
 fun{a:vt0p}
 array_foreach_clo
-  {n:int} {fe:eff} (
+  {n:int}{fe:eff} (
   A: &(@[a][n]), f: &(&a) -<clo,fe> void, asz: size_t n
 ) :<fe> void // end of [array_foreach_clo]
 fun{a:vt0p}
 array_foreach_vclo
-  {v:view} {n:int} {fe:eff} (
+  {v:view}{n:int}{fe:eff} (
   pfv: !v
 | base: &(@[a][n])
 , f: &(!v | &a) -<clo,fe> void, asz: size_t n
@@ -183,12 +183,12 @@ array_foreach_vclo
 #atscode_decl_strcst('\
 fun{a:vt0p}
 array_foreach_cloptr
-  {n:int} {fe:eff} (
+  {n:int}{fe:eff} (
   A: &(@[a][n]), f: (&a) -<cloptr,fe> void, asz: size_t n
 ) :<fe> void // end of [array_foreach_cloptr]
 fun{a:vt0p}
 array_foreach_vcloptr
-  {v:view} {n:int} {fe:eff} (
+  {v:view}{n:int}{fe:eff} (
   pfv: !v
 | base: &(@[a][n])
 , f: (!v | &a) -<cloptr,fe> void, asz: size_t n
@@ -198,7 +198,7 @@ array_foreach_vcloptr
 #atscode_decl_strcst('\
 fun{a:vt0p}
 array_foreach_clopref
-  {n:int} {fe:eff} (
+  {n:int}{fe:eff} (
   A: &(@[a][n]), f: (&a) -<cloref,fe> void, asz: size_t n
 ) :<fe> void // end of [array_foreach_cloref]
 ')\

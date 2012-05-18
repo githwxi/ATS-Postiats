@@ -94,6 +94,8 @@ case+ s3e of
 | S3Eisum _ => s2rt_int
 | S3Eimul _ => s2rt_int
 //
+| S3Esizeof _ => s2rt_int
+//
 | S3Eapp (s3e_fun, _) => s2t where {
     val- S2RTfun (_, s2t) = s3exp_get_srt (s3e_fun)
   } // end of [S3Eapp]
@@ -156,6 +158,8 @@ case+ s3e0 of
 | S3Eimul (s3e1, s3e2) => let
     val res = loop (res, s3e1) in loop (res, s3e2)
   end // end of [S3Eimul]
+//
+| S3Esizeof _ => res
 //
 | S3Eapp (s3e1, s3es2) => let
     val res = loop (res, s3e1)
@@ -246,6 +250,10 @@ case+ x1 of
       if s3exp_syneq (x11, x21) then s3exp_syneq (x12, x22) else false
   | _ => false // end of [_]
   ) // end of [S3Eimul]
+//
+| S3Esizeof (s2ze1) => (case+ x2 of
+  | S3Esizeof (s2ze2) => s2zexp_syneq (s2ze1, s2ze2) | _ => false
+  ) // end of [S3Esizeof]
 //
 | S3Eapp (x1, xs1) => (case+ x2 of
   | S3Eapp (x2, xs2) =>
@@ -428,30 +436,15 @@ fun auxeq (
   env: &s2vbcfenv, s2e1: s2exp, s2e2: s2exp
 ) : s3exp = let
   val s2t1 = s2e1.s2exp_srt
+  val s3e1 = s3exp_make (env, s2e1)
+  and s3e2 = s3exp_make (env, s2e2)
 in
 //
 case+ 0 of
-| _ when
-    s2rt_is_int (s2t1) => let
-    val s3e1 = s3exp_make (env, s2e1)
-    and s3e2 = s3exp_make (env, s2e2)
-  in
-    s3exp_ieq (s3e1, s3e2)
-  end // end of [s2t1 = int]
-| _ when
-    s2rt_is_bool (s2t1) => let
-    val s3e1 = s3exp_make (env, s2e1)
-    and s3e2 = s3exp_make (env, s2e2)
-  in
-    s3exp_beq (s3e1, s3e2)
-  end // end of [s2t1 = bool]
-| _ when
-    s2rt_is_char (s2t1) => let
-    val s3e1 = s3exp_make (env, s2e1)
-    and s3e2 = s3exp_make (env, s2e2)
-  in
-    s3exp_ieq (s3e1, s3e2)
-  end // end of [s2t1 = char]
+| _ when s2rt_is_int (s2t1) => s3exp_ieq (s3e1, s3e2)
+| _ when s2rt_is_addr (s2t1) => s3exp_ieq (s3e1, s3e2)
+| _ when s2rt_is_bool (s2t1) => s3exp_beq (s3e1, s3e2)
+| _ when s2rt_is_char (s2t1) => s3exp_ieq (s3e1, s3e2)
 | _ => (
     if s2exp_syneq (s2e1, s2e2) then s3exp_true else s3exp_err (s2rt_bool)
   ) // end of [_]
@@ -530,14 +523,14 @@ case+ s2e0.s2exp_node of
     end
   ) // end of [S2Eapp]
 | S2Eeqeq (s2e1, s2e2) => auxeq (env, s2e1, s2e2)
-| S2Emetdec
-    (met, met_bound) => let
-    val s2e_met =
-      s2exp_metdec_reduce (met, met_bound)
-    // end of [val]
+| S2Emetdec (met, met_bound) => let
+    val s2e_met = s2exp_metdec_reduce (met, met_bound)
   in
     s3exp_make (env, s2e_met)
   end // end of [S3Emetdec]
+| S2Esizeof (s2e) => let
+    val s2ze = s2zexp_make_s2exp (s2e) in S3Esizeof (s2ze)
+  end // end of [S2Esizeof]
 | _ => let // an expression that cannot be handled
     val () = begin
       prerr "warning(3): s3exp_make_s2exp: s2e0 = "; prerr_s2exp (s2e0); prerr_newline ();

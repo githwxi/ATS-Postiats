@@ -414,6 +414,32 @@ fun the_d2varenv_check (loc0: location): void
 fun the_d2varenv_check_llam (loc0: location): void
 
 (* ****** ****** *)
+(*
+** HX-2012-05
+*)
+
+typedef
+lstbefitm = '{
+  lstbefitm_var= d2var
+, lstbefitm_linval= int
+, lstbefitm_type= s2expopt
+} // end of [lstbefitm]
+
+typedef lstbefitmlst = List (lstbefitm)
+
+fun lstbefitm_make (d2v: d2var, linval: int): lstbefitm
+
+fun fprint_lstbefitm : fprint_type (lstbefitm)
+fun fprint_lstbefitmlst : fprint_type (lstbefitmlst)
+
+(* ****** ****** *)
+
+fun the_d2varenv_save_lstbefitmlst (): lstbefitmlst
+
+fun lstbefitmlst_restore_type (xs: lstbefitmlst): void
+fun lstbefitmlst_restore_linval_type (xs: lstbefitmlst): void
+
+(* ****** ****** *)
 
 absview lamlpenv_push_v
 

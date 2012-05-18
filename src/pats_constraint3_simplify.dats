@@ -659,6 +659,13 @@ case+ s3e0 of
     S3Evar (s2v)
   end // end of [S3Eimul]
 //
+| S3Esizeof _ => let
+    val () = flag := flag + 1
+    val s2v = s2vbcfenv_replace_nonlin (env, s3e0)
+  in
+    S3Evar (s2v)
+  end // end of [val]
+//
 | S3Eapp (s3e1, s3es2) => let
     val s3e1 = s3exp_lintize_flag (env, s3e1, flag)
     val s3es2 = s3explst_lintize_flag (env, s3es2, flag)

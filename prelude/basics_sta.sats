@@ -432,6 +432,11 @@ stadef ref = ref_viewt0ype_type
 
 (* ****** ****** *)
 
+viewdef
+vtakeout (v1: view, v2: view) = (v2, v2 -<lin,prf> v1)
+
+(* ****** ****** *)
+
 viewtypedef
 bottom_viewt0ype_uni = {a:viewt@ype} a
 viewtypedef

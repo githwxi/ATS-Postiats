@@ -27,6 +27,23 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 implement
+array_v_sing (pfat) =
+  array_v_cons (pfat, array_v_nil ())
+// end of [array_v_sing]
+
+implement
+array_v_unsing (pfarr) = let
+  prval (
+    pf1at, pf2arr
+  ) = array_v_uncons (pfarr)
+  prval () = array_v_unnil (pf2arr)
+in
+  pf1at
+end // end of [array_v_unsing]
+
+#atscode_separator()
+
+implement
 array_v_split{a}
   (pf_arr) = split (pf_arr) where {
   prfun split
@@ -42,9 +59,10 @@ array_v_split{a}
       prval @(pf1_arr_res, pf2_arr_res) = split {..}{n-1,i-1} (pf2_arr)
     in
       @(array_v_cons (pf1_elt, pf1_arr_res), pf2_arr_res)
-    end else
-      (array_v_nil {a} {l} (), pf_arr)
-    // end of [sif]
+    end else let
+      prval INTEQ () =
+        inteq_make {i,0} () in (array_v_nil {a} {l} (), pf_arr)
+    end // end of [sif]
 } // end of [array_v_split]
 
 #atscode_separator()
@@ -71,9 +89,54 @@ array_v_unsplit{a}
     in
       array_v_cons (pf11_elt, pf_arr_res)
     end else let
+      prval INTEQ () = inteq_make {n1,0} ()
       prval () = array_v_unnil (pf1_arr) in pf2_arr
     end // end of [sif]
 } // end of [array_v_unsplit]
+
+#atscode_separator()
+
+implement
+array_v_extend
+  (pf1arr, pf2at) =
+  array_v_unsplit (pf1arr, array_v_sing (pf2at))
+// end of [array_v_extend]
+
+implement
+array_v_unextend
+  {a}{l}{n} (pfarr) = let
+  prval (pf1arr, pf2arr) = array_v_split{a}{l}{n}{n-1} (pfarr)
+in
+  (pf1arr, array_v_unsing (pf2arr))
+end // end of [array_v_unextend]
+
+#atscode_separator()
+
+implement
+array_v_takeout
+  {a}{l}{n}{i} (pfarr) =
+  takeout {..}{n}{i} (pfarr) where {
+  prfun takeout
+    {l:addr}
+    {n:int}
+    {i:nat | i < n} .<i>. (
+    pfarr: array_v (a, l, n)
+  ) : vtakeout (
+    array_v (a, l, n), a@l+i*sizeof(a)
+  ) = let
+    prval @(pf1at, pf2arr) = array_v_uncons (pfarr)
+  in
+    sif i > 0 then let
+      prval (pfat, fpf) = takeout{..}{n-1}{i-1} (pf2arr)
+    in
+      (pfat, llam pfat =<prf> array_v_cons (pf1at, fpf pfat))
+    end else let
+      prval INTEQ () = inteq_make{i,0} ()
+    in
+      (pf1at, llam pf1at =<prf> array_v_cons (pf1at, pf2arr))
+    end // end of [sif]
+  end // end of takeout]
+} // end of [array_v_takeout]
 
 #atscode_separator()
 

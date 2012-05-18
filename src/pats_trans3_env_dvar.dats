@@ -310,6 +310,92 @@ end // end of [if]
 //
 end // end of [the_d2varenv_d2var_is_llamlocal]
 
+(* ****** ****** *)
+
+implement
+the_d2varenv_save_lstbefitmlst
+  () = let
+//
+fun aux (
+  d2v: d2var
+, res: &lstbefitmlst >> lstbefitmlst
+) : void = let
+  val linval = d2var_get_linval (d2v)
+// (*
+  val () = begin
+    print "the_d2varenv_save_lstbefitmlst: aux: d2v = "; print_d2var d2v; print_newline ();
+    print "the_d2varenv_save_lstbefitmlst: aux: linval = "; print_int linval; print_newline ();
+  end // end of [val]
+// *)
+in
+  if linval >= 0 then let
+    val x = lstbefitm_make (d2v, linval) in res := list_cons (x, res)
+  end else () // end of [if]
+end // end of [aux]
+//
+fun auxlst (
+  d2vs: d2varlst_vt
+, res: &lstbefitmlst >> lstbefitmlst
+) : void = (
+  case+ d2vs of
+  | ~list_vt_cons (d2v, d2vs) => let
+      val () = aux (d2v, res) in auxlst (d2vs, res)
+    end // end of [list_vt_cons]
+  | ~list_vt_nil () => ()
+) (* end of [auxlst] *)
+//
+fun auxset (
+  d2vs: !d2varset_vt
+, res: &lstbefitmlst >> lstbefitmlst
+) : void = let
+  val d2vs = d2varset_vt_listize (d2vs) in auxlst (d2vs, res)
+end // end of [auxset]
+//
+fun auxsetlst (
+  xs: !ld2vsetlst, res: &lstbefitmlst >> lstbefitmlst
+) : void = let
+in
+//
+case+ xs of
+| LD2VSset
+    (!p_d2vs, !p_xs) => {
+    val () = auxset (!p_d2vs, res)
+    val () = auxsetlst (!p_xs, res)
+    prval () = fold@ (xs)
+  } // end of [LD2VSset]
+| LD2VSlam (
+    lin, _(*d2vs*), !p_xs
+  ) when lin > 0 => {
+    val () = auxsetlst (!p_xs, res)
+    prval () = fold@ (xs)
+  } // end of [LD2VSlam(1)]
+| _ => ()
+//
+end // end of [auxsetlst]
+//
+var res: lstbefitmlst = list_nil
+val () = let
+  val (vbox pf | p) = ref_get_view_ptr (the_ld2vs)
+in
+  $effmask_ref (auxset (!p, res))
+end // end of [val]
+val () = let
+  val (vbox pf | pp) = ref_get_view_ptr (the_ld2vss)
+in
+  $effmask_ref (auxsetlst (!pp, res))
+end // end of [val]
+//
+val () = (
+  print "the_d2varset_save_lstbefitmlst: res = ";
+  fprint_lstbefitmlst (stdout_ref, res); print_newline ()
+) (* end of [val] *)
+//
+in
+  res
+end // end of [the_d2varset_save_lstbefitmlst]
+
+(* ****** ****** *)
+
 end // end of [local]
 
 (* ****** ****** *)
@@ -758,3 +844,58 @@ end // end of [s2exp_wth_instantiate]
 (* ****** ****** *)
 
 (* end of [pats_trans3_env_dvar.dats] *)
+
+////
+
+implement
+the_d2varset_env_stbefitemlst_save
+  () = let
+//
+  var sbis: stbefitemlst = list_nil ()
+//
+  typedef sbisptr = ptr sbis
+  viewdef V = stbefitemlst @ sbis
+//
+  fun f (
+    pf: !V | d2v: d2var_t, sbis: !sbisptr
+  ) : void = let
+    val lin = d2var_get_lin d2v
+(*
+    val () = begin
+      print "the_d2varset_env_stbefitemlst_save: f: d2v = "; print d2v; print_newline ();
+      print "the_d2varset_env_stbefitemlst_save: f: lin = "; print lin; print_newline ();
+    end // end of [val]
+*)
+  in
+    if lin >= 0 then let val sbi =
+      stbefitem_make (d2v, lin) in !sbis := list_cons (sbi, !sbis)
+    end // end of [if]
+  end (* end of [f] *)
+//
+  fun aux (
+    pf: !V | xs: ld2vsitemlst, sbis: !sbisptr
+  ) : void = begin
+    case+ xs of
+    | list_cons (x, xs) => begin case+ x of
+      | LD2VSITEMlam () => ()
+      | LD2VSITEMllam _ => aux (pf | xs, sbis)
+      | LD2VSITEMset dvs => let
+          val () = begin
+            d2varset_foreach_main {V} {sbisptr} (pf | dvs, f, sbis)
+          end
+        in
+          aux (pf | xs, sbis)
+        end (* LD2VSITEMset *)
+      end // end of [list_cons]
+    | list_nil () => ()
+  end // end of [aux]
+//
+  prval pf = view@ (sbis)
+  val () = begin
+    d2varset_foreach_main {V} {sbisptr} (pf | !the_ld2vs, f, &sbis)
+  end // end of [val]
+  val () = aux (pf | !the_ld2vsitems, &sbis)
+//
+in
+  view@ sbis := pf; sbis
+end // end of [the_d2varset_env_stbefitemlst_save]

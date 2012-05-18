@@ -151,6 +151,12 @@ case+ x of
     val () = prstr ")"
   } // end of [S3Eimul]
 //
+| S3Esizeof (s2ze) => {
+    val () = prstr "S3Esizeof("
+    val () = fprint_s2zexp (out, s2ze)
+    val () = prstr ")"
+  } // end of [S3Esizeof]
+//
 | S3Eapp (s3e, s3es) => {
     val () = prstr "S3Eapp("
     val () = fprint_s3exp (out, s3e)

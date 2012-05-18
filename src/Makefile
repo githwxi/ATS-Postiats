@@ -188,6 +188,7 @@ SOURCES := \
   pats_trans3_env_dvar.dats \
   pats_trans3_env_lamlp.dats \
   pats_trans3_env_pfman.dats \
+  pats_trans3_env_lstate.dats \
   pats_trans3_p2at.dats \
   pats_trans3_patcon.dats \
   pats_trans3_syncst.dats \
@@ -227,6 +228,10 @@ SOURCESdyn := $(filter %.dats, $(SOURCES))
 OBJECTS := $(SOURCES)
 OBJECTS := $(patsubst %.sats, %_sats.o, $(OBJECTS))
 OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
+
+######
+
+all:: patsopt
 
 ######
 

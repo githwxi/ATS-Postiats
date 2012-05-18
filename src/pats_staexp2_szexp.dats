@@ -554,15 +554,24 @@ with
 (* ****** ****** *)
 
 implement
+s2zexp_syneq
+  (x1, x2) = let
+  val x12 = s2zexp_merge (x1, x2)
+in
+  if s2zexp_is_bot (x12) then false else true
+end // end of [s2zexp_syneq]
+
+(* ****** ****** *)
+
+implement
 s2hnf_tszeq
   (s2f1, s2f2) = let
   val s2e1 = s2hnf2exp (s2f1)
   and s2e2 = s2hnf2exp (s2f2)
   val x1 = s2zexp_make_s2exp (s2e1)
   and x2 = s2zexp_make_s2exp (s2e2)
-  val x12 = s2zexp_merge (x1, x2)
 in
-  if s2zexp_is_bot (x12) then false else true
+  s2zexp_syneq (x1, x2)
 end // end of [s2hnf_tszeq]
 
 implement

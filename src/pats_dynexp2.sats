@@ -1042,8 +1042,6 @@ fun i2nvresstate_make_met (
   s2vs: s2varlst, s2ps: s2explst, arg: i2nvarglst, met: s2explstopt
 ) : i2nvresstate // end of [i2nvresstate_make_met]
 
-fun i2nvresstate_update (res: i2nvresstate): i2nvresstate
-
 (* ****** ****** *)
 
 fun loopi2nv_make (
@@ -1054,8 +1052,6 @@ fun loopi2nv_make (
 , arg: i2nvarglst
 , res: i2nvresstate
 ) : loopi2nv // end of [loopi2nv_make]
-
-fun loopi2nv_update (i2nv: loopi2nv): loopi2nv
 
 (* ****** ****** *)
 

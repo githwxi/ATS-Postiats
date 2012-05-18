@@ -206,6 +206,7 @@ fun s2kexplst_ismat (xs1: s2kexplst, xs2: s2kexplst): bool
 
 (* ****** ****** *)
 
+fun s2zexp_syneq (x1: s2zexp, x2: s2zexp): bool
 fun s2zexp_merge (x1: s2zexp, x2: s2zexp): s2zexp
 
 (* ****** ****** *)

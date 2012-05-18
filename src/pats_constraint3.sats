@@ -74,6 +74,8 @@ datatype s3exp =
   | S3Eisum of s3explst (* sum of list of icffs *)
   | S3Eimul of (s3exp, s3exp)
 //
+  | S3Esizeof of (s2zexp) // HX: size of a type
+//
   | S3Eapp of (s3exp, s3explst)
 //
   | S3Eerr of (s2rt)

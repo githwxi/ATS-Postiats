@@ -141,7 +141,7 @@ case+ d2e0.d2exp_node of
 //
 | D2Ecasehead _ =>
     d2exp_trdn_casehead (d2e0, s2f0)
-  // end of [D2Eifhead]
+  // end of [D2Ecasehead]
 //
 | D2Elet (d2cs, d2e) =>
     d2exp_trdn_letwhere (d2e0, s2f0, d2cs, d2e)
@@ -331,8 +331,9 @@ d2exp_trdn_ifhead
 //
 val loc0 = d2e0.d2exp_loc
 val- D2Eifhead
-  (inv, d2e_cond, d2e_then, od2e_else) = d2e0.d2exp_node
+  (i2nvres, d2e_cond, d2e_then, od2e_else) = d2e0.d2exp_node
 // end of [val]
+//
 val d3e_cond = d2exp_trup (d2e_cond)
 val () = d3exp_open_and_add (d3e_cond)
 //
@@ -342,6 +343,8 @@ val s2f_cond = s2exp2hnf (s2e_cond)
 val os2p_cond = un_s2exp_bool_index_t0ype (s2f_cond)
 //
 val s2e_if = s2hnf2exp (s2f_if)
+//
+val lsbs = the_d2varenv_save_lstbefitmlst ()
 //
 val d3e_then = let
   val loc_then = d2e_then.d2exp_loc
@@ -353,6 +356,8 @@ val d3e_then = let
 in
   d3e_then
 end // end of [val]
+//
+val () = lstbefitmlst_restore_type (lsbs)
 //
 val od3e_else = (
 case+ od2e_else of
@@ -387,6 +392,9 @@ val- D2Esifhead
 // end of [val]
 //
 val s2e_sif = s2hnf2exp (s2f_sif)
+//
+val lsbs = the_d2varenv_save_lstbefitmlst ()
+//
 val d3e_then = let
   val loc_then = d2e_then.d2exp_loc
   val (pfpush | ()) = trans3_env_push ()
@@ -396,6 +404,8 @@ val d3e_then = let
 in
   d3e_then
 end // end of [val]
+//
+val () = lstbefitmlst_restore_type (lsbs)
 //
 val d3e_else = let
   val loc_else = d2e_then.d2exp_loc
