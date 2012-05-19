@@ -319,7 +319,7 @@ fun auxpat2 (
   val loc = p3t.p3at_loc
   val d2v = auxpat1 (p3t)
   val- Some (s2e) = d2var_get_type (d2v)
-  val d2vw = d2var_mutablize (loc, d2v, s2e) // making [d2v] mutable
+  val d2vw = d2var_mutablize_none (loc, d2v, s2e) // making [d2v] mutable
   val- Some (s2l) = d2var_get_addr (d2v)
 in
   s2l

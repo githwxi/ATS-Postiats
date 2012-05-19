@@ -31,12 +31,14 @@
 // Start Time: October, 2011
 //
 (* ****** ****** *)
-
+//
 staload "pats_staexp2.sats"
 staload "pats_staexp2_util.sats"
 staload "pats_stacst2.sats"
+//
+staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
-
+//
 (* ****** ****** *)
 
 implement
@@ -144,6 +146,22 @@ implement
 p3at_get_dvaropt (p3t) = p3t.p3at_dvaropt
 implement
 p3at_get_type_left (p3t) = p3t.p3at_type_left
+
+(* ****** ****** *)
+
+implement
+p3at_is_lincon (p3t) =
+  case+ p3t.p3at_node of
+  | P3Tcon (pck, _, _, _) => pck = PCKlincon
+  | _ => false
+// end of [p3at_is_lincon]
+
+implement
+p3at_is_unfold (p3t) =
+  case+ p3t.p3at_node of
+  | P3Tcon (pck, _, _, _) => pck = PCKunfold
+  | _ => false
+// end of [p3at_is_unfold]
 
 (* ****** ****** *)
 
@@ -841,6 +859,20 @@ v3aldec_make
 
 (* ****** ****** *)
 
+implement
+v3ardec_make (
+  loc, knd, d2v, d2vw, s2e, ini
+) = '{
+  v3ardec_loc= loc
+, v3ardec_knd= knd
+, v3ardec_dvar_ptr= d2v
+, v3ardec_dvar_view= d2vw
+, v3ardec_type= s2e
+, v3ardec_ini= ini
+} // end of [v3ardec_make]
+
+(* ****** ****** *)
+
 fun d3ecl_make (
   loc: location, node: d3ecl_node
 ) : d3ecl = '{
@@ -904,6 +936,14 @@ d3ecl_valdecs_rec
   (loc, knd, d3cs) =
   d3ecl_make (loc, D3Cvaldecs_rec (knd, d3cs))
 // end of [d3ecl_valdecs_rec]
+
+(* ****** ****** *)
+
+implement
+d3ecl_vardecs
+  (loc, d3cs) =
+  d3ecl_make (loc, D3Cvardecs (d3cs))
+// end of [d3ecl_vardecs]
 
 (* ****** ****** *)
 

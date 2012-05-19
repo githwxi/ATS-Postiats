@@ -51,6 +51,7 @@ staload EFF = "pats_effect.sats"
 //
 macdef effset_isnil = $EFF.effset_isnil
 macdef effset_isall = $EFF.effset_isall
+macdef effset_subset = $EFF.effset_subset
 //
 (* ****** ****** *)
 
@@ -192,25 +193,6 @@ refval_equal_solve_err
 
 (* ****** ****** *)
 
-implement
-s2eff_effleq_solve
-  (loc0, s2fe1, s2fe2) = err where {
-  var err: int = 0
-  val () = s2eff_effleq_solve_err (loc0, s2fe1, s2fe2, err)
-} // end of [s2eff_effleq_solve]
-
-implement
-s2eff_effleq_solve_err
-  (loc0, s2fe1, s2fe2, err) = let
-(*
-  // HX: this is yet to be fixed!!!
-*)
-in
-  // nothing
-end // end of [s2eff_effleq_solve]
-
-(* ****** ****** *)
-
 extern
 fun s2Var_merge_szexp_err (
   loc: location, s2V1: s2Var, s2ze2: s2zexp, err: &int
@@ -300,6 +282,13 @@ end // end of [s2hnf_equal_solve_rVar_err]
 (* ****** ****** *)
 
 implement
+s2eff_subeq_solve
+  (loc0, s2fe1, s2fe2) = err where {
+  var err: int = 0
+  val () = s2eff_subeq_solve_err (loc0, s2fe1, s2fe2, err)
+} // end of [s2eff_subeq_solve]
+
+implement
 s2eff_subeq_solve_err
   (loc0, s2fe1, s2fe2, err) = let
 //
@@ -313,8 +302,12 @@ case+ (s2fe1, s2fe2) of
     when effset_isnil efs1 => ()
 | (_, S2EFFset (efs2))
     when effset_isall efs2 => ()
-| (S2EFFset (efs1), S2EFFset (efs2))
-    when $EFF.effset_subset (efs1, efs2) => ()
+| (S2EFFset (efs1),
+   S2EFFset (efs2))
+    when effset_subset (efs1, efs2) => ()
+| (S2EFFexp (s2e1),
+   S2EFFexp (s2e2))
+    when s2exp_syneq (s2e1, s2e2) => ()
 | (_, S2EFFexp (s2e2)) => (
   case+ s2e2.s2exp_node of
   | S2EVar s2V2 => let
@@ -438,6 +431,18 @@ val () = case+
   | _ => (err := err + 1)
   ) (* end of [S2Etyrec, _] *)
 //
+| (S2Ewth (s2e1, ws2es1), _) => (
+  case+ s2en20 of
+  | S2Ewth (s2e2, ws2es2) => let
+      val () =
+        s2exp_equal_solve_err (loc0, s2e1, s2e2, err)
+      // end of [val]
+    in
+      wths2explst_equal_solve_err (loc0, ws2es1, ws2es2, err)
+    end // end of [S2Ewth]
+  | _ => (err := err + 1)
+  ) (* end of [S2Ewth, _] *)
+//
 | (_, _) when s2hnf_syneq (s2f10, s2f20) => ()
 | (_, _) => trans3_env_add_eqeq (loc0, s2e10, s2e20)
 (*
@@ -541,6 +546,53 @@ val () = if (sgn != 0) then {
 in
   // nothing
 end // end of [labs2explst_equal_solve_err]
+
+(* ****** ****** *)
+
+implement
+wths2explst_equal_solve_err
+  (loc0, xs1, xs2, err) = let
+//
+fun loop (
+  loc0: location
+, xs1: wths2explst, xs2: wths2explst
+, err: &int
+) : int = let
+in
+//
+case (xs1, xs2) of
+| (WTHS2EXPLSTcons_invar (k1, xs1),
+   WTHS2EXPLSTcons_invar (k2, xs2)) => let
+    val () = if k1 != k2 then err := err + 1
+  in
+    loop (loc0, xs1, xs2, err)
+  end
+| (WTHS2EXPLSTcons_trans (k1, x1, xs1),
+   WTHS2EXPLSTcons_trans (k2, x2, xs2)) => let
+    val () = if k1 != k2 then err := err + 1
+    val () = s2exp_equal_solve_err (loc0, x1, x2, err)
+  in
+    loop (loc0, xs1, xs2, err)
+  end
+| (WTHS2EXPLSTcons_none (xs1),
+   WTHS2EXPLSTcons_none (xs2)) => let
+  in
+    loop (loc0, xs1, xs2, err)
+  end
+| (WTHS2EXPLSTnil (), WTHS2EXPLSTnil ()) => 0
+| (_, _) => let
+    val () = err := err + 1 in 1 // shape mismatch
+  end // end of [_, _]
+//
+end // end of [loop]
+//
+val mis = loop (loc0, xs1, xs2, err)
+val () = if mis > 0 then
+  the_staerrlst_add (STAERR_wths2explst_shape (loc0, xs1, xs2))
+// end of [val]
+in
+  // nothing
+end // end of [wths2explst_equal_solve_err]
 
 (* ****** ****** *)
 
@@ -653,6 +705,29 @@ val () = case+
     | _ => s2hnf_tyleq_solve_err (loc0, s2f10, s2f21, err)
   end // end of [_, S2Einvar]
 //
+| (S2Etop (knd1, s2e1), _) => (
+  case+ s2en20 of
+  | S2Etop (knd2, s2e2) => (
+      if knd1 >= knd2 then let
+        val () = s2exp_tyleq_solve_err (loc0, s2e1, s2e2, err)
+      in
+        // nothing
+      end else (err := err + 1) // end of [if]
+    ) // end of [S2Etop]
+  | _ => (err := err + 1)
+  ) // end of [S2Etop, _]
+| (_, S2Etop (knd2, s2e2)) => (
+  case+ 0 of
+  | _ when knd2 = 0 => let
+      // [s2e0] is topized version of some type
+    in
+      if s2exp_is_nonlin (s2e10) then (
+        if s2exp_tszeq (s2e10, s2e20) then () else (err := err + 1)
+      ) else (err := err + 1) // end of [if]
+    end // end of [knd2 = 0]
+  | _ (* knd2 > 0 *) => (err := err + 1)
+  ) // end of [_, S2Etop]
+//
 | (S2Euni _, _) => let
     val (pfpush | ()) = trans3_env_push ()
     // this order is mandatary!
@@ -755,18 +830,6 @@ val () = case+
   | _ => (err := err + 1)
   )
 //
-| (S2Etop (knd1, s2e1), _) => (
-  case+ s2en20 of
-  | S2Etop (knd2, s2e2) => (
-      if knd1 >= knd2 then let
-        val () = s2exp_tyleq_solve_err (loc0, s2e1, s2e2, err)
-      in
-        // nothing
-      end else (err := err + 1) // end of [if]
-    ) // end of [S2Etop]
-  | _ => (err := err + 1)
-  )
-//
 | (S2Etyarr (s2e11, s2es12), _) => (
   case+ s2en20 of
   | S2Etyarr (s2e21, s2es22) => let
@@ -789,6 +852,29 @@ val () = case+
     end // end of [S2Etyrec]
   | _ => (err := err + 1)
   ) (* end of [S2Etyrec, _] *)
+//
+| (S2Erefarg (knd1, s2e1), _) => (
+  case+ s2en20 of
+  | S2Erefarg (knd2, s2e2) => let
+      val () =
+        refval_equal_solve_err (loc0, knd1, knd2, err)
+      // end of [val]
+    in
+      s2exp_tyleq_solve_err (loc0, s2e1, s2e2, err)
+    end // end of [S2Erefarg]
+  | _ => (err := err + 1)
+  )
+| (S2Ewth (s2e1, ws2es1), _) => (
+  case+ s2en20 of
+  | S2Ewth (s2e2, ws2es2) => let
+      val () =
+        s2exp_tyleq_solve_err (loc0, s2e1, s2e2, err)
+      // end of [val]
+    in
+      wths2explst_tyleq_solve_err (loc0, ws2es1, ws2es2, err)
+    end // end of [S2Ewth]
+  | _ => (err := err + 1)
+  ) (* end of [S2Ewth, _] *)
 //
 | (_, _) when s2hnf_syneq (s2f10, s2f20) => ()
 | (_, _) => (err := err + 1)
@@ -888,6 +974,55 @@ val () = if (sgn != 0) then {
 in
   // nothing
 end // end of [labs2explst_tyleq_solve_err]
+
+(* ****** ****** *)
+
+implement
+wths2explst_tyleq_solve_err
+  (loc0, xs1, xs2, err) = let
+//
+fun loop (
+  loc0: location
+, xs1: wths2explst, xs2: wths2explst
+, err: &int
+) : int = let
+in
+//
+case (xs1, xs2) of
+| (WTHS2EXPLSTcons_invar (k1, xs1),
+   WTHS2EXPLSTcons_invar (k2, xs2)) => let
+    val () =
+      refval_equal_solve_err (loc0, k1, k2, err)
+    // end of [val]
+  in
+    loop (loc0, xs1, xs2, err)
+  end
+| (WTHS2EXPLSTcons_trans (k1, x1, xs1),
+   WTHS2EXPLSTcons_trans (k2, x2, xs2)) => let
+    val () = if k1 != k2 then err := err + 1
+    val () = s2exp_tyleq_solve_err (loc0, x1, x2, err)
+  in
+    loop (loc0, xs1, xs2, err)
+  end
+| (WTHS2EXPLSTcons_none (xs1),
+   WTHS2EXPLSTcons_none (xs2)) => let
+  in
+    loop (loc0, xs1, xs2, err)
+  end
+| (WTHS2EXPLSTnil (), WTHS2EXPLSTnil ()) => 0
+| (_, _) => let
+    val () = err := err + 1 in 1 // shape mismatch
+  end // end of [_, _]
+//
+end // end of [loop]
+//
+val mis = loop (loc0, xs1, xs2, err)
+val () = if mis > 0 then
+  the_staerrlst_add (STAERR_wths2explst_shape (loc0, xs1, xs2))
+// end of [val]
+in
+  // nothing
+end // end of [wths2explst_tyleq_solve_err]
 
 (* ****** ****** *)
 

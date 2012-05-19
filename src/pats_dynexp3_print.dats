@@ -54,6 +54,100 @@ staload "pats_dynexp3.sats"
 (* ****** ****** *)
 
 implement
+fprint_p3at
+  (out, p3t0) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+//
+case+ p3t0.p3at_node of
+//
+| P3Tany (d2v) => {
+    val () = prstr "P3Tany("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr ")"
+  }
+| P3Tvar (d2v) => {
+    val () = prstr "P3Tvar("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr ")"
+  }
+//
+| P3Tcon (
+    pck, d2c, npf, p3ts
+  ) => {
+    val () = prstr "P3Tcon("
+    val () = fprint_pckind (out, pck)
+    val () = prstr "; "
+    val () = fprint_d2con (out, d2c)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_p3atlst (out, p3ts)
+    val () = prstr ")"
+  } // end of [P3Tcon]
+//
+| P3Tint (i) =>
+    fprintf (out, "P3Tint(%i)", @(i))
+| P3Tintrep (s) =>
+    fprintf (out, "P3Tintrep(%s)", @(s))
+| P3Tbool (b) => let
+    val name = if b then "true" else "false"
+  in
+    fprintf (out, "P3Tbool(%s)", @(name))
+  end // end of [P3Tbool]
+| P3Tchar (c) =>
+    fprintf (out, "P3Tchar(%c)", @(c))
+| P3Tstring (str) =>
+    fprintf (out, "P3Tstring(%s)", @(str))
+//
+| P3Ti0nt (i) => prstr "P3Ti0nt(...)"
+| P3Tf0loat (f) => prstr "P3Tf0loat(...)"
+//
+| P3Tempty () => prstr "P3Tempty()"
+//
+| P3Trec _ => prstr "P3Trec(...)"
+| P3Tlst (lin, p3ts) => {
+    val () = prstr "P3Tlst("
+    val () = fprint_int (out, lin)
+    val () = prstr "; "
+    val () = fprint_p3atlst (out, p3ts)
+    val () = prstr ")"
+  }
+//
+| P3Trefas (d2v, p3t) => {
+    val () = prstr "P3Trefas("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr " -> "
+    val () = fprint_p3at (out, p3t)
+    val () = prstr ")"
+  } // end of [P3Trefas]
+| P3Texist (s2vs, p3t) => {
+    val () = prstr "P3Texist("
+    val () = fprint_s2varlst (out, s2vs)
+    val () = prstr "; "
+    val () = fprint_p3at (out, p3t)
+    val () = prstr ")"
+  } // end of [P3Texist]
+| P3Tann (p3t, s2e) => {
+    val () = prstr "P3Tann("
+    val () = fprint_p3at (out, p3t)
+    val () = prstr " : "
+    val () = fprint_s2exp (out, s2e)
+    val () = prstr ")"
+  } // end of [P3Tann]
+//
+| P3Terr () => prstr "P3Terr()"
+// end of [p3at_node]
+end // end of [fprint_p3at]
+
+implement
+fprint_p3atlst (out, xs) =
+  $UT.fprintlst (out, xs, ", ", fprint_p3at)
+// end of [fprint_p3atlst]
+
+(* ****** ****** *)
+
+implement
 fprint_d3exp
   (out, d3e0) = let
   macdef prstr (s) = fprint_string (out, ,(s))

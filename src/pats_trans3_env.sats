@@ -369,9 +369,13 @@ fun d3explst_open_and_add (d3es: d3explst): void
 //
 // HX: for turning val into var
 //
-fun d2var_mutablize
+fun d2var_mutablize (
+  loc0: location
+, d2v: d2var, s2e0(*master*): s2exp, opt: d2varopt
+) : d2var // end of [d2var_mutablize]
+fun d2var_mutablize_none
   (loc0: location, d2v: d2var, s2e0(*master*): s2exp): d2var
-// end of [d2var_mutablize]
+// end of [d2var_mutablize_none]
 
 (* ****** ****** *)
 //

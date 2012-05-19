@@ -72,8 +72,8 @@ array_v_unsplit{a}
   (pf1_arr, pf2_arr) =
   unsplit (pf1_arr, pf2_arr) where {
 //
-  prval () = lemma_array_params (pf1_arr)
-  prval () = lemma_array_params (pf2_arr) 
+  prval () = lemma_array_v_param (pf1_arr)
+  prval () = lemma_array_v_param (pf2_arr) 
 //
   prfun unsplit
     {l:addr}

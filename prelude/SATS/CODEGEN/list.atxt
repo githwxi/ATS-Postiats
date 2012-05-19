@@ -40,11 +40,16 @@ typedef cmp
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
+prfun
+lemma_list_param
+  {x:t0p}{n:int} (xs: list (x, n)): [n >= 0] void
+// end of [lemma_list_param]
+
+#atscode_separator()
+
 fun{
 x:t0p // type for elements
 } list_copy {n:int} (xs: list (x, n)):<> list_vt (x, n)
-')\
 
 #atscode_separator()
 
@@ -71,34 +76,28 @@ a:t0p // type for elements
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 fun{
 x:t0p // type for elements
 } list_foreach_funenv
   {v:view}{env:viewtype}{fe:eff} (
   pfv: !v | xs: List (x), f: (!v | x, !env) -<fun,fe> void, env: !env
 ) :<fe> void // end of [list_foreach_funenv]
-')\
 
-#atscode_decl_strcst('\
 fun{
 x:t0p // type for elements
 } list_iforeach_funenv
   {v:view}{env:viewtype}{n:nat}{fe:eff} (
   pfv: !v | xs: list (x, n), f: (!v | natLt(n), x, !env) -<fun,fe> void, env: !env
-) :<fe> void // end of [list_iforeach_funenv]
-')\
+) :<fe> int n // end of [list_iforeach_funenv]
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 fun{
 x:t0p}{y:t0p
 } list_map_funenv
   {v:view}{vt:viewtype}{n:int}{fe:eff} (
   pfv: !v | xs: list (x, n), f: (!v | x, !vt) -<fun,fe> y, env: !vt
-) : list_vt (y, n) // end of [list_map_funenv]
-')\
+) :<fe> list_vt (y, n) // end of [list_map_funenv]
 
 #atscode_separator()
 

@@ -492,12 +492,12 @@ and f1undeclst = List f1undec
 
 and v1ardec = '{
   v1ardec_loc= location
-, v1ardec_knd= int (* BANG: knd = 1 *)
+, v1ardec_knd= int (* knd=0/1:sta/dyn *)
 , v1ardec_sym= symbol
 , v1ardec_sym_loc= location
-, v1ardec_type= s1expopt
-, v1ardec_wth= i0deopt
-, v1ardec_ini= d1expopt
+, v1ardec_type= s1expopt (* optional type anno *)
+, v1ardec_wth= i0deopt // proof var of @-view
+, v1ardec_ini= d1expopt // optional initial value.
 } // end of [v1ardec]
 
 and v1ardeclst = List v1ardec

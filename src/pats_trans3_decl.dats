@@ -57,6 +57,7 @@ macdef print_location = $LOC.print_location
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_staexp2_util.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
 
@@ -91,9 +92,16 @@ fun v2aldeclst_tr
   (knd: valkind, d2cs: v2aldeclst): v3aldeclst
 // end of [v2aldeclst_tr]
 extern
-fun v2aldecreclst_tr
+fun v2aldeclst_rec_tr
   (knd: valkind, d2cs: v2aldeclst): v3aldeclst
-// end of [v2aldecreclst_tr]
+// end of [v2aldeclst_rec_tr]
+
+(* ****** ****** *)
+
+extern
+fun v2ardec_tr (d2c: v2ardec): v3ardec
+extern
+fun v2ardeclst_tr (d2cs: v2ardeclst): v3ardeclst
 
 (* ****** ****** *)
 
@@ -143,10 +151,14 @@ case+ d2c0.d2ecl_node of
   end // end of [D2Cvaldecs]
 | D2Cvaldecs_rec
     (knd, d2cs) => let
-    val d3cs = v2aldecreclst_tr (knd, d2cs)
+    val d3cs = v2aldeclst_rec_tr (knd, d2cs)
   in
     d3ecl_valdecs_rec (loc0, knd, d3cs)
   end // end of [D2Cvaldecs_rec]
+//
+| D2Cvardecs (d2cs) => let
+    val d3cs = v2ardeclst_tr (d2cs) in d3ecl_vardecs (loc0, d3cs)
+  end // end of [D2Cvardecs]
 //
 | D2Cinclude d2cs => (
     d3ecl_list (loc0, d2eclist_tr d2cs)
@@ -436,9 +448,6 @@ val () = begin
 end // end of [val]
 //
 val p3t_val = p2at_trdn (p2t_val, s2e_def)
-(*
-val () = p3at_mutablize (p3t_val) // val2var change
-*)
 val () = d3lval_set_pat_type_left (d3e_def, p3t_val)
 //
 val () = the_d2varenv_add_p3at (p3t_val)
@@ -463,7 +472,7 @@ end // end of [v2aldeclst_tr]
 (* ****** ****** *)
 
 implement
-v2aldecreclst_tr
+v2aldeclst_rec_tr
   (knd, d2cs) = let
 //
 val p3ts = let
@@ -480,7 +489,7 @@ val p3ts = let
         val () = prerr ": this pattern cannot be assigned a linear type."
         val () = prerr_newline ()
       in
-        the_trans3errlst_add (T3E_v2aldecreclst_tr_linearity (d2c, s2e_pat))
+        the_trans3errlst_add (T3E_v2aldeclst_rec_tr_linearity (d2c, s2e_pat))
       end // end of [if]
   in
     p2at_trdn (p2t, s2e_pat)
@@ -505,7 +514,106 @@ end // end of [val]
 //
 in
   d3cs
-end // end of [v2aldecreclst_tr]
+end // end of [v2aldeclst_rec_tr]
+
+(* ****** ****** *)
+
+extern
+fun v2ardec_tr_sta (d2c: v2ardec): v3ardec
+implement
+v2ardec_tr_sta
+  (d2c) = let
+//
+val loc0 = d2c.v2ardec_loc
+val d2v = d2c.v2ardec_dvar
+val locvar = d2var_get_loc (d2v)
+val ann = d2c.v2ardec_type
+val ini2 = d2c.v2ardec_ini
+var ini3 : d3expopt = None ()
+val s2e0 = (
+  case+ ann of
+  | Some s2e_ann => (
+    case+ ini2 of
+    | Some (d2e) => let
+        val d3e =
+          d2exp_trdn (d2e, s2e_ann)
+        val () = ini3 := Some (d3e)
+        val () = d3exp_open_and_add (d3e)
+        val s2e = d3exp_get_type (d3e)
+        val () = d2var_set_type (d2v, Some s2e)
+      in
+        s2e_ann
+      end // end of [Some]
+    | None () => let
+        val s2e = s2exp_topize_0 (s2e_ann)
+        val () = d2var_set_type (d2v, Some s2e)
+      in        
+        s2e_ann
+      end // end of [None]
+    ) // end of [Some]
+  | None () => (
+    case+ ini2 of
+    | Some (d2e) => let
+        val d3e = d2exp_trup (d2e)
+        val () = ini3 := Some (d3e)
+        val () = d3exp_open_and_add (d3e)
+        val s2e = d3exp_get_type (d3e)
+        val () = d2var_set_type (d2v, Some s2e)
+      in
+        s2exp_topize_0 (s2e)
+      end // end of [Some]
+    | None () =>
+        s2exp_Var_make_srt (locvar, s2rt_t0ype)
+      // end of [None]
+    ) // end of [None]
+) : s2exp // end of [val]
+//
+val d2vw =
+  d2var_mutablize (locvar, d2v, s2e0, d2c.v2ardec_wth)
+val- Some
+  (s2l) = d2var_get_addr (d2v)
+val s2e0_top = s2exp_topize_0 (s2e0)
+val s2at0 = s2exp_at (s2e0_top, s2l)
+val () = d2var_set_finknd (d2vw, D2VFINsome (s2at0))
+//
+val d3c =
+  v3ardec_make (loc0, 0(*sta*), d2v, d2vw, s2e0, ini3)
+// end of [val]
+val () = the_d2varenv_add_dvar (d2v)
+val () = the_pfmanenv_add_dvar (d2v)
+//
+in
+  d3c
+end // end of [v2ardec_tr_sta]
+
+(* ****** ****** *)
+
+extern
+fun v2ardec_tr_dyn (d2c: v2ardec): v3ardec
+implement
+v2ardec_tr_dyn (d2c) = exitloc (1)
+
+(* ****** ****** *)
+
+implement
+v2ardec_tr (d2c) = let
+  val knd = d2c.v2ardec_knd
+in
+  if knd = 0 then begin
+    v2ardec_tr_sta (d2c) // static allocation
+  end else begin (* dynamic *)
+    v2ardec_tr_dyn (d2c) // dynamic allocation
+  end // end of [if]
+end // end of [v2ardec_tr]
+
+implement
+v2ardeclst_tr (d2cs) = let
+  val () = list_app_fun<v2ardec> (
+    d2cs, lam d2c =<1> trans3_env_add_svar (d2c.v2ardec_svar)
+  ) // end of [val]
+in
+  list_of_list_vt (list_map_fun (d2cs, v2ardec_tr))
+end // end of [v2ardeclst_tr]
 
 (* ****** ****** *)
 

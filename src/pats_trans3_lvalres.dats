@@ -332,6 +332,33 @@ end // end of [d3lval_set_pat_type_left]
 
 local
 
+fun loop (
+  d3es: d3explst, p3ts: p3atlst
+) : void = (
+  case+ d3es of
+  | list_cons (d3e, d3es) => (
+    case+ p3ts of
+    | list_cons (p3t, p3ts) => let
+        val () =
+          d3lval_set_pat_type_left (d3e, p3t) in loop (d3es, p3ts)
+        // end of [val]
+      end // end of [list_cons]
+    | list_nil () => ()
+    ) // end of [list_cons]
+  | list_nil () => ()
+) // end of [loop]
+
+in // in of [local]
+
+implement
+d3lvalist_set_pat_type_left (d3es, p3ts) = loop (d3es, p3ts)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
 fn s2exp_fun_is_freeptr
   (s2e: s2exp): bool = (
   case+ s2e.s2exp_node of

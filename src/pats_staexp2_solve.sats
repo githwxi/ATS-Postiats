@@ -86,6 +86,9 @@ fun pfarity_equal_solve_err
 
 (* ****** ****** *)
 
+fun s2eff_subeq_solve
+  (loc: location, s2fe1: s2eff, s2fe2: s2eff): int(*err*)
+// end of [s2eff_subeq_solve]
 fun s2eff_subeq_solve_err
   (loc: location, s2fe1: s2eff, s2fe2: s2eff, err: &int): void
 // end of [s2eff_subeq_solve_err]
@@ -101,15 +104,6 @@ fun tyreckind_equal_solve_err (
 fun refval_equal_solve_err
   (loc: location, knd1: int, knd2: int, err: &int): void
 // end of [refval_equal_solve_err]
-
-(* ****** ****** *)
-
-fun s2eff_effleq_solve
-  (loc: location, s2fe1: s2eff, s2fe2: s2eff): int(*err*)
-// end of [s2eff_effleq_solve]
-fun s2eff_effleq_solve_err
-  (loc: location, s2fe1: s2eff, s2fe2: s2eff, err: &int): void
-// end of [s2eff_effleq_solve_err]
 
 (* ****** ****** *)
 
@@ -133,6 +127,9 @@ fun s2explst_equal_solve_err (
 fun labs2explst_equal_solve_err (
   loc: location, ls2es1: labs2explst, ls2es2: labs2explst, err: &int
 ) : void // end of [labs2explst_equal_solve_err]
+fun wths2explst_equal_solve_err (
+  loc: location, ws2es1: wths2explst, ws2es2: wths2explst, err: &int
+) : void // end of [wths2explst_equal_solve_err]
 
 (* ****** ****** *)
 
@@ -156,6 +153,9 @@ fun s2explst_tyleq_solve_err (
 fun labs2explst_tyleq_solve_err (
   loc: location, ls2es1: labs2explst, ls2es2: labs2explst, err: &int
 ) : void // end of [labs2explst_tyleq_solve_err]
+fun wths2explst_tyleq_solve_err (
+  loc: location, ws2es1: wths2explst, ws2es2: wths2explst, err: &int
+) : void // end of [wths2explst_tyleq_solve_err]
 
 (* ****** ****** *)
 

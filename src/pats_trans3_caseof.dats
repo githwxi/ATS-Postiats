@@ -112,6 +112,7 @@ fun c2lau_trdn
   {n:nat} (
   casknd: caskind
 , c2l: c2lau
+, d3es: list (d3exp, n)
 , s2es_pat: list (s2exp, n)
 , s2e_res: s2exp
 , cp2tss: p2atcstlstlst_vt
@@ -122,6 +123,7 @@ fun c2laulst_trdn
   loc0: location
 , casknd: caskind
 , c2ls: c2laulst
+, d3es: list (d3exp, n)
 , s2es_pat: list (s2exp, n)
 , s2e_res: s2exp
 ) : c3laulst n // end of [c2laulst_trdn]
@@ -130,7 +132,7 @@ fun c2laulst_trdn
 
 implement
 c2lau_trdn (
-  casknd, c2l, s2es_pat, s2e_res, cp2tcss
+  casknd, c2l, d3es, s2es_pat, s2e_res, cp2tcss
 ) = let
 //
 val loc0 = c2l.c2lau_loc
@@ -157,6 +159,10 @@ val () = if (serr != 0) then {
   val () = the_trans3errlst_add (T3E_c2lau_trdn_arity (c2l, s2es_pat))
 } // end of [val]
 //
+val () = (
+  print "c2lau_trdn: p3ts = "; fprint_p3atlst (stdout_ref, p3ts); print_newline ()
+) (* end of [val] *)
+//
 val (pfd2v | ()) = the_d2varenv_push_let ()
 val () = the_d2varenv_add_p3atlst (p3ts)
 val (pfman | ()) = the_pfmanenv_push_let ()
@@ -164,16 +170,16 @@ val () = the_pfmanenv_add_p3atlst (p3ts)
 //
 val gua = m2atchlst_trup (c2l.c2lau_gua)
 //
-val d3e_body = let
-  val s2e_res = (
-    if neg > 0 then s2exp_bottom_viewt0ype_exi () else s2e_res
-  ) : s2exp // end of [val]
+// HX-2012-05:
+// if p3t is a PCKlincon, it is assumed read-only!
+//
+val () = d3lvalist_set_pat_type_left (d3es, p3ts)
+val s2e_res = (
+  if neg > 0 then s2exp_bottom_viewt0ype_exi () else s2e_res
+) : s2exp // end of [val]
+val d3e_body = d2exp_trdn (c2l.c2lau_body, s2e_res)
 //
 val () = p2atcstlstlst_vt_free (cp2tcss)
-//
-in
-  d2exp_trdn (c2l.c2lau_body, s2e_res)
-end // end of [val]
 //
 val () = the_d2varenv_pop (pfd2v | (*none*))
 val () = the_pfmanenv_pop (pfman | (*none*))
@@ -215,6 +221,51 @@ end // end of [c2laulst0_trdn]
 
 (* ****** ****** *)
 
+fun
+c2laulst1_trdn
+  {n:nat} (
+  loc0: location
+, casknd: caskind
+, c2l: c2lau
+, d3es: list (d3exp, n)
+, s2es_pat: list (s2exp, n)
+, s2e_res: s2exp
+) : c3lau (n) = let
+(*
+val () = begin
+  print "c2laulst1_trdn: s2es_pat = "; print s2es_pat; print_newline ();
+end // end of [val]
+*)
+//
+val cp2tcss = (
+  case+ casknd of
+  | CK_case () => c2lau_pat_comp (c2l)
+  | CK_case_pos () => c2lau_pat_comp (c2l)
+  | CK_case_neg () => list_vt_nil ()
+) : p2atcstlstlst_vt // end of [val]
+var cp2tcss : p2atcstlstlst_vt = cp2tcss
+//
+val c3l = let
+  val cp2tcss1 = p2atcstlstlst_vt_copy (cp2tcss)
+in
+  c2lau_trdn (casknd, c2l, d3es, s2es_pat, s2e_res, cp2tcss1)
+end // end of [val]
+//
+val isexhaust = ( // HX: always true for [case-]
+  if list_vt_is_nil (cp2tcss) then true else false
+) : bool // end of [val]
+val () = if ~isexhaust then let
+  val cp2tcss = p2atcstlstlst_vt_copy (cp2tcss) in
+  trans3_env_add_patcstlstlst_false (loc0, casknd, cp2tcss, s2es_pat)
+end // end of [val]
+val () = p2atcstlstlst_vt_free (cp2tcss)
+//
+in
+  c3l
+end // end of [c2laulst1_trdn]
+
+(* ****** ****** *)
+
 extern
 fun c2laulst2_trdn
   {n:nat} (
@@ -222,6 +273,7 @@ fun c2laulst2_trdn
 , casknd: caskind
 , c2l_fst: c2lau
 , c2ls_rest: c2laulst
+, d3es: list (d3exp, n)
 , s2es_pat: list (s2exp, n)
 , s2e_res: s2exp
 ) : c3laulst n
@@ -231,7 +283,9 @@ and c2laulst2_trdn_rest
   loc0: location
 , casknd: caskind
 , c3l_fst: c3lau n
+, lsbs: lstbefitmlst
 , c2ls_rest: c2laulst
+, d3es: list (d3exp, n)
 , s2es_pat: list (s2exp, n)
 , s2e_res: s2exp
 , cp2tcss: &p2atcstlstlst_vt
@@ -241,7 +295,7 @@ and c2laulst2_trdn_rest
 
 implement
 c2laulst2_trdn {n} (
-  loc0, casknd, c2l_fst, c2ls_rest, s2es_pat, s2e_res
+  loc0, casknd, c2l_fst, c2ls_rest, d3es, s2es_pat, s2e_res
 ) : c3laulst n = let
 (*
 val () = begin
@@ -257,13 +311,15 @@ val cp2tcss = (
 ) : p2atcstlstlst_vt // end of [val]
 var cp2tcss : p2atcstlstlst_vt = cp2tcss
 //
+val lsbs = the_d2varenv_save_lstbefitmlst ()
+//
 val c3l_fst = let
   val cp2tcss1 = p2atcstlstlst_vt_copy (cp2tcss)
 in
-  c2lau_trdn (casknd, c2l_fst, s2es_pat, s2e_res, cp2tcss1)
+  c2lau_trdn (casknd, c2l_fst, d3es, s2es_pat, s2e_res, cp2tcss1)
 end // end of [val]
-val c3ls_rest = c2laulst2_trdn_rest
-  (loc0, casknd, c3l_fst, c2ls_rest, s2es_pat, s2e_res, cp2tcss)
+val c3ls_all = c2laulst2_trdn_rest
+  (loc0, casknd, c3l_fst, lsbs, c2ls_rest, d3es, s2es_pat, s2e_res, cp2tcss)
 val isexhaust = ( // HX: always true for [case-]
   if list_vt_is_nil (cp2tcss) then true else false
 ) : bool // end of [val]
@@ -274,7 +330,7 @@ end // end of [val]
 val () = p2atcstlstlst_vt_free (cp2tcss)
 //
 in
-  c3ls_rest
+  c3ls_all
 end (* end of [c2laulst2_trdn] *)
 
 (* ****** ****** *)
@@ -283,7 +339,11 @@ implement
 c2laulst2_trdn_rest
   {n} (
   loc0, casknd
-, c3l_fst, c2ls_rest, s2es_pat, s2e_res
+, c3l_fst
+, lsbs
+, c2ls_rest
+, d3es
+, s2es_pat, s2e_res
 , cp2tcss // : &patcstlstlst_vt
 ) = let
 //
@@ -363,8 +423,9 @@ case+ c2ls of
       print ": cp2tcss_inter =\n"; print_p2atcstlstlst_vt (cp2tcss_inter); print_newline ()
     end // end of [val]
 // *)
+    val () = lstbefitmlst_restore_type (lsbs)
     val c3l = c2lau_trdn
-      (casknd, c2l, s2es_pat, s2e_res, cp2tcss_inter)
+      (casknd, c2l, d3es, s2es_pat, s2e_res, cp2tcss_inter)
     // end of [val]
     val () = let
       val gua = c2l.c2lau_gua
@@ -416,7 +477,7 @@ end // end of [c2laulst2_trdn_rest]
 
 implement
 c2laulst_trdn {n} (
-  loc0, casknd, c2ls, s2es_pat, s2e_res
+  loc0, casknd, c2ls, d3es, s2es_pat, s2e_res
 ) = let
 in
 //
@@ -426,9 +487,18 @@ case+ c2ls of
   in
     list_nil ()
   end // end of [list_nil]
-| list_cons (c2l, c2ls) =>
-    c2laulst2_trdn (loc0, casknd, c2l, c2ls, s2es_pat, s2e_res)
-  // end of [list_cons]
+| list_cons (c2l, c2ls) => (
+    case+ c2ls of
+    | list_nil () => let
+        val c3l =
+          c2laulst1_trdn (loc0, casknd, c2l, d3es, s2es_pat, s2e_res)
+        // end of [val]
+      in
+        list_sing (c3l)
+      end // end of [list_nil]
+    | list_cons _ =>
+        c2laulst2_trdn (loc0, casknd, c2l, c2ls, d3es, s2es_pat, s2e_res)
+  ) // end of [list_cons]
 //
 end // end of [c2laulst_trdn]
 
@@ -448,14 +518,14 @@ val- D2Ecasehead (casknd, i2nvres, d2es, c2ls) = d2e0.d2exp_node
 val s2e0 = s2hnf2exp (s2f0)
 //
 val d3es = d2explst_trup (d2es)
-val () = d3explst_open_and_add (d3es)
+val _(*void*) = d3explst_open_and_add (d3es)
 val s2es_pat = list_map_fun (d3es, d3exp_get_type)
 val c3ls = let
-  val s2es1_pat =
-    $UN.castvwtp1 {s2explst} (s2es_pat)
-  // end of [val]
+  val s2es1_pat = __cast (s2es_pat) where {
+    extern castfn __cast {n:int} (xs: !list_vt (s2exp, n)): list (s2exp, n)
+  } // end of [val]
 in
-  c2laulst_trdn (loc0, casknd, c2ls, s2es1_pat, s2e0)
+  c2laulst_trdn (loc0, casknd, c2ls, d3es, s2es1_pat, s2e0)
 end // end of [val]
 val () = list_vt_free (s2es_pat)
 //

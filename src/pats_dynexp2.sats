@@ -657,8 +657,10 @@ and d2lablst = List d2lab
 (* ****** ****** *)
 
 and i2nvarg = '{
-  i2nvarg_var= d2var, i2nvarg_typ= s2expopt
-}
+  i2nvarg_var= d2var
+, i2nvarg_type= s2expopt
+} // end of [i2nvarg]
+
 and i2nvarglst = List i2nvarg
 
 and i2nvresstate = '{
@@ -746,12 +748,12 @@ and v2aldeclst = List (v2aldec)
 
 and v2ardec = '{
   v2ardec_loc= location
-, v2ardec_knd= int (* BANG: knd = 1 *)
+, v2ardec_knd= int (* knd=0/1:sta/dyn *)
 , v2ardec_dvar= d2var // dynamic address
 , v2ardec_svar= s2var // static address
-, v2ardec_typ= s2expopt
-, v2ardec_wth= d2varopt // proof of @-view
-, v2ardec_ini= d2expopt
+, v2ardec_type= s2expopt (* optional type anno *)
+, v2ardec_wth= d2varopt // proof var of @-view
+, v2ardec_ini= d2expopt // initial value (optional)
 } // end of [v2ardec]
 
 and v2ardeclst = List (v2ardec)

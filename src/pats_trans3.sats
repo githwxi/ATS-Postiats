@@ -143,7 +143,7 @@ datatype trans3err =
   | T3E_c2laulst2_trdn_redundant of (location, c2lau)
 //
   | T3E_f2undeclst_tr_termetsrtck of (f2undec, s2rtlstopt)
-  | T3E_v2aldecreclst_tr_linearity of (v2aldec, s2exp(*linear*))
+  | T3E_v2aldeclst_rec_tr_linearity of (v2aldec, s2exp(*linear*))
 // end of [trans3err]
 
 fun the_trans3errlst_add (x: trans3err): void
@@ -350,8 +350,9 @@ fun d2exp_trdn (d2e: d2exp, s2e: s2exp): d3exp
 fun d2explst_trdn_elt (d2es: d2explst, s2e: s2exp): d3explst
 
 (* ****** ****** *)
-
+//
 fun d2exp_trdn_rest (d2e: d2exp, s2f: s2hnf): d3exp
+//
 fun d2exp_trdn_ifhead (d2e: d2exp, s2f: s2hnf): d3exp
 fun d2exp_trdn_casehead (d2e: d2exp, s2f: s2hnf): d3exp
 fun d2exp_trdn_sifhead (d2e: d2exp, s2f: s2hnf): d3exp
@@ -400,7 +401,10 @@ fun d3lval_set_type_err (
   refval: int, d3e: d3exp, s2e: s2exp, err: &int
 ) : void // end of [d3lval_set_type_err]
 
-fun d3lval_set_pat_type_left (d3e0: d3exp, p3t: p3at): void
+fun d3lval_set_pat_type_left
+  (d3e0: d3exp, p3t: p3at): void // end of [fun]
+fun d3lvalist_set_pat_type_left
+  (d3es: d3explst, p3ts: p3atlst): void // end of [fun]
 
 (* ****** ****** *)
 

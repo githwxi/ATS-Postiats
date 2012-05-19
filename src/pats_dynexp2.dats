@@ -714,12 +714,13 @@ d2lab_ind (loc, ind) = '{
 
 implement
 i2nvarg_make
-  (d2v, typ) = '{
-  i2nvarg_var= d2v, i2nvarg_typ= typ
+  (d2v, s2e) = '{
+  i2nvarg_var= d2v, i2nvarg_type= s2e
 } // end of [i2nvarg_make]
 
 implement
-i2nvresstate_nil = i2nvresstate_make (
+i2nvresstate_nil =
+  i2nvresstate_make (
   list_nil(*svs*), list_nil(*gua*), list_nil(*arg*)
 ) // end of [i2nvresstate_nil]
 
@@ -800,13 +801,13 @@ v2aldec_make (
 
 implement
 v2ardec_make (
-  loc, knd, d2v, s2v, typ, wth, ini
+  loc, knd, d2v, s2v, s2e, wth, ini
 ) = '{
   v2ardec_loc= loc
 , v2ardec_knd= knd
 , v2ardec_dvar= d2v
 , v2ardec_svar= s2v
-, v2ardec_typ= typ
+, v2ardec_type= s2e
 , v2ardec_wth= wth
 , v2ardec_ini= ini
 } // end of [v2ardec_make]

@@ -28,8 +28,13 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 implement{a}
 compare_elt_elt
-  (x1, x2, cmp, env) = cmp (x1, x2, env)
+  (x1, x2, cmp) = cmp (x1, x2)
 // end of [compare_elt_elt]
+
+implement{a}
+compare_elt_elt_env
+  (x1, x2, cmp, env) = cmp (x1, x2, env)
+// end of [compare_elt_elt_env]
 
 #atscode_separator()
 
@@ -49,13 +54,13 @@ fun loop
   xs: list_vt (a, m), ys: list_vt (a, n)
 ) :<> list_vt (a, m+n) =
   case xs of
-  | list_vt_cons
-      (_, !p_tl) => let
-      val xs1 = !p_tl
-      val () = !p_tl := ys
+  | @list_vt_cons
+      (_, xs1) => let
+      val xs1_v = xs1
+      val () = xs1 := ys
       prval () = fold@ (xs)
     in
-      loop (xs1, xs)
+      loop (xs1_v, xs)
     end
   | ~list_vt_nil () => ys
 // end of [loop]
@@ -77,14 +82,14 @@ list_vt_foreach_funenv
   , env: !vt
   ) :<fe> void =
     case+ xs of
-    | list_vt_cons
-        (!p1_x, !p2_xs) => let
-        val () = f (pf | !p1_x, env)
-        val () = loop (pf | !p2_xs, f, env)
+    | @list_vt_cons
+        (x, xs1) => let
+        val () = f (pf | x, env)
+        val () = loop (pf | xs1, f, env)
       in
         fold@ (xs)
       end // end of [list_vt_cons]
-    | list_vt_nil () => fold@ (xs)
+    | list_vt_nil () => ()
   // end of [loop]
 in
   loop (pf | xs, f, env)
@@ -112,8 +117,8 @@ fun split {n,n1:nat | n >= n1} .<n1>. (
   , n1: int n1, res: &List_vt a? >> list_vt (a, n-n1)
   ) :<> void =
   if n1 > 0 then let
-    val+ list_vt_cons (_, !p_xs1) = xs
-    val () = split (!p_xs1, n1-1, res)
+    val+ @list_vt_cons (_, xs1) = xs
+    val () = split (xs1, n1-1, res)
   in
     fold@ (xs)
   end else let
@@ -130,20 +135,22 @@ fun merge {n1,n2:nat} .<n1+n2>. (
   , res: &List_vt a? >> list_vt (a, n1+n2)
   ) :<> void =
   case+ xs1 of
-  | list_vt_cons (!p_x1, !p_xs11) => (
+  | @list_vt_cons (x1, xs11) => (
     case+ xs2 of
-    | list_vt_cons (!p_x2, !p_xs21) => let
-        val sgn = compare_elt_elt (!p_x1, !p_x2, cmp, env)
+    | @list_vt_cons (x2, xs21) => let
+        val sgn =
+          compare_elt_elt_env (x1, x2, cmp, env)
+        // end of [val]
       in
         if sgn <= 0 then let
           prval () = fold@ {a} (xs2)
-          val () = merge (!p_xs11, xs2, cmp, env, !p_xs11)
+          val () = merge (xs11, xs2, cmp, env, xs11)
           prval () = fold@ {a} (xs1)
         in
           res := xs1
         end else let
           prval () = fold@ {a} (xs1)
-          val () = merge (xs1, !p_xs21, cmp, env, !p_xs21)
+          val () = merge (xs1, xs21, cmp, env, xs21)
           prval () = fold@ {a} (xs2)
         in
           res := xs2
@@ -159,9 +166,9 @@ val n = list_vt_length<a> (xs)
 in
 //
 if n >= 2 then let
-  val+ list_vt_cons (_, !p_xs1) = xs
+  val+ @list_vt_cons (_, xs1) = xs
   var res: List_vt a? // uninitialized
-  val () = split (!p_xs1, (n-1)/2, res)
+  val () = split (xs1, (n-1)/2, res)
   prval () = fold@ (xs)
   val xs1 = list_vt_mergesort_env<a> (xs, cmp, env)
   val xs2 = list_vt_mergesort_env<a> (res, cmp, env)

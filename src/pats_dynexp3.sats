@@ -101,6 +101,11 @@ and labp3atlst = List (labp3at)
 
 (* ****** ****** *)
 
+fun fprint_p3at : fprint_type (p3at)
+fun fprint_p3atlst : fprint_type (p3atlst)
+
+(* ****** ****** *)
+
 fun p3at_make_node (
   loc: location, s2e: s2exp, node: p3at_node
 ) : p3at // end of [p3at_make_node]
@@ -184,6 +189,11 @@ fun p3at_set_type_left
 
 (* ****** ****** *)
 
+fun p3at_is_lincon (p3t: p3at): bool
+fun p3at_is_unfold (p3t: p3at): bool
+
+(* ****** ****** *)
+
 datatype
 d3ecl_node =
   | D3Cnone
@@ -198,6 +208,7 @@ d3ecl_node =
   | D3Cfundecs of (funkind, s2qualst(*decarg*), f3undeclst)
   | D3Cvaldecs of (valkind, v3aldeclst)
   | D3Cvaldecs_rec of (valkind, v3aldeclst)
+  | D3Cvardecs of (v3ardeclst)
 //
   | D3Cstaload of (filename, int(*loadflag*), int(*loaded*), filenv)
 // end of [d3ecl_node]
@@ -711,6 +722,11 @@ fun f3undec_make (
 fun v3aldec_make (
   loc: location, p3t: p3at, def: d3exp
 ) : v3aldec // end of [v3aldec_make]
+
+fun v3ardec_make (
+  loc: location, knd: int (*0/1:sta/dyn*)
+, d2v: d2var, d2vw: d2var, s2e0: s2exp, ini: d3expopt
+) : v3ardec // end of [v3ardec_make]
 
 (* ****** ****** *)
 

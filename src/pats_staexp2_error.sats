@@ -65,6 +65,8 @@ datatype staerr =
   | STAERR_s2explst_length of (location, int(*-1/1*))
   | STAERR_labs2explst_length of (location, int(*-1/1*))
 //
+  | STAERR_wths2explst_shape of (location, wths2explst, wths2explst)
+//
   | STAERR_s2exp_linearity of (location, s2exp)
 //
 // end of [datatype]

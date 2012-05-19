@@ -61,35 +61,36 @@ compare_elt_elt_env
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
+fun{
+a:vt0p
+} list_vt_length
+  {n:int} (xs: !list_vt (a, n)): int n
+// end of [list_vt_length]
+
+#atscode_separator()
+
 fun{
 a:vt0p
 } list_vt_append
   {n1,n2:nat} (
   xs1: list_vt (a, n1), xs2: list_vt (a, n2)
 ) : list_vt (a, n1+n2) // end of [list_vt_append]
-')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 fun{
 x:vt0p
 } list_vt_reverse
   {n:nat} (xs: list_vt (x, n)): list_vt (x, n)
 // end of [list_vt_reverse]
-')\
 
-#atscode_decl_strcst('\
 fun{a:vt0p}
 list_vt_reverse_append {m,n:nat}
   (xs: list_vt (a, m), ys: list_vt (a, n)): list_vt (a, m+n)
 // end of [list_vt_reverse_append]
-')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 fun{
 a:vt0p
 } list_vt_foreach_funenv
@@ -97,11 +98,9 @@ a:vt0p
   pfv: !v
 | xs: !list_vt (a, n), f: (!v | &a, !vt) -<fe> void, env: !vt
 ) :<fe> void // end of [list_vt_foreach_funenv]
-')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 fun{
 a:vt0p
 } list_vt_mergesort
@@ -114,9 +113,7 @@ a:vt0p
   {vt:viewtype}{n:nat} (
   xs: list_vt (a, n), cmp: cmp (a, vt), env: !vt
 ) : list_vt (a, n) // end of [list_vt_mergesort_env]
-')\
 
-#atscode_decl_strcst('\
 fun{
 a:vt0p
 } list_vt_quicksort
@@ -129,7 +126,6 @@ a:vt0p
   {vt:viewtype}{n:nat} (
   xs: list_vt (a, n), cmp: cmp (a, vt), env: !vt
 ) : list_vt (a, n) // end of [list_vt_quicksort_env]
-')\
 
 #atscode_separator()
 

@@ -29,18 +29,24 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 implement{x}
 list_copy (xs) = let
   viewtypedef res = List_vt (x)
-  fun loop {n:nat} .<n>. (
-    xs: list (x, n), res: &res? >> list_vt (x, n)
+  prval () = lemma_list_param (xs)
+  fun loop
+    {n:nat} .<n>. (
+    xs: list (x, n)
+  , res: &res? >> list_vt (x, n)
   ) :<> void = case+ xs of
     | list_cons (x, xs) => let
-        val () = res := list_vt_cons {x}{0} (x, ?)
-        val+ list_vt_cons (_, !p_tl) = res; val () = loop (xs, !p_tl)
+        val () = res :=
+          list_vt_cons {x}{0} (x, _(*top*))
+        val+ list_vt_cons (_, res1) = res // res1 = res.1
+        val () = loop (xs, res1)
+        prval () = fold@ (res)
       in
-        fold@ (res)
+        // nothing
       end // end of [cons]
     | list_nil () => res := list_vt_nil ()
   // end of [loop]
-  var res: res // uninitialized
+  var res: res? // uninitialized
   val () = loop (xs, res)
 in
   res (*linear list*)
@@ -52,10 +58,12 @@ listize<List(x)><x> (xs) = list_copy (xs)
 #atscode_separator()
 
 implement{x}
-list_reverse (xs) = list_append2_vt (xs, list_vt_nil)
+list_reverse (xs) =
+  list_append2_vt<x> (xs, list_vt_nil)
+// end of [list_reverse]
 
 implement(x)
-rlistize<List(x)><x> (xs) = list_reverse (xs)
+rlistize<List(x)><x> (xs) = list_reverse<x> (xs)
 
 #atscode_separator()
 
@@ -66,7 +74,9 @@ list_foreach_funenv
 //
 fun loop {n:nat} .<n>. (
   pfv: !v
-| xs: list (x, n), f: (!v | x, !vt) -<fun,fe> void, env: !vt
+| xs: list (x, n)
+, f: (!v | x, !vt) -<fun,fe> void
+, env: !vt
 ) :<fe> void =
   case+ xs of
   | list_cons (x, xs) => let
@@ -87,20 +97,21 @@ foreach_funenv<List(x)><x>
 
 implement{x}
 list_iforeach_funenv
-  {v}{vt}{fe}
+  {v}{vt}{n}{fe}
   (pfv | xs, f, env) = let
 //
-fun loop {n:nat} .<n>. (
+fun loop
+  {i:nat | i <= n} .<n-i>. (
   pfv: !v
-| xs: list (x, n)
+| xs: list (x, n-i)
 , f: (!v | natLt(n), x, !vt) -<fun,fe> void
-, env: !vt, i: int
-) :<fe> void =
+, env: !vt, i: int i
+) :<fe> int n =
   case+ xs of
   | list_cons (x, xs) => let
       val () = f (pfv | i, x, env) in loop (pfv | xs, f, env, i+1)
     end // end of [list_cons]
-  | list_nil () => i(*size(xs*)
+  | list_nil () => i // = size(xs)
 // end of [loop]
 in
   loop (pfv | xs, f, env, 0)
@@ -108,35 +119,12 @@ end // end of [list_iforeach_funenv]
 
 implement(x)
 iforeach_funenv<List(x)><x>
-  (pfv | xs, f, env) = list_iforeach_funenv (pfv | xs, f, env)
-// end of [iforeach_funenv]
-
-#atscode_separator()
-
-implement{x}
-list_copy {n} (xs) = let
-  viewtypedef res = List_vt (x)
-  fun loop {n:nat} .<n>. (
-    xs: list (x, n), res: &res? >> list_vt (x, n)
-  ) :<> void =
-    case+ xs of
-    | list_cons
-        (x, xs) => let
-        val () =
-          res := list_vt_cons {x}{0} (x, ?)
-        val+ list_vt_cons (_, !p_res) = res
-        val () = loop (xs, !p_res)
-        prval () = fold@ (res)
-      in
-        (*nothing*)
-      end // end of [list_vt_cons]
-    | list_nil () => res := list_vt_nil
-  // end of [loop]
-  var res: res // uninitialized
-  val () = loop (xs, res)
-in
-  res(*list_vt(x,n)*)
-end // end of [list_copy]
+  (pfv | xs, f, env) = let
+  extern castfn
+    __cast {a:t@ype} (n: g0int a):<> g0uint a
+  // end of [extern]
+  val n = list_iforeach_funenv (pfv | xs, f, env) in __cast (n)
+end // end of [iforeach_funenv]
 
 #atscode_separator()
 
@@ -145,6 +133,9 @@ list_map_funenv
   {v}{vt}{n}{fe}
   (pfv | xs, f, env) = let
   viewtypedef ys = List_vt (y)
+  prval () =
+    lemma_list_param (xs) // prove [n >= 0]
+  // end of [prval]
   fun loop {n:nat} .<n>. (
     pfv: !v
   | xs: list (x, n)
@@ -156,9 +147,10 @@ list_map_funenv
     | list_cons
         (x, xs) => let
         val y = f (pfv | x, env)
-        val () = res := list_vt_cons {y}{0} (y, ?)
-        val+ list_vt_cons (_, !p_res) = res
-        val () = loop (pfv | xs, f, env, !p_res)
+        val () = res :=
+          list_vt_cons {y}{0} (y, _(*top*))
+        val+ list_vt_cons (_, res1) = res // res1 = res.1
+        val () = loop (pfv | xs, f, env, res1)
         prval () = fold@ (res)
       in
         (*nothing*)

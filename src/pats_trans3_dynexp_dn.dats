@@ -154,9 +154,8 @@ case+ d2e0.d2exp_node of
 //
 | D2Eeffmask _ => d2exp_trdn_effmask (d2e0, s2f0)
 //
-| D2Elam_dyn _ =>
-    d2exp_trdn_lam_dyn (d2e0, s2f0)
-  // end of [D2Elam_dyn]
+| D2Elam_dyn _ => d2exp_trdn_lam_dyn (d2e0, s2f0)
+//
 | _ => d2exp_trdn_rest (d2e0, s2f0)
 //
 end // end of [d2exp_trdn]
@@ -166,6 +165,7 @@ end // end of [d2exp_trdn]
 implement
 d2exp_trdn_rest
   (d2e0, s2f0) = let
+//
   val loc0 = d2e0.d2exp_loc
   val s2e0 = s2hnf2exp (s2f0)
   val d3e0 = d2exp_trup (d2e0)
@@ -183,9 +183,8 @@ d2exp_trdn_rest
 //
   val () = if iswth then funarg_d2vfin_check (loc0)
 //
-  val d3e0 = d3exp_trdn (d3e0, s2e0)
 in
-  d3e0
+  d3exp_trdn (d3e0, s2e0)
 end // end of [d2exp_trdn_rest]
 
 (* ****** ****** *)
@@ -265,7 +264,8 @@ case+ s2e0.s2exp_node of
     var opt: s2effopt_vt
     val d2e_body = d2exp_s2effopt_of_d2exp (d2e_body, opt)
     val () = (case+ opt of
-      | ~Some_vt s2fe => $SOL.s2eff_effleq_solve_err (loc0, s2fe, s2fe1, err)
+      | ~Some_vt s2fe =>
+          $SOL.s2eff_subeq_solve_err (loc0, s2fe, s2fe1, err)
       | ~None_vt () => ()
     ) : void // end of [val]
     val () = if err != 0 then let

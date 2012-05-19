@@ -288,12 +288,12 @@ d2var_exch_type
 
 implement
 d2var_ptr_viewat_make
-  (ptr, opt) = d2v where {
+  (ptr, opt) = d2vw where {
   val loc = d2var_get_loc (ptr)
   and sym = d2var_get_sym (ptr)
-  val d2v = (
+  val d2vw = (
     case+ opt of
-    | Some d2v => d2v
+    | Some d2vw => d2vw
     | None () => let
        val nam = $SYM.symbol_get_name (sym)
        val sym1 = $SYM.symbol_make_string (nam + "$view")
@@ -302,10 +302,10 @@ d2var_ptr_viewat_make
      end // end of [None]
   ) : d2var // end of [val]
   val () =
-    d2var_set_linval (d2v, 0)
+    d2var_set_linval (d2vw, 0)
   // end of [val]
   val () =
-    d2var_set_addr (d2v, d2var_get_addr ptr)
+    d2var_set_addr (d2vw, d2var_get_addr ptr)
   // end of [val]
 } // end of [d2var_ptr_viewat_make]
 

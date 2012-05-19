@@ -72,7 +72,7 @@ staload "pats_trans3_env.sats"
 
 implement
 d2var_mutablize
-  (loc0, d2v, s2e0) = let
+  (loc0, d2v, s2e0, opt) = let
 (*
   val () = (
     print ": d2var_mutablize: d2v = "; print_d2var (d2v); print_newline ()
@@ -97,7 +97,7 @@ d2var_mutablize
     val s2p = s2exp_agtz (s2e_addr) in trans3_env_hypadd_prop (loc0, s2p)
   end // end of [val]
 *)
-  val d2vw = d2var_ptr_viewat_make_none (d2v)
+  val d2vw = d2var_ptr_viewat_make (d2v, opt)
   val () = d2var_set_view (d2v, Some d2vw) // [d2v] is mutable
 //
   val s2at0 = s2exp_at (s2e0, s2e_addr)
@@ -107,6 +107,12 @@ d2var_mutablize
 in
   d2vw
 end // end of [d2var_mutablize]
+
+implement
+d2var_mutablize_none
+  (loc0, d2v, s2e0) =
+  d2var_mutablize (loc0, d2v, s2e0, None ())
+// end of [d2var_mutablize_none]
 
 (* ****** ****** *)
 
