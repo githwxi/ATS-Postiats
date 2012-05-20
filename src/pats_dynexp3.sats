@@ -199,6 +199,8 @@ d3ecl_node =
   | D3Cnone
   | D3Clist of d3eclist
 //
+  | D3Cextcode of (int(*knd*), int(*pos*), string(*code*))  
+//
   | D3Cdatdec of (int(*knd*), s2cstlst)
 //
   | D3Cdcstdec of (dcstkind, d2cstlst)
@@ -743,6 +745,12 @@ fun d3ecl_make_node
 
 fun d3ecl_none (loc: location): d3ecl
 fun d3ecl_list (loc: location, xs: d3eclist): d3ecl
+
+(* ****** ****** *)
+
+fun d3ecl_extcode
+  (loc: location, knd: int, pos: int, code: string): d3ecl
+// end of [d3ecl_extcode]
 
 (* ****** ****** *)
 

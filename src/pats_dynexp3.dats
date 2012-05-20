@@ -910,6 +910,14 @@ d3ecl_list
 (* ****** ****** *)
 
 implement
+d3ecl_extcode
+  (loc, knd, pos, code) =
+  d3ecl_make_node (loc, D3Cextcode (knd, pos, code))
+// end of [d3ecl_extcode]
+
+(* ****** ****** *)
+
+implement
 d3ecl_datdec
   (loc, knd, s2cs) =
   d3ecl_make_node (loc, D3Cdatdec (knd, s2cs))

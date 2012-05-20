@@ -27,6 +27,24 @@ prelude_cats:
 
 ######
 
+all:: libc
+
+######
+
+libc:: libc_sats
+
+libc_sats:
+	make -C libc/SATS/CODEGEN -f Makefile_gen
+	make -C libc/SATS/CODEGEN -f Makefile all
+libc_dats:
+	make -C libc/DATS/CODEGEN -f Makefile_gen
+	make -C libc/DATS/CODEGEN -f Makefile all
+libc_cats:
+	make -C libc/CATS/CODEGEN -f Makefile_gen
+	make -C libc/CATS/CODEGEN -f Makefile all
+
+######
+
 clean:: ; make -C prelude/SATS/CODEGEN -f Makefile clean
 clean:: ; make -C prelude/DATS/CODEGEN -f Makefile clean
 clean:: ; make -C prelude/CATS/CODEGEN -f Makefile clean

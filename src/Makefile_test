@@ -35,6 +35,10 @@ prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/unsafe.dats
 
 ######
 
+libc:: ; ./patsopt -s < $(PATSHOME)/libc/SATS/unistd.sats
+
+######
+
 contrib:: ; ./patsopt -s < $(PATSHOME)/contrib/cairo/SATS/cairo.sats
 
 ######

@@ -126,6 +126,10 @@ case+ d2c0.d2ecl_node of
 | D2Csymelim _ => d3ecl_none (loc0)
 | D2Coverload (id, _) => d3ecl_none (loc0)
 //
+| D2Cextcode (
+    knd, pos, code
+  ) => d3ecl_extcode (loc0, knd, pos, code)
+//
 | D2Cdatdec (knd, s2cs) => d3ecl_datdec (loc0, knd, s2cs)
 | D2Cdcstdec (knd, d2cs) => d3ecl_dcstdec (loc0, knd, d2cs)
 //
