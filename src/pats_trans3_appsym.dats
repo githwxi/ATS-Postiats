@@ -191,6 +191,18 @@ fun d3pitm_make
   (pval: int, d3e: d3exp): d3pitm = D3PITM (pval, d3e)
 // end of [d3pitm_make]
 
+fun fprint_d3pitm (
+  out: FILEref, x: d3pitm
+) : void = let
+  val D3PITM (pval, d3e) = x
+  val- D3Eitem (d2i) = d3e.d3exp_node
+  val () = fprint_d2itm (out, d2i)
+  val () = fprint_string (out, " of ")
+  val () = fprint_int (out, pval)
+in
+  // nothing
+end // end of [fprint_d3pitm]
+
 (* ****** ****** *)
 
 datatype
@@ -243,7 +255,7 @@ case+ d3as of
         s2exp_unimet_instantiate_all (s2e_fun, locarg, err)
       // HX: [err] is not used
       val () = trans3_env_add_proplst_vt (loc_fun, s2ps)
-      val d3e_fun = d3exp_app_sta (loc0, s2e_fun, d3e_fun)
+      val d3e_fun = d3exp_app_unista (loc0, s2e_fun, d3e_fun)
     in
       case+ s2e_fun.s2exp_node of
       | S2Efun (
@@ -485,7 +497,10 @@ case+ d3pis of
     val () = prerr_error3_loc (loc0)
     val () = prerr ": the symbol [";
     val () = fprint_d2sym (stderr_ref, d2s)
-    val () = prerr "] cannot be resolved due to too many matches."
+    val () = prerr "] cannot be resolved due to too many matches:\n"
+    val () = fprint_d3pitm (stderr_ref, d3pi1)
+    val () = prerr_newline ()
+    val () = fprint_d3pitm (stderr_ref, d3pi2)
     val () = prerr_newline ()
     val () = the_trans3errlst_add (
       T3E_d2exp_trup_applst_sym_cons2 (d2e0, d2s)

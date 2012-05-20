@@ -129,6 +129,8 @@ datatype trans3err =
   | T3E_d3lval_refval of (location, d2var) // non-mutable dvar used for call-by-ref
   | T3E_d3lval_linpatcon of (d3exp, s2exp) // non-left-val is matched against linpatcon
 //
+  | T3E_d3exp_funclo_topized of (d3exp) // repeated application of a linear funclo
+//
   | T3E_s2addr_exch_type_linold of (location, s2exp, d3lablst) // linear abandonment
   | T3E_s2addr_exch_type_oldnew of (location, s2exp, d3lablst, s2exp(*new*))
   | T3E_d3lval_exch_type_linold of (location, d3exp, d3lablst) // linear abandonment
@@ -411,6 +413,10 @@ fun d3lvalist_set_pat_type_left
 fun d3lval_arg_set_type
   (refval: int, d3e0: d3exp, s2e: s2exp): int (*freeknd*)
 // end of [d3lval_arg_set_type]
+
+(* ****** ****** *)
+
+fun d3exp_fun_restore (fc: funclo, d3e_fun: d3exp): d3exp
 
 fun d3explst_arg_restore (
   d3es: d3explst, s2es_arg: s2explst, wths2es: wths2explst

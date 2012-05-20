@@ -26,6 +26,11 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+implement
+ptr_get_index {l} (p) = addreq_make {l, l} ()
+
+#atscode_separator()
+
 implement{a} ptr_get (pf | p) = !p
 implement{a} ptr_get_vt (pf | p) = !p
 

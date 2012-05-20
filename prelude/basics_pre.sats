@@ -72,8 +72,16 @@ stacst eq_bool_bool : (bool, bool) -> bool
 stacst neq_bool_bool : (bool, bool) -> bool
 stadef == = eq_bool_bool
 stadef != = neq_bool_bool
-stadef <> = neq_bool_bool // backward compatibility
+stadef <> = neq_bool_bool // backward compatibility // deprecated
 //
+(* ****** ****** *)
+
+stacst eq_char_char : (char, char) -> bool
+stacst neq_char_char : (char, char) -> bool
+stadef == = eq_char_char
+stadef != = neq_char_char
+stadef <> = neq_char_char // backward compatibility // deprecated
+
 (* ****** ****** *)
 
 stacst neg_int : (int) -> int

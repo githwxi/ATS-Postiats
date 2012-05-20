@@ -211,6 +211,8 @@ d3ecl_node =
   | D3Cvardecs of (v3ardeclst)
 //
   | D3Cstaload of (filename, int(*loadflag*), int(*loaded*), filenv)
+//
+  | D3Clocal of (d3eclist(*head*), d3eclist(*body*))
 // end of [d3ecl_node]
 
 and d3exp_node =
@@ -531,6 +533,9 @@ fun d3exp_let
 fun d3exp_app_sta
   (loc: location, s2f: s2exp, d3e: d3exp): d3exp
 // end of [d3exp_app_sta]
+fun d3exp_app_unista
+  (loc: location, s2f: s2exp, d3e: d3exp): d3exp
+// end of [d3exp_app_unista]
 
 fun d3exp_app_dyn (
   loc: location
@@ -730,6 +735,12 @@ fun v3ardec_make (
 
 (* ****** ****** *)
 
+fun d3ecl_make_node
+  (loc: location, node: d3ecl_node): d3ecl
+// end of [d3ecl_make_node]
+
+(* ****** ****** *)
+
 fun d3ecl_none (loc: location): d3ecl
 fun d3ecl_list (loc: location, xs: d3eclist): d3ecl
 
@@ -773,6 +784,12 @@ fun d3ecl_staload (
   loc: location
 , fil: filename, loadflag: int, loaded: int, fenv: filenv
 ) : d3ecl // end of [d2ecl_staload]
+
+(* ****** ****** *)
+
+fun d3ecl_local
+  (loc: location, head: d3eclist, body: d3eclist): d3ecl
+// end of [d3ecl_local]
 
 (* ****** ****** *)
 

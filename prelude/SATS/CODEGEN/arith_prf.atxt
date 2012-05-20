@@ -28,24 +28,6 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_decl_strcst('\
 dataprop
-INTEQ (int, int) = {x:int} INTEQ (x, x)
-//
-// HX-2012-03:
-//
-// this can be used to put an integer equality [x == y]
-// into the current store of assumptions during the phase
-// of constraint-gathering:
-//
-// prval INTEQ (x, y) = inteq_make {x,y} ()
-//
-//
-prfun inteq_make {x,y:int | x == y} ():<prf> INTEQ (x, y)
-')\
-
-#atscode_separator()
-
-#atscode_decl_strcst('\
-dataprop
 MUL (int, int, int) =
   | {n:int}
     MULbas (0, n, 0)

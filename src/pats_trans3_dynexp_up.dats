@@ -768,7 +768,9 @@ fun d23exp_trup_app23 (
     print "d23exp_trup_app23: s2e_fun = "; pprint_s2exp s2e_fun; print_newline ()
   end // end of [val]
 *)
-  val d3e_fun = d3exp_app_sta (loc_fun, s2e_fun, d3e_fun)
+  val d3e_fun =
+    d3exp_app_unista (loc_fun, s2e_fun, d3e_fun)
+  // end of [d3e_fun]
   val loc_app = $LOC.location_combine (loc_fun, locarg)
 in
 //
@@ -815,14 +817,14 @@ case+ s2e_fun.s2exp_node of
     in
       s2e_res := s2e; wths2es := wths2es1
     end : void // end of [val]
-(*
-    val d3e_fun = d3exp_funclo_restore (fc, d3e_fun)
-*)
+//
+    val d3e_fun = d3exp_fun_restore (fc, d3e_fun)
     val d3es_arg = (
       if iswth then
         d3explst_arg_restore (d3es_arg, s2es_fun_arg, wths2es)
       else d3es_arg
     ) : d3explst // end of [val]
+//
     val err =
       the_effenv_check_s2eff (loc_app, s2fe_fun)
     // end of [val]

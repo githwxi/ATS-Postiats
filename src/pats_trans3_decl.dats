@@ -166,6 +166,19 @@ case+ d2c0.d2ecl_node of
 //
 | D2Cstaload _ => d2ecl_tr_staload (d2c0)
 //
+| D2Clocal
+    (d2cs_head, d2cs_body) => let
+    val (pf1 | ()) = the_s2cstbindlst_push ()
+    val d3cs_head = d2eclist_tr (d2cs_head)
+    val (pf2 | ()) = the_s2cstbindlst_push ()
+    val d3cs_body = d2eclist_tr (d2cs_body)
+    val s2cs_body = the_s2cstbindlst_pop (pf2 | (*void*))
+    val () = the_s2cstbindlst_pop_and_unbind (pf1 | (*void*))
+    val () = the_s2cstbindlst_addlst (s2cs_body)
+  in
+    d3ecl_local (loc0, d3cs_head, d3cs_body)
+  end // end of [D2Clocal]
+//
 | _ => let
     val () = (
       print_location loc0; print_newline ()

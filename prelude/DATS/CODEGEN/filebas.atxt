@@ -26,12 +26,23 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+local
+
+extern
+castfn file_mode
+  {fm:file_mode} (x: string):<> file_mode (fm)
+// end of [extern]
+
+in // in of [local]
+
 implement file_mode_r = file_mode ("r")
 implement file_mode_rr = file_mode ("r+")
 implement file_mode_w = file_mode ("w")
 implement file_mode_ww = file_mode ("w+")
 implement file_mode_a = file_mode ("a")
 implement file_mode_aa = file_mode ("a+")
+
+end // end of [local]
 
 #atscode_separator()
 

@@ -355,28 +355,70 @@ end // end of [s2cst_select_locs2explstlst]
 
 implement
 s2exp_is_wthtype (s2e) = (
-  case+ s2e.s2exp_node of S2Ewth _ => true | _ => false
+  case+ s2e.s2exp_node of
+  | S2Ewth _ => true
+  | S2Eexi (s2vs, s2ps, s2e) => s2exp_is_wthtype (s2e)
+  | _ => false
 ) // end of [s2exp_is_wth]
+
+(* ****** ****** *)
+
+extern
+fun labs2explst_is_without (xs: labs2explst):<> bool
 
 implement
 s2exp_is_without (s2e) =
-  case+ s2e.s2exp_node of S2Ewithout _ => true | _ => false
+  case+ s2e.s2exp_node of
+  | S2Ewithout _ => true
+  | S2Etyrec (knd, npf, ls2es) => labs2explst_is_without (ls2es)
+  | _ => false
 // end of [s2exp_is_without]
 
+implement
+labs2explst_is_without
+  (xs) = (
+  case+ xs of
+  | list_cons (x, xs) => let
+      val SLABELED (_, _, s2e) = x in
+      if s2exp_is_without (s2e) then labs2explst_is_without (xs) else false
+    end // end of [list_cons]
+  | list_nil () => true // end of [list_nil]
+) // end of [labs2explst_is_without]
+
 (* ****** ****** *)
+
+extern
+fun labs2explst_is_lin2 (xs: labs2explst): bool
 
 implement
 s2exp_is_lin2
   (s2e) = let
   val s2e = s2exp_hnfize (s2e)
+  val islin = s2exp_is_lin (s2e)
 in
 //
+if islin then (
 case+ s2e.s2exp_node of
 | S2Eat (s2e1, _) =>
     if s2exp_is_without (s2e1) then false else true
-| _ => s2exp_is_lin (s2e)
+| S2Etyrec
+    (knd, npf, ls2es) => labs2explst_is_lin2 (ls2es)
+  // end of [S2Etyrec]
+| _ => true
+) else false // end of [if]
 //
 end // end of [s2exp_is_lin2]
+
+implement
+labs2explst_is_lin2
+  (xs) = (
+  case+ xs of
+  | list_cons (x, xs) => let
+      val SLABELED (_, _, s2e) = x in
+      if s2exp_is_lin2 (s2e) then true else labs2explst_is_lin2 (xs)
+    end // end of [list_cons]
+  | list_nil () => false // end of [list_nil]
+) // end of [labs2explst_is_lin2]
 
 (* ****** ****** *)
 

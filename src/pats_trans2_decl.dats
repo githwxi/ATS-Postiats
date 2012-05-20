@@ -1171,10 +1171,10 @@ fn v1ardec_tr (
   val sym = d1c.v1ardec_sym
   val loc_sym = d1c.v1ardec_sym_loc
   val d2v_ptr = d2var_make (loc_sym, sym)
-  // [s2v_ptr] is introduced as a static variable of the
-  val s2v_ptr = s2var_make_id_srt (sym, s2rt_addr) // same name
-  val os2e_ptr = Some (s2exp_var s2v_ptr)
-  val () = d2var_set_addr (d2v_ptr, os2e_ptr)
+  // [s2v_addr] is introduced as a static variable of the
+  val s2v_addr = s2var_make_id_srt (sym, s2rt_addr) // same name
+  val s2e_addr = s2exp_var (s2v_addr)
+  val () = d2var_set_addr (d2v_ptr, Some (s2e_addr))
   val typ = (
     case+ d1c.v1ardec_type of
     | Some s1e => let
@@ -1193,7 +1193,7 @@ fn v1ardec_tr (
   ) : d2varopt // end of [val]
   val ini = d1expopt_tr (d1c.v1ardec_ini)
 in
-  v2ardec_make (d1c.v1ardec_loc, knd, d2v_ptr, s2v_ptr, typ, wth, ini)
+  v2ardec_make (d1c.v1ardec_loc, knd, d2v_ptr, s2v_addr, typ, wth, ini)
 end // end of [v1ardec_tr]
 
 fn v1ardeclst_tr (

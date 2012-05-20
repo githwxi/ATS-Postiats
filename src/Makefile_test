@@ -17,11 +17,15 @@ prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/bool.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/char.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/float.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/filebas_prf.dats
+prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/filebas.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/string.dats
 
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/basics.dats
 
+prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/fcontainer_foreach.dats
+
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/array_prf.dats
+prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/array.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/list.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/list_vt.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/option.dats

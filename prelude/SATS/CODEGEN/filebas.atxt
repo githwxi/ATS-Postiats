@@ -43,8 +43,6 @@ val file_mode_a : file_mode (rw()) // = "a"
 val file_mode_aa : file_mode (rw()) // = "a+"
 ')\
 
-castfn file_mode (x: string):<> file_mode
-
 #atscode_separator()
 
 fun fileref_open_exn
@@ -63,7 +61,7 @@ fun fileref_close (r: FILEref): void
 
 typedef
 fileref_load_type (a:t@ype) =
-  (FILEref, &a? >> option (a, b)) -> #[b:bool] bool (b)
+  (FILEref, &a? >> opt (a, b)) -<fun> #[b:bool] bool (b)
 // end of [fileref_load_type]
 
 fun{a:t@ype}
@@ -78,7 +76,7 @@ fun fileref_load_string : fileref_load_type (string)
 #atscode_separator()
 
 fun{a:t@ype}
-fileref_get_opt (r: FILEref): Option_vt (a)
+fileref_get_opt (r: FILEref):<> Option_vt (a)
 
 fun{
 a:t@ype

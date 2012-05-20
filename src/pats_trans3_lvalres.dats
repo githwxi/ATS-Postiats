@@ -378,6 +378,11 @@ implement
 d3lval_arg_set_type
   (refval, d3e0, s2e_new) = let
 //
+val () = (
+  print "d3lval_arg_set_type: d3e0 = "; print_d3exp (d3e0); print_newline ();
+  print "d3lval_arg_set_type: s2e_new = "; print_s2exp (s2e_new); print_newline ();
+) (* end of [val] *)
+//
 var err: int = 0
 var freeknd: int = 0 // free [d3e0] if it is set to 1
 val () = d3lval_set_type_err (refval, d3e0, s2e_new, err)
@@ -398,6 +403,67 @@ end) : void // end of [val]
 in
   freeknd // a linear value must be freed (freeknd = 1) if it cannot be returned
 end (* end of [d3lval_arg_set_type] *)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun auxres
+  (d3e0: d3exp): d3exp = let
+//
+val loc0 = d3e0.d3exp_loc
+val s2fun = d3exp_get_type (d3e0)
+//
+val- S2Efun (
+  fc0, lin, s2fe, npf, s2es_arg, s2e_res
+) = s2fun.s2exp_node // end of [val]
+val s2fun_new = (
+  case+ lin of
+  | _ when lin = 0 => s2fun
+  | _ when lin = 1 => s2exp_fun_srt (
+      s2rt_viewtype, fc0, ~1(*topized*), s2fe, npf, s2es_arg, s2e_res
+    ) // end of [lin=1]
+  | _ (* lin = ~1 *) => let
+      val () = prerr_error3_loc (loc0)
+      val () = prerr ": a linear function cannot be applied repeatedly."
+      val () = prerr_newline ()
+      val () = the_trans3errlst_add (T3E_d3exp_funclo_topized (d3e0))
+    in
+      s2fun
+    end // end of [_]
+) : s2exp // end of [val]
+//
+val refval = (
+  case+ fc0 of
+  | FUNCLOclo knd =>
+     if knd = 0 then 1 else 0
+  | FUNCLOfun () => 0
+) : int // end of [val]
+//
+val freeknd = d3lval_arg_set_type (refval, d3e0, s2fun_new)
+//
+in
+  d3exp_refarg (loc0, s2fun_new, refval, freeknd, d3e0)
+end // end of [auxres]
+
+#define CLO 0; #define CLOPTR 1; #define CLOREF ~1
+
+in // in of [local]
+
+implement
+d3exp_fun_restore
+  (fc, d3e_fun) = (
+  case+ fc of
+  | FUNCLOclo (knd) => (
+//
+// knd: 0/1/~1: clo/cloptr/cloref
+//
+      if knd >= CLO then auxres (d3e_fun) else d3e_fun
+    ) // end of [FUNCLOclo]
+  | FUNCLOfun () => d3e_fun
+) // end of [d3exp_fun_restore]
 
 end // end of [local]
 

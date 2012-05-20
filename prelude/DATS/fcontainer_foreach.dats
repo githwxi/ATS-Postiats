@@ -62,27 +62,28 @@ foreach_clo
   {fe:eff}
   (xs, f) = let
   typedef clo_t = (x) -<clo,fe> void
-  stavar lf: addr; val lf: ptr lf = &f
-  viewdef v = clo_t @ lf
-  fn app (pf: !v | x: x, lf: !ptr lf):<fe> void = !lf (x)
+  val p_f = addr@(f)
+  prval [f:addr] ADDREQ () = ptr_get_index (p_f)  
+  viewdef v = clo_t @ f
+  fn app (pf: !v | x: x, p_f: !ptr f):<fe> void = !p_f (x)
 in
-  foreach_funenv<xs><x> {v}{ptr lf} (view@ f | xs, app, lf)
+  foreach_funenv<xs><x> {v}{ptr(f)} (view@ f | xs, app, p_f)
 end // end of [foreach_clo]
+
 implement
 {xs}{x}
 foreach_vclo
   {v} {fe:eff}
   (pfv | xs, f) = let
   typedef clo_t = (!v | x) -<clo,fe> void
-  stavar lf: addr; val lf: ptr lf = &f
-  viewdef v2 = (v, clo_t @ lf)
-  fn app (pf: !v2 | x: x, lf: !ptr lf):<fe> void = () where {
-    prval (pf1, pf2) = pf
-    val () = !lf (pf1 | x)
-    prval () = pf := (pf1, pf2)
+  val p_f = addr@(f)
+  prval [f:addr] ADDREQ () = ptr_get_index (p_f)  
+  viewdef v2 = (v, clo_t @ f)
+  fn app (pf: !v2 | x: x, p_f: !ptr f):<fe> void = () where {
+    val () = !p_f (pf.0 | x)
   } // end of [val]
   prval pf = (pfv, view@ f)
-  val () = foreach_funenv<xs><x> {v2} {ptr lf} (pf | xs, app, lf)
+  val () = foreach_funenv<xs><x> {v2} {ptr(f)} (pf | xs, app, p_f)
   prval () = pfv := pf.0 and () = view@ (f) := pf.1
 in
   (*nothing*)
@@ -138,28 +139,29 @@ iforeach_funenv
   pfv | xs, f, env
 ) = let
 var i: int = 0
+val p_i = addr@(i)
 viewtypedef ivt = (ptr(i), vt)
 //
 val env1 = __cast (env) where {
   extern castfn __cast (env: !vt >> vt?):<> vt
 } // end of [val]
 //
-var ienv: ivt = (&i, env1)
-viewdef v1 = (v, int@i, ivt @ ienv)
+var ienv
+  : ivt = (p_i, env1)
+val p_ienv = addr@(ienv)
+viewdef v1 = (v, int@i, ivt@ienv)
 fn f1 (
-  pf: !v1 | x: x, ienv: !ptr(ienv)
+  pf: !v1 | x: x, p: !ptr(ienv)
 ) :<fe> void = let
-  prval (pfv, pf1, pf2) = pf
-  val i = !(ienv->0)
-  val () = f (pfv | i, x, ienv->1)
-  val () = !(ienv->0) := i + 1
-  prval () = pf := (pfv, pf1, pf2)
+  val i = !(p->0)
+  val () = f (pf.0 | i, x, p->1)
+  val () = !(p->0) := i + 1
 in
   (*nothing*)
 end // end of [f1]
 //
 prval pfv1 = (pfv, view@(i), view@(ienv))
-val () = foreach_funenv{v1}{ptr(ienv)} (pfv1 | xs, f1, &ienv)
+val () = foreach_funenv{v1}{ptr(ienv)} (pfv1 | xs, f1, p_ienv)
 prval () = pfv := pfv1.0
 prval () = view@(i) := pfv1.1
 prval () = view@(ienv) := pfv1.2
@@ -169,7 +171,7 @@ prval () = __free (env, ienv.1) where {
 } // end of [prval]
 //
 in
-  uint_of_int (i)
+  g0int2uint (i) // = the size of [xs]
 end // end of [iforeach_funenv]
 
 (* ****** ****** *)
@@ -180,29 +182,30 @@ iforeach_clo
   {fe:eff}
   (xs, f) = let
   typedef clo_t = (int, x) -<clo,fe> void
-  stavar lf: addr; val lf: ptr lf = &f
-  viewdef v = clo_t @ lf
-  fn app (pf: !v | i: int, x: x, lf: !ptr lf):<fe> void = !lf (i, x)
+  val p_f = addr@(f)
+  prval [f:addr] ADDREQ () = ptr_get_index (p_f)  
+  viewdef v = clo_t @ f
+  fn app (pf: !v | i: int, x: x, p_f: !ptr f):<fe> void = !p_f (i, x)
 in
-  iforeach_funenv<xs><x> {v}{ptr lf} (view@ f | xs, app, lf)
+  iforeach_funenv<xs><x> {v}{ptr(f)} (view@ f | xs, app, p_f)
 end // end of [iforeach_clo]
+
 implement
 {xs}{x}
 iforeach_vclo
   {v} {fe:eff}
   (pfv | xs, f) = let
   typedef clo_t = (!v | int, x) -<clo,fe> void
-  stavar lf: addr; val lf: ptr lf = &f
-  viewdef v2 = (v, clo_t @ lf)
+  val p_f = addr@(f)
+  prval [f:addr] ADDREQ () = ptr_get_index (p_f)  
+  viewdef v2 = (v, clo_t @ f)
   fn app (
-    pf: !v2 | i: int, x: x, lf: !ptr lf
+    pf: !v2 | i: int, x: x, p_f: !ptr f
   ) :<fe> void = () where {
-    prval (pf1, pf2) = pf
-    val () = !lf (pf1 | i, x)
-    prval () = pf := (pf1, pf2)
+    val () = !p_f (pf.0 | i, x)
   } // end of [val]
   prval pf = (pfv, view@ f)
-  val nxs = iforeach_funenv<xs><x> {v2} {ptr lf} (pf | xs, app, lf)
+  val nxs = iforeach_funenv<xs><x> {v2} {ptr(f)} (pf | xs, app, p_f)
   prval () = pfv := pf.0 and () = view@ (f) := pf.1
 in
   nxs

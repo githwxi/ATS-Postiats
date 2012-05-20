@@ -43,21 +43,30 @@ typedef cmp
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 fun{a:vt0p}
 compare_elt_elt
   {vt:viewtype}
   (x1: &a, x2: &a, cmp: cmp (a)):<> int
 // end of [compare_elt_elt]
-')\
-
-#atscode_decl_strcst('\
 fun{a:vt0p}
 compare_elt_elt_env
   {vt:viewtype}
   (x1: &a, x2: &a, cmp: cmp (a, vt), env: !vt):<> int
 // end of [compare_elt_elt_env]
-')\
+
+#atscode_separator()
+
+prfun
+lemma_list_vt_param
+  {x:t0p}{n:int} (xs: !list_vt (x, n)): [n >= 0] void
+// end of [lemma_list_vt_param]
+
+#atscode_separator()
+
+fun{} list_vt_is_nil
+  {a:vt0p} {n:int} (xs: !list_vt (a, n)):<> bool (n==0)
+fun{} list_vt_is_cons
+  {a:vt0p} {n:int} (xs: !list_vt (a, n)):<> bool (n > 0)
 
 #atscode_separator()
 
@@ -98,6 +107,13 @@ a:vt0p
   pfv: !v
 | xs: !list_vt (a, n), f: (!v | &a, !vt) -<fe> void, env: !vt
 ) :<fe> void // end of [list_vt_foreach_funenv]
+
+#atscode_separator()
+
+fun{a:vt0p}
+list_vt_make_array {n:int}
+  (A: &(@[a][n]) >> @[a?!][n], n: size_t n):<> list_vt (a, n)
+// end of [list_vt_make_array]
 
 #atscode_separator()
 

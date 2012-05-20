@@ -442,6 +442,23 @@ d3exp_app_sta
 , d3exp_node= D3Eapp_sta (d3e)
 } // end of [d3exp_app_sta]
 
+(* ****** ****** *)
+
+implement
+d3exp_app_unista
+  (loc, s2f, d3e) = let
+  val s2f0 = d3exp_get_type (d3e)
+in
+//
+case+ s2f0.s2exp_node of
+| S2Euni _ => d3exp_app_sta (loc, s2f, d3e)
+| S2Emetfun _ => d3exp_app_sta (loc, s2f, d3e)
+| _ => d3e
+//
+end // end of [d3exp_app_unista]
+
+(* ****** ****** *)
+
 implement
 d3exp_app_dyn (
   loc, s2f, s2fe, _fun, npf, _arg
@@ -873,21 +890,21 @@ v3ardec_make (
 
 (* ****** ****** *)
 
-fun d3ecl_make (
-  loc: location, node: d3ecl_node
-) : d3ecl = '{
+implement
+d3ecl_make_node
+  (loc, node) = '{
   d3ecl_loc= loc, d3ecl_node= node
-} // end of [d3ecl_make]
+} // end of [d3ecl_make_node]
 
 (* ****** ****** *)
 
 implement
 d3ecl_none
-  (loc) = d3ecl_make (loc, D3Cnone ())
+  (loc) = d3ecl_make_node (loc, D3Cnone ())
 // end of [d3ecl_none]
 implement
 d3ecl_list
-  (loc, xs) = d3ecl_make (loc, D3Clist (xs))
+  (loc, xs) = d3ecl_make_node (loc, D3Clist (xs))
 // end of [d3ecl_list]
 
 (* ****** ****** *)
@@ -895,7 +912,7 @@ d3ecl_list
 implement
 d3ecl_datdec
   (loc, knd, s2cs) =
-  d3ecl_make (loc, D3Cdatdec (knd, s2cs))
+  d3ecl_make_node (loc, D3Cdatdec (knd, s2cs))
 // end of [d3ecl_datdet]
 
 (* ****** ****** *)
@@ -903,7 +920,7 @@ d3ecl_datdec
 implement
 d3ecl_dcstdec
   (loc, knd, d2cs) =
-  d3ecl_make (loc, D3Cdcstdec (knd, d2cs))
+  d3ecl_make_node (loc, D3Cdcstdec (knd, d2cs))
 // end of [d3ecl_dcstdec]
 
 (* ****** ****** *)
@@ -911,16 +928,15 @@ d3ecl_dcstdec
 implement
 d3ecl_impdec
   (loc, d3c) =
-  d3ecl_make (loc, D3Cimpdec (d3c))
+  d3ecl_make_node (loc, D3Cimpdec (d3c))
 // end of [d3ecl_impdec]
 
 (* ****** ****** *)
 
 implement
-d3ecl_fundecs (
-  loc, funknd, decarg, d3cs
-) =
-  d3ecl_make (loc, D3Cfundecs (funknd, decarg, d3cs))
+d3ecl_fundecs
+  (loc, funknd, decarg, d3cs) =
+  d3ecl_make_node (loc, D3Cfundecs (funknd, decarg, d3cs))
 // end of [d3ecl_fundecs]
 
 (* ****** ****** *)
@@ -928,13 +944,13 @@ d3ecl_fundecs (
 implement
 d3ecl_valdecs
   (loc, knd, d3cs) =
-  d3ecl_make (loc, D3Cvaldecs (knd, d3cs))
+  d3ecl_make_node (loc, D3Cvaldecs (knd, d3cs))
 // end of [d3ecl_valdecs]
 
 implement
 d3ecl_valdecs_rec
   (loc, knd, d3cs) =
-  d3ecl_make (loc, D3Cvaldecs_rec (knd, d3cs))
+  d3ecl_make_node (loc, D3Cvaldecs_rec (knd, d3cs))
 // end of [d3ecl_valdecs_rec]
 
 (* ****** ****** *)
@@ -942,17 +958,24 @@ d3ecl_valdecs_rec
 implement
 d3ecl_vardecs
   (loc, d3cs) =
-  d3ecl_make (loc, D3Cvardecs (d3cs))
+  d3ecl_make_node (loc, D3Cvardecs (d3cs))
 // end of [d3ecl_vardecs]
 
 (* ****** ****** *)
 
 implement
-d3ecl_staload (
-  loc, fil, flag, loaded, fenv
-) =
-  d3ecl_make (loc, D3Cstaload (fil, flag, loaded, fenv))
+d3ecl_staload
+  (loc, fil, flag, loaded, fenv) =
+  d3ecl_make_node (loc, D3Cstaload (fil, flag, loaded, fenv))
 // endof [d3ecl_staload]
+
+(* ****** ****** *)
+
+implement
+d3ecl_local
+  (loc, head, body) =
+  d3ecl_make_node (loc, D3Clocal (head, body))
+// endof [d3ecl_local]
 
 (* ****** ****** *)
 

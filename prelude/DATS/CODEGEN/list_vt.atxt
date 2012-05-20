@@ -38,6 +38,32 @@ compare_elt_elt_env
 
 #atscode_separator()
 
+implement{}
+list_vt_is_nil (xs) =
+  case+ xs of list_vt_nil () => true | _ =>> false
+implement{}
+list_vt_is_cons (xs) =
+  case+ xs of list_vt_cons _ => true | _ =>> false
+
+#atscode_separator()
+
+implement{a}
+list_vt_length (xs) = let
+  prval () = lemma_list_vt_param (xs)
+  fun loop
+    {i,j:nat} .<i>. (
+    xs: !list_vt (a, i), j: int j
+  ) : int (i+j) =
+    case+ xs of
+    | list_vt_cons (_, xs) => loop (xs, j + 1)
+    | list_vt_nil () => j
+  // end of [loop]
+in
+  loop (xs, 0)
+end // end of [list_vt_length]
+
+#atscode_separator()
+
 implement{a}
 list_vt_reverse (xs) =
   list_vt_reverse_append (xs, list_vt_nil)
@@ -94,6 +120,48 @@ list_vt_foreach_funenv
 in
   loop (pf | xs, f, env)
 end // end of [list_vt_foreach_funenv]
+
+#atscode_separator()
+
+implement{a}
+list_vt_make_array
+  {n} (A, n) = let
+  prval () =
+    lemma_array_v_param (view@(A))
+  viewtypedef res(n:int) = list_vt (a, n)
+  fun loop
+    {l:addr}
+    {n:nat} .<n>. (
+    pf: !array_v (a, l, n) >> array_v (a?!, l, n)
+  | p: ptr l
+  , n: size_t n
+  , res: &ptr? >> res(n)
+  ) :<> void =
+    if n > 0 then let
+      prval (
+        pf1, pf2
+      ) = array_v_uncons (pf)
+      val () = res :=
+        list_vt_cons {a}{0} (_, _)
+      val+ list_vt_cons (x, res1) = res
+      val () = x := !p
+      val () = loop (pf2 | p+sizeof<a>, pred(n), res1)
+      prval () = pf := array_v_cons (pf1, pf2)
+      prval () = fold@ (res)
+    in
+      // nothing
+    end else let
+      prval () = array_v_unnil (pf)
+      prval () = pf := array_v_nil ()
+    in
+      res := list_vt_nil ()
+    end // end of [if]
+  // end of [loop]
+  var res: ptr // uninitialized
+  val () = loop (view@(A) | addr@(A), n, res)
+in
+  res
+end // end of [list_vt_make_array]
 
 #atscode_separator()
 

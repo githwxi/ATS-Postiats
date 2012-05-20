@@ -39,6 +39,12 @@ castfn ptr1_of_ptr0 (p: ptr):<> [l:addr] ptr (l)
 
 #atscode_separator()
 
+prfun ptr_get_index
+  {l1:addr} (p: ptr l1): [l2:addr] ADDREQ (l1, l2)
+// end of [ptr_get_index]
+
+#atscode_separator()
+
 fun add_ptr_int
   (p: ptr, df: int):<> ptr = "mac\#atspre_add_ptr_int"
 overload + with add_ptr_int of 0

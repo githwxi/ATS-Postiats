@@ -63,13 +63,78 @@ staload "pats_trans3_env.sats"
 
 (* ****** ****** *)
 
+local
+
+fun auxerr_proof (
+  loc0: location, s2e: s2exp, d3ls: d3lablst, s2e_sel: s2exp
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": a non-proof component of the following type is replaced: "
+  val () = (prerr "["; prerr_s2exp (s2e_sel); prerr "].")
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_s2addr_assgn_deref_proof (loc0, s2e, d3ls))
+end // end of [auxerr_proof]
+
+fun auxerr_linsel (
+  loc0: location, s2e: s2exp, d3ls: d3lablst, s2e_sel: s2exp
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": a linear component of the following type is abandoned: "
+  val () = (prerr "["; prerr_s2exp (s2e_sel); prerr "].")
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_s2addr_assgn_deref_linsel (loc0, s2e, d3ls))
+end // end of [auxerr_linsel]
+
+fun auxerr_context (
+  loc0: location, s2e: s2exp, d3ls: d3lablst, s2e_sel: s2exp
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": the type of the selected component cannot be changed: "
+  val () = (prerr "["; prerr_s2exp (s2e_sel); prerr "].")
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_s2addr_assgn_deref_context (loc0, s2e, d3ls))
+end // end of [auxerr_context]
+
+in // in of [local]
+
+extern
+fun d2var_assgn_lin0 (
+  loc0: location, d2v: d2var, s2e_new: s2exp
+) : void // end of [d2var_assgn_lin0]
+extern
+fun d2var_assgn_lin1 (
+  loc0: location, d2v: d2var, d3ls: d3lablst, s2e_new: s2exp
+) : void // end of [d2var_assgn_lin]
 extern
 fun d2var_assgn_lin (
-  loc0: location, d2v: d2var, d3ls: d3lablst, s2e_r: s2exp
+  loc0: location, d2v: d2var, d3ls: d3lablst, s2e_new: s2exp
 ) : void // end of [d2var_assgn_lin]
 
 implement
-d2var_assgn_lin
+d2var_assgn_lin0
+  (loc0, d2vw, s2e_new) = let
+  val opt = d2var_get_type (d2vw)
+in
+//
+case+ opt of
+| Some (s2e) => let
+    val islin = s2exp_is_lin (s2e)
+    val d3ls = list_nil and s2e_sel = s2e
+    val () = if islin then auxerr_linsel (loc0, s2e, d3ls, s2e_sel)
+  in
+    d2var_set_type (d2vw, Some (s2e_new))
+  end // end of [Some]
+| None () =>
+    d2var_set_type (d2vw, Some (s2e_new))
+  // end of [None]
+//
+end // end of [d2var_assgn_lin0]
+
+implement
+d2var_assgn_lin1
   (loc0, d2vw, d3ls, s2e_new) = let
 //
 val s2e = d2var_get_type_some (loc0, d2vw)
@@ -78,31 +143,16 @@ val s2e_sel =
   s2exp_get_dlablst_context (loc0, s2e, d3ls, ctxtopt)
 // end of [val]
 val isprf = s2exp_is_prf (s2e_sel)
-val () = if ~(isprf) then {
-  val () = prerr_error3_loc (loc0)
-  val () = prerr ": a non-proof component of the following type is replaced: "
-  val () = (prerr "["; prerr_s2exp (s2e_sel); prerr "].")
-  val () = prerr_newline ()
-  val () = the_trans3errlst_add (T3E_s2addr_assgn_deref_proof (loc0, s2e, d3ls))
-} // end of [val]
+val () = if ~(isprf)
+  then auxerr_proof (loc0, s2e, d3ls, s2e_sel)
 val islin = s2exp_is_lin (s2e_sel)
-val () = if islin then {
-  val () = prerr_error3_loc (loc0)
-  val () = prerr ": a linear component of the following type is abandoned: "
-  val () = (prerr "["; prerr_s2exp (s2e_sel); prerr "].")
-  val () = prerr_newline ()
-  val () = the_trans3errlst_add (T3E_s2addr_assgn_deref_linsel (loc0, s2e, d3ls))
-} // end of [val]
+val () = if  (islin)
+  then auxerr_linsel (loc0, s2e, d3ls, s2e_sel)
 val isctx = (
   case+ ctxtopt of Some _ => true | None _ => false
 ) : bool // end of [val]
-val () = if ~(isctx) then {
-  val () = prerr_error3_loc (loc0)
-  val () = prerr ": the type of the selected component cannot be changed: "
-  val () = (prerr "["; prerr_s2exp (s2e_sel); prerr "].")
-  val () = prerr_newline ()
-  val () = the_trans3errlst_add (T3E_s2addr_assgn_deref_context (loc0, s2e, d3ls))
-} // end of [val]
+val () = if ~(isctx)
+  then auxerr_context (loc0, s2e, d3ls, s2e_sel)
 val s2e = (
   case+ ctxtopt of
   | Some (ctxt) => s2ctxt_hrepl (ctxt, s2e_new) | None () => s2e
@@ -111,7 +161,21 @@ val () = d2var_set_type (d2vw, Some (s2e))
 //
 in
   // nothing
-end // end of [d2var_assgn_lin]
+end // end of [d2var_assgn_lin1]
+
+implement
+d2var_assgn_lin
+  (loc0, d2vw, d3ls, s2e_new) = (
+  case+ d3ls of
+  | list_nil () =>
+      d2var_assgn_lin0 (loc0, d2vw, s2e_new)
+    // end of [list_nil]
+  | list_cons _ =>
+      d2var_assgn_lin1 (loc0, d2vw, d3ls, s2e_new)
+    // end of [list_cons]
+) // end of [d2var_assgn_lin]
+
+end // end of [local]
 
 (* ****** ****** *)
 

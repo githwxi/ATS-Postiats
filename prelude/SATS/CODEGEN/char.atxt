@@ -136,7 +136,7 @@ fun %s_char1_char1
   {c1,c2:int} (
   c1: char (c1), c2: char (c2)
 ) :<> bool (c1 %s c2) = \"mac#atspre_%s_char1_char1\"
-overload %s with %s_char1_char1 of 2\
+overload %s with %s_char1_char1 of 20\
 ", @(
  opr, fopr_s, opr, fopr_d, opr
 )
@@ -155,7 +155,7 @@ end // end of [fun_char_cmp1_decl]
 
 #fun_char_cmp1_decl("eq")
 #fun_char_cmp1_decl("neq")
-overload <> with neq_char1_char1 of 2
+overload <> with neq_char1_char1 of 20
 
 #atscode_decl_strcst('\
 fun compare_char1_char1
@@ -163,7 +163,7 @@ fun compare_char1_char1
   c1: char c2, c2: char c2
 ) :<> int (c1-c2)
   = "mac\#atspre_compare_char1_char1"
-overload compare with compare_char1_char1 of 2
+overload compare with compare_char1_char1 of 20
 ')\
 
 #atscode_separator()
@@ -248,7 +248,7 @@ fun %s_uchar1_uchar1
   {c1,c2:int} (
   c1: uchar (c1), c2: uchar (c2)
 ) :<> bool (c1 %s c2) = \"mac#atspre_%s_uchar1_uchar1\"
-overload %s with %s_uchar1_uchar1 of 2\
+overload %s with %s_uchar1_uchar1 of 20\
 ", @(
  opr, fopr_s, opr, fopr_d, opr
 )
@@ -267,7 +267,7 @@ end // end of [fun_uchar_cmp1_decl]
 
 #fun_uchar_cmp1_decl("eq")
 #fun_uchar_cmp1_decl("neq")
-overload <> with neq_uchar1_uchar1 of 2
+overload <> with neq_uchar1_uchar1 of 20
 
 #atscode_decl_strcst('\
 fun compare_uchar1_uchar1
@@ -275,7 +275,7 @@ fun compare_uchar1_uchar1
   c1: uchar c2, c2: uchar c2
 ) :<> int (c1-c2)
   = "mac\#atspre_compare_uchar1_uchar1"
-overload compare with compare_uchar1_uchar1 of 2
+overload compare with compare_uchar1_uchar1 of 20
 ')\
 
 #atscode_separator()
@@ -334,7 +334,7 @@ symintr %s
 fun %s_int (c: int):<> bool = \"atspre_%s_int\"
 fun %s_char (c: char):<> bool = \"atspre_%s_char\"
 overload %s with %s_int of 0
-overload %s with %s_char of 1\
+overload %s with %s_char of 10\
 ", @(
  isX, isX, isX, isX, isX, isX, isX, isX, isX
 )

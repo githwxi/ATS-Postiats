@@ -74,36 +74,51 @@ implement
 d2var_mutablize
   (loc0, d2v, s2e0, opt) = let
 (*
-  val () = (
-    print ": d2var_mutablize: d2v = "; print_d2var (d2v); print_newline ()
-  ) // end of [val]
+val () = (
+  print ": d2var_mutablize: d2v = "; print_d2var (d2v); print_newline ()
+) // end of [val]
 *)
 //
-  val sym = d2var_get_sym (d2v)
-  val s2v_addr = s2var_make_id_srt (sym, s2rt_addr)
-  val () = trans3_env_add_svar (s2v_addr) // adding svar
-  val s2e_addr = s2exp_var (s2v_addr)
-  val () = d2var_set_addr (d2v, Some s2e_addr)
-  val s2e_elt = d2var_get_type_some (loc0, d2v)
-  val s2e_ptr = s2exp_ptr_addr_type (s2e_addr)
-  val () = d2var_set_type (d2v, Some (s2e_ptr))
-  val () = d2var_set_mastype (d2v, None(*useless*))
-  val () = d2var_set_linval (d2v, ~1(*nonlin*))
+val s2e_elt =
+  d2var_get_type_some (loc0, d2v)
+//
+val s2e_addr = let
+  val opt = d2var_get_addr (d2v)
+in
+  case+ opt of
+  | Some (s2e_addr) =>
+      s2e_addr // HX: [d2v] is introduced by vardec
+  | None () => let
+      val sym = d2var_get_sym (d2v)
+      val s2v_addr = s2var_make_id_srt (sym, s2rt_addr)
+      val () = trans3_env_add_svar (s2v_addr) // adding svar
+      val s2e_addr = s2exp_var (s2v_addr)
+      val () = d2var_set_addr (d2v, Some s2e_addr)
+    in
+      s2e_addr
+    end // end of [None]
+end // end of [let] // end of [val]
+//
+val s2e_ptr = s2exp_ptr_addr_type (s2e_addr)
+val () = d2var_set_type (d2v, Some (s2e_ptr))
+val () = d2var_set_mastype (d2v, None(*useless*))
+val () = d2var_set_linval (d2v, ~1(*nonlin*))
 (*
 //
 // HX-2012-05: this is rarely needed and can be readily asserted
 //
-   val () = let
-    val s2p = s2exp_agtz (s2e_addr) in trans3_env_hypadd_prop (loc0, s2p)
-  end // end of [val]
+val () = let
+  val s2p = s2exp_agtz (s2e_addr) in trans3_env_hypadd_prop (loc0, s2p)
+end // end of [val]
 *)
-  val d2vw = d2var_ptr_viewat_make (d2v, opt)
-  val () = d2var_set_view (d2v, Some d2vw) // [d2v] is mutable
+val d2vw = d2var_ptr_viewat_make (d2v, opt)
+val () = d2var_set_view (d2v, Some d2vw) // [d2v] is mutable
 //
-  val s2at0 = s2exp_at (s2e0, s2e_addr)
-  val () = d2var_set_mastype (d2vw, Some (s2at0))
-  val s2at_elt = s2exp_at (s2e_elt, s2e_addr)
-  val () = d2var_set_type (d2vw, Some (s2at_elt))
+val s2at0 = s2exp_at (s2e0, s2e_addr)
+val () = d2var_set_mastype (d2vw, Some (s2at0))
+val s2at_elt = s2exp_at (s2e_elt, s2e_addr)
+val () = d2var_set_type (d2vw, Some (s2at_elt))
+//
 in
   d2vw
 end // end of [d2var_mutablize]

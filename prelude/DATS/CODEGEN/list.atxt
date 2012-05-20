@@ -120,10 +120,7 @@ end // end of [list_iforeach_funenv]
 implement(x)
 iforeach_funenv<List(x)><x>
   (pfv | xs, f, env) = let
-  extern castfn
-    __cast {a:t@ype} (n: g0int a):<> g0uint a
-  // end of [extern]
-  val n = list_iforeach_funenv (pfv | xs, f, env) in __cast (n)
+  val n = list_iforeach_funenv (pfv | xs, f, env) in g1int2uint (n)
 end // end of [iforeach_funenv]
 
 #atscode_separator()

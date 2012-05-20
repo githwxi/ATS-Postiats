@@ -56,6 +56,24 @@ prfun false_elim {X:prop | false} (): X
 //
 (* ****** ****** *)
 
+dataprop
+INTEQ (int, int) = {x:int} INTEQ (x, x)
+prfun inteq_make {x,y:int | x == y} ():<prf> INTEQ (x, y)
+
+dataprop
+ADDREQ (addr, addr) = {x:addr} ADDREQ (x, x)
+prfun addreq_make {x,y:addr | x == y} ():<prf> ADDREQ (x, y)
+
+dataprop
+BOOLEQ (bool, bool) = {x:bool} BOOLEQ (x, x)
+prfun booleq_make {x,y:bool | x == y} ():<prf> BOOLEQ (x, y)
+
+dataprop
+CHAREQ (char, char) = {x:char} CHAREQ (x, x)
+prfun chareq_make {x,y:char | x == y} ():<prf> CHAREQ (x, y)
+
+(* ****** ****** *)
+
 prfun prop_verify {b:bool} ():<prf> void
 prfun prop_verify_and_add {b:bool} ():<prf> [b] void
 
@@ -203,18 +221,18 @@ option_t0ype_bool_type
 stadef option = option_t0ype_bool_type
 typedef Option (a:t@ype) = [b:bool] option (a, b)
 //
+dataview
+option_prop_bool_prop
+  (a:prop+, bool) = Some_p (a, true) of a | None_p (a, false)
+// end of [option_prop_bool_prop]
+stadef option_p = option_prop_bool_prop
+//
 dataviewtype // viewt@ype+: covariant
 option_viewt0ype_bool_viewtype
   (a:viewt@ype+, bool) = Some_vt (a, true) of a | None_vt (a, false)
 // end of [option_viewt0ype_bool_viewtype]
 stadef option_vt = option_viewt0ype_bool_viewtype
 viewtypedef Option_vt (a:viewt@ype) = [b:bool] option_vt (a, b)
-//
-dataview
-option_prop_bool_prop
-  (a:prop+, bool) = Some_p (a, true) of a | None_p (a, false)
-// end of [option_prop_bool_prop]
-stadef option_v = option_prop_bool_prop
 //
 dataview
 option_view_bool_view
