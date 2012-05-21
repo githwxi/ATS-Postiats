@@ -92,14 +92,16 @@ end // end of [foreach_vclo]
 implement
 {xs}{x}
 foreach_cloptr
-  {fe:eff} (xs, f) = let
+  {fe:eff}
+  (xs, f) = let
+  viewdef uv = unit_v
   viewtypedef cloptr0_t = (x) -<cloptr,fe> void
-  viewtypedef cloptr1_t = (!unit_v | x) -<cloptr,fe> void
+  viewtypedef cloptr1_t = (!uv>>uv | x) -<cloptr,fe> void
   prval () = __assert(f) where {
     extern prfun __assert (f: !cloptr0_t >> cloptr1_t): void
   } // end of [val] // HX: this is a safe cast
   prval pfu = unit_v ()
-  val () = foreach_vcloptr<xs><x> {unit_v} (pfu | xs, f)
+  val () = foreach_vcloptr<xs><x> {uv} (pfu | xs, f)
   prval unit_v () = pfu
   prval () = __assert(f) where {
     extern prfun __assert (f: !cloptr1_t >> cloptr0_t): void
@@ -120,11 +122,13 @@ end // end of [foreach_vcloptr]
 implement
 {xs}{x}
 foreach_cloref
-  {fe:eff} (xs, f) = let
+  {fe:eff}
+  (xs, f) = let
+  viewdef uv = unit_v
   typedef cloref_t = (x) -<cloref,fe> void
-  fn app (pf: !unit_v | x: x, f: !cloref_t):<fe> void = f (x)
+  fn app (pf: !uv | x: x, f: !cloref_t):<fe> void = f (x)
   prval pfu = unit_v ()
-  val () = foreach_funenv<xs><x> {unit_v} {cloref_t} (pfu | xs, app, f)
+  val () = foreach_funenv<xs><x> {uv} {cloref_t} (pfu | xs, app, f)
   prval unit_v () = pfu
 in
   (*empty*)
@@ -216,14 +220,16 @@ end // end of [iforeach_vclo]
 implement
 {xs}{x}
 iforeach_cloptr
-  {fe:eff} (xs, f) = let
+  {fe:eff}
+  (xs, f) = let
+  viewdef uv = unit_v
   viewtypedef cloptr0_t = (int, x) -<cloptr,fe> void
-  viewtypedef cloptr1_t = (!unit_v | int, x) -<cloptr,fe> void
+  viewtypedef cloptr1_t = (!uv >> uv | int, x) -<cloptr,fe> void
   prval () = __assert(f) where {
     extern prfun __assert (f: !cloptr0_t >> cloptr1_t): void
   } // end of [val] // HX: this is a safe cast
   prval pfu = unit_v ()
-  val nxs = iforeach_vcloptr<xs><x> {unit_v} (pfu | xs, f)
+  val nxs = iforeach_vcloptr<xs><x> {uv} (pfu | xs, f)
   prval unit_v () = pfu
   prval () = __assert(f) where {
     extern prfun __assert (f: !cloptr1_t >> cloptr0_t): void
@@ -246,11 +252,13 @@ end // end of [iforeach_vcloptr]
 implement
 {xs}{x}
 iforeach_cloref
-  {fe:eff} (xs, f) = let
+  {fe:eff}
+  (xs, f) = let
+  viewdef uv = unit_v
   typedef cloref_t = (int, x) -<cloref,fe> void
-  fn app (pf: !unit_v | i: int, x: x, f: !cloref_t):<fe> void = f (i, x)
+  fn app (pf: !uv | i: int, x: x, f: !cloref_t):<fe> void = f (i, x)
   prval pfu = unit_v ()
-  val nxs = iforeach_funenv<xs><x> {unit_v} {cloref_t} (pfu | xs, app, f)
+  val nxs = iforeach_funenv<xs><x> {uv} {cloref_t} (pfu | xs, app, f)
   prval unit_v () = pfu
 in
   nxs

@@ -118,10 +118,10 @@ overload compare with g0int_compare of 0
 #atscode_separator()
 
 fun{a:t@ype}
-g0int_max (x: g0int (a), y: g0int (a)): g0int (a)
+g0int_max (x: g0int (a), y: g0int (a)):<> g0int (a)
 overload max with g0int_max of 0
 fun{a:t@ype}
-g0int_min (x: g0int (a), y: g0int (a)): g0int (a)
+g0int_min (x: g0int (a), y: g0int (a)):<> g0int (a)
 overload min with g0int_min of 0
 
 #atscode_separator()
@@ -144,11 +144,11 @@ overload ~ with g1int_neg of 10
 
 fun{a:t@ype}
 g1int_succ
-  {i:int} (x: g1int (a, i)): g1int (a, i+1)
+  {i:int} (x: g1int (a, i)):<> g1int (a, i+1)
 overload succ with g1int_succ of 10
 fun{a:t@ype}
 g1int_pred
-  {i:int} (x: g1int (a, i)): g1int (a, i-1)
+  {i:int} (x: g1int (a, i)):<> g1int (a, i-1)
 overload pred with g1int_pred of 10
 
 fun{a:t@ype}
@@ -367,11 +367,11 @@ overload compare with g0uint_compare of 0
 #atscode_separator()
 
 fun{a:t@ype}
-g0uint_max (x: g0uint (a), y: g0uint (a)): g0uint (a)
+g0uint_max (x: g0uint (a), y: g0uint (a)):<> g0uint (a)
 overload max with g0uint_max of 0
 
 fun{a:t@ype}
-g0uint_min (x: g0uint (a), y: g0uint (a)): g0uint (a)
+g0uint_min (x: g0uint (a), y: g0uint (a)):<> g0uint (a)
 overload min with g0uint_min of 0
 
 #atscode_separator()
@@ -403,11 +403,11 @@ g1uint2int
 
 fun{a:t@ype}
 g1uint_succ
-  {i:int} (x: g1uint (a, i)): g1uint (a, i+1)
+  {i:int} (x: g1uint (a, i)):<> g1uint (a, i+1)
 overload succ with g1uint_succ of 10
 fun{a:t@ype}
 g1uint_pred
-  {i:int | i > 0} (x: g1uint (a, i)): g1uint (a, i-1)
+  {i:int | i > 0} (x: g1uint (a, i)):<> g1uint (a, i-1)
 overload pred with g1uint_pred of 10
 
 fun{a:t@ype}

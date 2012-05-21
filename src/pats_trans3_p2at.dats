@@ -193,7 +193,7 @@ implement
 p2at_trup_arg (p2t0) = let
 (*
   val () = begin
-    print "p2at_trup_arg: p2t0 = "; print p2t0; print_newline ();
+    println! ("p2at_trup_arg: p2t0 = ", p2t0)
   end // end of [val]
 *)
 in
@@ -443,12 +443,12 @@ p2at_trdn
   (p2t0, s2e0) = let
   val loc0 = p2t0.p2at_loc
   val s2f0 = s2exp2hnf (s2e0)
-// (*
+(*
   val () = begin
-    print "p2at_trdn: p2t0 = "; print_p2at p2t0; print_newline ();
-    print "p2at_trdn: s2f0 = "; print_s2hnf s2f0; print_newline ();
+    println! ("p2at_trdn: p2t0 = ", p2t0);
+    println! ("p2at_trdn: s2f0 = ", s2f0);
   end // end of [val]
-// *)
+*)
 in
 //
 case+ p2t0.p2at_node of
@@ -484,7 +484,7 @@ case+ p2t0.p2at_node of
 //
 | _ => let
     val () = (
-      print "p2at_trdn: p2t0 = "; print_p2at (p2t0); print_newline ()
+      println! ("p2at_trdn: p2t0 = ", p2t0);
     ) // end of [val]
   in
     exitloc (1)
@@ -498,8 +498,8 @@ p2atlst_trdn
   (loc0, p2ts, s2es, serr) = let
 (*
 val () = (
-  print "p2atlst_trdn: p2ts = "; print_p2atlst (p2ts); print_newline ();
-  print "p2atlst_trdn: s2es = "; print_s2explst (s2es); print_newline ();
+  println! ("p2atlst_trdn: p2ts = ", p2ts);
+  println! ("p2atlst_trdn: s2es = ", s2es);
 ) // end of [val]
 *)
 in
@@ -568,9 +568,9 @@ p2at_trdn_var
   } // end of [val]
 (*
   val () = begin
-    print "p2at_trdn_var: d2v = "; print_d2var d2v; print_newline ();
-    print "p2at_trdn_var: s2e0 = "; print_s2exp s2e0; print_newline ();
-    print "p2at_trdn_var: s2t0 = "; print_s2rt s2t0; print_newline ();
+    println! ("p2at_trdn_var: d2v = ", d2v);
+    println! ("p2at_trdn_var: s2e0 = ", s2e0);
+    println! ("p2at_trdn_var: s2t0 = ", s2t0);
   end // end of [val]
 *)
   val s2e =
@@ -578,8 +578,8 @@ p2at_trdn_var
   val () = d2var_set_type (d2v, Some s2e)
 (*
   val () = begin
-    print "p2at_trdn_var: d2v = "; print d2v; print_newline ();
-    print "p2at_trdn_var: s2e = "; print s2e; print_newline ();
+    println! ("p2at_trdn_var: d2v = ", d2v);
+    println! ("p2at_trdn_var: s2e = ", s2e);
   end // end of [val]
 *)
 in

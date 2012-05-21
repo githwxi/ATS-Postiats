@@ -48,8 +48,7 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_dynexp_dn"
 (* ****** ****** *)
 
 staload LOC = "pats_location.sats"
-macdef print_location = $LOC.print_location
-macdef prerr_location = $LOC.prerr_location
+overload print with $LOC.print_location
 
 (* ****** ****** *)
 
@@ -117,13 +116,11 @@ fun d2exp_trdn_effmask (d2e0: d2exp, s2f0: s2hnf): d3exp
 
 implement
 d2exp_trdn (d2e0, s2e0) = let
-// (*
-val () = (
-  print "d2exp_trdn: d2e0 = "; print_d2exp (d2e0); print_newline ();
-  print "d2exp_trdn: loc0 = "; print_location (d2e0.d2exp_loc); print_newline ();
-  print "d2exp_trdn: s2e0 = "; print_s2exp (s2e0); print_newline ();
-) // end of [val]
-// *)
+(*
+val () = println! ("d2exp_trdn: d2e0 = ")
+val () = println! ("d2exp_trdn: loc0 = ", d2e0.d2exp_loc)
+val () = println! ("d2exp_trdn: s2e0 = ", s2e0)
+*)
 val s2f0 = s2exp2hnf (s2e0)
 //
 in

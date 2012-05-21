@@ -256,12 +256,12 @@ fun s2hnf_equal_solve_rVar_err (
 implement
 s2hnf_equal_solve_rVar_err
   (loc0, s2f1, s2f2, s2V2, err) = let
-// (*
+(*
   val () = (
-    print "s2hnf_equal_solve_rVar_err: s2f1 = "; print_s2hnf s2f1; print_newline ();
-    print "s2hnf_equal_solve_rVar_err: s2f2 = "; print_s2hnf s2f2; print_newline ();
+    println! ("s2hnf_equal_solve_rVar_err: s2f1 = ", s2f1);
+    println! ("s2hnf_equal_solve_rVar_err: s2f2 = ", s2f2);
   ) // end of [val]
-// *)
+*)
   val s2e1 = s2hnf2exp (s2f1)
   val isimp = s2exp_is_impredicative (s2e1)
   val () = if isimp then {
@@ -357,11 +357,9 @@ and s2e20 = s2hnf2exp (s2f20)
 val s2en10 = s2e10.s2exp_node and s2en20 = s2e20.s2exp_node
 (*
 val () = (
-  print "s2hnf_equal_solve_err: s2e10 = "; print_s2exp s2e10; print_newline ();
-  print "s2hnf_equal_solve_err: s2e20 = "; print_s2exp s2e20; print_newline ();
-) // end of [val]
-val () = (
-  print "s2hnf_equal_solve_err: err0 = "; print err0; print_newline ()
+  println! ("s2hnf_equal_solve_err: s2e10 = ", s2e10);
+  println! ("s2hnf_equal_solve_err: s2e20 = ", s2e20);
+  println! ("s2hnf_equal_solve_err: err0 = ", err0);
 ) // end of [val]
 *)
 val () = case+
@@ -561,15 +559,18 @@ fun loop (
 in
 //
 case (xs1, xs2) of
-| (WTHS2EXPLSTcons_invar (k1, xs1),
-   WTHS2EXPLSTcons_invar (k2, xs2)) => let
-    val () = if k1 != k2 then err := err + 1
+| (WTHS2EXPLSTcons_invar (k1, x1, xs1),
+   WTHS2EXPLSTcons_invar (k2, x2, xs2)) => let
+    val () =
+      refval_equal_solve_err (loc0, k1, k2, err)
+    val () = s2exp_equal_solve_err (loc0, x1, x2, err)
   in
     loop (loc0, xs1, xs2, err)
   end
 | (WTHS2EXPLSTcons_trans (k1, x1, xs1),
    WTHS2EXPLSTcons_trans (k2, x2, xs2)) => let
-    val () = if k1 != k2 then err := err + 1
+    val () =
+      refval_equal_solve_err (loc0, k1, k2, err)
     val () = s2exp_equal_solve_err (loc0, x1, x2, err)
   in
     loop (loc0, xs1, xs2, err)
@@ -670,17 +671,13 @@ val err0 = err
 val s2e10 = s2hnf2exp (s2f10)
 and s2e20 = s2hnf2exp (s2f20)
 val s2en10 = s2e10.s2exp_node and s2en20 = s2e20.s2exp_node
-// (*
+(*
 val () = (
-  print "s2hnf_tyleq_solve_err: s2f10 = "; print_s2exp s2e10; print_newline ()
+  println! ("s2hnf_tyleq_solve_err: s2f10 = ", s2e10);
+  println! ("s2hnf_tyleq_solve_err: s2f20 = ", s2e20);
+  println! ("s2hnf_tyleq_solve_err: err0 = ", err0);
 ) // end of [val]
-val () = (
-  print "s2hnf_tyleq_solve_err: s2f20 = "; print_s2exp s2e20; print_newline ()
-) // end of [val]
-val () = (
-  print "s2hnf_tyleq_solve_err: err0 = "; print err0; print_newline ()
-) // end of [val]
-// *)
+*)
 //
 val () = case+
   (s2en10, s2en20) of
@@ -989,17 +986,26 @@ fun loop (
 in
 //
 case (xs1, xs2) of
-| (WTHS2EXPLSTcons_invar (k1, xs1),
-   WTHS2EXPLSTcons_invar (k2, xs2)) => let
+| (WTHS2EXPLSTcons_invar (k1, x1, xs1),
+   WTHS2EXPLSTcons_invar (k2, x2, xs2)) => let
     val () =
       refval_equal_solve_err (loc0, k1, k2, err)
-    // end of [val]
+    val () = s2exp_tyleq_solve_err (loc0, x1, x2, err)
+  in
+    loop (loc0, xs1, xs2, err)
+  end
+| (WTHS2EXPLSTcons_invar (k1, x1, xs1),
+   WTHS2EXPLSTcons_trans (k2, x2, xs2)) => let
+    val () =
+      refval_equal_solve_err (loc0, k1, k2, err)
+    val () = s2exp_tyleq_solve_err (loc0, x1, x2, err)
   in
     loop (loc0, xs1, xs2, err)
   end
 | (WTHS2EXPLSTcons_trans (k1, x1, xs1),
    WTHS2EXPLSTcons_trans (k2, x2, xs2)) => let
-    val () = if k1 != k2 then err := err + 1
+    val () =
+      refval_equal_solve_err (loc0, k1, k2, err)
     val () = s2exp_tyleq_solve_err (loc0, x1, x2, err)
   in
     loop (loc0, xs1, xs2, err)
@@ -1061,11 +1067,11 @@ end // end of [s2hnf_tyleq_solve_ubs_err]
 implement
 s2explst_tyleq_solve_argsrtlst_err
   (loc0, argsrts, s2es1, s2es2, err) = let
-// (*
+(*
   val () = (
-    print "s2explst_tyleq_solve_argsrtlst_err: enter"; print_newline ()
+    println! "s2explst_tyleq_solve_argsrtlst_err: enter"
   ) // end of [val]
-// *)
+*)
 in
 //
 case+ s2es1 of
@@ -1101,8 +1107,8 @@ fun s2hnf_hypequal_solve_con (
 ) : void = let
 (*
 val () = begin
-  print "s2exp_hypequal_solve_con: s2e1 = "; print_s2hnf s2f1; print_newline ();
-  print "s2exp_hypequal_solve_con: s2e2 = "; print_s2hnf s2f2; print_newline ();
+  println! ("s2exp_hypequal_solve_con: s2e1 = ", s2f1);
+  println! ("s2exp_hypequal_solve_con: s2e2 = ", s2f2);
 end // end of [val]
 *)
 val s2e1 = s2hnf2exp (s2f1) and s2e2 = s2hnf2exp (s2f2)
@@ -1139,12 +1145,12 @@ end // end of [s2exp_hypequal_solve_con]
 implement
 s2hnf_hypequal_solve
   (loc0, s2f1, s2f2) = let
-// (*
+(*
   val () = begin
-    print "s2exp_hypequal_solve: s2f1 = "; print_s2hnf s2f1; print_newline ();
-    print "s2exp_hypequal_solve: s2f2 = "; print_s2hnf s2f2; print_newline ();
+    println! ("s2exp_hypequal_solve: s2f1 = ", s2f1);
+    println! ("s2exp_hypequal_solve: s2f2 = ", s2f2);
   end // end of [val]
-// *)
+*)
   val s2e1 = s2hnf2exp (s2f1) and s2e2 = s2hnf2exp (s2f2)
 in
 //

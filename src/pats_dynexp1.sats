@@ -163,7 +163,9 @@ fun labp1at_omit (loc: location): labp1at
 
 fun fprint_p1at : fprint_type (p1at)
 fun print_p1at (p1t: p1at): void
+overload print with print_p1at
 fun prerr_p1at (p1t: p1at): void
+overload prerr with prerr_p1at
 
 fun fprint_labp1at : fprint_type (labp1at)
 
@@ -745,7 +747,9 @@ fun d1exp_err (loc: location): d1exp
 
 fun fprint_d1exp : fprint_type (d1exp)
 fun print_d1exp (x: d1exp): void
-and prerr_d1exp (x: d1exp): void
+overload print with print_d1exp
+fun prerr_d1exp (x: d1exp): void
+overload prerr with prerr_d1exp
 
 fun fprint_d1explst : fprint_type (d1explst)
 fun fprint_d1expopt : fprint_type (d1expopt)

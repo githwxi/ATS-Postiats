@@ -512,37 +512,41 @@ fprint_wths2explst
   (out, ws2es) = let
 //
 fun loop (
-  out: FILEref, ws2es: wths2explst, i: int
+  out: FILEref, xs: wths2explst, i: int
 ) : void = let
 in
 //
-case+ ws2es of
+case+ xs of
 | WTHS2EXPLSTnil () => ()
 | WTHS2EXPLSTcons_invar
-    (knd, ws2es) => let
+    (k, x, xs) => let
     val () = if i > 0
       then fprint_string (out, ", ")
-    val () = fprintf (out, "invar(%d)", @(knd))
+    val () = fprint_string (out, "invar(")
+    val () = fprint_int (out, k)
+    val () = fprint_string (out, "; ")
+    val () = fprint_s2exp (out, x)
+    val () = fprint_string (out, ")")
   in
-    loop (out, ws2es, i + 1)
+    loop (out, xs, i + 1)
   end // end of [WTHS2EXPLSTcons_invar]
 | WTHS2EXPLSTcons_trans
-    (knd, s2e, ws2es) => let
+    (k, x, xs) => let
     val () = if i > 0
       then fprint_string (out, ", ")
     val () = fprint_string (out, "trans(")
-    val () = fprint_int (out, knd)
+    val () = fprint_int (out, k)
     val () = fprint_string (out, "; ")
-    val () = fprint_s2exp (out, s2e)
+    val () = fprint_s2exp (out, x)
     val () = fprint_string (out, ")")
   in
-    loop (out, ws2es, i + 1)
+    loop (out, xs, i + 1)
   end // end of [WTHS2EXPLSTcons_trans]
-| WTHS2EXPLSTcons_none (ws2es) => let
+| WTHS2EXPLSTcons_none (xs) => let
     val () = if i > 0 then fprint_string (out, ", ")
     val () = fprintf (out, "none()", @())
   in
-    loop (out, ws2es, i + 1)
+    loop (out, xs, i + 1)
   end // end of [WTHS2EXPLSTcons_none]
 //
 end // end of [loop]

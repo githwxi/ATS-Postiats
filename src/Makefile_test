@@ -39,7 +39,10 @@ libc:: ; ./patsopt -s < $(PATSHOME)/libc/SATS/unistd.sats
 
 ######
 
-contrib:: ; ./patsopt -s < $(PATSHOME)/contrib/cairo/SATS/cairo.sats
+cairo:: ; ./patsopt -s < $(PATSHOME)/contrib/cairo/SATS/cairo.sats
+
+atshwxi:: ; ./patsopt -s < $(PATSHOME)/contrib/atshwxi/testing/fprint.sats
+atshwxi:: ; ./patsopt -d < $(PATSHOME)/contrib/atshwxi/testing/fprint.dats
 
 ######
 

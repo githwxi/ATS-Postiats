@@ -449,10 +449,10 @@ and s1qua_node =
   | S1Qprop of s1exp | S1Qvars of (i0delst, s1rtext)
 // end of [s1qua_node]
 
-and wths1explst = // needed in [pats_trans2_staexp.dats]
+and wths1explst =
   | WTHS1EXPLSTnil of ()
-  | WTHS1EXPLSTcons_invar of (int(*refval*), wths1explst)
-  | WTHS1EXPLSTcons_trans of (int(*refval*), s1exp, wths1explst)
+  | WTHS1EXPLSTcons_some of
+      (int(*knd*), int(*refval*), s1exp, wths1explst)
   | WTHS1EXPLSTcons_none of wths1explst
 // end of [wths1explst]
 

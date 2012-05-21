@@ -533,11 +533,11 @@ fun auxerr2 (
 } (* end of [auxerr2] *)
 //
 val d2vfin = d2var_get_finknd (d2v)
-//
+(*
 val () = (
   print "d2vfin_check_some: d2vfin = "; print_d2vfin (d2vfin); print_newline ()
 ) (* end of [val] *)
-//
+*)
 in
 //
 case+ d2vfin of
@@ -586,10 +586,11 @@ fun auxerr (
 } (* end of [auxerr] *)
 //
 val d2vfin = d2var_get_finknd (d2v)
+(*
 val () = (
   print "d2vfin_check_none: d2vfin = "; print_d2vfin (d2vfin); print_newline ()
 ) (* end of [val] *)
-//
+*)
 in
 //
 case+ d2vfin of
@@ -612,20 +613,22 @@ in // in of [local]
 
 implement
 d2vfin_check (loc0, d2v) = let
-//
+(*
 val () = (
-  print "d2vfin_check: d2v = "; print_d2var (d2v); print_newline ()
+  println! ("d2vfin_check: d2v = ", d2v)
 ) // end of [val]
-//
+*)
 val opt = d2var_get_type (d2v)
 //
 in
 //
 case+ opt of
 | Some (s2e) => let
+(*
     val () = (
-      print "d2vfin_check: s2e = "; print_s2exp (s2e); print_newline ()
+      println! ("d2vfin_check: s2e = ", s2e)
     ) // end of [val]
+*)
   in
     d2vfin_check_some (loc0, d2v, s2e)
   end // end of [Some]
@@ -635,11 +638,11 @@ end // end of [d2vfin_check]
 
 implement
 the_d2varenv_check (loc0) = let
-// (*
+(*
 val () = (
   print "the_d2varenv_check"; print_newline ()
 ) // end of [val]
-// *)
+*)
 fun loop (
   loc0: location, d2vs: d2varlst_vt
 ) : void =
@@ -709,16 +712,16 @@ end // end of [local]
 
 implement
 funarg_d2vfin_check (loc0) = let
-//
+(*
 val () = (
-  print "funarg_d2vfin_check: enter"; print_newline ()
+  println! ("funarg_d2vfin_check: enter")
 ) // end of [val]
-//
+*)
 fun auxvar
   (loc0: location, d2v: d2var): void = let
 (*
   val () = begin
-    print "funarg_varfin_check: auxvar: d2v (bef) = "; print_d2var d2v; print_newline ()
+    println! ("funarg_varfin_check: auxvar: d2v (bef) = ", d2v)
   end // end of [val]
 *)
   val d2v = let
@@ -727,7 +730,7 @@ fun auxvar
   end : d2var // end of [val]
 (*
   val () = begin
-    print "funarg_varfin_check: auxvar: d2v (aft) = "; print_d2var d2v; print_newline ()
+    println! ("funarg_varfin_check: auxvar: d2v (aft) = ", d2v)
   end // end of [val]
 *)
   val () = d2vfin_check (loc0, d2v)
@@ -775,11 +778,11 @@ end (* end of [funarg_varfin_check] *)
 
 implement
 s2exp_wth_instantiate (loc0, s2e0) = let
-// (*
+(*
 val () = begin
-  print "s2exp_wth_instantiate: s2e0 = "; print_s2exp s2e0; print_newline ()
+  println! ("s2exp_wth_instantiate: s2e0 = ", s2e0)
 end // end of [val]
-// *)
+*)
 fun aux .<>. (
   loc0: location
 , refknd: int, p3t: p3at, s2e: s2exp
@@ -822,8 +825,8 @@ in
 //
 case+ wths2es of
 | WTHS2EXPLSTcons_invar
-    (refknd, wths2es) => let // HX: already handled
-    val- list_cons (p3t, p3ts) = p3ts
+    (refknd, _, wths2es) => let
+    val- list_cons (p3t, p3ts) = p3ts // HX: already handled
   in
     auxlst (loc0, p3ts, wths2es)
   end // end of [WTHS2EXPLSTcons_invar]
@@ -833,7 +836,7 @@ case+ wths2es of
     val () = aux (loc0, refknd, p3t, s2e)
   in
     auxlst (loc0, p3ts, wths2es)     
-  end // end of [WTHS2EXPLSTcons_some]
+  end // end of [WTHS2EXPLSTcons_trans]
 | WTHS2EXPLSTcons_none
     (wths2es) => let
     val- list_cons (p3t, p3ts) = p3ts
@@ -883,8 +886,8 @@ the_d2varset_env_stbefitemlst_save
     val lin = d2var_get_lin d2v
 (*
     val () = begin
-      print "the_d2varset_env_stbefitemlst_save: f: d2v = "; print d2v; print_newline ();
-      print "the_d2varset_env_stbefitemlst_save: f: lin = "; print lin; print_newline ();
+      println! ("the_d2varset_env_stbefitemlst_save: f: d2v = ", d2v);
+      println! ("the_d2varset_env_stbefitemlst_save: f: lin = ", lin);
     end // end of [val]
 *)
   in

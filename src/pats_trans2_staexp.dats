@@ -750,7 +750,7 @@ end // end of [s1exp_trup_invar]
 
 implement
 s1exp_trup_arg
-  (s1e0, wths1es) = let
+  (s1e0, ws1es) = let
 (*
   val () = begin
     print "s1exp_trup_arg: s1e0 = "; print_s1exp (s1e0); print_newline ()
@@ -760,14 +760,18 @@ in
 //
 case+ s1e0.s1exp_node of
 | S1Einvar (refval, s1e) => let
-    val () = wths1es := WTHS1EXPLSTcons_invar (refval, wths1es)
+    val () = ws1es :=
+      WTHS1EXPLSTcons_some (0(*invar*), refval, s1e, ws1es)
+    // end of [val]
   in
     s1exp_trup_invar (refval, s1e)
   end // end of [S1Einvar]
 | S1Etrans (s1e1, s1e2) => (
   case+ s1e1.s1exp_node of
   | S1Einvar (refval, s1e_arg) => let
-      val () = wths1es := WTHS1EXPLSTcons_trans (refval, s1e2, wths1es)
+      val () = ws1es :=
+        WTHS1EXPLSTcons_some (1(*trans*), refval, s1e2, ws1es)
+      // end of [val]
     in
       s1exp_trup_invar (refval, s1e_arg)
     end // end of [S1Einvar]
@@ -782,7 +786,7 @@ case+ s1e0.s1exp_node of
     end // end of [_]
   ) // end of [S1Etrans]
 | _ => let
-    val () = wths1es := WTHS1EXPLSTcons_none (wths1es)
+    val () = ws1es := WTHS1EXPLSTcons_none (ws1es)
   in
     s1exp_trup (s1e0)
   end // end of [_]
@@ -793,51 +797,58 @@ end // end of [s1exp_trup_arg]
 
 implement
 s1exp_trdn_res_impredicative
-  (s1e0, wths1es) = let
+  (s1e0, ws1es) = let
 //
   fun auxwth (
-    wths1es: wths1explst
+    ws1es: wths1explst
   ) : wths2explst = begin
-    case+ wths1es of
-    | WTHS1EXPLSTcons_invar (refval, wths1es) =>
-        WTHS2EXPLSTcons_invar (refval, auxwth wths1es)
-    | WTHS1EXPLSTcons_trans
-        (refval, s1e, wths1es) => let
+    case+ ws1es of
+    | WTHS1EXPLSTcons_some
+        (knd, refval, s1e, ws1es) => let
         val s2t = (
-          if refval = 0 then s2rt_view  else s2rt_viewt0ype
+          if refval = 0 then s2rt_view else s2rt_viewt0ype
         ) : s2rt // end of [val]
         val s2e = s1exp_trdn (s1e, s2t)
+        val ws2es = auxwth (ws1es)
+        val isinv = (
+          if knd = 0 then s2exp_is_nonvar (s2e) else false
+        ) : bool // end of [val]
       in
-        WTHS2EXPLSTcons_trans (refval, s2e, auxwth wths1es)
-      end // end of [WTHS1EXPLSTcons_trans]
-    | WTHS1EXPLSTcons_none (wths1es) =>
-        WTHS2EXPLSTcons_none (auxwth wths1es)
+        if isinv then
+          WTHS2EXPLSTcons_invar (refval, s2e, ws2es)
+        else
+          WTHS2EXPLSTcons_trans (refval, s2e, ws2es)
+        // end of [if]
+      end // end of [WTHS1EXPLSTcons_invar]
+    | WTHS1EXPLSTcons_none (ws1es) => let
+        val ws2es = auxwth (ws1es) in WTHS2EXPLSTcons_none (ws2es)
+      end // end of [WTHS1EXPLSTcons_none]
     | WTHS1EXPLSTnil () => WTHS2EXPLSTnil ()
   end // endof [auxwth]
 //
   fun auxres (
-    s1e: s1exp, wths1es: wths1explst
+    s1e: s1exp, ws1es: wths1explst
   ) : s2exp =
     case+ s1e.s1exp_node of
-    | S1Eexi (1(*funres*), s1qs, s1e_scope) => let
+    | S1Eexi (
+        1(*funres*), s1qs, s1e_scope
+      ) => let
         val (pf_s2expenv | ()) = the_s2expenv_push_nil ()
         val s2q = s1qualst_tr (s1qs)
-        val s2e_scope = auxres (s1e_scope, wths1es)
+        val s2e_scope = auxres (s1e_scope, ws1es)
         val () = the_s2expenv_pop_free (pf_s2expenv | (*none*))
       in
         s2exp_exi (s2q.s2qua_svs, s2q.s2qua_sps, s2e_scope)
       end // end of [S1Eexi]
     | _ => let
         val s2e = s1exp_trdn_impredicative (s1e)
-        val wths2es = auxwth (wths1es)
-      in
-        s2exp_wth (s2e, wths2es)
+        val ws2es = auxwth (ws1es) in s2exp_wth (s2e, ws2es)
       end // end of [_]
   (* end of [auxres] *)
 //
 in
-  if wths1explst_is_none (wths1es) then
-    s1exp_trdn_impredicative (s1e0) else auxres (s1e0, wths1es)
+  if wths1explst_is_none (ws1es) then
+    s1exp_trdn_impredicative (s1e0) else auxres (s1e0, ws1es)
   // end of [if]
 end // end of [s1exp_trdn_res_impredicative]
 
@@ -909,28 +920,32 @@ val- s1e_arg :: s1e_res :: nil () = s1es
 var npf: int = ~1 // HX: default
 var s1es_arg: s1explst = list_nil ()
 //
-val () = (case+ s1e_arg.s1exp_node of
+val () = (
+  case+ s1e_arg.s1exp_node of
   | S1Elist (n, s1es) => (npf := n; s1es_arg := s1es)
   | _ => s1es_arg := list_sing (s1e_arg) // HX: npf = -1
 ) : void // end of [val]
 //
-var wths1es: wths1explst = WTHS1EXPLSTnil () // restoration
+var ws1es: wths1explst = WTHS1EXPLSTnil ()
 //
 val s2es_arg = let
   fun aux (
-    s1es: s1explst, wths1es: &wths1explst
+    s1es: s1explst, ws1es: &wths1explst
   ) :<cloref1> s2explst =
     case+ s1es of
     | list_cons (s1e, s1es) => let
-        val s2e = s1exp_trup_arg (s1e, wths1es)
+        val s2e = s1exp_trup_arg (s1e, ws1es)
         val s2t = s2e.s2exp_srt
         var imp: int = 0 and types: int = 0
-        val () = (case+ s2t of
+        val () = (
+          case+ s2t of
           | S2RTbas s2tb => (
             case+ s2tb of
             | S2RTBASimp (id, _) => {
                 val () = imp := 1 // impredicative
-                val () = if id = $SYM.symbol_TYPES then types := 1
+                val () =
+                  if id = $SYM.symbol_TYPES then types := 1
+                // end of [val]
               } // end of [S2RTBASimp]
             | _ => () // end of [_]
             ) // end of [S2RTbas]
@@ -938,20 +953,20 @@ val s2es_arg = let
         ) : void // end of [val]
         val s2e = (
           if imp > 0 then
-            if types > 0 then s2exp_vararg (s2e) else s2e
+            (if types > 0 then s2exp_vararg (s2e) else s2e)
           else auxerr3 (s1e0, s1e, s2t)
         ) : s2exp // end of [val]
       in
-        list_cons (s2e, aux (s1es, wths1es))
+        list_cons (s2e, aux (s1es, ws1es))
       end // end of [list_cons]
     | list_nil () => list_nil ()
   // end of [aux]
 in
-  aux (s1es_arg, wths1es)
+  aux (s1es_arg, ws1es)
 end // end of [val]
 //
-val () = wths1es := wths1explst_reverse wths1es
-val s2e_res = s1exp_trdn_res_impredicative (s1e_res, wths1es)
+val () = ws1es := wths1explst_reverse (ws1es)
+val s2e_res = s1exp_trdn_res_impredicative (s1e_res, ws1es)
 val s2t_res = s2e_res.s2exp_srt
 //
 val loc0 = s1e0.s1exp_loc

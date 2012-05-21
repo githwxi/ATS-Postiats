@@ -354,12 +354,19 @@ end // end of [s2cst_select_locs2explstlst]
 (* ****** ****** *)
 
 implement
+s2exp_is_nonvar (s2e) = (
+  case+ s2e.s2exp_node of | S2Evar _ => false | _ => true
+) // end of [s2exp_is_nonvar]
+
+(* ****** ****** *)
+
+implement
 s2exp_is_wthtype (s2e) = (
   case+ s2e.s2exp_node of
   | S2Ewth _ => true
   | S2Eexi (s2vs, s2ps, s2e) => s2exp_is_wthtype (s2e)
   | _ => false
-) // end of [s2exp_is_wth]
+) // end of [s2exp_is_wthtype]
 
 (* ****** ****** *)
 
@@ -1007,12 +1014,13 @@ wths2explst_subst_flag
   case+ ws2es0 of
   | WTHS2EXPLSTnil () => WTHS2EXPLSTnil ()
   | WTHS2EXPLSTcons_invar
-      (knd, ws2es) => let
+      (knd, s2e, ws2es) => let
       val flag0 = flag
+      val s2e = s2exp_subst_flag (sub, s2e, flag)
       val ws2es = wths2explst_subst_flag (sub, ws2es, flag)
     in
       if flag > flag0
-        then WTHS2EXPLSTcons_invar (knd, ws2es) else ws2es0
+        then WTHS2EXPLSTcons_invar (knd, s2e, ws2es) else ws2es0
       // end of [if]
     end // end of [WTHS2EXPLSTcons_invar]
   | WTHS2EXPLSTcons_trans
@@ -1298,7 +1306,9 @@ and aux_wths2explst (
   case+ ws2es0 of
   | WTHS2EXPLSTnil () => ()
   | WTHS2EXPLSTcons_invar
-      (_, ws2es) => aux_wths2explst (ws2es, fvs)
+      (_, s2e, ws2es) => (
+      aux_s2exp (s2e, fvs); aux_wths2explst (ws2es, fvs)
+    ) // end of [WTHS2EXPLSTcons_invar]
   | WTHS2EXPLSTcons_trans
       (_, s2e, ws2es) => (
       aux_s2exp (s2e, fvs); aux_wths2explst (ws2es, fvs)

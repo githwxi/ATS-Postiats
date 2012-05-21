@@ -792,6 +792,7 @@ case+ s2e0.s2exp_node of
       s2exp_prenexize_work (knd, s2vs, s2ps, s2e_body, s2vs_res, s2ps_res, flag)
     else s2e0 // end of [if]
   ) // end of [S2Euni]
+(*
 | S2Etyrec (tyrecknd, npf, ls2es) => let
     val flag0 = flag
     val ls2es = labs2explst_prenexize (knd, ls2es, s2vs_res, s2ps_res, flag)
@@ -800,6 +801,7 @@ case+ s2e0.s2exp_node of
       s2exp_tyrec_srt (s2e0.s2exp_srt, tyrecknd, npf, ls2es)
     else s2e0 // end of [if]
   end // end of [S2Etyrec]
+*)
 | _ => s2e0 // end of [_]
 //
 end // end of [s2exp_prenexize]

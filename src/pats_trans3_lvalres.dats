@@ -480,7 +480,7 @@ in
 //
 case+ wths2es of
 | WTHS2EXPLSTcons_invar
-    (_, wths2es) => let
+    (_, _, wths2es) => let
     val- list_cons (d3e, d3es) = d3es
     val- list_cons (s2e_arg, s2es_arg) = s2es_arg
     val loc = d3e.d3exp_loc
@@ -491,7 +491,7 @@ case+ wths2es of
     val d3es = d3explst_arg_restore (d3es, s2es_arg, wths2es)
   in
     list_cons (d3e, d3es)
-  end // end of [WTHS2EXPLSTcons_none]
+  end // end of [WTHS2EXPLSTcons_invar]
 | WTHS2EXPLSTcons_trans (
     refval, s2e_res, wths2es
   ) => let
@@ -513,7 +513,7 @@ case+ wths2es of
     val d3es = d3explst_arg_restore (d3es, s2es_arg, wths2es)
   in
     list_cons (d3e, d3es)
-  end // end of [WTHS2EXPLSTcons_some]
+  end // end of [WTHS2EXPLSTcons_trans]
 | WTHS2EXPLSTcons_none
     (wths2es) => let
     val- list_cons (d3e, d3es) = d3es

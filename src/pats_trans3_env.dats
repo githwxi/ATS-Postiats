@@ -1447,7 +1447,7 @@ case+ s2es of
     (s2e, s2es) => (
   case+ ws2es of
   | WTHS2EXPLSTcons_invar
-      (_, ws2es) => let
+      (_, _, ws2es) => let
       val- S2Erefarg
         (knd, s2e) = s2e.s2exp_node
       var err: int = 0
@@ -1483,6 +1483,27 @@ in
 end // end of [s2fun_arg_res_opninv_and_add]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+un_s2exp_wthtype
+  (loc, s2e) = let
+//
+  var s2e_res: s2exp = s2e
+  var wths2es: wths2explst = WTHS2EXPLSTnil ()
+//
+  val iswth = s2exp_is_wthtype (s2e)
+  val () = if iswth then let
+    val s2f = s2exp2hnf (s2e)
+    val s2e = s2hnf_opnexi_and_add (loc, s2f)
+    val- S2Ewth (s2e, wths2es1) = s2e.s2exp_node
+  in
+    s2e_res := s2e; wths2es := wths2es1
+  end : void // end of [val]
+in
+  (iswth, s2e_res, wths2es)
+end // end of [un_s2exp_wthtype]
 
 (* ****** ****** *)
 

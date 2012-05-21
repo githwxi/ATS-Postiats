@@ -256,30 +256,40 @@ case+ d3as of
       // HX: [err] is not used
       val () = trans3_env_add_proplst_vt (loc_fun, s2ps)
       val d3e_fun = d3exp_app_unista (loc0, s2e_fun, d3e_fun)
+      val- S2Efun (
+        fc, _(*lin*), s2fe_fun, _(*npf*), s2es_fun_arg, s2e_fun_res
+      ) = s2e_fun.s2exp_node // end of[val]
+//
+      val loc_app = $LOC.location_combine (loc_fun, locarg)
+      val s2es_fun_arg = 
+        s2fun_opninv_and_add (locarg, s2es_fun_arg, s2e_fun_res)
+      val d3es_arg = d3explst_trdn_arg (d3es_arg, s2es_fun_arg)
+//
+      val (
+        iswth
+      , s2e_res
+      , wths2es
+      ) =
+        un_s2exp_wthtype (loc_app, s2e_fun_res)
+      // end of [val]
+//
+      val d3e_fun = d3exp_fun_restore (fc, d3e_fun)
+      val d3es_arg = (
+        if iswth then
+          d3explst_arg_restore (d3es_arg, s2es_fun_arg, wths2es)
+        else d3es_arg
+      ) : d3explst // end of [val]
+//
+      val err = the_effenv_check_s2eff (loc_app, s2fe_fun)
+      val () = if (err > 0) then (
+        the_trans3errlst_add (T3E_d3exp_trup_applst_eff (loc_app, s2fe_fun))
+      ) // end of [if] // end of [val]
+//
+      val d3e_fun =
+        d3exp_app_dyn (loc0, s2e_res, s2fe_fun, d3e_fun, npf, d3es_arg)
+      // end of [val]
     in
-      case+ s2e_fun.s2exp_node of
-      | S2Efun (
-          fc, _(*lin*), s2fe_fun, _(*npf*), s2es_arg, s2e_res
-        ) => let
-          val d3es_arg =
-            d3explst_trdn_arg (d3es_arg, s2es_arg)
-          // end of [val]
-          val d3e_fun =
-            d3exp_app_dyn (loc0, s2e_res, s2fe_fun, d3e_fun, npf, d3es_arg)
-          // end of [val]
-        in
-          d3exp_trup_applst (d2e0, d3e_fun, d3as)
-        end // end of [S2Efun]
-      | _ => let
-          val () = prerr_interror_loc (loc0)
-          val () = prerr ": d3exp_trup_applst"
-          val () = prerr ": a function type is expected: s2e_fun = "
-          val () = prerr_s2exp (s2e_fun)
-          val () = prerr_newline ()
-          val () = assertloc (false)
-        in
-          exit {d3exp} (1)
-        end // end of [_]
+      d3exp_trup_applst (d2e0, d3e_fun, d3as)
     end // end of [D3EXPARGdyn]
   ) // end of [list_cons]
 | list_nil () => d3e_fun // end of [list_nil]
@@ -343,24 +353,20 @@ case+ xs of
   case+ x.1 of
   | S2KEfun
       (s2kes_arg, s2ke_res) => let
-//
 (*
       val () = (
         print "auxsel_skexplst: s2kes_arg = ";
         fprint_s2kexplst (stdout_ref, s2kes_arg); print_newline ()
       ) // end of [val]
 *)
-//
       val ismat =
         s2kexplst_ismat (s2kes, s2kes_arg)
       // end of [val]
-//
 (*
       val () = (
         print "auxsel_skexplst: ismat = "; print ismat; print_newline ()
       )  // end of [val]
 *)
-//
       val y = (x.0, s2ke_res)
       val ys = auxsel_skexplst (xs, s2kes)
     in
@@ -384,7 +390,8 @@ typedef T = (d3pitm, s2kexp)
 fun auxmap
   (xs: List_vt (T)) : d3pitmlst =
   case+ xs of
-  | ~list_vt_cons (x, xs) => list_cons (x.0, auxmap xs)
+  | ~list_vt_cons
+      (x, xs) => list_cons (x.0, auxmap xs)
   | ~list_vt_nil () => list_nil ()
 // end of [auxmap]
 in
@@ -464,6 +471,14 @@ in // in of [local]
 implement
 d2exp_trup_applst_sym
   (d2e0, d2s, d2as) = let
+(*
+  val () = (
+    print "d2exp_trup_applst_sym: d2s = ";
+    fprint_d2sym (stdout_ref, d2s); print_newline ();
+    print "d2exp_trup_applst_sym: d2as = ";
+    fprint_d2exparglst (stdout_ref, d2as); print_newline ();
+  ) // end of [val]
+*)
   val loc0 = d2e0.d2exp_loc
   val locsym = d2s.d2sym_loc
   val d2pis = d2s.d2sym_pitmlst
@@ -502,9 +517,9 @@ case+ d3pis of
     val () = prerr_newline ()
     val () = fprint_d3pitm (stderr_ref, d3pi2)
     val () = prerr_newline ()
-    val () = the_trans3errlst_add (
-      T3E_d2exp_trup_applst_sym_cons2 (d2e0, d2s)
-    ) // end of [val]
+    val () =
+      the_trans3errlst_add (T3E_d2exp_trup_applst_sym_cons2 (d2e0, d2s))
+    // end of [val]
   in
     d3exp_err (loc0)
   end // end of [list_cons2]
@@ -514,9 +529,7 @@ case+ d3pis of
     val () = fprint_d2sym (stderr_ref, d2s)
     val () = prerr "] cannot be resolved as no match is found."
     val () = prerr_newline ()
-    val () = the_trans3errlst_add
-      (T3E_d2exp_trup_applst_sym_nil (d2e0, d2s))
-    // end of [val]
+    val () = the_trans3errlst_add (T3E_d2exp_trup_applst_sym_nil (d2e0, d2s))
   in
     d3exp_err (loc0)
   end // end of [list_nil]

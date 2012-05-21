@@ -362,6 +362,14 @@ fun s2fun_opninv_and_add
 
 (* ****** ****** *)
 
+fun un_s2exp_wthtype (
+  loc: location, s2e: s2exp
+) : (
+  bool(*iswth*), s2exp, wths2explst
+) // end of [un_s2exp_wthtype]
+
+(* ****** ****** *)
+
 fun d3exp_open_and_add (d3e: d3exp): void
 fun d3explst_open_and_add (d3es: d3explst): void
 

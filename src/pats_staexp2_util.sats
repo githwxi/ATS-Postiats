@@ -74,6 +74,7 @@ fun s2cst_select_locs2explstlst
 
 (* ****** ****** *)
 
+fun s2exp_is_nonvar (s2e: s2exp):<> bool
 fun s2exp_is_wthtype (s2e: s2exp):<> bool
 fun s2exp_is_without (s2e: s2exp):<> bool
 

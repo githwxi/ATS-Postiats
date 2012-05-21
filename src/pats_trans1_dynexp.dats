@@ -88,7 +88,7 @@ fn appf (
   val d1e_app = d1exp_app_syndef (loc, d1e1, d1e2)
 (*
   val () = begin
-    print "d1expitm_app: f: d1e_app = "; print d1e_app; print_newline ()
+    println! ("d1expitm_app: f: d1e_app = ", d1e_app)
   end // end of [val]
 *)
 in
@@ -492,7 +492,7 @@ aux_item (
       ) // end of [val]
 (*
       val () = (
-        print "d0exp_tr: aux_item: d1e0 = "; print_d1exp d1e0; print_newline ()
+        println! ("d0exp_tr: aux_item: d1e0 = ", d1e0)
       ) // end of [val]
 *)
       val d1e0 = d1exp_idextapp_resolve (loc0, d1e0)

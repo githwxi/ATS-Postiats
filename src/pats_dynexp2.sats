@@ -194,7 +194,9 @@ fun d2var_ptr_viewat_make_none (ptr: d2var): d2var
 
 fun fprint_d2var : fprint_type (d2var)
 fun print_d2var (x: d2var): void
+overload print with print_d2var
 fun prerr_d2var (x: d2var): void
+overload prerr with prerr_d2var
 
 (* ****** ****** *)
 
@@ -460,12 +462,16 @@ fun p2at_err (loc: location): p2at
 fun fprint_p2at
   (out: FILEref, x: p2at): void
 fun print_p2at (x: p2at): void
-and prerr_p2at (x: p2at): void
+overload print with print_p2at
+fun prerr_p2at (x: p2at): void
+overload prerr with prerr_p2at
 
 fun fprint_p2atlst
   (out: FILEref, xs: p2atlst): void
 fun print_p2atlst (xs: p2atlst): void
-and prerr_p2atlst (xs: p2atlst): void
+overload print with print_p2atlst
+fun prerr_p2atlst (xs: p2atlst): void
+overload prerr with prerr_p2atlst
 
 fun fprint_labp2at : fprint_type (labp2at)
 fun fprint_labp2atlst : fprint_type (labp2atlst)
@@ -776,11 +782,15 @@ d2lval = // type for left-values
 
 fun fprint_d2exp : fprint_type (d2exp)
 fun print_d2exp (x: d2exp): void
-and prerr_d2exp (x: d2exp): void
+overload print with print_d2exp
+fun prerr_d2exp (x: d2exp): void
+overload prerr with prerr_d2exp
 
 fun fprint_d2explst : fprint_type (d2explst)
 fun print_d2explst (xs: d2explst): void
-and prerr_d2explst (xs: d2explst): void
+overload print with print_d2explst
+fun prerr_d2explst (xs: d2explst): void
+overload prerr with prerr_d2explst
 
 fun fprint_labd2exp : fprint_type (labd2exp)
 fun fprint_labd2explst : fprint_type (labd2explst)

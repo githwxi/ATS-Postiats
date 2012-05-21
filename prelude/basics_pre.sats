@@ -315,9 +315,11 @@ symintr foreach iforeach rforeach
 *)
 symintr fprint print prerr
 symintr length (* array_length, list_length, string_length, etc. *)
+symintr ptrcast (* for functions taking the address of a boxed val *)
+symintr encode decode
+//
 symintr ofstring ofstrptr
 symintr tostring tostrptr
-symintr encode decode
 //
 (* ****** ****** *)
 

@@ -185,11 +185,15 @@ and s2rtlstopt = Option (s2rtlst)
 
 fun fprint_s2rt : fprint_type (s2rt)
 fun print_s2rt (x: s2rt): void
+overload print with print_s2rt
 fun prerr_s2rt (x: s2rt): void
+overload prerr with prerr_s2rt
 
 fun fprint_s2rtlst : fprint_type (s2rtlst)
 fun print_s2rtlst (xs: s2rtlst): void
+overload print with print_s2rtlst
 fun prerr_s2rtlst (xs: s2rtlst): void
+overload prerr with prerr_s2rtlst
 
 (* ****** ****** *)
 //
@@ -330,7 +334,9 @@ typedef s2hnflst = List (s2hnf)
 
 fun fprint_s2hnf : fprint_type (s2hnf)
 fun print_s2hnf (x: s2hnf): void
+overload print with print_s2hnf
 fun prerr_s2hnf (x: s2hnf): void
+overload prerr with prerr_s2hnf
 
 (* ****** ****** *)
 
@@ -419,7 +425,7 @@ and labs2exp = SLABELED of (label, Option(string), s2exp)
 
 and wths2explst =
   | WTHS2EXPLSTnil of ()
-  | WTHS2EXPLSTcons_invar of (int(*refval*), wths2explst)
+  | WTHS2EXPLSTcons_invar of (int(*refval*), s2exp, wths2explst)
   | WTHS2EXPLSTcons_trans of (int(*refval*), s2exp, wths2explst)
   | WTHS2EXPLSTcons_none of wths2explst
 // end of [wths2explst]
@@ -983,14 +989,17 @@ fun s2exp_t0ype_err (): s2exp // HX: s2exp_err (s2rt_t0ype)
 
 fun fprint_s2exp : fprint_type (s2exp)
 fun print_s2exp (x: s2exp): void
+overload print with print_s2exp
 fun prerr_s2exp (x: s2exp): void
+overload prerr with prerr_s2exp
 
 fun fprint_s2explst : fprint_type (s2explst)
 fun print_s2explst (xs: s2explst): void
+overload print with print_s2explst
 fun prerr_s2explst (xs: s2explst): void
+overload prerr with prerr_s2explst
 
 fun fprint_labs2explst : fprint_type (labs2explst)
-
 fun fprint_wths2explst : fprint_type (wths2explst)
 
 (* ****** ****** *)

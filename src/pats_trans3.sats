@@ -76,9 +76,12 @@ datatype trans3err =
 //
   | T3E_d3exp_trdn of (d3exp, s2exp)
   | T3E_d23explst_trdn_arity of (location, int(*serr*))
+//
+  | T3E_d3exp_trup_applst_eff of (location(*app*), s2eff(*eff*))
+//
   | T3E_d23exp_trup_app23_npf of (location(*fun*), int(*npf*))
   | T3E_d23exp_trup_app23_fun of (location(*fun*), s2exp(*fun*))
-  | T3E_d23exp_trup_app23_eff of (location(*fun*), s2eff(*eff*))
+  | T3E_d23exp_trup_app23_eff of (location(*app*), s2eff(*eff*))
 //
   | T3E_d2exp_trup_applst_sym_nil of (d2exp, d2sym) // found none
   | T3E_d2exp_trup_applst_sym_cons2 of (d2exp, d2sym) // found too many

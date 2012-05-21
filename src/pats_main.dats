@@ -495,6 +495,7 @@ fun prelude_load (
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/array.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/array_prf.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/arrayptr.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/arrayref.sats")
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/parrnull.sats") // null-terminated
