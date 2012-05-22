@@ -87,6 +87,12 @@ arrayptr_exch_at
 
 #atscode_separator()
 
+fun arrayptr_free
+  {a:t0p}{l:addr}{n:int} (A: arrayptr (a, l, n)):<> void
+// end of [arrayptr_free]
+
+#atscode_separator()
+
 fun{a:vt0p}
 arrayptr_make_uninitialized
   {n:int} (asz: size_t n):<> [l:addr] arrayptr (a?, l, n)

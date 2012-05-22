@@ -1,0 +1,56 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT=="txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"option0.sats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/option.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("May, 2012")
+
+#atscode_separator()
+
+#atscode_decl_strcst("sortdef t0p = t@ype")
+
+#atscode_separator()
+
+fun{a:t0p}
+option0_some (x: a):<> option0 (a)
+fun{a:t0p}
+option0_none ((*void*)):<> option0 (a)
+
+#atscode_separator()
+
+fun{a:t0p}
+option0_is_some (x: option0 a):<> bool
+fun{a:t0p}
+option0_is_none (x: option0 a):<> bool
+
+#atscode_separator()
+
+fun{a:t0p}
+option0_unsome_exn (opt: option0 (a)):<!exn> a
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "option0_atxt.txt")
+%}\

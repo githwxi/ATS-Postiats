@@ -43,74 +43,72 @@
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
-staload "prelude/SATS/fiterator.sats" // HX: preloaded
-staload "prelude/SATS/fcontainer.sats" // HX: preloaded
 
 (* ****** ****** *)
+
+implement
+{xs}{x}
+iter_foreach_funenv
+  {v}{vt}{f,r}{fe}
+  (pfv | iter, fwork, env) = let
 //
-// HX: this one is based on [incable iter]
+prval () = lemma_iterator_param (iter)
 //
-implement{xs}{x}
-foreach_funenv
-  {v}{vt}{fe:eff}
-  (pfv | xs, f, env) = let
-//
-stadef iter (f:int, r:int) = fiterator (xs, x, f, r)
+stadef iter
+  (f:int, r:int) = fiterator (xs, x, f, r)
 //
 fun loop
   {f,r:int | r >= 0} .<r>. (
   pfv: !v
-| iter: &iter (f, r) >> iter (f+r, 0)
-, f: (!v | x, !vt) -<fun,fe> void, env: !vt
+| iter: !iter (f, r) >> iter (f+r, 0)
+, fwork: (!v | x, !vt) -<fun,fe> void, env: !vt
 ) :<fe> void =
   if iter_isnot_atend<xs><x> (iter) then let
-    val x = iter_getinc_at<xs><x> (iter); val () = f (pfv | x, env)
+    val x = iter_getinc_at<xs><x> (iter); val () = fwork (pfv | x, env)
   in
-    loop (pfv | iter, f, env)
+    loop (pfv | iter, fwork, env)
   end // end of [if]
 // end of [loop]
-var iter = iter_make<xs><x> (xs)
-val () = loop (pfv | iter, f, env)
-val () = iter_free<xs><x> (iter)
 //
 in
-  (*nothing*)
-end // end of [foreach_funenv]
+  loop (pfv | iter, fwork, env)
+end // end of [iter_foreach_funenv]
 
 (* ****** ****** *)
+
+implement
+{xs}{x}
+iter_exists_funenv
+  {v}{vt}{f,r}{fe}
+  (pfv | iter, pred, env) = let
 //
-// HX: this one is based on [incable iter]
+prval () = lemma_iterator_param (iter)
 //
-implement{xs}{x}
-exists_funenv
-  {v}{vt}{fe:eff}
-  (pfv | xs, f, env) = let
-//
-stadef iter (f:int, r:int) = fiterator (xs, x, f, r)
+stadef iter
+  (f:int, r:int) = fiterator (xs, x, f, r)
 //
 fun loop
   {f,r:int | r >= 0} .<r>. (
   pfv: !v
-| iter: &iter (f, r) >> iter (f1, r1)
-, p: (!v | x, !vt) -<fun,fe> bool, env: !vt
+| iter: !iter (f, r) >> iter (f1, r1)
+, pred: (!v | x, !vt) -<fun,fe> bool, env: !vt
 ) :<fe> #[
-  f1,r1:int | f+r==f1+r1
-] bool = let
+  f1,r1:int | f1>=f; f+r==f1+r1
+] bool (r1 > 0)= let
   val hasnext = iter_isnot_atend<xs><x> (iter)
 in
   if hasnext then let
-    val x = iter_getinc_at<xs><x> (iter) in
-    if p (pfv | x, env) then true else loop (pfv | iter, f, env)
+    val x = iter_get_at<xs><x> (iter)
+  in
+    if pred (pfv | x, env) then true else let
+      val () = iter_inc (iter) in loop (pfv | iter, pred, env)
+    end // end of [if]
   end else false // end of [if]
 end // end of [loop]
 //
-var itr = iter_make<xs><x> (xs)
-val res = loop (pfv | itr, f, env)
-val () = iter_free<xs><x> (itr)
-//
 in
-  res(*boolean*)
-end // end of [exists_funenv]
+  loop (pfv | iter, pred, env)
+end // end of [iter_exists_funenv]
 
 (* ****** ****** *)
 
@@ -120,4 +118,4 @@ end // end of [exists_funenv]
 
 (* ****** ****** *)
 
-(* end of [fcontainer_iter.sats] *)
+(* end of [fiterator.dats] *)

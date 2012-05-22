@@ -209,8 +209,8 @@ dataview unit_v = unit_v of ()
 (* ****** ****** *)
 //
 datatype
-option0_t0ype_type (a: t@ype+) =
-  | option0_some of (a) | option0_none of ()
+option0_t0ype_type
+  (a: t@ype+) = Some0 of (a) | None0 of ()
 // end of [datatype]
 stadef option0 = option0_t0ype_type
 //

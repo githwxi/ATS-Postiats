@@ -210,7 +210,7 @@ extern praxi __assert
 // end of [__assert]
 in
   __assert (view@ (A))
-end // end of [initialize_array]
+end // end of [uninitialize_array]
 
 (* ****** ****** *)
 

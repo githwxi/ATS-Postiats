@@ -853,7 +853,7 @@ val () = trans3_env_add_proplst_vt (loc0, s2ps)
 //
 in
 //
-case+ s2e0.s2exp_node of
+case+ s2e.s2exp_node of
 | S2Ewth
     (s2e, wths2es) => s2e where {
     val- ~Some_vt (p3ts) = opt where {
@@ -861,7 +861,7 @@ case+ s2e0.s2exp_node of
     } // end of [val]
     val () = auxlst (loc0, p3ts, wths2es)
   } // end of [S2Ewth]
-| _ => s2e0 // end of [_]
+| _ => s2e // end of [_]
 //
 end // end of [s2exp_wth_instantiate]
 

@@ -117,7 +117,7 @@ fun d2exp_trdn_effmask (d2e0: d2exp, s2f0: s2hnf): d3exp
 implement
 d2exp_trdn (d2e0, s2e0) = let
 (*
-val () = println! ("d2exp_trdn: d2e0 = ")
+val () = println! ("d2exp_trdn: d2e0 = ", d2e0)
 val () = println! ("d2exp_trdn: loc0 = ", d2e0.d2exp_loc)
 val () = println! ("d2exp_trdn: s2e0 = ", s2e0)
 *)
@@ -162,23 +162,30 @@ end // end of [d2exp_trdn]
 implement
 d2exp_trdn_rest
   (d2e0, s2f0) = let
+(*
+val () = println! ("d2exp_trdn_rest: d2e0 = ", d2e0)
+val () = println! ("d2exp_trdn_rest: loc0 = ", d2e0.d2exp_loc)
+val () = println! ("d2exp_trdn_rest: s2f0 = ", s2f0)
+*)
+val loc0 = d2e0.d2exp_loc
+val s2e0 = s2hnf2exp (s2f0)
+val d3e0 = d2exp_trup (d2e0)
 //
-  val loc0 = d2e0.d2exp_loc
-  val s2e0 = s2hnf2exp (s2f0)
-  val d3e0 = d2exp_trup (d2e0)
+val iswth = s2exp_is_wthtype (s2e0)
 //
-  val iswth = s2exp_is_wthtype (s2e0)
-  val s2e0 = (
-    if iswth then let
-      val () = d3exp_open_and_add (d3e0)
-    in
-      s2exp_wth_instantiate (loc0, s2e0)
-    end else begin
-      s2e0 // HX: [s2e0] does not carry a state type
-    end // end of [if]
-  ) : s2exp // end of [val]
-//
-  val () = if iswth then funarg_d2vfin_check (loc0)
+val s2e0 = (
+  if iswth then let
+    val () = d3exp_open_and_add (d3e0)
+  in
+    s2exp_wth_instantiate (loc0, s2e0)
+  end else begin
+    s2e0 // HX: [s2e0] does not carry a state type
+  end // end of [if]
+) : s2exp // end of [val]
+(*
+val () = println! ("d2exp_trdn_rest: s2e0 = ", s2e0)
+*)
+val () = if iswth then funarg_d2vfin_check (loc0)
 //
 in
   d3exp_trdn (d3e0, s2e0)

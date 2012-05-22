@@ -37,8 +37,12 @@
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
-staload "prelude/SATS/fiterator.sats" // HX: preloaded
+
+(* ****** ****** *)
+
+(*
 staload "prelude/SATS/fcontainer.sats" // HX: preloaded
+*)
 
 (* ****** ****** *)
 

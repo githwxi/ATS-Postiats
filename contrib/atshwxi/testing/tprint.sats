@@ -15,6 +15,11 @@ fun{a:t0p} tprint (x: a): void
 
 (* ****** ****** *)
 
+fun{a:t0p}
+tprint_list0 (xs: list0 (a)): void
+
+(* ****** ****** *)
+
 fun{}
 tprint_list__sep (): string
 fun{}

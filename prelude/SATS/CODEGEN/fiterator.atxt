@@ -26,75 +26,133 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-absviewt@ype
-fiterator (
-  xs: t@ype, x: t@ype+, f: int, r: int
-) // end of [absviewt@ype]
+sortdef t0p = t@ype
+sortdef vtp = viewtype
 
-prfun lemma_iterator_params
-  {xs:t@ype}{x:t@ype}{f,r:int}
+#atscode_separator()
+
+absviewtype
+fiterator ( // HX: boxed
+  xs: t@ype, x: t@ype+, f: int, r: int
+) // end of [absviewtype]
+
+prfun lemma_iterator_param
+  {xs:t0p}{x:t0p}{f,r:int}
   (iter: !fiterator (xs, x, f, r)): [f>=0;r>=0] void
-// end of [lemma_iterator_params]
+// end of [lemma_iterator_param]
 
 #atscode_separator()
 
 fun{
-xs:t@ype}{x:t@ype
+xs:t0p}{x:t0p
 } iter_make (xs: xs):<> [r:nat] fiterator (xs, x, 0, r)
 
 fun{
-xs:t@ype}{x:t@ype
+xs:t0p}{x:t0p
 } iter_free {f,r:int} (iter: fiterator (xs, x, f, r)):<> void
 
 #atscode_separator()
 
 fun{
-xs:t@ype}{x:t@ype
+xs:t0p}{x:t0p
 } iter_is_atend {f,r:int}
-  (iter: &fiterator (xs, x, f, r)):<> bool (r==0)
+  (iter: !fiterator (xs, x, f, r)):<> bool (r==0)
 // end of [iter_is_atend]
 
 fun{
-xs:t@ype}{x:t@ype
+xs:t0p}{x:t0p
 } iter_isnot_atend {f,r:int}
-  (iter: &fiterator (xs, x, f, r)):<> bool (r > 0)
+  (iter: !fiterator (xs, x, f, r)):<> bool (r > 0)
 // end of [iter_isnot_atend]
 
 #atscode_separator()
 
 fun{
-xs:t@ype}{x:t@ype
+xs:t0p}{x:t0p
 } iter_get_at
-  {f,r:int | r > 0} (iter: &fiterator (xs, x, f, r)):<> x
+  {f,r:int | r > 0} (iter: !fiterator (xs, x, f, r)):<> x
 // end of [iter_get_at]
 
+#atscode_separator()
+
 fun{
-xs:t@ype}{x:t@ype
+xs:t0p}{x:t0p
 } iter_getinc_at
   {f,r:int | r > 0} (
-  iter: &fiterator (xs, x, f, r) >> fiterator (xs, x, f+1, r-1)
+  iter: !fiterator (xs, x, f, r) >> fiterator (xs, x, f+1, r-1)
 ) :<> x // end of [iter_getinc_at]
 
 fun{
-xs:t@ype}{x:t@ype
+xs:t0p}{x:t0p
 } iter_getdec_at
   {f,r:int | f > 0; r > 0} (
-  iter: &fiterator (xs, x, f, r) >> fiterator (xs, x, f-1, r+1)
+  iter: !fiterator (xs, x, f, r) >> fiterator (xs, x, f-1, r+1)
 ) :<> x // end of [iter_getdec_at]
 
 #atscode_separator()
 
 fun{
-xs:t@ype}{x:t@ype
+xs:t0p}{x:t0p
 } iter_inc {f,r:int | r > 0} (
-  iter: &fiterator (xs, x, f, r) >> fiterator (xs, x, f+1, r-1)
+  iter: !fiterator (xs, x, f, r) >> fiterator (xs, x, f+1, r-1)
 ) :<> void // end of [iter_inc]
 
 fun{
-xs:t@ype}{x:t@ype
+xs:t0p}{x:t0p
 } iter_dec {f,r:int | f > 0} (
-  iter: &fiterator (xs, x, f, r) >> fiterator (xs, x, f-1, r+1)
+  iter: !fiterator (xs, x, f, r) >> fiterator (xs, x, f-1, r+1)
 ) :<> void // end of [iter_dec]
+
+#atscode_separator()
+
+fun{
+xs:t0p}{x:t0p
+} iter_foreach_funenv
+  {v:view}{vt:vtp}{f,r:int}{fe:eff} (
+  pfv: !v
+| iter: !fiterator (xs, x, f, r) >> fiterator (xs, x, f+r, 0)
+, f: (!v | x, !vt) -<fe> void, env: !vt
+) :<fe> void // end of [iter_foreach_funenv]
+
+#atscode_separator()
+
+fun{
+xs:t0p}{x:t0p
+} iter_exists_funenv
+  {v:view}{vt:vtp}{f,r:int}{fe:eff} (
+  pfv: !v
+| iter: !fiterator (xs, x, f, r) >> fiterator (xs, x, f1, r1)
+, pred: (!v | x, !vt) -<fe> bool, env: !vt
+) :<fe> #[
+  f1,r1:int | f1>=f; f+r==f1+r1
+] bool (r1 > 0) // end of [iter_exists_funenv]
+
+#atscode_separator()
+
+fun{
+xs:t0p}{x:t0p
+} iter_jump {f,r:int}{i:nat | i <= r} (
+//
+// HX: O(log(n))-time complexity is expected
+//
+  iter: !fiterator (xs, x, f, r) >> fiterator (xs, x, f+i, r-i)
+) :<> void // end of [iter_jump]
+
+#atscode_separator()
+
+(*
+** HX-2012-05:
+** [iter] should support at least log-time random-access
+*)
+fun{
+xs:t0p}{x:t0p
+} iter_bsearch_funenv
+  {env:vtp}{f,r:int} (
+  iter: !fiterator (xs, x, f, r) >> fiterator (xs, x, f1, r1)
+, cmp: (x, x, !env) -<fun> int, env: !env
+) :<> #[
+  f1,r1:int | f1>=f;f1+r1==f+r
+] bool(*found*) // end of [iter_bsearch_funenv]
 
 #atscode_separator()
 

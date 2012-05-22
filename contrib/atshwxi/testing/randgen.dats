@@ -24,6 +24,7 @@ implement randgen<ullint> () = 0ull
 //
 implement randgen<float> () = 0.0f
 implement randgen<double> () = 0.0
+implement randgen<ldouble> () = 0.0l
 //
 (* ****** ****** *)
 
