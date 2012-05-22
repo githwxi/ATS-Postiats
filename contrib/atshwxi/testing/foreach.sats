@@ -19,6 +19,20 @@ iforeach_list {n:int} (xs: List (a)): void
 (* ****** ****** *)
 
 fun{a:vt0p}
+foreach_list_vt__fwork (x: &a): void
+
+fun{a:vt0p}
+foreach_list_vt {n:int} (xs: !List_vt (a)): void
+
+fun{a:vt0p}
+iforeach_list_vt__fwork (i: size_t, x: &a): void
+
+fun{a:vt0p}
+iforeach_list_vt {n:int} (xs: !List_vt (a)): void
+
+(* ****** ****** *)
+
+fun{a:vt0p}
 foreach_array__fwork (x: &a): void
 
 fun{a:vt0p}

@@ -59,6 +59,57 @@ end // end of [iforeach_list]
 (* ****** ****** *)
 
 implement{a}
+foreach_list_vt (xs) = let
+//
+fun loop
+  {n:nat} .<n>. (
+  xs: !list_vt (a, n)
+) : void =
+  case+ xs of
+  | @list_vt_cons
+      (x, xs1) => let
+      val () =
+        foreach_list_vt__fwork<a> (x)
+      val () = loop (xs1)
+      prval () = fold@ (xs)
+    in
+      // nothing
+    end // end of [list_vt_cons]
+  | list_vt_nil () => ()
+(* end of [loop] *)
+//
+in
+  loop (xs)
+end // end of [foreach_list_vt]
+
+(* ****** ****** *)
+
+implement{a}
+iforeach_list_vt (xs) = let
+//
+fun loop
+  {n:nat} .<n>. (
+  xs: !list_vt (a, n), i: size_t
+) : void =
+  case+ xs of
+  | @list_vt_cons (x, xs1) => let
+      val () =
+        iforeach_list_vt__fwork<a> (i, x)
+      val () = loop (xs1, succ(i))
+      prval () = fold@ (xs)
+    in
+      // nothing
+    end // end of [list_vt_cons]
+  | list_vt_nil () => ()
+(* end of [loop] *)
+//
+in
+  loop (xs, $UN.cast2size(0))
+end // end of [iforeach_list_vt]
+
+(* ****** ****** *)
+
+implement{a}
 foreach_array (A, n) = let
 //
 prval () = lemma_array_v_param (view@(A))

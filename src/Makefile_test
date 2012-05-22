@@ -6,6 +6,10 @@
 
 test:: prelude
 
+#test:: cairo
+
+test:: atshwxi
+
 test:: tally
 test:: fibonacci
 test:: ferryman
