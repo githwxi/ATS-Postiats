@@ -477,9 +477,7 @@ val p3t0 = (case+ 0 of
   in
     p3t0
   end // end of [flag>0]
-| _ => let
-    val () = assertloc (false) in p3at_err (loc0, s2e)
-  end // end of [val]
+| _ => p3at_err (loc0, s2e) // HX: error already registered
 ) : p3at // end of [val]
 //
 in

@@ -345,10 +345,10 @@ typedef ldouble = g0float (ldouble_kind)
 //
 abstype
 ptr_type = $extype"atstype_ptr"
-stadef ptr = ptr_type
+stadef ptr = ptr_type // a shorthand
 abstype
 ptr_addr_type (l:addr) = ptr_type
-stadef ptr = ptr_addr_type
+stadef ptr = ptr_addr_type // a shorthand
 typedef Ptr0 = [l:addr] ptr (l)
 typedef Ptr1 = [l:addr | l > null] ptr (l)
 //

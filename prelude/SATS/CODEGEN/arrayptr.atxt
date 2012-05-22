@@ -31,19 +31,22 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 #atscode_separator()
 
 absviewtype
-arrayptr (a:viewt@ype+, l: addr, n: int) = ptr
+arrayptr (
+  a:viewt@ype+, l: addr, n: int
+) = ptr // end of [arrayptr]
 absviewtype
-arrayptrout (a:viewt@ype+, l: addr, n: int) = ptr
+arrayptrout (a:t@ype, l: addr, n: int) = ptr
 
 #atscode_separator()
 
 castfn
 arrayptr2ptr
-  {a:vt0p}{l:addr}{n:int} (A: !arrayptr (INV(a), l, n)):<> ptr l
+  {a:vt0p}
+  {l:addr}{n:int} (A: !arrayptr (INV(a), l, n)):<> ptr l
 overload ptrcast with arrayptr2ptr
 castfn
 arrayptrout2ptr
-  {a:vt0p}{l:addr}{n:int} (A: !arrayptrout (INV(a), l, n)):<> ptr l
+  {a:t0p}{l:addr}{n:int} (A: !arrayptrout (a, l, n)):<> ptr l
 overload ptrcast with arrayptrout2ptr
 
 #atscode_separator()
@@ -51,14 +54,14 @@ overload ptrcast with arrayptrout2ptr
 praxi
 arrayptr_takeout
   {a:vt0p}{l:addr}{n:int} (
-  A: !arrayptr (INV(a), l, n) >> arrayptrout (INV(a), l, n)
+  A: !arrayptr (INV(a), l, n) >> arrayptrout (a?, l, n)
 ) : array_v (a, l, n) // end of [arrayptr_takeout]
 
 praxi
 arrayptr_addback
   {a:vt0p}{l:addr}{n:int} (
-  pf: array_v (a, l, n)
-| A: !arrayptrout (INV(a), l, n) >> arrayptr (INV(a), l, n)
+  pf: array_v (INV(a), l, n)
+| A: !arrayptrout (a?, l, n) >> arrayptr (a, l, n)
 ) : void // end of [arrayptr_addback]
 
 #atscode_separator()
@@ -79,8 +82,15 @@ overload [] with arrayptr_set_at
 fun{a:vt0p}
 arrayptr_exch_at
   {l:addr}{n:int}
-  (A: !arrayptr (INV(a), l, n), i: sizeLt (n), x: &WRT(a)): void
+  (A: !arrayptr (INV(a), l, n), i: sizeLt (n), x: &a):<> void
 // end of [arrayptr_exch_at]
+
+#atscode_separator()
+
+fun{a:vt0p}
+arrayptr_make_uninitialized
+  {n:int} (asz: size_t n):<> [l:addr] arrayptr (a?, l, n)
+// end of [arrayptr_make_uninitialized]
 
 #atscode_separator()
 

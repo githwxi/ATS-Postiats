@@ -26,10 +26,43 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-sortdef vt0p = viewt@ype
+sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()
-#atscode_decl_strcst('\
+//
+// HX:
+// [castvwtp1] is mostly used in a situation
+// where a linear value is passed as a read-only value;
+// for instance, casting [strptr] to [string] is as such.
+//
+castfn cast {to:t0p} {from:t0p} (x: from):<> to
+castfn castvwtp1 {to:t0p} {from:vt0p} (x: !from):<> to
+//
+#atscode_separator()
+//
+castfn cast2ptr {a:type} (x: a):<> ptr
+castfn cast2Ptr0 {a:type} (x: a):<> Ptr0
+castfn cast2Ptr1 {a:type} (x: a):<> Ptr1
+//
+castfn cast2int {a:t0p} (x: a):<> int
+castfn cast2uint {a:t0p} (x: a):<> uint
+//
+castfn cast2lint {a:t0p} (x: a):<> lint
+castfn cast2ulint {a:t0p} (x: a):<> ulint
+//
+castfn cast2llint {a:t0p} (x: a):<> llint
+castfn cast2ullint {a:t0p} (x: a):<> ullint
+//
+castfn cast2size {a:t0p} (x: a):<> size_t
+castfn cast2ssize {a:t0p} (x: a):<> ssize_t
+//
+castfn cast2sint {a:t0p} (x: a):<> sint
+castfn cast2usint {a:t0p} (x: a):<> usint
+//
+castfn cast2ssint {a:t0p} (x: a):<> ssint
+castfn cast2ussint {a:t0p} (x: a):<> ussint
+//
+#atscode_separator()
 //
 // HX: only if you know what you are doing ...
 //
@@ -37,9 +70,7 @@ fun{a:vt0p} ptr_get (p: Ptr1):<> a
 fun{a:vt0p} ptr_set (p: Ptr1, x: INV(a)):<!wrt> void
 fun{a:vt0p} ptr_exch (p: Ptr1, x: &INV(a) >> a):<!wrt> void
 //
-')\
 #atscode_separator()
-#atscode_decl_strcst('\
 //
 // HX: only if you know what you are doing ...
 //
@@ -50,7 +81,6 @@ fun{a:vt0p} cptr_get (p: cptr1 (INV(a))):<> a
 fun{a:vt0p} cptr_set (p: cptr1 (INV(a)), x: a):<!wrt> void
 fun{a:vt0p} cptr_exch (p: cptr1 (INV(a)), x: &a >> a):<!wrt> void
 //
-')\
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
