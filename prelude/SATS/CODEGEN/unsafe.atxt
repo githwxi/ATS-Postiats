@@ -66,6 +66,10 @@ castfn cast2ussint {a:t0p} (x: a):<> ussint
 //
 // HX: only if you know what you are doing ...
 //
+praxi ptr_vget
+  {a:vt0p}{l:agz} (p: ptr l): vtakeout (void, a@l)
+// end of [ptr_vget]
+
 fun{a:vt0p} ptr_get (p: Ptr1):<> a
 fun{a:vt0p} ptr_set (p: Ptr1, x: INV(a)):<!wrt> void
 fun{a:vt0p} ptr_exch (p: Ptr1, x: &INV(a) >> a):<!wrt> void

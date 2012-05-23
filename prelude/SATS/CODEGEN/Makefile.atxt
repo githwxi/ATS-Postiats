@@ -90,6 +90,8 @@ for pointer arrays terminated with the null pointer
 
 #make_entry("reference")
 
+#make_entry("iterator")
+
 #make_entry("fiterator")
 #make_entry("fcontainer")
 
