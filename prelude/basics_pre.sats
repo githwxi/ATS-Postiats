@@ -307,7 +307,7 @@ symintr ~ not
 symintr && || << >> land lor lxor
 symintr + - * / mod gcd
 symintr < <= > >= = <> !=
-symintr succ pred
+symintr succ pred half
 symintr abs square sqrt cube cbrt
 symintr compare max min pow
 (*

@@ -41,6 +41,10 @@ fun{a:t@ype}
 g0int_pred (x: g0int (a)):<> g0int (a)
 overload pred with g0int_pred of 0
 
+fun{a:t@ype}
+g0int_half (x: g0int (a)):<> g0int (a)
+overload half with g0int_half of 0
+
 #atscode_separator()
 
 %{
@@ -157,6 +161,13 @@ fun{a:t@ype}
 g1int_pred
   {i:int} (x: g1int (a, i)):<> g1int (a, i-1)
 overload pred with g1int_pred of 10
+
+fun{a:t@ype}
+g1int_half
+  {i:int} (x: g1int (a, i)):<> g1int (a, i/2)
+overload half with g1int_half of 10
+
+#atscode_separator()
 
 fun{a:t@ype}
 g1int_add {i,j:int} (
@@ -299,6 +310,10 @@ fun{a:t@ype}
 g0uint_pred (x: g0uint (a)):<> g0uint (a)
 overload pred with g0uint_pred
 
+fun{a:t@ype}
+g0uint_half (x: g0uint (a)):<> g0uint (a)
+overload half with g0uint_half
+
 #atscode_separator()
 
 %{
@@ -425,6 +440,13 @@ fun{a:t@ype}
 g1uint_pred
   {i:int | i > 0} (x: g1uint (a, i)):<> g1uint (a, i-1)
 overload pred with g1uint_pred of 10
+
+fun{a:t@ype}
+g1uint_half
+  {i:int} (x: g1uint (a, i)):<> g1uint (a, i ndiv 2)
+overload half with g1uint_half of 10
+
+#atscode_separator()
 
 fun{a:t@ype}
 g1uint_add {i,j:int}

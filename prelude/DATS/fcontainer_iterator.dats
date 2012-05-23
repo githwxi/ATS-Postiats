@@ -61,10 +61,10 @@ foreach_funenv
   {v}{vt}{fe:eff}
   (pfv | xs, fwork, env) = let
 //
-val iter =
+val itr =
   iter_make<xs><x> (xs)
-val () = iter_foreach_funenv (pfv | iter, fwork, env)
-val () = iter_free<xs><x> (iter)
+val () = iter_foreach_funenv (pfv | itr, fwork, env)
+val () = iter_free<xs><x> (itr)
 //
 in
   (*nothing*)
@@ -83,10 +83,10 @@ exists_funenv
 stadef iter
   (f:int, r:int) = fiterator (xs, x, f, r)
 //
-val iter =
+val itr =
   iter_make<xs><x> (xs)
-val res = iter_exists_funenv (pfv | iter, pred, env)
-val () = iter_free<xs><x> (iter)
+val res = iter_exists_funenv (pfv | itr, pred, env)
+val () = iter_free<xs><x> (itr)
 //
 in
   res(*boolean*)

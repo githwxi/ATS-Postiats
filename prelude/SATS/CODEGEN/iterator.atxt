@@ -3,7 +3,7 @@
 #if (ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"fiterator.sats"
+val _thisfilename = atext_strcst"iterator.sats"
 val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
@@ -14,7 +14,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 (*
 ** Source:
-** $PATSHOME/prelude/SATS/CODEGEN/fiterator.atxt
+** $PATSHOME/prelude/SATS/CODEGEN/iterator.atxt
 ** Time of generation: #timestamp()
 *)
 
@@ -32,44 +32,42 @@ sortdef vtp = viewtype
 #atscode_separator()
 
 absviewtype
-fiterator ( // HX: boxed
-  xs: t@ype+, x: t@ype+, f: int, r: int
+iterator ( // HX: boxed
+  knd: t@ype, x: t@ype+, f: int, r: int
 ) // end of [absviewtype]
 
 prfun lemma_iterator_param
-  {xs:t0p}{x:t0p}{f,r:int}
-  (itr: !fiterator (xs, x, f, r)): [f>=0;r>=0] void
+  {knd:t0p}{x:t0p}{f,r:int}
+  (itr: !iterator (knd, x, f, r)): [f>=0;r>=0] void
 // end of [lemma_iterator_param]
 
 #atscode_separator()
 
-fun{
-xs:t0p}{x:t0p
-} iter_make (xs: xs):<> [r:nat] fiterator (xs, x, 0, r)
+abst@ype iter_list // functional list
 
 fun{x:t0p}
 iter_make_list
-  (xs: List (x)): [r:nat] fiterator (list0(x), x, 0, r)
+  (xs: List (x)): [r:nat] iterator (iter_list, x, 0, r)
 // end of [iter_make_list]
 
 #atscode_separator()
 
 fun{
 xs:t0p}{x:t0p
-} iter_free {f,r:int} (itr: fiterator (xs, x, f, r)):<> void
+} iter_free {f,r:int} (itr: iterator (xs, x, f, r)):<> void
 
 #atscode_separator()
 
 fun{
 xs:t0p}{x:t0p
 } iter_is_atend {f,r:int}
-  (itr: !fiterator (xs, x, f, r)):<> bool (r==0)
+  (itr: !iterator (xs, x, f, r)):<> bool (r==0)
 // end of [iter_is_atend]
 
 fun{
 xs:t0p}{x:t0p
 } iter_isnot_atend {f,r:int}
-  (itr: !fiterator (xs, x, f, r)):<> bool (r > 0)
+  (itr: !iterator (xs, x, f, r)):<> bool (r > 0)
 // end of [iter_isnot_atend]
 
 #atscode_separator()
@@ -77,7 +75,7 @@ xs:t0p}{x:t0p
 fun{
 xs:t0p}{x:t0p
 } iter_get
-  {f,r:int | r > 0} (itr: !fiterator (xs, x, f, r)):<> x
+  {f,r:int | r > 0} (itr: !iterator (xs, x, f, r)):<> x
 // end of [iter_get]
 
 #atscode_separator()
@@ -86,14 +84,14 @@ fun{
 xs:t0p}{x:t0p
 } iter_getinc
   {f,r:int | r > 0} (
-  itr: !fiterator (xs, x, f, r) >> fiterator (xs, x, f+1, r-1)
+  itr: !iterator (xs, x, f, r) >> iterator (xs, x, f+1, r-1)
 ) :<> x // end of [iter_getinc]
 
 fun{
 xs:t0p}{x:t0p
 } iter_getdec
   {f,r:int | f > 0; r > 0} (
-  itr: !fiterator (xs, x, f, r) >> fiterator (xs, x, f-1, r+1)
+  itr: !iterator (xs, x, f, r) >> iterator (xs, x, f-1, r+1)
 ) :<> x // end of [iter_getdec]
 
 #atscode_separator()
@@ -101,13 +99,13 @@ xs:t0p}{x:t0p
 fun{
 xs:t0p}{x:t0p
 } iter_inc {f,r:int | r > 0} (
-  itr: !fiterator (xs, x, f, r) >> fiterator (xs, x, f+1, r-1)
+  itr: !iterator (xs, x, f, r) >> iterator (xs, x, f+1, r-1)
 ) :<> void // end of [iter_inc]
 
 fun{
 xs:t0p}{x:t0p
 } iter_dec {f,r:int | f > 0} (
-  itr: !fiterator (xs, x, f, r) >> fiterator (xs, x, f-1, r+1)
+  itr: !iterator (xs, x, f, r) >> iterator (xs, x, f-1, r+1)
 ) :<> void // end of [iter_dec]
 
 #atscode_separator()
@@ -117,7 +115,7 @@ xs:t0p}{x:t0p
 } iter_foreach_funenv
   {v:view}{vt:vtp}{f,r:int}{fe:eff} (
   pfv: !v
-| itr: !fiterator (xs, x, f, r) >> fiterator (xs, x, f+r, 0)
+| itr: !iterator (xs, x, f, r) >> iterator (xs, x, f+r, 0)
 , f: (!v | x, !vt) -<fe> void, env: !vt
 ) :<fe> void // end of [iter_foreach_funenv]
 
@@ -128,7 +126,7 @@ xs:t0p}{x:t0p
 } iter_exists_funenv
   {v:view}{vt:vtp}{f,r:int}{fe:eff} (
   pfv: !v
-| itr: !fiterator (xs, x, f, r) >> fiterator (xs, x, f1, r1)
+| itr: !iterator (xs, x, f, r) >> iterator (xs, x, f1, r1)
 , pred: (!v | x, !vt) -<fe> bool, env: !vt
 ) :<fe> #[
   f1,r1:int | f1>=f; f+r==f1+r1
@@ -144,8 +142,8 @@ xs:t0p}{x:t0p
 //
 // HX: O(log(n))-time complexity is expected
 //
-  itr: !fiterator (xs, x, f, r)
-         >> fiterator (xs, x, f+i, r-i), i: size_t (i)
+  itr: !iterator (xs, x, f, r)
+         >> iterator (xs, x, f+i, r-i), i: size_t (i)
 ) :<> void // end of [iter_fjmp]
 
 fun{
@@ -156,7 +154,7 @@ xs:t0p}{x:t0p
 //
 // HX: O(log(n))-time complexity is expected
 //
-  itr: !fiterator (xs, x, f, r), i: size_t (i)
+  itr: !iterator (xs, x, f, r), i: size_t (i)
 ) :<> x // end of [iter_fget_at]
 
 #atscode_separator()
@@ -169,8 +167,8 @@ xs:t0p}{x:t0p
 //
 // HX: O(log(n))-time complexity is expected
 //
-  itr: !fiterator (xs, x, f, r)
-         >> fiterator (xs, x, f+i, r-i), i: ssize_t (i)
+  itr: !iterator (xs, x, f, r)
+         >> iterator (xs, x, f+i, r-i), i: ssize_t (i)
 ) :<> void // end of [iter_fbjmp]
 
 fun{
@@ -181,7 +179,7 @@ xs:t0p}{x:t0p
 //
 // HX: O(log(n))-time complexity is expected
 //
-  itr: !fiterator (xs, x, f, r), i: ssize_t (i)
+  itr: !iterator (xs, x, f, r), i: ssize_t (i)
 ) :<> x // end of [iter_fbget_at]
 
 #atscode_separator()
@@ -203,8 +201,8 @@ xs:t0p}{x:t0p
   {env:vtp}
   {f,r:int}
   {ra:int | ra <= r} (
-  itr: !fiterator (xs, x, f, r)
-          >> fiterator (xs, x, f1, r1)
+  itr: !iterator (xs, x, f, r)
+          >> iterator (xs, x, f1, r1)
 , pord: (x, !env) -<fun> int, env: !env
 , ra: size_t (ra) // range being searched
 ) :<> #[
@@ -216,5 +214,5 @@ xs:t0p}{x:t0p
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "fiterator_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "iterator_atxt.txt")
 %}\

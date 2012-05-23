@@ -51,6 +51,10 @@ castfn list0_of_list_vt
   {a:t@ype} (xs: List_vt a):<> list0 a = "atspre_list0_of_list_vt"
 // end of [castfn list0_of_list_vt]
 
+castfn list_of_list0
+  {a:t@ype} (xs: list0 a):<> List (a) = "atspre_list_of_list0"
+// end of [castfn list_of_list0]
+
 #atscode_separator()
 
 fun{a:t0p}
