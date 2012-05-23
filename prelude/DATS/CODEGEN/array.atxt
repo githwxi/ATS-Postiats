@@ -26,14 +26,26 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-extern
-val{a:viewt@ype} sizeof : sizeof_t (a)
-
 implement{a}
 array_foreach_funenv
   (pfv | A, f, env, asz) =
   array_foreach_funenv_tsz (pfv | A, f, env, asz, sizeof<a>)
 // end of [array_foreach_funenv]
+
+#atscode_separator()
+
+implement{a}
+array_bsearch_funenv
+  (A, n, pord, env) = let
+  val itr =
+    iter_make_array (view@(A) | addr@(A))
+  val () = iter_bsearch_funenv (itr, pord, env, n)
+  val ofs = iter_get_offset (itr)
+  val (pf | ()) = iter_free_array (itr)
+  prval () = view@ (A) := pf
+in
+  ofs
+end // end of [array_bsearch_funenv]
 
 #atscode_separator()
 

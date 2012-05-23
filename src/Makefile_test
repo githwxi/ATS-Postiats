@@ -27,6 +27,7 @@ prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/string.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/basics.dats
 
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/iterator.dats
+prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/iterator_flist.dats
 
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/fcontainer_foreach.dats
 

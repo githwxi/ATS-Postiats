@@ -45,10 +45,6 @@ array_v (
   | {l:addr} array_v_nil (a, l, 0)
 // end of [array_v]
 *)
-#atscode_decl_strcst("\
-viewdef
-array_v (a:viewt@ype, l:addr, n:int) = @[a][n] @ l
-")\
 
 #atscode_separator()
 
@@ -190,6 +186,16 @@ array_foreach_clopref
   {n:int}{fe:eff} (
   A: &(@[a][n]), f: (&a) -<cloref,fe> void, asz: size_t n
 ) :<fe> void // end of [array_foreach_cloref]
+
+#atscode_separator()
+
+fun{a:vt0p}
+array_bsearch_funenv
+  {env:vtp}{n:int} (
+  A: &(@[a][n])
+, n: size_t (n)
+, pord: (&a, !env) -<fun> int, env: !env
+) :<> sizeLte (n) // end of [array_bsearch_funenv]
 
 #atscode_separator()
 

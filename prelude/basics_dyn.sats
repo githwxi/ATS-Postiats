@@ -132,48 +132,8 @@ dataprop SGN (int, int) =
 
 (* ****** ****** *)
 
-datasort file_mode =
-  | file_mode_r (* read *)
-  | file_mode_w (* write *)
-  | file_mode_rw (* read and write *)
-// end of [file_mode]
-
-stadef r() = file_mode_r ()
-stadef w() = file_mode_w ()
-stadef rw() = file_mode_rw ()
-
-(* ****** ****** *)
-
-abstype file_mode (file_mode) = string
-typedef file_mode = [fm:file_mode] file_mode (fm)
-
-(* ****** ****** *)
-
-dataprop file_mode_lte
-  (file_mode, file_mode) =
-  | {m:file_mode} file_mode_lte_refl (m, m)
-  | {m1,m2,m3:file_mode}
-    file_mode_lte_tran (m1, m3) of
-      (file_mode_lte (m1, m2), file_mode_lte (m2, m3))
-  | {m:file_mode} file_mode_lte_rw_r (rw(), r()) of ()
-  | {m:file_mode} file_mode_lte_rw_w (rw(), w()) of ()
-// end of [file_mode_lte]
-
-prval file_mode_lte_r_r
-  : file_mode_lte (r(), r()) // implemented in [filebas_prf.dats]
-prval file_mode_lte_w_w
-  : file_mode_lte (w(), w()) // implemented in [filebas_prf.dats]
-prval file_mode_lte_rw_rw
-  : file_mode_lte (rw(), rw()) // implemented in [filebas_prf.dats]
-(*
-prval file_mode_lte_rw_r
-  : file_mode_lte (rw(), r()) // implemented in [filebas_prf.dats]
-prval file_mode_lte_rw_w
-  : file_mode_lte (rw(), w()) // implemented in [filebas_prf.dats]
-*)
-
-abstype FILEref_type = ptr
-typedef FILEref = FILEref_type
+viewdef
+array_v (a:viewt@ype, l:addr, n:int) = @[a][n] @ l
 
 (* ****** ****** *)
 //
@@ -312,6 +272,51 @@ praxi opt_unnone {a:vt0p} (x: !opt (INV(a), false) >> a?):<prf> void
 //
 praxi opt_clear {a:t0p} {b:bool} (x: !opt (a, b) >> a?):<prf> void
 //
+(* ****** ****** *)
+
+datasort file_mode =
+  | file_mode_r (* read *)
+  | file_mode_w (* write *)
+  | file_mode_rw (* read and write *)
+// end of [file_mode]
+
+stadef r() = file_mode_r ()
+stadef w() = file_mode_w ()
+stadef rw() = file_mode_rw ()
+
+(* ****** ****** *)
+
+abstype file_mode (file_mode) = string
+typedef file_mode = [fm:file_mode] file_mode (fm)
+
+(* ****** ****** *)
+
+dataprop file_mode_lte
+  (file_mode, file_mode) =
+  | {m:file_mode} file_mode_lte_refl (m, m)
+  | {m1,m2,m3:file_mode}
+    file_mode_lte_tran (m1, m3) of
+      (file_mode_lte (m1, m2), file_mode_lte (m2, m3))
+  | {m:file_mode} file_mode_lte_rw_r (rw(), r()) of ()
+  | {m:file_mode} file_mode_lte_rw_w (rw(), w()) of ()
+// end of [file_mode_lte]
+
+prval file_mode_lte_r_r
+  : file_mode_lte (r(), r()) // implemented in [filebas_prf.dats]
+prval file_mode_lte_w_w
+  : file_mode_lte (w(), w()) // implemented in [filebas_prf.dats]
+prval file_mode_lte_rw_rw
+  : file_mode_lte (rw(), rw()) // implemented in [filebas_prf.dats]
+(*
+prval file_mode_lte_rw_r
+  : file_mode_lte (rw(), r()) // implemented in [filebas_prf.dats]
+prval file_mode_lte_rw_w
+  : file_mode_lte (rw(), w()) // implemented in [filebas_prf.dats]
+*)
+
+abstype FILEref_type = ptr
+typedef FILEref = FILEref_type
+
 (* ****** ****** *)
 
 fun{a:vt0p}

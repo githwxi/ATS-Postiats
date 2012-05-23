@@ -59,6 +59,13 @@ fun sub_ptr_size
   (p: ptr, df: size_t):<> ptr = "mac\#atspre_sub_ptr_size"
 overload - with sub_ptr_size of 0
 
+fun add_ptr_ssize
+  (p: ptr, df: ssize_t):<> ptr = "mac\#atspre_add_ptr_ssize"
+overload + with add_ptr_ssize of 0
+fun sub_ptr_ssize
+  (p: ptr, df: ssize_t):<> ptr = "mac\#atspre_sub_ptr_ssize"
+overload - with sub_ptr_ssize of 0
+
 #atscode_separator()
 
 %{

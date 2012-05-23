@@ -46,16 +46,62 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+(*
+** HX: default implementation
+*)
+
 implement
-{xs}{x}
+{knd}{x}
+iter_get (itr) =
+  $UN.ptr_get<x> (iter_getref<knd><x> (itr))
+// end of [iter_get]
+
+implement
+{knd}{x}
+iter_get_inc (itr) =
+  $UN.ptr_get<x> (iter_getref_inc<knd><x> (itr))
+// end of [iter_get_inc]
+implement
+{knd}{x}
+iter_get_dec (itr) =
+  $UN.ptr_get<x> (iter_getref_dec<knd><x> (itr))
+// end of [iter_get_dec]
+
+implement
+{knd}{x}
+iter_getref_inc (itr) = let
+  val p = iter_getref<knd><x> (itr) in iter_inc<knd><x> (itr); p
+end // end of [iter_getref_inc]
+implement
+{knd}{x}
+iter_getref_dec (itr) = let
+  val p = iter_getref<knd><x> (itr) in iter_dec<knd><x> (itr); p
+end // end of [iter_getref_dec]
+
+implement
+{knd}{x}
+iter_fget_at (itr, x) =
+  $UN.ptr_get<x> (iter_fgetref_at<knd><x> (itr, x))
+// end of [iter_fget_inc]
+
+implement
+{knd}{x}
+iter_fbget_at (itr, x) =
+  $UN.ptr_get<x> (iter_fbgetref_at<knd><x> (itr, x))
+// end of [iter_fbget_inc]
+
+(* ****** ****** *)
+
+implement
+{knd}{x}
 iter_foreach_funenv
-  {v}{vt}{f,r}{fe}
+  {kpm}{v}{vt}{f,r}{fe}
   (pfv | itr, fwork, env) = let
 //
 prval () = lemma_iterator_param (itr)
 //
 stadef iter
-  (f:int, r:int) = iterator (xs, x, f, r)
+  (f:int, r:int) = iterator (knd, kpm, x, f, r)
 //
 fun loop
   {f,r:int | r >= 0} .<r>. (
@@ -64,11 +110,11 @@ fun loop
 , fwork: (!v | &x, !vt) -<fun,fe> void, env: !vt
 ) :<fe> void = let
   val isatend =
-    iter_isnot_atend<xs><x> (itr)
+    iter_isnot_atend<knd><x> (itr)
 in
   if isatend then let
     val p =
-      iter_getref_inc<xs><x> (itr)
+      iter_getref_inc<knd><x> (itr)
     prval (pf, fpf) = $UN.ptr_vget (p)
     val () = fwork (pfv | !p, env)
     prval () = fpf (pf)
@@ -84,15 +130,15 @@ end // end of [iter_foreach_funenv]
 (* ****** ****** *)
 
 implement
-{xs}{x}
+{knd}{x}
 iter_exists_funenv
-  {v}{vt}{f,r}{fe}
+  {kpm}{v}{vt}{f,r}{fe}
   (pfv | itr, pred, env) = let
 //
 prval () = lemma_iterator_param (itr)
 //
 stadef iter
-  (f:int, r:int) = iterator (xs, x, f, r)
+  (f:int, r:int) = iterator (knd, kpm, x, f, r)
 //
 fun loop
   {f,r:int | r >= 0} .<r>. (
@@ -102,17 +148,17 @@ fun loop
 ) :<fe> #[
   f1,r1:int | f1>=f; f+r==f1+r1
 ] bool (r1 > 0)= let
-  val hasnext = iter_isnot_atend<xs><x> (itr)
+  val hasnext = iter_isnot_atend<knd><x> (itr)
 in
   if hasnext then let
-    val p = iter_getref<xs><x> (itr)
+    val p = iter_getref<knd><x> (itr)
     prval (pf, fpf) = $UN.ptr_vget (p)
     val found = pred (pfv | !p, env)
     prval () = fpf (pf)
   in
     if found then true else let
       val () = iter_inc (itr) in loop (pfv | itr, pred, env)
-    end // end of [if]
+    end // end of [let] // end of [if]
   end else false // end of [if]
 end // end of [loop]
 //
@@ -123,9 +169,9 @@ end // end of [iter_exists_funenv]
 (* ****** ****** *)
 
 implement
-{xs}{x}
+{knd}{x}
 iter_bsearch_funenv
-  {env} (
+  {kpm}{vt} (
   itr, pord, env, ra
 ) = let
 //
@@ -133,13 +179,13 @@ prval () = g1uint_param_lemma (ra)
 prval () = lemma_iterator_param (itr)
 //
 stadef iter
-  (f:int, r:int) = iterator (xs, x, f, r)
+  (f:int, r:int) = iterator (knd, kpm, x, f, r)
 //
 fun loop
   {f,r:nat}
   {ra:nat | ra <= r} .<ra>. (
   itr: !iter (f, r) >> iter (f1, r1)
-, pord: (&x, !env) -<fun> int, env: !env
+, pord: (&x, !vt) -<fun> int, env: !vt
 , ra: size_t (ra)
 ) :<> #[
   f1,r1:int | f1>=f;f+ra>=f1;f+r==f1+r1
