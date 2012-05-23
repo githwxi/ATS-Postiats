@@ -244,15 +244,6 @@ clean:: ; $(RMF) iterator_atxt.exe
 cleanall:: ; $(RMF) iterator.sats
 
 
-all:: fiterator.sats
-fiterator.sats: fiterator_atxt.exe ; ./$< > $@
-fiterator_atxt.exe: fiterator_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ fiterator_atxt.dats -latsdoc
-fiterator_atxt.dats: fiterator.atxt
-	$(ATSDOC) -do $@ -i fiterator.atxt > fiterator_atxt.txt
-clean:: ; $(RMF) fiterator_atxt.exe
-cleanall:: ; $(RMF) fiterator.sats
-
 all:: fcontainer.sats
 fcontainer.sats: fcontainer_atxt.exe ; ./$< > $@
 fcontainer_atxt.exe: fcontainer_atxt.dats

@@ -92,7 +92,6 @@ for pointer arrays terminated with the null pointer
 
 #make_entry("iterator")
 
-#make_entry("fiterator")
 #make_entry("fcontainer")
 
 #make_entry("extern")
