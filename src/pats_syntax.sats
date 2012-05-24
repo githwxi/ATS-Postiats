@@ -657,7 +657,8 @@ fun s0exp_imp
   (t_beg: token, _: e0fftaglst, t_end: token): s0exp
 fun s0exp_imp_nil (t: token): s0exp
 
-fun s0exp_tkname (_: token): s0exp
+fun s0exp_tkname (str: token): s0exp
+fun s0exp_extkind (_1: token, str: token): s0exp
 
 fun s0exp_extype (_1: token, _2: token, xs: List s0exp): s0exp
 

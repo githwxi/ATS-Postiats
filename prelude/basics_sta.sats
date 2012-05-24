@@ -41,6 +41,16 @@
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
+(*
+//
+// HX-2012-05-24:
+// the following two styles are equivalent:
+//
+stadef
+bool_kind = $extkind"atstype_bool"
+tkindef bool_kind = "atstype_bool"
+*)
+(* ****** ****** *)
 //
 tkindef
 bool_kind = "atstype_bool"

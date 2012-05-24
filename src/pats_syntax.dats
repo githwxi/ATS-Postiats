@@ -737,12 +737,22 @@ in '{
 (* ****** ****** *)
 
 implement
-s0exp_tkname (tok) = let
-  val loc = tok.token_loc
-  val- T_STRING (name) = tok.token_node
+s0exp_tkname (str) = let
+  val loc = str.token_loc
+  val- T_STRING (name) = str.token_node
 in '{
   s0exp_loc= loc, s0exp_node= S0Etkname (name)
 } end // end of [s0exp_tkname]
+
+implement
+s0exp_extkind (tok, str) = let
+  val loc = tok.token_loc + str.token_loc
+  val- T_STRING (name) = str.token_node
+in '{
+  s0exp_loc= loc, s0exp_node= S0Etkname (name)
+} end // end of [s0exp_extkind]
+
+(* ****** ****** *)
 
 local
 //

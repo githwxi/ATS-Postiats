@@ -475,9 +475,10 @@ val () = ins ("$effmask_wrt", DLREFFMASK_WRT)
 val () = ins ("$effmask_all", DLREFFMASK_ALL)
 //
 val () = ins ("$extern", T_DLREXTERN)
-val () = ins ("$extval", T_DLREXTVAL)
+val () = ins ("$extkind", T_DLREXTKIND)
 val () = ins ("$extype", T_DLREXTYPE)
 val () = ins ("$extype_struct", T_DLREXTYPE_STRUCT)
+val () = ins ("$extval", T_DLREXTVAL)
 //
 val () = ins ("$raise", T_DLRRAISE)
 //
