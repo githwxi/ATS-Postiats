@@ -53,7 +53,7 @@ list_vt_length (xs) = let
   fun loop
     {i,j:nat} .<i>. (
     xs: !list_vt (a, i), j: int j
-  ) : int (i+j) =
+  ) :<> int (i+j) =
     case+ xs of
     | list_vt_cons (_, xs) => loop (xs, j + 1)
     | list_vt_nil () => j
@@ -61,6 +61,32 @@ list_vt_length (xs) = let
 in
   loop (xs, 0)
 end // end of [list_vt_length]
+
+#atscode_separator()
+
+implement{a}
+list_vt_append
+  {m,n} (xs, ys) = let
+//
+prval () = lemma_list_vt_param (xs)
+prval () = lemma_list_vt_param (ys)
+//
+fun loop {m:nat} .<m>. (
+  xs: &list_vt (a, m) >> list_vt (a, m+n), ys: list_vt (a, n)
+) :<> void =
+  case+ xs of
+  | @list_vt_cons
+      (x, xs1) => let
+      val () = loop (xs1, ys); prval () = fold@ (xs) in (*none*)
+    end // end of [list_vt_cons]
+  | ~list_vt_nil () => (xs := ys)
+// end of [loop]
+var res = xs
+val () = loop (res, ys)
+//
+in
+  res
+end // end of [list_vt_append]
 
 #atscode_separator()
 
@@ -74,6 +100,9 @@ list_vt_reverse (xs) =
 implement{a}
 list_vt_reverse_append
   (xs, ys) = let
+//
+prval () = lemma_list_vt_param (xs)
+prval () = lemma_list_vt_param (ys)
 //
 fun loop
   {m,n:nat} .<m>. (
@@ -100,23 +129,27 @@ implement{a}
 list_vt_foreach_funenv
   {v}{vt}{n}{fe}
   (pf | xs, f, env) = let
-  fun loop
-    {n:nat} .<n>. (
-    pf: !v
-  | xs: !list_vt (a, n)
-  , f: (!v | &a, !vt) -<fe> void
-  , env: !vt
-  ) :<fe> void =
-    case+ xs of
-    | @list_vt_cons
-        (x, xs1) => let
-        val () = f (pf | x, env)
-        val () = loop (pf | xs1, f, env)
-      in
-        fold@ (xs)
-      end // end of [list_vt_cons]
-    | list_vt_nil () => ()
-  // end of [loop]
+//
+prval () = lemma_list_vt_param (xs)
+//
+fun loop
+  {n:nat} .<n>. (
+  pf: !v
+| xs: !list_vt (a, n)
+, f: (!v | &a, !vt) -<fe> void
+, env: !vt
+) :<fe> void =
+  case+ xs of
+  | @list_vt_cons
+      (x, xs1) => let
+      val () = f (pf | x, env)
+      val () = loop (pf | xs1, f, env)
+    in
+      fold@ (xs)
+    end // end of [list_vt_cons]
+  | list_vt_nil () => ()
+// end of [loop]
+//
 in
   loop (pf | xs, f, env)
 end // end of [list_vt_foreach_funenv]
@@ -126,39 +159,41 @@ end // end of [list_vt_foreach_funenv]
 implement{a}
 list_vt_make_array
   {n} (A, n) = let
-  prval () =
-    lemma_array_v_param (view@(A))
-  viewtypedef res(n:int) = list_vt (a, n)
-  fun loop
-    {l:addr}
-    {n:nat} .<n>. (
-    pf: !array_v (a, l, n) >> array_v (a?!, l, n)
-  | p: ptr l
-  , n: size_t n
-  , res: &ptr? >> res(n)
-  ) :<> void =
-    if n > 0 then let
-      prval (
-        pf1, pf2
-      ) = array_v_uncons (pf)
-      val () = res :=
-        list_vt_cons {a}{0} (_, _)
-      val+ list_vt_cons (x, res1) = res
-      val () = x := !p
-      val () = loop (pf2 | p+sizeof<a>, pred(n), res1)
-      prval () = pf := array_v_cons (pf1, pf2)
-      prval () = fold@ (res)
-    in
-      // nothing
-    end else let
-      prval () = array_v_unnil (pf)
-      prval () = pf := array_v_nil ()
-    in
-      res := list_vt_nil ()
-    end // end of [if]
-  // end of [loop]
-  var res: ptr // uninitialized
-  val () = loop (view@(A) | addr@(A), n, res)
+//
+prval () =
+  lemma_array_v_param (view@(A))
+viewtypedef res(n:int) = list_vt (a, n)
+fun loop
+  {l:addr}
+  {n:nat} .<n>. (
+  pf: !array_v (a, l, n) >> array_v (a?!, l, n)
+| p: ptr l
+, n: size_t n
+, res: &ptr? >> res(n)
+) :<> void =
+  if n > 0 then let
+    prval (
+      pf1, pf2
+    ) = array_v_uncons (pf)
+    val () = res :=
+      list_vt_cons {a}{0} (_, _)
+    val+ list_vt_cons (x, res1) = res
+    val () = x := !p
+    val () = loop (pf2 | p+sizeof<a>, pred(n), res1)
+    prval () = pf := array_v_cons (pf1, pf2)
+    prval () = fold@ (res)
+  in
+    // nothing
+  end else let
+    prval () = array_v_unnil (pf)
+    prval () = pf := array_v_nil ()
+  in
+    res := list_vt_nil ()
+  end // end of [if]
+// end of [loop]
+var res: ptr // uninitialized
+val () = loop (view@(A) | addr@(A), n, res)
+//
 in
   res
 end // end of [list_vt_make_array]
@@ -170,7 +205,7 @@ list_vt_mergesort
   {n} (xs, cmp) = let
   var env: ptr = null
   val cmp = __cast (cmp) where {
-    extern castfn __cast (cmp: cmp (a)): cmp (a, ptr)
+    extern castfn __cast (cmp: cmp (a)):<> cmp (a, ptr)
   } // end of [val]
 in
   list_vt_mergesort_env (xs, cmp, env)
@@ -254,7 +289,7 @@ list_vt_quicksort
   {n} (xs, cmp) = let
   var env: ptr = null
   val cmp = __cast (cmp) where {
-    extern castfn __cast (cmp: cmp (a)): cmp (a, ptr)
+    extern castfn __cast (cmp: cmp (a)):<> cmp (a, ptr)
   } // end of [val]
 in
   list_vt_quicksort_env (xs, cmp, env)

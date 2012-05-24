@@ -70,7 +70,7 @@ fun{} list_vt_is_cons
 fun{
 a:vt0p
 } list_vt_length
-  {n:int} (xs: !list_vt (a, n)): int n
+  {n:int} (xs: !list_vt (a, n)):<> int n
 // end of [list_vt_length]
 
 #atscode_separator()
@@ -78,21 +78,21 @@ a:vt0p
 fun{
 a:vt0p
 } list_vt_append
-  {n1,n2:nat} (
+  {n1,n2:int} (
   xs1: list_vt (a, n1), xs2: list_vt (a, n2)
-) : list_vt (a, n1+n2) // end of [list_vt_append]
+) :<> list_vt (a, n1+n2) // end of [list_vt_append]
 
 #atscode_separator()
 
 fun{
 x:vt0p
 } list_vt_reverse
-  {n:nat} (xs: list_vt (x, n)): list_vt (x, n)
+  {n:int} (xs: list_vt (x, n)):<> list_vt (x, n)
 // end of [list_vt_reverse]
 
 fun{a:vt0p}
-list_vt_reverse_append {m,n:nat}
-  (xs: list_vt (a, m), ys: list_vt (a, n)): list_vt (a, m+n)
+list_vt_reverse_append {m,n:int}
+  (xs: list_vt (a, m), ys: list_vt (a, n)):<> list_vt (a, m+n)
 // end of [list_vt_reverse_append]
 
 #atscode_separator()
@@ -100,7 +100,7 @@ list_vt_reverse_append {m,n:nat}
 fun{
 a:vt0p
 } list_vt_foreach_funenv
-  {v:view}{vt:viewtype}{n:nat}{fe:eff} (
+  {v:view}{vt:viewtype}{n:int}{fe:eff} (
   pfv: !v
 | xs: !list_vt (a, n), f: (!v | &a, !vt) -<fe> void, env: !vt
 ) :<fe> void // end of [list_vt_foreach_funenv]
@@ -116,29 +116,27 @@ list_vt_make_array {n:int}
 
 fun{
 a:vt0p
-} list_vt_mergesort
-  {vt:viewtype}{n:nat} (
+} list_vt_mergesort {n:int} (
   xs: list_vt (a, n), cmp: cmp (a)
-) : list_vt (a, n) // end of [list_vt_mergesort_env]
+) :<> list_vt (a, n) // end of [list_vt_mergesort]
 fun{
 a:vt0p
 } list_vt_mergesort_env
-  {vt:viewtype}{n:nat} (
+  {vt:viewtype}{n:int} (
   xs: list_vt (a, n), cmp: cmp (a, vt), env: !vt
-) : list_vt (a, n) // end of [list_vt_mergesort_env]
+) :<> list_vt (a, n) // end of [list_vt_mergesort_env]
 
 fun{
 a:vt0p
-} list_vt_quicksort
-  {vt:viewtype}{n:nat} (
+} list_vt_quicksort {n:int} (
   xs: list_vt (a, n), cmp: cmp (a)
-) : list_vt (a, n) // end of [list_vt_quicksort]
+) :<> list_vt (a, n) // end of [list_vt_quicksort]
 fun{
 a:vt0p
 } list_vt_quicksort_env // HX: via array-based quicksort
-  {vt:viewtype}{n:nat} (
+  {vt:viewtype}{n:int} (
   xs: list_vt (a, n), cmp: cmp (a, vt), env: !vt
-) : list_vt (a, n) // end of [list_vt_quicksort_env]
+) :<> list_vt (a, n) // end of [list_vt_quicksort_env]
 
 #atscode_separator()
 

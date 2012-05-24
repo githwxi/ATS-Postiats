@@ -59,11 +59,127 @@ listize<List(x)><x> (xs) = list_copy (xs)
 
 implement{x}
 list_reverse (xs) =
-  list_append2_vt<x> (xs, list_vt_nil)
+  list_reverse_append2_vt<x> (xs, list_vt_nil)
 // end of [list_reverse]
 
 implement(x)
 rlistize<List(x)><x> (xs) = list_reverse<x> (xs)
+
+#atscode_separator()
+
+implement{a}
+list_append
+  {m,n} (xs, ys) = let
+  val ys = __cast (ys) where {
+    extern castfn __cast (ys: list (a, n)):<> list_vt (a, n)
+  } // end of [val]
+in
+  list_of_list_vt (list_append2_vt (xs, ys))
+end // end of [list_append]
+
+implement{a}
+list_append1_vt
+  {m,n} (xs, ys) = let
+  val ys = __cast (ys) where {
+    extern castfn __cast (ys: list (a, n)):<> list_vt (a, n)
+  } // end of [val]
+in
+  list_of_list_vt (list_vt_append (xs, ys))
+end // end of [list_append1_vt]
+
+implement{a}
+list_append2_vt
+  {m,n} (xs, ys) = let
+//
+prval () = lemma_list_param (xs)
+prval () = lemma_list_vt_param (ys)
+//
+fun loop
+  {m:nat} .<m>. (
+  xs: list (a, m)
+, ys: list_vt (a, n)
+, res: &ptr? >> list_vt (a, m+n)
+) :<> void =
+  case+ xs of
+  | list_cons
+      (x, xs) => let
+      val () = res :=
+        list_vt_cons {a}{0} (x, _)
+      val+ list_vt_cons (_, res1) = res
+      val () = loop (xs, ys, res1)
+      prval () = fold@ (res)
+    in
+      // nothing
+    end // end of [list_cons]
+  | list_nil () => res := ys
+// end of [loop]
+var res: ptr // uninitialized
+val () = loop (xs, ys, res)
+//
+in
+  res
+end // end of [list_append2_vt]
+
+#atscode_separator()
+
+implement{a}
+list_reverse_append
+  {m,n} (xs, ys) = let
+  val ys = __cast (ys) where {
+    extern castfn __cast (ys: list (a, n)):<> list_vt (a, n)
+  } // end of [val]
+in
+  list_of_list_vt (list_reverse_append2_vt (xs, ys))
+end // end of [list_reverse_append]
+
+implement{a}
+list_reverse_append1_vt<a>
+  (xs, ys) = let
+//
+prval () =
+  lemma_list_vt_param (xs)
+prval () = lemma_list_param (ys)
+//
+fun loop {m,n:nat} .<m>. (
+  xs: list_vt (a, m), ys: list (a, n)
+) :<> list (a, m+n) =
+  case+ xs of
+  | @list_vt_cons (x, xs1) => let
+      val xs1_ = xs1
+      val ys = __cast (ys) where {
+        extern castfn __cast (ys: list (a, n)):<> list_vt (a, n)
+      } // end of [val]
+      val () = xs1 := ys
+      prval () = fold@ (xs)
+    in
+      loop (xs1_, list_of_list_vt (xs))
+    end // end of [list_vt_cons]
+  | ~list_vt_nil () => ys
+// end of [loop]
+in
+  loop (xs, ys)
+end // end of [list_reverse_append1_vt]
+
+#atscode_separator()
+
+implement{a}
+list_reverse_append2_vt<a>
+  (xs, ys) = let
+//
+prval () = lemma_list_param (xs)
+prval () = lemma_list_vt_param (ys)
+//
+fun loop
+  {m,n:nat} .<m>. (
+  xs: list (a, m), ys: list_vt (a, n)
+) :<> list_vt (a, m+n) =
+  case+ xs of
+  | list_cons (x, xs) => loop (xs, list_vt_cons (x, ys))
+  | list_nil () => ys
+// end of [loop]
+in
+  loop (xs, ys)
+end // end of [list_reverse_append2_vt]
 
 #atscode_separator()
 
@@ -164,6 +280,22 @@ implement(x,y)
 listize_funenv<List(x)><x><y>
   (pfv | xs, f, env) = list_map_funenv (pfv | xs, f, env)
 // end of [listize_funenv]
+
+#atscode_separator()
+
+implement{a}
+list_mergesort
+  (xs, cmp) = let
+  val xs = list_copy (xs) in
+  list_vt_mergesort<a> (xs, lam (x1, x2) => cmp (x1, x2))
+end // end of [list_mergesort]
+
+implement{a}
+list_quicksort
+  (xs, cmp) = let
+  val xs = list_copy (xs) in
+  list_vt_quicksort<a> (xs, lam (x1, x2) => cmp (x1, x2))
+end // end of [list_quicksort]
 
 #atscode_separator()
 

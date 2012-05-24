@@ -30,13 +30,11 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 typedef cmp
   (a: t@ype) = (a, a) -<fun> int
 typedef cmp
   (a: t@ype, vt: viewtype) = (a, a, !vt) -<fun> int
 // end of [typedef]
-')\
 
 #atscode_separator()
 
@@ -47,32 +45,54 @@ lemma_list_param
 
 #atscode_separator()
 
+castfn
+list_of_list_vt
+  {a:t0p}{n:int} (xs: list_vt (a, n)):<> list (a, n)
+// end of [list_of_list_vt]
+
+#atscode_separator()
+
 fun{
 x:t0p // type for elements
 } list_copy {n:int} (xs: list (x, n)):<> list_vt (x, n)
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-fun{x:t0p}
-list_reverse {n:int} (xs: list (x, n)):<> list_vt (x, n)
-')\
+fun{a:t0p}
+list_append {m,n:int}
+  (xs: list (a, m), ys: list (a, n)):<> list (a, m+n)
+// end of [list_append]
 
-#atscode_decl_strcst('\
 fun{
 a:t0p // type for elements
 } list_append1_vt {i,j:int}
   (xs: list_vt (a, i), ys: list (a, j)):<> list (a, i+j)
 // end of [list_append1_vt]
-')\
-
-#atscode_decl_strcst('\
 fun{
 a:t0p // type for elements
 } list_append2_vt {i,j:int}
   (xs: list (a, i), ys: list_vt (a, j)):<> list_vt (a, i+j)
 // end of [list_append2_vt]
-')\
+
+#atscode_separator()
+
+fun{x:t0p}
+list_reverse
+  {n:int} (xs: list (x, n)):<> list_vt (x, n)
+
+fun{a:t0p}
+list_reverse_append {m,n:int}
+  (xs: list (a, m), ys: list (a, n)):<> list (a, m+n)
+// end of [list_reverse_append]
+
+fun{a:t0p}
+list_reverse_append1_vt {m,n:int}
+  (xs: list_vt (a, m), ys: list (a, n)):<> list (a, m+n)
+// end of [list_reverse_append1_vt]
+fun{a:t0p}
+list_reverse_append2_vt {m,n:int}
+  (xs: list (a, m), ys: list_vt (a, n)):<> list_vt (a, m+n)
+// end of [list_reverse_append2_vt]
 
 #atscode_separator()
 
@@ -98,6 +118,22 @@ x:t0p}{y:t0p
   {v:view}{vt:viewtype}{n:int}{fe:eff} (
   pfv: !v | xs: list (x, n), f: (!v | x, !vt) -<fun,fe> y, env: !vt
 ) :<fe> list_vt (y, n) // end of [list_map_funenv]
+
+#atscode_separator()
+
+fun{
+a:t0p
+} list_mergesort
+  {n:nat} (
+  xs: list (a, n), cmp: cmp (a)
+) :<> list_vt (a, n) // end of [list_mergesort]
+
+fun{
+a:t0p
+} list_quicksort
+  {n:nat} (
+  xs: list (a, n), cmp: cmp (a)
+) :<> list_vt (a, n) // end of [list_quicksort]
 
 #atscode_separator()
 
