@@ -408,6 +408,7 @@ datatype s1exp_node =
 //
   | S1Echar of char // character constant
 //
+  | S1Etkname of (string(*name*)) // primitive tkind
   | S1Eextype of (string(*name*), s1explstlst) // extern type
 //
   | S1Eapp of (s1exp, location(*arg*), s1explst) // application
@@ -491,6 +492,8 @@ fun s1exp_intrep
 fun s1exp_i0nt
   (loc: location, x: i0nt): s1exp
 
+fun s1exp_tkname
+  (loc: location, name: string): s1exp
 fun s1exp_extype (
   loc: location, name: string, arg: s1explstlst
 ) : s1exp // end of [s1exp_extype]
@@ -685,6 +688,10 @@ fun fprint_s1tacon : fprint_type (s1tacon)
 
 (* ****** ****** *)
 
+(*
+//
+// HX-2012-05-23: removed
+//
 typedef
 s1tavar = '{
   s1tavar_loc= location
@@ -696,12 +703,29 @@ typedef s1tavarlst = List s1tavar
 fun s1tavar_make (loc: location, id: symbol, srt: s1rt): s1tavar
 
 fun fprint_s1tavar : fprint_type (s1tavar)
+*)
 
 (* ****** ****** *)
 
-typedef s1expdef = '{
+typedef
+t1kindef = '{
+  t1kindef_loc= location
+, t1kindef_sym= symbol
+, t1kindef_loc_id= location
+, t1kindef_def= s1exp
+} // end of [t1kindef]
+
+fun t1kindef_make (
+  loc: location, id: symbol, loc_id: location, def: s1exp
+) : t1kindef // end of [t1kindef_make]
+
+(* ****** ****** *)
+
+typedef
+s1expdef = '{
   s1expdef_loc= location
 , s1expdef_sym= symbol
+, s1expdef_loc_id = location
 , s1expdef_arg= s1marglst
 , s1expdef_res= s1rtopt
 , s1expdef_def= s1exp
@@ -711,14 +735,17 @@ typedef s1expdeflst = List s1expdef
 
 fun s1expdef_make (
   loc: location
-, sym: symbol, arg: s1marglst, res: s1rtopt, def: s1exp
+, id: symbol
+, loc_id: location
+, arg: s1marglst, res: s1rtopt, def: s1exp
 ) : s1expdef // end of [s1expdef_make]
 
 fun fprint_s1expdef : fprint_type (s1expdef)
 
 (* ****** ****** *)
 
-typedef s1aspdec = '{
+typedef
+s1aspdec = '{
   s1aspdec_loc= location
 , s1aspdec_qid= sqi0de
 , s1aspdec_arg= s1marglst

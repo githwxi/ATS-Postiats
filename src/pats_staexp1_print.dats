@@ -351,6 +351,11 @@ case+ x.s1exp_node of
     val () = prstr ")"
   }
 //
+| S1Etkname (name) => {
+    val () = prstr "S1Etkname("
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  }
 | S1Eextype (name, arg) => {
     val () = prstr "S1Eextype("
     val () = fprint_string (out, name)
@@ -656,12 +661,14 @@ fprint_s1tacon (out, x) = {
 
 (* ****** ****** *)
 
+(*
 implement
 fprint_s1tavar (out, x) = {
   val () = fprint_symbol (out, x.s1tavar_sym)
   val () = fprint_string (out, " : ")
   val () = fprint_s1rt (out, x.s1tavar_srt)
 } // end of [fprint_s1tavar]
+*)
 
 (* ****** ****** *)
 

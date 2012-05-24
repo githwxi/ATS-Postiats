@@ -557,6 +557,7 @@ s0exp_node =
   | S0Eint of i0nt
   | S0Echar of c0har
 //
+  | S0Etkname of (string(*name*))
   | S0Eextype of (string(*name*), s0explst(*arg*))
 //
   | S0Eapp of (s0exp, s0exp)
@@ -655,6 +656,8 @@ fun s0exp_app (_1: s0exp, _2: s0exp): s0exp
 fun s0exp_imp
   (t_beg: token, _: e0fftaglst, t_end: token): s0exp
 fun s0exp_imp_nil (t: token): s0exp
+
+fun s0exp_tkname (_: token): s0exp
 
 fun s0exp_extype (_1: token, _2: token, xs: List s0exp): s0exp
 
@@ -798,7 +801,6 @@ typedef s0tacst = '{
 , s0tacst_arg= a0msrtlst
 , s0tacst_res= s0rt
 } // end of [s0tacst]
-
 typedef s0tacstlst = List s0tacst
 
 fun s0tacst_make (id: i0de, arg: a0msrtlst, srt: s0rt): s0tacst
@@ -812,7 +814,6 @@ s0tacon = '{
 , s0tacon_arg= a0msrtlst
 , s0tacon_def= s0expopt
 } // end of [s0tacon]
-
 typedef s0taconlst = List s0tacon
 
 fun s0tacon_make
@@ -821,16 +822,32 @@ fun s0tacon_make
 
 (* ****** ****** *)
 
+(*
+//
+// HX-2012-05-23: removed
+//
 typedef
 s0tavar = '{
   s0tavar_loc= location
 , s0tavar_sym= symbol
 , s0tavar_srt= s0rt
 } // end of [s0tavar]
-
 typedef s0tavarlst = List s0tavar
 
 fun s0tavar_make (id: i0de, srt: s0rt): s0tavar
+*)
+
+(* ****** ****** *)
+
+typedef
+t0kindef = '{
+  t0kindef_loc= location
+, t0kindef_sym= symbol
+, t0kindef_loc_id= location
+, t0kindef_def= s0exp // HX: S0Etkname
+} // end of [t0kindef]
+
+fun t0kindef_make (id: i0de, def: s0tring): t0kindef
 
 (* ****** ****** *)
 
@@ -1205,7 +1222,10 @@ d0ecl_node =
   | D0Csrtdefs of s0rtdeflst (* sort definition *)
   | D0Cstacsts of (s0tacstlst) (* static constants *)
   | D0Cstacons of (int(*knd*), s0taconlst) (* abstype defintion *)
-  | D0Cstavars of (s0tavarlst) (* static constants *)
+(*
+  | D0Cstavars of (s0tavarlst) (* static constants *) // HX-2012-05-23: removed
+*)
+  | D0Ctkindef of t0kindef (* primitive tkind *)
   | D0Csexpdefs of (int(*knd*), s0expdeflst) (* staexp definition *)
   | D0Csaspdec of s0aspdec (* static assumption *)
 //
@@ -1825,7 +1845,10 @@ fun d0ecl_datsrts (_1: token, _2: d0atsrtdeclst): d0ecl
 fun d0ecl_srtdefs (_1: token, _2: s0rtdeflst): d0ecl
 fun d0ecl_stacons (knd: int, _1: token, _2: s0taconlst): d0ecl
 fun d0ecl_stacsts (_1: token, _2: s0tacstlst): d0ecl
+(*
 fun d0ecl_stavars (_1: token, _2: s0tavarlst): d0ecl
+*)
+fun d0ecl_tkindef (_1: token, _2: t0kindef): d0ecl
 fun d0ecl_sexpdefs (knd: int, _1: token, _2: s0expdeflst): d0ecl
 fun d0ecl_saspdec (_1: token, _2: s0aspdec): d0ecl
 //

@@ -123,9 +123,14 @@ val the_bool_t0ype : s2cstref
 val the_bool_bool_t0ype : s2cstref
 //
 val the_int_kind : s2cstref
+val the_uint_kind : s2cstref
 val the_lint_kind : s2cstref
+val the_ulint_kind : s2cstref
 val the_llint_kind : s2cstref
+val the_ullint_kind : s2cstref
 val the_size_kind : s2cstref
+val the_ssize_kind : s2cstref
+//
 val the_g0int_t0ype : s2cstref
 val the_g1int_int_t0ype : s2cstref
 val the_g0uint_t0ype : s2cstref

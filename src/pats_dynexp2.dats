@@ -868,10 +868,12 @@ implement
 d2ecl_overload (loc, id, def) =
   d2ecl_make (loc, D2Coverload (id, def))
 
+(*
 implement
 d2ecl_stavars
   (loc, xs) = d2ecl_make (loc, D2Cstavars (xs))
 // end of [d2ecl_stavars]
+*)
 
 implement
 d2ecl_saspdec (loc, d) = d2ecl_make (loc, D2Csaspdec (d))

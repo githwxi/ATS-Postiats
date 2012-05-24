@@ -96,6 +96,8 @@ val symbol_CLS : symbol // for nominal classes
 //
 val symbol_EFF : symbol // for sets of effects
 //
+val symbol_TKIND : symbol // HX-2012-05-23: for template args
+//
 // HX: for pre-defined impredicative sorts
 //
 val symbol_PROP : symbol

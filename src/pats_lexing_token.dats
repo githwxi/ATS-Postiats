@@ -103,6 +103,8 @@ implement REF = T_IDENT_alp "ref"
 // HX: ref@ for flattened reference
 implement REFAT = T_REFAT // in a boxed record
 
+implement TKINDEF = T_TKINDEF () // for introducing tkinds
+
 (*
 implement TYPE = T_TYPE (TYPE_int)
 *)
@@ -429,6 +431,8 @@ val () = ins ("symelim", T_SYMELIM)
 val () = ins ("symintr", T_SYMINTR)
 val () = ins ("then", T_THEN)
 val () = ins ("try", T_TRY)
+//
+val () = ins ("tkindef", T_TKINDEF) // HX-2012-05-23
 //
 (*
 val () = ins ("type", TYPE)

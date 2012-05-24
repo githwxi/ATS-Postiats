@@ -716,11 +716,14 @@ case+ d1c0.d1ecl_node of
     val () = $UT.fprintlst (out, xs, "\n", fprint_s1tacon)
     val () = prstr "\n)"
   }
+//
+(*
 | D1Cstavars (xs) => {
     val () = prstr "D1Cstavars(\n"
     val () = $UT.fprintlst (out, xs, "\n", fprint_s1tavar)
     val () = prstr "\n)"
   }
+*)
 //
 | D1Csexpdefs (knd, xs) => {
     val () = prstr "D1Csexpdefs("

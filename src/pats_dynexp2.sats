@@ -489,7 +489,10 @@ d2ecl_node =
       ($SYN.i0de, d2itmopt) // [None] indicates error
     // end of [D2Coverload]
 //
+(*
   | D2Cstavars of s2tavarlst // for [stavar] declarations
+*)
+//
   | D2Csaspdec of s2aspdec (* for static assumption *)
   | D2Cextype of (string(*name*), s2exp(*def*))
   | D2Cextval of (string(*name*), d2exp(*def*))
@@ -1147,7 +1150,9 @@ fun d2ecl_overload
   (loc: location, id: $SYN.i0de, opt: d2itmopt): d2ecl
 // end of [d2ecl_overload]
 
+(*
 fun d2ecl_stavars (loc: location, xs: s2tavarlst): d2ecl
+*)
 
 fun d2ecl_saspdec (loc: location, dec: s2aspdec): d2ecl
 

@@ -38,7 +38,7 @@ implement{a}
 array_bsearch_funenv
   (A, n, pord, env) = let
   val itr =
-    iter_make_array (view@(A) | addr@(A))
+    iter_make_array (view@(A) | addr@(A), n)
   val () = iter_bsearch_funenv (itr, pord, env, n)
   val ofs = iter_get_offset (itr)
   val (pf | ()) = iter_free_array (itr)

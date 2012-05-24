@@ -127,6 +127,9 @@ val s2tb_cls
 val s2tb_eff
   : s2rtbas = S2RTBASpre ($SYM.symbol_EFF) // for sets of effects
 //
+val s2tb_tkind
+  : s2rtbas = S2RTBASpre ($SYM.symbol_TKIND) // for template arguments
+//
 in // in of [local]
 //
 implement s2rt_int = S2RTbas s2tb_int
@@ -137,6 +140,8 @@ implement s2rt_char = S2RTbas s2tb_char
 implement s2rt_cls = S2RTbas s2tb_cls
 //
 implement s2rt_eff = S2RTbas s2tb_eff
+//
+implement s2rt_tkind = S2RTbas s2tb_tkind
 //
 end // end of [local]
 
@@ -247,21 +252,21 @@ end // end of [local]
 implement
 s2rt_is_int (s2t) = (case+ s2t of
   | S2RTbas s2tb => (case+ s2tb of
-    | S2RTBASpre (sym) => $SYM.symbol_INT = sym | _ => false
+    | S2RTBASpre (sym) => sym = $SYM.symbol_INT | _ => false
     ) // end of [S2RTbas]
   | _ => false
 ) // end of [s2rt_is_int]
 implement
 s2rt_is_addr (s2t) = (case+ s2t of
   | S2RTbas s2tb => (case+ s2tb of
-    | S2RTBASpre (sym) => $SYM.symbol_ADDR = sym | _ => false
+    | S2RTBASpre (sym) => sym = $SYM.symbol_ADDR | _ => false
     ) // end of [S2RTbas]
   | _ => false
 ) // end of [s2rt_is_addr]
 implement
 s2rt_is_bool (s2t) = (case+ s2t of
   | S2RTbas s2tb => (case+ s2tb of
-    | S2RTBASpre (sym) => $SYM.symbol_BOOL = sym | _ => false
+    | S2RTBASpre (sym) => sym = $SYM.symbol_BOOL | _ => false
     ) // end of [S2RTbas]
   | _ => false
 ) // end of [s2rt_is_int]
@@ -269,7 +274,7 @@ s2rt_is_bool (s2t) = (case+ s2t of
 implement
 s2rt_is_char (s2t) = (case+ s2t of
   | S2RTbas s2tb => (case+ s2tb of
-    | S2RTBASpre (sym) => $SYM.symbol_CHAR = sym | _ => false
+    | S2RTBASpre (sym) => sym = $SYM.symbol_CHAR | _ => false
     ) // end of [S2RTbas]
   | _ => false
 ) // end of [s2rt_is_int]
@@ -340,6 +345,23 @@ s2rt_is_impredicative
     ) // end of [S2RTbas]
   | _ => false
 // end of [s2rt_is_impredicative]
+
+(* ****** ****** *)
+
+implement
+s2rt_is_fun_tkind
+  (s2t) =
+  case+ s2t of
+  | S2RTbas s2tb => (
+    case+ s2tb of
+    | S2RTBASpre (sym) => sym = $SYM.symbol_TKIND
+    | _ => false
+    ) // end of [S2RTbas]
+  | S2RTfun (_, s2t) => s2rt_is_fun_tkind (s2t)
+  | _ => false
+// end of [s2rt_is_fun_tkind]
+
+(* ****** ****** *)
 
 implement
 s2rt_get_pol (s2t) = case+ s2t of

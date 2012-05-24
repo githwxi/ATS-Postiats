@@ -232,19 +232,24 @@ end // end of [s0tacst_tr]
 implement
 s0tacon_tr (d) = let
   val arg = a0msrtlst_tr (d.s0tacon_arg)
-  val def = s0expopt_tr (d.s0tacon_def)
+  val def: s1expopt = s0expopt_tr (d.s0tacon_def)
 in
   s1tacon_make (d.s0tacon_loc, d.s0tacon_sym, arg, def)
 end // end of [s0tacon_tr]
 
 (* ****** ****** *)
 
+(*
+//
+// HX-2012-05-23: removed
+//
 implement
 s0tavar_tr (d) = let
   val srt = s0rt_tr (d.s0tavar_srt)
 in
   s1tavar_make (d.s0tavar_loc, d.s0tavar_sym, srt)
 end // end of [s0tavar_tr]
+*)
 
 (* ****** ****** *)
 
@@ -263,10 +268,23 @@ end // end of [s0rtdef_tr]
 (* ****** ****** *)
 
 implement
+t0kindef_tr (d) = let
+  val loc = d.t0kindef_loc
+  val id = d.t0kindef_sym
+  val loc_id = d.t0kindef_loc_id
+  val def = s0exp_tr (d.t0kindef_def)
+in
+  t1kindef_make (loc, id, loc_id, def)
+end // end of [t0kindef_tr]
+
+(* ****** ****** *)
+
+implement
 s0expdef_tr (d) = let
   val loc = d.s0expdef_loc
-  val arg = s0marglst_tr (d.s0expdef_arg)
   val id = d.s0expdef_sym
+  val loc_id = d.s0expdef_loc_id
+  val arg = s0marglst_tr (d.s0expdef_arg)
   val res = s0rtopt_tr (d.s0expdef_res)
   val def = s0exp_tr (d.s0expdef_def)
 (*
@@ -275,7 +293,7 @@ s0expdef_tr (d) = let
   end // end of [val]
 *)
 in
-  s1expdef_make (loc, id, arg, res, def)
+  s1expdef_make (loc, id, loc_id, arg, res, def)
 end // end of [s0expdef_tr]
 
 (* ****** ****** *)
@@ -750,18 +768,21 @@ case+ d0c0.d0ecl_node of
   in
     d1ecl_stacons (loc0, knd, d1cs)
   end // end of [D0Cstacons]
+(*
 | D0Cstavars (d0cs) => let
     val d1cs = l2l (list_map_fun (d0cs, s0tavar_tr))
   in
     d1ecl_stavars (loc0, d1cs)
   end // end of [D0Cstavars]
+*)
 //
+| D0Ctkindef (d0c) => d1ecl_tkindef (loc0, t0kindef_tr d0c)
 | D0Csexpdefs (knd, d0cs) => let
     val d1cs = l2l (list_map_fun (d0cs, s0expdef_tr))
   in
     d1ecl_sexpdefs (loc0, knd, d1cs)
   end // end of [D0Csexpdefs]
-| D0Csaspdec (d0c) => d1ecl_saspdec (loc0, s0aspdec_tr d0c)
+| D0Csaspdec (d0c) => d1ecl_saspdec (loc0, s0aspdec_tr (d0c))
 //
 | D0Cdatdecs (knd, d0cs1, d0cs2) => let
     val d1cs1 = l2l (list_map_fun (d0cs1, d0atdec_tr))

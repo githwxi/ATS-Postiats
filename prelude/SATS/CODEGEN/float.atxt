@@ -28,7 +28,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 typedef
 g0float_aop_type
-  (a:t@ype) = (g0float (a), g0float (a)) -<> g0float (a)
+  (tk:tk) = (g0float (tk), g0float (tk)) -<> g0float (tk)
 // end of [typedef]
 
 %{
@@ -45,8 +45,8 @@ val fopr_d = (
 ) : string // end of [val]
 //
 val ent = sprintf ("\
-fun{a:t@ype}
-g0float_%s : g0float_aop_type (a)
+fun{tk:tk}
+g0float_%s : g0float_aop_type (tk)
 overload %s with g0float_%s of 0\
 ", @(
  opr, fopr_d, opr
@@ -67,7 +67,7 @@ end // end of [fun_gfloat_cmp0_decl]
 
 typedef
 g0float_cmp_type
-  (a:t@ype) = (g0float (a), g0float (a)) -<> bool
+  (tk:tk) = (g0float (tk), g0float (tk)) -<> bool
 // end of [typedef]
 
 %{
@@ -85,8 +85,8 @@ val fopr_d = (
 ) : string // end of [val]
 //
 val ent = sprintf ("\
-fun{a:t@ype}
-g0float_%s : g0float_cmp_type (a)
+fun{tk:tk}
+g0float_%s : g0float_cmp_type (tk)
 overload %s with g0float_%s of 0\
 ", @(
  opr, fopr_d, opr
@@ -110,27 +110,27 @@ overload <> with g0float_neq of 0
 
 typedef
 g0float_compare_type
-  (a:t@ype) = (g0float (a), g0float (a)) -<> int
+  (tk:tk) = (g0float (tk), g0float (tk)) -<> int
 // end of [typedef]
 
-fun{a:t@ype}
-g0float_compare : g0float_compare_type (a)
+fun{tk:tk}
+g0float_compare : g0float_compare_type (tk)
 overload compare with g0float_compare
 
 #atscode_separator()
 
-fun{a:t@ype}
-g0float_max : g0float_aop_type (a)
+fun{tk:tk}
+g0float_max : g0float_aop_type (tk)
 overload max with g0float_max
-fun{a:t@ype}
-g0float_min : g0float_aop_type (a)
+fun{tk:tk}
+g0float_min : g0float_aop_type (tk)
 overload min with g0float_min
 
 #atscode_separator()
 //
-typedef fltknd = float_kind
-typedef dblknd = double_kind
-typedef ldblknd = ldouble_kind
+stadef fltknd = float_kind
+stadef dblknd = double_kind
+stadef ldblknd = ldouble_kind
 //
 #atscode_separator()
 

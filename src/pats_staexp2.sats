@@ -208,6 +208,8 @@ val s2rt_cls : s2rt // nominal classes
 //
 val s2rt_eff : s2rt // sets of effects
 //
+val s2rt_tkind : s2rt // for template arguments
+//
 // HX: pre-defined predicative sorts
 //
 val s2rt_prop : s2rt
@@ -257,6 +259,8 @@ fun s2rt_is_lin (x: s2rt): bool
 fun s2rt_is_flat (x: s2rt): bool // is flat?
 fun s2rt_is_boxed (x: s2rt): bool // is boxed?
 fun s2rt_is_impredicative (x: s2rt): bool
+
+fun s2rt_is_fun_tkind (x: s2rt): bool // is (... ->) tkind?
 
 fun s2rt_get_pol (x: s2rt): int // neg/neu/pos: -1/0/1
 
@@ -351,6 +355,7 @@ s2exp_node =
 //
   | S2Ecst of s2cst // constant
 //
+  | S2Etkname of (string(*name*)) // primitive tkind
   | S2Eextype of (string(*name*), s2explstlst) // external type
 //
   | S2Evar of s2var // variable
@@ -557,9 +562,12 @@ overload compare with compare_s2cst_s2cst
 
 (* ****** ****** *)
 
-fun s2cst_is_abstract (x: s2cst): bool
+fun s2cst_is_abstr (x: s2cst): bool
+fun s2cst_is_tkind (x: s2cst): bool
+
 fun s2cst_is_listlike (x: s2cst): bool
 fun s2cst_is_singular (x: s2cst): bool
+
 fun s2cst_subeq (s2c1: s2cst, s2c2: s2cst): bool
 
 (* ****** ****** *)
@@ -856,6 +864,8 @@ fun s2exp_hole (x: s2hole): s2exp // HX: static context hole
 ** HX: please be cautious!
 *)
 fun s2exp_var_srt (s2t: s2rt, s2v: s2var): s2exp
+
+fun s2exp_tkname (name: string): s2exp
 
 fun s2exp_extype_srt
   (s2t: s2rt, name: string, arg: s2explstlst): s2exp

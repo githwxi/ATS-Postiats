@@ -95,14 +95,23 @@ a:vt0p
 
 #atscode_separator()
 //
-abst@ype iter_arrayref_kind
+stacst iter_arrayref_kind : tkind
+stacst iter_arrayref_param : () -> tkind
 //
 fun{a:vt0p}
-arrayref_make_iter_beg{n:nat}
-  (A: arrayref (a, n)): iterator (iter_arrayref_kind, (), a, 0, n)
+arrayref_make_iter
+  {n:nat} (
+  A: arrayref (a, n), n: size_t n
+) : iterator (
+  iter_arrayref_kind, iter_arrayref_param(), a, 0, n
+) // end of [arrayref_make_iter]
 fun{a:vt0p}
-arrayref_make_iter_end{n:nat}
-  (A: arrayref (a, n), n: size_t n): iterator (iter_arrayref_kind, (), a, n, 0)
+arrayref_make_iter_end
+  {n:nat} (
+  A: arrayref (a, n), n: size_t n
+) : iterator (
+  iter_arrayref_kind, iter_arrayref_param(), a, n, 0
+) // end of [arrayref_make_iter_end]
 //
 #atscode_separator()
 

@@ -83,6 +83,11 @@ case+ s2e0.s2exp_node of
     val () = prstr ")"
   }
 //
+| S2Etkname (name) => {
+    val () = prstr "S2Etkname("
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  } // end of [S2Etkname]
 | S2Eextype (name, s2ess) => {
     val () = prstr "S2Eextype("
     val () = fprint_string (out, name)

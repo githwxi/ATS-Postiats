@@ -471,6 +471,11 @@ case+ x.s0exp_node of
     val () = fprint_c0har (out, x)
     val () = prstr ")"
   }
+| S0Etkname (name) => {
+    val () = prstr "S0Etkname("
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  }
 | S0Eextype (name, s0es) => {
     val () = prstr "S0Eextype("
     val () = fprint_string (out, name)
@@ -1031,6 +1036,10 @@ fun fprint_s0tacst (
 
 (* ****** ****** *)
 
+(*
+//
+// HX-2012-05-23: removed
+//
 fun fprint_s0tavar (
   out: FILEref, x: s0tavar
 ) : void = () where {
@@ -1039,6 +1048,7 @@ fun fprint_s0tavar (
   val () = fprint_s0rt (out, x.s0tavar_srt)
   val () = fprint_string (out, ")")
 } // end of [fprint_s0tavar]
+*)
 
 (* ****** ****** *)
 
@@ -1123,9 +1133,16 @@ case+ x.d0ecl_node of
     val () = $UT.fprintlst (out, xs, "\n", fprint_s0tacon)
     val () = prstr "\n)"
   }
+(*
 | D0Cstavars (xs) => {
     val () = prstr "D0Cstavars(\n"
     val () = $UT.fprintlst (out, xs, "\n", fprint_s0tavar)
+    val () = prstr "\n)"
+  }
+*)
+| D0Ctkindef (x) => {
+    val () = prstr "D0Ctkindef(\n"
+    val () = prstr "..."
     val () = prstr "\n)"
   }
 | D0Csexpdefs (knd, xs) => {

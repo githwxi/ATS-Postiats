@@ -736,6 +736,14 @@ in '{
 
 (* ****** ****** *)
 
+implement
+s0exp_tkname (tok) = let
+  val loc = tok.token_loc
+  val- T_STRING (name) = tok.token_node
+in '{
+  s0exp_loc= loc, s0exp_node= S0Etkname (name)
+} end // end of [s0exp_tkname]
+
 local
 //
 fun loop {n:nat} .<n>. (
@@ -751,13 +759,13 @@ in // in of [local]
 implement
 s0exp_extype
   (tok1, tok2, xs) = let
-  val- T_STRING (str) = tok2.token_node
+  val- T_STRING (name) = tok2.token_node
   val loc = (case+ xs of
     | list_nil () => tok1.token_loc + tok2.token_loc
     | list_cons (x, xs) => loop (tok1, x, xs)
   ) : location // end of [val]
 in '{
-  s0exp_loc= loc, s0exp_node= S0Eextype (str, xs)
+  s0exp_loc= loc, s0exp_node= S0Eextype (name, xs)
 } end // end of [s0exp_extype]
 //
 end // end of [local]
@@ -1011,6 +1019,10 @@ in '{
 
 (* ****** ****** *)
 
+(*
+//
+// HX-2012-05-23: removed
+//
 implement
 s0tavar_make
   (id, s0t) = let
@@ -1020,6 +1032,22 @@ in '{
 , s0tavar_sym= id.i0de_sym
 , s0tavar_srt= s0t
 } end // end of [s0tavar_make]
+*)
+
+(* ****** ****** *)
+
+implement
+t0kindef_make
+  (id, def) = let
+  val loc_id = id.i0de_loc
+  val loc = loc_id + def.token_loc
+  val def = s0exp_tkname (def)
+in '{
+  t0kindef_loc= loc
+, t0kindef_sym= id.i0de_sym
+, t0kindef_loc_id= loc_id
+, t0kindef_def= def
+} end // end of [t0kindef_make]
 
 (* ****** ****** *)
 
@@ -1027,11 +1055,12 @@ implement
 s0expdef_make (
  id, arg, res, def
 ) = let
-  val loc = id.i0de_loc + def.s0exp_loc
+  val loc_id = id.i0de_loc
+  val loc = loc_id + def.s0exp_loc
 in '{
   s0expdef_loc= loc
 , s0expdef_sym= id.i0de_sym
-, s0expdef_loc_id= id.i0de_loc
+, s0expdef_loc_id= loc_id
 , s0expdef_arg= arg
 , s0expdef_res= res
 , s0expdef_def= def
@@ -2466,6 +2495,10 @@ in '{
   d0ecl_loc= loc, d0ecl_node= D0Cstacsts (xs)
 } end // end of [d0ecl_stacsts]
 
+(*
+//
+// HX-2012-05-23: removed
+//
 implement
 d0ecl_stavars
   (tok, xs) = let
@@ -2477,6 +2510,14 @@ d0ecl_stavars
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cstavars (xs)
 } end // end of [d0ecl_stavars]
+*)
+
+implement
+d0ecl_tkindef (tok, x) = let
+  val loc = tok.token_loc + x.t0kindef_loc
+in '{
+  d0ecl_loc= loc, d0ecl_node= D0Ctkindef (x)
+} end // end of [d0ecl_tkindef]
 
 implement
 d0ecl_sexpdefs

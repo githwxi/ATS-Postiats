@@ -334,9 +334,19 @@ compare_s2cst_s2cst (x1, x2) =
 (* ****** ****** *)
 
 implement
-s2cst_is_abstract (x) =
-  case+ s2cst_get_isabs (x) of Some _ => true | None _ => false
-// end of [s2cst_is_abstract]
+s2cst_is_abstr
+  (x) = let
+  val isabs = s2cst_get_isabs (x)
+in
+  case+ isabs of Some _ => true | None _ => false
+end // end of [s2cst_is_abstract]
+
+(* ****** ****** *)
+
+implement
+s2cst_is_tkind (x) = s2rt_is_fun_tkind (s2cst_get_srt (x))
+
+(* ****** ****** *)
 
 implement
 s2cst_is_listlike (x) =

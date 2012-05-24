@@ -270,6 +270,8 @@ implement symbol_CHAR = symbol_make_string "char"
 implement symbol_CLS = symbol_make_string "cls" // nominal classes
 implement symbol_EFF = symbol_make_string "eff" // sets of effects
 //
+implement symbol_TKIND = symbol_make_string "tkind" // template args
+//
 implement symbol_PROP = symbol_make_string "prop"
 implement symbol_TYPE = symbol_make_string "type"
 implement symbol_T0YPE = symbol_make_string "t@ype"

@@ -189,6 +189,10 @@ end // end of [p_s0tacstseq]
 (* ****** ****** *)
 
 (*
+//
+// HX-2012-05-23: removed
+//
+(*
 s0tavar ::= si0de COLON s0rt
 *)
 fun
@@ -216,6 +220,30 @@ p_s0tavarseq
 in
   l2l (xs)
 end // end of [p_s0tavarseq]
+*)
+
+(* ****** ****** *)
+
+(*
+t0kindef: si0de EQ s0tring
+*)
+fun
+p_t0kindef (
+  buf: &tokbuf, bt: int, err: &int
+) : t0kindef = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+//
+  val ent1 = p_si0de (buf, bt, err)
+  val bt = 0
+  val ent2 = pif_fun (buf, bt, err, p_EQ, err0)
+  val ent3 = pif_fun (buf, bt, err, p_s0tring, err0)
+//
+in
+  if err = err0 then
+    t0kindef_make (ent1, ent3) else tokbuf_set_ntok_null (buf, n0)
+  // end of [if]
+end // end of [p_t0kindef]
 
 (* ****** ****** *)
 
@@ -585,7 +613,9 @@ d0ecl
   | SRPPRINT e0xp
   | DATASORT d0atsrtdecseq
   | STA s0tacstseq
-  | STAVAR s0tavarseq
+(*
+  | STAVAR s0tavarseq // HX-2012-05-23: removed this big hack!
+*)
   | STADEF s0expdefseq
   | TYPEDEF s0expdefseq
   | ASSUME s0aspdec
@@ -755,6 +785,7 @@ case+ tok.token_node of
       d0ecl_stacons (knd, tok, ent2) else synent_null ()
     // end of [if]
   end
+(*
 | T_STAVAR () => let
     val bt = 0
     val () = incby1 ()
@@ -764,7 +795,17 @@ case+ tok.token_node of
       d0ecl_stavars (tok, ent2) else synent_null ()
     // end of [if]
   end
+*)
 //
+| T_TKINDEF () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_t0kindef (buf, bt, err)
+  in
+    if err = err0 then
+      d0ecl_tkindef (tok, ent2) else synent_null ()
+    // end of [if]
+  end
 | T_STADEF () => let
     val bt = 0
     val () = incby1 ()

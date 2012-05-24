@@ -138,7 +138,12 @@ fun s0rtdef_tr (x: s0rtdef): s1rtdef
 
 fun s0tacst_tr (x: s0tacst): s1tacst
 fun s0tacon_tr (x: s0tacon): s1tacon
-fun s0tavar_tr (x: s0tavar): s1tavar
+
+(*
+fun s0tavar_tr (x: s0tavar): s1tavar // HX: removed
+*)
+
+fun t0kindef_tr (x: t0kindef): t1kindef
 
 fun s0expdef_tr (x: s0expdef): s1expdef
 fun s0aspdec_tr (x: s0aspdec): s1aspdec

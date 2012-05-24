@@ -43,7 +43,6 @@ staload "prelude/SATS/iterator.sats" // HX: preloaded
 (* ****** ****** *)
 
 sortdef t0p = t@ype
-stadef iter = iterator
 stadef itrknd = iter_array_kind
 stadef itrkpm = iter_array_param
 
@@ -59,20 +58,20 @@ iterk (
 extern
 castfn iterk2iter
   {x:t0p}{l:addr}{n:int}
-  (xs: iterk (x, l, 0, n)):<> iter (itrknd, itrkpm(l), x, 0, n)
+  (xs: iterk (x, l, 0, n)):<> iterator (itrknd, itrkpm(l), x, 0, n)
 // end of [iterk2iter]
 
 extern
 castfn iter2iterk
   {x:t0p}{l:addr}{f,r:int}
-  (itr: iter (itrknd, itrkpm(l), x, f, r)):<> iterk (x, l, f, r)
+  (itr: iterator (itrknd, itrkpm(l), x, f, r)):<> iterk (x, l, f, r)
 // end of [iter2iterk]
 
 (* ****** ****** *)
 
 implement{x}
 iter_make_array (pf | p, n) =
-  iterk2iter (ITR (pf | p, p+n*sizeof<x>, p))
+  iterk2iter (ITR (pf | p, ptr_add_uint<x> (p, n), p))
 // end of [iter_make_array]
 
 implement
@@ -84,14 +83,14 @@ end // end of [iter_free_array]
 
 extern
 praxi encode
-  {kpm:t0p}{x:t0p}{l:addr}{f,r:int}
-  (xs: !iterk (x, l, f, r) >> iter (itrknd, kpm, x, f, r)): void
+  {kpm:tk}{x:t0p}{l:addr}{f,r:int}
+  (xs: !iterk (x, l, f, r) >> iterator (itrknd, kpm, x, f, r)): void
 // end of [encode]
 
 extern
 praxi decode
-  {kpm:t0p}{x:t0p}{l:addr}{f,r:int}
-  (itr: !iter (itrknd, kpm, x, f, r) >> iterk (x, l, f, r)): void
+  {kpm:tk}{x:t0p}{l:addr}{f,r:int}
+  (itr: !iterator (itrknd, kpm, x, f, r) >> iterk (x, l, f, r)): void
 // end of [decode]
 
 (* ****** ****** *)
@@ -157,24 +156,50 @@ in
   $UN.cast2Ptr1 (pi)
 end // end of [iter_getref]
 
+(* ****** ****** *)
+
+implement(x)
+iter_inc<itrknd><x> (itr) = let
+  prval () = decode (itr)
+  val+ @ITR (_ | _, _, rpi) = itr
+  val () = rpi := ptr_add_int<x> (rpi, 1)
+  prval () = fold@ (itr)
+  prval () = encode (itr)
+in
+  // nothing
+end // end of [iter_inc]
+
 implement(x)
 iter_getref_inc<itrknd><x> (itr) = let
   prval () = decode (itr)
   val+ @ITR (_ | _, _, rpi) = itr
   val pi = rpi
-  val () = rpi := pi + sizeof<x>
+  val () = rpi := ptr_add_int<x> (pi, 1)
   prval () = fold@ (itr)
   prval () = encode (itr)
 in
   $UN.cast2Ptr1 (pi)
 end // end of [iter_getref_inc]
 
+(* ****** ****** *)
+
 implement(x)
-iter_getref_dec<itrknd><x> (itr) = let
+iter_dec<itrknd><x> (itr) = let
   prval () = decode (itr)
   val+ @ITR (_ | _, _, rpi) = itr
-  val pi = rpi
-  val () = rpi := pi - sizeof<x>
+  val () = rpi := ptr_sub_int<x> (rpi, 1)
+  prval () = fold@ (itr)
+  prval () = encode (itr)
+in
+  // nothing
+end // end of [iter_dec]
+
+implement(x)
+iter_dec_getref<itrknd><x> (itr) = let
+  prval () = decode (itr)
+  val+ @ITR (_ | _, _, rpi) = itr
+  val pi = ptr_sub_int<x> (rpi, 1)
+  val () = rpi := pi
   prval () = fold@ (itr)
   prval () = encode (itr)
 in
@@ -184,35 +209,11 @@ end // end of [iter_getref_dec]
 (* ****** ****** *)
 
 implement(x)
-iter_inc<itrknd><x> (itr) = let
-  prval () = decode (itr)
-  val+ @ITR (_ | _, _, rpi) = itr
-  val () = rpi := rpi + sizeof<x>
-  prval () = fold@ (itr)
-  prval () = encode (itr)
-in
-  // nothing
-end // end of [iter_inc]
-
-implement(x)
-iter_dec<itrknd><x> (itr) = let
-  prval () = decode (itr)
-  val+ @ITR (_ | _, _, rpi) = itr
-  val () = rpi := rpi - sizeof<x>
-  prval () = fold@ (itr)
-  prval () = encode (itr)
-in
-  // nothing
-end // end of [iter_dec]
-
-(* ****** ****** *)
-
-implement(x)
 iter_fjmp<itrknd><x>
   (itr, i) = let
   prval () = decode (itr)
   val+ @ITR (_ | _, _, rpi) = itr
-  val () = rpi := rpi + i * sizeof<x>
+  val () = rpi := ptr_add_uint<x> (rpi, i)
   prval () = fold@ (itr)
   prval () = encode (itr)
 in
@@ -225,7 +226,7 @@ iter_fgetref_at<itrknd><x>
   prval () = decode (itr)
   val+ ITR (_ | _, _, pi) = itr
   prval () = encode (itr)
-  val pi_ofs = $UN.cast2Ptr1 (pi + i * sizeof<x>)
+  val pi_ofs = $UN.cast2Ptr1 (ptr_add_uint<x> (pi, i))
 in
   pi_ofs
 end // end of [iter_fgetref_at]
@@ -236,8 +237,7 @@ implement(x)
 iter_fbjmp<itrknd><x> (itr, i) = let
   prval () = decode (itr)
   val+ @ITR (_ | _, _, rpi) = itr
-  val tsz = g1uint2int (sizeof<x>)
-  val () = rpi := rpi + i * tsz
+  val () = rpi := ptr_add_int<x> (rpi, i)
   prval () = fold@ (itr)
   prval () = encode (itr)
 in
@@ -250,8 +250,7 @@ iter_fbgetref_at<itrknd><x>
   prval () = decode (itr)
   val+ ITR (_ | _, _, pi) = itr
   prval () = encode (itr)
-  val tsz = g1uint2int (sizeof<x>)
-  val pi_ofs = $UN.cast2Ptr1 (pi + i * tsz)
+  val pi_ofs = $UN.cast2Ptr1 (ptr_add_int<x> (pi, i))
 in
   pi_ofs
 end // end of [iter_fbget_at]

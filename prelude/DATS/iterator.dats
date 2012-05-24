@@ -46,15 +46,13 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-(*
-** HX: default implementation
-*)
-
 implement
 {knd}{x}
 iter_get (itr) =
   $UN.ptr_get<x> (iter_getref<knd><x> (itr))
 // end of [iter_get]
+
+(* ****** ****** *)
 
 implement
 {knd}{x}
@@ -63,27 +61,34 @@ iter_get_inc (itr) =
 // end of [iter_get_inc]
 implement
 {knd}{x}
-iter_get_dec (itr) =
-  $UN.ptr_get<x> (iter_getref_dec<knd><x> (itr))
-// end of [iter_get_dec]
-
-implement
-{knd}{x}
 iter_getref_inc (itr) = let
   val p = iter_getref<knd><x> (itr) in iter_inc<knd><x> (itr); p
 end // end of [iter_getref_inc]
+
+(* ****** ****** *)
+
 implement
 {knd}{x}
-iter_getref_dec (itr) = let
-  val p = iter_getref<knd><x> (itr) in iter_dec<knd><x> (itr); p
-end // end of [iter_getref_dec]
+iter_dec_get (itr) =
+  $UN.ptr_get<x> (iter_dec_getref<knd><x> (itr))
+// end of [iter_get_dec]
+implement
+{knd}{x}
+iter_dec_getref (itr) = let
+  prval () =
+    lemma_iterator_param (itr)
+  val () = iter_dec<knd><x> (itr)
+in
+  iter_getref<knd><x> (itr)
+end // end of [iter_dec_getref]
+
+(* ****** ****** *)
 
 implement
 {knd}{x}
 iter_fget_at (itr, x) =
   $UN.ptr_get<x> (iter_fgetref_at<knd><x> (itr, x))
 // end of [iter_fget_inc]
-
 implement
 {knd}{x}
 iter_fbget_at (itr, x) =

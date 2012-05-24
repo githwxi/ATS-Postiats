@@ -240,7 +240,10 @@ datatype d1ecl_node =
   | D1Csrtdefs of s1rtdeflst // sort definitions
   | D1Cstacsts of s1tacstlst // static constants
   | D1Cstacons of (int(*knd*), s1taconlst) // static constructors
-  | D1Cstavars of s1tavarlst // static variables
+(*
+  | D1Cstavars of s1tavarlst // static variables // HX: removed
+*)
+  | D1Ctkindef of t1kindef // primitive tkind
   | D1Csexpdefs of (int(*knd*), s1expdeflst) // static definitions
   | D1Csaspdec of s1aspdec // static assumption
 //
@@ -863,7 +866,12 @@ fun d1ecl_srtdefs (loc: location, ds: s1rtdeflst): d1ecl
 
 fun d1ecl_stacsts (loc: location, ds: s1tacstlst): d1ecl
 fun d1ecl_stacons (loc: location, knd: int, ds: s1taconlst): d1ecl
+
+(*
 fun d1ecl_stavars (loc: location, ds: s1tavarlst): d1ecl
+*)
+
+fun d1ecl_tkindef (loc: location, d: t1kindef): d1ecl
 
 fun d1ecl_sexpdefs
   (loc: location, knd: int, ds: s1expdeflst): d1ecl

@@ -626,7 +626,10 @@ fun p_s0rtdefseq : parser (s0rtdeflst)
 //
 fun p_s0taconseq : parser (s0taconlst)
 fun p_s0tacstseq : parser (s0tacstlst)
+(*
 fun p_s0tavarseq : parser (s0tavarlst)
+*)
+fun p_t0kindef : parser (t0kindef)
 //
 fun p_s0expdefseq : parser (s0expdeflst)
 //

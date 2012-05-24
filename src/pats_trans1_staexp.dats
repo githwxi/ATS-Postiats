@@ -181,10 +181,13 @@ end // end of [s1expitm_backslash]
 fn s0qua_tr
   (s0q: s0qua): s1qua =
   case+ s0q.s0qua_node of
-  | S0QUAprop (s0p) => s1qua_prop (s0q.s0qua_loc, s0exp_tr s0p)
-  | S0QUAvars (id, ids, s0te) =>
+  | S0QUAprop (s0p) =>
+      s1qua_prop (s0q.s0qua_loc, s0exp_tr s0p)
+  | S0QUAvars (
+      id, ids, s0te
+    ) => (
       s1qua_vars (s0q.s0qua_loc, list_cons (id, ids), s0rtext_tr s0te)
-    // end of [S0QUAvars]
+    ) // end of [S0QUAvars]
 // end of [s0qua_tr]
 
 implement
@@ -223,6 +226,8 @@ aux_item (
 //
   | S0Eint (int) => FXITMatm (s1exp_i0nt (loc0, int))
   | S0Echar (char) => FXITMatm (s1exp_c0har (loc0, char))
+//
+  | S0Etkname (name) => FXITMatm (s1exp_tkname (loc0, name))
 //
   | S0Eextype (name, s0es) => let
       fun f (

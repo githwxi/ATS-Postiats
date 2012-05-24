@@ -81,7 +81,7 @@ fileref_get_opt (r: FILEref):<> Option_vt (a)
 fun{
 a:t@ype
 } fileref_get_exnmsg
-  (r: FILEref, msg: NSHARED(string)):<!exn> a
+  (r: FILEref, msg: READ(string)):<!exn> a
 // end of [fileref_get_exnmsg]
 
 (*

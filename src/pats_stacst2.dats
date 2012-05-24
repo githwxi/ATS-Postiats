@@ -438,11 +438,23 @@ end // end of [un_s2exp_bool_index_t0ype]
 implement
 the_int_kind = s2cstref_make "int_kind"
 implement
+the_uint_kind = s2cstref_make "uint_kind"
+//
+implement
 the_lint_kind = s2cstref_make "lint_kind"
+implement
+the_ulint_kind = s2cstref_make "ulint_kind"
+//
 implement
 the_llint_kind = s2cstref_make "llint_kind"
 implement
+the_ullint_kind = s2cstref_make "ullint_kind"
+//
+implement
 the_size_kind = s2cstref_make "size_kind"
+implement
+the_ssize_kind = s2cstref_make "ssize_kind"
+//
 implement
 the_g0int_t0ype = s2cstref_make "g0int_t0ype"
 implement
@@ -497,7 +509,7 @@ s2exp_int_t0ype () =
 
 implement
 s2exp_uint_t0ype () =
-  auxg0u (s2cstref_get_cst (the_int_kind))
+  auxg0u (s2cstref_get_cst (the_uint_kind))
 // end of [s2exp_uint_t0ype]
 
 implement
@@ -507,7 +519,7 @@ s2exp_lint_t0ype () =
 
 implement
 s2exp_ulint_t0ype () =
-  auxg0u (s2cstref_get_cst (the_lint_kind))
+  auxg0u (s2cstref_get_cst (the_ulint_kind))
 // end of [s2exp_ulint_t0ype]
 
 implement
@@ -517,7 +529,7 @@ s2exp_llint_t0ype () =
 
 implement
 s2exp_ullint_t0ype () =
-  auxg0u (s2cstref_get_cst (the_llint_kind))
+  auxg0u (s2cstref_get_cst (the_ullint_kind))
 // end of [s2exp_ullint_t0ype]
 
 (* ****** ****** *)
@@ -542,7 +554,7 @@ end // end of [s2exp_int_intinf_t0ype]
 
 implement
 s2exp_uint_int_t0ype (i) = let
-  val knd = s2cstref_get_cst (the_int_kind)
+  val knd = s2cstref_get_cst (the_uint_kind)
   val ind = s2exp_int (i)
 in
   auxg1u (knd, ind)
@@ -550,7 +562,7 @@ end // end of [s2exp_uint_intinf_t0ype]
 
 implement
 s2exp_uint_intinf_t0ype (inf) = let
-  val knd = s2cstref_get_cst (the_int_kind)
+  val knd = s2cstref_get_cst (the_uint_kind)
   val ind = s2exp_intinf (inf)
 in
   auxg1u (knd, ind)
@@ -568,7 +580,7 @@ end // end of [s2exp_lint_intinf_t0ype]
 
 implement
 s2exp_ulint_intinf_t0ype (inf) = let
-  val knd = s2cstref_get_cst (the_lint_kind)
+  val knd = s2cstref_get_cst (the_ulint_kind)
   val ind = s2exp_intinf (inf)
 in
   auxg1u (knd, ind)
@@ -584,7 +596,7 @@ end // end of [s2exp_llint_intinf_t0ype]
 
 implement
 s2exp_ullint_intinf_t0ype (inf) = let
-  val knd = s2cstref_get_cst (the_llint_kind)
+  val knd = s2cstref_get_cst (the_ullint_kind)
   val ind = s2exp_intinf (inf)
 in
   auxg1u (knd, ind)
@@ -800,6 +812,7 @@ implement
 the_double_kind = s2cstref_make "double_kind"
 implement
 the_ldouble_kind = s2cstref_make "ldouble_kind"
+//
 implement
 the_g0float_t0ype = s2cstref_make "g0float_t0ype"
 //

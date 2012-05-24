@@ -270,6 +270,7 @@ case+ s2e0.s2exp_node of
 //
 | S2Ecst _ => s2e0
 //
+| S2Etkname _ => s2e0
 | S2Eextype _ => s2e0
 //
 | S2Evar (s2v) =>
@@ -624,6 +625,12 @@ case s2en10 of
   | _ => $raise (SYNEQexn)
   ) // end of [S2Ecst]
 //
+| S2Etkname (name1) => (
+  case+ s2en20 of
+  | S2Etkname (name2) =>
+      if name1 != name2 then $raise (SYNEQexn)
+  | _ => $raise (SYNEQexn)
+  )
 | S2Eextype (name1, s2ess1) => (
   case+ s2en20 of
   | S2Eextype (name2, s2ess2) =>

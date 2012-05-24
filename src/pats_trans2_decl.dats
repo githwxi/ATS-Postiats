@@ -516,6 +516,10 @@ end // end of [s1taconlst_tr]
 
 (* ****** ****** *)
 
+(*
+//
+// HX-2012-05-23: removed
+//
 fn s1tavar_tr
   (d: s1tavar): s2tavar = let
   val loc = d.s1tavar_loc
@@ -529,6 +533,32 @@ end // end of [s1tavar_tr]
 fn s1tavarlst_tr
   (ds: s1tavarlst): s2tavarlst = l2l (list_map_fun (ds, s1tavar_tr))
 // end of [s1tavarlst_tr]
+*)
+
+(* ****** ****** *)
+
+fn t1kindef_tr
+  (d: t1kindef): void = let
+//
+val sym = d.t1kindef_sym
+val loc_id = d.t1kindef_loc_id
+val def = s1exp_trup (d.t1kindef_def)
+val s2c =
+  s2cst_make (
+  sym // name
+, loc_id // location
+, s2rt_tkind // tkind constant
+, None () // isabs
+, false // iscon
+, false // isrec
+, false // isasp
+, None () // islst
+, list_nil () // argvar
+, Some (def) // definition
+) // end of [val]
+in
+  the_s2expenv_add_scst (s2c)
+end // end of [t1kindef_tr]
 
 (* ****** ****** *)
 
@@ -580,7 +610,7 @@ in
 end // end of [auxerr]
 //
 val sym = d.s1expdef_sym
-and loc = d.s1expdef_loc
+and loc_id = d.s1expdef_loc_id
 and arg = d.s1expdef_arg
 and def = d.s1expdef_def
 val res1 =
@@ -604,7 +634,7 @@ in
 //
 s2cst_make (
   sym // name
-, loc // location
+, loc_id // location
 , def2.s2exp_srt // srt
 , None () // isabs
 , false // iscon
@@ -769,7 +799,7 @@ in
 case+ ans of
 | ~Some_vt s2i => begin case+ s2i of
   | S2ITMcst s2cs => let
-      val s2cs = list_filter_fun<s2cst> (s2cs, s2cst_is_abstract)
+      val s2cs = list_filter_fun<s2cst> (s2cs, s2cst_is_abstr)
     in
       case+ s2cs of
       | ~list_vt_cons (s2c, s2cs) => let
@@ -1410,9 +1440,14 @@ case+ d1c0.d1ecl_node of
 | D1Cstacons (knd, ds) => let
     val () = s1taconlst_tr (knd, ds) in d2ecl_none (loc0)
   end // end of [D1Cstacons]
+(*
 | D1Cstavars (d1s) => let
     val d2s = s1tavarlst_tr (d1s) in d2ecl_stavars (loc0, d2s)
   end // end of [D1Cstavars]
+*)
+| D1Ctkindef (d) => let
+    val () = t1kindef_tr (d) in d2ecl_none (loc0)
+  end // end of [D1Ckindef]
 | D1Csexpdefs (knd, ds) => let
     val () = s1expdeflst_tr (knd, ds) in d2ecl_none (loc0)
   end // end of [D1Csexpdefs]

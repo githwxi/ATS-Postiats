@@ -448,9 +448,11 @@ fun loop (
   s2e: s2exp
 ) : bool =
   case+ s2e.s2exp_node of
-  | S2Ecst s2c =>
-      if s2cst_is_abstract s2c then true else s2cst_get_iscon (s2c)
-    // end of [S2Ecst]
+  | S2Ecst s2c => (
+      if s2cst_is_abstr (s2c) then true
+      else if s2cst_is_tkind (s2c) then true
+      else s2cst_get_iscon (s2c)
+    ) // end of [S2Ecst]
   | S2Eapp (s2e, _) => loop (s2e)
   | _ => false
 // end of [loop]
@@ -754,6 +756,7 @@ case+ s2e0.s2exp_node of
 //
 | S2Ecst _ => s2e0
 //
+| S2Etkname _ => s2e0
 | S2Eextype (name, s2ess) => let
     val flag0 = flag
     val s2ess = s2explstlst_subst_flag (sub, s2ess, flag)
@@ -1189,6 +1192,7 @@ case+ s2e0.s2exp_node of
 //
 | S2Ecst _ => ()
 //
+| S2Etkname _ => ()
 | S2Eextype (_(*name*), s2ess) => aux_s2explstlst (s2ess, fvs)
 //
 | S2Evar s2v => {

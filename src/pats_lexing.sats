@@ -144,6 +144,7 @@ token_node =
   | T_SYMELIM of () // symelim
   | T_SYMINTR of () // symintr
   | T_THEN of () // then
+  | T_TKINDEF of () // tkindef // for introducting tkinds
   | T_TRY of () // try
   | T_TYPE of int // type, type+, type-
   | T_TYPEDEF of int // typedef, propdef, viewdef, viewtypedef
@@ -315,6 +316,8 @@ val MACRODEF : tnode
 
 val REF : tnode
 val REFAT : tnode
+
+val TKINDEF : tnode
 
 val TYPE : tnode
 val TYPE_pos : tnode

@@ -343,6 +343,11 @@ in '{
 (* ****** ****** *)
 
 implement
+s1exp_tkname (loc, name) = '{
+  s1exp_loc= loc, s1exp_node= S1Etkname (name)
+}
+
+implement
 s1exp_extype (loc, name, arg) = '{
   s1exp_loc= loc, s1exp_node= S1Eextype (name, arg)
 }
@@ -678,6 +683,12 @@ s1tacon_make (
 , s1tacon_def= def
 } // end of [s1tacon_make]
 
+(* ****** ****** *)
+
+(*
+//
+// HX-2012-05-23: removed
+//
 implement
 s1tavar_make (
   loc, sym, srt
@@ -686,15 +697,29 @@ s1tavar_make (
 , s1tavar_sym= sym
 , s1tavar_srt= srt
 } // end of [s1tavar_make]
+*)
+
+(* ****** ****** *)
+
+implement
+t1kindef_make (
+  loc, id, loc_id, def
+) = '{
+  t1kindef_loc= loc
+, t1kindef_sym= id
+, t1kindef_loc_id= loc_id
+, t1kindef_def= def
+} // end of [t1kindef_make]
 
 (* ****** ****** *)
 
 implement
 s1expdef_make (
-  loc, id, arg, res, def
+  loc, id, loc_id, arg, res, def
 ) = '{
   s1expdef_loc= loc
 , s1expdef_sym= id
+, s1expdef_loc_id= loc_id
 , s1expdef_arg= arg
 , s1expdef_res= res
 , s1expdef_def= def

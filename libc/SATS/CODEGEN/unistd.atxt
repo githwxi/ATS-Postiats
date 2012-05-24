@@ -27,14 +27,14 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 fun execv {n:pos}{l:addr} (
-  pf: !parrnull_v (string, l, n) | path: string, argv: ptr l
+  pf: !parrnull_v (string, l, n) | path: READ(string), argv: ptr l
 ) : int = "mac\#atslib_execv" // end of [execv]
-fun execv_unsafe (path: string, argv: ptr): int = "mac\#atslib_execv"
+fun execv_unsafe (path: READ(string), argv: ptr): int = "mac\#atslib_execv"
 
 fun execvp {n:pos}{l:addr} (
-  pf: !parrnull_v (string, l, n) | fname: string, argv: ptr l
+  pf: !parrnull_v (string, l, n) | fname: READ(string), argv: ptr l
 ) : int = "mac\#atslib_execvp" // end of [execvp]
-fun execvp_unsafe (fname: string, argv: ptr): int = "mac\#atslib_execvp"
+fun execvp_unsafe (fname: READ(string), argv: ptr): int = "mac\#atslib_execvp"
 
 #atscode_separator()
 

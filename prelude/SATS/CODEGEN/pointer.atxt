@@ -45,6 +45,11 @@ prfun ptr_get_index
 
 #atscode_separator()
 
+sortdef tk = tkind
+
+#atscode_separator()
+
+#comment('\
 fun add_ptr_int
   (p: ptr, df: int):<> ptr = "mac\#atspre_add_ptr_int"
 overload + with add_ptr_int of 0
@@ -64,8 +69,22 @@ fun add_ptr_ssize
 overload + with add_ptr_ssize of 0
 fun sub_ptr_ssize
   (p: ptr, df: ssize_t):<> ptr = "mac\#atspre_sub_ptr_ssize"
-overload - with sub_ptr_ssize of 0
-
+overload - with sub_ptr_ssize of 0\
+')
+//
+// ptr_add<a> (p, ofs) = p + ofs*sizeof<a>
+// ptr_sub<a> (p, ofs) = p - ofs*sizeof<a>
+//
+fun{a:vt0p}{tk:tk}
+ptr_add_int (p: ptr, ofs: g0int (tk)):<> ptr
+fun{a:vt0p}{tk:tk}
+ptr_sub_int (p: ptr, ofs: g0int (tk)):<> ptr
+//
+fun{a:vt0p}{tk:tk}
+ptr_add_uint (p: ptr, ofs: g0uint (tk)):<> ptr
+fun{a:vt0p}{tk:tk}
+ptr_sub_uint (p: ptr, ofs: g0uint (tk)):<> ptr
+//
 #atscode_separator()
 
 %{
@@ -203,32 +222,26 @@ fun compare_ptr1_ptr1
 overload compare with compare_ptr1_ptr1 of 2
 
 #atscode_separator()
-#atscode_decl_strcst('\
 //
 // HX: implemented in [prelude/DATS/pointer.dats]
 //
 fun{a:t@ype}
 ptr_get {l:addr}
-  (pf: !RD(INV(a) @ l) | p: ptr l):<> a
+  (pf: !INV(a) @ l | p: ptr l):<> a
 fun{a:t@ype}
 ptr_get_vt {l:addr}
   (pf: !INV(a) @ l >> a?! @ l | p: ptr l):<> a
 // end of [ptr_get_vt]
-')\
 
-#atscode_decl_strcst('\
 fun{a:vt0p}
 ptr_set {l:addr} (
   pf: !a? @ l >> a @ l | p: ptr l, x: INV(a)
 ) :<!wrt> void // end of [ptr_set]
-')\
 
-#atscode_decl_strcst('\
 fun{a:vt0p}
 ptr_exch {l:addr}
   (pf: !a @ l | p: ptr l, x: &a >> a):<!wrt> void
 // end of [ptr_exch]
-')\
 
 #atscode_separator()
 

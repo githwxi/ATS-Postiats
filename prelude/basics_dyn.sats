@@ -82,7 +82,8 @@ prfun prop_verify_and_add {b:bool} ():<prf> [b] void
 val{a:viewt@ype} sizeof : size_t (sizeof(a))
 
 (* ****** ****** *)
-
+(*
+// HX-2012-05-23: this seems TOO complicated!
 (*
 ** HX-2012-03: handling read-only views and viewtypes
 *)
@@ -111,7 +112,7 @@ read_unsplit // HX: there is no need to check
   {v1:view}{v2:view}{s:int}{n1,n2:int} // if v1 and v2 match
   (pf1: READ (v1, s, n1), pf2: READ (v2, s, n2)): READ (v1, s, n1+n2-1)
 // end of [read_unsplit]
-
+*)
 (* ****** ****** *)
 
 val null : ptr (null) = "mac#atsptr_null" // macro

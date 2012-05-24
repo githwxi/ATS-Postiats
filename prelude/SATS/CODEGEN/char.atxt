@@ -280,44 +280,42 @@ overload compare with compare_uchar1_uchar1 of 20
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-fun{knd:t0p}
-g0int_of_char (c: char):<> g0int (knd)
-fun{knd:t0p}
-g0int_of_schar (c: schar):<> g0int (knd)
-fun{knd:t0p}
-g0int_of_uchar (c: uchar):<> g0int (knd)
-')\
-
-#atscode_decl_strcst('\
-fun{knd:t0p}
-g0uint_of_uchar (c: uchar):<> g0uint (knd)
-')\
+sortdef tk = tkind
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-fun{knd:t0p}
+fun{tk:tk}
+g0int_of_char (c: char):<> g0int (tk)
+fun{tk:tk}
+g0int_of_schar (c: schar):<> g0int (tk)
+fun{tk:tk}
+g0int_of_uchar (c: uchar):<> g0int (tk)
+
+fun{tk:tk}
+g0uint_of_uchar (c: uchar):<> g0uint (tk)
+
+#atscode_separator()
+
+fun{tk:tk}
 g1int_of_char1 // c:int8
-  {c:int} (c: char (c)):<> g1int (knd, c)
+  {c:int} (c: char (c)):<> g1int (tk, c)
 // end of [g1int_of_char1]
-fun{knd:t0p}
+fun{tk:tk}
 g1int_of_schar1 // c:int8
-  {c:int} (c: schar (c)):<> g1int (knd, c)
+  {c:int} (c: schar (c)):<> g1int (tk, c)
 // end of [g1int_of_schar1]
-fun{knd:t0p}
+fun{tk:tk}
 g1int_of_uchar1 // c:uint8
-  {c:int} (c: uchar (c)):<> g1int (knd, c)
+  {c:int} (c: uchar (c)):<> g1int (tk, c)
 // end of [g1int_of_uchar1]
-')\
 
 #atscode_decl_strcst('\
 (*
 ** HX: g1uint_of_schar1: schar -> int -> uint
 *)
-fun{knd:t0p}
+fun{tk:tk}
 g1uint_of_uchar1
-  {c:int} (c: uchar (c)):<> g1uint (knd, c)
+  {c:int} (c: uchar (c)):<> g1uint (tk, c)
 // end of [g1uint_of_uchar1]
 ')\
 

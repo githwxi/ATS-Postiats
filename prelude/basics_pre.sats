@@ -322,6 +322,13 @@ symintr ofstring ofstrptr
 symintr tostring tostrptr
 //
 (* ****** ****** *)
+//
+// HX-2012-05-23: for template args
+//
+abstype tkind_type (tk: tkind)
+abst@ype tkind_t0ype (tk: tkind)
+
+(* ****** ****** *)
 
 absview // S2Eat
 at_viewt0ype_addr_view (viewt@ype+, addr)
@@ -338,7 +345,7 @@ cloptr_viewt0ype_viewtype (a: viewt@ype) // = ptr
 absviewtype cloref_t0ype_type (a: t@ype) // = ptr
 
 (* ****** ****** *)
-//
+(*
 absview
 read_view_int_int_view
   (v:view, stamp:int, n:int)
@@ -351,8 +358,6 @@ readout_view_int_view (v:view, stamp:int)
 stadef READOUT = readout_view_int_view
 viewdef READOUT (v:view) = [s:int] READOUT (v, s)
 //
-(* ****** ****** *)
-
 absviewt@ype
 read_viewt0ype_int_int_viewt0ype
   (a:viewt@ype, stamp:int, n:int) = a
@@ -364,30 +369,24 @@ absviewt@ype
 readout_viewt0ype_int_viewt0ype (a:viewt@ype, stamp: int) = a
 stadef READOUT = readout_viewt0ype_int_viewt0ype
 viewtypedef READOUT (a:viewt@ype) = [s:int] READOUT (a, s)
-//
+*)
 (* ****** ****** *)
-
+(*
 absviewt@ype
 write_viewt0ype_viewt0ype (a: viewt@ype) = a
 viewtypedef
 WRITE (a:viewt@ype) = write_viewt0ype_viewt0ype (a)
 stadef WRT = WRITE
-
-(* ****** ****** *)
-
-viewtypedef SHARED (a:viewt@ype) = a // HX: used as a comment
-viewtypedef NSHARED (a:viewt@ype) = a // HX: used as a comment
-
-(* ****** ****** *)
-
-(*
-absviewt@ype // S2Etyvarknd
-tyvarknd (a:viewt@ype, knd: int) = a
-viewtypedef IN (a:viewt@ype) = tyvarknd (a, 1) // both CO and CONTRA
-viewtypedef CO (a:viewt@ype) = tyvarknd (a, 2) // T <= X => T = X
-viewtypedef CONTRA (a:viewt@ype) = tyvarknd (a, 3) // X <= T => T = X
 *)
 
+(* ****** ****** *)
+//
+viewtypedef READ (a:viewt@ype) = a // HX: used as a comment
+viewtypedef WRITE (a:viewt@ype) = a // HX: used as a comment (rarely)
+//
+viewtypedef SHARED (a:viewt@ype) = a // HX: used as a comment
+viewtypedef NSHARED (a:viewt@ype) = a // HX: used as a comment (rarely)
+//
 (* ****** ****** *)
 //
 absprop invar_prop_prop (a:prop)
@@ -407,6 +406,7 @@ viewtypedef INV
 viewtypedef INV (a:t@ype) = invar_t0ype_t0ype (a)
 //
 (* ****** ****** *)
+(*
 //
 absprop optarg_prop_prop (a:prop)
 absview optarg_view_view (a:view)
@@ -424,6 +424,7 @@ viewtypedef OPT
   (a:viewt@ype) = optarg_viewt0ype_viewt0ype (a)
 viewtypedef OPT (a:t@ype) = optarg_t0ype_t0ype (a)
 //
+*)
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then

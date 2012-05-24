@@ -906,9 +906,23 @@ d1ecl_stacons (loc, knd, xs) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cstacons (knd, xs)
 }
 
+(* ****** ****** *)
+
+(*
+//
+// HX-2012-05-23: removed
+//
 implement
 d1ecl_stavars (loc, xs) = '{
   d1ecl_loc= loc, d1ecl_node= D1Cstavars (xs)
+}
+*)
+
+(* ****** ****** *)
+
+implement
+d1ecl_tkindef (loc, x) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Ctkindef (x)
 }
 
 (* ****** ****** *)

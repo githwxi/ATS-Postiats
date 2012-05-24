@@ -49,8 +49,8 @@ staload "prelude/SATS/iterator.sats" // HX: preloaded
 (* ****** ****** *)
 
 sortdef t0p = t@ype
-stadef iter = iterator
 stadef itrknd = iter_flist_kind
+stadef itrkpm = iter_flist_param
 
 (* ****** ****** *)
 
@@ -64,13 +64,13 @@ iterk (
 extern
 castfn iterk2iter
   {x:t0p}{n:int}
-  (xs: iterk (x, 0, n)):<> iter (itrknd, (), x, 0, n)
+  (xs: iterk (x, 0, n)):<> iterator (itrknd, itrkpm(), x, 0, n)
 // end of [iterk2iter]
 
 extern
 castfn iter2iterk
   {x:t0p}{f,r:int}
-  (itr: iter (itrknd, (), x, f, r)):<> iterk (x, f, r)
+  (itr: iterator (itrknd, itrkpm(), x, f, r)):<> iterk (x, f, r)
 // end of [iter2iterk]
 
 (* ****** ****** *)
@@ -87,14 +87,14 @@ end // end of [iter_free]
 
 extern
 praxi encode
-  {kpm:t0p}{x:t0p}{f,r:int}
-  (xs: !iterk (x, f, r) >> iter (itrknd, kpm, x, f, r)): void
+  {kpm:tk}{x:t0p}{f,r:int}
+  (xs: !iterk (x, f, r) >> iterator (itrknd, kpm, x, f, r)): void
 // end of [encode]
 
 extern
 praxi decode
-  {kpm:t0p}{x:t0p}{f,r:int}
-  (itr: !iter (itrknd, kpm, x, f, r) >> iterk (x, f, r)): void
+  {kpm:tk}{x:t0p}{f,r:int}
+  (itr: !iterator (itrknd, kpm, x, f, r) >> iterk (x, f, r)): void
 // end of [decode]
 
 (* ****** ****** *)

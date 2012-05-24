@@ -177,6 +177,12 @@ in hnf '{
 (* ****** ****** *)
 
 implement
+s2exp_tkname
+  (name) = hnf '{
+  s2exp_srt= s2rt_tkind, s2exp_node= S2Etkname (name)
+} // end of [s2exp_tkname]
+
+implement
 s2exp_extype_srt
   (s2t, name, s2ess) = hnf '{
   s2exp_srt= s2t, s2exp_node= S2Eextype (name, s2ess)

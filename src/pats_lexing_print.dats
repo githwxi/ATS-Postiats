@@ -125,6 +125,7 @@ fprint_token
   | T_SYMELIM () => fprintf (out, "SYMELIM()", @())
   | T_SYMINTR () => fprintf (out, "SYMINTR()", @())
   | T_THEN () => fprintf (out, "THEN()", @())
+  | T_TKINDEF () =>  fprintf (out, "TKINDEF()", @())
   | T_TRY () => fprintf (out, "TRY()", @())
   | T_TYPE (x) => fprintf (out, "TYPE(%i)", @(x))
   | T_TYPEDEF (x) => fprintf (out, "TYPEDEF(%i)", @(x))
