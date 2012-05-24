@@ -170,6 +170,19 @@ in
 end // end of [iter_inc]
 
 implement(x)
+iter_dec<itrknd><x> (itr) = let
+  prval () = decode (itr)
+  val+ @ITR (_ | _, _, rpi) = itr
+  val () = rpi := ptr_sub_int<x> (rpi, 1)
+  prval () = fold@ (itr)
+  prval () = encode (itr)
+in
+  // nothing
+end // end of [iter_dec]
+
+(* ****** ****** *)
+
+implement(x)
 iter_getref_inc<itrknd><x> (itr) = let
   prval () = decode (itr)
   val+ @ITR (_ | _, _, rpi) = itr
@@ -180,19 +193,6 @@ iter_getref_inc<itrknd><x> (itr) = let
 in
   $UN.cast2Ptr1 (pi)
 end // end of [iter_getref_inc]
-
-(* ****** ****** *)
-
-implement(x)
-iter_dec<itrknd><x> (itr) = let
-  prval () = decode (itr)
-  val+ @ITR (_ | _, _, rpi) = itr
-  val () = rpi := ptr_sub_int<x> (rpi, 1)
-  prval () = fold@ (itr)
-  prval () = encode (itr)
-in
-  // nothing
-end // end of [iter_dec]
 
 implement(x)
 iter_dec_getref<itrknd><x> (itr) = let
@@ -219,6 +219,8 @@ iter_fjmp<itrknd><x>
 in
   // nothing
 end // end of [iter_fjmp]
+
+(* ****** ****** *)
 
 implement(x)
 iter_fgetref_at<itrknd><x>

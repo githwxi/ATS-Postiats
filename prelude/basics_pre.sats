@@ -384,8 +384,10 @@ stadef WRT = WRITE
 viewtypedef READ (a:viewt@ype) = a // HX: used as a comment
 viewtypedef WRITE (a:viewt@ype) = a // HX: used as a comment (rarely)
 //
+(*
 viewtypedef SHARED (a:viewt@ype) = a // HX: used as a comment
 viewtypedef NSHARED (a:viewt@ype) = a // HX: used as a comment (rarely)
+*)
 //
 (* ****** ****** *)
 //

@@ -111,14 +111,14 @@ fun loop
   case xs of
   | @list_vt_cons
       (_, xs1) => let
-      val xs1_v = xs1
-      val () = xs1 := ys
-      prval () = fold@ (xs)
+      val xs1_ = xs1
+      val () = xs1 := ys; prval () = fold@ (xs)
     in
-      loop (xs1_v, xs)
+      loop (xs1_, xs)
     end
   | ~list_vt_nil () => ys
-// end of [loop]
+(* end of [loop] *)
+//
 in
   loop (xs, ys)
 end // end of [list_vt_reverse_append]

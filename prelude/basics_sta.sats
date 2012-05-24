@@ -163,8 +163,9 @@ tkindef int_kind = "atstype_int"
 //
 typedef int0 = g0int (int_kind)
 typedef int1 (i:int) = g1int (int_kind, i)
-stadef int = int0
-stadef int = int1
+//
+stadef int = int1 // first
+stadef int = int0 // second
 //
 typedef Int = [i:int] int1 (i)
 typedef Nat = [i:int | i >= 0] int1 (i)
@@ -186,8 +187,10 @@ tkindef uint_kind = "atstype_uint"
 //
 typedef uint0 = g0uint (uint_kind)
 typedef uint1 (n:int) = g1uint (int_kind, n)
-stadef uint = uint0
-stadef uint = uint1
+//
+stadef uint = uint1 // first
+stadef uint = uint0 // second
+//
 stadef uInt = [n:int] uint1 (n)
 //
 typedef uintLt (n:int) = g1uintLt (int_kind, n)
@@ -202,56 +205,57 @@ typedef uintBtwe (lb:int, ub:int) = g1uintBtwe (int_kind, lb, ub)
 tkindef lint_kind = "atstype_lint"
 typedef lint0 = g0int (lint_kind)
 typedef lint1 (i:int) = g1int (lint_kind, i)
-stadef lint = lint0
-stadef lint = lint1
+stadef lint = lint1 // first
+stadef lint = lint0 // second
 tkindef ulint_kind = "atsype_ulint"
 typedef ulint0 = g0uint (ulint_kind)
 typedef ulint1 (i:int) = g1uint (lint_kind, i)
-stadef ulint = ulint0
-stadef ulint = ulint1
+stadef ulint = ulint1 // first
+stadef ulint = ulint0 // second
 
 tkindef llint_kind = "atstype_llint"
 typedef llint0 = g0int (llint_kind)
 typedef llint1 (i:int) = g1int (llint_kind, i)
-stadef llint = llint0
-stadef llint = llint1
+stadef llint = llint1 // first
+stadef llint = llint0 // second
 tkindef ullint_kind = "atstype_ullint"
 typedef ullint0 = g0uint (ullint_kind)
 typedef ullint1 (i:int) = g1uint (llint_kind, i)
-stadef ullint = ullint0
-stadef ullint = ullint1
+stadef ullint = ullint1 // first
+stadef ullint = ullint0 // second
 
 (* ****** ****** *)
 
 tkindef sint_kind = "atstype_sint"
 typedef sint0 = g0int (sint_kind)
 typedef sint1 (i:int) = g1int (sint_kind, i)
-stadef sint = sint0
-stadef sint = sint1
+stadef sint = sint0 // first
+stadef sint = sint1 // second
 tkindef usint_kind = "atstype_usint"
 typedef usint0 = g0uint (usint_kind)
 typedef usint1 (i:int) = g1uint (usint_kind, i)
-stadef usint = usint0
-stadef usint = usint1
+stadef usint = usint0 // first
+stadef usint = usint1 // second
 
 tkindef ssint_kind = "atstype_ssint"
 typedef ssint0 = g0int (ssint_kind)
 typedef ssint1 (i:int) = g1int (ssint_kind, i)
-stadef ssint = ssint0
-stadef ssint = ssint1
+stadef ssint = ssint0 // first
+stadef ssint = ssint1 // second
 tkindef ussint_kind = "atstype_ussint"
 typedef ussint0 = g0uint (ussint_kind)
 typedef ussint1 (i:int) = g1uint (ussint_kind, i)
-stadef ussint = ussint0
-stadef ussint = ussint1
+stadef ussint = ussint0 // first
+stadef ussint = ussint1 // second
 
 (* ****** ****** *)
 //
 tkindef size_kind = "atstype_size"
 typedef size0_t = g0uint (size_kind)
-stadef size_t = size0_t
 typedef size1_t (i:int) = g1uint (size_kind, i)
-stadef size_t = size1_t
+//
+stadef size_t = size1_t // first
+stadef size_t = size0_t // second
 //
 typedef Size =
   [i:int | i >= 0] g1uint (size_kind, i)
@@ -270,10 +274,11 @@ typedef sizeBtwe
 //
 tkindef ssize_kind = "atstype_ssize"
 typedef ssize0_t = g0int (ssize_kind)
-stadef ssize_t = ssize0_t
 typedef ssize1_t (i:int) = g1int (ssize_kind , i) 
-stadef ssize_t = ssize1_t
-
+//
+stadef ssize_t = ssize1_t // first
+stadef ssize_t = ssize0_t // second
+//
 (* ****** ****** *)
 
 typedef sizeof_t (a:viewt@ype) = size_t (sizeof(a?))
@@ -283,15 +288,15 @@ typedef sizeof_t (a:viewt@ype) = size_t (sizeof(a?))
 tkindef int8_kind = "atstype_int8"
 typedef int8_0 = g0int (int8_kind)
 typedef int8_1 (i:int) = g1int (int8_kind, i)
-stadef int8 = int8_0
-stadef int8 = int8_1
+stadef int8 = int8_1 // first
+stadef int8 = int8_0 // second
 stadef Int8 = [i:int] int8_1 (i)
 //
 tkindef uint8_kind = "atstype_uint8"
 typedef uint8_0 = g0uint (uint8_kind)
 typedef uint8_1 (i:int) = g1uint (uint8_kind, i)
-stadef uint8 = uint8_0
-stadef uint8 = uint8_1
+stadef uint8 = uint8_1 // first
+stadef uint8 = uint8_0 // second
 stadef uInt8 = [i:nat] uint8_1 (i)
 
 (* ****** ****** *)
@@ -299,15 +304,15 @@ stadef uInt8 = [i:nat] uint8_1 (i)
 tkindef int16_kind = "atstype_int16"
 typedef int16_0 = g0int (int16_kind)
 typedef int16_1 (i:int) = g1int (int16_kind, i)
-stadef int16 = int16_0
-stadef int16 = int16_1
+stadef int16 = int16_1 // first
+stadef int16 = int16_0 // second
 stadef Int16 = [i:int] int16_1 (i)
 //
 tkindef uint16_kind = "atstype_uint16"
 typedef uint16_0 = g0uint (uint16_kind)
 typedef uint16_1 (i:int) = g1uint (uint16_kind, i)
-stadef uint16 = uint16_0
-stadef uint16 = uint16_1
+stadef uint16 = uint16_1 // first
+stadef uint16 = uint16_0 // second
 stadef uInt16 = [i:nat] uint16_1 (i)
 
 (* ****** ****** *)
@@ -315,15 +320,15 @@ stadef uInt16 = [i:nat] uint16_1 (i)
 tkindef int32_kind = "atstype_int32"
 typedef int32_0 = g0int (int32_kind)
 typedef int32_1 (i:int) = g1int (int32_kind, i)
-stadef int32 = int32_0
-stadef int32 = int32_1
+stadef int32 = int32_1 // first
+stadef int32 = int32_0 // second
 stadef Int32 = [i:int] int32_1 (i)
 //
 tkindef uint32_kind = "atstype_uint32"
 typedef uint32_0 = g0uint (uint32_kind)
 typedef uint32_1 (i:int) = g1uint (uint32_kind, i)
-stadef uint32 = uint32_0
-stadef uint32 = uint32_1
+stadef uint32 = uint32_1 // first
+stadef uint32 = uint32_0 // second
 stadef uInt32 = [i:nat] uint32_1 (i)
 
 (* ****** ****** *)
@@ -331,15 +336,15 @@ stadef uInt32 = [i:nat] uint32_1 (i)
 tkindef int64_kind = "atstype_int64"
 typedef int64_0 = g0int (int64_kind)
 typedef int64_1 (i:int) = g1int (int64_kind, i)
-stadef int64 = int64_0
-stadef int64 = int64_1
+stadef int64 = int64_1 // first
+stadef int64 = int64_0 // second
 stadef Int64 = [i:int] int64_1 (i)
 //
 tkindef uint64_kind = "atstype_uint64"
 typedef uint64_0 = g0uint (int64_kind)
 typedef uint64_1 (i:int) = g1uint (int64_kind, i)
-stadef uint64 = uint64_0
-stadef uint64 = uint64_1
+stadef uint64 = uint64_1 // first
+stadef uint64 = uint64_0 // second
 stadef uInt64 = [i:nat] uint64_1 (i)
 
 (* ****** ****** *)
@@ -380,14 +385,20 @@ stadef ptr (n:int) = ptr_addr_type (addr_of_int(n))
 ** HX: persistent read-only strings
 *)
 abstype string_type
-stadef string = string_type
 abstype string_int_type (n: int)
-stadef string = string_int_type
+stadef string0 = string_type
+stadef string1 = string_int_type
+stadef string = string1 // first
+stadef string = string0 // second
+
+(* ****** ****** *)
 
 abstype
 stropt_int_type (n:int)
 stadef stropt = stropt_int_type
-abstype stropt_type = [n:int] stropt (n)
+typedef Stropt = [n:int] stropt (n)
+
+(* ****** ****** *)
 
 (*
 ** HX: linear strings that are modifiable 

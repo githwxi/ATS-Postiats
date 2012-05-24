@@ -80,7 +80,7 @@ iter_make_list (xs) = iterk2iter (ITR (xs))
 
 implement
 iter_free_list (itr) = let
-  val+ ~ITR (xs) = iter2iterk (itr) in (*nothing*)
+  val+ ~ITR (xs) = iter2iterk (itr) in xs
 end // end of [iter_free]
 
 (* ****** ****** *)
@@ -112,18 +112,6 @@ end // end of [iter_get]
 (* ****** ****** *)
 
 implement(x)
-iter_get_inc<itrknd><x> (itr) = let
-  prval () = decode (itr)
-  val+ @ITR (xs) = itr; val+ list_cons (x, xs1) = xs; val () = xs := xs1
-  prval () = fold@ (itr)
-  prval () = encode (itr)
-in
-  x
-end // end of [iter_get_inc]
-
-(* ****** ****** *)
-
-implement(x)
 iter_inc<itrknd><x> (itr) = let
   prval () = decode (itr)
   val+ @ITR (xs) = itr; val+ list_cons (_, xs1) = xs; val () = xs := xs1
@@ -132,6 +120,18 @@ iter_inc<itrknd><x> (itr) = let
 in
   // nothing
 end // end of [iter_inc]
+
+(* ****** ****** *)
+
+implement(x)
+iter_get_inc<itrknd><x> (itr) = let
+  prval () = decode (itr)
+  val+ @ITR (xs) = itr; val+ list_cons (x, xs1) = xs; val () = xs := xs1
+  prval () = fold@ (itr)
+  prval () = encode (itr)
+in
+  x
+end // end of [iter_get_inc]
 
 (* ****** ****** *)
 

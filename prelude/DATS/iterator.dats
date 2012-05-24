@@ -48,11 +48,36 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 implement
 {knd}{x}
+iter_isnot_atbeg (itr) = let
+  prval () = lemma_iterator_param (itr) in ~iter_is_atbeg (itr)
+end // end of [iter_isnot_atbeg]
+
+implement
+{knd}{x}
+iter_isnot_atend (itr) = let
+  prval () = lemma_iterator_param (itr) in ~iter_is_atend (itr)
+end // end of [iter_isnot_atend]
+
+(* ****** ****** *)
+
+implement
+{knd}{x}
 iter_get (itr) =
   $UN.ptr_get<x> (iter_getref<knd><x> (itr))
 // end of [iter_get]
+implement
+{knd}{x}
+iter_set (itr, x) =
+  $UN.ptr_set<x> (iter_getref<knd><x> (itr), x)
+// end of [iter_set]
 
 (* ****** ****** *)
+
+implement
+{knd}{x}
+iter_getref_inc (itr) = let
+  val p = iter_getref<knd><x> (itr) in iter_inc<knd><x> (itr); p
+end // end of [iter_getref_inc]
 
 implement
 {knd}{x}
@@ -61,17 +86,17 @@ iter_get_inc (itr) =
 // end of [iter_get_inc]
 implement
 {knd}{x}
-iter_getref_inc (itr) = let
-  val p = iter_getref<knd><x> (itr) in iter_inc<knd><x> (itr); p
-end // end of [iter_getref_inc]
+iter_set_inc (itr, x) =
+  $UN.ptr_set<x> (iter_getref_inc<knd><x> (itr), x)
+// end of [iter_set_inc]
+implement
+{knd}{x}
+iter_exch_inc (itr, x) =
+  $UN.ptr_exch<x> (iter_getref_inc<knd><x> (itr), x)
+// end of [iter_exch_inc]
 
 (* ****** ****** *)
 
-implement
-{knd}{x}
-iter_dec_get (itr) =
-  $UN.ptr_get<x> (iter_dec_getref<knd><x> (itr))
-// end of [iter_get_dec]
 implement
 {knd}{x}
 iter_dec_getref (itr) = let
@@ -82,18 +107,125 @@ in
   iter_getref<knd><x> (itr)
 end // end of [iter_dec_getref]
 
+implement
+{knd}{x}
+iter_dec_get (itr) =
+  $UN.ptr_get<x> (iter_dec_getref<knd><x> (itr))
+// end of [iter_get_dec]
+implement
+{knd}{x}
+iter_dec_set (itr, x) =
+  $UN.ptr_set<x> (iter_dec_getref<knd><x> (itr), x)
+// end of [iter_set_dec]
+implement
+{knd}{x}
+iter_dec_exch (itr, x) =
+  $UN.ptr_exch<x> (iter_dec_getref<knd><x> (itr), x)
+// end of [iter_exch_dec]
+
+(* ****** ****** *)
+(*
+** HX: forward-get, set and exchange
+*)
+implement
+{knd}{x}
+iter_fget_at (itr, i) =
+  $UN.ptr_get<x> (iter_fgetref_at<knd><x> (itr, i))
+// end of [iter_fget_at]
+implement
+{knd}{x}
+iter_fset_at (itr, i, x) =
+  $UN.ptr_set<x> (iter_fgetref_at<knd><x> (itr, i), x)
+// end of [iter_fset_at]
+implement
+{knd}{x}
+iter_fexch_at (itr, i, x) =
+  $UN.ptr_exch<x> (iter_fgetref_at<knd><x> (itr, i), x)
+// end of [iter_fexch_at]
+
+(* ****** ****** *)
+(*
+** HX: forward/backward-get, set and exchange
+*)
+implement
+{knd}{x}
+iter_fbget_at (itr, i) =
+  $UN.ptr_get<x> (iter_fbgetref_at<knd><x> (itr, i))
+// end of [iter_fbget_at]
+implement
+{knd}{x}
+iter_fbset_at (itr, i, x) =
+  $UN.ptr_set<x> (iter_fbgetref_at<knd><x> (itr, i), x)
+// end of [iter_fbset_at]
+implement
+{knd}{x}
+iter_fbexch_at (itr, i, x) =
+  $UN.ptr_exch<x> (iter_fbgetref_at<knd><x> (itr, i), x)
+// end of [iter_fbexch_at]
+
+(* ****** ****** *)
+//
+// HX: some common generic functions on iterators
+//
 (* ****** ****** *)
 
 implement
 {knd}{x}
-iter_fget_at (itr, x) =
-  $UN.ptr_get<x> (iter_fgetref_at<knd><x> (itr, x))
-// end of [iter_fget_inc]
+iter_listize_copy {kpm} (itr) = let
+//
+prval () = lemma_iterator_param (itr)
+//
+stadef iter (f:int, r:int) = iterator (knd, kpm, x, f, r)
+//
+fun loop
+  {f,r:int | r >= 0} .<r>. (
+  itr: !iter (f, r) >> iter (f+r, 0), res: &ptr? >> list_vt (x, r)
+) :<> void = let
+  val test = iter_isnot_atend (itr)
+in
+  if test then let
+    val x = iter_get_inc (itr)
+    val () = res := list_vt_cons {x}{0} (x, _)
+    val+ list_vt_cons (x, res1) = res
+    val () = loop (itr, res1)
+    prval () = fold@ (res)
+  in
+    // nothing
+  end else (res := list_vt_nil)
+end // end of [loop]
+//
+var res: ptr
+val () = loop (itr, res)
+//
+in
+  res
+end // end of [iter_listize_copy]
+
 implement
 {knd}{x}
-iter_fbget_at (itr, x) =
-  $UN.ptr_get<x> (iter_fbgetref_at<knd><x> (itr, x))
-// end of [iter_fbget_inc]
+iter_rlistize_copy
+  {kpm} (itr) = let
+//
+prval () = lemma_iterator_param (itr)
+//
+stadef iter (f:int, r:int) = iterator (knd, kpm, x, f, r)
+//
+fun loop
+  {f,r:int | r >= 0}{r2:nat} .<r>. (
+  itr: !iter (f, r) >> iter (f+r, 0), res: list_vt (x, r2)
+) :<> list_vt (x, r+r2) = let
+  val test = iter_isnot_atend (itr)
+in
+  if test then let
+    val x = iter_get_inc (itr)
+  in
+    loop (itr, list_vt_cons (x, res))
+  end else res // end of [if]
+end // end of [loop]
+//
+in
+  loop (itr, list_vt_nil)
+end // end of [iter_listize_copy]
 
 (* ****** ****** *)
 
@@ -105,8 +237,7 @@ iter_foreach_funenv
 //
 prval () = lemma_iterator_param (itr)
 //
-stadef iter
-  (f:int, r:int) = iterator (knd, kpm, x, f, r)
+stadef iter (f:int, r:int) = iterator (knd, kpm, x, f, r)
 //
 fun loop
   {f,r:int | r >= 0} .<r>. (
@@ -172,7 +303,10 @@ in
 end // end of [iter_exists_funenv]
 
 (* ****** ****** *)
-
+(*
+** HX-2012-05-23:
+** this is a very exiciting example for myself :)
+*)
 implement
 {knd}{x}
 iter_bsearch_funenv

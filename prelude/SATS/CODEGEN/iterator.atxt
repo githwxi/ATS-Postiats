@@ -33,19 +33,21 @@ sortdef vt0p = viewt@ype
 #atscode_separator()
 
 absviewtype
-iterator ( // HX: boxed
+iterator_full ( // HX: boxed
   knd: tkind
 , kpm: tkind
 , x: viewt@ype+, f: int, r: int
 ) // end of [absviewtype]
+stadef iterator = iterator_full
 
-viewtypedef
-itererator (
+viewtypedef iterator_3 (
   knd: tkind, kpm: tkind, x: vt0p
 ) = [f,r:int] iterator (knd, kpm, x, f, r)
-viewtypedef iterator (
+stadef iterator = iterator_3
+viewtypedef iterator_4 (
   knd: tkind, kpm: tkind, x: vt0p, fr:int
 ) = [f,r:int | f+r==fr] iterator (knd, kpm, x, f, r)
+stadef iterator = iterator_4
 
 #atscode_separator()
 
@@ -72,7 +74,7 @@ fun iter_free_list
   {x:t0p}{f,r:int} (
   itr: iterator
     (iter_flist_kind, iter_flist_param(), x, f, r)
-) :<> void // end of [iter_free_list]
+) :<> list (x, r) // end of [iter_free_list]
 
 #atscode_separator()
 //
@@ -144,17 +146,31 @@ knd:tk}{x:vt0p
 #atscode_separator()
 
 fun{
+knd:tk}{x:vt0p
+} iter_getref
+  {kpm:tk}{f,r:int | r > 0}
+  (itr: !iterator (knd, kpm, x, f, r)):<> Ptr1
+// end of [iter_getref]
+
+fun{
 knd:tk}{x:t0p
 } iter_get
   {kpm:tk}{f,r:int | r > 0}
   (itr: !iterator (knd, kpm, x, f, r)):<> x
 // end of [iter_get]
 fun{
-knd:tk}{x:vt0p
-} iter_getref
+knd:tk}{x:t0p
+} iter_set
   {kpm:tk}{f,r:int | r > 0}
-  (itr: !iterator (knd, kpm, x, f, r)):<> Ptr1
-// end of [iter_getref]
+  (itr: !iterator (knd, kpm, x, f, r), x: x):<!wrt> void
+// end of [iter_set]
+
+fun{
+knd:tk}{x:vt0p
+} iter_exch
+  {kpm:tk}{f,r:int | r > 0}
+  (itr: !iterator (knd, kpm, x, f, r), x: &x >> x):<!wrt> void
+// end of [iter_exch]
 
 #atscode_separator()
 
@@ -165,11 +181,14 @@ knd:tk}{x:vt0p
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1)
 ) :<> void // end of [iter_inc]
 fun{
-knd:tk}{x:t0p
-} iter_get_inc
-  {kpm:tk}{f,r:int | r > 0} (
-  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1)
-) :<> x // end of [iter_get_inc]
+knd:tk}{x:vt0p
+} iter_dec
+  {kpm:tk}{f,r:int | f > 0} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
+) :<> void // end of [iter_dec]
+
+#atscode_separator()
+
 fun{
 knd:tk}{x:vt0p
 } iter_getref_inc
@@ -177,14 +196,35 @@ knd:tk}{x:vt0p
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1)
 ) :<> Ptr1 // end of [iter_getref_inc]
 
+fun{
+knd:tk}{x:t0p
+} iter_get_inc
+  {kpm:tk}{f,r:int | r > 0} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1)
+) :<> x // end of [iter_get_inc]
+fun{
+knd:tk}{x:t0p
+} iter_set_inc
+  {kpm:tk}{f,r:int | r > 0} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1), x: x
+) :<!wrt> void // end of [iter_set_inc]
+
+fun{
+knd:tk}{x:vt0p
+} iter_exch_inc
+  {kpm:tk}{f,r:int | r > 0} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1)
+, x: &x >> x
+) :<!wrt> void // end of [iter_exch_inc]
+
 #atscode_separator()
 
 fun{
 knd:tk}{x:vt0p
-} iter_dec
+} iter_dec_getref
   {kpm:tk}{f,r:int | f > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
-) :<> void // end of [iter_dec]
+) :<> Ptr1 // end of [iter_dec_getref]
 
 fun{
 knd:tk}{x:t0p
@@ -193,11 +233,19 @@ knd:tk}{x:t0p
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
 ) :<> x // end of [iter_dec_get]
 fun{
+knd:tk}{x:t0p
+} iter_dec_set
+  {kpm:tk}{f,r:int | f > 0} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1), x: x
+) :<!wrt> void // end of [iter_dec_set]
+
+fun{
 knd:tk}{x:vt0p
-} iter_dec_getref
+} iter_dec_exch
   {kpm:tk}{f,r:int | f > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
-) :<> Ptr1 // end of [iter_dec_getref]
+, x: &x >> x
+) :<!wrt> void // end of [iter_dec_exch]
 
 #atscode_separator()
 
@@ -208,11 +256,22 @@ knd:tk}{x:vt0p
   {f,r:int}
   {i:int | 0 <= i; i <= r} (
 //
-// HX: O(log(n))-time complexity is expected
+// HX: O(log(n))-time expected (O(1) for arrays)
 //
   itr: !iterator (knd, kpm, x, f, r)
          >> iterator (knd, kpm, x, f+i, r-i), i: size_t (i)
 ) :<> void // end of [iter_fjmp]
+
+#atscode_separator()
+
+fun{
+knd:tk}{x:vt0p
+} iter_fgetref_at // forward-get
+  {kpm:tk}
+  {f,r:int}
+  {i:int | 0 <= i; i < r} (
+  itr: !iterator (knd, kpm, x, f, r), i: size_t (i)
+) :<> Ptr1 // end of [iter_fgetref_at]
 
 fun{
 knd:tk}{x:t0p
@@ -220,22 +279,25 @@ knd:tk}{x:t0p
   {kpm:tk}
   {f,r:int}
   {i:int | 0 <= i; i < r} (
-//
-// HX: O(log(n))-time complexity is expected
-//
   itr: !iterator (knd, kpm, x, f, r), i: size_t (i)
 ) :<> x // end of [iter_fget_at]
 fun{
-knd:tk}{x:vt0p
-} iter_fgetref_at // forward-get
+knd:tk}{x:t0p
+} iter_fset_at // forward-set
   {kpm:tk}
   {f,r:int}
   {i:int | 0 <= i; i < r} (
-//
-// HX: O(log(n))-time complexity is expected
-//
-  itr: !iterator (knd, kpm, x, f, r), i: size_t (i)
-) :<> Ptr1 // end of [iter_fgetref_at]
+  itr: !iterator (knd, kpm, x, f, r), i: size_t (i), x: x
+) :<!wrt> void // end of [iter_fset_at]
+
+fun{
+knd:tk}{x:vt0p
+} iter_fexch_at // forward-exch
+  {kpm:tk}
+  {f,r:int}
+  {i:int | 0 <= i; i < r} (
+  itr: !iterator (knd, kpm, x, f, r), i: size_t (i), x: &x >> x
+) :<!wrt> void // end of [iter_fexch_at]
 
 #atscode_separator()
 
@@ -246,11 +308,22 @@ knd:tk}{x:vt0p
   {f,r:int}
   {i:int | ~f <= i; i <= r} (
 //
-// HX: O(log(n))-time complexity is expected
+// HX: O(log(n))-time expected (O(1) for arrays)
 //
   itr: !iterator (knd, kpm, x, f, r)
          >> iterator (knd, kpm, x, f+i, r-i), i: ssize_t (i)
 ) :<> void // end of [iter_fbjmp]
+
+#atscode_separator()
+
+fun{
+knd:tk}{x:vt0p
+} iter_fbgetref_at // forward/backward-getref
+  {kpm:tk}
+  {f,r:int}
+  {i:int | ~f <= i; i < r} (
+  itr: !iterator (knd, kpm, x, f, r), i: ssize_t (i)
+) :<> Ptr1 // end of [iter_fbgetref_at]
 
 fun{
 knd:tk}{x:t0p
@@ -258,22 +331,42 @@ knd:tk}{x:t0p
   {kpm:tk}
   {f,r:int}
   {i:int | ~f <= i; i < r} (
-//
-// HX: O(log(n))-time complexity is expected
-//
   itr: !iterator (knd, kpm, x, f, r), i: ssize_t (i)
 ) :<> x // end of [iter_fbget_at]
 fun{
-knd:tk}{x:vt0p
-} iter_fbgetref_at // forward/backward-get
+knd:tk}{x:t0p
+} iter_fbset_at // forward/backward-set
   {kpm:tk}
   {f,r:int}
   {i:int | ~f <= i; i < r} (
+  itr: !iterator (knd, kpm, x, f, r), i: ssize_t (i), x: x
+) :<!wrt> void // end of [iter_fbset_at]
+
+fun{
+knd:tk}{x:vt0p
+} iter_fbexch_at // forward/backward-exch
+  {kpm:tk}
+  {f,r:int}
+  {i:int | ~f <= i; i < r} (
+  itr: !iterator (knd, kpm, x, f, r), i: ssize_t (i), x: &x >> x
+) :<!wrt> void // end of [iter_fbexch_at]
+
+#atscode_separator()
 //
-// HX: O(log(n))-time complexity is expected
+// HX: some common generic functions on iterators
 //
-  itr: !iterator (knd, kpm, x, f, r), i: ssize_t (i)
-) :<> Ptr1 // end of [iter_fbgetref_at]
+#atscode_separator()
+
+fun{
+knd:tk}{x:t0p
+} iter_listize_copy {kpm:tk}{f,r:int} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+r, 0)
+) :<> list_vt (x, r) // end of [iter_listize_copy]
+fun{
+knd:tk}{x:t0p
+} iter_rlistize_copy {kpm:tk}{f,r:int} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+r, 0)
+) :<> list_vt (x, r) // end of [iter_rlistize_copy]
 
 #atscode_separator()
 
@@ -284,7 +377,7 @@ knd:tk}{x:vt0p
   pfv: !v
 | itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+r, 0)
 , f: (!v | &x, !vt) -<fe> void, env: !vt
-) :<fe> void // end of [fiter_foreach_funenv]
+) :<fe> void // end of [iter_foreach_funenv]
 
 #atscode_separator()
 
@@ -297,7 +390,7 @@ knd:tk}{x:vt0p
 , pred: (!v | &x, !vt) -<fe> bool, env: !vt
 ) :<fe> #[
   f1,r1:int | f1>=f; f+r==f1+r1
-] bool (r1 > 0) // end of [fiter_exists_funenv]
+] bool (r1 > 0) // end of [iter_exists_funenv]
 
 #atscode_separator()
 

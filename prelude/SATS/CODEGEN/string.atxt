@@ -32,6 +32,11 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+\#define SHR(x) x // = SHARED
+\#define NSH(x) x // = NSHARED
+
+#atscode_separator()
+
 %{
 fun
 fun_string_cmp_decl (
@@ -120,28 +125,25 @@ fun stropt_none (): stropt (~1)
 ')\
 
 #atscode_decl_strcst('\
-castfn stropt_some {n:int} (x: SHARED(string n)): stropt (n)
-castfn stropt_unsome {n:nat} (x: SHARED(stropt n)): string (n)
+castfn stropt_some {n:int} (x: SHR(string n)): stropt (n)
+castfn stropt_unsome {n:nat} (x: SHR(stropt n)): string (n)
 ')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-fun string0_append
-  (x1: string, x2: string):<> strptr1
-// end of [string0_append]
-')\
+fun string0_append (
+  x1: NSH(string), x2: NSH(string)
+) :<> strptr1 // end of [string0_append]
 
-#atscode_decl_strcst('\
 fun string1_append
-  {n1,n2:int} (x1: string n1, x2: string n2):<> strnptr (n1+n2)
-// end of [string1_append]
-')\
+  {n1,n2:int} (
+  x1: NSH(string(n1)), x2: NSH(string(n2))
+) :<> strnptr (n1+n2) // end of [string1_append]
 
 #atscode_separator()
 
 #atscode_decl_strcst('\
-fun string_concat (xs: List(string)): strptr1
+fun string_concat (xs: NSH(List(string))): strptr1
 ')\
 
 #atscode_separator()
