@@ -48,30 +48,34 @@ array_v (
 
 #atscode_separator()
 
-#atscode_decl_strcst("\
+prfun
+lemma_array_param{a:vt0p}
+  {l:addr}{n:int} (A: &(@[INV(a)][n])): [n >= 0] void
+// end of [lemma_array_param]
 prfun
 lemma_array_v_param{a:vt0p}
   {l:addr}{n:int} (pf: !array_v (INV(a), l, n)): [n >= 0] void
 // end of [lemma_array_v_param]
-")\
 
 #atscode_separator()
 
-#atscode_decl_strcst("\
 praxi array_v_nil :
   {a:vt0p}{l:addr} () -<prf> array_v (a, l, 0)
 praxi array_v_unnil :
   {a:vt0p}{l:addr} array_v (a, l, 0) -<prf> void
-")\
 
-#atscode_decl_strcst("\
+prfun array_v_unnil_nil :
+  {a1,a2:vt0p}{l:addr} array_v (a1, l, 0) -<prf> array_v (a2, l, 0)
+// end of [array_v_unnil_nil]
+
+#atscode_separator()
+
 praxi array_v_cons :
   {a:vt0p}{l:addr}{n:int}
   (a @ l, array_v (INV(a), l+sizeof(a), n)) -<prf> array_v (a, l, n+1)
 praxi array_v_uncons :
   {a:vt0p}{l:addr}{n:int | n > 0}
   array_v (INV(a), l, n) -<prf> (a @ l, array_v (a, l+sizeof(a), n-1))
-")\
 
 #atscode_separator()
 
@@ -109,12 +113,34 @@ overload [] with array_set_at
 
 #atscode_separator()
 
-#atscode_decl_strcst("\
 fun{a:vt0p}
 array_exch_at
   {n:int} (A: &(@[a][n]), i: sizeLt n, x: &a >> a): void
 // end of [array_exch_at]
-")\
+
+#atscode_separator()
+
+fun{a:vt0p}
+array_copy
+  {n:int} (
+  to: &(@[a?][n]) >> @[a][n]
+, from: &(@[INV(a)][n]) >> @[a?!][n]
+, n: size_t n
+) :<!wrt> void // end of [array_copy]
+
+#atscode_separator()
+
+fun{a:t0p}
+array_copy_from_list
+  {n:int} (
+  A: &(@[a?][n]) >> @[a][n], xs: list (INV(a), n)
+) :<!wrt> void // end of [array_copy_from_list]
+
+fun{a:vt0p}
+array_copy_from_list_vt
+  {n:int} (
+  A: &(@[a?][n]) >> @[a][n], xs: list_vt (INV(a), n)
+) :<!wrt> void // end of [array_copy_from_list_vt]
 
 #atscode_separator()
 

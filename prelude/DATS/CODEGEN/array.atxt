@@ -26,6 +26,112 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+#atscode_separator()
+
+implement{a}
+array_get_at (A, i) = let
+  val p = ptr_add_uint (addr@(A), i) in $UN.ptr_get<a> ($UN.cast2Ptr1(p))
+end // end of [array_get_at]
+
+implement{a}
+array_set_at (A, i, x) = let
+  val p = ptr_add_uint (addr@(A), i) in $UN.ptr_set<a> ($UN.cast2Ptr1(p), x)
+end // end of [array_set_at]
+
+implement{a}
+array_exch_at (A, i, x) = let
+  val p = ptr_add_uint (addr@(A), i) in $UN.ptr_exch<a> ($UN.cast2Ptr1(p), x)
+end // end of [array_exch_at]
+
+#atscode_separator()
+
+implement{a}
+array_copy
+  {n} (to, from, n) = let
+  val p_to = addr@(to) and p_from = addr@(to)
+  extern fun memcpy (
+    p1: ptr, p2: ptr, n: size_t
+  ) :<!wrt> void = "mac\#atslib_memcpy"
+  val () = memcpy (p_to, p_from, n*sizeof<a>)
+  extern praxi __assert {l1,l2:addr} (
+    pf1: !array_v (a?, l1, n) >> array_v (a  , l1, n)
+  , pf2: !array_v (a , l2, n) >> array_v (a?!, l2, n)
+  ) : void // end of [__assert]
+  prval () = __assert (view@ (to), view@ (from))
+in
+  // nothing
+end // end of [array_copy]
+
+#atscode_separator()
+
+implement{a}
+array_copy_from_list
+  (A, xs) = let
+//
+prval () = lemma_list_param (xs)
+//
+fun loop
+  {l:addr}{n:nat} .<n>. (
+  pf: !array_v (a?, l, n) >> array_v (a, l, n)
+| p: ptr l, xs: list (a, n)
+) :<!wrt> void = (
+  case+ xs of
+  | list_cons (x, xs) => let
+      prval (pf1, pf2) = array_v_uncons (pf)
+      val () = !p := x
+      val () = loop (pf2 | p+sizeof<a>, xs)
+      prval () = pf := array_v_cons (pf1, pf2)
+    in
+      // nothing
+    end // end of [list_cons]
+  | list_nil () => let
+      prval () = pf := array_v_unnil_nil (pf)
+    in
+      // nothing
+    end // end of [list_nil]
+) (* end of [loop] *)
+//
+in
+  loop (view@(A) | addr@(A), xs)
+end // end of [array_copy_from_list]
+
+#atscode_separator()
+
+implement{a}
+array_copy_from_list_vt
+  (A, xs) = let
+//
+prval () = lemma_list_vt_param (xs)
+//
+fun loop
+  {l:addr}{n:nat} .<n>. (
+  pf: !array_v (a?, l, n) >> array_v (a, l, n)
+| p: ptr l, xs: list_vt (a, n)
+) :<!wrt> void = (
+  case+ xs of
+  | ~list_vt_cons (x, xs) => let
+      prval (pf1, pf2) = array_v_uncons (pf)
+      val () = !p := x
+      val () = loop (pf2 | p+sizeof<a>, xs)
+      prval () = pf := array_v_cons (pf1, pf2)
+    in
+      // nothing
+    end // end of [list_vt_cons]
+  | ~list_vt_nil () => let
+      prval () = pf := array_v_unnil_nil (pf)
+    in
+      // nothing
+    end // end of [list_vt_nil]
+) (* end of [loop] *)
+//
+in
+  loop (view@(A) | addr@(A), xs)
+end // end of [array_copy_from_list_vt]
+
+#atscode_separator()
+
 implement{a}
 array_foreach_funenv
   (pfv | A, f, env, asz) =

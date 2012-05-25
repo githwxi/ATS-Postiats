@@ -27,6 +27,13 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 implement
+array_v_unnil_nil {a1,a2} (pf) = let
+  prval () = array_v_unnil {a1} (pf) in array_v_nil {a2} ()
+end // end of [array_v_unnil]
+
+#atscode_separator()
+
+implement
 array_v_sing (pfat) =
   array_v_cons (pfat, array_v_nil ())
 // end of [array_v_sing]

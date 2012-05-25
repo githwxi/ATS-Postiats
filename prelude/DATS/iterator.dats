@@ -208,6 +208,66 @@ in
 end // end of [iter_fgetlst]
 
 (* ****** ****** *)
+
+implement
+{knd}{x}
+iter_bgetlst {kpm} (itr, i) = let
+//
+prval () = lemma_iterator_param (itr)
+//
+stadef iter
+  (f:int, r:int) = iterator (knd, kpm, x, f, r)
+//
+fun loop
+  {f,r:int | f >= 0} {i:nat} .<f>. (
+  itr: !iter (f, r) >> iter (f-i1, r+i1)
+, i: &int(i) >> int(i-i1)
+, res: &ptr? >> list_vt (x, i1)
+) :<> #[i1:int | i1 == min(i,f)] void = let
+in
+//
+if i > 0 then let
+  val test = iter_isnot_atbeg (itr)
+in
+  if test then let
+    val () = i := i - 1
+    val x = iter_dec_get (itr)
+    val () = res :=
+      list_vt_cons {x}{0} (x, _)
+    val+ list_vt_cons (x, res1) = res
+    val () = loop (itr, i, res1)
+    prval () = fold@ (res)
+  in
+    // nothing
+  end else (res := list_vt_nil)
+end else (res := list_vt_nil) // endif
+//
+end // end of [loop]
+//
+var res: ptr
+val () = loop (itr, i, res)
+//
+in
+  res
+end // end of [iter_bgetlst]
+
+(* ****** ****** *)
+
+implement
+{knd}{x}
+iter_ins_inc (itr, x) = let
+  prval () = lemma_iterator_param (itr)
+  val () = iter_ins (itr, x) in iter_inc (itr)
+end // end of [iter_ins_inc]
+
+implement
+{knd}{x}
+iter_dec_rmv (itr) = let
+  prval () = lemma_iterator_param (itr)
+  val () = iter_dec (itr) in iter_rmv (itr)
+end // end of [iter_dec_rmv]
+
+(* ****** ****** *)
 //
 // HX: some common generic functions on iterators
 //
@@ -215,7 +275,7 @@ end // end of [iter_fgetlst]
 
 implement
 {knd}{x}
-iter_listize_copy {kpm} (itr) = let
+iter_listize_cpy {kpm} (itr) = let
 //
 prval () = lemma_iterator_param (itr)
 //
@@ -244,11 +304,11 @@ val () = loop (itr, res)
 //
 in
   res
-end // end of [iter_listize_copy]
+end // end of [iter_listize_cpy]
 
 implement
 {knd}{x}
-iter_rlistize_copy
+iter_rlistize_cpy
   {kpm} (itr) = let
 //
 prval () = lemma_iterator_param (itr)
@@ -270,7 +330,7 @@ end // end of [loop]
 //
 in
   loop (itr, list_vt_nil)
-end // end of [iter_listize_copy]
+end // end of [iter_listize_cpy]
 
 (* ****** ****** *)
 

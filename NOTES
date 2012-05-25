@@ -1,17 +1,50 @@
 #
-# HX: for recording some significant features
-# added to ATS2
+# HX-2012-05:
+#
+# for recording some significant features added to ATS2
 #
 
 (*
 **
+** HX-2012-05:
+**
+** Say we have a type
+**
+** absviewt@ype T (l:addr)
+**
+** Let T0 be defined as follows:
+** 
+** typedef T0 = [l:addr] T(l)
+**
+** The difference between the following two function decs
+** is somewhat subtle:
+**
+** fun f1 (x: &T0): void
+** fun f2 (x: &T0 >> T0): void
+**
+** The dec for function [f1] is essentially equivalent to
+** the following one:
+**
+** fun f1 {l:addr} (x: &T(l) >> T(l)): void
+**
+** So if [f1] is called on a left-value of the type T(L)
+** for some L, then the type of the left-value is still T(L)
+** after the call. On the other hand, if [f2] is called,
+** the type of the left-value may be T(L') for some L' != L.
+**
 *)
 
 (*
+**
 ** HX-2012-05-24:
+**
 ** for synthesizing the second arg of S1Etrans:
 ** T  >> _   stands for T >> T
 ** T  >> _?  stands for T >> T?
 ** T  >> _?! stands for T >> T?!
 ** T? >> _   stands for T? >> T
+**
 *)
+
+
+###### end of [NOTES] ######

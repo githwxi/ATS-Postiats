@@ -440,13 +440,63 @@ knd:tk}{x:t0p
 //
 // forward-getlst
 //
-  {kpm:tk}{f,r:int}{i:nat} (
+  {kpm:tk}
+  {f,r:int}
+  {i:nat} (
   itr: !iterator (knd, kpm, x, f, r)
          >> iterator (knd, kpm, x, f+i1, r-i1)
 , i: &int i >> int (i-i1)
 ) : #[
   i1:int | i1==min(i, r)
 ] list_vt (x, i1) // end of [iter_fgetlst]
+
+fun{
+knd:tk}{x:t0p
+} iter_bgetlst
+//
+// backward-getlst
+//
+  {kpm:tk}
+  {f,r:int}
+  {i:nat} (
+  itr: !iterator (knd, kpm, x, f, r)
+         >> iterator (knd, kpm, x, f-i1, r+i1)
+, i: &int i >> int (i-i1)
+) : #[
+  i1:int | i1==min(i, f)
+] list_vt (x, i1) // end of [iter_bgetlst]
+
+#atscode_separator()
+
+fun{
+knd:tk}{x:vt0p
+} iter_ins
+  {kpm:tk}{f,r:int} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f, r+1), x: x
+) :<!wrt> void // end of [iter_ins]
+
+fun{
+knd:tk}{x:vt0p
+} iter_ins_inc
+  {kpm:tk}{f,r:int} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r), x: x
+) :<!wrt> void // end of [iter_ins_inc]
+
+#atscode_separator()
+
+fun{
+knd:tk}{x:vt0p
+} iter_rmv
+  {kpm:tk}{f,r:int | r > 0} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f, r-1)
+) :<!wrt> x(*removed*) // end of [iter_rmv]
+
+fun{
+knd:tk}{x:vt0p
+} iter_dec_rmv
+  {kpm:tk}{f,r:int | f > 0} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r)
+) :<!wrt> x(*removed*) // end of [iter_dec_rmv]
 
 #atscode_separator()
 //
@@ -456,14 +506,27 @@ knd:tk}{x:t0p
 
 fun{
 knd:tk}{x:t0p
-} iter_listize_copy {kpm:tk}{f,r:int} (
+} iter_listize_cpy {kpm:tk}{f,r:int} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+r, 0)
-) :<> list_vt (x, r) // end of [iter_listize_copy]
+) :<> list_vt (x, r) // end of [iter_listize_cpy]
 fun{
 knd:tk}{x:t0p
-} iter_rlistize_copy {kpm:tk}{f,r:int} (
+} iter_rlistize_cpy {kpm:tk}{f,r:int} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+r, 0)
-) :<> list_vt (x, r) // end of [iter_rlistize_copy]
+) :<> list_vt (x, r) // end of [iter_rlistize_cpy]
+
+#atscode_separator()
+
+fun{
+knd:tk}{x:vt0p
+} iter_listize_rmv {kpm:tk}{f,r:int} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f, 0)
+) :<> list_vt (x, r) // end of [iter_listize_rmv]
+fun{
+knd:tk}{x:vt0p
+} iter_rlistize_rmv {kpm:tk}{f,r:int} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f, 0)
+) :<> list_vt (x, r) // end of [iter_rlistize_rmv]
 
 #atscode_separator()
 
