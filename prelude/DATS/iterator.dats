@@ -164,6 +164,50 @@ iter_fbexch_at (itr, i, x) =
 // end of [iter_fbexch_at]
 
 (* ****** ****** *)
+
+implement
+{knd}{x}
+iter_fgetlst {kpm} (itr, i) = let
+//
+prval () = lemma_iterator_param (itr)
+//
+stadef iter
+  (f:int, r:int) = iterator (knd, kpm, x, f, r)
+//
+fun loop
+  {f,r:int | r >= 0} {i:nat} .<r>. (
+  itr: !iter (f, r) >> iter (f+i1, r-i1)
+, i: &int(i) >> int(i-i1)
+, res: &ptr? >> list_vt (x, i1)
+) :<> #[i1:int | i1 == min(i,r)] void = let
+in
+//
+if i > 0 then let
+  val test = iter_isnot_atend (itr)
+in
+  if test then let
+    val () = i := i - 1
+    val x = iter_get_inc (itr)
+    val () = res :=
+      list_vt_cons {x}{0} (x, _)
+    val+ list_vt_cons (x, res1) = res
+    val () = loop (itr, i, res1)
+    prval () = fold@ (res)
+  in
+    // nothing
+  end else (res := list_vt_nil)
+end else (res := list_vt_nil) // endif
+//
+end // end of [loop]
+//
+var res: ptr
+val () = loop (itr, i, res)
+//
+in
+  res
+end // end of [iter_fgetlst]
+
+(* ****** ****** *)
 //
 // HX: some common generic functions on iterators
 //
@@ -185,7 +229,8 @@ fun loop
 in
   if test then let
     val x = iter_get_inc (itr)
-    val () = res := list_vt_cons {x}{0} (x, _)
+    val () = res :=
+      list_vt_cons {x}{0} (x, _)
     val+ list_vt_cons (x, res1) = res
     val () = loop (itr, res1)
     prval () = fold@ (res)

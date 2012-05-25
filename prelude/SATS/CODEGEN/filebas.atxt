@@ -26,22 +26,22 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-val stdin_ref : FILEref
-val stdout_ref : FILEref
-val stderr_ref : FILEref
-')\
+sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
+val stdin_ref : FILEref
+val stdout_ref : FILEref
+val stderr_ref : FILEref
+
+#atscode_separator()
+
 val file_mode_r : file_mode (r()) // = "r"
 val file_mode_rr : file_mode (rw()) // = "r+"
 val file_mode_w : file_mode (w()) // = "w"
 val file_mode_ww : file_mode (rw()) // = "w+"
 val file_mode_a : file_mode (rw()) // = "a"
 val file_mode_aa : file_mode (rw()) // = "a+"
-')\
 
 #atscode_separator()
 
@@ -64,7 +64,7 @@ fileref_load_type (a:t@ype) =
   (FILEref, &a? >> opt (a, b)) -<fun> #[b:bool] bool (b)
 // end of [fileref_load_type]
 
-fun{a:t@ype}
+fun{a:t0p}
 fileref_load : fileref_load_type (a)
 
 fun fileref_load_int : fileref_load_type (int)
@@ -75,21 +75,21 @@ fun fileref_load_string : fileref_load_type (string)
 
 #atscode_separator()
 
-fun{a:t@ype}
-fileref_get_opt (r: FILEref):<> Option_vt (a)
+fun{a:t0p}
+fileref_get_opt
+  (r: FILEref):<> Option_vt (a)
+// end of [fileref_get_opt]
 
 fun{
-a:t@ype
+a:t0p
 } fileref_get_exnmsg
   (r: FILEref, msg: READ(string)):<!exn> a
 // end of [fileref_get_exnmsg]
 
-(*
 macdef
 fileref_get_exnloc
   (r) = fileref_get_exnmsg (r, \#LOCATION)
 // end of [fileref_get_exnloc]
-*)
 
 #atscode_separator()
 

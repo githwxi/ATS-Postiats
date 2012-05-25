@@ -32,6 +32,31 @@ sortdef vt0p = viewt@ype
 
 #atscode_separator()
 
+symintr get // get (itr)
+symintr set // set (itr, x)
+symintr exch // exch (itr, x)
+
+symintr getinc // getinc (itr)
+symintr setinc // setinc (itr, x)
+symintr exchinc // exchinc (itr, x)
+
+symintr decget // decget (itr)
+symintr decset // decset (itr, x)
+symintr decexch // decexch (itr, x)
+
+symintr ++ (*inc*) // ++itr
+symintr -- (*dec*) // --itr
+
+symintr !++ (*get_inc*) // !++itr
+symintr --! (*dec_get*) // --!itr
+
+infix =++
+infix --=
+symintr =++ (*set_inc*) // itr =++ x
+symintr --= (*dec_set*) // itr --= x
+
+#atscode_separator()
+
 absviewtype
 iterator_full ( // HX: boxed
   knd: tkind
@@ -102,7 +127,11 @@ fun iter_free_array
   {x:vt0p}{l:addr}{f,r:int} (
   itr: iterator
     (iter_array_kind, iter_array_param(l), x, f, r)
-) :<> (array_v (x, l, f+r) | void) // end of [iter_free_array]
+) :<> (array_v (x, l, f+r) | void) // endfun
+
+#atscode_separator()
+
+macdef BEG = 0 and END = 1
 
 #atscode_separator()
 
@@ -122,17 +151,50 @@ knd:tk}{x:vt0p
 
 fun{
 knd:tk}{x:vt0p
+} eq_int_iter
+  {kpm:tk}{f,r:int} (
+  BEG: int(0), itr: !iterator (knd, kpm, x, f, r)
+) :<> bool (f==0) // end of [eq_int_iter]
+fun{
+knd:tk}{x:vt0p
+} lt_int_iter
+  {kpm:tk}{f,r:int} (
+  BEG: int(0), itr: !iterator (knd, kpm, x, f, r)
+) :<> bool (f > 0) // end of [lt_int_iter]
+
+overload = with eq_int_iter
+overload < with lt_int_iter
+
+#atscode_separator()
+
+fun{
+knd:tk}{x:vt0p
 } iter_is_atend
   {kpm:tk}{f,r:int}
   (itr: !iterator (knd, kpm, x, f, r)):<> bool (r==0)
 // end of [iter_is_atend]
-
 fun{
 knd:tk}{x:vt0p
 } iter_isnot_atend
   {kpm:tk}{f,r:int}
   (itr: !iterator (knd, kpm, x, f, r)):<> bool (r > 0)
 // end of [iter_isnot_atend]
+
+fun{
+knd:tk}{x:vt0p
+} eq_iter_int
+  {kpm:tk}{f,r:int} (
+  itr: !iterator (knd, kpm, x, f, r), END: int(1)
+) :<> bool (r==0) // end of [eq_iter_int]
+fun{
+knd:tk}{x:vt0p
+} lt_iter_int
+  {kpm:tk}{f,r:int} (
+  itr: !iterator (knd, kpm, x, f, r), END: int(1)
+) :<> bool (r > 0) // end of [lt_iter_int]
+
+overload = with eq_iter_int
+overload < with lt_iter_int
 
 #atscode_separator()
 
@@ -172,6 +234,10 @@ knd:tk}{x:vt0p
   (itr: !iterator (knd, kpm, x, f, r), x: &x >> x):<!wrt> void
 // end of [iter_exch]
 
+overload get with iter_get
+overload set with iter_set
+overload exch with iter_exch
+
 #atscode_separator()
 
 fun{
@@ -186,6 +252,9 @@ knd:tk}{x:vt0p
   {kpm:tk}{f,r:int | f > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
 ) :<> void // end of [iter_dec]
+
+overload ++ with iter_inc
+overload -- with iter_dec
 
 #atscode_separator()
 
@@ -208,7 +277,6 @@ knd:tk}{x:t0p
   {kpm:tk}{f,r:int | r > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1), x: x
 ) :<!wrt> void // end of [iter_set_inc]
-
 fun{
 knd:tk}{x:vt0p
 } iter_exch_inc
@@ -216,6 +284,13 @@ knd:tk}{x:vt0p
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1)
 , x: &x >> x
 ) :<!wrt> void // end of [iter_exch_inc]
+
+overload !++ with iter_get_inc
+overload =++ with iter_set_inc
+
+overload getinc with iter_get_inc
+overload setinc with iter_set_inc
+overload exchinc with iter_exch_inc
 
 #atscode_separator()
 
@@ -238,7 +313,6 @@ knd:tk}{x:t0p
   {kpm:tk}{f,r:int | f > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1), x: x
 ) :<!wrt> void // end of [iter_dec_set]
-
 fun{
 knd:tk}{x:vt0p
 } iter_dec_exch
@@ -246,6 +320,13 @@ knd:tk}{x:vt0p
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
 , x: &x >> x
 ) :<!wrt> void // end of [iter_dec_exch]
+
+overload --! with iter_dec_get
+overload --= with iter_dec_set
+
+overload decget with iter_dec_get
+overload decset with iter_dec_set
+overload decexch with iter_dec_exch
 
 #atscode_separator()
 
@@ -350,6 +431,22 @@ knd:tk}{x:vt0p
   {i:int | ~f <= i; i < r} (
   itr: !iterator (knd, kpm, x, f, r), i: ssize_t (i), x: &x >> x
 ) :<!wrt> void // end of [iter_fbexch_at]
+
+#atscode_separator()
+
+fun{
+knd:tk}{x:t0p
+} iter_fgetlst
+//
+// forward-getlst
+//
+  {kpm:tk}{f,r:int}{i:nat} (
+  itr: !iterator (knd, kpm, x, f, r)
+         >> iterator (knd, kpm, x, f+i1, r-i1)
+, i: &int i >> int (i-i1)
+) : #[
+  i1:int | i1==min(i, r)
+] list_vt (x, i1) // end of [iter_fgetlst]
 
 #atscode_separator()
 //

@@ -1,0 +1,17 @@
+#
+# HX: for recording some significant features
+# added to ATS2
+#
+
+(*
+**
+*)
+
+(*
+** HX-2012-05-24:
+** for synthesizing the second arg of S1Etrans:
+** T  >> _   stands for T >> T
+** T  >> _?  stands for T >> T?
+** T  >> _?! stands for T >> T?!
+** T? >> _   stands for T? >> T
+*)

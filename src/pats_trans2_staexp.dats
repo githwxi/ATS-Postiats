@@ -748,6 +748,55 @@ end // end of [s1exp_trup_invar]
 
 (* ****** ****** *)
 
+(*
+** HX-2012-05-24:
+** for synthesizing the second arg of S1Etrans:
+** T  >> _   stands for T >> T
+** T  >> _?  stands for T >> T?
+** T  >> _?! stands for T >> T?!
+** T? >> _   stands for T? >> T
+*)
+fn s1exp_is_underscore
+  (s1e: s1exp): bool =
+  case+ s1e.s1exp_node of
+  | S1Eide (sym) =>
+      if sym = $SYM.symbol_UNDERSCORE then true else false
+  | _ => false // end of [_]
+// end of [s1exp_is_underscore]
+
+fn s1exp_test_top_underscore
+  (s1e: s1exp): int =
+  case+ s1e.s1exp_node of
+  | S1Etop (knd, s1e) =>
+      if s1exp_is_underscore (s1e) then knd else ~1
+  | _ => ~1
+// end of [s1exp_is_top_underscore]
+
+fn s1exp_untop_if
+  (s1e: s1exp): s1exp = (
+  case+ s1e.s1exp_node of S1Etop (knd, s1e) => s1e | _ => s1e
+) // end of [s1exp_untop_if]
+
+fn s1exp_trans_syn_arg2 (
+  s1e1: s1exp, s1e2: s1exp
+) : s1exp = let
+  val isUS = s1exp_is_underscore (s1e2)
+in
+  if isUS then let
+    val s1e = s1exp_untop_if (s1e1) in s1e
+  end else let
+    val knd = s1exp_test_top_underscore (s1e2)
+  in
+    if knd >= 0 then let
+      val s1e = s1exp_untop_if (s1e1)
+    in
+      s1exp_top (s1e.s1exp_loc, knd, s1e)
+    end else s1e2 // end of [if]
+  end // end of [if]
+end // end of [s1exp_trans_syn_arg2]
+
+(* ****** ****** *)
+
 implement
 s1exp_trup_arg
   (s1e0, ws1es) = let
@@ -769,6 +818,7 @@ case+ s1e0.s1exp_node of
 | S1Etrans (s1e1, s1e2) => (
   case+ s1e1.s1exp_node of
   | S1Einvar (refval, s1e_arg) => let
+      val s1e2 = s1exp_trans_syn_arg2 (s1e_arg, s1e2)
       val () = ws1es :=
         WTHS1EXPLSTcons_some (1(*trans*), refval, s1e2, ws1es)
       // end of [val]
@@ -810,9 +860,15 @@ s1exp_trdn_res_impredicative
         ) : s2rt // end of [val]
         val s2e = s1exp_trdn (s1e, s2t)
         val ws2es = auxwth (ws1es)
+//
+// HX-2012-05:
+// hnfizing needed for removing READ, WRITE, etc.
+//
+        val s2e = s2exp_hnfize (s2e)
         val isinv = (
           if knd = 0 then s2exp_is_nonvar (s2e) else false
         ) : bool // end of [val]
+//
       in
         if isinv then
           WTHS2EXPLSTcons_invar (refval, s2e, ws2es)
