@@ -79,16 +79,13 @@ praxi array_v_uncons :
 
 #atscode_separator()
 
-#atscode_decl_strcst("\
 prfun array_v_sing
   {a:vt0p}{l:addr} (pf: INV(a) @ l): array_v (a, l, 1)
 prfun array_v_unsing
   {a:vt0p}{l:addr} (pf: array_v (INV(a), l, 1)): a @ l
-")\
 
 #atscode_separator()
 
-#atscode_decl_strcst("\
 dataview
 arrayopt_v (
   a:viewt@ype+, addr, int, bool
@@ -98,25 +95,35 @@ arrayopt_v (
   | {l:addr}{n:int}
     arrayopt_v_none (a, l, n, false) of array_v (a?, l, n)
 // end of [arrayopt_v]
-")\
 
 #atscode_separator()
 
-#atscode_decl_strcst("\
+fun{a:vt0p}
+array_getref_at
+  {n:int} (A: &(@[INV(a)][n]), i: sizeLt n):<> Ptr1
+// end of [array_getref_at]
+
 fun{a:t0p}
 array_get_at {n:int} (A: &(@[INV(a)][n]), i: sizeLt n):<> a
 fun{a:t0p}
 array_set_at {n:int} (A: &(@[INV(a)][n]), i: sizeLt n, x: a): void
 overload [] with array_get_at
 overload [] with array_set_at
-")\
-
-#atscode_separator()
 
 fun{a:vt0p}
 array_exch_at
   {n:int} (A: &(@[a][n]), i: sizeLt n, x: &a >> a): void
 // end of [array_exch_at]
+
+#atscode_separator()
+
+fun{a:vt0p}
+array_ptr_takeout
+  {l:addr}{n:int}{i:nat | i < n} (
+  pf: array_v (a, l, n) | p: ptr l, i: size_t i
+) : (
+  vtakeout (array_v (a, l, n), a @ (l+i*sizeof(a))) | ptr (l+i*sizeof(a))
+) // end of [array_getref_at]
 
 #atscode_separator()
 
@@ -141,6 +148,14 @@ array_copy_from_list_vt
   {n:int} (
   A: &(@[a?][n]) >> @[a][n], xs: list_vt (INV(a), n)
 ) :<!wrt> void // end of [array_copy_from_list_vt]
+
+#atscode_separator()
+
+fun{a:vt0p}
+array_copy_to_list_vt
+  {n:int} (
+  A: &(@[INV(a)][n]) >> @[a?!][n], n: size_t n
+) :<!wrt> list_vt (a, n) // endfun
 
 #atscode_separator()
 

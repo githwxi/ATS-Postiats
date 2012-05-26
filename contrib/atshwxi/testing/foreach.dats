@@ -122,7 +122,7 @@ fun loop
   if n > 0 then let
     prval (pf1, pf2) = array_v_uncons (pf)
     val () = foreach_array__fwork<a> (!p)
-    val () = loop (pf2 | p+sizeof<a>, pred(n))
+    val () = loop (pf2 | ptr1_add_int<a> (p, 1), pred(n))
     prval () = pf := array_v_cons (pf1, pf2)
   in
     // nothing
@@ -151,7 +151,7 @@ fun loop
       pf1, pf2
     ) = array_v_uncons (pf)
     val () = iforeach_array__fwork<a> (i, !p)
-    val () = loop (pf2 | p+sizeof<a>, pred(n), succ(i))
+    val () = loop (pf2 | ptr1_add_int<a> (p, 1), pred(n), succ(i))
     prval () = pf := array_v_cons (pf1, pf2)
   in
     // nothing

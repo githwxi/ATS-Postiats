@@ -137,15 +137,14 @@ praxi ptr_is_gtez
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 fun ptr1_is_null {l:addr}
   (p: ptr l):<> bool (l==null) = "atspre_ptr_is_null"
 fun ptr1_isnot_null {l:addr}
   (p: ptr):<> bool (l > null) = "atspre_ptr_isnot_null"
-')\
 
 #atscode_separator()
 
+(*
 fun add_ptr1_int1
   {l:addr;df:int} (
   p: ptr l, df: int df
@@ -156,7 +155,19 @@ fun sub_ptr1_int1
 ) :<> ptr (l-df) = "mac\#atspre_sub_ptr1_int1"
 overload + with add_ptr1_int1 of 2
 overload - with sub_ptr1_int1 of 2
+*)
+fun{a:vt0p}{tk:tk}
+ptr1_add_int
+  {l:addr}{i:int}
+  (p: ptr l, ofs: g1int (tk, i)):<> ptr(l+i*sizeof(a))
+// end of [ptr1_add_int]
+fun{a:vt0p}{tk:tk}
+ptr1_sub_int
+  {l:addr}{i:int}
+  (p: ptr l, ofs: g1int (tk, i)):<> ptr(l-i*sizeof(a))
+// end of [ptr1_sub_int]
 
+(*
 fun add_ptr1_size1
   {l:addr;df:int} (
   p: ptr l, df: size_t df
@@ -167,6 +178,17 @@ fun sub_ptr1_size1
 ) :<> ptr (l-df) = "mac\#atspre_sub_ptr1_size1"
 overload + with add_ptr1_size1 of 2
 overload - with sub_ptr1_size1 of 2
+*)
+fun{a:vt0p}{tk:tk}
+ptr1_add_uint
+  {l:addr}{i:int}
+  (p: ptr l, ofs: g1uint (tk, i)):<> ptr(l+i*sizeof(a))
+// end of [ptr1_add_uint]
+fun{a:vt0p}{tk:tk}
+ptr1_sub_uint
+  {l:addr}{i:int}
+  (p: ptr l, ofs: g1uint (tk, i)):<> ptr(l-i*sizeof(a))
+// end of [ptr1_sub_uint]
 
 #atscode_separator()
 

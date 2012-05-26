@@ -94,7 +94,7 @@ fun loop
     prval (pf1, pf2) = array_v_uncons (pf)
     val () = if notbeg then fprint_string (out, sep)
     val () = fprint_elt<a> (out, !p)
-    val () = loop (pf2 | out, p+sizeof<a>, pred(n), sep, true)
+    val () = loop (pf2 | out, ptr1_add_int<a> (p, 1), pred(n), sep, true)
     prval () = pf := array_v_cons (pf1, pf2)
   in
     // nothing

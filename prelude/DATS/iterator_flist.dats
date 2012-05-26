@@ -76,12 +76,12 @@ castfn iter2iterk
 (* ****** ****** *)
 
 implement{x}
-iter_make_list (xs) = iterk2iter (ITR (xs))
-
+iter_make_list
+  (xs) = iterk2iter (ITR (xs))
 implement
 iter_free_list (itr) = let
   val+ ~ITR (xs) = iter2iterk (itr) in xs
-end // end of [iter_free]
+end // end of [iter_free_list]
 
 (* ****** ****** *)
 
@@ -100,10 +100,21 @@ praxi decode
 (* ****** ****** *)
 
 implement(x)
+iter_is_atend<itrknd><x>
+  (itr) = let
+  prval () = decode (itr)
+  val+ ITR (xs) = itr
+  prval () = encode (itr)
+in
+  list_is_nil (xs)
+end // end of [iter_is_atend]
+
+(* ****** ****** *)
+
+implement(x)
 iter_get<itrknd><x> (itr) = let
   prval () = decode (itr)
-  val+ @ITR (xs) = itr; val+ list_cons (x, _) = xs
-  prval () = fold@ (itr)
+  val+ ITR (xs) = itr; val+ list_cons (x, _) = xs
   prval () = encode (itr)
 in
   x

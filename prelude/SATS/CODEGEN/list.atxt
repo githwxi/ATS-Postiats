@@ -57,6 +57,13 @@ list_of_list_vt
 
 #atscode_separator()
 
+fun{}
+list_is_nil {x:t0p}{n:int} (xs: list (x, n)):<> bool (n==0)
+fun{}
+list_is_cons {x:t0p}{n:int} (xs: list (x, n)):<> bool (n > 0)
+
+#atscode_separator()
+
 fun{
 x:t0p // type for elements
 } list_copy {n:int} (xs: list (x, n)):<> list_vt (x, n)

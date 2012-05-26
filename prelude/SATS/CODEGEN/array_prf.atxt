@@ -39,12 +39,14 @@ prfun lemma_array_params
 
 prfun
 array_v_sing
-  {a:vt0p}{l:addr} (pf: a @ l): array_v (a, l, 1)
+  {a:vt0p}{l:addr}
+  (pf: INV(a) @ l): array_v (a, l, 1)
 // end of [array_v_sing]
 
 prfun
 array_v_unsing
-  {a:vt0p}{l:addr} (pf: array_v (a, l, 1)): a @ l
+  {a:vt0p}{l:addr}
+  (pf: array_v (INV(a), l, 1)): a @ l
 // end of [array_v_unsing]
 
 #atscode_separator()
@@ -75,7 +77,7 @@ array_v_extend :
   {a:vt0p}
   {l:addr}
   {n:int} (
-  array_v (a, l, n), a @ l+n*sizeof(a)
+  array_v (INV(a), l, n), a @ l+n*sizeof(a)
 ) -<prf> array_v (a, l, n+1) // end of [array_v_extend]
 
 prfun
@@ -83,7 +85,7 @@ array_v_unextend :
   {a:vt0p}
   {l:addr}
   {n:int | n > 0} (
-  array_v (a, l, n)
+  array_v (INV(a), l, n)
 ) -<prf> (
   array_v (a, l, n-1), a @ l+(n-1)*sizeof(a)
 ) // end of [array_v_unextend]
@@ -94,10 +96,11 @@ prfun
 array_v_takeout
   {a:vt0p}
   {l:addr}
-  {n:int} {i:nat | i < n} (
+  {n:int }
+  {i:nat | i < n} (
   pfarr: array_v (INV(a), l, n)
 ) :<prf> vtakeout (
-  array_v (a, l, n), a@l+i*sizeof(a)
+  array_v (a, l, n), a @ (l+i*sizeof(a))
 ) // end of [array_v_takeout]
 
 #atscode_separator()

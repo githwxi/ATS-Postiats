@@ -31,6 +31,12 @@ staload UN = "prelude/SATS/unsafe.sats"
 #atscode_separator()
 
 implement{a}
+array_getref_at
+  (A, i) = let
+  val p = ptr_add_uint (addr@(A), i) in $UN.cast2Ptr1 (p)
+end // end of [array_getref_at]
+
+implement{a}
 array_get_at (A, i) = let
   val p = ptr_add_uint (addr@(A), i) in $UN.ptr_get<a> ($UN.cast2Ptr1(p))
 end // end of [array_get_at]
@@ -44,6 +50,16 @@ implement{a}
 array_exch_at (A, i, x) = let
   val p = ptr_add_uint (addr@(A), i) in $UN.ptr_exch<a> ($UN.cast2Ptr1(p), x)
 end // end of [array_exch_at]
+
+#atscode_separator()
+
+implement{a}
+array_ptr_takeout
+  {l}{n}{i}(pf | p, i) = let
+  prval pfout = array_v_takeout {a}{l}{n}{i} (pf)
+in
+  (pfout | ptr1_add_uint<a> (p, i))
+end // end of [array_ptr_takeout]
 
 #atscode_separator()
 
@@ -81,7 +97,7 @@ fun loop
   | list_cons (x, xs) => let
       prval (pf1, pf2) = array_v_uncons (pf)
       val () = !p := x
-      val () = loop (pf2 | p+sizeof<a>, xs)
+      val () = loop (pf2 | ptr1_add_int<a> (p, 1), xs)
       prval () = pf := array_v_cons (pf1, pf2)
     in
       // nothing
@@ -114,7 +130,7 @@ fun loop
   | ~list_vt_cons (x, xs) => let
       prval (pf1, pf2) = array_v_uncons (pf)
       val () = !p := x
-      val () = loop (pf2 | p+sizeof<a>, xs)
+      val () = loop (pf2 | ptr1_add_int<a> (p, 1), xs)
       prval () = pf := array_v_cons (pf1, pf2)
     in
       // nothing
@@ -129,6 +145,40 @@ fun loop
 in
   loop (view@(A) | addr@(A), xs)
 end // end of [array_copy_from_list_vt]
+
+#atscode_separator()
+
+implement{a}
+array_copy_to_list_vt
+  (A, n) = res where {
+//
+prval () = lemma_array_param (A)
+//
+fun loop
+  {l:addr}{n:nat} .<n>. (
+  pf: !array_v (a, l, n) >> array_v (a?!, l, n)
+| p: ptr l, n: size_t n, res: &ptr? >> list_vt (a, n)
+) :<!wrt> void = (
+  if n > 0 then let
+    prval (pf1, pf2) = array_v_uncons (pf)
+    val () = res := list_vt_cons {a}{0} (!p, _)
+    val+ list_vt_cons (_, res1) = res
+    val () = loop (pf2 | ptr1_add_int<a> (p, 1), pred(n), res1)
+    prval () = pf := array_v_cons (pf1, pf2)
+    prval () = fold@ (res)
+  in
+    // nothing
+  end else let
+    prval () = pf := array_v_unnil_nil (pf)
+  in
+    res := list_vt_nil ()
+  end // end of [if]
+) (* end of [loop] *)
+//
+var res: ptr
+val () = loop (view@(A) | addr@(A), n, res)
+//
+} // end of [array_copy_to_list_vt]
 
 #atscode_separator()
 

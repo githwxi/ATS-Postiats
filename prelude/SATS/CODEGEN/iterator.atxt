@@ -103,6 +103,26 @@ fun iter_free_list
 
 #atscode_separator()
 //
+// HX: for singly-linked list iterators
+//
+stacst iter_slist_kind : tkind
+stacst iter_slist_param : () -> tkind
+
+fun{x:t0p}
+iter_make_list_vt
+  {n:int} (xs: list_vt (x, n))
+  :<> iterator (
+  iter_slist_kind, iter_slist_param(), x, 0, n
+) // end of [iter_make_list_vt]
+
+fun iter_free_list_vt
+  {x:t0p}{f,r:int} (
+  itr: iterator
+    (iter_slist_kind, iter_slist_param(), x, f, r)
+) :<> list_vt (x, f+r) // end of [iter_free_list_vt]
+
+#atscode_separator()
+//
 // HX: for linear array iterators
 //
 stacst iter_array_kind : tkind
