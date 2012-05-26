@@ -574,11 +574,15 @@ fun s2cst_subeq (s2c1: s2cst, s2c2: s2cst): bool
 
 fun fprint_s2cst : fprint_type (s2cst)
 fun print_s2cst (x: s2cst): void
+overload print with print_s2cst
 fun prerr_s2cst (x: s2cst): void
+overload prerr with prerr_s2cst
 
 fun fprint_s2cstlst : fprint_type (s2cstlst)
 fun print_s2cstlst (xs: s2cstlst): void
+overload print with print_s2cstlst
 fun prerr_s2cstlst (xs: s2cstlst): void
+overload prerr with prerr_s2cstlst
 
 (* ****** ****** *)
 //

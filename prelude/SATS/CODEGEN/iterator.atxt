@@ -26,54 +26,31 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+sortdef tk = tkind
+
 sortdef t0p = t@ype
 sortdef vtp = viewtype
 sortdef vt0p = viewt@ype
 
 #atscode_separator()
-
-symintr get // get (itr)
-symintr set // set (itr, x)
-symintr exch // exch (itr, x)
-
-symintr getinc // getinc (itr)
-symintr setinc // setinc (itr, x)
-symintr exchinc // exchinc (itr, x)
-
-symintr decget // decget (itr)
-symintr decset // decset (itr, x)
-symintr decexch // decexch (itr, x)
-
-symintr ++ (*inc*) // ++itr
-symintr -- (*dec*) // --itr
-
-symintr !++ (*get_inc*) // !++itr
-symintr --! (*dec_get*) // --!itr
-
-infix =++
-infix --=
-symintr =++ (*set_inc*) // itr =++ x
-symintr --= (*dec_set*) // itr --= x
-
-#atscode_separator()
-
+//
 absviewtype
-iterator_full ( // HX: boxed
-  knd: tkind
-, kpm: tkind
-, x: viewt@ype+, f: int, r: int
-) // end of [absviewtype]
-stadef iterator = iterator_full
-
+iterator_viewtype ( // HX: boxed
+  knd: tkind, kpm: tkind, x: viewt@ype+, f: int, r: int
+) // end of [iterator_viewtype]
+stadef iterator_5 = iterator_viewtype
+//
 viewtypedef iterator_3 (
   knd: tkind, kpm: tkind, x: vt0p
-) = [f,r:int] iterator (knd, kpm, x, f, r)
-stadef iterator = iterator_3
+) = [f,r:int] iterator_viewtype (knd, kpm, x, f, r)
 viewtypedef iterator_4 (
   knd: tkind, kpm: tkind, x: vt0p, fr:int
-) = [f,r:int | f+r==fr] iterator (knd, kpm, x, f, r)
+) = [f,r:int | f+r==fr] iterator_viewtype (knd, kpm, x, f, r)
+//
+stadef iterator = iterator_3
 stadef iterator = iterator_4
-
+stadef iterator = iterator_5
+//
 #atscode_separator()
 
 prfun lemma_iterator_param
@@ -275,6 +252,8 @@ knd:tk}{x:vt0p
 
 overload ++ with iter_inc
 overload -- with iter_dec
+overload inc with iter_inc
+overload dec with iter_dec 
 
 #atscode_separator()
 
@@ -307,7 +286,6 @@ knd:tk}{x:vt0p
 
 overload !++ with iter_get_inc
 overload =++ with iter_set_inc
-
 overload getinc with iter_get_inc
 overload setinc with iter_set_inc
 overload exchinc with iter_exch_inc
@@ -343,7 +321,6 @@ knd:tk}{x:vt0p
 
 overload --! with iter_dec_get
 overload --= with iter_dec_set
-
 overload decget with iter_dec_get
 overload decset with iter_dec_set
 overload decexch with iter_dec_exch

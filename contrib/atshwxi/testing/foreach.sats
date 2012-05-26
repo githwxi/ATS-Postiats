@@ -4,27 +4,37 @@
 
 (* ****** ****** *)
 
+fun{}
+foreach_int__fwork (i: int): void
+fun{} foreach_int (n: Nat): void
+
+fun{}
+foreach_size__fwork (i: size_t): void
+fun{} foreach_size (n: Size): void
+
+(* ****** ****** *)
+
 fun{a:t0p}
 foreach_list__fwork (x: a): void
 fun{a:t0p}
-foreach_list {n:int} (xs: List (a)): void
+foreach_list (xs: List (a)): void
 
 fun{a:t0p}
 iforeach_list__fwork (i: size_t, x: a): void
 fun{a:t0p}
-iforeach_list {n:int} (xs: List (a)): void
+iforeach_list (xs: List (a)): void
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 foreach_list_vt__fwork (x: &a): void
 fun{a:vt0p}
-foreach_list_vt {n:int} (xs: !List_vt (a)): void
+foreach_list_vt (xs: !List_vt (a)): void
 
 fun{a:vt0p}
 iforeach_list_vt__fwork (i: size_t, x: &a): void
 fun{a:vt0p}
-iforeach_list_vt {n:int} (xs: !List_vt (a)): void
+iforeach_list_vt (xs: !List_vt (a)): void
 
 (* ****** ****** *)
 
@@ -57,6 +67,22 @@ fun{a:vt0p}
 uninitialize_array
   {n:int} (A: &(@[a][n]) >> @[a?][n], asz: size_t n) : void
 // end of [uninitalize_array]
+
+(* ****** ****** *)
+
+sortdef tk = tkind
+
+(* ****** ****** *)
+
+fun{x:vt0p}
+foreach_iterator__fwork (x: &x): void
+
+fun{
+knd:tk}{x:vt0p
+} foreach_iterator
+  {kpm:tk} {f,r:int} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+r, 0)
+) : void // end of [foreach_iterator]
 
 (* ****** ****** *)
 

@@ -364,22 +364,31 @@ end // end of [s2cst_is_singular]
 implement
 s2cst_subeq
   (s2c1, s2c2) = let
-  fun aux (
-    s2c1: s2cst, s2c2: s2cst
-  ) : bool =
-    if s2c1 = s2c2 then
-      true else auxlst (s2cst_get_sup (s2c1), s2c2)
-    // end of [if]
-  and auxlst (
-    s2cs1: s2cstlst, s2c2: s2cst
-  ) : bool =
-    case+ s2cs1 of
-    | list_cons (s2c1, s2cs1) =>
-        if aux (s2c1, s2c2) then true else auxlst (s2cs1, s2c2)
-    | list_nil () => false
-  // end of [auxlst]
+(*
+val () = println! ("s2cst_subeq: s2c1 = ", s2c1)
+val () = println! ("s2cst_subeq: s2c2 = ", s2c2)
+*)
+fun aux (
+  s2c1: s2cst, s2c2: s2cst
+) : bool =
+  if s2c1 = s2c2 then
+    true else auxlst (s2cst_get_sup (s2c1), s2c2)
+  // end of [if]
+and auxlst (
+  s2cs1: s2cstlst, s2c2: s2cst
+) : bool =
+  case+ s2cs1 of
+  | list_cons (s2c1, s2cs1) =>
+      if aux (s2c1, s2c2) then true else auxlst (s2cs1, s2c2)
+  | list_nil () => false
+// end of [auxlst]
+//
+val res = aux (s2c1, s2c2)
+(*
+val () = println! ("s2cst_subeq: res = ", res)
+*)
 in
-  aux (s2c1, s2c2)
+  res
 end // end of [s2cst_subeq]
 
 (* ****** ****** *)

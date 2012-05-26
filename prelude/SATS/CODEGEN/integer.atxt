@@ -34,6 +34,13 @@ sortdef tk = tkind
 
 #atscode_separator()
 
+fun{k1,k2:tk}
+g0int2int (x: g0int (k1)):<> g0int (k2)
+fun{k1,k2:tk}
+g0int2int (x: g0int (k1)):<> g0int (k2)
+
+#atscode_separator()
+
 fun{tk:tk}
 g0int_neg (x: g0int (tk)):<> g0int (tk)
 overload ~ with g0int_neg of 0
@@ -147,6 +154,15 @@ castfn
 g1ofg0_int
   {tk:tk} (x: g0int tk):<> g1int (tk)
 // end of [g1ofg0_int]
+
+fun{k1,k2:tk}
+g1int2int
+  {i:nat} (x: g1int (k1, i)):<> g1int (k2, i)
+// end of [g1int2int]
+fun{k1,k2:tk}
+g1int2int
+  {u:int} (x: g1int (k1, u)):<> g1int (k2, u)
+// end of [g1int2int]
 
 #atscode_separator()
 
@@ -433,6 +449,15 @@ fun{k1,k2:tk}
 g1uint2int
   {u:int} (x: g1uint (k1, u)):<> g1int (k2, u)
 // end of [g1uint2int]
+
+fun{k1,k2:tk}
+g1uint2uint
+  {i:nat} (x: g1uint (k1, i)):<> g1uint (k2, i)
+// end of [g1uint2uint]
+fun{k1,k2:tk}
+g1uint2int
+  {u:int} (x: g1uint (k1, u)):<> g1uint (k2, u)
+// end of [g1uint2uint]
 
 #atscode_separator()
 

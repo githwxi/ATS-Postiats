@@ -51,6 +51,8 @@ cairo:: ; ./patsopt -s < $(PATSHOME)/contrib/cairo/SATS/cairo.sats
 
 atshwxi:: ; ./patsopt -s < $(PATSHOME)/contrib/atshwxi/testing/foreach.sats
 atshwxi:: ; ./patsopt -d < $(PATSHOME)/contrib/atshwxi/testing/foreach.dats
+atshwxi:: ; ./patsopt -s < $(PATSHOME)/contrib/atshwxi/testing/foldleft.sats
+atshwxi:: ; ./patsopt -d < $(PATSHOME)/contrib/atshwxi/testing/foldleft.dats
 atshwxi:: ; ./patsopt -s < $(PATSHOME)/contrib/atshwxi/testing/fprint.sats
 atshwxi:: ; ./patsopt -d < $(PATSHOME)/contrib/atshwxi/testing/fprint.dats
 atshwxi:: ; ./patsopt -s < $(PATSHOME)/contrib/atshwxi/testing/tprint.sats

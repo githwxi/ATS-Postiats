@@ -37,7 +37,7 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [fcontainer.dats] starts!\n"
+#print "Loading [iterator.dats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
@@ -460,7 +460,7 @@ end // end of [iter_bsearch_funenv]
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [fcontainer.dats] finishes!\n"
+#print "Loading [iterator.dats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)

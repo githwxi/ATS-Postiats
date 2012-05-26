@@ -32,9 +32,9 @@
 //
 (* ****** ****** *)
 //
-// HX-2012-05-22:
-// this code itself is not particularly useful; however, it sets a concrete
-// example demonstrating how iterators can be created.
+// HX-2012-05-25:
+//
+// for iterators based on singly-linked lists
 //
 (* ****** ****** *)
 

@@ -12,6 +12,44 @@ staload "contrib/atshwxi/testing/foreach.sats"
 
 (* ****** ****** *)
 
+implement{}
+foreach_int (n) = let
+//
+fun loop
+  {n:int}
+  {i:nat | i <= n} .<n-i>. (
+  n: int n, i: int i
+) : void =
+  if i < n then let
+    val () = foreach_int__fwork (i) in loop (n, succ(i))
+  end else () // end of [if]
+(* end of [loop] *)
+//
+in
+  loop (n, 0)
+end // end of [foreach_int]
+
+(* ****** ****** *)
+
+implement{}
+foreach_size (n) = let
+//
+fun loop
+  {n:int}
+  {i:nat | i <= n} .<n-i>. (
+  n: size_t (n), i: size_t (i)
+) : void =
+  if i < n then let
+    val () = foreach_size__fwork (i) in loop (n, succ(i))
+  end else () // end of [if]
+(* end of [loop] *)
+//
+in
+  loop (n, g1int2uint(0))
+end // end of [foreach_size]
+
+(* ****** ****** *)
+
 implement{a}
 foreach_list (xs) = let
 //
@@ -112,7 +150,7 @@ end // end of [iforeach_list_vt]
 implement{a}
 foreach_array (A, n) = let
 //
-prval () = lemma_array_v_param (view@(A))
+prval () = lemma_array_param (A)
 //
 fun loop
   {l:addr}
@@ -138,7 +176,7 @@ end // end of [foreach_array]
 implement{a}
 iforeach_array {n0} (A, n0) = let
 //
-prval () = lemma_array_v_param (view@(A))
+prval () = lemma_array_param (A)
 //
 fun loop
   {l:addr}
@@ -211,6 +249,38 @@ extern praxi __assert
 in
   __assert (view@ (A))
 end // end of [uninitialize_array]
+
+(* ****** ****** *)
+
+implement
+{knd}{x}
+foreach_iterator
+  {kpm}{f,r} (itr) = let
+//
+val () = lemma_iterator_param (itr)
+//
+stadef iter
+  (f:int, r:int) = iterator (knd, kpm, x, f, r)
+//
+fun loop
+  {f,r:int | r >= 0} .<r>. (
+  itr: !iter (f, r) >> iter (f+r, 0)
+) : void = let
+  val test = iter_isnot_atend (itr)
+in
+  if test then let
+    val p = iter_getref_inc (itr)
+    prval (pf, fpf) = $UN.ptr_vget {x} (p)
+    val () = foreach_iterator__fwork (!p)
+    prval () = fpf (pf)
+  in
+    loop (itr)
+  end else () // end of [if]
+end (* end of [loop] *)
+//
+in
+  loop (itr)
+end // end of [foreach_iterator]
 
 (* ****** ****** *)
 

@@ -31,6 +31,10 @@
 // Start Time: May, 2012
 //
 (* ****** ****** *)
+//
+// HX-2012-05: for array-based iterators
+//
+(* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
 
@@ -51,7 +55,10 @@ stadef itrkpm = iter_array_param
 dataviewtype
 iterk (
   a:t@ype+, l:addr, int(*f*), int(*r*)
-) = {f,r:int} ITR (a, l, f, r) of (array_v (a, l, f+r) | ptr l, ptr, ptr)
+) = {f,r:int}
+  ITR (a, l, f, r) of (
+    array_v (a, l, f+r) | ptr l(*beg*), ptr(*end*), ptr(*cur*)
+  ) // end of [ITR]
 
 (* ****** ****** *)
 
@@ -99,7 +106,7 @@ implement(x)
 iter_is_atbeg<itrknd><x>
   {kpm}{f,r} (itr) = let
   prval () = decode (itr)
-  val+ ITR (_ | p_beg, p_beg, pi) = itr
+  val+ ITR (_ | p_beg, p_end, pi) = itr
   prval () = encode (itr)
   val res = bool1_of_bool (p_beg = pi)
   extern praxi __assert {b:bool} (b: bool b): [b==(f==0)] void
@@ -112,7 +119,7 @@ implement(x)
 iter_isnot_atbeg<itrknd><x>
   {kpm}{f,r} (itr) = let
   prval () = decode (itr)
-  val+ ITR (_ | p_beg, p_beg, pi) = itr
+  val+ ITR (_ | p_beg, p_end, pi) = itr
   prval () = encode (itr)
   extern castfn __cast {b:bool} (b: bool b):<> [b==(f>0)] bool (b)
 in
@@ -228,9 +235,8 @@ iter_fgetref_at<itrknd><x>
   prval () = decode (itr)
   val+ ITR (_ | _, _, pi) = itr
   prval () = encode (itr)
-  val pi_ofs = $UN.cast2Ptr1 (ptr_add_uint<x> (pi, i))
 in
-  pi_ofs
+  $UN.cast2Ptr1 (ptr_add_uint<x> (pi, i))
 end // end of [iter_fgetref_at]
 
 (* ****** ****** *)
@@ -252,9 +258,8 @@ iter_fbgetref_at<itrknd><x>
   prval () = decode (itr)
   val+ ITR (_ | _, _, pi) = itr
   prval () = encode (itr)
-  val pi_ofs = $UN.cast2Ptr1 (ptr_add_int<x> (pi, i))
 in
-  pi_ofs
+  $UN.cast2Ptr1 (ptr_add_int<x> (pi, i))
 end // end of [iter_fbget_at]
 
 (* ****** ****** *)

@@ -313,6 +313,15 @@ symintr compare max min pow
 (*
 symintr foreach iforeach rforeach
 *)
+//
+symintr inc dec
+symintr ++ -- // inc and dec
+symintr get set exch
+symintr getinc setinc exchinc
+symintr decget decset decexch
+symintr !++ --! // getinc and decget
+symintr =++ --= // setinc and decset
+//
 symintr fprint print prerr
 symintr length (* array_length, list_length, string_length, etc. *)
 symintr ptrcast (* for functions taking the address of a boxed val *)

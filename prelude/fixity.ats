@@ -103,6 +103,12 @@ infix 0 >> <<
 
 (* ****** ****** *)
 
+prefix 0 ++ -- // inc and dec
+prefix 0 !++ --! // getinc and decget
+infixr 0 =++ --= // setinc and decset
+
+(* ****** ****** *)
+
 #if VERBOSE_FIXITY #then
 #print "Loading [fixity.ats] finishes!\n"
 #endif // end of [VERBOSE_FIXITY]

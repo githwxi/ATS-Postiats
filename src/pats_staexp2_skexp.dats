@@ -390,11 +390,12 @@ case+ (x1, x2) of
 | (S2KEfun (_arg1, _res1),
    S2KEfun (_arg2, _res2)) => let
     val () =
-      s2kexplst_ismat_exn (_arg1, _arg2)
+      s2kexplst_ismat_exn (_arg2, _arg1) // contra-variant
     // end of [val]
   in
     s2kexp_ismat_exn (_res1, _res2)
   end // end of [fun, fun]
+| (S2KEapp (x1, _), S2KEcst _) => s2kexp_ismat_exn (x1, x2)
 | (S2KEapp (_fun1, _arg1),
    S2KEapp (_fun2, _arg2)) => let
     val () = s2kexp_ismat_exn (_fun1, _fun2)
