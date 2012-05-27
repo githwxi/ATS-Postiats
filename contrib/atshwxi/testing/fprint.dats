@@ -118,4 +118,42 @@ fprint_arrayptr_sep
 
 (* ****** ****** *)
 
+implement
+{knd}{x}
+fprint_iterator_sep
+  {kpm}{f,r}
+  (out, itr, sep) = let
+//
+val () = lemma_iterator_param (itr)
+//
+stadef iter
+  (f:int, r:int) = iterator (knd, kpm, x, f, r)
+//
+fun loop
+  {f,r:int | r >= 0} .<r>. (
+  out: FILEref
+, itr: !iter (f, r) >> iter (f+r, 0)
+, sep: string
+, notbeg: bool
+) : void = let
+  val test = iter_isnot_atend (itr)
+in
+  if test then let
+    val (
+      fpf | x
+    ) = iter_vget_inc (itr)
+    val () = if notbeg then fprint_string (out, sep)
+    val () = fprint_elt<x> (out, x)
+    prval () = fpf (x)    
+  in
+    loop (out, itr, sep, true)
+  end else ()
+end // end of [loop]
+//
+in
+  loop (out, itr, sep, false(*notbeg*))
+end // end of [fprint_iterator_sep]
+
+(* ****** ****** *)
+
 (* end of [fprint.dats] *)

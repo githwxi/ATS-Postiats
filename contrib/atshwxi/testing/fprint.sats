@@ -102,4 +102,16 @@ fprint_arrszref
 
 (* ****** ****** *)
 
+fun{
+knd:tk
+}{x:vt0p
+} fprint_iterator_sep
+  {kpm:tk}{f,r:int} (
+  out: FILEref
+, itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+r, 0)
+, sep: string
+) : void // end of [fprint_iterator_sep]
+
+(* ****** ****** *)
+
 (* end of [fprint.sats] *)

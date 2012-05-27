@@ -62,9 +62,24 @@ end // end of [iter_isnot_atend]
 
 implement
 {knd}{x}
-iter_get (itr) =
-  $UN.ptr_get<x> (iter_getref<knd><x> (itr))
-// end of [iter_get]
+iter_vget (itr) = let
+  val p =
+    iter_getref<knd><x> (itr)
+  prval (
+    pf, fpf
+  ) = $UN.ptr_vget {x} (p)
+  val res = $UN.vttakeout_void {x} (!p)
+  prval () = fpf (pf)
+in
+  res
+end // end of [iter_vget]
+
+implement
+{knd}{x}
+iter_get (itr) = x where {
+  val (fpf | x) = iter_vget<knd><x> (itr); prval () = fpf (x)
+} // end of [iter_get]
+
 implement
 {knd}{x}
 iter_set (itr, x) =
@@ -81,9 +96,26 @@ end // end of [iter_getref_inc]
 
 implement
 {knd}{x}
-iter_get_inc (itr) =
-  $UN.ptr_get<x> (iter_getref_inc<knd><x> (itr))
-// end of [iter_get_inc]
+iter_vget_inc (itr) = let
+  val p =
+    iter_getref_inc<knd><x> (itr)
+  prval (
+    pf, fpf
+  ) = $UN.ptr_vget {x} (p)
+  val res = $UN.vttakeout_void {x} (!p)
+  prval () = fpf (pf)
+in
+  res
+end // end of [iter_vget_inc]
+
+implement
+{knd}{x}
+iter_get_inc
+  (itr) = x where {
+  val (fpf | x) =
+    iter_vget_inc<knd><x> (itr)
+  prval () = fpf (x)
+} // end of [iter_get_inc]
 implement
 {knd}{x}
 iter_set_inc (itr, x) =
@@ -109,19 +141,36 @@ end // end of [iter_dec_getref]
 
 implement
 {knd}{x}
-iter_dec_get (itr) =
-  $UN.ptr_get<x> (iter_dec_getref<knd><x> (itr))
-// end of [iter_get_dec]
+iter_dec_vget (itr) = let
+  val p =
+    iter_dec_getref<knd><x> (itr)
+  prval (
+    pf, fpf
+  ) = $UN.ptr_vget {x} (p)
+  val res = $UN.vttakeout_void {x} (!p)
+  prval () = fpf (pf)
+in
+  res
+end // end of [iter_dec_vget]
+
+implement
+{knd}{x}
+iter_dec_get
+  (itr) = x where {
+  val (fpf | x) =
+    iter_dec_vget<knd><x> (itr)
+  prval () = fpf (x)
+} // end of [iter_dec_get]
 implement
 {knd}{x}
 iter_dec_set (itr, x) =
   $UN.ptr_set<x> (iter_dec_getref<knd><x> (itr), x)
-// end of [iter_set_dec]
+// end of [iter_dec_set]
 implement
 {knd}{x}
 iter_dec_exch (itr, x) =
   $UN.ptr_exch<x> (iter_dec_getref<knd><x> (itr), x)
-// end of [iter_exch_dec]
+// end of [iter_dec_exch]
 
 (* ****** ****** *)
 (*

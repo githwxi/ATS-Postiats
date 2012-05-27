@@ -27,7 +27,6 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 sortdef tk = tkind
-
 sortdef t0p = t@ype
 sortdef vtp = viewtype
 sortdef vt0p = viewt@ype
@@ -212,6 +211,13 @@ knd:tk}{x:vt0p
 // end of [iter_getref]
 
 fun{
+knd:tk}{x:vt0p
+} iter_vget
+  {kpm:tk}{f,r:int | r > 0}
+  (itr: !iterator (knd, kpm, x, f, r)):<> vttakeout (void, x)
+// end of [iter_vget]
+
+fun{
 knd:tk}{x:t0p
 } iter_get
   {kpm:tk}{f,r:int | r > 0}
@@ -265,6 +271,13 @@ knd:tk}{x:vt0p
 ) :<> Ptr1 // end of [iter_getref_inc]
 
 fun{
+knd:tk}{x:vt0p
+} iter_vget_inc
+  {kpm:tk}{f,r:int | r > 0} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1)
+) :<> vttakeout (void, x) // end of [iter_vget_inc]
+
+fun{
 knd:tk}{x:t0p
 } iter_get_inc
   {kpm:tk}{f,r:int | r > 0} (
@@ -298,6 +311,13 @@ knd:tk}{x:vt0p
   {kpm:tk}{f,r:int | f > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
 ) :<> Ptr1 // end of [iter_dec_getref]
+
+fun{
+knd:tk}{x:vt0p
+} iter_dec_vget
+  {kpm:tk}{f,r:int | f > 0} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
+) :<> vttakeout (void, x) // end of [iter_dec_vget]
 
 fun{
 knd:tk}{x:t0p

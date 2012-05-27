@@ -70,6 +70,16 @@ praxi ptr_vget
   {a:vt0p}{l:agz} (p: ptr l): vtakeout (void, a@l)
 // end of [ptr_vget]
 
+praxi
+vtakeout_void {v:view} (pf: !v): vtakeout (void, v)
+
+castfn
+vttakeout_void {vt:vt0p} (x: !vt):<> vttakeout (void, vt)
+
+#atscode_separator()
+//
+// HX: only if you know what you are doing ...
+//
 fun{a:vt0p} ptr_get (p: Ptr1):<> a
 fun{a:vt0p} ptr_set (p: Ptr1, x: INV(a)):<!wrt> void
 fun{a:vt0p} ptr_exch (p: Ptr1, x: &INV(a) >> a):<!wrt> void

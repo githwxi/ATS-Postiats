@@ -43,6 +43,9 @@ prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/unsafe.dats
 
 ######
 
+libc:: ; ./patsopt -s < $(PATSHOME)/libc/SATS/stdio.sats
+libc:: ; ./patsopt -d < $(PATSHOME)/libc/SATS/stdio.dats
+libc:: ; ./patsopt -d < $(PATSHOME)/libc/SATS/stdio_iterator.dats
 libc:: ; ./patsopt -s < $(PATSHOME)/libc/SATS/unistd.sats
 
 ######

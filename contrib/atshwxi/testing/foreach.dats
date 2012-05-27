@@ -254,7 +254,37 @@ end // end of [uninitialize_array]
 
 implement
 {knd}{x}
-foreach_iterator
+foreach_fiterator
+  {kpm}{f,r} (itr) = let
+//
+val () = lemma_iterator_param (itr)
+//
+stadef iter
+  (f:int, r:int) = iterator (knd, kpm, x, f, r)
+//
+fun loop
+  {f,r:int | r >= 0} .<r>. (
+  itr: !iter (f, r) >> iter (f+r, 0)
+) : void = let
+  val test = iter_isnot_atend (itr)
+in
+  if test then let
+    val x = iter_get_inc (itr)
+    val () = foreach_fiterator__fwork (x)
+  in
+    loop (itr)
+  end else () // end of [if]
+end (* end of [loop] *)
+//
+in
+  loop (itr)
+end // end of [foreach_fiterator]
+
+(* ****** ****** *)
+
+implement
+{knd}{x}
+foreach_literator
   {kpm}{f,r} (itr) = let
 //
 val () = lemma_iterator_param (itr)
@@ -271,7 +301,7 @@ in
   if test then let
     val p = iter_getref_inc (itr)
     prval (pf, fpf) = $UN.ptr_vget {x} (p)
-    val () = foreach_iterator__fwork (!p)
+    val () = foreach_literator__fwork (!p)
     prval () = fpf (pf)
   in
     loop (itr)
@@ -280,7 +310,7 @@ end (* end of [loop] *)
 //
 in
   loop (itr)
-end // end of [foreach_iterator]
+end // end of [foreach_literator]
 
 (* ****** ****** *)
 

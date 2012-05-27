@@ -887,5 +887,30 @@ fun setvbuf1
 overload setvbuf with setvbuf1
 
 (* ****** ****** *)
+//
+// HX-2012-05: functions for creating iterators
+//
+(* ****** ****** *)
+
+stacst iter_fileptr_char_kind : tkind
+stacst iter_fileptr_char_param : (addr, fm) -> tkind
+
+(*
+** HX: this one is a fiterator
+*)
+fun iter_make_fileptr_char
+  {l:addr}{m:fm} (
+  pf: fmlte (m, r()) | filp: FILEptr (l, m)
+) : iterator (
+  iter_fileptr_char_kind, iter_fileptr_char_param(l,m), char
+) // end of [iter_make_fileptr_char]
+
+fun iter_free_fileptr_char
+  {l:addr}{m:fm} (
+  itr: iterator
+    (iter_fileptr_char_kind, iter_fileptr_char_param(l,m), char)
+) : FILEptr (l, m) // end of [iter_free_fileptr_char]
+
+(* ****** ****** *)
 
 (* end of [stdio.sats] *)

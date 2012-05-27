@@ -461,8 +461,11 @@ stadef ref = ref_viewt0ype_type
 
 (* ****** ****** *)
 
-viewdef
-vtakeout (v1: view, v2: view) = (v2, v2 -<lin,prf> v1)
+viewdef vtakeout
+  (v1: view, v2: view) = (v2, v2 -<lin,prf> v1)
+viewtypedef vttakeout
+  (vt1: viewt@ype, vt2: viewt@ype) = (vt2 -<lin,prf> vt1 | vt2)
+// end of [vttakeout]
 
 (* ****** ****** *)
 

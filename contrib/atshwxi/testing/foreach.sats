@@ -75,14 +75,24 @@ sortdef tk = tkind
 (* ****** ****** *)
 
 fun{x:vt0p}
-foreach_iterator__fwork (x: &x): void
-
+foreach_fiterator__fwork (x: x): void
 fun{
 knd:tk}{x:vt0p
-} foreach_iterator
+} foreach_fiterator
   {kpm:tk} {f,r:int} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+r, 0)
-) : void // end of [foreach_iterator]
+) : void // end of [foreach_fiterator]
+
+(* ****** ****** *)
+
+fun{x:vt0p}
+foreach_literator__fwork (x: &x): void
+fun{
+knd:tk}{x:vt0p
+} foreach_literator
+  {kpm:tk} {f,r:int} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+r, 0)
+) : void // end of [foreach_literator]
 
 (* ****** ****** *)
 
