@@ -31,50 +31,50 @@ fprint_elt<char> (out, x) = fprint_char (out, x)
 
 #atscode_separator()
 
-implement{a}
+implement{tk}
 g0int_of_char
   (c) = __cast (c) where {
-  extern castfn __cast (c: char):<> g0int (a)
+  extern castfn __cast (c: char):<> g0int (tk)
 } // end of [g0int_of_char]
-implement{a}
+implement{tk}
 g0int_of_schar
   (c) = __cast (c) where {
-  extern castfn __cast (c: schar):<> g0int (a)
+  extern castfn __cast (c: schar):<> g0int (tk)
 } // end of [g0int_of_schar]
-implement{a}
+implement{tk}
 g0int_of_uchar
   (c) = __cast (c) where {
-  extern castfn __cast (c: uchar):<> g0int (a)
+  extern castfn __cast (c: uchar):<> g0int (tk)
 } // end of [g0int_of_uchar]
 
-implement{a}
+implement{tk}
 g0uint_of_uchar
   (c) = __cast (c) where {
-  extern castfn __cast (c: uchar):<> g0uint (a)
+  extern castfn __cast (c: uchar):<> g0uint (tk)
 } // end of [g0uint_of_uchar]
 
 #atscode_separator()
 
-implement{a}
+implement{tk}
 g1int_of_char1
   {c} (c) = __cast (c) where {
-  extern castfn __cast (c: char c):<> g1int (a, c)
+  extern castfn __cast (c: char c):<> g1int (tk, c)
 } // end of [g1int_of_char1]
-implement{a}
+implement{tk}
 g1int_of_schar1
   {c} (c) = __cast (c) where {
-  extern castfn __cast (c: schar c):<> g1int (a, c)
+  extern castfn __cast (c: schar c):<> g1int (tk, c)
 } // end of [g1int_of_schar1]
-implement{a}
+implement{tk}
 g1int_of_uchar1
   {c} (c) = __cast (c) where {
-  extern castfn __cast (c: uchar c):<> g1int (a, c)
+  extern castfn __cast (c: uchar c):<> g1int (tk, c)
 } // end of [g1int_of_uchar1]
 
-implement{a}
+implement{tk}
 g1uint_of_uchar1
   {c} (c) = __cast (c) where {
-  extern castfn __cast (c: uchar c):<> g1uint (a, c)
+  extern castfn __cast (c: uchar c):<> g1uint (tk, c)
 } // end of [g1uint_of_uchar1]
 
 #atscode_separator()

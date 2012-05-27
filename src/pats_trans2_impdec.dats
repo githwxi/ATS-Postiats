@@ -499,7 +499,7 @@ fun aux_imparg_svararg (
     val () = prerr_error2_loc (loc)
     val () = filprerr_ifdebug "i1mpdec_tr_main"
     val () = prerr ": the implementation argument group is expected to contain "
-    val () = prerr_string (if serr > 0 then "more" else "fewer")
+    val () = prerr_string (if serr > 0 then "fewer" else "more")
     val () = prerr " components."
     val () = prerr_newline ()
   in
@@ -695,17 +695,30 @@ in
 end // end of [aux_tmparg_s1explstlst]
 //
 fun aux_tmparg (
-  d1c0: d1ecl, s2qs: s2qualst, impdec: i1mpdec
+  d1c0: d1ecl
+, s2qs: s2qualst, tmparg: t1mpmarglst
 ) : s2explstlst = let
 in
-  aux_tmparg_marglst (d1c0, s2qs, impdec.i1mpdec_tmparg)
+  aux_tmparg_marglst (d1c0, s2qs, tmparg)
 end // end of [aux_tmparg]
 //
-val s2qs = d2cst_get_decarg (d2c)
-val (pfenv | ()) = the_s2expenv_push_nil ()
-val () =
-  if list_is_cons (s2qs) then the_tmplev_inc ()
+fun auxerr_tmparg
+  (d1c0: d1ecl): void = let
+  val () = prerr_error2_loc (d1c0.d1ecl_loc)
+  val () = filprerr_ifdebug "i1mpdec_tr_main"
+  val () = prerr ": the redundantly provided template arguments are ignored."
+  val () = prerr_newline ()
+in
+  the_trans2errlst_add (T2E_impdec_tr (d1c0))
+end // end of [auxerr_tmparg]
 //
+val s2qs = d2cst_get_decarg (d2c)
+val isdecarg = list_is_cons (s2qs)
+val tmparg = impdec.i1mpdec_tmparg
+val istmparg = list_is_cons (tmparg)
+var istmpargerr: bool = false // HX: redundancy
+val (pfenv | ()) = the_s2expenv_push_nil ()
+val () = if isdecarg then the_tmplev_inc ()
 val (imparg, opt) = aux_imparg (d1c0, s2qs, imparg)
 val sfess = (case+ opt of
   | ~Some_vt (s2vss) => let
@@ -714,14 +727,17 @@ val sfess = (case+ opt of
       ) : s2explst =
          l2l (list_map_fun (s2vs, s2exp_var))
       // end of [f]
+      val () = if istmparg then istmpargerr := true
     in
       l2l (list_map_fun (s2vss, f))
     end // end of [Some]
-  | ~None_vt () => aux_tmparg (d1c0, s2qs, impdec)
+  | ~None_vt () => aux_tmparg (d1c0, s2qs, tmparg)
 ) : s2explstlst // end of [val]
 //
+val () = if istmpargerr then auxerr_tmparg (d1c0)
+//
 val tmparg = sfess
-val tmpgua = list_nil ()
+val tmpgua = list_nil () // HX: template guards are not supported
 //
 val d2e = let
   var sub = stasub_make_nil ()
@@ -733,8 +749,7 @@ in
   d1exp_tr_ann (impdec.i1mpdec_def, s2e)
 end // end of [val]
 //
-val () =
-  if list_is_cons (s2qs) then the_tmplev_dec ()
+val () = if isdecarg then the_tmplev_dec ()
 val () = the_s2expenv_pop_free (pfenv | (*none*))
 //
 val () = d2cst_set_def (d2c, Some d2e)

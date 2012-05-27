@@ -1843,6 +1843,7 @@ s1exp_trdn_arg_impredicative
   (s1e, w1ts) = s2e where {
   val s2e = s1exp_trup_arg (s1e, w1ts)
   val s2t = s2e.s2exp_srt
+  val s2t = s2rt_delink (s2t)
   val isimp = s2rt_is_impredicative (s2t)
   val () = if not(isimp) then let
     val () = prerr_error2_loc (s1e.s1exp_loc)

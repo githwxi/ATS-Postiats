@@ -1211,7 +1211,6 @@ end // end of [p_v0ardec]
 
 (*
 i0mpsvararg ::= LBRACE s0vararg RBRACE
-i0mparg ::= LPAREN {s0arg}* RPAREN | {i0mpsvararg}*
 *)
 
 fun
@@ -1229,6 +1228,9 @@ in
   if err = err0 then ent2 else synent_null ((*okay*))
 end // end of [p_i0mpsvararg]
 
+(*
+i0mparg ::= LPAREN {s0arg}* RPAREN | {i0mpsvararg}*
+*)
 fun
 p_i0mparg (
   buf: &tokbuf, bt: int, err: &int

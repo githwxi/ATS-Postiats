@@ -57,7 +57,9 @@ implement
 d2exp_is_varlamcst
   (d2e0) = begin
   case+ d2e0.d2exp_node of
-  | D2Evar _ => true
+  | D2Evar d2v => (
+      if d2var_is_mutabl d2v then false else true
+    ) // end of [D2Evar]
   | D2Elam_dyn _ => true
   | D2Eint _ => true
   | D2Ebool _ => true

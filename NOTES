@@ -1,8 +1,61 @@
 #
-# HX-2012-05:
+# HX:
 #
 # for recording some significant features added to ATS2
 #
+
+(*
+** HX-2011-summer:
+**
+** Say that we have the following declared templates:
+**
+extern
+fun
+{a:t@ype}
+{b,c:t@ype}
+foo (x: a, y: b, z: c): vood
+**
+** This is style that is allready supported in ATS:
+**
+implement{a}{b,c} foo (x, y, z) = ()
+**
+*)
+
+(*
+** HX-2012-05:
+**
+** In ATS2, pattern matching involving linear types is
+** re-designed. For instance, computing the length of a
+** linear list can now be implemented as follows:
+**
+fun{a:viewt@ype}
+length {n:int}
+  (xs: !list_vt (a, n)): int (n) =
+  case+ xs of
+  | list_vt_cons (x, xs) => 1 + length (xs)
+  | list_vt_nil () => 0
+// end of [length]
+**
+** As another example, reverse-append on a linear list
+** can now be implemented as follows:
+//
+fun{a:viewt@ype}
+revapp {m,n:nat} .<m>. (
+  xs: list_vt (a, m), ys: list_vt (a, n)
+) :<> list_vt (a, m+n) =
+  case xs of
+  | @list_vt_cons
+      (_, xs1) => let
+      val xs1_ = xs1
+      val () = xs1 := ys; prval () = fold@ (xs)
+    in
+      revapp (xs1_, xs)
+    end
+  | ~list_vt_nil () => ys
+(* end of [revapp] *)
+//
+**
+*)
 
 (*
 **

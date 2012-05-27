@@ -80,12 +80,12 @@ in
 //
 case+ x of
 | S2RTBASpre (sym) => {
-    val () = prstr "S2ETBASpre("
+    val () = prstr "S2RTBASpre("
     val () = fprint_symbol (out, sym)
     val () = prstr ")"
   } // end of [S2RTBASpre]
 | S2RTBASimp (sym, knd) => {
-    val () = prstr "S2ETBASimp("
+    val () = prstr "S2RTBASimp("
     val () = fprint_symbol (out, sym)
     val pol = test_polkind (knd)
     val () = if pol > 0 then prstr "+"
@@ -93,7 +93,7 @@ case+ x of
     val () = prstr ")"
   } // end of [S2RTBASimp]
 | S2RTBASdef (s2td) => {
-    val () = prstr "S2ETBASdef("
+    val () = prstr "S2RTBASdef("
     val () = fprint_s2rtdat (out, s2td)
     val () = prstr ")"
   } // end of [S2RTBASdef]

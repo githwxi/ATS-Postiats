@@ -144,7 +144,7 @@ in
 end // end of [list_reverse_append]
 
 implement{a}
-list_reverse_append1_vt<a>
+list_reverse_append1_vt
   (xs, ys) = let
 //
 prval () =
@@ -174,7 +174,7 @@ end // end of [list_reverse_append1_vt]
 #atscode_separator()
 
 implement{a}
-list_reverse_append2_vt<a>
+list_reverse_append2_vt
   (xs, ys) = let
 //
 prval () = lemma_list_param (xs)

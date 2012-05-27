@@ -30,6 +30,7 @@ prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/iterator.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/iterator_flist.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/iterator_array.dats
 
+prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/fcontainer.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/fcontainer_foreach.dats
 
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/array.dats
