@@ -126,6 +126,26 @@ fun iter_free_array
 ) :<> (array_v (x, l, f+r) | void) // endfun
 
 #atscode_separator()
+//
+// HX: for functional string iterators
+//
+stacst iter_string_kind : tkind
+stacst iter_string_param : () -> tkind
+
+fun iter_make_string
+  {n:int} (
+  str: string (n)
+) :<> iterator (
+  iter_string_kind, iter_string_param(), char, 0, n
+) // end of [iter_make_string]
+
+fun iter_free_string
+  {f,r:int} (
+  itr: iterator
+    (iter_string_kind, iter_string_param(), char, f, r)
+) :<> string (f+r) // end of [iter_free_string]
+
+#atscode_separator()
 
 macdef BEG = 0 and END = 1
 

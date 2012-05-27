@@ -26,9 +26,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-#atscode_decl_strcst("\
 sortdef t0p = t@ype and vt0p = viewt@ype
-")\
 
 #atscode_separator()
 
@@ -156,6 +154,26 @@ array_copy_to_list_vt
   {n:int} (
   A: &(@[INV(a)][n]) >> @[a?!][n], n: size_t n
 ) :<!wrt> list_vt (a, n) // endfun
+
+#atscode_separator()
+
+fun{a:vt0p}
+array_init__fwork
+  (i: size_t, x: &a? >> a): void
+fun{a:vt0p}
+array_init
+  {n:int} (
+  A: &(@[a?][n]) >> @[a][n], asz: size_t n
+) : void // end of [array_init]
+
+fun{a:vt0p}
+array_clear__fwork
+  (i: size_t, x: &a >> a?): void
+fun{a:vt0p}
+array_clear
+  {n:int} (
+  A: &(@[INV(a)][n]) >> @[a?][n], asz: size_t n
+) : void // end of [array_clear]
 
 #atscode_separator()
 

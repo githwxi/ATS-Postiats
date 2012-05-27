@@ -129,10 +129,12 @@ string_param_lemma
 
 dataprop SGN (int, int) =
   | SGNzero (0, 0) | {i:neg} SGNneg (i, ~1) | {i:pos} SGNpos (i,  1)
-// end of [SGN]
+// end of [SGN] // end of [dataprop]
 
 (* ****** ****** *)
 
+typedef
+array (a, n) = @[a][n]
 viewdef
 array_v (a:viewt@ype, l:addr, n:int) = @[a][n] @ l
 

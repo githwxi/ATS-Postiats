@@ -100,6 +100,28 @@ arrayptr_make_uninitialized
 
 #atscode_separator()
 
+(*
+fun{a:vt0p}
+array_init__fwork (i: size_t, x: &a >> a?): void
+*)
+fun{a:vt0p}
+arrayptr_init
+  {l:addr}{n:int} (
+  A: !arrayptr (a?, l, n) >> arrayptr (a, l, n), asz: size_t n
+) : void // end of [arrayptr_init]
+
+(*
+fun{a:vt0p}
+array_clear__fwork (i: size_t, x: &a >> a?): void
+*)
+fun{a:vt0p}
+arrayptr_clear
+  {l:addr}{n:int} (
+  A: !arrayptr (a, l, n) >> arrayptr (a?, l, n), asz: size_t n
+) : void // end of [arrayptr_clear]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

@@ -56,10 +56,10 @@ implement{a}
 randgen_array (A, n) = let
 //
 implement
-$F.initialize_array__fwork<a> (_, x) = x := randgen<a> ()
+$F.iforeach_array_init__fwork<a> (_, x) = x := randgen<a> ()
 //
 in
-  $F.initialize_array<a> (A, n)
+  $F.iforeach_array_init<a> (A, n)
 end // end of [randgen_array]
 
 implement{a}

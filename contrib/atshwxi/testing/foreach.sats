@@ -55,18 +55,18 @@ iforeach_array
 (* ****** ****** *)
 
 fun{a:vt0p}
-initialize_array__fwork (i: size_t, x: &a? >> a): void
+iforeach_array_init__fwork (i: size_t, x: &a? >> a): void
 fun{a:vt0p}
-initialize_array
+iforeach_array_init
   {n:int} (A: &(@[a?][n]) >> @[a][n], asz: size_t n) : void
-// end of [initalize_array]
+// end of [iforeach_array_init]
 
 fun{a:vt0p}
-uninitialize_array__fwork (x: &a >> a?): void
+iforeach_array_clear__fwork (i: size_t, x: &a >> a?): void
 fun{a:vt0p}
-uninitialize_array
+iforeach_array_clear
   {n:int} (A: &(@[a][n]) >> @[a?][n], asz: size_t n) : void
-// end of [uninitalize_array]
+// end of [iforeach_array_clear]
 
 (* ****** ****** *)
 

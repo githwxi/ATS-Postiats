@@ -127,6 +127,15 @@ array_prf_atxt.dats: array_prf.atxt
 clean:: ; $(RMF) array_prf_atxt.exe
 cleanall:: ; $(RMF) array_prf.dats
 
+all:: arrayptr.dats
+arrayptr.dats: arrayptr_atxt.exe ; ./$< > $@
+arrayptr_atxt.exe: arrayptr_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ arrayptr_atxt.dats -latsdoc
+arrayptr_atxt.dats: arrayptr.atxt
+	$(ATSDOC) -do $@ -i arrayptr.atxt > arrayptr_atxt.txt
+clean:: ; $(RMF) arrayptr_atxt.exe
+cleanall:: ; $(RMF) arrayptr.dats
+
 
 all:: parrnull.dats
 parrnull.dats: parrnull_atxt.exe ; ./$< > $@
