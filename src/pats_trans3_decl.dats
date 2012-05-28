@@ -126,6 +126,16 @@ case+ d2c0.d2ecl_node of
 | D2Csymelim _ => d3ecl_none (loc0)
 | D2Coverload (id, _) => d3ecl_none (loc0)
 //
+| D2Csaspdec (d2c) => let
+    val loc = d2c.s2aspdec_loc
+    val s2c = d2c.s2aspdec_cst
+    val s2f = d2c.s2aspdec_def
+    val s2e = s2exp2hnf (s2f)
+    val () = the_s2cstbindlst_bind_and_add (loc, s2c, s2e)
+  in
+    d3ecl_saspdec (loc0, d2c)
+  end // end of [D2Csaspec]
+//
 | D2Cextcode (
     knd, pos, code
   ) => d3ecl_extcode (loc0, knd, pos, code)

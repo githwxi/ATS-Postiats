@@ -737,7 +737,7 @@ val sfess = (case+ opt of
 val () = if istmpargerr then auxerr_tmparg (d1c0)
 //
 val tmparg = sfess
-val tmpgua = list_nil () // HX: template guards are not supported
+val tmpgua = list_nil () // HX: temp guards not supported
 //
 val d2e = let
   var sub = stasub_make_nil ()

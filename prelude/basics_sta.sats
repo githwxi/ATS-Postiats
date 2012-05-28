@@ -440,6 +440,17 @@ typedef b0ytes (n:int) = @[byte?][n]
 abst@ype strbuf (m:int, n:int) // HX: [m] byte size
 
 (* ****** ****** *)
+//
+// HX: for memory deallocation (with/without GC)
+//
+absview
+free_gc_addr_view (l:addr)
+stadef free_gc_v = free_gc_addr_view
+absview
+free_ngc_addr_view (l:addr)
+stadef free_ngc_v = free_ngc_addr_view
+//
+(* ****** ****** *)
 
 absviewt@ype
 arrsz_viewt0ype_int_viewt0ype

@@ -216,16 +216,15 @@ praxi divmod_elim
 ')\
 
 #atscode_separator()
-#atscode_decl_strcst('\
 //
 dataprop EXP2 (int, int) =
   | {n:nat}{p:nat} EXP2ind (n+1, 2*p) of EXP2 (n, p)
   | EXP2bas (0, 1)
 // end of [EXP2]
 //
-prfun lemma_exp2_params :
+prfun lemma_exp2_param :
   {n:int}{p:int} EXP2 (n, p) -<prf> [n>=0;p>=1] void
-// end of [lemma_exp2_params]
+// end of [lemma_exp2_param]
 //
 prfun exp2_istot {n:nat} (): [p:nat] EXP2 (n, p)
 prfun exp2_isfun {n:nat} {p1,p2:int}
@@ -252,18 +251,13 @@ prfun exp2_muladd
   pf1: EXP2 (n1, p1), pf2: EXP2 (n2, p2), pf3: MUL (p1, p2, p)
 ) : EXP2 (n1+n2, p) // end of [exp2_muladd]
 //
-')\
 #atscode_separator()
 
-#atscode_decl_strcst('\
 absprop EXP (int(*base*), int(*power*), int(*res*))
-')\
 
-#atscode_decl_strcst('\
-praxi lemma_exp_params
+praxi lemma_exp_param
   {b:int}{n:int}{p:int} (pf: EXP (b, n, p)): [n >= 0] void
-// end of [lemma_exp_params]
-')\
+// end of [lemma_exp_param]
 
 #atscode_decl_strcst('\
 praxi exp_istot {b:int}{n:nat} (): [p:nat] EXP (b, n, p)

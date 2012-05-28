@@ -1,8 +1,10 @@
 #
 # HX:
 #
-# for recording some significant features added to ATS2
+# for myself to remember some significant features
+# added into ATS2:
 #
+######
 
 (*
 ** HX-2011-summer:
@@ -13,11 +15,18 @@ extern
 fun
 {a:t@ype}
 {b,c:t@ype}
-foo (x: a, y: b, z: c): vood
+foo (x: a, y: b, z: c): void
 **
-** This is style that is allready supported in ATS:
+** This is a style that is already supported in ATS:
 **
 implement{a}{b,c} foo (x, y, z) = ()
+**
+** This is a new style that is not available in ATS:
+**
+implement(b,c) foo<int><b,c> (x, y, z) = ()
+**
+** This style is added into ATS2 to support partial
+** template instantiation.
 **
 *)
 
@@ -98,6 +107,5 @@ revapp {m,n:nat} .<m>. (
 ** T? >> _   stands for T? >> T
 **
 *)
-
 
 ###### end of [NOTES] ######

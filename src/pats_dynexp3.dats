@@ -910,6 +910,13 @@ d3ecl_list
 (* ****** ****** *)
 
 implement
+d3ecl_saspdec (loc, d2c) =
+  d3ecl_make_node (loc, D3Csaspdec (d2c))
+// end of [d3ecl_saspdec]
+
+(* ****** ****** *)
+
+implement
 d3ecl_extcode
   (loc, knd, pos, code) =
   d3ecl_make_node (loc, D3Cextcode (knd, pos, code))

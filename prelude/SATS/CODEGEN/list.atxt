@@ -78,12 +78,12 @@ list_append {m,n:int} (
 fun{
 a:t0p // type for elements
 } list_append1_vt {i,j:int}
-  (xs: list_vt (a, i), ys: SHR(list (a, j))):<> list (a, i+j)
+  (xs: list_vt (a, i), ys: SHR(list (a, j))):<!wrt> list (a, i+j)
 // end of [list_append1_vt]
 fun{
 a:t0p // type for elements
 } list_append2_vt {i,j:int}
-  (xs: NSH(list (a, i)), ys: list_vt (a, j)):<> list_vt (a, i+j)
+  (xs: NSH(list (a, i)), ys: list_vt (a, j)):<!wrt> list_vt (a, i+j)
 // end of [list_append2_vt]
 
 #atscode_separator()

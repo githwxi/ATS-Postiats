@@ -102,15 +102,17 @@ array_getref_at
 // end of [array_getref_at]
 
 fun{a:t0p}
-array_get_at {n:int} (A: &(@[INV(a)][n]), i: sizeLt n):<> a
+array_get_at
+  {n:int} (A: &(@[INV(a)][n]), i: sizeLt n):<> a
 fun{a:t0p}
-array_set_at {n:int} (A: &(@[INV(a)][n]), i: sizeLt n, x: a): void
+array_set_at
+  {n:int} (A: &(@[INV(a)][n]), i: sizeLt n, x: a):<!wrt> void
 overload [] with array_get_at
 overload [] with array_set_at
 
 fun{a:vt0p}
 array_exch_at
-  {n:int} (A: &(@[a][n]), i: sizeLt n, x: &a >> a): void
+  {n:int} (A: &(@[a][n]), i: sizeLt n, x: &a >> a):<!wrt> void
 // end of [array_exch_at]
 
 #atscode_separator()
@@ -122,6 +124,21 @@ array_ptr_takeout
 ) : (
   vtakeout (array_v (a, l, n), a @ (l+i*sizeof(a))) | ptr (l+i*sizeof(a))
 ) // end of [array_getref_at]
+
+#atscode_separator()
+
+fun{a:vt0p}
+array_ptr_alloc
+  {n:int} (
+  asz: size_t n
+) :<!wrt> [l:agz] (
+  array_v (a?, l, n), free_gc_v (l) | ptr l
+) // end of [array_ptr_alloc]
+
+fun array_ptr_free
+  {a:vt0p}{l:addr}{n:int} (
+  array_v (a?, l, n), free_gc_v (l) | ptr l
+) :<!wrt> void // end of [array_ptr_free]
 
 #atscode_separator()
 
@@ -255,6 +272,13 @@ array_bsearch_funenv
 , n: size_t (n)
 , pord: (&a, !env) -<fun> int, env: !env
 ) :<> sizeLte (n) // end of [array_bsearch_funenv]
+
+#atscode_separator()
+
+fun{a:vt0p}
+array_quicksort {n:int}
+  (A: &(@[a][n]), n: size_t n, cmp: cmpref (a)):<> void
+// end of [array_quicksort]
 
 #atscode_separator()
 

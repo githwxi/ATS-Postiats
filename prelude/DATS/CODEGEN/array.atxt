@@ -191,6 +191,19 @@ array_foreach_funenv
 #atscode_separator()
 
 implement{a}
+array_quicksort
+  (A, asz, cmp) = let
+  val tsz = sizeof<a>
+  extern fun qsort (
+    base: ptr, asz: size_t, tsz: size_t, cmp: cmpref (a)
+  ) :<> void = "mac\#atslib_qsort"
+in
+  qsort (addr@(A), asz, tsz, cmp)
+end // end of [array_quicksort]
+
+#atscode_separator()
+
+implement{a}
 array_bsearch_funenv
   (A, n, pord, env) = let
   val itr =

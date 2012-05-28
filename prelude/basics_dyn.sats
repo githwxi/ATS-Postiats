@@ -251,6 +251,46 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 //
 (* ****** ****** *)
 
+typedef cmpval1
+  (a: viewt@ype) = (!a, !a) -<fun> int
+typedef cmpval2
+  (a: viewt@ype, vt: viewtype) = (!a, !a, !vt) -<fun> int
+stadef cmpval = cmpval1
+stadef cmpval = cmpval2
+
+fun{a:vt0p}
+compval_elt_elt
+  {vt:viewtype}
+  (x1: !a, x2: !a, cmp: cmpval (a)):<> int
+// end of [compval_elt_elt]
+fun{a:vt0p}
+compval_elt_elt_env
+  {vt:viewtype}
+  (x1: !a, x2: !a, cmp: cmpval (a, vt), env: !vt):<> int
+// end of [compval_elt_elt_env]
+
+(* ****** ****** *)
+
+typedef cmpref1
+  (a: viewt@ype) = (&a, &a) -<fun> int
+typedef cmpref2
+  (a: viewt@ype, vt: viewtype) = (&a, &a, !vt) -<fun> int
+stadef cmpref = cmpref1
+stadef cmpref = cmpref2
+
+fun{a:vt0p}
+compref_elt_elt
+  {vt:viewtype}
+  (x1: &a, x2: &a, cmp: cmpref (a)):<> int
+// end of [compref_elt_elt]
+fun{a:vt0p}
+compref_elt_elt_env
+  {vt:viewtype}
+  (x1: &a, x2: &a, cmp: cmpref (a, vt), env: !vt):<> int
+// end of [compref_elt_elt_env]
+
+(* ****** ****** *)
+
 fun exit
   {a:vt0p} (ecode: int):<> a = "mac#ats_exit"
 fun exit_errmsg

@@ -85,7 +85,9 @@ list_append
     extern castfn __cast (ys: list (a, n)):<> list_vt (a, n)
   } // end of [val]
 in
+$effmask_wrt (
   list_of_list_vt (list_append2_vt (xs, ys))
+) // end of [$effmask_wrt]
 end // end of [list_append]
 
 implement{a}
@@ -298,14 +300,18 @@ implement{a}
 list_mergesort
   (xs, cmp) = let
   val xs = list_copy (xs) in
+$effmask_wrt (
   list_vt_mergesort<a> (xs, lam (x1, x2) => cmp (x1, x2))
+) // end of [$effmask_wrt]
 end // end of [list_mergesort]
 
 implement{a}
 list_quicksort
   (xs, cmp) = let
   val xs = list_copy (xs) in
+$effmask_wrt (
   list_vt_quicksort<a> (xs, lam (x1, x2) => cmp (x1, x2))
+) // end of [$effmask_wrt]
 end // end of [list_quicksort]
 
 #atscode_separator()

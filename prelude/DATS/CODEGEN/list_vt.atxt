@@ -26,15 +26,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-implement{a}
-compare_elt_elt
-  (x1, x2, cmp) = cmp (x1, x2)
-// end of [compare_elt_elt]
-
-implement{a}
-compare_elt_elt_env
-  (x1, x2, cmp, env) = cmp (x1, x2, env)
-// end of [compare_elt_elt_env]
+staload UN = "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
@@ -160,8 +152,7 @@ implement{a}
 list_vt_make_array
   {n} (A, n) = let
 //
-prval () =
-  lemma_array_v_param (view@(A))
+prval () = lemma_array_param (A)
 viewtypedef res(n:int) = list_vt (a, n)
 fun loop
   {l:addr}
@@ -205,7 +196,7 @@ list_vt_mergesort
   {n} (xs, cmp) = let
   var env: ptr = null
   val cmp = __cast (cmp) where {
-    extern castfn __cast (cmp: cmp (a)):<> cmp (a, ptr)
+    extern castfn __cast (cmp: cmpref (a)):<> cmpref (a, ptr)
   } // end of [val]
 in
   list_vt_mergesort_env (xs, cmp, env)
@@ -234,7 +225,7 @@ fun split {n,n1:nat | n >= n1} .<n1>. (
 fun merge {n1,n2:nat} .<n1+n2>. (
     xs1: list_vt (a, n1)
   , xs2: list_vt (a, n2)
-  , cmp: cmp (a, vt), env: !vt
+  , cmp: cmpref (a, vt), env: !vt
   , res: &List_vt a? >> list_vt (a, n1+n2)
   ) :<> void =
   case+ xs1 of
@@ -242,7 +233,7 @@ fun merge {n1,n2:nat} .<n1+n2>. (
     case+ xs2 of
     | @list_vt_cons (x2, xs21) => let
         val sgn =
-          compare_elt_elt_env (x1, x2, cmp, env)
+          compref_elt_elt_env (x1, x2, cmp, env)
         // end of [val]
       in
         if sgn <= 0 then let
@@ -284,15 +275,58 @@ end // end of [list_vt_mergesort_env]
 
 #atscode_separator()
 
+(*
+** HX-2012-05:
+** copy a list into an array, perform quicksort on the
+** array and then copy it back into the list
+*)
 implement{a}
 list_vt_quicksort
   {n} (xs, cmp) = let
-  var env: ptr = null
-  val cmp = __cast (cmp) where {
-    extern castfn __cast (cmp: cmp (a)):<> cmp (a, ptr)
-  } // end of [val]
+//
+  prval () =
+    lemma_list_vt_param (xs)
+  // end of [prval]
+//
+  val n = list_vt_length (xs)
+  val nsz = g1int2uint(n)
+  abst@ype a2 = a?
+  val (
+    pf, pfgc | p
+  ) = array_ptr_alloc<a2> (nsz)
+  val () = let
+    val xs1 = $UN.castvwtp1 {list(a2,n)} (xs)
+  in
+    array_copy_from_list (!p, xs1)
+  end // end of [val]
+  val cmp = $UN.cast {cmpref(a2)} (cmp)
+  val () = array_quicksort (!p, nsz, cmp)
+  val () = let
+    fun loop
+      {l:addr}{n:nat} .<n>. (
+      pf: !array_v (a2, l, n) | xs: !list_vt (a, n), p: ptr l
+    ) :<!wrt> void =
+      case+ xs of
+      | @list_vt_cons (x, xs1) => let
+          prval (
+            pf1, pf2
+          ) = array_v_uncons (pf)
+          val p_x = $UN.cast2Ptr1 (addr@(x))
+          val () = $UN.ptr_set<a2> (p_x, !p)
+          val () = loop (pf2 | xs1, ptr1_add_int<a2> (p, 1))
+          prval () = pf := array_v_cons (pf1, pf2)
+          prval () = fold@ (xs)
+        in
+          // nothing
+        end // end of [list_vt]
+      | list_vt_nil () => ()
+    // end of [loop]
+  in
+    loop (pf | xs, p)
+  end // end of [val]
+  val () = array_ptr_free {a2} (pf, pfgc | p)
 in
-  list_vt_quicksort_env (xs, cmp, env)
+  xs
 end // end of [list_vt_quicksort]
 
 #atscode_separator()

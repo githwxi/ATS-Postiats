@@ -111,7 +111,7 @@ the_s2cstbindlst_bind_and_add
 *)
   val isasp = s2cst_get_isasp (s2c)
   val () = if
-    not(isasp) then {
+    (isasp) then {
     val () = prerr_error3_loc (loc0)
     val () = prerr ": the static constant ["
     val () = prerr_s2cst (s2c)
@@ -119,7 +119,7 @@ the_s2cstbindlst_bind_and_add
     val () = prerr_newline ()
   } // end of [if] // end of [val]
   val () = s2cst_set_def (s2c, Some s2e)
-  val () = s2cst_set_isasp (s2c, false)
+  val () = s2cst_set_isasp (s2c, true(*assumed*))
 in
   the_s2cstbindlst_add (s2c)
 end // end of [the_s2cstbindlst_bind_and_add]

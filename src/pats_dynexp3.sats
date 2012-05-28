@@ -199,6 +199,10 @@ d3ecl_node =
   | D3Cnone
   | D3Clist of d3eclist
 //
+// HX: needed for compiling abstract types
+//
+  | D3Csaspdec of (s2aspdec)
+//
   | D3Cextcode of (int(*knd*), int(*pos*), string(*code*))  
 //
   | D3Cdatdec of (int(*knd*), s2cstlst)
@@ -745,6 +749,10 @@ fun d3ecl_make_node
 
 fun d3ecl_none (loc: location): d3ecl
 fun d3ecl_list (loc: location, xs: d3eclist): d3ecl
+
+(* ****** ****** *)
+
+fun d3ecl_saspdec (loc: location, d2c: s2aspdec): d3ecl
 
 (* ****** ****** *)
 

@@ -30,29 +30,6 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-typedef cmp
-  (a: viewt@ype) = (&a, &a) -<fun> int
-typedef cmp
-  (a: viewt@ype, vt: viewtype) = (&a, &a, !vt) -<fun> int
-// end of [typedef]
-')\
-
-#atscode_separator()
-
-fun{a:vt0p}
-compare_elt_elt
-  {vt:viewtype}
-  (x1: &a, x2: &a, cmp: cmp (a)):<> int
-// end of [compare_elt_elt]
-fun{a:vt0p}
-compare_elt_elt_env
-  {vt:viewtype}
-  (x1: &a, x2: &a, cmp: cmp (a, vt), env: !vt):<> int
-// end of [compare_elt_elt_env]
-
-#atscode_separator()
-
 prfun
 lemma_list_vt_param
   {x:t0p}{n:int} (xs: !list_vt (x, n)): [n >= 0] void
@@ -80,20 +57,22 @@ a:vt0p
 } list_vt_append
   {n1,n2:int} (
   xs1: list_vt (a, n1), xs2: list_vt (a, n2)
-) :<> list_vt (a, n1+n2) // end of [list_vt_append]
+) :<!wrt> list_vt (a, n1+n2) // endfun
 
 #atscode_separator()
 
 fun{
 x:vt0p
 } list_vt_reverse
-  {n:int} (xs: list_vt (x, n)):<> list_vt (x, n)
-// end of [list_vt_reverse]
+  {n:int} (
+  xs: list_vt (x, n)
+) :<!wrt> list_vt (x, n) // endfun
 
 fun{a:vt0p}
-list_vt_reverse_append {m,n:int}
-  (xs: list_vt (a, m), ys: list_vt (a, n)):<> list_vt (a, m+n)
-// end of [list_vt_reverse_append]
+list_vt_reverse_append
+  {m,n:int} (
+  xs: list_vt (a, m), ys: list_vt (a, n)
+) :<!wrt> list_vt (a, m+n) // endfun
 
 #atscode_separator()
 
@@ -108,35 +87,35 @@ a:vt0p
 #atscode_separator()
 
 fun{a:vt0p}
-list_vt_make_array {n:int}
-  (A: &(@[a][n]) >> @[a?!][n], n: size_t n):<> list_vt (a, n)
-// end of [list_vt_make_array]
+list_vt_make_array {n:int} (
+  A: &(@[a][n]) >> @[a?!][n], n: size_t n
+) :<!wrt> list_vt (a, n) // endfun
 
 #atscode_separator()
 
 fun{
 a:vt0p
 } list_vt_mergesort {n:int} (
-  xs: list_vt (a, n), cmp: cmp (a)
-) :<> list_vt (a, n) // end of [list_vt_mergesort]
+  xs: list_vt (a, n), cmp: cmpref (a)
+) :<!wrt> list_vt (a, n) // end of [list_vt_mergesort]
 fun{
 a:vt0p
 } list_vt_mergesort_env
   {vt:viewtype}{n:int} (
-  xs: list_vt (a, n), cmp: cmp (a, vt), env: !vt
-) :<> list_vt (a, n) // end of [list_vt_mergesort_env]
+  xs: list_vt (a, n), cmp: cmpref (a, vt), env: !vt
+) :<!wrt> list_vt (a, n) // end of [list_vt_mergesort_env]
 
 fun{
 a:vt0p
 } list_vt_quicksort {n:int} (
-  xs: list_vt (a, n), cmp: cmp (a)
-) :<> list_vt (a, n) // end of [list_vt_quicksort]
+  xs: list_vt (a, n), cmp: cmpref (a)
+) :<!wrt> list_vt (a, n) // end of [list_vt_quicksort]
 fun{
 a:vt0p
 } list_vt_quicksort_env // HX: via array-based quicksort
   {vt:viewtype}{n:int} (
-  xs: list_vt (a, n), cmp: cmp (a, vt), env: !vt
-) :<> list_vt (a, n) // end of [list_vt_quicksort_env]
+  xs: list_vt (a, n), cmp: cmpref (a, vt), env: !vt
+) :<!wrt> list_vt (a, n) // end of [list_vt_quicksort_env]
 
 #atscode_separator()
 
