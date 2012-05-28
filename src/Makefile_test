@@ -5,9 +5,10 @@
 ######
 
 test:: prelude
+test:: libc
+test:: libats
 
 #test:: cairo
-
 test:: atshwxi
 
 test:: tally
@@ -46,9 +47,14 @@ prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/unsafe.dats
 ######
 
 libc:: ; ./patsopt -s < $(PATSHOME)/libc/SATS/stdio.sats
-libc:: ; ./patsopt -d < $(PATSHOME)/libc/SATS/stdio.dats
-libc:: ; ./patsopt -d < $(PATSHOME)/libc/SATS/stdio_iterator.dats
+libc:: ; ./patsopt -d < $(PATSHOME)/libc/DATS/stdio.dats
+libc:: ; ./patsopt -d < $(PATSHOME)/libc/DATS/stdio_iterator.dats
 libc:: ; ./patsopt -s < $(PATSHOME)/libc/SATS/unistd.sats
+
+######
+
+libats:: ; ./patsopt -s < $(PATSHOME)/libats/SATS/funralist_nested.sats
+libats:: ; ./patsopt -d < $(PATSHOME)/libats/DATS/funralist_nested.dats
 
 ######
 

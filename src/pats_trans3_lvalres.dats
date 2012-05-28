@@ -471,7 +471,18 @@ end // end of [local]
 
 local
 
-fun aux (
+fun aux1 (
+  d3es: d3explst
+, s2es_arg: s2explst
+, wths2es: wths2explst
+) : d3explst =
+  case d3es of
+  | list_cons _ =>
+      aux2 (d3es, s2es_arg, wths2es)
+  | list_nil () => list_nil ()
+// end of [aux1]
+
+and aux2 (
   d3es: d3explst
 , s2es_arg: s2explst
 , wths2es: wths2explst
@@ -488,7 +499,7 @@ case+ wths2es of
     val freeknd =
       d3lval_arg_set_type (refval, d3e, s2e_res)
     val d3e = d3exp_refarg (loc, s2e_res, refval, freeknd, d3e)
-    val d3es = d3explst_arg_restore (d3es, s2es_arg, wths2es)
+    val d3es = aux1 (d3es, s2es_arg, wths2es)
   in
     list_cons (d3e, d3es)
   end // end of [WTHS2EXPLSTcons_invar]
@@ -502,15 +513,15 @@ case+ wths2es of
     val s2e_res = s2hnf_opnexi_and_add (loc, s2f_res)
 (*
     val () = (
-      print "d3explst_arg_restore: aux: d3e = "; print d3e; print_newline ();
-      print "d3explst_arg_restore: aux: d3e.type = "; print d3e.d3exp_type; print_newline ();
-      print "d3explst_arg_restore: aux: s2e_res = "; print s2e_res; print_newline ();
+      print "d3explst_arg_restore: aux2: d3e = "; print d3e; print_newline ();
+      print "d3explst_arg_restore: aux2: d3e.type = "; print d3e.d3exp_type; print_newline ();
+      print "d3explst_arg_restore: aux2: s2e_res = "; print s2e_res; print_newline ();
     ) // end of [val]
 *)
     val freeknd =
       d3lval_arg_set_type (refval, d3e, s2e_res)
     val d3e = d3exp_refarg (loc, s2e_res, refval, freeknd, d3e)
-    val d3es = d3explst_arg_restore (d3es, s2es_arg, wths2es)
+    val d3es = aux1 (d3es, s2es_arg, wths2es)
   in
     list_cons (d3e, d3es)
   end // end of [WTHS2EXPLSTcons_trans]
@@ -518,7 +529,7 @@ case+ wths2es of
     (wths2es) => let
     val- list_cons (d3e, d3es) = d3es
     val- list_cons (s2e_arg, s2es_arg) = s2es_arg
-    val d3es = d3explst_arg_restore (d3es, s2es_arg, wths2es)
+    val d3es = aux1 (d3es, s2es_arg, wths2es)
   in
     list_cons (d3e, d3es)
   end // end of [WTHS2EXPLSTcons_none]
@@ -531,7 +542,7 @@ in // in of [local]
 implement
 d3explst_arg_restore
   (d3es, s2es, wths2es) =
-  aux (d3es, s2es, wths2es)
+  aux1 (d3es, s2es, wths2es)
 // end of [d3explst_arg_restore]
 
 end // end of [local]

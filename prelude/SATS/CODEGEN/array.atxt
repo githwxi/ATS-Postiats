@@ -175,6 +175,26 @@ array_copy_to_list_vt
 #atscode_separator()
 
 fun{a:vt0p}
+array_foreach__fwork
+  (x: &a >> a): void
+fun{a:vt0p}
+array_foreach
+  {n:int} (
+  A: &(@[a][n]) >> @[a][n], asz: size_t n
+) : void // end of [array_foreach]
+
+fun{a:vt0p}
+array_iforeach__fwork
+  (i: size_t, x: &a >> a): void
+fun{a:vt0p}
+array_iforeach
+  {n:int} (
+  A: &(@[a][n]) >> @[a][n], asz: size_t n
+) : void // end of [array_iforeach]
+
+#atscode_separator()
+
+fun{a:vt0p}
 array_init__fwork
   (i: size_t, x: &a? >> a): void
 fun{a:vt0p}

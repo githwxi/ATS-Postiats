@@ -17,6 +17,16 @@ all::
 
 ######
 
+all:: arith_prf.dats
+arith_prf.dats: arith_prf_atxt.exe ; ./$< > $@
+arith_prf_atxt.exe: arith_prf_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ arith_prf_atxt.dats -latsdoc
+arith_prf_atxt.dats: arith_prf.atxt
+	$(ATSDOC) -do $@ -i arith_prf.atxt > arith_prf_atxt.txt
+clean:: ; $(RMF) arith_prf_atxt.exe
+cleanall:: ; $(RMF) arith_prf.dats
+
+
 all:: bool.dats
 bool.dats: bool_atxt.exe ; ./$< > $@
 bool_atxt.exe: bool_atxt.dats

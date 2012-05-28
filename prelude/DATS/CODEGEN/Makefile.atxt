@@ -55,6 +55,8 @@ all::
 
 ######
 
+#make_entry("arith_prf")
+
 #make_entry("bool")
 #make_entry("char")
 #make_entry("float")

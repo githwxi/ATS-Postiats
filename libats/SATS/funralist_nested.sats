@@ -62,20 +62,46 @@ funralist_nil {a:t0p} ():<> ralist (a, 0)
 (* ****** ****** *)
 
 fun funralist_length
-  {a:t0p}{n:nat} (xs: ralist (a, n)): int (n)
+  {a:t0p}{n:nat} (xs: ralist (a, n)):<> int (n)
 // end of [funralist_length]
 
 (* ****** ****** *)
 
 fun{a:t0p}
 funralist_cons {n:int}
-  (x: a, xs: ralist (a, n)):<> ralist (a, n+1)
+  (x: a, xs: ralist (INV(a), n)):<> ralist (a, n+1)
 // end of [funralist_cons]
 
 fun{a:t0p}
 funralist_uncons {n:pos}
-  (xs: ralist (a, n), x: &a? >> a):<> ralist (a, n-1)
+  (xs: ralist (INV(a), n), x: &a? >> a):<> ralist (a, n-1)
 // end of [funralist_uncons]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+funralist_head
+  {n:pos} (xs: ralist (INV(a), n)):<> a
+fun{a:t0p}
+funralist_tail
+  {n:pos} (xs: ralist (INV(a), n)):<> ralist (a, n-1)
+// end of [funralist_tail]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+funralist_lookup
+  {n:int} (xs: ralist (a, n), i: natLt n):<> a
+// end of [funralist_lookup]
+
+fun{a:t0p}
+funralist_update
+  {n:int} (xs: ralist (a, n), i: natLt n, x: a):<> ralist (a, n)
+// end of [funralist_update]
+
+(* ****** ****** *)
+
+
 
 (* ****** ****** *)
 

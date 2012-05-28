@@ -183,6 +183,58 @@ val () = loop (view@(A) | addr@(A), n, res)
 #atscode_separator()
 
 implement{a}
+array_foreach
+  (A, asz) = let
+//
+prval () = lemma_array_param (A)
+//
+fun loop
+  {l:addr}{n:nat} .<n>. (
+  pf: !array_v (a, l, n) | p: ptr l, n: size_t n
+) : void =
+  if n > 0 then let
+    prval (
+      pf1, pf2
+    ) = array_v_uncons (pf)
+    val () = array_foreach__fwork (!p)
+    val () = loop (pf2 | ptr1_add_int (p, 1), pred(n))
+    prval () = pf := array_v_cons (pf1, pf2)
+  in
+    // nothing
+  end else ()
+// end of [loop]
+in
+  loop (view@(A) | addr@(A), asz)
+end // end of [array_foreach]
+
+implement{a}
+array_iforeach
+  (A, asz) = let
+//
+prval () = lemma_array_param (A)
+//
+fun loop
+  {l:addr}{n:nat} .<n>. (
+  pf: !array_v (a, l, n) | p: ptr l, n: size_t n, i: size_t
+) : void =
+  if n > 0 then let
+    prval (
+      pf1, pf2
+    ) = array_v_uncons (pf)
+    val () = array_iforeach__fwork (i, !p)
+    val () = loop (pf2 | ptr1_add_int (p, 1), pred(n), succ(i))
+    prval () = pf := array_v_cons (pf1, pf2)
+  in
+    // nothing
+  end else ()
+// end of [loop]
+in
+  loop (view@(A) | addr@(A), asz, g1int2uint(0))
+end // end of [array_iforeach]
+
+#atscode_separator()
+
+implement{a}
 array_foreach_funenv
   (pfv | A, f, env, asz) =
   array_foreach_funenv_tsz (pfv | A, f, env, asz, sizeof<a>)

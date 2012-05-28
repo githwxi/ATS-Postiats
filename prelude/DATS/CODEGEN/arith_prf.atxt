@@ -153,7 +153,7 @@ mul_is_associative
 #atscode_separator()
 
 implement
-lemma_exp2_params (pf) = let
+lemma_exp2_param (pf) = let
   prfun aux
     {n:int}
     {p:int}
@@ -164,7 +164,7 @@ lemma_exp2_params (pf) = let
   // end of [aux]
 in
   aux (pf)
-end // end of [lemma_exp2_params]  
+end // end of [lemma_exp2_param]  
 
 #atscode_separator()
 
@@ -238,7 +238,7 @@ exp2_muladd
       end // end of [EXP2ind]
     | EXP2bas () => let
         val () =
-          lemma_exp2_params (pf1)
+          lemma_exp2_param (pf1)
         prval () = mul_elim (pf3) in pf1
       end // end of [EXP2bas]
   // end of [aux]

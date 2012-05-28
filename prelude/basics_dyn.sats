@@ -82,6 +82,10 @@ prfun prop_verify_and_add {b:bool} ():<prf> [b] void
 val{a:viewt@ype} sizeof : size_t (sizeof(a))
 
 (* ****** ****** *)
+
+praxi topize {a:t@ype} (x: !INV(a) >> a?): void
+
+(* ****** ****** *)
 (*
 // HX-2012-05-23: this seems TOO complicated!
 (*
