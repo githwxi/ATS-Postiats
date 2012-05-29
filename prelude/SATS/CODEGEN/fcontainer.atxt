@@ -30,6 +30,11 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()
 
+fun{x:t0p} foreach__fwork (x: x): void
+fun{xs:t0p}{x:t0p} foreach (xs: xs): void
+
+#atscode_separator()
+
 fun{
 xs:t0p}{x:t0p
 } foreach_funenv
@@ -69,6 +74,12 @@ xs:t0p}{x:t0p
 } foreach_cloref {fe:eff}
   (xs: xs, f: (x) -<cloref,fe> void):<fe> void
 // end of [foreach_cloref]
+
+#atscode_separator()
+
+fun{x:t0p}
+iforeach__fwork (i: size_t, x: x): void
+fun{xs:t0p}{x:t0p} iforeach (xs: xs): void
 
 #atscode_separator()
 
@@ -113,25 +124,26 @@ xs:t0p}{x:t0p}{init:vt0p
 } foldleft_funenv
   {v:view}{vt:viewtype}{fe:eff} (
   pfv: !v
-| f: (!v | init, x, !vt) -<fun,fe> init, init: init, xs: xs, env: !vt
+| xs: xs, init: init
+, f: (!v | init, x, !vt) -<fun,fe> init, env: !vt
 ) :<fe> init // end of [foldleft_funenv]
 
 fun{
 xs:t0p}{x:t0p}{init:vt0p
 } foldleft_clo {fe:eff} (
-  f: &(init, x) -<clo,fe> init, init: init, xs: xs
+  xs: xs, init: init, f: &(init, x) -<clo,fe> init
 ) :<fe> init // end of [foldleft_clo]
 fun{
 xs:t0p}{x:t0p}{init:vt0p
 } foldleft_vclo {v:view}{fe:eff} (
   pfv: !v
-| f: &(!v | init, x) -<clo,fe> init, init: init, xs: xs
+| xs: xs, init: init, f: &(!v | init, x) -<clo,fe> init
 ) :<fe> init // end of [foldleft_vclo]
 
 fun{
 xs:t0p}{x:t0p}{init:vt0p
 } foldleft_cloref {fe:eff} (
-  f: &(init, x) -<cloref,fe> init, init: init, xs: xs
+  xs: xs, init: init, f: &(init, x) -<cloref,fe> init
 ) :<fe> init // end of [foldleft_cloref]
 
 #atscode_separator()
@@ -141,25 +153,25 @@ xs:t0p}{x:t0p}{sink:vt0p
 } foldright_funenv
   {v:view}{vt:viewtype}{fe:eff} (
   pfv: !v
-| f: (!v | x, sink, !vt) -<fun,fe> sink, xs: xs, sink: sink, env: !vt
+| xs: xs, f: (!v | x, sink, !vt) -<fun,fe> sink, sink: sink, env: !vt
 ) :<fe> sink // end of [foldright_funenv]
 
 fun{
 xs:t0p}{x:t0p}{sink:vt0p
 } foldright_clo {fe:eff} (
-  f: &(x, sink) -<clo,fe> sink, xs: xs, sink: sink
+  xs: xs, f: &(x, sink) -<clo,fe> sink, sink: sink
 ) :<fe> sink // end of [foldright_clo]
 fun{
 xs:t0p}{x:t0p}{sink:vt0p
 } foldright_vclo {v:view}{fe:eff} (
   pfv: !v
-| f: &(!v | x, sink) -<clo,fe> sink, xs: xs, sink: sink
+| xs: xs, f: &(!v | x, sink) -<clo,fe> sink, sink: sink
 ) :<fe> sink // end of [foldright_vclo]
 
 fun{
 xs:t0p}{x:t0p}{sink:vt0p
 } foldright_cloref {fe:eff} (
-  f: (x, sink) -<cloref,fe> sink, xs: xs, sink: sink
+  xs: xs, f: (x, sink) -<cloref,fe> sink, sink: sink
 ) :<fe> sink // end of [foldright_cloref]
 
 #atscode_separator()

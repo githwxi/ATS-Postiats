@@ -47,10 +47,31 @@ staload UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 implement
+{xs}{x}
+iforeach (xs) = let
+//
+var i: size_t = g0int2uint (0)
+val p_i = $UN.cast2Ptr1 (addr@ (i))
+//
+implement
+foreach__fwork<x>
+  (x) = () where {
+  val i = $UN.ptr_get<size_t> (p_i)
+  val () = iforeach__fwork<x> (i, x)
+  val () = $UN.ptr_set<size_t> (p_i, succ(i))
+} // [foreach__work]
+//
+in
+  foreach<xs><x> (xs)
+end // end of [iforeach]
+
+(* ****** ****** *)
+
+implement
 {xs}{x}{init}
 foldleft_funenv
   {v}{vt}{fe:eff}
-  (pfv | f, init, xs, env) = let
+  (pfv | xs, init, f, env) = let
 //
 var res: init = init
 viewtypedef pvt = (ptr(res), vt)
@@ -90,7 +111,7 @@ end // end of [foldleft_funenv]
 implement
 {xs}{x}{init}
 foldleft_clo
-  {fe:eff}(f, init, xs) = let
+  {fe:eff}(xs, init, f) = let
   typedef clo_t =
     (init, x) -<clo,fe> init
   // end of [typedef]
@@ -102,14 +123,14 @@ foldleft_clo
     pf: !v | init: init, x: x, p_f: !ptr(lf)
   ) :<fe> init = !p_f (init, x)
 in
-  foldleft_funenv<xs><x> {v}{ptr(lf)} (view@ f | app, init, xs, p_f)
+  foldleft_funenv<xs><x> {v}{ptr(lf)} (view@ f | xs, init, app, p_f)
 end // end of [foldleft_clo]
 
 implement
 {xs}{x}{init}
 foldleft_vclo
   {v} {fe:eff}
-  (pfv | f, init, xs) = let
+  (pfv | xs, init, f) = let
   typedef clo_t =
     (!v | init, x) -<clo,fe> init
   // end of [typedef]
@@ -126,7 +147,7 @@ foldleft_vclo
     prval () = pf := (pf1, pf2)
   } // end of [val]
   prval pf = (pfv, view@ f)
-  val res = foldleft_funenv<xs><x> {v2} {ptr(lf)} (pf | app, init, xs, p_f)
+  val res = foldleft_funenv<xs><x> {v2} {ptr(lf)} (pf | xs, init, app, p_f)
   prval () = pfv := pf.0 and () = view@ (f) := pf.1
 in
   res(*init*)
@@ -135,13 +156,13 @@ end // end of [foldleft_vclo]
 implement
 {xs}{x}{init}
 foldleft_cloref
-  {fe:eff} (f, init, xs) = let
+  {fe:eff} (xs, init, f) = let
   typedef cloref_t = (init, x) -<cloref,fe> init
   fn app (
     pf: !unit_v | init: init, x: x, f: !cloref_t 
   ) :<fe> init = f (init, x)
   prval pfu = unit_v ()
-  val res = foldleft_funenv<xs><x> {unit_v} {cloref_t} (pfu | app, init, xs, f)
+  val res = foldleft_funenv<xs><x> {unit_v} {cloref_t} (pfu | xs, init, app, f)
   prval unit_v () = pfu
 in
   res(*init*)
@@ -153,25 +174,28 @@ implement
 {xs}{x}{sink}
 foldright_funenv
   {v}{vt}{fe:eff}
-  (pfv | f, xs, sink, env) = let
-  typedef tfun = (!v | x, sink, !vt) -<fun,fe> sink
-  fun loop {n:nat} .<n>. (
-    pfv: !v
-  | f: tfun, xs: list_vt (x, n), sink: sink, env: !vt
-  ) :<fe> sink = (
-    case+ xs of
-    | ~list_vt_cons (x, xs) =>
-        loop (pfv | f, xs, f (pfv | x, sink, env), env)
-    | ~list_vt_nil () => sink
-  ) // end of [loop]
+  (pfv | xs, f, sink, env) = let
+//
+typedef tfun = (!v | x, sink, !vt) -<fun,fe> sink
+//
+fun loop {n:nat} .<n>. (
+  pfv: !v
+| xs: list_vt (x, n), f: tfun, sink: sink, env: !vt
+) :<fe> sink = (
+  case+ xs of
+  | ~list_vt_cons (x, xs) =>
+      loop (pfv | xs, f, f (pfv | x, sink, env), env)
+  | ~list_vt_nil () => sink
+) (* end of [loop] *)
+//
 in
-  loop (pfv | f, rlistize (xs), sink, env)
+  loop (pfv | rlistize (xs), f, sink, env)
 end // end of [foldright_funenv]
 
 implement
 {xs}{x}{sink}
 foldright_clo
-  {fe:eff}(f, xs, sink) = let
+  {fe:eff}(xs, f, sink) = let
   typedef clo_t =
     (x, sink) -<clo,fe> sink
   // end of [typedef]
@@ -183,13 +207,13 @@ foldright_clo
     pf: !v | x: x, sink: sink, p_f: !ptr(lf)
   ) :<fe> sink = !p_f (x, sink)
 in
-  foldright_funenv<xs><x> {v}{ptr(lf)} (view@ f | app, xs, sink, p_f)
+  foldright_funenv<xs><x> {v}{ptr(lf)} (view@ f | xs, app, sink, p_f)
 end // end of [foldright_clo]
 implement
 {xs}{x}{sink}
 foldright_vclo
   {v} {fe:eff}
-  (pfv | f, xs, sink) = let
+  (pfv | xs, f, sink) = let
   typedef clo_t =
     (!v | x, sink) -<clo,fe> sink
   // end of [typedef]
@@ -205,7 +229,7 @@ foldright_vclo
     prval () = pf := (pf1, pf2)
   } // end of [val]
   prval pf = (pfv, view@ f)
-  val res = foldright_funenv<xs><x> {v2} {ptr(lf)} (pf | app, xs, sink, p_f)
+  val res = foldright_funenv<xs><x> {v2} {ptr(lf)} (pf | xs, app, sink, p_f)
   prval () = pfv := pf.0 and () = view@ (f) := pf.1
 in
   res(*sink*)
@@ -214,13 +238,13 @@ end // end of [foldright_vclo]
 implement
 {xs}{x}{sink}
 foldright_cloref
-  {fe:eff} (f, xs, sink) = let
+  {fe:eff} (xs, f, sink) = let
   typedef cloref_t = (x, sink) -<cloref,fe> sink
   fn app (
     pf: !unit_v | x: x, sink: sink, f: !cloref_t 
   ) :<fe> sink = f (x, sink)
   prval pfu = unit_v ()
-  val res = foldright_funenv<xs><x> {unit_v} {cloref_t} (pfu | app, xs, sink, f)
+  val res = foldright_funenv<xs><x> {unit_v} {cloref_t} (pfu | xs, app, sink, f)
   prval unit_v () = pfu
 in
   res(*sink*)

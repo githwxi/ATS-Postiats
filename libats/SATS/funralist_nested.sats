@@ -42,6 +42,7 @@
 abstype
 ralist_t0ype_int_type (a:t@ype+, n:int)
 stadef ralist = ralist_t0ype_int_type
+typedef ralist (a:t@ype) = [n:int] ralist (a, n)
 //
 (* ****** ****** *)
 
@@ -91,17 +92,25 @@ funralist_tail
 
 fun{a:t0p}
 funralist_lookup
-  {n:int} (xs: ralist (a, n), i: natLt n):<> a
+  {n:int} (xs: ralist (INV(a), n), i: natLt n):<> a
 // end of [funralist_lookup]
 
 fun{a:t0p}
 funralist_update
-  {n:int} (xs: ralist (a, n), i: natLt n, x: a):<> ralist (a, n)
+  {n:int} (xs: ralist (INV(a), n), i: natLt n, x: a):<> ralist (a, n)
 // end of [funralist_update]
 
 (* ****** ****** *)
 
+fun{a:t0p}
+funralist_foreach__fwork (x: a): void
+fun{a:t0p}
+funralist_foreach (xs: ralist (a)): void
 
+fun{a:t0p}
+funralist_iforeach__fwork (i: size_t, x: a): void
+fun{a:t0p}
+funralist_iforeach (xs: ralist (a)): void
 
 (* ****** ****** *)
 

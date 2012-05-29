@@ -791,13 +791,15 @@ in
 case+ s2e0.s2exp_node of
 | S2Eexi (s2vs, s2ps, s2e_body) => (
     if knd = 0 then
-      s2exp_prenexize_work (knd, s2vs, s2ps, s2e_body, s2vs_res, s2ps_res, flag)
-    else s2e0 // end of [if]
+      s2exp_prenexize_work (
+      knd, s2vs, s2ps, s2e_body, s2vs_res, s2ps_res, flag
+    ) else s2e0 // end of [if]
   ) // end of [S2Eexi]
 | S2Euni (s2vs, s2ps, s2e_body) => (
     if knd > 0 then
-      s2exp_prenexize_work (knd, s2vs, s2ps, s2e_body, s2vs_res, s2ps_res, flag)
-    else s2e0 // end of [if]
+      s2exp_prenexize_work (
+      knd, s2vs, s2ps, s2e_body, s2vs_res, s2ps_res, flag
+    ) else s2e0 // end of [if]
   ) // end of [S2Euni]
 (*
 | S2Etyrec (tyrecknd, npf, ls2es) => let

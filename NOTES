@@ -30,6 +30,8 @@ implement(b,c) foo<int><b,c> (x, y, z) = ()
 **
 *)
 
+######
+
 (*
 ** HX-2012-05:
 **
@@ -66,6 +68,8 @@ revapp {m,n:nat} .<m>. (
 **
 *)
 
+######
+
 (*
 **
 ** HX-2012-05:
@@ -96,6 +100,8 @@ revapp {m,n:nat} .<m>. (
 **
 *)
 
+######
+
 (*
 **
 ** HX-2012-05-24:
@@ -105,6 +111,20 @@ revapp {m,n:nat} .<m>. (
 ** T  >> _?  stands for T >> T?
 ** T  >> _?! stands for T >> T?!
 ** T? >> _   stands for T? >> T
+**
+*)
+
+######
+
+(*
+** HX-2012:
+**
+** The skeleton of a type is computed by erasing all
+** quatifiers and predicative indexes; type skeletons
+** are primarily employed to support overloading.
+**
+** Each boxed type is of the size of a ptr.
+** Each unboxed type is determined by its skeleton.
 **
 *)
 

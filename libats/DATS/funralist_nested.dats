@@ -224,9 +224,11 @@ end // end of [local]
 
 (* ****** ****** *)
 
-local
-
 staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+local
 
 extern fun __free (p: ptr):<> void = "mac#ats_free_gc"
 
@@ -290,6 +292,108 @@ funralist_update
 } // end of [funralist_update]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+staload UN = "prelude/SATS/unsafe.sats"
+extern fun __free (p: ptr):<> void = "mac#ats_free_gc"
+
+fn* foreach
+  {a:t0p}
+  {d:nat}{n:nat} .<n,1>. (
+  xs: ralist (a, d, n), f: node (a, d) -<cloref> void
+) :<> void =
+  case+ xs of
+  | RAevn (xxs) =>
+      foreach2 (xxs, f)
+    // end of [RAevn]
+  | RAodd (x, xxs) => let
+      val () = f (x) in case+ xxs of
+      | RAnil () => () | _ =>> foreach2 (xxs, f)
+    end // end of [RAodd]
+  | RAnil () => ()
+// end of [foreach]
+
+and foreach2
+  {a:t0p}
+  {d:nat}
+  {n2:pos} .<2*n2,0>. (
+  xxs: ralist (a, d+1, n2), f: node (a, d) -<cloref> void
+) :<> void = let
+  typedef node = node (a, d+1)
+  val f1 = lam
+    (xx: node): void =<cloref> let
+    val+ N2 (x0, x1) = xx in f (x0); f (x1)
+  end // end of [val]
+  val () = foreach (xxs, f1)
+  prval () = __free ($UN.cast2ptr(f1))
+in
+  // nothing
+end // end of [foreach2]
+
+in // in of [local]
+
+implement{a}
+funralist_foreach (xs) = let
+//
+  prval () = lemma_ralist_param (xs)
+//
+  typedef node = node (a, 0)
+  val f = lam
+    (x: node): void =<cloref> let
+    val+ N1 (x) = x in $effmask_all (funralist_foreach__fwork<a> (x))
+  end // end of [val]
+  val () = foreach (xs, f)
+  prval () = __free ($UN.cast2ptr(f))  
+in
+  // nothing
+end // end of [funralist_foreach]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+(*
+//
+// HX: this one seems much more involved logically!
+//
+implement{a}
+funralist_iforeach
+  {n} (xs) = let
+//
+implement
+iforeach__fwork<a>
+  (i, x) = funralist_iforeach__fwork (i, x)
+//
+implement
+funralist_foreach__fwork<a> (x) = foreach__fwork<a> (x)
+implemnet(a)
+foreach<ralist(a,n)><a> (xs) = funralist_foreach<a> (xs)
+//
+in
+  iforeach<ralist(a,n)><a> (xs)
+end // end of [funralist_iforeach]
+*)
+implement{a}
+funralist_iforeach
+  (xs) = let
+//
+var i: size_t = g0int2uint (0)
+val p_i = $UN.cast2Ptr1 (addr@ (i))
+//
+implement
+funralist_foreach__fwork<a>
+  (x) = () where {
+  val i = $UN.ptr_get<size_t> (p_i)
+  val () = funralist_iforeach__fwork<a> (i, x)
+  val () = $UN.ptr_set<size_t> (p_i, succ(i))
+} (* [funralist_foreach__work] *)
+//
+in
+  funralist_foreach (xs)
+end // end of [funralist_iforeach]
 
 (* ****** ****** *)
 
