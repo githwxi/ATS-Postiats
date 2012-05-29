@@ -357,7 +357,13 @@ end // end of [local]
 
 (*
 //
-// HX: this one seems much more involved logically!
+fun{a:t0p}
+funralist_iforeach__fwork (i: size_t, x: a): void
+fun{a:t0p}
+funralist_iforeach (xs: ralist (a)): void
+//
+// HX-2012-05:
+// this one seems much more involved in terms of compilation
 //
 implement{a}
 funralist_iforeach
@@ -376,24 +382,6 @@ in
   iforeach<ralist(a,n)><a> (xs)
 end // end of [funralist_iforeach]
 *)
-implement{a}
-funralist_iforeach
-  (xs) = let
-//
-var i: size_t = g0int2uint (0)
-val p_i = $UN.cast2Ptr1 (addr@ (i))
-//
-implement
-funralist_foreach__fwork<a>
-  (x) = () where {
-  val i = $UN.ptr_get<size_t> (p_i)
-  val () = funralist_iforeach__fwork<a> (i, x)
-  val () = $UN.ptr_set<size_t> (p_i, succ(i))
-} (* [funralist_foreach__work] *)
-//
-in
-  funralist_foreach (xs)
-end // end of [funralist_iforeach]
 
 (* ****** ****** *)
 

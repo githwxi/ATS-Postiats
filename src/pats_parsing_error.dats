@@ -374,9 +374,9 @@ case+ xs of
       val () = fprint_newline (out)
     } // end of [if]
   in
-    // nothing
+    1 (* containing errors *)
   end // end of [list_vt_cons]
-| ~list_vt_nil () => ()
+| ~list_vt_nil () => 0 (* free of errors *)
 //
 end // end of [fprint_the_parerrlst]
 

@@ -454,7 +454,7 @@ fun fprint_lexerr
   (out: FILEref, err: lexerr): void
 // end of [fprint_lexerr]
 
-fun fprint_the_lexerrlst (out: FILEref): void
+fun fprint_the_lexerrlst (out: FILEref): int(*err*) // 0/1
 
 (* ****** ****** *)
 

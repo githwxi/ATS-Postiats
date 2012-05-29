@@ -178,7 +178,7 @@ fun the_parerrlst_add_ifunclosed
 (* ****** ****** *)
 
 fun fprint_parerr (out: FILEref, x: parerr): void
-fun fprint_the_parerrlst (out: FILEref): void
+fun fprint_the_parerrlst (out: FILEref): int(*err*) // 0/1
 
 (* ****** ****** *)
 

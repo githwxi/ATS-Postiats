@@ -199,15 +199,17 @@ fprint_the_lexerrlst
   (out) = let
   var n: int?
   val xs = the_lexerrlst_get (n)
+//
   fun loop (
     out: FILEref, xs: lexerrlst_vt, n: int
   ) : int =
     case+ xs of
-    | ~list_vt_cons (x, xs) => (
-        fprint_lexerr (out, x); loop (out, xs, n-1)
-      ) // end of [list_vt_cons]
+    | ~list_vt_cons (x, xs) => let
+        val () = fprint_lexerr (out, x) in loop (out, xs, n-1)
+      end // end of [list_vt_cons]
     | ~list_vt_nil () => n
-  // end of [loop]
+  (* end of [loop] *)
+//
 in
 //
 case+ xs of
@@ -220,9 +222,9 @@ case+ xs of
       val () = fprint_newline (out)
     } // end of [if]
   in
-    // nothing
+    1 (* containing errors *)
   end // end of [list_vt_cons]
-| ~list_vt_nil () => ()
+| ~list_vt_nil () => 0 (* free of errors *)
 //
 end // end of [fprint_the_lexerrlst]
 

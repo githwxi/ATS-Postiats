@@ -77,11 +77,9 @@ parse_from_tokbuf_toplevel
   val d0cs = (if stadyn = 0 then
     p_toplevel_sta (buf, nerr) else p_toplevel_dyn (buf, nerr)
   ) : d0eclist // end of [val]
-  val () = if nerr > 0 then {
-    val () = fprint_the_lexerrlst (stderr_ref)
-    val () = fprint_the_parerrlst (stderr_ref)
-    val () = $ERR.abort {void} ()
-  } // end of [val]
+  val err1 = fprint_the_lexerrlst (stderr_ref)
+  val err2 = fprint_the_parerrlst (stderr_ref)
+  val () = if (err1 + err2) > 0 then $ERR.abort {void} ()
 in
   d0cs
 end // end of [parse_from_tokbuf]

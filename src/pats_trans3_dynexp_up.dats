@@ -135,11 +135,11 @@ extern fun d2exp_trup_lam_met (d2e0: d2exp): d3exp
 implement
 d2exp_trup
   (d2e0) = let
-(*
+// (*
 val () = (
   print "d2exp_trup: d2e0 = "; print_d2exp d2e0; print_newline ()
 ) // end of [val]
-*)
+// *)
 val loc0 = d2e0.d2exp_loc
 (*
 val () = (

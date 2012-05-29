@@ -107,11 +107,6 @@ funralist_foreach__fwork (x: a): void
 fun{a:t0p}
 funralist_foreach (xs: ralist (a)): void
 
-fun{a:t0p}
-funralist_iforeach__fwork (i: size_t, x: a): void
-fun{a:t0p}
-funralist_iforeach (xs: ralist (a)): void
-
 (* ****** ****** *)
 
 (* end of [funralist_nested.sats] *)
