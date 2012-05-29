@@ -53,6 +53,9 @@ libc:: ; ./patsopt -s < $(PATSHOME)/libc/SATS/unistd.sats
 
 ######
 
+libats:: ; ./patsopt -s < $(PATSHOME)/libats/SATS/fundeque_fingertree.sats
+libats:: ; ./patsopt -d < $(PATSHOME)/libats/DATS/fundeque_fingertree.dats
+
 libats:: ; ./patsopt -s < $(PATSHOME)/libats/SATS/funralist_nested.sats
 libats:: ; ./patsopt -d < $(PATSHOME)/libats/DATS/funralist_nested.dats
 

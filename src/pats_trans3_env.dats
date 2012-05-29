@@ -1592,12 +1592,12 @@ implement
 trans3_finget_constraint () = let
  val s3is = the_s3itmlst_env_pop ()
  val s3is = list_of_list_vt (s3is)
-// (*
+(*
  val () = begin
    print "trans3_finget_constraint: s3is = ";
    fprint_s3itmlst (stdout_ref, s3is); print_newline ()
  end // end of [val]
-// *)
+*)
 in
   c3nstr_itmlst ($LOC.location_dummy, C3NSTRKINDmain, s3is)
 end // end of [c3nstr_get_final]

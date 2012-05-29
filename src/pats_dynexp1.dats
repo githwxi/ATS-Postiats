@@ -709,9 +709,11 @@ in
   | E1XPchar (c) => d1exp_char (loc0, c: char)
   | E1XPstring (str) => d1exp_string (loc0, str)
   | E1XPfloat (rep) => d1exp_float (loc0, rep)
-  | E1XPapp (e1, loc_arg, es2) => begin
-      d1exp_app_dyn (loc0, aux e1, loc0, 0(*npf*), auxlst es2)
-    end // end of [E1XPapp]
+  | E1XPapp (
+      e1, loc_arg, es2
+    ) => d1exp_app_dyn
+      (loc0, aux (e1), loc0, ~1(*npf*), auxlst (es2))
+    // end of [E1XPapp]
   | E1XPlist es =>  d1exp_list (loc0, ~1(*npf*), auxlst (es))
   | E1XPnone () => d1exp_empty (loc0)
   | _ => let
