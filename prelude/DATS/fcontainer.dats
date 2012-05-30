@@ -86,12 +86,10 @@ viewdef v1 = (v, init@res, pvt @ penv)
 fn f1 (
   pf: !v1 | x: x, penv: !ptr(penv)
 ) :<fe> void = let
-  prval (pfv, pf1, pf2) = pf
   val p = penv->0
-  val () = !p := f (pfv | !p, x, penv->1)
-  prval () = pf := (pfv, pf1, pf2)
+  val x = f (pf.0 | !p, x, penv->1)
 in
-  (*nothing*)
+  $effmask_wrt (!p := x)
 end // end of [f1]
 //
 prval pfv1 = (pfv, view@(res), view@(penv))
@@ -316,8 +314,9 @@ rlistize (xs) = res where {
   var res
     : List_vt (x) = list_vt_nil ()
   viewdef v = List_vt (x) @ res
-  var p_clo = lam@
-    (pf: !v >> v | x: x): void =<clo> res := list_vt_cons (x, res)
+  var p_clo = lam@ (
+    pf: !v >> v | x: x
+  ) : void =<clo> $effmask_wrt (res := list_vt_cons (x, res))
   val () = foreach_vclo {v}{effnil} (view@ (res) | xs, p_clo)
 } // end of [rlistize]
 
@@ -340,7 +339,7 @@ rlistize_funenv
     val y = f (pf.0 | x, env)
     val ptr = __decode (env)
     prval pfat = pf.1
-    val () = res := list_vt_cons (y, res)
+    val () = $effmask_wrt (res := list_vt_cons (y, res))
     prval () = pf.1 := pfat
   in
     (*nothing*)

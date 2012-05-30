@@ -550,13 +550,6 @@ case+ x.d2exp_node of
     val () = fprint_d2exp (out, d2e)
     val () = prstr ")"
   } // end of [D2Eraise]
-| D2Edelay (knd, d2e) => {
-    val () = prstr "D2Edelay("
-    val () = fprint_int (out, knd)
-    val () = prstr "; "
-    val () = fprint_d2exp (out, d2e)
-    val () = prstr ")"
-  } // end of [D2Edelay]
 //
 | D2Eeffmask (s2fe, d2e) => {
     val () = prstr "D2Eeffmask("
@@ -677,6 +670,14 @@ case+ x.d2exp_node of
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }
+//
+| D2Edelay (knd, d2e) => {
+    val () = prstr "D2Edelay("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Edelay]
 //
 | D2Eloopexn (knd) => {
     val () = prstr "D2Eloopexn("

@@ -288,6 +288,18 @@ case+ d2e0.d2exp_node of
 | D2Elam_sta _ => d2exp_trup_lam_sta (d2e0)
 | D2Elam_met _ => d2exp_trup_lam_met (d2e0)
 //
+| D2Eraise (d2e_exn) => let
+    val err = the_effenv_check_exn (loc0)
+    val () = if (err > 0) then (
+      the_trans3errlst_add (T3E_d2exp_trup_exn (loc0))
+    ) // end of [if] // end of [val]
+    val s2e_exn = s2exp_exception_viewtype ()
+    val d3e_exn = d2exp_trdn (d2e_exn, s2e_exn)
+    val s2e_raise = s2exp_bottom_viewt0ype_uni ()
+  in
+    d3exp_raise (loc0, s2e_raise, d3e_exn)
+  end // end of [D2Eraise]
+//
 | D2Eloopexn (knd) => d2exp_trup_loopexn (d2e0, knd)
 //
 | D2Eann_type (d2e, s2e_ann) => let

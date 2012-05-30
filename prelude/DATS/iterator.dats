@@ -228,7 +228,7 @@ fun loop
   itr: !iter (f, r) >> iter (f+i1, r-i1)
 , i: &int(i) >> int(i-i1)
 , res: &ptr? >> list_vt (x, i1)
-) :<> #[i1:int | i1 == min(i,r)] void = let
+) : #[i1:int | i1 == min(i,r)] void = let
 in
 //
 if i > 0 then let
@@ -272,7 +272,7 @@ fun loop
   itr: !iter (f, r) >> iter (f-i1, r+i1)
 , i: &int(i) >> int(i-i1)
 , res: &ptr? >> list_vt (x, i1)
-) :<> #[i1:int | i1 == min(i,f)] void = let
+) : #[i1:int | i1 == min(i,f)] void = let
 in
 //
 if i > 0 then let
@@ -333,7 +333,7 @@ stadef iter (f:int, r:int) = iterator (knd, kpm, x, f, r)
 fun loop
   {f,r:int | r >= 0} .<r>. (
   itr: !iter (f, r) >> iter (f+r, 0), res: &ptr? >> list_vt (x, r)
-) :<> void = let
+) : void = let
   val test = iter_isnot_atend (itr)
 in
   if test then let
@@ -367,7 +367,7 @@ stadef iter (f:int, r:int) = iterator (knd, kpm, x, f, r)
 fun loop
   {f,r:int | r >= 0}{r2:nat} .<r>. (
   itr: !iter (f, r) >> iter (f+r, 0), res: list_vt (x, r2)
-) :<> list_vt (x, r+r2) = let
+) : list_vt (x, r+r2) = let
   val test = iter_isnot_atend (itr)
 in
   if test then let
@@ -386,7 +386,7 @@ end // end of [iter_listize_cpy]
 implement
 {knd}{x}
 iter_foreach_funenv
-  {kpm}{v}{vt}{f,r}{fe}
+  {kpm}{v}{vt}{f,r}
   (pfv | itr, fwork, env) = let
 //
 prval () = lemma_iterator_param (itr)
@@ -397,10 +397,11 @@ fun loop
   {f,r:int | r >= 0} .<r>. (
   pfv: !v
 | itr: !iter (f, r) >> iter (f+r, 0)
-, fwork: (!v | &x, !vt) -<fun,fe> void, env: !vt
-) :<fe> void = let
+, fwork: (!v | &x, !vt) -> void, env: !vt
+) : void = let
   val isatend =
     iter_isnot_atend<knd><x> (itr)
+  // end of [val]
 in
   if isatend then let
     val p =
@@ -422,7 +423,7 @@ end // end of [iter_foreach_funenv]
 implement
 {knd}{x}
 iter_exists_funenv
-  {kpm}{v}{vt}{f,r}{fe}
+  {kpm}{v}{vt}{f,r}
   (pfv | itr, pred, env) = let
 //
 prval () = lemma_iterator_param (itr)
@@ -434,8 +435,8 @@ fun loop
   {f,r:int | r >= 0} .<r>. (
   pfv: !v
 | itr: !iter (f, r) >> iter (f1, r1)
-, pred: (!v | &x, !vt) -<fun,fe> bool, env: !vt
-) :<fe> #[
+, pred: (!v | &x, !vt) -> bool, env: !vt
+) : #[
   f1,r1:int | f1>=f; f+r==f1+r1
 ] bool (r1 > 0)= let
   val hasnext = iter_isnot_atend<knd><x> (itr)
@@ -480,7 +481,7 @@ fun loop
   itr: !iter (f, r) >> iter (f1, r1)
 , pord: (&x, !vt) -<fun> int, env: !vt
 , ra: size_t (ra)
-) :<> #[
+) : #[
   f1,r1:int | f1>=f;f+ra>=f1;f+r==f1+r1
 ] void = (
   if ra > 0 then let

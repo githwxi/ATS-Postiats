@@ -599,7 +599,6 @@ and d2exp_node =
       (s2expopt (*element type*), d2explst (*elements*))
 //
   | D2Eraise of (d2exp) // raised exception
-  | D2Edelay of (int(*knd*), d2exp(*body*)) // $delay and $ldelay
 //
   | D2Eeffmask of (s2eff, d2exp) // $effmask (s2eff, d2exp)
 //
@@ -615,6 +614,8 @@ and d2exp_node =
   | D2Efix of (
       int(*knd: 0/1: flat/boxed*), d2var(*fixvar*), d2exp(*body*)
     ) // end of [D2Efix]
+//
+  | D2Edelay of (int(*knd*), d2exp(*body*)) // $delay and $ldelay
 //
   | D2Eloopexn of int(*knd*)
 //
@@ -984,7 +985,6 @@ fun d2exp_arrsize (
 (* ****** ****** *)
 
 fun d2exp_raise (loc: location, d2e: d2exp): d2exp
-fun d2exp_delay (loc: location, knd: int, d2e: d2exp): d2exp
 
 (* ****** ****** *)
 
@@ -1022,6 +1022,10 @@ fun d2exp_lam_sta (
 ) : d2exp // end of [d2exp_lam_sta]
 
 fun d2exp_fix (loc: location, knd: int, f: d2var, body: d2exp): d2exp
+
+(* ****** ****** *)
+
+fun d2exp_delay (loc: location, knd: int, d2e: d2exp): d2exp
 
 (* ****** ****** *)
 

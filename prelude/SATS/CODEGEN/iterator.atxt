@@ -67,7 +67,7 @@ stacst iter_flist_param : () -> tkind
 fun{x:t0p}
 iter_make_list
   {n:int} (xs: list (x, n))
-  :<> iterator (
+  : iterator (
   iter_flist_kind, iter_flist_param(), x, 0, n
 ) // end of [iter_make_list]
 
@@ -75,7 +75,7 @@ fun iter_free_list
   {x:t0p}{f,r:int} (
   itr: iterator
     (iter_flist_kind, iter_flist_param(), x, f, r)
-) :<> list (x, r) // end of [iter_free_list]
+) : list (x, r) // end of [iter_free_list]
 
 #atscode_separator()
 //
@@ -87,7 +87,7 @@ stacst iter_slist_param : () -> tkind
 fun{x:t0p}
 iter_make_list_vt
   {n:int} (xs: list_vt (x, n))
-  :<> iterator (
+  : iterator (
   iter_slist_kind, iter_slist_param(), x, 0, n
 ) // end of [iter_make_list_vt]
 
@@ -95,7 +95,7 @@ fun iter_free_list_vt
   {x:t0p}{f,r:int} (
   itr: iterator
     (iter_slist_kind, iter_slist_param(), x, f, r)
-) :<> list_vt (x, f+r) // end of [iter_free_list_vt]
+) : list_vt (x, f+r) // end of [iter_free_list_vt]
 
 #atscode_separator()
 //
@@ -108,14 +108,14 @@ fun{x:vt0p}
 iter_make_array
   {l:addr}{n:int} (
   pf: array_v (x, l, n) | p: ptr l, n: size_t n
-) :<> iterator (
+) : iterator (
   iter_array_kind, iter_array_param(l), x, 0, n
 ) // end of [iter_make_array]
 fun{x:vt0p}
 iter_make_array_end
   {l:addr}{n:int} (
   pf: array_v (x, l, n) | p: ptr l, n: size_t n
-) :<> iterator (
+) : iterator (
   iter_array_kind, iter_array_param(l), x, n, 0
 ) // end of [iter_make_array_end]
 
@@ -123,7 +123,7 @@ fun iter_free_array
   {x:vt0p}{l:addr}{f,r:int} (
   itr: iterator
     (iter_array_kind, iter_array_param(l), x, f, r)
-) :<> (array_v (x, l, f+r) | void) // endfun
+) : (array_v (x, l, f+r) | void) // endfun
 
 #atscode_separator()
 //
@@ -135,7 +135,7 @@ stacst iter_string_param : () -> tkind
 fun iter_make_string
   {n:int} (
   str: string (n)
-) :<> iterator (
+) : iterator (
   iter_string_kind, iter_string_param(), char, 0, n
 ) // end of [iter_make_string]
 
@@ -143,7 +143,7 @@ fun iter_free_string
   {f,r:int} (
   itr: iterator
     (iter_string_kind, iter_string_param(), char, f, r)
-) :<> string (f+r) // end of [iter_free_string]
+) : string (f+r) // end of [iter_free_string]
 
 #atscode_separator()
 
@@ -155,14 +155,14 @@ fun{
 knd:tk}{x:vt0p
 } iter_is_atbeg
   {kpm:tk}{f,r:int}
-  (itr: !iterator (knd, kpm, x, f, r)):<> bool (f==0)
+  (itr: !iterator (knd, kpm, x, f, r)): bool (f==0)
 // end of [iter_is_atbeg]
 
 fun{
 knd:tk}{x:vt0p
 } iter_isnot_atbeg
   {kpm:tk}{f,r:int}
-  (itr: !iterator (knd, kpm, x, f, r)):<> bool (f > 0)
+  (itr: !iterator (knd, kpm, x, f, r)): bool (f > 0)
 // end of [iter_isnot_atbeg]
 
 fun{
@@ -170,13 +170,13 @@ knd:tk}{x:vt0p
 } eq_int_iter
   {kpm:tk}{f,r:int} (
   BEG: int(0), itr: !iterator (knd, kpm, x, f, r)
-) :<> bool (f==0) // end of [eq_int_iter]
+) : bool (f==0) // end of [eq_int_iter]
 fun{
 knd:tk}{x:vt0p
 } lt_int_iter
   {kpm:tk}{f,r:int} (
   BEG: int(0), itr: !iterator (knd, kpm, x, f, r)
-) :<> bool (f > 0) // end of [lt_int_iter]
+) : bool (f > 0) // end of [lt_int_iter]
 
 overload = with eq_int_iter
 overload < with lt_int_iter
@@ -187,13 +187,13 @@ fun{
 knd:tk}{x:vt0p
 } iter_is_atend
   {kpm:tk}{f,r:int}
-  (itr: !iterator (knd, kpm, x, f, r)):<> bool (r==0)
+  (itr: !iterator (knd, kpm, x, f, r)): bool (r==0)
 // end of [iter_is_atend]
 fun{
 knd:tk}{x:vt0p
 } iter_isnot_atend
   {kpm:tk}{f,r:int}
-  (itr: !iterator (knd, kpm, x, f, r)):<> bool (r > 0)
+  (itr: !iterator (knd, kpm, x, f, r)): bool (r > 0)
 // end of [iter_isnot_atend]
 
 fun{
@@ -201,13 +201,13 @@ knd:tk}{x:vt0p
 } eq_iter_int
   {kpm:tk}{f,r:int} (
   itr: !iterator (knd, kpm, x, f, r), END: int(1)
-) :<> bool (r==0) // end of [eq_iter_int]
+) : bool (r==0) // end of [eq_iter_int]
 fun{
 knd:tk}{x:vt0p
 } lt_iter_int
   {kpm:tk}{f,r:int} (
   itr: !iterator (knd, kpm, x, f, r), END: int(1)
-) :<> bool (r > 0) // end of [lt_iter_int]
+) : bool (r > 0) // end of [lt_iter_int]
 
 overload = with eq_iter_int
 overload < with lt_iter_int
@@ -218,7 +218,7 @@ fun{
 knd:tk}{x:vt0p
 } iter_get_offset
   {kpm:tk}{f,r:int}
-  (itr: !iterator (knd, kpm, x, f, r)):<> size_t (f)
+  (itr: !iterator (knd, kpm, x, f, r)): size_t (f)
 // end of [iter_get_offset]
 
 #atscode_separator()
@@ -227,34 +227,34 @@ fun{
 knd:tk}{x:vt0p
 } iter_getref
   {kpm:tk}{f,r:int | r > 0}
-  (itr: !iterator (knd, kpm, x, f, r)):<> Ptr1
+  (itr: !iterator (knd, kpm, x, f, r)): Ptr1
 // end of [iter_getref]
 
 fun{
 knd:tk}{x:vt0p
 } iter_vget
   {kpm:tk}{f,r:int | r > 0}
-  (itr: !iterator (knd, kpm, x, f, r)):<> vttakeout (void, x)
+  (itr: !iterator (knd, kpm, x, f, r)): vttakeout (void, x)
 // end of [iter_vget]
 
 fun{
 knd:tk}{x:t0p
 } iter_get
   {kpm:tk}{f,r:int | r > 0}
-  (itr: !iterator (knd, kpm, x, f, r)):<> x
+  (itr: !iterator (knd, kpm, x, f, r)): x
 // end of [iter_get]
 fun{
 knd:tk}{x:t0p
 } iter_set
   {kpm:tk}{f,r:int | r > 0}
-  (itr: !iterator (knd, kpm, x, f, r), x: x):<!wrt> void
+  (itr: !iterator (knd, kpm, x, f, r), x: x): void
 // end of [iter_set]
 
 fun{
 knd:tk}{x:vt0p
 } iter_exch
   {kpm:tk}{f,r:int | r > 0}
-  (itr: !iterator (knd, kpm, x, f, r), x: &x >> x):<!wrt> void
+  (itr: !iterator (knd, kpm, x, f, r), x: &x >> x): void
 // end of [iter_exch]
 
 overload get with iter_get
@@ -268,13 +268,13 @@ knd:tk}{x:vt0p
 } iter_inc
   {kpm:tk}{f,r:int | r > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1)
-) :<> void // end of [iter_inc]
+) : void // end of [iter_inc]
 fun{
 knd:tk}{x:vt0p
 } iter_dec
   {kpm:tk}{f,r:int | f > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
-) :<> void // end of [iter_dec]
+) : void // end of [iter_dec]
 
 overload ++ with iter_inc
 overload -- with iter_dec
@@ -288,34 +288,34 @@ knd:tk}{x:vt0p
 } iter_getref_inc
   {kpm:tk}{f,r:int | r > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1)
-) :<> Ptr1 // end of [iter_getref_inc]
+) : Ptr1 // end of [iter_getref_inc]
 
 fun{
 knd:tk}{x:vt0p
 } iter_vget_inc
   {kpm:tk}{f,r:int | r > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1)
-) :<> vttakeout (void, x) // end of [iter_vget_inc]
+) : vttakeout (void, x) // end of [iter_vget_inc]
 
 fun{
 knd:tk}{x:t0p
 } iter_get_inc
   {kpm:tk}{f,r:int | r > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1)
-) :<> x // end of [iter_get_inc]
+) : x // end of [iter_get_inc]
 fun{
 knd:tk}{x:t0p
 } iter_set_inc
   {kpm:tk}{f,r:int | r > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1), x: x
-) :<!wrt> void // end of [iter_set_inc]
+) : void // end of [iter_set_inc]
 fun{
 knd:tk}{x:vt0p
 } iter_exch_inc
   {kpm:tk}{f,r:int | r > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1)
 , x: &x >> x
-) :<!wrt> void // end of [iter_exch_inc]
+) : void // end of [iter_exch_inc]
 
 overload !++ with iter_get_inc
 overload =++ with iter_set_inc
@@ -330,34 +330,34 @@ knd:tk}{x:vt0p
 } iter_dec_getref
   {kpm:tk}{f,r:int | f > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
-) :<> Ptr1 // end of [iter_dec_getref]
+) : Ptr1 // end of [iter_dec_getref]
 
 fun{
 knd:tk}{x:vt0p
 } iter_dec_vget
   {kpm:tk}{f,r:int | f > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
-) :<> vttakeout (void, x) // end of [iter_dec_vget]
+) : vttakeout (void, x) // end of [iter_dec_vget]
 
 fun{
 knd:tk}{x:t0p
 } iter_dec_get
   {kpm:tk}{f,r:int | f > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
-) :<> x // end of [iter_dec_get]
+) : x // end of [iter_dec_get]
 fun{
 knd:tk}{x:t0p
 } iter_dec_set
   {kpm:tk}{f,r:int | f > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1), x: x
-) :<!wrt> void // end of [iter_dec_set]
+) : void // end of [iter_dec_set]
 fun{
 knd:tk}{x:vt0p
 } iter_dec_exch
   {kpm:tk}{f,r:int | f > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
 , x: &x >> x
-) :<!wrt> void // end of [iter_dec_exch]
+) : void // end of [iter_dec_exch]
 
 overload --! with iter_dec_get
 overload --= with iter_dec_set
@@ -378,7 +378,7 @@ knd:tk}{x:vt0p
 //
   itr: !iterator (knd, kpm, x, f, r)
          >> iterator (knd, kpm, x, f+i, r-i), i: size_t (i)
-) :<> void // end of [iter_fjmp]
+) : void // end of [iter_fjmp]
 
 #atscode_separator()
 
@@ -389,7 +389,7 @@ knd:tk}{x:vt0p
   {f,r:int}
   {i:int | 0 <= i; i < r} (
   itr: !iterator (knd, kpm, x, f, r), i: size_t (i)
-) :<> Ptr1 // end of [iter_fgetref_at]
+) : Ptr1 // end of [iter_fgetref_at]
 
 fun{
 knd:tk}{x:t0p
@@ -398,7 +398,7 @@ knd:tk}{x:t0p
   {f,r:int}
   {i:int | 0 <= i; i < r} (
   itr: !iterator (knd, kpm, x, f, r), i: size_t (i)
-) :<> x // end of [iter_fget_at]
+) : x // end of [iter_fget_at]
 fun{
 knd:tk}{x:t0p
 } iter_fset_at // forward-set
@@ -406,7 +406,7 @@ knd:tk}{x:t0p
   {f,r:int}
   {i:int | 0 <= i; i < r} (
   itr: !iterator (knd, kpm, x, f, r), i: size_t (i), x: x
-) :<!wrt> void // end of [iter_fset_at]
+) : void // end of [iter_fset_at]
 
 fun{
 knd:tk}{x:vt0p
@@ -415,7 +415,7 @@ knd:tk}{x:vt0p
   {f,r:int}
   {i:int | 0 <= i; i < r} (
   itr: !iterator (knd, kpm, x, f, r), i: size_t (i), x: &x >> x
-) :<!wrt> void // end of [iter_fexch_at]
+) : void // end of [iter_fexch_at]
 
 #atscode_separator()
 
@@ -430,7 +430,7 @@ knd:tk}{x:vt0p
 //
   itr: !iterator (knd, kpm, x, f, r)
          >> iterator (knd, kpm, x, f+i, r-i), i: ssize_t (i)
-) :<> void // end of [iter_fbjmp]
+) : void // end of [iter_fbjmp]
 
 #atscode_separator()
 
@@ -441,7 +441,7 @@ knd:tk}{x:vt0p
   {f,r:int}
   {i:int | ~f <= i; i < r} (
   itr: !iterator (knd, kpm, x, f, r), i: ssize_t (i)
-) :<> Ptr1 // end of [iter_fbgetref_at]
+) : Ptr1 // end of [iter_fbgetref_at]
 
 fun{
 knd:tk}{x:t0p
@@ -450,7 +450,7 @@ knd:tk}{x:t0p
   {f,r:int}
   {i:int | ~f <= i; i < r} (
   itr: !iterator (knd, kpm, x, f, r), i: ssize_t (i)
-) :<> x // end of [iter_fbget_at]
+) : x // end of [iter_fbget_at]
 fun{
 knd:tk}{x:t0p
 } iter_fbset_at // forward/backward-set
@@ -458,7 +458,7 @@ knd:tk}{x:t0p
   {f,r:int}
   {i:int | ~f <= i; i < r} (
   itr: !iterator (knd, kpm, x, f, r), i: ssize_t (i), x: x
-) :<!wrt> void // end of [iter_fbset_at]
+) : void // end of [iter_fbset_at]
 
 fun{
 knd:tk}{x:vt0p
@@ -467,7 +467,7 @@ knd:tk}{x:vt0p
   {f,r:int}
   {i:int | ~f <= i; i < r} (
   itr: !iterator (knd, kpm, x, f, r), i: ssize_t (i), x: &x >> x
-) :<!wrt> void // end of [iter_fbexch_at]
+) : void // end of [iter_fbexch_at]
 
 #atscode_separator()
 
@@ -510,14 +510,14 @@ knd:tk}{x:vt0p
 } iter_ins
   {kpm:tk}{f,r:int} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f, r+1), x: x
-) :<!wrt> void // end of [iter_ins]
+) : void // end of [iter_ins]
 
 fun{
 knd:tk}{x:vt0p
 } iter_ins_inc
   {kpm:tk}{f,r:int} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r), x: x
-) :<!wrt> void // end of [iter_ins_inc]
+) : void // end of [iter_ins_inc]
 
 #atscode_separator()
 
@@ -526,14 +526,14 @@ knd:tk}{x:vt0p
 } iter_rmv
   {kpm:tk}{f,r:int | r > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f, r-1)
-) :<!wrt> x(*removed*) // end of [iter_rmv]
+) : x(*removed*) // end of [iter_rmv]
 
 fun{
 knd:tk}{x:vt0p
 } iter_dec_rmv
   {kpm:tk}{f,r:int | f > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r)
-) :<!wrt> x(*removed*) // end of [iter_dec_rmv]
+) : x(*removed*) // end of [iter_dec_rmv]
 
 #atscode_separator()
 //
@@ -545,12 +545,12 @@ fun{
 knd:tk}{x:t0p
 } iter_listize_cpy {kpm:tk}{f,r:int} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+r, 0)
-) :<> list_vt (x, r) // end of [iter_listize_cpy]
+) : list_vt (x, r) // end of [iter_listize_cpy]
 fun{
 knd:tk}{x:t0p
 } iter_rlistize_cpy {kpm:tk}{f,r:int} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+r, 0)
-) :<> list_vt (x, r) // end of [iter_rlistize_cpy]
+) : list_vt (x, r) // end of [iter_rlistize_cpy]
 
 #atscode_separator()
 
@@ -558,34 +558,34 @@ fun{
 knd:tk}{x:vt0p
 } iter_listize_rmv {kpm:tk}{f,r:int} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f, 0)
-) :<> list_vt (x, r) // end of [iter_listize_rmv]
+) : list_vt (x, r) // end of [iter_listize_rmv]
 fun{
 knd:tk}{x:vt0p
 } iter_rlistize_rmv {kpm:tk}{f,r:int} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f, 0)
-) :<> list_vt (x, r) // end of [iter_rlistize_rmv]
+) : list_vt (x, r) // end of [iter_rlistize_rmv]
 
 #atscode_separator()
 
 fun{
 knd:tk}{x:vt0p
 } iter_foreach_funenv
-  {kpm:tk}{v:view}{vt:vtp}{f,r:int}{fe:eff} (
+  {kpm:tk}{v:view}{vt:vtp}{f,r:int} (
   pfv: !v
 | itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+r, 0)
-, f: (!v | &x, !vt) -<fe> void, env: !vt
-) :<fe> void // end of [iter_foreach_funenv]
+, f: (!v | &x, !vt) -> void, env: !vt
+) : void // end of [iter_foreach_funenv]
 
 #atscode_separator()
 
 fun{
 knd:tk}{x:vt0p
 } iter_exists_funenv
-  {kpm:tk}{v:view}{vt:vtp}{f,r:int}{fe:eff} (
+  {kpm:tk}{v:view}{vt:vtp}{f,r:int} (
   pfv: !v
 | itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f1, r1)
-, pred: (!v | &x, !vt) -<fe> bool, env: !vt
-) :<fe> #[
+, pred: (!v | &x, !vt) -> bool, env: !vt
+) : #[
   f1,r1:int | f1>=f; f+r==f1+r1
 ] bool (r1 > 0) // end of [iter_exists_funenv]
 
@@ -612,7 +612,7 @@ knd:tk}{x:vt0p
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f1, r1)
 , pord: (&x, !env) -<fun> int, env: !env
 , ra: size_t (ra) // range being searched
-) :<> #[
+) : #[
   f1,r1:int | f1>=f;f+ra>=f1;f1+r1==f+r
 ] void // end of [iter_bsearch_funenv]
 

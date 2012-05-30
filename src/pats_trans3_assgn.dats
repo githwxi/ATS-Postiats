@@ -115,8 +115,8 @@ fun d2var_assgn_lin (
 
 implement
 d2var_assgn_lin0
-  (loc0, d2vw, s2e_new) = let
-  val opt = d2var_get_type (d2vw)
+  (loc0, d2v, s2e_new) = let
+  val opt = d2var_get_type (d2v)
 in
 //
 case+ opt of
@@ -125,19 +125,19 @@ case+ opt of
     val d3ls = list_nil and s2e_sel = s2e
     val () = if islin then auxerr_linsel (loc0, s2e, d3ls, s2e_sel)
   in
-    d2var_set_type (d2vw, Some (s2e_new))
+    d2var_set_type (d2v, Some (s2e_new))
   end // end of [Some]
 | None () =>
-    d2var_set_type (d2vw, Some (s2e_new))
+    d2var_set_type (d2v, Some (s2e_new))
   // end of [None]
 //
 end // end of [d2var_assgn_lin0]
 
 implement
 d2var_assgn_lin1
-  (loc0, d2vw, d3ls, s2e_new) = let
+  (loc0, d2v, d3ls, s2e_new) = let
 //
-val s2e = d2var_get_type_some (loc0, d2vw)
+val s2e = d2var_get_type_some (loc0, d2v)
 var ctxtopt: s2ctxtopt = None ()
 val s2e_sel =
   s2exp_get_dlablst_context (loc0, s2e, d3ls, ctxtopt)
@@ -157,7 +157,7 @@ val s2e = (
   case+ ctxtopt of
   | Some (ctxt) => s2ctxt_hrepl (ctxt, s2e_new) | None () => s2e
 ) : s2exp // end of [val]
-val () = d2var_set_type (d2vw, Some (s2e))
+val () = d2var_set_type (d2v, Some (s2e))
 //
 in
   // nothing
@@ -165,13 +165,13 @@ end // end of [d2var_assgn_lin1]
 
 implement
 d2var_assgn_lin
-  (loc0, d2vw, d3ls, s2e_new) = (
+  (loc0, d2v, d3ls, s2e_new) = (
   case+ d3ls of
   | list_nil () =>
-      d2var_assgn_lin0 (loc0, d2vw, s2e_new)
+      d2var_assgn_lin0 (loc0, d2v, s2e_new)
     // end of [list_nil]
   | list_cons _ =>
-      d2var_assgn_lin1 (loc0, d2vw, d3ls, s2e_new)
+      d2var_assgn_lin1 (loc0, d2v, d3ls, s2e_new)
     // end of [list_cons]
 ) // end of [d2var_assgn_lin]
 
@@ -406,6 +406,19 @@ end // end of [local]
 
 (* ****** ****** *)
 
+local
+
+fn auxerr_wrt_if
+  (loc0: location): void = let
+  val err = the_effenv_check_wrt (loc0)
+in
+  if (err > 0) then (
+    the_trans3errlst_add (T3E_d2exp_trup_wrt (loc0))
+  ) // end of [if]
+end // end of [auxerr_wrt]
+
+in // in of [local]
+
 implement
 d2exp_trup_assgn
   (d2e0) = let
@@ -429,6 +442,7 @@ case+ d2lv of
     val d3e_r =
       s2addr_assgn_deref (loc0, s2l, d3ls, d3e_r)
     // end of [val]
+    val () = auxerr_wrt_if (loc0)
   in
     d3exp_assgn_var (loc0, d2v, d3ls, d3e_r)
   end // end of [D2LVALvar_mut]
@@ -444,8 +458,11 @@ case+ d2lv of
     d3exp_assgn_var (loc0, d2v, d3ls, d3e_r)
   end // end of [D2LVALvar_lin]
 | D2LVALderef
-    (d2e_l, d2ls) =>
+    (d2e_l, d2ls) => let
+    val () = auxerr_wrt_if (loc0)
+  in
     d2exp_trup_assgn_deref (loc0, d2e_l, d2ls, d2e_r)
+  end // end of [D2LVALd2ref]
 | D2LVALviewat _ => d2exp_trup_viewat_assgn (d2e0)
 | _ => let
     val () = prerr_error3_loc (d2e_l.d2exp_loc)
@@ -457,6 +474,8 @@ case+ d2lv of
   end // end of [_]
 //
 end // end of [d2exp_trup_assgn]
+
+end // end of [local]
 
 (* ****** ****** *)
 

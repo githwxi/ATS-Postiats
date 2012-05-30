@@ -300,6 +300,10 @@ fun s2exp_unit_view (): s2exp // unit_v // how about uview?
 
 (* ****** ****** *)
 
+fun s2exp_exception_viewtype (): s2exp
+
+(* ****** ****** *)
+
 fun s2exp_arrsz_viewt0ype_int_viewt0ype (s2e: s2exp, n: int): s2exp
 
 (* ****** ****** *)

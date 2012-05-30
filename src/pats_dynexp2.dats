@@ -591,11 +591,6 @@ d2exp_arrsize (
 implement
 d2exp_raise (loc, d2e) = d2exp_make (loc, D2Eraise (d2e))
 
-implement
-d2exp_delay
-  (loc, knd, d2e) = d2exp_make (loc, D2Edelay (knd, d2e))
-// end of [d2exp_delay]
-
 (* ****** ****** *)
 
 implement
@@ -670,6 +665,13 @@ implement
 d2exp_fix (
   loc, knd, d2v_fun, d2e_body
 ) = d2exp_make (loc, D2Efix (knd, d2v_fun, d2e_body))
+
+(* ****** ****** *)
+
+implement
+d2exp_delay
+  (loc, knd, d2e) = d2exp_make (loc, D2Edelay (knd, d2e))
+// end of [d2exp_delay]
 
 (* ****** ****** *)
 

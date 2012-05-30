@@ -910,7 +910,12 @@ s2exp_unit_view () =
 (* ****** ****** *)
 
 implement
-the_exception_viewtype = s2cstref_make "exception_viewtype"
+the_exception_viewtype =
+  s2cstref_make "exception_viewtype"
+implement
+s2exp_exception_viewtype () =
+  s2exp_cst (s2cstref_get_cst (the_exception_viewtype))
+// end of [s2exp_exception_viewtype]
 
 (* ****** ****** *)
 

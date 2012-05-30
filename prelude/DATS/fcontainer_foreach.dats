@@ -163,9 +163,8 @@ fn f1 (
 ) :<fe> void = let
   val i = !(p->0)
   val () = f (pf.0 | i, x, p->1)
-  val () = !(p->0) := i + 1
 in
-  (*nothing*)
+  $effmask_wrt (!(p->0) := i + 1)
 end // end of [f1]
 //
 prval pfv1 = (pfv, view@(i), view@(ienv))

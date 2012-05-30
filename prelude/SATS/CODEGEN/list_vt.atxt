@@ -44,11 +44,26 @@ fun{} list_vt_is_cons
 
 #atscode_separator()
 
+fun{a:vt0p}
+list_vt_length {n:int} (xs: !list_vt (a, n)):<> int n
+// end of [list_vt_length]
+
+#atscode_separator()
+
+fun{a:t0p}
+list_vt_free (xs: List_vt (a)):<!wrt> void
+
 fun{
 a:vt0p
-} list_vt_length
-  {n:int} (xs: !list_vt (a, n)):<> int n
-// end of [list_vt_length]
+} list_vt_free_fun {fe:eff} (
+  xs: List_vt (INV(a)), f: (&a>>a?) -<fe> void
+) :<!wrt,fe> void // end of [list_vt_free_fun]
+
+fun{
+a:vt0p
+} list_vt_clear_fun {n:int}{fe:eff} (
+  xs: !list_vt (INV(a), n) >> list_vt (a?, n), f: (&a>>a?) -<fe> void
+) :<fe> void // end of [list_vt_clear_fun]
 
 #atscode_separator()
 

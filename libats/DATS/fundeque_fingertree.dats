@@ -277,7 +277,7 @@ extern
 fun fingertree_uncons
   {a:t0p}{d:nat}{n:pos} (
   xt: fingertree (a, d, n), r: &ptr? >> ftnode (a, d, n1)
-) :<> #[n1:nat] fingertree (a, d, n-n1)
+) :<!wrt> #[n1:nat] fingertree (a, d, n-n1)
 // end of [fingertree_uncons]
 
 implement
@@ -287,7 +287,7 @@ fingertree_uncons{a}
 fun uncons
   {d:nat}{n:pos} .<n>. (
   xt: fingertree (a, d, n), r: &ptr? >> ftnode (a, d, n1)
-) :<> #[n1:nat | n1 <= n] fingertree (a, d, n-n1) =
+) :<!wrt> #[n1:nat | n1 <= n] fingertree (a, d, n-n1) =
   case+ xt of
   | FTsing (xn) => let
       val () = r := xn in FTemp ()
@@ -428,7 +428,7 @@ extern
 fun fingertree_unsnoc
   {a:t0p}{d:nat}{n:pos} (
   xt: fingertree (a, d, n), r: &ptr? >> ftnode (a, d, n1)
-) :<> #[n1:nat] fingertree (a, d, n-n1)
+) :<!wrt> #[n1:nat] fingertree (a, d, n-n1)
 // end of [fingertree_unsnoc]
 
 implement
@@ -438,7 +438,7 @@ fingertree_unsnoc{a}
 fun unsnoc
   {d:nat}{n:pos} .<n>. (
   xt: fingertree (a, d, n), r: &ptr? >> ftnode (a, d, n1)
-) :<> #[n1:nat | n1 <= n] fingertree (a, d, n-n1) =
+) :<!wrt> #[n1:nat | n1 <= n] fingertree (a, d, n-n1) =
   case+ xt of
   | FTsing (xn) => let
       val () = r := xn in FTemp ()

@@ -97,7 +97,7 @@ fundeque_cons{n:nat}
 
 fun{a:t0p}
 fundeque_uncons{n:pos}
-  (xt: deque (a, n), r: &a? >> a):<> deque (a, n-1)
+  (xt: deque (a, n), r: &a? >> a):<!wrt> deque (a, n-1)
 // end of [fundeque_uncons]
 
 (* ****** ****** *)
@@ -109,7 +109,7 @@ fundeque_snoc{n:nat}
 
 fun{a:t0p}
 fundeque_unsnoc{n:pos}
-  (xt: deque (a, n), r: &a? >> a):<> deque (a, n-1)
+  (xt: deque (a, n), r: &a? >> a):<!wrt> deque (a, n-1)
 // end of [fundeque_unsnoc]
 
 (* ****** ****** *)

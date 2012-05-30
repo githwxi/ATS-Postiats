@@ -257,7 +257,8 @@ end // end of [array_quicksort]
 
 implement{a}
 array_bsearch_funenv
-  (A, n, pord, env) = let
+  (A, n, pord, env) =
+  $effmask_all let
   val itr =
     iter_make_array (view@(A) | addr@(A), n)
   val () = iter_bsearch_funenv (itr, pord, env, n)

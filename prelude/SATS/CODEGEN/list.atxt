@@ -92,6 +92,8 @@ fun{x:t0p}
 list_reverse
   {n:int} (xs: NSH(list (x, n))):<> list_vt (x, n)
 
+#atscode_separator()
+
 fun{a:t0p}
 list_reverse_append {m,n:int}
   (xs: NSH(list (a, m)), ys: SHR(list (a, n))):<> list (a, m+n)
@@ -99,12 +101,17 @@ list_reverse_append {m,n:int}
 
 fun{a:t0p}
 list_reverse_append1_vt {m,n:int}
-  (xs: list_vt (a, m), ys: SHR(list (a, n))):<> list (a, m+n)
+  (xs: list_vt (a, m), ys: SHR(list (a, n))):<!wrt> list (a, m+n)
 // end of [list_reverse_append1_vt]
 fun{a:t0p}
 list_reverse_append2_vt {m,n:int}
-  (xs: NSH(list (a, m)), ys: list_vt (a, n)):<> list_vt (a, m+n)
+  (xs: NSH(list (a, m)), ys: list_vt (a, n)):<!wrt> list_vt (a, m+n)
 // end of [list_reverse_append2_vt]
+
+#atscode_separator()
+
+fun{a:t0p}
+list_concat (xss: List (List (a))):<> List_vt (a)
 
 #atscode_separator()
 
@@ -134,6 +141,15 @@ x:t0p}{y:t0p
   {v:view}{vt:viewtype}{n:int}{fe:eff} (
   pfv: !v | xs: NSH(list (x, n)), f: (!v | x, !vt) -<fun,fe> y, env: !vt
 ) :<fe> list_vt (y, n) // end of [list_map_funenv]
+
+#atscode_separator()
+
+fun{
+x:vt0p
+} list_tabulate__fwork (i: int): x
+fun{
+x:vt0p
+} list_tabulate {n:nat} (n: int n): list_vt (x, n)
 
 #atscode_separator()
 

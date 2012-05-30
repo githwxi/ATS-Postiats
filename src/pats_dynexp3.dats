@@ -720,6 +720,17 @@ d3exp_arrsize (
 (* ****** ****** *)
 
 implement
+d3exp_raise (
+  loc, s2f, d3e
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eraise (d3e)
+} // end of [d3exp_raise]
+
+(* ****** ****** *)
+
+implement
 d3exp_effmask (
   loc, s2fe, d3e
 ) = let
@@ -928,7 +939,15 @@ implement
 d3ecl_datdec
   (loc, knd, s2cs) =
   d3ecl_make_node (loc, D3Cdatdec (knd, s2cs))
-// end of [d3ecl_datdet]
+// end of [d3ecl_exndec]
+
+(* ****** ****** *)
+
+implement
+d3ecl_exndec
+  (loc, d2cs) =
+  d3ecl_make_node (loc, D3Cexndec (d2cs))
+// end of [d3ecl_exndec]
 
 (* ****** ****** *)
 

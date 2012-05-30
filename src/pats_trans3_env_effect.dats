@@ -237,9 +237,9 @@ fun auxcheck (
         val efs =
           effset_inter (efs0, efs)
         // end of [val]
-        val isint = effset_isnil (efs)
+        val isnil = effset_isnil (efs)
         val ans = (
-          if isint then 1(*fail*) else auxcheck (!p_efis, efs0)
+          if isnil then auxcheck (!p_efis, efs0) else 1(*fail*)
         ) : int // end of [val]
         val () = if ans > 0 then auxerr (efs)
       in
@@ -260,7 +260,7 @@ fun auxcheck (
       val ans = ( // HX: note that [efs0] is not nil
         if knd > 0 then 1(*fail*) else auxcheck (!p_efis, efs0)
       ) : int // end of [val]
-      val () = if ans > 0 then auxerr (efs0)
+      val () = if knd > 0 then (if ans > 0 then auxerr (efs0))
     in
       fold@ (efis); ans
     end // end of [EFILSTmark]
@@ -280,18 +280,36 @@ in
   $effmask_ref (auxcheck (!p, efs0))
 end // end of [if]
 //
-end // end of [the_effenv_check_eff]
+end // end of [the_effenv_check_set]
+
+(* ****** ****** *)
+
+implement
+the_effenv_check_eff
+  (loc0, eff) = (
+  the_effenv_check_set (loc0, effset_sing (eff))
+) // end of [the_effenv_check_eff]
+
+implement
+the_effenv_check_exn
+  (loc0) = the_effenv_check_eff (loc0, effect_exn)
+// end of [the_effenv_check_exn]
+
+implement
+the_effenv_check_wrt
+  (loc0) = the_effenv_check_eff (loc0, effect_wrt)
+// end of [the_effenv_check_wrt]
 
 (* ****** ****** *)
 
 implement
 the_effenv_check_sexp
   (loc0, s2e0) = let
-(*
+// (*
 val () = begin
   print "the_effenv_check_sexp: s2e0 = "; print_s2exp (s2e0); print_newline ()
 end // end of [val]
-*)
+// *)
 fun auxerr (
   s2e0: s2exp
 ) :<cloref1> void = {

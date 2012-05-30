@@ -134,7 +134,7 @@ fun
 uncons{a:t0p}
   {d:nat}{n:pos} .<n>. (
   xs: ralist (a, d, n), x: &ptr? >> node (a, d)
-) :<> ralist (a, d, n-1) =
+) :<!wrt> ralist (a, d, n-1) =
   case+ xs of
   | RAevn (xxs) => let
       var xx: ptr
@@ -171,14 +171,18 @@ end // end of [local]
 (* ****** ****** *)
 
 implement{a}
-funralist_head (xs) = let
-  var x: a; val _ = funralist_uncons<a> (xs, x) in x
-end // end of [funralist_head]
+funralist_head
+  (xs) = x where {
+  var x: a
+  val _ = $effmask_wrt (funralist_uncons<a> (xs, x))
+} // end of [funralist_head]
 
 implement{a}
-funralist_tail (xs) = let
-  var x: a; val xs = funralist_uncons<a> (xs, x) in xs
-end // end of [funralist_tail]
+funralist_tail
+  (xs) = xs where {
+  var _x: a
+  val xs = $effmask_wrt (funralist_uncons<a> (xs, _x))
+} // end of [funralist_tail]
 
 (* ****** ****** *)
 

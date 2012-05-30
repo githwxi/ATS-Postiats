@@ -206,7 +206,7 @@ d3ecl_node =
   | D3Cextcode of (int(*knd*), int(*pos*), string(*code*))  
 //
   | D3Cdatdec of (int(*knd*), s2cstlst)
-//
+  | D3Cexndec of (d2conlst) // HX: exception decls
   | D3Cdcstdec of (dcstkind, d2cstlst)
 //
   | D3Cimpdec of (i3mpdec)
@@ -296,6 +296,8 @@ and d3exp_node =
   | D3Earrinit of // For instance, @[int](1,2,3)
       (s2exp(*elt*), d3exp(*asz*), d3explst(*elt*))
   | D3Earrsize of (d3explst, int(*size*))
+//
+  | D3Eraise of (d3exp) // HX: raised exception
 //
   | D3Eeffmask of (s2eff, d3exp) // $effmask(s2eff, d3exp)
 //
@@ -633,6 +635,12 @@ fun d3exp_arrsize (
 
 (* ****** ****** *)
 
+fun d3exp_raise
+  (loc: location, s2f: s2exp, d3e: d3exp): d3exp
+// end of [d3exp_raise]
+
+(* ****** ****** *)
+
 fun d3exp_effmask
   (loc: location, s2fe: s2eff, d3e: d3exp): d3exp
 // end of [d3exp_effmask]
@@ -765,6 +773,10 @@ fun d3ecl_extcode
 fun d3ecl_datdec
   (loc: location, knd: int, s2cs: s2cstlst): d3ecl
 // end of [d3ecl_datdec]
+
+(* ****** ****** *)
+
+fun d3ecl_exndec (loc: location, d2cs: d2conlst): d3ecl
 
 (* ****** ****** *)
 
