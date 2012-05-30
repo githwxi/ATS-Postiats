@@ -50,8 +50,7 @@ sortdef t0p = t@ype
 
 (* ****** ****** *)
 
-prfun
-lemma_ralist_param
+prfun lemma_ralist_param
   {a:t0p}{n:int} (xs: ralist (a, n)): [n >= 0] void
 // end of [lemma_ralist_param]
 

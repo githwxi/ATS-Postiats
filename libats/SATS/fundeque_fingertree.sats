@@ -61,50 +61,75 @@
 abstype
 deque_t0ype_int_type (elt:t@ype+, n:int)
 stadef deque = deque_t0ype_int_type
+typedef deque (a:t@ype) = [n:int] deque (a, n)
+
+(* ****** ****** *)
+
+sortdef t0p = t@ype
+
+(* ****** ****** *)
+
+prfun lemma_deque_param
+  {a:t0p}{n:int} (xs: deque (a, n)): [n >= 0] void
+// end of [lemma_deque_param]
 
 (* ****** ****** *)
 
 fun fundeque_size
-  {a:t@ype} {n:nat} (xt: deque (a, n)):<> int (n)
+  {a:t0p}{n:nat}
+  (xt: deque (a, n)):<> size_t (n)
 // end of [fundeque_size]
 
 (* ****** ****** *)
 
-fun{} fundeque_nil {a:t@ype} ():<> deque (a, 0)
+fun{} fundeque_nil {a:t0p} ():<> deque (a, 0)
 
 fun{} fundeque_is_nil
-  {a:t@ype} {n:nat} (xt: deque (a, n)): bool (n==0)
+  {a:t0p}{n:nat} (xt: deque (a, n)): bool (n==0)
 // end of [fundeque_is_nil]
 
 (* ****** ****** *)
 
-fun{a:t@ype}
-fundeque_cons {n:nat}
+fun{a:t0p}
+fundeque_cons{n:nat}
   (x: a, xt: deque (a, n)):<> deque (a, n+1)
 // end of [fingertree0_cons]
 
-fun{a:t@ype}
-fundeque_uncons {n:pos}
+fun{a:t0p}
+fundeque_uncons{n:pos}
   (xt: deque (a, n), r: &a? >> a):<> deque (a, n-1)
 // end of [fundeque_uncons]
 
 (* ****** ****** *)
 
-fun{a:t@ype}
-fundeque_snoc {n:nat}
+fun{a:t0p}
+fundeque_snoc{n:nat}
   (xt: deque (a, n), x: a):<> deque (a, n+1)
 // end of [fingertree0_snoc]
 
-fun{a:t@ype}
-fundeque_unsnoc {n:pos}
+fun{a:t0p}
+fundeque_unsnoc{n:pos}
   (xt: deque (a, n), r: &a? >> a):<> deque (a, n-1)
 // end of [fundeque_unsnoc]
 
 (* ****** ****** *)
 
-fun fundeque_append {a:t@ype} {n1,n2:nat}
+fun fundeque_append
+  {a:t0p}{n1,n2:nat}
   (xt1: deque (a, n1), xt2: deque (a, n2)):<> deque (a, n1+n2)
 // end of [fundeque_append]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+fundeque_foreach__fwork (x: a): void
+fun{a:t0p}
+fundeque_foreach (xs: deque (a)): void
+
+fun{a:t0p}
+fundeque_rforeach__fwork (x: a): void
+fun{a:t0p}
+fundeque_rforeach (xs: deque (a)): void
 
 (* ****** ****** *)
 
