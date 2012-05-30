@@ -464,6 +464,7 @@ case+ d2lv of
     d2exp_trup_assgn_deref (loc0, d2e_l, d2ls, d2e_r)
   end // end of [D2LVALd2ref]
 | D2LVALviewat _ => d2exp_trup_viewat_assgn (d2e0)
+//
 | _ => let
     val () = prerr_error3_loc (d2e_l.d2exp_loc)
     val () = prerr ": a left-value is required but a non-left-value is given."

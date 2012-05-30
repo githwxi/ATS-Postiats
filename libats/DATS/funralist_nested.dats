@@ -301,7 +301,6 @@ end // end of [local]
 
 local
 
-staload UN = "prelude/SATS/unsafe.sats"
 extern fun __free (p: ptr):<> void = "mac#ats_free_gc"
 
 fn* foreach

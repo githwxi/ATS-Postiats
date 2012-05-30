@@ -328,11 +328,19 @@ absview effenv_push_v
 
 fun the_effenv_add_eff (eff: effect): void
 
-fun the_effenv_pop (pf: effenv_push_v | (*none*)): void
+fun the_effenv_pop
+  (pf: effenv_push_v | (*none*)): void
+fun the_effenv_pop_if {b:bool}
+  (pfopt: option_v (effenv_push_v, b) | test: bool b): void
 
 fun the_effenv_push (): (effenv_push_v | void)
 fun the_effenv_push_lam (s2fe: s2eff): (effenv_push_v | void)
+//
 fun the_effenv_push_set (efs: effset): (effenv_push_v | void)
+fun the_effenv_push_set_if {b:bool}
+  (test: bool b, efs: effset): (option_v (effenv_push_v, b) | void)
+// end of [the_effenv_push_set_if]
+//
 fun the_effenv_push_effmask (s2fe: s2eff): (effenv_push_v | void)
 
 fun the_effenv_check_set

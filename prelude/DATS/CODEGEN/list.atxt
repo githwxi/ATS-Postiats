@@ -177,8 +177,6 @@ in
   loop (xs, ys)
 end // end of [list_reverse_append1_vt]
 
-#atscode_separator()
-
 implement{a}
 list_reverse_append2_vt
   (xs, ys) = let

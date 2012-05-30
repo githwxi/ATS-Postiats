@@ -30,16 +30,8 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-\#define SHR(x) x // SHARED
-\#define NSH(x) x // NSHARED
-
-#atscode_separator()
-
-typedef cmp
-  (a: t@ype) = (a, a) -<fun> int
-typedef cmp
-  (a: t@ype, vt: viewtype) = (a, a, !vt) -<fun> int
-// end of [typedef]
+\#define SHR(x) x // SHARED // HX: for commenting
+\#define NSH(x) x // NSHARED // HX: for commenting
 
 #atscode_separator()
 
@@ -66,52 +58,55 @@ list_is_cons {x:t0p}{n:int} (xs: list (x, n)):<> bool (n > 0)
 
 fun{
 x:t0p // type for elements
-} list_copy {n:int} (xs: list (x, n)):<> list_vt (x, n)
+} list_copy {n:int}
+  (xs: list (INV(x), n)):<> list_vt (x, n)
+// end of [list_copy]
 
 #atscode_separator()
 
 fun{a:t0p}
 list_append {m,n:int} (
-  xs: NSH(list (a, m)), ys: SHR(list (a, n))
+  xs: NSH(list (INV(a), m)), ys: SHR(list (a, n))
 ) :<> list (a, m+n) // end of [list_append]
 
 fun{
 a:t0p // type for elements
 } list_append1_vt {i,j:int}
-  (xs: list_vt (a, i), ys: SHR(list (a, j))):<!wrt> list (a, i+j)
+  (xs: list_vt (INV(a), i), ys: SHR(list (a, j))):<!wrt> list (a, i+j)
 // end of [list_append1_vt]
 fun{
 a:t0p // type for elements
 } list_append2_vt {i,j:int}
-  (xs: NSH(list (a, i)), ys: list_vt (a, j)):<!wrt> list_vt (a, i+j)
+  (xs: NSH(list (INV(a), i)), ys: list_vt (a, j)):<!wrt> list_vt (a, i+j)
 // end of [list_append2_vt]
 
 #atscode_separator()
 
 fun{x:t0p}
 list_reverse
-  {n:int} (xs: NSH(list (x, n))):<> list_vt (x, n)
+  {n:int} (xs: NSH(list (INV(x), n))):<> list_vt (x, n)
+// end of [list_reverse]
 
 #atscode_separator()
 
 fun{a:t0p}
 list_reverse_append {m,n:int}
-  (xs: NSH(list (a, m)), ys: SHR(list (a, n))):<> list (a, m+n)
+  (xs: NSH(list (INV(a), m)), ys: SHR(list (a, n))):<> list (a, m+n)
 // end of [list_reverse_append]
 
 fun{a:t0p}
 list_reverse_append1_vt {m,n:int}
-  (xs: list_vt (a, m), ys: SHR(list (a, n))):<!wrt> list (a, m+n)
+  (xs: list_vt (INV(a), m), ys: SHR(list (a, n))):<!wrt> list (a, m+n)
 // end of [list_reverse_append1_vt]
 fun{a:t0p}
 list_reverse_append2_vt {m,n:int}
-  (xs: NSH(list (a, m)), ys: list_vt (a, n)):<!wrt> list_vt (a, m+n)
+  (xs: NSH(list (INV(a), m)), ys: list_vt (a, n)):<!wrt> list_vt (a, m+n)
 // end of [list_reverse_append2_vt]
 
 #atscode_separator()
 
 fun{a:t0p}
-list_concat (xss: List (List (a))):<> List_vt (a)
+list_concat (xss: List (List (INV(a)))):<> List_vt (a)
 
 #atscode_separator()
 
@@ -120,17 +115,17 @@ x:t0p // type for elements
 } list_foreach_funenv
   {v:view}{env:viewtype}{fe:eff} (
   pfv: !v |
-  xs: NSH(List (x))
+  xs: NSH(List (INV(x)))
 , f: (!v | x, !env) -<fun,fe> void, env: !env
 ) :<fe> void // end of [list_foreach_funenv]
 
 fun{
 x:t0p // type for elements
 } list_iforeach_funenv
-  {v:view}{env:viewtype}{n:nat}{fe:eff} (
+  {v:view}{vt:viewtype}{n:nat}{fe:eff} (
   pfv: !v |
-  xs: NSH(list (x, n))
-, f: (!v | natLt(n), x, !env) -<fun,fe> void, env: !env
+  xs: NSH(list (INV(x), n))
+, f: (!v | natLt(n), x, !vt) -<fun,fe> void, env: !vt
 ) :<fe> int n // end of [list_iforeach_funenv]
 
 #atscode_separator()
@@ -139,17 +134,19 @@ fun{
 x:t0p}{y:t0p
 } list_map_funenv
   {v:view}{vt:viewtype}{n:int}{fe:eff} (
-  pfv: !v | xs: NSH(list (x, n)), f: (!v | x, !vt) -<fun,fe> y, env: !vt
+  pfv: !v |
+  xs: NSH(list (INV(x), n))
+, f: (!v | x, !vt) -<fun,fe> y, env: !vt
 ) :<fe> list_vt (y, n) // end of [list_map_funenv]
 
 #atscode_separator()
 
 fun{
-x:vt0p
-} list_tabulate__fwork (i: int): x
+a:vt0p
+} list_tabulate__fwork (i: int): a
 fun{
-x:vt0p
-} list_tabulate {n:nat} (n: int n): list_vt (x, n)
+a:vt0p
+} list_tabulate {n:nat} (n: int n): list_vt (a, n)
 
 #atscode_separator()
 
@@ -157,14 +154,14 @@ fun{
 a:t0p
 } list_mergesort
   {n:nat} (
-  xs: NSH(list (a, n)), cmp: cmp (a)
+  xs: NSH(list (INV(a), n)), cmp: cmpval (a)
 ) :<> list_vt (a, n) // end of [list_mergesort]
 
 fun{
 a:t0p
 } list_quicksort
   {n:nat} (
-  xs: NSH(list (a, n)), cmp: cmp (a)
+  xs: NSH(list (INV(a), n)), cmp: cmpval (a)
 ) :<> list_vt (a, n) // end of [list_quicksort]
 
 #atscode_separator()

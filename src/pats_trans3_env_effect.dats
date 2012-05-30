@@ -153,6 +153,17 @@ in
   !p := efilst_unmark (!p)
 end // end of [the_effenv_pop]
 
+implement
+the_effenv_pop_if
+  (pfopt | test) =
+  if test then let
+    prval Some_v
+      (pf) = pfopt in the_effenv_pop (pf | (*void*))
+  end else let
+    prval None_v () = pfopt in ()
+  end // end of [if]
+// end of [the_effenv_pop_if]
+
 (* ****** ****** *)
 
 implement
@@ -191,6 +202,16 @@ val () = !p := EFILSTcons (efi, efis)
 in
   (unit_v () | ())
 end // end of [the_effenv_push_set]
+
+implement
+the_effenv_push_set_if
+  (test, efs) = (
+  if test then let
+    val (pf | ()) =
+      the_effenv_push_set (efs) in (Some_v (pf) | ())
+    // end of [val]
+  end else (None_v () | ())
+) // end of [the_effenv_push_set_if]
 
 (* ****** ****** *)
 
@@ -292,12 +313,12 @@ the_effenv_check_eff
 
 implement
 the_effenv_check_exn
-  (loc0) = the_effenv_check_eff (loc0, effect_exn)
+  (loc0) = the_effenv_check_set (loc0, effset_exn)
 // end of [the_effenv_check_exn]
 
 implement
 the_effenv_check_wrt
-  (loc0) = the_effenv_check_eff (loc0, effect_wrt)
+  (loc0) = the_effenv_check_set (loc0, effset_wrt)
 // end of [the_effenv_check_wrt]
 
 (* ****** ****** *)

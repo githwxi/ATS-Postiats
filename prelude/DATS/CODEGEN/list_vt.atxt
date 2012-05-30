@@ -191,6 +191,31 @@ end // end of [list_vt_reverse_append]
 #atscode_separator()
 
 implement{a}
+list_vt_concat
+  (xss) = let
+  viewtypedef VT = List_vt (a)
+  fun loop {n:nat} .<n>. (
+    res: VT, xss: list_vt (VT, n)
+  ) :<!wrt> VT =
+    case+ xss of
+    | ~list_vt_cons (xs, xss) => let
+        val res = list_vt_append (xs, res) in loop (res, xss)
+      end // end of [list_vt_cons]
+    | ~list_vt_nil () => res
+  // end of [loop]
+  val xss = list_vt_reverse (xss)
+in
+//
+case+ xss of
+| ~list_vt_cons
+    (xs, xss) => loop (xs, xss)
+| ~list_vt_nil () => list_vt_nil ()
+//
+end // end of [list_concat]
+
+#atscode_separator()
+
+implement{a}
 list_vt_foreach_funenv
   {v}{vt}{n}{fe}
   (pf | xs, f, env) = let

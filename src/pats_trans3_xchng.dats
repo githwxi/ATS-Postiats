@@ -186,6 +186,7 @@ fun auxerr1 (
 in
   the_trans3errlst_add (T3E_s2addr_xchng_check_LHS (loc1, s2e0_sel, s2e1_sel))
 end // end of [auxerr1]
+
 fun auxerr2 (
   loc0: location // all
 , loc1: location // right
@@ -463,6 +464,37 @@ end // end of [local]
 
 (* ****** ****** *)
 
+local
+
+fn auxerr_wrt_if
+  (loc0: location): void = let
+  val err = the_effenv_check_wrt (loc0)
+in
+  if (err > 0) then (
+    the_trans3errlst_add (T3E_d2exp_trup_wrt (loc0))
+  ) // end of [if]
+end // end of [auxerr_wrt]
+
+fun auxerr_lproof
+  (d2e: d2exp): void = let
+  val () = prerr_error3_loc (d2e.d2exp_loc)
+  val () = prerr ": a non-proof left-value is expected."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d2exp_nonlval (d2e))
+end // end of [auxerr_lproof]
+
+fun auxerr_nonlval
+  (d2e: d2exp): void = let
+  val () = prerr_error3_loc (d2e.d2exp_loc)
+  val () = prerr ": a left-value is required but a non-left-value is given."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d2exp_nonlval (d2e))
+end // end of [auxerr_nonlval]
+
+in // in of [local]
+
 (*
 ** HX-2012-05-04:
 ** evaluation of [d2e_r] should not involve proofs of views!
@@ -482,22 +514,31 @@ case+ d2lv_l of
     val d3ls = d2lablst_trup (d2ls)
     val- Some (s2l) = d2var_get_addr (d2v_l)
     val d3e_r = s2addr_xchng_deref (loc0, s2l, d3ls, d2e_r)
+    val () = auxerr_wrt_if (loc0)
   in
     d3exp_xchng_var (loc0, d2v_l, d3ls, d3e_r)
   end // end of [D2LVALvar_mut]
 | D2LVALderef
-    (d2e_l, d2ls) =>
-    d2exp_trup_xchng_deref (loc0, d2e_l, d2ls, d2e_r)
-| _ => let
-    val () = prerr_error3_loc (d2e_l.d2exp_loc)
-    val () = prerr ": a left-value is required but a non-left-value is given."
-    val () = prerr_newline ()
-    val () = the_trans3errlst_add (T3E_d2exp_nonlval (d2e_l))
+    (d2e_l, d2ls) => let
+    val () = auxerr_wrt_if (loc0)
   in
-    d3exp_void_err (loc0)
+    d2exp_trup_xchng_deref (loc0, d2e_l, d2ls, d2e_r)
+  end // end of [D2LVALderef]
+//
+| D2LVALvar_lin _ => let
+    val () = auxerr_lproof (d2e_l) in d3exp_void_err (loc0)
+  end // end of [_]
+| D2LVALviewat _ => let
+    val () = auxerr_lproof (d2e_l) in d3exp_void_err (loc0)
+  end // end of [_]
+//
+| _ => let
+    val () = auxerr_nonlval (d2e_l) in d3exp_void_err (loc0)
   end // end of [_]
 //
 end // end of [d2exp_trup_xchng]
+
+end // end of [local]
 
 (* ****** ****** *)
 
