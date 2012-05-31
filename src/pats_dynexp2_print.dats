@@ -267,6 +267,12 @@ case+ x.p2at_node of
     val () = prstr ")"
   }
 //
+| P2Tvbox (d2v) => {
+    val () = prstr "P2Tvbox("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr ")"
+  }
+//
 | P2Tann (p2t, s2f) => {
     val () = prstr "P2Tann("
     val () = fprint_p2at (out, p2t)

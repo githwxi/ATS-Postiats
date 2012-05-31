@@ -129,6 +129,11 @@ p3at_exist (
 ) = p3at_make_node (loc, s2f, P3Texist (s2vs, p3t))
 
 implement
+p3at_vbox (
+  loc, s2f, d2v
+) = p3at_make_node (loc, s2f, P3Tvbox (d2v))
+
+implement
 p3at_ann (
   loc, s2f, p3t, ann
 ) = p3at_make_node (loc, s2f, P3Tann (p3t, ann))

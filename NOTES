@@ -117,14 +117,17 @@ revapp {m,n:nat} .<m>. (
 ######
 
 (*
+**
 ** HX-2012:
 **
 ** The skeleton of a type is computed by erasing all
 ** quatifiers and predicative indexes; type skeletons
 ** are primarily employed to support overloading.
 **
-** Each boxed type is of the size of a ptr.
-** Each unboxed type is determined by its skeleton.
+** The size of each boxed type equals that of a pointer.
+** The size of each unboxed type is only determined by
+** its skeleton. In other words, predicative indexes are
+** ignored for the purpose of comparing type sizes.
 **
 *)
 

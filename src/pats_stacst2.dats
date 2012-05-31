@@ -967,6 +967,35 @@ end // end of [s2exp_list_viewt0ype_int_viewtype]
 (* ****** ****** *)
 
 implement
+the_vbox_view_prop =
+  s2cstref_make "vbox_view_prop"
+implement
+s2exp_vbox_view_prop (s2e) =  let
+  val s2c = s2cstref_get_cst (the_vbox_view_prop)
+in
+  s2exp_cstapp (s2c, list_sing (s2e))
+end // end of [s2exp_vbox_view_prop]
+
+implement
+un_s2exp_vbox_view_prop
+  (s2f) = let
+  val s2e = s2hnf2exp (s2f)
+in
+//
+case+ s2e.s2exp_node of
+| S2Eapp (s2e_fun, s2es_arg) 
+    when s2cstref_equ_exp (
+    the_vbox_view_prop, s2e_fun
+  ) => let
+    val- list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
+  end // end of [S2Eapp when ...]
+| _ => None_vt ()
+//
+end // end of [un_s2exp_vbox_view_prop]
+
+(* ****** ****** *)
+
+implement
 the_ref_viewt0ype_type =
   s2cstref_make "ref_viewt0ype_type"
 implement

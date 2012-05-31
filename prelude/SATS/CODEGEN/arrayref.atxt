@@ -64,34 +64,55 @@ a:vt0p
 //
 #atscode_separator()
 
-#atscode_decl_strcst('\
 abstype
 arrayref_viewt0ype_int_type (a: viewt@ype, n: int)
 stadef arrayref = arrayref_viewt0ype_int_type
 stadef array = arrayref // backward compatibility
-')\
+
+#atscode_separator()
+
+praxi
+lemma_arrayref_param
+  {a:vt0p}{n:int} (A: arrayref (a, n)): [n >= 0] void
+// end of [lemma_arrayref_param]
+
+#atscode_separator()
+
+castfn
+arrayptr2ref
+  {a:vt0p}
+  {l:addr}
+  {n:int} (
+  A: arrayptr (INV(a), l, n)
+) :<> arrayref (a, n) // end of [arrayptr2ref]
+
+castfn
+arrayref_get_viewptr
+  {a:vt0p}{n:int} (
+  A: arrayref (INV(a), n)
+) :<> [l:addr] (vbox (array_v (a, l, n)) | ptr l)
 
 #atscode_separator()
 
 fun{a:t0p}
 arrayref_get_at
-  {n:int}{i:nat | i < n} (A: arrayref (a, n), i: size_t i):<0> a
+  {n:int}{i:nat | i < n}
+  (A: arrayref (a, n), i: size_t i):<!ref> a
 overload [] with arrayref_get_at
 fun{a:t0p}
 arrayref_set_at
-  {n:int}{i:nat | i < n} (A: arrayref (a, n), i: size_t i, x: a):<0> void
+  {n:int}{i:nat | i < n}
+  (A: arrayref (a, n), i: size_t i, x: a):<!refwrt> void
 overload [] with arrayref_set_at
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 fun{
 a:vt0p
 } arrayref_exch_at
   {n:int}{i:nat | i < n}
-  (A: arrayref (a, n), i: size_t i, x: &a >> a):<0> void
+  (A: arrayref (a, n), i: size_t i, x: &a >> a):<!refwrt> void
 // end of [arrayref_exch_at]
-')\
 
 #atscode_separator()
 //

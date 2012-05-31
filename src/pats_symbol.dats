@@ -256,6 +256,8 @@ implement symbol_QMARKBANG = symbol_make_string "?!"
 implement symbol_TILDE = symbol_make_string "~"
 implement symbol_UNDERSCORE = symbol_make_string "_"
 //
+implement symbol_VBOX = symbol_make_string "vbox"
+//
 implement symbol_LAMAT = symbol_make_string "lam@"
 implement symbol_LLAMAT = symbol_make_string "llam@"
 implement symbol_REFAT = symbol_make_string "ref@"

@@ -36,6 +36,10 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
+staload EFF = "pats_effect.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
@@ -63,6 +67,8 @@ datatype trans3err =
   | T3E_d2var_fin_some_some of (location, d2var) // is preserved but with something incompatible
 //
   | T3E_p2at_trdn of (p2at, s2exp)
+  | T3E_p2at_trdn_vbox_ref of (p2at) // resulting in disallowed ref-effect
+//
   | T3E_p2at_trup_con of p2at // pfarity // ill-typed
   | T3E_p2at_trdn_con_arity of (p2at, int(*serr*))
   | T3E_p2at_free_update of (p3at) // linear constructor freeing
@@ -140,6 +146,9 @@ datatype trans3err =
   | T3E_s2addr_exch_type_linold of (location, s2exp, d3lablst) // linear abandonment
   | T3E_s2addr_exch_type_oldnew of (location, s2exp, d3lablst, s2exp(*new*))
   | T3E_d3lval_exch_type_linold of (location, d3exp, d3lablst) // linear abandonment
+//
+  | T3E_effenv_check_set of (location, $EFF.effset) // disallowed effects
+  | T3E_effenv_check_sexp of (location, s2exp(*S2Eeff*)) // disallowed effects
 //
   | T3E_d3exp_foldat of (location, d3exp)
   | T3E_d3exp_freeat of (location, d3exp)

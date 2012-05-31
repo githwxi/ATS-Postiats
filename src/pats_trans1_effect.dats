@@ -59,11 +59,11 @@ fn name_is_exn (name: string): bool =
   if name = "exn" then true else name = "exception"
 fn name_is_ref (name:string): bool =
   if name = "ref" then true else name = "reference"
-fn name_is_exnref (name: string): bool = name = "exnref"
-
 fn name_is_wrt (name: string): bool =
   if name = "wrt" then true else name = "write"
-// end of [name_is_wrt]
+
+fn name_is_exnref (name: string): bool = name = "exnref"
+fn name_is_refwrt (name: string): bool = name = "refwrt"
 
 (*
 // HX: !laz = 1,~ref
@@ -138,12 +138,6 @@ fun loop (
             val () = if isneg > 0 then efs := effset_del (efs, effect_exn)
             val () = if isneg = 0 then efs := effset_add (efs, effect_exn)
           } // end of [_ when ...]
-        | _ when name_is_exnref name => {
-            val () = if isneg > 0 then
-              efs := effset_del (effset_del (efs, effect_exn), effect_ref)
-            val () = if isneg = 0 then
-              efs := effset_add (effset_add (efs, effect_exn), effect_ref)
-          } // end of [_ when ...]
         | _ when name_is_ref name => {
             val () = if isneg > 0 then efs := effset_del (efs, effect_ref)
             val () = if isneg = 0 then efs := effset_add (efs, effect_ref)
@@ -152,6 +146,20 @@ fun loop (
             val () = if isneg > 0 then efs := effset_del (efs, effect_wrt)
             val () = if isneg = 0 then efs := effset_add (efs, effect_wrt)
           } // end of [_ when ...]
+//
+        | _ when name_is_exnref name => {
+            val () = if isneg > 0 then
+              efs := effset_del (effset_del (efs, effect_exn), effect_ref)
+            val () = if isneg = 0 then
+              efs := effset_add (effset_add (efs, effect_exn), effect_ref)
+          } // end of [_ when ...]
+        | _ when name_is_refwrt name => {
+            val () = if isneg > 0 then
+              efs := effset_del (effset_del (efs, effect_ref), effect_wrt)
+            val () = if isneg = 0 then
+              efs := effset_add (effset_add (efs, effect_ref), effect_wrt)
+          } // end of [_ when ...]
+//
         | _ => loop_err (tag, name)
         end // end of [E0FFTAGcst]
 //

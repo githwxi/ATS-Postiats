@@ -121,6 +121,7 @@ case+ p3t0.p3at_node of
     val () = fprint_p3at (out, p3t)
     val () = prstr ")"
   } // end of [P3Trefas]
+//
 | P3Texist (s2vs, p3t) => {
     val () = prstr "P3Texist("
     val () = fprint_s2varlst (out, s2vs)
@@ -128,6 +129,13 @@ case+ p3t0.p3at_node of
     val () = fprint_p3at (out, p3t)
     val () = prstr ")"
   } // end of [P3Texist]
+//
+| P3Tvbox (d2v) => {
+    val () = prstr "P3Tvbox("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr ")"
+  } // end of [P3Tvbox]
+//
 | P3Tann (p3t, s2e) => {
     val () = prstr "P3Tann("
     val () = fprint_p3at (out, p3t)

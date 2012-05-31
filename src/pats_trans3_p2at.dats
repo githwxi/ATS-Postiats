@@ -106,48 +106,58 @@ in
 //
 case+ p2t0.p2at_node of
 //
-  | P2Tann (p2t, s2e_ann) => s2e_ann
+| P2Tann (p2t, s2e_ann) => s2e_ann
 //
-  | P2Tany _ =>
+| P2Tany _ =>
+    s2exp_Var_make_srt (p2t0.p2at_loc, s2rt_t0ype)
+  // end of [P2Tany]
+| P2Tvar _ =>
+    s2exp_Var_make_srt (p2t0.p2at_loc, s2rt_t0ype)
+  // end of [P2Tvar]
+//
+| P2Tint _ => s2exp_int_t0ype () // int0
+| P2Tintrep rep =>
+    intrep_syn_type (p2t0.p2at_loc, rep) // intrep
+| P2Tbool _ => s2exp_bool_t0ype () // bool0
+| P2Tchar _ => s2exp_char_t0ype () // char0
+| P2Tstring _ => s2exp_string_type () // string0
+| P2Tfloat _ => s2exp_double_t0ype () // double
+//
+| P2Ti0nt (x) => i0nt_syn_type (x)
+| P2Tf0loat (x) => f0loat_syn_type (x)
+//
+| P2Tempty () => s2exp_void_t0ype ()
+| P2Tcon _ =>
+    s2exp_Var_make_srt (p2t0.p2at_loc, s2rt_t0ype)
+  // end of [P2Tcon]
+//
+| P2Tlst _ => let
+    val s2e_elt =
       s2exp_Var_make_srt (p2t0.p2at_loc, s2rt_t0ype)
-    // end of [P2Tany]
-  | P2Tvar _ =>
-      s2exp_Var_make_srt (p2t0.p2at_loc, s2rt_t0ype)
-    // end of [P2Tvar]
+    // end of [val]
+  in
+    s2exp_list0_t0ype_type (s2e_elt)
+  end // end of [P2Tlst]
 //
-  | P2Tint _ => s2exp_int_t0ype () // int0
-  | P2Tintrep rep =>
-      intrep_syn_type (p2t0.p2at_loc, rep) // intrep
-  | P2Tbool _ => s2exp_bool_t0ype () // bool0
-  | P2Tchar _ => s2exp_char_t0ype () // char0
-  | P2Tstring _ => s2exp_string_type () // string0
-  | P2Tfloat _ => s2exp_double_t0ype () // double
+| P2Trec (knd, npf, lp2ts) =>
+   s2exp_tyrec (knd, npf, aux_labp2atlst (lp2ts))
+  // end of [P2Trec]
 //
-  | P2Ti0nt (x) => i0nt_syn_type (x)
-  | P2Tf0loat (x) => f0loat_syn_type (x)
+| P2Trefas (d2v, p2t) => p2at_syn_type (p2t)
 //
-  | P2Tempty () => s2exp_void_t0ype ()
-  | P2Tcon _ =>
-      s2exp_Var_make_srt (p2t0.p2at_loc, s2rt_t0ype)
-    // end of [P2Tcon]
+| P2Tvbox (d2v) => let
+    val s2e =
+      s2exp_Var_make_srt (p2t0.p2at_loc, s2rt_view)
+    // end of [val]
+  in
+    s2exp_vbox_view_prop (s2e)
+  end // end of [P2Tvbox]
 //
-  | P2Tlst _ => let
-      val s2e_elt =
-        s2exp_Var_make_srt (p2t0.p2at_loc, s2rt_t0ype)
-      // end of [val]
-    in
-      s2exp_list0_t0ype_type (s2e_elt)
-    end // end of [P2Tlst]
+| P2Texist _ => s2exp_t0ype_err ()
 //
-  | P2Trec (knd, npf, lp2ts) =>
-      s2exp_tyrec (knd, npf, aux_labp2atlst (lp2ts))
-    // end of [P2Trec]
+| P2Tlist (npf, p2ts) => s2exp_t0ype_err ()
 //
-  | P2Trefas (d2v, p2t) => p2at_syn_type (p2t)
-//
-  | P2Tlist _ => s2exp_t0ype_err ()
-  | P2Texist _ => s2exp_t0ype_err ()
-  | P2Terr () => s2exp_t0ype_err ()
+| P2Terr () => s2exp_t0ype_err ()
 (*
   | _ => exitloc (1)
 *)
@@ -434,6 +444,8 @@ fun p2at_trdn_refas (p2t0: p2at, s2f0: s2hnf): p3at
 extern
 fun p2at_trdn_exist (p2t0: p2at, s2f0: s2hnf): p3at
 extern
+fun p2at_trdn_vbox (p2t0: p2at, s2f0: s2hnf): p3at
+extern
 fun p2at_trdn_ann (p2t0: p2at, s2f0: s2hnf): p3at
 
 (* ****** ****** *)
@@ -475,6 +487,16 @@ case+ p2t0.p2at_node of
 | P2Trefas _ => p2at_trdn_refas (p2t0, s2f0)
 //
 | P2Texist _ => p2at_trdn_exist (p2t0, s2f0)
+//
+| P2Tvbox _ => let
+    val err = the_effenv_check_ref (loc0)
+    val () = if err > 0 then
+      the_trans3errlst_add (T3E_p2at_trdn_vbox_ref (p2t0))
+    // end of [val]
+    val () = the_effenv_add_eff ($EFF.effect_ref)
+  in
+    p2at_trdn_vbox (p2t0, s2f0)
+  end // end of [P2Tvbox]
 //
 | P2Tann _ => p2at_trdn_ann (p2t0, s2f0)
 //
@@ -1289,6 +1311,48 @@ case+ s2e0.s2exp_node of
 end // end of [p2at_trdn_exist]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+p2at_trdn_vbox
+  (p2t0, s2f0) = let
+//
+val loc0 = p2t0.p2at_loc
+val- P2Tvbox (d2v) = p2t0.p2at_node
+val s2e0 = s2hnf2exp (s2f0)
+val opt = un_s2exp_vbox_view_prop (s2f0)
+in
+//
+case+ opt of
+| ~Some_vt (s2e) => let
+//
+    val s2f = s2exp2hnf (s2e)
+    val s2e = s2hnf2exp (s2f)
+//
+    val islin = s2exp_is_lin (s2e)
+    val () = d2var_set_mastype (d2v, Some s2e)
+    val () = if islin then {
+      val () = d2var_set_linval (d2v, 0)
+      val () = d2var_set_finknd (d2v, D2VFINvbox s2e)
+    } // end of [if]
+    val s2e = s2hnf_opnexi_and_add (loc0, s2f)
+    val () = d2var_set_type (d2v, Some s2e)
+  in
+    p3at_vbox (loc0, s2e0, d2v)
+  end // end of [Some_vt]
+| ~None_vt () => let
+    val () = prerr_error3_loc (loc0)
+    val () = prerr ": the pattern is given the type ["
+    val () = prerr_s2exp (s2e0)
+    val () = prerr "] but a vbox type is expected instead."
+    val () = prerr_newline ()
+    val () = the_trans3errlst_add (T3E_p2at_trdn (p2t0, s2e0))
+  in
+    p3at_err (loc0, s2e0)
+  end // end of [None_vt]
+//
+end // end of [p2at_trdn_vbox]
 
 (* ****** ****** *)
 

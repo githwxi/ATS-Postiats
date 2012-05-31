@@ -303,47 +303,22 @@ end // end of [p1at_tr_con]
 
 (* ****** ****** *)
 
+extern
+fun p1at_tr_app_dyn_e1xp (
+  p1t0: p1at, p1t1: p1at
+, e0: e1xp, npf: int, p1ts_arg: p1atlst
+) : p2at // end of [p1at_tr_app_dyn_e1xp]
+
+extern
 fun p1at_tr_app_dyn_dqid (
   p1t0: p1at, p1t1: p1at
 , dq: d0ynq, id: symbol, npf: int, darg: p1atlst
-) : p2at = let
-  val ans = the_d2expenv_find_qua (dq, id)
-in
-//
-case+ ans of
-| ~Some_vt (d2i) => (case+ d2i of
-  | D2ITMe1xp (e0) =>
-      p1at_tr_app_dyn_e1xp (p1t0, p1t1, e0, npf, darg)
-  | D2ITMcon (d2cs) =>
-      p1at_tr_con (p1t0, p1t1, d2cs, list_nil(*sarg*), npf, darg)
-  | _ => let
-      val () = prerr_error2_loc (p1t1.p1at_loc)
-      val () = prerr ": the identifier ["
-      val () = ($SYN.prerr_d0ynq (dq); $SYM.prerr_symbol (id))
-      val () = prerr "] does not refer to any constructor."
-      val () = prerr_newline ()
-      val () = the_trans2errlst_add (T2E_p1at_tr (p1t0))
-    in
-      p2at_err (p1t0.p1at_loc)
-    end // end of [_]
-  )  
-| ~None_vt () => let
-    val () = prerr_error2_loc (p1t1.p1at_loc)
-    val () = prerr ": the identifier ["
-    val () = ($SYN.prerr_d0ynq (dq); $SYM.prerr_symbol (id))
-    val () = prerr "] is unrecognized."
-    val () = prerr_newline ()
-    val () = the_trans2errlst_add (T2E_p1at_tr (p1t0))
-  in
-    p2at_err (p1t0.p1at_loc)
-  end // end of [None_vt]
-//
-end // end of [p1at_tr_app_dyn_dqid]  
+) : p2at // end of [p1at_tr_app_dyn_dqid]
 
-and p1at_tr_app_dyn_e1xp (
-  p1t0: p1at, p1t1: p1at
-, e0: e1xp, npf: int, p1ts_arg: p1atlst
-) : p2at = let
+implement
+p1at_tr_app_dyn_e1xp (
+  p1t0, p1t1, e0, npf, darg
+) = let
 (*
   val () = begin
     print "p1at_tr_app_dyn_e1xp: p1t0 = "; print_p1at p1t0; print_newline ()
@@ -356,7 +331,7 @@ case+ e0.e1xp_node of
     val loc0 = p1t0.p1at_loc
 //
     prval pfu = unit_v ()
-    val es = list_map_vclo<p1at> {unit_v} (pfu | p1ts_arg, !p_clo) where {
+    val es = list_map_vclo<p1at> {unit_v} (pfu | darg, !p_clo) where {
       var !p_clo = @lam (pf: !unit_v | p1t: p1at): e1xp => e1xp_make_p1at (loc0, p1t)
     } // end of [val]
     prval unit_v () = pfu
@@ -382,10 +357,108 @@ case+ e0.e1xp_node of
       p1at_make_e1xp (p1t1.p1at_loc, e0)
     // end of [val]
   in
-    p1at_tr_app_dyn (p1t0, p1t_fun, npf, p1ts_arg)
+    p1at_tr_app_dyn (p1t0, p1t_fun, npf, darg)
   end (* end of [_] *)
 //
 end // end of [p1at_tr_app_dyn_e1xp]
+
+local
+
+fun dqid_is_vbox (
+  dq: d0ynq, id: symbol
+) : bool =
+  if $SYN.d0ynq_is_none (dq) then id = $SYM.symbol_VBOX else false
+// end of [dqid_is_vbox]
+
+fun auxerr1 (
+  p1t0: p1at, p1t1: p1at, dq: d0ynq, id: symbol
+) : void = let
+  val () = prerr_error2_loc (p1t1.p1at_loc)
+  val () = filprerr_ifdebug ("p1at_tr_app_dyn_dqid")
+  val () = prerr ": the identifier ["
+  val () = ($SYN.prerr_d0ynq (dq); $SYM.prerr_symbol (id))
+  val () = prerr "] does not refer to any constructor."
+  val () = prerr_newline ()
+in
+  the_trans2errlst_add (T2E_p1at_tr (p1t0))
+end // end of [auxerr1]
+
+fun auxerr2 (
+  p1t0: p1at, p1t1: p1at, dq: d0ynq, id: symbol
+) : void = let
+  val () = prerr_error2_loc (p1t1.p1at_loc)
+  val () = filprerr_ifdebug ("p1at_tr_app_dyn_dqid")
+  val () = prerr ": the identifier ["
+  val () = ($SYN.prerr_d0ynq (dq); $SYM.prerr_symbol (id))
+  val () = prerr "] is unrecognized."
+  val () = prerr_newline ()
+in
+  the_trans2errlst_add (T2E_p1at_tr (p1t0))
+end // end of [auxerr2]
+
+fun p2at_vbox_err (
+  p1t0: p1at, p2ts: p2atlst
+) : p2at = let
+  val loc0 = p1t0.p1at_loc
+in
+  case+ p2ts of
+  | list_cons (p2t, list_nil ()) => (
+    case+ p2t.p2at_node of
+    | P2Tvar (d2v) => p2at_vbox (loc0, d2v)
+    | _ => let
+        val () = prerr_error2_loc (loc0)
+        val () = prerr ": [vbox] should be applied to a variable."
+        val () = prerr_newline ()
+        val () = the_trans2errlst_add (T2E_p1at_tr (p1t0))
+      in
+        p2at_err (loc0)
+      end // end of [_] 
+    ) // end of [list_cons]
+  | _ => let
+      val () = prerr_error2_loc (loc0)
+      val () = prerr ": [vbox] should be applied to exactly one argument."
+      val () = prerr_newline ()
+      val () = the_trans2errlst_add (T2E_p1at_tr (p1t0))
+    in
+      p2at_err (loc0)
+    end // end of [list_nil]
+end // end of [p2at_vbox_err]
+
+in // in of [local]
+
+implement
+p1at_tr_app_dyn_dqid (
+  p1t0, p1t1, dq, id, npf, darg
+) = let
+  val ans = the_d2expenv_find_qua (dq, id)
+in
+//
+case+ ans of
+| ~Some_vt (d2i) => (
+  case+ d2i of
+  | D2ITMe1xp (e0) =>
+      p1at_tr_app_dyn_e1xp (p1t0, p1t1, e0, npf, darg)
+  | D2ITMcon (d2cs) =>
+      p1at_tr_con (p1t0, p1t1, d2cs, list_nil(*sarg*), npf, darg)
+  | _ => let
+      val () = auxerr1 (p1t0, p1t1, dq, id) in p2at_err (p1t0.p1at_loc)
+    end // end of [_]
+  ) // end of [Some_vt]
+| ~None_vt () => (
+  case+ 0 of
+  | _ when dqid_is_vbox (dq, id) => let
+      val p2ts = p1atlst_tr (darg) in p2at_vbox_err (p1t0, p2ts)
+    end // end of [vbox]
+  | _ => let
+      val () = auxerr2 (p1t0, p1t1, dq, id) in p2at_err (p1t0.p1at_loc)
+    end // end of [_]
+  ) // end of [None_vt]
+//
+end // end of [p1at_tr_app_dyn_dqid]  
+
+end // end of [local]
+
+(* ****** ****** *)
 
 implement
 p1at_tr_app_dyn (

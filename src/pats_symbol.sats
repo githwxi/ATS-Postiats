@@ -79,6 +79,8 @@ val symbol_QMARKBANG : symbol // ?!
 val symbol_TILDE : symbol // ~
 val symbol_UNDERSCORE : symbol // _
 //
+val symbol_VBOX : symbol // for vbox pattern
+//
 val symbol_LAMAT : symbol // lam@
 val symbol_LLAMAT : symbol // llam@
 val symbol_REFAT : symbol // ref@

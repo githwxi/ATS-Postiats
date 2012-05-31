@@ -42,6 +42,10 @@ lemma_list_param
 
 #atscode_separator()
 
+exception ListSubscriptException of ()
+
+#atscode_separator()
+
 castfn
 list_of_list_vt
   {a:t0p}{n:int} (xs: list_vt (a, n)):<> list (a, n)
@@ -53,6 +57,13 @@ fun{}
 list_is_nil {x:t0p}{n:int} (xs: list (x, n)):<> bool (n==0)
 fun{}
 list_is_cons {x:t0p}{n:int} (xs: list (x, n)):<> bool (n > 0)
+
+#atscode_separator()
+
+fun{a:t0p}
+list_head {n:pos} (xs: list (a, n)):<> a
+fun{a:t0p}
+list_tail {n:pos} (xs: list (a, n)):<> list (a, n-1)
 
 #atscode_separator()
 
@@ -107,6 +118,41 @@ list_reverse_append2_vt {m,n:int}
 
 fun{a:t0p}
 list_concat (xss: List (List (INV(a)))):<> List_vt (a)
+
+#atscode_separator()
+
+fun{
+a:t0p
+} list_take
+  {n:int}{i:nat | i <= n}
+  (xs: list (a, n), i: int i):<> list_vt (a, i)
+// end of [list_take]
+
+fun{
+a:t@ype
+} list_take_exn
+  {n:int}{i:nat}
+  (xs: list (a, n), i: int i):<!exn> [i <= n] list_vt (a, i)
+// end of [list_take_exn]
+
+#atscode_separator()
+
+fun{
+a:t0p
+} list_drop
+  {n:int}{i:nat | i <= n}
+  (xs: list (a, n), i: int i):<> list (a, n-i)
+// end of [list_drop]
+
+(*
+** HX: it may raise [ListSubscriptException]
+*)
+fun{
+a:t0p
+} list_drop_exn
+  {n:int}{i:nat}
+  (xs: list (a, n), i: int i):<!exn> [i <= n] list (a, n-i)
+// end of [list_drop_exn]
 
 #atscode_separator()
 

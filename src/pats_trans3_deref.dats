@@ -212,6 +212,7 @@ case+ opt of
     val () = trans3_env_add_proplst_vt (loc0, s2ps)
     val islin = s2exp_is_lin (s2e_sel)
     val () = if islin then auxerr_reflinsel (loc0, d3e, d3ls, s2e_sel)
+    val _(*err*) = the_effenv_check_ref (loc0)
   in
     d3exp_sel_ref (loc0, s2e_sel, d3e, d3ls)
   end // end of [Some_vt]

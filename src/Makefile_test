@@ -23,6 +23,7 @@ prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/char.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/float.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/filebas_prf.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/filebas.dats
+prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/reference.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/string.dats
 
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/basics.dats

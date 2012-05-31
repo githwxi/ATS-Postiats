@@ -77,7 +77,10 @@ datatype p3at_node =
   | P3Tlst of (int(*lin*), p3atlst) // pattern list
 //
   | P3Trefas of (d2var, p3at) // referenced pattern
+//
   | P3Texist of (s2varlst, p3at) // existential opening
+//
+  | P3Tvbox of (d2var) // vbox pattern
 //
   | P3Tann of (p3at, s2exp) // ascribed pattern
 //
@@ -163,6 +166,10 @@ fun p3at_refas (
 fun p3at_exist (
   loc: location, s2f: s2exp, s2vs: s2varlst, p3t: p3at
 ) : p3at // end of [p3at_exist]
+
+fun p3at_vbox
+  (loc: location, s2f: s2exp, d2v: d2var): p3at
+// end of [p3at_vbox]
 
 fun p3at_ann (
   loc: location, s2f: s2exp, p3t: p3at, ann: s2exp

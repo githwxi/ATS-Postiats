@@ -90,6 +90,15 @@ pointer_atxt.dats: pointer.atxt
 clean:: ; $(RMF) pointer_atxt.exe
 cleanall:: ; $(RMF) pointer.dats
 
+all:: reference.dats
+reference.dats: reference_atxt.exe ; ./$< > $@
+reference_atxt.exe: reference_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ reference_atxt.dats -latsdoc
+reference_atxt.dats: reference.atxt
+	$(ATSDOC) -do $@ -i reference.atxt > reference_atxt.txt
+clean:: ; $(RMF) reference_atxt.exe
+cleanall:: ; $(RMF) reference.dats
+
 all:: string.dats
 string.dats: string_atxt.exe ; ./$< > $@
 string_atxt.exe: string_atxt.dats

@@ -348,6 +348,7 @@ fun the_effenv_check_set
 fun the_effenv_check_eff
   (loc: location, eff: effect): int (*succ/fail: 0/1*)
 fun the_effenv_check_exn (loc: location): int (*succ/fail: 0/1*)
+fun the_effenv_check_ref (loc: location): int (*succ/fail: 0/1*)
 fun the_effenv_check_wrt (loc: location): int (*succ/fail: 0/1*)
 
 fun the_effenv_check_sexp

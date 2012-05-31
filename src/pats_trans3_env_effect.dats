@@ -54,6 +54,7 @@ staload "pats_stacst2.sats"
 
 (* ****** ****** *)
 
+staload "pats_trans3.sats"
 staload "pats_trans3_env.sats"
 
 (* ****** ****** *)
@@ -239,13 +240,15 @@ end // end of [val]
 *)
 fun auxerr (
   efs: effset
-) :<cloref1> void = {
+) :<cloref1> void = let
   val () = prerr_error3_loc (loc0)
   val () = filprerr_ifdebug "the_effenv_check_set"
   val () = prerr ": some disallowed effects may be incurred: "
   val () = prerr_effset (efs)
   val () = prerr_newline ()
-} (* end of [auxerr] *)
+in
+  the_trans3errlst_add (T3E_effenv_check_set (loc0, efs0))
+end (* end of [auxerr] *)
 //  
 fun auxcheck (
   efis: !effenvitmlst, efs0: effset(*isnotnil*)
@@ -317,6 +320,11 @@ the_effenv_check_exn
 // end of [the_effenv_check_exn]
 
 implement
+the_effenv_check_ref
+  (loc0) = the_effenv_check_set (loc0, effset_ref)
+// end of [the_effenv_check_ref]
+
+implement
 the_effenv_check_wrt
   (loc0) = the_effenv_check_set (loc0, effset_wrt)
 // end of [the_effenv_check_wrt]
@@ -333,13 +341,15 @@ end // end of [val]
 // *)
 fun auxerr (
   s2e0: s2exp
-) :<cloref1> void = {
+) :<cloref1> void = let
   val () = prerr_error3_loc (loc0)
   val () = filprerr_ifdebug "the_effenv_check_sexp"
   val () = prerr ": some disallowed effects may be incurred: "
   val () = prerr_s2exp (s2e0)
   val () = prerr_newline ()
-} (* end of [auxerr] *)
+in
+  the_trans3errlst_add (T3E_effenv_check_sexp (loc0, s2e0))
+end (* end of [auxerr] *)
 //
 fun auxcheck (
   efis: !effenvitmlst, mefs: effset, s2e0: s2exp

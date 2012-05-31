@@ -64,6 +64,7 @@ all::
 #make_entry("filebas_prf")
 #make_entry("integer")
 #make_entry("pointer")
+#make_entry("reference")
 #make_entry("string")
 #make_entry("strptr")
 

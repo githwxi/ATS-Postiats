@@ -5,8 +5,8 @@
 /***********************************************************************/
 
 /*
-** ATS/Anairiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-20?? Hongwei Xi, Boston University
+** ATS/Postiats - Unleashing the Potential of Types!
+** Copyright (C) 2011-20?? Hongwei Xi, ATS Trustful Software, Inc.
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under

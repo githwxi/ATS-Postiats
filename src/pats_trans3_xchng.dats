@@ -250,6 +250,7 @@ case+ opt of
     val () = if err > 0 then auxerr1 (loc0, loc1, s2f0_sel, s2f_sel)
     val err = $SOL.s2hnf_tyleq_solve (loc0, s2f_sel, s2f0_sel)
     val () = if err > 0 then auxerr2 (loc0, loc1, s2f0_sel, s2f_sel)
+    val _(*err*) = the_effenv_check_ref (loc0)
   in
     d3exp_sel_ref (loc1, s2e_sel, d3e, d3ls)
   end // end of [Some_vt]
@@ -421,6 +422,7 @@ case+ opt of
     val s2f_sel = s2exp2hnf (s2e_sel)
     val () = trans3_env_add_proplst_vt (loc0, s2ps)
     val d3e_r = d2exp_trdn_xchng (loc0, d2e_r, s2f_sel)
+    val _(*err*) = the_effenv_check_ref (d2e_r.d2exp_loc)
   in
     d3exp_xchng_ref (loc0, d3e_l, d3ls, d3e_r)
   end // end of [Some_vt]

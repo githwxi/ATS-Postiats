@@ -156,8 +156,7 @@ p2at_any (loc) =
 implement
 p2at_var
   (loc, d2v) = let
-  val dvs = $UT.lstord_sing (d2v)
-in
+  val dvs = $UT.lstord_sing (d2v) in
   p2at_make_node (loc, p2at_svs_nil, dvs, P2Tvar (d2v))
 end // end of [p2at_var]
 
@@ -310,6 +309,14 @@ implement
 p2at_ann (loc, p2t, s2e) =
   p2at_make_node (loc, p2t.p2at_svs, p2t.p2at_dvs, P2Tann (p2t, s2e))
 // end of [p2at_ann]
+
+(* ****** ****** *)
+
+implement
+p2at_vbox (loc, d2v) = let
+  val dvs = $UT.lstord_sing (d2v) in
+  p2at_make_node (loc, p2at_svs_nil, dvs, P2Tvbox (d2v))
+end // end of [p2at_vbox]
 
 (* ****** ****** *)
 

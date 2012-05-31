@@ -361,6 +361,7 @@ case+ opt of
     val islin = s2exp_is_lin (s2e_sel)
     val () = if islin then auxerr_reflinsel (loc0, d3e_l, d3ls, s2e_sel)
     val d3e_r = d3exp_trdn (d3e_r, s2e_sel)
+    val _(*err*) = the_effenv_check_ref (loc0)
   in
     d3exp_assgn_ref (loc0, d3e_l, d3ls, d3e_r)
   end // end of [Some_vt]

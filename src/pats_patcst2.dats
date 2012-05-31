@@ -343,6 +343,8 @@ case+ p2t0.p2at_node of
 //
 | P2Texist (_(*s2vs*), p2t) => p2at2cst (p2t)
 //
+| P2Tvbox _ => P2TCany () // HX: only [vbox(d2v)] is allowed
+//
 | P2Tann (p2t, _) => p2at2cst (p2t)
 //
 | _ => let
@@ -353,7 +355,7 @@ case+ p2t0.p2at_node of
     val () = assertloc (false)
   in
     P2TCany ()
-  end // end of [P2Tlist]
+  end // end of [_]
 //
 end // end of [p2at2cst]
 

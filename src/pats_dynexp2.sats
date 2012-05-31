@@ -363,6 +363,8 @@ datatype p2at_node =
 //
   | P2Texist of (s2varlst, p2at) // existential opening
 //
+  | P2Tvbox of d2var // vbox pattern for handling references
+//
   | P2Tann of (p2at, s2exp) // no s2Var in the ascribed type
 //
   | P2Tlist of (int(*npf*), p2atlst)
@@ -452,6 +454,8 @@ fun p2at_refas
 fun p2at_exist
   (loc: location, s2vs: s2varlst, p2t: p2at): p2at
 // end of [p2at_exist]
+
+fun p2at_vbox (loc: location, d2v: d2var): p2at
 
 fun p2at_ann (loc: location, p2t: p2at, ann: s2exp): p2at
 
