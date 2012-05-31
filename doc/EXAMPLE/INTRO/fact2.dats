@@ -65,12 +65,14 @@ end // end of [fact2]
 (* ****** ****** *)
 
 implement
-main () = {
+main () = let
   #define N 10
   val pfr = fact (10)
   and pfr2 = fact2 (10)
   val () = assert (pfr.1 = pfr2.1)
-} // end of [main]
+in
+  0 // normal exit
+end // end of [main]
 
 (* ****** ****** *)
 

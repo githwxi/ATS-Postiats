@@ -102,23 +102,25 @@ arrayptr_make_uninitialized
 
 (*
 fun{a:vt0p}
-array_init__fwork (i: size_t, x: &a >> a?): void
+array_initize__fwork (i: size_t, x: &a >> a?): void
 *)
 fun{a:vt0p}
-arrayptr_init
+arrayptr_initize
   {l:addr}{n:int} (
   A: !arrayptr (a?, l, n) >> arrayptr (a, l, n), asz: size_t n
-) : void // end of [arrayptr_init]
+) : void // end of [arrayptr_initize]
+macdef arrayptr_initialize = arrayptr_initize
 
 (*
 fun{a:vt0p}
-array_clear__fwork (i: size_t, x: &a >> a?): void
+array_uninitize__fwork (i: size_t, x: &a >> a?): void
 *)
 fun{a:vt0p}
-arrayptr_clear
+arrayptr_uninitize
   {l:addr}{n:int} (
   A: !arrayptr (a, l, n) >> arrayptr (a?, l, n), asz: size_t n
-) : void // end of [arrayptr_clear]
+) : void // end of [arrayptr_uninitize]
+macdef arrayptr_uninitialize = arrayptr_uninitize
 
 #atscode_separator()
 

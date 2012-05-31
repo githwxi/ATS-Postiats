@@ -164,6 +164,9 @@ case+ d2e0.d2exp_node of
   | _ => D2LVALnone (d2e0)
   ) // end of [D2Esel]
 | D2Eviewat (d2e) => D2LVALviewat (d2e)
+| D2Earrsub (
+    d2s, arr, loc_ind, ind
+  ) => D2LVALarrsub (d2s, arr, loc_ind, ind)
 | _ => D2LVALnone (d2e0)
 //
 end // end of [d2exp_lvalize]

@@ -255,7 +255,8 @@ end // end of [foldright_cloref]
 // this implementation makes use
 // of the (local) exception mechanism
 //
-implement{xs}{x}
+implement
+{xs}{x}
 exists_funenv
   {v}{vt}{fe:eff}
   (pfv | xs, p, env) = let
@@ -288,7 +289,8 @@ end with
 end // end of [exists_funenv]
 *)
 
-implement{xs}{x}
+implement
+{xs}{x}
 forall_funenv
   {v}{vt}{fe:eff}
   (pfv | xs, p, env) = let
@@ -299,7 +301,8 @@ end // end of [forall_funenv]
 
 (* ****** ****** *)
 
-implement{xs}{x}
+implement
+{xs}{x}
 ismember_fun
   {fe} (xs, x0, eq) = let
   var p_clo =
@@ -309,7 +312,8 @@ end // end of [ismemer_fun]
 
 (* ****** ****** *)
 
-implement{xs}{x}
+implement
+{xs}{x}
 rlistize (xs) = res where {
   var res
     : List_vt (x) = list_vt_nil ()

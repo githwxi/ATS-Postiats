@@ -49,6 +49,11 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_selab"
 
 (* ****** ****** *)
 
+staload LOC = "pats_location.sats"
+overload + with $LOC.location_combine
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 staload "pats_staexp2_util.sats"
 staload "pats_stacst2.sats"
@@ -465,6 +470,20 @@ case+ d2lv of
     d2exp_trup_assgn_deref (loc0, d2e_l, d2ls, d2e_r)
   end // end of [D2LVALd2ref]
 | D2LVALviewat _ => d2exp_trup_viewat_assgn (d2e0)
+//
+| D2LVALarrsub (
+    d2s, arr, loc_ind, ind // d2s: lrbrackets
+  ) => let
+    val ind = list_concat (ind)
+    val d2es_arg = list_vt_extend (ind, d2e_r)
+    val d2es_arg = list_vt_cons (arr, d2es_arg)
+    val d2es_arg = list_of_list_vt (d2es_arg)
+    val loc_arg = arr.d2exp_loc + d2e_r.d2exp_loc
+    val d2a = D2EXPARGdyn (~1(*npf*), loc_arg, d2es_arg)
+    val d2as = list_sing (d2a)
+  in
+    d2exp_trup_applst_sym (d2e0, d2s, d2as)
+  end // [D2LVALarrsub]
 //
 | _ => let
     val () = prerr_error3_loc (d2e_l.d2exp_loc)

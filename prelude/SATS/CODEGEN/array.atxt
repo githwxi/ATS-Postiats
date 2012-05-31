@@ -195,22 +195,24 @@ array_iforeach
 #atscode_separator()
 
 fun{a:vt0p}
-array_init__fwork
+array_initize__fwork
   (i: size_t, x: &a? >> a): void
 fun{a:vt0p}
-array_init
+array_initize
   {n:int} (
   A: &(@[a?][n]) >> @[a][n], asz: size_t n
-) : void // end of [array_init]
+) : void // end of [array_initize]
+macdef array_initialize = array_initize
 
 fun{a:vt0p}
-array_clear__fwork
+array_uninitize__fwork
   (i: size_t, x: &a >> a?): void
 fun{a:vt0p}
-array_clear
+array_uninitize
   {n:int} (
   A: &(@[INV(a)][n]) >> @[a?][n], asz: size_t n
-) : void // end of [array_clear]
+) : void // end of [array_uninitize]
+macdef array_uninitialize = array_uninitize
 
 #atscode_separator()
 

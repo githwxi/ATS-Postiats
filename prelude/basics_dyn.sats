@@ -369,9 +369,15 @@ typedef FILEref = FILEref_type
 fun{a:vt0p}
 fprint_elt (out: FILEref, x: !INV(a)): void
 fun{a:vt0p}
-print_elt (x: !INV(a)): void // = fprintf (stdout_ref, x)
+print_elt (x: !INV(a)): void // = fprint_elt (stdout_ref, x)
 fun{a:vt0p}
-prerr_elt (x: !INV(a)): void // = fprintf (stderr_ref, x)
+prerr_elt (x: !INV(a)): void // = fprint_elt (stderr_ref, x)
+
+(* ****** ****** *)
+
+fun fprint_newline (out: FILEref): void
+fun print_newline (): void // = fprint_newline (stdout_ref)
+fun prerr_newline (): void // = fprint_newline (stderr_ref)
 
 (* ****** ****** *)
 

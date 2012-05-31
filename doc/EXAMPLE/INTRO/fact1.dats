@@ -33,12 +33,12 @@ implement
 main (argc, argv) =
   if argc >= 2 then let
     val n = int_of_string
-      (argv.[1]) // turning string into integer
+      (argv[1]) // turning string into integer
     val r = fact1 (n)
   in
     printf ("factorial of %i = %i\n", @(n, r))
   end else let
-    val () = fact1_usage (argv.[0]) in exit (1)
+    val () = fact1_usage (argv[0]) in exit (1)
   end // end of [if]
 // end of [main]
 

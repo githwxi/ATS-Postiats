@@ -31,22 +31,22 @@ staload UN = "prelude/SATS/unsafe.sats"
 #atscode_separator()
 
 implement{a}
-arrayptr_init
+arrayptr_initize
   (A, asz) = () where {
   val p = ptrcast (A)
   prval pfarr = arrayptr_takeout (A)
-  val () = array_init<a> (!p, asz)
+  val () = array_initize<a> (!p, asz)
   prval () = arrayptr_addback (pfarr | A)
-} // end of [arrayptr_init]
+} // end of [arrayptr_initize]
 
 implement{a}
-arrayptr_clear
+arrayptr_uninitize
   (A, asz) = () where {
   val p = ptrcast (A)
   prval pfarr = arrayptr_takeout (A)
-  val () = array_clear<a> (!p, asz)
+  val () = array_uninitize<a> (!p, asz)
   prval () = arrayptr_addback (pfarr | A)
-} // end of [arrayptr_clear]
+} // end of [arrayptr_uninitize]
 
 #atscode_separator()
 

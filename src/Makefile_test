@@ -11,6 +11,7 @@ test:: libats
 #test:: cairo
 test:: atshwxi
 
+test:: fact2
 test:: tally
 test:: fibonacci
 test:: ferryman
@@ -78,6 +79,7 @@ atshwxi:: ; ./patsopt -d < $(PATSHOME)/contrib/atshwxi/testing/randgen.dats
 
 ######
 
+fact2: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/INTRO/fact2.dats
 tally: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/ARITH/tally.dats
 fibonacci: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/ARITH/fibonacci.dats
 ferryman: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/MISC/ferryman.dats

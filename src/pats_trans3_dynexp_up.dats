@@ -53,6 +53,7 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_dynexp_up"
 
 staload LAB = "pats_label.sats"
 staload LOC = "pats_location.sats"
+overload + with $LOC.location_combine
 macdef print_location = $LOC.print_location
 macdef prerr_location = $LOC.prerr_location
 
@@ -239,6 +240,18 @@ case+ d2e0.d2exp_node of
 | D2Eassgn _ => d2exp_trup_assgn (d2e0)
 | D2Exchng _ => d2exp_trup_xchng (d2e0)
 //
+| D2Earrsub (
+    d2s, arr, loc_ind, ind // d2s = lrbrackets
+  ) => let
+    val ind = list_concat (ind)
+    val ind = list_of_list_vt (ind)
+    val loc_arg = arr.d2exp_loc + loc_ind
+    val d2es_arg = list_cons (arr, ind)
+    val d2a = D2EXPARGdyn (~1(*npf*), loc_arg, d2es_arg)
+    val d2as = list_sing (d2a)
+  in
+    d2exp_trup_applst_sym (d2e0, d2s, d2as)
+  end // end of [D2Earrsub]
 | D2Earrinit
     (s2e_elt, opt, d2es) => let
     var s2i_asz : s2exp
