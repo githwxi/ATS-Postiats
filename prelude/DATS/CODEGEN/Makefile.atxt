@@ -73,6 +73,7 @@ all::
 #make_entry("array")
 #make_entry("array_prf")
 #make_entry("arrayptr")
+#make_entry("arrayref")
 #comment("
 for pointer arrays terminated with the null pointer
 ")

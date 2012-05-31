@@ -14,15 +14,15 @@ abstype post (n:int) // for posts
 extern
 fun post_make {sz:pos} (sz: int sz): post (sz)
 extern
-fun post_initize {sz:nat} (p: !post (sz), sz: int sz): void
+fun post_initize {sz:nat} (p: post (sz), sz: int sz): void
 //
 extern
 fun post_get_at
-  {sz:int} (p: !post (sz), i: natLt sz): natLte (sz)
+  {sz:int} (p: post (sz), i: natLt sz): natLte (sz)
 overload [] with post_get_at
 extern
 fun post_set_at
-  {sz:int} (p: !post (sz), i: natLt sz, x: natLte (sz)): void
+  {sz:int} (p: post (sz), i: natLt sz, x: natLte (sz)): void
 overload [] with post_set_at
 
 (* ****** ****** *)
@@ -124,6 +124,35 @@ implement
 main (argc, argv) = let
   val () = play (4) in 0(*normal*)
 end // end of [main]
+
+(* ****** ****** *)
+
+local
+
+assume post (n:int) = arrayref (natLte n, n)
+
+in // in of [local]
+
+implement
+post_make (sz) =
+  arrayref_make_elt (g1int2uint(sz), 0)
+implement
+post_initize
+  (p, sz) = let
+  val sz = g1int2uint(sz)
+in
+  arrayref_iforeach_fun
+    (p, lam (i, x) => $effmask_wrt (x := g1uint2int(i)+1), sz)
+end // end of [post_initize]
+
+implement
+post_get_at (p, i) =
+  arrayref_get_at (p, g1int2uint (i))
+implement
+post_set_at (p, i, x) =
+  arrayref_set_at (p, g1int2uint (i), x)
+
+end // end of [local]
 
 (* ****** ****** *)
 

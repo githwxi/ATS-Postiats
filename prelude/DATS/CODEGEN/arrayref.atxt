@@ -1,0 +1,73 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"arrayref.dats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/arrayref.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("May, 2012")
+
+#atscode_separator()
+
+staload UN = "prelude/SATS/unsafe.sats"
+
+#atscode_separator()
+
+implement{a}
+arrayref_make_elt
+  (asz, x) = let
+  val A = arrayptr_make_elt (asz, x)
+in
+  arrayptr2ref (A)
+end // end of [arrayref_make_elt]
+
+#atscode_separator()
+
+implement{a}
+arrayref_foreach_fun
+  (A, asz, f) = let
+  val (vbox _ | p) = arrayref_get_viewptr (A)
+in
+//
+$effmask_ref (
+  array_foreach_fun<a> (!p, asz, f)
+) (* end of [$effmask_ref] *)
+//
+end // end of [arrayref_foreach_fun]
+
+implement{a}
+arrayref_foreach_funenv
+  (pfv | A, asz, f, env) = let
+  val (vbox _ | p) = arrayref_get_viewptr (A)
+in
+//
+$effmask_ref (
+  array_foreach_funenv<a> (pfv | !p, asz, f, env)
+) (* end of [$effmask_ref] *)
+//
+end // end of [arrayref_foreach_funenv]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "arrayref_atxt.txt")
+%}\

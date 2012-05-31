@@ -236,9 +236,17 @@ end // end of [array_iforeach]
 
 implement{a}
 array_foreach_funenv
-  (pfv | A, f, env, asz) =
-  array_foreach_funenv_tsz (pfv | A, f, env, asz, sizeof<a>)
+  (pfv | A, asz, f, env) =
+  array_foreach_funenv_tsz (pfv | A, asz, sizeof<a>, f, env)
 // end of [array_foreach_funenv]
+
+#atscode_separator()
+
+implement{a}
+array_iforeach_funenv
+  (pfv | A, asz, f, env) =
+  array_iforeach_funenv_tsz (pfv | A, asz, sizeof<a>, f, env)
+// end of [array_iforeach_funenv]
 
 #atscode_separator()
 

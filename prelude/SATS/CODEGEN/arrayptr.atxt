@@ -31,9 +31,19 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 #atscode_separator()
 
 absviewtype
-arrayptr (
+arrayptr_3 (
   a:viewt@ype+, l: addr, n: int
 ) = ptr // end of [arrayptr]
+viewtypedef
+arrayptr_2 (
+  a:viewt@ype, n:int
+) = [l:addr] arrayptr_3 (a, l, n)
+//
+stadef arrayptr = arrayptr_3
+stadef arrayptr = arrayptr_2
+//
+#atscode_separator()
+
 absviewtype
 arrayptrout (a:t@ype, l: addr, n: int) = ptr
 
@@ -65,25 +75,28 @@ arrayptr_addback
 ) : void // end of [arrayptr_addback]
 
 #atscode_separator()
-
+//
 fun{a:t0p}
 arrayptr_get_at
-  {l:addr}{n:int}
-  (A: !arrayptr (INV(a), l, n), i: sizeLt (n)):<> a
+  {n:int} (
+  A: !arrayptr (INV(a), n), i: sizeLt (n)
+) :<> a // end of [arrayptr_get_at]
 fun{a:t0p}
 arrayptr_set_at
-  {l:addr}{n:int}
-  (A: !arrayptr (INV(a), l, n), i: sizeLt (n), x: a):<> void
+  {n:int} (
+  A: !arrayptr (INV(a), n), i: sizeLt (n), x: a
+) :<!wrt> void // end of [arrayptr_set_at]
+//
 overload [] with arrayptr_get_at
 overload [] with arrayptr_set_at
-
+//
 #atscode_separator()
 
 fun{a:vt0p}
 arrayptr_exch_at
-  {l:addr}{n:int}
-  (A: !arrayptr (INV(a), l, n), i: sizeLt (n), x: &a):<> void
-// end of [arrayptr_exch_at]
+  {n:int} (
+  A: !arrayptr (INV(a), n), i: sizeLt (n), x: &a
+) :<!wrt> void // end of [arrayptr_exch_at]
 
 #atscode_separator()
 
@@ -95,8 +108,64 @@ fun arrayptr_free
 
 fun{a:vt0p}
 arrayptr_make_uninitialized
-  {n:int} (asz: size_t n):<> [l:addr] arrayptr (a?, l, n)
+  {n:int} (asz: size_t n):<> arrayptr (a?, n)
 // end of [arrayptr_make_uninitialized]
+
+#atscode_separator()
+
+fun{a:t0p}
+arrayptr_make_elt
+  {n:int}
+  (asz: size_t n, x: INV(a)):<> arrayptr (a, n)
+// end of [arrayptr_make_elt]
+
+#atscode_separator()
+
+fun{a:vt0p}
+arrayptr_foreach_funenv
+  {v:view}
+  {vt:viewtype}
+  {n:int}
+  {fe:eff} (
+  pfv: !v
+| A: !arrayptr (INV(a), n)
+, asz: size_t n
+, f: (!v | &a, !vt) -<fun,fe> void
+, env: !vt
+) :<fe> void
+// end of [arrayptr_foreach_funenv]
+
+fun{a:vt0p}
+arrayptr_foreach_fun
+  {n:int}{fe:eff} (
+  A: !arrayptr (INV(a), n)
+, asz: size_t n
+, f: (&a) -<fun,fe> void
+) :<fe> void // end of [arrayptr_foreach_fun]
+
+#atscode_separator()
+
+fun{a:vt0p}
+arrayptr_iforeach_funenv
+  {v:view}
+  {vt:viewtype}
+  {n:int}
+  {fe:eff} (
+  pfv: !v
+| A: !arrayptr (INV(a), n)
+, asz: size_t n
+, f: (!v | sizeLt n, &a, !vt) -<fun,fe> void
+, env: !vt
+) :<fe> void
+// end of [arrayptr_iforeach_funenv]
+
+fun{a:vt0p}
+arrayptr_iforeach_fun
+  {n:int}{fe:eff} (
+  A: !arrayptr (INV(a), n)
+, asz: size_t n
+, f: (sizeLt n, &a) -<fun,fe> void
+) :<fe> void // end of [arrayptr_iforeach_fun]
 
 #atscode_separator()
 

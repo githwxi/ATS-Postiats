@@ -155,6 +155,15 @@ arrayptr_atxt.dats: arrayptr.atxt
 clean:: ; $(RMF) arrayptr_atxt.exe
 cleanall:: ; $(RMF) arrayptr.dats
 
+all:: arrayref.dats
+arrayref.dats: arrayref_atxt.exe ; ./$< > $@
+arrayref_atxt.exe: arrayref_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ arrayref_atxt.dats -latsdoc
+arrayref_atxt.dats: arrayref.atxt
+	$(ATSDOC) -do $@ -i arrayref.atxt > arrayref_atxt.txt
+clean:: ; $(RMF) arrayref_atxt.exe
+cleanall:: ; $(RMF) arrayref.dats
+
 
 all:: parrnull.dats
 parrnull.dats: parrnull_atxt.exe ; ./$< > $@

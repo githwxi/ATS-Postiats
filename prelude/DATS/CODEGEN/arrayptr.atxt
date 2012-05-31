@@ -31,6 +31,54 @@ staload UN = "prelude/SATS/unsafe.sats"
 #atscode_separator()
 
 implement{a}
+arrayptr_foreach_fun
+  (A, asz, f) = let
+  val p = ptrcast (A)
+  prval pfarr = arrayptr_takeout (A)
+  val () = array_foreach_fun<a> (!p, asz, f)
+  prval () = arrayptr_addback (pfarr | A)
+in
+  // nothing
+end // end of [arrayptr_foreach_fun]
+
+implement{a}
+arrayptr_foreach_funenv
+  (pfv | A, asz, f, env) = let
+  val p = ptrcast (A)
+  prval pfarr = arrayptr_takeout (A)
+  val () = array_foreach_funenv<a> (pfv | !p, asz, f, env)
+  prval () = arrayptr_addback (pfarr | A)
+in
+  // nothing
+end // end of [arrayptr_foreach_funenv]
+
+#atscode_separator()
+
+implement{a}
+arrayptr_iforeach_fun
+  (A, asz, f) = let
+  val p = ptrcast (A)
+  prval pfarr = arrayptr_takeout (A)
+  val () = array_iforeach_fun<a> (!p, asz, f)
+  prval () = arrayptr_addback (pfarr | A)
+in
+  // nothing
+end // end of [arrayptr_iforeach_fun]
+
+implement{a}
+arrayptr_iforeach_funenv
+  (pfv | A, asz, f, env) = let
+  val p = ptrcast (A)
+  prval pfarr = arrayptr_takeout (A)
+  val () = array_iforeach_funenv<a> (pfv | !p, asz, f, env)
+  prval () = arrayptr_addback (pfarr | A)
+in
+  // nothing
+end // end of [arrayptr_iforeach_funenv]
+
+#atscode_separator()
+
+implement{a}
 arrayptr_initize
   (A, asz) = () where {
   val p = ptrcast (A)

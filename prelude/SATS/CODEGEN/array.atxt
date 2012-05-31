@@ -225,10 +225,10 @@ array_foreach_funenv_tsz
   {fe:eff} (
   pfv: !v
 | A: &(@[a][n])
-, f: (!v | &a, !vt) -<fun,fe> void
-, env: !vt
 , asz: size_t n
 , tsz: sizeof_t a
+, f: (!v | &a, !vt) -<fun,fe> void
+, env: !vt
 ) :<fe> void
   = "atspre_array_foreach_funenv_tsz"
 // end of [array_foreach_funenv_tsz]
@@ -241,49 +241,98 @@ array_foreach_funenv
   {fe:eff} (
   pfv: !v
 | A: &(@[a][n])
+, asz: size_t n
 , f: (!v | &a, !vt) -<fun,fe> void
 , env: !vt
-, asz: size_t n
 ) :<fe> void
 // end of [array_foreach_funenv]
 
 fun{a:vt0p}
 array_foreach_fun
   {n:int}{fe:eff} (
-  A: &(@[a][n]), f: (&a) -<fun,fe> void, asz: size_t n
+  A: &(@[a][n])
+, asz: size_t n
+, f: (&a) -<fun,fe> void
 ) :<fe> void // end of [array_foreach_fun]
 
 fun{a:vt0p}
 array_foreach_clo
   {n:int}{fe:eff} (
-  A: &(@[a][n]), f: &(&a) -<clo,fe> void, asz: size_t n
+  A: &(@[a][n])
+, asz: size_t n
+, f: &(&a) -<clo,fe> void
 ) :<fe> void // end of [array_foreach_clo]
 fun{a:vt0p}
 array_foreach_vclo
   {v:view}{n:int}{fe:eff} (
   pfv: !v
-| base: &(@[a][n])
-, f: &(!v | &a) -<clo,fe> void, asz: size_t n
+| A: &(@[a][n])
+, asz: size_t n
+, f: &(!v | &a) -<clo,fe> void
 ) :<fe> void // end of [array_foreach_vclo]
 
 fun{a:vt0p}
 array_foreach_cloptr
   {n:int}{fe:eff} (
-  A: &(@[a][n]), f: (&a) -<cloptr,fe> void, asz: size_t n
+  A: &(@[a][n])
+, asz: size_t n
+, f: (&a) -<cloptr,fe> void
 ) :<fe> void // end of [array_foreach_cloptr]
 fun{a:vt0p}
 array_foreach_vcloptr
   {v:view}{n:int}{fe:eff} (
   pfv: !v
-| base: &(@[a][n])
-, f: (!v | &a) -<cloptr,fe> void, asz: size_t n
+| A: &(@[a][n])
+, asz: size_t n
+, f: (!v | &a) -<cloptr,fe> void
 ) :<fe> void // end of [array_foreach_vcloptr]
 
 fun{a:vt0p}
 array_foreach_clopref
   {n:int}{fe:eff} (
-  A: &(@[a][n]), f: (&a) -<cloref,fe> void, asz: size_t n
+  A: &(@[a][n]), asz: size_t n, f: (&a) -<cloref,fe> void
 ) :<fe> void // end of [array_foreach_cloref]
+
+#atscode_separator()
+
+fun
+array_iforeach_funenv_tsz
+  {a:vt0p}
+  {v:view}
+  {vt:viewtype}
+  {n:int}
+  {fe:eff} (
+  pfv: !v
+| A: &(@[a][n])
+, asz: size_t n
+, tsz: sizeof_t a
+, f: (!v | sizeLt n, &a, !vt) -<fun,fe> void
+, env: !vt
+) :<fe> void
+  = "atspre_array_iforeach_funenv_tsz"
+// end of [array_iforeach_funenv_tsz]
+
+fun{a:vt0p}
+array_iforeach_funenv
+  {v:view}
+  {vt:viewtype}
+  {n:int}
+  {fe:eff} (
+  pfv: !v
+| A: &(@[a][n])
+, asz: size_t n
+, f: (!v | sizeLt n, &a, !vt) -<fun,fe> void
+, env: !vt
+) :<fe> void
+// end of [array_iforeach_funenv]
+
+fun{a:vt0p}
+array_iforeach_fun
+  {n:int}{fe:eff} (
+  A: &(@[a][n])
+, asz: size_t n
+, f: (sizeLt n, &a) -<fun,fe> void
+) :<fe> void // end of [array_iforeach_fun]
 
 #atscode_separator()
 

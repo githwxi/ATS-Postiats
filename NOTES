@@ -131,4 +131,19 @@ revapp {m,n:nat} .<m>. (
 **
 *)
 
+######
+
+(*
+**
+** HX-2012-05:
+**
+** Dynamic expressions like A[i,j][k] are referred to as
+** arrsub-expressions in ATS; for such expressions, grouping
+** is entirely cosmetic; for example, both A[i,j][k] and
+** A[i][j,k] are the same, and they are the same as A[i,j,k].
+**
+*)
+
+######
+
 ###### end of [NOTES] ######

@@ -156,12 +156,8 @@ g1ofg0_int
 // end of [g1ofg0_int]
 
 fun{k1,k2:tk}
-g1int2int
-  {i:nat} (x: g1int (k1, i)):<> g1int (k2, i)
-// end of [g1int2int]
-fun{k1,k2:tk}
-g1int2int
-  {u:int} (x: g1int (k1, u)):<> g1int (k2, u)
+g1int2int // i2i
+  {i:int} (x: g1int (k1, i)):<> g1int (k2, i)
 // end of [g1int2int]
 
 #atscode_separator()
@@ -442,20 +438,15 @@ g1ofg0_uint
 // end of [g1ofg0_uint]
 
 fun{k1,k2:tk}
-g1int2uint
+g1int2uint // i2u
   {i:nat} (x: g1int (k1, i)):<> g1uint (k2, i)
 // end of [g1int2uint]
 fun{k1,k2:tk}
-g1uint2int
+g1uint2int // u2i
   {u:int} (x: g1uint (k1, u)):<> g1int (k2, u)
 // end of [g1uint2int]
-
 fun{k1,k2:tk}
-g1uint2uint
-  {i:nat} (x: g1uint (k1, i)):<> g1uint (k2, i)
-// end of [g1uint2uint]
-fun{k1,k2:tk}
-g1uint2int
+g1uint2uint // u2u
   {u:int} (x: g1uint (k1, u)):<> g1uint (k2, u)
 // end of [g1uint2uint]
 

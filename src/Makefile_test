@@ -40,6 +40,7 @@ prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/fcontainer_foreach.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/array.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/array_prf.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/arrayptr.dats
+prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/arrayref.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/list.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/list_vt.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/option.dats

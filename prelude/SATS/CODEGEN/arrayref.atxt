@@ -65,7 +65,8 @@ a:vt0p
 #atscode_separator()
 
 abstype
-arrayref_viewt0ype_int_type (a: viewt@ype, n: int)
+arrayref_viewt0ype_int_type
+  (a: viewt@ype(*invar*), n: int)
 stadef arrayref = arrayref_viewt0ype_int_type
 stadef array = arrayref // backward compatibility
 
@@ -88,9 +89,17 @@ arrayptr2ref
 
 castfn
 arrayref_get_viewptr
-  {a:vt0p}{n:int} (
-  A: arrayref (INV(a), n)
+  {a:vt0p}
+  {n:int} (
+  A: arrayref (a, n)
 ) :<> [l:addr] (vbox (array_v (a, l, n)) | ptr l)
+
+#atscode_separator()
+
+fun{a:t0p}
+arrayref_make_elt
+  {n:int} (asz: size_t n, x: a):<> arrayref (a, n)
+// end of [arrayref_make_elt]
 
 #atscode_separator()
 
@@ -115,6 +124,54 @@ a:vt0p
 // end of [arrayref_exch_at]
 
 #atscode_separator()
+
+fun{a:vt0p}
+arrayref_foreach_funenv
+  {v:view}
+  {vt:viewtype}
+  {n:int}
+  {fe:eff} (
+  pfv: !v
+| A: arrayref (a, n)
+, asz: size_t (n)
+, f: (!v | &a, !vt) -<fun,fe> void
+, env: !vt
+) :<!ref,fe> void
+// end of [arrayref_foreach_funenv]
+
+fun{a:vt0p}
+arrayref_foreach_fun
+  {n:int}{fe:eff} (
+  A: arrayref (a, n)
+, asz: size_t (n)
+, f: (&a) -<fun,fe> void
+) :<!ref,fe> void // end of [arrayref_foreach_fun]
+
+#atscode_separator()
+
+fun{a:vt0p}
+arrayref_iforeach_funenv
+  {v:view}
+  {vt:viewtype}
+  {n:int}
+  {fe:eff} (
+  pfv: !v
+| A: arrayref (a, n)
+, asz: size_t (n)
+, f: (!v | sizeLt n, &a, !vt) -<fun,fe> void
+, env: !vt
+) :<fe> void
+// end of [arrayref_iforeach_funenv]
+
+fun{a:vt0p}
+arrayref_iforeach_fun
+  {n:int}{fe:eff} (
+  A: arrayref (a, n)
+, asz: size_t (n)
+, f: (sizeLt n, &a) -<fun,fe> void
+) :<fe> void // end of [arrayref_iforeach_fun]
+
+#atscode_separator()
 //
 stacst iter_arrayref_kind : tkind
 stacst iter_arrayref_param : () -> tkind
@@ -122,14 +179,14 @@ stacst iter_arrayref_param : () -> tkind
 fun{a:vt0p}
 arrayref_make_iter
   {n:nat} (
-  A: arrayref (a, n), n: size_t n
+  A: arrayref (a, n), n: size_t (n)
 ) : iterator (
   iter_arrayref_kind, iter_arrayref_param(), a, 0, n
 ) // end of [arrayref_make_iter]
 fun{a:vt0p}
 arrayref_make_iter_end
   {n:nat} (
-  A: arrayref (a, n), n: size_t n
+  A: arrayref (a, n), n: size_t (n)
 ) : iterator (
   iter_arrayref_kind, iter_arrayref_param(), a, n, 0
 ) // end of [arrayref_make_iter_end]
