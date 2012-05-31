@@ -29,24 +29,36 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 implement{a}
 ref_get_elt
   (r) = !p where {
-  val (vbox pf | p) = ref_get_viewptr (r)
+  val (vbox _ | p) = ref_get_viewptr (r)
 } // end of [ref_get_elt]
 
 implement{a}
 ref_set_elt
   (r, x) = let
-  val (vbox pf | p) = ref_get_viewptr (r)
+  val (vbox _ | p) = ref_get_viewptr (r)
 in
-  !p := x
+  !p := x // assignment
 end // end of [ref_set_elt]
 
 implement{a}
 ref_exch_elt
   (r, x) = let
-  val (vbox pf | p) = ref_get_viewptr (r)
+  val (vbox _ | p) = ref_get_viewptr (r)
 in
-  !p :=: x
+  !p :=: x // exchanging
 end // end of [ref_exch_elt]
+
+#atscode_separator()
+
+implement{a}
+ref_app_fun (r, f) = let
+  val (vbox _ | p) = ref_get_viewptr (r) in f (!p)
+end // end of [ref_app_fun]
+implement{a}
+ref_app_funenv
+  (pfv | r, f, env) = let
+  val (vbox _ | p) = ref_get_viewptr (r) in f (pfv | !p, env)
+end // end of [ref_app_funenv]
 
 #atscode_separator()
 

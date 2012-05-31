@@ -56,6 +56,25 @@ fun{a:vt0p} ref_exch_elt (r: ref a, x: &a>>a):<!refwrt> void
 
 #atscode_separator()
 
+(*
+** HX-2012-05:
+** this is not particularly useful except for the purpose of
+** avoiding using [vbox] pattern
+*)
+
+fun{a:vt0p}
+ref_app_fun
+  {fe:eff} (
+  r: ref a, f: (&a>>a) -<> void
+) :<!ref> void // end of [ref_app_fun]
+fun{a:vt0p}
+ref_app_funenv
+  {v:view}{vt:viewtype} (
+  pfv: !v | r: ref a, f: (!v | &a>>a, !vt) -<> void, env: !vt
+) :<!ref> void // end of [ref_app_funenv]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

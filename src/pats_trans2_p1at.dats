@@ -402,8 +402,17 @@ fun p2at_vbox_err (
   val loc0 = p1t0.p1at_loc
 in
   case+ p2ts of
-  | list_cons (p2t, list_nil ()) => (
+  | list_cons (
+      p2t, list_nil ()
+    ) => (
     case+ p2t.p2at_node of
+    | P2Tany () => let
+        val d2v =
+          d2var_make_any (p2t.p2at_loc)
+        // end of [val]
+      in
+        p2at_vbox (loc0, d2v)
+      end // end of [P2Tany]
     | P2Tvar (d2v) => p2at_vbox (loc0, d2v)
     | _ => let
         val () = prerr_error2_loc (loc0)
