@@ -205,6 +205,7 @@ case+ casknd of
     val () = prerr_warning3_loc (loc0)
     val () = prerr ": a case-expression is expected to have at least one match clause."
     val () = prerr_newline ()
+    val _(*err*) = the_effenv_check_exn (loc0) // HX: handling potential match failure
   in
     // nothing
   end // end of [CK_case]
@@ -259,6 +260,11 @@ val () = if ~isexhaust then let
   trans3_env_add_patcstlstlst_false (loc0, casknd, cp2tcss, s2es_pat)
 end // end of [val]
 val () = p2atcstlstlst_vt_free (cp2tcss)
+val () = if ~isexhaust then let
+  val _(*err*) = the_effenv_caskind_check_exn (loc0, casknd)
+in
+  // nothing
+end // end of [if] // end of [val]
 //
 in
   c3l
@@ -320,14 +326,21 @@ in
 end // end of [val]
 val c3ls_all = c2laulst2_trdn_rest
   (loc0, casknd, c3l_fst, lsbs, c2ls_rest, d3es, s2es_pat, s2e_res, cp2tcss)
+//
 val isexhaust = ( // HX: always true for [case-]
   if list_vt_is_nil (cp2tcss) then true else false
 ) : bool // end of [val]
 val () = if ~isexhaust then let
   val cp2tcss = p2atcstlstlst_vt_copy (cp2tcss) in
   trans3_env_add_patcstlstlst_false (loc0, casknd, cp2tcss, s2es_pat)
-end // end of [val]
+end // end of [if] // end of [val]
 val () = p2atcstlstlst_vt_free (cp2tcss)
+//
+val () = if ~isexhaust then let
+  val _(*err*) = the_effenv_caskind_check_exn (loc0, casknd)
+in
+  // nothing
+end // end of [if] // end of [val]
 //
 in
   c3ls_all

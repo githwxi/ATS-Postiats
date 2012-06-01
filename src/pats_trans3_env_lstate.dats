@@ -82,22 +82,24 @@ lstbefitm_make
 
 implement
 fprint_lstbefitm (out, x) = let
-  macdef
-    prstr (s) = fprint_string (out, ,(s))
-  // end of [macdef]
-  val () = prstr "lstbefitm("
-  val () = fprint_d2var (out, x.lstbefitm_var)
-  val () = prstr ", "
-  val () = fprint_int (out, x.lstbefitm_linval)
-  val () = prstr ", "
-  val opt = x.lstbefitm_type
-  val () = (
-    case+ opt of
-    | Some (s2e) =>
-        (prstr "Some("; fprint_s2exp (out, s2e); prstr ")")
-    | None () => prstr "None()"
-  ) : void // end of [val]
-  val () = prstr ")" // end of [val]
+//
+macdef
+  prstr (s) = fprint_string (out, ,(s))
+// end of [macdef]
+val () = prstr "lstbefitm("
+val () = fprint_d2var (out, x.lstbefitm_var)
+val () = prstr ", "
+val () = fprint_int (out, x.lstbefitm_linval)
+val () = prstr ", "
+val opt = x.lstbefitm_type
+val () = (
+  case+ opt of
+  | Some (s2e) =>
+      (prstr "Some("; fprint_s2exp (out, s2e); prstr ")")
+  | None () => prstr "None()"
+) : void // end of [val]
+val () = prstr ")" // end of [val]
+//
 in
   // nothing
 end // end of [fprint_lstbefitm]

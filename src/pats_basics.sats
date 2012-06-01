@@ -106,6 +106,10 @@ fun fprint_valkind : fprint_type (valkind)
 
 (* ****** ****** *)
 
+fun valkind2caskind (knd: valkind): caskind
+
+(* ****** ****** *)
+
 datatype
 dcstkind =
   | DCKfun of ()

@@ -332,6 +332,16 @@ the_effenv_check_wrt
 (* ****** ****** *)
 
 implement
+the_effenv_caskind_check_exn
+  (loc0, casknd) = (case+ casknd of
+  | CK_case () => the_effenv_check_exn (loc0)
+  | CK_case_pos () => 0 // HX: a type error is to be reported
+  | CK_case_neg () => 0 // HX: per the wish of the programmer
+) // end of [the_effenv_caskind_check_exn]
+
+(* ****** ****** *)
+
+implement
 the_effenv_check_sexp
   (loc0, s2e0) = let
 // (*

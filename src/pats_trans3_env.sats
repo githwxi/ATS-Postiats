@@ -345,11 +345,17 @@ fun the_effenv_push_effmask (s2fe: s2eff): (effenv_push_v | void)
 
 fun the_effenv_check_set
   (loc: location, efs: effset): int (*succ/fail: 0/1*)
+//
 fun the_effenv_check_eff
   (loc: location, eff: effect): int (*succ/fail: 0/1*)
+//
 fun the_effenv_check_exn (loc: location): int (*succ/fail: 0/1*)
 fun the_effenv_check_ref (loc: location): int (*succ/fail: 0/1*)
 fun the_effenv_check_wrt (loc: location): int (*succ/fail: 0/1*)
+//
+fun the_effenv_caskind_check_exn
+  (loc: location, knd: caskind): int (*succ/fail: 0/1*)
+// end of [the_effenv_caskind_check_exn]
 
 fun the_effenv_check_sexp
   (loc: location, s2e: s2exp): int (*succ/fail: 0/1*)

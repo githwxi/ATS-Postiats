@@ -208,11 +208,11 @@ local
 fun aux_s2exp (
   env: &env, s2e0: s2exp
 ) : s2zexp = let
-// (*
+(*
   val () = (
     print "aux_s2exp: s2e0 = "; print_s2exp s2e0; print_newline ()
   ) // end of [val]
-// *)
+*)
   val s2f0 = s2exp_hnfize (s2e0)
 in
 //
@@ -287,14 +287,14 @@ and aux_s2exp_app (
 , s2t: s2rt
 , s2e_fun: s2exp, s2es_arg: s2explst
 ) : s2zexp = let
-// (*
+(*
   val () = (
     print "aux_s2exp_app: s2e_fun = "; print_s2exp s2e_fun; print_newline ()
   ) // end of [val]
   val () = (
     print "aux_s2exp_app: s2es_arg = "; print_s2explst s2es_arg; print_newline ()
   ) // end of [val]
-// *)
+*)
   val s2f_fun = s2exp_hnfize (s2e_fun)
 in
   case+ s2f_fun.s2exp_node of

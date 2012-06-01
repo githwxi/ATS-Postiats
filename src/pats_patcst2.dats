@@ -608,7 +608,7 @@ case+ c2l.c2lau_gua of
   in
     list_vt_sing (anys)
   end // end of [list_cons]
-| list_nil _ => let
+| list_nil () => let
     val p2tcs = list_map_fun (p2ts, p2at2cst)
     val cp2tcss = p2atcstlst_comp ($UN.castvwtp1 {p2atcstlst} (p2tcs))
     val () = list_vt_free (p2tcs)

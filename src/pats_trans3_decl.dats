@@ -62,6 +62,7 @@ staload EFF = "pats_effect.sats"
 
 staload "pats_staexp2.sats"
 staload "pats_staexp2_util.sats"
+staload "pats_patcst2.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
 
@@ -489,6 +490,30 @@ val s2e_def = d3exp_get_type (d3e_def)
 val () = begin
   print "v2aldec_tr: s2e_def = "; print_s2exp s2e_def; print_newline ();
 end // end of [val]
+//
+val casknd = valkind2caskind (knd)
+val cp2tcss = (
+  case+ casknd of
+  | CK_case () =>
+      p2atcstlst_comp (list_sing (p2at2cst (p2t_val)))
+  | CK_case_pos () =>
+      p2atcstlst_comp (list_sing (p2at2cst (p2t_val)))
+  | CK_case_neg () => list_vt_nil ()
+) : p2atcstlstlst_vt // end of [val]
+val isexhaust = ( // HX: always true for [case-]
+  if list_vt_is_nil (cp2tcss) then true else false
+) : bool // end of [val]
+val () = if ~isexhaust then let
+  val s2es = list_sing (s2e_def)
+  val cp2tcss = p2atcstlstlst_vt_copy (cp2tcss) in
+  trans3_env_add_patcstlstlst_false (loc0, casknd, cp2tcss, s2es)
+end // end of [val]
+val () = p2atcstlstlst_vt_free (cp2tcss)
+val () = if ~isexhaust then let
+  val _(*err*) = the_effenv_caskind_check_exn (loc0, casknd)
+in
+  // nothing
+end // end of [if] // end of [val]
 //
 val p3t_val = p2at_trdn (p2t_val, s2e_def)
 val () = d3lval_set_pat_type_left (d3e_def, p3t_val)

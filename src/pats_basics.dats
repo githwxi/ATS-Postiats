@@ -145,7 +145,8 @@ funkind_is_tailrecur fk =
 // end of [funkind_is_tailrecur]
 
 implement
-fprint_funkind (out, fk) = case+ fk of
+fprint_funkind
+  (out, fk) = case+ fk of
   | FK_fun () => fprint_string (out, "fun")
   | FK_prfun () => fprint_string (out, "prfun")
   | FK_praxi () => fprint_string (out, "praxi")
@@ -157,7 +158,8 @@ fprint_funkind (out, fk) = case+ fk of
 
 (* ****** ****** *)
 
-implement valkind_is_proof (vk) =
+implement
+valkind_is_proof (vk) =
   case+ vk of VK_prval () => true | _ => false
 // end of [valkind_is_proof]
 
@@ -168,6 +170,17 @@ fprint_valkind (out, vk) = case+ vk of
   | VK_val_neg () => fprint_string (out, "val-")
   | VK_prval () => fprint_string (out, "prval")
 // end of [fprint_valkind]
+
+(* ****** ****** *)
+
+implement
+valkind2caskind
+  (knd) = (case+ knd of
+  | VK_val () => CK_case ()
+  | VK_prval () => CK_case_pos () // HX: prval = val+
+  | VK_val_pos () => CK_case_pos ()
+  | VK_val_neg () => CK_case_neg ()
+) // end of [valkind2caskind]
 
 (* ****** ****** *)
 

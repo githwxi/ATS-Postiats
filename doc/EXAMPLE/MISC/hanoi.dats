@@ -88,33 +88,39 @@ val () = post_initize (lp, sz)
 viewtypedef post = post (sz)
 //
 fun move {
-   n,s,p,p':nat |
-   p <= sz && p' <= sz && s + p + p' == sz + sz &&
-   0 < n && s + n <= sz && n <= p && n <= p' } .<n>.
-  (n: int n, source: post, s: int s,
-   post: post, p: int p, post': post, p': int p')
-  :<cloref1> void = begin
-  if n = 1 then begin
-    post[p-1] := source[s];
-    source[s] := 0;
-    showposts ()
-  end else begin
+  n,s,p,p':nat
+| p <= sz &&
+  p' <= sz &&
+  s + p + p' == sz + sz &&
+  n > 0 &&
+  s + n <= sz &&
+  n <= p &&
+  n <= p'
+} .<n>. (
+  n: int n
+, src: post, s: int s,
+  post: post, p: int p
+, post': post, p': int p'
+) :<cloref1> void = (
+  if n = 1 then (
+    post[p-1] := src[s]; src[s] := 0; showposts ()
+  ) else (
     move (
-      n-1, source, s, post', p', post, p
+      n-1, src, s, post', p', post, p
     ) ; // end of [move]
-    post[p-1] := source[s+n-1];
-    source[s+n-1] := 0;
-    showposts ();
+    post[p-1] := src[s+n-1]; src[s+n-1] := 0; showposts ();
     move (
-      n-1, post', p' - n + 1, post, p - 1, source, s + n
+      n-1, post', p' - n + 1, post, p - 1, src, s + n
     ) ; // end of [move]
-  end (* end of [if] *)
-end // end of [move]
+  ) (* end of [if] *)
+) (* end of [move] *)
 //
 in
 //
   showposts ();
   move (sz, lp, 0, rp, sz, mp, sz);
+  print ("This round of play has finished.");
+  print_newline ();
 //
 end // end of [play]
 
@@ -129,7 +135,8 @@ end // end of [main]
 
 local
 
-assume post (n:int) = arrayref (natLte n, n)
+assume
+post (n:int) = arrayref (natLte n, n)
 
 in // in of [local]
 

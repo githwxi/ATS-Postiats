@@ -302,7 +302,7 @@ case+ x.s2exp_node of
 | S2Eat (s2e1, s2e2) => {
     val () = prstr "S2Eat("
     val () = fprint_s2exp (out, s2e1)
-    val () = prstr "; "
+    val () = prstr ", "
     val () = fprint_s2exp (out, s2e2)
     val () = prstr ")"
   } // end of [S2Eat]
@@ -366,6 +366,7 @@ case+ x.s2exp_node of
     val () = fprint_s2exp (out, s2e_res)
     val () = prstr ")"
   } // end of [S2Efun]
+//
 | S2Emetfun (
     opt, s2es_met, s2e_body
   ) => {

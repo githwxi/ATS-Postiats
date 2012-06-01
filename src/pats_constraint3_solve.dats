@@ -61,6 +61,7 @@ implement prerr_FILENAME<> () = prerr "pats_constraint3_solve"
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_patcst2.sats"
 staload "pats_trans3_env.sats"
 
 (* ****** ****** *)
@@ -282,6 +283,51 @@ c3nstr_solve_itmlst_disj (
 
 (* ****** ****** *)
 
+extern
+fun prerr_case_exhaustiveness_errmsg (
+  loc0: location, casknd: caskind, p2tcs: p2atcstlst
+) : void // end of [prerr_case_exhaustiveness_errmsg]
+implement
+prerr_case_exhaustiveness_errmsg
+  (loc0, casknd, p2tcs) = let
+//
+fun prlst (
+  p2tcs: p2atcstlst
+) : void = let
+in
+  case+ p2tcs of
+  | list_cons
+      (p2tc, p2tcs) => let
+      val () =
+        fprint_p2atcst (stderr_ref, p2tc)
+      // end of [val]
+      val () = fprint_newline (stderr_ref)
+    in
+      prlst (p2tcs)
+    end // end of [list_cons]
+  | list_nil () => ()
+end // end of [prlst]
+//
+in
+//
+case+ casknd of
+| CK_case () => let
+    val () = prerr_warning3_loc (loc0)
+    val () = prerr ": pattern match is nonexhaustive:\n";
+  in
+    prlst (p2tcs)
+  end // end of [CK_case]
+| CK_case_pos () => let
+    val () = prerr_error3_loc (loc0)
+    val () = prerr ": pattern match is nonexhaustive:\n";
+  in
+    prlst (p2tcs)
+  end // end of [CK_case]
+| CK_case_neg => () // HX: ignored per the wish of the programmer
+end // end of [prerr_case_exhaustiveness_errmsg]
+
+(* ****** ****** *)
+
 implement
 c3nstr_solve_errmsg
   (c3t, unsolved) = let
@@ -311,9 +357,7 @@ case+ c3tknd of
   ) // end of [C3STRKINDnone]
 | C3NSTRKINDcase_exhaustiveness
     (casknd, p2tcs) => let
-(*
-    val () = pattern_match_exhaustiveness_msg (loc0, casknd, p2tcs)
-*)
+    val () = prerr_case_exhaustiveness_errmsg (loc0, casknd, p2tcs)
   in
     case+ casknd of
     | CK_case () => 1 (*warning*)
@@ -526,7 +570,7 @@ case+ 0 of
     // nothing
   end // end of [unsolved = 0]
 | _ => { // unsolved > 0
-    val () = prerr "type-checking has failed"
+    val () = prerr "typechecking has failed"
     val () = if unsolved <= 1u then
       prerr ": there is one unsolved constraint"
     val () = if unsolved >= 2u then

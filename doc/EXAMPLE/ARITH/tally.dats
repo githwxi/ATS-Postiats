@@ -41,12 +41,12 @@ prfun sum1
   pf: SUM1 (n, s)
 ) : [cff1*s==csum1(n)] void =
   sif n > 0 then let
-    val SUM1ind (pf1) = pf
+    val+ SUM1ind (pf1) = pf
     val () = sum1 {n-1} (pf1)
   in
     // nothing
   end else let
-    val SUM1bas () = pf in (*nothing*)
+    val+ SUM1bas () = pf in (*nothing*)
   end // end of [sif]
 //
 in
@@ -63,12 +63,12 @@ prfun sum2
   pf: SUM2 (n, s)
 ) : [cff2*s==csum2(n)] void =
   sif n > 0 then let
-    val SUM2ind (pf1) = pf
+    val+ SUM2ind (pf1) = pf
     val () = sum2 {n-1} (pf1)
   in
     // nothing
   end else let
-    val SUM2bas () = pf in (*nothing*)
+    val+ SUM2bas () = pf in (*nothing*)
   end // end of [sif]
 //
 in
@@ -85,12 +85,12 @@ prfun sum3
   pf: SUM3 (n, s)
 ) : [cff3*s==csum3(n)] void =
   sif n > 0 then let
-    val SUM3ind (pf1) = pf
+    val+ SUM3ind (pf1) = pf
     val () = sum3 {n-1} (pf1)
   in
     // nothing
   end else let
-    val SUM3bas () = pf in (*nothing*)
+    val+ SUM3bas () = pf in (*nothing*)
   end // end of [sif]
 //
 in
@@ -107,12 +107,12 @@ prfun sum4
   pf: SUM4 (n, s)
 ) : [cff4*s==csum4(n)] void =
   sif n > 0 then let
-    val SUM4ind (pf1) = pf
+    val+ SUM4ind (pf1) = pf
     val () = sum4 {n-1} (pf1)
   in
     // nothing
   end else let
-    val SUM4bas () = pf in (*nothing*)
+    val+ SUM4bas () = pf in (*nothing*)
   end // end of [sif]
 //
 in
@@ -129,12 +129,12 @@ prfun sum5
   pf: SUM5 (n, s)
 ) : [cff5*s==csum5(n)] void =
   sif n > 0 then let
-    val SUM5ind (pf1) = pf
+    val+ SUM5ind (pf1) = pf
     val () = sum5 {n-1} (pf1)
   in
     // nothing
   end else let
-    val SUM5bas () = pf in (*nothing*)
+    val+ SUM5bas () = pf in (*nothing*)
   end // end of [sif]
 //
 in
@@ -151,12 +151,12 @@ prfun sum6
   pf: SUM6 (n, s)
 ) : [cff6*s==csum6(n)] void =
   sif n > 0 then let
-    val SUM6ind (pf1) = pf
+    val+ SUM6ind (pf1) = pf
     val () = sum6 {n-1} (pf1)
   in
     // nothing
   end else let
-    val SUM6bas () = pf in (*nothing*)
+    val+ SUM6bas () = pf in (*nothing*)
   end // end of [sif]
 //
 in
@@ -173,12 +173,12 @@ prfun sum7
   pf: SUM7 (n, s)
 ) : [cff7*s==csum7(n)] void =
   sif n > 0 then let
-    val SUM7ind (pf1) = pf
+    val+ SUM7ind (pf1) = pf
     val () = sum7 {n-1} (pf1)
   in
     // nothing
   end else let
-    val SUM7bas () = pf in (*nothing*)
+    val+ SUM7bas () = pf in (*nothing*)
   end // end of [sif]
 //
 in
@@ -195,12 +195,12 @@ prfun sum8
   pf: SUM8 (n, s)
 ) : [cff8*s==csum8(n)] void =
   sif n > 0 then let
-    val SUM8ind (pf1) = pf
+    val+ SUM8ind (pf1) = pf
     val () = sum8 {n-1} (pf1)
   in
     // nothing
   end else let
-    val SUM8bas () = pf in (*nothing*)
+    val+ SUM8bas () = pf in (*nothing*)
   end // end of [sif]
 //
 in
@@ -217,12 +217,12 @@ prfun sum9
   pf: SUM9 (n, s)
 ) : [cff9*s==csum9(n)] void =
   sif n > 0 then let
-    val SUM9ind (pf1) = pf
+    val+ SUM9ind (pf1) = pf
     val () = sum9 {n-1} (pf1)
   in
     // nothing
   end else let
-    val SUM9bas () = pf in (*nothing*)
+    val+ SUM9bas () = pf in (*nothing*)
   end // end of [sif]
 //
 in
@@ -239,12 +239,12 @@ prfun sum10
   pf: SUM10 (n, s)
 ) : [cff10*s==csum10(n)] void =
   sif n > 0 then let
-    val SUM10ind (pf1) = pf
+    val+ SUM10ind (pf1) = pf
     val () = sum10 {n-1} (pf1)
   in
     // nothing
   end else let
-    val SUM10bas () = pf in (*nothing*)
+    val+ SUM10bas () = pf in (*nothing*)
   end // end of [sif]
 //
 in
