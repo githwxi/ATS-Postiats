@@ -42,6 +42,10 @@
 
 (* ****** ****** *)
 //
+sortdef t0p = t@ype and vt0p = viewt@ype
+//
+(* ****** ****** *)
+//
 // HX: In $ATSHOME/ccomp/runtime:
 // atsbool_true/atsbool_false are mapped to 1/0, respectively
 //
@@ -157,7 +161,7 @@ list_t0ype_int_type (a:t@ype+, int) =
   | list_nil (a, 0)
 // end of [datatype]
 stadef list = list_t0ype_int_type
-typedef List (a:t@ype) = [n:int | n >= 0] list (a, n)
+typedef List (a:t0p) = [n:int | n >= 0] list (a, n)
 //
 dataviewtype // viewt@ype+: covariant
 list_viewt0ype_int_viewtype (a:viewt@ype+, int) =
@@ -166,7 +170,7 @@ list_viewt0ype_int_viewtype (a:viewt@ype+, int) =
   | list_vt_nil (a, 0)
 // end of [list_viewt0ype_int_viewtype]
 stadef list_vt = list_viewt0ype_int_viewtype
-viewtypedef List_vt (a:viewt@ype) = [n:int | n >= 0] list_vt (a, n)
+viewtypedef List_vt (a:vt0p) = [n:int | n >= 0] list_vt (a, n)
 //
 (* ****** ****** *)
 //
@@ -186,7 +190,7 @@ option_t0ype_bool_type
   (a:t@ype+, bool) = Some (a, true) of a | None (a, false)
 // end of [datatype]
 stadef option = option_t0ype_bool_type
-typedef Option (a:t@ype) = [b:bool] option (a, b)
+typedef Option (a:t0p) = [b:bool] option (a, b)
 //
 dataview
 option_prop_bool_prop
@@ -199,7 +203,7 @@ option_viewt0ype_bool_viewtype
   (a:viewt@ype+, bool) = Some_vt (a, true) of a | None_vt (a, false)
 // end of [option_viewt0ype_bool_viewtype]
 stadef option_vt = option_viewt0ype_bool_viewtype
-viewtypedef Option_vt (a:viewt@ype) = [b:bool] option_vt (a, b)
+viewtypedef Option_vt (a:vt0p) = [b:bool] option_vt (a, b)
 //
 dataview
 option_view_bool_view
@@ -208,15 +212,54 @@ option_view_bool_view
 stadef option_v = option_view_bool_view
 //
 (* ****** ****** *)
+//
+praxi opt_some {a:vt0p} (x: !INV(a) >> opt (a, true)):<prf> void
+praxi opt_unsome {a:vt0p} (x: !opt (INV(a), true) >> a):<prf> void
+//
+praxi opt_none {a:vt0p} (x: !(a?) >> opt (a, false)):<prf> void
+praxi opt_unnone {a:vt0p} (x: !opt (INV(a), false) >> a?):<prf> void
+//
+praxi opt_clear {a:t0p} {b:bool} (x: !opt (a, b) >> a?):<prf> void
+//
+(* ****** ****** *)
 
-symintr assert
+typedef cmpval_1
+  (a: vt0p) = (!a, !a) -<fun> int
+typedef cmpval_2
+  (a: vt0p, vt: viewtype) = (!a, !a, !vt) -<fun> int
+stadef cmpval = cmpval_1
+stadef cmpval = cmpval_2
 
-fun assert_bool0
-  (assertion: bool):<!exn> void = "atspre_assert"
-fun assert_bool1 {b:bool}
-  (assertion: bool b):<!exn> [b] void = "atspre_assert"
-overload assert with assert_bool0 of 0
-overload assert with assert_bool1 of 1
+fun{a:vt0p}
+compval_elt_elt
+  {vt:viewtype}
+  (x1: !a, x2: !a, cmp: cmpval (a)):<> int
+// end of [compval_elt_elt]
+fun{a:vt0p}
+compval_elt_elt_env
+  {vt:viewtype}
+  (x1: !a, x2: !a, cmp: cmpval (a, vt), env: !vt):<> int
+// end of [compval_elt_elt_env]
+
+(* ****** ****** *)
+
+typedef cmpref_1
+  (a: vt0p) = (&a, &a) -<fun> int
+typedef cmpref_2
+  (a: vt0p, vt: viewtype) = (&a, &a, !vt) -<fun> int
+stadef cmpref = cmpref_1
+stadef cmpref = cmpref_2
+
+fun{a:vt0p}
+compref_elt_elt
+  {vt:viewtype}
+  (x1: &a, x2: &a, cmp: cmpref (a)):<> int
+// end of [compref_elt_elt]
+fun{a:vt0p}
+compref_elt_elt_env
+  {vt:viewtype}
+  (x1: &a, x2: &a, cmp: cmpref (a, vt), env: !vt):<> int
+// end of [compref_elt_elt_env]
 
 (* ****** ****** *)
 
@@ -250,50 +293,6 @@ overload main with main_argc_argv
 overload main with main_argc_argv_env
 
 (* ****** ****** *)
-//
-sortdef t0p = t@ype and vt0p = viewt@ype
-//
-(* ****** ****** *)
-
-typedef cmpval1
-  (a: viewt@ype) = (!a, !a) -<fun> int
-typedef cmpval2
-  (a: viewt@ype, vt: viewtype) = (!a, !a, !vt) -<fun> int
-stadef cmpval = cmpval1
-stadef cmpval = cmpval2
-
-fun{a:vt0p}
-compval_elt_elt
-  {vt:viewtype}
-  (x1: !a, x2: !a, cmp: cmpval (a)):<> int
-// end of [compval_elt_elt]
-fun{a:vt0p}
-compval_elt_elt_env
-  {vt:viewtype}
-  (x1: !a, x2: !a, cmp: cmpval (a, vt), env: !vt):<> int
-// end of [compval_elt_elt_env]
-
-(* ****** ****** *)
-
-typedef cmpref1
-  (a: viewt@ype) = (&a, &a) -<fun> int
-typedef cmpref2
-  (a: viewt@ype, vt: viewtype) = (&a, &a, !vt) -<fun> int
-stadef cmpref = cmpref1
-stadef cmpref = cmpref2
-
-fun{a:vt0p}
-compref_elt_elt
-  {vt:viewtype}
-  (x1: &a, x2: &a, cmp: cmpref (a)):<> int
-// end of [compref_elt_elt]
-fun{a:vt0p}
-compref_elt_elt_env
-  {vt:viewtype}
-  (x1: &a, x2: &a, cmp: cmpref (a, vt), env: !vt):<> int
-// end of [compref_elt_elt_env]
-
-(* ****** ****** *)
 
 fun exit
   {a:vt0p} (ecode: int):<> a = "mac#ats_exit"
@@ -310,15 +309,24 @@ fun exit_fprintf
 *)
 
 (* ****** ****** *)
-//
-praxi opt_some {a:vt0p} (x: !INV(a) >> opt (a, true)):<prf> void
-praxi opt_unsome {a:vt0p} (x: !opt (INV(a), true) >> a):<prf> void
-//
-praxi opt_none {a:vt0p} (x: !(a?) >> opt (a, false)):<prf> void
-praxi opt_unnone {a:vt0p} (x: !opt (INV(a), false) >> a?):<prf> void
-//
-praxi opt_clear {a:t0p} {b:bool} (x: !opt (a, b) >> a?):<prf> void
-//
+
+fun assert_bool0
+  (x: bool):<!exn> void = "atspre_assert"
+overload assert with assert_bool0 of 0
+fun assert_bool1
+  {b:bool} (x: bool (b)):<!exn> [b] void
+overload assert with assert_bool1 of 1
+
+fun
+assert_errmsg_bool0 (
+  x: bool, msg: string
+) :<!exn> void = "atspre_assert_errmsg"
+overload assert_errmsg with assert_errmsg_bool0 of 0
+fun
+assert_errmsg_bool1
+  {b:bool} (x: bool b, msg: string):<!exn> [b] void
+overload assert_errmsg with assert_errmsg_bool1 of 1
+
 (* ****** ****** *)
 
 datasort file_mode =

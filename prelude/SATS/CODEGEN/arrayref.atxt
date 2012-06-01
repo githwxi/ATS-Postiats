@@ -37,7 +37,9 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 abstype
 arrszref_viewt0ype_type (a: viewt@ype)
 stadef arrszref = arrszref_viewt0ype_type
-stadef array0 = arrszref // backward compatibility
+(*
+stadef array0 = arrszref // HX: backward compatibility?
+*)
 
 #atscode_separator()
 
@@ -68,7 +70,9 @@ abstype
 arrayref_viewt0ype_int_type
   (a: viewt@ype(*invar*), n: int)
 stadef arrayref = arrayref_viewt0ype_int_type
-stadef array = arrayref // backward compatibility
+(*
+stadef array = arrayref // HX: backward compatibility?
+*)
 
 #atscode_separator()
 

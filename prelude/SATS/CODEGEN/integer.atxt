@@ -34,10 +34,20 @@ sortdef tk = tkind
 
 #atscode_separator()
 
+\#define SHR(x) x // shared // for commenting
+\#define NSH(x) x // not-shared // for commenting
+
+#atscode_separator()
+
 fun{k1,k2:tk}
 g0int2int (x: g0int (k1)):<> g0int (k2)
 fun{k1,k2:tk}
 g0int2int (x: g0int (k1)):<> g0int (k2)
+
+#atscode_separator()
+
+fun{tk:tk}
+g0int_of_string (x: NSH(string)):<> g0int (tk)
 
 #atscode_separator()
 
@@ -159,6 +169,11 @@ fun{k1,k2:tk}
 g1int2int // i2i
   {i:int} (x: g1int (k1, i)):<> g1int (k2, i)
 // end of [g1int2int]
+
+#atscode_separator()
+
+fun{tk:tk}
+g1int_of_string (x: NSH(string)):<> g1int (tk)
 
 #atscode_separator()
 

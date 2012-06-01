@@ -65,13 +65,18 @@ end // end of [fact2]
 (* ****** ****** *)
 
 implement
-main () = let
-  #define N 10
-  val pfr = fact (10)
-  and pfr2 = fact2 (10)
+main (
+  argc, argv
+) = let
+  val n = (
+    if argc >= 2 then g1int_of_string (argv[1]) else 10(*default*)
+  ) : Int // end of [val]
+  val () = assert (n >= 0)
+  val pfr = fact (n)
+  and pfr2 = fact2 (n)
   val () = assert (pfr.1 = pfr2.1)
 in
-  0 // normal exit
+  0 (* normal exit *)
 end // end of [main]
 
 (* ****** ****** *)

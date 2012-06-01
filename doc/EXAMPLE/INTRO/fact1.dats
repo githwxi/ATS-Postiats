@@ -32,7 +32,7 @@ fn fact1_usage (cmd: string): void =
 implement
 main (argc, argv) =
   if argc >= 2 then let
-    val n = int_of_string
+    val n = g0int_of_string
       (argv[1]) // turning string into integer
     val r = fact1 (n)
   in

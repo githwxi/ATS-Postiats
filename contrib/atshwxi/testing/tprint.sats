@@ -11,7 +11,9 @@ sortdef t0p = t@ype
 fun{}
 tprint__out (): FILEref
 
-fun{a:t0p} tprint (x: a): void
+fun{a:t0p}
+tprint (x: a): void
+fun{} tprint_newline (): void
 
 (* ****** ****** *)
 
@@ -41,15 +43,16 @@ tprint_array__end (): string
 
 fun{a:t0p}
 tprint_array
-  {n:int}
-  (A: &(@[a][n]), n: size_t n): void
+  {n:int} (A: &(@[a][n]), n: size_t n): void
 // end of [tprint_array]
-
 fun{a:t0p}
 tprint_arrayptr
-  {l:addr}{n:int}
-  (A: !arrayptr (a, l, n), n: size_t n): void
+  {n:int} (A: !arrayptr (a, n), n: size_t n): void
 // end of [tprint_arrayptr]
+fun{a:t0p}
+tprint_arrayref
+  {n:int} (A: arrayref (a, n), n: size_t n): void
+// end of [tprint_arrayref]
 
 (* ****** ****** *)
 

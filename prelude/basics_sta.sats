@@ -119,8 +119,10 @@ stadef g0int = g0int_t0ype // shorthand
 abst@ype
 g1int_int_t0ype (tk:tkind, int) = g0int (tk)
 stadef g1int = g1int_int_t0ype
+//
 typedef g1int (tk:tkind) = [i:int] g1int (tk, i)
-
+typedef g1nat (tk:tkind) = [i:int | i >= 0] g1int (tk, i)
+//
 typedef g1intLt
   (tk:tk, n:int) = [i:int | i < n] g1int (tk, i)
 typedef g1intLte
@@ -133,7 +135,7 @@ typedef g1intBtw
   (tk:tk, lb:int, ub:int) = [i: int | lb <= i; i < ub] g1int (tk, i)
 typedef g1intBtwe
   (tk:tk, lb:int, ub:int) = [i: int | lb <= i; i <= ub] g1int (tk, i)
-
+//
 (* ****** ****** *)
 
 abst@ype
