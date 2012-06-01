@@ -109,8 +109,18 @@ fn d2exp_s2effopt_of_d2exp (
 
 extern
 fun d2exp_trdn_top (d2e0: d2exp, s2f0: s2hnf): d3exp
+
+extern
+fun d2exp_trdn_seq (d2e0: d2exp, s2f0: s2hnf): d3exp
+
 extern
 fun d2exp_trdn_effmask (d2e0: d2exp, s2f0: s2hnf): d3exp
+
+extern
+fun d2exp_trdn_lam_dyn (d2e: d2exp, s2f: s2hnf): d3exp
+
+extern
+fun d2exp_trdn_lam_sta_nil (d2e: d2exp, s2f: s2hnf): d3exp
 
 (* ****** ****** *)
 
@@ -152,6 +162,10 @@ case+ d2e0.d2exp_node of
 | D2Eeffmask _ => d2exp_trdn_effmask (d2e0, s2f0)
 //
 | D2Elam_dyn _ => d2exp_trdn_lam_dyn (d2e0, s2f0)
+//
+| D2Elam_sta (s2vs, _, _)
+    when list_is_nil (s2vs) => d2exp_trdn_lam_sta_nil (d2e0, s2f0)
+  // end of [D2Elam_sta]
 //
 | _ => d2exp_trdn_rest (d2e0, s2f0)
 //
@@ -213,9 +227,6 @@ d2exp_trdn_lam_dyn
   (d2e0, s2f0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val- D2Elam_dyn
-  (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
-// end of [val]
 val s2e0 = s2hnf2exp (s2f0)
 //
 in
@@ -224,10 +235,10 @@ case+ s2e0.s2exp_node of
 | S2Efun (
     fc1, lin1, s2fe1, npf1, s2es_arg, s2e_res
   ) => let
-//
-    val err =
-      $SOL.pfarity_equal_solve (loc0, npf, npf1)
+    val- D2Elam_dyn
+      (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
     // end of [val]
+    val err = $SOL.pfarity_equal_solve (loc0, npf, npf1)
     val () = if err != 0 then {
       val () = prerr_the_staerrlst ()
       val () = the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2e0))
@@ -326,6 +337,38 @@ case+ s2e0.s2exp_node of
   end // end of [let]
 //
 end // end of [d2exp_trdn_lam_dyn]
+
+(* ****** ****** *)
+
+implement
+d2exp_trdn_lam_sta_nil
+  (d2e0, s2f0) = let
+//
+val loc0 = d2e0.d2exp_loc
+val s2e0 = s2hnf2exp (s2f0)
+//
+in
+//
+case+ s2e0.s2exp_node of
+| S2Euni (s2vs, s2ps, s2e) => let
+    val (pfpush | ()) = trans3_env_push ()
+    val () = trans3_env_add_svarlst (s2vs)
+    val () = trans3_env_hypadd_proplst (loc0, s2ps)
+    val d3e0 = d2exp_trdn (d2e0, s2e)
+    val () = trans3_env_pop_and_add_main (pfpush | loc0)
+  in
+    d3exp_lam_sta (loc0, s2e0, s2vs, s2ps, d3e0)
+  end // end of [S2Euni]
+| _ => let
+    val- D2Elam_sta
+      (_(*s2vs*), s2ps, d2e_body) = d2e0.d2exp_node
+    // end of [val]
+    val () = trans3_env_add_proplst (loc0, s2ps)
+  in
+    d2exp_trdn (d2e_body, s2e0)
+  end // end of [_]
+//
+end // end of [d2exp_trdn_lam_sta_nil]
 
 (* ****** ****** *)
 

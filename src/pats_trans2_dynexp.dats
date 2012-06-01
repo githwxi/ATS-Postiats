@@ -917,8 +917,9 @@ case+ d1e0.d1exp_node of
     | _ => d1exp_tr_app_dyn (d1e0, d1e1, locarg, npf, darg)
   ) // end of [D1Eapp_dyn]
 | D1Eapp_sta (d1e1, sarg) => let
-    val locarg = d1e1.d1exp_loc in
-    d1exp_tr_app_sta_dyn (d1e0, d1e1, d1e1, sarg, locarg, ~1(*npf*), list_nil(*darg*))
+    val locarg = loc0 // HX: it is just a dummy
+  in
+    d1exp_tr_app_sta_dyn (d1e0, d1e1, d1e1, sarg, locarg, ~2(*fake*), list_nil(*darg*))
   end // end of [D1Eapp_sta]
 //
 | D1Elist (npf, d1es) => (

@@ -61,6 +61,7 @@ d2exp_is_varlamcst
       if d2var_is_mutabl d2v then false else true
     ) // end of [D2Evar]
   | D2Elam_dyn _ => true
+  | D2Elam_sta _ => true
   | D2Eint _ => true
   | D2Ebool _ => true
   | D2Echar _ => true

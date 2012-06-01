@@ -188,11 +188,12 @@ case+ d2e0.d2exp_node of
 | D2Ewhere (d2e, d2cs) => d2exp_trup_letwhere (d2e0, d2cs, d2e)
 //
 | D2Eapplst (_fun, _arg) => let
-(*
+// (*
     val () = (
-      print "d2exp_trup: D2Eapplst"; print_newline ()
+      println! ("d2exp_trup: D2Eapplst: _fun = ", _fun);
+      println! ("d2exp_trup: D2Eapplst: _arg = ", _arg);
     ) // end of [val]
-*)
+// *)
   in
     case+ _fun.d2exp_node of
     | D2Esym d2s =>
@@ -784,8 +785,10 @@ fun d23exp_trup_app23 (
 , d3e_fun: d3exp
 , npf: int, locarg: location, d23es_arg: d23explst
 ) : d3exp = let
+//
   val loc_fun = d3e_fun.d3exp_loc
   val s2e_fun = d3e_fun.d3exp_type
+//
 (*
   val () = (
     print "d23exp_trup_app23: s2e_fun = ";

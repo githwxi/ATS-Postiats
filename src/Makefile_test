@@ -13,10 +13,14 @@ test:: atshwxi
 
 test:: fact2
 test:: revarr
+
+test:: hanoi
+test:: ferryman
+
 test:: tally
 test:: fibonacci
-test:: ferryman
-test:: hanoi
+
+test:: SMI
 
 ######
 
@@ -85,9 +89,13 @@ atshwxi:: ; ./patsopt -d < $(PATSHOME)/contrib/atshwxi/testing/randgen.dats
 
 fact2: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/INTRO/fact2.dats
 revarr: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/INTRO/revarr.dats
+
+hanoi: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/MISC/hanoi.dats
+ferryman: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/MISC/ferryman.dats
+
 tally: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/ARITH/tally.dats
 fibonacci: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/ARITH/fibonacci.dats
-ferryman: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/MISC/ferryman.dats
-hanoi: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/MISC/hanoi.dats
+
+SMI: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/ATSLF/SMI.dats
 
 ###### end of [Makefile_test] ######

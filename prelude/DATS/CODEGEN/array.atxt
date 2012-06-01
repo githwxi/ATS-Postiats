@@ -74,7 +74,7 @@ array_ptr_alloc
     extern praxi __assert
       (pf: b0ytes (n*sizeof(a)) @ l): array_v (a?, l, n)
     // end of [__assert]
-  } // end of [prval]
+  } // end of [where] // end of [prval]
 in
   (pf, pfgc | p)
 end // end of [array_ptr_alloc]
@@ -89,7 +89,7 @@ array_ptr_free
     extern praxi __assert
       (pf: array_v (a?, l, n)): b0ytes (n*sizeof(a)) @ l
     // end of [__assert]
-  } // end of [prval]
+  } // end of [where] // end of [prval]
 in
   free_gc (pf, pfgc | p)
 end // end of [array_ptr_free]

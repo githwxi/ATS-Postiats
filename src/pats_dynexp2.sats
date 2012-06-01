@@ -803,21 +803,29 @@ overload prerr with prerr_d2explst
 fun fprint_labd2exp : fprint_type (labd2exp)
 fun fprint_labd2explst : fprint_type (labd2explst)
 fun print_labd2explst (xs: labd2explst): void
-and prerr_labd2explst (xs: labd2explst): void
+overload print with print_labd2explst
+fun prerr_labd2explst (xs: labd2explst): void
+overload prerr with prerr_labd2explst
 
 fun fprint_d2exparg : fprint_type (d2exparg)
 fun fprint_d2exparglst : fprint_type (d2exparglst)
 fun print_d2exparglst (xs: d2exparglst): void
-and prerr_d2exparglst (xs: d2exparglst): void
+overload print with print_d2exparglst
+fun prerr_d2exparglst (xs: d2exparglst): void
+overload prerr with prerr_d2exparglst
 
 fun fprint_d2lab : fprint_type (d2lab)
 fun fprint_d2lablst : fprint_type (d2lablst)
 fun print_d2lablst (xs: d2lablst): void
+overload print with print_d2lablst
 fun prerr_d2lablst (xs: d2lablst): void
+overload prerr with prerr_d2lablst
+
+(* ****** ****** *)
 
 fun fprint_d2ecl : fprint_type (d2ecl)
 fun print_d2ecl (x: d2ecl): void
-and prerr_d2ecl (x: d2ecl): void
+fun prerr_d2ecl (x: d2ecl): void
 
 (* ****** ****** *)
 

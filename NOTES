@@ -146,4 +146,28 @@ revapp {m,n:nat} .<m>. (
 
 ######
 
+(*
+**
+** HX-2012-06:
+**
+** Introducing the following syntax to support typechecking:
+**
+** lam {} => ...
+**
+** 'lam {}' means an indefinite number of static lam-abstractions.
+**
+** Actually, the first of the following two lines is the same as
+** the second of them:
+**
+** lam (...) => ...
+** lam {} => lam (...) => ...
+**
+** Hence, 'lam {}' is only needed in a case where its body is not
+** a dynamic lambda-abstraction. A good example involving 'lam {}'
+** can be found in doc/EXAMPLE/ATSLF/SMI.dats.
+**
+*)
+
+######
+
 ###### end of [NOTES] ######
