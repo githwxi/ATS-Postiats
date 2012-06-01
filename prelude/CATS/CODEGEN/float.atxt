@@ -42,7 +42,7 @@ int fprintf (FILE *stream, char *format, ...) ;
 %{
 fun
 fun_float_cmp0_decl (
-  opr: string
+  opr: string, knd: string
 ) : atext = let
 //
 val fopr = (
@@ -56,28 +56,40 @@ val fopr = (
 val ent = sprintf ("\
 ATSinline()
 atstype_bool
-atspre_g0float_%s_float
-  (atstype_char f1, atstype_char f2) {
+atspre_g0float_%s_%s
+  (atstype_%s f1, atstype_%s f2) {
   return (f1 %s f2 ? atsbool_true : atsbool_false) ;
-} // end of [atspre_g0float_%s_float]\
+} // end of [atspre_g0float_%s_%s]\
 ", @(
- opr, fopr, opr
+ opr, knd, knd, knd, fopr, opr, knd
 )
 ) // end of [sprintf] // end of [val]
 //
 in
   atext_strptr (ent)
-end // end of [fun_char_cmp0_decl]
+end // end of [fun_float_cmp0_decl]
 %}\
 \
-#fun_float_cmp0_decl("lt")
-#fun_float_cmp0_decl("lte")
+#fun_float_cmp0_decl("lt", "float")
+#fun_float_cmp0_decl("lte", "float"))
+#fun_float_cmp0_decl("gt", "float"))
+#fun_float_cmp0_decl("gte", "float"))
+#fun_float_cmp0_decl("eq", "float"))
+#fun_float_cmp0_decl("neq", "float"))
 
-#fun_float_cmp0_decl("gt")
-#fun_float_cmp0_decl("gte")
+#fun_float_cmp0_decl("lt", "double")
+#fun_float_cmp0_decl("lte", "double"))
+#fun_float_cmp0_decl("gt", "double"))
+#fun_float_cmp0_decl("gte", "double"))
+#fun_float_cmp0_decl("eq", "double"))
+#fun_float_cmp0_decl("neq", "double"))
 
-#fun_float_cmp0_decl("eq")
-#fun_float_cmp0_decl("neq")
+#fun_float_cmp0_decl("lt", "ldouble")
+#fun_float_cmp0_decl("lte", "ldouble"))
+#fun_float_cmp0_decl("gt", "ldouble"))
+#fun_float_cmp0_decl("gte", "ldouble"))
+#fun_float_cmp0_decl("eq", "ldouble"))
+#fun_float_cmp0_decl("neq", "ldouble"))
 
 #atscode_separator_for_C()
 
@@ -94,11 +106,31 @@ atspre_fprint_float (
 \#define atspre_print_float(x) atspre_fprint_float(stdout_ref, (x))
 \#define atspre_prerr_float(x) atspre_fprint_float(stderr_ref, (x))
 
-#atscode_separator_for_C()
+ATSinline()
+atstype_void
+atspre_fprint_double (
+  atstype_ref r, atstype_double x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%f", x) ;
+  return ;
+} // end [atspre_fprint_double]
 
-#atscode_separator_for_C()
+\#define atspre_print_double(x) atspre_fprint_double(stdout_ref, (x))
+\#define atspre_prerr_double(x) atspre_fprint_double(stderr_ref, (x))
 
-#atscode_separator_for_C()
+ATSinline()
+atstype_void
+atspre_fprint_ldouble (
+  atstype_ref r, atstype_ldouble x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%lf", x) ;
+  return ;
+} // end [atspre_fprint_ldouble]
+
+\#define atspre_print_ldouble(x) atspre_fprint_ldouble(stdout_ref, (x))
+\#define atspre_prerr_ldouble(x) atspre_fprint_ldouble(stderr_ref, (x))
 
 #atscode_separator_for_C()
 

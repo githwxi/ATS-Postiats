@@ -90,16 +90,6 @@ atspre_compare_char_char
 
 #atscode_separator_for_C()
 
-\#define atspre_lt_char1_char1 atspre_lt_char_char
-\#define atspre_lte_char1_char1 atspre_lte_char_char
-\#define atspre_gt_char1_char1 atspre_gt_char_char
-\#define atspre_gte_char1_char1 atspre_gte_char_char
-\#define atspre_eq_char1_char1 atspre_eq_char_char
-\#define atspre_neq_char1_char1 atspre_neq_char_char
-\#define atspre_compare_char1_char1 atspre_compare_char_char
-
-#atscode_separator_for_C()
-
 ATSinline()
 atstype_void
 atspre_fprint_char (
@@ -110,6 +100,16 @@ atspre_fprint_char (
 
 \#define atspre_print_char(c) atspre_fprint_char(stdout_ref, (c))
 \#define atspre_prerr_char(c) atspre_fprint_char(stderr_ref, (c))
+
+#atscode_separator_for_C()
+
+\#define atspre_lt_char1_char1 atspre_lt_char_char
+\#define atspre_lte_char1_char1 atspre_lte_char_char
+\#define atspre_gt_char1_char1 atspre_gt_char_char
+\#define atspre_gte_char1_char1 atspre_gte_char_char
+\#define atspre_eq_char1_char1 atspre_eq_char_char
+\#define atspre_neq_char1_char1 atspre_neq_char_char
+\#define atspre_compare_char1_char1 atspre_compare_char_char
 
 #atscode_separator_for_C()
 //

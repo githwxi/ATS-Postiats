@@ -54,6 +54,74 @@ atspre_fprint_ptr (
 
 #atscode_separator_for_C()
 
+ATSinline()
+atspre_ptr_is_null
+  (atstype_ptr p) {
+  return (p==(void*)0) ? ats_true_bool : ats_false_bool ;
+} // end of [atspre_ptr_is_null]
+ATSinline()
+atspre_ptr_isnot_null
+  (atstype_ptr p) {
+  return (p > (void*)0) ? ats_true_bool : ats_false_bool ;
+} // end of [atspre_ptr_isnot_null]
+
+#atscode_separator_for_C()
+
+%{
+fun
+fun_pointer_cmp0_decl (
+  opr: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "==" | "neq" => "!="
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_bool
+atspre_%s_ptr_ptr
+  (atstype_ptr p1, atstype_ptr p2) {
+  return (p1 %s p2 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_%s_ptr_ptr]\
+", @(
+ opr, fopr, opr
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_pointer_cmp0_decl]
+%}\
+\
+#fun_pointer_cmp0_decl("lt")
+#fun_pointer_cmp0_decl("lte")
+#fun_pointer_cmp0_decl("gt")
+#fun_pointer_cmp0_decl("gte")
+#fun_pointer_cmp0_decl("eq")
+#fun_pointer_cmp0_decl("neq")
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_void
+atspre_fprint_ptr (
+  atstype_ref r, atstype_ptr x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%p", x) ;
+  return ;
+} // end [atspre_fprint_ptr]
+
+\#define atspre_print_ptr(x) atspre_fprint_ptr(stdout_ref, (x))
+\#define atspre_prerr_ptr(x) atspre_fprint_ptr(stderr_ref, (x))
+
+#atscode_separator_for_C()
+
 \#define lt_ptr1_ptr1 lt_ptr_ptr
 \#define lte_ptr1_ptr1 lte_ptr_ptr
 \#define gt_ptr1_ptr1 gt_ptr_ptr

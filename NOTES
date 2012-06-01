@@ -148,7 +148,7 @@ revapp {m,n:nat} .<m>. (
 
 (*
 **
-** HX-2012-06:
+** HX-2012-06-01:
 **
 ** Introducing the following syntax to support typechecking:
 **
