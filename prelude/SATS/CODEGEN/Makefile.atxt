@@ -62,6 +62,7 @@ all::
 #make_entry("float")
 #make_entry("integer")
 #make_entry("pointer")
+#make_entry("memory")
 #make_entry("string")
 #make_entry("strptr")
 

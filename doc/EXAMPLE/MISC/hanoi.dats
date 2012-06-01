@@ -142,7 +142,7 @@ post_initize
   val sz = g1int2uint(sz)
 in
   arrayref_iforeach_fun
-    (p, lam (i, x) => $effmask_wrt (x := g1uint2int(i)+1), sz)
+    (p, sz, lam (i, x) => $effmask_wrt (x := g1uint2int(i)+1))
 end // end of [post_initize]
 
 implement

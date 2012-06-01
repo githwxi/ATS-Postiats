@@ -60,6 +60,10 @@ list_is_cons {x:t0p}{n:int} (xs: list (x, n)):<> bool (n > 0)
 
 #atscode_separator()
 
+fun{a:t0p} list_sing (x: INV(a)):<> list (a, 1)
+
+#atscode_separator()
+
 fun{a:t0p}
 list_head {n:pos} (xs: list (a, n)):<> a
 fun{a:t0p}
@@ -82,14 +86,22 @@ list_append {m,n:int} (
 
 fun{
 a:t0p // type for elements
-} list_append1_vt {i,j:int}
-  (xs: list_vt (INV(a), i), ys: SHR(list (a, j))):<!wrt> list (a, i+j)
-// end of [list_append1_vt]
+} list_append1_vt {i,j:int} (
+  xs: list_vt (INV(a), i), ys: SHR(list (a, j))
+) :<!wrt> list (a, i+j) // endfun
 fun{
 a:t0p // type for elements
-} list_append2_vt {i,j:int}
-  (xs: NSH(list (INV(a), i)), ys: list_vt (a, j)):<!wrt> list_vt (a, i+j)
-// end of [list_append2_vt]
+} list_append2_vt {i,j:int} (
+  xs: NSH(list (INV(a), i)), ys: list_vt (a, j)
+) :<!wrt> list_vt (a, i+j) // endfun
+
+#atscode_separator()
+
+fun{
+a:t0p
+} list_extend {n:int}
+  (xs: NSH (list (INV(a), n)), y: a):<> list_vt (a, n+1)
+// end of [list_extend]
 
 #atscode_separator()
 

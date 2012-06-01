@@ -45,6 +45,11 @@ fun{} list_vt_is_cons
 #atscode_separator()
 
 fun{a:vt0p}
+list_vt_sing (x: INV(a)):<> list_vt (a, 1)
+
+#atscode_separator()
+
+fun{a:vt0p}
 list_vt_length
   {n:int} (xs: !list_vt (INV(a), n)):<> int n
 // end of [list_vt_length]
@@ -74,6 +79,14 @@ a:vt0p
   {n1,n2:int} (
   xs1: list_vt (INV(a), n1), xs2: list_vt (a, n2)
 ) :<!wrt> list_vt (a, n1+n2) // endfun
+
+#atscode_separator()
+
+fun{
+a:vt0p
+} list_vt_extend
+  {n:int} (xs1: list_vt (INV(a), n), x2: a):<!wrt> list_vt (a, n+1)
+// end of [list_vt_extend]
 
 #atscode_separator()
 

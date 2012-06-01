@@ -40,6 +40,11 @@ list_vt_is_cons (xs) =
 #atscode_separator()
 
 implement{a}
+list_vt_sing (x) = list_vt_cons (x, list_vt_nil ())
+
+#atscode_separator()
+
+implement{a}
 list_vt_length (xs) = let
   prval () = lemma_list_vt_param (xs)
   fun loop
@@ -153,11 +158,16 @@ in
   res
 end // end of [list_vt_append]
 
+implement{a}
+list_vt_extend
+  (xs, y) = list_vt_append<a> (xs, list_vt_sing<a> (y))
+// end of [list_vt_extend]
+
 #atscode_separator()
 
 implement{a}
 list_vt_reverse (xs) =
-  list_vt_reverse_append (xs, list_vt_nil)
+  list_vt_reverse_append<a> (xs, list_vt_nil)
 // end of [list_vt_reverse]
 
 #atscode_separator()
@@ -199,7 +209,7 @@ list_vt_concat
   ) :<!wrt> VT =
     case+ xss of
     | ~list_vt_cons (xs, xss) => let
-        val res = list_vt_append (xs, res) in loop (res, xss)
+        val res = list_vt_append<a> (xs, res) in loop (res, xss)
       end // end of [list_vt_cons]
     | ~list_vt_nil () => res
   // end of [loop]

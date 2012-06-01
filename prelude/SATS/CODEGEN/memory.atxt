@@ -1,0 +1,46 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"memory.sats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/memory.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+typedef bytes (n:int) = @[byte][n]
+typedef b0ytes (n:int) = @[byte?][n]
+
+#atscode_separator()
+
+fun malloc_gc
+  {n:int} (n: size_t n)
+  :<> [l:agz] (b0ytes n @ l, free_gc_v (l) | ptr l)
+  = "ats_malloc_gc"
+// end of [malloc_gc]
+
+#atscode_separator()
+
+fun free_gc {l:addr}{n:int}
+  (pf: b0ytes n @ l, pfgc: free_gc_v (l) | ptr l):<!wrt> void
+// end of [free_gc]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "memory_atxt.txt")
+%}\

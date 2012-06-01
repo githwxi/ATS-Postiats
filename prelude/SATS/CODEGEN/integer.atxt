@@ -495,7 +495,7 @@ overload - with g1uint_sub of 20
 
 fun{tk:tk}
 g1uint_mul {i,j:int}
-  (x: g1uint (tk, i), y: g1uint (tk, j)):<> g1uint (tk)
+  (x: g1uint (tk, i), y: g1uint (tk, j)):<> g1uint (tk, i*j)
 overload * with g1uint_mul of 20
 
 fun{tk:tk}

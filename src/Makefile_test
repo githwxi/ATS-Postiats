@@ -12,9 +12,11 @@ test:: libats
 test:: atshwxi
 
 test:: fact2
+test:: revarr
 test:: tally
 test:: fibonacci
 test:: ferryman
+test:: hanoi
 
 ######
 
@@ -24,6 +26,7 @@ prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/char.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/float.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/filebas_prf.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/filebas.dats
+prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/memory.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/pointer.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/reference.dats
 prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/string.dats
@@ -81,8 +84,10 @@ atshwxi:: ; ./patsopt -d < $(PATSHOME)/contrib/atshwxi/testing/randgen.dats
 ######
 
 fact2: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/INTRO/fact2.dats
+revarr: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/INTRO/revarr.dats
 tally: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/ARITH/tally.dats
 fibonacci: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/ARITH/fibonacci.dats
 ferryman: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/MISC/ferryman.dats
+hanoi: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/MISC/hanoi.dats
 
 ###### end of [Makefile_test] ######

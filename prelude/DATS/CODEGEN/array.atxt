@@ -64,6 +64,39 @@ end // end of [array_ptr_takeout]
 #atscode_separator()
 
 implement{a}
+array_ptr_alloc
+  {n} (asz) = let
+  val [l:addr] (
+    pf, pfgc | p
+  ) = malloc_gc (asz * sizeof<a>)
+  prval pf =
+    __assert (pf) where {
+    extern praxi __assert
+      (pf: b0ytes (n*sizeof(a)) @ l): array_v (a?, l, n)
+    // end of [__assert]
+  } // end of [prval]
+in
+  (pf, pfgc | p)
+end // end of [array_ptr_alloc]
+
+#atscode_separator()
+
+implement
+array_ptr_free
+  {a}{l}{n} (pf, pfgc | p) = let
+  prval pf =
+    __assert (pf) where {
+    extern praxi __assert
+      (pf: array_v (a?, l, n)): b0ytes (n*sizeof(a)) @ l
+    // end of [__assert]
+  } // end of [prval]
+in
+  free_gc (pf, pfgc | p)
+end // end of [array_ptr_free]
+
+#atscode_separator()
+
+implement{a}
 array_copy
   {n} (to, from, n) = let
   val p_to = addr@(to) and p_from = addr@(to)

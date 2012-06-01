@@ -38,6 +38,11 @@ list_is_cons (xs) =
 #atscode_separator()
 
 implement{a}
+list_sing (x) = list_cons (x, list_nil ())
+
+#atscode_separator()
+
+implement{a}
 list_head (xs) =
   let val+ list_cons (x, _) = xs in x end
 // end of [list_head]
@@ -79,23 +84,12 @@ listize<List(x)><x> (xs) = list_copy (xs)
 
 #atscode_separator()
 
-implement{x}
-list_reverse (xs) =
-  $effmask_wrt (
-  list_reverse_append2_vt<x> (xs, list_vt_nil)
-) // end of [list_reverse]
-
-implement(x)
-rlistize<List(x)><x> (xs) = list_reverse<x> (xs)
-
-#atscode_separator()
-
 implement{a}
 list_append
   {m,n} (xs, ys) = let
   val ys = __cast (ys) where {
     extern castfn __cast (ys: list (a, n)):<> list_vt (a, n)
-  } // end of [val]
+  } // end of [where] // end of [val]
 in
 $effmask_wrt (
   list_of_list_vt (list_append2_vt (xs, ys))
@@ -148,6 +142,25 @@ end // end of [list_append2_vt]
 #atscode_separator()
 
 implement{a}
+list_extend
+  (xs, y) = $effmask_wrt (
+  list_append2_vt<a> (xs, list_vt_sing<a> (y))
+) // end of [list_extend]
+
+#atscode_separator()
+
+implement{x}
+list_reverse (xs) =
+  $effmask_wrt (
+  list_reverse_append2_vt<x> (xs, list_vt_nil)
+) // end of [list_reverse]
+
+implement(x)
+rlistize<List(x)><x> (xs) = list_reverse<x> (xs)
+
+#atscode_separator()
+
+implement{a}
 list_reverse_append
   {m,n} (xs, ys) = let
   val ys = __cast (ys) where {
@@ -155,7 +168,7 @@ list_reverse_append
   } // end of [val]
 in
 $effmask_wrt (
-  list_of_list_vt (list_reverse_append2_vt (xs, ys))
+  list_of_list_vt (list_reverse_append2_vt<a> (xs, ys))
 ) // end of [$effmask_wrt]
 end // end of [list_reverse_append]
 
@@ -200,8 +213,9 @@ fun loop
   xs: list (a, m), ys: list_vt (a, n)
 ) :<!wrt> list_vt (a, m+n) =
   case+ xs of
-  | list_cons (x, xs) => loop (xs, list_vt_cons (x, ys))
-  | list_nil () => ys
+  | list_cons
+      (x, xs) => loop (xs, list_vt_cons (x, ys))
+  | list_nil () => ys // end of [list_nil]
 // end of [loop]
 in
   loop (xs, ys)
@@ -223,7 +237,7 @@ fun aux {n:nat} .<n>. (
       val res = aux (xs, xss)
       val ys0 = list_copy (xs0)
     in
-      $effmask_wrt (list_vt_append (ys0, res))
+      $effmask_wrt (list_vt_append<a> (ys0, res))
     end // end of [list_cons]
   | list_nil
       () => list_copy (xs0)
@@ -379,7 +393,7 @@ end // end of [list_foreach_funenv]
 
 implement(x)
 foreach_funenv<List(x)><x>
-  (pfv | xs, f, env) = list_foreach_funenv (pfv | xs, f, env)
+  (pfv | xs, f, env) = list_foreach_funenv<x> (pfv | xs, f, env)
 // end of [foreach_funenv]
 
 #atscode_separator()
@@ -409,7 +423,7 @@ end // end of [list_iforeach_funenv]
 implement(x)
 iforeach_funenv<List(x)><x>
   (pfv | xs, f, env) = let
-  val n = list_iforeach_funenv (pfv | xs, f, env) in g1int2uint (n)
+  val n = list_iforeach_funenv<x> (pfv | xs, f, env) in g1int2uint (n)
 end // end of [iforeach_funenv]
 
 #atscode_separator()
@@ -458,7 +472,7 @@ end // end of [list_map_funenv]
 
 implement(x,y)
 listize_funenv<List(x)><x><y>
-  (pfv | xs, f, env) = list_map_funenv (pfv | xs, f, env)
+  (pfv | xs, f, env) = list_map_funenv<x> (pfv | xs, f, env)
 // end of [listize_funenv]
 
 #atscode_separator()

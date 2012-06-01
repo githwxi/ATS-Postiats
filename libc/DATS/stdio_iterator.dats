@@ -111,7 +111,7 @@ iter_vget_inc<itrknd><char>
   prval () = encode (pf | itr)
   prval () = __assert () where {
     extern praxi __assert (): [false] void // HX: skip constraint-solving
-  } // end of [prval]
+  } // end of [where] // end of [prval]
 //
   var c = $UN.cast {char} (c)
 //

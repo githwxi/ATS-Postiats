@@ -72,6 +72,15 @@ pointer_atxt.dats: pointer.atxt
 clean:: ; $(RMF) pointer_atxt.exe
 cleanall:: ; $(RMF) pointer.sats
 
+all:: memory.sats
+memory.sats: memory_atxt.exe ; ./$< > $@
+memory_atxt.exe: memory_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ memory_atxt.dats -latsdoc
+memory_atxt.dats: memory.atxt
+	$(ATSDOC) -do $@ -i memory.atxt > memory_atxt.txt
+clean:: ; $(RMF) memory_atxt.exe
+cleanall:: ; $(RMF) memory.sats
+
 all:: string.sats
 string.sats: string_atxt.exe ; ./$< > $@
 string_atxt.exe: string_atxt.dats
