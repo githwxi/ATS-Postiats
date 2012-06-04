@@ -141,9 +141,6 @@ s2addr_xchng_check (
 , loc1(*right*)
 , s2l, d3ls, s2f0(*left*)
 ) = let
-  val () =
-    fprint_the_pfmanenv (stdout_ref)
-  // end of [val]
   val opt = pfobj_search_atview (s2l)
 in
   case+ opt of
@@ -362,9 +359,6 @@ in // in of [local]
 implement
 s2addr_xchng_deref
   (loc0, s2l, d3ls, d2e_r) = let
-  val () =
-    fprint_the_pfmanenv (stdout_ref)
-  // end of [val]
   val opt = pfobj_search_atview (s2l)
 in
   case+ opt of

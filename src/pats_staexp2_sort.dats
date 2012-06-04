@@ -428,14 +428,14 @@ implement
 s2rt_delink (s2t0) = let
   fun aux (s2t0: s2rt): s2rt =
     case+ s2t0 of
-    | S2RTVar r => let
-        val s2t = !r
+    | S2RTVar ref => let
+        val s2t = !ref
         val test = s2rtnul_isnot_null (s2t)
       in
         if test then let
           val s2t = s2rtnul_unsome (s2t)
           val s2t = aux (s2t)
-          val () = !r := s2rtnul_some (s2t)
+          val () = !ref := s2rtnul_some (s2t)
         in
           s2t
         end else s2t0
@@ -466,14 +466,14 @@ s2rt_delink_all (s2t0) = let
       in
         if flag > flag0 then S2RTtup (s2ts) else s2t0
       end
-    | S2RTVar r => let
-        val s2t = !r
+    | S2RTVar ref => let
+        val s2t = !ref
         val isnotnull = s2rtnul_isnot_null (s2t)
       in
         if isnotnull then let
           val s2t = s2rtnul_unsome (s2t)
           val s2t = aux (s2t, flag)
-          val () = !r := s2rtnul_some (s2t)
+          val () = !ref := s2rtnul_some (s2t)
           val () = flag := flag + 1
         in
           s2t

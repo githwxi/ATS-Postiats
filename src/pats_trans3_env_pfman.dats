@@ -334,11 +334,12 @@ in // in of [local]
 implement
 d2var_search
   (d2v, s2l, res) = let
-//
+(*
 val () = (
-  print "d2var_search: d2v = "; print_d2var (d2v); print_newline ();
-  print "d2var_search: s2l = "; print_s2exp (s2l); print_newline ();
+  println! ("d2var_search: d2v = ", d2v);
+  println! ("d2var_search: s2l = ", s2l);
 ) (* end of [val] *)
+*)
 //
 val opt = d2var_get_type (d2v)
 //
@@ -447,11 +448,11 @@ end // end of [d2var_search_sexp_tyrec]
 
 implement
 pfobj_search_atview (s2l0) = let
-//
+(*
 val () = (
-  print "pfobj_search_atview: s2l0 = "; print_s2exp (s2l0); print_newline ()
+  println! ("pfobj_search_atview: s2l0 = ", s2l0)
 ) (* end of [val] *)
-//
+*)
 fun loop (
   xs: !d2varmrklst, s2l0: s2exp, res: &s2exp
 ) : Option_vt @(d2var, s2exp) = let

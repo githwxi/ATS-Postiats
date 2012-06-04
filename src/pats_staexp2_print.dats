@@ -485,13 +485,36 @@ end // end of [fprint_s2exp]
 implement print_s2exp (x) = fprint_s2exp (stdout_ref, x)
 implement prerr_s2exp (x) = fprint_s2exp (stderr_ref, x)
 
+(* ****** ****** *)
+
 implement
 fprint_s2explst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_s2exp)
 // end of [fprint_s2explst]
 
-implement print_s2explst (xs) = fprint_s2explst (stdout_ref, xs)
-implement prerr_s2explst (xs) = fprint_s2explst (stderr_ref, xs)
+implement
+print_s2explst (xs) = fprint_s2explst (stdout_ref, xs)
+implement
+prerr_s2explst (xs) = fprint_s2explst (stderr_ref, xs)
+
+(* ****** ****** *)
+
+implement
+fprint_s2expopt
+  (out, opt) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+  case+ opt of
+  | Some (s2e) => (
+      prstr "Some("; fprint_s2exp (out, s2e); prstr ")"
+    ) // end of [Some]
+  | None () => prstr "None()"
+end // end of [fprint_s2expopt]
+
+implement
+print_s2expopt (opt) = fprint_s2expopt (stdout_ref, opt)
+implement
+prerr_s2expopt (opt) = fprint_s2expopt (stderr_ref, opt)
 
 (* ****** ****** *)
 

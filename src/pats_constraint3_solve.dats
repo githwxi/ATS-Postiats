@@ -62,6 +62,7 @@ implement prerr_FILENAME<> () = prerr "pats_constraint3_solve"
 
 staload "pats_staexp2.sats"
 staload "pats_patcst2.sats"
+staload "pats_dynexp2.sats"
 staload "pats_trans3_env.sats"
 
 (* ****** ****** *)
@@ -269,17 +270,23 @@ c3nstr_solve_prop (
 extern fun
 c3nstr_solve_itmlst (
   loc0: location
-, env: &s2vbcfenv, s3is: s3itmlst, unsolved: &uint, err: &int
-) : int(*status*)
-// end of [c3nstr_solve_itmlst]
+, env: &s2vbcfenv
+, s3is: s3itmlst, unsolved: &uint, err: &int
+) : int(*status*) // end of [c3nstr_solve_itmlst]
+
+extern fun
+c3nstr_solve_itmlst_cnstr (
+  loc0: location
+, env: &s2vbcfenv
+, s3is: s3itmlst, c3t: c3nstr, unsolved: &uint, err: &int
+) : int(*status*) // end of [c3nstr_solve_itmlst_cnstr]
 
 extern fun
 c3nstr_solve_itmlst_disj (
   loc0: location
 , env: &s2vbcfenv
 , s3is: s3itmlst, s3iss: s3itmlstlst, unsolved: &uint, err: &int
-) : int(*status*)
-// end of [c3nstr_solve_itmlst_disj]
+) : int(*status*) // end of [c3nstr_solve_itmlst_disj]
 
 (* ****** ****** *)
 
@@ -364,6 +371,7 @@ case+ c3tknd of
     | CK_case_pos () => 0 (*error*)
     | CK_case_neg () => 0 (*deadcode*)
   end // end of [C3NSTRKINDcase_exhaustiveness]
+//
 | C3NSTRKINDtermet_isnat
     () => 0 where {
     val () = prerr_error3_loc (loc0)
@@ -378,6 +386,7 @@ case+ c3tknd of
     val () = prerr_c3nstr_if (unsolved, c3t)
     val () = prerr_newline ()
   } // end of [C3STRKINDmetric_dec]
+//
 | C3NSTRKINDsome_fin _ => 0 where {
     val () = prerr_error3_loc (loc0)
     val () = prerr ": unsolved constraint for dvar preservation"
@@ -388,6 +397,20 @@ case+ c3tknd of
     val () = prerr ": unsolved constraint for vbox preservation"
     val () = prerr_newline ()
   } // end of [C3NSTRKINDsome_box]
+//
+| C3NSTRKINDlstate () => 0 where {
+    val () = prerr_error3_loc (loc0)
+    val () = prerr ": unsolved constraint for lstate merging"
+    val () = prerr_newline ()
+  } // end of [C3NSTRKINDlstate]
+| C3NSTRKINDlstate_var
+    (d2v) => 0 where {
+    val () = prerr_error3_loc (loc0)
+    val () = prerr ": unsolved constraint for merging the lstate of ["
+    val () = prerr_d2var (d2v)
+    val () = prerr "]"
+    val () = prerr_newline ()
+  } // end of [C3NSTRKINDlstate_var]
 //
 end // end of [c3nstr_solve_errmsg]
 
@@ -466,20 +489,11 @@ in
 case+ s3is of
 | list_cons (s3i, s3is) => (
   case+ s3i of
-  | S3ITMcnstr c3t => let
-      val (pf1 | ()) = s2vbcfenv_push (env)
-      val (pf2 | ()) = the_s2varbindmap_push ()
-      val ans1 =
-        c3nstr_solve_main (env, c3t, unsolved, err)
-      // end of [val]
-      val () = the_s2varbindmap_pop (pf2 | (*none*))
-      val () = s2vbcfenv_pop (pf1 | env)
-      val ans2 =
-        c3nstr_solve_itmlst (loc0, env, s3is, unsolved, err)
-      // end of [val]
+  | S3ITMsvar (s2v) => let
+      val () = s2vbcfenv_add_svar (env, s2v)
     in
-      if ans1 >= 0 then 0(*unsolved*) else ans2
-    end // end of [S3ITMcnstr]
+      c3nstr_solve_itmlst (loc0, env, s3is, unsolved, err)
+    end // end of [S3ITMsvar]
   | S3ITMhypo (h3p) => let
       val s3p = s3exp_make_h3ypo (env, h3p)
       val () = (
@@ -500,19 +514,44 @@ case+ s3is of
     in
       c3nstr_solve_itmlst (loc0, env, s3is, unsolved, err)
     end // end of [S3ITMhypo]
-  | S3ITMdisj (s3iss_disj) =>
-      c3nstr_solve_itmlst_disj (loc0, env, s3is, s3iss_disj, unsolved, err)
-  | S3ITMsvar (s2v) => let
-      val () = s2vbcfenv_add_svar (env, s2v)
-    in
-      c3nstr_solve_itmlst (loc0, env, s3is, unsolved, err)
-    end // end of [S3ITMsvar]
   | S3ITMsVar (s2V) =>
       c3nstr_solve_itmlst (loc0, env, s3is, unsolved, err)
+  | S3ITMcnstr c3t =>
+      c3nstr_solve_itmlst_cnstr (loc0, env, s3is, c3t, unsolved, err)
+  | S3ITMcnstr_ref (ctr) => let
+      val ref = ctr.c3nstroptref_ref
+    in
+      case+ !ref of
+      | Some c3t =>
+          c3nstr_solve_itmlst_cnstr (loc0, env, s3is, c3t, unsolved, err)
+      | None () => ~1(*solved*)
+    end // end of [S3ITMcnstr_ref]
+  | S3ITMdisj (s3iss_disj) =>
+      c3nstr_solve_itmlst_disj (loc0, env, s3is, s3iss_disj, unsolved, err)
   ) // end of [list_cons]
 | list_nil () => ~1(*solved*)
 //
 end // end of [c3nstr_solve_itmlst]
+
+(* ****** ****** *)
+
+implement
+c3nstr_solve_itmlst_cnstr (
+  loc0, env, s3is, c3t, unsolved, err
+) = let
+  val (pf1 | ()) = s2vbcfenv_push (env)
+  val (pf2 | ()) = the_s2varbindmap_push ()
+  val ans1 =
+    c3nstr_solve_main (env, c3t, unsolved, err)
+  // end of [val]
+  val () = the_s2varbindmap_pop (pf2 | (*none*))
+  val () = s2vbcfenv_pop (pf1 | env)
+  val ans2 =
+    c3nstr_solve_itmlst (loc0, env, s3is, unsolved, err)
+  // end of [val]
+in
+  if ans1 >= 0 then 0(*unsolved*) else ans2
+end // end of [c3nstr_solve_itmlst_cnstr]
 
 (* ****** ****** *)
 

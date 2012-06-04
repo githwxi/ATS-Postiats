@@ -541,6 +541,8 @@ stasub_copy (sub) = list_vt_copy (sub)
 implement
 stasub_free (sub) = list_vt_free (sub)
 
+(* ****** ****** *)
+
 implement
 stasub_add
   (sub, s2v, s2f) = sub := (s2v, s2f) :: sub
@@ -567,6 +569,8 @@ in
   loop (sub, s2vs, s2fs)
 end // end of [stasub_addlst]
 
+(* ****** ****** *)
+
 implement
 stasub_find (sub, s2v) = let
   typedef a = s2var and b = s2exp; typedef ab = (a, b)
@@ -576,6 +580,8 @@ in
   // end of [list_assoc_fun]
 end // end of [stasub_find]
 
+(* ****** ****** *)
+
 (*
 implement
 stasub_get_domain (sub) = let
@@ -584,6 +590,8 @@ in
   list_map_fun<a><b> ($UN.castvwtp1 {List(a)} (sub), lam (x) =<0> x.0)
 end // end of [stasub_get_domain]
 *)
+
+(* ****** ****** *)
 
 implement
 stasub_occurcheck

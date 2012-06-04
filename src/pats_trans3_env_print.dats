@@ -38,6 +38,7 @@ staload _(*anon*) = "pats_utils.dats"
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_dynexp2.sats"
 staload "pats_trans3_env.sats"
 
 (* ****** ****** *)
@@ -79,11 +80,16 @@ in
 //
 case+ knd of
 | C3NSTRKINDmain () => prstr "main"
-| C3NSTRKINDcase_exhaustiveness _ => prstr "case_exhaustiveness"
+| C3NSTRKINDcase_exhaustiveness _ =>
+    prstr "case_exhaustiveness(...)"
 | C3NSTRKINDtermet_isnat () => prstr "termet_isnat"
 | C3NSTRKINDtermet_isdec () => prstr "termet_isdec"
 | C3NSTRKINDsome_fin _ => prstr "some_fin"
 | C3NSTRKINDsome_box _ => prstr "some_box"
+| C3NSTRKINDlstate () => prstr "lstate"
+| C3NSTRKINDlstate_var (d2v) => (
+    prstr "lstate("; fprint_d2var (out, d2v); prstr ")"
+  )
 (*
 | C3NSTRKINDloop (knd) => begin
     prstr "loop("; fprint1_int (out, knd); prstr ")"
@@ -135,26 +141,17 @@ fprint_s3itm (out, s3i) = let
 in
 //
 case+ s3i of
-| S3ITMcnstr (c3t) => {
-    val () =  prstr "S3ITMcnstr("
-    val () = fprint_c3nstr (out, c3t)
-    val () = prstr ")"
-  } // end of [S3ITMcnstr]
-| S3ITMdisj (s3iss) => {
-    val () =  prstr "S3ITMdisj("
-    val () = fprint_s3itmlstlst (out, s3iss)
-    val () = prstr ")"
-  }
-| S3ITMhypo (h3p) => {
-    val () = prstr "S3ITMhypo("
-    val () = fprint_h3ypo (out, h3p)
-    val () = prstr ")"
-  } // end of [S3ITMhypo]
+//
 | S3ITMsvar (s2v) => {
     val () = prstr "S3ITMsvar("
     val () = fprint_s2var (out, s2v)
     val () = prstr ")"
   } // end of [S3ITMsvar]
+| S3ITMhypo (h3p) => {
+    val () = prstr "S3ITMhypo("
+    val () = fprint_h3ypo (out, h3p)
+    val () = prstr ")"
+  } // end of [S3ITMhypo]
 | S3ITMsVar (s2V) => {
     val () = prstr "S3ITMsVar("
     val () = fprint_s2Var (out, s2V)
@@ -168,6 +165,27 @@ case+ s3i of
     ) : void // end of [val]
     val () = prstr ")"
   } // end of [S3ITMsVar]
+//
+| S3ITMcnstr (c3t) => {
+    val () = prstr "S3ITMcnstr("
+    val () = fprint_c3nstr (out, c3t)
+    val () = prstr ")"
+  } // end of [S3ITMcnstr]
+| S3ITMcnstr_ref (ctr) => {
+    val ref = ctr.c3nstroptref_ref
+    val () = prstr "S3ITMcnstr_ref("
+    val () = (
+      case+ !ref of
+      | Some c3t => fprint_c3nstr (out, c3t) | None () => ()
+    ) : void // end of [val]
+    val () = prstr ")"
+  } // end of [S3ITMcnstr_ref]
+//
+| S3ITMdisj (s3iss) => {
+    val () = prstr "S3ITMdisj("
+    val () = fprint_s3itmlstlst (out, s3iss)
+    val () = prstr ")"
+  }
 //
 end // end of [fprint_s3itm]
 

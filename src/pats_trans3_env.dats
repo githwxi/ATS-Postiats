@@ -126,6 +126,16 @@ c3nstr_termet_isdec
 (* ****** ****** *)
 
 implement
+c3nstroptref_make_none
+  (loc) = let
+  val ref = ref<c3nstropt> (None)
+in '{
+  c3nstroptref_loc= loc, c3nstroptref_ref= ref
+} end // end of [c3nstroptref_make_none]
+
+(* ****** ****** *)
+
+implement
 h3ypo_prop
   (loc, s2p) = '{
   h3ypo_loc= loc, h3ypo_node = H3YPOprop (s2p)
@@ -181,6 +191,38 @@ in
   s2exp_Var (s2V)
 end // end of [s2exp_Var_make_var]
 
+(* ****** ****** *)
+
+implement
+stasub_make_svarlst
+  (loc, s2vs) = let
+(*
+val () = (
+  print "stasub_make_svarlst: s2vs = ";
+  print_s2varlst (s2vs); print_newline ()
+) // end of [val]
+*)
+fun loop (
+  loc: location, s2vs: s2varlst, sub: &stasub
+) : void =
+  case+ s2vs of
+  | list_cons (s2v, s2vs) => let
+      val s2e =
+        s2exp_Var_make_var (loc, s2v)
+      // end of [val]
+      val () = stasub_add (sub, s2v, s2e)
+    in
+      loop (loc, s2vs, sub)
+    end // end of [list_cons]
+  | list_nil () => ()
+// end of [loop]
+//
+var sub = stasub_make_nil ()
+val () = loop (loc, s2vs, sub)
+//
+in
+  sub
+end // end of [stasub_make_svarlst]
 
 (* ****** ****** *)
 
@@ -206,14 +248,14 @@ case+ s2vs of
   in
     loop (sub, locarg, s2vs, err)
   end // end of [list_cons]
-| list_nil () => ()
+| list_nil () => () // end of [list_nil]
 //
 end // end of [stasub_s2varlst_instantiate_none]
 
-fun stasub_s2varlst_instantiate_some (
+fun
+stasub_s2varlst_instantiate_some (
   sub: &stasub
-, locarg: location
-, s2vs: s2varlst, s2es: s2explst
+, locarg: location, s2vs: s2varlst, s2es: s2explst
 , err: &int
 ) : void = let
 //
@@ -819,6 +861,12 @@ trans3_env_add_cnstr
   (c3t) = () where {
   val () = the_s3itmlst_env_add (S3ITMcnstr (c3t))
 } // end of [trans3_env_add_cnstr]
+
+implement
+trans3_env_add_cnstr_ref
+  (ref) = () where {
+  val () = the_s3itmlst_env_add (S3ITMcnstr_ref (ref))
+} // end of [trans3_env_add_cnstr_ref]
 
 (* ****** ****** *)
 

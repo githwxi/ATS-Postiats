@@ -1062,7 +1062,16 @@ fun fprint_d2lab : fprint_type (d2lab)
 
 (* ****** ****** *)
 
-fun i2nvarg_make (d2v: d2var, s2f: s2expopt): i2nvarg
+fun i2nvarg_make
+  (d2v: d2var, s2f: s2expopt): i2nvarg
+//
+// HX-2012-06:
+// let [d2v] be [arg.i2nvarg_var]; this function
+// returns the proof of the atview of [d2v] if [d2v]
+// it is mutable; otherwise, [d2v] itself is returned
+//
+fun i2nvarg_get_var (arg: i2nvarg): d2var
+fun i2nvarg_get_type (arg: i2nvarg): s2expopt
 
 val i2nvresstate_nil : i2nvresstate
 

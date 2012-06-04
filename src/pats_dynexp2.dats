@@ -730,6 +730,37 @@ i2nvarg_make
 } // end of [i2nvarg_make]
 
 implement
+i2nvarg_get_var
+  (arg) = let
+  val d2v = arg.i2nvarg_var
+  val opt = d2var_get_view (d2v)
+in
+  case+ opt of
+  | Some d2vw => d2vw | None () => d2v
+end // end of [i2nvarg_get_var]
+
+implement
+i2nvarg_get_type
+  (arg) = let
+  val opt = arg.i2nvarg_type
+in
+//
+case+ opt of
+| Some (s2e) => let
+    val d2v = arg.i2nvarg_var
+    val ismut = d2var_is_mutabl (d2v)
+  in
+    if ismut then let
+      val- Some s2l = d2var_get_addr (d2v) in Some (s2exp_at (s2e, s2l))
+    end else opt // end of [if]
+  end // end of [Some]
+| None () => None ()
+//
+end // end of [i2nvarg_get_type]
+
+(* ****** ****** *)
+
+implement
 i2nvresstate_nil =
   i2nvresstate_make (
   list_nil(*svs*), list_nil(*gua*), list_nil(*arg*)

@@ -135,9 +135,6 @@ in // in of [local]
 implement
 s2addr_deref
   (loc0, s2l, d3ls) = let
-  val () =
-    fprint_the_pfmanenv (stdout_ref)
-  // end of [val]
   val opt = pfobj_search_atview (s2l)
 in
   case+ opt of

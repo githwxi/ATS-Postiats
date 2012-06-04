@@ -75,7 +75,7 @@ d2var_mutablize
   (loc0, d2v, s2e0, opt) = let
 (*
 val () = (
-  print ": d2var_mutablize: d2v = "; print_d2var (d2v); print_newline ()
+  println! (": d2var_mutablize: d2v = ", d2v)
 ) // end of [val]
 *)
 //
@@ -342,12 +342,12 @@ fun aux (
 , res: &lstbefitmlst >> lstbefitmlst
 ) : void = let
   val linval = d2var_get_linval (d2v)
-// (*
+(*
   val () = begin
-    print "the_d2varenv_save_lstbefitmlst: aux: d2v = "; print_d2var d2v; print_newline ();
-    print "the_d2varenv_save_lstbefitmlst: aux: linval = "; print_int linval; print_newline ();
+    println! ("the_d2varenv_save_lstbefitmlst: aux: d2v = ", d2v);
+    println! ("the_d2varenv_save_lstbefitmlst: aux: linval = ", linval);
   end // end of [val]
-// *)
+*)
 in
   if linval >= 0 then let
     val x = lstbefitm_make (d2v, linval) in res := list_cons (x, res)
@@ -405,12 +405,12 @@ val () = let
 in
   $effmask_ref (auxsetlst (!pp, res))
 end // end of [val]
-//
+(*
 val () = (
   print "the_d2varset_save_lstbefitmlst: res = ";
   fprint_lstbefitmlst (stdout_ref, res); print_newline ()
 ) (* end of [val] *)
-//
+*)
 in
   res
 end // end of [the_d2varset_save_lstbefitmlst]

@@ -159,6 +159,12 @@ datatype trans3err =
   | T3E_c2laulst0_trdn_noclause of (location)
   | T3E_c2laulst2_trdn_redundant of (location, c2lau)
 //
+  | T3E_d2var_some of (location, d2var, s2exp) // should be retained but consumed
+  | T3E_d2var_none of (location, d2var, s2exp) // should be consumed but retained
+  | T3E_d2var_some2 of
+      (location, d2var, s2exp(*0*), s2exp) // retained but with a type that fails to merge
+    // end of [T3E_d2var_some2]
+//
   | T3E_f2undeclst_tr_termetsrtck of (f2undec, s2rtlstopt)
   | T3E_v2aldeclst_rec_tr_linearity of (v2aldec, s2exp(*linear*))
 // end of [trans3err]
@@ -365,6 +371,7 @@ fun d2explstlst_trup (d2ess: d2explstlst): d3explstlst
 
 fun d2exp_trdn (d2e: d2exp, s2e: s2exp): d3exp
 fun d2explst_trdn_elt (d2es: d2explst, s2e: s2exp): d3explst
+fun d2expopt_trdn_elt (od2e: d2expopt, s2e: s2exp): d3expopt
 
 (* ****** ****** *)
 //

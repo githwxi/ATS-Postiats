@@ -280,9 +280,6 @@ in // in of [local]
 implement
 s2addr_assgn_deref
   (loc0, s2l, d3ls, d3e_r) = let
-  val () =
-    fprint_the_pfmanenv (stdout_ref)
-  // end of [val]
   val opt = pfobj_search_atview (s2l)
 in
   case+ opt of
@@ -389,12 +386,12 @@ in // in of [local]
 implement
 d2exp_trup_assgn_deref
   (loc0, d2e_l, d2ls, d2e_r) = let
-// (*
+(*
 val () = (
-  print "d2exp_trup_deref: d2e_l = "; print_d2exp (d2e_l); print_newline ();
-  print "d2exp_trup_deref: d2e_r = "; print_d2exp (d2e_r); print_newline ();
+  println! ("d2exp_trup_deref: d2e_l = ", d2e_l);
+  println! ("d2exp_trup_deref: d2e_r = ", d2e_r);
 ) // end of [val]
-// *)
+*)
 val d3e_l = d2exp_trup (d2e_l)
 val () = d3exp_open_and_add (d3e_l)
 val d3ls = d2lablst_trup (d2ls)
@@ -431,11 +428,11 @@ d2exp_trup_assgn
   val loc0 = d2e0.d2exp_loc
   val- D2Eassgn (d2e_l, d2e_r) = d2e0.d2exp_node
   val d2lv = d2exp_lvalize (d2e_l)
-//
+(*
   val () = (
     print "d2exp_trup_assgn: d2lv = "; print_d2lval (d2lv); print_newline ()
   ) // end of [val]
-//
+*)
 in
 //
 case+ d2lv of

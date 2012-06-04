@@ -58,6 +58,7 @@ typedef effset = $EFF.effset
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_staexp2_util.sats"
 staload "pats_patcst2.sats"
 staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
@@ -72,17 +73,22 @@ datatype c3nstrkind =
   | C3NSTRKINDtermet_isdec (* term. metric being decreasing *)
   | C3NSTRKINDsome_fin of (d2var, s2exp(*fin*), s2exp)
   | C3NSTRKINDsome_box of (d2var, s2exp(*box*), s2exp)
+//
+  | C3NSTRKINDlstate of () // lstate merge
+  | C3NSTRKINDlstate_var of (d2var) // lstate merge for d2var
+//
 (*
   | C3NSTRKINDloop of int (* 0/1/2: enter/break/continue *)
 *)
 // end of [c3nstrkind]
 
 datatype s3itm =
-  | S3ITMcnstr of c3nstr
-  | S3ITMdisj of s3itmlstlst
-  | S3ITMhypo of h3ypo
   | S3ITMsvar of s2var
+  | S3ITMhypo of h3ypo
   | S3ITMsVar of s2Var
+  | S3ITMcnstr of c3nstr
+  | S3ITMcnstr_ref of c3nstroptref // HX: for handling state types
+  | S3ITMdisj of s3itmlstlst
 // end of [s3item]
 
 and c3nstr_node =
@@ -111,6 +117,11 @@ and c3nstr = '{
 
 and c3nstropt = Option (c3nstr)
 
+and c3nstroptref = '{
+  c3nstroptref_loc= location
+, c3nstroptref_ref= ref (c3nstropt)
+} // end of [c3nstroptref]
+
 and h3ypo = '{
   h3ypo_loc= location
 , h3ypo_node= h3ypo_node
@@ -135,6 +146,8 @@ fun c3nstr_termet_isnat
 fun c3nstr_termet_isdec
   (loc: location, met: s2explst, metbd: s2explst): c3nstr
 // end of [c3nstr_termet_isdec]
+
+fun c3nstroptref_make_none (loc: location): c3nstroptref
 
 (* ****** ****** *)
 
@@ -166,6 +179,12 @@ fun fprint_s3itmlstlst : fprint_type (s3itmlstlst)
 
 fun s2exp_Var_make_srt (loc: location, s2t: s2rt): s2exp
 fun s2exp_Var_make_var (loc: location, s2v: s2var): s2exp
+
+(* ****** ****** *)
+
+fun stasub_make_svarlst
+  (loc: location, s2vs: s2varlst): stasub
+// end of [stasub_make_svarlst]
 
 (* ****** ****** *)
 
@@ -226,6 +245,7 @@ fun trans3_env_add_sVar (s2V: s2Var): void
 fun trans3_env_add_sVarlst (s2Vs: s2Varlst): void
 
 fun trans3_env_add_cnstr (c3t: c3nstr): void
+fun trans3_env_add_cnstr_ref (ctr: c3nstroptref): void
 
 fun trans3_env_add_prop (loc: location, s2p: s2exp): void
 fun trans3_env_add_proplst (loc: location, s2ps: s2explst): void
@@ -464,12 +484,24 @@ fun lstbefitm_make (d2v: d2var, linval: int): lstbefitm
 fun fprint_lstbefitm : fprint_type (lstbefitm)
 fun fprint_lstbefitmlst : fprint_type (lstbefitmlst)
 
-(* ****** ****** *)
-
 fun the_d2varenv_save_lstbefitmlst (): lstbefitmlst
 
 fun lstbefitmlst_restore_type (xs: lstbefitmlst): void
 fun lstbefitmlst_restore_linval_type (xs: lstbefitmlst): void
+
+(* ****** ****** *)
+
+absviewtype lstaftc3nstr_viewtype
+viewtypedef lstaftc3nstr = lstaftc3nstr_viewtype
+
+fun fprint_lstaftc3nstr
+  (out: FILEref, x: !lstaftc3nstr): void
+// end of [fprint_lstaftc3nstr]
+
+fun lstaftc3nstr_initize (xs: lstbefitmlst): lstaftc3nstr
+fun lstaftc3nstr_update (x: !lstaftc3nstr, ctr: c3nstroptref): void
+fun lstaftc3nstr_process (x: !lstaftc3nstr, res: i2nvresstate): void
+fun lstaftc3nstr_finalize (x: lstaftc3nstr): void
 
 (* ****** ****** *)
 

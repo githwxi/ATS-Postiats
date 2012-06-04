@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/reference.dats"
+
+(* ****** ****** *)
+
 staload UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/option_vt.dats"
 
@@ -220,6 +224,18 @@ in
   l2l (d3es)
 end // end of [d2explst_trdn_elt]
 
+implement
+d2expopt_trdn_elt
+  (od2e, s2f) = let
+in
+//
+case+ od2e of
+| Some (d2e) =>
+    Some (d2exp_trdn (d2e, s2f))
+| None () => None ()
+//
+end // end of [d2expopt_trdn_elt]
+
 (* ****** ****** *)
 
 implement
@@ -378,7 +394,7 @@ d2exp_trdn_ifhead
 //
 val loc0 = d2e0.d2exp_loc
 val- D2Eifhead
-  (i2nvres, d2e_cond, d2e_then, od2e_else) = d2e0.d2exp_node
+  (invres, d2e_cond, d2e_then, od2e_else) = d2e0.d2exp_node
 // end of [val]
 //
 val d3e_cond = d2exp_trup (d2e_cond)
@@ -391,37 +407,51 @@ val os2p_cond = un_s2exp_bool_index_t0ype (s2f_cond)
 //
 val s2e_if = s2hnf2exp (s2f_if)
 //
-val lsbs = the_d2varenv_save_lstbefitmlst ()
+val lsbis =
+  the_d2varenv_save_lstbefitmlst ()
+var lsaft = lstaftc3nstr_initize (lsbis)
 //
+val loc_then = d2e_then.d2exp_loc
+val ctr = c3nstroptref_make_none (loc_then)
 val d3e_then = let
-  val loc_then = d2e_then.d2exp_loc
   val (pfpush | ()) = trans3_env_push ()
   val () = trans3_env_hypadd_propopt
     (loc_cond, $UN.castvwtp1 {s2expopt}{s2expopt_vt} (os2p_cond))
   val d3e_then = d2exp_trdn (d2e_then, s2e_if)
+  val () = trans3_env_add_cnstr_ref (ctr)
   val () = trans3_env_pop_and_add_main (pfpush | loc_then)
 in
   d3e_then
 end // end of [val]
+val () = lstaftc3nstr_update (lsaft, ctr)
 //
-val () = lstbefitmlst_restore_type (lsbs)
+val () = lstbefitmlst_restore_type (lsbis)
 //
-val od3e_else = (
-case+ od2e_else of
-| Some (d2e_else) => let
-    val loc_else = d2e_else.d2exp_loc
-    val (pfpush | ()) = trans3_env_push ()
-    val () = trans3_env_hypadd_propopt_neg
-      (loc_cond, $UN.castvwtp1 {s2expopt}{s2expopt_vt} (os2p_cond))
-    val d3e_else = d2exp_trdn (d2e_else, s2e_if)
-    val () = trans3_env_pop_and_add_main (pfpush | loc_else)
-  in
-    Some (d3e_else)
-  end // end of [Some]
-| None () => None ()
-) : Option (d3exp) // end of [val]
+val loc_else = (
+  case+ od2e_else of Some d2e => d2e.d2exp_loc
+  | None _ => $LOC.location_rightmost (loc_then)
+) : location // end of [val]
+val ctr = c3nstroptref_make_none (loc_else)
+val od3e_else = let
+  val (pfpush | ()) = trans3_env_push ()
+  val () = trans3_env_hypadd_propopt_neg
+    (loc_cond, $UN.castvwtp1 {s2expopt}{s2expopt_vt} (os2p_cond))
+  val od3e_else = d2expopt_trdn_elt (od2e_else, s2e_if)
+  val () = trans3_env_add_cnstr_ref (ctr)
+  val () = trans3_env_pop_and_add_main (pfpush | loc_else)
+in
+  od3e_else
+end // end of [val]
+val () = lstaftc3nstr_update (lsaft, ctr)
 //
 val () = option_vt_free (os2p_cond)
+//
+val () =
+  lstaftc3nstr_process (lsaft, invres)
+val () = lstaftc3nstr_finalize (lsaft)
+//
+val () = trans3_env_add_svarlst (invres.i2nvresstate_svs)
+val () = trans3_env_hypadd_proplst (loc0, invres.i2nvresstate_gua)
 //
 in
   d3exp_if (loc0, s2e_if, d3e_cond, d3e_then, od3e_else)
@@ -435,34 +465,49 @@ d2exp_trdn_sifhead
 //
 val loc0 = d2e0.d2exp_loc
 val- D2Esifhead
-  (inv, s2p_cond, d2e_then, d2e_else) = d2e0.d2exp_node
+  (invres, s2p_cond, d2e_then, d2e_else) = d2e0.d2exp_node
 // end of [val]
 //
 val s2e_sif = s2hnf2exp (s2f_sif)
 //
-val lsbs = the_d2varenv_save_lstbefitmlst ()
+val lsbis =
+  the_d2varenv_save_lstbefitmlst ()
+var lsaft = lstaftc3nstr_initize (lsbis)
 //
+val loc_then = d2e_then.d2exp_loc
+val ctr = c3nstroptref_make_none (loc_then)
 val d3e_then = let
-  val loc_then = d2e_then.d2exp_loc
   val (pfpush | ()) = trans3_env_push ()
   val () = trans3_env_hypadd_prop (loc0, s2p_cond)
   val d3e_then = d2exp_trdn (d2e_then, s2e_sif)
+  val () = trans3_env_add_cnstr_ref (ctr)
   val () = trans3_env_pop_and_add_main (pfpush | loc_then)
 in
   d3e_then
 end // end of [val]
+val () = lstaftc3nstr_update (lsaft, ctr)
 //
-val () = lstbefitmlst_restore_type (lsbs)
+val () = lstbefitmlst_restore_type (lsbis)
 //
+val loc_else = d2e_then.d2exp_loc
+val ctr = c3nstroptref_make_none (loc_else)
 val d3e_else = let
-  val loc_else = d2e_then.d2exp_loc
   val (pfpush | ()) = trans3_env_push ()
   val () = trans3_env_hypadd_prop (loc0, s2exp_bneg (s2p_cond))
   val d3e_else = d2exp_trdn (d2e_else, s2e_sif)
+  val () = trans3_env_add_cnstr_ref (ctr)
   val () = trans3_env_pop_and_add_main (pfpush | loc_else)
 in
   d3e_else
 end // end of [val]
+val () = lstaftc3nstr_update (lsaft, ctr)
+//
+val () =
+  lstaftc3nstr_process (lsaft, invres)
+val () = lstaftc3nstr_finalize (lsaft)
+//
+val () = trans3_env_add_svarlst (invres.i2nvresstate_svs)
+val () = trans3_env_hypadd_proplst (loc0, invres.i2nvresstate_gua)
 //
 in
   d3exp_sif (loc0, s2e_sif, s2p_cond, d3e_then, d3e_else)

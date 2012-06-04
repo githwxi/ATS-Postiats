@@ -143,11 +143,11 @@ fun d2exp_d2var_lvalize (
 implement
 d2exp_lvalize
   (d2e0) = let
-//
+(*
 val () = (
-  print "d2exp_lvalize: d2e0 = "; print_d2exp (d2e0); print_newline ()
+  println! ("d2exp_lvalize: d2e0 = ", d2e0)
 ) // end of [val]
-//
+*)
 in
 //
 case+ d2e0.d2exp_node of

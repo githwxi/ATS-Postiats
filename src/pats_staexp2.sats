@@ -1013,6 +1013,12 @@ overload print with print_s2explst
 fun prerr_s2explst (xs: s2explst): void
 overload prerr with prerr_s2explst
 
+fun fprint_s2expopt : fprint_type (s2expopt)
+fun print_s2expopt (opt: s2expopt): void
+overload print with print_s2expopt
+fun prerr_s2expopt (opt: s2expopt): void
+overload prerr with prerr_s2expopt
+
 fun fprint_labs2explst : fprint_type (labs2explst)
 fun fprint_wths2explst : fprint_type (wths2explst)
 
