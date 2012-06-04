@@ -990,16 +990,18 @@ end // end of [d3explst_get_type]
 implement
 d2exp_trup_tup
   (d2e0) = let
-  val loc0 = d2e0.d2exp_loc
-  val- D2Etup (tupknd, npf, d2es) = d2e0.d2exp_node
-  val () = (
+val loc0 = d2e0.d2exp_loc
+val- D2Etup (tupknd, npf, d2es) = d2e0.d2exp_node
+(*
+val () = (
     println! ("d2exp_trup_tup: d2es = ", d2es)
   ) // end of [val]
+*)
 //
-  val d3es = d2explst_trup (d2es)
+val d3es = d2explst_trup (d2es)
 //
-  val ls2es = d3explst_get_type (d3es)
-  val s2e_tup = s2exp_tyrec (tupknd, npf, ls2es)
+val ls2es = d3explst_get_type (d3es)
+val s2e_tup = s2exp_tyrec (tupknd, npf, ls2es)
 //
 in
   d3exp_tup (loc0, s2e_tup, tupknd, npf, d3es)

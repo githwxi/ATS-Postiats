@@ -261,25 +261,21 @@ implement
 s2addr_set_viewat_check (
   loc0, s2l, d3ls, s2at_new, s2e_old, s2e_new, s2l_new
 ) = let
-//
+(*
 val () = (
-  print "s2addr_set_viewat_check: s2l = "; print_s2exp (s2l); print_newline ();
-  print "s2addr_set_viewat_check: s2e_old = "; print_s2exp (s2e_old); print_newline ();
-  print "s2addr_set_viewat_check: s2e_new = "; print_s2exp (s2e_new); print_newline ();
-) (* end of [val] *)
-//
-  val s2e_old = let
-    val s2e_old =
-      s2exp_hnfize (s2e_old) in
-    case+
-      s2e_old.s2exp_node of
-    | S2Ewithout (s2e) => s2e
-    | _ => let
-        val () = auxerr_nonwithout (loc0, s2e_old)
-      in
-        s2exp_t0ype_err ()
-      end // end of [_]
-  end : s2exp // end of [val]
+  println! ("s2addr_set_viewat_check: s2l = ", s2l);
+  println! ("s2addr_set_viewat_check: s2e_old = ", s2e_old);
+  println! ("s2addr_set_viewat_check: s2e_new = ", s2e_new);
+) // end of [val]
+*)
+val s2e_old = let
+  val s2e_old =
+    s2exp_hnfize (s2e_old) in
+  case+ s2e_old.s2exp_node of
+  | S2Ewithout (s2e) => s2e | _ => let
+      val () = auxerr_nonwithout (loc0, s2e_old) in s2exp_t0ype_err ()
+    end // end of [_]
+end : s2exp // end of [val]
 (*
 //
 // HX-2012-05-10:

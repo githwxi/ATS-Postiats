@@ -696,11 +696,11 @@ d1exp_make_e1xp (loc0, e0) = let
 fun aux (
   e0: e1xp
 ) :<cloref1> d1exp = let
-// (*
+(*
   val () = begin
     print "d1exp_make_e1xp: aux: e0 = "; print_e1xp (e0); print_newline ()
   end // end of [val]
-// *)
+*)
 in
   case+ e0.e1xp_node of
   | E1XPide id => d1exp_ide (loc0, id)

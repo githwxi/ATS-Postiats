@@ -187,12 +187,12 @@ val loc0 = d1e0.d1exp_loc
 val s2f0 = s2exp2hnf (s2e0)
 val s2e0 = s2hnf2exp (s2f0)
 //
-// (*
+(*
 val () = (
   print "d1exp_tr_ann: d1e0 = "; print_d1exp (d1e0); print_newline ();
   print "d1exp_tr_ann: s2f0 = "; print_s2exp (s2e0); print_newline ();
 ) // end of [val]
-// *)
+*)
 //
 fn auxerr (
   d1e0: d1exp, s2e0: s2exp, locarg: location, serr: int
@@ -271,16 +271,14 @@ d1exp_tr_arg_body_ann (
 , lin2: int
 , p1t_arg: p1at, d1e_body: d1exp
 ) : @(p2atlst, d2exp) = let
-//
-// (*
-  val () = (
-    print "d1exp_tr_arg_body_ann: p1t_arg = "; print_p1at (p1t_arg); print_newline ();
-    print "d1exp_tr_arg_body_ann: s2es_arg = "; print_s2explst (s2es_arg); print_newline ();
-  ) // end of [val]
-// *)
-//
+(*
+val () = (
+  println! ("d1exp_tr_arg_body_ann: p1t_arg = ", p1t_arg);
+  println! ("d1exp_tr_arg_body_ann: s2es_arg = ", s2es_arg);
+) // end of [val]
+ *)
 val () = let
-  fn auxcheck (
+  fun auxck .<>. (
     d1e0: d1exp, fc: funclo
   ) : void =
     case+ fc of
@@ -293,12 +291,13 @@ val () = let
         the_trans2errlst_add (T2E_d1exp_tr (d1e0))
       end // end of [FUNCLOclo]
     | _ => ()
+  // end of [auxck]
 in
-  auxcheck (d1e0, fc)
+  auxck (d1e0, fc)
 end (* end of [val] *)
 //
 val () = let
-  fn auxcheck (
+  fun auxck .<>. (
     d1e0: d1exp, lin1: int, lin2: int
   ) : void =
     if lin1 != lin2 then let
@@ -311,16 +310,15 @@ val () = let
       the_trans2errlst_add (T2E_d1exp_tr (d1e0))
     end // end of [if]
 in
-  auxcheck (d1e0, lin1, lin2)
+  auxck (d1e0, lin1, lin2)
 end (* end of [val] *)
 //
 var wths1es = WTHS1EXPLSTnil ()
 val p2t_arg = 
 p1at_tr_arg (p1t_arg, wths1es)
 //
-val () = auxcheck
-  (d1e0, p1t_arg, wths1es) where {
-  fn auxcheck ( // check for refval types
+val () = let
+  fun auxck .<>. ( // check for refval types
     d1e0: d1exp, p1t_arg: p1at, wths1es: wths1explst
   ) : void = let
     val isnone = wths1explst_is_none (wths1es)
@@ -333,8 +331,10 @@ val () = auxcheck
     in
       the_trans2errlst_add (T2E_d1exp_tr (d1e0))
     end (* end of [if] *)
-  end // end of [auxcheck]
-} (* end of [val] *)
+  end // end of [auxck]
+in
+  auxck (d1e0, p1t_arg, wths1es)
+end (* end of [val] *)
 //
 var npf2: int = ~1
 val p2ts_arg = (
@@ -343,9 +343,8 @@ val p2ts_arg = (
   | _ => list_sing (p2t_arg)
 ) : p2atlst // end of [val]
 //
-val () = auxcheck
-  (d1e0, npf1, npf2) where {
-  fn auxcheck (
+val () = let
+  fun auxck .<>. (
     d1e0: d1exp, npf1: int, npf2: int
   ) : void =
     if npf1 != npf2 then let // check for pfarity match
@@ -357,7 +356,10 @@ val () = auxcheck
     in
       the_trans2errlst_add (T2E_d1exp_tr (d1e0))
     end // end of [if]
-} (* end of [val] *)
+  // end of [auxck]
+in
+  auxck (d1e0, npf1, npf2)
+end (* end of [val] *)
 //
 val p2ts_arg = let
 //
@@ -415,8 +417,7 @@ end // end of [val]
 //
 val (pflev | ()) = the_d2varlev_inc ()
 //
-val () = auxcheck
-  (d1e0, err) where {
+val () = let
   var err: int = 0
   val () = (case+
     d1e_body.d1exp_node of
@@ -424,7 +425,8 @@ val () = auxcheck
     | D1Eann_funclo _ => (err := err + 1)
     | _ => ()
   ) : void // end of [val]
-  fn auxcheck (d1e0: d1exp, err: int) =
+  fun auxck .<>.
+    (d1e0: d1exp, err: int): void =
     if err > 0 then let
       val () = prerr_error2_loc (d1e0.d1exp_loc)
       val () = prerr ": the [funclo/effect] annonation is redundant."
@@ -432,8 +434,10 @@ val () = auxcheck
     in
       the_trans2errlst_add (T2E_d1exp_tr (d1e0))
     end // end of [if]
-  // end of [auxcheck]
-} (* end of [val] *)
+  // end of [auxck]
+in
+  auxck (d1e0, err)
+end (* end of [val] *)
 //
 val d2e_body = d1exp_tr_ann (d1e_body, s2e_res)
 //
@@ -624,7 +628,8 @@ fun aux_tmparg_s1explst (
 ) : s2explst = let
 (*
   val () = (
-    print "aux_tmparg_s1explst: s2vs = "; print_s2varlst (s2vs); print_newline ()
+    print "aux_tmparg_s1explst: s2vs = ";
+    print_s2varlst (s2vs); print_newline ()
   ) // end of [val]
 *)
 in

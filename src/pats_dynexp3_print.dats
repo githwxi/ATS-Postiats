@@ -149,6 +149,13 @@ case+ p3t0.p3at_node of
 end // end of [fprint_p3at]
 
 implement
+print_p3at (p3t) = fprint_p3at (stdout_ref, p3t)
+implement
+prerr_p3at (p3t) = fprint_p3at (stderr_ref, p3t)
+
+(* ****** ****** *)
+
+implement
 fprint_p3atlst (out, xs) =
   $UT.fprintlst (out, xs, ", ", fprint_p3at)
 // end of [fprint_p3atlst]

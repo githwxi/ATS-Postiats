@@ -232,11 +232,11 @@ in // in of [local]
 implement
 d2exp_trup_deref
   (loc0, d2e, d2ls) = let
-// (*
+(*
 val () = (
   print "d2exp_trup_deref: d2e = "; print_d2exp (d2e); print_newline ()
 ) // end of [val]
-// *)
+*)
 val d3e = d2exp_trup (d2e)
 val d3ls = d2lablst_trup (d2ls)
 val () = d3exp_open_and_add (d3e)

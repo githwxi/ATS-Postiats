@@ -277,12 +277,12 @@ f2undec_tr (d2c0) = let
   val d3e_def = (
     case+ opt of
     | Some s2e_ann => let
-// (*
+(*
         val () = (
           print "f2undec_tr: s2e_ann = "; print_s2exp (s2e_ann); print_newline ();
           print "f2undec_tr: d2e_def = "; print_d2exp (d2e_def); print_newline ();
         ) // end of [val]
-// *)
+*)
       in
         d2exp_trdn (d2e_def, s2e_ann)
       end // end of [Some]
@@ -379,12 +379,12 @@ case+ d2cs of
       | ~Some_vt (x) => (s2e_fun := x.0; os2ts := Some (x.1))
       | ~None_vt () => ()
     ) : void // end of [val]
-// (*
+(*
     val () = (
       print "f2undeclst_tr: aux_ini: d2v_fun = "; print_d2var (d2v_fun); print_newline ();
       print "f2undeclst_tr: aux_ini: s2e_fun = "; print_s2exp (s2e_fun); print_newline ();
     ) // end of [val]
-// *)
+*)
     val () = let
       val test = termet_sortcheck (os2ts0, os2ts)
       val () = if ~test then let
@@ -487,9 +487,11 @@ end : d3exp // end of [val]
 val () = the_effenv_pop_if (pfopt | isprf)
 //
 val s2e_def = d3exp_get_type (d3e_def)
+(*
 val () = begin
   print "v2aldec_tr: s2e_def = "; print_s2exp s2e_def; print_newline ();
 end // end of [val]
+*)
 //
 val casknd = valkind2caskind (knd)
 val cp2tcss = (

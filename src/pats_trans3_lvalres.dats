@@ -188,11 +188,12 @@ d3lval_set_type_err (
 ) = let
 //
 val loc0 = d3e0.d3exp_loc
+(*
 val () = (
-  print "d3lval_set_type_err: d3e0 = "; print_d3exp(d3e0); print_newline();
-  print "d3lval_set_type_err: s2e_new = "; print_s2exp(s2e_new); print_newline();
-) (* end of [val] *)
-//
+  println! ("d3lval_set_type_err: d3e0 = ", d3e0);
+  println! ("d3lval_set_type_err: s2e_new = ", s2e_new);
+) // end of [val]
+*)
 in
 //
 case+ d3e0.d3exp_node of
@@ -377,12 +378,12 @@ in // in of [local]
 implement
 d3lval_arg_set_type
   (refval, d3e0, s2e_new) = let
-//
+(*
 val () = (
-  print "d3lval_arg_set_type: d3e0 = "; print_d3exp (d3e0); print_newline ();
-  print "d3lval_arg_set_type: s2e_new = "; print_s2exp (s2e_new); print_newline ();
-) (* end of [val] *)
-//
+  println! ("d3lval_arg_set_type: d3e0 = ", d3e0);
+  println! ("d3lval_arg_set_type: s2e_new = ", s2e_new);
+) // end of [val]
+*)
 var err: int = 0
 var freeknd: int = 0 // free [d3e0] if it is set to 1
 val () = d3lval_set_type_err (refval, d3e0, s2e_new, err)
@@ -513,9 +514,9 @@ case+ wths2es of
     val s2e_res = s2hnf_opnexi_and_add (loc, s2f_res)
 (*
     val () = (
-      print "d3explst_arg_restore: aux2: d3e = "; print d3e; print_newline ();
-      print "d3explst_arg_restore: aux2: d3e.type = "; print d3e.d3exp_type; print_newline ();
-      print "d3explst_arg_restore: aux2: s2e_res = "; print s2e_res; print_newline ();
+      println! ("d3explst_arg_restore: aux2: d3e = ", d3e);
+      println! ("d3explst_arg_restore: aux2: d3e.type = ", d3e.d3exp_type);
+      println! ("d3explst_arg_restore: aux2: s2e_res = ", s2e_res);
     ) // end of [val]
 *)
     val freeknd =
