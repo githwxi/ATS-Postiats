@@ -929,6 +929,14 @@ val () = case+
   | _ => (err := err + 1)
   ) (* end of [S2Ewth, _] *)
 //
+| (S2Ewithout (s2e1), _) => (
+  case+ s2en20 of
+  | S2Ewithout (s2e2) =>
+      if ~s2exp_tszeq (s2e1, s2e2) then (err := err + 1)
+    // end of [S2Ewithout]
+  | _ => (err := err + 1)
+  )
+//
 | (_, _) when s2hnf_syneq (s2f10, s2f20) => ()
 | (_, _) => (err := err + 1)
 // end of [val]

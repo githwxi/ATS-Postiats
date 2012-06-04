@@ -101,7 +101,7 @@ fun loop
     prval () = pf := array_v_cons (pf1, pf2)
   in
     res
-  end // end of [if]
+  end else acc // end of [if]
 (* end of [loop] *)
 //
 in

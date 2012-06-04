@@ -265,7 +265,7 @@ and d3exp_node =
   | D3Eapp_dyn of (d3exp, int(*npf*), d3explst)
 //
   | D3Eif of (
-      d3exp(*cond*), d3exp(*then*), d3expopt(*else*)
+      d3exp(*cond*), d3exp(*then*), d3exp(*else*)
     ) // end of [D3Eif]
   | D3Esif of (
       s2exp(*cond*), d3exp(*then*), d3exp(*else*)
@@ -583,7 +583,7 @@ fun d3exp_seq (
 fun d3exp_if (
   loc: location
 , s2e_if: s2exp
-, _cond: d3exp, _then: d3exp, _else: d3expopt
+, _cond: d3exp, _then: d3exp, _else: d3exp
 ) : d3exp // end of [d3exp_if]
 
 fun d3exp_sif (

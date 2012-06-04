@@ -191,6 +191,29 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
+| D3Eif (
+    _cond, _then, _else
+  ) => {
+    val () = prstr "D3Eif("
+    val () = fprint_d3exp (out, _cond)
+    val () = prstr "; "
+    val () = fprint_d3exp (out, _then)
+    val () = prstr "; "
+    val () = fprint_d3exp (out, _else)
+    val () = prstr ")"
+  }
+| D3Esif (
+    _cond, _then, _else
+  ) => {
+    val () = prstr "D3Esif("
+    val () = fprint_s2exp (out, _cond)
+    val () = prstr "; "
+    val () = fprint_d3exp (out, _then)
+    val () = prstr "; "
+    val () = fprint_d3exp (out, _else)
+    val () = prstr ")"
+  }
+//
 | D3Eptrof_var (d2v) => {
     val () = prstr "D3Eptr_var("
     val () = fprint_d2var (out, d2v)

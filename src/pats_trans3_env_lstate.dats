@@ -444,6 +444,12 @@ fun lstaftc3nstr_check
 
 local
 
+fun d2var_is_done
+  (d2v: d2var): bool = let
+  val opt = d2var_get_finknd (d2v) in
+  case+ opt of D2VFINdone () => true | _ => false
+end // end of [d2var_is_done]
+
 fun aux1
   (xs: !lstaftitmlst): d2varlst_vt =
   case+ xs of
@@ -451,10 +457,14 @@ fun aux1
       (!p_x, !p_xs1) => let
       val d2v = p_x->lstaftitm_var
       val ans = let
-        val saits = $UN.castvwtp1 {saityplst} (p_x->lstaftitm_saits)
+        val isdone = d2var_is_done (d2v)
       in
-        saityplst_check (d2v, saits)
-      end // end of [val]
+        if isdone then 0 else let
+          val saits = $UN.castvwtp1{saityplst}(p_x->lstaftitm_saits)
+        in
+          saityplst_check (d2v, saits)
+        end // end of [if]
+      end : int // end of [val]
       val d2vs = aux1 (!p_xs1)
       prval () = fold@ (xs)
     in

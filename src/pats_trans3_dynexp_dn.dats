@@ -427,20 +427,26 @@ val () = lstaftc3nstr_update (lsaft, ctr)
 //
 val () = lstbefitmlst_restore_type (lsbis)
 //
-val loc_else = (
-  case+ od2e_else of Some d2e => d2e.d2exp_loc
-  | None _ => $LOC.location_rightmost (loc_then)
-) : location // end of [val]
+val d2e_else = (
+  case+ od2e_else of
+  | Some d2e_else => d2e_else
+  | None () => let
+      val loc_else = $LOC.location_rightmost (loc_then)
+    in
+      d2exp_empty (loc_else)
+    end // end of [None]
+) : d2exp // end of [val]
+val loc_else = d2e_else.d2exp_loc
 val ctr = c3nstroptref_make_none (loc_else)
-val od3e_else = let
+val d3e_else = let
   val (pfpush | ()) = trans3_env_push ()
   val () = trans3_env_hypadd_propopt_neg
     (loc_cond, $UN.castvwtp1 {s2expopt}{s2expopt_vt} (os2p_cond))
-  val od3e_else = d2expopt_trdn_elt (od2e_else, s2e_if)
+  val d3e_else = d2exp_trdn (d2e_else, s2e_if)
   val () = trans3_env_add_cnstr_ref (ctr)
   val () = trans3_env_pop_and_add_main (pfpush | loc_else)
 in
-  od3e_else
+  d3e_else
 end // end of [val]
 val () = lstaftc3nstr_update (lsaft, ctr)
 //
@@ -454,7 +460,7 @@ val () = trans3_env_add_svarlst (invres.i2nvresstate_svs)
 val () = trans3_env_hypadd_proplst (loc0, invres.i2nvresstate_gua)
 //
 in
-  d3exp_if (loc0, s2e_if, d3e_cond, d3e_then, od3e_else)
+  d3exp_if (loc0, s2e_if, d3e_cond, d3e_then, d3e_else)
 end // end of [d2exp_trdn_ifhead]
 
 (* ****** ****** *)
