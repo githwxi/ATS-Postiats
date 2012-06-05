@@ -170,12 +170,24 @@ a:t0p
 
 fun{
 x:t0p // type for elements
+} list_foreach__fwork (x: x): void
+fun{x:t0p} list_foreach (xs: List (x)): void
+
+fun{
+x:t0p // type for elements
 } list_foreach_funenv
   {v:view}{env:viewtype}{fe:eff} (
   pfv: !v |
   xs: NSH(List (INV(x)))
 , f: (!v | x, !env) -<fun,fe> void, env: !env
 ) :<fe> void // end of [list_foreach_funenv]
+
+#atscode_separator()
+
+fun{
+x:t0p // type for elements
+} list_iforeach__fwork (i: int, x: x): void
+fun{x:t0p} list_iforeach (xs: List (x)): void
 
 fun{
 x:t0p // type for elements
@@ -187,6 +199,15 @@ x:t0p // type for elements
 ) :<fe> int n // end of [list_iforeach_funenv]
 
 #atscode_separator()
+
+fun{
+x:t0p}{y:vt0p
+} list_map__fwork (x: x): y
+fun{
+x:t0p}{y:vt0p
+} list_map {n:int}
+  (xs: NSH(list (INV(x), n))): list_vt (y, n)
+// end of [list_map]
 
 fun{
 x:t0p}{y:t0p

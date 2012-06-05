@@ -8,6 +8,8 @@
 ######
 
 all:: prelude
+all:: libc
+all:: libats
 
 ######
 
@@ -27,11 +29,9 @@ prelude_cats:
 
 ######
 
-all:: libc
-
-######
-
 libc:: libc_sats
+#libc:: libc_dats
+#libc:: libc_cats
 
 libc_sats:
 	make -C libc/SATS/CODEGEN -f Makefile_gen
@@ -42,6 +42,22 @@ libc_dats:
 libc_cats:
 	make -C libc/CATS/CODEGEN -f Makefile_gen
 	make -C libc/CATS/CODEGEN -f Makefile all
+
+######
+
+libats:: libats_sats
+#libats:: libats_dats
+#libats:: libats_cats
+
+libats_sats:
+	make -C libats/SATS/CODEGEN -f Makefile_gen
+	make -C libats/SATS/CODEGEN -f Makefile all
+libats_dats:
+	make -C libats/DATS/CODEGEN -f Makefile_gen
+	make -C libats/DATS/CODEGEN -f Makefile all
+libats_cats:
+	make -C libats/CATS/CODEGEN -f Makefile_gen
+	make -C libats/CATS/CODEGEN -f Makefile all
 
 ######
 

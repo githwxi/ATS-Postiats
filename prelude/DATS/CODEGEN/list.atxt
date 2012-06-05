@@ -371,6 +371,23 @@ end // end of [list_drop_exn]
 #atscode_separator()
 
 implement{x}
+list_foreach (xs) = let
+//
+fun loop
+  {n:nat} .<n>.
+  (xs: list (x, n)): void =
+  case+ xs of
+  | list_cons (x, xs) => let
+      val () = list_foreach__fwork<x> (x) in loop (xs)
+    end // end of [list_cons]
+  | list_nil () => ()
+// end of [loop]
+//
+in
+  loop (xs)
+end // end of [list_foreach]
+
+implement{x}
 list_foreach_funenv
   {v}{vt}{fe}
   (pfv | xs, f, env) = let
@@ -397,6 +414,23 @@ foreach_funenv<List(x)><x>
 // end of [foreach_funenv]
 
 #atscode_separator()
+
+implement{x}
+list_iforeach (xs) = let
+//
+fun loop
+  {n:nat} .<n>.
+  (xs: list (x, n), i: int): void =
+  case+ xs of
+  | list_cons (x, xs) => let
+      val () = list_iforeach__fwork<x> (i, x) in loop (xs, i+1)
+    end // end of [list_cons]
+  | list_nil () => ()
+// end of [loop]
+//
+in
+  loop (xs, 0)
+end // end of [list_iforeach]
 
 implement{x}
 list_iforeach_funenv
@@ -427,6 +461,36 @@ iforeach_funenv<List(x)><x>
 end // end of [iforeach_funenv]
 
 #atscode_separator()
+
+implement{x}{y}
+list_map {n} (xs) = let
+//
+prval () = lemma_list_param (xs)
+//
+fun loop
+  {n:nat} .<n>. (
+  xs: list (x, n)
+, res: &ptr? >> list_vt (y, n)
+) : void = (
+  case+ xs of
+  | list_cons (x, xs) => let
+      val y = list_map__fwork<x><y> (x)
+      val () = res := list_vt_cons {y}{0} (y, _)
+      val+ list_vt_cons (_, res1) = res
+      val () = loop (xs, res1)
+      prval () = fold@ (res)
+    in
+      // nothing
+    end // end of [list_cons]
+  | list_nil () => (res := list_vt_nil)
+) // end of [loop]
+//
+var res: ptr
+val () = loop (xs, res)
+//
+in
+  res (*list_vt (y, n)*)
+end // end of [list_map]
 
 implement{x}{y}
 list_map_funenv
