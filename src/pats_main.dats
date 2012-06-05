@@ -492,9 +492,10 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/SATS/lazy.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/lazy_vt.sats")
 //
+(*
   val () = pervasive_load (ATSHOME, "prelude/SATS/iterator.sats")
-//
   val () = pervasive_load (ATSHOME, "prelude/SATS/fcontainer.sats")
+*)
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/array.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/array_prf.sats")
@@ -653,7 +654,8 @@ process_cmdline
 in
 //
 case+ arglst of
-| ~list_vt_cons (arg, arglst) => (
+| ~list_vt_cons
+    (arg, arglst) => (
     process_cmdline2 (ATSHOME, state, arg, arglst)
   ) // endof [list_vt_cons]
 | ~list_vt_nil ()
@@ -702,9 +704,7 @@ case+ arg of
         val () = state.ninputfile := state.ninputfile + 1
         val () = prelude_load_if (ATSHOME, state.preludeflg)
         val d0cs = parse_from_basename_toplevel (stadyn, basename)
-        val d1cs = $TRANS1.d0eclist_tr_errck (d0cs)
-        val () = fprint_d1eclist (stdout_ref, d1cs)
-        val () = fprint_newline (stdout_ref)
+        val d2cs = do_trans123 (basename, d0cs)
       in
         process_cmdline (ATSHOME, state, arglst)
       end (* end of [_] *)

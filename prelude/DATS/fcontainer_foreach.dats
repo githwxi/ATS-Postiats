@@ -36,13 +36,19 @@
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+#if VERBOSE_PRELUDE #then
+#print "Loading [fcontainer_foreach.dats] starts!\n"
+#endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-(*
-staload "prelude/SATS/fcontainer.sats" // HX: preloaded
-*)
+staload
+UN = "prelude/SATS/unsafe.sats"
+// end of [staload]
+
+(* ****** ****** *)
+
+staload "prelude/SATS/fcontainer.sats"
 
 (* ****** ****** *)
 
@@ -266,6 +272,12 @@ iforeach_cloref
 in
   nxs
 end // end of [foreach_cloref]
+
+(* ****** ****** *)
+
+#if VERBOSE_PRELUDE #then
+#print "Loading [fcontainer_foreach.dats] finishes!\n"
+#endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 

@@ -102,6 +102,10 @@ fprint_arrszref
 
 (* ****** ****** *)
 
+staload
+IT = "prelude/SATS/iterator.sats"
+stadef iterator = $IT.iterator_5
+
 fun{
 knd:tk
 }{x:vt0p

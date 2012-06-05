@@ -252,24 +252,30 @@ end // end of [iforeach_array_init]
 
 (* ****** ****** *)
 
+local
+
+staload IT = "prelude/SATS/iterator.sats"
+
+in // in of [local]
+
 implement
 {knd}{x}
 foreach_fiterator
   {kpm}{f,r} (itr) = let
 //
-val () = lemma_iterator_param (itr)
+val () = $IT.lemma_iterator_param (itr)
 //
 stadef iter
-  (f:int, r:int) = iterator (knd, kpm, x, f, r)
+  (f:int, r:int) = $IT.iterator (knd, kpm, x, f, r)
 //
 fun loop
   {f,r:int | r >= 0} .<r>. (
   itr: !iter (f, r) >> iter (f+r, 0)
 ) : void = let
-  val test = iter_isnot_atend (itr)
+  val test = $IT.iter_isnot_atend (itr)
 in
   if test then let
-    val x = iter_get_inc (itr)
+    val x = $IT.iter_get_inc (itr)
     val () = foreach_fiterator__fwork (x)
   in
     loop (itr)
@@ -287,19 +293,19 @@ implement
 foreach_literator
   {kpm}{f,r} (itr) = let
 //
-val () = lemma_iterator_param (itr)
+val () = $IT.lemma_iterator_param (itr)
 //
 stadef iter
-  (f:int, r:int) = iterator (knd, kpm, x, f, r)
+  (f:int, r:int) = $IT.iterator (knd, kpm, x, f, r)
 //
 fun loop
   {f,r:int | r >= 0} .<r>. (
   itr: !iter (f, r) >> iter (f+r, 0)
 ) : void = let
-  val test = iter_isnot_atend (itr)
+  val test = $IT.iter_isnot_atend (itr)
 in
   if test then let
-    val p = iter_getref_inc (itr)
+    val p = $IT.iter_getref_inc (itr)
     prval (pf, fpf) = $UN.ptr_vget {x} (p)
     val () = foreach_literator__fwork (!p)
     prval () = fpf (pf)
@@ -311,6 +317,8 @@ end (* end of [loop] *)
 in
   loop (itr)
 end // end of [foreach_literator]
+
+end // end of [local]
 
 (* ****** ****** *)
 

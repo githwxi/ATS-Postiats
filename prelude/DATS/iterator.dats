@@ -42,7 +42,13 @@
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
+// end of [staload]
+
+(* ****** ****** *)
+
+staload "prelude/SATS/iterator.sats"
 
 (* ****** ****** *)
 

@@ -74,6 +74,10 @@ sortdef tk = tkind
 
 (* ****** ****** *)
 
+staload
+IT = "prelude/SATS/iterator.sats"
+stadef iterator = $IT.iterator_5
+
 fun{x:vt0p}
 foreach_fiterator__fwork (x: x): void
 fun{
@@ -82,8 +86,6 @@ knd:tk}{x:vt0p
   {kpm:tk} {f,r:int} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+r, 0)
 ) : void // end of [foreach_fiterator]
-
-(* ****** ****** *)
 
 fun{x:vt0p}
 foreach_literator__fwork (x: &x): void

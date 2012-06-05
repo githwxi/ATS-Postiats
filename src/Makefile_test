@@ -24,78 +24,78 @@ test:: SMI
 
 ######
 
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/arith_prf.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/bool.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/char.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/float.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/filebas_prf.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/filebas.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/memory.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/pointer.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/reference.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/string.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/arith_prf.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/bool.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/char.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/float.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/filebas_prf.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/filebas.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/memory.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/pointer.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/reference.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/string.dats
 
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/basics.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/basics.dats
 
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/iterator.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/iterator_flist.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/iterator_array.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/iterator.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/iterator_flist.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/iterator_array.dats
 
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/fcontainer.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/fcontainer_foreach.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/fcontainer.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/fcontainer_foreach.dats
 
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/array.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/array_prf.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/arrayptr.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/arrayref.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/list.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/list_vt.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/option.dats
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/option_vt.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/array.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/array_prf.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/arrayptr.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/arrayref.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/list.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/list_vt.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/option.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/option_vt.dats
 
-prelude:: ; ./patsopt -d < $(PATSHOME)/prelude/DATS/unsafe.dats
-
-######
-
-libc:: ; ./patsopt -s < $(PATSHOME)/libc/SATS/stdio.sats
-libc:: ; ./patsopt -d < $(PATSHOME)/libc/DATS/stdio.dats
-libc:: ; ./patsopt -d < $(PATSHOME)/libc/DATS/stdio_iterator.dats
-libc:: ; ./patsopt -s < $(PATSHOME)/libc/SATS/unistd.sats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/unsafe.dats
 
 ######
 
-libats:: ; ./patsopt -s < $(PATSHOME)/libats/SATS/fundeque_fingertree.sats
-libats:: ; ./patsopt -d < $(PATSHOME)/libats/DATS/fundeque_fingertree.dats
-
-libats:: ; ./patsopt -s < $(PATSHOME)/libats/SATS/funralist_nested.sats
-libats:: ; ./patsopt -d < $(PATSHOME)/libats/DATS/funralist_nested.dats
-
-######
-
-cairo:: ; ./patsopt -s < $(PATSHOME)/contrib/cairo/SATS/cairo.sats
-
-atshwxi:: ; ./patsopt -s < $(PATSHOME)/contrib/atshwxi/testing/foreach.sats
-atshwxi:: ; ./patsopt -d < $(PATSHOME)/contrib/atshwxi/testing/foreach.dats
-atshwxi:: ; ./patsopt -s < $(PATSHOME)/contrib/atshwxi/testing/foldleft.sats
-atshwxi:: ; ./patsopt -d < $(PATSHOME)/contrib/atshwxi/testing/foldleft.dats
-atshwxi:: ; ./patsopt -s < $(PATSHOME)/contrib/atshwxi/testing/fprint.sats
-atshwxi:: ; ./patsopt -d < $(PATSHOME)/contrib/atshwxi/testing/fprint.dats
-atshwxi:: ; ./patsopt -s < $(PATSHOME)/contrib/atshwxi/testing/tprint.sats
-atshwxi:: ; ./patsopt -d < $(PATSHOME)/contrib/atshwxi/testing/tprint.dats
-atshwxi:: ; ./patsopt -s < $(PATSHOME)/contrib/atshwxi/testing/randgen.sats
-atshwxi:: ; ./patsopt -d < $(PATSHOME)/contrib/atshwxi/testing/randgen.dats
+libc:: ; ./patsopt -s $(PATSHOME)/libc/SATS/stdio.sats
+libc:: ; ./patsopt -d $(PATSHOME)/libc/DATS/stdio.dats
+libc:: ; ./patsopt -d $(PATSHOME)/libc/DATS/stdio_iterator.dats
+libc:: ; ./patsopt -s $(PATSHOME)/libc/SATS/unistd.sats
 
 ######
 
-fact2: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/INTRO/fact2.dats
-revarr: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/INTRO/revarr.dats
+libats:: ; ./patsopt -s $(PATSHOME)/libats/SATS/fundeque_fingertree.sats
+libats:: ; ./patsopt -d $(PATSHOME)/libats/DATS/fundeque_fingertree.dats
 
-hanoi: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/MISC/hanoi.dats
-ferryman: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/MISC/ferryman.dats
+libats:: ; ./patsopt -s $(PATSHOME)/libats/SATS/funralist_nested.sats
+libats:: ; ./patsopt -d $(PATSHOME)/libats/DATS/funralist_nested.dats
 
-tally: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/ARITH/tally.dats
-fibonacci: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/ARITH/fibonacci.dats
+######
 
-SMI: ; ./patsopt -d < $(PATSHOME)/doc/EXAMPLE/ATSLF/SMI.dats
+cairo:: ; ./patsopt -s $(PATSHOME)/contrib/cairo/SATS/cairo.sats
+
+atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/foreach.sats
+atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/foreach.dats
+atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/foldleft.sats
+atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/foldleft.dats
+atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/fprint.sats
+atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/fprint.dats
+atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/tprint.sats
+atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/tprint.dats
+atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/randgen.sats
+atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/randgen.dats
+
+######
+
+fact2: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/INTRO/fact2.dats
+revarr: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/INTRO/revarr.dats
+
+hanoi: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/MISC/hanoi.dats
+ferryman: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/MISC/ferryman.dats
+
+tally: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ARITH/tally.dats
+fibonacci: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ARITH/fibonacci.dats
+
+SMI: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/SMI.dats
 
 ###### end of [Makefile_test] ######

@@ -118,16 +118,22 @@ fprint_arrayptr_sep
 
 (* ****** ****** *)
 
+local
+
+staload IT = "prelude/SATS/iterator.sats"
+
+in // in of [local]
+
 implement
 {knd}{x}
 fprint_iterator_sep
   {kpm}{f,r}
   (out, itr, sep) = let
 //
-val () = lemma_iterator_param (itr)
+val () = $IT.lemma_iterator_param (itr)
 //
 stadef iter
-  (f:int, r:int) = iterator (knd, kpm, x, f, r)
+  (f:int, r:int) = $IT.iterator (knd, kpm, x, f, r)
 //
 fun loop
   {f,r:int | r >= 0} .<r>. (
@@ -136,12 +142,12 @@ fun loop
 , sep: string
 , notbeg: bool
 ) : void = let
-  val test = iter_isnot_atend (itr)
+  val test = $IT.iter_isnot_atend (itr)
 in
   if test then let
     val (
       fpf | x
-    ) = iter_vget_inc (itr)
+    ) = $IT.iter_vget_inc (itr)
     val () = if notbeg then fprint_string (out, sep)
     val () = fprint_elt<x> (out, x)
     prval () = fpf (x)    
@@ -153,6 +159,8 @@ end // end of [loop]
 in
   loop (out, itr, sep, false(*notbeg*))
 end // end of [fprint_iterator_sep]
+
+end // end of [local]
 
 (* ****** ****** *)
 

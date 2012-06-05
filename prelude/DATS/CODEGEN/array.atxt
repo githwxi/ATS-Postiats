@@ -27,6 +27,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 staload UN = "prelude/SATS/unsafe.sats"
+staload IT = "prelude/SATS/iterator.sats"
 
 #atscode_separator()
 
@@ -301,10 +302,10 @@ array_bsearch_funenv
   (A, n, pord, env) =
   $effmask_all let
   val itr =
-    iter_make_array (view@(A) | addr@(A), n)
-  val () = iter_bsearch_funenv (itr, pord, env, n)
-  val ofs = iter_get_offset (itr)
-  val (pf | ()) = iter_free_array (itr)
+    $IT.iter_make_array (view@(A) | addr@(A), n)
+  val () = $IT.iter_bsearch_funenv (itr, pord, env, n)
+  val ofs = $IT.iter_get_offset (itr)
+  val (pf | ()) = $IT.iter_free_array (itr)
   prval () = view@ (A) := pf
 in
   ofs

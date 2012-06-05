@@ -32,9 +32,15 @@
 //
 (* ****** ****** *)
 
-staload UN =
-  "prelude/SATS/unsafe.sats"
-// end of [staload]
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload
+IT = "prelude/SATS/iterator.sats"
+stadef iterator = $IT.iterator_5
+stadef iterator = $IT.iterator_3
 
 (* ****** ****** *)
 
@@ -88,7 +94,7 @@ praxi decode
 (* ****** ****** *)
 
 implement
-iter_is_atend<itrknd><char>
+$IT.iter_is_atend<itrknd><char>
   {kpm}{f,r} (itr) = let
   prval pf = decode (itr)
   val atend = feof (itr)
@@ -103,7 +109,7 @@ end // end of [iter_isnot_atend]
 (* ****** ****** *)
 
 implement
-iter_vget_inc<itrknd><char>
+$IT.iter_vget_inc<itrknd><char>
 //
   {kpm}{f,r} (itr) = let
   prval pf = decode (itr)

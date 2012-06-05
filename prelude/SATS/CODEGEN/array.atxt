@@ -26,7 +26,9 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-sortdef t0p = t@ype and vt0p = viewt@ype
+sortdef t0p = t@ype
+sortdef vtp = viewtype
+sortdef vt0p = viewt@ype
 
 #atscode_separator()
 

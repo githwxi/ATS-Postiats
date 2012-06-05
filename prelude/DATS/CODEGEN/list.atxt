@@ -26,6 +26,10 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+staload FC = "prelude/SATS/fcontainer.sats"
+
+#atscode_separator()
+
 implement{}
 list_is_nil (xs) =
   case+ xs of list_nil () => true | _ =>> false
@@ -80,7 +84,7 @@ in
 end // end of [list_copy]
 
 implement(x)
-listize<List(x)><x> (xs) = list_copy (xs)
+$FC.listize<List(x)><x> (xs) = list_copy (xs)
 
 #atscode_separator()
 
@@ -156,7 +160,7 @@ list_reverse (xs) =
 ) // end of [list_reverse]
 
 implement(x)
-rlistize<List(x)><x> (xs) = list_reverse<x> (xs)
+$FC.rlistize<List(x)><x> (xs) = list_reverse<x> (xs)
 
 #atscode_separator()
 
@@ -409,7 +413,7 @@ in
 end // end of [list_foreach_funenv]
 
 implement(x)
-foreach_funenv<List(x)><x>
+$FC.foreach_funenv<List(x)><x>
   (pfv | xs, f, env) = list_foreach_funenv<x> (pfv | xs, f, env)
 // end of [foreach_funenv]
 
@@ -455,7 +459,7 @@ in
 end // end of [list_iforeach_funenv]
 
 implement(x)
-iforeach_funenv<List(x)><x>
+$FC.iforeach_funenv<List(x)><x>
   (pfv | xs, f, env) = let
   val n = list_iforeach_funenv<x> (pfv | xs, f, env) in g1int2uint (n)
 end // end of [iforeach_funenv]
@@ -535,7 +539,7 @@ in
 end // end of [list_map_funenv]
 
 implement(x,y)
-listize_funenv<List(x)><x><y>
+$FC.listize_funenv<List(x)><x><y>
   (pfv | xs, f, env) = list_map_funenv<x> (pfv | xs, f, env)
 // end of [listize_funenv]
 
