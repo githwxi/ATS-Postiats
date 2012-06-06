@@ -60,7 +60,7 @@ parse_from_string
   val () = tokbuf_initialize_string (buf, inp)
   var nerr: int = 0
   val res = f (buf, 0(*bt*), nerr)
-  val _(*EOF*) = p_EOF (buf, 0, nerr) // HX: tokens need to consumed
+  val _(*EOF*) = p_EOF (buf, 0, nerr) // HX: all tokens need to consumed
   val () = tokbuf_uninitialize (buf)
 in
   if nerr = 0 then Some_vt (res) else None_vt ()

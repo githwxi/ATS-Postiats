@@ -458,7 +458,15 @@ fun fprint_the_lexerrlst (out: FILEref): int(*err*) // 0/1
 
 (* ****** ****** *)
 
+(*
+** HX-2011:
+** obtaining the next token
+*)
 fun lexing_next_token (buf: &lexbuf): token
+(*
+** HX-2011:
+** obtaining the next token that is not a comment
+*)
 fun lexing_next_token_ncmnt (buf: &lexbuf): token
 
 (* ****** ****** *)

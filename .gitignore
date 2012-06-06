@@ -59,3 +59,5 @@ contrib/cairo/CATS/CODEGEN/*.exe
 contrib/cairo/CATS/CODEGEN/*.cats
 contrib/cairo/CATS/CODEGEN/*_atxt.txt
 contrib/cairo/CATS/CODEGEN/*_atxt.dats
+
+libatsyntax/libatsyntax.a
