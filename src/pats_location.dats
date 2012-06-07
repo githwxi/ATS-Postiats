@@ -161,6 +161,13 @@ location_get_bchar (loc) = loc.beg_ntot
 (* ****** ****** *)
 
 implement
+location_beg_ntot (loc) = loc.beg_ntot
+implement
+location_end_ntot (loc) = loc.end_ntot
+
+(* ****** ****** *)
+
+implement
 fprint_location
   (out, loc) = () where {
   val () = $FIL.fprint_filename (out, loc.filename)

@@ -670,6 +670,9 @@ fun parse_from_basename_toplevel
   (stadyn: int, basename: string): d0eclist
 // end of [parse_from_filename_toplevel
 
+fun parse_from_fileref_toplevel
+  (stadyn: int, inp: FILEref): d0eclist
+// end of [parse_from_fileref_toplevel]
 fun parse_from_stdin_toplevel (stadyn: int): d0eclist
 
 (* ****** ****** *)

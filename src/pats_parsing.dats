@@ -131,13 +131,20 @@ end // end of [parse_from_basename_toplevel]
 (* ****** ****** *)
 
 implement
-parse_from_stdin_toplevel
-  (stadyn) = d0cs where {
+parse_from_fileref_toplevel
+  (stadyn, inp) = d0cs where {
   var buf: tokbuf
-  val () = tokbuf_initialize_getc (buf, lam () =<cloptr1> $STDIO.getchar ())
+  val () = tokbuf_initialize_getc
+    (buf, lam () =<cloptr1> $STDIO.fgetc0_err (inp))
   val d0cs = parse_from_tokbuf_toplevel (stadyn, buf)
   val () = tokbuf_uninitialize (buf)
-} // end of [parser_from_stdin_toplevel]
+} // end of [parser_from_fileref_toplevel]
+
+implement
+parse_from_stdin_toplevel
+  (stadyn) =
+  parse_from_fileref_toplevel (stadyn, stdin_ref)
+// end of [parser_from_stdin_toplevel]
 
 (* ****** ****** *)
 

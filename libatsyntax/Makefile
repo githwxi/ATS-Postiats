@@ -50,6 +50,8 @@ INCLUDES=-I$(PATSHOMEQ)/src
 ######
 
 SOURCES = \
+  pats_error.sats \
+  pats_error.dats \
   pats_utils.sats \
   pats_utils.dats \
   pats_basics.sats \
@@ -69,8 +71,28 @@ SOURCES = \
   pats_lexing_token.dats \
   pats_lexing_print.dats \
   pats_lexing_error.dats \
-  libatsyntax.sats \
-  libatsyntax.dats \
+  pats_label.sats \
+  pats_label.dats \
+  pats_fixity.sats \
+  pats_fixity_prec.dats \
+  pats_fixity_fxty.dats \
+  pats_tokbuf.sats \
+  pats_tokbuf.dats \
+  pats_parsing.sats \
+  pats_parsing.dats \
+  pats_parsing_error.dats \
+  pats_parsing_util.dats \
+  pats_parsing_kwds.dats \
+  pats_parsing_base.dats \
+  pats_parsing_e0xp.dats \
+  pats_parsing_sort.dats \
+  pats_parsing_staexp.dats \
+  pats_parsing_p0at.dats \
+  pats_parsing_dynexp.dats \
+  pats_parsing_decl.dats \
+  pats_parsing_toplevel.dats \
+  pats_syntax.sats \
+  pats_syntax.dats \
 
 OBJECTS := $(patsubst %.sats, %_sats.o, $(SOURCES))
 OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))
@@ -94,54 +116,15 @@ AR=ar
 
 ######
 
-pats_utils_sats.o: $(PATSHOME)/src/pats_utils.sats
+%_sats.o: $(PATSHOME)/src/%.sats
 	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-pats_utils_dats.o: $(PATSHOME)/src/pats_utils.dats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-
-pats_basics_sats.o: $(PATSHOME)/src/pats_basics.sats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-pats_basics_dats.o: $(PATSHOME)/src/pats_basics.dats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-
-pats_symbol_sats.o: $(PATSHOME)/src/pats_symbol.sats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-pats_symbol_dats.o: $(PATSHOME)/src/pats_symbol.dats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-
-pats_filename_sats.o: $(PATSHOME)/src/pats_filename.sats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-pats_filename_dats.o: $(PATSHOME)/src/pats_filename.dats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-
-pats_location_sats.o: $(PATSHOME)/src/pats_location.sats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-pats_location_dats.o: $(PATSHOME)/src/pats_location.dats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-
-pats_reader_sats.o: $(PATSHOME)/src/pats_reader.sats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-pats_reader_dats.o: $(PATSHOME)/src/pats_reader.dats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-
-pats_lexbuf_sats.o: $(PATSHOME)/src/pats_lexbuf.sats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-pats_lexbuf_dats.o: $(PATSHOME)/src/pats_lexbuf.dats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-
-pats_lexing_sats.o: $(PATSHOME)/src/pats_lexing.sats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-pats_lexing_dats.o: $(PATSHOME)/src/pats_lexing.dats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-pats_lexing_token_dats.o: $(PATSHOME)/src/pats_lexing_token.dats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-pats_lexing_print_dats.o: $(PATSHOME)/src/pats_lexing_print.dats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-pats_lexing_error_dats.o: $(PATSHOME)/src/pats_lexing_error.dats
+%_dats.o: $(PATSHOME)/src/%.dats
 	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
 
 ######
 
+libatsyntax:: libatsyntax_sats.o
+libatsyntax:: libatsyntax_dats.o
 libatsyntax_sats.o: SATS/libatsyntax.sats
 	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
 libatsyntax_dats.o: DATS/libatsyntax.dats

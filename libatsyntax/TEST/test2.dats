@@ -1,5 +1,5 @@
 (*
-** Obtaining all the tokens from STDIN
+** Obtaining postion-synmarks from STDIN
 **
 ** Author: Hongwei Xi (gmhwxi AT gmail DOT com)
 ** Start Time: June 5, 2012
@@ -7,7 +7,7 @@
 
 (* ****** ****** *)
 //
-// HX: printing out all the tokens from the STDIN
+// HX: this example shows how to get position-synmarks
 //
 (* ****** ****** *)
 
@@ -25,16 +25,15 @@ implement
 main () = let
 //
 fun loop (
-  xs: tokenlst_vt
+  xs: psynmarklst_vt
 ) : void = let
   val out = stdout_ref
 in
   case+ xs of
   | ~list_vt_cons
       (x, xs) => let
-      val loc = token_get_loc (x)
-      val () = fprint_token (out, x)
-      val () = fprint_location (out, loc)
+      val () =
+        fprint_psynmark (out, x)
       val () = fprint_newline (out)
     in
       loop (xs)
@@ -42,7 +41,7 @@ in
   | ~list_vt_nil () => ()
 end // end of [loop]
 //
-val xs = fileref_get_tokenlst (stdin_ref)
+val xs = fileref_get_psynmarklst (1(*dyn*), stdin_ref)
 //
 in
   loop (xs)
@@ -50,4 +49,4 @@ end // end of [main]
 
 (* ****** ****** *)
 
-(* end of [test1.dats] *)
+(* end of [test2.dats] *)

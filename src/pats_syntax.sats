@@ -1219,8 +1219,10 @@ d0ecl_node =
   | D0Ce0xpdef of (symbol, e0xpopt)
   | D0Ce0xpundef of (symbol) (* undefinition *)
   | D0Ce0xpact of (e0xpactkind, e0xp)
+//
   | D0Cdatsrts of d0atsrtdeclst (* datasort declaration *)
   | D0Csrtdefs of s0rtdeflst (* sort definition *)
+//
   | D0Cstacsts of (s0tacstlst) (* static constants *)
   | D0Cstacons of (int(*knd*), s0taconlst) (* abstype defintion *)
 (*

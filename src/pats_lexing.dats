@@ -270,7 +270,7 @@ in
   if b then let
     prval () = opt_unsome {itm} (res) in decode (res)
   end else let
-    prval () = opt_unnone {itm} (res) in LS_NONE
+    prval () = opt_unnone {itm} (res) in LS_NONE (*void*)
   end // end of [if]
 end // end of [IDENT_alp_get_lexsym]
 
