@@ -43,7 +43,8 @@ dynload "src/pats_parsing_toplevel.dats"
 //
 dynload "src/pats_syntax.dats"
 //
-dynload "libatsyntax/DATS/libatsyntax.dats"
+dynload "libatsyntax/DATS/libatsyntax_token.dats"
+dynload "libatsyntax/DATS/libatsyntax_psynmark.dats"
 //
 (* ****** ****** *)
 
