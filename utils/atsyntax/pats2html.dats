@@ -20,6 +20,10 @@ staload _(*anon*) =
 
 (* ****** ****** *)
 
+(*
+** HX-2012-06:
+** prfexp: text-decoration: line-through for erasure?
+*)
 #define PSYNMARK_HTML_FILE_BEG "\
 <!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n\
 \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n\
@@ -33,9 +37,9 @@ staload _(*anon*) =
     .atsyntax span.comment {color:#787878;font-style:italic;}\n\
     .atsyntax span.extcode {color:#A52A2A;}\n\
     .atsyntax span.neuexp  {color:#800080;}\n\
-    .atsyntax span.staexp  {color:#0000FF;}\n\
-    .atsyntax span.prfexp  {color:#009000;}\n\
-    .atsyntax span.dynexp  {color:#E80000;}\n\
+    .atsyntax span.staexp  {color:#0000F0;}\n\
+    .atsyntax span.prfexp  {color:#783c3c;}\n\
+    .atsyntax span.dynexp  {color:#F00000;}\n\
     .atsyntax span.stacstdec  {text-decoration:none;}\n\
     .atsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}\n\
     .atsyntax span.dyncstdec  {text-decoration:none;}\n\

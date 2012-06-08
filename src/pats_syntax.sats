@@ -983,9 +983,9 @@ p0at_node =
 //
   | P0Tlist of (int(*npf*), p0atlst)
 //
+  | P0Tlst of (int(*lin*), p0atlst) // pattern list
   | P0Ttup of (int (*knd*), int(*npf*), p0atlst)
   | P0Trec of (int (*recknd*), int(*npf*), labp0atlst)
-  | P0Tlst of (int(*lin*), p0atlst) // pattern list
 //
   | P0Tfree of p0at
   | P0Tunfold of p0at
@@ -1399,7 +1399,7 @@ and m0atchlst = List m0atch
 
 (* ****** ****** *)
 
-and guap0at: type = '{ 
+and guap0at = '{ 
   guap0at_loc= location
 , guap0at_pat= p0at
 , guap0at_gua= m0atchlst
@@ -1407,39 +1407,39 @@ and guap0at: type = '{
 
 (* ****** ****** *)
 
-and ifhead: type = '{
+and ifhead = '{
   ifhead_tok= token, ifhead_inv= i0nvresstate
 } // end of [ifhead]
 
-and sifhead: type = '{
+and sifhead = '{
   sifhead_tok= token, sifhead_inv= i0nvresstate
 } // end of [sifhead]
 
 (* ****** ****** *)
 
-and casehead: type = '{
+and casehead = '{
   casehead_tok= token, casehead_inv= i0nvresstate
 } // end of [casehead]
 
-and scasehead: type = '{
+and scasehead = '{
   scasehead_tok= token, scasehead_inv= i0nvresstate
 } // end of [scasehead]
 
 (* ****** ****** *)
 
-and loophead: type = '{
+and loophead = '{
   loophead_tok= token, loophead_inv= loopi0nvopt
 } // end of [lookhead]
 
 (* ****** ****** *)
 
-and tryhead: type = '{
+and tryhead = '{
   tryhead_tok= token, tryhead_inv= i0nvresstate
 } // end of [tryhead]
 
 (* ****** ****** *)
 
-and c0lau: type = '{
+and c0lau = '{
   c0lau_loc= location
 , c0lau_pat= guap0at
 , c0lau_seq= int

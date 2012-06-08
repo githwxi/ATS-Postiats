@@ -90,12 +90,20 @@ stadef s0expopt = $SYN.s0expopt
 stadef e0fftaglst = $SYN.e0fftaglst
 stadef e0fftaglstopt = $SYN.e0fftaglstopt
 //
-stadef witht0ype = $SYN.witht0ype
-//
 stadef p0at = $SYN.p0at
 stadef p0atlst = $SYN.p0atlst
+stadef p0atopt = $SYN.p0atopt
+//
 stadef d0exp = $SYN.d0exp
 stadef d0explst = $SYN.d0explst
+stadef d0expopt = $SYN.d0expopt
+//
+stadef t0mpmarglst = $SYN.t0mpmarglst
+//
+stadef m0atchlst = $SYN.m0atchlst
+//
+stadef guap0at = $SYN.guap0at
+stadef c0laulst = $SYN.c0laulst
 //
 stadef s0expdef = $SYN.s0expdef
 stadef s0expdeflst = $SYN.s0expdeflst
@@ -107,12 +115,17 @@ stadef e0xndeclst = $SYN.e0xndeclst
 stadef d0atconlst = $SYN.d0atconlst
 stadef d0atdeclst = $SYN.d0atdeclst
 //
+stadef a0typlst = $SYN.a0typlst
+stadef d0cstarglst = $SYN.d0cstarglst
+stadef d0cstdeclst = $SYN.d0cstdeclst
+//
 stadef s0arglst = $SYN.s0arglst
 stadef s0vararglst = $SYN.s0vararglst
 //
 stadef f0arglst = $SYN.f0arglst
-stadef f0undeclst = $SYN.f0undeclst
+stadef witht0ype = $SYN.witht0ype
 //
+stadef f0undeclst = $SYN.f0undeclst
 stadef v0aldeclst = $SYN.v0aldeclst
 //
 stadef i0mparg = $SYN.i0mparg
@@ -270,13 +283,24 @@ extern fun s0expopt_mark : fmark_type (s0expopt)
 extern fun e0fftaglst_mark : fmark_type (e0fftaglst)
 extern fun e0fftaglstopt_mark : fmark_type (e0fftaglstopt)
 //
-extern fun witht0ype_mark : fmark_type (witht0ype)
-//
 extern fun p0at_mark : fmark_type (p0at)
 extern fun p0atlst_mark : fmark_type (p0atlst)
+extern fun p0atopt_mark : fmark_type (p0atopt)
+extern fun p0atlst_npf_mark
+  (npf: int, xs: p0atlst, res: &res >> res): void
 //
 extern fun d0exp_mark : fmark_type (d0exp)
 extern fun d0explst_mark : fmark_type (d0explst)
+extern fun d0expopt_mark : fmark_type (d0expopt)
+extern fun d0explst_npf_mark
+  (npf: int, xs: d0explst, res: &res >> res): void
+//
+extern fun t0mpmarglst_mark : fmark_type (t0mpmarglst)
+//
+extern fun m0atchlst_mark : fmark_type (m0atchlst)
+//
+extern fun guap0at_mark : fmark_type (guap0at)
+extern fun c0laulst_mark : fmark_type (c0laulst)
 //
 extern fun q0marglst_mark : fmark_type (q0marglst)
 extern fun a0msrtlst_mark : fmark_type (a0msrtlst)
@@ -292,10 +316,16 @@ extern fun d0atdeclst_mark
   (knd: int, ds: d0atdeclst, res: &res >> res): void
 // end of [d0atdeclst_mark]
 //
+extern fun a0typlst_mark : fmark_type (a0typlst)
+extern fun d0cstarglst_mark : fmark_type (d0cstarglst)
+extern fun d0cstdeclst_mark : fmark_type (d0cstdeclst)
+//
 extern fun s0arglst_mark : fmark_type (s0arglst)
 extern fun s0vararglst_mark : fmark_type (s0vararglst)
 //
 extern fun f0arglst_mark : fmark_type (f0arglst)
+extern fun witht0ype_mark : fmark_type (witht0ype)
+//
 extern fun f0undeclst_mark
   (fk: funkind, ds: f0undeclst, res: &res >> res): void
 // end of [f0undeclst_mark]
@@ -377,16 +407,6 @@ e0fftaglstopt_mark
 (* ****** ****** *)
 
 implement
-witht0ype_mark
-  (ws0e, res) = (
-  case+ ws0e of
-  | $SYN.WITHT0YPEsome (_, s0e) => s0exp_mark (s0e, res)
-  | $SYN.WITHT0YPEnone () => ()
-) // end of [witht0ype_mark]
-
-(* ****** ****** *)
-
-implement
 p0at_mark
   (p0t0, res) = let
 //
@@ -394,12 +414,17 @@ p0at_mark
 in
 //
 case+ p0t0.p0at_node of
+//
+| $SYN.P0Tide _ => ()
+| $SYN.P0Tdqid _ => ()
+| $SYN.P0Topid _ => ()
+//
 | $SYN.P0Tapp (p0t1, p0t2) => {
     val () = p0at_mark (p0t1, res)
     val () = p0at_mark (p0t2, res)
   }
 | $SYN.P0Tlist
-    (npf, p0ts) => p0atlst_mark (p0ts, res)
+    (npf, p0ts) => p0atlst_npf_mark (npf, p0ts, res)
 | $SYN.P0Tsvararg _ =>
     psynmark_ins_begend (SMstaexp, loc0, res)
 | $SYN.P0Trefas
@@ -407,6 +432,12 @@ case+ p0t0.p0at_node of
     val () = psynmark_ins_begend (SMstaexp, loc_id, res)
     val () = p0at_mark (p0t, res)
   }
+//
+| $SYN.P0Tlst (lin, p0ts) => p0atlst_mark (p0ts, res)
+| $SYN.P0Ttup (knd, npf, p0ts) => p0atlst_npf_mark (npf, p0ts, res)
+//
+| $SYN.P0Texist (s0as) => s0arglst_mark (s0as, res)
+//
 | $SYN.P0Tann
     (p0t, ann) => {
     val () = p0at_mark (p0t, res)
@@ -427,6 +458,34 @@ p0atlst_mark
   | list_nil () => ()
 ) // end of [p0atlst_mark]
 
+implement
+p0atopt_mark
+  (opt, res) = (
+  case+ opt of
+  | Some (p0t) => p0at_mark (p0t, res)
+  | None () => ()
+) // end of [p0atopt_mark]
+
+implement
+p0atlst_npf_mark
+  (npf, p0ts, res) = let
+in
+//
+if npf > 0 then (
+  case+ p0ts of
+  | list_cons (p0t, p0ts) => let
+      val loc = p0t.p0at_loc
+      val () = psynmark_ins_beg (SMprfexp, loc, res)
+      val () = p0at_mark (p0t, res)
+      val () = psynmark_ins_end (SMprfexp, loc, res)
+    in
+      p0atlst_npf_mark (npf-1, p0ts, res)
+    end // end of [list_cons]
+  | list_nil () => ()
+) else p0atlst_mark (p0ts, res)
+//
+end // end of [p0atlst_npf_mark]
+
 (* ****** ****** *)
 
 implement
@@ -437,6 +496,10 @@ in
 //
 case+ d0e0.d0exp_node of
 //
+| $SYN.D0Eide _ => ()
+| $SYN.D0Edqid _ => ()
+| $SYN.D0Eopid _ => ()
+//
 | $SYN.D0Eapp (d0e_fun, d0e_arg) => {
     val () = d0exp_mark (d0e_fun, res)
     val () = d0exp_mark (d0e_arg, res)
@@ -444,6 +507,8 @@ case+ d0e0.d0exp_node of
 //
 | $SYN.D0Efoldat (d0es) => d0explst_mark (d0es, res)
 | $SYN.D0Efreeat (d0es) => d0explst_mark (d0es, res)
+//
+| $SYN.D0Etmpid (qid, tmas) => t0mpmarglst_mark (tmas, res)
 //
 | $SYN.D0Elet (d0cs, d0e) => let
     val () = d0eclist_mark (d0cs, res)
@@ -456,8 +521,15 @@ case+ d0e0.d0exp_node of
     val () = d0eclist_mark (d0cs, res)
   } // end of [D0Ewhere]
 //
-| $SYN.D0Elist (npf, d0es) => d0explst_mark (d0es, res)
+| $SYN.D0Elist (npf, d0es) => d0explst_npf_mark (npf, d0es, res)
 //
+| $SYN.D0Eifhead (
+    invres, _cond, _then, _else
+  ) => {
+    val () = d0exp_mark (_cond, res)
+    val () = d0exp_mark (_then, res)
+    val () = d0expopt_mark (_else, res)
+  } // end of [D0Eifhead]
 | $SYN.D0Esifhead (
     invres, _cond, _then, _else
   ) => {
@@ -466,12 +538,19 @@ case+ d0e0.d0exp_node of
     val () = d0exp_mark (_else, res)
   } // end of [D0Esifhead]
 //
+| $SYN.D0Ecasehead
+   (invres, d0e, c0ls) => let
+   val () =
+     d0exp_mark (d0e, res) in c0laulst_mark (c0ls, res)
+   // end of [val]
+ end // end of [D0Ecasehead]
+//
 | $SYN.D0Elst (lin, elt, d0e) => {
     val () = s0expopt_mark (elt, res)
     val () = d0exp_mark (d0e, res) // [d0e] is a tuple
   } // end of [D0Elst]
 | $SYN.D0Etup (knd, npf, d0es) => let
-    val () = d0explst_mark (d0es, res) in (*nothing*)
+    val () = d0explst_npf_mark (npf, d0es, res) in (*none*)
   end // end of [D0Etup]
 | $SYN.D0Eseq (d0es) => d0explst_mark (d0es, res)
 //
@@ -484,6 +563,12 @@ case+ d0e0.d0exp_node of
 | $SYN.D0Eeffmask_arg (knd, d0e) => d0exp_mark (d0e, res)
 //
 | $SYN.D0Esexparg _ => psynmark_ins_begend (SMstaexp, loc0, res)
+//
+| $SYN.D0Eann
+    (d0e, ann) => {
+    val () = d0exp_mark (d0e, res)
+    val () = s0exp_mark (ann, res)
+  } // end of [D0Eann]
 //
 | _ => psynmark_ins_begend (SMdynexp, loc0, res)
 //
@@ -498,6 +583,99 @@ d0explst_mark
     end // end of [list_cons]
   | list_nil () => ()
 ) // end of [d0explst_mark]
+
+implement
+d0expopt_mark
+  (opt, res) = (
+  case+ opt of
+  | Some (d0e) => d0exp_mark (d0e, res)
+  | None () => ()
+) // end of [d0expopt_mark]
+
+implement
+d0explst_npf_mark
+  (npf, d0es, res) = let
+in
+//
+if npf > 0 then (
+  case+ d0es of
+  | list_cons (d0e, d0es) => let
+      val loc = d0e.d0exp_loc
+      val () = psynmark_ins_beg (SMprfexp, loc, res)
+      val () = d0exp_mark (d0e, res)
+      val () = psynmark_ins_end (SMprfexp, loc, res)
+    in
+      d0explst_npf_mark (npf-1, d0es, res)
+    end // end of [list_cons]
+  | list_nil () => ()
+) else d0explst_mark (d0es, res)
+//
+end // end of [d0explst_npf_mark]
+
+(* ****** ****** *)
+
+implement
+t0mpmarglst_mark
+  (xs, res) = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val arg = x.t0mpmarg_arg
+    val () =
+      s0explst_mark (arg, res) in t0mpmarglst_mark (xs, res)
+    // end of [val]
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [t0mpmarglst_mark]
+
+(* ****** ****** *)
+
+implement
+m0atchlst_mark
+  (xs, res) = let
+in
+//
+case+ xs of
+| list_cons (x, xs) => let
+    val () = d0exp_mark (x.m0atch_exp, res)
+    val () = p0atopt_mark (x.m0atch_pat, res)
+  in
+    m0atchlst_mark (xs, res)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [m0atchlst_mark]
+
+(* ****** ****** *)
+
+implement
+guap0at_mark
+  (x, res) = let
+  val () =
+    p0at_mark (x.guap0at_pat, res)
+  // end of [val]
+in
+  m0atchlst_mark (x.guap0at_gua, res)
+end // end of [guap0at_mark]
+
+implement
+c0laulst_mark
+  (xs, res) = let
+in
+//
+case+ xs of
+| list_cons (x, xs) => let
+    val () =
+      guap0at_mark (x.c0lau_pat, res)
+    val () = d0exp_mark (x.c0lau_body, res)
+  in
+    c0laulst_mark (xs, res)
+  end // end of [list_cons]
+| list_nil () => ()
+end // end of [c0laulst_mark]
 
 (* ****** ****** *)
 
@@ -616,6 +794,64 @@ end // end of [d0atdeclst_mark]
 (* ****** ****** *)
 
 implement
+a0typlst_mark
+  (xs, res) = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = s0exp_mark (x.a0typ_typ, res)
+  in
+    a0typlst_mark (xs, res)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [a0typlst_mark]
+
+implement
+d0cstarglst_mark
+  (xs, res) = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = (
+    case+ x.d0cstarg_node of
+    | $SYN.D0CSTARGsta _ =>
+        psynmark_ins_begend (SMstaexp, x.d0cstarg_loc, res)
+    | $SYN.D0CSTARGdyn (npf, a0ts) => a0typlst_mark (a0ts, res)
+    ) : void // end of [val]
+  in
+    d0cstarglst_mark (xs, res)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [d0cstarglst_mark]
+
+implement
+d0cstdeclst_mark
+  (ds, res) = let
+in
+//
+case+ ds of
+| list_cons (d, ds) => let
+    val () =
+      d0cstarglst_mark (d.d0cstdec_arg, res)
+    val () =
+      e0fftaglstopt_mark (d.d0cstdec_eff, res)
+    val () = s0exp_mark (d.d0cstdec_res, res)
+  in
+    d0cstdeclst_mark (ds, res)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [d0cstdclst_mark]
+
+(* ****** ****** *)
+
+implement
 s0arglst_mark
   (xs, res) = let
 in
@@ -676,6 +912,16 @@ case+ xs of
 | list_nil () => ()
 //
 end // end of [f0arglst_mark]
+
+(* ****** ****** *)
+
+implement
+witht0ype_mark
+  (ws0e, res) = (
+  case+ ws0e of
+  | $SYN.WITHT0YPEsome (_, s0e) => s0exp_mark (s0e, res)
+  | $SYN.WITHT0YPEnone () => ()
+) // end of [witht0ype_mark]
 
 (* ****** ****** *)
 
@@ -788,6 +1034,13 @@ case+ d0c.d0ecl_node of
   in
     // nothing
   end // end of [D0Cdatdecs]
+//
+| $SYN.D0Cdcstdecs
+    (tok, qmas, decs) => let
+    val () =
+      q0marglst_mark (qmas, res) in d0cstdeclst_mark (decs, res)
+    // end of [val]
+  end // end of [D0Cdcstdecs]
 //
 | $SYN.D0Cfundecs
     (fk, qmas, decs) => let

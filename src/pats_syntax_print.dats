@@ -689,6 +689,13 @@ case+ x.p0at_node of
     val () = prstr ")"
   }
 //
+| P0Tlst (lin, p0ts) => {
+    val () = prstr "P0Tlst("
+    val () = fprint_int (out, lin)
+    val () = prstr "; "
+    val () = $UT.fprintlst (out, p0ts, ", ", fprint_p0at)
+    val () = prstr ")"
+  }
 | P0Trec (knd, npf, lp0ts) => {
     val () = prstr "P0Trec("
     val () = fprint_int (out, knd)
@@ -703,13 +710,6 @@ case+ x.p0at_node of
     val () = fprint_int (out, knd)
     val () = prstr "; "
     val () = fprint_int (out, npf)
-    val () = prstr "; "
-    val () = $UT.fprintlst (out, p0ts, ", ", fprint_p0at)
-    val () = prstr ")"
-  }
-| P0Tlst (lin, p0ts) => {
-    val () = prstr "P0Tlst("
-    val () = fprint_int (out, lin)
     val () = prstr "; "
     val () = $UT.fprintlst (out, p0ts, ", ", fprint_p0at)
     val () = prstr ")"

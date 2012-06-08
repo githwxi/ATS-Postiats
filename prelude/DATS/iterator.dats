@@ -430,7 +430,7 @@ implement
 {knd}{x}
 iter_exists_funenv
   {kpm}{v}{vt}{f,r}
-  (pfv | itr, pred, env) = let
+  (pfv | itr, test, env) = let
 //
 prval () = lemma_iterator_param (itr)
 //
@@ -441,7 +441,7 @@ fun loop
   {f,r:int | r >= 0} .<r>. (
   pfv: !v
 | itr: !iter (f, r) >> iter (f1, r1)
-, pred: (!v | &x, !vt) -> bool, env: !vt
+, test: (!v | &x, !vt) -> bool, env: !vt
 ) : #[
   f1,r1:int | f1>=f; f+r==f1+r1
 ] bool (r1 > 0)= let
@@ -450,17 +450,17 @@ in
   if hasnext then let
     val p = iter_getref<knd><x> (itr)
     prval (pf, fpf) = $UN.ptr_vget (p)
-    val found = pred (pfv | !p, env)
+    val found = test (pfv | !p, env)
     prval () = fpf (pf)
   in
     if found then true else let
-      val () = iter_inc (itr) in loop (pfv | itr, pred, env)
+      val () = iter_inc (itr) in loop (pfv | itr, test, env)
     end // end of [let] // end of [if]
   end else false // end of [if]
 end // end of [loop]
 //
 in
-  loop (pfv | itr, pred, env)
+  loop (pfv | itr, test, env)
 end // end of [iter_exists_funenv]
 
 (* ****** ****** *)
