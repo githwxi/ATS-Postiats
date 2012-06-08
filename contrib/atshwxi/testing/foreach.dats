@@ -77,7 +77,7 @@ iforeach_list (xs) = let
 //
 fun loop
   {n:nat} .<n>. (
-  xs: list (a, n), i: size_t
+  xs: list (a, n), i: int
 ) : void =
   case+ xs of
   | list_cons (x, xs) => let
@@ -91,7 +91,7 @@ fun loop
 (* end of [loop] *)
 //
 in
-  loop (xs, $UN.cast2size(0))
+  loop (xs, 0)
 end // end of [iforeach_list]
 
 (* ****** ****** *)
@@ -127,7 +127,7 @@ iforeach_list_vt (xs) = let
 //
 fun loop
   {n:nat} .<n>. (
-  xs: !list_vt (a, n), i: size_t
+  xs: !list_vt (a, n), i: int
 ) : void =
   case+ xs of
   | @list_vt_cons (x, xs1) => let
@@ -142,7 +142,7 @@ fun loop
 (* end of [loop] *)
 //
 in
-  loop (xs, $UN.cast2size(0))
+  loop (xs, 0)
 end // end of [iforeach_list_vt]
 
 (* ****** ****** *)

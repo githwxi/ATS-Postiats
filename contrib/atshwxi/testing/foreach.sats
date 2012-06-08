@@ -20,7 +20,7 @@ fun{a:t0p}
 foreach_list (xs: List (a)): void
 
 fun{a:t0p}
-iforeach_list__fwork (i: size_t, x: a): void
+iforeach_list__fwork (i: int, x: a): void
 fun{a:t0p}
 iforeach_list (xs: List (a)): void
 
@@ -32,7 +32,7 @@ fun{a:vt0p}
 foreach_list_vt (xs: !List_vt (a)): void
 
 fun{a:vt0p}
-iforeach_list_vt__fwork (i: size_t, x: &a): void
+iforeach_list_vt__fwork (i: int, x: &a): void
 fun{a:vt0p}
 iforeach_list_vt (xs: !List_vt (a)): void
 

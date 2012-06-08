@@ -32,6 +32,14 @@ fun fprint_token (out: FILEref, x: token): void
 (* ****** ****** *)
 
 fun token_is_eof (x: token): bool
+fun token_is_comment (x: token): bool
+fun token_is_extcode (x: token): bool
+fun token_is_keyword (x: token): bool
+
+fun token_is_char (x: token): bool
+fun token_is_integer (x: token): bool
+fun token_is_float (x: token): bool
+fun token_is_string (x: token): bool
 
 (* ****** ****** *)
 
@@ -90,9 +98,59 @@ fun fprint_psynmark (out: FILEref, psm: psynmark): void
 
 (* ****** ****** *)
 
+(*
+** HX-2012-06:
+** synmark info for tokens
+*)
+fun listize_token2psynmark
+  (toks: !tokenlst_vt): psynmarklst_vt
+// end of [listize_token2psynmark]
+
+(* ****** ****** *)
+
+(*
+** HX-2012-06:
+** splitting psm list into two:
+** beg-psm list and end-psm list
+*)
+fun psynmarklst_split (xs: psynmarklst_vt)
+  : @(psynmarklst_vt(*beg*), psynmarklst_vt(*end*))
+// end of [psynmarklst_split]
+
+(* ****** ****** *)
+
+(*
+** HX-2012-06:
+** synmark info for various syntatic entities
+*)
 fun fileref_get_psynmarklst
   (stadyn: int, inp: FILEref): psynmarklst_vt
 // end of [fileref_get_psynmarklst]
+
+(* ****** ****** *)
+
+fun{} // a specific template
+psynmark_process (out: FILEref, psm: psynmark): void
+
+fun{} // this one is a generic
+psynmarklst_process
+  (out: FILEref, pos0: lint, psms: &psynmarklst_vt): void
+// end of [psynmarklst_process]
+
+viewtypedef
+psynmarklstlst_vt = List_vt (psynmarklst_vt)
+fun{} // this one is a generic
+psynmarklstlst_process
+  (out: FILEref, pos0: lint, psmss: &psynmarklstlst_vt): void
+// end of [psynmarklstlst_process]
+
+fun{}
+fileref_psynmarklstlst_process (
+  inp: FILEref
+, out: FILEref
+, psmss: psynmarklstlst_vt
+, fputc: (char, FILEref) -<cloref1> int
+) : void // end of [fileref_psynmarklstlst_process]
 
 (* ****** ****** *)
 

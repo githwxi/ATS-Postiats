@@ -584,6 +584,13 @@ the_tmplev_dec () =
 
 end // end of [local]
 
+(* ****** ****** *)
+
+(*
+** HX-2012-06-07:
+** this function is currently not used
+** in the implementation of ATS2
+*)
 implement
 s2var_check_tmplev
   (loc, s2v) = let
@@ -593,14 +600,15 @@ in
   | _ when lev > 0 => let
       val tmplev = the_tmplev_get ()
     in
-      if lev < tmplev then {
+      if lev < tmplev then let
         val () = prerr_error2_loc (loc)
         val () = prerr ": the static variable ["
         val () = prerr_s2var (s2v)
         val () = prerr "] is out of scope."
         val () = prerr_newline ()
-        val () = the_trans2errlst_add (T2E_s2var_check_tmplev (s2v))
-      } // end of [if]
+      in
+        the_trans2errlst_add (T2E_s2var_check_tmplev (s2v))
+      end // end of [if]
     end // end of [_ when lev > 0]]
   | _ => () // HX: [s2v] is not a template variable
 end // end of [s2var_tmplev_check]

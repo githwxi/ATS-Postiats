@@ -48,7 +48,6 @@ val sep = tprint_list__sep ()
 implement
 $F.iforeach_list__fwork<a>
   (i, x) = let
-  val i = g1ofg0_uint (i)
   val () = if i > 0 then tprint (sep) in tprint<a> (x)
 end // end of [__fwork]
 //

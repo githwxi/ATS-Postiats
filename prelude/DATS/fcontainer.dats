@@ -192,8 +192,10 @@ fun loop {n:nat} .<n>. (
   | ~list_vt_nil () => sink
 ) (* end of [loop] *)
 //
+val rxs = rlistize (xs)
+//
 in
-  loop (pfv | rlistize (xs), f, sink, env)
+  loop (pfv | rxs, f, sink, env)
 end // end of [foldright_funenv]
 
 implement

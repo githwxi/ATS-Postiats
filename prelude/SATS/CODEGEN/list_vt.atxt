@@ -112,6 +112,11 @@ list_vt_concat
 
 #atscode_separator()
 
+fun{a:vt0p}
+list_vt_foreach__fwork (x: &a): void
+fun{a:vt0p}
+list_vt_foreach {n:int} (xs: !list_vt (a, n)): void
+
 fun{
 a:vt0p
 } list_vt_foreach_funenv
@@ -119,6 +124,22 @@ a:vt0p
   pfv: !v
 | xs: !list_vt (INV(a), n), f: (!v | &a, !vt) -<fe> void, env: !vt
 ) :<fe> void // end of [list_vt_foreach_funenv]
+
+#atscode_separator()
+
+fun{
+a:vt0p}{b:vt0p
+} list_vt_map__fwork (x: &a): b
+fun{
+a:vt0p}{b:vt0p
+} list_vt_map {n:int} (xs: !list_vt (a, n)): list_vt (b, n)
+
+fun{
+a:vt0p}{b:vt0p
+} list_vt_mapfree__fwork (x: &a >> a?): b
+fun{
+a:vt0p}{b:vt0p
+} list_vt_mapfree {n:int} (xs: list_vt (a, n)): list_vt (b, n)
 
 #atscode_separator()
 

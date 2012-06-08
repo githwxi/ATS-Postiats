@@ -11,6 +11,11 @@
 //
 (* ****** ****** *)
 
+staload _ = "prelude/DATS/list.dats"
+staload _ = "prelude/DATS/list_vt.dats"
+
+(* ****** ****** *)
+
 staload
 "libatsyntax/SATS/libatsyntax.sats"
 // end of [staload]
@@ -22,7 +27,7 @@ dynload "libatsyntax/dynloadall.dats"
 (* ****** ****** *)
 
 implement
-main () = let
+main (argc, argv) = let
 //
 fun loop (
   xs: psynmarklst_vt
@@ -41,10 +46,28 @@ in
   | ~list_vt_nil () => ()
 end // end of [loop]
 //
-val xs = fileref_get_psynmarklst (1(*dyn*), stdin_ref)
+var stadyn: int = 1
+val () = (
+  if argc >= 2 then (
+    case+ argv.[1] of
+    | "-s" => stadyn := 0
+    | "-d" => stadyn := 1
+    | "--static" => stadyn := 0
+    | "--dynamic" => stadyn := 1
+    | _ => ()
+  ) // end of [if]
+) : void // end of [val]
+//
+val toks = fileref_get_tokenlst (stdin_ref)
+val psms = listize_token2psynmark (toks)
+val () = list_vt_free (toks)
+val () = loop (psms)
+//
+val psms = fileref_get_psynmarklst (stadyn, stdin_ref)
+val () = loop (psms)
 //
 in
-  loop (xs)
+  // nothing
 end // end of [main]
 
 (* ****** ****** *)

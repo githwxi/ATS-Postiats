@@ -133,7 +133,9 @@ case+ ans of
 | ~Some_vt s2i => (
   case+ s2i of
   | S2ITMvar (s2v) => let
+(*
       val () = s2var_check_tmplev (loc, s2v)
+*)
     in
       s2exp_var (s2v)
     end // end of [S2ITEMvar]
@@ -533,7 +535,9 @@ case+ ans of
     end // end of [S1ITMe1xp]
 //
   | S2ITMvar s2v => let
+(*
       val () = s2var_check_tmplev (loc0, s2v)
+*)
     in
       s2exp_var (s2v)
     end // end of [S2ITMvar]
@@ -1208,9 +1212,11 @@ case+ s2i0 of
       end // end of [_]
   end // end of [S2ITEMcst]
 | S2ITMvar s2v => let
+(*
     val () =
       s2var_check_tmplev (s1opr.s1exp_loc, s2v)
     // end of [val]
+*)
   in
     s1exp_trup_app (s1e0, s1opr, s2exp_var (s2v), xs)
   end // end of [S2ITEMvar]

@@ -140,7 +140,9 @@ token_node =
   | T_STACST of () // stacst
   | T_STADEF of () // stadef
   | T_STALOAD of () // staload
+(*
   | T_STAVAR of () // stavar
+*)
   | T_SYMELIM of () // symelim
   | T_SYMINTR of () // symintr
   | T_THEN of () // then

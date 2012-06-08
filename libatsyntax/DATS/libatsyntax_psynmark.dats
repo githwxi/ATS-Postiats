@@ -11,6 +11,10 @@
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload _ = "prelude/DATS/list.dats"
 staload _ = "prelude/DATS/list_vt.dats"
 
@@ -27,27 +31,28 @@ fprint_synmark
 macdef prstr (s) = fprint_string (out, ,(s))
 //
 in
-  case+ sm of
-  | SMnone () => prstr "SMnone"
-  | SMcomment () => prstr "SMcomment"
-  | SMkeyword () => prstr "SMkeyword"
-  | SMextcode () => prstr "SMextcode"
 //
-  | SMstaexp () => prstr "SMstaexp"
-  | SMprfexp () => prstr "SMprfexp"
-  | SMdynexp () => prstr "SMdynexp"
-  | SMneuexp () => prstr "SMneuexp"
+case+ sm of
+| SMnone () => prstr "SMnone"
+| SMcomment () => prstr "SMcomment"
+| SMkeyword () => prstr "SMkeyword"
+| SMextcode () => prstr "SMextcode"
 //
-  | SMscst_def (g) => prstr "SMscst_def"
-  | SMscst_use (g) => prstr "SMscst_use"
+| SMstaexp () => prstr "SMstaexp"
+| SMprfexp () => prstr "SMprfexp"
+| SMdynexp () => prstr "SMdynexp"
+| SMneuexp () => prstr "SMneuexp"
 //
-  | SMscon_dec (g) => prstr "SMscon_dec"
-  | SMscon_use (g) => prstr "SMscon_use"
-  | SMscon_assume (g) => prstr "SMscon_assume"
+| SMscst_def (g) => prstr "SMscst_def"
+| SMscst_use (g) => prstr "SMscst_use"
 //
-  | SMdcst_dec (g) => prstr "SMdcst_dec"
-  | SMdcst_use (g) => prstr "SMdcst_use"
-  | SMdcst_implement (g) => prstr "SMdcst_implement"
+| SMscon_dec (g) => prstr "SMscon_dec"
+| SMscon_use (g) => prstr "SMscon_use"
+| SMscon_assume (g) => prstr "SMscon_assume"
+//
+| SMdcst_dec (g) => prstr "SMdcst_dec"
+| SMdcst_use (g) => prstr "SMdcst_use"
+| SMdcst_implement (g) => prstr "SMdcst_implement"
 //
 end // end of [fprint_synmark]
 
@@ -152,6 +157,94 @@ fun psynmark_ins_begend (
 in
   // nothing
 end // end of [psynmark_ins_begend]
+
+(* ****** ****** *)
+
+implement
+listize_token2psynmark (xs) = let
+//
+fun loop (
+  xs: !tokenlst_vt, res: &res >> res
+) : void =
+  case xs of
+  | list_vt_cons
+      (x, !p_xs1) => let
+      val loc = token_get_loc (x)
+      val loc = $UN.cast {location} (loc)
+      val () = (
+        case+ 0 of
+        | _ when token_is_keyword (x) =>
+            psynmark_ins_begend (SMkeyword, loc, res)
+        | _ when token_is_comment (x) =>
+            psynmark_ins_begend (SMcomment, loc, res)
+        | _ when token_is_extcode (x) =>
+            psynmark_ins_begend (SMextcode, loc, res)
+        | _ => ()
+      ) : void // end of [val]
+      val () = loop (!p_xs1, res)
+      prval () = fold@ (xs)
+    in
+      // nothing
+    end // end of [list_vt_cons]
+  | list_vt_nil () => fold@ (xs)
+// end of [loop]
+//
+var res: res = list_vt_nil ()
+val () = loop (xs, res)
+//
+in
+  list_vt_reverse (res)
+end // end of [listize_token2psynmark]
+
+(* ****** ****** *)
+
+implement
+psynmarklst_split (xs) = let
+//
+viewtypedef psmlst = psynmarklst_vt
+fun loop (
+  xs: psmlst
+, res1: &psmlst? >> psmlst
+, res2: &psmlst? >> psmlst
+) : void = let
+in
+//
+case+ xs of
+| list_vt_cons
+    (x, !p_xs) => let
+    val PSM (_, _, knd) = x
+  in
+    if knd <= 0 then let
+      val () = res1 := xs
+      val xs = !p_xs
+      val () = loop (xs, !p_xs, res2)
+      prval () = fold@ (res1)
+    in
+      // nothing
+    end else let
+      val () = res2 := xs
+      val xs = !p_xs
+      val () = loop (xs, res1, !p_xs)
+      prval () = fold@ (res2)
+    in
+      // nothing
+    end // end of [if]
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => let
+    val () = res1 := list_vt_nil ()
+    val () = res2 := list_vt_nil ()
+  in
+    // nothing
+  end // end of [list_vt_nil]
+//
+end // end of [loop]
+//
+var res1: psmlst and res2: psmlst
+val () = loop (xs, res1, res2)
+//
+in
+  (res1, res2)
+end // end of [psynmarklst_split]
 
 (* ****** ****** *)
 
@@ -575,6 +668,87 @@ in
 end // end of [fileref_get_psynmarklst]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement{}
+psynmarklst_process
+  (out, pos0, psms) = let
+in
+//
+case+ psms of
+| list_vt_cons
+    (psm, !p_psms1) => let
+    val PSM (pos, sm, knd) = psm
+  in
+    if pos0 >= pos then let
+      val () = psynmark_process<> (out, psm)
+      val psms1 = !p_psms1
+      val () = free@ {psynmark}{0} (psms)
+      val () = psms := psms1
+    in
+      psynmarklst_process (out, pos0, psms)
+    end else fold@ (psms) // end of [if]
+  end // end of [list_vt_cons]
+| list_vt_nil () => fold@ (psms)
+//
+end // end of [psynmarklst_process]
+
+implement{}
+psynmarklstlst_process
+  (out, pos0, psmss) = (
+  case psmss of
+  | list_vt_cons (!p1_psms, !p2_psmss) => let
+      val () = psynmarklst_process (out, pos0, !p1_psms)
+      val () = psynmarklstlst_process (out, pos0, !p2_psmss)
+    in
+      fold@ (psmss)
+    end // end of [list_vt_cons]
+  | list_vt_nil () => fold@ (psmss)
+) // end of [psynmarklstlst_process]
+
+(* ****** ****** *)
+
+staload
+STDIO = "libc/SATS/stdio.sats"
+macdef fgetc0_err = $STDIO.fgetc0_err
+
+#define i2c char_of_int
+
+implement{}
+fileref_psynmarklstlst_process
+  (inp, out, psmss, fputc) = let
+//
+fun loop (
+  inp: FILEref
+, out: FILEref
+, psmss: &psynmarklstlst_vt
+, fputc: (char, FILEref) -<cloref1> int
+, pos: &lint
+) : void = let
+  val () =
+    psynmarklstlst_process (out, pos, psmss)
+  val i = fgetc0_err (inp)
+in
+//
+if (i != EOF) then let
+  val () = pos := succ (pos)
+  val _(*err*) = fputc ((i2c)i, out)
+in
+  loop (inp, out, psmss, fputc, pos)
+end else () // end of [if]
+//
+end // end of [loop]
+//
+var psmss = psmss; var pos: lint = 0L
+val () = loop (inp, out, psmss, fputc, pos)
+//
+viewtypedef psmlst = psynmarklst_vt
+val () = list_vt_free_fun<psmlst> (psmss, lam (x) => list_vt_free (x))
+//
+in
+  // nothing
+end // end of [fileref_psynmarklstlst_process]
 
 (* ****** ****** *)
 
