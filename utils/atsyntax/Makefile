@@ -7,12 +7,16 @@ ATSCC=$(ATSHOME)/bin/atscc
 
 ######
 
+PATSHM=$(PATSHOME)
+PATSHMSRC=$(PATSHOME)/src
+
+######
+
 pats2html: pats2html.dats; \
   $(ATSCC) \
-    -I $(PATSHOME)/src \
-    -IATS $(PATSHOME) \
-    -IATS $(PATSHOME)/src \
-    -o $@ $< -L $(PATSHOME)/libatsyntax -latsyntax
+    -I $(PATSHMSRC) \
+    -IATS $(PATSHM) -IATS $(PATSHMSRC) \
+    -o $@ $< -L $(PATSHM)/libatsyntax -latsyntax
 cleanall:: ; $(RMF) pats2html
 
 ######

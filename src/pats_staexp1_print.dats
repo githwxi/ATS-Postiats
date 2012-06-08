@@ -591,9 +591,9 @@ fprint_s1qualst
 implement
 fprint_s1vararg (out, x) =
   case+ x of
-  | S1VARARGone () =>
+  | S1VARARGone (_) =>
       fprint_string (out, "{..}")
-  | S1VARARGall () =>
+  | S1VARARGall (_) =>
       fprint_string (out, "{...}")
   | S1VARARGseq (loc, s1as) => {
       val () = fprint_string (out, "{")

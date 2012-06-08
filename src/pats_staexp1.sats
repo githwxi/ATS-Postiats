@@ -594,8 +594,8 @@ fun wths1explst_reverse (wths1es: wths1explst): wths1explst
 
 datatype
 s1vararg =
-  | S1VARARGone (* {..} *)
-  | S1VARARGall (* {...} *)
+  | S1VARARGone of (location) // {..}
+  | S1VARARGall of (location) // {...}
   | S1VARARGseq of (location, s1arglst)
 // end of [s1vararg]
 
@@ -610,8 +610,8 @@ fun prerr_s1vararg (x: s1vararg): void
 
 datatype
 s1exparg_node =
-  | S1EXPARGone (* {..} *)
-  | S1EXPARGall (* {...} *)
+  | S1EXPARGone of () // {..}
+  | S1EXPARGall of () // {...}
   | S1EXPARGseq of (s1explst)
 // end of [s1exparg_node]
 

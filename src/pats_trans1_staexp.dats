@@ -113,9 +113,10 @@ s0marglst_tr (xss) = l2l (list_map_fun (xss, s0marg_tr))
 implement
 s0vararg_tr
   (s0v) = case+ s0v of
-  | S0VARARGseq (loc, s0as) => S1VARARGseq (loc, s0arglst_tr s0as)
-  | S0VARARGone () => S1VARARGone ()
-  | S0VARARGall () => S1VARARGall ()
+  | S0VARARGseq
+      (loc, s0as) => S1VARARGseq (loc, s0arglst_tr s0as)
+  | S0VARARGone (tok) => S1VARARGone (tok.token_loc)
+  | S0VARARGall (tok) => S1VARARGall (tok.token_loc)
 // end of [s0vararg_tr]
 
 implement

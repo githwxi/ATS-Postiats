@@ -110,6 +110,9 @@ case+
 //
 | T_HASH () => true
 //
+| T_LT () => true
+| T_GT () => true
+//
 | T_GTLT () => true
 | T_DOTLT () => true
 | T_GTDOT () => true
@@ -118,6 +121,8 @@ case+
 | T_MINUSGT () => true
 | T_MINUSLT () => true
 | T_MINUSLTGT () => true
+//
+| T_TILDE () => true
 //
 | T_ABSTYPE _ => true
 | T_AND () => true
@@ -239,9 +244,6 @@ case+
 *)
 //
 | T_NONE () => false
-| T_LT () => false
-| T_GT () => false
-| T_TILDE () => false
 //
 | T_IDENT_alp (_) => false
 | T_IDENT_sym (_) => false

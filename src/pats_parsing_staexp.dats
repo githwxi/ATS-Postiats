@@ -1217,10 +1217,10 @@ in
 //
 case+ tok.token_node of
 | T_DOTDOT () => let
-    val () = incby1 () in S0VARARGone ()
+    val () = incby1 () in S0VARARGone (tok)
    end
 | T_DOTDOTDOT () => let
-    val () = incby1 () in S0VARARGall ()
+    val () = incby1 () in S0VARARGall (tok)
   end
 | _ => let
     val xs = pstar_fun0_COMMA (buf, bt, p_s0arg)

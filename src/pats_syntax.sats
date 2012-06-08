@@ -763,8 +763,8 @@ fun d0cstarg_dyn (
 
 datatype
 s0vararg =
-  | S0VARARGone (* {..} *)
-  | S0VARARGall (* {...} *)
+  | S0VARARGone of (token) (* {..} *)
+  | S0VARARGall of (token) (* {...} *)
   | S0VARARGseq of (location, s0arglst)
 // end of [s0vararg]
 
@@ -772,8 +772,8 @@ typedef s0vararglst = List (s0vararg)
 
 datatype
 s0exparg =
-  | S0EXPARGone (* {..} *)
-  | S0EXPARGall (* {...} *)
+  | S0EXPARGone of () // {..}
+  | S0EXPARGall of () // {...}
   | S0EXPARGseq of (s0explst)
 // end of [s0exparg]
 
@@ -1470,7 +1470,7 @@ and m0acdeflst = List m0acdef
 
 (* ****** ****** *)
 
-and v0aldec: type = '{
+and v0aldec = '{
   v0aldec_loc= location
 , v0aldec_pat= p0at
 , v0aldec_def= d0exp
@@ -1481,7 +1481,7 @@ and v0aldeclst: type = List v0aldec
 
 (* ****** ****** *)
 
-and f0undec: type = '{
+and f0undec = '{
   f0undec_loc= location
 , f0undec_sym= symbol
 , f0undec_sym_loc= location

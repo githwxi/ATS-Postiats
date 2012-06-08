@@ -93,6 +93,7 @@ SOURCES = \
   pats_parsing_toplevel.dats \
   pats_syntax.sats \
   pats_syntax.dats \
+  pats_syntax_print.dats \
 
 OBJECTS := $(patsubst %.sats, %_sats.o, $(SOURCES))
 OBJECTS := $(patsubst %.dats, %_dats.o, $(OBJECTS))

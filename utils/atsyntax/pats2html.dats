@@ -14,7 +14,63 @@ staload STDIO = "libc/SATS/stdio.sats"
 (* ****** ****** *)
 
 staload "libatsyntax/SATS/libatsyntax.sats"
-staload _ = "libatsyntax/DATS/libatsyntax_psynmark.dats"
+staload _(*anon*) =
+  "libatsyntax/DATS/libatsyntax_psynmark.dats"
+// end of [staload]
+
+(* ****** ****** *)
+
+#define PSYNMARK_HTML_FILE_BEG "\
+<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n\
+\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n\
+<html xmlns=\"http://www.w3.org/1999/xhtml\">\n\
+<head>\n\
+  <title></title>\n\
+  <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"/>\n\
+  <style type=\"text/css\">\n\
+    .atsyntax {color:#E80000;background-color:#E0E0E0;}\n\
+    .atsyntax span.keyword {color:#000000;font-weight:bold;}\n\
+    .atsyntax span.comment {color:#787878;font-style:italic;}\n\
+    .atsyntax span.extcode {color:#A52A2A;}\n\
+    .atsyntax span.neuexp  {color:#800080;}\n\
+    .atsyntax span.staexp  {color:#0000FF;}\n\
+    .atsyntax span.prfexp  {color:#009000;}\n\
+    .atsyntax span.dynexp  {color:#E80000;}\n\
+    .atsyntax span.stacstdec  {text-decoration:none;}\n\
+    .atsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}\n\
+    .atsyntax span.dyncstdec  {text-decoration:none;}\n\
+    .atsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}\n\
+    .atsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}\n\
+  </style>\n\
+</head>\n\
+<body class=\"atsyntax\">\n\
+" // end of [PSYNMARK_HTML_FILE_BEG]
+
+#define PSYNMARK_HTML_FILE_END "\
+</body>\n\
+</html>\n\
+" // end of [PSYNMARK_HTML_FILE_END]
+
+(* ****** ****** *)
+
+fun pats2html_file_beg
+  (out: FILEref): void = 
+  fprint_string (out, PSYNMARK_HTML_FILE_BEG)
+fun pats2html_file_end
+  (out: FILEref): void = 
+  fprint_string (out, PSYNMARK_HTML_FILE_END)
+
+(* ****** ****** *)
+
+#define PSYNMARK_HTML_PRE_BEG "<pre class=\"atsyntax\">\n"
+#define PSYNMARK_HTML_PRE_END "</pre>\n"
+
+fun pats2html_pre_beg
+  (out: FILEref): void = 
+  fprint_string (out, PSYNMARK_HTML_PRE_BEG)
+fun pats2html_pre_end
+  (out: FILEref): void = 
+  fprint_string (out, PSYNMARK_HTML_PRE_END)
 
 (* ****** ****** *)
 
@@ -48,35 +104,45 @@ fun fputc_html (
 #define SMextcode_beg "<span class=\"extcode\">"
 #define SMextcode_end "</span>"
 
+#define SMstaexp_beg "<span class=\"staexp\">"
+#define SMstaexp_end "</span>"
+#define SMprfexp_beg "<span class=\"prfexp\">"
+#define SMprfexp_end "</span>"
+#define SMdynexp_beg "<span class=\"dynexp\">"
+#define SMdynexp_end "</span>"
+
+(* ****** ****** *)
 
 implement
 psynmark_process<>
   (out, psm) = let
-  val PSM (p, sm, knd) = psm
+//
+val PSM
+  (p, sm, knd) = psm
+val isbeg = knd <= 0
+//
+macdef
+fpr_psynmark
+  (_beg, _end) =
+  fprint_string (
+  out, if isbeg then ,(_beg) else ,(_end)
+) (* end of [macdef] *)
+//
 in
 //
 case+ sm of
-| SMkeyword () => let
-    val str = (
-      if knd <= 0 then SMkeyword_beg else SMkeyword_end
-    ) : string // end of [val]
-  in
-    fprint_string (out, str)
-  end
-| SMcomment () => let
-    val str = (
-      if knd <= 0 then SMcomment_beg else SMcomment_end
-    ) : string // end of [val]
-  in
-    fprint_string (out, str)
-  end
-| SMextcode () => let
-    val str = (
-      if knd <= 0 then SMextcode_beg else SMextcode_end
-    ) : string // end of [val]
-  in
-    fprint_string (out, str)
-  end
+//
+| SMkeyword () =>
+    fpr_psynmark (SMkeyword_beg, SMkeyword_end)
+| SMcomment () =>
+    fpr_psynmark (SMcomment_beg, SMcomment_end)
+| SMextcode () =>
+    fpr_psynmark (SMextcode_beg, SMextcode_end)
+//
+| SMstaexp () => fpr_psynmark (SMstaexp_beg, SMstaexp_end)
+| SMprfexp () => fpr_psynmark (SMprfexp_beg, SMprfexp_end)
+| SMdynexp () => fpr_psynmark (SMdynexp_beg, SMdynexp_end)
+//
 | _ => ()
 //
 end // end of [psynmark_process]
@@ -133,9 +199,16 @@ if argc >= 2 then (
 ) : void // end of [val]
 //
 val inp = stdin_ref
+val out = stdout_ref
+//
+val () = pats2html_file_beg (out)
+val () = pats2html_pre_beg (out)
+val () = pats2html_level1 (stadyn, inp, out)
+val () = pats2html_pre_end (out)
+val () = pats2html_file_end (out)
 //
 in
-  pats2html_level1 (stadyn, inp, stdout_ref)
+  // nothing
 end // end of [main]
 
 (* ****** ****** *)

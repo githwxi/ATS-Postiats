@@ -533,7 +533,8 @@ fun aux_imparg_svararg (
 //
 in
   case+ s1v of
-  | S1VARARGone () => (case+ s2qs of
+  | S1VARARGone (loc) => (
+    case+ s2qs of
     | list_cons (s2q, s2qs) => let
         val s2vs = list_map_fun (s2q.s2qua_svs, s2var_dup)
         val s2vs = (l2l)s2vs
@@ -546,7 +547,8 @@ in
         val () = auxerr1 () in list_nil ()
       end // end of [list_nil]
     ) // end of [S1VARARGone]
-  | S1VARARGall () => (case+ s2qs of
+  | S1VARARGall (loc) => (
+    case+ s2qs of
     | list_cons (s2q, s2qs) => let
         val s2vs = list_map_fun (s2q.s2qua_svs, s2var_dup)
         val s2vs = (l2l)s2vs
@@ -557,7 +559,9 @@ in
       end
     | list_nil () => list_nil ()
     ) // end of [S1VARARGall]
-  | S1VARARGseq (loc, s1as) => (case+ s2qs of
+  | S1VARARGseq
+      (loc, s1as) => (
+    case+ s2qs of
     | list_cons (s2q, s2qs) => let
         var serr: int = 0
         val s2vs = auxseq (s1as, s2q.s2qua_svs, serr)

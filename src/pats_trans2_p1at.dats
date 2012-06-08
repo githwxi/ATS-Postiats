@@ -215,7 +215,7 @@ in
 case+ s1as of
 | list_cons (s1a, s1as) => (
   case+ s1a of
-  | S1VARARGone () => begin
+  | S1VARARGone (loc) => begin
     case+ s2qs of
     | list_cons (s2q, s2qs) => let
         val s2vs =
@@ -232,7 +232,8 @@ case+ s1as of
         val () = auxerr1 (p1t1, d2c) in s2exp_s2rt_err ()
       end (* end of [list_nil] *)
     end // end of [S1VARARGone]
-  | S1VARARGall () => p1at_tr_con_sapp1 (p1t1.p1at_loc, d2c, sub, s2qs, out)
+  | S1VARARGall (loc) =>
+      p1at_tr_con_sapp1 (p1t1.p1at_loc, d2c, sub, s2qs, out)
   | S1VARARGseq (loc, sarg) => begin
     case+ s2qs of
     | list_cons (s2q, s2qs) => let

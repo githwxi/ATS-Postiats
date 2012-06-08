@@ -2089,8 +2089,8 @@ end // end of [s1rtext_tr]
 implement
 s1vararg_tr (x) =
   case+ x of
-  | S1VARARGone () => S2VARARGone ()
-  | S1VARARGall () => S2VARARGall ()
+  | S1VARARGone (loc) => S2VARARGone ()
+  | S1VARARGall (loc) => S2VARARGall ()
   | S1VARARGseq (loc, s1as) => let
       val s2vs = s1arglst_trup (s1as) in S2VARARGseq (s2vs)
     end // end of [S1VARARGseq]
@@ -2334,13 +2334,13 @@ val () = (
 in
 //
 case+ s1va of
-| S1VARARGone () => let
+| S1VARARGone (loc) => let
     var sub = stasub_make_nil ()
     val s2vs1 = stasub_extend_svarlst (sub, s2vs)
   in
     (sub, s2vs1)
   end (* end of [S1VARARGone] *)
-| S1VARARGall () => let
+| S1VARARGall (loc) => let
     var sub = stasub_make_nil ()
     val s2vs1 = stasub_extend_svarlst (sub, s2vs)
   in

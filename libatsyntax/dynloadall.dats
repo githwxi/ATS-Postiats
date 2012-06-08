@@ -42,6 +42,7 @@ dynload "src/pats_parsing_decl.dats"
 dynload "src/pats_parsing_toplevel.dats"
 //
 dynload "src/pats_syntax.dats"
+dynload "src/pats_syntax_print.dats"
 //
 dynload "libatsyntax/DATS/libatsyntax_token.dats"
 dynload "libatsyntax/DATS/libatsyntax_psynmark.dats"
