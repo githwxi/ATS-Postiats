@@ -154,7 +154,7 @@ fun prerr_d2cst (x: d2cst): void
 (* ****** ****** *)
 
 fun d2cst_get_loc (x: d2cst): location
-fun d2cst_get_fil (_: d2cst): filename
+fun d2cst_get_fil (x: d2cst): filename
 fun d2cst_get_sym (x: d2cst): symbol
 fun d2cst_get_kind (x: d2cst): dcstkind
 fun d2cst_get_arylst (x: d2cst): List int
@@ -163,6 +163,11 @@ fun d2cst_set_decarg (x: d2cst, s2qs: s2qualst): void
 fun d2cst_get_type (x: d2cst): s2exp
 fun d2cst_get_extdef (x: d2cst): dcstextdef
 fun d2cst_get_stamp (x: d2cst): stamp
+
+(* ****** ****** *)
+
+fun d2cst_is_prf (d2c: d2cst): bool // [d2c] is a proof
+fun d2cst_is_nonprf (d2c: d2cst): bool // [d2c] is a nonproof
 
 (* ****** ****** *)
 
@@ -507,7 +512,7 @@ d2ecl_node =
 //
   | D2Cdcstdec of (dcstkind, d2cstlst) // dyn. const. declarations
 //
-  | D2Cimpdec of i2mpdec // val/fun/prval/prfun implementation
+  | D2Cimpdec of (int(*knd*), i2mpdec) // knd=0/1 : implement/primplmnt
 //
   | D2Cfundecs of (funkind, s2qualst, f2undeclst)
   | D2Cvaldecs of
@@ -1154,7 +1159,8 @@ fun i2mpdec_make (
 , locid: location
 , d2c: d2cst
 , imparg: s2varlst
-, tmparg: s2explstlst, tmpgua: s2explstlst
+, tmparg: s2explstlst
+, tmpgua: s2explstlst
 , def: d2exp
 ) : i2mpdec // end of [i2mpdec_make]
 
@@ -1200,7 +1206,9 @@ fun d2ecl_dcstdec (
 
 (* ****** ****** *)
 
-fun d2ecl_impdec (loc: location, d2c: i2mpdec): d2ecl
+fun d2ecl_impdec
+  (loc: location, knd: int, d2c: i2mpdec): d2ecl
+// end of [d2ecl_impdec]
 
 (* ****** ****** *)
 

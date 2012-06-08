@@ -837,9 +837,11 @@ case+ d1c0.d1ecl_node of
     val () = $UT.fprintlst (out, ds, "\n", fprint_v1ardec)
     val () = prstr "\n)"
   }
-| D1Cimpdec (imparg, d) => {
+| D1Cimpdec (knd, imparg, d) => {
     val qid = d.i1mpdec_qid
-    val () = prstr "D1Cimpdec"
+    val () = prstr "D1Cimpdec["
+    val () = fprint_int (out, knd)
+    val () = prstr "]"
     val () = fprint_i1mparg (out, imparg)
     val () = prstr "(\n"
 //

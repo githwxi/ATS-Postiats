@@ -94,7 +94,7 @@ fn auxerr1 (
   val () = prerr "]."
   val () = prerr_newline ()
 in
-  the_trans2errlst_add (T2E_impdec_tr (d1c0))
+  the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
 end // end of [auxerr1]
 fn auxerr2 (
   d1c: i1mpdec
@@ -107,7 +107,7 @@ fn auxerr2 (
   val () = prerr "] does not refer to a declared dynamic constant."
   val () = prerr_newline ()
 in
-  the_trans2errlst_add (T2E_impdec_tr (d1c0))
+  the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
 end // end of [auxerr2]
 fn auxerr3 (
   d1c: i1mpdec
@@ -120,7 +120,7 @@ fn auxerr3 (
   val () = prerr "] is unrecognized."
   val () = prerr_newline ()
 in
-  the_trans2errlst_add (T2E_impdec_tr (d1c0))
+  the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
 end // end of [auxerr3]
 //
 val qid = impdec.i1mpdec_qid
@@ -495,7 +495,7 @@ fun aux_imparg_svararg (
     val () = prerr ": the implementation is overly applied."
     val () = prerr_newline ()
   in
-    the_trans2errlst_add (T2E_impdec_tr (d1c0))
+    the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
   end // end of [auxerr1]
   fn auxerr2 (
     loc: location, serr: int
@@ -507,7 +507,7 @@ fun aux_imparg_svararg (
     val () = prerr " components."
     val () = prerr_newline ()
   in
-    the_trans2errlst_add (T2E_impdec_tr (d1c0))
+    the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
   end // end of [auxerr2]
 //
   fun auxseq (
@@ -587,7 +587,7 @@ fun aux_imparg_svararglst (
     val () = prerr ": the implementation is expected to be fully applied."
     val () = prerr_newline ()
   in
-    the_trans2errlst_add (T2E_impdec_tr (d1c0))
+    the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
   end // end of [auxerr]
 in
   case+ s1vs of
@@ -665,7 +665,7 @@ fun aux_tmparg_marglst (
     val () = if serr < 0 then prerr_string "fewer components."
     val () = prerr_newline ()
   in
-    the_trans2errlst_add (T2E_impdec_tr (d1c0))
+    the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
   end // end of [auxerr1]
   fn auxerr2 ():<cloref1> void = let
     val () = prerr_error2_loc (d1c0.d1ecl_loc)
@@ -673,7 +673,7 @@ fun aux_tmparg_marglst (
     val () = prerr ": the template is expected to be fully applied but it is not."
     val () = prerr_newline ()
   in
-    the_trans2errlst_add (T2E_impdec_tr (d1c0))
+    the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
   end // end of [auxerr2]
   fn auxerr3 ():<cloref1> void = let
     val () = prerr_error2_loc (d1c0.d1ecl_loc)
@@ -681,7 +681,7 @@ fun aux_tmparg_marglst (
     val () = prerr ": the template is overly applied."
     val () = prerr_newline ()
   in
-    the_trans2errlst_add (T2E_impdec_tr (d1c0))
+    the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
   end // end of [auxerr3]
 in
   case+ (s2qs, xs) of
@@ -718,7 +718,7 @@ fun auxerr_tmparg
   val () = prerr ": the redundantly provided template arguments are ignored."
   val () = prerr_newline ()
 in
-  the_trans2errlst_add (T2E_impdec_tr (d1c0))
+  the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
 end // end of [auxerr_tmparg]
 //
 val s2qs = d2cst_get_decarg (d2c)
@@ -778,7 +778,7 @@ end // end of [i1mpdec_tr_main]
 implement
 i1mpdec_tr (d1c0) = let
   val- D1Cimpdec
-    (imparg, impdec) = d1c0.d1ecl_node
+    (knd, imparg, impdec) = d1c0.d1ecl_node
   val d2copt = i1mpdec_select_d2cst (d1c0, impdec)
 in
   case+ d2copt of

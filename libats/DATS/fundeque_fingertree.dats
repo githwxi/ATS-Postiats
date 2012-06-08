@@ -379,7 +379,7 @@ assume deque_t0ype_int_type
 
 (* ****** ****** *)
 
-implement
+primplmnt
 lemma_deque_param (xs) = fingertree_prop1_sznat (xs)
 
 (* ****** ****** *)

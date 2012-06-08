@@ -26,13 +26,13 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-implement
+primplmnt
 false_elim () = case+ 0 of _ =/=> ()
 
 #atscode_separator()
 
-implement prop_verify () = ()
-implement prop_verify_and_add () = ()
+primplmnt prop_verify () = ()
+primplmnt prop_verify_and_add () = ()
 
 #atscode_separator()
 

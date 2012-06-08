@@ -1003,8 +1003,8 @@ d1ecl_macdefs (loc, knd, isrec, ds) = '{
 
 implement
 d1ecl_impdec
-  (loc, imparg, d1c) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cimpdec (imparg, d1c)
+  (loc, knd, imparg, d1c) = '{
+  d1ecl_loc= loc, d1ecl_node= D1Cimpdec (knd, imparg, d1c)
 } // end of [d1ecl_impdec]
 
 (* ****** ****** *)

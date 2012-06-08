@@ -152,7 +152,7 @@ case+ d2c0.d2ecl_node of
 | D2Cdcstdec
     (knd, d2cs) => d3ecl_dcstdec (loc0, knd, d2cs)
 //
-| D2Cimpdec (d2c) => let
+| D2Cimpdec (knd, d2c) => let
   //
   // HX: should combined imps be supported?
   //

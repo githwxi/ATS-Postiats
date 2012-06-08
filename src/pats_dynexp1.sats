@@ -268,7 +268,8 @@ datatype d1ecl_node =
   | D1Cvaldecs of (valkind, bool(*isrec*), v1aldeclst) // val declarations
   | D1Cfundecs of (funkind, q1marglst, f1undeclst) // function declaration
   | D1Cvardecs of v1ardeclst (* variable declaration *)
-  | D1Cimpdec of (i1mparg, i1mpdec) (* implementation *)
+//
+  | D1Cimpdec of (int(*knd*), i1mparg, i1mpdec) // knd=0/1: implement/primplmnt
 //
   | D1Cinclude of d1eclist (* inclusion *)
   | D1Cstaload of (* staloading a file *)
@@ -835,9 +836,10 @@ fun v1ardec_make (
 , typ: s1expopt, wth: i0deopt, def: d1expopt
 ) : v1ardec // end of [v1ardec_make]
 
-fun i1mpdec_make
-  (loc: location, qid: impqi0de, tmparg: t1mpmarglst, def: d1exp): i1mpdec
-// end of [i1mpdec_make]
+fun i1mpdec_make (
+  loc: location
+, qid: impqi0de, tmparg: t1mpmarglst, def: d1exp
+) : i1mpdec // end of [i1mpdec_make]
 
 (* ****** ****** *)
 //
@@ -908,9 +910,9 @@ fun d1ecl_macdefs (
   loc: location, knd: int, isrec: bool, ds: m1acdeflst
 ) : d1ecl // end of [d1ecl_macdefs]
 
-fun d1ecl_impdec
-  (loc: location, imparg: i1mparg, d1c: i1mpdec): d1ecl
-// end of [d1ecl_impdec]
+fun d1ecl_impdec (
+  loc: location, knd: int, imparg: i1mparg, d1c: i1mpdec
+) : d1ecl // end of [d1ecl_impdec]
 
 fun d1ecl_fundecs (
   loc: location, knd: funkind, qarg: q1marglst, ds: f1undeclst

@@ -34,7 +34,7 @@ staload "doc/EXAMPLE/ARITH/fibonacci.sats"
 
 (* ****** ******)
 
-implement
+primplmnt
 fib_istot {n} () = let
 //
 prfun
@@ -53,7 +53,7 @@ end // end of [fib_istot]
 
 (* ****** ****** *)
 
-implement
+primplmnt
 fib_isfun (pf1, pf2) = let
 //
 prfun isfun
@@ -76,7 +76,7 @@ in
   isfun (pf1, pf2)
 end // end of [fib_isfun]
 
-implement
+primplmnt
 fib_isfun2 (pf1, pf2) = let
   prval () = fib_isfun (pf1, pf2) in inteq_make ()
 end // end of [fib_isfun2]
@@ -86,7 +86,7 @@ end // end of [fib_isfun2]
 // HX-2012-03:
 // fib(m+n+1)=fib(m)*fib(n)+fib(m+1)*fib(n+1)
 //
-implement
+primplmnt
 fibeq1
   (pf1, pf2, pf3, pf4) = let
 //
@@ -127,7 +127,7 @@ end // end of [fibeq1]
 // HX-2012-03:
 // fib(n)*fib(n+2) + (-1)^n = (fib(n+1))^2
 //
-implement
+primplmnt
 fibeq2 (
   pf0, pf1, pf2, pf3
 ) = let

@@ -828,9 +828,9 @@ case+ d0c0.d0ecl_node of
     d1ecl_macdefs (loc0, knd, isrec, d1cs)
   end // end of [D0Cmacdefs]
 //
-| D0Cimpdec (i0mparg, d0c) => let
+| D0Cimpdec (knd, i0mparg, d0c) => let
     val i1mparg = i0mparg_tr (i0mparg) in
-    d1ecl_impdec (loc0, i1mparg, i0mpdec_tr d0c)
+    d1ecl_impdec (loc0, knd, i1mparg, i0mpdec_tr d0c)
   end // end of [D0Cimpdec]
 //
 | D0Cfundecs (knd, qarg, d0cs) => let

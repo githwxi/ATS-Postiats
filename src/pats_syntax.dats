@@ -2678,11 +2678,12 @@ in '{
 
 implement
 d0ecl_impdec (
-  t_implement, imparg, impdec
+  tok, imparg, impdec
 ) = let
-  val loc = t_implement.token_loc + impdec.i0mpdec_loc
+  val- T_IMPLEMENT (knd) = tok.token_node
+  val loc = tok.token_loc + impdec.i0mpdec_loc
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cimpdec (imparg, impdec)
+  d0ecl_loc= loc, d0ecl_node= D0Cimpdec (knd, imparg, impdec)
 } end // end of [d0ecl_impdec]
 
 (* ****** ****** *)

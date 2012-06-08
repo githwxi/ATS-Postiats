@@ -85,6 +85,9 @@ implement FN = T_FUN (FK_fn)
 implement FNSTAR = T_FUN (FK_fnstar)
 implement PRFN = T_FUN (FK_prfn)
 
+implement IMPLEMENT = T_IMPLEMENT (0)
+implement PRIMPLMNT = T_IMPLEMENT (1)
+
 implement INFIX = T_FIXITY (FXK_infix)
 implement INFIXL = T_FIXITY (FXK_infixl)
 implement INFIXR = T_FIXITY (FXK_infixr)
@@ -389,7 +392,6 @@ val () = ins ("fnstar", FNSTAR)
 val () = ins ("prfn", PRFN)
 //
 val () = ins ("if", T_IF)
-val () = ins ("implement", T_IMPLEMENT)
 val () = ins ("in", T_IN)
 //
 val () = ins ("infix", INFIX)
@@ -397,6 +399,11 @@ val () = ins ("infixl", INFIXL)
 val () = ins ("infixr", INFIXR)
 val () = ins ("prefix", PREFIX)
 val () = ins ("postfix", POSTFIX)
+//
+val () = ins ("implmnt", IMPLEMENT)
+val () = ins ("implement", IMPLEMENT)
+val () = ins ("primplmnt", PRIMPLMNT)
+val () = ins ("primplement", PRIMPLMNT)
 //
 (*
 val () = ins ("lam", LAM)

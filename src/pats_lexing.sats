@@ -89,23 +89,27 @@ token_node =
   | T_GT of () // > // for closing a tmparg
 //
   | T_GTLT of () // <>
-  | T_DOTLT of () // .<
-  | T_GTDOT of () // >.
-  | T_DOTLTGTDOT of () // .<>.
+  | T_DOTLT of () // .< // opening termetric
+  | T_GTDOT of () // >. // closing termetric
+  | T_DOTLTGTDOT of () // .<>. // for empty termetric
 //
   | T_MINUSGT of () // ->
   | T_MINUSLT of () // -<
   | T_MINUSLTGT of () // -<>
 //
-  | T_TILDE of () // ~
+  | T_TILDE of () // ~ // often for 'not', 'free', etc.
 //
-  | T_ABSTYPE of int // abstype, abst@ype, absprop, absview, absviewtype, absviewt@ype
+// HX: for absprop, abstype, abst@ype;
+  | T_ABSTYPE of (int) //  absview, absviewtype, absviewt@ype
+//
   | T_AND of () // and
-  | T_AS of () // as
-  | T_ASSUME of () // assume
-  | T_BEGIN of () // begin
-  | T_BRKCONT of int // break and continue
-  | T_CASE of caskind // case, case-, case+
+  | T_AS of () // as // for refas-pattern
+  | T_ASSUME of () // assume // for implementing abstypes
+  | T_BEGIN of () // begin // opening a sequence
+  | T_BRKCONT of
+      (int) // break and continue
+  | T_CASE of
+      (caskind) // case, case-, case+, prcase
   | T_CLASSDEC of () // classdec
   | T_DATASORT of () // datasort
   | T_DATATYPE of int // datatype, dataprop, dataview, dataviewtype
@@ -118,45 +122,50 @@ token_node =
   | T_EXTYPE of () // extern type name
   | T_EXTVAL of () // extern value name
   | T_FIX of int // fix and fix@
-  | T_FIXITY of fxtykind // infix, infixl, infixr, prefix, postfix
+  | T_FIXITY of
+      (fxtykind) // infix, infixl, infixr, prefix, postfix
   | T_FOR of int // for and for*
-  | T_FUN of funkind // fun
-  | T_IF of () // if
-  | T_IMPLEMENT of () // implement
+  | T_FUN of (funkind) // fn, fn*, fun and prfun
+  | T_IF of () // (dynamic) if
+  | T_IMPLEMENT of
+      (int) // 0/1: implement/primplement
   | T_IN of () // in
-  | T_LAM of int // lam, llam and lam@
+  | T_LAM of int // lam, llam (linear lam) and lam@ (flat lam)
   | T_LET of () // let
   | T_LOCAL of () // local
-  | T_MACDEF of int // macdef, macrodef
+  | T_MACDEF of (int) // 0/1: macdef/macrodef
   | T_NONFIX of () // nonfix
   | T_OVERLOAD of () // overload
   | T_OF of () // of
-  | T_OP of () // op
+  | T_OP of () // op // HX: taken from ML
   | T_REC of () // rec
   | T_REFAT of () // ref@
   | T_SCASE of () // scase
-  | T_SIF of () // sif
+  | T_SIF of () // sif for static if
   | T_SORTDEF of () // sortdef
   | T_STACST of () // stacst
   | T_STADEF of () // stadef
   | T_STALOAD of () // staload
 (*
-  | T_STAVAR of () // stavar
+  | T_STAVAR of () // stavar // HX: a suspended hack
 *)
-  | T_SYMELIM of () // symelim
-  | T_SYMINTR of () // symintr
+  | T_SYMELIM of () // symelim // symbol elimination
+  | T_SYMINTR of () // symintr // symbol introduction
   | T_THEN of () // then
   | T_TKINDEF of () // tkindef // for introducting tkinds
   | T_TRY of () // try
   | T_TYPE of int // type, type+, type-
-  | T_TYPEDEF of int // typedef, propdef, viewdef, viewtypedef
-  | T_VAL of valkind // val, val+, val-, prval
+  | T_TYPEDEF of
+      (int) // typedef, propdef, viewdef, viewtypedef
+  | T_VAL of (valkind) // val, val+, val-, prval
   | T_VAR of () // var
   | T_WHEN of () // when
   | T_WHERE of () // where
   | T_WHILE of int // while(0) and while*(1)
   | T_WITH of () // with
-  | T_WITHTYPE of int // withtype, withprop, withview, withviewtype
+  | T_WITHTYPE of
+      (int) // withtype, withprop, withview, withviewtype
+    // end of [T_WITHTYPE] // HX: it is from DML and now rarely used
 //
   | T_ADDRAT of () // addr@
   | T_FOLDAT of () // fold@
@@ -164,16 +173,21 @@ token_node =
   | T_VIEWAT of () // view@
 //
   | T_DLRARRSZ of () // $arrsz
+(*
   | T_DLRDYNLOAD of () // $dynload
-  | T_DLRDELAY of int // $delay and $ldelay
+*)
+  | T_DLRDELAY of
+      (int) // $delay(0) and $ldelay(1)
   | T_DLREFFMASK of () // $effmask
-  | T_DLREFFMASK_ARG of int // ntm(0), exn(1), ref(2), wrt(3), all(4)
+  | T_DLREFFMASK_ARG of
+      (int) // ntm(0), exn(1), ref(2), wrt(3), all(4)
   | T_DLREXTERN of () // $extern
   | T_DLREXTKIND of () // $extkind
-  | T_DLREXTYPE of () // $extype
+  | T_DLREXTYPE of () // $extype // external type
   | T_DLREXTYPE_STRUCT of () // $extype_struct
-  | T_DLREXTVAL of () // $extval
-  | T_DLRRAISE of () // $raise
+  | T_DLREXTVAL of () // $extval // external value
+  | T_DLRRAISE of () // $raise // raising exceptions
+//
   | T_DLRLST of int // $lst and $lst_t and $lst_vt
   | T_DLRREC of int // $rec and $rec_t and $rec_vt
   | T_DLRTUP of int // $tup and $tup_t and $tup_vt
@@ -302,6 +316,9 @@ val FORSTAR : tnode
 
 val FREE : tnode
 val FREEAT : tnode
+
+val IMPLEMENT : tnode // implement
+val PRIMPLMNT : tnode // primplmnt
 
 val INFIX : tnode
 val INFIXL : tnode

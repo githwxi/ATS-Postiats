@@ -959,7 +959,8 @@ d2ecl_fundecs (loc, knd, decarg, d2cs) =
   d2ecl_make (loc, D2Cfundecs (knd, decarg, d2cs))
 
 implement
-d2ecl_impdec (loc, d2c) = d2ecl_make (loc, D2Cimpdec (d2c))
+d2ecl_impdec (loc, knd, d2c) =
+  d2ecl_make (loc, D2Cimpdec (knd, d2c))
 
 implement
 d2ecl_include (loc, d2cs) =

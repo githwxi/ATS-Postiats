@@ -170,7 +170,7 @@ fn auxerr (
   val () = prerr "] is unrecognized."
   val () = prerr_newline ()
 in
-  the_trans2errlst_add (T2E_overload_tr (d1c0))
+  the_trans2errlst_add (T2E_d1ecl_tr_overload (d1c0))
 end (* end of [auxerr] *)
 //
   val ans = 
@@ -202,7 +202,7 @@ fn auxerr1 (
   val () = prerr "] should refer to a symbol but it does not."
   val () = prerr_newline ()
 in
-  the_trans2errlst_add (T2E_overload_tr (d1c0))
+  the_trans2errlst_add (T2E_d1ecl_tr_overload (d1c0))
 end // end of [auxerr1]
 //
 fn auxerr2 (
@@ -216,7 +216,7 @@ fn auxerr2 (
   val () = prerr "] is unrecognized."
   val () = prerr_newline ()
 in
-  the_trans2errlst_add (T2E_overload_tr (d1c0))
+  the_trans2errlst_add (T2E_d1ecl_tr_overload (d1c0))
 end // end of [auxerr2]
 //
 val sym = id.i0de_sym
@@ -1390,6 +1390,26 @@ d1ecl_tr (d1c0) = let
     print "d1ecl_tr: d1c0 = "; print_d1ecl d1c0; print_newline ()
   end // end of [val]
 *)
+//
+fun auxcheck_impdec (
+  d1c0: d1ecl, knd: int, impdec: i2mpdec
+) : void = let
+  val d2c = impdec.i2mpdec_cst
+  val okay = (
+    if knd > 0 then d2cst_is_prf (d2c) else d2cst_is_nonprf (d2c)
+  ) : bool // end of [val]
+  val () = if ~okay then let
+    val () = prerr_error2_loc (d1c0.d1ecl_loc)
+    val () = filprerr_ifdebug "d1ecl_tr: auxcheck_impdec" // for debugging
+    val () = prerr ": the implemented dynamic constant is required to be a proof."
+    val () = prerr_newline ()
+  in
+    the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))
+  end // end of [if] // end of [val]
+in
+  // nothing
+end // end of [auxcheck_impdec]
+//
 in
 //
 case+ d1c0.d1ecl_node of
@@ -1533,11 +1553,18 @@ case+ d1c0.d1ecl_node of
     d2ecl_fundecs (loc0, funknd, s2qss, d2cs)
   end // end of [D1Cfundecs]
 //
-| D1Cimpdec _ => let
+| D1Cimpdec
+    (knd, _arg, _dec) => let
     val d2copt = i1mpdec_tr (d1c0)
   in
     case+ d2copt of
-    | ~Some_vt (d2c) => d2ecl_impdec (loc0, d2c)
+    | ~Some_vt (impdec) => let
+        val () =
+          auxcheck_impdec (d1c0, knd, impdec)
+        // end of [val]
+      in
+        d2ecl_impdec (loc0, knd, impdec)
+      end // end of [Some_vt]
     | ~None_vt () => d2ecl_none (loc0) // HX: error is reported
   end // end of [D1Cimpdec]
 //

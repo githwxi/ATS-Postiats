@@ -79,7 +79,8 @@ case+ tok.token_node of
 | T_FUN _ => tok
 | T_VAL _ => tok
 | T_VAR () => tok
-| T_IMPLEMENT () => tok
+//
+| T_IMPLEMENT (knd) => tok
 //
 | T_FIXITY _ => tok
 | T_NONFIX () => tok

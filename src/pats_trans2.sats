@@ -74,8 +74,9 @@ datatype trans2err =
   | T2E_d1exp_tr_ann of (d1exp, s2exp)
   | T2E_i1nvarg_tr of (i1nvarg)
   | T2E_c1lau_tr of (c1lau)
-  | T2E_overload_tr of (d1ecl)
-  | T2E_impdec_tr of (d1ecl)
+//
+  | T2E_d1ecl_tr_impdec of (d1ecl)
+  | T2E_d1ecl_tr_overload of (d1ecl)
 // end of [trans2err]
 
 fun the_trans2errlst_add (x: trans2err): void

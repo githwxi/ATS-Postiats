@@ -103,7 +103,7 @@ fprint_token
   | T_FOR (x) => fprintf (out, "FOR(%i)", @(x))
   | T_FUN (x) => fprintf (out, "FUN(...)", @())
   | T_IF () => fprintf (out, "IF()", @())
-  | T_IMPLEMENT () => fprintf (out, "IMPLEMENT()", @())
+  | T_IMPLEMENT (k) => fprintf (out, "IMPLEMENT(%i)", @(k))
   | T_IN () => fprintf (out, "IN()", @())
   | T_LAM (x) => fprintf (out, "LAM(%i)", @(x))
   | T_LET () => fprintf (out, "LET()", @())
@@ -146,7 +146,9 @@ fprint_token
 //
   | T_DLRARRSZ () => fprintf (out, "DLRARRSZ()", @())
   | T_DLRDELAY (x) => fprintf (out, "DLRDELAY(%i)", @(x))
+(*
   | T_DLRDYNLOAD () => fprintf (out, "DLRDYNLOAD()", @())
+*)
   | T_DLREFFMASK () => fprintf (out, "DLREFFMASK()", @())
   | T_DLREFFMASK_ARG (x) => fprintf (out, "DLREFFMASK(%i)", @(x))
   | T_DLREXTERN () => fprintf (out, "DLREXTERN()", @())

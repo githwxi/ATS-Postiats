@@ -26,19 +26,19 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-implement
+primplmnt
 array_v_unnil_nil {a1,a2} (pf) = let
   prval () = array_v_unnil {a1} (pf) in array_v_nil {a2} ()
 end // end of [array_v_unnil]
 
 #atscode_separator()
 
-implement
+primplmnt
 array_v_sing (pfat) =
   array_v_cons (pfat, array_v_nil ())
 // end of [array_v_sing]
 
-implement
+primplmnt
 array_v_unsing (pfarr) = let
   prval (
     pf1at, pf2arr
@@ -50,7 +50,7 @@ end // end of [array_v_unsing]
 
 #atscode_separator()
 
-implement
+primplmnt
 array_v_split{a}
   (pf_arr) = split (pf_arr) where {
   prfun split
@@ -74,7 +74,7 @@ array_v_split{a}
 
 #atscode_separator()
 
-implement
+primplmnt
 array_v_unsplit{a}
   (pf1_arr, pf2_arr) =
   unsplit (pf1_arr, pf2_arr) where {
@@ -103,13 +103,13 @@ array_v_unsplit{a}
 
 #atscode_separator()
 
-implement
+primplmnt
 array_v_extend
   (pf1arr, pf2at) =
   array_v_unsplit (pf1arr, array_v_sing (pf2at))
 // end of [array_v_extend]
 
-implement
+primplmnt
 array_v_unextend
   {a}{l}{n} (pfarr) = let
   prval (pf1arr, pf2arr) = array_v_split{a}{l}{n}{n-1} (pfarr)
@@ -119,7 +119,7 @@ end // end of [array_v_unextend]
 
 #atscode_separator()
 
-implement
+primplmnt
 array_v_takeout
   {a}{l}{n}{i} (pfarr) =
   takeout {..}{n}{i} (pfarr) where {

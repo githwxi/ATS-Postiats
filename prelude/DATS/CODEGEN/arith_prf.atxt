@@ -26,11 +26,11 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-implement inteq_make () = INTEQ ()
+primplmnt inteq_make () = INTEQ ()
 
 #atscode_separator()
 
-implement
+primplmnt
 mul_gte_gte_gte {m,n} () = let
   fun loop
     {m:nat}{p:int} .<m>.
@@ -46,7 +46,7 @@ in
   loop {m} (pf)
 end // end of [mul_gte_gte_gte]
 
-implement
+primplmnt
 mul_gte_lte_lte {m,n} () = let
   fun loop
     {m:nat}{p:int} .<m>.
@@ -62,15 +62,15 @@ in
   loop {m} (pf)
 end // end of [mul_gte_lte_lte]
 
-implement
+primplmnt
 mul_lte_gte_lte {m,n} () = mul_gte_lte_lte {n,m} ()
 
-implement
+primplmnt
 mul_lte_lte_gte {m,n} () = mul_gte_gte_gte {~m,~n} ()
 
 #atscode_separator()
 
-implement
+primplmnt
 mul_nat_nat_nat
   {m,n} (pf) = let
   prval () = mul_elim (pf)
@@ -79,7 +79,7 @@ in
   (*nothing*)
 end // end of [mul_nat_nat_nat]
 
-implement
+primplmnt
 mul_pos_pos_pos
   {m,n} (pf) = let
   prval () = mul_elim (pf)
@@ -90,24 +90,24 @@ end // end of [mul_pos_pos_pos]
 
 #atscode_separator()
 
-implement
+primplmnt
 mul_negate {m,n} (pf) = let
   prval () = mul_elim (pf) in mul_make {~m,n} ()
 end // end of [mul_negate]
 
-implement
+primplmnt
 mul_negate2 {m,n} (pf) = let
   prval () = mul_elim (pf) in mul_make {m,~n} ()
 end // end of [mul_negate2]
 
 #atscode_separator()
 
-implement
+primplmnt
 mul_commute {m,n} (pf) = let
   prval () = mul_elim (pf) in mul_make {n,m} ()
 end // end of [mul_commute]
 
-implement
+primplmnt
 mul_is_commutative
   (pf1, pf2) = let
   prval () = mul_elim (pf1) and () = mul_elim (pf2)
@@ -117,7 +117,7 @@ end // end of [mul_commute]
 
 #atscode_separator()
 
-implement
+primplmnt
 mul_distribute
   {m}{n1,n2} (pf1, pf2) = let
   prval () = mul_elim (pf1) and () = mul_elim (pf2)
@@ -125,7 +125,7 @@ in
   mul_make {m,n1+n2} ()
 end // end of [mul_distribute]
 
-implement
+primplmnt
 mul_distribute2
   {m1,m2}{n} (pf1, pf2) = let
   prval () = mul_elim (pf1) and () = mul_elim (pf2)
@@ -135,7 +135,7 @@ end // end of [mul_distribute]
 
 #atscode_separator()
 
-implement
+primplmnt
 mul_is_associative
   {x,y,z}{xy,yz}
   (pf1, pf2, pf3, pf4) = {
@@ -152,7 +152,7 @@ mul_is_associative
 
 #atscode_separator()
 
-implement
+primplmnt
 lemma_exp2_param (pf) = let
   prfun aux
     {n:int}
@@ -168,7 +168,7 @@ end // end of [lemma_exp2_param]
 
 #atscode_separator()
 
-implement
+primplmnt
 exp2_istot {n}
   () = istot {n} () where {
   prfun istot
@@ -178,7 +178,7 @@ exp2_istot {n}
 
 #atscode_separator()
 
-implement
+primplmnt
 exp2_isfun
   (pf1, pf2) =
   isfun (pf1, pf2) where {
@@ -198,7 +198,7 @@ exp2_isfun
 
 #atscode_separator()
 
-implement
+primplmnt
 exp2_is_mono
   (pf1, pf2) =
   aux (pf1, pf2) where {
@@ -217,7 +217,7 @@ exp2_is_mono
 
 #atscode_separator()
 
-implement
+primplmnt
 exp2_muladd
   (pf1, pf2, pf3) = let
   prfun aux

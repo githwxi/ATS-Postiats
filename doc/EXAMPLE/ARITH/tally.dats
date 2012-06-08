@@ -33,7 +33,7 @@ staload "doc/EXAMPLE/ARITH/tally.sats"
 
 (* ****** ****** *)
 
-implement
+primplmnt
 sum1 (pf) = let
 //
 prfun sum1
@@ -55,7 +55,7 @@ end // end of [sum1]
 
 (* ****** ****** *)
 
-implement
+primplmnt
 sum2 (pf) = let
 //
 prfun sum2
@@ -77,7 +77,7 @@ end // end of [sum2]
 
 (* ****** ****** *)
 
-implement
+primplmnt
 sum3 (pf) = let
 //
 prfun sum3
@@ -99,7 +99,7 @@ end // end of [sum3]
 
 (* ****** ****** *)
 
-implement
+primplmnt
 sum4 (pf) = let
 //
 prfun sum4
@@ -121,7 +121,7 @@ end // end of [sum4]
 
 (* ****** ****** *)
 
-implement
+primplmnt
 sum5 (pf) = let
 //
 prfun sum5
@@ -143,7 +143,7 @@ end // end of [sum5]
 
 (* ****** ****** *)
 
-implement
+primplmnt
 sum6 (pf) = let
 //
 prfun sum6
@@ -165,7 +165,7 @@ end // end of [sum6]
 
 (* ****** ****** *)
 
-implement
+primplmnt
 sum7 (pf) = let
 //
 prfun sum7
@@ -187,7 +187,7 @@ end // end of [sum7]
 
 (* ****** ****** *)
 
-implement
+primplmnt
 sum8 (pf) = let
 //
 prfun sum8
@@ -209,7 +209,7 @@ end // end of [sum8]
 
 (* ****** ****** *)
 
-implement
+primplmnt
 sum9 (pf) = let
 //
 prfun sum9
@@ -231,7 +231,7 @@ end // end of [sum9]
 
 (* ****** ****** *)
 
-implement
+primplmnt
 sum10 (pf) = let
 //
 prfun sum10

@@ -195,6 +195,17 @@ implement prerr_d2cst (x) = fprint_d2cst (stderr_ref, x)
 (* ****** ****** *)
 
 implement
+d2cst_is_prf (d2c) = let
+  val s2e = d2cst_get_type (d2c) in s2exp_is_prf (s2e)
+end // end of [d2cst_is_prf]
+implement
+d2cst_is_nonprf (d2c) = let
+  val s2e = d2cst_get_type (d2c) in s2exp_is_nonprf (s2e)
+end // end of [d2cst_is_nonprf]
+
+(* ****** ****** *)
+
+implement
 lt_d2cst_d2cst
   (x1, x2) = (compare (x1, x2) < 0)
 // end of [lt_d2cst_d2cst]

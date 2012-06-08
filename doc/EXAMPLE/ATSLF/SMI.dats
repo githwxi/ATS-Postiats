@@ -13,7 +13,7 @@ prfun SMI {P:int->prop}
 
 (* ****** ****** *)
 
-implement
+primplmnt
 SMI {P} (fpf) {n} = let
 //
 propdef Q

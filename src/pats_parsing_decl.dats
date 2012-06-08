@@ -1407,7 +1407,7 @@ case+ tok.token_node of
     end (* end of [if] *)
   end // end of [T_VAR]
 //
-| T_IMPLEMENT () => let
+| T_IMPLEMENT (knd) => let
     val bt = 0
     val () = incby1 ()
     val ent2 = p_i0mparg (buf, bt, err)

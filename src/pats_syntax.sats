@@ -1239,14 +1239,18 @@ d0ecl_node =
 //
   | D0Cdcstdecs of (token, q0marglst, d0cstdeclst)
 //
-  | D0Cmacdefs of (int(*knd*), bool(*rec*), m0acdeflst) // macro definitions
+  | D0Cmacdefs of
+      (int(*knd*), bool(*rec*), m0acdeflst) // macro definitions
 //
   | D0Cextype of (string, s0exp) // type to be used in C
   | D0Cextype of (int(*knd*), string, s0exp) // type to be used in C
   | D0Cextval of (string, d0exp) // value to be used in C
-  | D0Cextcode of (int(*knd*), int(*pos*), string(*code*)) // external code
 //
-  | D0Cimpdec of (i0mparg, i0mpdec) // implementation
+  | D0Cextcode of
+      (int(*knd*), int(*pos*), string(*code*)) // external code
+//
+  | D0Cimpdec of
+      (int(*knd*), i0mparg, i0mpdec) // knd=0/1: implement/primplmnt
 //
   | D0Cfundecs of (funkind, q0marglst, f0undeclst)
   | D0Cvaldecs of // value declarations
