@@ -13,7 +13,7 @@ PATSHMSRC=$(PATSHOME)/src
 ######
 
 pats2html: pats2html.dats; \
-  $(ATSCC) \
+  $(ATSCC) -O2 \
     -I $(PATSHMSRC) \
     -IATS $(PATSHM) -IATS $(PATSHMSRC) \
     -o $@ $< -L $(PATSHM)/libatsyntax -latsyntax

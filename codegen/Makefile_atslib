@@ -18,13 +18,13 @@ prelude:: prelude_dats
 prelude:: prelude_cats
 
 prelude_sats:
-	make -C prelude/SATS/CODEGEN -f Makefile_gen
+	make -C prelude/SATS/CODEGEN -f Makefile.gen
 	make -C prelude/SATS/CODEGEN -f Makefile all
 prelude_dats:
-	make -C prelude/DATS/CODEGEN -f Makefile_gen
+	make -C prelude/DATS/CODEGEN -f Makefile.gen
 	make -C prelude/DATS/CODEGEN -f Makefile all
 prelude_cats:
-	make -C prelude/CATS/CODEGEN -f Makefile_gen
+	make -C prelude/CATS/CODEGEN -f Makefile.gen
 	make -C prelude/CATS/CODEGEN -f Makefile all
 
 ######
@@ -34,13 +34,13 @@ libc:: libc_sats
 #libc:: libc_cats
 
 libc_sats:
-	make -C libc/SATS/CODEGEN -f Makefile_gen
+	make -C libc/SATS/CODEGEN -f Makefile.gen
 	make -C libc/SATS/CODEGEN -f Makefile all
 libc_dats:
-	make -C libc/DATS/CODEGEN -f Makefile_gen
+	make -C libc/DATS/CODEGEN -f Makefile.gen
 	make -C libc/DATS/CODEGEN -f Makefile all
 libc_cats:
-	make -C libc/CATS/CODEGEN -f Makefile_gen
+	make -C libc/CATS/CODEGEN -f Makefile.gen
 	make -C libc/CATS/CODEGEN -f Makefile all
 
 ######
@@ -50,13 +50,13 @@ libats:: libats_sats
 #libats:: libats_cats
 
 libats_sats:
-	make -C libats/SATS/CODEGEN -f Makefile_gen
+	make -C libats/SATS/CODEGEN -f Makefile.gen
 	make -C libats/SATS/CODEGEN -f Makefile all
 libats_dats:
-	make -C libats/DATS/CODEGEN -f Makefile_gen
+	make -C libats/DATS/CODEGEN -f Makefile.gen
 	make -C libats/DATS/CODEGEN -f Makefile all
 libats_cats:
-	make -C libats/CATS/CODEGEN -f Makefile_gen
+	make -C libats/CATS/CODEGEN -f Makefile.gen
 	make -C libats/CATS/CODEGEN -f Makefile all
 
 ######

@@ -10,6 +10,9 @@
 #
 src/patsopt
 src/.depend
+src/Makefile.exe
+src/Makefile_atxt.dats
+src/Makefile_atxt.txt
 
 prelude/SATS/CODEGEN/*.exe
 prelude/SATS/CODEGEN/*.sats

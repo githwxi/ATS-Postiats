@@ -1,0 +1,489 @@
+%{
+//
+staload
+UN = "prelude/SATS/unsafe.sats"
+staload
+_ (*anon*) = "prelude/DATS/list.dats"
+//
+staload
+STR = "libc/SATS/string.sats"
+staload
+STDIO = "libc/SATS/stdio.sats"
+staload TIME = "libc/SATS/time.sats"
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+staload "libatsdoc/SATS/atsdoc_text.sats"
+//
+%}\
+%{
+
+fn extrem (
+  str: string // extension removal
+) : string = let
+//
+val str = string1_of_string (str)
+//
+fun loop {n:int}
+  {i:nat | i <= n} .<n-i>.
+  (str: string n, i: size_t i): string =
+  if string_isnot_at_end (str, i) then let
+    val c = str[i]
+  in
+    if c = '.' then let
+      val str1 = string_make_substring (str, 0, i) in string_of_strbuf (str1)
+    end else loop (str, i + 1)
+  end else str // end of [if]
+//
+in
+  loop (str, 0)
+end // end of [extrem]
+
+fn isSuffix (
+  str: string, sfx: string
+) : bool = let
+  val str = string1_of_string (str)
+  val l_str = string1_length (str)
+  val sfx = string1_of_string (sfx)
+  val l_sfx = string1_length (sfx)
+in
+  if l_str >= l_sfx then let
+    val str1 = $UN.cast{string}($UN.cast2ptr(str)+l_str-l_sfx)
+  in
+    $STR.strcmp (str1, sfx) = 0
+  end else false
+end // end of [isSuffix]
+
+fn srcRename
+  (str: string): string =
+  case+ 0 of
+  | _ when isSuffix (str, ".sats") => extrem (str) + "_sats"
+  | _ when isSuffix (str, ".dats") => extrem (str) + "_dats"
+  | _ when isSuffix (str, ".cats") => extrem (str) + "_cats"
+  | _ => str
+// end of [srcRename]
+%}\
+%{
+
+fun fprocess_lst (
+  xs: List(string), f: string -> atextopt
+) : atext = let
+  fun aux (
+    xs: List(string)
+  ) :<cloref1> atextlst =
+    case+ xs of
+    | list_cons (x, xs) => let
+        val opt = f (x)
+      in
+        case+ opt of
+        | Some ent => list_cons (ent, aux xs) | None () => aux (xs)
+      end // end of [list_cons]
+    | list_nil () => list_nil ()
+  // end of [aux]
+in
+  atext_concatxt (aux (xs))
+end // end of [fprocess_lst]
+
+%}\
+%{
+
+val SOURCES =
+  $lst{string} (
+  "pats_error.sats"
+, "pats_error.dats"
+//
+, "pats_counter.sats"
+, "pats_counter.dats"
+//
+, "pats_intinf.sats"
+, "pats_intinf.dats"
+//
+, "pats_utils.sats"
+, "pats_utils.dats"
+//
+, "pats_basics.sats"
+, "pats_basics.dats"
+//
+, "pats_stamp.sats"
+, "pats_stamp.dats"
+//
+, "pats_symbol.sats"
+, "pats_symbol.dats"
+//
+, "pats_filename.sats"
+, "pats_filename.dats"
+//
+, "pats_location.sats"
+, "pats_location.dats"
+, "pats_location.cats"
+//
+, "pats_errmsg.sats"
+, "pats_errmsg.dats"
+//
+, "pats_reader.sats"
+, "pats_reader.dats"
+, "pats_reader.cats"
+//
+, "pats_lexbuf.sats"
+, "pats_lexbuf.dats"
+, "pats_lexbuf.cats"
+//
+, "pats_lexing.sats"
+, "pats_lexing.dats"
+, "pats_lexing.cats"
+, "pats_lexing_token.dats"
+, "pats_lexing_print.dats"
+, "pats_lexing_error.dats"
+//
+, "pats_label.sats"
+, "pats_label.dats"
+//
+, "pats_effect.sats"
+, "pats_effect.dats"
+//
+, "pats_fixity.sats"
+, "pats_fixity_prec.dats"
+, "pats_fixity_fxty.dats"
+//
+, "pats_syntax.sats"
+, "pats_syntax.dats"
+, "pats_syntax_print.dats"
+//
+, "pats_tokbuf.sats"
+, "pats_tokbuf.dats"
+, "pats_tokbuf.cats"
+//
+, "pats_parsing.sats"
+, "pats_parsing.dats"
+, "pats_parsing_error.dats"
+, "pats_parsing_util.dats"
+, "pats_parsing_kwds.dats"
+, "pats_parsing_base.dats"
+, "pats_parsing_e0xp.dats"
+, "pats_parsing_sort.dats"
+, "pats_parsing_staexp.dats"
+, "pats_parsing_p0at.dats"
+, "pats_parsing_dynexp.dats"
+, "pats_parsing_decl.dats"
+, "pats_parsing_toplevel.dats"
+//
+, "pats_symmap.sats"
+, "pats_symmap.dats"
+//
+, "pats_symenv.sats"
+, "pats_symenv.dats"
+//
+, "pats_staexp1.sats"
+, "pats_staexp1.dats"
+, "pats_staexp1_print.dats"
+//
+, "pats_dynexp1.sats"
+, "pats_dynexp1.dats"
+, "pats_dynexp1_print.dats"
+, "pats_dynexp1_syndef.dats"
+//
+, "pats_trans1.sats"
+, "pats_trans1_env.sats"
+, "pats_trans1_env.dats"
+//
+, "pats_e1xpval.sats"
+, "pats_e1xpval.dats"
+, "pats_e1xpval_error.dats"
+//
+, "pats_trans1_error.dats"
+, "pats_trans1_e0xp.dats"
+, "pats_trans1_effect.dats"
+, "pats_trans1_sort.dats"
+, "pats_trans1_staexp.dats"
+, "pats_trans1_p0at.dats"
+, "pats_trans1_dynexp.dats"
+, "pats_trans1_decl.dats"
+//
+, "pats_staexp2.sats"
+, "pats_staexp2.dats"
+, "pats_stacst2.sats"
+, "pats_stacst2.dats"
+, "pats_staexp2_print.dats"
+, "pats_staexp2_pprint.dats"
+, "pats_staexp2_sort.dats"
+, "pats_staexp2_scst.dats"
+, "pats_staexp2_svar.dats"
+, "pats_staexp2_sVar.dats"
+, "pats_staexp2_hole.dats"
+, "pats_staexp2_dcon.dats"
+, "pats_staexp2_skexp.dats"
+, "pats_staexp2_szexp.dats"
+, "pats_staexp2_util.sats"
+, "pats_staexp2_util1.dats"
+, "pats_staexp2_util2.dats"
+, "pats_staexp2_ctxt.dats"
+, "pats_staexp2_error.sats"
+, "pats_staexp2_error.dats"
+, "pats_staexp2_solve.sats"
+, "pats_staexp2_solve.dats"
+//
+, "pats_patcst2.sats"
+, "pats_patcst2.dats"
+//
+, "pats_dynexp2.sats"
+, "pats_dynexp2.dats"
+, "pats_dynexp2_print.dats"
+, "pats_dynexp2_dcst.dats"
+, "pats_dynexp2_dvar.dats"
+, "pats_dynexp2_dmac.dats"
+, "pats_dynexp2_util.sats"
+, "pats_dynexp2_util.dats"
+//
+, "pats_trans2.sats"
+//
+, "pats_namespace.sats"
+, "pats_namespace.dats"
+//
+, "pats_trans2_env.sats"
+, "pats_trans2_env.dats"
+, "pats_trans2_error.dats"
+, "pats_trans2_sort.dats"
+, "pats_trans2_staexp.dats"
+, "pats_trans2_p1at.dats"
+, "pats_trans2_dynexp.dats"
+, "pats_trans2_impdec.dats"
+, "pats_trans2_decl.dats"
+//
+, "pats_dynexp3.sats"
+, "pats_dynexp3.dats"
+, "pats_dynexp3_print.dats"
+//
+, "pats_trans3.sats"
+, "pats_trans3_error.dats"
+, "pats_trans3_util.dats"
+//
+, "pats_trans3_env.sats"
+, "pats_trans3_env.dats"
+, "pats_trans3_env_print.dats"
+, "pats_trans3_env_scst.dats"
+, "pats_trans3_env_svar.dats"
+, "pats_trans3_env_termet.dats"
+, "pats_trans3_env_effect.dats"
+, "pats_trans3_env_dvar.dats"
+, "pats_trans3_env_lamlp.dats"
+, "pats_trans3_env_pfman.dats"
+, "pats_trans3_env_lstate.dats"
+//
+, "pats_trans3_p2at.dats"
+, "pats_trans3_patcon.dats"
+, "pats_trans3_syncst.dats"
+, "pats_trans3_dynexp_up.dats"
+, "pats_trans3_dynexp_dn.dats"
+, "pats_trans3_appsym.dats"
+, "pats_trans3_caseof.dats"
+, "pats_trans3_selab.dats"
+, "pats_trans3_ptrof.dats"
+, "pats_trans3_viewat.dats"
+, "pats_trans3_deref.dats"
+, "pats_trans3_assgn.dats"
+, "pats_trans3_xchng.dats"
+, "pats_trans3_lvalres.dats"
+, "pats_trans3_fldfrat.dats"
+, "pats_trans3_loopexn.dats"
+, "pats_trans3_decl.dats"
+//
+, "pats_lintprgm.sats"
+, "pats_lintprgm.dats"
+, "pats_lintprgm_print.dats"
+, "pats_lintprgm_myint.cats"
+, "pats_lintprgm_myint_int.dats"
+, "pats_lintprgm_myint_intinf.dats"
+, "pats_lintprgm_solve.dats"
+//
+, "pats_constraint3.sats"
+, "pats_constraint3.dats"
+, "pats_constraint3_init.dats"
+, "pats_constraint3_print.dats"
+, "pats_constraint3_simplify.dats"
+, "pats_constraint3_icnstr.dats"
+, "pats_constraint3_solve.dats"
+//
+, "pats_comarg.sats"
+, "pats_comarg.dats"
+//
+) // end of [SOURCES]
+
+(* ****** ****** *)
+
+fun process_SOURCES () = let
+  fun f (x: string): atext = let
+    val res = sprintf ("  %s \\\n", @(x)) in atext_strptr (res)
+  end // end of [f]
+  val res = list_map_fun (SOURCES, f)
+  val res = list_of_list_vt (res)
+in
+  atext_concatxt (res)
+end // end of [process_SOURCES]
+
+fun process_OBJECTS () = let
+  fun aux (xs: List(string)): atextlst =
+    case+ xs of
+    | list_cons (x, xs) => (
+      case+ 0 of
+      | _ when isSuffix (x, ".sats") => let
+          val x1 = extrem (x)
+          val x2 = sprintf ("  %s_sats.o \\\n", @(x1))
+          val res = atext_strptr (x2)
+        in
+          list_cons (res, aux (xs))
+        end
+      | _ when isSuffix (x, ".dats") => let
+          val x1 = extrem (x)
+          val x2 = sprintf ("  %s_dats.o \\\n", @(x1))
+          val res = atext_strptr (x2)
+        in
+          list_cons (res, aux (xs))
+        end
+      | _ => aux (xs)
+      )
+    | list_nil () => list_nil ()
+  // end of [aux]
+  val res = aux (SOURCES)
+in
+  atext_concatxt (res)
+end // end of [process_OBJECTS]
+
+(* ****** ****** *)
+
+local
+
+fun fproc
+  (src: string): atextopt = let
+in
+//
+case+ 0 of
+| _ when
+    isSuffix (src, ".sats") => let
+    val src1 = extrem (src)
+    val line1 = sprintf (
+      "%s_sats.c: %s.sats; $(ATSCC) -cc $<\n", @(src1, src1)
+    ) // end of [val]
+    val line1 = atext_strptr (line1)
+    val line2 = sprintf (
+      "%s_sats.o: %s_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<\n\n", @(src1, src1)
+    ) // end of [val]
+    val line2 = atext_strptr (line2)
+  in
+    Some (atext_apptxt2 (line1, line2))
+  end
+| _ when
+    isSuffix (src, ".dats") => let
+    val src1 = extrem (src)
+    val line1 = sprintf (
+      "%s_dats.c: %s.dats; $(ATSCC) -cc $<\n", @(src1, src1)
+    ) // end of [val]
+    val line1 = atext_strptr (line1)
+    val line2 = sprintf (
+      "%s_dats.o: %s_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<\n\n", @(src1, src1)
+    ) // end of [val]
+    val line2 = atext_strptr (line2)
+  in
+    Some (atext_apptxt2 (line1, line2))
+  end
+| _ => None ()
+//
+end // end of [fproc]
+
+in // in of [local]
+
+fun
+process_compile_lines () = let
+  val res1 = fprocess_lst (SOURCES, fproc)
+  val- Some (res2) = fproc ("pats_main.dats")
+in
+  atext_apptxt2 (res1, res2)
+end // end of [process_compile_lines]
+
+end // end of [local]
+
+%}\
+#
+#
+# This Makefile is automatically generated
+# from executing the following command-line:
+#
+# make -f Makefile.gen
+#
+#
+
+######
+
+ATSCC=$(ATSHOME)/bin/atscc
+ATSOPT=$(ATSHOME)/bin/atsopt
+
+######
+
+ATSGCFLAG=
+\#ATSGCFLAG=-D_ATS_GCATS
+
+ATSCCFLAGS=-g
+ATSCCFLAGS=-g -O
+ATSCCFLAGS=-g -O2
+
+######
+
+SOURCES := \\
+#process_SOURCES()
+
+SOURCESsta := $(filter %.sats, $(SOURCES))
+SOURCESdyn := $(filter %.dats, $(SOURCES))
+
+######
+
+OBJECTS := \\
+#process_OBJECTS()
+
+######
+
+all:: patsopt
+
+######
+
+patsopt: pats_main_dats.o $(OBJECTS) ; \\
+  $(ATSCC) $(ATSGCFLAG) $(ATSCCFLAGS) -o $@ pats_main_dats.o $(OBJECTS) -lgmp
+cleanall:: ; $(RMF) patsopt
+
+######
+
+#process_compile_lines()
+
+######
+
+#
+# HX: '-o .depend' means appending instead of overwriting
+#
+depend::
+	$(RMF) .depend
+	$(ATSOPT) -o .depend -dep1 -s $(SOURCESsta) -d $(SOURCESdyn)
+	$(ATSOPT) -o .depend -dep1 -d pats_main.dats
+include .depend
+
+######
+
+DIR=.
+RMF=rm -f
+WCL=wc -l
+
+######
+
+srclines:: ; $(WCL) $(SOURCES) pats_main.dats
+liblines:: ; $(WCL) ../prelude/*.sats ../prelude/?ATS/*.?ats ../libc/?ATS/*.?ats ../libats/?ATS/*.?ats
+
+######
+
+clean:: ; $(RMF) $(DIR)/*~
+clean:: ; $(RMF) $(DIR)/*_?ats.o
+clean:: ; $(RMF) $(DIR)/*_?ats.c
+
+cleanall:: clean
+
+###### end of [Makefile] ######
+\
+%{
+implement main () = fprint_filsub (stdout_ref, "Makefile_atxt.txt")
+%}\

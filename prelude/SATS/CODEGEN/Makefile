@@ -1,6 +1,9 @@
 #
 #
-# A simple Makefile
+# This Makefile is automatically generated
+# from executing the following command-line:
+#
+# make -f Makefile.gen
 #
 #
 

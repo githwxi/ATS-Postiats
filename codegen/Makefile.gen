@@ -1,6 +1,7 @@
 #
 #
-# A simple Makefile
+# A Makefile for processing [Makefile.atxt]
+# to generate Makefiles that do the actual work
 #
 #
 
@@ -38,4 +39,4 @@ cleanall:: ; $(RMF) Makefile
 
 ######
 
-###### end of [Makefile_gen] ######
+###### end of [Makefile.gen] ######
