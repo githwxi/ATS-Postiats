@@ -15,7 +15,7 @@ ATSOPT=$(ATSHOME)/bin/atsopt
 ######
 
 ATSGCFLAG=
-#ATSGCFLAG=-D_ATS_GCATS
+ATSGCFLAG=-D_ATS_GCATS
 
 ATSCCFLAGS=-g
 ATSCCFLAGS=-g -O
@@ -56,9 +56,9 @@ SOURCES := \
   pats_lexing.sats \
   pats_lexing.dats \
   pats_lexing.cats \
-  pats_lexing_token.dats \
   pats_lexing_print.dats \
   pats_lexing_error.dats \
+  pats_lexing_token.dats \
   pats_label.sats \
   pats_label.dats \
   pats_effect.sats \
@@ -123,13 +123,13 @@ SOURCES := \
   pats_staexp2_svar.dats \
   pats_staexp2_sVar.dats \
   pats_staexp2_hole.dats \
+  pats_staexp2_ctxt.dats \
   pats_staexp2_dcon.dats \
   pats_staexp2_skexp.dats \
   pats_staexp2_szexp.dats \
   pats_staexp2_util.sats \
   pats_staexp2_util1.dats \
   pats_staexp2_util2.dats \
-  pats_staexp2_ctxt.dats \
   pats_staexp2_error.sats \
   pats_staexp2_error.dats \
   pats_staexp2_solve.sats \
@@ -240,9 +240,9 @@ OBJECTS := \
   pats_lexbuf_dats.o \
   pats_lexing_sats.o \
   pats_lexing_dats.o \
-  pats_lexing_token_dats.o \
   pats_lexing_print_dats.o \
   pats_lexing_error_dats.o \
+  pats_lexing_token_dats.o \
   pats_label_sats.o \
   pats_label_dats.o \
   pats_effect_sats.o \
@@ -304,13 +304,13 @@ OBJECTS := \
   pats_staexp2_svar_dats.o \
   pats_staexp2_sVar_dats.o \
   pats_staexp2_hole_dats.o \
+  pats_staexp2_ctxt_dats.o \
   pats_staexp2_dcon_dats.o \
   pats_staexp2_skexp_dats.o \
   pats_staexp2_szexp_dats.o \
   pats_staexp2_util_sats.o \
   pats_staexp2_util1_dats.o \
   pats_staexp2_util2_dats.o \
-  pats_staexp2_ctxt_dats.o \
   pats_staexp2_error_sats.o \
   pats_staexp2_error_dats.o \
   pats_staexp2_solve_sats.o \
@@ -478,14 +478,14 @@ pats_lexing_sats.o: pats_lexing_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 pats_lexing_dats.c: pats_lexing.dats; $(ATSCC) -cc $<
 pats_lexing_dats.o: pats_lexing_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
-pats_lexing_token_dats.c: pats_lexing_token.dats; $(ATSCC) -cc $<
-pats_lexing_token_dats.o: pats_lexing_token_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
-
 pats_lexing_print_dats.c: pats_lexing_print.dats; $(ATSCC) -cc $<
 pats_lexing_print_dats.o: pats_lexing_print_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_lexing_error_dats.c: pats_lexing_error.dats; $(ATSCC) -cc $<
 pats_lexing_error_dats.o: pats_lexing_error_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_lexing_token_dats.c: pats_lexing_token.dats; $(ATSCC) -cc $<
+pats_lexing_token_dats.o: pats_lexing_token_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_label_sats.c: pats_label.sats; $(ATSCC) -cc $<
 pats_label_sats.o: pats_label_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
@@ -670,6 +670,9 @@ pats_staexp2_sVar_dats.o: pats_staexp2_sVar_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 pats_staexp2_hole_dats.c: pats_staexp2_hole.dats; $(ATSCC) -cc $<
 pats_staexp2_hole_dats.o: pats_staexp2_hole_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
+pats_staexp2_ctxt_dats.c: pats_staexp2_ctxt.dats; $(ATSCC) -cc $<
+pats_staexp2_ctxt_dats.o: pats_staexp2_ctxt_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
 pats_staexp2_dcon_dats.c: pats_staexp2_dcon.dats; $(ATSCC) -cc $<
 pats_staexp2_dcon_dats.o: pats_staexp2_dcon_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
@@ -687,9 +690,6 @@ pats_staexp2_util1_dats.o: pats_staexp2_util1_dats.c; $(ATSCC) $(ATSCCFLAGS) -c 
 
 pats_staexp2_util2_dats.c: pats_staexp2_util2.dats; $(ATSCC) -cc $<
 pats_staexp2_util2_dats.o: pats_staexp2_util2_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
-
-pats_staexp2_ctxt_dats.c: pats_staexp2_ctxt.dats; $(ATSCC) -cc $<
-pats_staexp2_ctxt_dats.o: pats_staexp2_ctxt_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_staexp2_error_sats.c: pats_staexp2_error.sats; $(ATSCC) -cc $<
 pats_staexp2_error_sats.o: pats_staexp2_error_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<

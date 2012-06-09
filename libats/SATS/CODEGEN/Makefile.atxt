@@ -6,7 +6,7 @@ staload TIME = "libc/SATS/time.sats"
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-staload "libatsdoc/SATS/atsdoc_text.sats"
+staload "libatsdoc/SATS/libatsdoc_text.sats"
 //
 %}\
 %{
