@@ -38,10 +38,13 @@ case+ sm of
 | SMkeyword () => prstr "SMkeyword"
 | SMextcode () => prstr "SMextcode"
 //
+| SMneuexp () => prstr "SMneuexp"
 | SMstaexp () => prstr "SMstaexp"
 | SMprfexp () => prstr "SMprfexp"
 | SMdynexp () => prstr "SMdynexp"
-| SMneuexp () => prstr "SMneuexp"
+//
+| SMstalab () => prstr "SMstalab"
+| SMdynlab () => prstr "SMdynlab"
 //
 | SMscst_def (g) => prstr "SMscst_def"
 | SMscst_use (g) => prstr "SMscst_use"
@@ -86,6 +89,7 @@ stadef e0xp = $SYN.e0xp
 stadef s0exp = $SYN.s0exp
 stadef s0explst = $SYN.s0explst
 stadef s0expopt = $SYN.s0expopt
+stadef labs0explst = $SYN.labs0explst
 //
 stadef e0fftaglst = $SYN.e0fftaglst
 stadef e0fftaglstopt = $SYN.e0fftaglstopt
@@ -93,10 +97,14 @@ stadef e0fftaglstopt = $SYN.e0fftaglstopt
 stadef p0at = $SYN.p0at
 stadef p0atlst = $SYN.p0atlst
 stadef p0atopt = $SYN.p0atopt
+stadef labp0at = $SYN.labp0at
+stadef labp0atlst = $SYN.labp0atlst
 //
 stadef d0exp = $SYN.d0exp
 stadef d0explst = $SYN.d0explst
 stadef d0expopt = $SYN.d0expopt
+stadef labd0exp = $SYN.labd0exp
+stadef labd0explst = $SYN.labd0explst
 //
 stadef t0mpmarglst = $SYN.t0mpmarglst
 //
@@ -122,11 +130,14 @@ stadef d0cstdeclst = $SYN.d0cstdeclst
 stadef s0arglst = $SYN.s0arglst
 stadef s0vararglst = $SYN.s0vararglst
 //
+stadef s0marglst = $SYN.s0marglst
+//
 stadef f0arglst = $SYN.f0arglst
 stadef witht0ype = $SYN.witht0ype
 //
 stadef f0undeclst = $SYN.f0undeclst
 stadef v0aldeclst = $SYN.v0aldeclst
+stadef v0ardeclst = $SYN.v0ardeclst
 //
 stadef i0mparg = $SYN.i0mparg
 stadef i0mpdec = $SYN.i0mpdec
@@ -279,6 +290,8 @@ extern fun e0xp_mark : fmark_type (e0xp)
 extern fun s0exp_mark : fmark_type (s0exp)
 extern fun s0explst_mark : fmark_type (s0explst)
 extern fun s0expopt_mark : fmark_type (s0expopt)
+extern fun labs0explst_npf_mark
+  (npf: int, xs: labs0explst, res: &res >> res): void
 //
 extern fun e0fftaglst_mark : fmark_type (e0fftaglst)
 extern fun e0fftaglstopt_mark : fmark_type (e0fftaglstopt)
@@ -289,11 +302,17 @@ extern fun p0atopt_mark : fmark_type (p0atopt)
 extern fun p0atlst_npf_mark
   (npf: int, xs: p0atlst, res: &res >> res): void
 //
+extern fun labp0at_mark : fmark_type (labp0at)
+extern fun labp0atlst_npf_mark
+  (npf: int, xs: labp0atlst, res: &res >> res): void
+//
 extern fun d0exp_mark : fmark_type (d0exp)
 extern fun d0explst_mark : fmark_type (d0explst)
 extern fun d0expopt_mark : fmark_type (d0expopt)
 extern fun d0explst_npf_mark
   (npf: int, xs: d0explst, res: &res >> res): void
+extern fun labd0explst_npf_mark
+  (npf: int, xs: labd0explst, res: &res >> res): void
 //
 extern fun t0mpmarglst_mark : fmark_type (t0mpmarglst)
 //
@@ -323,6 +342,8 @@ extern fun d0cstdeclst_mark : fmark_type (d0cstdeclst)
 extern fun s0arglst_mark : fmark_type (s0arglst)
 extern fun s0vararglst_mark : fmark_type (s0vararglst)
 //
+extern fun s0marglst_mark : fmark_type (s0marglst)
+//
 extern fun f0arglst_mark : fmark_type (f0arglst)
 extern fun witht0ype_mark : fmark_type (witht0ype)
 //
@@ -333,6 +354,8 @@ extern fun f0undeclst_mark
 extern fun v0aldeclst_mark
   (vk: valkind, ds: v0aldeclst, res: &res >> res): void
 // end of [v0aldeclst_mark]
+//
+extern fun v0ardeclst_mark : fmark_type (v0ardeclst)
 //
 extern fun i0mparg_mark : fmark_type (i0mparg)
 extern fun i0mpdec_mark : fmark_type (i0mpdec)
@@ -355,11 +378,19 @@ end // end of [e0xp_mark]
 
 implement
 s0exp_mark
-  (s0e, res) = let
-  val loc = s0e.s0exp_loc
-  val () = psynmark_ins_begend (SMstaexp, loc, res)
+  (s0e0, res) = let
+  val loc0 = s0e0.s0exp_loc
 in
-  // nothing
+//
+case+ s0e0.s0exp_node of
+| $SYN.S0Etyrec
+    (knd, npf, ls0es) =>
+    labs0explst_npf_mark (npf, ls0es, res)
+| $SYN.S0Etyrec_ext
+    (name, npf, ls0es) =>
+    labs0explst_npf_mark (npf, ls0es, res)
+| _ => psynmark_ins_begend (SMstaexp, loc0, res)
+//
 end // end of [s0exp_mark]
 
 implement
@@ -383,6 +414,26 @@ s0expopt_mark
 (* ****** ****** *)
 
 implement
+labs0explst_npf_mark
+  (npf, lxs, res) = let
+in
+//
+case+ lxs of
+| list_cons (lx, lxs) => let
+    val $SYN.SL0ABELED (lab, _, s0e) = lx
+    val () =
+      psynmark_ins_begend (SMstalab, lab.l0ab_loc, res)
+    val () = s0exp_mark (s0e, res)
+  in
+    labs0explst_npf_mark (npf-1, lxs, res)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [labs0explst_npf_mark]
+
+(* ****** ****** *)
+
+implement
 e0fftaglst_mark
   (xs, res) = (
   case+ xs of
@@ -400,7 +451,7 @@ implement
 e0fftaglstopt_mark
   (opt, res) = (
   case+ opt of
-  | Some (effs) => e0fftaglst_mark (effs, res)
+  | Some (efs) => e0fftaglst_mark (efs, res)
   | None () => ()
 ) // end of [e0fftaglstopt_mark]
 
@@ -435,6 +486,7 @@ case+ p0t0.p0at_node of
 //
 | $SYN.P0Tlst (lin, p0ts) => p0atlst_mark (p0ts, res)
 | $SYN.P0Ttup (knd, npf, p0ts) => p0atlst_npf_mark (npf, p0ts, res)
+| $SYN.P0Trec (knd, npf, lp0ts) => labp0atlst_npf_mark (npf, lp0ts, res)
 //
 | $SYN.P0Texist (s0as) => s0arglst_mark (s0as, res)
 //
@@ -485,6 +537,39 @@ if npf > 0 then (
 ) else p0atlst_mark (p0ts, res)
 //
 end // end of [p0atlst_npf_mark]
+
+(* ****** ****** *)
+
+implement
+labp0at_mark
+  (lx, res) = (
+  case+ lx.labp0at_node of
+  | $SYN.LABP0ATnorm
+      (lab, p0t) => let
+      val () = psynmark_ins_begend (SMdynlab, lab.l0ab_loc, res)
+    in
+      p0at_mark (p0t, res)
+    end // end of [LABP0ATnorm]
+  | $SYN.LABP0ATomit () => ()
+) // end of [labp0at_mark]
+
+implement
+labp0atlst_npf_mark
+  (npf, lxs, res) = let
+in
+//
+case+ lxs of
+| list_cons (lx, lxs) => let
+    val loc = lx.labp0at_loc
+    val () = if npf > 0 then psynmark_ins_beg (SMprfexp, loc, res)
+    val () = labp0at_mark (lx, res)
+    val () = if npf > 0 then psynmark_ins_end (SMprfexp, loc, res)
+  in
+    labp0atlst_npf_mark (npf-1, lxs, res)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [labp0atlst_npf_mark]
 
 (* ****** ****** *)
 
@@ -552,6 +637,9 @@ case+ d0e0.d0exp_node of
 | $SYN.D0Etup (knd, npf, d0es) => let
     val () = d0explst_npf_mark (npf, d0es, res) in (*none*)
   end // end of [D0Etup]
+| $SYN.D0Erec (knd, npf, ld0es) => let
+    val () = labd0explst_npf_mark (npf, ld0es, res) in (*none*)
+  end // end of [D0Erec]
 | $SYN.D0Eseq (d0es) => d0explst_mark (d0es, res)
 //
 | $SYN.D0Eeffmask
@@ -563,6 +651,27 @@ case+ d0e0.d0exp_node of
 | $SYN.D0Eeffmask_arg (knd, d0e) => d0exp_mark (d0e, res)
 //
 | $SYN.D0Esexparg _ => psynmark_ins_begend (SMstaexp, loc0, res)
+//
+| $SYN.D0Elam (
+    knd, f0as, retopt, efs, d0e
+  ) => let
+    val () = f0arglst_mark (f0as, res)
+    val () = s0expopt_mark (retopt, res)
+    val () = e0fftaglstopt_mark (efs, res)
+    val () = d0exp_mark (d0e, res)
+  in
+    // nothing
+  end // end of [D0Elam]
+| $SYN.D0Efix (
+    knd, id, f0as, retopt, efs, d0e
+  ) => let
+    val () = f0arglst_mark (f0as, res)
+    val () = s0expopt_mark (retopt, res)
+    val () = e0fftaglstopt_mark (efs, res)
+    val () = d0exp_mark (d0e, res)
+  in
+    // nothing
+  end // end of [D0Efix]
 //
 | $SYN.D0Eann
     (d0e, ann) => {
@@ -611,6 +720,30 @@ if npf > 0 then (
 ) else d0explst_mark (d0es, res)
 //
 end // end of [d0explst_npf_mark]
+
+(* ****** ****** *)
+
+implement
+labd0explst_npf_mark
+  (npf, lxs, res) = let
+in
+//
+case+ lxs of
+| list_cons (lx, lxs) => let
+    val $SYN.DL0ABELED (lab, d0e) = lx
+    val () = if npf > 0 then
+      psynmark_ins_beg (SMprfexp, lab.l0ab_loc, res)
+    val () =
+      psynmark_ins_begend (SMdynlab, lab.l0ab_loc, res)
+    val () = d0exp_mark (d0e, res)
+    val () = if npf > 0 then
+      psynmark_ins_end (SMprfexp, d0e.d0exp_loc, res)
+  in
+    labd0explst_npf_mark (npf-1, lxs, res)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [labd0explst_npf_mark]
 
 (* ****** ****** *)
 
@@ -723,7 +856,12 @@ in
 case+ ds of
 | list_cons (d, ds) => let
     val loc = d.s0expdef_loc
-    val () = psynmark_ins_begend (SMstaexp, loc, res)
+    val () = psynmark_ins_beg (SMstaexp, loc, res)
+    val () =
+      s0marglst_mark (d.s0expdef_arg, res)
+    // end of [val]
+    val () = s0exp_mark (d.s0expdef_def, res)
+    val () = psynmark_ins_end (SMstaexp, loc, res)
   in
     s0expdeflst_mark (ds, res)
   end // end of [list_cons]
@@ -890,6 +1028,23 @@ end // end of [s0vararglst_mark]
 (* ****** ****** *)
 
 implement
+s0marglst_mark
+  (xs, res) = let
+in
+//
+case+ xs of
+| list_cons (x, xs) => let
+    val () = s0arglst_mark (x.s0marg_arg, res)
+  in
+    s0marglst_mark (xs, res)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [s0marglst_mark]
+
+(* ****** ****** *)
+
+implement
 f0arglst_mark
   (xs, res) = let
 in
@@ -967,6 +1122,29 @@ end // end of [v0aldeclst_mark]
 (* ****** ****** *)
 
 implement
+v0ardeclst_mark
+  (ds, res) = let
+in
+//
+case+ ds of
+| list_cons (d, ds) => let
+    val () = s0expopt_mark (d.v0ardec_typ, res)
+    val () = (
+      case+ d.v0ardec_wth of
+      | Some (id) =>
+          psynmark_ins_begend (SMprfexp, id.i0de_loc, res)
+      | None () => ()
+    ) : void // end of [val]
+    val () = d0expopt_mark (d.v0ardec_ini, res)
+  in
+    v0ardeclst_mark (ds, res)
+  end // end of [list_cons]
+| list_nil () => ()
+end // end of [v0ardeclst_mark]
+
+(* ****** ****** *)
+
+implement
 i0mparg_mark (x, res) =
   case+ x of
   | $SYN.I0MPARG_sarglst (s0as) => s0arglst_mark (s0as, res)
@@ -985,17 +1163,17 @@ end // end of [i0mpdec]
 
 implement
 d0ecl_mark
-  (d0c, res) = let
-  val loc = d0c.d0ecl_loc
+  (d0c0, res) = let
+  val loc0 = d0c0.d0ecl_loc
   macdef neuexploc_ins () = 
-    psynmark_ins_begend (SMneuexp, loc, res)
+    psynmark_ins_begend (SMneuexp, loc0, res)
   macdef staexploc_ins () = 
-    psynmark_ins_begend (SMstaexp, loc, res)
+    psynmark_ins_begend (SMstaexp, loc0, res)
   macdef dynexploc_ins () = 
-    psynmark_ins_begend (SMdynexp, loc, res)
+    psynmark_ins_begend (SMdynexp, loc0, res)
 in
 //
-case+ d0c.d0ecl_node of
+case+ d0c0.d0ecl_node of
 //
 | $SYN.D0Cfixity _ => neuexploc_ins ()
 | $SYN.D0Cnonfix _ => neuexploc_ins ()
@@ -1016,7 +1194,7 @@ case+ d0c.d0ecl_node of
 | $SYN.D0Cstacsts _ => staexploc_ins ()
 | $SYN.D0Cstacons _ => staexploc_ins ()
 | $SYN.D0Ctkindef _ => staexploc_ins ()
-| $SYN.D0Csexpdefs _ => staexploc_ins ()
+| $SYN.D0Csexpdefs (knd, defs) => s0expdeflst_mark (defs, res)
 | $SYN.D0Csaspdec _ => staexploc_ins ()
 //
 | $SYN.D0Cexndecs
@@ -1027,9 +1205,9 @@ case+ d0c.d0ecl_node of
     val sm = (
       if isprf then SMprfexp else SMdynexp
     ) : synmark // end of [val]
-    val () = psynmark_ins_beg (sm, loc, res)
+    val () = psynmark_ins_beg (sm, loc0, res)
     val () = d0atdeclst_mark (knd, decs, res)
-    val () = psynmark_ins_end (sm, loc, res)
+    val () = psynmark_ins_end (sm, loc0, res)
     val () = s0expdeflst_mark (defs, res)
   in
     // nothing
@@ -1048,10 +1226,10 @@ case+ d0c.d0ecl_node of
     val sm = (
       if isprf then SMprfexp else SMdynexp
     ) : synmark // end of [val]
-    val () = psynmark_ins_beg (sm, loc, res)
+    val () = psynmark_ins_beg (sm, loc0, res)
     val () = q0marglst_mark (qmas, res)
     val () = f0undeclst_mark (fk, decs, res)
-    val () = psynmark_ins_end (sm, loc, res)
+    val () = psynmark_ins_end (sm, loc0, res)
   in
     // nothing
   end // end of [D0Cfundecs]
@@ -1062,17 +1240,23 @@ case+ d0c.d0ecl_node of
     val sm = (
       if isprf then SMprfexp else SMdynexp
     ) : synmark // end of [val]
-    val () = psynmark_ins_beg (sm, loc, res)
+    val () = psynmark_ins_beg (sm, loc0, res)
     val () = v0aldeclst_mark (vk, decs, res)
-    val () = psynmark_ins_end (sm, loc, res)
+    val () = psynmark_ins_end (sm, loc0, res)
   in
     // nothing
   end // end of [D0Cvaldecs]
 //
+| $SYN.D0Cvardecs (decs) => v0ardeclst_mark (decs, res)
+//
 | $SYN.D0Cimpdec
-    (imparg, impdec) => let
+    (knd, imparg, impdec) => let
+    val () = if knd > 0 then
+      psynmark_ins_beg (SMprfexp, loc0, res)
     val () = i0mparg_mark (imparg, res)
     val () = i0mpdec_mark (impdec, res)
+    val () = if knd > 0 then
+      psynmark_ins_end (SMprfexp, loc0, res)
   in
     // nothing
   end // end of [D0Cimpdec]

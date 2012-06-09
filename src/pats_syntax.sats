@@ -600,7 +600,7 @@ and s0expopt_vt = Option_vt (s0exp)
 and s0explstlst = List (s0explst)
 and s0explstopt = Option (s0explst)
 
-and labs0exp = sl0abeled (s0exp)
+and labs0exp = sl0abeled s0exp
 and labs0explst = List labs0exp
 
 and s0arrdim = '{
@@ -1378,7 +1378,7 @@ and d0explstlst : type = List (d0explst)
 and d0expopt : type = Option (d0exp)
 and d0expopt_vt : viewtype = Option_vt (d0exp)
 
-and labd0exp = dl0abeled (d0exp)
+and labd0exp = dl0abeled d0exp
 and labd0explst = List labd0exp
 
 (* ****** ****** *)

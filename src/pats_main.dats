@@ -883,7 +883,7 @@ val arglst = comarglst_parse (argc, argv)
 val ~list_vt_cons (arg0, arglst) = arglst
 //
 var state = @{
-  comarg0 = arg0
+  comarg0= arg0
 //
 , waitkind= WAITKINDnone ()
 //
@@ -892,7 +892,7 @@ var state = @{
 , ninputfile= 0
 //
 , typecheckonly= false
-} : cmdstate
+} : cmdstate // end of [var]
 //
 val () = process_cmdline (ATSHOME, state, arglst)
 //

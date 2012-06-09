@@ -38,11 +38,10 @@ implement{}
 list_is_cons (xs) =
   case+ xs of list_cons _ => true | _ =>> false
 // end of [list_is_cons]
-
-#atscode_separator()
-
-implement{a}
-list_sing (x) = list_cons (x, list_nil ())
+implement{}
+list_is_sing (xs) =
+  case+ xs of list_sing (x) => true | _ =>> false
+// end of [list_is_sing]
 
 #atscode_separator()
 
@@ -148,7 +147,7 @@ end // end of [list_append2_vt]
 implement{a}
 list_extend
   (xs, y) = $effmask_wrt (
-  list_append2_vt<a> (xs, list_vt_sing<a> (y))
+  list_append2_vt<a> (xs, list_vt_sing (y))
 ) // end of [list_extend]
 
 #atscode_separator()

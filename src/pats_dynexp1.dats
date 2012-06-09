@@ -231,7 +231,7 @@ in
   | E1XPstring (str) => p1at_string (loc0, str)
   | E1XPfloat (rep) => p1at_float (loc0, rep)
   | E1XPapp (e1, loc_arg, es2) => begin
-      p1at_app_dyn (loc0, aux e1, loc0, 0(*npf*), auxlst es2)
+      p1at_app_dyn (loc0, aux e1, loc0, ~1(*npf*), auxlst es2)
     end // end of [E1XPapp]
   | E1XPlist es =>  p1at_list (loc0, ~1(*npf*), auxlst (es))
   | E1XPnone () => p1at_empty (loc0)

@@ -40,6 +40,8 @@ staload _(*anon*) =
     .atsyntax span.staexp  {color:#0000F0;}\n\
     .atsyntax span.prfexp  {color:#783c3c;}\n\
     .atsyntax span.dynexp  {color:#F00000;}\n\
+    .atsyntax span.stalab  {color:#0000F0;font-style:italic}\n\
+    .atsyntax span.dynlab  {color:#F00000;font-style:italic}\n\
     .atsyntax span.stacstdec  {text-decoration:none;}\n\
     .atsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}\n\
     .atsyntax span.dyncstdec  {text-decoration:none;}\n\
@@ -108,12 +110,20 @@ fun fputc_html (
 #define SMextcode_beg "<span class=\"extcode\">"
 #define SMextcode_end "</span>"
 
+#define SMneuexp_beg "<span class=\"neuexp\">"
+#define SMneuexp_end "</span>"
+
 #define SMstaexp_beg "<span class=\"staexp\">"
 #define SMstaexp_end "</span>"
 #define SMprfexp_beg "<span class=\"prfexp\">"
 #define SMprfexp_end "</span>"
 #define SMdynexp_beg "<span class=\"dynexp\">"
 #define SMdynexp_end "</span>"
+
+#define SMstalab_beg "<span class=\"stalab\">"
+#define SMstalab_end "</span>"
+#define SMdynlab_beg "<span class=\"dynlab\">"
+#define SMdynlab_end "</span>"
 
 (* ****** ****** *)
 
@@ -143,9 +153,13 @@ case+ sm of
 | SMextcode () =>
     fpr_psynmark (SMextcode_beg, SMextcode_end)
 //
+| SMneuexp () => fpr_psynmark (SMneuexp_beg, SMneuexp_end)
 | SMstaexp () => fpr_psynmark (SMstaexp_beg, SMstaexp_end)
 | SMprfexp () => fpr_psynmark (SMprfexp_beg, SMprfexp_end)
 | SMdynexp () => fpr_psynmark (SMdynexp_beg, SMdynexp_end)
+//
+| SMstalab () => fpr_psynmark (SMstalab_beg, SMstalab_end)
+| SMdynlab () => fpr_psynmark (SMdynlab_beg, SMdynlab_end)
 //
 | _ => ()
 //

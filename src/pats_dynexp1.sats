@@ -41,9 +41,6 @@ staload "pats_staexp1.sats"
 datatype p1at_node =
 //
   | P1Tany of () // wildcard: (_)
-(*
-  | P1Tanys of () // wildcards: _
-*)
   | P1Tide of symbol // variable
   | P1Tdqid of // constructor (qualified) / variable (unqualified)
       (d0ynq, symbol)

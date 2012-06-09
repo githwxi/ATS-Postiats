@@ -36,11 +36,9 @@ list_vt_is_nil (xs) =
 implement{}
 list_vt_is_cons (xs) =
   case+ xs of list_vt_cons _ => true | _ =>> false
-
-#atscode_separator()
-
-implement{a}
-list_vt_sing (x) = list_vt_cons (x, list_vt_nil ())
+implement{}
+list_vt_is_sing (xs) =
+  case+ xs of list_vt_sing (x) => true | _ =>> false
 
 #atscode_separator()
 
@@ -143,14 +141,15 @@ prval () = lemma_list_vt_param (ys)
 //
 fun loop {m:nat} .<m>. (
   xs: &list_vt (a, m) >> list_vt (a, m+n), ys: list_vt (a, n)
-) :<!wrt> void =
+) :<!wrt> void = (
   case+ xs of
   | @list_vt_cons
       (x, xs1) => let
       val () = loop (xs1, ys); prval () = fold@ (xs) in (*none*)
     end // end of [list_vt_cons]
   | ~list_vt_nil () => (xs := ys)
-// end of [loop]
+) (* end of [loop] *)
+//
 var res = xs
 val () = loop (res, ys)
 //
@@ -160,7 +159,7 @@ end // end of [list_vt_append]
 
 implement{a}
 list_vt_extend
-  (xs, y) = list_vt_append<a> (xs, list_vt_sing<a> (y))
+  (xs, y) = list_vt_append<a> (xs, list_vt_sing (y))
 // end of [list_vt_extend]
 
 #atscode_separator()

@@ -37,21 +37,21 @@ lemma_list_vt_param
 
 #atscode_separator()
 
+\#define list_vt_sing(x) list_vt_cons(x, list_vt_nil())
+
+#atscode_separator()
+
 fun{} list_vt_is_nil
   {a:vt0p} {n:int} (xs: !list_vt (a, n)):<> bool (n==0)
 fun{} list_vt_is_cons
   {a:vt0p} {n:int} (xs: !list_vt (a, n)):<> bool (n > 0)
+fun{} list_vt_is_sing
+  {a:vt0p} {n:int} (xs: !list_vt (a, n)):<> bool (n==1)
 
 #atscode_separator()
 
 fun{a:vt0p}
-list_vt_sing (x: INV(a)):<> list_vt (a, 1)
-
-#atscode_separator()
-
-fun{a:vt0p}
-list_vt_length
-  {n:int} (xs: !list_vt (INV(a), n)):<> int n
+list_vt_length {n:int} (xs: !list_vt (INV(a), n)):<> int n
 // end of [list_vt_length]
 
 #atscode_separator()

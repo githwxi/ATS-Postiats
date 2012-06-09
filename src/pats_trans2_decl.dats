@@ -1401,7 +1401,10 @@ fun auxcheck_impdec (
   val () = if ~okay then let
     val () = prerr_error2_loc (d1c0.d1ecl_loc)
     val () = filprerr_ifdebug "d1ecl_tr: auxcheck_impdec" // for debugging
-    val () = prerr ": the implemented dynamic constant is required to be a proof."
+    val () = if knd > 0 then
+      prerr ": the implemented dynamic constant is required to be proof."
+    val () = if knd = 0 then
+      prerr ": the implemented dynamic constant is required to be nonproof."
     val () = prerr_newline ()
   in
     the_trans2errlst_add (T2E_d1ecl_tr_impdec (d1c0))

@@ -70,6 +70,9 @@ synmark =
   | SMdynexp of () // dynamic expression
   | SMneuexp of () // neutral expression
 //
+  | SMstalab of () // static label
+  | SMdynlab of () // dynamic labels
+//
   | SMscst_def of (globalref)
   | SMscst_use of (globalref)
 //

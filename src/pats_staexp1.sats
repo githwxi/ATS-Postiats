@@ -87,7 +87,9 @@ fun fprint_v1al : fprint_type (v1al)
 
 (* ****** ****** *)
 
-datatype e1xp_node =
+datatype
+e1xp_node =
+//
   | E1XPide of symbol
 //
   | E1XPint of (int)

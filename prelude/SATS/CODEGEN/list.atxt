@@ -53,14 +53,17 @@ list_of_list_vt
 
 #atscode_separator()
 
+\#define list_sing(x) list_cons(x, list_nil())
+\#define list_pair(x) list_cons(x1, list_cons (x2, list_nil()))
+
+#atscode_separator()
+
 fun{}
 list_is_nil {x:t0p}{n:int} (xs: list (x, n)):<> bool (n==0)
 fun{}
 list_is_cons {x:t0p}{n:int} (xs: list (x, n)):<> bool (n > 0)
-
-#atscode_separator()
-
-fun{a:t0p} list_sing (x: INV(a)):<> list (a, 1)
+fun{}
+list_is_sing {x:t0p}{n:int} (xs: list (x, n)):<> bool (n==1)
 
 #atscode_separator()
 
