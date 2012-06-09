@@ -4,6 +4,7 @@ staload
 UN = "prelude/SATS/unsafe.sats"
 staload
 _ (*anon*) = "prelude/DATS/list.dats"
+#define l2l list_of_list_vt
 //
 staload
 STR = "libc/SATS/string.sats"
@@ -65,31 +66,15 @@ fn srcRename
 %}\
 %{
 
-fun fprocess_lst (
-  xs: List(string), f: string -> atextopt
-) : atext = let
-  fun aux (
-    xs: List(string)
-  ) :<cloref1> atextlst =
-    case+ xs of
-    | list_cons (x, xs) => let
-        val opt = f (x)
-      in
-        case+ opt of
-        | Some ent => list_cons (ent, aux xs) | None () => aux (xs)
-      end // end of [list_cons]
-    | list_nil () => list_nil ()
-  // end of [aux]
-in
-  atext_concatxt (aux (xs))
-end // end of [fprocess_lst]
-
-%}\
-%{
-
+(*
+** HX: pats_main.dats is not include in [SOURCES]
+*)
 val SOURCES =
   $lst{string} (
-  "pats_error.sats"
+//
+  "pats_params.hats"
+//
+, "pats_error.sats"
 , "pats_error.dats"
 //
 , "pats_counter.sats"
@@ -103,6 +88,7 @@ val SOURCES =
 //
 , "pats_basics.sats"
 , "pats_basics.dats"
+, "pats_basics.hats"
 //
 , "pats_stamp.sats"
 , "pats_stamp.dats"
@@ -169,6 +155,8 @@ val SOURCES =
 //
 , "pats_symmap.sats"
 , "pats_symmap.dats"
+, "pats_symmap_avltree.hats"
+, "pats_symmap_htlinprb.hats"
 //
 , "pats_symenv.sats"
 , "pats_symenv.dats"
@@ -353,7 +341,7 @@ end // end of [process_OBJECTS]
 local
 
 fun fproc
-  (src: string): atextopt = let
+  (src: string): atextopt_vt = let
 in
 //
 case+ 0 of
@@ -369,7 +357,7 @@ case+ 0 of
     ) // end of [val]
     val line2 = atext_strptr (line2)
   in
-    Some (atext_apptxt2 (line1, line2))
+    Some_vt (atext_apptxt2 (line1, line2))
   end
 | _ when
     isSuffix (src, ".dats") => let
@@ -383,9 +371,9 @@ case+ 0 of
     ) // end of [val]
     val line2 = atext_strptr (line2)
   in
-    Some (atext_apptxt2 (line1, line2))
+    Some_vt (atext_apptxt2 (line1, line2))
   end
-| _ => None ()
+| _ => None_vt ()
 //
 end // end of [fproc]
 
@@ -393,8 +381,10 @@ in // in of [local]
 
 fun
 process_compile_lines () = let
-  val res1 = fprocess_lst (SOURCES, fproc)
-  val- Some (res2) = fproc ("pats_main.dats")
+  val ys =
+    list_mapopt_fun<string><atext> (SOURCES, fproc)
+  val res1 = atext_concatxt ((l2l)ys)
+  val- ~Some_vt (res2) = fproc ("pats_main.dats")
 in
   atext_apptxt2 (res1, res2)
 end // end of [process_compile_lines]

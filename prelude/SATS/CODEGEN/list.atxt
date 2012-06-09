@@ -226,6 +226,46 @@ x:t0p}{y:t0p
 #atscode_separator()
 
 fun{
+x:t0p}{y:vt0p
+} list_filter__fwork (x: x): bool
+fun{
+x:t0p
+} list_filter {n:int}
+  (xs: NSH(list (INV(x), n))): listLte_vt (x, n)
+// end of [list_filter]
+
+fun{
+x:t0p
+} list_filter_funenv
+  {v:view}{vt:viewtype}{n:int}{fe:eff} (
+  pfv: !v |
+  xs: NSH(list (INV(x), n))
+, f: (!v | x, !vt) -<fun,fe> bool, env: !vt
+) :<fe> listLte_vt (x, n) // end of [list_filter_funenv]
+
+#atscode_separator()
+
+fun{
+x:t0p}{y:vt0p
+} list_mapopt__fwork (x: x): Option_vt (y)
+fun{
+x:t0p}{y:vt0p
+} list_mapopt {n:int}
+  (xs: NSH(list (INV(x), n))): listLte_vt (y, n)
+// end of [list_mapopt]
+
+fun{
+x:t0p}{y:t0p
+} list_mapopt_funenv
+  {v:view}{vt:viewtype}{n:int}{fe:eff} (
+  pfv: !v |
+  xs: NSH(list (INV(x), n))
+, f: (!v | x, !vt) -<fun,fe> Option_vt (y), env: !vt
+) :<fe> listLte_vt (y, n) // end of [list_mapopt_funenv]
+
+#atscode_separator()
+
+fun{
 a:vt0p
 } list_tabulate__fwork (i: int): a
 fun{

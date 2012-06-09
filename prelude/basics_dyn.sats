@@ -161,7 +161,14 @@ list_t0ype_int_type (a:t@ype+, int) =
   | list_nil (a, 0)
 // end of [datatype]
 stadef list = list_t0ype_int_type
-typedef List (a:t0p) = [n:int | n >= 0] list (a, n)
+typedef
+List (a:t0p) = [n:int | n >= 0] list (a, n)
+typedef listLt
+  (a:t0p, n:int) = [n1:nat | n1 < n] list (a, n1)
+// end of [listLt]
+typedef listLte
+  (a:t0p, n:int) = [n1:nat | n1 <= n] list (a, n1)
+// end of [listLte]
 //
 dataviewtype // viewt@ype+: covariant
 list_viewt0ype_int_viewtype (a:viewt@ype+, int) =
@@ -170,7 +177,14 @@ list_viewt0ype_int_viewtype (a:viewt@ype+, int) =
   | list_vt_nil (a, 0)
 // end of [list_viewt0ype_int_viewtype]
 stadef list_vt = list_viewt0ype_int_viewtype
-viewtypedef List_vt (a:vt0p) = [n:int | n >= 0] list_vt (a, n)
+viewtypedef
+List_vt (a:vt0p) = [n:int | n >= 0] list_vt (a, n)
+viewtypedef listLt_vt
+  (a:vt0p, n:int) = [n1:nat | n1 < n] list_vt (a, n1)
+// end of [listLt_vt]
+viewtypedef listLte_vt
+  (a:vt0p, n:int) = [n1:nat | n1 <= n] list_vt (a, n1)
+// end of [listLte_vt]
 //
 (* ****** ****** *)
 //

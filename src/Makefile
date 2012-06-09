@@ -24,6 +24,7 @@ ATSCCFLAGS=-g -O2
 ######
 
 SOURCES := \
+  pats_params.hats \
   pats_error.sats \
   pats_error.dats \
   pats_counter.sats \
@@ -34,6 +35,7 @@ SOURCES := \
   pats_utils.dats \
   pats_basics.sats \
   pats_basics.dats \
+  pats_basics.hats \
   pats_stamp.sats \
   pats_stamp.dats \
   pats_symbol.sats \
@@ -85,6 +87,8 @@ SOURCES := \
   pats_parsing_toplevel.dats \
   pats_symmap.sats \
   pats_symmap.dats \
+  pats_symmap_avltree.hats \
+  pats_symmap_htlinprb.hats \
   pats_symenv.sats \
   pats_symenv.dats \
   pats_staexp1.sats \

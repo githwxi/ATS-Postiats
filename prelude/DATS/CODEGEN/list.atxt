@@ -68,7 +68,7 @@ list_copy (xs) = let
   ) :<!wrt> void = case+ xs of
     | list_cons (x, xs) => let
         val () = res :=
-          list_vt_cons {x}{0} (x, _(*top*))
+          list_vt_cons{x}{0} (x, _(*top*))
         val+ list_vt_cons (_, res1) = res // res1 = res.1
         val () = loop (xs, res1)
         prval () = fold@ (res)
@@ -127,7 +127,7 @@ fun loop
   | list_cons
       (x, xs) => let
       val () = res :=
-        list_vt_cons {a}{0} (x, _)
+        list_vt_cons{a}{0} (x, _)
       val+ list_vt_cons (_, res1) = res
       val () = loop (xs, ys, res1)
       prval () = fold@ (res)
@@ -267,7 +267,7 @@ fun loop
   if i > 0 then let
     val+ list_cons (x, xs) = xs
     val () = res :=
-      list_vt_cons {a}{0} (x, _)
+      list_vt_cons{a}{0} (x, _)
     val+ list_vt_cons (_, res1) = res
     val () = loop (xs, i-1, res1)
     val () = fold@ (res)
@@ -302,7 +302,7 @@ in
     | list_cons
         (x, xs1) => let
         val () = res :=
-          list_vt_cons {a}{0} (x, _)
+          list_vt_cons{a}{0} (x, _)
         val+ list_vt_cons (_, res1) = res
         val ans = loop (xs1, i-1, res1)
         prval () = fold@ (res)
@@ -479,7 +479,7 @@ fun loop
   case+ xs of
   | list_cons (x, xs) => let
       val y = list_map__fwork<x><y> (x)
-      val () = res := list_vt_cons {y}{0} (y, _)
+      val () = res := list_vt_cons{y}{0} (y, _)
       val+ list_vt_cons (_, res1) = res
       val () = loop (xs, res1)
       prval () = fold@ (res)
@@ -519,7 +519,7 @@ in
       (x, xs) => let
       val y = f (pfv | x, env)
       val () = res :=
-        list_vt_cons {y}{0} (y, _(*top*))
+        list_vt_cons{y}{0} (y, _(*top*))
       val+ list_vt_cons (_, res1) = res // res1 = res.1
       val () = loop (pfv | xs, f, env, res1)
       prval () = fold@ (res)
@@ -546,6 +546,129 @@ $FC.listize_funenv<List(x)><x><y>
 #atscode_separator()
 
 implement{x}
+list_filter {n} (xs) = let
+//
+prval () = lemma_list_param (xs)
+//
+fun loop
+  {n:nat} .<n>. (
+  xs: list (x, n)
+, res: &ptr? >> listLte_vt (x, n)
+) : void = (
+  case+ xs of
+  | list_cons (x, xs) => let
+      val test = list_filter__fwork<x> (x)
+    in
+      case+ test of
+      | true => let
+          val () = res :=
+            list_vt_cons{x}{0} (x, _)
+          val+ list_vt_cons (_, res1) = res
+          val () = loop (xs, res1)
+          prval () = fold@ (res)
+        in
+          // nothing
+        end // end of [true]
+      | false => loop (xs, res)
+    end // end of [list_cons]
+  | list_nil () => (res := list_vt_nil)
+) // end of [loop]
+//
+var res: ptr
+val () = loop (xs, res)
+//
+in
+  res (*listLte_vt(x, n)*)
+end // end of [list_filter]
+
+#atscode_separator()
+
+implement{x}{y}
+list_mapopt {n} (xs) = let
+//
+prval () = lemma_list_param (xs)
+//
+fun loop
+  {n:nat} .<n>. (
+  xs: list (x, n)
+, res: &ptr? >> listLte_vt (y, n)
+) : void = (
+  case+ xs of
+  | list_cons (x, xs) => let
+      val opt = list_mapopt__fwork<x><y> (x)
+    in
+      case+ opt of
+      | ~Some_vt (y) => let
+          val () = res :=
+            list_vt_cons{y}{0} (y, _)
+          val+ list_vt_cons (_, res1) = res
+          val () = loop (xs, res1)
+          prval () = fold@ (res)
+        in
+          // nothing
+        end // end of [Some_vt]
+      | ~None_vt () => loop (xs, res)
+    end // end of [list_cons]
+  | list_nil () => (res := list_vt_nil)
+) // end of [loop]
+//
+var res: ptr
+val () = loop (xs, res)
+//
+in
+  res (*listLte_vt(y, n)*)
+end // end of [list_mapopt]
+
+implement{x}{y}
+list_mapopt_funenv
+  {v}{vt}{n}{fe}
+  (pfv | xs, f, env) = let
+//
+viewtypedef ys = List_vt (y)
+//
+prval () =
+  lemma_list_param (xs) // prove [n >= 0]
+// end of [prval]
+fun loop {n:nat} .<n>. (
+  pfv: !v
+| xs: list (x, n)
+, f: (!v | x, !vt) -<fun,fe> Option_vt (y)
+, env: !vt
+, res: &ys? >> listLte_vt (y, n)
+) :<!wrt,fe> void = let
+in
+  case+ xs of
+  | list_cons
+      (x, xs) => let
+      val opt = f (pfv | x, env)
+    in
+      case+ opt of
+      | ~Some_vt (y) => let
+          val () = res :=
+            list_vt_cons{y}{0} (y, _(*top*))
+          val+ list_vt_cons (_, res1) = res // res1 = res.1
+          val () = loop (pfv | xs, f, env, res1)
+          prval () = fold@ (res)
+        in
+          (*nothing*)
+        end // end of [Some_vt]
+      | ~None_vt () => loop (pfv | xs, f, env, res)
+    end // end of [list_vt_cons]
+  | list_nil () =>
+      $effmask_wrt (res := list_vt_nil ())
+    // end of [list_nil]
+end // end of [loop]
+//
+var res: ys // uninitialized
+val () = $effmask_wrt (loop (pfv | xs, f, env, res))
+//
+in
+  res(*listLte_vt(y,n)*)
+end // end of [list_mapopt_funenv]
+
+#atscode_separator()
+
+implement{x}
 list_tabulate
   (n) = res where {
 //
@@ -559,7 +682,7 @@ fun loop
   if n > i then let
     val x =
       list_tabulate__fwork<x> (i)
-    val () = res := list_vt_cons {x}{0} (x, _)
+    val () = res := list_vt_cons{x}{0} (x, _)
     val+ list_vt_cons (_, res1) = res
     val () = loop (n, succ(i), res1)
     prval () = fold@ (res)

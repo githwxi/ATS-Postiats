@@ -32,10 +32,10 @@
 //
 (* ****** ****** *)
 
-#include "pats_symmap_avltree.dats"
 (*
-#include "pats_symmap_htlinprb.dats" // HX: hashtable for experiment
+#include "pats_symmap_avltree.hats"
 *)
+#include "pats_symmap_htlinprb.hats" // HX: hashtable for experiment
 
 (* ****** ****** *)
 
