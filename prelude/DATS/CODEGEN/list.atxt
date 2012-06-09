@@ -33,15 +33,16 @@ staload FC = "prelude/SATS/fcontainer.sats"
 implement{}
 list_is_nil (xs) =
   case+ xs of list_nil () => true | _ =>> false
-// end of [list_is_nil]
 implement{}
 list_is_cons (xs) =
   case+ xs of list_cons _ => true | _ =>> false
-// end of [list_is_cons]
 implement{}
 list_is_sing (xs) =
   case+ xs of list_sing (x) => true | _ =>> false
-// end of [list_is_sing]
+implement{}
+list_is_pair (xs) =
+  case+ xs of list_pair (x1, x2) => true | _ =>> false
+// end of [list_is_pair]
 
 #atscode_separator()
 

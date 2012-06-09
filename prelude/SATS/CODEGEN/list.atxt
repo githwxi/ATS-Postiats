@@ -64,6 +64,8 @@ fun{}
 list_is_cons {x:t0p}{n:int} (xs: list (x, n)):<> bool (n > 0)
 fun{}
 list_is_sing {x:t0p}{n:int} (xs: list (x, n)):<> bool (n==1)
+fun{}
+list_is_pair {x:t0p}{n:int} (xs: list (x, n)):<> bool (n==2)
 
 #atscode_separator()
 

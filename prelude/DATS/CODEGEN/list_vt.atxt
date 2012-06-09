@@ -39,6 +39,10 @@ list_vt_is_cons (xs) =
 implement{}
 list_vt_is_sing (xs) =
   case+ xs of list_vt_sing (x) => true | _ =>> false
+implement{}
+list_vt_is_pair (xs) =
+  case+ xs of list_vt_pair (x1, x2) => true | _ =>> false
+// end of [list_vt_is_pair]
 
 #atscode_separator()
 

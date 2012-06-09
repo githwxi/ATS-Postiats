@@ -37,7 +37,10 @@ lemma_list_vt_param
 
 #atscode_separator()
 
-\#define list_vt_sing(x) list_vt_cons(x, list_vt_nil())
+\#define list_vt_sing(x)
+  list_vt_cons(x, list_vt_nil())
+\#define list_vt_pair(x1, x2)
+  list_vt_cons(x1, list_vt_cons (x2, list_vt_nil()))
 
 #atscode_separator()
 
@@ -47,6 +50,8 @@ fun{} list_vt_is_cons
   {a:vt0p} {n:int} (xs: !list_vt (a, n)):<> bool (n > 0)
 fun{} list_vt_is_sing
   {a:vt0p} {n:int} (xs: !list_vt (a, n)):<> bool (n==1)
+fun{} list_vt_is_pair
+  {a:vt0p} {n:int} (xs: !list_vt (a, n)):<> bool (n==2)
 
 #atscode_separator()
 
