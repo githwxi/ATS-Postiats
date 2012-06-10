@@ -38,13 +38,14 @@
 
 (* ****** ****** *)
 
-staload LBF = "pats_lexbuf.sats"
+staload
+LBF = "pats_lexbuf.sats"
 stadef lexbuf = $LBF.lexbuf
-
-staload LEX = "pats_lexing.sats"
+staload
+LEX = "pats_lexing.sats"
 typedef token = $LEX.token
-
-staload LOC = "pats_location.sats"
+staload
+LOC = "pats_location.sats"
 typedef location = $LOC.location
 
 (* ****** ****** *)
@@ -105,7 +106,9 @@ fun tokbuf_get_token (buf: &tokbuf): token
 fun tokbuf_getinc_token (buf: &tokbuf): token
 
 (* ****** ****** *)
-
+//
+// HX-2012-06: for pushing back a given token
+//
 fun tokbuf_unget_token (buf: &tokbuf, tok: token): void
 
 (* ****** ****** *)

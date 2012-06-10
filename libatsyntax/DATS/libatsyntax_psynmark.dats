@@ -572,6 +572,15 @@ case+ p0t0.p0at_node of
 | $SYN.P0Topid _ => () // determined by the context
 // *)
 //
+| $SYN.P0Tint _ =>
+    psynmark_ins_begend (SMdynexp, loc0, res)
+| $SYN.P0Tchar _ =>
+    psynmark_ins_begend (SMdynexp, loc0, res)
+| $SYN.P0Tfloat _ =>
+    psynmark_ins_begend (SMdynexp, loc0, res)
+| $SYN.P0Tstring _ =>
+    psynmark_ins_begend (SMdynexp, loc0, res)
+//
 | $SYN.P0Tapp (p0t1, p0t2) => {
     val () = p0at_mark (p0t1, res)
     val () = p0at_mark (p0t2, res)
@@ -590,6 +599,9 @@ case+ p0t0.p0at_node of
 | $SYN.P0Ttup (knd, npf, p0ts) => p0atlst_npf_mark (npf, p0ts, res)
 | $SYN.P0Trec (knd, npf, lp0ts) => labp0atlst_npf_mark (npf, lp0ts, res)
 //
+| $SYN.P0Tfree (p0t) => p0at_mark (p0t, res)
+| $SYN.P0Tunfold (p0t) => p0at_mark (p0t, res)
+//
 | $SYN.P0Texist (s0as) => s0arglst_mark (s0as, res)
 //
 | $SYN.P0Tann
@@ -598,8 +610,8 @@ case+ p0t0.p0at_node of
     val () = s0exp_mark (ann, res)
   } // end of [P0Tann]
 //
-| _ => psynmark_ins_begend (SMdynexp, loc0, res)
-// end
+| $SYN.P0Terr _ => psynmark_ins_begend (SMdynexp, loc0, res)
+//
 end // end of [p0at_mark]
 
 implement
