@@ -65,6 +65,12 @@ fun reader_initialize_string (
 
 (* ****** ****** *)
 
+fun reader_initialize_charlst_vt (
+  r: &reader? >> reader, inp: List_vt (char)
+) : void // end of [reader_initialize_charlst_vt]
+
+(* ****** ****** *)
+
 fun reader_uninitialize (
   r: &reader >> reader?
 ) : void // end of [reader_uninitialize]

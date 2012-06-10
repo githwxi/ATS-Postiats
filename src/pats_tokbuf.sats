@@ -38,6 +38,9 @@
 
 (* ****** ****** *)
 
+staload LBF = "pats_lexbuf.sats"
+stadef lexbuf = $LBF.lexbuf
+
 staload LEX = "pats_lexing.sats"
 typedef token = $LEX.token
 
@@ -72,6 +75,10 @@ fun tokbuf_initialize_string (
   buf: &tokbuf? >> tokbuf, inp: string
 ) : void // end of [tokbuf_initialize_string]
 
+fun tokbuf_initialize_lexbuf (
+  buf: &tokbuf? >> tokbuf, lbf: &lexbuf >> lexbuf?
+) : void // end of [tokbuf_initialize_lexbuf]
+
 (* ****** ****** *)
 
 fun tokbuf_uninitialize (
@@ -96,6 +103,10 @@ fun tokbuf_reset (buf: &tokbuf): void
 
 fun tokbuf_get_token (buf: &tokbuf): token
 fun tokbuf_getinc_token (buf: &tokbuf): token
+
+(* ****** ****** *)
+
+fun tokbuf_unget_token (buf: &tokbuf, tok: token): void
 
 (* ****** ****** *)
 

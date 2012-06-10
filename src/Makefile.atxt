@@ -14,7 +14,7 @@ staload TIME = "libc/SATS/time.sats"
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-staload "libatsdoc/SATS/atsdoc_text.sats"
+staload "libatsdoc/SATS/libatsdoc_text.sats"
 //
 %}\
 %{
@@ -55,12 +55,14 @@ in
   end else false
 end // end of [isSuffix]
 
+macdef isSATS (x) = isSuffix (,(x), ".sats")
+macdef isDATS (x) = isSuffix (,(x), ".dats")
+
 fn srcRename
   (str: string): string =
   case+ 0 of
-  | _ when isSuffix (str, ".sats") => extrem (str) + "_sats"
-  | _ when isSuffix (str, ".dats") => extrem (str) + "_dats"
-  | _ when isSuffix (str, ".cats") => extrem (str) + "_cats"
+  | _ when isSATS (str) => extrem (str) + "_sats"
+  | _ when isDATS (str) => extrem (str) + "_dats"
   | _ => str
 // end of [srcRename]
 %}\
@@ -323,14 +325,14 @@ fun aux (
   case+ xs of
   | list_cons (x, xs) => (
     case+ 0 of
-    | _ when isSuffix (x, ".sats") => let
+    | _ when isSATS (x) => let
         val x1 = extrem (x)
         val x2 = sprintf ("  %s_sats.o \\\n", @(x1))
         val res = atext_strptr (x2)
       in
         list_cons (res, aux (xs))
       end
-    | _ when isSuffix (x, ".dats") => let
+    | _ when isDATS (x) => let
         val x1 = extrem (x)
         val x2 = sprintf ("  %s_dats.o \\\n", @(x1))
         val res = atext_strptr (x2)
@@ -358,7 +360,7 @@ in
 //
 case+ 0 of
 | _ when
-    isSuffix (src, ".sats") => let
+    isSATS (src) => let
     val src1 = extrem (src)
     val line1 = sprintf (
       "%s_sats.c: %s.sats; $(ATSCC) -cc $<\n", @(src1, src1)
@@ -372,7 +374,7 @@ case+ 0 of
     Some_vt (atext_apptxt2 (line1, line2))
   end
 | _ when
-    isSuffix (src, ".dats") => let
+    isDATS (src) => let
     val src1 = extrem (src)
     val line1 = sprintf (
       "%s_dats.c: %s.dats; $(ATSCC) -cc $<\n", @(src1, src1)

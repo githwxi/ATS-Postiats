@@ -1500,7 +1500,7 @@ lexing_DQUOTE
   , m: size_t (m), n: size_t (n)
   ) : #[m,n:nat] size_t (n) = let
     val i = lexbufpos_get_char (buf, pos)
-    prval () = queue_param_lemma (q) // m >= n >= 0
+    prval () = lemma_queue_param (q) // m >= n >= 0
   in
     if i >= 0 then let
       val c = (i2c)i
@@ -1531,7 +1531,7 @@ lexing_DQUOTE
   , m: size_t (m), n: size_t (n), i: int
   ) : #[m,n:nat] size_t (n) = let
     val c = (i2uc)i
-    prval () = queue_param_lemma (q) // m >= n >= 0
+    prval () = lemma_queue_param (q) // m >= n >= 0
   in
     case+ 0 of
     | _ when m > n => let

@@ -66,6 +66,10 @@ fun lexbuf_initialize_string (
   buf: &lexbuf? >> lexbuf, inp: string
 ) : void // end of [lexbuf_initialize_string]
 
+fun lexbuf_initialize_charlst_vt (
+  buf: &lexbuf? >> lexbuf, inp: List_vt (char)
+) : void // end of [lexbuf_initialize_charlst_vt]
+
 (* ****** ****** *)
 
 fun lexbuf_uninitialize (

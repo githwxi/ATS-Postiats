@@ -44,7 +44,7 @@ abort () = let
   } // end of [val]
 *)
 in
-  $raise FatalErrorException ()
+  $raise (FatalErrorException())
 end // end of [abort]
 
 (* ****** ****** *)

@@ -56,7 +56,8 @@ implement
 {xs}{x}
 iforeach (xs) = let
 //
-var i: size_t = g0int2uint (0)
+var i
+  : size_t = g0int2uint (0)
 val p_i = $UN.cast2Ptr1 (addr@ (i))
 //
 implement
@@ -256,7 +257,6 @@ in
   res(*sink*)
 end // end of [foldright_cloref]
 
-(*
 (* ****** ****** *)
 //
 // HX-2012-02:
@@ -295,7 +295,8 @@ end with
   ~Found () => false
 // end of [try]
 end // end of [exists_funenv]
-*)
+
+(* ****** ****** *)
 
 implement
 {xs}{x}

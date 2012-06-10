@@ -32,7 +32,7 @@ staload _(*anon*) =
   <title></title>\n\
   <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"/>\n\
   <style type=\"text/css\">\n\
-    .atsyntax {color:#E80000;background-color:#E0E0E0;}\n\
+    .atsyntax {color:#808080;background-color:#E0E0E0;}\n\
     .atsyntax span.keyword {color:#000000;font-weight:bold;}\n\
     .atsyntax span.comment {color:#787878;font-style:italic;}\n\
     .atsyntax span.extcode {color:#A52A2A;}\n\
@@ -79,11 +79,6 @@ fun pats2html_pre_end
   fprint_string (out, PSYNMARK_HTML_PRE_END)
 
 (* ****** ****** *)
-
-fun fseekbeg
-  (inp: FILEref): int =
-  $STDIO.fseek0_err (inp, 0L, $STDIO.SEEK_SET)
-// end of [fseekbeg]
 
 fun fputc_html (
   c: char, out: FILEref
@@ -171,13 +166,64 @@ fun pats2html_level1 (
   stadyn: int, inp: FILEref, out: FILEref
 ) : void = let
 //
-val _(*err*) = fseekbeg (inp)
-val toks = fileref_get_tokenlst (inp)
+typedef charlst = List (char)
+viewtypedef charlst_vt = List_vt (char)
+//
+val charlst = let
+  fun loop (
+    inp: FILEref
+  , res: &charlst_vt? >> charlst_vt
+  ) : void = let
+    val i = $STDIO.fgetc0_err (inp)
+  in
+    if (i != EOF) then let
+      val c = char_of_int (i)
+      val () = res :=
+        list_vt_cons {char}{0} (c, ?)
+      val+ list_vt_cons (_, !p_res) = res
+      val () = loop (inp, !p_res)
+      prval () = fold@ (res)
+    in
+      // nothing
+    end else
+      res := list_vt_nil ()
+    // end of [if]
+  end // end of [loop]
+  var res: charlst_vt
+  val () = loop (inp, res)
+in
+  res
+end // end of [val]
+//
+val charlst1 = list_vt_copy (charlst)
+val lbf =
+  lexbufobj_make_charlst_vt (charlst1)
+val toks = lexbufobj_get_tokenlst (lbf)
 val psms1 = listize_token2psynmark (toks)
-val () = list_vt_free (toks)
-val _(*err*) = fseekbeg (inp)
-val psms2 = fileref_get_psynmarklst (stadyn, inp)
-val _(*err*) = fseekbeg (inp)
+val tbf = tokbufobj_make_lexbufobj (lbf)
+//
+val toks =
+  list_vt_reverse (toks)
+val () = let
+  fun loop (
+    tbf: !tokbufobj, toks: tokenlst_vt
+  ) : void =
+    case+ toks of
+    | ~list_vt_cons (tok, toks) => let
+        val iscmnt = token_is_comment (tok)
+        val () = if ~iscmnt then tokbufobj_unget_token (tbf, tok)
+      in
+        loop (tbf, toks)
+      end // end of [list_vt_cons]
+    | ~list_vt_nil () => ()
+  // end of [loop]
+in
+  loop (tbf, toks)
+end // end of [val]
+//
+val psms2 =
+  tokbufobj_get_psynmarklst (stadyn, tbf)
+val () = tokbufobj_free (tbf)
 //
 val (psms1_beg, psms1_end) = psynmarklst_split (psms1)
 val (psms2_beg, psms2_end) = psynmarklst_split (psms2)
@@ -187,8 +233,8 @@ val psmss = $lst_vt{psmlst} (psms1_end, psms2_end, psms2_beg, psms1_beg)
 //
 in
 //
-fileref_psynmarklstlst_process<>
-  (inp, out, psmss, lam (c, out) => fputc_html (c, out))
+charlst_psynmarklstlst_process<>
+  (charlst, out, psmss, lam (c, out) => fputc_html (c, out))
 //
 end // end of [pats2html_level1]
 

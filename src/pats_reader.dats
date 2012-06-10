@@ -32,6 +32,7 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload _(*anon*) = "prelude/DATS/pointer.dats"
 
 (* ****** ****** *)
@@ -148,6 +149,62 @@ fun reader0_initialize_string
 
 (* ****** ****** *)
 
+local
+
+viewtypedef cs = List_vt (char)
+
+in // in of [local]
+
+fun reader0_initialize_charlst_vt
+  {l:addr} (
+  pfgc: free_gc_v (cs?, l)
+, pfat: cs @ l
+| r: &reader0 >> reader, p: ptr l
+) : void = () where {
+//
+  viewdef v = (
+    free_gc_v (cs?, l), cs @ l
+  ) // end of [viewdef]
+//
+  val getchar =
+    lam (
+    pf: !v | (*none*)
+  ) : int =<cloptr1> let
+    prval pf1 = pf.1 // for dereferencing [p]
+  in
+    case+ !p of
+    | ~list_vt_cons
+        (c, cs) => let
+        val () = !p := cs; prval () = pf.1 := pf1
+      in
+        int_of_char (c)
+      end // end of [list_vt_cons]
+    | list_vt_nil () => let
+        prval () = fold@ (!p); prval () = pf.1 := pf1
+      in
+        ~1 (*EOF*)
+      end // end of [list_vt_nil]
+  end // end of [lam] // end of [val]
+//
+  val freeres =
+    lam (
+    pf: v | (*none*)
+  ) : void =<cloptr1> let
+    prval (pf0, pf1) = pf
+    val () = list_vt_free<char> (!p)
+  in
+    ptr_free (pf0, pf1 | p)
+  end // end of [freeres]
+//
+  val () = r.pfres := (pfgc, pfat)
+  val () = r.getchar := getchar
+  val () = r.freeres := freeres
+} // end of [reader0_initialize_charlst_vt]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 fun reader0_uninitialize (
   r: &reader >> reader0
 ) : void = () where {
@@ -201,6 +258,15 @@ reader_initialize_string
   prval () = reader0_encode (r)
   val () = reader0_initialize_string (pfgc, pfat | r, inp, p)
 } // end of preader_initialize_string]
+
+implement
+reader_initialize_charlst_vt
+  (r, inp) = () where {
+  val (pfgc, pfat | p) = ptr_alloc<List_vt(char)> ()
+  val () = !p := inp
+  prval () = reader0_encode (r)
+  val () = reader0_initialize_charlst_vt (pfgc, pfat | r, p)
+} // end of preader_initialize_charlst_vt]
 
 (* ****** ****** *)
 

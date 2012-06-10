@@ -32,14 +32,12 @@
 //
 (* ****** ****** *)
 
-staload CNTR = "pats_counter.sats"
-
-(* ****** ****** *)
-
 staload "pats_stamp.sats"
 
 (* ****** ****** *)
 
+staload
+CNTR = "pats_counter.sats"
 assume stamp_t0ype = $CNTR.count
 
 (* ****** ****** *)

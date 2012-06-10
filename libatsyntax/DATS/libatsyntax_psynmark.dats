@@ -83,9 +83,20 @@ stadef funkind = $BAS.funkind
 stadef valkind = $BAS.valkind
 //
 staload
+LEX = "src/pats_lexing.sats"
+//
+staload
+TBF = "src/pats_tokbuf.sats"
+stadef tokbuf = $TBF.tokbuf
+//
+staload
 SYN = "src/pats_syntax.sats"
 //
+stadef s0rt = $SYN.s0rt
+stadef s0rtopt = $SYN.s0rtopt
+//
 stadef e0xp = $SYN.e0xp
+//
 stadef s0exp = $SYN.s0exp
 stadef s0explst = $SYN.s0explst
 stadef s0expopt = $SYN.s0expopt
@@ -140,6 +151,7 @@ stadef v0aldeclst = $SYN.v0aldeclst
 stadef v0ardeclst = $SYN.v0ardeclst
 //
 stadef i0mparg = $SYN.i0mparg
+stadef impqi0de = $SYN.impqi0de
 stadef i0mpdec = $SYN.i0mpdec
 //
 assume d0ecl = $SYN.d0ecl
@@ -284,7 +296,10 @@ end // end of [psynmarklst_split]
 typedef fmark_type (a:t@ype) = (a, &res >> res) -> void
 
 (* ****** ****** *)
-
+//
+extern fun s0rt_mark : fmark_type (s0rt)
+extern fun s0rtopt_mark : fmark_type (s0rtopt)
+//
 extern fun e0xp_mark : fmark_type (e0xp)
 //
 extern fun s0exp_mark : fmark_type (s0exp)
@@ -358,11 +373,30 @@ extern fun v0aldeclst_mark
 extern fun v0ardeclst_mark : fmark_type (v0ardeclst)
 //
 extern fun i0mparg_mark : fmark_type (i0mparg)
+extern fun impqi0de_mark : fmark_type (impqi0de)
 extern fun i0mpdec_mark : fmark_type (i0mpdec)
 //
 extern fun d0ecl_mark : fmark_type (d0ecl)
 extern fun d0eclist_mark : fmark_type (d0eclist)
 //
+(* ****** ****** *)
+
+implement
+s0rt_mark
+  (s0t, res) = let
+  val loc = s0t.s0rt_loc
+  val () = psynmark_ins_begend (SMstaexp, loc, res)
+in
+  // nothing
+end // end of [s0rt_mark]
+
+implement
+s0rtopt_mark
+  (opt, res) = (
+  case+ opt of
+  | Some (s0t) => s0rt_mark (s0t, res) | None () => ()
+) // end of [s0rtopt_mark]
+
 (* ****** ****** *)
 
 implement
@@ -383,12 +417,78 @@ s0exp_mark
 in
 //
 case+ s0e0.s0exp_node of
+//
+(*
+| $SYN.S0Eide _ => ()
+| $SYN.S0Esqid _ => ()
+| $SYN.S0Eopid _ => ()
+*)
+//
+| $SYN.S0Eint _ =>
+    psynmark_ins_begend (SMstaexp, loc0, res)
+| $SYN.S0Echar _ =>
+    psynmark_ins_begend (SMstaexp, loc0, res)
+| $SYN.S0Etkname _ =>
+    psynmark_ins_begend (SMstaexp, loc0, res)
+| $SYN.S0Eextype _ =>
+    psynmark_ins_begend (SMstaexp, loc0, res)
+//
+| $SYN.S0Eapp
+    (s0e1, s0e2) => let
+    val () = s0exp_mark (s0e1, res)
+    val () = s0exp_mark (s0e2, res)
+  in
+    // nothing
+  end // end of [S0Eapp]
+| $SYN.S0Elam
+    (_sma, _opt, s0e) => let
+    val () = psynmark_ins_beg (SMstaexp, loc0, res)
+    val () = s0exp_mark (s0e, res)
+    val () = psynmark_ins_end (SMstaexp, loc0, res)
+  in
+    // nothing
+  end // end of [S0Elam]
+//
+| $SYN.S0Eimp (efs) => e0fftaglst_mark (efs, res)
+//
+| $SYN.S0Elist (s0es) => s0explst_mark (s0es, res)
+| $SYN.S0Elist2
+    (s0es1, s0es2) => let
+    val () = s0explst_mark (s0es1, res)
+    val () = s0explst_mark (s0es2, res)
+  in
+    // nothing
+  end // end of [S0Elist2]
+//
+| $SYN.S0Etyarr
+    (s0e_elt, s0es_dim) => let
+    val () = s0exp_mark (s0e_elt, res)
+    val () = s0explst_mark (s0es_dim, res)
+  in
+    // nothing
+  end // end of [S0Etyarr]
+| $SYN.S0Etytup
+    (knd, npf, s0es) => s0explst_mark (s0es, res)
 | $SYN.S0Etyrec
     (knd, npf, ls0es) =>
     labs0explst_npf_mark (npf, ls0es, res)
 | $SYN.S0Etyrec_ext
     (name, npf, ls0es) =>
     labs0explst_npf_mark (npf, ls0es, res)
+//
+| $SYN.S0Euni _ => psynmark_ins_begend (SMstaexp, loc0, res)
+| $SYN.S0Eexi _ => psynmark_ins_begend (SMstaexp, loc0, res)
+//
+| $SYN.S0Eann
+    (s0e, s0t) => let
+    val () =
+      s0exp_mark (s0e, res)
+    // end of [val]
+    val () = s0rt_mark (s0t, res)
+  in
+    // nothing
+  end // end of [S0Eann]
+//
 | _ => psynmark_ins_begend (SMstaexp, loc0, res)
 //
 end // end of [s0exp_mark]
@@ -466,9 +566,11 @@ in
 //
 case+ p0t0.p0at_node of
 //
-| $SYN.P0Tide _ => ()
-| $SYN.P0Tdqid _ => ()
-| $SYN.P0Topid _ => ()
+// (*
+| $SYN.P0Tide _ => () // determined by the context
+| $SYN.P0Tdqid _ => () // determined by the context
+| $SYN.P0Topid _ => () // determined by the context
+// *)
 //
 | $SYN.P0Tapp (p0t1, p0t2) => {
     val () = p0at_mark (p0t1, res)
@@ -581,9 +683,11 @@ in
 //
 case+ d0e0.d0exp_node of
 //
-| $SYN.D0Eide _ => ()
-| $SYN.D0Edqid _ => ()
-| $SYN.D0Eopid _ => ()
+// (*
+| $SYN.D0Eide _ => () // determined by the context
+| $SYN.D0Edqid _ => () // determined by the context
+| $SYN.D0Eopid _ => () // determined by the context
+// *)
 //
 | $SYN.D0Eapp (d0e_fun, d0e_arg) => {
     val () = d0exp_mark (d0e_fun, res)
@@ -1152,7 +1256,17 @@ i0mparg_mark (x, res) =
 // end of [i0mparg_mark]
 
 implement
+impqi0de_mark (x, res) = let
+  val () =
+    t0mpmarglst_mark (x.impqi0de_arg, res)
+  // end of [val]
+in
+  // nothing
+end // end of [impqi0de_mark]
+
+implement
 i0mpdec_mark (d, res) = let
+  val () = impqi0de_mark (d.i0mpdec_qid, res)
   val () = f0arglst_mark (d.i0mpdec_arg, res)
   val () = s0expopt_mark (d.i0mpdec_res, res)
 in
@@ -1160,6 +1274,14 @@ in
 end // end of [i0mpdec]
 
 (* ****** ****** *)
+
+fun dcstkind_is_proof
+  (tok: $LEX.token): bool = (
+  case+ tok.token_node of
+  | $LEX.T_FUN (fk) => $BAS.funkind_is_proof (fk)
+  | $LEX.T_VAL (vk) => $BAS.valkind_is_proof (vk)
+  | _ => false
+) // end of [dcstkind_is_proof]
 
 implement
 d0ecl_mark
@@ -1215,9 +1337,16 @@ case+ d0c0.d0ecl_node of
 //
 | $SYN.D0Cdcstdecs
     (tok, qmas, decs) => let
-    val () =
-      q0marglst_mark (qmas, res) in d0cstdeclst_mark (decs, res)
-    // end of [val]
+    val isprf = dcstkind_is_proof (tok)
+    val sm = (
+      if isprf then SMprfexp else SMdynexp
+    ) : synmark // end of [val]
+    val () = psynmark_ins_beg (sm, loc0, res)
+    val () = q0marglst_mark (qmas, res)
+    val () = d0cstdeclst_mark (decs, res)
+    val () = psynmark_ins_end (sm, loc0, res)
+  in 
+    // nothing
   end // end of [D0Cdcstdecs]
 //
 | $SYN.D0Cfundecs
@@ -1251,12 +1380,14 @@ case+ d0c0.d0ecl_node of
 //
 | $SYN.D0Cimpdec
     (knd, imparg, impdec) => let
-    val () = if knd > 0 then
-      psynmark_ins_beg (SMprfexp, loc0, res)
+    val isprf = knd > 0
+    val sm = (
+      if isprf then SMprfexp else SMdynexp
+    ) : synmark // end of [val]
+    val () = psynmark_ins_beg (sm, loc0, res)
     val () = i0mparg_mark (imparg, res)
     val () = i0mpdec_mark (impdec, res)
-    val () = if knd > 0 then
-      psynmark_ins_end (SMprfexp, loc0, res)
+    val () = psynmark_ins_end (sm, loc0, res)
   in
     // nothing
   end // end of [D0Cimpdec]
@@ -1286,14 +1417,23 @@ d0eclist_mark
 in // in of [local]
 
 implement
-fileref_get_psynmarklst
-  (stadyn, inp) = let
-  val d0cs = $PAR.parse_from_fileref_toplevel (stadyn, inp)
-  var res: res = list_vt_nil ()
-  val () = d0eclist_mark (d0cs, res)
+tokbufobj_get_psynmarklst
+  (stadyn, tbf) = let
+//
+val (pf, fpf | p) =
+  __cast (tbf) where {
+  extern castfn __cast (tbf: !tokbufobj)
+    : [l:addr] (tokbuf @ l, tokbuf @ l -<lin,prf> void | ptr l)
+} // end of [val]
+val d0cs = $PAR.parse_from_tokbuf_toplevel (stadyn, !p)
+prval () = fpf (pf)
+//
+var res: res = list_vt_nil ()
+val () = d0eclist_mark (d0cs, res)
+//
 in
   list_vt_reverse (res)
-end // end of [fileref_get_psynmarklst]
+end // end of [tokbufobj_get_psynmarklst]
 
 end // end of [local]
 
@@ -1337,11 +1477,15 @@ psynmarklstlst_process
 
 (* ****** ****** *)
 
+#define i2c char_of_int
+
+(* ****** ****** *)
+
 staload
 STDIO = "libc/SATS/stdio.sats"
 macdef fgetc0_err = $STDIO.fgetc0_err
 
-#define i2c char_of_int
+(* ****** ****** *)
 
 implement{}
 fileref_psynmarklstlst_process
@@ -1377,6 +1521,46 @@ val () = list_vt_free_fun<psmlst> (psmss, lam (x) => list_vt_free (x))
 in
   // nothing
 end // end of [fileref_psynmarklstlst_process]
+
+(* ****** ****** *)
+
+implement{}
+charlst_psynmarklstlst_process
+  (inp, out, psmss, fputc) = let
+//
+fun loop (
+  inp: List_vt (char)
+, out: FILEref
+, psmss: &psynmarklstlst_vt
+, fputc: (char, FILEref) -<cloref1> int
+, pos: &lint
+) : void = let
+  val () =
+    psynmarklstlst_process (out, pos, psmss)
+  // end of [val]
+in
+//
+case+ inp of
+| ~list_vt_cons
+    (c, inp) => let
+    val () = pos := succ (pos)
+    val _(*err*) = fputc (c, out)
+  in
+    loop (inp, out, psmss, fputc, pos)
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => ()
+//
+end // end of [loop]
+//
+var psmss = psmss; var pos: lint = 0L
+val () = loop (inp, out, psmss, fputc, pos)
+//
+viewtypedef psmlst = psynmarklst_vt
+val () = list_vt_free_fun<psmlst> (psmss, lam (x) => list_vt_free (x))
+//
+in
+  // nothing
+end // end of [charlst_psynmarklstlst_process]
 
 (* ****** ****** *)
 

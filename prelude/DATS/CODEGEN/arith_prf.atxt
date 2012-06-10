@@ -32,7 +32,7 @@ primplmnt inteq_make () = INTEQ ()
 
 primplmnt
 mul_gte_gte_gte {m,n} () = let
-  fun loop
+  prfun loop
     {m:nat}{p:int} .<m>.
     (pf: MUL (m, n, p)):<> [p >= 0] void =
     sif m > 0 then let
@@ -48,7 +48,7 @@ end // end of [mul_gte_gte_gte]
 
 primplmnt
 mul_gte_lte_lte {m,n} () = let
-  fun loop
+  prfun loop
     {m:nat}{p:int} .<m>.
     (pf: MUL (m, n, p)):<> [p <= 0] void =
     sif m > 0 then let
@@ -237,7 +237,7 @@ exp2_muladd
         EXP2ind pf1_res
       end // end of [EXP2ind]
     | EXP2bas () => let
-        val () =
+        prval () =
           lemma_exp2_param (pf1)
         prval () = mul_elim (pf3) in pf1
       end // end of [EXP2bas]

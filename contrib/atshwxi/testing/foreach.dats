@@ -203,29 +203,6 @@ end // end of [iforeach_array]
 (* ****** ****** *)
 
 implement{a}
-iforeach_array_clear
-  {n0} (A, n0) = let
-//
-implement
-iforeach_array__fwork<a> (i, x) = let
-  val () = iforeach_array_clear__fwork (i, x)
-  extern praxi __assert {l:addr} (pf: !(a?)@l >> a@l): void
-in
-  __assert (view@(x))
-end // end of [iforeach_array__fwork]
-//
-val () = iforeach_array (A, n0)
-//
-extern praxi __assert
-  {l:addr} (pf: !array_v (a, l, n0) >> array_v (a?, l, n0)): void
-// end of [__assert]
-in
-  __assert (view@ (A))
-end // end of [iforeach_array_clear]
-
-(* ****** ****** *)
-
-implement{a}
 iforeach_array_init
   {n0} (A, n0) = let
 //
@@ -249,6 +226,29 @@ end // end of [let] // end of [val]
 in
   iforeach_array (A, n0)
 end // end of [iforeach_array_init]
+
+(* ****** ****** *)
+
+implement{a}
+iforeach_array_clear
+  {n0} (A, n0) = let
+//
+implement
+iforeach_array__fwork<a> (i, x) = let
+  val () = iforeach_array_clear__fwork (i, x)
+  extern praxi __assert {l:addr} (pf: !(a?)@l >> a@l): void
+in
+  __assert (view@(x))
+end // end of [iforeach_array__fwork]
+//
+val () = iforeach_array (A, n0)
+//
+extern praxi __assert
+  {l:addr} (pf: !array_v (a, l, n0) >> array_v (a?, l, n0)): void
+// end of [__assert]
+in
+  __assert (view@ (A))
+end // end of [iforeach_array_clear]
 
 (* ****** ****** *)
 

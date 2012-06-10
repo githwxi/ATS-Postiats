@@ -19,6 +19,13 @@ fun fprint_location (out: FILEref, x: location): void
 
 (* ****** ****** *)
 
+absviewtype lexbufobj
+fun lexbufobj_make_fileref (inp: FILEref): lexbufobj
+fun lexbufobj_make_charlst_vt (inp: List_vt (char)): lexbufobj
+fun lexbufobj_free (lbf: lexbufobj): void // endfun
+
+(* ****** ****** *)
+
 abstype token
 typedef tokenlst = List (token)
 viewtypedef tokenlst_vt = List_vt (token)
@@ -43,7 +50,7 @@ fun token_is_string (x: token): bool
 
 (* ****** ****** *)
 
-fun fileref_get_tokenlst (inp: FILEref): tokenlst_vt
+fun lexbufobj_get_tokenlst (lbf: !lexbufobj): tokenlst_vt
 
 (* ****** ****** *)
 
@@ -122,13 +129,20 @@ fun psynmarklst_split (xs: psynmarklst_vt)
 
 (* ****** ****** *)
 
+absviewtype tokbufobj
+fun tokbufobj_make_lexbufobj (lbf: lexbufobj): tokbufobj
+fun tokbufobj_free (tbf: tokbufobj): void // endfun
+fun tokbufobj_unget_token (tbf: !tokbufobj, tok: token): void
+
+(* ****** ****** *)
+
 (*
 ** HX-2012-06:
 ** synmark info for various syntatic entities
 *)
-fun fileref_get_psynmarklst
-  (stadyn: int, inp: FILEref): psynmarklst_vt
-// end of [fileref_get_psynmarklst]
+fun tokbufobj_get_psynmarklst
+  (stadyn: int, tbf: !tokbufobj): psynmarklst_vt
+// end of [tokbufobj_get_psynmarklst]
 
 (* ****** ****** *)
 
@@ -156,6 +170,14 @@ fileref_psynmarklstlst_process (
 , psmss: psynmarklstlst_vt
 , fputc: (char, FILEref) -<cloref1> int
 ) : void // end of [fileref_psynmarklstlst_process]
+
+fun{}
+charlst_psynmarklstlst_process (
+  inp: List_vt (char)
+, out: FILEref
+, psmss: psynmarklstlst_vt
+, fputc: (char, FILEref) -<cloref1> int
+) : void // end of [charlst_psynmarklstlst_process]
 
 (* ****** ****** *)
 
