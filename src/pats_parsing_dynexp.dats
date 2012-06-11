@@ -1540,7 +1540,9 @@ end // end of [p_initestpost]
 
 (*
 d0exp  :: =
-  | d0exp0 {WHERE LBRACE d0ecseq_dyn RBRACE}* // done!
+  | d0exp0 {
+      WHERE LBRACE d0ecseq_dyn RBRACE
+    }* // done!
   | ifhead d0exp0 THEN d0exp [ELSE d0exp] // done!
   | sifhead s0exp THEN d0exp ELSE d0exp // done!
   | casehead d0exp0 OF c0lauseq // done!
@@ -1549,8 +1551,8 @@ d0exp  :: =
   | fixkind di0de f0arg1seq colons0expopt funarrow d0exp // done!
   | forhead initestpost d0exp // done!
   | whilehead atmd0exp d0exp // done!
-  | DLRRAISE d0exp // done!
-  | DLRDELAY d0exp // done!
+  | DLRRAISE d0exp0 // done!
+  | DLRDELAY d0exp0 // done!
   | tryhead d0expsemiseq WITH c0lauseq // done!
 *)
 
@@ -1699,7 +1701,7 @@ case+ tok.token_node of
 | T_DLRRAISE () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = p_atmd0exp (buf, bt, err)
+    val ent2 = p_d0exp0 (buf, bt, err)
   in
     if err = err0 then
       d0exp_raise (tok, ent2) else synent_null ()
@@ -1708,7 +1710,7 @@ case+ tok.token_node of
 | T_DLRDELAY (knd) => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = p_atmd0exp (buf, bt, err)
+    val ent2 = p_d0exp0 (buf, bt, err)
   in
     if err = err0 then
       d0exp_delay (knd, tok, ent2) else synent_null ()

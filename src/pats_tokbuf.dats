@@ -278,7 +278,9 @@ implement
 tokbuf_discard_all
   (buf) = while (true) let
   val tok = tokbuf_getinc_token (buf)
+(*
   val () = println! ("tokbuf_discard_all: tok = ", tok)
+*)
 in
   case+ tok.token_node of
   | T_EOF () => break | _ => continue

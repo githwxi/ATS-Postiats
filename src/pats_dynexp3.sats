@@ -254,6 +254,9 @@ and d3exp_node =
   | D3Eempty of () // the void-value of void-type
 //
   | D3Eextval of (string(*rep*))
+//
+  | D3Eloopexn of (int(*knd*))
+//
   | D3Econ of (d2con, int(*npf*), d3explst(*arg*))
 //
   | D3Efoldat of (d3exp)
@@ -329,7 +332,7 @@ and d3exp_node =
       (s2varlst(*s2vs*), s2explst(*s2ps*), d3exp)
   | D3Elam_met of (s2explst(*met*), d3exp) // term. metric
 //
-  | D3Eloopexn of (int(*knd*))
+  | D3Etrywith of (d3exp(*try-exp*), c3laulst(*with-clauses*))
 //
   | D3Eann_type of (d3exp, s2exp)
 //
@@ -512,6 +515,12 @@ fun d3exp_empty
 fun d3exp_extval
   (loc: location, s2f: s2exp, rep: string): d3exp
 // end of [d3exp_extval]
+
+(* ****** ****** *)
+
+fun d3exp_loopexn
+  (loc: location, s2f: s2exp, knd: int): d3exp
+// end of [d3exp_loopexn]
 
 (* ****** ****** *)
 
@@ -702,8 +711,9 @@ fun d3exp_lam_met (
 
 (* ****** ****** *)
 
-fun d3exp_loopexn
-  (loc: location, s2f: s2exp, knd: int): d3exp
+fun d3exp_trywith (
+  loc: location, d3e: d3exp, c3ls: c3laulst
+) : d3exp // end of [d3exp_trywith]
 
 (* ****** ****** *)
 

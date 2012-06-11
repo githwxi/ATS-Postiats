@@ -131,7 +131,7 @@ fun loop
   | list_cons (x, xs) => let
       prval (pf1, pf2) = array_v_uncons (pf)
       val () = !p := x
-      val () = loop (pf2 | ptr1_add_int<a> (p, 1), xs)
+      val () = loop (pf2 | ptr1_succ<a> (p), xs)
       prval () = pf := array_v_cons (pf1, pf2)
     in
       // nothing
@@ -164,7 +164,7 @@ fun loop
   | ~list_vt_cons (x, xs) => let
       prval (pf1, pf2) = array_v_uncons (pf)
       val () = !p := x
-      val () = loop (pf2 | ptr1_add_int<a> (p, 1), xs)
+      val () = loop (pf2 | ptr1_succ<a> (p), xs)
       prval () = pf := array_v_cons (pf1, pf2)
     in
       // nothing
@@ -197,7 +197,7 @@ fun loop
     prval (pf1, pf2) = array_v_uncons (pf)
     val () = res := list_vt_cons {a}{0} (!p, _)
     val+ list_vt_cons (_, res1) = res
-    val () = loop (pf2 | ptr1_add_int<a> (p, 1), pred(n), res1)
+    val () = loop (pf2 | ptr1_succ<a> (p), pred(n), res1)
     prval () = pf := array_v_cons (pf1, pf2)
     prval () = fold@ (res)
   in
@@ -231,7 +231,7 @@ fun loop
       pf1, pf2
     ) = array_v_uncons (pf)
     val () = array_foreach__fwork (!p)
-    val () = loop (pf2 | ptr1_add_int (p, 1), pred(n))
+    val () = loop (pf2 | ptr1_succ (p), pred(n))
     prval () = pf := array_v_cons (pf1, pf2)
   in
     // nothing
@@ -256,7 +256,7 @@ fun loop
       pf1, pf2
     ) = array_v_uncons (pf)
     val () = array_iforeach__fwork (i, !p)
-    val () = loop (pf2 | ptr1_add_int (p, 1), pred(n), succ(i))
+    val () = loop (pf2 | ptr1_succ (p), pred(n), succ(i))
     prval () = pf := array_v_cons (pf1, pf2)
   in
     // nothing

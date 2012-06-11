@@ -120,11 +120,17 @@ fun d2exp_trdn_seq (d2e0: d2exp, s2f0: s2hnf): d3exp
 extern
 fun d2exp_trdn_effmask (d2e0: d2exp, s2f0: s2hnf): d3exp
 
-extern
-fun d2exp_trdn_lam_dyn (d2e: d2exp, s2f: s2hnf): d3exp
+(* ****** ****** *)
 
 extern
+fun d2exp_trdn_lam_dyn (d2e: d2exp, s2f: s2hnf): d3exp
+extern
 fun d2exp_trdn_lam_sta_nil (d2e: d2exp, s2f: s2hnf): d3exp
+
+(* ****** ****** *)
+
+extern
+fun d2exp_trdn_trywith (d2e0: d2exp, s2f: s2hnf): d3exp
 
 (* ****** ****** *)
 
@@ -170,6 +176,8 @@ case+ d2e0.d2exp_node of
 | D2Elam_sta (s2vs, _, _)
     when list_is_nil (s2vs) => d2exp_trdn_lam_sta_nil (d2e0, s2f0)
   // end of [D2Elam_sta]
+//
+| D2Etrywith _ => d2exp_trdn_trywith (d2e0, s2f0)
 //
 | _ => d2exp_trdn_rest (d2e0, s2f0)
 //
@@ -614,6 +622,32 @@ d2exp_trdn_effmask
 in
   d3exp_effmask (loc0, s2fe, d3e)
 end // end of [d2exp_trdn_effmask]
+
+(* ****** ****** *)
+
+implement
+d2exp_trdn_trywith
+  (d2e0, s2f0) = let
+  val loc0 = d2e0.d2exp_loc
+  val- D2Etrywith
+    (r2es, d2e, c2ls) = d2e0.d2exp_node
+//
+  val (pfpush | ()) = the_d2varenv_push_try ()
+//
+  val s2e_res = s2hnf2exp (s2f0)
+  val d3e = d2exp_trdn (d2e, s2e_res)
+  val s2e_pat = s2exp_exception_viewtype ()
+  val d3es = list_sing (d3e)
+  val s2es_pat = list_sing (s2e_pat)
+  val c3ls = c2laulst_trdn (
+    loc0, CK_case_neg, r2es, c2ls, d3es, s2es_pat, s2e_res
+  ) // end of [val]
+//
+  val () = the_d2varenv_pop (pfpush | (*none*))
+//
+in
+  d3exp_trywith (loc0, d3e, c3ls)
+end // end of [d2exp_trdn_trywith]
 
 (* ****** ****** *)
 

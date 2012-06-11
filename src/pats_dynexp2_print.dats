@@ -416,6 +416,12 @@ case+ x.d2exp_node of
     val () = fprint_string (out, name)
   } // end of [D2Eextval]
 //
+| D2Eloopexn (knd) => {
+    val () = prstr "D2Eloopexn("
+    val () = fprint_int (out, knd)
+    val () = prstr ")"
+  } // end of [D2Eloopexn]
+//
 | D2Econ (
     d2c, _(*loc*), s2as, npf, _(*loc*), d2es
   ) => {
@@ -557,6 +563,14 @@ case+ x.d2exp_node of
     val () = prstr ")"
   } // end of [D2Eraise]
 //
+| D2Edelay (knd, d2e) => {
+    val () = prstr "D2Edelay("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Edelay]
+//
 | D2Eeffmask (s2fe, d2e) => {
     val () = prstr "D2Eeffmask("
     val () = fprint_s2eff (out, s2fe)
@@ -669,27 +683,19 @@ case+ x.d2exp_node of
     val () = prstr "D2Elam_met("
     val () = fprint_string (out, "...")
     val () = prstr ")"
-  }
+  } // end of [D2Elam_met]
 //
 | D2Efix _ => {
     val () = prstr "D2Efix("
     val () = fprint_string (out, "...")
     val () = prstr ")"
-  }
+  } // end of [D2Efix]
 //
-| D2Edelay (knd, d2e) => {
-    val () = prstr "D2Edelay("
-    val () = fprint_int (out, knd)
-    val () = prstr "; "
-    val () = fprint_d2exp (out, d2e)
+| D2Etrywith _ => {
+    val () = prstr "D2Etrywith("
+    val () = fprint_string (out, "...")
     val () = prstr ")"
-  } // end of [D2Edelay]
-//
-| D2Eloopexn (knd) => {
-    val () = prstr "D2Eloopexn("
-    val () = fprint_int (out, knd)
-    val () = prstr ")"
-  } // end of [D2Eloopexn]
+  } // end of [D2Etrywith]
 //
 | D2Eann_type (d2e, s2f) => {
     val () = prstr "D2Eann_type("

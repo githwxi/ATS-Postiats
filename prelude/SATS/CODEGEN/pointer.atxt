@@ -150,6 +150,11 @@ fun ptr1_isnot_null {l:addr}
 
 #atscode_separator()
 
+fun{a:vt0p}
+ptr1_succ {l:addr} (p: ptr l):<> ptr (l+sizeof(a))
+fun{a:vt0p}
+ptr1_pred {l:addr} (p: ptr l):<> ptr (l-sizeof(a))
+
 (*
 fun add_ptr1_int1
   {l:addr;df:int} (

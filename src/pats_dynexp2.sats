@@ -555,6 +555,8 @@ and d2exp_node =
 //
   | D2Eextval of (s2exp(*type*), string(*rep*))
 //
+  | D2Eloopexn of int(*knd*)
+//
   | D2Econ of (
       d2con, location(*fun*), s2exparglst, int(*npf*), location(*arg*), d2explst
     ) // end of [D2Econ]
@@ -608,6 +610,7 @@ and d2exp_node =
       (s2expopt (*element type*), d2explst (*elements*))
 //
   | D2Eraise of (d2exp) // raised exception
+  | D2Edelay of (int(*knd*), d2exp(*body*)) // $delay and $ldelay
 //
   | D2Eeffmask of (s2eff, d2exp) // $effmask (s2eff, d2exp)
 //
@@ -624,9 +627,7 @@ and d2exp_node =
       int(*knd: 0/1: flat/boxed*), d2var(*fixvar*), d2exp(*body*)
     ) // end of [D2Efix]
 //
-  | D2Edelay of (int(*knd*), d2exp(*body*)) // $delay and $ldelay
-//
-  | D2Eloopexn of int(*knd*)
+  | D2Etrywith of (i2nvresstate, d2exp, c2laulst)
 //
   | D2Eann_type of (d2exp, s2exp) // ascribled expression
   | D2Eann_seff of (d2exp, s2eff) // ascribed with effects
@@ -850,9 +851,9 @@ fun d2exp_set_type
 
 (* ****** ****** *)
 
-fun d2exp_make
+fun d2exp_make_node
   (loc: location, node: d2exp_node): d2exp
-// end of [d2exp_make]
+// end of [d2exp_make_node]
 
 fun d2exp_var (loc: location, d2v: d2var): d2exp
 
@@ -1002,6 +1003,7 @@ fun d2exp_arrsize (
 (* ****** ****** *)
 
 fun d2exp_raise (loc: location, d2e: d2exp): d2exp
+fun d2exp_delay (loc: location, knd: int, d2e: d2exp): d2exp
 
 (* ****** ****** *)
 
@@ -1042,7 +1044,9 @@ fun d2exp_fix (loc: location, knd: int, f: d2var, body: d2exp): d2exp
 
 (* ****** ****** *)
 
-fun d2exp_delay (loc: location, knd: int, d2e: d2exp): d2exp
+fun d2exp_trywith
+  (loc: location, r2es: i2nvresstate, d2e: d2exp, c2ls: c2laulst): d2exp
+// end of [d2exp_trywith]
 
 (* ****** ****** *)
 

@@ -299,6 +299,16 @@ d3exp_extval
 (* ****** ****** *)
 
 implement
+d3exp_loopexn
+  (loc, s2f, knd) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eloopexn (knd)
+} // end of [d3exp_loopexn]
+
+(* ****** ****** *)
+
+implement
 d3exp_cst (
   loc, s2f, d2c
 ) = '{
@@ -787,12 +797,13 @@ d3exp_lam_met (
 (* ****** ****** *)
 
 implement
-d3exp_loopexn
-  (loc, s2f, knd) = '{
+d3exp_trywith (
+  loc, d3e_try, c3ls_wth
+) = '{
   d3exp_loc= loc
-, d3exp_type= s2f
-, d3exp_node= D3Eloopexn (knd)
-} // end of [d3exp_loopexn]
+, d3exp_type= d3e_try.d3exp_type
+, d3exp_node= D3Etrywith (d3e_try, c3ls_wth)
+} // end of [d3exp_trywith]
 
 (* ****** ****** *)
 

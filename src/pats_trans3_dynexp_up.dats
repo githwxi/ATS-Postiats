@@ -177,6 +177,8 @@ case+ d2e0.d2exp_node of
   end // end of [D2Eempty]
 | D2Eextval (s2e, rep) => d3exp_extval (loc0, s2e, rep)
 //
+| D2Eloopexn (knd) => d2exp_trup_loopexn (d2e0, knd)
+//
 | D2Econ _ => d2exp_trup_con (d2e0)
 //
 | D2Efoldat _ => d2exp_trup_foldat (d2e0)
@@ -297,11 +299,6 @@ case+ d2e0.d2exp_node of
 //
 | D2Eeffmask _ => d2exp_trup_effmask (d2e0)
 //
-| D2Elam_dyn _ => d2exp_trup_lam_dyn (d2e0)
-| D2Elaminit_dyn _ => d2exp_trup_laminit_dyn (d2e0)
-| D2Elam_sta _ => d2exp_trup_lam_sta (d2e0)
-| D2Elam_met _ => d2exp_trup_lam_met (d2e0)
-//
 | D2Eraise (d2e_exn) => let
     val err = the_effenv_check_exn (loc0)
     val () = if (err > 0) then (
@@ -314,13 +311,20 @@ case+ d2e0.d2exp_node of
     d3exp_raise (loc0, s2e_raise, d3e_exn)
   end // end of [D2Eraise]
 //
-| D2Eloopexn (knd) => d2exp_trup_loopexn (d2e0, knd)
+| D2Elam_dyn _ => d2exp_trup_lam_dyn (d2e0)
+| D2Elaminit_dyn _ => d2exp_trup_laminit_dyn (d2e0)
+| D2Elam_sta _ => d2exp_trup_lam_sta (d2e0)
+| D2Elam_met _ => d2exp_trup_lam_met (d2e0)
 //
 | D2Eann_type (d2e, s2e_ann) => let
     val d3e = d2exp_trdn (d2e, s2e_ann)
   in
     d3exp_ann_type (loc0, d3e, s2e_ann)
   end // end of [D2Eann_type]
+//
+(*
+| D2Etrywith _ => d2exp_trup_trywith (d2e0)
+*)
 //
 | _ => let
     val () = (
@@ -1275,7 +1279,8 @@ end // end of [d2exp_trup_lam_sta]
 (* ****** ****** *)
 
 implement
-d2exp_trup_lam_met (d2e0) = let
+d2exp_trup_lam_met
+  (d2e0) = let
   val loc0 = d2e0.d2exp_loc
   val- D2Elam_met
     (d2vs_ref, s2es_met, d2e_body) = d2e0.d2exp_node

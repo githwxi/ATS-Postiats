@@ -37,6 +37,12 @@
 %} // end of [%{#]
 
 (* ****** ****** *)
+//
+// HX-2012-06:
+// this style is some sort of experiment; in retrospect, it seems more
+// approriate to represent a reader as an object (instead of a struct)
+//
+(* ****** ****** *)
 
 absviewt@ype
 reader_vt0ype = $extype "pats_reader_struct"

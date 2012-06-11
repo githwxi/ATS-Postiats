@@ -281,7 +281,7 @@ fun loop
       list_vt_cons {a}{0} (_, _)
     val+ list_vt_cons (x, res1) = res
     val () = x := !p
-    val () = loop (pf2 | ptr1_add_int<a> (p, 1), pred(n), res1)
+    val () = loop (pf2 | ptr1_succ<a> (p), pred(n), res1)
     prval () = pf := array_v_cons (pf1, pf2)
     prval () = fold@ (res)
   in
@@ -424,7 +424,7 @@ list_vt_quicksort
           ) = array_v_uncons (pf)
           val p_x = $UN.cast2Ptr1 (addr@(x))
           val () = $UN.ptr_set<a2> (p_x, !p)
-          val () = loop (pf2 | xs1, ptr1_add_int<a2> (p, 1))
+          val () = loop (pf2 | xs1, ptr1_succ<a2> (p))
           prval () = pf := array_v_cons (pf1, pf2)
           prval () = fold@ (xs)
         in

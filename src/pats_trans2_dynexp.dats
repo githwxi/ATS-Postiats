@@ -1110,6 +1110,15 @@ case+ d1e0.d1exp_node of
     d2exp_lam_sta (loc0, s2q.s2qua_svs, s2q.s2qua_sps, d2e)
   end // end of [D1Elam_sta_syn]
 //
+| D1Etrywith
+    (r1es, d1e, c1ls) => let
+    val r2es = i1nvresstate_tr (r1es)
+    val d2e = d1exp_tr (d1e)
+    val c2ls = c1laulst_tr (1(*npat*), c1ls)
+  in
+    d2exp_trywith (loc0, r2es, d2e, c2ls)
+  end // end of [D1Etrywith]
+//
 | D1Eann_type (d1e, s1e) => let
     val d2e = d1exp_tr d1e
     val s2e = s1exp_trdn_impredicative (s1e)

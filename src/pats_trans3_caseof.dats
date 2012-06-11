@@ -118,17 +118,6 @@ fun c2lau_trdn
 , s2e_res: s2exp
 , cp2tss: p2atcstlstlst_vt
 ) : c3lau (n) // end of [c2lau_trdn]
-extern
-fun c2laulst_trdn
-  {n:nat} (
-  loc0: location
-, casknd: caskind
-, invres: i2nvresstate
-, c2ls: c2laulst
-, d3es: list (d3exp, n)
-, s2es_pat: list (s2exp, n)
-, s2e_res: s2exp
-) : c3laulst n // end of [c2laulst_trdn]
 
 (* ****** ****** *)
 

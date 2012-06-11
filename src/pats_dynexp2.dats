@@ -332,57 +332,57 @@ p2at_err (loc) =
 (* ****** ****** *)
 
 implement
-d2exp_make (loc, node) = '{
+d2exp_make_node (loc, node) = '{
   d2exp_loc= loc, d2exp_node= node, d2exp_type= None()
-} // end of [d2exp_make]
+} // end of [d2exp_make_node]
 
 implement
-d2exp_var (loc, d2v) = d2exp_make (loc, D2Evar (d2v))
+d2exp_var (loc, d2v) = d2exp_make_node (loc, D2Evar (d2v))
 
 (* ****** ****** *)
 
 implement
-d2exp_int (loc, i) = d2exp_make (loc, D2Eint (i))
+d2exp_int (loc, i) = d2exp_make_node (loc, D2Eint (i))
 implement
-d2exp_intrep (loc, rep) = d2exp_make (loc, D2Eintrep (rep))
+d2exp_intrep (loc, rep) = d2exp_make_node (loc, D2Eintrep (rep))
 implement
-d2exp_bool (loc, b) = d2exp_make (loc, D2Ebool (b))
+d2exp_bool (loc, b) = d2exp_make_node (loc, D2Ebool (b))
 implement
-d2exp_char (loc, c) = d2exp_make (loc, D2Echar (c))
+d2exp_char (loc, c) = d2exp_make_node (loc, D2Echar (c))
 implement
-d2exp_string (loc, s) = d2exp_make (loc, D2Estring (s))
+d2exp_string (loc, s) = d2exp_make_node (loc, D2Estring (s))
 implement
-d2exp_float (loc, rep) = d2exp_make (loc, D2Efloat (rep))
+d2exp_float (loc, rep) = d2exp_make_node (loc, D2Efloat (rep))
 
 implement
-d2exp_i0nt (loc, x) = d2exp_make (loc, D2Ei0nt (x))
+d2exp_i0nt (loc, x) = d2exp_make_node (loc, D2Ei0nt (x))
 implement
-d2exp_c0har (loc, x) = d2exp_make (loc, D2Ec0har (x))
+d2exp_c0har (loc, x) = d2exp_make_node (loc, D2Ec0har (x))
 implement
-d2exp_f0loat (loc, x) = d2exp_make (loc, D2Ef0loat (x))
+d2exp_f0loat (loc, x) = d2exp_make_node (loc, D2Ef0loat (x))
 implement
-d2exp_s0tring (loc, x) = d2exp_make (loc, D2Es0tring (x))
+d2exp_s0tring (loc, x) = d2exp_make_node (loc, D2Es0tring (x))
 
 (* ****** ****** *)
 
 implement
 d2exp_cstsp
-  (loc, cst) = d2exp_make (loc, D2Ecstsp (cst))
+  (loc, cst) = d2exp_make_node (loc, D2Ecstsp (cst))
 // end of [d2exp_cstsp]
 
 (* ****** ****** *)
 
 implement
-d2exp_top (loc) = d2exp_make (loc, D2Etop ())
+d2exp_top (loc) = d2exp_make_node (loc, D2Etop ())
 
 implement
-d2exp_empty (loc) = d2exp_make (loc, D2Eempty ())
+d2exp_empty (loc) = d2exp_make_node (loc, D2Eempty ())
 
 (* ****** ****** *)
 
 implement
 d2exp_extval
-  (loc, typ, code) = d2exp_make (loc, D2Eextval (typ, code))
+  (loc, typ, code) = d2exp_make_node (loc, D2Eextval (typ, code))
 // end of [d2exp_extval]
 
 (* ****** ****** *)
@@ -390,48 +390,48 @@ d2exp_extval
 implement
 d2exp_con
   (loc, d2c, locfun, sarg, npf, locarg, darg) =
-  d2exp_make (loc, D2Econ (d2c, locfun, sarg, npf, locarg, darg))
+  d2exp_make_node (loc, D2Econ (d2c, locfun, sarg, npf, locarg, darg))
 // end of [d2exp_con]
 
 implement
-d2exp_cst (loc, d2c) = d2exp_make (loc, D2Ecst (d2c))
+d2exp_cst (loc, d2c) = d2exp_make_node (loc, D2Ecst (d2c))
 
 implement
-d2exp_sym (loc, d2s) = d2exp_make (loc, D2Esym (d2s))
+d2exp_sym (loc, d2s) = d2exp_make_node (loc, D2Esym (d2s))
 
 (* ****** ****** *)
 
 implement
-d2exp_loopexn (loc, knd) = d2exp_make (loc, D2Eloopexn knd)
+d2exp_loopexn (loc, knd) = d2exp_make_node (loc, D2Eloopexn knd)
 
 (* ****** ****** *)
 
 implement
 d2exp_foldat
-  (loc, s2as, d2e) = d2exp_make (loc, D2Efoldat (s2as, d2e))
+  (loc, s2as, d2e) = d2exp_make_node (loc, D2Efoldat (s2as, d2e))
 // end of [d2exp_foldat]
 implement
 d2exp_freeat
-  (loc, s2as, d2e) = d2exp_make (loc, D2Efreeat (s2as, d2e))
+  (loc, s2as, d2e) = d2exp_make_node (loc, D2Efreeat (s2as, d2e))
 // end of [d2exp_freeat]
 
 (* ****** ****** *)
 
 implement
 d2exp_tmpid (loc, d2e_id, t2mas) =
-  d2exp_make (loc, D2Etmpid (d2e_id, t2mas))
+  d2exp_make_node (loc, D2Etmpid (d2e_id, t2mas))
 // end of [d2exp_tmpid]
 
 (* ****** ****** *)
 
 implement
 d2exp_let (loc, d2cs, body) =
-  d2exp_make (loc, D2Elet (d2cs, body))
+  d2exp_make_node (loc, D2Elet (d2cs, body))
 // end of [d2exp_let]
 
 implement
 d2exp_where (loc, body, d2cs) =
-  d2exp_make (loc, D2Ewhere (body, d2cs))
+  d2exp_make_node (loc, D2Ewhere (body, d2cs))
 // end of [d2exp_where]
 
 (* ****** ****** *)
@@ -439,7 +439,7 @@ d2exp_where (loc, body, d2cs) =
 implement
 d2exp_applst (
   loc, d2e_fun, d2as_arg
-) = d2exp_make (loc, D2Eapplst (d2e_fun, d2as_arg))
+) = d2exp_make_node (loc, D2Eapplst (d2e_fun, d2as_arg))
 
 implement
 d2exp_app_sta (
@@ -465,7 +465,7 @@ case+ s2as of
       | _ => D2Eapplst (d2e_fun, list_sing (d2a))
     ) : d2exp_node // end of [val]
   in
-    d2exp_make (loc0, node)
+    d2exp_make_node (loc0, node)
   end // end of [list_cons]
 | list_nil _ => d2e_fun
 //
@@ -493,7 +493,7 @@ d2exp_app_dyn (
     | _ => D2Eapplst (d2e_fun, list_sing (d2a))
   ) : d2exp_node // end of [val]
 in
-  d2exp_make (loc0, node)
+  d2exp_make_node (loc0, node)
 end // end of [d2exp_app_dyn]
 
 implement
@@ -513,69 +513,72 @@ end // end of [d2exp_app_sta_dyn]
 (* ****** ****** *)
 
 implement
-d2exp_ifhead
-  (loc, r2es, _cond, _then, _else) =
-  d2exp_make (loc, D2Eifhead (r2es, _cond, _then, _else))
-// end of [d2exp_ifhead]
+d2exp_ifhead (
+  loc, r2es, _cond, _then, _else
+) = d2exp_make_node (
+  loc, D2Eifhead (r2es, _cond, _then, _else)
+) // end of [d2exp_ifhead]
 
 implement
-d2exp_sifhead
-  (loc, r2es, _cond, _then, _else) =
-  d2exp_make (loc, D2Esifhead (r2es, _cond, _then, _else))
-// end of [d2exp_sifhead]
+d2exp_sifhead (
+  loc, r2es, _cond, _then, _else
+) = d2exp_make_node (
+  loc, D2Esifhead (r2es, _cond, _then, _else)
+) // end of [d2exp_sifhead]
 
 (* ****** ****** *)
 
 implement
-d2exp_casehead
-  (loc, knd, inv, d2es, c2ls) =
-  d2exp_make (loc, D2Ecasehead (knd, inv, d2es, c2ls))
-// end of [d2exp_casehead]
+d2exp_casehead (
+  loc, knd, inv, d2es, c2ls
+) = d2exp_make_node (
+  loc, D2Ecasehead (knd, inv, d2es, c2ls)
+) // end of [d2exp_casehead]
 
 implement
 d2exp_scasehead (
   loc, inv, s2f, sc2ls
-) = d2exp_make (loc, D2Escasehead (inv, s2f, sc2ls))
+) = d2exp_make_node (loc, D2Escasehead (inv, s2f, sc2ls))
 
 (* ****** ****** *)
 
 implement
 d2exp_lst (loc, lin, elt, d2es) =
-  d2exp_make (loc, D2Elst (lin, elt, d2es))
+  d2exp_make_node (loc, D2Elst (lin, elt, d2es))
 // end of [d2exp_lst]
 
 implement
 d2exp_tup (loc, knd, npf, d2es) =
-  d2exp_make (loc, D2Etup (knd, npf, d2es))
+  d2exp_make_node (loc, D2Etup (knd, npf, d2es))
 // end of [d2exp_tup]
 
 implement
 d2exp_rec (loc, knd, npf, ld2es) =
-  d2exp_make (loc, D2Erec (knd, npf, ld2es))
+  d2exp_make_node (loc, D2Erec (knd, npf, ld2es))
 // end of [d2exp_rec]
 
 implement
 d2exp_seq
-  (loc, d2es) = d2exp_make (loc, D2Eseq (d2es))
+  (loc, d2es) = d2exp_make_node (loc, D2Eseq (d2es))
 // end of [d2exp_seq]
 
 (* ****** ****** *)
 
 implement
 d2exp_deref
-  (loc, _lval) = d2exp_make (loc, D2Ederef (_lval))
+  (loc, _lval) = d2exp_make_node (loc, D2Ederef (_lval))
 // end of [d2exp_assgn]  
 
 implement
 d2exp_assgn (
   loc, _left, _right
-) = d2exp_make (loc, D2Eassgn (_left, _right))
+) = d2exp_make_node (loc, D2Eassgn (_left, _right))
 // end of [d2exp_assgn]  
 
 implement
 d2exp_xchng (
   loc, _left, _right
-) = d2exp_make (loc, D2Exchng (_left, _right))
+) = d2exp_make_node (loc, D2Exchng (_left, _right))
 // end of [d2exp_xchng]  
 
 (* ****** ****** *)
@@ -583,44 +586,53 @@ d2exp_xchng (
 implement
 d2exp_arrsub (
   loc, d2s, arr, locind, ind
-) = d2exp_make (loc, D2Earrsub (d2s, arr, locind, ind))
+) = d2exp_make_node (loc, D2Earrsub (d2s, arr, locind, ind))
 
 implement
 d2exp_arrinit (
   loc, s2e_elt, asz, init
-) = d2exp_make (loc, D2Earrinit (s2e_elt, asz, init))
+) = d2exp_make_node (loc, D2Earrinit (s2e_elt, asz, init))
 
 implement
 d2exp_arrsize (
   loc, s2eopt_elt, d2es_ini
-) = d2exp_make (loc, D2Earrsize (s2eopt_elt, d2es_ini))
+) = d2exp_make_node (loc, D2Earrsize (s2eopt_elt, d2es_ini))
 
 (* ****** ****** *)
 
 implement
-d2exp_raise (loc, d2e) = d2exp_make (loc, D2Eraise (d2e))
+d2exp_raise
+  (loc, d2e) =
+  d2exp_make_node (loc, D2Eraise (d2e))
+
+implement
+d2exp_delay
+  (loc, knd, d2e) =
+  d2exp_make_node (loc, D2Edelay (knd, d2e))
+// end of [d2exp_delay]
 
 (* ****** ****** *)
 
 implement
 d2exp_effmask
-  (loc, s2fe, d2e) = d2exp_make (loc, D2Eeffmask (s2fe, d2e))
+  (loc, s2fe, d2e) =
+  d2exp_make_node (loc, D2Eeffmask (s2fe, d2e))
 // end of [d2exp_effmask]
 
 (* ****** ****** *)
 
 implement
-d2exp_ptrof (loc, d2e) = d2exp_make (loc, D2Eptrof (d2e))
+d2exp_ptrof (loc, d2e) = d2exp_make_node (loc, D2Eptrof (d2e))
 
 implement
-d2exp_viewat (loc, d2e) = d2exp_make (loc, D2Eviewat (d2e))
+d2exp_viewat (loc, d2e) = d2exp_make_node (loc, D2Eviewat (d2e))
 
 (* ****** ****** *)
 
 implement
 d2exp_sel_dot
   (loc, d2e, d2ls) =
-  d2exp_make (loc, D2Eselab (d2e, d2ls))
+  d2exp_make_node (loc, D2Eselab (d2e, d2ls))
 // end of [d2exp_sel_dot]
 
 implement
@@ -629,14 +641,15 @@ d2exp_sel_ptr
   val loc2 = d2e.d2exp_loc
   val d2e_deref = d2exp_deref (loc2, d2e)
 in
-  d2exp_make (loc, D2Eselab (d2e_deref, list_sing (d2l)))
+  d2exp_make_node (loc, D2Eselab (d2e_deref, list_sing (d2l)))
 end // end of [d2exp_sel_ptr]
 
 (* ****** ****** *)
 
 implement
 d2exp_exist
-  (loc, s2a, d2e) = d2exp_make (loc, D2Eexist (s2a, d2e))
+  (loc, s2a, d2e) =
+  d2exp_make_node (loc, D2Eexist (s2a, d2e))
 // end of [d2exp_exist]
 
 (* ****** ****** *)
@@ -644,16 +657,17 @@ d2exp_exist
 implement
 d2exp_lam_dyn (
   loc, knd, npf, arg, body
-) = d2exp_make (loc, D2Elam_dyn (knd, npf, arg, body))
+) = d2exp_make_node (loc, D2Elam_dyn (knd, npf, arg, body))
 
 implement
 d2exp_laminit_dyn (
   loc, knd, npf, arg, body
-) = d2exp_make (loc, D2Elaminit_dyn (knd, npf, arg, body))
+) = d2exp_make_node (loc, D2Elaminit_dyn (knd, npf, arg, body))
 
 implement
 d2exp_lam_met
-  (loc, ref, met, body) = d2exp_make (loc, D2Elam_met (ref, met, body))
+  (loc, ref, met, body) =
+  d2exp_make_node (loc, D2Elam_met (ref, met, body))
 // end of [d2exp_lam_met]
 
 implement
@@ -667,43 +681,45 @@ end // end of [d2exp_lam_met_new]
 implement
 d2exp_lam_sta
   (loc, s2vs, s2ps, body) =
-  d2exp_make (loc, D2Elam_sta (s2vs, s2ps, body))
+  d2exp_make_node (loc, D2Elam_sta (s2vs, s2ps, body))
 // end of [d2exp_lam_sta]
 
 implement
 d2exp_fix (
   loc, knd, d2v_fun, d2e_body
-) = d2exp_make (loc, D2Efix (knd, d2v_fun, d2e_body))
+) = d2exp_make_node (loc, D2Efix (knd, d2v_fun, d2e_body))
 
 (* ****** ****** *)
 
 implement
-d2exp_delay
-  (loc, knd, d2e) = d2exp_make (loc, D2Edelay (knd, d2e))
-// end of [d2exp_delay]
+d2exp_trywith (
+  loc, r2es, d2e, c2ls
+) = d2exp_make_node (loc, D2Etrywith (r2es, d2e, c2ls))
 
 (* ****** ****** *)
 
 implement
 d2exp_ann_type
   (loc, d2e, s2e) =
-  d2exp_make (loc, D2Eann_type (d2e, s2e))
+  d2exp_make_node (loc, D2Eann_type (d2e, s2e))
 // end of [d2exp_ann_type]
 
 implement
 d2exp_ann_seff
-  (loc, d2e, s2fe) = d2exp_make (loc, D2Eann_seff (d2e, s2fe))
+  (loc, d2e, s2fe) =
+  d2exp_make_node (loc, D2Eann_seff (d2e, s2fe))
 // end of [d2exp_ann_seff]
 
 implement
 d2exp_ann_funclo
-  (loc, d2e, fc) = d2exp_make (loc, D2Eann_funclo (d2e, fc))
+  (loc, d2e, fc) =
+  d2exp_make_node (loc, D2Eann_funclo (d2e, fc))
 // end of [d2exp_ann_funclo]
 
 (* ****** ****** *)
 
 implement
-d2exp_err (loc) = d2exp_make (loc, D2Eerr ())
+d2exp_err (loc) = d2exp_make_node (loc, D2Eerr ())
 
 (* ****** ****** *)
 

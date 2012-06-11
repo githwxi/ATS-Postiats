@@ -378,9 +378,21 @@ fun d2expopt_trdn_elt (od2e: d2expopt, s2e: s2exp): d3expopt
 fun d2exp_trdn_rest (d2e: d2exp, s2f: s2hnf): d3exp
 //
 fun d2exp_trdn_ifhead (d2e: d2exp, s2f: s2hnf): d3exp
-fun d2exp_trdn_casehead (d2e: d2exp, s2f: s2hnf): d3exp
 fun d2exp_trdn_sifhead (d2e: d2exp, s2f: s2hnf): d3exp
+//
+fun c2laulst_trdn
+  {n:nat} (
+  loc0: location
+, casknd: caskind
+, invres: i2nvresstate
+, c2ls: c2laulst
+, d3es: list (d3exp, n)
+, s2es_pat: list (s2exp, n)
+, s2e_res: s2exp
+) : c3laulst n // end of [c2laulst_trdn]
+fun d2exp_trdn_casehead (d2e: d2exp, s2f: s2hnf): d3exp
 fun d2exp_trdn_scasehead (d2e: d2exp, s2f: s2hnf): d3exp
+//
 fun d2exp_trdn_letwhere (
   d2e0: d2exp, s2f0: s2hnf, d2cs: d2eclist, d2e_scope: d2exp
 ) : d3exp // end of [d2exp_trdn_letwhere]

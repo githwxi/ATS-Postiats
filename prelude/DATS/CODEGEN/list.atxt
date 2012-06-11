@@ -334,7 +334,7 @@ if ans then
   res // i <= n && length (res) == i
 else let
   val () =
-    $effmask_wrt (list_vt_free<a> (res)) in $raise (ListSubscriptException)
+    $effmask_wrt (list_vt_free<a> (res)) in $raise ListSubscriptException()
   // end of [val]
 end // end of [if]
 //
@@ -371,7 +371,7 @@ fun loop
   if i > 0 then (
     case+ xs of
     | list_cons (_, xs) => loop (xs, i-1)
-    | list_nil () => $raise (ListSubscriptException())
+    | list_nil () => $raise ListSubscriptException()
   ) else xs // end of [if]
 //
 in

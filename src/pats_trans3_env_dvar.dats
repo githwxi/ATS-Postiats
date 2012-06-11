@@ -131,6 +131,9 @@ d2var_mutablize_none
 
 (* ****** ****** *)
 
+extern
+fun the_d2varenv_push (): (d2varenv_push_v | void)
+
 local
 
 dataviewtype
@@ -141,9 +144,6 @@ ld2vsetlst = // local dynamic variables
       (int(*lin*), d2varlst_vt, ld2vsetlst) // marker for lambdas
   | LD2VSnil of ()
 // end of [ld2vsetlst]
-
-extern
-fun the_d2varenv_push (): (d2varenv_push_v | void)
 
 assume d2varenv_push_v = unit_v
 
@@ -278,6 +278,10 @@ end // end of [the_d2varenv_push_lam]
 
 implement
 the_d2varenv_push_let () = the_d2varenv_push ()
+
+// HX: preventing
+implement // linear resources from being accessed
+the_d2varenv_push_try () = the_d2varenv_push_lam (0)
 
 (* ****** ****** *)
 
