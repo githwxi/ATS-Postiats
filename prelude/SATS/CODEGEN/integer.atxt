@@ -8,7 +8,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 //
 fun
 fprint_print_prerr_decl
-  (tnm: string): atext = let
+  (tnm1: string, tnm2: string): atext = let
 //
 val ent = sprintf ("\
 fun fprint_%s
@@ -17,9 +17,9 @@ overload fprint with fprint_%s
 fun print_%s (x: %s): void
 and prerr_%s (x: %s): void
 overload print with print_%s
-overload prerr with prerr_%s\
+overload prerr with prerr_%s
 ", @(
- tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm
+ tnm1, tnm2, tnm1, tnm1, tnm1, tnm2, tnm1, tnm2, tnm1, tnm1
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -178,16 +178,6 @@ fun{tk:tk}
 g0int_min (x: g0int (tk), y: g0int (tk)):<> g0int (tk)
 overload min with g0int_min of 0
 
-#atscode_separator()
-//
-#fprint_print_prerr_decl("int")
-//
-#fprint_print_prerr_decl("lint")
-//
-#fprint_print_prerr_decl("llint")
-//
-#fprint_print_prerr_decl("ssize_t")
-//
 #atscode_separator()
 //
 // HX: for indexed integer types
@@ -470,16 +460,6 @@ overload min with g0uint_min of 0
 
 #atscode_separator()
 //
-#fprint_print_prerr_decl("uint")
-//
-#fprint_print_prerr_decl("ulint")
-//
-#fprint_print_prerr_decl("ullint")
-//
-#fprint_print_prerr_decl("size_t")
-//
-#atscode_separator()
-//
 // HX: for unsigned indexed integer types
 //
 praxi
@@ -620,6 +600,110 @@ g1uint_min {i,j:int}
   (x: g1uint (tk, i), y: g1uint (tk, j)):<> g1uint (tk, min(i, j))
 overload min with g1uint_min of 20
 
+#atscode_separator()
+//
+%{
+local
+//
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+//
+fun f_int_int (
+  fnm: string, tnm1: string, tnm2: string
+) : atext = let
+val ent = sprintf
+  ("fun g0int_%s_%s (x: %s):<> %s\n", @(fnm, tnm1, tnm2, tnm2))
+in
+  atext_strptr (ent)
+end // end of [f_int_int]
+fun f_int2_int (
+  fnm: string, tnm1: string, tnm2: string
+) : atext = let
+val ent = sprintf
+  ("fun g0int_%s_%s (x: %s, y: %s):<> %s\n", @(fnm, tnm1, tnm2, tnm2, tnm2))
+in
+  atext_strptr (ent)
+end // end of [f_int2_int]
+fun f_int2_bool (
+  fnm: string, tnm1: string, tnm2: string
+) : atext = let
+val ent = sprintf
+  ("fun g0int_%s_%s (x: %s, y: %s):<> bool\n", @(fnm, tnm1, tnm2, tnm2))
+in
+  atext_strptr (ent)
+end // end of [f_int2_bool]
+fun f_compare (
+  fnm: string, tnm1: string, tnm2: string
+) : atext = let
+val ent = sprintf
+  ("fun g0int_%s_%s (x: %s, y: %s):<> int\n", @(fnm, tnm1, tnm2, tnm2))
+in
+  atext_strptr (ent)
+end // end of [f_compare]
+//
+in
+//
+fun
+fun_gint_type_aop0_cmp0_decl (
+  tnm1: string, tnm2: string
+) : atext = let
+var res: atextlst = list_nil
+val () = res := list_cons (f_int_int ("neg", tnm1, tnm2), res)
+val () = res := list_cons (f_int_int ("succ", tnm1, tnm2), res)
+val () = res := list_cons (f_int_int ("pred", tnm1, tnm2), res)
+//
+val () = res := list_cons (f_int2_int ("add", tnm1, tnm2), res)
+val () = res := list_cons (f_int2_int ("sub", tnm1, tnm2), res)
+val () = res := list_cons (f_int2_int ("mul", tnm1, tnm2), res)
+val () = res := list_cons (f_int2_int ("div", tnm1, tnm2), res)
+val () = res := list_cons (f_int2_int ("mod", tnm1, tnm2), res)
+//
+val () = res := list_cons (f_int2_bool ("lt", tnm1, tnm2), res)
+val () = res := list_cons (f_int2_bool ("lte", tnm1, tnm2), res)
+val () = res := list_cons (f_int2_bool ("gt", tnm1, tnm2), res)
+val () = res := list_cons (f_int2_bool ("gte", tnm1, tnm2), res)
+val () = res := list_cons (f_int2_bool ("eq", tnm1, tnm2), res)
+val () = res := list_cons (f_int2_bool ("neq", tnm1, tnm2), res)
+//
+val () = res := list_cons (f_compare ("compare", tnm1, tnm2), res)
+//
+val () = res := list_cons (f_int2_int ("max", tnm1, tnm2), res)
+val () = res := list_cons (f_int2_int ("min", tnm1, tnm2), res)
+val res = list_reverse (res)
+in
+  atext_concatxt (list_of_list_vt (res))
+end // end of [fun_gint_type_aop0_cmp0_decl]
+//
+end // end of [local]
+%}\
+#fun_gint_type_aop0_cmp0_decl("int", "int")\
+//
+#fun_gint_type_aop0_cmp0_decl("lint", "lint")\
+//
+#fun_gint_type_aop0_cmp0_decl("llint", "llint")\
+//
+#fun_gint_type_aop0_cmp0_decl("ssize", "ssize_t")\
+//
+#atscode_separator()
+//
+#fprint_print_prerr_decl("int", "int")\
+//
+#fprint_print_prerr_decl("lint", "lint")\
+//
+#fprint_print_prerr_decl("llint", "llint")\
+//
+#fprint_print_prerr_decl("ssize", "ssize_t")\
+//
+#atscode_separator()
+//
+#fprint_print_prerr_decl("uint", "uint")\
+//
+#fprint_print_prerr_decl("ulint", "ulint")\
+//
+#fprint_print_prerr_decl("ullint", "ullint")\
+//
+#fprint_print_prerr_decl("size", "size_t")\
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

@@ -202,7 +202,9 @@ overload prerr with prerr_s2rtlst
 val s2rt_int : s2rt
 val s2rt_bool : s2rt
 val s2rt_addr : s2rt
+(*
 val s2rt_char : s2rt
+*)
 //
 val s2rt_cls : s2rt // nominal classes
 //

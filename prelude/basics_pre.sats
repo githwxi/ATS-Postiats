@@ -76,11 +76,16 @@ stadef <> = neq_bool_bool // backward compatibility // deprecated
 //
 (* ****** ****** *)
 
+(*
+//
+// HX-2012-06-12: removed
+//
 stacst eq_char_char : (char, char) -> bool
 stacst neq_char_char : (char, char) -> bool
 stadef == = eq_char_char
 stadef != = neq_char_char
 stadef <> = neq_char_char // backward compatibility // deprecated
+*)
 
 (* ****** ****** *)
 
@@ -196,14 +201,17 @@ stadef bool_of_int (i: int): bool = (i != 0)
 stadef b2i = int_of_bool and i2b = bool_of_int
 
 (*
-** HX: char is treated as int8
-*)
+** HX: [char] = [int8]
+** HX-2012-06-12: removed
+//
 stacst int_of_char: char -> int
 stadef c2i = int_of_char
 stacst char_of_int : int -> char
 stadef i2c = char_of_int
+//
+*)
 
-stacst int_of_addr : char -> int
+stacst int_of_addr : addr -> int
 stacst addr_of_int : int -> addr
 stadef a2i = int_of_addr
 stadef i2a = addr_of_int

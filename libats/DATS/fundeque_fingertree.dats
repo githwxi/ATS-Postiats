@@ -117,13 +117,13 @@ ftnode_prop_szpos
   case+ xn of
   | FTN1 _ => ()
   | FTN2 (xn1, xn2) => {
-      val () = ftnode_prop_szpos (xn1)
-      val () = ftnode_prop_szpos (xn2)
+      prval () = ftnode_prop_szpos (xn1)
+      prval () = ftnode_prop_szpos (xn2)
     } // end of [FTN2]
   | FTN3 (xn1, xn2, xn3) => {
-      val () = ftnode_prop_szpos (xn1)
-      val () = ftnode_prop_szpos (xn2)
-      val () = ftnode_prop_szpos (xn3)
+      prval () = ftnode_prop_szpos (xn1)
+      prval () = ftnode_prop_szpos (xn2)
+      prval () = ftnode_prop_szpos (xn3)
     } // end of [FTN3]
 // end of [ftnode_prop_szpos]
 

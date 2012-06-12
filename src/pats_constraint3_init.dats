@@ -381,8 +381,10 @@ val () = ins (map, the_ifint_bool_int_int, f_ifint_bool_int_int)
 val () = ins (map, the_int_of_bool, f_int_of_bool)
 val () = ins (map, the_bool_of_int, f_bool_of_int)
 *)
-val () = ins (map, the_int_of_char, f_identity)
-val () = ins (map, the_char_of_int, f_identity)
+(*
+val () = ins (map, the_int_of_char, f_identity) // HX: removed
+val () = ins (map, the_char_of_int, f_identity) // HX: removed
+*)
 val () = ins (map, the_int_of_addr, f_identity)
 val () = ins (map, the_addr_of_int, f_identity)
 //

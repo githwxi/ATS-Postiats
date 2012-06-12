@@ -95,10 +95,11 @@ val the_int_of_bool : s2cstref // : (bool) -> int
 val the_bool_of_int : s2cstref // : (int) -> bool
 *)
 (*
-** HX: char is treated as int8
-*)
+// HX: char equals int8
+// HX-2012-06-12: removed
 val the_int_of_char : s2cstref // : (char) -> int
 and the_char_of_int : s2cstref // : (int) -> char
+*)
 (*
 ** HX: addr is treated as (signed) int
 *)

@@ -29,7 +29,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 //
-fun g0int_declist (
+fun g0int_implist (
   kname: string, tname: string
 ) : atext = let
 //
@@ -47,7 +47,7 @@ var res: atextlst = list_nil
 //
 val () = res := list_cons (f "neg", res)
 val () = res := list_cons (f "succ", res)
-val () = res := list_cons (f "prec", res)
+val () = res := list_cons (f "pred", res)
 val () = res := list_cons (atext_newline, res)
 val () = res := list_cons (f "add", res)
 val () = res := list_cons (f "sub", res)
@@ -68,26 +68,26 @@ val () = res := list_cons (f "min", res)
 val res = list_reverse (res)
 in
   atext_concatxt (list_of_list_vt (res))
-end // end of [g0int_declist]
+end // end of [g0int_implist]
 %}
 \
 #atscode_separator()
 
-#g0int_declist("int_kind", "int")
+#g0int_implist("int_kind", "int")
 implement print_int (x) = fprint_int (stdout_ref, x)
 implement prerr_int (x) = fprint_int (stderr_ref, x)
 implement fprint_elt<int> (out, x) = fprint_int (out, x)
 
 #atscode_separator()
 
-#g0int_declist("lint_kind", "lint")
+#g0int_implist("lint_kind", "lint")
 implement print_lint (x) = fprint_lint (stdout_ref, x)
 implement prerr_lint (x) = fprint_lint (stderr_ref, x)
 implement fprint_elt<lint> (out, x) = fprint_lint (out, x)
 
 #atscode_separator()
 
-#g0int_declist("llint_kind", "llint")
+#g0int_implist("llint_kind", "llint")
 implement print_llint (x) = fprint_llint (stdout_ref, x)
 implement prerr_llint (x) = fprint_llint (stderr_ref, x)
 implement fprint_elt<llint> (out, x) = fprint_llint (out, x)

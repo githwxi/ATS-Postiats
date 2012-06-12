@@ -77,10 +77,6 @@ dataprop
 BOOLEQ (bool, bool) = {x:bool} BOOLEQ (x, x)
 prfun booleq_make {x,y:bool | x == y} ():<prf> BOOLEQ (x, y)
 
-dataprop
-CHAREQ (char, char) = {x:char} CHAREQ (x, x)
-prfun chareq_make {x,y:char | x == y} ():<prf> CHAREQ (x, y)
-
 (* ****** ****** *)
 
 prfun prop_verify {b:bool} ():<prf> void

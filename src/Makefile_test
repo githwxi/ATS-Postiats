@@ -22,17 +22,22 @@ test:: fibonacci
 
 test:: SMI
 test:: PHP
+test:: CPS
 test:: infprime
 test:: Ackermann
+test:: BinaryTreeLemmas
+test:: CutElimIL
+test:: CutElimILL
 
 ######
 
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/arith_prf.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/bool.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/char.dats
-prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/float.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/filebas_prf.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/filebas.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/float.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/integer.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/memory.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/pointer.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/reference.dats
@@ -90,18 +95,33 @@ atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/randgen.dats
 
 ######
 
-fact2: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/INTRO/fact2.dats
-revarr: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/INTRO/revarr.dats
+fact2: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/INTRO/fact2.dats
+revarr: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/INTRO/revarr.dats
 
-hanoi: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/MISC/hanoi.dats
-ferryman: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/MISC/ferryman.dats
+hanoi: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/MISC/hanoi.dats
+ferryman: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/MISC/ferryman.dats
 
-tally: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ARITH/tally.dats
-fibonacci: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ARITH/fibonacci.dats
+tally: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ARITH/tally.dats
+fibonacci: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ARITH/fibonacci.dats
 
 SMI: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/SMI.dats
 PHP: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/PHP.dats
-infprime: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/infprime.dats
-Ackermann: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/Ackermann.dats
+CPS: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/CPS.dats
+infprime: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/infprime.dats
+Ackermann: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/Ackermann.dats
+BinaryTreeLemmas: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/BinaryTreeLemmas.dats
+CutElimIL: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/CutElimIL.dats
+CutElimILL: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/CutElimILL.dats
 
 ###### end of [Makefile_test] ######

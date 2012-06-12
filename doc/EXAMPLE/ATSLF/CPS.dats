@@ -22,6 +22,12 @@
 // There is actually no change needed for this porting.
 //
 (* ****** ****** *)
+//
+// HX-2012-06:
+// the style of this code reflects a bit history of ATS;
+// please leave it so when porting it.
+//
+(* ****** ****** *)
 
 infixr ->> ::
 
@@ -266,6 +272,8 @@ val ans1: [t:ty] EXP0' t = let
 in
   cps0 {int()->>int(),t2} (pf | EXPlam {nil} {int(),int()} (EXPvar VARone))
 end
+
+(* ****** ****** *)
 
 implement main (argc, argv) = let
 

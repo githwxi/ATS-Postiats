@@ -135,7 +135,9 @@ in // in of [local]
 implement s2rt_int = S2RTbas s2tb_int
 implement s2rt_bool = S2RTbas s2tb_bool
 implement s2rt_addr = S2RTbas s2tb_addr
+(*
 implement s2rt_char = S2RTbas s2tb_char
+*)
 //
 implement s2rt_cls = S2RTbas s2tb_cls
 //

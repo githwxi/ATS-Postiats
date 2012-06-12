@@ -249,11 +249,11 @@ case+ s3e0 of
   end // end of [S3Ebineq]
 //
 | _ => let
-(*
+// (*
     val () = (
       print "s3exp2icnstr: s3e0 = "; print_s3exp (s3e0); print_newline ()
     ) // end of [val]
-*)
+// *)
     val () = assertloc (false) in ICerr (loc0, $UN.cast(s3e0))
   end // end of [_]
 //

@@ -258,10 +258,13 @@ implement
 the_ifintrel_bool_int_int_int =
   s2cstref_make "ifintrel_bool_int_int_int"
 //
+(*
+// HX-2012-06-12: removed
 implement
 the_int_of_char = s2cstref_make "int_of_char"
 implement
 the_char_of_int = s2cstref_make "char_of_int"
+*)
 //
 implement
 the_int_of_addr = s2cstref_make "int_of_addr"
