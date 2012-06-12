@@ -55,7 +55,8 @@ datatype trans3err =
   | T3E_intsp of (location, string(*rep*))
   | T3E_floatsp of (location, string(*rep*))
 //
-  | T3E_s2varlst_instantiate_napp of (location(*arg*), int(*-1/1*))
+  | T3E_s2varlst_instantiate_nabs of (location(*arg*), int(*-1/1*)) // exi
+  | T3E_s2varlst_instantiate_napp of (location(*arg*), int(*-1/1*)) // uni
   | T3E_s2varlst_instantiate_arity of (location(*arg*), int(*-1/1*))
   | T3E_s2varlst_instantiate_srtck of (location(*arg*), s2rt(*s2v*), s2rt(*s2e*))
 //
@@ -83,9 +84,6 @@ datatype trans3err =
   | T3E_d3exp_trdn of (d3exp, s2exp)
   | T3E_d23explst_trdn_arity of (location, int(*serr*))
 //
-  | T3E_d2exp_trup_exn of (location)
-  | T3E_d2exp_trup_wrt of (location)
-//
   | T3E_d3exp_trup_applst_eff of (location(*app*), s2eff(*eff*))
 //
   | T3E_d23exp_trup_app23_npf of (location(*fun*), int(*npf*))
@@ -95,7 +93,15 @@ datatype trans3err =
   | T3E_d2exp_trup_applst_sym_nil of (d2exp, d2sym) // found none
   | T3E_d2exp_trup_applst_sym_cons2 of (d2exp, d2sym) // found too many
 //
+  | T3E_d2exp_trup_exn of (location)
+  | T3E_d2exp_trup_wrt of (location)
+//
+  | T3E_d2exp_trdn_exist of (d2exp, s2exp)
+//
   | T3E_d2exp_trdn_lam_dyn of (d2exp, s2exp)
+//
+  | T3E_d3exp_foldat of (location, d3exp)
+  | T3E_d3exp_freeat of (location, d3exp)
 //
   | T3E_s2exp_selab_tyrec of (location, s2exp)
   | T3E_s2exp_selab_labnot of (location, s2exp, label) // label is not found
@@ -149,9 +155,6 @@ datatype trans3err =
 //
   | T3E_effenv_check_set of (location, $EFF.effset) // disallowed effects
   | T3E_effenv_check_sexp of (location, s2exp(*S2Eeff*)) // disallowed effects
-//
-  | T3E_d3exp_foldat of (location, d3exp)
-  | T3E_d3exp_freeat of (location, d3exp)
 //
   | T3E_guard_trdn of
       (location, bool(*gval*), s2exp(*gtyp*))

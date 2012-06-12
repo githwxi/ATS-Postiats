@@ -344,7 +344,9 @@ end // end of [s2cst_is_abstract]
 (* ****** ****** *)
 
 implement
-s2cst_is_tkind (x) = s2rt_is_fun_tkind (s2cst_get_srt (x))
+s2cst_is_tkind (x) =
+  s2rt_is_tkind_fun (s2cst_get_srt (x))
+// end of [s2cst_is_tkind]
 
 (* ****** ****** *)
 

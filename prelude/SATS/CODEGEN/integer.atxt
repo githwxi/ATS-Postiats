@@ -5,6 +5,28 @@
 #endif // end of [ATSCCODEFORMAT]
 val _thisfilename = atext_strcst"integer.sats"
 val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+//
+fun
+fprint_print_prerr_decl
+  (tnm: string): atext = let
+//
+val ent = sprintf ("\
+fun fprint_%s
+  : fprint_type (%s) = \"mac#atspre_fprint_%s\"
+overload fprint with fprint_%s
+fun print_%s (x: %s): void
+and prerr_%s (x: %s): void
+overload print with print_%s
+overload prerr with prerr_%s\
+", @(
+ tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fprint_print_prerr_decl]
+//
 %}\
 \
 #atscode_banner()
@@ -156,6 +178,16 @@ fun{tk:tk}
 g0int_min (x: g0int (tk), y: g0int (tk)):<> g0int (tk)
 overload min with g0int_min of 0
 
+#atscode_separator()
+//
+#fprint_print_prerr_decl("int")
+//
+#fprint_print_prerr_decl("lint")
+//
+#fprint_print_prerr_decl("llint")
+//
+#fprint_print_prerr_decl("ssize_t")
+//
 #atscode_separator()
 //
 // HX: for indexed integer types
@@ -436,6 +468,16 @@ fun{tk:tk}
 g0uint_min (x: g0uint (tk), y: g0uint (tk)):<> g0uint (tk)
 overload min with g0uint_min of 0
 
+#atscode_separator()
+//
+#fprint_print_prerr_decl("uint")
+//
+#fprint_print_prerr_decl("ulint")
+//
+#fprint_print_prerr_decl("ullint")
+//
+#fprint_print_prerr_decl("size_t")
+//
 #atscode_separator()
 //
 // HX: for unsigned indexed integer types

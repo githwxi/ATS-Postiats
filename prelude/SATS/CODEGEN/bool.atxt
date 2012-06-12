@@ -45,41 +45,38 @@ fun int1_of_bool1 {b:bool} (b: bool b):<> int (int_of_bool b)
 
 #atscode_separator()
 
-val true_bool : bool (true)
-val false_bool : bool (false)
+(*
+//
+// HX: declared in [prelude/basics_dyn.sats]
+//
+val true : bool (true) and false : bool (false)
+*)
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
+(*
+** HX-2012-06:
+** shortcut version of disjuction and conjuction
+** note that these two cannot be declared as functions
+*)
+macdef || (b1, b2) = (if b1 then true else b2): bool
+macdef && (b1, b2) = (if b1 then b2 else false): bool
+
+#atscode_separator()
+
 fun neg_bool
   (b: bool):<> bool = "mac\#atspre_neg_bool"
 overload ~ with neg_bool of 0
 overload not with neg_bool of 0
-')\
 
-(*
+#atscode_separator()
+
 fun add_bool_bool
   (b1: bool, b2: bool):<> bool = "mac\#atspre_add_bool_bool"
-*)
-macdef
-add_bool_bool
-  (b1, b2) = (if b1 then true else b2): bool
-(*
 overload + with add_bool_bool of 0
-overload || with add_bool_bool of 0
-*)
-
-(*
 fun mul_bool_bool
   (b1: bool, b2: bool):<> bool = "mac\#atspre_mul_bool_bool"
-*)
-macdef
-mul_bool_bool
-  (b1, b2) = (if b1 then b2 else false): bool
-(*
 overload * with mul_bool_bool of 0
-overload && with mul_bool_bool of 0
-*)
 
 #atscode_separator()
 
@@ -165,7 +162,6 @@ fun add_bool1_bool0 {b1:bool}
   (b1: bool b1, b2: bool):<> [b:bool | b1 <= b] bool (b)
   = "mac\#atspre_add_bool1_bool0"
 overload + with add_bool1_bool0 of 10
-overload || with add_bool1_bool0 of 10
 ')\
 
 #atscode_decl_strcst('\
@@ -173,7 +169,6 @@ fun add_bool0_bool1 {b2:bool}
   (b1: bool, b2: bool b2):<> [b:bool | b2 <= b] bool (b)
   = "mac\#atspre_add_bool0_bool1"
 overload + with add_bool0_bool1 of 10
-overload || with add_bool0_bool1 of 10
 ')\
 
 #atscode_decl_strcst('\
@@ -181,7 +176,6 @@ fun add_bool1_bool1 {b1,b2:bool}
   (b1: bool b1, b2: bool b2):<> bool (b1 || b2)
   = "mac\#atspre_add_bool1_bool1"
 overload + with add_bool1_bool1 of 20
-overload || with add_bool1_bool1 of 20
 ')\
 
 #atscode_separator()
@@ -191,7 +185,6 @@ fun mul_bool1_bool0 {b1:bool}
   (b1: bool b1, b2: bool):<> [b:bool | b <= b1] bool (b)
   = "mac\#atspre_mul_bool1_bool0"
 overload * with mul_bool1_bool0 of 10
-overload && with mul_bool1_bool0 of 10
 ')\
 
 #atscode_decl_strcst('\
@@ -199,7 +192,6 @@ fun mul_bool0_bool1 {b2:bool}
   (b1: bool, b2: bool b2):<> [b:bool | b <= b2] bool (b)
   = "mac\#atspre_mul_bool0_bool1"
 overload * with mul_bool0_bool1 of 10
-overload && with mul_bool0_bool1 of 10
 ')\
 
 #atscode_decl_strcst('\
@@ -207,7 +199,6 @@ fun mul_bool1_bool1 {b1,b2:bool}
   (b1: bool b1, b2: bool b2):<> bool (b1 && b2)
   = "mac\#atspre_mul_bool1_bool1"
 overload * with mul_bool1_bool1 of 20
-overload && with mul_bool1_bool1 of 20
 ')\
 
 #atscode_separator()

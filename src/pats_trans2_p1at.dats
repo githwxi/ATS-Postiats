@@ -100,8 +100,10 @@ case+ ans of
 //
   | D2ITMcst d2c => let
       val sym = d2cst_get_sym (d2c) in case+ 0 of
-        | _ when sym = $SYM.symbol_TRUE => p2at_bool (loc0, true)
-        | _ when sym = $SYM.symbol_FALSE => p2at_bool (loc0, false)
+        | _ when sym =
+            $SYM.symbol_TRUE_BOOL => p2at_bool (loc0, true)
+        | _ when sym =
+            $SYM.symbol_FALSE_BOOL => p2at_bool (loc0, false)
         | _ => p2at_var (loc0, d2var_make (loc0, id))
       // end of [val]
     end // end of [D2ITEMcst]

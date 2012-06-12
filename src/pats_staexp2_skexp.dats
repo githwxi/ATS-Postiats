@@ -76,6 +76,11 @@ case+ s2ke of
     val () = fprint_s2var (out, s2v)
     val () = prstr ")"
   }
+| S2KEtkname (name) => {
+    val () = prstr "S2KEtkname("
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  }
 | S2KEextype (name, _arg) => {
     val () = prstr "S2KEextype("
     val () = fprint_string (out, name)
@@ -204,8 +209,10 @@ case s2f0.s2exp_node of
 //
 | S2EVar (s2V) => S2KEany () // HX: some info can be gathered from s2zexp
 //
+| S2Etkname (name) => S2KEtkname (name)
 | S2Eextype (name, _arg) =>
     S2KEextype (name, aux_arglstlst (env, _arg))
+  (* end of [S2Eextype] *)
 //
 | S2Efun (
     _(*fc*), _(*lin*), _(*s2fe*), npf, _arg, _res
@@ -262,12 +269,19 @@ and aux_arglst (
   env: &env, s2es: s2explst
 ) : s2kexplst =
   case+ s2es of
-  | list_cons (s2e, s2es) =>
-      if s2rt_is_prgm (s2e.s2exp_srt) then
-        list_cons (aux_s2exp (env, s2e), aux_arglst (env, s2es))
-      else
+  | list_cons (s2e, s2es) => let
+      val s2t = s2e.s2exp_srt
+      val iskeep = s2rt_is_tkind (s2t)
+      val iskeep = if iskeep then true else s2rt_is_prgm (s2t)
+    in
+      if iskeep then let
+        val s2ke = aux_s2exp (env, s2e)
+      in
+        list_cons (s2ke, aux_arglst (env, s2es))
+      end else
         aux_arglst (env, s2es) // HX: non-types are all discarded
       // end of [if]
+    end // end of [list_cons]
   | list_nil () => list_nil ()
 // end of [aux_arglst]
 
@@ -383,6 +397,8 @@ case+ (x1, x2) of
     if s2cst_subeq (s2c1, s2c2) then () else abort ()
 | (S2KEvar s2v1, S2KEvar s2v2) =>
     if s2v1 = s2v2 then () else abort ()
+| (S2KEtkname (name1),
+   S2KEtkname (name2)) => if name1 != name2 then abort ()
 | (S2KEextype (name1, _arg1),
    S2KEextype (name2, _arg2)) => if name1 = name2
     then s2kexplstlst_ismat_exn (_arg1, _arg2) else abort ()

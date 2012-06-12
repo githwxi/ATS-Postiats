@@ -260,7 +260,8 @@ fun s2rt_is_flat (x: s2rt): bool // is flat?
 fun s2rt_is_boxed (x: s2rt): bool // is boxed?
 fun s2rt_is_impredicative (x: s2rt): bool
 
-fun s2rt_is_fun_tkind (x: s2rt): bool // is (... ->) tkind?
+fun s2rt_is_tkind (x: s2rt): bool // is tkind?
+fun s2rt_is_tkind_fun (x: s2rt): bool // is (... ->) tkind?
 
 fun s2rt_get_pol (x: s2rt): int // neg/neu/pos: -1/0/1
 
@@ -1069,6 +1070,7 @@ fun s2exp_is_prf (x: s2exp): bool
 fun s2exp_is_nonprf (x: s2exp): bool
 fun s2exp_is_lin (x: s2exp): bool
 fun s2exp_is_nonlin (x: s2exp): bool
+fun s2exp_is_prgm (x: s2exp): bool
 fun s2exp_is_boxed (x: s2exp): bool
 fun s2exp_is_impredicative (x: s2exp): bool
 
@@ -1100,8 +1102,8 @@ datatype s2kexp =
   | S2KEany of ()
   | S2KEcst of s2cst
   | S2KEvar of s2var
-  | S2KEextype of
-      (string (*name*), s2kexplstlst)
+  | S2KEtkname of (string(*name*))
+  | S2KEextype of (string(*name*), s2kexplstlst)
   | S2KEfun of (s2kexplst(*arg*), s2kexp(*res*))
   | S2KEapp of (s2kexp, s2kexplst)
   | S2KEtyarr of (s2kexp)

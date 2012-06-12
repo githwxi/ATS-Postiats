@@ -46,6 +46,8 @@ case+ sm of
 | SMstalab () => prstr "SMstalab"
 | SMdynlab () => prstr "SMdynlab"
 //
+| SMdynstr () => prstr "SMdynstr"
+//
 | SMscst_def (g) => prstr "SMscst_def"
 | SMscst_use (g) => prstr "SMscst_use"
 //
@@ -700,8 +702,11 @@ case+ d0e0.d0exp_node of
 | $SYN.D0Edqid _ => () // determined by the context
 | $SYN.D0Eopid _ => () // determined by the context
 // *)
+| $SYN.D0Estring _ =>
+    psynmark_ins_begend (SMdynstr, loc0, res)
 //
-| $SYN.D0Eapp (d0e_fun, d0e_arg) => {
+| $SYN.D0Eapp
+    (d0e_fun, d0e_arg) => {
     val () = d0exp_mark (d0e_fun, res)
     val () = d0exp_mark (d0e_arg, res)
   } // end of [D0Eapp]
@@ -1360,6 +1365,9 @@ case+ d0c0.d0ecl_node of
   in 
     // nothing
   end // end of [D0Cdcstdecs]
+//
+| $SYN.D0Cextcode _ =>
+    psynmark_ins_begend (SMextcode, loc0, res)
 //
 | $SYN.D0Cfundecs
     (fk, qmas, decs) => let

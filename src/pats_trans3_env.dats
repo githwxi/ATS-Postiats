@@ -456,6 +456,73 @@ end // end of [s2exp_unimet_instantiate_all]
 (* ****** ****** *)
 
 implement
+s2exp_exi_instantiate_sexparg
+  (s2e0, s2a, err) = let
+//
+val locarg = s2a.s2exparg_loc
+//
+fun auxerr (
+  locarg: location
+) : void = let
+  val () = prerr_error3_loc (locarg)
+  val () = filprerr_ifdebug "s2exp_exi_instantiate_sexparg"
+  val () = prerr ": the static abstraction is overly done."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_s2varlst_instantiate_nabs (locarg, 1))
+end (* end of [auxerr] *)
+//
+in
+//
+case+ s2a.s2exparg_node of
+| S2EXPARGall () =>
+    s2exp_exi_instantiate_all (s2e0, locarg, err)
+| S2EXPARGone () => let
+    val s2e0 = s2exp_hnfize (s2e0)
+  in
+    case+ s2e0.s2exp_node of
+    | S2Eexi (s2vs, s2ps, s2e1) => let
+        var sub: stasub = stasub_make_nil ()
+        val () = stasub_s2varlst_instantiate_none (sub, locarg, s2vs, err)
+        val s2e1 = s2exp_subst (sub, s2e1)
+        val s2ps = s2explst_subst_vt (sub, s2ps)
+        val () = stasub_free (sub)
+      in
+        (s2e1, s2ps)
+      end // end of [S2Eexi]
+    | _ => let
+        val () = err := err + 1
+        val () = auxerr (locarg)
+      in
+        (s2e0, list_vt_nil)
+      end // end of [_]
+   end
+| S2EXPARGseq (s2es) => let
+    val s2e0 = s2exp_hnfize (s2e0)
+  in
+    case+ s2e0.s2exp_node of
+    | S2Eexi (s2vs, s2ps, s2e1) => let
+        var sub: stasub = stasub_make_nil ()
+        val () = stasub_s2varlst_instantiate_some (sub, locarg, s2vs, s2es, err)
+        val s2e1 = s2exp_subst (sub, s2e1)
+        val s2ps = s2explst_subst_vt (sub, s2ps)
+        val () = stasub_free (sub)
+      in
+        (s2e1, s2ps)
+      end // end of [S2Eexi]
+    | _ => let
+        val () = err := err + 1
+        val () = auxerr (locarg)
+      in
+        (s2e0, list_vt_nil)
+      end (* end of [_] *)
+  end // end of [S2EXPARGseq]
+//
+end // end of [s2exp_instantiate_sexparg]
+
+(* ****** ****** *)
+
+implement
 s2exp_uni_instantiate_sexparglst
   (s2e0, s2as, err) = let
 //

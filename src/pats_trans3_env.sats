@@ -195,15 +195,20 @@ fun s2exp_exi_instantiate_all
 fun s2exp_uni_instantiate_all
   (s2e: s2exp, locarg: location, err: &int): (s2exp, s2explst_vt)
 
+(* ****** ****** *)
+
 fun s2exp_termet_instantiate
   (loc: location, stamp: stamp, met: s2explst): void
 fun s2exp_unimet_instantiate_all
 // HX: instantiating universal quantifiers and term. metrics
   (s2e: s2exp, locarg: location, err: &int): (s2exp, s2explst_vt)
 
+(* ****** ****** *)
+
+fun s2exp_exi_instantiate_sexparg
+  (s2e: s2exp, arg: s2exparg, err: &int): (s2exp, s2explst_vt)
 fun s2exp_uni_instantiate_sexparglst
   (s2e: s2exp, arg: s2exparglst, err: &int): (s2exp, s2explst_vt)
-// end of [s2exp_uni_instantiate_sexparglst]
 
 (* ****** ****** *)
 

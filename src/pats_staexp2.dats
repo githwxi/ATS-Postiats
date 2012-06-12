@@ -497,6 +497,11 @@ implement
 s2exp_is_nonlin (s2e) = ~s2exp_is_lin (s2e)
 
 implement
+s2exp_is_prgm
+  (s2e) = s2rt_is_prgm (s2e.s2exp_srt)
+// end of [s2exp_is_prgm]
+
+implement
 s2exp_is_boxed
   (s2e) = s2rt_is_boxed (s2e.s2exp_srt)
 // end of [s2exp_is_boxed]

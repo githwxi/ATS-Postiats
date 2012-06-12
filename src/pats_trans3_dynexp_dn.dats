@@ -114,11 +114,20 @@ fn d2exp_s2effopt_of_d2exp (
 extern
 fun d2exp_trdn_top (d2e0: d2exp, s2f0: s2hnf): d3exp
 
+(* ****** ****** *)
+
 extern
 fun d2exp_trdn_seq (d2e0: d2exp, s2f0: s2hnf): d3exp
 
+(* ****** ****** *)
+
 extern
 fun d2exp_trdn_effmask (d2e0: d2exp, s2f0: s2hnf): d3exp
+
+(* ****** ****** *)
+
+extern
+fun d2exp_trdn_exist (d2e0: d2exp, s2f0: s2hnf): d3exp
 
 (* ****** ****** *)
 
@@ -171,11 +180,13 @@ case+ d2e0.d2exp_node of
 //
 | D2Eeffmask _ => d2exp_trdn_effmask (d2e0, s2f0)
 //
+| D2Eexist _ => d2exp_trdn_exist (d2e0, s2f0)
+//
 | D2Elam_dyn _ => d2exp_trdn_lam_dyn (d2e0, s2f0)
 //
 | D2Elam_sta (s2vs, _, _)
     when list_is_nil (s2vs) => d2exp_trdn_lam_sta_nil (d2e0, s2f0)
-  // end of [D2Elam_sta]
+  // end of [D2Elam_sta_nil]
 //
 | D2Etrywith _ => d2exp_trdn_trywith (d2e0, s2f0)
 //
@@ -622,6 +633,43 @@ d2exp_trdn_effmask
 in
   d3exp_effmask (loc0, s2fe, d3e)
 end // end of [d2exp_trdn_effmask]
+
+(* ****** ****** *)
+
+implement
+d2exp_trdn_exist
+  (d2e0, s2f0) = let
+  val loc0 = d2e0.d2exp_loc
+  val- D2Eexist (s2a, d2e) = d2e0.d2exp_node
+  val s2e0 = s2hnf2exp (s2f0)
+  var s2ps: s2explst_vt
+  var err: int = 0
+  val s2e_ins = (
+    case+ s2e0.s2exp_node of
+    | S2Ewth (s2e1, wths2e2) => let
+        val (s2e1, s2ps1) =
+          s2exp_exi_instantiate_sexparg (s2e1, s2a, err)
+        val () = s2ps := s2ps1
+      in
+        s2exp_wth (s2e1, wths2e2)
+      end // end of [S2Ewth]
+    | _ => s2e1 where {
+        val (s2e1, s2ps1) =
+          s2exp_exi_instantiate_sexparg (s2e0, s2a, err)
+        val () = s2ps := s2ps1
+      } // end of [_]
+  ) : s2exp // end of [val]
+  val () = trans3_env_add_proplst_vt (loc0, s2ps)
+(*
+  val () = if err > 0 then {
+    val () = prerr_error3_loc (loc0)
+    val () = prerr ": existential abstraction mismatch"
+    val () = the_trans3errlst_add (T3E_d2exp_trdn_exist (d2e0, s2e0))
+  } // end of [val]
+*)
+in
+  d2exp_trdn (d2e, s2e_ins)
+end // end of [d2exp_trdn_exist]
 
 (* ****** ****** *)
 

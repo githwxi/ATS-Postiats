@@ -5,6 +5,28 @@
 #endif // end of [ATSCCODEFORMAT]
 val _thisfilename = atext_strcst"char.sats"
 val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+//
+fun
+fprint_print_prerr_decl
+  (tnm: string): atext = let
+//
+val ent = sprintf ("\
+fun fprint_%s
+  : fprint_type (%s) = \"mac#atspre_fprint_%s\"
+overload fprint with fprint_%s
+fun print_%s (x: %s): void
+and prerr_%s (x: %s): void
+overload print with print_%s
+overload prerr with prerr_%s\
+", @(
+ tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fprint_print_prerr_decl]
+//
 %}\
 \
 #atscode_banner()
@@ -73,16 +95,6 @@ overload <> with neq_char_char of 0
 fun compare_char_char
   (c1: char, c2: char):<> int = "atspre_compare_char_char"
 overload compare with compare_char_char of 0
-
-#atscode_separator()
-
-fun fprint_char
-  (out: FILEref, x: char): void = "mac\#atspre_fprint_char"
-overload fprint with fprint_char
-fun print_char (x: char): void = "mac\#atspre_fprint_char"
-and prerr_char (x: char): void = "mac\#atspre_fprint_char"
-overload print with print_char
-overload prerr with prerr_char
 
 #atscode_separator()
 #atscode_decl_strcst('\
@@ -210,18 +222,6 @@ overload compare with compare_uchar_uchar of 0
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-fun fprint_uchar
-  (out: FILEref, x: uchar): void
-overload fprint with fprint_uchar
-fun print_uchar (x: uchar): void
-and prerr_uchar (x: uchar): void
-overload print with print_uchar
-overload prerr with prerr_uchar
-')\
-
-#atscode_separator()
-
 %{
 fun
 fun_uchar_cmp1_decl (
@@ -318,6 +318,12 @@ g1uint_of_uchar1
   {c:int} (c: uchar (c)):<> g1uint (tk, c)
 // end of [g1uint_of_uchar1]
 ')\
+
+#atscode_separator()
+
+#fprint_print_prerr_decl("char")
+#fprint_print_prerr_decl("schar")
+#fprint_print_prerr_decl("uchar")
 
 #atscode_separator()
 

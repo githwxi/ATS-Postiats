@@ -113,8 +113,8 @@ val symbol_TYPES : symbol
 //
 (* ****** ****** *)
 
-val symbol_TRUE : symbol
-val symbol_FALSE : symbol
+val symbol_TRUE_BOOL : symbol
+and symbol_FALSE_BOOL : symbol
 
 (* ****** ****** *)
 

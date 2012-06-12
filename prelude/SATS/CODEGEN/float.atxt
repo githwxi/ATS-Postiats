@@ -5,6 +5,28 @@
 #endif // end of [ATSCCODEFORMAT]
 val _thisfilename = atext_strcst"float.sats"
 val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+//
+fun
+fprint_print_prerr_decl
+  (tnm: string): atext = let
+//
+val ent = sprintf ("\
+fun fprint_%s
+  : fprint_type (%s) = \"mac#atspre_fprint_%s\"
+overload fprint with fprint_%s
+fun print_%s (x: %s): void
+and prerr_%s (x: %s): void
+overload print with print_%s
+overload prerr with prerr_%s\
+", @(
+ tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fprint_print_prerr_decl]
+//
 %}\
 \
 #atscode_banner()
@@ -133,7 +155,7 @@ stadef dblknd = double_kind
 stadef ldblknd = ldouble_kind
 //
 #atscode_separator()
-
+\
 %{
 //
 staload _(*anon*) = "prelude/DATS/list.dats"
@@ -177,21 +199,26 @@ val res = list_reverse (res)
 in
   atext_concatxt (list_of_list_vt (res))
 end // end of [g0float_declist]
-%}
+%}\
 
 #g0float_declist("fltknd", "float")
-fun fprint_float (out: FILEref, x: float): void
 
 #atscode_separator()
 
 #g0float_declist("dblknd", "double")
-fun fprint_double (out: FILEref, x: double): void
 
 #atscode_separator()
 
 #g0float_declist("ldblknd", "ldouble")
-fun fprint_ldouble (out: FILEref, x: ldouble): void
 
+#atscode_separator()
+//
+#fprint_print_prerr_decl("float")
+//
+#fprint_print_prerr_decl("double")
+//
+#fprint_print_prerr_decl("ldouble")
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

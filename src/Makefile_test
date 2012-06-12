@@ -21,6 +21,9 @@ test:: tally
 test:: fibonacci
 
 test:: SMI
+test:: PHP
+test:: infprime
+test:: Ackermann
 
 ######
 
@@ -97,5 +100,8 @@ tally: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ARITH/tally.dats
 fibonacci: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ARITH/fibonacci.dats
 
 SMI: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/SMI.dats
+PHP: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/PHP.dats
+infprime: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/infprime.dats
+Ackermann: ; ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/Ackermann.dats
 
 ###### end of [Makefile_test] ######

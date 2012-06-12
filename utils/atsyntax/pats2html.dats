@@ -38,10 +38,11 @@ staload _(*anon*) =
     .atsyntax span.extcode {color:#A52A2A;}\n\
     .atsyntax span.neuexp  {color:#800080;}\n\
     .atsyntax span.staexp  {color:#0000F0;}\n\
-    .atsyntax span.prfexp  {color:#783c3c;}\n\
+    .atsyntax span.prfexp  {color:#603030;}\n\
     .atsyntax span.dynexp  {color:#F00000;}\n\
     .atsyntax span.stalab  {color:#0000F0;font-style:italic}\n\
     .atsyntax span.dynlab  {color:#F00000;font-style:italic}\n\
+    .atsyntax span.dynstr  {color:#008000;font-style:normal}\n\
     .atsyntax span.stacstdec  {text-decoration:none;}\n\
     .atsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}\n\
     .atsyntax span.dyncstdec  {text-decoration:none;}\n\
@@ -120,6 +121,9 @@ fun fputc_html (
 #define SMdynlab_beg "<span class=\"dynlab\">"
 #define SMdynlab_end "</span>"
 
+#define SMdynstr_beg "<span class=\"dynstr\">"
+#define SMdynstr_end "</span>"
+
 (* ****** ****** *)
 
 implement
@@ -156,45 +160,60 @@ case+ sm of
 | SMstalab () => fpr_psynmark (SMstalab_beg, SMstalab_end)
 | SMdynlab () => fpr_psynmark (SMdynlab_beg, SMdynlab_end)
 //
+| SMdynstr () => fpr_psynmark (SMdynstr_beg, SMdynstr_end)
+//
 | _ => ()
 //
 end // end of [psynmark_process]
 
 (* ****** ****** *)
 
+extern
 fun pats2html_level1 (
   stadyn: int, inp: FILEref, out: FILEref
+) : void // end of [pats2html]
+
+local
+//
+viewtypedef
+charlst_vt = List_vt (char)
+//
+fun fileref2charlst
+  (inp: FILEref): charlst_vt = let
+fun loop (
+  inp: FILEref
+, res: &charlst_vt? >> charlst_vt
 ) : void = let
-//
-typedef charlst = List (char)
-viewtypedef charlst_vt = List_vt (char)
-//
-val charlst = let
-  fun loop (
-    inp: FILEref
-  , res: &charlst_vt? >> charlst_vt
-  ) : void = let
-    val i = $STDIO.fgetc0_err (inp)
+  val i = $STDIO.fgetc0_err (inp)
+in
+  if (i != EOF) then let
+    val c = char_of_int (i)
+    val () = res :=
+      list_vt_cons {char}{0} (c, ?)
+    val+ list_vt_cons (_, !p_res) = res
+    val () = loop (inp, !p_res)
+    prval () = fold@ (res)
   in
-    if (i != EOF) then let
-      val c = char_of_int (i)
-      val () = res :=
-        list_vt_cons {char}{0} (c, ?)
-      val+ list_vt_cons (_, !p_res) = res
-      val () = loop (inp, !p_res)
-      prval () = fold@ (res)
-    in
-      // nothing
-    end else
-      res := list_vt_nil ()
-    // end of [if]
-  end // end of [loop]
-  var res: charlst_vt
-  val () = loop (inp, res)
+    // nothing
+  end else
+    res := list_vt_nil ()
+  // end of [if]
+end // end of [loop]
+//
+var res: charlst_vt
+val () = loop (inp, res)
+//
 in
   res
-end // end of [val]
+end // end of [fileref2charlst]
+
+in // in of [local]
+
+implement
+pats2html_level1
+  (stadyn, inp, out) = let
 //
+val charlst = fileref2charlst (inp)
 val charlst1 = list_vt_copy (charlst)
 val lbf =
   lexbufobj_make_charlst_vt (charlst1)
@@ -237,6 +256,8 @@ charlst_psynmarklstlst_process<>
   (charlst, out, psmss, lam (c, out) => fputc_html (c, out))
 //
 end // end of [pats2html_level1]
+
+end // end of [local]
 
 (* ****** ****** *)
 

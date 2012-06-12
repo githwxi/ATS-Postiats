@@ -46,11 +46,16 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 //
 (* ****** ****** *)
 //
-// HX: In $ATSHOME/ccomp/runtime:
-// atsbool_true/atsbool_false are mapped to 1/0, respectively
+// HX-2012: In $ATSHOME/ccomp/runtime:
+// atsbool_true/atsbool_false are mapped to 1/0
+// this mapping is fixed and should never be changed!
 //
-val true  : bool (true)  = "mac#atsbool_true" // macro
-and false : bool (false) = "mac#atsbool_false" // macro
+val true_bool
+  : bool (true)  = "mac#atsbool_true" // = 1
+#define true true_bool // shorthand
+val false_bool
+  : bool (false) = "mac#atsbool_false" // = 0
+#define false false_bool // shorthand
 //
 (* ****** ****** *)
 //
@@ -385,6 +390,10 @@ prval file_mode_lte_rw_w
 
 abstype FILEref_type = ptr
 typedef FILEref = FILEref_type
+
+(* ****** ****** *)
+
+typedef fprint_type (a: t0p) = (FILEref, a) -> void
 
 (* ****** ****** *)
 

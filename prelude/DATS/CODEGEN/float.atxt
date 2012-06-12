@@ -24,12 +24,13 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_authoremail("hwxi AT cs DOT bu DOT edu")
 #atscode_start_time("Feburary, 2012")
 
+#atscode_separator()
 %{
 //
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 //
-fun g0float_declist (
+fun g0float_implist (
   kname: string, tname: string
 ) : atext = let
 //
@@ -64,27 +65,45 @@ val () = res := list_cons (f "min", res)
 val res = list_reverse (res)
 in
   atext_concatxt (list_of_list_vt (res))
-end // end of [g0float_declist]
-%}
+end // end of [g0float_implist]
+%}\
+
+#g0float_implist("fltknd", "float")
 
 #atscode_separator()
 
-#g0float_declist("fltknd", "float")
+#g0float_implist("dblknd", "double")
+
+#atscode_separator()
+
+#g0float_implist("ldblknd", "ldouble")
+
+#atscode_separator()
+//
+implement
+print_float (x) = fprint_float (stdout_ref, x)
+implement
+prerr_float (x) = fprint_float (stderr_ref, x)
+//
+implement
+print_double (x) = fprint_double (stdout_ref, x)
+implement
+prerr_double (x) = fprint_double (stderr_ref, x)
+//
+implement
+print_ldouble (x) = fprint_ldouble (stdout_ref, x)
+implement
+prerr_ldouble (x) = fprint_ldouble (stderr_ref, x)
+//
+#atscode_separator()
+//
 implement
 fprint_elt<float> (out, x) = fprint_float (out, x)
-
-#atscode_separator()
-
-#g0float_declist("dblknd", "double")
 implement
 fprint_elt<double> (out, x) = fprint_double (out, x)
-
-#atscode_separator()
-
-#g0float_declist("ldblknd", "ldouble")
 implement
 fprint_elt<ldouble> (out, x) = fprint_ldouble (out, x)
-
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

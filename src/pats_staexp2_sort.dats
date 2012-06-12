@@ -349,17 +349,31 @@ s2rt_is_impredicative
 (* ****** ****** *)
 
 implement
-s2rt_is_fun_tkind
-  (s2t) =
+s2rt_is_tkind
+  (s2t) = (
   case+ s2t of
   | S2RTbas s2tb => (
     case+ s2tb of
-    | S2RTBASpre (sym) => sym = $SYM.symbol_TKIND
+    | S2RTBASpre (sym) =>
+        sym = $SYM.symbol_TKIND
+    | _ => false
+    ) // end of [S2ETbas]
+  | _ => false
+) // end of [s2rt_is_tkind]
+
+implement
+s2rt_is_tkind_fun
+  (s2t) = (
+  case+ s2t of
+  | S2RTbas s2tb => (
+    case+ s2tb of
+    | S2RTBASpre (sym) =>
+        sym = $SYM.symbol_TKIND
     | _ => false
     ) // end of [S2RTbas]
-  | S2RTfun (_, s2t) => s2rt_is_fun_tkind (s2t)
+  | S2RTfun (_, s2t) => s2rt_is_tkind_fun (s2t)
   | _ => false
-// end of [s2rt_is_fun_tkind]
+) // end of [s2rt_is_fun_tkind]
 
 (* ****** ****** *)
 

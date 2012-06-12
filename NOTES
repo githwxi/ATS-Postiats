@@ -47,7 +47,7 @@ length {n:int}
   | list_vt_nil () => 0
 // end of [length]
 **
-** As another example, reverse-append on a linear list
+** As another example, reverse-append on linear lists
 ** can now be implemented as follows:
 //
 fun{a:viewt@ype}
