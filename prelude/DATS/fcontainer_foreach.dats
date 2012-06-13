@@ -60,7 +60,7 @@ foreach_fun
     coerce (f: (x) -<fe> void):<> (!unit_v | x, !ptr) -<fe> void
   } // end of [val] // HX: this is a safe cast
   prval pfu = unit_v ()
-  val () = foreach_funenv<xs><x> {unit_v} {ptr} (pfu | xs, f, null)
+  val () = foreach_funenv<xs><x> {unit_v} {ptr} (pfu | xs, f, the_null_ptr)
   prval unit_v () = pfu
 in
   // empty

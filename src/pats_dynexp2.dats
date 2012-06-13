@@ -505,7 +505,7 @@ d2exp_app_sta_dyn (
     d2exp_app_sta (loc_sta, d2e_fun, sarg)
   // end of [val]
 in
-  if npf >= ~1 then
+  if npf >= ~1 then // [npf] takes ~2 as a fake value
     d2exp_app_dyn (loc_dyn, d2e_sta, npf, locarg, darg)
   else d2e_sta // end of [if]
 end // end of [d2exp_app_sta_dyn]

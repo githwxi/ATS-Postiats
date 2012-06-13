@@ -61,6 +61,12 @@ datatype trans2err =
   | T2E_s1arg_trdn of (s1arg, s2rt)
   | T2E_s1marg_trdn of (s1marg, s2rtlst)
   | T2E_sp1at_trdn of (sp1at, s2rt)
+//
+  | T2E_sc2laulst_coverck_sort of (location, s2rt)
+  | T2E_sc2laulst_coverck_sort of (location, s2rt)
+  | T2E_sc2laulst_coverck_repeat of (location, sc2lau)
+  | T2E_sc2laulst_coverck_missing of (location, s2cst)
+//
   | T2E_q1marg_tr_dec of (q1marg)
   | T2E_s1rtext_tr of (s1rtext)
   | T2E_s1expdef_tr of (s1expdef)
@@ -119,6 +125,10 @@ fun s1vararg_tr (s1a: s1vararg): s2vararg
 (* ****** ****** *)
 
 fun sp1at_trdn (sp1t: sp1at, s2t: s2rt): sp2at
+
+fun sc2laulst_coverck
+  (loc0: location, xs: sc2laulst, s2t: s2rt): void
+// end of [sc2laulst_coverck]
 
 (* ****** ****** *)
 

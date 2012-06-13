@@ -551,10 +551,9 @@ implement
 d2exp_trdn_casehead
   (d2e0, s2f0) = let
 (*
-val () = begin
-  print "d2exp_caseof_trdn: s2f0 = ";
-  print_s2hnf (s2f0); print_newline ()
-end // end of [val]
+val () = (
+  println! ("d2exp_trdn_casehead: s2f0 = ", s2f0)
+) // end of [val]
 *)
 val loc0 = d2e0.d2exp_loc
 val- D2Ecasehead (casknd, invres, d2es, c2ls) = d2e0.d2exp_node
@@ -576,8 +575,87 @@ val () = trans3_env_add_svarlst (invres.i2nvresstate_svs)
 val () = trans3_env_hypadd_proplst (loc0, invres.i2nvresstate_gua)
 //
 in
-  d3exp_case (loc0, s2e0, casknd, d3es, c3ls)
-end (* end of [d2exp_caseof_trdn] *)
+  d3exp_caseof (loc0, s2e0, casknd, d3es, c3ls)
+end (* end of [d2exp_trdn_casehead] *)
+
+(* ****** ****** *)
+
+implement
+d2exp_trdn_scasehead
+  (d2e0, s2f0) = let
+(*
+val () = (
+  println! ("d2exp_trdn_scasehead: s2f0 = ", s2f0)
+) // end of [val]
+*)
+//
+val loc0 = d2e0.d2exp_loc
+val- D2Escasehead (invres, s2e_val, sc2ls) = d2e0.d2exp_node
+val s2e0 = s2hnf2exp (s2f0)
+//
+val lsbis =
+  the_d2varenv_save_lstbefitmlst ()
+var lsaft = lstaftc3nstr_initize (lsbis)
+//
+fun auxscl .<>. (
+  sc2l: sc2lau
+, s2e_val: s2exp
+, s2e_res: s2exp
+, isfst: bool
+, lsbis: lstbefitmlst
+, lsaft: !lstaftc3nstr
+) : sc3lau = let
+  val loc0 = sc2l.sc2lau_loc
+  val () =
+    if not(isfst) then lstbefitmlst_restore_type (lsbis)
+  // end of [val]
+  val ctr = c3nstroptref_make_none (loc0)
+  val sp2t = sc2l.sc2lau_pat
+  val d2e_body = sc2l.sc2lau_body
+  val (pfpush | ()) = trans3_env_push ()
+  val () = trans3_env_add_sp2at (sp2t)
+  val () = $SOL.s2exp_hypequal_solve (sp2t.sp2at_loc, s2e_val, sp2t.sp2at_exp)
+  val d3e_body = d2exp_trdn (d2e_body, s2e_res)
+  val () = trans3_env_add_cnstr_ref (ctr)
+  val () = trans3_env_pop_and_add_main (pfpush | loc0)
+  val () = lstaftc3nstr_update (lsaft, ctr)
+in
+  sc3lau_make (loc0, sp2t, d3e_body)
+end // end of [auxscl]
+//
+fun auxsclist (
+  sc2ls: sc2laulst
+, s2e_val: s2exp
+, s2e_res: s2exp
+, isfst: bool
+, lsbis: lstbefitmlst
+, lsaft: !lstaftc3nstr
+) : sc3laulst =
+  case+ sc2ls of
+  | list_cons
+      (sc2l, sc2ls) => let
+      val sc3l = auxscl (
+        sc2l, s2e_val, s2e_res, isfst, lsbis, lsaft
+      ) // end of [val]
+      val sc3ls = auxsclist (
+        sc2ls, s2e_val, s2e_res, false(*isfst*), lsbis, lsaft
+      ) // end of [val]
+    in
+      list_cons (sc3l, sc3ls)
+    end // end of [list_cons]
+  | list_nil () => list_nil ()
+// end of [auxsclist]
+//
+val sc3ls = auxsclist
+  (sc2ls, s2e_val, s2e0, true(*isfst*), lsbis, lsaft)
+//
+val () =
+  lstaftc3nstr_process (lsaft, invres)
+val () = lstaftc3nstr_finalize (lsaft)
+//
+in
+  d3exp_scaseof (loc0, s2e0, s2e_val, sc3ls)
+end // end of [d2exp_trdn_scasehead]
 
 (* ****** ****** *)
 

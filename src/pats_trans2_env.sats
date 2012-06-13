@@ -101,6 +101,7 @@ fun the_s2expenv_add
 fun the_s2expenv_add_scst (s2c: s2cst): void
 fun the_s2expenv_add_svar (s2v: s2var): void
 fun the_s2expenv_add_svarlst (s2vs: s2varlst): void
+fun the_s2expenv_add_sp2at (sp2t: sp2at): void
 fun the_s2expenv_add_datconptr (d2c: d2con): void
 fun the_s2expenv_add_datcontyp (d2c: d2con): void
 

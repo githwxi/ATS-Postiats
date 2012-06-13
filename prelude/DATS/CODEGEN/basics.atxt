@@ -34,7 +34,6 @@ false_elim () = case+ 0 of _ =/=> ()
 primplmnt inteq_make () = INTEQ ()
 primplmnt addreq_make () = ADDREQ ()
 primplmnt booleq_make () = BOOLEQ ()
-primplmnt chareq_make () = CHAREQ ()
 
 #atscode_separator()
 

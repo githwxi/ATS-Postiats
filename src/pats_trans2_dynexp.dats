@@ -32,8 +32,8 @@
 //
 (* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
+staload UN = "prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
@@ -281,7 +281,7 @@ case+ spdid of
       | _ => let
           val sarg = list_nil () in
           d1exp_tr_app_sta_dyn_dqid_itm
-            (d1e0, d1e1, d1e1, dq, id, d2i, sarg, npf, locarg, darg)
+            (d1e0, d1e1, d1e1, dq, id, d2i, sarg, locarg, npf, darg)
         end // end of [_]
       ) // end of [Some_vt]
     | ~None_vt () => let
@@ -365,7 +365,7 @@ case+ ans of
 *)
   in
     d1exp_tr_app_sta_dyn_dqid_itm (
-      d1e0, d1e1, d1e1, dq, id, d2i, sarg, npf, locarg, darg
+      d1e0, d1e1, d1e1, dq, id, d2i, sarg, locarg, npf, darg
     ) // end of [...]
   end // end of [Some_vt]
 | ~None_vt () => let
@@ -389,7 +389,7 @@ d1exp_tr_app_sta_dyn_dqid_itm (
 , dq: d0ynq, id: symbol
 , d2i: d2itm
 , sarg: s1exparglst
-, npf: int, locarg: location, darg: d1explst 
+, locarg: location, npf: int, darg: d1explst 
 ) : d2exp = let
 in
 //
@@ -401,6 +401,7 @@ case+ d2i of
     val- list_cons (d2c, _) = d2cs
     val sarg = s1exparglst_tr (sarg)
     val darg = d1explst_tr (darg)
+    val npf = (if npf >= ~1 then npf else ~1): int
   in
     d2exp_con (loc0, d2c, loc1, sarg, npf, locarg, darg)
   end // end of [D2ITEMcon]
@@ -806,8 +807,10 @@ fun c1laulst_tr {n:nat}
 fn sc1lau_trdn (
   sc1l: sc1lau, s2t_pat: s2rt
 ) : sc2lau = let
+  val sp1t = sc1l.sc1lau_pat
   val (pfenv | ()) = the_s2expenv_push_nil ()
-  val sp2t = sp1at_trdn (sc1l.sc1lau_pat, s2t_pat)
+  val sp2t = sp1at_trdn (sp1t, s2t_pat)
+  val () = the_s2expenv_add_sp2at (sp2t)
   val body = d1exp_tr (sc1l.sc1lau_body)
   val () = the_s2expenv_pop_free (pfenv | (*none*))  
 in
@@ -822,6 +825,163 @@ fun sc1laulst_trdn (
       list_cons (sc1lau_trdn (x, s2t), sc1laulst_trdn (xs, s2t))
   | list_nil () => list_nil ()
 ) // end of [sc1laulst_trdn]
+
+(* ****** ****** *)
+
+local
+
+viewtypedef sc2laulst_vt = List_vt (sc2lau)
+
+fn sc2lau_get_tag
+  (sc2l: sc2lau):<> int = let
+  val sp2t = sc2l.sc2lau_pat in
+  case+ sp2t.sp2at_node of
+  | SP2Tcon (s2c, _) => s2cst_get_tag (s2c) | SP2Terr () => ~1 (*err*)
+end // end of [sc2lau_get_tag]
+
+fun auxerr_lt
+  (loc0: location, sc2l: sc2lau): void = let
+  val loc = sc2l.sc2lau_loc
+  val () = prerr_error2_loc (loc)
+  val () = prerr ": the static clause is repeated."
+  val () = prerr_newline ()
+in
+  the_trans2errlst_add (T2E_sc2laulst_coverck_repeat (loc0, sc2l))
+end // end of [auxerr_lt]
+
+fun auxerr_gts (
+  loc0: location, s2cs: s2cstlst, n: int, tag: int
+) : void = let
+in
+//
+if n < tag then (
+  case+ s2cs of
+  | list_cons (s2c, s2cs) => (
+      if n > 0 then
+        auxerr_gts (loc0, s2cs, n-1, tag-1)
+      else let
+        val () = prerr_error2_loc (loc0)
+        val () = prerr ": the static clause associated with ["
+        val () = prerr_s2cst (s2c)
+        val () = prerr "] is missing."
+        val () = prerr_newline ()
+        val () = 
+          the_trans2errlst_add (T2E_sc2laulst_coverck_missing (loc0, s2c))
+        // end of [val]
+      in
+        auxerr_gts (loc0, s2cs, 0, tag-1)
+      end // end of [if]
+    ) // end of [list_cons]
+  | list_nil () => ()
+) else () // end of [if]
+//
+end // end of [auxerr_gts]
+
+fun auxmain1 (
+  loc0: location
+, sc2ls: sc2laulst
+, s2td_pat: s2rtdat
+) : void = let
+  val sc2ls2 = list_copy (sc2ls)
+  val sc2ls2 = let
+    var !p_clo = @lam (
+      x1: &sc2lau, x2: &sc2lau
+    ) : int =<clo> sc2lau_get_tag (x1) - sc2lau_get_tag (x2)
+  in
+    list_vt_mergesort (sc2ls2, !p_clo)
+  end // end of [val]
+  val () = auxmain2 (loc0, sc2ls2, s2td_pat)
+in
+  // empty
+end // end of [auxmain1]
+
+and auxmain2 (
+  loc0: location
+, sc2ls: List_vt (sc2lau)
+, s2td_pat: s2rtdat
+) : void = let
+//
+fun loop (
+  loc0: location
+, sc2ls: sc2laulst_vt, s2cs: s2cstlst, n: int
+) : void = let
+in
+//
+case+ sc2ls of
+| ~list_vt_cons
+    (sc2l, sc2ls) => let
+    val tag = sc2lau_get_tag (sc2l)
+  in
+    if tag >= 0 then (
+      if tag < n then let
+        val () = auxerr_lt (loc0, sc2l)
+      in
+        loop (loc0, sc2ls, s2cs, n)
+      end else let
+        val () = auxerr_gts (loc0, s2cs, n, tag)
+      in
+        loop (loc0, sc2ls, s2cs, tag+1)
+      end // end of [if]
+    ) else
+      loop (loc0, sc2ls, s2cs, n) // skipping SP2Terr 
+    // end of [if]
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => let
+    val ns2cs = list_length (s2cs)
+  in
+    auxerr_gts (loc0, s2cs, n, ns2cs)
+  end // end of [list_vt_nil]
+end // end of [loop]
+//
+val s2cs = s2rtdat_get_sconlst (s2td_pat)
+//
+in
+  loop (loc0, sc2ls, s2cs, 0)
+end // end of [auxmain2]
+
+in // in of [local]
+
+implement
+sc2laulst_coverck
+  (loc0, sc2ls, s2t_pat) = let
+//
+fun auxerr1 (
+  loc0: location, s2t_pat: s2rt
+) : void = let
+  val () = prerr_error2_loc (loc0)
+  val () = prerr ": the static expression being analyzed is of the sort ["
+  val () = prerr_s2rt (s2t_pat)
+  val () = prerr "], which is not a base sort as is required."
+  val () = prerr_newline ()
+in
+  the_trans2errlst_add (T2E_sc2laulst_coverck_sort (loc0, s2t_pat))
+end // end of [auxerr1]
+fun auxerr2 (
+  loc0: location, s2t_pat: s2rt
+) : void = let
+  val () = prerr_error2_loc (loc0)
+  val () = prerr ": the static expression being analyzed is of the sort ["
+  val () = prerr_s2rt (s2t_pat)
+  val () = prerr "], which is not a datasort as is required."
+  val () = prerr_newline ()
+in
+  the_trans2errlst_add (T2E_sc2laulst_coverck_sort (loc0, s2t_pat))
+end // end of [auxerr2]
+//
+in
+//
+case s2t_pat of
+| S2RTbas s2tb => (
+  case+ s2tb of
+  | S2RTBASdef s2td =>
+      auxmain1 (loc0, sc2ls, s2td)
+  | _ => auxerr2 (loc0, s2t_pat)
+  )
+| _ => auxerr1 (loc0, s2t_pat)
+//
+end // end of [sc2laulst_coverck]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -969,11 +1129,9 @@ case+ d1e0.d1exp_node of
     val s2e = s1exp_trup (s1e)
     val s2t_pat = s2e.s2exp_srt
     val sc2ls = sc1laulst_trdn (sc1ls, s2t_pat)
-(*
     val () =
-      sc2laulst_covercheck (loc0, sc2ls, s2t_pat) // FIXME!!!
+      sc2laulst_coverck (loc0, sc2ls, s2t_pat) // FIXME!!!
     // end of [val]
-*)
   in
     d2exp_scasehead (loc0, r2es, s2e, sc2ls)
   end // end of [D1Escaseof]

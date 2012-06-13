@@ -47,12 +47,6 @@ fun d2con_select_arity
 
 (* ****** ****** *)
 
-fun sc2laulst_covercheck
-  (loc0: location, xs: sc2laulst, s2t: s2rt): void
-// end of [sc2laulst_covercheck]
-
-(* ****** ****** *)
-
 fun d2cst_match_def (d2c: d2cst, def: d1exp): bool
 
 (* ****** ****** *)

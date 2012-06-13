@@ -279,9 +279,10 @@ and d3exp_node =
       s2exp(*cond*), d3exp(*then*), d3exp(*else*)
     ) // end of [D3Esif]
 //
-  | D3Ecase of (
+  | D3Ecaseof of (
       caskind, d3explst(*values*), c3laulst(*clauses*)
     ) // end of [D3Ecase]
+  | D3Escaseof of (s2exp(*value*), sc3laulst(*clauses*))
 //
   | D3Elst of (* list expression *)
       (int(*lin*), s2exp(*elt*), d3explst)
@@ -397,6 +398,14 @@ and c3laulst
 and c3laulst = [n:nat] c3laulst (n)
 and c3laulst_vt
   (n:int) = List_vt (c3lau (n))
+
+and sc3lau = '{
+  sc3lau_loc= location
+, sc3lau_pat= sp2at
+, sc3lau_body= d3exp
+} // end of [sc3lau]
+
+and sc3laulst = List (sc3lau)
 
 (* ****** ****** *)
 
@@ -610,11 +619,17 @@ fun d3exp_sif (
 
 (* ****** ****** *)
 
-fun d3exp_case (
+fun d3exp_caseof (
   loc: location
 , s2e_case: s2exp
 , knd: caskind, d3es: d3explst, c3ls: c3laulst
 ) : d3exp // end of [d3exp_case]
+
+fun d3exp_scaseof (
+  loc: location
+, s2e_scase: s2exp
+, s2e_val: s2exp, sc3ls: sc3laulst
+) : d3exp // end of [d3exp_scase]
 
 (* ****** ****** *)
 
@@ -740,11 +755,15 @@ fun m3atch_make (
 fun c3lau_make
   {n:nat} (
   loc: location
-, pat: list (p3at, n)
+, p3ts: list (p3at, n)
 , gua: m3atchlst
 , seq: int, neg: int
 , body: d3exp
 ): c3lau (n) // end of [c3lau_make]
+
+fun sc3lau_make (
+  loc: location, sp2t: sp2at, d3e: d3exp
+) : sc3lau // end of [sc3lau_make]
 
 (* ****** ****** *)
 

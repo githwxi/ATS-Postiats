@@ -909,6 +909,16 @@ trans3_env_add_svarlst (s2vs) =
 // end of [trans3_env_add_svarlst]
 
 implement
+trans3_env_add_sp2at
+  (sp2t) = (
+  case+ sp2t.sp2at_node of
+  | SP2Tcon (s2c, s2vs) => trans3_env_add_svarlst (s2vs)
+  | SP2Terr () => ()
+) // end of [trans3_env_add_sp2at]
+
+(* ****** ****** *)
+
+implement
 trans3_env_add_sVar
   (s2V) = () where {
   val s3i = S3ITMsVar (s2V)

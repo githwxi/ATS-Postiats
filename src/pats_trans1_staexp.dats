@@ -539,13 +539,13 @@ implement a0typlst_tr (xs) = l2l (list_map_fun (xs, a0typ_tr))
 (* ****** ****** *)
 
 implement
-sp0at_tr (sp0t) = begin
+sp0at_tr (sp0t) = (
   case+ sp0t.sp0at_node of
   | SP0Tcstr (qid, s0as) => let
       val s1as = s0arglst_tr s0as in
       sp1at_cstr (sp0t.sp0at_loc, qid.sqi0de_qua, qid.sqi0de_sym, s1as)
     end // end of [SP0Tcon]
-end // end of [sp0at_tr]
+) // end of [sp0at_tr]
 
 (* ****** ****** *)
 

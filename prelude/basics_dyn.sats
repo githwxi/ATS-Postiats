@@ -124,8 +124,12 @@ read_unsplit // HX: there is no need to check
 *)
 (* ****** ****** *)
 
-val null : ptr (null) = "mac#atsptr_null" // macro
-val NULL : ptr (null) = "mac#atsptr_null" // macro
+/*
+** HX: the_null_ptr = (void*)0
+*/
+val the_null_ptr
+  : ptr (null) = "mac#atsptr_null" // macro
+macdef NULL = the_null_ptr // end of [macdef]
 
 (* ****** ****** *)
 

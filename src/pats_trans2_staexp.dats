@@ -282,17 +282,19 @@ in
   the_trans2errlst_add (T2E_s1marg_trdn (s1ma, s2ts))
 end // end of [auxerr]
 //
-  var serr: int = 0
-  val s2vs =
-    s1arglst_trdn_err (s1ma.s1marg_arg, s2ts, serr)
-  // end of [val]
-  val () = if serr != 0 then auxerr (s1ma, s2ts, serr)
+var serr: int = 0
+val s2vs =
+  s1arglst_trdn_err (s1ma.s1marg_arg, s2ts, serr)
+// end of [val]
+val () = if serr != 0 then auxerr (s1ma, s2ts, serr)
 //
 in
   s2vs
 end // end of [s1marg_trdn]
 
 (* ****** ****** *)
+
+local
 
 fun sp1at_get_dups
   (s2vs: s2varlst): s2varlst = let
@@ -330,14 +332,17 @@ in
   the_trans2errlst_add (T2E_sp1at_trdn (sp1t, s2t_pat))
 end // end of [auxerr]
 //
-  var serr: int = 0
-  val s2vs =
-    s1arglst_trdn_err (s1as, s2ts, serr)
-  // end of [val]
-  val () = if serr != 0 then auxerr (sp1t, serr)
+var serr: int = 0
+val s2vs =
+  s1arglst_trdn_err (s1as, s2ts, serr)
+// end of [val]
+val () = if serr != 0 then auxerr (sp1t, serr)
+//
 in
   s2vs
 end // end of [sp2at_trdn_arg]
+
+in // in of [local]
 
 implement
 sp1at_trdn
@@ -487,6 +492,8 @@ case+ sp1t.sp1at_node of
   end // end of [SP1Tcstr]
 //
 end // end of [sp1at_trdn]
+
+end // end of [local]
 
 (* ****** ****** *)
 

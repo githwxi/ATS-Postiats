@@ -257,7 +257,7 @@ in
 end // end of [s2cst_supcls_add]
 
 implement
-s2cst_get_tag (s2c) = let
+s2cst_get_tag (s2c) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_tag
 end // end of [s2cst_get_tag]
 implement

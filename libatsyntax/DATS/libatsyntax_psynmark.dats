@@ -158,6 +158,8 @@ stadef i0mpdec = $SYN.i0mpdec
 //
 assume d0ecl = $SYN.d0ecl
 typedef d0eclist = List (d0ecl)
+typedef guad0ecl = $SYN.guad0ecl
+typedef guad0ecl_node = $SYN.guad0ecl_node
 
 (* ****** ****** *)
 
@@ -380,6 +382,9 @@ extern fun i0mpdec_mark : fmark_type (i0mpdec)
 //
 extern fun d0ecl_mark : fmark_type (d0ecl)
 extern fun d0eclist_mark : fmark_type (d0eclist)
+//
+extern fun guad0ecl_mark : fmark_type (guad0ecl)
+extern fun guad0ecln_mark : fmark_type (guad0ecl_node)
 //
 (* ****** ****** *)
 
@@ -1418,6 +1423,8 @@ case+ d0c0.d0ecl_node of
     val () = d0eclist_mark (d0cs_body, res)
   } // end of [$SYN.D0Clocal]
 //
+| $SYN.D0Cguadecl (knd, gd) => guad0ecl_mark (gd, res)
+//
 | _ => ()
 //
 end // end of [d0ecl]
@@ -1431,6 +1438,41 @@ d0eclist_mark
     end // end of [list_cons]
   | list_nil () => ()
 ) // end of [d0eclist_mark]
+
+(* ****** ****** *)
+
+implement
+guad0ecl_mark
+  (gd, res) =
+  guad0ecln_mark (gd.guad0ecl_node, res)
+// end of [guad0ecl_mark]
+
+implement
+guad0ecln_mark
+  (gdn, res) = (
+  case+ gdn of
+  | $SYN.GD0Cone
+      (e, decs) => let
+      val () = e0xp_mark (e, res)
+    in
+      d0eclist_mark (decs, res)
+    end
+  | $SYN.GD0Ctwo
+      (e, decs1, decs2) => let
+      val () = e0xp_mark (e, res)
+      val () = d0eclist_mark (decs1, res)
+      val () = d0eclist_mark (decs2, res)
+    in
+      // nothing
+    end
+  | $SYN.GD0Ccons
+      (e, decs, knd, gdn) => let
+      val () = e0xp_mark (e, res)
+      val () = d0eclist_mark (decs, res)
+    in
+      guad0ecln_mark (gdn, res)
+    end
+) // end of [guad0ecln_mark]
 
 (* ****** ****** *)
 

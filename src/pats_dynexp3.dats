@@ -544,14 +544,24 @@ d3exp_sif (
 (* ****** ****** *)
 
 implement
-d3exp_case (
+d3exp_caseof (
   loc, s2e_case, casknd, d3es, c3ls
 ) = let
 in '{
   d3exp_loc= loc
 , d3exp_type= s2e_case
-, d3exp_node= D3Ecase (casknd, d3es, c3ls)
-} end // end of [d3exp_case]
+, d3exp_node= D3Ecaseof (casknd, d3es, c3ls)
+} end // end of [d3exp_caseof]
+
+implement
+d3exp_scaseof (
+  loc, s2e_scase, s2e_val, sc3ls
+) = let
+in '{
+  d3exp_loc= loc
+, d3exp_type= s2e_scase
+, d3exp_node= D3Escaseof (s2e_val, sc3ls)
+} end // end of [d3exp_scaseof]
 
 (* ****** ****** *)
 
@@ -867,6 +877,15 @@ c3lau_make (
 , c3lau_seq= seq, c3lau_neg= neg
 , c3lau_body= d3e
 } // end of [c3lau_make]
+
+implement
+sc3lau_make (
+  loc, sp2t, d3e
+) = '{
+  sc3lau_loc= loc
+, sc3lau_pat= sp2t
+, sc3lau_body= d3e
+} // end of [sc3lau_make]
 
 (* ****** ****** *)
 

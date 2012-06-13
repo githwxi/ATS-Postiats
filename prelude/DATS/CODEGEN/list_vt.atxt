@@ -305,7 +305,7 @@ end // end of [list_vt_make_array]
 implement{a}
 list_vt_mergesort
   {n} (xs, cmp) = let
-  var env: ptr = null
+  var env: ptr = the_null_ptr
   val cmp = __cast (cmp) where {
     extern castfn __cast (cmp: cmpref (a)):<> cmpref (a, ptr)
   } // end of [val]

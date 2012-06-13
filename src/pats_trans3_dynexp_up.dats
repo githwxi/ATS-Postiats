@@ -643,6 +643,7 @@ d2exp_trup_con (d2e0) = let
     s2exp_uni_instantiate_sexparglst (s2e_con, s2as, err)
   // HX: [err] is not used
   val () = trans3_env_add_proplst_vt (locfun, s2ps)
+//
   val () = if (err > 0) then let
     val () = prerr_error3_loc (locfun)
     val () = filprerr_ifdebug "d2exp_trup_con"

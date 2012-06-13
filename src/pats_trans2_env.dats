@@ -542,6 +542,14 @@ the_s2expenv_add_svarlst
 // end of [the_s2expenv_add_svarlst]
 
 implement
+the_s2expenv_add_sp2at
+  (sp2t) = (
+  case+ sp2t.sp2at_node of
+  | SP2Tcon (s2c, s2vs) => the_s2expenv_add_svarlst (s2vs)
+  | SP2Terr () => () // HX: a placeholder for indicating an error
+) // end of [the_s2expenv_add_sp2at]
+
+implement
 the_s2expenv_add_datconptr (d2c) = let
   val sym = d2con_get_sym d2c
   val name = $SYM.symbol_get_name (sym)

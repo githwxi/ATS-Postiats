@@ -543,7 +543,7 @@ fun s2cst_add_sup (x: s2cst, sup: s2cst): void
 fun s2cst_get_supcls (x: s2cst): s2explst
 fun s2cst_add_supcls (x: s2cst, sup: s2exp): void
 
-fun s2cst_get_tag (x: s2cst): int
+fun s2cst_get_tag (x: s2cst):<> int
 fun s2cst_set_tag (x: s2cst, tag: int): void
 
 fun s2cst_get_stamp (x: s2cst): stamp

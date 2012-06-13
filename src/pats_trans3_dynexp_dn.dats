@@ -168,6 +168,9 @@ case+ d2e0.d2exp_node of
 | D2Ecasehead _ =>
     d2exp_trdn_casehead (d2e0, s2f0)
   // end of [D2Ecasehead]
+| D2Escasehead _ =>
+    d2exp_trdn_scasehead (d2e0, s2f0)
+  // end of [D2Escasehead]
 //
 | D2Elet (d2cs, d2e) =>
     d2exp_trdn_letwhere (d2e0, s2f0, d2cs, d2e)
