@@ -134,9 +134,9 @@ macdef NULL = the_null_ptr // end of [macdef]
 (* ****** ****** *)
 
 praxi
-string_param_lemma
+lemma_string_param
   {n:int} (x: string(n)): [n >= 0] void
-// end of [string_param_lemma]
+// end of [lemma_string_param]
 
 (* ****** ****** *)
 

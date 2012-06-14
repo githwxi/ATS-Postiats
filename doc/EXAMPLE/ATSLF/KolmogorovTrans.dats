@@ -66,39 +66,40 @@ propdef KOLM0 (A:form, A':form) = [n:nat] KOLM (A, A', n)
 
 dataprop FMEQ (form, form) = {A:form} FMEQ (A, A)
 
-prfun fmeq {A,A',A'':form} {n1,n2:nat} .<n1>.
-  (pf1: KOLM (A, A', n1), pf2: KOLM (A, A'', n2))
-  : FMEQ (A', A'') = begin case+ (pf1, pf2) of
-  | (KOLMtrue (), KOLMtrue ()) => FMEQ
-
-  | (KOLMfalse (), KOLMfalse ()) => FMEQ
-
-  | (KOLMnot pf11, KOLMnot pf21) => let 
-      prval FMEQ () = fmeq (pf11, pf21)
-    in
-      FMEQ ()
-    end
-
-  | (KOLMand (pf11, pf12), KOLMand (pf21, pf22)) => let
-      prval FMEQ () = fmeq (pf11, pf21)
-      prval FMEQ () = fmeq (pf12, pf22)
-    in
-      FMEQ ()
-    end
-
-  | (KOLMor (pf11, pf12), KOLMor (pf21, pf22)) => let
-      prval FMEQ () = fmeq (pf11, pf21)
-      prval FMEQ () = fmeq (pf12, pf22)
-    in
-      FMEQ ()
-    end
-
-  | (KOLMimp (pf11, pf12), KOLMimp (pf21, pf22)) => let
-      prval FMEQ () = fmeq (pf11, pf21)
-      prval FMEQ () = fmeq (pf12, pf22)
-    in
-      FMEQ ()
-    end
+prfun fmeq
+  {A,A',A'':form}
+  {n1,n2:nat} .<n1>. (
+  pf1: KOLM (A, A', n1), pf2: KOLM (A, A'', n2)
+) : FMEQ (A', A'') = let
+in
+//
+case+ (pf1, pf2) of
+| (KOLMtrue (), KOLMtrue ()) => FMEQ
+| (KOLMfalse (), KOLMfalse ()) => FMEQ
+| (KOLMnot pf11, KOLMnot pf21) => let 
+    prval FMEQ () = fmeq (pf11, pf21)
+  in
+    FMEQ ()
+  end
+| (KOLMand (pf11, pf12), KOLMand (pf21, pf22)) => let
+    prval FMEQ () = fmeq (pf11, pf21)
+    prval FMEQ () = fmeq (pf12, pf22)
+  in
+    FMEQ ()
+  end
+| (KOLMor (pf11, pf12), KOLMor (pf21, pf22)) => let
+    prval FMEQ () = fmeq (pf11, pf21)
+    prval FMEQ () = fmeq (pf12, pf22)
+  in
+    FMEQ ()
+  end
+| (KOLMimp (pf11, pf12), KOLMimp (pf21, pf22)) => let
+    prval FMEQ () = fmeq (pf11, pf21)
+    prval FMEQ () = fmeq (pf12, pf22)
+  in
+    FMEQ ()
+  end
+//
 end // end of [fmeq]
 
 (* ****** ****** *)
@@ -258,7 +259,7 @@ proposition36
   NJimpe (proposition35 (), pf)
 // end of [proposition36]
 
-(***********************************************************************************)
+(* ****** ****** *)
 
 propdef
 SUP (G2:forms, G1:forms) =

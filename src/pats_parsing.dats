@@ -108,7 +108,10 @@ end // end of [parser_from_filename_toplevel]
 implement
 parse_from_basename_toplevel
   (stadyn, basename) = let
-  val filopt = $FIL.filenameopt_make_relative (basename)
+//
+val filopt =
+  $FIL.filenameopt_make_relative (basename)
+// end of [val]
 in
 //
 case+ filopt of
@@ -121,7 +124,9 @@ case+ filopt of
     val () = prerr (basename)
     val () = prerr "] is not available."
     val () = prerr_newline ()
-    val () = $ERR.abort ()
+(*
+    val () = assertloc (false) // immediately abort!
+*)
   in
     list_nil ()
   end // end of [None_vt]

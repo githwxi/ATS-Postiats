@@ -1503,7 +1503,7 @@ end // end of [local]
 
 implement{}
 psynmarklst_process
-  (out, pos0, psms) = let
+  (pos0, psms, putc) = let
 in
 //
 case+ psms of
@@ -1512,12 +1512,13 @@ case+ psms of
     val PSM (pos, sm, knd) = psm
   in
     if pos0 >= pos then let
-      val () = psynmark_process<> (out, psm)
+      val () =
+        psynmark_process<> (psm, putc)
       val psms1 = !p_psms1
       val () = free@ {psynmark}{0} (psms)
       val () = psms := psms1
     in
-      psynmarklst_process (out, pos0, psms)
+      psynmarklst_process (pos0, psms, putc)
     end else fold@ (psms) // end of [if]
   end // end of [list_vt_cons]
 | list_vt_nil () => fold@ (psms)
@@ -1526,11 +1527,11 @@ end // end of [psynmarklst_process]
 
 implement{}
 psynmarklstlst_process
-  (out, pos0, psmss) = (
+  (pos0, psmss, putc) = (
   case psmss of
   | list_vt_cons (!p1_psms, !p2_psmss) => let
-      val () = psynmarklst_process (out, pos0, !p1_psms)
-      val () = psynmarklstlst_process (out, pos0, !p2_psmss)
+      val () = psynmarklst_process (pos0, !p1_psms, putc)
+      val () = psynmarklstlst_process (pos0, !p2_psmss, putc)
     in
       fold@ (psmss)
     end // end of [list_vt_cons]
@@ -1549,33 +1550,50 @@ macdef fgetc0_err = $STDIO.fgetc0_err
 
 (* ****** ****** *)
 
+extern
+fun fhtml_putc
+  (c: char, putc: putc_type): int
+// end of [fhtml_putc]
+
+implement
+fhtml_putc (c, putc) = let
+  macdef fpr (s) = fstring_putc (,(s), putc)
+in
+  case+ c of
+  | '<' => fpr ("&lt;")
+  | '>' => fpr ("&gt;")
+  | '&' => fpr ("&amp;")
+  | _ => putc (c)
+end // end of [fhtml_putc]
+
+(* ****** ****** *)
+
 implement{}
 fileref_psynmarklstlst_process
-  (inp, out, psmss, fputc) = let
+  (inp, psmss, putc) = let
 //
 fun loop (
   inp: FILEref
-, out: FILEref
 , psmss: &psynmarklstlst_vt
-, fputc: (char, FILEref) -<cloref1> int
-, pos: &lint
+, putc: putc_type
+, pos: &lint // current position
 ) : void = let
   val () =
-    psynmarklstlst_process (out, pos, psmss)
+    psynmarklstlst_process (pos, psmss, putc)
   val i = fgetc0_err (inp)
 in
 //
 if (i != EOF) then let
   val () = pos := succ (pos)
-  val _(*err*) = fputc ((i2c)i, out)
+  val _(*err*) = fhtml_putc ((i2c)i, putc)
 in
-  loop (inp, out, psmss, fputc, pos)
+  loop (inp, psmss, putc, pos)
 end else () // end of [if]
 //
 end // end of [loop]
 //
 var psmss = psmss; var pos: lint = 0L
-val () = loop (inp, out, psmss, fputc, pos)
+val () = loop (inp, psmss, putc, pos)
 //
 viewtypedef psmlst = psynmarklst_vt
 val () = list_vt_free_fun<psmlst> (psmss, lam (x) => list_vt_free (x))
@@ -1588,17 +1606,16 @@ end // end of [fileref_psynmarklstlst_process]
 
 implement{}
 charlst_psynmarklstlst_process
-  (inp, out, psmss, fputc) = let
+  (inp, psmss, putc) = let
 //
 fun loop (
   inp: List_vt (char)
-, out: FILEref
 , psmss: &psynmarklstlst_vt
-, fputc: (char, FILEref) -<cloref1> int
-, pos: &lint
+, putc: putc_type
+, pos: &lint // current position
 ) : void = let
   val () =
-    psynmarklstlst_process (out, pos, psmss)
+    psynmarklstlst_process (pos, psmss, putc)
   // end of [val]
 in
 //
@@ -1606,16 +1623,16 @@ case+ inp of
 | ~list_vt_cons
     (c, inp) => let
     val () = pos := succ (pos)
-    val _(*err*) = fputc (c, out)
+    val _(*err*) = fhtml_putc (c, putc)
   in
-    loop (inp, out, psmss, fputc, pos)
+    loop (inp, psmss, putc, pos)
   end // end of [list_vt_cons]
 | ~list_vt_nil () => ()
 //
 end // end of [loop]
 //
 var psmss = psmss; var pos: lint = 0L
-val () = loop (inp, out, psmss, fputc, pos)
+val () = loop (inp, psmss, putc, pos)
 //
 viewtypedef psmlst = psynmarklst_vt
 val () = list_vt_free_fun<psmlst> (psmss, lam (x) => list_vt_free (x))

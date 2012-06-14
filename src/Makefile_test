@@ -28,6 +28,11 @@ test:: Ackermann
 test:: BinaryTreeLemmas
 test:: CutElimIL
 test:: CutElimILL
+test:: STLC-SN-foas
+test:: HilbertCalc
+test:: KolmogorovTrans
+test:: naive-set
+test:: irrationality-of-sqrt2
 
 ######
 
@@ -123,5 +128,15 @@ CutElimIL: ; \
   ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/CutElimIL.dats
 CutElimILL: ; \
   ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/CutElimILL.dats
+STLC-SN-foas: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/STLC-SN-foas.dats
+HilbertCalc: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/HilbertCalc.dats
+KolmogorovTrans: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/KolmogorovTrans.dats
+naive-set: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/naive-set.dats
+irrationality-of-sqrt2: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ATSLF/irrationality-of-sqrt2.dats
 
 ###### end of [Makefile_test] ######

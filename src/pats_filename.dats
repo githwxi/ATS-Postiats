@@ -506,15 +506,15 @@ filenameopt_make_relative
       ) // end of [_]
   ) : Stropt // end of [val]
 //
+  val issome = stropt_is_some (fullnameopt)
 in
-  if stropt_is_some fullnameopt then let
-    val fullname = stropt_unsome fullnameopt
-    val fullname = path_normalize fullname
+  if issome then let
+    val fullname =
+      stropt_unsome (fullnameopt)
+    val fullname = path_normalize (fullname)
   in
     Some_vt (filename_make (basename, fullname))
-  end else begin
-    None_vt ()
-  end // end of [if]
+  end else None_vt () // end of [if]
 end // end of [filenameopt_make]
 
 end // end of [local]

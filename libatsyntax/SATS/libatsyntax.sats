@@ -148,37 +148,42 @@ fun tokbufobj_get_psynmarklst
 
 (* ****** ****** *)
 
+typedef
+putc_type = (char) -<cloref1> int
+
 fun{} // a specific template
-psynmark_process (out: FILEref, psm: psynmark): void
+psynmark_process (
+  psm: psynmark, putc: putc_type
+) : void // end of [psynmark_process]
 
 fun{} // this one is a generic
-psynmarklst_process
-  (out: FILEref, pos0: lint, psms: &psynmarklst_vt): void
-// end of [psynmarklst_process]
+psynmarklst_process (
+  pos0: lint, psms: &psynmarklst_vt, putc: putc_type
+) : void // end of [psynmarklst_process]
 
 viewtypedef
 psynmarklstlst_vt = List_vt (psynmarklst_vt)
 fun{} // this one is a generic
-psynmarklstlst_process
-  (out: FILEref, pos0: lint, psmss: &psynmarklstlst_vt): void
-// end of [psynmarklstlst_process]
+psynmarklstlst_process (
+  pos0: lint, psmss: &psynmarklstlst_vt, putc: putc_type
+) : void // end of [psynmarklstlst_process]
+
+(* ****** ****** *)
+
+fun fstring_putc
+  (s: string, putc: putc_type): int(*nerr*)
+// end of [fstring_putc]
 
 (* ****** ****** *)
 
 fun{}
 fileref_psynmarklstlst_process (
-  inp: FILEref
-, out: FILEref
-, psmss: psynmarklstlst_vt
-, fputc: (char, FILEref) -<cloref1> int
+  inp: FILEref, psmss: psynmarklstlst_vt, putc: putc_type
 ) : void // end of [fileref_psynmarklstlst_process]
 
 fun{}
 charlst_psynmarklstlst_process (
-  inp: List_vt (char)
-, out: FILEref
-, psmss: psynmarklstlst_vt
-, fputc: (char, FILEref) -<cloref1> int
+  inp: List_vt (char), psmss: psynmarklstlst_vt, putc: putc_type
 ) : void // end of [charlst_psynmarklstlst_process]
 
 (* ****** ****** *)

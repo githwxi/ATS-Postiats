@@ -32,6 +32,23 @@
 //
 (* ****** ****** *)
 
+staload "libc/SATS/string.sats"
+
+(* ****** ****** *)
+
+staload ERR = "pats_error.sats"
+staload LOC = "pats_location.sats"
+staload PAR = "pats_parsing.sats"
+staload SYN = "pats_syntax.sats"
+
+(* ****** ****** *)
+
+staload "pats_staexp1.sats"
+staload TRANS1 = "pats_trans1.sats"
+staload TRENV1 = "pats_trans1_env.sats"
+
+(* ****** ****** *)
+
 staload "pats_comarg.sats"
 
 (* ****** ****** *)
@@ -76,6 +93,101 @@ comarglst_parse
 in
   lst0
 end // end of [comarglst_parse]
+
+(* ****** ****** *)
+
+implement
+comarg_warning (str) = {
+  val () = prerr ("waring(ATS)")
+  val () = prerr (": unrecognized command line argument [")
+  val () = prerr (str)
+  val () = prerr ("] is ignored.")
+  val () = prerr_newline ()
+} // end of [comarg_warning]
+
+(* ****** ****** *)
+
+implement
+is_DATS_flag (flg) = 
+  if strncmp (flg, "-DATS", 5) = 0 then true else false
+// end of [is_DATS_flag]
+
+implement
+is_IATS_flag (flg) = 
+  if strncmp (flg, "-IATS", 5) = 0 then true else false
+// end of [is_IATS_flag]
+
+(* ****** ****** *)
+
+local
+
+fn string_extract (
+  s: string, k: size_t
+) : Stropt = let
+  val s = string1_of_string (s)
+  val n = string1_length (s)
+  val k = size1_of_size (k)
+in
+  if n > k then let
+    val sub =
+      string_make_substring (s, k, n-k)
+    val sub = string_of_strbuf (sub)
+  in
+    stropt_some (sub)
+  end else
+    stropt_none
+  // end of [if]
+end // [string_extract]
+
+in // in of [local]
+
+implement
+DATS_extract (s: string) = string_extract (s, 5)
+implement
+IATS_extract (s: string) = string_extract (s, 5)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+process_DATS_def (def) = let
+  val def = string1_of_string (def)
+  val opt =
+    $PAR.parse_from_string (def, $PAR.p_datsdef)
+  // end of [val]
+in
+//
+case+ opt of
+| ~Some_vt (def) => let
+    val $SYN.DATSDEF (id, opt) = def
+    val e1xp = (case+ opt of
+      | Some x => $TRANS1.e0xp_tr (x)
+      | None _ => e1xp_none ($LOC.location_dummy)
+    ) : e1xp // end of [val]
+  in
+    $TRENV1.the_e1xpenv_add (id, e1xp)
+  end // end of [Some_vt]
+| ~None_vt () => let
+    val () = prerr ("error(ATS)")
+    val () = prerr (": the command-line argument [")
+    val () = prerr (def)
+    val () = prerr ("] cannot be properly parsed.")
+    val () = prerr_newline ()
+  in
+    $ERR.abort ()
+  end // end of [None_vt]
+//
+end // end of [process_DATS_def]
+
+implement
+process_IATS_dir (dir) = () where {
+  val (pfpush | ()) = $FIL.the_pathlst_push (dir)
+  prval () = __assert (pfpush) where {
+    // HX: this is a permanent push!
+    extern prfun __assert (pf: $FIL.the_pathlst_push_v): void
+  } // end of [prval]
+} (* end of [process_IATS_dir] *)
 
 (* ****** ****** *)
 

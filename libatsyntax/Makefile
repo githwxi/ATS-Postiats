@@ -128,6 +128,9 @@ libatsyntax:: libatsyntax_sats.o
 libatsyntax_sats.o: SATS/libatsyntax.sats
 	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
 
+libatsyntax:: libatsyntax_dats.o
+libatsyntax_dats.o: DATS/libatsyntax.dats
+	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
 libatsyntax:: libatsyntax_token_dats.o
 libatsyntax:: libatsyntax_psynmark_dats.o
 libatsyntax_token_dats.o: DATS/libatsyntax_token.dats
