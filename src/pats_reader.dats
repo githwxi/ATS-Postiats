@@ -127,8 +127,9 @@ fun reader0_initialize_string
     prval pf1 = pf.1
     val i = !p
     prval () = pf.1 := pf1
+    val isnotend = string_isnot_at_end (inp, i)
   in
-    if string_isnot_at_end (inp, i) then let
+    if isnotend then let
       val c = string_get_char_at (inp, i)
       prval pf1 = pf.1      
       val () = !p := i + 1
@@ -252,9 +253,9 @@ reader_initialize_getc
 implement
 reader_initialize_string
   (r, inp) = () where {
-  val [n:int] inp = (string1_of_string)inp
+  val inp = string1_of_string inp
   val (pfgc, pfat | p) = ptr_alloc<size_t> ()
-  val () = !p := (size1_of_int1)0
+  val () = !p := size1_of_int1 (0)
   prval () = reader0_encode (r)
   val () = reader0_initialize_string (pfgc, pfat | r, inp, p)
 } // end of preader_initialize_string]

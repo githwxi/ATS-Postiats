@@ -40,12 +40,15 @@ ATSCC=$(ATSHOMEQ)/bin/atscc
 ATSCCFLAGS=
 ATSRUNTIME=$(ATSHOMEQ)/ccomp/runtime
 PATSHOMEQ="$(PATSHOME)"
-IATS=-IATS $(PATSHOMEQ) -IATS $(PATSHOMEQ)/src
 
 ######
 
 CCFLAGS=-fPIC -O2
-INCLUDES=-I$(PATSHOMEQ)/src
+
+######
+
+INCLUDE=-I$(PATSHOMEQ)/src
+INCLATS=-IATS $(PATSHOMEQ) -IATS $(PATSHOMEQ)/src
 
 ######
 
@@ -118,31 +121,32 @@ AR=ar
 ######
 
 %_sats.o: $(PATSHOME)/src/%.sats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
 %_dats.o: $(PATSHOME)/src/%.dats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
 
 ######
 
 libatsyntax:: libatsyntax_sats.o
 libatsyntax_sats.o: SATS/libatsyntax.sats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
 
 libatsyntax:: libatsyntax_dats.o
 libatsyntax_dats.o: DATS/libatsyntax.dats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
-libatsyntax:: libatsyntax_token_dats.o
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
+
 libatsyntax:: libatsyntax_psynmark_dats.o
-libatsyntax_token_dats.o: DATS/libatsyntax_token.dats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
+libatsyntax:: libatsyntax_pats2xhtml_dats.o
 libatsyntax_psynmark_dats.o: DATS/libatsyntax_psynmark.dats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
+libatsyntax_pats2xhtml_dats.o: DATS/libatsyntax_pats2xhtml.dats
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
 
 ######
 
 libatsyntax:: dynloadall_dats.o
 dynloadall_dats.o: dynloadall.dats
-	$(ATSCC) $(IATS) $(INCLUDES) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
 
 ######
 

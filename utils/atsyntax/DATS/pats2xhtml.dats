@@ -8,7 +8,7 @@ staload STDIO = "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
 
-staload "pats2html.sats"
+staload "utils/atsyntax/SATS/pats2xhtml.sats"
 
 (* ****** ****** *)
 
@@ -47,4 +47,4 @@ end // end of [fileref2charlst]
 
 (* ****** ****** *)
 
-(* end of [pats2html.dats] *)
+(* end of [pats2xhtml.dats] *)

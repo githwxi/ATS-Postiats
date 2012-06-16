@@ -1,0 +1,34 @@
+%{
+#include "utils/atsdoc/HATS/patshtmlatxt.hats"
+val _thisfilename = atext_strcst ("array.html")
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ATSLIB/prelude/array</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+#patsyntax_style()
+</head>
+<body>
+
+#H1("ATSLIB/prelude/array")
+
+#para('\
+The type for a plain array containing n elements of type T is denoted by
+@[T][n], and its size equals n times the size of T. It should be noted that
+values representing plain arrays can in general only be passed to a
+function call as call-by-reference parameters (unless special arrangement
+is made for them to be passed as call-by-value parameters).
+')#comment("para")
+
+#HR(2)
+
+</body>
+</html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "array_atxt.txt")
+%}\

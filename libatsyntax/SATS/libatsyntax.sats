@@ -20,6 +20,7 @@ fun fprint_location (out: FILEref, x: location): void
 (* ****** ****** *)
 
 absviewtype lexbufobj
+fun lexbufobj_make_string (inp: string): lexbufobj
 fun lexbufobj_make_fileref (inp: FILEref): lexbufobj
 fun lexbufobj_make_charlst_vt (inp: List_vt (char)): lexbufobj
 fun lexbufobj_free (lbf: lexbufobj): void // endfun
@@ -156,6 +157,18 @@ psynmark_process (
   psm: psynmark, putc: putc_type
 ) : void // end of [psynmark_process]
 
+fun
+psynmark_process_xhtml_bground
+  (psm: psynmark, putc: putc_type): void
+// end of [psynmark_process_xhtml_bground]
+
+fun
+psynmark_process_xhtml_embedded
+  (psm: psynmark, putc: putc_type): void
+// end of [psynmark_process_xhtml_embedded]
+
+(* ****** ****** *)
+
 fun{} // this one is a generic
 psynmarklst_process (
   pos0: lint, psms: &psynmarklst_vt, putc: putc_type
@@ -170,11 +183,15 @@ psynmarklstlst_process (
 
 (* ****** ****** *)
 
-fun fstring_putc
-  (s: string, putc: putc_type): int(*nerr*)
-// end of [fstring_putc]
+fun fhtml_putc (c: char, putc: putc_type): int(*nerr*)
+fun fstring_putc (s: string, putc: putc_type): int(*nerr*)
 
 (* ****** ****** *)
+
+fun{}
+string_psynmarklstlst_process (
+  inp: string, psmss: psynmarklstlst_vt, putc: putc_type
+) : void // end of [string_psynmarklstlst_process]
 
 fun{}
 fileref_psynmarklstlst_process (
@@ -185,6 +202,19 @@ fun{}
 charlst_psynmarklstlst_process (
   inp: List_vt (char), psmss: psynmarklstlst_vt, putc: putc_type
 ) : void // end of [charlst_psynmarklstlst_process]
+
+(* ****** ****** *)
+
+fun
+lexbufobj_level1_psynmarkize
+  (stadyn: int, lbf: lexbufobj): psynmarklstlst_vt
+// end of [lexbufobj_level1_psynmarkize]
+
+(* ****** ****** *)
+
+fun{}
+string_pats2xhtmlize (stadyn: int, code: string): strptr1
+// endfun
 
 (* ****** ****** *)
 

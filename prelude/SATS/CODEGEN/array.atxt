@@ -48,11 +48,11 @@ array_v (
 
 #atscode_separator()
 
-prfun
+praxi
 lemma_array_param{a:vt0p}
   {l:addr}{n:int} (A: &(@[INV(a)][n])): [n >= 0] void
 // end of [lemma_array_param]
-prfun
+praxi
 lemma_array_v_param{a:vt0p}
   {l:addr}{n:int} (pf: !array_v (INV(a), l, n)): [n >= 0] void
 // end of [lemma_array_v_param]

@@ -43,17 +43,17 @@ OBJECTS := \
   pats_trans1_e0xp_dats.o \
   pats_trans1_env_sats.o \
   pats_trans1_env_dats.o \
-  pats2html_sats.o \
-  pats2html_dats.o \
-  pats2html_level1_dats.o \
+  pats2xhtml_sats.o \
+  pats2xhtml_dats.o \
+  pats2xhtml_level1_dats.o \
 
 ######
 
-pats2html: \
-  pats2html_main.dats $(OBJECTS) ; \
+pats2xhtml: \
+  DATS/pats2xhtml_main.dats $(OBJECTS) ; \
   $(ATSCC) -O2 $(INCLUDES) $(IATS) \
     -o $@ $< $(OBJECTS) -L $(PATSHOME)/libatsyntax -latsyntax -lgmp
-cleanall:: ; $(RMF) pats2html
+cleanall:: ; $(RMF) pats2xhtml
 
 ######
 
@@ -64,14 +64,14 @@ cleanall:: ; $(RMF) pats2html
 
 ######
 
-pats2html_sats.o: \
-  pats2html.sats ; $(ATSCC) $(IATS) -c $<
+pats2xhtml_sats.o: \
+  SATS/pats2xhtml.sats ; $(ATSCC) $(IATS) -c $<
 
-pats2html_dats.o: \
-  pats2html.dats ; $(ATSCC) $(INCLUDES) $(IATS) -c $<
+pats2xhtml_dats.o: \
+  DATS/pats2xhtml.dats ; $(ATSCC) $(INCLUDES) $(IATS) -c $<
 
-pats2html_level1_dats.o: \
-  pats2html_level1.dats ; $(ATSCC) $(INCLUDES) $(IATS) -c $<
+pats2xhtml_level1_dats.o: \
+  DATS/pats2xhtml_level1.dats ; $(ATSCC) $(INCLUDES) $(IATS) -c $<
 
 ######
 

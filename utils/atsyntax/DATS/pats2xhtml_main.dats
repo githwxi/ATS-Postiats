@@ -16,7 +16,7 @@ staload FIL = "src/pats_filename.sats"
 
 (* ****** ****** *)
 
-staload "pats2html.sats"
+staload "utils/atsyntax/SATS/pats2xhtml.sats"
 
 (* ****** ****** *)
 
@@ -32,25 +32,25 @@ staload "pats2html.sats"
   <title></title>\n\
   <meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"/>\n\
   <style type=\"text/css\">\n\
-    .atsyntax {color:#808080;background-color:#E0E0E0;}\n\
-    .atsyntax span.keyword {color:#000000;font-weight:bold;}\n\
-    .atsyntax span.comment {color:#787878;font-style:italic;}\n\
-    .atsyntax span.extcode {color:#A52A2A;}\n\
-    .atsyntax span.neuexp  {color:#800080;}\n\
-    .atsyntax span.staexp  {color:#0000F0;}\n\
-    .atsyntax span.prfexp  {color:#603030;}\n\
-    .atsyntax span.dynexp  {color:#F00000;}\n\
-    .atsyntax span.stalab  {color:#0000F0;font-style:italic}\n\
-    .atsyntax span.dynlab  {color:#F00000;font-style:italic}\n\
-    .atsyntax span.dynstr  {color:#008000;font-style:normal}\n\
-    .atsyntax span.stacstdec  {text-decoration:none;}\n\
-    .atsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}\n\
-    .atsyntax span.dyncstdec  {text-decoration:none;}\n\
-    .atsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}\n\
-    .atsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}\n\
+    .patsyntax {color:#808080;background-color:#E0E0E0;}\n\
+    .patsyntax span.keyword {color:#000000;font-weight:bold;}\n\
+    .patsyntax span.comment {color:#787878;font-style:italic;}\n\
+    .patsyntax span.extcode {color:#A52A2A;}\n\
+    .patsyntax span.neuexp  {color:#800080;}\n\
+    .patsyntax span.staexp  {color:#0000F0;}\n\
+    .patsyntax span.prfexp  {color:#603030;}\n\
+    .patsyntax span.dynexp  {color:#F00000;}\n\
+    .patsyntax span.stalab  {color:#0000F0;font-style:italic}\n\
+    .patsyntax span.dynlab  {color:#F00000;font-style:italic}\n\
+    .patsyntax span.dynstr  {color:#008000;font-style:normal}\n\
+    .patsyntax span.stacstdec  {text-decoration:none;}\n\
+    .patsyntax span.stacstuse  {color:#0000CF;text-decoration:underline;}\n\
+    .patsyntax span.dyncstdec  {text-decoration:none;}\n\
+    .patsyntax span.dyncstuse  {color:#B80000;text-decoration:underline;}\n\
+    .patsyntax span.dyncst_implement  {color:#B80000;text-decoration:underline;}\n\
   </style>\n\
 </head>\n\
-<body class=\"atsyntax\">\n\
+<body class=\"patsyntax\">\n\
 " // end of [PSYNMARK_HTML_FILE_BEG]
 
 #define PSYNMARK_HTML_FILE_END "\
@@ -60,22 +60,22 @@ staload "pats2html.sats"
 
 (* ****** ****** *)
 
-fun pats2html_file_beg
+fun pats2xhtml_file_beg
   (out: FILEref): void = 
   fprint_string (out, PSYNMARK_HTML_FILE_BEG)
-fun pats2html_file_end
+fun pats2xhtml_file_end
   (out: FILEref): void = 
   fprint_string (out, PSYNMARK_HTML_FILE_END)
 
 (* ****** ****** *)
 
-#define PSYNMARK_HTML_PRE_BEG "<pre class=\"atsyntax\">\n"
+#define PSYNMARK_HTML_PRE_BEG "<pre class=\"patsyntax\">\n"
 #define PSYNMARK_HTML_PRE_END "</pre>\n"
 
-fun pats2html_pre_beg
+fun pats2xhtml_pre_beg
   (out: FILEref): void = 
   fprint_string (out, PSYNMARK_HTML_PRE_BEG)
-fun pats2html_pre_end
+fun pats2xhtml_pre_end
   (out: FILEref): void = 
   fprint_string (out, PSYNMARK_HTML_PRE_END)
 
@@ -199,7 +199,7 @@ fn isiatswait
 (* ****** ****** *)
 
 fun
-pats2html_level1_state_fileref (
+pats2xhtml_level1_state_fileref (
   state: &cmdstate, inp: FILEref
 ) : void = let
   val stadyn =
@@ -209,17 +209,17 @@ pats2html_level1_state_fileref (
     lam (c: char)
       : int =<cloref1> $STDIO.fputc0_err (c, out)
     // end of [lam]
-  val () = if state.standalone then pats2html_file_beg (out)
-  val () = pats2html_pre_beg (out)
-  val () = pats2html_level1_fileref (stadyn, inp, putc)
-  val () = pats2html_pre_end (out)
-  val () = if state.standalone then pats2html_file_end (out)
+  val () = if state.standalone then pats2xhtml_file_beg (out)
+  val () = pats2xhtml_pre_beg (out)
+  val () = pats2xhtml_level1_fileref (stadyn, inp, putc)
+  val () = pats2xhtml_pre_end (out)
+  val () = if state.standalone then pats2xhtml_file_end (out)
 in
   // nothing
-end // end of [pats2html_level1_state_fileref]
+end // end of [pats2xhtml_level1_state_fileref]
 
 fun
-pats2html_level1_state_basename (
+pats2xhtml_level1_state_basename (
   state: &cmdstate, basename: string
 ) : void = let
 //
@@ -237,7 +237,7 @@ case+ opt of
     val inp = __cast (pf | p) where {
       extern castfn __cast (pf: FILE r @ l | p: ptr l): FILEref
     } // end of [val]
-    val () = pats2html_level1_state_fileref (state, inp)
+    val () = pats2xhtml_level1_state_fileref (state, inp)
     val _err = $STDIO.fclose0_err (inp)
   in
     // nothing
@@ -252,7 +252,7 @@ case+ opt of
     state.nerror := state.nerror + 1
   end // end of [None_vt]
 //
-end // end of [pats2html_level1_state_basename]
+end // end of [pats2xhtml_level1_state_basename]
 
 (* ****** ****** *)
 
@@ -278,7 +278,7 @@ case+ arglst of
         stadyn >= 0 => {
         val inp = stdin_ref
         val out = outchan_get_fileref (state.outchan)
-        val () = pats2html_level1_state_fileref (state, inp)
+        val () = pats2xhtml_level1_state_fileref (state, inp)
       } // end of [_ when ...]
     | _ => ()
   end // end of [list_vt_nil when ...]
@@ -311,7 +311,7 @@ case+ arg of
     | COMARGkey (_, basename) => let
         val stadyn = waitkind_get_stadyn (state.waitkind)
         val () = state.ninputfile := state.ninputfile + 1
-        val () = pats2html_level1_state_basename (state, basename)
+        val () = pats2xhtml_level1_state_basename (state, basename)
       in
         process_cmdline (state, arglst)
       end (* end of [_] *)
@@ -450,8 +450,8 @@ dynload "libatsyntax/dynloadall.dats"
 
 (* ****** ****** *)
 
-dynload "pats2html.dats"
-dynload "pats2html_level1.dats"
+dynload "utils/atsyntax/DATS/pats2xhtml.dats"
+dynload "utils/atsyntax/DATS/pats2xhtml_level1.dats"
 
 (* ****** ****** *)
 
@@ -480,4 +480,4 @@ end // end of [main]
 
 (* ****** ****** *)
 
-(* end of [pats2html_main.dats] *)
+(* end of [pats2xhtml_main.dats] *)

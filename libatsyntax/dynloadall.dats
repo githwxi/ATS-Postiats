@@ -45,8 +45,8 @@ dynload "src/pats_syntax.dats"
 dynload "src/pats_syntax_print.dats"
 //
 dynload "libatsyntax/DATS/libatsyntax.dats"
-dynload "libatsyntax/DATS/libatsyntax_token.dats"
 dynload "libatsyntax/DATS/libatsyntax_psynmark.dats"
+dynload "libatsyntax/DATS/libatsyntax_pats2xhtml.dats"
 //
 (* ****** ****** *)
 

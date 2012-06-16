@@ -1550,21 +1550,44 @@ macdef fgetc0_err = $STDIO.fgetc0_err
 
 (* ****** ****** *)
 
-extern
-fun fhtml_putc
-  (c: char, putc: putc_type): int
-// end of [fhtml_putc]
-
-implement
-fhtml_putc (c, putc) = let
-  macdef fpr (s) = fstring_putc (,(s), putc)
+implement{}
+string_psynmarklstlst_process
+  (inp, psmss, putc) = let
+  val [n:int] inp = string1_of_string (inp)
+//
+fun loop
+  {i:nat | i <= n} .<n-i>. (
+  inp: string (n)
+, ind: size_t (i)
+, psmss: &psynmarklstlst_vt
+, putc: putc_type
+, pos: &lint // current position
+) : void = let
+  val () =
+    psynmarklstlst_process (pos, psmss, putc)
+  // end of [val]
+  val isnotend = string_isnot_at_end (inp, ind) 
 in
-  case+ c of
-  | '<' => fpr ("&lt;")
-  | '>' => fpr ("&gt;")
-  | '&' => fpr ("&amp;")
-  | _ => putc (c)
-end // end of [fhtml_putc]
+//
+if isnotend then let
+  val c = inp[ind]
+  val () = pos := succ (pos)
+  val _(*err*) = fhtml_putc (c, putc)
+in
+  loop (inp, succ(ind), psmss, putc, pos)
+end else () // end of [if]
+//
+end // end of [loop]
+//
+var psmss = psmss; var pos: lint = 0L
+val () = loop (inp, 0, psmss, putc, pos)
+//
+viewtypedef psmlst = psynmarklst_vt
+val () = list_vt_free_fun<psmlst> (psmss, lam (x) => list_vt_free (x))
+//
+in
+  // nothing
+end // end of [string_psynmarklstlst_process]
 
 (* ****** ****** *)
 
@@ -1640,6 +1663,47 @@ val () = list_vt_free_fun<psmlst> (psmss, lam (x) => list_vt_free (x))
 in
   // nothing
 end // end of [charlst_psynmarklstlst_process]
+
+(* ****** ****** *)
+
+implement
+lexbufobj_level1_psynmarkize
+  (stadyn, lbf) = let
+//
+val toks = lexbufobj_get_tokenlst (lbf)
+val psms1 = listize_token2psynmark (toks)
+val tbf = tokbufobj_make_lexbufobj (lbf)
+//
+val toks =
+  list_vt_reverse (toks)
+val () = let
+  fun loop (
+    tbf: !tokbufobj, toks: tokenlst_vt
+  ) : void =
+    case+ toks of
+    | ~list_vt_cons (tok, toks) => let
+        val iscmnt = token_is_comment (tok)
+        val () = if ~iscmnt then tokbufobj_unget_token (tbf, tok)
+      in
+        loop (tbf, toks)
+      end // end of [list_vt_cons]
+    | ~list_vt_nil () => ()
+  // end of [loop]
+in
+  loop (tbf, toks)
+end // end of [val]
+//
+val psms2 =
+  tokbufobj_get_psynmarklst (stadyn, tbf)
+val () = tokbufobj_free (tbf)
+//
+val (psms1_beg, psms1_end) = psynmarklst_split (psms1)
+val (psms2_beg, psms2_end) = psynmarklst_split (psms2)
+//
+viewtypedef psmlst = psynmarklst_vt
+in
+  $lst_vt{psmlst} (psms1_end, psms2_end, psms2_beg, psms1_beg)
+end // end of [lexbufobj_level1_psynmarkize]
 
 (* ****** ****** *)
 
