@@ -227,4 +227,18 @@ end // end of [string_pats2xhtmlize]
 
 (* ****** ****** *)
 
+implement{}
+charlst_pats2xhtmlize
+  (stadyn, code) = let
+  val n = list_length (code)
+  val sbp = string_make_list_int (code, n)
+  val str = $UN.castvwtp1 {string} (sbp) 
+  val res = string_pats2xhtmlize<> (stadyn, str)
+  val () = strbufptr_free (sbp)
+in
+  res
+end // end of [charlst_pats2xhtmlize]
+
+(* ****** ****** *)
+
 (* end of [libatsyntax_pats2xhtml.dats] *)

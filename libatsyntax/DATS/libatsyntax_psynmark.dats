@@ -77,7 +77,7 @@ in
 end // end of [fprint_psynmark]
 
 (* ****** ****** *)
-
+//
 staload
 BAS = "src/pats_basics.sats"
 //
@@ -85,14 +85,10 @@ stadef funkind = $BAS.funkind
 stadef valkind = $BAS.valkind
 //
 staload
-LEX = "src/pats_lexing.sats"
-//
-staload
 TBF = "src/pats_tokbuf.sats"
 stadef tokbuf = $TBF.tokbuf
 //
-staload
-SYN = "src/pats_syntax.sats"
+(* ****** ****** *)
 //
 stadef s0rt = $SYN.s0rt
 stadef s0rtopt = $SYN.s0rtopt
@@ -156,18 +152,14 @@ stadef i0mparg = $SYN.i0mparg
 stadef impqi0de = $SYN.impqi0de
 stadef i0mpdec = $SYN.i0mpdec
 //
-assume d0ecl = $SYN.d0ecl
-typedef d0eclist = List (d0ecl)
+typedef d0ecl = $SYN.d0ecl
+typedef d0eclist = $SYN.d0eclist
 typedef guad0ecl = $SYN.guad0ecl
 typedef guad0ecl_node = $SYN.guad0ecl_node
 
 (* ****** ****** *)
 
 local
-
-staload
-LOC = "src/pats_location.sats"
-typedef location = $LOC.location
 
 staload
 PAR = "src/pats_parsing.sats"

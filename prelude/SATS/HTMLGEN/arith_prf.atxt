@@ -1,0 +1,70 @@
+#decltitle("\
+ATSLIB/prelude/arith_prf
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declname("mul_make")
+#declsynopsis()
+#decldescript('\
+')
+
+(* ****** ****** *)
+
+#declname("mul_elim")
+#declsynopsis()
+#decldescript('\
+')
+
+(* ****** ****** *)
+
+#declname("mul_istot")
+#declsynopsis()
+#decldescript('\
+')
+
+(* ****** ****** *)
+
+#declname("mul_isfun")
+#declsynopsis()
+#decldescript('\
+')
+
+(* ****** ****** *)
+
+#declname("mul_isfun2")
+#declsynopsis()
+#decldescript('\
+')
+
+(* ****** ****** *)
+
+#declname("mul_add_const")
+#declsynopsis()
+#decldescript('\
+')
+
+(* ****** ****** *)
+
+#declname("mul_expand_linear")
+#declsynopsis()
+#decldescript('\
+')
+
+(* ****** ****** *)
+
+#declname("mul_expand2_linear")
+#declsynopsis()
+#decldescript('\
+')
+
+(* ****** ****** *)
+
+(* end of [arith_prf.atxt] *)

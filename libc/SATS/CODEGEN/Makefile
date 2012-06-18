@@ -22,7 +22,7 @@ unistd.sats: unistd_atxt.exe ; ./$< > $@
 unistd_atxt.exe: unistd_atxt.dats
 	$(ATSCC) -D_ATS_GCATS -o $@ unistd_atxt.dats -latsdoc
 unistd_atxt.dats: unistd.atxt
-	$(ATSDOC) -do $@ -i unistd.atxt > unistd_atxt.txt
+	$(ATSDOC) --outcode $@ -i unistd.atxt > unistd_atxt.txt
 clean:: ; $(RMF) unistd_atxt.exe
 cleanall:: ; $(RMF) unistd.sats
 

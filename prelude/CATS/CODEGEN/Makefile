@@ -22,7 +22,7 @@ bool.cats: bool_atxt.exe ; ./$< > $@
 bool_atxt.exe: bool_atxt.dats
 	$(ATSCC) -D_ATS_GCATS -o $@ bool_atxt.dats -latsdoc
 bool_atxt.dats: bool.atxt
-	$(ATSDOC) -do $@ -i bool.atxt > bool_atxt.txt
+	$(ATSDOC) --outcode $@ -i bool.atxt > bool_atxt.txt
 clean:: ; $(RMF) bool_atxt.exe
 cleanall:: ; $(RMF) bool.cats
 
@@ -31,7 +31,7 @@ char.cats: char_atxt.exe ; ./$< > $@
 char_atxt.exe: char_atxt.dats
 	$(ATSCC) -D_ATS_GCATS -o $@ char_atxt.dats -latsdoc
 char_atxt.dats: char.atxt
-	$(ATSDOC) -do $@ -i char.atxt > char_atxt.txt
+	$(ATSDOC) --outcode $@ -i char.atxt > char_atxt.txt
 clean:: ; $(RMF) char_atxt.exe
 cleanall:: ; $(RMF) char.cats
 
@@ -40,7 +40,7 @@ float.cats: float_atxt.exe ; ./$< > $@
 float_atxt.exe: float_atxt.dats
 	$(ATSCC) -D_ATS_GCATS -o $@ float_atxt.dats -latsdoc
 float_atxt.dats: float.atxt
-	$(ATSDOC) -do $@ -i float.atxt > float_atxt.txt
+	$(ATSDOC) --outcode $@ -i float.atxt > float_atxt.txt
 clean:: ; $(RMF) float_atxt.exe
 cleanall:: ; $(RMF) float.cats
 
@@ -49,7 +49,7 @@ pointer.cats: pointer_atxt.exe ; ./$< > $@
 pointer_atxt.exe: pointer_atxt.dats
 	$(ATSCC) -D_ATS_GCATS -o $@ pointer_atxt.dats -latsdoc
 pointer_atxt.dats: pointer.atxt
-	$(ATSDOC) -do $@ -i pointer.atxt > pointer_atxt.txt
+	$(ATSDOC) --outcode $@ -i pointer.atxt > pointer_atxt.txt
 clean:: ; $(RMF) pointer_atxt.exe
 cleanall:: ; $(RMF) pointer.cats
 

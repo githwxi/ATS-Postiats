@@ -18,20 +18,19 @@ fun comment
 fun make_entry
   (nm: string): atext = let
 //
-val nmd =
-  sprintf ("%s_data", @(nm))
-val nmd = string_of_strptr (nmd)
-//
 val ent = sprintf ("\
 all:: %s.html\n\
-%s.html: %s_atxt.exe ; ./$< > $@\n\
-%s_atxt.exe: %s_atxt.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) \\\n\
-  -D_ATS_GCATS -o $@ %s_atxt.dats $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc\n\
-%s_atxt.dats: %s.atxt ; $(ATSDOC) -do $@ -i %s.atxt > %s_atxt.txt\n\
-%s_atxt.dats: %s.atxt ; $(ATSDOC) -do $@ -i %s.atxt > %s_atxt.txt\n\
-clean:: ; $(RMF) %s_atxt.exe\n\
-cleanall:: ; $(RMF) %s.html\
-", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nmd, nmd, nmd, nmd, nm, nm)
+%s.html: \
+  %s_atxt.exe ; $(CAT) ../%s.sats | ./$< > $@
+%s_atxt.txt: %s.atxt ; \
+  $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode htmlgendecl_data_atxt.dats > $@
+%s_atxt.exe: \
+  htmlgendecl_atxt.dats %s_atxt.txt $(HTMLGENDECL) ; \
+  $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $< \
+    $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) %s_atxt.exe
+cleanall:: ; $(RMF) %s.html
+", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
 ) // end of [val]
 //
 val ent = string_of_strptr (ent)
@@ -65,11 +64,33 @@ INCLATS=-IATS $(PATSHOMEQ) -IATS $(PATSHOMEQ)/src
 
 ######
 
+CAT=cat
+
+######
+
 all::
 
 ######
 
+HTMLGENDECL= \\
+  htmlgendecl_sats.o \\
+  htmlgendecl_dats.o \\
+
+htmlgendecl_sats.o: htmlgendecl.sats ; $(ATSCC) -c $(ATSCCFLAGS) $<
+htmlgendecl_dats.o: htmlgendecl.dats ; $(ATSCC) -c $(ATSCCFLAGS) $<
+
+######
+
+htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
+  $(ATSDOC) --outcode $@ -i $< > htmlgendecl_atxt.txt
+
+######
+
+#make_entry("arith_prf")
+
 #make_entry("array")
+#make_entry("list")
+#make_entry("list_vt")
 
 ######
 

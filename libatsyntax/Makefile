@@ -137,9 +137,12 @@ libatsyntax_dats.o: DATS/libatsyntax.dats
 
 libatsyntax:: libatsyntax_psynmark_dats.o
 libatsyntax:: libatsyntax_pats2xhtml_dats.o
+libatsyntax:: libatsyntax_synopfind_dats.o
 libatsyntax_psynmark_dats.o: DATS/libatsyntax_psynmark.dats
 	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
 libatsyntax_pats2xhtml_dats.o: DATS/libatsyntax_pats2xhtml.dats
+	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
+libatsyntax_synopfind_dats.o: DATS/libatsyntax_synopfind.dats
 	$(ATSCC) $(INCLATS) $(INCLUDE) $(CCFLAGS) -c $<; $(AR) -r libatsyntax.a $@
 
 ######

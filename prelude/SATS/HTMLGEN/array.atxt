@@ -1,34 +1,130 @@
-%{
-#include "utils/atsdoc/HATS/patshtmlatxt.hats"
-val _thisfilename = atext_strcst ("array.html")
-val () = theTextMap_insert_str ("thisfilename", _thisfilename)
-%}\
-\
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>ATSLIB/prelude/array</title>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-#patsyntax_style()
-</head>
-<body>
+#decltitle("\
+ATSLIB/prelude/array\
+")
 
-#H1("ATSLIB/prelude/array")
+(* ****** ****** *)
 
-#para('\
-The type for a plain array containing n elements of type T is denoted by
-@[T][n], and its size equals n times the size of T. It should be noted that
-values representing plain arrays can in general only be passed to a
-function call as call-by-reference parameters (unless special arrangement
-is made for them to be passed as call-by-value parameters).
-')#comment("para")
+#declpreamble('\
 
-#HR(2)
+The type for a plain ungarnished array containing n elements of type T is
+denoted by the special syntax #stacode("@[T][n]"). The size of this
+array-type is n times the size of T and its linearity coincides with the
+linearity of T, that is, the type #stacode("@[T][n]") is linear if and only
+if T is linear.  It should be noted that a value of this form of array-type
+can be passed to a function call only as a call-by-reference parameter
+(unless certain special arrangement is made for it to be passed as a
+call-by-value parameter).\
 
-</body>
-</html>
+')#comment("declpreamble")
 
-%{
-implement main () = fprint_filsub (stdout_ref, "array_atxt.txt")
-%}\
+(* ****** ****** *)
+
+#declname("lemma_array_param")
+
+#declsynopsis()
+
+#decldescript('\
+This proof function establishes that the integer n in any array type
+#stacode("@[T][n]") is a natural number.
+')
+
+(* ****** ****** *)
+
+#declname("lemma_array_v_param")
+
+#declsynopsis()
+
+#decldescript('\
+This proof function establishes that the integer n in any array view
+#stacode("array_v(T, l, n)") is a natural number.
+')
+
+(* ****** ****** *)
+
+#declname("array_v_nil")
+
+#declsynopsis()
+
+#decldescript('\
+This proof function generates a proof of empty array-view.
+')
+
+(* ****** ****** *)
+
+#declname("array_v_unnil")
+
+#declsynopsis()
+
+#decldescript('\
+This proof function consumes a proof of empty array-view.
+')
+
+(* ****** ****** *)
+
+#declname("array_v_unnil_nil")
+
+#declsynopsis()
+
+#decldescript('\
+This proof function consumes a proof of empty array-view and then generates
+a proof of empty array-view. It is a combination of array_v_unnil and array_v_nil.
+')
+
+(* ****** ****** *)
+
+#declname("array_getref_at")
+
+#declsynopsis()
+
+#decldescript('\
+This function returns the pointer to cell i of the given array A, that is,
+the pointer equal to addr@(A)+i*#sizeof("a"), where addr@(A) refers to the
+starting address of A.
+')
+
+#declexample('\
+A typical use of
+#dyncode("array_getref_at") is given in the following example:
+#pats2xhtmld('\
+staload UN = "prelude/SATS/unsafe.sats"
+fun{a:t0p}
+array_get_at (
+  A: &(@[a][n]), i: sizeLt n
+) : a = let
+  val p = array_getref_at<a> (A, i) in $UN.ptr_get<a> (p)
+end // end of [array_get_at]
+')
+Note that the unsafe version of #dyncode("ptr_get") is called
+here to read from the pointer p.
+')
+
+(* ****** ****** *)
+
+#declname("array_get_at")
+#declsynopsis()
+#decldescript('\
+This function returns the value stored in cell i of the given array A.
+Note that the type for values stored in A is nonlinear.
+')
+
+(* ****** ****** *)
+
+#declname("array_set_at")
+#declsynopsis()
+#decldescript('\
+This function stores a value into cell i of the given array A, overwriting
+the original value. Note that the type of values stored in A is nonlinear.
+')
+
+(* ****** ****** *)
+
+#declname("array_exch_at")
+#declsynopsis()
+#decldescript('\
+This function exchanges the value in cell i of the given array A and the
+value in x. Note that the type of these values can be linear.
+')
+
+(* ****** ****** *)
+
+(* end of [array.atxt] *)

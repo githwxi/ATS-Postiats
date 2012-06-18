@@ -1,0 +1,89 @@
+%{
+//
+dynload "libatsdoc/dynloadall.dats"
+//
+staload "libatsyntax/SATS/libatsyntax.sats"
+staload "libatsyntax/DATS/libatsyntax_psynmark.dats"
+staload "libatsyntax/DATS/libatsyntax_pats2xhtml.dats"
+dynload "libatsyntax/dynloadall.dats"
+//
+local
+
+extern
+fun declname_find_synopsis
+  (name: string): string = "ext#declname_find_synopsis"
+// end of [declname_find_synopsis]
+
+val theDeclrepLst = let
+  val cs =
+    char_list_vt_make_file (stdin_ref)
+  val res = charlst_declitemize (0(*sta*), cs)
+  val res = list_vt_reverse (res)
+in
+  list_of_list_vt (res)
+end // end of [theDeclrepLst]
+
+in // in of [local]
+
+implement
+declname_find_synopsis
+  (name) = let
+  val sym = $SYM.symbol_make_string (name)
+  val str = declreplst_find_synopsis (theDeclrepLst, sym)
+in
+  string_of_strptr (str)
+end // end of [declname_find_synopsis]
+
+end // end of [local]
+//
+#include "utils/atsdoc/HATS/pats2xhtmlatxt.hats"
+//
+%}\
+%{
+//
+staload "htmlgendecl.sats"
+dynload "htmlgendecl.dats"
+//
+#include "htmlgendecl_data_atxt.dats"
+//
+val theDecltitle = theDecltitle_get ()
+val theDeclpreamble = theDeclpreamble_get ()
+//
+val theDeclnameLst_menu = theDeclnameLst_make_menu ()
+val theDeclitemLst_content = theDeclitemLst_make_content ()
+//
+val () = theTextMap_insert_str ("theDeclnameLst_menu", theDeclnameLst_menu)
+val () = theTextMap_insert_str ("theDeclitemLst_content", theDeclitemLst_content)
+//
+%}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+#title(theDecltitle)
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+#patsyntax_style()
+</head>
+<body>
+
+#H1(theDecltitle)
+
+#atext_strsub(theDeclpreamble)
+
+#HR(2)
+
+#atext_strsub("\#theDeclnameLst_menu$")
+
+#HR(2)
+
+#atext_strsub("\#theDeclitemLst_content$")
+
+#HR(2)
+
+</body>
+</html>
+
+%{
+implement main () = fprint_filsub (stdout_ref, "htmlgendecl_atxt.txt")
+%}\

@@ -1,0 +1,25 @@
+#decltitle("\
+ATSLIB/prelude/list\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declname("lemma_list_param")
+
+#declsynopsis()
+
+#decldescript('\
+This proof function establishes that the integer n in any list type
+#stacode("list(T, n)") is a natural number.
+')
+
+(* ****** ****** *)
+
+(* end of [list.atxt] *)

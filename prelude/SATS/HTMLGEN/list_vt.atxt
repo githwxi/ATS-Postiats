@@ -1,0 +1,25 @@
+#decltitle("\
+ATSLIB/prelude/list_vt\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declname("lemma_list_vt_param")
+
+#declsynopsis()
+
+#decldescript('\
+This proof function establishes that the integer n in any linear list type
+#stacode("list_vt(T, n)") is a natural number.
+')
+
+(* ****** ****** *)
+
+(* end of [list_vt.atxt] *)

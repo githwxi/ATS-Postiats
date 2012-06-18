@@ -20,7 +20,7 @@ Makefile: Makefile.exe ; ./$< > $@
 Makefile.exe: Makefile_atxt.dats
 	$(ATSCC) -D_ATS_GCATS -o $@ $< -latsdoc
 Makefile_atxt.dats: Makefile.atxt
-	$(ATSDOC) -do $@ -i $< > Makefile_atxt.txt
+	$(ATSDOC) --outcode $@ -i $< > Makefile_atxt.txt
 
 ######
 

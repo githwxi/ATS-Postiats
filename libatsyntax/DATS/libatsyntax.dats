@@ -12,6 +12,8 @@
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload _(*anon*) = "prelude/DATS/pointer.dats"
 
 (* ****** ****** *)
@@ -63,20 +65,10 @@ end // end of [fstring_putc]
 
 (* ****** ****** *)
 
-staload
-LOC = "src/pats_location.sats"
-assume location = $LOC.location
-
 implement
 fprint_location
   (out, x) = $LOC.fprint_location (out, x)
 // end of [fprint_location]
-
-(* ****** ****** *)
-
-staload
-LEX = "src/pats_lexing.sats"
-assume token = $LEX.token // ...
 
 (* ****** ****** *)
 
@@ -504,6 +496,219 @@ prval () = fpf (pf)
 in
   // nothing
 end // end of [tokbufobj_unget_token]
+
+(* ****** ****** *)
+
+overload = with $SYM.eq_symbol_symbol
+overload print with $SYM.print_symbol
+
+(* ****** ****** *)
+
+implement
+test_symbol_p0at
+  (sym, p0t) = let
+in
+//
+case+ p0t.p0at_node of
+| $SYN.P0Tide (sym1) => sym = sym1
+| _ => false
+//
+end // end of [test_symbol_p0at]
+
+(* ****** ****** *)
+
+local
+
+fun d0cstdeclst_test (
+  sym: symbol, xs: $SYN.d0cstdeclst
+) : bool = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val sym1 = x.d0cstdec_sym
+  in
+    if sym = sym1
+      then true else d0cstdeclst_test (sym, xs)
+    // end of [if]
+  end // end of [list_cons]
+| list_nil () => false
+//
+end // end of [d0cstdeclst_test]
+
+fun f0undeclst_test (
+  sym: symbol, xs: $SYN.f0undeclst
+) : bool = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val sym1 = x.f0undec_sym
+  in
+    if sym = sym1
+      then true else f0undeclst_test (sym, xs)
+    // end of [if]
+  end // end of [list_cons]
+| list_nil () => false
+//
+end // end of [f0undeclst_test]
+
+fun v0aldeclst_test (
+  sym: symbol, xs: $SYN.v0aldeclst
+) : bool = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val p0t = x.v0aldec_pat
+  in
+    if test_symbol_p0at (sym, p0t)
+      then true else v0aldeclst_test (sym, xs)
+    // end of [if]
+  end // end of [list_cons]
+| list_nil () => false
+//
+end // end of [f0undeclst_test]
+
+in // in of [local]
+
+implement
+test_symbol_d0ecl
+  (sym, d0c) = let
+in
+//
+case+ d0c.d0ecl_node of
+| $SYN.D0Cdcstdecs
+    (_, _, xs) => d0cstdeclst_test (sym, xs)
+| $SYN.D0Cfundecs
+    (_, _, xs) => f0undeclst_test (sym, xs)
+  // end of [D0Cfundecs]
+| $SYN.D0Cvaldecs
+    (_, _, xs) => v0aldeclst_test (sym, xs)
+| _ => false
+//
+end // end of [test_symbol_d0ecl]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+staload PAR = "src/pats_parsing.sats"
+
+local
+
+typedef charlst = List (char)
+viewtypedef charlst_vt = List_vt (char)
+
+typedef d0eclist = $SYN.d0eclist
+
+viewtypedef declrep = @(d0ecl, charlst)
+viewtypedef declreplst_vt = List_vt (declrep)
+viewtypedef res = declreplst_vt
+
+fun drop (
+  inp: &charlst_vt, pos1: lint, pos2: lint
+) : void = let
+in
+//
+if pos1 < pos2 then (
+  case+ inp of
+  | ~list_vt_cons (_, cs) => let
+      val () = inp := cs in drop (inp, pos1+1L, pos2)
+    end // end of [list_vt_cons]
+  | list_vt_nil () => fold@ (inp)
+) else () // end of [if]
+//
+end // end of [drop]
+
+fun take (
+  inp: &charlst_vt, pos1: lint, pos2: lint
+) : charlst = let
+  var res: charlst_vt
+  val () = take_main (inp, pos1, pos2, res)
+in
+  list_of_list_vt (res)
+end // end of [take]
+and take_main (
+  inp: &charlst_vt
+, pos1: lint, pos2: lint
+, res: &charlst_vt? >> charlst_vt
+) : void = let
+in
+//
+if pos1 < pos2 then (
+  case+ inp of
+  | list_vt_cons _ => let
+      prval () = fold@ (inp)
+      val () = res := inp
+      val+ list_vt_cons (_, !p_cs) = res
+      val () = inp := !p_cs
+      val () = take_main (inp, pos1+1L, pos2, !p_cs)
+    in
+      fold@ (res)
+    end // end of [list_vt_cons]
+  | list_vt_nil () => let
+      prval () = fold@ (inp) in res := list_vt_nil ()
+    end // end of [list_vt_nil]
+) else (res := list_vt_nil ()) // end of [if]
+//
+end // end of [take_main]
+
+in // in of [local]
+
+implement
+charlst_declitemize
+  (stadyn, inp) = let
+//
+val inp1 = list_vt_copy (inp)
+val lbf =
+  lexbufobj_make_charlst_vt (inp1)
+val tbf = tokbufobj_make_lexbufobj (lbf)
+extern castfn __cast (tbf: tokbufobj)
+  : [l:addr] (free_gc_v (tokbuf?, l), tokbuf @ l | ptr l)
+val (pfgc, pfat | p) = __cast (tbf)
+val d0cs = $PAR.parse_from_tokbuf_toplevel (stadyn, !p)
+val () = $TBF.tokbuf_uninitialize (!p)
+val () = ptr_free (pfgc, pfat | p)  
+//
+fun loop (
+  d0cs: d0eclist
+, inp: &charlst_vt, pos: lint
+, res: &res? >> res
+) : void =
+  case+ d0cs of
+  | list_cons
+      (d0c, d0cs) => let
+      val loc = d0c.d0ecl_loc
+      val pos1 = $LOC.location_beg_ntot (loc)
+      val pos2 = $LOC.location_end_ntot (loc)
+      val () = drop (inp, pos, pos1)
+      val pos = pos1
+      val cs = take (inp, pos, pos2)
+      val pos = pos2
+      val () = res :=
+        list_vt_cons{declrep}{0} (?, ?)
+      val+ list_vt_cons (!p1, !p2) = res
+      val () = p1->0 := d0c and () = p1->1 := cs
+      val () = loop (d0cs, inp, pos, !p2)
+    in
+      fold@ (res)
+    end // end of [list_cons]
+  | list_nil () => res := list_vt_nil ()
+//
+var inp = inp
+var res: res
+val () = loop (d0cs, inp, 0L, res)
+val () = list_vt_free (inp)
+//
+in
+  res
+end // end of [charlst_declitemize]
+
+end // end of [local]
 
 (* ****** ****** *)
 

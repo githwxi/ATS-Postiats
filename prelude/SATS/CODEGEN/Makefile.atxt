@@ -24,7 +24,7 @@ all:: %s.sats\n\
 %s_atxt.exe: %s_atxt.dats\n\
 	$(ATSCC) -D_ATS_GCATS -o $@ %s_atxt.dats -latsdoc\n\
 %s_atxt.dats: %s.atxt\n\
-	$(ATSDOC) -do $@ -i %s.atxt > %s_atxt.txt\n\
+	$(ATSDOC) --outcode $@ -i %s.atxt > %s_atxt.txt\n\
 clean:: ; $(RMF) %s_atxt.exe\n\
 cleanall:: ; $(RMF) %s.sats\n\
 ", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)

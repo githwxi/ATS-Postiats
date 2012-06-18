@@ -69,23 +69,23 @@ praxi mul_add_const {i:int}
 ')\
 
 #atscode_separator()
-#atscode_decl_strcst('\
 //
 // HX: (ax+b)*(cy+d) = ac*xy + ad*x + bc*y + bd
 //
-praxi mul_expand_linear
-  {a,b:int} {c,d:int} // a,b,c,d: constants!
-  {x,y:int} {xy:int} (pf: MUL (x, y, xy)):<prf> MUL (a*x+b, c*y+d, a*c*xy+a*d*x+b*c*y+b*d)
+praxi mul_expand_linear // a,b,c,d: constants!
+  {a,b:int}
+  {c,d:int}
+  {x,y:int}
+  {xy:int} (
+  pf: MUL (x, y, xy)
+) :<prf> MUL (a*x+b, c*y+d, a*c*xy+a*d*x+b*c*y+b*d)
 // end of [mul_expand_linear]
-')\
 
 #atscode_separator()
-#atscode_decl_strcst('\
 //
 // HX: (a1x1+a2x2+b)*(c1y1+c2y2+d) = ...
 //
-praxi
-mul_expand2_linear // a1,b1,c1,a2,b2,c2: constants!
+praxi mul_expand2_linear // a1,b1,c1,a2,b2,c2: constants!
   {a1,a2,b:int}
   {c1,c2,d:int}
   {x1,x2:int}
@@ -102,7 +102,6 @@ mul_expand2_linear // a1,b1,c1,a2,b2,c2: constants!
   b*c1*y1 + b*c2*y2 +
   b*d
 ) // end of [mul_expand2_linear]
-')\
 
 #atscode_separator()
 

@@ -51,7 +51,7 @@ fun symmap_free
 fun
 symmap_search
   {itm:type}
-  (map: !symmap itm, k: symbol):<> Option_vt itm
+  (map: !symmap itm, k: symbol):<> Option_vt (itm)
 // end of [symmap_search]
 
 fun

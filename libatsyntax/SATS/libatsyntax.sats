@@ -11,8 +11,23 @@
 
 (* ****** ****** *)
 
-abstype position
-abstype location
+typedef charlst = List (char)
+viewtypedef charlst_vt = List_vt (char)
+
+(* ****** ****** *)
+
+staload
+SYM = "src/pats_symbol.sats"
+typedef symbol = $SYM.symbol
+
+(* ****** ****** *)
+
+staload
+LOC = "src/pats_location.sats"
+typedef position = $LOC.position
+typedef location = $LOC.location
+
+(* ****** ****** *)
 
 fun fprint_position (out: FILEref, x: position): void
 fun fprint_location (out: FILEref, x: location): void
@@ -22,12 +37,14 @@ fun fprint_location (out: FILEref, x: location): void
 absviewtype lexbufobj
 fun lexbufobj_make_string (inp: string): lexbufobj
 fun lexbufobj_make_fileref (inp: FILEref): lexbufobj
-fun lexbufobj_make_charlst_vt (inp: List_vt (char)): lexbufobj
+fun lexbufobj_make_charlst_vt (inp: charlst_vt): lexbufobj
 fun lexbufobj_free (lbf: lexbufobj): void // endfun
 
 (* ****** ****** *)
 
-abstype token
+staload
+LEX = "src/pats_lexing.sats"
+typedef token = $LEX.token
 typedef tokenlst = List (token)
 viewtypedef tokenlst_vt = List_vt (token)
 
@@ -55,7 +72,35 @@ fun lexbufobj_get_tokenlst (lbf: !lexbufobj): tokenlst_vt
 
 (* ****** ****** *)
 
-abstype d0ecl
+absviewtype tokbufobj
+fun tokbufobj_make_lexbufobj (lbf: lexbufobj): tokbufobj
+fun tokbufobj_free (tbf: tokbufobj): void // endfun
+fun tokbufobj_unget_token (tbf: !tokbufobj, tok: token): void
+
+(* ****** ****** *)
+
+staload
+SYN = "src/pats_syntax.sats"
+typedef p0at = $SYN.p0at
+typedef d0ecl = $SYN.d0ecl
+
+(* ****** ****** *)
+
+fun test_symbol_p0at (sym: symbol, p0t: p0at): bool
+fun test_symbol_d0ecl (sym: symbol, d0c: d0ecl): bool
+
+(* ****** ****** *)
+
+typedef
+declreplst = List @(d0ecl, charlst)
+viewtypedef
+declreplst_vt = List_vt @(d0ecl, charlst)
+
+(* ****** ****** *)
+
+fun charlst_declitemize
+  (stadyn: int, inp: charlst_vt): declreplst_vt
+// end of [charlst_declitemize]
 
 (* ****** ****** *)
 //
@@ -132,13 +177,6 @@ fun psynmarklst_split (xs: psynmarklst_vt)
 
 (* ****** ****** *)
 
-absviewtype tokbufobj
-fun tokbufobj_make_lexbufobj (lbf: lexbufobj): tokbufobj
-fun tokbufobj_free (tbf: tokbufobj): void // endfun
-fun tokbufobj_unget_token (tbf: !tokbufobj, tok: token): void
-
-(* ****** ****** *)
-
 (*
 ** HX-2012-06:
 ** synmark info for various syntatic entities
@@ -200,7 +238,7 @@ fileref_psynmarklstlst_process (
 
 fun{}
 charlst_psynmarklstlst_process (
-  inp: List_vt (char), psmss: psynmarklstlst_vt, putc: putc_type
+  inp: charlst_vt, psmss: psynmarklstlst_vt, putc: putc_type
 ) : void // end of [charlst_psynmarklstlst_process]
 
 (* ****** ****** *)
@@ -215,6 +253,16 @@ lexbufobj_level1_psynmarkize
 fun{}
 string_pats2xhtmlize (stadyn: int, code: string): strptr1
 // endfun
+fun{}
+charlst_pats2xhtmlize (stadyn: int, code: charlst): strptr1
+// endfun
+
+(* ****** ****** *)
+
+(*
+** HX: this one is added for building atslibdoc
+*)
+fun declreplst_find_synopsis (xs: declreplst, sym: symbol): strptr1
 
 (* ****** ****** *)
 
