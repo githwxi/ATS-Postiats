@@ -1,0 +1,59 @@
+#decltitle("\
+ATSLIB/prelude/char\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declname("lt_char_char")
+#declsynopsis()
+#decldescript('\
+This function returns true if and only if the ascii code of its first
+argument is less than that of its second argument.
+')
+#declname("lte_char_char")
+#declsynopsis()
+#decldescript('\
+This function returns true if and only if the ascii code of its first
+argument is less than or equal to that of its second argument.
+')
+
+(* ****** ****** *)
+
+#declname("gt_char_char")
+#declsynopsis()
+#decldescript('\
+This function returns true if and only if the ascii code of its first
+argument is greater than that of its second argument.
+')
+#declname("gte_char_char")
+#declsynopsis()
+#decldescript('\
+This function returns true if and only if the ascii code of its first
+argument is greater than or equal to that of its second argument.
+')
+
+(* ****** ****** *)
+
+#declname("eq_char_char")
+#declsynopsis()
+#decldescript('\
+This function returns true if and only if the ascii code of its first
+argument is equal to that of its second argument.
+')
+#declname("neq_char_char")
+#declsynopsis()
+#decldescript('\
+This function returns true if and only if the ascii code of its first
+argument is unequal to that of its second argument.
+')
+
+(* ****** ****** *)
+
+(* end of [char.atxt] *)

@@ -268,18 +268,14 @@ case+ x of
     val () = strptr_free (synop)
   in
     atext_apptxt2 (head, atext_strptr (synop2))
-  end // end of [DITMdescript]
+  end // end of [DITMsynopsis]
 | DITMsynopsis2
     (synop) => let
     val head = atext_apptxt2
       (H3 ("Synopsis"), atext_newline)
-    val synop = $LSYN.string_pats2xhtmlize_bground (0(*sta*), synop)
-    val synop1 = $UN.castvwtp1 {string} (synop)
-    val synop2 = sprintf ("<pre class=\"patsyntax\">\n%s</pre>\n", @(synop1))
-    val () = strptr_free (synop)
   in
-    atext_apptxt2 (head, atext_strptr (synop2))
-  end // end of [DITMdescript]
+    atext_apptxt2 (head, atext_strsub (synop))
+  end // end of [DITMsynopsis2]
 | DITMdescript
     (descript) => let
     val head = atext_apptxt2

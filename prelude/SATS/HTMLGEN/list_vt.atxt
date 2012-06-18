@@ -17,7 +17,7 @@ ATSLIB/prelude/list_vt\
 
 #decldescript('\
 This proof function establishes that the integer n in any linear list type
-#stacode("list_vt(T, n)") is a natural number.
+#stacode("list_vt(T, n)") is a natural number, where T can be a linear type.
 ')
 
 (* ****** ****** *)

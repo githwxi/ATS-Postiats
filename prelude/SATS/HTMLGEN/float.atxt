@@ -1,0 +1,50 @@
+#decltitle("\
+ATSLIB/prelude/float\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declname("g0float_lt_float")
+#declsynopsis()
+#decldescript('\
+This function returns true if and only if its first argument is
+less than its second argument.
+')
+
+(* ****** ****** *)
+
+#declname("g0float_lte_float")
+#declsynopsis()
+#decldescript('\
+This function returns true if and only if its first argument is
+less than or equal to its second argument.
+')
+
+(* ****** ****** *)
+
+#declname("g0float_gt_float")
+#declsynopsis()
+#decldescript('\
+This function returns true if and only if its first argument is
+greater than its second argument.
+')
+
+(* ****** ****** *)
+
+#declname("g0float_gte_float")
+#declsynopsis()
+#decldescript('\
+This function returns true if and only if its first argument is
+greater than or equal to its second argument.
+')
+
+(* ****** ****** *)
+
+(* end of [float.atxt] *)

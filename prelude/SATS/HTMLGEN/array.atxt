@@ -6,10 +6,10 @@ ATSLIB/prelude/array\
 
 #declpreamble('\
 
-The type for a plain ungarnished array containing n elements of type T is
-denoted by the special syntax #stacode("@[T][n]"). The size of this
-array-type is n times the size of T and its linearity coincides with the
-linearity of T, that is, the type #stacode("@[T][n]") is linear if and only
+The type for a plain ungarnished array containing N elements of type T is
+denoted by the special syntax #stacode("@[T][N]"). The size of this
+array-type is N times the size of T and its linearity coincides with the
+linearity of T, that is, the type #stacode("@[T][N]") is linear if and only
 if T is linear.  It should be noted that a value of this form of array-type
 can be passed to a function call only as a call-by-reference parameter
 (unless certain special arrangement is made for it to be passed as a
@@ -19,32 +19,52 @@ call-by-value parameter).\
 
 (* ****** ****** *)
 
-#declname("lemma_array_param")
-
-#declsynopsis()
-
+#declname("array_v")
+#declsynopsis2('\
+#pats2xhtmls("\
+viewtypedef array_v (a: viewt@ype, l:addr, n: int) = @[a][n] @ l\
+")\
+')
 #decldescript('\
-This proof function establishes that the integer n in any array type
+
+Given a type T, an address L and an integer N, the view
+#stacode("array_v(T, L, N)") means that a value of the type
+#stacode("@[T][N]") is stored at the location L. An equivalent
+definition of array_v can be given as follows:
+
+#pats2xhtmls("\
+dataview
+array_v (a:viewt@ype+, l: addr, int) =
+  | {n:nat}
+    array_v_cons (a, l, n+1) of (a @ l, array_v (a, l+sizeof(a), n))
+  | array_v_nil (a, l, 0)
+")
+
+where array_v is (recursively) defined as a dataview.
+')
+
+(* ****** ****** *)
+
+#declname("lemma_array_param")
+#declsynopsis()
+#decldescript('\
+This proof function establishes that the integer n in any array-type
 #stacode("@[T][n]") is a natural number.
 ')
 
 (* ****** ****** *)
 
 #declname("lemma_array_v_param")
-
 #declsynopsis()
-
 #decldescript('\
-This proof function establishes that the integer n in any array view
+This proof function establishes that the integer n in any array-view
 #stacode("array_v(T, l, n)") is a natural number.
 ')
 
 (* ****** ****** *)
 
 #declname("array_v_nil")
-
 #declsynopsis()
-
 #decldescript('\
 This proof function generates a proof of empty array-view.
 ')
@@ -52,9 +72,7 @@ This proof function generates a proof of empty array-view.
 (* ****** ****** *)
 
 #declname("array_v_unnil")
-
 #declsynopsis()
-
 #decldescript('\
 This proof function consumes a proof of empty array-view.
 ')
@@ -62,9 +80,7 @@ This proof function consumes a proof of empty array-view.
 (* ****** ****** *)
 
 #declname("array_v_unnil_nil")
-
 #declsynopsis()
-
 #decldescript('\
 This proof function consumes a proof of empty array-view and then generates
 a proof of empty array-view. It is a combination of array_v_unnil and array_v_nil.
@@ -72,10 +88,43 @@ a proof of empty array-view. It is a combination of array_v_unnil and array_v_ni
 
 (* ****** ****** *)
 
-#declname("array_getref_at")
-
+#declname("array_v_cons")
 #declsynopsis()
+#decldescript('\
+This proof function composes a proof of at-view and
+a proof of array-view of size n to form a proof of array-view of size n+1.
+')
 
+#declname("array_v_uncons")
+#declsynopsis()
+#decldescript('\
+This proof function is the inverse of array_v_cons: It decomposes
+a proof of array-view of size n into a proof of at-view and a proof of
+array-view of size n-1, where n is positive.
+')
+
+(* ****** ****** *)
+
+#declname("array_v_sing")
+#declsynopsis()
+#decldescript('\
+This proof function turns a proof of at-view into a proof of array-view of
+size 1.
+')
+
+(* ****** ****** *)
+
+#declname("array_v_unsing")
+#declsynopsis()
+#decldescript('\
+This proof function is the inverse of array_v_sing: It turns a proof of
+array-view of size 1 into a proof of at-view.
+')
+
+(* ****** ****** *)
+
+#declname("array_getref_at")
+#declsynopsis()
 #decldescript('\
 This function returns the pointer to cell i of the given array A, that is,
 the pointer equal to addr@(A)+i*#sizeof("a"), where addr@(A) refers to the

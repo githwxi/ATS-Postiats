@@ -1,0 +1,79 @@
+#decltitle("\
+ATSLIB/prelude/array_prf\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+This package contains some commonly used proof functions for manipulating
+array-views.
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declname("array_v_split")
+#declsynopsis()
+#decldescript('\
+This proof function splits a given proof of array-view into two proofs of
+adjacently located array-views.
+')
+
+(* ****** ****** *)
+
+#declname("array_v_unsplit")
+#declsynopsis()
+#decldescript('\
+This proof function is the inverse of array_v_split: It combines two proofs
+of adjacently located array-views into one proof of array-view.
+')
+
+(* ****** ****** *)
+
+#declname("array_v_extend")
+#declsynopsis()
+#decldescript('\
+This proof function extends a proof of array-view by a proof of at-view
+located at the end of the array-view.
+')
+
+(* ****** ****** *)
+
+#declname("array_v_unextend")
+#declsynopsis()
+#decldescript('\
+This proof function is the inverse of array_v_extend: It decomposes a
+given proof of array-view of size n into a proof of array-view of size n-1
+and a proof of at-view, where n is positive.
+')
+
+(* ****** ****** *)
+
+#declname("array_v_takeout")
+#declsynopsis()
+#decldescript('\
+This proof function takes out a proof of at-view from a given proof of
+array-view, repsenting the rest as a linear proof function that returns
+a proof of the original array-view when applied to a proof of the taken-out
+at-view.
+')
+#declexample('\
+A proper implementation of array-subscripting is given as follows:
+#pats2xhtmld('\
+fun{a:t@ype}
+array_get_at
+  {n:int}{i:nat | i < n} (
+  A: &(@[a][n]), i: size_t (i)
+) : a = x where {
+  prval (pfat, fpf) =
+    array_v_takeout{..}{..}{n}{i} (view@(A))
+  val x = ptr_get (pfat | ptr1_add_uint<a> (addr@(A), i))
+  prval () = view@(A) := fpf (pfat)
+} // end of [array_get_at]
+')
+where array_v_takeout is called to generate a proof of the
+at-view needed for reading from cell i in the given array A.
+')
+
+(* ****** ****** *)
+
+(* end of [array_prf.atxt] *)

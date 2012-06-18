@@ -1,0 +1,30 @@
+#decltitle("\
+ATSLIB/prelude/option\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declname("option_some")
+#declsynopsis()
+#decldescript('\
+This is just the function version of the constructor #dyncode("Some").
+')
+
+(* ****** ****** *)
+
+#declname("option_none")
+#declsynopsis()
+#decldescript('\
+This is just the function version of the constructor #dyncode("None").
+')
+
+(* ****** ****** *)
+
+(* end of [option.atxt] *)

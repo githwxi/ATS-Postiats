@@ -30,27 +30,6 @@ sortdef vt0p = viewt@ype
 
 #atscode_separator()
 
-prfun lemma_array_params
-  {a:vt0p} {l:addr} {n:int}
-  (pf: !array_v (INV(a), l, n)):<prf> [n >= 0] void
-// end of [lemma_array_params]
-
-#atscode_separator()
-
-prfun
-array_v_sing
-  {a:vt0p}{l:addr}
-  (pf: INV(a) @ l): array_v (a, l, 1)
-// end of [array_v_sing]
-
-prfun
-array_v_unsing
-  {a:vt0p}{l:addr}
-  (pf: array_v (INV(a), l, 1)): a @ l
-// end of [array_v_unsing]
-
-#atscode_separator()
-
 prfun
 array_v_split
   {a:vt0p}

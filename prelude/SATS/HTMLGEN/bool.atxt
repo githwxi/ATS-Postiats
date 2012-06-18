@@ -1,0 +1,47 @@
+#decltitle("\
+ATSLIB/prelude/bool\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declname("bool_of_int")
+#declsynopsis()
+#decldescript('\
+This function maps any nonzero integer to #dyncode("true") and zero
+to #dyncode("false").
+')
+
+(* ****** ****** *)
+
+#declname("int_of_bool")
+#declsynopsis()
+#decldescript('\
+This function maps #dyncode("true") and #dyncode("false") to 1 and 0, respectively.
+')
+
+(* ****** ****** *)
+
+#declname("bool1_of_int1")
+#declsynopsis()
+#decldescript('\
+This function does the same as bool_of_int at run-time.
+')
+
+(* ****** ****** *)
+
+#declname("int1_of_bool1")
+#declsynopsis()
+#decldescript('\
+This function does the same as int_of_bool at run-time.
+')
+
+(* ****** ****** *)
+
+(* end of [bool.atxt] *)

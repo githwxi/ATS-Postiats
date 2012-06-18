@@ -1,0 +1,38 @@
+#decltitle("\
+ATSLIB/prelude/filebas\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+#para("\
+
+The functions declared in this package are mostly done for the sake of
+convenience.  Please turn on GC if functions like [input_line] and
+[output_line] are called repeatedly.  For full-fledged IO support, please
+see [ATSHOME/libc/SATS/stdio.sats].
+
+") ')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declname("fileref_open_exn")
+#declsynopsis()
+#decldescript('\
+This function returns a handle for the file referred to by its first
+argument #dyncode("path") and set the mode of handle according to its
+second argument #dyncode("fm"). In case of a failure, a fatal non-catchable
+exception is raised.
+')
+
+#declname("fileref_open_opt")
+#declsynopsis()
+#decldescript('\
+This function is the optional version of #dyncode("fileref_open_exn"): The returned
+value is an option that indicates whether a call to #dyncode("fileref_open_opt") yields
+a file handle or not.
+')
+
+(* ****** ****** *)
+
+(* end of [filebas.atxt] *)

@@ -17,7 +17,7 @@ ATSLIB/prelude/list\
 
 #decldescript('\
 This proof function establishes that the integer n in any list type
-#stacode("list(T, n)") is a natural number.
+#stacode("list(T, n)") is a natural number, where T is a nonlinear type.
 ')
 
 (* ****** ****** *)
