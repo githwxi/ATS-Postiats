@@ -6,7 +6,7 @@ staload TIME = "libc/SATS/time.sats"
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-staload "libatsdoc/SATS/libatsdoc_text.sats"
+staload "libatsdoc/SATS/libatsdoc_atext.sats"
 //
 %}\
 %{
@@ -76,8 +76,10 @@ HTMLGENDECL= \\
   htmlgendecl_sats.o \\
   htmlgendecl_dats.o \\
 
-htmlgendecl_sats.o: htmlgendecl.sats ; $(ATSCC) -c $(ATSCCFLAGS) $<
-htmlgendecl_dats.o: htmlgendecl.dats ; $(ATSCC) -c $(ATSCCFLAGS) $<
+htmlgendecl_sats.o: \\
+  htmlgendecl.sats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $<
+htmlgendecl_dats.o: \\
+  htmlgendecl.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $<
 
 ######
 

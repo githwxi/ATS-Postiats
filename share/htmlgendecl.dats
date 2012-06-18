@@ -5,21 +5,17 @@
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-staload "libatsdoc/SATS/libatsdoc_text.sats"
-
-(* ****** ****** *)
-
 staload "htmlgendecl.sats"
-
-(* ****** ****** *)
-
-#include "utils/atsdoc/HATS/xhtmlatxt.hats"
 
 (* ****** ****** *)
 
@@ -38,7 +34,7 @@ implement theDecltitle_set (x) = !theDecltitle := x
 end // end of [local]
 implement
 decltitle (x) = let
-  val () = theDecltitle_set (x) in atext_nil ()
+  val () = theDecltitle_set (x) in $LDOC.atext_nil ()
 end // end of [decltitle]
 
 (* ****** ****** *)
@@ -51,7 +47,7 @@ implement theDeclpreamble_set (x) = !theDeclpreamble := x
 end // end of [local]
 implement
 declpreamble (x) = let
-  val () = theDeclpreamble_set (x) in atext_nil ()
+  val () = theDeclpreamble_set (x) in $LDOC.atext_nil ()
 end // end of [declpreamble]
 
 (* ****** ****** *)
@@ -120,29 +116,75 @@ declname (x) = let
   val () = theDeclnameLst_add (x)
   val () = theDeclitemLst_add (DITMname (x))
 in
-  atext_nil ()
+  $LDOC.atext_nil ()
 end // end of [declname]
 
 implement
 declsynopsis () = let
   val () = theDeclitemLst_add (DITMsynopsis ())
 in
-  atext_nil ()
+  $LDOC.atext_nil ()
 end // end of [declsynopsis]
+
+implement
+declsynopsis2 (x) = let
+  val () = theDeclitemLst_add (DITMsynopsis2 (x))
+in
+  $LDOC.atext_nil ()
+end // end of [declsynopsis2]
 
 implement
 decldescript (x) = let
   val () = theDeclitemLst_add (DITMdescript (x))
 in
-  atext_nil ()
+  $LDOC.atext_nil ()
 end // end of [decldescript]
 
 implement
 declexample (x) = let
   val () = theDeclitemLst_add (DITMexample (x))
 in
-  atext_nil ()
+  $LDOC.atext_nil ()
 end // end of [declexample]
+
+(* ****** ****** *)
+
+local
+val theDeclrepLst = ref<declreplst> (list_nil)
+in // in of [local]
+implement theDeclrepLst_get () = !theDeclrepLst
+implement theDeclrepLst_set (xs) = !theDeclrepLst := xs
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+staload SYM = "src/pats_symbol.sats"
+
+in // in of [local]
+
+implement
+declname_find_synopsis
+  (stadyn, name) = let
+//
+val sym =
+  $SYM.symbol_make_string (name)
+val xs = theDeclrepLst_get ()
+val opt = $LSYN.declreplst_find_synop (xs, sym)
+//
+in
+//
+case+ opt of
+| ~Some_vt (synop) =>
+    $LSYN.charlst_pats2xhtmlize_bground (0(*sta*), synop)
+| ~None_vt () =>
+    sprintf ("Synopsis for [%s] is unavailable.", @(name))
+  (* end of [None_vt] *)
+//
+end // end of [declname_find_synopsis]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -154,7 +196,7 @@ fun aux (
 ) : atext = let
   val str = sprintf ("<li><a href=\"#%s\">%s</a></li>\n", @(x, x))
 in
-  atext_strptr (str)
+  $LDOC.atext_strptr (str)
 end // end of [aux]
 fun auxlst (
   xs: stringlst_vt
@@ -170,26 +212,33 @@ in
   | ~list_vt_nil () => list_nil ()
 end // end of [auxlst]
 //
-val xs = theDeclnameLst_get ()
+val xs =
+  theDeclnameLst_get ()
 val ys = auxlst (xs)
 //
 in
 //
-atext_apptxt3 (
-  atext_strcst "<menu>\n"
-, atext_concatxt (ys)
-, atext_strcst "</menu>"
+$LDOC.atext_apptxt3 (
+  $LDOC.atext_strcst "<menu>\n"
+, $LDOC.atext_concatxt (ys)
+, $LDOC.atext_strcst "</menu>"
 ) // end of [atext_apptxt3]
 end // end of [theDeclnameLst_make_menu]
+
+(* ****** ****** *)
+
+#include "utils/atsdoc/HATS/xhtmlatxt.hats"
 
 (* ****** ****** *)
 
 local
 
 fn HR (sz: int): atext = let
-  val str = sprintf ("<hr style=\"background-color: #E0E0E0; height: %ipx;\"></hr>", @(sz))
+  val str = sprintf (
+    "<hr style=\"background-color: #E0E0E0; height: %ipx;\"></hr>", @(sz)
+  ) // end of [val]
 in
-  atext_strptr (str)
+  $LDOC.atext_strptr (str)
 end // end of [HR]
 
 in // in of [local]
@@ -207,16 +256,29 @@ case+ x of
     val () = theDeclname_set (name)
     val str = sprintf ("<h2><a id=\"%s\">%s</a></h2>\n", @(name, name))
   in
-    atext_strptr (str)
+    $LDOC.atext_strptr (str)
   end // end of [DITMname]
 | DITMsynopsis () => let
     val head = atext_apptxt2
       (H3 ("Synopsis"), atext_newline)
     val name = theDeclname_get ()
-    val synop = declname_find_synopsis (name)
-    val synop = sprintf ("<pre class=\"patsyntax\">\n%s</pre>\n", @(synop))
+    val synop = declname_find_synopsis (0(*sta*), name)
+    val synop1 = $UN.castvwtp1 {string} (synop)
+    val synop2 = sprintf ("<pre class=\"patsyntax\">\n%s</pre>\n", @(synop1))
+    val () = strptr_free (synop)
   in
-    atext_apptxt2 (head, atext_strptr (synop))
+    atext_apptxt2 (head, atext_strptr (synop2))
+  end // end of [DITMdescript]
+| DITMsynopsis2
+    (synop) => let
+    val head = atext_apptxt2
+      (H3 ("Synopsis"), atext_newline)
+    val synop = $LSYN.string_pats2xhtmlize_bground (0(*sta*), synop)
+    val synop1 = $UN.castvwtp1 {string} (synop)
+    val synop2 = sprintf ("<pre class=\"patsyntax\">\n%s</pre>\n", @(synop1))
+    val () = strptr_free (synop)
+  in
+    atext_apptxt2 (head, atext_strptr (synop2))
   end // end of [DITMdescript]
 | DITMdescript
     (descript) => let

@@ -712,4 +712,28 @@ end // end of [local]
 
 (* ****** ****** *)
 
+implement
+declreplst_find_synop
+  (xs, sym) = let
+//
+fun auxfind (
+  xs: declreplst, sym: symbol
+) : Option_vt (charlst) = let
+in
+//
+case+ xs of
+| list_cons (x, xs) =>
+    if test_symbol_d0ecl (sym, x.0)
+      then Some_vt (x.1) else auxfind (xs, sym)
+    // end of [if]
+| list_nil () => None_vt ()
+//
+end // end of [auxfind]
+//
+in
+  auxfind (xs, sym)
+end // end of [declreplst_find_synop]
+
+(* ****** ****** *)
+
 (* end of [libatsyntax_token.dats] *)

@@ -1,46 +1,45 @@
 (*
-** htmlgen_decl:
+** htmlgendecl:
 ** For generating html file describing declarations
 *)
 
 (* ****** ****** *)
 
-staload "libatsdoc/SATS/libatsdoc_text.sats"
+staload
+LSYN = "libatsyntax/SATS/libatsyntax.sats"
+typedef declreplst = $LSYN.declreplst
+
+(* ****** ****** *)
+
+staload
+LDOC = "libatsdoc/SATS/libatsdoc_atext.sats"
+typedef atext = $LDOC.atext
+typedef atextlst = $LDOC.atextlst
 
 (* ****** ****** *)
 
 datatype
 declitem =
-  | DITMname of string
+  | DITMname of (string)
   | DITMsynopsis of ()
-  | DITMdescript of string
-  | DITMexample of string
+  | DITMsynopsis2 of (string)
+  | DITMdescript of (string)
+  | DITMexample of (string)
 // end of [declitem]
 
 (* ****** ****** *)
 
-fun decltitle (x: string): atext
 fun theDecltitle_get (): string
 fun theDecltitle_set (x: string): void
+fun decltitle (x: string): atext
 
 (* ****** ****** *)
 
-fun declpreamble (x: string): atext
 fun theDeclpreamble_get (): string
 fun theDeclpreamble_set (x: string): void
+fun declpreamble (x: string): atext
 
 (* ****** ****** *)
-
-fun declname (x: string): atext
-//
-// HX: for the current declname
-//
-fun declsynopsis ((*auto*)): atext
-fun declsynopsis_manu (x: string): atext
-//
-fun decldescript (x: string): atext
-//
-fun declexample (x: string): atext // HX: optional
 
 fun theDeclname_get (): string
 fun theDeclname_set (x: string): void
@@ -51,11 +50,23 @@ fun theDeclnameLst_get (): List_vt (string)
 fun theDeclitemLst_add (x: declitem): void
 fun theDeclitemLst_get (): List_vt (declitem)
 
+fun declname (x: string): atext
+//
+// HX: for the current declname
+//
+fun declsynopsis ((*auto*)): atext
+fun declsynopsis2 (x: string): atext
+//
+fun decldescript (x: string): atext
+//
+fun declexample (x: string): atext // HX: optional
+
 (* ****** ****** *)
 
-fun declname_find_synopsis
-  (x: string): string = "ext#declname_find_synopsis"
-// end of [declname_find_synopsis]
+fun theDeclrepLst_get (): declreplst
+fun theDeclrepLst_set (xs: declreplst): void
+
+fun declname_find_synopsis (stadyn: int, x: string): strptr1
 
 (* ****** ****** *)
 
@@ -64,4 +75,4 @@ fun theDeclitemLst_make_content (): atext
 
 (* ****** ****** *)
 
-(* end of [htmlgen_decl.sats] *)
+(* end of [htmlgendecl.sats] *)

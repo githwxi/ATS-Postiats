@@ -2,47 +2,32 @@
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-staload "libatsyntax/SATS/libatsyntax.sats"
-staload "libatsyntax/DATS/libatsyntax_psynmark.dats"
-staload "libatsyntax/DATS/libatsyntax_pats2xhtml.dats"
 dynload "libatsyntax/dynloadall.dats"
-//
-local
-
-extern
-fun declname_find_synopsis
-  (name: string): string = "ext#declname_find_synopsis"
-// end of [declname_find_synopsis]
-
-val theDeclrepLst = let
-  val cs =
-    char_list_vt_make_file (stdin_ref)
-  val res = charlst_declitemize (0(*sta*), cs)
-  val res = list_vt_reverse (res)
-in
-  list_of_list_vt (res)
-end // end of [theDeclrepLst]
-
-in // in of [local]
-
-implement
-declname_find_synopsis
-  (name) = let
-  val sym = $SYM.symbol_make_string (name)
-  val str = declreplst_find_synopsis (theDeclrepLst, sym)
-in
-  string_of_strptr (str)
-end // end of [declname_find_synopsis]
-
-end // end of [local]
+staload "libatsyntax/SATS/libatsyntax.sats"
 //
 #include "utils/atsdoc/HATS/pats2xhtmlatxt.hats"
 //
-%}\
-%{
-//
-staload "htmlgendecl.sats"
 dynload "htmlgendecl.dats"
+staload "htmlgendecl.sats"
+//
+local
+//
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+//
+in
+//
+val () = let
+  val cs =
+    char_list_vt_make_file (stdin_ref)
+  val declreplst = charlst_declitemize (0(*sta*), cs)
+  val declreplst = list_vt_reverse (declreplst)
+  val declreplst = list_of_list_vt (declreplst)
+in
+  theDeclrepLst_set (declreplst)
+end // end of [theDeclrepLst]
+//
+end // end of [local]
 //
 #include "htmlgendecl_data_atxt.dats"
 //
@@ -56,7 +41,6 @@ val () = theTextMap_insert_str ("theDeclnameLst_menu", theDeclnameLst_menu)
 val () = theTextMap_insert_str ("theDeclitemLst_content", theDeclitemLst_content)
 //
 %}
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

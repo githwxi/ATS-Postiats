@@ -252,18 +252,30 @@ lexbufobj_level1_psynmarkize
 
 fun{}
 string_pats2xhtmlize (stadyn: int, code: string): strptr1
-// endfun
+// end of [string_pats2xhtmlize]
 fun{}
 charlst_pats2xhtmlize (stadyn: int, code: charlst): strptr1
-// endfun
+// end of [charlst_pats2xhtmlize]
 
 (* ****** ****** *)
 
-(*
-** HX: this one is added for building atslibdoc
-*)
-fun declreplst_find_synopsis (xs: declreplst, sym: symbol): strptr1
+fun string_pats2xhtmlize_bground
+  (stadyn: int, code: string): strptr1
+fun charlst_pats2xhtmlize_bground
+  (stadyn: int, code: charlst): strptr1
 
+fun string_pats2xhtmlize_embedded
+  (stadyn: int, code: string): strptr1
+fun charlst_pats2xhtmlize_embedded
+  (stadyn: int, code: charlst): strptr1
+
+(* ****** ****** *)
+//
+// HX: it is for building ATSLIB documentation
+//
+fun declreplst_find_synop
+  (xs: declreplst, sym: symbol): Option_vt (charlst)
+//
 (* ****** ****** *)
 
 (* end of [libatsyntax.sats] *)

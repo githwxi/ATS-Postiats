@@ -13,12 +13,13 @@ PATSHOMEQ="$(PATSHOME)"
 
 ######
 
-IATS=-IATS $(PATSHOMEQ) -IATS $(PATSHOMEQ)/src
+INCLATS=\
+  -IATS $(PATSHOMEQ) -IATS $(PATSHOMEQ)/src
+INCLUDE=-I$(PATSHOMEQ)/src
 
 ######
 
 CCFLAGS=-fPIC -O2
-INCLUDES=-I$(PATSHOMEQ)/src
 
 ######
 
@@ -51,27 +52,27 @@ OBJECTS := \
 
 pats2xhtml: \
   DATS/pats2xhtml_main.dats $(OBJECTS) ; \
-  $(ATSCC) -O2 $(INCLUDES) $(IATS) \
+  $(ATSCC) -O2 $(INCLUDE) $(INCLATS) \
     -o $@ $< $(OBJECTS) -L $(PATSHOME)/libatsyntax -latsyntax -lgmp
 cleanall:: ; $(RMF) pats2xhtml
 
 ######
 
 %_sats.o: $(PATSHOME)/src/%.sats
-	$(ATSCC) $(INCLUDES) $(IATS) $(CCFLAGS) -c $<
+	$(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
 %_dats.o: $(PATSHOME)/src/%.dats
-	$(ATSCC) $(INCLUDES) $(IATS) $(CCFLAGS) -c $<
+	$(ATSCC) $(INCLUDE) $(INCLATS) $(CCFLAGS) -c $<
 
 ######
 
 pats2xhtml_sats.o: \
-  SATS/pats2xhtml.sats ; $(ATSCC) $(IATS) -c $<
+  SATS/pats2xhtml.sats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
 
 pats2xhtml_dats.o: \
-  DATS/pats2xhtml.dats ; $(ATSCC) $(INCLUDES) $(IATS) -c $<
+  DATS/pats2xhtml.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
 
 pats2xhtml_level1_dats.o: \
-  DATS/pats2xhtml_level1.dats ; $(ATSCC) $(INCLUDES) $(IATS) -c $<
+  DATS/pats2xhtml_level1.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $<
 
 ######
 
