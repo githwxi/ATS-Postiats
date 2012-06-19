@@ -470,11 +470,9 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/SATS/parrnull.sats") // null-terminated
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/list.sats")
-  val () = pervasive_load (ATSHOME, "prelude/SATS/list0.sats") // HX: somewhat useful
   val () = pervasive_load (ATSHOME, "prelude/SATS/list_vt.sats")
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/option.sats")
-  val () = pervasive_load (ATSHOME, "prelude/SATS/option0.sats") // HX: nearly useless
   val () = pervasive_load (ATSHOME, "prelude/SATS/option_vt.sats")
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/reference.sats")

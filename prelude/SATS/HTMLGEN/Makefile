@@ -153,13 +153,6 @@ list_vt_atxt.exe:   htmlgendecl_atxt.dats list_vt_atxt.txt $(HTMLGENDECL) ;   $(
 clean:: ; $(RMF) list_vt_atxt.exe
 cleanall:: ; $(RMF) list_vt.html
 
-all:: list0.html
-list0.html:   list0_atxt.exe ; $(CAT) ../list0.sats | ./$< > $@
-list0_atxt.txt: list0.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode htmlgendecl_data_atxt.dats > $@
-list0_atxt.exe:   htmlgendecl_atxt.dats list0_atxt.txt $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
-clean:: ; $(RMF) list0_atxt.exe
-cleanall:: ; $(RMF) list0.html
-
 
 all:: option.html
 option.html:   option_atxt.exe ; $(CAT) ../option.sats | ./$< > $@
@@ -174,13 +167,6 @@ option_vt_atxt.txt: option_vt.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __dtok --o
 option_vt_atxt.exe:   htmlgendecl_atxt.dats option_vt_atxt.txt $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
 clean:: ; $(RMF) option_vt_atxt.exe
 cleanall:: ; $(RMF) option_vt.html
-
-all:: option0.html
-option0.html:   option0_atxt.exe ; $(CAT) ../option0.sats | ./$< > $@
-option0_atxt.txt: option0.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode htmlgendecl_data_atxt.dats > $@
-option0_atxt.exe:   htmlgendecl_atxt.dats option0_atxt.txt $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
-clean:: ; $(RMF) option0_atxt.exe
-cleanall:: ; $(RMF) option0.html
 
 
 all:: unsafe.html

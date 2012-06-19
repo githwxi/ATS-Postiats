@@ -35,14 +35,14 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+exception ListSubscriptExn of ()
+
+#atscode_separator()
+
 prfun
 lemma_list_param
   {x:t0p}{n:int} (xs: list (x, n)): [n >= 0] void
 // end of [lemma_list_param]
-
-#atscode_separator()
-
-exception ListSubscriptException of ()
 
 #atscode_separator()
 

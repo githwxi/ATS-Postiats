@@ -1,5 +1,5 @@
 #decltitle("\
-ATSLIB/libats/mlstyle/list\
+ATSLIB/libats/ML/list\
 ")
 
 (* ****** ****** *)
@@ -31,7 +31,7 @@ indexed type.
 #declnamesynop("list_head_exn")
 #decldescript("\
 This function returns the head of a given list if the list
-is non-empty or raises a #dyncode("ListSubscriptException") if
+is non-empty or raises a #dyncode("ListSubscriptExn") if
 the list is empty.
 ")
 #declnamesynop("list_head_opt")
@@ -44,12 +44,27 @@ This function is the optional version of #dyncode("list_head_exn").
 #declnamesynop("list_tail_exn")
 #decldescript("\
 This function returns the tail of a given list if the list
-is non-empty or raises a #dyncode("ListSubscriptException") if
+is non-empty or raises an exception (ListSubscriptExn) if
 the list is empty.
 ")
 #declnamesynop("list_tail_opt")
 #decldescript("\
 This function is the optional version of #dyncode("list_tail_exn").
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list_nth_exn")
+#decldescript("\
+
+This function returns element i of a given list if i is a natural
+number less than the length of the list.  Otherwise, it raises an
+exception (ListSubscriptExn).
+
+")
+#declnamesynop("list_nth_opt")
+#decldescript("\
+This function is the optional version of #dyncode("list_nth_exn").
 ")
 
 (* ****** ****** *)

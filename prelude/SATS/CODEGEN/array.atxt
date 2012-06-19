@@ -59,6 +59,10 @@ lemma_array_v_param{a:vt0p}
 
 #atscode_separator()
 
+exception ArraySubscriptExn of ()
+
+#atscode_separator()
+
 praxi array_v_nil :
   {a:vt0p}{l:addr} () -<prf> array_v (a, l, 0)
 praxi array_v_unnil :

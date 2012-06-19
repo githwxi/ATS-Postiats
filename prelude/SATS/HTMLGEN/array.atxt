@@ -61,6 +61,16 @@ This proof function establishes that the integer n in any array-view
 
 (* ****** ****** *)
 
+#declnamesynop("ArraySubscriptExn")
+#decldescript('\
+
+By convention, this exception is raised to indicate a situation where the
+index involved in array subscripting is out-of-bounds.
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("array_v_nil")
 #decldescript('\
 This proof function generates a proof of empty array-view.

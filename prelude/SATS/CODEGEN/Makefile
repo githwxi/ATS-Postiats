@@ -48,6 +48,15 @@ char_atxt.dats: char.atxt
 clean:: ; $(RMF) char_atxt.exe
 cleanall:: ; $(RMF) char.sats
 
+all:: filebas.sats
+filebas.sats: filebas_atxt.exe ; ./$< > $@
+filebas_atxt.exe: filebas_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ filebas_atxt.dats -latsdoc
+filebas_atxt.dats: filebas.atxt
+	$(ATSDOC) --outcode $@ -i filebas.atxt > filebas_atxt.txt
+clean:: ; $(RMF) filebas_atxt.exe
+cleanall:: ; $(RMF) filebas.sats
+
 all:: float.sats
 float.sats: float_atxt.exe ; ./$< > $@
 float_atxt.exe: float_atxt.dats
@@ -83,6 +92,15 @@ memory_atxt.dats: memory.atxt
 	$(ATSDOC) --outcode $@ -i memory.atxt > memory_atxt.txt
 clean:: ; $(RMF) memory_atxt.exe
 cleanall:: ; $(RMF) memory.sats
+
+all:: reference.sats
+reference.sats: reference_atxt.exe ; ./$< > $@
+reference_atxt.exe: reference_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ reference_atxt.dats -latsdoc
+reference_atxt.dats: reference.atxt
+	$(ATSDOC) --outcode $@ -i reference.atxt > reference_atxt.txt
+clean:: ; $(RMF) reference_atxt.exe
+cleanall:: ; $(RMF) reference.sats
 
 all:: string.sats
 string.sats: string_atxt.exe ; ./$< > $@
@@ -170,16 +188,6 @@ clean:: ; $(RMF) parrnull_atxt.exe
 cleanall:: ; $(RMF) parrnull.sats
 
 
-all:: filebas.sats
-filebas.sats: filebas_atxt.exe ; ./$< > $@
-filebas_atxt.exe: filebas_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ filebas_atxt.dats -latsdoc
-filebas_atxt.dats: filebas.atxt
-	$(ATSDOC) --outcode $@ -i filebas.atxt > filebas_atxt.txt
-clean:: ; $(RMF) filebas_atxt.exe
-cleanall:: ; $(RMF) filebas.sats
-
-
 all:: list.sats
 list.sats: list_atxt.exe ; ./$< > $@
 list_atxt.exe: list_atxt.dats
@@ -197,15 +205,6 @@ list_vt_atxt.dats: list_vt.atxt
 	$(ATSDOC) --outcode $@ -i list_vt.atxt > list_vt_atxt.txt
 clean:: ; $(RMF) list_vt_atxt.exe
 cleanall:: ; $(RMF) list_vt.sats
-
-all:: list0.sats
-list0.sats: list0_atxt.exe ; ./$< > $@
-list0_atxt.exe: list0_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ list0_atxt.dats -latsdoc
-list0_atxt.dats: list0.atxt
-	$(ATSDOC) --outcode $@ -i list0.atxt > list0_atxt.txt
-clean:: ; $(RMF) list0_atxt.exe
-cleanall:: ; $(RMF) list0.sats
 
 
 all:: option.sats
@@ -225,25 +224,6 @@ option_vt_atxt.dats: option_vt.atxt
 	$(ATSDOC) --outcode $@ -i option_vt.atxt > option_vt_atxt.txt
 clean:: ; $(RMF) option_vt_atxt.exe
 cleanall:: ; $(RMF) option_vt.sats
-
-all:: option0.sats
-option0.sats: option0_atxt.exe ; ./$< > $@
-option0_atxt.exe: option0_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ option0_atxt.dats -latsdoc
-option0_atxt.dats: option0.atxt
-	$(ATSDOC) --outcode $@ -i option0.atxt > option0_atxt.txt
-clean:: ; $(RMF) option0_atxt.exe
-cleanall:: ; $(RMF) option0.sats
-
-
-all:: reference.sats
-reference.sats: reference_atxt.exe ; ./$< > $@
-reference_atxt.exe: reference_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ reference_atxt.dats -latsdoc
-reference_atxt.dats: reference.atxt
-	$(ATSDOC) --outcode $@ -i reference.atxt > reference_atxt.txt
-clean:: ; $(RMF) reference_atxt.exe
-cleanall:: ; $(RMF) reference.sats
 
 
 all:: iterator.sats

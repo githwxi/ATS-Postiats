@@ -61,11 +61,11 @@ This proof function establishes that the integer n in any list type
 
 (* ****** ****** *)
 
-#declnamesynop("ListSubscriptException")
+#declnamesynop("ListSubscriptExn")
 #decldescript('\
 
-The convention for raising this exception is to indicate a situation
-where a list expected to be non-empty is actually empty.  ')
+By convention, this exception is raised to indicate a situation where a
+list expected to be non-empty is actually empty.  ')
 
 (* ****** ****** *)
 

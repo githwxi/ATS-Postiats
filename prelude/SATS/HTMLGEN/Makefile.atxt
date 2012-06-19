@@ -106,11 +106,9 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
 
 #make_entry("list")
 #make_entry("list_vt")
-#make_entry("list0")
 
 #make_entry("option")
 #make_entry("option_vt")
-#make_entry("option0")
 
 #make_entry("unsafe")
 
