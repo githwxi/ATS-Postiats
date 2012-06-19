@@ -154,12 +154,6 @@ array_v (a:viewt@ype, l:addr, n:int) = @[a][n] @ l
 (* ****** ****** *)
 //
 datatype // t@ype+: covariant
-list0_t0ype_type (a: t@ype+) =
-  | list0_cons of (a, list0_t0ype_type a) | list0_nil of ()
-// end of [list0_t0ype_type]
-stadef list0 = list0_t0ype_type
-//
-datatype // t@ype+: covariant
 list_t0ype_int_type (a:t@ype+, int) =
   | {n:int | n >= 0}
     list_cons (a, n+1) of (a, list_t0ype_int_type (a, n))
@@ -197,12 +191,6 @@ dataprop unit_p = unit_p of ()
 dataview unit_v = unit_v of ()
 //
 (* ****** ****** *)
-//
-datatype
-option0_t0ype_type
-  (a: t@ype+) = Some0 of (a) | None0 of ()
-// end of [datatype]
-stadef option0 = option0_t0ype_type
 //
 datatype // t@ype+: covariant
 option_t0ype_bool_type

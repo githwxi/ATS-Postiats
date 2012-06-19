@@ -36,6 +36,7 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 // for instance, casting [strptr] to [string] is as such.
 //
 castfn cast {to:t0p} {from:t0p} (x: from):<> to
+castfn castvwtp_trans {to:vt0p} {from:vt0p} (x: from):<> to
 castfn castvwtp1 {to:t0p} {from:vt0p} (x: !from):<> to
 //
 #atscode_separator()

@@ -189,15 +189,6 @@ list_atxt.dats: list.atxt
 clean:: ; $(RMF) list_atxt.exe
 cleanall:: ; $(RMF) list.sats
 
-all:: list0.sats
-list0.sats: list0_atxt.exe ; ./$< > $@
-list0_atxt.exe: list0_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ list0_atxt.dats -latsdoc
-list0_atxt.dats: list0.atxt
-	$(ATSDOC) --outcode $@ -i list0.atxt > list0_atxt.txt
-clean:: ; $(RMF) list0_atxt.exe
-cleanall:: ; $(RMF) list0.sats
-
 all:: list_vt.sats
 list_vt.sats: list_vt_atxt.exe ; ./$< > $@
 list_vt_atxt.exe: list_vt_atxt.dats
@@ -206,6 +197,15 @@ list_vt_atxt.dats: list_vt.atxt
 	$(ATSDOC) --outcode $@ -i list_vt.atxt > list_vt_atxt.txt
 clean:: ; $(RMF) list_vt_atxt.exe
 cleanall:: ; $(RMF) list_vt.sats
+
+all:: list0.sats
+list0.sats: list0_atxt.exe ; ./$< > $@
+list0_atxt.exe: list0_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ list0_atxt.dats -latsdoc
+list0_atxt.dats: list0.atxt
+	$(ATSDOC) --outcode $@ -i list0.atxt > list0_atxt.txt
+clean:: ; $(RMF) list0_atxt.exe
+cleanall:: ; $(RMF) list0.sats
 
 
 all:: option.sats
@@ -217,15 +217,6 @@ option_atxt.dats: option.atxt
 clean:: ; $(RMF) option_atxt.exe
 cleanall:: ; $(RMF) option.sats
 
-all:: option0.sats
-option0.sats: option0_atxt.exe ; ./$< > $@
-option0_atxt.exe: option0_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ option0_atxt.dats -latsdoc
-option0_atxt.dats: option0.atxt
-	$(ATSDOC) --outcode $@ -i option0.atxt > option0_atxt.txt
-clean:: ; $(RMF) option0_atxt.exe
-cleanall:: ; $(RMF) option0.sats
-
 all:: option_vt.sats
 option_vt.sats: option_vt_atxt.exe ; ./$< > $@
 option_vt_atxt.exe: option_vt_atxt.dats
@@ -234,6 +225,15 @@ option_vt_atxt.dats: option_vt.atxt
 	$(ATSDOC) --outcode $@ -i option_vt.atxt > option_vt_atxt.txt
 clean:: ; $(RMF) option_vt_atxt.exe
 cleanall:: ; $(RMF) option_vt.sats
+
+all:: option0.sats
+option0.sats: option0_atxt.exe ; ./$< > $@
+option0_atxt.exe: option0_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ option0_atxt.dats -latsdoc
+option0_atxt.dats: option0.atxt
+	$(ATSDOC) --outcode $@ -i option0.atxt > option0_atxt.txt
+clean:: ; $(RMF) option0_atxt.exe
+cleanall:: ; $(RMF) option0.sats
 
 
 all:: reference.sats

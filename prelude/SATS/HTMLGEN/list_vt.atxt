@@ -133,7 +133,7 @@ There is no memory allocation/deallocation involved.
 
 Mergesort is of time-complexity O(n(log(n))), and it is a stable sorting
 algorithm.  This function mergesorts its first list argument according to
-the ordering embodied in its second argument. Note that the list argument
+the ordering provided in its second argument. Note that the list argument
 is consumed in the construction of the resulting sorted list and thus no
 longer available after the function returns.
 There is no memory allocation/deallocation involved in the implementation
@@ -143,7 +143,7 @@ of #dyncode("list_vt_mergesort").
 #declnamesynop("list_vt_mergesort_env")
 #decldescript('\
 This function does essentially the same as #dyncode("list_vt_mergesort")
-except that it allows the comparison function to carry its own environment.
+except for allowing the comparison function to carry its own environment.
 ')
 
 (* ****** ****** *)
@@ -154,7 +154,7 @@ except that it allows the comparison function to carry its own environment.
 Quicksort is of time-complexity O(n(log(n))) on average (but
 can be O(n^2) in the worse case), and it is not a stable sorting algorithm.
 This function quicksorts its first list argument according to the ordering
-embodied in its second argument. Note that the list argument is consumed in
+provided in its second argument. Note that the list argument is consumed in
 the construction of the resulting sorted list and thus no longer available
 after the function returns. An implementation of this function may copy
 the list into an array, sort the array, copy the array back into the list,
@@ -164,7 +164,7 @@ and then free the array.
 #declnamesynop("list_vt_quicksort_env")
 #decldescript('\
 This function does essentially the same as #dyncode("list_vt_quicksort")
-except that it allows the comparison function to carry its own environment.
+except for allowing the comparison function to carry its own environment.
 ')
 
 (* ****** ****** *)

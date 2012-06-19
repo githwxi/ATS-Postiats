@@ -71,7 +71,7 @@ reference.
 
 #declnamesynop("ref_get_elt")
 #decldescript('\
-This function returns the value stored in the given reference.
+This function returns the value stored in a given reference.
 Note that the type of the value is nonlinear.
 ')
 
@@ -79,17 +79,20 @@ Note that the type of the value is nonlinear.
 
 #declnamesynop("ref_set_elt")
 #decldescript('\
-This function stores the given value into the given reference.
-Note that the type of the value is nonlinear.
+
+This function stores a value (the second argument) into a given reference
+(the first argument).  Note that the type of the value is nonlinear.
+
 ')
 
 (* ****** ****** *)
 
 #declnamesynop("ref_exch_elt")
 #decldescript('\
-This function exchanges the value in the given reference with the value in
-its second argument.  Note that the type of these values can be linear.
-')
+
+This function exchanges the value in a given reference (the first argument)
+with the value in a variable ( the second argument).  Note that the type of
+these values can be linear.  ')
 
 (* ****** ****** *)
 

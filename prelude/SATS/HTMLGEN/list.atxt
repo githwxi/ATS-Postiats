@@ -61,4 +61,19 @@ This proof function establishes that the integer n in any list type
 
 (* ****** ****** *)
 
+#declnamesynop("ListSubscriptException")
+#decldescript('\
+
+The convention for raising this exception is to indicate a situation
+where a list expected to be non-empty is actually empty.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("list_of_list_vt")
+#decldescript("\
+This function casts a linear list-value to a nonlinear list-value.
+")
+
+(* ****** ****** *)
+
 (* end of [list.atxt] *)

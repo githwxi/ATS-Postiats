@@ -26,31 +26,43 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-#atscode_decl_strcst("sortdef t0p = t@ype")
+staload "libats/mlstyle/basics.sats"
+
+#atscode_separator()
+
+typedef option0 (a:t@ype) = option (a)
+typedef option1 (a:t@ype) = Option (a)
+
+#atscode_separator()
+
+castfn
+option0_of_option1 {a:t@ype} (xs: option1 a):<> option0 (a)
+castfn
+option1_of_option0 {a:t@ype} (xs: option0 a):<> option1 (a)
 
 #atscode_separator()
 
 fun{a:t0p}
-option0_some (x: a):<> option0 (a)
+option_some (x: a):<> option (a)
 fun{a:t0p}
-option0_none ((*void*)):<> option0 (a)
+option_none ((*void*)):<> option (a)
 
 #atscode_separator()
 
 fun{a:t0p}
-option0_is_some (x: option0 a):<> bool
+option_is_some (x: option a):<> bool
 fun{a:t0p}
-option0_is_none (x: option0 a):<> bool
+option_is_none (x: option a):<> bool
 
 #atscode_separator()
 
 fun{a:t0p}
-option0_unsome_exn (opt: option0 (a)):<!exn> a
+option_unsome_exn (opt: option (a)):<!exn> a
 
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "option0_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "option_atxt.txt")
 %}\

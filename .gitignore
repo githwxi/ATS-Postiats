@@ -27,6 +27,11 @@ prelude/CATS/CODEGEN/*.cats
 prelude/CATS/CODEGEN/*_atxt.txt
 prelude/CATS/CODEGEN/*_atxt.dats
 
+prelude/SATS/HTMLGEN/*.exe
+prelude/SATS/HTMLGEN/*_atxt.txt
+prelude/SATS/HTMLGEN/*_atxt.dats
+prelude/SATS/HTMLGEN/*.html
+
 libc/SATS/CODEGEN/*.exe
 libc/SATS/CODEGEN/*.sats
 libc/SATS/CODEGEN/*_atxt.txt
@@ -52,6 +57,24 @@ libats/CATS/CODEGEN/*.exe
 libats/CATS/CODEGEN/*.cats
 libats/CATS/CODEGEN/*_atxt.txt
 libats/CATS/CODEGEN/*_atxt.dats
+
+libats/mlstyle/SATS/CODEGEN/*.exe
+libats/mlstyle/SATS/CODEGEN/*.sats
+libats/mlstyle/SATS/CODEGEN/*_atxt.txt
+libats/mlstyle/SATS/CODEGEN/*_atxt.dats
+libats/mlstyle/DATS/CODEGEN/*.exe
+libats/mlstyle/DATS/CODEGEN/*.dats
+libats/mlstyle/DATS/CODEGEN/*_atxt.txt
+libats/mlstyle/DATS/CODEGEN/*_atxt.dats
+libats/mlstyle/CATS/CODEGEN/*.exe
+libats/mlstyle/CATS/CODEGEN/*.cats
+libats/mlstyle/CATS/CODEGEN/*_atxt.txt
+libats/mlstyle/CATS/CODEGEN/*_atxt.dats
+
+libats/mlstyle/SATS/HTMLGEN/*.exe
+libats/mlstyle/SATS/HTMLGEN/*_atxt.txt
+libats/mlstyle/SATS/HTMLGEN/*_atxt.dats
+libats/mlstyle/SATS/HTMLGEN/*.html
 
 contrib/cairo/cairo-1.12.*
 contrib/cairo/SATS/CODEGEN/*.exe

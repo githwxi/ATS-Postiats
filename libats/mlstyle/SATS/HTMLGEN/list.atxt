@@ -1,0 +1,57 @@
+#decltitle("\
+ATSLIB/libats/mlstyle/list\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are primarily for supporting
+ML-style processing of list-values. The programmer is encouraged to use the
+dependent datatype #stacode("list") instead of #stacode("list0") after
+gaining familiarity with dependent types.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_of_list1")
+#decldescript("\
+This function casts a list-value of indexed type to a list-value of
+unindexed type.
+")
+#declnamesynop("list1_of_list0")
+#decldescript("\
+This function casts a list-value of unindexed type to a list-value of
+indexed type.
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list_head_exn")
+#decldescript("\
+This function returns the head of a given list if the list
+is non-empty or raises a #dyncode("ListSubscriptException") if
+the list is empty.
+")
+#declnamesynop("list_head_opt")
+#decldescript("\
+This function is the optional version of #dyncode("list_head_exn").
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list_tail_exn")
+#decldescript("\
+This function returns the tail of a given list if the list
+is non-empty or raises a #dyncode("ListSubscriptException") if
+the list is empty.
+")
+#declnamesynop("list_tail_opt")
+#decldescript("\
+This function is the optional version of #dyncode("list_tail_exn").
+")
+
+(* ****** ****** *)
+
+(* end of [list.atxt] *)

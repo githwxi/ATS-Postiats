@@ -1,0 +1,31 @@
+#decltitle("\
+ATSLIB/libats/mlstyle/option\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are primarily for supporting
+ML-style processing of option-values. The programmer is encouraged to use
+the dependent datatype #stacode("option") instead of #stacode("option")
+after gaining some familiarity with dependent types.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("option0_of_option1")
+#decldescript("\
+This function casts an option-value of indexed type to an option-value of
+unindexed type.
+")
+#declnamesynop("option1_of_option0")
+#decldescript("\
+This function casts an option-value of unindexed type to an option-value of
+indexed type.
+")
+
+(* ****** ****** *)
+
+(* end of [option.atxt] *)

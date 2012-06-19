@@ -1,0 +1,117 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"list.sats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/list.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("May, 2012")
+
+#atscode_separator()
+
+staload "libats/mlstyle/basics.sats"
+
+#atscode_separator()
+
+typedef cfun (a: t0p, b:t0p) = (a) -<cloref1> b
+
+#atscode_separator()
+
+typedef list0 (a:t@ype) = list (a)
+typedef list1 (a:t@ype) = List (a)
+
+#atscode_separator()
+
+castfn
+list0_of_list1 {a:t@ype} (xs: list1 a):<> list0 (a)
+castfn
+list1_of_list0 {a:t@ype} (xs: list0 a):<> list1 (a)
+
+#atscode_separator()
+
+fun{a:t0p}
+list_head_exn (xs: list a):<!exn> a
+fun{a:t0p}
+list_head_opt (xs: list a):<> option (a)
+
+fun{a:t0p}
+list_tail_exn (xs: list a):<!exn> list (a)
+fun{a:t0p}
+list_tail_opt (xs: list a):<> option (list (a))
+
+#atscode_separator()
+
+fun{a:t0p}
+list_nth_exn (xs: list a, i: int):<!exn> a
+fun{a:t0p}
+list_nth_opt (xs: list a, i: int):<> option (a)
+
+#atscode_separator()
+
+fun{a:t0p}
+list_concat (xs: list (list (a))):<> list (a)
+
+#atscode_separator()
+
+fun{a:t0p}{b:t0p}
+list_map_fun (xs: list (a), f: a -> b): list (b)
+fun{a:t0p}{b:t0p}
+list_map_cloref (xs: list (a), f: cfun (a, b)): list (b)
+
+#atscode_separator()
+
+fun{a:t0p}
+list_exists_fun (xs: list (a), f: a -> bool): bool
+fun{a:t0p}{b:t0p}
+list_exists_cloref (xs: list (a), f: cfun (a, bool)): bool
+
+fun{a:t0p}
+list_forall_fun (xs: list (a), f: a -> bool): bool
+fun{a:t0p}{b:t0p}
+list_forall_cloref (xs: list (a), f: cfun (a, bool)): bool
+
+#atscode_separator()
+
+fun{a:t0p}
+list_find_fun (xs: list a, pred: a -> bool): option (a)
+fun{a:t0p}
+list_find_cloref (xs: list a, pred: cfun (a, bool)): option (a)
+
+#atscode_separator()
+
+fun{a:t0p}
+list_filter_fun (xs: list (a), f: a -> bool): list (a)
+fun{a:t0p}{b:t0p}
+list_filter_cloref (xs: list (a), f: cfun (a, bool)): list (a)
+
+#atscode_separator()
+
+fun{a:t0p}
+list_foreach_fun (xs: list a, f: a -> void): void
+fun{a:t0p}
+list_foreach_cloref (xs: list a, f: cfun (a, void)): void
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "list_atxt.txt")
+%}\

@@ -11,6 +11,34 @@ ATSLIB/prelude/float\
 
 (* ****** ****** *)
 
+#declnamesynop("g0float_aop_type")
+#declnamesynop("g0float_cmp_type")
+
+(* ****** ****** *)
+
+#declnamesynop("g0float_add")
+#decldescript('\
+This is the generic addition function on floating point numbers.
+')
+#declnamesynop("g0float_sub")
+#decldescript('\
+This is the generic subtraction function on floating point numbers.
+')
+#declnamesynop("g0float_mul")
+#decldescript('\
+This is the generic multiplication function on floating point numbers.
+')
+#declnamesynop("g0float_div")
+#decldescript('\
+This is the generic division function on floating point numbers.
+')
+#declnamesynop("g0float_mod")
+#decldescript('\
+This is the generic modulo function on floating point numbers.
+')
+
+(* ****** ****** *)
+
 #declnamesynop("g0float_lt")
 #decldescript('\
 This function returns true if and only if its first argument is
@@ -46,6 +74,32 @@ equal to its second argument.
 #decldescript('\
 This function returns true if and only if its first argument is
 unequal to its second argument.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("g0float_max")
+#decldescript('\
+This function returns the maximum of two given floating point numbers.
+')
+#declnamesynop("g0float_min")
+#decldescript('\
+This function returns the minimum of two given floating point numbers.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_float")
+#decldescript('\
+This function prints a single-precision floating point number.
+')
+#declnamesynop("fprint_double")
+#decldescript('\
+This function prints a double-precision floating point number.
+')
+#declnamesynop("fprint_ldouble")
+#decldescript('\
+This function prints a long double-precision floating point number.
 ')
 
 (* ****** ****** *)

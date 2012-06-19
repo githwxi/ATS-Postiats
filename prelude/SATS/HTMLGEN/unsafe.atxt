@@ -6,16 +6,134 @@ ATSLIB/prelude/unsafe\
 
 #declpreamble('\
 
+#para('\
+
+This package contains functions primarily needed for bypassing the type
+system of ATS. These functions are often employed to implement templates in
+ATS, which can be instantiated and then compiled into C-code. This style of
+template implementation offers a safer and more reliable alternative to
+macro-based template implementation in C.  ')
+
+#para('\
+Note that the file unsafe.sats is not loaded by default and must be done so
+explicitly.
+')
 
 ')#comment("declpreamble")
 
 (* ****** ****** *)
 
+#declnamesynop("cast")
+#decldescript("\
+This is the generic function for casting values of nonlinear types.
+")
+#declnamesynop("castvwtp1")
+#decldescript("\
+
+This is the generic function for casting values of linear types into values
+of nonlinear types.  Note that It preserves the value being casted.  ")
+
+#declnamesynop("castvwtp_trans")
+#decldescript("\
+
+This is the generic function for casting values of linear types. Note that
+it consumes the value being casted. The resource in the argument of this
+function, if any, should be completely transferred into the result of the
+cast so as to avoid resource-leaking.  ")
+
+(* ****** ****** *)
+
+#declnamesynop("cast2ptr")
+#decldescript("\
+This function casts a boxed value to a pointer of unindexed type.
+")
+#declnamesynop("cast2Ptr0")
+#decldescript("\
+This function casts a boxed value to a pointer of indexed type.
+")
+#declnamesynop("cast2Ptr1")
+#decldescript("\
+This function casts a boxed value to a non-null pointer of indexed type.
+")
+
+(* ****** ****** *)
+
+#declnamesynop("cast2int")
+#decldescript("\
+This function casts a value to a signed integer of unindexed type.
+")
+#declnamesynop("cast2uint")
+#decldescript("\
+This function casts a value to an unsigned integer of unindexed type.
+")
+
+#declnamesynop("cast2lint")
+#decldescript("\
+This function casts a value to a signed long integer of unindexed type.
+")
+#declnamesynop("cast2ulint")
+#decldescript("\
+This function casts a value to an unsigned long integer of unindexed type.
+")
+
+#declnamesynop("cast2llint")
+#decldescript("\
+This function casts a value to a signed long long integer of unindexed type.
+")
+#declnamesynop("cast2ullint")
+#decldescript("\
+This function casts a value to an unsigned long long integer of unindexed type.
+")
+
+#declnamesynop("cast2sint")
+#decldescript("\
+This function casts a value to a signed short integer of unindexed type.
+")
+#declnamesynop("cast2usint")
+#decldescript("\
+This function casts a value to an unsigned short integer of unindexed type.
+")
+
+#declnamesynop("cast2ssint")
+#decldescript("\
+This function casts a value to a signed short short integer of unindexed type.
+")
+#declnamesynop("cast2ussint")
+#decldescript("\
+This function casts a value to an unsigned short short integer of unindexed type.
+")
+
+(* ****** ****** *)
+
 #declnamesynop("ptr_get")
+#decldescript("\
+
+This function reads from a non-null pointer with no requirement for a proof
+of at-view associated with the pointer. This is precisely like reading from
+a pointer in C.
+
+")
 
 #declnamesynop("ptr_set")
+#decldescript("\
+
+This function writes through a non-null pointer with no requirement for a proof
+of at-view associated with the pointer. This is precisely like writing through
+a pointer in C.
+
+")
+
 
 #declnamesynop("ptr_exch")
+#decldescript("\
+
+This function exchanges the content at the location to which its first
+argument points with the content in its second argument.  Note that there
+is no proof available that guarantees the first argument being a valid
+pointer.
+
+")
+
 
 (* ****** ****** *)
 

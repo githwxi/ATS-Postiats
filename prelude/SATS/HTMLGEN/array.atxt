@@ -131,7 +131,7 @@ A typical use of
 #pats2xhtmld('\
 staload UN = "prelude/SATS/unsafe.sats"
 fun{a:t0p}
-array_get_at (
+array_get_at {n:nat} (
   A: &(@[a][n]), i: sizeLt n
 ) : a = let
   val p = array_getref_at<a> (A, i) in $UN.ptr_get<a> (p)
