@@ -1,0 +1,22 @@
+#decltitle("\
+ATSLIB/prelude/unsafe\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("ptr_get")
+
+#declnamesynop("ptr_set")
+
+#declnamesynop("ptr_exch")
+
+(* ****** ****** *)
+
+(* end of [unsafe.atxt] *)

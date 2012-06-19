@@ -11,16 +11,14 @@ ATSLIB/prelude/option\
 
 (* ****** ****** *)
 
-#declname("option_some")
-#declsynopsis()
+#declnamesynop("option_some")
 #decldescript('\
 This is just the function version of the constructor #dyncode("Some").
 ')
 
 (* ****** ****** *)
 
-#declname("option_none")
-#declsynopsis()
+#declnamesynop("option_none")
 #decldescript('\
 This is just the function version of the constructor #dyncode("None").
 ')

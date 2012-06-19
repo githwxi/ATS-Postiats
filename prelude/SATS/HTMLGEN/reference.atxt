@@ -1,0 +1,96 @@
+#decltitle("\
+ATSLIB/prelude/reference\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+#para("\
+A reference is just a persistent array of size 1. It is persistent in the
+sense that the memory associated with a reference is heap-allocated and
+can only be reclaimed by GC. While it is allowed to store inear values
+in references, doing so demands caution as resources contained in such
+values may be inadvertently leaked.
+")
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("ref_get_ptr")
+#decldescript('\
+This cast function (castfn) returns the pointer associated with a given
+reference. Note that the returned pointer is guranteed to be non-null.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("ref_get_viewptr")
+#decldescript('\
+This cast function (castfn) returns the boxed at-view and pointer
+associated with a given reference. If the value stored in a reference is
+linear, then it is not allowed for the value be taken out from the
+reference. Instead, #dyncode("ref_get_viewptr") can be called on the
+reference to allow that the value be processed in situ.
+')
+#declexample('\
+The following function #dyncode("ref_exch_at")
+exchanges the contents of a reference and a variable:
+#pats2xhtmld('\
+fun{a:vt0p}
+ref_exch_at (
+  r: ref (a), x: &a >> a
+) : void = let
+  val (
+    vbox pf | p
+  ) = ref_get_viewptr (r)
+  val tmp = !p
+in
+  !p := x; x := tmp
+end // end of [ref_exch_at]
+')
+Note that the type for the contents of r and x can be linear.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("ref")
+#decldescript('\
+This function creates a reference initialized with its given argument.
+')
+#declnamesynop("ref_make_elt")
+#decldescript('\
+This function does the same as #dyncode("ref").
+')
+#declnamesynop("ref_make_viewptr")
+#decldescript('\
+This cast function (castfn) turns a pointer with a proof of at-view into a
+reference.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("ref_get_elt")
+#decldescript('\
+This function returns the value stored in the given reference.
+Note that the type of the value is nonlinear.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("ref_set_elt")
+#decldescript('\
+This function stores the given value into the given reference.
+Note that the type of the value is nonlinear.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("ref_exch_elt")
+#decldescript('\
+This function exchanges the value in the given reference with the value in
+its second argument.  Note that the type of these values can be linear.
+')
+
+(* ****** ****** *)
+
+(* end of [reference.atxt] *)

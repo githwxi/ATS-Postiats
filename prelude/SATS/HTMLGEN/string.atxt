@@ -1,0 +1,59 @@
+#decltitle("\
+ATSLIB/prelude/string\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+#para("\
+
+") ')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("lt_string_string")
+#decldescript('\
+This function returns true if and only if its first
+argument is less than its second argument according
+to the lexicographic ordering on characters.
+')
+#declnamesynop("lte_string_string")
+#decldescript('\
+This function returns true if and only if its first
+argument is less than or equal to its second argument according
+to the lexicographic ordering on characters.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("gt_string_string")
+#decldescript('\
+This function returns true if and only if its first
+argument is greater than its second argument according
+to the lexicographic ordering on characters.
+')
+#declnamesynop("gte_string_string")
+#decldescript('\
+This function returns true if and only if its first
+argument is greater than or equal to its second argument according
+to the lexicographic ordering on characters.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("eq_string_string")
+#decldescript('\
+This function returns true if and only if its first
+argument is equal to its second argument according to
+the lexicographic ordering on characters.
+')
+#declnamesynop("neq_string_string")
+#decldescript('\
+This function returns true if and only if its first
+argument is unequal to its second argument according
+to the lexicographic ordering on characters.
+')
+
+(* ****** ****** *)
+
+(* end of [string.atxt] *)

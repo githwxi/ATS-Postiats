@@ -1,0 +1,92 @@
+#decltitle("\
+ATSLIB/prelude/integer\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("g0int_lt")
+#decldescript('\
+This function returns true if and only if its first argument is
+less than its second argument. It is for signed integers.
+')
+#declnamesynop("g0int_lte")
+#decldescript('\
+This function returns true if and only if its first argument is
+less than or equal to its second argument. It is for signed integers.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("g0int_gt")
+#decldescript('\
+This function returns true if and only if its first argument is
+greater than its second argument. It is for signed integers.
+')
+#declnamesynop("g0int_gte")
+#decldescript('\
+This function returns true if and only if its first argument is
+greater than or equal to its second argument. It is for signed integers.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("g0int_eq")
+#decldescript('\
+This function returns true if and only if its first argument is
+equal to its second argument. It is for signed integers.
+')
+#declnamesynop("g0int_neq")
+#decldescript('\
+This function returns true if and only if its first argument is
+unequal to its second argument. It is for signed integers.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("g0uint_lt")
+#decldescript('\
+This function returns true if and only if its first argument is
+less than its second argument. It is for unsigned integers.
+')
+#declnamesynop("g0uint_lte")
+#decldescript('\
+This function returns true if and only if its first argument is
+less than or equal to its second argument. It is for unsigned integers.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("g0uint_gt")
+#decldescript('\
+This function returns true if and only if its first argument is
+greater than its second argument. It is for unsigned integers.
+')
+#declnamesynop("g0uint_gte")
+#decldescript('\
+This function returns true if and only if its first argument is
+greater than or equal to its second argument. It is for unsigned integers.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("g0uint_eq")
+#decldescript('\
+This function returns true if and only if its first argument is
+equal to its second argument. It is for unsigned integers.
+')
+#declnamesynop("g0uint_neq")
+#decldescript('\
+This function returns true if and only if its first argument is
+unequal to its second argument. It is for unsigned integers.
+')
+
+(* ****** ****** *)
+
+(* end of [integer.atxt] *)

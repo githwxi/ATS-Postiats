@@ -69,7 +69,6 @@ fileref_load : fileref_load_type (a)
 
 fun fileref_load_int : fileref_load_type (int)
 fun fileref_load_char : fileref_load_type (char)
-fun fileref_load_float : fileref_load_type (float)
 fun fileref_load_double : fileref_load_type (double)
 fun fileref_load_string : fileref_load_type (string)
 

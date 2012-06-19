@@ -11,17 +11,12 @@ ATSLIB/prelude/float\
 
 (* ****** ****** *)
 
-#declname("g0float_lt_float")
-#declsynopsis()
+#declnamesynop("g0float_lt")
 #decldescript('\
 This function returns true if and only if its first argument is
 less than its second argument.
 ')
-
-(* ****** ****** *)
-
-#declname("g0float_lte_float")
-#declsynopsis()
+#declnamesynop("g0float_lte")
 #decldescript('\
 This function returns true if and only if its first argument is
 less than or equal to its second argument.
@@ -29,20 +24,28 @@ less than or equal to its second argument.
 
 (* ****** ****** *)
 
-#declname("g0float_gt_float")
-#declsynopsis()
+#declnamesynop("g0float_gt")
 #decldescript('\
 This function returns true if and only if its first argument is
 greater than its second argument.
 ')
-
-(* ****** ****** *)
-
-#declname("g0float_gte_float")
-#declsynopsis()
+#declnamesynop("g0float_gte")
 #decldescript('\
 This function returns true if and only if its first argument is
 greater than or equal to its second argument.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("g0float_eq")
+#decldescript('\
+This function returns true if and only if its first argument is
+equal to its second argument.
+')
+#declnamesynop("g0float_neq")
+#decldescript('\
+This function returns true if and only if its first argument is
+unequal to its second argument.
 ')
 
 (* ****** ****** *)

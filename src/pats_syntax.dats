@@ -1166,10 +1166,14 @@ in '{
 
 implement
 d0cstdec_make (
-  id, arg, eff, res, extdef
+  id, arg, eff, res, extopt
 ) = let
   val fil = $FIL.filename_get_current ()
-  val loc = id.i0de_loc + res.s0exp_loc
+  val loc = (
+    case+ extopt of
+    | Some s0 => id.i0de_loc + s0.token_loc
+    | None () => id.i0de_loc + res.s0exp_loc
+  ) : location // end of [val]
 in '{
   d0cstdec_loc= loc
 , d0cstdec_fil= fil
@@ -1177,7 +1181,7 @@ in '{
 , d0cstdec_arg= arg
 , d0cstdec_eff= eff
 , d0cstdec_res= res
-, d0cstdec_extdef= extdef
+, d0cstdec_extopt= extopt
 } end // end of [d0cstdec_make]
 
 (* ****** ****** *)

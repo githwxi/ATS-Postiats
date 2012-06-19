@@ -6,15 +6,54 @@ ATSLIB/prelude/list\
 
 #declpreamble('\
 
+The type for a singly-linked functional list containing N elements of type
+T is denoted by #stacode("list(T, N)"), where T is nonlinear. Note that the
+type constructor #stacode("list") is co-variant in its first argument, that
+is, #stacode("list(T1, N)") is a subtype of #stacode("list(T2, N)") if T1
+is a subtype of T2.
 
 ')#comment("declpreamble")
 
 (* ****** ****** *)
 
-#declname("lemma_list_param")
+#declname("list")
+#declsynopsis2('\
 
-#declsynopsis()
+The full name for the list-type constructor #stacode("list") is
+#stacode("list_t0ype_int_type"), which is given to the datatype declared as
+follows:
+#pats2xhtmls('\
+datatype // t@ype+: covariant
+list_t0ype_int_type (a:t@ype+, int) =
+  | {n:int | n >= 0}
+    list_cons (a, n+1) of (a, list_t0ype_int_type (a, n))
+  | list_nil (a, 0) of ()
+// end of [datatype]
+')\
 
+')
+#decldescript('\
+
+There are two data constructors #dyncode("list_nil") and
+#dyncode("list_cons") associated with #stacode("list"); the former
+constructs a list of length 0, that is, an empty list while the latter
+takes an element x and a list xs of length n to construct a list of length n+1
+such that x and xs are the head and tail of the newly constructed list,
+respectively.\
+
+')
+
+(* ****** ****** *)
+
+#declname("List")
+#declsynopsis2('\
+#pats2xhtmls('\
+typedef List (a:t@ype) = [n:nat] list (a, n)\
+')')
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_list_param")
 #decldescript('\
 This proof function establishes that the integer n in any list type
 #stacode("list(T, n)") is a natural number, where T is a nonlinear type.

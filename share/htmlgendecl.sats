@@ -23,6 +23,7 @@ declitem =
   | DITMname of (string)
   | DITMsynopsis of ()
   | DITMsynopsis2 of (string)
+  | DITMnamesynop of (string) // its combines DITMname and DITMsynopsis
   | DITMdescript of (string)
   | DITMexample of (string)
 // end of [declitem]
@@ -56,6 +57,8 @@ fun declname (x: string): atext
 //
 fun declsynopsis ((*auto*)): atext
 fun declsynopsis2 (x: string): atext
+//
+fun declnamesynop (x: string): atext
 //
 fun decldescript (x: string): atext
 //

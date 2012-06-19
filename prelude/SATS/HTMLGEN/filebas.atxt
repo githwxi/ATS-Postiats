@@ -8,29 +8,79 @@ ATSLIB/prelude/filebas\
 #para("\
 
 The functions declared in this package are mostly done for the sake of
-convenience.  Please turn on GC if functions like [input_line] and
-[output_line] are called repeatedly.  For full-fledged IO support, please
-see [ATSHOME/libc/SATS/stdio.sats].
+convenience.  Please turn on GC if functions like
+#dyncode("fileref_input_line") and #dyncode("file_output_line") are called
+repeatedly.  For full-fledged IO support, please see
+[ATSHOME/libc/SATS/stdio.sats].
 
 ") ')#comment("declpreamble")
 
 (* ****** ****** *)
 
-#declname("fileref_open_exn")
-#declsynopsis()
+#declnamesynop("fileref_open_exn")
 #decldescript('\
+
 This function returns a handle for the file referred to by its first
 argument #dyncode("path") and set the mode of handle according to its
 second argument #dyncode("fm"). In case of a failure, a fatal non-catchable
 exception is raised.
+
 ')
 
-#declname("fileref_open_opt")
-#declsynopsis()
+#declnamesynop("fileref_open_opt")
 #decldescript('\
-This function is the optional version of #dyncode("fileref_open_exn"): The returned
-value is an option that indicates whether a call to #dyncode("fileref_open_opt") yields
-a file handle or not.
+
+This function is the optional version of #dyncode("fileref_open_exn"): The
+returned value is an option that indicates whether a call to
+#dyncode("fileref_open_opt") successfully yields a file handle or not.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("fileref_close")
+#decldescript('\
+This function closes a given file handle.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("fileref_load")
+#decldescript('\
+
+This function loads a value from a given file handle into a given variable,
+and returns a boolean to indicate whether loading is successful or not. It
+is only implemented for certain template arguments.
+
+')
+
+#declnamesynop("fileref_load_int")
+#decldescript('\
+This function is a specific instance of #dyncode("fileref_load") for
+loading a integer.
+')
+#declnamesynop("fileref_load_char")
+#decldescript('\
+This function is a specific instance of #dyncode("fileref_load") for
+loading a character.
+')
+#declnamesynop("fileref_load_double")
+#decldescript('\
+This function is a specific instance of #dyncode("fileref_load") for
+loading a double-precision float.
+')
+#declnamesynop("fileref_load_string")
+#decldescript('\
+This function is a specific instance of #dyncode("fileref_load") for
+loading a doubly-quoted string.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("fileref_get_opt")
+#decldescript('\
+This function reads a value from a given file handle. It is only implemented
+for certain template arguments.
 ')
 
 (* ****** ****** *)

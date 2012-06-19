@@ -11,14 +11,12 @@ ATSLIB/prelude/char\
 
 (* ****** ****** *)
 
-#declname("lt_char_char")
-#declsynopsis()
+#declnamesynop("lt_char_char")
 #decldescript('\
 This function returns true if and only if the ascii code of its first
 argument is less than that of its second argument.
 ')
-#declname("lte_char_char")
-#declsynopsis()
+#declnamesynop("lte_char_char")
 #decldescript('\
 This function returns true if and only if the ascii code of its first
 argument is less than or equal to that of its second argument.
@@ -26,14 +24,12 @@ argument is less than or equal to that of its second argument.
 
 (* ****** ****** *)
 
-#declname("gt_char_char")
-#declsynopsis()
+#declnamesynop("gt_char_char")
 #decldescript('\
 This function returns true if and only if the ascii code of its first
 argument is greater than that of its second argument.
 ')
-#declname("gte_char_char")
-#declsynopsis()
+#declnamesynop("gte_char_char")
 #decldescript('\
 This function returns true if and only if the ascii code of its first
 argument is greater than or equal to that of its second argument.
@@ -41,14 +37,12 @@ argument is greater than or equal to that of its second argument.
 
 (* ****** ****** *)
 
-#declname("eq_char_char")
-#declsynopsis()
+#declnamesynop("eq_char_char")
 #decldescript('\
 This function returns true if and only if the ascii code of its first
 argument is equal to that of its second argument.
 ')
-#declname("neq_char_char")
-#declsynopsis()
+#declnamesynop("neq_char_char")
 #decldescript('\
 This function returns true if and only if the ascii code of its first
 argument is unequal to that of its second argument.

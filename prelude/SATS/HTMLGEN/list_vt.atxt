@@ -6,18 +6,165 @@ ATSLIB/prelude/list_vt\
 
 #declpreamble('\
 
+The type for a singly-linked linear list containing N elements of type T is
+denoted by #stacode("list_vt(T, N)"), where T can be linear. The suffix
+\"vt\" in the name list_vt stands for viewtype, which is the formal name
+for linear type in ATS.  Note that the type constructor #stacode("list_vt")
+is co-variant in its first argument, that is, #stacode("list_vt(T1, N)") is
+a subtype of #stacode("list_vt(T2, N)") if T1 is a subtype of T2. The
+low-level representation for list_vt is the same as that for a standard
+singly-linked list in C, and it is fairly straightforward to implement
+functions in C that can directly manipulate linear lists in ATS and vice
+versa.
 
 ')#comment("declpreamble")
 
 (* ****** ****** *)
 
-#declname("lemma_list_vt_param")
+#declname("list_vt")
+#declsynopsis2('\
 
-#declsynopsis()
+The full name for the list-type constructor #stacode("list_vt") is
+#stacode("list_viewt0ype_int_viewtype"), which is given to the
+linear datatype (dataviewtype) declared as follows:
+#pats2xhtmls('\
+dataviewtype // viewt@ype+: covariant
+list_viewt0ype_int_viewtype (a:viewt@ype+, int) =
+  | {n:int | n >= 0}
+    list_vt_cons (a, n+1) of (a, list_viewt0ype_int_viewtype (a, n))
+  | list_vt_nil (a, 0) of ()
+// end of [list_viewt0ype_int_viewtype]
+// end of [dataviewtype]
+')\
 
+')
+#decldescript('\
+
+There are two data constructors #dyncode("list_vt_nil") and
+#dyncode("list_vt_cons") associated with #stacode("list_vt"); the former
+constructs a list of length 0, that is, an empty list while the latter
+takes an element x and a list xs of length n to construct a list of length n+1
+such that x and xs are the head and tail of the newly constructed list,
+respectively.\
+
+')
+
+(* ****** ****** *)
+
+#declname("List_vt")
+#declsynopsis2('\
+#pats2xhtmls('\
+typedef List_vt (a:viewt@ype) = [n:nat] list_vt (a, n)\
+')')
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_list_vt_param")
 #decldescript('\
 This proof function establishes that the integer n in any linear list type
 #stacode("list_vt(T, n)") is a natural number, where T can be a linear type.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_is_nil")
+#decldescript('\
+This function returns true if and only if its argument is a linear list of
+length 0.
+')
+#declnamesynop("list_vt_is_cons")
+#decldescript('\
+This function returns true if and only if its argument is a linear list of
+some positive length.
+')
+#declnamesynop("list_vt_is_sing")
+#decldescript('\
+This function returns true if and only if its argument is a linear list of
+length 1, that is, a singleton linear list.
+')
+#declnamesynop("list_vt_is_pair")
+#decldescript('\
+This function returns true if and only if its argument is a linear list of
+length 2.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_length")
+#decldescript('\
+This function returns the length of a given linear list.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_free")
+#decldescript('\
+This function frees the memory occupied by a given linear list.
+')
+
+#declnamesynop("list_vt_free_fun")
+#decldescript('\
+This function frees the elements in a given linear list as well as
+the memory occupied by the list.
+')
+
+#declnamesynop("list_vt_clear_fun")
+#decldescript('\
+This function frees the elements in a given linear list (but keeps
+the list itself).
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_append")
+#decldescript('\
+
+This functions appends its first list argument to its second list argument.
+Note that the two list arguments are consumed in the construction of the
+resulting list and thus no longer available after the function returns.
+There is no memory allocation/deallocation involved.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_mergesort")
+#decldescript('\
+
+Mergesort is of time-complexity O(n(log(n))), and it is a stable sorting
+algorithm.  This function mergesorts its first list argument according to
+the ordering embodied in its second argument. Note that the list argument
+is consumed in the construction of the resulting sorted list and thus no
+longer available after the function returns.
+There is no memory allocation/deallocation involved in the implementation
+of #dyncode("list_vt_mergesort").
+
+')
+#declnamesynop("list_vt_mergesort_env")
+#decldescript('\
+This function does essentially the same as #dyncode("list_vt_mergesort")
+except that it allows the comparison function to carry its own environment.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_quicksort")
+#decldescript('\
+
+Quicksort is of time-complexity O(n(log(n))) on average (but
+can be O(n^2) in the worse case), and it is not a stable sorting algorithm.
+This function quicksorts its first list argument according to the ordering
+embodied in its second argument. Note that the list argument is consumed in
+the construction of the resulting sorted list and thus no longer available
+after the function returns. An implementation of this function may copy
+the list into an array, sort the array, copy the array back into the list,
+and then free the array.
+
+')
+#declnamesynop("list_vt_quicksort_env")
+#decldescript('\
+This function does essentially the same as #dyncode("list_vt_quicksort")
+except that it allows the comparison function to carry its own environment.
 ')
 
 (* ****** ****** *)

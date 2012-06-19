@@ -48,9 +48,9 @@ sortdef tk = tkind
 #atscode_separator()
 
 fun ptr_is_null
-  (p: ptr):<> bool = "atspre_ptr_is_null"
+  (p: ptr):<> bool = "mac\#atspre_ptr_is_null"
 fun ptr_isnot_null
-  (p: ptr):<> bool = "atspre_ptr_isnot_null"
+  (p: ptr):<> bool = "mac\#atspre_ptr_isnot_null"
 
 #atscode_separator()
 

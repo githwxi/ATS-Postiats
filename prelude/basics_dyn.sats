@@ -163,7 +163,7 @@ datatype // t@ype+: covariant
 list_t0ype_int_type (a:t@ype+, int) =
   | {n:int | n >= 0}
     list_cons (a, n+1) of (a, list_t0ype_int_type (a, n))
-  | list_nil (a, 0)
+  | list_nil (a, 0) of ()
 // end of [datatype]
 stadef list = list_t0ype_int_type
 typedef
@@ -179,7 +179,7 @@ dataviewtype // viewt@ype+: covariant
 list_viewt0ype_int_viewtype (a:viewt@ype+, int) =
   | {n:int | n >= 0}
     list_vt_cons (a, n+1) of (a, list_viewt0ype_int_viewtype (a, n))
-  | list_vt_nil (a, 0)
+  | list_vt_nil (a, 0) of ()
 // end of [list_viewt0ype_int_viewtype]
 stadef list_vt = list_viewt0ype_int_viewtype
 viewtypedef

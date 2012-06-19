@@ -561,38 +561,34 @@ s0exparg_tr
 
 local
 
-extern fun extnam_ismac
+extern fun ismac
   (ext: string, ext_new: &string): bool = "patsopt_extnam_ismac"
-extern fun extnam_issta
+extern fun issta
   (ext: string, ext_new: &string): bool = "patsopt_extnam_issta"
-extern fun extnam_isext
+extern fun isext
   (ext: string, ext_new: &string): bool = "patsopt_extnam_isext"
 
 in // in of [local]
 
 implement
-dcstextdef_tr (ext) = let
+dcstextdef_tr (extopt) = let
 (*
-  val () = print ("dcstextdef_tr: ext = ...")
+  val () = print ("dcstextdef_tr: extopt = ...")
 *)
 in
 //
-case+ 0 of
-| _ when
-    stropt_is_some (ext) => let
-    val ext = stropt_unsome ext
-    var ext_new: string = ext
+case+ extopt of
+| Some s0tr => let
+    val- $LEX.T_STRING (ext) = s0tr.token_node
+    var ext2: string = ext // removing mac#, ext#, sta#
   in
     case+ 0 of
-    | _ when extnam_ismac
-        (ext, ext_new) => DCSTEXTDEFsome_mac ext_new
-    | _ when extnam_issta
-        (ext, ext_new) => DCSTEXTDEFsome_sta ext_new
-    | _ when extnam_isext
-        (ext, ext_new) => DCSTEXTDEFsome_ext ext_new
-    | _ => DCSTEXTDEFsome_ext ext_new
+    | _ when ismac (ext, ext2) => DCSTEXTDEFsome_mac ext2
+    | _ when issta (ext, ext2) => DCSTEXTDEFsome_sta ext2
+    | _ when isext (ext, ext2) => DCSTEXTDEFsome_ext ext2
+    | _ => DCSTEXTDEFsome_ext (ext2) // no (recognized) prefix
   end // end of [_ when ...]
-| _ => DCSTEXTDEFnone ()
+| None () => DCSTEXTDEFnone ()
 // end of [case]
 end // end of [dcstextdef_tr]
 
@@ -716,7 +712,7 @@ fn d0cstdec_tr (
   val s1e_res = s0exp_tr d0c.d0cstdec_res
   val arg = d0c.d0cstdec_arg and eff = d0c.d0cstdec_eff
   val s1e = aux2 (d0c, isfun, isprf, arg, eff, s1e_res)
-  val extdef = dcstextdef_tr (d0c.d0cstdec_extdef)
+  val extdef = dcstextdef_tr (d0c.d0cstdec_extopt)
 in
   d1cstdec_make (loc0, d0c.d0cstdec_fil, d0c.d0cstdec_sym, s1e, extdef)
 end // end of [d0cstdec_tr]

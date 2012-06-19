@@ -30,7 +30,7 @@ viewtypedef array_v (a: viewt@ype, l:addr, n: int) = @[a][n] @ l\
 Given a type T, an address L and an integer N, the view
 #stacode("array_v(T, L, N)") means that a value of the type
 #stacode("@[T][N]") is stored at the location L. An equivalent
-definition of array_v can be given as follows:
+definition of #stacode("array_v") can be given as follows:
 
 #pats2xhtmls("\
 dataview
@@ -40,13 +40,12 @@ array_v (a:viewt@ype+, l: addr, int) =
   | array_v_nil (a, l, 0)
 ")
 
-where array_v is (recursively) defined as a dataview.
+where #stacode("array_v") is (recursively) defined as a dataview.
 ')
 
 (* ****** ****** *)
 
-#declname("lemma_array_param")
-#declsynopsis()
+#declnamesynop("lemma_array_param")
 #decldescript('\
 This proof function establishes that the integer n in any array-type
 #stacode("@[T][n]") is a natural number.
@@ -54,8 +53,7 @@ This proof function establishes that the integer n in any array-type
 
 (* ****** ****** *)
 
-#declname("lemma_array_v_param")
-#declsynopsis()
+#declnamesynop("lemma_array_v_param")
 #decldescript('\
 This proof function establishes that the integer n in any array-view
 #stacode("array_v(T, l, n)") is a natural number.
@@ -63,24 +61,21 @@ This proof function establishes that the integer n in any array-view
 
 (* ****** ****** *)
 
-#declname("array_v_nil")
-#declsynopsis()
+#declnamesynop("array_v_nil")
 #decldescript('\
 This proof function generates a proof of empty array-view.
 ')
 
 (* ****** ****** *)
 
-#declname("array_v_unnil")
-#declsynopsis()
+#declnamesynop("array_v_unnil")
 #decldescript('\
 This proof function consumes a proof of empty array-view.
 ')
 
 (* ****** ****** *)
 
-#declname("array_v_unnil_nil")
-#declsynopsis()
+#declnamesynop("array_v_unnil_nil")
 #decldescript('\
 This proof function consumes a proof of empty array-view and then generates
 a proof of empty array-view. It is a combination of array_v_unnil and array_v_nil.
@@ -88,25 +83,24 @@ a proof of empty array-view. It is a combination of array_v_unnil and array_v_ni
 
 (* ****** ****** *)
 
-#declname("array_v_cons")
-#declsynopsis()
+#declnamesynop("array_v_cons")
 #decldescript('\
 This proof function composes a proof of at-view and
 a proof of array-view of size n to form a proof of array-view of size n+1.
 ')
 
-#declname("array_v_uncons")
-#declsynopsis()
+#declnamesynop("array_v_uncons")
 #decldescript('\
-This proof function is the inverse of array_v_cons: It decomposes
-a proof of array-view of size n into a proof of at-view and a proof of
-array-view of size n-1, where n is positive.
+
+This proof function is the inverse of #prfcode("array_v_cons"): It
+decomposes a proof of array-view of size n into a proof of at-view and a
+proof of array-view of size n-1, where n is positive.
+
 ')
 
 (* ****** ****** *)
 
-#declname("array_v_sing")
-#declsynopsis()
+#declnamesynop("array_v_sing")
 #decldescript('\
 This proof function turns a proof of at-view into a proof of array-view of
 size 1.
@@ -114,17 +108,17 @@ size 1.
 
 (* ****** ****** *)
 
-#declname("array_v_unsing")
-#declsynopsis()
+#declnamesynop("array_v_unsing")
 #decldescript('\
-This proof function is the inverse of array_v_sing: It turns a proof of
-array-view of size 1 into a proof of at-view.
+
+This proof function is the inverse of #prfcode("array_v_sing"): It turns a
+proof of array-view of size 1 into a proof of at-view.
+
 ')
 
 (* ****** ****** *)
 
-#declname("array_getref_at")
-#declsynopsis()
+#declnamesynop("array_getref_at")
 #decldescript('\
 This function returns the pointer to cell i of the given array A, that is,
 the pointer equal to addr@(A)+i*#sizeof("a"), where addr@(A) refers to the
@@ -149,8 +143,7 @@ here to read from the pointer p.
 
 (* ****** ****** *)
 
-#declname("array_get_at")
-#declsynopsis()
+#declnamesynop("array_get_at")
 #decldescript('\
 This function returns the value stored in cell i of the given array A.
 Note that the type for values stored in A is nonlinear.
@@ -158,8 +151,7 @@ Note that the type for values stored in A is nonlinear.
 
 (* ****** ****** *)
 
-#declname("array_set_at")
-#declsynopsis()
+#declnamesynop("array_set_at")
 #decldescript('\
 This function stores a value into cell i of the given array A, overwriting
 the original value. Note that the type of values stored in A is nonlinear.
@@ -167,11 +159,10 @@ the original value. Note that the type of values stored in A is nonlinear.
 
 (* ****** ****** *)
 
-#declname("array_exch_at")
-#declsynopsis()
+#declnamesynop("array_exch_at")
 #decldescript('\
 This function exchanges the value in cell i of the given array A and the
-value in x. Note that the type of these values can be linear.
+value in its second argument. Note that the type of these values can be linear.
 ')
 
 (* ****** ****** *)

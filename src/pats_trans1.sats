@@ -167,7 +167,7 @@ fun e0xndec_tr (d: e0xndec): e1xndec
 
 (* ****** ****** *)
 
-fun dcstextdef_tr (ext: Stropt): dcstextdef
+fun dcstextdef_tr (extopt: s0tringopt): dcstextdef
 
 (* ****** ****** *)
 

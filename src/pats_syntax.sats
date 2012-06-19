@@ -45,6 +45,7 @@ LOC = "pats_location.sats"
 typedef location = $LOC.location
 staload LEX = "pats_lexing.sats"
 typedef token = $LEX.token
+typedef tokenopt = Option (token)
 staload SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
 typedef symbolist = $SYM.symbolist
@@ -953,7 +954,7 @@ d0cstdec = '{
 , d0cstdec_arg= d0cstarglst
 , d0cstdec_eff= e0fftaglstopt
 , d0cstdec_res= s0exp
-, d0cstdec_extdef= Stropt
+, d0cstdec_extopt= s0tringopt
 } // end of [d0cstdec]
 
 typedef d0cstdeclst = List d0cstdec
@@ -961,8 +962,9 @@ typedef d0cstdeclst = List d0cstdec
 fun d0cstdec_make (
   name: i0de
 , arg: d0cstarglst
-, eff: e0fftaglstopt, res: s0exp
-, ext: Stropt (* optional external name *)
+, eff: e0fftaglstopt
+, res: s0exp // return type
+, ext: s0tringopt (* optional external name *)
 ) : d0cstdec // end of [d0cstdec_make]
 
 (* ****** ****** *)
@@ -1506,7 +1508,7 @@ and v0ardec = '{
 , v0ardec_sym= symbol
 , v0ardec_sym_loc= location
 , v0ardec_typ= s0expopt
-, v0ardec_wth= Option (i0de)
+, v0ardec_wth= i0deopt // proof of at-view
 , v0ardec_ini= d0expopt
 } // end of [v0ardec]
 
@@ -1815,10 +1817,10 @@ fun f0undec_make (
 (* ****** ****** *)
 
 fun v0ardec_make (
-  t_bang: Option (token)
+  opt: tokenopt // optional BANG
 , pid: i0de
 , ann: s0expopt
-, varwth: Option (i0de)
+, varwth: i0deopt // proof of at-view
 , def : d0expopt
 ) : v0ardec // end of [v0ardec_make]
 

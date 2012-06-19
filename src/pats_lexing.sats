@@ -270,6 +270,8 @@ typedef token = '{
   token_loc= location, token_node= token_node
 } // end of [token]
 
+typedef tokenopt = Option (token)
+
 (* ****** ****** *)
 
 typedef

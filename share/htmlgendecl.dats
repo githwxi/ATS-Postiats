@@ -134,6 +134,14 @@ in
 end // end of [declsynopsis2]
 
 implement
+declnamesynop (x) = let
+  val _ignored = declname (x)
+  val _ignored = declsynopsis ()
+in
+  $LDOC.atext_nil ()
+end // end of [declname]
+
+implement
 decldescript (x) = let
   val () = theDeclitemLst_add (DITMdescript (x))
 in
@@ -241,6 +249,26 @@ in
   $LDOC.atext_strptr (str)
 end // end of [HR]
 
+fn aux_name
+  (name: string): atext = let
+  val () = theDeclname_set (name)
+  val str = sprintf ("<h2><a id=\"%s\">%s</a></h2>\n", @(name, name))
+in
+  $LDOC.atext_strptr (str)
+end // end of [aux_name]
+
+fn aux_synop () = let
+  val head = atext_apptxt2
+    (H3 ("Synopsis"), atext_newline)
+  val name = theDeclname_get ()
+  val synop = declname_find_synopsis (0(*sta*), name)
+  val synop1 = $UN.castvwtp1 {string} (synop)
+  val synop2 = sprintf ("<pre class=\"patsyntax\">\n%s</pre>\n", @(synop1))
+  val () = strptr_free (synop)
+in
+  atext_apptxt2 (head, atext_strptr (synop2))
+end // end of [aux_synop]
+
 in // in of [local]
 
 implement
@@ -252,23 +280,9 @@ fun aux (
 in
 //
 case+ x of
-| DITMname (name) => let
-    val () = theDeclname_set (name)
-    val str = sprintf ("<h2><a id=\"%s\">%s</a></h2>\n", @(name, name))
-  in
-    $LDOC.atext_strptr (str)
-  end // end of [DITMname]
-| DITMsynopsis () => let
-    val head = atext_apptxt2
-      (H3 ("Synopsis"), atext_newline)
-    val name = theDeclname_get ()
-    val synop = declname_find_synopsis (0(*sta*), name)
-    val synop1 = $UN.castvwtp1 {string} (synop)
-    val synop2 = sprintf ("<pre class=\"patsyntax\">\n%s</pre>\n", @(synop1))
-    val () = strptr_free (synop)
-  in
-    atext_apptxt2 (head, atext_strptr (synop2))
-  end // end of [DITMsynopsis]
+| DITMname (name) => aux_name (name)
+//
+| DITMsynopsis () => aux_synop ((*void*))
 | DITMsynopsis2
     (synop) => let
     val head = atext_apptxt2
@@ -276,6 +290,14 @@ case+ x of
   in
     atext_apptxt2 (head, atext_strsub (synop))
   end // end of [DITMsynopsis2]
+//
+| DITMnamesynop (name) => let
+    val res1 = aux_name (name)
+    val res2 = aux_synop ((*void*))
+  in
+    atext_apptxt2 (res1, res2)
+  end // end of [DITMnamesynop]
+//
 | DITMdescript
     (descript) => let
     val head = atext_apptxt2
@@ -283,6 +305,7 @@ case+ x of
   in
     atext_apptxt2 (head, atext_strsub (descript))
   end // end of [DITMdescript]
+//
 | DITMexample
     (example) => let
     val head =

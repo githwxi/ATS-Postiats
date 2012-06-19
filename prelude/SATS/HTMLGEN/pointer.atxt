@@ -1,0 +1,42 @@
+#decltitle("\
+ATSLIB/prelude/pointer\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("ptr_get_index")
+#decldescript('\
+The purpose of calling this proof function is to introduce a static
+variable that binds to the index of the type assigned to the argument of
+the function.
+')
+#declexample('\
+Let p be a value of the type #stacode("ptr(L)") for some L. Then the
+following line of code initiates a binding between l and L:
+#pats2xhtmld('\
+prval [l:addr] PTREQ () = ptr_get_index (p)\
+')\
+')
+
+(* ****** ****** *)
+
+#declnamesynop("ptr_is_null")
+#decldescript('\
+This function returns true if and only if its argument is the null pointer.
+')
+
+#declnamesynop("ptr_isnot_null")
+#decldescript('\
+This function returns true if and only if its argument is not the null pointer.
+')
+
+(* ****** ****** *)
+
+(* end of [pointer.atxt] *)

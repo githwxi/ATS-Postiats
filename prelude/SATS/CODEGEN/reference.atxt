@@ -31,9 +31,9 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 #atscode_separator()
 
 castfn ref_get_ptr
-  {a:viewt@ype} (r: ref a):<> [l:agz] ptr (l)
+  {a:vt0p} (r: ref a):<> [l:agz] ptr (l)
 castfn ref_get_viewptr
-  {a:viewt@ype} (r: ref a):<> [l:agz] (vbox (a @ l) | ptr l)
+  {a:vt0p} (r: ref a):<> [l:agz] (vbox (a @ l) | ptr l)
 // end of [ref_get_viewptr]
 
 #atscode_separator()
@@ -46,6 +46,10 @@ macdef ptr_of_ref = ref_get_ptr
 
 fun{a:vt0p} ref (x: a):<> ref a
 fun{a:vt0p} ref_make_elt (x: a):<> ref a
+
+castfn ref_make_viewptr
+  {a:vt0p} (pf: a @ l | p: ptr l):<> ref (a)
+// end of [ref_make_viewptr]
 
 #atscode_separator()
 

@@ -23,8 +23,11 @@ adjacently located array-views.
 #declname("array_v_unsplit")
 #declsynopsis()
 #decldescript('\
-This proof function is the inverse of array_v_split: It combines two proofs
-of adjacently located array-views into one proof of array-view.
+
+This proof function is the inverse of #prfcode("array_v_split"): It
+combines two proofs of adjacently located array-views into one proof of
+array-view.
+
 ')
 
 (* ****** ****** *)
@@ -41,9 +44,11 @@ located at the end of the array-view.
 #declname("array_v_unextend")
 #declsynopsis()
 #decldescript('\
-This proof function is the inverse of array_v_extend: It decomposes a
-given proof of array-view of size n into a proof of array-view of size n-1
-and a proof of at-view, where n is positive.
+
+This proof function is the inverse of #prfcode("array_v_extend"): It
+decomposes a given proof of array-view of size n into a proof of array-view
+of size n-1 and a proof of at-view, where n is positive.
+
 ')
 
 (* ****** ****** *)
@@ -70,7 +75,7 @@ array_get_at
   prval () = view@(A) := fpf (pfat)
 } // end of [array_get_at]
 ')
-where array_v_takeout is called to generate a proof of the
+where #prfcode("array_v_takeout") is called to generate a proof of the
 at-view needed for reading from cell i in the given array A.
 ')
 
