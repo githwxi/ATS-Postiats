@@ -65,7 +65,7 @@ end // end of [randgen_array]
 implement{a}
 randgen_arrayptr
   (n) = A where {
-  val A = arrayptr_make_uninitialized<a> (n)
+  val A = arrayptr_make_uninitized<a> (n)
   val p = ptrcast (A)
   prval pf = arrayptr_takeout (A)
   val () = randgen_array (!p, n)

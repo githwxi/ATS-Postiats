@@ -15,6 +15,23 @@ after gaining some familiarity with dependent types.
 
 (* ****** ****** *)
 
+#declname("option0")
+#declsynopsis2("\
+
+The full name of the option0-type constructor is
+#stacode("option0_t0ype_type"), which is given to the datatype declared as
+follows:
+
+#pats2xhtmls('\
+datatype // t@ype+: covariant
+option0_t0ype_type
+  (a: t@ype+) = Some0 of (a) | None0 of ()
+// end of [option0_t0ype_type]
+')
+")
+
+(* ****** ****** *)
+
 #declnamesynop("option0_of_option")
 #decldescript("\
 This function casts an option-value of indexed type to an option-value of

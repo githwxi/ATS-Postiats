@@ -347,6 +347,8 @@ extern fun d0atdeclst_mark
 // end of [d0atdeclst_mark]
 //
 extern fun a0typlst_mark : fmark_type (a0typlst)
+extern fun a0typlst_npf_mark
+  (npf: int, xs: a0typlst, res: &res >> res): void
 extern fun d0cstarglst_mark : fmark_type (d0cstarglst)
 extern fun d0cstdeclst_mark : fmark_type (d0cstdeclst)
 //
@@ -1066,6 +1068,27 @@ case+ xs of
 end // end of [a0typlst_mark]
 
 implement
+a0typlst_npf_mark
+  (npf, xs, res) = let
+in
+//
+if npf > 0 then (
+  case+ xs of
+  | list_cons
+      (x, xs) => let
+      val loc = x.a0typ_loc
+      val () = psynmark_ins_beg (SMprfexp, loc, res)
+      val () = s0exp_mark (x.a0typ_typ, res)
+      val () = psynmark_ins_end (SMprfexp, loc, res)
+    in
+      a0typlst_npf_mark (npf-1, xs, res)
+    end // end of [list_cons]
+  | list_nil () => ()
+) else a0typlst_mark (xs, res)
+//
+end // end of [a0typlst_npf_mark]
+
+implement
 d0cstarglst_mark
   (xs, res) = let
 in
@@ -1077,7 +1100,7 @@ case+ xs of
     case+ x.d0cstarg_node of
     | $SYN.D0CSTARGsta _ =>
         psynmark_ins_begend (SMstaexp, x.d0cstarg_loc, res)
-    | $SYN.D0CSTARGdyn (npf, a0ts) => a0typlst_mark (a0ts, res)
+    | $SYN.D0CSTARGdyn (npf, a0ts) => a0typlst_npf_mark (npf, a0ts, res)
     ) : void // end of [val]
   in
     d0cstarglst_mark (xs, res)

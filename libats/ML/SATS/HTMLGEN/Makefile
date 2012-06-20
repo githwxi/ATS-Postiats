@@ -62,6 +62,10 @@ cleanall:: ; $(RMF) option0.html
 
 ######
 
+uploadall:: ;   scp *.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
+
+######
+
 RMF=rm -f
 
 ######

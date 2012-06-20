@@ -4,6 +4,80 @@ ATSLIB/prelude/arrayptr\
 
 (* ****** ****** *)
 
+#declnamesynop("arrayptr2ptr")
+#declnamesynop("arrayptrout2ptr")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptr_takeout")
+#declnamesynop("arrayptr_addback")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptr_get_at")
+#decldescript("\
+This function reads out the nonlinear value stored at cell i
+of the array associated with the first argument of the function.
+")
+
+#declnamesynop("arrayptr_set_at")
+#decldescript("\
+This function writes a nonlinear value x to cell i
+of the array associated with the first argument of the function.
+")
+
+#declnamesynop("arrayptr_exch_at")
+#decldescript("\
+This function exchanges the content of cell i
+of the array associated with the first argument of the function
+with that of the variable x (third argument). Note that the type
+for these contents can be linear.
+")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptr_free")
+#decldescript("\
+This function frees the memory occupied by a given arrayptr-value,
+which includes both the memory for the strructure of this value and
+the memory for the array associated with it.
+")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptr_make_uninitized")
+#decldescript("\
+
+This function creates an uninitialized arrayptr-value of a given size.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptr_make_elt")
+#decldescript("\
+
+This function creates an arrayptr-value of a given size
+(first argument) and then initializes it with a given value
+(second argument) of some nonlinear type.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptr_foreach_funenv")
+#declnamesynop("arrayptr_foreach_fun")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptr_iforeach_funenv")
+#declnamesynop("arrayptr_iforeach_fun")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptr_initize")
+#declnamesynop("arrayptr_uninitize")
+
 (* ****** ****** *)
 
 (* end of [arrayptr.atxt] *)

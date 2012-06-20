@@ -76,4 +76,29 @@ This function casts a linear list-value to a nonlinear list-value.
 
 (* ****** ****** *)
 
+#declnamesynop("list_mergesort")
+#decldescript('\
+
+Mergesort is of time-complexity O(n(log(n))), and it is a stable sorting
+algorithm.  This function mergesorts its first argument according to the
+ordering determined by its second argument and returns a linear list that
+is a sorted permutation of the first argument.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_quicksort")
+#decldescript('\
+
+Quicksort is of time-complexity O(n(log(n))) on average (but can be O(n^2)
+in the worse case), and it is not a stable sorting algorithm.  This
+function quicksorts its first argument according to the ordering determined
+by its second argument and returns a linear list that is a sorted
+permutation of the first argument.
+
+')
+
+(* ****** ****** *)
+
 (* end of [list.atxt] *)

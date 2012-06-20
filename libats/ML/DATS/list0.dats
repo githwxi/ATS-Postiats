@@ -136,6 +136,11 @@ end // end of [list0_concat]
 
 (* ****** ****** *)
 
+implement{a}
+list0_app (xs, f) = list0_foreach (xs, f)
+
+(* ****** ****** *)
+
 implement
 {a}{b}
 list0_map (xs, f) = let
@@ -153,6 +158,73 @@ list0_map (xs, f) = let
 in
   list0_of_list_vt (ys)
 end // end of [list0_map]
+
+(* ****** ****** *)
+
+implement{a}
+list0_foreach (xs, f) = let
+in
+  case+ xs of
+  | list0_cons (x, xs) =>
+      (f (x); list0_foreach (xs, f))
+  | list0_nil () => ()
+end // end of [list0_foreach]
+
+implement{a}
+list0_iforeach
+  (xs, f) = let
+  fun loop (
+    xs: list0 (a), i: int
+  , f: cfun2 (int, a, void)
+  ) : void =
+    case+ xs of
+    | list0_cons (x, xs) =>
+        (f (i, x); loop (xs, i+1, f))
+    | list0_nil () => ()
+  // end of [loop]
+in
+  loop (xs, 0, f)
+end // end of [list0_iforeach]
+
+(* ****** ****** *)
+
+implement{a}
+list0_exists (xs, p) = let
+in
+  case+ xs of
+  | list0_cons (x, xs) =>
+      if p (x) then true else list0_exists (xs, p)
+  | list0_nil () => false
+end // end of [list0_exists]
+
+implement{a}
+list0_forall (xs, p) = let
+in
+  case+ xs of
+  | list0_cons (x, xs) =>
+      if p (x) then list0_forall (xs, p) else false
+  | list0_nil () => true
+end // end of [list0_forall]
+
+(* ****** ****** *)
+
+implement{a}
+list0_find_exn (xs, p) = let
+in
+  case+ xs of
+  | list0_cons (x, xs) =>
+      if p (x) then x else list0_find_exn (xs, p)
+  | list0_nil () => $raise NotFoundExn()
+end // end of [list0_find_exn]
+
+implement{a}
+list0_find_opt (xs, p) = let
+in
+  case+ xs of
+  | list0_cons (x, xs) =>
+      if p (x) then Some0 (x) else list0_find_opt (xs, p)
+  | list0_nil () => None0 ()
+end // end of [list0_find_opt]
 
 (* ****** ****** *)
 

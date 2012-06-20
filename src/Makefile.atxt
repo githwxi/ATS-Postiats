@@ -14,7 +14,7 @@ staload TIME = "libc/SATS/time.sats"
 //
 dynload "libatsdoc/dynloadall.dats"
 //
-staload "libatsdoc/SATS/libatsdoc_text.sats"
+staload "libatsdoc/SATS/libatsdoc_atext.sats"
 //
 %}\
 %{
@@ -216,6 +216,9 @@ val SOURCES =
 //
 , "pats_staexp2_solve.sats"
 , "pats_staexp2_solve.dats"
+//
+, "pats_dmacro2.sats"
+, "pats_dmacro2.dats"
 //
 , "pats_patcst2.sats"
 , "pats_patcst2.dats"

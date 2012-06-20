@@ -145,6 +145,11 @@ dataprop SGN (int, int) =
 // end of [SGN] // end of [dataprop]
 
 (* ****** ****** *)
+//
+// HX-2012-06: indication of something
+exception NotFoundExn of () // expected to be found but not actually found
+//
+(* ****** ****** *)
 
 typedef
 array (a, n) = @[a][n]
@@ -220,13 +225,18 @@ stadef option_v = option_view_bool_view
 //
 (* ****** ****** *)
 //
-praxi opt_some {a:vt0p} (x: !INV(a) >> opt (a, true)):<prf> void
-praxi opt_unsome {a:vt0p} (x: !opt (INV(a), true) >> a):<prf> void
+praxi opt_some
+  {a:vt0p} (x: !INV(a) >> opt (a, true)):<prf> void
+praxi opt_unsome
+  {a:vt0p} (x: !opt (INV(a), true) >> a):<prf> void
 //
-praxi opt_none {a:vt0p} (x: !(a?) >> opt (a, false)):<prf> void
-praxi opt_unnone {a:vt0p} (x: !opt (INV(a), false) >> a?):<prf> void
+praxi opt_none
+  {a:vt0p} (x: !(a?) >> opt (a, false)):<prf> void
+praxi opt_unnone
+  {a:vt0p} (x: !opt (INV(a), false) >> a?):<prf> void
 //
-praxi opt_clear {a:t0p} {b:bool} (x: !opt (a, b) >> a?):<prf> void
+praxi opt_clear
+  {a:t0p} {b:bool} (x: !opt (INV(a), b) >> a?):<prf> void
 //
 (* ****** ****** *)
 

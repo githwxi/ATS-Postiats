@@ -31,6 +31,7 @@ staload "libats/ML/basics.sats"
 #atscode_separator()
 
 typedef cfun (a: t0p, b:t0p) = (a) -<cloref1> b
+typedef cfun2 (a1: t0p, a2: t0p, b:t0p) = (a1, a2) -<cloref1> b
 
 #atscode_separator()
 
@@ -67,31 +68,41 @@ list0_concat (xss: list0 (list0 (a))):<> list0 (a)
 
 #atscode_separator()
 
+fun{a:t0p}
+list0_app (xs: list0 a, f: cfun (a, void)): void
+
+#atscode_separator()
+
 fun{a:t0p}{b:t0p}
 list0_map (xs: list0 (a), f: cfun (a, b)): list0 (b)
 
 #atscode_separator()
 
 fun{a:t0p}
-list0_exists (xs: list0 (a), f: cfun (a, bool)): bool
+list0_foreach (xs: list0 a, f: cfun (a, void)): void
 
 fun{a:t0p}
-list0_forall (xs: list0 (a), f: cfun (a, bool)): bool
+list0_iforeach (xs: list0 a, f: cfun2 (int, a, void)): void
 
 #atscode_separator()
 
 fun{a:t0p}
-list0_find (xs: list0 a, pred: cfun (a, bool)): option0 (a)
+list0_exists (xs: list0 (a), p: cfun (a, bool)): bool
+
+fun{a:t0p}
+list0_forall (xs: list0 (a), p: cfun (a, bool)): bool
+
+#atscode_separator()
+
+fun{a:t0p}
+list0_find_exn (xs: list0 a, p: cfun (a, bool)): a
+fun{a:t0p}
+list0_find_opt (xs: list0 a, p: cfun (a, bool)): option0 (a)
 
 #atscode_separator()
 
 fun{a:t0p}
 list0_filter (xs: list0 (a), f: cfun (a, bool)): list0 (a)
-
-#atscode_separator()
-
-fun{a:t0p}
-list0_foreach (xs: list0 a, f: cfun (a, void)): void
 
 #atscode_separator()
 

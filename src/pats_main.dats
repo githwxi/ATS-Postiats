@@ -178,6 +178,7 @@ dynload "pats_staexp2_ctxt.dats"
 dynload "pats_staexp2_error.dats"
 dynload "pats_staexp2_solve.dats"
 //
+dynload "pats_dmacro2.dats"
 dynload "pats_patcst2.dats"
 //
 dynload "pats_dynexp2.dats"

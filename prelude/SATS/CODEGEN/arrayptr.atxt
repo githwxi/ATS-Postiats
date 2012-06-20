@@ -107,9 +107,9 @@ fun arrayptr_free
 #atscode_separator()
 
 fun{a:vt0p}
-arrayptr_make_uninitialized
+arrayptr_make_uninitized
   {n:int} (asz: size_t n):<> arrayptr (a?, n)
-// end of [arrayptr_make_uninitialized]
+// end of [arrayptr_make_uninitized]
 
 #atscode_separator()
 

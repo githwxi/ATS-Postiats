@@ -134,6 +134,8 @@ SOURCES := \
   pats_staexp2_error.dats \
   pats_staexp2_solve.sats \
   pats_staexp2_solve.dats \
+  pats_dmacro2.sats \
+  pats_dmacro2.dats \
   pats_patcst2.sats \
   pats_patcst2.dats \
   pats_dynexp2.sats \
@@ -315,6 +317,8 @@ OBJECTS := \
   pats_staexp2_error_dats.o \
   pats_staexp2_solve_sats.o \
   pats_staexp2_solve_dats.o \
+  pats_dmacro2_sats.o \
+  pats_dmacro2_dats.o \
   pats_patcst2_sats.o \
   pats_patcst2_dats.o \
   pats_dynexp2_sats.o \
@@ -702,6 +706,12 @@ pats_staexp2_solve_sats.o: pats_staexp2_solve_sats.c; $(ATSCC) $(ATSCCFLAGS) -c 
 
 pats_staexp2_solve_dats.c: pats_staexp2_solve.dats; $(ATSCC) -cc $<
 pats_staexp2_solve_dats.o: pats_staexp2_solve_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_dmacro2_sats.c: pats_dmacro2.sats; $(ATSCC) -cc $<
+pats_dmacro2_sats.o: pats_dmacro2_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_dmacro2_dats.c: pats_dmacro2.dats; $(ATSCC) -cc $<
+pats_dmacro2_dats.o: pats_dmacro2_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_patcst2_sats.c: pats_patcst2.sats; $(ATSCC) -cc $<
 pats_patcst2_sats.o: pats_patcst2_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<

@@ -4,6 +4,9 @@ ATSLIB/prelude/arrayref\
 
 (* ****** ****** *)
 
+#declnamesynop("arrszref")
+#declnamesynop("arrayref")
+
 (* ****** ****** *)
 
 (* end of [arrayref.atxt] *)
