@@ -11,59 +11,289 @@ ATSLIB/prelude/arith_prf
 
 (* ****** ****** *)
 
-#declname("mul_make")
-#declsynopsis()
+#declname("MUL")
+#declsynopsis2("
+The dataprop #stacode("MUL") is declared as follows:
+#pats2xhtmls("\
+dataprop
+MUL (int, int, int) =
+  | {n:int}
+    MULbas (0, n, 0)
+  | {m:nat}{n:int}{p:int}
+    MULind (m+1, n, p+n) of MUL (m, n, p)
+  | {m:pos}{n:int}{p:int}
+    MULneg (~m, n, ~p) of MUL (m, n, p)
+// end of [MUL]
+")")
+
+#decldescript("\
+Given integers m, n and p, the type (or more precisely, prop)
+#stacode("MUL(m, n, p)") captures the relation #stacode("m*n=p").
+")
+
+(* ****** ****** *)
+
+#declnamesynop("mul_make")
 #decldescript('\
+
+This proof function applies to static integers m and n to generate a proof
+of the type #stacode("MUL(m, n, m*n)").
+
 ')
 
 (* ****** ****** *)
 
-#declname("mul_elim")
-#declsynopsis()
+#declnamesynop("mul_elim")
 #decldescript('\
+
+This proof function relates the relation #stacode("MUL") to the pre-defined
+static multiplication function on integers.
+
 ')
 
 (* ****** ****** *)
 
-#declname("mul_istot")
-#declsynopsis()
+#declnamesynop("mul_istot")
 #decldescript('\
+
+This proof function applies to static integers m and n to generate a proof
+of the type #stacode("MUL(m, n, p)") for some integer p. In other words,
+the function proves that #stacode("MUL") is total on its first two
+arguments. Note that #prfcode("mul_make") entirely supersedes
+#prfcode("mul_istot").
+
 ')
 
 (* ****** ****** *)
 
-#declname("mul_isfun")
-#declsynopsis()
+#declnamesynop("mul_isfun")
 #decldescript('\
+
+This proof function proves that the relation #stacode("MUL") is functional
+on its first two arguments.
+
 ')
 
 (* ****** ****** *)
 
-#declname("mul_isfun2")
-#declsynopsis()
+#declnamesynop("mul_isfun2")
 #decldescript('\
+This proof function is a variation of #prfcode("mul_isfun").
 ')
 
 (* ****** ****** *)
 
-#declname("mul_add_const")
-#declsynopsis()
+#declnamesynop("mul_add_const")
 #decldescript('\
-')
+
+This proof function essentially captures the identity:
+#stacode("(m+i)*n=m*n+i*n").  It is kept mostly for the sake of backward
+compatibility.  ')
 
 (* ****** ****** *)
 
-#declname("mul_expand_linear")
-#declsynopsis()
+#declnamesynop("mul_expand_linear")
 #decldescript('\
-')
+
+This proof function essentially captures the following identity:
+#pcenter("\
+#stacode("(a*x+b)*(c*y+d) = a*c*xy+a*d*x+b*c*y+b*d")
+")
+
+It is kept mostly for the sake of backward compatibility.  ')
 
 (* ****** ****** *)
 
-#declname("mul_expand2_linear")
-#declsynopsis()
+#declnamesynop("mul_expand2_linear")
 #decldescript('\
-')
+
+This proof function essentially captures the following identity:
+#pcenter("\
+#stacode("\
+(a1*x1+a2*x2+b)*(c1*y1+c2*y2+d) = 
+a1*c1*x1*y1 + a1*c2*x1*y2 +
+a2*c1*x2*y1 + a2*c2*x2*y2 +
+a1*d*x1 + a2*d*x2 + b*c1*y1 + b*c2*y2 + b*d
+")")
+
+It is kept mostly for the sake of backward compatibility.
+
+')#comment("decldecsript")
+
+(* ****** ****** *)
+
+#declnamesynop("mul_gte_gte_gte")
+#decldescript("\
+This proof function proves m >= 0 and n >= 0 implying m*n >= 0 for
+any integers m and n.
+")
+#declnamesynop("mul_lte_gte_lte")
+#decldescript("\
+This proof function proves m <= 0 and n >= 0 implying m*n <= 0 for
+any integers m and n.
+")
+#declnamesynop("mul_gte_lte_lte")
+#decldescript("\
+This proof function proves m >= 0 and n <= 0 implying m*n <= 0 for
+any integers m and n.
+")
+#declnamesynop("mul_lte_lte_gte")
+#decldescript("\
+This proof function proves m <= 0 and n <= 0 implying m*n >= 0 for
+any integers m and n.
+")
+
+(* ****** ****** *)
+
+#declnamesynop("mul_nat_nat_nat")
+#decldescript("\
+
+This proof function establishes p >= 0 if given a proof of the type
+#stacode("MUL(m, n, p)") for some natural numbers m and n.
+
+")
+
+#declnamesynop("mul_pos_pos_pos")
+#decldescript("\
+
+This proof function establishes p >= m+n-1 if given a proof of the type
+#stacode("MUL(m, n, p)") for some postive intgers m and n.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("mul_negate")
+#decldescript("\
+
+This proof function essentially proves #stacode("(~m)*n=~(m*n)") for any
+given integers m and n, where ~ is the symbol for integer negation in ATS.
+")
+
+(* ****** ****** *)
+
+#declnamesynop("mul_distribute")
+#decldescript("\
+
+This proof function essentially proves #stacode("m*(n1+n2)=m*n1+m*n2") for
+any given integers m, n1 and n2.  ")
+
+#declnamesynop("mul_distribute2")
+#decldescript("\
+
+This proof function essentially proves #stacode("(m1+m2)*n=m1*n+m2*n") for
+any given integers m1, m2 and n.  ")
+
+(* ****** ****** *)
+
+#declnamesynop("mul_is_associative")
+
+#decldescript("\
+
+This proof function essentially proves #stacode("(x*y)*z=x*(y*z)")
+for any given integers x, y and z.  ")
+
+(* ****** ****** *)
+
+#declnamesynop("DIVMOD")
+#decldescript("\
+
+Given integers x, y, q, r, the prop #stacode("DIVMOD(x, y, q, r)")
+captures that #stacode("x=q*y+r") holds and r is natural number less than
+y.
+
+")
+
+#declnamesynop("div_istot")
+
+#declnamesynop("divmod_istot")
+
+#declnamesynop("divmod_isfun")
+
+#declnamesynop("divmod_elim")
+
+(* ****** ****** *)
+
+#declname("EXP2")
+#declsynopsis2("\
+
+The dataprop #stacode("EXP2") is declared as follows:
+
+#pats2xhtmls("
+dataprop EXP2 (int, int) =
+  | {n:nat}{p:nat} EXP2ind (n+1, 2*p) of EXP2 (n, p)
+  | EXP2bas (0, 1)
+// end of [EXP2]
+")")
+
+#decldescript("\
+
+Given integers n and p, the prop #stacode("EXP2(n, p)") captures the
+relation that #stacode("2^n=p") holds and n is a natural number.
+
+")
+
+#declnamesynop("lemma_exp2_param")
+
+#declnamesynop("exp2_istot")
+#declnamesynop("exp2_isfun")
+#declnamesynop("exp2_ispos")
+
+#declnamesynop("exp2_is_mono")
+
+#declnamesynop("exp2_muladd")
+
+(* ****** ****** *)
+
+#declnamesynop("EXP")
+#decldescript("\
+
+Given integers b, n and p, the prop #stacode("EXP(b, n, p)") captures the
+relation that #stacode("b^n=p") holds and n is a natural number, where b^n
+refers to the exponential function for base b and exponent n.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_exp_param")
+
+(* ****** ****** *)
+
+#declnamesynop("exp_istot")
+#declnamesynop("exp_isfun")
+
+(* ****** ****** *)
+
+#declnamesynop("exp_elim_0")
+#declnamesynop("exp_elim_1")
+#declnamesynop("exp_elim_2")
+
+(* ****** ****** *)
+
+#declnamesynop("exp_elim_b_0")
+#declnamesynop("exp_elim_b_1")
+#declnamesynop("exp_elim_b_2")
+
+(* ****** ****** *)
+
+#declnamesynop("exp_muladd")
+#decldescript("\
+
+This proof function proves #stacode("b^(n1+n2)=(b^n1)*(b^n2)") for integer
+b and natural numbers n1, n2.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("exp_expmul")
+#decldescript("\
+
+This proof function proves #stacode("(b^n1)^n2=b^(n1*n2)") for integer b
+and natural numbers n1, n2.
+
+")
 
 (* ****** ****** *)
 
