@@ -22,17 +22,6 @@ implement{} tprint__out () = stdout_ref
 
 (* ****** ****** *)
 
-implement{a}
-tprint_list0 (xs) = let
-  val xs = __cast (xs) where {
-    extern castfn __cast (xs: list0 a): List (a)
-  } // end of [val]
-in
-  tprint_list<a> (xs)
-end // end of [tprint_list0]
-
-(* ****** ****** *)
-
 implement{}
 tprint_list__sep () = ","
 implement{}

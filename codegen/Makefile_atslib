@@ -10,6 +10,7 @@
 all:: prelude
 all:: libc
 all:: libats
+all:: libats_ML
 
 ######
 
@@ -58,6 +59,14 @@ libats_dats:
 libats_cats:
 	make -C libats/CATS/CODEGEN -f Makefile.gen
 	make -C libats/CATS/CODEGEN -f Makefile all
+
+######
+
+libats_ML:: libats_ML_sats
+
+libats_ML_sats:
+	make -C libats/ML/SATS/CODEGEN -f Makefile.gen
+	make -C libats/ML/SATS/CODEGEN -f Makefile all
 
 ######
 

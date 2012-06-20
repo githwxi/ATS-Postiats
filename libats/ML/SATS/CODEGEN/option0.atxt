@@ -14,7 +14,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 (*
 ** Source:
-** $PATSHOME/prelude/SATS/CODEGEN/option.atxt
+** $PATSHOME/libats/ML/SATS/CODEGEN/option0.atxt
 ** Time of generation: #timestamp()
 *)
 
@@ -30,39 +30,36 @@ staload "libats/ML/basics.sats"
 
 #atscode_separator()
 
-typedef option0 (a:t@ype) = option (a)
-typedef option1 (a:t@ype) = Option (a)
-
-#atscode_separator()
-
 castfn
-option0_of_option1 {a:t@ype} (xs: option1 a):<> option0 (a)
+option0_of_option {a:t@ype} (xs: Option a):<> option0 (a)
 castfn
-option1_of_option0 {a:t@ype} (xs: option0 a):<> option1 (a)
+option0_of_option_vt {a:t@ype} (xs: Option_vt a):<> option0 (a)
+castfn
+option_of_option0 {a:t@ype} (xs: option0 a):<> Option (a)
 
 #atscode_separator()
 
 fun{a:t0p}
-option_some (x: a):<> option (a)
+option0_some (x: a):<> option0 (a)
 fun{a:t0p}
-option_none ((*void*)):<> option (a)
+option0_none ((*void*)):<> option0 (a)
 
 #atscode_separator()
 
 fun{a:t0p}
-option_is_some (x: option a):<> bool
+option0_is_some (x: option0 a):<> bool
 fun{a:t0p}
-option_is_none (x: option a):<> bool
+option0_is_none (x: option0 a):<> bool
 
 #atscode_separator()
 
 fun{a:t0p}
-option_unsome_exn (opt: option (a)):<!exn> a
+option0_unsome_exn (opt: option0 (a)):<!exn> a
 
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "option_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "option0_atxt.txt")
 %}\

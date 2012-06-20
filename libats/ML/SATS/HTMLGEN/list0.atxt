@@ -1,5 +1,5 @@
 #decltitle("\
-ATSLIB/libats/ML/list\
+ATSLIB/libats/ML/list0\
 ")
 
 (* ****** ****** *)
@@ -15,12 +15,17 @@ gaining familiarity with dependent types.
 
 (* ****** ****** *)
 
-#declnamesynop("list0_of_list1")
+#declnamesynop("list0_of_list")
 #decldescript("\
 This function casts a list-value of indexed type to a list-value of
 unindexed type.
 ")
-#declnamesynop("list1_of_list0")
+#declnamesynop("list0_of_list_vt")
+#decldescript("\
+This function casts a linear list-value of indexed type to a list-value of
+unindexed type.
+")
+#declnamesynop("list_of_list0")
 #decldescript("\
 This function casts a list-value of unindexed type to a list-value of
 indexed type.
@@ -28,33 +33,33 @@ indexed type.
 
 (* ****** ****** *)
 
-#declnamesynop("list_head_exn")
+#declnamesynop("list0_head_exn")
 #decldescript("\
 This function returns the head of a given list if the list
 is non-empty or raises a #dyncode("ListSubscriptExn") if
 the list is empty.
 ")
-#declnamesynop("list_head_opt")
+#declnamesynop("list0_head_opt")
 #decldescript("\
-This function is the optional version of #dyncode("list_head_exn").
+This function is the optional version of #dyncode("list0_head_exn").
 ")
 
 (* ****** ****** *)
 
-#declnamesynop("list_tail_exn")
+#declnamesynop("list0_tail_exn")
 #decldescript("\
 This function returns the tail of a given list if the list
 is non-empty or raises an exception (ListSubscriptExn) if
 the list is empty.
 ")
-#declnamesynop("list_tail_opt")
+#declnamesynop("list0_tail_opt")
 #decldescript("\
-This function is the optional version of #dyncode("list_tail_exn").
+This function is the optional version of #dyncode("list0_tail_exn").
 ")
 
 (* ****** ****** *)
 
-#declnamesynop("list_nth_exn")
+#declnamesynop("list0_nth_exn")
 #decldescript("\
 
 This function returns element i of a given list if i is a natural
@@ -62,11 +67,11 @@ number less than the length of the list.  Otherwise, it raises an
 exception (ListSubscriptExn).
 
 ")
-#declnamesynop("list_nth_opt")
+#declnamesynop("list0_nth_opt")
 #decldescript("\
-This function is the optional version of #dyncode("list_nth_exn").
+This function is the optional version of #dyncode("list0_nth_exn").
 ")
 
 (* ****** ****** *)
 
-(* end of [list.atxt] *)
+(* end of [list0.atxt] *)

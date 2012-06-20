@@ -143,6 +143,8 @@ typedef funcloopt = Option funclo
 macdef FUNCLOcloptr = FUNCLOclo (CLOPTR)
 macdef FUNCLOcloref = FUNCLOclo (CLOREF)
 
+fun funclo_is_ptr (fc: funclo): bool
+
 fun fprint_funclo : fprint_type (funclo)
 fun print_funclo (x: funclo): void
 fun prerr_funclo (x: funclo): void

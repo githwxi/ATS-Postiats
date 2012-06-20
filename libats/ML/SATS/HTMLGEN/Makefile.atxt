@@ -88,8 +88,8 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
 
 ######
 
-#make_entry("list")
-#make_entry("option")
+#make_entry("list0")
+#make_entry("option0")
 
 ######
 

@@ -45,19 +45,19 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ;   $(ATSDOC) --outcode $@ -i $< > htmlg
 
 ######
 
-all:: list.html
-list.html:   list_atxt.exe ; $(CAT) ../list.sats | ./$< > $@
-list_atxt.txt: list.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode htmlgendecl_data_atxt.dats > $@
-list_atxt.exe:   htmlgendecl_atxt.dats list_atxt.txt $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
-clean:: ; $(RMF) list_atxt.exe
-cleanall:: ; $(RMF) list.html
+all:: list0.html
+list0.html:   list0_atxt.exe ; $(CAT) ../list0.sats | ./$< > $@
+list0_atxt.txt: list0.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode htmlgendecl_data_atxt.dats > $@
+list0_atxt.exe:   htmlgendecl_atxt.dats list0_atxt.txt $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) list0_atxt.exe
+cleanall:: ; $(RMF) list0.html
 
-all:: option.html
-option.html:   option_atxt.exe ; $(CAT) ../option.sats | ./$< > $@
-option_atxt.txt: option.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode htmlgendecl_data_atxt.dats > $@
-option_atxt.exe:   htmlgendecl_atxt.dats option_atxt.txt $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
-clean:: ; $(RMF) option_atxt.exe
-cleanall:: ; $(RMF) option.html
+all:: option0.html
+option0.html:   option0_atxt.exe ; $(CAT) ../option0.sats | ./$< > $@
+option0_atxt.txt: option0.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode htmlgendecl_data_atxt.dats > $@
+option0_atxt.exe:   htmlgendecl_atxt.dats option0_atxt.txt $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) option0_atxt.exe
+cleanall:: ; $(RMF) option0.html
 
 
 ######

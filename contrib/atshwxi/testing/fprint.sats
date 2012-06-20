@@ -20,18 +20,6 @@ fprint_elt (out: FILEref, x: !INV(a)): void
 (* ****** ****** *)
 
 fun{a:t0p}
-fprint_list0_sep (
-  out: FILEref, xs: list0 (a), sep: string
-) : void // end of [fprint_list0_sep]
-
-macdef
-fprint_list0
-  (out, xs) = fprint_list0_sep (,(out), ,(xs), ", ")
-// end of [fprint_list0]
-
-(* ****** ****** *)
-
-fun{a:t0p}
 fprint_list_sep (
   out: FILEref, xs: List (a), sep: string
 ) : void // end of [fprint_list_sep]

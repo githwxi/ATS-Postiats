@@ -36,14 +36,14 @@ datatype // t@ype+: covariant
 list0_t0ype_type (a: t@ype+) =
   | list0_cons of (a, list0_t0ype_type a)
   | list0_nil of ()
-stadef list = list0_t0ype_type
+stadef list0 = list0_t0ype_type
 
 (* ****** ****** *)
 
 datatype // t@ype+: covariant
 option0_t0ype_type
   (a: t@ype+) = Some0 of (a) | None0 of ()
-stadef option = option0_t0ype_type
+stadef option0 = option0_t0ype_type
 
 (* ****** ****** *)
 

@@ -9,18 +9,6 @@ staload "contrib/atshwxi/testing/fprint.sats"
 (* ****** ****** *)
 
 implement{a}
-fprint_list0_sep
-  (out, xs, sep) = let
-  val xs = __cast (xs) where {
-    extern castfn __cast (xs: list0(a)): List(a)
-  } // end of [val]
-in
-  fprint_list_sep<a> (out, xs, sep)
-end // end of [fprint_list0_sep]
-
-(* ****** ****** *)
-
-implement{a}
 fprint_list_sep
   (out, xs, sep) = let
   val xs = __cast (xs) where {

@@ -123,6 +123,8 @@ case+ x of
     val () = prstr ")"
   } // end of [S2ZEtyrec]
 //
+| S2ZEclo () => prstr "S2ZEclo()"
+//
 | S2ZEbot () => prstr "S2ZEbot()"
 //
 end // end of [fprint_s2zexp]
@@ -235,15 +237,18 @@ case+ s2f0.s2exp_node of
     val s2ze = s2Var_get_szexp (s2V) in s2ze
   end // end of [S2EVar]
 //
-| S2Edatconptr _ => S2ZEptr ()
-| S2Edatcontyp _ => S2ZEptr ()
+(*
+| S2Edatconptr _ => S2ZEptr () // boxed
+| S2Edatcontyp _ => S2ZEptr () // boxed
+*)
 | S2Eextype (name, _arg) =>
     S2ZEextype (name, aux_arglstlst (env, _arg))
-| S2Efun _ => S2ZEptr ()
 //
 | S2Eapp (s2e_fun, s2es_arg) =>
     aux_s2exp_app (env, s2f0.s2exp_srt, s2e_fun, s2es_arg)
   // end of [S2Eapp]
+//
+| S2Efun _ => S2ZEclo // HX: it is unboxed
 //
 | S2Etop (knd, s2e) => aux_s2exp (env, s2e)
 //
@@ -462,6 +467,7 @@ case+ (s2ze1, s2ze2) of
     in
       S2ZEextype (name1, _arg)
     end else abort ()
+//
 | (S2ZEapp (s2ze11, s2zes12),
    S2ZEapp (s2ze21, s2zes22)) => let
     val s2ze = s2zexp_merge_exn (s2ze11, s2ze21)
@@ -469,6 +475,7 @@ case+ (s2ze1, s2ze2) of
   in
     S2ZEapp (s2ze, s2zes)
   end
+//
 | (S2ZEtyarr (elt1, dim1),
    S2ZEtyarr (elt2, dim2)) => let
     val elt = s2zexp_merge_exn (elt1, elt2)
@@ -482,6 +489,10 @@ case+ (s2ze1, s2ze2) of
     if knd1 = knd2 then
       S2ZEtyrec (knd1, labs2zexplst_merge_exn (ls2zes1, ls2zes2))
     else $raise S2ZEXPMERGEexn() // end of [if]
+//
+// HX-2012-06: this holds as flat closures
+| (S2ZEclo (), S2ZEclo ()) => S2ZEclo () // are inmovable
+//
 | (_, _) => abort ()
 //
 end // end of [s2zexp]

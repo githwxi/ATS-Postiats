@@ -20,23 +20,23 @@ all::
 
 ######
 
-all:: list.sats
-list.sats: list_atxt.exe ; ./$< > $@
-list_atxt.exe: list_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ list_atxt.dats -latsdoc
-list_atxt.dats: list.atxt
-	$(ATSDOC) --outcode $@ -i list.atxt > list_atxt.txt
-clean:: ; $(RMF) list_atxt.exe
-cleanall:: ; $(RMF) list.sats
+all:: list0.sats
+list0.sats: list0_atxt.exe ; ./$< > $@
+list0_atxt.exe: list0_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ list0_atxt.dats -latsdoc
+list0_atxt.dats: list0.atxt
+	$(ATSDOC) --outcode $@ -i list0.atxt > list0_atxt.txt
+clean:: ; $(RMF) list0_atxt.exe
+cleanall:: ; $(RMF) list0.sats
 
-all:: option.sats
-option.sats: option_atxt.exe ; ./$< > $@
-option_atxt.exe: option_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ option_atxt.dats -latsdoc
-option_atxt.dats: option.atxt
-	$(ATSDOC) --outcode $@ -i option.atxt > option_atxt.txt
-clean:: ; $(RMF) option_atxt.exe
-cleanall:: ; $(RMF) option.sats
+all:: option0.sats
+option0.sats: option0_atxt.exe ; ./$< > $@
+option0_atxt.exe: option0_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ option0_atxt.dats -latsdoc
+option0_atxt.dats: option0.atxt
+	$(ATSDOC) --outcode $@ -i option0.atxt > option0_atxt.txt
+clean:: ; $(RMF) option0_atxt.exe
+cleanall:: ; $(RMF) option0.sats
 
 
 ######

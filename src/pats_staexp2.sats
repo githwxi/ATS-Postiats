@@ -1147,6 +1147,8 @@ datatype s2zexp =
       (s2zexp (*element*), s2explst (*dimension*))
   | S2ZEtyrec of (tyreckind, labs2zexplst)
 //
+  | S2ZEclo of () // HX: for flat closures
+//
   | S2ZEbot of () // HX: no available info
 // end of [s2zexp]
 

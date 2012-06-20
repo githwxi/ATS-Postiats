@@ -704,7 +704,7 @@ d2exp_trup_tmpid (d2e0) = let
 in
 //
 case+ d2e_id.d2exp_node of
-| D2Ecst d2c => let
+| D2Ecst (d2c) => let
     val s2qs = d2cst_get_decarg (d2c)
     val s2e_d2c = d2cst_get_type (d2c)
     var err: int = 0
@@ -714,6 +714,16 @@ case+ d2e_id.d2exp_node of
   in
     d3exp_tmpcst (loc0, s2e_tmp, d2c, t2mas)
   end // end of [D2Ecst]
+| D2Evar (d2v) => let
+    val s2qs = d2var_get_decarg (d2v)
+    val s2e_d2v = d2var_get_type_some (loc0, d2v)
+    var err: int = 0
+    val (s2e_tmp, t2mas) =
+      s2exp_tmp_instantiate_tmpmarglst (s2e_d2v, locarg, s2qs, t2mas, err)
+    // end of [val]
+  in
+    d3exp_tmpvar (loc0, s2e_tmp, d2v, t2mas)
+  end // end of [D2Evar]
 | _ => let
     val () = (
       print "d2exp_trup_tmpid: d2e_id = "; print_d2exp d2e_id; print_newline ()
