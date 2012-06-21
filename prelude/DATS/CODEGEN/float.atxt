@@ -98,11 +98,11 @@ prerr_ldouble (x) = fprint_ldouble (stderr_ref, x)
 #atscode_separator()
 //
 implement
-fprint_elt<float> (out, x) = fprint_float (out, x)
+fprint_val<float> (out, x) = fprint_float (out, x)
 implement
-fprint_elt<double> (out, x) = fprint_double (out, x)
+fprint_val<double> (out, x) = fprint_double (out, x)
 implement
-fprint_elt<ldouble> (out, x) = fprint_ldouble (out, x)
+fprint_val<ldouble> (out, x) = fprint_ldouble (out, x)
 //
 #atscode_separator()
 

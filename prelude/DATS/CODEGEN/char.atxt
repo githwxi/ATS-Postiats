@@ -75,11 +75,11 @@ g1uint_of_uchar1
 #atscode_separator()
 //
 implement
-fprint_elt<char> (out, x) = fprint_char (out, x)
+fprint_val<char> (out, x) = fprint_char (out, x)
 implement
-fprint_elt<uchar> (out, x) = fprint_uchar (out, x)
+fprint_val<uchar> (out, x) = fprint_uchar (out, x)
 implement
-fprint_elt<schar> (out, x) = fprint_schar (out, x)
+fprint_val<schar> (out, x) = fprint_schar (out, x)
 //
 #atscode_separator()
 

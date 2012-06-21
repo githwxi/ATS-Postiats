@@ -274,19 +274,41 @@ a:vt0p
 
 #atscode_separator()
 
+fun{a:t0p}
+list_mergesort__cmp (x1: a, x2: a):<> int
+
 fun{
 a:t0p
 } list_mergesort
   {n:nat} (
-  xs: NSH(list (INV(a), n)), cmp: cmpval (a)
+  xs: NSH(list (INV(a), n))
 ) :<> list_vt (a, n) // end of [list_mergesort]
+
+fun{
+a:t0p
+} list_mergesort_fun
+  {n:nat} (
+  xs: NSH(list (INV(a), n)), cmp: cmpval (a)
+) :<> list_vt (a, n) // end of [list_mergesort_fun]
+
+#atscode_separator()
+
+fun{a:t0p}
+list_quicksort__cmp (x1: a, x2: a):<> int
 
 fun{
 a:t0p
 } list_quicksort
   {n:nat} (
-  xs: NSH(list (INV(a), n)), cmp: cmpval (a)
+  xs: NSH(list (INV(a), n))
 ) :<> list_vt (a, n) // end of [list_quicksort]
+
+fun{
+a:t0p
+} list_quicksort_fun
+  {n:nat} (
+  xs: NSH(list (INV(a), n)), cmp: cmpval (a)
+) :<> list_vt (a, n) // end of [list_quicksort_fun]
 
 #atscode_separator()
 

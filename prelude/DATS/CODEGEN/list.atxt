@@ -715,20 +715,32 @@ val () = loop (n, 0, res)
 
 implement{a}
 list_mergesort
-  (xs, cmp) = let
-  val xs = list_copy (xs) in
-$effmask_wrt (
-  list_vt_mergesort<a> (xs, lam (x1, x2) => cmp (x1, x2))
-) // end of [$effmask_wrt]
+  (xs) = let
+//
+val xs = list_copy (xs)
+//
+implement
+list_vt_mergesort__cmp<a>
+  (x1, x2) = list_mergesort__cmp<a> (x1, x2)
+//
+in
+  $effmask_wrt (list_vt_mergesort<a> (xs))
 end // end of [list_mergesort]
+
+#atscode_separator()
 
 implement{a}
 list_quicksort
-  (xs, cmp) = let
-  val xs = list_copy (xs) in
-$effmask_wrt (
-  list_vt_quicksort<a> (xs, lam (x1, x2) => cmp (x1, x2))
-) // end of [$effmask_wrt]
+  (xs) = let
+//
+val xs = list_copy (xs)
+//
+implement
+list_vt_quicksort__cmp<a>
+  (x1, x2) = list_quicksort__cmp<a> (x1, x2)
+//
+in
+  $effmask_wrt (list_vt_quicksort<a> (xs))
 end // end of [list_quicksort]
 
 #atscode_separator()

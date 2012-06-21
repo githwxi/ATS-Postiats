@@ -27,7 +27,7 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 implement
-fprint_elt<ptr> (out, p) = fprint_ptr (out, p)
+fprint_val<ptr> (out, p) = fprint_ptr (out, p)
 
 #atscode_separator()
 

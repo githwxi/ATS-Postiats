@@ -91,16 +91,16 @@ libats_ML:: ; ./patsopt -d $(PATSHOME)/libats/ML/DATS/list0.dats
 
 cairo:: ; ./patsopt -s $(PATSHOME)/contrib/cairo/SATS/cairo.sats
 
-atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/foreach.sats
-atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/foreach.dats
-atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/foldleft.sats
-atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/foldleft.dats
-atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/fprint.sats
-atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/fprint.dats
-atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/tprint.sats
-atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/tprint.dats
-atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/randgen.sats
-atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/randgen.dats
+atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foreach.sats
+atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/SATS/foreach.dats
+atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foldleft.sats
+atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/foldleft.dats
+atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/fprint.sats
+atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/fprint.dats
+atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/tprint.sats
+atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/tprint.dats
+atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/randgen.sats
+atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/randgen.dats
 
 ######
 

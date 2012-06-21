@@ -133,17 +133,17 @@ There is no memory allocation/deallocation involved.
 
 Mergesort is of time-complexity O(n(log(n))), and it is a stable sorting
 algorithm.  This function mergesorts its first list argument according to
-the ordering determined by its second argument. Note that the list argument
-is consumed in the construction of the resulting sorted list and thus no
-longer available after the function returns.
-There is no memory allocation/deallocation involved in the implementation
-of #dyncode("list_vt_mergesort").
+the ordering implemented by #dyncode("list_vt_mergesort__cmp"). Note that the
+list argument is consumed in the construction of the resulting sorted list
+and thus no longer available after the function returns.  There is no
+memory allocation/deallocation involved in the implementation of
+#dyncode("list_vt_mergesort").
 
 ')
-#declnamesynop("list_vt_mergesort_env")
+#declnamesynop("list_vt_mergesort_fun")
 #decldescript('\
 This function does essentially the same as #dyncode("list_vt_mergesort")
-except for allowing the comparison function to carry its own environment.
+except for allowing the comparison function to be provided as an argument.
 ')
 
 (* ****** ****** *)
@@ -151,20 +151,20 @@ except for allowing the comparison function to carry its own environment.
 #declnamesynop("list_vt_quicksort")
 #decldescript('\
 
-Quicksort is of time-complexity O(n(log(n))) on average (but
-can be O(n^2) in the worse case), and it is not a stable sorting algorithm.
-This function quicksorts its first list argument according to the ordering
-determined by its second argument. Note that the list argument is consumed in
-the construction of the resulting sorted list and thus no longer available
-after the function returns. An implementation of this function may copy
-the list into an array, sort the array, copy the array back into the list,
-and then free the array.
+Quicksort is of time-complexity O(n(log(n))) on average (but can be O(n^2)
+in the worse case), and it is not a stable sorting algorithm.  This
+function quicksorts its first list argument according to the ordering
+implemented by #dyncode("list_vt_quicksort__cmp"). Note that the list
+argument is consumed in the construction of the resulting sorted list and
+thus no longer available after the function returns. An implementation of
+this function may copy the list into an array, sort the array, copy the
+array back into the list, and then free the array.
 
 ')
-#declnamesynop("list_vt_quicksort_env")
+#declnamesynop("list_vt_quicksort_fun")
 #decldescript('\
 This function does essentially the same as #dyncode("list_vt_quicksort")
-except for allowing the comparison function to carry its own environment.
+except for allowing the comparison function to be provided as an argument.
 ')
 
 (* ****** ****** *)

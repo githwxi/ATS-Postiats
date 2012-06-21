@@ -4,18 +4,21 @@
 
 (* ****** ****** *)
 
-staload
-F = "contrib/atshwxi/testing/foreach.sats"
+staload F =
+"contrib/atshwxi/testing/SATS/foreach.sats"
+// end of [staload]
 
 (* ****** ****** *)
 
-staload "contrib/atshwxi/testing/tprint.sats"
+staload
+"contrib/atshwxi/testing/SATS/tprint.sats"
+// end of [staload]
 
 (* ****** ****** *)
 
 implement{a}
 tprint (x) = let
-  val out = tprint__out () in fprint_elt<a> (out, x)
+  val out = tprint__out () in fprint_val<a> (out, x)
 end // end of [tprint]
 
 implement{} tprint__out () = stdout_ref

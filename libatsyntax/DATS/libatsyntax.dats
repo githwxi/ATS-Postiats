@@ -519,6 +519,24 @@ end // end of [test_symbol_p0at]
 
 local
 
+fun s0taconlst_test (
+  sym: symbol, xs: $SYN.s0taconlst
+) : bool = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val sym1 = x.s0tacon_sym
+  in
+    if sym = sym1
+      then true else s0taconlst_test (sym, xs)
+    // end of [if]
+  end // end of [list_cons]
+| list_nil () => false
+//
+end // end of [s0taconlst_test]
+
 fun s0expdeflst_test (
   sym: symbol, xs: $SYN.s0expdeflst
 ) : bool = let
@@ -599,6 +617,8 @@ test_symbol_d0ecl
 in
 //
 case+ d0c.d0ecl_node of
+| $SYN.D0Cstacons
+    (_, xs) => s0taconlst_test (sym, xs)
 | $SYN.D0Csexpdefs
     (_, xs) => s0expdeflst_test (sym, xs)
 | $SYN.D0Cdcstdecs

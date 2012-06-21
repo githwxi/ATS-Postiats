@@ -54,33 +54,9 @@ argv_get_at
 #atscode_separator()
 
 implement{a}
-compval_elt_elt
-  (x1, x2, cmp) = cmp (x1, x2)
-// end of [compval_elt_elt]
-
+print_val (x) = fprint_val<a> (stdout_ref, x)
 implement{a}
-compval_elt_elt_env
-  (x1, x2, cmp, env) = cmp (x1, x2, env)
-// end of [compval_elt_elt_env]
-
-#atscode_separator()
-
-implement{a}
-compref_elt_elt
-  (x1, x2, cmp) = cmp (x1, x2)
-// end of [compref_elt_elt]
-
-implement{a}
-compref_elt_elt_env
-  (x1, x2, cmp, env) = cmp (x1, x2, env)
-// end of [compref_elt_elt_env]
-
-#atscode_separator()
-
-implement{a}
-print_elt (x) = fprint_elt<a> (stdout_ref, x)
-implement{a}
-prerr_elt (x) = fprint_elt<a> (stderr_ref, x)
+prerr_val (x) = fprint_val<a> (stderr_ref, x)
 
 #atscode_separator()
 

@@ -353,9 +353,17 @@ array_bsearch_funenv
 #atscode_separator()
 
 fun{a:vt0p}
-array_quicksort {n:int}
-  (A: &(@[a][n]), n: size_t n, cmp: cmpref (a)):<> void
+array_quicksort__cmp
+  (x1: &a, x2: &a):<> int
+fun{a:vt0p}
+array_quicksort
+  {n:int} (A: &(@[a][n]), n: size_t n):<!wrt> void
 // end of [array_quicksort]
+
+fun{a:vt0p}
+array_quicksort_fun {n:int}
+  (A: &(@[a][n]), n: size_t n, cmp: cmpref (a)):<!wrt> void
+// end of [array_quicksort_fun]
 
 #atscode_separator()
 

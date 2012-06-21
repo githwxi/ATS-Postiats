@@ -285,7 +285,7 @@ array_iforeach_funenv
 #atscode_separator()
 
 implement{a}
-array_quicksort
+array_quicksort_fun
   (A, asz, cmp) = let
   val tsz = sizeof<a>
   extern fun qsort (
@@ -293,7 +293,7 @@ array_quicksort
   ) :<> void = "mac\#atslib_qsort"
 in
   qsort (addr@(A), asz, tsz, cmp)
-end // end of [array_quicksort]
+end // end of [array_quicksort_fun]
 
 #atscode_separator()
 

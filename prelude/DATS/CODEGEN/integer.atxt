@@ -76,21 +76,21 @@ end // end of [g0int_implist]
 #g0int_implist("int_kind", "int")
 implement print_int (x) = fprint_int (stdout_ref, x)
 implement prerr_int (x) = fprint_int (stderr_ref, x)
-implement fprint_elt<int> (out, x) = fprint_int (out, x)
+implement fprint_val<int> (out, x) = fprint_int (out, x)
 
 #atscode_separator()
 
 #g0int_implist("lint_kind", "lint")
 implement print_lint (x) = fprint_lint (stdout_ref, x)
 implement prerr_lint (x) = fprint_lint (stderr_ref, x)
-implement fprint_elt<lint> (out, x) = fprint_lint (out, x)
+implement fprint_val<lint> (out, x) = fprint_lint (out, x)
 
 #atscode_separator()
 
 #g0int_implist("llint_kind", "llint")
 implement print_llint (x) = fprint_llint (stdout_ref, x)
 implement prerr_llint (x) = fprint_llint (stderr_ref, x)
-implement fprint_elt<llint> (out, x) = fprint_llint (out, x)
+implement fprint_val<llint> (out, x) = fprint_llint (out, x)
 
 #atscode_separator()
 

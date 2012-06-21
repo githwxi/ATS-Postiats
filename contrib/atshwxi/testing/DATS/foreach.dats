@@ -8,7 +8,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "contrib/atshwxi/testing/foreach.sats"
+staload "contrib/atshwxi/testing/SATS/foreach.sats"
 
 (* ****** ****** *)
 

@@ -29,8 +29,8 @@ end // end of [revarr]
 
 (* ****** ****** *)
 
-staload "contrib/atshwxi/testing/tprint.sats"
-staload "contrib/atshwxi/testing/randgen.sats"
+staload "contrib/atshwxi/testing/SATS/tprint.sats"
+staload "contrib/atshwxi/testing/SATS/randgen.sats"
 
 (* ****** ****** *)
 

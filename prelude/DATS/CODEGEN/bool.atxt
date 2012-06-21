@@ -30,7 +30,7 @@ implement
 neg_bool (b) = if b then false_bool else true_bool
 
 implement
-fprint_elt<bool> (out, x) = fprint_bool (out, x)
+fprint_val<bool> (out, x) = fprint_bool (out, x)
 
 #atscode_separator()
 

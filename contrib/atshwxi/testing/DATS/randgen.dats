@@ -4,12 +4,15 @@
 
 (* ****** ****** *)
 
-staload
-F = "contrib/atshwxi/testing/foreach.sats"
+staload F =
+"contrib/atshwxi/testing/SATS/foreach.sats"
+// end of [staload]
 
 (* ****** ****** *)
 
-staload "contrib/atshwxi/testing/randgen.sats"
+staload
+"contrib/atshwxi/testing/SATS/randgen.sats"
+// end of [staload]
 
 (* ****** ****** *)
 //

@@ -81,10 +81,42 @@ This function casts a linear list-value to a nonlinear list-value.
 
 Mergesort is of time-complexity O(n(log(n))), and it is a stable sorting
 algorithm.  This function mergesorts its first argument according to the
-ordering determined by its second argument and returns a linear list that
-is a sorted permutation of the first argument.
+ordering implemented by #dyncode("list_quicksort__cmp") and returns a
+linear list that is a sorted permutation of the first argument.
 
 ')
+#declexample('\
+
+#pats2xhtmld('\
+staload
+"contrib/atshwxi/testing/SATS/fprint.sats"
+staload _(*anon*) =
+"contrib/atshwxi/testing/DATS/fprint.dats"
+implement
+main () = let
+//
+val N = 10
+val xs = $lst{int}(9, 2, 7, 4, 5, 6, 3, 8)
+val () = fprint_list_sep (stdout_ref, xs, ", ")
+//
+implement
+list_mergesort__cmp<int> (x1, x2) = compare_val<int> (x1, x2)
+//
+val ys_inc = list_mergesort<int> (xs)
+val () = fprint_list_vt_sep (stdout_ref, ys_inc, ", ")
+val () = list_vt_free (ys_inc)
+//
+implement
+list_mergesort__cmp<int> (x1, x2) = ~compare_val<int> (x1, x2)
+//
+val ys_dec = list_mergesort<int> (xs)
+val () = fprint_list_vt_sep (stdout_ref, ys_dec, ", ")
+val () = list_vt_free (ys_dec)
+//
+in
+  0(*normal*)
+end // end of [main]
+')')
 
 (* ****** ****** *)
 
@@ -93,11 +125,43 @@ is a sorted permutation of the first argument.
 
 Quicksort is of time-complexity O(n(log(n))) on average (but can be O(n^2)
 in the worse case), and it is not a stable sorting algorithm.  This
-function quicksorts its first argument according to the ordering determined
-by its second argument and returns a linear list that is a sorted
+function quicksorts its first argument according to the ordering implemented
+by #dyncode("list_quicksort__cmp") and returns a linear list that is a sorted
 permutation of the first argument.
 
 ')
+#declexample('\
+
+#pats2xhtmld('\
+staload
+"contrib/atshwxi/testing/SATS/fprint.sats"
+staload _(*anon*) =
+"contrib/atshwxi/testing/DATS/fprint.dats"
+implement
+main () = let
+//
+val N = 10
+val xs = $lst{int}(9, 2, 7, 4, 5, 6, 3, 8)
+val () = fprint_list_sep (stdout_ref, xs, ", ")
+//
+implement
+list_quicksort__cmp<int> (x1, x2) = compare_val<int> (x1, x2)
+//
+val ys_inc = list_quicksort<int> (xs)
+val () = fprint_list_vt_sep (stdout_ref, ys_inc, ", ")
+val () = list_vt_free (ys_inc)
+//
+implement
+list_quicksort__cmp<int> (x1, x2) = ~compare_val<int> (x1, x2)
+//
+val ys_dec = list_quicksort<int> (xs)
+val () = fprint_list_vt_sep (stdout_ref, ys_dec, ", ")
+val () = list_vt_free (ys_dec)
+//
+in
+  0(*normal*)
+end // end of [main]
+')')
 
 (* ****** ****** *)
 

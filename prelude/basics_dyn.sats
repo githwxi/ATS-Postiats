@@ -248,15 +248,7 @@ stadef cmpval = cmpval_1
 stadef cmpval = cmpval_2
 
 fun{a:vt0p}
-compval_elt_elt
-  {vt:viewtype}
-  (x1: !a, x2: !a, cmp: cmpval (a)):<> int
-// end of [compval_elt_elt]
-fun{a:vt0p}
-compval_elt_elt_env
-  {vt:viewtype}
-  (x1: !a, x2: !a, cmp: cmpval (a, vt), env: !vt):<> int
-// end of [compval_elt_elt_env]
+compare_val (x1: !a, x2: !a):<> int
 
 (* ****** ****** *)
 
@@ -268,15 +260,7 @@ stadef cmpref = cmpref_1
 stadef cmpref = cmpref_2
 
 fun{a:vt0p}
-compref_elt_elt
-  {vt:viewtype}
-  (x1: &a, x2: &a, cmp: cmpref (a)):<> int
-// end of [compref_elt_elt]
-fun{a:vt0p}
-compref_elt_elt_env
-  {vt:viewtype}
-  (x1: &a, x2: &a, cmp: cmpref (a, vt), env: !vt):<> int
-// end of [compref_elt_elt_env]
+compare_ref (x1: &a, x2: &a):<> int
 
 (* ****** ****** *)
 
@@ -396,11 +380,11 @@ typedef fprint_type (a: t0p) = (FILEref, a) -> void
 (* ****** ****** *)
 
 fun{a:vt0p}
-fprint_elt (out: FILEref, x: !INV(a)): void
+fprint_val (out: FILEref, x: !INV(a)): void
 fun{a:vt0p}
-print_elt (x: !INV(a)): void // = fprint_elt (stdout_ref, x)
+print_val (x: !INV(a)): void // = fprint_val (stdout_ref, x)
 fun{a:vt0p}
-prerr_elt (x: !INV(a)): void // = fprint_elt (stderr_ref, x)
+prerr_val (x: !INV(a)): void // = fprint_val (stderr_ref, x)
 
 (* ****** ****** *)
 

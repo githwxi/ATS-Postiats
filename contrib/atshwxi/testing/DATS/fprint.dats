@@ -4,7 +4,8 @@
 
 (* ****** ****** *)
 
-staload "contrib/atshwxi/testing/fprint.sats"
+staload
+"contrib/atshwxi/testing/SATS/fprint.sats"
 
 (* ****** ****** *)
 
@@ -33,7 +34,7 @@ fprint_list_vt_sep
     case+ xs of
     | list_vt_cons (x, xs) => let
         val () = if notbeg then fprint_string (out, sep)
-        val () = fprint_elt<a> (out, x)
+        val () = fprint_val<a> (out, x)
       in
         loop (xs, true)
       end // end of [list_cons]
@@ -53,9 +54,9 @@ fprint_listlist_sep
   (out, xss, sep1, sep2) = let
 //
 implement
-fprint_elt<List(a)>
+fprint_val<List(a)>
   (out, xs) = fprint_list_sep<a> (out, xs, sep1)
-// end of [fprint_elt]
+// end of [fprint_val]
 //
 in
 //
@@ -81,7 +82,7 @@ fun loop
   if n > 0 then let
     prval (pf1, pf2) = array_v_uncons (pf)
     val () = if notbeg then fprint_string (out, sep)
-    val () = fprint_elt<a> (out, !p)
+    val () = fprint_val<a> (out, !p)
     val () = loop (pf2 | out, ptr1_add_int<a> (p, 1), pred(n), sep, true)
     prval () = pf := array_v_cons (pf1, pf2)
   in
@@ -137,7 +138,7 @@ in
       fpf | x
     ) = $IT.iter_vget_inc (itr)
     val () = if notbeg then fprint_string (out, sep)
-    val () = fprint_elt<x> (out, x)
+    val () = fprint_val<x> (out, x)
     prval () = fpf (x)    
   in
     loop (out, itr, sep, true)
