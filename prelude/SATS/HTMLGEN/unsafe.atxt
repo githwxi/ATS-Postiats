@@ -134,6 +134,37 @@ pointer.
 
 ")
 
+(* ****** ****** *)
+
+#declnamesynop("ptr_addby")
+#decldescript("\
+
+This function updates the content of p with the sum of its current content
+and x.  ")
+
+#declnamesynop("ptr_subby")
+#decldescript("\
+
+This function updates the content of p with the difference of its current
+content from x.  ")
+
+#declnamesynop("ptr_mulby")
+#decldescript("\
+
+This function updates the content of p with the product of multiplying its
+current content by x.  ")
+
+#declnamesynop("ptr_divby")
+#decldescript("\
+
+This function updates the content of p with the quotient of dividing its
+current content by x.  ")
+
+#declnamesynop("ptr_modby")
+#decldescript("\
+
+This function updates the content of p with the remainder of dividing its
+current content by x.  ")
 
 (* ****** ****** *)
 

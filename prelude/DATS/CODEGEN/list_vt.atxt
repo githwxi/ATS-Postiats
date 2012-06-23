@@ -228,6 +228,30 @@ end // end of [list_concat]
 
 #atscode_separator()
 
+implement{x}
+list_vt_foreach (xs) = let
+//
+prval () = lemma_list_vt_param (xs)
+//
+fun loop
+  {n:nat} .<n>. (
+  xs: !list_vt (x, n)
+) : void = let
+in
+  case+ xs of
+  | @list_vt_cons (x, xs1) => let
+      val () = list_vt_foreach__fwork<x> (x)
+      val () = loop (xs1)
+    in
+      fold@ (xs)
+    end // end of [list_vt_cons]
+  | list_vt_nil () => ()
+end // end of [loop]
+//
+in
+  loop (xs)
+end // end of [list_vt_foreach]
+
 implement{a}
 list_vt_foreach_funenv
   {v}{vt}{n}{fe}
@@ -256,6 +280,32 @@ fun loop
 in
   loop (pf | xs, f, env)
 end // end of [list_vt_foreach_funenv]
+
+#atscode_separator()
+
+implement{x}
+list_vt_iforeach (xs) = let
+//
+prval () = lemma_list_vt_param (xs)
+//
+fun loop
+  {n:nat} .<n>. (
+  xs: !list_vt (x, n), i: int
+) : void = let
+in
+  case+ xs of
+  | @list_vt_cons (x, xs1) => let
+      val () = list_vt_iforeach__fwork<x> (i, x)
+      val () = loop (xs1, succ(i))
+    in
+      fold@ (xs)
+    end // end of [list_vt_cons]
+  | list_vt_nil () => ()
+end // end of [loop]
+//
+in
+  loop (xs, 0)
+end // end of [list_vt_iforeach]
 
 #atscode_separator()
 

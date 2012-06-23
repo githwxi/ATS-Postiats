@@ -45,6 +45,16 @@ where #stacode("array_v") is (recursively) defined as a dataview.
 
 (* ****** ****** *)
 
+#declnamesynop("ArraySubscriptExn")
+#decldescript('\
+
+By convention, this exception is raised to indicate a situation where the
+index involved in array subscripting is out-of-bounds.
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("lemma_array_param")
 #decldescript('\
 This proof function establishes that the integer n in any array-type
@@ -57,16 +67,6 @@ This proof function establishes that the integer n in any array-type
 #decldescript('\
 This proof function establishes that the integer n in any array-view
 #stacode("array_v(T, l, n)") is a natural number.
-')
-
-(* ****** ****** *)
-
-#declnamesynop("ArraySubscriptExn")
-#decldescript('\
-
-By convention, this exception is raised to indicate a situation where the
-index involved in array subscripting is out-of-bounds.
-
 ')
 
 (* ****** ****** *)
@@ -174,6 +174,90 @@ the original value. Note that the type of values stored in A is nonlinear.
 This function exchanges the value in cell i of the given array A and the
 value in its second argument. Note that the type of these values can be linear.
 ')
+
+(* ****** ****** *)
+
+#declnamesynop("array_foreach")
+#decldescript('\
+
+This function traverses a given array from left to right, applying the
+function implemented by #dyncode("array_foreach__fwork") to each cell in
+the array.  ')
+#declexample('\
+
+The following code implements the standard fold-from-left operation on a
+given array:
+
+#pats2xhtmld('
+staload UN = "prelude/SATS/unsafe.sats"
+//
+fun{
+res:t0p}{a:t0p
+} array_foldleft
+  {n:int} (
+  A: &(@[a][n])
+, asz: size_t n
+, ini: res
+, f: (res, a) -> res
+) : res = let
+//
+var acc: res = ini
+val p_acc = $UN.cast{Ptr1} (addr@(acc))
+//
+implement
+array_foreach__fwork<a> (x) =
+  $UN.ptr_set<res> (p_acc, f ($UN.ptr_get<res> (p_acc), x))
+val () = array_foreach<a> (A, asz)
+//
+in
+  acc
+end // end of [array_foldleft]
+')
+')
+
+(* ****** ****** *)
+
+#declnamesynop("array_foreach_funenv")
+#decldescript('\
+
+This function is like #dyncode("array_foreach") except that the function
+to be applied to each array cell is provided as an argument.  ')
+
+#declnamesynop("array_foreach_fun")
+#decldescript('\
+
+This function is a special case of #dyncode("array_foreach_funenv") in that
+the provided function does not take an argument as its environment.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("array_iforeach")
+#decldescript('\
+
+This function traverses a given array from left to right, applying the
+function implemented by #dyncode("array_iforeach__fwork") to the number of
+each cell and the cell itself in the array.  ')
+
+#declnamesynop("array_iforeach_funenv")
+#decldescript('\
+
+This function is like #dyncode("array_iforeach") except that the function
+to be applied to the number of each array cell and the cell itself is
+provided as an argument.  ')
+
+#declnamesynop("array_iforeach_fun")
+#decldescript('\
+
+This function is a special case of #dyncode("array_iforeach_funenv") in that
+the provided function does not take an argument as its environment.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("array_initize__fwork")
+#declnamesynop("array_initize")
+
+#declnamesynop("array_uninitize__fwork")
+#declnamesynop("array_uninitize")
 
 (* ****** ****** *)
 

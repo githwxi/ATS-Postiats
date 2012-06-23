@@ -62,7 +62,6 @@ all::
 
 #make_entry("bool")
 #make_entry("char")
-#make_entry("filebas")
 #make_entry("float")
 #make_entry("integer")
 #make_entry("pointer")
@@ -70,6 +69,8 @@ all::
 #make_entry("reference")
 #make_entry("string")
 #make_entry("strptr")
+
+#make_entry("filebas")
 
 #make_entry("lazy")
 #make_entry("lazy_vt")
@@ -93,6 +94,11 @@ for pointer arrays terminated with the null pointer
 #make_entry("iterator")
 
 #make_entry("fcontainer")
+
+#comment("
+for generic number operations
+")
+#make_entry("gnumber")
 
 #make_entry("extern")
 

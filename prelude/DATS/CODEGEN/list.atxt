@@ -26,6 +26,11 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+staload UN = "prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/unsafe.dats"
+
+#atscode_separator()
+
 staload FC = "prelude/SATS/fcontainer.sats"
 
 #atscode_separator()
@@ -381,7 +386,138 @@ end // end of [list_drop_exn]
 #atscode_separator()
 
 implement{x}
+list_make_elt
+  {n} (n, x) = let
+  fun loop
+    {i:nat | i <= n} .<i>. (
+    i: int i, x: x, res: list_vt (x, n-i)
+  ) :<> list_vt (x, n) = (
+    if i > 0 then
+      loop (pred(i), x, list_vt_cons (x, res)) else res
+    // end of [if]
+  ) // end of [loop]
+in
+  loop (n, x, list_vt_nil ())
+end // end of [list_make_elt]
+
+#atscode_separator()
+
+implement
+list_make_range
+  {l0,r} (l0, r) = let
+//
+typedef elt = intBtw (l0, r)
+viewtypedef
+res (l:int) = list_vt (elt, r-l)
+fun loop {
+  l:int | l0 <= l; l <= r
+} .<r-l>. (
+  l: int l, r: int r, res: &ptr? >> res (l)
+) :<!wrt> void =
+  if l < r then let
+    val () = res :=
+      list_vt_cons{elt}{0} (l, _)
+    val+ list_vt_cons (_, res1) = res
+    val () = loop (l+1, r, res1)
+  in
+    fold@ (res)
+  end else (res := list_vt_nil)
+// end of [loop]
+//
+var res: ptr
+val () = $effmask_wrt (loop (l0, r, res))
+//
+in
+  res
+end // end of [list_make_range]
+
+#atscode_separator()
+
+implement{x}
+list_exists (xs) = let
+in
+//
+case+ xs of
+| list_cons (x, xs) =>
+    if list_exists__pred<x> (x) then true else list_exists<x> (xs)
+| list_nil () => false
+//
+end // end of [list_exists]
+
+implement{x}
+list_forall (xs) = let
+in
+//
+case+ xs of
+| list_cons (x, xs) =>
+    if list_forall__pred<x> (x) then list_forall<x> (xs) else false
+| list_nil () => true
+//
+end // end of [list_forall]
+
+#atscode_separator()
+
+implement{x}
+list_find_exn (xs) = let
+in
+//
+case+ xs of
+| list_cons (x, xs) =>
+    if list_find__pred<x> (x) then x else list_find_exn<x> (xs)
+| list_nil () => $raise NotFoundExn()
+//
+end // end of [list_find_exn]
+
+implement{x}
+list_find_opt (xs) = $effmask_exn (
+  try Some_vt (list_find_exn<x> (xs)) with ~NotFoundExn () => None_vt
+) // end of [list_find_opt]
+
+#atscode_separator()
+
+implement{x}
+list_filter {n} (xs) = let
+//
+prval () = lemma_list_param (xs)
+//
+fun loop
+  {n:nat} .<n>. (
+  xs: list (x, n)
+, res: &ptr? >> listLte_vt (x, n)
+) : void = (
+  case+ xs of
+  | list_cons (x, xs) => let
+      val test = list_filter__pred<x> (x)
+    in
+      case+ test of
+      | true => let
+          val () = res :=
+            list_vt_cons{x}{0} (x, _(*?*))
+          val+ list_vt_cons
+            (_, res1) = res // res1 = res.1
+          val () = loop (xs, res1)
+          prval () = fold@ (res)
+        in
+          // nothing
+        end // end of [true]
+      | false => loop (xs, res)
+    end // end of [list_cons]
+  | list_nil () => (res := list_vt_nil)
+) // end of [loop]
+//
+var res: ptr
+val () = loop (xs, res)
+//
+in
+  res (*listLte_vt(x, n)*)
+end // end of [list_filter]
+
+#atscode_separator()
+
+implement{x}
 list_foreach (xs) = let
+//
+prval () = lemma_list_param (xs)
 //
 fun loop
   {n:nat} .<n>.
@@ -428,12 +564,14 @@ $FC.foreach_funenv<List(x)><x>
 implement{x}
 list_iforeach (xs) = let
 //
+prval () = lemma_list_param (xs)
+//
 fun loop
   {n:nat} .<n>.
   (xs: list (x, n), i: int): void =
   case+ xs of
   | list_cons (x, xs) => let
-      val () = list_iforeach__fwork<x> (i, x) in loop (xs, i+1)
+      val () = list_iforeach__fwork<x> (i, x) in loop (xs, succ(i))
     end // end of [list_cons]
   | list_nil () => ()
 // end of [loop]
@@ -469,6 +607,64 @@ $FC.iforeach_funenv<List(x)><x>
   (pfv | xs, f, env) = let
   val n = list_iforeach_funenv<x> (pfv | xs, f, env) in g1int2uint (n)
 end // end of [iforeach_funenv]
+
+#atscode_separator()
+
+implement
+{res}{x}
+list_foldleft (xs, ini) = let
+//
+fun loop
+  {n:nat} .<n>.
+  (xs: list (x, n), acc: res): res =
+  case+ xs of
+  | list_cons (x, xs) => let
+      val acc =
+        list_foldleft__fwork<res><x> (acc, x)
+    in
+      loop (xs, acc)
+    end // end of [list_cons]
+  | list_nil () => acc // end of [list_nil]
+// end of [loop]
+//
+in
+  loop (xs, ini)
+end // end of [list_foldleft]
+
+#atscode_separator()
+
+implement{x}
+list_labelize (xs) = let
+//
+typedef ix = @(int, x)
+prval () = lemma_list_param (xs)
+//
+fun loop
+  {n:nat} .<n>. (
+  xs: list (x, n), i: int
+, res: &ptr? >> list_vt (ix, n)
+) :<!wrt> void = let
+in
+  case+ xs of
+  | list_cons
+      (x, xs) => let
+      val () = res :=
+        list_vt_cons{ix}{0} (_, _)
+      val+ list_vt_cons (ix, res1) = res
+      val () = ix.0 := i and () = ix.1 := x
+      val () = loop (xs, i+1, res1)
+    in
+      fold@ (res)
+    end // end of [list_cons]
+  | list_nil () => (res := list_vt_nil)
+end // end of [loop]
+//
+var res: ptr
+val () = $effmask_wrt (loop (xs, 0, res))
+//
+in
+  res
+end // end of [list_labelize]
 
 #atscode_separator()
 
@@ -555,42 +751,38 @@ $FC.listize_funenv<List(x)><x><y>
 
 #atscode_separator()
 
-implement{x}
-list_filter {n} (xs) = let
+implement{x}{y}
+list_imap {n} (xs) = let
 //
 prval () = lemma_list_param (xs)
 //
 fun loop
   {n:nat} .<n>. (
-  xs: list (x, n)
-, res: &ptr? >> listLte_vt (x, n)
+  xs: list (x, n), i: int
+, res: &ptr? >> list_vt (y, n)
 ) : void = (
   case+ xs of
   | list_cons (x, xs) => let
-      val test = list_filter__fwork<x> (x)
+      val y =
+        list_imap__fwork<x><y> (i, x)
+      val () = res :=
+        list_vt_cons{y}{0} (y, _(*?*))
+      val+ list_vt_cons
+        (_, res1) = res // res1 = res.1
+      val () = loop (xs, i+1, res1)
+      prval () = fold@ (res)
     in
-      case+ test of
-      | true => let
-          val () = res :=
-            list_vt_cons{x}{0} (x, _(*?*))
-          val+ list_vt_cons
-            (_, res1) = res // res1 = res.1
-          val () = loop (xs, res1)
-          prval () = fold@ (res)
-        in
-          // nothing
-        end // end of [true]
-      | false => loop (xs, res)
+      // nothing
     end // end of [list_cons]
   | list_nil () => (res := list_vt_nil)
 ) // end of [loop]
 //
 var res: ptr
-val () = loop (xs, res)
+val () = loop (xs, 0, res)
 //
 in
-  res (*listLte_vt(x, n)*)
-end // end of [list_filter]
+  res (*list_vt (y, n)*)
+end // end of [list_imap]
 
 #atscode_separator()
 
@@ -710,6 +902,49 @@ var res: ptr
 val () = loop (n, 0, res)
 //
 } // end of [list_tabulate]
+
+#atscode_separator()
+
+implement
+{x,y}
+list_zip
+  (xs, ys) = let
+//
+typedef xy = @(x, y)
+prval () = lemma_list_param (xs)
+prval () = lemma_list_param (ys)
+//
+fun loop
+  {m,n:nat} .<m>. (
+  xs: list (x, m)
+, ys: list (y, n)
+, res: &ptr? >> list_vt (xy, min(m,n))
+) :<!wrt> void = let
+in
+//
+case+ xs of
+| list_cons (x, xs) => (
+  case+ ys of
+  | list_cons (y, ys) => let
+      val () = res :=
+        list_vt_cons{xy}{0} (_, _)
+      val+ list_vt_cons (xy, res1) = res
+      val () = xy.0 := x and () = xy.1 := y
+      val () = loop (xs, ys, res1)
+    in
+      fold@ (res)
+    end // end of [list_cons]
+  | list_nil () => (res := list_vt_nil)
+  ) // end of [list_cons]
+| list_nil () => (res := list_vt_nil)
+//
+end // end of [loop]
+//
+var res: ptr
+val () = $effmask_wrt (loop (xs, ys, res))
+in
+  res
+end // end of [list_zip]
 
 #atscode_separator()
 

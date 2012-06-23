@@ -119,7 +119,39 @@ case+ xs of
 end // end of [list0_map]
 ")
 
-However, the implementation of this function in ATSLIB is tail-recursive.
+However, the implementation of this function in ATSLIB is tail-recursive.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_map2")
+#decldescript("\
+
+This function returns a list consisting of the sequence of results obtained
+from applying its third argument f to each pair in the zip of the first and
+second arguments.
+
+Following is a standard implementation of this function:
+
+#pats2xhtmld("
+implement{a1,a2}{b}
+list0_map2 (xs1, xs2, f) = let
+in
+//
+case+ xs1 of
+| list0_cons (x1, xs1) => (
+  case+ xs2 of
+  | list0_cons (x2, xs2) =>
+      list0_cons (f (x1, x2), list0_map2 (xs1, xs2, f))
+  | list0_nil () => list0_nil ()
+  )
+| list0_nil () => list0_nil ()
+//
+end // end of [list0_map2]
+")
+
+However, the implementation of this function in ATSLIB is tail-recursive.\
 
 ")
 
@@ -185,16 +217,50 @@ in
 case+ xs of
 | list0_cons (x, xs) =>
     if p (x) then
-      list0_cons (x, list0_filter (xs, p)) else list0_filter (xs, p)
+      list0_cons (x, list0_filter<a> (xs, p))
+    else
+      list0_filter<a> (xs, p)
     // end of [if]
 | list0_nil () => list0_nil ()
 //
 end // end of [list0_filter]
 ")
 
-However, the implementation of this function in ATSLIB is tail-recursive.
+However, the implementation of this function in ATSLIB is tail-recursive.\
 
 ")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_zip")
+#decldescript("\
+
+Given two lists xs and ys of length m and n, respectively, this function
+returns a list of pairs (xs[i], ys[i]), where i ranges from 0 until
+min(m,n)-1 and xs[i] (ys[i]) refers to element i in xs (ys).\
+
+#pats2xhtmld("
+implement
+{x,y}
+list0_zip (xs, ys) = let
+in
+//
+case+ xs of
+| list0_cons (x, xs) => (
+  case+ ys of
+  | list0_cons (y, ys) =>
+      list0_cons (@(x, y), list0_zip<x,y> (xs, ys))
+  | list0_nil () => list0_nil ()
+  )
+| list0_nil () => list0_nil ()
+//
+end // end of [list0_zip]
+")
+
+However, the implementation of this function in ATSLIB is tail-recursive.\
+
+")
+
 
 (* ****** ****** *)
 

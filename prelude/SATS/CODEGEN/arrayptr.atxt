@@ -122,6 +122,12 @@ arrayptr_make_elt
 #atscode_separator()
 
 fun{a:vt0p}
+arrayptr_foreach__fwork (x: &a >> a): void
+fun{a:vt0p}
+arrayptr_foreach {n:nat}
+  (A: !arrayptr (INV(a), n), asz: size_t (n)): void
+
+fun{a:vt0p}
 arrayptr_foreach_funenv
   {v:view}
   {vt:viewtype}
@@ -138,12 +144,17 @@ arrayptr_foreach_funenv
 fun{a:vt0p}
 arrayptr_foreach_fun
   {n:int}{fe:eff} (
-  A: !arrayptr (INV(a), n)
-, asz: size_t n
-, f: (&a) -<fun,fe> void
+  A: !arrayptr (INV(a), n), asz: size_t n, f: (&a) -<fun,fe> void
 ) :<fe> void // end of [arrayptr_foreach_fun]
 
 #atscode_separator()
+
+fun{a:vt0p}
+arrayptr_iforeach__fwork
+  (i: size_t, x: &a >> a): void
+fun{a:vt0p}
+arrayptr_iforeach {n:int}
+  (A: !arrayptr (INV(a), n), asz: size_t (n)): void
 
 fun{a:vt0p}
 arrayptr_iforeach_funenv
@@ -162,9 +173,7 @@ arrayptr_iforeach_funenv
 fun{a:vt0p}
 arrayptr_iforeach_fun
   {n:int}{fe:eff} (
-  A: !arrayptr (INV(a), n)
-, asz: size_t n
-, f: (sizeLt n, &a) -<fun,fe> void
+  A: !arrayptr (INV(a), n), asz: size_t n, f: (sizeLt n, &a) -<fun,fe> void
 ) :<fe> void // end of [arrayptr_iforeach_fun]
 
 #atscode_separator()
@@ -179,6 +188,8 @@ arrayptr_initize
   A: !arrayptr (a?, l, n) >> arrayptr (a, l, n), asz: size_t n
 ) : void // end of [arrayptr_initize]
 macdef arrayptr_initialize = arrayptr_initize
+
+#atscode_separator()
 
 (*
 fun{a:vt0p}

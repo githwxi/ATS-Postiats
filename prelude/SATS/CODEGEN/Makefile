@@ -48,15 +48,6 @@ char_atxt.dats: char.atxt
 clean:: ; $(RMF) char_atxt.exe
 cleanall:: ; $(RMF) char.sats
 
-all:: filebas.sats
-filebas.sats: filebas_atxt.exe ; ./$< > $@
-filebas_atxt.exe: filebas_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ filebas_atxt.dats -latsdoc
-filebas_atxt.dats: filebas.atxt
-	$(ATSDOC) --outcode $@ -i filebas.atxt > filebas_atxt.txt
-clean:: ; $(RMF) filebas_atxt.exe
-cleanall:: ; $(RMF) filebas.sats
-
 all:: float.sats
 float.sats: float_atxt.exe ; ./$< > $@
 float_atxt.exe: float_atxt.dats
@@ -119,6 +110,16 @@ strptr_atxt.dats: strptr.atxt
 	$(ATSDOC) --outcode $@ -i strptr.atxt > strptr_atxt.txt
 clean:: ; $(RMF) strptr_atxt.exe
 cleanall:: ; $(RMF) strptr.sats
+
+
+all:: filebas.sats
+filebas.sats: filebas_atxt.exe ; ./$< > $@
+filebas_atxt.exe: filebas_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ filebas_atxt.dats -latsdoc
+filebas_atxt.dats: filebas.atxt
+	$(ATSDOC) --outcode $@ -i filebas.atxt > filebas_atxt.txt
+clean:: ; $(RMF) filebas_atxt.exe
+cleanall:: ; $(RMF) filebas.sats
 
 
 all:: lazy.sats
@@ -244,6 +245,17 @@ fcontainer_atxt.dats: fcontainer.atxt
 	$(ATSDOC) --outcode $@ -i fcontainer.atxt > fcontainer_atxt.txt
 clean:: ; $(RMF) fcontainer_atxt.exe
 cleanall:: ; $(RMF) fcontainer.sats
+
+
+
+all:: gnumber.sats
+gnumber.sats: gnumber_atxt.exe ; ./$< > $@
+gnumber_atxt.exe: gnumber_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ gnumber_atxt.dats -latsdoc
+gnumber_atxt.dats: gnumber.atxt
+	$(ATSDOC) --outcode $@ -i gnumber.atxt > gnumber_atxt.txt
+clean:: ; $(RMF) gnumber_atxt.exe
+cleanall:: ; $(RMF) gnumber.sats
 
 
 all:: extern.sats

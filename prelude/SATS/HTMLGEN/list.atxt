@@ -6,11 +6,13 @@ ATSLIB/prelude/list\
 
 #declpreamble('\
 
-The type for a singly-linked functional list containing N elements of type
-T is denoted by #stacode("list(T, N)"), where T is nonlinear. Note that the
-type constructor #stacode("list") is co-variant in its first argument, that
-is, #stacode("list(T1, N)") is a subtype of #stacode("list(T2, N)") if T1
-is a subtype of T2.
+A functional data structure is one that is immutable after creation; the
+memory it occupies is heap-allocated, which can only be freed by a garbage
+collector (GC).  The type for a singly-linked functional list containing N
+elements of type T is denoted by #stacode("list(T, N)"), where T is
+nonlinear. Note that the type constructor #stacode("list") is co-variant in
+its first argument, that is, #stacode("list(T1, N)") is a subtype of
+#stacode("list(T2, N)") if T1 is a subtype of T2.
 
 ')#comment("declpreamble")
 
@@ -53,19 +55,19 @@ typedef List (a:t@ype) = [n:nat] list (a, n)\
 
 (* ****** ****** *)
 
-#declnamesynop("lemma_list_param")
-#decldescript('\
-This proof function establishes that the integer n in any list type
-#stacode("list(T, n)") is a natural number, where T is a nonlinear type.
-')
-
-(* ****** ****** *)
-
 #declnamesynop("ListSubscriptExn")
 #decldescript('\
 
 By convention, this exception is raised to indicate a situation where a
 list expected to be non-empty is actually empty.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_list_param")
+#decldescript('\
+This proof function establishes that the integer n in any list type
+#stacode("list(T, n)") is a natural number, where T is a nonlinear type.
+')
 
 (* ****** ****** *)
 
@@ -76,16 +78,389 @@ This function casts a linear list-value to a nonlinear list-value.
 
 (* ****** ****** *)
 
+#declnamesynop("list_append")
+#decldescript('\
+
+This function returns a concatenation of its first argument xs and second
+argument ys.  The time-complexity of this function is O(m), where m is the
+length of xs. What is special about the implementation of this function in
+ATSLIB is that it is tail-recursive.
+
+')
+
+#declnamesynop("list_append1_vt")
+#decldescript('\
+
+Given a linear list xs and a list ys, this function returns a concatenation
+of xs and ys. Note that the linear list xs is consumed in the construction of
+the concatenation.
+
+')
+
+#declnamesynop("list_append2_vt")
+#decldescript('\
+
+Given a list xs and a linear list ys, this function returns a concatenation
+of xs and ys. Note that the linear list ys is consumed in the construction of
+the concatenation.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_extend")
+#decldescript('\
+
+Given a list xs and an element x, this function returns a list that is the
+concatenation of xs and [x], which [x] refers to the singleton list
+consisting of x alone. Note that the time-complexity of this is function is
+O(n), where n is the length of xs.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_reverse")
+#decldescript('\
+
+This function returns a list that is the reverse of its argument.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_reverse_append")
+#decldescript('\
+
+This function returns a list that is the concatenation of the reverse of
+its first argument and its second argument.
+
+')
+
+#declnamesynop("list_reverse_append1_vt")
+#decldescript('\
+
+Given a linear list xs and a list ys, this function returns a concatenation
+of the reverse of xs and ys. Note that the linear list xs is consumed in
+the construction of the concatenation.
+
+')
+
+#declnamesynop("list_reverse_append2_vt")
+#decldescript('\
+
+Given a list xs and a linear list ys, this function returns a concatenation
+of the reverse of xs and ys. Note that the linear list ys is consumed in
+the construction of the concatenation.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_concat")
+#decldescript('\
+
+This function returns a concatenation of the lists in its argument, which
+is a list of lists.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_take")
+#decldescript('\
+
+This function returns a prefix of its first argument, where the length of
+the prefix is specified by its second argument.
+
+')
+
+#declnamesynop("list_take_exn")
+#decldescript('\
+
+This function is like #dyncode("list_take") except that it raises an
+exception (ListSubscriptExn) if its second argument is negative or exceeds
+the length of its first argument.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_drop")
+#decldescript('\
+
+This function returns a suffix of its first argument, where the length of
+the suffix is the length of the first argument minus the integer provided as
+its second argument.
+
+')
+
+#declnamesynop("list_drop_exn")
+#decldescript('\
+
+This function is like #dyncode("list_drop") except that it raises an
+exception (ListSubscriptExn) if its second argument is negative or exceeds
+the length of its first argument.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_make_elt")
+#decldescript('\
+
+Given a natural number n and an element x, this function returns a list
+consisting of n occurrences of x.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_make_range")
+#decldescript('\
+
+Given integers l and r satisfying l <= r, this function returns a list of
+integers ranging from l until r-1, inclusively.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_exists__pred")
+#declnamesynop("list_exists")
+#decldescript('\
+
+Given a list xs, this function returns true if and only if there exists an
+element in xs that satisfies the predicate implemented by
+#dyncode("list_exists__pred").
+
+')
+
+#declnamesynop("list_forall__pred")
+#declnamesynop("list_forall")
+#decldescript('\
+
+Given a list xs, this function returns true if and only if every element in
+xs satisfies the predicate implemented by #dyncode("list_forall__pred").
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_find__pred")
+#declnamesynop("list_find_exn")
+#decldescript('\
+
+Given a list xs, this function returns xs[i] for the least index i such
+that xs[i] (element i in xs) satisfies the predicate implemented by
+#dyncode("list_find__pred"). In case there is no such an element, the
+function raises an exception (NotFoundExn).
+
+')
+#declnamesynop("list_find_opt")
+#decldescript('\
+
+This function is the optional version of #dyncode("list_find_exn").
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_foreach__fwork")
+
+#declnamesynop("list_foreach")
+#decldescript("\
+
+This function applies to each element in its argument the function
+implemented by #dyncode("list_foreach__fwork").
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list_iforeach__fwork")
+
+#declnamesynop("list_iforeach")
+#decldescript("\
+
+Given a list xs, this function applies to (i, xs[i]) the function
+implemented by #dyncode("list_iforeach__fwork"), where i ranges from 0
+until the length of xs minus one, inclusively, and xs[i] refers to element
+i in xs.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list_foldleft__fwork")
+
+#declnamesynop("list_foldleft")
+#decldescript("\
+
+Given a list xs of length n, this function return the value of
+#dyncode("f(...f(ini, xs[0])..., xs[n-1])"), where the notation xs[i]
+refers element i in xs.
+
+")
+#declexample("\
+
+The following code computes factorial of n for a given natural number n:\
+
+#pats2xhtmld('
+fun factorial
+  {n:nat} (n: int n): int = let
+//
+implement
+list_foldleft__fwork<int><int> (acc, x) = (acc+1) * x
+//
+in
+  list_foldleft<int><int> (list_make_range (0, n), 1(*ini*))
+end // end of [factorial]
+')
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list_labelize")
+#decldescript('\
+
+Given a list xs, this function returns a linear list consisting pairs
+(i, xs[i]), where i ranges from 0 until the lenght of xs minus 1 and xs[i]
+refers to element i in xs. The implementation of this function in ATSLIB
+is tail-recursive.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_filter__pred")
+
+#declnamesynop("list_filter")
+#decldescript('\
+
+Given a list xs, this function returns a linear list consisting elements in
+xs that satisfy the predicate implemented by #dyncode("list_filter__pred").
+The implementation of this function in ATSLIB is tail-recursive.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_map__fwork")
+
+#declnamesynop("list_map")
+#decldescript('\
+
+Given a list xs, this function returns a linear list consisting f(xs[i]),
+where i ranges from 0 until the lenght of xs minus 1, xs[i] refers to
+element i in xs and f is the function implemented by
+#dyncode("list_map__fwork").  The implementation of this function in ATSLIB
+is tail-recursive.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_imap__fwork")
+
+#declnamesynop("list_imap")
+#decldescript('\
+
+Given a list xs, this function returns a linear list consisting f(i,
+xs[i]), where i ranges from 0 until the lenght of xs minus 1, xs[i] refers
+to element i in xs and f is the function implemented by
+#dyncode("list_imap__fwork").  The implementation of this function in
+ATSLIB is tail-recursive.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_map2__fwork")
+
+#declnamesynop("list_map2")
+#decldescript('\
+
+Given lists xs1 and xs2 of length n1 and n2, respectively, this function
+returns a linear list consisting f(xs1[i], xs2[i]), where i ranges from 0
+until min(n1,n2)-1, xs1[i] (xs2[i]) refers to element i in xs1 (xs2) and f is
+the function implemented by #dyncode("list_map2__fwork").  The
+implementation of this function in ATSLIB is tail-recursive.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_tabulate__fwork")
+
+#declnamesynop("list_tabulate")
+#decldescript('\
+
+Given a natural number n, this function returns a linear list consisting of
+f(i) for i ranging from 0 until n-1, inclusively, where f is the function
+implemented by #dyncode("list_tabulate__fwork"). The implementation of this
+function in ATSLIB is tail-recursive.
+
+')
+#declexample('\
+
+The following code implements a function that returns a list of integers
+between two given arguments:
+
+#pats2xhtmld('\
+fun list_make_range
+  {l,r:int | l <= r} (
+  l: int l, r: int r
+) : list_vt (int, r-l) = let
+//
+implement
+list_tabulate__fwork<int> (i) = l + i
+//
+in
+  list_tabulate<int> (r-l)
+end // end of [list_make_range]
+')
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_zip")
+#decldescript('\
+
+Given two lists xs and ys of length m and n, respectively, this function
+zips them into a linear list xys of length equal to the minimum of m and n
+such that element i in xys is the pair of element i in xs and element i in
+ys, where i ranges from 0 until the length of xys minus 1, inclusively.
+The implementation of this function in ATSLIB is tail-recursive.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_zipwith")
+#decldescript('\
+
+This function does the same as #dyncode("list_map2").
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_mergesort__cmp")
+
 #declnamesynop("list_mergesort")
 #decldescript('\
 
 Mergesort is of time-complexity O(n(log(n))), and it is a stable sorting
 algorithm.  This function mergesorts its first argument according to the
-ordering implemented by #dyncode("list_quicksort__cmp") and returns a
+ordering implemented by #dyncode("list_mergesort__cmp") and returns a
 linear list that is a sorted permutation of the first argument.
 
 ')
 #declexample('\
+
+The following code mergesorts a given list of integers into a list of
+ascending integers and a list of descending integers.\
 
 #pats2xhtmld('\
 staload
@@ -96,21 +471,26 @@ implement
 main () = let
 //
 val N = 10
-val xs = $lst{int}(9, 2, 7, 4, 5, 6, 3, 8)
-val () = fprint_list_sep (stdout_ref, xs, ", ")
+val out = stdout_ref
+//
+val xs = $lst{int}(0, 9, 2, 7, 4, 5, 6, 3, 8, 1)
+val () = fprint_list_sep (out, xs, ", ")
+val () = fprint_newline (out)
 //
 implement
 list_mergesort__cmp<int> (x1, x2) = compare_val<int> (x1, x2)
 //
 val ys_inc = list_mergesort<int> (xs)
-val () = fprint_list_vt_sep (stdout_ref, ys_inc, ", ")
+val () = fprint_list_vt_sep (out, ys_inc, ", ")
+val () = fprint_newline (out)
 val () = list_vt_free (ys_inc)
 //
 implement
 list_mergesort__cmp<int> (x1, x2) = ~compare_val<int> (x1, x2)
 //
 val ys_dec = list_mergesort<int> (xs)
-val () = fprint_list_vt_sep (stdout_ref, ys_dec, ", ")
+val () = fprint_list_vt_sep (out, ys_dec, ", ")
+val () = fprint_newline (out)
 val () = list_vt_free (ys_dec)
 //
 in
@@ -119,6 +499,8 @@ end // end of [main]
 ')')
 
 (* ****** ****** *)
+
+#declnamesynop("list_quicksort__cmp")
 
 #declnamesynop("list_quicksort")
 #decldescript('\
@@ -132,6 +514,9 @@ permutation of the first argument.
 ')
 #declexample('\
 
+The following code quicksorts a given list of integers into a list of
+ascending integers and a list of descending integers.\
+
 #pats2xhtmld('\
 staload
 "contrib/atshwxi/testing/SATS/fprint.sats"
@@ -141,21 +526,26 @@ implement
 main () = let
 //
 val N = 10
-val xs = $lst{int}(9, 2, 7, 4, 5, 6, 3, 8)
-val () = fprint_list_sep (stdout_ref, xs, ", ")
+val out = out
+//
+val xs = $lst{int}(0, 9, 2, 7, 4, 5, 6, 3, 8, 1)
+val () = fprint_list_sep (out, xs, ", ")
+val () = fprint_newline (out)
 //
 implement
 list_quicksort__cmp<int> (x1, x2) = compare_val<int> (x1, x2)
 //
 val ys_inc = list_quicksort<int> (xs)
-val () = fprint_list_vt_sep (stdout_ref, ys_inc, ", ")
+val () = fprint_list_vt_sep (out, ys_inc, ", ")
+val () = fprint_newline (out)
 val () = list_vt_free (ys_inc)
 //
 implement
 list_quicksort__cmp<int> (x1, x2) = ~compare_val<int> (x1, x2)
 //
 val ys_dec = list_quicksort<int> (xs)
-val () = fprint_list_vt_sep (stdout_ref, ys_dec, ", ")
+val () = fprint_list_vt_sep (out, ys_dec, ", ")
+val () = fprint_newline (out)
 val () = list_vt_free (ys_dec)
 //
 in

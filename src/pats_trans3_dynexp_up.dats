@@ -967,7 +967,9 @@ val () = println! ("d2exp_trup_lst: lin = ", lin)
   ) : s2exp // end of [val]
   val n = list_length d2es
   val d3es = d2explst_trdn_elt (d2es, s2e_elt)
-  val isnonlin = s2exp_is_nonlin (s2e_elt)
+  val isnonlin = (
+    if lin = 0 then s2exp_is_nonlin (s2e_elt) else false
+  ) :bool // end of [val]
   val s2e_lst = (
     if isnonlin then
       s2exp_list_t0ype_int_type (s2e_elt, n)

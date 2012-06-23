@@ -65,17 +65,71 @@ This function creates an arrayptr-value of a given size
 
 (* ****** ****** *)
 
+#declnamesynop("arrayptr_foreach")
+#decldescript("
+
+This function traverses the array associated with a given
+arrayptr-value from left to right, applying the function implemented by
+#dyncode("arrayptr_foreach__fwork") to each cell in the array.
+
+")
+#declexample('\
+
+The following code creates an array of integers, computes the sum of the
+integers in the created array and then frees it.
+
+#pats2xhtmld('\
+staload UN = "prelude/SATS/unsafe.sats"
+//
+implement
+main () = let
+//
+val N = 10
+val asz = g1int2uint (N)
+val A = arrayptr_make_elt<int> (asz, 1)
+//
+var res: int = 0
+val p_res = $UN.cast{Ptr1}(addr@(res))
+//
+implement
+arrayptr_foreach__fwork<int> (x) = $UN.ptr_addby<int> (res, x)
+val () = arrayptr_foreach (A, asz)
+//
+val () = arrayptr_free (A)
+//
+val () = assert (res = N)
+//
+in
+  0(*normal*)
+end // end of [main]
+')')
+
 #declnamesynop("arrayptr_foreach_funenv")
+#decldescript("\
+
+This function is like #dyncode("arrayptr_foreach") except that the function
+to be applied to each array cell is provided as an argument.  ")
+
 #declnamesynop("arrayptr_foreach_fun")
+#decldescript("\
+
+This function is a special case of #dyncode("arrayptr_foreach_funenv") in
+that the provided function does not take an argument as its environment.
+
+")
 
 (* ****** ****** *)
 
+#declnamesynop("arrayptr_iforeach")
 #declnamesynop("arrayptr_iforeach_funenv")
 #declnamesynop("arrayptr_iforeach_fun")
 
 (* ****** ****** *)
 
 #declnamesynop("arrayptr_initize")
+
+(* ****** ****** *)
+
 #declnamesynop("arrayptr_uninitize")
 
 (* ****** ****** *)

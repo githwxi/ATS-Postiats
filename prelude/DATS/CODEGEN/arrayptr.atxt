@@ -98,6 +98,9 @@ arrayptr_uninitize
 
 #atscode_separator()
 
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

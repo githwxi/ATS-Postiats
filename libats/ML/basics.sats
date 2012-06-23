@@ -32,6 +32,40 @@
 //
 (* ****** ****** *)
 
+typedef cfun0
+  (b:t0p) = ((*void*)) -<cloref1> b
+typedef cfun1
+  (a:t0p, b:t0p) = (a) -<cloref1> b
+typedef cfun2
+  (a1:t0p, a2:t0p, b:t0p) = (a1, a2) -<cloref1> b
+typedef cfun3 (
+  a1:t0p, a2:t0p, a3:t0p, b:t0p
+) = (a1, a2, a3) -<cloref1> b
+typedef cfun4 (
+  a1:t0p, a2:t0p, a3:t0p, a4:t0p, b:t0p
+) = (a1, a2, a3, a4) -<cloref1> b
+typedef cfun5 (
+  a1:t0p, a2:t0p, a3:t0p, a4:t0p, a5:t0p, b:t0p
+) = (a1, a2, a3, a4, a5) -<cloref1> b
+typedef cfun6 (
+  a1:t0p, a2:t0p, a3:t0p, a4:t0p, a5:t0p, a6:t0p, b:t0p
+) = (a1, a2, a3, a4, a5, a6) -<cloref1> b
+typedef cfun7 (
+  a1:t0p, a2:t0p, a3:t0p, a4:t0p, a5:t0p, a6:t0p, a7:t0p, b:t0p
+) = (a1, a2, a3, a4, a5, a6, a7) -<cloref1> b
+typedef cfun8 (
+  a1:t0p, a2:t0p, a3:t0p, a4:t0p, a5:t0p, a6:t0p, a7:t0p, a8:t0p, b:t0p
+) = (a1, a2, a3, a4, a5, a6, a7, a8) -<cloref1> b
+typedef cfun9 (
+  a1:t0p, a2:t0p, a3:t0p, a4:t0p, a5:t0p, a6:t0p, a7:t0p, a8:t0p, a9:t0p, b:t0p
+) = (a1, a2, a3, a4, a5, a6, a7, a8, a9) -<cloref1> b
+
+(* ****** ****** *)
+
+stadef cfun = cfun1 // HX: the default for [cfun]
+
+(* ****** ****** *)
+
 datatype // t@ype+: covariant
 list0_t0ype_type (a: t@ype+) =
   | list0_cons of (a, list0_t0ype_type a)

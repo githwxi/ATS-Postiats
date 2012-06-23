@@ -555,6 +555,24 @@ case+ xs of
 //
 end // end of [s0expdeflst_test]
 
+fun e0xndeclst_test (
+  sym: symbol, xs: $SYN.e0xndeclst
+) : bool = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val sym1 = x.e0xndec_sym
+  in
+    if sym = sym1
+      then true else e0xndeclst_test (sym, xs)
+    // end of [if]
+  end // end of [list_cons]
+| list_nil () => false
+//
+end // end of [e0xndeclst_test]
+
 fun d0cstdeclst_test (
   sym: symbol, xs: $SYN.d0cstdeclst
 ) : bool = let
@@ -621,6 +639,8 @@ case+ d0c.d0ecl_node of
     (_, xs) => s0taconlst_test (sym, xs)
 | $SYN.D0Csexpdefs
     (_, xs) => s0expdeflst_test (sym, xs)
+| $SYN.D0Cexndecs
+    (xs) => e0xndeclst_test (sym, xs)
 | $SYN.D0Cdcstdecs
     (_, _, xs) => d0cstdeclst_test (sym, xs)
 | $SYN.D0Cfundecs

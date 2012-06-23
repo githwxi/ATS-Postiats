@@ -48,6 +48,10 @@ array_v (
 
 #atscode_separator()
 
+exception ArraySubscriptExn of ()
+
+#atscode_separator()
+
 praxi
 lemma_array_param{a:vt0p}
   {l:addr}{n:int} (A: &(@[INV(a)][n])): [n >= 0] void
@@ -56,10 +60,6 @@ praxi
 lemma_array_v_param{a:vt0p}
   {l:addr}{n:int} (pf: !array_v (INV(a), l, n)): [n >= 0] void
 // end of [lemma_array_v_param]
-
-#atscode_separator()
-
-exception ArraySubscriptExn of ()
 
 #atscode_separator()
 
@@ -200,28 +200,6 @@ array_iforeach
 
 #atscode_separator()
 
-fun{a:vt0p}
-array_initize__fwork
-  (i: size_t, x: &a? >> a): void
-fun{a:vt0p}
-array_initize
-  {n:int} (
-  A: &(@[a?][n]) >> @[a][n], asz: size_t n
-) : void // end of [array_initize]
-macdef array_initialize = array_initize
-
-fun{a:vt0p}
-array_uninitize__fwork
-  (i: size_t, x: &a >> a?): void
-fun{a:vt0p}
-array_uninitize
-  {n:int} (
-  A: &(@[INV(a)][n]) >> @[a?][n], asz: size_t n
-) : void // end of [array_uninitize]
-macdef array_uninitialize = array_uninitize
-
-#atscode_separator()
-
 fun
 array_foreach_funenv_tsz
   {a:vt0p}
@@ -339,6 +317,28 @@ array_iforeach_fun
 , asz: size_t n
 , f: (sizeLt n, &a) -<fun,fe> void
 ) :<fe> void // end of [array_iforeach_fun]
+
+#atscode_separator()
+
+fun{a:vt0p}
+array_initize__fwork
+  (i: size_t, x: &a? >> a): void
+fun{a:vt0p}
+array_initize
+  {n:int} (
+  A: &(@[a?][n]) >> @[a][n], asz: size_t n
+) : void // end of [array_initize]
+macdef array_initialize = array_initize
+
+fun{a:vt0p}
+array_uninitize__fwork
+  (i: size_t, x: &a >> a?): void
+fun{a:vt0p}
+array_uninitize
+  {n:int} (
+  A: &(@[INV(a)][n]) >> @[a?][n], asz: size_t n
+) : void // end of [array_uninitize]
+macdef array_uninitialize = array_uninitize
 
 #atscode_separator()
 

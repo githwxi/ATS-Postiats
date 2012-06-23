@@ -97,6 +97,17 @@ fun{a:vt0p} cptr_set (p: cptr1 (INV(a)), x: a):<!wrt> void
 fun{a:vt0p} cptr_exch (p: cptr1 (INV(a)), x: &a >> a):<!wrt> void
 //
 #atscode_separator()
+//
+// HX-2012-06:
+// generic ops on numbers: +=, -=, *=, /=, %=
+//
+fun{a:t0p} ptr_addby (p: Ptr1, x: a):<!wrt> void
+fun{a:t0p} ptr_subby (p: Ptr1, x: a):<!wrt> void
+fun{a:t0p} ptr_mulby (p: Ptr1, x: a):<!wrt> void
+fun{a:t0p} ptr_divby (p: Ptr1, x: a):<!wrt> void
+fun{a:t0p} ptr_modby (p: Ptr1, x: a):<!wrt> void
+//
+#atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
 

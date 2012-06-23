@@ -132,6 +132,13 @@ a:vt0p
 
 #atscode_separator()
 
+fun{a:vt0p}
+list_vt_iforeach__fwork (i: int, x: &a): void
+fun{a:vt0p}
+list_vt_iforeach {n:int} (xs: !list_vt (a, n)): void
+
+#atscode_separator()
+
 fun{
 a:vt0p}{b:vt0p
 } list_vt_map__fwork (x: &a): b
@@ -163,13 +170,13 @@ a:vt0p
 fun{
 a:vt0p
 } list_vt_mergesort
-  {n:int} (
-  xs: list_vt (INV(a), n)
-) :<!wrt> list_vt (a, n) // end of [list_vt_mergesort]
+  {n:int} (xs: list_vt (INV(a), n)):<!wrt> list_vt (a, n)
+// end of [list_vt_mergesort]
 
 fun{
 a:vt0p
-} list_vt_mergesort_fun {n:int} (
+} list_vt_mergesort_fun
+  {n:int} (
   xs: list_vt (INV(a), n), cmp: cmpref (a)
 ) :<!wrt> list_vt (a, n) // end of [list_vt_mergesort_fun]
 
@@ -182,13 +189,13 @@ a:vt0p
 fun{
 a:vt0p
 } list_vt_quicksort
-  {n:int} (
-  xs: list_vt (INV(a), n)
-) :<!wrt> list_vt (a, n) // end of [list_vt_quicksort]
+  {n:int} (xs: list_vt (INV(a), n)):<!wrt> list_vt (a, n)
+// end of [list_vt_quicksort]
 
 fun{
 a:vt0p
-} list_vt_quicksort_fun {n:int} (
+} list_vt_quicksort_fun
+  {n:int} (
   xs: list_vt (INV(a), n), cmp: cmpref (a)
 ) :<!wrt> list_vt (a, n) // end of [list_vt_quicksort_fun]
 

@@ -76,6 +76,12 @@ list0_app (xs: list0 a, f: cfun (a, void)): void
 fun{a:t0p}{b:t0p}
 list0_map (xs: list0 (a), f: cfun (a, b)): list0 (b)
 
+fun{
+a1,a2:t0p}{b:t0p
+} list0_map2 (
+  xs1: list0 (a1), xs2: list0 (a2), f: cfun2 (a1, a2, b)
+) : list0 (b) // end of [list0_map2]
+
 #atscode_separator()
 
 fun{a:t0p}
@@ -103,6 +109,11 @@ list0_find_opt (xs: list0 a, p: cfun (a, bool)): option0 (a)
 
 fun{a:t0p}
 list0_filter (xs: list0 (a), f: cfun (a, bool)): list0 (a)
+
+#atscode_separator()
+
+fun{x,y:t0p}
+list0_zip (xs: list0 (x), ys: list0 (y)):<> list0 @(x, y)
 
 #atscode_separator()
 

@@ -247,4 +247,16 @@ end // end of [list0_filter]
 
 (* ****** ****** *)
 
+implement
+{x,y}
+list0_zip (xs, ys) = let
+  val xs = list_of_list0 (xs)
+  val ys = list_of_list0 (ys)
+  val xys = list_zip<x,y> (xs, ys)
+in
+  list0_of_list_vt (xys)
+end // end of [list0_zip]
+
+(* ****** ****** *)
+
 (* end of [list0.dats] *)
