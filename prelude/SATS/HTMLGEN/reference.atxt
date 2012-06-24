@@ -61,10 +61,46 @@ This function creates a reference initialized with its given argument.
 #decldescript('\
 This function does the same as #dyncode("ref").
 ')
+
+(* ****** ****** *)
+
 #declnamesynop("ref_make_viewptr")
 #decldescript('\
 This cast function (castfn) turns a pointer with a proof of at-view into a
 reference.
+')
+#declexample('\
+
+The following code implements a counter:
+
+#pats2xhtmld('\
+local
+
+var __count: int = 0 // it is statically allocated
+val theCount =
+  ref_make_viewptr {int} (view@(__count) | addr@(__count))
+// end of [val]
+
+in // in of [local]
+
+fun theCount_get (): int = !theCount
+
+fun theCount_inc (): void = !theCount := !theCount + 1
+
+fun theCount_getinc
+  (): int = let
+  val n = !theCount; val () = !theCount := n + 1 in n
+end // end of [theCount_getind]
+
+fun theCount_reset (): void = !theCount := 0
+
+end // end of [local]
+')
+
+The specialty of this implementation is that it does not make use of any
+dynamic memory allocation. This is a programming style often necessary for
+implementing low-level embedded systems.
+
 ')
 
 (* ****** ****** *)

@@ -173,6 +173,12 @@ typedef listLt
 typedef listLte
   (a:t0p, n:int) = [n1:nat | n1 <= n] list (a, n1)
 // end of [listLte]
+typedef listGt
+  (a:t0p, n:int) = [n1:nat | n1 > n] list (a, n1)
+// end of [listGt]
+typedef listGte
+  (a:t0p, n:int) = [n1:nat | n1 >= n] list (a, n1)
+// end of [listGte]
 //
 dataviewtype // viewt@ype+: covariant
 list_viewt0ype_int_viewtype (a:viewt@ype+, int) =
@@ -189,6 +195,12 @@ viewtypedef listLt_vt
 viewtypedef listLte_vt
   (a:vt0p, n:int) = [n1:nat | n1 <= n] list_vt (a, n1)
 // end of [listLte_vt]
+viewtypedef listGt_vt
+  (a:vt0p, n:int) = [n1:nat | n1 > n] list_vt (a, n1)
+// end of [listGt_vt]
+viewtypedef listGte_vt
+  (a:vt0p, n:int) = [n1:nat | n1 >= n] list_vt (a, n1)
+// end of [listGte_vt]
 //
 (* ****** ****** *)
 //

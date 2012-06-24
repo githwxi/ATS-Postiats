@@ -259,4 +259,8 @@ end // end of [list0_zip]
 
 (* ****** ****** *)
 
+macdef list0_zipwith = list0_map2
+
+(* ****** ****** *)
+
 (* end of [list0.dats] *)

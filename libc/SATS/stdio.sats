@@ -37,6 +37,12 @@
 %} // end of [%{#]
 
 (* ****** ****** *)
+
+(*
+abstype FILEref = ptr // declared in [prelude/basic_dyn.sats]
+*)
+
+(* ****** ****** *)
 //
 // HX-2011-04-02:
 //
@@ -59,10 +65,6 @@ viewtypedef FILEptr1 (*none*) = [l:agz;m:fm] FILEptr (l, m)
 //
 stadef fmlte = file_mode_lte
 //
-(* ****** ****** *)
-
-abstype FILEref = ptr
-
 (* ****** ****** *)
 
 castfn
@@ -406,26 +408,26 @@ which case the return value is EOF.
 
 symintr fputc_err
 fun fputc0_err (
-  c: char, filr: FILEref
+  c: int, filr: FILEref
 ) :<> int = "mac#atslib_fputc_err"
 overload fputc_err with fputc0_err
 fun fputc1_err
   {m:fm} (
   pf: fmlte (m, w)
-| c: char, filp: !FILEptr1 (m)
+| c: int, filp: !FILEptr1 (m)
 ) :<> [i:int | i <= UCHAR_MAX] int (i)
   = "mac#atslib_fputc_err"
 overload fputc_err with fputc1_err
 
 symintr fputc_exn
 fun fputc0_exn (
-  c: char, filr: FILEref
+  c: int, filr: FILEref
 ) :<!exn> void = "ext#atslib_fputc_exn"
 overload fputc_exn with fputc0_exn
 fun fputc1_exn
   {m:fm} (
   pf: fmlte (m, w)
-| c: char, filp: !FILEptr1 (m)
+| c: int, filp: !FILEptr1 (m)
 ) :<!exn> void = "ext#atslib_fputc_exn"
 overload fputc_exn with fputc1_exn
 
@@ -729,9 +731,9 @@ fun getchar1
   () :<> [i:int | i <= UCHAR_MAX] int i = "mac#atslib_getchar"
 // end of [getchar1]
 
-fun putchar (c: char):<> int = "mac#atslib_putchar"
+fun putchar (c: int):<> int = "mac#atslib_putchar"
 fun putchar1
-  (c: char):<> [i:int | i <= UCHAR_MAX] int i = "mac#atslib_putchar"
+  (c: int):<> [i:int | i <= UCHAR_MAX] int i = "mac#atslib_putchar"
 // end of [putchar1]
 
 (* ****** ****** *)

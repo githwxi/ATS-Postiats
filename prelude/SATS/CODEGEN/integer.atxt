@@ -463,9 +463,9 @@ overload min with g0uint_min of 0
 // HX: for unsigned indexed integer types
 //
 praxi
-g1uint_param_lemma
+lemma_g1uint_param
   {tk:tk} {i:int} (x: g1uint (tk, i)):<> [i >= 0] void
-// end of [g1uint_param_lemma]
+// end of [lemma_g1uint_param]
 
 #atscode_separator()
 

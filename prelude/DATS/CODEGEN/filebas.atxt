@@ -26,6 +26,20 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+#atscode_separator()
+
+staload STDIO = "libc/SATS/stdio.sats"
+viewtypedef FILEptr1 = $STDIO.FILEptr1
+
+#atscode_separator()
+
+\#define c2i int_of_char
+\#define i2c char_of_int
+
+#atscode_separator()
+
 local
 
 extern
@@ -43,6 +57,52 @@ implement file_mode_a = file_mode ("a")
 implement file_mode_aa = file_mode ("a+")
 
 end // end of [local]
+
+#atscode_separator()
+
+extern
+castfn
+__cast_filp (r: FILEref): FILEptr1
+
+extern
+praxi
+__free_filp (p: FILEptr1(*void*)): void
+
+#atscode_separator()
+
+implement
+fileref_close (filr) = $STDIO.fclose0_exn (filr)
+
+#atscode_separator()
+
+implement
+fileref_flush (filr) = $STDIO.fflush0_exn (filr)
+
+#atscode_separator()
+
+implement
+fileref_getc (filr) = $STDIO.fgetc0_err (filr)
+
+#atscode_separator()
+
+implement
+fileref_putc<int> (filr, c) = fileref_putc_int (filr, c)
+implement
+fileref_putc<char> (filr, c) = fileref_putc_char (filr, c)
+
+implement
+fileref_putc_int (filr, c) = let
+  val _(*ignored*) = $STDIO.fputc0_err (c, filr) in (*nothing*)
+end // end of [fileref_putc_int]
+implement
+fileref_putc_char (filr, c) = fileref_putc_int (filr, (c2i)c)
+
+#atscode_separator()
+
+implement
+fileref_is_eof (filr) =
+  if $STDIO.feof0 (filr) = 0 then false else true
+// end of [fileref_is_eof]
 
 #atscode_separator()
 
@@ -75,6 +135,81 @@ in
     prval () = opt_unnone (x) in exit_errmsg {a} (1, msg)
   end (* end of [if] *)
 end // end of [fileref_get_exnmsg]
+
+#atscode_separator()
+
+implement
+fileref_get_line_charlst
+  (filr) = let
+//
+val EOF = '\\\n'
+viewtypedef charlst = List_vt (char)
+//
+fun loop (
+  filr: FILEref, res: &ptr? >> charlst
+) : void = let
+  val i = fileref_getc (filr)
+in
+  if i >= 0 then let
+    val c = $UN.cast{char} (i)
+  in
+    if (c != EOF) then let
+      val () = res := list_vt_cons{char}{0} (c, _)
+      val+ list_vt_cons (_, res1) = res
+      val () = loop (filr, res1)
+    in
+      fold@ (res)
+    end else (res := list_vt_nil)
+  end else (res := list_vt_nil)
+end // end of [loop]
+//
+var res: ptr
+val () = loop (filr, res)
+//
+in
+  res
+end // end of [fileref_get_line_charlst]
+
+#atscode_separator()
+
+implement
+fileref_get_file_charlst (filr) = let
+//
+viewtypedef charlst = List_vt (char)
+fun loop (
+  filr: FILEref, res: &ptr? >> charlst
+) : void = let
+  val i = fileref_getc (filr)
+in
+  if i >= 0 then let
+    val c = $UN.cast{char} (i)
+    val () = res := list_vt_cons{char}{0} (c, _)
+    val+ list_vt_cons (_, res1) = res
+    val () = loop (filr, res1)
+  in
+    fold@ (res)
+  end else (res := list_vt_nil)
+end // end of [loop]
+//
+var res: ptr
+val () = loop (filr, res)
+//
+in
+  res
+end // end of [fileref_get_file_charlst]
+
+#atscode_separator()
+
+implement
+fileref_put_charlst
+  (out, cs) = let
+//
+implement
+list_vt_foreach__fwork<char> (c) = fileref_putc (out, c)
+//
+in
+  list_vt_foreach<char> (cs)
+end // end of [fileref_put_charlst]
 
 #atscode_separator()
 

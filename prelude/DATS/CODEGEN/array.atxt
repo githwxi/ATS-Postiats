@@ -285,6 +285,101 @@ array_iforeach_funenv
 #atscode_separator()
 
 implement{a}
+array_initize
+  (A, asz) = let
+//
+prval () = lemma_g1uint_param (asz)
+//
+fun loop
+  {l:addr}{n:nat} .<n>. (
+  pf: !array_v (a?, l, n) >> array_v (a, l, n) | p: ptr l, n: size_t n, i: size_t
+) : void =
+  if n > 0 then let
+    prval (pf1, pf2) = array_v_uncons (pf)
+    val () = array_initize__fwork (i, !p)
+    val () = loop (pf2 | ptr1_add_int<a> (p, 1), pred(n), succ(i))
+    prval () = pf := array_v_cons {a} (pf1, pf2)
+  in
+    // nothing
+  end else let
+    prval () = pf := array_v_unnil_nil (pf)
+  in
+    // nothing
+  end // end of [if]
+//
+in
+  loop (view@ (A) | addr@ (A), asz, g0int2uint(0))
+end // end of [array_initize]
+
+#atscode_separator()
+
+implement{a}
+array_initize_elt
+  (A, asz, elt) = let
+//
+implement
+array_initize__fwork<a> (i, xi) = xi := elt
+//
+in
+  $effmask_all (array_initize (A, asz))
+end // end of [array_initize_elt]
+
+#atscode_separator()
+
+implement{a}
+array_initize_list
+  (A, asz, xs) = let
+//
+typedef list0 = listGte (a, 0)
+typedef list1 = listGte (a, 1)
+//
+var xs = $UN.cast2ptr (xs)
+val p_xs = $UN.cast{Ptr1} (addr@ (xs))
+//
+implement
+array_initize__fwork<a>
+  (i, xi) = let
+  val+ list_cons
+    (x, xs) = $UN.ptr_get<list1> (p_xs)
+  val () = $UN.ptr_set<list0> (p_xs, xs)
+in
+  xi := x
+end // end of [array_initize__fwork]
+//
+in
+  $effmask_all (array_initize (A, asz))
+end // end of [array_initize_list]
+
+#atscode_separator()
+
+implement{a}
+array_initize_list_vt
+  (A, asz, xs) = let
+//
+viewtypedef list0 = listGte_vt (a, 0)
+viewtypedef list1 = listGte_vt (a, 1)
+//
+var xs =
+  $UN.castvwtp_trans{ptr} (xs)
+val p_xs = $UN.cast{Ptr1} (addr@ (xs))
+//
+implement
+array_initize__fwork<a>
+  (i, xi) = let
+  val+ ~list_vt_cons
+    (x, xs) = $UN.ptr_get<list1> (p_xs)
+  val () = $UN.ptr_set<list0> (p_xs, xs)
+in
+  xi := x
+end // end of [array_initize__fwork]
+//
+in
+  $effmask_all (array_initize (A, asz))
+end // end of [array_initize_list_vt]
+
+#atscode_separator()
+
+implement{a}
 array_quicksort_fun
   (A, asz, cmp) = let
   val tsz = sizeof<a>

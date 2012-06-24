@@ -284,6 +284,22 @@ sortdef tk = tkind
 
 #atscode_separator()
 
+fun char_of_int (i: int):<> char = "mac\#atspre_char_of_int"
+fun schar_of_int (i: int):<> schar = "mac\#atspre_schar_of_int"
+fun uchar_of_uint (u: uint):<> uchar = "mac\#atspre_uchar_of_uint"
+
+#atscode_separator()
+
+fun int_of_char (c: char):<> int = "mac\#atspre_int_of_char"
+fun int_of_schar (c: schar):<> int = "mac\#atspre_int_of_schar"
+fun int_of_uchar (c: uchar):<> int = "mac\#atspre_int_of_uchar"
+
+fun uint_of_char (c: char):<> uint = "mac\#atspre_uint_of_char"
+fun uint_of_schar (c: schar):<> uint = "mac\#atspre_uint_of_schar"
+fun uint_of_uchar (c: uchar):<> uint = "mac\#atspre_uint_of_uchar"
+
+#atscode_separator()
+
 fun{tk:tk}
 g0int_of_char (c: char):<> g0int (tk)
 fun{tk:tk}

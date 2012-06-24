@@ -4,6 +4,10 @@ ATSLIB/prelude/arrayptr\
 
 (* ****** ****** *)
 
+#declnamesynop("arrayptr_encode")
+
+(* ****** ****** *)
+
 #declnamesynop("arrayptr2ptr")
 #declnamesynop("arrayptrout2ptr")
 
@@ -65,6 +69,25 @@ This function creates an arrayptr-value of a given size
 
 (* ****** ****** *)
 
+#declnamesynop("arrayptr_make_list")
+#decldescript("\
+
+This function creates an arrayptr-value of a given size n (first argument)
+and then initializes it with a given list (second argument) of length n.
+
+")
+
+#declnamesynop("arrayptr_make_list_vt")
+#decldescript("\
+
+This function creates an arrayptr-value of a given size n (first argument)
+and then initializes it with a given linear list (second argument) of
+length n. Note that the linear list is consumed after the function returns.
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("arrayptr_foreach")
 #decldescript("
 
@@ -89,15 +112,15 @@ val asz = g1int2uint (N)
 val A = arrayptr_make_elt<int> (asz, 1)
 //
 var res: int = 0
-val p_res = $UN.cast{Ptr1}(addr@(res))
+val p_res = $UN.cast2Ptr1 (addr@(res))
 //
 implement
-arrayptr_foreach__fwork<int> (x) = $UN.ptr_addby<int> (res, x)
+arrayptr_foreach__fwork<int> (x) = $UN.ptr_addby<int> (p_res, x)
 val () = arrayptr_foreach (A, asz)
 //
 val () = arrayptr_free (A)
 //
-val () = assert (res = N)
+val () = assert (N = res)
 //
 in
   0(*normal*)

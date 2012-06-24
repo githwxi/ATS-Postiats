@@ -17,6 +17,29 @@ repeatedly.  For full-fledged IO support, please see
 
 (* ****** ****** *)
 
+#declnamesynop("test_file_exists")
+#decldescript('\
+This function tests whether a given path refers to a file in existence.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("test_file_mode")
+#decldescript("\
+
+This function calls [stat] to obtain the mode of a given file and then
+applies its second argument f to the mode to return an integer: ~1/0/1
+means error/false/true, respectively.
+
+")
+#declnamesynop("test_file_isblk")
+#declnamesynop("test_file_ischr")
+#declnamesynop("test_file_isdir")
+#declnamesynop("test_file_isfifo")
+#declnamesynop("test_file_isreg")
+
+(* ****** ****** *)
+
 #declnamesynop("fileref_open_exn")
 #decldescript('\
 
@@ -41,6 +64,62 @@ returned value is an option that indicates whether a call to
 #declnamesynop("fileref_close")
 #decldescript('\
 This function closes a given file handle.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("fileref_flush")
+#decldescript('\
+This function flushes a given file handle.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("fileref_getc")
+#decldescript('\
+
+This function reads a char from a given file handle. If a
+negative integer (EOF) is returned, then it is an indication
+of error.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("fileref_putc")
+#decldescript('\
+
+This function writes a char to a given file handle. It does
+not report any errors.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("fileref_is_eof")
+#decldescript('\
+This function tests whether the end of a given file handle is reached.
+')
+#declexample('\
+
+The following code gives a naive implementation of file-copying:
+
+#pats2xhtmld('\
+fun fprint_fileref (
+  out: FILEref, inp: FILEref
+) : void = (
+  if ~fileref_is_eof(inp) then let
+    val () = fileref_putc (out, fileref_getc (inp))
+  in
+    fprint_fileref (out, inp)
+  end else () // end of [if]
+) // end of [fprint_fileref]
+
+implement
+main () = let
+  val () = fprint_fileref (stdout_ref, stdin_ref) in 0(*normal*)
+end // end of [main]
+')
 ')
 
 (* ****** ****** *)
@@ -79,9 +158,99 @@ loading a doubly-quoted string.
 
 #declnamesynop("fileref_get_opt")
 #decldescript('\
-This function reads a value from a given file handle. It is only implemented
-for certain template arguments.
+
+This function reads a value from a given file handle. It is only
+implemented for certain template arguments.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("fileref_get_line_charlst")
+#decldescript('\
+
+This function reads out chars from a given file handle until a newline
+symbol or EOF is reached and it then returns a linear list of the chars in
+the order they were read. Note that the newline symbol is not included in
+the chars returned.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("fileref_get_file_charlst")
+#decldescript('\
+
+This function reads out chars from a given file handle until none is left
+and it then returns a linear list of the chars in the order they were read.
+
 ')
+#declexample('\
+
+The following code prints out the content of a given file backwardly:
+
+#pats2xhtmld('\
+fun fprint_fileref_back
+  (out: FILEref, inp: FILEref): void = let
+  fun loop (cs: List_vt (char)):<cloref1> void =
+    case+ cs of
+    | ~list_vt_cons
+        (c, cs) => let
+        val () = fileref_putc (out, c) in loop (cs)
+      end // end of [list_vt_cons]
+    | ~list_vt_nil () => ()
+  // end of [loop]
+  val cs = fileref_get_file_charlst (inp)
+in
+  loop (list_vt_reverse (cs))
+end // end of [fprint_fileref_back]
+
+implement
+main () = let
+  val () = fprint_fileref_back (stdout_ref, stdin_ref) in 0(*normal*)
+end // end of [main]
+')
+')
+
+(* ****** ****** *)
+
+#declnamesynop("fileref_put_charlst")
+#decldescript('\
+
+This function prints out the chars in its second argument to the file
+handle provided as its first argument.  ')
+
+#declexample("\
+
+The following code removes very inefficiently every empty line in a given
+file:
+
+#pats2xhtmld("\
+fun remove_empty_lines (
+  out: FILEref, inp: FILEref, isfst: bool
+) : void = let
+  val EOL = '\\\n'
+in
+//
+if ~fileref_is_eof (inp) then let
+  var isfst: bool = isfst
+  val cs = fileref_get_line_charlst (inp)
+  val iscons = list_vt_is_cons (cs)
+  val () = if iscons then {
+    val () = if isfst then (isfst := false) else fileref_putc (out, EOL)
+    val () = fileref_put_charlst (out, cs)
+  } // end of [if] // end of [val]
+  val () = list_vt_free (cs)
+in
+  remove_empty_lines (out, inp, isfst)
+end else () // end of [if]
+//
+end // end of [remove_empty_lines]
+
+implement
+main () = let
+  val () = remove_empty_lines (stdout_ref, stdin_ref, true(*isfst*))
+in
+  0(*normal*)
+end // end of [main]
+")
+")
 
 (* ****** ****** *)
 

@@ -98,6 +98,54 @@ arrayptr_uninitize
 
 #atscode_separator()
 
+implement{a}
+arrayptr_make_uninitized
+  (asz) = let
+  val (pf, pfgc | p) = array_ptr_alloc<a> (asz)
+in
+  arrayptr_encode (pf, pfgc | p)
+end // end of [arrayptr_uninitize]
+
+#atscode_separator()
+
+implement{a}
+arrayptr_make_elt
+  (asz, elt) = let
+//
+val (
+  pf, pfgc | p
+) = array_ptr_alloc<a> (asz)
+val () = $effmask_wrt (array_initize_elt<a> (!p, asz, elt))
+//
+in
+  arrayptr_encode (pf, pfgc | p)
+end // end of [arrayptr_make_elt]
+
+#atscode_separator()
+
+implement{a}
+arrayptr_make_list
+  (asz, xs) = let
+//
+val (
+  pf, pfgc | p
+) = array_ptr_alloc<a> (asz)
+val () = $effmask_wrt (array_initize_list<a> (!p, asz, xs))
+//
+in
+  arrayptr_encode (pf, pfgc | p)
+end // end of [arrayptr_make_list]
+
+implement{a}
+arrayptr_make_list_vt
+  (asz, xs) = let
+//
+val (pf, pfgc | p) = array_ptr_alloc<a> (asz)
+val () = $effmask_wrt (array_initize_list_vt<a> (!p, asz, xs))
+//
+in
+  arrayptr_encode (pf, pfgc | p)
+end // end of [arrayptr_make_list_vt]
 
 #atscode_separator()
 

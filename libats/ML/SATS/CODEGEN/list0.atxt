@@ -117,6 +117,10 @@ list0_zip (xs: list0 (x), ys: list0 (y)):<> list0 @(x, y)
 
 #atscode_separator()
 
+macdef list0_zipwith = list0_map2
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

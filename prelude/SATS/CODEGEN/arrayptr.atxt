@@ -50,13 +50,21 @@ arrayptrout (a:t@ype, l: addr, n: int) = ptr
 #atscode_separator()
 
 castfn
+arrayptr_encode
+  {a:vt0p}{l:addr}{n:int} (
+  pfarr: array_v (INV(a), l, n), pfgc: free_gc_v l | p: ptr l
+) :<> arrayptr (a, l, n) // end of [arrayptr_encode]
+
+#atscode_separator()
+
+castfn
 arrayptr2ptr
   {a:vt0p}
   {l:addr}{n:int} (A: !arrayptr (INV(a), l, n)):<> ptr l
 overload ptrcast with arrayptr2ptr
 castfn
 arrayptrout2ptr
-  {a:t0p}{l:addr}{n:int} (A: !arrayptrout (a, l, n)):<> ptr l
+  {a:t0p}{l:addr}{n:int} (A: !arrayptrout (INV(a), l, n)):<> ptr l
 overload ptrcast with arrayptrout2ptr
 
 #atscode_separator()
@@ -115,9 +123,22 @@ arrayptr_make_uninitized
 
 fun{a:t0p}
 arrayptr_make_elt
-  {n:int}
-  (asz: size_t n, x: INV(a)):<> arrayptr (a, n)
+  {n:int} (asz: size_t n, x: a):<> arrayptr (a, n)
 // end of [arrayptr_make_elt]
+
+#atscode_separator()
+
+fun{a:t0p}
+arrayptr_make_list
+  {n:int}
+  (asz: size_t n, xs: list (INV(a), n)):<> arrayptr (a, n)
+// end of [arrayptr_make_list]
+
+fun{a:vt0p}
+arrayptr_make_list_vt
+  {n:int}
+  (asz: size_t n, xs: list_vt (INV(a), n)):<> arrayptr (a, n)
+// end of [arrayptr_make_list_vt]
 
 #atscode_separator()
 

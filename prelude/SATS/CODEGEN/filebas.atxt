@@ -30,6 +30,11 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()
 
+\#define SHR(x) x // SHARED // HX: for commenting
+\#define NSH(x) x // NSHARED // HX: for commenting
+
+#atscode_separator()
+
 val stdin_ref : FILEref
 val stdout_ref : FILEref
 val stderr_ref : FILEref
@@ -45,17 +50,68 @@ val file_mode_aa : file_mode (rw()) // = "a+"
 
 #atscode_separator()
 
+(*
+** HX: [stat] is called
+*)
+fun test_file_exists
+  (path: NSH(string)): bool = "atspre_test_file_exists"
+// end of [test_file_exists]
+
+#atscode_separator()
+//
+// HX-2011-02-16:
+// [stat] is called to obtain the mode of a given file
+// for [f] to be applied to it.
+//
+fun test_file_mode (path: NSH(string), f: uint -> bool): int
+//
+// HX: [stat] is called // ~1/0/1: error/false/true
+//
+fun test_file_isblk (path: NSH(string)): int = "atspre_test_file_isblk"
+fun test_file_ischr (path: NSH(string)): int = "atspre_test_file_ischr"
+fun test_file_isdir (path: NSH(string)): int = "atspre_test_file_isdir"
+fun test_file_isfifo (path: NSH(string)): int = "atspre_test_file_isfifo"
+fun test_file_isreg (path: NSH(string)): int = "atspre_test_file_isreg"
+//
+// HX: [lstat] is called // ~1/0/1: error/false/true
+//
+fun test_file_islnk (path: NSH(string)): int = "atspre_test_file_islnk"
+
+#atscode_separator()
+
 fun fileref_open_exn
-  (path: string, fm: file_mode):<!exn> FILEref
+  (path: NSH(string), fm: file_mode):<!exn> FILEref
 // end of [fileref_open_exn]
 
 fun fileref_open_opt
-  (path: string, fm: file_mode):<!exn> Option_vt (FILEref)
+  (path: NSH(string), fm: file_mode):<!exn> Option_vt (FILEref)
 // end of [fileref_open_opt]
 
 #atscode_separator()
 
 fun fileref_close (r: FILEref): void
+
+#atscode_separator()
+
+fun fileref_flush (r: FILEref): void
+
+#atscode_separator()
+
+fun fileref_getc (r: FILEref): int // HX: error indication: EOF
+
+#atscode_separator()
+
+fun{a:t0p}
+fileref_putc (r: FILEref, c: a): void // HX: no error reporting
+
+fun fileref_putc_int (r: FILEref, c: int): void // HX: no error reporting
+fun fileref_putc_char (r: FILEref, c: char): void // HX: no error reporting
+
+#atscode_separator()
+
+fun fileref_is_eof (r: FILEref): bool
+macdef
+fileref_isnot_eof (r) = ~fileref_is_eof (r)
 
 #atscode_separator()
 
@@ -70,7 +126,7 @@ fileref_load : fileref_load_type (a)
 fun fileref_load_int : fileref_load_type (int)
 fun fileref_load_char : fileref_load_type (char)
 fun fileref_load_double : fileref_load_type (double)
-fun fileref_load_string : fileref_load_type (string)
+fun fileref_load_string : fileref_load_type (NSH(string))
 
 #atscode_separator()
 
@@ -82,13 +138,28 @@ fileref_get_opt
 fun{
 a:t0p
 } fileref_get_exnmsg
-  (r: FILEref, msg: READ(string)):<!exn> a
+  (r: FILEref, msg: NSH(string)):<!exn> a
 // end of [fileref_get_exnmsg]
 
 macdef
 fileref_get_exnloc
   (r) = fileref_get_exnmsg (r, \#LOCATION)
 // end of [fileref_get_exnloc]
+
+#atscode_separator()
+
+fun fileref_get_line_charlst (r: FILEref): List_vt (char)
+
+#atscode_separator()
+
+fun fileref_put_charlst (r: FILEref, cs: !List_vt (char)): void
+
+#atscode_separator()
+
+(*
+** HX: for handling files of "tiny" size
+*)
+fun fileref_get_file_charlst (r: FILEref): List_vt (char)
 
 #atscode_separator()
 

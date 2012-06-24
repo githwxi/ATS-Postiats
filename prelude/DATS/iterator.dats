@@ -475,7 +475,7 @@ iter_bsearch_funenv
   itr, pord, env, ra
 ) = let
 //
-prval () = g1uint_param_lemma (ra)
+prval () = lemma_g1uint_param (ra)
 prval () = lemma_iterator_param (itr)
 //
 stadef iter

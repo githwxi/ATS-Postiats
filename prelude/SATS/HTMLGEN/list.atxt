@@ -7,12 +7,12 @@ ATSLIB/prelude/list\
 #declpreamble('\
 
 A functional data structure is one that is immutable after creation; the
-memory it occupies is heap-allocated, which can only be freed by a garbage
-collector (GC).  The type for a singly-linked functional list containing N
-elements of type T is denoted by #stacode("list(T, N)"), where T is
-nonlinear. Note that the type constructor #stacode("list") is co-variant in
-its first argument, that is, #stacode("list(T1, N)") is a subtype of
-#stacode("list(T2, N)") if T1 is a subtype of T2.
+memory it occupies is heap-allocated, which can only be safely freed by a
+garbage collector (GC).  The type for a singly-linked functional list
+containing N elements of type T is denoted by #stacode("list(T, N)"), where
+T is nonlinear. Note that the type constructor #stacode("list") is
+co-variant in its first argument, that is, #stacode("list(T1, N)") is a
+subtype of #stacode("list(T2, N)") if T1 is a subtype of T2.
 
 ')#comment("declpreamble")
 
@@ -251,8 +251,8 @@ xs satisfies the predicate implemented by #dyncode("list_forall__pred").
 #declnamesynop("list_find_exn")
 #decldescript('\
 
-Given a list xs, this function returns xs[i] for the least index i such
-that xs[i] (element i in xs) satisfies the predicate implemented by
+Given a list xs, this function returns xs[i] (element i in xs) for the
+least index i such that xs[i] satisfies the predicate implemented by
 #dyncode("list_find__pred"). In case there is no such an element, the
 function raises an exception (NotFoundExn).
 
@@ -311,7 +311,7 @@ fun factorial
   {n:nat} (n: int n): int = let
 //
 implement
-list_foldleft__fwork<int><int> (acc, x) = (acc+1) * x
+list_foldleft__fwork<int><int> (acc, x) = acc * (x+1)
 //
 in
   list_foldleft<int><int> (list_make_range (0, n), 1(*ini*))
