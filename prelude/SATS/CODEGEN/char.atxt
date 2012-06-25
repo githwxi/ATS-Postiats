@@ -48,9 +48,35 @@ end // end of [fprint_print_prerr_decl]
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 sortdef t0p = t@ype
-')\
+
+#atscode_separator()
+
+fun char_of_int (i: int):<> char = "mac\#atspre_char_of_int"
+fun schar_of_int (i: int):<> schar = "mac\#atspre_schar_of_int"
+fun uchar_of_uint (u: uint):<> uchar = "mac\#atspre_uchar_of_uint"
+
+#atscode_separator()
+
+fun int_of_char (c: char):<> int = "mac\#atspre_int_of_char"
+fun int_of_schar (c: schar):<> int = "mac\#atspre_int_of_schar"
+fun int_of_uchar (c: uchar):<> int = "mac\#atspre_int_of_uchar"
+
+fun uint_of_char (c: char):<> uint = "mac\#atspre_uint_of_char"
+fun uint_of_schar (c: schar):<> uint = "mac\#atspre_uint_of_schar"
+fun uint_of_uchar (c: uchar):<> uint = "mac\#atspre_uint_of_uchar"
+
+#atscode_separator()
+
+fun add_char_int
+  (c1: char, i2: int):<> char = "mac\#atspre_add_char_int"
+overload + with add_char_int
+fun sub_char_int
+  (c1: char, i2: int):<> char = "mac\#atspre_sub_char_int"
+overload - with sub_char_int
+fun sub_char_char
+  (c1: char, c2: char):<> int = "mac\#atspre_sub_char_char"
+overload - with sub_char_char
 
 #atscode_separator()
 
@@ -107,7 +133,6 @@ overload tostring with tostring_char
 ')\
 
 #atscode_separator()
-#atscode_decl_strcst('\
 //
 castfn
 char1_of_schar1 {c:int} (c: schar (c)):<> char (c)
@@ -119,7 +144,6 @@ char1_of_uchar1 {c:int} (c: uchar (c)):<> char (u2i8(c))
 castfn
 uchar1_of_char1 {c:int} (c: char (c)):<> uchar (i2u8(c))
 //
-')\
 #atscode_separator()
 
 %{
@@ -281,22 +305,6 @@ overload compare with compare_uchar1_uchar1 of 20
 #atscode_separator()
 
 sortdef tk = tkind
-
-#atscode_separator()
-
-fun char_of_int (i: int):<> char = "mac\#atspre_char_of_int"
-fun schar_of_int (i: int):<> schar = "mac\#atspre_schar_of_int"
-fun uchar_of_uint (u: uint):<> uchar = "mac\#atspre_uchar_of_uint"
-
-#atscode_separator()
-
-fun int_of_char (c: char):<> int = "mac\#atspre_int_of_char"
-fun int_of_schar (c: schar):<> int = "mac\#atspre_int_of_schar"
-fun int_of_uchar (c: uchar):<> int = "mac\#atspre_int_of_uchar"
-
-fun uint_of_char (c: char):<> uint = "mac\#atspre_uint_of_char"
-fun uint_of_schar (c: schar):<> uint = "mac\#atspre_uint_of_schar"
-fun uint_of_uchar (c: uchar):<> uint = "mac\#atspre_uint_of_uchar"
 
 #atscode_separator()
 

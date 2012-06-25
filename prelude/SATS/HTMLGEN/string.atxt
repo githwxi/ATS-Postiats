@@ -7,53 +7,313 @@ ATSLIB/prelude/string\
 #declpreamble('\
 #para("\
 
+This package contains various common functions for processing (immutable)
+strings.
+
 ") ')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("string_index_char")
+#decldescript('\
+
+Given a string str of length n and an index i,
+#stacode("string_index_char(n, i, c)") means that str[i] in the string is
+of the type #stacode("char(c)").  If str[i] equals the null character, then
+i equals n.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("string_get_at_uint")
+#decldescript('\
+
+Given a string of length n and an index i < n, this function returns the
+char stored in cell i of the string.  Note that the returned character is
+non-null. ')
+
+%{
+(*
+#declnamesynop("string_get_at_int")
+#decldescript('\
+This function does the same as #dyncode("string_get_at_uint") except for
+taking a signed integer as the string index.  ')
+*)
+%}
+
+(* ****** ****** *)
+
+#declnamesynop("string_is_atend_uint")
+#decldescript('\
+
+Given a string of length n and an index i <= n, this function returns true
+if and only if i equals n.  ')
+
+%{
+(*
+#declnamesynop("string_is_atend_int")
+#decldescript('\
+This function does the same as #dyncode("string_is_atend_uint") except for
+taking a signed integer as the string index.  ')
+*)
+%}
+
+(* ****** ****** *)
+
+#declnamesynop("string_test_at_uint")
+#decldescript('\
+
+Given a string of length n and an index i <= n, this function returns a
+char c paired with a proof stating that i < n holds if and only if c is
+non-null. ')
+
+#declexample('\
+
+The following code implements a function for computing the length of a
+given string:
+
+#pats2xhtmld('\
+fun string1_length
+  {n:int} .<>.
+  (str: string n): size_t (n) = let
+//
+\#define NUL \'\\\000\'
+//
+prval () = lemma_string_param (str)
+//
+fun loop
+  {i:nat | i <= n} .<n-i>. (
+  str: string n, i: size_t i
+) :<> size_t (n) = let
+  val (pf | c) = string_test_at_uint (str, i)
+in
+  if c != NUL then let
+    prval string_index_char_gt () = pf in loop (str, succ(i))
+  end else let
+    prval string_index_char_eq () = pf in i // HX: i equals n
+  end // end of [if]
+end // end of [loop]
+//
+in
+  loop (str, g1int2uint (0))
+end // end of [string1_length]
+')
+')
+
+%{
+(*
+#declnamesynop("string_test_at_int")
+#decldescript('\
+This function does the same as #dyncode("string_test_at_uint") except for
+taking a signed integer as the string index.  ')
+*)
+%}
 
 (* ****** ****** *)
 
 #declnamesynop("lt_string_string")
 #decldescript('\
-This function returns true if and only if its first
-argument is less than its second argument according
-to the lexicographic ordering on characters.
+
+This function returns true if and only if its first argument is less than
+its second argument according to the lexicographic ordering on characters.
 ')
+
 #declnamesynop("lte_string_string")
 #decldescript('\
-This function returns true if and only if its first
-argument is less than or equal to its second argument according
-to the lexicographic ordering on characters.
-')
+
+This function returns true if and only if its first argument is less than
+or equal to its second argument according to the lexicographic ordering on
+characters.  ')
 
 (* ****** ****** *)
 
 #declnamesynop("gt_string_string")
+
 #decldescript('\
-This function returns true if and only if its first
-argument is greater than its second argument according
-to the lexicographic ordering on characters.
-')
+
+This function returns true if and only if its first argument is greater
+than its second argument according to the lexicographic ordering on
+characters.  ')
+
 #declnamesynop("gte_string_string")
+
 #decldescript('\
-This function returns true if and only if its first
-argument is greater than or equal to its second argument according
-to the lexicographic ordering on characters.
-')
+
+This function returns true if and only if its first argument is greater
+than or equal to its second argument according to the lexicographic
+ordering on characters.  ')
 
 (* ****** ****** *)
 
 #declnamesynop("eq_string_string")
+
 #decldescript('\
-This function returns true if and only if its first
-argument is equal to its second argument according to
-the lexicographic ordering on characters.
+
+This function returns true if and only if its first argument is equal to
+its second argument according to the lexicographic ordering on characters.
 ')
+
 #declnamesynop("neq_string_string")
 #decldescript('\
-This function returns true if and only if its first
-argument is unequal to its second argument according
-to the lexicographic ordering on characters.
+
+This function returns true if and only if its first argument is unequal to
+its second argument according to the lexicographic ordering on characters.
 ')
 
 (* ****** ****** *)
+
+#declnamesynop("string0_length")
+#decldescript('\
+
+This function computes the length of a given string.  ')
+
+#declnamesynop("string1_length")
+#decldescript('\
+
+This function does the same as #dyncode("string0_length") but is assigned a
+more informative type.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("strchr")
+#declnamesynop("strrchr")
+#declnamesynop("strstr")
+
+#declnamesynop("strspn")
+#declnamesynop("strcspn")
+
+#declnamesynop("string_index")
+#declnamesynop("string_rindex")
+
+(* ****** ****** *)
+
+#declnamesynop("string_foreach__fwork")
+
+#declnamesynop("string_foreach")
+#decldescript('\
+
+This function applies to each char in its argument the function implemented
+by #dyncode("string_foreach__fwork").  ')
+
+#declexample('\
+
+The following code implements a function that computes the value of an
+unsigned integer represented as a sequence of digits (of base 10):
+
+#pats2xhtmld('\
+staload UN = "prelude/SATS/unsafe.sats"
+//
+fun atoi (str: string): int = let
+//
+var res: int = 0
+val p_res = $UN.cast2Ptr1 (addr@(res))
+//
+implement
+string_foreach__fwork<> (c) =
+  $UN.ptr_set<int> (p_res, 10 * $UN.ptr_get<int>(p_res) + (c - \'0\'))
+val () = string_foreach (str)
+//
+in
+  res
+end // end of [atoi]
+')
+Note that this function assumes its string argument consisting of
+a sequence of digits.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("string_foldleft__fwork")
+
+#declnamesynop("string_foldleft")
+#decldescript('\
+
+Given a string str of length n, this function return the value of
+#dyncode("f(...f(ini, str[0])..., str[n-1])"), where the notation str[i]
+refers char i in str, and f is the function implemented by
+#dyncode("string_foldleft__fwork").
+
+')
+#declexample('\
+The following code implements a function that computes the value of an
+unsigned integer represented as a sequence of digits (of base 10):
+
+#pats2xhtmld('\
+staload UN = "prelude/SATS/unsafe.sats"
+//
+fun atoi (str: string): int = let
+//
+implement
+string_foldleft__fwork<int> (acc, c) = 10 * acc + (c - \'0\')
+//
+in
+  string_foldleft<int> (str, 0(*ini*))
+end // end of [atoi]
+')
+Note that this function assumes its string argument consisting of
+a sequence of digits.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("string_find__pred")
+
+#declnamesynop("string_find")
+#decldescript('\
+
+Given a string str of length n, this function returns the least
+index i such that str[i] satisfies the predicate implemented by
+#dyncode("string_find__pred"). If there is no index that meets
+the condition, then ~1 (negative 1) is returned.
+
+')
+#declexample('\
+
+The following code implements the function #dyncode("strchr") that finds
+the first occurrence of a char in a given string.
+
+#pats2xhtmld('\
+implement
+strchr (str, c0) = let
+//
+implement string_find__pred<> (c) = c0 = c
+//
+in
+  string_find<> (str)
+end // end of [strchr]
+')
+
+The following code implements the function #dyncode("strspn") that computes
+the length of the longest prefix of a given string consisting of only chars
+contained in the second argument of this function.
+
+#pats2xhtmld('\
+staload UN = "prelude/SATS/unsafe.sats"
+//
+implement
+strspn (str, accept) = let
+//
+var i: size_t = g1int2uint (0)
+val p_i = $UN.cast2Ptr1 (addr@ (i))
+val accept = $UN.cast{String}(accept)
+//
+\#define i2sz size_of_int
+//
+implement
+string_find__pred<> (c) = let
+  val () = $UN.ptr_addby<size_t> (p_i, i2sz(1))
+in
+  if strchr (accept, c) >= 0 then true else false
+end // end of [string_find__pred]
+//
+val _(*ignored*) = string_find<> (str)
+//
+in
+  $UN.ptr_get<sizeLte(n)> (p_i)
+end // end of [strspn]
+')
+')
+
 
 (* end of [string.atxt] *)

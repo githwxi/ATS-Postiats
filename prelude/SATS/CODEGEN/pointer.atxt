@@ -92,6 +92,12 @@ ptr_sub_uint (p: ptr, ofs: g0uint (tk)):<> ptr
 //
 #atscode_separator()
 
+fun sub_ptr_ptr
+  (p1: ptr, p2: ptr):<> ssize_t = "mac\#atspre_sub_ptr_ptr"
+overload - with sub_ptr_ptr // end of [overload]
+
+#atscode_separator()
+
 %{
 fun
 fun_ptr_cmp0_decl (

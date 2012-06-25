@@ -299,7 +299,8 @@ i in xs.
 
 Given a list xs of length n, this function return the value of
 #dyncode("f(...f(ini, xs[0])..., xs[n-1])"), where the notation xs[i]
-refers element i in xs.
+refers element i in xs and f is the function implemented by
+#dyncode("list_foldleft__fwork").
 
 ")
 #declexample("\

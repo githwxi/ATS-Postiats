@@ -241,6 +241,8 @@ in
   loop (view@(A) | addr@(A), asz)
 end // end of [array_foreach]
 
+#atscode_separator()
+
 implement{a}
 array_iforeach
   (A, asz) = let
@@ -265,6 +267,35 @@ fun loop
 in
   loop (view@(A) | addr@(A), asz, g1int2uint(0))
 end // end of [array_iforeach]
+
+#atscode_separator()
+
+implement{a}
+array_rforeach
+  (A, asz) = let
+//
+prval () = lemma_array_param (A)
+//
+fun loop
+  {l:addr}{n:nat} .<n>. (
+  pf: !array_v (a, l, n) | p: ptr (l+n*sizeof(a)), n: size_t n
+) : void =
+  if n > 0 then let
+    prval (
+      pf1, pf2
+    ) = array_v_unextend (pf)
+    val p = ptr1_pred (p)
+    val (pf2 | p) = viewptr_match (pf2 | p)
+    val () = array_rforeach__fwork (!p)
+    val () = loop (pf1 | p, pred(n))
+    prval () = pf := array_v_extend (pf1, pf2)
+  in
+    // nothing
+  end else ()
+// end of [loop]
+in
+  loop (view@(A) | ptr1_add_uint<a> (addr@(A), asz), asz)
+end // end of [array_rforeach]
 
 #atscode_separator()
 
@@ -380,15 +411,80 @@ end // end of [array_initize_list_vt]
 #atscode_separator()
 
 implement{a}
-array_quicksort_fun
-  (A, asz, cmp) = let
-  val tsz = sizeof<a>
-  extern fun qsort (
-    base: ptr, asz: size_t, tsz: size_t, cmp: cmpref (a)
-  ) :<> void = "mac\#atslib_qsort"
+array_find
+  {n0} (A, asz) = let
+//
+prval () = lemma_array_param (A)
+//
+fun loop
+  {l:addr}
+  {n:nat | n <= n0} .<n>. (
+  pf: !array_v (a, l, n) | p: ptr l, n: size_t n
+) : sizeLte (n0) = (
+  if n > 0 then let
+    prval (
+      pf1, pf2
+    ) = array_v_uncons (pf)
+    val found = array_find__pred (!p)
+  in
+    if found then let
+      prval () = pf := array_v_cons (pf1, pf2)
+    in
+      n
+    end else let
+      val res = loop (pf2 | ptr1_succ (p), pred(n))
+      prval () = pf := array_v_cons (pf1, pf2)
+    in
+      res
+    end // end of [if]
+  end else n // end of [if]
+) (* end of [loop] *)
+//
+val res = loop (view@(A) | addr@(A), asz)
+//
 in
-  qsort (addr@(A), asz, tsz, cmp)
-end // end of [array_quicksort_fun]
+  if res > 0 then g1uint2int (asz-res) else g1int2int (~1)
+end // end of [array_find]
+
+#atscode_separator()
+
+implement{a}
+array_rfind
+  {n0} (A, asz) = let
+//
+prval () = lemma_array_param (A)
+//
+fun loop
+  {l:addr}
+  {n:nat | n <= n0} .<n>. (
+  pf: !array_v (a, l, n) | p: ptr (l+n*sizeof(a)), n: size_t n
+) : sizeLte (n0) = (
+  if n > 0 then let
+    val p = ptr1_pred<a> (p)
+    prval (
+      pf1, pf2
+    ) = array_v_unextend (pf)
+    val (pf2 | p) = viewptr_match (pf2 | p)
+    val found = array_rfind__pred (!p)
+  in
+    if found then let
+      prval () = pf := array_v_extend (pf1, pf2)
+    in
+      n
+    end else let
+      val res = loop (pf1 | p, pred(n))
+      prval () = pf := array_v_extend (pf1, pf2)
+    in
+      res
+    end // end of [if]
+  end else n // end of [if]
+) (* end of [loop] *)
+//
+val res = loop (view@(A) | ptr1_add_uint(addr@(A), asz), asz)
+//
+in
+  if res > 0 then g1uint2int (pred(res)) else g1int2int (~1)
+end // end of [array_rfind]
 
 #atscode_separator()
 
@@ -405,6 +501,19 @@ array_bsearch_funenv
 in
   ofs
 end // end of [array_bsearch_funenv]
+
+#atscode_separator()
+
+implement{a}
+array_quicksort_fun
+  (A, asz, cmp) = let
+  val tsz = sizeof<a>
+  extern fun qsort (
+    base: ptr, asz: size_t, tsz: size_t, cmp: cmpref (a)
+  ) :<> void = "mac\#atslib_qsort"
+in
+  qsort (addr@(A), asz, tsz, cmp)
+end // end of [array_quicksort_fun]
 
 #atscode_separator()
 

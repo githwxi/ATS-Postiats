@@ -88,6 +88,7 @@ stadef char = char_t0ype // shorthand
 abst@ype char_int_t0ype (c:int) = char_t0ype
 stadef char = char_int_t0ype // shorthand
 typedef Char = [c:int8] char (c)
+typedef charNZ = [c:int8 | c != 0] char (c)
 //
 // signed characters
 //
@@ -195,12 +196,12 @@ stadef uint = uint0 // second
 //
 stadef uInt = [n:int] uint1 (n)
 //
-typedef uintLt (n:int) = g1uintLt (int_kind, n)
-typedef uintLte (n:int) = g1uintLte (int_kind, n)
-typedef uintGt (n:int) = g1uintGt (int_kind, n)
-typedef uintGte (n:int) = g1uintGte (int_kind, n)
-typedef uintBtw (lb:int, ub:int) = g1uintBtw (int_kind, lb, ub)
-typedef uintBtwe (lb:int, ub:int) = g1uintBtwe (int_kind, lb, ub)
+typedef uintLt (n:int) = g1uintLt (uint_kind, n)
+typedef uintLte (n:int) = g1uintLte (uint_kind, n)
+typedef uintGt (n:int) = g1uintGt (uint_kind, n)
+typedef uintGte (n:int) = g1uintGte (uint_kind, n)
+typedef uintBtw (lb:int, ub:int) = g1uintBtw (uint_kind, lb, ub)
+typedef uintBtwe (lb:int, ub:int) = g1uintBtwe (uint_kind, lb, ub)
 //
 (* ****** ****** *)
 
@@ -261,18 +262,12 @@ stadef size_t = size0_t // second
 //
 typedef Size =
   [i:int | i >= 0] g1uint (size_kind, i)
-typedef sizeLt
-  (n: int) = [i:int | 0 <= i; i < n] g1uint (size_kind, i)
-typedef sizeLte
-  (n: int) = [i:int | 0 <= i; i <= n] g1uint (size_kind, i)
-typedef sizeGt
-  (n: int) = [i:int | i > n] g1uint (size_kind, i)
-typedef sizeGte
-  (n: int) = [i:int | i >= n] g1uint (size_kind, i)
-typedef sizeBtw
-  (lb:int, ub:int) = [i: int | lb <= i; i < ub] g1uint (size_kind, i)
-typedef sizeBtwe
-  (lb:int, ub:int) = [i: int | lb <= i; i <= ub] g1uint (size_kind, i)
+typedef sizeLt (n:int) = g1uintLt (size_kind, n)
+typedef sizeLte (n:int) = g1uintLte (size_kind, n)
+typedef sizeGt (n:int) = g1uintGt (size_kind, n)
+typedef sizeGte (n:int) = g1uintGte (size_kind, n)
+typedef sizeBtw (lb:int, ub:int) = g1uintBtw (size_kind, lb, ub)
+typedef sizeBtwe (lb:int, ub:int) = g1uintBtwe (size_kind, lb, ub)
 //
 tkindef ssize_kind = "atstype_ssize"
 typedef ssize0_t = g0int (ssize_kind)
@@ -280,6 +275,13 @@ typedef ssize1_t (i:int) = g1int (ssize_kind , i)
 //
 stadef ssize_t = ssize1_t // first
 stadef ssize_t = ssize0_t // second
+//
+typedef ssizeLt (n:int) = g1intLt (ssize_kind, n)
+typedef ssizeLte (n:int) = g1intLte (ssize_kind, n)
+typedef ssizeGt (n:int) = g1intGt (ssize_kind, n)
+typedef ssizeGte (n:int) = g1intGte (ssize_kind, n)
+typedef ssizeBtw (lb:int, ub:int) = g1intBtw (ssize_kind, lb, ub)
+typedef ssizeBtwe (lb:int, ub:int) = g1intBtwe (ssize_kind, lb, ub)
 //
 (* ****** ****** *)
 
@@ -392,6 +394,7 @@ stadef string0 = string_type
 stadef string1 = string_int_type
 stadef string = string1 // first
 stadef string = string0 // second
+typedef String = [n:int] string1 (n)
 
 (* ****** ****** *)
 

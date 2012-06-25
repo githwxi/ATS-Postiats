@@ -186,19 +186,8 @@ array_foreach__fwork
 fun{a:vt0p}
 array_foreach
   {n:int} (
-  A: &(@[a][n]) >> @[a][n], asz: size_t n
+  A: &(@[INV(a)][n]) >> @[a][n], asz: size_t n
 ) : void // end of [array_foreach]
-
-fun{a:vt0p}
-array_iforeach__fwork
-  (i: size_t, x: &a >> a): void
-fun{a:vt0p}
-array_iforeach
-  {n:int} (
-  A: &(@[a][n]) >> @[a][n], asz: size_t n
-) : void // end of [array_iforeach]
-
-#atscode_separator()
 
 fun
 array_foreach_funenv_tsz
@@ -208,7 +197,7 @@ array_foreach_funenv_tsz
   {n:int}
   {fe:eff} (
   pfv: !v
-| A: &(@[a][n])
+| A: &(@[INV(a)][n])
 , asz: size_t n
 , tsz: sizeof_t a
 , f: (!v | &a, !vt) -<fun,fe> void
@@ -224,7 +213,7 @@ array_foreach_funenv
   {n:int}
   {fe:eff} (
   pfv: !v
-| A: &(@[a][n])
+| A: &(@[INV(a)][n])
 , asz: size_t n
 , f: (!v | &a, !vt) -<fun,fe> void
 , env: !vt
@@ -234,7 +223,7 @@ array_foreach_funenv
 fun{a:vt0p}
 array_foreach_fun
   {n:int}{fe:eff} (
-  A: &(@[a][n])
+  A: &(@[INV(a)][n])
 , asz: size_t n
 , f: (&a) -<fun,fe> void
 ) :<fe> void // end of [array_foreach_fun]
@@ -242,7 +231,7 @@ array_foreach_fun
 fun{a:vt0p}
 array_foreach_clo
   {n:int}{fe:eff} (
-  A: &(@[a][n])
+  A: &(@[INV(a)][n])
 , asz: size_t n
 , f: &(&a) -<clo,fe> void
 ) :<fe> void // end of [array_foreach_clo]
@@ -250,7 +239,7 @@ fun{a:vt0p}
 array_foreach_vclo
   {v:view}{n:int}{fe:eff} (
   pfv: !v
-| A: &(@[a][n])
+| A: &(@[INV(a)][n])
 , asz: size_t n
 , f: &(!v | &a) -<clo,fe> void
 ) :<fe> void // end of [array_foreach_vclo]
@@ -258,7 +247,7 @@ array_foreach_vclo
 fun{a:vt0p}
 array_foreach_cloptr
   {n:int}{fe:eff} (
-  A: &(@[a][n])
+  A: &(@[INV(a)][n])
 , asz: size_t n
 , f: (&a) -<cloptr,fe> void
 ) :<fe> void // end of [array_foreach_cloptr]
@@ -266,7 +255,7 @@ fun{a:vt0p}
 array_foreach_vcloptr
   {v:view}{n:int}{fe:eff} (
   pfv: !v
-| A: &(@[a][n])
+| A: &(@[INV(a)][n])
 , asz: size_t n
 , f: (!v | &a) -<cloptr,fe> void
 ) :<fe> void // end of [array_foreach_vcloptr]
@@ -274,10 +263,19 @@ array_foreach_vcloptr
 fun{a:vt0p}
 array_foreach_clopref
   {n:int}{fe:eff} (
-  A: &(@[a][n]), asz: size_t n, f: (&a) -<cloref,fe> void
+  A: &(@[INV(a)][n]), asz: size_t n, f: (&a) -<cloref,fe> void
 ) :<fe> void // end of [array_foreach_cloref]
 
 #atscode_separator()
+
+fun{a:vt0p}
+array_iforeach__fwork
+  (i: size_t, x: &a >> a): void
+fun{a:vt0p}
+array_iforeach
+  {n:int} (
+  A: &(@[INV(a)][n]) >> @[a][n], asz: size_t n
+) : void // end of [array_iforeach]
 
 fun
 array_iforeach_funenv_tsz
@@ -287,7 +285,7 @@ array_iforeach_funenv_tsz
   {n:int}
   {fe:eff} (
   pfv: !v
-| A: &(@[a][n])
+| A: &(@[INV(a)][n])
 , asz: size_t n
 , tsz: sizeof_t a
 , f: (!v | sizeLt n, &a, !vt) -<fun,fe> void
@@ -303,7 +301,7 @@ array_iforeach_funenv
   {n:int}
   {fe:eff} (
   pfv: !v
-| A: &(@[a][n])
+| A: &(@[INV(a)][n])
 , asz: size_t n
 , f: (!v | sizeLt n, &a, !vt) -<fun,fe> void
 , env: !vt
@@ -313,10 +311,21 @@ array_iforeach_funenv
 fun{a:vt0p}
 array_iforeach_fun
   {n:int}{fe:eff} (
-  A: &(@[a][n])
+  A: &(@[INV(a)][n])
 , asz: size_t n
 , f: (sizeLt n, &a) -<fun,fe> void
 ) :<fe> void // end of [array_iforeach_fun]
+
+#atscode_separator()
+
+fun{a:vt0p}
+array_rforeach__fwork
+  (x: &a >> a): void
+fun{a:vt0p}
+array_rforeach
+  {n:int} (
+  A: &(@[INV(a)][n]) >> @[a][n], asz: size_t n
+) : void // end of [array_rforeach]
 
 #atscode_separator()
 
@@ -362,6 +371,26 @@ array_uninitize
   A: &(@[INV(a)][n]) >> @[a?][n], asz: size_t n
 ) : void // end of [array_uninitize]
 macdef array_uninitialize = array_uninitize
+
+#atscode_separator()
+
+fun{a:vt0p}
+array_find__pred
+  (x: &a >> a): void
+fun{a:vt0p}
+array_find
+  {n:int} (
+  A: &(@[INV(a)][n]), asz: size_t n
+) : ssizeBtw (~1, n) // end of [array_find]
+
+fun{a:vt0p}
+array_rfind__pred
+  (x: &a >> a): void
+fun{a:vt0p}
+array_rfind
+  {n:int} (
+  A: &(@[INV(a)][n]), asz: size_t n
+) : ssizeBtw (~1, n) // end of [array_rfind]
 
 #atscode_separator()
 

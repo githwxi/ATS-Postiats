@@ -100,6 +100,13 @@ fileref_putc_char (filr, c) = fileref_putc_int (filr, (c2i)c)
 #atscode_separator()
 
 implement
+fileref_puts (filr, s) = let
+  val _(*ignored*) = $STDIO.fputs0_err (s, filr) in (*nothing*)
+end // end of [fileref_puts]
+
+#atscode_separator()
+
+implement
 fileref_is_eof (filr) =
   if $STDIO.feof0 (filr) = 0 then false else true
 // end of [fileref_is_eof]

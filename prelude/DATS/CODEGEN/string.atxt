@@ -26,6 +26,10 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+#atscode_separator()
+
 %{
 fun
 fun_string_cmp_decl
@@ -57,6 +61,171 @@ end // end of [fun_char_cmp0_decl]
 #fun_string_cmp_decl("gte")
 #fun_string_cmp_decl("eq")
 #fun_string_cmp_decl("neq")
+
+#atscode_separator()
+
+implement
+string0_length
+  (str) = string1_length ($UN.cast{String}(str))
+// end of [string0_length]
+
+implement
+string1_length
+  {n} (str) = __strlen (str) where {
+  extern fun __strlen (str: string n):<> size_t (n) = "mac\#atspre_strlen"
+} // end of [where] // end of [string1_length]
+
+#atscode_separator()
+
+implement
+strchr {n} (str, c0) = let
+  prval () = lemma_string_param (str)
+  extern fun __strchr (string, int):<> ptr = "mac\#atspre_strchr"
+  extern fun __sub (ptr, ptr):<> ssizeBtw (0, n) = "mac\#atspre_sub_ptr_ptr"
+  val p0 = string2ptr (str)
+  val p1 = __strchr (str, (int_of_char)c0)
+in
+  if p1 > the_null_ptr then __sub (p1, p0) else g1int2int (~1)
+end // end of [strchr]
+
+implement
+strrchr {n} (str, c0) = let
+  prval () = lemma_string_param (str)
+  extern fun __strrchr (string, int):<> ptr = "mac\#atspre_strrchr"
+  extern fun __sub (ptr, ptr):<> ssizeBtw (0, n) = "mac\#atspre_sub_ptr_ptr"
+  val p0 = string2ptr (str)
+  val p1 = __strrchr (str, (int_of_char)c0)
+in
+  if p1 > the_null_ptr then __sub (p1, p0) else g1int2int (~1)
+end // end of [strrchr]
+
+#atscode_separator()
+
+implement
+strstr {n} (haystack, needle) = let
+  prval () = lemma_string_param (haystack)
+  extern fun __strstr (string, string):<> ptr = "mac\#atspre_strstr"
+  extern fun __sub (ptr, ptr):<> ssizeBtw (0, n) = "mac\#atspre_sub_ptr_ptr"
+  val p0 = string2ptr (haystack)
+  val p1 = __strstr (haystack, needle)
+in
+  if p1 > the_null_ptr then __sub (p1, p0) else g1int2int (~1)
+end // end of [strstr]
+
+#atscode_separator()
+
+implement
+strspn {n} (str, accept) = let
+  prval () = lemma_string_param (str)
+  extern fun __strspn (string, string):<> sizeLte (n) = "mac\#atspre_strspn"
+in
+  __strspn (str, accept)
+end // end of [strspn]
+
+implement
+strcspn {n} (str, reject) = let
+  prval () = lemma_string_param (str)
+  extern fun __strcspn (string, string):<> sizeLte (n) = "mac\#atspre_strcspn"
+in
+  __strcspn (str, reject)
+end // end of [strcspn]
+
+#atscode_separator()
+
+implement{}
+string_foreach
+  (str) = let
+//
+\#define NUL '\000'
+//
+fun loop
+  (p: ptr): void = let
+  val p = $UN.cast2Ptr1 (p)
+  val c = $UN.ptr_get<char> (p)
+in
+  if c != NUL then let
+    val () = string_foreach__fwork<> (c) in loop (ptr1_succ<char> (p))
+  end else () // end of [if]
+end // end of [fun]
+//
+in
+  loop (string2ptr (str))
+end // end of [string_foreach]
+
+#atscode_separator()
+
+implement{}
+string_rforeach (str) = let
+//
+val [n:int]
+  str = $UN.cast{String}(str)
+val n = string1_length (str)
+typedef chararr = array (char, n)
+val p = $UN.cast{Ptr1} (str)
+prval (pf, fpf) = $UN.ptr_vget {chararr} (p)
+//
+implement
+array_rforeach__fwork<char> (c) = string_rforeach__fwork<> (c)
+val () = array_rforeach<char> (!p, n)
+//
+prval () = fpf (pf)
+//
+in
+  // nothing
+end // end of [string_rforeach]
+
+#atscode_separator()
+
+implement{res}
+string_foldleft (str, ini) = let
+//
+\#define NUL '\000'
+//
+fun loop
+  (p: ptr, acc: res): res = let
+  val p = $UN.cast2Ptr1 (p)
+  val c = $UN.ptr_get<char> (p)
+in
+  if c != NUL then let
+    val acc = string_foldleft__fwork<res> (acc, c)
+  in
+    loop (ptr1_succ<char> (p), acc)
+  end else acc // end of [if]
+end // end of [fun]
+//
+in
+  loop (string2ptr (str), ini)
+end // end of [string_foldleft]
+
+#atscode_separator()
+
+implement{}
+string_find {n} (str) = let
+//
+\#define NUL '\000'
+//
+prval () = lemma_string_param (str)
+//
+fun loop
+  (p: ptr): ptr = let
+  val p = $UN.cast2Ptr1 (p)
+  val c = $UN.ptr_get<char> (p)
+in
+  if c != NUL then (
+    if string_find__pred (c) then p else loop (ptr1_succ<char> (p))
+  ) else the_null_ptr // end of [if]
+end // end of [fun]
+//
+val p0 =
+  string2ptr (str)
+val p1 = loop (p0)
+//
+extern fun __sub
+  (ptr, ptr):<> ssizeBtw (0, n) = "mac\#atspre_sub_ptr_ptr"
+// end of [__sub]
+in
+  if p1 > the_null_ptr then __sub (p1, p0) else g1int2int (~1)
+end // end of [string_find]
 
 #atscode_separator()
 

@@ -253,11 +253,28 @@ the provided function does not take an argument as its environment.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("array_rforeach")
+#decldescript('\
+
+This function traverses a given array from right to left, applying the
+function implemented by #dyncode("array_rforeach__fwork") to each cell in
+the array.  ')
+
+(* ****** ****** *)
+
 #declnamesynop("array_initize__fwork")
 #declnamesynop("array_initize")
 
 #declnamesynop("array_uninitize__fwork")
 #declnamesynop("array_uninitize")
+
+(* ****** ****** *)
+
+#declnamesynop("array_find__pred")
+#declnamesynop("array_find")
+
+#declnamesynop("array_rfind__pred")
+#declnamesynop("array_rfind")
 
 (* ****** ****** *)
 

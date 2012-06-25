@@ -434,9 +434,9 @@ overload fputc_exn with fputc1_exn
 (* ****** ****** *)
 
 (*
-
+//
 // int fputs (const char* s, FILE *stream)
-
+//
 The function [fputs] writes a string to a file. it returns a non-negative
 number on success, or EOF on error.
 

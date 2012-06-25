@@ -470,6 +470,13 @@ lemma_g1uint_param
 #atscode_separator()
 
 castfn
+size_of_int {i:nat} (x: int i):<> size_t (i)
+castfn
+ssize_of_int {i:int} (x: int i):<> ssize_t (i)
+
+#atscode_separator()
+
+castfn
 g1ofg0_uint
   {tk:tk} (x: g0uint tk):<> g1uint (tk)
 // end of [g1ofg0_uint]

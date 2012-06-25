@@ -32,8 +32,77 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+sortdef tk = tkind
+
+#atscode_separator()
+
 \#define SHR(x) x // = SHARED
 \#define NSH(x) x // = NSHARED
+
+#atscode_separator()
+
+dataprop
+string_index_char (
+  n: int, int(*i*), int(*c*)
+) =
+  | string_index_char_eq (n, n, 0)
+  | {i:int | n > i}
+    {c:int8 | c != 0}
+    string_index_char_gt (n, i, c)
+// end of [string_index_char]
+
+#atscode_separator()
+
+castfn string2ptr (x: string):<> Ptr1
+
+#atscode_separator()
+
+fun{tk:tk}
+string_get_at_int
+  {n:int}{i:nat | i < n}
+  (s: NSH(string n), i: g1int (tk, i)):<> charNZ
+overload [] with string_get_at_int
+fun{tk:tk}
+string_get_at_uint
+  {n:int}{i:int | i < n}
+  (s: NSH(string n), i: g1uint (tk, i)):<> charNZ
+overload [] with string_get_at_uint
+
+symintr string_get_at
+overload string_get_at with string_get_at_int
+overload string_get_at with string_get_at_uint
+
+(* ****** ****** *)
+
+fun{tk:tk}
+string_is_atend_int
+  {n:int}{i:nat | i <= n}
+  (s: NSH(string n), i: g1int (tk, i)):<> bool (i < n)
+fun{tk:tk}
+string_is_atend_uint
+  {n:int}{i:int | i <= n}
+  (s: NSH(string n), i: g1uint (tk, i)):<> bool (i < n)
+
+symintr string_is_atend
+overload string_is_atend with string_is_atend_int
+overload string_is_atend with string_is_atend_uint
+
+(* ****** ****** *)
+
+fun{tk:tk}
+string_test_at_int
+  {n:int}{i:nat | i <= n} (
+  s: NSH(string n), i: g1int (tk, i)
+) :<> [c:int] (string_index_char (n, i, c) | char (c))
+fun{tk:tk}
+string_test_at_uint
+  {n:int}{i:int | i <= n} (
+  s: NSH(string n), i: g1uint (tk, i)
+) :<> [c:int] (string_index_char (n, i, c) | char (c))
+
+symintr string_test_at
+overload string_test_at with string_test_at_int
+overload string_test_at with string_test_at_uint
 
 #atscode_separator()
 
@@ -99,7 +168,7 @@ overload prerr with prerr_string
 symintr string_length
 fun string0_length (x: string): size_t
 overload string_length with string0_length
-fun string1_length {n:nat} (x: string n): size_t (n)
+fun string1_length {n:int} (x: string n): size_t (n)
 overload string_length with string1_length
 ')\
 
@@ -109,25 +178,17 @@ overload string_length with string1_length
 ** HX: [stropt_none] is just the null pointer
 *)
 
-#atscode_decl_strcst('\
 fun stropt_length
   {n:int} (x: stropt (n)): ssize_t (n)
 // end of [stropt_length]
-')\
 
-#atscode_decl_strcst('\
 fun stropt_is_none {n:int} (x: stropt n): bool (n < 0)
 fun stropt_is_some {n:int} (x: stropt n): bool (n >= 0)
-')\
 
-#atscode_decl_strcst('\
-fun stropt_none (): stropt (~1)
-')\
+fun{} stropt_none (): stropt (~1)
 
-#atscode_decl_strcst('\
 castfn stropt_some {n:int} (x: SHR(string n)): stropt (n)
 castfn stropt_unsome {n:nat} (x: SHR(stropt n)): string (n)
-')\
 
 #atscode_separator()
 
@@ -142,9 +203,63 @@ fun string1_append
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 fun string_concat (xs: NSH(List(string))): strptr1
-')\
+
+#atscode_separator()
+
+fun strchr {n:int}
+  (str: NSH(string n), c0: char):<> ssizeBtw (~1, n)
+// end of [strchr]
+
+fun strrchr {n:int}
+  (str: NSH(string n), c0: char):<> ssizeBtw (~1, n)
+// end of [strrchr]
+
+fun strstr {n:int}
+  (haystack: NSH(string n), needle: NSH(string)):<> ssizeBtw (~1, n)
+// end of [strstr]
+
+#atscode_separator()
+
+fun strspn {n:int} // spanning
+  (str: NSH(string n), accept: NSH(string)):<> sizeLte (n)
+// end of [strspn]
+fun strcspn {n:int} // complement spanning
+  (str: NSH(string n), accept: NSH(string)):<> sizeLte (n)
+// end of [strcspn]
+
+#atscode_separator()
+
+fun string_index {n:int}
+  (str: NSH(string n), c0: charNZ):<> ssizeBtw (~1, n)
+// end of [string_index]
+fun string_rindex {n:int}
+  (str: NSH(string n), c0: charNZ):<> ssizeBtw (~1, n)
+// end of [string_rindex]
+
+#atscode_separator()
+
+fun{} string_foreach__fwork (c: char): void
+fun{} string_foreach (str: NSH(string)): void
+
+#atscode_separator()
+
+fun{} string_rforeach__fwork (c: char): void
+fun{} string_rforeach (str: NSH(string)): void
+
+#atscode_separator()
+
+fun{res:vt0p}
+string_foldleft__fwork (acc: res, c: char): res
+fun{res:vt0p}
+string_foldleft (str: NSH(string), ini: res): res
+
+#atscode_separator()
+
+fun{}
+string_find__pred (c: char): bool
+fun{}
+string_find {n:int} (str: NSH(string n)): ssizeBtw (~1, n)
 
 #atscode_separator()
 

@@ -84,6 +84,14 @@ prfun prop_verify_and_add {b:bool} ():<prf> [b] void
 
 (* ****** ****** *)
 
+castfn
+viewptr_match
+  {a:vt0p}{l1,l2:addr | l1==l2}
+  (pf: INV(a) @ l1 | p: ptr l2):<> [l:addr | l==l1] (a @ l | ptr l)
+// end of [viewptr_match]
+
+(* ****** ****** *)
+
 val{a:viewt@ype} sizeof : size_t (sizeof(a))
 
 (* ****** ****** *)

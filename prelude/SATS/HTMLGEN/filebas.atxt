@@ -7,10 +7,8 @@ ATSLIB/prelude/filebas\
 #declpreamble('\
 #para("\
 
-The functions declared in this package are mostly done for the sake of
-convenience.  Please turn on GC if functions like
-#dyncode("fileref_input_line") and #dyncode("file_output_line") are called
-repeatedly.  For full-fledged IO support, please see
+The functions declared in this package are mostly provided for the sake of
+convenience.  For full-fledged IO support, please see
 [ATSHOME/libc/SATS/stdio.sats].
 
 ") ')#comment("declpreamble")
@@ -96,6 +94,16 @@ not report any errors.
 
 (* ****** ****** *)
 
+#declnamesynop("fileref_puts")
+#decldescript('\
+
+This function writes a string to a given file handle. It does
+not report any errors.
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("fileref_is_eof")
 #decldescript('\
 This function tests whether the end of a given file handle is reached.
@@ -121,6 +129,10 @@ main () = let
 end // end of [main]
 ')
 ')
+
+(* ****** ****** *)
+
+#declnamesynop("fileref_load_type")
 
 (* ****** ****** *)
 
@@ -218,8 +230,7 @@ handle provided as its first argument.  ')
 
 #declexample("\
 
-The following code removes very inefficiently every empty line in a given
-file:
+The following code removes every empty line in a given file:
 
 #pats2xhtmld("\
 fun remove_empty_lines (
@@ -250,6 +261,9 @@ in
   0(*normal*)
 end // end of [main]
 ")
+
+Clearly, this is a wasteful and inefficient way of removing empty lines.
+
 ")
 
 (* ****** ****** *)
