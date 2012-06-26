@@ -391,9 +391,14 @@ end // end of [iter_listize_cpy]
 
 implement
 {knd}{x}
-iter_foreach_funenv
-  {kpm}{v}{vt}{f,r}
-  (pfv | itr, fwork, env) = let
+iter_foreach (itr) = let
+  var env: void = () in iter_foreach_env<knd><x><void> (itr, env)
+end // end of [iter_foreach]
+
+implement
+{knd}{x}{env}
+iter_foreach_env
+  {kpm}{f,r} (itr, env) = let
 //
 prval () = lemma_iterator_param (itr)
 //
@@ -401,67 +406,34 @@ stadef iter (f:int, r:int) = iterator (knd, kpm, x, f, r)
 //
 fun loop
   {f,r:int | r >= 0} .<r>. (
-  pfv: !v
-| itr: !iter (f, r) >> iter (f+r, 0)
-, fwork: (!v | &x, !vt) -> void, env: !vt
-) : void = let
-  val isatend =
-    iter_isnot_atend<knd><x> (itr)
+  itr: !iter (f, r) >> iter (f1, r1), env: &env
+) : #[f1,r1:int | f <= f1 | f+r==f1+r1] void = let
+  val isnotend =
+    iter_isnot_atend<knd><x> (itr) 
   // end of [val]
 in
-  if isatend then let
+  if isnotend then let
     val p =
       iter_getref_inc<knd><x> (itr)
     prval (pf, fpf) = $UN.ptr_vget (p)
-    val () = fwork (pfv | !p, env)
-    prval () = fpf (pf)
+    val cont = iter_foreach__cont (!p, env)
   in
-    loop (pfv | itr, fwork, env)
+    if cont then let
+      val () = iter_foreach__fwork (!p, env)
+      prval () = fpf (pf)
+    in
+      loop (itr, env)
+    end else let
+      prval () = fpf (pf)
+    in
+      (*nothing*)
+    end // end of [if]
   end else ((*void*)) // end of [if]
 end // end of [loop]
 //
 in
-  loop (pfv | itr, fwork, env)
-end // end of [iter_foreach_funenv]
-
-(* ****** ****** *)
-
-implement
-{knd}{x}
-iter_exists_funenv
-  {kpm}{v}{vt}{f,r}
-  (pfv | itr, test, env) = let
-//
-prval () = lemma_iterator_param (itr)
-//
-stadef iter
-  (f:int, r:int) = iterator (knd, kpm, x, f, r)
-//
-fun loop
-  {f,r:int | r >= 0} .<r>. (
-  pfv: !v
-| itr: !iter (f, r) >> iter (f1, r1)
-, test: (!v | &x, !vt) -> bool, env: !vt
-) : #[
-  f1,r1:int | f1>=f; f+r==f1+r1
-] bool (r1 > 0)= let
-  val hasnext = iter_isnot_atend<knd><x> (itr)
-in
-  if hasnext then let
-    val p = iter_getref<knd><x> (itr)
-    prval (pf, fpf) = $UN.ptr_vget (p)
-    val found = test (pfv | !p, env)
-    prval () = fpf (pf)
-  in
-    if found then true else let
-      val () = iter_inc (itr) in loop (pfv | itr, test, env)
-    end // end of [let] // end of [if]
-  end else false // end of [if]
-end // end of [loop]
-//
-in
-  loop (pfv | itr, test, env)
-end // end of [iter_exists_funenv]
+  loop (itr, env)
+end // end of [iter_foreach_env]
 
 (* ****** ****** *)
 (*
@@ -470,10 +442,8 @@ end // end of [iter_exists_funenv]
 *)
 implement
 {knd}{x}
-iter_bsearch_funenv
-  {kpm}{vt} (
-  itr, pord, env, ra
-) = let
+iter_bsearch
+  {kpm} (itr, ra) = let
 //
 prval () = lemma_g1uint_param (ra)
 prval () = lemma_iterator_param (itr)
@@ -485,7 +455,6 @@ fun loop
   {f,r:nat}
   {ra:nat | ra <= r} .<ra>. (
   itr: !iter (f, r) >> iter (f1, r1)
-, pord: (&x, !vt) -<fun> int, env: !vt
 , ra: size_t (ra)
 ) : #[
   f1,r1:int | f1>=f;f+ra>=f1;f+r==f1+r1
@@ -494,24 +463,25 @@ fun loop
     val ra2 = half (ra)
     val p =
       iter_fgetref_at (itr, ra2)
-    prval (pf, fpf) = $UN.ptr_vget (p)
-    val sgn = pord (!p, env)
+    prval
+      (pf, fpf) = $UN.ptr_vget (p)
+    val sgn = iter_bsearch__ford (!p)
     prval () = fpf (pf)
   in
     if sgn <= 0 then
-      loop (itr, pord, env, ra2)
+      loop (itr, ra2)
     else let
       val ra21 = succ(ra2)
       val () = iter_fjmp (itr, ra21)
     in
-      loop (itr, pord, env, ra-ra21)
+      loop (itr, ra-ra21)
     end // end of [if]
   end else () // end of [if]
 ) (* end of [loop] *)
 //
 in
-  loop (itr, pord, env, ra)
-end // end of [iter_bsearch_funenv]
+  loop (itr, ra)
+end // end of [iter_bsearch]
 
 (* ****** ****** *)
 

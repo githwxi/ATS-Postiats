@@ -6,6 +6,13 @@ ATSLIB/prelude/list_vt\
 
 #declpreamble('\
 
+#para('\
+
+This package contains a variety of common functions for creating/freeing
+and manipulating linear list.  ')
+
+#para('\
+
 The type for a singly-linked linear list containing N elements of type T is
 denoted by #stacode("list_vt(T, N)"), where T can be linear. The suffix
 \"vt\" in the name list_vt stands for viewtype, which is the formal name
@@ -15,7 +22,7 @@ a subtype of #stacode("list_vt(T2, N)") if T1 is a subtype of T2. The
 low-level representation for list_vt is the same as that for a standard
 singly-linked list in C, and it is fairly straightforward to implement
 functions in C that can directly manipulate linear lists in ATS and vice
-versa.
+versa.  ')
 
 ')#comment("declpreamble")
 

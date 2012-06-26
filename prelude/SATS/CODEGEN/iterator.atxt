@@ -155,14 +155,14 @@ fun{
 knd:tk}{x:vt0p
 } iter_is_atbeg
   {kpm:tk}{f,r:int}
-  (itr: !iterator (knd, kpm, x, f, r)): bool (f==0)
+  (itr: !iterator (knd, kpm, x, f, r)):<> bool (f==0)
 // end of [iter_is_atbeg]
 
 fun{
 knd:tk}{x:vt0p
 } iter_isnot_atbeg
   {kpm:tk}{f,r:int}
-  (itr: !iterator (knd, kpm, x, f, r)): bool (f > 0)
+  (itr: !iterator (knd, kpm, x, f, r)):<> bool (f > 0)
 // end of [iter_isnot_atbeg]
 
 fun{
@@ -187,13 +187,13 @@ fun{
 knd:tk}{x:vt0p
 } iter_is_atend
   {kpm:tk}{f,r:int}
-  (itr: !iterator (knd, kpm, x, f, r)): bool (r==0)
+  (itr: !iterator (knd, kpm, x, f, r)):<> bool (r==0)
 // end of [iter_is_atend]
 fun{
 knd:tk}{x:vt0p
 } iter_isnot_atend
   {kpm:tk}{f,r:int}
-  (itr: !iterator (knd, kpm, x, f, r)): bool (r > 0)
+  (itr: !iterator (knd, kpm, x, f, r)):<> bool (r > 0)
 // end of [iter_isnot_atend]
 
 fun{
@@ -243,6 +243,7 @@ knd:tk}{x:t0p
   {kpm:tk}{f,r:int | r > 0}
   (itr: !iterator (knd, kpm, x, f, r)): x
 // end of [iter_get]
+
 fun{
 knd:tk}{x:t0p
 } iter_set
@@ -303,12 +304,14 @@ knd:tk}{x:t0p
   {kpm:tk}{f,r:int | r > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1)
 ) : x // end of [iter_get_inc]
+
 fun{
 knd:tk}{x:t0p
 } iter_set_inc
   {kpm:tk}{f,r:int | r > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1), x: x
 ) : void // end of [iter_set_inc]
+
 fun{
 knd:tk}{x:vt0p
 } iter_exch_inc
@@ -345,12 +348,14 @@ knd:tk}{x:t0p
   {kpm:tk}{f,r:int | f > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
 ) : x // end of [iter_dec_get]
+
 fun{
 knd:tk}{x:t0p
 } iter_dec_set
   {kpm:tk}{f,r:int | f > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1), x: x
 ) : void // end of [iter_dec_set]
+
 fun{
 knd:tk}{x:vt0p
 } iter_dec_exch
@@ -568,26 +573,46 @@ knd:tk}{x:vt0p
 #atscode_separator()
 
 fun{
+x:vt0p}{env:vt0p
+} iter_foreach__cont (x: &x, env: &env): bool
+fun{
+x:vt0p}{env:vt0p
+} iter_foreach__fwork (x: &x, env: &env): void
+fun{
 knd:tk}{x:vt0p
-} iter_foreach_funenv
-  {kpm:tk}{v:view}{vt:vtp}{f,r:int} (
-  pfv: !v
-| itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+r, 0)
-, f: (!v | &x, !vt) -> void, env: !vt
-) : void // end of [iter_foreach_funenv]
+} iter_foreach
+  {kpm:tk}{f,r:int} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f1, r1)
+) : #[f1,r1:int | f <= f1; f+r==f1+r1] void // end of [iter_foreach]
+fun{
+knd:tk}{x:vt0p}{env:vt0p
+} iter_foreach_env
+  {kpm:tk}{f,r:int} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f1, r1)
+, env: &INV(env) >> env
+) : #[f1,r1:int | f <= f1; f+r==f1+r1] void // end of [iter_foreach_env]
 
 #atscode_separator()
 
 fun{
+x:vt0p}{env:vt0p
+} iter_rforeach__cont (x: &x, env: &env): bool
+fun{
+x:vt0p}{env:vt0p
+} iter_rforeach__fwork (x: &x, env: &env): void
+fun{
 knd:tk}{x:vt0p
-} iter_exists_funenv
-  {kpm:tk}{v:view}{vt:vtp}{f,r:int} (
-  pfv: !v
-| itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f1, r1)
-, pred: (!v | &x, !vt) -> bool, env: !vt
-) : #[
-  f1,r1:int | f1>=f; f+r==f1+r1
-] bool (r1 > 0) // end of [iter_exists_funenv]
+} iter_rforeach
+  {kpm:tk}{f,r:int} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f1, r1)
+) : #[f1,r1:int | f >= f1; f+r==f1+r1] void // end of [iter_rforeach]
+fun{
+knd:tk}{x:vt0p}{env:vt0p
+} iter_rforeach_env
+  {kpm:tk}{f,r:int} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f1, r1)
+, env: &INV(env) >> env
+) : #[f1,r1:int | f <= f1; f+r==f1+r1] void // end of [iter_rforeach_env]
 
 #atscode_separator()
 
@@ -596,25 +621,25 @@ knd:tk}{x:vt0p
 ** Note that [iter] should support at least log-time
 ** fjmp and fget in order to make binary search meaningful.
 **
-** pord (x) = cmp (x0, x), where [x0] is the key being searched
+** ford (x) = cmp (x0, x), where [x0] is the key being searched
 **
 ** The after-interator points to the left-most location
 ** where the value [x0] can be inserted without violating
 ** orderedness.
 *)
+fun{x:vt0p}
+iter_bsearch__ford (x: &x): int
 fun{
 knd:tk}{x:vt0p
-} iter_bsearch_funenv
+} iter_bsearch
   {kpm:tk}
-  {env:vtp}
   {f,r:int}
   {ra:int | ra <= r} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f1, r1)
-, pord: (&x, !env) -<fun> int, env: !env
 , ra: size_t (ra) // range being searched
 ) : #[
   f1,r1:int | f1>=f;f+ra>=f1;f1+r1==f+r
-] void // end of [iter_bsearch_funenv]
+] void // end of [iter_bsearch]
 
 #atscode_separator()
 

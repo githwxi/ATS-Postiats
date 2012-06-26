@@ -50,4 +50,38 @@ indexed type.
 
 (* ****** ****** *)
 
+#declnamesynop("option0_some")
+#decldescript('\
+This is just the function version of the constructor #dyncode("Some0").
+')
+#declnamesynop("option0_none")
+#decldescript('\
+This is just the function version of the constructor #dyncode("None0").
+')
+
+(* ****** ****** *)
+
+#declnamesynop("option0_is_some")
+#decldescript('\
+This funtion returns true if and only a given option-value is formed with
+the constructor #dyncode('Some0').
+')
+#declnamesynop("option0_is_none")
+#decldescript('\
+This funtion returns true if and only a given option-value is formed with
+the constructor #dyncode('None0').
+')
+
+(* ****** ****** *)
+
+#declnamesynop("option0_unsome_exn")
+#decldescript("\
+
+If a given option-value is of the form #dyncode("Some0(v)"), then the
+function returns v. Otherwise, it raises an exception (NotSomeExn).
+
+")
+
+(* ****** ****** *)
+
 (* end of [option0.atxt] *)

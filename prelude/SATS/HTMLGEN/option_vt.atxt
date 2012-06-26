@@ -6,8 +6,14 @@ ATSLIB/prelude/option_vt\
 
 #declpreamble('\
 
+This package contains some common functions for processing linear
+option-values.
 
 ')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("option_vt")
 
 (* ****** ****** *)
 
@@ -21,6 +27,46 @@ This is just the function version of the constructor #dyncode("Some_vt").
 #declnamesynop("option_vt_none")
 #decldescript('\
 This is just the function version of the constructor #dyncode("None_vt").
+')
+
+(* ****** ****** *)
+
+#declnamesynop("option_vt_is_some")
+#decldescript('\
+This funtion returns true if and only a linear option-value is formed with
+the constructor #dyncode('Some_vt').
+')
+
+#declnamesynop("option_vt_is_none")
+#decldescript('\
+This funtion returns true if and only a linear option-value is formed with
+the constructor #dyncode('None_vt').
+')
+
+(* ****** ****** *)
+
+#declnamesynop("option_vt_unsome")
+#decldescript('\
+This is just the inverse of #dyncode("option_vt_some").
+')
+#declnamesynop("option_vt_unnone")
+#decldescript('\
+This is just the inverse of #dyncode("option_vt_none").
+')
+
+(* ****** ****** *)
+
+#declnamesynop("option_vt_make_opt")
+#decldescript('\
+
+This function creates a linear option-value according to the optional
+content of a given variable.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("option_vt_free")
+#decldescript('\
+This function frees the memory occupied by a linear option-value.
 ')
 
 (* ****** ****** *)

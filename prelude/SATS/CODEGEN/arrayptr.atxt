@@ -128,6 +128,13 @@ arrayptr_make_elt
 
 #atscode_separator()
 
+fun arrayptr_make_range
+  {l,r:int | l <= r}
+  (l: int l, r: int r):<> arrayptr (intBtw(l, r), r-l)
+// end of [arrayptr_make_range]
+
+#atscode_separator()
+
 fun{a:t0p}
 arrayptr_make_list
   {n:int}
@@ -142,11 +149,15 @@ arrayptr_make_list_vt
 
 #atscode_separator()
 
-fun{a:vt0p}
-arrayptr_foreach__fwork (x: &a >> a): void
-fun{a:vt0p}
-arrayptr_foreach {n:nat}
-  (A: !arrayptr (INV(a), n), asz: size_t (n)): void
+(*
+fun{a:vt0p}{env:vt0p}
+array_foreach__fwork (x: &a >> a, env: &env): void
+*)
+fun{
+a:vt0p}{env:vt0p
+} arrayptr_foreach_env {n:int} (
+  A: !arrayptr (INV(a), n), asz: size_t (n), env: &INV(env) >> env
+) : sizeLte(n) // end of [arrayptr_foreach_env]
 
 fun{a:vt0p}
 arrayptr_foreach_funenv
@@ -170,32 +181,15 @@ arrayptr_foreach_fun
 
 #atscode_separator()
 
-fun{a:vt0p}
-arrayptr_iforeach__fwork
-  (i: size_t, x: &a >> a): void
-fun{a:vt0p}
-arrayptr_iforeach {n:int}
-  (A: !arrayptr (INV(a), n), asz: size_t (n)): void
-
-fun{a:vt0p}
-arrayptr_iforeach_funenv
-  {v:view}
-  {vt:viewtype}
-  {n:int}
-  {fe:eff} (
-  pfv: !v
-| A: !arrayptr (INV(a), n)
-, asz: size_t n
-, f: (!v | sizeLt n, &a, !vt) -<fun,fe> void
-, env: !vt
-) :<fe> void
-// end of [arrayptr_iforeach_funenv]
-
-fun{a:vt0p}
-arrayptr_iforeach_fun
-  {n:int}{fe:eff} (
-  A: !arrayptr (INV(a), n), asz: size_t n, f: (sizeLt n, &a) -<fun,fe> void
-) :<fe> void // end of [arrayptr_iforeach_fun]
+(*
+fun{a:vt0p}{env:vt0p}
+array_rforeach__fwork (x: &a >> a, env: &env): void
+*)
+fun{
+a:vt0p}{env:vt0p
+} arrayptr_rforeach_env {n:int} (
+  A: !arrayptr (INV(a), n), asz: size_t (n), env: &INV(env) >> env
+) : sizeLte(n) // end of [arrayptr_rforeach_env]
 
 #atscode_separator()
 

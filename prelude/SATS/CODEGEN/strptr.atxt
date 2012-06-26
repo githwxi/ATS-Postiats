@@ -32,32 +32,15 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-(*
-** HX: for temporarily borrowed linear strings
-*)
-stadef
-tbstrptr (l:addr) = @(strptr l -<lin,prf> void | strptr l)
-// end of [stadef]
-
-#atscode_separator()
+castfn
+strptr_of_strnptr
+  {l:addr}{n:int} (x: strnptr (l, n)):<> strptr l
+// end of [strptr_of_strnptr]
 
 castfn
 strnptr_of_strptr
-  {l:addr} (x: strptr l): [n:int] strnptr (l, n)
+  {l:addr} (x: strptr l):<> [n:int] strnptr (l, n)
 // end of [strnptr_of_strptr]
-castfn
-strptr_of_strnptr
-  {l:addr}{n:int} (x: strnptr (l, n)): strptr (l)
-// end of [strptr_of_strnptr]
-
-#atscode_separator()
-
-#atscode_decl_strcst('\
-viewtypedef
-rstrptr = READ(strptr0)
-viewtypedef
-rstrnptr (n:int) = READ(strnptr(n))
-')\
 
 #atscode_separator()
 
@@ -77,7 +60,7 @@ val fopr_d = (
 //
 val ent = sprintf ("\
 fun %s_strptr_strptr
-  (x1: !rstrptr, x2: !rstrptr):<> bool = \"mac#atspre_%s_strptr_strptr\"
+  (x1: !strptr0, x2: !strptr0):<> bool = \"mac#atspre_%s_strptr_strptr\"
 overload %s with %s_strptr_strptr\
 ", @(
  opr, opr, fopr_d, opr
@@ -99,33 +82,25 @@ end // end of [fun_strptr_cmp_decl]
 #fun_strptr_cmp_decl("neq")
 overload <> with neq_strptr_strptr
 
-#atscode_decl_strcst('\
 fun compare_strptr_strptr
-  (x1: !rstrptr, x2: !rstrptr):<> Sgn = "mac\#atspre_compare_strptr_strptr"
+  (x1: !strptr0, x2: !strptr0):<> Sgn = "mac\#atspre_compare_strptr_strptr"
 overload compare with compare_strptr_strptr
-')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-fun strptr_length (x: !rstrptr): ssize_t
-fun strnptr_length {n:int} (x: !rstrnptr n): ssize_t (n)
-')\
+fun strptr_length (x: !strptr0): ssize_t
+fun strnptr_length {n:int} (x: !strnptr n): ssize_t (n)
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 fun strptr_append (
-  x1: !rstrptr, x2: !rstrptr
+  x1: !strptr0, x2: !strptr0
 ) : strptr0 = "atspre_strptr_append"
-')\
 
-#atscode_decl_strcst('\
 fun strnptr_append
   {n1,n2:nat} (
-  x1: !rstrnptr n1, x2: !rstrnptr n2
+  x1: !strnptr n1, x2: !strnptr n2
 ) : strnptr (n1+n2) = "atspre_strnptr_append"
-')\
 
 #atscode_separator()
 

@@ -216,102 +216,107 @@ val () = loop (view@(A) | addr@(A), n, res)
 
 #atscode_separator()
 
+implement{a}{env}
+array_foreach__cont (x, env) = true
+implement{a}{env}
+array_foreach__fwork (x, env) = ((*void*))
+
 implement{a}
-array_foreach
-  (A, asz) = let
-//
-prval () = lemma_array_param (A)
-//
-fun loop
-  {l:addr}{n:nat} .<n>. (
-  pf: !array_v (a, l, n) | p: ptr l, n: size_t n
-) : void =
-  if n > 0 then let
-    prval (
-      pf1, pf2
-    ) = array_v_uncons (pf)
-    val () = array_foreach__fwork (!p)
-    val () = loop (pf2 | ptr1_succ (p), pred(n))
-    prval () = pf := array_v_cons (pf1, pf2)
-  in
-    // nothing
-  end else ()
-// end of [loop]
-in
-  loop (view@(A) | addr@(A), asz)
+array_foreach (A, asz) = let
+  var env: void = () in array_foreach_env<a><void> (A, asz, env)
 end // end of [array_foreach]
 
-#atscode_separator()
-
-implement{a}
-array_iforeach
-  (A, asz) = let
+implement
+{a}{env}
+array_foreach_env
+  {n0} (A, asz, env) = let
 //
 prval () = lemma_array_param (A)
 //
 fun loop
-  {l:addr}{n:nat} .<n>. (
-  pf: !array_v (a, l, n) | p: ptr l, n: size_t n, i: size_t
-) : void =
+  {l:addr}
+  {n:nat | n <= n0} .<n>. (
+  pf: !array_v (a, l, n)
+| p: ptr l, n: size_t n, env: &env
+) : sizeLte (n0) = let
+in
   if n > 0 then let
     prval (
       pf1, pf2
     ) = array_v_uncons (pf)
-    val () = array_iforeach__fwork (i, !p)
-    val () = loop (pf2 | ptr1_succ (p), pred(n), succ(i))
-    prval () = pf := array_v_cons (pf1, pf2)
+    val cont = array_foreach__cont (!p, env)
   in
-    // nothing
-  end else ()
-// end of [loop]
+    if cont then let
+      val () = array_foreach__fwork (!p, env)
+      val res = loop (pf2 | ptr1_succ<a> (p), pred(n), env)
+      prval () = pf := array_v_cons (pf1, pf2)
+    in
+      res
+    end else let
+      prval () = pf := array_v_cons (pf1, pf2) in n
+    end (* end of [if] *)
+  end else n(*0*)
+end // end of [loop]
+//
+val p_beg = addr@(A)
+val n = loop (view@(A) | p_beg, asz, env)
+//
 in
-  loop (view@(A) | addr@(A), asz, g1int2uint(0))
-end // end of [array_iforeach]
+  asz - n
+end // end of [array_foreach_env]
 
 #atscode_separator()
 
+implement{a}{env}
+array_rforeach__cont (x, env) = true
+implement{a}{env}
+array_rforeach__fwork (x, env) = ((*void*))
+
 implement{a}
-array_rforeach
-  (A, asz) = let
+array_rforeach (A, asz) = let
+  var env: void = () in array_rforeach_env<a><void> (A, asz, env)
+end // end of [array_rforeach]
+
+implement
+{a}{env}
+array_rforeach_env
+  {n0} (A, asz, env) = let
 //
 prval () = lemma_array_param (A)
 //
 fun loop
-  {l:addr}{n:nat} .<n>. (
-  pf: !array_v (a, l, n) | p: ptr (l+n*sizeof(a)), n: size_t n
-) : void =
+  {l:addr}{n:nat | n <= n0} .<n>. (
+  pf: !array_v (a, l, n)
+| p: ptr (l+n*sizeof(a)), n: size_t n, env: &env
+) : sizeLte (n0) = let
+in
   if n > 0 then let
     prval (
       pf1, pf2
     ) = array_v_unextend (pf)
-    val p = ptr1_pred (p)
+    val p = ptr1_pred<a> (p)
+    val n = pred (n) // HX: current index
     val (pf2 | p) = viewptr_match (pf2 | p)
-    val () = array_rforeach__fwork (!p)
-    val () = loop (pf1 | p, pred(n))
-    prval () = pf := array_v_extend (pf1, pf2)
+    val cont = array_rforeach__cont (!p, env)
   in
-    // nothing
-  end else ()
-// end of [loop]
+    if cont then let
+      val () = array_rforeach__fwork (!p, env)
+      val res = loop (pf1 | p, n, env)
+      prval () = pf := array_v_extend (pf1, pf2)
+    in
+      res
+    end else let
+      prval () = pf := array_v_extend (pf1, pf2) in n
+    end (* end of [if] *)
+  end else n (*0*)
+end // end of [loop]
+//
+val p_end =
+  ptr1_add_uint<a> (addr@(A), asz)
+// end of [val]
 in
-  loop (view@(A) | ptr1_add_uint<a> (addr@(A), asz), asz)
-end // end of [array_rforeach]
-
-#atscode_separator()
-
-implement{a}
-array_foreach_funenv
-  (pfv | A, asz, f, env) =
-  array_foreach_funenv_tsz (pfv | A, asz, sizeof<a>, f, env)
-// end of [array_foreach_funenv]
-
-#atscode_separator()
-
-implement{a}
-array_iforeach_funenv
-  (pfv | A, asz, f, env) =
-  array_iforeach_funenv_tsz (pfv | A, asz, sizeof<a>, f, env)
-// end of [array_iforeach_funenv]
+  loop (view@(A) | p_end, asz, env)
+end // end of [array_rforeach_env]
 
 #atscode_separator()
 
@@ -411,93 +416,20 @@ end // end of [array_initize_list_vt]
 #atscode_separator()
 
 implement{a}
-array_find
-  {n0} (A, asz) = let
+array_bsearch
+  (A, n) = $effmask_all let
 //
-prval () = lemma_array_param (A)
+val itr = $IT.iter_make_array (view@(A) | addr@(A), n)
 //
-fun loop
-  {l:addr}
-  {n:nat | n <= n0} .<n>. (
-  pf: !array_v (a, l, n) | p: ptr l, n: size_t n
-) : sizeLte (n0) = (
-  if n > 0 then let
-    prval (
-      pf1, pf2
-    ) = array_v_uncons (pf)
-    val found = array_find__pred (!p)
-  in
-    if found then let
-      prval () = pf := array_v_cons (pf1, pf2)
-    in
-      n
-    end else let
-      val res = loop (pf2 | ptr1_succ (p), pred(n))
-      prval () = pf := array_v_cons (pf1, pf2)
-    in
-      res
-    end // end of [if]
-  end else n // end of [if]
-) (* end of [loop] *)
+implement
+$IT.iter_bsearch__ford<a> (x) = array_bsearch__ford<a> (x)
+val () = $IT.iter_bsearch (itr, n)
 //
-val res = loop (view@(A) | addr@(A), asz)
+val ofs = $IT.iter_get_offset (itr)
 //
-in
-  if res > 0 then g1uint2int (asz-res) else g1int2int (~1)
-end // end of [array_find]
-
-#atscode_separator()
-
-implement{a}
-array_rfind
-  {n0} (A, asz) = let
+val (pf | ()) = $IT.iter_free_array (itr)
+prval () = view@ (A) := pf
 //
-prval () = lemma_array_param (A)
-//
-fun loop
-  {l:addr}
-  {n:nat | n <= n0} .<n>. (
-  pf: !array_v (a, l, n) | p: ptr (l+n*sizeof(a)), n: size_t n
-) : sizeLte (n0) = (
-  if n > 0 then let
-    val p = ptr1_pred<a> (p)
-    prval (
-      pf1, pf2
-    ) = array_v_unextend (pf)
-    val (pf2 | p) = viewptr_match (pf2 | p)
-    val found = array_rfind__pred (!p)
-  in
-    if found then let
-      prval () = pf := array_v_extend (pf1, pf2)
-    in
-      n
-    end else let
-      val res = loop (pf1 | p, pred(n))
-      prval () = pf := array_v_extend (pf1, pf2)
-    in
-      res
-    end // end of [if]
-  end else n // end of [if]
-) (* end of [loop] *)
-//
-val res = loop (view@(A) | ptr1_add_uint(addr@(A), asz), asz)
-//
-in
-  if res > 0 then g1uint2int (pred(res)) else g1int2int (~1)
-end // end of [array_rfind]
-
-#atscode_separator()
-
-implement{a}
-array_bsearch_funenv
-  (A, n, pord, env) =
-  $effmask_all let
-  val itr =
-    $IT.iter_make_array (view@(A) | addr@(A), n)
-  val () = $IT.iter_bsearch_funenv (itr, pord, env, n)
-  val ofs = $IT.iter_get_offset (itr)
-  val (pf | ()) = $IT.iter_free_array (itr)
-  prval () = view@ (A) := pf
 in
   ofs
 end // end of [array_bsearch_funenv]

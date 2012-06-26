@@ -424,6 +424,8 @@ val () = d3exp_open_and_add (d3e_cond)
 //
 val loc_cond = d3e_cond.d3exp_loc
 val s2e_cond = d3exp_get_type (d3e_cond)
+val s2e_bool = s2exp_bool_t0ype ()
+val d3e_cond = d3exp_trdn (d3e_cond, s2e_bool)
 val s2f_cond = s2exp2hnf (s2e_cond)
 val os2p_cond = un_s2exp_bool_index_t0ype (s2f_cond)
 //

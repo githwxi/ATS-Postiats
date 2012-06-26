@@ -54,6 +54,7 @@ string_index_char (
 #atscode_separator()
 
 castfn string2ptr (x: string):<> Ptr1
+castfn string1_of_string0 (x: string):<> [n:int] string (n)
 
 #atscode_separator()
 
@@ -77,11 +78,11 @@ overload string_get_at with string_get_at_uint
 fun{tk:tk}
 string_is_atend_int
   {n:int}{i:nat | i <= n}
-  (s: NSH(string n), i: g1int (tk, i)):<> bool (i < n)
+  (s: NSH(string n), i: g1int (tk, i)):<> bool (i==n)
 fun{tk:tk}
 string_is_atend_uint
   {n:int}{i:int | i <= n}
-  (s: NSH(string n), i: g1uint (tk, i)):<> bool (i < n)
+  (s: NSH(string n), i: g1uint (tk, i)):<> bool (i==n)
 
 symintr string_is_atend
 overload string_is_atend with string_is_atend_int
@@ -239,27 +240,27 @@ fun string_rindex {n:int}
 
 #atscode_separator()
 
-fun{} string_foreach__fwork (c: char): void
-fun{} string_foreach (str: NSH(string)): void
-
-#atscode_separator()
-
-fun{} string_rforeach__fwork (c: char): void
-fun{} string_rforeach (str: NSH(string)): void
-
-#atscode_separator()
-
-fun{res:vt0p}
-string_foldleft__fwork (acc: res, c: char): res
-fun{res:vt0p}
-string_foldleft (str: NSH(string), ini: res): res
-
-#atscode_separator()
-
+fun{env:vt0p}
+string_foreach__cont (c: char, env: &env): bool
+fun{env:vt0p}
+string_foreach__fwork (c: char, env: &env): void
 fun{}
-string_find__pred (c: char): bool
+string_foreach {n:int} (str: NSH(string n)): sizeLte(n)
+fun{env:vt0p}
+string_foreach_env {n:int}
+  (str: NSH(string n), env: &INV(env) >> env): sizeLte(n)
+
+#atscode_separator()
+
+fun{env:vt0p}
+string_rforeach__cont (c: char, env: &env): bool
+fun{env:vt0p}
+string_rforeach__fwork (c: char, env: &env): void
 fun{}
-string_find {n:int} (str: NSH(string n)): ssizeBtw (~1, n)
+string_rforeach {n:int} (str: NSH(string n)): sizeLte(n)
+fun{env:vt0p}
+string_rforeach_env {n:int}
+  (str: NSH(string n), env: &INV(env) >> env): sizeLte(n)
 
 #atscode_separator()
 

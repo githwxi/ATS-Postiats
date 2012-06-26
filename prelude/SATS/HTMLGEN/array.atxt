@@ -177,20 +177,29 @@ value in its second argument. Note that the type of these values can be linear.
 
 (* ****** ****** *)
 
+#declnamesynop("array_foreach__cont")
+#declnamesynop("array_foreach__fwork")
+
 #declnamesynop("array_foreach")
 #decldescript('\
 
-This function traverses a given array from left to right, applying the
-function implemented by #dyncode("array_foreach__fwork") to each cell in
-the array.  ')
+This function traverses a given array from left to right, applying to each
+encountered array-cell the function implemented by
+#dyncode("array_foreach__fwork").  The traversal stops if the function
+implemented by #dyncode("array_foreach__cont") returns false.  ')
+
+#declnamesynop("array_foreach_env")
+#decldescript('\
+
+This function does essentially the same as #dyncode("array_foreach")
+except for taking an additional argument that serves as an environment.  ')
+
 #declexample('\
 
 The following code implements the standard fold-from-left operation on a
 given array:
 
 #pats2xhtmld('
-staload UN = "prelude/SATS/unsafe.sats"
-//
 fun{
 res:t0p}{a:t0p
 } array_foldleft
@@ -201,16 +210,14 @@ res:t0p}{a:t0p
 , f: (res, a) -> res
 ) : res = let
 //
-var acc: res = ini
-val p_acc = $UN.cast{Ptr1} (addr@(acc))
+var env: res = ini
 //
 implement
-array_foreach__fwork<a> (x) =
-  $UN.ptr_set<res> (p_acc, f ($UN.ptr_get<res> (p_acc), x))
-val () = array_foreach<a> (A, asz)
+array_foreach__fwork<a><res> (x, env) = env := f (env, x)
+val _ = array_foreach_env (A, asz, env)
 //
 in
-  acc
+  env
 end // end of [array_foldleft]
 ')
 ')
@@ -231,34 +238,50 @@ the provided function does not take an argument as its environment.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("array_iforeach")
-#decldescript('\
-
-This function traverses a given array from left to right, applying the
-function implemented by #dyncode("array_iforeach__fwork") to the number of
-each cell and the cell itself in the array.  ')
-
-#declnamesynop("array_iforeach_funenv")
-#decldescript('\
-
-This function is like #dyncode("array_iforeach") except that the function
-to be applied to the number of each array cell and the cell itself is
-provided as an argument.  ')
-
-#declnamesynop("array_iforeach_fun")
-#decldescript('\
-
-This function is a special case of #dyncode("array_iforeach_funenv") in that
-the provided function does not take an argument as its environment.  ')
-
-(* ****** ****** *)
+#declnamesynop("array_rforeach__cont")
+#declnamesynop("array_rforeach__fwork")
 
 #declnamesynop("array_rforeach")
 #decldescript('\
 
-This function traverses a given array from right to left, applying the
-function implemented by #dyncode("array_rforeach__fwork") to each cell in
-the array.  ')
+This function traverses a given array from right to left, applying to each
+encountered array-cell the function implemented by
+#dyncode("array_rforeach__fwork"). The traversal stops is the function
+implemented by #dyncode("array_rforeach__cont") returns false.  ')
+
+#declnamesynop("array_rforeach_env")
+#decldescript('\
+
+This function does essentially the same as #dyncode("array_rforeach")
+except for taking an additional argument that serves as an environment.  ')
+
+#declexample('\
+
+The following code implements the standard fold-from-right operation on a
+given array:
+
+#pats2xhtmld('
+fun{
+res:t0p}{a:t0p
+} array_foldright
+  {n:int} (
+  A: &(@[a][n])
+, asz: size_t n
+, ini: res
+, f: (res, a) -> res
+) : res = let
+//
+var env: res = ini
+//
+implement
+array_rforeach__fwork<a><res> (x, env) = env := f (env, x)
+val _ = array_rforeach_env (A, asz, env)
+//
+in
+  env
+end // end of [array_foldright]
+')
+')
 
 (* ****** ****** *)
 
@@ -267,14 +290,6 @@ the array.  ')
 
 #declnamesynop("array_uninitize__fwork")
 #declnamesynop("array_uninitize")
-
-(* ****** ****** *)
-
-#declnamesynop("array_find__pred")
-#declnamesynop("array_find")
-
-#declnamesynop("array_rfind__pred")
-#declnamesynop("array_rfind")
 
 (* ****** ****** *)
 

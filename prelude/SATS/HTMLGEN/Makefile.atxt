@@ -97,6 +97,7 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
 #make_entry("pointer")
 #make_entry("reference")
 #make_entry("string")
+#make_entry("strptr")
 
 #make_entry("filebas")
 
@@ -112,6 +113,9 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
 #make_entry("option_vt")
 
 #make_entry("unsafe")
+
+
+#make_entry("iterator")
 
 ######
 

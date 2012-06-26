@@ -62,6 +62,10 @@ bool_bool_t0ype (b: bool) = bool_t0ype
 stadef bool = bool_bool_t0ype
 //
 typedef Bool = [b:bool] bool (b)
+typedef boolLte
+  (b1:bool) = [b2:bool] bool (b2 <= b1) // b2 -> b1
+typedef boolGte
+  (b1:bool) = [b2:bool] bool (b2 >= b1) // b1 -> b2
 //
 (* ****** ****** *)
 

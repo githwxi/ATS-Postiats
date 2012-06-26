@@ -30,6 +30,10 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+exception NotSomeExn of ()
+
+#atscode_separator()
+
 fun{a:t0p}
 option_some (x: a): option (a, true)
 fun{a:t0p}
@@ -53,10 +57,11 @@ option_is_none{a:t0p}
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 fun{a:t0p}
 option_unsome (opt: option (a, true)):<> a
-')\
+
+fun{a:t0p}
+option_unsome_exn (opt: Option (a)):<!exn> a
 
 #atscode_separator()
 

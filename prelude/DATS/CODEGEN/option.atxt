@@ -48,6 +48,13 @@ option_unsome
   (opt) = x where { val+ Some (x) = opt }
 // end of [option_unsome]
 
+implement{a}
+option_unsome_exn
+  (opt) = (
+  case+ opt of
+  | Some x => x | None _ => $raise NotSomeExn()
+) // end of [option_unsome_exn]
+
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

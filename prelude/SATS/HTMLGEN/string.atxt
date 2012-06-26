@@ -188,132 +188,112 @@ more informative type.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("string_foreach__cont")
 #declnamesynop("string_foreach__fwork")
 
 #declnamesynop("string_foreach")
 #decldescript('\
 
-This function applies to each char in its argument the function implemented
-by #dyncode("string_foreach__fwork").  ')
+This function traverses a given string from left to right and applies to
+each encountered char the function implemented by
+#dyncode("string_foreach__fwork"). The traversal stops if the function
+implemented by #dyncode("string_foreach__cont") returns false.  ')
 
 #declexample('\
-
-The following code implements a function that computes the value of an
-unsigned integer represented as a sequence of digits (of base 10):
-
-#pats2xhtmld('\
-staload UN = "prelude/SATS/unsafe.sats"
-//
-fun atoi (str: string): int = let
-//
-var res: int = 0
-val p_res = $UN.cast2Ptr1 (addr@(res))
-//
-implement
-string_foreach__fwork<> (c) =
-  $UN.ptr_set<int> (p_res, 10 * $UN.ptr_get<int>(p_res) + (c - \'0\'))
-val () = string_foreach (str)
-//
-in
-  res
-end // end of [atoi]
-')
-Note that this function assumes its string argument consisting of
-a sequence of digits.
-')
-
-(* ****** ****** *)
-
-#declnamesynop("string_foldleft__fwork")
-
-#declnamesynop("string_foldleft")
-#decldescript('\
-
-Given a string str of length n, this function return the value of
-#dyncode("f(...f(ini, str[0])..., str[n-1])"), where the notation str[i]
-refers char i in str, and f is the function implemented by
-#dyncode("string_foldleft__fwork").
-
-')
-#declexample('\
-The following code implements a function that computes the value of an
-unsigned integer represented as a sequence of digits (of base 10):
-
-#pats2xhtmld('\
-staload UN = "prelude/SATS/unsafe.sats"
-//
-fun atoi (str: string): int = let
-//
-implement
-string_foldleft__fwork<int> (acc, c) = 10 * acc + (c - \'0\')
-//
-in
-  string_foldleft<int> (str, 0(*ini*))
-end // end of [atoi]
-')
-Note that this function assumes its string argument consisting of
-a sequence of digits.
-')
-
-(* ****** ****** *)
-
-#declnamesynop("string_find__pred")
-
-#declnamesynop("string_find")
-#decldescript('\
-
-Given a string str of length n, this function returns the least
-index i such that str[i] satisfies the predicate implemented by
-#dyncode("string_find__pred"). If there is no index that meets
-the condition, then ~1 (negative 1) is returned.
-
-')
-#declexample('\
-
-The following code implements the function #dyncode("strchr") that finds
-the first occurrence of a char in a given string.
-
-#pats2xhtmld('\
-implement
-strchr (str, c0) = let
-//
-implement string_find__pred<> (c) = c0 = c
-//
-in
-  string_find<> (str)
-end // end of [strchr]
-')
 
 The following code implements the function #dyncode("strspn") that computes
 the length of the longest prefix of a given string consisting of only chars
-contained in the second argument of this function.
+contained in the second argument of this function:
 
 #pats2xhtmld('\
-staload UN = "prelude/SATS/unsafe.sats"
-//
 implement
 strspn (str, accept) = let
 //
-var i: size_t = g1int2uint (0)
-val p_i = $UN.cast2Ptr1 (addr@ (i))
-val accept = $UN.cast{String}(accept)
+val accept = string1_of_string0 (accept)
 //
-\#define i2sz size_of_int
-//
-implement
-string_find__pred<> (c) = let
-  val () = $UN.ptr_addby<size_t> (p_i, i2sz(1))
-in
-  if strchr (accept, c) >= 0 then true else false
-end // end of [string_find__pred]
-//
-val _(*ignored*) = string_find<> (str)
+implement{env}
+string_foreach__cont (c, env) = strchr (accept, c) >= 0
 //
 in
-  $UN.ptr_get<sizeLte(n)> (p_i)
+  $effmask_all (string_foreach<> (str))
 end // end of [strspn]
 ')
 ')
 
+(* ****** ****** *)
+
+#declnamesynop("string_foreach_env")
+#decldescript('\
+
+This function does essentially the same as #dyncode("string_foreach")
+except for taking an additional argument that serves as an environment.  ')
+
+#declexample('\
+The following code implements a function that computes the value of an
+unsigned integer represented as a sequence of digits (of base 10):
+
+#pats2xhtmld('\
+fun atoi
+  (str: string): int = let
+//
+val str = string1_of_string0 (str)
+//
+var env: int = 0
+implement
+string_foreach__fwork<int>
+  (c, env) = env := 10 * env + (c - \'0\')
+val _ = string_foreach_env<int> (str, env)
+//
+in
+  env
+end // end of [atoi]
+')
+Note that this function assumes its string argument consisting of
+a sequence of digits.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("string_rforeach__cont")
+#declnamesynop("string_rforeach__fwork")
+
+#declnamesynop("string_rforeach")
+#decldescript('\
+
+This function traverses a given string from right to left and applies to
+each encountered char the function implemented by
+#dyncode("string_rforeach__fwork"). The traversal stops if the function
+implemented by #dyncode("string_rforeach__cont") returns false.
+
+')
+#declexample('\
+
+The following code implements the function #dyncode("strrchr") that finds
+the index of the last occurrence of a char in a given string. If there is
+no such occurrence, then ~1 (negative 1) is returned.
+
+#pats2xhtmld('\
+implement
+strrchr (str, c0) = let
+//
+implement{env}
+string_rforeach__cont (c, env) = c0 != c
+val i = $effmask_all (string_rforeach<> (str))
+//
+in
+  if string_is_atend (str, i) then g1int2int(~1) else g1uint2int(i)
+end // end of [strrchr]
+')
+')
+
+(* ****** ****** *)
+
+#declnamesynop("string_rforeach_env")
+#decldescript('\
+
+This function does essentially the same as #dyncode("string_rforeach")
+except for taking an additional argument that serves as an environment.  ')
+
+(* ****** ****** *)
 
 (* end of [string.atxt] *)

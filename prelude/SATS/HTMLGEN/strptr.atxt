@@ -1,0 +1,68 @@
+#decltitle("\
+ATSLIB/prelude/strptr\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+This package contains common functions for processing linear strings.
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("strptr_of_strnptr")
+#declnamesynop("strnptr_of_strptr")
+
+(* ****** ****** *)
+
+#declnamesynop("lt_strptr_strptr")
+#declnamesynop("lte_strptr_strptr")
+#declnamesynop("gt_strptr_strptr")
+#declnamesynop("gte_strptr_strptr")
+#declnamesynop("eq_strptr_strptr")
+#declnamesynop("neq_strptr_strptr")
+
+#declnamesynop("compare_strptr_strptr")
+
+(* ****** ****** *)
+
+#declnamesynop("strptr_length")
+#decldescript("\
+
+This function returns the length of a given linear string. In the special
+case where the argument is the null-pointer, the function returns ~1
+(negative 1).
+
+")
+
+#declnamesynop("strnptr_length")
+#decldescript("\
+
+This function does the same as #dyncode("strptr_length") but it is
+assigned a more informative type.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("strptr_append")
+#decldescript("\
+
+This function returns a linear string that is the concatenation of its two
+arguments. In the case where both of the arguments are null, the function
+returns the null-pointer.
+
+")
+#declnamesynop("strnptr_append")
+#decldescript("\
+
+This function returns a linear string that is the concatenation of its two
+arguments. Note that neither of the two arguments can be null.
+
+")
+
+(* ****** ****** *)
+
+(* end of [strptr.atxt] *)

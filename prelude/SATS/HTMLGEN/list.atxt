@@ -6,6 +6,12 @@ ATSLIB/prelude/list\
 
 #declpreamble('\
 
+#para('
+This package contains a variety of common functions for creating and
+manipuationg functional list.
+')
+
+#para('
 A functional data structure is one that is immutable after creation; the
 memory it occupies is heap-allocated, which can only be safely freed by a
 garbage collector (GC).  The type for a singly-linked functional list
@@ -13,6 +19,7 @@ containing N elements of type T is denoted by #stacode("list(T, N)"), where
 T is nonlinear. Note that the type constructor #stacode("list") is
 co-variant in its first argument, that is, #stacode("list(T1, N)") is a
 subtype of #stacode("list(T2, N)") if T1 is a subtype of T2.
+')
 
 ')#comment("declpreamble")
 
@@ -308,14 +315,19 @@ refers element i in xs and f is the function implemented by
 The following code computes factorial of n for a given natural number n:\
 
 #pats2xhtmld('
+staload UN = "prelude/SATS/unsafe.sats"
+//
 fun factorial
   {n:nat} (n: int n): int = let
 //
+val xs = list_make_range (0, n)
 implement
 list_foldleft__fwork<int><int> (acc, x) = acc * (x+1)
+val res = list_foldleft<int><int> ($UN.castvwtp1{List(int)}(xs), 1(*ini*))
+val () = list_vt_free (xs)
 //
 in
-  list_foldleft<int><int> (list_make_range (0, n), 1(*ini*))
+  res
 end // end of [factorial]
 ')
 ")

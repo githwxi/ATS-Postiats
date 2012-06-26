@@ -45,6 +45,14 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ;   $(ATSDOC) --outcode $@ -i $< > htmlg
 
 ######
 
+all:: arith_prf.html
+arith_prf.html:   arith_prf_atxt.exe ; $(CAT) ../arith_prf.sats | ./$< > $@
+arith_prf_atxt.txt: arith_prf.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode htmlgendecl_data_atxt.dats > $@
+arith_prf_atxt.exe:   htmlgendecl_atxt.dats arith_prf_atxt.txt $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) arith_prf_atxt.exe
+cleanall:: ; $(RMF) arith_prf.html
+
+
 all:: bool.html
 bool.html:   bool_atxt.exe ; $(CAT) ../bool.sats | ./$< > $@
 bool_atxt.txt: bool.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode htmlgendecl_data_atxt.dats > $@
@@ -58,13 +66,6 @@ char_atxt.txt: char.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode htm
 char_atxt.exe:   htmlgendecl_atxt.dats char_atxt.txt $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
 clean:: ; $(RMF) char_atxt.exe
 cleanall:: ; $(RMF) char.html
-
-all:: filebas.html
-filebas.html:   filebas_atxt.exe ; $(CAT) ../filebas.sats | ./$< > $@
-filebas_atxt.txt: filebas.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode htmlgendecl_data_atxt.dats > $@
-filebas_atxt.exe:   htmlgendecl_atxt.dats filebas_atxt.txt $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
-clean:: ; $(RMF) filebas_atxt.exe
-cleanall:: ; $(RMF) filebas.html
 
 all:: float.html
 float.html:   float_atxt.exe ; $(CAT) ../float.sats | ./$< > $@
@@ -101,13 +102,20 @@ string_atxt.exe:   htmlgendecl_atxt.dats string_atxt.txt $(HTMLGENDECL) ;   $(AT
 clean:: ; $(RMF) string_atxt.exe
 cleanall:: ; $(RMF) string.html
 
+all:: strptr.html
+strptr.html:   strptr_atxt.exe ; $(CAT) ../strptr.sats | ./$< > $@
+strptr_atxt.txt: strptr.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode htmlgendecl_data_atxt.dats > $@
+strptr_atxt.exe:   htmlgendecl_atxt.dats strptr_atxt.txt $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) strptr_atxt.exe
+cleanall:: ; $(RMF) strptr.html
 
-all:: arith_prf.html
-arith_prf.html:   arith_prf_atxt.exe ; $(CAT) ../arith_prf.sats | ./$< > $@
-arith_prf_atxt.txt: arith_prf.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode htmlgendecl_data_atxt.dats > $@
-arith_prf_atxt.exe:   htmlgendecl_atxt.dats arith_prf_atxt.txt $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
-clean:: ; $(RMF) arith_prf_atxt.exe
-cleanall:: ; $(RMF) arith_prf.html
+
+all:: filebas.html
+filebas.html:   filebas_atxt.exe ; $(CAT) ../filebas.sats | ./$< > $@
+filebas_atxt.txt: filebas.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode htmlgendecl_data_atxt.dats > $@
+filebas_atxt.exe:   htmlgendecl_atxt.dats filebas_atxt.txt $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) filebas_atxt.exe
+cleanall:: ; $(RMF) filebas.html
 
 
 all:: array.html
@@ -175,6 +183,15 @@ unsafe_atxt.txt: unsafe.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode
 unsafe_atxt.exe:   htmlgendecl_atxt.dats unsafe_atxt.txt $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
 clean:: ; $(RMF) unsafe_atxt.exe
 cleanall:: ; $(RMF) unsafe.html
+
+
+
+all:: iterator.html
+iterator.html:   iterator_atxt.exe ; $(CAT) ../iterator.sats | ./$< > $@
+iterator_atxt.txt: iterator.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode htmlgendecl_data_atxt.dats > $@
+iterator_atxt.exe:   htmlgendecl_atxt.dats iterator_atxt.txt $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) iterator_atxt.exe
+cleanall:: ; $(RMF) iterator.html
 
 
 ######

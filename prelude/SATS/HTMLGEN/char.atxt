@@ -50,4 +50,32 @@ argument is unequal to that of its second argument.
 
 (* ****** ****** *)
 
+#declnamesynop("isalpha_int")
+#declnamesynop("isalnum_int")
+
+#declnamesynop("isascii_int")
+
+#declnamesynop("isblank_int")
+#declnamesynop("isspace_int")
+
+#declnamesynop("iscntrl_int")
+
+#declnamesynop("isdigit_int")
+#declnamesynop("isxdigit_int")
+
+#declnamesynop("isgraph_int")
+#declnamesynop("isprint_int")
+#declnamesynop("ispunct_int")
+
+#declnamesynop("islower_int")
+#declnamesynop("isupper_int")
+
+(* ****** ****** *)
+
+#declnamesynop("toascii_int")
+#declnamesynop("tolower_int")
+#declnamesynop("toupper_int")
+
+(* ****** ****** *)
+
 (* end of [char.atxt] *)
