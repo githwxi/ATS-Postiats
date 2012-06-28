@@ -135,29 +135,45 @@ end // end of [main]
 
 local
 
+typedef
+T (n:int) = natLte n
 assume
-post (n:int) = arrayref (natLte n, n)
+post (n:int) = arrayref (T(n), n)
 
 in // in of [local]
 
 implement
-post_make (sz) =
+post_make {sz} (sz) =
   arrayref_make_elt (g1int2uint(sz), 0)
+// end of [post_make]
+
 implement
 post_initize
-  (p, sz) = let
-  val sz = g1int2uint(sz)
+  {sz} (p, sz) = let
+//
+fun loop {
+  i:nat | i <= sz
+} .<sz-i>. (
+  i: int i
+) :<cloref1> void =
+  if i < sz then let
+    val j = g1int2uint(i)
+    val i1 = succ(i) in p[j] := i1 ; loop (i1)
+  end // end of [if]
+//
 in
-  arrayref_iforeach_fun
-    (p, sz, lam (i, x) => $effmask_wrt (x := g1uint2int(i)+1))
+  loop (0)
 end // end of [post_initize]
 
 implement
 post_get_at (p, i) =
   arrayref_get_at (p, g1int2uint (i))
+// end of [post_get_at]
+
 implement
 post_set_at (p, i, x) =
   arrayref_set_at (p, g1int2uint (i), x)
+// end of [post_set_at]
 
 end // end of [local]
 

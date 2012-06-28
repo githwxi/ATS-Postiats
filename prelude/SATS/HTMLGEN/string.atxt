@@ -14,11 +14,11 @@ strings.
 
 (* ****** ****** *)
 
-#declnamesynop("string_index_char")
+#declnamesynop("string_index_p")
 #decldescript('\
 
 Given a string str of length n and an index i,
-#stacode("string_index_char(n, i, c)") means that str[i] in the string is
+#stacode("string_index_p(n, i, c)") means that str[i] in the string is
 of the type #stacode("char(c)").  If str[i] equals the null character, then
 i equals n.
 
@@ -89,9 +89,9 @@ fun loop
   val (pf | c) = string_test_at_uint (str, i)
 in
   if c != NUL then let
-    prval string_index_char_gt () = pf in loop (str, succ(i))
+    prval string_index_p_gt () = pf in loop (str, succ(i))
   end else let
-    prval string_index_char_eq () = pf in i // HX: i equals n
+    prval string_index_p_eq () = pf in i // HX: i equals n
   end // end of [if]
 end // end of [loop]
 //
@@ -116,15 +116,15 @@ taking a signed integer as the string index.  ')
 #decldescript('\
 
 This function returns true if and only if its first argument is less than
-its second argument according to the lexicographic ordering on characters.
-')
+its second argument according to the lexicographic ordering on signed
+characters.  ')
 
 #declnamesynop("lte_string_string")
 #decldescript('\
 
 This function returns true if and only if its first argument is less than
 or equal to its second argument according to the lexicographic ordering on
-characters.  ')
+signed characters.  ')
 
 (* ****** ****** *)
 
@@ -134,7 +134,7 @@ characters.  ')
 
 This function returns true if and only if its first argument is greater
 than its second argument according to the lexicographic ordering on
-characters.  ')
+signed characters.  ')
 
 #declnamesynop("gte_string_string")
 
@@ -142,7 +142,7 @@ characters.  ')
 
 This function returns true if and only if its first argument is greater
 than or equal to its second argument according to the lexicographic
-ordering on characters.  ')
+ordering on signed characters.  ')
 
 (* ****** ****** *)
 
@@ -151,15 +151,90 @@ ordering on characters.  ')
 #decldescript('\
 
 This function returns true if and only if its first argument is equal to
-its second argument according to the lexicographic ordering on characters.
-')
+its second argument according to the lexicographic ordering on
+signed characters. ')
 
 #declnamesynop("neq_string_string")
 #decldescript('\
 
 This function returns true if and only if its first argument is unequal to
-its second argument according to the lexicographic ordering on characters.
+its second argument according to the lexicographic ordering on
+signed characters. ')
+
+(* ****** ****** *)
+
+#declnamesynop("compare_string_string")
+#decldescript('\
+
+This function returns ~1, 0 and 1 if and only if its first argument is less
+than, equal to and greater than its second argument according to the
+lexicographic ordering on signed characters. ')
+
 ')
+
+(* ****** ****** *)
+
+#declnamesynop("strcmp")
+#declnamesynop("strintcmp")
+#declnamesynop("strlencmp")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_string")
+
+(* ****** ****** *)
+
+#declnamesynop("string_make_list")
+#decldescript('\
+
+This function returns a linear string consisting of the same sequence of
+non-null chars in its argument.  ')
+#declexample('\
+
+The following code implements a function that returns a linear string
+consisting of the reverse of the sequence of chars in its argument:
+
+#pats2xhtmld('\
+staload UN = "prelude/SATS/unsafe.sats"
+//
+fun string_reverse
+  {n:int} .<>. (
+  str: string(n)
+) : strnptr(n) = let
+//
+  prval () = lemma_string_param (str)
+//
+  val cs = string_explode (str)
+  val cs = list_vt_reverse (cs)
+  val res = string_make_list ($UN.listcast(cs))
+  val () = list_vt_free (cs)
+in
+  res
+end // end of [string_reverse]
+')
+')
+
+#declnamesynop("string_make_listlen")
+#decldescript('\
+
+This function does the same as #dyncode("string_make_list") except for
+taking the length of the given string as the second argument.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("string_make_substring")
+
+(* ****** ****** *)
+
+#declnamesynop("strchr")
+#declnamesynop("strrchr")
+#declnamesynop("strstr")
+
+#declnamesynop("strspn")
+#declnamesynop("strcspn")
+
+#declnamesynop("string_index")
+#declnamesynop("string_rindex")
 
 (* ****** ****** *)
 
@@ -176,15 +251,36 @@ more informative type.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("strchr")
-#declnamesynop("strrchr")
-#declnamesynop("strstr")
+#declnamesynop("string0_copy")
+#declnamesynop("string1_copy")
 
-#declnamesynop("strspn")
-#declnamesynop("strcspn")
+#declnamesynop("string0_append")
+#declnamesynop("string1_append")
 
-#declnamesynop("string_index")
-#declnamesynop("string_rindex")
+(* ****** ****** *)
+
+#declnamesynop("stringlst_concat")
+#decldescript("\
+
+This function returns a linear string that is the concatenation of the
+strings in its argument.  ")
+
+#declexample('\
+
+The following code forms the string "Hello!" by concatenating six singleton
+strings and then prints it (plus a newline) onto the standard output channel:
+
+#pats2xhtmld('\
+implement
+main () = 0 where {
+  val xs = $lst{string} ("H", "e", "l", "l", "o", "!")
+  val hello = stringlst_concat (xs)
+  val () = fprint_strptr (stdout_ref, hello)
+  val () = fprint_newline (stdout_ref)
+  val () = strptr_free (hello)
+} // end of [main]
+')
+')
 
 (* ****** ****** *)
 
@@ -293,6 +389,20 @@ end // end of [strrchr]
 
 This function does essentially the same as #dyncode("string_rforeach")
 except for taking an additional argument that serves as an environment.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("stropt_some")
+#declnamesynop("stropt_none")
+
+#declnamesynop("stropt_is_some")
+#declnamesynop("stropt_is_none")
+
+#declnamesynop("stropt_unsome")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_stropt")
 
 (* ****** ****** *)
 

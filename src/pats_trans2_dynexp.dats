@@ -1140,7 +1140,12 @@ case+ d1e0.d1exp_node of
     val opt = (
       case+ s1eopt of
       | Some s1e => let
-          val s2e = s1exp_trdn_impredicative (s1e)
+          val s2e = (
+            case+ lin of 
+            | 0 => s1exp_trdn (s1e, s2rt_t0ype)
+            | 1 => s1exp_trdn (s1e, s2rt_viewt0ype)
+            | _ => s1exp_trdn_impredicative (s1e)
+          ) : s2exp // end of [val]
         in
           Some (s2e)
         end // end of [Some]

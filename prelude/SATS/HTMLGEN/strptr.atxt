@@ -12,8 +12,34 @@ This package contains common functions for processing linear strings.
 
 (* ****** ****** *)
 
+#declnamesynop("lemma_strptr_param")
+#declnamesynop("lemma_strnptr_param")
+
+(* ****** ****** *)
+
+#declnamesynop("strptr2ptr")
+#declnamesynop("strnptr2ptr")
+
+(* ****** ****** *)
+
 #declnamesynop("strptr_of_strnptr")
 #declnamesynop("strnptr_of_strptr")
+
+#declnamesynop("stropt_of_strptr")
+#declnamesynop("stropt_of_strnptr")
+
+#declnamesynop("string_of_strptr")
+#declnamesynop("string_of_strnptr")
+
+(* ****** ****** *)
+
+#declnamesynop("strptr_is_null")
+#declnamesynop("strptr_isnot_null")
+
+(* ****** ****** *)
+
+#declnamesynop("strnptr_get_at")
+#declnamesynop("strnptr_set_at")
 
 (* ****** ****** *)
 
@@ -25,6 +51,10 @@ This package contains common functions for processing linear strings.
 #declnamesynop("neq_strptr_strptr")
 
 #declnamesynop("compare_strptr_strptr")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_strptr")
 
 (* ****** ****** *)
 
@@ -62,6 +92,60 @@ This function returns a linear string that is the concatenation of its two
 arguments. Note that neither of the two arguments can be null.
 
 ")
+
+(* ****** ****** *)
+
+#declnamesynop("strptrlst_concat")
+#decldescript("\
+
+This function returns a linear string that is the concatenation of the
+linear strings in its argument. Note that the argument (including all of
+the linear strings in it) is freed or consumed after a call to the function
+returns. ")
+
+(* ****** ****** *)
+
+#declnamesynop("strnptr_foreach__cont")
+#declnamesynop("strnptr_foreach__fwork")
+
+#declnamesynop("strnptr_foreach")
+#decldescript('\
+
+This function traverses a given linear string from left to right and
+applies to each encountered char-cell the function implemented by
+#dyncode("strnptr_foreach__fwork"). The traversal stops if the function
+implemented by #dyncode("strnptr_foreach__cont") returns false.  ')
+#declexample("\
+
+The following code implements a function that captializes each letter in a
+given linear string:
+
+#pats2xhtmld('\
+staload UN = "prelude/SATS/unsafe.sats"
+//
+fun strnptr_upperize
+  {n:nat} (str: !strnptr n): void = let
+//
+implement(env)
+strnptr_foreach__fwork<env>
+  (c, env) = c := $UN.cast{charNZ}(toupper_char(c))
+//
+val _(*n*) = strnptr_foreach (str)
+//
+in
+  // nothing
+end // end of [strnptr_upperize]
+')
+")
+
+#declnamesynop("strnptr_foreach_env")
+
+(* ****** ****** *)
+
+#declnamesynop("strnptr_rforeach__cont")
+#declnamesynop("strnptr_rforeach__fwork")
+#declnamesynop("strnptr_rforeach")
+#declnamesynop("strnptr_rforeach_env")
 
 (* ****** ****** *)
 

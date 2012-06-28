@@ -30,14 +30,17 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()
 //
+castfn cast {to:t0p}{from:t0p} (x: from):<> to
+castfn castvwtp_trans {to:vt0p}{from:vt0p} (x: from):<> to
+//
 // HX:
 // [castvwtp1] is mostly used in a situation
 // where a linear value is passed as a read-only value;
-// for instance, casting [strptr] to [string] is as such.
+// for instance, casting [strptr] to [string] is often
+// done for treating a linear string as a nonlinear one
+// temporarily.
 //
-castfn cast {to:t0p} {from:t0p} (x: from):<> to
-castfn castvwtp_trans {to:vt0p} {from:vt0p} (x: from):<> to
-castfn castvwtp1 {to:t0p} {from:vt0p} (x: !from):<> to
+castfn castvwtp1 {to:t0p}{from:vt0p} (x: !INV(from)>>from):<> to
 //
 #atscode_separator()
 //
@@ -65,15 +68,24 @@ castfn cast2ussint {a:t0p} (x: a):<> ussint
 //
 #atscode_separator()
 //
+// HX: this is a very popular one:
+//
+castfn
+listcast {a:t0p}{n:int} (xs: !list_vt (INV(a), n)):<> list (a, n)
+// end of [listcast]
+
+#atscode_separator()
+//
 // HX: only if you know what you are doing ...
 //
 praxi ptr_vget
-  {a:vt0p}{l:agz} (p: ptr l): vtakeout (void, a@l)
+  {a:vt0p}{l:addr} (p: ptr l): vtakeout (void, a@l)
 // end of [ptr_vget]
+
+#atscode_separator()
 
 praxi
 vtakeout_void {v:view} (pf: !v): vtakeout (void, v)
-
 castfn
 vttakeout_void {vt:vt0p} (x: !vt):<> vttakeout (void, vt)
 
@@ -84,6 +96,10 @@ vttakeout_void {vt:vt0p} (x: !vt):<> vttakeout (void, vt)
 fun{a:vt0p} ptr_get (p: Ptr1):<> a
 fun{a:vt0p} ptr_set (p: Ptr1, x: INV(a)):<!wrt> void
 fun{a:vt0p} ptr_exch (p: Ptr1, x: &INV(a) >> a):<!wrt> void
+//
+fun{a:vt0p} ptr0_get (p: ptr):<> a
+fun{a:vt0p} ptr0_set (p: ptr, x: INV(a)):<!wrt> void
+fun{a:vt0p} ptr0_exch (p: ptr, x: &INV(a) >> a):<!wrt> void
 //
 #atscode_separator()
 //

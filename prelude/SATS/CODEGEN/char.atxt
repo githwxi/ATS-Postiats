@@ -395,11 +395,12 @@ end // end of [fun_isX_decl]
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 fun toascii_int (c: int):<> int = "atspre_toascii_int"
+fun toascii_char (c: char):<> char = "atspre_toascii_char"
 fun tolower_int (c: int):<> int = "atspre_tolower_int"
+fun tolower_char (c: char):<> char = "atspre_tolower_char"
 fun toupper_int (c: int):<> int = "atspre_toupper_int"
-')\
+fun toupper_char (c: char):<> char = "atspre_toupper_char"
 
 #atscode_separator()
 

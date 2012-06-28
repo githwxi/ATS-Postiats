@@ -27,8 +27,28 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 (*
-** HX: a strptr is a null-terminated arrayptr of characters
+** HX-2012:
+** a strptr0 is either the null-pointer or strptr1
+** a strptr1 is a null-terminated arrayptr of characters
 *)
+
+#atscode_separator()
+
+praxi
+lemma_strptr_param
+  {l:addr} (x: !strptr l): [l>=null] void
+// end of [lemma_strptr_param]
+
+praxi
+lemma_strnptr_param
+  {l:addr}{n:int}
+  (x: !strnptr (l, n)): [(l>null&&n>=0) || (l==null&&n==(~1))] void
+// end of [lemma_strnptr_param]
+
+#atscode_separator()
+
+castfn strptr2ptr {l:addr} (x: !strptr l):<> ptr l
+castfn strnptr2ptr {l:addr}{n:int} (x: !strnptr (l, n)):<> ptr l
 
 #atscode_separator()
 
@@ -41,6 +61,46 @@ castfn
 strnptr_of_strptr
   {l:addr} (x: strptr l):<> [n:int] strnptr (l, n)
 // end of [strnptr_of_strptr]
+
+castfn
+stropt_of_strptr (x: strptr0):<> Stropt
+castfn
+stropt_of_strnptr
+  {l:addr}{n:int} (x: strnptr (l, n)):<> stropt (n)
+// end of [stropt_of_strnptr]
+
+castfn
+string_of_strptr (x: strptr1):<> String
+castfn
+string_of_strnptr
+  {l:addr}{n:nat} (x: strnptr (l, n)):<> string (n)
+// end of [string_of_strnptr]
+
+#atscode_separator()
+
+fun{}
+strptr_null ():<> strptr (null)
+fun{}
+strptr_free_null
+   {l:addr | l <= null} (x: strptr (l)):<> void
+// end of [strptr_free_null]
+
+fun{}
+strptr_is_null {l:addr} (x: !strptr l):<> bool (l==null)
+fun{}
+strptr_isnot_null {l:addr} (x: !strptr l):<> bool (l > null)
+
+#atscode_separator()
+
+fun{}
+strnptr_get_at {n:int}
+  (str: !strnptr (n), i: sizeLt n):<> charNZ
+overload [] with strnptr_get_at
+
+fun{}
+strnptr_set_at {n:int}
+  (str: !strnptr (n), i: sizeLt n, c: charNZ):<> void
+overload [] with strnptr_set_at
 
 #atscode_separator()
 
@@ -88,6 +148,14 @@ overload compare with compare_strptr_strptr
 
 #atscode_separator()
 
+fun fprint_strptr (out: FILEref, x: !strptr0): void
+
+#atscode_separator()
+
+fun strptr_free (x: strptr0):<!wrt> void
+
+#atscode_separator()
+
 fun strptr_length (x: !strptr0): ssize_t
 fun strnptr_length {n:int} (x: !strnptr n): ssize_t (n)
 
@@ -95,12 +163,42 @@ fun strnptr_length {n:int} (x: !strnptr n): ssize_t (n)
 
 fun strptr_append (
   x1: !strptr0, x2: !strptr0
-) : strptr0 = "atspre_strptr_append"
+) :<> strptr0 = "atspre_strptr_append"
 
 fun strnptr_append
   {n1,n2:nat} (
   x1: !strnptr n1, x2: !strnptr n2
-) : strnptr (n1+n2) = "atspre_strnptr_append"
+) :<> strnptr (n1+n2) = "atspre_strnptr_append"
+
+#atscode_separator()
+
+fun strptrlst_concat (xs: List_vt (strptr0)):<!wrt> strptr0
+
+#atscode_separator()
+
+fun{env:vt0p}
+strnptr_foreach__cont (c: &charNZ, env: &env): bool
+fun{env:vt0p}
+strnptr_foreach__fwork (c: &charNZ>>charNZ, env: &env): void
+fun{}
+strnptr_foreach {n:nat} (str: !strnptr n): sizeLte(n)
+fun{env:vt0p}
+strnptr_foreach_env {n:nat}
+  (str: !strnptr n, env: &INV(env) >> env): sizeLte(n)
+// end of [strnptr_foreach_env]
+
+#atscode_separator()
+
+fun{env:vt0p}
+strnptr_rforeach__cont (c: &charNZ, env: &env): bool
+fun{env:vt0p}
+strnptr_rforeach__fwork (c: &charNZ>>charNZ, env: &env): void
+fun{}
+strnptr_rforeach {n:nat} (str: !strnptr n): sizeLte(n)
+fun{env:vt0p}
+strnptr_rforeach_env {n:nat}
+  (str: !strnptr n, env: &INV(env) >> env): sizeLte(n)
+// end of [strnptr_rforeach_env]
 
 #atscode_separator()
 

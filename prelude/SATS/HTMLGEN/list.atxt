@@ -8,7 +8,7 @@ ATSLIB/prelude/list\
 
 #para('
 This package contains a variety of common functions for creating and
-manipuationg functional list.
+manipulationg functional lists.
 ')
 
 #para('
@@ -323,7 +323,7 @@ fun factorial
 val xs = list_make_range (0, n)
 implement
 list_foldleft__fwork<int><int> (acc, x) = acc * (x+1)
-val res = list_foldleft<int><int> ($UN.castvwtp1{List(int)}(xs), 1(*ini*))
+val res = list_foldleft<int><int> ($UN.listcast(xs), 1(*ini*))
 val () = list_vt_free (xs)
 //
 in

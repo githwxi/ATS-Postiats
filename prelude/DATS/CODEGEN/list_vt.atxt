@@ -64,6 +64,49 @@ end // end of [list_vt_length]
 #atscode_separator()
 
 implement{a}
+list_vt_make_array
+  {n} (A, n) = let
+//
+prval () = lemma_array_param (A)
+viewtypedef res(n:int) = list_vt (a, n)
+fun loop
+  {l:addr}
+  {n:nat} .<n>. (
+  pf: !array_v (a, l, n) >> array_v (a?!, l, n)
+| p: ptr l
+, n: size_t n
+, res: &ptr? >> res(n)
+) :<!wrt> void =
+  if n > 0 then let
+    prval (
+      pf1, pf2
+    ) = array_v_uncons (pf)
+    val () = res :=
+      list_vt_cons {a}{0} (_, _)
+    val+ list_vt_cons (x, res1) = res
+    val () = x := !p
+    val () = loop (pf2 | ptr1_succ<a> (p), pred(n), res1)
+    prval () = pf := array_v_cons (pf1, pf2)
+    prval () = fold@ (res)
+  in
+    // nothing
+  end else let
+    prval () = array_v_unnil (pf)
+    prval () = pf := array_v_nil ()
+  in
+    res := list_vt_nil ()
+  end // end of [if]
+// end of [loop]
+var res: ptr // uninitialized
+val () = $effmask_wrt (loop (view@(A) | addr@(A), n, res))
+//
+in
+  res
+end // end of [list_vt_make_array]
+
+#atscode_separator()
+
+implement{a}
 list_vt_free (xs) = let
 //
 prval () = lemma_list_vt_param (xs)
@@ -108,21 +151,20 @@ end // end of [list_vt_free_fun]
 #atscode_separator()
 
 implement{a}
-list_vt_clear_fun
-  {n}{fe} (xs, f) = let
+list_vt_clear
+  {n} (xs) = let
 //
 prval () = lemma_list_vt_param (xs)
 //
 fun loop
   {n:nat} .<n>. (
   xs: !list_vt (a, n) >> list_vt (a?, n)
-, f: (&a>>a?) -<fe> void
-) :<fe> void =
+) : void =
   case+ xs of
   | @list_vt_cons
       (x, xs1) => let
-      val () = f (x)
-      val () = loop (xs1, f)
+      val () = list_vt_clear__fwork (x)
+      val () = loop (xs1)
       prval () = fold@ {a?} (xs)
     in
       // nothing
@@ -131,8 +173,33 @@ fun loop
 // end of [loop]
 //
 in
-  loop (xs, f)
-end // end of [list_vt_clear_fun]
+  loop (xs)
+end // end of [list_vt_clear]
+
+implement{a}
+list_vt_cfree
+  (xs) = let
+//
+prval () = lemma_list_vt_param (xs)
+//
+fun loop
+  {n:nat} .<n>.
+  (xs: list_vt (a, n)): void =
+  case+ xs of
+  | @list_vt_cons
+      (x, xs1) => let
+      val () = list_vt_clear__fwork (x)
+      val xs1 = xs1
+      prval () = free@ {..}{0} (xs)
+    in
+      loop (xs1)
+    end // end of [list_vt_cons]
+  | ~list_vt_nil () => ()
+// end of [loop]
+//
+in
+  loop (xs)
+end // end of [list_vt_cfree]
 
 #atscode_separator()
 
@@ -206,17 +273,19 @@ end // end of [list_vt_reverse_append]
 implement{a}
 list_vt_concat
   (xss) = let
-  viewtypedef VT = List_vt (a)
-  fun loop {n:nat} .<n>. (
-    res: VT, xss: list_vt (VT, n)
-  ) :<!wrt> VT =
-    case+ xss of
-    | ~list_vt_cons (xs, xss) => let
-        val res = list_vt_append<a> (xs, res) in loop (res, xss)
-      end // end of [list_vt_cons]
-    | ~list_vt_nil () => res
-  // end of [loop]
-  val xss = list_vt_reverse (xss)
+//
+viewtypedef VT = List_vt (a)
+fun loop {n:nat} .<n>. (
+  res: VT, xss: list_vt (VT, n)
+) :<!wrt> VT =
+  case+ xss of
+  | ~list_vt_cons (xs, xss) => let
+      val res = list_vt_append<a> (xs, res) in loop (res, xss)
+    end // end of [list_vt_cons]
+  | ~list_vt_nil () => res
+// end of [loop]
+val xss = list_vt_reverse (xss)
+//
 in
 //
 case+ xss of
@@ -225,6 +294,54 @@ case+ xss of
 | ~list_vt_nil () => list_vt_nil ()
 //
 end // end of [list_concat]
+
+#atscode_separator()
+
+implement{a}
+list_vt_split (xs) = let
+//
+prval () = lemma_list_vt_param (xs)
+//
+fun loop
+  {n:nat} .<n>. (
+  xs: list_vt (a, n)
+, res1: &ptr? >> list_vt (a, n1)
+, res2: &ptr? >> list_vt (a, n2)
+) : #[n1,n2:nat | n1+n2==n] void = let
+in
+//
+case+ xs of
+| @list_vt_cons
+    (x, xs_tl) => let
+    val xs_tl_v = xs_tl
+    val test = list_vt_split__pred (x)
+  in
+    if test then let
+      val () = res1 := xs
+      val () = loop (xs_tl_v, xs_tl, res2)
+    in
+      fold@ (res1)
+    end else let
+      val () = res2 := xs
+      val () = loop (xs_tl_v, res1, xs_tl)
+    in
+      fold@ (res2)
+    end // end of [if]
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => (
+    res1 := list_vt_nil; res2 := list_vt_nil
+  )
+//
+end // end of [loop]
+//
+var res1: ptr
+var res2: ptr
+val () = loop (xs, res1, res2)
+val () = xs := res1
+//
+in
+  res2
+end // end of [list_vt_split]
 
 #atscode_separator()
 
@@ -310,45 +427,42 @@ end // end of [list_vt_iforeach]
 #atscode_separator()
 
 implement{a}
-list_vt_make_array
-  {n} (A, n) = let
+list_vt_filter (xs) = let
 //
-prval () = lemma_array_param (A)
-viewtypedef res(n:int) = list_vt (a, n)
+prval () = lemma_list_vt_param (xs)
+//
 fun loop
-  {l:addr}
   {n:nat} .<n>. (
-  pf: !array_v (a, l, n) >> array_v (a?!, l, n)
-| p: ptr l
-, n: size_t n
-, res: &ptr? >> res(n)
-) :<!wrt> void =
-  if n > 0 then let
-    prval (
-      pf1, pf2
-    ) = array_v_uncons (pf)
-    val () = res :=
-      list_vt_cons {a}{0} (_, _)
-    val+ list_vt_cons (x, res1) = res
-    val () = x := !p
-    val () = loop (pf2 | ptr1_succ<a> (p), pred(n), res1)
-    prval () = pf := array_v_cons (pf1, pf2)
-    prval () = fold@ (res)
-  in
-    // nothing
-  end else let
-    prval () = array_v_unnil (pf)
-    prval () = pf := array_v_nil ()
-  in
-    res := list_vt_nil ()
-  end // end of [if]
-// end of [loop]
-var res: ptr // uninitialized
-val () = $effmask_wrt (loop (view@(A) | addr@(A), n, res))
+  xs: &list_vt (a, n) >> listLte_vt (a, n)
+) : void = let
+in
+  case+ xs of
+  | @list_vt_cons (x, xs1) => let
+      val test = list_vt_filter__pred (x)
+    in
+      if test then let
+        prval () = opt_unsome (x)
+        val () = loop (xs1)
+      in
+        fold@ (xs)
+      end else let
+        prval () = opt_unnone (x)
+        val xs1 = xs1
+        val () = free@ {..}{0} (xs)
+        val () = xs := xs1
+      in
+        loop (xs)
+      end // end of [if]
+    end // end of [list_vt_cons]
+  | @list_vt_nil () => fold@ (xs)
+end // end of [loop]
+//
+var xs = xs
+val () = loop (xs)
 //
 in
-  res
-end // end of [list_vt_make_array]
+  xs
+end // end of [list_vt_filter]
 
 #atscode_separator()
 

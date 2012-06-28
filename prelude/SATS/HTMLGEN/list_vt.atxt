@@ -9,7 +9,7 @@ ATSLIB/prelude/list_vt\
 #para('\
 
 This package contains a variety of common functions for creating/freeing
-and manipulating linear list.  ')
+and manipulating linear lists.  ')
 
 #para('\
 
@@ -104,6 +104,17 @@ This function returns the length of a given linear list.
 
 (* ****** ****** *)
 
+#declnamesynop("list_vt_make_array")
+#decldescript('\
+
+Given an array of size n, this function returns a linear list of length n
+such that element i in the list is the element stored in cell i of the
+array, where i ranges from 1 until n, inclusively.
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("list_vt_free")
 #decldescript('\
 This function frees the memory occupied by a given linear list.
@@ -114,6 +125,10 @@ This function frees the memory occupied by a given linear list.
 This function frees the elements in a given linear list as well as
 the memory occupied by the list.
 ')
+
+#declnamesynop("list_vt_clear__fwork")
+#declnamesynop("list_vt_clear")
+#declnamesynop("list_vt_cfree")
 
 #declnamesynop("list_vt_clear_fun")
 #decldescript('\
@@ -131,6 +146,70 @@ Note that the two list arguments are consumed in the construction of the
 resulting list and thus no longer available after the function returns.
 There is no memory allocation/deallocation involved.
 
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_extend")
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_reverse")
+#declnamesynop("list_vt_reverse_append")
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_concat")
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_split__pred")
+#declnamesynop("list_vt_split")
+#decldescript('\
+
+This function splits a given linear list xs into two according to the
+predicate implemented by #dyncode("list_vt_split__pred"): the elements
+left in xs satisfy the predicate while those in the returned list do not.
+
+')
+#declexample('\
+
+The following code implements the standard quicksort on linear lists:
+
+#pats2xhtmld('\
+staload UN = "prelude/SATS/unsafe.sats"
+//
+fun{a:vt0p}
+qsort {n:int} (
+  xs: list_vt (a, n), cmp: cmpref(a)
+) : list_vt (a, n) = let
+in
+//
+case+ xs of
+| @list_vt_cons
+    (x0, xs1) => let
+    val p_x0 = addr@(x0)
+    implement
+    list_vt_split__pred<a> (x) = let
+      prval (pf, fpf) =
+        $UN.ptr_vget {a} (p_x0)
+      val ans = cmp (x, x0) <= 0
+      prval () = fpf (pf)
+    in
+      ans
+    end // end of [list_vt_split__pred]
+    val xs12 = list_vt_split<a> (xs1)
+    val xs11 = qsort (xs1, cmp)
+    val xs12 = qsort (xs12, cmp)
+    val () = xs1 := xs12
+    prval () = fold@ (xs)
+  in
+    list_vt_append (xs11, xs)
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => list_vt_nil ()
+//
+end // end of [qsort]
+')
 ')
 
 (* ****** ****** *)
@@ -158,6 +237,11 @@ until the length of xs minus one, inclusively, and xs[i], treated as a
 left-value, refers to element i in xs.
 
 ")
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_filter__pred")
+#declnamesynop("list_vt_filter")
 
 (* ****** ****** *)
 

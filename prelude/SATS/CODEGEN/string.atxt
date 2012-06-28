@@ -42,14 +42,14 @@ sortdef tk = tkind
 #atscode_separator()
 
 dataprop
-string_index_char (
+string_index_p (
   n: int, int(*i*), int(*c*)
 ) =
-  | string_index_char_eq (n, n, 0)
+  | string_index_p_eq (n, n, 0)
   | {i:int | n > i}
     {c:int8 | c != 0}
-    string_index_char_gt (n, i, c)
-// end of [string_index_char]
+    string_index_p_gt (n, i, c)
+// end of [string_index_p]
 
 #atscode_separator()
 
@@ -94,12 +94,12 @@ fun{tk:tk}
 string_test_at_int
   {n:int}{i:nat | i <= n} (
   s: NSH(string n), i: g1int (tk, i)
-) :<> [c:int] (string_index_char (n, i, c) | char (c))
+) :<> [c:int] (string_index_p (n, i, c) | char (c))
 fun{tk:tk}
 string_test_at_uint
   {n:int}{i:int | i <= n} (
   s: NSH(string n), i: g1uint (tk, i)
-) :<> [c:int] (string_index_char (n, i, c) | char (c))
+) :<> [c:int] (string_index_p (n, i, c) | char (c))
 
 symintr string_test_at
 overload string_test_at with string_test_at_int
@@ -145,15 +145,26 @@ end // end of [fun_string_cmp_decl]
 #fun_string_cmp_decl("neq")
 overload <> with neq_string_string
 
-#atscode_decl_strcst('\
 fun compare_string_string
   (x1: string, x2: string):<> Sgn = "mac\#atspre_compare_string_string"
 overload compare with compare_string_string
-')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
+fun strcmp (x1: string, x2: string):<> int
+
+fun strintcmp
+  {n1,n2:int | n2 >=0}
+  (x1: string n1, n2: int n2):<> int(sgn(n1-n2))
+// end of [strintcmp]
+
+fun strlencmp
+  {n1,n2:int}
+  (x1: string n1, x2: string n2):<> int(sgn(n1-n2))
+// end of [strlencmp]
+
+#atscode_separator()
+
 fun fprint_string
   (out: FILEref, x: string): void
 overload fprint with fprint_string
@@ -161,50 +172,18 @@ fun print_string (x: string): void
 and prerr_string (x: string): void
 overload print with print_string
 overload prerr with prerr_string
-')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-symintr string_length
-fun string0_length (x: string): size_t
-overload string_length with string0_length
-fun string1_length {n:int} (x: string n): size_t (n)
-overload string_length with string1_length
-')\
+fun string_make_list
+  {n:int} (cs: list(charNZ, n)):<> strnptr (n)
+fun string_make_listlen
+  {n:int} (cs: list(charNZ, n), n: int n):<> strnptr (n)
 
-#atscode_separator()
-
-(*
-** HX: [stropt_none] is just the null pointer
-*)
-
-fun stropt_length
-  {n:int} (x: stropt (n)): ssize_t (n)
-// end of [stropt_length]
-
-fun stropt_is_none {n:int} (x: stropt n): bool (n < 0)
-fun stropt_is_some {n:int} (x: stropt n): bool (n >= 0)
-
-fun{} stropt_none (): stropt (~1)
-
-castfn stropt_some {n:int} (x: SHR(string n)): stropt (n)
-castfn stropt_unsome {n:nat} (x: SHR(stropt n)): string (n)
-
-#atscode_separator()
-
-fun string0_append (
-  x1: NSH(string), x2: NSH(string)
-) :<> strptr1 // end of [string0_append]
-
-fun string1_append
-  {n1,n2:int} (
-  x1: NSH(string(n1)), x2: NSH(string(n2))
-) :<> strnptr (n1+n2) // end of [string1_append]
-
-#atscode_separator()
-
-fun string_concat (xs: NSH(List(string))): strptr1
+fun string_make_substring
+  {n:int}{st,ln:nat | st+ln <= n}
+  (str: string (n), st: size_t st, ln: size_t ln):<> strnptr (ln)
+// end of [string_make_substring]
 
 #atscode_separator()
 
@@ -240,15 +219,60 @@ fun string_rindex {n:int}
 
 #atscode_separator()
 
+symintr string_length
+fun string0_length (x: string):<> size_t
+overload string_length with string0_length
+fun string1_length {n:int} (x: string n):<> size_t (n)
+overload string_length with string1_length
+
+#atscode_separator()
+
+fun string0_copy
+  {n:int} (xs: NSH(string)):<> strptr1
+// end of [string0_copy]
+
+fun string1_copy
+  {n:int} (xs: NSH(string(n))):<> strnptr (n)
+// end of [string1_copy]
+
+#atscode_separator()
+
+fun string0_append (
+  x1: NSH(string), x2: NSH(string)
+) :<> strptr1 // end of [string0_append]
+
+fun string1_append
+  {n1,n2:int} (
+  x1: NSH(string(n1)), x2: NSH(string(n2))
+) :<> strnptr (n1+n2) // end of [string1_append]
+
+#atscode_separator()
+
+fun stringlst_concat (xs: NSH(List(string))):<> strptr1
+
+#atscode_separator()
+
+fun string_explode
+  {n:int} (x: NSH(string(n))): list_vt (charNZ, n)
+// end of [string_explode]
+
+#atscode_separator()
+
+fun string_tabulate__fwork (size_t): charNZ
+fun string_tabulate {n:int} (n: size_t n): strnptr (n)
+
+#atscode_separator()
+
 fun{env:vt0p}
 string_foreach__cont (c: char, env: &env): bool
 fun{env:vt0p}
 string_foreach__fwork (c: char, env: &env): void
 fun{}
-string_foreach {n:int} (str: NSH(string n)): sizeLte(n)
+string_foreach {n:int} (str: NSH(string(n))): sizeLte(n)
 fun{env:vt0p}
 string_foreach_env {n:int}
-  (str: NSH(string n), env: &INV(env) >> env): sizeLte(n)
+  (str: NSH(string(n)), env: &INV(env) >> env): sizeLte(n)
+// end of [string_foreach_env]
 
 #atscode_separator()
 
@@ -257,10 +281,33 @@ string_rforeach__cont (c: char, env: &env): bool
 fun{env:vt0p}
 string_rforeach__fwork (c: char, env: &env): void
 fun{}
-string_rforeach {n:int} (str: NSH(string n)): sizeLte(n)
+string_rforeach {n:int} (str: NSH(string(n))): sizeLte(n)
 fun{env:vt0p}
 string_rforeach_env {n:int}
-  (str: NSH(string n), env: &INV(env) >> env): sizeLte(n)
+  (str: NSH(string(n)), env: &INV(env) >> env): sizeLte(n)
+// end of [string_rforeach_env]
+
+#atscode_separator()
+
+(*
+** HX: [stropt_none] is just the null pointer
+*)
+
+fun stropt_length
+  {n:int} (x: stropt (n)): ssize_t (n)
+// end of [stropt_length]
+
+fun stropt_is_none {n:int} (x: stropt n): bool (n < 0)
+fun stropt_is_some {n:int} (x: stropt n): bool (n >= 0)
+
+fun{} stropt_none (): stropt (~1)
+
+castfn stropt_some {n:int} (x: SHR(string n)): stropt (n)
+castfn stropt_unsome {n:nat} (x: SHR(stropt n)): string (n)
+
+#atscode_separator()
+
+fun fprint_stropt (out: FILEref, x: Stropt): void
 
 #atscode_separator()
 

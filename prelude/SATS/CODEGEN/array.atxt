@@ -344,9 +344,8 @@ fun{x:vt0p}
 array_bsearch__ford (x: &x): int
 fun{a:vt0p}
 array_bsearch
-  {env:vtp}{n:int} (
-  A: &(@[a][n]), n: size_t (n)
-) :<> sizeLte (n) // end of [array_bsearch]
+  {n:int} (A: &(@[a][n]), n: size_t (n)):<> sizeLte (n)
+// end of [array_bsearch]
 
 #atscode_separator()
 

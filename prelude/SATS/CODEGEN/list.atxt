@@ -76,10 +76,15 @@ list_tail {n:pos} (xs: list (a, n)):<> list (a, n-1)
 
 #atscode_separator()
 
+fun{x:t0p}
+list_length {n:int} (xs: list (x, n)):<> int (n)
+
+#atscode_separator()
+
 fun{
 x:t0p // type for elements
-} list_copy {n:int}
-  (xs: list (INV(x), n)):<> list_vt (x, n)
+} list_copy
+  {n:int} (xs: list (INV(x), n)):<> list_vt (x, n)
 // end of [list_copy]
 
 #atscode_separator()

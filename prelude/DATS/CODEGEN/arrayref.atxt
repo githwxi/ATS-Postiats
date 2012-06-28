@@ -31,38 +31,32 @@ staload UN = "prelude/SATS/unsafe.sats"
 #atscode_separator()
 
 implement{a}
-arrayref_make_elt
-  (asz, x) = let
-  val A = arrayptr_make_elt (asz, x)
+arrayref_get_at (A, i) = let
+  val (vbox pf | p) = arrayref_get_viewptr (A)
 in
-  arrayptr2ref (A)
-end // end of [arrayref_make_elt]
+  array_get_at (!p, i)
+end // end of [arrayref_get_at]
+
+implement{a}
+arrayref_set_at (A, i, x) = let
+  val (vbox pf | p) = arrayref_get_viewptr (A)
+in
+  array_set_at (!p, i, x)
+end // end of [arrayref_set_at]
+
+implement{a}
+arrayref_exch_at (A, i, x) = let
+  val (vbox pf | p) = arrayref_get_viewptr (A)
+in
+  array_exch_at (!p, i, x)
+end // end of [arrayref_exch_at]
 
 #atscode_separator()
 
 implement{a}
-arrayref_foreach_fun
-  (A, asz, f) = let
-  val (vbox _ | p) = arrayref_get_viewptr (A)
-in
-//
-$effmask_ref (
-  array_foreach_fun<a> (!p, asz, f)
-) (* end of [$effmask_ref] *)
-//
-end // end of [arrayref_foreach_fun]
-
-implement{a}
-arrayref_foreach_funenv
-  (pfv | A, asz, f, env) = let
-  val (vbox _ | p) = arrayref_get_viewptr (A)
-in
-//
-$effmask_ref (
-  array_foreach_funenv<a> (pfv | !p, asz, f, env)
-) (* end of [$effmask_ref] *)
-//
-end // end of [arrayref_foreach_funenv]
+arrayref_make_elt (asz, x) = let
+  val A = arrayptr_make_elt (asz, x) in arrayptr2ref (A)
+end // end of [arrayref_make_elt]
 
 #atscode_separator()
 

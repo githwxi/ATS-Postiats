@@ -26,6 +26,13 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+implement{}
+strptr_is_null (str) = (strptr2ptr (str) = null)
+implement{}
+strptr_isnot_null (str) = (strptr2ptr (str) > null)
+
+#atscode_separator()
+
 %{
 fun
 fun_strptr_cmp_decl
@@ -57,6 +64,61 @@ end // end of [fun_char_cmp0_decl]
 #fun_strptr_cmp_decl("gte")
 #fun_strptr_cmp_decl("eq")
 #fun_strptr_cmp_decl("neq")
+
+#atscode_separator()
+
+implement
+strptrlst_concat (xs) = let
+//
+fun loop {n0:nat} .<n0>. (
+  xs: &list_vt(strptr0, n0)>>list_vt(strptr1, n1)
+) :<!wrt> #[n1:nat | n1 <= n0] void = let
+in
+  case+ xs of
+  | @list_vt_cons
+      (x, xs1) => let
+      val notnull = strptr_isnot_null (x)
+    in
+      if notnull then let
+        val () = loop (xs1)
+      in
+        fold@ (xs)
+      end else let
+        val () = strptr_free_null (x)
+        val xs1 = xs1
+        val () = free@ {..}{0} (xs)
+        val () = xs := xs1
+      in
+        loop (xs)
+      end // end of [if]
+    end // end of [list_vt_cons]
+  | @list_vt_nil () => fold@ (xs)
+end // end of [loop]
+//
+var xs = xs
+val () = loop (xs)
+//
+in
+//
+case+ xs of
+| ~list_vt_nil () => strptr_null ()
+| ~list_vt_cons (x, ~list_vt_nil ()) => x
+| _ => let
+    val res =
+      stringlst_concat ($UN.castvwtp1{List(string)}(xs))
+    val () = loop (xs) where {
+      fun loop {n:nat} .<n>.
+        (xs: list_vt (strptr1, n)):<!wrt> void =
+        case+ xs of
+        | ~list_vt_cons (x, xs) => (strptr_free (x); loop (xs))
+        | ~list_vt_nil () => ()
+      // end of [loop]
+    } // end of [where] // end of [val]
+  in
+    res
+  end // end of [_]
+//
+end // end of [strptrlst_concat]
 
 #atscode_separator()
 

@@ -45,11 +45,11 @@ stadef array0 = arrszref // HX: backward compatibility?
 
 fun{a:t0p}
 arrszref_get_at
-  (A: arrszref (a), i: size_t):<!exnref> a
+  (A: arrszref (a), i: size_t):<!exn,!ref> a
 overload [] with arrszref_get_at
 fun{a:t0p}
 arrszref_set_at
-  (A: arrszref (a), i: size_t, x: a):<!exnref> void
+  (A: arrszref (a), i: size_t, x: a):<!exn,!ref,!wrt> void
 overload [] with arrszref_set_at
 
 #atscode_separator()
@@ -57,7 +57,7 @@ overload [] with arrszref_set_at
 fun{
 a:vt0p
 } arrszref_exch_at
-  (A: arrszref (a), i: size_t, x: &a >> a):<!exnref> void
+  (A: arrszref (a), i: size_t, x: &a >> a):<!exn,!ref,!wrt> void
 // end of [arrszref_exch_at]
 
 #atscode_separator()
@@ -101,102 +101,30 @@ arrayref_get_viewptr
 #atscode_separator()
 
 fun{a:t0p}
-arrayref_make_elt
-  {n:int} (asz: size_t n, x: a):<> arrayref (a, n)
-// end of [arrayref_make_elt]
-
-#atscode_separator()
-
-fun{a:t0p}
 arrayref_get_at
   {n:int}{i:nat | i < n}
-  (A: arrayref (a, n), i: size_t i):<!ref> a
+  (A: arrayref (INV(a), n), i: size_t i):<!ref> a
 overload [] with arrayref_get_at
 fun{a:t0p}
 arrayref_set_at
   {n:int}{i:nat | i < n}
-  (A: arrayref (a, n), i: size_t i, x: a):<!refwrt> void
+  (A: arrayref (INV(a), n), i: size_t i, x: a):<!refwrt> void
 overload [] with arrayref_set_at
-
-#atscode_separator()
 
 fun{
 a:vt0p
 } arrayref_exch_at
   {n:int}{i:nat | i < n}
-  (A: arrayref (a, n), i: size_t i, x: &a >> a):<!refwrt> void
+  (A: arrayref (INV(a), n), i: size_t i, x: &a >> a):<!refwrt> void
 // end of [arrayref_exch_at]
 
 #atscode_separator()
 
-fun{a:vt0p}
-arrayref_foreach_funenv
-  {v:view}
-  {vt:viewtype}
-  {n:int}
-  {fe:eff} (
-  pfv: !v
-| A: arrayref (a, n)
-, asz: size_t (n)
-, f: (!v | &a, !vt) -<fun,fe> void
-, env: !vt
-) :<!ref,fe> void
-// end of [arrayref_foreach_funenv]
+fun{a:t0p}
+arrayref_make_elt
+  {n:int} (asz: size_t n, x: a):<> arrayref (a, n)
+// end of [arrayref_make_elt]
 
-fun{a:vt0p}
-arrayref_foreach_fun
-  {n:int}{fe:eff} (
-  A: arrayref (a, n)
-, asz: size_t (n)
-, f: (&a) -<fun,fe> void
-) :<!ref,fe> void // end of [arrayref_foreach_fun]
-
-#atscode_separator()
-
-fun{a:vt0p}
-arrayref_iforeach_funenv
-  {v:view}
-  {vt:viewtype}
-  {n:int}
-  {fe:eff} (
-  pfv: !v
-| A: arrayref (a, n)
-, asz: size_t (n)
-, f: (!v | sizeLt n, &a, !vt) -<fun,fe> void
-, env: !vt
-) :<fe> void
-// end of [arrayref_iforeach_funenv]
-
-fun{a:vt0p}
-arrayref_iforeach_fun
-  {n:int}{fe:eff} (
-  A: arrayref (a, n)
-, asz: size_t (n)
-, f: (sizeLt n, &a) -<fun,fe> void
-) :<fe> void // end of [arrayref_iforeach_fun]
-
-#atscode_separator()
-//
-staload IT = "prelude/SATS/iterator.sats"
-//
-stacst iter_arrayref_kind : tkind
-stacst iter_arrayref_param : () -> tkind
-//
-fun{a:vt0p}
-arrayref_make_iter
-  {n:nat} (
-  A: arrayref (a, n), n: size_t (n)
-) : $IT.iterator (
-  iter_arrayref_kind, iter_arrayref_param(), a, 0, n
-) // end of [arrayref_make_iter]
-fun{a:vt0p}
-arrayref_make_iter_end
-  {n:nat} (
-  A: arrayref (a, n), n: size_t (n)
-) : $IT.iterator (
-  iter_arrayref_kind, iter_arrayref_param(), a, n, 0
-) // end of [arrayref_make_iter_end]
-//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
