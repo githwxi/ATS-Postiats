@@ -268,6 +268,8 @@ case+ node of
 | PE_i0de_dlr () => SN (x, "i0de_dlr")
 | PE_l0ab () => SN (x, "l0ab")
 | PE_p0rec () => SN (x, "p0rec")
+//
+| PE_funarrow () => SN (x, "funarrow")
 | PE_colonwith () => SN (x, "colonwith")
 //
 | PE_e0xp () => SN (x, "e0xp")

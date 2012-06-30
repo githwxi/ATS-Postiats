@@ -105,6 +105,29 @@ This function casts a value to an unsigned short short integer of unindexed type
 
 (* ****** ****** *)
 
+#declnamesynop("listcast")
+#decldescript("\
+This function casts a linear list to a nonlinear list (only for temporary use).
+")
+#declexample('\
+
+A typical use of this function occurs in a case where certain function
+defined only on nonlinear lists needs to be applied to a linear list. For
+instane, the following code demonstrates a simple way to copy a linear list
+by calling the copy function for nonlinear lists:
+
+#pats2xhtmld('\
+staload UN = "prelude/SATS/unsafe.sats"
+//
+fun{a:t@ype}
+list_vt_copy {n:int}
+  (xs: !list_vt (a, n)): list_vt (a, n) = list_copy ($UN.listcast (xs))
+// end of [list_vt_copy]
+')
+')
+
+(* ****** ****** *)
+
 #declnamesynop("ptr_get")
 #decldescript("\
 

@@ -47,54 +47,59 @@ sortdef tk = tkind
 
 #atscode_separator()
 
-fun ptr_is_null
+fun ptr0_is_null
   (p: ptr):<> bool = "mac\#atspre_ptr_is_null"
-fun ptr_isnot_null
+fun ptr0_isnot_null
   (p: ptr):<> bool = "mac\#atspre_ptr_isnot_null"
 
 #atscode_separator()
 
+fun{a:vt0p} ptr0_succ (p: ptr):<> ptr
+fun{a:vt0p} ptr0_pred (p: ptr):<> ptr
+
+#atscode_separator()
+
 #comment('\
-fun add_ptr_int
-  (p: ptr, df: int):<> ptr = "mac\#atspre_add_ptr_int"
-overload + with add_ptr_int of 0
-fun sub_ptr_int
-  (p: ptr, df: int):<> ptr = "mac\#atspre_sub_ptr_int"
-overload - with sub_ptr_int of 0
+fun add_ptr0_int
+  (p: ptr, df: int):<> ptr = "mac\#atspre_add_ptr0_int"
+overload + with add_ptr0_int of 0
+fun sub_ptr0_int
+  (p: ptr, df: int):<> ptr = "mac\#atspre_sub_ptr0_int"
+overload - with sub_ptr0_int of 0
 
-fun add_ptr_size
-  (p: ptr, df: size_t):<> ptr = "mac\#atspre_add_ptr_size"
-overload + with add_ptr_size of 0
-fun sub_ptr_size
-  (p: ptr, df: size_t):<> ptr = "mac\#atspre_sub_ptr_size"
-overload - with sub_ptr_size of 0
+fun add_ptr0_size
+  (p: ptr, df: size_t):<> ptr = "mac\#atspre_add_ptr0_size"
+overload + with add_ptr0_size of 0
+fun sub_ptr0_size
+  (p: ptr, df: size_t):<> ptr = "mac\#atspre_sub_ptr0_size"
+overload - with sub_ptr0_size of 0
 
-fun add_ptr_ssize
-  (p: ptr, df: ssize_t):<> ptr = "mac\#atspre_add_ptr_ssize"
-overload + with add_ptr_ssize of 0
-fun sub_ptr_ssize
-  (p: ptr, df: ssize_t):<> ptr = "mac\#atspre_sub_ptr_ssize"
-overload - with sub_ptr_ssize of 0\
+fun add_ptr0_ssize
+  (p: ptr, df: ssize_t):<> ptr = "mac\#atspre_add_ptr0_ssize"
+overload + with add_ptr0_ssize of 0
+fun sub_ptr0_ssize
+  (p: ptr, df: ssize_t):<> ptr = "mac\#atspre_sub_ptr0_ssize"
+overload - with sub_ptr0_ssize of 0\
 ')
 //
 // ptr_add<a> (p, ofs) = p + ofs*sizeof<a>
 // ptr_sub<a> (p, ofs) = p - ofs*sizeof<a>
 //
 fun{a:vt0p}{tk:tk}
-ptr_add_int (p: ptr, ofs: g0int (tk)):<> ptr
+ptr0_add_int (p: ptr, ofs: g0int (tk)):<> ptr
 fun{a:vt0p}{tk:tk}
-ptr_sub_int (p: ptr, ofs: g0int (tk)):<> ptr
+ptr0_sub_int (p: ptr, ofs: g0int (tk)):<> ptr
 //
 fun{a:vt0p}{tk:tk}
-ptr_add_uint (p: ptr, ofs: g0uint (tk)):<> ptr
+ptr0_add_uint (p: ptr, ofs: g0uint (tk)):<> ptr
 fun{a:vt0p}{tk:tk}
-ptr_sub_uint (p: ptr, ofs: g0uint (tk)):<> ptr
+ptr0_sub_uint (p: ptr, ofs: g0uint (tk)):<> ptr
 //
 #atscode_separator()
 
-fun sub_ptr_ptr
-  (p1: ptr, p2: ptr):<> ssize_t = "mac\#atspre_sub_ptr_ptr"
-overload - with sub_ptr_ptr // end of [overload]
+fun sub_ptr0_ptr0
+  (p1: ptr, p2: ptr):<> ssize_t = "mac\#atspre_sub_ptr0_ptr0"
+overload - with sub_ptr0_ptr0 // end of [overload]
 
 #atscode_separator()
 
@@ -113,9 +118,9 @@ val fopr_d = (
 ) : string // end of [val]
 //
 val ent = sprintf ("\
-fun %s_ptr_ptr
-  (p1: ptr, p2: ptr):<> bool = \"mac#atspre_%s_ptr_ptr\"
-overload %s with %s_ptr_ptr of 0\
+fun %s_ptr0_ptr0
+  (p1: ptr, p2: ptr):<> bool = \"mac#atspre_%s_ptr0_ptr0\"
+overload %s with %s_ptr0_ptr0 of 0\
 ", @(
  opr, opr, fopr_d, opr
 )
@@ -132,11 +137,13 @@ end // end of [fun_ptr_cmp0_decl]
 #fun_ptr_cmp0_decl("gte")
 #fun_ptr_cmp0_decl("eq")
 #fun_ptr_cmp0_decl("neq")
-overload <> with neq_ptr_ptr of 0
+overload <> with neq_ptr0_ptr0 of 0
 
-fun compare_ptr_ptr
-  (p1: ptr, p2: ptr):<> int = "mac\#atspre_compare_ptr_ptr"
-overload compare with compare_ptr_ptr of 0
+fun
+compare_ptr0_ptr0 (
+  p1: ptr, p2: ptr
+) :<> int = "mac\#atspre_compare_ptr0_ptr0"
+overload compare with compare_ptr0_ptr0 of 0
 
 #atscode_separator()
 
@@ -254,7 +261,8 @@ end // end of [fun_ptr_cmp1_decl]
 #fun_ptr_cmp1_decl("neq")
 overload <> with neq_ptr1_ptr1 of 2
 
-fun compare_ptr1_ptr1
+fun
+compare_ptr1_ptr1
   {l1,l2:addr} (
   p1: ptr l1, p2: ptr l2
 ) :<> int = "mac\#atspre_compare_ptr1_ptr1"

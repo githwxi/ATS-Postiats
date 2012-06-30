@@ -115,6 +115,8 @@ parerr_node =
 //
   | PE_l0ab
   | PE_p0rec
+//
+  | PE_funarrow
   | PE_colonwith
 //
   | PE_atme0xp

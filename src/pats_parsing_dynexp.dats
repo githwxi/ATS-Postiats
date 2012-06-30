@@ -1099,9 +1099,11 @@ case+ 0 of
     | Some s0e => d0exp_ann (d0e, s0e) | None () => d0e
   end
 | _ => let
-    val tok = tokbuf_get_token (buf)
+    val tok =
+      tokbuf_get_token (buf)
+    val loc = tok.token_loc
     val () = err := err + 1
-    val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_d0exp0)
+    val () = the_parerrlst_add_ifnbt (bt, loc, PE_d0exp0)
   in
     synent_null ()
   end
@@ -1294,6 +1296,7 @@ p_funarrow (
   val err0 = err
   val n0 = tokbuf_get_ntok (buf)
   val tok = tokbuf_get_token (buf)
+  val loc = tok.token_loc
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
@@ -1315,7 +1318,10 @@ case+ tok.token_node of
     (* end of [if] *)
   end
 | _ => let
-    val () = err := err + 1 in synent_null ()
+    val () = err := err + 1
+    val () = the_parerrlst_add_ifnbt (bt, loc, PE_funarrow)
+  in
+    synent_null ()
   end // end of [_]
 //
 end // end of [p_funarrow]

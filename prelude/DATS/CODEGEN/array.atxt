@@ -34,22 +34,22 @@ staload IT = "prelude/SATS/iterator.sats"
 implement{a}
 array_getref_at
   (A, i) = let
-  val p = ptr_add_uint (addr@(A), i) in $UN.cast2Ptr1 (p)
+  val p = ptr0_add_uint (addr@(A), i) in $UN.cast2Ptr1 (p)
 end // end of [array_getref_at]
 
 implement{a}
 array_get_at (A, i) = let
-  val p = ptr_add_uint (addr@(A), i) in $UN.ptr_get<a> ($UN.cast2Ptr1(p))
+  val p = ptr0_add_uint (addr@(A), i) in $UN.ptr0_get<a> (p)
 end // end of [array_get_at]
 
 implement{a}
 array_set_at (A, i, x) = let
-  val p = ptr_add_uint (addr@(A), i) in $UN.ptr_set<a> ($UN.cast2Ptr1(p), x)
+  val p = ptr0_add_uint (addr@(A), i) in $UN.ptr0_set<a> (p, x)
 end // end of [array_set_at]
 
 implement{a}
 array_exch_at (A, i, x) = let
-  val p = ptr_add_uint (addr@(A), i) in $UN.ptr_exch<a> ($UN.cast2Ptr1(p), x)
+  val p = ptr0_add_uint (addr@(A), i) in $UN.ptr0_exch<a> (p, x)
 end // end of [array_exch_at]
 
 #atscode_separator()
@@ -313,9 +313,9 @@ end // end of [loop]
 //
 val p_end =
   ptr1_add_uint<a> (addr@(A), asz)
-// end of [val]
+val n = loop (view@(A) | p_end, asz, env)
 in
-  loop (view@(A) | p_end, asz, env)
+  asz - n
 end // end of [array_rforeach_env]
 
 #atscode_separator()

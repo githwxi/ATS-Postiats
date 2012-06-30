@@ -109,7 +109,7 @@ This function returns the length of a given linear list.
 
 Given an array of size n, this function returns a linear list of length n
 such that element i in the list is the element stored in cell i of the
-array, where i ranges from 1 until n, inclusively.
+array, where i ranges from 0 until n-1, inclusively.
 
 ')
 
@@ -189,6 +189,7 @@ case+ xs of
 | @list_vt_cons
     (x0, xs1) => let
     val p_x0 = addr@(x0)
+//
     implement
     list_vt_split__pred<a> (x) = let
       prval (pf, fpf) =
@@ -198,8 +199,11 @@ case+ xs of
     in
       ans
     end // end of [list_vt_split__pred]
-    val xs12 = list_vt_split<a> (xs1)
-    val xs11 = qsort (xs1, cmp)
+//
+    var xs11 = xs1
+    // HX: xs11/xs12: <= x0 / > x0
+    val xs12 = list_vt_split<a> (xs11)
+    val xs11 = qsort (xs11, cmp)
     val xs12 = qsort (xs12, cmp)
     val () = xs1 := xs12
     prval () = fold@ (xs)
@@ -210,6 +214,13 @@ case+ xs of
 //
 end // end of [qsort]
 ')
+
+Note that there is no memory allocation/deallocation involved in this
+implementation. It is formally verified in the type system of ATS that the
+list returned by #dyncode("qsort") is of the same length as its input.  On
+a meta-level, it is evident that the returned list must be a permutation of
+the input as linear elements cannot be ignored or duplicated.
+
 ')
 
 (* ****** ****** *)
@@ -245,14 +256,22 @@ left-value, refers to element i in xs.
 
 (* ****** ****** *)
 
+#declnamesynop("list_vt_map__fwork")
+#declnamesynop("list_vt_map")
+
+#declnamesynop("list_vt_mapfree__fwork")
+#declnamesynop("list_vt_mapfree")
+
+(* ****** ****** *)
+
 #declnamesynop("list_vt_mergesort__cmp")
 
 #declnamesynop("list_vt_mergesort")
 #decldescript('\
 
 Mergesort is of time-complexity O(n(log(n))), and it is a stable sorting
-algorithm.  This function mergesorts its first list argument according to
-the ordering implemented by #dyncode("list_vt_mergesort__cmp"). Note that the
+algorithm.  This function mergesorts its list argument according to the
+ordering implemented by #dyncode("list_vt_mergesort__cmp"). Note that the
 list argument is consumed in the construction of the resulting sorted list
 and thus no longer available after the function returns.  There is no
 memory allocation/deallocation involved in the implementation of
@@ -308,12 +327,12 @@ except for allowing the comparison function to be provided as an argument.
 
 Quicksort is of time-complexity O(n(log(n))) on average (but can be O(n^2)
 in the worse case), and it is not a stable sorting algorithm.  This
-function quicksorts its first list argument according to the ordering
-implemented by #dyncode("list_vt_quicksort__cmp"). Note that the list
-argument is consumed in the construction of the resulting sorted list and
-thus no longer available after the function returns. An implementation of
-this function may copy the list into an array, sort the array, copy the
-array back into the list, and then free the array.
+function quicksorts its list argument according to the ordering implemented
+by #dyncode("list_vt_quicksort__cmp"). Note that the list argument is
+consumed in the construction of the resulting sorted list and thus no
+longer available after the function returns. An implementation of this
+function may copy the list into an array, sort the array, copy the array
+back into the list, and then free the array.
 
 ')
 #declexample('\

@@ -26,10 +26,22 @@ i equals n.
 
 (* ****** ****** *)
 
+#declnamesynop("string_is_empty")
+#decldescript('\
+This funtion returns true if and only if its string argument is empty.
+')
+
+#declnamesynop("string_isnot_empty")
+#decldescript('\
+This funtion returns true if and only if its string argument is non-empty.
+')
+
+(* ****** ****** *)
+
 #declnamesynop("string_get_at_uint")
 #decldescript('\
 
-Given a string of length n and an index i < n, this function returns the
+Given a string of length n and an index i &lt; n, this function returns the
 char stored in cell i of the string.  Note that the returned character is
 non-null. ')
 
@@ -47,7 +59,7 @@ taking a signed integer as the string index.  ')
 #declnamesynop("string_is_atend_uint")
 #decldescript('\
 
-Given a string of length n and an index i <= n, this function returns true
+Given a string of length n and an index i &lt;= n, this function returns true
 if and only if i equals n.  ')
 
 %{
@@ -64,8 +76,8 @@ taking a signed integer as the string index.  ')
 #declnamesynop("string_test_at_uint")
 #decldescript('\
 
-Given a string of length n and an index i <= n, this function returns a
-char c paired with a proof stating that i < n holds if and only if c is
+Given a string of length n and an index i &lt;= n, this function returns a
+char c paired with a proof stating that i &lt; n holds if and only if c is
 non-null. ')
 
 #declexample('\
@@ -175,8 +187,26 @@ lexicographic ordering on signed characters. ')
 (* ****** ****** *)
 
 #declnamesynop("strcmp")
+#decldescript('\
+
+This function returns ~1,0 and 1 to indicate that its first string argument
+is less than, equal to and greater than its second string argument,
+respectively, where the comparison is based on the lexicographic ordering
+on signed chars.  ')
+
 #declnamesynop("strintcmp")
+#decldescript('\
+
+This function returns ~1,0 and 1 to indicate that the length of its first
+string argument is less than, equal to and greater than the value of its
+second integer argument, respectively.  ')
+
 #declnamesynop("strlencmp")
+#decldescript('\
+
+This function returns ~1,0 and 1 to indicate that the length of its first
+string argument is less than, equal to and greater than the length of its
+second string argument, respectively.  ')
 
 (* ****** ****** *)
 
@@ -222,19 +252,64 @@ taking the length of the given string as the second argument.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("string_make_list_rev")
+#decldescript('\
+
+This function returns a linear string consisting of the reverse of the
+sequence of non-null chars in its argument.  ')
+
+#declnamesynop("string_make_listlen_rev")
+#decldescript('\
+
+This function does the same as #dyncode("string_make_list_rev") except for
+taking the length of the given string as the second argument.  ')
+
+(* ****** ****** *)
+
 #declnamesynop("string_make_substring")
 
 (* ****** ****** *)
 
 #declnamesynop("strchr")
+#decldescript('\
+
+Given a string str and a char c0, this function returns the index of the
+first char in str that equals c0 if there is such a char.  Otherwise, it
+returns ~1 (negative 1).  ')
+
 #declnamesynop("strrchr")
+#decldescript('\
+
+Given a string str and a char c0, this function returns the index of the
+last char in str that equals c0 if there is such a char.  Otherwise, it
+returns ~1 (negative 1).  ')
+
 #declnamesynop("strstr")
+#decldescript('\
+
+Given a string str1 and a string str2, this function returns the index of
+the first substring in str1 that equals str2 if there is such a
+substring. Otherwise, it returns ~1 (negative 1).  Note that the function
+returns 0 in the special case where str2 is empty, ')
+
+(* ****** ****** *)
 
 #declnamesynop("strspn")
 #declnamesynop("strcspn")
 
+(* ****** ****** *)
+
 #declnamesynop("string_index")
+#decldescript('\
+
+This function is the same as #dyncode("strchr") except for requiring that
+its second argument be a non-null char.  ')
+
 #declnamesynop("string_rindex")
+#decldescript('\
+
+This function is the same as #dyncode("strrchr") except for requiring that
+its second argument be a non-null char.  ')
 
 (* ****** ****** *)
 
@@ -279,6 +354,52 @@ main () = 0 where {
   val () = fprint_newline (stdout_ref)
   val () = strptr_free (hello)
 } // end of [main]
+')
+')
+
+(* ****** ****** *)
+
+#declnamesynop("string_explode")
+#decldescript('\
+
+Given a string of length n, this function returns a linear list
+such that element i in the list equals char i in the string for
+0 &lt;= i &lt; n.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("string_tabulate__fwork")
+#declnamesynop("string_tabulate")
+#decldescript('\
+
+Given an integer n, this function returns a string of length n such that
+char i in the string equals f(i) for 0 &lt;= i &lt n, where f is the
+function implemented by #dyncode("string_tabulate__fwork").
+
+')
+#declexample('\
+
+The following code gives an implementation of
+#dyncode("string_make_substring"), which constructs a linear string
+consisting of the chars in a segment of a given string:
+
+#pats2xhtmld('\
+staload UN = "prelude/SATS/unsafe.sats"
+//
+implement
+string_make_substring
+  {n}{st,ln} (str, st, ln) = let
+//
+implement
+string_tabulate__fwork (i) = let
+  val i = $UN.cast{sizeLt(ln)} (i) in str[st+i]
+end // end of [string_tabulate__fwork]
+//
+in
+  $effmask_all (string_tabulate (ln))
+end // end of [string_make_substring]
 ')
 ')
 

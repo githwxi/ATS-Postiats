@@ -58,6 +58,11 @@ castfn string1_of_string0 (x: string):<> [n:int] string (n)
 
 #atscode_separator()
 
+fun{} string_is_empty (x: string):<> bool
+fun{} string_isnot_empty (x: string):<> bool
+
+#atscode_separator()
+
 fun{tk:tk}
 string_get_at_int
   {n:int}{i:nat | i < n}
@@ -178,6 +183,11 @@ overload prerr with prerr_string
 fun string_make_list
   {n:int} (cs: list(charNZ, n)):<> strnptr (n)
 fun string_make_listlen
+  {n:int} (cs: list(charNZ, n), n: int n):<> strnptr (n)
+
+fun string_make_list_rev
+  {n:int} (cs: list(charNZ, n)):<> strnptr (n)
+fun string_make_listlen_rev
   {n:int} (cs: list(charNZ, n), n: int n):<> strnptr (n)
 
 fun string_make_substring

@@ -226,6 +226,14 @@ x:t0p // type for elements
 #atscode_separator()
 
 fun{
+x,y:t0p // type for elements
+} list_foreach2__fwork (x, y): void
+fun{x,y:t0p}
+list_foreach2 {m,n:int} (xs: NSH(list (x, m)), NSH(list (y, n))): void
+
+#atscode_separator()
+
+fun{
 x:t0p // type for elements
 } list_iforeach__fwork (i: int, x: x): void
 fun{x:t0p}
@@ -239,6 +247,14 @@ x:t0p // type for elements
   xs: NSH(list (INV(x), n))
 , f: (!v | natLt(n), x, !vt) -<fun,fe> void, env: !vt
 ) :<fe> int n // end of [list_iforeach_funenv]
+
+#atscode_separator()
+
+fun{
+x,y:t0p // type for elements
+} list_iforeach2__fwork (int, x, y): void
+fun{x,y:t0p}
+list_iforeach2 {m,n:int} (xs: NSH(list (x, m)), NSH(list (y, n))): void
 
 #atscode_separator()
 

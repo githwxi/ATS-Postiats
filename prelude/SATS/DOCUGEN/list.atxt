@@ -285,6 +285,20 @@ implemented by #dyncode("list_foreach__fwork").
 
 (* ****** ****** *)
 
+#declnamesynop("list_foreach2__fwork")
+
+#declnamesynop("list_foreach2")
+#decldescript("\
+
+Given two lists xs and ys of length m and n, respectively, this function
+applies to each pair (xs[i], ys[i]) the function implemented by
+#dyncode("list_foreach2__fwork"), where i ranges from 0 until min(m, n)-1,
+inclusively, and xs[i] (ys[i]) refers to element i in xs (ys).
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("list_iforeach__fwork")
 
 #declnamesynop("list_iforeach")
@@ -299,15 +313,28 @@ i in xs.
 
 (* ****** ****** *)
 
+#declnamesynop("list_iforeach2__fwork")
+
+#declnamesynop("list_iforeach2")
+#decldescript("\
+
+Given two lists xs and ys of length m and n, respectively, this function
+applies to each tuple (i, xs[i], ys[i]) the function implemented by
+#dyncode("list_iforeach2__fwork"), where i ranges from 0 until min(m, n)-1,
+inclusively, and xs[i] (ys[i]) refers to element i in xs (ys).
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("list_foldleft__fwork")
 
 #declnamesynop("list_foldleft")
 #decldescript("\
 
-Given a list xs of length n, this function return the value of
-#dyncode("f(...f(ini, xs[0])..., xs[n-1])"), where the notation xs[i]
-refers element i in xs and f is the function implemented by
-#dyncode("list_foldleft__fwork").
+Given a list xs of length n, this function return the value of f(...f(ini,
+xs[0])..., xs[n-1]), where the notation xs[i] refers element i in xs and f
+is the function implemented by #dyncode("list_foldleft__fwork").
 
 ")
 #declexample("\
@@ -389,6 +416,11 @@ ATSLIB is tail-recursive.
 
 (* ****** ****** *)
 
+#declnamesynop("list_mapopt__fwork")
+#declnamesynop("list_mapopt")
+
+(* ****** ****** *)
+
 #declnamesynop("list_map2__fwork")
 
 #declnamesynop("list_map2")
@@ -465,11 +497,10 @@ This function does the same as #dyncode("list_map2").
 #decldescript('\
 
 Mergesort is of time-complexity O(n(log(n))), and it is a stable sorting
-algorithm.  This function mergesorts its first argument according to the
+algorithm.  This function mergesorts its argument according to the
 ordering implemented by #dyncode("list_mergesort__cmp") and returns a
-linear list that is a sorted permutation of the first argument.
+linear list that is a sorted permutation of the argument. ')
 
-')
 #declexample('\
 
 The following code mergesorts a given list of integers into a list of
@@ -520,11 +551,10 @@ end // end of [main]
 
 Quicksort is of time-complexity O(n(log(n))) on average (but can be O(n^2)
 in the worse case), and it is not a stable sorting algorithm.  This
-function quicksorts its first argument according to the ordering implemented
-by #dyncode("list_quicksort__cmp") and returns a linear list that is a sorted
-permutation of the first argument.
+function quicksorts its argument according to the ordering implemented by
+#dyncode("list_quicksort__cmp") and returns a linear list that is a sorted
+permutation of the argument. ')
 
-')
 #declexample('\
 
 The following code quicksorts a given list of integers into a list of

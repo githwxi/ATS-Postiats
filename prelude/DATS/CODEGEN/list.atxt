@@ -561,6 +561,33 @@ $FC.foreach_funenv<List(x)><x>
 
 #atscode_separator()
 
+implement{x,y}
+list_foreach2 (xs, ys) = let
+//
+prval () = lemma_list_param (xs)
+prval () = lemma_list_param (ys)
+//
+fun loop
+  {m,n:nat} .<m>. (
+  xs: list (x, m), ys: list (y, n)
+) : void =
+  case+ xs of
+  | list_cons (x, xs) => (
+    case+ ys of
+    | list_cons (y, ys) => let
+        val () = list_foreach2__fwork<x,y> (x, y) in loop (xs, ys)
+      end // end of [list_cons]
+    | list_nil () => ()
+    ) // end of [list_cons]
+  | list_nil () => ()
+// end of [loop]
+//
+in
+  loop (xs, ys)
+end // end of [list_foreach2]
+
+#atscode_separator()
+
 implement{x}
 list_iforeach (xs) = let
 //
@@ -607,6 +634,33 @@ $FC.iforeach_funenv<List(x)><x>
   (pfv | xs, f, env) = let
   val n = list_iforeach_funenv<x> (pfv | xs, f, env) in g1int2uint (n)
 end // end of [iforeach_funenv]
+
+#atscode_separator()
+
+implement{x,y}
+list_iforeach2 (xs, ys) = let
+//
+prval () = lemma_list_param (xs)
+prval () = lemma_list_param (ys)
+//
+fun loop
+  {m,n:nat} .<m>. (
+  xs: list (x, m), ys: list (y, n), i: int
+) : void =
+  case+ xs of
+  | list_cons (x, xs) => (
+    case+ ys of
+    | list_cons (y, ys) => let
+        val () = list_iforeach2__fwork<x,y> (i, x, y) in loop (xs, ys, succ(i))
+      end // end of [list_cons]
+    | list_nil () => ()
+    ) // end of [list_cons]
+  | list_nil () => ()
+// end of [loop]
+//
+in
+  loop (xs, ys, 0)
+end // end of [list_iforeach2]
 
 #atscode_separator()
 

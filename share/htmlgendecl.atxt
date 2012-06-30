@@ -7,6 +7,8 @@ staload "libatsyntax/SATS/libatsyntax.sats"
 //
 #include "utils/atsdoc/HATS/pats2xhtmlatxt.hats"
 //
+dynload "declatext.dats"
+staload "declatext.sats"
 dynload "htmlgendecl.dats"
 staload "htmlgendecl.sats"
 //

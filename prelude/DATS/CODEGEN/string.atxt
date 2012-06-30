@@ -30,10 +30,24 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
+\#define CNUL '\000'
+
+#atscode_separator()
+
 extern
 fun memcpy
   (d:ptr, s:ptr, n:size_t):<!wrt> ptr = "mac\#atslib_memcpy"
 // end of [memcpy]
+
+#atscode_separator()
+
+implement{}
+string_is_empty (str) = let
+  val p = string2ptr (str) in $UN.ptr_get<char> (p) = CNUL
+end // end of [string_is_empty]
+
+implement{}
+string_isnot_empty (str) = ~string_is_empty (str)
 
 #atscode_separator()
 
@@ -75,18 +89,15 @@ implement
 strintcmp
   {n1,n2} (x1, n2) = let
 //
-\#define NUL '\000'
-//
 prval () = lemma_string_param (x1)
 //
 fun loop
   {n2:nat} .<n2>.
   (p1: ptr, n2: int n2):<> int = let
-  val p1 = $UN.cast2Ptr1 (p1)
-  val c = $UN.ptr_get<char> (p1)
+  val c = $UN.ptr0_get<char> (p1)
 in
-  if c != NUL then (
-    if n2 > 0 then loop (ptr1_succ(p1), n2-1) else 1(*gt*)
+  if c != CNUL then (
+    if n2 > 0 then loop (ptr0_succ(p1), n2-1) else 1(*gt*)
   ) else (
     if n2 > 0 then ~1(*lt*) else 0(*eq*)
   ) // end of [if]
@@ -100,8 +111,6 @@ implement
 strlencmp
   {n1,n2} (x1, x2) = let
 //
-\#define NUL '\000'
-//
 prval () = lemma_string_param (x1)
 prval () = lemma_string_param (x2)
 //
@@ -110,22 +119,20 @@ fun loop
   {n1:nat} .<n1>. (
   p1: ptr, p2: ptr
 ) :<> int = let
-  val p1 = $UN.cast2Ptr1 (p1)
-  val p2 = $UN.cast2Ptr1 (p2)
-  val c1 = $UN.ptr_get<char> (p1)
-  val c2 = $UN.ptr_get<char> (p2)
+  val c1 = $UN.ptr0_get<char> (p1)
+  val c2 = $UN.ptr0_get<char> (p2)
 in
-  if c1 != NUL then let
+  if c1 != CNUL then let
     prval () =
       __assert () where {
       extern praxi __assert (): [n1 > 0] void
     } // end of [prval]
   in
-    if c2 != NUL then
-      loop {n1-1} (ptr1_succ(p1), ptr1_succ(p2))
+    if c2 != CNUL then
+      loop {n1-1} (ptr0_succ(p1), ptr0_succ(p2))
     else 1(*gt*) // end of [if]
   end else (
-    if c2 != NUL then ~1(*lt*) else 0(*eq*)
+    if c2 != CNUL then ~1(*lt*) else 0(*eq*)
   ) // end of [if]
 end // end of [loop]
 //
@@ -147,31 +154,70 @@ string_make_list (cs) =
 
 implement
 string_make_listlen
-  {n} (cs, n) = let
+  {n} (cs, n) = $effmask_wrt let
 //
-\#define NUL '\000'
 prval () = lemma_list_param (cs)
 //
 fun loop {n:nat} .<n>. (
   cs: list (char, n), n: int n, p: ptr
-) :<!wrt> void = let
-  val p = $UN.cast2Ptr1 (p)
+) :<!wrt> ptr = let
 in
   if n > 0 then let
     val+ list_cons (c, cs) = cs
-    val () = $UN.ptr_set<char> (p, c)
+    val () = $UN.ptr0_set<char> (p, c)
   in
-    loop (cs, n-1, ptr1_succ<char>(p))
-  end else $UN.ptr_set<char> (p, NUL)
+    loop (cs, n-1, ptr0_succ<char>(p))
+  end else p // end of [val]
 end // end of [loop]
 //
-val (pf, pfgc | p) = malloc_gc (g1int2uint(n))
-//
-val () = $effmask_wrt (loop (cs, n, p))
+val n1 = n + 1
+val (
+  pf, pfgc | p0
+) = malloc_gc (g1int2uint(n1))
+val p1 = loop (cs, n, p0)
+val () = $UN.ptr0_set<char> (p1, CNUL)
 //
 in
-  $UN.castvwtp_trans {strnptr(n)} @(pf, pfgc | p)
+  $UN.castvwtp_trans {strnptr(n)} @(pf, pfgc | p0)
 end // end of [string_make_listlen]
+
+#atscode_separator()
+
+implement
+string_make_list_rev (cs) =
+  string_make_listlen_rev (cs, list_length (cs))
+// end of [string_make_list_rev]
+
+implement
+string_make_listlen_rev
+  {n} (cs, n) = $effmask_wrt let
+//
+prval () = lemma_list_param (cs)
+//
+fun loop {n:nat} .<n>. (
+  cs: list (char, n), n: int n, p: ptr
+) :<!wrt> ptr = let
+in
+  if n > 0 then let
+    val p = ptr0_pred<char> (p)
+    val+ list_cons (c, cs) = cs
+    val () = $UN.ptr0_set<char> (p, c)
+  in
+    loop (cs, n-1, p)
+  end else p // end of [if]
+end // end of [loop]
+//
+val n1 = n + 1
+val (
+  pf, pfgc | p0
+) = malloc_gc (g1int2uint(n1))
+val p1 = ptr0_add_int<char> (p0, n)
+val () = $UN.ptr0_set<char> (p1, CNUL)
+val p0 = loop (cs, n, p1)
+//
+in
+  $UN.castvwtp_trans {strnptr(n)} @(pf, pfgc | p0)
+end // end of [string_make_listlen_rev]
 
 #atscode_separator()
 
@@ -180,18 +226,18 @@ string_make_substring
   {n}{st,ln}
   (str, st, ln) = $effmask_wrt let
 //
-\#define NUL '\000'
+val ln1 = succ(ln)
+val (pf, pfgc | p_dst) = malloc_gc (ln1)
+val p_src = ptr1_add_uint<char> (string2ptr(str), st)
+val _(*p_dst*) = memcpy (p_dst, p_src, ln)
 //
-val (pf, pfgc | p) = malloc_gc (succ(ln))
-val _(*p*) =
-  memcpy (p, ptr1_add_uint<char>(string2ptr(str), st), ln)
-// end of [val]
-//
-val p_ln = $UN.cast2Ptr1 (ptr1_add_uint<char> (p, ln))
-val () = $UN.ptr_set<char> (p_ln, NUL)
+val p_dst_ln =
+  ptr1_add_uint<char> (p_dst, ln)
+val () =
+  $UN.ptr0_set<char> (p_dst_ln, CNUL)
 //
 in
-  $UN.castvwtp_trans {strnptr(ln)} @(pf, pfgc | p)
+  $UN.castvwtp_trans {strnptr(ln)} @(pf, pfgc | p_dst)
 end // end of [string_make_substring]
 
 #atscode_separator()
@@ -300,8 +346,6 @@ implement
 list_foldleft__fwork<size_t><size_t> (acc, n) = acc + n
 val ntot = list_foldleft ($UN.listcast (ns), g1int2uint(0))
 //
-\#define NUL '\000'
-//
 fun loop {n:nat} .<n>. (
   p: ptr, xs: list (string, n), ns: list_vt (size_t, n)
 ) : void = let
@@ -312,11 +356,10 @@ case+ xs of
     val+ ~list_vt_cons (n, ns) = ns
     val _(*p*) = memcpy (p, string2ptr(x), n)
   in
-    loop (ptr_add_uint<char> (p, n), xs, ns)
+    loop (ptr0_add_uint<char> (p, n), xs, ns)
   end
 | list_nil () => let
-    val+ ~list_vt_nil () = ns
-    val p = $UN.cast2Ptr1 (p) in $UN.ptr_set<char> (p, NUL)
+    val+ ~list_vt_nil () = ns in $UN.ptr0_set<char> (p, CNUL)
   end // end of [list_nil]
 //
 end // end of [loop]
@@ -335,8 +378,8 @@ implement
 string_explode
   {n} (x) = let
 //
-\#define NUL '\000'
 prval () = lemma_string_param (x)
+//
 viewtypedef res(n) = list_vt (charNZ, n)
 //
 fun loop {n:nat} .<n>. (
@@ -345,7 +388,7 @@ fun loop {n:nat} .<n>. (
   val p = string2ptr (x)
   val c = $UN.ptr_get<Char> (p)
 in
-  if c != NUL then let
+  if c != CNUL then let
     prval () = __assert () where {
       extern praxi __assert (): [n > 0] void
     }
@@ -388,21 +431,18 @@ implement{env}
 string_foreach_env
   {n} (str, env) = let
 //
-\#define NUL '\000'
-//
 fun loop (
   p: ptr, env: &env
 ) : ptr = let
-  val p = $UN.cast2Ptr1 (p)
-  val c = $UN.ptr_get<char> (p)
+  val c = $UN.ptr0_get<char> (p)
   val cont = (
-    if c != NUL then string_foreach__cont (c, env) else false
+    if c != CNUL then string_foreach__cont (c, env) else false
   ) : bool // end of [val]
 in
   if cont then let
     val () =
       string_foreach__fwork<env> (c, env)
-    val p = ptr1_succ<char> (p)
+    val p = ptr0_succ<char> (p)
   in
     loop (p, env)
   end else p // end of [if]
@@ -434,7 +474,7 @@ string_rforeach_env
 //
 val n = string1_length (str)
 typedef chararr = array (char, n)
-val p = $UN.cast{Ptr1} (str)
+val p = string2ptr (str)
 prval (pf, fpf) = $UN.ptr_vget {chararr} (p)
 //
 implement

@@ -64,6 +64,25 @@ list0_nth_opt (xs: list0 a, i: int):<> option0 (a)
 #atscode_separator()
 
 fun{a:t0p}
+list0_find_exn (xs: list0 a, p: cfun (a, bool)): a
+fun{a:t0p}
+list0_find_opt (xs: list0 a, p: cfun (a, bool)): option0 (a)
+
+#atscode_separator()
+
+fun{a:t0p}
+list0_length (xs: list0 a):<> int
+
+#atscode_separator()
+
+fun{a:t0p}
+list0_append
+  (xs: list0 a, ys: list0 a):<> list0 (a)
+// end of [list0_append]
+
+#atscode_separator()
+
+fun{a:t0p}
 list0_concat (xss: list0 (list0 (a))):<> list0 (a)
 
 #atscode_separator()
@@ -97,13 +116,6 @@ list0_exists (xs: list0 (a), p: cfun (a, bool)): bool
 
 fun{a:t0p}
 list0_forall (xs: list0 (a), p: cfun (a, bool)): bool
-
-#atscode_separator()
-
-fun{a:t0p}
-list0_find_exn (xs: list0 a, p: cfun (a, bool)): a
-fun{a:t0p}
-list0_find_opt (xs: list0 a, p: cfun (a, bool)): option0 (a)
 
 #atscode_separator()
 

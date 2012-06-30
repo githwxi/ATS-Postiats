@@ -92,9 +92,90 @@ This function is the optional version of #dyncode("list0_nth_exn").
 
 (* ****** ****** *)
 
+#declnamesynop("list0_find_exn")
+#decldescript("\
+This functions returns the first element in its first argument that
+satisfies the predicate given as its second argument. In case that such
+an element does not exist, the function raises an exception (NotFoundExn).
+")
+#declnamesynop("list0_find_opt")
+#decldescript("\
+This function is the optional version of #dyncode("list0_find_exn").
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_length")
+#declnamesynop("list0_append")
+#declnamesynop("list0_concat")
+
+(* ****** ****** *)
+
 #declnamesynop("list0_app")
 #decldescript("\
 This function is idential to #dyncode("list0_foreach").
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_foreach")
+#decldescript("\
+
+This function applies its second argument to each element in its first
+argument.  ")
+
+#declnamesynop("list0_iforeach")
+#decldescript("\
+
+This function applies its second argument f to (i, x), where i ranges from
+0 to the length of xs minus 1 and x is element i in xs.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_exists")
+#decldescript("\
+
+This function returns true if and only if there exists an element in its
+first argument that satisfies the predicated provided as its second
+argument.  ")
+
+#declnamesynop("list0_forall")
+#decldescript("\
+
+This function returns true if and only if every element in its first
+argument satisfies the predicated provided as its second argument.  ")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_filter")
+#decldescript("\
+
+This function returns a list consisting of the sequence of elements in its
+first argument that satisfy the predicate provided as its second argument.
+
+Following is a standard implementation of this function:
+
+#pats2xhtmld("
+implement{a}
+list0_filter (xs, p) = let
+in
+//
+case+ xs of
+| list0_cons (x, xs) =>
+    if p (x) then
+      list0_cons (x, list0_filter<a> (xs, p))
+    else
+      list0_filter<a> (xs, p)
+    // end of [if]
+| list0_nil () => list0_nil ()
+//
+end // end of [list0_filter]
+")
+
+However, the implementation of this function in ATSLIB is tail-recursive.\
+
 ")
 
 (* ****** ****** *)
@@ -149,81 +230,6 @@ case+ xs1 of
 | list0_nil () => list0_nil ()
 //
 end // end of [list0_map2]
-")
-
-However, the implementation of this function in ATSLIB is tail-recursive.\
-
-")
-
-(* ****** ****** *)
-
-#declnamesynop("list0_foreach")
-#decldescript("\
-
-This function applies its second argument to each element in its first
-argument.  ")
-
-#declnamesynop("list0_iforeach")
-#decldescript("\
-
-This function applies its second argument f to (i, x), where i ranges from
-0 to the length of xs minus 1 and x is element i in xs.
-
-")
-
-(* ****** ****** *)
-
-#declnamesynop("list0_exists")
-#decldescript("\
-
-This function returns true if and only if there exists an element in its
-first argument that satisfies the predicated provided as its second
-argument.  ")
-
-#declnamesynop("list0_forall")
-#decldescript("\
-
-This function returns true if and only if every element in its first
-argument satisfies the predicated provided as its second argument.  ")
-
-(* ****** ****** *)
-
-#declnamesynop("list0_find_exn")
-#decldescript("\
-This functions returns the first element in its first argument that
-satisfies the predicate given as its second argument. In case that such
-an element does not exist, the function raises an exception (NotFoundExn).
-")
-#declnamesynop("list0_find_opt")
-#decldescript("\
-This function is the optional version of #dyncode("list0_find_exn").
-")
-
-(* ****** ****** *)
-
-#declnamesynop("list0_filter")
-#decldescript("\
-
-This function returns a list consisting of the sequence of elements in its
-first argument that satisfy the predicate provided as its second argument.
-
-Following is a standard implementation of this function:
-
-#pats2xhtmld("
-implement{a}
-list0_filter (xs, p) = let
-in
-//
-case+ xs of
-| list0_cons (x, xs) =>
-    if p (x) then
-      list0_cons (x, list0_filter<a> (xs, p))
-    else
-      list0_filter<a> (xs, p)
-    // end of [if]
-| list0_nil () => list0_nil ()
-//
-end // end of [list0_filter]
 ")
 
 However, the implementation of this function in ATSLIB is tail-recursive.\
