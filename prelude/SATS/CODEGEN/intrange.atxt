@@ -1,0 +1,55 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"intrange.sats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+\
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/intrange.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("June, 2012")
+
+#atscode_separator()
+
+fun{env:vt0p}
+intrange_foreach__cont (i: int, env: &env >> env): bool
+fun{env:vt0p}
+intrange_foreach__fwork (i: int, env: &env >> env): void
+
+fun{}
+intrange_foreach (l: int, r: int): int
+fun{env:vt0p}
+intrange_foreach_env (l: int, r: int, env: &INV(env) >> env): int
+
+#atscode_separator()
+
+fun{env:vt0p}
+intrange_rforeach__cont (i: int, env: &env >> env): bool
+fun{env:vt0p}
+intrange_rforeach__fwork (i: int, env: &env >> env): void
+
+fun{}
+intrange_rforeach (l: int, r: int): int
+fun{env:vt0p}
+intrange_rforeach_env (l: int, r: int, env: &INV(env) >> env): int
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "intrange_atxt.txt")
+%}\

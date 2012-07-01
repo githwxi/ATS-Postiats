@@ -44,6 +44,7 @@ prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/filebas_prf.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/filebas.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/float.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/integer.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/intrange.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/memory.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/pointer.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/reference.dats

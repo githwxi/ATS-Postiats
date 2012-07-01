@@ -340,51 +340,37 @@ in // in of [local]
 
 implement{a}
 funralist_foreach (xs) = let
+  var env: void = () in funralist_foreach_env (xs, env)
+end // end of [funralist_foreach]
+
+implement{a}{env}
+funralist_foreach_env
+  (xs, env) = let
 //
-  prval () = lemma_ralist_param (xs)
+prval () = lemma_ralist_param (xs)
 //
-  typedef node = node (a, 0)
-  val f = lam
-    (x: node): void =<cloref> let
-    val+ N1 (x) = x in $effmask_all (funralist_foreach__fwork<a> (x))
-  end // end of [val]
-  val () = foreach (xs, f)
-  prval () = __free ($UN.cast2ptr(f))  
+typedef node = node (a, 0)
+//
+val p_env = addr@ (env)
+//
+val f = lam
+  (x: node): void =<cloref> let
+  val+ N1 (x) = x
+  prval (pf, fpf) = $UN.ptr_vget {env} (p_env)
+  val () = $effmask_all (funralist_foreach__fwork<a> (x, !p_env))
+  prval () = fpf (pf)
+in
+  // nothing
+end // end of [val]
+//
+val () = foreach (xs, f)
+prval () = __free ($UN.cast2ptr(f))  
+//
 in
   // nothing
 end // end of [funralist_foreach]
 
 end // end of [local]
-
-(* ****** ****** *)
-
-(*
-//
-fun{a:t0p}
-funralist_iforeach__fwork (i: size_t, x: a): void
-fun{a:t0p}
-funralist_iforeach (xs: ralist (a)): void
-//
-// HX-2012-05:
-// this one seems much more involved in terms of compilation
-//
-implement{a}
-funralist_iforeach
-  {n} (xs) = let
-//
-implement
-iforeach__fwork<a>
-  (i, x) = funralist_iforeach__fwork (i, x)
-//
-implement
-funralist_foreach__fwork<a> (x) = foreach__fwork<a> (x)
-implemnet(a)
-foreach<ralist(a,n)><a> (xs) = funralist_foreach<a> (xs)
-//
-in
-  iforeach<ralist(a,n)><a> (xs)
-end // end of [funralist_iforeach]
-*)
 
 (* ****** ****** *)
 

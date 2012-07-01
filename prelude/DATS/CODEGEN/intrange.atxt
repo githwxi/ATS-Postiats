@@ -1,0 +1,92 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"intrange.dats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/intrange.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("June, 2012")
+
+#atscode_separator()
+
+implement{env}
+intrange_foreach__cont (l, env) = true
+
+implement{}
+intrange_foreach (l, r) = let
+  var env: void = () in intrange_foreach_env<void> (l, r, env)
+end // end of [intrange_foreach]
+
+implement{env}
+intrange_foreach_env
+  (l, r, env) = let
+//
+fun loop (
+  l: int, r: int, env: &env
+) : int = (
+  if l < r then let
+    val cont = intrange_foreach__cont (l, env)
+  in
+    if cont then let
+      val () = intrange_foreach__fwork (l, env) in loop (succ(l), r, env)
+    end else l // end of [if]
+  end else l // end of [if]
+) // end of [loop]
+//
+in
+  loop (l, r, env)
+end // end of [intrange_foreach_env]
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+implement{env}
+intrange_rforeach__cont (r, env) = true
+
+implement{}
+intrange_rforeach (l, r) = let
+  var env: void = () in intrange_rforeach_env<void> (l, r, env)
+end // end of [intrange_rforeach]
+
+implement{env}
+intrange_rforeach_env
+  (l, r, env) = let
+//
+fun loop (
+  l: int, r: int, env: &env
+) : int = (
+  if l < r then let
+    val r1 = pred (r)
+    val cont = intrange_rforeach__cont (r1, env)
+  in
+    if cont then let
+      val () = intrange_rforeach__fwork (r1, env) in loop (l, r1, env)
+    end else r // end of [if]
+  end else r // end of [if]
+) // end of [loop]
+//
+in
+  loop (l, r, env)
+end // end of [intrange_rforeach_env]
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "intrange_atxt.txt")
+%}\

@@ -1,0 +1,65 @@
+#decltitle("\
+ATSLIB/prelude/intrange\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("intrange_foreach__cont")
+#decldescript('\
+
+The default implementation of this function always returns true.  ')
+
+#declnamesynop("intrange_foreach__fwork")
+
+#declnamesynop("intrange_foreach")
+#decldescript('\
+
+Given two integers l and r, this function enumerates the integers between l
+and r-1, inclusively, and then applies to each enumerated integer the
+function implemented by #dyncode("intrange_foreach__fwork"). The
+enumeration process stops if the function implemented by
+#dyncode("intrange_foreach__cont") returns false, and the return integer
+value of #dyncode("intrange_foreach") indicates the point of the stoppage. ')
+
+#declnamesynop("intrange_foreach_env")
+#decldescript('\
+
+This function does essentially the same as #dyncode("intrange_foreach")
+except for taking an additional argument that serves as an environment.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("intrange_rforeach__cont")
+#decldescript('\
+
+The default implementation of this function always returns true.  ')
+
+#declnamesynop("intrange_rforeach__fwork")
+
+#declnamesynop("intrange_rforeach")
+#decldescript('\
+
+Given two integers l and r, this function enumerates in the reverse order
+the integers between l and r-1, inclusively, and then applies to each
+enumerated integer the function implemented by
+#dyncode("intrange_rforeach__fwork"). The enumeration process stops if the
+function implemented by #dyncode("intrange_rforeach__cont") returns false,
+and the return integer value of #dyncode("intrange_rforeach") indicates the
+point of the stoppage. ')
+
+#declnamesynop("intrange_rforeach_env")
+#decldescript('\
+
+This function does essentially the same as #dyncode("intrange_rforeach")
+except for taking an additional argument that serves as an environment.  ')
+
+(* ****** ****** *)
+
+(* end of [bool.atxt] *)

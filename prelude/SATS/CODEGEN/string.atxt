@@ -64,6 +64,21 @@ fun{} string_isnot_empty (x: string):<> bool
 #atscode_separator()
 
 fun{tk:tk}
+string_is_atend_int
+  {n:int}{i:nat | i <= n}
+  (s: NSH(string n), i: g1int (tk, i)):<> bool (i==n)
+fun{tk:tk}
+string_is_atend_uint
+  {n:int}{i:int | i <= n}
+  (s: NSH(string n), i: g1uint (tk, i)):<> bool (i==n)
+
+symintr string_is_atend
+overload string_is_atend with string_is_atend_int
+overload string_is_atend with string_is_atend_uint
+
+(* ****** ****** *)
+
+fun{tk:tk}
 string_get_at_int
   {n:int}{i:nat | i < n}
   (s: NSH(string n), i: g1int (tk, i)):<> charNZ
@@ -77,21 +92,6 @@ overload [] with string_get_at_uint
 symintr string_get_at
 overload string_get_at with string_get_at_int
 overload string_get_at with string_get_at_uint
-
-(* ****** ****** *)
-
-fun{tk:tk}
-string_is_atend_int
-  {n:int}{i:nat | i <= n}
-  (s: NSH(string n), i: g1int (tk, i)):<> bool (i==n)
-fun{tk:tk}
-string_is_atend_uint
-  {n:int}{i:int | i <= n}
-  (s: NSH(string n), i: g1uint (tk, i)):<> bool (i==n)
-
-symintr string_is_atend
-overload string_is_atend with string_is_atend_int
-overload string_is_atend with string_is_atend_uint
 
 (* ****** ****** *)
 

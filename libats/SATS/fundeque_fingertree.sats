@@ -65,7 +65,7 @@ typedef deque (a:t@ype) = [n:int] deque (a, n)
 
 (* ****** ****** *)
 
-sortdef t0p = t@ype
+sortdef t0p = t@ype and vt0p = viewt@ype
 
 (* ****** ****** *)
 
@@ -121,15 +121,21 @@ fun fundeque_append
 
 (* ****** ****** *)
 
-fun{a:t0p}
-fundeque_foreach__fwork (x: a): void
+fun{a:t0p}{env:vt0p}
+fundeque_foreach__fwork (x: a, env: &env): void
 fun{a:t0p}
 fundeque_foreach (xs: deque (a)): void
+fun{a:t0p}{env:vt0p}
+fundeque_foreach_env (xs: deque (a), env: &INV(env)>>env): void
 
-fun{a:t0p}
-fundeque_rforeach__fwork (x: a): void
+(* ****** ****** *)
+
+fun{a:t0p}{env:vt0p}
+fundeque_rforeach__fwork (x: a, env: &env): void
 fun{a:t0p}
 fundeque_rforeach (xs: deque (a)): void
+fun{a:t0p}{env:vt0p}
+fundeque_rforeach_env (xs: deque (a), env: &INV(env)>>env): void
 
 (* ****** ****** *)
 

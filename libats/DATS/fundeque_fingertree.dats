@@ -942,19 +942,35 @@ in // in of [local]
 
 implement{a}
 fundeque_foreach (xs) = let
+  var env: void = () in fundeque_foreach_env (xs, env)
+end // end of [fundeque_foreach]
+
+implement{a}{env}
+fundeque_foreach_env
+  (xs, env) = let
 //
-  prval () = fingertree_prop1_sznat (xs)
+prval () = fingertree_prop1_sznat (xs)
 //
-  typedef ftnode = ftnode (a, 0)
-  val f = lam
-    (xn: ftnode): void =<cloref> let
-    val+ FTN1 (x) = xn in $effmask_all (fundeque_foreach__fwork<a> (x))
-  end // end of [val]
-  val () = foreach (xs, f)
-  prval () = __free ($UN.cast2ptr(f))  
+typedef ftnode = ftnode (a, 0)
+//
+val p_env = addr@ (env)
+//
+val f = lam
+  (xn: ftnode): void =<cloref> let
+  val+ FTN1 (x) = xn
+  prval (pf, fpf) = $UN.ptr_vget {env} (p_env)
+  val () = $effmask_all (fundeque_foreach__fwork<a> (x, !p_env))
+  prval () = fpf (pf)
 in
   // nothing
-end // end of [fundeque_foreach]
+end // end of [val]
+//
+val () = foreach (xs, f)
+prval () = __free ($UN.cast2ptr(f))  
+//
+in
+  // nothing
+end // end of [fundeque_foreach_env]
 
 end // end of [local]
 
@@ -1021,19 +1037,35 @@ in // in of [local]
 
 implement{a}
 fundeque_rforeach (xs) = let
+  var env: void = () in fundeque_rforeach_env (xs, env)
+end // end of [fundeque_rforeach]
+
+implement{a}{env}
+fundeque_rforeach_env
+  (xs, env) = let
 //
-  prval () = fingertree_prop1_sznat (xs)
+prval () = fingertree_prop1_sznat (xs)
 //
-  typedef ftnode = ftnode (a, 0)
-  val f = lam
-    (xn: ftnode): void =<cloref> let
-    val+ FTN1 (x) = xn in $effmask_all (fundeque_rforeach__fwork<a> (x))
-  end // end of [val]
-  val () = rforeach (xs, f)
-  prval () = __free ($UN.cast2ptr(f))  
+typedef ftnode = ftnode (a, 0)
+//
+val p_env = addr@ (env)
+//
+val f = lam
+  (xn: ftnode): void =<cloref> let
+  val+ FTN1 (x) = xn
+  prval (pf, fpf) = $UN.ptr_vget {env} (p_env)
+  val () = $effmask_all (fundeque_rforeach__fwork<a> (x, !p_env))
+  prval () = fpf (pf)
 in
   // nothing
-end // end of [fundeque_rforeach]
+end // end of [val]
+//
+val () = rforeach (xs, f)
+prval () = __free ($UN.cast2ptr(f))  
+//
+in
+  // nothing
+end // end of [fundeque_rforeach_env]
 
 end // end of [local]
 

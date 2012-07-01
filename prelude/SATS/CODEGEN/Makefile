@@ -66,6 +66,15 @@ integer_atxt.dats: integer.atxt
 clean:: ; $(RMF) integer_atxt.exe
 cleanall:: ; $(RMF) integer.sats
 
+all:: intrange.sats
+intrange.sats: intrange_atxt.exe ; ./$< > $@
+intrange_atxt.exe: intrange_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ intrange_atxt.dats -latsdoc
+intrange_atxt.dats: intrange.atxt
+	$(ATSDOC) --outcode $@ -i intrange.atxt > intrange_atxt.txt
+clean:: ; $(RMF) intrange_atxt.exe
+cleanall:: ; $(RMF) intrange.sats
+
 all:: pointer.sats
 pointer.sats: pointer_atxt.exe ; ./$< > $@
 pointer_atxt.exe: pointer_atxt.dats
@@ -141,6 +150,44 @@ clean:: ; $(RMF) lazy_vt_atxt.exe
 cleanall:: ; $(RMF) lazy_vt.sats
 
 
+all:: list.sats
+list.sats: list_atxt.exe ; ./$< > $@
+list_atxt.exe: list_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ list_atxt.dats -latsdoc
+list_atxt.dats: list.atxt
+	$(ATSDOC) --outcode $@ -i list.atxt > list_atxt.txt
+clean:: ; $(RMF) list_atxt.exe
+cleanall:: ; $(RMF) list.sats
+
+all:: list_vt.sats
+list_vt.sats: list_vt_atxt.exe ; ./$< > $@
+list_vt_atxt.exe: list_vt_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ list_vt_atxt.dats -latsdoc
+list_vt_atxt.dats: list_vt.atxt
+	$(ATSDOC) --outcode $@ -i list_vt.atxt > list_vt_atxt.txt
+clean:: ; $(RMF) list_vt_atxt.exe
+cleanall:: ; $(RMF) list_vt.sats
+
+
+all:: option.sats
+option.sats: option_atxt.exe ; ./$< > $@
+option_atxt.exe: option_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ option_atxt.dats -latsdoc
+option_atxt.dats: option.atxt
+	$(ATSDOC) --outcode $@ -i option.atxt > option_atxt.txt
+clean:: ; $(RMF) option_atxt.exe
+cleanall:: ; $(RMF) option.sats
+
+all:: option_vt.sats
+option_vt.sats: option_vt_atxt.exe ; ./$< > $@
+option_vt_atxt.exe: option_vt_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ option_vt_atxt.dats -latsdoc
+option_vt_atxt.dats: option_vt.atxt
+	$(ATSDOC) --outcode $@ -i option_vt.atxt > option_vt_atxt.txt
+clean:: ; $(RMF) option_vt_atxt.exe
+cleanall:: ; $(RMF) option_vt.sats
+
+
 all:: array.sats
 array.sats: array_atxt.exe ; ./$< > $@
 array_atxt.exe: array_atxt.dats
@@ -187,44 +234,6 @@ parrnull_atxt.dats: parrnull.atxt
 	$(ATSDOC) --outcode $@ -i parrnull.atxt > parrnull_atxt.txt
 clean:: ; $(RMF) parrnull_atxt.exe
 cleanall:: ; $(RMF) parrnull.sats
-
-
-all:: list.sats
-list.sats: list_atxt.exe ; ./$< > $@
-list_atxt.exe: list_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ list_atxt.dats -latsdoc
-list_atxt.dats: list.atxt
-	$(ATSDOC) --outcode $@ -i list.atxt > list_atxt.txt
-clean:: ; $(RMF) list_atxt.exe
-cleanall:: ; $(RMF) list.sats
-
-all:: list_vt.sats
-list_vt.sats: list_vt_atxt.exe ; ./$< > $@
-list_vt_atxt.exe: list_vt_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ list_vt_atxt.dats -latsdoc
-list_vt_atxt.dats: list_vt.atxt
-	$(ATSDOC) --outcode $@ -i list_vt.atxt > list_vt_atxt.txt
-clean:: ; $(RMF) list_vt_atxt.exe
-cleanall:: ; $(RMF) list_vt.sats
-
-
-all:: option.sats
-option.sats: option_atxt.exe ; ./$< > $@
-option_atxt.exe: option_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ option_atxt.dats -latsdoc
-option_atxt.dats: option.atxt
-	$(ATSDOC) --outcode $@ -i option.atxt > option_atxt.txt
-clean:: ; $(RMF) option_atxt.exe
-cleanall:: ; $(RMF) option.sats
-
-all:: option_vt.sats
-option_vt.sats: option_vt_atxt.exe ; ./$< > $@
-option_vt_atxt.exe: option_vt_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ option_vt_atxt.dats -latsdoc
-option_vt_atxt.dats: option_vt.atxt
-	$(ATSDOC) --outcode $@ -i option_vt.atxt > option_vt_atxt.txt
-clean:: ; $(RMF) option_vt_atxt.exe
-cleanall:: ; $(RMF) option_vt.sats
 
 
 all:: iterator.sats

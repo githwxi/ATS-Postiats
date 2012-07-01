@@ -103,6 +103,7 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
 #make_entry("char")
 #make_entry("float")
 #make_entry("integer")
+#make_entry("intrange")
 #make_entry("pointer")
 #make_entry("reference")
 #make_entry("string")

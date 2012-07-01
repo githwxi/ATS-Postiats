@@ -450,6 +450,7 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/SATS/char.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/float.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/integer.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/intrange.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/memory.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/pointer.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/string.sats")

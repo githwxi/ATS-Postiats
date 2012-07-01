@@ -38,47 +38,59 @@ This funtion returns true if and only if its string argument is non-empty.
 
 (* ****** ****** *)
 
-#declnamesynop("string_get_at_uint")
+#declnamesynop("string_is_atend")
+
+(* ****** ****** *)
+
+#declnamesynop("string_is_atend_int")
+#decldescript('\
+
+Given a string of length n and an index i &lt;= n, this function returns true
+if and only if i equals n.  ')
+
+#declnamesynop("string_is_atend_uint")
+#decldescript('\
+
+This function does the same as #dyncode("string_is_atend_int") except for
+taking an unsigned integer as the string index.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("string_get_at")
+
+(* ****** ****** *)
+
+#declnamesynop("string_get_at_int")
 #decldescript('\
 
 Given a string of length n and an index i &lt; n, this function returns the
 char stored in cell i of the string.  Note that the returned character is
 non-null. ')
 
-%{
-(*
-#declnamesynop("string_get_at_int")
+#declnamesynop("string_get_at_uint")
 #decldescript('\
-This function does the same as #dyncode("string_get_at_uint") except for
-taking a signed integer as the string index.  ')
-*)
-%}
+
+This function does the same as #dyncode("string_get_at_int") except for
+taking an unsigned signed integer as the string index.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("string_is_atend_uint")
-#decldescript('\
-
-Given a string of length n and an index i &lt;= n, this function returns true
-if and only if i equals n.  ')
-
-%{
-(*
-#declnamesynop("string_is_atend_int")
-#decldescript('\
-This function does the same as #dyncode("string_is_atend_uint") except for
-taking a signed integer as the string index.  ')
-*)
-%}
+#declnamesynop("string_test_at")
 
 (* ****** ****** *)
 
-#declnamesynop("string_test_at_uint")
+#declnamesynop("string_test_at_int")
 #decldescript('\
 
 Given a string of length n and an index i &lt;= n, this function returns a
 char c paired with a proof stating that i &lt; n holds if and only if c is
 non-null. ')
+
+#declnamesynop("string_test_at_uint")
+#decldescript('\
+
+This function does the same as #dyncode("string_test_at_int") except for
+taking an unsigned integer as the string index.  ')
 
 #declexample('\
 
@@ -112,15 +124,6 @@ in
 end // end of [string1_length]
 ')
 ')
-
-%{
-(*
-#declnamesynop("string_test_at_int")
-#decldescript('\
-This function does the same as #dyncode("string_test_at_uint") except for
-taking a signed integer as the string index.  ')
-*)
-%}
 
 (* ****** ****** *)
 

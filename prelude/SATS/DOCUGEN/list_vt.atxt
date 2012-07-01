@@ -129,6 +129,10 @@ the memory occupied by the list.
 #declnamesynop("list_vt_clear__fwork")
 #declnamesynop("list_vt_clear")
 #declnamesynop("list_vt_cfree")
+#decldescript('\
+
+This function is a combination of #dyncode("list_vt_clear") and
+#dyncode("list_vt_free").  ')
 
 #declnamesynop("list_vt_clear_fun")
 #decldescript('\

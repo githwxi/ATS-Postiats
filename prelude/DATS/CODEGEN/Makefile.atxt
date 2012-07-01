@@ -63,6 +63,7 @@ all::
 #make_entry("filebas")
 #make_entry("filebas_prf")
 #make_entry("integer")
+#make_entry("intrange")
 #make_entry("memory")
 #make_entry("pointer")
 #make_entry("reference")
@@ -70,6 +71,11 @@ all::
 #make_entry("strptr")
 
 #make_entry("basics")
+
+#make_entry("list")
+#make_entry("list_vt")
+#make_entry("option")
+#make_entry("option_vt")
 
 #make_entry("array")
 #make_entry("array_prf")
@@ -79,11 +85,6 @@ all::
 for pointer arrays terminated with the null pointer
 ")
 #make_entry("parrnull")
-
-#make_entry("list")
-#make_entry("list_vt")
-#make_entry("option")
-#make_entry("option_vt")
 
 #make_entry("unsafe")
 

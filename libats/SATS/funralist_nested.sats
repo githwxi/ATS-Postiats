@@ -46,7 +46,7 @@ typedef ralist (a:t@ype) = [n:int] ralist (a, n)
 //
 (* ****** ****** *)
 
-sortdef t0p = t@ype
+sortdef t0p = t@ype and vt0p = viewt@ype
 
 (* ****** ****** *)
 
@@ -101,10 +101,13 @@ funralist_update
 
 (* ****** ****** *)
 
-fun{a:t0p}
-funralist_foreach__fwork (x: a): void
+fun{a:t0p}{env:vt0p}
+funralist_foreach__fwork (x: a, env: &env): void
+
 fun{a:t0p}
 funralist_foreach (xs: ralist (a)): void
+fun{a:t0p}{env:vt0p}
+funralist_foreach_env (xs: ralist (a), env: &INV(env)>>env): void
 
 (* ****** ****** *)
 

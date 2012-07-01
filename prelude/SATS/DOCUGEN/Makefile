@@ -90,6 +90,13 @@ integer_atxt.exe: htmlgendecl_atxt.dats   integer_atxt.txt $(DECLATEXT) $(HTMLGE
 clean:: ; $(RMF) integer_atxt.exe
 cleanall:: ; $(RMF) HTML/integer.html
 
+all:: HTML/intrange.html
+HTML/intrange.html:   intrange_atxt.exe ; $(CAT) ../intrange.sats | ./$< > $@
+intrange_atxt.txt: intrange.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+intrange_atxt.exe: htmlgendecl_atxt.dats   intrange_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) intrange_atxt.exe
+cleanall:: ; $(RMF) HTML/intrange.html
+
 all:: HTML/pointer.html
 HTML/pointer.html:   pointer_atxt.exe ; $(CAT) ../pointer.sats | ./$< > $@
 pointer_atxt.txt: pointer.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
