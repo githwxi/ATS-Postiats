@@ -152,6 +152,7 @@ case+ x of
 | DITMsynop2 (synop) => aux_synop2 (synop)
 //
 | DITMdescrpt (cntnt) => aux_descrpt (cntnt)
+//
 | DITMexample (cntnt) => aux_example (cntnt)
 //
 end // end of [aux]
