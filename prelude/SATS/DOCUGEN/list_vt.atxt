@@ -29,8 +29,8 @@ versa.  ')
 (* ****** ****** *)
 
 #declname("list_vt")
-#declsynopsis2('\
-
+#declsynop2('\
+#para('\
 The full name for the list-type constructor #stacode("list_vt") is
 #stacode("list_viewt0ype_int_viewtype"), which is given to the
 linear datatype (dataviewtype) declared as follows:
@@ -43,9 +43,8 @@ list_viewt0ype_int_viewtype (a:viewt@ype+, int) =
 // end of [list_viewt0ype_int_viewtype]
 // end of [dataviewtype]
 ')\
-
-')
-#decldescript('\
+')')
+#decldescrpt('\
 
 There are two data constructors #dyncode("list_vt_nil") and
 #dyncode("list_vt_cons") associated with #stacode("list_vt"); the former
@@ -59,15 +58,17 @@ respectively.\
 (* ****** ****** *)
 
 #declname("List_vt")
-#declsynopsis2('\
+#declsynop2('\
+#para('\
 #pats2xhtmls('\
 typedef List_vt (a:viewt@ype) = [n:nat] list_vt (a, n)\
 ')')
+')
 
 (* ****** ****** *)
 
 #declnamesynop("lemma_list_vt_param")
-#decldescript('\
+#decldescrpt('\
 This proof function establishes that the integer n in any linear list type
 #stacode("list_vt(T, n)") is a natural number, where T can be a linear type.
 ')
@@ -75,22 +76,22 @@ This proof function establishes that the integer n in any linear list type
 (* ****** ****** *)
 
 #declnamesynop("list_vt_is_nil")
-#decldescript('\
+#decldescrpt('\
 This function returns true if and only if its argument is a linear list of
 length 0.
 ')
 #declnamesynop("list_vt_is_cons")
-#decldescript('\
+#decldescrpt('\
 This function returns true if and only if its argument is a linear list of
 some positive length.
 ')
 #declnamesynop("list_vt_is_sing")
-#decldescript('\
+#decldescrpt('\
 This function returns true if and only if its argument is a linear list of
 length 1, that is, a singleton linear list.
 ')
 #declnamesynop("list_vt_is_pair")
-#decldescript('\
+#decldescrpt('\
 This function returns true if and only if its argument is a linear list of
 length 2.
 ')
@@ -98,14 +99,14 @@ length 2.
 (* ****** ****** *)
 
 #declnamesynop("list_vt_length")
-#decldescript('\
+#decldescrpt('\
 This function returns the length of a given linear list.
 ')
 
 (* ****** ****** *)
 
 #declnamesynop("list_vt_make_array")
-#decldescript('\
+#decldescrpt('\
 
 Given an array of size n, this function returns a linear list of length n
 such that element i in the list is the element stored in cell i of the
@@ -116,12 +117,12 @@ array, where i ranges from 0 until n-1, inclusively.
 (* ****** ****** *)
 
 #declnamesynop("list_vt_free")
-#decldescript('\
+#decldescrpt('\
 This function frees the memory occupied by a given linear list.
 ')
 
 #declnamesynop("list_vt_free_fun")
-#decldescript('\
+#decldescrpt('\
 This function frees the elements in a given linear list as well as
 the memory occupied by the list.
 ')
@@ -129,13 +130,13 @@ the memory occupied by the list.
 #declnamesynop("list_vt_clear__fwork")
 #declnamesynop("list_vt_clear")
 #declnamesynop("list_vt_cfree")
-#decldescript('\
+#decldescrpt('\
 
 This function is a combination of #dyncode("list_vt_clear") and
 #dyncode("list_vt_free").  ')
 
 #declnamesynop("list_vt_clear_fun")
-#decldescript('\
+#decldescrpt('\
 This function frees the elements in a given linear list (but keeps
 the list itself).
 ')
@@ -143,7 +144,7 @@ the list itself).
 (* ****** ****** *)
 
 #declnamesynop("list_vt_append")
-#decldescript('\
+#decldescrpt('\
 
 This functions appends its first list argument to its second list argument.
 Note that the two list arguments are consumed in the construction of the
@@ -169,7 +170,7 @@ There is no memory allocation/deallocation involved.
 
 #declnamesynop("list_vt_split__pred")
 #declnamesynop("list_vt_split")
-#decldescript('\
+#decldescrpt('\
 
 This function splits a given linear list xs into two according to the
 predicate implemented by #dyncode("list_vt_split__pred"): the elements
@@ -232,7 +233,7 @@ the input as linear elements cannot be ignored or duplicated.
 #declnamesynop("list_vt_foreach__fwork")
 
 #declnamesynop("list_vt_foreach")
-#decldescript('\
+#decldescrpt('\
 
 This function applies to each element (treated as a left-value) in its
 argument the function implemented by #dyncode("list_vt_foreach__fwork").
@@ -244,7 +245,7 @@ argument the function implemented by #dyncode("list_vt_foreach__fwork").
 #declnamesynop("list_vt_iforeach__fwork")
 
 #declnamesynop("list_vt_iforeach")
-#decldescript("\
+#decldescrpt("\
 
 Given a linear list xs, this function applies to (i, xs[i]) the function
 implemented by #dyncode("list_vt_iforeach__fwork"), where i ranges from 0
@@ -271,7 +272,7 @@ left-value, refers to element i in xs.
 #declnamesynop("list_vt_mergesort__cmp")
 
 #declnamesynop("list_vt_mergesort")
-#decldescript('\
+#decldescrpt('\
 
 Mergesort is of time-complexity O(n(log(n))), and it is a stable sorting
 algorithm.  This function mergesorts its list argument according to the
@@ -317,7 +318,7 @@ end // end of [main]
 ')
 
 #declnamesynop("list_vt_mergesort_fun")
-#decldescript('\
+#decldescrpt('\
 This function does essentially the same as #dyncode("list_vt_mergesort")
 except for allowing the comparison function to be provided as an argument.
 ')
@@ -327,7 +328,7 @@ except for allowing the comparison function to be provided as an argument.
 #declnamesynop("list_vt_quicksort__cmp")
 
 #declnamesynop("list_vt_quicksort")
-#decldescript('\
+#decldescrpt('\
 
 Quicksort is of time-complexity O(n(log(n))) on average (but can be O(n^2)
 in the worse case), and it is not a stable sorting algorithm.  This
@@ -374,7 +375,7 @@ end // end of [main]
 ')
 
 #declnamesynop("list_vt_quicksort_fun")
-#decldescript('\
+#decldescrpt('\
 This function does essentially the same as #dyncode("list_vt_quicksort")
 except for allowing the comparison function to be provided as an argument.
 ')

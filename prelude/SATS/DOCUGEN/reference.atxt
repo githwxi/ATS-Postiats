@@ -8,16 +8,16 @@ ATSLIB/prelude/reference\
 #para("\
 A reference is just a persistent array of size 1. It is persistent in the
 sense that the memory associated with a reference is heap-allocated and
-can only be reclaimed by GC. While it is allowed to store inear values
-in references, doing so demands caution as resources contained in such
-values may be inadvertently leaked.
+can only be reclaimed by GC. While it is allowed to store linear values
+in references, doing so demands caution as resources contained in
+references may be inadvertently leaked.
 ")
 ')#comment("declpreamble")
 
 (* ****** ****** *)
 
 #declnamesynop("ref_get_ptr")
-#decldescript('\
+#decldescrpt('\
 This cast function (castfn) returns the pointer associated with a given
 reference. Note that the returned pointer is guranteed to be non-null.
 ')
@@ -25,7 +25,7 @@ reference. Note that the returned pointer is guranteed to be non-null.
 (* ****** ****** *)
 
 #declnamesynop("ref_get_viewptr")
-#decldescript('\
+#decldescrpt('\
 This cast function (castfn) returns the boxed at-view and pointer
 associated with a given reference. If the value stored in a reference is
 linear, then it is not allowed for the value be taken out from the
@@ -54,18 +54,18 @@ Note that the type for the contents of r and x can be linear.
 (* ****** ****** *)
 
 #declnamesynop("ref")
-#decldescript('\
+#decldescrpt('\
 This function creates a reference initialized with its given argument.
 ')
 #declnamesynop("ref_make_elt")
-#decldescript('\
+#decldescrpt('\
 This function does the same as #dyncode("ref").
 ')
 
 (* ****** ****** *)
 
 #declnamesynop("ref_make_viewptr")
-#decldescript('\
+#decldescrpt('\
 This cast function (castfn) turns a pointer with a proof of at-view into a
 reference.
 ')
@@ -106,7 +106,7 @@ implementing low-level embedded systems.
 (* ****** ****** *)
 
 #declnamesynop("ref_get_elt")
-#decldescript('\
+#decldescrpt('\
 This function returns the value stored in a given reference.
 Note that the type of the value is nonlinear.
 ')
@@ -114,7 +114,7 @@ Note that the type of the value is nonlinear.
 (* ****** ****** *)
 
 #declnamesynop("ref_set_elt")
-#decldescript('\
+#decldescrpt('\
 
 This function stores a value (the second argument) into a given reference
 (the first argument).  Note that the type of the value is nonlinear.
@@ -124,7 +124,7 @@ This function stores a value (the second argument) into a given reference
 (* ****** ****** *)
 
 #declnamesynop("ref_exch_elt")
-#decldescript('\
+#decldescrpt('\
 
 This function exchanges the value in a given reference (the first argument)
 with the value in a variable ( the second argument).  Note that the type of

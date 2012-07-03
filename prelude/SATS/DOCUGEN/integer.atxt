@@ -6,18 +6,22 @@ ATSLIB/prelude/integer\
 
 #declpreamble('\
 
+#para("\
+This package contains common functions on signed and unsigned integers of
+various finite precision.
+")
 
 ')#comment("declpreamble")
 
 (* ****** ****** *)
 
 #declnamesynop("g0int_lt")
-#decldescript('\
+#decldescrpt('\
 This function returns true if and only if its first argument is
 less than its second argument. It is for signed integers.
 ')
 #declnamesynop("g0int_lte")
-#decldescript('\
+#decldescrpt('\
 This function returns true if and only if its first argument is
 less than or equal to its second argument. It is for signed integers.
 ')
@@ -25,12 +29,12 @@ less than or equal to its second argument. It is for signed integers.
 (* ****** ****** *)
 
 #declnamesynop("g0int_gt")
-#decldescript('\
+#decldescrpt('\
 This function returns true if and only if its first argument is
 greater than its second argument. It is for signed integers.
 ')
 #declnamesynop("g0int_gte")
-#decldescript('\
+#decldescrpt('\
 This function returns true if and only if its first argument is
 greater than or equal to its second argument. It is for signed integers.
 ')
@@ -38,12 +42,12 @@ greater than or equal to its second argument. It is for signed integers.
 (* ****** ****** *)
 
 #declnamesynop("g0int_eq")
-#decldescript('\
+#decldescrpt('\
 This function returns true if and only if its first argument is
 equal to its second argument. It is for signed integers.
 ')
 #declnamesynop("g0int_neq")
-#decldescript('\
+#decldescrpt('\
 This function returns true if and only if its first argument is
 unequal to its second argument. It is for signed integers.
 ')
@@ -51,12 +55,12 @@ unequal to its second argument. It is for signed integers.
 (* ****** ****** *)
 
 #declnamesynop("g0uint_lt")
-#decldescript('\
+#decldescrpt('\
 This function returns true if and only if its first argument is
 less than its second argument. It is for unsigned integers.
 ')
 #declnamesynop("g0uint_lte")
-#decldescript('\
+#decldescrpt('\
 This function returns true if and only if its first argument is
 less than or equal to its second argument. It is for unsigned integers.
 ')
@@ -64,12 +68,12 @@ less than or equal to its second argument. It is for unsigned integers.
 (* ****** ****** *)
 
 #declnamesynop("g0uint_gt")
-#decldescript('\
+#decldescrpt('\
 This function returns true if and only if its first argument is
 greater than its second argument. It is for unsigned integers.
 ')
 #declnamesynop("g0uint_gte")
-#decldescript('\
+#decldescrpt('\
 This function returns true if and only if its first argument is
 greater than or equal to its second argument. It is for unsigned integers.
 ')
@@ -77,12 +81,12 @@ greater than or equal to its second argument. It is for unsigned integers.
 (* ****** ****** *)
 
 #declnamesynop("g0uint_eq")
-#decldescript('\
+#decldescrpt('\
 This function returns true if and only if its first argument is
 equal to its second argument. It is for unsigned integers.
 ')
 #declnamesynop("g0uint_neq")
-#decldescript('\
+#decldescrpt('\
 This function returns true if and only if its first argument is
 unequal to its second argument. It is for unsigned integers.
 ')

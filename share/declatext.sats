@@ -21,10 +21,8 @@ typedef atextlst = $LDOC.atextlst
 datatype
 declitem =
   | DITMname of (string)
-  | DITMsynopsis of ()
-  | DITMsynopsis2 of (string)
-  | DITMnamesynop of (string) // its combines DITMname and DITMsynopsis
-  | DITMdescript of (string)
+  | DITMsynop of () | DITMsynop2 of (string)
+  | DITMdescrpt of (string)
   | DITMexample of (string)
 // end of [declitem]
 
@@ -55,12 +53,15 @@ fun declname (x: string): atext
 //
 // HX: for the current declname
 //
+fun declsynop ((*auto*)): atext
 fun declsynopsis ((*auto*)): atext
+//
+fun declsynop2 (x: string): atext
 fun declsynopsis2 (x: string): atext
 //
 fun declnamesynop (x: string): atext
 //
-fun decldescript (x: string): atext
+fun decldescrpt (x: string): atext
 //
 fun declexample (x: string): atext // HX: optional
 

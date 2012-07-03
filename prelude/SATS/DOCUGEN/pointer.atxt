@@ -6,13 +6,18 @@ ATSLIB/prelude/pointer\
 
 #declpreamble('\
 
+#para("\
+
+This package contains various functions on pointers such as those
+for supporting direct memory access and those for performing pointer
+arithmetic.  ")
 
 ')#comment("declpreamble")
 
 (* ****** ****** *)
 
 #declnamesynop("ptr_get_index")
-#decldescript('\
+#decldescrpt('\
 The purpose of calling this proof function is to introduce a static
 variable that binds to the index of the type assigned to the argument of
 the function.
@@ -28,12 +33,12 @@ prval [l:addr] PTREQ () = ptr_get_index (p)\
 (* ****** ****** *)
 
 #declnamesynop("ptr_is_null")
-#decldescript('\
+#decldescrpt('\
 This function returns true if and only if its argument is the null pointer.
 ')
 
 #declnamesynop("ptr_isnot_null")
-#decldescript('\
+#decldescrpt('\
 This function returns true if and only if its argument is not the null pointer.
 ')
 

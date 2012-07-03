@@ -15,7 +15,7 @@ strings.
 (* ****** ****** *)
 
 #declnamesynop("string_index_p")
-#decldescript('\
+#decldescrpt('\
 
 Given a string str of length n and an index i,
 #stacode("string_index_p(n, i, c)") means that str[i] in the string is
@@ -27,12 +27,12 @@ i equals n.
 (* ****** ****** *)
 
 #declnamesynop("string_is_empty")
-#decldescript('\
+#decldescrpt('\
 This funtion returns true if and only if its string argument is empty.
 ')
 
 #declnamesynop("string_isnot_empty")
-#decldescript('\
+#decldescrpt('\
 This funtion returns true if and only if its string argument is non-empty.
 ')
 
@@ -43,13 +43,13 @@ This funtion returns true if and only if its string argument is non-empty.
 (* ****** ****** *)
 
 #declnamesynop("string_is_atend_int")
-#decldescript('\
+#decldescrpt('\
 
 Given a string of length n and an index i &lt;= n, this function returns true
 if and only if i equals n.  ')
 
 #declnamesynop("string_is_atend_uint")
-#decldescript('\
+#decldescrpt('\
 
 This function does the same as #dyncode("string_is_atend_int") except for
 taking an unsigned integer as the string index.  ')
@@ -61,14 +61,14 @@ taking an unsigned integer as the string index.  ')
 (* ****** ****** *)
 
 #declnamesynop("string_get_at_int")
-#decldescript('\
+#decldescrpt('\
 
 Given a string of length n and an index i &lt; n, this function returns the
 char stored in cell i of the string.  Note that the returned character is
 non-null. ')
 
 #declnamesynop("string_get_at_uint")
-#decldescript('\
+#decldescrpt('\
 
 This function does the same as #dyncode("string_get_at_int") except for
 taking an unsigned signed integer as the string index.  ')
@@ -80,14 +80,14 @@ taking an unsigned signed integer as the string index.  ')
 (* ****** ****** *)
 
 #declnamesynop("string_test_at_int")
-#decldescript('\
+#decldescrpt('\
 
 Given a string of length n and an index i &lt;= n, this function returns a
 char c paired with a proof stating that i &lt; n holds if and only if c is
 non-null. ')
 
 #declnamesynop("string_test_at_uint")
-#decldescript('\
+#decldescrpt('\
 
 This function does the same as #dyncode("string_test_at_int") except for
 taking an unsigned integer as the string index.  ')
@@ -128,14 +128,14 @@ end // end of [string1_length]
 (* ****** ****** *)
 
 #declnamesynop("lt_string_string")
-#decldescript('\
+#decldescrpt('\
 
 This function returns true if and only if its first argument is less than
 its second argument according to the lexicographic ordering on signed
 characters.  ')
 
 #declnamesynop("lte_string_string")
-#decldescript('\
+#decldescrpt('\
 
 This function returns true if and only if its first argument is less than
 or equal to its second argument according to the lexicographic ordering on
@@ -145,7 +145,7 @@ signed characters.  ')
 
 #declnamesynop("gt_string_string")
 
-#decldescript('\
+#decldescrpt('\
 
 This function returns true if and only if its first argument is greater
 than its second argument according to the lexicographic ordering on
@@ -153,7 +153,7 @@ signed characters.  ')
 
 #declnamesynop("gte_string_string")
 
-#decldescript('\
+#decldescrpt('\
 
 This function returns true if and only if its first argument is greater
 than or equal to its second argument according to the lexicographic
@@ -163,14 +163,14 @@ ordering on signed characters.  ')
 
 #declnamesynop("eq_string_string")
 
-#decldescript('\
+#decldescrpt('\
 
 This function returns true if and only if its first argument is equal to
 its second argument according to the lexicographic ordering on
 signed characters. ')
 
 #declnamesynop("neq_string_string")
-#decldescript('\
+#decldescrpt('\
 
 This function returns true if and only if its first argument is unequal to
 its second argument according to the lexicographic ordering on
@@ -179,7 +179,7 @@ signed characters. ')
 (* ****** ****** *)
 
 #declnamesynop("compare_string_string")
-#decldescript('\
+#decldescrpt('\
 
 This function returns ~1, 0 and 1 if and only if its first argument is less
 than, equal to and greater than its second argument according to the
@@ -190,7 +190,7 @@ lexicographic ordering on signed characters. ')
 (* ****** ****** *)
 
 #declnamesynop("strcmp")
-#decldescript('\
+#decldescrpt('\
 
 This function returns ~1,0 and 1 to indicate that its first string argument
 is less than, equal to and greater than its second string argument,
@@ -198,14 +198,14 @@ respectively, where the comparison is based on the lexicographic ordering
 on signed chars.  ')
 
 #declnamesynop("strintcmp")
-#decldescript('\
+#decldescrpt('\
 
 This function returns ~1,0 and 1 to indicate that the length of its first
 string argument is less than, equal to and greater than the value of its
 second integer argument, respectively.  ')
 
 #declnamesynop("strlencmp")
-#decldescript('\
+#decldescrpt('\
 
 This function returns ~1,0 and 1 to indicate that the length of its first
 string argument is less than, equal to and greater than the length of its
@@ -218,7 +218,7 @@ second string argument, respectively.  ')
 (* ****** ****** *)
 
 #declnamesynop("string_make_list")
-#decldescript('\
+#decldescrpt('\
 
 This function returns a linear string consisting of the same sequence of
 non-null chars in its argument.  ')
@@ -248,7 +248,7 @@ end // end of [string_reverse]
 ')
 
 #declnamesynop("string_make_listlen")
-#decldescript('\
+#decldescrpt('\
 
 This function does the same as #dyncode("string_make_list") except for
 taking the length of the given string as the second argument.  ')
@@ -256,13 +256,13 @@ taking the length of the given string as the second argument.  ')
 (* ****** ****** *)
 
 #declnamesynop("string_make_list_rev")
-#decldescript('\
+#decldescrpt('\
 
 This function returns a linear string consisting of the reverse of the
 sequence of non-null chars in its argument.  ')
 
 #declnamesynop("string_make_listlen_rev")
-#decldescript('\
+#decldescrpt('\
 
 This function does the same as #dyncode("string_make_list_rev") except for
 taking the length of the given string as the second argument.  ')
@@ -274,21 +274,21 @@ taking the length of the given string as the second argument.  ')
 (* ****** ****** *)
 
 #declnamesynop("strchr")
-#decldescript('\
+#decldescrpt('\
 
 Given a string str and a char c0, this function returns the index of the
 first char in str that equals c0 if there is such a char.  Otherwise, it
 returns ~1 (negative 1).  ')
 
 #declnamesynop("strrchr")
-#decldescript('\
+#decldescrpt('\
 
 Given a string str and a char c0, this function returns the index of the
 last char in str that equals c0 if there is such a char.  Otherwise, it
 returns ~1 (negative 1).  ')
 
 #declnamesynop("strstr")
-#decldescript('\
+#decldescrpt('\
 
 Given a string str1 and a string str2, this function returns the index of
 the first substring in str1 that equals str2 if there is such a
@@ -303,13 +303,13 @@ returns 0 in the special case where str2 is empty, ')
 (* ****** ****** *)
 
 #declnamesynop("string_index")
-#decldescript('\
+#decldescrpt('\
 
 This function is the same as #dyncode("strchr") except for requiring that
 its second argument be a non-null char.  ')
 
 #declnamesynop("string_rindex")
-#decldescript('\
+#decldescrpt('\
 
 This function is the same as #dyncode("strrchr") except for requiring that
 its second argument be a non-null char.  ')
@@ -317,12 +317,12 @@ its second argument be a non-null char.  ')
 (* ****** ****** *)
 
 #declnamesynop("string0_length")
-#decldescript('\
+#decldescrpt('\
 
 This function computes the length of a given string.  ')
 
 #declnamesynop("string1_length")
-#decldescript('\
+#decldescrpt('\
 
 This function does the same as #dyncode("string0_length") but is assigned a
 more informative type.  ')
@@ -338,7 +338,7 @@ more informative type.  ')
 (* ****** ****** *)
 
 #declnamesynop("stringlst_concat")
-#decldescript("\
+#decldescrpt("\
 
 This function returns a linear string that is the concatenation of the
 strings in its argument.  ")
@@ -363,7 +363,7 @@ main () = 0 where {
 (* ****** ****** *)
 
 #declnamesynop("string_explode")
-#decldescript('\
+#decldescrpt('\
 
 Given a string of length n, this function returns a linear list
 such that element i in the list equals char i in the string for
@@ -375,7 +375,7 @@ such that element i in the list equals char i in the string for
 
 #declnamesynop("string_tabulate__fwork")
 #declnamesynop("string_tabulate")
-#decldescript('\
+#decldescrpt('\
 
 Given an integer n, this function returns a string of length n such that
 char i in the string equals f(i) for 0 &lt;= i &lt n, where f is the
@@ -412,7 +412,7 @@ end // end of [string_make_substring]
 #declnamesynop("string_foreach__fwork")
 
 #declnamesynop("string_foreach")
-#decldescript('\
+#decldescrpt('\
 
 This function traverses a given string from left to right and applies to
 each encountered char the function implemented by
@@ -443,7 +443,7 @@ end // end of [strspn]
 (* ****** ****** *)
 
 #declnamesynop("string_foreach_env")
-#decldescript('\
+#decldescrpt('\
 
 This function does essentially the same as #dyncode("string_foreach")
 except for taking an additional argument that serves as an environment.  ')
@@ -478,7 +478,7 @@ a sequence of digits.
 #declnamesynop("string_rforeach__fwork")
 
 #declnamesynop("string_rforeach")
-#decldescript('\
+#decldescrpt('\
 
 This function traverses a given string from right to left and applies to
 each encountered char the function implemented by
@@ -509,7 +509,7 @@ end // end of [strrchr]
 (* ****** ****** *)
 
 #declnamesynop("string_rforeach_env")
-#decldescript('\
+#decldescrpt('\
 
 This function does essentially the same as #dyncode("string_rforeach")
 except for taking an additional argument that serves as an environment.  ')

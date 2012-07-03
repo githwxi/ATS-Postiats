@@ -1,6 +1,6 @@
 (*
 ** htmlgendecl:
-** For generating html file describing declarations
+** For generating html files describing declarations
 *)
 
 (* ****** ****** *)
@@ -119,8 +119,9 @@ in
 end // end of [aux_name]
 
 fn aux_synop () = let
-  val head = atext_apptxt2
-    (H3 ("Synopsis"), atext_newline)
+  val head =
+    atext_apptxt2 (H3 ("Synopsis"), atext_newline())
+  // end of [val]
   val name = theDeclname_get ()
   val synop = declname_find_synopsis (0(*sta*), name)
   val synop1 = $UN.castvwtp1 {string} (synop)
@@ -129,6 +130,28 @@ fn aux_synop () = let
 in
   atext_apptxt2 (head, atext_strptr (synop2))
 end // end of [aux_synop]
+
+fn aux_synop2 (synop) = let
+  val head =
+    atext_apptxt2 (H3 ("Synopsis"), atext_newline())
+  // end of [val]
+in
+  atext_apptxt2 (head, atext_strsub (synop))
+end // end of [aux_synop2]
+
+fn aux_descrpt (cntnt) = let
+  val head =
+    atext_apptxt2 (H3 ("Description"), atext_newline())
+  // end of [val]
+in
+  atext_apptxt2 (head, atext_strsub (cntnt))
+end // end of [aux_descrpt]
+
+fn aux_example (cntnt) = let
+  val head = atext_apptxt2 (H3 ("Example"), atext_newline())
+in
+  atext_apptxt2 (head, atext_strsub (cntnt))
+end // end of [aux_example]
 
 in // in of [local]
 
@@ -141,40 +164,15 @@ fun aux (
 in
 //
 case+ x of
+//
 | DITMname (name) => aux_name (name)
 //
-| DITMsynopsis () => aux_synop ((*void*))
-| DITMsynopsis2
-    (synop) => let
-    val head = atext_apptxt2
-      (H3 ("Synopsis"), atext_newline)
-  in
-    atext_apptxt2 (head, atext_strsub (synop))
-  end // end of [DITMsynopsis2]
+| DITMsynop () => aux_synop ((*void*))
+| DITMsynop2 (synop) => aux_synop2 (synop)
 //
-| DITMnamesynop (name) => let
-    val res1 = aux_name (name)
-    val res2 = aux_synop ((*void*))
-  in
-    atext_apptxt2 (res1, res2)
-  end // end of [DITMnamesynop]
+| DITMdescrpt (cntnt) => aux_descrpt (cntnt)
 //
-| DITMdescript
-    (descript) => let
-    val head = atext_apptxt2
-      (H3 ("Description"), atext_newline)
-  in
-    atext_apptxt2 (head, atext_strsub (descript))
-  end // end of [DITMdescript]
-//
-| DITMexample
-    (example) => let
-    val head =
-      atext_apptxt2 (H3 ("Example"), atext_newline)
-    // end of [val]
-  in
-    atext_apptxt2 (head, atext_strsub (example))
-  end // end of [DITMexample]
+| DITMexample (cntnt) => aux_example (cntnt)
 //
 end // end of [aux]
 fun auxlst (
@@ -198,12 +196,13 @@ in
   | ~list_vt_nil () => list_nil ()
 end // end of [auxlst]
 //
-val xs = theDeclitemLst_get ()
-val ys = auxlst (xs, 0)
+val itms =
+  theDeclitemLst_get ()
+val txts = auxlst (itms, 0)
 //
 in
-  atext_concatxt (ys)
-end // end of [theDeclitemLst_make_menu]
+  atext_concatxt (txts)
+end // end of [theDeclitemLst_make_content]
 
 end // end of [local]
 

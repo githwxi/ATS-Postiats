@@ -27,7 +27,7 @@ subtype of #stacode("list(T2, N)") if T1 is a subtype of T2.
 
 #declname("list")
 #declsynopsis2('\
-
+#para('\
 The full name for the list-type constructor #stacode("list") is
 #stacode("list_t0ype_int_type"), which is given to the datatype declared as
 follows:
@@ -39,9 +39,8 @@ list_t0ype_int_type (a:t@ype+, int) =
   | list_nil (a, 0) of ()
 // end of [datatype]
 ')\
-
-')
-#decldescript('\
+')')
+#decldescrpt('\
 
 There are two data constructors #dyncode("list_nil") and
 #dyncode("list_cons") associated with #stacode("list"); the former
@@ -56,14 +55,16 @@ respectively.\
 
 #declname("List")
 #declsynopsis2('\
+#para('\
 #pats2xhtmls('\
 typedef List (a:t@ype) = [n:nat] list (a, n)\
 ')')
+')
 
 (* ****** ****** *)
 
 #declnamesynop("ListSubscriptExn")
-#decldescript('\
+#decldescrpt('\
 
 By convention, this exception is raised to indicate a situation where a
 list expected to be non-empty is actually empty.  ')
@@ -71,7 +72,7 @@ list expected to be non-empty is actually empty.  ')
 (* ****** ****** *)
 
 #declnamesynop("lemma_list_param")
-#decldescript('\
+#decldescrpt('\
 This proof function establishes that the integer n in any list type
 #stacode("list(T, n)") is a natural number, where T is a nonlinear type.
 ')
@@ -79,14 +80,14 @@ This proof function establishes that the integer n in any list type
 (* ****** ****** *)
 
 #declnamesynop("list_of_list_vt")
-#decldescript("\
+#decldescrpt("\
 This function casts a linear list-value to a nonlinear list-value.
 ")
 
 (* ****** ****** *)
 
 #declnamesynop("list_append")
-#decldescript('\
+#decldescrpt('\
 
 This function returns a concatenation of its first argument xs and second
 argument ys.  The time-complexity of this function is O(m), where m is the
@@ -96,7 +97,7 @@ ATSLIB is that it is tail-recursive.
 ')
 
 #declnamesynop("list_append1_vt")
-#decldescript('\
+#decldescrpt('\
 
 Given a linear list xs and a list ys, this function returns a concatenation
 of xs and ys. Note that the linear list xs is consumed in the construction of
@@ -105,7 +106,7 @@ the concatenation.
 ')
 
 #declnamesynop("list_append2_vt")
-#decldescript('\
+#decldescrpt('\
 
 Given a list xs and a linear list ys, this function returns a concatenation
 of xs and ys. Note that the linear list ys is consumed in the construction of
@@ -116,7 +117,7 @@ the concatenation.
 (* ****** ****** *)
 
 #declnamesynop("list_extend")
-#decldescript('\
+#decldescrpt('\
 
 Given a list xs and an element x, this function returns a list that is the
 concatenation of xs and [x], which [x] refers to the singleton list
@@ -128,7 +129,7 @@ O(n), where n is the length of xs.
 (* ****** ****** *)
 
 #declnamesynop("list_reverse")
-#decldescript('\
+#decldescrpt('\
 
 This function returns a list that is the reverse of its argument.
 
@@ -137,7 +138,7 @@ This function returns a list that is the reverse of its argument.
 (* ****** ****** *)
 
 #declnamesynop("list_reverse_append")
-#decldescript('\
+#decldescrpt('\
 
 This function returns a list that is the concatenation of the reverse of
 its first argument and its second argument.
@@ -145,7 +146,7 @@ its first argument and its second argument.
 ')
 
 #declnamesynop("list_reverse_append1_vt")
-#decldescript('\
+#decldescrpt('\
 
 Given a linear list xs and a list ys, this function returns a concatenation
 of the reverse of xs and ys. Note that the linear list xs is consumed in
@@ -154,7 +155,7 @@ the construction of the concatenation.
 ')
 
 #declnamesynop("list_reverse_append2_vt")
-#decldescript('\
+#decldescrpt('\
 
 Given a list xs and a linear list ys, this function returns a concatenation
 of the reverse of xs and ys. Note that the linear list ys is consumed in
@@ -165,7 +166,7 @@ the construction of the concatenation.
 (* ****** ****** *)
 
 #declnamesynop("list_concat")
-#decldescript('\
+#decldescrpt('\
 
 This function returns a concatenation of the lists in its argument, which
 is a list of lists.
@@ -175,7 +176,7 @@ is a list of lists.
 (* ****** ****** *)
 
 #declnamesynop("list_take")
-#decldescript('\
+#decldescrpt('\
 
 This function returns a prefix of its first argument, where the length of
 the prefix is specified by its second argument.
@@ -183,7 +184,7 @@ the prefix is specified by its second argument.
 ')
 
 #declnamesynop("list_take_exn")
-#decldescript('\
+#decldescrpt('\
 
 This function is like #dyncode("list_take") except that it raises an
 exception (ListSubscriptExn) if its second argument is negative or exceeds
@@ -194,7 +195,7 @@ the length of its first argument.
 (* ****** ****** *)
 
 #declnamesynop("list_drop")
-#decldescript('\
+#decldescrpt('\
 
 This function returns a suffix of its first argument, where the length of
 the suffix is the length of the first argument minus the integer provided as
@@ -203,7 +204,7 @@ its second argument.
 ')
 
 #declnamesynop("list_drop_exn")
-#decldescript('\
+#decldescrpt('\
 
 This function is like #dyncode("list_drop") except that it raises an
 exception (ListSubscriptExn) if its second argument is negative or exceeds
@@ -214,7 +215,7 @@ the length of its first argument.
 (* ****** ****** *)
 
 #declnamesynop("list_make_elt")
-#decldescript('\
+#decldescrpt('\
 
 Given a natural number n and an element x, this function returns a list
 consisting of n occurrences of x.
@@ -224,7 +225,7 @@ consisting of n occurrences of x.
 (* ****** ****** *)
 
 #declnamesynop("list_make_range")
-#decldescript('\
+#decldescrpt('\
 
 Given integers l and r satisfying l <= r, this function returns a list of
 integers ranging from l until r-1, inclusively.
@@ -235,7 +236,7 @@ integers ranging from l until r-1, inclusively.
 
 #declnamesynop("list_exists__pred")
 #declnamesynop("list_exists")
-#decldescript('\
+#decldescrpt('\
 
 Given a list xs, this function returns true if and only if there exists an
 element in xs that satisfies the predicate implemented by
@@ -245,7 +246,7 @@ element in xs that satisfies the predicate implemented by
 
 #declnamesynop("list_forall__pred")
 #declnamesynop("list_forall")
-#decldescript('\
+#decldescrpt('\
 
 Given a list xs, this function returns true if and only if every element in
 xs satisfies the predicate implemented by #dyncode("list_forall__pred").
@@ -256,7 +257,7 @@ xs satisfies the predicate implemented by #dyncode("list_forall__pred").
 
 #declnamesynop("list_find__pred")
 #declnamesynop("list_find_exn")
-#decldescript('\
+#decldescrpt('\
 
 Given a list xs, this function returns xs[i] (element i in xs) for the
 least index i such that xs[i] satisfies the predicate implemented by
@@ -265,7 +266,7 @@ function raises an exception (NotFoundExn).
 
 ')
 #declnamesynop("list_find_opt")
-#decldescript('\
+#decldescrpt('\
 
 This function is the optional version of #dyncode("list_find_exn").
 
@@ -276,7 +277,7 @@ This function is the optional version of #dyncode("list_find_exn").
 #declnamesynop("list_foreach__fwork")
 
 #declnamesynop("list_foreach")
-#decldescript("\
+#decldescrpt("\
 
 This function applies to each element in its argument the function
 implemented by #dyncode("list_foreach__fwork").
@@ -288,7 +289,7 @@ implemented by #dyncode("list_foreach__fwork").
 #declnamesynop("list_foreach2__fwork")
 
 #declnamesynop("list_foreach2")
-#decldescript("\
+#decldescrpt("\
 
 Given two lists xs and ys of length m and n, respectively, this function
 applies to each pair (xs[i], ys[i]) the function implemented by
@@ -302,7 +303,7 @@ inclusively, and xs[i] (ys[i]) refers to element i in xs (ys).
 #declnamesynop("list_iforeach__fwork")
 
 #declnamesynop("list_iforeach")
-#decldescript("\
+#decldescrpt("\
 
 Given a list xs, this function applies to (i, xs[i]) the function
 implemented by #dyncode("list_iforeach__fwork"), where i ranges from 0
@@ -316,7 +317,7 @@ i in xs.
 #declnamesynop("list_iforeach2__fwork")
 
 #declnamesynop("list_iforeach2")
-#decldescript("\
+#decldescrpt("\
 
 Given two lists xs and ys of length m and n, respectively, this function
 applies to each tuple (i, xs[i], ys[i]) the function implemented by
@@ -330,7 +331,7 @@ inclusively, and xs[i] (ys[i]) refers to element i in xs (ys).
 #declnamesynop("list_foldleft__fwork")
 
 #declnamesynop("list_foldleft")
-#decldescript("\
+#decldescrpt("\
 
 Given a list xs of length n, this function return the value of f(...f(ini,
 xs[0])..., xs[n-1]), where the notation xs[i] refers element i in xs and f
@@ -362,7 +363,7 @@ end // end of [factorial]
 (* ****** ****** *)
 
 #declnamesynop("list_labelize")
-#decldescript('\
+#decldescrpt('\
 
 Given a list xs, this function returns a linear list consisting pairs
 (i, xs[i]), where i ranges from 0 until the lenght of xs minus 1 and xs[i]
@@ -376,7 +377,7 @@ is tail-recursive.
 #declnamesynop("list_filter__pred")
 
 #declnamesynop("list_filter")
-#decldescript('\
+#decldescrpt('\
 
 Given a list xs, this function returns a linear list consisting elements in
 xs that satisfy the predicate implemented by #dyncode("list_filter__pred").
@@ -389,7 +390,7 @@ The implementation of this function in ATSLIB is tail-recursive.
 #declnamesynop("list_map__fwork")
 
 #declnamesynop("list_map")
-#decldescript('\
+#decldescrpt('\
 
 Given a list xs, this function returns a linear list consisting f(xs[i]),
 where i ranges from 0 until the lenght of xs minus 1, xs[i] refers to
@@ -404,7 +405,7 @@ is tail-recursive.
 #declnamesynop("list_imap__fwork")
 
 #declnamesynop("list_imap")
-#decldescript('\
+#decldescrpt('\
 
 Given a list xs, this function returns a linear list consisting f(i,
 xs[i]), where i ranges from 0 until the lenght of xs minus 1, xs[i] refers
@@ -424,7 +425,7 @@ ATSLIB is tail-recursive.
 #declnamesynop("list_map2__fwork")
 
 #declnamesynop("list_map2")
-#decldescript('\
+#decldescrpt('\
 
 Given lists xs1 and xs2 of length n1 and n2, respectively, this function
 returns a linear list consisting f(xs1[i], xs2[i]), where i ranges from 0
@@ -439,7 +440,7 @@ implementation of this function in ATSLIB is tail-recursive.
 #declnamesynop("list_tabulate__fwork")
 
 #declnamesynop("list_tabulate")
-#decldescript('\
+#decldescrpt('\
 
 Given a natural number n, this function returns a linear list consisting of
 f(i) for i ranging from 0 until n-1, inclusively, where f is the function
@@ -470,7 +471,7 @@ end // end of [list_make_range]
 (* ****** ****** *)
 
 #declnamesynop("list_zip")
-#decldescript('\
+#decldescrpt('\
 
 Given two lists xs and ys of length m and n, respectively, this function
 zips them into a linear list xys of length equal to the minimum of m and n
@@ -483,7 +484,7 @@ The implementation of this function in ATSLIB is tail-recursive.
 (* ****** ****** *)
 
 #declnamesynop("list_zipwith")
-#decldescript('\
+#decldescrpt('\
 
 This function does the same as #dyncode("list_map2").
 
@@ -494,7 +495,7 @@ This function does the same as #dyncode("list_map2").
 #declnamesynop("list_mergesort__cmp")
 
 #declnamesynop("list_mergesort")
-#decldescript('\
+#decldescrpt('\
 
 Mergesort is of time-complexity O(n(log(n))), and it is a stable sorting
 algorithm.  This function mergesorts its argument according to the
@@ -547,7 +548,7 @@ end // end of [main]
 #declnamesynop("list_quicksort__cmp")
 
 #declnamesynop("list_quicksort")
-#decldescript('\
+#decldescrpt('\
 
 Quicksort is of time-complexity O(n(log(n))) on average (but can be O(n^2)
 in the worse case), and it is not a stable sorting algorithm.  This

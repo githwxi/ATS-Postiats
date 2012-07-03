@@ -33,17 +33,17 @@ option0_t0ype_type
 (* ****** ****** *)
 
 #declnamesynop("option0_of_option")
-#decldescript("\
+#decldescrpt("\
 This function casts an option-value of indexed type to an option-value of
 unindexed type.
 ")
 #declnamesynop("option0_of_option_vt")
-#decldescript("\
+#decldescrpt("\
 This function casts a linear option-value of indexed type to an option-value of
 unindexed type.
 ")
 #declnamesynop("option_of_option0")
-#decldescript("\
+#decldescrpt("\
 This function casts an option-value of unindexed type to an option-value of
 indexed type.
 ")
@@ -51,23 +51,23 @@ indexed type.
 (* ****** ****** *)
 
 #declnamesynop("option0_some")
-#decldescript('\
+#decldescrpt('\
 This is just the function version of the constructor #dyncode("Some0").
 ')
 #declnamesynop("option0_none")
-#decldescript('\
+#decldescrpt('\
 This is just the function version of the constructor #dyncode("None0").
 ')
 
 (* ****** ****** *)
 
 #declnamesynop("option0_is_some")
-#decldescript('\
+#decldescrpt('\
 This funtion returns true if and only a given option-value is formed with
 the constructor #dyncode('Some0').
 ')
 #declnamesynop("option0_is_none")
-#decldescript('\
+#decldescrpt('\
 This funtion returns true if and only a given option-value is formed with
 the constructor #dyncode('None0').
 ')
@@ -75,7 +75,7 @@ the constructor #dyncode('None0').
 (* ****** ****** *)
 
 #declnamesynop("option0_unsome_exn")
-#decldescript("\
+#decldescrpt("\
 
 If a given option-value is of the form #dyncode("Some0(v)"), then the
 function returns v. Otherwise, it raises an exception (NotSomeExn).

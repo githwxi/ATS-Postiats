@@ -425,7 +425,7 @@ implement
 $IT.iter_bsearch__ford<a> (x) = array_bsearch__ford<a> (x)
 val () = $IT.iter_bsearch (itr, n)
 //
-val ofs = $IT.iter_get_offset (itr)
+val ofs = $IT.iter_get_fofs (itr)
 //
 val (pf | ()) = $IT.iter_free_array (itr)
 prval () = view@ (A) := pf

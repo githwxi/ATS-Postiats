@@ -16,14 +16,14 @@ convenience.  For full-fledged IO support, please see
 (* ****** ****** *)
 
 #declnamesynop("test_file_exists")
-#decldescript('\
+#decldescrpt('\
 This function tests whether a given path refers to a file in existence.
 ')
 
 (* ****** ****** *)
 
 #declnamesynop("test_file_mode")
-#decldescript("\
+#decldescrpt("\
 
 This function calls [stat] to obtain the mode of a given file and then
 applies its second argument f to the mode to return an integer: ~1/0/1
@@ -39,7 +39,7 @@ means error/false/true, respectively.
 (* ****** ****** *)
 
 #declnamesynop("fileref_open_exn")
-#decldescript('\
+#decldescrpt('\
 
 This function returns a handle for the file referred to by its first
 argument #dyncode("path") and set the mode of handle according to its
@@ -49,7 +49,7 @@ exception is raised.
 ')
 
 #declnamesynop("fileref_open_opt")
-#decldescript('\
+#decldescrpt('\
 
 This function is the optional version of #dyncode("fileref_open_exn"): The
 returned value is an option that indicates whether a call to
@@ -60,21 +60,21 @@ returned value is an option that indicates whether a call to
 (* ****** ****** *)
 
 #declnamesynop("fileref_close")
-#decldescript('\
+#decldescrpt('\
 This function closes a given file handle.
 ')
 
 (* ****** ****** *)
 
 #declnamesynop("fileref_flush")
-#decldescript('\
+#decldescrpt('\
 This function flushes a given file handle.
 ')
 
 (* ****** ****** *)
 
 #declnamesynop("fileref_getc")
-#decldescript('\
+#decldescrpt('\
 
 This function reads a char from a given file handle. If a
 negative integer (EOF) is returned, then it is an indication
@@ -85,7 +85,7 @@ of error.
 (* ****** ****** *)
 
 #declnamesynop("fileref_putc")
-#decldescript('\
+#decldescrpt('\
 
 This function writes a char to a given file handle. It does
 not report any errors.
@@ -95,7 +95,7 @@ not report any errors.
 (* ****** ****** *)
 
 #declnamesynop("fileref_puts")
-#decldescript('\
+#decldescrpt('\
 
 This function writes a string to a given file handle. It does
 not report any errors.
@@ -105,7 +105,7 @@ not report any errors.
 (* ****** ****** *)
 
 #declnamesynop("fileref_is_eof")
-#decldescript('\
+#decldescrpt('\
 This function tests whether the end of a given file handle is reached.
 ')
 #declexample('\
@@ -137,7 +137,7 @@ end // end of [main]
 (* ****** ****** *)
 
 #declnamesynop("fileref_load")
-#decldescript('\
+#decldescrpt('\
 
 This function loads a value from a given file handle into a given variable,
 and returns a boolean to indicate whether loading is successful or not. It
@@ -146,22 +146,22 @@ is only implemented for certain template arguments.
 ')
 
 #declnamesynop("fileref_load_int")
-#decldescript('\
+#decldescrpt('\
 This function is a specific instance of #dyncode("fileref_load") for
 loading a integer.
 ')
 #declnamesynop("fileref_load_char")
-#decldescript('\
+#decldescrpt('\
 This function is a specific instance of #dyncode("fileref_load") for
 loading a character.
 ')
 #declnamesynop("fileref_load_double")
-#decldescript('\
+#decldescrpt('\
 This function is a specific instance of #dyncode("fileref_load") for
 loading a double-precision float.
 ')
 #declnamesynop("fileref_load_string")
-#decldescript('\
+#decldescrpt('\
 This function is a specific instance of #dyncode("fileref_load") for
 loading a doubly-quoted string.
 ')
@@ -169,7 +169,7 @@ loading a doubly-quoted string.
 (* ****** ****** *)
 
 #declnamesynop("fileref_get_opt")
-#decldescript('\
+#decldescrpt('\
 
 This function reads a value from a given file handle. It is only
 implemented for certain template arguments.  ')
@@ -177,7 +177,7 @@ implemented for certain template arguments.  ')
 (* ****** ****** *)
 
 #declnamesynop("fileref_get_line_charlst")
-#decldescript('\
+#decldescrpt('\
 
 This function reads out chars from a given file handle until a newline
 symbol or EOF is reached and it then returns a linear list of the chars in
@@ -187,7 +187,7 @@ the chars returned.  ')
 (* ****** ****** *)
 
 #declnamesynop("fileref_get_file_charlst")
-#decldescript('\
+#decldescrpt('\
 
 This function reads out chars from a given file handle until none is left
 and it then returns a linear list of the chars in the order they were read.
@@ -223,7 +223,7 @@ end // end of [main]
 (* ****** ****** *)
 
 #declnamesynop("fileref_put_charlst")
-#decldescript('\
+#decldescrpt('\
 
 This function prints out the chars in its second argument to the file
 handle provided as its first argument.  ')

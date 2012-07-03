@@ -1,6 +1,6 @@
 (*
-** htmlgendecl:
-** For generating html files describing declarations
+** dbookgendecl:
+** For generating docbook files describing declarations
 *)
 
 (* ****** ****** *)
@@ -20,4 +20,4 @@ fun theDeclitemLst_make_content (): atext
 
 (* ****** ****** *)
 
-(* end of [htmlgendecl.sats] *)
+(* end of [dbookgendecl.sats] *)

@@ -24,17 +24,17 @@ explicitly.
 (* ****** ****** *)
 
 #declnamesynop("cast")
-#decldescript("\
+#decldescrpt("\
 This is the generic function for casting values of nonlinear types.
 ")
 #declnamesynop("castvwtp1")
-#decldescript("\
+#decldescrpt("\
 
 This is the generic function for casting values of linear types into values
 of nonlinear types.  Note that It preserves the value being casted.  ")
 
 #declnamesynop("castvwtp_trans")
-#decldescript("\
+#decldescrpt("\
 
 This is the generic function for casting values of linear types. Note that
 it consumes the value being casted. The resource in the argument of this
@@ -44,69 +44,69 @@ cast so as to avoid resource-leaking.  ")
 (* ****** ****** *)
 
 #declnamesynop("cast2ptr")
-#decldescript("\
+#decldescrpt("\
 This function casts a boxed value to a pointer of unindexed type.
 ")
 #declnamesynop("cast2Ptr0")
-#decldescript("\
+#decldescrpt("\
 This function casts a boxed value to a pointer of indexed type.
 ")
 #declnamesynop("cast2Ptr1")
-#decldescript("\
+#decldescrpt("\
 This function casts a boxed value to a non-null pointer of indexed type.
 ")
 
 (* ****** ****** *)
 
 #declnamesynop("cast2int")
-#decldescript("\
+#decldescrpt("\
 This function casts a value to a signed integer of unindexed type.
 ")
 #declnamesynop("cast2uint")
-#decldescript("\
+#decldescrpt("\
 This function casts a value to an unsigned integer of unindexed type.
 ")
 
 #declnamesynop("cast2lint")
-#decldescript("\
+#decldescrpt("\
 This function casts a value to a signed long integer of unindexed type.
 ")
 #declnamesynop("cast2ulint")
-#decldescript("\
+#decldescrpt("\
 This function casts a value to an unsigned long integer of unindexed type.
 ")
 
 #declnamesynop("cast2llint")
-#decldescript("\
+#decldescrpt("\
 This function casts a value to a signed long long integer of unindexed type.
 ")
 #declnamesynop("cast2ullint")
-#decldescript("\
+#decldescrpt("\
 This function casts a value to an unsigned long long integer of unindexed type.
 ")
 
 #declnamesynop("cast2sint")
-#decldescript("\
+#decldescrpt("\
 This function casts a value to a signed short integer of unindexed type.
 ")
 #declnamesynop("cast2usint")
-#decldescript("\
+#decldescrpt("\
 This function casts a value to an unsigned short integer of unindexed type.
 ")
 
 #declnamesynop("cast2ssint")
-#decldescript("\
+#decldescrpt("\
 This function casts a value to a signed short short integer of unindexed type.
 ")
 #declnamesynop("cast2ussint")
-#decldescript("\
+#decldescrpt("\
 This function casts a value to an unsigned short short integer of unindexed type.
 ")
 
 (* ****** ****** *)
 
 #declnamesynop("listcast")
-#decldescript("\
+#decldescrpt("\
 This function casts a linear list to a nonlinear list (only for temporary use).
 ")
 #declexample('\
@@ -129,7 +129,7 @@ list_vt_copy {n:int}
 (* ****** ****** *)
 
 #declnamesynop("ptr_get")
-#decldescript("\
+#decldescrpt("\
 
 This function reads from a non-null pointer with no requirement for a proof
 of at-view associated with the pointer. This is precisely like reading from
@@ -138,7 +138,7 @@ a pointer in C.
 ")
 
 #declnamesynop("ptr_set")
-#decldescript("\
+#decldescrpt("\
 
 This function writes through a non-null pointer with no requirement for a proof
 of at-view associated with the pointer. This is precisely like writing through
@@ -148,7 +148,7 @@ a pointer in C.
 
 
 #declnamesynop("ptr_exch")
-#decldescript("\
+#decldescrpt("\
 
 This function exchanges the content at the location to which its first
 argument points with the content in its second argument.  Note that there
@@ -160,31 +160,31 @@ pointer.
 (* ****** ****** *)
 
 #declnamesynop("ptr_addby")
-#decldescript("\
+#decldescrpt("\
 
 This function updates the content of p with the sum of its current content
 and x.  ")
 
 #declnamesynop("ptr_subby")
-#decldescript("\
+#decldescrpt("\
 
 This function updates the content of p with the difference of its current
 content from x.  ")
 
 #declnamesynop("ptr_mulby")
-#decldescript("\
+#decldescrpt("\
 
 This function updates the content of p with the product of multiplying its
 current content by x.  ")
 
 #declnamesynop("ptr_divby")
-#decldescript("\
+#decldescrpt("\
 
 This function updates the content of p with the quotient of dividing its
 current content by x.  ")
 
 #declnamesynop("ptr_modby")
-#decldescript("\
+#decldescrpt("\
 
 This function updates the content of p with the remainder of dividing its
 current content by x.  ")

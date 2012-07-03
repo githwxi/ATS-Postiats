@@ -215,29 +215,6 @@ overload < with lt_iter_int
 #atscode_separator()
 
 fun{
-knd:tk}{x:vt0p
-} iter_get_offset
-  {kpm:tk}{f,r:int}
-  (itr: !iterator (knd, kpm, x, f, r)): size_t (f)
-// end of [iter_get_offset]
-
-#atscode_separator()
-
-fun{
-knd:tk}{x:vt0p
-} iter_getref
-  {kpm:tk}{f,r:int | r > 0}
-  (itr: !iterator (knd, kpm, x, f, r)): Ptr1
-// end of [iter_getref]
-
-fun{
-knd:tk}{x:vt0p
-} iter_vget
-  {kpm:tk}{f,r:int | r > 0}
-  (itr: !iterator (knd, kpm, x, f, r)): vttakeout (void, x)
-// end of [iter_vget]
-
-fun{
 knd:tk}{x:t0p
 } iter_get
   {kpm:tk}{f,r:int | r > 0}
@@ -262,6 +239,20 @@ overload get with iter_get
 overload set with iter_set
 overload exch with iter_exch
 
+fun{
+knd:tk}{x:vt0p
+} iter_getref
+  {kpm:tk}{f,r:int | r > 0}
+  (itr: !iterator (knd, kpm, x, f, r)): Ptr1
+// end of [iter_getref]
+
+fun{
+knd:tk}{x:vt0p
+} iter_vget
+  {kpm:tk}{f,r:int | r > 0}
+  (itr: !iterator (knd, kpm, x, f, r)): vttakeout (void, x)
+// end of [iter_vget]
+
 #atscode_separator()
 
 fun{
@@ -283,20 +274,6 @@ overload inc with iter_inc
 overload dec with iter_dec 
 
 #atscode_separator()
-
-fun{
-knd:tk}{x:vt0p
-} iter_getref_inc
-  {kpm:tk}{f,r:int | r > 0} (
-  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1)
-) : Ptr1 // end of [iter_getref_inc]
-
-fun{
-knd:tk}{x:vt0p
-} iter_vget_inc
-  {kpm:tk}{f,r:int | r > 0} (
-  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1)
-) : vttakeout (void, x) // end of [iter_vget_inc]
 
 fun{
 knd:tk}{x:t0p
@@ -326,21 +303,21 @@ overload getinc with iter_get_inc
 overload setinc with iter_set_inc
 overload exchinc with iter_exch_inc
 
+fun{
+knd:tk}{x:vt0p
+} iter_getref_inc
+  {kpm:tk}{f,r:int | r > 0} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1)
+) : Ptr1 // end of [iter_getref_inc]
+
+fun{
+knd:tk}{x:vt0p
+} iter_vget_inc
+  {kpm:tk}{f,r:int | r > 0} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1)
+) : vttakeout (void, x) // end of [iter_vget_inc]
+
 #atscode_separator()
-
-fun{
-knd:tk}{x:vt0p
-} iter_dec_getref
-  {kpm:tk}{f,r:int | f > 0} (
-  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
-) : Ptr1 // end of [iter_dec_getref]
-
-fun{
-knd:tk}{x:vt0p
-} iter_dec_vget
-  {kpm:tk}{f,r:int | f > 0} (
-  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
-) : vttakeout (void, x) // end of [iter_dec_vget]
 
 fun{
 knd:tk}{x:t0p
@@ -370,6 +347,36 @@ overload decget with iter_dec_get
 overload decset with iter_dec_set
 overload decexch with iter_dec_exch
 
+fun{
+knd:tk}{x:vt0p
+} iter_dec_getref
+  {kpm:tk}{f,r:int | f > 0} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
+) : Ptr1 // end of [iter_dec_getref]
+
+fun{
+knd:tk}{x:vt0p
+} iter_dec_vget
+  {kpm:tk}{f,r:int | f > 0} (
+  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
+) : vttakeout (void, x) // end of [iter_dec_vget]
+
+#atscode_separator()
+
+fun{
+knd:tk}{x:vt0p
+} iter_get_fofs
+  {kpm:tk}{f,r:int}
+  (itr: !iterator (knd, kpm, x, f, r)): size_t (f)
+// end of [iter_get_fofs]
+
+fun{
+knd:tk}{x:vt0p
+} iter_get_rofs
+  {kpm:tk}{f,r:int}
+  (itr: !iterator (knd, kpm, x, f, r)): size_t (r)
+// end of [iter_get_rofs]
+
 #atscode_separator()
 
 fun{
@@ -386,15 +393,6 @@ knd:tk}{x:vt0p
 ) : void // end of [iter_fjmp]
 
 #atscode_separator()
-
-fun{
-knd:tk}{x:vt0p
-} iter_fgetref_at // forward-get
-  {kpm:tk}
-  {f,r:int}
-  {i:int | 0 <= i; i < r} (
-  itr: !iterator (knd, kpm, x, f, r), i: size_t (i)
-) : Ptr1 // end of [iter_fgetref_at]
 
 fun{
 knd:tk}{x:t0p
@@ -421,6 +419,15 @@ knd:tk}{x:vt0p
   {i:int | 0 <= i; i < r} (
   itr: !iterator (knd, kpm, x, f, r), i: size_t (i), x: &x >> x
 ) : void // end of [iter_fexch_at]
+
+fun{
+knd:tk}{x:vt0p
+} iter_fgetref_at // forward-get
+  {kpm:tk}
+  {f,r:int}
+  {i:int | 0 <= i; i < r} (
+  itr: !iterator (knd, kpm, x, f, r), i: size_t (i)
+) : Ptr1 // end of [iter_fgetref_at]
 
 #atscode_separator()
 

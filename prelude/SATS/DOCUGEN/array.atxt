@@ -6,6 +6,7 @@ ATSLIB/prelude/array\
 
 #declpreamble('\
 
+#para('\
 The type for a plain ungarnished array containing N elements of type T is
 denoted by the special syntax #stacode("@[T][N]"). The size of this
 array-type is N times the size of T and its linearity coincides with the
@@ -13,19 +14,21 @@ linearity of T, that is, the type #stacode("@[T][N]") is linear if and only
 if T is linear.  It should be noted that a value of this form of array-type
 can be passed to a function call only as a call-by-reference parameter
 (unless certain special arrangement is made for it to be passed as a
-call-by-value parameter).\
+call-by-value parameter).
+')#comment("para")
 
 ')#comment("declpreamble")
 
 (* ****** ****** *)
 
 #declname("array_v")
-#declsynopsis2('\
+#declsynop2('\
+#para('\
 #pats2xhtmls("\
 viewtypedef array_v (a: viewt@ype, l:addr, n: int) = @[a][n] @ l\
 ")\
-')
-#decldescript('\
+')')
+#decldescrpt('\
 
 Given a type T, an address L and an integer N, the view
 #stacode("array_v(T, L, N)") means that a value of the type
@@ -38,6 +41,7 @@ array_v (a:viewt@ype+, l: addr, int) =
   | {n:nat}
     array_v_cons (a, l, n+1) of (a @ l, array_v (a, l+sizeof(a), n))
   | array_v_nil (a, l, 0)
+// end of [array_v]
 ")
 
 where #stacode("array_v") is (recursively) defined as a dataview.
@@ -46,17 +50,17 @@ where #stacode("array_v") is (recursively) defined as a dataview.
 (* ****** ****** *)
 
 #declnamesynop("ArraySubscriptExn")
-#decldescript('\
+#decldescrpt('\
 
 By convention, this exception is raised to indicate a situation where the
-index involved in array subscripting is out-of-bounds.
+index involved in array subscripting is out-of-bounds.\
 
 ')
 
 (* ****** ****** *)
 
 #declnamesynop("lemma_array_param")
-#decldescript('\
+#decldescrpt('\
 This proof function establishes that the integer n in any array-type
 #stacode("@[T][n]") is a natural number.
 ')
@@ -64,7 +68,7 @@ This proof function establishes that the integer n in any array-type
 (* ****** ****** *)
 
 #declnamesynop("lemma_array_v_param")
-#decldescript('\
+#decldescrpt('\
 This proof function establishes that the integer n in any array-view
 #stacode("array_v(T, l, n)") is a natural number.
 ')
@@ -72,21 +76,21 @@ This proof function establishes that the integer n in any array-view
 (* ****** ****** *)
 
 #declnamesynop("array_v_nil")
-#decldescript('\
+#decldescrpt('\
 This proof function generates a proof of empty array-view.
 ')
 
 (* ****** ****** *)
 
 #declnamesynop("array_v_unnil")
-#decldescript('\
+#decldescrpt('\
 This proof function consumes a proof of empty array-view.
 ')
 
 (* ****** ****** *)
 
 #declnamesynop("array_v_unnil_nil")
-#decldescript('\
+#decldescrpt('\
 This proof function consumes a proof of empty array-view and then generates
 a proof of empty array-view. It is a combination of array_v_unnil and array_v_nil.
 ')
@@ -94,13 +98,13 @@ a proof of empty array-view. It is a combination of array_v_unnil and array_v_ni
 (* ****** ****** *)
 
 #declnamesynop("array_v_cons")
-#decldescript('\
+#decldescrpt('\
 This proof function composes a proof of at-view and
 a proof of array-view of size n to form a proof of array-view of size n+1.
 ')
 
 #declnamesynop("array_v_uncons")
-#decldescript('\
+#decldescrpt('\
 
 This proof function is the inverse of #prfcode("array_v_cons"): It
 decomposes a proof of array-view of size n into a proof of at-view and a
@@ -111,7 +115,7 @@ proof of array-view of size n-1, where n is positive.
 (* ****** ****** *)
 
 #declnamesynop("array_v_sing")
-#decldescript('\
+#decldescrpt('\
 This proof function turns a proof of at-view into a proof of array-view of
 size 1.
 ')
@@ -119,7 +123,7 @@ size 1.
 (* ****** ****** *)
 
 #declnamesynop("array_v_unsing")
-#decldescript('\
+#decldescrpt('\
 
 This proof function is the inverse of #prfcode("array_v_sing"): It turns a
 proof of array-view of size 1 into a proof of at-view.
@@ -129,7 +133,7 @@ proof of array-view of size 1 into a proof of at-view.
 (* ****** ****** *)
 
 #declnamesynop("array_getref_at")
-#decldescript('\
+#decldescrpt('\
 This function returns the pointer to cell i of the given array A, that is,
 the pointer equal to addr@(A)+i*#sizeof("a"), where addr@(A) refers to the
 starting address of A.
@@ -154,7 +158,7 @@ here to read from the pointer p.
 (* ****** ****** *)
 
 #declnamesynop("array_get_at")
-#decldescript('\
+#decldescrpt('\
 This function returns the value stored in cell i of the given array A.
 Note that the type for values stored in A is nonlinear.
 ')
@@ -162,7 +166,7 @@ Note that the type for values stored in A is nonlinear.
 (* ****** ****** *)
 
 #declnamesynop("array_set_at")
-#decldescript('\
+#decldescrpt('\
 This function stores a value into cell i of the given array A, overwriting
 the original value. Note that the type of values stored in A is nonlinear.
 ')
@@ -170,7 +174,7 @@ the original value. Note that the type of values stored in A is nonlinear.
 (* ****** ****** *)
 
 #declnamesynop("array_exch_at")
-#decldescript('\
+#decldescrpt('\
 This function exchanges the value in cell i of the given array A and the
 value in its second argument. Note that the type of these values can be linear.
 ')
@@ -181,7 +185,7 @@ value in its second argument. Note that the type of these values can be linear.
 #declnamesynop("array_foreach__fwork")
 
 #declnamesynop("array_foreach")
-#decldescript('\
+#decldescrpt('\
 
 This function traverses a given array from left to right, applying to each
 encountered array-cell the function implemented by
@@ -212,7 +216,7 @@ end // end of [array_find]
 ')
 
 #declnamesynop("array_foreach_env")
-#decldescript('\
+#decldescrpt('\
 
 This function does essentially the same as #dyncode("array_foreach")
 except for taking an additional argument that serves as an environment.  ')
@@ -248,13 +252,13 @@ end // end of [array_foldleft]
 (* ****** ****** *)
 
 #declnamesynop("array_foreach_funenv")
-#decldescript('\
+#decldescrpt('\
 
 This function is like #dyncode("array_foreach") except that the function
 to be applied to each array cell is provided as an argument.  ')
 
 #declnamesynop("array_foreach_fun")
-#decldescript('\
+#decldescrpt('\
 
 This function is a special case of #dyncode("array_foreach_funenv") in that
 the provided function does not take an argument as its environment.  ')
@@ -265,7 +269,7 @@ the provided function does not take an argument as its environment.  ')
 #declnamesynop("array_rforeach__fwork")
 
 #declnamesynop("array_rforeach")
-#decldescript('\
+#decldescrpt('\
 
 This function traverses a given array from right to left, applying to each
 encountered array-cell the function implemented by
@@ -296,7 +300,7 @@ end // end of [array_rfind]
 ')
 
 #declnamesynop("array_rforeach_env")
-#decldescript('\
+#decldescrpt('\
 
 This function does essentially the same as #dyncode("array_rforeach")
 except for taking an additional argument that serves as an environment.  ')

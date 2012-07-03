@@ -6,8 +6,10 @@ ATSLIB/prelude/iterator\
 
 #declpreamble('\
 
+#para('\
 This package contains common functions for assembling/deassembling and
 manipulating iterators.
+')
 
 ')#comment("declpreamble")
 
@@ -25,12 +27,11 @@ manipulating iterators.
 
 (* ****** ****** *)
 
-#declnamesynop("iter_get_offset")
-#declnamesynop("iter_getref")
-#declnamesynop("iter_vget")
 #declnamesynop("iter_get")
 #declnamesynop("iter_set")
 #declnamesynop("iter_exch")
+#declnamesynop("iter_getref")
+#declnamesynop("iter_vget")
 
 (* ****** ****** *)
 
@@ -39,19 +40,24 @@ manipulating iterators.
 
 (* ****** ****** *)
 
-#declnamesynop("iter_getref_inc")
-#declnamesynop("iter_vget_inc")
 #declnamesynop("iter_get_inc")
 #declnamesynop("iter_set_inc")
 #declnamesynop("iter_exch_inc")
+#declnamesynop("iter_getref_inc")
+#declnamesynop("iter_vget_inc")
 
 (* ****** ****** *)
 
-#declnamesynop("iter_dec_getref")
-#declnamesynop("iter_dec_vget")
 #declnamesynop("iter_dec_get")
 #declnamesynop("iter_dec_set")
 #declnamesynop("iter_dec_exch")
+#declnamesynop("iter_dec_getref")
+#declnamesynop("iter_dec_vget")
+
+(* ****** ****** *)
+
+#declnamesynop("iter_get_fofs")
+#declnamesynop("iter_get_rofs")
 
 (* ****** ****** *)
 
@@ -59,10 +65,10 @@ manipulating iterators.
 
 (* ****** ****** *)
 
-#declnamesynop("iter_fgetref_at")
 #declnamesynop("iter_fget_at")
 #declnamesynop("iter_fset_at")
 #declnamesynop("iter_fexch_at")
+#declnamesynop("iter_fgetref_at")
 
 (* ****** ****** *)
 
@@ -70,10 +76,10 @@ manipulating iterators.
 
 (* ****** ****** *)
 
-#declnamesynop("iter_fbgetref_at")
 #declnamesynop("iter_fbget_at")
 #declnamesynop("iter_fbset_at")
 #declnamesynop("iter_fbexch_at")
+#declnamesynop("iter_fbgetref_at")
 
 (* ****** ****** *)
 

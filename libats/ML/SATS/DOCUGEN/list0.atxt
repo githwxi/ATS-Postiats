@@ -34,17 +34,17 @@ list0_t0ype_type (a: t@ype+) =
 (* ****** ****** *)
 
 #declnamesynop("list0_of_list")
-#decldescript("\
+#decldescrpt("\
 This function casts a list-value of indexed type to a list-value of
 unindexed type.
 ")
 #declnamesynop("list0_of_list_vt")
-#decldescript("\
+#decldescrpt("\
 This function casts a linear list-value of indexed type to a list-value of
 unindexed type.
 ")
 #declnamesynop("list_of_list0")
-#decldescript("\
+#decldescrpt("\
 This function casts a list-value of unindexed type to a list-value of
 indexed type.
 ")
@@ -52,33 +52,33 @@ indexed type.
 (* ****** ****** *)
 
 #declnamesynop("list0_head_exn")
-#decldescript("\
+#decldescrpt("\
 This function returns the head of a given list if the list
 is non-empty or raises an exception (ListSubscriptExn) if
 the list is empty.
 ")
 #declnamesynop("list0_head_opt")
-#decldescript("\
+#decldescrpt("\
 This function is the optional version of #dyncode("list0_head_exn").
 ")
 
 (* ****** ****** *)
 
 #declnamesynop("list0_tail_exn")
-#decldescript("\
+#decldescrpt("\
 This function returns the tail of a given list if the list
 is non-empty or raises an exception (ListSubscriptExn) if
 the list is empty.
 ")
 #declnamesynop("list0_tail_opt")
-#decldescript("\
+#decldescrpt("\
 This function is the optional version of #dyncode("list0_tail_exn").
 ")
 
 (* ****** ****** *)
 
 #declnamesynop("list0_nth_exn")
-#decldescript("\
+#decldescrpt("\
 
 This function returns element i of a given list if i is a natural
 number less than the length of the list.  Otherwise, it raises an
@@ -86,20 +86,20 @@ exception (ListSubscriptExn).
 
 ")
 #declnamesynop("list0_nth_opt")
-#decldescript("\
+#decldescrpt("\
 This function is the optional version of #dyncode("list0_nth_exn").
 ")
 
 (* ****** ****** *)
 
 #declnamesynop("list0_find_exn")
-#decldescript("\
+#decldescrpt("\
 This functions returns the first element in its first argument that
 satisfies the predicate given as its second argument. In case that such
 an element does not exist, the function raises an exception (NotFoundExn).
 ")
 #declnamesynop("list0_find_opt")
-#decldescript("\
+#decldescrpt("\
 This function is the optional version of #dyncode("list0_find_exn").
 ")
 
@@ -112,20 +112,20 @@ This function is the optional version of #dyncode("list0_find_exn").
 (* ****** ****** *)
 
 #declnamesynop("list0_app")
-#decldescript("\
+#decldescrpt("\
 This function is idential to #dyncode("list0_foreach").
 ")
 
 (* ****** ****** *)
 
 #declnamesynop("list0_foreach")
-#decldescript("\
+#decldescrpt("\
 
 This function applies its second argument to each element in its first
 argument.  ")
 
 #declnamesynop("list0_iforeach")
-#decldescript("\
+#decldescrpt("\
 
 This function applies its second argument f to (i, x), where i ranges from
 0 to the length of xs minus 1 and x is element i in xs.
@@ -135,14 +135,14 @@ This function applies its second argument f to (i, x), where i ranges from
 (* ****** ****** *)
 
 #declnamesynop("list0_exists")
-#decldescript("\
+#decldescrpt("\
 
 This function returns true if and only if there exists an element in its
 first argument that satisfies the predicated provided as its second
 argument.  ")
 
 #declnamesynop("list0_forall")
-#decldescript("\
+#decldescrpt("\
 
 This function returns true if and only if every element in its first
 argument satisfies the predicated provided as its second argument.  ")
@@ -150,7 +150,7 @@ argument satisfies the predicated provided as its second argument.  ")
 (* ****** ****** *)
 
 #declnamesynop("list0_filter")
-#decldescript("\
+#decldescrpt("\
 
 This function returns a list consisting of the sequence of elements in its
 first argument that satisfy the predicate provided as its second argument.
@@ -181,7 +181,7 @@ However, the implementation of this function in ATSLIB is tail-recursive.\
 (* ****** ****** *)
 
 #declnamesynop("list0_map")
-#decldescript("\
+#decldescrpt("\
 
 This function returns a list consisting of the sequence of results obtained
 from applying its second argument f to each element in its first argument xs.
@@ -207,7 +207,7 @@ However, the implementation of this function in ATSLIB is tail-recursive.\
 (* ****** ****** *)
 
 #declnamesynop("list0_map2")
-#decldescript("\
+#decldescrpt("\
 
 This function returns a list consisting of the sequence of results obtained
 from applying its third argument f to each pair in the zip of the first and
@@ -239,7 +239,7 @@ However, the implementation of this function in ATSLIB is tail-recursive.\
 (* ****** ****** *)
 
 #declnamesynop("list0_zip")
-#decldescript("\
+#decldescrpt("\
 
 Given two lists xs and ys of length m and n, respectively, this function
 returns a list of pairs (xs[i], ys[i]), where i ranges from 0 until
@@ -270,7 +270,7 @@ However, the implementation of this function in ATSLIB is tail-recursive.\
 (* ****** ****** *)
 
 #declnamesynop("list0_zipwith")
-#decldescript("\
+#decldescrpt("\
 This function does the same as #dyncode("list0_map2").
 ")
 

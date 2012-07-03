@@ -1,0 +1,230 @@
+#
+#
+# This Makefile is automatically generated
+# from executing the following command-line:
+#
+# make -f Makefile.gen Makefile2
+#
+#
+
+######
+
+ATSHOMEQ="$(ATSHOME)"
+ATSCC=$(ATSHOMEQ)/bin/atscc
+ATSOPT=$(ATSHOMEQ)/bin/atsopt
+ATSDOC=$(ATSHOMEQ)/bin/atsdoc
+
+######
+
+PATSHOMEQ="$(PATSHOME)"
+INCLUDE=-I $(PATSHOMEQ)/src
+INCLATS=-IATS $(PATSHOMEQ) -IATS $(PATSHOMEQ)/src
+
+######
+
+CAT=cat
+
+######
+
+all:: all_dbook
+
+######
+
+DECLATEXT= \
+  declatext_sats.o \
+  declatext_dats.o \
+
+declatext_sats.o: \
+  declatext.sats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $<
+declatext_dats.o: \
+  declatext.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $<
+
+######
+
+DBOOKGENDECL= \
+  dbookgendecl_sats.o \
+  dbookgendecl_dats.o \
+
+dbookgendecl_sats.o: \
+  dbookgendecl.sats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $<
+dbookgendecl_dats.o: \
+  dbookgendecl.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $<
+
+dbookgendecl_atxt.dats: dbookgendecl.atxt ;   $(ATSDOC) --outcode $@ -i $< > dbookgendecl_atxt.txt
+
+######
+
+all_dbook:: DBOOK/arith_prf.dbk
+DBOOK/arith_prf.dbk:   arith_prf_atxt.exe ; $(CAT) ../arith_prf.sats | ./$< > $@
+arith_prf_atxt.txt: arith_prf.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+arith_prf_atxt.exe: dbookgendecl_atxt.dats   arith_prf_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) arith_prf_atxt.exe
+cleanall:: ; $(RMF) DBOOK/arith_prf.dbk
+
+
+all_dbook:: DBOOK/bool.dbk
+DBOOK/bool.dbk:   bool_atxt.exe ; $(CAT) ../bool.sats | ./$< > $@
+bool_atxt.txt: bool.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+bool_atxt.exe: dbookgendecl_atxt.dats   bool_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) bool_atxt.exe
+cleanall:: ; $(RMF) DBOOK/bool.dbk
+
+all_dbook:: DBOOK/char.dbk
+DBOOK/char.dbk:   char_atxt.exe ; $(CAT) ../char.sats | ./$< > $@
+char_atxt.txt: char.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+char_atxt.exe: dbookgendecl_atxt.dats   char_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) char_atxt.exe
+cleanall:: ; $(RMF) DBOOK/char.dbk
+
+all_dbook:: DBOOK/float.dbk
+DBOOK/float.dbk:   float_atxt.exe ; $(CAT) ../float.sats | ./$< > $@
+float_atxt.txt: float.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+float_atxt.exe: dbookgendecl_atxt.dats   float_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) float_atxt.exe
+cleanall:: ; $(RMF) DBOOK/float.dbk
+
+all_dbook:: DBOOK/integer.dbk
+DBOOK/integer.dbk:   integer_atxt.exe ; $(CAT) ../integer.sats | ./$< > $@
+integer_atxt.txt: integer.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+integer_atxt.exe: dbookgendecl_atxt.dats   integer_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) integer_atxt.exe
+cleanall:: ; $(RMF) DBOOK/integer.dbk
+
+all_dbook:: DBOOK/intrange.dbk
+DBOOK/intrange.dbk:   intrange_atxt.exe ; $(CAT) ../intrange.sats | ./$< > $@
+intrange_atxt.txt: intrange.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+intrange_atxt.exe: dbookgendecl_atxt.dats   intrange_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) intrange_atxt.exe
+cleanall:: ; $(RMF) DBOOK/intrange.dbk
+
+all_dbook:: DBOOK/pointer.dbk
+DBOOK/pointer.dbk:   pointer_atxt.exe ; $(CAT) ../pointer.sats | ./$< > $@
+pointer_atxt.txt: pointer.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+pointer_atxt.exe: dbookgendecl_atxt.dats   pointer_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) pointer_atxt.exe
+cleanall:: ; $(RMF) DBOOK/pointer.dbk
+
+all_dbook:: DBOOK/reference.dbk
+DBOOK/reference.dbk:   reference_atxt.exe ; $(CAT) ../reference.sats | ./$< > $@
+reference_atxt.txt: reference.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+reference_atxt.exe: dbookgendecl_atxt.dats   reference_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) reference_atxt.exe
+cleanall:: ; $(RMF) DBOOK/reference.dbk
+
+all_dbook:: DBOOK/string.dbk
+DBOOK/string.dbk:   string_atxt.exe ; $(CAT) ../string.sats | ./$< > $@
+string_atxt.txt: string.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+string_atxt.exe: dbookgendecl_atxt.dats   string_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) string_atxt.exe
+cleanall:: ; $(RMF) DBOOK/string.dbk
+
+all_dbook:: DBOOK/strptr.dbk
+DBOOK/strptr.dbk:   strptr_atxt.exe ; $(CAT) ../strptr.sats | ./$< > $@
+strptr_atxt.txt: strptr.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+strptr_atxt.exe: dbookgendecl_atxt.dats   strptr_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) strptr_atxt.exe
+cleanall:: ; $(RMF) DBOOK/strptr.dbk
+
+
+all_dbook:: DBOOK/filebas.dbk
+DBOOK/filebas.dbk:   filebas_atxt.exe ; $(CAT) ../filebas.sats | ./$< > $@
+filebas_atxt.txt: filebas.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+filebas_atxt.exe: dbookgendecl_atxt.dats   filebas_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) filebas_atxt.exe
+cleanall:: ; $(RMF) DBOOK/filebas.dbk
+
+
+all_dbook:: DBOOK/array.dbk
+DBOOK/array.dbk:   array_atxt.exe ; $(CAT) ../array.sats | ./$< > $@
+array_atxt.txt: array.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+array_atxt.exe: dbookgendecl_atxt.dats   array_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) array_atxt.exe
+cleanall:: ; $(RMF) DBOOK/array.dbk
+
+all_dbook:: DBOOK/array_prf.dbk
+DBOOK/array_prf.dbk:   array_prf_atxt.exe ; $(CAT) ../array_prf.sats | ./$< > $@
+array_prf_atxt.txt: array_prf.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+array_prf_atxt.exe: dbookgendecl_atxt.dats   array_prf_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) array_prf_atxt.exe
+cleanall:: ; $(RMF) DBOOK/array_prf.dbk
+
+all_dbook:: DBOOK/arrayptr.dbk
+DBOOK/arrayptr.dbk:   arrayptr_atxt.exe ; $(CAT) ../arrayptr.sats | ./$< > $@
+arrayptr_atxt.txt: arrayptr.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+arrayptr_atxt.exe: dbookgendecl_atxt.dats   arrayptr_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) arrayptr_atxt.exe
+cleanall:: ; $(RMF) DBOOK/arrayptr.dbk
+
+all_dbook:: DBOOK/arrayref.dbk
+DBOOK/arrayref.dbk:   arrayref_atxt.exe ; $(CAT) ../arrayref.sats | ./$< > $@
+arrayref_atxt.txt: arrayref.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+arrayref_atxt.exe: dbookgendecl_atxt.dats   arrayref_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) arrayref_atxt.exe
+cleanall:: ; $(RMF) DBOOK/arrayref.dbk
+
+
+all_dbook:: DBOOK/list.dbk
+DBOOK/list.dbk:   list_atxt.exe ; $(CAT) ../list.sats | ./$< > $@
+list_atxt.txt: list.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+list_atxt.exe: dbookgendecl_atxt.dats   list_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) list_atxt.exe
+cleanall:: ; $(RMF) DBOOK/list.dbk
+
+all_dbook:: DBOOK/list_vt.dbk
+DBOOK/list_vt.dbk:   list_vt_atxt.exe ; $(CAT) ../list_vt.sats | ./$< > $@
+list_vt_atxt.txt: list_vt.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+list_vt_atxt.exe: dbookgendecl_atxt.dats   list_vt_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) list_vt_atxt.exe
+cleanall:: ; $(RMF) DBOOK/list_vt.dbk
+
+
+all_dbook:: DBOOK/option.dbk
+DBOOK/option.dbk:   option_atxt.exe ; $(CAT) ../option.sats | ./$< > $@
+option_atxt.txt: option.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+option_atxt.exe: dbookgendecl_atxt.dats   option_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) option_atxt.exe
+cleanall:: ; $(RMF) DBOOK/option.dbk
+
+all_dbook:: DBOOK/option_vt.dbk
+DBOOK/option_vt.dbk:   option_vt_atxt.exe ; $(CAT) ../option_vt.sats | ./$< > $@
+option_vt_atxt.txt: option_vt.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+option_vt_atxt.exe: dbookgendecl_atxt.dats   option_vt_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) option_vt_atxt.exe
+cleanall:: ; $(RMF) DBOOK/option_vt.dbk
+
+
+all_dbook:: DBOOK/unsafe.dbk
+DBOOK/unsafe.dbk:   unsafe_atxt.exe ; $(CAT) ../unsafe.sats | ./$< > $@
+unsafe_atxt.txt: unsafe.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+unsafe_atxt.exe: dbookgendecl_atxt.dats   unsafe_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) unsafe_atxt.exe
+cleanall:: ; $(RMF) DBOOK/unsafe.dbk
+
+
+all_dbook:: DBOOK/iterator.dbk
+DBOOK/iterator.dbk:   iterator_atxt.exe ; $(CAT) ../iterator.sats | ./$< > $@
+iterator_atxt.txt: iterator.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode dbookgendecl_data_atxt.dats > $@
+iterator_atxt.exe: dbookgendecl_atxt.dats   iterator_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) iterator_atxt.exe
+cleanall:: ; $(RMF) DBOOK/iterator.dbk
+
+
+######
+
+uploadall:: ;   scp HTML/*.dbk ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/prelude
+
+######
+
+RMF=rm -f
+
+######
+
+clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_?ats.o *_?ats.c
+clean:: ; $(RMF) *_atxt.txt
+clean:: ; $(RMF) *_atxt.dats
+
+cleanall:: clean
+cleanall:: ; $(RMF) DBOOK/*.dbk
+
+###### end of [Makefile] ######

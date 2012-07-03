@@ -6,20 +6,22 @@ ATSLIB/prelude/intrange\
 
 #declpreamble('\
 
+#para("\
+")
 
 ')#comment("declpreamble")
 
 (* ****** ****** *)
 
 #declnamesynop("intrange_foreach__cont")
-#decldescript('\
+#decldescrpt('\
 
 The default implementation of this function always returns true.  ')
 
 #declnamesynop("intrange_foreach__fwork")
 
 #declnamesynop("intrange_foreach")
-#decldescript('\
+#decldescrpt('\
 
 Given two integers l and r, this function enumerates the integers between l
 and r-1, inclusively, and then applies to each enumerated integer the
@@ -29,7 +31,7 @@ enumeration process stops if the function implemented by
 value of #dyncode("intrange_foreach") indicates the point of the stoppage. ')
 
 #declnamesynop("intrange_foreach_env")
-#decldescript('\
+#decldescrpt('\
 
 This function does essentially the same as #dyncode("intrange_foreach")
 except for taking an additional argument that serves as an environment.  ')
@@ -37,14 +39,14 @@ except for taking an additional argument that serves as an environment.  ')
 (* ****** ****** *)
 
 #declnamesynop("intrange_rforeach__cont")
-#decldescript('\
+#decldescrpt('\
 
 The default implementation of this function always returns true.  ')
 
 #declnamesynop("intrange_rforeach__fwork")
 
 #declnamesynop("intrange_rforeach")
-#decldescript('\
+#decldescrpt('\
 
 Given two integers l and r, this function enumerates in the reverse order
 the integers between l and r-1, inclusively, and then applies to each
@@ -55,7 +57,7 @@ and the return integer value of #dyncode("intrange_rforeach") indicates the
 point of the stoppage. ')
 
 #declnamesynop("intrange_rforeach_env")
-#decldescript('\
+#decldescrpt('\
 
 This function does essentially the same as #dyncode("intrange_rforeach")
 except for taking an additional argument that serves as an environment.  ')

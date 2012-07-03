@@ -1,0 +1,1 @@
+../../../share/dbookgendecl.sats

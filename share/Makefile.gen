@@ -15,12 +15,19 @@ ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 
 Makefile: Makefile.exe ; ./$< > $@
 
-######
-
 Makefile.exe: Makefile_atxt.dats
 	$(ATSCC) -D_ATS_GCATS -o $@ $< -latsdoc
 Makefile_atxt.dats: Makefile.atxt
 	$(ATSDOC) --outcode $@ -i $< > Makefile_atxt.txt
+
+######
+
+Makefile2: Makefile2.exe ; ./$< > $@
+
+Makefile2.exe: Makefile2_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ $< -latsdoc
+Makefile2_atxt.dats: Makefile2.atxt
+	$(ATSDOC) --outcode $@ -i $< > Makefile2_atxt.txt
 
 ######
 
@@ -33,9 +40,11 @@ clean:: ; $(RMF) *_?ats.o *_?ats.c
 clean:: ; $(RMF) *_atxt.txt
 clean:: ; $(RMF) *_atxt.dats
 clean:: ; $(RMF) Makefile.exe
+clean:: ; $(RMF) Makefile2.exe
 
 cleanall:: clean
 cleanall:: ; $(RMF) Makefile
+cleanall:: ; $(RMF) Makefile2
 
 ######
 

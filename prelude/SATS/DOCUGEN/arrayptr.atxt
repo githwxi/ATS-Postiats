@@ -4,6 +4,19 @@ ATSLIB/prelude/arrayptr\
 
 (* ****** ****** *)
 
+#declpreamble('\
+
+#para('\
+
+This package contains some common functions for creating/freeing and
+manipulating arrayptr-values.
+
+')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
 #declnamesynop("arrayptr_encode")
 
 (* ****** ****** *)
@@ -19,19 +32,19 @@ ATSLIB/prelude/arrayptr\
 (* ****** ****** *)
 
 #declnamesynop("arrayptr_get_at")
-#decldescript("\
+#decldescrpt("\
 This function reads out the nonlinear value stored at cell i
 of the array associated with the first argument of the function.
 ")
 
 #declnamesynop("arrayptr_set_at")
-#decldescript("\
+#decldescrpt("\
 This function writes a nonlinear value x to cell i
 of the array associated with the first argument of the function.
 ")
 
 #declnamesynop("arrayptr_exch_at")
-#decldescript("\
+#decldescrpt("\
 This function exchanges the content of cell i
 of the array associated with the first argument of the function
 with that of the variable x (third argument). Note that the type
@@ -41,7 +54,7 @@ for these contents can be linear.
 (* ****** ****** *)
 
 #declnamesynop("arrayptr_free")
-#decldescript("\
+#decldescrpt("\
 This function frees the memory occupied by a given arrayptr-value,
 which includes both the memory for the structure of this value and
 the memory for the array associated with it.
@@ -50,7 +63,7 @@ the memory for the array associated with it.
 (* ****** ****** *)
 
 #declnamesynop("arrayptr_make_uninitized")
-#decldescript("\
+#decldescrpt("\
 
 This function creates an uninitialized arrayptr-value of a given size.
 
@@ -59,7 +72,7 @@ This function creates an uninitialized arrayptr-value of a given size.
 (* ****** ****** *)
 
 #declnamesynop("arrayptr_make_elt")
-#decldescript("\
+#decldescrpt("\
 
 This function creates an arrayptr-value of a given size
 (first argument) and then initializes it with a given value
@@ -70,7 +83,7 @@ This function creates an arrayptr-value of a given size
 (* ****** ****** *)
 
 #declnamesynop("arrayptr_make_range")
-#decldescript("\
+#decldescrpt("\
 
 This function creates an arrayptr-value of size r-l that contains the
 integers from l until r-1, inclusively.
@@ -80,7 +93,7 @@ integers from l until r-1, inclusively.
 (* ****** ****** *)
 
 #declnamesynop("arrayptr_make_list")
-#decldescript("\
+#decldescrpt("\
 
 This function creates an arrayptr-value of a given size n (first argument)
 and then initializes it with a given list (second argument) of length n.
@@ -88,7 +101,7 @@ and then initializes it with a given list (second argument) of length n.
 ")
 
 #declnamesynop("arrayptr_make_list_vt")
-#decldescript("\
+#decldescrpt("\
 
 This function creates an arrayptr-value of a given size n (first argument)
 and then initializes it with a given linear list (second argument) of
@@ -99,14 +112,14 @@ length n. Note that the linear list is consumed after the function returns.
 (* ****** ****** *)
 
 #declnamesynop("arrayptr_foreach")
-#decldescript("
+#decldescrpt("
 
 This function traverses the array associated with a given arrayptr-value
 from left to right, applying the function implemented by
 #dyncode("arrayptr_foreach__fwork") to each cell in the array.  ")
 
 #declnamesynop("arrayptr_foreach_env")
-#decldescript('\
+#decldescrpt('\
 
 This function does essentially the same as #dyncode("arrayptr_foreach")
 except for taking an additional argument that serves as an environment (for
@@ -140,13 +153,13 @@ end // end of [main]
 ')')
 
 #declnamesynop("arrayptr_foreach_funenv")
-#decldescript("\
+#decldescrpt("\
 
 This function is like #dyncode("arrayptr_foreach") except that the function
 to be applied to each array cell is provided as an argument.  ")
 
 #declnamesynop("arrayptr_foreach_fun")
-#decldescript("\
+#decldescrpt("\
 
 This function is a special case of #dyncode("arrayptr_foreach_funenv") in
 that the provided function does not take an argument as its environment.
@@ -157,7 +170,7 @@ that the provided function does not take an argument as its environment.
 
 #declnamesynop("arrayptr_rforeach")
 #declnamesynop("arrayptr_rforeach_env")
-#decldescript('\
+#decldescrpt('\
 
 This function does essentially the same as #dyncode("arrayptr_rforeach")
 except for taking an additional argument that serves as an environment.  ')

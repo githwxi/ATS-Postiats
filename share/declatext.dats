@@ -120,18 +120,20 @@ in
 end // end of [declname]
 
 implement
-declsynopsis () = let
-  val () = theDeclitemLst_add (DITMsynopsis ())
+declsynop () = let
+  val () = theDeclitemLst_add (DITMsynop ())
 in
   $LDOC.atext_nil ()
-end // end of [declsynopsis]
+end // end of [declsynop]
+implement declsynopsis () = declsynop ()
 
 implement
-declsynopsis2 (x) = let
-  val () = theDeclitemLst_add (DITMsynopsis2 (x))
+declsynop2 (x) = let
+  val () = theDeclitemLst_add (DITMsynop2 (x))
 in
   $LDOC.atext_nil ()
-end // end of [declsynopsis2]
+end // end of [declsynop2]
+implement declsynopsis2 (x) = declsynop2 (x)
 
 implement
 declnamesynop (x) = let
@@ -142,11 +144,11 @@ in
 end // end of [declname]
 
 implement
-decldescript (x) = let
-  val () = theDeclitemLst_add (DITMdescript (x))
+decldescrpt (x) = let
+  val () = theDeclitemLst_add (DITMdescrpt (x))
 in
   $LDOC.atext_nil ()
-end // end of [decldescript]
+end // end of [decldescrpt]
 
 implement
 declexample (x) = let

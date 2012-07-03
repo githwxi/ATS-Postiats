@@ -6,8 +6,10 @@ ATSLIB/prelude/option\
 
 #declpreamble('\
 
+#para('\
 This package contains some common functions for processing (functional)
 option-values.
+')
 
 ')#comment("declpreamble")
 
@@ -22,23 +24,23 @@ option-values.
 (* ****** ****** *)
 
 #declnamesynop("option_some")
-#decldescript('\
+#decldescrpt('\
 This is just the function version of the constructor #dyncode("Some").
 ')
 #declnamesynop("option_none")
-#decldescript('\
+#decldescrpt('\
 This is just the function version of the constructor #dyncode("None").
 ')
 
 (* ****** ****** *)
 
 #declnamesynop("option_is_some")
-#decldescript('\
+#decldescrpt('\
 This funtion returns true if and only a given option-value is formed with
 the constructor #dyncode('Some').
 ')
 #declnamesynop("option_is_none")
-#decldescript('\
+#decldescrpt('\
 This funtion returns true if and only a given option-value is formed with
 the constructor #dyncode('None').
 ')
@@ -46,12 +48,12 @@ the constructor #dyncode('None').
 (* ****** ****** *)
 
 #declnamesynop("option_unsome")
-#decldescript('\
+#decldescrpt('\
 This is just the inverse of #dyncode("option_some").
 ')
 
 #declnamesynop("option_unsome_exn")
-#decldescript('\
+#decldescrpt('\
 
 If a given option-value is of the form #dyncode("Some(v)"), then the
 function returns v. Otherwise, it raises an exception
