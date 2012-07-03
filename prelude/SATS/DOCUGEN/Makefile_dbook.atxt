@@ -127,7 +127,7 @@ dbookgendecl_atxt.dats: dbookgendecl.atxt ; \
 ######
 
 uploadall:: ; \
-  scp HTML/*.dbk ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/prelude
+  scp HTML/*.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/prelude
 
 ######
 
