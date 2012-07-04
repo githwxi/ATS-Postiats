@@ -53,6 +53,19 @@ end // end of [declpreamble]
 (* ****** ****** *)
 
 local
+val theDeclpostamble = ref<string> ("")
+in // in of [local]
+implement theDeclpostamble_get () = !theDeclpostamble
+implement theDeclpostamble_set (x) = !theDeclpostamble := x
+end // end of [local]
+implement
+declpostamble (x) = let
+  val () = theDeclpostamble_set (x) in $LDOC.atext_nil ()
+end // end of [declpostamble]
+
+(* ****** ****** *)
+
+local
 val theDeclname = ref<string> ("")
 in // in of [local]
 implement theDeclname_get () = !theDeclname

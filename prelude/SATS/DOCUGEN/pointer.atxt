@@ -32,15 +32,29 @@ prval [l:addr] PTREQ () = ptr_get_index (p)\
 
 (* ****** ****** *)
 
-#declnamesynop("ptr_is_null")
+#declnamesynop("ptr0_is_null")
 #decldescrpt('\
 This function returns true if and only if its argument is the null pointer.
 ')
 
-#declnamesynop("ptr_isnot_null")
+#declnamesynop("ptr0_isnot_null")
 #decldescrpt('\
 This function returns true if and only if its argument is not the null pointer.
 ')
+
+(* ****** ****** *)
+
+#declnamesynop("ptr1_is_null")
+#decldescrpt('\
+
+This function does the same as #dyncode("ptr0_is_null") but is given a more
+informative type.  ')
+
+#declnamesynop("ptr1_isnot_null")
+#decldescrpt('\
+
+This function does the same as #dyncode("ptr0_isnot_null") but is given a more
+informative type.  ')
 
 (* ****** ****** *)
 

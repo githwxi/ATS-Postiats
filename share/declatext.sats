@@ -38,6 +38,10 @@ fun theDeclpreamble_get (): string
 fun theDeclpreamble_set (x: string): void
 fun declpreamble (x: string): atext
 
+fun theDeclpostamble_get (): string
+fun theDeclpostamble_set (x: string): void
+fun declpostamble (x: string): atext
+
 (* ****** ****** *)
 
 fun theDeclname_get (): string

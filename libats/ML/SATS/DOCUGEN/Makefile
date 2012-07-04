@@ -26,7 +26,18 @@ CAT=cat
 
 ######
 
-all::
+all:: all_html
+
+######
+
+DECLATEXT= \
+  declatext_sats.o \
+  declatext_dats.o \
+
+declatext_sats.o: \
+  declatext.sats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $<
+declatext_dats.o: \
+  declatext.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $<
 
 ######
 
@@ -39,30 +50,28 @@ htmlgendecl_sats.o: \
 htmlgendecl_dats.o: \
   htmlgendecl.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $<
 
-######
-
 htmlgendecl_atxt.dats: htmlgendecl.atxt ;   $(ATSDOC) --outcode $@ -i $< > htmlgendecl_atxt.txt
 
 ######
 
-all:: list0.html
-list0.html:   list0_atxt.exe ; $(CAT) ../list0.sats | ./$< > $@
-list0_atxt.txt: list0.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode htmlgendecl_data_atxt.dats > $@
-list0_atxt.exe:   htmlgendecl_atxt.dats list0_atxt.txt $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+all_html:: HTML/list0.html
+HTML/list0.html:   list0_atxt.exe ; $(CAT) ../list0.sats | ./$< > $@
+list0_atxt.txt: list0.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+list0_atxt.exe: htmlgendecl_atxt.dats   list0_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
 clean:: ; $(RMF) list0_atxt.exe
-cleanall:: ; $(RMF) list0.html
+cleanall:: ; $(RMF) HTML/list0.html
 
-all:: option0.html
-option0.html:   option0_atxt.exe ; $(CAT) ../option0.sats | ./$< > $@
-option0_atxt.txt: option0.atxt ;   $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode htmlgendecl_data_atxt.dats > $@
-option0_atxt.exe:   htmlgendecl_atxt.dats option0_atxt.txt $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+all_html:: HTML/option0.html
+HTML/option0.html:   option0_atxt.exe ; $(CAT) ../option0.sats | ./$< > $@
+option0_atxt.txt: option0.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+option0_atxt.exe: htmlgendecl_atxt.dats   option0_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
 clean:: ; $(RMF) option0_atxt.exe
-cleanall:: ; $(RMF) option0.html
+cleanall:: ; $(RMF) HTML/option0.html
 
 
 ######
 
-uploadall:: ;   scp *.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
+uploadall:: ;   scp HTML/*.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
 
 ######
 

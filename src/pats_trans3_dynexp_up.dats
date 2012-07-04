@@ -154,6 +154,7 @@ case+ d2e0.d2exp_node of
 | D2Ecst (d2c) => d2exp_trup_cst (loc0, d2c)
 //
 | D2Eint (i(*int*)) => d2exp_trup_int (d2e0, i)
+| D2Eintrep (rep(*string*)) => d2exp_trup_intrep (d2e0, rep)
 | D2Ebool (b(*bool*)) => d2exp_trup_bool (d2e0, b)
 | D2Echar (c(*char*)) => d2exp_trup_char (d2e0, c)
 //

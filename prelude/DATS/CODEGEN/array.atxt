@@ -449,6 +449,40 @@ end // end of [array_quicksort_fun]
 
 #atscode_separator()
 
+implement{a}
+array_permute (A, asz) = let
+//
+prval () = lemma_array_param (A)
+//
+fun loop
+  {l:addr}{n:nat} .<n>. (
+  pf: !array_v (a, l, n) | p: ptr l, n: size_t n
+) : void = let
+in
+//
+if n >= 2 then let
+  prval (
+    pf1, pf2
+  ) = array_v_uncons (pf)
+  val p1 = ptr1_succ<a> (p)
+  val n1 = pred (n)
+  val i = array_permute__randint<> (n1)
+  val (pf2 | p1) = viewptr_match (pf2 | p1)
+  val () = array_exch_at<a> (!p1, i, !p)
+  val () = loop (pf2 | p1, n1)
+  prval () = pf := array_v_cons (pf1, pf2)
+in
+  // nothing
+end else () // end of [if]
+//
+end // end of [loop]
+//
+in
+  loop (view@ (A) | addr@ (A), asz)
+end // end of [array_permute]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

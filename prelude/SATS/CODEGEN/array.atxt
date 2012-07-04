@@ -353,14 +353,27 @@ fun{a:vt0p}
 array_quicksort__cmp
   (x1: &a, x2: &a):<> int
 fun{a:vt0p}
-array_quicksort
-  {n:int} (A: &(@[a][n]), n: size_t n):<!wrt> void
+array_quicksort {n:int}
+  (A: &(@[INV(a)][n]) >> @[a][n], n: size_t n):<!wrt> void
 // end of [array_quicksort]
 
+(*
+** HX: this is based on [qsort] in [stdlib]
+*)
 fun{a:vt0p}
-array_quicksort_fun {n:int}
-  (A: &(@[a][n]), n: size_t n, cmp: cmpref (a)):<!wrt> void
-// end of [array_quicksort_fun]
+array_quicksort_fun {n:int} (
+  A: &(@[INV(a)][n]) >> @[a][n], n: size_t n, cmp: cmpref (a)
+) :<!wrt> void // end of [array_quicksort_fun]
+
+#atscode_separator()
+
+fun{}
+array_permute__randint
+  {n:int | n > 0} (n: size_t n): sizeLt (n)
+fun{a:vt0p}
+array_permute {n:int}
+  (A: &(@[INV(a)][n]) >> @[a][n], n: size_t n): void
+// end of [array_permute]
 
 #atscode_separator()
 

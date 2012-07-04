@@ -317,14 +317,14 @@ res:t0p}{a:t0p
   {n:int} (
   A: &(@[a][n])
 , asz: size_t n
-, ini: res
-, f: (res, a) -> res
+, f: (a, res) -> res
+, snk: res
 ) : res = let
 //
-var env: res = ini
+var env: res = snk
 //
 implement
-array_rforeach__fwork<a><res> (x, env) = env := f (env, x)
+array_rforeach__fwork<a><res> (x, env) = env := f (x, env)
 val _ = array_rforeach_env (A, asz, env)
 //
 in
@@ -340,6 +340,43 @@ end // end of [array_foldright]
 
 #declnamesynop("array_uninitize__fwork")
 #declnamesynop("array_uninitize")
+
+(* ****** ****** *)
+
+#declnamesynop("array_quicksort__cmp")
+#declnamesynop("array_quicksort")
+
+(* ****** ****** *)
+
+#declnamesynop("array_permute__randint")
+#declnamesynop("array_permute")
+#decldescrpt('\
+
+This function permutes the contents of a given array according to the
+random number generator implemented by #dyncode("array_permute__randint").
+')
+#declexample('\
+implement
+main () =
+  (0) where {
+//
+#define N 10
+val asz = g1int2uint (N)
+//
+val (pf, pfgc | p) = array_ptr_alloc<int> (asz)
+//
+implement
+array_initize__fwork<int> (i, x) = x := g0uint2int (i)
+val () = array_initize (!p, asz) // array: 0, 1, 2, ..., N-1
+//
+implement
+array_permute__randint<> (n) = pred(n)
+val () = array_permute (!p, asz) // array: N-1, 0, 1, 2, ...
+//
+val () = array_ptr_free (pf, pfgc | p)
+//
+} // end of [main]
+')
 
 (* ****** ****** *)
 

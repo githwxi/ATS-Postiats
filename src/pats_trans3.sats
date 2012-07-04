@@ -241,9 +241,9 @@ fun d3explst_trdn_arg
 //
 fun d2exp_trup_int (d2e0: d2exp, i: int): d3exp
 //
-fun intrep_syn_type
+fun intrep_syn_type // for dyn-patterns
   (loc0: location, rep: string): s2exp // g0int
-fun intrep_syn_type_ind
+fun intrep_syn_type_ind // for dyn-expressions
   (loc0: location, rep: string): s2exp // g1int
 fun d2exp_trup_intrep (d2e0: d2exp, rep: string): d3exp
 //

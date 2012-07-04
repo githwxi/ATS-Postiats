@@ -19,24 +19,22 @@ fun make_entry
   (nm: string): atext = let
 //
 val ent = sprintf ("\
-all:: %s.html\n\
-%s.html: \
+all_html:: HTML/%s.html\n\
+HTML/%s.html: \
   %s_atxt.exe ; $(CAT) ../%s.sats | ./$< > $@
-%s_atxt.txt: %s.atxt ; \
-  $(CAT) $< | $(ATSDOC) --prefix __dtok --outcode htmlgendecl_data_atxt.dats > $@
-%s_atxt.exe: \
-  htmlgendecl_atxt.dats %s_atxt.txt $(HTMLGENDECL) ; \
+%s_atxt.txt: %s.atxt ; $(CAT) $< | \
+  $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+%s_atxt.exe: htmlgendecl_atxt.dats \
+  %s_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ; \
   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $< \
-    $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+    $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
 clean:: ; $(RMF) %s_atxt.exe
-cleanall:: ; $(RMF) %s.html
+cleanall:: ; $(RMF) HTML/%s.html
 ", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
 ) // end of [val]
 //
-val ent = string_of_strptr (ent)
-//
 in
-  atext_strcst (ent)
+  atext_strptr (ent)
 end // end of [make_entry]
 
 %}\
@@ -68,7 +66,18 @@ CAT=cat
 
 ######
 
-all::
+all:: all_html
+
+######
+
+DECLATEXT= \\
+  declatext_sats.o \\
+  declatext_dats.o \\
+
+declatext_sats.o: \\
+  declatext.sats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $<
+declatext_dats.o: \\
+  declatext.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $<
 
 ######
 
@@ -81,8 +90,6 @@ htmlgendecl_sats.o: \\
 htmlgendecl_dats.o: \\
   htmlgendecl.dats ; $(ATSCC) $(INCLUDE) $(INCLATS) -c $(ATSCCFLAGS) $<
 
-######
-
 htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
   $(ATSDOC) --outcode $@ -i $< > htmlgendecl_atxt.txt
 
@@ -94,7 +101,7 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
 ######
 
 uploadall:: ; \
-  scp *.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
+  scp HTML/*.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
 
 ######
 

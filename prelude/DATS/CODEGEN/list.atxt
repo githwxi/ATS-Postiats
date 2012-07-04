@@ -403,7 +403,7 @@ end // end of [list_make_elt]
 #atscode_separator()
 
 implement
-list_make_range
+list_make_intrange
   {l0,r} (l0, r) = let
 //
 typedef elt = intBtw (l0, r)
@@ -429,7 +429,7 @@ val () = $effmask_wrt (loop (l0, r, res))
 //
 in
   res
-end // end of [list_make_range]
+end // end of [list_make_intrange]
 
 #atscode_separator()
 

@@ -35,6 +35,7 @@ end // end of [local]
 //
 val theDecltitle = theDecltitle_get ()
 val theDeclpreamble = theDeclpreamble_get ()
+val theDeclpostamble = theDeclpostamble_get ()
 //
 val theDeclnameLst_menu = theDeclnameLst_make_menu ()
 val theDeclitemLst_content = theDeclitemLst_make_content ()
@@ -67,28 +68,7 @@ val () = theTextMap_insert_str ("theDeclitemLst_content", theDeclitemLst_content
 
 #HR(2)
 
-<table>
-<tr>
-<td style="width: 100%;">
-This page is created with
-<a href="http://www.ats-lang.org">ATS</a>
-by
-<a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>
-and also maintained by
-<a href="http://www.cs.bu.edu/~hwxi/">Hongwei Xi</a>.
-</td>
-<td style="width: 0%;"><!--pushed to the right-->
-<a href="http://sourceforge.net">
-<img
-src="http://sflogo.sourceforge.net/sflogo.php?group_id=205722&amp;type=2"
-width="120"
-height="36"
-alt="SourceForge.net Logo"
-/>
-</a>
-</td>
-</tr>
-</table>
+#atext_filepath("theDeclpostamble.html")
 
 </body>
 </html>

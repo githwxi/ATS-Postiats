@@ -48,30 +48,19 @@ end // end of [local]
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
 ]>
-<article id="assignment3" lang="en">
+<article id="article" lang="en">
 #articleinfo("\
 #title(theDecltitle)
-#author("#firstname("Hongwei")#surname("Xi")")
 ")#comment("articleinfo")
 
-<formalpara>
+<section>
 <title></title>
 #atext_strsub(theDeclpreamble)
-</formalpara>
+</section>
 
 #atext_strsub("\#theDeclitemLst_content$")
 
-<formalpara>
-<title></title>
-<para>
-This page is created with
-#ulink("http://www.ats-lang.org", "ATS")
-by
-#ulink("http://www.cs.bu.edu/~hwxi", "Hongwei Xi")
-and also maintained by
-#ulink("http://www.cs.bu.edu/~hwxi", "Hongwei Xi").
-</para>
-</formalpara>
+#atext_filepath("theDeclpostamble.dbook")
 
 </article>
 

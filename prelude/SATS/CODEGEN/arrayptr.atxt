@@ -128,10 +128,10 @@ arrayptr_make_elt
 
 #atscode_separator()
 
-fun arrayptr_make_range
+fun arrayptr_make_intrange
   {l,r:int | l <= r}
   (l: int l, r: int r):<> arrayptr (intBtw(l, r), r-l)
-// end of [arrayptr_make_range]
+// end of [arrayptr_make_intrange]
 
 #atscode_separator()
 

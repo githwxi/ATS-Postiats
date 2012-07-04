@@ -224,7 +224,7 @@ consisting of n occurrences of x.
 
 (* ****** ****** *)
 
-#declnamesynop("list_make_range")
+#declnamesynop("list_make_intrange")
 #decldescrpt('\
 
 Given integers l and r satisfying l <= r, this function returns a list of
@@ -348,7 +348,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 fun factorial
   {n:nat} (n: int n): int = let
 //
-val xs = list_make_range (0, n)
+val xs = list_make_intrange (0, n)
 implement
 list_foldleft__fwork<int><int> (acc, x) = acc * (x+1)
 val res = list_foldleft<int><int> ($UN.listcast(xs), 1(*ini*))
@@ -454,7 +454,7 @@ The following code implements a function that returns a list of integers
 between two given arguments:
 
 #pats2xhtmld('\
-fun list_make_range
+fun list_make_intrange
   {l,r:int | l <= r} (
   l: int l, r: int r
 ) : list_vt (int, r-l) = let
@@ -464,7 +464,7 @@ list_tabulate__fwork<int> (i) = l + i
 //
 in
   list_tabulate<int> (r-l)
-end // end of [list_make_range]
+end // end of [list_make_intrange]
 ')
 ')
 
@@ -570,7 +570,7 @@ implement
 main () = let
 //
 val N = 10
-val out = out
+val out = stdout_ref
 //
 val xs = $lst{int}(0, 9, 2, 7, 4, 5, 6, 3, 8, 1)
 val () = fprint_list_sep (out, xs, ", ")

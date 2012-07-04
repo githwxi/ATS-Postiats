@@ -93,7 +93,7 @@ implement
 d2exp_trup_intrep
   (d2e0, rep) = let
   val loc0 = d2e0.d2exp_loc
-  val s2f = intrep_syn_type (loc0, rep)
+  val s2f = intrep_syn_type_ind (loc0, rep)
 in
   d3exp_intrep (loc0, s2f, rep)
 end // end of [d2exp_trup_int]

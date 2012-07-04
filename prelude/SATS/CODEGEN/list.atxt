@@ -187,10 +187,10 @@ list_make_elt
 
 #atscode_separator()
 
-fun list_make_range
+fun list_make_intrange
   {l,r:int | l <= r}
   (l: int l, r: int r): list_vt (intBtw (l, r), r-l)
-// end of [list_make_range]
+// end of [list_make_intrange]
 
 #atscode_separator()
 

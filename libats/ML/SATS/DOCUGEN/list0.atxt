@@ -271,7 +271,7 @@ However, the implementation of this function in ATSLIB is tail-recursive.\
 
 #declnamesynop("list0_zipwith")
 #decldescrpt("\
-This function does the same as #dyncode("list0_map2").
+This function does exactly the same as #dyncode("list0_map2").
 ")
 
 (* ****** ****** *)

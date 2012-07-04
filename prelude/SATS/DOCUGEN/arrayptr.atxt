@@ -82,7 +82,7 @@ This function creates an arrayptr-value of a given size
 
 (* ****** ****** *)
 
-#declnamesynop("arrayptr_make_range")
+#declnamesynop("arrayptr_make_intrange")
 #decldescrpt("\
 
 This function creates an arrayptr-value of size r-l that contains the
@@ -136,7 +136,7 @@ main () = let
 //
 val N = 10
 val asz = g1int2uint (N)
-val A = arrayptr_make_range (0, N)
+val A = arrayptr_make_intrange (0, N)
 //
 var ans: int = 0
 implement
