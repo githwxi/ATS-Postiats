@@ -429,7 +429,7 @@ viewtypedef strnptr (n:int) = [l:addr] strnptr (l, n)
 *)
 abstype
 strref_addr_type (l:addr)
-stadef strref = strref_int_type
+stadef strref = strref_addr_type
 typedef strref0 = [l:addr] strref (l)
 viewtypedef strref1 = [l:addr | l > null] strref (l)
 

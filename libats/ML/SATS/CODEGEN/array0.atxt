@@ -46,9 +46,9 @@ array0_of_arrszref
 // end of [array0_of_arrszref]
 
 castfn 
-arrayref_of_array0
+arrszref_of_array0
   {a:vt0p} (A: array0 (INV(a))):<> arrszref (a)
-// end of [arrayref_of_array0]
+// end of [arrszref_of_array0]
 
 #atscode_separator()
 
@@ -56,6 +56,9 @@ fun{a:t0p}
 array0_get_at (A: array0 (INV(a)), i: size_t):<!exn,!ref> a
 fun{a:t0p}
 array0_set_at (A: array0 (INV(a)), i: size_t, x: a):<!exn,!refwrt> void
+
+fun{a:vt0p}
+array0_exch_at (A: array0 (INV(a)), i: size_t, x: &a):<!exn,!refwrt> void
 
 #atscode_separator()
 
@@ -91,10 +94,20 @@ array0_iforeach
   (A: array0 (INV(a)), f: (size_t, &a) -<cloref1> void): void
 // end of [array0_iforeach]
 
+#atscode_separator()
+
+(*
+** HX: raising NotFoundExn if no satisfying element is found
+*)
 fun{a:t0p}
-array0_rforeach
-  (A: array0 (INV(a)), f: (&a) -<cloref1> void): void
-// end of [array0_rforeach]
+array0_find_exn
+  (A: array0 (INV(a)), p: (&a) -<cloref1> bool): size_t
+// end of [array0_find_exn]
+
+fun{a:t0p}
+array0_find_opt
+  (A: array0 (INV(a)), p: (&a) -<cloref1> bool): option0 (size_t)
+// end of [array0_find_opt]
 
 #atscode_separator()
 
@@ -109,6 +122,13 @@ a:t0p}{res:t0p
 } array0_ifoldleft (
   A: array0 (INV(a)), ini: res, f: (res, size_t, &a) -<cloref1> res
 ) : res // end of [array0_ifoldleft]
+
+#atscode_separator()
+
+fun{a:t0p}
+array0_rforeach
+  (A: array0 (INV(a)), f: (&a) -<cloref1> void): void
+// end of [array0_rforeach]
 
 #atscode_separator()
 

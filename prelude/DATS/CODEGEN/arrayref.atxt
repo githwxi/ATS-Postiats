@@ -106,6 +106,18 @@ end // end of [arrszref_make_elt]
 
 #atscode_separator()
 
+implement{a}
+arrszref_make_list
+  (xs) = let
+  val n = list_length<a> (xs)
+  val A = arrayref_make_listlen (xs, n)
+  val asz = g1int2uint (n)
+in
+  arrszref_make (A, asz)
+end // end of [arrszref_make_list]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

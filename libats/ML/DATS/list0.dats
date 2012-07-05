@@ -33,7 +33,8 @@
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
@@ -227,7 +228,7 @@ end // end of [list0_foreach2_eq]
 (* ****** ****** *)
 
 implement
-{res}{a}
+{a}{res}
 list0_foldleft (xs, ini, f) = let
 in
   case+ xs of
@@ -238,7 +239,7 @@ in
 end // end of [list0_foldleft]
 
 implement
-{res}{a}
+{a}{res}
 list0_ifoldleft
   (xs, ini, f) = let
   fun loop (
@@ -257,7 +258,7 @@ end // end of [list0_ifoldleft]
 (* ****** ****** *)
 
 implement
-{res}{a1,a2}
+{a1,a2}{res}
 list0_foldleft2
   (xs1, xs2, ini, f) = let
 in

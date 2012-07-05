@@ -40,12 +40,30 @@ elements of the type T are stored.
 
 #declnamesynop("array0_foreach")
 #declnamesynop("array0_iforeach")
-#declnamesynop("array0_rforeach")
+
+(* ****** ****** *)
+
+#declnamesynop("array0_find_exn")
+#decldescrpt("\
+
+This function returns the index of the first array-cell in a given array
+that contains an element satisfiing a given predicate. If there is no such
+an element, then the function raises an exception (#dyncode("NotFoundExn")).
+
+")
+#declnamesynop("array0_find_opt")
+#decldescrpt("\
+This function is just the optional version of #dyncode("array0_find_exn").
+")
 
 (* ****** ****** *)
 
 #declnamesynop("array0_foldleft")
 #declnamesynop("array0_ifoldleft")
+
+(* ****** ****** *)
+
+#declnamesynop("array0_rforeach")
 
 (* ****** ****** *)
 

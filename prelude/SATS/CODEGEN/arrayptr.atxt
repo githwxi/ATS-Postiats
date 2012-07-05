@@ -167,6 +167,11 @@ fun{a:vt0p}{env:vt0p}
 array_foreach__fwork (x: &a >> a, env: &env): void
 *)
 fun{
+a:vt0p
+} arrayptr_foreach {n:int} (
+  A: !arrayptr (INV(a), n), asz: size_t (n)
+) : sizeLte(n) // end of [arrayptr_foreach]
+fun{
 a:vt0p}{env:vt0p
 } arrayptr_foreach_env {n:int} (
   A: !arrayptr (INV(a), n), asz: size_t (n), env: &INV(env) >> env

@@ -87,6 +87,10 @@ libats:: ; ./patsopt -d $(PATSHOME)/libats/DATS/funralist_nested.dats
 
 libats_ML:: ; ./patsopt -s $(PATSHOME)/libats/ML/SATS/list0.sats
 libats_ML:: ; ./patsopt -d $(PATSHOME)/libats/ML/DATS/list0.dats
+libats_ML:: ; ./patsopt -s $(PATSHOME)/libats/ML/SATS/option0.sats
+libats_ML:: ; ./patsopt -d $(PATSHOME)/libats/ML/DATS/option0.dats
+libats_ML:: ; ./patsopt -s $(PATSHOME)/libats/ML/SATS/array0.sats
+libats_ML:: ; ./patsopt -d $(PATSHOME)/libats/ML/DATS/array0.dats
 
 ######
 
