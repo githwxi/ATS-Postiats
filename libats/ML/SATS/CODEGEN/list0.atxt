@@ -126,11 +126,11 @@ list0_foreach2_eq (
 #atscode_separator()
 
 fun{
-res:t0p}{a:t0p
+a:t0p}{res:t0p
 } list0_foldleft
   (xs: list0 (INV(a)), ini: res, f: cfun2 (res, a, res)): res
 fun{
-res:t0p}{a:t0p
+a:t0p}{res:t0p
 } list0_ifoldleft
   (xs: list0 (INV(a)), ini: res, f: cfun3 (res, int, a, res)): res
 // end of [list0_ifoldleft]
@@ -138,7 +138,7 @@ res:t0p}{a:t0p
 #atscode_separator()
 
 fun{
-res:t0p}{a1,a2:t0p
+a1,a2:t0p}{res:t0p
 } list0_foldleft2 (
   xs1: list0 (INV(a1))
 , xs2: list0 (INV(a2))

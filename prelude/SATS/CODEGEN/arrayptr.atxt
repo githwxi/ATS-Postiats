@@ -78,9 +78,22 @@ arrayptr_takeout
 praxi
 arrayptr_addback
   {a:vt0p}{l:addr}{n:int} (
-  pf: array_v (INV(a), l, n)
-| A: !arrayptrout (a?, l, n) >> arrayptr (a, l, n)
+  pf: array_v (INV(a), l, n) | A: !arrayptrout (a?, l, n) >> arrayptr (a, l, n)
 ) : void // end of [arrayptr_addback]
+
+#atscode_separator()
+
+castfn
+arrptrsz_encode
+  {a:vt0p}{l:addr}{n:int}
+  (p: arrayptr (INV(a), l, n), n: size_t n):<> arrptrsz (a, l, n)
+// end of [arrptrsz_encode]
+
+castfn
+arrptrsz_decode
+  {a:vt0p}{l:addr}{n:int}
+  (psz: arrptrsz (INV(a), l, n)):<> (arrayptr (a, l, n), size_t (n))
+// end of [arrptrsz_decode]
 
 #atscode_separator()
 //

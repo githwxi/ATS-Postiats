@@ -30,7 +30,93 @@ staload "libats/ML/basics.sats"
 
 #atscode_separator()
 
+(*
 typedef array0 (a: t@ype) = arrszref (a)
+*)
+
+#atscode_separator()
+
+sortdef t0p = t@ype and vt0p = viewt@ype
+
+#atscode_separator()
+
+castfn 
+array0_of_arrszref
+  {a:vt0p} (A: arrszref (INV(a))):<> array0 (a)
+// end of [array0_of_arrszref]
+
+castfn 
+arrayref_of_array0
+  {a:vt0p} (A: array0 (INV(a))):<> arrszref (a)
+// end of [arrayref_of_array0]
+
+#atscode_separator()
+
+fun{a:t0p}
+array0_get_at (A: array0 (INV(a)), i: size_t):<!exn,!ref> a
+fun{a:t0p}
+array0_set_at (A: array0 (INV(a)), i: size_t, x: a):<!exn,!refwrt> void
+
+#atscode_separator()
+
+fun array0_size {a:t0p} (A: array0 a):<> size_t
+fun array0_length {a:t0p} (A: array0 a):<> size_t
+
+#atscode_separator()
+
+fun{a:t0p}
+array0_make_elt
+  (asz: size_t, x: a):<> array0 (a)
+// end of [array0_make_elt]
+
+fun{a:t0p}
+array0_make_list (xs: list0 (INV(a))):<> array0 (a)
+
+#atscode_separator()
+
+fun{a:t0p}
+array0_append
+  (A1: array0 (INV(a)), A2: array0 (a)):<> array0 (a)
+// end of [array0_append]
+
+#atscode_separator()
+
+fun{a:t0p}
+array0_foreach
+  (A: array0 (INV(a)), f: (&a) -<cloref1> void): void
+// end of [array0_foreach]
+
+fun{a:t0p}
+array0_iforeach
+  (A: array0 (INV(a)), f: (size_t, &a) -<cloref1> void): void
+// end of [array0_iforeach]
+
+fun{a:t0p}
+array0_rforeach
+  (A: array0 (INV(a)), f: (&a) -<cloref1> void): void
+// end of [array0_rforeach]
+
+#atscode_separator()
+
+fun{
+a:t0p}{res:t0p
+} array0_foldleft (
+  A: array0 (INV(a)), ini: res, f: (res, &a) -<cloref1> res
+) : res // end of [array0_foldleft]
+
+fun{
+a:t0p}{res:t0p
+} array0_ifoldleft (
+  A: array0 (INV(a)), ini: res, f: (res, size_t, &a) -<cloref1> res
+) : res // end of [array0_ifoldleft]
+
+#atscode_separator()
+
+fun{
+a:t0p}{res:t0p
+} array0_foldright (
+  A: array0 (INV(a)), f: (&a, res) -<cloref1> res, snk: res
+) : res // end of [array0_foldright]
 
 #atscode_separator()
 

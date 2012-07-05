@@ -228,7 +228,7 @@ given array:
 
 #pats2xhtmld('
 fun{
-res:t0p}{a:t0p
+a:t0p}{res:t0p
 } array_foldleft
   {n:int} (
   A: &(@[a][n])

@@ -30,45 +30,13 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()
 //
-// arrszref: a reference to an array with size information attached
-//
-#atscode_separator()
-
-abstype
-arrszref_viewt0ype_type (a: viewt@ype)
-stadef arrszref = arrszref_viewt0ype_type
-(*
-stadef array0 = arrszref // HX: backward compatibility?
-*)
-
-#atscode_separator()
-
-fun{a:t0p}
-arrszref_get_at
-  (A: arrszref (a), i: size_t):<!exn,!ref> a
-overload [] with arrszref_get_at
-fun{a:t0p}
-arrszref_set_at
-  (A: arrszref (a), i: size_t, x: a):<!exn,!ref,!wrt> void
-overload [] with arrszref_set_at
-
-#atscode_separator()
-
-fun{
-a:vt0p
-} arrszref_exch_at
-  (A: arrszref (a), i: size_t, x: &a >> a):<!exn,!ref,!wrt> void
-// end of [arrszref_exch_at]
-
-#atscode_separator()
-//
 // arrayref: a reference to an array with no size information attached
 //
 #atscode_separator()
 
 abstype
 arrayref_viewt0ype_int_type
-  (a: viewt@ype(*invar*), n: int)
+  (a: viewt@ype(*invariant*), n: int(*size*))
 stadef arrayref = arrayref_viewt0ype_int_type
 (*
 stadef array = arrayref // HX: backward compatibility?
@@ -78,11 +46,16 @@ stadef array = arrayref // HX: backward compatibility?
 
 praxi
 lemma_arrayref_param
-  {a:vt0p}{n:int} (A: arrayref (a, n)): [n >= 0] void
+  {a:vt0p}{n:int} (A: arrayref (INV(a), n)): [n >= 0] void
 // end of [lemma_arrayref_param]
 
 #atscode_separator()
 
+(*
+** HX-2012-06:
+** this function essentially passes the proof of array-view
+** to GC (leaks it if GC is unavailable)
+*)
 castfn
 arrayptr2ref
   {a:vt0p}
@@ -95,7 +68,7 @@ castfn
 arrayref_get_viewptr
   {a:vt0p}
   {n:int} (
-  A: arrayref (a, n)
+  A: arrayref (INV(a), n)
 ) :<> [l:addr] (vbox (array_v (a, l, n)) | ptr l)
 
 #atscode_separator()
@@ -126,6 +99,54 @@ arrayref_make_elt
 // end of [arrayref_make_elt]
 
 #atscode_separator()
+//
+// arrszref: a reference to an array with size information attached
+//
+#atscode_separator()
+
+abstype
+arrszref_viewt0ype_type
+  (a: viewt@ype(*invariant*))
+stadef arrszref = arrszref_viewt0ype_type
+(*
+stadef array0 = arrszref // HX: backward compatibility?
+*)
+
+#atscode_separator()
+
+fun
+arrszref_make{a:vt0p}{n:int}
+  (A: arrayref (INV(a), n), n: size_t n):<> arrszref (a)
+// end of [arrszref_make]
+fun
+arrszref_get_refsize{a:vt0p}
+  (A: arrszref (INV(a)), n: &size_t? >> size_t n):<!wrt> #[n:int] arrayref (a, n)
+// end of [arrszref_get_refsize]
+
+#atscode_separator()
+
+fun{a:t0p}
+arrszref_get_at
+  (A: arrszref (INV(a)), i: size_t):<!exn,!ref> a
+overload [] with arrszref_get_at
+fun{a:t0p}
+arrszref_set_at
+  (A: arrszref (INV(a)), i: size_t, x: a):<!exn,!refwrt> void
+overload [] with arrszref_set_at
+
+#atscode_separator()
+
+fun{
+a:vt0p
+} arrszref_exch_at
+  (A: arrszref (INV(a)), i: size_t, x: &a >> a):<!exn,!refwrt> void
+// end of [arrszref_exch_at]
+
+#atscode_separator()
+
+fun{a:t0p}
+arrszref_make_elt (asz: size_t, x: a):<> arrszref (a)
+// end of [arrszref_make_elt]
 
 #atscode_eof_strsub("\#thisfilename$")\
 

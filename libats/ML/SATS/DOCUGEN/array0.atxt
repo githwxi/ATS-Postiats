@@ -1,0 +1,56 @@
+#decltitle("\
+ATSLIB/libats/ML/array0\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are primarily for supporting
+ML-style processing of persisten arrays. Note that a plain array (as is in
+C) is not available in languages such as Java and ML due to the need for
+performing array-bounds checking at run-time. Instead, arrays in these
+languages are always bundled together with their sizes. In ATS, the type
+#stacode("array0(T)") is for an array paired with its size in which
+elements of the type T are stored.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("array0")
+
+(* ****** ****** *)
+
+#declnamesynop("array0_of_arrszref")
+#declnamesynop("arrszref_of_array0")
+
+(* ****** ****** *)
+
+#declnamesynop("array0_get_at")
+#declnamesynop("array0_set_at")
+#declnamesynop("array0_exch_at")
+
+(* ****** ****** *)
+
+#declnamesynop("array0_make_elt")
+#declnamesynop("array0_make_list")
+
+(* ****** ****** *)
+
+#declnamesynop("array0_foreach")
+#declnamesynop("array0_iforeach")
+#declnamesynop("array0_rforeach")
+
+(* ****** ****** *)
+
+#declnamesynop("array0_foldleft")
+#declnamesynop("array0_ifoldleft")
+
+(* ****** ****** *)
+
+#declnamesynop("array0_foldright")
+
+(* ****** ****** *)
+
+(* end of [array0.atxt] *)

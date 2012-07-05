@@ -48,6 +48,18 @@ array_v (
 
 #atscode_separator()
 
+dataview
+arrayopt_v (
+  a:viewt@ype+, addr, int, bool
+) = // HX: for optional array view
+  | {l:addr}{n:int}
+    arrayopt_v_some (a, l, n, true) of array_v (a, l, n)
+  | {l:addr}{n:int}
+    arrayopt_v_none (a, l, n, false) of array_v (a?, l, n)
+// end of [arrayopt_v]
+
+#atscode_separator()
+
 exception ArraySubscriptExn of ()
 
 #atscode_separator()
@@ -87,18 +99,6 @@ prfun array_v_sing
   {a:vt0p}{l:addr} (pf: INV(a) @ l): array_v (a, l, 1)
 prfun array_v_unsing
   {a:vt0p}{l:addr} (pf: array_v (INV(a), l, 1)): a @ l
-
-#atscode_separator()
-
-dataview
-arrayopt_v (
-  a:viewt@ype+, addr, int, bool
-) = // HX: for optional array view
-  | {l:addr}{n:int}
-    arrayopt_v_some (a, l, n, true) of array_v (a, l, n)
-  | {l:addr}{n:int}
-    arrayopt_v_none (a, l, n, false) of array_v (a?, l, n)
-// end of [arrayopt_v]
 
 #atscode_separator()
 

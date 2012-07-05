@@ -60,6 +60,52 @@ end // end of [arrayref_make_elt]
 
 #atscode_separator()
 
+implement{a}
+arrszref_get_at
+  (A0, i) = $effmask_wrt let
+  var n: size_t
+  val A = arrszref_get_refsize (A0, n)
+  val i = g1ofg0_uint (i)
+in
+//
+if n > i then arrayref_get_at (A, i) else $raise ArraySubscriptExn()
+//
+end // end of [arrszref_get_at]
+
+implement{a}
+arrszref_set_at
+  (A0, i, x) = $effmask_wrt let
+  var n: size_t
+  val A = arrszref_get_refsize (A0, n)
+  val i = g1ofg0_uint (i)
+in
+//
+if n > i then arrayref_set_at (A, i, x) else $raise ArraySubscriptExn()
+//
+end // end of [arrszref_set_at]
+
+implement{a}
+arrszref_exch_at
+  (A0, i, x) = $effmask_wrt let
+  var n: size_t
+  val A = arrszref_get_refsize (A0, n)
+  val i = g1ofg0_uint (i)
+in
+//
+if n > i then arrayref_exch_at (A, i, x) else $raise ArraySubscriptExn()
+//
+end // end of [arrszref_exch_at]
+
+#atscode_separator()
+
+implement{a}
+arrszref_make_elt (asz, x) = let
+  val asz = g1ofg0_uint (asz)
+  val A = arrayref_make_elt (asz, x) in arrszref_make (A, asz)
+end // end of [arrszref_make_elt]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

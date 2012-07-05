@@ -410,7 +410,7 @@ typedef Stropt = [n:int] stropt (n)
 (* ****** ****** *)
 
 (*
-** HX: linear strings that are modifiable 
+** HX: linear mutable strings
 *)
 absviewtype
 strptr_addr_viewtype (l:addr)
@@ -421,6 +421,17 @@ absviewtype
 strnptr_addr_int_viewtype (l:addr, n:int)
 stadef strnptr = strnptr_addr_int_viewtype
 viewtypedef strnptr (n:int) = [l:addr] strnptr (l, n)
+
+(* ****** ****** *)
+
+(*
+** HX: persistent mutable strings
+*)
+abstype
+strref_addr_type (l:addr)
+stadef strref = strref_int_type
+typedef strref0 = [l:addr] strref (l)
+viewtypedef strref1 = [l:addr | l > null] strref (l)
 
 (* ****** ****** *)
 
@@ -461,11 +472,15 @@ stadef free_ngc_v = free_ngc_addr_view
 //
 (* ****** ****** *)
 
+abst@ype
+ptrsize_t0ype = $extype "ptrsize_t0ype"
+
 absviewt@ype
-arrsz_viewt0ype_int_viewt0ype
-  (a:viewt@ype+, n:int) = (ptr, size_t)
-// end of [arrsz_viewt0ype_int_viewt0ype]
-stadef arrsz = arrsz_viewt0ype_int_viewt0ype
+arrptrsz_viewt0ype_addr_int_viewt0ype
+  (a:viewt@ype+, l:addr, n:int) = ptrsize_t0ype
+// end of [arrptrsz_viewt0ype_int_viewt0ype]
+stadef
+arrptrsz = arrptrsz_viewt0ype_addr_int_viewt0ype
 
 (* ****** ****** *)
 

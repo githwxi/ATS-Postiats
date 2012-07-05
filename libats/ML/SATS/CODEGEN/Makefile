@@ -47,6 +47,15 @@ array0_atxt.dats: array0.atxt
 clean:: ; $(RMF) array0_atxt.exe
 cleanall:: ; $(RMF) array0.sats
 
+all:: cstring.sats
+cstring.sats: cstring_atxt.exe ; ./$< > $@
+cstring_atxt.exe: cstring_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ cstring_atxt.dats -latsdoc
+cstring_atxt.dats: cstring.atxt
+	$(ATSDOC) --outcode $@ -i cstring.atxt > cstring_atxt.txt
+clean:: ; $(RMF) cstring_atxt.exe
+cleanall:: ; $(RMF) cstring.sats
+
 
 ######
 

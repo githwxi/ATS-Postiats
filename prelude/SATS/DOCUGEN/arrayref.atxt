@@ -13,43 +13,30 @@ arrays.  ")
 
 #para("\
 
+Given a type T, the type #stacode("arrayref(T, N)") is for a plain array
+containing N cells in which elements of the type T are stored.
+Array-subscripting on an arrayref-value requires static verification that
+the subscripting index is within the bounds of the subscripted array.  Note
+that the type T can be linear.  However, it is somewhat unwieldy in
+practice to make use of an arrayref-value containing linear elements. ")
+
+#para("\
+
 Given a type T, the type #stacode("arrszref(T)") is for an array paired
 with its own size in which elements of the type T are
 stored. Array-subscripting on an arrszref-value is internally combined with
 array-bounds checking at run-time to prevent the use of illegal
-array-indexes. Note that the type T can be linear. However, it is somewhat
-unwieldy in practice to make use of an arrayref-value containing linear
-elements. ")
-
-#para("\
-
-Given a type T, the type #stacode("arrayref(T, N)") is for a plain array
-containing N cells in which elements of the type T are
-stored. Array-subscripting on an arrayref-value requires static
-verification that the subscripting index is within the bounds of the
-subscripted array.  Note that the type T can be linear.  ")
+array-indexes (at the expense of raising probably unattended exceptions). ")
 
 #para("\
 
 In safe programming languages such as Java and ML, plain and ungarnished
 arrays cannot be safely supported due to the limitation of the underlying
-type systems. Instead, arrayref-values (or something similar) are used to
+type systems. Instead, arrszref-values (or something similar) are used to
 represent arrays so that array-bounds checking can be performed at
 run-time.  ")
 
 ")#comment("declpreamble")
-
-(* ****** ****** *)
-
-#declnamesynop("arrszref")
-
-(* ****** ****** *)
-
-#declnamesynop("arrszref_get_at")
-#declnamesynop("arrszref_set_at")
-#declnamesynop("arrszref_exch_at")
-
-#declnamesynop("arraysz_make_elt")
 
 (* ****** ****** *)
 
@@ -67,6 +54,32 @@ run-time.  ")
 (* ****** ****** *)
 
 #declnamesynop("arrayref_make_elt")
+
+(* ****** ****** *)
+
+#declnamesynop("arrszref")
+
+(* ****** ****** *)
+
+#declnamesynop("arrszref_make")
+#decldescrpt("\
+
+This function combines an arrayref-value and its size into an
+arrszref-value. ")
+
+#declnamesynop("arrszref_get_refsize")
+#decldescrpt("\
+
+This function obtains the arrayref-value and its size in a given
+arrszref-value. ")
+
+(* ****** ****** *)
+
+#declnamesynop("arrszref_get_at")
+#declnamesynop("arrszref_set_at")
+#declnamesynop("arrszref_exch_at")
+
+#declnamesynop("arrszref_make_elt")
 
 (* ****** ****** *)
 
