@@ -38,6 +38,15 @@ option0_atxt.dats: option0.atxt
 clean:: ; $(RMF) option0_atxt.exe
 cleanall:: ; $(RMF) option0.sats
 
+all:: array0.sats
+array0.sats: array0_atxt.exe ; ./$< > $@
+array0_atxt.exe: array0_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ array0_atxt.dats -latsdoc
+array0_atxt.dats: array0.atxt
+	$(ATSDOC) --outcode $@ -i array0.atxt > array0_atxt.txt
+clean:: ; $(RMF) array0_atxt.exe
+cleanall:: ; $(RMF) array0.sats
+
 
 ######
 

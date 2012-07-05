@@ -312,7 +312,7 @@ given array:
 
 #pats2xhtmld('
 fun{
-res:t0p}{a:t0p
+a:t0p}{res:t0p
 } array_foldright
   {n:int} (
   A: &(@[a][n])
@@ -356,27 +356,36 @@ This function permutes the contents of a given array according to the
 random number generator implemented by #dyncode("array_permute__randint").
 ')
 #declexample('\
+
+The following code creates an array of integers 0, 1, 2, 3, 4, 5, 6, 7, 8
+and 9, and then permutes the array contents to obtain an array of integers
+9, 0, 1, 2, 3, 4, 5, 6, 7, and 8:
+
+#pats2xhtmld('\
 implement
 main () =
   (0) where {
 //
-#define N 10
+\#define N 10
 val asz = g1int2uint (N)
 //
 val (pf, pfgc | p) = array_ptr_alloc<int> (asz)
 //
 implement
 array_initize__fwork<int> (i, x) = x := g0uint2int (i)
-val () = array_initize (!p, asz) // array: 0, 1, 2, ..., N-1
+val () = array_initize<int> (!p, asz) // array: 0, 1, 2, ..., N-1
 //
 implement
-array_permute__randint<> (n) = pred(n)
-val () = array_permute (!p, asz) // array: N-1, 0, 1, 2, ...
+array_permute__randint<>
+  (n) = pred(n) // this is not random
+val () = array_permute<int> (!p, asz) // array: N-1, 0, 1, 2, ...
 //
 val () = array_ptr_free (pf, pfgc | p)
 //
 } // end of [main]
-')
+')\
+
+Note that the created array is properly freed before the code exits.  ')
 
 (* ****** ****** *)
 

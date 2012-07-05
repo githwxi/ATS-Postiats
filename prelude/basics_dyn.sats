@@ -214,6 +214,7 @@ viewtypedef listGte_vt
 //
 dataprop unit_p = unit_p of ()
 dataview unit_v = unit_v of ()
+prfun unit_v_elim (pf: unit_v): void
 //
 (* ****** ****** *)
 //

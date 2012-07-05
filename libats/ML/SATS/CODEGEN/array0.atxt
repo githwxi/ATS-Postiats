@@ -1,0 +1,41 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT=="txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"array0.sats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/libats/ML/SATS/CODEGEN/array0.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("July, 2012")
+
+#atscode_separator()
+
+staload "libats/ML/basics.sats"
+
+#atscode_separator()
+
+typedef array0 (a: t@ype) = arrszref (a)
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "array0_atxt.txt")
+%}\

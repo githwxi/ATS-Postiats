@@ -68,6 +68,13 @@ option0_atxt.exe: htmlgendecl_atxt.dats   option0_atxt.txt $(DECLATEXT) $(HTMLGE
 clean:: ; $(RMF) option0_atxt.exe
 cleanall:: ; $(RMF) HTML/option0.html
 
+all_html:: HTML/array0.html
+HTML/array0.html:   array0_atxt.exe ; $(CAT) ../array0.sats | ./$< > $@
+array0_atxt.txt: array0.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+array0_atxt.exe: htmlgendecl_atxt.dats   array0_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) array0_atxt.exe
+cleanall:: ; $(RMF) HTML/array0.html
+
 
 ######
 

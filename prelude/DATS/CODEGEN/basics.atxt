@@ -42,6 +42,13 @@ primplmnt prop_verify_and_add () = ()
 
 #atscode_separator()
 
+primplmnt
+unit_v_elim (pf) = let
+  prval unit_v () = pf in (*nothing*)
+end // end of [unit_v_elim]
+
+#atscode_separator()
+
 implement
 argv_get_at
   (argv, i) = x where {

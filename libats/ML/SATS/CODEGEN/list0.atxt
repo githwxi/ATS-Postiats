@@ -36,99 +36,205 @@ typedef cfun2 (a1: t0p, a2: t0p, b:t0p) = (a1, a2) -<cloref1> b
 #atscode_separator()
 
 castfn
-list0_of_list {a:t@ype} (xs: List a):<> list0 (a)
+list0_of_list {a:t@ype} (xs: List (INV(a))):<> list0 (a)
 castfn
-list0_of_list_vt {a:t@ype} (xs: List_vt a):<> list0 (a)
+list0_of_list_vt {a:t@ype} (xs: List_vt (INV(a))):<> list0 (a)
 castfn
-list_of_list0 {a:t@ype} (xs: list0 a):<> List (a)
+list_of_list0 {a:t@ype} (xs: list0 (INV(a))):<> List (a)
 
 #atscode_separator()
 
 fun{a:t0p}
-list0_head_exn (xs: list0 a):<!exn> a
-fun{a:t0p}
-list0_head_opt (xs: list0 a):<> option0 (a)
-
-fun{a:t0p}
-list0_tail_exn (xs: list0 a):<!exn> list0 (a)
-fun{a:t0p}
-list0_tail_opt (xs: list0 a):<> option0 (list0 (a))
+list0_make_elt
+  {n:nat} (n: int(n), elt: a):<> list0 (a)
+// end of [list0_make_elt]
 
 #atscode_separator()
 
 fun{a:t0p}
-list0_nth_exn (xs: list0 a, i: int):<!exn> a
+list0_head_exn (xs: list0 (INV(a))):<!exn> a
 fun{a:t0p}
-list0_nth_opt (xs: list0 a, i: int):<> option0 (a)
+list0_head_opt (xs: list0 (INV(a))):<> option0 (a)
+
+fun{a:t0p}
+list0_tail_exn (xs: list0 (INV(a))):<!exn> list0 (a)
+fun{a:t0p}
+list0_tail_opt (xs: list0 (INV(a))):<> option0 (list0 (a))
 
 #atscode_separator()
 
 fun{a:t0p}
-list0_find_exn (xs: list0 a, p: cfun (a, bool)): a
+list0_nth_exn (xs: list0 (INV(a)), i: int):<!exn> a
 fun{a:t0p}
-list0_find_opt (xs: list0 a, p: cfun (a, bool)): option0 (a)
+list0_nth_opt (xs: list0 (INV(a)), i: int):<> option0 (a)
 
 #atscode_separator()
 
 fun{a:t0p}
-list0_length (xs: list0 a):<> int
+list0_length (xs: list0 (INV(a))):<> int
 
 #atscode_separator()
 
 fun{a:t0p}
 list0_append
-  (xs: list0 a, ys: list0 a):<> list0 (a)
-// end of [list0_append]
+  (xs: list0 (INV(a)), ys: list0 a):<> list0 (a)
+overload ++ with list0_append
 
 #atscode_separator()
 
 fun{a:t0p}
-list0_concat (xss: list0 (list0 (a))):<> list0 (a)
+list0_reverse (xs: list0 (INV(a))):<> list0 (a)
+
+fun{a:t0p}
+list0_reverse_append
+  (xs: list0 (INV(a)), ys: list0 a):<> list0 (a)
+// end of [list0_reverse_append]
 
 #atscode_separator()
 
 fun{a:t0p}
-list0_app (xs: list0 a, f: cfun (a, void)): void
+list0_concat (xss: list0 (list0 (INV(a)))):<> list0 (a)
 
 #atscode_separator()
 
-fun{a:t0p}{b:t0p}
-list0_map (xs: list0 (a), f: cfun (a, b)): list0 (b)
+fun{a:t0p}
+list0_app (xs: list0 (INV(a)), f: cfun (a, void)): void
+
+#atscode_separator()
+
+fun{a:t0p}
+list0_foreach (xs: list0 (INV(a)), f: cfun (a, void)): void
+
+fun{a:t0p}
+list0_iforeach (xs: list0 (INV(a)), f: cfun2 (int, a, void)): void
+
+#atscode_separator()
+
+fun{a1,a2:t0p}
+list0_foreach2 (
+  xs1: list0 (INV(a1)), xs2: list0 (INV(a2)), f: cfun2 (a1, a2, void)
+) : void // end of [list0_foreach2]
+
+fun{a1,a2:t0p}
+list0_foreach2_eq (
+  xs1: list0 (INV(a1))
+, xs2: list0 (INV(a2))
+, f: cfun2 (a1, a2, void)
+, eq: &int? >> _
+) : void // end of [list0_foreach2_eq]
+
+#atscode_separator()
+
+fun{
+res:t0p}{a:t0p
+} list0_foldleft
+  (xs: list0 (INV(a)), ini: res, f: cfun2 (res, a, res)): res
+fun{
+res:t0p}{a:t0p
+} list0_ifoldleft
+  (xs: list0 (INV(a)), ini: res, f: cfun3 (res, int, a, res)): res
+// end of [list0_ifoldleft]
+
+#atscode_separator()
+
+fun{
+res:t0p}{a1,a2:t0p
+} list0_foldleft2 (
+  xs1: list0 (INV(a1))
+, xs2: list0 (INV(a2))
+, ini: res
+, f: cfun3 (res, a1, a2, res)
+) : res // end of [list0_foldleft2]
+
+#atscode_separator()
+
+fun{
+a:t0p}{res:t0p
+} list0_foldright
+  (xs: list0 (INV(a)), f: cfun2 (a, res, res), snk: res): res
+(*
+fun{
+a:t0p}{res:t0p
+} list0_ifoldright
+  (xs: list0 (INV(a)), f: cfun3 (int, a, res, res), snk: res): res
+// end of [list0_ifoldright]
+*)
+
+#atscode_separator()
+
+fun{a:t0p}
+list0_exists
+  (xs: list0 (INV(a)), p: cfun (a, bool)): bool
+// end of [list0_exists]
+
+fun{a1,a2:t0p}
+list0_exists2 (
+  xs1: list0 (INV(a1))
+, xs2: list0 (INV(a2))
+, p: cfun2 (a1, a2, bool)
+) : bool // end of [list0_exists2]
+
+#atscode_separator()
+
+fun{a:t0p}
+list0_forall (xs: list0 (INV(a)), p: cfun (a, bool)): bool
+
+fun{a1,a2:t0p}
+list0_forall2 (
+  xs1: list0 (INV(a1))
+, xs2: list0 (INV(a2))
+, p: cfun2 (a1, a2, bool)
+) : bool // end of [list0_forall2]
+fun{a1,a2:t0p}
+list0_forall2_eq (
+  xs1: list0 (INV(a1))
+, xs2: list0 (INV(a2))
+, p: cfun2 (a1, a2, bool)
+, eq: &int? >> _
+) : bool // end of [list0_forall2_eq]
+
+#atscode_separator()
+
+fun{a:t0p}
+list0_find_exn (xs: list0 (INV(a)), p: cfun (a, bool)): a
+fun{a:t0p}
+list0_find_opt (xs: list0 (INV(a)), p: cfun (a, bool)): option0 (a)
+
+#atscode_separator()
+
+fun{
+a:t0p}{b:t0p
+} list0_map (xs: list0 (INV(a)), f: cfun (a, b)): list0 (b)
+
+fun{
+a:t0p}{b:t0p
+} list0_imap (xs: list0 (INV(a)), f: cfun2 (int, a, b)): list0 (b)
+
+#atscode_separator()
 
 fun{
 a1,a2:t0p}{b:t0p
 } list0_map2 (
-  xs1: list0 (a1), xs2: list0 (a2), f: cfun2 (a1, a2, b)
+  xs1: list0 (INV(a1)), xs2: list0 (INV(a2)), f: cfun2 (a1, a2, b)
 ) : list0 (b) // end of [list0_map2]
 
 #atscode_separator()
 
 fun{a:t0p}
-list0_foreach (xs: list0 a, f: cfun (a, void)): void
-
-fun{a:t0p}
-list0_iforeach (xs: list0 a, f: cfun2 (int, a, void)): void
-
-#atscode_separator()
-
-fun{a:t0p}
-list0_exists (xs: list0 (a), p: cfun (a, bool)): bool
-
-fun{a:t0p}
-list0_forall (xs: list0 (a), p: cfun (a, bool)): bool
-
-#atscode_separator()
-
-fun{a:t0p}
-list0_filter (xs: list0 (a), f: cfun (a, bool)): list0 (a)
+list0_filter (xs: list0 (INV(a)), f: cfun (a, bool)): list0 (a)
 
 #atscode_separator()
 
 fun{x,y:t0p}
-list0_zip (xs: list0 (x), ys: list0 (y)):<> list0 @(x, y)
+list0_zip (xs: list0 (INV(x)), ys: list0 (INV(y))):<> list0 @(x, y)
 
-#atscode_separator()
-
+(*
+fun{
+x,y:t0p}{z:t0p
+} list0_zipwith (
+  xs: list0 (INV(x)), ys: list0 (INV(y)), f: cfun2 (x, y, z)
+) : list0 (z) // end of [list0_zipwith]
+*)
 macdef list0_zipwith = list0_map2
 
 #atscode_separator()

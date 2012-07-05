@@ -60,6 +60,7 @@ all::
 
 #make_entry("list0")
 #make_entry("option0")
+#make_entry("array0")
 
 ######
 

@@ -265,11 +265,11 @@ array_foreach_vcloptr
   pfv: !v
 | A: &(@[INV(a)][n])
 , asz: size_t n
-, f: (!v | &a) -<cloptr,fe> void
+, f: !(!v | &a) -<cloptr,fe> void
 ) :<fe> void // end of [array_foreach_vcloptr]
 
 fun{a:vt0p}
-array_foreach_clopref
+array_foreach_cloref
   {n:int}{fe:eff} (
   A: &(@[INV(a)][n]), asz: size_t n, f: (&a) -<cloref,fe> void
 ) :<fe> void // end of [array_foreach_cloref]

@@ -267,6 +267,44 @@ end // end of [array_foreach_env]
 
 #atscode_separator()
 
+implement{a}
+array_foreach_funenv
+  {v}{vt} (pf | A, asz, f, env) =
+  array_foreach_funenv_tsz {a}{v}{vt} (pf | A, asz, sizeof<a>, f, env)
+// end of [array_foreach_funenv]
+
+implement{a}
+array_foreach_fun
+  {n}{fe} (A, asz, f) = let
+  typedef tfun = (!unit_v | &a, !ptr) -<fun,fe> void
+  val f = $UN.cast{tfun} (f)
+  prval pfu = unit_v ()
+  var env: ptr = the_null_ptr
+  val () = array_foreach_funenv<a> (pfu | A, asz, f, env)
+  prval () = unit_v_elim (pfu)
+in
+  // nothing
+end // end of [array_foreach_fun]
+
+implement{a}
+array_foreach_cloref
+  {n}{fe} (A, asz, f) = let
+//
+  viewdef v = unit_v
+  typedef vt = (&a) -<cloref,fe> void
+//
+  fun app .<>. (pf: !v | x: &a, env: !vt):<fe> void = env (x)
+  prval pfu = unit_v ()
+  var env = f
+  val () = array_foreach_funenv<a> {v}{vt} (pfu | A, asz, app, env)
+  prval () = topize (env)
+  prval () = unit_v_elim (pfu)
+in
+  // nothing
+end // end of [array_foreach_cloref]
+
+#atscode_separator()
+
 implement{a}{env}
 array_rforeach__cont (x, env) = true
 implement{a}{env}
@@ -419,8 +457,9 @@ implement{a}
 array_bsearch
   (A, n) = $effmask_all let
 //
-val itr = $IT.iter_make_array (view@(A) | addr@(A), n)
-//
+val itr =
+  $IT.iter_make_array (view@(A) | addr@(A), n)
+// end of [val]
 implement
 $IT.iter_bsearch__ford<a> (x) = array_bsearch__ford<a> (x)
 val () = $IT.iter_bsearch (itr, n)
@@ -461,15 +500,10 @@ fun loop
 in
 //
 if n >= 2 then let
-  prval (
-    pf1, pf2
-  ) = array_v_uncons (pf)
-  val p1 = ptr1_succ<a> (p)
-  val n1 = pred (n)
-  val i = array_permute__randint<> (n1)
-  val (pf2 | p1) = viewptr_match (pf2 | p1)
-  val () = array_exch_at<a> (!p1, i, !p)
-  val () = loop (pf2 | p1, n1)
+  val i = array_permute__randint<> (n)
+  prval (pf1, pf2) = array_v_uncons (pf)
+  val () = if i > 0 then $UN.ptr0_exch<a> (ptr1_add_uint<a> (p, i), !p)
+  val () = loop (pf2 | ptr1_succ<a> (p), pred (n))
   prval () = pf := array_v_cons (pf1, pf2)
 in
   // nothing

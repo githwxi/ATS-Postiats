@@ -92,21 +92,33 @@ This function is the optional version of #dyncode("list0_nth_exn").
 
 (* ****** ****** *)
 
-#declnamesynop("list0_find_exn")
+#declnamesynop("list0_length")
+
+#declnamesynop("list0_append")
 #decldescrpt("\
-This functions returns the first element in its first argument that
-satisfies the predicate given as its second argument. In case that such
-an element does not exist, the function raises an exception (NotFoundExn).
+Given two lists xs and ys, this function returns the concatenation of xs and ys.
 ")
-#declnamesynop("list0_find_opt")
-#decldescrpt("\
-This function is the optional version of #dyncode("list0_find_exn").
+#declexample("\
+#pats2xhtmld("
+implement
+main () = let
+  \#define M 10
+  \#define N 20
+  val xs = list0_make_elt<char> (M, 'a')
+  val ys = list0_make_elt<char> (N, 'b')
+  val xsys = list0_append (xs, ys)
+  val () = assert (list0_length (xs) + list0_length (ys) = list0_length (xsys))
+in
+  0(*normal*)
+end // end of [main]
+")\
+
 ")
 
 (* ****** ****** *)
 
-#declnamesynop("list0_length")
-#declnamesynop("list0_append")
+#declnamesynop("list0_reverse")
+#declnamesynop("list0_reverse_append")
 #declnamesynop("list0_concat")
 
 (* ****** ****** *)
@@ -132,6 +144,58 @@ This function applies its second argument f to (i, x), where i ranges from
 
 ")
 
+#declnamesynop("list0_foreach2")
+#decldescrpt("\
+
+Given two lists xs and ys of length m and n, respectively, this function
+applies its third argument to each pair (xs[i], ys[i]), where i ranges from
+0 until min(m,n)-1, inclusively, and xs[i] (ys[i]) refers to element i in
+the list xs (ys).  ")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_foldleft")
+#decldescrpt("\
+
+Given a list xs of length n, this function returns the value f (...f (f
+(ini, xs[0]), xs[1])..., xs[n-1]), where the notation xs[i] refers to
+element i in the list xs. The implementation of this function is
+tail-recursive.
+
+")
+
+#declnamesynop("list0_ifoldleft")
+#decldescrpt("\
+
+Given a list xs of length n, this function returns the value f (...f (f
+(ini, 0, xs[0]), 1, xs[1])..., n-1, xs[n-1]), where the notation xs[i]
+refers to element i in the list xs. The implementation of this function is
+tail-recursive.
+
+")
+
+#declnamesynop("list0_foldleft2")
+#decldescrpt("\
+
+Given two lists xs1 and xs2 of length n1 and n2, respectively, this
+function returns the value f (...f (ini, xs1[0], xs2[0])..., xs1[n-1],
+xs2[n-1]), where n equals min(n1, n2).
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_foldright")
+#decldescrpt("\
+
+Given a list xs of length n, this function returns the value f (xs[0], f
+(xs[1], ...f (xs[n-1], snk)...)), where the notation xs[i] refers to
+element i in the list xs. The implementation of this function is #emph("not")
+tail-recursive, and stack-overflow may occur if the xs is long (e.g.,
+containing 1,000,000 elements).
+
+")
+
 (* ****** ****** *)
 
 #declnamesynop("list0_exists")
@@ -141,6 +205,15 @@ This function returns true if and only if there exists an element in its
 first argument that satisfies the predicated provided as its second
 argument.  ")
 
+#declnamesynop("list0_exists2")
+#decldescrpt("\
+
+Given two lists xs1 and xs2 of length n1 and n2, respectively, this
+function returns true if and only if p(xs1[i], xs2[i]) returns true for
+some i between 0 and min(n1,n2)-1, inclusively.  ")
+
+(* ****** ****** *)
+
 #declnamesynop("list0_forall")
 #decldescrpt("\
 
@@ -149,33 +222,59 @@ argument satisfies the predicated provided as its second argument.  ")
 
 (* ****** ****** *)
 
-#declnamesynop("list0_filter")
+#declnamesynop("list0_forall2")
 #decldescrpt("\
 
-This function returns a list consisting of the sequence of elements in its
-first argument that satisfy the predicate provided as its second argument.
+Given two lists xs1 and xs2 of length n1 and n2, respectively, this
+function returns true if and only if p(xs1[i], xs2[i]) returns true for
+every i between 0 and min(n1,n2)-1, inclusively.  ")
 
-Following is a standard implementation of this function:
+#declnamesynop("list0_forall2_eq")
+#decldescrpt("\
 
-#pats2xhtmld("
-implement{a}
-list0_filter (xs, p) = let
+This function is mostly similar to #dyncode("list0_forall2").  Given two
+lists xs1 and xs2 of length n1 and n2, respectively, this function returns
+true if and only if p(xs1[i], xs2[i]) returns true for every i between 0
+and min(n1,n2)-1, inclusively. If this function returns true, then the value
+stored in the call-by-reference parameter eq equals sgn(n1-n2). Otherwise,
+the value equals 0.  ")
+
+#declexample("\
+
+The following code implements a function that checks whether two given
+lists are equal based on a given equality funtion on list elements:
+
+#pats2xhtmld("\
+fun{
+a:t@ype
+} listeq (
+  xs1: list0 a
+, xs2: list0 a
+, feq: cfun (a, a, bool)
+) : bool = let
+  var eq: int // uninitialied
+  val ans = list0_forall2_eq (xs1, xs2, feq, eq)
 in
-//
-case+ xs of
-| list0_cons (x, xs) =>
-    if p (x) then
-      list0_cons (x, list0_filter<a> (xs, p))
-    else
-      list0_filter<a> (xs, p)
-    // end of [if]
-| list0_nil () => list0_nil ()
-//
-end // end of [list0_filter]
+  if eq = 0 then
+    ans // [xs1] and [xs2] are of the same length
+  else
+    false // [xs1] and [xs2] are of different length
+  // end of [if]
+end // end of [listeq]
+")
 ")
 
-However, the implementation of this function in ATSLIB is tail-recursive.\
+(* ****** ****** *)
 
+#declnamesynop("list0_find_exn")
+#decldescrpt("\
+This functions returns the first element in its first argument that
+satisfies the predicate given as its second argument. In case that such
+an element does not exist, the function raises an exception (NotFoundExn).
+")
+#declnamesynop("list0_find_opt")
+#decldescrpt("\
+This function is the optional version of #dyncode("list0_find_exn").
 ")
 
 (* ****** ****** *)
@@ -199,6 +298,41 @@ case+ xs of
 //
 end // end of [list0_map]
 ")
+
+However, the implementation of this function in ATSLIB is tail-recursive.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_imap")
+#decldescrpt("\
+
+Given a list xs, this function returns a list consisting of the sequence of
+results obtained from applying its second argument f to each pair (i,
+xs[i]), where i ranges from 0 until the length of xs minus 1, inclusively,
+and xs[i] refers to element i in the list xs.
+
+Following is a standard implementation of this function:
+
+#pats2xhtmld("
+implement{a}{b}
+list0_imap (xs, f) = let
+//
+fun aux (
+  i: int, xs: list0 a, f: cfun2 (int, a, b)
+) : list0 b = let
+in
+  case+ xs of
+  | list0_cons (x, xs) =>
+      list0_cons (f (i, x), aux (i+1, xs, f))
+  | list0_nil () => list0_nil ()
+end // end of [aux]
+//
+in
+  aux (0, xs, f)
+end // end of [list0_imap]
+")\
 
 However, the implementation of this function in ATSLIB is tail-recursive.\
 
@@ -230,6 +364,37 @@ case+ xs1 of
 | list0_nil () => list0_nil ()
 //
 end // end of [list0_map2]
+")
+
+However, the implementation of this function in ATSLIB is tail-recursive.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_filter")
+#decldescrpt("\
+
+This function returns a list consisting of the sequence of elements in its
+first argument that satisfy the predicate provided as its second argument.
+
+Following is a standard implementation of this function:
+
+#pats2xhtmld("
+implement{a}
+list0_filter (xs, p) = let
+in
+//
+case+ xs of
+| list0_cons (x, xs) =>
+    if p (x) then
+      list0_cons (x, list0_filter<a> (xs, p))
+    else
+      list0_filter<a> (xs, p)
+    // end of [if]
+| list0_nil () => list0_nil ()
+//
+end // end of [list0_filter]
 ")
 
 However, the implementation of this function in ATSLIB is tail-recursive.\
