@@ -195,22 +195,24 @@ value of #dyncode("array_foreach") indicates the number of processed
 array-cells.  ')
 #declexample('\
 
-The following code implements a function that searches for the first
-element in a given array satisfing the predicate provided as the second
-argument of the function:
+The following code implements a function that searches for the index of the
+first array-cell in a given array that contains an element satisfing the
+predicate provided as the second argument of the function:
 
 #pats2xhtmld('\
 fun{a:t@ype}
 array_find {n:int} (
   A: &(@[a][n]) >> @[a][n], n: size_t n, p: (a) -> bool
-) : Option_vt (a) = let
+) : Option_vt (sizeLt(n)) = let
 //
 implement(env)
 array_foreach__cont<a><env> (x, env) = ~p(x)
+implement(env)
+array_foreach__fwork<a><env> (x, env) = ((*nothing*))
 val i = array_foreach (A, n)
 //
 in
-  if n > i then Some_vt (A.[i]) else None_vt ()
+  if n > i then Some_vt (i) else None_vt ()
 end // end of [array_find]
 ')
 ')
@@ -279,22 +281,24 @@ return value of #dyncode("array_rforeach") indicates the number of
 processed array-cells.  ')
 #declexample('\
 
-The following code implements a function that searches for the last
-element in a given array satisfing the predicate provided as the second
-argument of the function:
+The following code implements a function that searches for the index of the
+last array-cell in a given array that contains an element satisfing the
+predicate provided as the second argument of the function:
 
 #pats2xhtmld('\
 fun{a:t@ype}
 array_rfind {n:int} (
   A: &(@[a][n]) >> @[a][n], n: size_t n, p: (a) -> bool
-) : Option_vt (a) = let
+) : Option_vt (sizeLt(n)) = let
 //
 implement(env)
 array_rforeach__cont<a><env> (x, env) = ~p(x)
+implement(env)
+array_rforeach__fwork<a><env> (x, env) = ((*nothing*))
 val i = array_rforeach (A, n)
 //
 in
-  if n > i then Some_vt (A.[pred(n)-i]) else None_vt ()
+  if n > i then Some_vt (pred(n)-i) else None_vt ()
 end // end of [array_rfind]
 ')
 ')

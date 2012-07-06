@@ -471,7 +471,8 @@ val () = ins ("withprop", WITHPROP)
 val () = ins ("withview", WITHVIEW)
 val () = ins ("withviewtype", WITHVIEWTYPE)
 //
-val () = ins ("$arrsz", T_DLRARRSZ)
+val () = ins ("$arrpsz", T_DLRARRPSZ)
+val () = ins ("$arrptrsize", T_DLRARRPSZ)
 //
 val () = ins ("$delay", DLRDELAY)
 val () = ins ("$ldelay", DLRLDELAY)

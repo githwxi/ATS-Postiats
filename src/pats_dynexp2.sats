@@ -606,7 +606,7 @@ and d2exp_node =
       (d2sym, d2exp, location(*ind*), d2explstlst(*ind*))
   | D2Earrinit of (* array initialization *)
       (s2exp (*elt*), d2expopt (*asz*), d2explst (*ini*))
-  | D2Earrsize of (* $arrsz expression *)
+  | D2Earrpsz of (* $arrpsz expression *)
       (s2expopt (*element type*), d2explst (*elements*))
 //
   | D2Eraise of (d2exp) // raised exception
@@ -996,9 +996,9 @@ fun d2exp_arrinit (
 , elt: s2exp, asz: d2expopt, ini: d2explst
 ) : d2exp // end of [d2exp_arrinit]
 
-fun d2exp_arrsize (
+fun d2exp_arrpsz (
   loc: location, elt: s2expopt, elts: d2explst
-) : d2exp // end of [d2exp_arrsize]
+) : d2exp // end of [d2exp_arrpsz]
 
 (* ****** ****** *)
 

@@ -194,6 +194,14 @@ fun list_make_intrange
 
 #atscode_separator()
 
+symintr list
+fun{a:vt0p}
+list_make_arrpsz
+  {n:int} (psz: arrpsz (INV(a), n)): list_vt (a, n)
+overload list with list_make_arrpsz
+
+#atscode_separator()
+
 fun{x:t0p} list_exists__pred (x):<> bool
 fun{x:t0p} list_exists (xs: NSH(List (x))):<> bool
 

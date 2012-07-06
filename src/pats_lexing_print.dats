@@ -144,11 +144,8 @@ fprint_token
   | T_FREEAT () => fprintf (out, "FREEAT()", @()) // free@
   | T_VIEWAT () => fprintf (out, "VIEWAT()", @()) // view@
 //
-  | T_DLRARRSZ () => fprintf (out, "DLRARRSZ()", @())
+  | T_DLRARRPSZ () => fprintf (out, "DLRARRPSZ()", @())
   | T_DLRDELAY (x) => fprintf (out, "DLRDELAY(%i)", @(x))
-(*
-  | T_DLRDYNLOAD () => fprintf (out, "DLRDYNLOAD()", @())
-*)
   | T_DLREFFMASK () => fprintf (out, "DLREFFMASK()", @())
   | T_DLREFFMASK_ARG (x) => fprintf (out, "DLREFFMASK(%i)", @(x))
   | T_DLREXTERN () => fprintf (out, "DLREXTERN()", @())

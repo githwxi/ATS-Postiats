@@ -282,7 +282,7 @@ case+ d2e0.d2exp_node of
   in
     d3exp_arrinit (loc0, s2e_arr, s2e_elt, d3e_asz, d3es)
   end // end of [D2Earrinit]
-| D2Earrsize (opt, d2es) => let
+| D2Earrpsz (opt, d2es) => let
     val s2e = (
       case+ opt of
       | Some s2e => s2e | None () => let
@@ -291,12 +291,12 @@ case+ d2e0.d2exp_node of
     ) : s2exp // end of [val]
     val d3es = d2explst_trdn_elt (d2es, s2e)
     val n = list_length (d2es)
-    val s2e_arrsz =
-      s2exp_arrsz_viewt0ype_int_viewt0ype (s2e, n)
+    val s2e_arrpsz =
+      s2exp_arrpsz_viewt0ype_int_viewt0ype (s2e, n)
     // end of [val]
   in
-    d3exp_arrsize (loc0, s2e_arrsz, d3es, n)
-  end // end of [D2Earrsize]
+    d3exp_arrpsz (loc0, s2e_arrpsz, d3es, n)
+  end // end of [D2Earrpsz]
 //
 | D2Eeffmask _ => d2exp_trup_effmask (d2e0)
 //

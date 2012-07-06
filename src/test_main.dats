@@ -404,7 +404,7 @@ val- T_FREEAT () =
   (lexing_from_string "free@").token_node
 //
 val- T_DLRARRSZ () =
-  (lexing_from_string "$arrsz").token_node
+  (lexing_from_string "$arrpsz").token_node
 val- T_DLRDELAY (i) =
   (lexing_from_string "$delay").token_node
 val () = assertloc (i = TYPE_int)

@@ -311,7 +311,7 @@ and d3exp_node =
 //
   | D3Earrinit of // For instance, @[int](1,2,3)
       (s2exp(*elt*), d3exp(*asz*), d3explst(*elt*))
-  | D3Earrsize of (d3explst, int(*size*))
+  | D3Earrpsz of (d3explst, int(*size*))
 //
   | D3Eraise of (d3exp) // HX: raised exception
 //
@@ -667,9 +667,9 @@ fun d3exp_arrinit (
 , s2e_arr: s2exp, elt: s2exp, asz: d3exp, d3es: d3explst
 ) : d3exp // end of [d3exp_arrinit]
 
-fun d3exp_arrsize (
-  loc: location, s2e_arrsz: s2exp, d3es: d3explst, asz: int
-) : d3exp // end of [d3exp_arrsize]
+fun d3exp_arrpsz (
+  loc: location, s2e_arrpsz: s2exp, d3es: d3explst, asz: int
+) : d3exp // end of [d3exp_arrpsz]
 
 (* ****** ****** *)
 

@@ -476,11 +476,11 @@ abst@ype
 ptrsize_t0ype = $extype "ptrsize_t0ype"
 
 absviewt@ype
-arrptrsz_viewt0ype_addr_int_viewt0ype
-  (a:viewt@ype+, l:addr, n:int) = ptrsize_t0ype
-// end of [arrptrsz_viewt0ype_int_viewt0ype]
+arrpsz_viewt0ype_int_viewt0ype
+  (a:viewt@ype+, n:int) = ptrsize_t0ype
+// end of [arrpsz_viewt0ype_int_viewt0ype]
 stadef
-arrptrsz = arrptrsz_viewt0ype_addr_int_viewt0ype
+arrpsz = arrpsz_viewt0ype_int_viewt0ype
 
 (* ****** ****** *)
 

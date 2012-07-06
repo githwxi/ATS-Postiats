@@ -84,16 +84,16 @@ arrayptr_addback
 #atscode_separator()
 
 castfn
-arrptrsz_encode
+arrpsz_encode
   {a:vt0p}{l:addr}{n:int}
-  (p: arrayptr (INV(a), l, n), n: size_t n):<> arrptrsz (a, l, n)
-// end of [arrptrsz_encode]
+  (p: arrayptr (INV(a), l, n), n: size_t n):<> arrpsz (a, n)
+// end of [arrpsz_encode]
 
 castfn
-arrptrsz_decode
-  {a:vt0p}{l:addr}{n:int}
-  (psz: arrptrsz (INV(a), l, n)):<> (arrayptr (a, l, n), size_t (n))
-// end of [arrptrsz_decode]
+arrpsz_decode
+  {a:vt0p}{n:int}
+  (psz: arrpsz (INV(a), n)):<> [l:addr] (arrayptr (a, l, n), size_t (n))
+// end of [arrpsz_decode]
 
 #atscode_separator()
 //

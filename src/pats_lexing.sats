@@ -172,12 +172,11 @@ token_node =
   | T_FREEAT of () // free@
   | T_VIEWAT of () // view@
 //
-  | T_DLRARRSZ of () // $arrsz
-(*
-  | T_DLRDYNLOAD of () // $dynload
-*)
+  | T_DLRARRPSZ of () // $arrpsz // $arrptrsize
+//
   | T_DLRDELAY of
       (int) // $delay(0) and $ldelay(1)
+//
   | T_DLREFFMASK of () // $effmask
   | T_DLREFFMASK_ARG of
       (int) // ntm(0), exn(1), ref(2), wrt(3), all(4)

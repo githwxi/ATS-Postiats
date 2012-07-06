@@ -193,7 +193,7 @@ case+ d2e0.d2exp_node of
   | list_nil () => s2exp_void_t0ype ()
   ) // end of [D2Eseq]
 //
-| D2Earrsize (opt, d2es) => let
+| D2Earrpsz (opt, d2es) => let
     val s2e = (
       case+ opt of
       | Some s2e => s2e
@@ -201,8 +201,8 @@ case+ d2e0.d2exp_node of
     ) : s2exp // end of [val]
     val n = list_length (d2es)
   in
-    s2exp_arrsz_viewt0ype_int_viewt0ype (s2e, n)
-  end // end of [D2Earrsize]
+    s2exp_arrpsz_viewt0ype_int_viewt0ype (s2e, n)
+  end // end of [D2Earrpsz]
 //
 | D2Elam_dyn _ => d2exp_syn_type_arg_body (d2e0)
 | D2Elam_sta (s2vs, s2ps, d2e) => let

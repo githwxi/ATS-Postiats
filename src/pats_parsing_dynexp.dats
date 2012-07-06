@@ -613,7 +613,7 @@ atmd0exp ::=
 //
   | arrqi0de d0arrind
   | ATLBRACKET s0exp RBRACKET arrdimopt LPAREN d0expcommaseq RPAREN
-  | DLRARRSZ s0expelt LPAREN d0expcommaseq RPAREN
+  | DLRARRPSZ s0expelt LPAREN d0expcommaseq RPAREN
 //
   | BEGIN d0expsemiseq END
 //
@@ -894,7 +894,7 @@ case+ tok.token_node of
     end (* end of [if] *)
   end
 //
-| T_DLRARRSZ () => let
+| T_DLRARRPSZ () => let
     val bt = 0
     val () = incby1 ()
     val ent2 = p_s0expelt (buf, bt, err)

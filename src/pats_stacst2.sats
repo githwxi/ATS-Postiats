@@ -161,7 +161,7 @@ val the_unit_view : s2cstref
 //
 val the_exception_viewtype : s2cstref
 //
-val the_arrsz_viewt0ype_int_viewt0ype : s2cstref
+val the_arrpsz_viewt0ype_int_viewt0ype : s2cstref
 //
 val the_list0_t0ype_type : s2cstref
 //
@@ -306,7 +306,7 @@ fun s2exp_exception_viewtype (): s2exp
 
 (* ****** ****** *)
 
-fun s2exp_arrsz_viewt0ype_int_viewt0ype (s2e: s2exp, n: int): s2exp
+fun s2exp_arrpsz_viewt0ype_int_viewt0ype (s2e: s2exp, n: int): s2exp
 
 (* ****** ****** *)
 //
