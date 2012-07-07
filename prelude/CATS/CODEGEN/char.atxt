@@ -4,7 +4,7 @@
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
 val _thisfilename = atext_strcst"char.cats"
-val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
 #atscode_banner_for_C()
