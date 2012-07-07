@@ -182,6 +182,7 @@ left in xs satisfy the predicate while those in the returned list do not.
 The following code implements the standard quicksort on linear lists:
 
 #pats2xhtmld_tryit('\
+//
 staload UN = "prelude/SATS/unsafe.sats"
 //
 fun{a:vt0p}

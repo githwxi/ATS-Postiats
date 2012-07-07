@@ -343,6 +343,7 @@ is the function implemented by #dyncode("list_foldleft__fwork").
 The following code computes factorial of n for a given natural number n:\
 
 #pats2xhtmld_tryit('
+//
 staload UN = "prelude/SATS/unsafe.sats"
 //
 fun factorial

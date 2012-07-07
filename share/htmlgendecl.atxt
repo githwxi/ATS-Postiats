@@ -16,6 +16,7 @@ local
 //
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload _(*anon*) = "prelude/DATS/reference.dats"
 //
 in
 //
@@ -51,6 +52,7 @@ val () = theAtextMap_insert_str ("theDeclitemLst_content", theDeclitemLst_conten
 #title(theDecltitle)
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 #patsyntax_style()
+#patscode_tryit_js()
 </head>
 <body>
 

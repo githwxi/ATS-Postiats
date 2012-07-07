@@ -1,3 +1,12 @@
+(* ****** ****** *)
+
+%{
+val () = pats2xhtml_count_reset()
+val () = pats2xhtml_prefix_set("HTML/TRYIT/array")
+%}
+
+(* ****** ****** *)
+
 #decltitle("\
 ATSLIB/prelude/array\
 ")
@@ -143,7 +152,9 @@ starting address of A.
 A typical use of
 #dyncode("array_getref_at") is given in the following example:
 #pats2xhtmld_tryit('\
+//
 staload UN = "prelude/SATS/unsafe.sats"
+//
 fun{a:t0p}
 array_get_at {n:nat} (
   A: &(@[a][n]), i: sizeLt n
