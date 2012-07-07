@@ -39,17 +39,18 @@ option_of_option0 {a:t@ype} (xs: option0 a):<> Option (a)
 
 #atscode_separator()
 
-fun{a:t0p}
-option0_some (x: a):<> option0 (a)
-fun{a:t0p}
-option0_none ((*void*)):<> option0 (a)
+fun{
+a:t0p
+} option0_some (x: a):<> option0 (a)
+fun{}
+option0_none {a:t0p} ((*void*)):<> option0 (a)
 
 #atscode_separator()
 
-fun{a:t0p}
-option0_is_some (x: option0 a):<> bool
-fun{a:t0p}
-option0_is_none (x: option0 a):<> bool
+fun{}
+option0_is_some {a:t0p} (x: option0 a):<> bool
+fun{}
+option0_is_none {a:t0p} (x: option0 a):<> bool
 
 #atscode_separator()
 

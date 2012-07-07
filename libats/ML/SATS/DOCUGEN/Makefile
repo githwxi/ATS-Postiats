@@ -75,6 +75,13 @@ array0_atxt.exe: htmlgendecl_atxt.dats   array0_atxt.txt $(DECLATEXT) $(HTMLGEND
 clean:: ; $(RMF) array0_atxt.exe
 cleanall:: ; $(RMF) HTML/array0.html
 
+all_html:: HTML/string.html
+HTML/string.html:   string_atxt.exe ; $(CAT) ../string.sats | ./$< > $@
+string_atxt.txt: string.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+string_atxt.exe: htmlgendecl_atxt.dats   string_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+clean:: ; $(RMF) string_atxt.exe
+cleanall:: ; $(RMF) HTML/string.html
+
 
 ######
 

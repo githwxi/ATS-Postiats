@@ -1,0 +1,70 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT=="txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"string.sats"
+val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/libats/ML/SATS/CODEGEN/string.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("July, 2012")
+
+#atscode_separator()
+
+staload "libats/ML/basics.sats"
+
+#atscode_separator()
+
+fun string_append
+  (s1: string, s2: string):<> string
+overload + with string_append
+
+fun string_append_ref
+  (s1: string, s2: string):<> Strref1
+// end of [string_append_ref]
+
+#atscode_separator()
+
+fun stringlst_concat (xs: list0 (string)):<> string
+fun stringlst_concat_ref (xs: list0 (string)):<> Strref1
+
+#atscode_separator()
+
+fun substring_copy
+  (s: string, st: size_t, ln: size_t): string
+// end of [substring_copy]
+
+fun substring_copy_ref
+  (s: string, st: size_t, ln: size_t): Strref1
+// end of [substring_copy_ref]
+
+#atscode_separator()
+
+fun string_foreach (s: string, cfun (char, void)): void
+
+fun string_foreach2
+  (s1: string, s2: string, cfun2 (char, char, void)): void
+// end of [string_foreach2]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "string_atxt.txt")
+%}\

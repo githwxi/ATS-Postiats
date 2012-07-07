@@ -342,7 +342,7 @@ is the function implemented by #dyncode("list_foldleft__fwork").
 
 The following code computes factorial of n for a given natural number n:\
 
-#pats2xhtmld('
+#pats2xhtmld_tryit('
 staload UN = "prelude/SATS/unsafe.sats"
 //
 fun factorial
@@ -453,7 +453,7 @@ function in ATSLIB is tail-recursive.
 The following code implements a function that returns a list of integers
 between two given arguments:
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 fun list_make_intrange
   {l,r:int | l <= r} (
   l: int l, r: int r
@@ -507,7 +507,7 @@ linear list that is a sorted permutation of the argument. ')
 The following code mergesorts a given list of integers into a list of
 ascending integers and a list of descending integers.\
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 staload
 "contrib/atshwxi/testing/SATS/fprint.sats"
 staload _(*anon*) =
@@ -561,7 +561,7 @@ permutation of the argument. ')
 The following code quicksorts a given list of integers into a list of
 ascending integers and a list of descending integers.\
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 staload
 "contrib/atshwxi/testing/SATS/fprint.sats"
 staload _(*anon*) =

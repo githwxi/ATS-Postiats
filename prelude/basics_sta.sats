@@ -398,14 +398,14 @@ stadef string0 = string_type
 stadef string1 = string_int_type
 stadef string = string1 // first
 stadef string = string0 // second
-typedef String = [n:int] string1 (n)
+typedef String = [n:int] string_int_type (n)
 
 (* ****** ****** *)
 
 abstype
 stropt_int_type (n:int)
 stadef stropt = stropt_int_type
-typedef Stropt = [n:int] stropt (n)
+typedef Stropt = [n:int] stropt_int_type (n)
 
 (* ****** ****** *)
 
@@ -415,12 +415,14 @@ typedef Stropt = [n:int] stropt (n)
 absviewtype
 strptr_addr_viewtype (l:addr)
 stadef strptr = strptr_addr_viewtype
-viewtypedef strptr0 = [l:addr] strptr (l)
-viewtypedef strptr1 = [l:addr | l > null] strptr (l)
+viewtypedef Strptr0 = [l:addr] strptr (l)
+viewtypedef Strptr1 = [l:addr | l > null] strptr (l)
 absviewtype
 strnptr_addr_int_viewtype (l:addr, n:int)
 stadef strnptr = strnptr_addr_int_viewtype
 viewtypedef strnptr (n:int) = [l:addr] strnptr (l, n)
+viewtypedef Strnptr0 = [l:addr;n:int] strnptr (l, n)
+viewtypedef Strnptr1 = [l:addr;n:int | n >= 0] strnptr (l, n)
 
 (* ****** ****** *)
 
@@ -430,8 +432,8 @@ viewtypedef strnptr (n:int) = [l:addr] strnptr (l, n)
 abstype
 strref_addr_type (l:addr)
 stadef strref = strref_addr_type
-typedef strref0 = [l:addr] strref (l)
-viewtypedef strref1 = [l:addr | l > null] strref (l)
+typedef Strref0 = [l:addr] strref (l)
+typedef Strref1 = [l:addr | l > null] strref (l)
 
 (* ****** ****** *)
 

@@ -369,7 +369,7 @@ val (pf, pfgc | p) = malloc_gc (succ(ntot))
 val () = loop (p, xs, ns)
 //
 in
-  $UN.castvwtp_trans {strptr1} @(pf, pfgc | p)
+  $UN.castvwtp_trans {Strptr1} @(pf, pfgc | p)
 end // end of [stringlst_concat]
 
 #atscode_separator()

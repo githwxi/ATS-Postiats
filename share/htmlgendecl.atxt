@@ -40,8 +40,8 @@ val theDeclpostamble = theDeclpostamble_get ()
 val theDeclnameLst_menu = theDeclnameLst_make_menu ()
 val theDeclitemLst_content = theDeclitemLst_make_content ()
 //
-val () = theTextMap_insert_str ("theDeclnameLst_menu", theDeclnameLst_menu)
-val () = theTextMap_insert_str ("theDeclitemLst_content", theDeclitemLst_content)
+val () = theAtextMap_insert_str ("theDeclnameLst_menu", theDeclnameLst_menu)
+val () = theAtextMap_insert_str ("theDeclitemLst_content", theDeclitemLst_content)
 //
 %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"

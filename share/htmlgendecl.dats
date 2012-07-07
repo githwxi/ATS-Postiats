@@ -104,7 +104,7 @@ local
 
 fn HR (sz: int): atext = let
   val str = sprintf (
-    "<hr style=\"background-color: #E0E0E0; height: %ipx;\"></hr>", @(sz)
+    "<hr style=\"background-color: #E0E0E0; height: %ipx;\"></hr>\n", @(sz)
   ) // end of [val]
 in
   $LDOC.atext_strptr (str)

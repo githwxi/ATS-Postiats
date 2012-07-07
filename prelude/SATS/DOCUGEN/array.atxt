@@ -142,7 +142,7 @@ starting address of A.
 #declexample('\
 A typical use of
 #dyncode("array_getref_at") is given in the following example:
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 staload UN = "prelude/SATS/unsafe.sats"
 fun{a:t0p}
 array_get_at {n:nat} (
@@ -199,7 +199,7 @@ The following code implements a function that searches for the index of the
 first array-cell in a given array that contains an element satisfing the
 predicate provided as the second argument of the function:
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 fun{a:t@ype}
 array_find {n:int} (
   A: &(@[a][n]) >> @[a][n], n: size_t n, p: (a) -> bool
@@ -228,7 +228,7 @@ except for taking an additional argument that serves as an environment.  ')
 The following code implements the standard fold-from-left operation on a
 given array:
 
-#pats2xhtmld('
+#pats2xhtmld_tryit('
 fun{
 a:t0p}{res:t0p
 } array_foldleft
@@ -285,7 +285,7 @@ The following code implements a function that searches for the index of the
 last array-cell in a given array that contains an element satisfing the
 predicate provided as the second argument of the function:
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 fun{a:t@ype}
 array_rfind {n:int} (
   A: &(@[a][n]) >> @[a][n], n: size_t n, p: (a) -> bool
@@ -314,7 +314,7 @@ except for taking an additional argument that serves as an environment.  ')
 The following code implements the standard fold-from-right operation on a
 given array:
 
-#pats2xhtmld('
+#pats2xhtmld_tryit('
 fun{
 a:t0p}{res:t0p
 } array_foldright
@@ -365,7 +365,7 @@ The following code creates an array of integers 0, 1, 2, 3, 4, 5, 6, 7, 8
 and 9, and then permutes the array contents to obtain an array of integers
 9, 0, 1, 2, 3, 4, 5, 6, 7, and 8:
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 implement
 main () =
   (0) where {

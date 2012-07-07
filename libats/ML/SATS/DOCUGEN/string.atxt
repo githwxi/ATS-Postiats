@@ -1,0 +1,31 @@
+#decltitle("\
+ATSLIB/libats/ML/string\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are primarily for processing
+C-style strings in functional programming.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("string_append")
+#declnamesynop("string_append_ref")
+
+(* ****** ****** *)
+
+#declnamesynop("stringlst_concat")
+#declnamesynop("stringlst_concat_ref")
+
+(* ****** ****** *)
+
+#declnamesynop("substring_copy")
+#declnamesynop("substring_copy_ref")
+
+(* ****** ****** *)
+
+(* end of [string.atxt] *)

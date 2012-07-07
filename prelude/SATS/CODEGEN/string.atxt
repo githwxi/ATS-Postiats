@@ -238,7 +238,7 @@ overload string_length with string1_length
 #atscode_separator()
 
 fun string0_copy
-  {n:int} (xs: NSH(string)):<> strptr1
+  {n:int} (xs: NSH(string)):<> Strptr1
 // end of [string0_copy]
 
 fun string1_copy
@@ -249,7 +249,7 @@ fun string1_copy
 
 fun string0_append (
   x1: NSH(string), x2: NSH(string)
-) :<> strptr1 // end of [string0_append]
+) :<> Strptr1 // end of [string0_append]
 
 fun string1_append
   {n1,n2:int} (
@@ -258,7 +258,7 @@ fun string1_append
 
 #atscode_separator()
 
-fun stringlst_concat (xs: NSH(List(string))):<> strptr1
+fun stringlst_concat (xs: NSH(List(string))):<> Strptr1
 
 #atscode_separator()
 

@@ -181,7 +181,7 @@ left in xs satisfy the predicate while those in the returned list do not.
 
 The following code implements the standard quicksort on linear lists:
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 staload UN = "prelude/SATS/unsafe.sats"
 //
 fun{a:vt0p}
@@ -288,7 +288,7 @@ memory allocation/deallocation involved in the implementation of
 The following code mergesorts a list of integers into a list of ascending
 integers:\
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 staload
 "contrib/atshwxi/testing/SATS/fprint.sats"
 staload _(*anon*) =
@@ -345,7 +345,7 @@ back into the list, and then free the array.
 The following code quicksorts a list of integers into a list of ascending
 integers:\
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 staload
 "contrib/atshwxi/testing/SATS/fprint.sats"
 staload _(*anon*) =

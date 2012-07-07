@@ -28,8 +28,8 @@ val () = theTextMap_insert_str ("thisfilename", _thisfilename)
 
 (*
 ** HX-2012:
-** a strptr0 is either the null-pointer or strptr1
-** a strptr1 is a null-terminated arrayptr of characters
+** a Strptr0 is either the null-pointer or Strptr1
+** a Strptr1 is a null-terminated arrayptr of characters
 *)
 
 #atscode_separator()
@@ -63,14 +63,14 @@ strnptr_of_strptr
 // end of [strnptr_of_strptr]
 
 castfn
-stropt_of_strptr (x: strptr0):<> Stropt
+stropt_of_strptr (x: Strptr0):<> Stropt
 castfn
 stropt_of_strnptr
   {l:addr}{n:int} (x: strnptr (l, n)):<> stropt (n)
 // end of [stropt_of_strnptr]
 
 castfn
-string_of_strptr (x: strptr1):<> String
+string_of_strptr (x: Strptr1):<> String
 castfn
 string_of_strnptr
   {l:addr}{n:nat} (x: strnptr (l, n)):<> string (n)
@@ -120,7 +120,7 @@ val fopr_d = (
 //
 val ent = sprintf ("\
 fun %s_strptr_strptr
-  (x1: !strptr0, x2: !strptr0):<> bool = \"mac#atspre_%s_strptr_strptr\"
+  (x1: !Strptr0, x2: !Strptr0):<> bool = \"mac#atspre_%s_strptr_strptr\"
 overload %s with %s_strptr_strptr\
 ", @(
  opr, opr, fopr_d, opr
@@ -143,27 +143,27 @@ end // end of [fun_strptr_cmp_decl]
 overload <> with neq_strptr_strptr
 
 fun compare_strptr_strptr
-  (x1: !strptr0, x2: !strptr0):<> Sgn = "mac\#atspre_compare_strptr_strptr"
+  (x1: !Strptr0, x2: !Strptr0):<> Sgn = "mac\#atspre_compare_strptr_strptr"
 overload compare with compare_strptr_strptr
 
 #atscode_separator()
 
-fun fprint_strptr (out: FILEref, x: !strptr0): void
+fun fprint_strptr (out: FILEref, x: !Strptr0): void
 
 #atscode_separator()
 
-fun strptr_free (x: strptr0):<!wrt> void
+fun strptr_free (x: Strptr0):<!wrt> void
 
 #atscode_separator()
 
-fun strptr_length (x: !strptr0): ssize_t
+fun strptr_length (x: !Strptr0): ssize_t
 fun strnptr_length {n:int} (x: !strnptr n): ssize_t (n)
 
 #atscode_separator()
 
 fun strptr_append (
-  x1: !strptr0, x2: !strptr0
-) :<> strptr0 = "atspre_strptr_append"
+  x1: !Strptr0, x2: !Strptr0
+) :<> Strptr0 = "atspre_strptr_append"
 
 fun strnptr_append
   {n1,n2:nat} (
@@ -172,7 +172,7 @@ fun strnptr_append
 
 #atscode_separator()
 
-fun strptrlst_concat (xs: List_vt (strptr0)):<!wrt> strptr0
+fun strptrlst_concat (xs: List_vt (Strptr0)):<!wrt> Strptr0
 
 #atscode_separator()
 
