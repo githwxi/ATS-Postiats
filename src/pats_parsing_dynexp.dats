@@ -907,7 +907,7 @@ case+ tok.token_node of
     val ent5 = pif_fun (buf, bt, err, p_RPAREN, err0)
   in
     if err = err0 then 
-      d0exp_arrsize (tok, ent2, ent3, (l2l)ent4, ent5)
+      d0exp_arrpsz (tok, ent2, ent3, (l2l)ent4, ent5)
     else let
       val () = list_vt_free (ent4) in synent_null ()
     end (* end of [if] *)

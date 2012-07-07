@@ -127,7 +127,7 @@ fun reader0_initialize_string
     prval pf1 = pf.1
     val i = !p
     prval () = pf.1 := pf1
-    val isnotend = string_isnot_at_end (inp, i)
+    val isnotend = string_isnot_atend (inp, i)
   in
     if isnotend then let
       val c = string_get_char_at (inp, i)

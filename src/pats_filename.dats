@@ -132,7 +132,7 @@ filename_is_relative
   fn aux {n,i:nat | i <= n} (
     name: string n, i: size_t i, dirsep: char
   ) : bool =
-    if string_isnot_at_end (name, i) then (name[i] != dirsep) else false 
+    if string_isnot_atend (name, i) then (name[i] != dirsep) else false 
   // end of [aux]
   val dirsep = theDirSep_get ()
 in

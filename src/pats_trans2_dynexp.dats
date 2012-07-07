@@ -1185,7 +1185,7 @@ case+ d1e0.d1exp_node of
   in
     d2exp_arrinit (loc0, s2e_elt, asz, ini)
   end // end of [D1Earrinit]
-| D1Earrsize
+| D1Earrpsz
     (elt, ini) => let
     val opt = s1expopt_trup (elt)
     val opt = (case+ opt of
@@ -1193,8 +1193,8 @@ case+ d1e0.d1exp_node of
     ) : s2expopt
     val ini = d1explst_tr (ini)
   in
-    d2exp_arrsize (loc0, opt, ini)
-  end // end of [D1Earrsize]
+    d2exp_arrpsz (loc0, opt, ini)
+  end // end of [D1Earrpsz]
 //
 | D1Eraise (d1e) => d2exp_raise (loc0, d1exp_tr d1e)
 | D1Edelay (knd, d1e) => d2exp_delay (loc0, knd, d1exp_tr d1e)

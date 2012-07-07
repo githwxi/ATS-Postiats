@@ -80,12 +80,12 @@ llint_make_string_sgn
   {n,i:nat | i <= n} (
   sgn: int, rep: string (n), i: size_t i
 ) : llint =
-  if string_isnot_at_end (rep, i) then let
+  if string_isnot_atend (rep, i) then let
     val c0 = rep[i]
   in
     case+ c0 of
     | '0' => (
-        if string_isnot_at_end (rep, i+1) then let
+        if string_isnot_atend (rep, i+1) then let
           val i = i+1
           val c0 = rep[i]
         in
@@ -141,11 +141,11 @@ implement
 intrep_get_base (rep) = let
   val rep = string1_of_string (rep)
 in
-  if string_isnot_at_end (rep, 0) then let
+  if string_isnot_atend (rep, 0) then let
     val c0 = rep[0]
   in
     if c0 = '0' then (
-      if string_isnot_at_end (rep, 1) then let
+      if string_isnot_atend (rep, 1) then let
         val c1 = rep[1]
       in
         if (c1 = 'x' || c1 = 'X') then 16

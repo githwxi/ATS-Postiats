@@ -1319,7 +1319,7 @@ and d0exp_node =
       (dqi0de, location(*ind*), d0explstlst(*ind*))
   | D0Earrinit of (* array initilization *)
       (s0exp (*elt*), d0expopt (*asz*), d0explst (*ini*))
-  | D0Earrsize of (s0expopt (*elt*), d0exp (*int*)) // arraysize expression
+  | D0Earrpsz of (s0expopt (*elt*), d0exp (*int*)) // arraysize expression
 //
   | D0Eraise of d0exp // $raise
   | D0Edelay of (int(*knd*), d0exp(*body*)) // $delay and $ldelay
@@ -1637,9 +1637,9 @@ fun d0exp_arrinit (
   t_beg: token, elt: s0exp, dim: d0expopt, ini: d0explst, t_end: token
 ) : d0exp // end of [d0exp_arrinit]
 
-fun d0exp_arrsize (
+fun d0exp_arrpsz (
   t_beg: token, elt: s0expopt, t_lp: token, elts: d0explst, t_rp: token
-) : d0exp // end of [d0exp_arrsize]
+) : d0exp // end of [d0exp_arrpsz]
 
 (* ****** ****** *)
 

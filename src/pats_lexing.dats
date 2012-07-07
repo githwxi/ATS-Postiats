@@ -296,13 +296,13 @@ fun IDENT_sym_get_lexsym
   val x = string1_of_string (x)
 //
 in
-  if string_isnot_at_end (x, 0) then let
+  if string_isnot_atend (x, 0) then let
     val x0 = x[0]
   in
     case+ x0 of
 (*
     | '<' =>
-        if string_isnot_at_end (x, 1) then let
+        if string_isnot_atend (x, 1) then let
           val x1 = x[1]
         in
           case+ x1 of
@@ -312,7 +312,7 @@ in
         end else LS_NONE ()
 *)
     | '?' =>
-        if string_isnot_at_end (x, 1) then let
+        if string_isnot_atend (x, 1) then let
           val x1 = x[1]
         in
           case+ x1 of
@@ -320,7 +320,7 @@ in
           | _ => LS_NONE ()
         end else LS_NONE ()
     | '/' =>
-        if string_isnot_at_end (x, 1) then let
+        if string_isnot_atend (x, 1) then let
           val x1 = x[1]
         in
           case+ x1 of
@@ -538,25 +538,33 @@ fun testing_literal (
 ) : int // end of [testing_literal]
 implement testing_literal
   (buf, pos, lit) = res where {
-  val [n:int] lit = string1_of_string (lit)
-  fun loop
-    {k:nat | k <= n} (
-    buf: &lexbuf, nchr: uint, lit: string n, k: size_t k
-  ) : int =
-    if string_isnot_at_end (lit, k) then let
-      val i = lexbuf_get_char (buf, nchr)
-    in
-      if i >= 0 then
-        if ((i2c)i = lit[k])
-          then loop (buf, succ(nchr), lit, k+1) else ~1
-        // end of [if]
-      else ~1 // end of [if]
-    end else (sz2i)k // end of [if]
-  val nchr0 = lexbufpos_diff (buf, pos)
-  val res = loop (buf, nchr0, lit, 0)
-  val () = if res >= 0
-    then $LOC.position_incby_count (pos, (i2u)res) else ()
-  // end of [val]
+//
+val [n:int] lit = string1_of_string (lit)
+//
+fun loop
+  {k:nat | k <= n} (
+  buf: &lexbuf
+, nchr: uint, lit: string n, k: size_t k
+) : int = let
+  val notatend = string_isnot_atend (lit, k)
+in 
+  if notatend then let
+    val i = lexbuf_get_char (buf, nchr)
+  in
+    if i >= 0 then
+      if ((i2c)i = lit[k])
+        then loop (buf, succ(nchr), lit, k+1) else ~1
+      // end of [if]
+    else ~1 // end of [if]
+  end else (sz2i)k // end of [if]
+end // end of [loop]
+//
+val nchr0 = lexbufpos_diff (buf, pos)
+val res = loop (buf, nchr0, lit, 0)
+val () = if res >= 0
+  then $LOC.position_incby_count (pos, (i2u)res) else ()
+// end of [if] // end of [val]
+//
 } // end of [testing_literal]
 
 (* ****** ****** *)
@@ -1098,7 +1106,7 @@ fun loop
   {i:nat | i <= n} .<n-i>. (
   x: string n, i: size_t i, res: int
 ) :<> int =
-  if string_isnot_at_end (x, i) then let
+  if string_isnot_atend (x, i) then let
     val c = x[i]; val res = 10 * res + (c - '0')
   in
     loop (x, i+1, res)

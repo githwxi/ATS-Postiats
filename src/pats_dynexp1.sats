@@ -344,7 +344,7 @@ and d1exp_node =
       (d1exp, location(*ind*), d1explstlst(*ind*))
   | D1Earrinit of (* array initialization *)
       (s1exp (*eltyp*), d1expopt (*asz*), d1explst (*elt*))
-  | D1Earrsize of (* arraysize expression *)
+  | D1Earrpsz of (* arraysize expression *)
       (s1expopt (*element type*), d1explst (*elements*))
 //
   | D1Eraise of d1exp // raised exception
@@ -646,9 +646,9 @@ fun d1exp_arrinit (
   loc: location, elt: s1exp, asz: d1expopt, d1es: d1explst
 ) : d1exp // end of [d1exp_arrinit]
 
-fun d1exp_arrsize
+fun d1exp_arrpsz
   (loc: location, elt: s1expopt, d1es: d1explst): d1exp
-// end of [d1exp_arrsize]
+// end of [d1exp_arrpsz]
 
 (* ****** ****** *)
 

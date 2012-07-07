@@ -594,9 +594,9 @@ d2exp_arrinit (
 ) = d2exp_make_node (loc, D2Earrinit (s2e_elt, asz, init))
 
 implement
-d2exp_arrsize (
+d2exp_arrpsz (
   loc, s2eopt_elt, d2es_ini
-) = d2exp_make_node (loc, D2Earrsize (s2eopt_elt, d2es_ini))
+) = d2exp_make_node (loc, D2Earrpsz (s2eopt_elt, d2es_ini))
 
 (* ****** ****** *)
 

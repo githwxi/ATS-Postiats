@@ -428,8 +428,8 @@ case+ d1e0.d1exp_node of
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }
-| D1Earrsize _ => {
-    val () = prstr "D1Earrsize("
+| D1Earrpsz _ => {
+    val () = prstr "D1Earrpsz("
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }

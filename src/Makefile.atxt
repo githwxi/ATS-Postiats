@@ -28,7 +28,7 @@ val str = string1_of_string (str)
 fun loop {n:int}
   {i:nat | i <= n} .<n-i>.
   (str: string n, i: size_t i): string =
-  if string_isnot_at_end (str, i) then let
+  if string_isnot_atend (str, i) then let
     val c = str[i]
   in
     if c = '.' then let

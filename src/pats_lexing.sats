@@ -174,8 +174,7 @@ token_node =
 //
   | T_DLRARRPSZ of () // $arrpsz // $arrptrsize
 //
-  | T_DLRDELAY of
-      (int) // $delay(0) and $ldelay(1)
+  | T_DLRDELAY of (int) // $delay(0) and $ldelay(1)
 //
   | T_DLREFFMASK of () // $effmask
   | T_DLREFFMASK_ARG of

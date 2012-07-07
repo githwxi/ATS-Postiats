@@ -583,15 +583,15 @@ aux_item (
     in
       FXITMatm (d1exp_arrinit (loc0, elt, asz, ini))
     end // end of [D0Earrinit]
-  | D0Earrsize (elt, d0e_elts) => let
+  | D0Earrpsz (elt, d0e_elts) => let
       val elt = s0expopt_tr (elt)
       val d1e_elts = d0exp_tr (d0e_elts)
       val d1es_elts = (case+ d1e_elts.d1exp_node of
         | D1Elist (_(*npf*), d1es) => d1es | _ => list_sing (d1e_elts)
       ) : d1explst // end of [val]
     in
-      FXITMatm (d1exp_arrsize (loc0, elt, d1es_elts))
-    end // end of [D0Earrsize]
+      FXITMatm (d1exp_arrpsz (loc0, elt, d1es_elts))
+    end // end of [D0Earrpsz]
 //
   | D0Eraise (d0e) => FXITMatm (d1exp_raise (loc0, d0exp_tr (d0e)))
   | D0Edelay (knd, d0e) => let

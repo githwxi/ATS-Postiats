@@ -525,10 +525,10 @@ d1exp_arrinit
 // end of [d1exp_arrinit]
 
 implement
-d1exp_arrsize
+d1exp_arrpsz
   (loc, elt, ini) =
-  d1exp_make (loc, D1Earrsize (elt, ini))
-// end of [d1exp_arrsize]
+  d1exp_make (loc, D1Earrpsz (elt, ini))
+// end of [d1exp_arrpsz]
 
 implement
 d1exp_arrsub

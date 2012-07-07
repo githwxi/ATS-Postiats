@@ -72,12 +72,12 @@ intinf_make_string (rep) = let
   val rep = string1_of_string (rep)
 in
 //
-if string_is_at_end (rep, 0) then intinf_make_int (0)
+if string_is_atend (rep, 0) then intinf_make_int (0)
 else let
   val c0 = rep[0]
 in
   if c0 = '0' then (
-    if string_is_at_end (rep, 1) then intinf_make_int (0)
+    if string_is_atend (rep, 1) then intinf_make_int (0)
     else let
       val c1 = rep[1]
     in
