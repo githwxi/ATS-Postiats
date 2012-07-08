@@ -58,6 +58,23 @@ castfn string1_of_string0 (x: string):<> [n:int] string (n)
 
 #atscode_separator()
 
+fun string_make_list
+  {n:int} (cs: list(charNZ, n)):<> strnptr (n)
+fun string_make_listlen
+  {n:int} (cs: list(charNZ, n), n: int n):<> strnptr (n)
+
+fun string_make_list_rev
+  {n:int} (cs: list(charNZ, n)):<> strnptr (n)
+fun string_make_listlen_rev
+  {n:int} (cs: list(charNZ, n), n: int n):<> strnptr (n)
+
+fun string_make_substring
+  {n:int}{st,ln:nat | st+ln <= n}
+  (str: string (n), st: size_t st, ln: size_t ln):<> strnptr (ln)
+// end of [string_make_substring]
+
+#atscode_separator()
+
 fun{} string_is_empty (x: string):<> bool
 fun{} string_isnot_empty (x: string):<> bool
 
@@ -182,23 +199,6 @@ overload prerr with prerr_string
 
 #atscode_separator()
 
-fun string_make_list
-  {n:int} (cs: list(charNZ, n)):<> strnptr (n)
-fun string_make_listlen
-  {n:int} (cs: list(charNZ, n), n: int n):<> strnptr (n)
-
-fun string_make_list_rev
-  {n:int} (cs: list(charNZ, n)):<> strnptr (n)
-fun string_make_listlen_rev
-  {n:int} (cs: list(charNZ, n), n: int n):<> strnptr (n)
-
-fun string_make_substring
-  {n:int}{st,ln:nat | st+ln <= n}
-  (str: string (n), st: size_t st, ln: size_t ln):<> strnptr (ln)
-// end of [string_make_substring]
-
-#atscode_separator()
-
 fun strchr {n:int}
   (str: NSH(string n), c0: char):<> ssizeBtw (~1, n)
 // end of [strchr]
@@ -305,21 +305,23 @@ string_rforeach_env {n:int}
 ** HX: [stropt_none] is just the null pointer
 *)
 
-fun stropt_length
-  {n:int} (x: stropt (n)): ssize_t (n)
-// end of [stropt_length]
+#atscode_separator()
+
+fun{} stropt_none (): stropt (~1)
+castfn stropt_some {n:int} (x: SHR(string n)): stropt (n)
 
 fun stropt_is_none {n:int} (x: stropt n): bool (n < 0)
 fun stropt_is_some {n:int} (x: stropt n): bool (n >= 0)
 
-fun{} stropt_none (): stropt (~1)
+castfn stropt_unsome {n:nat} (x: stropt n): string (n)
 
-castfn stropt_some {n:int} (x: SHR(string n)): stropt (n)
-castfn stropt_unsome {n:nat} (x: SHR(stropt n)): string (n)
+fun stropt_length
+  {n:int} (x: stropt (n)): ssize_t (n)
+// end of [stropt_length]
 
 #atscode_separator()
 
-fun fprint_stropt (out: FILEref, x: Stropt): void
+fun fprint_stropt (out: FILEref, x: Stropt0): void
 
 #atscode_separator()
 

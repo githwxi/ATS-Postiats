@@ -145,6 +145,10 @@ praxi
 lemma_string_param
   {n:int} (x: string(n)): [n >= 0] void
 // end of [lemma_string_param]
+praxi
+lemma_stropt_param
+  {n:int} (x: stropt(n)): [n >= ~1] void
+// end of [lemma_stropt_param]
 
 (* ****** ****** *)
 

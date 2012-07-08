@@ -1,3 +1,12 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/option")
+%}
+
+(* ****** ****** *)
+
 #decltitle("\
 ATSLIB/prelude/option\
 ")
@@ -15,11 +24,64 @@ option-values.
 
 (* ****** ****** *)
 
-#declnamesynop("option")
+#declname("option")
+#declsynopsis2("\
+#para('\
+The full name for the option-type constructor #stacode("option") is
+#stacode("option_t0ype_bool_type"), which is given to the datatype declared as
+follows:
+#pats2xhtmls('\
+datatype // t@ype+: covariant
+option_t0ype_bool_type
+  (a:t@ype+, bool) = Some (a, true) of a | None (a, false)
+// end of [datatype]
+')')
+")
+#decldescrpt("\
+
+There are two data constructors #dyncode("Some") and #dyncode("None")
+associated with #stacode("option"); the former constructs a null
+option-value while the latter takes an element x to construct a non-null
+option-value carrying x. ")
+
+#declexample("\
+
+The following code implements a function that combines two given
+option-values into a single one:
+
+#pats2xhtmld_tryit('\
+fun{
+a1,a2:t@ype
+} option_zip {b1,b2:bool} (
+  opt1: option (a1, b1), opt2: option (a2, b2)
+) : option (@(a1, a2), b1*b2) =
+  case+ opt1 of
+  | Some (x1) => (
+    case+ opt2 of
+    | Some (x2) => Some @(x1, x2) | None () => None ()
+    )
+  | None () => None ()
+// end of [option_zip]
+')
+")
+
+(* ****** ****** *)
+
+#declname("Option")
+#declsynopsis2('\
+#para('\
+#pats2xhtmls('\
+typedef Option (a:t@ype) = [b:bool] option (a, b)\
+')')
+')
 
 (* ****** ****** *)
 
 #declnamesynop("NotSomeExn")
+#decldescrpt('\
+
+By convention, this exception is raised to indicate a situation where an
+option-value expected to be non-null is actually null.  ')
 
 (* ****** ****** *)
 
@@ -55,7 +117,7 @@ This is just the inverse of #dyncode("option_some").
 #declnamesynop("option_unsome_exn")
 #decldescrpt('\
 
-If a given option-value is of the form #dyncode("Some(v)"), then the
+If a given option-value is of the form #dyncode("Some(v)"), then this
 function returns v. Otherwise, it raises an exception
 (#dyncode("NotSomeExn")).  ')
 

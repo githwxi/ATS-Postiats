@@ -47,13 +47,13 @@ run-time.  ")
 
 (* ****** ****** *)
 
-#declnamesynop("arrayref_get_at")
-#declnamesynop("arrayref_set_at")
-#declnamesynop("arrayref_exch_at")
+#declnamesynop("arrayref_make_elt")
 
 (* ****** ****** *)
 
-#declnamesynop("arrayref_make_elt")
+#declnamesynop("arrayref_get_at")
+#declnamesynop("arrayref_set_at")
+#declnamesynop("arrayref_exch_at")
 
 (* ****** ****** *)
 
@@ -75,11 +75,13 @@ arrszref-value. ")
 
 (* ****** ****** *)
 
+#declnamesynop("arrszref_make_elt")
+
+(* ****** ****** *)
+
 #declnamesynop("arrszref_get_at")
 #declnamesynop("arrszref_set_at")
 #declnamesynop("arrszref_exch_at")
-
-#declnamesynop("arrszref_make_elt")
 
 (* ****** ****** *)
 

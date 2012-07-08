@@ -1581,7 +1581,7 @@ fun loop
   val () =
     psynmarklstlst_process (pos, psmss, putc)
   // end of [val]
-  val isnotend = string_isnot_at_end (inp, ind) 
+  val isnotend = string_isnot_atend (inp, ind) 
 in
 //
 if isnotend then let

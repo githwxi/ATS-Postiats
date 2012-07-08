@@ -74,6 +74,18 @@ arrayref_get_viewptr
 #atscode_separator()
 
 fun{a:t0p}
+arrayref_make_elt
+  {n:int} (asz: size_t n, x: a):<> arrayref (a, n)
+// end of [arrayref_make_elt]
+
+fun{a:t0p}
+arrayref_make_listlen
+  {n:int} (xs: list (INV(a), n), n: int n):<> arrayref (a, n)
+// end of [arrayref_make_listlen]
+
+#atscode_separator()
+
+fun{a:t0p}
 arrayref_get_at
   {n:int}{i:nat | i < n}
   (A: arrayref (INV(a), n), i: size_t i):<!ref> a
@@ -90,18 +102,6 @@ a:vt0p
   {n:int}{i:nat | i < n}
   (A: arrayref (INV(a), n), i: size_t i, x: &a >> a):<!refwrt> void
 // end of [arrayref_exch_at]
-
-#atscode_separator()
-
-fun{a:t0p}
-arrayref_make_elt
-  {n:int} (asz: size_t n, x: a):<> arrayref (a, n)
-// end of [arrayref_make_elt]
-
-fun{a:t0p}
-arrayref_make_listlen
-  {n:int} (xs: list (INV(a), n), n: int n):<> arrayref (a, n)
-// end of [arrayref_make_listlen]
 
 #atscode_separator()
 
@@ -164,6 +164,16 @@ arrszref_get_refsize{a:vt0p}
 #atscode_separator()
 
 fun{a:t0p}
+arrszref_make_elt (asz: size_t, x: a):<> arrszref (a)
+// end of [arrszref_make_elt]
+
+fun{a:t0p}
+arrszref_make_list (xs: List (INV(a))):<> arrszref (a)
+// end of [arrszref_make_list]
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+fun{a:t0p}
 arrszref_get_at
   (A: arrszref (INV(a)), i: size_t):<!exn,!ref> a
 overload [] with arrszref_get_at
@@ -181,16 +191,6 @@ a:vt0p
 // end of [arrszref_exch_at]
 
 #atscode_separator()
-
-fun{a:t0p}
-arrszref_make_elt (asz: size_t, x: a):<> arrszref (a)
-// end of [arrszref_make_elt]
-
-fun{a:t0p}
-arrszref_make_list (xs: List (INV(a))):<> arrszref (a)
-// end of [arrszref_make_list]
-
-#atscode_eof_strsub("\#thisfilename$")\
 
 %{
 implement main () = fprint_filsub (stdout_ref, "arrayref_atxt.txt")

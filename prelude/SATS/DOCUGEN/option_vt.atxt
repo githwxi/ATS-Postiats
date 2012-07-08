@@ -1,3 +1,12 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/option_vt")
+%}
+
+(* ****** ****** *)
+
 #decltitle("\
 ATSLIB/prelude/option_vt\
 ")
@@ -16,6 +25,59 @@ option-values.
 (* ****** ****** *)
 
 #declnamesynop("option_vt")
+#declsynopsis2("\
+#para('\
+
+The full name for the linear option-type constructor #stacode("option_vt")
+is #stacode("option_viewt0ype_bool_viewtype"), which is given to the
+linear datatype (dataviewtype) declared as follows:
+
+#pats2xhtmls('\
+dataviewtype // viewt@ype+: covariant
+option_viewt0ype_bool_viewtype
+  (a:viewt@ype+, bool) = Some_vt (a, true) of a | None_vt (a, false)
+// end of [option_viewt0ype_bool_viewtype]
+')')
+")
+#decldescrpt("\
+
+There are two data constructors #dyncode("Some_vt") and #dyncode("None_vt")
+associated with #stacode("option_vt"); the former constructs a null
+option-value while the latter takes an element x to construct a non-null
+option-value carrying x. ")
+
+#declexample("\
+
+The following code implements a function that combines two given
+linear option-values into a single one:
+
+#pats2xhtmld_tryit('\
+fun{
+a1,a2:t0p
+} option_vt_zip {b1,b2:bool} (
+  opt1: option_vt (a1, b1), opt2: option_vt (a2, b2)
+) : option_vt (@(a1, a2), b1*b2) =
+  case+ opt1 of
+  | ~Some_vt (x1) => (
+    case+ opt2 of
+    | ~Some_vt (x2) => Some_vt @(x1, x2) | ~None_vt () => None_vt ()
+    )
+  | ~None_vt () => let
+      val () = option_vt_free (opt2) in None_vt ()
+    end // end of [None_vt]
+// end of [option_vt_zip]
+')
+")
+
+(* ****** ****** *)
+
+#declname("Option_vt")
+#declsynopsis2('\
+#para('\
+#pats2xhtmls('\
+viewtypedef Option_vt (a:viewt@ype) = [b:bool] option_vt (a, b)\
+')')
+')
 
 (* ****** ****** *)
 

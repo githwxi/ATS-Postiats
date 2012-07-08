@@ -63,7 +63,13 @@ strnptr_of_strptr
 // end of [strnptr_of_strptr]
 
 castfn
-stropt_of_strptr (x: Strptr0):<> Stropt
+stropt_of_strptr
+  {l:addr} (
+  x: strptr (l)
+) :<> [n:int|(l==null&&n < 0)||(l>null&&n>=0)] stropt (n)
+castfn stropt0_of_strptr0 (x: Strptr0):<> Stropt0
+castfn stropt1_of_strptr1 (x: Strptr1):<> Stropt1
+
 castfn
 stropt_of_strnptr
   {l:addr}{n:int} (x: strnptr (l, n)):<> stropt (n)

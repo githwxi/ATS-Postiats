@@ -60,6 +60,33 @@ indexed type.
 
 (* ****** ****** *)
 
+#declnamesynop("list0_make_arrpsz")
+#decldescrpt("\
+
+This function, which overloads the symbol #dyncode("list0"), is often
+conveniently employed to build a list of some fixed length.\
+
+")
+#declexample("\
+
+The following code builds a list of digits and then print them out:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/list0.sats"
+//
+implement main () = let
+  val xs = list0$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+  val () = list0_foreach<int> (xs, lam (x) => print_int (x))
+  val () = print_newline ()
+in
+  0(*normal*)
+end // end of [main]
+')
+")
+
+(* ****** ****** *)
+
 #declnamesynop("list0_head_exn")
 #decldescrpt("\
 
@@ -448,9 +475,9 @@ staload "libats/ML/SATS/list0.sats"
 //
 fun{
 a:t@ype
-} listeq (
-  xs1: list0 a
-, xs2: list0 a
+} list0_equal (
+  xs1: list0 (a)
+, xs2: list0 (a)
 , eqfn: cfun2 (a, a, bool)
 ) : bool = let
   var sgn: int // uninitialied
@@ -461,7 +488,7 @@ in
   else
     false // [xs1] and [xs2] are of different length
   // end of [if]
-end // end of [listeq]
+end // end of [list0_equal]
 ')
 ")
 

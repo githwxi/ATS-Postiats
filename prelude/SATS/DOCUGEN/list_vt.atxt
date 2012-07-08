@@ -70,7 +70,14 @@ respectively.\
 #declsynop2('\
 #para('\
 #pats2xhtmls('\
-typedef List_vt (a:viewt@ype) = [n:nat] list_vt (a, n)\
+typedef List_vt (a:viewt@ype) = [n:int] list_vt (a, n)\
+')')
+')
+#declname("List0_vt")
+#declsynop2('\
+#para('\
+#pats2xhtmls('\
+typedef List0_vt (a:viewt@ype) = [n:int | n >= 0] list_vt (a, n)\
 ')')
 ')
 
@@ -80,6 +87,17 @@ typedef List_vt (a:viewt@ype) = [n:nat] list_vt (a, n)\
 #decldescrpt('\
 This proof function establishes that the integer n in any linear list type
 #stacode("list_vt(T, n)") is a natural number, where T can be a linear type.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_vt_make_array")
+#decldescrpt('\
+
+Given an array of size n, this function returns a linear list of length n
+such that element i in the list is the element stored in cell i of the
+array, where i ranges from 0 until n-1, inclusively.
+
 ')
 
 (* ****** ****** *)
@@ -114,14 +132,15 @@ This function returns the length of a given linear list.
 
 (* ****** ****** *)
 
-#declnamesynop("list_vt_make_array")
-#decldescrpt('\
+#declnamesynop("list_vt_getref_at")
+#declnamesynop("list_vt_get_at")
+#declnamesynop("list_vt_set_at")
+#declnamesynop("list_vt_exch_at")
 
-Given an array of size n, this function returns a linear list of length n
-such that element i in the list is the element stored in cell i of the
-array, where i ranges from 0 until n-1, inclusively.
+(* ****** ****** *)
 
-')
+#declnamesynop("list_vt_insert_at")
+#declnamesynop("list_vt_remove_at")
 
 (* ****** ****** *)
 

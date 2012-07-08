@@ -66,7 +66,14 @@ respectively.\
 #declsynopsis2('\
 #para('\
 #pats2xhtmls('\
-typedef List (a:t@ype) = [n:nat] list (a, n)\
+typedef List (a:t@ype) = [n:int] list (a, n)\
+')')
+')
+#declname("List0")
+#declsynopsis2('\
+#para('\
+#pats2xhtmls('\
+typedef List0 (a:t@ype) = [n:int | n >= 0] list (a, n)\
 ')')
 ')
 
@@ -92,6 +99,26 @@ This proof function establishes that the integer n in any list type
 #decldescrpt("\
 This function casts a linear list-value to a nonlinear list-value.
 ")
+
+(* ****** ****** *)
+
+#declnamesynop("list_make_elt")
+#decldescrpt('\
+
+Given a natural number n and an element x, this function returns a list
+consisting of n occurrences of x.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_make_intrange")
+#decldescrpt('\
+
+Given integers l and r satisfying l <= r, this function returns a list of
+integers ranging from l until r-1, inclusively.
+
+')
 
 (* ****** ****** *)
 
@@ -223,26 +250,6 @@ the length of its first argument.
 
 (* ****** ****** *)
 
-#declnamesynop("list_make_elt")
-#decldescrpt('\
-
-Given a natural number n and an element x, this function returns a list
-consisting of n occurrences of x.
-
-')
-
-(* ****** ****** *)
-
-#declnamesynop("list_make_intrange")
-#decldescrpt('\
-
-Given integers l and r satisfying l <= r, this function returns a list of
-integers ranging from l until r-1, inclusively.
-
-')
-
-(* ****** ****** *)
-
 #declnamesynop("list_exists__pred")
 #declnamesynop("list_exists")
 #decldescrpt('\
@@ -252,6 +259,44 @@ element in xs that satisfies the predicate implemented by
 #dyncode("list_exists__pred").
 
 ')
+
+#declexample('\
+
+The following code implements a function for removing the duplicates in a
+given list:
+
+#pats2xhtmld_tryit('
+//
+staload UN = "prelude/SATS/unsafe.sats"
+//
+fun{a:t0p}
+list_remove_dup (
+  xs: List (a), eq: (a, a) -<0> bool
+) : List_vt (a) = let
+  fun loop (
+    xs: List (a), ys: List0_vt (a)
+  ) : List_vt (a) =
+    case+ xs of
+    | list_cons (x, xs) => let
+        implement
+        list_exists__pred<a> (y) = eq (x, y)
+        val found = list_exists<a> ($UN.listcast(ys))
+      in
+        if found then loop (xs, ys) else loop (xs, list_vt_cons (x, ys))
+      end // end of [list_cons]
+    | list_nil () => ys
+  // end of [loop]
+in
+  list_vt_reverse (loop (xs, list_vt_nil))
+end // end of [list_remove_dup]
+')\
+
+Note that the order of elements in the returned list is consistent with
+their order in the original list.
+
+')
+
+(* ****** ****** *)
 
 #declnamesynop("list_forall__pred")
 #declnamesynop("list_forall")

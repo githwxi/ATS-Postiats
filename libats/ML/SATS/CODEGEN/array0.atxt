@@ -52,6 +52,25 @@ arrszref_of_array0
 
 #atscode_separator()
 
+symintr array0
+
+fun{a:t0p}
+array0_make_elt
+  (asz: size_t, x: a):<> array0 (a)
+overload array0 with array0_make_elt
+
+fun{a:t0p}
+array0_make_list
+  (xs: list0 (INV(a))):<> array0 (a)
+overload array0 with array0_make_list
+
+fun{a:t0p}
+array0_make_arrpsz
+  {n:int} (psz: arrpsz (a, n)):<> array0 (a)
+overload array0 with array0_make_arrpsz
+
+#atscode_separator()
+
 fun{a:t0p}
 array0_get_at (A: array0 (INV(a)), i: size_t):<!exn,!ref> a
 fun{a:t0p}
@@ -64,16 +83,6 @@ array0_exch_at (A: array0 (INV(a)), i: size_t, x: &a):<!exn,!refwrt> void
 
 fun array0_size {a:t0p} (A: array0 a):<> size_t
 fun array0_length {a:t0p} (A: array0 a):<> size_t
-
-#atscode_separator()
-
-fun{a:t0p}
-array0_make_elt
-  (asz: size_t, x: a):<> array0 (a)
-// end of [array0_make_elt]
-
-fun{a:t0p}
-array0_make_list (xs: list0 (INV(a))):<> array0 (a)
 
 #atscode_separator()
 

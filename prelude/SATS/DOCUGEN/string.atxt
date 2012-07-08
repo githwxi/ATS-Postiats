@@ -47,7 +47,14 @@ This funtion returns true if and only if its string argument is non-empty.
 
 (* ****** ****** *)
 
-#declnamesynop("string_is_atend")
+#declname("string_is_atend")
+#declsynopsis2("
+#pats2xhtmld('\
+symintr string_is_atend
+overload string_is_atend with string_is_atend_int
+overload string_is_atend with string_is_atend_uint
+')
+")
 
 (* ****** ****** *)
 
@@ -287,14 +294,17 @@ taking the length of the given string as the second argument.  ')
 
 Given a string str and a char c0, this function returns the index of the
 first char in str that equals c0 if there is such a char.  Otherwise, it
-returns ~1 (negative 1).  ')
+returns ~1 (negative 1).  The implementation of this function in ATSLIB
+calls the libc-function of the same name (declared in [string.h]).
+')
 
 #declnamesynop("strrchr")
 #decldescrpt('\
 
 Given a string str and a char c0, this function returns the index of the
 last char in str that equals c0 if there is such a char.  Otherwise, it
-returns ~1 (negative 1).  ')
+returns ~1 (negative 1).  The implementation of this function in ATSLIB
+calls the libc-function of the same name (declared in [string.h]).  ')
 
 #declnamesynop("strstr")
 #decldescrpt('\
@@ -302,7 +312,9 @@ returns ~1 (negative 1).  ')
 Given a string str1 and a string str2, this function returns the index of
 the first substring in str1 that equals str2 if there is such a
 substring. Otherwise, it returns ~1 (negative 1).  Note that the function
-returns 0 in the special case where str2 is empty, ')
+returns 0 in the special case where str2 is empty, The implementation of
+this function in ATSLIB calls the libc-function of the same name (declared
+in [string.h]).  ')
 
 (* ****** ****** *)
 
@@ -315,26 +327,43 @@ returns 0 in the special case where str2 is empty, ')
 #decldescrpt('\
 
 This function is the same as #dyncode("strchr") except for requiring that
-its second argument be a non-null char.  ')
+its second argument be a non-null char.  The implementation of this
+function in ATSLIB calls the libc-function of the same name (declared in
+[strings.h]).  ')
 
 #declnamesynop("string_rindex")
 #decldescrpt('\
 
 This function is the same as #dyncode("strrchr") except for requiring that
-its second argument be a non-null char.  ')
+its second argument be a non-null char.  The implementation of this
+function in ATSLIB calls the libc-function of the same name (declared in
+[strings.h]).  ')
+
+(* ****** ****** *)
+
+#declname("string_length")
+#declsynopsis2("
+#pats2xhtmld('\
+symintr string_length
+overload string_length with string0_length of 0
+overload string_length with string1_length of 1
+')
+")
 
 (* ****** ****** *)
 
 #declnamesynop("string0_length")
 #decldescrpt('\
 
-This function computes the length of a given string.  ')
+This function, which overloads the symbol #dyncode("string_length"), computes
+the length of a given string.  ')
 
 #declnamesynop("string1_length")
 #decldescrpt('\
 
-This function does the same as #dyncode("string0_length") but is assigned a
-more informative type.  ')
+This function, which overloads the symbol #dyncode("string_length"), does the
+same as #dyncode("string0_length") but is assigned a more informative type.
+')
 
 (* ****** ****** *)
 
@@ -342,7 +371,18 @@ more informative type.  ')
 #declnamesynop("string1_copy")
 
 #declnamesynop("string0_append")
+#decldescrpt('\
+
+This function, which overloads the symbol #dyncode("string_append"),
+returns a linear string equal to the concatenation of its two string
+arguments. ')
+
 #declnamesynop("string1_append")
+#decldescrpt('\
+
+This function, which overloads the symbol #dyncode("string_append"), does
+the same as #dyncode("string0_append") but is assigned a more informative
+type.  ')
 
 (* ****** ****** *)
 
@@ -359,14 +399,20 @@ strings and then prints it (plus a newline) onto the standard output channel:
 
 #pats2xhtmld_tryit('\
 implement
-main () = 0 where {
-  val xs = $lst{string} ("H", "e", "l", "l", "o", "!")
+main () = let
+  val xs = $lst{string}
+    ("H", "e", "l", "l", "o", "!")
   val hello = stringlst_concat (xs)
   val () = fprint_strptr (stdout_ref, hello)
   val () = fprint_newline (stdout_ref)
   val () = strptr_free (hello)
-} // end of [main]
-')
+in
+  0(*normal*)
+end // end of [main]
+')\
+
+Note that the created string is freed before the code exits.
+
 ')
 
 (* ****** ****** *)
@@ -525,17 +571,46 @@ except for taking an additional argument that serves as an environment.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("stropt_some")
 #declnamesynop("stropt_none")
+#declnamesynop("stropt_some")
+
+#declnamesynop("stropt_is_none")
+#decldescrpt('\
+
+This function tests whether a stropt-value (optional string) is null.  ')
 
 #declnamesynop("stropt_is_some")
-#declnamesynop("stropt_is_none")
+#decldescrpt('\
+
+This function tests whether a stropt-value (optional string) is non-null.  ')
 
 #declnamesynop("stropt_unsome")
+#decldescrpt('\
+
+This function casts a non-null stropt-value (optional string) to a
+string-value.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("stropt_length")
+#decldescrpt('\
+
+This function computes the length of a given stropt-value (optional
+string). If the argument is the null pointer, then the returned value is ~1
+(negative 1).
+
+')
 
 (* ****** ****** *)
 
 #declnamesynop("fprint_stropt")
+#decldescrpt('\
+
+This function prints a given stropt-value (optional string) to the output
+channel (its first argument). If the stropt-value is not null, then it is
+treated as a string. Otherwise, it is treated as the null pointer.
+
+')
 
 (* ****** ****** *)
 

@@ -96,36 +96,6 @@ arrpsz_decode
 // end of [arrpsz_decode]
 
 #atscode_separator()
-//
-fun{a:t0p}
-arrayptr_get_at
-  {n:int} (
-  A: !arrayptr (INV(a), n), i: sizeLt (n)
-) :<> a // end of [arrayptr_get_at]
-fun{a:t0p}
-arrayptr_set_at
-  {n:int} (
-  A: !arrayptr (INV(a), n), i: sizeLt (n), x: a
-) :<!wrt> void // end of [arrayptr_set_at]
-//
-overload [] with arrayptr_get_at
-overload [] with arrayptr_set_at
-//
-#atscode_separator()
-
-fun{a:vt0p}
-arrayptr_exch_at
-  {n:int} (
-  A: !arrayptr (INV(a), n), i: sizeLt (n), x: &a
-) :<!wrt> void // end of [arrayptr_exch_at]
-
-#atscode_separator()
-
-fun arrayptr_free
-  {a:t0p}{l:addr}{n:int} (A: arrayptr (a, l, n)):<> void
-// end of [arrayptr_free]
-
-#atscode_separator()
 
 fun{a:vt0p}
 arrayptr_make_uninitized
@@ -159,6 +129,36 @@ arrayptr_make_list_vt
   {n:int}
   (asz: size_t n, xs: list_vt (INV(a), n)):<> arrayptr (a, n)
 // end of [arrayptr_make_list_vt]
+
+#atscode_separator()
+//
+fun{a:t0p}
+arrayptr_get_at
+  {n:int} (
+  A: !arrayptr (INV(a), n), i: sizeLt (n)
+) :<> a // end of [arrayptr_get_at]
+fun{a:t0p}
+arrayptr_set_at
+  {n:int} (
+  A: !arrayptr (INV(a), n), i: sizeLt (n), x: a
+) :<!wrt> void // end of [arrayptr_set_at]
+//
+overload [] with arrayptr_get_at
+overload [] with arrayptr_set_at
+//
+#atscode_separator()
+
+fun{a:vt0p}
+arrayptr_exch_at
+  {n:int} (
+  A: !arrayptr (INV(a), n), i: sizeLt (n), x: &a
+) :<!wrt> void // end of [arrayptr_exch_at]
+
+#atscode_separator()
+
+fun arrayptr_free
+  {a:t0p}{l:addr}{n:int} (A: arrayptr (a, l, n)):<> void
+// end of [arrayptr_free]
 
 #atscode_separator()
 

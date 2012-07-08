@@ -1,3 +1,12 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/array0")
+%}
+
+(* ****** ****** *)
+
 #decltitle("\
 ATSLIB/libats/ML/array0\
 ")
@@ -27,14 +36,35 @@ elements of the type T are stored.
 
 (* ****** ****** *)
 
-#declnamesynop("array0_get_at")
-#declnamesynop("array0_set_at")
-#declnamesynop("array0_exch_at")
+#declnamesynop("array0_make_elt")
+#declnamesynop("array0_make_list")
 
 (* ****** ****** *)
 
-#declnamesynop("array0_make_elt")
-#declnamesynop("array0_make_list")
+#declnamesynop("array0_make_arrpsz")
+#declexample("\
+
+The following code builds an array of digits and then print them out:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/array0.sats"
+//
+implement main () = let
+  val xs = array0$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+  val () = array0_foreach<int> (xs, lam (x) => print_int (x))
+  val () = print_newline ()
+in
+  0(*normal*)
+end // end of [main]
+')
+")
+
+(* ****** ****** *)
+
+#declnamesynop("array0_get_at")
+#declnamesynop("array0_set_at")
+#declnamesynop("array0_exch_at")
 
 (* ****** ****** *)
 

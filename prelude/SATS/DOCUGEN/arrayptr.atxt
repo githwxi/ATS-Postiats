@@ -31,37 +31,6 @@ manipulating arrayptr-values.
 
 (* ****** ****** *)
 
-#declnamesynop("arrayptr_get_at")
-#decldescrpt("\
-This function reads out the nonlinear value stored at cell i
-of the array associated with the first argument of the function.
-")
-
-#declnamesynop("arrayptr_set_at")
-#decldescrpt("\
-This function writes a nonlinear value x to cell i
-of the array associated with the first argument of the function.
-")
-
-#declnamesynop("arrayptr_exch_at")
-#decldescrpt("\
-This function exchanges the content of cell i
-of the array associated with the first argument of the function
-with that of the variable x (third argument). Note that the type
-for these contents can be linear.
-")
-
-(* ****** ****** *)
-
-#declnamesynop("arrayptr_free")
-#decldescrpt("\
-This function frees the memory occupied by a given arrayptr-value,
-which includes both the memory for the structure of this value and
-the memory for the array associated with it.
-")
-
-(* ****** ****** *)
-
 #declnamesynop("arrayptr_make_uninitized")
 #decldescrpt("\
 
@@ -107,6 +76,37 @@ This function creates an arrayptr-value of a given size n (first argument)
 and then initializes it with a given linear list (second argument) of
 length n. Note that the linear list is consumed after the function returns.
 
+")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptr_get_at")
+#decldescrpt("\
+This function reads out the nonlinear value stored at cell i
+of the array associated with the first argument of the function.
+")
+
+#declnamesynop("arrayptr_set_at")
+#decldescrpt("\
+This function writes a nonlinear value x to cell i
+of the array associated with the first argument of the function.
+")
+
+#declnamesynop("arrayptr_exch_at")
+#decldescrpt("\
+This function exchanges the content of cell i
+of the array associated with the first argument of the function
+with that of the variable x (third argument). Note that the type
+for these contents can be linear.
+")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptr_free")
+#decldescrpt("\
+This function frees the memory occupied by a given arrayptr-value,
+which includes both the memory for the structure of this value and
+the memory for the array associated with it.
 ")
 
 (* ****** ****** *)

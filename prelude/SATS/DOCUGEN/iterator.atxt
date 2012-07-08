@@ -19,6 +19,26 @@ manipulating iterators.
 
 (* ****** ****** *)
 
+#declnamesynop("iter_make_list")
+#declnamesynop("iter_free_list")
+
+(* ****** ****** *)
+
+#declnamesynop("iter_make_list_vt")
+#declnamesynop("iter_free_list_vt")
+
+(* ****** ****** *)
+
+#declnamesynop("iter_make_array")
+#declnamesynop("iter_free_array")
+
+(* ****** ****** *)
+
+#declnamesynop("iter_make_string")
+#declnamesynop("iter_free_string")
+
+(* ****** ****** *)
+
 #declnamesynop("iter_is_atbeg")
 #declnamesynop("iter_isnot_atbeg")
 
@@ -92,26 +112,6 @@ manipulating iterators.
 #declnamesynop("iter_ins_inc")
 #declnamesynop("iter_rmv")
 #declnamesynop("iter_dec_rmv")
-
-(* ****** ****** *)
-
-#declnamesynop("iter_make_list")
-#declnamesynop("iter_free_list")
-
-(* ****** ****** *)
-
-#declnamesynop("iter_make_list_vt")
-#declnamesynop("iter_free_list_vt")
-
-(* ****** ****** *)
-
-#declnamesynop("iter_make_array")
-#declnamesynop("iter_free_array")
-
-(* ****** ****** *)
-
-#declnamesynop("iter_make_string")
-#declnamesynop("iter_free_string")
 
 (* ****** ****** *)
 

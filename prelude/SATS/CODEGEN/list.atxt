@@ -58,6 +58,28 @@ list_of_list_vt
 
 #atscode_separator()
 
+fun{x:t0p}
+list_make_elt
+  {n:nat} (n: int n, x: x):<> list_vt (x, n)
+// end of [list_make_elt]
+
+#atscode_separator()
+
+fun list_make_intrange
+  {l,r:int | l <= r}
+  (l: int l, r: int r):<> list_vt (intBtw (l, r), r-l)
+// end of [list_make_intrange]
+
+#atscode_separator()
+
+symintr list
+fun{a:vt0p}
+list_make_arrpsz
+  {n:int} (psz: arrpsz (INV(a), n)):<> list_vt (a, n)
+overload list with list_make_arrpsz
+
+#atscode_separator()
+
 fun{}
 list_is_nil {x:t0p}{n:int} (xs: list (x, n)):<> bool (n==0)
 fun{}
@@ -177,28 +199,6 @@ a:t0p
   {n:int}{i:nat}
   (xs: list (INV(a), n), i: int i):<!exn> [i <= n] list (a, n-i)
 // end of [list_drop_exn]
-
-#atscode_separator()
-
-fun{x:t0p}
-list_make_elt
-  {n:nat} (n: int n, x: x):<> list_vt (x, n)
-// end of [list_make_elt]
-
-#atscode_separator()
-
-fun list_make_intrange
-  {l,r:int | l <= r}
-  (l: int l, r: int r):<> list_vt (intBtw (l, r), r-l)
-// end of [list_make_intrange]
-
-#atscode_separator()
-
-symintr list
-fun{a:vt0p}
-list_make_arrpsz
-  {n:int} (psz: arrpsz (INV(a), n)):<> list_vt (a, n)
-overload list with list_make_arrpsz
 
 #atscode_separator()
 

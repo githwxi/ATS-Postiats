@@ -56,8 +56,8 @@ stacst add_bool_bool
   : (bool, bool) -> bool (* disjunction *)
 stacst mul_bool_bool
   : (bool, bool) -> bool (* conjunction *)
-stadef || = add_bool_bool
-stadef && = mul_bool_bool
+stadef + = add_bool_bool and * = mul_bool_bool
+stadef || = add_bool_bool and && = mul_bool_bool
 //
 stacst lt_bool_bool : (bool, bool) -> bool
 stacst lte_bool_bool : (bool, bool) -> bool

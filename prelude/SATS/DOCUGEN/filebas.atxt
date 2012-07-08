@@ -50,7 +50,7 @@ means error/false/true, respectively.
 #declnamesynop("fileref_open_exn")
 #decldescrpt('\
 
-This function calls the libc-function fclose (declared in stdio) to create
+This function calls the libc-function fclose (declared in [stdio.h]) to create
 a handle for the file referred to by its first argument #dyncode("path")
 and then set the mode of the created handle according to its second
 argument #dyncode("fm"). In case of a failure, a fatal non-catchable
@@ -72,7 +72,7 @@ returned value is an option that indicates whether a call to
 #declnamesynop("fileref_close")
 #decldescrpt('\
 
-This function calls the libc-function fclose (declared in stdio) to close a
+This function calls the libc-function fclose (declared in [stdio.h]) to close a
 given file handle. Note that #dyncode("fileref_close") does not report any
 errors. ')
 
@@ -81,7 +81,7 @@ errors. ')
 #declnamesynop("fileref_flush")
 #decldescrpt('\
 
-This function calls the libc-function fflush (declared in stdio) to flush a
+This function calls the libc-function fflush (declared in [stdio.h]) to flush a
 given file handle. Note that #dyncode("fileref_flush") does not report any
 errors.
 
@@ -136,7 +136,7 @@ end // end of [fileref_puts]
 ')\
 
 The actual implementation of #dyncode("fileref_fputs") in ATSLIB directly
-calls the libc-function fputs declared in stdio.
+calls the libc-function fputs declared in [stdio.h].
 
 ')
 

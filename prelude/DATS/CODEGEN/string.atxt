@@ -495,6 +495,44 @@ end // end of [string_rforeach_env]
 
 #atscode_separator()
 
+implement{}
+stropt_none () = $UN.cast{stropt(~1)} (the_null_ptr)
+
+#atscode_separator()
+
+implement
+stropt_is_none {n} (x) = (
+  $UN.cast{bool(n < 0)} (ptr0_is_null ($UN.cast2ptr (x)))
+) // end of [stropt_is_none]
+
+implement
+stropt_is_some {n} (x) = (
+  $UN.cast{bool(n>=0)} (ptr0_isnot_null ($UN.cast2ptr (x)))
+) // end of [stropt_is_some]
+
+#atscode_separator()
+
+implement
+stropt_length (x) = let
+  prval () = lemma_stropt_param (x)
+in
+  if stropt_is_some (x) then
+    g1uint2int (string1_length (stropt_unsome(x)))
+  else g1int2int(~1) // end of [if]
+end // end of [stropt_length]
+
+#atscode_separator()
+
+implement
+fprint_stropt
+  (out, x) = (
+  if stropt_is_some (x) then
+    fprint_string (out, stropt_unsome(x))
+  else fprint_ptr (out, the_null_ptr)
+) // end of [fprint_stropt]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

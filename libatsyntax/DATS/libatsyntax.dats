@@ -49,7 +49,7 @@ fun loop {n:int}
 , putc: putc_type
 , nerr: &int
 ) : int(*nerr*) =
-  if string_isnot_at_end (x, i) then let
+  if string_isnot_atend (x, i) then let
     val err = putc (x[i])
     val () = if err != 0 then nerr := nerr + 1
   in

@@ -44,6 +44,14 @@ lemma_list_vt_param
 
 #atscode_separator()
 
+fun{a:vt0p}
+list_vt_make_array
+  {n:int} (
+  A: &(@[INV(a)][n]) >> @[a?!][n], n: size_t n
+) :<!wrt> list_vt (a, n) // endfun
+
+#atscode_separator()
+
 fun{} list_vt_is_nil
   {a:vt0p} {n:int} (xs: !list_vt (a, n)):<> bool (n==0)
 fun{} list_vt_is_cons
@@ -61,11 +69,37 @@ list_vt_length {n:int} (xs: !list_vt (INV(a), n)):<> int n
 
 #atscode_separator()
 
+fun{a:t0p}
+list_vt_getref_at {n:int}
+  (xs: &list_vt (INV(a), n), i: natLte n):<> Ptr1
+// end of [list_vt_getref_at]
+
+fun{a:t0p}
+list_vt_get_at {n:int}
+  (xs: !list_vt (INV(a), n), i: natLt n):<> a
+// end of [list_vt_get_at]
+
+fun{a:t0p}
+list_vt_set_at {n:int}
+  (xs: !list_vt (INV(a), n), i: natLt n, x: a):<!wrt> void
+// end of [list_vt_set_at]
+
 fun{a:vt0p}
-list_vt_make_array
-  {n:int} (
-  A: &(@[INV(a)][n]) >> @[a?!][n], n: size_t n
-) :<!wrt> list_vt (a, n) // endfun
+list_vt_exch_at {n:int}
+  (xs: !list_vt (INV(a), n), i: natLt n, x: &a>>a):<!wrt> void
+// end of [list_vt_exch_at]
+
+#atscode_separator()
+
+fun{a:vt0p}
+list_vt_insert_at {n:int} (
+  xs: &list_vt (INV(a), n) >> list_vt (a, n+1), i: natLte n, x: a
+) :<!wrt> void // end of [list_vt_insert_at]
+
+fun{a:vt0p}
+list_vt_remove_at {n:int}
+  (xs: &list_vt (INV(a), n) >> list_vt (a, n-1), i: natLt n):<!wrt> a
+// end of [list_vt_remove_at]
 
 #atscode_separator()
 
