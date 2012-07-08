@@ -158,6 +158,11 @@ dataprop SGN (int, int) =
 exception NotFoundExn of () // expected to be found but not actually found
 //
 (* ****** ****** *)
+//
+// HX-2012-07: indication of a function argument
+exception IllegalArgExn of (string) // taking some value out of its domain
+//
+(* ****** ****** *)
 
 typedef
 array (a, n) = @[a][n]
@@ -174,7 +179,11 @@ list_t0ype_int_type (a:t@ype+, int) =
 // end of [datatype]
 stadef list = list_t0ype_int_type
 typedef
-List (a:t0p) = [n:int | n >= 0] list (a, n)
+List (a:t0p) = [n:int] list (a, n)
+typedef
+List0 (a:t0p) = [n:int | n >= 0] list (a, n)
+typedef
+List1 (a:t0p) = [n:int | n >= 1] list (a, n)
 typedef listLt
   (a:t0p, n:int) = [n1:nat | n1 < n] list (a, n1)
 // end of [listLt]
@@ -196,7 +205,11 @@ list_viewt0ype_int_viewtype (a:viewt@ype+, int) =
 // end of [list_viewt0ype_int_viewtype]
 stadef list_vt = list_viewt0ype_int_viewtype
 viewtypedef
-List_vt (a:vt0p) = [n:int | n >= 0] list_vt (a, n)
+List_vt (a:vt0p) = [n:int] list_vt (a, n)
+viewtypedef
+List0_vt (a:vt0p) = [n:int | n >= 0] list_vt (a, n)
+viewtypedef
+List1_vt (a:vt0p) = [n:int | n >= 1] list_vt (a, n)
 viewtypedef listLt_vt
   (a:vt0p, n:int) = [n1:nat | n1 < n] list_vt (a, n1)
 // end of [listLt_vt]

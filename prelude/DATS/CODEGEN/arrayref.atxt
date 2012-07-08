@@ -109,9 +109,13 @@ end // end of [arrszref_make_elt]
 implement{a}
 arrszref_make_list
   (xs) = let
-  val n = list_length<a> (xs)
-  val A = arrayref_make_listlen (xs, n)
-  val asz = g1int2uint (n)
+//
+prval () = lemma_list_param (xs)
+//
+val n = list_length<a> (xs)
+val A = arrayref_make_listlen (xs, n)
+val asz = g1int2uint (n)
+//
 in
   arrszref_make (A, asz)
 end // end of [arrszref_make_list]

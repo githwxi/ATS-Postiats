@@ -76,13 +76,6 @@ list0_tail_opt (xs) = (
 
 (* ****** ****** *)
 
-implement{a}
-list0_make_elt (n, x) = let
-  val xs = list_make_elt<a> (n, x) in list0_of_list_vt (xs)
-end // end of [list0_make_elt]
-
-(* ****** ****** *)
-
 local
 
 fun{a:t0p}
@@ -164,6 +157,64 @@ list0_concat
 in
   list0_of_list_vt (ys)
 end // end of [list0_concat]
+
+(* ****** ****** *)
+
+implement{a}
+list0_take_exn
+  (xs, i) = let
+  val i = g1ofg0_int (i)
+  val xs = list_of_list0 (xs)
+in
+  if i >= 0 then
+    list0_of_list_vt (list_take_exn (xs, i))
+  else
+    $raise (IllegalArgExn"list0_take_exn:i")
+  // end of [if]
+end // end of [list0_take_exn]
+
+implement{a}
+list0_drop_exn
+  (xs, i) = let
+  val i = g1ofg0_int (i)
+  val xs = list_of_list0 (xs)
+in
+  if i >= 0 then
+    list0_of_list (list_drop_exn (xs, i))
+  else
+    $raise (IllegalArgExn"list0_drop_exn:i")
+  // end of [if]
+end // end of [list0_drop_exn]
+
+(* ****** ****** *)
+
+implement{a}
+list0_make_elt
+  (n, x) = let
+  val n = g1ofg0_int (n)
+in
+  if n >= 0 then
+    list0_of_list_vt (list_make_elt (n, x))
+  else // HX: n < 0
+    $raise (IllegalArgExn"list0_make_elt:n")
+  // end of [if]
+end // end of [list0_make_elt]
+
+implement
+list0_make_intrange
+  (l, r) = let
+  val l = g1ofg0_int (l)
+  val r = g1ofg0_int (r)
+in
+  if l <= r then
+    list0_of_list_vt (list_make_intrange (l, r))
+  else list0_nil ()
+end // end of [list0_make_intrange]
+
+implement{a}
+list0_make_arrpsz
+  (psz) = list0_of_list_vt (list_make_arrpsz (psz))
+// end of [list0_make_arrpsz]
 
 (* ****** ****** *)
 
@@ -483,6 +534,18 @@ list0_zip (xs, ys) = let
 in
   list0_of_list_vt (xys)
 end // end of [list0_zip]
+
+(* ****** ****** *)
+
+implement{a}
+list0_mergesort (xs, cmp) = let
+//
+implement
+list_mergesort__cmp<a> (x, y) = cmp (x, y)
+//
+in
+  list0_of_list_vt (list_mergesort (list_of_list0 (xs)))
+end // end of [list0_mergesort]
 
 (* ****** ****** *)
 

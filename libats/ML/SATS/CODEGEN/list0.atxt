@@ -45,13 +45,6 @@ list_of_list0 {a:t@ype} (xs: list0 (INV(a))):<> List (a)
 #atscode_separator()
 
 fun{a:t0p}
-list0_make_elt
-  {n:nat} (n: int(n), elt: a):<> list0 (a)
-// end of [list0_make_elt]
-
-#atscode_separator()
-
-fun{a:t0p}
 list0_head_exn (xs: list0 (INV(a))):<!exn> a
 fun{a:t0p}
 list0_head_opt (xs: list0 (INV(a))):<> option0 (a)
@@ -83,6 +76,11 @@ overload ++ with list0_append
 #atscode_separator()
 
 fun{a:t0p}
+list0_extend (xs: list0 (INV(a)), y: a):<> list0 (a)
+
+#atscode_separator()
+
+fun{a:t0p}
 list0_reverse (xs: list0 (INV(a))):<> list0 (a)
 
 fun{a:t0p}
@@ -94,6 +92,30 @@ list0_reverse_append
 
 fun{a:t0p}
 list0_concat (xss: list0 (list0 (INV(a)))):<> list0 (a)
+
+#atscode_separator()
+
+fun{a:t0p}
+list0_take_exn
+  (xs: list0 (INV(a)), i: int):<!exn> list0 (a)
+// end of [list0_take_exn]
+
+fun{a:t0p}
+list0_drop_exn
+  (xs: list0 (INV(a)), i: int):<!exn> list0 (a)
+// end of [list0_drop_exn]
+
+#atscode_separator()
+
+fun{a:t0p}
+list0_make_elt (n: int, x: a):<!exn> list0 (a)
+
+fun list0_make_intrange (l: int, r: int):<> list0 (int)
+
+fun{a:t0p}
+list0_make_arrpsz
+  {n:int} (psz: arrpsz (INV(a), n)):<!exn> list0 (a)
+// end of [list0_make_arrpsz]
 
 #atscode_separator()
 
@@ -120,7 +142,7 @@ list0_foreach2_eq (
   xs1: list0 (INV(a1))
 , xs2: list0 (INV(a2))
 , f: cfun2 (a1, a2, void)
-, eq: &int? >> _
+, sgn: &int? >> int
 ) : void // end of [list0_foreach2_eq]
 
 #atscode_separator()
@@ -190,7 +212,7 @@ list0_forall2_eq (
   xs1: list0 (INV(a1))
 , xs2: list0 (INV(a2))
 , p: cfun2 (a1, a2, bool)
-, eq: &int? >> _
+, sgn: &int? >> int
 ) : bool // end of [list0_forall2_eq]
 
 #atscode_separator()
@@ -236,6 +258,11 @@ x,y:t0p}{z:t0p
 ) : list0 (z) // end of [list0_zipwith]
 *)
 macdef list0_zipwith = list0_map2
+
+#atscode_separator()
+
+fun{a:t0p}
+list0_mergesort (xs: list0 (a), cmp: (a, a) -<cloref> int):<> list0 (a)
 
 #atscode_separator()
 

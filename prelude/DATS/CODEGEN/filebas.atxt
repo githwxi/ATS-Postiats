@@ -150,7 +150,7 @@ fileref_get_line_charlst
   (filr) = let
 //
 val EOF = '\\\n'
-viewtypedef charlst = List_vt (char)
+viewtypedef charlst = List0_vt (char)
 //
 fun loop (
   filr: FILEref, res: &ptr? >> charlst
@@ -195,7 +195,7 @@ end // end of [fileref_get_line_string]
 implement
 fileref_get_file_charlst (filr) = let
 //
-viewtypedef charlst = List_vt (char)
+viewtypedef charlst = List0_vt (char)
 fun loop (
   filr: FILEref, res: &ptr? >> charlst
 ) : void = let

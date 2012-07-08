@@ -235,25 +235,25 @@ xs:t0p}{x:t0p
 
 fun{
 xs:t0p}{x:t0p
-} listize (xs: xs):<> List_vt (x)
+} listize (xs: xs):<> List0_vt (x)
 fun{
 xs:t0p}{x:t0p}{y:vt0p
 } listize_funenv
   {v:view}{vt:viewtype}{fe:eff} (
   pfv: !v | xs: xs, f: (!v | x, !vt) -<fun,fe> y, env: !vt
-) :<fe> List_vt (y)
+) :<fe> List0_vt (y)
 
 #atscode_separator()
 
 fun{
 xs:t0p}{x:t0p
-} rlistize (xs: xs):<> List_vt (x)
+} rlistize (xs: xs):<> List0_vt (x)
 fun{
 xs:t0p}{x:t0p}{y:vt0p
 } rlistize_funenv
   {v:view}{vt:viewtype}{fe:eff} (
   pfv: !v | xs: xs, f: (!v | x, !vt) -<fun,fe> y, env: !vt
-) :<fe> List_vt (y)
+) :<fe> List0_vt (y)
 
 #atscode_separator()
 

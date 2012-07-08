@@ -51,7 +51,7 @@ end // end of [string_append]
 
 implement
 stringlst_concat (xs) = let
-  val res = string_concat_ref (xs) in $UN.cast{string}(res)
+  val res = stringlst_concat_ref (xs) in $UN.cast{string}(res)
 end // end of [stringlst_concat]
 
 (* ****** ****** *)

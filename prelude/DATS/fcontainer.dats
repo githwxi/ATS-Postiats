@@ -325,8 +325,8 @@ implement
 {xs}{x}
 rlistize (xs) = res where {
   var res
-    : List_vt (x) = list_vt_nil ()
-  viewdef v = List_vt (x) @ res
+    : List0_vt (x) = list_vt_nil ()
+  viewdef v = List0_vt (x) @ res
   var p_clo = lam@ (
     pf: !v >> v | x: x
   ) : void =<clo> $effmask_wrt (res := list_vt_cons (x, res))
@@ -339,8 +339,8 @@ rlistize_funenv
   {v}{vt}{fe}
   (pfv | xs, f, env) = let
   var res
-    : List_vt (y) = list_vt_nil ()
-  viewdef v2 = @(v, List_vt (y) @ res)
+    : List0_vt (y) = list_vt_nil ()
+  viewdef v2 = @(v, List0_vt (y) @ res)
   val ptr =
     $UN.castvwtp1 {ptr}{vt} (env)
   // end of [val]

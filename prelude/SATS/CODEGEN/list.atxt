@@ -141,7 +141,7 @@ list_reverse_append2_vt {m,n:int}
 #atscode_separator()
 
 fun{a:t0p}
-list_concat (xss: NSH(List (List (INV(a))))):<> List_vt (a)
+list_concat (xss: NSH(List (List (INV(a))))):<> List0_vt (a)
 
 #atscode_separator()
 
@@ -149,14 +149,14 @@ fun{
 a:t0p
 } list_take
   {n:int}{i:nat | i <= n}
-  (xs: list (a, n), i: int i):<> list_vt (a, i)
+  (xs: list (INV(a), n), i: int i):<> list_vt (a, i)
 // end of [list_take]
 
 fun{
 a:t@ype
 } list_take_exn
   {n:int}{i:nat}
-  (xs: list (a, n), i: int i):<!exn> [i <= n] list_vt (a, i)
+  (xs: list (INV(a), n), i: int i):<!exn> [i <= n] list_vt (a, i)
 // end of [list_take_exn]
 
 #atscode_separator()
@@ -165,7 +165,7 @@ fun{
 a:t0p
 } list_drop
   {n:int}{i:nat | i <= n}
-  (xs: list (a, n), i: int i):<> list (a, n-i)
+  (xs: list (INV(a), n), i: int i):<> list (a, n-i)
 // end of [list_drop]
 
 (*
@@ -175,7 +175,7 @@ fun{
 a:t0p
 } list_drop_exn
   {n:int}{i:nat}
-  (xs: list (a, n), i: int i):<!exn> [i <= n] list (a, n-i)
+  (xs: list (INV(a), n), i: int i):<!exn> [i <= n] list (a, n-i)
 // end of [list_drop_exn]
 
 #atscode_separator()
@@ -189,7 +189,7 @@ list_make_elt
 
 fun list_make_intrange
   {l,r:int | l <= r}
-  (l: int l, r: int r): list_vt (intBtw (l, r), r-l)
+  (l: int l, r: int r):<> list_vt (intBtw (l, r), r-l)
 // end of [list_make_intrange]
 
 #atscode_separator()
@@ -197,7 +197,7 @@ fun list_make_intrange
 symintr list
 fun{a:vt0p}
 list_make_arrpsz
-  {n:int} (psz: arrpsz (INV(a), n)): list_vt (a, n)
+  {n:int} (psz: arrpsz (INV(a), n)):<> list_vt (a, n)
 overload list with list_make_arrpsz
 
 #atscode_separator()
@@ -250,7 +250,7 @@ list_iforeach {n:int} (xs: NSH(list (x, n))): void
 fun{
 x:t0p // type for elements
 } list_iforeach_funenv
-  {v:view}{vt:viewtype}{n:nat}{fe:eff} (
+  {v:view}{vt:viewtype}{n:int}{fe:eff} (
   pfv: !v |
   xs: NSH(list (INV(x), n))
 , f: (!v | natLt(n), x, !vt) -<fun,fe> void, env: !vt
@@ -410,14 +410,14 @@ list_mergesort__cmp (x1: a, x2: a):<> int
 fun{
 a:t0p
 } list_mergesort
-  {n:nat} (
+  {n:int} (
   xs: NSH(list (INV(a), n))
 ) :<> list_vt (a, n) // end of [list_mergesort]
 
 fun{
 a:t0p
 } list_mergesort_fun
-  {n:nat} (
+  {n:int} (
   xs: NSH(list (INV(a), n)), cmp: cmpval (a)
 ) :<> list_vt (a, n) // end of [list_mergesort_fun]
 
@@ -429,14 +429,14 @@ list_quicksort__cmp (x1: a, x2: a):<> int
 fun{
 a:t0p
 } list_quicksort
-  {n:nat} (
+  {n:int} (
   xs: NSH(list (INV(a), n))
 ) :<> list_vt (a, n) // end of [list_quicksort]
 
 fun{
 a:t0p
 } list_quicksort_fun
-  {n:nat} (
+  {n:int} (
   xs: NSH(list (INV(a), n)), cmp: cmpval (a)
 ) :<> list_vt (a, n) // end of [list_quicksort_fun]
 

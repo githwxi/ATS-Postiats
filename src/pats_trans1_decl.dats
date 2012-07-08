@@ -327,7 +327,7 @@ implement
 e0xndec_tr (d) = let
   val qua = d.e0xndec_qua
   val qua = q0marglst_tr (qua)
-  var npf0: int = 0
+  var npf0: int = ~1 // HX: default
   val arg = (case+ d.e0xndec_arg of
     | Some s0e => let
         val s1e = s0exp_tr s0e in

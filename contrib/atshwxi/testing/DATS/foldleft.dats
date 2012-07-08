@@ -36,6 +36,8 @@ implement
 foldleft_list
   (xs, ini) = let
 //
+ prval () = lemma_list_param (xs)
+//
 fun loop
   {n:nat} .<n>. (
   xs: list (x, n), acc: res
@@ -59,6 +61,8 @@ implement
 {x}{res}
 foldleft_list_vt
   (xs, ini) = let
+//
+prval () = lemma_list_vt_param (xs)
 //
 fun loop
   {n:nat} .<n>. (

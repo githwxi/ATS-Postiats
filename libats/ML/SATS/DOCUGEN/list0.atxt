@@ -169,6 +169,37 @@ end // end of [main]
 
 (* ****** ****** *)
 
+#declnamesynop("list0_extend")
+
+#decldescrpt("\
+
+Given a lists xs and y, this function returns the concatenation of xs and
+the singleton list consisting of y.
+
+")
+#declexample("\
+
+The following code gives a typical implementation of the list-reverse
+function by a beginner of functional programming:
+
+#pats2xhtmld_tryit("\
+//
+staload \"libats/ML/SATS/list0.sats\"
+//
+implement{a}
+list0_reverse (xs) =
+  case+ xs of
+  | list0_cons
+      (x, xs) => list0_extend (list0_reverse (xs), x)
+  | list0_nil () => list0_nil ()
+// end of [list0_reverse]
+")
+
+Note that this implementation is #emph('terribly inefficient') both
+time-wise and memory-wise: It is O(n^2)-time and non-tail-recursive.  ")
+
+(* ****** ****** *)
+
 #declnamesynop("list0_reverse")
 #decldescrpt("\
 This function returns the reverse of a given list, and its implementation
@@ -194,6 +225,29 @@ of xss[0], xss[1], ..., and xss[n-1], where n is the length of xss.  ")
 
 (* ****** ****** *)
 
+#declnamesynop("list0_take_exn")
+#decldescrpt("\
+
+Given a list xs and an integer i, this function contructs another list
+consisting of the first i elemements of xs. If i is negative, the function
+raises the exception #dyncode("IllegalArgExn"). If i exceeds the length of
+xs, then the function raises the exception #dyncode("ListSubscriptExn").\
+
+")
+
+#declnamesynop("list0_drop_exn")
+#decldescrpt("\
+
+Given a list xs and an integer i, this function returns the suffix of xs
+that is of length n-i, where n is the length of xs.  If i is negative, the
+function raises the exception #dyncode("IllegalArgExn"). If i exceeds the
+length of xs, then the function raises the exception
+#dyncode("ListSubscriptExn").\
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("list0_app")
 #decldescrpt("\
 This function is idential to #dyncode("list0_foreach").
@@ -211,9 +265,39 @@ argument.  ")
 #decldescrpt("\
 
 This function applies its second argument f to (i, x), where i ranges from
-0 to the length of xs minus 1 and x is element i in xs.
+0 to the length of xs minus 1 and x is element i in xs.\
 
 ")
+#declexample("\
+
+The following code implements a function for printing out a given list:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/list0.sats"
+//
+fun{a:t0p}
+fprint_list (
+  out: FILEref, xs: list0 a, sep: string
+) : void = let
+  fun f (
+    i: int, x: a
+  ) :<cloref1> void = let
+    val () = if i > 0 then fprint_string (out, sep)
+  in
+    fprint_val<a> (out, x)
+  end // end of [f]
+in
+  list0_iforeach (xs, f)
+end // end of [fprint_list]
+')\
+
+Note that the argument sep of #dyncode("fprint_list") is only printed
+between two list elements.
+
+")
+
+(* ****** ****** *)
 
 #declnamesynop("list0_foreach2")
 #decldescrpt("\
@@ -222,6 +306,17 @@ Given two lists xs and ys of length m and n, respectively, this function
 applies its third argument to each pair (xs[i], ys[i]), where i ranges from
 0 until min(m,n)-1, inclusively, and xs[i] (ys[i]) refers to element i in
 the list xs (ys).  ")
+
+#declnamesynop("list0_foreach2_eq")
+#decldescrpt("\
+
+This function is largely similar to #dyncode("list0_foreach2").  After a
+call to the function returns, the value stored in the call-by-reference
+parameter sgn equals sgn(n1-n2), that is, the sign of n1-n2, where n1 and
+n2 are the lengths of the first and second arguments of the function,
+respectively.  ")
+
+")
 
 (* ****** ****** *)
 
@@ -234,6 +329,23 @@ element i in the list xs. The implementation of this function is
 tail-recursive.
 
 ")
+#declexample('\
+
+The following code gives a standard implementation of the list-reverse
+function:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/list0.sats"
+//
+implement{a}
+list0_reverse (xs) = $effmask_all (
+  list0_foldleft<a><list0(a)> (xs, list0_nil, lam (res, x) => list0_cons (x, res))
+) // end of [list0_reverse]
+')
+')
+
+(* ****** ****** *)
 
 #declnamesynop("list0_ifoldleft")
 #decldescrpt("\
@@ -266,6 +378,21 @@ tail-recursive, and stack-overflow may occur if the xs is long (e.g.,
 containing 1,000,000 elements).
 
 ")
+#declexample('\
+
+The following code gives a standard implementation of the list-append
+function:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/list0.sats"
+//
+implement{a}
+list0_append (xs, ys) = $effmask_all (
+  list0_foldright<a><list0(a)> (xs, lam (x, res) => list0_cons (x, res), ys)
+) // end of [list0_append]
+')
+')
 
 (* ****** ****** *)
 
@@ -307,8 +434,8 @@ This function is largely similar to #dyncode("list0_forall2").  Given two
 lists xs1 and xs2 of length n1 and n2, respectively, this function returns
 true if and only if p(xs1[i], xs2[i]) returns true for every i between 0
 and min(n1,n2)-1, inclusively. If this function returns true, then the
-value stored in the call-by-reference parameter sgn equals sgn(n1-n2).
-Otherwise, the value equals 0.  ")
+value stored in the call-by-reference parameter sgn equals sgn(n1-n2), that
+is, the sign of n1-n2.  Otherwise, the value equals 0.  ")
 
 #declexample("\
 
@@ -530,6 +657,10 @@ However, the implementation of this function in ATSLIB is tail-recursive.\
 #decldescrpt("\
 This function does exactly the same as #dyncode("list0_map2").
 ")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_mergesort")
 
 (* ****** ****** *)
 

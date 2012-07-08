@@ -64,7 +64,7 @@ list_tail (xs) =
 
 implement{x}
 list_copy (xs) = let
-  viewtypedef res = List_vt (x)
+  viewtypedef res = List0_vt (x)
   prval () = lemma_list_param (xs)
   fun loop
     {n:nat} .<n>. (
@@ -90,7 +90,9 @@ in
 end // end of [list_copy]
 
 implement(x)
-$FC.listize<List(x)><x> (xs) = list_copy (xs)
+$FC.listize<List(x)><x> (xs) = let
+  prval () = lemma_list_param (xs) in list_copy (xs)
+end // end of [$FC.listize]
 
 #atscode_separator()
 
@@ -167,7 +169,9 @@ list_reverse (xs) =
 ) // end of [list_reverse]
 
 implement(x)
-$FC.rlistize<List(x)><x> (xs) = list_reverse<x> (xs)
+$FC.rlistize<List(x)><x> (xs) = let
+  prval () = lemma_list_param (xs) in list_reverse<x> (xs)
+end // end of [$FC.rlistize]
 
 #atscode_separator()
 
@@ -237,11 +241,15 @@ end // end of [list_reverse_append2_vt]
 implement{a}
 list_concat (xss) = let
 //
+prval () = lemma_list_param (xss)
+//
 typedef T = List (a)
 fun aux {n:nat} .<n>. (
   xs0: T
 , xss: list (T, n)
-) :<> List_vt (a) =
+) :<> List0_vt (a) = let
+  prval () = lemma_list_param (xs0)
+in
   case+ xss of
   | list_cons
       (xs, xss) => let
@@ -250,9 +258,8 @@ fun aux {n:nat} .<n>. (
     in
       $effmask_wrt (list_vt_append<a> (ys0, res))
     end // end of [list_cons]
-  | list_nil
-      () => list_copy (xs0)
-    // end of [list_nil]
+  | list_nil () => list_copy (xs0)
+end // end of [aux]
 //
 in
   case+ xss of
@@ -538,6 +545,8 @@ list_foreach_funenv
   {v}{vt}{fe}
   (pfv | xs, f, env) = let
 //
+prval () = lemma_list_param (xs)
+//
 fun loop {n:nat} .<n>. (
   pfv: !v
 | xs: list (x, n)
@@ -612,6 +621,8 @@ list_iforeach_funenv
   {v}{vt}{n}{fe}
   (pfv | xs, f, env) = let
 //
+prval () = lemma_list_param (xs)
+//
 fun loop
   {i:nat | i <= n} .<n-i>. (
   pfv: !v
@@ -632,6 +643,7 @@ end // end of [list_iforeach_funenv]
 implement(x)
 $FC.iforeach_funenv<List(x)><x>
   (pfv | xs, f, env) = let
+  prval () = lemma_list_param (xs)
   val n = list_iforeach_funenv<x> (pfv | xs, f, env) in g1int2uint (n)
 end // end of [iforeach_funenv]
 
@@ -667,6 +679,8 @@ end // end of [list_iforeach2]
 implement
 {res}{x}
 list_foldleft (xs, ini) = let
+//
+prval () = lemma_list_param (xs)
 //
 fun loop
   {n:nat} .<n>.
@@ -760,7 +774,7 @@ list_map_funenv
   {v}{vt}{n}{fe}
   (pfv | xs, f, env) = let
 //
-viewtypedef ys = List_vt (y)
+viewtypedef ys = List0_vt (y)
 //
 prval () =
   lemma_list_param (xs) // prove [n >= 0]
@@ -800,8 +814,9 @@ end // end of [list_map_funenv]
 
 implement(x,y)
 $FC.listize_funenv<List(x)><x><y>
-  (pfv | xs, f, env) = list_map_funenv<x> (pfv | xs, f, env)
-// end of [listize_funenv]
+  (pfv | xs, f, env) = let
+  prval () = lemma_list_param (xs) in list_map_funenv<x> (pfv | xs, f, env)
+end // end of [listize_funenv]
 
 #atscode_separator()
 
@@ -883,7 +898,7 @@ list_mapopt_funenv
   {v}{vt}{n}{fe}
   (pfv | xs, f, env) = let
 //
-viewtypedef ys = List_vt (y)
+viewtypedef ys = List0_vt (y)
 //
 prval () =
   lemma_list_param (xs) // prove [n >= 0]

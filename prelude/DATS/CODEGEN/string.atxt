@@ -338,6 +338,8 @@ implement
 stringlst_concat
   (xs) = $effmask_all let
 //
+prval () = lemma_list_param (xs)
+//
 implement
 list_map__fwork<string><size_t> (x) = string0_length x
 val ns = list_map<string><size_t> (xs)
