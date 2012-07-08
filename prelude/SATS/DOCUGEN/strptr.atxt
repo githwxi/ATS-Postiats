@@ -1,3 +1,12 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/strptr")
+%}
+
+(* ****** ****** *)
+
 #decltitle("\
 ATSLIB/prelude/strptr\
 ")
@@ -122,7 +131,7 @@ implemented by #dyncode("strnptr_foreach__cont") returns false.  ')
 The following code implements a function that captializes each letter in a
 given linear string:
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 staload UN = "prelude/SATS/unsafe.sats"
 //
 fun strnptr_upperize

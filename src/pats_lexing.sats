@@ -225,7 +225,9 @@ token_node =
 //
   | T_FLOAT of (int(*base*), string(*rep*), uint(*suffix*))
 //
-  | T_STRING of string
+  | {n:int}
+    T_CDATA of (array (char, n), size_t (n))
+  | T_STRING of (string)
 //
 (*
   | T_LABEL of (int(*knd*), string)

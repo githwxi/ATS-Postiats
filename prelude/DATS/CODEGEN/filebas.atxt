@@ -121,12 +121,12 @@ implement fileref_load<string> = fileref_load_string
 #atscode_separator()
 
 implement{a}
-fileref_get_opt (r) = let
+fileref_get_optval (r) = let
   var x: a
   val yn = fileref_load<a> (r, x)
 in
   option_vt_make_opt<a> (yn, x)
-end // end of [fileref_get_opt]
+end // end of [fileref_get_optval]
 
 (* ****** ****** *)
 
@@ -176,6 +176,19 @@ val () = loop (filr, res)
 in
   res
 end // end of [fileref_get_line_charlst]
+
+#atscode_separator()
+
+implement
+fileref_get_line_string
+  (filr) = let
+  var n: size_t // uninitialized
+  var ending: int // uninitialized
+  val str = fileref_get_line_string_main (filr, n, ending)
+  prval () = lemma_strnptr_param (str)
+in
+  strptr_of_strnptr (str)
+end // end of [fileref_get_line_string]
 
 #atscode_separator()
 

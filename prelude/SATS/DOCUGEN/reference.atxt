@@ -1,3 +1,12 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/reference")
+%}
+
+(* ****** ****** *)
+
 #decltitle("\
 ATSLIB/prelude/reference\
 ")
@@ -35,7 +44,7 @@ reference to allow that the value be processed in situ.
 #declexample('\
 The following function #dyncode("ref_exch_at")
 exchanges the contents of a reference and a variable:
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 fun{a:vt0p}
 ref_exch_at (
   r: ref (a), x: &a >> a
@@ -73,7 +82,7 @@ reference.
 
 The following code implements a counter:
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 local
 
 var __count: int = 0 // it is statically allocated

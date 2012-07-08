@@ -135,9 +135,9 @@ fun fileref_load_string : fileref_load_type (NSH(string))
 #atscode_separator()
 
 fun{a:t0p}
-fileref_get_opt
+fileref_get_optval
   (r: FILEref):<> Option_vt (a)
-// end of [fileref_get_opt]
+// end of [fileref_get_optval]
 
 fun{
 a:t0p
@@ -153,6 +153,14 @@ fileref_get_exnloc
 #atscode_separator()
 
 fun fileref_get_line_charlst (r: FILEref): List_vt (char)
+
+#atscode_separator()
+
+fun fileref_get_line_string (r: FILEref): Strptr1
+
+fun fileref_get_line_string_main (
+  r: FILEref, n: &size_t? >> size_t n, ending: &int? >> int
+) : #[n:nat] strnptr (n) // endfun
 
 #atscode_separator()
 

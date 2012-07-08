@@ -188,6 +188,8 @@ fprint_token
   | T_CHAR (x) => fprintf (out, "CHAR(%c)", @(x))
   | T_INTEGER (_base, x, _sp) => fprintf (out, "INTEGER_dec(%s)", @(x))
   | T_FLOAT (_base, x, _sp) => fprintf (out, "FLOAT(%s)", @(x))
+//
+  | T_CDATA _ => fprintf (out, "CDATA(...)", @())
   | T_STRING (x) => fprintf (out, "STRING(%s)", @(x))
 //
 (*

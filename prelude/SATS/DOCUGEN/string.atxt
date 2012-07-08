@@ -1,3 +1,12 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/string")
+%}
+
+(* ****** ****** *)
+
 #decltitle("\
 ATSLIB/prelude/string\
 ")
@@ -97,7 +106,7 @@ taking an unsigned integer as the string index.  ')
 The following code implements a function for computing the length of a
 given string:
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 fun string1_length
   {n:int} .<>.
   (str: string n): size_t (n) = let
@@ -227,7 +236,7 @@ non-null chars in its argument.  ')
 The following code implements a function that returns a linear string
 consisting of the reverse of the sequence of chars in its argument:
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 staload UN = "prelude/SATS/unsafe.sats"
 //
 fun string_reverse
@@ -348,7 +357,7 @@ strings in its argument.  ")
 The following code forms the string "Hello!" by concatenating six singleton
 strings and then prints it (plus a newline) onto the standard output channel:
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 implement
 main () = 0 where {
   val xs = $lst{string} ("H", "e", "l", "l", "o", "!")
@@ -388,7 +397,7 @@ The following code gives an implementation of
 #dyncode("string_make_substring"), which constructs a linear string
 consisting of the chars in a segment of a given string:
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 staload UN = "prelude/SATS/unsafe.sats"
 //
 implement
@@ -425,7 +434,7 @@ The following code implements the function #dyncode("strspn") that computes
 the length of the longest prefix of a given string consisting of only chars
 contained in the second argument of this function:
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 implement
 strspn (str, accept) = let
 //
@@ -452,7 +461,7 @@ except for taking an additional argument that serves as an environment.  ')
 The following code implements a function that computes the value of an
 unsigned integer represented as a sequence of digits (of base 10):
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 fun atoi
   (str: string): int = let
 //
@@ -492,7 +501,7 @@ The following code implements the function #dyncode("strrchr") that finds
 the index of the last occurrence of a char in a given string. If there is
 no such occurrence, then ~1 (negative 1) is returned.
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 implement
 strrchr (str, c0) = let
 //

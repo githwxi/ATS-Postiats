@@ -1,3 +1,12 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/list")
+%}
+
+(* ****** ****** *)
+
 #decltitle("\
 ATSLIB/prelude/list\
 ")

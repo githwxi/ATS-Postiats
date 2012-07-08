@@ -1,3 +1,12 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/filebas")
+%}
+
+(* ****** ****** *)
+
 #decltitle("\
 ATSLIB/prelude/filebas\
 ")
@@ -41,9 +50,10 @@ means error/false/true, respectively.
 #declnamesynop("fileref_open_exn")
 #decldescrpt('\
 
-This function returns a handle for the file referred to by its first
-argument #dyncode("path") and set the mode of handle according to its
-second argument #dyncode("fm"). In case of a failure, a fatal non-catchable
+This function calls the libc-function fclose (declared in stdio) to create
+a handle for the file referred to by its first argument #dyncode("path")
+and then set the mode of the created handle according to its second
+argument #dyncode("fm"). In case of a failure, a fatal non-catchable
 exception is raised.
 
 ')
@@ -61,14 +71,20 @@ returned value is an option that indicates whether a call to
 
 #declnamesynop("fileref_close")
 #decldescrpt('\
-This function closes a given file handle.
-')
+
+This function calls the libc-function fclose (declared in stdio) to close a
+given file handle. Note that #dyncode("fileref_close") does not report any
+errors. ')
 
 (* ****** ****** *)
 
 #declnamesynop("fileref_flush")
 #decldescrpt('\
-This function flushes a given file handle.
+
+This function calls the libc-function fflush (declared in stdio) to flush a
+given file handle. Note that #dyncode("fileref_flush") does not report any
+errors.
+
 ')
 
 (* ****** ****** *)
@@ -87,8 +103,8 @@ of error.
 #declnamesynop("fileref_putc")
 #decldescrpt('\
 
-This function writes a char to a given file handle. It does
-not report any errors.
+This function writes a char to a given file handle. Note that it does not
+report any errors.
 
 ')
 
@@ -97,8 +113,30 @@ not report any errors.
 #declnamesynop("fileref_puts")
 #decldescrpt('\
 
-This function writes a string to a given file handle. It does
-not report any errors.
+This function writes a string to a given file handle. Note that it does
+not report any errors. The following code gives a reference implementation
+of the function:
+
+#pats2xhtmld_tryit('\
+implement
+fileref_puts (out, str) = let
+//
+val str = string1_of_string0 (str)
+//
+implement{env}
+string_foreach__cont (c, env) = true
+implement{env}
+string_foreach__fwork (c, env) = fileref_putc (out, c)
+//
+val _ = string_foreach (str)
+//
+in
+  // nothing
+end // end of [fileref_puts]
+')\
+
+The actual implementation of #dyncode("fileref_fputs") in ATSLIB directly
+calls the libc-function fputs declared in stdio.
 
 ')
 
@@ -112,7 +150,7 @@ This function tests whether the end of a given file handle is reached.
 
 The following code gives a naive implementation of file-copying:
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 fun fprint_fileref (
   out: FILEref, inp: FILEref
 ) : void = (
@@ -168,7 +206,7 @@ loading a doubly-quoted string.
 
 (* ****** ****** *)
 
-#declnamesynop("fileref_get_opt")
+#declnamesynop("fileref_get_optval")
 #decldescrpt('\
 
 This function reads a value from a given file handle. It is only
@@ -186,6 +224,30 @@ the chars returned.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("fileref_get_line_string")
+#decldescrpt('\
+
+This function is a specialization of #dyncode("fileref_get_line_string"),
+and its implementation is given as follows:
+
+#pats2xhtmld_tryit('\
+implement
+fileref_get_line_string
+  (filr) = let
+  var n: size_t // uninitialized
+  var ending: int // uninitialized
+  val str = fileref_get_line_string_main (filr, n, ending)
+  prval () = lemma_strnptr_param (str)
+in
+  strptr_of_strnptr (str)
+end // end of [fileref_get_line_string]
+')
+')
+
+#declnamesynop("fileref_get_line_string_main")
+
+(* ****** ****** *)
+
 #declnamesynop("fileref_get_file_charlst")
 #decldescrpt('\
 
@@ -197,7 +259,7 @@ and it then returns a linear list of the chars in the order they were read.
 
 The following code prints out the content of a given file backwardly:
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 fun fprint_fileref_back
   (out: FILEref, inp: FILEref): void = let
   fun loop (cs: List_vt (char)):<cloref1> void =
@@ -226,13 +288,14 @@ end // end of [main]
 #decldescrpt('\
 
 This function prints out the chars in its second argument to the file
-handle provided as its first argument.  ')
+handle provided as its first argument. Note that it does not report any
+errors. ')
 
 #declexample("\
 
 The following code removes every empty line in a given file:
 
-#pats2xhtmld("\
+#pats2xhtmld_tryit("\
 fun remove_empty_lines (
   out: FILEref, inp: FILEref, isfst: bool
 ) : void = let

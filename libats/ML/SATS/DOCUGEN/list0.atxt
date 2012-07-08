@@ -1,3 +1,12 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/list0")
+%}
+
+(* ****** ****** *)
+
 #decltitle("\
 ATSLIB/libats/ML/list0\
 ")
@@ -53,10 +62,11 @@ indexed type.
 
 #declnamesynop("list0_head_exn")
 #decldescrpt("\
-This function returns the head of a given list if the list
-is non-empty or raises an exception (ListSubscriptExn) if
-the list is empty.
+
+This function returns the head of a given list if the list is non-empty or
+raises an exception (#dyncode("ListSubscriptExn")) if the list is empty.
 ")
+
 #declnamesynop("list0_head_opt")
 #decldescrpt("\
 This function is the optional version of #dyncode("list0_head_exn").
@@ -66,10 +76,11 @@ This function is the optional version of #dyncode("list0_head_exn").
 
 #declnamesynop("list0_tail_exn")
 #decldescrpt("\
-This function returns the tail of a given list if the list
-is non-empty or raises an exception (ListSubscriptExn) if
-the list is empty.
+
+This function returns the tail of a given list if the list is non-empty or
+raises an exception (#dyncode("ListSubscriptExn")) if the list is empty.
 ")
+
 #declnamesynop("list0_tail_opt")
 #decldescrpt("\
 This function is the optional version of #dyncode("list0_tail_exn").
@@ -80,11 +91,38 @@ This function is the optional version of #dyncode("list0_tail_exn").
 #declnamesynop("list0_nth_exn")
 #decldescrpt("\
 
-This function returns element i of a given list if i is a natural
-number less than the length of the list.  Otherwise, it raises an
-exception (ListSubscriptExn).
+This function returns element i of a given list if i is a natural number
+less than the length of the list.  Otherwise, it raises an exception
+(#dyncode("ListSubscriptExn")).\
 
 ")
+#declexample("\
+
+The following code gives a #emph('terribly inefficient') O(n^2)-time
+implementation of list concatenation:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/list0.sats"
+//
+implement{a}
+list0_append (xs, ys) = let
+  fun loop (
+    xs: list0 a, i: int, res: list0 a
+  ) : list0 a =
+    if i > 0 then let
+      val i1 = i - 1
+      val res = list0_cons (list0_nth_exn (xs, i1), res)
+    in
+      loop (xs, i1, res)
+    end else res // end of [if]
+  // end of [loop]
+in
+  $effmask_all (loop (xs, list0_length (xs), ys))
+end // end of [list0_append]
+')
+")
+
 #declnamesynop("list0_nth_opt")
 #decldescrpt("\
 This function is the optional version of #dyncode("list0_nth_exn").
@@ -93,13 +131,28 @@ This function is the optional version of #dyncode("list0_nth_exn").
 (* ****** ****** *)
 
 #declnamesynop("list0_length")
+#decldescrpt("\
+This function returns the length of a given list, and its implementation
+is tail-recursive.
+")
 
 #declnamesynop("list0_append")
 #decldescrpt("\
-Given two lists xs and ys, this function returns the concatenation of xs and ys.
+
+Given two lists xs and ys, this function returns the concatenation of xs
+and ys. Note that the implementation of #dyncode("list0_append") is
+tail-recursive in ATSLIB.\
+
 ")
 #declexample("\
-#pats2xhtmld("
+
+The following code checks that the length of the concatenation of two lists
+equals the sum of their individual lengths:
+
+#pats2xhtmld_tryit("\
+//
+staload \"libats/ML/SATS/list0.sats\"
+//
 implement
 main () = let
   \#define M 10
@@ -111,15 +164,33 @@ main () = let
 in
   0(*normal*)
 end // end of [main]
-")\
-
+")
 ")
 
 (* ****** ****** *)
 
 #declnamesynop("list0_reverse")
+#decldescrpt("\
+This function returns the reverse of a given list, and its implementation
+is tail-recurisive.
+")
+
 #declnamesynop("list0_reverse_append")
+#decldescrpt("\
+
+Given two lists xs and ys, this function returns the concatenation of the
+rxs and ys, where rxs refers to the reverse of xs.  The implementation of
+#dyncode("list0_reverse_append") in ATSLIB is tail-recursive.\
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("list0_concat")
+#decldescrpt("\
+
+Given a list xss of lists, this funciton returns the concatenation
+of xss[0], xss[1], ..., and xss[n-1], where n is the length of xss.  ")
 
 (* ****** ****** *)
 
@@ -232,45 +303,51 @@ every i between 0 and min(n1,n2)-1, inclusively.  ")
 #declnamesynop("list0_forall2_eq")
 #decldescrpt("\
 
-This function is mostly similar to #dyncode("list0_forall2").  Given two
+This function is largely similar to #dyncode("list0_forall2").  Given two
 lists xs1 and xs2 of length n1 and n2, respectively, this function returns
 true if and only if p(xs1[i], xs2[i]) returns true for every i between 0
-and min(n1,n2)-1, inclusively. If this function returns true, then the value
-stored in the call-by-reference parameter eq equals sgn(n1-n2). Otherwise,
-the value equals 0.  ")
+and min(n1,n2)-1, inclusively. If this function returns true, then the
+value stored in the call-by-reference parameter sgn equals sgn(n1-n2).
+Otherwise, the value equals 0.  ")
 
 #declexample("\
 
 The following code implements a function that checks whether two given
 lists are equal based on a given equality funtion on list elements:
 
-#pats2xhtmld("\
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/list0.sats"
+//
 fun{
 a:t@ype
 } listeq (
   xs1: list0 a
 , xs2: list0 a
-, feq: cfun (a, a, bool)
+, eqfn: cfun2 (a, a, bool)
 ) : bool = let
-  var eq: int // uninitialied
-  val ans = list0_forall2_eq (xs1, xs2, feq, eq)
+  var sgn: int // uninitialied
+  val ans = list0_forall2_eq (xs1, xs2, eqfn, sgn)
 in
-  if eq = 0 then
+  if sgn = 0 then
     ans // [xs1] and [xs2] are of the same length
   else
     false // [xs1] and [xs2] are of different length
   // end of [if]
 end // end of [listeq]
-")
+')
 ")
 
 (* ****** ****** *)
 
 #declnamesynop("list0_find_exn")
 #decldescrpt("\
+
 This functions returns the first element in its first argument that
-satisfies the predicate given as its second argument. In case that such
-an element does not exist, the function raises an exception (NotFoundExn).
+satisfies the predicate given as its second argument. In case that such an
+element does not exist, the function raises an exception
+(#dyncode("NotFoundExn")).\
+
 ")
 #declnamesynop("list0_find_opt")
 #decldescrpt("\
@@ -286,7 +363,10 @@ This function returns a list consisting of the sequence of results obtained
 from applying its second argument f to each element in its first argument xs.
 Following is a standard implementation of this function:
 
-#pats2xhtmld("
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/list0.sats"
+//
 implement{a}{b}
 list0_map (xs, f) = let
 in
@@ -297,7 +377,7 @@ case+ xs of
 | list0_nil () => list0_nil ()
 //
 end // end of [list0_map]
-")
+')
 
 However, the implementation of this function in ATSLIB is tail-recursive.\
 
@@ -315,7 +395,10 @@ and xs[i] refers to element i in the list xs.
 
 Following is a standard implementation of this function:
 
-#pats2xhtmld("
+#pats2xhtmld_tryit('
+//
+staload "libats/ML/SATS/list0.sats"
+//
 implement{a}{b}
 list0_imap (xs, f) = let
 //
@@ -332,7 +415,7 @@ end // end of [aux]
 in
   aux (0, xs, f)
 end // end of [list0_imap]
-")\
+')\
 
 However, the implementation of this function in ATSLIB is tail-recursive.\
 
@@ -349,7 +432,10 @@ second arguments.
 
 Following is a standard implementation of this function:
 
-#pats2xhtmld("
+#pats2xhtmld_tryit('\
+//
+staload \"libats/ML/SATS/list0.sats\"
+//
 implement{a1,a2}{b}
 list0_map2 (xs1, xs2, f) = let
 in
@@ -364,7 +450,7 @@ case+ xs1 of
 | list0_nil () => list0_nil ()
 //
 end // end of [list0_map2]
-")
+')\
 
 However, the implementation of this function in ATSLIB is tail-recursive.\
 
@@ -380,7 +466,10 @@ first argument that satisfy the predicate provided as its second argument.
 
 Following is a standard implementation of this function:
 
-#pats2xhtmld("
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/list0.sats"
+//
 implement{a}
 list0_filter (xs, p) = let
 in
@@ -395,7 +484,7 @@ case+ xs of
 | list0_nil () => list0_nil ()
 //
 end // end of [list0_filter]
-")
+')\
 
 However, the implementation of this function in ATSLIB is tail-recursive.\
 
@@ -410,7 +499,10 @@ Given two lists xs and ys of length m and n, respectively, this function
 returns a list of pairs (xs[i], ys[i]), where i ranges from 0 until
 min(m,n)-1 and xs[i] (ys[i]) refers to element i in xs (ys).\
 
-#pats2xhtmld("
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/list0.sats"
+//
 implement
 {x,y}
 list0_zip (xs, ys) = let
@@ -426,7 +518,7 @@ case+ xs of
 | list0_nil () => list0_nil ()
 //
 end // end of [list0_zip]
-")
+')\
 
 However, the implementation of this function in ATSLIB is tail-recursive.\
 

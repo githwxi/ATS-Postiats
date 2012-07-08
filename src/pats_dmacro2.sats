@@ -83,10 +83,9 @@ fun dmacro_eval_decode (d2e: d2exp): d2exp
 //
 // HX: for expanding macros in short form
 //
-fun macro_eval_app_short
-  (loc0: location, d2m: d2mac, d2as: d2exparglst)
-  : $DEXP2.d2exp
-// end of [macro_eval_app_short]
+fun dmacro_eval_app_short (
+  loc0: location, d2m: d2mac, d2as: d2exparglst
+) : d2exp // end of [dmacro_eval_app_short]
 
 (* ****** ****** *)
 
