@@ -62,9 +62,11 @@ atslib_fclose_exn
   return ;
 } // end of [atslib_fclose_exn]
 
+/*
 \#define atslib_fclose_stdin() atslib_fclose_exn(stdin)
 \#define atslib_fclose_stdout() atslib_fclose_exn(stdout)
 \#define atslib_fclose_stderr() atslib_fclose_exn(stderr)
+*/
 
 #atscode_separator_for_C()
 

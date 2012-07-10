@@ -30,7 +30,7 @@ arithmetics.
 (* ****** ****** *)
 
 #declname("MUL")
-#declsynopsis2("
+#declsynop2("
 #para("\
 The dataprop #stacode("MUL") is declared as follows:
 #pats2xhtmls("\
@@ -234,7 +234,7 @@ y.
 (* ****** ****** *)
 
 #declname("EXP2")
-#declsynopsis2("\
+#declsynop2("\
 #para("\
 The dataprop #stacode("EXP2") is declared as follows:
 #pats2xhtmls("

@@ -35,7 +35,7 @@ subtype of #stacode("list(T2, N)") if T1 is a subtype of T2.
 (* ****** ****** *)
 
 #declname("list")
-#declsynopsis2('\
+#declsynop2('\
 #para('\
 The full name for the list-type constructor #stacode("list") is
 #stacode("list_t0ype_int_type"), which is given to the datatype declared as
@@ -63,14 +63,14 @@ respectively.\
 (* ****** ****** *)
 
 #declname("List")
-#declsynopsis2('\
+#declsynop2('\
 #para('\
 #pats2xhtmls('\
 typedef List (a:t@ype) = [n:int] list (a, n)\
 ')')
 ')
 #declname("List0")
-#declsynopsis2('\
+#declsynop2('\
 #para('\
 #pats2xhtmls('\
 typedef List0 (a:t@ype) = [n:int | n >= 0] list (a, n)\
@@ -280,7 +280,7 @@ list_remove_dup (
     | list_cons (x, xs) => let
         implement
         list_exists__pred<a> (y) = eq (x, y)
-        val found = list_exists<a> ($UN.listcast(ys))
+        val found = list_exists<a> ($UN.linlst2lst(ys))
       in
         if found then loop (xs, ys) else loop (xs, list_vt_cons (x, ys))
       end // end of [list_cons]
@@ -406,7 +406,7 @@ fun factorial
 val xs = list_make_intrange (0, n)
 implement
 list_foldleft__fwork<int><int> (acc, x) = acc * (x+1)
-val res = list_foldleft<int><int> ($UN.listcast(xs), 1(*ini*))
+val res = list_foldleft<int><int> ($UN.linlst2lst(xs), 1(*ini*))
 val () = list_vt_free (xs)
 //
 in

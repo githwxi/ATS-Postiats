@@ -147,6 +147,7 @@ This function returns the length of a given linear list.
 #declnamesynop("list_vt_free")
 #decldescrpt('\
 This function frees the memory occupied by a given linear list.
+Note that the elements contained in the list are non-linear.
 ')
 
 #declnamesynop("list_vt_free_fun")

@@ -285,6 +285,7 @@ sortdef sgn = { i:int | ~1 <= i; i <= 1 }
 
 sortdef agz = { l: addr | l > null }
 sortdef agez = { l: addr | l >= null }
+sortdef alez = { l: addr | l <= null }
 
 (* ****** ****** *)
 

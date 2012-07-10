@@ -75,6 +75,7 @@ prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/unsafe.dats
 libc:: ; ./patsopt -s $(PATSHOME)/libc/SATS/stdio.sats
 libc:: ; ./patsopt -d $(PATSHOME)/libc/DATS/stdio.dats
 libc:: ; ./patsopt -d $(PATSHOME)/libc/DATS/stdio_iterator.dats
+libc:: ; ./patsopt -s $(PATSHOME)/libc/SATS/stdlib.sats
 libc:: ; ./patsopt -s $(PATSHOME)/libc/SATS/unistd.sats
 
 ######

@@ -134,24 +134,26 @@ fun
 uncons{a:t0p}
   {d:nat}{n:pos} .<n>. (
   xs: ralist (a, d, n), x: &ptr? >> node (a, d)
-) :<!wrt> ralist (a, d, n-1) =
-  case+ xs of
-  | RAevn (xxs) => let
-      var xx: ptr
-      val xxs = uncons (xxs, xx)
-      val+ N2 (x0, x1) = xx; prval () = topize (xx)
-      val () = x := x0
-    in
-      RAodd (x1, xxs)
-    end // end of [RAevn]
-  | RAodd
-      (x0, xxs) => let
-      val () = x := x0
-    in
-      case+ xxs of
-      | RAnil () => RAnil () | _ =>> RAevn (xxs)
-    end // end of [RAodd]
-// end of [uncons]
+) :<!wrt> ralist (a, d, n-1) = let
+in
+case+ xs of
+| RAevn (xxs) => let
+    var nxx: ptr
+    val xxs = uncons (xxs, nxx)
+    val+ N2 (x0, x1) = nxx
+    prval () = topize (nxx) // HX: this is not necessary
+    val () = x := x0
+  in
+    RAodd (x1, xxs)
+  end // end of [RAevn]
+| RAodd
+    (x0, xxs) => let
+    val () = x := x0
+  in
+    case+ xxs of
+    | RAnil () => RAnil () | _ =>> RAevn (xxs)
+  end // end of [RAodd]
+end // end of [uncons]
 
 in // in of [local]
 
@@ -160,7 +162,8 @@ funralist_uncons
   (xs, x) = let
   var nx: ptr // unintialized
   val xs = uncons (xs, nx)
-  val+ N1 (x0) = nx; prval () = topize (nx)
+  val+ N1 (x0) = nx
+  prval () = topize (nx) // HX: this is not necessary
   val () = x := x0
 in
   xs

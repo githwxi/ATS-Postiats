@@ -307,10 +307,8 @@ fun uncons
             prval () = fingertree_prop1_sznat (m1)
             prval () = ftdigit_prop_szpos (sf1)
             val m = uncons (m, r1)
-            val res = FTdeep (ftnode2ftdigit (r1), m, sf)
-            prval () = topize (r1)
           in
-            res
+            FTdeep (ftnode2ftdigit (r1), m, sf)
           end // end of [_]
       end // end of [FTD1]
     | FTD2 (xn, xn1) => let
@@ -458,10 +456,8 @@ fun unsnoc
             prval () = fingertree_prop1_sznat (m1)
             prval () = ftdigit_prop_szpos (sf1)
             val m = unsnoc (m, r1)
-            val res = FTdeep (pr, m, ftnode2ftdigit (r1))
-            prval () = topize (r1)
           in
-            res
+            FTdeep (pr, m, ftnode2ftdigit (r1))
           end // end of [_]
       end // end of [FTD1]
     | FTD2 (xn1, xn) => let
@@ -490,7 +486,6 @@ fundeque_uncons
   var xn: ptr?
   val xt = fingertree_uncons (xt, xn)
   val+ FTN1 (x) = xn
-  prval () = topize (xn)
   val () = (r := x)
 } // end of [fundeque_uncons]
 
@@ -507,7 +502,6 @@ fundeque_unsnoc
   var xn: ptr?
   val xt = fingertree_unsnoc (xt, xn)
   val+ FTN1 (x) = xn
-  prval () = topize (xn)
   val () = (r := x)
 } // end of [fundeque_unsnoc]
 

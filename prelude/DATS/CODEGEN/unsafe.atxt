@@ -32,7 +32,7 @@ staload "prelude/SATS/unsafe.sats"
 
 implement{a}
 ptr_get (p) = x where {
-  val [l:addr] p = (ptr1_of_ptr)p
+  val [l:addr] p = (ptr1_of_ptr0)p
   prval (pf, fpf) = __assert () where {
     extern praxi __assert (): (a @ l, a? @ l -<lin,prf> void)
   } // end of [prval]
@@ -42,7 +42,7 @@ ptr_get (p) = x where {
 
 implement{a}
 ptr_set (p, x) = () where {
-  val [l:addr] p = (ptr1_of_ptr)p
+  val [l:addr] p = (ptr1_of_ptr0)p
   prval (pf, fpf) = __assert () where {
     extern praxi __assert (): (a? @ l, a @ l -<lin,prf> void)
   } // end of [prval]
@@ -52,7 +52,7 @@ ptr_set (p, x) = () where {
 
 implement{a}
 ptr_exch (p, x) = () where {
-  val [l:addr] p = (ptr1_of_ptr)p
+  val [l:addr] p = (ptr1_of_ptr0)p
   prval (pf, fpf) = __assert () where {
     extern praxi __assert (): (a @ l, a @ l -<lin,prf> void)
   } // end of [prval]

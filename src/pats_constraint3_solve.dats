@@ -389,14 +389,19 @@ case+ c3tknd of
 //
 | C3NSTRKINDsome_fin _ => 0 where {
     val () = prerr_error3_loc (loc0)
-    val () = prerr ": unsolved constraint for dvar preservation"
+    val () = prerr ": unsolved constraint for var preservation"
     val () = prerr_newline ()
   } // end of [C3NSTRKINDsome_fin]
-| C3NSTRKINDsome_box _ => 0 where {
+| C3NSTRKINDsome_lvar _ => 0 where {
+    val () = prerr_error3_loc (loc0)
+    val () = prerr ": unsolved constraint for lvar preservation"
+    val () = prerr_newline ()
+  } // end of [C3NSTRKINDsome_lvar]
+| C3NSTRKINDsome_vbox _ => 0 where {
     val () = prerr_error3_loc (loc0)
     val () = prerr ": unsolved constraint for vbox preservation"
     val () = prerr_newline ()
-  } // end of [C3NSTRKINDsome_box]
+  } // end of [C3NSTRKINDsome_vbox]
 //
 | C3NSTRKINDlstate () => 0 where {
     val () = prerr_error3_loc (loc0)

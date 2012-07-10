@@ -72,7 +72,8 @@ datatype c3nstrkind =
   | C3NSTRKINDtermet_isnat (* term. metric being welfounded *)
   | C3NSTRKINDtermet_isdec (* term. metric being decreasing *)
   | C3NSTRKINDsome_fin of (d2var, s2exp(*fin*), s2exp)
-  | C3NSTRKINDsome_box of (d2var, s2exp(*box*), s2exp)
+  | C3NSTRKINDsome_lvar of (d2var, s2exp(*lvar*), s2exp)
+  | C3NSTRKINDsome_vbox of (d2var, s2exp(*vbox*), s2exp)
 //
   | C3NSTRKINDlstate of () // lstate merge
   | C3NSTRKINDlstate_var of (d2var) // lstate merge for d2var

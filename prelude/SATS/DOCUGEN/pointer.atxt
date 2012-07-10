@@ -41,29 +41,127 @@ prval [l:addr] PTREQ () = ptr_get_index (p)\
 
 (* ****** ****** *)
 
+#declname("ptr_is_null")
+#declsynop2("
+#pats2xhtmls("\
+symintr ptr_is_null
+overload ptr_is_null with ptr0_is_null of 0
+overload ptr_is_null with ptr1_is_null of 1
+")
+")
 #declnamesynop("ptr0_is_null")
 #decldescrpt('\
 This function returns true if and only if its argument is the null pointer.
 ')
-
-#declnamesynop("ptr0_isnot_null")
-#decldescrpt('\
-This function returns true if and only if its argument is not the null pointer.
-')
-
-(* ****** ****** *)
-
 #declnamesynop("ptr1_is_null")
 #decldescrpt('\
 
 This function does the same as #dyncode("ptr0_is_null") but is given a more
 informative type.  ')
 
+(* ****** ****** *)
+
+#declname("ptr_isnot_null")
+#declsynop2("
+#pats2xhtmls("\
+symintr ptr_isnot_null
+overload ptr_isnot_null with ptr0_isnot_null of 0
+overload ptr_isnot_null with ptr1_isnot_null of 1
+")
+")
+#declnamesynop("ptr0_isnot_null")
+#decldescrpt('\
+This function returns true if and only if its argument is not the null pointer.
+')
 #declnamesynop("ptr1_isnot_null")
 #decldescrpt('\
 
 This function does the same as #dyncode("ptr0_isnot_null") but is given a more
 informative type.  ')
+
+(* ****** ****** *)
+
+#declname("ptr_succ")
+#declsynop2("
+#pats2xhtmls("\
+symintr ptr_succ
+overload ptr_succ with ptr0_succ of 0
+overload ptr_succ with ptr1_succ of 1
+")
+")
+#declnamesynop("ptr0_succ")
+#declnamesynop("ptr1_succ")
+
+(* ****** ****** *)
+
+#declname("ptr_pred")
+#declsynop2("
+#pats2xhtmls("\
+symintr ptr_pred
+overload ptr_pred with ptr0_pred of 0
+overload ptr_pred with ptr1_pred of 1
+")
+")
+#declnamesynop("ptr0_pred")
+#declnamesynop("ptr1_pred")
+
+(* ****** ****** *)
+
+#declname("ptr_add")
+#declsynop2("
+#pats2xhtmls("\
+symintr ptr_add
+overload ptr_add with ptr0_add_int of 0
+overload ptr_add with ptr0_add_uint of 0
+overload ptr_add with ptr1_add_int of 2
+overload ptr_add with ptr1_add_uint of 2
+")
+")
+#declnamesynop("ptr0_add_int")
+#declnamesynop("ptr0_add_uint")
+#declnamesynop("ptr1_add_int")
+#declnamesynop("ptr1_add_uint")
+
+(* ****** ****** *)
+
+#declname("ptr_sub")
+#declsynop2("
+#pats2xhtmls("\
+symintr ptr_sub
+overload ptr_sub with ptr0_sub_int of 0
+overload ptr_sub with ptr0_sub_uint of 0
+overload ptr_sub with ptr1_sub_int of 2
+overload ptr_sub with ptr1_sub_uint of 2
+")
+")
+#declnamesynop("ptr0_sub_int")
+#declnamesynop("ptr0_sub_uint")
+#declnamesynop("ptr1_sub_int")
+#declnamesynop("ptr1_sub_uint")
+
+(* ****** ****** *)
+
+#declnamesynop("lt_ptr0_ptr0")
+#declnamesynop("lt_ptr1_ptr1")
+#declnamesynop("lte_ptr0_ptr0")
+#declnamesynop("lte_ptr1_ptr1")
+#declnamesynop("gt_ptr0_ptr0")
+#declnamesynop("gt_ptr1_ptr1")
+#declnamesynop("gte_ptr0_ptr0")
+#declnamesynop("gte_ptr1_ptr1")
+#declnamesynop("eq_ptr0_ptr0")
+#declnamesynop("eq_ptr1_ptr1")
+#declnamesynop("neq_ptr0_ptr0")
+#declnamesynop("neq_ptr1_ptr1")
+
+#declnamesynop("compare_ptr0_ptr0")
+#declnamesynop("compare_ptr1_ptr1")
+
+(* ****** ****** *)
+
+#declnamesynop("ptr_get")
+#declnamesynop("ptr_set")
+#declnamesynop("ptr_exch")
 
 (* ****** ****** *)
 

@@ -283,7 +283,7 @@ case+ 0 of
     val () = p3at_set_type (p3t0, s2e0)
     val () = d2var_set_mastype (d2v, Some s2e)
     val- Some (s2e) = d2var_get_type (d2v)
-    val () = d2var_set_finknd (d2v, D2VFINsome (s2e)) // HX: this may be overwritten
+    val () = d2var_set_finknd (d2v, D2VFINsome (s2e)) // HX: may be overwritten later
   in
     p3t0
   end // end of [refknd = 0]
@@ -309,7 +309,7 @@ case+ 0 of
     val () = d2var_set_mastype (d2vw, Some s2at)
     val s2at_opn = s2exp_at (s2e_opn, s2e_addr)
     val () = d2var_set_type (d2vw, Some (s2at_opn))
-    val () = d2var_set_finknd (d2vw, D2VFINsome (s2at_opn)) // HX: this may be overwritten
+    val () = d2var_set_finknd (d2vw, D2VFINsome (s2at_opn)) // HX: may be overwritten later
   in
     p3t0
   end // end of [refknd = 1]
@@ -1334,7 +1334,7 @@ case+ opt of
     val () = d2var_set_mastype (d2v, Some s2e)
     val () = if islin then {
       val () = d2var_set_linval (d2v, 0)
-      val () = d2var_set_finknd (d2v, D2VFINvbox s2e)
+      val () = d2var_set_finknd (d2v, D2VFINsome_vbox (s2e))
     } // end of [if]
     val s2e = s2hnf_opnexi_and_add (loc0, s2f)
     val () = d2var_set_type (d2v, Some s2e)
@@ -1433,7 +1433,7 @@ fun auxvar (
   val d2vw = d2var_mutablize (loc0, d2v, s2e0)
   val- Some (s2l) = d2var_get_addr (d2v)
   val s2at0 = s2exp_at (s2exp_topize_0 (s2e0), s2l)
-  val () = d2var_set_finknd (d2vw, D2VFINsome s2at0)
+  val () = d2var_set_finknd (d2vw, D2VFINsome (s2at0))
 in
   // nothing
 end // end of [auxvar]

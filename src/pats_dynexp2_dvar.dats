@@ -348,8 +348,13 @@ in
       val () = fprint_s2exp (out, s2e)
       val () = prstr ")"
     }
-  | D2VFINvbox (s2e) => {
-      val () = prstr "D2VFINvbox("
+  | D2VFINsome_lvar (s2e) => {
+      val () = prstr "D2VFINsome_lvar("
+      val () = fprint_s2exp (out, s2e)
+      val () = prstr ")"
+    }
+  | D2VFINsome_vbox (s2e) => {
+      val () = prstr "D2VFINsome_vbox("
       val () = fprint_s2exp (out, s2e)
       val () = prstr ")"
     }

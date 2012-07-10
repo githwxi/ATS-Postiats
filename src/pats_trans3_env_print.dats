@@ -85,7 +85,8 @@ case+ knd of
 | C3NSTRKINDtermet_isnat () => prstr "termet_isnat"
 | C3NSTRKINDtermet_isdec () => prstr "termet_isdec"
 | C3NSTRKINDsome_fin _ => prstr "some_fin"
-| C3NSTRKINDsome_box _ => prstr "some_box"
+| C3NSTRKINDsome_lvar _ => prstr "some_lvar"
+| C3NSTRKINDsome_vbox _ => prstr "some_vbox"
 | C3NSTRKINDlstate () => prstr "lstate"
 | C3NSTRKINDlstate_var (d2v) => (
     prstr "lstate("; fprint_d2var (out, d2v); prstr ")"

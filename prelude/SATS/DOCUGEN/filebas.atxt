@@ -284,6 +284,18 @@ end // end of [main]
 
 (* ****** ****** *)
 
+#declnamesynop("fileref_nget_file_charlst")
+#decldescrpt('\
+
+This function reads out chars from a given file handle until either the
+number of chars being read reaches n (the second argument) or no char is
+left, and it then returns a linear list of the chars in the order they were
+read.
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("fileref_put_charlst")
 #decldescrpt('\
 

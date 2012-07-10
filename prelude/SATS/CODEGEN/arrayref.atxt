@@ -175,11 +175,11 @@ arrszref_make_list (xs: List (INV(a))):<> arrszref (a)
 
 fun{a:t0p}
 arrszref_get_at
-  (A: arrszref (INV(a)), i: size_t):<!exn,!ref> a
+  (A: arrszref (INV(a)), i: size_t):<!exnref> a
 overload [] with arrszref_get_at
 fun{a:t0p}
 arrszref_set_at
-  (A: arrszref (INV(a)), i: size_t, x: a):<!exn,!refwrt> void
+  (A: arrszref (INV(a)), i: size_t, x: a):<!exnrefwrt> void
 overload [] with arrszref_set_at
 
 #atscode_separator()
@@ -187,7 +187,7 @@ overload [] with arrszref_set_at
 fun{
 a:vt0p
 } arrszref_exch_at
-  (A: arrszref (INV(a)), i: size_t, x: &a >> a):<!exn,!refwrt> void
+  (A: arrszref (INV(a)), i: size_t, x: &a >> a):<!exnrefwrt> void
 // end of [arrszref_exch_at]
 
 #atscode_separator()

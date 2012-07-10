@@ -35,6 +35,69 @@ i equals n.
 
 (* ****** ****** *)
 
+#declnamesynop("string_sing")
+#decldescrpt('\
+This function constructs a singleton string consisting of its char argument.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("string_make_list")
+#decldescrpt('\
+
+This function returns a linear string consisting of the same sequence of
+non-null chars in its argument.  ')
+#declexample('\
+
+The following code implements a function that returns a linear string
+consisting of the reverse of the sequence of chars in its argument:
+
+#pats2xhtmld_tryit('\
+staload UN = "prelude/SATS/unsafe.sats"
+//
+fun string_reverse
+  {n:int} .<>. (
+  str: string(n)
+) : strnptr(n) = let
+//
+  prval () = lemma_string_param (str)
+//
+  val cs = string_explode (str)
+  val cs = list_vt_reverse (cs)
+  val res = string_make_list ($UN.linlst2lst(cs))
+  val () = list_vt_free (cs)
+in
+  res
+end // end of [string_reverse]
+')
+')
+
+#declnamesynop("string_make_listlen")
+#decldescrpt('\
+
+This function does the same as #dyncode("string_make_list") except for
+taking the length of the given string as the second argument.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("string_make_list_rev")
+#decldescrpt('\
+
+This function returns a linear string consisting of the reverse of the
+sequence of non-null chars in its argument.  ')
+
+#declnamesynop("string_make_listlen_rev")
+#decldescrpt('\
+
+This function does the same as #dyncode("string_make_list_rev") except for
+taking the length of the given string as the second argument.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("string_make_substring")
+
+(* ****** ****** *)
+
 #declnamesynop("string_is_empty")
 #decldescrpt('\
 This funtion returns true if and only if its string argument is empty.
@@ -48,8 +111,8 @@ This funtion returns true if and only if its string argument is non-empty.
 (* ****** ****** *)
 
 #declname("string_is_atend")
-#declsynopsis2("
-#pats2xhtmld('\
+#declsynop2("
+#pats2xhtmls('\
 symintr string_is_atend
 overload string_is_atend with string_is_atend_int
 overload string_is_atend with string_is_atend_uint
@@ -72,7 +135,14 @@ taking an unsigned integer as the string index.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("string_get_at")
+#declname("string_get_at")
+#declsynop2("
+#pats2xhtmls('\
+symintr string_get_at
+overload string_get_at with string_get_at_int
+overload string_get_at with string_get_at_uint
+')
+")
 
 (* ****** ****** *)
 
@@ -91,7 +161,14 @@ taking an unsigned signed integer as the string index.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("string_test_at")
+#declname("string_test_at")
+#declsynop2("
+#pats2xhtmls('\
+symintr string_test_at
+overload string_test_at with string_test_at_int
+overload string_test_at with string_test_at_uint
+')
+")
 
 (* ****** ****** *)
 
@@ -230,62 +307,11 @@ second string argument, respectively.  ')
 (* ****** ****** *)
 
 #declnamesynop("fprint_string")
-
-(* ****** ****** *)
-
-#declnamesynop("string_make_list")
 #decldescrpt('\
 
-This function returns a linear string consisting of the same sequence of
-non-null chars in its argument.  ')
-#declexample('\
-
-The following code implements a function that returns a linear string
-consisting of the reverse of the sequence of chars in its argument:
-
-#pats2xhtmld_tryit('\
-staload UN = "prelude/SATS/unsafe.sats"
-//
-fun string_reverse
-  {n:int} .<>. (
-  str: string(n)
-) : strnptr(n) = let
-//
-  prval () = lemma_string_param (str)
-//
-  val cs = string_explode (str)
-  val cs = list_vt_reverse (cs)
-  val res = string_make_list ($UN.listcast(cs))
-  val () = list_vt_free (cs)
-in
-  res
-end // end of [string_reverse]
-')
-')
-
-#declnamesynop("string_make_listlen")
-#decldescrpt('\
-
-This function does the same as #dyncode("string_make_list") except for
-taking the length of the given string as the second argument.  ')
-
-(* ****** ****** *)
-
-#declnamesynop("string_make_list_rev")
-#decldescrpt('\
-
-This function returns a linear string consisting of the reverse of the
-sequence of non-null chars in its argument.  ')
-
-#declnamesynop("string_make_listlen_rev")
-#decldescrpt('\
-
-This function does the same as #dyncode("string_make_list_rev") except for
-taking the length of the given string as the second argument.  ')
-
-(* ****** ****** *)
-
-#declnamesynop("string_make_substring")
+This function prints a string (its second argument) to a given output
+channel (its first argument). The implementation of this function calls the
+libc-function fputs declared in [stdio.h]. ')
 
 (* ****** ****** *)
 
@@ -342,7 +368,7 @@ function in ATSLIB calls the libc-function of the same name (declared in
 (* ****** ****** *)
 
 #declname("string_length")
-#declsynopsis2("
+#declsynop2("
 #pats2xhtmld('\
 symintr string_length
 overload string_length with string0_length of 0
@@ -444,6 +470,7 @@ The following code gives an implementation of
 consisting of the chars in a segment of a given string:
 
 #pats2xhtmld_tryit('\
+//
 staload UN = "prelude/SATS/unsafe.sats"
 //
 implement
@@ -606,7 +633,7 @@ string). If the argument is the null pointer, then the returned value is ~1
 #declnamesynop("fprint_stropt")
 #decldescrpt('\
 
-This function prints a given stropt-value (optional string) to the output
+This function prints a stropt-value (optional string) to a given output
 channel (its first argument). If the stropt-value is not null, then it is
 treated as a string. Otherwise, it is treated as the null pointer.
 

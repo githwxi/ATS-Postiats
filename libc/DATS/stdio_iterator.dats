@@ -52,8 +52,8 @@ stadef fmr() = file_mode_r()
 
 (* ****** ****** *)
 
-stadef itrknd = iter_fileptr_char_kind
-stadef itrkpm = iter_fileptr_char_param
+stadef itrknd = iter_fileptr_charlst_kind
+stadef itrkpm = iter_fileptr_charlst_param
 
 (* ****** ****** *)
 

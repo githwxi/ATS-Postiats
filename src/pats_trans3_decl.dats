@@ -644,7 +644,7 @@ val- Some
   (s2l) = d2var_get_addr (d2v)
 val s2e0_top = s2exp_topize_0 (s2e0)
 val s2at0 = s2exp_at (s2e0_top, s2l)
-val () = d2var_set_finknd (d2vw, D2VFINsome (s2at0))
+val () = d2var_set_finknd (d2vw, D2VFINsome_lvar (s2at0))
 //
 val d3c =
   v3ardec_make (loc0, 0(*sta*), d2v, d2vw, s2e0, ini3)

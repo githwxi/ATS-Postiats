@@ -58,6 +58,8 @@ castfn string1_of_string0 (x: string):<> [n:int] string (n)
 
 #atscode_separator()
 
+fun string_sing (c: charNZ):<> strnptr (1)
+
 fun string_make_list
   {n:int} (cs: list(charNZ, n)):<> strnptr (n)
 fun string_make_listlen

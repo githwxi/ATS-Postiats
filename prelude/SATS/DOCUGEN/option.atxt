@@ -25,7 +25,7 @@ option-values.
 (* ****** ****** *)
 
 #declname("option")
-#declsynopsis2("\
+#declsynop2("\
 #para('\
 The full name for the option-type constructor #stacode("option") is
 #stacode("option_t0ype_bool_type"), which is given to the datatype declared as
@@ -68,7 +68,7 @@ a1,a2:t@ype
 (* ****** ****** *)
 
 #declname("Option")
-#declsynopsis2('\
+#declsynop2('\
 #para('\
 #pats2xhtmls('\
 typedef Option (a:t@ype) = [b:bool] option (a, b)\

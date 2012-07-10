@@ -192,31 +192,51 @@ end // end of [fileref_get_line_string]
 
 #atscode_separator()
 
-implement
-fileref_get_file_charlst (filr) = let
-//
-viewtypedef charlst = List0_vt (char)
+local
+
+viewtypedef
+charlst = List0_vt (char)
 fun loop (
-  filr: FILEref, res: &ptr? >> charlst
-) : void = let
+  filr: FILEref
+, n: int, res: &ptr? >> charlst
+) : int = let
+in
+//
+if n != 0 then let
   val i = fileref_getc (filr)
 in
   if i >= 0 then let
     val c = $UN.cast{char} (i)
     val () = res := list_vt_cons{char}{0} (c, _)
     val+ list_vt_cons (_, res1) = res
-    val () = loop (filr, res1)
+    val n = loop (filr, pred(n), res1)
+    prval () = fold@ (res)
   in
-    fold@ (res)
-  end else (res := list_vt_nil)
+    n
+  end else let
+    val () = res := list_vt_nil () in n
+  end // end of [if]
+end else let
+  val () = res := list_vt_nil () in n(*=0*)
+end // end of [if]
+//
 end // end of [loop]
-//
-var res: ptr
-val () = loop (filr, res)
-//
-in
-  res
-end // end of [fileref_get_file_charlst]
+
+in // in of [local]
+
+implement
+fileref_get_file_charlst
+  (filr) = res where {
+  var res: ptr; val _ = loop (filr, ~1, res)
+} // end of [fileref_get_file_charlst]
+
+implement
+fileref_nget_file_charlst
+  (filr, n) = res where {
+  var res: ptr; val _(*nleft*) = loop (filr, n, res)
+} // end of [fileref_nget_file_charlst]
+
+end // end of [local]
 
 #atscode_separator()
 

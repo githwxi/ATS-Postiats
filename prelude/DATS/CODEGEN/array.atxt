@@ -297,7 +297,6 @@ array_foreach_cloref
   prval pfu = unit_v ()
   var env = f
   val () = array_foreach_funenv<a> {v}{vt} (pfu | A, asz, app, env)
-  prval () = topize (env)
   prval () = unit_v_elim (pfu)
 in
   // nothing

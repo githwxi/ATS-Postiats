@@ -68,11 +68,15 @@ castfn cast2ussint {a:t0p} (x: a):<> ussint
 //
 #atscode_separator()
 //
-// HX: this is a very popular one:
+// HX: these are popular ones:
 //
 castfn
-listcast {a:t0p}{n:int} (xs: !list_vt (INV(a), n)):<> list (a, n)
-// end of [listcast]
+linlst2lst {a:t0p}{n:int}
+  (xs: !list_vt (INV(a), n)):<> list (a, n)
+// end of [linlst2lst]
+
+castfn
+linstr2str {l:agz} (x: !strptr l):<> String
 
 #atscode_separator()
 //
@@ -94,12 +98,14 @@ vttakeout_void {vt:vt0p} (x: !vt):<> vttakeout (void, vt)
 // HX: only if you know what you are doing ...
 //
 fun{a:vt0p} ptr_get (p: Ptr1):<> a
-fun{a:vt0p} ptr_set (p: Ptr1, x: INV(a)):<!wrt> void
-fun{a:vt0p} ptr_exch (p: Ptr1, x: &INV(a) >> a):<!wrt> void
-//
 fun{a:vt0p} ptr0_get (p: ptr):<> a
+//
+fun{a:vt0p} ptr_set (p: Ptr1, x: INV(a)):<!wrt> void
 fun{a:vt0p} ptr0_set (p: ptr, x: INV(a)):<!wrt> void
+//
+fun{a:vt0p} ptr_exch (p: Ptr1, x: &INV(a) >> a):<!wrt> void
 fun{a:vt0p} ptr0_exch (p: ptr, x: &INV(a) >> a):<!wrt> void
+//
 //
 #atscode_separator()
 //
@@ -107,15 +113,18 @@ fun{a:vt0p} ptr0_exch (p: ptr, x: &INV(a) >> a):<!wrt> void
 // generic ops on numbers: +=, -=, *=, /=, %=
 //
 fun{a:t0p} ptr_addby (p: Ptr1, x: a):<!wrt> void
-fun{a:t0p} ptr_subby (p: Ptr1, x: a):<!wrt> void
-fun{a:t0p} ptr_mulby (p: Ptr1, x: a):<!wrt> void
-fun{a:t0p} ptr_divby (p: Ptr1, x: a):<!wrt> void
-fun{a:t0p} ptr_modby (p: Ptr1, x: a):<!wrt> void
-//
 fun{a:t0p} ptr0_addby (p: ptr, x: a):<!wrt> void
+//
+fun{a:t0p} ptr_subby (p: Ptr1, x: a):<!wrt> void
 fun{a:t0p} ptr0_subby (p: ptr, x: a):<!wrt> void
+//
+fun{a:t0p} ptr_mulby (p: Ptr1, x: a):<!wrt> void
 fun{a:t0p} ptr0_mulby (p: ptr, x: a):<!wrt> void
+//
+fun{a:t0p} ptr_divby (p: Ptr1, x: a):<!wrt> void
 fun{a:t0p} ptr0_divby (p: ptr, x: a):<!wrt> void
+//
+fun{a:t0p} ptr_modby (p: Ptr1, x: a):<!wrt> void
 fun{a:t0p} ptr0_modby (p: ptr, x: a):<!wrt> void
 //
 #atscode_separator()

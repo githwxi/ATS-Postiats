@@ -34,15 +34,15 @@
 
 fun qsort
   {a:vt0p}{n:int} (
-  A: &(@[a][n]), asz: size_t (n), tsz: sizeof (a), f: compref (a)
+  A: &(@[INV(a)][n]), asz: size_t (n), tsz: sizeof_t (a), f: cmpref (a)
 ) :<!wrt> void = "atslib_qsort" // end of [qsort]
 
 (* ****** ****** *)
 
 fun bsearch
   {a:vt0p}{n:int} (
-  key: &a, A: &(@[a][n]), asz: size_t (n), tsz: sizeof (a), cmp: compref (a)
-) :<> ptr = "atslib_bsearch" // end of [bsearch]
+  key: &a, A: &(@[INV(a)][n]), asz: size_t (n), tsz: sizeof_t (a), cmp: cmpref (a)
+) :<> Ptr0 = "atslib_bsearch" // end of [bsearch]
 
 (* ****** ****** *)
 

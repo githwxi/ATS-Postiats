@@ -80,11 +80,11 @@ fun test_file_islnk (path: NSH(string)): int = "atspre_test_file_islnk"
 #atscode_separator()
 
 fun fileref_open_exn
-  (path: NSH(string), fm: file_mode):<!exn> FILEref
+  (path: NSH(string), fm: file_mode): FILEref
 // end of [fileref_open_exn]
 
 fun fileref_open_opt
-  (path: NSH(string), fm: file_mode):<!exn> Option_vt (FILEref)
+  (path: NSH(string), fm: file_mode): Option_vt (FILEref)
 // end of [fileref_open_opt]
 
 #atscode_separator()
@@ -121,7 +121,7 @@ macdef fileref_isnot_eof (r) = ~fileref_is_eof (r)
 
 typedef
 fileref_load_type (a:t@ype) =
-  (FILEref, &a? >> opt (a, b)) -<fun> #[b:bool] bool (b)
+  (FILEref, &a? >> opt (a, b)) -<fun1> #[b:bool] bool (b)
 // end of [fileref_load_type]
 
 fun{a:t0p}
@@ -136,13 +136,13 @@ fun fileref_load_string : fileref_load_type (NSH(string))
 
 fun{a:t0p}
 fileref_get_optval
-  (r: FILEref):<> Option_vt (a)
+  (r: FILEref): Option_vt (a)
 // end of [fileref_get_optval]
 
 fun{
 a:t0p
 } fileref_get_exnmsg
-  (r: FILEref, msg: NSH(string)):<!exn> a
+  (r: FILEref, msg: NSH(string)): a
 // end of [fileref_get_exnmsg]
 
 macdef
@@ -172,6 +172,7 @@ fun fileref_put_charlst (r: FILEref, cs: !List_vt (char)): void
 ** HX: for handling files of "tiny" size
 *)
 fun fileref_get_file_charlst (r: FILEref): List_vt (char)
+fun fileref_nget_file_charlst {n:nat} (r: FILEref, n: int n): List_vt (char)
 
 #atscode_separator()
 

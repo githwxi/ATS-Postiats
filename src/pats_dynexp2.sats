@@ -208,8 +208,9 @@ overload prerr with prerr_d2var
 datatype d2vfin =
   | D2VFINdone of ()
   | D2VFINnone of ()
-  | D2VFINsome of s2exp
-  | D2VFINvbox of s2exp
+  | D2VFINsome of (s2exp)
+  | D2VFINsome_lvar of s2exp // for local vars
+  | D2VFINsome_vbox of s2exp // for vboxed proofs
 // end of [d2vfin]
 
 fun fprint_d2vfin : fprint_type (d2vfin)

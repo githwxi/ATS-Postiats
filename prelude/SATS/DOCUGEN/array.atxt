@@ -208,7 +208,7 @@ array-cells.  ')
 
 The following code implements a function that searches for the index of the
 first array-cell in a given array that contains an element satisfing the
-predicate provided as the second argument of the function:
+predicate provided as the third argument of the function:
 
 #pats2xhtmld_tryit('\
 fun{a:t@ype}
@@ -294,7 +294,7 @@ processed array-cells.  ')
 
 The following code implements a function that searches for the index of the
 last array-cell in a given array that contains an element satisfing the
-predicate provided as the second argument of the function:
+predicate provided as the third argument of the function:
 
 #pats2xhtmld_tryit('\
 fun{a:t@ype}

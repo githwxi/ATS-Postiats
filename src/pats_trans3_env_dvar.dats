@@ -509,8 +509,7 @@ fun d2vfin_check (loc0: location, d2v: d2var): void
 local
 
 fun d2vfin_check_some (
-  loc0: location
-, d2v: d2var, s2e: s2exp
+  loc0: location, d2v: d2var, s2e: s2exp
 ) : void = let
 //
 fun auxerr1 (
@@ -555,16 +554,38 @@ case+ d2vfin of
     val () = trans3_env_pop_and_add (pfpush | loc0, knd)
   in
     d2var_set_type (d2v, Some s2e_fin)
-  end // end of [D2VFINsome]
-| D2VFINvbox (s2e_box) => let
+  end // end of [D2VFINsome_lvar]
+| D2VFINsome_lvar (s2e_fin) => let
+    val (pfpush | ()) = trans3_env_push ()
+//
+    val s2e = (
+      case+ s2e.s2exp_node of
+      | S2Eat (s2at, s2l) => let
+          val isnonlin = s2exp_is_nonlin (s2at)
+        in
+          if isnonlin then s2exp_at (s2exp_topize_0 (s2at), s2l) else s2e
+        end // end of [S2Eat]
+      | _ => let
+          val () = assertloc (false) in s2e // HX: this should be deadcode!
+        end // end of [_]
+    ) : s2exp // end of [val]
+//
+    val err = $SOL.s2exp_tyleq_solve (loc0, s2e, s2e_fin)
+    val () = if err > 0 then auxerr1 (loc0, d2v, s2e, s2e_fin)
+    val knd = C3NSTRKINDsome_lvar (d2v, s2e_fin, s2e)
+    val () = trans3_env_pop_and_add (pfpush | loc0, knd)
+  in
+    d2var_set_type (d2v, Some s2e_fin)
+  end // end of [D2VFINsome_lvar]
+| D2VFINsome_vbox (s2e_box) => let
     val (pfpush | ()) = trans3_env_push ()
     val err = $SOL.s2exp_tyleq_solve (loc0, s2e, s2e_box)
     val () = if err > 0 then auxerr1 (loc0, d2v, s2e, s2e_box)
-    val knd = C3NSTRKINDsome_box (d2v, s2e_box, s2e)
+    val knd = C3NSTRKINDsome_vbox (d2v, s2e_box, s2e)
     val () = trans3_env_pop_and_add (pfpush | loc0, knd)
   in
     d2var_set_type (d2v, Some s2e_box)
-  end // end of [D2VFINvbox]
+  end // end of [D2VFINsome_vbox]
 | D2VFINdone () => () // HX: handled by [funarg_d2vfin_check]
 | D2VFINnone () => let
     val islin = s2exp_is_lin2 (s2e)
@@ -607,11 +628,16 @@ case+ d2vfin of
   in
     the_trans3errlst_add (T3E_d2var_fin_none_some (loc0, d2v))
   end // end of [D2VFINsome]
-| D2VFINvbox _ => let
+| D2VFINsome_lvar _ => let
     val () = auxerr (loc0, d2v)
   in
     the_trans3errlst_add (T3E_d2var_fin_none_some (loc0, d2v))
-  end // end of [D2VFINvbox]
+  end // end of [D2VFINsome_lvar]
+| D2VFINsome_vbox _ => let
+    val () = auxerr (loc0, d2v)
+  in
+    the_trans3errlst_add (T3E_d2var_fin_none_some (loc0, d2v))
+  end // end of [D2VFINsome_vbox]
 //
 end // end of [d2vfin_check_none]
 

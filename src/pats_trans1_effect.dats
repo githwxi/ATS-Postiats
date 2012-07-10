@@ -63,6 +63,8 @@ fn name_is_wrt (name: string): bool =
   if name = "wrt" then true else name = "write"
 
 fn name_is_exnref (name: string): bool = name = "exnref"
+fn name_is_exnwrt (name: string): bool = name = "exnwrt"
+fn name_is_exnrefwrt (name: string): bool = name = "exnrefwrt"
 fn name_is_refwrt (name: string): bool = name = "refwrt"
 
 (*
@@ -153,6 +155,19 @@ fun loop (
             val () = if isneg = 0 then
               efs := effset_add (effset_add (efs, effect_exn), effect_ref)
           } // end of [_ when ...]
+        | _ when name_is_exnwrt name => {
+            val () = if isneg > 0 then
+              efs := effset_del (effset_del (efs, effect_exn), effect_wrt)
+            val () = if isneg = 0 then
+              efs := effset_add (effset_add (efs, effect_exn), effect_wrt)
+          } // end of [_ when ...]
+        | _ when name_is_exnrefwrt name => {
+            val () = if isneg > 0 then
+              efs := effset_del (effset_del (effset_del (efs, effect_exn), effect_ref), effect_wrt)
+            val () = if isneg = 0 then
+              efs := effset_add (effset_add (effset_add (efs, effect_exn), effect_ref), effect_wrt)
+          } // end of [_ when ...]
+//
         | _ when name_is_refwrt name => {
             val () = if isneg > 0 then
               efs := effset_del (effset_del (efs, effect_ref), effect_wrt)

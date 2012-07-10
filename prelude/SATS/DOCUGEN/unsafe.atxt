@@ -114,7 +114,7 @@ This function casts a value to an unsigned short short integer of unindexed type
 
 (* ****** ****** *)
 
-#declnamesynop("listcast")
+#declnamesynop("linlst2lst")
 #decldescrpt("\
 This function casts a linear list to a nonlinear list (only for temporary use).
 ")
@@ -131,10 +131,18 @@ staload UN = "prelude/SATS/unsafe.sats"
 //
 fun{a:t@ype}
 list_vt_copy {n:int}
-  (xs: !list_vt (a, n)): list_vt (a, n) = list_copy ($UN.listcast (xs))
+  (xs: !list_vt (a, n)): list_vt (a, n) = list_copy ($UN.linlst2lst (xs))
 // end of [list_vt_copy]
 ')
 ')
+
+(* ****** ****** *)
+
+#declnamesynop("linstr2str")
+#decldescrpt("\
+
+This function casts a linear (non-null) string to a nonlinear string (only
+for temporary use).  ")
 
 (* ****** ****** *)
 
@@ -147,6 +155,12 @@ a pointer in C.
 
 ")
 
+#declnamesynop("ptr0_get")
+#decldescrpt("\
+This function is like #dyncode("ptr_get") except it does not typecheck if
+its argument is non-null.
+")
+
 #declnamesynop("ptr_set")
 #decldescrpt("\
 
@@ -156,6 +170,13 @@ a pointer in C.
 
 ")
 
+#declnamesynop("ptr0_set")
+#decldescrpt("\
+This function is like #dyncode("ptr_set") except it does not typecheck if
+its first argument is non-null.
+")
+
+(* ****** ****** *)
 
 #declnamesynop("ptr_exch")
 #decldescrpt("\
@@ -167,6 +188,12 @@ pointer.
 
 ")
 
+#declnamesynop("ptr0_exch")
+#decldescrpt("\
+This function is like #dyncode("ptr_exch") except it does not typecheck if
+its first argument is non-null.
+")
+
 (* ****** ****** *)
 
 #declnamesynop("ptr_addby")
@@ -174,30 +201,64 @@ pointer.
 
 This function updates the content of p with the sum of its current content
 and x.  ")
+#declnamesynop("ptr0_addby")
+#decldescrpt("\
+This function is like #dyncode("ptr_addby") except it does not typecheck if
+its first argument is non-null.
+")
+
+(* ****** ****** *)
 
 #declnamesynop("ptr_subby")
 #decldescrpt("\
 
 This function updates the content of p with the difference of its current
 content from x.  ")
+#declnamesynop("ptr0_subby")
+#decldescrpt("\
+
+This function is like #dyncode("ptr_subby") except it does not typecheck if
+its first argument is non-null.
+")
+
+(* ****** ****** *)
 
 #declnamesynop("ptr_mulby")
 #decldescrpt("\
 
 This function updates the content of p with the product of multiplying its
 current content by x.  ")
+#declnamesynop("ptr0_mulby")
+#decldescrpt("\
+This function is like #dyncode("ptr_mulby") except it does not typecheck if
+its first argument is non-null.
+")
+
+(* ****** ****** *)
 
 #declnamesynop("ptr_divby")
 #decldescrpt("\
 
 This function updates the content of p with the quotient of dividing its
 current content by x.  ")
+#declnamesynop("ptr0_divby")
+#decldescrpt("\
+This function is like #dyncode("ptr_divby") except it does not typecheck if
+its first argument is non-null.
+")
+
+(* ****** ****** *)
 
 #declnamesynop("ptr_modby")
 #decldescrpt("\
 
 This function updates the content of p with the remainder of dividing its
 current content by x.  ")
+#declnamesynop("ptr0_modby")
+#decldescrpt("\
+This function is like #dyncode("ptr_modby") except it does not typecheck if
+its first argument is non-null.
+")
 
 (* ****** ****** *)
 

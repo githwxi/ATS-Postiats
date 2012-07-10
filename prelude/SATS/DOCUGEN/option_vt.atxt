@@ -25,7 +25,7 @@ option-values.
 (* ****** ****** *)
 
 #declnamesynop("option_vt")
-#declsynopsis2("\
+#declsynop2("\
 #para('\
 
 The full name for the linear option-type constructor #stacode("option_vt")
@@ -72,7 +72,7 @@ a1,a2:t0p
 (* ****** ****** *)
 
 #declname("Option_vt")
-#declsynopsis2('\
+#declsynop2('\
 #para('\
 #pats2xhtmls('\
 viewtypedef Option_vt (a:viewt@ype) = [b:bool] option_vt (a, b)\
