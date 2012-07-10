@@ -155,6 +155,8 @@ overload compare with compare_strptr_strptr
 #atscode_separator()
 
 fun fprint_strptr (out: FILEref, x: !Strptr0): void
+fun print_strptr (x: !Strptr0): void // fprint_strptr (stdout_ref, x)
+fun prerr_strptr (x: !Strptr0): void // fprint_strptr (stderr_ref, x)
 
 #atscode_separator()
 

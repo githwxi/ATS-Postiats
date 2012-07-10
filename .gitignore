@@ -30,7 +30,11 @@ prelude/CATS/CODEGEN/*_atxt.dats
 prelude/SATS/DOCUGEN/*.exe
 prelude/SATS/DOCUGEN/*_atxt.txt
 prelude/SATS/DOCUGEN/*_atxt.dats
-prelude/SATS/DOCUGEN/*.html
+prelude/SATS/DOCUGEN/Makefile
+prelude/SATS/DOCUGEN/Makefile2
+prelude/SATS/DOCUGEN/HTML
+prelude/SATS/DOCUGEN/DBOOK
+prelude/SATS/DOCUGEN/TRYIT
 
 libc/SATS/CODEGEN/*.exe
 libc/SATS/CODEGEN/*.sats
@@ -44,6 +48,12 @@ libc/CATS/CODEGEN/*.exe
 libc/CATS/CODEGEN/*.cats
 libc/CATS/CODEGEN/*_atxt.txt
 libc/CATS/CODEGEN/*_atxt.dats
+
+libc/SATS/DOCUGEN/Makefile
+libc/SATS/DOCUGEN/*_atxt.txt
+libc/SATS/DOCUGEN/*_atxt.dats
+libc/SATS/DOCUGEN/HTML
+libc/SATS/DOCUGEN/TRYIT
 
 libats/SATS/CODEGEN/*.exe
 libats/SATS/CODEGEN/*.sats
@@ -74,7 +84,11 @@ libats/ML/CATS/CODEGEN/*_atxt.dats
 libats/ML/SATS/DOCUGEN/*.exe
 libats/ML/SATS/DOCUGEN/*_atxt.txt
 libats/ML/SATS/DOCUGEN/*_atxt.dats
-libats/ML/SATS/DOCUGEN/*.html
+libats/ML/SATS/DOCUGEN/Makefile
+libats/ML/SATS/DOCUGEN/*_atxt.txt
+libats/ML/SATS/DOCUGEN/*_atxt.dats
+libats/ML/SATS/DOCUGEN/HTML
+libats/ML/SATS/DOCUGEN/TRYIT
 
 contrib/cairo/cairo-1.12.*
 contrib/cairo/SATS/CODEGEN/*.exe
