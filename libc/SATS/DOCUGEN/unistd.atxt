@@ -1,0 +1,28 @@
+#decltitle("\
+ATSLIB/libc/unistd\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are mostly the API for
+the corresponding libc-functions declared in [unistd.h].
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("execv")
+#declnamesynop("execv_unsafe")
+
+#declnamesynop("execvp")
+#declnamesynop("execvp_unsafe")
+
+(* ****** ****** *)
+
+#declnamesynop("encrypt")
+
+(* ****** ****** *)
+
+(* end of [unistd.atxt] *)

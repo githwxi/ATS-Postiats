@@ -68,6 +68,13 @@ end // end of [fun_char_cmp0_decl]
 #atscode_separator()
 
 implement
+print_strptr (x) = fprint_strptr (stdout_ref, x)
+implement
+prerr_strptr (x) = fprint_strptr (stderr_ref, x)
+
+#atscode_separator()
+
+implement
 strptrlst_concat (xs) = let
 //
 fun loop {n0:nat} .<n0>. (

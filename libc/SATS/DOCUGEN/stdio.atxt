@@ -1,0 +1,156 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/stdio")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libc/stdio\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are mostly the API for
+the corresponding libc-functions declared in [stdio.h].
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("FILEptr")
+#declnamesynop("FILEptr0")
+
+(* ****** ****** *)
+
+#declnamesynop("FILEptr2ptr")
+
+(* ****** ****** *)
+
+#declnamesynop("FILEptr_encode")
+#declnamesynop("FILEptr_decode")
+
+(* ****** ****** *)
+
+#declnamesynop("fopen_err")
+#declexample("\
+
+The following code opens a file of the name \"foo.txt\", writes into it the
+string \"Hello, world!\", and then closes it:
+
+#pats2xhtmld_tryit('\
+//
+staload "libc/SATS/stdio.sats"
+//
+implement
+main () = let
+//
+val filp = fopen_err ("foo.txt", file_mode_w)
+//
+in
+//
+if FILEptr2ptr(filp) != 0 then let
+  val () = fputs_exn (file_mode_lte_w_w | "Hello, world!", filp)
+  val () = fclose_exn (filp)
+in
+  0
+end else let
+  val () = perror ("Can\'t open file")
+  val () = FILEptr_free_null (filp)
+in
+  1
+end // end of [if]
+//
+end // end of [main]
+')
+")
+
+#declnamesynop("fopen_exn")
+#declnamesynop("fopen_ref_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("fclose0_err")
+#declnamesynop("fclose1_err")
+
+(* ****** ****** *)
+
+#declnamesynop("fclose0_exn")
+#declnamesynop("fclose1_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("fclose_stdin")
+#declnamesynop("fclose_stdout")
+#declnamesynop("fclose_stderr")
+
+(* ****** ****** *)
+
+#declnamesynop("clearerr0")
+#declnamesynop("clearerr1")
+
+(* ****** ****** *)
+
+#declnamesynop("feof0")
+#declnamesynop("feof1")
+
+(* ****** ****** *)
+
+#declnamesynop("ferror0")
+#declnamesynop("ferror1")
+
+(* ****** ****** *)
+
+#declnamesynop("fflush0_err")
+#declnamesynop("fflush1_err")
+
+#declnamesynop("fflush0_exn")
+#declnamesynop("fflush1_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("fgetc0_err")
+#declnamesynop("fgetc1_err")
+
+(* ****** ****** *)
+
+#declnamesynop("fgets_err")
+#declnamesynop("fgets_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("fgetpos")
+
+(* ****** ****** *)
+
+#declnamesynop("fileno0")
+#declnamesynop("fileno1")
+
+(* ****** ****** *)
+
+#declnamesynop("fdopen_err")
+#declnamesynop("fdopen_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("fputc0_err")
+#declnamesynop("fputc1_err")
+
+#declnamesynop("fputc0_exn")
+#declnamesynop("fputc1_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("fputs0_err")
+#declnamesynop("fputs1_err")
+
+#declnamesynop("fputs0_exn")
+#declnamesynop("fputs1_exn")
+
+(* ****** ****** *)
+
+(* end of [stdio.atxt] *)

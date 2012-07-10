@@ -36,8 +36,8 @@ abstype
 cptr_viewt0ype_addr_type
   (a:viewt@ype+, addr) // HX: simulating C pointers
 stadef cptr = cptr_viewt0ype_addr_type
-stadef cptr0 (a:viewt@ype) = [l:addr] cptr (a, l)
-stadef cptr1 (a:viewt@ype) = [l:addr | l > null] cptr (a, l)
+stadef cPtr0 (a:viewt@ype) = [l:addr] cptr (a, l)
+stadef cPtr1 (a:viewt@ype) = [l:addr | l > null] cptr (a, l)
 
 castfn
 cptr2ptr {a:vt0p}{l:addr} (p: cptr (a, l)):<> ptr l

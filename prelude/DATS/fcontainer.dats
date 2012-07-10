@@ -345,7 +345,7 @@ rlistize_funenv
     $UN.castvwtp1 {ptr}{vt} (env)
   // end of [val]
   var p_clo = lam@
-    (pf: !v2 | x: x): void =<clo,fe> let
+    (pf: !v2 >> v2 | x: x): void =<clo,fe> let
     extern castfn __encode (x: ptr):<> vt
     extern castfn __decode (x: vt):<> ptr
     val env = __encode (ptr)

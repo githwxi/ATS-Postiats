@@ -32,10 +32,211 @@
 //
 (* ****** ****** *)
 
-fun qsort
-  {a:vt0p}{n:int} (
-  A: &(@[INV(a)][n]), asz: size_t (n), tsz: sizeof_t (a), f: cmpref (a)
-) :<!wrt> void = "atslib_qsort" // end of [qsort]
+#define NSH (x) x // for commenting: no sharing
+#define SHR (x) x // for commenting: it is shared
+
+(* ****** ****** *)
+
+macdef EXIT_FAILURE = $extval (int, "EXIT_FAILURE")
+macdef EXIT_SUCCESS = $extval (int, "EXIT_SUCCESS")
+
+(* ****** ****** *)
+
+macdef NULL = $extval (ptr(null), "NULL")
+
+(* ****** ****** *)
+
+/*
+void _Exit(int);
+*/
+fun _Exit (int): void = "mac#atslib__Exit"
+
+/*
+int atexit(void (*)(void));
+*/
+fun atexit (f: ((*void*)) -> void): int = "mac#atslib_atexit"
+
+(* ****** ****** *)
+
+/*
+void abort(void);
+*/
+fun abort ((*void*)): void = "mac#atslib_abort"
+
+(* ****** ****** *)
+
+/*
+int abs (int)
+*/
+fun abs (int):<> int = "mac#atslib_abs"
+/*
+long int labs(long int j);
+*/
+fun labs (lint):<> lint = "mac#atslib_labs"
+/*
+long long int llabs(long long int j);
+*/
+fun llabs (lint):<> llint = "mac#atslib_llabs"
+
+(* ****** ****** *)
+
+/*
+long a64l(const char *);
+*/
+fun a64l (x: NSH(string)):<> lint = "mac#atslib_a64l"
+   
+(* ****** ****** *)
+
+/*
+double atof(const char *);
+*/
+fun atof (x: NSH(string)):<> double
+
+/*
+int atoi(const char *);
+*/
+fun atoi (x: NSH(string)):<> int
+
+/*
+long atol(const char *);
+*/
+fun atol (x: NSH(string)):<> lint
+
+/*
+long long atoll(const char *);
+*/
+fun atoll (x: NSH(string)):<> llint
+                                          
+(* ****** ****** *)
+
+/*
+char *getenv(char *);
+*/
+fun getenv (
+  name: NSH(string)
+) :<!ref> [l:addr] vttakeout (void, strptr l)
+  = "mac#atslib_getenv"
+// end of [getenv]
+
+/*
+int putenv(char *);
+*/
+fun putenv // HX: [nameval] is shared!
+  (nameval: SHR(string)):<!refwrt> int = "mac#atslib_putenv"
+// end of [putenv]
+
+/*
+int setenv(const char *name, const char *value, int overwrite);
+*/
+fun setenv (
+  name: NSH(string), value: NSH(string), overwrite: int
+) :<!refwrt> int = "mac#atslib_setenv"
+
+/*
+int unsetenv(const char *name);
+*/
+fun unsetenv
+  (name: NSH(string)):<!refwrt> int = "mac#atslib_unsetenv"
+// end of [unsetenv]
+
+/*
+int clearenv(void);
+*/
+fun clearenv ((*void*)):<!refwrt> int = "mac#atslib_clearenv"
+
+(* ****** ****** *)
+
+fun rand((*void*)):<!ref> int
+fun rand_r(seed: &uint):<> int // HX: it seems to have become obsolete
+fun srand(seed: uint):<!ref> void
+
+(* ****** ****** *)
+         
+/*
+long int random(void);
+*/
+fun random((*void*)):<!ref> lint
+
+/*
+void srandom(unsigned int seed);
+*/
+fun srandom(seed: uint):<!ref> void
+
+/*
+char *initstate(unsigned int seed, char *state, size_t n);
+*/
+fun initstate_unsafe (
+  seed: uint, state: cPtr1 (char), n: sizeGte(8)
+) : cPtr0 (char) = "mac#atslib_initstate_unsafe"
+// end of [initstate_unsafe]
+
+/*
+char *setstate(char *state);
+*/
+fun setstate_unsafe
+  (state: cPtr1 (char)):<!ref> cPtr0 (char) = "mac#atslib_setstate_unsafe"
+// end of [setstate_unsafe]
+
+(* ****** ****** *)
+
+/*
+double drand48(void); // obsolete
+*/
+fun drand48 ((*void*)):<!ref> double = "mac#atslib_drand48"
+     
+/*
+double erand48(unsigned short xsubi[3]); // obsolete
+*/
+fun erand48
+  (xsubi: &(@[usint][3])):<!ref> double = "mac#atslib_erand48"
+// end of [erand48]
+
+/*
+long int lrand48(void); // obsolete
+*/
+fun lrand48 ():<!ref> lint = "mac#atslib_lrand48"
+/*
+long int nrand48(unsigned short xsubi[3]); // obsolete
+*/
+fun nrand48
+  (xsubi: &(@[usint][3])):<!ref> lint = "mac#atslib_nrand48"
+// end of [nrand48]
+
+/*
+long int mrand48(void); // obsolete
+*/
+fun mrand48(void):<!ref> lint = "mac#atslib_mrand48"
+/*
+long int jrand48(unsigned short xsubi[3]); // obsolete
+*/
+fun jrand48
+  (xsubi: &(@[usint][3])):<!ref> lint = "mac#atslib_jrand48"
+// end of [jrand48]
+
+/*
+void srand48(long int seedval); // obsolete
+*/
+fun srand48 (seedval: lint):<!ref> void = "mac#atslib_srand48"
+
+/*
+unsigned short *seed48(unsigned short seed16v[3]); // obsolete
+*/
+// HX: the returned pointer pointing to
+fun seed48
+  (seed16v: &(@[usint][3])): Ptr1 = "mac#atslib_seed48" // an internal buffer
+// end of [seed48]
+
+/*
+void lcong48(unsigned short param[7]); // obsolete
+*/
+fun lcong48 (param: &(@[usint][7])):<!ref> void = "mac#atslib_lcong48"
+
+(* ****** ****** *)
+
+/*
+void setkey(const char *key);
+*/
+fun setkey_unsafe (key: cPtr1 (char)):<!ref> void = "mac#atslib_setkey"
 
 (* ****** ****** *)
 
@@ -43,6 +244,20 @@ fun bsearch
   {a:vt0p}{n:int} (
   key: &a, A: &(@[INV(a)][n]), asz: size_t (n), tsz: sizeof_t (a), cmp: cmpref (a)
 ) :<> Ptr0 = "atslib_bsearch" // end of [bsearch]
+
+(* ****** ****** *)
+
+fun qsort
+  {a:vt0p}{n:int} (
+  A: &(@[INV(a)][n]), asz: size_t (n), tsz: sizeof_t (a), f: cmpref (a)
+) :<!wrt> void = "atslib_qsort" // end of [qsort]
+
+(* ****** ****** *)
+
+/*
+int system(const char *command);
+*/
+fun system (command: NSH(string)): int = "mac#atslib_system"
 
 (* ****** ****** *)
 

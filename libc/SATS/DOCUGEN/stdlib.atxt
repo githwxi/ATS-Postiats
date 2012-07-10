@@ -1,0 +1,288 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/stdlib")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libc/stdlib\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are mostly the API for the
+corresponding libc-functions declared in [stdlib.h], and many more details
+on these functions can often be found in the Linux Programmer's manual.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("_Exit")
+#declnamesynop("atexit")
+
+(* ****** ****** *)
+
+#declnamesynop("abort")
+
+(* ****** ****** *)
+
+#declnamesynop("atoi")
+#declnamesynop("atol")
+#declnamesynop("atoll")
+
+(* ****** ****** *)
+
+#declnamesynop("atof")
+
+(* ****** ****** *)
+
+#declnamesynop("getenv")
+#decldescrpt("\
+This function directly corresponds to the libc-function of the
+same name.
+")
+#declexample("\
+
+The following code demonstrates a typical way of handling the value
+returned by a call to the function #dyncode("getenv"):
+
+#pats2xhtmld_tryit('\
+//
+staload "libc/SATS/stdlib.sats"
+//
+implement
+main () = let
+//
+val (fpf | v) = getenv ("ATSHOME")
+//
+val () = (
+  if strptr2ptr (v) > 0 then
+    (print ("ATSHOME="); print_strptr (v); print_newline ())
+  else
+    (print ("ATSHOME is not set."); print_newline ())
+  // end of [if]
+) : void // end of [val]
+//
+prval () = fpf (v) // HX: [v] is only borrowed for temporary use
+//
+in
+  0(*normal*)
+end // end of [main]
+')
+")
+
+#declnamesynop("putenv")
+#declnamesynop("setenv")
+#declnamesynop("unsetenv")
+#declnamesynop("clearenv")
+
+(* ****** ****** *)
+
+#declnamesynop("rand")
+#declnamesynop("rand_r")
+#declnamesynop("srand")
+
+(* ****** ****** *)
+
+#declnamesynop("random")
+#declnamesynop("srandom")
+#declnamesynop("initstate")
+#declnamesynop("initstate_unsafe")
+#declnamesynop("setstate")
+#declnamesynop("setstate_unsafe")
+
+(* ****** ****** *)
+
+#declnamesynop("drand48")
+#declnamesynop("erand48")
+#declnamesynop("lrand48")
+#declnamesynop("nrand48")
+#declnamesynop("mrand48")
+#declnamesynop("jrand48")
+#declnamesynop("srand48")
+#declnamesynop("seed48")
+#declnamesynop("lcong48")
+
+(* ****** ****** *)
+
+#declnamesynop("setkey")
+#declnamesynop("setkey_unsafe")
+
+(* ****** ****** *)
+
+#declnamesynop("bsearch")
+#decldescrpt("\
+
+This function, which directly corresponds to the libc-function of the same
+name, does standard binary search on a given array.  If the pointer
+returned from a call to the function is not null, then it points to the
+location of certain array-cell where an element matching the key is
+stored. Otherwise, no element matching the key is found.\
+
+")
+#declexample("\
+
+The following code is largely adapted from the Linux Programmer's
+manual for bsearch:
+
+#pats2xhtmld_tryit('\
+staload
+UN = "prelude/SATS/unsafe.sats"
+staload "libc/SATS/stdlib.sats"
+
+%{^
+struct mi {
+  int nr;
+  char *name;
+} months[] = {
+  { 1, "jan" }, { 2, "feb" }, { 3, "mar" }, { 4, "apr" },
+  { 5, "may" }, { 6, "jun" }, { 7, "jul" }, { 8, "aug" },
+  { 9, "sep" }, {10, "oct" }, {11, "nov" }, {12, "dec" }
+} ;
+                                                                     
+\#define nr_of_months (sizeof(months)/sizeof(struct mi))
+%}
+
+typedef mi =
+  $extype_struct "mi" of { nr= int, name= string }
+// end of [typedef]
+
+stacst N: int
+val months = $extval (arrayref (mi, N), "months")
+val nr_of_months = $extval (int(N), "nr_of_months")
+val () = assert (nr_of_months = 12)
+
+fn mi_init (
+  mi: &mi? >> _
+, nr: int, name: string
+) :<!wrt> void = (
+  mi.nr := nr; mi.name := name
+)
+
+fn cmpref_mi_mi
+  (x: &mi, y: &mi):<> int = compare (x.name, y.name)
+// end of [cmpref_mi_mi]
+
+fun name2nr
+  (name: string): void = let
+//
+var key: mi
+val () = mi_init (key, 0, name)
+val asz = g1int2uint(nr_of_months)
+val pres = let
+  val (vbox pf | p) = arrayref_get_viewptr (months)
+in
+  bsearch {mi}{N} (key, !p, asz, sizeof<mi>, cmpref_mi_mi)
+end // end of [val]
+//
+in
+  if pres > 0 then let
+    prval (pf, fpf) = $UN.ptr_vget (pres)
+(*
+    val () = printf ("%s: month \#%i\\\n", @(pres->name, pres->nr))
+*)
+    prval () = fpf (pf)
+  in
+    // nothing
+  end else let
+(*
+    val () = printf ("%s: unknown month\\\n", @(key))
+*)
+  in
+    // nothing
+  end // end of [if]
+end // end of [name2nr]
+
+implement
+main {n} (
+  argc, argv
+) = 0 where {
+val asz = g1int2uint(nr_of_months)
+val () = let
+  val (vbox pf | p) = arrayref_get_viewptr (months)
+in
+  qsort {mi}{N} (!p, asz, sizeof<mi>, cmpref_mi_mi) // HX: quicksorting
+end // end of [val]
+//
+val () = let
+  fun loop (
+    argc: int n, argv: !argv(n), i: natLte(n)
+  ) : void = let
+  in
+    if argc > i then
+      (name2nr (argv[i]); loop (argc, argv, i+1))
+    else () // end of [if]
+  end // end of [loop]
+in
+  loop (argc, argv, 1)
+end // end of [val]
+//
+} // end of [main]
+')
+")
+
+(* ****** ****** *)
+
+#declnamesynop("qsort")
+#decldescrpt("\
+
+This function, which directly corresponds to the libc-function of the
+same name, does the standard quicksort on a given array.  The first three
+arguments are clearly described by their assgined types, and the fourth
+argument is provided as the comparison function for sorting.
+
+")
+#declexample("\
+
+The following code is largely adapted from the Linux Programmer's
+manual for qsort:
+
+#pats2xhtmld_tryit('\
+//
+staload "libc/SATS/stdio.sats"
+staload "libc/SATS/stdlib.sats"
+staload "contrib/atshwxi/testing/SATS/fprint.sats"
+//
+implement
+main {n}
+  (argc, argv) = let
+//
+val (pf, fpf | p) =
+  argv_takeout_strarr (argv)
+prval (pf1, pf2) = array_v_uncons (pf)
+//
+val asz = g1int2uint (argc)
+val asz1 = pred(asz)
+val p1 = ptr1_succ<string> (p)
+val (pf2 | p1) = viewptr_match (pf2 | p1)
+//
+val out = stdout_ref
+val () = fprint_array_sep<string> (out, !p1, asz1, " ")
+val () = fprint_newline (out)
+//
+val () = qsort (!p1, asz1, sizeof<string>, lam (x1, x2) => compare (x1, x2))
+//
+val () = fprint_array_sep<string> (out, !p1, asz1, " ")
+val () = fprint_newline (out)
+//
+prval () = minus_addback (fpf, array_v_cons (pf1, pf2) | argv)
+//
+in
+  0(*normal*)
+end // end of [main]
+')
+")
+
+(* ****** ****** *)
+
+#declnamesynop("system")
+
+(* ****** ****** *)
+
+(* end of [stdlib.atxt] *)
