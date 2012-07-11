@@ -1,3 +1,12 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/unistd")
+%}
+
+(* ****** ****** *)
+
 #decltitle("\
 ATSLIB/libc/unistd\
 ")
@@ -18,6 +27,11 @@ the corresponding libc-functions declared in [unistd.h].
 
 #declnamesynop("execvp")
 #declnamesynop("execvp_unsafe")
+
+(* ****** ****** *)
+
+#declnamesynop("execve")
+#declnamesynop("execve_unsafe")
 
 (* ****** ****** *)
 

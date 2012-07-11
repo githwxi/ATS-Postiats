@@ -33,13 +33,38 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 fun execv {n:pos}{l:addr} (
   pf: !parrnull_v (string, l, n) | path: NSH(string), argv: ptr l
-) : int = "mac\#atslib_execv" // end of [execv]
-fun execv_unsafe (path: NSH(string), argv: ptr): int = "mac\#atslib_execv"
+) : intLt(0) = "mac\#atslib_execv"
+fun execv_unsafe // HX: for failure, ~1 is returned
+  (path: NSH(string), argv: ptr): intLt(0) = "mac\#atslib_execv"
 
 fun execvp {n:pos}{l:addr} (
   pf: !parrnull_v (string, l, n) | fname: NSH(string), argv: ptr l
-) : int = "mac\#atslib_execvp" // end of [execvp]
-fun execvp_unsafe (fname: NSH(string), argv: ptr): int = "mac\#atslib_execvp"
+) : intLt(0) = "mac\#atslib_execvp"
+fun execvp_unsafe // HX: for failure, ~1 is returned
+  (fname: NSH(string), argv: ptr): intLt(0) = "mac\#atslib_execvp"
+
+#atscode_separator()
+/*
+int execve(const char *filename, char *const argv[], char *const envp[]);
+*/
+fun execve
+  {n1,n2:pos}{l1,l2:addr} (
+  pf1: !parrnull_v (string, l1, n1)
+, pf2: !parrnull_v (string, l2, n2)
+| fname: NSH(string), argv: ptr l1, envp: ptr l2
+) : intLt(0) = "mac\#atslib_execv3"
+fun execve_unsafe // HX: for failure, ~1 is returned
+  (fname: NSH(string), argv: ptr, envp: ptr): intLt(0) = "mac\#atslib_execve"
+// end of [execve_unsafe]
+
+#atscode_separator()
+
+/*
+void encrypt(char block[64], int edflag);
+*/
+fun encrypt (
+  block: &(@[char][64]), edflag: int
+) :<!ref> void = "mac\#atslib_encrypt"
 
 #atscode_separator()
 

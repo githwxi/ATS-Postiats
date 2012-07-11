@@ -32,6 +32,17 @@
 //
 (* ****** ****** *)
 
+staload
+STDDEF = "libc/SATS/stddef.sats"
+typedef size_t = $STDDEF.size_t
+typedef wchar_t = $STDDEF.wchar_t
+
+(* ****** ****** *)
+
+typedef wchar = $STDDEF.wchar_t // shorthand
+
+(* ****** ****** *)
+
 #define NSH (x) x // for commenting: no sharing
 #define SHR (x) x // for commenting: it is shared
 
@@ -46,6 +57,11 @@ macdef NULL = $extval (ptr(null), "NULL")
 
 (* ****** ****** *)
 
+abst@ype div_t = $extype"div_t"
+abst@ype ldiv_t = $extype"ldiv_t"
+abst@ype lldiv_t = $extype"lldiv_t"
+
+(* ****** ****** *)
 /*
 void _Exit(int);
 */
@@ -81,10 +97,35 @@ fun llabs (lint):<> llint = "mac#atslib_llabs"
 (* ****** ****** *)
 
 /*
+div_t div(int, int);
+*/
+fun div (int, int):<> div_t
+/*
+ldiv_t ldiv(long, long);
+*/
+fun ldiv (lint, lint):<> ldiv_t
+/*
+lldiv_t lldiv(long long, long long);                              
+*/
+fun lldiv (llint, llint):<> lldiv_t
+
+(* ****** ****** *)
+
+/*
 long a64l(const char *);
 */
 fun a64l (x: NSH(string)):<> lint = "mac#atslib_a64l"
-   
+
+/*
+char *l64a(long value); // not defined for a negative value
+*/
+fun l64a
+  {i:nat} (
+  x: lint i
+) :<!refwrt> [l:agz] vttakeout (void, strptr l)
+  = "mac#atslib_l64a"
+// end of [l64a]
+
 (* ****** ****** *)
 
 /*
@@ -234,23 +275,82 @@ fun lcong48 (param: &(@[usint][7])):<!ref> void = "mac#atslib_lcong48"
 (* ****** ****** *)
 
 /*
+void *bsearch(
+  const void *key
+, const void *base
+, size_t nmemb, size_t size
+, int (*compar)(const void *, const void *)
+) ; // end of [bsearch]
+*/
+fun bsearch
+  {a:vt0p}{n:int} (
+  key: &a
+, A: &(@[INV(a)][n]), asz: size_t (n), tsz: sizeof_t (a)
+, cmp: cmpref (a)
+) :<> Ptr0 = "atslib_bsearch" // end of [bsearch]
+
+(* ****** ****** *)
+/*
+void qsort(
+  void *base, size_t nmemb, size_t size
+, int(*compar)(const void *, const void *)
+) ; // end of [qsort]
+*/
+fun qsort
+  {a:vt0p}{n:int} (
+  A: &(@[INV(a)][n])
+, asz: size_t (n), tsz: sizeof_t (a)
+, cmp: cmpref (a)
+) :<!wrt> void = "atslib_qsort" // end of [qsort]
+
+(* ****** ****** *)
+/*
+int mblen(const char *s, size_t n);
+*/
+fun mblen_unsafe
+  (s: cPtr0 (char), n: size_t):<!refwrt> int = "mac#atslib_mblen"
+// end of [mblen_unsafe]
+
+/*
+int wctomb(char *s, wchar_t wc);
+*/
+fun wctomb_unsafe
+  (s: cPtr0 (char), wc: wchar_t):<!refwrt> int = "mac#atslib_wctomb"
+// end of [wctomb_unsafe]
+
+/*
+size_t wcstombs(char *dest, const wchar_t *src, size_t n);
+*/
+fun wcstombs_unsafe (
+  dest: cPtr0 (char), src: cPtr1 (wchar), n: size_t
+) :<!refwrt> ssize_t = "mac#atslib_wcstombs" // endfun
+
+(* ****** ****** *)
+/*
 void setkey(const char *key);
 */
 fun setkey_unsafe (key: cPtr1 (char)):<!ref> void = "mac#atslib_setkey"
 
 (* ****** ****** *)
+/*
+int mkstemp(char *template);
+*/
+fun mkstemp {n:int | n >= 6}
+  (template: !strnptr (n)): int = "mac#atslib_mkstemp"
+// end of [mkstemp]
 
-fun bsearch
-  {a:vt0p}{n:int} (
-  key: &a, A: &(@[INV(a)][n]), asz: size_t (n), tsz: sizeof_t (a), cmp: cmpref (a)
-) :<> Ptr0 = "atslib_bsearch" // end of [bsearch]
+/*
+int mkostemp(char *template, int flags);
+*/
+fun mkostemp {n:int | n >= 6}
+  (template: !strnptr (n), flags: int): int = "mac#atslib_mkostemp"
+// end of [mkostemp]
 
 (* ****** ****** *)
-
-fun qsort
-  {a:vt0p}{n:int} (
-  A: &(@[INV(a)][n]), asz: size_t (n), tsz: sizeof_t (a), f: cmpref (a)
-) :<!wrt> void = "atslib_qsort" // end of [qsort]
+/*
+int grantpt(int fd);
+*/
+fun grantpt (fd: int): int = "mac#atslib_grantpt"
 
 (* ****** ****** *)
 

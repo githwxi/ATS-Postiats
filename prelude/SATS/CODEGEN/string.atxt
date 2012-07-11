@@ -191,12 +191,11 @@ fun strlencmp
 
 #atscode_separator()
 
-fun fprint_string
-  (out: FILEref, x: string): void
+fun fprint_string (out: FILEref, x: string): void
 overload fprint with fprint_string
-fun print_string (x: string): void
-and prerr_string (x: string): void
+fun print_string (x: string): void // fprint_string (stdout_ref, x)
 overload print with print_string
+fun prerr_string (x: string): void // fprint_string (stderr_ref, x)
 overload prerr with prerr_string
 
 #atscode_separator()
