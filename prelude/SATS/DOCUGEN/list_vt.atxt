@@ -2,7 +2,7 @@
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/list_vt")
+val () = patscode_prefix_set("TRYIT/prelude_list_vt")
 %}
 
 (* ****** ****** *)
@@ -334,7 +334,7 @@ val () = fprint_list_vt_sep (out, xs, ", ")
 val () = fprint_newline (out)
 //
 implement
-list_mergesort__cmp<int> (x1, x2) = compare_val<int> (x1, x2)
+list_mergesort__cmp<int> (x1, x2) = compare (x1, x2)
 //
 val ys = list_vt_mergesort<int> (xs)
 val () = fprint_list_vt_sep (out, ys, ", ")
@@ -391,7 +391,7 @@ val () = fprint_list_vt_sep (out, xs, ", ")
 val () = fprint_newline (out)
 //
 implement
-list_quicksort__cmp<int> (x1, x2) = compare_val<int> (x1, x2)
+list_quicksort__cmp<int> (x1, x2) = compare (x1, x2)
 //
 val ys = list_vt_quicksort<int> (xs)
 val () = fprint_list_vt_sep (out, ys, ", ")

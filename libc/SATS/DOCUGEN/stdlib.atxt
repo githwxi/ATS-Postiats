@@ -58,17 +58,25 @@ on these functions can often be found in the Linux Programmer's manual.
 #declnamesynop("atoi")
 #declnamesynop("atol")
 #declnamesynop("atoll")
+#declnamesynop("atof")
 
 (* ****** ****** *)
 
-#declnamesynop("atof")
+#declnamesynop("strtof_unsafe")
+#declnamesynop("strtod_unsafe")
+#declnamesynop("strtold_unsafe")
 
 (* ****** ****** *)
 
 #declnamesynop("getenv")
 #decldescrpt("\
-This function directly corresponds to the libc-function of the
-same name.
+
+This function directly corresponds to the libc-function of the same
+name. Note that there is a possibility that a non-null pointer returned by
+a call to #dyncode("getenv") on some name may not be a valid string pointer
+if a previous call to #dyncode("setenv") associated the name with a null
+pointer (instead of a valid string).
+
 ")
 #declexample("\
 
@@ -101,7 +109,16 @@ end // end of [main]
 ")
 
 #declnamesynop("putenv")
+
 #declnamesynop("setenv")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the same
+name. Note that it is unsafe to pass the null pointer as the second
+argument to a call to #dyncode("setenv").
+
+")
+
 #declnamesynop("unsetenv")
 #declnamesynop("clearenv")
 

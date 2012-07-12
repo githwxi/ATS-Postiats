@@ -76,17 +76,8 @@ end // end of [main]
 
 #declnamesynop("fclose0_err")
 #declnamesynop("fclose1_err")
-
-(* ****** ****** *)
-
 #declnamesynop("fclose0_exn")
 #declnamesynop("fclose1_exn")
-
-(* ****** ****** *)
-
-#declnamesynop("fclose_stdin")
-#declnamesynop("fclose_stdout")
-#declnamesynop("fclose_stderr")
 
 (* ****** ****** *)
 
@@ -150,6 +141,65 @@ end // end of [main]
 
 #declnamesynop("fputs0_exn")
 #declnamesynop("fputs1_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("fread")
+#declnamesynop("fread_byte")
+#declnamesynop("fread_byte_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("fwrite")
+#declnamesynop("fwrite_byte")
+#declnamesynop("fwrite_byte_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("perror")
+
+(* ****** ****** *)
+
+#declnamesynop("getchar0")
+#declnamesynop("getchar1")
+
+(* ****** ****** *)
+
+#declnamesynop("putchar0")
+#declnamesynop("putchar1")
+
+(* ****** ****** *)
+
+#declnamesynop("puts_err")
+#declnamesynop("puts_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("remove_err")
+#declnamesynop("remove_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("rename_err")
+#declnamesynop("rename_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("rewind0")
+#declnamesynop("rewind1")
+
+(* ****** ****** *)
+
+#declnamesynop("tmpfile_err")
+#declnamesynop("tmpfile_exn")
+#declnamesynop("tmpfile_ref_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("ungetc0_err")
+#declnamesynop("ungetc0_exn")
+#declnamesynop("ungetc1_err")
+#declnamesynop("ungetc1_exn")
 
 (* ****** ****** *)
 

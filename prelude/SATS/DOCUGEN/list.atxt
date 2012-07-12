@@ -2,7 +2,7 @@
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/list")
+val () = patscode_prefix_set("TRYIT/prelude_list")
 %}
 
 (* ****** ****** *)
@@ -578,7 +578,7 @@ val () = fprint_list_sep (out, xs, ", ")
 val () = fprint_newline (out)
 //
 implement
-list_mergesort__cmp<int> (x1, x2) = compare_val<int> (x1, x2)
+list_mergesort__cmp<int> (x1, x2) = compare (x1, x2)
 //
 val ys_inc = list_mergesort<int> (xs)
 val () = fprint_list_vt_sep (out, ys_inc, ", ")
@@ -586,7 +586,7 @@ val () = fprint_newline (out)
 val () = list_vt_free (ys_inc)
 //
 implement
-list_mergesort__cmp<int> (x1, x2) = ~compare_val<int> (x1, x2)
+list_mergesort__cmp<int> (x1, x2) = ~compare (x1, x2)
 //
 val ys_dec = list_mergesort<int> (xs)
 val () = fprint_list_vt_sep (out, ys_dec, ", ")
@@ -632,7 +632,7 @@ val () = fprint_list_sep (out, xs, ", ")
 val () = fprint_newline (out)
 //
 implement
-list_quicksort__cmp<int> (x1, x2) = compare_val<int> (x1, x2)
+list_quicksort__cmp<int> (x1, x2) = compare (x1, x2)
 //
 val ys_inc = list_quicksort<int> (xs)
 val () = fprint_list_vt_sep (out, ys_inc, ", ")
@@ -640,7 +640,7 @@ val () = fprint_newline (out)
 val () = list_vt_free (ys_inc)
 //
 implement
-list_quicksort__cmp<int> (x1, x2) = ~compare_val<int> (x1, x2)
+list_quicksort__cmp<int> (x1, x2) = ~compare (x1, x2)
 //
 val ys_dec = list_quicksort<int> (xs)
 val () = fprint_list_vt_sep (out, ys_dec, ", ")

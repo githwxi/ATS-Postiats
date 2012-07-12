@@ -67,7 +67,7 @@ at-view.
 ')
 #declexample('\
 A proper implementation of array-subscripting is given as follows:
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 fun{a:t@ype}
 array_get_at
   {n:int}{i:nat | i < n} (

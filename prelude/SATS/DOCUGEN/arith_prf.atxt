@@ -1,6 +1,13 @@
 (* ****** ****** *)
 
 %{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/prelude_arith_prf")
+%}
+
+(* ****** ****** *)
+
+%{
 
 #ifdef DBOOK #then
 fun pcenter (x: string): atext =
@@ -168,15 +175,43 @@ any integers m and n.
 #decldescrpt("\
 
 This proof function establishes p >= 0 if given a proof of the type
-#stacode("MUL(m, n, p)") for some natural numbers m and n.
+#stacode("MUL(m, n, p)") for some natural numbers m and n. A straigtforward
+implementation of #dyncode("mul_nat_nat_nat") is given as follows:
 
+#pats2xhtmld_tryit("\
+primplmnt
+mul_nat_nat_nat (pf) = let
+//
+prfun lemma
+  {m,n:nat}{p:int} .<m>.
+  (pf: MUL (m, n, p)): [p >= 0] void =
+  case+ pf of
+  | MULind (pf1) => lemma (pf1) | MULbas () => ()
+// end of [lemma]
+in
+  lemma (pf)
+end // end of [mul_nat_nat_nat]
+")
 ")
 
 #declnamesynop("mul_pos_pos_pos")
 #decldescrpt("\
 
-This proof function establishes p >= m+n-1 if given a proof of the type
-#stacode("MUL(m, n, p)") for some postive intgers m and n.
+This proof function establishes p >= m+n-1 if given a proof of
+the type #stacode("MUL(m, n, p)") for some postive intgers m and n.
+A direct implementation of #dyncode("mul_pos_pos_pos") based on
+#dyncode("mul_nat_nat_nat") is given as follows:
+
+#pats2xhtmld_tryit("\
+primplmnt
+mul_pos_pos_pos {m,n} (pf) = let
+  prval MULind (pf1) = pf // pf1: MUL(m-1, n, ...)
+  prval pf2 = mul_commute (pf1) // pf2: MUL (n, m-1, ...)
+  prval MULind (pf3) = pf2 // pf3: MUL(m-1, n-1, ...)
+in
+  mul_nat_nat_nat (pf3)
+end // end of [mul_pos_pos_pos]
+")
 
 ")
 

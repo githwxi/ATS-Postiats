@@ -2,7 +2,7 @@
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/intrange")
+val () = patscode_prefix_set("TRYIT/prelude_intrange")
 %}
 
 (* ****** ****** *)
@@ -57,13 +57,17 @@ staload R = "contrib/atshwxi/testing/SATS/randgen.sats"
 fun{a:t@ype}
 list_randgen
   (n: int): List0_vt (a) = let
+//
 viewtypedef env = List0_vt (a)
+//
 implement
 intrange_foreach__fwork<env>
   (_, env) = env := list_vt_cons ($R.randgen<a> (), env)
-// endof [intrange_foreach__fwork]
+// end of [intrange_foreach__fwork]
+//
 var res: env = list_vt_nil ()
 val _(*n*) = intrange_foreach_env<env> (0, n, res)
+//
 in
   res
 end // end of [list_randgen]

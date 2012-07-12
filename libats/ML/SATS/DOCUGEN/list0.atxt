@@ -2,7 +2,7 @@
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/list0")
+val () = patscode_prefix_set("TRYIT/libats_ML_list0")
 %}
 
 (* ****** ****** *)

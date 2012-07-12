@@ -119,7 +119,8 @@ The function [clearerr] clears the end-of-file and error indicators for
 the stream pointed to by stream.
 //
 *)
-symintr clearerr
+symintr
+clearerr
 fun clearerr0
   (filr: FILEref):<!wrt> void = "mac#atslib_clearerr"
 overload clearerr with clearerr0
@@ -129,7 +130,8 @@ overload clearerr with clearerr1
 
 (* ****** ****** *)
 
-symintr fclose_err
+symintr
+fclose_err
 fun fclose0_err
   (filr: FILEref):<!wrt> int = "mac#atslib_fclose_err"
 overload fclose_err with fclose0_err
@@ -140,7 +142,8 @@ fun fclose1_err
   = "mac#atslib_fclose_err"
 overload fclose_err with fclose1_err
 
-symintr fclose_exn
+symintr
+fclose_exn
 fun fclose0_exn
   (filr: FILEref):<!exnwrt> void = "ext#atslib_fclose_exn"
 overload fclose_exn with fclose0_exn
@@ -203,7 +206,8 @@ Upon successful completion 0 is returned.  Otherwise, EOF is returned and
 the global variable errno is set to indicate the error.
 *)
 
-symintr fflush_err
+symintr
+fflush_err
 fun fflush0_err
   (filr: FILEref):<!wrt> int = "mac#atslib_fflush_err"
 overload fflush_err with fflush0_err
@@ -213,7 +217,8 @@ fun fflush1_err
 ) :<!wrt> [i:int | i <= 0] int (i) = "mac#atslib_fflush_err"
 overload fflush_err with fflush1_err
 
-symintr fflush_exn
+symintr
+fflush_exn
 fun fflush0_exn (
   filr: FILEref
 ) :<!exnwrt> void = "ext#atslib_fflush_exn"
@@ -237,7 +242,8 @@ unsigned char cast to an int, or EOF on end of file or error.
 //
 *)
 
-symintr fgetc_err
+symintr
+fgetc_err
 fun fgetc0_err
   (filr: FILEref):<!wrt> int = "mac#atslib_fgetc_err"
 overload fgetc_err with fgetc0_err
@@ -417,7 +423,8 @@ which case the return value is EOF.
 //
 *)
 
-symintr fputc_err
+symintr
+fputc_err
 fun fputc0_err (
   c: int, filr: FILEref
 ) :<!wrt> int = "mac#atslib_fputc_err"
@@ -430,7 +437,8 @@ fun fputc1_err
   = "mac#atslib_fputc_err"
 overload fputc_err with fputc1_err
 
-symintr fputc_exn
+symintr
+fputc_exn
 fun fputc0_exn (
   c: int, filr: FILEref
 ) :<!exnwrt> void = "ext#atslib_fputc_exn"
@@ -453,7 +461,8 @@ number on success, or EOF on error.
 
 *)
 
-symintr fputs_err
+symintr
+fputs_err
 fun fputs0_err (
   str: NSH(string), fil: FILEref
 ) :<!wrt> int = "mac#atslib_fputs_err"
@@ -464,7 +473,8 @@ fun fputs1_err
 ) :<!wrt> int = "mac#atslib_fputs_err"
 overload fputs_err with fputs1_err
 
-symintr fputs_exn
+symintr
+fputs_exn
 fun fputs0_exn (
   str: NSH(string), fil: FILEref
 ) :<!exnwrt> void = "ext#atslib_fputs_exn"
@@ -539,7 +549,8 @@ associated with a standard text stream (stderr, stdin, or stdout).
 //
 *)
 
-symintr freopen_err
+symintr
+freopen_err
 fun freopen0_err
   {m2:fm} (
   path: NSH(string), m2: file_mode m2, filr: FILEref
@@ -555,7 +566,8 @@ fun freopen1_err
 ) = "mac#atslib_freopen_err"
 overload freopen_err with freopen1_err
 
-symintr freopen_exn
+symintr
+freopen_exn
 fun freopen0_exn
   {m_new:fm} (
   path: NSH(string)
@@ -601,7 +613,8 @@ it returns -1.
 *)
 
 (*
-symintr fseek_err
+symintr
+fseek_err
 fun fseek0_err (
   filr: FILEref, offset: lint, whence: whence_t
 ) :<!wrt> int = "mac#atslib_fseek_err"
@@ -611,7 +624,8 @@ fun fseek1_err (
 ) :<!wrt> int = "mac#atslib_fseek_err"
 overload fseek_err with fseek1_err
 
-symintr fseek_exn
+symintr
+fseek_exn
 fun fseek0_exn (
   filr: FILEref, offset: lint, whence: whence_t
 ) :<!exnwrt> void = "ext#atslib_fseek_exn"
@@ -651,7 +665,8 @@ indicate the error.
 //
 *)
 
-symintr ftell_err
+symintr
+ftell_err
 fun ftell0_err
   (filr: FILEref):<!wrt> lint = "mac#atslib_ftell_err"
 overload ftell_err with ftell0_err
@@ -659,7 +674,8 @@ fun ftell1_err
   (filp: !FILEptr1(*none*)):<!wrt> lint = "mac#atslib_ftell_err"
 overload ftell_err with ftell1_err
 
-symintr ftell_exn
+symintr
+ftell_exn
 fun ftell0_exn
   (filr: FILEref):<!exnwrt> lint = "ext#atslib_ftell_exn"
 overload ftell_exn with ftell0_exn
@@ -737,12 +753,12 @@ fun perror
 macdef getc = fgetc_err
 macdef putc = fputc_err
 
-fun getchar ():<!wrt> int = "mac#atslib_getchar"
+fun getchar0 ():<!wrt> int = "mac#atslib_getchar"
 fun getchar1
   () :<!wrt> [i:int | i <= UCHAR_MAX] int i = "mac#atslib_getchar"
 // end of [getchar1]
 
-fun putchar (c: int):<!wrt> int = "mac#atslib_putchar"
+fun putchar0 (c: int):<!wrt> int = "mac#atslib_putchar"
 fun putchar1
   (c: int):<!wrt> [i:int | i <= UCHAR_MAX] int i = "mac#atslib_putchar"
 // end of [putchar1]
@@ -807,7 +823,8 @@ returned in reverse order; only one pushback is guaranteed.
 //
 *)
 
-symintr ungetc_err
+symintr
+ungetc_err
 fun ungetc0_err
   (c: char, f: FILEref):<!wrt> int = "mac#atslib_ungetc_err"
 overload ungetc_err with ungetc0_err
@@ -817,7 +834,8 @@ fun ungetc1_err
 ) :<!wrt> [i:int | i <= UCHAR_MAX] int (i) = "mac#atslib_ungetc_err"
 overload ungetc_err with ungetc1_err
 
-symintr ungetc_exn
+symintr
+ungetc_exn
 fun ungetc0_exn (
   c: char, f: FILEref
 ) :<!exnwrt> void = "ext#atslib_ungetc_exn"
@@ -830,7 +848,7 @@ overload ungetc_exn with ungetc1_exn
 
 (* ****** ****** *)
 
-sta BUFSIZ : int
+stacst BUFSIZ : int
 praxi BUFSIZ_gtez (): [BUFSIZ >= 0] void
 macdef BUFSIZ = $extval (int(BUFSIZ), "BUFSIZ")
 
@@ -839,7 +857,8 @@ macdef _IOFBF = $extval (bufmode_t, "_IOFBF") // fully buffered
 macdef _IOLBF = $extval (bufmode_t, "_IOLBF") // line buffered
 macdef _IONBF = $extval (bufmode_t, "_IONBF") // no buffering
 
-symintr setbuf_null
+symintr
+setbuf_null
 fun setbuf0_null
   (f: FILEref): void = "mac#atslib_setbuf_null"
 overload setbuf_null with setbuf0_null
@@ -853,7 +872,8 @@ overload setbuf_null with setbuf1_null
 // the buffer can be freed only after it is no longer used by
 // the stream to which it is attached!!!
 //
-symintr setbuffer
+symintr
+setbuffer
 fun setbuffer0
   {n1,n2:nat | n2 <= n1} {l:addr} (
   pf_buf: !b0ytes n1 @ l | f: FILEref, p_buf: ptr l, n2: size_t n2
@@ -867,7 +887,10 @@ fun setbuffer1
 ) : void = "mac#atslib_setbuffer"
 overload setbuffer with setbuffer1
 
-symintr setlinebuf
+(* ****** ****** *)
+
+symintr
+setlinebuf
 fun setlinebuf0
   (f: FILEref): void = "mac#atslib_setlinebuf"
 overload setlinebuf with setlinebuf0
@@ -875,7 +898,10 @@ fun setlinebuf1
   (f: !FILEptr1(*none*)): void = "mac#atslib_setlinebuf"
 overload setlinebuf with setlinebuf1
 
-symintr setvbuf_null
+(* ****** ****** *)
+
+symintr
+setvbuf_null
 fun setvbuf0_null
   (f: FILEref, mode: bufmode_t): int = "mac#atslib_setvbuf_null"
 overload setvbuf_null with setvbuf0_null
@@ -883,7 +909,8 @@ fun setvbuf1_null
   (f: !FILEptr1(*none*), mode: bufmode_t): int = "mac#atslib_setvbuf_null"
 overload setvbuf_null with setvbuf1_null
 
-symintr setvbuf
+symintr
+setvbuf
 fun setvbuf0
   {n1,n2:nat | n2 <= n1}
   {lbf:addr} (

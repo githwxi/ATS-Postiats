@@ -1,3 +1,12 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_ML_string")
+%}
+
+(* ****** ****** *)
+
 #decltitle("\
 ATSLIB/libats/ML/string\
 ")
@@ -14,17 +23,105 @@ C-style strings in functional programming.
 (* ****** ****** *)
 
 #declnamesynop("string_append")
+#decldescrpt("\
+
+This function, which overload the symbol #dyncode("+"), returns the
+concatenation of two given strings.
+
+")
+#declexample("\
+
+The following code shows a typical way of combining strings:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/string.sats"
+//
+implement
+main () = 0 where {
+  val Hello = "H" + "e" + "l" + "l" + "o"
+  val _rest = ", world!\\\n"
+  val () = print (Hello + _rest)
+} // end of [main]
+')\
+
+Note that the evaluation of the expression
+#dyncode('"H" + "e" + "l" + "l" + "o"')
+generates the following intermediate strings \"H\", \"He\", \"Hel\", and
+\"Hell\", which all become garbage once the evaluation returns the string
+\"Hello\".
+
+")
+
 #declnamesynop("string_append_ref")
+#decldescrpt("\
+
+This function is like #dyncode("string_append") except that the
+concatenation of two given strings it returns is mutable.
+
+")
 
 (* ****** ****** *)
 
 #declnamesynop("stringlst_concat")
+#decldescrpt("\
+
+Given a list xs of strings, this function returns the concatenation of
+xs[0], xs[1], ,,,, xs[n-1], where n is the length of xs and the notation
+xs[i] refers element i in xs.  ")
+
+#declexample("\
+
+The following code shows a way to form the string \"Hello\" by
+concatenating a list of singleton strings:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/list0.sats"
+staload "libats/ML/SATS/string.sats"
+//
+implement
+main () = 0 where {
+  val Hello = stringlst_concat (
+    list0$arrpsz ("H", "e", "l", "l", "o")
+  ) // end of [val]
+  val _rest = ", world!\\\n"
+  val () = print (Hello + _rest)
+} // end of [main]
+')\
+
+Note that the call to #dyncode("stringlst_concat") constructs the string
+\"Hello\" #emph("without") generating any intermediate substrings.
+
+")
+
 #declnamesynop("stringlst_concat_ref")
+#decldescrpt("\
+
+This function is like #dyncode("stringlst_concat") except that the
+concatenation of a given list of strings it returns is mutable.
+
+")
 
 (* ****** ****** *)
 
 #declnamesynop("substring_copy")
+#decldescrpt("\
+
+Given a string str of length n and integers ln and st, this function
+returns a string consisting of chars str[ln], str[ln+1], ...,
+str[ln+min(n-ln,st)-1] if ln is less than n, and it returns the empty
+string if ln is greater than or equal to n.
+
+")
+
 #declnamesynop("substring_copy_ref")
+#decldescrpt("\
+
+This function is like #dyncode("substring_copy") except that the result
+it returns is a mutable string.
+
+")
 
 (* ****** ****** *)
 

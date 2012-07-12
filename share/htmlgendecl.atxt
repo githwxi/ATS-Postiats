@@ -52,7 +52,8 @@ val () = theAtextMap_insert_str ("theDeclitemLst_content", theDeclitemLst_conten
 #title(theDecltitle)
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 #patsyntax_style()
-#patscode_tryit_js()
+#patscode_jquery_min_js()
+#patscode_tryit_bind_all_js()
 </head>
 <body>
 

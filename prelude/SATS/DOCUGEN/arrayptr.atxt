@@ -1,3 +1,12 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/prelude_arrayptr")
+%}
+
+(* ****** ****** *)
+
 #decltitle("\
 ATSLIB/prelude/arrayptr\
 ")
@@ -130,7 +139,7 @@ recording changes).  ')
 The following code creates an array of integers, computes the sum of the
 integers in the created array and then frees it.
 
-#pats2xhtmld('\
+#pats2xhtmld_tryit('\
 implement
 main () = let
 //

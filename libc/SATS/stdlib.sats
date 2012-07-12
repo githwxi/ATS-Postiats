@@ -129,11 +129,6 @@ fun l64a
 (* ****** ****** *)
 
 /*
-double atof(const char *);
-*/
-fun atof (x: NSH(string)):<> double
-
-/*
 int atoi(const char *);
 */
 fun atoi (x: NSH(string)):<> int
@@ -148,8 +143,51 @@ long long atoll(const char *);
 */
 fun atoll (x: NSH(string)):<> llint
                                           
+/*
+double atof(const char *);
+*/
+fun atof (x: NSH(string)):<> double
+
 (* ****** ****** *)
 
+/*
+float strtof(const char *nptr, char **endptr);
+*/
+symintr strtof
+fun strtof0 (nptr: string):<!wrt> float = "mac#atslib_strtof0"
+overload strtof with strtof0
+fun strtof1
+  (nptr: string, endptr: &ptr):<!wrt> float = "mac#atslib_strtof1"
+overload strtof with strtof1
+fun strtof_unsafe
+  (nptr: string, endptr: ptr):<!wrt> float = "mac#atslib_strtof"
+// end of [strtof_unsafe]
+/*
+double strtod(const char *nptr, char **endptr);
+*/
+symintr strtod
+fun strtod0 (nptr: string):<!wrt> double = "mac#atslib_strtod0"
+overload strtod with strtod0
+fun strtod1
+  (nptr: string, endptr: &ptr):<!wrt> double = "mac#atslib_strtod1"
+overload strtod with strtod1
+fun strtod_unsafe
+  (nptr: string, endptr: ptr):<!wrt> double = "mac#atslib_strtod"
+// end of [strtod_unsafe]
+/*
+long double strtold(const char *nptr, char **endptr);
+*/
+symintr strtold
+fun strtold0 (nptr: string):<!wrt> ldouble = "mac#atslib_strtold0"
+overload strtold with strtold0
+fun strtold1
+  (nptr: string, endptr: &ptr):<!wrt> ldouble = "mac#atslib_strtold1"
+overload strtold with strtold1
+fun strtold_unsafe
+  (nptr: string, endptr: ptr):<!wrt> ldouble = "mac#atslib_strtold"
+// end of [strtold_unsafe]
+
+(* ****** ****** *)
 /*
 char *getenv(char *);
 */
@@ -192,7 +230,6 @@ fun rand_r(seed: &uint):<> int // HX: it seems to have become obsolete
 fun srand(seed: uint):<!ref> void
 
 (* ****** ****** *)
-         
 /*
 long int random(void);
 */
@@ -219,7 +256,6 @@ fun setstate_unsafe
 // end of [setstate_unsafe]
 
 (* ****** ****** *)
-
 /*
 double drand48(void); // obsolete
 */
@@ -273,7 +309,6 @@ void lcong48(unsigned short param[7]); // obsolete
 fun lcong48 (param: &(@[usint][7])):<!ref> void = "mac#atslib_lcong48"
 
 (* ****** ****** *)
-
 /*
 void *bsearch(
   const void *key
