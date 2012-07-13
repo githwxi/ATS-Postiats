@@ -51,6 +51,10 @@ run-time.  ")
 
 (* ****** ****** *)
 
+#declnamesynop("fprint_arrayref_sep")
+
+(* ****** ****** *)
+
 #declnamesynop("arrayref_get_at")
 #declnamesynop("arrayref_set_at")
 #declnamesynop("arrayref_exch_at")
@@ -76,6 +80,10 @@ arrszref-value. ")
 (* ****** ****** *)
 
 #declnamesynop("arrszref_make_elt")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_arrszref_sep")
 
 (* ****** ****** *)
 

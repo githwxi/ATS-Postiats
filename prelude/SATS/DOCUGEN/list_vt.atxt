@@ -102,6 +102,10 @@ array, where i ranges from 0 until n-1, inclusively.
 
 (* ****** ****** *)
 
+#declnamesynop("fprint_list_vt_sep")
+
+(* ****** ****** *)
+
 #declnamesynop("list_vt_is_nil")
 #decldescrpt('\
 This function returns true if and only if its argument is a linear list of
@@ -319,10 +323,6 @@ The following code mergesorts a list of integers into a list of ascending
 integers:\
 
 #pats2xhtmld_tryit('\
-staload
-"contrib/atshwxi/testing/SATS/fprint.sats"
-staload _(*anon*) =
-"contrib/atshwxi/testing/DATS/fprint.dats"
 implement
 main () = let
 //
@@ -376,10 +376,6 @@ The following code quicksorts a list of integers into a list of ascending
 integers:\
 
 #pats2xhtmld_tryit('\
-staload
-"contrib/atshwxi/testing/SATS/fprint.sats"
-staload _(*anon*) =
-"contrib/atshwxi/testing/DATS/fprint.dats"
 implement
 main () = let
 //

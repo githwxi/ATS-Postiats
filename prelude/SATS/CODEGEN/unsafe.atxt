@@ -82,9 +82,9 @@ linstr2str {l:agz} (x: !strptr l):<> String
 //
 // HX: only if you know what you are doing ...
 //
-praxi ptr_vget
+praxi ptr_vtake
   {a:vt0p}{l:addr} (p: ptr l): vtakeout (void, a@l)
-// end of [ptr_vget]
+// end of [ptr_vtake]
 
 #atscode_separator()
 

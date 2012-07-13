@@ -122,6 +122,10 @@ integers ranging from l until r-1, inclusively.
 
 (* ****** ****** *)
 
+#declnamesynop("fprint_list_sep")
+
+(* ****** ****** *)
+
 #declnamesynop("list_append")
 #decldescrpt('\
 
@@ -563,10 +567,6 @@ The following code mergesorts a given list of integers into a list of
 ascending integers and a list of descending integers.\
 
 #pats2xhtmld_tryit('\
-staload
-"contrib/atshwxi/testing/SATS/fprint.sats"
-staload _(*anon*) =
-"contrib/atshwxi/testing/DATS/fprint.dats"
 implement
 main () = let
 //
@@ -617,10 +617,6 @@ The following code quicksorts a given list of integers into a list of
 ascending integers and a list of descending integers.\
 
 #pats2xhtmld_tryit('\
-staload
-"contrib/atshwxi/testing/SATS/fprint.sats"
-staload _(*anon*) =
-"contrib/atshwxi/testing/DATS/fprint.dats"
 implement
 main () = let
 //

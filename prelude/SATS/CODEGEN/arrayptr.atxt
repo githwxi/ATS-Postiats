@@ -26,6 +26,11 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+\#define SHR(x) x // SHARED // HX: for commenting
+\#define NSH(x) x // NSHARED // HX: for commenting
+
+#atscode_separator()
+
 sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()
@@ -85,15 +90,21 @@ arrayptr_addback
 
 castfn
 arrpsz_encode
-  {a:vt0p}{l:addr}{n:int}
-  (p: arrayptr (INV(a), l, n), n: size_t n):<> arrpsz (a, n)
+  {a:vt0p}{n:int}
+  (psz: (arrayptr (INV(a), n), size_t n)):<> arrpsz (a, n)
 // end of [arrpsz_encode]
 
 castfn
 arrpsz_decode
   {a:vt0p}{n:int}
-  (psz: arrpsz (INV(a), n)):<> [l:addr] (arrayptr (a, l, n), size_t (n))
+  (psz: arrpsz (INV(a), n)):<> (arrayptr (a, n), size_t n)
 // end of [arrpsz_decode]
+
+fun
+arrpsz_get_ptrsize
+  {a:vt0p}{n:int} (
+  psz: arrpsz (INV(a), n), asz: &size_t? >> size_t (n)
+) :<> arrayptr (a, n) // end of [arrpsz_get_ptrsize]
 
 #atscode_separator()
 
@@ -141,6 +152,20 @@ fun{a:vt0p}
 arrayptr_make_uninitized
   {n:int} (asz: size_t n):<> arrayptr (a?, n)
 // end of [arrayptr_make_uninitized]
+
+#atscode_separator()
+
+fun{a:vt0p}
+fprint_arrayptr_sep
+  {l:addr}{n:int} (
+  out: FILEref
+, A: !arrayptr (a, l, n), n: size_t n, sep: NSH(string)
+) : void // end of [fprint_arrayptr_sep]
+
+macdef
+fprint_arrayptr
+  (out, A, n) = fprint_arrayptr_sep (,(out), ,(A), ,(n), ", ")
+// end of [fprint_arrayptr]
 
 #atscode_separator()
 //

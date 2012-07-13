@@ -26,6 +26,11 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+\#define SHR(x) x // SHARED // HX: for commenting
+\#define NSH(x) x // NSHARED // HX: for commenting
+
+#atscode_separator()
+
 sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()
@@ -171,7 +176,19 @@ fun{a:t0p}
 arrszref_make_list (xs: List (INV(a))):<> arrszref (a)
 // end of [arrszref_make_list]
 
-#atscode_eof_strsub("\#thisfilename$")\
+#atscode_separator()
+
+fun{a:vt0p}
+fprint_arrszref_sep (
+  out: FILEref, A: arrszref (a), sep: NSH(string)
+) : void // end of [fprint_arrszref_sep]
+
+macdef
+fprint_arrszref
+  (out, A) = fprint_arrszref_sep (,(out), ,(A), ", ")
+// end of [fprint_arrszref]
+
+#atscode_separator()
 
 fun{a:t0p}
 arrszref_get_at
@@ -191,6 +208,8 @@ a:vt0p
 // end of [arrszref_exch_at]
 
 #atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
 
 %{
 implement main () = fprint_filsub (stdout_ref, "arrayref_atxt.txt")

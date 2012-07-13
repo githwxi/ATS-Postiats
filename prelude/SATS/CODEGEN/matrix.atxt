@@ -52,17 +52,6 @@ praxi array2matrix_v
 #atscode_separator()
 
 prfun
-matrix_v_takeout_row
-  {a:vt0p}
-  {l0:addr}
-  {m,n:int}
-  {i:int | i < m} (
-  pfmat: matrix_v (INV(a), l0, m, n)
-) :<> vtakeout (
-  matrix_v (a, l0, m, n), array_v (a, l0+i*m*sizeof(a), n)
-) // end of [matrix_v_takeout_row]
-
-prfun
 matrix_v_takeout_elt
   {a:vt0p}
   {l0:addr}
@@ -72,6 +61,17 @@ matrix_v_takeout_elt
 ) :<> vtakeout (
   matrix_v (a, l0, m, n), a @ (l0+(i*m+j)*sizeof(a))
 ) // end of [matrix_v_takeout_elt]
+
+prfun
+matrix_v_takeout_row
+  {a:vt0p}
+  {l0:addr}
+  {m,n:int}
+  {i:int | i < m} (
+  pfmat: matrix_v (INV(a), l0, m, n)
+) :<> vtakeout (
+  matrix_v (a, l0, m, n), array_v (a, l0+i*m*sizeof(a), n)
+) // end of [matrix_v_takeout_row]
 
 #atscode_separator()
 
@@ -93,19 +93,6 @@ matrix_exch_at {m,n:int} (
 #atscode_separator()
 
 fun{a:vt0p}
-matrix_ptr_takeout_row
-  {l0:addr}
-  {m,n:int}
-  {i:int | i < m} (
-  pfmat: matrix_v (INV(a), l0, m, n)
-| base: ptr l0, i: size_t i, n: size_t n
-) :<> [l:addr] (
-  array_v (a, l, n)
-, array_v (a, l, n) -<lin,prf> matrix_v (a, l0, m, n)
-| ptr (l)
-) // end of [matrix_ptr_takeout_row]
-
-fun{a:vt0p}
 matrix_ptr_takeout_elt
   {l0:addr}
   {m,n:int}
@@ -117,6 +104,19 @@ matrix_ptr_takeout_elt
 , a @ l -<lin,prf> matrix_v (a, l0, m, n)
 | ptr (l)
 ) // end of [matrix_ptr_takeout_elt]
+
+fun{a:vt0p}
+matrix_ptr_takeout_row
+  {l0:addr}
+  {m,n:int}
+  {i:int | i < m} (
+  pfmat: matrix_v (INV(a), l0, m, n)
+| base: ptr l0, i: size_t i, n: size_t n
+) :<> [l:addr] (
+  array_v (a, l, n)
+, array_v (a, l, n) -<lin,prf> matrix_v (a, l0, m, n)
+| ptr (l)
+) // end of [matrix_ptr_takeout_row]
 
 #atscode_separator()
 

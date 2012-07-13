@@ -1,4 +1,4 @@
-(* ****** ****** *)
+<(* ****** ****** *)
 
 %{
 val () = patscode_count_reset()
@@ -23,8 +23,8 @@ ATSLIB/prelude/matrix\
 
 (* ****** ****** *)
 
-#declnamesynop("matrix_v_takeout_row")
 #declnamesynop("matrix_v_takeout_elt")
+#declnamesynop("matrix_v_takeout_row")
 
 (* ****** ****** *)
 
@@ -34,8 +34,8 @@ ATSLIB/prelude/matrix\
 
 (* ****** ****** *)
 
-#declnamesynop("matrix_ptr_takeout_row")
 #declnamesynop("matrix_ptr_takeout_elt")
+#declnamesynop("matrix_ptr_takeout_row")
 
 (* ****** ****** *)
 

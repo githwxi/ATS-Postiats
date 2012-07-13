@@ -68,22 +68,22 @@ end // end of [iter_isnot_atend]
 
 implement
 {knd}{x}
-iter_vget (itr) = let
+iter_vttake (itr) = let
   val p =
     iter_getref<knd><x> (itr)
   prval (
     pf, fpf
-  ) = $UN.ptr_vget {x} (p)
+  ) = $UN.ptr_vtake {x} (p)
   val res = $UN.vttakeout_void {x} (!p)
   prval () = fpf (pf)
 in
   res
-end // end of [iter_vget]
+end // end of [iter_vttake]
 
 implement
 {knd}{x}
 iter_get (itr) = x where {
-  val (fpf | x) = iter_vget<knd><x> (itr); prval () = fpf (x)
+  val (fpf | x) = iter_vttake<knd><x> (itr); prval () = fpf (x)
 } // end of [iter_get]
 
 implement
@@ -102,24 +102,24 @@ end // end of [iter_getref_inc]
 
 implement
 {knd}{x}
-iter_vget_inc (itr) = let
+iter_vttake_inc (itr) = let
   val p =
     iter_getref_inc<knd><x> (itr)
   prval (
     pf, fpf
-  ) = $UN.ptr_vget {x} (p)
+  ) = $UN.ptr_vtake {x} (p)
   val res = $UN.vttakeout_void {x} (!p)
   prval () = fpf (pf)
 in
   res
-end // end of [iter_vget_inc]
+end // end of [iter_vttake_inc]
 
 implement
 {knd}{x}
 iter_get_inc
   (itr) = x where {
   val (fpf | x) =
-    iter_vget_inc<knd><x> (itr)
+    iter_vttake_inc<knd><x> (itr)
   prval () = fpf (x)
 } // end of [iter_get_inc]
 implement
@@ -147,24 +147,24 @@ end // end of [iter_dec_getref]
 
 implement
 {knd}{x}
-iter_dec_vget (itr) = let
+iter_dec_vttake (itr) = let
   val p =
     iter_dec_getref<knd><x> (itr)
   prval (
     pf, fpf
-  ) = $UN.ptr_vget {x} (p)
+  ) = $UN.ptr_vtake {x} (p)
   val res = $UN.vttakeout_void {x} (!p)
   prval () = fpf (pf)
 in
   res
-end // end of [iter_dec_vget]
+end // end of [iter_dec_vttake]
 
 implement
 {knd}{x}
 iter_dec_get
   (itr) = x where {
   val (fpf | x) =
-    iter_dec_vget<knd><x> (itr)
+    iter_dec_vttake<knd><x> (itr)
   prval () = fpf (x)
 } // end of [iter_dec_get]
 implement
@@ -415,7 +415,7 @@ in
   if isnotend then let
     val p =
       iter_getref_inc<knd><x> (itr)
-    prval (pf, fpf) = $UN.ptr_vget (p)
+    prval (pf, fpf) = $UN.ptr_vtake (p)
     val cont = iter_foreach__cont (!p, env)
   in
     if cont then let
@@ -464,7 +464,7 @@ fun loop
     val p =
       iter_fgetref_at (itr, ra2)
     prval
-      (pf, fpf) = $UN.ptr_vget (p)
+      (pf, fpf) = $UN.ptr_vtake (p)
     val sgn = iter_bsearch__ford (!p)
     prval () = fpf (pf)
   in

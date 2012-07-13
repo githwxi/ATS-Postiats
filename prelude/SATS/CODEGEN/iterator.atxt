@@ -248,10 +248,10 @@ knd:tk}{x:vt0p
 
 fun{
 knd:tk}{x:vt0p
-} iter_vget
+} iter_vttake
   {kpm:tk}{f,r:int | r > 0}
   (itr: !iterator (knd, kpm, x, f, r)): vttakeout (void, x)
-// end of [iter_vget]
+// end of [iter_vttake]
 
 #atscode_separator()
 
@@ -312,10 +312,10 @@ knd:tk}{x:vt0p
 
 fun{
 knd:tk}{x:vt0p
-} iter_vget_inc
+} iter_vttake_inc
   {kpm:tk}{f,r:int | r > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+1, r-1)
-) : vttakeout (void, x) // end of [iter_vget_inc]
+) : vttakeout (void, x) // end of [iter_vttake_inc]
 
 #atscode_separator()
 
@@ -356,10 +356,10 @@ knd:tk}{x:vt0p
 
 fun{
 knd:tk}{x:vt0p
-} iter_dec_vget
+} iter_dec_vttake
   {kpm:tk}{f,r:int | f > 0} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f-1, r+1)
-) : vttakeout (void, x) // end of [iter_dec_vget]
+) : vttakeout (void, x) // end of [iter_dec_vttake]
 
 #atscode_separator()
 

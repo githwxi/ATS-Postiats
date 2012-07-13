@@ -75,9 +75,6 @@ The following code builds an array of digits, prints them out and then
 frees the array:
 
 #pats2xhtmld_tryit('\
-//
-staload "contrib/atshwxi/testing/SATS/fprint.sats"
-//
 implement
 main () = 0 where {
   val out = stdout_ref
@@ -116,6 +113,10 @@ length n. Note that the linear list is consumed after the function returns.
 This function creates an uninitialized arrayptr-value of a given size.
 
 ")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_arrayptr_sep")
 
 (* ****** ****** *)
 

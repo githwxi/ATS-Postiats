@@ -346,7 +346,7 @@ val ns = list_map<string><size_t> (xs)
 //
 implement
 list_foldleft__fwork<size_t><size_t> (acc, n) = acc + n
-val ntot = list_foldleft ($UN.listcast (ns), g1int2uint(0))
+val ntot = list_foldleft ($UN.linlst2lst (ns), g1int2uint(0))
 //
 fun loop {n:nat} .<n>. (
   p: ptr, xs: list (string, n), ns: list_vt (size_t, n)
@@ -477,7 +477,7 @@ string_rforeach_env
 val n = string1_length (str)
 typedef chararr = array (char, n)
 val p = string2ptr (str)
-prval (pf, fpf) = $UN.ptr_vget {chararr} (p)
+prval (pf, fpf) = $UN.ptr_vtake {chararr} (p)
 //
 implement
 array_rforeach__cont<char><env>

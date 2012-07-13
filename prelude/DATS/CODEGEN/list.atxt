@@ -35,6 +35,90 @@ staload FC = "prelude/SATS/fcontainer.sats"
 
 #atscode_separator()
 
+implement{x}
+list_make_elt
+  {n} (n, x) = let
+  fun loop
+    {i:nat | i <= n} .<i>. (
+    i: int i, x: x, res: list_vt (x, n-i)
+  ) :<> list_vt (x, n) = (
+    if i > 0 then
+      loop (pred(i), x, list_vt_cons (x, res)) else res
+    // end of [if]
+  ) // end of [loop]
+in
+  loop (n, x, list_vt_nil ())
+end // end of [list_make_elt]
+
+#atscode_separator()
+
+implement
+list_make_intrange
+  {l0,r} (l0, r) = let
+//
+typedef elt = intBtw (l0, r)
+viewtypedef
+res (l:int) = list_vt (elt, r-l)
+fun loop {
+  l:int | l0 <= l; l <= r
+} .<r-l>. (
+  l: int l, r: int r, res: &ptr? >> res (l)
+) :<!wrt> void =
+  if l < r then let
+    val () = res :=
+      list_vt_cons{elt}{0} (l, _)
+    val+ list_vt_cons (_, res1) = res
+    val () = loop (l+1, r, res1)
+  in
+    fold@ (res)
+  end else (res := list_vt_nil)
+// end of [loop]
+//
+var res: ptr
+val () = $effmask_wrt (loop (l0, r, res))
+//
+in
+  res
+end // end of [list_make_intrange]
+
+#atscode_separator()
+
+implement{a}
+list_make_arrpsz {n} (A0) = let
+//
+var asz: size_t
+val A = arrpsz_get_ptrsize (A0, asz)
+val p = ptrcast (A)
+prval pfarr = arrayptr_takeout (A)
+val res = array_copy_to_list_vt (!p, asz)
+prval () = arrayptr_addback (pfarr | A)
+val () = arrayptr_free (A)
+//
+in
+  res
+end // end of [list_make_arrpsz]
+
+#atscode_separator()
+
+implement{a}
+fprint_list_sep
+  (out, xs, sep) = let
+//
+implement
+list_iforeach__fwork<a> (i, x) = let
+  val () = if i > 0 then fprint_string (out, sep)
+in
+  fprint_val<a> (out, x)
+end // end of [list_iforeach__fwork]
+//
+val _(*n*) = list_iforeach (xs)
+//
+in
+  // nothing
+end // end of [fprint_list_sep]
+
+#atscode_separator()
+
 implement{}
 list_is_nil (xs) =
   case+ xs of list_nil () => true | _ =>> false
@@ -389,54 +473,6 @@ fun loop
 in
   loop (xs, i)
 end // end of [list_drop_exn]
-
-#atscode_separator()
-
-implement{x}
-list_make_elt
-  {n} (n, x) = let
-  fun loop
-    {i:nat | i <= n} .<i>. (
-    i: int i, x: x, res: list_vt (x, n-i)
-  ) :<> list_vt (x, n) = (
-    if i > 0 then
-      loop (pred(i), x, list_vt_cons (x, res)) else res
-    // end of [if]
-  ) // end of [loop]
-in
-  loop (n, x, list_vt_nil ())
-end // end of [list_make_elt]
-
-#atscode_separator()
-
-implement
-list_make_intrange
-  {l0,r} (l0, r) = let
-//
-typedef elt = intBtw (l0, r)
-viewtypedef
-res (l:int) = list_vt (elt, r-l)
-fun loop {
-  l:int | l0 <= l; l <= r
-} .<r-l>. (
-  l: int l, r: int r, res: &ptr? >> res (l)
-) :<!wrt> void =
-  if l < r then let
-    val () = res :=
-      list_vt_cons{elt}{0} (l, _)
-    val+ list_vt_cons (_, res1) = res
-    val () = loop (l+1, r, res1)
-  in
-    fold@ (res)
-  end else (res := list_vt_nil)
-// end of [loop]
-//
-var res: ptr
-val () = $effmask_wrt (loop (l0, r, res))
-//
-in
-  res
-end // end of [list_make_intrange]
 
 #atscode_separator()
 

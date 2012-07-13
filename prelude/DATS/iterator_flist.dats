@@ -112,14 +112,14 @@ end // end of [iter_is_atend]
 (* ****** ****** *)
 
 implement(x)
-iter_vget<itrknd><x> (itr) = let
+iter_vttake<itrknd><x> (itr) = let
   prval () = decode (itr)
   val+ ITR (xs) = itr; val+ list_cons (x, _) = xs
   prval () = encode (itr)
   var x = x
 in
   $UN.vttakeout_void (x)
-end // end of [iter_vget]
+end // end of [iter_vttake]
 
 (* ****** ****** *)
 
@@ -136,7 +136,7 @@ end // end of [iter_inc]
 (* ****** ****** *)
 
 implement(x)
-iter_vget_inc<itrknd><x> (itr) = let
+iter_vttake_inc<itrknd><x> (itr) = let
   prval () = decode (itr)
   val+ @ITR (xs) = itr; val+ list_cons (x, xs1) = xs; val () = xs := xs1
   prval () = fold@ (itr)
@@ -144,7 +144,7 @@ iter_vget_inc<itrknd><x> (itr) = let
   var x = x
 in
   $UN.vttakeout_void (x)
-end // end of [iter_vget_inc]
+end // end of [iter_vttake_inc]
 
 (* ****** ****** *)
 

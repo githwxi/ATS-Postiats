@@ -192,6 +192,18 @@ value in its second argument. Note that the type of these values can be linear.
 
 (* ****** ****** *)
 
+#declnamesynop("array_ptr_alloc")
+
+(* ****** ****** *)
+
+#declnamesynop("array_ptr_free")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_array_sep")
+
+(* ****** ****** *)
+
 #declnamesynop("array_foreach__cont")
 #declnamesynop("array_foreach__fwork")
 

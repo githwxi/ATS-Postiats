@@ -272,7 +272,8 @@ linear integer constraints:
 
 #pats2xhtmld_tryit("\
 primplmnt
-mul_negate2 (pf) = let
+mul_negate2
+  {m,n}{p} (pf) = let
 //
 prfun lemma
   {m:nat;n:int}

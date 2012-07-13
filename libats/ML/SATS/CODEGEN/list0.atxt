@@ -53,7 +53,7 @@ fun list0_make_intrange (l: int, r: int):<> list0 (int)
 
 fun{a:t0p}
 list0_make_arrpsz
-  {n:int} (psz: arrpsz (INV(a), n)):<!exn> list0 (a)
+  {n:int} (psz: arrpsz (INV(a), n)):<!wrt> list0 (a)
 overload list0 with list0_make_arrpsz
 
 #atscode_separator()

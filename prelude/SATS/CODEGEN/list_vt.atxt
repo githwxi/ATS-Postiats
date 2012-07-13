@@ -26,6 +26,11 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+\#define SHR(x) x // SHARED // HX: for commenting
+\#define NSH(x) x // NSHARED // HX: for commenting
+
+#atscode_separator()
+
 sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()
@@ -49,6 +54,17 @@ list_vt_make_array
   {n:int} (
   A: &(@[INV(a)][n]) >> @[a?!][n], n: size_t n
 ) :<!wrt> list_vt (a, n) // endfun
+
+#atscode_separator()
+
+fun{a:t0p}
+fprint_list_vt_sep (
+  out: FILEref, xs: !List_vt (a), sep: NSH(string)
+) : void // end of [fprint_list_vt_sep]
+
+macdef fprint_list_vt
+  (out, xs) = fprint_list_vt_sep (,(out), ,(xs), ", ")
+// end of [fprint_list_vt]
 
 #atscode_separator()
 

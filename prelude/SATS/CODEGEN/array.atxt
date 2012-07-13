@@ -26,6 +26,11 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+\#define SHR(x) x // SHARED // HX: for commenting
+\#define NSH(x) x // NSHARED // HX: for commenting
+
+#atscode_separator()
+
 sortdef t0p = t@ype
 sortdef vtp = viewtype
 sortdef vt0p = viewt@ype
@@ -147,6 +152,20 @@ fun array_ptr_free
 ) :<!wrt> void // end of [array_ptr_free]
 
 #atscode_separator()
+
+fun{a:vt0p}
+fprint_array_sep
+  {n:int} (
+  out: FILEref
+, A: &(@[INV(a)][n]), n: size_t n, sep: NSH(string)
+) : void // end of [fprint_array_sep]
+
+macdef
+fprint_array
+  (out, A, n) = fprint_array_sep (,(out), ,(A), ,(n), ", ")
+// end of [fprint_array]
+
+(* ****** ****** *)
 
 fun{a:vt0p}
 array_copy

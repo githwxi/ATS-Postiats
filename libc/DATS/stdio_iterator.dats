@@ -109,7 +109,7 @@ end // end of [iter_isnot_atend]
 (* ****** ****** *)
 
 implement
-$IT.iter_vget_inc<itrknd><char>
+$IT.iter_vttake_inc<itrknd><char>
 //
   {kpm}{f,r} (itr) = let
   prval pf = decode (itr)
@@ -123,7 +123,7 @@ $IT.iter_vget_inc<itrknd><char>
 //
 in
   $UN.vttakeout_void (c)
-end // end of [iter_vget_inc]
+end // end of [iter_vttake_inc]
 
 (* ****** ****** *)
 

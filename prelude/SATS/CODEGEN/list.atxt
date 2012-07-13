@@ -75,8 +75,19 @@ fun list_make_intrange
 symintr list
 fun{a:vt0p}
 list_make_arrpsz
-  {n:int} (psz: arrpsz (INV(a), n)):<> list_vt (a, n)
+  {n:int} (psz: arrpsz (INV(a), n)):<!wrt> list_vt (a, n)
 overload list with list_make_arrpsz
+
+#atscode_separator()
+
+fun{a:t0p}
+fprint_list_sep (
+  out: FILEref, xs: List (a), sep: NSH(string)
+) : void // end of [fprint_list_sep]
+
+macdef fprint_list
+  (out, xs) = fprint_list_sep (,(out), ,(xs), ", ")
+// end of [fprint_list]
 
 #atscode_separator()
 
