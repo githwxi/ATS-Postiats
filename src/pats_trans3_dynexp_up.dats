@@ -262,9 +262,18 @@ case+ d2e0.d2exp_node of
     val d3e_asz : d3exp = (
       case+ opt of
       | Some (d2e_asz) => let
-          val () =
-            s2i_asz := s2exp_err (s2rt_int)
-          // end of [val]
+          val d3e_asz = d2exp_trup (d2e_asz)
+          val s2e_asz = d3exp_get_type (d3e_asz)
+          val s2f_asz = s2exp2hnf (s2e_asz)
+          val () = let
+            val opt = un_s2exp_g1size_index_t0ype (s2f_asz)
+          in
+            case+ opt of
+            | ~Some_vt (s2i) => s2i_asz := s2i
+            | ~None_vt () => let
+                val s2i = s2exp_err (s2rt_int) in s2i_asz := s2i
+              end // end of [None_vt]
+          end // end of [let] // end of [val]
         in
           d2exp_trup (d2e_asz)
         end // end of [Some]

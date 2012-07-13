@@ -77,16 +77,26 @@ infixl ( - ) isub nsub fsub psub usub
 infixl 41 asl asr lsl lsr
 
 infix 40 < <= > >= << >>
+(*
+//
+// HX-2012-07: removed
+//
 infixl ( < ) ilt flt plt ult
 infixl ( <= ) ilte flte plte ulte
 infixl ( > ) igt fgt pgt ugt
 infixl ( >= ) igte fgte pgte ugte
+*)
 
 infixr 40 :: @ <:
 
 infix 30 = == <> !=
+(*
+//
+// HX-2012-07: removed
+//
 infix ( = ) ieq feq peq ueq
 infix ( <> ) ineq fneq pneq uneq
+*)
 
 infixl 21 &&
 infixl ( && ) andalso land

@@ -60,6 +60,26 @@ indexed type.
 
 (* ****** ****** *)
 
+#declnamesynop("list0_sing")
+#declnamesynop("list0_pair")
+
+#declnamesynop("list0_is_nil")
+#declnamesynop("list0_is_cons")
+
+#declnamesynop("list0_is_empty")
+#declnamesynop("list0_isnot_empty")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_make_elt")
+#decldescrpt("\
+
+Given an integer n and an element x, this function returns a list
+consisting of n occurrences of x if n is a natural number. Otherwise it
+raises an exception (#dyncode("IllegalArgExn")).
+
+")
+
 #declnamesynop("list0_make_arrpsz")
 #decldescrpt("\
 
@@ -157,17 +177,26 @@ This function is the optional version of #dyncode("list0_nth_exn").
 
 (* ****** ****** *)
 
+#declnamesynop("list0_insert_at_exn")
+#declnamesynop("list0_remove_at_exn")
+
+(* ****** ****** *)
+
 #declnamesynop("list0_length")
 #decldescrpt("\
-This function returns the length of a given list, and its implementation
-is tail-recursive.
+
+This function returns the length of a given list, and its implementation is
+tail-recursive. For convenience, #dyncode("list0_length") overloads the
+symbol #dyncode("length").
+
 ")
 
 #declnamesynop("list0_append")
 #decldescrpt("\
 
 Given two lists xs and ys, this function returns the concatenation of xs
-and ys. Note that the implementation of #dyncode("list0_append") is
+and ys. For convenience, #dyncode("list0_append") overloads the symbol
+#dyncode("+").  Note that the implementation of #dyncode("list0_append") is
 tail-recursive in ATSLIB.\
 
 ")
@@ -184,10 +213,10 @@ implement
 main () = let
   \#define M 10
   \#define N 20
+  \#define length list0_length
   val xs = list0_make_elt<char> (M, 'a')
   val ys = list0_make_elt<char> (N, 'b')
-  val xsys = list0_append (xs, ys)
-  val () = assert (list0_length (xs) + list0_length (ys) = list0_length (xsys))
+  val () = assert (length (xs) + length (ys) = length (xs + ys))
 in
   0(*normal*)
 end // end of [main]
@@ -473,13 +502,9 @@ lists are equal based on a given equality funtion on list elements:
 //
 staload "libats/ML/SATS/list0.sats"
 //
-fun{
-a:t@ype
-} list0_equal (
-  xs1: list0 (a)
-, xs2: list0 (a)
-, eqfn: cfun2 (a, a, bool)
-) : bool = let
+implement{a}
+list0_equal
+  (xs1, xs2, eqfn) = let
   var sgn: int // uninitialied
   val ans = list0_forall2_eq (xs1, xs2, eqfn, sgn)
 in
@@ -490,6 +515,17 @@ in
   // end of [if]
 end // end of [list0_equal]
 ')
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_equal")
+#decldescrpt("\
+
+Given two lists xs1 and xs2 and a function eqfn, this function returns true
+if and only if xs1 and xs2 are of the same length and eqfn(xs1[i], xs2[i])
+holds for each natural number i less than the length of xs1.
+
 ")
 
 (* ****** ****** *)
@@ -642,6 +678,46 @@ end // end of [list0_filter]
 
 However, the implementation of this function in ATSLIB is tail-recursive.\
 
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_tabulate")
+#decldescrpt("\
+
+Given an integer n and a function f, this function returns a list
+consisting of the elements f(0), f(1), ..., f(n-1) if n is a natural
+number. Otherwise, it raises an exception (#dyncode("IllegalArgExn")).
+
+")
+#declexample("\
+
+The following code implements a function that returns a list consisting of
+all the permutations of a given list xs:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/list0.sats"
+//
+fun{a:t0p}
+list0_permute
+  (xs0: list0 (a)): list0 (list0 a) = let
+  val n = list0_length (xs0)
+in
+//
+case+ xs0 of
+| list0_cons (x0, xs1) => let
+    val yss = list0_permute (xs1)
+    val f = lam (ys: list0 a) =<cloref1>
+      list0_tabulate<list0(a)> (n, lam i => list0_insert_at_exn (ys, i, x0))
+    // end of [val]
+  in
+    list0_concat (list0_map (yss, f))
+  end // end of [list0_cons]
+| list0_nil () => list0_sing (list0_nil)
+//
+end // end of [list0_permute]
+')
 ")
 
 (* ****** ****** *)

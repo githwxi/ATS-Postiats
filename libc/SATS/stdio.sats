@@ -100,6 +100,13 @@ fun FILEptr_free_null
 
 (* ****** ****** *)
 
+castfn
+FILEref_get_ptr
+  (filr: FILEref):<> [l:agz;m:fm] vttakeout (void, FILEptr (l, m))
+// end of [FILEref_get_ptr]
+
+(* ****** ****** *)
+
 (*
 staload
 TYPES = "libc/sys/SATS/types.sats"
@@ -255,6 +262,7 @@ overload fgetc_err with fgetc1_err
 
 (* ****** ****** *)
 
+(*
 dataview
 fgets_v (
   sz:int, n0: int, addr, addr
@@ -264,40 +272,28 @@ fgets_v (
   | {n:nat | n < n0} {lbf:agz}
     fgets_v_succ (sz, n0, lbf, lbf) of strbuf(sz, n) @ lbf
 // end of [fgets_v]
+*)
 
-fun fgets_err
+symintr
+fgets_err
+fun fgets0_err
+  {sz:int}
+  {n0:pos | n0 <= sz} (
+  buf: &bytes(sz)? >> _
+, n0: int n0
+, filr: FILEref
+) :<!wrt> Ptr0 // = addr@(buf) or NULL
+// end of [fgets0_err]
+fun fgets1_err
   {sz:int}
   {n0:pos | n0 <= sz}
-  {m:fm}
-  {lbf:addr} (
+  {m:fm} (
   pf_mod: fmlte (m, r)
-, pf_buf: b0ytes(sz) @ lbf
-| p: ptr lbf
+| buf: &bytes(sz)? >> _
 , n0: int n0
 , filp: !FILEptr1 (m)
-) :<!wrt> [l:addr] (
-  fgets_v (sz, n0, lbf, l)
-| ptr l
-) = "mac#atslib_fgets_err"
-// end of [fgets_err]
-
-//
-// HX:
-// this function returns a VALID empty strbuf
-// if EOF is reached but no character is read
-//
-fun fgets_exn
-  {sz:int}
-  {n0:pos | n0 <= sz}
-  {m:fm}
-  {lbf:addr} (
-  pf_mod: fmlte (m, r),
-  pf_buf: !b0ytes(sz) @ lbf >> strbuf (sz, n) @ lbf
-| p: ptr lbf
-, n0: int n0
-, filp: !FILEptr1 (m)
-) :<!exnwrt> #[n:nat | n < n0] void = "ext#atslib_fgets_exn"
-// end of [fgets_exn]
+) :<!wrt> Ptr0 // = addr@(buf) or NULL
+// end of [fgets1_err]
 
 (* ****** ****** *)
 

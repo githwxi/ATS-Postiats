@@ -255,6 +255,8 @@ fun s2exp_g1uint_kind_index_t0ype (knd: s2exp, ind: s2exp): s2exp
 fun un_s2exp_g1int_index_t0ype (s2f: s2hnf): Option_vt (s2exp)
 fun un_s2exp_g1uint_index_t0ype (s2f: s2hnf): Option_vt (s2exp)
 //
+fun un_s2exp_g1size_index_t0ype (s2f: s2hnf): Option_vt (s2exp)
+//
 fun s2exp_int_index_t0ype (ind: s2exp): s2exp
 fun s2exp_uint_index_t0ype (ind: s2exp): s2exp
 //

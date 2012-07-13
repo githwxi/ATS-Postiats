@@ -40,15 +40,6 @@ manipulating arrayptr-values.
 
 (* ****** ****** *)
 
-#declnamesynop("arrayptr_make_uninitized")
-#decldescrpt("\
-
-This function creates an uninitialized arrayptr-value of a given size.
-
-")
-
-(* ****** ****** *)
-
 #declnamesynop("arrayptr_make_elt")
 #decldescrpt("\
 
@@ -70,6 +61,36 @@ integers from l until r-1, inclusively.
 
 (* ****** ****** *)
 
+#declnamesynop("arrayptr_make_arrpsz")
+#decldescrpt("\
+
+This function, which overloads the symbol #dyncode("arrayptr"), turns an
+arrpsz-value (arrayptr-with-size) into an arrayptr-value. It can be
+conveniently called to build an array of fixed size.
+
+")
+#declexample("\
+
+The following code builds an array of digits, prints them out and then
+frees the array:
+
+#pats2xhtmld_tryit('\
+//
+staload "contrib/atshwxi/testing/SATS/fprint.sats"
+//
+implement
+main () = 0 where {
+  val out = stdout_ref
+  val A = arrayptr$arrpsz{int} (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+  val () = fprint_arrayptr_sep<int> (out, A, g1int2uint(10), ", ")
+  val () = arrayptr_free (A)
+  val () = fprint_newline (out)
+} // end of [main]
+')
+")
+
+(* ****** ****** *)
+
 #declnamesynop("arrayptr_make_list")
 #decldescrpt("\
 
@@ -84,6 +105,15 @@ and then initializes it with a given list (second argument) of length n.
 This function creates an arrayptr-value of a given size n (first argument)
 and then initializes it with a given linear list (second argument) of
 length n. Note that the linear list is consumed after the function returns.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("arrayptr_make_uninitized")
+#decldescrpt("\
+
+This function creates an uninitialized arrayptr-value of a given size.
 
 ")
 

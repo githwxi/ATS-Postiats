@@ -408,15 +408,6 @@ val () = (
 val () = case+
   (s2en10, s2en20) of
 //
-| (S2EVar s2V1, _) => (
-  case+ s2en20 of
-  | S2EVar s2V2 when s2V1 = s2V2 => ()
-  | _ => s2hnf_equal_solve_lVar_err (loc0, s2f10, s2f20, s2V1, err)
-  ) // end of [S2EVar, _]
-| (_, S2EVar s2V2) =>
-    s2hnf_equal_solve_rVar_err (loc0, s2f10, s2f20, s2V2, err)
-  // end of [_, S2EVar]
-//
 | (S2Einvar s2e11, _) => let
     val s2f11 = s2exp2hnf (s2e11) in
     s2hnf_equal_solve_err (loc0, s2f11, s2f20, err)
@@ -425,6 +416,15 @@ val () = case+
     val s2f21 = s2exp2hnf (s2e21) in
     s2hnf_equal_solve_err (loc0, s2f10, s2f21, err)
   end // end of [_, S2Einvar]
+//
+| (S2EVar s2V1, _) => (
+  case+ s2en20 of
+  | S2EVar s2V2 when s2V1 = s2V2 => ()
+  | _ => s2hnf_equal_solve_lVar_err (loc0, s2f10, s2f20, s2V1, err)
+  ) // end of [S2EVar, _]
+| (_, S2EVar s2V2) =>
+    s2hnf_equal_solve_rVar_err (loc0, s2f10, s2f20, s2V2, err)
+  // end of [_, S2EVar]
 //
 | (S2Ecst s2c1, s2en20) => (case+ s2en20 of
   | S2Ecst s2c2 =>
@@ -737,12 +737,6 @@ val () = (
 *)
 val () = case+
   (s2en10, s2en20) of
-| (_, S2EVar s2V2) =>
-    s2hnf_tyleq_solve_rVar_err (loc0, s2f10, s2f20, s2V2, err)
-  // end of [_, S2EVar]
-| (S2EVar s2V1, _) =>
-    s2hnf_tyleq_solve_lVar_err (loc0, s2f10, s2f20, s2V1, err)
-  // end of [S2EVar, _]
 //
 | (S2Einvar s2e11, _) => let
     val s2f11 = s2exp2hnf (s2e11) in
@@ -757,6 +751,13 @@ val () = case+
         s2hnf_equal_solve_rVar_err (loc0, s2f10, s2f21, s2V2, err)
     | _ => s2hnf_tyleq_solve_err (loc0, s2f10, s2f21, err)
   end // end of [_, S2Einvar]
+//
+| (_, S2EVar s2V2) =>
+    s2hnf_tyleq_solve_rVar_err (loc0, s2f10, s2f20, s2V2, err)
+  // end of [_, S2EVar]
+| (S2EVar s2V1, _) =>
+    s2hnf_tyleq_solve_lVar_err (loc0, s2f10, s2f20, s2V1, err)
+  // end of [S2EVar, _]
 //
 | (S2Etop (knd1, s2e1), _) => (
   case+ s2en20 of

@@ -151,13 +151,71 @@ fun atof (x: NSH(string)):<> double
 (* ****** ****** *)
 
 /*
+long int strtol(const char *nptr, char **endptr, int base);
+*/
+symintr strtol
+fun strtol0
+  (nptr: string, base: intBtwe (2, 36)):<!wrt> lint
+overload strtol with strtol0
+fun strtol1
+  (nptr: string, endptr: &ptr? >> _, base: intBtwe (2, 36)):<!wrt> lint
+overload strtol with strtol1
+fun strtol_unsafe
+  (nptr: string, endptr: ptr, base: int):<!wrt> lint
+// end of [strtol_unsafe]
+/*
+long long int strtoll(const char *nptr, char **endptr, int base);
+*/
+symintr strtoll
+fun strtoll0
+  (nptr: string, base: intBtwe (2, 36)):<!wrt> llint
+overload strtoll with strtoll0
+fun strtoll1
+  (nptr: string, endptr: &ptr? >> _, base: intBtwe (2, 36)):<!wrt> llint
+overload strtoll with strtoll1
+fun strtoll_unsafe
+  (nptr: string, endptr: ptr, base: int):<!wrt> llint
+// end of [strtoll_unsafe]
+
+(* ****** ****** *)
+
+/*
+unsigned long strtoul(const char *nptr, char **endptr, int base);
+*/
+symintr strtoul
+fun strtoul0
+  (nptr: string, base: intBtwe (2, 36)):<!wrt> ulint
+overload strtoul with strtoul0
+fun strtoul1
+  (nptr: string, endptr: &ptr? >> _, base: intBtwe (2, 36)):<!wrt> ulint
+overload strtoul with strtoul1
+fun strtoul_unsafe
+  (nptr: string, endptr: ptr, base: int):<!wrt> ulint
+// end of [strtoul_unsafe]
+/*
+unsigned long long strtoull(const char *nptr, char **endptr, int base);
+*/
+symintr strtoull
+fun strtoull0
+  (nptr: string, base: intBtwe (2, 36)):<!wrt> ullint
+overload strtoull with strtoull0
+fun strtoull1
+  (nptr: string, endptr: &ptr? >> _, base: intBtwe (2, 36)):<!wrt> ullint
+overload strtoull with strtoull1
+fun strtoull_unsafe
+  (nptr: string, endptr: ptr, base: int):<!wrt> ullint
+// end of [strtoull_unsafe]
+
+(* ****** ****** *)
+
+/*
 float strtof(const char *nptr, char **endptr);
 */
 symintr strtof
 fun strtof0 (nptr: string):<!wrt> float = "mac#atslib_strtof0"
 overload strtof with strtof0
 fun strtof1
-  (nptr: string, endptr: &ptr):<!wrt> float = "mac#atslib_strtof1"
+  (nptr: string, endptr: &ptr? >> _):<!wrt> float = "mac#atslib_strtof1"
 overload strtof with strtof1
 fun strtof_unsafe
   (nptr: string, endptr: ptr):<!wrt> float = "mac#atslib_strtof"
@@ -169,7 +227,7 @@ symintr strtod
 fun strtod0 (nptr: string):<!wrt> double = "mac#atslib_strtod0"
 overload strtod with strtod0
 fun strtod1
-  (nptr: string, endptr: &ptr):<!wrt> double = "mac#atslib_strtod1"
+  (nptr: string, endptr: &ptr? >> _):<!wrt> double = "mac#atslib_strtod1"
 overload strtod with strtod1
 fun strtod_unsafe
   (nptr: string, endptr: ptr):<!wrt> double = "mac#atslib_strtod"
@@ -181,7 +239,7 @@ symintr strtold
 fun strtold0 (nptr: string):<!wrt> ldouble = "mac#atslib_strtold0"
 overload strtold with strtold0
 fun strtold1
-  (nptr: string, endptr: &ptr):<!wrt> ldouble = "mac#atslib_strtold1"
+  (nptr: string, endptr: &ptr? >> _):<!wrt> ldouble = "mac#atslib_strtold1"
 overload strtold with strtold1
 fun strtold_unsafe
   (nptr: string, endptr: ptr):<!wrt> ldouble = "mac#atslib_strtold"

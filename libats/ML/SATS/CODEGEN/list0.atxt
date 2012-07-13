@@ -59,6 +59,25 @@ overload list0 with list0_make_arrpsz
 #atscode_separator()
 
 fun{a:t0p}
+list0_sing (x: a):<> list0 (a)
+fun{a:t0p}
+list0_pair (x1: a, x2: a):<> list0 (a)
+
+#atscode_separator()
+
+fun{}
+list0_is_nil {a:t0p} (xs: list0 a):<> bool
+fun{}
+list0_is_cons {a:t0p} (xs: list0 a):<> bool
+
+fun{}
+list0_is_empty {a:t0p} (xs: list0 a):<> bool
+fun{}
+list0_isnot_empty {a:t0p} (xs: list0 a):<> bool
+
+#atscode_separator()
+
+fun{a:t0p}
 list0_head_exn (xs: list0 (INV(a))):<!exn> a
 fun{a:t0p}
 list0_head_opt (xs: list0 (INV(a))):<> option0 (a)
@@ -78,14 +97,25 @@ list0_nth_opt (xs: list0 (INV(a)), i: int):<> option0 (a)
 #atscode_separator()
 
 fun{a:t0p}
+list0_insert_at_exn
+  (xs: list0 (INV(a)), i: int, x: a):<!exn> list0 (a)
+// end of [list0_insert_at_exn]
+
+fun{a:t0p}
+list0_remove_at_exn (xs: list0 (INV(a)), i: int):<!exn> list0 (a)
+
+#atscode_separator()
+
+fun{a:t0p}
 list0_length (xs: list0 (INV(a))):<> int
+overload length with list0_length
 
 #atscode_separator()
 
 fun{a:t0p}
 list0_append
   (xs: list0 (INV(a)), ys: list0 a):<> list0 (a)
-overload ++ with list0_append
+overload + with list0_append
 
 #atscode_separator()
 
@@ -220,6 +250,13 @@ list0_forall2_eq (
 #atscode_separator()
 
 fun{a:t0p}
+list0_equal (
+  xs1: list0 (INV(a)), xs2: list0 a, eqfn: cfun2 (a, a, bool)
+) : bool // end of [list0_equal]
+
+#atscode_separator()
+
+fun{a:t0p}
 list0_find_exn (xs: list0 (INV(a)), p: cfun (a, bool)): a
 fun{a:t0p}
 list0_find_opt (xs: list0 (INV(a)), p: cfun (a, bool)): option0 (a)
@@ -246,6 +283,11 @@ a1,a2:t0p}{b:t0p
 
 fun{a:t0p}
 list0_filter (xs: list0 (INV(a)), f: cfun (a, bool)): list0 (a)
+
+#atscode_separator()
+
+fun{a:t0p}
+list0_tabulate (n: int, f: cfun (int, a)): list0 (a)
 
 #atscode_separator()
 

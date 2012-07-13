@@ -2,7 +2,7 @@
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/stdlib")
+val () = patscode_prefix_set("TRYIT/libc_stdlib")
 %}
 
 (* ****** ****** *)
@@ -58,7 +58,31 @@ on these functions can often be found in the Linux Programmer's manual.
 #declnamesynop("atoi")
 #declnamesynop("atol")
 #declnamesynop("atoll")
+%{
+(*
+#declnamesynop("atoq")
+*)
+%}
+
+(* ****** ****** *)
+
 #declnamesynop("atof")
+
+(* ****** ****** *)
+
+#declnamesynop("strtol0")
+#declnamesynop("strtol1")
+#declnamesynop("strtol_unsafe")
+#declnamesynop("strtoll0")
+#declnamesynop("strtoll1")
+#declnamesynop("strtoll_unsafe")
+
+#declnamesynop("strtoul0")
+#declnamesynop("strtoul1")
+#declnamesynop("strtoul_unsafe")
+#declnamesynop("strtoull0")
+#declnamesynop("strtoull1")
+#declnamesynop("strtoull_unsafe")
 
 (* ****** ****** *)
 
@@ -109,18 +133,32 @@ end // end of [main]
 ")
 
 #declnamesynop("putenv")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the same
+name. ")
 
 #declnamesynop("setenv")
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the same
-name. Note that it is unsafe to pass the null pointer as the second
-argument to a call to #dyncode("setenv").
-
-")
+name. Note that it may be unsafe to pass the null pointer as the second
+argument to a call to #dyncode("setenv"). As a call to this function often
+builds new string equal to #dyncode('name+"="+value') and then puts it into
+some internal array-cell, the original entry of the array-cell may be
+leaked.  ")
 
 #declnamesynop("unsetenv")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the same
+name. ")
+
 #declnamesynop("clearenv")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the same
+name. ")
 
 (* ****** ****** *)
 

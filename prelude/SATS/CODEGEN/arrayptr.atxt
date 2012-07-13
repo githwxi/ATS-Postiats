@@ -97,12 +97,7 @@ arrpsz_decode
 
 #atscode_separator()
 
-fun{a:vt0p}
-arrayptr_make_uninitized
-  {n:int} (asz: size_t n):<> arrayptr (a?, n)
-// end of [arrayptr_make_uninitized]
-
-#atscode_separator()
+symintr arrayptr
 
 fun{a:t0p}
 arrayptr_make_elt
@@ -111,10 +106,20 @@ arrayptr_make_elt
 
 #atscode_separator()
 
-fun arrayptr_make_intrange
+fun
+arrayptr_make_intrange
   {l,r:int | l <= r}
   (l: int l, r: int r):<> arrayptr (intBtw(l, r), r-l)
 // end of [arrayptr_make_intrange]
+
+#atscode_separator()
+
+fun
+arrayptr_make_arrpsz
+  {a:vt0p}{n:int} (
+  psz: arrpsz (INV(a), n)
+) :<> arrayptr (a, n) // end of [arrayptr_make_arrpsz]
+overload arrayptr with arrayptr_make_arrpsz
 
 #atscode_separator()
 
@@ -129,6 +134,13 @@ arrayptr_make_list_vt
   {n:int}
   (asz: size_t n, xs: list_vt (INV(a), n)):<> arrayptr (a, n)
 // end of [arrayptr_make_list_vt]
+
+#atscode_separator()
+
+fun{a:vt0p}
+arrayptr_make_uninitized
+  {n:int} (asz: size_t n):<> arrayptr (a?, n)
+// end of [arrayptr_make_uninitized]
 
 #atscode_separator()
 //

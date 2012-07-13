@@ -682,6 +682,23 @@ end // end of [un_s2exp_g1uint_index_t0ype]
 (* ****** ****** *)
 
 implement
+un_s2exp_g1size_index_t0ype (s2f) = let
+  val opt = un_s2exp_g1int_index_t0ype (s2f)
+in
+//
+case+ opt of
+| Some_vt _ => let
+    prval () = fold@ (opt) in opt
+  end // end of [Some_vt]
+| ~None_vt () =>
+    un_s2exp_g1uint_index_t0ype (s2f)
+  // end of [None_vt]
+//
+end // end of [un_s2exp_g1size_index_t0ype]
+
+(* ****** ****** *)
+
+implement
 s2exp_int_index_t0ype (ind) = let
   val knd = s2cstref_get_cst (the_int_kind) in
   s2exp_g1int_kind_index_t0ype (s2exp_cst (knd), ind)

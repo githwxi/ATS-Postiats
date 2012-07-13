@@ -638,6 +638,10 @@ val s2e0 = (
     ) // end of [None]
 ) : s2exp // end of [val]
 //
+val () = (
+  println! ("v2ardec_tr_sta: s2e0 = ", s2e0)
+)
+//
 val d2vw =
   d2var_mutablize (locvar, d2v, s2e0, d2c.v2ardec_wth)
 val- Some
@@ -661,7 +665,10 @@ end // end of [v2ardec_tr_sta]
 extern
 fun v2ardec_tr_dyn (d2c: v2ardec): v3ardec
 implement
-v2ardec_tr_dyn (d2c) = exitloc (1)
+v2ardec_tr_dyn (d2c) = let
+in
+  exitloc (1)
+end // end of [v2ardec_tr_dyn]
 
 (* ****** ****** *)
 

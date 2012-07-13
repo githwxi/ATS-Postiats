@@ -114,7 +114,19 @@ This proof function is a variation of #prfcode("mul_isfun").
 
 This proof function essentially captures the identity:
 #stacode("(m+i)*n=m*n+i*n").  It is kept mostly for the sake of backward
-compatibility.  ')
+compatibility as the constraint-solver for ATS2 (Postiats) is able to
+verify such an identity automatically. For instance, this ability is made
+of use in typechecking the following implementation of
+#dyncode("mul_add_const"):
+
+#pats2xhtmld_tryit('\
+primplmnt
+mul_add_const
+  {i}{m,n}{p} (pf) = let
+  prval () = mul_elim (pf) in mul_make {m+i,n} ()
+end // end of [mul_add_const]
+')
+')
 
 (* ****** ****** *)
 
@@ -222,6 +234,136 @@ end // end of [mul_pos_pos_pos]
 
 This proof function essentially proves #stacode("(~m)*n=~(m*n)") for any
 given integers m and n, where ~ is the symbol for integer negation in ATS.
+Note that #dyncode("mul_negate") is kept mostly for the sake of backward
+compatibility as the constraint-solver for ATS2 (Postiats) can readily
+infer the identity #stacode("(~m)*n=~(m*n)"). However, typechecking the
+following implementation of #dyncode("mul_negate") involves solving only
+linear integer constraints:
+
+#pats2xhtmld_tryit("\
+primplmnt
+mul_negate
+  {m,n} (pf) = (
+  sif m > 0 then let
+    prval pf1 = mul_make {~m,n} ()
+    prval MULneg (pf2) = pf1
+    prval () = mul_isfun (pf, pf2)
+  in
+    pf1
+  end else sif m < 0 then let
+    prval MULneg (pf1) = pf in pf1
+  end else let
+    prval MULbas () = pf in MULbas ()
+  end // end of [sif]
+) // end of [mul_negate]
+")
+")
+
+#declnamesynop("mul_negate2")
+#decldescrpt("\
+
+This proof function essentially proves #stacode("m*(~n)=~(m*n)") for any
+given integers m and n, where ~ is the symbol for integer negation in ATS.
+Note that #dyncode("mul_negate2") is kept mostly for the sake of backward
+compatibility as the constraint-solver for ATS2 (Postiats) can readily
+infer the identity #stacode("m*(~n)=~(m*n)"). However, typechecking the
+following implementation of #dyncode("mul_negate2") involves solving only
+linear integer constraints:
+
+#pats2xhtmld_tryit("\
+primplmnt
+mul_negate2 (pf) = let
+//
+prfun lemma
+  {m:nat;n:int}
+  {p:int} .<m>. (
+  pf: MUL (m, n, p)
+) : MUL (m, ~n, ~p) =
+  case+ pf of
+  | MULind
+      (pf) => MULind (lemma (pf))
+  | MULbas () => MULbas ()
+// end of [mul_m_neg_n_neg_mn]
+//
+in // in of [local]
+//
+sif m >= 0 then
+   lemma (pf)
+else let
+  prval MULneg pf = pf in MULneg (lemma (pf))
+end // end of [sif]
+//
+end // end of [mul_negate2]
+")
+")
+
+
+(* ****** ****** *)
+
+#declnamesynop("mul_commute")
+#decldescrpt("\
+
+This proof function essentially proves #stacode("m*n=n*m") for any given
+integers m and n.  It is kept mostly for the sake of backward compatibility
+as the constraint-solver of ATS2 (Postiats) is able to infer the identity
+#stacode("m*n=n*m") automatically.  However, typechecking the following
+implementation of #dyncode("mul_commute") only involves solving linear
+integer constraints:
+
+#pats2xhtmld_tryit("\
+local
+//
+prfun mul_m_n1_mnm
+  {m,n:int}{p:int}
+  .<max(2*m, 2*(~m)+1)>.
+  (pf: MUL (m, n, p)): MUL (m, n+1, p+m) =
+  case+ pf of
+  | MULbas () => MULbas ()
+  | MULind pf => MULind (mul_m_n1_mnm pf)
+  | MULneg pf => MULneg (mul_m_n1_mnm pf)
+// end of [mul_m_n1_mnm]
+//
+in // in of [local]
+//
+primplmnt
+mul_commute
+  {m,n}{p} (pf) = let
+//
+prfun aux
+  {m:nat;n:int}
+  {p:int} .<m>. (
+  pf: MUL (m, n, p)
+) : MUL (n, m, p) =
+  case+ pf of
+  | MULbas () => let
+      prval pf =
+        mul_istot {n,0} ()
+      prval () = mul_elim pf
+    in
+      pf
+    end // end of [MULbas]
+  | MULind pf => mul_m_n1_mnm (aux pf)
+// end of [aux]
+//
+in
+  sif m >= 0 then aux pf else begin
+    let prval MULneg (pf) = pf in mul_negate2 (aux pf) end
+  end // end of [sif]
+end // end of [mul_commute]
+//
+end // end of [local]
+")
+")
+
+#declnamesynop("mul_is_commutative")
+#decldescrpt("\
+
+This proof function is just a slight variation of #dyncode("mul_commute"):
+
+#pats2xhtmld_tryit("\
+primplmnt
+mul_is_commutative (pf1, pf2) = mul_isfun (mul_commute (pf1), pf2)
+")
 ")
 
 (* ****** ****** *)
@@ -229,14 +371,63 @@ given integers m and n, where ~ is the symbol for integer negation in ATS.
 #declnamesynop("mul_distribute")
 #decldescrpt("\
 
-This proof function essentially proves #stacode("m*(n1+n2)=m*n1+m*n2") for
-any given integers m, n1 and n2.  ")
+This proof function essentially proves the identity
+#stacode("m*(n1+n2)=m*n1+m*n2") for any given integers m, n1 and n2.  It is
+kept mostly for the sake of backward compatibility as the constraint-solver
+of ATS2 (Postiats) is able to infer the identity
+#stacode("m*(n1+n2)=m*n1+m*n2") automatically.  However, typechecking the
+following implementation of #dyncode("mul_distribute") only involves solving
+linear integer constraints:
+
+#pats2xhtmld_tryit("\
+primplmnt
+mul_distribute
+  {m}{n1,n2}{p1,p2} (pf1, pf2) = let
+//
+prfun lemma
+  {m:nat}
+  {n1,n2:int}
+  {p1,p2:int} .<m>. (
+  pf1: MUL (m, n1, p1), pf2: MUL (m, n2, p2)
+) : MUL (m, n1+n2, p1+p2) =
+  case+ (pf1, pf2) of
+  | (MULbas (), MULbas ()) => MULbas ()
+  | (MULind pf1, MULind pf2) => MULind (lemma (pf1, pf2))
+// end of [lemma]
+//
+in // in of [let]
+//
+sif m >= 0 then
+  lemma (pf1, pf2)
+else let
+  prval MULneg pf1 = pf1 and MULneg pf2 = pf2
+in
+  MULneg (lemma (pf1, pf2))
+end // end of [sif]
+//
+end // end of [mul_distribute]
+")
+")
 
 #declnamesynop("mul_distribute2")
 #decldescrpt("\
 
-This proof function essentially proves #stacode("(m1+m2)*n=m1*n+m2*n") for
-any given integers m1, m2 and n.  ")
+This proof function essentially proves identity
+#stacode("(m1+m2)*n=m1*n+m2*n") for any given integers m1, m2 and n.  It is
+kept mostly for the sake of backward compatibility as the constraint-solver
+of ATS2 (Postiats) is able to infer the identity
+#stacode("(m1+m2)*n=m1*n+m2*n") automatically.
+The following implementation of #dyncode("mul_distribute2") is
+based on #dyncode("mul_commute") and #dyncode("mul_distribute"):
+
+#pats2xhtmld_tryit("\
+primplmnt
+mul_distribute2 (pf1, pf2) =
+  mul_commute (mul_distribute (mul_commute (pf1), mul_commute (pf2)))
+// end of [mul_distribute2]
+")
+
+")
 
 (* ****** ****** *)
 
@@ -244,8 +435,10 @@ any given integers m1, m2 and n.  ")
 
 #decldescrpt("\
 
-This proof function essentially proves #stacode("(x*y)*z=x*(y*z)")
-for any given integers x, y and z.  ")
+This proof function essentially proves #stacode("(x*y)*z=x*(y*z)") for any
+given integers x, y and z.  It is kept mostly for the sake of backward
+compatibility as the constraint-solver of ATS2 (Postiats) is able to infer
+the identity #stacode("(x*y)*z=x*(y*z)") automatically.  ")
 
 (* ****** ****** *)
 

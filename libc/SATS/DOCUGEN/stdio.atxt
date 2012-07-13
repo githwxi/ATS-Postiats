@@ -2,7 +2,7 @@
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/stdio")
+val () = patscode_prefix_set("TRYIT/libc_stdio")
 %}
 
 (* ****** ****** *)
@@ -24,6 +24,11 @@ the corresponding libc-functions declared in [stdio.h].
 
 #declnamesynop("FILEptr")
 #declnamesynop("FILEptr0")
+%{
+(*
+#declnamesynop("FILEref") // this one is declared in prelude/basic_sta.sats
+*)
+%}
 
 (* ****** ****** *)
 
@@ -33,6 +38,18 @@ the corresponding libc-functions declared in [stdio.h].
 
 #declnamesynop("FILEptr_encode")
 #declnamesynop("FILEptr_decode")
+
+(* ****** ****** *)
+
+#declnamesynop("FILEptr_free_null")
+
+(* ****** ****** *)
+
+#declnamesynop("FILEref_get_ptr")
+#decldescrpt("\
+
+This cast function is called on a FILEref-value filr to get the linear
+FILEptr-value of filr for temporary use.  ")
 
 (* ****** ****** *)
 
@@ -87,12 +104,35 @@ end // end of [main]
 (* ****** ****** *)
 
 #declnamesynop("feof0")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+feof. It returns a nonzero if and only if the end-of-file indicator for the
+stream associated with its argument is set.
+
+")
 #declnamesynop("feof1")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+feof. It returns a nonzero if and only if the end-of-file indicator for the
+stream associated with its argument is set.
+
+")
 
 (* ****** ****** *)
 
 #declnamesynop("ferror0")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+ferror. ")
+
 #declnamesynop("ferror1")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+ferror. ")
 
 (* ****** ****** *)
 
@@ -105,12 +145,100 @@ end // end of [main]
 (* ****** ****** *)
 
 #declnamesynop("fgetc0_err")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+fgetc. ")
+#declexample("\
+
+The following code copies chars read from the standard input channel to the
+standard output channel:
+
+#pats2xhtmld_tryit('\
+//
+staload "libc/SATS/stdio.sats"
+//
+local
+
+fun loop (
+  inp: FILEref, out: FILEref
+) : void =
+  if feof0 (inp) = 0 then let
+    val _(*err*) = fputc0_err (fgetc0_err (inp), out) in loop (inp, out)
+  end else () // end of [if]
+// end of [loop]
+
+in // in of [local]
+
+implement
+main () = 0 where {
+  val () = loop (stdin_ref, stdout_ref)
+} // end of [main]
+
+end // end of [local]
+')
+")
+
 #declnamesynop("fgetc1_err")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+fgetc. ")
 
 (* ****** ****** *)
 
-#declnamesynop("fgets_err")
-#declnamesynop("fgets_exn")
+#declnamesynop("fgets0_err")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+fgets. ")
+#declexample("\
+
+The following code copies lines read from the standard input channel to the
+standard output channel:
+
+#pats2xhtmld_tryit('\
+//
+staload
+UN="prelude/SATS/unsafe.sats"
+staload "libc/SATS/stdio.sats"
+//
+local
+
+fun loop
+  {sz:pos} (
+  inp: FILEref
+, out: FILEref
+, buf: &bytes(sz)? >> _
+, sz: int sz
+) : void = let
+  val p = fgets0_err (buf, sz, inp)
+in
+  if p > 0 then let // p=addr@(buf) or NULL
+    val _(*err*) = fputs0_err ($UN.cast{string}(p), out)
+  in
+    loop (inp, out, buf, sz)
+  end else () // end of [if]
+end // end of [loop]
+
+in // in of [local]
+
+implement
+main () = 0 where {
+  \#define BUFSZ 1024
+  var buf = @[byte][BUFSZ]()
+  val () = loop (stdin_ref, stdout_ref, buf, BUFSZ)
+} // end of [main]
+
+end // end of [local]
+')
+")
+
+#declnamesynop("fgets1_err")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+fgets. ")
 
 (* ****** ****** *)
 

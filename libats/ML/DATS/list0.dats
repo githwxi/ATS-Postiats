@@ -43,6 +43,35 @@ staload "libats/ML/SATS/list0.sats"
 (* ****** ****** *)
 
 implement{a}
+list0_sing (x) = list0_cons (x, list0_nil)
+implement{a}
+list0_pair (x1, x2) = list0_cons (x1, list0_cons (x2, list0_nil))
+
+(* ****** ****** *)
+
+implement{}
+list0_is_nil (xs) = (
+  case+ xs of
+  | list0_cons _ => false | list0_nil () => true
+) // end of [list0_is_nil]
+
+implement{}
+list0_is_cons (xs) = (
+  case+ xs of
+  | list0_cons _ => true | list0_nil () => false
+) // end of [list0_is_cons]
+
+(* ****** ****** *)
+
+implement{}
+list0_is_empty (xs) = list0_is_nil<> (xs)
+
+implement{}
+list0_isnot_empty (xs) = list0_is_cons<> (xs)
+
+(* ****** ****** *)
+
+implement{a}
 list0_head_exn
   (xs) = let
 in
@@ -121,6 +150,32 @@ $effmask_exn (
 end // end of [list0_nth_opt]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement{a}
+list0_insert_at_exn
+  (xs, i, x0) = let
+//
+fun aux {i:nat} .<i>. (
+  xs: list0 a, i: int i, x0: a
+) :<!exn> list0 a =
+  if i > 0 then (
+    case+ xs of
+    | list0_cons (x, xs) =>
+        list0_cons (x, aux (xs, i-1, x0))
+    | list0_nil () => $raise ListSubscriptExn()
+  ) else list0_cons (x0, xs)
+//
+val i = g1ofg0_int (i)
+//
+in
+  if i >= 0 then
+    aux (xs, i, x0)
+  else
+    $raise IllegalArgExn("list0_insert_at_exn:i")
+  // end of [if]
+end // end of [list0_insert_at_exn]
 
 (* ****** ****** *)
 
@@ -253,26 +308,26 @@ implement
 {a1,a2}
 list0_foreach2
   (xs1, xs2, f) = let
-  var eq: int // uninitialized
+  var sgn: int // uninitialized
 in
-  list0_foreach2_eq (xs1, xs2, f, eq)
+  list0_foreach2_eq (xs1, xs2, f, sgn)
 end // end of [list0_foreach2]
 
 implement
 {a1,a2}
 list0_foreach2_eq
-  (xs1, xs2, f, eq) = let
+  (xs1, xs2, f, sgn) = let
 in
   case+ xs1 of
   | list0_cons (x1, xs1) => (
     case+ xs2 of
     | list0_cons (x2, xs2) =>
-        (f (x1, x2); list0_foreach2_eq (xs1, xs2, f, eq))
-    | list0_nil () => (eq := 1)
+        (f (x1, x2); list0_foreach2_eq (xs1, xs2, f, sgn))
+    | list0_nil () => (sgn := 1)
     )
   | list0_nil () => (
     case+ xs2 of
-    | list0_cons _ => (eq := ~1) | list0_nil () => (eq := 0)
+    | list0_cons _ => (sgn := ~1) | list0_nil () => (sgn := 0)
     )
 end // end of [list0_foreach2_eq]
 
@@ -380,30 +435,43 @@ implement
 {a1,a2}
 list0_forall2
   (xs1, xs2, p) = let
-  var eq: int // uninitialized
+  var sgn: int // uninitialized
 in
-  list0_forall2_eq (xs1, xs2, p, eq)
+  list0_forall2_eq (xs1, xs2, p, sgn)
 end // end of [list0_forall2]
 
 implement
 {a1,a2}
 list0_forall2_eq
-  (xs1, xs2, p, eq) = let
+  (xs1, xs2, p, sgn) = let
 in
   case+ xs1 of
   | list0_cons (x1, xs1) => (
     case+ xs2 of
     | list0_cons (x2, xs2) =>
         if p (x1, x2) then
-          list0_forall2_eq (xs1, xs2, p, eq) else (eq := 0; false)
+          list0_forall2_eq (xs1, xs2, p, sgn) else (sgn := 0; false)
         // end of [if]
-    | list0_nil () => (eq := 1; true)
+    | list0_nil () => (sgn := 1; true)
     )
   | list0_nil () => (
     case+ xs2 of
-    | list0_cons _ => (eq := ~1; true) | list0_nil () => (eq := 0; true)
+    | list0_cons _ => (sgn := ~1; true) | list0_nil () => (sgn := 0; true)
     )
 end // end of [list0_forall2_eq]
+
+(* ****** ****** *)
+
+implement{a}
+list0_equal
+  (xs1, xs2, eqfn) =
+  case+ (xs1, xs2) of
+  | (list0_cons (x1, xs1),
+     list0_cons (x2, xs2)) =>
+      if eqfn (x1, x2) then list0_equal (xs1, xs2, eqfn) else false
+  | (list0_nil (), list0_nil ()) => true
+  | (_, _) => false
+// end of [list0_equal]
 
 (* ****** ****** *)
 
@@ -522,6 +590,25 @@ list0_filter (xs, p) = let
 in
   list0_of_list_vt (ys)
 end // end of [list0_filter]
+
+(* ****** ****** *)
+
+implement{a}
+list0_tabulate
+  (n, f) = let
+//
+implement
+list_tabulate__fwork<a> (i) = f (i)
+//
+val n = g1ofg0_int (n)
+//
+in
+  if n >= 0 then
+    list0_of_list_vt (list_tabulate (n))
+  else
+    $raise IllegalArgExn("list0_tabulate:n")
+  // end of [if]
+end // end of [list0_tabulate]
 
 (* ****** ****** *)
 
