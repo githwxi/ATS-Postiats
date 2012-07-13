@@ -245,6 +245,15 @@ matrix_atxt.dats: matrix.atxt
 clean:: ; $(RMF) matrix_atxt.exe
 cleanall:: ; $(RMF) matrix.sats
 
+all:: matrixptr.sats
+matrixptr.sats: matrixptr_atxt.exe ; ./$< > $@
+matrixptr_atxt.exe: matrixptr_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ matrixptr_atxt.dats -latsdoc
+matrixptr_atxt.dats: matrixptr.atxt
+	$(ATSDOC) --outcode $@ -i matrixptr.atxt > matrixptr_atxt.txt
+clean:: ; $(RMF) matrixptr_atxt.exe
+cleanall:: ; $(RMF) matrixptr.sats
+
 
 all:: iterator.sats
 iterator.sats: iterator_atxt.exe ; ./$< > $@

@@ -332,10 +332,8 @@ The following code implements a function for printing out a given list:
 //
 staload "libats/ML/SATS/list0.sats"
 //
-fun{a:t0p}
-fprint_list (
-  out: FILEref, xs: list0 a, sep: string
-) : void = let
+implement{a}
+fprint_list0_sep (out, xs, sep) = let
   fun f (
     i: int, x: a
   ) :<cloref1> void = let
@@ -345,11 +343,11 @@ fprint_list (
   end // end of [f]
 in
   list0_iforeach (xs, f)
-end // end of [fprint_list]
+end // end of [fprint_list0_sep]
 ')\
 
-Note that the argument sep of #dyncode("fprint_list") is only printed
-between two list elements.
+Note that the argument sep of #dyncode("fprint_list0") is only printed
+between list elements.
 
 ")
 
@@ -703,7 +701,7 @@ staload "contrib/atshwxi/testing/SATS/fprint.sats"
 implement
 main () = 0 where {
   val xs = list0_tabulate<int> (10, lam i => i)
-  val () = fprint_list_sep<int> (stdout_ref, xs, ", ")
+  val () = fprint_list0_sep<int> (stdout_ref, xs, ", ")
 } // end of [main]
 ')
 

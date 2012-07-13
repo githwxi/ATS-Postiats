@@ -59,6 +59,17 @@ overload list0 with list0_make_arrpsz
 #atscode_separator()
 
 fun{a:t0p}
+fprint_list0_sep (
+  out: FILEref, xs: list0 (a), sep: NSH(string)
+) : void // end of [fprint_list0_sep]
+
+macdef fprint_list0
+  (out, xs) = fprint_list0_sep (,(out), ,(xs), ", ")
+// end of [fprint_list0]
+
+#atscode_separator()
+
+fun{a:t0p}
 list0_sing (x: a):<> list0 (a)
 fun{a:t0p}
 list0_pair (x1: a, x2: a):<> list0 (a)

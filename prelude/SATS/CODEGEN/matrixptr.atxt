@@ -1,0 +1,62 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"matrixptr.sats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/matrixptr.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("February, 2012")
+
+#atscode_separator()
+
+\#define SHR(x) x // SHARED // HX: for commenting
+\#define NSH(x) x // NSHARED // HX: for commenting
+
+#atscode_separator()
+
+sortdef t0p = t@ype and vt0p = viewt@ype
+
+#atscode_separator()
+
+absviewtype
+matrixptr_4 (
+  a:viewt@ype+
+, l: addr, m: int, n: int
+) = ptr // end of [matrixptr]
+viewtypedef
+matrixptr_3 (
+  a:viewt@ype, m: int, n: int
+) = [l:addr] matrixptr_4 (a, l, m, n)
+//
+stadef matrixptr = matrixptr_4
+stadef matrixptr = matrixptr_3
+//
+#atscode_separator()
+
+absviewtype
+matrixptrout (a:t@ype, l: addr, m: int, n: int) = ptr
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "matrixptr_atxt.txt")
+%}\

@@ -124,6 +124,7 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
 #make_entry("arrayref")
 
 #make_entry("matrix")
+#make_entry("matrixptr")
 
 #make_entry("iterator")
 

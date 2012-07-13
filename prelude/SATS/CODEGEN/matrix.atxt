@@ -34,7 +34,7 @@ sortdef vt0p = viewt@ype
 
 absviewt@ype
 matrix_viewt0ype_int_int_viewt0ype
-  (a:viewt@ype+, row:int, col:int) = array(array(a,col),row)
+  (a:viewt@ype+, row:int, col:int) = array(a, row*col)
 stadef matrix = matrix_viewt0ype_int_int_viewt0ype
 
 viewdef
@@ -51,27 +51,12 @@ praxi array2matrix_v
 
 #atscode_separator()
 
-prfun
-matrix_v_takeout_elt
-  {a:vt0p}
-  {l0:addr}
-  {m,n:int}
-  {i,j:nat | i < m; j < n} (
-  pfmat: matrix_v (INV(a), l0, m, n)
-) :<> vtakeout (
-  matrix_v (a, l0, m, n), a @ (l0+(i*m+j)*sizeof(a))
-) // end of [matrix_v_takeout_elt]
-
-prfun
-matrix_v_takeout_row
-  {a:vt0p}
-  {l0:addr}
-  {m,n:int}
-  {i:int | i < m} (
-  pfmat: matrix_v (INV(a), l0, m, n)
-) :<> vtakeout (
-  matrix_v (a, l0, m, n), array_v (a, l0+i*m*sizeof(a), n)
-) // end of [matrix_v_takeout_row]
+absview
+matrow_viewt0ype_addr_int_int (a:viewt@ype+, l:addr, m:int, n:int)
+stadef matrow_v = matrow_viewt0ype_addr_int_int
+absview
+matcol_viewt0ype_addr_int_int (a:viewt@ype+, l:addr, m:int, n:int)
+stadef matcol_v = matcol_viewt0ype_addr_int_int
 
 #atscode_separator()
 
@@ -113,32 +98,23 @@ matrix_ptr_takeout_row
   pfmat: matrix_v (INV(a), l0, m, n)
 | base: ptr l0, i: size_t i, n: size_t n
 ) :<> [l:addr] (
-  array_v (a, l, n)
-, array_v (a, l, n) -<lin,prf> matrix_v (a, l0, m, n)
+  matrow_v (a, l, m, n)
+, matrow_v (a, l, m, n) -<lin,prf> matrix_v (a, l0, m, n)
 | ptr (l)
 ) // end of [matrix_ptr_takeout_row]
 
-#atscode_separator()
-
-fun{
-a:vt0p}{env:vt0p
-} matrix_foreach__cont (x: &a, env: &env): bool
-fun{
-a:vt0p}{env:vt0p
-} matrix_foreach__fwork (x: &a >> a, env: &env): void
-fun{
-a:vt0p
-} matrix_foreach
-  {m,n:int} (
-  A: &matrix(INV(a), m, n) >> matrix(a, m, n), m: size_t m, n: size_t n
-) : sizeLte (m*n) // end of [matrix_foreach]
-fun{
-a:vt0p}{env:vt0p
-} matrix_foreach_env
-  {m,n:int} (
-  A: &matrix(INV(a), m, n) >> matrix(a, m, n), m: size_t m, n: size_t n
-, env: &INV(env) >> env
-) : sizeLte (m*n) // end of [matrix_foreach_env]
+fun{a:vt0p}
+matrix_ptr_takeout_col
+  {l0:addr}
+  {m,n:int}
+  {i:int | i < m} (
+  pfmat: matrix_v (INV(a), l0, m, n)
+| base: ptr l0, i: size_t i, n: size_t n
+) :<> [l:addr] (
+  matcol_v (a, l, m, n)
+, matcol_v (a, l, m, n) -<lin,prf> matrix_v (a, l0, m, n)
+| ptr (l)
+) // end of [matrix_ptr_takeout_col]
 
 #atscode_separator()
 

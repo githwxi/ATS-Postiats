@@ -43,6 +43,43 @@ staload "libats/ML/SATS/list0.sats"
 (* ****** ****** *)
 
 implement{a}
+list0_make_elt
+  (n, x) = let
+  val n = g1ofg0_int (n)
+in
+  if n >= 0 then
+    list0_of_list_vt (list_make_elt (n, x))
+  else // HX: n < 0
+    $raise (IllegalArgExn"list0_make_elt:n")
+  // end of [if]
+end // end of [list0_make_elt]
+
+implement
+list0_make_intrange
+  (l, r) = let
+  val l = g1ofg0_int (l)
+  val r = g1ofg0_int (r)
+in
+  if l <= r then
+    list0_of_list_vt (list_make_intrange (l, r))
+  else list0_nil ()
+end // end of [list0_make_intrange]
+
+implement{a}
+list0_make_arrpsz
+  (psz) = list0_of_list_vt (list_make_arrpsz (psz))
+// end of [list0_make_arrpsz]
+
+(* ****** ****** *)
+
+implement{a}
+fprint_list0_sep (out, xs, sep) = let
+  val xs = list_of_list0 (xs) in fprint_list_sep<a> (out, xs, sep)
+end // end of [fprint_list0_sep]
+
+(* ****** ****** *)
+
+implement{a}
 list0_sing (x) = list0_cons (x, list0_nil)
 implement{a}
 list0_pair (x1, x2) = list0_cons (x1, list0_cons (x2, list0_nil))
@@ -240,36 +277,6 @@ in
     $raise (IllegalArgExn"list0_drop_exn:i")
   // end of [if]
 end // end of [list0_drop_exn]
-
-(* ****** ****** *)
-
-implement{a}
-list0_make_elt
-  (n, x) = let
-  val n = g1ofg0_int (n)
-in
-  if n >= 0 then
-    list0_of_list_vt (list_make_elt (n, x))
-  else // HX: n < 0
-    $raise (IllegalArgExn"list0_make_elt:n")
-  // end of [if]
-end // end of [list0_make_elt]
-
-implement
-list0_make_intrange
-  (l, r) = let
-  val l = g1ofg0_int (l)
-  val r = g1ofg0_int (r)
-in
-  if l <= r then
-    list0_of_list_vt (list_make_intrange (l, r))
-  else list0_nil ()
-end // end of [list0_make_intrange]
-
-implement{a}
-list0_make_arrpsz
-  (psz) = list0_of_list_vt (list_make_arrpsz (psz))
-// end of [list0_make_arrpsz]
 
 (* ****** ****** *)
 

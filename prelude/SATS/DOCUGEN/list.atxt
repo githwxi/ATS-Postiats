@@ -76,6 +76,13 @@ typedef List (a:t@ype) = [n:int] list (a, n)\
 typedef List0 (a:t@ype) = [n:int | n >= 0] list (a, n)\
 ')')
 ')
+#declname("List1")
+#declsynop2('\
+#para('\
+#pats2xhtmls('\
+typedef List1 (a:t@ype) = [n:int | n >= 1] list (a, n)\
+')')
+')
 
 (* ****** ****** *)
 
