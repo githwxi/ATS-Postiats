@@ -84,6 +84,18 @@ array_v_takeout
 
 #atscode_separator()
 
+praxi
+array_v_group {a:vt0p}{l:addr}{m,n:int}
+  (pf: array_v (INV(a), l, m*n)): array_v (@[a][n], l, m)
+// end of [array_v_group]
+
+praxi
+array_v_ungroup {a:vt0p}{l:addr}{m,n:int}
+  (pf: array_v (@[INV(a)][n], l, m)): array_v (INV(a), l, m*n)
+// end of [array_v_ungroup]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

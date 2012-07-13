@@ -85,4 +85,9 @@ at-view needed for reading from cell i in the given array A.
 
 (* ****** ****** *)
 
+#declnamesynop("array_v_group")
+#declnamesynop("array_v_ungroup")
+
+(* ****** ****** *)
+
 (* end of [array_prf.atxt] *)

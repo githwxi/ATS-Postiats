@@ -18,7 +18,7 @@ ATSLIB/prelude/filebas\
 
 The functions declared in this package are mostly provided for the sake of
 convenience.  For full-fledged IO support, please see
-[ATSHOME/libc/SATS/stdio.sats].
+[ATSLIB/libc/SATS/stdio.sats].
 
 ") ')#comment("declpreamble")
 

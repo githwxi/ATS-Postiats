@@ -110,10 +110,7 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
 #make_entry("string")
 #make_entry("strptr")
 
-#make_entry("array")
-#make_entry("array_prf")
-#make_entry("arrayptr")
-#make_entry("arrayref")
+#make_entry("unsafe")
 
 #make_entry("list")
 #make_entry("list_vt")
@@ -121,7 +118,12 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
 #make_entry("option")
 #make_entry("option_vt")
 
-#make_entry("unsafe")
+#make_entry("array")
+#make_entry("array_prf")
+#make_entry("arrayptr")
+#make_entry("arrayref")
+
+#make_entry("matrix")
 
 #make_entry("iterator")
 

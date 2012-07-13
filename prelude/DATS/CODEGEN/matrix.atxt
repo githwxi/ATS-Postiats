@@ -1,0 +1,61 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"matrix.dats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/matrix.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("Feburary, 2012")
+
+#atscode_separator()
+
+staload UN = "prelude/SATS/unsafe.sats"
+staload IT = "prelude/SATS/iterator.sats"
+
+#atscode_separator()
+
+implement
+{a}{env}
+matrix_foreach_env
+ (M, m, n, env) = let
+//
+implement(env)
+array_foreach__cont<a><env>
+  (x, env) = matrix_foreach__cont<a><env> (x, env)
+implement(env)
+array_foreach__fwork<a><env> 
+  (x, env) = matrix_foreach__fwork<a><env> (x, env)
+//
+val p = addr@(M)
+prval pfarr = matrix2array_v (view@ (M))
+val res = array_foreach_env<a> (!p, m*n, env)
+prval () = view@ (M) := array2matrix_v (pfarr)
+//
+in
+  res
+end // end of [matrix_foreach_env]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "matrix_atxt.txt")
+%}\

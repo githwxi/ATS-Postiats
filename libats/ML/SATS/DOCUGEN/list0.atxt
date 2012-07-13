@@ -89,7 +89,7 @@ conveniently employed to build a list of some fixed length.\
 ")
 #declexample("\
 
-The following code builds a list of digits and then print them out:
+The following code builds a list of digits and then prints them out:
 
 #pats2xhtmld_tryit('\
 //
@@ -692,8 +692,24 @@ number. Otherwise, it raises an exception (#dyncode("IllegalArgExn")).
 ")
 #declexample("\
 
-The following code implements a function that returns a list consisting of
-all the permutations of a given list xs:
+The following code builds a list of digits and then prints them onto the
+standard output channel:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/list0.sats"
+staload "contrib/atshwxi/testing/SATS/fprint.sats"
+//
+implement
+main () = 0 where {
+  val xs = list0_tabulate<int> (10, lam i => i)
+  val () = fprint_list_sep<int> (stdout_ref, xs, ", ")
+} // end of [main]
+')
+
+As more elaborate example, the following code implements a function
+#dyncode("list0_permute") that returns a list consisting of all the
+permutations of a given list:
 
 #pats2xhtmld_tryit('\
 //

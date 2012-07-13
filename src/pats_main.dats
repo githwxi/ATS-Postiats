@@ -448,15 +448,15 @@ fun prelude_load (
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/bool.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/char.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/filebas.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/float.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/integer.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/intrange.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/memory.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/pointer.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/reference.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/string.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/strptr.sats")
-//
-  val () = pervasive_load (ATSHOME, "prelude/SATS/filebas.sats")
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/lazy.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/lazy_vt.sats")
@@ -467,6 +467,12 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/SATS/fcontainer.sats")
 *)
 //
+  val () = pervasive_load (ATSHOME, "prelude/SATS/list.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/list_vt.sats")
+//
+  val () = pervasive_load (ATSHOME, "prelude/SATS/option.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/option_vt.sats")
+//
   val () = pervasive_load (ATSHOME, "prelude/SATS/array.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/array_prf.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/arrayptr.sats")
@@ -474,13 +480,7 @@ fun prelude_load (
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/parrnull.sats") // null-terminated
 //
-  val () = pervasive_load (ATSHOME, "prelude/SATS/list.sats")
-  val () = pervasive_load (ATSHOME, "prelude/SATS/list_vt.sats")
-//
-  val () = pervasive_load (ATSHOME, "prelude/SATS/option.sats")
-  val () = pervasive_load (ATSHOME, "prelude/SATS/option_vt.sats")
-//
-  val () = pervasive_load (ATSHOME, "prelude/SATS/reference.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/matrix.sats")
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/extern.sats")
 //

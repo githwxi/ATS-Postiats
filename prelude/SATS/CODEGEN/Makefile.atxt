@@ -92,6 +92,8 @@ for pointer arrays terminated with the null pointer
 ")
 #make_entry("parrnull")
 
+#make_entry("matrix")
+
 #make_entry("iterator")
 
 #make_entry("fcontainer")

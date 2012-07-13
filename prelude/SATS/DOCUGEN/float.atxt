@@ -97,14 +97,22 @@ This function returns the minimum of two given floating point numbers.
 #decldescrpt('\
 This function prints a single-precision floating point number.
 ')
+#declnamesynop("print_float")
+#declnamesynop("prerr_float")
+
 #declnamesynop("fprint_double")
 #decldescrpt('\
 This function prints a double-precision floating point number.
 ')
+#declnamesynop("print_double")
+#declnamesynop("prerr_double")
+
 #declnamesynop("fprint_ldouble")
 #decldescrpt('\
 This function prints a long double-precision floating point number.
 ')
+#declnamesynop("print_ldouble")
+#declnamesynop("prerr_ldouble")
 
 (* ****** ****** *)
 

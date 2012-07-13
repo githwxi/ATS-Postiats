@@ -1,0 +1,49 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/prelude_array")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/prelude/matrix\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("matrix")
+#declnamesynop("matrix_v")
+
+(* ****** ****** *)
+
+#declnamesynop("matrix2array_v")
+#declnamesynop("array2matrix_v")
+
+(* ****** ****** *)
+
+#declnamesynop("matrix_v_takeout_row")
+#declnamesynop("matrix_v_takeout_elt")
+
+(* ****** ****** *)
+
+#declnamesynop("matrix_get_at")
+#declnamesynop("matrix_set_at")
+#declnamesynop("matrix_exch_at")
+
+(* ****** ****** *)
+
+#declnamesynop("matrix_ptr_takeout_row")
+#declnamesynop("matrix_ptr_takeout_elt")
+
+(* ****** ****** *)
+
+#declnamesynop("matrix_foreach__cont")
+#declnamesynop("matrix_foreach__fwork")
+#declnamesynop("matrix_foreach")
+#declnamesynop("matrix_foreach_env")
+
+(* ****** ****** *)
+
+(* end of [matrix.atxt] *)

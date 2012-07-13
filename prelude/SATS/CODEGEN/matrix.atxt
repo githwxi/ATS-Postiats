@@ -1,0 +1,149 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"matrix.sats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/matrix.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("Feburary, 2012")
+
+#atscode_separator()
+
+sortdef t0p = t@ype
+sortdef vtp = viewtype
+sortdef vt0p = viewt@ype
+
+#atscode_separator()
+
+absviewt@ype
+matrix_viewt0ype_int_int_viewt0ype
+  (a:viewt@ype+, row:int, col:int) = array(array(a,col),row)
+stadef matrix = matrix_viewt0ype_int_int_viewt0ype
+
+viewdef
+matrix_v (
+  a:viewt@ype+, l:addr, row:int, col:int
+) = matrix (a, row, col) @ l
+
+praxi matrix2array_v
+  {a:vt0p}{l:addr}{m,n:int}
+  (pf: matrix_v (INV(a), l, m, n)): array_v (a, l, m*n)
+praxi array2matrix_v
+  {a:vt0p}{l:addr}{m,n:int}
+  (pf: array_v (INV(a), l, m*n)): matrix_v (a, l, m, n)
+
+#atscode_separator()
+
+prfun
+matrix_v_takeout_row
+  {a:vt0p}
+  {l0:addr}
+  {m,n:int}
+  {i:int | i < m} (
+  pfmat: matrix_v (INV(a), l0, m, n)
+) :<> vtakeout (
+  matrix_v (a, l0, m, n), array_v (a, l0+i*m*sizeof(a), n)
+) // end of [matrix_v_takeout_row]
+
+prfun
+matrix_v_takeout_elt
+  {a:vt0p}
+  {l0:addr}
+  {m,n:int}
+  {i,j:nat | i < m; j < n} (
+  pfmat: matrix_v (INV(a), l0, m, n)
+) :<> vtakeout (
+  matrix_v (a, l0, m, n), a @ (l0+(i*m+j)*sizeof(a))
+) // end of [matrix_v_takeout_elt]
+
+#atscode_separator()
+
+fun{a:t0p}
+matrix_get_at {m,n:int}
+  (M: &matrix (a, m, n), i: sizeLt (m), j: sizeLt (n)):<> a
+// end of [matrix_get_at]
+
+fun{a:t0p}
+matrix_set_at {m,n:int} (
+  M: &matrix (a, m, n), i: sizeLt (m), j: sizeLt (n), x: a
+) :<!wrt> void // end of [matrix_set_at]
+
+fun{a:vt0p}
+matrix_exch_at {m,n:int} (
+  M: &matrix (a, m, n), i: sizeLt (m), j: sizeLt (n), x: &a>>a
+) :<!wrt> void // end of [matrix_set_at]
+
+#atscode_separator()
+
+fun{a:vt0p}
+matrix_ptr_takeout_row
+  {l0:addr}
+  {m,n:int}
+  {i:int | i < m} (
+  pfmat: matrix_v (INV(a), l0, m, n)
+| base: ptr l0, i: size_t i, n: size_t n
+) :<> [l:addr] (
+  array_v (a, l, n)
+, array_v (a, l, n) -<lin,prf> matrix_v (a, l0, m, n)
+| ptr (l)
+) // end of [matrix_ptr_takeout_row]
+
+fun{a:vt0p}
+matrix_ptr_takeout_elt
+  {l0:addr}
+  {m,n:int}
+  {i,j:nat | i < m; j < n} (
+  pfmat: matrix_v (INV(a), l0, m, n)
+| base: ptr l0, i: size_t i, n: size_t n, j: size_t j
+) :<> [l:addr] (
+  a @ l
+, a @ l -<lin,prf> matrix_v (a, l0, m, n)
+| ptr (l)
+) // end of [matrix_ptr_takeout_elt]
+
+#atscode_separator()
+
+fun{
+a:vt0p}{env:vt0p
+} matrix_foreach__cont (x: &a, env: &env): bool
+fun{
+a:vt0p}{env:vt0p
+} matrix_foreach__fwork (x: &a >> a, env: &env): void
+fun{
+a:vt0p
+} matrix_foreach
+  {m,n:int} (
+  A: &matrix(INV(a), m, n) >> matrix(a, m, n), m: size_t m, n: size_t n
+) : sizeLte (m*n) // end of [matrix_foreach]
+fun{
+a:vt0p}{env:vt0p
+} matrix_foreach_env
+  {m,n:int} (
+  A: &matrix(INV(a), m, n) >> matrix(a, m, n), m: size_t m, n: size_t n
+, env: &INV(env) >> env
+) : sizeLte (m*n) // end of [matrix_foreach_env]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "matrix_atxt.txt")
+%}\

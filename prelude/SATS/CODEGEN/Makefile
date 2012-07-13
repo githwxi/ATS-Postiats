@@ -236,6 +236,16 @@ clean:: ; $(RMF) parrnull_atxt.exe
 cleanall:: ; $(RMF) parrnull.sats
 
 
+all:: matrix.sats
+matrix.sats: matrix_atxt.exe ; ./$< > $@
+matrix_atxt.exe: matrix_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ matrix_atxt.dats -latsdoc
+matrix_atxt.dats: matrix.atxt
+	$(ATSDOC) --outcode $@ -i matrix.atxt > matrix_atxt.txt
+clean:: ; $(RMF) matrix_atxt.exe
+cleanall:: ; $(RMF) matrix.sats
+
+
 all:: iterator.sats
 iterator.sats: iterator_atxt.exe ; ./$< > $@
 iterator_atxt.exe: iterator_atxt.dats

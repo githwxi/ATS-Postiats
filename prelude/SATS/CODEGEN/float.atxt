@@ -15,8 +15,8 @@ fun fprint_%s
   : fprint_type (%s) = \"mac#atspre_fprint_%s\"
 overload fprint with fprint_%s
 fun print_%s (x: %s): void
-and prerr_%s (x: %s): void
 overload print with print_%s
+fun prerr_%s (x: %s): void
 overload prerr with prerr_%s\
 ", @(
  tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm
