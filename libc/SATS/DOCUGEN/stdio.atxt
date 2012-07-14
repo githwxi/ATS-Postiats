@@ -91,17 +91,48 @@ end // end of [main]
 
 (* ****** ****** *)
 
-#declnamesynop("freopen0_err")
-#declnamesynop("freopen1_err")
-#declnamesynop("freopen_stdin")
-#declnamesynop("freopen_stdout")
-#declnamesynop("freopen_stderr")
-
-(* ****** ****** *)
-
 #declnamesynop("fclose0_err")
 #declnamesynop("fclose1_err")
 #declnamesynop("fclose0_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("freopen0_err")
+#decldescrpt("\
+This function directly corresponds to the libc-function of the name
+#dyncode("freopen").")
+#declnamesynop("freopen1_err")
+#decldescrpt("\
+This function directly corresponds to the libc-function of the name
+#dyncode("freopen").")
+#declnamesynop("freopen0_exn")
+#decldescrpt("\
+This function is a slight variant of #dyncode("freopen0_exn"): It exits
+immediately if calling #dyncode("freopen") leads to an error.  ")
+#declexample("\
+
+The following code creates a file named foo.txt and writes into it the
+string \"Hello, world!\" plus a newline:
+
+#pats2xhtmld_tryit('\
+//
+staload "libc/SATS/stdio.sats"
+//
+implement
+main () = 0 where {
+  val () = freopen0_exn ("foo.txt", file_mode_w, stdout_ref)
+  val () = puts_exn ("Hello, world!")
+  val () = fclose0_exn (stdout_ref)
+} // end of [main]
+')
+")
+%{
+(*
+#declnamesynop("freopen_stdin")
+#declnamesynop("freopen_stdout")
+#declnamesynop("freopen_stderr")
+*)
+%}
 
 (* ****** ****** *)
 
@@ -276,7 +307,15 @@ fgets. ")
 (* ****** ****** *)
 
 #declnamesynop("fputs0_err")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("fputs").  ")
 #declnamesynop("fputs1_err")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("fputs").  ")
 #declnamesynop("fputs0_exn")
 
 (* ****** ****** *)
@@ -285,12 +324,14 @@ fgets. ")
 #decldescrpt("\
 
 This function directly corresponds to the libc-function of the name
-#dyncode("puts").  ")
+#dyncode("puts").  Note that a call to this function puts a trailing
+newline after its argument.
+")
 
 #declnamesynop("puts_exn")
 #decldescrpt("\
 
-This function is a slight variant of #dyncode("puts_err"): It exists
+This function is a slight variant of #dyncode("puts_err"): It exits
 immediately if calling #dyncode("puts") leads to an error.  ")
 
 (* ****** ****** *)
@@ -344,7 +385,7 @@ This function directly corresponds to the libc-function of the name
 #declnamesynop("remove_exn")
 #decldescrpt("\
 
-This function is a slight variant of #dyncode("remove_err"): It exists
+This function is a slight variant of #dyncode("remove_err"): It exits
 immediately if calling #dyncode("remove") leads to an error.  ")
 
 (* ****** ****** *)
@@ -358,7 +399,7 @@ This function directly corresponds to the libc-function of the name
 #declnamesynop("rename_exn")
 #decldescrpt("\
 
-This function is a slight variant of #dyncode("rename_err"): It exists
+This function is a slight variant of #dyncode("rename_err"): It exits
 immediately if calling #dyncode("rename") leads to an error.  ")
 
 (* ****** ****** *)

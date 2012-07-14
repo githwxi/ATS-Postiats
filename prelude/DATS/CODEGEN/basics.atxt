@@ -60,10 +60,73 @@ argv_get_at
 
 #atscode_separator()
 
+#atscode_separator()
+
+implement{a}
+gequal_val (x, y) = geq_val (x, y)
+
+#atscode_separator()
+
+implement{a}
+glt_val (x, y) = gcompare_val (x, y) < 0
+implement{a}
+glte_val (x, y) = gcompare_val (x, y) <= 0
+implement{a}
+ggt_val (x, y) = gcompare_val (x, y) > 0
+implement{a}
+ggte_val (x, y) = gcompare_val (x, y) >= 0
+implement{a}
+geq_val (x, y) = gcompare_val (x, y) = 0
+implement{a}
+gneq_val (x, y) = gcompare_val (x, y) != 0
+
+implement{a}
+glt_ref (x, y) = glt_val (x, y)
+implement{a}
+glte_ref (x, y) = glte_val (x, y)
+implement{a}
+ggt_ref (x, y) = ggt_val (x, y)
+implement{a}
+ggte_ref (x, y) = ggte_val (x, y)
+implement{a}
+geq_ref (x, y) = geq_val (x, y)
+implement{a}
+gneq_ref (x, y) = gneq_val (x, y)
+implement
+gcompare_ref (x, y) = gcompare_val (x, y)
+
+#atscode_separator()
+
+implement{a}
+tostring_val (x) =
+  string_of_strptr (tostrptr (x))
+implement{a}
+tostring_ref (x) = tostring_val (x)
+
+implement{a}
+tostrptr_ref (x) = tostrptr_val (x)
+
+#atscode_separator()
+
 implement{a}
 print_val (x) = fprint_val<a> (stdout_ref, x)
 implement{a}
 prerr_val (x) = fprint_val<a> (stderr_ref, x)
+implement{a}
+fprint_val (out, x) = let
+  val str = tostrptr_val (x)
+  val () = fprint_strptr (out, str)
+  val () = strptr_free (str)
+in
+  // nothing
+end // end of [fprint_val]
+
+implement{a}
+fprint_ref (out, x) = fprint_val (out, x)
+implement{a}
+print_ref (x) = fprint_ref<a> (stdout_ref, x)
+implement{a}
+prerr_ref (x) = fprint_ref<a> (stderr_ref, x)
 
 #atscode_separator()
 

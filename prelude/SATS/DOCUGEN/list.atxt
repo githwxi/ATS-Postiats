@@ -142,13 +142,53 @@ array, where i ranges from 0 until n-1, inclusively.  ')
 #decldescrpt("\
 
 This function, which overloads the symbol #dyncode("list"), is often
-conveniently employed to build a list of some fixed length.\
+conveniently employed to build a list of some fixed length. Note that the
+argument of #dyncode("list_make_arrpsz") is a linear arrpsz-value, which is
+consumed after #dyncode("list_make_arrpsz") returns.
 
+")
+#declexample("\
+
+The following code demonstrates two ways of constructing
+lists of fixed length:
+
+#pats2xhtmld_tryit('\
+implement
+main () = 0 where {
+  val xs1 = $lst{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+  val xs2 = list$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+  val xs2 = list_of_list_vt (xs2)
+  val () = assert (list_equal (xs1, xs2))
+} // end pf [main]
+')
 ")
 
 (* ****** ****** *)
 
 #declnamesynop("fprint_list_sep")
+#decldescrpt("\
+
+This function prints the elements in a given list to the output channel
+provided as its first argument, interspersing the string #dyncode('sep')
+between the printed list elements. Note that printing each list element is
+handled by calling the function #dyncode("fprint_val").
+
+")
+#declexample("\
+
+The following code builds a list of digits and then prints them onto the
+standard output channel:
+
+#pats2xhtmld_tryit('\
+implement
+main () = 0 where {
+  val out = stdout_ref
+  val xs = $lst{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+  val () = fprint_list_sep<int> (out, xs, ", ")
+  val () = fprint_newline (out)
+} // end of [main]
+')
+")
 
 (* ****** ****** *)
 
@@ -248,13 +288,29 @@ This function returns a prefix of its first argument, where the length of
 the prefix is specified by its second argument.
 
 ')
+#declexample("\
+
+The following code makes a simple use of #dyncode("list_take"):
+
+#pats2xhtmld_tryit('\
+implement
+main () = 0 where {
+  \#define l2l list_of_list_vt
+  val out = stdout_ref
+  val xs1 = $lst{int}(0, 1, 2, 3, 4)
+  val n1 = list_length (xs1)
+  val xs2 = $lst{int}(5, 6, 7, 8, 9)
+  val () = assert (list_equal (xs1, l2l (list_take (xs1 + xs2, n1))))
+} // end of [main]
+')
+")
 
 #declnamesynop("list_take_exn")
 #decldescrpt('\
 
 This function is like #dyncode("list_take") except that it raises an
-exception (ListSubscriptExn) if its second argument is negative or exceeds
-the length of its first argument.
+exception (#dyncode("ListSubscriptExn")) if its second argument is negative
+or exceeds the length of its first argument.
 
 ')
 
@@ -264,106 +320,30 @@ the length of its first argument.
 #decldescrpt('\
 
 This function returns a suffix of its first argument, where the length of
-the suffix is the length of the first argument minus the integer provided as
-its second argument.
+the suffix is the length of the first argument minus the integer provided
+as its second argument.  ')
+#declexample("\
 
+The following code makes a simple use of #dyncode("list_drop"):
+
+#pats2xhtmld_tryit('\
+implement
+main () = 0 where {
+  val out = stdout_ref
+  val xs1 = $lst{int}(0, 1, 2, 3, 4)
+  val n1 = list_length (xs1)
+  val xs2 = $lst{int}(5, 6, 7, 8, 9)
+  val () = assert (list_equal (xs2, list_drop (xs1 + xs2, n1)))
+} // end of [main]
 ')
+")
 
 #declnamesynop("list_drop_exn")
 #decldescrpt('\
 
 This function is like #dyncode("list_drop") except that it raises an
-exception (ListSubscriptExn) if its second argument is negative or exceeds
-the length of its first argument.
-
-')
-
-(* ****** ****** *)
-
-#declnamesynop("list_exists__pred")
-#declnamesynop("list_exists")
-#decldescrpt('\
-
-Given a list xs, this function returns true if and only if there exists an
-element in xs that satisfies the predicate implemented by
-#dyncode("list_exists__pred").
-
-')
-
-#declexample('\
-
-The following code implements a function for removing the duplicates in a
-given list:
-
-#pats2xhtmld_tryit('
-//
-staload UN = "prelude/SATS/unsafe.sats"
-//
-fun{a:t0p}
-list_remove_dup (
-  xs: List (a), eq: (a, a) -<0> bool
-) : List_vt (a) = let
-  fun loop (
-    xs: List (a), ys: List0_vt (a)
-  ) : List_vt (a) =
-    case+ xs of
-    | list_cons (x, xs) => let
-        implement
-        list_exists__pred<a> (y) = eq (x, y)
-        val found = list_exists<a> ($UN.linlst2lst(ys))
-      in
-        if found then loop (xs, ys) else loop (xs, list_vt_cons (x, ys))
-      end // end of [list_cons]
-    | list_nil () => ys
-  // end of [loop]
-in
-  list_vt_reverse (loop (xs, list_vt_nil))
-end // end of [list_remove_dup]
-')\
-
-Note that the order of elements in the returned list is consistent with
-their order in the original list.
-
-')
-
-(* ****** ****** *)
-
-#declnamesynop("list_forall__pred")
-#declnamesynop("list_forall")
-#decldescrpt('\
-
-Given a list xs, this function returns true if and only if every element in
-xs satisfies the predicate implemented by #dyncode("list_forall__pred").
-
-')
-
-(* ****** ****** *)
-
-#declnamesynop("list_equal__pred")
-#declnamesynop("list_equal")
-#decldescrpt('\
-
-Given two lists xs1 and xs2, this function returns true if and only if xs1
-and xs2 are of the same length and the predicate implemented by
-#dyncode("list_equal__pred") holds on each pair (xs1[i], xs2[i]), where i
-ranges from 0 until the length of xs1 minus 1, inclusively. ')
-
-(* ****** ****** *)
-
-#declnamesynop("list_find__pred")
-#declnamesynop("list_find_exn")
-#decldescrpt('\
-
-Given a list xs, this function returns xs[i] (element i in xs) for the
-least index i such that xs[i] satisfies the predicate implemented by
-#dyncode("list_find__pred"). In case there is no such an element, the
-function raises an exception (NotFoundExn).
-
-')
-#declnamesynop("list_find_opt")
-#decldescrpt('\
-
-This function is the optional version of #dyncode("list_find_exn").
+exception (#dyncode("ListSubscriptExn")) if its second argument is negative
+or exceeds the length of its first argument.
 
 ')
 
@@ -437,7 +417,7 @@ is the function implemented by #dyncode("list_foldleft__fwork").
 
 The following code computes factorial of n for a given natural number n:\
 
-#pats2xhtmld_tryit('
+#pats2xhtmld_tryit('\
 //
 staload UN = "prelude/SATS/unsafe.sats"
 //
@@ -458,13 +438,102 @@ end // end of [factorial]
 
 (* ****** ****** *)
 
-#declnamesynop("list_labelize")
+#declnamesynop("list_exists__pred")
+#declnamesynop("list_exists")
 #decldescrpt('\
 
-Given a list xs, this function returns a linear list consisting pairs
-(i, xs[i]), where i ranges from 0 until the lenght of xs minus 1 and xs[i]
-refers to element i in xs. The implementation of this function in ATSLIB
-is tail-recursive.
+Given a list xs, this function returns true if and only if there exists an
+element in xs that satisfies the predicate implemented by
+#dyncode("list_exists__pred").
+
+')
+
+#declexample('\
+
+The following code implements a function for removing the duplicates in a
+given list:
+
+#pats2xhtmld_tryit('\
+//
+staload UN = "prelude/SATS/unsafe.sats"
+//
+fun{a:t0p}
+list_remove_dup (
+  xs: List (a), eq: (a, a) -<0> bool
+) : List_vt (a) = let
+  fun loop (
+    xs: List (a), ys: List0_vt (a)
+  ) : List_vt (a) =
+    case+ xs of
+    | list_cons (x, xs) => let
+        implement
+        list_exists__pred<a> (y) = eq (x, y)
+        val found = list_exists<a> ($UN.linlst2lst(ys))
+      in
+        if found then loop (xs, ys) else loop (xs, list_vt_cons (x, ys))
+      end // end of [list_cons]
+    | list_nil () => ys
+  // end of [loop]
+in
+  list_vt_reverse (loop (xs, list_vt_nil))
+end // end of [list_remove_dup]
+')\
+
+Note that the order of elements in the returned list is consistent with
+their order in the original list.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_forall__pred")
+#declnamesynop("list_forall")
+#decldescrpt('\
+
+Given a list xs, this function returns true if and only if every element in
+xs satisfies the predicate implemented by #dyncode("list_forall__pred").
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_equal__pred")
+#decldescrpt("\
+
+This function is called in the implementation of #dyncode("list_equal") to
+perform equality test on list elements, and its default implementation is
+based on #dyncode("gequal_val"):
+
+#pats2xhtmld_tryit("\
+implement{a}
+list_equal__pred (x, y) = gequal_val<a> (x, y)
+")
+")
+#declnamesynop("list_equal")
+#decldescrpt('\
+
+Given two lists xs1 and xs2, this function returns true if and only if xs1
+and xs2 are of the same length and the predicate implemented by
+#dyncode("list_equal__pred") holds on each pair (xs1[i], xs2[i]), where i
+ranges from 0 until the length of xs1 minus 1, inclusively, and xs1[i]
+(xs2[i]) refers to element i in xs1 (xs2). ')
+
+(* ****** ****** *)
+
+#declnamesynop("list_find__pred")
+#declnamesynop("list_find_exn")
+#decldescrpt('\
+
+Given a list xs, this function returns xs[i] (element i in xs) for the
+least index i such that xs[i] satisfies the predicate implemented by
+#dyncode("list_find__pred"). In case there is no such an element, the
+function raises an exception (#dyncode("NotFoundExn")).
+
+')
+#declnamesynop("list_find_opt")
+#decldescrpt('\
+
+This function is the optional version of #dyncode("list_find_exn").
 
 ')
 
@@ -478,6 +547,18 @@ is tail-recursive.
 Given a list xs, this function returns a linear list consisting elements in
 xs that satisfy the predicate implemented by #dyncode("list_filter__pred").
 The implementation of this function in ATSLIB is tail-recursive.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("list_labelize")
+#decldescrpt('\
+
+Given a list xs, this function returns a linear list consisting pairs
+(i, xs[i]), where i ranges from 0 until the lenght of xs minus 1 and xs[i]
+refers to element i in xs. The implementation of this function in ATSLIB
+is tail-recursive.
 
 ')
 

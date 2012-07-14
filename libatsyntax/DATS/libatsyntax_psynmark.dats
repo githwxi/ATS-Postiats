@@ -762,6 +762,10 @@ case+ d0e0.d0exp_node of
   end // end of [D0Erec]
 | $SYN.D0Eseq (d0es) => d0explst_mark (d0es, res)
 //
+| $SYN.D0Earrpsz (s0e_elt, d0e) => let
+    val () = s0expopt_mark (s0e_elt, res) in d0exp_mark (d0e, res)
+  end // end of [D0Earrpsz]
+//
 | $SYN.D0Eeffmask
     (efs, d0e) => let
     val () =

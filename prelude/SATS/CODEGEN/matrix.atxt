@@ -50,29 +50,36 @@ praxi array2matrix_v
   (pf: array_v (INV(a), l, m*n)): matrix_v (a, l, m, n)
 
 #atscode_separator()
-
+//
+// The representation of a matrix in ATS is of the row-major style
+//
+(*
 absview
 matrow_viewt0ype_addr_int_int (a:viewt@ype+, l:addr, m:int, n:int)
 stadef matrow_v = matrow_viewt0ype_addr_int_int
+*)
+viewdef
+matrow_v (a:vt0p, l:addr, m:int, n:int) = array_v (a, l, n)
+//
 absview
 matcol_viewt0ype_addr_int_int (a:viewt@ype+, l:addr, m:int, n:int)
 stadef matcol_v = matcol_viewt0ype_addr_int_int
-
+//
 #atscode_separator()
 
 fun{a:t0p}
-matrix_get_at {m,n:int}
-  (M: &matrix (a, m, n), i: sizeLt (m), j: sizeLt (n)):<> a
-// end of [matrix_get_at]
+matrix_get_at {m,n:int} (
+  M: &matrix (a, m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n)
+) :<> a // end of [matrix_get_at]
 
 fun{a:t0p}
 matrix_set_at {m,n:int} (
-  M: &matrix (a, m, n), i: sizeLt (m), j: sizeLt (n), x: a
+  M: &matrix (a, m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n), x: a
 ) :<!wrt> void // end of [matrix_set_at]
 
 fun{a:vt0p}
 matrix_exch_at {m,n:int} (
-  M: &matrix (a, m, n), i: sizeLt (m), j: sizeLt (n), x: &a>>a
+  M: &matrix (a, m, n), i: sizeLt (m), n: size_t n, j: sizeLt (n), x: &a>>a
 ) :<!wrt> void // end of [matrix_set_at]
 
 #atscode_separator()

@@ -166,66 +166,6 @@ fun fopen_ref_exn
 ) :<!exnwrt> FILEref (*none*) = "ext#atslib_fopen_exn"
 
 (* ****** ****** *)
-(*
-//
-// FILE *freopen (const char *path, const char *mode, FILE *stream);
-//
-The [freopen] function opens the file whose name is the string pointed to
-by path and associates the stream pointed to by stream with it.  The original
-stream (if it exists) is closed.  The mode argument is used just as in the
-fopen function.  The primary use of the freopen function is to change the file
-associated with a standard text stream (stderr, stdin, or stdout).
-//
-*)
-//
-symintr freopen_err
-//
-fun freopen0_err
-  {m2:fm} (
-  path: NSH(string), m2: file_mode m2, filr: FILEref
-) :<!wrt> void = "mac#atslib_freopen_err"
-overload freopen_err with freopen0_err
-fun freopen1_err
-  {m1,m2:fm}
-  {l0:addr} (
-  path: NSH(string), m2: file_mode m2, filp: FILEptr (l0, m1)
-) :<!wrt> [l:addr | l==null || l==l0] (
-  option_v (FILE_v (l, m2), l > null)
-| ptr l
-) = "mac#atslib_freopen_err"
-overload freopen_err with freopen1_err
-//
-symintr freopen_exn
-//
-fun freopen0_exn
-  {m_new:fm} (
-  path: NSH(string)
-, m_new: file_mode m_new
-, filr: FILEref
-) :<!exnwrt> void = "ext#atslib_freopen_exn"
-overload freopen_exn with freopen0_exn
-(*
-fun freopen1_exn
-  {m1,m2:fm}
-  {l0:addr} (
-  path: NSH(string)
-, m2: file_mode m2
-, filp: !FILEptr (l0, m1) >> FILEptr (l0, m2)
-) :<!exnwrt> void = "ext#atslib_freopen_exn"
-overload freopen_exn with freopen1_exn
-*)
-
-fun freopen_stdin
-  (path: NSH(string)):<!exnwrt> void = "ext#atslib_freopen_stdin"
-// end of [freopen_stdin]
-fun freopen_stdout
-  (path: NSH(string)):<!exnwrt> void = "ext#atslib_freopen_stdout"
-// end of [freopen_stdout]
-fun freopen_stderr
-  (path: NSH(string)):<!exnwrt> void = "ext#atslib_freopen_stderr"
-// end of [freopen_stderr]
-
-(* ****** ****** *)
 //
 symintr fclose_err
 //
@@ -250,12 +190,77 @@ fun fclose1_exn
 overload fclose_exn with fclose1_exn
 *)
 
-(* ****** ****** *)
-
 (*
 fun fclose_stdin ():<!exnwrt> void = "ext#atslib_fclose_stdin"
 fun fclose_stdout ():<!exnwrt> void = "ext#atslib_fclose_stdout"
 fun fclose_stderr ():<!exnwrt> void = "ext#atslib_fclose_stderr"
+*)
+
+(* ****** ****** *)
+(*
+//
+// FILE *freopen (const char *path, const char *mode, FILE *stream);
+//
+The [freopen] function opens the file whose name is the string pointed to
+by path and associates the stream pointed to by stream with it.  The original
+stream (if it exists) is closed.  The mode argument is used just as in the
+fopen function.  The primary use of the freopen function is to change the file
+associated with a standard text stream (stderr, stdin, or stdout).
+//
+*)
+//
+symintr freopen_err
+//
+fun freopen0_err
+  {m2:fm} (
+  path: NSH(string), m2: file_mode m2, filr: FILEref
+) :<!wrt> Ptr0
+  = "mac#atslib_freopen_err"
+overload freopen_err with freopen0_err
+//
+// HX-2012-07:
+// the original stream is closed even if [freopen] fails.
+//
+fun freopen1_err
+  {m1,m2:fm}{l0:addr} (
+  path: NSH(string), m2: file_mode m2, filp: FILEptr (l0, m1)
+) :<!wrt> [
+  l:addr | l==null || l==l0
+] (
+  option_v (FILE_v (l, m2), l > null)
+| ptr l
+) = "mac#atslib_freopen_err"
+overload freopen_err with freopen1_err
+//
+symintr freopen_exn
+//
+fun freopen0_exn
+  {m2:fm} (
+  path: NSH(string), m2: file_mode m2, filr: FILEref
+) :<!exnwrt> void
+  = "ext#atslib_freopen_exn"
+overload freopen_exn with freopen0_exn
+(*
+fun freopen1_exn
+  {m1,m2:fm}{l0:addr} (
+  path: NSH(string)
+, m2: file_mode (m2)
+, filp: !FILEptr (l0, m1) >> FILEptr (l0, m2)
+) :<!exnwrt> void
+  = "ext#atslib_freopen_exn"
+overload freopen_exn with freopen1_exn
+*)
+
+(*
+fun freopen_stdin
+  (path: NSH(string)):<!exnwrt> void = "ext#atslib_freopen_stdin"
+// end of [freopen_stdin]
+fun freopen_stdout
+  (path: NSH(string)):<!exnwrt> void = "ext#atslib_freopen_stdout"
+// end of [freopen_stdout]
+fun freopen_stderr
+  (path: NSH(string)):<!exnwrt> void = "ext#atslib_freopen_stderr"
+// end of [freopen_stderr]
 *)
 
 (* ****** ****** *)

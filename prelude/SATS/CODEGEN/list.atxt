@@ -134,6 +134,7 @@ fun{a:t0p}
 list_append {m,n:int} (
   xs: NSH(list (INV(a), m)), ys: SHR(list (a, n))
 ) :<> list (a, m+n) // end of [list_append]
+overload + with list_append
 
 fun{
 a:t0p // type for elements
@@ -206,7 +207,7 @@ fun{
 a:t0p
 } list_drop
   {n:int}{i:nat | i <= n}
-  (xs: list (INV(a), n), i: int i):<> list (a, n-i)
+  (xs: SHR(list (INV(a), n)), i: int i):<> list (a, n-i)
 // end of [list_drop]
 
 (*
@@ -216,27 +217,8 @@ fun{
 a:t0p
 } list_drop_exn
   {n:int}{i:nat}
-  (xs: list (INV(a), n), i: int i):<!exn> [i <= n] list (a, n-i)
+  (xs: SHR(list (INV(a), n)), i: int i):<!exn> [i <= n] list (a, n-i)
 // end of [list_drop_exn]
-
-#atscode_separator()
-
-fun{x:t0p} list_exists__pred (x):<> bool
-fun{x:t0p} list_exists (xs: List (x)):<> bool
-
-fun{x:t0p} list_forall__pred (x):<> bool
-fun{x:t0p} list_forall (xs: List (x)):<> bool
-
-#atscode_separator()
-
-fun{x:t0p} list_equal__pred (x, x):<> bool
-fun{x:t0p} list_equal (xs1: List (INV(x)), xs2: List(x)):<> bool
-
-#atscode_separator()
-
-fun{x:t0p} list_find__pred (x):<> bool
-fun{x:t0p} list_find_exn (xs: List (x)):<!exn> x
-fun{x:t0p} list_find_opt (xs: List (x)):<> Option_vt (x)
 
 #atscode_separator()
 
@@ -306,11 +288,22 @@ x:t0p}{res:vt0p
 
 #atscode_separator()
 
-fun{
-x:t0p
-} list_labelize
-  {n:int} (xs: list (INV(x), n)):<> list_vt (@(int, x), n)
-// end of [list_labelize]
+fun{x:t0p} list_exists__pred (x):<> bool
+fun{x:t0p} list_exists (xs: List (x)):<> bool
+
+fun{x:t0p} list_forall__pred (x):<> bool
+fun{x:t0p} list_forall (xs: List (x)):<> bool
+
+#atscode_separator()
+
+fun{x:t0p} list_equal__pred (x, x):<> bool
+fun{x:t0p} list_equal (xs1: List (INV(x)), xs2: List(x)):<> bool
+
+#atscode_separator()
+
+fun{x:t0p} list_find__pred (x):<> bool
+fun{x:t0p} list_find_exn (xs: List (x)):<!exn> x
+fun{x:t0p} list_find_opt (xs: List (x)):<> Option_vt (x)
 
 #atscode_separator()
 
@@ -331,6 +324,14 @@ x:t0p
   xs: NSH(list (INV(x), n))
 , f: (!v | x, !vt) -<fun,fe> bool, env: !vt
 ) :<fe> listLte_vt (x, n) // end of [list_filter_funenv]
+
+#atscode_separator()
+
+fun{
+x:t0p
+} list_labelize
+  {n:int} (xs: list (INV(x), n)):<> list_vt (@(int, x), n)
+// end of [list_labelize]
 
 #atscode_separator()
 

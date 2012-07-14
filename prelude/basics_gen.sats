@@ -43,32 +43,65 @@
 (* ****** ****** *)
 
 fun{a:vt0p}
-gequal_val (x: !a, y: !a):<> bool
+gequal_val (x: !INV(a), y: !a):<> bool
 fun{a:vt0p}
-gequal_ref (x: &a, y: &a):<> bool
+gequal_ref (x: &INV(a), y: &a):<> bool
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-gcompare_val (x: !a, y: !a):<> int
+glt_val (x: !INV(a), y: !a):<> bool
 fun{a:vt0p}
-gcompare_ref (x: &a, y: &a):<> int
+glte_val (x: !INV(a), y: !a):<> bool
+fun{a:vt0p}
+ggt_val (x: !INV(a), y: !a):<> bool
+fun{a:vt0p}
+ggte_val (x: !INV(a), y: !a):<> bool
+fun{a:vt0p}
+geq_val (x: !INV(a), y: !a):<> bool
+fun{a:vt0p}
+gneq_val (x: !INV(a), y: !a):<> bool
+fun{a:vt0p}
+gcompare_val (x: !INV(a), y: !a):<> int
+
+fun{a:vt0p}
+glt_ref (x: &INV(a), y: &a):<> bool
+fun{a:vt0p}
+glte_ref (x: &INV(a), y: &a):<> bool
+fun{a:vt0p}
+ggt_ref (x: &INV(a), y: &a):<> bool
+fun{a:vt0p}
+ggte_ref (x: &INV(a), y: &a):<> bool
+fun{a:vt0p}
+geq_ref (x: &INV(a), y: &a):<> bool
+fun{a:vt0p}
+gneq_ref (x: &INV(a), y: &a):<> bool
+fun{a:vt0p}
+gcompare_ref (x: &INV(a), y: &a):<> int
+
+(* ****** ****** *)
+
+fun{a:vt0p} tostring_val (x: !INV(a)):<> string
+fun{a:vt0p} tostring_ref (x: &INV(a)):<> string
+
+fun{a:vt0p} tostrptr_val (x: !INV(a)):<> Strptr1
+fun{a:vt0p} tostrptr_ref (x: &INV(a)):<> Strptr1
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-fprint_val (out: FILEref, x: !a): void
+fprint_val (out: FILEref, x: !INV(a)): void
 fun{a:vt0p}
-print_val (x: !a): void // = fprint_val (stdout_ref, x)
+print_val (x: !INV(a)): void // = fprint_val (stdout_ref, x)
 fun{a:vt0p}
-prerr_val (x: !a): void // = fprint_val (stderr_ref, x)
+prerr_val (x: !INV(a)): void // = fprint_val (stderr_ref, x)
 
 fun{a:vt0p}
-fprint_ref (out: FILEref, x: &a): void
+fprint_ref (out: FILEref, x: &INV(a)): void
 fun{a:vt0p}
-print_ref (x: &a): void // = fprint_ref (stdout_ref, x)
+print_ref (x: &INV(a)): void // = fprint_ref (stdout_ref, x)
 fun{a:vt0p}
-prerr_ref (x: &a): void // = fprint_ref (stderr_ref, x)
+prerr_ref (x: &INV(a)): void // = fprint_ref (stderr_ref, x)
 
 (* ****** ****** *)
 

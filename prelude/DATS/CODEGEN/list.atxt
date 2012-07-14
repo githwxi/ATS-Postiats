@@ -543,8 +543,8 @@ end // end of [list_forall]
 
 #atscode_separator()
 
-implement
-list_equal__pred (x1, x2) = eq_val_val (x1, x2)
+implement{a}
+list_equal__pred (x1, x2) = gequal_val<a> (x1, x2)
 
 implement{x}
 list_equal (xs1, xs2) = let
@@ -1123,6 +1123,9 @@ end // end of [list_zip]
 #atscode_separator()
 
 implement{a}
+list_mergesort_cmp<a> (x1, x2) = gcompare_val (x1, x2)
+
+implement{a}
 list_mergesort
   (xs) = let
 //
@@ -1137,6 +1140,9 @@ in
 end // end of [list_mergesort]
 
 #atscode_separator()
+
+implement{a}
+list_quicksort_cmp<a> (x1, x2) = gcompare_val (x1, x2)
 
 implement{a}
 list_quicksort
