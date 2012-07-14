@@ -14,37 +14,31 @@ This package contains various functions on booleans values.
 
 (* ****** ****** *)
 
-#declnamesynop("bool_of_int")
+#declnamesynop("int2bool0")
 #decldescrpt('\
 This function maps any nonzero integer to #dyncode("true") and zero
 to #dyncode("false").
 ')
+#declnamesynop("int2bool1")
+#decldescrpt('\
+This function does the same as #dyncode("int2bool0") at run-time.
+')
 
 (* ****** ****** *)
 
-#declnamesynop("int_of_bool")
+#declnamesynop("bool2int0")
 #decldescrpt('\
 This function maps #dyncode("true") and #dyncode("false") to 1 and 0, respectively.
 ')
-
-(* ****** ****** *)
-
-#declnamesynop("bool1_of_int1")
+#declnamesynop("bool2int1")
 #decldescrpt('\
-This function does the same as bool_of_int at run-time.
+This function does the same as #dyncode("bool2int0") at run-time.
 ')
 
 (* ****** ****** *)
 
-#declnamesynop("int1_of_bool1")
-#decldescrpt('\
-This function does the same as int_of_bool at run-time.
-')
-
-(* ****** ****** *)
-
-#declnamesynop("add_bool_bool")
-#declnamesynop("mul_bool_bool")
+#declnamesynop("add_bool0_bool0")
+#declnamesynop("mul_bool0_bool0")
 
 (* ****** ****** *)
 

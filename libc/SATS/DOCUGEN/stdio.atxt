@@ -91,10 +91,27 @@ end // end of [main]
 
 (* ****** ****** *)
 
+#declnamesynop("freopen0_err")
+#declnamesynop("freopen1_err")
+#declnamesynop("freopen_stdin")
+#declnamesynop("freopen_stdout")
+#declnamesynop("freopen_stderr")
+
+(* ****** ****** *)
+
 #declnamesynop("fclose0_err")
 #declnamesynop("fclose1_err")
 #declnamesynop("fclose0_exn")
-#declnamesynop("fclose1_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("fileno0")
+#declnamesynop("fileno1")
+
+(* ****** ****** *)
+
+#declnamesynop("fdopen_err")
+#declnamesynop("fdopen_exn")
 
 (* ****** ****** *)
 
@@ -138,9 +155,7 @@ ferror. ")
 
 #declnamesynop("fflush0_err")
 #declnamesynop("fflush1_err")
-
 #declnamesynop("fflush0_exn")
-#declnamesynop("fflush1_exn")
 
 (* ****** ****** *)
 
@@ -184,6 +199,12 @@ end // end of [local]
 
 This function directly corresponds to the libc-function of the name
 fgetc. ")
+
+(* ****** ****** *)
+
+#declnamesynop("getc")
+#declnamesynop("getchar0")
+#declnamesynop("getchar1")
 
 (* ****** ****** *)
 
@@ -242,74 +263,103 @@ fgets. ")
 
 (* ****** ****** *)
 
-#declnamesynop("fgetpos")
-
-(* ****** ****** *)
-
-#declnamesynop("fileno0")
-#declnamesynop("fileno1")
-
-(* ****** ****** *)
-
-#declnamesynop("fdopen_err")
-#declnamesynop("fdopen_exn")
-
-(* ****** ****** *)
-
 #declnamesynop("fputc0_err")
 #declnamesynop("fputc1_err")
-
 #declnamesynop("fputc0_exn")
-#declnamesynop("fputc1_exn")
 
 (* ****** ****** *)
 
-#declnamesynop("fputs0_err")
-#declnamesynop("fputs1_err")
-
-#declnamesynop("fputs0_exn")
-#declnamesynop("fputs1_exn")
-
-(* ****** ****** *)
-
-#declnamesynop("fread")
-#declnamesynop("fread_byte")
-#declnamesynop("fread_byte_exn")
-
-(* ****** ****** *)
-
-#declnamesynop("fwrite")
-#declnamesynop("fwrite_byte")
-#declnamesynop("fwrite_byte_exn")
-
-(* ****** ****** *)
-
-#declnamesynop("perror")
-
-(* ****** ****** *)
-
-#declnamesynop("getchar0")
-#declnamesynop("getchar1")
-
-(* ****** ****** *)
-
+#declnamesynop("putc")
 #declnamesynop("putchar0")
 #declnamesynop("putchar1")
 
 (* ****** ****** *)
 
+#declnamesynop("fputs0_err")
+#declnamesynop("fputs1_err")
+#declnamesynop("fputs0_exn")
+
+(* ****** ****** *)
+
 #declnamesynop("puts_err")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("puts").  ")
+
 #declnamesynop("puts_exn")
+#decldescrpt("\
+
+This function is a slight variant of #dyncode("puts_err"): It exists
+immediately if calling #dyncode("puts") leads to an error.  ")
+
+(* ****** ****** *)
+
+#declnamesynop("fread0_err")
+#declnamesynop("fread1_err")
+#declnamesynop("fread0_exn")
+
+#declnamesynop("fwrite0_err")
+#declnamesynop("fwrite1_err")
+#declnamesynop("fwrite0_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("fgetpos0_err")
+#declnamesynop("fgetpos1_err")
+#declnamesynop("fgetpos0_exn")
+
+#declnamesynop("fsetpos0_err")
+#declnamesynop("fsetpos1_err")
+#declnamesynop("fsetpos0_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("fseek0_err")
+#declnamesynop("fseek1_err")
+#declnamesynop("fseek0_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("ftell0_err")
+#declnamesynop("ftell1_err")
+#declnamesynop("ftell0_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("perror")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the same name.
+")
 
 (* ****** ****** *)
 
 #declnamesynop("remove_err")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("remove").  ")
+
 #declnamesynop("remove_exn")
+#decldescrpt("\
+
+This function is a slight variant of #dyncode("remove_err"): It exists
+immediately if calling #dyncode("remove") leads to an error.  ")
 
 (* ****** ****** *)
 
 #declnamesynop("rename_err")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("rename").  ")
+
 #declnamesynop("rename_exn")
+#decldescrpt("\
+
+This function is a slight variant of #dyncode("rename_err"): It exists
+immediately if calling #dyncode("rename") leads to an error.  ")
 
 (* ****** ****** *)
 
@@ -325,9 +375,8 @@ fgets. ")
 (* ****** ****** *)
 
 #declnamesynop("ungetc0_err")
-#declnamesynop("ungetc0_exn")
 #declnamesynop("ungetc1_err")
-#declnamesynop("ungetc1_exn")
+#declnamesynop("ungetc0_exn")
 
 (* ****** ****** *)
 

@@ -91,17 +91,6 @@ This proof function establishes that the integer n in any linear list type
 
 (* ****** ****** *)
 
-#declnamesynop("list_vt_make_array")
-#decldescrpt('\
-
-Given an array of size n, this function returns a linear list of length n
-such that element i in the list is the element stored in cell i of the
-array, where i ranges from 0 until n-1, inclusively.
-
-')
-
-(* ****** ****** *)
-
 #declnamesynop("fprint_list_vt_sep")
 
 (* ****** ****** *)

@@ -285,7 +285,7 @@ strchr {n} (str, c0) = let
   extern fun __strchr (string, int):<> ptr = "mac\#atspre_strchr"
   extern fun __sub (ptr, ptr):<> ssizeBtw (0, n) = "mac\#atspre_sub_ptr_ptr"
   val p0 = string2ptr (str)
-  val p1 = __strchr (str, (int_of_char)c0)
+  val p1 = __strchr (str, (char2int0)c0)
 in
   if p1 > the_null_ptr then __sub (p1, p0) else g1int2int (~1)
 end // end of [strchr]
@@ -296,7 +296,7 @@ strrchr {n} (str, c0) = let
   extern fun __strrchr (string, int):<> ptr = "mac\#atspre_strrchr"
   extern fun __sub (ptr, ptr):<> ssizeBtw (0, n) = "mac\#atspre_sub_ptr_ptr"
   val p0 = string2ptr (str)
-  val p1 = __strrchr (str, (int_of_char)c0)
+  val p1 = __strrchr (str, (char2int0)c0)
 in
   if p1 > the_null_ptr then __sub (p1, p0) else g1int2int (~1)
 end // end of [strrchr]

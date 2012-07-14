@@ -35,8 +35,8 @@ viewtypedef FILEptr1 = $STDIO.FILEptr1
 
 #atscode_separator()
 
-\#define c2i int_of_char
-\#define i2c char_of_int
+\#define c2i char2int0
+\#define i2c int2char0
 
 #atscode_separator()
 

@@ -272,7 +272,7 @@ end // end of [val]
 //
 in
   if pres > 0 then let
-    prval (pf, fpf) = $UN.ptr_vget (pres)
+    prval (pf, fpf) = $UN.ptr_vtake (pres)
 (*
     val () = printf ("%s: month \#%i\\\n", @(pres->name, pres->nr))
 *)

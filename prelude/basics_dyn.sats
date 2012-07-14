@@ -417,24 +417,6 @@ typedef fprint_type (a: t0p) = (FILEref, a) -> void
 
 (* ****** ****** *)
 
-fun{a:vt0p}
-fprint_val (out: FILEref, x: !a): void
-fun{a:vt0p}
-print_val (x: !a): void // = fprint_val (stdout_ref, x)
-fun{a:vt0p}
-prerr_val (x: !a): void // = fprint_val (stderr_ref, x)
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-fprint_ref (out: FILEref, x: &a): void
-fun{a:vt0p}
-print_ref (x: &a): void // = fprint_ref (stdout_ref, x)
-fun{a:vt0p}
-prerr_ref (x: &a): void // = fprint_ref (stderr_ref, x)
-
-(* ****** ****** *)
-
 fun fprint_newline (out: FILEref): void
 fun print_newline (): void // = fprint_newline (stdout_ref)
 fun prerr_newline (): void // = fprint_newline (stderr_ref)

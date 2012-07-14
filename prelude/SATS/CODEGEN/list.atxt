@@ -48,7 +48,7 @@ lemma_list_param
 
 castfn
 list_of_list_vt
-  {a:t0p}{n:int} (xs: list_vt (a, n)):<> list (a, n)
+  {a:t0p}{n:int} (xs: list_vt (INV(a), n)):<> list (a, n)
 // end of [list_of_list_vt]
 
 #atscode_separator()
@@ -69,6 +69,14 @@ fun list_make_intrange
   {l,r:int | l <= r}
   (l: int l, r: int r):<> list_vt (intBtw (l, r), r-l)
 // end of [list_make_intrange]
+
+#atscode_separator()
+
+fun{a:vt0p}
+list_make_array
+  {n:int} (
+  A: &(@[INV(a)][n]) >> @[a?!][n], n: size_t n
+) :<!wrt> list_vt (a, n) // endfun
 
 #atscode_separator()
 
@@ -103,9 +111,9 @@ list_is_pair {x:t0p}{n:int} (xs: list (x, n)):<> bool (n==2)
 #atscode_separator()
 
 fun{a:t0p}
-list_head {n:pos} (xs: list (a, n)):<> a
+list_head {n:pos} (xs: list (INV(a), n)):<> a
 fun{a:t0p}
-list_tail {n:pos} (xs: list (a, n)):<> list (a, n-1)
+list_tail {n:pos} (xs: list (INV(a), n)):<> list (a, n-1)
 
 #atscode_separator()
 
@@ -141,9 +149,9 @@ a:t0p // type for elements
 #atscode_separator()
 
 fun{
-a:t0p
+x:t0p
 } list_extend {n:int}
-  (xs: NSH (list (INV(a), n)), x: a):<> list_vt (a, n+1)
+  (xs: NSH (list (INV(x), n)), x: x):<> list_vt (x, n+1)
 // end of [list_extend]
 
 macdef list_snoc = list_extend
@@ -174,7 +182,7 @@ list_reverse_append2_vt {m,n:int}
 #atscode_separator()
 
 fun{a:t0p}
-list_concat (xss: NSH(List (List (INV(a))))):<> List0_vt (a)
+list_concat (xss: List (List (INV(a)))):<> List0_vt (a)
 
 #atscode_separator()
 
@@ -214,16 +222,21 @@ a:t0p
 #atscode_separator()
 
 fun{x:t0p} list_exists__pred (x):<> bool
-fun{x:t0p} list_exists (xs: NSH(List (x))):<> bool
+fun{x:t0p} list_exists (xs: List (x)):<> bool
 
 fun{x:t0p} list_forall__pred (x):<> bool
-fun{x:t0p} list_forall (xs: NSH(List (x))):<> bool
+fun{x:t0p} list_forall (xs: List (x)):<> bool
+
+#atscode_separator()
+
+fun{x:t0p} list_equal__pred (x, x):<> bool
+fun{x:t0p} list_equal (xs1: List (INV(x)), xs2: List(x)):<> bool
 
 #atscode_separator()
 
 fun{x:t0p} list_find__pred (x):<> bool
-fun{x:t0p} list_find_exn (xs: NSH(List (x))):<!exn> x
-fun{x:t0p} list_find_opt (xs: NSH(List (x))):<> Option_vt (x)
+fun{x:t0p} list_find_exn (xs: List (x)):<!exn> x
+fun{x:t0p} list_find_opt (xs: List (x)):<> Option_vt (x)
 
 #atscode_separator()
 
@@ -231,14 +244,14 @@ fun{
 x:t0p // type for elements
 } list_foreach__fwork (x): void
 fun{x:t0p}
-list_foreach {n:int} (xs: NSH(list (x, n))): void
+list_foreach (xs: List (x)): void
 
 fun{
 x:t0p // type for elements
 } list_foreach_funenv
   {v:view}{env:viewtype}{fe:eff} (
   pfv: !v |
-  xs: NSH(List (INV(x)))
+  xs: List (INV(x))
 , f: (!v | x, !env) -<fun,fe> void, env: !env
 ) :<fe> void // end of [list_foreach_funenv]
 
@@ -248,7 +261,7 @@ fun{
 x,y:t0p // type for elements
 } list_foreach2__fwork (x, y): void
 fun{x,y:t0p}
-list_foreach2 {m,n:int} (xs: NSH(list (x, m)), NSH(list (y, n))): void
+list_foreach2 (xs: List (x), ys: List (y)): void
 
 #atscode_separator()
 
@@ -256,14 +269,14 @@ fun{
 x:t0p // type for elements
 } list_iforeach__fwork (i: int, x: x): void
 fun{x:t0p}
-list_iforeach {n:int} (xs: NSH(list (x, n))): void
+list_iforeach (xs: List (x)): void
 
 fun{
 x:t0p // type for elements
 } list_iforeach_funenv
   {v:view}{vt:viewtype}{n:int}{fe:eff} (
   pfv: !v |
-  xs: NSH(list (INV(x), n))
+  xs: list (INV(x), n)
 , f: (!v | natLt(n), x, !vt) -<fun,fe> void, env: !vt
 ) :<fe> int n // end of [list_iforeach_funenv]
 
@@ -273,7 +286,7 @@ fun{
 x,y:t0p // type for elements
 } list_iforeach2__fwork (int, x, y): void
 fun{x,y:t0p}
-list_iforeach2 {m,n:int} (xs: NSH(list (x, m)), NSH(list (y, n))): void
+list_iforeach2 (xs: List (x), ys: List(y)): void
 
 #atscode_separator()
 
@@ -282,21 +295,21 @@ res:vt0p}{x:t0p
 } list_foldleft__fwork (acc: res, x: x): res
 fun{
 res:vt0p}{x:t0p
-} list_foldleft (xs: NSH(List (x)), ini: res): res
+} list_foldleft (xs: List (x), ini: res): res
 
 fun{
 x:t0p}{res:vt0p
 } list_foldright__fwork (x: x, acc: res): res
 fun{
 x:t0p}{res:vt0p
-} list_foldright (xs: NSH(List (x)), snk: res): res
+} list_foldright (xs: List (x), snk: res): res
 
 #atscode_separator()
 
 fun{
 x:t0p
 } list_labelize
-  {n:int} (xs: NSH(list (INV(x), n))):<> list_vt (@(int, x), n)
+  {n:int} (xs: list (INV(x), n)):<> list_vt (@(int, x), n)
 // end of [list_labelize]
 
 #atscode_separator()
@@ -307,7 +320,7 @@ x:t0p}{y:vt0p
 fun{
 x:t0p
 } list_filter {n:int}
-  (xs: NSH(list (INV(x), n))): listLte_vt (x, n)
+  (xs: NSH(list (x, n))): listLte_vt (x, n)
 // end of [list_filter]
 
 fun{
@@ -327,7 +340,7 @@ x:t0p}{y:vt0p
 fun{
 x:t0p}{y:vt0p
 } list_map {n:int}
-  (xs: NSH(list (INV(x), n))): list_vt (y, n)
+  (xs: list (x, n)): list_vt (y, n)
 // end of [list_map]
 
 fun{
@@ -335,7 +348,7 @@ x:t0p}{y:t0p
 } list_map_funenv
   {v:view}{vt:viewtype}{n:int}{fe:eff} (
   pfv: !v |
-  xs: NSH(list (INV(x), n))
+  xs: list (INV(x), n)
 , f: (!v | x, !vt) -<fun,fe> y, env: !vt
 ) :<fe> list_vt (y, n) // end of [list_map_funenv]
 
@@ -347,7 +360,7 @@ x:t0p}{y:vt0p
 fun{
 x:t0p}{y:vt0p
 } list_imap {n:int}
-  (xs: NSH(list (INV(x), n))): list_vt (y, n)
+  (xs: list (x, n)): list_vt (y, n)
 // end of [list_imap]
 
 #atscode_separator()
@@ -358,8 +371,8 @@ x1,x2:t0p}{y:vt0p
 fun{
 x1,x2:t0p}{y:vt0p
 } list_map2 {n1,n2:int} (
-  xs1: NSH(list (INV(x1), n1))
-, xs2: NSH(list (INV(x2), n2))
+  xs1: list (x1, n1)
+, xs2: list (x2, n2)
 ) : list_vt (y, min(n1,n2)) // end of [list_map2]
 
 fun{
@@ -367,8 +380,8 @@ x1,x2:t0p}{y:t0p
 } list_map2_funenv
   {v:view}{vt:viewtype}{n1,n2:int}{fe:eff} (
   pfv: !v |
-  xs1: NSH(list (INV(x1), n1))
-, xs2: NSH(list (INV(x2), n2))
+  xs1: list (INV(x1), n1)
+, xs2: list (INV(x2), n2)
 , f: (!v | x1, x2, !vt) -<fun,fe> y, env: !vt
 ) :<fe> list_vt (y, min(n1,n2)) // end of [list_map2_funenv]
 
@@ -380,7 +393,7 @@ x:t0p}{y:vt0p
 fun{
 x:t0p}{y:vt0p
 } list_mapopt {n:int}
-  (xs: NSH(list (INV(x), n))): listLte_vt (y, n)
+  (xs: list (x, n)): listLte_vt (y, n)
 // end of [list_mapopt]
 
 fun{
@@ -388,7 +401,7 @@ x:t0p}{y:t0p
 } list_mapopt_funenv
   {v:view}{vt:viewtype}{n:int}{fe:eff} (
   pfv: !v |
-  xs: NSH(list (INV(x), n))
+  xs: list (INV(x), n)
 , f: (!v | x, !vt) -<fun,fe> Option_vt (y), env: !vt
 ) :<fe> listLte_vt (y, n) // end of [list_mapopt_funenv]
 
@@ -406,7 +419,8 @@ a:vt0p
 fun{
 x,y:t0p
 } list_zip {m,n:int} (
-  xs: NSH(list (INV(x), m)), ys: NSH(list (INV(y), n))
+  xs: list (INV(x), m)
+, ys: list (INV(y), n)
 ) :<> list_vt ((x, y), min(m,n)) // end of [list_zip]
 
 #atscode_separator()

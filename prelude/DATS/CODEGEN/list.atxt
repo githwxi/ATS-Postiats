@@ -84,13 +84,56 @@ end // end of [list_make_intrange]
 #atscode_separator()
 
 implement{a}
+list_make_array
+  {n} (A, n) = let
+//
+prval () = lemma_array_param (A)
+viewtypedef res(n:int) = list_vt (a, n)
+fun loop
+  {l:addr}
+  {n:nat} .<n>. (
+  pf: !array_v (a, l, n) >> array_v (a?!, l, n)
+| p: ptr l
+, n: size_t n
+, res: &ptr? >> res(n)
+) :<!wrt> void =
+  if n > 0 then let
+    prval (
+      pf1, pf2
+    ) = array_v_uncons (pf)
+    val () = res :=
+      list_vt_cons {a}{0} (_, _)
+    val+ list_vt_cons (x, res1) = res
+    val () = x := !p
+    val () = loop (pf2 | ptr1_succ<a> (p), pred(n), res1)
+    prval () = pf := array_v_cons (pf1, pf2)
+    prval () = fold@ (res)
+  in
+    // nothing
+  end else let
+    prval () = array_v_unnil (pf)
+    prval () = pf := array_v_nil ()
+  in
+    res := list_vt_nil ()
+  end // end of [if]
+// end of [loop]
+var res: ptr // uninitialized
+val () = $effmask_wrt (loop (view@(A) | addr@(A), n, res))
+//
+in
+  res
+end // end of [list_make_array]
+
+#atscode_separator()
+
+implement{a}
 list_make_arrpsz {n} (A0) = let
 //
 var asz: size_t
 val A = arrpsz_get_ptrsize (A0, asz)
 val p = ptrcast (A)
 prval pfarr = arrayptr_takeout (A)
-val res = array_copy_to_list_vt (!p, asz)
+val res = list_make_array (!p, asz)
 prval () = arrayptr_addback (pfarr | A)
 val () = arrayptr_free (A)
 //
@@ -497,6 +540,32 @@ case+ xs of
 | list_nil () => true
 //
 end // end of [list_forall]
+
+#atscode_separator()
+
+implement
+list_equal__pred (x1, x2) = eq_val_val (x1, x2)
+
+implement{x}
+list_equal (xs1, xs2) = let
+in
+//
+case+ xs1 of
+| list_cons (x1, xs1) => (
+  case+ xs2 of
+  | list_cons (x2, xs2) => let
+      val iseq = list_equal__pred (x1, x2)
+    in
+      if iseq then list_equal<x> (xs1, xs2) else false
+    end
+  | list_nil () => false
+  ) // end of [list_cons]
+| list_nil () => (
+  case+ xs2 of
+  | list_cons _ => false | list_nil () => true
+  ) // end of [list_nil]
+//
+end // end of [list_equal]
 
 #atscode_separator()
 

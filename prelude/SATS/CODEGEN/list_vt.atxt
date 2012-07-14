@@ -49,14 +49,6 @@ lemma_list_vt_param
 
 #atscode_separator()
 
-fun{a:vt0p}
-list_vt_make_array
-  {n:int} (
-  A: &(@[INV(a)][n]) >> @[a?!][n], n: size_t n
-) :<!wrt> list_vt (a, n) // endfun
-
-#atscode_separator()
-
 fun{a:t0p}
 fprint_list_vt_sep (
   out: FILEref, xs: !List_vt (a), sep: NSH(string)
@@ -80,14 +72,14 @@ fun{} list_vt_is_pair
 #atscode_separator()
 
 fun{a:vt0p}
-list_vt_length {n:int} (xs: !list_vt (INV(a), n)):<> int n
+list_vt_length {n:int} (xs: !list_vt (a, n)):<> int n
 // end of [list_vt_length]
 
 #atscode_separator()
 
 fun{a:t0p}
 list_vt_getref_at {n:int}
-  (xs: &list_vt (INV(a), n), i: natLte n):<> Ptr1
+  (xs: &list_vt (a, n), i: natLte n):<> Ptr1
 // end of [list_vt_getref_at]
 
 fun{a:t0p}
@@ -192,7 +184,7 @@ fun{a:vt0p}
 list_vt_split__pred (x: &a): bool
 fun{a:vt0p}
 list_vt_split {n:int} (
-  xs: &list_vt (a, n) >> list_vt (a, n1)
+  xs: &list_vt (INV(a), n) >> list_vt (a, n1)
 ) : \#[n1:nat|n1 <= n] list_vt (a, n-n1)
 
 #atscode_separator()
@@ -223,7 +215,7 @@ fun{a:vt0p}
 list_vt_filter__pred
   (x: &a >> opt(a, b)): #[b:bool] bool(b)
 fun{a:vt0p}
-list_vt_filter {n:int} (x: list_vt (a, n)): listLte_vt (a, n)
+list_vt_filter {n:int} (x: list_vt (INV(a), n)): listLte_vt (a, n)
 
 #atscode_separator()
 

@@ -117,225 +117,6 @@ macdef SEEK_END = $TYPES.SEEK_END
 *)
 
 (* ****** ****** *)
-
-(*
-//
-// void clearerr (FILE *stream);
-//
-The function [clearerr] clears the end-of-file and error indicators for
-the stream pointed to by stream.
-//
-*)
-symintr
-clearerr
-fun clearerr0
-  (filr: FILEref):<!wrt> void = "mac#atslib_clearerr"
-overload clearerr with clearerr0
-fun clearerr1
-  (filp: !FILEptr1(*none*)):<!wrt> void = "mac#atslib_clearerr"
-overload clearerr with clearerr1
-
-(* ****** ****** *)
-
-symintr
-fclose_err
-fun fclose0_err
-  (filr: FILEref):<!wrt> int = "mac#atslib_fclose_err"
-overload fclose_err with fclose0_err
-fun fclose1_err
-  {l:addr}{m:fm} (
-  filp: FILEptr (l, m)
-) :<!wrt> [i:int | i <= 0] (option_v (FILE_v (l, m), i==0) | int i)
-  = "mac#atslib_fclose_err"
-overload fclose_err with fclose1_err
-
-symintr
-fclose_exn
-fun fclose0_exn
-  (filr: FILEref):<!exnwrt> void = "ext#atslib_fclose_exn"
-overload fclose_exn with fclose0_exn
-fun fclose1_exn
-  (filp: FILEptr1(*none*)):<!exnwrt> void = "ext#atslib_fclose_exn"
-overload fclose_exn with fclose1_exn
-
-(* ****** ****** *)
-
-(*
-fun fclose_stdin ():<!exnwrt> void = "ext#atslib_fclose_stdin"
-fun fclose_stdout ():<!exnwrt> void = "ext#atslib_fclose_stdout"
-fun fclose_stderr ():<!exnwrt> void = "ext#atslib_fclose_stderr"
-*)
-
-(* ****** ****** *)
-
-(*  
-//
-// int feof (FILE *stream);
-//
-The function feof() returns a nonzero value if the end of the given file
-stream has been reached.
-//
-*)
-symintr feof
-fun feof0 (filr: FILEref):<> int = "mac#atslib_feof"
-overload feof with feof0
-fun feof1 (filp: !FILEptr1(*none*)):<> int = "mac#atslib_feof"
-overload feof with feof1
-
-(* ****** ****** *)
-
-(*
-//
-// int ferror (FILE *stream);
-//
-The function [ferror] tests the error indicator for the stream pointed to by
-stream, returning non-zero if it is set.  The error indicator can only be
-reset by the [clearerr] function.
-*)
-
-symintr ferror
-fun ferror0 (filr: FILEref):<> int = "mac#atslib_ferror"
-overload ferror with ferror0
-fun ferror1 (filp: !FILEptr1(*none*)):<> int = "mac#atslib_ferror"
-overload ferror with ferror1
-
-(* ****** ****** *)
-
-(*
-//
-// int fflush (FILE *stream);
-//
-The function fflush forces a write of all user-space buffered data for the
-given output or update stream via the streams underlying write function.
-The open status of the stream is unaffected.
-//
-Upon successful completion 0 is returned.  Otherwise, EOF is returned and
-the global variable errno is set to indicate the error.
-*)
-
-symintr
-fflush_err
-fun fflush0_err
-  (filr: FILEref):<!wrt> int = "mac#atslib_fflush_err"
-overload fflush_err with fflush0_err
-fun fflush1_err
-  {m:fm} (
-  pf: fmlte (m, w) | filp: !FILEptr1 (m)
-) :<!wrt> [i:int | i <= 0] int (i) = "mac#atslib_fflush_err"
-overload fflush_err with fflush1_err
-
-symintr
-fflush_exn
-fun fflush0_exn (
-  filr: FILEref
-) :<!exnwrt> void = "ext#atslib_fflush_exn"
-overload fflush_exn with fflush0_exn
-fun fflush1_exn
-  {m:fm} (
-  pf: fmlte (m, w) | filp: !FILEptr1 (m)
-) :<!exnwrt> void = "ext#atslib_fflush_exn"
-overload fflush_exn with fflush1_exn
-
-fun fflush_stdout ():<!exnwrt> void = "ext#atslib_fflush_stdout"
-
-(* ****** ****** *)
-
-(*
-//
-// int fgetc (FILE *stream)
-//
-[fgetc] reads the next character from stream and returns it as an
-unsigned char cast to an int, or EOF on end of file or error.
-//
-*)
-
-symintr
-fgetc_err
-fun fgetc0_err
-  (filr: FILEref):<!wrt> int = "mac#atslib_fgetc_err"
-overload fgetc_err with fgetc0_err
-fun fgetc1_err // [EOF] must be a negative number!
-  {m:fm} (
-  pf: fmlte (m, r) | filp: !FILEptr1 (m)
-) :<!wrt> [i:int | i <= UCHAR_MAX] int (i) = "mac#atslib_fgetc_err"
-overload fgetc_err with fgetc1_err
-
-(* ****** ****** *)
-
-(*
-dataview
-fgets_v (
-  sz:int, n0: int, addr, addr
-) =
-  | {lbf:addr}
-    fgets_v_fail (sz, n0, lbf, null) of b0ytes(sz) @ lbf
-  | {n:nat | n < n0} {lbf:agz}
-    fgets_v_succ (sz, n0, lbf, lbf) of strbuf(sz, n) @ lbf
-// end of [fgets_v]
-*)
-
-symintr
-fgets_err
-fun fgets0_err
-  {sz:int}
-  {n0:pos | n0 <= sz} (
-  buf: &bytes(sz)? >> _
-, n0: int n0
-, filr: FILEref
-) :<!wrt> Ptr0 // = addr@(buf) or NULL
-// end of [fgets0_err]
-fun fgets1_err
-  {sz:int}
-  {n0:pos | n0 <= sz}
-  {m:fm} (
-  pf_mod: fmlte (m, r)
-| buf: &bytes(sz)? >> _
-, n0: int n0
-, filp: !FILEptr1 (m)
-) :<!wrt> Ptr0 // = addr@(buf) or NULL
-// end of [fgets1_err]
-
-(* ****** ****** *)
-
-(*
-//
-// int fgetpos(FILE *stream, fpos_t *pos);
-//
-The [fgetpos] function stores the file position indicator of the given file
-stream in the given position variable. The position variable is of type
-fpos_t (which is defined in stdio.h) and is an object that can hold every
-possible position in a FILE. [fgetpos] returns zero upon success, and a
-non-zero value upon failure.
-//
-*)
-
-abst@ype
-fpos_t = $extype"ats_fpos_type"
-
-fun fgetpos (
-  filp: !FILEptr1, pos: &fpos_t? >> opt (fpos_t, i==0)
-) :<!wrt> #[i:int | i <= 0] int (i) = "mac#atslib_fgetpos"
-// end of [fgetpos]
-
-(* ****** ****** *)
-
-(*
-//
-// int fileno (FILE* filp) ;
-// 
-The function fileno examines the argument stream and returns its integer
-descriptor. In case fileno detects that its argument is not a valid stream,
-it must return -1 and set errno to EBADF.
-*)
-
-symintr fileno
-fun fileno0 (filr: FILEref):<> int = "mac#atslib_fileno"
-overload fileno with fileno0
-fun fileno1 (filp: !FILEptr1(*none*)):<> int = "mac#atslib_fileno"
-overload fileno with fileno1
-
-(* ****** ****** *)
-
 (*
 //
 // FILE *fopen (const char *path, const char *mode);
@@ -385,9 +166,121 @@ fun fopen_ref_exn
 ) :<!exnwrt> FILEref (*none*) = "ext#atslib_fopen_exn"
 
 (* ****** ****** *)
+(*
+//
+// FILE *freopen (const char *path, const char *mode, FILE *stream);
+//
+The [freopen] function opens the file whose name is the string pointed to
+by path and associates the stream pointed to by stream with it.  The original
+stream (if it exists) is closed.  The mode argument is used just as in the
+fopen function.  The primary use of the freopen function is to change the file
+associated with a standard text stream (stderr, stdin, or stdout).
+//
+*)
+//
+symintr freopen_err
+//
+fun freopen0_err
+  {m2:fm} (
+  path: NSH(string), m2: file_mode m2, filr: FILEref
+) :<!wrt> void = "mac#atslib_freopen_err"
+overload freopen_err with freopen0_err
+fun freopen1_err
+  {m1,m2:fm}
+  {l0:addr} (
+  path: NSH(string), m2: file_mode m2, filp: FILEptr (l0, m1)
+) :<!wrt> [l:addr | l==null || l==l0] (
+  option_v (FILE_v (l, m2), l > null)
+| ptr l
+) = "mac#atslib_freopen_err"
+overload freopen_err with freopen1_err
+//
+symintr freopen_exn
+//
+fun freopen0_exn
+  {m_new:fm} (
+  path: NSH(string)
+, m_new: file_mode m_new
+, filr: FILEref
+) :<!exnwrt> void = "ext#atslib_freopen_exn"
+overload freopen_exn with freopen0_exn
+(*
+fun freopen1_exn
+  {m1,m2:fm}
+  {l0:addr} (
+  path: NSH(string)
+, m2: file_mode m2
+, filp: !FILEptr (l0, m1) >> FILEptr (l0, m2)
+) :<!exnwrt> void = "ext#atslib_freopen_exn"
+overload freopen_exn with freopen1_exn
+*)
+
+fun freopen_stdin
+  (path: NSH(string)):<!exnwrt> void = "ext#atslib_freopen_stdin"
+// end of [freopen_stdin]
+fun freopen_stdout
+  (path: NSH(string)):<!exnwrt> void = "ext#atslib_freopen_stdout"
+// end of [freopen_stdout]
+fun freopen_stderr
+  (path: NSH(string)):<!exnwrt> void = "ext#atslib_freopen_stderr"
+// end of [freopen_stderr]
+
+(* ****** ****** *)
+//
+symintr fclose_err
+//
+fun fclose0_err
+  (filr: FILEref):<!wrt> int = "mac#atslib_fclose_err"
+overload fclose_err with fclose0_err
+fun fclose1_err
+  {l:addr}{m:fm} (
+  filp: FILEptr (l, m)
+) :<!wrt> [i:int | i <= 0] (option_v (FILE_v (l, m), i==0) | int i)
+  = "mac#atslib_fclose_err"
+overload fclose_err with fclose1_err
+//
+symintr fclose_exn
+//
+fun fclose0_exn
+  (filr: FILEref):<!exnwrt> void = "ext#atslib_fclose_exn"
+overload fclose_exn with fclose0_exn
+(*
+fun fclose1_exn
+  (filp: FILEptr1(*none*)):<!exnwrt> void = "ext#atslib_fclose_exn"
+overload fclose_exn with fclose1_exn
+*)
+
+(* ****** ****** *)
+
+(*
+fun fclose_stdin ():<!exnwrt> void = "ext#atslib_fclose_stdin"
+fun fclose_stdout ():<!exnwrt> void = "ext#atslib_fclose_stdout"
+fun fclose_stderr ():<!exnwrt> void = "ext#atslib_fclose_stderr"
+*)
+
+(* ****** ****** *)
+(*
+//
+// int fileno (FILE* filp) ;
+// 
+The function fileno examines the argument stream and returns its integer
+descriptor. In case fileno detects that its argument is not a valid stream,
+it must return -1 and set errno to EBADF.
+*)
+//
+symintr fileno
+//
+fun fileno0 (filr: FILEref):<> int = "mac#atslib_fileno"
+overload fileno with fileno0
+fun fileno1 (filp: !FILEptr1(*none*)):<> int = "mac#atslib_fileno"
+overload fileno with fileno1
+
+(* ****** ****** *)
+(*
 //
 // HX-2011-08
 //
+*)
 absview fildes_v (fd:int)
 
 dataview
@@ -408,7 +301,196 @@ fun fdopen_exn {fd:int} {m:file_mode} (
 ) : FILEptr1 (m) // end of [fdopen_exn]
 
 (* ****** ****** *)
+(*
+//
+// void clearerr (FILE *stream);
+//
+The function [clearerr] clears the end-of-file and error indicators for
+the stream pointed to by stream.
+//
+*)
+//
+symintr clearerr
+//
+fun clearerr0
+  (filr: FILEref):<!wrt> void = "mac#atslib_clearerr"
+overload clearerr with clearerr0
+fun clearerr1
+  (filp: !FILEptr1(*none*)):<!wrt> void = "mac#atslib_clearerr"
+overload clearerr with clearerr1
 
+(* ****** ****** *)
+(*  
+//
+// int feof (FILE *stream);
+//
+The function feof() returns a nonzero value if the end of the given file
+stream has been reached.
+//
+*)
+//
+symintr feof
+//
+fun feof0 (filr: FILEref):<> int = "mac#atslib_feof"
+overload feof with feof0
+fun feof1 (filp: !FILEptr1(*none*)):<> int = "mac#atslib_feof"
+overload feof with feof1
+
+(* ****** ****** *)
+(*
+//
+// int ferror (FILE *stream);
+//
+The function [ferror] tests the error indicator for the stream pointed to by
+stream, returning non-zero if it is set.  The error indicator can only be
+reset by the [clearerr] function.
+*)
+//
+symintr ferror
+//
+fun ferror0 (filr: FILEref):<> int = "mac#atslib_ferror"
+overload ferror with ferror0
+fun ferror1 (filp: !FILEptr1(*none*)):<> int = "mac#atslib_ferror"
+overload ferror with ferror1
+
+(* ****** ****** *)
+
+(*
+//
+// int fflush (FILE *stream);
+//
+The function fflush forces a write of all user-space buffered data for the
+given output or update stream via the streams underlying write function.
+The open status of the stream is unaffected.
+//
+Upon successful completion 0 is returned.  Otherwise, EOF is returned and
+the global variable errno is set to indicate the error.
+*)
+//
+symintr fflush_err
+//
+fun fflush0_err
+  (filr: FILEref):<!wrt> int = "mac#atslib_fflush_err"
+overload fflush_err with fflush0_err
+fun fflush1_err
+  {m:fm} (
+  pf: fmlte (m, w) | filp: !FILEptr1 (m)
+) :<!wrt> [i:int | i <= 0] int (i) = "mac#atslib_fflush_err"
+overload fflush_err with fflush1_err
+//
+symintr fflush_exn
+//
+fun fflush0_exn (
+  filr: FILEref
+) :<!exnwrt> void = "ext#atslib_fflush_exn"
+overload fflush_exn with fflush0_exn
+(*
+fun fflush1_exn
+  {m:fm} (
+  pf: fmlte (m, w) | filp: !FILEptr1 (m)
+) :<!exnwrt> void = "ext#atslib_fflush_exn"
+overload fflush_exn with fflush1_exn
+*)
+
+fun fflush_stdout ():<!exnwrt> void = "ext#atslib_fflush_stdout"
+
+(* ****** ****** *)
+(*
+//
+// int fgetc (FILE *stream)
+//
+[fgetc] reads the next character from stream and returns it as an
+unsigned char cast to an int, or EOF on end of file or error.
+//
+*)
+//
+symintr fgetc_err
+//
+fun fgetc0_err
+  (filr: FILEref):<!wrt> int = "mac#atslib_fgetc_err"
+overload fgetc_err with fgetc0_err
+fun fgetc1_err // [EOF] must be a negative number!
+  {m:fm} (
+  pf: fmlte (m, r) | filp: !FILEptr1 (m)
+) :<!wrt> [i:int | i <= UCHAR_MAX] int (i) = "mac#atslib_fgetc_err"
+overload fgetc_err with fgetc1_err
+
+(* ****** ****** *)
+
+macdef getc = fgetc_err
+
+fun getchar0 ():<!wrt> int = "mac#atslib_getchar"
+fun getchar1
+  () :<!wrt> [i:int | i <= UCHAR_MAX] int i = "mac#atslib_getchar"
+// end of [getchar1]
+
+(* ****** ****** *)
+(*
+dataview
+fgets_v (
+  sz:int, n0: int, addr, addr
+) =
+  | {lbf:addr}
+    fgets_v_fail (sz, n0, lbf, null) of b0ytes(sz) @ lbf
+  | {n:nat | n < n0} {lbf:agz}
+    fgets_v_succ (sz, n0, lbf, lbf) of strbuf(sz, n) @ lbf
+// end of [fgets_v]
+*)
+//
+symintr fgets_err
+//
+fun fgets0_err
+  {sz:int}
+  {n0:pos | n0 <= sz} (
+  buf: &bytes(sz)? >> _
+, n0: int n0
+, filr: FILEref
+) :<!wrt> Ptr0 // = addr@(buf) or NULL
+// end of [fgets0_err]
+fun fgets1_err
+  {sz:int}
+  {n0:pos | n0 <= sz}
+  {m:fm} (
+  pf_mod: fmlte (m, r)
+| buf: &bytes(sz)? >> _
+, n0: int n0
+, filp: !FILEptr1 (m)
+) :<!wrt> Ptr0 // = addr@(buf) or NULL
+// end of [fgets1_err]
+
+(* ****** ****** *)
+(*
+//
+// int fgetpos(FILE *stream, fpos_t *pos);
+//
+The [fgetpos] function stores the file position indicator of the given file
+stream in the given position variable. The position variable is of type
+fpos_t (which is defined in stdio.h) and is an object that can hold every
+possible position in a FILE. [fgetpos] returns zero upon success, and a
+non-zero value upon failure.
+//
+*)
+//
+symintr fgetpos_err
+//
+abst@ype fpos_t = $extype"ats_fpos_type"
+//
+fun fgetpos0_err (
+  filp: FILEref, pos: &fpos_t? >> opt (fpos_t, i==0)
+) :<!wrt> #[i:int | i <= 0] int (i) = "mac#atslib_fgetpos_err"
+overload fgetpos_err with fgetpos0_err
+fun fgetpos1_err (
+  filp: !FILEptr1, pos: &fpos_t? >> opt (fpos_t, i==0)
+) :<!wrt> #[i:int | i <= 0] int (i) = "mac#atslib_fgetpos_err"
+overload fgetpos_err with fgetpos1_err
+//
+symintr fgetpos_exn
+//
+fun fgetpos0_exn 
+  (filp: FILEref, pos: &fpos_t? >> _) :<!wrt> void = "ext#atslib_fgetpos_exn"
+overload fgetpos_exn with fgetpos0_exn 
+//
+(* ****** ****** *)
 (*
 //
 // int fputc (int c, FILE *stream)
@@ -418,9 +500,9 @@ stream. The return value is the character, unless there is an error, in
 which case the return value is EOF.
 //
 *)
-
-symintr
-fputc_err
+//
+symintr fputc_err
+//
 fun fputc0_err (
   c: int, filr: FILEref
 ) :<!wrt> int = "mac#atslib_fputc_err"
@@ -432,22 +514,32 @@ fun fputc1_err
 ) :<!wrt> [i:int | i <= UCHAR_MAX] int (i)
   = "mac#atslib_fputc_err"
 overload fputc_err with fputc1_err
-
-symintr
-fputc_exn
+//
+symintr fputc_exn
+//
 fun fputc0_exn (
   c: int, filr: FILEref
 ) :<!exnwrt> void = "ext#atslib_fputc_exn"
 overload fputc_exn with fputc0_exn
+(*
 fun fputc1_exn
   {m:fm} (
   pf: fmlte (m, w)
 | c: int, filp: !FILEptr1 (m)
 ) :<!exnwrt> void = "ext#atslib_fputc_exn"
 overload fputc_exn with fputc1_exn
+*)
 
 (* ****** ****** *)
 
+macdef putc = fputc_err
+
+fun putchar0 (c: int):<!wrt> int = "mac#atslib_putchar"
+fun putchar1
+  (c: int):<!wrt> [i:int | i <= UCHAR_MAX] int i = "mac#atslib_putchar"
+// end of [putchar1]
+
+(* ****** ****** *)
 (*
 //
 // int fputs (const char* s, FILE *stream)
@@ -456,9 +548,9 @@ The function [fputs] writes a string to a file. it returns a non-negative
 number on success, or EOF on error.
 
 *)
-
-symintr
-fputs_err
+//
+symintr fputs_err
+//
 fun fputs0_err (
   str: NSH(string), fil: FILEref
 ) :<!wrt> int = "mac#atslib_fputs_err"
@@ -468,21 +560,33 @@ fun fputs1_err
   pf: fmlte (m, w) | str: NSH(string), filp: !FILEptr1 (m)
 ) :<!wrt> int = "mac#atslib_fputs_err"
 overload fputs_err with fputs1_err
-
-symintr
-fputs_exn
+//
+symintr fputs_exn
+//
 fun fputs0_exn (
   str: NSH(string), fil: FILEref
 ) :<!exnwrt> void = "ext#atslib_fputs_exn"
 overload fputs_exn with fputs0_exn
+(*
 fun fputs1_exn
   {m:fm} (
   pf: fmlte (m, w) | str: NSH(string), filp: !FILEptr1 (m)
 ) :<!exnwrt> void = "ext#atslib_fputs_exn"
 overload fputs_exn with fputs1_exn
+*)
 
 (* ****** ****** *)
+//
+// [puts] puts a newline at the end
+//
+fun puts_err
+  (inp: NSH(string)):<!wrt> int = "mac#atslib_puts_err"
+// end of [puts_err]
+fun puts_exn
+  (inp: NSH(string)):<!exnwrt> void = "ext#atslib_puts_exn"
+// end of [puts_exn]
 
+(* ****** ****** *)
 (*
 //
 // size_t fread (void *ptr, size_t size, size_t nmemb, FILE *stream);
@@ -496,102 +600,94 @@ read.
 must use [feof] and [ferror] to determine which occurred.
 //
 *)
-
-fun fread
-  {sz:pos}
+//
+symintr fread_err
+//
+fun fread0_err // [isz]: the size of each item
+  {isz:pos}
   {nbf:int}
-  {n,nsz:nat | nsz <= nbf}
-  {m:fm} (
-  pf_mod: fmlte (m, r)
-, pf_mul: MUL (n, sz, nsz)
-| buf: &bytes(nbf)
-, sz: size_t sz, n: size_t n
-, filp: !FILEptr1 (m)
-) :<!wrt> sizeLte n = "mac#atslib_fread"
-// end of [fread]
-
-fun fread_byte
+  {n:int | n*isz <= nbf} (
+  buf: &bytes(nbf)? >> _
+, isz: size_t isz, n: size_t n
+, filr: FILEref(*none*)
+) :<!wrt> sizeLte n = "mac#atslib_fread_err"
+overload fread_err with fread0_err
+fun fread1_err // [isz]: the size of each item
+  {isz:pos}
   {nbf:int}
-  {n:nat | n <= nbf}
-  {m:fm} (
-  pf_mod: fmlte (m, r)
-| buf: &bytes(nbf), n: size_t n
-, filp: !FILEptr1 (m)
-) :<!wrt> sizeLte n = "ext#atslib_fread_byte"
-// end of [fread_byte]
-
-fun fread_byte_exn
-  {nbf:int}
-  {n:nat | n <= nbf}
+  {n:int | n*isz <= nbf}
   {m:fm} (
   pf_mod: fmlte (m, r)
 | buf: &bytes(nbf)
-, n: size_t n
+, isz: size_t isz, n: size_t n
 , filp: !FILEptr1 (m)
-) :<!exnwrt> void = "ext#atslib_fread_byte_exn"
-// end of [fread_byte_exn]
+) :<!wrt> sizeLte n = "mac#atslib_fread_err"
+overload fread_err with fread1_err
+//
+symintr fread_exn
+//
+fun fread0_exn // [isz]: the size of each item
+  {isz:pos}
+  {nbf:int}
+  {n:int | n*isz <= nbf} (
+  buf: &bytes(nbf)? >> _
+, isz: size_t isz, n: size_t n, filr: FILEref
+) :<!exnwrt> sizeLte n = "ext#atslib_fread_exn"
+overload fread_exn with fread0_exn
 
 (* ****** ****** *)
-
 (*
 //
-// FILE *freopen (const char *path, const char *mode, FILE *stream);
+// size_t fwrite (
+//   const void *ptr,  size_t size,  size_t nmemb, FILE *stream
+// ) ;
 //
-The [freopen] function opens the file whose name is the string pointed to
-by path and associates the stream pointed to by stream with it.  The original
-stream (if it exists) is closed.  The mode argument is used just as in the
-fopen function.  The primary use of the freopen function is to change the file
-associated with a standard text stream (stderr, stdin, or stdout).
+The function [fwrite] writes [nmemb] elements of data, each [size] bytes
+long, to the stream pointed to by stream, obtaining them from the location
+given by [ptr]. The return value is the number of items that are actually
+written.
 //
 *)
-
-symintr
-freopen_err
-fun freopen0_err
-  {m2:fm} (
-  path: NSH(string), m2: file_mode m2, filr: FILEref
-) :<!wrt> void = "mac#atslib_freopen_err"
-overload freopen_err with freopen0_err
-fun freopen1_err
-  {m1,m2:fm}
-  {l0:addr} (
-  path: NSH(string), m2: file_mode m2, filp: FILEptr (l0, m1)
-) :<!wrt> [l:addr | l==null || l==l0] (
-  option_v (FILE_v (l, m2), l > null)
-| ptr l
-) = "mac#atslib_freopen_err"
-overload freopen_err with freopen1_err
-
-symintr
-freopen_exn
-fun freopen0_exn
-  {m_new:fm} (
-  path: NSH(string)
-, m_new: file_mode m_new
+//
+symintr fwrite_err
+//
+fun fwrite0_err // [isz]: the size of each item
+  {isz:pos}
+  {nbf:int}
+  {n:int | n*isz <= nbf} (
+  buf: &bytes(nbf)
+, isz: size_t isz, n: size_t n
 , filr: FILEref
-) :<!exnwrt> void = "ext#atslib_freopen_exn"
-overload freopen_exn with freopen0_exn
-fun freopen1_exn
-  {m1,m2:fm}
-  {l0:addr} (
-  path: NSH(string)
-, m2: file_mode m2
-, filp: !FILEptr (l0, m1) >> FILEptr (l0, m2)
-) :<!exnwrt> void = "ext#atslib_freopen_exn"
-overload freopen_exn with freopen1_exn
-
-fun freopen_stdin
-  (path: NSH(string)):<!exnwrt> void = "ext#atslib_freopen_stdin"
-// end of [freopen_stdin]
-fun freopen_stdout
-  (path: NSH(string)):<!exnwrt> void = "ext#atslib_freopen_stdout"
-// end of [freopen_stdout]
-fun freopen_stderr
-  (path: NSH(string)):<!exnwrt> void = "ext#atslib_freopen_stderr"
-// end of [freopen_stderr]
+) :<!wrt> sizeLte (n)
+  = "mac#atslib_fwrite_err"
+overload fwrite_err with fwrite0_err
+fun fwrite1_err // [isz]: the size of each item
+  {isz:pos}
+  {nbf:int}
+  {n:int | n*isz <= nbf}
+  {m:fm} (
+  pf_mod: fmlte (m, w)
+| buf: &bytes(nbf)
+, isz: size_t isz, n: size_t n
+, filp: !FILEptr1 (m)
+) :<!wrt> sizeLte (n)
+  = "mac#atslib_fwrite_err"
+overload fwrite_err with fwrite1_err
+//
+symintr fwrite_exn
+//
+fun fwrite0_exn // [isz]: the size of each item
+  {isz:pos}
+  {nbf:int}
+  {n:int | n*isz <= nbf} (
+  buf: &bytes(nbf)
+, isz: size_t isz, n: size_t n
+, filr: FILEref(*none*)
+) :<!exnwrt> sizeLte (n)
+  = "ext#atslib_fwrite_exn"
+overload fwrite_exn with fwrite0_exn
 
 (* ****** ****** *)
-
 (*
 //
 // int fseek (FILE *stream, long offset, int whence)
@@ -609,8 +705,9 @@ it returns -1.
 *)
 
 (*
-symintr
-fseek_err
+//
+symintr fseek_err
+//
 fun fseek0_err (
   filr: FILEref, offset: lint, whence: whence_t
 ) :<!wrt> int = "mac#atslib_fseek_err"
@@ -619,21 +716,22 @@ fun fseek1_err (
   f: !FILEptr1(*none*), offset: lint, whence: whence_t
 ) :<!wrt> int = "mac#atslib_fseek_err"
 overload fseek_err with fseek1_err
-
-symintr
-fseek_exn
+//
+symintr fseek_exn
+//
 fun fseek0_exn (
   filr: FILEref, offset: lint, whence: whence_t
 ) :<!exnwrt> void = "ext#atslib_fseek_exn"
 overload fseek_exn with fseek0_exn
+(*
 fun fseek1_exn (
   f: !FILEptr1(*none*), offset: lint, whence: whence_t
 ) :<!exnwrt> void = "ext#atslib_fseek_exn"
 overload fseek_exn with fseek1_exn
 *)
+*)
 
 (* ****** ****** *)
-
 (*
 //
 // void fsetpos(FILE *stream, const fpos_t *pos);
@@ -644,10 +742,21 @@ defined in stdio.h.  The return value for fsetpos() is zero upon success,
 non-zero on failure.
 //
 *)
-
-fun fsetpos
-  (filp: !FILEptr1(*none*), pos: &fpos_t): int = "mac#atslib_fsetpos"
-// end of [fsetpos]
+//
+symintr fsetpos_err
+//
+fun fsetpos0_err
+  (filp: FILEref(*none*), pos: &fpos_t):<!wrt> int = "mac#atslib_fsetpos_err"
+overload fsetpos_err with fsetpos0_err
+fun fsetpos1_err
+  (filp: !FILEptr1(*none*), pos: &fpos_t):<!wrt> int = "mac#atslib_fsetpos_err"
+overload fsetpos_err with fsetpos1_err
+//
+symintr fsetpos_exn
+//
+fun fsetpos0_exn
+  (filp: FILEref(*none*), pos: &fpos_t):<!wrt> void = "ext#atslib_fsetpos_exn"
+overload fsetpos_exn with fsetpos0_exn
 
 (* ****** ****** *)
 
@@ -660,71 +769,26 @@ success. Otherwise, -1 is returned and the global variable errno is set to
 indicate the error.
 //
 *)
-
-symintr
-ftell_err
+//
+symintr ftell_err
+//
 fun ftell0_err
   (filr: FILEref):<!wrt> lint = "mac#atslib_ftell_err"
 overload ftell_err with ftell0_err
 fun ftell1_err
   (filp: !FILEptr1(*none*)):<!wrt> lint = "mac#atslib_ftell_err"
 overload ftell_err with ftell1_err
-
-symintr
-ftell_exn
+//
+symintr ftell_exn
+//
 fun ftell0_exn
   (filr: FILEref):<!exnwrt> lint = "ext#atslib_ftell_exn"
 overload ftell_exn with ftell0_exn
+(*
 fun ftell1_exn
   (filp: !FILEptr1(*none*)):<!exnwrt> lint = "ext#atslib_ftell_exn"
 overload ftell_exn with ftell1_exn
-
-(* ****** ****** *)
-
-(*
-//
-// size_t fwrite (
-//   const void *ptr,  size_t size,  size_t nmemb, FILE *stream
-// ) ;
-//
-The function [fwrite] writes [nmemb] elements of data, each [size] bytes
-long, to the stream pointed to by stream, obtaining them from the location
-given by [ptr]. The return value is the number of items that are actually
-written.
-//
 *)
-
-fun fwrite // [sz]: the size of each item
-  {sz:pos}
-  {bsz:int}
-  {n,nsz:nat | nsz <= bsz}
-  {l:agz}{m:fm} (
-  pf_mod: fmlte (m, w), pf_mul: MUL (n, sz, nsz)
-| buf: &bytes(bsz), sz: size_t sz, n: size_t n, filp: !FILEptr (l, m)
-) :<!wrt> natLte n
-  = "mac#atslib_fwrite"
-//
-// HX: [fwrite_byte] is a special case of [fwrite]
-//
-fun fwrite_byte // [fwrite_byte] only writes once
-  {bsz:int}
-  {n:nat | n <= bsz}
-  {l:agz}{m:fm} (
-  pf_mod: fmlte (m, w)
-| buf: &bytes(bsz), n: size_t n, fil: !FILEptr (l, m)
-) :<!wrt> sizeLte n
-  = "ext#atslib_fwrite_byte"
-//
-// HX: an uncatchable exception is thrown if not all bytes are written
-//
-fun fwrite_byte_exn
-  {bsz:int}
-  {n:nat | n <= bsz}
-  {l:agz}{m:fm} (
-  pf_mod: fmlte (m, w)
-| buf: &bytes(bsz)
-, n: size_t n, fil: !FILEptr (l, m)
-) :<!exnwrt> void = "ext#atslib_fwrite_byte_exn" // end of [fun]
 
 (* ****** ****** *)
 
@@ -746,30 +810,6 @@ fun perror
 
 (* ****** ****** *)
 
-macdef getc = fgetc_err
-macdef putc = fputc_err
-
-fun getchar0 ():<!wrt> int = "mac#atslib_getchar"
-fun getchar1
-  () :<!wrt> [i:int | i <= UCHAR_MAX] int i = "mac#atslib_getchar"
-// end of [getchar1]
-
-fun putchar0 (c: int):<!wrt> int = "mac#atslib_putchar"
-fun putchar1
-  (c: int):<!wrt> [i:int | i <= UCHAR_MAX] int i = "mac#atslib_putchar"
-// end of [putchar1]
-
-(* ****** ****** *)
-//
-// [puts] puts a newline at the end
-//
-fun puts_err
-  (inp: NSH(string)):<!wrt> int = "mac#atslib_puts_err"
-fun puts_exn
-  (inp: NSH(string)):<!exnwrt> void = "ext#atslib_puts_exn"
-
-(* ****** ****** *)
-
 fun remove_err
   (inp: NSH(string)):<!wrt> int = "mac#atslib_remove_err"
 fun remove_exn
@@ -786,10 +826,12 @@ fun rename_exn (
 ) :<!exnwrt> void = "ext#atslib_rename_exn" // end of [fun]
 
 (* ****** ****** *)
-//
+(*
 // HX: [rewind] generates no error
+*)
 //
 symintr rewind
+//
 fun rewind0 {m:fm}
   (fil: FILEref):<!wrt> void = "mac#atslib_rewind"
 overload rewind with rewind0
@@ -808,7 +850,6 @@ fun tmpfile_ref_exn
 // end of [tmpfile_ref_exn]
 
 (* ****** ****** *)
-
 (*
 //
 // int ungetc(int c, FILE *stream);
@@ -818,9 +859,9 @@ available for subsequent read operations.  Pushed-back characters will be
 returned in reverse order; only one pushback is guaranteed.
 //
 *)
-
-symintr
-ungetc_err
+//
+symintr ungetc_err
+//
 fun ungetc0_err
   (c: char, f: FILEref):<!wrt> int = "mac#atslib_ungetc_err"
 overload ungetc_err with ungetc0_err
@@ -829,18 +870,20 @@ fun ungetc1_err
   pf_mod: fmlte (m, rw) | c: char, f: !FILEptr (l, m)
 ) :<!wrt> [i:int | i <= UCHAR_MAX] int (i) = "mac#atslib_ungetc_err"
 overload ungetc_err with ungetc1_err
-
-symintr
-ungetc_exn
+//
+symintr ungetc_exn
+//
 fun ungetc0_exn (
   c: char, f: FILEref
 ) :<!exnwrt> void = "ext#atslib_ungetc_exn"
 overload ungetc_exn with ungetc0_exn
+(*
 fun ungetc1_exn
   {l:agz}{m:fm} (
   pf_mod: fmlte (m, rw) | c: char, f: !FILEptr (l, m)
 ) :<!exnwrt> void = "ext#atslib_ungetc_exn"
 overload ungetc_exn with ungetc1_exn
+*)
 
 (* ****** ****** *)
 
@@ -852,9 +895,9 @@ abst@ype bufmode_t = int
 macdef _IOFBF = $extval (bufmode_t, "_IOFBF") // fully buffered
 macdef _IOLBF = $extval (bufmode_t, "_IOLBF") // line buffered
 macdef _IONBF = $extval (bufmode_t, "_IONBF") // no buffering
-
-symintr
-setbuf_null
+//
+symintr setbuf_null
+//
 fun setbuf0_null
   (f: FILEref): void = "mac#atslib_setbuf_null"
 overload setbuf_null with setbuf0_null
@@ -863,13 +906,15 @@ fun setbuf1_null
 overload setbuf_null with setbuf1_null
 
 (* ****** ****** *)
+(*
 //
 // HX-2010-10-03:
 // the buffer can be freed only after it is no longer used by
 // the stream to which it is attached!!!
+*)
 //
-symintr
-setbuffer
+symintr setbuffer
+//
 fun setbuffer0
   {n1,n2:nat | n2 <= n1} {l:addr} (
   pf_buf: !b0ytes n1 @ l | f: FILEref, p_buf: ptr l, n2: size_t n2
@@ -884,9 +929,9 @@ fun setbuffer1
 overload setbuffer with setbuffer1
 
 (* ****** ****** *)
-
-symintr
-setlinebuf
+//
+symintr setlinebuf
+//
 fun setlinebuf0
   (f: FILEref): void = "mac#atslib_setlinebuf"
 overload setlinebuf with setlinebuf0
@@ -895,9 +940,9 @@ fun setlinebuf1
 overload setlinebuf with setlinebuf1
 
 (* ****** ****** *)
-
-symintr
-setvbuf_null
+//
+symintr setvbuf_null
+//
 fun setvbuf0_null
   (f: FILEref, mode: bufmode_t): int = "mac#atslib_setvbuf_null"
 overload setvbuf_null with setvbuf0_null
@@ -905,8 +950,10 @@ fun setvbuf1_null
   (f: !FILEptr1(*none*), mode: bufmode_t): int = "mac#atslib_setvbuf_null"
 overload setvbuf_null with setvbuf1_null
 
-symintr
-setvbuf
+(* ****** ****** *)
+//
+symintr setvbuf
+//
 fun setvbuf0
   {n1,n2:nat | n2 <= n1}
   {lbf:addr} (

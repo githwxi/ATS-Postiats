@@ -108,7 +108,7 @@ iter_is_atbeg<itrknd><x>
   prval () = decode (itr)
   val+ ITR (_ | p_beg, p_end, pi) = itr
   prval () = encode (itr)
-  val res = bool1_of_bool (p_beg = pi)
+  val res = bool1_of_bool0 (p_beg = pi)
   extern praxi __assert {b:bool} (b: bool b): [b==(f==0)] void
   prval () = __assert (res)
 in
@@ -134,7 +134,7 @@ iter_is_atend<itrknd><x>
   prval () = decode (itr)
   val+ ITR (_ | p_beg, p_end, pi) = itr
   prval () = encode (itr)
-  val res = bool1_of_bool (pi = p_end)
+  val res = bool1_of_bool0 (pi = p_end)
   extern praxi __assert {b:bool} (b: bool b): [b==(r==0)] void
   prval () = __assert (res)
 in

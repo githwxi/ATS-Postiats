@@ -1,0 +1,29 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/prelude_matrixptr")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/prelude/matrixptr\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package contains some common functions for creating/freeing and
+manipulating matrixptr-values.
+
+')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+(* end of [matrixptr.atxt] *)

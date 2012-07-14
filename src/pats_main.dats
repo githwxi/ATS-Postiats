@@ -440,6 +440,7 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/basics_pre.sats")
   val () = pervasive_load (ATSHOME, "prelude/basics_sta.sats")
   val () = pervasive_load (ATSHOME, "prelude/basics_dyn.sats")
+  val () = pervasive_load (ATSHOME, "prelude/basics_gen.sats")
 //
   val () = stacst2_initialize () // internalizing some static consts
   val () = $CNSTR3.constraint3_initialize () // internalizing some maps

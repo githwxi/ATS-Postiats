@@ -26,22 +26,15 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-castfn bool1_of_bool (x: bool):<> Bool
 castfn bool1_of_bool0 (x: bool):<> Bool
-')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
-fun bool_of_int (i: int):<> bool
-fun int_of_bool (b: bool):<> natLt(2) // that is, Two
-')\
+fun int2bool0 (i: int):<> bool
+fun bool2int0 (b: bool):<> natLt(2) // that is, Two
 
-#atscode_decl_strcst('\
-fun bool1_of_int1 {i:int} (i: int i):<> bool (i != 0)
-fun int1_of_bool1 {b:bool} (b: bool b):<> int (int_of_bool b)
-')\
+fun int2bool1 {i:int} (i: int i):<> bool (i != 0)
+fun bool2int1 {b:bool} (b: bool b):<> int (int_of_bool b)
 
 #atscode_separator()
 
@@ -71,12 +64,12 @@ overload not with neg_bool of 0
 
 #atscode_separator()
 
-fun add_bool_bool
+fun add_bool0_bool0
   (b1: bool, b2: bool):<> bool = "mac\#atspre_add_bool_bool"
-overload + with add_bool_bool of 0
-fun mul_bool_bool
+overload + with add_bool0_bool0 of 0
+fun mul_bool0_bool0
   (b1: bool, b2: bool):<> bool = "mac\#atspre_mul_bool_bool"
-overload * with mul_bool_bool of 0
+overload * with mul_bool0_bool0 of 0
 
 #atscode_separator()
 
@@ -95,9 +88,9 @@ val fopr_d = (
 ) : string // end of [val]
 //
 val ent = sprintf ("\
-fun %s_bool_bool
+fun %s_bool0_bool0
   (b1: bool, b2: bool):<> bool = \"mac#atspre_%s_bool_bool\"
-overload %s with %s_bool_bool of 0\
+overload %s with %s_bool0_bool0 of 0\
 ", @(
  opr, opr, fopr_d, opr
 )
@@ -116,17 +109,14 @@ end // end of [fun_bool_cmp0_decl]
 
 #fun_bool_cmp0_decl("eq")
 #fun_bool_cmp0_decl("neq")
-overload <> with neq_bool_bool of 0
+overload <> with neq_bool0_bool0 of 0
 
-#atscode_decl_strcst('\
-fun compare_bool_bool // HX: this one is a function
+fun compare_bool0_bool0 // HX: this one is a function
   (b1: bool, b2: bool):<> Sgn = "atspre_compare_bool_bool"
-overload compare with compare_bool_bool
-')\
+overload compare with compare_bool0_bool0
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 fun fprint_bool
   (out: FILEref, x: bool): void = "atspre_fprint_bool"
 overload fprint with fprint_bool
@@ -134,72 +124,55 @@ fun print_bool (x: bool): void = "mac\#atspre_fprint_bool"
 and prerr_bool (x: bool): void = "mac\#atspre_fprint_bool"
 overload print with print_bool
 overload prerr with prerr_bool
-')\
 
 #atscode_separator()
-#atscode_decl_strcst('\
 //
 // HX: the return is statically allocated
 //
 fun tostring_bool
   (b: bool):<> string = "atspre_tostring_bool"
 overload tostring with tostring_bool
-')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 fun neg_bool1 {b:bool}
   (b: bool b):<> bool (~b) = "mac\#atspre_neg_bool1"
 overload ~ with neg_bool1 of 10
 overload not with neg_bool1 of 10
-')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 fun add_bool1_bool0 {b1:bool}
   (b1: bool b1, b2: bool):<> [b:bool | b1 <= b] bool (b)
   = "mac\#atspre_add_bool1_bool0"
 overload + with add_bool1_bool0 of 10
-')\
 
-#atscode_decl_strcst('\
 fun add_bool0_bool1 {b2:bool}
   (b1: bool, b2: bool b2):<> [b:bool | b2 <= b] bool (b)
   = "mac\#atspre_add_bool0_bool1"
 overload + with add_bool0_bool1 of 10
-')\
 
-#atscode_decl_strcst('\
 fun add_bool1_bool1 {b1,b2:bool}
   (b1: bool b1, b2: bool b2):<> bool (b1 || b2)
   = "mac\#atspre_add_bool1_bool1"
 overload + with add_bool1_bool1 of 20
-')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 fun mul_bool1_bool0 {b1:bool}
   (b1: bool b1, b2: bool):<> [b:bool | b <= b1] bool (b)
   = "mac\#atspre_mul_bool1_bool0"
 overload * with mul_bool1_bool0 of 10
-')\
 
-#atscode_decl_strcst('\
 fun mul_bool0_bool1 {b2:bool}
   (b1: bool, b2: bool b2):<> [b:bool | b <= b2] bool (b)
   = "mac\#atspre_mul_bool0_bool1"
 overload * with mul_bool0_bool1 of 10
-')\
 
-#atscode_decl_strcst('\
 fun mul_bool1_bool1 {b1,b2:bool}
   (b1: bool b1, b2: bool b2):<> bool (b1 && b2)
   = "mac\#atspre_mul_bool1_bool1"
 overload * with mul_bool1_bool1 of 20
-')\
 
 #atscode_separator()
 
@@ -262,13 +235,11 @@ end // end of [fun_bool_cmp1_decl]
 #fun_bool_cmp1_decl("neq")
 overload <> with neq_bool1_bool1 of 20
 
-#atscode_decl_strcst('\
 fun compare_bool1_bool1
   {b1,b2:bool} // HX: this one is a function
   (b1: bool b1, b2: bool b2):<> int (int_of_bool b1 - int_of_bool b2)
   = "atspre_compare_bool1_bool1"
 overload compare with compare_bool1_bool1 of 20
-')\
 
 #atscode_separator()
 

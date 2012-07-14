@@ -129,6 +129,25 @@ integers ranging from l until r-1, inclusively.
 
 (* ****** ****** *)
 
+#declnamesynop("list_make_array")
+#decldescrpt('\
+
+Given an array of size n, this function returns a linear list of length n
+such that element i in the list is the element stored in cell i of the
+array, where i ranges from 0 until n-1, inclusively.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("list_make_arrpsz")
+#decldescrpt("\
+
+This function, which overloads the symbol #dyncode("list"), is often
+conveniently employed to build a list of some fixed length.\
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("fprint_list_sep")
 
 (* ****** ****** *)
@@ -317,6 +336,17 @@ Given a list xs, this function returns true if and only if every element in
 xs satisfies the predicate implemented by #dyncode("list_forall__pred").
 
 ')
+
+(* ****** ****** *)
+
+#declnamesynop("list_equal__pred")
+#declnamesynop("list_equal")
+#decldescrpt('\
+
+Given two lists xs1 and xs2, this function returns true if and only if xs1
+and xs2 are of the same length and the predicate implemented by
+#dyncode("list_equal__pred") holds on each pair (xs1[i], xs2[i]), where i
+ranges from 0 until the length of xs1 minus 1, inclusively. ')
 
 (* ****** ****** *)
 
