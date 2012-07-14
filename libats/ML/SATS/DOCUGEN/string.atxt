@@ -125,4 +125,43 @@ it returns is a mutable string.
 
 (* ****** ****** *)
 
+#declnamesynop("string_explode")
+#decldescrpt("\
+
+Given a string str of length n, this function returns a list consisting
+of str[0], str[1], ..., and str[n-1], where str[i] refers to char i in
+str. ")
+
+#declnamesynop("string_implode")
+#decldescrpt("\
+
+Given a list cs of chars, this functions returns a string consisting of
+cs[0], cs[1], ..., and cs[n-1], where n is the length of cs and cs[i]
+refers to char i in cs. Note that the length of the string is n only if
+there is no null char in cs.
+
+")
+#declexample("\
+
+The following code checks that the string obtained from calling
+#dyncode("string_implode") on the list returned from a call to
+#dyncode("string_explode") on a given string equals the given string:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/list0.sats"
+staload "libats/ML/SATS/string.sats"
+//
+implement
+main () = 0 where {
+  val str = "abcdefg"
+  val cs = string_explode (str)
+  val str2 = string_implode (cs)
+  val () = assert (str = str2)
+} // end of [main]
+')
+")
+
+(* ****** ****** *)
+
 (* end of [string.atxt] *)

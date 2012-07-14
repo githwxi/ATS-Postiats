@@ -30,12 +30,17 @@ staload "libats/ML/basics.sats"
 
 #atscode_separator()
 
+\#define SHR(x) x // SHARED // HX: for commenting
+\#define NSH(x) x // NSHARED // HX: for commenting
+
+#atscode_separator()
+
 fun string_append
-  (s1: string, s2: string):<> string
+  (s1: NSH(string), s2: NSH(string)):<> string
 overload + with string_append
 
 fun string_append_ref
-  (s1: string, s2: string):<> Strref1
+  (s1: NSH(string), s2: NSH(string)):<> Strref1
 // end of [string_append_ref]
 
 #atscode_separator()
@@ -46,12 +51,17 @@ fun stringlst_concat_ref (xs: list0 (string)):<> Strref1
 #atscode_separator()
 
 fun substring_copy
-  (s: string, st: size_t, ln: size_t): string
+  (s: NSH(string), st: size_t, ln: size_t): string
 // end of [substring_copy]
 
 fun substring_copy_ref
-  (s: string, st: size_t, ln: size_t): Strref1
+  (s: NSH(string), st: size_t, ln: size_t): Strref1
 // end of [substring_copy_ref]
+
+#atscode_separator()
+
+fun string_explode (s: string):<> list0 (char)
+fun string_implode (cs: list0 (char)):<> string
 
 #atscode_separator()
 

@@ -57,10 +57,10 @@ macdef && (b1, b2) = (if b1 then b2 else false): bool
 
 #atscode_separator()
 
-fun neg_bool
+fun neg_bool0
   (b: bool):<> bool = "mac\#atspre_neg_bool"
-overload ~ with neg_bool of 0
-overload not with neg_bool of 0
+overload ~ with neg_bool0 of 0
+overload not with neg_bool0 of 0
 
 #atscode_separator()
 

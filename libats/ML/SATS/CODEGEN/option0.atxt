@@ -30,6 +30,11 @@ staload "libats/ML/basics.sats"
 
 #atscode_separator()
 
+\#define SHR(x) x // SHARED // HX: for commenting
+\#define NSH(x) x // NSHARED // HX: for commenting
+
+#atscode_separator()
+
 castfn
 option0_of_option {a:t@ype} (xs: Option a):<> option0 (a)
 castfn

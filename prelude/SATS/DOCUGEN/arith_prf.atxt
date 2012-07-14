@@ -308,7 +308,7 @@ This proof function essentially proves #stacode("m*n=n*m") for any given
 integers m and n.  It is kept mostly for the sake of backward compatibility
 as the constraint-solver of ATS2 (Postiats) is able to infer the identity
 #stacode("m*n=n*m") automatically.  However, typechecking the following
-implementation of #dyncode("mul_commute") only involves solving linear
+implementation of #dyncode("mul_commute") involves solving only linear
 integer constraints:
 
 #pats2xhtmld_tryit("\
@@ -377,7 +377,7 @@ This proof function essentially proves the identity
 kept mostly for the sake of backward compatibility as the constraint-solver
 of ATS2 (Postiats) is able to infer the identity
 #stacode("m*(n1+n2)=m*n1+m*n2") automatically.  However, typechecking the
-following implementation of #dyncode("mul_distribute") only involves solving
+following implementation of #dyncode("mul_distribute") involves solving only
 linear integer constraints:
 
 #pats2xhtmld_tryit("\

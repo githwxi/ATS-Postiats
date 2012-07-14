@@ -551,7 +551,7 @@ end // end of [list_vt_filter]
 #atscode_separator()
 
 implement{a}
-list_vt_mergesort_cmp<a> (x1, x2) = gcompare_val (x1, x2)
+list_vt_mergesort__cmp (x1, x2) = gcompare_val<a> (x1, x2)
 
 implement{a}
 list_vt_mergesort
@@ -627,7 +627,7 @@ end // end of [list_vt_mergesort]
 #atscode_separator()
 
 implement{a}
-list_vt_quicksort_cmp<a> (x1, x2) = gcompare_val (x1, x2)
+list_vt_quicksort__cmp (x1, x2) = gcompare_val<a> (x1, x2)
 
 (*
 ** HX-2012-05:

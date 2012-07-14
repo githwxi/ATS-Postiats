@@ -30,6 +30,11 @@ staload "libats/ML/basics.sats"
 
 #atscode_separator()
 
+\#define SHR(x) x // SHARED // HX: for commenting
+\#define NSH(x) x // NSHARED // HX: for commenting
+
+#atscode_separator()
+
 typedef cfun (a: t0p, b:t0p) = (a) -<cloref1> b
 typedef cfun2 (a1: t0p, a2: t0p, b:t0p) = (a1, a2) -<cloref1> b
 
@@ -40,7 +45,7 @@ list0_of_list {a:t@ype} (xs: List (INV(a))):<> list0 (a)
 castfn
 list0_of_list_vt {a:t@ype} (xs: List_vt (INV(a))):<> list0 (a)
 castfn
-list_of_list0 {a:t@ype} (xs: list0 (INV(a))):<> List (a)
+list_of_list0 {a:t@ype} (xs: list0 (INV(a))):<> List0 (a)
 
 #atscode_separator()
 

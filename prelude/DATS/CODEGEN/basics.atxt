@@ -60,51 +60,49 @@ argv_get_at
 
 #atscode_separator()
 
-#atscode_separator()
-
 implement{a}
-gequal_val (x, y) = geq_val (x, y)
+gequal_val (x, y) = geq_val<a> (x, y)
 
 #atscode_separator()
 
 implement{a}
-glt_val (x, y) = gcompare_val (x, y) < 0
+glt_val (x, y) = gcompare_val<a> (x, y) < 0
 implement{a}
-glte_val (x, y) = gcompare_val (x, y) <= 0
+glte_val (x, y) = gcompare_val<a> (x, y) <= 0
 implement{a}
-ggt_val (x, y) = gcompare_val (x, y) > 0
+ggt_val (x, y) = gcompare_val<a> (x, y) > 0
 implement{a}
-ggte_val (x, y) = gcompare_val (x, y) >= 0
+ggte_val (x, y) = gcompare_val<a> (x, y) >= 0
 implement{a}
-geq_val (x, y) = gcompare_val (x, y) = 0
+geq_val (x, y) = gcompare_val<a> (x, y) = 0
 implement{a}
-gneq_val (x, y) = gcompare_val (x, y) != 0
+gneq_val (x, y) = gcompare_val<a> (x, y) != 0
 
 implement{a}
-glt_ref (x, y) = glt_val (x, y)
+glt_ref (x, y) = glt_val<a> (x, y)
 implement{a}
-glte_ref (x, y) = glte_val (x, y)
+glte_ref (x, y) = glte_val<a> (x, y)
 implement{a}
-ggt_ref (x, y) = ggt_val (x, y)
+ggt_ref (x, y) = ggt_val<a> (x, y)
 implement{a}
-ggte_ref (x, y) = ggte_val (x, y)
+ggte_ref (x, y) = ggte_val<a> (x, y)
 implement{a}
-geq_ref (x, y) = geq_val (x, y)
+geq_ref (x, y) = geq_val<a> (x, y)
 implement{a}
-gneq_ref (x, y) = gneq_val (x, y)
-implement
-gcompare_ref (x, y) = gcompare_val (x, y)
+gneq_ref (x, y) = gneq_val<a> (x, y)
+implement{a}
+gcompare_ref (x, y) = gcompare_val<a> (x, y)
 
 #atscode_separator()
 
 implement{a}
 tostring_val (x) =
-  string_of_strptr (tostrptr (x))
+  string_of_strptr (tostrptr_val<a> (x))
 implement{a}
-tostring_ref (x) = tostring_val (x)
+tostring_ref (x) = tostring_val<a> (x)
 
 implement{a}
-tostrptr_ref (x) = tostrptr_val (x)
+tostrptr_ref (x) = tostrptr_val<a> (x)
 
 #atscode_separator()
 
@@ -114,7 +112,7 @@ implement{a}
 prerr_val (x) = fprint_val<a> (stderr_ref, x)
 implement{a}
 fprint_val (out, x) = let
-  val str = tostrptr_val (x)
+  val str = tostrptr_val<a> (x)
   val () = fprint_strptr (out, str)
   val () = strptr_free (str)
 in
@@ -122,7 +120,7 @@ in
 end // end of [fprint_val]
 
 implement{a}
-fprint_ref (out, x) = fprint_val (out, x)
+fprint_ref (out, x) = fprint_val<a> (out, x)
 implement{a}
 print_ref (x) = fprint_ref<a> (stdout_ref, x)
 implement{a}

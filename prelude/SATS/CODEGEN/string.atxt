@@ -85,12 +85,12 @@ fun{} string_isnot_empty (x: string):<> bool
 fun{tk:tk}
 string_is_atend_int
   {n:int}{i:nat | i <= n}
-  (s: NSH(string n), i: g1int (tk, i)):<> bool (i==n)
+  (s: string (n), i: g1int (tk, i)):<> bool (i==n)
 // end of [string_is_atend_int]
 fun{tk:tk}
 string_is_atend_uint
   {n:int}{i:int | i <= n}
-  (s: NSH(string n), i: g1uint (tk, i)):<> bool (i==n)
+  (s: string (n), i: g1uint (tk, i)):<> bool (i==n)
 // end of [string_is_atend_uint]
 
 symintr string_is_atend
@@ -102,12 +102,12 @@ overload string_is_atend with string_is_atend_uint
 fun{tk:tk}
 string_get_at_int
   {n:int}{i:nat | i < n}
-  (s: NSH(string n), i: g1int (tk, i)):<> charNZ
+  (s: string (n), i: g1int (tk, i)):<> charNZ
 overload [] with string_get_at_int
 fun{tk:tk}
 string_get_at_uint
   {n:int}{i:int | i < n}
-  (s: NSH(string n), i: g1uint (tk, i)):<> charNZ
+  (s: string (n), i: g1uint (tk, i)):<> charNZ
 overload [] with string_get_at_uint
 
 symintr string_get_at
@@ -119,12 +119,12 @@ overload string_get_at with string_get_at_uint
 fun{tk:tk}
 string_test_at_int
   {n:int}{i:nat | i <= n} (
-  s: NSH(string n), i: g1int (tk, i)
+  s: string (n), i: g1int (tk, i)
 ) :<> [c:int] (string_index_p (n, i, c) | char (c))
 fun{tk:tk}
 string_test_at_uint
   {n:int}{i:int | i <= n} (
-  s: NSH(string n), i: g1uint (tk, i)
+  s: string (n), i: g1uint (tk, i)
 ) :<> [c:int] (string_index_p (n, i, c) | char (c))
 
 symintr string_test_at
@@ -201,33 +201,33 @@ overload prerr with prerr_string
 #atscode_separator()
 
 fun strchr {n:int}
-  (str: NSH(string n), c0: char):<> ssizeBtw (~1, n)
+  (str: string (n), c0: char):<> ssizeBtw (~1, n)
 // end of [strchr]
 
 fun strrchr {n:int}
-  (str: NSH(string n), c0: char):<> ssizeBtw (~1, n)
+  (str: string (n), c0: char):<> ssizeBtw (~1, n)
 // end of [strrchr]
 
 fun strstr {n:int}
-  (haystack: NSH(string n), needle: NSH(string)):<> ssizeBtw (~1, n)
+  (haystack: string (n), needle: string):<> ssizeBtw (~1, n)
 // end of [strstr]
 
 #atscode_separator()
 
 fun strspn {n:int} // spanning
-  (str: NSH(string n), accept: NSH(string)):<> sizeLte (n)
+  (str: string (n), accept: string):<> sizeLte (n)
 // end of [strspn]
 fun strcspn {n:int} // complement spanning
-  (str: NSH(string n), accept: NSH(string)):<> sizeLte (n)
+  (str: string (n), accept: string):<> sizeLte (n)
 // end of [strcspn]
 
 #atscode_separator()
 
 fun string_index {n:int}
-  (str: NSH(string n), c0: charNZ):<> ssizeBtw (~1, n)
+  (str: string (n), c0: charNZ):<> ssizeBtw (~1, n)
 // end of [string_index]
 fun string_rindex {n:int}
-  (str: NSH(string n), c0: charNZ):<> ssizeBtw (~1, n)
+  (str: string (n), c0: charNZ):<> ssizeBtw (~1, n)
 // end of [string_rindex]
 
 #atscode_separator()
@@ -261,12 +261,12 @@ fun string1_append
 
 #atscode_separator()
 
-fun stringlst_concat (xs: NSH(List(string))):<> Strptr1
+fun stringlst_concat (xs: List(string)):<> Strptr1
 
 #atscode_separator()
 
 fun string_explode
-  {n:int} (x: NSH(string(n))): list_vt (charNZ, n)
+  {n:int} (x: string(n)):<> list_vt (charNZ, n)
 // end of [string_explode]
 
 #atscode_separator()
@@ -281,10 +281,10 @@ string_foreach__cont (c: char, env: &env): bool
 fun{env:vt0p}
 string_foreach__fwork (c: char, env: &env): void
 fun{}
-string_foreach {n:int} (str: NSH(string(n))): sizeLte(n)
+string_foreach {n:int} (str: string(n)): sizeLte(n)
 fun{env:vt0p}
 string_foreach_env {n:int}
-  (str: NSH(string(n)), env: &INV(env) >> env): sizeLte(n)
+  (str: string(n), env: &INV(env) >> env): sizeLte(n)
 // end of [string_foreach_env]
 
 #atscode_separator()
@@ -294,10 +294,10 @@ string_rforeach__cont (c: char, env: &env): bool
 fun{env:vt0p}
 string_rforeach__fwork (c: char, env: &env): void
 fun{}
-string_rforeach {n:int} (str: NSH(string(n))): sizeLte(n)
+string_rforeach {n:int} (str: string(n)): sizeLte(n)
 fun{env:vt0p}
 string_rforeach_env {n:int}
-  (str: NSH(string(n)), env: &INV(env) >> env): sizeLte(n)
+  (str: string(n), env: &INV(env) >> env): sizeLte(n)
 // end of [string_rforeach_env]
 
 #atscode_separator()
