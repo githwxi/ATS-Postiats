@@ -49,6 +49,13 @@ lemma_list_vt_param
 
 #atscode_separator()
 
+fun{a:vt0p}
+list_vt_uncons {n:pos}
+  (xs: &list_vt (INV(a), n) >> list_vt (a, n-1)):<!wrt> a
+// end of [list_vt_uncons]
+
+#atscode_separator()
+
 fun{a:t0p}
 fprint_list_vt_sep (
   out: FILEref, xs: !List_vt (a), sep: NSH(string)

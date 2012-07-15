@@ -99,6 +99,14 @@ macdef fprint_list
 
 #atscode_separator()
 
+fun{a:t0p}
+fprint_listlist_sep (
+  out: FILEref
+, xss: List (List (a)), sep1: NSH(string), sep2: NSH(string)
+) : void // end of [fprint_listlist_sep]
+
+#atscode_separator()
+
 fun{}
 list_is_nil {x:t0p}{n:int} (xs: list (x, n)):<> bool (n==0)
 fun{}

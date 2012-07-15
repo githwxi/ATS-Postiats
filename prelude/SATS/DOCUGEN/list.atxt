@@ -192,6 +192,10 @@ main () = 0 where {
 
 (* ****** ****** *)
 
+#declnamesynop("fprint_listlist_sep")
+
+(* ****** ****** *)
+
 #declnamesynop("list_append")
 #decldescrpt('\
 
@@ -670,7 +674,17 @@ This function does the same as #dyncode("list_map2").
 (* ****** ****** *)
 
 #declnamesynop("list_mergesort__cmp")
+#decldescrpt("\
 
+This function is called in the implementation of #dyncode("list_mergesort") to
+perform comparison test on list elements, and its default implementation is
+based on #dyncode("gcompare_val"):
+
+#pats2xhtmld_tryit("\
+implement{a}
+list_mergesort__cmp (x, y) = gcompare_val<a> (x, y)
+")
+")
 #declnamesynop("list_mergesort")
 #decldescrpt('\
 
@@ -719,7 +733,17 @@ end // end of [main]
 (* ****** ****** *)
 
 #declnamesynop("list_quicksort__cmp")
+#decldescrpt("\
 
+This function is called in the implementation of #dyncode("list_quicksort") to
+perform comparison test on list elements, and its default implementation is
+based on #dyncode("gcompare_val"):
+
+#pats2xhtmld_tryit("\
+implement{a}
+list_quicksort__cmp (x, y) = gcompare_val<a> (x, y)
+")
+")
 #declnamesynop("list_quicksort")
 #decldescrpt('\
 

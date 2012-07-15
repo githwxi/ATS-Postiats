@@ -304,6 +304,65 @@ end // end of [array_foreach_cloref]
 
 #atscode_separator()
 
+implement
+{a1,a2}{env}
+array_foreach2__cont (x1, x2, env) = true
+implement
+{a1,a2}{env}
+array_foreach2__fwork (x1, x2, env) = ((*void*))
+
+implement
+{a1,a2}
+array_foreach2 (A1, A2, asz) = let
+  var env: void = () in array_foreach2_env<a1,a2><void> (A1, A2, asz, env)
+end // end of [array_foreach2]
+
+implement
+{a1,a2}{env}
+array_foreach2_env
+  {n0} (A1, A2, asz, env) = let
+//
+prval () = lemma_array_param (A1)
+//
+fun loop
+  {l1,l2:addr}
+  {n:nat | n <= n0} .<n>. (
+  pf1: !array_v (a1, l1, n)
+, pf2: !array_v (a2, l2, n)
+| p1: ptr l1, p2: ptr l2, n: size_t n, env: &env
+) : sizeLte (n0) = let
+in
+  if n > 0 then let
+    prval (pf11, pf12) = array_v_uncons (pf1)
+    prval (pf21, pf22) = array_v_uncons (pf2)
+    val cont = array_foreach2__cont (!p1, !p2, env)
+  in
+    if cont then let
+      val () = array_foreach2__fwork (!p1, !p2, env)
+      val res = loop (
+        pf12, pf22 | ptr1_succ<a1> (p1), ptr1_succ<a2> (p2), pred(n), env
+      ) // end of [val]
+      prval () = pf1 := array_v_cons (pf11, pf12)
+      prval () = pf2 := array_v_cons (pf21, pf22)
+    in
+      res
+    end else let
+      prval () = pf1 := array_v_cons (pf11, pf12)
+      prval () = pf2 := array_v_cons (pf21, pf22) in n
+    end (* end of [if] *)
+  end else n(*0*)
+end // end of [loop]
+//
+val p1_beg = addr@(A1)
+val p2_beg = addr@(A2)
+val n = loop (view@(A1), view@(A2) | p1_beg, p2_beg, asz, env)
+//
+in
+  asz - n
+end // end of [array_foreach2_env]
+
+#atscode_separator()
+
 implement{a}{env}
 array_rforeach__cont (x, env) = true
 implement{a}{env}

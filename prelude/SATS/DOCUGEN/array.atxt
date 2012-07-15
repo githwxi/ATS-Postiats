@@ -290,6 +290,14 @@ the provided function does not take an argument as its environment.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("array_foreach2__cont")
+#declnamesynop("array_foreach2__fwork")
+
+#declnamesynop("array_foreach2")
+#declnamesynop("array_foreach2_env")
+
+(* ****** ****** *)
+
 #declnamesynop("array_rforeach__cont")
 #declnamesynop("array_rforeach__fwork")
 
@@ -371,6 +379,17 @@ end // end of [array_foldright]
 (* ****** ****** *)
 
 #declnamesynop("array_quicksort__cmp")
+#decldescrpt("\
+
+This function is called in the implementation of
+#dyncode("array_quicksort") to perform comparison test on array elements,
+and its default implementation is based on #dyncode("gcompare_ref"):
+
+#pats2xhtmld_tryit("\
+implement{a}
+array_quicksort__cmp (x, y) = gcompare_ref<a> (x, y)
+")
+")
 #declnamesynop("array_quicksort")
 
 (* ****** ****** *)

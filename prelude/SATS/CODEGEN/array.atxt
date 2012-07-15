@@ -123,7 +123,7 @@ overload [] with array_set_at
 
 fun{a:vt0p}
 array_exch_at
-  {n:int} (A: &(@[a][n]), i: sizeLt n, x: &a >> a):<!wrt> void
+  {n:int} (A: &(@[a][n]), i: sizeLt n, x: &a >> _):<!wrt> void
 // end of [array_exch_at]
 
 #atscode_separator()
@@ -204,7 +204,7 @@ a:vt0p}{env:vt0p
 } array_foreach__cont (x: &a, env: &env): bool
 fun{
 a:vt0p}{env:vt0p
-} array_foreach__fwork (x: &a >> a, env: &env): void
+} array_foreach__fwork (x: &a >> _, env: &env): void
 fun{
 a:vt0p
 } array_foreach {n:int} (
@@ -296,11 +296,37 @@ array_foreach_cloref
 #atscode_separator()
 
 fun{
+a1,a2:vt0p}{env:vt0p
+} array_foreach2__cont (x1: &a1, x2: &a2, env: &env): bool
+fun{
+a1,a2:vt0p}{env:vt0p
+} array_foreach2__fwork (x1: &a1 >> _, x2: &a2 >> _, env: &env): void
+fun{
+a1,a2:vt0p
+} array_foreach2
+  {n:int} (
+  A1: &(@[INV(a1)][n]) >> @[a1][n]
+, A2: &(@[INV(a2)][n]) >> @[a2][n]
+, asz: size_t (n)
+) : sizeLte (n) // end of [array_foreach2]
+fun{
+a1,a2:vt0p}{env:vt0p
+} array_foreach2_env
+  {n:int} (
+  A1: &(@[INV(a1)][n]) >> @[a1][n]
+, A2: &(@[INV(a2)][n]) >> @[a2][n]
+, asz:size_t (n)
+, env: &INV(env) >> env
+) : sizeLte (n) // end of [array_foreach2_env]
+
+#atscode_separator()
+
+fun{
 a:vt0p}{env:vt0p
 } array_rforeach__cont (x: &a, env: &env): bool
 fun{
 a:vt0p}{env:vt0p
-} array_rforeach__fwork (x: &a >> a, env: &env): void
+} array_rforeach__fwork (x: &a >> _, env: &env): void
 fun{
 a:vt0p
 } array_rforeach {n:int} (

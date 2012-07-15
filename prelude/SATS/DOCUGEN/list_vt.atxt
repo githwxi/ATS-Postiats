@@ -293,7 +293,17 @@ left-value, refers to element i in xs.
 (* ****** ****** *)
 
 #declnamesynop("list_vt_mergesort__cmp")
+#decldescrpt("\
 
+This function is called in the implementation of
+#dyncode("list_vt_mergesort") to perform comparison test on list elements,
+and its default implementation is based on #dyncode("gcompare_ref"):
+
+#pats2xhtmld_tryit("\
+implement{a}
+list_vt_mergesort__cmp (x, y) = gcompare_ref<a> (x, y)
+")
+")
 #declnamesynop("list_vt_mergesort")
 #decldescrpt('\
 
@@ -345,7 +355,17 @@ except for allowing the comparison function to be provided as an argument.
 (* ****** ****** *)
 
 #declnamesynop("list_vt_quicksort__cmp")
+#decldescrpt("\
 
+This function is called in the implementation of
+#dyncode("list_vt_quicksort") to perform comparison test on list elements,
+and its default implementation is based on #dyncode("gcompare_ref"):
+
+#pats2xhtmld_tryit("\
+implement{a}
+list_vt_quicksort__cmp (x, y) = gcompare_ref<a> (x, y)
+")
+")
 #declnamesynop("list_vt_quicksort")
 #decldescrpt('\
 

@@ -161,6 +161,24 @@ in
 end // end of [fprint_list_sep]
 
 #atscode_separator()
+(*
+//
+// HX-2012-05:
+// Compiling this can be a great challenge!
+//
+*)
+implement{a}
+fprint_listlist_sep
+  (out, xss, sep1, sep2) = let
+//
+implement
+fprint_val<List(a)> (out, xs) = fprint_list_sep<a> (out, xs, sep2)
+//
+in
+  fprint_list_sep<List(a)> (out, xss, sep1)
+end // end of [fprint_listlist_sep]
+
+#atscode_separator()
 
 implement{}
 list_is_nil (xs) =

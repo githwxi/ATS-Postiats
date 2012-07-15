@@ -21,9 +21,27 @@ the corresponding libc-functions declared in [stdio.h].
 ")
 
 (* ****** ****** *)
-
-#declnamesynop("FILEptr")
+//
+#declnamesynop("FILE_v")
+//
+#declname("FILEptr")
+#declsynopsis2("\
+#pats2xhtmls("\
+absviewtype
+FILEptr_viewtype (addr, file_mode) = ptr
+stadef FILEptr = FILEptr_viewtype
+")")
+//
 #declnamesynop("FILEptr0")
+//
+#declname("FILEptr1")
+#declsynopsis2("\
+#pats2xhtmls("\
+viewtypedef FILEptr1 (m:fm) = [l:agz] FILEptr (l, m)
+viewtypedef FILEptr1 (*none*) = [l:agz;m:fm] FILEptr (l, m)
+")
+")
+
 %{
 (*
 #declnamesynop("FILEref") // this one is declared in prelude/basic_sta.sats
@@ -137,7 +155,36 @@ main () = 0 where {
 (* ****** ****** *)
 
 #declnamesynop("fileno0")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("fileno"). ")
+#declexample("\
+
+The following code checks that the file descriptors of the standard input,
+the standard output, and the standard error are numbered by default as 0,
+1, and 2, respectively:
+
+#pats2xhtmld_tryit('\
+//
+staload "libc/SATS/stdio.sats"
+//
+implement
+main () = let
+  val () = assert (fileno0 (stdin_ref) = 0)
+  val () = assert (fileno0 (stdout_ref) = 1)
+  val () = assert (fileno0 (stderr_ref) = 2)
+in
+  0(*normal*)
+end // end of [main]
+')
+")
+
 #declnamesynop("fileno1")
+#decldescrpt("\
+
+This function directly corresponds to the libc-function of the name
+#dyncode("fileno"). ")
 
 (* ****** ****** *)
 
@@ -401,6 +448,26 @@ This function directly corresponds to the libc-function of the name
 
 This function is a slight variant of #dyncode("rename_err"): It exits
 immediately if calling #dyncode("rename") leads to an error.  ")
+#declexample("\
+
+The following code opens a file handle for a file named foo.txt, writes
+into it the string \"Hello, world!\" plus a newline, closes the file handle,
+and then renames the file as foo2.txt:
+
+#pats2xhtmld_tryit('\
+//
+staload "libc/SATS/stdio.sats"
+//
+implement
+main () = 0 where {
+  val out =
+    fopen_ref_exn ("foo.txt", file_mode_w)
+  val () = fputs0_exn ("Hello, world!\\\n", out)
+  val () = fclose0_exn (out)
+  val () = rename_exn ("foo.txt", "foo2.txt")
+} // end of [main]
+')
+")
 
 (* ****** ****** *)
 
