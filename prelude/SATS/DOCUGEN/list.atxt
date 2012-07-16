@@ -287,6 +287,35 @@ This function returns a concatenation of the lists in its argument, which
 is a list of lists.
 
 ')
+#decldescrpt("\
+
+Given a list xss, this function builds a concatenation of xss[0],
+xss[1], ..., and xss[n-1], where n is the length of xss and each xss[i]
+refers to element i in xss.
+")
+#declexample("\
+
+The following code makes a simple use of #dyncode("list_vt_concat"):
+
+#pats2xhtmld_tryit('\
+implement
+main () = 0 where {
+//
+  val xs1 = $lst{int}(1)
+  val xs2 = $lst{int}(2)
+  val xs3 = $lst{int}(3)
+  val xss = $lst{List(int)}(xs1, xs2, xs3)
+  val xs123 = list_concat (xss) // xs123 = [1, 2, 3]
+//
+  val out = stdout_ref
+  val () = fprint_list_vt_sep (out, xs123, ", ") // printing out 1, 2, 3
+  val () = fprint_newline (out)
+//
+  val () = list_vt_free (xs123)
+//
+} // end of [main]
+')
+")
 
 (* ****** ****** *)
 

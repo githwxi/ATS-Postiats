@@ -336,7 +336,6 @@ manual for qsort:
 //
 staload "libc/SATS/stdio.sats"
 staload "libc/SATS/stdlib.sats"
-staload "contrib/atshwxi/testing/SATS/fprint.sats"
 //
 implement
 main {n}

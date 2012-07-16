@@ -101,7 +101,9 @@ fun FILEptr_free_null
 (* ****** ****** *)
 
 castfn
-FILEref_get_ptr
+FILEptr_refize (filp: FILEptr1):<> FILEref
+castfn
+FILEref_get_ptr // a lock is associated with each FILEref-value
   (filr: FILEref):<> [l:agz;m:fm] vttakeout (void, FILEptr (l, m))
 // end of [FILEref_get_ptr]
 

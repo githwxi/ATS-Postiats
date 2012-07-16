@@ -182,7 +182,7 @@ list_vt_reverse_append
 
 fun{a:vt0p}
 list_vt_concat
-  (xss: List_vt (List_vt (INV(a)))):<!wrt> List_vt (a)
+  (xss: List_vt (List_vt (INV(a)))):<!wrt> List0_vt (a)
 // end of [list_vt_concat]
 
 #atscode_separator()

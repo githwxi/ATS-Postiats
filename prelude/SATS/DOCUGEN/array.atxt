@@ -535,22 +535,22 @@ random number generator implemented by #dyncode("array_permute__randint").
 ')
 #declexample('\
 
-The following code creates an array of integers 0, 1, 2, 3, 4, 5, 6, 7, 8
-and 9, and then permutes the array contents to obtain an array of integers
-9, 0, 1, 2, 3, 4, 5, 6, 7, and 8:
+The following code creates an array of integers 1, 2, 3, 4, and 5, and then
+permutes the array contents to obtain an array of integers 5, 1, 2, 3, and
+4:
 
 #pats2xhtmld_tryit('\
 implement
 main () =
   (0) where {
 //
-\#define N 10
+\#define N 5
 val asz = g1int2uint (N)
 //
 val (pf, pfgc | p) = array_ptr_alloc<int> (asz)
 //
 implement
-array_initize__fwork<int> (i, x) = x := g0uint2int (i)
+array_initize__fwork<int> (i, x) = x := g0uint2int(i)+1
 val () = array_initize<int> (!p, asz) // array: 0, 1, 2, ..., N-1
 //
 implement

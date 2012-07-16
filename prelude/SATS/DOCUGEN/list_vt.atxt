@@ -99,6 +99,14 @@ This proof function establishes that the integer n in any linear list type
 (* ****** ****** *)
 
 #declnamesynop("fprint_list_vt_sep")
+#decldescrpt("\
+
+This function prints the elements in a given linear list to the output
+channel provided as its first argument, interspersing the string
+#dyncode('sep') between the printed list elements. Note that printing each
+list element is handled by calling the function #dyncode("fprint_ref").
+
+")
 
 (* ****** ****** *)
 
@@ -194,6 +202,36 @@ There is no memory allocation/deallocation involved.
 (* ****** ****** *)
 
 #declnamesynop("list_vt_concat")
+#decldescrpt("\
+
+Given a linear list xss, this function builds a concatenation of xss[0],
+xss[1], ..., and xss[n-1], where n is the length of xss and each xss[i]
+refers to element i in xss.  Note that xss is freed and all of its elements
+are consumed in the construction of the returned list. In particular, there
+is no memory allocation involved in a call to #dyncode("list_vt_concat").
+")
+#declexample("\
+
+The following code makes a simple use of #dyncode("list_vt_concat"):
+
+#pats2xhtmld_tryit('\
+implement
+main () = 0 where {
+//
+  val xs1 = $lst_vt{int}(1)
+  val xs2 = $lst_vt{int}(2)
+  val xs3 = $lst_vt{int}(3)
+  val xss = $lst_vt{List_vt(int)}(xs1, xs2, xs3)
+  val xs123 = list_vt_concat (xss) // xs123 = [1, 2, 3]
+//
+  val out = stdout_ref
+  val () = fprint_list_vt_sep (out, xs123, ", ") // printing out 1, 2, 3
+  val () = fprint_newline (out)
+//
+  val () = list_vt_free (xs123)
+} // end of [main]
+')
+")
 
 (* ****** ****** *)
 

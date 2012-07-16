@@ -110,9 +110,25 @@ concatenation of a given list of strings it returns is mutable.
 
 Given a string str of length n and integers ln and st, this function
 returns a string consisting of chars str[ln], str[ln+1], ...,
-str[ln+min(n-ln,st)-1] if ln is less than n, and it returns the empty
-string if ln is greater than or equal to n.
+str[ln+min(n-ln,st)-1] if ln is less than n. Otherwise, it returns the
+empty string.
 
+")
+#declexample("\
+
+The following code makes a simple use of #dyncode("substring_copy"):
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/string.sats"
+//
+implement
+main () = 0 where {
+  val str = "abcdefg"
+  val str2 = substring_copy (str, g1int2uint(0), string_length(str))
+  val () = assert (str = str2)
+} // end of [main]
+')
 ")
 
 #declnamesynop("substring_copy_ref")
@@ -129,16 +145,34 @@ it returns is a mutable string.
 #decldescrpt("\
 
 Given a string str of length n, this function returns a list consisting
-of str[0], str[1], ..., and str[n-1], where str[i] refers to char i in
+of str[0], str[1], ..., and str[n-1], where each str[i] refers to char i in
 str. ")
+#declexample("\
+
+The following code checks that the length of the list obtained from calling
+#dyncode("string_explode") on a given string equals the length of the string:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/list0.sats"
+staload "libats/ML/SATS/string.sats"
+//
+implement
+main () = 0 where {
+  val str = "abcdefg"
+  val cs = string_explode (str)
+  val () = assert (string_length (str) = g0int2uint(list0_length (cs)))
+} // end of [main]
+')
+")
 
 #declnamesynop("string_implode")
 #decldescrpt("\
 
 Given a list cs of chars, this functions returns a string consisting of
-cs[0], cs[1], ..., and cs[n-1], where n is the length of cs and cs[i]
-refers to char i in cs. Note that the length of the string is n only if
-there is no null char in cs.
+cs[0], cs[1], ..., and cs[n-1], where n is the length of cs and each cs[i]
+refers to char i in cs. Note that the length of the returned string is n
+only if there is no null char in cs.
 
 ")
 #declexample("\

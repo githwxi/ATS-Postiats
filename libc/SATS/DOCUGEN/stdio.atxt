@@ -63,6 +63,10 @@ viewtypedef FILEptr1 (*none*) = [l:agz;m:fm] FILEptr (l, m)
 
 (* ****** ****** *)
 
+#declnamesynop("FILEptr_refize")
+
+(* ****** ****** *)
+
 #declnamesynop("FILEref_get_ptr")
 #decldescrpt("\
 
