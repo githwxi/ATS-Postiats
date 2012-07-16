@@ -186,11 +186,9 @@ symintr fclose_exn
 fun fclose0_exn
   (filr: FILEref):<!exnwrt> void = "ext#atslib_fclose_exn"
 overload fclose_exn with fclose0_exn
-(*
 fun fclose1_exn
   (filp: FILEptr1(*none*)):<!exnwrt> void = "ext#atslib_fclose_exn"
 overload fclose_exn with fclose1_exn
-*)
 
 (*
 fun fclose_stdin ():<!exnwrt> void = "ext#atslib_fclose_stdin"

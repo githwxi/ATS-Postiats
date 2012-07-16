@@ -97,6 +97,8 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
 
 ######
 
+all_html::
+
 #make_entry("arith_prf")
 
 #make_entry("bool")

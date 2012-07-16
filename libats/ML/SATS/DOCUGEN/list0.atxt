@@ -696,7 +696,6 @@ standard output channel:
 #pats2xhtmld_tryit('\
 //
 staload "libats/ML/SATS/list0.sats"
-staload "contrib/atshwxi/testing/SATS/fprint.sats"
 //
 implement
 main () = 0 where {

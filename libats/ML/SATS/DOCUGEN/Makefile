@@ -54,6 +54,8 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ;   $(ATSDOC) --outcode $@ -i $< > htmlg
 
 ######
 
+all_html::
+
 all_html:: HTML/list0.html
 HTML/list0.html:   list0_atxt.exe ; $(CAT) ../list0.sats | ./$< > $@
 list0_atxt.txt: list0.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@

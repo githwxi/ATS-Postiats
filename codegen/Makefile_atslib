@@ -73,12 +73,15 @@ libats_ML_sats:
 clean:: ; make -C prelude/SATS/CODEGEN -f Makefile clean
 clean:: ; make -C prelude/DATS/CODEGEN -f Makefile clean
 clean:: ; make -C prelude/CATS/CODEGEN -f Makefile clean
-cleana:: ; make -C libc/SATS/CODEGEN -f Makefile clean
+clean:: ; make -C libc/SATS/CODEGEN -f Makefile clean
 #clean:: ; make -C libc/DATS/CODEGEN -f Makefile clean
 clean:: ; make -C libc/CATS/CODEGEN -f Makefile clean
 clean:: ; make -C libats/SATS/CODEGEN -f Makefile clean
 #clean:: ; make -C libats/DATS/CODEGEN -f Makefile clean
 #clean:: ; make -C libats/CATS/CODEGEN -f Makefile clean
+clean:: ; make -C libats/ML/SATS/CODEGEN -f Makefile clean
+#clean:: ; make -C libats/ML/DATS/CODEGEN -f Makefile clean
+#clean:: ; make -C libats/ML/CATS/CODEGEN -f Makefile clean
 
 ######
 
@@ -91,6 +94,9 @@ cleanall:: ; make -C libc/CATS/CODEGEN -f Makefile cleanall
 cleanall:: ; make -C libats/SATS/CODEGEN -f Makefile cleanall
 #cleanall:: ; make -C libats/DATS/CODEGEN -f Makefile cleanall
 #cleanall:: ; make -C libats/CATS/CODEGEN -f Makefile cleanall
+cleanall:: ; make -C libats/ML/SATS/CODEGEN -f Makefile cleanall
+#cleanall:: ; make -C libats/ML/DATS/CODEGEN -f Makefile cleanall
+#cleanall:: ; make -C libats/ML/CATS/CODEGEN -f Makefile cleanall
 
 
 ###### end of [Makefile_atslib] ######

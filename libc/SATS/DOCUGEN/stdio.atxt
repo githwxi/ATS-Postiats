@@ -93,7 +93,7 @@ val filp = fopen_err ("foo.txt", file_mode_w)
 in
 //
 if FILEptr2ptr(filp) != 0 then let
-  val () = fputs_exn (file_mode_lte_w_w | "Hello, world!", filp)
+  val _ = fputs_err (file_mode_lte_w_w | "Hello, world!", filp)
   val () = fclose_exn (filp)
 in
   0
@@ -116,6 +116,7 @@ end // end of [main]
 #declnamesynop("fclose0_err")
 #declnamesynop("fclose1_err")
 #declnamesynop("fclose0_exn")
+#declnamesynop("fclose1_exn")
 
 (* ****** ****** *)
 
