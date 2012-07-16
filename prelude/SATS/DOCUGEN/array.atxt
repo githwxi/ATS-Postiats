@@ -168,27 +168,151 @@ here to read from the pointer p.
 
 (* ****** ****** *)
 
-#declnamesynop("array_get_at")
+#declname("array_get_at")
 #decldescrpt('\
-This function returns the value stored in cell i of the given array A.
-Note that the type for values stored in A is nonlinear.
+#pats2xhtmls("\
+overload array_get_at with array_get_at_gint
+overload array_get_at with array_get_at_guint
+")\
 ')
+#declnamesynop("array_get_at_gint")
+#decldescrpt('\
+
+This function, which overloads the symbol #dyncode("[]"), returns the value
+stored in cell i of the given array A.  Note that the type for values
+stored in A is nonlinear.  ')
+#declexample("\
+
+The following code computes the sum of the integers stored in a given
+array:
+
+#pats2xhtmld_tryit('\
+fun tally {n:nat} 
+  (A: &(@[int][n]), n: int n): int = let
+//
+fun loop
+  {i:nat | i <= n} .<n-i>. (
+  A: &(@[int][n]), n: int n, i: int i, res: int
+) : int =
+  if n > i then loop (A, n, i+1, res + A[i]) else res
+//
+in
+  loop (A, n, 0, 0)
+end // end of [tally]
+')
+")
 
 (* ****** ****** *)
 
-#declnamesynop("array_set_at")
+#declnamesynop("array_get_at_guint")
 #decldescrpt('\
-This function stores a value into cell i of the given array A, overwriting
-the original value. Note that the type of values stored in A is nonlinear.
-')
+
+This function, which overloads the symbol #dyncode("[]"), is like
+#dyncode("array_get_at_gint") except that the index is unsigned.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("array_exch_at")
+#declname("array_set_at")
+#decldescrpt('\
+#pats2xhtmls("\
+overload array_set_at with array_set_at_gint
+overload array_set_at with array_set_at_guint
+")\
+')
+#declnamesynop("array_set_at_gint")
+#decldescrpt("\
+
+This function, which overloads the symbol #dyncode("[]"), stores a value
+into cell i of the given array A, overwriting the original value. Note that
+the type of values stored in A is nonlinear.  ")
+#declexample("\
+
+The following code doubles the integer value of each cell in a given array:
+
+#pats2xhtmld_tryit('\
+fun doubling {n:nat} 
+  (A: &(@[int][n]), n: int n): void = let
+//
+fun loop
+  {i:nat | i <= n} .<n-i>. (
+  A: &(@[int][n]), n: int n, i: int i
+) : void =
+  if n > i then (A[i] := 2 * A[i]; loop (A, n, i+1)) else ()
+//
+in
+  loop (A, n, 0)
+end // end of [doubling]
+')
+")
+#declnamesynop("array_set_at_guint")
+#decldescrpt('\
+
+This function, which overloads the symbol #dyncode("[]"), is like
+#dyncode("array_set_at_gint") except that the index is unsigned.  ')
+
+(* ****** ****** *)
+
+#declname("array_exch_at")
+#decldescrpt('\
+#pats2xhtmls("\
+overload array_exch_at with array_exch_at_gint
+overload array_exch_at with array_exch_at_guint
+")\
+')
+#declnamesynop("array_exch_at_gint")
 #decldescrpt('\
 This function exchanges the value in cell i of the given array A and the
 value in its second argument. Note that the type of these values can be linear.
 ')
+#declnamesynop("array_exch_at_guint")
+#decldescrpt('\
+
+This function, which overloads the symbol #dyncode("[]"), is like
+#dyncode("array_exch_at_gint") except that the index is unsigned.  ')
+
+(* ****** ****** *)
+
+#declnamesynop("array_exchange")
+#decldescrpt('\
+
+Given an array and two valid indices i and j, this function exchanges the
+values in array-cell i and array-cell j.  Note that the type of these
+values can be linear.  ')
+#declexample("\
+
+The following code implements the standard insertion sort:
+#pats2xhtmld_tryit('\
+fun{a:t0p}
+insertion_sort {n:nat}
+  (A: &(@[a][n]), n: size_t n): void = let
+//
+fun loop1
+  {i:nat | i < n} .<i>.
+  (A: &(@[a][n]), i: size_t i): void =
+  if i > 0 then let
+    val i1 = pred (i)
+    val sgn = gcompare_ref<a> (A.[i1], A.[i])
+  in
+    if sgn > 0 then let
+      val () = array_exchange (A, i1, i) in loop1 (A, i1)
+    end else ()
+  end else () // end of [if]
+//
+fun loop2
+  {i:nat | i <= n} .<n-i>. (
+  A: &(@[a][n]), n: size_t n, i: size_t i
+) : void =
+  if i < n then let
+    val () = loop1 (A, i) in loop2 (A, n, succ(i))
+  end else () // end of [if]
+//
+in
+//
+if n >= 2 then loop2 (A, n, g1int2uint(1)) else ()
+//
+end // end of [insertion_sort]
+')
+")
 
 (* ****** ****** *)
 
@@ -201,6 +325,14 @@ value in its second argument. Note that the type of these values can be linear.
 (* ****** ****** *)
 
 #declnamesynop("fprint_array_sep")
+#decldescrpt("\
+
+This function prints the elements in a given array to the output channel
+provided as its first argument, interspersing the string #dyncode('sep')
+between the printed array elements. Note that printing each array element is
+handled by calling the function #dyncode("fprint_ref").
+
+")
 
 (* ****** ****** *)
 

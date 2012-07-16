@@ -101,7 +101,7 @@ fun loop
   if n > 0 then let
     prval (pf1, pf2) = array_v_uncons (pf)
     val acc = foldleft_array__fwork<a> (acc, !p)
-    val res = loop (pf2 | ptr1_add_int<a> (p, 1), pred(n), acc)
+    val res = loop (pf2 | ptr1_succ<a> (p), pred(n), acc)
     prval () = pf := array_v_cons (pf1, pf2)
   in
     res

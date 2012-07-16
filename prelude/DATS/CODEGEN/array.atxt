@@ -34,32 +34,54 @@ staload IT = "prelude/SATS/iterator.sats"
 implement{a}
 array_getref_at
   (A, i) = let
-  val p = ptr0_add_uint (addr@(A), i) in $UN.cast2Ptr1 (p)
+  val p = ptr0_add_guint (addr@(A), i) in $UN.cast2Ptr1 (p)
 end // end of [array_getref_at]
 
 implement{a}
-array_get_at (A, i) = let
-  val p = ptr0_add_uint (addr@(A), i) in $UN.ptr0_get<a> (p)
-end // end of [array_get_at]
+array_get_at_size (A, i) = let
+  val p = ptr0_add_guint (addr@(A), i) in $UN.ptr0_get<a> (p)
+end // end of [array_get_at_size]
 
 implement{a}
-array_set_at (A, i, x) = let
-  val p = ptr0_add_uint (addr@(A), i) in $UN.ptr0_set<a> (p, x)
-end // end of [array_set_at]
+array_set_at_size (A, i, x) = let
+  val p = ptr0_add_guint (addr@(A), i) in $UN.ptr0_set<a> (p, x)
+end // end of [array_set_at_size]
 
 implement{a}
-array_exch_at (A, i, x) = let
-  val p = ptr0_add_uint (addr@(A), i) in $UN.ptr0_exch<a> (p, x)
-end // end of [array_exch_at]
+array_exch_at_size (A, i, x) = let
+  val p = ptr0_add_guint (addr@(A), i) in $UN.ptr0_exch<a> (p, x)
+end // end of [array_exch_at_size]
+
+#atscode_separator()
+
+implement{a}
+array_exchange
+  (A, i, j) = let
+in
+//
+if i != j then let
+  val p = addr@(A)
+  val pi = ptr0_add_guint<a> (p, i)
+  val pj = ptr1_of_ptr0 (ptr0_add_guint<a> (p, j))
+  prval (pf, fpf) = $UN.ptr_vtake {a} (pj)
+  val () = $UN.ptr0_exch<a> (pi, !pj)
+  prval () = fpf (pf)
+in
+  // nothing
+end else () // end of [if]
+//
+end // end of [array_exchange]
 
 #atscode_separator()
 
 implement{a}
 array_ptr_takeout
   {l}{n}{i}(pf | p, i) = let
-  prval pfout = array_v_takeout {a}{l}{n}{i} (pf)
+  prval pfout =
+    array_v_takeout {a}{l}{n}{i} (pf)
+  // end of [prval]
 in
-  (pfout | ptr1_add_uint<a> (p, i))
+  (pfout | ptr1_add_guint<a> (p, i))
 end // end of [array_ptr_takeout]
 
 #atscode_separator()
@@ -408,7 +430,7 @@ in
 end // end of [loop]
 //
 val p_end =
-  ptr1_add_uint<a> (addr@(A), asz)
+  ptr1_add_guint<a> (addr@(A), asz)
 val n = loop (view@(A) | p_end, asz, env)
 in
   asz - n
@@ -429,7 +451,7 @@ fun loop
   if n > 0 then let
     prval (pf1, pf2) = array_v_uncons (pf)
     val () = array_initize__fwork (i, !p)
-    val () = loop (pf2 | ptr1_add_int<a> (p, 1), pred(n), succ(i))
+    val () = loop (pf2 | ptr1_succ<a> (p), pred(n), succ(i))
     prval () = pf := array_v_cons {a} (pf1, pf2)
   in
     // nothing
@@ -560,7 +582,7 @@ in
 if n >= 2 then let
   val i = array_permute__randint<> (n)
   prval (pf1, pf2) = array_v_uncons (pf)
-  val () = if i > 0 then $UN.ptr0_exch<a> (ptr1_add_uint<a> (p, i), !p)
+  val () = if i > 0 then $UN.ptr0_exch<a> (ptr0_add_guint<a> (p, i), !p)
   val () = loop (pf2 | ptr1_succ<a> (p), pred (n))
   prval () = pf := array_v_cons (pf1, pf2)
 in

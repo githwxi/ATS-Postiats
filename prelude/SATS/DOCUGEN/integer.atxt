@@ -15,16 +15,54 @@ various finite precision.
 
 (* ****** ****** *)
 
+#declnamesynop("g0int2int")
+#declnamesynop("g1ofg0_int")
+#declnamesynop("g1int2int")
+
+(* ****** ****** *)
+
+#declnamesynop("g0int_of_string")
+
+(* ****** ****** *)
+
+#declnamesynop("g0int_neg")
+#declnamesynop("g1int_neg")
+#declnamesynop("g0int_succ")
+#declnamesynop("g1int_succ")
+#declnamesynop("g0int_pred")
+#declnamesynop("g1int_pred")
+
+(* ****** ****** *)
+
+#declnamesynop("g0int_add")
+#declnamesynop("g1int_add")
+#declnamesynop("g0int_sub")
+#declnamesynop("g1int_sub")
+#declnamesynop("g0int_mul")
+#declnamesynop("g1int_mul")
+#declnamesynop("g1int_mul2")
+#declnamesynop("g0int_div")
+#declnamesynop("g1int_div")
+#declnamesynop("g1int_ndiv")
+#declnamesynop("g1int_ndiv2")
+#declnamesynop("g0int_mod")
+#declnamesynop("g1int_mod")
+
+(* ****** ****** *)
+
 #declnamesynop("g0int_lt")
 #decldescrpt('\
 This function returns true if and only if its first argument is
 less than its second argument. It is for signed integers.
 ')
+#declnamesynop("g1int_lt")
+
 #declnamesynop("g0int_lte")
 #decldescrpt('\
 This function returns true if and only if its first argument is
 less than or equal to its second argument. It is for signed integers.
 ')
+#declnamesynop("g1int_lte")
 
 (* ****** ****** *)
 
@@ -33,11 +71,13 @@ less than or equal to its second argument. It is for signed integers.
 This function returns true if and only if its first argument is
 greater than its second argument. It is for signed integers.
 ')
+#declnamesynop("g1int_gt")
 #declnamesynop("g0int_gte")
 #decldescrpt('\
 This function returns true if and only if its first argument is
 greater than or equal to its second argument. It is for signed integers.
 ')
+#declnamesynop("g1int_gte")
 
 (* ****** ****** *)
 
@@ -46,11 +86,60 @@ greater than or equal to its second argument. It is for signed integers.
 This function returns true if and only if its first argument is
 equal to its second argument. It is for signed integers.
 ')
+#declnamesynop("g1int_eq")
 #declnamesynop("g0int_neq")
 #decldescrpt('\
 This function returns true if and only if its first argument is
 unequal to its second argument. It is for signed integers.
 ')
+#declnamesynop("g1int_neq")
+
+(* ****** ****** *)
+
+#declnamesynop("g0int_compare")
+#declnamesynop("g1int_compare")
+
+(* ****** ****** *)
+
+#declnamesynop("g0int_max")
+#declnamesynop("g1int_max")
+#declnamesynop("g0int_min")
+#declnamesynop("g1int_min")
+
+(* ****** ****** *)
+
+#declnamesynop("g0int2uint")
+#declnamesynop("g0uint2int")
+#declnamesynop("g0uint2uint")
+#declnamesynop("g1ofg0_uint")
+#declnamesynop("g1int2uint")
+#declnamesynop("g1uint2int")
+#declnamesynop("g1uint2uint")
+
+(* ****** ****** *)
+
+#declnamesynop("g0uint_of_string")
+
+(* ****** ****** *)
+
+#declnamesynop("g0uint_succ")
+#declnamesynop("g1uint_succ")
+#declnamesynop("g0uint_pred")
+#declnamesynop("g1uint_pred")
+
+(* ****** ****** *)
+
+#declnamesynop("g0uint_add")
+#declnamesynop("g1uint_add")
+#declnamesynop("g0uint_sub")
+#declnamesynop("g1uint_sub")
+#declnamesynop("g0uint_mul")
+#declnamesynop("g1uint_mul")
+#declnamesynop("g1uint_mul2")
+#declnamesynop("g0uint_div")
+#declnamesynop("g1uint_div")
+#declnamesynop("g0uint_mod")
+#declnamesynop("g1uint_mod")
 
 (* ****** ****** *)
 
@@ -59,11 +148,13 @@ unequal to its second argument. It is for signed integers.
 This function returns true if and only if its first argument is
 less than its second argument. It is for unsigned integers.
 ')
+#declnamesynop("g1uint_lt")
 #declnamesynop("g0uint_lte")
 #decldescrpt('\
 This function returns true if and only if its first argument is
 less than or equal to its second argument. It is for unsigned integers.
 ')
+#declnamesynop("g1uint_lte")
 
 (* ****** ****** *)
 
@@ -72,11 +163,13 @@ less than or equal to its second argument. It is for unsigned integers.
 This function returns true if and only if its first argument is
 greater than its second argument. It is for unsigned integers.
 ')
+#declnamesynop("g1uint_gt")
 #declnamesynop("g0uint_gte")
 #decldescrpt('\
 This function returns true if and only if its first argument is
 greater than or equal to its second argument. It is for unsigned integers.
 ')
+#declnamesynop("g1uint_gte")
 
 (* ****** ****** *)
 
@@ -85,11 +178,36 @@ greater than or equal to its second argument. It is for unsigned integers.
 This function returns true if and only if its first argument is
 equal to its second argument. It is for unsigned integers.
 ')
+#declnamesynop("g1uint_eq")
 #declnamesynop("g0uint_neq")
 #decldescrpt('\
 This function returns true if and only if its first argument is
 unequal to its second argument. It is for unsigned integers.
 ')
+#declnamesynop("g1uint_neq")
+
+(* ****** ****** *)
+
+#declnamesynop("g0uint_compare")
+#declnamesynop("g1uint_compare")
+
+(* ****** ****** *)
+
+#declnamesynop("g0uint_max")
+#declnamesynop("g1uint_max")
+#declnamesynop("g0uint_min")
+#declnamesynop("g1uint_min")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_int")
+#declnamesynop("fprint_uint")
+#declnamesynop("fprint_lint")
+#declnamesynop("fprint_ulint")
+#declnamesynop("fprint_llint")
+#declnamesynop("fprint_ullint")
+#declnamesynop("fprint_size")
+#declnamesynop("fprint_ssize")
 
 (* ****** ****** *)
 

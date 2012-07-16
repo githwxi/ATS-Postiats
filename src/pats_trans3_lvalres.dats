@@ -36,6 +36,7 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
@@ -95,13 +96,19 @@ fun auxmain (
 , d3ls: d3lablst
 , s2e_new: s2exp
 ) : s2exp = let
-  val+ ~PFOBJ (
-    d2v, s2e_ctx, s2e_elt, s2l
-  ) = pfobj // end of [val]
-  var ctxtopt: s2ctxtopt = None ()
-  val s2e_old =
-    s2exp_get_dlablst_context (loc0, s2e_elt, d3ls, ctxtopt)
-  // end of [val]
+//
+val+ ~PFOBJ (
+  d2v, s2e_ctx, s2e_elt, s2l
+) = pfobj // end of [val]
+var ctxtopt: s2ctxtopt = None ()
+//
+val () = println! ("auxmain: s2e_elt = ", s2e_elt)
+//
+val s2es2ps =
+  s2exp_get_dlablst_context_check (loc0, s2e_elt, d3ls, ctxtopt)
+val s2e_old = s2es2ps.0
+val () = trans3_env_add_proplst_vt (loc0, s2es2ps.1)
+//
 in
 //
 case+ ctxtopt of

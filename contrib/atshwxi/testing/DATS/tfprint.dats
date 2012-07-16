@@ -4,12 +4,6 @@
 
 (* ****** ****** *)
 
-staload F =
-"contrib/atshwxi/testing/SATS/foreach.sats"
-// end of [staload]
-
-(* ****** ****** *)
-
 staload
 "contrib/atshwxi/testing/SATS/tfprint.sats"
 // end of [staload]
@@ -35,19 +29,16 @@ tfprint_list__end () = ")"
 implement{a}
 tfprint_list (xs) = let
 //
+val out = tfprint__out ()
 val sep = tfprint_list__sep ()
-//
-implement
-$F.iforeach_list__fwork<a>
-  (i, x) = let
-  val () = if i > 0 then tfprint (sep) in tfprint<a> (x)
-end // end of [__fwork]
-//
 val _beg = tfprint_list__beg ()
 and _end = tfprint_list__end ()
 //
+val () = fprint_string (out, _beg)
+val () = fprint_list_sep (out, xs, sep)
+val () = fprint_string (out, _end)
+//
 in
-  tfprint(_beg); $F.iforeach_list (xs); tfprint(_end)
 end // end of [tfprint_list]
 
 implement(a) tfprint<List(a)> (xs) = tfprint_list<a> (xs)
@@ -64,20 +55,17 @@ tfprint_array__end () = "]"
 implement{a}
 tfprint_array (A, n) = let
 //
+val out = tfprint__out ()
 val sep = tfprint_array__sep ()
-//
-implement
-$F.iforeach_array__fwork<a>
-  (i, x) = let
-  val i = g1ofg0_uint (i)
-  val () = if i > 0 then tfprint (sep) in tfprint<a> (x)
-end // end of [__fwork]
-//
 val _beg = tfprint_list__beg ()
 and _end = tfprint_list__end ()
 //
+val () = fprint_string (out, _beg)
+val () = fprint_array_sep (out, A, n, sep)
+val () = fprint_string (out, _end)
+//
 in
-  tfprint(_beg); $F.iforeach_array (A, n); tfprint(_end)
+  // nothing
 end // end of [tfprint_array]
 
 implement{a}

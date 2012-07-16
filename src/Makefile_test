@@ -106,8 +106,8 @@ atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foldleft.sats
 atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/foldleft.dats
 atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/fprint.sats
 atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/fprint.dats
-atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/tprint.sats
-atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/tprint.dats
+atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/tfprint.sats
+atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/tfprint.dats
 atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/randgen.sats
 atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/randgen.dats
 

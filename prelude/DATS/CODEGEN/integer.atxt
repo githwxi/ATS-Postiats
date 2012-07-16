@@ -30,18 +30,30 @@ staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 //
 fun g0int_implist (
-  kname: string, tname: string
+  knm: string, tnm: string
 ) : atext = let
 //
 fun f (opr: string):<cloref1> atext = let
 //
 val x = sprintf (
-"implement g0int_%s<%s> = g0int_%s_%s\n", @(opr, kname, opr, tname)
+"implement g0int_%s<%s> = g0int_%s_%s\n", @(opr, knm, opr, tnm)
 ) (* end of [val] *)
 //
 in
   atext_strptr (x)
 end // end of [f]
+//
+fun f2 ():<cloref1> atext = let
+//
+val x = sprintf (
+"\
+implement print_%s (x) = fprint_%s (stdout_ref, x)\n\
+implement prerr_%s (x) = fprint_%s (stderr_ref, x)\n\
+implement fprint_val<%s> (out, x) = fprint_%s (out, x)\
+", @(tnm, tnm, tnm, tnm, tnm, tnm))
+in
+  atext_strptr (x)
+end // end of [f2]
 //
 var res: atextlst = list_nil
 //
@@ -65,32 +77,120 @@ val () = res := list_cons (f "compare", res)
 val () = res := list_cons (atext_newline(), res)
 val () = res := list_cons (f "max", res)
 val () = res := list_cons (f "min", res)
+val () = res := list_cons (atext_newline(), res)
+val () = res := list_cons (f2 (), res)
+//
 val res = list_reverse (res)
 in
   atext_concatxt (list_of_list_vt (res))
 end // end of [g0int_implist]
+//
+fun g0uint_implist (
+  knm: string, tnm: string
+) : atext = let
+//
+fun f (opr: string):<cloref1> atext = let
+//
+val x = sprintf (
+"implement g0uint_%s<%s> = g0uint_%s_%s\n", @(opr, knm, opr, tnm)
+) (* end of [val] *)
+//
+in
+  atext_strptr (x)
+end // end of [f]
+//
+fun f2 ():<cloref1> atext = let
+//
+val x = sprintf (
+"\
+implement print_%s (x) = fprint_%s (stdout_ref, x)\n\
+implement prerr_%s (x) = fprint_%s (stderr_ref, x)\n\
+implement fprint_val<%s> (out, x) = fprint_%s (out, x)\
+", @(tnm, tnm, tnm, tnm, tnm, tnm))
+in
+  atext_strptr (x)
+end // end of [f2]
+//
+var res: atextlst = list_nil
+//
+val () = res := list_cons (f "succ", res)
+val () = res := list_cons (f "pred", res)
+val () = res := list_cons (atext_newline(), res)
+val () = res := list_cons (f "add", res)
+val () = res := list_cons (f "sub", res)
+val () = res := list_cons (f "mul", res)
+val () = res := list_cons (f "div", res)
+val () = res := list_cons (f "mod", res)
+val () = res := list_cons (atext_newline(), res)
+val () = res := list_cons (f "lt", res)
+val () = res := list_cons (f "lte", res)
+val () = res := list_cons (f "gt", res)
+val () = res := list_cons (f "gte", res)
+val () = res := list_cons (f "eq", res)
+val () = res := list_cons (f "neq", res)
+val () = res := list_cons (f "compare", res)
+val () = res := list_cons (atext_newline(), res)
+val () = res := list_cons (f "max", res)
+val () = res := list_cons (f "min", res)
+val () = res := list_cons (atext_newline(), res)
+val () = res := list_cons (f2 (), res)
+//
+val res = list_reverse (res)
+in
+  atext_concatxt (list_of_list_vt (res))
+end // end of [g0uint_implist]
+//
 %}
 \
 #atscode_separator()
-
+//
 #g0int_implist("int_kind", "int")
-implement print_int (x) = fprint_int (stdout_ref, x)
-implement prerr_int (x) = fprint_int (stderr_ref, x)
-implement fprint_val<int> (out, x) = fprint_int (out, x)
-
-#atscode_separator()
-
+//
 #g0int_implist("lint_kind", "lint")
-implement print_lint (x) = fprint_lint (stdout_ref, x)
-implement prerr_lint (x) = fprint_lint (stderr_ref, x)
-implement fprint_val<lint> (out, x) = fprint_lint (out, x)
-
+//
+#g0int_implist("llint_kind", "llint")
+//
+#atscode_separator()
+//
+#g0uint_implist("uint_kind", "uint")
+//
+#g0uint_implist("ulint_kind", "ulint")
+//
+#g0uint_implist("ullint_kind", "ullint")
+//
 #atscode_separator()
 
-#g0int_implist("llint_kind", "llint")
-implement print_llint (x) = fprint_llint (stdout_ref, x)
-implement prerr_llint (x) = fprint_llint (stderr_ref, x)
-implement fprint_val<llint> (out, x) = fprint_llint (out, x)
+local
+
+staload "libc/SATS/stdlib.sats"
+
+in // in of [local]
+
+implement
+g0int_of_string<int_kind> (str) = atoi (str)
+implement
+g0int_of_string<lint_kind> (str) = atol (str)
+implement
+g0int_of_string<llint_kind> (str) = atoll (str)
+implement
+g0int_of_string<ssize_kind> (str) = g0int2int (atol (str))
+
+implement
+g0uint_of_string<uint_kind> (str) =
+  g0uint2uint (g0uint_of_string<ulint_kind> (str))
+implement
+g0uint_of_string<ulint_kind> (str) =
+  $effmask_wrt (strtoul0 (str, 10(*base*)))
+// end of [g0uint_of_string_ulint]
+implement
+g0uint_of_string<ullint_kind> (str) =
+  $effmask_wrt (strtoull0 (str, 10(*base*)))
+// end of [g0uint_of_string_ullint]
+implement
+g0uint_of_string<size_kind> (str) =
+  g0uint2uint (g0uint_of_string<ulint_kind> (str))
+
+end // end of [local]
 
 #atscode_separator()
 

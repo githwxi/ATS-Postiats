@@ -42,20 +42,36 @@ staload "libats/ML/SATS/array0.sats"
 
 (* ****** ****** *)
 
-implement{a}
-array0_get_at (A0, i) = let
+implement{tk}{a}
+array0_get_at_gint (A0, i) = let
   val A0 = arrszref_of_array0 (A0) in A0[i]
-end // end of [array0_get_at]
+end // end of [array0_get_at_gint]
+implement{tk}{a}
+array0_get_at_guint (A0, i) = let
+  val A0 = arrszref_of_array0 (A0) in A0[i]
+end // end of [array0_get_at_guint]
 
-implement{a}
-array0_set_at (A0, i, x) = let
+(* ****** ****** *)
+
+implement{tk}{a}
+array0_set_at_gint (A0, i, x) = let
   val A0 = arrszref_of_array0 (A0) in A0[i] := x
-end // end of [array0_set_at]
+end // end of [array0_set_at_gint]
+implement{tk}{a}
+array0_set_at_guint (A0, i, x) = let
+  val A0 = arrszref_of_array0 (A0) in A0[i] := x
+end // end of [array0_set_at_guint]
 
-implement{a}
-array0_exch_at (A0, i, x) = let
-  val A0 = arrszref_of_array0 (A0) in arrszref_exch_at (A0, i, x)
-end // end of [array0_exch_at]
+(* ****** ****** *)
+
+implement{tk}{a}
+array0_exch_at_gint (A0, i, x) = let
+  val A0 = arrszref_of_array0 (A0) in arrszref_exch_at_gint (A0, i, x)
+end // end of [array0_exch_at_gint]
+implement{tk}{a}
+array0_exch_at_guint (A0, i, x) = let
+  val A0 = arrszref_of_array0 (A0) in arrszref_exch_at_guint (A0, i, x)
+end // end of [array0_exch_at_guint]
 
 (* ****** ****** *)
 

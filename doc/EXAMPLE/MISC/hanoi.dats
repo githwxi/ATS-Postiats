@@ -157,8 +157,7 @@ fun loop {
   i: int i
 ) :<cloref1> void =
   if i < sz then let
-    val j = g1int2uint(i)
-    val i1 = succ(i) in p[j] := i1 ; loop (i1)
+    val i1 = succ(i) in arrayref_set_at (p, i, i1) ; loop (i1)
   end // end of [if]
 //
 in
@@ -166,14 +165,9 @@ in
 end // end of [post_initize]
 
 implement
-post_get_at (p, i) =
-  arrayref_get_at (p, g1int2uint (i))
-// end of [post_get_at]
-
+post_get_at (p, i) = arrayref_get_at (p, i)
 implement
-post_set_at (p, i, x) =
-  arrayref_set_at (p, g1int2uint (i), x)
-// end of [post_set_at]
+post_set_at (p, i, x) = arrayref_set_at (p, i, x)
 
 end // end of [local]
 

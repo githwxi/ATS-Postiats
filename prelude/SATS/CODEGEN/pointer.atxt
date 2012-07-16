@@ -72,27 +72,36 @@ overload ptr_isnot_null with ptr0_isnot_null of 0
 
 fun{a:vt0p}
 ptr0_succ (p: ptr):<> ptr
-overload ptr_succ with ptr0_succ of 0
-
 fun{a:vt0p}
 ptr0_pred (p: ptr):<> ptr
+(*
+overload ptr_succ with ptr0_succ of 0
 overload ptr_pred with ptr0_pred of 0
+*)
 
 #atscode_separator()
 //
-fun{a:vt0p}{tk:tk}
-ptr0_add_int (p: ptr, ofs: g0int (tk)):<> ptr
-overload ptr_add with ptr0_add_int of 0
-fun{a:vt0p}{tk:tk}
-ptr0_add_uint (p: ptr, ofs: g0uint (tk)):<> ptr
-overload ptr_add with ptr0_add_uint of 0
+fun{
+a:vt0p}{tk:tk
+} ptr0_add_gint (p: ptr, ofs: g0int (tk)):<> ptr
+fun{
+a:vt0p}{tk:tk
+} ptr0_add_guint (p: ptr, ofs: g0uint (tk)):<> ptr
+(*
+overload ptr_add with ptr0_add_gint of 0
+overload ptr_add with ptr0_add_guint of 0
+*)
 //
-fun{a:vt0p}{tk:tk}
-ptr0_sub_int (p: ptr, ofs: g0int (tk)):<> ptr
-overload ptr_sub with ptr0_sub_int of 0
-fun{a:vt0p}{tk:tk}
-ptr0_sub_uint (p: ptr, ofs: g0uint (tk)):<> ptr
-overload ptr_sub with ptr0_sub_uint of 0
+fun{
+a:vt0p}{tk:tk
+} ptr0_sub_gint (p: ptr, ofs: g0int (tk)):<> ptr
+fun{
+a:vt0p}{tk:tk
+} ptr0_sub_guint (p: ptr, ofs: g0uint (tk)):<> ptr
+(*
+overload ptr_sub with ptr0_sub_gint of 0
+overload ptr_sub with ptr0_sub_guint of 0
+*)
 //
 #atscode_separator()
 
@@ -174,35 +183,44 @@ fun ptr1_isnot_null {l:addr}
 
 fun{a:vt0p}
 ptr1_succ {l:addr} (p: ptr l):<> ptr (l+sizeof(a))
-overload ptr_succ with ptr1_succ of 1
-
 fun{a:vt0p}
 ptr1_pred {l:addr} (p: ptr l):<> ptr (l-sizeof(a))
+(*
+overload ptr_succ with ptr1_succ of 1
 overload ptr_pred with ptr1_pred of 1
+*)
 
 #atscode_separator()
 
-fun{a:vt0p}{tk:tk}
-ptr1_add_int
+fun{
+a:vt0p}{tk:tk
+} ptr1_add_gint
   {l:addr}{i:int}
   (p: ptr l, ofs: g1int (tk, i)):<> ptr(l+i*sizeof(a))
-overload ptr_add with ptr1_add_int of 2
-fun{a:vt0p}{tk:tk}
-ptr1_add_uint
+fun{
+a:vt0p}{tk:tk
+} ptr1_add_guint
   {l:addr}{i:int}
   (p: ptr l, ofs: g1uint (tk, i)):<> ptr(l+i*sizeof(a))
-overload ptr_add with ptr1_add_uint of 2
+(*
+overload ptr_add with ptr1_add_gint of 2
+overload ptr_add with ptr1_add_guint of 2
+*)
 
-fun{a:vt0p}{tk:tk}
-ptr1_sub_int
+fun{
+a:vt0p}{tk:tk
+} ptr1_sub_gint
   {l:addr}{i:int}
   (p: ptr l, ofs: g1int (tk, i)):<> ptr(l-i*sizeof(a))
-overload ptr_sub with ptr1_sub_int of 2
-fun{a:vt0p}{tk:tk}
-ptr1_sub_uint
+fun{
+a:vt0p}{tk:tk
+} ptr1_sub_guint
   {l:addr}{i:int}
   (p: ptr l, ofs: g1uint (tk, i)):<> ptr(l-i*sizeof(a))
-overload ptr_sub with ptr1_sub_uint of 2
+(*
+overload ptr_sub with ptr1_sub_gint of 2
+overload ptr_sub with ptr1_sub_guint of 2
+*)
 
 #atscode_separator()
 

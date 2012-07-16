@@ -325,7 +325,11 @@ fun d2exp_trup_ptrof (d2e0: d2exp): d3exp
 
 fun s2exp_get_dlablst_context (
   loc0: location, s2e: s2exp, d3ls: d3lablst, context: &s2ctxtopt
-) : s2exp (*selected*) // end of [fun]
+) : s2exp (*selected*) // endfun
+
+fun s2exp_get_dlablst_context_check (
+  loc0: location, s2e: s2exp, d3ls: d3lablst, context: &s2ctxtopt
+) : (s2exp, s2explst_vt) // endfun
 
 (* ****** ****** *)
 

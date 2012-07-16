@@ -52,6 +52,14 @@ run-time.  ")
 (* ****** ****** *)
 
 #declnamesynop("fprint_arrayref_sep")
+#decldescrpt("\
+
+This function prints the elements in a given array to the output channel
+provided as its first argument, interspersing the string #dyncode('sep')
+between the printed array elements. Note that printing each array element is
+handled by calling the function #dyncode("fprint_ref").
+
+")
 
 (* ****** ****** *)
 

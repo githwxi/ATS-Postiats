@@ -85,8 +85,24 @@ static multiplication function on integers.
 This proof function applies to static integers m and n to generate a proof
 of the type #stacode("MUL(m, n, p)") for some integer p. In other words,
 the function proves that #stacode("MUL") is total on its first two
-arguments. Note that #prfcode("mul_make") entirely supersedes
-#prfcode("mul_istot").
+arguments. The following code gives a direct implementation of
+#prfcode("mul_istot"):
+
+#pats2xhtmld_tryit('\
+primplmnt
+mul_istot
+  {m,n} () = let
+//
+prfun lemma
+  {m:nat;n:int} .<m>. (): [p:int] MUL (m, n, p) =
+  sif m > 0 then MULind (lemma {m-1,n} ()) else MULbas ()
+//
+in
+  sif m >= 0 then lemma {m,n} () else MULneg (lemma {~m,n} ())
+end // end of [mul_istot]
+')
+
+Note that #prfcode("mul_make") entirely supersedes #prfcode("mul_istot").
 
 ')
 
@@ -96,7 +112,33 @@ arguments. Note that #prfcode("mul_make") entirely supersedes
 #decldescrpt('\
 
 This proof function proves that the relation #stacode("MUL") is functional
-on its first two arguments.
+on its first two arguments.  The following code gives a direct
+implementation of #prfcode("mul_isfun"):
+
+#pats2xhtmld_tryit('\
+primplmnt
+mul_isfun
+  {m,n} (pf1, pf2) = let
+//
+prfun lemma
+  {m:nat;n:int}
+  {p1,p2:int} .<m>. (
+  pf1: MUL (m, n, p1), pf2: MUL (m, n, p2)
+) : [p1==p2] void =
+  case+ (pf1, pf2) of
+  | (MULind (pf1), MULind (pf2)) => lemma (pf1, pf2)
+  | (MULbas (), MULbas ()) => ()
+//
+in
+  sif m >= 0 then
+    lemma (pf1, pf2)
+  else let
+    prval MULneg (pf1) = pf1 and MULneg (pf2) = pf2
+  in
+    lemma (pf1, pf2)
+  end (* end of [sif] *)
+end // end of [mul_isfun]
+')
 
 ')
 

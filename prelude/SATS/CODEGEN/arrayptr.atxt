@@ -168,28 +168,83 @@ fprint_arrayptr
 // end of [fprint_arrayptr]
 
 #atscode_separator()
-//
+
 fun{a:t0p}
-arrayptr_get_at
+arrayptr_get_at_size
   {n:int} (
   A: !arrayptr (INV(a), n), i: sizeLt (n)
-) :<> a // end of [arrayptr_get_at]
+) :<> a // end of [arrayptr_get_at_size]
+
+fun{
+a:t0p}{tk:tk
+} arrayptr_get_at_gint
+  {n:int} (
+  A: !arrayptr (INV(a), n), i: g1intLt (tk, n)
+) :<> a // end of [arrayptr_get_at_gint]
+overload [] with arrayptr_get_at_gint
+fun{
+a:t0p}{tk:tk
+} arrayptr_get_at_guint
+  {n:int} (
+  A: !arrayptr (INV(a), n), i: g1uintLt (tk, n)
+) :<> a // end of [arrayptr_get_at_guint]
+overload [] with arrayptr_get_at_guint
+
+symintr arrayptr_get_at
+overload arrayptr_get_at with arrayptr_get_at_gint
+overload arrayptr_get_at with arrayptr_get_at_guint
+
+#atscode_separator()
+
 fun{a:t0p}
-arrayptr_set_at
+arrayptr_set_at_size
   {n:int} (
   A: !arrayptr (INV(a), n), i: sizeLt (n), x: a
-) :<!wrt> void // end of [arrayptr_set_at]
-//
-overload [] with arrayptr_get_at
-overload [] with arrayptr_set_at
-//
+) :<!wrt> void // end of [arrayptr_set_at_size]
+
+fun{
+a:t0p}{tk:tk
+} arrayptr_set_at_gint
+  {n:int} (
+  A: !arrayptr (INV(a), n), i: g1intLt (tk, n), x: a
+) :<!wrt> void // end of [arrayptr_set_at_gint]
+overload [] with arrayptr_set_at_gint
+fun{
+a:t0p}{tk:tk
+} arrayptr_set_at_guint
+  {n:int} (
+  A: !arrayptr (INV(a), n), i: g1uintLt (tk, n), x: a
+) :<!wrt> void // end of [arrayptr_set_at_guint]
+overload [] with arrayptr_set_at_guint
+
+symintr arrayptr_set_at
+overload arrayptr_set_at with arrayptr_set_at_gint
+overload arrayptr_set_at with arrayptr_set_at_guint
+
 #atscode_separator()
 
 fun{a:vt0p}
-arrayptr_exch_at
+arrayptr_exch_at_size
   {n:int} (
   A: !arrayptr (INV(a), n), i: sizeLt (n), x: &a
-) :<!wrt> void // end of [arrayptr_exch_at]
+) :<!wrt> void // end of [arrayptr_exch_at_size]
+
+fun{
+a:vt0p}{tk:tk
+} arrayptr_exch_at_gint
+  {n:int} (
+  A: !arrayptr (INV(a), n), i: g1intLt (tk, n), x: &a >> _
+) :<!wrt> void // end of [arrayptr_exch_at_gint]
+fun{
+a:vt0p}{tk:tk
+} arrayptr_exch_at_guint
+  {n:int} (
+  A: !arrayptr (INV(a), n), i: g1uintLt (tk, n), x: &a >> _
+) :<!wrt> void // end of [arrayptr_exch_at_guint]
+
+symintr arrayptr_exch_at
+overload arrayptr_exch_at with arrayptr_exch_at_gint
+overload arrayptr_exch_at with arrayptr_exch_at_guint
 
 #atscode_separator()
 

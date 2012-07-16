@@ -82,53 +82,59 @@ fun{} string_isnot_empty (x: string):<> bool
 
 #atscode_separator()
 
+fun string_is_atend_size
+  {n:int}{i:nat | i <= n}
+  (s: string (n), i: size_t (i)):<> bool (i==n)
+// end of [string_is_atend_size]
+
+symintr string_is_atend
 fun{tk:tk}
 string_is_atend_int
   {n:int}{i:nat | i <= n}
   (s: string (n), i: g1int (tk, i)):<> bool (i==n)
-// end of [string_is_atend_int]
+overload string_is_atend with string_is_atend_int
 fun{tk:tk}
 string_is_atend_uint
-  {n:int}{i:int | i <= n}
+  {n:int}{i:nat | i <= n}
   (s: string (n), i: g1uint (tk, i)):<> bool (i==n)
-// end of [string_is_atend_uint]
-
-symintr string_is_atend
-overload string_is_atend with string_is_atend_int
 overload string_is_atend with string_is_atend_uint
-
+(*
+macdef string_isnot_atend
+  (str, ind) = ~string_is_atend (,(str), ,(ind))
+// end of [string_isnot_atend]
+*)
 (* ****** ****** *)
+
+fun string_get_at_size
+  {n:int} (s: string (n), i: sizeLt (n)):<> charNZ
+// end of [string_get_at_size]
 
 fun{tk:tk}
 string_get_at_int
-  {n:int}{i:nat | i < n}
-  (s: string (n), i: g1int (tk, i)):<> charNZ
+  {n:int} (s: string (n), i: g1intLt (tk, n)):<> charNZ
 overload [] with string_get_at_int
 fun{tk:tk}
 string_get_at_uint
-  {n:int}{i:int | i < n}
-  (s: string (n), i: g1uint (tk, i)):<> charNZ
+  {n:int} (s: string (n), i: g1uintLt (tk, n)):<> charNZ
 overload [] with string_get_at_uint
-
-symintr string_get_at
-overload string_get_at with string_get_at_int
-overload string_get_at with string_get_at_uint
 
 (* ****** ****** *)
 
-fun{tk:tk}
-string_test_at_int
+fun string_test_at_size
   {n:int}{i:nat | i <= n} (
-  s: string (n), i: g1int (tk, i)
-) :<> [c:int] (string_index_p (n, i, c) | char (c))
-fun{tk:tk}
-string_test_at_uint
-  {n:int}{i:int | i <= n} (
-  s: string (n), i: g1uint (tk, i)
+  s: string (n), i: size_t (i)
 ) :<> [c:int] (string_index_p (n, i, c) | char (c))
 
 symintr string_test_at
+fun{tk:tk}
+string_test_at_int
+  {n:int}{i:nat | i <= n}
+  (s: string (n), i: g1int (tk, i)):<> charNZ
 overload string_test_at with string_test_at_int
+fun{tk:tk}
+string_test_at_uint
+  {n:int}{i:nat | i <= n}
+  (s: string (n), i: g1uint (tk, i)):<> charNZ
 overload string_test_at with string_test_at_uint
 
 #atscode_separator()

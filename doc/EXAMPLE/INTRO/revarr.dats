@@ -29,8 +29,8 @@ end // end of [revarr]
 
 (* ****** ****** *)
 
-staload "contrib/atshwxi/testing/SATS/tprint.sats"
 staload "contrib/atshwxi/testing/SATS/randgen.sats"
+staload "contrib/atshwxi/testing/SATS/tfprint.sats"
 
 (* ****** ****** *)
 
@@ -42,18 +42,18 @@ main (argc, argv) = let
   val asz = g1int2uint (10)
   val A = randgen_arrayptr (asz)
 //
-  val () = tprint "A = "
-  val () = tprint_arrayptr<int> (A, asz)
-  val () = tprint_newline ()
+  val () = tfprint "A = "
+  val () = tfprint_arrayptr<int> (A, asz)
+  val () = tfprint_newline ()
 //
   val p = ptrcast (A)
   prval pfarr = arrayptr_takeout (A)
   val () = revarr (!p, asz)
   prval () = arrayptr_addback (pfarr | A)
 //
-  val () = tprint "A = "
-  val () = tprint_arrayptr<int> (A, asz)
-  val () = tprint_newline ()
+  val () = tfprint "A = "
+  val () = tfprint_arrayptr<int> (A, asz)
+  val () = tfprint_newline ()
 //
   val () = arrayptr_free (A)
 //

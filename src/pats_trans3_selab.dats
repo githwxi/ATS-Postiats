@@ -76,23 +76,146 @@ staload "pats_trans3_env.sats"
 
 (* ****** ****** *)
 
-fun
-d2lab_trup (
+local
+
+fun aux (
   d2l: d2lab
 ) : d3lab = let
   val loc = d2l.d2lab_loc
 in
-  case+ d2l.d2lab_node of
-  | D2LABlab (lab) => d3lab_lab (loc, lab)
-  | D2LABind ind => let
-      val ind = d2explstlst_trup (ind) in d3lab_ind (loc, ind)
-    end // end of [D2LABind]
-end // end of [d2lab_trup]
+//
+case+ d2l.d2lab_node of
+| D2LABlab (lab) => d3lab_lab (loc, lab)
+| D2LABind ind => let
+    val ind = d2explstlst_trup (ind) in d3lab_ind (loc, ind)
+  end // end of [D2LABind]
+//
+end // end of [aux]
+
+in // in of [loca]
 
 implement
 d2lablst_trup (d2ls) = let
-  val d3ls = list_map_fun (d2ls, d2lab_trup) in (l2l)d3ls
+  val d3ls = list_map_fun (d2ls, aux) in (l2l)d3ls
 end // end of [d2lablst_trup]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun arrbndck .<>. (
+  d3e1: d3exp, s2i2: s2exp
+) : s2explst_vt = let
+//
+fun auxerr (
+  d3e: d3exp
+) : void = let
+  val loc = d3e.d3exp_loc
+  val s2e = d3exp_get_type (d3e)
+  val () = prerr_error3_loc (loc)
+  val () = prerr ": the type of the array index is not "
+  val () = prerr "a generic (signed or unsigned) integer type: ["
+  val () = prerr_s2exp (s2e)
+  val () = prerr "]."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d3exp_arrind (d3e))
+end (* end of [auxerr] *)
+//
+val () =
+  d3exp_open_and_add (d3e1)
+val s2e1 = d3exp_get_type (d3e1)
+val s2f1 = s2exp2hnf (s2e1)
+val opt = un_s2exp_g1int_index_t0ype (s2f1)
+//
+in
+//
+case+ opt of
+| ~Some_vt (s2i1) => let
+    val s2p1 = s2exp_igtez (s2i1)
+    val s2p2 = s2exp_intlt (s2i1, s2i2)
+  in
+    list_vt_pair (s2p1, s2p2)
+  end // end of [Some_vt]
+| ~None_vt () => let
+    val opt = un_s2exp_g1uint_index_t0ype (s2f1)
+  in
+    case+ opt of
+    | ~Some_vt (s2i1) => let
+        val s2p = s2exp_intlt (s2i1, s2i2) in list_vt_sing (s2p)
+      end // end of [Some_vt]
+    | ~None_vt () => let
+        val () = auxerr (d3e1) in list_vt_nil ()
+      end // end of [None_vt]
+  end // end of [None_vt]
+//
+end // end of [arrbndck]
+
+in // in of [local]
+
+fun arrbndlst_check (
+  loc0: location, ind: d3explstlst, dim: s2explst
+) : s2explst_vt = let
+//
+fun auxerr (
+  loc0: location
+, dim: s2explst, ind: d3explstlst, sgn: int
+) : void = let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": the label is expected to contain "
+  val () = if sgn < 0 then prerr "more array indexes."
+  val () = if sgn > 0 then prerr "fewer array indexes."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d3exp_arrdim (loc0, dim, ind))
+end // end of [auxerr] 
+//
+val nind =
+  loop (ind, 0) where {
+  fun loop (xss: d3explstlst, n: int): int =
+    case+ xss of
+    | list_cons (xs, xss) => loop (xss, n + list_length (xs))
+    | list_nil () => n
+  // end of [loop]
+} // end of [val]
+val ndim = list_length (dim)
+//
+fun auxcheck1 (
+  xss: d3explstlst, s2es: s2explst
+) : s2explst_vt =
+  case+ xss of
+  | list_cons (xs, xss) => auxcheck2 (xs, xss, s2es)
+  | list_nil () => list_vt_nil ()
+// end of [auxcheck1]
+and auxcheck2 (
+  xs: d3explst, xss: d3explstlst, s2es: s2explst
+) : s2explst_vt =
+  case+ xs of
+  | list_cons (x, xs) => let
+      val- list_cons (s2e, s2es) = s2es
+      val s2ps1 = arrbndck (x, s2e)
+      val s2ps2 = auxcheck2 (xs, xss, s2es)
+    in
+      list_vt_append (s2ps1, s2ps2)
+    end // end of [list_cons]
+  | list_nil () => auxcheck1 (xss, s2es)
+// end of [auxcheck2]
+//
+val sgn = nind - ndim
+//
+in
+//
+if sgn < 0 then let
+  val () = auxerr (loc0, dim, ind, sgn) in list_vt_nil ()
+end else if sgn > 0 then let
+  val () = auxerr (loc0, dim, ind, sgn) in list_vt_nil ()
+end else auxcheck1 (ind, dim) // end of [if]
+//
+end // end of [arrbndlst_check]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -197,119 +320,10 @@ case+ s2e.s2exp_node of
 //
 end // end of [auxlab_shnf]
 
-fun bndck .<>. (
-  d3e1: d3exp, s2i2: s2exp
-) : s2explst_vt = let
-//
-fun auxerr (
-  d3e: d3exp
-) : void = let
-  val loc = d3e.d3exp_loc
-  val s2e = d3exp_get_type (d3e)
-  val () = prerr_error3_loc (loc)
-  val () = prerr ": the type of the array index is not "
-  val () = prerr "a generic (signed or unsigned) integer type: ["
-  val () = prerr_s2exp (s2e)
-  val () = prerr "]."
-  val () = prerr_newline ()
-in
-  the_trans3errlst_add (T3E_d3exp_arrind (d3e))
-end (* end of [auxerr] *)
-//
-val () =
-  d3exp_open_and_add (d3e1)
-val s2e1 = d3exp_get_type (d3e1)
-val s2f1 = s2exp2hnf (s2e1)
-val opt = un_s2exp_g1int_index_t0ype (s2f1)
-//
-in
-//
-case+ opt of
-| ~Some_vt (s2i1) => let
-    val s2p1 = s2exp_igtez (s2i1)
-    val s2p2 = s2exp_intlt (s2i1, s2i2)
-  in
-    list_vt_pair (s2p1, s2p2)
-  end // end of [Some_vt]
-| ~None_vt () => let
-    val opt = un_s2exp_g1uint_index_t0ype (s2f1)
-  in
-    case+ opt of
-    | ~Some_vt (s2i1) => let
-        val s2p = s2exp_igtez (s2i1) in list_vt_sing (s2p)
-      end // end of [Some_vt]
-    | ~None_vt () => let
-        val () = auxerr (d3e1) in list_vt_nil ()
-      end // end of [None_vt]
-  end // end of [None_vt]
-//
-end // end of [bndck]
-
-fun
-arrbnd_check .<>. (
-  loc0: location, ind: d3explstlst, dim: s2explst
-) : s2explst_vt = let
-//
-fun auxerr (
-  loc0: location
-, dim: s2explst, ind: d3explstlst, sgn: int
-) : void = let
-  val () = prerr_error3_loc (loc0)
-  val () = prerr ": the label is expected to contain "
-  val () = if sgn < 0 then prerr "more array indexes."
-  val () = if sgn > 0 then prerr "fewer array indexes."
-  val () = prerr_newline ()
-in
-  the_trans3errlst_add (T3E_d3exp_arrdim (loc0, dim, ind))
-end // end of [auxerr] 
-//
-val nind =
-  loop (ind, 0) where {
-  fun loop (xss: d3explstlst, n: int): int =
-    case+ xss of
-    | list_cons (xs, xss) => loop (xss, n + list_length (xs))
-    | list_nil () => n
-  // end of [loop]
-} // end of [val]
-val ndim = list_length (dim)
-//
-fun check1 (
-  xss: d3explstlst, s2es: s2explst
-) : s2explst_vt =
-  case+ xss of
-  | list_cons (xs, xss) => check2 (xs, xss, s2es)
-  | list_nil () => list_vt_nil ()
-// end of [check1]
-and check2 (
-  xs: d3explst, xss: d3explstlst, s2es: s2explst
-) : s2explst_vt =
-  case+ xs of
-  | list_cons (x, xs) => let
-      val- list_cons (s2e, s2es) = s2es
-      val s2ps1 = bndck (x, s2e)
-      val s2ps2 = check2 (xs, xss, s2es)
-    in
-      list_vt_append (s2ps1, s2ps2)
-    end // end of [list_cons]
-  | list_nil () => check1 (xss, s2es)
-// end of [check2]
-//
-val sgn = nind - ndim
-//
-in
-//
-if sgn < 0 then let
-  val () = auxerr (loc0, dim, ind, sgn) in list_vt_nil ()
-end else if sgn > 0 then let
-  val () = auxerr (loc0, dim, ind, sgn) in list_vt_nil ()
-end else check1 (ind, dim) // end of [if]
-//
-end // end of [arrbnd_check]
-
 fun auxind (
   loc0: location, s2e: s2exp, ind: d3explstlst
 ) : (
-  s2exp(*elt*), s2explst_vt(*array bounds checking*)
+  s2exp(*elt*), s2explst_vt(*array-bounds-checking*)
 ) = let
   val s2f = s2exp2hnf (s2e)
   val s2e = s2hnf2exp (s2f)
@@ -318,7 +332,7 @@ in
 case+ s2e.s2exp_node of
 | S2Etyarr
     (s2e_elt, s2es_dim) => let
-    val s2ps = arrbnd_check (loc0, ind, s2es_dim)
+    val s2ps = arrbndlst_check (loc0, ind, s2es_dim)
   in
     (s2e_elt, s2ps)
   end // end of [S2Etyarr]
@@ -439,13 +453,17 @@ case+ ls2es of
 //
 end // end of [labfind_context]
 
+viewtypedef
+ctxtopt_vt = Option_vt @(s2exp, s2hole)
+
 fun auxlab (
   loc0: location
 , s2f: s2hnf, l0: label
-, context: &Option_vt @(s2exp, s2hole)
+, context: &ctxtopt_vt
 ) : s2exp = let
 //
   val s2e = s2hnf2exp (s2f)
+//
 in
 //
 case+ s2e.s2exp_node of
@@ -468,8 +486,7 @@ case+ s2e.s2exp_node of
         end // end of [val]
       | ~None_vt () => ()
     ) : void // end of [val]
-    val () = if
-      (err > 0) then let
+    val () = if (err > 0) then let
       val () = prerr_error3_loc (loc0)
       val () = prerr ": the record-type ["
       val () = prerr_s2exp (s2e)
@@ -495,58 +512,112 @@ case+ s2e.s2exp_node of
 //
 end // end of [auxlab]
 
-viewtypedef
-ctxtopt_vt = Option_vt @(s2exp, s2hole)
+fun auxind (
+  loc0: location
+, s2f: s2hnf, ind: d3explstlst
+, context: &ctxtopt_vt
+, ischeck: bool
+) : (s2exp, s2explst_vt) = let
+//
+  val s2e = s2hnf2exp (s2f)
+//
+in
+//
+case+
+  s2e.s2exp_node of
+| S2Etyarr (
+    s2e_elt, s2es_dim
+  ) => let
+    val s2ps = (
+      if ischeck then
+        arrbndlst_check (loc0, ind, s2es_dim) else list_vt_nil
+      // end of [if]
+    ) : s2explst_vt // end of [val]
+  in
+    (s2e_elt, s2ps)
+  end // end of [S2Etyarr]
+| _ => let
+    val s2e_elt = s2exp_t0ype_err () in (s2e_elt, list_vt_nil(*s2ps*))
+  end // end of [_]
+//
+end // end of [auxind]
 
 fun auxsel (
-  s2e: s2exp, d3l: d3lab, context: &ctxtopt_vt
-) : s2exp = let
+  s2e: s2exp
+, d3l: d3lab
+, context: &ctxtopt_vt
+, ischeck: bool
+) : (s2exp, s2explst_vt) = let
   val loc = d3l.d3lab_loc
+  val s2f = s2exp2hnf (s2e)
 in
 //
 case+ d3l.d3lab_node of
 | D3LABlab (lab) => let
-    val s2f = s2exp2hnf (s2e)
+    val s2e_elt =
+      auxlab (loc, s2f, lab, context)
+    // end of [val]
   in
-    auxlab (loc, s2f, lab, context)
-  end // end of [S3LABlab]
-| D3LABind (ind) => s2exp_t0ype_err ()
+    (s2e_elt, list_vt_nil(*s2ps*))
+  end // end of [D3LABlab]
+| D3LABind (ind) =>
+    auxind (loc, s2f, ind, context, ischeck)
+  // end of [D3LABind]
 //
 end // end of [auxsel]
 
 and auxselist (
-  s2e: s2exp, d3ls: d3lablst, context: &ctxtopt_vt
-) : s2exp = let
+  s2e: s2exp
+, d3ls: d3lablst
+, context: &ctxtopt_vt
+, ischeck: bool
+) : (s2exp, s2explst_vt) = let
 in
 //
 case+ d3ls of
 | list_cons (
     d3l, list_nil ()
-  ) => auxsel (s2e, d3l, context)
+  ) =>
+    auxsel (s2e, d3l, context, ischeck)
+  // end of [list_sing]
 | list_cons (d3l, d3ls) => let
-    val s2e = auxsel (s2e, d3l, context)
+    val s2es2ps =
+      auxsel (s2e, d3l, context, ischeck)
+    val s2e = s2es2ps.0
+    val s2ps = s2es2ps.1
   in
     case+ context of
     | ~Some_vt @(
         s2e1_ctx, s2h1
       ) => let
         val () = context := None_vt ()
-        val s2e = auxselist (s2e, d3ls, context)
+        val s2es2ps =
+          auxselist (s2e, d3ls, context, ischeck)
+        val s2e = s2es2ps.0
+        val s2ps = list_vt_append (s2ps, s2es2ps.1)
       in
         case+ context of
         | Some_vt (!p) => let
             val () = !p.0 :=
-              s2exp_hrepl (s2e1_ctx, !p.0) in (fold@ (context); s2e)
+              s2exp_hrepl (s2e1_ctx, !p.0)
+            prval () = fold@ (context)
+          in
+            @(s2e, s2ps)
           end // end of [Some_vt]
-        | None_vt () => (fold@ (context); s2e)
+        | None_vt () => let
+            prval () = fold@ (context) in @(s2e, s2ps)
+          end // end of [None_vt]
       end // end of [Some_vt]
     | ~None_vt () => let
         val () = context := None_vt ()
-        val s2e = auxselist (s2e, d3ls, context)
+        val s2es2ps =
+          auxselist (s2e, d3ls, context, ischeck)
+        val s2e = s2es2ps.0
+        val s2ps = list_vt_append (s2ps, s2es2ps.1)
         val () = option_vt_free (context)
         val () = context := None_vt ()
       in
-        s2e
+        @(s2e, s2ps)
       end // end of [None_vt]
   end (* end of [list_cons] *)
 | list_nil () => let
@@ -556,7 +627,7 @@ case+ d3ls of
     val- None_vt () = context
     val () = context := Some_vt @(s2e_ctx, s2h)
   in
-    s2e
+    (s2e, list_vt_nil(*s2ps*))
   end // end of [list_nil]
 //
 end // end of [auxselist]
@@ -567,7 +638,24 @@ implement
 s2exp_get_dlablst_context
   (loc0, s2e, d3ls, context) = let
   var context2: ctxtopt_vt = None_vt ()
-  val s2es2ps = auxselist (s2e, d3ls, context2)
+  val s2es2ps =
+    auxselist (s2e, d3ls, context2, false(*ischeck*))
+  val () = list_vt_free (s2es2ps.1)
+  val () = (
+    case+ context2 of
+    | ~Some_vt @(s2e_ctx, s2h) =>
+        context := Some (s2ctxt_make (s2e_ctx, s2h))
+    | ~None_vt () => ()
+  ) : void // end of [val]
+in
+  s2es2ps.0(*selected*)
+end // end of [s2exp_get_dlablst_context]
+
+implement
+s2exp_get_dlablst_context_check
+  (loc0, s2e, d3ls, context) = let
+  var context2: ctxtopt_vt = None_vt ()
+  val s2es2ps = auxselist (s2e, d3ls, context2, true(*ischeck*))
   val () = (
     case+ context2 of
     | ~Some_vt @(s2e_ctx, s2h) =>
@@ -576,7 +664,7 @@ s2exp_get_dlablst_context
   ) : void // end of [val]
 in
   s2es2ps
-end // end of [s2exp_get_dlablst_context]
+end // end of [s2exp_get_dlablst_context_check]
 
 end // end of [local]
 
@@ -615,11 +703,11 @@ d2var_trup_selab_lin
     d2var_get_type_some (loc, d2v)
   val d3ls = d2lablst_trup (d2ls)
   var linrest: int = 0
-  val (s2e_sel, s2ps) =
+  val s2es2ps =
     s2exp_get_dlablst_linrest (loc0, s2e, d3ls, linrest)
   // end of [val]
-  val s2e_sel = s2exp_hnfize (s2e_sel)
-  val () = trans3_env_add_proplst_vt (loc0, s2ps)
+  val s2e_sel = s2exp_hnfize (s2es2ps.0)
+  val () = trans3_env_add_proplst_vt (loc0, s2es2ps.1)
   val islin = s2exp_is_lin (s2e_sel)
 in
 //

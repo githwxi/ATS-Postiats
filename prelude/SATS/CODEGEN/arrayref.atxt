@@ -31,6 +31,10 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+sortdef tk = tkind
+
+#atscode_separator()
+
 sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()
@@ -90,23 +94,89 @@ arrayref_make_listlen
 
 #atscode_separator()
 
+fun{a:vt0p}
+fprint_arrayref_sep
+  {n:int} (out: FILEref, A: arrayref (a, n), asz: int n): void
+// end of [fprint_arrayref_sep]
+
+#atscode_separator()
+
 fun{a:t0p}
-arrayref_get_at
-  {n:int}{i:nat | i < n}
-  (A: arrayref (INV(a), n), i: size_t i):<!ref> a
-overload [] with arrayref_get_at
-fun{a:t0p}
-arrayref_set_at
-  {n:int}{i:nat | i < n}
-  (A: arrayref (INV(a), n), i: size_t i, x: a):<!refwrt> void
-overload [] with arrayref_set_at
+arrayref_get_at_size
+  {n:int} (
+  A: arrayref (INV(a), n), i: sizeLt (n)
+) :<!ref> a // end of [arrayref_get_at_size]
 
 fun{
-a:vt0p
-} arrayref_exch_at
-  {n:int}{i:nat | i < n}
-  (A: arrayref (INV(a), n), i: size_t i, x: &a >> a):<!refwrt> void
-// end of [arrayref_exch_at]
+a:t0p}{tk:tk
+} arrayref_get_at_gint
+  {n:int} (
+  A: arrayref (INV(a), n), i: g1intLt (tk, n)
+) :<!ref> a // end of [arrayref_get_at_gint]
+overload [] with arrayref_get_at_gint
+fun{
+a:t0p}{tk:tk
+} arrayref_get_at_guint
+  {n:int} (
+  A: arrayref (INV(a), n), i: g1uintLt (tk, n)
+) :<!ref> a // end of [arrayref_get_at_guint]
+overload [] with arrayref_get_at_guint
+
+symintr arrayref_get_at
+overload arrayref_get_at with arrayref_get_at_gint
+overload arrayref_get_at with arrayref_get_at_guint
+
+#atscode_separator()
+
+fun{a:t0p}
+arrayref_set_at_size
+  {n:int} (
+  A: arrayref (INV(a), n), i: sizeLt (n), x: a
+) :<!refwrt> void // end of [arrayref_set_at_size]
+
+fun{
+a:t0p}{tk:tk
+} arrayref_set_at_gint
+  {n:int} (
+  A: arrayref (INV(a), n), i: g1intLt (tk, n), x: a
+) :<!refwrt> void // end of [arrayref_set_at_gint]
+overload [] with arrayref_set_at_gint
+fun{
+a:t0p}{tk:tk
+} arrayref_set_at_guint
+  {n:int} (
+  A: arrayref (INV(a), n), i: g1uintLt (tk, n), x: a
+) :<!refwrt> void // end of [arrayref_set_at_guint]
+overload [] with arrayref_set_at_guint
+
+symintr arrayref_set_at
+overload arrayref_set_at with arrayref_set_at_gint
+overload arrayref_set_at with arrayref_set_at_guint
+
+#atscode_separator()
+
+fun{a:vt0p}
+arrayref_exch_at_size
+  {n:int} (
+  A: arrayref (INV(a), n), i: sizeLt (n), x: &a >> _
+) :<!refwrt> void // end of [arrayref_exch_at_size]
+
+fun{
+a:vt0p}{tk:tk
+} arrayref_exch_at_gint
+  {n:int} (
+  A: arrayref (INV(a), n), i: g1intLt (tk, n), x: &a >> _
+) :<!refwrt> void // end of [arrayref_exch_at_gint]
+fun{
+a:vt0p}{tk:tk
+} arrayref_exch_at_guint
+  {n:int} (
+  A: arrayref (INV(a), n), i: g1uintLt (tk, n), x: &a >> _
+) :<!refwrt> void // end of [arrayref_exch_at_guint]
+
+symintr arrayref_exch_at
+overload arrayref_exch_at with arrayref_exch_at_gint
+overload arrayref_exch_at with arrayref_exch_at_guint
 
 #atscode_separator()
 
@@ -191,21 +261,68 @@ fprint_arrszref
 #atscode_separator()
 
 fun{a:t0p}
-arrszref_get_at
+arrszref_get_at_size
   (A: arrszref (INV(a)), i: size_t):<!exnref> a
-overload [] with arrszref_get_at
-fun{a:t0p}
-arrszref_set_at
-  (A: arrszref (INV(a)), i: size_t, x: a):<!exnrefwrt> void
-overload [] with arrszref_set_at
+// end of [arrszref_get_at_size]
+
+fun{
+a:t0p}{tk:tk
+} arrszref_get_at_gint
+  (A: arrszref (INV(a)), i: g0int (tk)):<!exnref> a
+overload [] with arrszref_get_at_gint
+fun{
+a:t0p}{tk:tk
+} arrszref_get_at_guint
+  (A: arrszref (INV(a)), i: g0uint (tk)):<!exnref> a
+overload [] with arrszref_get_at_guint
+
+symintr arrszref_get_at
+overload arrszref_get_at with arrszref_get_at_gint
+overload arrszref_get_at with arrszref_get_at_guint
 
 #atscode_separator()
 
+fun{a:t0p}
+arrszref_set_at_size
+  (A: arrszref (INV(a)), i: size_t, x: a):<!exnrefwrt> void
+// end of [arrszref_set_at_size]
+
 fun{
-a:vt0p
-} arrszref_exch_at
-  (A: arrszref (INV(a)), i: size_t, x: &a >> a):<!exnrefwrt> void
-// end of [arrszref_exch_at]
+a:t0p}{tk:tk
+} arrszref_set_at_gint
+  (A: arrszref (INV(a)), i: g0int (tk), x: a):<!exnrefwrt> void
+overload [] with arrszref_set_at_gint
+fun{
+a:t0p}{tk:tk
+} arrszref_set_at_guint
+  (A: arrszref (INV(a)), i: g0uint (tk), x: a):<!exnrefwrt> void
+overload [] with arrszref_set_at_guint
+
+symintr arrszref_set_at
+overload arrszref_set_at with arrszref_set_at_gint
+overload arrszref_set_at with arrszref_set_at_guint
+
+#atscode_separator()
+
+fun{a:vt0p}
+arrszref_exch_at_size
+  (A: arrszref (INV(a)), i: size_t, x: &a >> _):<!exnrefwrt> void
+// end of [arrszref_exch_at_size]
+
+fun{
+a:vt0p}{tk:tk
+} arrszref_exch_at_gint
+  (A: arrszref (INV(a)), i: g0int (tk), x: &a >> _):<!exnrefwrt> void
+// end of [arrszref_exch_at_gint]
+fun{
+a:vt0p}{tk:tk
+} arrszref_exch_at_guint
+  (A: arrszref (INV(a)), i: g0uint (tk), x: &a >> _):<!exnrefwrt> void
+// end of [arrszref_exch_at_guint]
+
+symintr arrszref_exch_at
+overload arrszref_exch_at with arrszref_exch_at_gint
+overload arrszref_exch_at with arrszref_exch_at_guint
 
 #atscode_separator()
 

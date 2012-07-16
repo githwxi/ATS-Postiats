@@ -31,25 +31,25 @@ staload UN = "prelude/SATS/unsafe.sats"
 #atscode_separator()
 
 implement{a}
-arrayref_get_at (A, i) = let
+arrayref_get_at_size (A, i) = let
   val (vbox pf | p) = arrayref_get_viewptr (A)
 in
-  array_get_at (!p, i)
-end // end of [arrayref_get_at]
+  array_get_at_size (!p, i)
+end // end of [arrayref_get_at_size]
 
 implement{a}
-arrayref_set_at (A, i, x) = let
+arrayref_set_at_size (A, i, x) = let
   val (vbox pf | p) = arrayref_get_viewptr (A)
 in
-  array_set_at (!p, i, x)
-end // end of [arrayref_set_at]
+  array_set_at_size (!p, i, x)
+end // end of [arrayref_set_at_size]
 
 implement{a}
-arrayref_exch_at (A, i, x) = let
+arrayref_exch_at_size (A, i, x) = let
   val (vbox pf | p) = arrayref_get_viewptr (A)
 in
-  array_exch_at (!p, i, x)
-end // end of [arrayref_exch_at]
+  array_exch_at_size (!p, i, x)
+end // end of [arrayref_exch_at_size]
 
 #atscode_separator()
 
@@ -61,40 +61,40 @@ end // end of [arrayref_make_elt]
 #atscode_separator()
 
 implement{a}
-arrszref_get_at
+arrszref_get_at_size
   (A0, i) = $effmask_wrt let
   var n: size_t
   val A = arrszref_get_refsize (A0, n)
   val i = g1ofg0_uint (i)
 in
 //
-if n > i then arrayref_get_at (A, i) else $raise ArraySubscriptExn()
+if n > i then arrayref_get_at_size (A, i) else $raise ArraySubscriptExn()
 //
-end // end of [arrszref_get_at]
+end // end of [arrszref_get_at_size]
 
 implement{a}
-arrszref_set_at
+arrszref_set_at_size
   (A0, i, x) = $effmask_wrt let
   var n: size_t
   val A = arrszref_get_refsize (A0, n)
   val i = g1ofg0_uint (i)
 in
 //
-if n > i then arrayref_set_at (A, i, x) else $raise ArraySubscriptExn()
+if n > i then arrayref_set_at_size (A, i, x) else $raise ArraySubscriptExn()
 //
-end // end of [arrszref_set_at]
+end // end of [arrszref_set_at_size]
 
 implement{a}
-arrszref_exch_at
+arrszref_exch_at_size
   (A0, i, x) = $effmask_wrt let
   var n: size_t
   val A = arrszref_get_refsize (A0, n)
   val i = g1ofg0_uint (i)
 in
 //
-if n > i then arrayref_exch_at (A, i, x) else $raise ArraySubscriptExn()
+if n > i then arrayref_exch_at_size (A, i, x) else $raise ArraySubscriptExn()
 //
-end // end of [arrszref_exch_at]
+end // end of [arrszref_exch_at_size]
 
 #atscode_separator()
 

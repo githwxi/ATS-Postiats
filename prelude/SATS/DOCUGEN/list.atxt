@@ -192,17 +192,22 @@ main () = 0 where {
 
 (* ****** ****** *)
 
+%{
+(*
 #declnamesynop("fprint_listlist_sep")
+*)
+%}
 
 (* ****** ****** *)
 
 #declnamesynop("list_append")
 #decldescrpt('\
 
-This function returns a concatenation of its first argument xs and second
-argument ys.  The time-complexity of this function is O(m), where m is the
-length of xs. What is special about the implementation of this function in
-ATSLIB is that it is tail-recursive.
+This function, which overloads the symbol #dyncode("+"), returns a
+concatenation of its first argument xs and second argument ys.  The
+time-complexity of this function is O(m), where m is the length of xs. What
+is special about the implementation of this function in ATSLIB is that it
+is tail-recursive.
 
 ')
 

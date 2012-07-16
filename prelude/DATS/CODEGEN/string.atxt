@@ -211,7 +211,7 @@ val n1 = n + 1
 val (
   pf, pfgc | p0
 ) = malloc_gc (g1int2uint(n1))
-val p1 = ptr0_add_int<char> (p0, n)
+val p1 = ptr0_add_gint<char> (p0, n)
 val () = $UN.ptr0_set<char> (p1, CNUL)
 val p0 = loop (cs, n, p1)
 //
@@ -228,11 +228,11 @@ string_make_substring
 //
 val ln1 = succ(ln)
 val (pf, pfgc | p_dst) = malloc_gc (ln1)
-val p_src = ptr1_add_uint<char> (string2ptr(str), st)
+val p_src = ptr1_add_guint<char> (string2ptr(str), st)
 val _(*p_dst*) = memcpy (p_dst, p_src, ln)
 //
 val p_dst_ln =
-  ptr1_add_uint<char> (p_dst, ln)
+  ptr1_add_guint<char> (p_dst, ln)
 val () =
   $UN.ptr0_set<char> (p_dst_ln, CNUL)
 //
@@ -358,7 +358,7 @@ case+ xs of
     val+ ~list_vt_cons (n, ns) = ns
     val _(*p*) = memcpy (p, string2ptr(x), n)
   in
-    loop (ptr0_add_uint<char> (p, n), xs, ns)
+    loop (ptr0_add_guint<char> (p, n), xs, ns)
   end
 | list_nil () => let
     val+ ~list_vt_nil () = ns in $UN.ptr0_set<char> (p, CNUL)

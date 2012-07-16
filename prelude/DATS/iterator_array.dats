@@ -78,7 +78,7 @@ castfn iter2iterk
 
 implement{x}
 iter_make_array (pf | p, n) =
-  iterk2iter (ITR (pf | p, ptr0_add_uint<x> (p, n), p))
+  iterk2iter (ITR (pf | p, ptr0_add_guint<x> (p, n), p))
 // end of [iter_make_array]
 
 implement
@@ -220,7 +220,7 @@ iter_fjmp<itrknd><x>
   (itr, i) = let
   prval () = decode (itr)
   val+ @ITR (_ | _, _, rpi) = itr
-  val () = rpi := ptr0_add_uint<x> (rpi, i)
+  val () = rpi := ptr0_add_guint<x> (rpi, i)
   prval () = fold@ (itr)
   prval () = encode (itr)
 in
@@ -236,7 +236,7 @@ iter_fgetref_at<itrknd><x>
   val+ ITR (_ | _, _, pi) = itr
   prval () = encode (itr)
 in
-  $UN.cast2Ptr1 (ptr0_add_uint<x> (pi, i))
+  $UN.cast2Ptr1 (ptr0_add_guint<x> (pi, i))
 end // end of [iter_fgetref_at]
 
 (* ****** ****** *)
@@ -245,7 +245,7 @@ implement(x)
 iter_fbjmp<itrknd><x> (itr, i) = let
   prval () = decode (itr)
   val+ @ITR (_ | _, _, rpi) = itr
-  val () = rpi := ptr0_add_int<x> (rpi, i)
+  val () = rpi := ptr0_add_gint<x> (rpi, i)
   prval () = fold@ (itr)
   prval () = encode (itr)
 in
@@ -259,7 +259,7 @@ iter_fbgetref_at<itrknd><x>
   val+ ITR (_ | _, _, pi) = itr
   prval () = encode (itr)
 in
-  $UN.cast2Ptr1 (ptr0_add_int<x> (pi, i))
+  $UN.cast2Ptr1 (ptr0_add_gint<x> (pi, i))
 end // end of [iter_fbget_at]
 
 (* ****** ****** *)

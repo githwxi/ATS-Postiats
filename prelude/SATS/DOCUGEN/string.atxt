@@ -110,6 +110,8 @@ This funtion returns true if and only if its string argument is non-empty.
 
 (* ****** ****** *)
 
+%{
+(*
 #declname("string_is_atend")
 #declsynop2("
 #pats2xhtmls('\
@@ -118,9 +120,6 @@ overload string_is_atend with string_is_atend_int
 overload string_is_atend with string_is_atend_uint
 ')
 ")
-
-(* ****** ****** *)
-
 #declnamesynop("string_is_atend_int")
 #decldescrpt('\
 
@@ -132,58 +131,31 @@ if and only if i equals n.  ')
 
 This function does the same as #dyncode("string_is_atend_int") except for
 taking an unsigned integer as the string index.  ')
+*)
+%}
+#declnamesynop("string_is_atend")
+#decldescrpt('\
+
+Given a string of length n and an index i &lt;= n, this function returns true
+if and only if i equals n.  ')
 
 (* ****** ****** *)
 
-#declname("string_get_at")
-#declsynop2("
-#pats2xhtmls('\
-symintr string_get_at
-overload string_get_at with string_get_at_int
-overload string_get_at with string_get_at_uint
-')
-")
-
-(* ****** ****** *)
-
-#declnamesynop("string_get_at_int")
+#declnamesynop("string_get_at")
 #decldescrpt('\
 
 Given a string of length n and an index i &lt; n, this function returns the
 char stored in cell i of the string.  Note that the returned character is
 non-null. ')
 
-#declnamesynop("string_get_at_uint")
-#decldescrpt('\
-
-This function does the same as #dyncode("string_get_at_int") except for
-taking an unsigned signed integer as the string index.  ')
-
 (* ****** ****** *)
 
-#declname("string_test_at")
-#declsynop2("
-#pats2xhtmls('\
-symintr string_test_at
-overload string_test_at with string_test_at_int
-overload string_test_at with string_test_at_uint
-')
-")
-
-(* ****** ****** *)
-
-#declnamesynop("string_test_at_int")
+#declnamesynop("string_test_at")
 #decldescrpt('\
 
 Given a string of length n and an index i &lt;= n, this function returns a
 char c paired with a proof stating that i &lt; n holds if and only if c is
 non-null. ')
-
-#declnamesynop("string_test_at_uint")
-#decldescrpt('\
-
-This function does the same as #dyncode("string_test_at_int") except for
-taking an unsigned integer as the string index.  ')
 
 #declexample('\
 
@@ -203,7 +175,7 @@ fun loop
   {i:nat | i <= n} .<n-i>. (
   str: string n, i: size_t i
 ) :<> size_t (n) = let
-  val (pf | c) = string_test_at_uint (str, i)
+  val (pf | c) = string_test_at (str, i)
 in
   if c != NUL then let
     prval string_index_p_gt () = pf in loop (str, succ(i))

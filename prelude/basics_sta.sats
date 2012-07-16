@@ -514,6 +514,24 @@ bottom_viewt0ype_exi = [a:viewt@ype | false] a
 
 (* ****** ****** *)
 
+typedef cmpval_fun
+  (a: viewt@ype) = (!a, !a) -<fun> int
+typedef cmpval_funenv
+  (a: viewt@ype, vt: viewt@ype) = (!a, !a, !vt) -<fun> int
+stadef cmpval = cmpval_fun
+stadef cmpval = cmpval_funenv
+
+(* ****** ****** *)
+
+typedef cmpref_fun
+  (a: viewt@ype) = (&a, &a) -<fun> int
+typedef cmpref_funenv
+  (a: viewt@ype, vt: viewt@ype) = (&a, &a, !vt) -<fun> int
+stadef cmpref = cmpref_fun
+stadef cmpref = cmpref_funenv
+
+(* ****** ****** *)
+
 #if VERBOSE_PRELUDE #then
 #print "Loading [basics_sta.sats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]

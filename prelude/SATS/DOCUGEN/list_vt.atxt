@@ -80,6 +80,13 @@ typedef List_vt (a:viewt@ype) = [n:int] list_vt (a, n)\
 typedef List0_vt (a:viewt@ype) = [n:int | n >= 0] list_vt (a, n)\
 ')')
 ')
+#declname("List1_vt")
+#declsynop2('\
+#para('\
+#pats2xhtmls('\
+typedef List1_vt (a:viewt@ype) = [n:int | n >= 1] list_vt (a, n)\
+')')
+')
 
 (* ****** ****** *)
 
@@ -208,7 +215,8 @@ The following code implements the standard quicksort on linear lists:
 staload UN = "prelude/SATS/unsafe.sats"
 //
 fun{a:vt0p}
-qsort {n:int} (
+list_vt_qsort
+  {n:nat} .<n>. (
   xs: list_vt (a, n), cmp: cmpref(a)
 ) : list_vt (a, n) = let
 in
@@ -231,8 +239,8 @@ case+ xs of
     var xs11 = xs1
     // HX: xs11/xs12: <= x0 / > x0
     val xs12 = list_vt_split<a> (xs11)
-    val xs11 = qsort (xs11, cmp)
-    val xs12 = qsort (xs12, cmp)
+    val xs11 = list_vt_qsort (xs11, cmp)
+    val xs12 = list_vt_qsort (xs12, cmp)
     val () = xs1 := xs12
     prval () = fold@ (xs)
   in
@@ -240,12 +248,12 @@ case+ xs of
   end // end of [list_vt_cons]
 | ~list_vt_nil () => list_vt_nil ()
 //
-end // end of [qsort]
+end // end of [list_vt_qsort]
 ')
 
 Note that there is no memory allocation/deallocation involved in this
 implementation. It is formally verified in the type system of ATS that the
-list returned by #dyncode("qsort") is of the same length as its input.  On
+list returned by #dyncode("list_vt_qsort") is of the same length as its input.  On
 a meta-level, it is evident that the returned list must be a permutation of
 the input as linear elements cannot be ignored or duplicated.
 

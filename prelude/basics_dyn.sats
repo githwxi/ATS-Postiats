@@ -278,30 +278,6 @@ praxi opt_clear
 //
 (* ****** ****** *)
 
-typedef cmpval_1
-  (a: vt0p) = (!a, !a) -<fun> int
-typedef cmpval_2
-  (a: vt0p, vt: viewtype) = (!a, !a, !vt) -<fun> int
-stadef cmpval = cmpval_1
-stadef cmpval = cmpval_2
-
-fun{a:vt0p}
-compare_val (x1: !a, x2: !a):<> int
-
-(* ****** ****** *)
-
-typedef cmpref_1
-  (a: vt0p) = (&a, &a) -<fun> int
-typedef cmpref_2
-  (a: vt0p, vt: viewtype) = (&a, &a, !vt) -<fun> int
-stadef cmpref = cmpref_1
-stadef cmpref = cmpref_2
-
-fun{a:vt0p}
-compare_ref (x1: &a, x2: &a):<> int
-
-(* ****** ****** *)
-
 absviewtype
 argv_int_viewtype (n:int)
 stadef argv = argv_int_viewtype
