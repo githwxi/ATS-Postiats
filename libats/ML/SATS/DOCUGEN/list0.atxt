@@ -346,7 +346,7 @@ in
 end // end of [fprint_list0_sep]
 ')\
 
-Note that the argument sep of #dyncode("fprint_list0") is only printed
+Note that the argument sep of #dyncode("fprint_list0_sep") is only printed
 between list elements.
 
 ")
@@ -778,6 +778,40 @@ This function does exactly the same as #dyncode("list0_map2").
 (* ****** ****** *)
 
 #declnamesynop("list0_mergesort")
+#decldescrpt("\
+Mergesort is of time-complexity O(n(log(n))), and it is a stable sorting
+algorithm.  This function mergesorts its first argument according to the
+ordering implemented by its second argument.
+")
+#declexample("\
+
+The following code mergesorts a randomly generated list of integers:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/list0.sats"
+staload "contrib/atshwxi/testing/SATS/randgen.sats"
+//
+implement
+main () = 0 where {
+  \#define N 10
+  val out = stdout_ref
+//
+  val xs = list0_of_list_vt (randgen_list<int> (N))
+  val () =
+    fprint_string (out, "xs(bef) = ")
+  val () = fprint_list0_sep (out, xs, ", ")
+  val () = fprint_newline (out)
+//
+  val xs = list0_mergesort<int> (xs, lam (x1, x2) => compare (x1, x2))
+  val () =
+    fprint_string (out, "xs(aft) = ")
+  val () = fprint_list0_sep (out, xs, ", ")
+  val () = fprint_newline (out)
+//
+} // end of [main]
+')
+")
 
 (* ****** ****** *)
 

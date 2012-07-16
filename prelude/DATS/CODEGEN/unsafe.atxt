@@ -75,38 +75,26 @@ cptr_exch (p, x) = ptr_exch<a> (cptr2ptr (p), x)
 
 #atscode_separator()
 
-local
-
-staload GN = "prelude/SATS/gnumber.sats"
-
-in // in of [local]
-
 implement{a}
-ptr_addby (p, x) =
-  ptr_set<a> (p, $GN.gnumber_add (ptr_get<a> (p), x))
-// end of [ptr_addby]
-
+ptr_addby (p, x) = let
+  val x0 = ptr_get<a> (p) in ptr_set<a> (p, gadd_val<a> (x0, x))
+end // end of [ptr_addby]
 implement{a}
-ptr_subby (p, x) =
-  ptr_set<a> (p, $GN.gnumber_sub (ptr_get<a> (p), x))
-// end of [ptr_subby]
-
+ptr_subby (p, x) = let
+  val x0 = ptr_get<a> (p) in ptr_set<a> (p, gsub_val<a> (x0, x))
+end // end of [ptr_subby]
 implement{a}
-ptr_mulby (p, x) =
-  ptr_set<a> (p, $GN.gnumber_mul (ptr_get<a> (p), x))
-// end of [ptr_mulby]
-
+ptr_mulby (p, x) = let
+  val x0 = ptr_get<a> (p) in ptr_set<a> (p, gmul_val<a> (x0, x))
+end // end of [ptr_mulby]
 implement{a}
-ptr_divby (p, x) =
-  ptr_set<a> (p, $GN.gnumber_div (ptr_get<a> (p), x))
-// end of [ptr_divby]
-
+ptr_divby (p, x) = let
+  val x0 = ptr_get<a> (p) in ptr_set<a> (p, gdiv_val<a> (x0, x))
+end // end of [ptr_divby]
 implement{a}
-ptr_modby (p, x) =
-  ptr_set<a> (p, $GN.gnumber_mod (ptr_get<a> (p), x))
-// end of [ptr_modby]
-
-end // end of [local]
+ptr_modby (p, x) = let
+  val x0 = ptr_get<a> (p) in ptr_set<a> (p, gmod_val<a> (x0, x))
+end // end of [ptr_modby]
 
 #atscode_separator()
 

@@ -99,11 +99,6 @@ for pointer arrays terminated with the null pointer
 
 #make_entry("fcontainer")
 
-#comment("
-for generic number operations
-")
-#make_entry("gnumber")
-
 #make_entry("extern")
 
 #make_entry("unsafe")

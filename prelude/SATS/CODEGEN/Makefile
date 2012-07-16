@@ -275,17 +275,6 @@ clean:: ; $(RMF) fcontainer_atxt.exe
 cleanall:: ; $(RMF) fcontainer.sats
 
 
-
-all:: gnumber.sats
-gnumber.sats: gnumber_atxt.exe ; ./$< > $@
-gnumber_atxt.exe: gnumber_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ gnumber_atxt.dats -latsdoc
-gnumber_atxt.dats: gnumber.atxt
-	$(ATSDOC) --outcode $@ -i gnumber.atxt > gnumber_atxt.txt
-clean:: ; $(RMF) gnumber_atxt.exe
-cleanall:: ; $(RMF) gnumber.sats
-
-
 all:: extern.sats
 extern.sats: extern_atxt.exe ; ./$< > $@
 extern_atxt.exe: extern_atxt.dats

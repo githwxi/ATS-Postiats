@@ -13,7 +13,17 @@ ATSLIB/prelude/matrix\
 
 (* ****** ****** *)
 
-#declnamesynop("matrix")
+#declname("matrix")
+#declsynop2("\
+#pats2xhtmls("\
+absviewt@ype
+matrix_viewt0ype_int_int_viewt0ype
+  (a:viewt@ype+, row:int, col:int) = array(a, row*col)
+stadef matrix = matrix_viewt0ype_int_int_viewt0ype
+")")
+
+(* ****** ****** *)
+
 #declnamesynop("matrix_v")
 #declnamesynop("matrow_v")
 #declnamesynop("matcol_v")
