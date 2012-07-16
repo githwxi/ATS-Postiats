@@ -14,6 +14,11 @@ src/Makefile.exe
 src/Makefile_atxt.dats
 src/Makefile_atxt.txt
 
+utils/atsyntax/HTML
+utils/atsyntax/pats2xhtml
+utils/atsyntax/Makefile_test
+utils/atsyntax/Makefile_test.atxt
+
 prelude/SATS/CODEGEN/*.exe
 prelude/SATS/CODEGEN/*.sats
 prelude/SATS/CODEGEN/*_atxt.txt
@@ -50,6 +55,7 @@ libc/CATS/CODEGEN/*_atxt.txt
 libc/CATS/CODEGEN/*_atxt.dats
 
 libc/SATS/DOCUGEN/Makefile
+libc/SATS/DOCUGEN/*.exe
 libc/SATS/DOCUGEN/*_atxt.txt
 libc/SATS/DOCUGEN/*_atxt.dats
 libc/SATS/DOCUGEN/HTML
@@ -67,6 +73,13 @@ libats/CATS/CODEGEN/*.exe
 libats/CATS/CODEGEN/*.cats
 libats/CATS/CODEGEN/*_atxt.txt
 libats/CATS/CODEGEN/*_atxt.dats
+
+libats/SATS/DOCUGEN/Makefile
+libats/SATS/DOCUGEN/*.exe
+libats/SATS/DOCUGEN/*_atxt.txt
+libats/SATS/DOCUGEN/*_atxt.dats
+libats/SATS/DOCUGEN/HTML
+libats/SATS/DOCUGEN/TRYIT
 
 libats/ML/SATS/CODEGEN/*.exe
 libats/ML/SATS/CODEGEN/*.sats
