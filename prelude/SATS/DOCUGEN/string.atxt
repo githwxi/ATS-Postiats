@@ -392,24 +392,25 @@ strings in its argument.  ")
 
 #declexample('\
 
-The following code forms the string "Hello!" by concatenating six singleton
-strings and then prints it (plus a newline) onto the standard output channel:
+The following code builds a linear string "Hello" by concatenating five
+singleton strings and then prints it (plus a newline) onto the standard
+output channel:
 
 #pats2xhtmld_tryit('\
 implement
 main () = let
   val xs = $lst{string}
-    ("H", "e", "l", "l", "o", "!")
-  val hello = stringlst_concat (xs)
-  val () = fprint_strptr (stdout_ref, hello)
+    ("H", "e", "l", "l", "o")
+  val Hello = stringlst_concat (xs)
+  val () = fprint_strptr (stdout_ref, Hello)
   val () = fprint_newline (stdout_ref)
-  val () = strptr_free (hello)
+  val () = strptr_free (Hello)
 in
   0(*normal*)
 end // end of [main]
 ')\
 
-Note that the created string is freed before the code exits.
+Note that the created linear string is freed before the code exits.
 
 ')
 

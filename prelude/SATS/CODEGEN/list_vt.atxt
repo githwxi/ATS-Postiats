@@ -196,10 +196,15 @@ list_vt_split {n:int} (
 
 #atscode_separator()
 
-fun{a:vt0p}
-list_vt_foreach__fwork (x: &a): void
-fun{a:vt0p}
-list_vt_foreach {n:int} (xs: !list_vt (a, n)): void
+fun{
+a:vt0p}{env:vt0p
+} list_vt_foreach__fwork (x: &a, env: &env): void
+fun{
+a:vt0p
+} list_vt_foreach (xs: !List_vt (a)): void
+fun{
+a:vt0p}{env:vt0p
+} list_vt_foreach_env (xs: !List_vt (a), env: &env): void
 
 fun{
 a:vt0p
@@ -211,10 +216,15 @@ a:vt0p
 
 #atscode_separator()
 
-fun{a:vt0p}
-list_vt_iforeach__fwork (i: int, x: &a): void
-fun{a:vt0p}
-list_vt_iforeach {n:int} (xs: !list_vt (a, n)): void
+fun{
+a:vt0p}{env:vt0p
+} list_vt_iforeach__fwork (i: int, x: &a, env: &env): void
+fun{
+a:vt0p
+} list_vt_iforeach (xs: !List_vt (a)): void
+fun{
+a:vt0p}{env:vt0p
+} list_vt_iforeach_env (xs: !List_vt (a), env: &env): void
 
 #atscode_separator()
 

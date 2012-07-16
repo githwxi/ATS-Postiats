@@ -80,6 +80,21 @@ fun{a:vt0p}
 gcompare_ref (x: &INV(a), y: &a):<> int
 
 (* ****** ****** *)
+//
+// generic number operations
+//
+fun{a:vt0p}
+gadd_val (x: !INV(a), y: !a):<> a
+fun{a:vt0p}
+gsub_val (x: !INV(a), y: !a):<> a
+fun{a:vt0p}
+gmul_val (x: !INV(a), y: !a):<> a
+fun{a:vt0p}
+gdiv_val (x: !INV(a), y: !a):<> a
+fun{a:vt0p}
+gmod_val (x: !INV(a), y: !a):<> a
+
+(* ****** ****** *)
 
 fun{a:vt0p} tostring_val (x: !INV(a)):<> string
 fun{a:vt0p} tostring_ref (x: &INV(a)):<> string

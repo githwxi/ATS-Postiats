@@ -568,11 +568,13 @@ end // end of [list0_map2]
 *)
 implement
 {a1,a2}{b}
-list0_map2 (xs1, xs2, f) = let
+list0_map2
+  (xs1, xs2, f) = let
 //
 val xs1 = list_of_list0 (xs1)
 val xs2 = list_of_list0 (xs2)
-implement list_map2__fwork<a1,a2><b> (x1, x2) = f (x1, x2)
+implement
+list_map2__fwork<a1,a2><b> (x1, x2) = f (x1, x2)
 val ys = list_map2<a1,a2><b> (xs1, xs2)
 //
 in
@@ -582,18 +584,15 @@ end // end of [list0_map2]
 (* ****** ****** *)
 
 implement{a}
-list0_filter (xs, p) = let
-  viewdef v = unit_v
-  viewtypedef vt = cfun (a, bool)
-  val xs = list_of_list0 (xs)
-  fun app .<>.
-    (pfu: !unit_v | x: a, p: !vt): bool = p (x)
-  // end of [fun]
-  prval pfu = unit_v ()
-  var p = p
-  val ys = list_filter_funenv<a> {v}{vt} (pfu | xs, app, p)
-  prval () = topize (p)
-  prval unit_v () = pfu
+list0_filter
+  (xs, p) = let
+//
+val xs = list_of_list0 (xs)
+//
+implement
+list_filter__pred<a> (x) = p (x)
+val ys = list_filter<a> (xs)
+//
 in
   list0_of_list_vt (ys)
 end // end of [list0_filter]

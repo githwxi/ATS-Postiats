@@ -110,13 +110,13 @@ fun string_get_at_size
 // end of [string_get_at_size]
 
 fun{tk:tk}
-string_get_at_int
+string_get_at_gint
   {n:int} (s: string (n), i: g1intLt (tk, n)):<> charNZ
-overload [] with string_get_at_int
+overload [] with string_get_at_gint
 fun{tk:tk}
-string_get_at_uint
+string_get_at_guint
   {n:int} (s: string (n), i: g1uintLt (tk, n)):<> charNZ
-overload [] with string_get_at_uint
+overload [] with string_get_at_guint
 
 (* ****** ****** *)
 
@@ -127,15 +127,15 @@ fun string_test_at_size
 
 symintr string_test_at
 fun{tk:tk}
-string_test_at_int
+string_test_at_gint
   {n:int}{i:nat | i <= n}
-  (s: string (n), i: g1int (tk, i)):<> charNZ
-overload string_test_at with string_test_at_int
+  (s: string (n), i: g1int (tk, i)):<> [c:int] (string_index_p (n, i, c) | char (c))
+overload string_test_at with string_test_at_gint
 fun{tk:tk}
-string_test_at_uint
+string_test_at_guint
   {n:int}{i:nat | i <= n}
-  (s: string (n), i: g1uint (tk, i)):<> charNZ
-overload string_test_at with string_test_at_uint
+  (s: string (n), i: g1uint (tk, i)):<> [c:int] (string_index_p (n, i, c) | char (c))
+overload string_test_at with string_test_at_guint
 
 #atscode_separator()
 

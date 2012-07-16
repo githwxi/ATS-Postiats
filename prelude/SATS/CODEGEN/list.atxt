@@ -231,35 +231,81 @@ a:t0p
 #atscode_separator()
 
 fun{
-x:t0p // type for elements
-} list_foreach__fwork (x): void
-fun{x:t0p}
-list_foreach (xs: List (x)): void
-
+x:t0p}{env:vt0p // type for elements
+} list_foreach__fwork (x: x, env: &env): void
 fun{
-x:t0p // type for elements
-} list_foreach_funenv
+x:t0p
+} list_foreach (xs: List (x)): void
+fun{
+x:t0p}{env:vt0p
+} list_foreach_env (xs: List (x), env: &env): void
+
+fun{x:t0p}
+list_foreach_funenv
   {v:view}{env:viewtype}{fe:eff} (
-  pfv: !v |
-  xs: List (INV(x))
-, f: (!v | x, !env) -<fun,fe> void, env: !env
+  pfv: !v
+| xs: List (INV(x))
+, f: (!v | x, !env) -<fun,fe> void
+, env: !env
 ) :<fe> void // end of [list_foreach_funenv]
 
-#atscode_separator()
-
-fun{
-x,y:t0p // type for elements
-} list_foreach2__fwork (x, y): void
-fun{x,y:t0p}
-list_foreach2 (xs: List (x), ys: List (y)): void
-
-#atscode_separator()
-
-fun{
-x:t0p // type for elements
-} list_iforeach__fwork (i: int, x: x): void
 fun{x:t0p}
-list_iforeach (xs: List (x)): void
+list_foreach_fun
+  {fe:eff} (
+  xs: List (INV(x)), f: (x) -<fun,fe> void
+) :<fe> void // end of [list_foreach_fun]
+
+fun{x:t0p}
+list_foreach_clo
+  {fe:eff} (
+  xs: List (INV(x)), f: &(x) -<clo,fe> void
+) :<fe> void // end of [list_foreach_clo]
+fun{x:t0p}
+list_foreach_vclo
+  {v:view}{fe:eff} (
+  pf: !v | xs: List (INV(x)), f: &(!v | x) -<clo,fe> void
+) :<fe> void // end of [list_foreach_vclo]
+
+fun{x:t0p}
+list_foreach_cloptr
+  {fe:eff} (
+  xs: List (INV(x)), f: !(x) -<cloptr,fe> void
+) :<fe> void // end of [list_foreach_cloptr]
+fun{x:t0p}
+list_foreach_vcloptr
+  {v:view}{fe:eff} (
+  pf: !v | xs: List (INV(x)), f: !(!v | x) -<cloptr,fe> void
+) :<fe> void // end of [list_foreach_vcloptr]
+
+fun{x:t0p}
+list_foreach_cloref
+  {fe:eff} (
+  xs: List (INV(x)), f: (x) -<cloref,fe> void
+) :<fe> void // end of [list_foreach_cloref]
+
+#atscode_separator()
+
+fun{
+x,y:t0p}{env:vt0p // type for elements
+} list_foreach2__fwork (x: x, y: y, env: &env): void
+fun{
+x,y:t0p
+} list_foreach2 (xs: List (x), ys: List (y)): void
+fun{
+x,y:t0p}{env:vt0p
+} list_foreach2_env (xs: List (x), ys: List (y), env: &env): void
+
+#atscode_separator()
+
+fun{
+x:t0p}{env:vt0p // type for elements
+} list_iforeach__fwork (i: int, x: x, env: &env): void
+fun{
+x:t0p
+} list_iforeach (xs: List (x)): void
+fun{
+x:t0p}{env:vt0p
+} list_iforeach_env (xs: List (x), env: &env): void
 
 fun{
 x:t0p // type for elements
@@ -273,10 +319,14 @@ x:t0p // type for elements
 #atscode_separator()
 
 fun{
-x,y:t0p // type for elements
-} list_iforeach2__fwork (int, x, y): void
-fun{x,y:t0p}
-list_iforeach2 (xs: List (x), ys: List(y)): void
+x,y:t0p}{env:vt0p // type for elements
+} list_iforeach2__fwork (i: int, x: x, y: y, env: &env): void
+fun{
+x,y:t0p
+} list_iforeach2 (xs: List (x), ys: List(y)): void
+fun{
+x,y:t0p}{env:vt0p
+} list_iforeach2_env (xs: List (x), ys: List(y), env: &env): void
 
 #atscode_separator()
 
@@ -316,7 +366,7 @@ fun{x:t0p} list_find_opt (xs: List (x)):<> Option_vt (x)
 #atscode_separator()
 
 fun{
-x:t0p}{y:vt0p
+x:t0p
 } list_filter__pred (x): bool
 fun{
 x:t0p
@@ -324,6 +374,7 @@ x:t0p
   (xs: NSH(list (x, n))): listLte_vt (x, n)
 // end of [list_filter]
 
+(*
 fun{
 x:t0p
 } list_filter_funenv
@@ -332,6 +383,7 @@ x:t0p
   xs: NSH(list (INV(x), n))
 , f: (!v | x, !vt) -<fun,fe> bool, env: !vt
 ) :<fe> listLte_vt (x, n) // end of [list_filter_funenv]
+*)
 
 #atscode_separator()
 
@@ -384,6 +436,7 @@ x1,x2:t0p}{y:vt0p
 , xs2: list (x2, n2)
 ) : list_vt (y, min(n1,n2)) // end of [list_map2]
 
+(*
 fun{
 x1,x2:t0p}{y:t0p
 } list_map2_funenv
@@ -393,6 +446,7 @@ x1,x2:t0p}{y:t0p
 , xs2: list (INV(x2), n2)
 , f: (!v | x1, x2, !vt) -<fun,fe> y, env: !vt
 ) :<fe> list_vt (y, min(n1,n2)) // end of [list_map2_funenv]
+*)
 
 #atscode_separator()
 

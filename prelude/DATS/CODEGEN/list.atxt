@@ -147,8 +147,9 @@ implement{a}
 fprint_list_sep
   (out, xs, sep) = let
 //
-implement
-list_iforeach__fwork<a> (i, x) = let
+implement(env)
+list_iforeach__fwork<a><env>
+  (i, x, env) = let
   val () = if i > 0 then fprint_string (out, sep)
 in
   fprint_val<a> (out, x)
@@ -644,24 +645,32 @@ end // end of [list_filter]
 
 #atscode_separator()
 
-implement{x}
-list_foreach (xs) = let
+implement
+{x}{env}
+list_foreach_env
+  (xs, env) = let
 //
 prval () = lemma_list_param (xs)
 //
 fun loop
-  {n:nat} .<n>.
-  (xs: list (x, n)): void =
-  case+ xs of
-  | list_cons (x, xs) => let
-      val () = list_foreach__fwork<x> (x) in loop (xs)
-    end // end of [list_cons]
-  | list_nil () => ()
-// end of [loop]
+  {n:nat} .<n>. (
+  xs: list (x, n), env: &env
+) : void = let
+in
+//
+case+ xs of
+| list_cons (x, xs) => let
+    val () = list_foreach__fwork<x><env> (x, env)
+  in
+    loop (xs, env)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [loop]
 //
 in
-  loop (xs)
-end // end of [list_foreach]
+  loop (xs, env)
+end // end of [list_foreach_env]
 
 implement{x}
 list_foreach_funenv
@@ -693,21 +702,25 @@ $FC.foreach_funenv<List(x)><x>
 
 #atscode_separator()
 
-implement{x,y}
-list_foreach2 (xs, ys) = let
+implement
+{x,y}{env}
+list_foreach2_env
+  (xs, ys, env) = let
 //
 prval () = lemma_list_param (xs)
 prval () = lemma_list_param (ys)
 //
 fun loop
   {m,n:nat} .<m>. (
-  xs: list (x, m), ys: list (y, n)
+  xs: list (x, m), ys: list (y, n), env: &env
 ) : void =
   case+ xs of
   | list_cons (x, xs) => (
     case+ ys of
     | list_cons (y, ys) => let
-        val () = list_foreach2__fwork<x,y> (x, y) in loop (xs, ys)
+        val () = list_foreach2__fwork<x,y><env> (x, y, env)
+      in
+        loop (xs, ys, env)
       end // end of [list_cons]
     | list_nil () => ()
     ) // end of [list_cons]
@@ -715,29 +728,34 @@ fun loop
 // end of [loop]
 //
 in
-  loop (xs, ys)
-end // end of [list_foreach2]
+  loop (xs, ys, env)
+end // end of [list_foreach2_env]
 
 #atscode_separator()
 
-implement{x}
-list_iforeach (xs) = let
+implement
+{x}{env}
+list_iforeach_env
+  (xs, env) = let
 //
 prval () = lemma_list_param (xs)
 //
 fun loop
-  {n:nat} .<n>.
-  (xs: list (x, n), i: int): void =
+  {n:nat} .<n>. (
+  i: int, xs: list (x, n), env: &env
+) : void =
   case+ xs of
   | list_cons (x, xs) => let
-      val () = list_iforeach__fwork<x> (i, x) in loop (xs, succ(i))
+      val () = list_iforeach__fwork<x><env> (i, x, env)
+    in
+      loop (succ(i), xs, env)
     end // end of [list_cons]
   | list_nil () => ()
 // end of [loop]
 //
 in
-  loop (xs, 0)
-end // end of [list_iforeach]
+  loop (0, xs, env)
+end // end of [list_iforeach_env]
 
 implement{x}
 list_iforeach_funenv
@@ -749,18 +767,19 @@ prval () = lemma_list_param (xs)
 fun loop
   {i:nat | i <= n} .<n-i>. (
   pfv: !v
-| xs: list (x, n-i)
+| i: int i
+, xs: list (x, n-i)
 , f: (!v | natLt(n), x, !vt) -<fun,fe> void
-, env: !vt, i: int i
+, env: !vt
 ) :<fe> int n =
   case+ xs of
   | list_cons (x, xs) => let
-      val () = f (pfv | i, x, env) in loop (pfv | xs, f, env, i+1)
+      val () = f (pfv | i, x, env) in loop (pfv | i+1, xs, f, env)
     end // end of [list_cons]
   | list_nil () => i // = size(xs)
 // end of [loop]
 in
-  loop (pfv | xs, f, env, 0)
+  loop (pfv | 0, xs, f, env)
 end // end of [list_iforeach_funenv]
 
 implement(x)
@@ -772,30 +791,37 @@ end // end of [iforeach_funenv]
 
 #atscode_separator()
 
-implement{x,y}
-list_iforeach2 (xs, ys) = let
+implement
+{x,y}{env}
+list_iforeach2_env
+  (xs, ys, env) = let
 //
 prval () = lemma_list_param (xs)
 prval () = lemma_list_param (ys)
 //
 fun loop
   {m,n:nat} .<m>. (
-  xs: list (x, m), ys: list (y, n), i: int
-) : void =
-  case+ xs of
-  | list_cons (x, xs) => (
-    case+ ys of
-    | list_cons (y, ys) => let
-        val () = list_iforeach2__fwork<x,y> (i, x, y) in loop (xs, ys, succ(i))
-      end // end of [list_cons]
-    | list_nil () => ()
-    ) // end of [list_cons]
+  i: int, xs: list (x, m), ys: list (y, n), env: &env
+) : void = let
+in
+//
+case+ xs of
+| list_cons (x, xs) => (
+  case+ ys of
+  | list_cons (y, ys) => let
+      val () = list_iforeach2__fwork<x,y><env> (i, x, y, env)
+    in
+      loop (succ(i), xs, ys, env)
+    end // end of [list_cons]
   | list_nil () => ()
-// end of [loop]
+  ) // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [loop]
 //
 in
-  loop (xs, ys, 0)
-end // end of [list_iforeach2]
+  loop (0, xs, ys, env)
+end // end of [list_iforeach2_env]
 
 #atscode_separator()
 

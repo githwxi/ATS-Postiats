@@ -306,8 +306,9 @@ the input as linear elements cannot be ignored or duplicated.
 
 This function applies to each element (treated as a left-value) in its
 argument the function implemented by #dyncode("list_vt_foreach__fwork").
-
 ')
+
+#declnamesynop("list_vt_foreach_env")
 
 (* ****** ****** *)
 
@@ -319,9 +320,9 @@ argument the function implemented by #dyncode("list_vt_foreach__fwork").
 Given a linear list xs, this function applies to (i, xs[i]) the function
 implemented by #dyncode("list_vt_iforeach__fwork"), where i ranges from 0
 until the length of xs minus one, inclusively, and xs[i], treated as a
-left-value, refers to element i in xs.
+left-value, refers to element i in xs.  ")
 
-")
+#declnamesynop("list_vt_iforeach_env")
 
 (* ****** ****** *)
 
