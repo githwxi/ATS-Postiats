@@ -208,6 +208,55 @@ list_tail (xs) =
 
 #atscode_separator()
 
+implement{a}
+list_nth (xs, i) = let
+//
+fun loop
+  {n,i:nat | i < n} .<i>. (
+  xs: list (a, n), i: int i
+) :<> a =
+  if i > 0 then let
+    val+ list_cons (_, xs) = xs in loop (xs, pred(i))
+  end else list_head<a> (xs)
+//
+in
+  loop (xs, i)
+end // end of [list_nth]
+
+#atscode_separator()
+
+implement{a}
+list_get_at (xs, i) = list_nth<a> (xs, i)
+
+#atscode_separator()
+
+implement{a}
+list_insert_at
+  (xs, i, x) = let
+//
+fun loop
+  {n,i:nat | i <= n} .<i>. (
+  xs: list (a, n), i: int i, x: a, res: &ptr? >> list (a, n+1)
+) :<!wrt> void =
+  if i > 0 then let
+    val+ list_cons (x1, xs1) = xs
+    val () = res := list_cons {a}{0} (x1, _)
+    val+ list_cons (_, res1) = res
+    val () = loop (xs1, i-1, x, res1)
+    prval () = fold@ (res)
+  in
+    // nothing
+  end else res := list_cons (x, xs)
+//
+var res: ptr
+val () = $effmask_wrt (loop (xs, i, x, res))
+//
+in
+  res
+end // end of [list_insert_at]
+
+#atscode_separator()
+
 implement{x}
 list_copy (xs) = let
   viewtypedef res = List0_vt (x)

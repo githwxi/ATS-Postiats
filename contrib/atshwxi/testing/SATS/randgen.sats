@@ -13,6 +13,10 @@ randgen (): a // for random generation
 
 (* ****** ****** *)
 
+fun randint {n:pos} (n: int n): natLt (n)
+
+(* ****** ****** *)
+
 fun{a:vt0p}
 randgen_list {n:nat} (n: int n): list_vt (a, n)
 

@@ -105,4 +105,11 @@ end // end of [fprint_m2val]
 
 (* ****** ****** *)
 
+implement
+fprint_m2valist
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_m2val)
+// end of [fprint_m2valist]
+
+(* ****** ****** *)
+
 (* end of [pats_dmacro2_print.dats] *)

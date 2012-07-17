@@ -125,6 +125,33 @@ list_tail {n:pos} (xs: list (INV(a), n)):<> list (a, n-1)
 
 #atscode_separator()
 
+fun{
+a:t0p
+} list_nth
+  {n:int} (xs: list (INV(a), n), i: natLt (n)):<> a
+// end of [list_nth]
+
+#atscode_separator()
+
+fun{a:t0p}
+list_get_at
+  {n:int} (xs: list (INV(a), n), i: natLt (n)):<> a
+overload [] with list_get_at
+
+fun{a:t0p}
+list_insert_at
+  {n:int} (
+  xs: SHR(list (INV(a), n)), i: natLte (n), x: a
+) :<> list (a, n+1) // end of [list_insert_at]
+
+fun{a:t0p}
+list_remove_at
+  {n:int} (
+  xs: SHR(list (INV(a), n)), i: natLt (n), x: &a? >> _
+) :<> list (a, n-1) // end of [list_remove_at]
+
+#atscode_separator()
+
 fun{x:t0p}
 list_length {n:int} (xs: list (x, n)):<> int (n)
 

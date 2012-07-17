@@ -1455,7 +1455,7 @@ and c0lau = '{
 
 and c0laulst: type = List c0lau
 
-and sc0lau: type = '{
+and sc0lau = '{
   sc0lau_loc= location
 , sc0lau_pat= sp0at
 , sc0lau_body= d0exp

@@ -73,6 +73,7 @@ where m2valist = List (m2val)
 (* ****** ****** *)
 
 fun fprint_m2val (out: FILEref, x: m2val): void
+fun fprint_m2valist (out: FILEref, xs: m2valist): void
 
 (* ****** ****** *)
 

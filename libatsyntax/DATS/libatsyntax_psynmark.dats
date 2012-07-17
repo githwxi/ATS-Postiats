@@ -1390,6 +1390,14 @@ case+ d0c0.d0ecl_node of
     // nothing
   end // end of [D0Cdcstdecs]
 //
+| $SYN.D0Cmacdefs
+    (knd, isrec, decs) => let
+    val () = psynmark_ins_beg (SMdynexp, loc0, res)
+    val () = psynmark_ins_end (SMdynexp, loc0, res)
+  in
+    // nothing
+  end // end of [D0Cmacdefs]
+//
 | $SYN.D0Cextcode _ =>
     psynmark_ins_begend (SMextcode, loc0, res)
 //

@@ -7,6 +7,18 @@ val () = patscode_prefix_set("TRYIT/libats_ML_list0")
 
 (* ****** ****** *)
 
+%{
+
+#ifdef DBOOK #then
+fun pcenter (x: string): atext =
+  atext_apptxt2 (atext_strsub (x), atext_strcst ".")
+// end of [pcenter]
+#endif // end of [#ifdef]
+
+%}
+
+(* ****** ****** *)
+
 #decltitle("\
 ATSLIB/libats/ML/list0\
 ")
@@ -177,8 +189,56 @@ This function is the optional version of #dyncode("list0_nth_exn").
 
 (* ****** ****** *)
 
+#declnamesynop("list0_get_at_exn")
+#decldescrpt("\
+
+This function, which overloads the symbol #dyncode("[]"), does the same as
+#dyncode("list0_nth_exn").  ")
+
 #declnamesynop("list0_insert_at_exn")
+#decldescrpt("\
+
+Given a list xs of length n, an integer i and an element x, this function
+builds a list xs1 by inserting x into xs at position i if i is between 0
+and n, inclusively.  Otherwise, the function raises an exception
+(#dyncode("IllegalArgExn")).  Clearly, if the function returns a list, then
+element i in the returned list must be x.
+
+")
+
 #declnamesynop("list0_remove_at_exn")
+#decldescrpt("\
+
+Given a list xs of length n, an integer i and an element x, this function
+builds a list xs1 by removing element i in if i is between 0 and n-1,
+inclusively.  Otherwise, the function raises an exception
+(#dyncode("IllegalArgExn")).
+
+")
+#declexample("\
+
+Let xs be a list of length n, i an integer between 0 and n-1, inclusively,
+and xs1 the list obtained from removing element i in xs. The following code
+checks that xs equals the list built by inserting xs[i] into xs1 at
+position i:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/list0.sats"
+staload "contrib/atshwxi/testing/SATS/randgen.sats"
+//
+implement
+main () = let
+  \#define N 10
+  val i = randint (N) // 0 <= i < N
+  val xs = list0_of_list_vt (randgen_list<int> (N))
+  val ys = list0_insert_at_exn (list0_remove_at_exn (xs, i), i, xs[i])
+  val () = assert (list0_equal<int> (xs, ys, lam (x, y) => x = y))
+in
+  0(*normal*)
+end // end of [main]
+')
+")
 
 (* ****** ****** *)
 
