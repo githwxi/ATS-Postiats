@@ -302,7 +302,7 @@ fun auxerr_nonderef (
 ) : void = let
   val loc = d3e.d3exp_loc
   val () = prerr_error3_loc (loc)
-  val () = prerr ": the dynamic expression cannot be derefenced."
+  val () = prerr ": the dynamic expression cannot be dereferenced."
   val () = prerr_newline ()
 in
   the_trans3errlst_add (T3E_d3exp_nonderef (d3e))

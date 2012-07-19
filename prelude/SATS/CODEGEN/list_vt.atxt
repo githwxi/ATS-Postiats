@@ -118,28 +118,23 @@ list_vt_remove_at {n:int}
 
 #atscode_separator()
 
+fun{a:vt0p}
+list_vt_freelin__fwork
+  (x: &a >> a?):<!wrt> void
 fun{a:t0p}
+list_vt_freelin (xs: List_vt (a)):<!wrt> void
+fun{a:vt0p}
 list_vt_free (xs: List_vt (a)):<!wrt> void
-
-fun{
-a:vt0p
-} list_vt_free_fun {fe:eff} (
-  xs: List_vt (INV(a)), f: (&a>>a?) -<fe> void
-) :<!wrt,fe> void // end of [list_vt_free_fun]
 
 #atscode_separator()
 
 fun{a:vt0p}
-list_vt_clear__fwork (x: &a>>a?): void
+list_vt_clear__fwork (x: &a>>a?):<!wrt> void
 fun{
 a:vt0p
 } list_vt_clear {n:int} (
   xs: !list_vt (INV(a), n) >> list_vt (a?, n)
-) : void // end of [list_vt_clear]
-fun{
-a:vt0p
-} list_vt_cfree (xs: List_vt (a)): void // clear+free
-
+) :<!wrt> void // end of [list_vt_clear]
 fun{
 a:vt0p
 } list_vt_clear_fun {n:int}{fe:eff} (
@@ -162,6 +157,8 @@ a:vt0p
 } list_vt_extend
   {n:int} (xs1: list_vt (INV(a), n), x2: a):<!wrt> list_vt (a, n+1)
 // end of [list_vt_extend]
+
+macdef list_vt_snoc = list_vt_extend
 
 #atscode_separator()
 
@@ -229,10 +226,15 @@ a:vt0p}{env:vt0p
 #atscode_separator()
 
 fun{a:vt0p}
-list_vt_filter__pred
-  (x: &a >> opt(a, b)): #[b:bool] bool(b)
+list_vt_filter__pred (x: &a):<> bool
+fun{a:t0p}
+list_vt_filter
+  {n:int} (x: list_vt (INV(a), n)):<!wrt> listLte_vt (a, n)
+// end of [list_vt_filter]
 fun{a:vt0p}
-list_vt_filter {n:int} (x: list_vt (INV(a), n)): listLte_vt (a, n)
+list_vt_filterlin
+  {n:int} (x: list_vt (INV(a), n)):<!wrt> listLte_vt (a, n)
+// end of [list_vt_filterlin]
 
 #atscode_separator()
 

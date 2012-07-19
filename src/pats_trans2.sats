@@ -75,6 +75,10 @@ datatype trans2err =
   | T2E_s1aspdec_tr_res of (s1aspdec, s2rt, s2rt)
   | T2E_d1atcon_tr of (d1atcon)
   | T2E_d1atdec_tr of (d1atdec)
+//
+  | T2E_macdef_check of (location, d2mac)
+  | T2E_macvar_check of (location, d2var)
+//
   | T2E_p1at_tr of (p1at)
   | T2E_d1exp_tr of (d1exp)
   | T2E_d1exp_tr_ann of (d1exp, s2exp)

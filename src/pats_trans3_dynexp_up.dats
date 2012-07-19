@@ -133,6 +133,10 @@ extern fun d2exp_trup_lam_met (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
+extern fun d2exp_trup_delay (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
 implement
 d2exp_trup
   (d2e0) = let
@@ -325,6 +329,8 @@ case+ d2e0.d2exp_node of
 | D2Elaminit_dyn _ => d2exp_trup_laminit_dyn (d2e0)
 | D2Elam_sta _ => d2exp_trup_lam_sta (d2e0)
 | D2Elam_met _ => d2exp_trup_lam_met (d2e0)
+//
+| D2Edelay _ => d2exp_trup_delay (d2e0)
 //
 | D2Eann_type (d2e, s2e_ann) => let
     val d3e = d2exp_trdn (d2e, s2e_ann)
@@ -1248,7 +1254,7 @@ d2exp_trup_lam_dyn (d2e0) = let
   val d3e_body = s2ep3tsd3e.2
 in
   d3exp_lam_dyn (loc0, s2e_fun, lin, npf, p3ts_arg, d3e_body)
-end // end of [D2Elam_dyn]
+end // end of [d2exp_trup_lam_dyn]
 
 implement
 d2exp_trup_laminit_dyn (d2e0) = let
@@ -1276,7 +1282,7 @@ d2exp_trup_laminit_dyn (d2e0) = let
   ) : void // end of [val]
 in
   d3exp_laminit_dyn (loc0, s2e_fun, lin, npf, p3ts_arg, d3e_body)
-end // end of [D2Elam_dyn]
+end // end of [d2exp_trup_laminit_dyn]
 
 (* ****** ****** *)
 
@@ -1314,7 +1320,40 @@ d2exp_trup_lam_met
   val () = termetenv_pop (pfmet | (*none*))
 in
   d3exp_lam_met (loc0, s2es_met, d3e_body)
-end // end of [D2Elam_met]
+end // end of [d2exp_trup_lam_met]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_delay (d2e0) = let
+//
+val loc0 = d2e0.d2exp_loc
+val- D2Edelay (d2e_body) = d2e0.d2exp_node
+val fc0 = FUNCLOfun () // default
+val lin = 0
+val npf = ~1
+val p2ts_arg = list_nil {p2at} ()
+val s2ep3tsd3e = d2exp_trup_arg_body (loc0, fc0, lin, npf, p2ts_arg, d2e_body)
+val s2e_fun = s2ep3tsd3e.0
+val p3ts_arg = s2ep3tsd3e.1
+val d3e_body = s2ep3tsd3e.2
+//
+val s2e_body = d3exp_get_type (d3e_body)
+val s2e_lazy = s2exp_lazy_t0ype_type (s2e_body)
+//
+val islin =
+  s2exp_is_lin (s2e_body)
+val () = if islin then let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": it is not allowed to apply $delay to a linear value."
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_d3exp_delay (loc0, d3e_body))
+end // end of [val]
+//
+in
+  d3exp_delay (loc0, s2e_lazy, d3e_body)
+end // end of [d2exp_delay_tr_up]
 
 (* ****** ****** *)
 

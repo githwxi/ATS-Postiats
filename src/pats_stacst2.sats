@@ -171,6 +171,9 @@ val the_list_viewt0ype_int_viewtype : s2cstref
 val the_vbox_view_prop : s2cstref
 val the_ref_viewt0ype_type : s2cstref
 //
+val the_lazy_t0ype_type : s2cstref
+val the_lazy_viewt0ype_viewtype : s2cstref
+//
 val the_sizeof_t0ype_int: s2cstref
 //
 val the_at_viewt0ype_addr_view: s2cstref
@@ -327,6 +330,14 @@ fun un_s2exp_vbox_view_prop (s2f: s2hnf) : Option_vt (s2exp)
 fun s2exp_ref_viewt0ype_type (s2e: s2exp): s2exp
 fun un_s2exp_ref_viewt0ype_type (s2f: s2hnf): Option_vt (s2exp)
 //
+(* ****** ****** *)
+
+fun s2exp_lazy_t0ype_type (s2e: s2exp): s2exp
+fun un_s2exp_lazy_t0ype_type (s2f: s2hnf): Option_vt (s2exp)
+
+fun s2exp_lazy_viewt0ype_viewtype (s2e: s2exp): s2exp
+fun un_s2exp_lazy_viewt0ype_viewtype (s2f: s2hnf): Option_vt (s2exp)
+
 (* ****** ****** *)
 
 fun s2exp_bottom_viewt0ype_uni (): s2exp // = {a:viewt@ype} a

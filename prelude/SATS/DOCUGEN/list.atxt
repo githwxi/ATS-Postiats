@@ -241,6 +241,8 @@ O(n), where n is the length of xs.
 
 ')
 
+#declnamesynop("list_snoc")
+
 (* ****** ****** *)
 
 #declnamesynop("list_reverse")

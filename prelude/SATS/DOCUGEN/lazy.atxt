@@ -1,0 +1,68 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/prelude_lazy")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/prelude/lazy\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("lazy")
+
+(* ****** ****** *)
+
+#declnamesynop("stream2list")
+
+(* ****** ****** *)
+
+#declnamesynop("stream_take_exn")
+#declnamesynop("stream_drop_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("stream_nth_exn")
+#declnamesynop("stream_nth_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("stream_filter__pred")
+#declnamesynop("stream_filter")
+#declnamesynop("stream_filter_fun")
+#declnamesynop("stream_filter_cloref")
+
+(* ****** ****** *)
+
+#declnamesynop("stream_map__fwork")
+#declnamesynop("stream_map")
+#declnamesynop("stream_map_fun")
+#declnamesynop("stream_map_cloref")
+
+(* ****** ****** *)
+
+#declnamesynop("stream_map2__fwork")
+#declnamesynop("stream_map2")
+#declnamesynop("stream_map2_fun")
+#declnamesynop("stream_map2_cloref")
+
+(* ****** ****** *)
+
+#declnamesynop("stream_merge__cmp")
+#declnamesynop("stream_merge")
+#declnamesynop("stream_merge_fun")
+#declnamesynop("stream_merge_cloref")
+
+(* ****** ****** *)
+
+(* end of [lazy.atxt] *)

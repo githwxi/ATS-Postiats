@@ -55,6 +55,7 @@ macdef fprint_cstsp = $SYN.fprint_cstsp
 macdef fprint_l0ab = $SYN.fprint_l0ab
 macdef fprint_i0de = $SYN.fprint_i0de
 macdef fprint_d0ynq = $SYN.fprint_d0ynq
+macdef fprint_macsynkind = $SYN.fprint_macsynkind
 
 (* ****** ****** *)
 
@@ -563,14 +564,6 @@ case+ x.d2exp_node of
     val () = prstr ")"
   } // end of [D2Eraise]
 //
-| D2Edelay (knd, d2e) => {
-    val () = prstr "D2Edelay("
-    val () = fprint_int (out, knd)
-    val () = prstr "; "
-    val () = fprint_d2exp (out, d2e)
-    val () = prstr ")"
-  } // end of [D2Edelay]
-//
 | D2Eeffmask (s2fe, d2e) => {
     val () = prstr "D2Eeffmask("
     val () = fprint_s2eff (out, s2fe)
@@ -691,11 +684,37 @@ case+ x.d2exp_node of
     val () = prstr ")"
   } // end of [D2Efix]
 //
+| D2Edelay (d2e) => {
+    val () = prstr "D2Edelay("
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Edelay]
+| D2Eldelay (_eval, _free) => {
+    val () = prstr "D2Eldelay("
+    val () = fprint_d2exp (out, _eval)
+    val () = prstr "; "
+    val () = fprint_d2expopt (out, _free)
+    val () = prstr ")"
+  } // end of [D2Edelay]
+//
 | D2Etrywith _ => {
     val () = prstr "D2Etrywith("
     val () = fprint_string (out, "...")
     val () = prstr ")"
   } // end of [D2Etrywith]
+//
+| D2Emac (d2m) => {
+    val () = prstr "D2Emac("
+    val () = fprint_d2mac (out, d2m)
+    val () = prstr ")"
+  }
+| D2Emacsyn (knd, d2e) => {
+    val () = prstr "D2Emacsyn("
+    val () = fprint_macsynkind (out, knd)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, d2e)
+    val () = prstr ")"
+  } // end of [D2Emacsyn]
 //
 | D2Eann_type (d2e, s2f) => {
     val () = prstr "D2Eann_type("
@@ -734,15 +753,32 @@ print_d2exp (x) = fprint_d2exp (stdout_ref, x)
 implement
 prerr_d2exp (x) = fprint_d2exp (stderr_ref, x)
 
+(* ****** ****** *)
+
 implement
 fprint_d2explst (out, xs) =
   $UT.fprintlst (out, xs, ", ", fprint_d2exp)
-// end of [fprint_d2explst]
-
 implement
 print_d2explst (xs) = fprint_d2explst (stdout_ref, xs)
 implement
 prerr_d2explst (xs) = fprint_d2explst (stderr_ref, xs)
+
+(* ****** ****** *)
+
+implement
+fprint_d2expopt
+  (out, opt) = let
+in
+  case+ opt of
+  | Some (d2e) => {
+      val () =
+        fprint_string (out, "Some(")
+      // end of [val]
+      val () = fprint_d2exp (out, d2e)
+      val () = fprint_string (out, ")")
+    } // end of [Some]
+  | None () => fprint_string (out, "None()")
+end // end of [fprint_d2expopt]
 
 (* ****** ****** *)
 

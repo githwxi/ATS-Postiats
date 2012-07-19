@@ -246,6 +246,8 @@ array_copy_to_list_vt
   A: &(@[INV(a)][n]) >> @[a?!][n], n: size_t n
 ) :<!wrt> list_vt (a, n) // endfun
 
+macdef array2lst = array_copy_to_list_vt
+
 #atscode_separator()
 
 fun{

@@ -1243,6 +1243,28 @@ end // end of [lexing_SHARP]
 (* ****** ****** *)
 
 extern
+fun lexing_BQUOTE
+  (buf: &lexbuf, pos: &position): token
+implement
+lexing_BQUOTE
+  (buf, pos) = let
+  val i = lexbufpos_get_char (buf, pos)
+  val c = (i2c)i
+in
+  case+ c of 
+  | '\(' => let // '`(' initiates macro syntax
+      val () = posincby1 (pos) in
+      lexbufpos_token_reset (buf, pos, T_BQUOTELPAREN)
+    end // end of ['\(']
+  | _ => let
+      val k = testing_symbolicseq0 (buf, pos) in
+      lexing_IDENT_sym (buf, pos, succ(k))
+    end // end of [_]
+end // end of [lexing_BQUOTE]
+
+(* ****** ****** *)
+
+extern
 fun lexing_QUOTE
   (buf: &lexbuf, pos: &position): token
 // end of [lexing_QUOTE]
@@ -2114,6 +2136,8 @@ in
   | _ when c = '%' => lexing_PERCENT (buf, pos)
   | _ when c = '$' => lexing_DOLLAR (buf, pos)
   | _ when c = '#' => lexing_SHARP (buf, pos)
+//
+  | _ when c = '`' => lexing_BQUOTE (buf, pos)
 //
   | _ when c = '\'' => lexing_QUOTE (buf, pos)
   | _ when c = '"' => lexing_DQUOTE (buf, pos) // for strings

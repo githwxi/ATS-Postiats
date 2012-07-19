@@ -807,6 +807,37 @@ d3exp_lam_met (
 (* ****** ****** *)
 
 implement
+d3exp_delay (
+  loc, s2e, _eval
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2e
+, d3exp_node= D3Edelay (_eval)
+} // end of [d3exp_delay]
+
+implement
+d3exp_ldelay (
+  loc, s2e, _eval, _free
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2e
+, d3exp_node= D3Eldelay (_eval, _free)
+} // end of [d3exp_ldelay]
+
+(* ****** ****** *)
+
+implement
+d3exp_lazy_force (
+  loc, s2e_res, lin, delayed
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2e_res
+, d3exp_node= D3Elazy_force (lin, delayed)
+} // end of [d3exp_lazy_force]
+
+(* ****** ****** *)
+
+implement
 d3exp_trywith (
   loc, d3e_try, c3ls_wth
 ) = '{

@@ -83,10 +83,13 @@ datatype srpifkind =
 
 datatype
 macsynkind =
-  | MACSYNKINDdecode
-  | MACSYNKINDencode
-  | MACSYNKINDcross // decode(lift(.))
+  | MSKencode of ()
+  | MSKdecode of ()
+// HX: cross-stage persistence:
+  | MSKxstage of () // = decode(lift(.))
 // end of [macsynkind]
+
+fun fprint_macsynkind : fprint_type (macsynkind)
 
 (* ****** ****** *)
 
@@ -404,7 +407,7 @@ datatype
 m0acarg_node =
   | M0ACARGsta of i0delst
   | M0ACARGdyn of i0delst
-// end of ...
+// end of [m0acarg_node]
 
 typedef
 m0acarg = '{
@@ -1239,11 +1242,6 @@ d0ecl_node =
 //
   | D0Cclassdec of (i0de, s0expopt) // class declaration
 //
-  | D0Cdcstdecs of (token, q0marglst, d0cstdeclst)
-//
-  | D0Cmacdefs of
-      (int(*knd*), bool(*rec*), m0acdeflst) // macro definitions
-//
   | D0Cextype of (string, s0exp) // type to be used in C
   | D0Cextype of (int(*knd*), string, s0exp) // type to be used in C
   | D0Cextval of (string, d0exp) // value to be used in C
@@ -1251,13 +1249,17 @@ d0ecl_node =
   | D0Cextcode of
       (int(*knd*), int(*pos*), string(*code*)) // external code
 //
-  | D0Cimpdec of
-      (int(*knd*), i0mparg, i0mpdec) // knd=0/1: implement/primplmnt
+  | D0Cdcstdecs of (token, q0marglst, d0cstdeclst)
 //
+  | D0Cmacdefs of
+      (int(*knd*), bool(*rec*), m0acdeflst) // macro definitions
   | D0Cfundecs of (funkind, q0marglst, f0undeclst)
   | D0Cvaldecs of // value declarations
       (valkind, bool(*isrec*), v0aldeclst)
   | D0Cvardecs of v0ardeclst // variable declarations
+//
+  | D0Cimpdec of
+      (int(*knd*), i0mparg, i0mpdec) // knd=0/1: implement/primplmnt
 //
   | D0Cinclude of (* file inclusion *)
       (int(*0:sta/1:dyn*), string(*filename*))

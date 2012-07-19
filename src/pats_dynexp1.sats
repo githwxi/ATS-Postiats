@@ -385,12 +385,9 @@ and d1exp_node =
 //
   | D1Emacsyn of (macsynkind, d1exp) // macro syntax
 //
-  | D1Eann_type of (* ascribed dynamic expressions *)
-      (d1exp, s1exp)
-  | D1Eann_effc of (* ascribed with effects *)
-      (d1exp, effcst)
-  | D1Eann_funclo of (* ascribed with funtype *)
-      (d1exp, funclo)
+  | D1Eann_type of (d1exp, s1exp) // ascribed dynexp
+  | D1Eann_effc of (d1exp, effcst) // ascribed with effects
+  | D1Eann_funclo of (d1exp, funclo) // ascribed with funtype
 //
   | D1Eerr of () // HX: placeholder for indicating an error
 // end of [d1exp_node]
@@ -458,6 +455,11 @@ and sc1lau = '{
 and sc1laulst = List sc1lau
 
 (* ****** ****** *)
+
+(*
+and m1acarg = m0acarg
+and m1acarglst = List (m1acarg)
+*)
 
 and m1acdef = '{
   m1acdef_loc= location

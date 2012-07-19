@@ -154,7 +154,7 @@ fun auxerr_nonderef (
   loc0: location, d3e: d3exp
 ) : void = let
   val () = prerr_error3_loc (loc0)
-  val () = prerr ": the dynamic expression cannot be derefenced."
+  val () = prerr ": the dynamic expression cannot be dereferenced."
   val () = prerr_newline ()
 in
   the_trans3errlst_add (T3E_d3exp_nonderef (d3e))
@@ -222,9 +222,28 @@ and aux3 (
 , s2f0: s2hnf
 , d3e: d3exp, d3ls: d3lablst
 ) : d3exp = let
-  val () = auxerr_nonderef (loc0, d3e)
+//
+// HX: [d3ls] is ignored!!!
+//
+  val opt = un_s2exp_lazy_t0ype_type (s2f0)
 in
-  d3exp_err (loc0)
+//
+case+ opt of
+| ~Some_vt (s2e) =>
+    d3exp_lazy_force (loc0, s2e, 0(*lin*), d3e)
+| ~None_vt () => let
+    val opt = un_s2exp_lazy_viewt0ype_viewtype (s2f0)
+  in
+  //
+  case+ opt of
+  | ~Some_vt (s2e) =>
+      d3exp_lazy_force (loc0, s2e, 1(*lin*), d3e)
+  | ~None_vt () => let
+      val () = auxerr_nonderef (loc0, d3e) in d3exp_err (loc0)
+    end // end of [None_vt]
+  //
+  end // end of [None_vt]
+//
 end // end of [aux3]
 
 in // in of [local]

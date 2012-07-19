@@ -2088,7 +2088,7 @@ d0exp_macsyn_cross
   (t_beg, d0e, t_end) = let
   val loc = t_beg.token_loc + t_end.token_loc
 in
-  d0exp_macsyn (loc, MACSYNKINDcross, d0e)
+  d0exp_macsyn (loc, MSKxstage, d0e)
 end // end of [d0exp_macsyn_cross]
 
 implement
@@ -2096,7 +2096,7 @@ d0exp_macsyn_decode
   (t_beg, d0e, t_end) = let
   val loc = t_beg.token_loc + t_end.token_loc
 in
-  d0exp_macsyn (loc, MACSYNKINDdecode, d0e)
+  d0exp_macsyn (loc, MSKdecode, d0e)
 end // end of [d0exp_macsyn_decode]
 
 implement
@@ -2104,7 +2104,7 @@ d0exp_macsyn_encode_seq
   (t_beg, d0es, t_end) = let
   val d0e = d0exp_seq (t_beg, d0es, t_end)
 in
-  d0exp_macsyn (d0e.d0exp_loc, MACSYNKINDencode, d0e)
+  d0exp_macsyn (d0e.d0exp_loc, MSKencode, d0e)
 end // end of [d0exp_macsyn_encode_seq]
 
 end // end of [local]

@@ -49,6 +49,22 @@ staload "pats_syntax.sats"
 (* ****** ****** *)
 
 implement
+fprint_macsynkind
+  (out, x) = let
+//
+macdef prstr
+  (str) = fprint_string (out, ,(str))
+//
+in
+  case+ x of
+  | MSKencode () => prstr "MSKencode"
+  | MSKdecode () => prstr "MSKdecode"
+  | MSKxstage () => prstr "MSKxstage" // CSP: cross-stage persistence
+end // end of [fprint_macsynkind]
+
+(* ****** ****** *)
+
+implement
 fprint_cstsp (out, x) =
   case+ x of
   | CSTSPfilename () => fprint_string (out, "#FILENAME")

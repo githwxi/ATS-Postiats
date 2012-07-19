@@ -37,6 +37,11 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
+staload UT = "pats_utils.sats"
+staload _(*anon*) = "pats_utils.dats"
+
+(* ****** ****** *)
+
 staload
 STMP = "pats_stamp.sats"
 typedef stamp = $STMP.stamp
@@ -330,6 +335,11 @@ end // end of [fprint_d2var]
 
 implement print_d2var (x) = fprint_d2var (stdout_ref, x)
 implement prerr_d2var (x) = fprint_d2var (stderr_ref, x)
+
+implement
+fprint_d2varlst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_d2var)
+// end of [fprint_d2varlst]
 
 (* ****** ****** *)
 

@@ -52,8 +52,8 @@ val true : bool (true) and false : bool (false)
 ** shortcut version of disjuction and conjuction
 ** note that these two cannot be declared as functions
 *)
-macdef || (b1, b2) = (if b1 then true else b2): bool
-macdef && (b1, b2) = (if b1 then b2 else false): bool
+macdef || (b1, b2) = (if ,(b1) then true else ,(b2)): bool
+macdef && (b1, b2) = (if ,(b1) then ,(b2) else false): bool
 
 #atscode_separator()
 

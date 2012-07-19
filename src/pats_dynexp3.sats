@@ -333,6 +333,10 @@ and d3exp_node =
       (s2varlst(*s2vs*), s2explst(*s2ps*), d3exp)
   | D3Elam_met of (s2explst(*met*), d3exp) // term. metric
 //
+  | D3Edelay of d3exp(*eval*) // delayed computation
+  | D3Eldelay of (d3exp(*eval*), d3expopt(*free*)) // delayed LC
+  | D3Elazy_force of (int(*lin*), d3exp) // lazy-value evaluation
+//
   | D3Etrywith of (d3exp(*try-exp*), c3laulst(*with-clauses*))
 //
   | D3Eann_type of (d3exp, s2exp)
@@ -723,6 +727,16 @@ fun d3exp_lam_sta (
 fun d3exp_lam_met (
   loc: location, met: s2explst, body: d3exp
 ) : d3exp // end of [d3exp_lam_met]
+
+(* ****** ****** *)
+
+fun d3exp_delay
+  (loc: location, s2e: s2exp, _eval: d3exp): d3exp
+fun d3exp_ldelay
+  (loc: location, s2e: s2exp, _eval: d3exp, _free: d3expopt): d3exp
+fun d3exp_lazy_force
+  (loc: location, s2e_res: s2exp, lin: int, delayed: d3exp): d3exp
+// end of [d3exp_lazy_force]
 
 (* ****** ****** *)
 

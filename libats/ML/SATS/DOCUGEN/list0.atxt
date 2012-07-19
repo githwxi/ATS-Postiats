@@ -298,9 +298,9 @@ the singleton list consisting of y.
 The following code gives a typical implementation of the list-reverse
 function by a beginner of functional programming:
 
-#pats2xhtmld_tryit("\
+#pats2xhtmld_tryit('\
 //
-staload \"libats/ML/SATS/list0.sats\"
+staload "libats/ML/SATS/list0.sats"
 //
 implement{a}
 list0_reverse (xs) =
@@ -309,10 +309,14 @@ list0_reverse (xs) =
       (x, xs) => list0_extend (list0_reverse (xs), x)
   | list0_nil () => list0_nil ()
 // end of [list0_reverse]
-")
+')\
 
 Note that this implementation is #emph('terribly inefficient') both
 time-wise and memory-wise: It is O(n^2)-time and non-tail-recursive.  ")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_snoc")
 
 (* ****** ****** *)
 
@@ -531,6 +535,22 @@ some i between 0 and min(n1,n2)-1, inclusively.  ")
 
 This function returns true if and only if every element in its first
 argument satisfies the predicated provided as its second argument.  ")
+#declexample('\
+
+The following code tests whether the integers in a given list are
+all even:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/list0.sats"
+//
+implement
+main () = 0 where {
+  val xs = list0_of_list ($lst{int}(0, 2, 4, 6, 8))
+  val () = assert (list0_forall<int> (xs, lam (x) => x mod 2 = 0))
+} // end of [main] 
+')
+')
 
 (* ****** ****** *)
 
@@ -682,7 +702,7 @@ Following is a standard implementation of this function:
 
 #pats2xhtmld_tryit('\
 //
-staload \"libats/ML/SATS/list0.sats\"
+staload "libats/ML/SATS/list0.sats"
 //
 implement{a1,a2}{b}
 list0_map2 (xs1, xs2, f) = let

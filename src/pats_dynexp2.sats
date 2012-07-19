@@ -103,6 +103,7 @@ viewtypedef d2varset_vt = d2varset_viewtype
 
 abstype d2mac_type
 typedef d2mac = d2mac_type
+typedef d2maclst = List (d2mac)
 
 (* ****** ****** *)
 
@@ -199,9 +200,11 @@ fun d2var_ptr_viewat_make_none (ptr: d2var): d2var
 
 fun fprint_d2var : fprint_type (d2var)
 fun print_d2var (x: d2var): void
+and prerr_d2var (x: d2var): void
 overload print with print_d2var
-fun prerr_d2var (x: d2var): void
 overload prerr with prerr_d2var
+
+fun fprint_d2varlst : fprint_type (d2varlst)
 
 (* ****** ****** *)
 
@@ -284,11 +287,17 @@ fun d2varset_vt_listize (xs: !d2varset_vt):<> d2varlst_vt
 
 (* ****** ****** *)
 
-datatype macarg =
-  MACARGone of d2var | {n:nat} MACARGlst of (int n, list (d2var, n))
-// end of [macarg]
+datatype m2acarg =
+  | M2ACARGsta of s2varlst
+  | M2ACARGdyn of d2varlst
+// end of [m2acarg]
 
-typedef macarglst = List (macarg)
+typedef m2acarglst = List (m2acarg)
+
+fun fprint_m2acarg : fprint_type (m2acarg)
+fun fprint_m2acarglst : fprint_type (m2acarglst)
+
+(* ****** ****** *)
 
 fun d2mac_get_loc (x: d2mac): location
 
@@ -298,7 +307,7 @@ fun d2mac_get_kind (x: d2mac): int (* 1/0: long/short form *)
 
 fun d2mac_get_narg (x: d2mac): int
 
-fun d2mac_get_arglst (x: d2mac): macarglst
+fun d2mac_get_arglst (x: d2mac): m2acarglst
 
 fun d2mac_get_stamp (x: d2mac): stamp
 
@@ -611,7 +620,6 @@ and d2exp_node =
       (s2expopt (*element type*), d2explst (*elements*))
 //
   | D2Eraise of (d2exp) // raised exception
-  | D2Edelay of (int(*knd*), d2exp(*body*)) // $delay and $ldelay
 //
   | D2Eeffmask of (s2eff, d2exp) // $effmask (s2eff, d2exp)
 //
@@ -628,7 +636,13 @@ and d2exp_node =
       int(*knd: 0/1: flat/boxed*), d2var(*fixvar*), d2exp(*body*)
     ) // end of [D2Efix]
 //
+  | D2Edelay of (d2exp(*eval*)) // $delay
+  | D2Eldelay of (d2exp(*eval*), d2expopt(*free*)) // $ldelay
+//
   | D2Etrywith of (i2nvresstate, d2exp, c2laulst)
+//
+  | D2Emac of (d2mac) // macro-expression
+  | D2Emacsyn of ($SYN.macsynkind, d2exp) // backquote-comma-notation
 //
   | D2Eann_type of (d2exp, s2exp) // ascribled expression
   | D2Eann_seff of (d2exp, s2eff) // ascribed with effects
@@ -806,6 +820,8 @@ fun print_d2explst (xs: d2explst): void
 overload print with print_d2explst
 fun prerr_d2explst (xs: d2explst): void
 overload prerr with prerr_d2explst
+
+fun fprint_d2expopt : fprint_type (d2expopt)
 
 fun fprint_labd2exp : fprint_type (labd2exp)
 fun fprint_labd2explst : fprint_type (labd2explst)
@@ -1004,7 +1020,6 @@ fun d2exp_arrpsz (
 (* ****** ****** *)
 
 fun d2exp_raise (loc: location, d2e: d2exp): d2exp
-fun d2exp_delay (loc: location, knd: int, d2e: d2exp): d2exp
 
 (* ****** ****** *)
 
@@ -1033,9 +1048,12 @@ fun d2exp_lam_dyn
 fun d2exp_laminit_dyn
   (loc: location, knd: int, npf: int, arg: p2atlst, body: d2exp): d2exp
 
-fun d2exp_lam_met
-  (loc: location, r: ref(d2varlst), met: s2explst, body: d2exp): d2exp
-fun d2exp_lam_met_new (loc: location, met: s2explst, body: d2exp): d2exp
+fun d2exp_lam_met (
+  loc: location, r: ref(d2varlst), met: s2explst, body: d2exp
+) : d2exp // end of [d2exp_lam_met]
+fun d2exp_lam_met_new
+  (loc: location, met: s2explst, body: d2exp): d2exp
+// end of [d2exp_lam_met_new]
 
 fun d2exp_lam_sta (
   loc: location, s2vs: s2varlst, s2ps: s2explst, body: d2exp
@@ -1045,9 +1063,22 @@ fun d2exp_fix (loc: location, knd: int, f: d2var, body: d2exp): d2exp
 
 (* ****** ****** *)
 
+fun d2exp_delay (loc: location, _eval: d2exp): d2exp
+fun d2exp_ldelay (loc: location, _eval: d2exp, _free: d2expopt): d2exp
+fun d2exp_ldelay_none (loc: location, _eval: d2exp): d2exp
+
+(* ****** ****** *)
+
 fun d2exp_trywith
   (loc: location, r2es: i2nvresstate, d2e: d2exp, c2ls: c2laulst): d2exp
 // end of [d2exp_trywith]
+
+(* ****** ****** *)
+
+fun d2exp_mac (loc: location, d2m: d2mac): d2exp
+fun d2exp_macsyn
+  (loc: location, knd: $SYN.macsynkind, d2e: d2exp): d2exp
+// end of [d2exp_macsyn]
 
 (* ****** ****** *)
 
@@ -1129,7 +1160,8 @@ fun d2cst_set_def (d2c: d2cst, def: d2expopt): void
 (* ****** ****** *)
 
 fun d2mac_make (
-  loc: location, name: symbol, knd: int, args: macarglst, def: d2exp
+  loc: location
+, sym: symbol, knd: int, args: m2acarglst, def: d2exp
 ) : d2mac // end of [d2mac_make]
 
 fun d2mac_get_def (x: d2mac): d2exp

@@ -1045,6 +1045,62 @@ end // end of [un_s2exp_ref_viewt0ype_type]
 (* ****** ****** *)
 
 implement
+the_lazy_t0ype_type =
+  s2cstref_make "lazy_t0ype_type"
+implement
+s2exp_lazy_t0ype_type (s2e) = let
+  val s2c = s2cstref_get_cst (the_lazy_t0ype_type)
+in
+  s2exp_cstapp (s2c, list_sing (s2e))
+end // end of [s2exp_lazy_t0ype_type]
+implement
+un_s2exp_lazy_t0ype_type
+  (s2f) = let
+  val s2e = s2hnf2exp (s2f)
+in
+//
+case+ s2e.s2exp_node of
+| S2Eapp (s2e_fun, s2es_arg) 
+    when s2cstref_equ_exp (
+    the_lazy_t0ype_type, s2e_fun
+  ) => let
+    val- list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
+  end // end of [S2Eapp when ...]
+| _ => None_vt ()
+//
+end // end of [un_s2exp_lazy_t0ype_type]
+
+(* ****** ****** *)
+
+implement
+the_lazy_viewt0ype_viewtype =
+  s2cstref_make "lazy_viewt0ype_viewtype"
+implement
+s2exp_lazy_viewt0ype_viewtype (s2e) = let
+  val s2c = s2cstref_get_cst (the_lazy_viewt0ype_viewtype)
+in
+  s2exp_cstapp (s2c, list_sing (s2e))
+end // end of [s2exp_lazy_viewt0ype_viewtype]
+implement
+un_s2exp_lazy_viewt0ype_viewtype
+  (s2f) = let
+  val s2e = s2hnf2exp (s2f)
+in
+//
+case+ s2e.s2exp_node of
+| S2Eapp (s2e_fun, s2es_arg) 
+    when s2cstref_equ_exp (
+    the_lazy_viewt0ype_viewtype, s2e_fun
+  ) => let
+    val- list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
+  end // end of [S2Eapp when ...]
+| _ => None_vt ()
+//
+end // end of [un_s2exp_lazy_viewt0ype_viewtype]
+
+(* ****** ****** *)
+
+implement
 the_bottom_viewt0ype_uni =
   s2cstref_make "bottom_viewt0ype_uni"
 implement

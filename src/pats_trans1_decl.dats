@@ -821,17 +821,13 @@ case+ d0c0.d0ecl_node of
     d1ecl_dcstdecs (loc0, dck, qarg, d1cs)
   end // end of [D0Cdcstdecs]
 //
-| D0Cmacdefs (knd, isrec, d0cs) => let
+| D0Cmacdefs
+    (knd, isrec, d0cs) => let
     // knd: 0/1 => short/long
     val d1cs = l2l (list_map_fun (d0cs, m0acdef_tr))
   in
     d1ecl_macdefs (loc0, knd, isrec, d1cs)
   end // end of [D0Cmacdefs]
-//
-| D0Cimpdec (knd, i0mparg, d0c) => let
-    val i1mparg = i0mparg_tr (i0mparg) in
-    d1ecl_impdec (loc0, knd, i1mparg, i0mpdec_tr d0c)
-  end // end of [D0Cimpdec]
 //
 | D0Cfundecs (knd, qarg, d0cs) => let
     val qarg = q0marglst_tr (qarg)
@@ -849,6 +845,11 @@ case+ d0c0.d0ecl_node of
   in
     d1ecl_vardecs (loc0, d1cs)
   end // end of [D0Cvardecs]
+//
+| D0Cimpdec (knd, i0mparg, d0c) => let
+    val i1mparg = i0mparg_tr (i0mparg) in
+    d1ecl_impdec (loc0, knd, i1mparg, i0mpdec_tr d0c)
+  end // end of [D0Cimpdec]
 //
 | D0Cinclude (stadyn, path) => let
     val d1cs = i0nclude_tr (d0c0, stadyn, path) in d1ecl_include (loc0, d1cs)

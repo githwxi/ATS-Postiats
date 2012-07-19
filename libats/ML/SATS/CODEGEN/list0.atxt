@@ -144,6 +144,8 @@ overload + with list0_append
 fun{a:t0p}
 list0_extend (xs: list0 (INV(a)), y: a):<> list0 (a)
 
+macdef list0_snoc = list0_extend
+
 #atscode_separator()
 
 fun{a:t0p}

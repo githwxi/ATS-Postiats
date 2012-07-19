@@ -159,12 +159,17 @@ dataprop SGN (int, int) =
 (* ****** ****** *)
 //
 // HX-2012-06: indication of something
-exception NotFoundExn of () // expected to be found but not actually found
+exception NotFoundExn of () // expected to be found but not found
 //
 (* ****** ****** *)
 //
-// HX-2012-07: indication of a function argument
-exception IllegalArgExn of (string) // taking some value out of its domain
+// HX-2012-07: indication of a function argument taking
+exception IllegalArgExn of (string) // some value out of its domain
+//
+(* ****** ****** *)
+//
+// HX-2012-07: indication of something (e.g. a template instance)
+exception NotImplementedExn of (string) // that is not yet implemented
 //
 (* ****** ****** *)
 

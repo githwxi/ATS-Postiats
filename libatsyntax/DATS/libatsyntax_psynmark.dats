@@ -1376,6 +1376,9 @@ case+ d0c0.d0ecl_node of
     // nothing
   end // end of [D0Cdatdecs]
 //
+| $SYN.D0Cextcode _ =>
+    psynmark_ins_begend (SMextcode, loc0, res)
+//
 | $SYN.D0Cdcstdecs
     (tok, qmas, decs) => let
     val isprf = dcstkind_is_proof (tok)
@@ -1397,9 +1400,6 @@ case+ d0c0.d0ecl_node of
   in
     // nothing
   end // end of [D0Cmacdefs]
-//
-| $SYN.D0Cextcode _ =>
-    psynmark_ins_begend (SMextcode, loc0, res)
 //
 | $SYN.D0Cfundecs
     (fk, qmas, decs) => let

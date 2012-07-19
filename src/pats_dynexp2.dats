@@ -606,14 +606,6 @@ d2exp_raise
   d2exp_make_node (loc, D2Eraise (d2e))
 
 implement
-d2exp_delay
-  (loc, knd, d2e) =
-  d2exp_make_node (loc, D2Edelay (knd, d2e))
-// end of [d2exp_delay]
-
-(* ****** ****** *)
-
-implement
 d2exp_effmask
   (loc, s2fe, d2e) =
   d2exp_make_node (loc, D2Eeffmask (s2fe, d2e))
@@ -692,9 +684,42 @@ d2exp_fix (
 (* ****** ****** *)
 
 implement
+d2exp_delay
+  (loc, d2e) =
+  d2exp_make_node (loc, D2Edelay (d2e))
+// end of [d2exp_delay]
+
+implement
+d2exp_ldelay
+  (loc, _eval, _free) =
+  d2exp_make_node (loc, D2Eldelay (_eval, _free))
+// end of [d2exp_ldelay]
+
+implement
+d2exp_ldelay_none
+  (loc, d2e) = d2exp_ldelay (loc, d2e, None)
+// end of [d2exp_ldelay_none]
+
+(* ****** ****** *)
+
+implement
 d2exp_trywith (
   loc, r2es, d2e, c2ls
 ) = d2exp_make_node (loc, D2Etrywith (r2es, d2e, c2ls))
+
+(* ****** ****** *)
+
+implement
+d2exp_mac
+  (loc, d2m) =
+  d2exp_make_node (loc, D2Emac (d2m))
+// end of [d2exp_mac]
+
+implement
+d2exp_macsyn
+  (loc, knd, d2e) =
+  d2exp_make_node (loc, D2Emacsyn (knd, d2e))
+// end of [d2exp_macsyn]
 
 (* ****** ****** *)
 

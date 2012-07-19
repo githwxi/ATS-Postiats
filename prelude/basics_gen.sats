@@ -43,6 +43,11 @@
 (* ****** ****** *)
 
 fun{a:vt0p}
+gfree_ref (x: &a >> a?):<!wrt> void
+
+(* ****** ****** *)
+
+fun{a:vt0p}
 gequal_val (x: !INV(a), y: !a):<> bool
 fun{a:vt0p}
 gequal_ref (x: &INV(a), y: &a):<> bool

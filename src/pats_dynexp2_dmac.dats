@@ -37,6 +37,11 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
+staload UT = "pats_utils.sats"
+staload _(*anon*) = "pats_utils.dats"
+
+(* ****** ****** *)
+
 staload
 STMP = "pats_stamp.sats"
 typedef stamp = $STMP.stamp
@@ -49,6 +54,7 @@ typedef symbolopt = $SYM.symbolopt
 
 (* ****** ****** *)
 
+staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
@@ -59,7 +65,7 @@ d2mac_struct = @{
 , d2mac_sym= symbol
 , d2mac_kind= int // short/long: 0/1
 , d2mac_narg= int // argument
-, d2mac_arglst= macarglst // argument
+, d2mac_arglst= m2acarglst // argument
 , d2mac_def= d2exp // definition
 , d2mac_stamp= stamp // uniqueness stamp
 } // end of [d2mac_struct]
@@ -137,6 +143,29 @@ d2mac_get_stamp (d2m) = let
 end // end of [d2mac_get_stamp]
 
 end // end of [local
+
+(* ****** ****** *)
+
+implement
+fprint_m2acarg
+  (out, x) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+//
+case+ x of
+| M2ACARGsta (s2vs) => (
+    prstr "M2ACARGsta("; fprint_s2varlst (out, s2vs); prstr ")"
+  ) // end of [M2ACARGsta]
+| M2ACARGdyn (d2vs) => (
+    prstr "M2ACARGdyn("; fprint_d2varlst (out, d2vs); prstr ")"
+  ) // end of [M2ACARGdyn]
+//
+end // end of [fprint_m2acarg]
+
+implement
+fprint_m2acarglst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_m2acarg)
+// end of [fprint_m2acarglst]
 
 (* ****** ****** *)
 

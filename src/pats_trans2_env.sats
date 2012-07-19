@@ -124,8 +124,14 @@ fun the_s2expenv_pervasive_joinwth (map: s2itmmap): void
 (* ****** ****** *)
 
 fun the_maclev_get (): int
-fun the_maclev_inc (): void
-fun the_maclev_dec (): void
+fun the_maclev_inc (loc: location): void
+fun the_maclev_dec (loc: location): void
+
+(* ****** ****** *)
+
+fun the_macdeflev_get (): int
+fun the_macdeflev_inc (): void
+fun the_macdeflev_dec (): void
 
 (* ****** ****** *)
 
@@ -150,6 +156,7 @@ fun the_d2expenv_add
 // end of [the_d2expenv_add]
 fun the_d2expenv_add_dcon (d2c: d2con): void
 fun the_d2expenv_add_dcst (d2c: d2cst): void
+fun the_d2expenv_add_dmac_def (d2m: d2mac): void
 fun the_d2expenv_add_dvar (d2v: d2var): void
 fun the_d2expenv_add_dvarlst (d2vs: d2varlst): void
 

@@ -19,13 +19,17 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 *)
 
 #atscode_separator()
+
+sortdef t0p = t@ype and vt0p = viewt@ype
+
+#atscode_separator()
 //
 // HX: [lazy_vt(VT)] :
 // suspended computation of a linear value of viewtype VT
 //
 absviewtype
 lazy_viewt0ype_viewtype
-  (viewt@ype+) // boxed linear type // unnamed
+  (a:viewt@ype+) // boxed linear type // unnamed
 stadef lazy_vt = lazy_viewt0ype_viewtype
 //
 (* ****** ****** *)
@@ -34,8 +38,91 @@ stadef lazy_vt = lazy_viewt0ype_viewtype
 //
 dataviewtype
 stream_vt_con (a:viewt@ype+) =
-  | stream_vt_nil (a) | stream_vt_cons (a) of (a, stream_vt a)
+  | stream_vt_cons (a) of (a, stream_vt a) | stream_vt_nil (a) of ()
 where stream_vt (a:viewt@ype) = lazy_vt (stream_vt_con a)
+//
+#atscode_separator()
+
+fun{a:vt0p}
+stream2list_vt
+  (xs: stream_vt (INV(a))): List0_vt (a)
+// end of [stream2list_vt]
+
+#atscode_separator()
+
+fun{a:vt0p}
+stream_vt_freelin__fwork
+  (x: &a >> a?):<!wrt> void
+fun{a:vt0p}
+stream_vt_freelin (xs: stream_vt a):<!wrt> void
+fun{a:t0p}
+stream_vt_free (xs: stream_vt a):<!wrt> void
+
+#atscode_separator()
+//
+fun{a:vt0p}
+stream_vt_filter__pred
+  (x: &a >> opt(a, b)): #[b:bool] bool (b)
+fun{a:t0p}
+stream_vt_filter (xs: stream_vt (INV(a))): stream_vt (a)
+fun{a:vt0p}
+stream_vt_filterlin (xs: stream_vt (INV(a))): stream_vt (a)
+//
+fun{a:t0p}
+stream_vt_filter_fun (
+  xs: stream_vt (INV(a)), pred: (&a) -<fun> bool
+) :<> stream_vt (a) // end of [stream_vt_filter_fun]
+fun{a:t0p}
+stream_vt_filter_cloptr (
+  xs: stream_vt (INV(a)), pred: (&a) -<cloptr> bool
+) :<> stream_vt (a) // end of [stream_vt_filter_cloptr]
+//
+#atscode_separator()
+//
+fun{
+a:vt0p}{b:vt0p
+} stream_vt_map__fwork (x: &a >> a?!): b
+fun{
+a:vt0p}{b:vt0p
+} stream_vt_map
+  (xs: stream_vt (INV(a))): stream_vt (b)
+//
+fun{
+a:vt0p}{b:vt0p
+} stream_vt_map_fun
+  (xs: stream_vt (INV(a)), f: (&a >> a?!) -<fun> b): stream_vt (b)
+fun{
+a:vt0p}{b:vt0p
+} stream_vt_map_cloptr
+  (xs: stream_vt (INV(a)), f: (&a >> a?!) -<cloptr> b): stream_vt (b)
+//
+#atscode_separator()
+//
+fun{
+a1,a2:vt0p}{b:vt0p
+} stream_vt_map2__fwork
+  (x1: &a1 >> a1?!, x2: &a2 >> a2?!): b
+fun{
+a1,a2:vt0p}{b:vt0p
+} stream_vt_map2 (
+  xs1: stream_vt (INV(a1))
+, xs2: stream_vt (INV(a2))
+) : stream_vt (b) // end of [stream_vt_map2]
+//
+fun{
+a1,a2:vt0p}{b:vt0p
+} stream_vt_map2_fun (
+  xs1: stream_vt (INV(a1))
+, xs2: stream_vt (INV(a2))
+, f: (&a1 >> a1?!, &a2 >> a2?!) -<fun> b
+) : stream_vt (b) // end of [stream_vt_map2_fun]
+fun{
+a1,a2:vt0p}{b:vt0p
+} stream_vt_map2_cloptr (
+  xs1: stream_vt (INV(a1))
+, xs2: stream_vt (INV(a2))
+, f: (&a1 >> a1?!, &a2 >> a2?!) -<cloptr> b
+) : stream_vt (b) // end of [stream_vt_map2_cloptr]
 //
 #atscode_separator()
 

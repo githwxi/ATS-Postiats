@@ -511,6 +511,25 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
+| D1Efor _ => {
+    val () = prstr "D1Efor("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| D1Ewhile _ => {
+    val () = prstr "D1Ewhile("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+//
+| D1Emacsyn (knd, d1e) => {
+    val () = prstr "D1Emacsyn("
+    val () = fprint_macsynkind (out, knd)
+    val () = prstr "; "
+    val () = fprint_d1exp (out, d1e)
+    val () = prstr ")"
+  }
+//
 | D1Eann_type (d1e, s1e) => {
     val () = prstr "D1Eann_type("
     val () = fprint_d1exp (out, d1e)

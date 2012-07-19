@@ -128,6 +128,9 @@ all_html::
 #make_entry("matrix")
 #make_entry("matrixptr")
 
+#make_entry("lazy")
+#make_entry("lazy_vt")
+
 #make_entry("iterator")
 
 ######

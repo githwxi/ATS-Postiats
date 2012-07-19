@@ -155,23 +155,19 @@ This function returns the length of a given linear list.
 #declnamesynop("list_vt_free")
 #decldescrpt('\
 This function frees the memory occupied by a given linear list.
-Note that the elements contained in the list are non-linear.
+Note that the elements contained in the list must be nonlinear.
+')
+#declnamesynop("list_vt_freelin")
+#decldescrpt('\
+This function frees the memory occupied by a given linear list.
+Note that the elements contained in the list are freed by calling the
+function #dyncode("list_vt_freelin__fwork").
 ')
 
-#declnamesynop("list_vt_free_fun")
-#decldescrpt('\
-This function frees the elements in a given linear list as well as
-the memory occupied by the list.
-')
+(* ****** ****** *)
 
 #declnamesynop("list_vt_clear__fwork")
 #declnamesynop("list_vt_clear")
-#declnamesynop("list_vt_cfree")
-#decldescrpt('\
-
-This function is a combination of #dyncode("list_vt_clear") and
-#dyncode("list_vt_free").  ')
-
 #declnamesynop("list_vt_clear_fun")
 #decldescrpt('\
 This function frees the elements in a given linear list (but keeps
@@ -193,6 +189,13 @@ There is no memory allocation/deallocation involved.
 (* ****** ****** *)
 
 #declnamesynop("list_vt_extend")
+#decldescrpt('\
+
+Given a list xs and an element x, this function extends xs with x at the
+end.  Note that the time-complexity of this is function is O(n), where n is
+the length of xs.  ')
+
+#declnamesynop("list_vt_snoc")
 
 (* ****** ****** *)
 

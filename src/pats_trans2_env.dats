@@ -573,7 +573,75 @@ end // end of [the_s2expenv_add_datcontyp]
 
 local
 
-val the_tmplev = ref_make_elt<int> (0)
+val the_maclev =
+  ref_make_elt<int> (1) // HX: the initial level is 1
+// end of [val]
+
+in // in of [local]
+
+implement
+the_maclev_get () = !the_maclev
+
+implement
+the_maclev_inc
+  (loc) = let
+  val lev = !the_maclev
+  val () = if lev > 0 then {
+    val () = prerr_error2_loc (loc)
+    val () = prerr ": the syntax `(...) is used incorrectly at this location.";
+    val () = prerr_newline ()
+  } // end of [if] // end of [val]
+in
+  !the_maclev := lev + 1
+end // end of [the_maclev_inc]
+
+implement
+the_maclev_dec
+  (loc) = let
+  val lev = !the_maclev
+  val () = if lev = 0 then {
+    val () = prerr_error2_loc (loc)
+    val () = prerr ": the syntax ,(...) or %(...) is used incorrectly at this location.";
+    val () = prerr_newline ()
+  } // end of [if] // end of [val]
+in
+  !the_maclev := lev - 1
+end // end of [the_maclev_dec]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+val the_macdeflev =
+  ref_make_elt<int> (0)
+// end of [val]
+
+in // in of [local]
+
+implement
+the_macdeflev_get () = !the_macdeflev
+
+implement
+the_macdeflev_inc () =
+  !the_macdeflev := !the_macdeflev + 1
+// end of [macdeflev_inc]
+
+implement
+the_macdeflev_dec () =
+  !the_macdeflev := !the_macdeflev - 1
+// end of [macdeflev_dec]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+val the_tmplev =
+  ref_make_elt<int> (0)
+// end of [val]
 
 in // in of [local]
 
@@ -878,6 +946,11 @@ implement
 the_d2expenv_add_dcst (d2c) = let
   val id = d2cst_get_sym (d2c) in the_d2expenv_add (id, D2ITMcst d2c)
 end // end of [the_d2expenv_add_dcst]
+
+implement
+the_d2expenv_add_dmac_def (d2m) = let
+  val id = d2mac_get_sym d2m in the_d2expenv_add (id, D2ITMmacdef d2m)
+end // end of [the_d2expenv_add_dmac_def]
 
 implement
 the_d2expenv_add_dvar (d2v) = let

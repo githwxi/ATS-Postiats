@@ -13,12 +13,12 @@
 ** the terms of the GNU LESSER GENERAL PUBLIC LICENSE as published by the
 ** Free Software Foundation; either version 2.1, or (at your option)  any
 ** later version.
-** 
+**
 ** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
 ** WARRANTY; without  even  the  implied  warranty  of MERCHANTABILITY or
 ** FITNESS FOR A PARTICULAR PURPOSE.  See the  GNU General Public License
 ** for more details.
-** 
+**
 ** You  should  have  received  a  copy of the GNU General Public License
 ** along  with  ATS;  see the  file COPYING.  If not, please write to the
 ** Free Software Foundation,  51 Franklin Street, Fifth Floor, Boston, MA
@@ -27,7 +27,7 @@
 
 (* ****** ****** *)
 //
-// Author of the file: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
+// Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
 // Start Time: July, 2012
 //
 (* ****** ****** *)
@@ -37,70 +37,43 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [basics_gen.sats] starts!\n"
+#print "Loading [lazy.dats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-fun{a:vt0p}
-gequal_val (x: !a, y: !a):<> bool
-fun{a:vt0p}
-gequal_ref (x: &a, y: &a):<> bool
+local
 
-(* ****** ****** *)
+fun{a:t0p}
+stream_filter_con
+  (xs: stream a): stream_con a = let
+in
+  case+ !xs of
+  | stream_cons (x, xs) => (
+      if stream_filter__pred (x) then
+        stream_cons (x, stream_filter<a> (xs))
+      else
+        stream_filter_con (xs)
+      // end of [if]
+    ) // end of [stream_cons]
+  | stream_nil () => stream_nil ()
+end // end of [stream_filter_con]
 
-fun{a:vt0p}
-glt_val (x: !a, y: !a):<> bool
-fun{a:vt0p}
-glte_val (x: !a, y: !a):<> bool
-fun{a:vt0p}
-ggt_val (x: !a, y: !a):<> bool
-fun{a:vt0p}
-ggte_val (x: !a, y: !a):<> bool
-fun{a:vt0p}
-geq_val (x: !a, y: !a):<> bool
-fun{a:vt0p}
-gneq_val (x: !a, y: !a):<> bool
-fun{a:vt0p}
-gcompare_val (x: !a, y: !a):<> int
+in // local]
 
-fun{a:vt0p}
-glt_ref (x: &a, y: &a):<> bool
-fun{a:vt0p}
-glte_ref (x: &a, y: &a):<> bool
-fun{a:vt0p}
-ggt_ref (x: &a, y: &a):<> bool
-fun{a:vt0p}
-ggte_ref (x: &a, y: &a):<> bool
-fun{a:vt0p}
-geq_ref (x: &a, y: &a):<> bool
-fun{a:vt0p}
-gneq_ref (x: &a, y: &a):<> bool
-fun{a:vt0p}
-gcompare_ref (x: &a, y: &a):<> int
+implement{a}
+stream_filter
+  (xs) = $delay (stream_filter_con<a> (xs))
+// end of [stream_filter]
 
-(* ****** ****** *)
-
-fun{a:vt0p}
-fprint_val (out: FILEref, x: !a): void
-fun{a:vt0p}
-print_val (x: !a): void // = fprint_val (stdout_ref, x)
-fun{a:vt0p}
-prerr_val (x: !a): void // = fprint_val (stderr_ref, x)
-
-fun{a:vt0p}
-fprint_ref (out: FILEref, x: &a): void
-fun{a:vt0p}
-print_ref (x: &a): void // = fprint_ref (stdout_ref, x)
-fun{a:vt0p}
-prerr_ref (x: &a): void // = fprint_ref (stderr_ref, x)
+end // end of [local]
 
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [basics_gen.sats] finishes!\n"
+#print "Loading [lazy.dats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-(* end of [basics_gen.sats] *)
+(* end of [lazy.dats] *)

@@ -19,6 +19,10 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 *)
 
 #atscode_separator()
+
+sortdef t0p = t@ype
+
+#atscode_separator()
 //
 // HX:
 // [lazy(T)] : suspended computation of a value of type T
@@ -33,9 +37,122 @@ stadef lazy = lazy_t0ype_type
 //
 datatype
 stream_con (a:t@ype+) =
-  | stream_nil (a) | stream_cons (a) of (a, stream a)
+  | stream_cons (a) of (a, stream a) | stream_nil (a) of ()
 where stream (a:t@ype) = lazy (stream_con a)
 //
+#atscode_separator()
+
+exception StreamSubscriptExn of ()
+
+#atscode_separator()
+
+fun{a:t0p}
+stream2list
+  (xs: stream (INV(a))): List0_vt (a)
+// end of [stream2list]
+
+#atscode_separator()
+
+fun{a:t0p}
+stream_nth_exn
+  (xs: stream (INV(a)), i: intGte(0)):<!exn> a
+// end of [stream_nth_exn]
+fun{a:t0p}
+stream_nth_opt
+  (xs: stream (INV(a)), i: intGte(0)):<> Option_vt (a)
+// end of [stream_nth_opt]
+
+#atscode_separator()
+
+fun{a:t0p}
+stream_take_exn {n:nat}
+  (xs: stream (INV(a)), n: int n):<> list_vt (a, n)
+// end of [stream_take_lte]
+
+#atscode_separator()
+
+fun{a:t0p}
+stream_drop_exn
+  (xs: stream (INV(a)), n: intGte(0)):<> stream (a)
+// end of [stream_drop_exn]
+
+#atscode_separator()
+
+fun{a:t0p}
+stream_filter__pred (x: a):<> bool
+fun{a:t0p}
+stream_filter (xs: stream (INV(a))):<> stream (a)
+fun{a:t0p}
+stream_filter_fun
+  (xs: stream (INV(a)), pred: (a) -<fun> bool):<> stream (a)
+// end of [stream_filter_fun]
+fun{a:t0p}
+stream_filter_cloref
+  (xs: stream (INV(a)), pred: (a) -<cloref> bool):<> stream (a)
+// end of [stream_filter_cloref]
+
+(* ****** ****** *)
+
+fun{
+a:t0p}{b:t0p
+} stream_map__fwork (x: a):<> b
+fun{
+a:t0p}{b:t0p
+} stream_map (xs: stream (INV(a))):<> stream (b)
+fun{
+a:t0p}{b:t0p
+} stream_map_fun
+  (xs: stream (INV(a)), f: (a) -<fun> b):<> stream (b)
+// end of [stream_map_fun]
+fun{
+a:t0p}{b:t0p
+} stream_map_cloref
+  (xs: stream (INV(a)), f: (a) -<cloref> b):<> stream (b)
+// end of [stream_map_cloref]
+
+#atscode_separator()
+
+fun{
+a1,a2:t0p}{b:t0p
+} stream_map2__fwork (x1: a1, x2: a2):<> b
+fun{
+a1,a2:t0p}{b:t0p
+} stream_map2
+  (xs1: stream (INV(a1)), xs2: stream (INV(a2))):<> stream (b)
+// end of [stream_map2]
+fun{
+a1,a2:t0p}{b:t0p
+} stream_map2_fun (
+  xs1: stream (INV(a1))
+, xs2: stream (INV(a2))
+, f: (a1, a2) -<fun> b
+) :<> stream (b)
+// end of [stream_map2_fun]
+fun{
+a1,a2:t0p}{b:t0p
+} stream_map2_cloref (
+  xs1: stream (INV(a1))
+, xs2: stream (INV(a2))
+, f: (a1, a2) -<cloref> b
+) :<> stream (b)
+// end of [stream_map2_cloref]
+
+#atscode_separator()
+
+fun{a:t0p}
+stream_merge__cmp (x1: a, x2: a):<> int
+fun{a:t0p}
+stream_merge
+  (xs1: stream (INV(a)), xs2: stream (a)):<> stream (a)
+fun{a:t0p}
+stream_merge_fun (
+  xs1: stream (INV(a)), xs2: stream (a), (a, a) -<fun> int
+) :<> stream (a) // end of [stream_merge_fun]
+fun{a:t0p}
+stream_merge_cloref (
+  xs1: stream (INV(a)), xs2: stream (a), (a, a) -<cloref> int
+) :<> stream (a) // end of [stream_merge_cloref]
+
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

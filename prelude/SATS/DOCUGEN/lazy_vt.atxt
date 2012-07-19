@@ -1,0 +1,58 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/prelude_lazy_vt")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/prelude/lazy_vt\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("lazy_vt")
+
+(* ****** ****** *)
+
+#declnamesynop("stream2list_vt")
+
+(* ****** ****** *)
+
+#declnamesynop("stream_vt_free")
+#declnamesynop("stream_vt_freelin__fwork")
+#declnamesynop("stream_vt_freelin")
+
+(* ****** ****** *)
+
+#declnamesynop("stream_vt_filter__pred")
+#declnamesynop("stream_vt_filter")
+#declnamesynop("stream_vt_filter_fun")
+#declnamesynop("stream_vt_filter_cloptr")
+#declnamesynop("stream_vt_filterlin")
+
+(* ****** ****** *)
+
+#declnamesynop("stream_vt_map__fwork")
+#declnamesynop("stream_vt_map")
+#declnamesynop("stream_vt_map_fun")
+#declnamesynop("stream_vt_map_cloptr")
+
+(* ****** ****** *)
+
+#declnamesynop("stream_vt_map2__fwork")
+#declnamesynop("stream_vt_map2")
+#declnamesynop("stream_vt_map2_fun")
+#declnamesynop("stream_vt_map2_cloptr")
+
+(* ****** ****** *)
+
+(* end of [lazy_vt.atxt] *)

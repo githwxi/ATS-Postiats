@@ -103,6 +103,8 @@ datatype trans3err =
   | T3E_d3exp_foldat of (location, d3exp)
   | T3E_d3exp_freeat of (location, d3exp)
 //
+  | T3E_d3exp_delay of (location, d3exp)
+//
   | T3E_s2exp_selab_tyrec of (location, s2exp)
   | T3E_s2exp_selab_labnot of (location, s2exp, label) // label is not found
   | T3E_s2exp_selab_tyarr of (location, s2exp)

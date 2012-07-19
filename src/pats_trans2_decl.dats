@@ -1155,6 +1155,139 @@ fun d1cstdeclst_tr (
 
 (* ****** ****** *)
 
+local
+
+fun trans2_env_add_m2acarg
+  (x: m2acarg): void = let
+in
+  case+ x of
+  | M2ACARGsta (s2vs) => the_s2expenv_add_svarlst (s2vs)
+  | M2ACARGdyn (d2vs) => the_d2expenv_add_dvarlst (d2vs)
+end // end of [trans2_env_add_m2acarg]
+fun trans2_env_add_m2acarglst
+  (xs: m2acarglst): void = list_app_fun (xs, trans2_env_add_m2acarg)
+// end of [trans2_env_add_m2acarglst]
+
+in // in of [local]
+
+fn m1acdef_tr (
+  knd: int, d2m: d2mac, d1c: m1acdef
+) : void = let
+//
+val loc = d1c.m1acdef_loc
+and sym = d1c.m1acdef_sym
+val (pfenv | ()) = the_trans2_env_push ()
+val arglst = d2mac_get_arglst (d2m)
+//
+// (*
+val out = stdout_ref
+val () = fprintf
+  (out, "m1acdef_tr: knd = %i\n", @(knd))
+val () =
+  fprint_string (out, "m1acdef_tr: arglst =\n")
+val () = fprint_m2acarglst (out, arglst)
+val () = fprint_newline (out)
+// *)
+//
+val () = trans2_env_add_m2acarglst (arglst)
+val () = the_macdeflev_inc ()
+val () = if knd >= 1 then the_maclev_dec (loc)
+val def = d1exp_tr (d1c.m1acdef_def)
+val () = if knd >= 1 then the_maclev_inc (loc)
+val () = the_macdeflev_dec ()
+val () = the_trans2_env_pop (pfenv | (*none*))
+val () = d2mac_set_def (d2m, def)
+//
+in
+  // empty
+end // end of [m1acdef_tr]
+
+end // end of [local]
+
+local
+
+typedef m0acarg = $SYN.m0acarg
+
+fun m0acarg_tr
+  (x: m0acarg): m2acarg = (
+  case+ x.m0acarg_node of
+  | $SYN.M0ACARGsta (ids) => let
+      fun f (x: i0de): s2var = let
+        val s2t = s2rt_err () in s2var_make_id_srt (x.i0de_sym, s2t)
+      end // end of [f]
+      val s2vs = list_map_fun (ids, f)
+      val s2vs = list_of_list_vt (s2vs)
+    in
+      M2ACARGsta (s2vs)
+    end
+  | $SYN.M0ACARGdyn (ids) => let
+      fun f (x: i0de): d2var = let
+        val s2t = s2rt_err () in d2var_make (x.i0de_loc, x.i0de_sym)
+      end // end of [f]
+      val d2vs = list_map_fun (ids, f)
+      val d2vs = list_of_list_vt (d2vs)
+    in
+      M2ACARGdyn (d2vs)
+    end
+) // end of [m0acarg_tr]
+
+in // in of [m0acarg_tr]
+
+fun m1acdeflst_tr (
+  knd: int, d1cs: m1acdeflst
+) : void = let
+//
+// knd: 0/1/2 => short/long/longrec
+//
+fun aux1 (
+  knd: int, d1cs: m1acdeflst
+) : d2maclst = let
+in
+//
+case+ d1cs of
+| list_cons (d1c, d1cs) => let
+    val args = d1c.m1acdef_arg
+    val args = list_map_fun (args, m0acarg_tr)
+    val args = list_of_list_vt (args)
+    val def = d2exp_empty ($LOC.location_dummy)
+    val d2m = d2mac_make (
+      d1c.m1acdef_loc, d1c.m1acdef_sym, knd, args, def
+    ) // end of [d2mac_make]
+    val () = if knd >= 2 then the_d2expenv_add_dmac_def (d2m)
+    val d2ms = aux1 (knd, d1cs)
+  in
+    list_cons (d2m, d2ms)
+  end // end of [aux1]
+| list_nil () => list_nil ()
+//
+end // end of [aux1]
+val d2ms = aux1 (knd, d1cs)
+//
+fun loop2 (
+  d2ms: d2maclst, d1cs: m1acdeflst
+) : void = let
+in
+  case+ d2ms of
+  | list_cons (d2m, d2ms) => let
+      val- list_cons (d1c, d1cs) = d1cs
+      val knd = d2mac_get_kind (d2m)
+      val d2c = m1acdef_tr (knd, d2m, d1c)
+      val () = if knd <= 1 then the_d2expenv_add_dmac_def (d2m)
+    in
+      loop2 (d2ms, d1cs)
+    end // end of [list_cons]
+  | list_nil () => ()
+end // end of [loop2]
+val () = loop2 (d2ms, d1cs)
+//
+in
+  // nothing
+end // end of [m1acdeflst_tr]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 fn v1aldec_tr (
   d1c: v1aldec, p2t: p2at
 ) : v2aldec = let
@@ -1523,6 +1656,15 @@ case+ d1c0.d1ecl_node of
     d2ecl_dcstdec (loc0, dck, d2cs)
   end // end of [D1Cdcstdecs]
 //
+| D1Cmacdefs (
+    knd, isrec, d1cs
+  ) => let
+    val knd = (
+      if isrec then (if knd = 0 then 0 else 2) else knd
+    ) : int // end of [val]
+    val () = m1acdeflst_tr (knd, d1cs) in d2ecl_none (loc0)
+  end // end of [D1Cmacdefs]
+//
 | D1Cvaldecs (
     knd, isrec, d1cs
   ) => let
@@ -1593,7 +1735,7 @@ case+ d1c0.d1ecl_node of
     d2ecl_local (loc0, d2cs_head, d2cs_body)
   end // end of [D1Clocal]
 //
-// (*
+(*
 | _ => let
     val () = prerr_error2_loc (loc0)
     val () = prerr ": d1ecl_tr: not implemented: d1c0 = "
@@ -1602,7 +1744,7 @@ case+ d1c0.d1ecl_node of
   in
     d2ecl_none (loc0)
   end // end of [_]
-// *)
+*)
 //
 end // end of [d1ecl_tr]
 

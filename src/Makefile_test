@@ -49,8 +49,20 @@ prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/memory.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/pointer.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/reference.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/string.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/unsafe.dats
 
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/basics.dats
+
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/list.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/list_vt.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/option.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/option_vt.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/array.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/array_prf.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/arrayptr.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/arrayref.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/lazy.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/lazy_vt.dats
 
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/iterator.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/iterator_flist.dats
@@ -58,17 +70,6 @@ prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/iterator_array.dats
 
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/fcontainer.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/fcontainer_foreach.dats
-
-prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/array.dats
-prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/array_prf.dats
-prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/arrayptr.dats
-prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/arrayref.dats
-prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/list.dats
-prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/list_vt.dats
-prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/option.dats
-prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/option_vt.dats
-
-prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/unsafe.dats
 
 ######
 

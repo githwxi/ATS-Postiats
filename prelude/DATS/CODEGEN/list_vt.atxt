@@ -199,48 +199,51 @@ list_vt_remove_at
 #atscode_separator()
 
 implement{a}
-list_vt_free (xs) = let
-//
-prval () = lemma_list_vt_param (xs)
-//
-fun loop
-  {n:nat} .<n>.
-  (xs: list_vt (a, n)):<!wrt> void =
-  case+ xs of
-  | ~list_vt_cons (_, xs) => loop (xs) | ~list_vt_nil () => ()
-// end of [loop]
-//
-in
-  loop (xs)
-end // end of [list_vt_free]
+list_vt_freelin__fwork (x) = gfree_ref (x)
 
 implement{a}
-list_vt_free_fun
-  {fe} (xs, f) = let
+list_vt_freelin (xs) = let
 //
 prval () = lemma_list_vt_param (xs)
 //
 fun loop
   {n:nat} .<n>. (
-  xs: list_vt (a, n), f: (&a>>a?) -<fe> void
-) :<fe> void =
+  xs: list_vt (a, n)
+) :<!wrt> void =
   case+ xs of
   | @list_vt_cons
       (x, xs1) => let
-      val () = f (x)
-      val xs1_ = xs1
-      val () = free@ {a?}{0} (xs)
+      val () =
+        list_vt_freelin__fwork<a> (x)
+      val xs1 = xs1
+      val () = free@ {a}{0} (xs)
     in
-      loop (xs1_, f)
+      loop (xs1)
     end // end of [list_vt_cons]
   | ~list_vt_nil () => ()
 // end of [loop]
 //
 in
-  loop (xs, f)
-end // end of [list_vt_free_fun]
+  loop (xs)
+end // end of [list_vt_freelin]
+
+implement{a}
+list_vt_free (xs) = let
+//
+implement
+list_vt_freelin__fwork<a>
+  (x) = let
+  prval () = topize (x) in (*void*)
+end // end of [list_vt_freelin__fwork]
+//
+in
+  list_vt_freelin (xs)
+end // end of [list_vt_free]
 
 #atscode_separator()
+
+implement{a}
+list_vt_clear__fwork (x) = gfree_ref (x)
 
 implement{a}
 list_vt_clear
@@ -251,11 +254,12 @@ prval () = lemma_list_vt_param (xs)
 fun loop
   {n:nat} .<n>. (
   xs: !list_vt (a, n) >> list_vt (a?, n)
-) : void =
+) :<!wrt> void =
   case+ xs of
   | @list_vt_cons
       (x, xs1) => let
-      val () = list_vt_clear__fwork (x)
+      val () =
+        list_vt_clear__fwork (x)
       val () = loop (xs1)
       prval () = fold@ {a?} (xs)
     in
@@ -267,31 +271,6 @@ fun loop
 in
   loop (xs)
 end // end of [list_vt_clear]
-
-implement{a}
-list_vt_cfree
-  (xs) = let
-//
-prval () = lemma_list_vt_param (xs)
-//
-fun loop
-  {n:nat} .<n>.
-  (xs: list_vt (a, n)): void =
-  case+ xs of
-  | @list_vt_cons
-      (x, xs1) => let
-      val () = list_vt_clear__fwork (x)
-      val xs1 = xs1
-      prval () = free@ {..}{0} (xs)
-    in
-      loop (xs1)
-    end // end of [list_vt_cons]
-  | ~list_vt_nil () => ()
-// end of [loop]
-//
-in
-  loop (xs)
-end // end of [list_vt_cfree]
 
 #atscode_separator()
 
@@ -535,25 +514,37 @@ end // end of [list_vt_iforeach_env]
 implement{a}
 list_vt_filter (xs) = let
 //
+implement
+list_vt_freelin__fwork<a>
+  (x) = let
+  prval () = topize (x) in (*void*)
+end // end of [list_vt_freelin__fwork]
+//
+in
+  list_vt_filterlin<a> (xs)
+end // end of [list_vt_filter]
+
+implement{a}
+list_vt_filterlin (xs) = let
+//
 prval () = lemma_list_vt_param (xs)
 //
 fun loop
   {n:nat} .<n>. (
   xs: &list_vt (a, n) >> listLte_vt (a, n)
-) : void = let
+) :<!wrt> void = let
 in
   case+ xs of
   | @list_vt_cons (x, xs1) => let
-      val test = list_vt_filter__pred (x)
+      val test = list_vt_filter__pred<a> (x)
     in
       if test then let
-        prval () = opt_unsome (x)
         val () = loop (xs1)
       in
         fold@ (xs)
       end else let
-        prval () = opt_unnone (x)
         val xs1 = xs1
+        val () = list_vt_freelin__fwork<a> (x)
         val () = free@ {..}{0} (xs)
         val () = xs := xs1
       in

@@ -111,6 +111,39 @@ fn dynspecid_of_dqid
 
 (* ****** ****** *)
 
+fn macdef_check (
+  loc0: location, d2m: d2mac, dq: d0ynq, id: symbol
+) : void = let
+  val lev = the_maclev_get ()
+  val knd = d2mac_get_kind (d2m)
+in
+//
+if lev > 0 then (
+  if knd >= 1 then let
+    val () = prerr_error2_loc (loc0)
+    val () = prerr ": the identifier ["
+    val () = prerr_dqid (dq, id)
+    val () = prerr "] refers to a macdef in long form but one in short form is expected."
+    val () = prerr_newline ()
+  in
+    the_trans2errlst_add (T2E_macdef_check (loc0, d2m))
+  end else () // end of [if]
+) else ( // lev = 0
+  if knd = 0 then let //
+    val () = prerr_error2_loc (loc0)
+    val () = prerr ": the identifier ["
+    val () = prerr_dqid (dq, id)
+    val () = prerr "] refers to a macdef in short form but one in long form is expected."
+    val () = prerr_newline ()
+  in
+    the_trans2errlst_add (T2E_macdef_check (loc0, d2m))    
+  end else () // end of [if]
+) (* end of [if] *)
+//
+end (* end of [macdef_check] *)
+
+(* ****** ****** *)
+
 fn d1exp_tr_dqid (
   d1e0: d1exp, dq: d0ynq, id: symbol
 ) : d2exp = let
@@ -150,6 +183,23 @@ case+ ans of
       val d1e = d1exp_make_e1xp (loc0, e1xp) in d1exp_tr (d1e)
     end // end of [D2ITMe1xp]
   | D2ITMvar d2v => d2exp_var (loc0, d2v)
+(*
+  | D2ITMmacdef d2m => let
+      val () = macdef_check (loc0, d2m, dq, id)
+    in
+      d2exp_mac (loc0, d2m)
+    end // end of [D2ITEMmacdef]
+  | D2ITEMmacvar d2v => let
+      val () = macvar_check (loc0, d2v, dq, id)
+    in
+      d2exp_var (loc0, d2v)
+    end // end of [D2ITEMmacvar]
+*)
+  | D2ITMsymdef (sym, d2pis) => let
+      val d2s = d2sym_make (loc0, dq, id, d2pis)
+    in
+      d2exp_sym (loc0, d2s)
+    end // end of [D2ITEMsymdef]
   | _ => let
 (*
       val () = (
@@ -428,14 +478,29 @@ case+ d2i of
     val d2s =
       d2sym_make (loc, dq, id, d2pis)
     // end of [val]
-    val d2e_fun =
-      d2exp_sym (loc, d2s)
-    // end of [val]
+    val d2e_fun = d2exp_sym (loc, d2s)
     val sarg = s1exparglst_tr (sarg)
     val darg = d1explst_tr (darg)
   in
     d2exp_app_sta_dyn (d1e0.d1exp_loc, d1e1.d1exp_loc, d2e_fun, sarg, locarg, npf, darg)
   end // end of [D2ITMsymdef]
+| D2ITMmacdef (d2m) => let
+    val loc = d1e2.d1exp_loc
+    val () = macdef_check (loc, d2m, dq, id)
+    val d2e_fun = d2exp_mac (loc, d2m)
+    val sarg = s1exparglst_tr (sarg)
+    val darg = d1explst_tr (darg)
+  in
+    d2exp_app_sta_dyn (d1e0.d1exp_loc, d1e1.d1exp_loc, d2e_fun, sarg, locarg, npf, darg)    
+  end // end of [D2ITEMmacdef]
+(*
+| D2ITMmacvar (d2v) => let
+    val loc = d1e2.d1exp_loc
+    val () = macvar_check (loc, d2v, dq, id)
+  in
+    d2exp_var (loc0, d2v)
+  end // end of [D2ITEMmacvar]
+*)
 | _ => let
     val () = prerr_error2_loc (d1e2.d1exp_loc)
     val () = filprerr_ifdebug "d1exp_tr_app_sta_dyn_dqid_itm"
@@ -512,6 +577,55 @@ end // end of [d1exp_tr_app_sta_dyn]
 
 (* ****** ****** *)
 
+extern
+fun d1exp_tr_macsyn (d1e0: d1exp): d2exp
+//
+implement
+d1exp_tr_macsyn (d1e0) = let
+//
+val loc0 = d1e0.d1exp_loc
+val- D1Emacsyn (knd, d1e) = d1e0.d1exp_node
+(*
+val () = {
+  val () = print ("d1exp_tr_macsyn: knd = ")
+  val () = $SYN.fprint_macsynkind (stdout_ref, knd)
+  val () = print_newline ()
+  val () = println! ("d1exp_tr_macsyn: d1e = ", d1e)
+} (* end of [val] *)
+*)
+//
+macdef inc () = the_maclev_inc (loc0)
+macdef dec () = the_maclev_dec (loc0)
+//
+in
+//
+case+ knd of
+| $SYN.MSKxstage () => let
+    val () = dec ()
+    val d2e = d1exp_tr (d1e)
+    val () = inc ()
+  in
+    d2exp_macsyn (loc0, knd, d2e)
+  end // end of [MSKcross]
+| $SYN.MSKdecode () => let
+    val () = dec ()
+    val d2e = d1exp_tr (d1e)
+    val () = inc ()
+  in
+    d2exp_macsyn (loc0, knd, d2e)
+  end // end of [MSKdecode]
+| $SYN.MSKencode () => let
+    val () = inc ()
+    val d2e = d1exp_tr (d1e)
+    val () = dec ()
+  in
+    d2exp_macsyn (loc0, knd, d2e)
+  end // end of [MSKencode]
+//
+end // end of [d1exp_tr_macsyn]
+
+(* ****** ****** *)
+
 fn d2sym_lrbrackets
   (d1e0: d1exp): d2sym = let
   val loc0 = d1e0.d1exp_loc
@@ -585,7 +699,7 @@ case+ d1e0.d1exp_node of
   in
     d2exp_err (loc0)
   end // end of [_]
-end (* end of [d1exp_wths1explst_tr] *)
+end (* end of [d1exp_tr_wths1explst] *)
 
 fn d1exp_tr_arg_body (
   p1t_arg: p1at, d1e_body: d1exp
@@ -620,6 +734,47 @@ fn d1exp_tr_arg_body (
 in
   @(npf, p2ts_arg, d2e_body)
 end // end of [d1exp_tr_arg_body]
+
+(* ****** ****** *)
+
+fn d1exp_tr_delay
+  (d1e0: d1exp): d2exp = let
+//
+#define nil list_nil
+#define cons list_cons
+#define :: list_cons
+//
+val loc0 = d1e0.d1exp_loc
+val- D1Edelay (lin, d1e) = d1e0.d1exp_node
+//
+in
+//
+case+ 0 of
+| _ when lin = 0 => (
+    d2exp_delay (loc0, d1exp_tr (d1e))
+  ) // end of [_ when lin = 0]
+| _ => ( // $ldelay: lin = 1
+  case+ d1e.d1exp_node of
+  | D1Elist (
+      _(*npf*), d1es
+    ) => (
+    case+ d1es of
+    | cons (
+        d1e1, cons (d1e2, d1es)
+      ) => let
+        val d2e1 = d1exp_tr d1e1
+        and d2e2 = d1exp_tr d1e2
+      in
+        d2exp_ldelay (loc0, d2e1, Some (d2e2))
+      end // cons (_, cons (_, nil))
+    | _ => (
+        d2exp_ldelay_none (loc0, d1exp_tr (d1e))
+      ) // end of [_]
+    ) // end of [D1Elist]
+  | _ => d2exp_ldelay_none (loc0, d1exp_tr (d1e))
+  ) // end of [_]
+//
+end // end of [d1exp_tr_delay]
 
 (* ****** ****** *)
 
@@ -1197,7 +1352,6 @@ case+ d1e0.d1exp_node of
   end // end of [D1Earrpsz]
 //
 | D1Eraise (d1e) => d2exp_raise (loc0, d1exp_tr d1e)
-| D1Edelay (knd, d1e) => d2exp_delay (loc0, knd, d1exp_tr d1e)
 //
 | D1Eeffmask (efc, d1e) => let
     val s2fe = effcst_tr (efc); val d2e = d1exp_tr (d1e)
@@ -1273,6 +1427,8 @@ case+ d1e0.d1exp_node of
     d2exp_lam_sta (loc0, s2q.s2qua_svs, s2q.s2qua_sps, d2e)
   end // end of [D1Elam_sta_syn]
 //
+| D1Edelay _ => d1exp_tr_delay (d1e0)
+//
 | D1Etrywith
     (r1es, d1e, c1ls) => let
     val r2es = i1nvresstate_tr (r1es)
@@ -1281,6 +1437,8 @@ case+ d1e0.d1exp_node of
   in
     d2exp_trywith (loc0, r2es, d2e, c2ls)
   end // end of [D1Etrywith]
+//
+| D1Emacsyn _ => d1exp_tr_macsyn (d1e0)
 //
 | D1Eann_type (d1e, s1e) => let
     val d2e = d1exp_tr d1e

@@ -491,8 +491,8 @@ end // end of [p_extnamopt]
 (*
 m0acarg ::=
   | pi0de
-  | LPAREN pi0deseq RPAREN
   | LBRACE si0deseq RBRACE
+  | LPAREN pi0deseq RPAREN
 *)
 
 implement
@@ -505,11 +505,11 @@ p_m0acarg
 in
 //
 case+ tok.token_node of
-| T_LPAREN () => let
+| T_LBRACE () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = pstar_fun0_COMMA {i0de} (buf, bt, p_si0de)
-    val ent3 = p_RPAREN (buf, bt, err)
+    val ent2 = pstar_fun0_COMMA {i0de} (buf, bt, p_pi0de)
+    val ent3 = p_RBRACE (buf, bt, err)
   in
     if err = err0 then
       m0acarg_sta (tok, (l2l)ent2, ent3)
@@ -517,11 +517,11 @@ case+ tok.token_node of
       val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
     end (* end of [if] *)
   end
-| T_LBRACE () => let
+| T_LPAREN () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = pstar_fun0_COMMA {i0de} (buf, bt, p_pi0de)
-    val ent3 = p_RBRACE (buf, bt, err)
+    val ent2 = pstar_fun0_COMMA {i0de} (buf, bt, p_si0de)
+    val ent3 = p_RPAREN (buf, bt, err)
   in
     if err = err0 then
       m0acarg_dyn (tok, (l2l)ent2, ent3)
