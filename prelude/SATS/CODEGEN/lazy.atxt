@@ -84,7 +84,7 @@ fun{a:t0p}
 stream_filter (xs: stream (INV(a))):<> stream (a)
 fun{a:t0p}
 stream_filter_fun
-  (xs: stream (INV(a)), pred: (a) -<fun> bool):<> stream (a)
+  (xs: stream (INV(a)), pred: (a) -<> bool):<> stream (a)
 // end of [stream_filter_fun]
 fun{a:t0p}
 stream_filter_cloref

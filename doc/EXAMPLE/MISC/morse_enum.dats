@@ -31,8 +31,6 @@ typedef sstring = stream string
 fun morse
   (n: Nat):<!laz> sstring = let
 //
-  fn constconst
-    (x: string, y: string):<> int = 0
   fn add_dot  (str: string):<> string = "." + str
   fn add_dash (str: string):<> string = "-" + str
 //
@@ -44,7 +42,7 @@ fun morse
         val add_dots   = stream_map_fun( morse( n-1 ), add_dot )
         val add_dashes = stream_map_fun( morse( n-2 ), add_dash )
       in
-        stream_merge_fun( add_dots, add_dashes, constconst )
+        stream_merge_fun( add_dots, add_dashes, lam (_, _) => 0 )
       end // end of [n]
   ) // end of [go]
 in
