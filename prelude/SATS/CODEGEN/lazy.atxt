@@ -66,14 +66,14 @@ stream_nth_opt
 
 fun{a:t0p}
 stream_take_exn {n:nat}
-  (xs: stream (INV(a)), n: int n):<> list_vt (a, n)
+  (xs: stream (INV(a)), n: int n):<!exn> list_vt (a, n)
 // end of [stream_take_lte]
 
 #atscode_separator()
 
 fun{a:t0p}
 stream_drop_exn
-  (xs: stream (INV(a)), n: intGte(0)):<> stream (a)
+  (xs: stream (INV(a)), n: intGte(0)):<!exn> stream (a)
 // end of [stream_drop_exn]
 
 #atscode_separator()
