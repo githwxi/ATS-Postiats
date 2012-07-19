@@ -1045,7 +1045,9 @@ fun s2eff_add (s2fe1: s2eff, s2fe2: s2eff): s2eff
 fun fprint_s2eff
   : fprint_type (s2eff)
 fun print_s2eff (s2fe: s2eff): void
+overload print with print_s2eff
 fun prerr_s2eff (s2fe: s2eff): void
+overload prerr with prerr_s2eff
 
 (* ****** ****** *)
 

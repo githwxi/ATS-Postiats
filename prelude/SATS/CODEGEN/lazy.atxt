@@ -48,32 +48,32 @@ exception StreamSubscriptExn of ()
 
 fun{a:t0p}
 stream2list
-  (xs: stream (INV(a))): List0_vt (a)
+  (xs: stream (INV(a))):<!laz> List0_vt (a)
 // end of [stream2list]
 
 #atscode_separator()
 
 fun{a:t0p}
 stream_nth_exn
-  (xs: stream (INV(a)), i: intGte(0)):<!exn> a
+  (xs: stream (INV(a)), i: intGte(0)):<!laz> a
 // end of [stream_nth_exn]
 fun{a:t0p}
 stream_nth_opt
-  (xs: stream (INV(a)), i: intGte(0)):<> Option_vt (a)
+  (xs: stream (INV(a)), i: intGte(0)):<!laz> Option_vt (a)
 // end of [stream_nth_opt]
 
 #atscode_separator()
 
 fun{a:t0p}
 stream_take_exn {n:nat}
-  (xs: stream (INV(a)), n: int n):<!exn> list_vt (a, n)
+  (xs: stream (INV(a)), n: int n):<!laz> list_vt (a, n)
 // end of [stream_take_lte]
 
 #atscode_separator()
 
 fun{a:t0p}
 stream_drop_exn
-  (xs: stream (INV(a)), n: intGte(0)):<!exn> stream (a)
+  (xs: stream (INV(a)), n: intGte(0)):<!laz> stream (a)
 // end of [stream_drop_exn]
 
 #atscode_separator()
@@ -95,26 +95,26 @@ stream_filter_cloref
 
 fun{
 a:t0p}{b:t0p
-} stream_map__fwork (x: a):<> b
+} stream_map__fwork (x: a):<!laz> b
 fun{
 a:t0p}{b:t0p
 } stream_map (xs: stream (INV(a))):<> stream (b)
 fun{
 a:t0p}{b:t0p
 } stream_map_fun
-  (xs: stream (INV(a)), f: (a) -<fun> b):<> stream (b)
+  (xs: stream (INV(a)), f: (a) -<fun,!laz> b):<> stream (b)
 // end of [stream_map_fun]
 fun{
 a:t0p}{b:t0p
 } stream_map_cloref
-  (xs: stream (INV(a)), f: (a) -<cloref> b):<> stream (b)
+  (xs: stream (INV(a)), f: (a) -<cloref,!laz> b):<> stream (b)
 // end of [stream_map_cloref]
 
 #atscode_separator()
 
 fun{
 a1,a2:t0p}{b:t0p
-} stream_map2__fwork (x1: a1, x2: a2):<> b
+} stream_map2__fwork (x1: a1, x2: a2):<!laz> b
 fun{
 a1,a2:t0p}{b:t0p
 } stream_map2
@@ -125,7 +125,7 @@ a1,a2:t0p}{b:t0p
 } stream_map2_fun (
   xs1: stream (INV(a1))
 , xs2: stream (INV(a2))
-, f: (a1, a2) -<fun> b
+, f: (a1, a2) -<fun,!laz> b
 ) :<> stream (b)
 // end of [stream_map2_fun]
 fun{
@@ -133,7 +133,7 @@ a1,a2:t0p}{b:t0p
 } stream_map2_cloref (
   xs1: stream (INV(a1))
 , xs2: stream (INV(a2))
-, f: (a1, a2) -<cloref> b
+, f: (a1, a2) -<cloref,!laz> b
 ) :<> stream (b)
 // end of [stream_map2_cloref]
 

@@ -205,10 +205,17 @@ a:vt0p}{env:vt0p
 
 fun{
 a:vt0p
+} list_vt_foreach_fun
+  {fe:eff} (
+  xs: !List_vt (INV(a)), f: (&a) -<fe> void
+) :<fe> void // end of [list_vt_foreach_fun]
+
+fun{
+a:vt0p
 } list_vt_foreach_funenv
-  {v:view}{vt:viewtype}{n:int}{fe:eff} (
+  {v:view}{vt:viewtype}{fe:eff} (
   pfv: !v
-| xs: !list_vt (INV(a), n), f: (!v | &a, !vt) -<fe> void, env: !vt
+| xs: !List_vt (INV(a)), f: (!v | &a, !vt) -<fe> void, env: !vt
 ) :<fe> void // end of [list_vt_foreach_funenv]
 
 #atscode_separator()

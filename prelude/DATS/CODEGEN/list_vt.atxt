@@ -452,9 +452,35 @@ in
   loop (xs, env)
 end // end of [list_vt_foreach_env]
 
+#atscode_separator()
+
+implement{a}
+list_vt_foreach_fun
+  {fe} (xs, f) = let
+//
+prval () = lemma_list_vt_param (xs)
+//
+fun loop
+  {n:nat} .<n>. (
+  xs: !list_vt (a, n), f: (&a) -<fe> void
+) :<fe> void =
+  case+ xs of
+  | @list_vt_cons
+      (x, xs1) => let
+      val () = f (x)
+      val () = loop (xs1, f)
+    in
+      fold@ (xs)
+    end // end of [list_vt_cons]
+  | list_vt_nil () => ()
+// end of [loop]
+in
+  loop (xs, f)
+end // end of [list_vt_foreach_fun]
+
 implement{a}
 list_vt_foreach_funenv
-  {v}{vt}{n}{fe}
+  {v}{vt}{fe}
   (pf | xs, f, env) = let
 //
 prval () = lemma_list_vt_param (xs)

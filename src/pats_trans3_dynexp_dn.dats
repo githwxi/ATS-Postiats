@@ -267,6 +267,11 @@ d2exp_trdn_lam_dyn
 val loc0 = d2e0.d2exp_loc
 val s2e0 = s2hnf2exp (s2f0)
 //
+(*
+val () = println! ("d2exp_trdn_lam_dyn: d2e0 = ", d2e0)
+val () = println! ("d2exp_trdn_lam_dyn: s2e0 = ", s2e0)
+*)
+//
 in
 //
 case+ s2e0.s2exp_node of
@@ -316,18 +321,22 @@ case+ s2e0.s2exp_node of
     var err: int = 0
     var opt: s2effopt_vt
     val d2e_body = d2exp_s2effopt_of_d2exp (d2e_body, opt)
-    val () = (case+ opt of
-      | ~Some_vt s2fe =>
-          $SOL.s2eff_subeq_solve_err (loc0, s2fe, s2fe1, err)
-      | ~None_vt () => ()
-    ) : void // end of [val]
+    val s2fe = (
+      case+ opt of
+      | ~Some_vt s2fe => let
+          val () = $SOL.s2eff_subeq_solve_err (loc0, s2fe, s2fe1, err)
+        in
+          s2fe
+        end // end of [Some_vt]
+      | ~None_vt () => s2fe1
+    ) : s2eff // end of [val]
     val () = if err != 0 then let
       val () = prerr_the_staerrlst ()
     in
       the_trans3errlst_add (T3E_d2exp_trdn_lam_dyn (d2e0, s2e0))
     end // end of [if] // end of [val]
 //
-    val (pfeff | ()) = the_effenv_push_lam (s2fe1)
+    val (pfeff | ()) = the_effenv_push_lam (s2fe)
 //
     var serr: int = 0
     val p3ts_arg =
