@@ -814,9 +814,9 @@ list_iforeach_env
 prval () = lemma_list_param (xs)
 //
 fun loop
-  {n:nat} .<n>. (
-  i: int, xs: list (x, n), env: &env
-) : void =
+  {n:nat}{i:int} .<n>. (
+  i: int i, xs: list (x, n), env: &env
+) : intBtwe(i,n+i) =
   case+ xs of
   | list_cons (x, xs) => let
       val test =
@@ -827,9 +827,9 @@ fun loop
         val () = list_iforeach__fwork<x><env> (i, x, env)
       in
         loop (succ(i), xs, env)
-      end else () // end of [if]
+      end else (i) // end of [if]
     end // end of [list_cons]
-  | list_nil () => ()
+  | list_nil () => i // the number of processed elements
 // end of [loop]
 //
 in
@@ -865,7 +865,8 @@ implement(x)
 $FC.iforeach_funenv<List(x)><x>
   (pfv | xs, f, env) = let
   prval () = lemma_list_param (xs)
-  val n = list_iforeach_funenv<x> (pfv | xs, f, env) in g1int2uint (n)
+in
+  list_iforeach_funenv<x> (pfv | xs, f, env)
 end // end of [iforeach_funenv]
 
 #atscode_separator()
@@ -883,9 +884,9 @@ prval () = lemma_list_param (xs)
 prval () = lemma_list_param (ys)
 //
 fun loop
-  {m,n:nat} .<m>. (
-  i: int, xs: list (x, m), ys: list (y, n), env: &env
-) : void = let
+  {m,n:nat}{i:int} .<m>. (
+  i: int i, xs: list (x, m), ys: list (y, n), env: &env
+) : intBtwe(i, min(m,n)+i) = let
 in
 //
 case+ xs of
@@ -900,11 +901,11 @@ case+ xs of
         val () = list_iforeach2__fwork<x,y><env> (i, x, y, env)
       in
         loop (succ(i), xs, ys, env)
-      end else () // end of [if]
+      end else (i) // end of [if]
     end // end of [list_cons]
-  | list_nil () => ()
+  | list_nil () => i // the number of processed elements
   ) // end of [list_cons]
-| list_nil () => ()
+| list_nil () => i // the number of processed elements
 //
 end // end of [loop]
 //

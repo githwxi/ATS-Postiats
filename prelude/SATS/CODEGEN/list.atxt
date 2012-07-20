@@ -338,10 +338,10 @@ x:t0p}{env:vt0p
 } list_iforeach__fwork (i: int, x: x, env: &env): void
 fun{
 x:t0p
-} list_iforeach (xs: List (x)): void
+} list_iforeach {n:int} (xs: list (x, n)): natLte(n)
 fun{
 x:t0p}{env:vt0p
-} list_iforeach_env (xs: List (x), env: &env): void
+} list_iforeach_env {n:int} (xs: list (x, n), env: &env): natLte(n)
 
 fun{
 x:t0p // type for elements
@@ -350,7 +350,7 @@ x:t0p // type for elements
   pfv: !v |
   xs: list (INV(x), n)
 , f: (!v | natLt(n), x, !vt) -<fun,fe> void, env: !vt
-) :<fe> int n // end of [list_iforeach_funenv]
+) :<fe> int (n) // end of [list_iforeach_funenv]
 
 #atscode_separator()
 
@@ -362,10 +362,13 @@ x,y:t0p}{env:vt0p
 } list_iforeach2__fwork (i: int, x: x, y: y, env: &env): void
 fun{
 x,y:t0p
-} list_iforeach2 (xs: List (x), ys: List(y)): void
+} list_iforeach2
+  {m,n:int} (xs: list (x, n), ys: list(y, m)): natLte(min(m,n))
 fun{
 x,y:t0p}{env:vt0p
-} list_iforeach2_env (xs: List (x), ys: List(y), env: &env): void
+} list_iforeach2_env
+  {m,n:int} (xs: list (x, n), ys: list(y, m), env: &env): natLte(min(m,n))
+// end of [list_iforeach2_env]
 
 #atscode_separator()
 

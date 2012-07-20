@@ -225,16 +225,21 @@ a:vt0p
 
 fun{
 a:vt0p}{env:vt0p
-} list_vt_iforeach__cont (i: int, x: &a, env: &env): bool
+} list_vt_iforeach__cont
+  (i: int, x: &a, env: &env): bool
 fun{
 a:vt0p}{env:vt0p
-} list_vt_iforeach__fwork (i: int, x: &a, env: &env): void
+} list_vt_iforeach__fwork
+  (i: int, x: &a, env: &env): void
 fun{
 a:vt0p
-} list_vt_iforeach (xs: !List_vt (a)): void
+} list_vt_iforeach
+  {n:int} (xs: !list_vt (a, n)): natLte(n)
 fun{
 a:vt0p}{env:vt0p
-} list_vt_iforeach_env (xs: !List_vt (a), env: &env): void
+} list_vt_iforeach_env
+  {n:int} (xs: !list_vt (a, n), env: &env): natLte(n)
+// end of [list_vt_iforeach_env]
 
 #atscode_separator()
 

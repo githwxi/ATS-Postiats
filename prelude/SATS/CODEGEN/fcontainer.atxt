@@ -96,33 +96,33 @@ xs:t0p}{x:t0p
 } iforeach_funenv
   {v:view}{vt:viewtype}{fe:eff} (
   pfv: !v | xs: xs, f: (!v | int, x, !vt) -<fun,fe> void, env: !vt
-) :<fe> uint // end of [iforeach_funenv]
+) :<fe> int // end of [iforeach_funenv]
 
 fun{
 xs:t0p}{x:t0p
 } iforeach_clo {fe:eff}
-  (xs: xs, f: &(int, x) -<clo,fe> void):<fe> uint
+  (xs: xs, f: &(int, x) -<clo,fe> void):<fe> int
 // end of [iforeach_clo]
 fun{
 xs:t0p}{x:t0p
 } iforeach_vclo {v:view} {fe:eff}
-  (pfv: !v | xs: xs, f: &(!v | int, x) -<clo,fe> void):<fe> uint
+  (pfv: !v | xs: xs, f: &(!v | int, x) -<clo,fe> void):<fe> int
 // end of [iforeach_vclo]
 
 fun{
 xs:t0p}{x:t0p
 } iforeach_cloptr {fe:eff}
-  (xs: xs, f: !(int, x) -<cloptr,fe> void):<fe> uint
+  (xs: xs, f: !(int, x) -<cloptr,fe> void):<fe> int
 fun{
 xs:t0p}{x:t0p
 } iforeach_vcloptr {v:view} {fe:eff}
-  (pfv: !v | xs: xs, f: !(!v | int, x) -<cloptr,fe> void):<fe> uint
+  (pfv: !v | xs: xs, f: !(!v | int, x) -<cloptr,fe> void):<fe> int
 // end of [iforeach_vcloptr]
 
 fun{
 xs:t0p}{x:t0p
 } iforeach_cloref {fe:eff}
-  (xs: xs, f: (int, x) -<cloref,fe> void):<fe> uint
+  (xs: xs, f: (int, x) -<cloref,fe> void):<fe> int
 // end of [iforeach_cloref]
 
 #atscode_separator()

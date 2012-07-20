@@ -531,9 +531,9 @@ list_vt_iforeach_env
 prval () = lemma_list_vt_param (xs)
 //
 fun loop
-  {n:nat} .<n>. (
-  i: int, xs: !list_vt (x, n), env: &env
-) : void = let
+  {n:nat}{i:int} .<n>. (
+  i: int i, xs: !list_vt (x, n), env: &env
+) : intBtwe(i, n+i) = let
 in
   case+ xs of
   | @list_vt_cons (x, xs1) => let
@@ -545,15 +545,17 @@ in
         val () =
           list_vt_iforeach__fwork<x><env> (i, x, env)
         // end of [val]
-        val () = loop (succ(i), xs1, env)
+        val i = loop (succ(i), xs1, env)
         prval () = fold@ (xs)
       in
-        // nothing
+        i // the number of processed elements
       end else let
-        prval () = fold@ (xs) in (*nothing*)
+        prval () = fold@ (xs)
+      in
+        i // the number of processed elements
       end // end of [if]
     end // end of [list_vt_cons]
-  | list_vt_nil () => ()
+  | list_vt_nil () => i // the number of processed elements
 end // end of [loop]
 //
 in

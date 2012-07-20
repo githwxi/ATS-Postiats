@@ -184,7 +184,7 @@ prval () = __free (env, ienv.1) where {
 } // end of [prval]
 //
 in
-  g0int2uint (i) // = the size of [xs]
+  i // = the size of [xs]
 end // end of [iforeach_funenv]
 
 (* ****** ****** *)
