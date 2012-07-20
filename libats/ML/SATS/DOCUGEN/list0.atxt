@@ -405,8 +405,9 @@ fprint_list0_sep (out, xs, sep) = let
   in
     fprint_val<a> (out, x)
   end // end of [f]
+  val _(*n*) = list0_iforeach (xs, f)
 in
-  list0_iforeach (xs, f)
+  // nothing
 end // end of [fprint_list0_sep]
 ')\
 

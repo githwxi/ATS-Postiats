@@ -187,7 +187,7 @@ fun{a:t0p}
 list0_foreach (xs: list0 (INV(a)), f: cfun (a, void)): void
 
 fun{a:t0p}
-list0_iforeach (xs: list0 (INV(a)), f: cfun2 (int, a, void)): void
+list0_iforeach (xs: list0 (INV(a)), f: cfun2 (int, a, void)): int
 
 #atscode_separator()
 

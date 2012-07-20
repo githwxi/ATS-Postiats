@@ -299,11 +299,11 @@ list0_iforeach
   (xs, f) = let
   fun loop (
     i: int, xs: list0 (a), f: cfun2 (int, a, void)
-  ) : void =
+  ) : int =
     case+ xs of
     | list0_cons (x, xs) =>
         (f (i, x); loop (i+1, xs, f))
-    | list0_nil () => ()
+    | list0_nil () => i
   // end of [loop]
 in
   loop (0, xs, f)
