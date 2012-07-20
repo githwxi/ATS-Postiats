@@ -194,17 +194,17 @@ List0 (a:t0p) = [n:int | n >= 0] list (a, n)
 typedef
 List1 (a:t0p) = [n:int | n >= 1] list (a, n)
 typedef listLt
-  (a:t0p, n:int) = [n1:nat | n1 < n] list (a, n1)
-// end of [listLt]
+  (a:t0p, n:int) = [k:nat | k < n] list (a, k)
 typedef listLte
-  (a:t0p, n:int) = [n1:nat | n1 <= n] list (a, n1)
-// end of [listLte]
+  (a:t0p, n:int) = [k:nat | k <= n] list (a, k)
 typedef listGt
-  (a:t0p, n:int) = [n1:nat | n1 > n] list (a, n1)
-// end of [listGt]
+  (a:t0p, n:int) = [k:nat | k > n] list (a, k)
 typedef listGte
-  (a:t0p, n:int) = [n1:nat | n1 >= n] list (a, n1)
-// end of [listGte]
+  (a:t0p, n:int) = [k:nat | k >= n] list (a, k)
+typedef listBtw
+  (a:t0p, m:int, n:int) = [k:int | m <= k; k < n] list (a, k)
+typedef listBtwe
+  (a:t0p, m:int, n:int) = [k:int | m <= k; k <= n] list (a, k)
 //
 dataviewtype // viewt@ype+: covariant
 list_viewt0ype_int_viewtype (a:viewt@ype+, int) =
@@ -220,17 +220,17 @@ List0_vt (a:vt0p) = [n:int | n >= 0] list_vt (a, n)
 viewtypedef
 List1_vt (a:vt0p) = [n:int | n >= 1] list_vt (a, n)
 viewtypedef listLt_vt
-  (a:vt0p, n:int) = [n1:nat | n1 < n] list_vt (a, n1)
-// end of [listLt_vt]
+  (a:vt0p, n:int) = [k:nat | k < n] list_vt (a, k)
 viewtypedef listLte_vt
-  (a:vt0p, n:int) = [n1:nat | n1 <= n] list_vt (a, n1)
-// end of [listLte_vt]
+  (a:vt0p, n:int) = [k:nat | k <= n] list_vt (a, k)
 viewtypedef listGt_vt
-  (a:vt0p, n:int) = [n1:nat | n1 > n] list_vt (a, n1)
-// end of [listGt_vt]
+  (a:vt0p, n:int) = [k:nat | k > n] list_vt (a, k)
 viewtypedef listGte_vt
-  (a:vt0p, n:int) = [n1:nat | n1 >= n] list_vt (a, n1)
-// end of [listGte_vt]
+  (a:vt0p, n:int) = [k:nat | k >= n] list_vt (a, k)
+viewtypedef listBtw_vt
+  (a:t0p, m:int, n:int) = [k:int | m <= k; k < n] list_vt (a, k)
+viewtypedef listBtwe_vt
+  (a:t0p, m:int, n:int) = [k:int | m <= k; k <= n] list_vt (a, k)
 //
 (* ****** ****** *)
 //

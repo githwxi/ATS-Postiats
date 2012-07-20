@@ -15,11 +15,17 @@ staload "prelude/DATS/list.dats"
 staload "prelude/DATS/lazy.dats"
 staload "libats/ML/SATS/string.sats"
 
+(* ****** ****** *)
+
 staload STDIO = "libc/SATS/stdio.sats"
+
+(* ****** ****** *)
 
 #define nil stream_nil
 #define cons stream_cons
 #define :: stream_cons
+
+(* ****** ****** *)
 
 fun
 from {n:int} (

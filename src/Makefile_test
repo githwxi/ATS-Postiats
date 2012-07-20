@@ -15,9 +15,11 @@ test:: atshwxi
 test:: fact2
 test:: revarr
 
+test:: isqrt
 test:: hanoi
 test:: ferryman
 test:: morse_enum
+test:: strmat
 
 test:: tally
 test:: fibonacci
@@ -120,12 +122,16 @@ fact2: ; \
 revarr: ; \
   ./patsopt -d $(PATSHOME)/doc/EXAMPLE/INTRO/revarr.dats
 
+isqrt: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/MISC/isqrt.dats
 hanoi: ; \
   ./patsopt -d $(PATSHOME)/doc/EXAMPLE/MISC/hanoi.dats
 ferryman: ; \
   ./patsopt -d $(PATSHOME)/doc/EXAMPLE/MISC/ferryman.dats
 morse_enum: ; \
   ./patsopt -d $(PATSHOME)/doc/EXAMPLE/MISC/morse_enum.dats
+strmat: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/MISC/strmat.dats
 
 tally: ; \
   ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ARITH/tally.dats
