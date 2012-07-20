@@ -61,6 +61,16 @@ end // end of [arrayref_make_elt]
 #atscode_separator()
 
 implement{a}
+fprint_arrayref_sep
+  (out, A, n, sep) = let
+  val (vbox pf | p) = arrayref_get_viewptr (A)
+in
+  $effmask_ref (fprint_array_sep (out, !p, n, sep))
+end // end of [fprint_arrayref_sep]
+
+#atscode_separator()
+
+implement{a}
 arrszref_get_at_size
   (A0, i) = $effmask_wrt let
   var n: size_t

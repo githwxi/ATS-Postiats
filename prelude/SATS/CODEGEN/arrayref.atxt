@@ -89,15 +89,18 @@ arrayref_make_elt
 
 fun{a:t0p}
 arrayref_make_listlen
-  {n:int} (xs: list (INV(a), n), n: int n):<> arrayref (a, n)
+  {n:int}
+  (xs: list (INV(a), n), n: int n):<> arrayref (a, n)
 // end of [arrayref_make_listlen]
 
 #atscode_separator()
 
 fun{a:vt0p}
 fprint_arrayref_sep
-  {n:int} (out: FILEref, A: arrayref (a, n), asz: int n): void
-// end of [fprint_arrayref_sep]
+  {n:int} (
+  out: FILEref
+, A: arrayref (a, n), asz: size_t n, sep: NSH(string)
+) : void // end of [fprint_arrayref_sep]
 
 #atscode_separator()
 

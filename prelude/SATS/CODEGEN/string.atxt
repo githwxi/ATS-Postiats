@@ -41,6 +41,17 @@ sortdef tk = tkind
 
 #atscode_separator()
 
+typedef
+stringLte (n:int) = [k:int | k <= n] string (k)
+typedef
+stringGte (n:int) = [k:int | k >= n] string (k)
+typedef
+stringBtwe
+  (m:int, n:int) = [k:int | m <=k; k <= n] string (k)
+// end of [stringBtwe]
+
+#atscode_separator()
+
 dataprop
 string_index_p (
   n: int, int(*i*), int(*c*)
