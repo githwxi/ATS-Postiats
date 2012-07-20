@@ -550,7 +550,7 @@ val asz = g1int2uint (N)
 val (pf, pfgc | p) = array_ptr_alloc<int> (asz)
 //
 implement
-array_initize__fwork<int> (i, x) = x := g0uint2int(i)+1
+array_initize__init<int> (i, x) = x := g0uint2int(i)+1
 val () = array_initize<int> (!p, asz) // array: 0, 1, 2, ..., N-1
 //
 implement

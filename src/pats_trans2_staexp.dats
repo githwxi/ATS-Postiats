@@ -1131,6 +1131,81 @@ end // end of [s1exp_trup_app]
 
 (* ****** ****** *)
 
+fn s1exp_trup_app_datconptr (
+  s1e0: s1exp
+, s1opr: s1exp
+, d2c: d2con
+, xs: List_vt (locs1explst)
+) : s2exp = let
+//
+fun auxck1 (
+  s1e0: s1exp
+, d2c: d2con, xs: List_vt (locs1explst)
+) : int(*nerr*) = let
+in
+//
+case+ xs of
+| ~list_vt_cons
+    (x, xs) => let
+    val () = prerr_error2_loc (x.0)
+    val () = prerr ": overly supplied group of arguments."
+    val () = prerr_newline ()
+  in
+    auxck1 (s1e0, d2c, xs) + 1
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => 0
+//
+end // end of [auxck1]
+//
+fun auxck2 (
+  s1e0: s1exp
+, d2c: d2con, s1es: s1explst
+) : void = let
+  val n = list_length (s1es)
+  val arity = d2con_get_arity_full (d2c)
+  val sgn = n - (1(*rt*) + arity)
+in
+//
+if sgn != 0 then let
+  val loc0 = s1e0.s1exp_loc
+  val () = prerr_error2_loc (loc0)
+  val () = prerr ": the type constructor ["
+  val () = prerr_d2con (d2c)
+  val () = if sgn < 0 then prerr "] expects more arguments.";
+  val () = if sgn > 0 then prerr "] expects fewer arguments.";
+  val () = prerr_newline ()
+in
+  the_trans2errlst_add (T2E_s1exp_trup (s1e0))
+end // end of [if]
+//
+end // end of [auxck2]
+//
+val s1es = (
+  case+ xs of
+  | ~list_vt_cons
+   (x, xs) => let
+      val nerr = auxck1 (s1e0, d2c, xs)
+      val () = (
+        if nerr > 0 then
+          the_trans2errlst_add (T2E_s1exp_trup (s1e0))
+        // end of [if]
+      ) // end of [val]
+    in
+      x.1
+    end // end of [list_vt_cons]
+  | ~list_vt_nil () => list_nil ()
+) : s1explst // end of [val]
+//
+val () = auxck2 (s1e0, d2c, s1es)
+val s2es = s1explst_trdn_addr (s1es)
+val- list_cons (_rt, _arg) = s2es
+//
+in
+  s2exp_datconptr (d2c, _rt, _arg)
+end // end [s1exp_trup_app_datconptr]
+
+(* ****** ****** *)
+
 fun
 s1exp_trup_app_sqid (
   s1e0: s1exp
@@ -1227,16 +1302,18 @@ case+ s2i0 of
   in
     s1exp_trup_app (s1e0, s1opr, s2exp_var (s2v), xs)
   end // end of [S2ITEMvar]
+//
+| S2ITMdatconptr d2c => s1exp_trup_app_datconptr (s1e0, s1opr, d2c, xs)
 (*
-| S2ITMdatconptr d2c => s1exp_trup_app_datconptr (loc_app, d2c, s1ess)
-| S2ITMdatcontyp d2c => s1exp_trup_app_datcontyp (loc_app, d2c, s1ess)
+| S2ITMdatcontyp d2c => s1exp_trup_app_datcontyp (s1e0, s1opr, d2c, xs)
 *)
+//
 | _ => let
     val () = list_vt_free (xs)
     val () = prerr_interror_loc (s1opr.s1exp_loc)
-    val () = (prerr ": NYI: s1exp_trup_app_sqid_itm: s1e0 = "; prerr_s1exp s1e0)
+    val () = (prerr ": NIY: s1exp_trup_app_sqid_itm: s1e0 = "; prerr_s1exp s1e0)
     val () = prerr_newline ()
-    val () = (prerr ": NYI: s1exp_trup_app_sqid_itm: s2i0 = "; prerr_s2itm s2i0)
+    val () = (prerr ": NIY: s1exp_trup_app_sqid_itm: s2i0 = "; prerr_s2itm s2i0)
     val () = prerr_newline ()
   in
     $ERR.abort {s2exp} ()
@@ -1779,6 +1856,8 @@ end // end of [s1exp_trdn]
 implement
 s1exp_trdn_int (s1e) = s1exp_trdn (s1e, s2rt_int)
 implement
+s1exp_trdn_addr (s1e) = s1exp_trdn (s1e, s2rt_addr)
+implement
 s1exp_trdn_bool (s1e) = s1exp_trdn (s1e, s2rt_bool)
 implement
 s1exp_trdn_viewt0ype (s1e) = s1exp_trdn (s1e, s2rt_viewt0ype)
@@ -1811,6 +1890,11 @@ implement
 s1explst_trdn_int
   (s1es) = l2l (list_map_fun (s1es, s1exp_trdn_int))
 // end of [s1explst_trdn_int]
+
+implement
+s1explst_trdn_addr
+  (s1es) = l2l (list_map_fun (s1es, s1exp_trdn_addr))
+// end of [s1explst_trdn_addr]
 
 implement
 s1explst_trdn_bool

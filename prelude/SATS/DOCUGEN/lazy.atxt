@@ -37,6 +37,13 @@ ATSLIB/prelude/lazy\
 
 (* ****** ****** *)
 
+#declnamesynop("stream_foreach__cont")
+#declnamesynop("stream_foreach__fwork")
+#declnamesynop("stream_foreach")
+#declnamesynop("stream_foreach_env")
+
+(* ****** ****** *)
+
 #declnamesynop("stream_filter__pred")
 #declnamesynop("stream_filter")
 #declnamesynop("stream_filter_fun")

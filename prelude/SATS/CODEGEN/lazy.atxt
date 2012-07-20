@@ -78,6 +78,21 @@ stream_drop_exn
 
 #atscode_separator()
 
+fun{
+env:vt0p
+} stream_foreach__cont (env: &env): bool
+fun{
+a:t0p}{env:vt0p
+} stream_foreach__fwork
+  (x: a, env: &env): void // lin-cleared
+fun{a:t0p}
+stream_foreach (xs: stream (a)): void
+fun{
+a:t0p}{env:vt0p
+} stream_foreach_env (xs: stream (a), &env): void
+
+#atscode_separator()
+
 fun{a:t0p}
 stream_filter__pred (x: a):<> bool
 fun{a:t0p}

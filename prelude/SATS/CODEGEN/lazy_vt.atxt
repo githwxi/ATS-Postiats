@@ -77,8 +77,8 @@ a:vt0p}{env:vt0p
 #atscode_separator()
 //
 fun{a:vt0p}
-stream_vt_filter__pred
-  (x: &a >> opt(a, b)): #[b:bool] bool (b)
+stream_vt_filter__pred (x: &a): bool
+//
 fun{a:t0p}
 stream_vt_filter (xs: stream_vt (INV(a))): stream_vt (a)
 //

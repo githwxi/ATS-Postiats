@@ -79,13 +79,13 @@ end else
 end // end of [stream_vt_foreach_env]
 
 (* ****** ****** *)
-(*
 //
-// HX-2012: casting
-extern // stream_cons to list_cons
+// HX-2012: casting stream_cons to list_cons
+//
+extern
 castfn stream2list_vt_cons
-  {l1,l2:addr}
-  (x: stream_vt_cons_unfold (l1, l2)):<> list_vt_cons_unfold (l1, l2)
+  {l0,l1,l2:addr}
+  (x: stream_vt_cons_unfold (l0, l1, l2)):<> list_vt_cons_unfold (l0, l1, l2)
 // end of [stream2list_vt_cons]
 
 implement{a}
@@ -97,9 +97,9 @@ fun loop (
   val xs_con = !xs
 in
   case+ xs_con of
-  | stream_vt_cons (x, xs1) => let
+  | @stream_vt_cons (x, xs1) => let
       val xs1_val = xs1
-      val () = xs1 := loop (xs1_val, n)
+      val () = xs1 := loop (xs1_val)
       val xs_con = stream2list_vt_cons (xs_con)
     in
       fold@ (xs_con); xs_con
@@ -109,8 +109,7 @@ end // end of [loop]
 //
 in
   loop (xs)
-end // end of [list_vt_of_stream_vt]
-*)
+end // end of [stream2list_vt]
 
 (* ****** ****** *)
 

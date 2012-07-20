@@ -31,8 +31,10 @@ ATSLIB/prelude/lazy_vt\
 
 (* ****** ****** *)
 
+#declnamesynop("stream_vt_foreach__cont")
 #declnamesynop("stream_vt_foreach__fwork")
 #declnamesynop("stream_vt_foreach")
+#declnamesynop("stream_vt_foreach_env")
 
 (* ****** ****** *)
 

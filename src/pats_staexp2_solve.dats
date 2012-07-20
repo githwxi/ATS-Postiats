@@ -818,7 +818,7 @@ val () = case+
     trans3_env_pop_and_add_main (pfpush | loc0)
   end // end of [S2Eexi, _]
 //
-| (S2Ecst s2c1, s2en20) => (case+ s2en20 of
+| (S2Ecst s2c1, _) => (case+ s2en20 of
   | S2Ecst s2c2 =>
       if s2cst_subeq (s2c1, s2c2) then () else (err := err + 1)
     // end of [S2Ecst]
@@ -906,6 +906,22 @@ val () = case+
     end // end of [S2Etyrec]
   | _ => (err := err + 1)
   ) (* end of [S2Etyrec, _] *)
+//
+| (S2Edatconptr
+    (d2c1, s2e1, s2es1), _
+  ) => (case+ s2en20 of
+  | S2Edatconptr
+      (d2c2, s2e2, s2es2) => (
+      if d2c1 = d2c2 then let
+        val () =
+          s2exp_equal_solve_err (loc0, s2e1, s2e2, err)
+        // end of [val]
+      in
+        s2explst_equal_solve_err (loc0, s2es1, s2es2, err)
+      end else (err := err + 1)
+    ) // end of [S2Edatconptr]
+  | _ => (err := err + 1)
+  ) // end of [S2Edatconptr, _]
 //
 | (S2Erefarg (knd1, s2e1), _) => (
   case+ s2en20 of

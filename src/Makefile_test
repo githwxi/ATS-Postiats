@@ -17,6 +17,7 @@ test:: revarr
 
 test:: hanoi
 test:: ferryman
+test:: morse_enum
 
 test:: tally
 test:: fibonacci
@@ -123,6 +124,8 @@ hanoi: ; \
   ./patsopt -d $(PATSHOME)/doc/EXAMPLE/MISC/hanoi.dats
 ferryman: ; \
   ./patsopt -d $(PATSHOME)/doc/EXAMPLE/MISC/ferryman.dats
+morse_enum: ; \
+  ./patsopt -d $(PATSHOME)/doc/EXAMPLE/MISC/morse_enum.dats
 
 tally: ; \
   ./patsopt -d $(PATSHOME)/doc/EXAMPLE/ARITH/tally.dats
