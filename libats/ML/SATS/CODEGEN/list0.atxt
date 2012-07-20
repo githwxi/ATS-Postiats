@@ -99,9 +99,12 @@ fun{a:t0p}
 list0_head_opt (xs: list0 (INV(a))):<> option0 (a)
 
 fun{a:t0p}
-list0_tail_exn (xs: list0 (INV(a))):<!exn> list0 (a)
+list0_tail_exn
+  (xs: SHR(list0 (INV(a)))):<!exn> list0 (a)
 fun{a:t0p}
-list0_tail_opt (xs: list0 (INV(a))):<> option0 (list0 (a))
+list0_tail_opt
+  (xs: SHR(list0 (INV(a)))):<> option0 (list0 (a))
+// end of [list0_tail_opt]
 
 #atscode_separator()
 
@@ -117,9 +120,9 @@ list0_get_at_exn (xs: list0 (INV(a)), i: int):<!exn> a
 overload [] with list0_get_at_exn
 
 fun{a:t0p}
-list0_insert_at_exn
-  (xs: SHR(list0 (INV(a))), i: int, x: a):<!exn> list0 (a)
-// end of [list0_insert_at_exn]
+list0_insert_at_exn (
+  xs: SHR(list0 (INV(a))), i: int, x: a
+) :<!exn> list0 (a) // endfun
 
 fun{a:t0p}
 list0_remove_at_exn
@@ -136,13 +139,13 @@ overload length with list0_length
 
 fun{a:t0p}
 list0_append
-  (xs: list0 (INV(a)), ys: list0 a):<> list0 (a)
+  (xs: NSH(list0 (INV(a))), ys: SHR(list0 a)):<> list0 (a)
 overload + with list0_append
 
 #atscode_separator()
 
 fun{a:t0p}
-list0_extend (xs: list0 (INV(a)), y: a):<> list0 (a)
+list0_extend (xs: NSH(list0 (INV(a))), y: a):<> list0 (a)
 
 macdef list0_snoc = list0_extend
 
@@ -159,18 +162,18 @@ list0_reverse_append
 #atscode_separator()
 
 fun{a:t0p}
-list0_concat (xss: list0 (list0 (INV(a)))):<> list0 (a)
+list0_concat (xss: NSH(list0 (list0 (INV(a))))):<> list0 (a)
 
 #atscode_separator()
 
 fun{a:t0p}
 list0_take_exn
-  (xs: list0 (INV(a)), i: int):<!exn> list0 (a)
+  (xs: NSH(list0 (INV(a))), i: int):<!exn> list0 (a)
 // end of [list0_take_exn]
 
 fun{a:t0p}
 list0_drop_exn
-  (xs: list0 (INV(a)), i: int):<!exn> list0 (a)
+  (xs: SHR(list0 (INV(a))), i: int):<!exn> list0 (a)
 // end of [list0_drop_exn]
 
 #atscode_separator()
@@ -330,7 +333,9 @@ macdef list0_zipwith = list0_map2
 #atscode_separator()
 
 fun{a:t0p}
-list0_mergesort (xs: list0 (a), cmp: (a, a) -<cloref> int):<> list0 (a)
+list0_mergesort
+  (xs: NSH(list0 (a)), cmp: (a, a) -<cloref> int):<> list0 (a)
+// end of [list0_mergesort]
 
 #atscode_separator()
 

@@ -121,7 +121,7 @@ list_is_pair {x:t0p}{n:int} (xs: list (x, n)):<> bool (n==2)
 fun{a:t0p}
 list_head {n:pos} (xs: list (INV(a), n)):<> a
 fun{a:t0p}
-list_tail {n:pos} (xs: list (INV(a), n)):<> list (a, n-1)
+list_tail {n:pos} (xs: SHR(list (INV(a), n))):<> list (a, n-1)
 
 #atscode_separator()
 
@@ -226,14 +226,14 @@ fun{
 a:t0p
 } list_take
   {n:int}{i:nat | i <= n}
-  (xs: list (INV(a), n), i: int i):<> list_vt (a, i)
+  (xs: NSH(list (INV(a), n)), i: int i):<> list_vt (a, i)
 // end of [list_take]
 
 fun{
 a:t@ype
 } list_take_exn
   {n:int}{i:nat}
-  (xs: list (INV(a), n), i: int i):<!exn> [i <= n] list_vt (a, i)
+  (xs: NSH(list (INV(a), n)), i: int i):<!exn> [i <= n] list_vt (a, i)
 // end of [list_take_exn]
 
 #atscode_separator()
