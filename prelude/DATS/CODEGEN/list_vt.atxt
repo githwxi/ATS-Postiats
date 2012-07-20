@@ -199,8 +199,20 @@ list_vt_remove_at
 #atscode_separator()
 
 implement{a}
-list_vt_freelin__fwork (x) = gfree_ref (x)
+list_vt_free (xs) = let
+//
+implement
+list_vt_freelin__clear<a>
+  (x) = let
+  prval () = topize (x) in (*void*)
+end // end of [list_vt_freelin__clear]
+//
+in
+  list_vt_freelin (xs)
+end // end of [list_vt_free]
 
+implement{a}
+list_vt_freelin__clear (x) = gclear_ref (x)
 implement{a}
 list_vt_freelin (xs) = let
 //
@@ -214,7 +226,7 @@ fun loop
   | @list_vt_cons
       (x, xs1) => let
       val () =
-        list_vt_freelin__fwork<a> (x)
+        list_vt_freelin__clear<a> (x)
       val xs1 = xs1
       val () = free@ {a}{0} (xs)
     in
@@ -227,26 +239,13 @@ in
   loop (xs)
 end // end of [list_vt_freelin]
 
-implement{a}
-list_vt_free (xs) = let
-//
-implement
-list_vt_freelin__fwork<a>
-  (x) = let
-  prval () = topize (x) in (*void*)
-end // end of [list_vt_freelin__fwork]
-//
-in
-  list_vt_freelin (xs)
-end // end of [list_vt_free]
-
 #atscode_separator()
 
 implement{a}
-list_vt_clear__fwork (x) = gfree_ref (x)
+list_vt_uninitize__clear (x) = gclear_ref (x)
 
 implement{a}
-list_vt_clear
+list_vt_uninitize
   {n} (xs) = let
 //
 prval () = lemma_list_vt_param (xs)
@@ -259,7 +258,7 @@ fun loop
   | @list_vt_cons
       (x, xs1) => let
       val () =
-        list_vt_clear__fwork (x)
+        list_vt_uninitize__clear (x)
       val () = loop (xs1)
       prval () = fold@ {a?} (xs)
     in
@@ -270,7 +269,7 @@ fun loop
 //
 in
   loop (xs)
-end // end of [list_vt_clear]
+end // end of [list_vt_uninitize]
 
 #atscode_separator()
 
@@ -427,6 +426,10 @@ end // end of [list_vt_split]
 
 implement
 {x}{env}
+list_vt_foreach__cont (x, env) = true
+
+implement
+{x}{env}
 list_vt_foreach_env
   (xs, env) = let
 //
@@ -440,10 +443,17 @@ in
   case+ xs of
   | @list_vt_cons
       (x, xs1) => let
-      val () = list_vt_foreach__fwork<x><env> (x, env)
-      val () = loop (xs1, env)
+      val test = list_vt_foreach__cont (x, env)
     in
-      fold@ (xs)
+      if test then let
+        val () = list_vt_foreach__fwork<x><env> (x, env)
+        val () = loop (xs1, env)
+        prval () = fold@ (xs)
+      in
+        // nothing
+      end else let
+        prval () = fold@ (xs) in (*nothing*)
+      end // end of [if]
     end // end of [list_vt_cons]
   | list_vt_nil () => ()
 end // end of [loop]
@@ -511,6 +521,10 @@ end // end of [list_vt_foreach_funenv]
 
 implement
 {x}{env}
+list_vt_iforeach__cont (i, x, env) = true
+
+implement
+{x}{env}
 list_vt_iforeach_env
   (xs, env) = let
 //
@@ -523,10 +537,21 @@ fun loop
 in
   case+ xs of
   | @list_vt_cons (x, xs1) => let
-      val () = list_vt_iforeach__fwork<x><env> (i, x, env)
-      val () = loop (succ(i), xs1, env)
+      val test =
+        list_vt_iforeach__cont<x><env> (i, x, env)
+      // end of [val]
     in
-      fold@ (xs)
+      if test then let
+        val () =
+          list_vt_iforeach__fwork<x><env> (i, x, env)
+        // end of [val]
+        val () = loop (succ(i), xs1, env)
+        prval () = fold@ (xs)
+      in
+        // nothing
+      end else let
+        prval () = fold@ (xs) in (*nothing*)
+      end // end of [if]
     end // end of [list_vt_cons]
   | list_vt_nil () => ()
 end // end of [loop]
@@ -541,15 +566,17 @@ implement{a}
 list_vt_filter (xs) = let
 //
 implement
-list_vt_freelin__fwork<a>
+list_vt_filterlin__clear<a>
   (x) = let
   prval () = topize (x) in (*void*)
-end // end of [list_vt_freelin__fwork]
+end // end of [list_vt_filterlin__clear]
 //
 in
   list_vt_filterlin<a> (xs)
 end // end of [list_vt_filter]
 
+implement{a}
+list_vt_filterlin__clear (x) = gclear_ref (x)
 implement{a}
 list_vt_filterlin (xs) = let
 //
@@ -570,7 +597,8 @@ in
         fold@ (xs)
       end else let
         val xs1 = xs1
-        val () = list_vt_freelin__fwork<a> (x)
+        val () =
+          list_vt_freelin__clear<a> (x)
         val () = free@ {..}{0} (xs)
         val () = xs := xs1
       in
@@ -590,7 +618,7 @@ end // end of [list_vt_filter]
 #atscode_separator()
 
 implement{a}
-list_vt_mergesort__cmp (x1, x2) = gcompare_val<a> (x1, x2)
+list_vt_mergesort__cmp (x1, x2) = gcompare_ref<a> (x1, x2)
 
 implement{a}
 list_vt_mergesort

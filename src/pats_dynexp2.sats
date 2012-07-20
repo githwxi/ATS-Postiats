@@ -268,6 +268,12 @@ fun d2var_is_linear (d2v: d2var): bool
 *)
 fun d2var_is_mutabl (d2v: d2var): bool
 
+fun eq_d2var_d2var (x1: d2var, x2: d2var):<> bool
+fun neq_d2var_d2var (x1: d2var, x2: d2var):<> bool
+overload = with eq_d2var_d2var
+overload != with neq_d2var_d2var
+overload <> with neq_d2var_d2var
+
 fun compare_d2var_d2var (x1: d2var, x2: d2var):<> Sgn
 overload compare with compare_d2var_d2var
 fun compare_d2vsym_d2vsym (x1: d2var, x2: d2var):<> Sgn

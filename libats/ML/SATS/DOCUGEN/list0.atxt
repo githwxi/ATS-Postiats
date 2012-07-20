@@ -200,7 +200,7 @@ This function, which overloads the symbol #dyncode("[]"), does the same as
 
 Given a list xs of length n, an integer i and an element x, this function
 builds a list xs1 by inserting x into xs at position i if i is between 0
-and n, inclusively.  Otherwise, the function raises an exception
+and n, inclusive.  Otherwise, the function raises an exception
 (#dyncode("IllegalArgExn")).  Clearly, if the function returns a list, then
 element i in the returned list must be x.
 
@@ -211,13 +211,13 @@ element i in the returned list must be x.
 
 Given a list xs of length n, an integer i and an element x, this function
 builds a list xs1 by removing element i in if i is between 0 and n-1,
-inclusively.  Otherwise, the function raises an exception
+inclusive.  Otherwise, the function raises an exception
 (#dyncode("IllegalArgExn")).
 
 ")
 #declexample("\
 
-Let xs be a list of length n, i an integer between 0 and n-1, inclusively,
+Let xs be a list of length n, i an integer between 0 and n-1, inclusive,
 and xs1 the list obtained from removing element i in xs. The following code
 checks that xs equals the list built by inserting xs[i] into xs1 at
 position i:
@@ -422,7 +422,7 @@ between list elements.
 
 Given two lists xs and ys of length m and n, respectively, this function
 applies its third argument to each pair (xs[i], ys[i]), where i ranges from
-0 until min(m,n)-1, inclusively, and xs[i] (ys[i]) refers to element i in
+0 until min(m,n)-1, inclusive, and xs[i] (ys[i]) refers to element i in
 the list xs (ys).  ")
 
 #declnamesynop("list0_foreach2_eq")
@@ -526,7 +526,7 @@ argument.  ")
 
 Given two lists xs1 and xs2 of length n1 and n2, respectively, this
 function returns true if and only if p(xs1[i], xs2[i]) returns true for
-some i between 0 and min(n1,n2)-1, inclusively.  ")
+some i between 0 and min(n1,n2)-1, inclusive.  ")
 
 (* ****** ****** *)
 
@@ -559,7 +559,7 @@ main () = 0 where {
 
 Given two lists xs1 and xs2 of length n1 and n2, respectively, this
 function returns true if and only if p(xs1[i], xs2[i]) returns true for
-every i between 0 and min(n1,n2)-1, inclusively.  ")
+every i between 0 and min(n1,n2)-1, inclusive.  ")
 
 #declnamesynop("list0_forall2_eq")
 #decldescrpt("\
@@ -567,7 +567,7 @@ every i between 0 and min(n1,n2)-1, inclusively.  ")
 This function is largely similar to #dyncode("list0_forall2").  Given two
 lists xs1 and xs2 of length n1 and n2, respectively, this function returns
 true if and only if p(xs1[i], xs2[i]) returns true for every i between 0
-and min(n1,n2)-1, inclusively. If this function returns true, then the
+and min(n1,n2)-1, inclusive. If this function returns true, then the
 value stored in the call-by-reference parameter sgn equals sgn(n1-n2), that
 is, the sign of n1-n2.  Otherwise, the value equals 0.  ")
 
@@ -658,7 +658,7 @@ However, the implementation of this function in ATSLIB is tail-recursive.\
 
 Given a list xs, this function returns a list consisting of the sequence of
 results obtained from applying its second argument f to each pair (i,
-xs[i]), where i ranges from 0 until the length of xs minus 1, inclusively,
+xs[i]), where i ranges from 0 until the length of xs minus 1, inclusive,
 and xs[i] refers to element i in the list xs.
 
 Following is a standard implementation of this function:

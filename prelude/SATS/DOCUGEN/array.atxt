@@ -502,10 +502,10 @@ end // end of [array_foldright]
 
 (* ****** ****** *)
 
-#declnamesynop("array_initize__fwork")
+#declnamesynop("array_initize__init")
 #declnamesynop("array_initize")
 
-#declnamesynop("array_uninitize__fwork")
+#declnamesynop("array_uninitize__clear")
 #declnamesynop("array_uninitize")
 
 (* ****** ****** *)

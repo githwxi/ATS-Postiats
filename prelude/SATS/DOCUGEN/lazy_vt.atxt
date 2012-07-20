@@ -28,8 +28,11 @@ ATSLIB/prelude/lazy_vt\
 (* ****** ****** *)
 
 #declnamesynop("stream_vt_free")
-#declnamesynop("stream_vt_freelin__fwork")
-#declnamesynop("stream_vt_freelin")
+
+(* ****** ****** *)
+
+#declnamesynop("stream_vt_foreach__fwork")
+#declnamesynop("stream_vt_foreach")
 
 (* ****** ****** *)
 
@@ -37,6 +40,7 @@ ATSLIB/prelude/lazy_vt\
 #declnamesynop("stream_vt_filter")
 #declnamesynop("stream_vt_filter_fun")
 #declnamesynop("stream_vt_filter_cloptr")
+#declnamesynop("stream_vt_filterlin__clear")
 #declnamesynop("stream_vt_filterlin")
 
 (* ****** ****** *)

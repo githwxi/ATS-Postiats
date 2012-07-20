@@ -55,7 +55,7 @@ This function creates an arrayptr-value of a given size
 #decldescrpt("\
 
 This function creates an arrayptr-value of size r-l that contains the
-integers from l until r-1, inclusively.
+integers from l until r-1, inclusive.
 
 ")
 

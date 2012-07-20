@@ -268,6 +268,13 @@ d2var_is_mutabl (d2v) =
 (* ****** ****** *)
 
 implement
+eq_d2var_d2var (x1, x2) = (compare_d2var_d2var (x1, x2) = 0)
+implement
+neq_d2var_d2var (x1, x2) = (compare_d2var_d2var (x1, x2) != 0)
+
+(* ****** ****** *)
+
+implement
 compare_d2var_d2var (x1, x2) =
   $effmask_all (compare (d2var_get_stamp (x1), d2var_get_stamp (x2)))
 // end of [compare_d2var_d2var]

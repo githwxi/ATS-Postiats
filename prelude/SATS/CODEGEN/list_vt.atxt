@@ -119,7 +119,7 @@ list_vt_remove_at {n:int}
 #atscode_separator()
 
 fun{a:vt0p}
-list_vt_freelin__fwork
+list_vt_freelin__clear
   (x: &a >> a?):<!wrt> void
 fun{a:t0p}
 list_vt_freelin (xs: List_vt (a)):<!wrt> void
@@ -129,17 +129,17 @@ list_vt_free (xs: List_vt (a)):<!wrt> void
 #atscode_separator()
 
 fun{a:vt0p}
-list_vt_clear__fwork (x: &a>>a?):<!wrt> void
+list_vt_uninitize__clear (x: &a>>a?):<!wrt> void
 fun{
 a:vt0p
-} list_vt_clear {n:int} (
+} list_vt_uninitize {n:int} (
   xs: !list_vt (INV(a), n) >> list_vt (a?, n)
-) :<!wrt> void // end of [list_vt_clear]
+) :<!wrt> void // end of [list_vt_uninitize]
 fun{
 a:vt0p
-} list_vt_clear_fun {n:int}{fe:eff} (
+} list_vt_uninitize_fun {n:int}{fe:eff} (
   xs: !list_vt (INV(a), n) >> list_vt (a?, n), f: (&a>>a?) -<fe> void
-) :<fe> void // end of [list_vt_clear_fun]
+) :<fe> void // end of [list_vt_uninitize_fun]
 
 #atscode_separator()
 
@@ -195,6 +195,9 @@ list_vt_split {n:int} (
 
 fun{
 a:vt0p}{env:vt0p
+} list_vt_foreach__cont (x: &a, env: &env): bool
+fun{
+a:vt0p}{env:vt0p
 } list_vt_foreach__fwork (x: &a, env: &env): void
 fun{
 a:vt0p
@@ -222,6 +225,9 @@ a:vt0p
 
 fun{
 a:vt0p}{env:vt0p
+} list_vt_iforeach__cont (i: int, x: &a, env: &env): bool
+fun{
+a:vt0p}{env:vt0p
 } list_vt_iforeach__fwork (i: int, x: &a, env: &env): void
 fun{
 a:vt0p
@@ -238,6 +244,8 @@ fun{a:t0p}
 list_vt_filter
   {n:int} (x: list_vt (INV(a), n)):<!wrt> listLte_vt (a, n)
 // end of [list_vt_filter]
+fun{a:vt0p}
+list_vt_filterlin__clear (x: &a>>a?):<!wrt> void
 fun{a:vt0p}
 list_vt_filterlin
   {n:int} (x: list_vt (INV(a), n)):<!wrt> listLte_vt (a, n)

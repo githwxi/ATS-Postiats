@@ -43,7 +43,9 @@
 (* ****** ****** *)
 
 fun{a:vt0p}
-gfree_ref (x: &a >> a?):<!wrt> void
+ginit_ref (x: &a? >> a):<!wrt> void
+fun{a:vt0p}
+gclear_ref (x: &a >> a?):<!wrt> void
 
 (* ****** ****** *)
 

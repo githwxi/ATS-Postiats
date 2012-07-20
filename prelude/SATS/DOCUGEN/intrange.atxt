@@ -33,7 +33,7 @@ The default implementation of this function always returns true.  ')
 #decldescrpt('\
 
 Given two integers l and r, this function enumerates the integers between l
-and r-1, inclusively, and then applies to each enumerated integer the
+and r-1, inclusive, and then applies to each enumerated integer the
 function implemented by #dyncode("intrange_foreach__fwork"). The enumeration
 process stops if the function implemented by #dyncode("intrange_foreach__cont")
 returns false, and the integer value returned by #dyncode("intrange_foreach")
@@ -87,7 +87,7 @@ The default implementation of this function always returns true.  ')
 #decldescrpt('\
 
 Given two integers l and r, this function enumerates in the reverse order
-the integers between l and r-1, inclusively, and then applies to each
+the integers between l and r-1, inclusive, and then applies to each
 enumerated integer the function implemented by
 #dyncode("intrange_rforeach__fwork"). The enumeration process stops if the
 function implemented by #dyncode("intrange_rforeach__cont") returns false,

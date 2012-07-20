@@ -24,7 +24,7 @@ staload STDIO = "libc/SATS/stdio.sats"
 fun
 from {n:int} (
   n: intGte(n)
-) :<!laz> stream (intGte(n)) = $delay(n :: from{n+1}(n+1))
+) :<!ntm> stream (intGte(n)) = $delay(n :: from{n+1}(n+1))
 
 typedef sstring = stream string
 

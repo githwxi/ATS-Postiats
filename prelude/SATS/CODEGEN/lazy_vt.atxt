@@ -32,7 +32,13 @@ lazy_viewt0ype_viewtype
   (a:viewt@ype+) // boxed linear type // unnamed
 stadef lazy_vt = lazy_viewt0ype_viewtype
 //
-(* ****** ****** *)
+#atscode_separator()
+
+fun{a:vt0p}
+lazy_vt_free (x: lazy_vt (a)):<!wrt> void
+overload ~ with lazy_vt_free
+
+#atscode_separator()
 //
 // HX: lazy linear streams
 //
@@ -50,13 +56,23 @@ stream2list_vt
 
 #atscode_separator()
 
-fun{a:vt0p}
-stream_vt_freelin__fwork
-  (x: &a >> a?):<!wrt> void
-fun{a:vt0p}
-stream_vt_freelin (xs: stream_vt a):<!wrt> void
 fun{a:t0p}
 stream_vt_free (xs: stream_vt a):<!wrt> void
+
+#atscode_separator()
+
+fun{
+env:vt0p
+} stream_vt_foreach__cont (env: &env): bool
+fun{
+a:vt0p}{env:vt0p
+} stream_vt_foreach__fwork
+  (x: &a >> a?!, env: &env): void // lin-cleared
+fun{a:vt0p}
+stream_vt_foreach (xs: stream_vt (a)): void
+fun{
+a:vt0p}{env:vt0p
+} stream_vt_foreach_env (xs: stream_vt (a), &env): void
 
 #atscode_separator()
 //
@@ -65,8 +81,6 @@ stream_vt_filter__pred
   (x: &a >> opt(a, b)): #[b:bool] bool (b)
 fun{a:t0p}
 stream_vt_filter (xs: stream_vt (INV(a))): stream_vt (a)
-fun{a:vt0p}
-stream_vt_filterlin (xs: stream_vt (INV(a))): stream_vt (a)
 //
 fun{a:t0p}
 stream_vt_filter_fun (
@@ -77,15 +91,19 @@ stream_vt_filter_cloptr (
   xs: stream_vt (INV(a)), pred: (&a) -<cloptr> bool
 ) :<> stream_vt (a) // end of [stream_vt_filter_cloptr]
 //
+fun{a:vt0p}
+stream_vt_filterlin__clear (x: &a >> a?):<!wrt> void
+fun{a:vt0p}
+stream_vt_filterlin (xs: stream_vt (INV(a))): stream_vt (a)
+//
 #atscode_separator()
 //
 fun{
 a:vt0p}{b:vt0p
-} stream_vt_map__fwork (x: &a >> a?!): b
+} stream_vt_map__fwork (x: &a >> a?!): b // lin-cleared
 fun{
 a:vt0p}{b:vt0p
-} stream_vt_map
-  (xs: stream_vt (INV(a))): stream_vt (b)
+} stream_vt_map (xs: stream_vt (INV(a))): stream_vt (b)
 //
 fun{
 a:vt0p}{b:vt0p

@@ -696,6 +696,10 @@ end // end of [list_filter]
 
 implement
 {x}{env}
+list_foreach__cont (x, env) = true
+
+implement
+{x}{env}
 list_foreach_env
   (xs, env) = let
 //
@@ -709,9 +713,15 @@ in
 //
 case+ xs of
 | list_cons (x, xs) => let
-    val () = list_foreach__fwork<x><env> (x, env)
+    val test =
+      list_foreach__cont<x><env> (x, env)
+    // end of [val]
   in
-    loop (xs, env)
+    if test then let
+      val () = list_foreach__fwork<x><env> (x, env)
+    in
+      loop (xs, env)
+    end else () // end of [if]
   end // end of [list_cons]
 | list_nil () => ()
 //
@@ -753,6 +763,10 @@ $FC.foreach_funenv<List(x)><x>
 
 implement
 {x,y}{env}
+list_foreach2__cont (x, y, env) = true
+
+implement
+{x,y}{env}
 list_foreach2_env
   (xs, ys, env) = let
 //
@@ -767,9 +781,15 @@ fun loop
   | list_cons (x, xs) => (
     case+ ys of
     | list_cons (y, ys) => let
-        val () = list_foreach2__fwork<x,y><env> (x, y, env)
+        val test =
+          list_foreach2__cont<x,y><env> (x, y, env)
+        // end of [val]
       in
-        loop (xs, ys, env)
+        if test then let
+          val () = list_foreach2__fwork<x,y><env> (x, y, env)
+        in
+          loop (xs, ys, env)
+        end else () // end of [if]
       end // end of [list_cons]
     | list_nil () => ()
     ) // end of [list_cons]
@@ -784,6 +804,10 @@ end // end of [list_foreach2_env]
 
 implement
 {x}{env}
+list_iforeach__cont (i, x, env) = true
+
+implement
+{x}{env}
 list_iforeach_env
   (xs, env) = let
 //
@@ -795,9 +819,15 @@ fun loop
 ) : void =
   case+ xs of
   | list_cons (x, xs) => let
-      val () = list_iforeach__fwork<x><env> (i, x, env)
+      val test =
+        list_iforeach__cont<x><env> (i, x, env)
+      // end of [test]
     in
-      loop (succ(i), xs, env)
+      if test then let
+        val () = list_iforeach__fwork<x><env> (i, x, env)
+      in
+        loop (succ(i), xs, env)
+      end else () // end of [if]
     end // end of [list_cons]
   | list_nil () => ()
 // end of [loop]
@@ -842,6 +872,10 @@ end // end of [iforeach_funenv]
 
 implement
 {x,y}{env}
+list_iforeach2__cont (i, x, y, env) = true
+
+implement
+{x,y}{env}
 list_iforeach2_env
   (xs, ys, env) = let
 //
@@ -858,9 +892,15 @@ case+ xs of
 | list_cons (x, xs) => (
   case+ ys of
   | list_cons (y, ys) => let
-      val () = list_iforeach2__fwork<x,y><env> (i, x, y, env)
+      val test =
+        list_iforeach2__cont<x,y><env> (i, x, y, env)
+      // end of [val]
     in
-      loop (succ(i), xs, ys, env)
+      if test then let
+        val () = list_iforeach2__fwork<x,y><env> (i, x, y, env)
+      in
+        loop (succ(i), xs, ys, env)
+      end else () // end of [if]
     end // end of [list_cons]
   | list_nil () => ()
   ) // end of [list_cons]

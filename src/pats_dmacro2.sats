@@ -36,6 +36,10 @@
 //
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
 staload
 LOC = "pats_location.sats"
 typedef location = $LOC.location
@@ -45,6 +49,8 @@ SEXP2 = "pats_staexp2.sats"
 typedef s2exp = $SEXP2.s2exp
 staload
 DEXP2 = "pats_dynexp2.sats"
+typedef d2var = $DEXP2.d2var
+typedef p2at  = $DEXP2.p2at
 typedef d2exp = $DEXP2.d2exp
 typedef d2mac = $DEXP2.d2mac
 typedef d2exparglst = $DEXP2.d2exparglst
@@ -72,8 +78,41 @@ where m2valist = List (m2val)
 
 (* ****** ****** *)
 
-fun fprint_m2val (out: FILEref, x: m2val): void
-fun fprint_m2valist (out: FILEref, xs: m2valist): void
+fun fprint_m2val : fprint_type (m2val)
+fun print_m2val (x: m2val): void // fprint (stdout_ref, x)
+overload print with print_m2val
+fun prerr_m2val (x: m2val): void // fprint (stderr_ref, x)
+overload prerr with prerr_m2val
+
+fun fprint_m2valist : fprint_type (m2valist)
+
+(* ****** ****** *)
+
+fun liftval2exp (loc0: location, m2v: m2val): d2exp
+
+(* ****** ****** *)
+
+absviewtype alphenv_viewtype
+viewtypedef alphenv = alphenv_viewtype
+
+fun alphenv_insert (
+  env: &alphenv, d2v: d2var, d2v_new: d2var
+) : void // end of [alphenv_insert]
+
+fun alphenv_find
+  (env: !alphenv, d2v: d2var): Option_vt (d2var)
+// end of [alphenv_find]
+
+fun alphenv_pop (env: &alphenv): void
+fun alphenv_push (env: &alphenv): void
+
+fun alphenv_free (env: alphenv): void
+
+(* ****** ****** *)
+
+fun eval1_p2at
+  (loc0: location, env: &alphenv, p2t0: p2at): p2at
+// end of [eval1_p2at]
 
 (* ****** ****** *)
 

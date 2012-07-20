@@ -1234,9 +1234,9 @@ case+ s2i0 of
 | _ => let
     val () = list_vt_free (xs)
     val () = prerr_interror_loc (s1opr.s1exp_loc)
-    val () = (prerr ": NIY: s1exp_trup_app_sqid_itm: s1e0 = "; prerr_s1exp s1e0)
+    val () = (prerr ": NYI: s1exp_trup_app_sqid_itm: s1e0 = "; prerr_s1exp s1e0)
     val () = prerr_newline ()
-    val () = (prerr ": NIY: s1exp_trup_app_sqid_itm: s2i0 = "; prerr_s2itm s2i0)
+    val () = (prerr ": NYI: s1exp_trup_app_sqid_itm: s2i0 = "; prerr_s2itm s2i0)
     val () = prerr_newline ()
   in
     $ERR.abort {s2exp} ()

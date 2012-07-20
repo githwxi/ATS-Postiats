@@ -54,8 +54,7 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_dynexp_up"
 staload LAB = "pats_label.sats"
 staload LOC = "pats_location.sats"
 overload + with $LOC.location_combine
-macdef print_location = $LOC.print_location
-macdef prerr_location = $LOC.prerr_location
+overload print with $LOC.print_location
 
 staload SYN = "pats_syntax.sats"
 
@@ -78,6 +77,7 @@ staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
 
+staload MAC = "pats_dmacro2.sats"
 staload SOL = "pats_staexp2_solve.sats"
 
 (* ****** ****** *)
@@ -142,13 +142,13 @@ d2exp_trup
   (d2e0) = let
 (*
 val () = (
-  print "d2exp_trup: d2e0 = "; print_d2exp d2e0; print_newline ()
+  println! ("d2exp_trup: d2e0 = ", d2e0)
 ) // end of [val]
 *)
 val loc0 = d2e0.d2exp_loc
 (*
 val () = (
-  print "d2exp_trup: loc0 = "; print_location loc0; print_newline ()
+  println! ("d2exp_trup: loc0 = ", loc0)
 ) // end of [val]
 *)
 val d3e0 = (
@@ -202,10 +202,21 @@ case+ d2e0.d2exp_node of
     ) // end of [val]
 *)
   in
-    case+ _fun.d2exp_node of
+    case+ _fun.d2exp_node of    
     | D2Esym d2s =>
         d2exp_trup_applst_sym (d2e0, d2s, _arg)
       // end of [D2Esym]
+    | D2Emac d2m => let
+        val d2e0 =
+          $MAC.dmacro_eval_app_short (loc0, d2m, _arg)
+// (*
+        val () = (
+          println! ("d2exp_tr_up: D2Eapplst: D2Emac: d2e0 = ", d2e0)
+        ) // end of [val]
+// *)
+      in
+        d2exp_trup (d2e0)
+      end // end of [D2Emac]
     | _ => d2exp_trup_applst (d2e0, _fun, _arg)
   end // end of [D2Eapplst]
 //
@@ -332,21 +343,20 @@ case+ d2e0.d2exp_node of
 //
 | D2Edelay _ => d2exp_trup_delay (d2e0)
 //
+(*
+| D2Etrywith _ => d2exp_trup_trywith (d2e0)
+*)
+//
 | D2Eann_type (d2e, s2e_ann) => let
     val d3e = d2exp_trdn (d2e, s2e_ann)
   in
     d3exp_ann_type (loc0, d3e, s2e_ann)
   end // end of [D2Eann_type]
 //
-(*
-| D2Etrywith _ => d2exp_trup_trywith (d2e0)
-*)
-//
 | _ => let
     val () = (
-      print "d2exp_trup: loc0 = ";
-      print_location (loc0); print_newline ();
-      print "d2exp_trup: d2e0 = "; print_d2exp d2e0; print_newline ()
+      println! ("d2exp_trup: loc0 = ", loc0);
+      println! ("d2exp_trup: d2e0 = ", d2e0);
     ) // end of [val]
   in
     exitloc (1)

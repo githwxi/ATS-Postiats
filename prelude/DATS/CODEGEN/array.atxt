@@ -450,7 +450,7 @@ fun loop
 ) : void =
   if n > 0 then let
     prval (pf1, pf2) = array_v_uncons (pf)
-    val () = array_initize__fwork (i, !p)
+    val () = array_initize__init (i, !p)
     val () = loop (pf2 | ptr1_succ<a> (p), pred(n), succ(i))
     prval () = pf := array_v_cons {a} (pf1, pf2)
   in
@@ -472,7 +472,7 @@ array_initize_elt
   (A, asz, elt) = let
 //
 implement
-array_initize__fwork<a> (i, xi) = xi := elt
+array_initize__init<a> (i, xi) = xi := elt
 //
 in
   $effmask_all (array_initize (A, asz))
@@ -491,14 +491,14 @@ var xs = $UN.cast2ptr (xs)
 val p_xs = $UN.cast{Ptr1} (addr@ (xs))
 //
 implement
-array_initize__fwork<a>
+array_initize__init<a>
   (i, xi) = let
   val+ list_cons
     (x, xs) = $UN.ptr_get<list1> (p_xs)
   val () = $UN.ptr_set<list0> (p_xs, xs)
 in
   xi := x
-end // end of [array_initize__fwork]
+end // end of [array_initize__init]
 //
 in
   $effmask_all (array_initize (A, asz))
@@ -518,14 +518,14 @@ var xs =
 val p_xs = $UN.cast{Ptr1} (addr@ (xs))
 //
 implement
-array_initize__fwork<a>
+array_initize__init<a>
   (i, xi) = let
   val+ ~list_vt_cons
     (x, xs) = $UN.ptr_get<list1> (p_xs)
   val () = $UN.ptr_set<list0> (p_xs, xs)
 in
   xi := x
-end // end of [array_initize__fwork]
+end // end of [array_initize__init]
 //
 in
   $effmask_all (array_initize (A, asz))

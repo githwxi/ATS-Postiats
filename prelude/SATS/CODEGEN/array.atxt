@@ -392,7 +392,7 @@ a:vt0p}{env:vt0p
 #atscode_separator()
 
 fun{a:vt0p}
-array_initize__fwork
+array_initize__init
   (i: size_t, x: &a? >> a): void
 fun{a:vt0p}
 array_initize
@@ -425,7 +425,7 @@ array_initize_list_vt
 #atscode_separator()
 
 fun{a:vt0p}
-array_uninitize__fwork
+array_uninitize__clear
   (i: size_t, x: &a >> a?): void
 fun{a:vt0p}
 array_uninitize

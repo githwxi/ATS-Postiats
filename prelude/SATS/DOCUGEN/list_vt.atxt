@@ -157,18 +157,19 @@ This function returns the length of a given linear list.
 This function frees the memory occupied by a given linear list.
 Note that the elements contained in the list must be nonlinear.
 ')
+#declnamesynop("list_vt_freelin__clear")
 #declnamesynop("list_vt_freelin")
 #decldescrpt('\
 This function frees the memory occupied by a given linear list.
 Note that the elements contained in the list are freed by calling the
-function #dyncode("list_vt_freelin__fwork").
+function #dyncode("list_vt_freelin__clear").
 ')
 
 (* ****** ****** *)
 
-#declnamesynop("list_vt_clear__fwork")
-#declnamesynop("list_vt_clear")
-#declnamesynop("list_vt_clear_fun")
+#declnamesynop("list_vt_uninitize__clear")
+#declnamesynop("list_vt_uninitize")
+#declnamesynop("list_vt_uninitize_fun")
 #decldescrpt('\
 This function frees the elements in a given linear list (but keeps
 the list itself).
@@ -302,28 +303,33 @@ the input as linear elements cannot be ignored or duplicated.
 
 (* ****** ****** *)
 
+#declnamesynop("list_vt_foreach__cont")
 #declnamesynop("list_vt_foreach__fwork")
 
 #declnamesynop("list_vt_foreach")
-#decldescrpt('\
+#decldescrpt("\
 
-This function applies to each element (treated as a left-value) in its
-argument the function implemented by #dyncode("list_vt_foreach__fwork").
-')
+Given a list xs of length n, this function traverses xs, applying to xs[i]
+the function implemented by #dyncode("list_vt_foreach__fwork"), where i
+ranges from 0 until n-1, inclusive, and xs[i], treated as a left-value,
+refers to element i in xs.  The traversal stops if the function implemented
+by #dyncode("list_vt_foreach__cont") returns false.  ")
 
 #declnamesynop("list_vt_foreach_env")
 
 (* ****** ****** *)
 
+#declnamesynop("list_vt_iforeach__cont")
 #declnamesynop("list_vt_iforeach__fwork")
 
 #declnamesynop("list_vt_iforeach")
 #decldescrpt("\
 
-Given a linear list xs, this function applies to (i, xs[i]) the function
-implemented by #dyncode("list_vt_iforeach__fwork"), where i ranges from 0
-until the length of xs minus one, inclusively, and xs[i], treated as a
-left-value, refers to element i in xs.  ")
+Given a linear list xs of length n, this function traverses xs, applying to
+(i, xs[i]) the function implemented by #dyncode("list_vt_iforeach__fwork"),
+where i ranges from 0 until n-1, inclusive, and xs[i], treated as a
+left-value, refers to element i in xs.  The traversal stops if the function
+implemented by #dyncode("list_vt_foreach__cont") returns false.  ")
 
 #declnamesynop("list_vt_iforeach_env")
 
@@ -331,6 +337,8 @@ left-value, refers to element i in xs.  ")
 
 #declnamesynop("list_vt_filter__pred")
 #declnamesynop("list_vt_filter")
+#declnamesynop("list_vt_filterlin__clear")
+#declnamesynop("list_vt_filterlin")
 
 (* ****** ****** *)
 

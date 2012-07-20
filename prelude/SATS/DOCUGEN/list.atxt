@@ -123,7 +123,7 @@ consisting of n occurrences of x.
 #decldescrpt('\
 
 Given integers l and r satisfying l <= r, this function returns a list of
-integers ranging from l until r-1, inclusively.
+integers ranging from l until r-1, inclusive.
 
 ')
 
@@ -134,7 +134,7 @@ integers ranging from l until r-1, inclusively.
 
 Given an array of size n, this function returns a linear list of length n
 such that element i in the list is the element stored in cell i of the
-array, where i ranges from 0 until n-1, inclusively.  ')
+array, where i ranges from 0 until n-1, inclusive.  ')
 
 (* ****** ****** *)
 
@@ -389,18 +389,24 @@ or exceeds the length of its first argument.
 
 (* ****** ****** *)
 
+#declnamesynop("list_foreach__cont")
 #declnamesynop("list_foreach__fwork")
 
 #declnamesynop("list_foreach")
 #decldescrpt("\
 
-This function applies to each element in its argument the function
-implemented by #dyncode("list_foreach__fwork").  ")
+Given a list xs, this function applies to xs[i] the function
+implemented by #dyncode("list_foreach__fwork"), where i ranges from 0
+until the length of xs minus one, inclusive, and xs[i] refers to element
+i in xs.  ")
+
+returns false.  ")
 
 #declnamesynop("list_foreach_env")
 
 (* ****** ****** *)
 
+#declnamesynop("list_foreach2__cont")
 #declnamesynop("list_foreach2__fwork")
 
 #declnamesynop("list_foreach2")
@@ -409,12 +415,13 @@ implemented by #dyncode("list_foreach__fwork").  ")
 Given two lists xs and ys of length m and n, respectively, this function
 applies to each pair (xs[i], ys[i]) the function implemented by
 #dyncode("list_foreach2__fwork"), where i ranges from 0 until min(m, n)-1,
-inclusively, and xs[i] (ys[i]) refers to element i in xs (ys).  ")
+inclusive, and xs[i] (ys[i]) refers to element i in xs (ys).  ")
 
 #declnamesynop("list_foreach2_env")
 
 (* ****** ****** *)
 
+#declnamesynop("list_iforeach__cont")
 #declnamesynop("list_iforeach__fwork")
 
 #declnamesynop("list_iforeach")
@@ -422,13 +429,14 @@ inclusively, and xs[i] (ys[i]) refers to element i in xs (ys).  ")
 
 Given a list xs, this function applies to (i, xs[i]) the function
 implemented by #dyncode("list_iforeach__fwork"), where i ranges from 0
-until the length of xs minus one, inclusively, and xs[i] refers to element
+until the length of xs minus one, inclusive, and xs[i] refers to element
 i in xs.  ")
 
 #declnamesynop("list_iforeach_env")
 
 (* ****** ****** *)
 
+#declnamesynop("list_iforeach2__cont")
 #declnamesynop("list_iforeach2__fwork")
 
 #declnamesynop("list_iforeach2")
@@ -437,7 +445,7 @@ i in xs.  ")
 Given two lists xs and ys of length m and n, respectively, this function
 applies to each tuple (i, xs[i], ys[i]) the function implemented by
 #dyncode("list_iforeach2__fwork"), where i ranges from 0 until min(m, n)-1,
-inclusively, and xs[i] (ys[i]) refers to element i in xs (ys).  ")
+inclusive, and xs[i] (ys[i]) refers to element i in xs (ys).  ")
 
 #declnamesynop("list_iforeach2_env")
 
@@ -555,7 +563,7 @@ list_equal__pred (x, y) = gequal_val<a> (x, y)
 Given two lists xs1 and xs2, this function returns true if and only if xs1
 and xs2 are of the same length and the predicate implemented by
 #dyncode("list_equal__pred") holds on each pair (xs1[i], xs2[i]), where i
-ranges from 0 until the length of xs1 minus 1, inclusively, and xs1[i]
+ranges from 0 until the length of xs1 minus 1, inclusive, and xs1[i]
 (xs2[i]) refers to element i in xs1 (xs2). ')
 
 (* ****** ****** *)
@@ -660,7 +668,7 @@ implementation of this function in ATSLIB is tail-recursive.
 #decldescrpt('\
 
 Given a natural number n, this function returns a linear list consisting of
-f(i) for i ranging from 0 until n-1, inclusively, where f is the function
+f(i) for i ranging from 0 until n-1, inclusive, where f is the function
 implemented by #dyncode("list_tabulate__fwork"). The implementation of this
 function in ATSLIB is tail-recursive.
 
@@ -693,7 +701,7 @@ end // end of [list_make_intrange]
 Given two lists xs and ys of length m and n, respectively, this function
 zips them into a linear list xys of length equal to the minimum of m and n
 such that element i in xys is the pair of element i in xs and element i in
-ys, where i ranges from 0 until the length of xys minus 1, inclusively.
+ys, where i ranges from 0 until the length of xys minus 1, inclusive.
 The implementation of this function in ATSLIB is tail-recursive.
 
 ')

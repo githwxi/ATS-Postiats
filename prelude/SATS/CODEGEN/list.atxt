@@ -258,7 +258,10 @@ a:t0p
 #atscode_separator()
 
 fun{
-x:t0p}{env:vt0p // type for elements
+x:t0p}{env:vt0p
+} list_foreach__cont (x: x, env: &env): bool
+fun{
+x:t0p}{env:vt0p
 } list_foreach__fwork (x: x, env: &env): void
 fun{
 x:t0p
@@ -313,7 +316,10 @@ list_foreach_cloref
 #atscode_separator()
 
 fun{
-x,y:t0p}{env:vt0p // type for elements
+x,y:t0p}{env:vt0p
+} list_foreach2__cont (x: x, y: y, env: &env): bool
+fun{
+x,y:t0p}{env:vt0p
 } list_foreach2__fwork (x: x, y: y, env: &env): void
 fun{
 x,y:t0p
@@ -325,7 +331,10 @@ x,y:t0p}{env:vt0p
 #atscode_separator()
 
 fun{
-x:t0p}{env:vt0p // type for elements
+x:t0p}{env:vt0p
+} list_iforeach__cont (i: int, x: x, env: &env): bool
+fun{
+x:t0p}{env:vt0p
 } list_iforeach__fwork (i: int, x: x, env: &env): void
 fun{
 x:t0p
@@ -346,7 +355,10 @@ x:t0p // type for elements
 #atscode_separator()
 
 fun{
-x,y:t0p}{env:vt0p // type for elements
+x,y:t0p}{env:vt0p
+} list_iforeach2__cont (i: int, x: x, y: y, env: &env): bool
+fun{
+x,y:t0p}{env:vt0p
 } list_iforeach2__fwork (i: int, x: x, y: y, env: &env): void
 fun{
 x,y:t0p
