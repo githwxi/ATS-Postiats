@@ -299,7 +299,9 @@ case+ d2e0.d2exp_node of
     val () = prerr_d2exp (d2e0)
     val () = prerr "] is unsupported for macro expansion."
     val () = prerr_newline ()
-    val () = the_trans3errlst_add (T3E_dmacro_eval0_d2exp (d2e0))
+    val () =
+      the_trans3errlst_add (T3E_dmacro_eval0_d2exp (loc0, d2e0))
+    // end of [val]
   in
     M2Verr ()
   end // end of [_]

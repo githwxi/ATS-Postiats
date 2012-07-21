@@ -48,6 +48,10 @@ staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 
+staload "pats_trans3.sats"
+
+(* ****** ****** *)
+
 staload "pats_dmacro2.sats"
 
 (* ****** ****** *)
@@ -182,6 +186,130 @@ end // end of [eval1_d2var]
 (* ****** ****** *)
 
 extern
+fun eval1_d2explst (
+  loc0: location, ctx: !evalctx, env: &alphenv, d2es: d2explst
+) : d2explst // end of [eval1_d2explst]
+implement
+eval1_d2explst (
+  loc0, ctx, env, d2es
+) = let
+in
+//
+case+ d2es of
+| list_cons
+    (d2e, d2es) => let
+    val d2e = eval1_d2exp (loc0, ctx, env, d2e)
+    val d2es = eval1_d2explst (loc0, ctx, env, d2es)
+  in
+    list_cons (d2e, d2es)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [eval1_d2explst]
+
+(* ****** ****** *)
+  
+extern
+fun eval1_d2exparg (
+  loc0: location, ctx: !evalctx, env: &alphenv, d2a: d2exparg
+) : d2exparg // end of [eval1_d2exparg]
+implement
+eval1_d2exparg
+  (loc0, ctx, env, d2a) = let
+in
+//
+case+ d2a of
+| D2EXPARGsta
+    (locarg, s2as) => D2EXPARGsta (locarg, s2as)
+| D2EXPARGdyn
+    (npf, locarg, d2es) => let
+    val d2es = eval1_d2explst (loc0, ctx, env, d2es)
+  in
+    D2EXPARGdyn (npf, locarg, d2es)
+  end // end of [D2EXPARGdyn]
+//
+end // end of [eval1_d2exparg]
+
+extern
+fun eval1_d2exparglst (
+  loc0: location, ctx: !evalctx, env: &alphenv, d2as: d2exparglst
+) : d2exparglst // end of [eval1_d2exparglst]
+implement
+eval1_d2exparglst
+  (loc0, ctx, env, d2as) = let
+in
+//
+case+ d2as of
+| list_cons
+    (d2a, d2as) => let
+    val d2a = eval1_d2exparg (loc0, ctx, env, d2a)
+    val d2as = eval1_d2exparglst (loc0, ctx, env, d2as)
+  in
+    list_cons (d2a, d2as)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [eval1_d2exparglst]
+
+(* ****** ****** *)
+
+extern
+fun eval1_d2exp_applst (
+  loc0: location, ctx: !evalctx, env: &alphenv, d2e: d2exp
+) : d2exp // end of [eval1_d2exp_applst]
+implement
+eval1_d2exp_applst (
+  loc0, ctx, env, d2e0
+) = let
+//
+val- D2Eapplst
+  (d2e, d2as) = d2e0.d2exp_node
+val loc = d2e.d2exp_loc
+//
+fun auxerr (
+  loc0: location, d2e0: d2exp, d2m: d2mac
+) : void = let
+  val () = prerr_errmac_loc (loc0)
+  val () = prerr ": the dynamic symbol ["
+  val () = prerr_d2mac (d2m)
+  val () = prerr "] at (";
+  val () = $LOC.prerr_location (d2e0.d2exp_loc)
+  val () = prerr ") refers to a macrodef (to be called inside ,(...))."
+  val () = prerr_newline ();
+in
+  the_trans3errlst_add (T3E_dmacro_eval1_d2exp (loc0, d2e0))
+end // end of [auxerr]
+//
+val d2e = eval1_d2exp (loc0, ctx, env, d2e)
+val d2as = eval1_d2exparglst (loc0, ctx, env, d2as)
+//
+in
+//
+case+
+  d2e.d2exp_node of
+| D2Emac (d2m) => let
+    val knd = d2mac_get_kind (d2m)
+  in
+    if knd = 0 then ( // [d2m] is of short form
+      eval0_app_mac_short (loc0, d2m, ctx, env, d2as)
+    ) else let
+      val () =
+        auxerr (loc0, d2e0, d2m) in d2exp_err (loc0)
+      // end of [val]
+    end // end of [if]
+  end // end of [D2Emac]
+| D2Eapplst
+    (d2e1, d2as1) => (
+    d2exp_applst (loc0, d2e1, list_append (d2as1, d2as))
+  ) // end of [D2Eapplst]
+//
+| _ => d2exp_applst (loc0, d2e, d2as)
+//
+end // end of [eval1_d2exp_applst]
+
+(* ****** ****** *)
+
+extern
 fun eval1_d2exp_macsyn (
   loc0: location, ctx: !evalctx, env: &alphenv, d2e: d2exp
 ) : d2exp // end of [eval1_d2exp_macsyn]
@@ -265,7 +393,16 @@ case+ d2en0 of
 | D2Es0tring _ => reloc ()
 | D2Ef0loat _ => reloc ()
 //
-| D2Emacsyn _ => eval1_d2exp_macsyn (loc0, ctx, env, d2e0)
+| D2Ecst _ => reloc ()
+| D2Ecstsp _ => reloc ()
+| D2Esym _ => reloc ()
+//
+| D2Eapplst _ =>
+    eval1_d2exp_applst (loc0, ctx, env, d2e0)
+// end of [D2Eapplst]
+| D2Emacsyn _ =>
+    eval1_d2exp_macsyn (loc0, ctx, env, d2e0)
+// end of [D2Emacsyn]
 //
 | _ => d2exp_err (loc0)
 //

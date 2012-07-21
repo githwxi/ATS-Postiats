@@ -337,13 +337,11 @@ fun assert_bool1
   {b:bool} (x: bool (b)):<!exn> [b] void
 overload assert with assert_bool1 of 1
 
-fun
-assert_errmsg_bool0 (
+fun assert_errmsg_bool0 (
   x: bool, msg: string
 ) :<!exn> void = "atspre_assert_errmsg"
 overload assert_errmsg with assert_errmsg_bool0 of 0
-fun
-assert_errmsg_bool1
+fun assert_errmsg_bool1
   {b:bool} (x: bool b, msg: string):<!exn> [b] void
 overload assert_errmsg with assert_errmsg_bool1 of 1
 

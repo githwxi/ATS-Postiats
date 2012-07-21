@@ -172,9 +172,10 @@ datatype trans3err =
     // end of [T3E_d2var_some2]
 //
   | T3E_dmacro_eval0_cmp of (location, m2val, m2val)
-  | T3E_dmacro_eval0_d2exp of (d2exp)
+  | T3E_dmacro_eval0_d2exp of (location, d2exp)
   | T3E_dmacro_eval0_app_mac_arity of (location, d2mac, d2exparglst)
   | T3E_dmacro_evalctx_extend of (location, d2mac)
+  | T3E_dmacro_eval1_d2exp of (location, d2exp)
 //
   | T3E_f2undeclst_tr_termetsrtck of (f2undec, s2rtlstopt)
   | T3E_v2aldeclst_rec_tr_linearity of (v2aldec, s2exp(*linear*))
