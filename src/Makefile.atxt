@@ -217,9 +217,6 @@ val SOURCES =
 , "pats_staexp2_solve.sats"
 , "pats_staexp2_solve.dats"
 //
-, "pats_dmacro2.sats"
-, "pats_dmacro2.dats"
-//
 , "pats_patcst2.sats"
 , "pats_patcst2.dats"
 //
@@ -245,6 +242,7 @@ val SOURCES =
 , "pats_trans2_p1at.dats"
 , "pats_trans2_dynexp.dats"
 , "pats_trans2_impdec.dats"
+//
 , "pats_trans2_decl.dats"
 //
 , "pats_dynexp3.sats"
@@ -266,6 +264,12 @@ val SOURCES =
 , "pats_trans3_env_lamlp.dats"
 , "pats_trans3_env_pfman.dats"
 , "pats_trans3_env_lstate.dats"
+//
+, "pats_dmacro2.sats"
+, "pats_dmacro2.dats"
+, "pats_dmacro2_print.dats"
+, "pats_dmacro2_eval0.dats"
+, "pats_dmacro2_eval1.dats"
 //
 , "pats_trans3_p2at.dats"
 , "pats_trans3_patcon.dats"

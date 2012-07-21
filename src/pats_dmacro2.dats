@@ -36,13 +36,18 @@
 //
 (* ****** ****** *)
 
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload ERR = "pats_error.sats"
 
 (* ****** ****** *)
 
 staload "pats_errmsg.sats"
 staload _(*anon*) = "pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans2_dynexp"
+implement prerr_FILENAME<> () = prerr "pats_dmacro2"
 
 (* ****** ****** *)
 
@@ -61,8 +66,13 @@ staload "pats_dmacro2.sats"
 
 (* ****** ****** *)
 
+implement m2val_true = M2Vbool (true)
+implement m2val_false = M2Vbool (false)
+
+(* ****** ****** *)
+
 implement
-liftval2exp
+liftval2dexp
   (loc0, m2v) = let
 in
   case+ m2v of
@@ -72,20 +82,23 @@ in
   | M2Vstring (s) => d2exp_string (loc0, s)
   | M2Vunit () => d2exp_empty (loc0)
   | _ => let
-      val () = prerr_error2_loc (loc0)
+      val () = prerr_errmac_loc (loc0)
       val () = prerr ": a value representing code (AST) cannot be lifted."
       val () = prerr_newline ()
     in
       d2exp_err (loc0)
     end // end of [_]
-end // end of [lift_val_exp]
+end // end of [liftval2dexp]
 
 (* ****** ****** *)
 
 local
-
+//
+// HX: ptr for s2var or d2var
+//
 dataviewtype alphenv = 
-  | ALPHENVcons of (d2var, d2var(*new*), alphenv)
+  | ALPHENVsadd of (s2var, s2var(*new*), alphenv)
+  | ALPHENVdadd of (d2var, d2var(*new*), alphenv)
   | ALPHENVmark of (alphenv) // marking for unwinding
   | ALPHENVnil of ()
 // end of [alphenv]
@@ -95,44 +108,62 @@ assume alphenv_viewtype = alphenv
 in // in of [local]
 
 implement
+alphenv_nil () = ALPHENVnil ()
+
+implement
 alphenv_free (env) = let
 in
   case+ env of
-  | ~ALPHENVcons
+  | ~ALPHENVsadd
+      (_, _, env) => alphenv_free (env)
+  | ~ALPHENVdadd
       (_, _, env) => alphenv_free (env)
   | ~ALPHENVmark env => alphenv_free (env)
   | ~ALPHENVnil () => ()
 end // end of [alphenv_free]
 
 implement
-alphenv_insert
-  (env, d2v, d2v_new) = let
+alphenv_sadd
+  (env, s2v, s2v_new) = let
 in
-  env := ALPHENVcons (d2v, d2v_new, env)
-end // end of [alphaenv_add]
+  env := ALPHENVsadd (s2v, s2v_new, env)
+end // end of [alphenv_sadd]
 
 implement
-alphenv_find
-  (env, d2v0) = let
+alphenv_dadd
+  (env, d2v, d2v_new) = let
+in
+  env := ALPHENVdadd (d2v, d2v_new, env)
+end // end of [alphenv_dadd]
+
+(* ****** ****** *)
+
+implement
+alphenv_sfind
+  (env, key) = let
 //
 fun loop (
-  env: !alphenv, d2v0: d2var
-) : Option_vt (d2var) = let
+  env: !alphenv, key: s2var
+) : s2varopt_vt = let
 in
 //
 case+ env of
-| ALPHENVcons
+| ALPHENVsadd
     (_key, _val, !p_env1) => let
     val ans = (
-      if d2v0 = _key then
-        Some_vt (_val) else loop (!p_env1, d2v0)
+      if key = _key then
+        Some_vt (_val) else loop (!p_env1, key)
       // end of [if]
-    ) : Option_vt d2var // end of [val]
+    ) : s2varopt_vt // end of [val]
   in
     fold@ (env); ans
   end
+| ALPHENVdadd
+    (_key, _val, !p_env1) => let
+    val ans = loop (!p_env1, key) in fold@ (env); ans
+  end // end of [ALPHENVdadd]
 | ALPHENVmark (!p_env1) => let
-    val ans = loop (!p_env1, d2v0) in fold@ (env); ans
+    val ans = loop (!p_env1, key) in fold@ (env); ans
   end // end of [ALPHENVmark]
 | ALPHENVnil () => let
     prval () = fold@ env in None_vt ()
@@ -140,8 +171,48 @@ case+ env of
 end // end of [loop]
 //
 in
-  loop (env, d2v0)
-end // end of [alphenv_find]
+  loop (env, key)
+end // end of [alphenv_sfind]
+
+(* ****** ****** *)
+
+implement
+alphenv_dfind
+  (env, key) = let
+//
+fun loop (
+  env: !alphenv, key: d2var
+) : d2varopt_vt = let
+in
+//
+case+ env of
+| ALPHENVsadd
+    (_key, _val, !p_env1) => let
+    val ans = loop (!p_env1, key) in fold@ (env); ans
+  end // end of [ALPHENVsadd]
+| ALPHENVdadd
+    (_key, _val, !p_env1) => let
+    val ans = (
+      if key = _key then
+        Some_vt (_val) else loop (!p_env1, key)
+      // end of [if]
+    ) : d2varopt_vt // end of [val]
+  in
+    fold@ (env); ans
+  end
+| ALPHENVmark (!p_env1) => let
+    val ans = loop (!p_env1, key) in fold@ (env); ans
+  end // end of [ALPHENVmark]
+| ALPHENVnil () => let
+    prval () = fold@ env in None_vt ()
+  end // end of [ALPHENVnil]
+end // end of [loop]
+//
+in
+  loop (env, key)
+end // end of [alphenv_dfind]
+
+(* ****** ****** *)
 
 implement
 alphenv_pop (env) = let
@@ -150,7 +221,9 @@ fun loop
   (env: alphenv): alphenv = let
 in
   case+ env of
-  | ~ALPHENVcons
+  | ~ALPHENVsadd
+      (_, _, env) => loop (env)
+  | ~ALPHENVdadd
       (_, _, env) => loop (env)
   | ~ALPHENVmark (env) => (env)
   | ~ALPHENVnil () => ALPHENVnil ()
@@ -158,7 +231,7 @@ end // end of [loop]
 //
 in
   env := loop (env)
-end // end of [alphaenv_pop]
+end // end of [alphenv_pop]
 
 implement
 alphenv_push (env) = (env := ALPHENVmark env)
@@ -167,11 +240,137 @@ end // end of [local]
 
 (* ****** ****** *)
 
+local
+
+dataviewtype evalctx =
+  | EVALCTXsadd of (s2var, m2val, evalctx)
+  | EVALCTXdadd of (d2var, m2val, evalctx)
+  | EVALCTXnil of ()
+// end of [eval0ctx]
+
+assume evalctx_viewtype = evalctx
+
+in // in of [local]
+
+implement
+evalctx_nil () = EVALCTXnil ()
+
+implement
+fprint_evalctx
+ (out, ctx) = let
+in
+//
+case+ ctx of
+| EVALCTXsadd (
+    s2v, m2v, !p_ctx1
+  ) => let
+    val () = fprint_s2var (out, s2v)
+    val () = fprint_string (out, " -<s> ")
+    val () = fprint_m2val (out, m2v)
+    val () = fprint_newline (out)
+    val () = fprint_evalctx (out, !p_ctx1)
+    prval () = fold@ (ctx)
+  in
+    // nothing
+  end // end of [EVALCTXsadd]
+| EVALCTXdadd (
+    d2v, m2v, !p_ctx1
+  ) => let
+    val () = fprint_d2var (out, d2v)
+    val () = fprint_string (out, " -<d> ")
+    val () = fprint_m2val (out, m2v)
+    val () = fprint_newline (out)
+    val () = fprint_evalctx (out, !p_ctx1)
+    prval () = fold@ (ctx)
+  in
+    // nothing
+  end // end of [EVALCTXsadd]
+| EVALCTXnil () => let
+    prval () = fold@ ctx in (*nothing*)
+  end // end of [EVALCTXnil]
+//
+end // end of [fprint_evalctx]
+
+implement
+print_evalctx
+  (ctx) = fprint_evalctx (stdout_ref, ctx)
+// end of [print_evalctx]
+implement
+prerr_evalctx
+  (ctx) = fprint_evalctx (stderr_ref, ctx)
+// end of [prerr_evalctx]
+
+(* ****** ****** *)
+
+implement
+evalctx_sadd
+  (ctx, s2v, m2v) = EVALCTXsadd (s2v, m2v, ctx)
+// end of [evalctx_sadd]
+
+implement
+evalctx_dadd
+  (ctx, d2v, m2v) = EVALCTXdadd (d2v, m2v, ctx)
+// end of [evalctx_dadd]
+
+implement
+evalctx_dfind
+  (ctx, d2v) = let
+in
+//
+case+ ctx of
+| EVALCTXsadd (
+    _key, _val, !p_ctx1
+  ) => let
+    val ans = evalctx_dfind (!p_ctx1, d2v)
+    prval () = fold@ (ctx)
+  in
+    ans
+  end // end of [EVALCTXsadd]
+| EVALCTXdadd (
+    _key, _val, !p_ctx1
+  ) => let
+  in
+    if d2v = _key then let
+      prval () = fold@ (ctx)
+    in
+      Some_vt (_val)
+    end else let
+      val ans = evalctx_dfind (!p_ctx1, d2v)
+      prval () = fold@ (ctx)
+    in
+      ans
+    end // end of [if]
+  end // end of [EVALCTXdadd]
+| EVALCTXnil () => let
+    prval () = fold@ (ctx) in None_vt ()
+  end // end of [EVALCTXnil]
+//
+end // end of [evalctx_dfind]
+
+implement
+evalctx_free (ctx) = (
+  case+ ctx of
+  | ~EVALCTXsadd (_, _, ctx) => evalctx_free (ctx)
+  | ~EVALCTXdadd (_, _, ctx) => evalctx_free (ctx)
+  | ~EVALCTXnil () => ()
+) // end of [evalctx_free]
+
+(* ****** ****** *)
+
+end // end of [local]
+
+(* ****** ****** *)
+
 implement
 dmacro_eval_app_short
   (loc0, d2m, d2as) = let
+  var ctx = evalctx_nil ()
+  var env = alphenv_nil ()
+  val d2e = eval0_app_mac_short (loc0, d2m, ctx, env, d2as)
+  val () = alphenv_free (env)
+  val () = evalctx_free (ctx)
 in
-  exitloc (1)
+  d2e
 end // end of [dmacro_eval_app_short]
 
 (* ****** ****** *)

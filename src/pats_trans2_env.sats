@@ -156,7 +156,9 @@ fun the_d2expenv_add
 // end of [the_d2expenv_add]
 fun the_d2expenv_add_dcon (d2c: d2con): void
 fun the_d2expenv_add_dcst (d2c: d2cst): void
-fun the_d2expenv_add_dmac_def (d2m: d2mac): void
+fun the_d2expenv_add_dmacdef (d2m: d2mac): void
+fun the_d2expenv_add_dmacvar (d2v: d2var): void
+fun the_d2expenv_add_dmacvarlst (d2vs: d2varlst): void
 fun the_d2expenv_add_dvar (d2v: d2var): void
 fun the_d2expenv_add_dvarlst (d2vs: d2varlst): void
 

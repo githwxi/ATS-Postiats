@@ -1161,8 +1161,12 @@ fun trans2_env_add_m2acarg
   (x: m2acarg): void = let
 in
   case+ x of
-  | M2ACARGsta (s2vs) => the_s2expenv_add_svarlst (s2vs)
-  | M2ACARGdyn (d2vs) => the_d2expenv_add_dvarlst (d2vs)
+  | M2ACARGsta (s2vs) =>
+      the_s2expenv_add_svarlst (s2vs)
+    // end of [M2ACARGsta]
+  | M2ACARGdyn (d2vs) =>
+      the_d2expenv_add_dmacvarlst (d2vs)
+    // end of [M2ACARGdyn]
 end // end of [trans2_env_add_m2acarg]
 fun trans2_env_add_m2acarglst
   (xs: m2acarglst): void = list_app_fun (xs, trans2_env_add_m2acarg)
@@ -1179,7 +1183,7 @@ and sym = d1c.m1acdef_sym
 val (pfenv | ()) = the_trans2_env_push ()
 val arglst = d2mac_get_arglst (d2m)
 //
-// (*
+(*
 val out = stdout_ref
 val () = fprintf
   (out, "m1acdef_tr: knd = %i\n", @(knd))
@@ -1187,7 +1191,7 @@ val () =
   fprint_string (out, "m1acdef_tr: arglst =\n")
 val () = fprint_m2acarglst (out, arglst)
 val () = fprint_newline (out)
-// *)
+*)
 //
 val () = trans2_env_add_m2acarglst (arglst)
 val () = the_macdeflev_inc ()
@@ -1253,7 +1257,7 @@ case+ d1cs of
     val d2m = d2mac_make (
       d1c.m1acdef_loc, d1c.m1acdef_sym, knd, args, def
     ) // end of [d2mac_make]
-    val () = if knd >= 2 then the_d2expenv_add_dmac_def (d2m)
+    val () = if knd >= 2 then the_d2expenv_add_dmacdef (d2m)
     val d2ms = aux1 (knd, d1cs)
   in
     list_cons (d2m, d2ms)
@@ -1272,7 +1276,7 @@ in
       val- list_cons (d1c, d1cs) = d1cs
       val knd = d2mac_get_kind (d2m)
       val d2c = m1acdef_tr (knd, d2m, d1c)
-      val () = if knd <= 1 then the_d2expenv_add_dmac_def (d2m)
+      val () = if knd <= 1 then the_d2expenv_add_dmacdef (d2m)
     in
       loop2 (d2ms, d1cs)
     end // end of [list_cons]

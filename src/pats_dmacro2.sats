@@ -46,6 +46,7 @@ typedef location = $LOC.location
 
 staload
 SEXP2 = "pats_staexp2.sats"
+typedef s2var = $SEXP2.s2var
 typedef s2exp = $SEXP2.s2exp
 staload
 DEXP2 = "pats_dynexp2.sats"
@@ -78,6 +79,10 @@ where m2valist = List (m2val)
 
 (* ****** ****** *)
 
+val m2val_true : m2val and m2val_false : m2val
+
+(* ****** ****** *)
+
 fun fprint_m2val : fprint_type (m2val)
 fun print_m2val (x: m2val): void // fprint (stdout_ref, x)
 overload print with print_m2val
@@ -88,20 +93,28 @@ fun fprint_m2valist : fprint_type (m2valist)
 
 (* ****** ****** *)
 
-fun liftval2exp (loc0: location, m2v: m2val): d2exp
+fun liftval2dexp (loc0: location, m2v: m2val): d2exp
 
 (* ****** ****** *)
 
 absviewtype alphenv_viewtype
 viewtypedef alphenv = alphenv_viewtype
 
-fun alphenv_insert (
-  env: &alphenv, d2v: d2var, d2v_new: d2var
-) : void // end of [alphenv_insert]
+fun alphenv_nil ():<> alphenv
 
-fun alphenv_find
+fun alphenv_sadd (
+  env: &alphenv, s2v: s2var, s2v_new: s2var
+) : void // end of [alphenv_sadd]
+fun alphenv_dadd (
+  env: &alphenv, d2v: d2var, d2v_new: d2var
+) : void // end of [alphenv_dadd]
+
+fun alphenv_sfind
+  (env: !alphenv, s2v: s2var): Option_vt (s2var)
+// end of [alphenv_sfind]
+fun alphenv_dfind
   (env: !alphenv, d2v: d2var): Option_vt (d2var)
-// end of [alphenv_find]
+// end of [alphenv_dfind]
 
 fun alphenv_pop (env: &alphenv): void
 fun alphenv_push (env: &alphenv): void
@@ -113,6 +126,58 @@ fun alphenv_free (env: alphenv): void
 fun eval1_p2at
   (loc0: location, env: &alphenv, p2t0: p2at): p2at
 // end of [eval1_p2at]
+
+(* ****** ****** *)
+
+absviewtype evalctx_viewtype
+viewtypedef evalctx = evalctx_viewtype
+
+fun evalctx_nil ():<> evalctx
+
+fun fprint_evalctx
+  (out: FILEref, ctx: !evalctx): void
+fun print_evalctx (ctx: !evalctx): void
+overload print with print_evalctx
+fun prerr_evalctx (ctx: !evalctx): void
+overload prerr with prerr_evalctx
+
+fun evalctx_sadd
+  (ctx: evalctx, s2v: s2var, m2v: m2val): evalctx
+// end of [evalctx_sadd]
+
+fun evalctx_dadd
+  (ctx: evalctx, d2v: d2var, m2v: m2val): evalctx
+// end of [evalctx_dadd]
+
+fun evalctx_dfind
+  (ctx: !evalctx, d2v: d2var): Option_vt (m2val)
+// end of [evalctx_dfind]
+
+fun evalctx_free (ctx: evalctx): void
+
+(* ****** ****** *)
+
+fun eval0_d2exp (
+  loc0: location, ctx: !evalctx, env: &alphenv, d2e: d2exp
+) : m2val // end of [eval0_d2exp]
+
+(* ****** ****** *)
+
+fun eval1_d2exp (
+  loc0: location, ctx: !evalctx, env: &alphenv, d2e: d2exp
+) : d2exp // end of [eval1_d2exp]
+
+(* ****** ****** *)
+
+fun eval0_app_mac_long (
+  loc0: location
+, d2m: d2mac, ctx: !evalctx, env: &alphenv, d2as: d2exparglst
+) : m2val // end of [eval0_app_mac_long]
+
+fun eval0_app_mac_short (
+  loc0: location
+, d2m: d2mac, ctx: !evalctx, env: &alphenv, d2as: d2exparglst
+) : d2exp // end of [eval0_app_mac_short]
 
 (* ****** ****** *)
 

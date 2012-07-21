@@ -77,8 +77,9 @@ the constructor #dyncode('None0').
 #declnamesynop("option0_unsome_exn")
 #decldescrpt("\
 
-If a given option-value is of the form #dyncode("Some0(v)"), then the
-function returns v. Otherwise, it raises an exception (NotSomeExn).
+If a given option-value is of the form #dyncode("Some0(v)"), then
+this function returns the value v. Otherwise, it raises an exception
+(#dyncode("NotSomeExn")).
 
 ")
 

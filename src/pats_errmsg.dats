@@ -63,6 +63,11 @@ prerr_error2_loc (loc) = (
 ) // end of [prerr_error2_loc]
 
 implement{}
+prerr_errmac_loc (loc) = (
+  $LOC.prerr_location loc; prerr ": error(mac)"
+) // end of [prerr_errmac_loc]
+
+implement{}
 prerr_error3_loc (loc) = (
   $LOC.prerr_location loc; prerr ": error(3)"
 ) // end of [prerr_error3_loc]
@@ -72,12 +77,12 @@ prerr_error3_loc (loc) = (
 implement{}
 prerr_warning2_loc (loc) = (
   $LOC.prerr_location loc; prerr ": warning(2)"
-) // end of [prerr_warning_loc]
+) // end of [prerr_warning2_loc]
 
 implement{}
 prerr_warning3_loc (loc) = (
   $LOC.prerr_location loc; prerr ": warning(3)"
-) // end of [prerr_warning_loc]
+) // end of [prerr_warning3_loc]
 
 (* ****** ****** *)
 

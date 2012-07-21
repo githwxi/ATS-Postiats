@@ -64,7 +64,6 @@ d2mac_struct = @{
   d2mac_loc= location
 , d2mac_sym= symbol
 , d2mac_kind= int // short/long: 0/1
-, d2mac_narg= int // argument
 , d2mac_arglst= m2acarglst // argument
 , d2mac_def= d2exp // definition
 , d2mac_stamp= stamp // uniqueness stamp
@@ -83,8 +82,6 @@ d2mac_make (
   loc, name, knd, xs, def
 ) = let
 //
-val n = list_length (xs)
-//
 val stamp = $STMP.d2mac_stamp_make ()
 val (pfgc, pfat | p) = ptr_alloc<d2mac_struct> ()
 prval () = free_gc_elim {d2mac_struct?} (pfgc)
@@ -92,7 +89,6 @@ prval () = free_gc_elim {d2mac_struct?} (pfgc)
 val () = p->d2mac_loc := loc
 val () = p->d2mac_sym := name
 val () = p->d2mac_kind := knd
-val () = p->d2mac_narg := n
 val () = p->d2mac_arglst := xs
 val () = p->d2mac_def := def
 val () = p->d2mac_stamp := stamp
@@ -117,11 +113,6 @@ implement
 d2mac_get_kind (d2m) = let
   val (vbox pf | p) = ref_get_view_ptr (d2m) in p->d2mac_kind
 end // end of [d2mac_get_kind]
-
-implement
-d2mac_get_narg (d2m) = let
-  val (vbox pf | p) = ref_get_view_ptr (d2m) in p->d2mac_narg
-end // end of [d2mac_get_narg]
 
 implement
 d2mac_get_arglst (d2m) = let

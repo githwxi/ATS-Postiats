@@ -45,6 +45,7 @@ fun{} prerr_interror_loc (loc: location): void // generic
 //
 fun{} prerr_error1_loc (loc: location): void // generic
 fun{} prerr_error2_loc (loc: location): void // generic
+fun{} prerr_errmac_loc (loc: location): void // generic
 fun{} prerr_error3_loc (loc: location): void // generic
 //
 fun{} prerr_warning1_loc (loc: location): void // generic

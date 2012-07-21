@@ -207,9 +207,10 @@ end // end of [fprint_d3pitm]
 
 datatype
 d3exparg = 
+  | D3EXPARGsta of (location(*arg*), s2exparglst)
   | D3EXPARGdyn of // HX: notice the argument list [d3es]
       (int(*npf*), location(*arg*), d3explst) // are not opened
-  | D3EXPARGsta of s2exparglst
+    // end of [D3EXPARGdyn]
 typedef d3exparglst = List d3exparg
 viewtypedef d3exparglst_vt = List_vt d3exparg
 
@@ -233,7 +234,8 @@ in
 case+ d3as of
 | list_cons (d3a, d3as) => (
   case+ d3a of
-  | D3EXPARGsta s2as => let
+  | D3EXPARGsta
+      (locarg, s2as) => let
       val loc_fun = d3e_fun.d3exp_loc
       val s2e_fun = d3e_fun.d3exp_type
       var err: int = 0
@@ -412,6 +414,12 @@ case+ d2as of
         val+ list_cons (d2a, d2as) = d2as
       in
         case+ d2a of
+        | D2EXPARGsta
+            (locarg, s2as) => let
+            val d3a = D3EXPARGsta (locarg, s2as)
+          in
+            auxsel_arglst (xs, d2as, list_vt_cons (d3a, d3as))
+          end (* D2EXPARGsta *)
         | D2EXPARGdyn
             (npf, locarg, d2es) => let
             val d3es = d2explst_trup (d2es)
@@ -419,15 +427,10 @@ case+ d2as of
               (d3es, lam d3e =<1> s2kexp_make_s2exp (d3e.d3exp_type))
             val xs = auxsel_skexplst (xs, $UN.castvwtp1 {s2kexplst} (s2kes))
             val () = list_vt_free (s2kes)
-            val d3as = list_vt_cons (D3EXPARGdyn (npf, locarg, d3es), d3as)
+            val d3a = D3EXPARGdyn (npf, locarg, d3es)
           in
-            auxsel_arglst (xs, d2as, d3as)
+            auxsel_arglst (xs, d2as, list_vt_cons (d3a, d3as))
           end (* D2EXPARGdyn *)
-        | D2EXPARGsta (s2as) => let
-            val d3as = list_vt_cons (D3EXPARGsta (s2as), d3as)
-          in
-            auxsel_arglst (xs, d2as, d3as)
-          end (* D2EXPARGsta *)
       end // end of [_]
     ) // end of [list_vt_cons]
   | ~list_vt_nil () => let

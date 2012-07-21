@@ -311,8 +311,6 @@ fun d2mac_get_sym (x: d2mac): symbol
 
 fun d2mac_get_kind (x: d2mac): int (* 1/0: long/short form *)
 
-fun d2mac_get_narg (x: d2mac): int
-
 fun d2mac_get_arglst (x: d2mac): m2acarglst
 
 fun d2mac_get_stamp (x: d2mac): stamp
@@ -658,7 +656,7 @@ and d2exp_node =
 // end of [d2exp_node]
 
 and d2exparg =
-  | D2EXPARGsta of s2exparglst
+  | D2EXPARGsta of (location(*arg*), s2exparglst)
   | D2EXPARGdyn of (int(*npf*), location(*arg*), d2explst)
 // end of [d2exparg]
 
@@ -939,7 +937,9 @@ fun d2exp_applst (
   loc: location, d2e_fun: d2exp, d2as: d2exparglst
 ) : d2exp // end of [d2exp_applst]
 fun d2exp_app_sta (
-  loc: location, d2e_fun: d2exp, sarg: s2exparglst
+  loc: location
+, d2e_fun: d2exp
+, locarg: location, sarg: s2exparglst
 ) : d2exp // end of [d2exp_app_sta]
 fun d2exp_app_dyn (
   loc: location

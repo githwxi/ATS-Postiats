@@ -134,8 +134,6 @@ SOURCES := \
   pats_staexp2_error.dats \
   pats_staexp2_solve.sats \
   pats_staexp2_solve.dats \
-  pats_dmacro2.sats \
-  pats_dmacro2.dats \
   pats_patcst2.sats \
   pats_patcst2.dats \
   pats_dynexp2.sats \
@@ -175,6 +173,11 @@ SOURCES := \
   pats_trans3_env_lamlp.dats \
   pats_trans3_env_pfman.dats \
   pats_trans3_env_lstate.dats \
+  pats_dmacro2.sats \
+  pats_dmacro2.dats \
+  pats_dmacro2_print.dats \
+  pats_dmacro2_eval0.dats \
+  pats_dmacro2_eval1.dats \
   pats_trans3_p2at.dats \
   pats_trans3_patcon.dats \
   pats_trans3_syncst.dats \
@@ -317,8 +320,6 @@ OBJECTS := \
   pats_staexp2_error_dats.o \
   pats_staexp2_solve_sats.o \
   pats_staexp2_solve_dats.o \
-  pats_dmacro2_sats.o \
-  pats_dmacro2_dats.o \
   pats_patcst2_sats.o \
   pats_patcst2_dats.o \
   pats_dynexp2_sats.o \
@@ -358,6 +359,11 @@ OBJECTS := \
   pats_trans3_env_lamlp_dats.o \
   pats_trans3_env_pfman_dats.o \
   pats_trans3_env_lstate_dats.o \
+  pats_dmacro2_sats.o \
+  pats_dmacro2_dats.o \
+  pats_dmacro2_print_dats.o \
+  pats_dmacro2_eval0_dats.o \
+  pats_dmacro2_eval1_dats.o \
   pats_trans3_p2at_dats.o \
   pats_trans3_patcon_dats.o \
   pats_trans3_syncst_dats.o \
@@ -707,12 +713,6 @@ pats_staexp2_solve_sats.o: pats_staexp2_solve_sats.c; $(ATSCC) $(ATSCCFLAGS) -c 
 pats_staexp2_solve_dats.c: pats_staexp2_solve.dats; $(ATSCC) -cc $<
 pats_staexp2_solve_dats.o: pats_staexp2_solve_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
-pats_dmacro2_sats.c: pats_dmacro2.sats; $(ATSCC) -cc $<
-pats_dmacro2_sats.o: pats_dmacro2_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
-
-pats_dmacro2_dats.c: pats_dmacro2.dats; $(ATSCC) -cc $<
-pats_dmacro2_dats.o: pats_dmacro2_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
-
 pats_patcst2_sats.c: pats_patcst2.sats; $(ATSCC) -cc $<
 pats_patcst2_sats.o: pats_patcst2_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
@@ -829,6 +829,21 @@ pats_trans3_env_pfman_dats.o: pats_trans3_env_pfman_dats.c; $(ATSCC) $(ATSCCFLAG
 
 pats_trans3_env_lstate_dats.c: pats_trans3_env_lstate.dats; $(ATSCC) -cc $<
 pats_trans3_env_lstate_dats.o: pats_trans3_env_lstate_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_dmacro2_sats.c: pats_dmacro2.sats; $(ATSCC) -cc $<
+pats_dmacro2_sats.o: pats_dmacro2_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_dmacro2_dats.c: pats_dmacro2.dats; $(ATSCC) -cc $<
+pats_dmacro2_dats.o: pats_dmacro2_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_dmacro2_print_dats.c: pats_dmacro2_print.dats; $(ATSCC) -cc $<
+pats_dmacro2_print_dats.o: pats_dmacro2_print_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_dmacro2_eval0_dats.c: pats_dmacro2_eval0.dats; $(ATSCC) -cc $<
+pats_dmacro2_eval0_dats.o: pats_dmacro2_eval0_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_dmacro2_eval1_dats.c: pats_dmacro2_eval1.dats; $(ATSCC) -cc $<
+pats_dmacro2_eval1_dats.o: pats_dmacro2_eval1_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_trans3_p2at_dats.c: pats_trans3_p2at.dats; $(ATSCC) -cc $<
 pats_trans3_p2at_dats.o: pats_trans3_p2at_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<

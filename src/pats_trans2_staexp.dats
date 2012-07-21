@@ -1148,12 +1148,12 @@ case+ xs of
 | ~list_vt_cons
     (x, xs) => let
     val () = prerr_error2_loc (x.0)
-    val () = prerr ": overly supplied group of arguments."
+    val () = prerr ": overly supplied static argument group."
     val () = prerr_newline ()
   in
     auxck1 (s1e0, d2c, xs) + 1
   end // end of [list_vt_cons]
-| ~list_vt_nil () => 0
+| ~list_vt_nil () => (0)
 //
 end // end of [auxck1]
 //

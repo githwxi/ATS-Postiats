@@ -42,6 +42,7 @@ staload EFF = "pats_effect.sats"
 
 staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
+staload "pats_dmacro2.sats"
 staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
@@ -169,6 +170,11 @@ datatype trans3err =
   | T3E_d2var_some2 of
       (location, d2var, s2exp(*0*), s2exp) // retained but with a type that fails to merge
     // end of [T3E_d2var_some2]
+//
+  | T3E_dmacro_eval0_cmp of (location, m2val, m2val)
+  | T3E_dmacro_eval0_d2exp of (d2exp)
+  | T3E_dmacro_eval0_app_mac_arity of (location, d2mac, d2exparglst)
+  | T3E_dmacro_evalctx_extend of (location, d2mac)
 //
   | T3E_f2undeclst_tr_termetsrtck of (f2undec, s2rtlstopt)
   | T3E_v2aldeclst_rec_tr_linearity of (v2aldec, s2exp(*linear*))

@@ -115,7 +115,7 @@ fun fileref_puts (r: FILEref, s: NSH(string)): void // HX: no error reporting
 
 fun fileref_is_eof (r: FILEref): bool
 
-macdef fileref_isnot_eof (r) = ~fileref_is_eof (r)
+macdef fileref_isnot_eof (r) = ~fileref_is_eof (,(r))
 
 #atscode_separator()
 
@@ -147,7 +147,7 @@ a:t0p
 
 macdef
 fileref_get_exnloc
-  (r) = fileref_get_exnmsg (r, \#LOCATION)
+  (r) = fileref_get_exnmsg (,(r), \#LOCATION)
 // end of [fileref_get_exnloc]
 
 #atscode_separator()

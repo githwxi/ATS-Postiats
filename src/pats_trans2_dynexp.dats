@@ -142,6 +142,24 @@ if lev > 0 then (
 //
 end (* end of [macdef_check] *)
 
+fn macvar_check (
+  loc0: location, d2v: d2var, dq: d0ynq, id: symbol
+) : void = let
+  val lev = the_maclev_get ()
+in
+//
+if lev > 0 then let
+  val () = prerr_error2_loc (loc0)
+  val () = prerr ": the identifier ["
+  val () = prerr_dqid (dq, id)
+  val () = prerr "] refers incorrectly to a macro argument variable.";
+  val () = prerr_newline ()
+in
+  the_trans2errlst_add (T2E_macvar_check (loc0, d2v))
+end (* end of [if] *)
+//
+end // end of [macvar_check]
+
 (* ****** ****** *)
 
 fn d1exp_tr_dqid (
@@ -189,12 +207,12 @@ case+ ans of
     in
       d2exp_mac (loc0, d2m)
     end // end of [D2ITEMmacdef]
-  | D2ITEMmacvar d2v => let
+*)
+  | D2ITMmacvar d2v => let
       val () = macvar_check (loc0, d2v, dq, id)
     in
       d2exp_var (loc0, d2v)
     end // end of [D2ITEMmacvar]
-*)
   | D2ITMsymdef (sym, d2pis) => let
       val d2s = d2sym_make (loc0, dq, id, d2pis)
     in

@@ -207,11 +207,16 @@ case+ d2e0.d2exp_node of
         d2exp_trup_applst_sym (d2e0, d2s, _arg)
       // end of [D2Esym]
     | D2Emac d2m => let
+// (*
+        val () = (
+          println! ("d2exp_tr_up: D2Eapplst: D2Emac(bef): d2e0 = ", d2e0)
+        ) // end of [val]
+// *)
         val d2e0 =
           $MAC.dmacro_eval_app_short (loc0, d2m, _arg)
 // (*
         val () = (
-          println! ("d2exp_tr_up: D2Eapplst: D2Emac: d2e0 = ", d2e0)
+          println! ("d2exp_tr_up: D2Eapplst: D2Emac(aft): d2e0 = ", d2e0)
         ) // end of [val]
 // *)
       in
@@ -352,6 +357,8 @@ case+ d2e0.d2exp_node of
   in
     d3exp_ann_type (loc0, d3e, s2e_ann)
   end // end of [D2Eann_type]
+//
+| D2Eerr () => d3exp_err (loc0) // of type [s2exp_t0ype_err]
 //
 | _ => let
     val () = (
@@ -961,7 +968,7 @@ in
 case+ d2as of
 | list_cons (d2a, d2as) => (
   case+ d2a of
-  | D2EXPARGsta (s2as) => begin
+  | D2EXPARGsta (locarg, s2as) => begin
       d23exp_trup_applst_sta (d2e0, d3e_fun, s2as, d2as)
     end // end of [D2EXPARGsta]
   | D2EXPARGdyn (npf, locarg, d2es_arg) => begin

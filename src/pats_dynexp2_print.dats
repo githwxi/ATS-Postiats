@@ -808,7 +808,8 @@ fprint_d2exparg (out, x) = let
 in
 //
 case+ x of
-| D2EXPARGsta (s2as) => {
+| D2EXPARGsta
+    (_(*loc*), s2as) => {
     val () = prstr "D2EXPARGsta("
     val () = fprint_s2exparglst (out, s2as)
     val () = prstr ")"

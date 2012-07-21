@@ -443,7 +443,7 @@ d2exp_applst (
 
 implement
 d2exp_app_sta (
-  loc0, d2e_fun, s2as
+  loc0, d2e_fun, locarg, s2as
 ) = let
 (*
   val () = (
@@ -454,7 +454,9 @@ in
 //
 case+ s2as of
 | list_cons _ => let
-    val d2a = D2EXPARGsta (s2as)
+    val d2a =
+      D2EXPARGsta (locarg, s2as)
+    // end of [val]
     val node = (
       case+ d2e_fun.d2exp_node of
       | D2Eapplst (d2e_fun, d2as) => let
@@ -502,7 +504,7 @@ d2exp_app_sta_dyn (
 , d2e_fun, sarg, locarg, npf, darg
 ) = let
   val d2e_sta =
-    d2exp_app_sta (loc_sta, d2e_fun, sarg)
+    d2exp_app_sta (loc_sta, d2e_fun, loc_sta, sarg)
   // end of [val]
 in
   if npf >= ~1 then // [npf] takes ~2 as a fake value

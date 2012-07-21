@@ -178,7 +178,6 @@ dynload "pats_staexp2_ctxt.dats"
 dynload "pats_staexp2_error.dats"
 dynload "pats_staexp2_solve.dats"
 //
-dynload "pats_dmacro2.dats"
 dynload "pats_patcst2.dats"
 //
 dynload "pats_dynexp2.dats"
@@ -190,6 +189,7 @@ dynload "pats_dynexp2_dmac.dats"
 dynload "pats_dynexp2_util.dats"
 //
 dynload "pats_namespace.dats"
+//
 dynload "pats_trans2_env.dats"
 dynload "pats_trans2_error.dats"
 dynload "pats_trans2_sort.dats"
@@ -215,6 +215,11 @@ dynload "pats_trans3_env_dvar.dats"
 dynload "pats_trans3_env_lamlp.dats"
 dynload "pats_trans3_env_pfman.dats"
 dynload "pats_trans3_env_lstate.dats"
+//
+dynload "pats_dmacro2.dats"
+dynload "pats_dmacro2_print.dats"
+dynload "pats_dmacro2_eval0.dats"
+dynload "pats_dmacro2_eval1.dats"
 //
 dynload "pats_trans3_p2at.dats"
 dynload "pats_trans3_patcon.dats"

@@ -948,17 +948,26 @@ the_d2expenv_add_dcst (d2c) = let
 end // end of [the_d2expenv_add_dcst]
 
 implement
-the_d2expenv_add_dmac_def (d2m) = let
-  val id = d2mac_get_sym d2m in the_d2expenv_add (id, D2ITMmacdef d2m)
-end // end of [the_d2expenv_add_dmac_def]
+the_d2expenv_add_dmacdef (d2m) = let
+  val id = d2mac_get_sym (d2m) in the_d2expenv_add (id, D2ITMmacdef d2m)
+end // end of [the_d2expenv_add_dmacdef]
+implement
+the_d2expenv_add_dmacvar (d2v) = let
+  val id = d2var_get_sym (d2v) in the_d2expenv_add (id, D2ITMmacvar d2v)
+end // end of [the_d2expenv_add_dmacvar]
+implement
+the_d2expenv_add_dmacvarlst
+  (d2vs) = list_app_fun (d2vs, the_d2expenv_add_dmacvar)
+// end of [the_d2expenv_add_dmacvarlst]
 
 implement
 the_d2expenv_add_dvar (d2v) = let
   val id = d2var_get_sym (d2v) in the_d2expenv_add (id, D2ITMvar d2v)
 end // end of [the_d2expenv_add_dvar]
 implement
-the_d2expenv_add_dvarlst (d2vs) = list_app_fun (d2vs, the_d2expenv_add_dvar)
-// end of [...]
+the_d2expenv_add_dvarlst
+  (d2vs) = list_app_fun (d2vs, the_d2expenv_add_dvar)
+// end of [the_d2expenv_add_dvarlst]
 
 (* ****** ****** *)
 
