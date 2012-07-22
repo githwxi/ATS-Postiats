@@ -98,6 +98,7 @@ This proof function establishes that the integer n in any linear list type
 
 (* ****** ****** *)
 
+#declnamesynop("fprint_list_vt")
 #declnamesynop("fprint_list_vt_sep")
 #decldescrpt("\
 
@@ -222,17 +223,18 @@ The following code makes a simple use of #dyncode("list_vt_concat"):
 implement
 main () = 0 where {
 //
-  val xs1 = $lst_vt{int}(1)
-  val xs2 = $lst_vt{int}(2)
-  val xs3 = $lst_vt{int}(3)
-  val xss = $lst_vt{List_vt(int)}(xs1, xs2, xs3)
+  typedef T = int
+  val xs1 = $lst_vt{T}(1)
+  val xs2 = $lst_vt{T}(2)
+  val xs3 = $lst_vt{T}(3)
+  val xss = $lst_vt{List_vt(T)}(xs1, xs2, xs3)
   val xs123 = list_vt_concat (xss) // xs123 = [1, 2, 3]
 //
   val out = stdout_ref
-  val () = fprint_list_vt_sep (out, xs123, ", ") // printing out 1, 2, 3
+  val () = fprint_list_vt<T> (out, xs123) // printing out 1, 2, 3
   val () = fprint_newline (out)
 //
-  val () = list_vt_free (xs123)
+  val () = list_vt_free<T> (xs123)
 } // end of [main]
 ')
 ")
@@ -386,17 +388,20 @@ main () = let
 val N = 10
 val out = stdout_ref
 //
-val xs = $lst_vt{int}(0, 9, 2, 7, 4, 5, 6, 3, 8, 1)
-val () = fprint_list_vt_sep (out, xs, ", ")
+typedef T = int
+val xs =
+  $lst_vt{T}(0, 9, 2, 7, 4, 5, 6, 3, 8, 1)
+val () = fprint_list_vt_sep<T> (out, xs, "; ")
 val () = fprint_newline (out)
 //
 implement
-list_mergesort__cmp<int> (x1, x2) = compare (x1, x2)
+list_mergesort__cmp<T> (x1, x2) = compare (x1, x2)
 //
-val ys = list_vt_mergesort<int> (xs)
-val () = fprint_list_vt_sep (out, ys, ", ")
+val ys =
+  list_vt_mergesort<T> (xs)
+val () = fprint_list_vt<T> (out, ys)
 val () = fprint_newline (out)
-val () = list_vt_free (ys)
+val () = list_vt_free<T> (ys)
 //
 in
   0(*normal*)
@@ -449,17 +454,20 @@ main () = let
 val N = 10
 val out = stdout_ref
 //
-val xs = $lst_vt{int}(0, 9, 2, 7, 4, 5, 6, 3, 8, 1)
-val () = fprint_list_vt_sep (out, xs, ", ")
+typedef T = int
+val xs =
+  $lst_vt{T}(0, 9, 2, 7, 4, 5, 6, 3, 8, 1)
+val () = fprint_list_vt_sep<T> (out, xs, "; ")
 val () = fprint_newline (out)
 //
 implement
-list_quicksort__cmp<int> (x1, x2) = compare (x1, x2)
+list_quicksort__cmp<T> (x1, x2) = compare (x1, x2)
 //
-val ys = list_vt_quicksort<int> (xs)
-val () = fprint_list_vt_sep (out, ys, ", ")
+val ys =
+  list_vt_quicksort<T> (xs)
+val () = fprint_list_vt (out, ys)
 val () = fprint_newline (out)
-val () = list_vt_free (ys)
+val () = list_vt_free<T> (ys)
 //
 in
   0(*normal*)

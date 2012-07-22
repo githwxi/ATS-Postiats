@@ -165,6 +165,7 @@ main () = 0 where {
 
 (* ****** ****** *)
 
+#declnamesynop("fprint_list")
 #declnamesynop("fprint_list_sep")
 #decldescrpt("\
 
@@ -181,12 +182,17 @@ standard output channel:
 
 #pats2xhtmld_tryit('\
 implement
-main () = 0 where {
+main () = let
+  typedef T = int
   val out = stdout_ref
-  val xs = $lst{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-  val () = fprint_list_sep<int> (out, xs, ", ")
+  val xs =
+    $lst{T}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+  val () =
+    fprint_list<T> (out, xs)
   val () = fprint_newline (out)
-} // end of [main]
+in
+  0(*normal*)
+end // end of [main]
 ')
 ")
 
@@ -303,14 +309,15 @@ The following code makes a simple use of #dyncode("list_vt_concat"):
 implement
 main () = 0 where {
 //
-  val xs1 = $lst{int}(1)
-  val xs2 = $lst{int}(2)
-  val xs3 = $lst{int}(3)
-  val xss = $lst{List(int)}(xs1, xs2, xs3)
+  typedef T = int
+  val xs1 = $lst{T}(1)
+  val xs2 = $lst{T}(2)
+  val xs3 = $lst{T}(3)
+  val xss = $lst{List(T)}(xs1, xs2, xs3)
   val xs123 = list_concat (xss) // xs123 = [1, 2, 3]
 //
   val out = stdout_ref
-  val () = fprint_list_vt_sep (out, xs123, ", ") // printing out 1, 2, 3
+  val () = fprint_list_vt<T> (out, xs123) // printing out 1, 2, 3
   val () = fprint_newline (out)
 //
   val () = list_vt_free (xs123)
@@ -335,12 +342,13 @@ The following code makes a simple use of #dyncode("list_take"):
 #pats2xhtmld_tryit('\
 implement
 main () = 0 where {
+  typedef T = int
   \#define l2l list_of_list_vt
   val out = stdout_ref
-  val xs1 = $lst{int}(0, 1, 2, 3, 4)
+  val xs1 = $lst{T}(0, 1, 2, 3, 4)
   val n1 = list_length (xs1)
-  val xs2 = $lst{int}(5, 6, 7, 8, 9)
-  val () = assert (list_equal (xs1, l2l (list_take (xs1 + xs2, n1))))
+  val xs2 = $lst{T}(5, 6, 7, 8, 9)
+  val () = assert (list_equal (xs1, l2l (list_take<T> (xs1 + xs2, n1))))
 } // end of [main]
 ')
 ")
@@ -749,25 +757,34 @@ main () = let
 val N = 10
 val out = stdout_ref
 //
-val xs = $lst{int}(0, 9, 2, 7, 4, 5, 6, 3, 8, 1)
-val () = fprint_list_sep (out, xs, ", ")
+typedef T = int
+val xs =
+  $lst{T}(0, 9, 2, 7, 4, 5, 6, 3, 8, 1)
+val () =
+  fprint_list<T> (out, xs)
 val () = fprint_newline (out)
 //
 implement
-list_mergesort__cmp<int> (x1, x2) = compare (x1, x2)
+list_mergesort__cmp<T>
+  (x1, x2) = compare (x1, x2)
 //
-val ys_inc = list_mergesort<int> (xs)
-val () = fprint_list_vt_sep (out, ys_inc, ", ")
+val ys_inc =
+  list_mergesort<T> (xs)
+val () =
+  fprint_list_vt<T> (out, ys_inc)
 val () = fprint_newline (out)
-val () = list_vt_free (ys_inc)
+val () = list_vt_free<T> (ys_inc)
 //
 implement
-list_mergesort__cmp<int> (x1, x2) = ~compare (x1, x2)
+list_mergesort__cmp<T>
+  (x1, x2) = ~compare (x1, x2)
 //
-val ys_dec = list_mergesort<int> (xs)
-val () = fprint_list_vt_sep (out, ys_dec, ", ")
+val zs_dec =
+  list_mergesort<T> (xs)
+val () =
+  fprint_list_vt<T> (out, zs_dec)
 val () = fprint_newline (out)
-val () = list_vt_free (ys_dec)
+val () = list_vt_free<T> (zs_dec)
 //
 in
   0(*normal*)
@@ -809,25 +826,32 @@ main () = let
 val N = 10
 val out = stdout_ref
 //
-val xs = $lst{int}(0, 9, 2, 7, 4, 5, 6, 3, 8, 1)
-val () = fprint_list_sep (out, xs, ", ")
+typedef T = int
+val xs = $lst{T}
+  (0, 9, 2, 7, 4, 5, 6, 3, 8, 1)
+val () =
+  fprint_list<T> (out, xs)
 val () = fprint_newline (out)
 //
 implement
-list_quicksort__cmp<int> (x1, x2) = compare (x1, x2)
+list_quicksort__cmp<T> (x1, x2) = compare (x1, x2)
 //
-val ys_inc = list_quicksort<int> (xs)
-val () = fprint_list_vt_sep (out, ys_inc, ", ")
+val ys_inc =
+  list_quicksort<T> (xs)
+val () =
+  fprint_list_vt<T> (out, ys_inc)
 val () = fprint_newline (out)
-val () = list_vt_free (ys_inc)
+val () = list_vt_free<T> (ys_inc)
 //
 implement
-list_quicksort__cmp<int> (x1, x2) = ~compare (x1, x2)
+list_quicksort__cmp<T> (x1, x2) = ~compare (x1, x2)
 //
-val ys_dec = list_quicksort<int> (xs)
-val () = fprint_list_vt_sep (out, ys_dec, ", ")
+val zs_dec =
+  list_quicksort<T> (xs)
+val () =
+  fprint_list_vt<T> (out, zs_dec)
 val () = fprint_newline (out)
-val () = list_vt_free (ys_dec)
+val () = list_vt_free<T> (zs_dec)
 //
 in
   0(*normal*)

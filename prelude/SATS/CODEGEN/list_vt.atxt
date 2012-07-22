@@ -56,14 +56,17 @@ list_vt_uncons {n:pos}
 
 #atscode_separator()
 
+fun{}
+fprint_list_vt__sep (out: FILEref): void
+fun{a:t0p}
+fprint_list_vt
+  (out: FILEref, xs: !List_vt (a)): void
+// end of [fprint_list_vt]
+
 fun{a:t0p}
 fprint_list_vt_sep (
   out: FILEref, xs: !List_vt (a), sep: NSH(string)
 ) : void // end of [fprint_list_vt_sep]
-
-macdef fprint_list_vt
-  (out, xs) = fprint_list_vt_sep (,(out), ,(xs), ", ")
-// end of [fprint_list_vt]
 
 #atscode_separator()
 

@@ -129,21 +129,21 @@ val regexp_dot_dats =
 implement
 main (argc, argv) = let
   val ans10 = accept ("123456789", regexp_int)
-  val () = assert (ans10)
+  val () = assertloc (ans10)
   val ans11 = accept ("+123456789", regexp_int)
-  val () = assert (ans11)
+  val () = assertloc (ans11)
   val ans12 = accept ("-123456789", regexp_int)
-  val () = assert (ans12)
+  val () = assertloc (ans12)
   val ans20 = accept ("abcde", regexp_int)
-  val () = assert (~ans20)
+  val () = assertloc (~ans20)
   val ans31 = accept ("abcde.sats", regexp_dot_sats)
-  val () = assert (ans31)
+  val () = assertloc (ans31)
   val ans32 = accept ("abcde.sats", regexp_dot_dats)
-  val () = assert (~ans32)
+  val () = assertloc (~ans32)
   val ans41 = accept ("abcde.dats", regexp_dot_sats)
-  val () = assert (~ans41)
+  val () = assertloc (~ans41)
   val ans42 = accept ("abcde.dats", regexp_dot_dats)
-  val () = assert (ans42)
+  val () = assertloc (ans42)
 in
 (*
   print ("ans10(true) = "); print ans10; print_newline ();
