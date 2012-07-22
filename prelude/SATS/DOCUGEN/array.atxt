@@ -324,6 +324,7 @@ end // end of [insertion_sort]
 
 (* ****** ****** *)
 
+#declnamesynop("fprint_array")
 #declnamesynop("fprint_array_sep")
 #decldescrpt("\
 

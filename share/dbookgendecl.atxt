@@ -17,6 +17,7 @@ local
 //
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload _(*anon*) = "prelude/DATS/reference.dats"
 //
 in
 //
@@ -40,7 +41,7 @@ val theDeclpreamble = theDeclpreamble_get ()
 local
 val _content = theDeclitemLst_make_content ()
 in
-val () = theTextMap_insert_str ("theDeclitemLst_content", _content)
+val () = theAtextMap_insert_str ("theDeclitemLst_content", _content)
 end // end of [local]
 //
 %}

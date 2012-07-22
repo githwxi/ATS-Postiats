@@ -28,9 +28,11 @@ DBOOK/%s.dbk: \
   %s_atxt.txt $(DECLATEXT) $(DBOOKGENDECL) ; \
   $(ATSCC) -DATSDBOOK $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $< \
     $(DECLATEXT) $(DBOOKGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_%s:: ; \
+  scp DBOOK/HTML/%s.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/prelude
 clean:: ; $(RMF) %s_atxt.exe
 cleanall:: ; $(RMF) DBOOK/%s.dbk
-", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
+", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
 ) // end of [val]
 //
 in

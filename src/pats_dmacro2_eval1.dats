@@ -170,13 +170,97 @@ end // end of [eval1_labp2atlst]
 
 (* ****** ****** *)
 
-extern
-fun eval1_d2var (
-  loc0: location, env: &alphenv, d2v: d2var
-) : d2var // end of [eval1_d2var]
+typedef
+eval1_type (a:type) =
+  (location(*loc0*), !evalctx, &alphenv, a) -> a
+// end of [eval1_type]
+
+(* ****** ****** *)
+
+extern fun eval1_s2exp : eval1_type (s2exp)
+extern fun eval1_s2explst : eval1_type (s2explst)
+extern fun eval1_s2exparg : eval1_type (s2exparg)
+extern fun eval1_s2exparglst : eval1_type (s2exparglst)
+
+(* ****** ****** *)
+
+implement
+eval1_s2exp
+  (loc0, ctx, env, s2e) = s2e // HX: dummy for now
+// end of [eval1_s2exp]
+
+implement
+eval1_s2explst (
+  loc0, ctx, env, s2es
+) = let
+in
+//
+case+ s2es of
+| list_cons
+    (s2e, s2es) => let
+    val s2e = eval1_s2exp (loc0, ctx, env, s2e)
+    val s2es = eval1_s2explst (loc0, ctx, env, s2es)
+  in
+    list_cons (s2e, s2es)
+  end // end of [list_cons]
+| list_nil () => list_nil()
+//
+end // end of [eval1_s2explst]
+
+(* ****** ****** *)
+
+implement
+eval1_s2exparg (
+  loc0, ctx, env, s2a
+) = let
+  val s2an = s2a.s2exparg_node
+in
+//
+case+ s2an of
+| S2EXPARGone () => s2exparg_one (loc0)
+| S2EXPARGall () => s2exparg_all (loc0)
+| S2EXPARGseq (s2es) =>
+    s2exparg_seq (loc0, eval1_s2explst (loc0, ctx, env, s2es))
+  // end of [S2EXPARGseq]
+//
+end // end of [eval1_s2exparg]
+
+implement
+eval1_s2exparglst (
+  loc0, ctx, env, s2as
+) = let
+in
+//
+case+ s2as of
+| list_cons
+    (s2a, s2as) => let
+    val s2a = eval1_s2exparg (loc0, ctx, env, s2a)
+    val s2as = eval1_s2exparglst (loc0, ctx, env, s2as)
+  in
+    list_cons (s2a, s2as)
+  end // end of [list_cons]
+| list_nil () => list_nil()
+//
+end // end of [eval1_s2exparglst]
+
+(* ****** ****** *)
+
+extern fun eval1_d2var : eval1_type (d2var)
+extern fun eval1_d2explst : eval1_type (d2explst)
+extern fun eval1_d2expopt : eval1_type (d2expopt)
+extern fun eval1_d2exparg : eval1_type (d2exparg)
+extern fun eval1_d2exparglst : eval1_type (d2exparglst)
+
+(* ****** ****** *)
+
+extern fun eval1_d2exp_applst : eval1_type (d2exp)
+extern fun eval1_d2exp_macsyn : eval1_type (d2exp)
+
+(* ****** ****** *)
+
 implement
 eval1_d2var
-  (loc0, env, d2v) = let
+  (loc0, ctx, env, d2v) = let
   val opt = alphenv_dfind (env, d2v)
 in
   case+ opt of
@@ -185,10 +269,6 @@ end // end of [eval1_d2var]
 
 (* ****** ****** *)
 
-extern
-fun eval1_d2explst (
-  loc0: location, ctx: !evalctx, env: &alphenv, d2es: d2explst
-) : d2explst // end of [eval1_d2explst]
 implement
 eval1_d2explst (
   loc0, ctx, env, d2es
@@ -208,11 +288,17 @@ case+ d2es of
 end // end of [eval1_d2explst]
 
 (* ****** ****** *)
+
+implement
+eval1_d2expopt
+  (loc0, ctx, env, opt) = (
+  case+ opt of
+  | Some (d2e) => Some (eval1_d2exp (loc0, ctx, env, d2e))
+  | None () => None ()
+) // end of [eval1_d2expopt]
+
+(* ****** ****** *)
   
-extern
-fun eval1_d2exparg (
-  loc0: location, ctx: !evalctx, env: &alphenv, d2a: d2exparg
-) : d2exparg // end of [eval1_d2exparg]
 implement
 eval1_d2exparg
   (loc0, ctx, env, d2a) = let
@@ -230,10 +316,6 @@ case+ d2a of
 //
 end // end of [eval1_d2exparg]
 
-extern
-fun eval1_d2exparglst (
-  loc0: location, ctx: !evalctx, env: &alphenv, d2as: d2exparglst
-) : d2exparglst // end of [eval1_d2exparglst]
 implement
 eval1_d2exparglst
   (loc0, ctx, env, d2as) = let
@@ -253,10 +335,6 @@ end // end of [eval1_d2exparglst]
 
 (* ****** ****** *)
 
-extern
-fun eval1_d2exp_applst (
-  loc0: location, ctx: !evalctx, env: &alphenv, d2e: d2exp
-) : d2exp // end of [eval1_d2exp_applst]
 implement
 eval1_d2exp_applst (
   loc0, ctx, env, d2e0
@@ -309,10 +387,6 @@ end // end of [eval1_d2exp_applst]
 
 (* ****** ****** *)
 
-extern
-fun eval1_d2exp_macsyn (
-  loc0: location, ctx: !evalctx, env: &alphenv, d2e: d2exp
-) : d2exp // end of [eval1_d2exp_macsyn]
 implement
 eval1_d2exp_macsyn (
   loc0, ctx, env, d2e0
@@ -372,15 +446,25 @@ val d2en0 = d2e0.d2exp_node
 //
 macdef reloc () = d2exp_make_node (loc0, d2en0)
 //
+macdef eval1sexp (x) = eval1_s2exp (loc0, ctx, env, ,(x))
+macdef eval1sexplst (x) = eval1_s2explst (loc0, ctx, env, ,(x))
+//
+macdef eval1sexparg (x) = eval1_s2exparg (loc0, ctx, env, ,(x))
+macdef eval1sexparglst (x) = eval1_s2exparglst (loc0, ctx, env, ,(x))
+//
+macdef eval1dvar (x) = eval1_d2var (loc0, ctx, env, ,(x))
+//
+macdef eval1dexp (x) = eval1_d2exp (loc0, ctx, env, ,(x))
+macdef eval1dexplst (x) = eval1_d2explst (loc0, ctx, env, ,(x))
+macdef eval1dexpopt (x) = eval1_d2expopt (loc0, ctx, env, ,(x))
+//
 in
 //
 case+ d2en0 of
 //
-| D2Evar (d2v) => let
-    val d2v_new = eval1_d2var (loc0, env, d2v)
-  in
-    d2exp_var (loc0, d2v_new)
-  end // end of [D2Evar]
+| D2Evar (d2v) =>
+    d2exp_var (loc0, eval1dvar (d2v))
+  // end of [D2Evar]
 //
 | D2Eint _ => reloc ()
 | D2Eintrep _ => reloc ()
@@ -393,16 +477,54 @@ case+ d2en0 of
 | D2Es0tring _ => reloc ()
 | D2Ef0loat _ => reloc ()
 //
+| D2Econ (
+    d2c, locfun, s2as, npf, locarg, d2es
+  ) => let
+    val s2as =
+      eval1sexparglst (s2as)
+    // end of [val]
+    val d2es = eval1dexplst (d2es)
+  in
+    d2exp_con (loc0, d2c, locfun, s2as, npf, locarg, d2es)
+  end // end of [D2Econ]
+//
 | D2Ecst _ => reloc ()
 | D2Ecstsp _ => reloc ()
 | D2Esym _ => reloc ()
 //
+| D2Eextval (s2e, rep) =>
+    d2exp_extval (loc0, eval1sexp (s2e), rep)
+  // end of [D2Eextval]
+//
 | D2Eapplst _ =>
     eval1_d2exp_applst (loc0, ctx, env, d2e0)
-// end of [D2Eapplst]
+  // end of [D2Eapplst]
 | D2Emacsyn _ =>
     eval1_d2exp_macsyn (loc0, ctx, env, d2e0)
-// end of [D2Emacsyn]
+  // end of [D2Emacsyn]
+//
+| D2Eptrof (d2e) =>
+    d2exp_ptrof (loc0, eval1dexp (d2e))
+| D2Eviewat (d2e) =>
+    d2exp_viewat (loc0, eval1dexp (d2e))
+//
+| D2Ederef (d2e) =>
+    d2exp_deref (loc0, eval1dexp (d2e))
+| D2Eassgn (_l, _r) =>
+    d2exp_assgn (loc0, eval1dexp (_l), eval1dexp (_r))
+| D2Exchng (_l, _r) =>
+    d2exp_xchng (loc0, eval1dexp (_l), eval1dexp (_r))
+//
+| D2Eraise (d2e) => d2exp_raise (loc0, eval1dexp (d2e))
+//
+| D2Eexist (s2a, d2e) =>
+    d2exp_exist (loc0, eval1sexparg (s2a), eval1dexp (d2e))
+  // end of [D2Eexist]
+//
+| D2Edelay (d2e) => d2exp_delay (loc0, eval1dexp (d2e))
+| D2Eldelay (_eval, _free) =>
+    d2exp_ldelay (loc0, eval1dexp (_eval), eval1dexpopt (_free))
+  // end of [D2Eldelay]
 //
 | _ => d2exp_err (loc0)
 //
