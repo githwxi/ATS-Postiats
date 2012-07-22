@@ -119,6 +119,10 @@ end // end of [main]
 
 (* ****** ****** *)
 
+#declnamesynop("fprint_list0_sep")
+
+(* ****** ****** *)
+
 #declnamesynop("list0_head_exn")
 #decldescrpt("\
 

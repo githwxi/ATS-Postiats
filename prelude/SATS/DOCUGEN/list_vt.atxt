@@ -98,7 +98,16 @@ This proof function establishes that the integer n in any linear list type
 
 (* ****** ****** *)
 
+#declnamesynop("fprint_list_vt__sep")
 #declnamesynop("fprint_list_vt")
+#decldescrpt("\
+
+This function prints the elements in a given linear list to the output
+channel provided as its first argument, and it calls the function
+#dyncode("fprint_list_vt__sep") before printing an element as long as the
+element is not the first one.  Note that printing each list element is
+handled by calling the function #dyncode("fprint_ref").  ")
+
 #declnamesynop("fprint_list_vt_sep")
 #decldescrpt("\
 

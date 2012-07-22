@@ -165,7 +165,16 @@ main () = 0 where {
 
 (* ****** ****** *)
 
+#declnamesynop("fprint_list__sep")
 #declnamesynop("fprint_list")
+#decldescrpt("\
+
+This function prints the elements in a given list to the output
+channel provided as its first argument, and it calls the function
+#dyncode("fprint_list__sep") before printing an element as long as the
+element is not the first one.  Note that printing each list element is
+handled by calling the function #dyncode("fprint_val").  ")
+
 #declnamesynop("fprint_list_sep")
 #decldescrpt("\
 

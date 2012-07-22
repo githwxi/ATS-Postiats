@@ -324,7 +324,16 @@ end // end of [insertion_sort]
 
 (* ****** ****** *)
 
+#declnamesynop("fprint_array__sep")
 #declnamesynop("fprint_array")
+#decldescrpt("\
+
+This function prints the elements in a given array to the output
+channel provided as its first argument, and it calls the function
+#dyncode("fprint_array__sep") before printing an element as long as the
+element is not the first one.  Note that printing each array element is
+handled by calling the function #dyncode("fprint_ref").  ")
+
 #declnamesynop("fprint_array_sep")
 #decldescrpt("\
 

@@ -68,10 +68,6 @@ fprint_list0_sep (
   out: FILEref, xs: list0 (a), sep: NSH(string)
 ) : void // end of [fprint_list0_sep]
 
-macdef fprint_list0
-  (out, xs) = fprint_list0_sep (,(out), ,(xs), ", ")
-// end of [fprint_list0]
-
 #atscode_separator()
 
 fun{a:t0p}
