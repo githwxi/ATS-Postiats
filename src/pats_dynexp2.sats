@@ -543,6 +543,8 @@ d2ecl_node =
     ) // end of [D2staload]
   | D2Cdynload of filename (* dynamic load *)
   | D2Clocal of (d2eclist(*head*), d2eclist(*body*)) // local declaration
+//
+  | D2Cerrdec of () // indication of error
 // end of [d2ecl_node]
 
 and d2exp_node =
@@ -1283,6 +1285,10 @@ fun d2ecl_staload (
 fun d2ecl_dynload (loc: location, fil: filename): d2ecl
 
 fun d2ecl_local (loc: location, ds1: d2eclist, ds2: d2eclist): d2ecl
+
+(* ****** ****** *)
+
+fun d2ecl_errdec (loc: location): d2ecl
 
 (* ****** ****** *)
 

@@ -298,12 +298,6 @@ the construction of the concatenation.
 (* ****** ****** *)
 
 #declnamesynop("list_concat")
-#decldescrpt('\
-
-This function returns a concatenation of the lists in its argument, which
-is a list of lists.
-
-')
 #decldescrpt("\
 
 Given a list xss, this function builds a concatenation of xss[0],
@@ -412,14 +406,45 @@ or exceeds the length of its first argument.
 #declnamesynop("list_foreach")
 #decldescrpt("\
 
-Given a list xs, this function applies to xs[i] the function
-implemented by #dyncode("list_foreach__fwork"), where i ranges from 0
-until the length of xs minus one, inclusive, and xs[i] refers to element
-i in xs.  ")
-
-returns false.  ")
+Given a list xs of length n, this function applies to xs[i] the function
+implemented by #dyncode("list_foreach__fwork"), where i ranges from 0 until
+n-1, inclusive, and xs[i] refers to element i in xs.  ")
 
 #declnamesynop("list_foreach_env")
+#decldescrpt('\
+
+This function does essentially the same as #dyncode("list_foreach")
+except for taking an additional argument that serves as an environment.  ')
+
+#declexample("\
+#pats2xhtmld_tryit('\
+//
+staload "contrib/atshwxi/testing/SATS/randgen.sats"
+//
+implement
+main () = let
+//
+typedef T = int
+\#define N 1000000
+val xs = randgen_list<T> (N)
+val xs = list_of_list_vt (xs)
+//
+typedef env = T
+implement
+list_foreach__fwork<T><env> (x, env) = env := env + x
+//
+var res: env = 0
+val () = list_foreach_env<T><env> (xs, res)
+//  
+val () = (
+  print ("The total equals "); print res; print_newline ()
+) // end of [val]
+//
+in
+  0(*normal*)
+end // end of [main]
+')
+")
 
 (* ****** ****** *)
 

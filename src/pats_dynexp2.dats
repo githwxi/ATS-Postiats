@@ -1025,6 +1025,10 @@ implement d2ecl_local
 
 (* ****** ****** *)
 
+implement d2ecl_errdec (loc) = d2ecl_make (loc, D2Cerrdec ())
+
+(* ****** ****** *)
+
 extern typedef "p2at_t" = p2at
 extern typedef "d2exp_t" = d2exp
 

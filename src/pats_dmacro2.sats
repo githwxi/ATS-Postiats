@@ -163,9 +163,12 @@ fun eval0_d2exp (
 
 (* ****** ****** *)
 
-fun eval1_d2exp (
-  loc0: location, ctx: !evalctx, env: &alphenv, d2e: d2exp
-) : d2exp // end of [eval1_d2exp]
+typedef
+eval1_type (a:type) =
+  (location(*loc0*), !evalctx, &alphenv, a) -> a
+// end of [eval1_type]
+
+fun eval1_d2exp : eval1_type (d2exp)
 
 (* ****** ****** *)
 

@@ -878,9 +878,9 @@ fprint_d2ecl (out, x) = let
 in
 //
 case+ x.d2ecl_node of
-| D2Cnone () => {
-    val () = prstr "D2Cnone()"
-  } // end of [D2Cnone]
+//
+| D2Cnone () => prstr "D2Cnone()"
+//
 | D2Clist (xs) => {
     val () = prstr "D2Clist(\n"
     val () = $UT.fprintlst (out, xs, "\n", fprint_d2ecl)
@@ -912,7 +912,7 @@ case+ x.d2ecl_node of
     val () = prstr "; "
     val () = $UT.fprintlst (out, d2cs, ", ", fprint_d2cst)
     val () = prstr ")"
-  }
+  } // end of [D2Cdcstdec]
 //
 | D2Cfundecs _ => {
     val () = prstr "D2Cfundecs(\n"
@@ -956,6 +956,8 @@ case+ x.d2ecl_node of
     val () = prstr "..."
     val () = prstr "\n)"
   } // end of [D2Clocal]    
+//
+| D2Cerrdec () => prstr "D2Cerrdec()"
 //
 | _ => prstr "D2C...(...)"
 //

@@ -50,6 +50,10 @@ macdef assertloc (x) = assert_errmsg (,(x), #LOCATION)
 
 (* ****** ****** *)
 
+macdef ignoret (x) = let val x = ,(x) in (*nothing*) end
+
+(* ****** ****** *)
+
 macdef foldret (x) = let val x = ,(x) in fold@ (x); x end
 
 (* ****** ****** *)

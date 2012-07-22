@@ -170,15 +170,10 @@ end // end of [eval1_labp2atlst]
 
 (* ****** ****** *)
 
-typedef
-eval1_type (a:type) =
-  (location(*loc0*), !evalctx, &alphenv, a) -> a
-// end of [eval1_type]
-
-(* ****** ****** *)
-
 extern fun eval1_s2exp : eval1_type (s2exp)
 extern fun eval1_s2explst : eval1_type (s2explst)
+extern fun eval1_s2expopt : eval1_type (s2expopt)
+
 extern fun eval1_s2exparg : eval1_type (s2exparg)
 extern fun eval1_s2exparglst : eval1_type (s2exparglst)
 
@@ -206,6 +201,14 @@ case+ s2es of
 | list_nil () => list_nil()
 //
 end // end of [eval1_s2explst]
+
+implement
+eval1_s2expopt
+  (loc0, ctx, env, opt) = (
+  case+ opt of
+  | Some (s2e) => Some (eval1_s2exp (loc0, ctx, env, s2e))
+  | None () => None ()
+) // end of [eval1_s2expopt]
 
 (* ****** ****** *)
 
@@ -258,6 +261,11 @@ extern fun eval1_d2exp_macsyn : eval1_type (d2exp)
 
 (* ****** ****** *)
 
+extern fun eval1_d2ecl : eval1_type (d2ecl)
+extern fun eval1_d2eclist : eval1_type (d2eclist)
+
+(* ****** ****** *)
+
 implement
 eval1_d2var
   (loc0, ctx, env, d2v) = let
@@ -286,8 +294,6 @@ case+ d2es of
 | list_nil () => list_nil ()
 //
 end // end of [eval1_d2explst]
-
-(* ****** ****** *)
 
 implement
 eval1_d2expopt
@@ -465,6 +471,7 @@ case+ d2en0 of
 | D2Evar (d2v) =>
     d2exp_var (loc0, eval1dvar (d2v))
   // end of [D2Evar]
+| D2Ecst _ => reloc ()
 //
 | D2Eint _ => reloc ()
 | D2Eintrep _ => reloc ()
@@ -477,6 +484,15 @@ case+ d2en0 of
 | D2Es0tring _ => reloc ()
 | D2Ef0loat _ => reloc ()
 //
+| D2Ecstsp _ => reloc ()
+//
+| D2Etop _ => reloc ()
+| D2Eempty _ => reloc ()
+//
+| D2Eextval (s2e, rep) =>
+    d2exp_extval (loc0, eval1sexp (s2e), rep)
+  // end of [D2Eextval]
+//
 | D2Econ (
     d2c, locfun, s2as, npf, locarg, d2es
   ) => let
@@ -488,13 +504,24 @@ case+ d2en0 of
     d2exp_con (loc0, d2c, locfun, s2as, npf, locarg, d2es)
   end // end of [D2Econ]
 //
-| D2Ecst _ => reloc ()
-| D2Ecstsp _ => reloc ()
 | D2Esym _ => reloc ()
 //
-| D2Eextval (s2e, rep) =>
-    d2exp_extval (loc0, eval1sexp (s2e), rep)
-  // end of [D2Eextval]
+| D2Elet (d2cs, d2e) => let
+    val () = alphenv_push (env)
+    val d2cs = eval1_d2eclist (loc0, ctx, env, d2cs)
+    val d2e = eval1dexp (d2e)
+    val () = alphenv_pop (env)
+  in
+    d2exp_let (loc0, d2cs, d2e)
+  end // end of [D2Elet]
+| D2Ewhere (d2e, d2cs) => let
+    val () = alphenv_push (env)
+    val d2cs = eval1_d2eclist (loc0, ctx, env, d2cs)
+    val d2e = eval1dexp (d2e)
+    val () = alphenv_pop (env)
+  in
+    d2exp_where (loc0, d2e, d2cs)
+  end // end of [D2Ewhere]
 //
 | D2Eapplst _ =>
     eval1_d2exp_applst (loc0, ctx, env, d2e0)
@@ -529,6 +556,153 @@ case+ d2en0 of
 | _ => d2exp_err (loc0)
 //
 end // end of [eval1_d2exp]
+
+(* ****** ****** *)
+
+extern fun eval1_v2aldeclst : eval1_type (v2aldeclst)
+extern fun eval1_v2aldeclst_rec : eval1_type (v2aldeclst)
+
+(* ****** ****** *)
+
+implement
+eval1_d2ecl (
+  loc0, ctx, env, d2c0
+) = let
+in
+//
+case+ d2c0.d2ecl_node of
+//
+| D2Cnone () => d2ecl_none (loc0)
+| D2Clist (d2cs) => let
+    val d2cs = eval1_d2eclist (loc0, ctx, env, d2cs)
+  in
+    d2ecl_list (loc0, d2cs)
+  end // end of [D2Clist]
+//
+| D2Cvaldecs (knd, d2cs) => let
+    val d2cs = eval1_v2aldeclst (loc0, ctx, env, d2cs)
+  in
+    d2ecl_valdecs (loc0, knd, d2cs)
+  end // end of [D2Cvaldecs]
+| D2Cvaldecs_rec (knd, d2cs) => let
+    val d2cs = eval1_v2aldeclst_rec (loc0, ctx, env, d2cs)
+  in
+    d2ecl_valdecs_rec (loc0, knd, d2cs)
+  end // end of [D2Cvaldecs_rec]
+//
+| _ => d2ecl_errdec (loc0)
+//
+end // end of [eval1_d2ecl]
+
+(* ****** ****** *)
+
+implement
+eval1_d2eclist (
+  loc0, ctx, env, d2cs
+) = let
+in
+//
+case+ d2cs of
+| list_cons
+    (d2c, d2cs) => let
+    val d2c = eval1_d2ecl (loc0, ctx, env, d2c)
+    val d2cs = eval1_d2eclist (loc0, ctx, env, d2cs)
+  in
+    list_cons (d2c, d2cs)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [eval1_d2eclist]
+
+(* ****** ****** *)
+
+implement
+eval1_v2aldeclst (
+  loc0, ctx, env, d2cs
+) = let
+//
+fun auxlst1 (
+  loc0: location
+, ctx: !evalctx, env: &alphenv
+, d2cs: v2aldeclst
+) : d2explst = (
+  case+ d2cs of
+  | list_cons
+      (d2c, d2cs) => let
+      val d2e = eval1_d2exp (loc0, ctx, env, d2c.v2aldec_def)
+      val d2es = auxlst1 (loc0, ctx, env, d2cs)
+    in
+      list_cons (d2e, d2es)
+    end // end of [list_cons]
+  | list_nil () => list_nil ()
+) // end of [auxlst1]
+val d2es = auxlst1 (loc0, ctx, env, d2cs)
+//
+fun auxlst2 (
+  loc0: location
+, ctx: !evalctx, env: &alphenv
+, d2cs: v2aldeclst, d2es: d2explst
+) : v2aldeclst = (
+  case+ d2cs of
+  | list_cons (d2c, d2cs) => let
+      val p2t = eval1_p2at (loc0, env, d2c.v2aldec_pat)
+      val- list_cons (d2e, d2es) = d2es
+      val ann = eval1_s2expopt (loc0, ctx, env, d2c.v2aldec_ann)
+      val d2c = v2aldec_make (loc0, p2t, d2e, ann)
+      val d2cs = auxlst2 (loc0, ctx, env, d2cs, d2es)
+    in
+      list_cons (d2c, d2cs)
+    end
+  | list_nil () => list_nil ()
+) // end of [auxlst2]
+//
+in
+  auxlst2 (loc0, ctx, env, d2cs, d2es)
+end // end of [eval1_v2aldeclst]
+
+(* ****** ****** *)
+
+implement
+eval1_v2aldeclst_rec (
+  loc0, ctx, env, d2cs
+) = let
+//
+fun auxlst1 (
+  loc0: location, env: &alphenv, d2cs: v2aldeclst
+) : p2atlst = (
+  case+ d2cs of
+  | list_cons
+      (d2c, d2cs) => let
+      val p2t = eval1_p2at (loc0, env, d2c.v2aldec_pat)
+      val p2ts = auxlst1 (loc0, env, d2cs)
+    in
+      list_cons (p2t, p2ts)
+    end // end of [list_cons]
+  | list_nil () => list_nil ()
+) // end of [auxlst1]
+val p2ts = auxlst1 (loc0, env, d2cs)
+//
+fun auxlst2 (
+  loc0: location
+, ctx: !evalctx, env: &alphenv
+, d2cs: v2aldeclst, p2ts: p2atlst
+) : v2aldeclst = (
+  case+ d2cs of
+  | list_cons (d2c, d2cs) => let
+      val d2e = eval1_d2exp (loc0, ctx, env, d2c.v2aldec_def)
+      val- list_cons (p2t, p2ts) = p2ts
+      val ann = eval1_s2expopt (loc0, ctx, env, d2c.v2aldec_ann)
+      val d2c = v2aldec_make (loc0, p2t, d2e, ann)
+      val d2cs = auxlst2 (loc0, ctx, env, d2cs, p2ts)
+    in
+      list_cons (d2c, d2cs)
+    end
+  | list_nil () => list_nil ()
+) // end of [auxlst2]
+//
+in
+  auxlst2 (loc0, ctx, env, d2cs, p2ts)
+end // end of [eval1_v2aldeclst_rec]
 
 (* ****** ****** *)
 
