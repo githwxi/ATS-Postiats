@@ -202,17 +202,20 @@ fun array_ptr_free
 
 #atscode_separator()
 
+fun{}
+fprint_array__sep (out: FILEref): void
+fun{a:vt0p}
+fprint_array
+  {n:int} (
+  out: FILEref, A: &(@[INV(a)][n]), n: size_t n
+) : void // end of [fprint_array]
+
 fun{a:vt0p}
 fprint_array_sep
   {n:int} (
   out: FILEref
 , A: &(@[INV(a)][n]), n: size_t n, sep: NSH(string)
 ) : void // end of [fprint_array_sep]
-
-macdef
-fprint_array
-  (out, A, n) = fprint_array_sep (,(out), ,(A), ,(n), ", ")
-// end of [fprint_array]
 
 (* ****** ****** *)
 

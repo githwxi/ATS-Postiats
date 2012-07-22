@@ -58,12 +58,12 @@ list_vt_uncons {n:pos}
 
 fun{}
 fprint_list_vt__sep (out: FILEref): void
-fun{a:t0p}
+fun{a:vt0p}
 fprint_list_vt
   (out: FILEref, xs: !List_vt (a)): void
 // end of [fprint_list_vt]
 
-fun{a:t0p}
+fun{a:vt0p}
 fprint_list_vt_sep (
   out: FILEref, xs: !List_vt (a), sep: NSH(string)
 ) : void // end of [fprint_list_vt_sep]

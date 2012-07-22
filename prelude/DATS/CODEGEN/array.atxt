@@ -120,16 +120,16 @@ end // end of [array_ptr_free]
 #atscode_separator()
 
 implement{a}
-fprint_array_sep
-  (out, A, asz, sep) = let
+fprint_array
+  (out, A, asz) = let
 //
 typedef tenv = int
 implement
 array_foreach__fwork<a><tenv>
   (x, env) = let
   val n = env
+  val () = if n > 0 then fprint_array__sep<> (out)
   val () = env := n + 1
-  val () = if n > 0 then fprint_string (out, sep)
 in
   fprint_ref<a> (out, x)
 end // end of [array_foreach__fwork]
@@ -139,6 +139,17 @@ val _(*n*) = array_foreach_env<a><tenv> (A, asz, env)
 //
 in
   // nothing
+end // end of [fprint_array]
+
+implement{a}
+fprint_array_sep
+  (out, A, asz, sep) = let
+//
+implement
+fprint_array__sep<> (out) = fprint_string (out, sep)
+//
+in
+  fprint_array<a> (out, A, asz)
 end // end of [fprint_array_sep]
 
 #atscode_separator()

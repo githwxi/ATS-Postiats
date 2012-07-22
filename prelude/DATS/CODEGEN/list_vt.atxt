@@ -45,13 +45,13 @@ implement(env)
 list_vt_iforeach__fwork<a><env>
   (i, x, env) = let
   val () =
-    if i > 0 then fprint_list_vt__sep (out)
+    if i > 0 then fprint_list_vt__sep<> (out)
   // end of [val]
 in
   fprint_ref<a> (out, x)
 end // end of [list_iforeach__fwork]
 //
-val _(*n*) = list_vt_iforeach (xs)
+val _(*n*) = list_vt_iforeach<a> (xs)
 //
 in
   // nothing

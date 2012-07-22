@@ -160,7 +160,7 @@ in
   fprint_val<a> (out, x)
 end // end of [list_iforeach__fwork]
 //
-val _(*n*) = list_iforeach (xs)
+val _(*n*) = list_iforeach<a> (xs)
 //
 in
   // nothing
