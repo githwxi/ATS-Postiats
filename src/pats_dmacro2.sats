@@ -184,8 +184,8 @@ fun eval0_app_mac_short (
 
 (* ****** ****** *)
 
-fun dmacro_eval_cross (d2e: d2exp): d2exp
 fun dmacro_eval_decode (d2e: d2exp): d2exp
+fun dmacro_eval_xstage (d2e: d2exp): d2exp
 
 (* ****** ****** *)
 //

@@ -41,6 +41,12 @@ staload _(*anon*) = "pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_dmacro2_eval0"
 
 (* ****** ****** *)
+(*
+** for T_* constructors
+*)
+staload LEX = "pats_lexing.sats"
+
+(* ****** ****** *)
 
 staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
@@ -241,6 +247,33 @@ case+ d2e0.d2exp_node of
 | D2Evar d2v =>
     eval0_d2var (loc0, ctx, d2v)
   // end of [D2Evar]
+//
+| D2Eint (i) => M2Vint (i)
+| D2Echar (c) => M2Vchar (c)
+| D2Estring (s) => M2Vstring (s)
+| D2Efloat (rep) => M2Vfloat (rep)
+//
+| D2Ei0nt (x) => let
+    val- $LEX.T_INTEGER
+      (base, rep, sfx) = x.token_node
+    // end of [val]
+  in
+    M2Vint (int_of_llint ($UT.llint_make_string (rep)))
+  end // end of [D2Ei0nt]
+| D2Ec0har (x) => let
+    val- $LEX.T_CHAR
+      (c) = x.token_node in M2Vchar (c)
+    // end of [val]
+  end // end of [D2Ec0har]
+| D2Ef0loat (x) => let
+    val- $LEX.T_FLOAT
+      (bas, rep, sfx) = x.token_node in M2Vfloat (rep)
+    // end of [val]
+  end // end of [D2Ef0loat]
+| D2Es0tring (x) => let
+    val- $LEX.T_STRING (s) = x.token_node in M2Vstring (s)
+  end // end of [D2Es0tring]
+//
 | D2Eapplst
     (d2e, d2as) => (
   case+ d2e.d2exp_node of
@@ -264,10 +297,6 @@ case+ d2e0.d2exp_node of
       M2Verr ()
     end // end of [_]
   ) // end of [D2Eapplst]
-| D2Eint (i) => M2Vint (i)
-| D2Echar (c) => M2Vchar (c)
-| D2Estring (s) => M2Vstring (s)
-| D2Efloat (rep) => M2Vfloat (rep)
 | D2Emac d2m => let
     val d2as = list_nil () // argumentless
   in
@@ -386,11 +415,19 @@ in
 end // end of [auxerr]
 //
 fun aux (
-  loc0: location
+  loc0: location, knd: int
 , ctx: !evalctx, env: &alphenv, d2e: d2exp
 ) : m2val = let
 in
-  M2Vdcode (eval1_d2exp (loc0, ctx, env, d2e))
+//
+if knd >= 1 then
+  eval0_d2exp (loc0, ctx, env, d2e)
+else let // short form
+  val m2v = eval1_d2exp (loc0, ctx, env, d2e)
+in
+  M2Vdcode (m2v)
+end // end of [if]
+//
 end // end of [aux]
 //
 in
@@ -399,7 +436,9 @@ case+ d2vs of
 | list_cons (d2v, d2vs) => (
   case+ d2es of
   | list_cons (d2e, d2es) => let
-      val m2v = aux (loc0, ctx, env, d2e)
+      val m2v =
+        aux (loc0, knd, ctx, env, d2e)
+      // end of [val]
       val res = evalctx_dadd (res, d2v, m2v)
     in
       evalctx_extend_darg (loc0, d2m, knd, ctx, env, d2vs, d2es, res)
@@ -426,13 +465,13 @@ evalctx_extend_arg (
 ) = let
 //
 fun auxerr (
-  loc0: location, loc: location, d2m: d2mac, knd: int
+  loc0: location, loc: location, d2m: d2mac, stadyn: int
 ) : void = let
   val () = prerr_errmac_loc (loc0)
   val () = prerr ": the macro argument at ("
   val () = $LOC.prerr_location (loc)
-  val () = if knd = 0 then prerr ") is expected to be static."
-  val () = if knd > 0 then prerr ") is expected to be dynamic."
+  val () = if stadyn = 0 then prerr ") is expected to be static."
+  val () = if stadyn > 0 then prerr ") is expected to be dynamic."
   val () = prerr_newline ()
 in
   the_trans3errlst_add (T3E_dmacro_evalctx_extend (loc0, d2m))  
@@ -483,13 +522,52 @@ case+ args of
 end // end of [evalctx_extend_arglst]
 
 (* ****** ****** *)
-
+//
+// HX: expanding macros in long form
+//
 implement
 eval0_app_mac_long (
   loc0, d2m, ctx, env, d2as
 ) = let
+(*
+  val () = println! ("eval0_app_mac_long: d2m = ", d2m)
+*)
+//
+val n = list_length (d2as)
+val args = d2mac_get_arglst (d2m)
+val narg = list_length (args)
+//
+val () = (
+  if n != narg then let
+    val () = prerr_errmac_loc (loc0)
+    val () = prerr ": the macro function ["
+    val () = prerr_d2mac (d2m)
+    val () = if n > narg then prerr "] is overlly applied."
+    val () = if n < narg then prerr "] is applied insufficiently."
+    val () = prerr_newline ()
+  in
+    the_trans3errlst_add (T3E_dmacro_eval0_app_mac_arity (loc0, d2m, d2as))
+  end // end of [if]
+) : void // end of [val]
+//
+val ctx_new =
+  evalctx_nil ()
+val ctx_new =
+  evalctx_extend_arglst (
+  loc0, d2m, 1(*long*), ctx, env, args, d2as, ctx_new
+) // end of [val]
+(*
+val () = begin
+  print "eval0_app_mac_long: ctx_new =\n"; print ctx_new
+end // end of [val]
+*)
+//
+val m2v = eval0_d2exp (loc0, ctx_new, env, d2mac_get_def (d2m))
+//
+val () = evalctx_free (ctx_new)
+//
 in
-  exitloc (1)
+  m2v
 end // end of [eval0_app_mac_long]
 
 (* ****** ****** *)

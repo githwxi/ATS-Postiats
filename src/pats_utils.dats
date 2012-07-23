@@ -79,7 +79,8 @@ fun
 llint_make_string_sgn
   {n,i:nat | i <= n} (
   sgn: int, rep: string (n), i: size_t i
-) : llint =
+) : llint = let
+in
   if string_isnot_atend (rep, i) then let
     val c0 = rep[i]
   in
@@ -89,16 +90,16 @@ llint_make_string_sgn
           val i = i+1
           val c0 = rep[i]
         in
-          if (c0 = 'X' orelse c0 = 'x') then
-            llint_make_string_sgn_base (sgn, 16(*base*), rep, i+1)
-          else
+          if (c0 != 'x' && c0 != 'X') then
             llint_make_string_sgn_base (sgn, 8(*base*), rep, i)
+          else
+            llint_make_string_sgn_base (sgn, 16(*base*), rep, i+1)
           // end of [if]
         end else 0ll (* end of [if] *)
       ) // end of ['0']
     | _ => llint_make_string_sgn_base (sgn, 10(*base*), rep, i)
   end else 0ll (* end of [if] *)
-// end of [llint_make_string_sgn]
+end // end of [llint_make_string_sgn]
 
 and
 llint_make_string_sgn_base
@@ -127,8 +128,8 @@ in
   in
     case+ c0 of
     | '+' => llint_make_string_sgn ( 1(*sgn*), rep, 1)
-    | '~' => llint_make_string_sgn (~1(*sgn*), rep, 1)
     | '-' => llint_make_string_sgn (~1(*sgn*), rep, 1)
+    | '~' => llint_make_string_sgn (~1(*sgn*), rep, 1) // HX: should it be supported?
     | _ => llint_make_string_sgn (1(*sgn*), rep, 0)
   end else 0ll // end of [if]
 end // end of [llint_make_string]

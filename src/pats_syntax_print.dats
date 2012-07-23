@@ -62,6 +62,11 @@ in
   | MSKxstage () => prstr "MSKxstage" // CSP: cross-stage persistence
 end // end of [fprint_macsynkind]
 
+implement
+print_macsynkind (x) = fprint_macsynkind (stdout_ref, x)
+implement
+prerr_macsynkind (x) = fprint_macsynkind (stderr_ref, x)
+
 (* ****** ****** *)
 
 implement

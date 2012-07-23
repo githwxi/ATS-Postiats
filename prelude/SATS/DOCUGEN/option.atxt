@@ -2,7 +2,7 @@
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/option")
+val () = patscode_prefix_set("TRYIT/prelude_option")
 %}
 
 (* ****** ****** *)

@@ -1337,7 +1337,7 @@ case+ d1e0.d1exp_node of
     d2exp_rec (loc0, recknd, npf, ld2es)
   end // end of [D1Erec]
 | D1Eseq d1es => let
-    val d2es = d1explst_tr (d1es) in d2exp_seq (loc0, d2es)
+    val d2es = d1explst_tr (d1es) in d2exp_seq2 (loc0, d2es)
   end // end of [D1Eseq]
 //
 | D1Earrsub (arr, locind, ind) =>

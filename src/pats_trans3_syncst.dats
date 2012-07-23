@@ -183,7 +183,7 @@ case+ sfx of
     | ULLINT () => s2exp_ullint_t0ype ()
     | _ => let
         val () = prerr_error3_loc (loc0)
-        val () = filprerr_ifdebug "i0nt_syn_type"
+        val () = filprerr_ifdebug "intrepsfx_syn_type"
         val () = prerr ": the suffix of the integer is not supported."
         val () = prerr_newline ()
         val () = the_trans3errlst_add (T3E_intsp (loc0, rep))
@@ -270,7 +270,7 @@ case+ sfx of
     | ULLINT () => s2exp_ullint_intinf_t0ype (inf)
     | _ => let
         val () = prerr_error3_loc (loc0)
-        val () = filprerr_ifdebug "d2exp_trup_i0nt"
+        val () = filprerr_ifdebug "intbaserepsfx_syn_type_ind"
         val () = prerr ": the suffix of the integer is not supported."
         val () = prerr_newline ()
         val () = the_trans3errlst_add (T3E_intsp (loc0, rep))

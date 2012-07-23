@@ -996,7 +996,10 @@ fun d2exp_rec (
   loc: location, knd: int, npf: int, ld2es: labd2explst
 ) : d2exp // end of [d2exp_rec]
 
+(* ****** ****** *)
+
 fun d2exp_seq (loc: location, d2es: d2explst): d2exp
+fun d2exp_seq2 (loc: location, d2es: d2explst): d2exp
 
 (* ****** ****** *)
 

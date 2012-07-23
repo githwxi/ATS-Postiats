@@ -103,6 +103,11 @@ case+ x of
 //
 end // end of [fprint_m2val]
 
+implement
+print_m2val (x) = fprint_m2val (stdout_ref, x)
+implement
+prerr_m2val (x) = fprint_m2val (stderr_ref, x)
+
 (* ****** ****** *)
 
 implement

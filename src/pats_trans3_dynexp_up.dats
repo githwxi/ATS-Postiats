@@ -57,6 +57,7 @@ overload + with $LOC.location_combine
 overload print with $LOC.print_location
 
 staload SYN = "pats_syntax.sats"
+overload print with $SYN.print_macsynkind
 
 (* ****** ****** *)
 
@@ -134,6 +135,11 @@ extern fun d2exp_trup_lam_met (d2e0: d2exp): d3exp
 (* ****** ****** *)
 
 extern fun d2exp_trup_delay (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
+extern fun d2exp_trup_mac (d2e0: d2exp): d3exp
+extern fun d2exp_trup_macsyn (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
@@ -351,6 +357,9 @@ case+ d2e0.d2exp_node of
 (*
 | D2Etrywith _ => d2exp_trup_trywith (d2e0)
 *)
+//
+| D2Emac _ => d2exp_trup_mac (d2e0)
+| D2Emacsyn _ => d2exp_trup_macsyn (d2e0)
 //
 | D2Eann_type (d2e, s2e_ann) => let
     val d3e = d2exp_trdn (d2e, s2e_ann)
@@ -1371,6 +1380,55 @@ end // end of [val]
 in
   d3exp_delay (loc0, s2e_lazy, d3e_body)
 end // end of [d2exp_delay_tr_up]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_mac (d2e0) = let
+  val- D2Emac (d2m) = d2e0.d2exp_node
+(*
+  val () = println! ("d2exp_tr_up: D2Emac: loc0 = ", d2e0.d2exp_loc)
+*)
+  val d2e_mac =
+    $MAC.dmacro_eval_app_short (d2e0.d2exp_loc, d2m, list_nil(*d2as*))
+  // end of [val]
+(*
+  val () = println! ("d2exp_tr_up: D2Emac: loc_mac = ", d2e_mac.d2exp_loc)
+*)
+in
+  d2exp_trup (d2e_mac)
+end // end of [D2Emac]
+
+implement
+d2exp_trup_macsyn
+  (d2e0) = let
+//
+val loc0 = d2e0.d2exp_loc
+val- D2Emacsyn (knd, d2e) = d2e0.d2exp_node
+//
+val () = (
+  println! ("d2exp_tr_up: D2Emacsyn: knd = ", knd);
+  println! ("d2exp_tr_up: D2Emacsyn: d2e = ", d2e);
+) (* end of [val] *)
+//
+val d2e_mac = (
+  case+ knd of
+  | $SYN.MSKdecode () => $MAC.dmacro_eval_decode (d2e)
+  | $SYN.MSKxstage () => $MAC.dmacro_eval_xstage (d2e)
+  | $SYN.MSKencode () => let
+      val () = prerr_errmac_loc (loc0)
+      val () = prerr ": the macro syntax `(...) is used incorrectly.";
+      val () = prerr_newline ()
+    in
+      d2exp_err (loc0)
+    end // end of [MSKINDencode]
+) : d2exp // end of [val]
+(*
+val () = println! ("d2exp_tr_up: D2Emacsyn: d2e_mac = ", d2e_mac)
+*)
+in
+  d2exp_trup (d2e_mac)
+end // end of [d2exp_trup_macsyn]
 
 (* ****** ****** *)
 

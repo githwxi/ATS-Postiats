@@ -559,10 +559,26 @@ d2exp_rec (loc, knd, npf, ld2es) =
   d2exp_make_node (loc, D2Erec (knd, npf, ld2es))
 // end of [d2exp_rec]
 
+(* ****** ****** *)
+
 implement
 d2exp_seq
   (loc, d2es) = d2exp_make_node (loc, D2Eseq (d2es))
 // end of [d2exp_seq]
+
+implement
+d2exp_seq2
+  (loc, d2es) = let
+in
+  case+ d2es of
+  | list_cons
+      (d2e, d2es1) => (
+      case+ d2es1 of
+      | list_cons _ => d2exp_seq (loc, d2es)
+      | list_nil () => d2e
+    ) // end of [list_cons]
+  | list_nil () => d2exp_empty (loc)
+end // end of [d2exp_seq2]
 
 (* ****** ****** *)
 

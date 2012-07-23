@@ -119,7 +119,7 @@ end // end of [array_ptr_free]
 
 #atscode_separator()
 
-implement{a}
+implement{}
 fprint_array__sep
   (out) = fprint_string (out, "; ")
 // end of [fprint_array__sep]

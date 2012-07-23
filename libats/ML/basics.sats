@@ -87,15 +87,5 @@ array0_viewt0ype_type
 stadef array0 = array0_viewt0ype_type
 
 (* ****** ****** *)
-//
-// HX-2012-07:
-// cstring and cstrref are for C-style strings
-//
-abstype cstring_type // immutable
-stadef cstring = cstring_type // shorthand
-abstype cstrref_type // for mutable strings
-stadef cstrref = cstrref_type // shorthand
-
-(* ****** ****** *)
 
 (* end of [basics.sats] *)

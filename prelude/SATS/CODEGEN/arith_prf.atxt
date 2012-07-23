@@ -26,7 +26,6 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 dataprop
 MUL (int, int, int) =
   | {n:int}
@@ -36,37 +35,28 @@ MUL (int, int, int) =
   | {m:pos}{n:int}{p:int}
     MULneg (~m, n, ~p) of MUL (m, n, p)
 // end of [MUL]
-')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 praxi mul_make : {m,n:int} () -<prf> MUL (m, n, m*n)
 praxi mul_elim : {m,n:int} {p:int} MUL (m, n, p) -<prf> [p == m*n] void
-')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 prfun mul_istot {m,n:int} ():<prf> [p:int] MUL (m, n, p)
-')\
 
-#atscode_decl_strcst('\
 prfun mul_isfun {m,n:int} {p1,p2:int}
   (pf1: MUL (m, n, p1), pf2: MUL (m, n, p2)):<prf> [p1==p2] void
 prfun mul_isfun2 {m,n:int} {p1,p2:int}
   (pf1: MUL (m, n, p1), pf2: MUL (m, n, p2)):<prf> INTEQ (p1, p2)
-')\
 
 #atscode_separator()
-#atscode_decl_strcst('\
 //
 // HX: (m+i)*n = m*n+i*n
 //
 praxi mul_add_const {i:int}
   {m,n:int} {p:int} (pf: MUL (m, n, p)):<prf> MUL (m+i, n, p+i*n)
 // end of [mul_add_const]
-')\
 
 #atscode_separator()
 //
@@ -105,7 +95,6 @@ praxi mul_expand2_linear // a1,b1,c1,a2,b2,c2: constants!
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 prfun mul_gte_gte_gte
   : {m,n:int | m >= 0; n >= 0} () -<prf> [m*n >= 0] void
 prfun mul_lte_gte_lte
@@ -114,28 +103,22 @@ prfun mul_gte_lte_lte
   : {m,n:int | m >= 0; n <= 0} () -<prf> [m*n <= 0] void
 prfun mul_lte_lte_gte
   : {m,n:int | m <= 0; n <= 0} () -<prf> [m*n >= 0] void
-')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 prfun mul_nat_nat_nat :
   {m,n:nat} {p:int} MUL (m, n, p) -<prf> [p >= 0] void
 prfun mul_pos_pos_pos :
   {m,n:pos} {p:int} MUL (m, n, p) -<prf> [p >= m+n-1] void
-')\
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 prfun mul_negate
   {m,n:int} {p:int} (pf: MUL (m, n, p)):<prf> MUL (~m, n, ~p)
 prfun mul_negate2
   {m,n:int} {p:int} (pf: MUL (m, n, p)):<prf> MUL (m, ~n, ~p)
-')\
 
 #atscode_separator()
-#atscode_decl_strcst('\
 //
 // HX: m*n = n*m
 //
@@ -143,10 +126,8 @@ prfun mul_commute
   {m,n:int} {p:int} (pf: MUL (m, n, p)):<prf> MUL (n, m, p)
 prfun mul_is_commutative
   {m,n:int} {p,q:int} (pf1: MUL (m, n, p), pf2: MUL (n, m, q)): [p==q] void
-')\
 
 #atscode_separator()
-#atscode_decl_strcst('\
 //
 // HX: m*(n1+n2) = m*n1+m*n2
 //
@@ -160,10 +141,8 @@ prfun mul_distribute2
   {m1,m2:int} {n:int} {p1,p2:int}
   (pf1: MUL (m1, n, p1), pf2: MUL (m2, n, p2)):<prf> MUL (m1+m2, n, p1+p2)
 //
-')\
 #atscode_separator()
 
-#atscode_decl_strcst('\
 prfun
 mul_is_associative
   {x,y,z:int}
@@ -172,47 +151,34 @@ mul_is_associative
   pf1: MUL (x, y, xy), pf2: MUL (y, z, yz)
 , pf3: MUL (xy, z, xy_z), pf4: MUL (x, yz, x_yz)
 ) :<prf> [xy_z==x_yz] void
-')\
 
 #atscode_separator()
-#atscode_decl_strcst('\
 //
 // HX-2010-12-30: 
 //
 absprop DIVMOD (
   x:int, y: int, q: int, r: int // x = q * y + r
 ) // end of [DIVMOD]
-')\
 
-#atscode_decl_strcst('\
 propdef DIV (x:int, y:int, q:int) = [r:int] DIVMOD (x, y, q, r)
 propdef MOD (x:int, y:int, r:int) = [q:int] DIVMOD (x, y, q, r)
-')\
 
-#atscode_decl_strcst('\
 praxi div_istot {x,y:int | x >= 0; y > 0} (): DIV (x, y, x/y)
-')\
 
-#atscode_decl_strcst('\
 praxi divmod_istot
   {x,y:int | x >= 0; y > 0} (): [q,r:nat | r < y] DIVMOD (x, y, q, r)
-')\
 
-#atscode_decl_strcst('\
 praxi divmod_isfun
   {x,y:int | x >= 0; y > 0}
   {q1,q2:int} {r1,r2:int} (
   pf1: DIVMOD (x, y, q1, r1)
 , pf2: DIVMOD (x, y, q2, r2)
 ) : [q1==q2;r1==r2] void // end of [divmod_isfun]
-')\
 
-#atscode_decl_strcst('\
 praxi divmod_elim
   {x,y:int | x >= 0; y > 0} {q,r:int}
   (pf: DIVMOD (x, y, q, r)): [qy:int | 0 <= r; r < y; x==qy+r] MUL (q, y, qy)
 // end of [divmod_elim]
-')\
 
 #atscode_separator()
 //
@@ -258,35 +224,27 @@ praxi lemma_exp_param
   {b:int}{n:int}{p:int} (pf: EXP (b, n, p)): [n >= 0] void
 // end of [lemma_exp_param]
 
-#atscode_decl_strcst('\
 praxi exp_istot {b:int}{n:nat} (): [p:nat] EXP (b, n, p)
 praxi exp_isfun {b:int}{n:int}{p1,p2:int}
   (pf1: EXP (b, n, p1), pf2: EXP (b, n, p2)): [p1==p2] void
 // end of [exp_isfun]
-')\
 
-#atscode_decl_strcst('\
 praxi exp_elim_0 {n:pos}{p:int} (pf: EXP (0, n, p)): [p==0] void
 praxi exp_elim_1 {n:int}{p:int} (pf: EXP (1, n, p)): [p==1] void
 praxi exp_elim_2 {n:int}{p:int} (pf: EXP (2, n, p)): EXP2 (n, p)
 praxi exp_elim_b_0 {b:int}{p:int} (pf: EXP (b, 0, p)): [p==1] void
 praxi exp_elim_b_1 {b:int}{p:int} (pf: EXP (b, 1, p)): [p==b] void
 praxi exp_elim_b_2 {b:int}{p:int} (pf: EXP (b, 2, p)): MUL (b, b, p)
-')\
 
-#atscode_decl_strcst('\
 praxi exp_muladd
   {b:int}{n1,n2:int}{p1,p2:int}{p:int} (
   pf1: EXP (b, n1, p1), pf2: EXP (b, n2, p2)
 ) : EXP (b, n1+n2, p1*p2) // end of [exp_muladd]
-')\
 
-#atscode_decl_strcst('\
 praxi exp_expmul
   {b:int}{n1,n2:int}{bn1:int}{bn1n2:int} (
   pf1: EXP (b, n1, bn1), pf2: EXP (bn1, n2, bn1n2)
 ) : EXP (b, n1*n2, bn1n2) // end of [exp_muladd]
-')\
 
 #atscode_separator()
 

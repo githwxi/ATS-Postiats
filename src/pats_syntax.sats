@@ -90,6 +90,8 @@ macsynkind =
 // end of [macsynkind]
 
 fun fprint_macsynkind : fprint_type (macsynkind)
+fun print_macsynkind (x: macsynkind): void
+fun prerr_macsynkind (x: macsynkind): void
 
 (* ****** ****** *)
 
@@ -120,7 +122,6 @@ cstsp = // special constants
 // end of [cstsp]
 
 fun fprint_cstsp : fprint_type (cstsp)
-overload fprint with fprint_cstsp
 
 (* ****** ****** *)
 
@@ -201,7 +202,6 @@ fun s0rtq_none (loc: location): s0rtq
 fun s0rtq_symdot (ent1: i0de, tok2: token): s0rtq
 
 fun fprint_s0rtq : fprint_type (s0rtq)
-overload fprint with fprint_s0rtq
 fun print_s0rtq (x: s0rtq): void
 fun prerr_s0rtq (x: s0rtq): void
 

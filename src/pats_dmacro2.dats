@@ -362,6 +362,46 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+dmacro_eval_xstage
+  (d2e) = let
+  val loc0 = d2e.d2exp_loc
+  var ctx = evalctx_nil ()
+  var env = alphenv_nil ()
+  val m2v = eval0_d2exp (loc0, ctx, env, d2e)
+  val () = alphenv_free (env)
+  val () = evalctx_free (ctx)
+in
+  liftval2dexp (loc0, m2v)
+end // end of [dmacro_eval_xstage]
+
+implement
+dmacro_eval_decode (d2e) = let
+  val loc0 = d2e.d2exp_loc
+  var ctx = evalctx_nil ()
+  var env = alphenv_nil ()
+  val m2v = eval0_d2exp (loc0, ctx, env, d2e)
+  val () = alphenv_free (env)
+  val () = evalctx_free (ctx)
+in
+//
+case+ m2v of
+| M2Vdcode
+    (d2e_new) => d2e_new
+| _ => let
+    val () = prerr_errmac_loc (loc0)
+    val () = prerr ": the macro expansion should yield code (AST)"
+    val () = prerr ", but the following value is obtained instead: "
+    val () = prerr_m2val (m2v)
+    val () = prerr_newline ()
+  in
+    d2exp_err (loc0)
+  end // end of [_]
+//
+end // end of [dmacro_eval_decode]
+
+(* ****** ****** *)
+
+implement
 dmacro_eval_app_short
   (loc0, d2m, d2as) = let
   var ctx = evalctx_nil ()

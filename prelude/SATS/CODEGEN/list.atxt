@@ -365,11 +365,11 @@ x,y:t0p}{env:vt0p
 fun{
 x,y:t0p
 } list_iforeach2
-  {m,n:int} (xs: list (x, n), ys: list(y, m)): natLte(min(m,n))
+  {m,n:int} (xs: list (x, m), ys: list(y, n)): natLte(min(m,n))
 fun{
 x,y:t0p}{env:vt0p
 } list_iforeach2_env
-  {m,n:int} (xs: list (x, n), ys: list(y, m), env: &env): natLte(min(m,n))
+  {m,n:int} (xs: list (x, m), ys: list(y, n), env: &env): natLte(min(m,n))
 // end of [list_iforeach2_env]
 
 #atscode_separator()

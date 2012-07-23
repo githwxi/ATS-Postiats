@@ -251,6 +251,11 @@ end // end of [eval1_s2exparglst]
 extern fun eval1_d2var : eval1_type (d2var)
 extern fun eval1_d2explst : eval1_type (d2explst)
 extern fun eval1_d2expopt : eval1_type (d2expopt)
+extern fun eval1_d2explstlst : eval1_type (d2explstlst)
+
+extern fun eval1_labd2exp : eval1_type (labd2exp)
+extern fun eval1_labd2explst : eval1_type (labd2explst)
+
 extern fun eval1_d2exparg : eval1_type (d2exparg)
 extern fun eval1_d2exparglst : eval1_type (d2exparglst)
 
@@ -302,6 +307,53 @@ eval1_d2expopt
   | Some (d2e) => Some (eval1_d2exp (loc0, ctx, env, d2e))
   | None () => None ()
 ) // end of [eval1_d2expopt]
+
+implement
+eval1_d2explstlst (
+  loc0, ctx, env, d2ess
+) = let
+in
+//
+case+ d2ess of
+| list_cons
+    (d2es, d2ess) => let
+    val d2es = eval1_d2explst (loc0, ctx, env, d2es)
+    val d2ess = eval1_d2explstlst (loc0, ctx, env, d2ess)
+  in
+    list_cons (d2es, d2ess)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [eval1_d2explstlst]
+
+(* ****** ****** *)
+
+implement
+eval1_labd2exp (
+  loc0, ctx, env, ld2e
+) = let
+  val $SYN.DL0ABELED (l, d2e) = ld2e
+in
+  $SYN.DL0ABELED (l, eval1_d2exp (loc0, ctx, env, d2e))
+end // end of [eval1_labd2exp]
+
+implement
+eval1_labd2explst (
+  loc0, ctx, env, ld2es
+) = let
+in
+//
+case+ ld2es of
+| list_cons
+    (ld2e, ld2es) => let
+    val ld2e = eval1_labd2exp (loc0, ctx, env, ld2e)
+    val ld2es = eval1_labd2explst (loc0, ctx, env, ld2es)
+  in
+    list_cons (ld2e, ld2es)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [eval1_labd2explst]
 
 (* ****** ****** *)
   
@@ -454,6 +506,7 @@ macdef reloc () = d2exp_make_node (loc0, d2en0)
 //
 macdef eval1sexp (x) = eval1_s2exp (loc0, ctx, env, ,(x))
 macdef eval1sexplst (x) = eval1_s2explst (loc0, ctx, env, ,(x))
+macdef eval1sexpopt (x) = eval1_s2expopt (loc0, ctx, env, ,(x))
 //
 macdef eval1sexparg (x) = eval1_s2exparg (loc0, ctx, env, ,(x))
 macdef eval1sexparglst (x) = eval1_s2exparglst (loc0, ctx, env, ,(x))
@@ -463,6 +516,10 @@ macdef eval1dvar (x) = eval1_d2var (loc0, ctx, env, ,(x))
 macdef eval1dexp (x) = eval1_d2exp (loc0, ctx, env, ,(x))
 macdef eval1dexplst (x) = eval1_d2explst (loc0, ctx, env, ,(x))
 macdef eval1dexpopt (x) = eval1_d2expopt (loc0, ctx, env, ,(x))
+macdef eval1dexplstlst (x) = eval1_d2explstlst (loc0, ctx, env, ,(x))
+//
+macdef eval1labdexp (x) = eval1_labd2exp (loc0, ctx, env, ,(x))
+macdef eval1labdexplst (x) = eval1_labd2explst (loc0, ctx, env, ,(x))
 //
 in
 //
@@ -530,6 +587,14 @@ case+ d2en0 of
     eval1_d2exp_macsyn (loc0, ctx, env, d2e0)
   // end of [D2Emacsyn]
 //
+| D2Elst (lin, opt, d2es) =>
+    d2exp_lst (loc0, lin, eval1sexpopt (opt), eval1dexplst (d2es))
+| D2Etup (knd, npf, d2es) =>
+    d2exp_tup (loc0, knd, npf, eval1dexplst (d2es))
+| D2Erec (knd, npf, ld2es) =>
+    d2exp_rec (loc0, knd, npf, eval1labdexplst (ld2es))
+| D2Eseq (d2es) => d2exp_seq (loc0, eval1dexplst (d2es))
+//
 | D2Eptrof (d2e) =>
     d2exp_ptrof (loc0, eval1dexp (d2e))
 | D2Eviewat (d2e) =>
@@ -541,6 +606,19 @@ case+ d2en0 of
     d2exp_assgn (loc0, eval1dexp (_l), eval1dexp (_r))
 | D2Exchng (_l, _r) =>
     d2exp_xchng (loc0, eval1dexp (_l), eval1dexp (_r))
+//
+| D2Earrsub (
+    d2s, d2e, locind, ind
+  ) => d2exp_arrsub (
+    loc0, d2s, eval1dexp (d2e), loc0, eval1dexplstlst (ind)
+  ) // end of [D2Earrsub]
+| D2Earrinit
+    (elt, asz, ini) => d2exp_arrinit (
+    loc0, eval1sexp (elt), eval1dexpopt (asz), eval1dexplst (ini)
+  ) // end of [D2Earrinit]
+| D2Earrpsz (opt, d2es) =>
+    d2exp_arrpsz (loc0, eval1sexpopt (opt), eval1dexplst (d2es))
+  // end of [D2Earrpsz]
 //
 | D2Eraise (d2e) => d2exp_raise (loc0, eval1dexp (d2e))
 //
