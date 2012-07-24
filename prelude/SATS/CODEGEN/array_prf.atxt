@@ -41,6 +41,16 @@ array_v_split
 ) // end of [array_v_split]
 
 prfun
+array_v_split_at
+  {a:vt0p}
+  {l:addr}
+  {n:int} {i:nat | i <= n} (
+  pfarr: array_v (INV(a), l, n) | i: int i
+) :<prf> @(
+  array_v (a, l, i), array_v (a, l+i*sizeof(a), n-i)
+) // end of [array_v_split_at]
+
+prfun
 array_v_unsplit
   {a:vt0p}
   {l:addr}

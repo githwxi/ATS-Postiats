@@ -401,7 +401,7 @@ val () = ins (map, the_neq_addr_addr, f_neq_int_int)
 //
 in
   (*nothing*)
-end // end of [constraint3_sbexp_initialize_map]
+end // end of [constraint3_initialize_map]
 
 (* ****** ****** *)
 

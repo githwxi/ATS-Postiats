@@ -97,13 +97,15 @@ fun s3exp_get_fvs (s3e: s3exp): s2varset_vt
 //
 fun fprint_s3exp
   : fprint_type (s3exp)
-fun print_s3exp (s3ae: s3exp): void
-fun prerr_s3exp (s3ae: s3exp): void
+fun print_s3exp (x: s3exp): void
+overload print with print_s3exp
+fun prerr_s3exp (x: s3exp): void
+overload prerr with prerr_s3exp
 //
 fun fprint_s3explst
   : fprint_type (s3explst)
-fun print_s3explst (s3es: s3explst): void
-fun prerr_s3explst (s3es: s3explst): void
+fun print_s3explst (xs: s3explst): void
+fun prerr_s3explst (xs: s3explst): void
 //
 (* ****** ****** *)
 

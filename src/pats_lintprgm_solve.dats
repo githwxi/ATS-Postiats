@@ -1043,33 +1043,31 @@ val () = (
 *)
 in
 //
-if sgn > 0 then let
-  val ans = auxmain (stamp, iset, i1vs, i1veqs, n, ics)
-in
-  ans
-end else if sgn < 0 then ~1(*solved*)
-else let // sgn = 0
-  var ivs =
-    myivlst_elimeqlst (i1vs, i1veqs, n)
-  // end of [var]
-  var ans
-    : int = myintveclst_inspect_gte (ivs, n)
-  val () = (
-    if ans >= 0 then let
-      val () = myintveclst_normalize_gte (ivs, n)
-    in
-      ans := myintveclst_solve (iset, ivs, n)
-    end else let
-      val () = myintveclst_free (ivs, n) in // nil
-    end // end of [if]
-  ) : void // end of [if]
-  val () = if
-    ans >= 0 then (
-    ans := auxmain (stamp+1, iset, i1vs, i1veqs, n, ics)
-  ) // end of [val]
-in
-  ans
-end // end of [if]
+case+ 0 of
+| _ when sgn < 0 => ~1(*solved*)
+| _ when sgn > 0 =>
+    auxmain (stamp, iset, i1vs, i1veqs, n, ics)
+| _ (*sgn = 0 *) => let
+    var ivs = myivlst_elimeqlst (i1vs, i1veqs, n)
+    var ans: int = myintveclst_inspect_gte (ivs, n)
+    val () = (
+      if ans >= 0 then let
+        val () = myintveclst_normalize_gte (ivs, n)
+        val () = ans := myintveclst_solve (iset, ivs, n)
+      in
+        // nothing
+      end else let
+        val () = myintveclst_free (ivs, n) in (*nothing*)
+      end // end of [if]
+    ) : void // end of [if]
+    val () = (
+      if ans >= 0 then (
+        ans := auxmain (stamp+1, iset, i1vs, i1veqs, n, ics)
+      ) // end of [if]
+    ) : void // end of [val]
+  in
+    ans
+  end // end of [let] // end of [_(sgn=0)]
 //
 end // end of [auxcont]
 
@@ -1080,19 +1078,22 @@ auxneq {n:pos} (
 , i1veqs: &myiveqlst (a, n)
 , iv: myintvec (a, n)
 , n: int n
-) : icnstrlst (a, n) = let
+, sgn: &int? >> int
+) : icnstr (a, n) = let
 (*
 val () = (
   print "auxneq: iv = ";
   print_myintvec (iv, n); print_newline ()
 ) // end of [val]
 *)
-val () =
-  myintvec_elimeqlst<a> (0(*stamp*), iv, i1veqs, n)
-val ans = myintvec_inspect_neq<a> (iv, n)  
+//
+val () = myintvec_elimeqlst<a> (0(*stamp*), iv, i1veqs, n)
+//
+val () = sgn := myintvec_inspect_neq<a> (iv, n)  
+//
 in
 //
-if ans = 0 then let
+if sgn = 0 then let
   val iv1_new = myintvec_copy (iv, n)
   val () = myintvec_pred_unit (iv1_new)
   val cff = myint_make_int (~1)
@@ -1108,9 +1109,12 @@ if ans = 0 then let
   val ic1 = ICvec (knd, iv1_new)
   val ic2 = ICvec (knd, iv2_new)
 in
-  list_vt_pair (ic1, ic2) // disj
+  ICveclst (1(*disj*), list_vt_pair (ic1, ic2))
 end else let
-  val () = myintvec_free<a> (iv, n) in list_vt_nil (*contra*)
+  val () = myintvec_free<a> (iv, n)
+  val knd = if sgn > 0 then 0(*conj*) else 1(*disj*)
+in
+  ICveclst (knd, list_vt_nil)
 end // end of [if]
 //
 end // end of [auxneq]
@@ -1129,7 +1133,8 @@ val () = (
 in
 //
 case+ ics of
-| list_vt_cons (!p_ic, !p_ics) => (
+| list_vt_cons
+    (!p_ic, !p_ics) => (
   case+ !p_ic of
   | ICvec (knd, !p_iv) => (
     case 0 of
@@ -1161,18 +1166,22 @@ case+ ics of
       in
         fold@ (ics); ans
       end // end of [knd = 1]
-    | _ (* knd = ~1 *) => let
-        var ics1 = auxneq (stamp, i1vs, i1veqs, !p_iv, n)
+    | _ (* knd = ~1(neq) *) => let
+        var sgn: int // uninitialized
+        val ic_new =
+          auxneq (stamp, i1vs, i1veqs, !p_iv, n, sgn)
         val () = free@ {a}{0} (!p_ic)
-        val ans = auxmain_disj (
-          stamp, iset, i1vs, i1veqs, n, !p_ics, ics1, list_vt_nil
-        ) // end of [val]
-        val () = !p_ic := ICveclst (1(*disj*), ics1)
+        val () = !p_ic := ic_new
+        prval () =
+          fold@ (ics) // HX: trying again after folding
       in
-        fold@ (ics); ans
+        if sgn >= 0 then
+          auxmain (stamp, iset, i1vs, i1veqs, n, ics) else ~1(*solved*)
+        // end of [if]
       end // end of [knd = ~1]
     ) // end of [ICvec]
-  | ICveclst (knd, !p_ics1) => (
+  | ICveclst
+      (knd, !p_ics1) => (
     case+ 0 of
     | _ when knd = 0 => let
         val ans = auxmain_conj

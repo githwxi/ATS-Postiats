@@ -978,8 +978,8 @@ trans3_env_add_eqeq
   (loc, s2e1, s2e2) = let
 (*
   val () = (
-    print "trans3_env_add_eqeq: s2e1 = "; print_s2exp s2e1; print_newline ();
-    print "trans3_env_add_eqeq: s2e2 = "; print_s2exp s2e2; print_newline ();
+    println! ("trans3_env_add_eqeq: s2e1 = ", s2e1);
+    println! ("trans3_env_add_eqeq: s2e2 = ", s2e2);
   ) // end of [val]
 *)
   val s2p = s2exp_eqeq (s2e1, s2e2)

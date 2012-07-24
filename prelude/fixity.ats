@@ -76,7 +76,7 @@ infixl ( - ) isub nsub fsub psub usub
 
 infixl 41 asl asr lsl lsr
 
-infix 40 < <= > >= << >>
+infix 40 < <= > >=
 (*
 //
 // HX-2012-07: removed
@@ -87,7 +87,7 @@ infixl ( > ) igt fgt pgt ugt
 infixl ( >= ) igte fgte pgte ugte
 *)
 
-infixr 40 :: @ <:
+infixr 40 :: @
 
 infix 30 = == <> !=
 (*
@@ -107,9 +107,10 @@ infixr 10 ->
 
 infix 0 := :=: // HX: assgn and xchng
 
-(*
-infix 0 >> <<
-*)
+(* ****** ****** *)
+
+infixl 0 <<
+infixr 0 >>
 
 (* ****** ****** *)
 

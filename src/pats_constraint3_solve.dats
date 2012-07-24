@@ -135,11 +135,8 @@ val ics_asmp = let
         // end ofl[val]
 (*
         val () = (
-          print "auxsolve: loop: s3p = ";
-          print_s3exp (s3p); print_newline ();
-          print "auxsolve: loop: ic = ";
-          fprint_icnstr (stdout_ref, ic, n+1);
-          print_newline ();
+          println! ("auxsolve: loop: s3p = ", s3p);
+          print "auxsolve: loop: ic = "; print_icnstr (ic, n+1); print_newline ();
         ) // end of [val]
 *)
       in

@@ -173,10 +173,7 @@ implement{a}
 s3exp2icnstr
   {n} (loc0, vim, n, s3e0) = let
 (*
-val () = (
-  print "s3exp2icnstr: s3e0 = ";
-  print_s3exp (s3e0); print_newline ()
-) // end of [val]
+val () = println! ("s3exp2icnstr: s3e0 = ", s3e0)
 *)
 in
 //
@@ -249,11 +246,9 @@ case+ s3e0 of
   end // end of [S3Ebineq]
 //
 | _ => let
-// (*
-    val () = (
-      print "s3exp2icnstr: s3e0 = "; print_s3exp (s3e0); print_newline ()
-    ) // end of [val]
-// *)
+(*
+    val () = println! ("s3exp2icnstr: s3e0 = ", s3e0)
+*)
     val () = assertloc (false) in ICerr (loc0, $UN.cast(s3e0))
   end // end of [_]
 //
@@ -269,6 +264,9 @@ myintvec_addby_s3exp
   iv: !myintvec (a, n+1)
 , vim: !s2varindmap (n), s3e0: s3exp, err: &int
 ) : void = let
+(*
+val () = println! ("myintvec_addby_s3exp: s3e0 = ", s3e0)
+*)
 in
 //
 case+ s3e0 of

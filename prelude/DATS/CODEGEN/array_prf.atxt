@@ -62,10 +62,10 @@ array_v_split{a}
     array_v (a, l, i), array_v (a, l+i*sizeof(a), n-i)
   ) =
     sif i > 0 then let
-      prval @(pf1_elt, pf2_arr) = array_v_uncons (pf_arr)
-      prval @(pf1_arr_res, pf2_arr_res) = split {..}{n-1,i-1} (pf2_arr)
+      prval @(pf1elt, pf2arr) = array_v_uncons (pf_arr)
+      prval @(pf1arr_res, pf2arr_res) = split {..}{n-1,i-1} (pf2arr)
     in
-      @(array_v_cons (pf1_elt, pf1_arr_res), pf2_arr_res)
+      @(array_v_cons (pf1elt, pf1arr_res), pf2arr_res)
     end else let
       prval INTEQ () =
         inteq_make {i,0} () in (array_v_nil {a} {l} (), pf_arr)
@@ -75,29 +75,37 @@ array_v_split{a}
 #atscode_separator()
 
 primplmnt
+array_v_split_at
+  {a}{l}{n}{i}
+  (pf | i) = array_v_split{a}{l}{n}{i} (pf)
+// end of [array_v_split_at]
+
+#atscode_separator()
+
+primplmnt
 array_v_unsplit{a}
-  (pf1_arr, pf2_arr) =
-  unsplit (pf1_arr, pf2_arr) where {
+  (pf1arr, pf2arr) =
+  unsplit (pf1arr, pf2arr) where {
 //
-  prval () = lemma_array_v_param (pf1_arr)
-  prval () = lemma_array_v_param (pf2_arr) 
+  prval () = lemma_array_v_param (pf1arr)
+  prval () = lemma_array_v_param (pf2arr) 
 //
   prfun unsplit
     {l:addr}
     {n1,n2:nat} .<n1>. (
-    pf1_arr: array_v (a, l, n1)
-  , pf2_arr: array_v (a, l+n1*sizeof(a), n2)
+    pf1arr: array_v (a, l, n1)
+  , pf2arr: array_v (a, l+n1*sizeof(a), n2)
   ) : array_v (a, l, n1+n2) =
     sif n1 > 0 then let
       prval @(
-        pf11_elt, pf12_arr
-      ) = array_v_uncons (pf1_arr)
-      prval pf_arr_res = unsplit (pf12_arr, pf2_arr)
+        pf11elt, pf12arr
+      ) = array_v_uncons (pf1arr)
+      prval pf_arr_res = unsplit (pf12arr, pf2arr)
     in
-      array_v_cons (pf11_elt, pf_arr_res)
+      array_v_cons (pf11elt, pf_arr_res)
     end else let
       prval INTEQ () = inteq_make {n1,0} ()
-      prval () = array_v_unnil (pf1_arr) in pf2_arr
+      prval () = array_v_unnil (pf1arr) in pf2arr
     end // end of [sif]
 } // end of [array_v_unsplit]
 

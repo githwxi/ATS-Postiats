@@ -110,9 +110,8 @@ implement
 s3exp_get_fvs (s3e0) = let
 //
 viewtypedef res = s2varset_vt
-fun loop (
-  res: res, s3e0: s3exp
-) : res = let
+fun loop
+  (res: res, s3e0: s3exp): res = let
 in
 //
 case+ s3e0 of
@@ -435,9 +434,16 @@ local
 fun auxeq (
   env: &s2vbcfenv, s2e1: s2exp, s2e2: s2exp
 ) : s3exp = let
-  val s2t1 = s2e1.s2exp_srt
-  val s3e1 = s3exp_make (env, s2e1)
-  and s3e2 = s3exp_make (env, s2e2)
+//
+val s2t1 = s2e1.s2exp_srt
+val s3e1 = s3exp_make (env, s2e1)
+and s3e2 = s3exp_make (env, s2e2)
+//
+(*
+val () = println! ("auxeq: s3e1 = ", s3e1)
+and () = println! ("auxeq: s3e2 = ", s3e2)
+*)
+//
 in
 //
 case+ 0 of
@@ -478,7 +484,7 @@ s3exp_make
   val s2e0 = s2hnf2exp (s2f0)
 (*
   val () = begin
-    print "s3exp_make_s2exp: s2e0 = "; print_s2exp (s2e0); print_newline ()
+    print "s3exp_make_s2exp: s2e0 = "; pprint_s2exp (s2e0); print_newline ()
   end // end of [val]
 *)
 in
@@ -935,19 +941,19 @@ in // in of [local]
 implement
 s3exp_make_s2cst_s2explst
   (env, s2c, s2es) = let
-  val opt = let
-    prval vbox (pf) = pf_the_s2cfunmap in s2cstmap_find  (the_s2cfunmap, s2c)
-  end // end of [val]
+(*
+val () = println! ("s3exp_make_s2cst_s2explst: s2c = ", s2c)
+val () = println! ("s3exp_make_s2cst_s2explst: s2es = ", s2es)
+*)
+val opt = let
+  prval vbox (pf) = pf_the_s2cfunmap in s2cstmap_find (the_s2cfunmap, s2c)
+end // end of [val]
+//
 in
 //
 case+ opt of
 | ~Some_vt f => f (env, s2es)
 | ~None_vt _ => let
-(*
-    val () = begin
-      print "s3exp_make_s2cst_s2explst: s2c = "; print_s2cst (s2c); print_newline ();
-    end // end of [val]
-*)
     val s3e = s3exp_cst (s2c)
     val s3es = s3explst_make (env, s2es)
   in

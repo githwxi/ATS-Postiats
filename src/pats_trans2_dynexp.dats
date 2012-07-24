@@ -201,13 +201,11 @@ case+ ans of
       val d1e = d1exp_make_e1xp (loc0, e1xp) in d1exp_tr (d1e)
     end // end of [D2ITMe1xp]
   | D2ITMvar d2v => d2exp_var (loc0, d2v)
-(*
   | D2ITMmacdef d2m => let
       val () = macdef_check (loc0, d2m, dq, id)
     in
       d2exp_mac (loc0, d2m)
     end // end of [D2ITEMmacdef]
-*)
   | D2ITMmacvar d2v => let
       val () = macvar_check (loc0, d2v, dq, id)
     in
@@ -218,16 +216,16 @@ case+ ans of
     in
       d2exp_sym (loc0, d2s)
     end // end of [D2ITEMsymdef]
-  | _ => let
 (*
+  | _ => let
       val () = (
         print "d1exp_tr_dqid: d2i0 = "; print_d2itm d2i0; print_newline ()
       ) // end of [val]
-*)
       val () = auxerr (d1e0, dq, id)
     in
       d2exp_err (loc0)
     end // end of [_]
+*)
   ) // end of [Some_vt]
 | ~None_vt () => let
     val () = auxerr (d1e0, dq, id) in d2exp_err (loc0)
