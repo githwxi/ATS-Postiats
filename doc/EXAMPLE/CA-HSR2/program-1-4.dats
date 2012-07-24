@@ -70,7 +70,7 @@ in
 //
 if k2 < n then let
   val () =
-    array_exchange (!p2, (i2u)0, i2u(k2-k))
+    array_interchange (!p2, (i2u)0, i2u(k2-k))
   prval (
     pf21, pf22
   ) = array_v_uncons (pf2)

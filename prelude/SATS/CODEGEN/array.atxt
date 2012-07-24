@@ -171,9 +171,9 @@ array_exch_at_size
 #atscode_separator()
 
 fun{a:vt0p}
-array_exchange
+array_interchange
   {n:int} (A: &(@[INV(a)][n]), i: sizeLt n, j: sizeLt n):<!wrt> void
-// end of [array_exchange]
+// end of [array_interchange]
 
 #atscode_separator()
 

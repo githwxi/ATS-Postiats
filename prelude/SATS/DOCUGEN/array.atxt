@@ -272,12 +272,13 @@ This function, which overloads the symbol #dyncode("[]"), is like
 
 (* ****** ****** *)
 
-#declnamesynop("array_exchange")
+#declnamesynop("array_interchange")
 #decldescrpt('\
 
-Given an array and two valid indices i and j, this function exchanges the
-values in array-cell i and array-cell j.  Note that the type of these
+Given an array and two valid indices i and j, this function interchanges
+the values in array-cell i and array-cell j.  Note that the type of these
 values can be linear.  ')
+
 #declexample("\
 
 The following code implements the standard insertion sort:
@@ -294,7 +295,7 @@ fun loop1
     val sgn = gcompare_ref<a> (A.[i1], A.[i])
   in
     if sgn > 0 then let
-      val () = array_exchange (A, i1, i) in loop1 (A, i1)
+      val () = array_interchange (A, i1, i) in loop1 (A, i1)
     end else ()
   end else () // end of [if]
 //

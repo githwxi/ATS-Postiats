@@ -1111,8 +1111,13 @@ if sgn = 0 then let
 in
   ICveclst (1(*disj*), list_vt_pair (ic1, ic2))
 end else let
+//
+// sgn=1(tauto)/~1(contra)
+//
   val () = myintvec_free<a> (iv, n)
-  val knd = if sgn > 0 then 0(*conj*) else 1(*disj*)
+  val knd =
+    (if sgn > 0 then 0(*conj*) else 1(*disj*)): nat2
+  // end of [val]
 in
   ICveclst (knd, list_vt_nil)
 end // end of [if]
@@ -1135,75 +1140,83 @@ in
 case+ ics of
 | list_vt_cons
     (!p_ic, !p_ics) => (
-  case+ !p_ic of
-  | ICvec (knd, !p_iv) => (
-    case 0 of
-    | _ when (
-        knd = ~2(*lt*)
-      ) => let
-        val iv_new = myintvec_copy (!p_iv, n)
-        prval () = fold@ (!p_ic)
-        val sgn = auxlt (stamp, i1vs, i1veqs, iv_new, n)
-        val ans = auxcont (stamp, iset, i1vs, i1veqs, n, !p_ics, sgn)
-      in
-        fold@ (ics); ans
-      end // end of [knd=~2]
-    | _ when (
-        knd = 2(*gte*)
-      ) => let
-        val iv_new = myintvec_copy (!p_iv, n)
-        prval () = fold@ (!p_ic)
-        val sgn = auxgte (stamp, i1vs, i1veqs, iv_new, n)
-        val ans = auxcont (stamp, iset, i1vs, i1veqs, n, !p_ics, sgn)
-      in
-        fold@ (ics); ans
-      end // end of [knd = 2]
-    | _ when knd = 1(*eq*) => let
-        val iv_new = myintvec_copy (!p_iv, n)
-        prval () = fold@ (!p_ic)
-        val sgn = auxeq (stamp, i1vs, i1veqs, iv_new, n)
-        val ans = auxcont (stamp, iset, i1vs, i1veqs, n, !p_ics, sgn)
-      in
-        fold@ (ics); ans
-      end // end of [knd = 1]
-    | _ (* knd = ~1(neq) *) => let
-        var sgn: int // uninitialized
-        val ic_new =
-          auxneq (stamp, i1vs, i1veqs, !p_iv, n, sgn)
-        val () = free@ {a}{0} (!p_ic)
-        val () = !p_ic := ic_new
-        prval () =
-          fold@ (ics) // HX: trying again after folding
-      in
-        if sgn >= 0 then
-          auxmain (stamp, iset, i1vs, i1veqs, n, ics) else ~1(*solved*)
-        // end of [if]
-      end // end of [knd = ~1]
-    ) // end of [ICvec]
-  | ICveclst
-      (knd, !p_ics1) => (
-    case+ 0 of
-    | _ when knd = 0 => let
-        val ans = auxmain_conj
-          (stamp, iset, i1vs, i1veqs, n, !p_ics, !p_ics1)
-        prval () = fold@ (!p_ic); prval () = fold@ (ics)
-      in
-        ans
-      end // end of [conj]
-    | _ (* knd = 1 *) => let
-        val ans = auxmain_disj (
-          stamp, iset, i1vs, i1veqs, n, !p_ics, !p_ics1, list_vt_nil
-        ) // end of [val]
-        prval () = fold@ (!p_ic); prval () = fold@ (ics)
-      in
-        ans
-      end // end of [disj]
-    ) // end of [ICveclst]
-  | ICerr (loc, s3e) => let
-      prval () = fold@ (!p_ic); prval () = fold@ (ics) in 0(*undecided*)
-    end // end of [ICerr]
-  ) (* end of [list_vt_cons] *)
-| list_vt_nil () => (fold@ (ics); 0(*unsolved*))
+//
+case+ !p_ic of
+| ICvec (knd, !p_iv) => (
+  case 0 of
+  | _ when (
+      knd = ~2(*lt*)
+    ) => let
+      val iv_new = myintvec_copy (!p_iv, n)
+      prval () = fold@ (!p_ic)
+      val sgn = auxlt (stamp, i1vs, i1veqs, iv_new, n)
+      val ans = auxcont (stamp, iset, i1vs, i1veqs, n, !p_ics, sgn)
+      prval () = fold@ (ics)
+    in
+      ans
+    end // end of [knd=~2]
+  | _ when (
+      knd = 2(*gte*)
+    ) => let
+      val iv_new = myintvec_copy (!p_iv, n)
+      prval () = fold@ (!p_ic)
+      val sgn = auxgte (stamp, i1vs, i1veqs, iv_new, n)
+      val ans = auxcont (stamp, iset, i1vs, i1veqs, n, !p_ics, sgn)
+      prval () = fold@ (ics)
+    in
+      ans
+    end // end of [knd = 2]
+  | _ when knd = 1(*eq*) => let
+      val iv_new = myintvec_copy (!p_iv, n)
+      prval () = fold@ (!p_ic)
+      val sgn = auxeq (stamp, i1vs, i1veqs, iv_new, n)
+      val ans = auxcont (stamp, iset, i1vs, i1veqs, n, !p_ics, sgn)
+      prval () = fold@ (ics)
+    in
+      ans
+    end // end of [knd = 1]
+  | _ (* knd = ~1(neq) *) => let
+      var sgn: int // uninitialized
+      val ic_new =
+        auxneq (stamp, i1vs, i1veqs, !p_iv, n, sgn)
+      val () = free@ {a}{0} (!p_ic)
+      val () = !p_ic := ic_new
+      prval () =
+        fold@ (ics) // HX: trying again after folding
+      // end of [prval]
+    in
+      if sgn >= 0 then
+        auxmain (stamp, iset, i1vs, i1veqs, n, ics) else ~1(*solved*)
+      // end of [if]
+    end // end of [knd = ~1]
+  ) // end of [ICvec]
+| ICveclst
+    (knd, !p_ics1) => (
+  case+ 0 of
+  | _ when knd = 0 => let
+      val ans = auxmain_conj
+        (stamp, iset, i1vs, i1veqs, n, !p_ics, !p_ics1)
+      prval () = fold@ (!p_ic); prval () = fold@ (ics)
+    in
+      ans
+    end // end of [conj]
+  | _ (* knd = 1 *) => let
+      val ans = auxmain_disj (
+        stamp, iset, i1vs, i1veqs, n, !p_ics, !p_ics1, list_vt_nil
+      ) // end of [val]
+      prval () = fold@ (!p_ic); prval () = fold@ (ics)
+    in
+      ans
+    end // end of [disj]
+  ) // end of [ICveclst]
+| ICerr (loc, s3e) => let
+    prval () = fold@ (!p_ic); prval () = fold@ (ics) in 0(*undecided*)
+  end // end of [ICerr]
+//
+) (* end of [list_vt_cons] *)
+| list_vt_nil () => let
+    prval () = fold@ (ics) in 0(*unsolved*)
+  end // end of [list_vt_nil]
 //
 end // end of [auxmain]
 
