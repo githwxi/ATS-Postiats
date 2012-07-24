@@ -205,10 +205,11 @@ val () = begin
   print "s3explst_solve_s2exp: s2vs = ";
   print_s2varlst (s2vs_); print_newline ();
   print "s3explst_solve_s2exp: s3ps =\n";
-  $UT.fprintlst (stdout_ref, s3ps_asmp, "\n", fprint_s3exp);
-  print_newline ();
-  print "s3explst_solve_s2exp: s2p = "; pprint_s2exp (s2p); print_newline ();
-  print "s3explst_solve_s2exp: s3p = "; print_s3exp (s3p); print_newline ();
+  $UT.fprintlst (
+    stdout_ref, s3ps_asmp, "\n", fprint_s3exp
+  ) ; print_newline ();
+  println! ("s3explst_solve_s2exp: s2p = ", s2p);
+  println! ("s3explst_solve_s2exp: s3p = ", s3p);
 end // end of [val]
 *)
 //
@@ -223,14 +224,17 @@ val () = assertloc (false)
 val ans = 0 // HX: it is never executed at run-time
 #endif // end of [#if]
 //
-val () = s2varindmap_free (vim)
-val () = list_vt_free (s2vs) and () = list_vt_free (s3ps)
 val () = status := ans
+//
+val () = s2varindmap_free (vim)
+val () = list_vt_free (s2vs)
+and () = list_vt_free (s3ps)
+//
 } (* end of [status >= 0] *)
 //
 (*
 val () = (
-  print "s3explst_solve_s2exp: status = "; print status; print_newline ()
+  println! ("s3explst_solve_s2exp: status = ", status)
 ) // end of [val]
 *)
 //

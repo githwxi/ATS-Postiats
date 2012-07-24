@@ -176,9 +176,9 @@ staload "libc/SATS/stdio.sats"
 //
 implement
 main () = let
-  val () = assert (fileno0 (stdin_ref) = 0)
-  val () = assert (fileno0 (stdout_ref) = 1)
-  val () = assert (fileno0 (stderr_ref) = 2)
+  val () = assertloc (fileno0 (stdin_ref) = 0)
+  val () = assertloc (fileno0 (stdout_ref) = 1)
+  val () = assertloc (fileno0 (stderr_ref) = 2)
 in
   0(*normal*)
 end // end of [main]

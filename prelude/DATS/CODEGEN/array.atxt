@@ -55,7 +55,7 @@ end // end of [array_exch_at_size]
 #atscode_separator()
 
 implement{a}
-array_exchange
+array_interchange
   (A, i, j) = let
 in
 //
@@ -70,7 +70,7 @@ in
   // nothing
 end else () // end of [if]
 //
-end // end of [array_exchange]
+end // end of [array_interchange]
 
 #atscode_separator()
 

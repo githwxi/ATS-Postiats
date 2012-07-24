@@ -192,7 +192,7 @@ x:t0p
   (xs: list (INV(x), n), x: x):<> list_vt (x, n+1)
 // end of [list_extend]
 
-macdef list_snoc = list_extend
+macdef list_snoc (xs, x) = list_extend (,(xs), ,(x))
 
 #atscode_separator()
 
@@ -532,7 +532,7 @@ x,y:t0p
 
 #atscode_separator()
 
-macdef list_zipwith = list_map2
+macdef list_zipwith (xs, ys) = list_map2 (,(xs), ,(ys))
 
 #atscode_separator()
 
