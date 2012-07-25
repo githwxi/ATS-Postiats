@@ -231,7 +231,7 @@ icnstrlst_free (xs, n) =
 extern
 fun{a:t@ype}
 myintvec_normalize // knd=2/1:gte/eq
-  {n:pos} (knd: int, vec: !myintvec (a, n), n: int n): int(*~1/0*)
+  {n:pos} (knd: int, vec: !myintvec (a, n), n: int n): Ans2(*~1/0*)
 // end of [myintvec_normalize]
 
 (* ****** ****** *)
@@ -239,51 +239,59 @@ myintvec_normalize // knd=2/1:gte/eq
 implement{a}
 myintvec_inspect
   {n} (knd, iv, n) = let
-  viewtypedef vt = myint(a)
-  fun loop {n:nat} {l:addr} .<n>. (
-    pf: !array_v (vt, n, l) | p: ptr l, n: int n
-  ) : bool(*cffs=0*) =
-    if n > 0 then let
-      prval (pf1, pf2) = array_v_uncons {vt} (pf)
-    in
-      if !p = 0 then let
-        val ans = loop (pf2 | p + sizeof<vt>, n-1)
-        prval () = pf := array_v_cons {vt} (pf1, pf2)
-      in
-        ans
-      end else let
-        prval () = pf := array_v_cons {vt} (pf1, pf2)
-      in
-        false
-      end // end of [if]
-    end else true // end of [if]
-  // end of [loop]
-  val (pf | p) = myintvec_takeout (iv)
-  prval (pf1, pf2) = array_v_uncons {vt} (pf)
-  val cffsAllZero = loop (pf2 | p+sizeof<vt>, n-1)
-  var ans: int = UNDECIDED
-  val () = (
-    if cffsAllZero then (
-      case+ knd of
-      |  2 => (
-          if !p >= 0 then ans := TAUTOLOGY else ans := CONTRADICTION
-        ) // end of [gte]
-      | ~2 => (
-          if !p < 0 then ans := TAUTOLOGY else ans := CONTRADICTION
-        ) // end of [gte]
-      |  1 => (
-          if !p = 0 then ans := TAUTOLOGY else ans := CONTRADICTION
-        ) // end of [eq]
-      | ~1 => (
-          if !p != 0 then ans := TAUTOLOGY else ans := CONTRADICTION
-        ) // end of [eq]
-      |  _ => () // HX: this should not happen
-    ) // end of [if]
-  ) : void // end of [val]
-  prval () = pf := array_v_cons {vt} (pf1, pf2)
-  prval () = myintvecout_addback (pf | iv)
+//
+viewtypedef vt = myint(a)
+fun loop {n:nat} {l:addr} .<n>. (
+  pf: !array_v (vt, n, l) | p: ptr l, n: int n
+) : bool(*cffs=0*) = let
 in
-  ans(*~1/0/1*)
+  if n > 0 then let
+    prval (pf1, pf2) = array_v_uncons {vt} (pf)
+  in
+    if !p = 0 then let
+      val ans = loop (pf2 | p + sizeof<vt>, n-1)
+      prval () = pf := array_v_cons {vt} (pf1, pf2)
+    in
+      ans
+    end else let
+      prval () = pf := array_v_cons {vt} (pf1, pf2)
+    in
+      false
+    end // end of [if]
+  end else true // end of [if]
+end // end of [loop]
+//
+val (pf | p) = myintvec_takeout (iv)
+prval (pf1, pf2) = array_v_uncons {vt} (pf)
+val cffsZero = loop (pf2 | p+sizeof<vt>, n-1)
+var ans3: Ans3 = UNDECIDED
+val () = (
+//
+if cffsZero then (
+  case+ knd of
+  |  2 => (
+      if !p >= 0 then ans3 := TAUTOLOGY else ans3 := CONTRADICTION
+    ) // end of [gte]
+  | ~2 => (
+      if !p  <  0 then ans3 := TAUTOLOGY else ans3 := CONTRADICTION
+    ) // end of [gte]
+  |  1 => (
+      if !p  =  0 then ans3 := TAUTOLOGY else ans3 := CONTRADICTION
+    ) // end of [eq]
+  | ~1 => (
+      if !p != 0 then ans3 := TAUTOLOGY else ans3 := CONTRADICTION
+    ) // end of [eq]
+  |  _ => () // HX: this should not happen
+) // end of [if]
+//
+) : void // end of [val]
+//
+prval () =
+  pf := array_v_cons {vt} (pf1, pf2)
+prval () = myintvecout_addback (pf | iv)
+//
+in
+  ans3(*~1/0/1*)
 end // end of [myintvec_inspect]
 
 implement{a}
@@ -300,10 +308,10 @@ implement{a}
 myintvec_inspect_eq
   (iv, n) = let
   val knd = 1(*eq*)
-  val ans = myintvec_inspect (knd, iv, n)
+  val ans2 = myintvec_inspect (knd, iv, n)
 in
-  if ans = 0 then
-    myintvec_normalize (knd, iv, n) else ans
+  if ans2 = 0 then
+    myintvec_normalize (knd, iv, n) else ans2
   // end of [if]
 end // end of [myintvec_inspect_eq]
 
@@ -323,25 +331,25 @@ in
 case+ ivs of
 | list_vt_cons
     (!p_iv, !p_ivs) => let
-    val ans =
+    val ans3 =
       myintvec_inspect_gte (!p_iv, n)
     // end of [val]
   in
-    if ans != 0 then let
+    if ans3 != 0 then let
       val ivs1 = !p_ivs
       val () = myintvec_free<a> (!p_iv, n)
       val () = free@ {vt}{0} (ivs)
       val () = ivs := ivs1
     in
-      if ans > 0 then // TAUTOLOGY
+      if ans3 > 0 then // TAUTOLOGY
         myintveclst_inspect_gte (ivs, n) else ~1(*CONTRADICTION*)
       // end of [if]
     end else let
-      val fans =
+      val ans =
         myintveclst_inspect_gte (!p_ivs, n)
       prval () = fold@ (ivs)
     in
-      fans // the final answers
+      ans // the final answers
     end // end of [if]
   end (* end of [list_vt_cons] *)
 | list_vt_nil () => let
@@ -462,7 +470,7 @@ in
 if gcd > 1 then let
   val (pf | p) = myintvec_takeout {a} (iv)
   prval (pf1, pf2) = array_v_uncons {vt} (pf)
-  var ans: int = 0
+  var ans2: Ans2 = 0
   val () = loop (pf2 | gcd, p+sizeof<vt>, n-1)
   val () = (
     case+ 0 of
@@ -479,20 +487,20 @@ if gcd > 1 then let
     | _ when knd = 1 => let
         val rmd = mod11_myint_myint (!p, gcd)
         val () = // HX: a contradiction may be reached
-          if rmd = 0 then (!p := (!p \ediv gcd)) else (ans := ~1)
+          if rmd = 0 then (!p := (!p \ediv gcd)) else (ans2 := ~1)
         val () = myint_free (rmd)
       in
         (*nothing*)
       end // end of [knd=1/eq]
     | _ => let
-        val () = assertloc (false) in ans := ~1
+        val () = assertloc (false) in ans2 := ~1
       end // end of [_]
   ) : void // end of [val]
   prval pf = array_v_cons {vt} (pf1, pf2)
   prval () = myintvecout_addback {a} (pf | iv)
   val () = myint_free (gcd)
 in
-  ans
+  ans2
 end else let
   val () = myint_free (gcd) in 0(*normal*)
 end // end of [if]

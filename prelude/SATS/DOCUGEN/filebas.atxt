@@ -227,8 +227,9 @@ the chars returned.  ')
 #declnamesynop("fileref_get_line_string")
 #decldescrpt('\
 
-This function is a specialization of #dyncode("fileref_get_line_string"),
-and its implementation is given as follows:
+This function is a specialization of
+#dyncode("fileref_get_line_string_main"), and its implementation is given
+as follows:
 
 #pats2xhtmld_tryit('\
 implement
@@ -243,6 +244,8 @@ in
 end // end of [fileref_get_line_string]
 ')
 ')
+
+(* ****** ****** *)
 
 #declnamesynop("fileref_get_line_string_main")
 

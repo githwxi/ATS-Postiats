@@ -335,34 +335,41 @@ fun{a:t@ype}
 icnstrlst_free {n:int} (ics: icnstrlst (a, n), n: int n): void
 
 (* ****** ****** *)
+
+typedef Ans2 = [i:int | ~1 <= i; i <= 0] int (i)
+typedef Ans3 = [i:int | ~1 <= i; i <= 1] int (i)
+
+(* ****** ****** *)
+
 (*
 ** ~1/0/1: CONTRADICTION/UNDECIDED/TAUTOLOGY
 *)
 fun{a:t@ype}
 myintvec_inspect
-  {n:pos} (knd: int, vec: !myintvec (a, n), n: int n): int
-// end of [myintvec_inspect]
+  {n:pos} (
+  knd: int, vec: !myintvec (a, n), n: int n
+) : Ans3 // end of [myintvec_inspect]
 
 fun{a:t@ype}
 myintvec_inspect_lt
-  {n:pos} (vec: !myintvec (a, n), n: int n): int
+  {n:pos} (vec: !myintvec (a, n), n: int n): Ans3
 // end of [myintvec_inspect_lt]
 fun{a:t@ype}
 myintvec_inspect_gte
-  {n:pos} (vec: !myintvec (a, n), n: int n): int
+  {n:pos} (vec: !myintvec (a, n), n: int n): Ans3
 // end of [myintvec_inspect_gte]
 fun{a:t@ype}
 myintvec_inspect_eq
-  {n:pos} (vec: !myintvec (a, n), n: int n): int
+  {n:pos} (vec: !myintvec (a, n), n: int n): Ans3
 // end of [myintvec_inspect_eq]
 fun{a:t@ype}
 myintvec_inspect_neq
-  {n:pos} (vec: !myintvec (a, n), n: int n): int
+  {n:pos} (vec: !myintvec (a, n), n: int n): Ans3
 // end of [myintvec_inspect_neq]
 
 fun{a:t@ype}
 myintveclst_inspect_gte
-  {n:pos} (ivs: &myintveclst (a, n), n: int n): int
+  {n:pos} (ivs: &myintveclst (a, n), n: int n): Ans2
 // end of [myintveclst_inspect_gte]
 
 (* ****** ****** *)
@@ -471,7 +478,7 @@ fun indexset_add
 fun{a:t@ype}
 icnstrlst_solve {n:pos} (
   iset(*hint*): indexset (n), ics: &icnstrlst (a, n), n: int n
-) : int // end of [icnstrlst_solve]
+) : Ans2 // end of [icnstrlst_solve]
 
 (* ****** ****** *)
 

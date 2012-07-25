@@ -54,16 +54,71 @@ in
   // end of [if]
 end // end of [list0_make_elt]
 
+(* ****** ****** *)
+
 implement
-list0_make_intrange
+list0_make_intrange_2
   (l, r) = let
-  val l = g1ofg0_int (l)
-  val r = g1ofg0_int (r)
+  val d = (
+    if l <= r then 1 else ~1
+  ) : int // end of [val]
 in
-  if l <= r then
-    list0_of_list_vt (list_make_intrange (l, r))
-  else list0_nil ()
-end // end of [list0_make_intrange]
+  $effmask_exn (list0_make_intrange_3 (l, r, d))
+end // end of [list0_make_intrange_2]
+
+implement
+list0_make_intrange_3
+  (l, r, d) = let
+//
+typedef res = list0 (int)
+//
+fun loop1 ( // d > 0
+  l: int, r: int, d: int, res: &ptr? >> res
+) : void =
+  if l < r then let
+    val () =
+      res := list0_cons (l, _)
+    val+ list0_cons (_, res1) = res
+    val () = loop1 (l+d, r, d, res1)
+    prval () = fold@ (res)
+  in
+    // nothing
+  end else (res := list0_nil)
+//
+fun loop2 ( // d < 0
+  l: int, r: int, d: int, res: &ptr? >> res
+) : void =
+  if l > r then let
+    val () =
+      res := list0_cons (l, _)
+    val+ list0_cons (_, res1) = res
+    val () = loop2 (l+d, r, d, res1)
+    prval () = fold@ (res)
+  in
+    // nothing
+  end else (res := list0_nil)
+//
+in
+//
+$effmask_all (
+if d > 0 then (
+  if l < r then let
+    var res: ptr? // uninitialized
+    val () = loop1 (l, r, d, res) in res
+  end else list0_nil ()
+) else if d < 0 then (
+  if l > r then let
+    var res: ptr? // uninitialized
+    val () = loop2 (l, r, d, res) in res
+  end else list0_nil ()
+) else (
+  $raise IllegalArgExn("list0_make_intrange_3:d")
+) // end of [if]
+) // end of [$effmask_all]
+//
+end // end of [list0_make_intrange_3]
+
+(* ****** ****** *)
 
 implement{a}
 list0_make_arrpsz
@@ -627,6 +682,18 @@ list0_zip (xs, ys) = let
 in
   list0_of_list_vt (xys)
 end // end of [list0_zip]
+
+(* ****** ****** *)
+
+implement{a}
+list0_quicksort (xs, cmp) = let
+//
+implement
+list_quicksort__cmp<a> (x, y) = cmp (x, y)
+//
+in
+  list0_of_list_vt (list_quicksort (list_of_list0 (xs)))
+end // end of [list0_quicksort]
 
 (* ****** ****** *)
 

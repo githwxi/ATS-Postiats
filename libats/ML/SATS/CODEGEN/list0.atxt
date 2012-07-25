@@ -49,13 +49,22 @@ list_of_list0 {a:t@ype} (xs: list0 (INV(a))):<> List0 (a)
 
 #atscode_separator()
 
-symintr list0
-
 fun{a:t0p}
 list0_make_elt (n: int, x: a):<!exn> list0 (a)
 
-fun list0_make_intrange (l: int, r: int):<> list0 (int)
+#atscode_separator()
+//
+symintr list0_make_intrange
+//
+fun list0_make_intrange_2 (l: int, r: int):<> list0 (int)
+fun list0_make_intrange_3 (l: int, r: int, d: int):<!exn> list0 (int)
+overload list0_make_intrange with list0_make_intrange_2
+overload list0_make_intrange with list0_make_intrange_3
 
+#atscode_separator()
+//
+symintr list0
+//
 fun{a:t0p}
 list0_make_arrpsz
   {n:int} (psz: arrpsz (INV(a), n)):<!wrt> list0 (a)
@@ -325,6 +334,13 @@ x,y:t0p}{z:t0p
 ) : list0 (z) // end of [list0_zipwith]
 *)
 macdef list0_zipwith = list0_map2
+
+#atscode_separator()
+
+fun{a:t0p}
+list0_quicksort
+  (xs: NSH(list0 (a)), cmp: (a, a) -<cloref> int):<> list0 (a)
+// end of [list0_quicksort]
 
 #atscode_separator()
 

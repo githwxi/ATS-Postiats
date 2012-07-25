@@ -30,9 +30,7 @@ ATSLIB/libats/ML/list0\
 The functions declared in this package are primarily for supporting
 ML-style processing of list-values. The programmer is encouraged to use the
 dependent datatype #stacode("list") instead of #stacode("list0") after
-gaining familiarity with dependent types.
-
-")
+gaining familiarity with dependent types.  ")
 
 (* ****** ****** *)
 
@@ -56,19 +54,21 @@ list0_t0ype_type (a: t@ype+) =
 
 #declnamesynop("list0_of_list")
 #decldescrpt("\
+
 This function casts a list-value of indexed type to a list-value of
-unindexed type.
-")
+unindexed type.  ")
+
 #declnamesynop("list0_of_list_vt")
 #decldescrpt("\
+
 This function casts a linear list-value of indexed type to a list-value of
-unindexed type.
-")
+unindexed type.  ")
+
 #declnamesynop("list_of_list0")
 #decldescrpt("\
+
 This function casts a list-value of unindexed type to a list-value of
-indexed type.
-")
+indexed type.  ")
 
 (* ****** ****** *)
 
@@ -88,17 +88,41 @@ indexed type.
 
 Given an integer n and an element x, this function returns a list
 consisting of n occurrences of x if n is a natural number. Otherwise it
-raises an exception (#dyncode("IllegalArgExn")).
+raises an exception (#dyncode("IllegalArgExn")).  ")
 
+#declname("list0_make_intrange")
+#declsynop2("\
+#pats2xhtmls("\
+symintr list0_make_intrange
+overload list0_make_intrange with list0_make_intrange_2
+overload list0_make_intrange with list0_make_intrange_3
 ")
+")
+
+#declnamesynop("list0_make_intrange_2")
+#decldescrpt("\
+
+Given integers l and r, this function returns the list consisting of
+integers l, l+1, ..., and r-1, inclusive if l <= r holds. Otherwise, it
+returns the list l, l-1, ..., r+1, inclusive.  ")
+
+#declnamesynop("list0_make_intrange_3")
+#decldescrpt("\
+
+Given integers l, r and d, if l < r and d > 0, then this function returns
+the list consisting of integers l, l+d, ..., l+n*d, where n is the largest
+natural number satisfying l+n*d < r; if l > r and d < 0, this function
+returns the list consisting of integers l, l-d, ..., l-n*d, where n is the
+largest natural number satisfying l-n*d > r; if d = 0, then this function
+raises an exception (#dyncode("IllegalArgExn")); otherwise, this function
+returns the empty list.  ")
 
 #declnamesynop("list0_make_arrpsz")
 #decldescrpt("\
 
 This function, which overloads the symbol #dyncode("list0"), is often
-conveniently employed to build a list of some fixed length.\
+conveniently employed to build a list of some fixed length. ")
 
-")
 #declexample("\
 
 The following code builds a list of digits and then prints them out:
@@ -127,13 +151,12 @@ end // end of [main]
 #decldescrpt("\
 
 This function returns the head of a given list if the list is non-empty or
-raises an exception (#dyncode("ListSubscriptExn")) if the list is empty.
-")
+raises an exception (#dyncode("ListSubscriptExn")) if the list is empty. ")
 
 #declnamesynop("list0_head_opt")
 #decldescrpt("\
-This function is the optional version of #dyncode("list0_head_exn").
-")
+
+This function is the optional version of #dyncode("list0_head_exn").  ")
 
 (* ****** ****** *)
 
@@ -141,13 +164,12 @@ This function is the optional version of #dyncode("list0_head_exn").
 #decldescrpt("\
 
 This function returns the tail of a given list if the list is non-empty or
-raises an exception (#dyncode("ListSubscriptExn")) if the list is empty.
-")
+raises an exception (#dyncode("ListSubscriptExn")) if the list is empty. ")
 
 #declnamesynop("list0_tail_opt")
 #decldescrpt("\
-This function is the optional version of #dyncode("list0_tail_exn").
-")
+
+This function is the optional version of #dyncode("list0_tail_exn").  ")
 
 (* ****** ****** *)
 
@@ -156,9 +178,8 @@ This function is the optional version of #dyncode("list0_tail_exn").
 
 This function returns element i of a given list if i is a natural number
 less than the length of the list.  Otherwise, it raises an exception
-(#dyncode("ListSubscriptExn")).\
+(#dyncode("ListSubscriptExn")). ")
 
-")
 #declexample("\
 
 The following code gives a #emph('terribly inefficient') O(n^2)-time
@@ -188,8 +209,8 @@ end // end of [list0_append]
 
 #declnamesynop("list0_nth_opt")
 #decldescrpt("\
-This function is the optional version of #dyncode("list0_nth_exn").
-")
+
+This function is the optional version of #dyncode("list0_nth_exn").  ")
 
 (* ****** ****** *)
 
@@ -206,9 +227,7 @@ Given a list xs of length n, an integer i and an element x, this function
 builds a list xs1 by inserting x into xs at position i if i is between 0
 and n, inclusive.  Otherwise, the function raises an exception
 (#dyncode("IllegalArgExn")).  Clearly, if the function returns a list, then
-element i in the returned list must be x.
-
-")
+element i in the returned list must be x. ")
 
 #declnamesynop("list0_remove_at_exn")
 #decldescrpt("\
@@ -216,9 +235,8 @@ element i in the returned list must be x.
 Given a list xs of length n, an integer i and an element x, this function
 builds a list xs1 by removing element i in if i is between 0 and n-1,
 inclusive.  Otherwise, the function raises an exception
-(#dyncode("IllegalArgExn")).
+(#dyncode("IllegalArgExn")). ")
 
-")
 #declexample("\
 
 Let xs be a list of length n, i an integer between 0 and n-1, inclusive,
@@ -251,9 +269,7 @@ end // end of [main]
 
 This function returns the length of a given list, and its implementation is
 tail-recursive. For convenience, #dyncode("list0_length") overloads the
-symbol #dyncode("length").
-
-")
+symbol #dyncode("length"). ")
 
 #declnamesynop("list0_append")
 #decldescrpt("\
@@ -261,9 +277,8 @@ symbol #dyncode("length").
 Given two lists xs and ys, this function returns the concatenation of xs
 and ys. For convenience, #dyncode("list0_append") overloads the symbol
 #dyncode("+").  Note that the implementation of #dyncode("list0_append") is
-tail-recursive in ATSLIB.\
+tail-recursive in ATSLIB. ")
 
-")
 #declexample("\
 
 The following code checks that the length of the concatenation of two lists
@@ -294,9 +309,8 @@ end // end of [main]
 #decldescrpt("\
 
 Given a lists xs and y, this function returns the concatenation of xs and
-the singleton list consisting of y.
+the singleton list consisting of y. ")
 
-")
 #declexample("\
 
 The following code gives a typical implementation of the list-reverse
@@ -327,17 +341,14 @@ time-wise and memory-wise: It is O(n^2)-time and non-tail-recursive.  ")
 #declnamesynop("list0_reverse")
 #decldescrpt("\
 This function returns the reverse of a given list, and its implementation
-is tail-recurisive.
-")
+is tail-recurisive. ")
 
 #declnamesynop("list0_reverse_append")
 #decldescrpt("\
 
 Given two lists xs and ys, this function returns the concatenation of the
 rxs and ys, where rxs refers to the reverse of xs.  The implementation of
-#dyncode("list0_reverse_append") in ATSLIB is tail-recursive.\
-
-")
+#dyncode("list0_reverse_append") in ATSLIB is tail-recursive. ")
 
 (* ****** ****** *)
 
@@ -355,9 +366,7 @@ of xss[0], xss[1], ..., and xss[n-1], where n is the length of xss.  ")
 Given a list xs and an integer i, this function contructs another list
 consisting of the first i elemements of xs. If i is negative, the function
 raises the exception #dyncode("IllegalArgExn"). If i exceeds the length of
-xs, then the function raises the exception #dyncode("ListSubscriptExn").\
-
-")
+xs, then the function raises the exception #dyncode("ListSubscriptExn"). ")
 
 #declnamesynop("list0_drop_exn")
 #decldescrpt("\
@@ -366,9 +375,7 @@ Given a list xs and an integer i, this function returns the suffix of xs
 that is of length n-i, where n is the length of xs.  If i is negative, the
 function raises the exception #dyncode("IllegalArgExn"). If i exceeds the
 length of xs, then the function raises the exception
-#dyncode("ListSubscriptExn").\
-
-")
+#dyncode("ListSubscriptExn").  ")
 
 (* ****** ****** *)
 
@@ -439,8 +446,6 @@ parameter sgn equals sgn(n1-n2), that is, the sign of n1-n2, where n1 and
 n2 are the lengths of the first and second arguments of the function,
 respectively.  ")
 
-")
-
 (* ****** ****** *)
 
 #declnamesynop("list0_foldleft")
@@ -449,9 +454,8 @@ respectively.  ")
 Given a list xs of length n, this function returns the value f (...f (f
 (ini, xs[0]), xs[1])..., xs[n-1]), where the notation xs[i] refers to
 element i in the list xs. The implementation of this function is
-tail-recursive.
+tail-recursive.  ")
 
-")
 #declexample('\
 
 The following code gives a standard implementation of the list-reverse
@@ -476,9 +480,7 @@ list0_reverse (xs) = $effmask_all (
 Given a list xs of length n, this function returns the value f (...f (f
 (ini, 0, xs[0]), 1, xs[1])..., n-1, xs[n-1]), where the notation xs[i]
 refers to element i in the list xs. The implementation of this function is
-tail-recursive.
-
-")
+tail-recursive.  ")
 
 #declnamesynop("list0_foldleft2")
 #decldescrpt("\
@@ -496,11 +498,10 @@ xs2[n-1]), where n equals min(n1, n2).
 
 Given a list xs of length n, this function returns the value f (xs[0], f
 (xs[1], ...f (xs[n-1], snk)...)), where the notation xs[i] refers to
-element i in the list xs. The implementation of this function is #emph("not")
-tail-recursive, and stack-overflow may occur if the xs is long (e.g.,
-containing 1,000,000 elements).
+element i in the list xs. The implementation of this function is
+#emph("not") tail-recursive, and stack-overflow may occur if the xs is long
+(e.g., containing 1,000,000 elements).  ")
 
-")
 #declexample('\
 
 The following code gives a standard implementation of the list-append
@@ -770,9 +771,8 @@ However, the implementation of this function in ATSLIB is tail-recursive.\
 
 Given an integer n and a function f, this function returns a list
 consisting of the elements f(0), f(1), ..., f(n-1) if n is a natural
-number. Otherwise, it raises an exception (#dyncode("IllegalArgExn")).
+number. Otherwise, it raises an exception (#dyncode("IllegalArgExn")).  ")
 
-")
 #declexample("\
 
 The following code builds a list of digits and then prints them onto the
@@ -861,12 +861,14 @@ This function does exactly the same as #dyncode("list0_map2").
 
 (* ****** ****** *)
 
-#declnamesynop("list0_mergesort")
+#declnamesynop("list0_quicksort")
 #decldescrpt("\
-Mergesort is of time-complexity O(n(log(n))), and it is a stable sorting
-algorithm.  This function mergesorts its first argument according to the
-ordering implemented by its second argument.
-")
+
+Quicksort is of time-complexity O(n(log(n))) on average (but can be O(n^2)
+in the worse case), and it is not a stable sorting algorithm.  This
+function quicksorts its first argument according to the ordering provided
+as its second argument. ")
+
 #declexample("\
 
 The following code mergesorts a randomly generated list of integers:
@@ -879,15 +881,56 @@ staload "contrib/atshwxi/testing/SATS/randgen.sats"
 implement
 main () = 0 where {
   \#define N 10
+  typedef T = int
   val out = stdout_ref
 //
-  val xs = list0_of_list_vt (randgen_list<int> (N))
+  val xs = list0_of_list_vt (randgen_list<T> (N))
   val () =
     fprint_string (out, "xs(bef) = ")
   val () = fprint_list0_sep (out, xs, ", ")
   val () = fprint_newline (out)
 //
-  val xs = list0_mergesort<int> (xs, lam (x1, x2) => compare (x1, x2))
+  val xs = list0_quicksort<T> (xs, lam (x1, x2) => compare (x1, x2))
+  val () =
+    fprint_string (out, "xs(aft) = ")
+  val () = fprint_list0_sep (out, xs, ", ")
+  val () = fprint_newline (out)
+//
+} // end of [main]
+')
+")
+
+(* ****** ****** *)
+
+#declnamesynop("list0_mergesort")
+#decldescrpt("\
+
+Mergesort is of time-complexity O(n(log(n))), and it is a stable sorting
+algorithm.  This function mergesorts its first argument according to the
+ordering implemented by its second argument.  ")
+
+#declexample("\
+
+The following code mergesorts a randomly generated list of integers:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/list0.sats"
+staload "contrib/atshwxi/testing/SATS/randgen.sats"
+//
+implement
+main () = 0 where {
+  \#define N 10
+  typedef T = int
+  val out = stdout_ref
+//
+  val xs = list0_of_list_vt (randgen_list<T> (N))
+  val () =
+    fprint_string (out, "xs(bef) = ")
+  val () = fprint_list0_sep (out, xs, ", ")
+  val () = fprint_newline (out)
+//
+  val xs = list0_mergesort<T> (xs, lam (x1, x2) => compare (x1, x2))
   val () =
     fprint_string (out, "xs(aft) = ")
   val () = fprint_list0_sep (out, xs, ", ")
