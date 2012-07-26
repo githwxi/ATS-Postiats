@@ -34,7 +34,7 @@ staload IT = "prelude/SATS/iterator.sats"
 implement{a}
 array_getref_at
   (A, i) = let
-  val p = ptr0_add_guint (addr@(A), i) in $UN.cast2Ptr1 (p)
+  val p = ptr0_add_guint (addr@(A), i) in $UN.cast{cPtr1(a)}(p)
 end // end of [array_getref_at]
 
 implement{a}

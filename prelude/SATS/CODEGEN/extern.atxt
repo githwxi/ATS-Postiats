@@ -31,29 +31,6 @@ sortdef vt0p = viewt@ype
 ')\
 
 #atscode_separator()
-
-abstype
-cptr_viewt0ype_addr_type
-  (a:viewt@ype+, addr) // HX: simulating C pointers
-stadef cptr = cptr_viewt0ype_addr_type
-stadef cPtr0 (a:viewt@ype) = [l:addr] cptr (a, l)
-stadef cPtr1 (a:viewt@ype) = [l:addr | l > null] cptr (a, l)
-
-castfn
-cptr2ptr {a:vt0p}{l:addr} (p: cptr (a, l)):<> ptr l
-// end of [castfn]
-
-typedef voidptr (l:addr) = cptr (void, l)
-typedef voidptr0 = [l:addr] voidptr (l)
-typedef voidptr1 = [l:addr | l > null] voidptr (l)
-typedef charptr (l:addr) = cptr (char, l)
-typedef charptr0 = [l:addr] charptr (l)
-typedef charptr1 = [l:addr | l > null] charptr (l)
-typedef constcharptr (l:addr) = charptr (l)
-typedef constcharptr0 = charptr0 and constcharptr1 = charptr1
-
-#atscode_separator()
-#atscode_decl_strcst('\
 //
 // HX: note that (vt1 \minus v2) roughly means that a ticket of
 // [v2] is taken from [vt1]; the ticket must be returned before
@@ -67,14 +44,12 @@ stadef minus = minus_viewt0ype_view
 praxi minus_addback
   {vt1:vt0p}{v2:view} (pf1: minus (vt1, v2), pf2: v2 | x: !vt1): void
 // end of [minus_addback]
-')\
 
 viewtypedef
 vtget0 (vt1:vt0p, vt2: vt0p) = (minus (vt1, vt2) | vt2)
 
 #atscode_separator()
 
-#atscode_decl_strcst('\
 castfn
 argv_takeout_strarr
   {n:int} (
@@ -82,9 +57,7 @@ argv_takeout_strarr
 ) :<> [l:addr] (
   array_v (string, l, n), minus (argv n, array_v (string, l, n)) | ptr l
 ) // end of [argv_takeout_strarr]
-')\
 
-#atscode_decl_strcst('\
 castfn
 argv_takeout_parrnull
   {n:int} (
@@ -92,7 +65,6 @@ argv_takeout_parrnull
 ) :<> [l:addr] (
   parrnull_v (string, l, n), minus (argv n, parrnull_v (string, l, n)) | ptr l
 ) // end of [argv_takeout_parrnull]
-')\
 
 #atscode_separator()
 

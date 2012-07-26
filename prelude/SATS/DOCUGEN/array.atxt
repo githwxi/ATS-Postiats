@@ -159,7 +159,7 @@ fun{a:t0p}
 array_get_at {n:nat} (
   A: &(@[a][n]), i: sizeLt n
 ) : a = let
-  val p = array_getref_at<a> (A, i) in $UN.ptr_get<a> (p)
+  val p = array_getref_at<a> (A, i) in $UN.cptr_get<a> (p)
 end // end of [array_get_at]
 ')
 Note that the unsafe version of #dyncode("ptr_get") is called

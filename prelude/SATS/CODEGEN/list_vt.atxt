@@ -87,10 +87,13 @@ list_vt_length {n:int} (xs: !list_vt (a, n)):<> int n
 
 #atscode_separator()
 
-fun{a:t0p}
-list_vt_getref_at {n:int}
-  (xs: &list_vt (a, n), i: natLte n):<> Ptr1
+fun{a:vt0p}
+list_vt_getref_at
+  {n:int}{i:nat | i <= n}
+  (xs: &list_vt (INV(a), n), i: int i):<> cPtr1 (list_vt (a, n-i))
 // end of [list_vt_getref_at]
+
+#atscode_separator()
 
 fun{a:t0p}
 list_vt_get_at {n:int}

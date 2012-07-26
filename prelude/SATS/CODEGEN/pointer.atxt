@@ -313,6 +313,30 @@ ptr_exch {l:addr}
 
 #atscode_separator()
 
+abstype
+cptr_viewt0ype_addr_type
+  (a:viewt@ype+, addr) // HX: for simulating C pointers
+stadef cptr = cptr_viewt0ype_addr_type
+stadef cPtr0 (a:vt0p) = [l:addr] cptr (a, l)
+stadef cPtr1 (a:vt0p) = [l:addr | l > null] cptr (a, l)
+
+castfn
+cptr2ptr
+  {a:vt0p}{l:addr} (p: cptr (a, l)):<> ptr (l)
+// end of [castfn]
+
+typedef voidptr (l:addr) = cptr (void, l)
+typedef voidptr0 = [l:addr] voidptr (l)
+typedef voidptr1 = [l:addr | l > null] voidptr (l)
+
+typedef charptr (l:addr) = cptr (char, l)
+typedef charptr0 = [l:addr] charptr (l)
+typedef charptr1 = [l:addr | l > null] charptr (l)
+
+typedef constcharptr (l:addr) = charptr (l) // HX: commenting
+typedef constcharptr0 = charptr0 // HX: for commenting purpose
+typedef constcharptr1 = charptr1 // HX: for commenting purpose
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{

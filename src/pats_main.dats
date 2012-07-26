@@ -472,7 +472,6 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/SATS/lazy_vt.sats")
 //
 (*
-  val () = pervasive_load (ATSHOME, "prelude/SATS/gnumber.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/iterator.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/fcontainer.sats")
 *)

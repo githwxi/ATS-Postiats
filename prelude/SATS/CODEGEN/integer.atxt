@@ -164,16 +164,19 @@ end // end of [fun_gint_cmp0_decl]
 overload <> with g0int_neq of 0
 
 fun{tk:tk}
-g0int_compare (x: g0int (tk), y: g0int (tk)):<> int
+g0int_compare
+  (x: g0int (tk), y: g0int (tk)):<> int
 overload compare with g0int_compare of 0
 
 #atscode_separator()
 
 fun{tk:tk}
-g0int_max (x: g0int (tk), y: g0int (tk)):<> g0int (tk)
+g0int_max
+  (x: g0int (tk), y: g0int (tk)):<> g0int (tk)
 overload max with g0int_max of 0
 fun{tk:tk}
-g0int_min (x: g0int (tk), y: g0int (tk)):<> g0int (tk)
+g0int_min
+  (x: g0int (tk), y: g0int (tk)):<> g0int (tk)
 overload min with g0int_min of 0
 
 #atscode_separator()
@@ -181,9 +184,9 @@ overload min with g0int_min of 0
 // HX: for indexed integer types
 //
 castfn
-g1ofg0_int
-  {tk:tk} (x: g0int tk):<> g1int (tk)
-// end of [g1ofg0_int]
+g1ofg0_int {tk:tk} (x: g0int tk):<> g1int (tk)
+castfn
+g0tog1_int {tk:tk} (x: g0int tk):<> g1int (tk)
 
 fun{k1,k2:tk}
 g1int2int // i2i
@@ -485,6 +488,12 @@ castfn
 g1ofg0_uint
   {tk:tk} (x: g0uint tk):<> [i:nat] g1uint (tk, i)
 // end of [g1ofg0_uint]
+castfn
+g0tog1_uint
+  {tk:tk} (x: g0uint tk):<> [i:nat] g1uint (tk, i)
+// end of [g0tog1_uint]
+
+#atscode_separator()
 
 fun{k1,k2:tk}
 g1int2uint // i2u

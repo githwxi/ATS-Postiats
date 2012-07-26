@@ -109,7 +109,7 @@ prfun array_v_unsing
 
 fun{a:vt0p}
 array_getref_at
-  {n:int} (A: &(@[INV(a)][n]), i: sizeLt n):<> Ptr1
+  {n:int} (A: &(@[INV(a)][n]), i: sizeLt n):<> cPtr1 (a)
 // end of [array_getref_at]
 
 #atscode_separator()

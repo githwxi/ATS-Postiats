@@ -198,9 +198,9 @@ typedef listLt
 typedef listLte
   (a:t0p, n:int) = [k:nat | k <= n] list (a, k)
 typedef listGt
-  (a:t0p, n:int) = [k:nat | k > n] list (a, k)
+  (a:t0p, n:int) = [k:int | k > n] list (a, k)
 typedef listGte
-  (a:t0p, n:int) = [k:nat | k >= n] list (a, k)
+  (a:t0p, n:int) = [k:int | k >= n] list (a, k)
 typedef listBtw
   (a:t0p, m:int, n:int) = [k:int | m <= k; k < n] list (a, k)
 typedef listBtwe
@@ -224,13 +224,13 @@ viewtypedef listLt_vt
 viewtypedef listLte_vt
   (a:vt0p, n:int) = [k:nat | k <= n] list_vt (a, k)
 viewtypedef listGt_vt
-  (a:vt0p, n:int) = [k:nat | k > n] list_vt (a, k)
+  (a:vt0p, n:int) = [k:int | k > n] list_vt (a, k)
 viewtypedef listGte_vt
-  (a:vt0p, n:int) = [k:nat | k >= n] list_vt (a, k)
+  (a:vt0p, n:int) = [k:int | k >= n] list_vt (a, k)
 viewtypedef listBtw_vt
-  (a:t0p, m:int, n:int) = [k:int | m <= k; k < n] list_vt (a, k)
+  (a:vt0p, m:int, n:int) = [k:int | m <= k; k < n] list_vt (a, k)
 viewtypedef listBtwe_vt
-  (a:t0p, m:int, n:int) = [k:int | m <= k; k <= n] list_vt (a, k)
+  (a:vt0p, m:int, n:int) = [k:int | m <= k; k <= n] list_vt (a, k)
 //
 (* ****** ****** *)
 //

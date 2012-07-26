@@ -40,16 +40,24 @@ sortdef tk = tkind
 \#define NSH(x) x // = NSHARED
 
 #atscode_separator()
-
+//
 typedef
-stringLte (n:int) = [k:int | k <= n] string (k)
+stringLt (n:int) = [k:nat | k < n] string (k)
+typedef
+stringLte (n:int) = [k:nat | k <= n] string (k)
+//
+typedef
+stringGt (n:int) = [k:int | k > n] string (k)
 typedef
 stringGte (n:int) = [k:int | k >= n] string (k)
+//
+typedef
+stringBtw
+  (m:int, n:int) = [k:int | m <= k; k < n] string (k)
 typedef
 stringBtwe
-  (m:int, n:int) = [k:int | m <=k; k <= n] string (k)
-// end of [stringBtwe]
-
+  (m:int, n:int) = [k:int | m <= k; k <= n] string (k)
+//
 #atscode_separator()
 
 dataprop
