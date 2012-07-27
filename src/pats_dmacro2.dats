@@ -58,6 +58,7 @@ typedef stamp = $STMP.stamp
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_staexp2_util.sats"
 staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
@@ -354,6 +355,48 @@ evalctx_free (ctx) = (
   | ~EVALCTXdadd (_, _, ctx) => evalctx_free (ctx)
   | ~EVALCTXnil () => ()
 ) // end of [evalctx_free]
+
+(* ****** ****** *)
+
+fun s2exp_make_m2val
+  (m2v: m2val): s2exp =
+  case m2v of
+  | M2Vscode (s2e) => s2e
+  | _ => s2exp_err (s2rt_t0ype)
+// end of [s2exp_make_m2val]
+
+implement
+stasub_make_evalctx (ctx) = let
+//
+fun aux (
+  ctx: !evalctx, sub: &stasub
+) : void = let
+in
+  case+ ctx of
+  | EVALCTXsadd
+      (_key, _val, !p_ctx1) => let
+      val () = aux (!p_ctx1, sub)
+      val s2v = _key
+      val s2e = s2exp_make_m2val (_val)
+      val () = stasub_add (sub, s2v, s2e)
+    in
+      fold@ (ctx)
+    end
+  | EVALCTXdadd
+      (_key, _val, !p_ctx1) => let
+      val () = aux (!p_ctx1, sub)
+    in
+      fold@ (ctx)
+    end
+  | EVALCTXnil () => fold@ (ctx)
+end // end of [aux]
+//
+var sub = stasub_make_nil ()
+val () = aux (ctx, sub)
+//
+in
+  sub
+end // end of [stasub_make_evalctx]
 
 (* ****** ****** *)
 

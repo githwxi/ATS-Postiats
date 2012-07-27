@@ -48,6 +48,11 @@ staload
 SEXP2 = "pats_staexp2.sats"
 typedef s2var = $SEXP2.s2var
 typedef s2exp = $SEXP2.s2exp
+
+staload
+SUTIL = "pats_staexp2_util.sats"
+viewtypedef stasub = $SUTIL.stasub
+
 staload
 DEXP2 = "pats_dynexp2.sats"
 typedef d2var = $DEXP2.d2var
@@ -123,12 +128,6 @@ fun alphenv_free (env: alphenv): void
 
 (* ****** ****** *)
 
-fun eval1_p2at
-  (loc0: location, env: &alphenv, p2t0: p2at): p2at
-// end of [eval1_p2at]
-
-(* ****** ****** *)
-
 absviewtype evalctx_viewtype
 viewtypedef evalctx = evalctx_viewtype
 
@@ -160,6 +159,10 @@ fun evalctx_free (ctx: evalctx): void
 fun eval0_d2exp (
   loc0: location, ctx: !evalctx, env: &alphenv, d2e: d2exp
 ) : m2val // end of [eval0_d2exp]
+
+(* ****** ****** *)
+
+fun stasub_make_evalctx (ctx: !evalctx): stasub
 
 (* ****** ****** *)
 

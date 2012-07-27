@@ -351,26 +351,24 @@ evalctx_extend_arg (
 ) : evalctx // endfun
 
 extern fun
-evalctx_extend_darg (
-  loc0: location
-, d2m: d2mac
-, knd: int (* 0/1: short/long *)
-, ctx: !evalctx
-, env: &alphenv
-, darg: d2varlst
-, d2es: d2explst
-, res: evalctx
-) : evalctx // endfun
-
-extern fun
 evalctx_extend_sarg (
   loc0: location
 , d2m: d2mac
 , knd: int (* 0/1: short/long *)
 , ctx: !evalctx
 , env: &alphenv
-, sarg: s2varlst
-, s2as: s2exparglst
+, sarg: s2varlst, s2es: s2explst
+, res: evalctx
+) : evalctx // endfun
+
+extern fun
+evalctx_extend_darg (
+  loc0: location
+, d2m: d2mac
+, knd: int (* 0/1: short/long *)
+, ctx: !evalctx
+, env: &alphenv
+, darg: d2varlst, d2es: d2explst
 , res: evalctx
 ) : evalctx // endfun
 
@@ -390,11 +388,47 @@ evalctx_extend_arglst (
 
 implement
 evalctx_extend_sarg (
-  loc0, d2m, knd, ctx, env, d2vs, d2es, res
+  loc0, d2m, knd, ctx, env, s2vs, s2es, res
 ) = let
+//
+fun auxerr (
+  loc0: location, d2m: d2mac, sgn: int
+) : void = let
+  val () = prerr_errmac_loc (loc0)
+  val () = prerr ": some static argument group of the macro ["
+  val () = prerr_d2mac (d2m)
+  val () = if sgn < 0 then prerr "] is expected to contain more arguments."
+  val () = if sgn > 0 then prerr "] is expected to contain fewer arguments."
+  val () = prerr_newline ()
 in
-  res
+  the_trans3errlst_add (T3E_dmacro_evalctx_extend (loc0, d2m))
+end // end of [auxerr]
+//
+in
+//
+case+ s2vs of
+| list_cons (s2v, s2vs) => (
+  case+ s2es of
+  | list_cons (s2e, s2es) => let
+      val res = evalctx_sadd (res, s2v, M2Vscode (s2e))
+    in
+      evalctx_extend_sarg (loc0, d2m, knd, ctx, env, s2vs, s2es, res)
+    end // end of [list_cons]
+  | _ => let
+      val () = auxerr (loc0, d2m, 1) in res
+    end // end of [_]
+  )
+| list_nil () => (
+  case+ s2es of
+  | list_cons _ => let
+      val () = auxerr (loc0, d2m, ~1) in res
+    end // end of [list_cons]
+  | list_nil () => res
+  )
+//
 end // end of [evalctx_extend_sarg]
+
+(* ****** ****** *)
 
 implement
 evalctx_extend_darg (
@@ -405,7 +439,7 @@ fun auxerr (
   loc0: location, d2m: d2mac, sgn: int
 ) : void = let
   val () = prerr_errmac_loc (loc0)
-  val () = prerr ": one argument group of the macro ["
+  val () = prerr ": some dynamic argument group of the macro ["
   val () = prerr_d2mac (d2m)
   val () = if sgn < 0 then prerr "] is expected to contain more arguments."
   val () = if sgn > 0 then prerr "] is expected to contain fewer arguments."
@@ -451,13 +485,39 @@ case+ d2vs of
   case+ d2es of
   | list_cons _ => let
       val () = auxerr (loc0, d2m, ~1) in res
-    end // end of [list_nil]
+    end // end of [list_cons]
   | list_nil () => res
   )
 //
 end // end of [evalctx_extend_darg]
 
 (* ****** ****** *)
+
+fun s2exparglst_merge
+  (s2as: s2exparglst): s2explst = let
+in
+//
+case+ s2as of
+| list_cons (s2a, s2as) => (
+  case+
+    s2a.s2exparg_node of
+  | S2EXPARGseq (s2es) => (
+    case+ s2as of
+    | list_cons _ => let
+        val s2es2 =
+          s2exparglst_merge (s2as)
+        // end of [val]
+      in
+        list_append (s2es, s2es2)
+      end
+    | list_nil () => s2es
+    )
+  | S2EXPARGone () => s2exparglst_merge (s2as) // ignored arg
+  | S2EXPARGall () => s2exparglst_merge (s2as) // ignored arg
+  )
+| list_nil () => list_nil ()
+//
+end // end of [s2exparglst_merge]
 
 implement
 evalctx_extend_arg (
@@ -482,8 +542,11 @@ in
 case+ arg of
 | M2ACARGsta (s2vs) => (
   case+ d2a of
-  | D2EXPARGsta (loc, s2as) =>
-      evalctx_extend_sarg (loc0, d2m, knd, ctx, env, s2vs, s2as, res)
+  | D2EXPARGsta (loc, s2as) => let
+      val s2es = s2exparglst_merge (s2as)
+    in
+      evalctx_extend_sarg (loc0, d2m, knd, ctx, env, s2vs, s2es, res)
+    end // end of [D2EXPARGsta]
   | D2EXPARGdyn (npf, loc, _) => let
       val () = auxerr (loc0, loc, d2m, 0(*sta*)) in res
     end // end of [D2EXPARGdyn]

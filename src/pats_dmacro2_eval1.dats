@@ -44,6 +44,7 @@ overload print with $LOC.print_location
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_staexp2_util.sats"
 staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
@@ -63,126 +64,67 @@ implement
 d2var_rename (loc0, d2v) = d2v // HX: is this okay?
 
 (* ****** ****** *)
-
-extern fun eval1_p2atlst
-  (loc0: location, env: &alphenv, p2ts: p2atlst): p2atlst
-extern fun eval1_labp2at
-  (loc0: location, env: &alphenv, lp2t: labp2at): labp2at
-extern fun eval1_labp2atlst
-  (loc0: location, env: &alphenv, lp2ts: labp2atlst): labp2atlst
-
-(* ****** ****** *)
-
-implement
-eval1_p2at 
-  (loc0, env, p2t0) = let
-  val () = println! ("eval1_p2at: p2t0 = ", p2t0)
-in
 //
-case+
-  p2t0.p2at_node of
-//
-| P2Tany _ => p2at_any (loc0)
-//
-| P2Tvar (d2v) => let
-    val d2v_new =
-      d2var_rename (loc0, d2v)
-    val () =
-      alphenv_dadd (env, d2v, d2v_new)
-    // end of [val]
-  in
-    p2at_var (loc0, d2v_new)
-  end // end of [P2Tvar]
-//
-| P2Trec (knd, npf, lp2ts) => let
-    val lp2ts =
-      eval1_labp2atlst (loc0, env, lp2ts)
-  in
-    p2at_rec (loc0, knd, npf, lp2ts)
-  end // end of [P2Trec]
-| P2Tlst (lin, p2ts) => let
-    val p2ts = eval1_p2atlst (loc0, env, p2ts)
-  in
-    p2at_lst (loc0, lin, p2ts)
-  end // end of [P2Tlst]
-//
-| P2Tann (p2t, s2e) => let
-    val p2t = eval1_p2at (loc0, env, p2t)
-  in
-    p2at_ann (loc0, p2t, s2e)
-  end // end of [P2Tann]
-//
-| _ => let
-    val () = println! ("eval1_p2at: not implemented yet")
-  in
-    exitloc (1)
-  end // end of [_]
-//
-end // end of [eval1_p2at]
-
-(* ****** ****** *)
-
-implement
-eval1_p2atlst
-  (loc0, env, p2ts) = let
-in
-//
-case+ p2ts of
-| list_cons (p2t, p2ts) => let
-    val p2t = eval1_p2at (loc0, env, p2t)
-    val p2ts = eval1_p2atlst (loc0, env, p2ts)
-  in
-    list_cons (p2t, p2ts)
-  end
-| list_nil () => list_nil ()
-//
-end // end of [eval1_p2atlst]
-
-(* ****** ****** *)
-
-implement
-eval1_labp2at
-  (loc0, env, lp2t) = let
-in
-//
-case+ lp2t of
-| LABP2ATnorm (l, p2t) =>
-    LABP2ATnorm (l, eval1_p2at (loc0, env, p2t))
-| LABP2ATomit _ => LABP2ATomit (loc0)
-//
-end // end of [eval1_labp2at]
-
-implement
-eval1_labp2atlst
-  (loc0, env, lp2ts) = let
-in
-//
-case+ lp2ts of
-| list_cons (lp2t, lp2ts) => let
-    val lp2t = eval1_labp2at (loc0, env, lp2t)
-    val lp2ts = eval1_labp2atlst (loc0, env, lp2ts)
-  in
-    list_cons (lp2t, lp2ts)
-  end
-| list_nil () => list_nil ()
-//
-end // end of [eval1_labp2atlst]
-
-(* ****** ****** *)
-
 extern fun eval1_s2exp : eval1_type (s2exp)
 extern fun eval1_s2explst : eval1_type (s2explst)
 extern fun eval1_s2expopt : eval1_type (s2expopt)
-
+//
 extern fun eval1_s2exparg : eval1_type (s2exparg)
 extern fun eval1_s2exparglst : eval1_type (s2exparglst)
-
+//
+(* ****** ****** *)
+//
+extern fun eval1_p2at : eval1_type (p2at)
+extern fun eval1_p2atlst : eval1_type (p2atlst)
+//
+extern fun eval1_labp2at : eval1_type (labp2at)
+extern fun eval1_labp2atlst : eval1_type (labp2atlst)
+//
+(* ****** ****** *)
+//
+extern fun eval1_d2var : eval1_type (d2var)
+//
+extern fun eval1_d2explst : eval1_type (d2explst)
+extern fun eval1_d2expopt : eval1_type (d2expopt)
+extern fun eval1_d2explstlst : eval1_type (d2explstlst)
+//
+extern fun eval1_labd2exp : eval1_type (labd2exp)
+extern fun eval1_labd2explst : eval1_type (labd2explst)
+//
+extern fun eval1_d2lablst : eval1_type (d2lablst)
+//
+extern fun eval1_d2exparg : eval1_type (d2exparg)
+extern fun eval1_d2exparglst : eval1_type (d2exparglst)
+//
+(* ****** ****** *)
+//
+extern fun eval1_d2exp_applst : eval1_type (d2exp)
+extern fun eval1_d2exp_macsyn : eval1_type (d2exp)
+//
+(* ****** ****** *)
+//
+extern fun eval1_d2ecl : eval1_type (d2ecl)
+extern fun eval1_d2eclist : eval1_type (d2eclist)
+//
 (* ****** ****** *)
 
 implement
-eval1_s2exp
-  (loc0, ctx, env, s2e) = s2e // HX: dummy for now
-// end of [eval1_s2exp]
+eval1_s2exp (
+  loc0, ctx, env, s2e
+) = let
+//
+  val () = println! ("eval1_s2exp: s2e(bef) = ", s2e)
+//
+  val sub =
+    stasub_make_evalctx (ctx)
+  val s2e = s2exp_subst (sub, s2e)
+  val () = stasub_free (sub)
+//
+  val () = println! ("eval1_s2exp: s2e(aft) = ", s2e)
+//
+in
+  s2e
+end // end of [eval1_s2exp]
 
 implement
 eval1_s2explst (
@@ -248,26 +190,104 @@ end // end of [eval1_s2exparglst]
 
 (* ****** ****** *)
 
-extern fun eval1_d2var : eval1_type (d2var)
-extern fun eval1_d2explst : eval1_type (d2explst)
-extern fun eval1_d2expopt : eval1_type (d2expopt)
-extern fun eval1_d2explstlst : eval1_type (d2explstlst)
-
-extern fun eval1_labd2exp : eval1_type (labd2exp)
-extern fun eval1_labd2explst : eval1_type (labd2explst)
-
-extern fun eval1_d2exparg : eval1_type (d2exparg)
-extern fun eval1_d2exparglst : eval1_type (d2exparglst)
+implement
+eval1_p2at 
+  (loc0, ctx, env, p2t0) = let
+  val () = println! ("eval1_p2at: p2t0 = ", p2t0)
+in
+//
+case+
+  p2t0.p2at_node of
+//
+| P2Tany _ => p2at_any (loc0)
+//
+| P2Tvar (d2v) => let
+    val d2v_new =
+      d2var_rename (loc0, d2v)
+    val () =
+      alphenv_dadd (env, d2v, d2v_new)
+    // end of [val]
+  in
+    p2at_var (loc0, d2v_new)
+  end // end of [P2Tvar]
+//
+| P2Trec (knd, npf, lp2ts) => let
+    val lp2ts =
+      eval1_labp2atlst (loc0, ctx, env, lp2ts)
+  in
+    p2at_rec (loc0, knd, npf, lp2ts)
+  end // end of [P2Trec]
+| P2Tlst (lin, p2ts) => let
+    val p2ts = eval1_p2atlst (loc0, ctx, env, p2ts)
+  in
+    p2at_lst (loc0, lin, p2ts)
+  end // end of [P2Tlst]
+//
+| P2Tann (p2t, s2e) => let
+    val p2t = eval1_p2at (loc0, ctx, env, p2t)
+    val s2e = eval1_s2exp (loc0, ctx, env, s2e)
+  in
+    p2at_ann (loc0, p2t, s2e)
+  end // end of [P2Tann]
+//
+| _ => let
+    val () = println! ("eval1_p2at: not implemented yet")
+  in
+    exitloc (1)
+  end // end of [_]
+//
+end // end of [eval1_p2at]
 
 (* ****** ****** *)
 
-extern fun eval1_d2exp_applst : eval1_type (d2exp)
-extern fun eval1_d2exp_macsyn : eval1_type (d2exp)
+implement
+eval1_p2atlst
+  (loc0, ctx, env, p2ts) = let
+in
+//
+case+ p2ts of
+| list_cons (p2t, p2ts) => let
+    val p2t = eval1_p2at (loc0, ctx, env, p2t)
+    val p2ts = eval1_p2atlst (loc0, ctx, env, p2ts)
+  in
+    list_cons (p2t, p2ts)
+  end
+| list_nil () => list_nil ()
+//
+end // end of [eval1_p2atlst]
 
 (* ****** ****** *)
 
-extern fun eval1_d2ecl : eval1_type (d2ecl)
-extern fun eval1_d2eclist : eval1_type (d2eclist)
+implement
+eval1_labp2at
+  (loc0, ctx, env, lp2t) = let
+in
+//
+case+ lp2t of
+| LABP2ATnorm (l, p2t) => let
+    val p2t = eval1_p2at (loc0, ctx, env, p2t)
+  in
+    LABP2ATnorm (l, p2t)
+  end // end of [LABP2ATnor]
+| LABP2ATomit _ => LABP2ATomit (loc0)
+//
+end // end of [eval1_labp2at]
+
+implement
+eval1_labp2atlst
+  (loc0, ctx, env, lp2ts) = let
+in
+//
+case+ lp2ts of
+| list_cons (lp2t, lp2ts) => let
+    val lp2t = eval1_labp2at (loc0, ctx, env, lp2t)
+    val lp2ts = eval1_labp2atlst (loc0, ctx, env, lp2ts)
+  in
+    list_cons (lp2t, lp2ts)
+  end
+| list_nil () => list_nil ()
+//
+end // end of [eval1_labp2atlst]
 
 (* ****** ****** *)
 
@@ -354,6 +374,31 @@ case+ ld2es of
 | list_nil () => list_nil ()
 //
 end // end of [eval1_labd2explst]
+
+(* ****** ****** *)
+
+implement
+eval1_d2lablst
+  (loc0, ctx, env, d2ls) = let
+in
+//
+case+ d2ls of
+| list_cons
+    (d2l, d2ls) => let
+    val loc = d2l.d2lab_loc
+    val d2l = (
+      case+ d2l.d2lab_node of
+      | D2LABlab _ => d2l
+      | D2LABind (ind) =>
+          d2lab_ind (loc, eval1_d2explstlst (loc0, ctx, env, ind))
+    ) : d2lab // end of [val]
+    val d2ls = eval1_d2lablst (loc0, ctx, env, d2ls)
+  in
+    list_cons (d2l, d2ls)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [eval1_d2lablst]
 
 (* ****** ****** *)
   
@@ -521,6 +566,8 @@ macdef eval1dexplstlst (x) = eval1_d2explstlst (loc0, ctx, env, ,(x))
 macdef eval1labdexp (x) = eval1_labd2exp (loc0, ctx, env, ,(x))
 macdef eval1labdexplst (x) = eval1_labd2explst (loc0, ctx, env, ,(x))
 //
+macdef eval1dlablst (x) = eval1_d2lablst (loc0, ctx, env, ,(x))
+//
 in
 //
 case+ d2en0 of
@@ -594,6 +641,9 @@ case+ d2en0 of
 | D2Erec (knd, npf, ld2es) =>
     d2exp_rec (loc0, knd, npf, eval1labdexplst (ld2es))
 | D2Eseq (d2es) => d2exp_seq (loc0, eval1dexplst (d2es))
+//
+| D2Eselab (d2e, d2ls) =>
+    d2exp_selab (loc0, eval1dexp (d2e), eval1dlablst (d2ls))
 //
 | D2Eptrof (d2e) =>
     d2exp_ptrof (loc0, eval1dexp (d2e))
@@ -723,7 +773,7 @@ fun auxlst2 (
 ) : v2aldeclst = (
   case+ d2cs of
   | list_cons (d2c, d2cs) => let
-      val p2t = eval1_p2at (loc0, env, d2c.v2aldec_pat)
+      val p2t = eval1_p2at (loc0, ctx, env, d2c.v2aldec_pat)
       val- list_cons (d2e, d2es) = d2es
       val ann = eval1_s2expopt (loc0, ctx, env, d2c.v2aldec_ann)
       val d2c = v2aldec_make (loc0, p2t, d2e, ann)
@@ -746,19 +796,20 @@ eval1_v2aldeclst_rec (
 ) = let
 //
 fun auxlst1 (
-  loc0: location, env: &alphenv, d2cs: v2aldeclst
+  loc0: location
+, ctx: !evalctx, env: &alphenv, d2cs: v2aldeclst
 ) : p2atlst = (
   case+ d2cs of
   | list_cons
       (d2c, d2cs) => let
-      val p2t = eval1_p2at (loc0, env, d2c.v2aldec_pat)
-      val p2ts = auxlst1 (loc0, env, d2cs)
+      val p2t = eval1_p2at (loc0, ctx, env, d2c.v2aldec_pat)
+      val p2ts = auxlst1 (loc0, ctx, env, d2cs)
     in
       list_cons (p2t, p2ts)
     end // end of [list_cons]
   | list_nil () => list_nil ()
 ) // end of [auxlst1]
-val p2ts = auxlst1 (loc0, env, d2cs)
+val p2ts = auxlst1 (loc0, ctx, env, d2cs)
 //
 fun auxlst2 (
   loc0: location
