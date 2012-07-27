@@ -178,6 +178,10 @@ fun s0exparg_tr (loc: location, s0a: s0exparg): s1exparg
 
 (* ****** ****** *)
 
+fun m0acarglst_tr (m0as: m0acarglst): m1acarglst
+
+(* ****** ****** *)
+
 fun d0cstdeclst_tr
   (isfun: bool, isprf: bool, ds: d0cstdeclst): d1cstdeclst
 // end of [d0cstdeclst_tr]

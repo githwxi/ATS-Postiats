@@ -456,15 +456,10 @@ and sc1laulst = List sc1lau
 
 (* ****** ****** *)
 
-(*
-and m1acarg = m0acarg
-and m1acarglst = List (m1acarg)
-*)
-
 and m1acdef = '{
   m1acdef_loc= location
 , m1acdef_sym= symbol
-, m1acdef_arg= m0acarglst // HX: yes: m0acarglst
+, m1acdef_arg= m1acarglst
 , m1acdef_def= d1exp
 } // end of [m1acdef]
 
@@ -815,7 +810,7 @@ fun d1exp_idextapp_resolve (loc0: location, d1e: d1exp): d1exp
 (* ****** ****** *)
 
 fun m1acdef_make (
-  loc: location, id: symbol, arg: m0acarglst, def: d1exp
+  loc: location, id: symbol, arg: m1acarglst, def: d1exp
 ) : m1acdef // end of [m1acdef_make]
 
 (* ****** ****** *)

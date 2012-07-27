@@ -633,6 +633,25 @@ fun fprint_s1exparglst : fprint_type (s1exparglst)
 
 (* ****** ****** *)
 
+datatype
+m1acarg_node =
+  | M1ACARGdyn of i0delst | M1ACARGsta of s1arglst
+// end of [m1acarg_node]
+
+typedef
+m1acarg = '{
+  m1acarg_loc= location, m1acarg_node= m1acarg_node
+} // end of [m1acarg]
+
+typedef m1acarglst = List (m1acarg)
+
+fun m1acarg_make_dyn
+  (loc: location, darg: i0delst): m1acarg
+fun m1acarg_make_sta
+  (loc: location, sarg: s1arglst): m1acarg
+
+(* ****** ****** *)
+
 datatype witht1ype =
   | WITHT1YPEsome of (int(*knd*), s1exp) | WITHT1YPEnone of ()
 // end of [witht1ype]

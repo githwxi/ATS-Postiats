@@ -468,11 +468,11 @@ case+ x.d2exp_node of
   }
 //
 | D2Elet (d2cs, d2e) => {
-    val () = prstr "D2Elet("
-    val () = prstr "..."
-    val () = prstr "; "
+    val () = prstr "D2Elet(\n"
+    val () = $UT.fprintlst (out, d2cs, "\n", fprint_d2ecl)
+    val () = prstr "\n>>in-of-let<<\n"
     val () = fprint_d2exp (out, d2e)
-    val () = prstr ")"
+    val () = prstr "\n)"
   } // end of [D2Elet]
 | D2Ewhere (d2e, d2cs) => {
     val () = prstr "D2Ewhere("

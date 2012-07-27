@@ -1144,14 +1144,16 @@ end // end of [local]
 
 fun d1cstdeclst_tr (
   dck: dcstkind, s2qs: s2qualst, d1cs: d1cstdeclst
-) : d2cstlst =
+) : d2cstlst = let
+in
   case+ d1cs of
   | list_cons (d1c, d1cs) => let
-      val d2c = d1cstdec_tr (dck, s2qs, d1c) in
+      val d2c = d1cstdec_tr (dck, s2qs, d1c)
+    in
       list_cons (d2c, d1cstdeclst_tr (dck, s2qs, d1cs))
     end // end of [cons]
   | list_nil () => list_nil ()
-// end of [d1cstdeclst_tr]
+end // end of [d1cstdeclst_tr]
 
 (* ****** ****** *)
 
@@ -1210,32 +1212,42 @@ end // end of [local]
 
 local
 
-typedef m0acarg = $SYN.m0acarg
-
-fun m0acarg_tr
-  (x: m0acarg): m2acarg = (
-  case+ x.m0acarg_node of
-  | $SYN.M0ACARGsta (ids) => let
-      fun f (x: i0de): s2var = let
-        val s2t = s2rt_err () in s2var_make_id_srt (x.i0de_sym, s2t)
-      end // end of [f]
-      val s2vs = list_map_fun (ids, f)
-      val s2vs = list_of_list_vt (s2vs)
-    in
-      M2ACARGsta (s2vs)
-    end
-  | $SYN.M0ACARGdyn (ids) => let
-      fun f (x: i0de): d2var = let
-        val s2t = s2rt_err () in d2var_make (x.i0de_loc, x.i0de_sym)
-      end // end of [f]
+fun m1acarg_tr
+  (x: m1acarg): m2acarg = let
+in
+  case+ x.m1acarg_node of
+  | M1ACARGdyn (ids) => let
+      fun f (x: i0de): d2var =
+        d2var_make (x.i0de_loc, x.i0de_sym)
       val d2vs = list_map_fun (ids, f)
       val d2vs = list_of_list_vt (d2vs)
     in
       M2ACARGdyn (d2vs)
     end
-) // end of [m0acarg_tr]
+  | M1ACARGsta (s1as) => let
+      fun f (s1a: s1arg): s2var = let
+        val s2t = (
+          case+ s1a.s1arg_srt of
+          | Some (s1t) => s1rt_tr (s1t) | None () => s2rt_t0ype
+        ) : s2rt // end of [val]
+      in
+        s2var_make_id_srt (s1a.s1arg_sym, s2t)
+      end // end of [f]
+      val s2vs = list_map_fun (s1as, f)
+      val s2vs = list_of_list_vt (s2vs)
+    in
+      M2ACARGsta (s2vs)
+    end
+end // end of [m1acarg_tr]
 
-in // in of [m0acarg_tr]
+fun m1acarglst_tr
+  (m1as: m1acarglst): m2acarglst = let
+  val m2as = list_map_fun (m1as, m1acarg_tr)
+in
+  list_of_list_vt (m2as)
+end // end of [m1acarglst_tr]
+
+in // in of [local]
 
 fun m1acdeflst_tr (
   knd: int, d1cs: m1acdeflst
@@ -1249,14 +1261,13 @@ fun aux1 (
 in
 //
 case+ d1cs of
-| list_cons (d1c, d1cs) => let
-    val args = d1c.m1acdef_arg
-    val args = list_map_fun (args, m0acarg_tr)
-    val args = list_of_list_vt (args)
-    val def = d2exp_empty ($LOC.location_dummy)
-    val d2m = d2mac_make (
-      d1c.m1acdef_loc, d1c.m1acdef_sym, knd, args, def
-    ) // end of [d2mac_make]
+| list_cons
+    (d1c, d1cs) => let
+    val loc = d1c.m1acdef_loc
+    val sym = d1c.m1acdef_sym
+    val def = d2exp_empty (loc)
+    val args = m1acarglst_tr (d1c.m1acdef_arg)
+    val d2m = d2mac_make (loc, sym, knd, args, def)
     val () = if knd >= 2 then the_d2expenv_add_dmacdef (d2m)
     val d2ms = aux1 (knd, d1cs)
   in

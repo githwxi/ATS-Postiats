@@ -559,6 +559,83 @@ s0exparg_tr
 
 (* ****** ****** *)
 
+implement
+m0acarglst_tr
+  (m0as) = let
+in
+//
+case+ m0as of
+| list_cons
+    (m0a, m0as) => let
+    val loc = m0a.m0acarg_loc
+    val m1a = (
+      case+ m0a.m0acarg_node of
+      | M0ACARGdyn (ids) => m1acarg_make_dyn (loc, ids)
+      | M0ACARGsta (s0as) => let
+          val s1as = s0arglst_tr (s0as) in m1acarg_make_sta (loc, s1as)
+        end // end of [M0ACARGsta]
+    ) : m1acarg // end of [val]
+    val m1as = m0acarglst_tr (m0as)
+  in
+    list_cons (m1a, m1as)
+  end
+| list_nil () => list_nil ()
+//
+end // end of [m0acarglst_tr]
+
+(* ****** ****** *)
+
+implement
+d0atcon_tr (d0c) = let
+//
+val sym = d0c.d0atcon_sym
+val qua = d0c.d0atcon_qua
+val qua = q0marglst_tr (qua)
+(*
+val () = (
+  print "d0atcon_tr: id = ";
+  fprint_symbol (stdout_ref, sym); print_newline ();
+  print "d0atcon_tr: qua = ";
+  fprint_q1marglst (stdout_ref, qua); print_newline ();
+) // end of [val]
+*)
+var npf0: int = ~1 // HX: default
+val arg = (
+  case+ d0c.d0atcon_arg of
+  | Some s0e => let
+      val s1e = s0exp_tr s0e in
+      case+ s1e.s1exp_node of
+      | S1Elist (npf, s1es) => (npf0 := npf; s1es)
+      | _ => list_cons (s1e, list_nil ())
+    end // end of [Some]
+  | None () => list_nil ()
+) : s1explst
+//
+val ind = d0c.d0atcon_ind
+val ind = (
+  case+ ind of
+  | Some s0e => let
+      val s1es = (
+        case+ s0e.s0exp_node of
+        | S0Elist s0es => s0explst_tr (s0es)
+        | _ => $ERR.abort () where {
+            val () = prerr_interror ()
+            val () = prerr ": d0atcon_tr: index is required to be a list."
+            val () = prerr_newline ()
+          } // end of [_]
+      ) : s1explst // end of [val]
+    in
+      Some s1es
+    end // end of [Some]
+  | None () => None () // end of [None]
+) : s1explstopt // end of [val]
+//
+in
+  d1atcon_make (d0c.d0atcon_loc, sym, qua, npf0, arg, ind)
+end // end of [d0atcon_tr]
+
+(* ****** ****** *)
+
 local
 
 extern fun ismac
@@ -733,57 +810,6 @@ d0cstdeclst_tr (
 // end of [d0cstdeclst_tr]
 
 end // end of [local]
-
-(* ****** ****** *)
-
-implement
-d0atcon_tr (d0c) = let
-//
-val sym = d0c.d0atcon_sym
-val qua = d0c.d0atcon_qua
-val qua = q0marglst_tr (qua)
-(*
-val () = (
-  print "d0atcon_tr: id = ";
-  fprint_symbol (stdout_ref, sym); print_newline ();
-  print "d0atcon_tr: qua = ";
-  fprint_q1marglst (stdout_ref, qua); print_newline ();
-) // end of [val]
-*)
-var npf0: int = ~1 // HX: default
-val arg = (
-  case+ d0c.d0atcon_arg of
-  | Some s0e => let
-      val s1e = s0exp_tr s0e in
-      case+ s1e.s1exp_node of
-      | S1Elist (npf, s1es) => (npf0 := npf; s1es)
-      | _ => list_cons (s1e, list_nil ())
-    end // end of [Some]
-  | None () => list_nil ()
-) : s1explst
-//
-val ind = d0c.d0atcon_ind
-val ind = (
-  case+ ind of
-  | Some s0e => let
-      val s1es = (
-        case+ s0e.s0exp_node of
-        | S0Elist s0es => s0explst_tr (s0es)
-        | _ => $ERR.abort () where {
-            val () = prerr_interror ()
-            val () = prerr ": d0atcon_tr: index is required to be a list."
-            val () = prerr_newline ()
-          } // end of [_]
-      ) : s1explst // end of [val]
-    in
-      Some s1es
-    end // end of [Some]
-  | None () => None () // end of [None]
-) : s1explstopt // end of [val]
-//
-in
-  d1atcon_make (d0c.d0atcon_loc, sym, qua, npf0, arg, ind)
-end // end of [d0atcon_tr]
 
 (* ****** ****** *)
 

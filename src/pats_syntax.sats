@@ -403,31 +403,6 @@ dl0abeled (a:type) = DL0ABELED (a) of (l0ab, a)
 
 (* ****** ****** *)
 
-datatype
-m0acarg_node =
-  | M0ACARGsta of i0delst
-  | M0ACARGdyn of i0delst
-// end of [m0acarg_node]
-
-typedef
-m0acarg = '{
-  m0acarg_loc= location, m0acarg_node= m0acarg_node
-} // end of [m0acarg]
-
-typedef m0acarglst = List (m0acarg)
-
-fun m0acarg_sta
-  (t_beg: token, xs: i0delst, t_end: token): m0acarg
-// end of [m0acarg_sta]
-
-fun m0acarg_dyn
-  (t_beg: token, xs: i0delst, t_end: token): m0acarg
-// end of [m0acarg_dyn]
-
-fun m0acarg_sing (x: i0de): m0acarg
-
-(* ****** ****** *)
-
 datatype s0rt_node =
   | S0RTide of symbol (* sort identifier *)
   | S0RTqid of (s0rtq, symbol) (* qualified sort identifier *)
@@ -784,6 +759,30 @@ s0exparg =
 typedef s0expargopt = Option (s0exparg)
 
 fun fprint_s0exparg : fprint_type (s0exparg)
+
+(* ****** ****** *)
+
+datatype
+m0acarg_node =
+  | M0ACARGdyn of i0delst | M0ACARGsta of s0arglst
+// end of [m0acarg_node]
+
+typedef
+m0acarg = '{
+  m0acarg_loc= location, m0acarg_node= m0acarg_node
+} // end of [m0acarg]
+
+typedef m0acarglst = List (m0acarg)
+
+fun m0acarg_dyn
+  (t_beg: token, xs: i0delst, t_end: token): m0acarg
+// end of [m0acarg_dyn]
+
+fun m0acarg_sing (x: i0de): m0acarg
+
+fun m0acarg_sta
+  (t_beg: token, xs: s0arglst, t_end: token): m0acarg
+// end of [m0acarg_sta]
 
 (* ****** ****** *)
 

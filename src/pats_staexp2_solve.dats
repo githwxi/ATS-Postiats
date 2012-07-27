@@ -253,10 +253,14 @@ if ans = 0 then let
 in
   s2hnf_equal_solve_lVar_err_nck (loc0, s2f1, s2f2, s2V1, err)
 end else let // ans > 0
-  val () = begin
+(*
+  val () = (
     println! ("s2exp_equal_solve_lVar_err: s2f1 = ", s2f1);
     println! ("s2exp_equal_solve_lVar_err: s2f2 = ", s2f2);
-  end // end of [val]
+    println! ("s2exp_equal_solve_lVar_err: s2cs = ", s2cs);
+    println! ("s2exp_equal_solve_lVar_err: s2vs = ", s2vs);
+  ) // end of [val]
+*)
 in
   trans3_env_add_eqeq (loc0, s2e1, s2e2)
 end // end of [if]
@@ -316,10 +320,12 @@ in
   s2hnf_equal_solve_rVar_err_nck (loc0, s2f1, s2f2, s2V2, err)
 end else let // ans > 0
 (*
-  val () = begin
+  val () = (
     println! ("s2exp_equal_solve_rVar_err: s2f1 = ", s2f1);
     println! ("s2exp_equal_solve_rVar_err: s2f2 = ", s2f2);
-  end // end of [val]
+    println! ("s2exp_equal_solve_rVar_err: s2cs = ", s2cs);
+    println! ("s2exp_equal_solve_rVar_err: s2vs = ", s2vs);
+  ) // end of [val]
 *)
 in
   trans3_env_add_eqeq (loc0, s2e1, s2e2)

@@ -653,6 +653,18 @@ s1exparg_seq (loc, xs) = '{
 (* ****** ****** *)
 
 implement
+m1acarg_make_dyn (loc, darg) = '{
+  m1acarg_loc= loc, m1acarg_node= M1ACARGdyn (darg)
+} // end of [m1acarg_make_sta]
+
+implement
+m1acarg_make_sta (loc, sarg) = '{
+  m1acarg_loc= loc, m1acarg_node= M1ACARGsta (sarg)
+} // end of [m1acarg_make_sta]
+
+(* ****** ****** *)
+
+implement
 s1rtdef_make (
   loc, sym, s1te
 ) = '{
@@ -739,19 +751,6 @@ s1aspdec_make (
 (* ****** ****** *)
 
 implement
-d1cstdec_make (
-  loc, fil, id, s1e, extdef
-) = '{
-  d1cstdec_loc= loc
-, d1cstdec_fil= fil
-, d1cstdec_sym= id
-, d1cstdec_type= s1e
-, d1cstdec_extdef= extdef
-} // end of [d1cstdec_make]
-
-(* ****** ****** *)
-
-implement
 d1atcon_make (
   loc, id, qua, npf, arg, ind
 ) = '{
@@ -781,6 +780,19 @@ e1xndec_make (loc, fil, id, qua, npf, arg) = '{
 , e1xndec_npf= npf
 , e1xndec_arg= arg
 } // end of [e1xndec_make]
+
+(* ****** ****** *)
+
+implement
+d1cstdec_make (
+  loc, fil, id, s1e, extdef
+) = '{
+  d1cstdec_loc= loc
+, d1cstdec_fil= fil
+, d1cstdec_sym= id
+, d1cstdec_type= s1e
+, d1cstdec_extdef= extdef
+} // end of [d1cstdec_make]
 
 (* ****** ****** *)
 

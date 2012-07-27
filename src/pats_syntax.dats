@@ -405,31 +405,6 @@ end // end of [l0ab_make_i0nt]
 (* ****** ****** *)
 
 implement
-m0acarg_sta (
-  t_beg, xs, t_end
-) = let
-  val loc = t_beg.token_loc + t_end.token_loc
-in '{
-  m0acarg_loc= loc, m0acarg_node= M0ACARGsta (xs)
-} end // end of [m0acarg_sta]
-
-implement
-m0acarg_dyn (
-  t_beg, xs, t_end
-) = let
-  val loc = t_beg.token_loc + t_end.token_loc
-in '{
-  m0acarg_loc= loc, m0acarg_node= M0ACARGdyn (xs)
-} end // end of [m0acarg_dyn]
-
-implement
-m0acarg_sing (x) = '{
-  m0acarg_loc= x.i0de_loc, m0acarg_node= M0ACARGdyn (list_sing x)
-} // end of [m0acarg]
-
-(* ****** ****** *)
-
-implement
 s0rtq_none (loc) = '{
   s0rtq_loc= loc, s0rtq_node= S0RTQnone ()
 } // end of [s0rtq_none]
@@ -954,6 +929,31 @@ implement
 labs0exp_make
   (lab, name, s0e) = SL0ABELED (lab, name, s0e)
 // end of [labs0exp_make]
+
+(* ****** ****** *)
+
+implement
+m0acarg_dyn (
+  t_beg, xs, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  m0acarg_loc= loc, m0acarg_node= M0ACARGdyn (xs)
+} end // end of [m0acarg_dyn]
+
+implement
+m0acarg_sing (x) = '{
+  m0acarg_loc= x.i0de_loc, m0acarg_node= M0ACARGdyn (list_sing x)
+} // end of [m0acarg]
+
+implement
+m0acarg_sta (
+  t_beg, xs, t_end
+) = let
+  val loc = t_beg.token_loc + t_end.token_loc
+in '{
+  m0acarg_loc= loc, m0acarg_node= M0ACARGsta (xs)
+} end // end of [m0acarg_sta]
 
 (* ****** ****** *)
 

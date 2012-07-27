@@ -130,7 +130,7 @@ case+ s2e0.s2exp_node of
   ) // end of [S2Ewth]
 //
 | S2Eerr () => ()
-// end of [case]
+//
 end // end of [aux_s2exp]
 
 and aux_s2explst (
@@ -267,7 +267,6 @@ fun s2Var_occurcheck_s2cst
   (s2V0: s2Var, s2c: s2cst): bool = let
 //
 val s2Vs2 = s2cst_get_sVarset (s2c)
-//
 val ismem = s2Varset_is_member (s2Vs2, s2V0)
 //
 in
@@ -322,11 +321,38 @@ extern fun aux_labs2explst : aux_type (labs2explst)
 
 extern fun aux_wths2explst : aux_type (wths2explst)
 
+(* ****** ****** *)
+
+fun auxlst
+  {a:type} (
+  s2V0: s2Var
+, xs: List(a)
+, ans: &int, s2cs: &s2cstlst, s2vs: &s2varlst, s2Vs: &s2Varlst
+, fwork: aux_type (a)
+) : void = let
+in
+//
+case+ xs of
+| list_cons (x, xs) => let
+    val () =
+      fwork (s2V0, x, ans, s2cs, s2vs, s2Vs)
+    // end of [val]
+  in
+    auxlst (s2V0, xs, ans, s2cs, s2vs, s2Vs, fwork)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [auxlst]
+
+(* ****** ****** *)
+
 implement
 aux_s2cst (
   s2V0, s2c, ans, s2cs, s2vs, s2Vs
 ) = let
-  val found = s2Var_occurcheck_s2cst (s2V0, s2c)
+  val found =
+    s2Var_occurcheck_s2cst (s2V0, s2c)
+  // end of [val]
 in
   if found then let
     val () = ans := ans + 1
@@ -361,7 +387,7 @@ case+ opt of
 | None () => let
     val iseq = eq_s2Var_s2Var (s2V0, s2V)
   in
-    if iseq then ans := ans + 1 else s2Var_add_sVarlst (s2V0, s2V)
+    if iseq then (ans := ans + 1) else s2Vs := list_cons (s2V, s2Vs)
   end // end of [None]
 //
 end // end of [aux_s2Var]
@@ -491,40 +517,16 @@ case+ s2e.s2exp_node of
 end // end of [aux_s2exp]
 
 implement
-aux_s2explst (
-  s2V0, s2es, ans, s2cs, s2vs, s2Vs
-) = let
-in
-//
-case+ s2es of
-| list_cons (s2e, s2es) => let
-    val () =
-      aux_s2exp (s2V0, s2e, ans, s2cs, s2vs, s2Vs)
-    // end of [val]
-  in
-    aux_s2explst (s2V0, s2es, ans, s2cs, s2vs, s2Vs)
-  end // end of [list_cons]
-| list_nil () => ()
-//
-end // end of [aux_s2explst]
+aux_s2explst
+  (s2V0, xs, ans, s2cs, s2vs, s2Vs) =
+  auxlst (s2V0, xs, ans, s2cs, s2vs, s2Vs, aux_s2exp)
+// end of [aux_s2explst]
 
 implement
-aux_s2explstlst (
-  s2V0, s2ess, ans, s2cs, s2vs, s2Vs
-) = let
-in
-//
-case+ s2ess of
-| list_cons (s2es, s2ess) => let
-    val () =
-      aux_s2explst (s2V0, s2es, ans, s2cs, s2vs, s2Vs)
-    // end of [val]
-  in
-    aux_s2explstlst (s2V0, s2ess, ans, s2cs, s2vs, s2Vs)
-  end // end of [list_cons]
-| list_nil () => ()
-//
-end // end of [aux_s2explstlst]
+aux_s2explstlst
+  (s2V0, xss, ans, s2cs, s2vs, s2Vs) =
+  auxlst (s2V0, xss, ans, s2cs, s2vs, s2Vs, aux_s2explst)
+// end of [aux_s2explstlst]
 
 (* ****** ****** *)
 
@@ -565,22 +567,10 @@ case+ s2l of
 end // end of [aux_s2lab]
 
 implement
-aux_s2lablst (
-  s2V0, s2ls, ans, s2cs, s2vs, s2Vs
-) = let
-in
-//
-case+ s2ls of
-| list_cons (s2l, s2ls) => let
-    val () = 
-      aux_s2lab (s2V0, s2l, ans, s2cs, s2vs, s2Vs)
-    // end of [val]
-  in
-    aux_s2lablst (s2V0, s2ls, ans, s2cs, s2vs, s2Vs)
-  end // end of [list_cons]
-| list_nil () => ()
-//
-end // end of [aux_s2lablst]
+aux_s2lablst
+  (s2V0, s2ls, ans, s2cs, s2vs, s2Vs) =
+  auxlst (s2V0, s2ls, ans, s2cs, s2vs, s2Vs, aux_s2lab)
+// end of [aux_s2lablst]
 
 (* ****** ****** *)
 
@@ -594,22 +584,10 @@ in
 end // end of [aux_labs2exp]
 
 implement
-aux_labs2explst (
-  s2V0, ls2es, ans, s2cs, s2vs, s2Vs
-) = let
-in
-//
-case+ ls2es of
-| list_cons (ls2e, ls2es) => let
-    val () = 
-      aux_labs2exp (s2V0, ls2e, ans, s2cs, s2vs, s2Vs)
-    // end of [val]
-  in
-    aux_labs2explst (s2V0, ls2es, ans, s2cs, s2vs, s2Vs)
-  end // end of [list_cons]
-| list_nil () => ()
-//
-end // end of [aux_labs2explst]
+aux_labs2explst
+  (s2V0, xs, ans, s2cs, s2vs, s2Vs) =  
+  auxlst (s2V0, xs, ans, s2cs, s2vs, s2Vs, aux_labs2exp)
+// end of [aux_labs2explst]
 
 (* ****** ****** *)
 
@@ -647,11 +625,14 @@ in // in of [local]
 implement
 s2Var_occurcheck_s2exp
   (s2V0, s2e) = let
-  var ans: int = 0
-  var s2cs: s2cstlst = list_nil ()
-  var s2vs: s2varlst = list_nil ()
-  var s2Vs: s2Varlst = list_nil ()
+//
+  var ans: int = 0 // recording violations
+  var s2cs: s2cstlst = list_nil () // collecting violating s2cs
+  var s2vs: s2varlst = list_nil () // collecting violating s2vs
+  var s2Vs: s2Varlst = list_nil () // collecting unsolved s2Vs in s2e
+//
   val () = aux_s2exp (s2V0, s2e, ans, s2cs, s2vs, s2Vs)
+//
 in
   @(ans, s2cs, s2vs, s2Vs)
 end // end of [s2Var_occurcheck_s2exp]

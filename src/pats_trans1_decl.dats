@@ -374,11 +374,13 @@ fun token_get_dcstkind
 
 fn m0acdef_tr
   (d: m0acdef): m1acdef = let
-  val def = d0exp_tr d.m0acdef_def
+  val loc = d.m0acdef_loc
+  val sym = d.m0acdef_sym
+  val arg =
+    m0acarglst_tr (d.m0acdef_arg)
+  val def = d0exp_tr (d.m0acdef_def)
 in
-  m1acdef_make (
-    d.m0acdef_loc, d.m0acdef_sym, d.m0acdef_arg, def
-  ) // end of [m1acdef_make]
+  m1acdef_make (loc, sym, arg, def)
 end // end of [m0acdef_tr]
 
 (* ****** ****** *)

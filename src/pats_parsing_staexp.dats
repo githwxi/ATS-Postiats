@@ -1231,7 +1231,8 @@ case+ tok.token_node of
           val opt = list_last_opt<s0arg> (xs)
         in
           case+ opt of
-          | ~Some_vt x1 => $LOC.location_combine (x0.s0arg_loc, x1.s0arg_loc)
+          | ~Some_vt x1 =>
+              $LOC.location_combine (x0.s0arg_loc, x1.s0arg_loc)
           | ~None_vt () => x0.s0arg_loc
         end // end of [list_cons]
       | list_nil () => tok.token_loc

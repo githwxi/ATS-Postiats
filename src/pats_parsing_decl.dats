@@ -414,10 +414,11 @@ p_d0cstdecseq
 (*
 overi0de ::= di0de | LBRACKET RBRACKET
 *)
-fun
-p_overi0de (
-  buf: &tokbuf, bt: int, err: &int
-) : i0de = let
+extern
+fun p_overi0de : parser (i0de)
+implement
+p_overi0de
+  (buf, bt, err) = let
   val err0 = err
   val n0 = tokbuf_get_ntok (buf)
   val tok = tokbuf_get_token (buf)
@@ -446,13 +447,68 @@ end // end of [p_overi0de]
 
 (* ****** ****** *)
 
+extern
+fun p_m0acarg : parser (m0acarg)
+(*
+m0acarg ::=
+  | pi0de
+  | LBRACE s0argseq RBRACE
+  | LPAREN pi0deseq RPAREN
+*)
+
+implement
+p_m0acarg
+  (buf, bt, err) = let
+  val err0 = err
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_LBRACE () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = pstar_fun0_COMMA {s0arg} (buf, bt, p_s0arg)
+    val ent3 = p_RBRACE (buf, bt, err)
+  in
+    if err = err0 then
+      m0acarg_sta (tok, (l2l)ent2, ent3)
+    else let
+      val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
+    end (* end of [if] *)
+  end
+| T_LPAREN () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = pstar_fun0_COMMA {i0de} (buf, bt, p_si0de)
+    val ent3 = p_RPAREN (buf, bt, err)
+  in
+    if err = err0 then
+      m0acarg_dyn (tok, (l2l)ent2, ent3)
+    else let
+      val () = list_vt_free (ent2) in tokbuf_set_ntok_null (buf, n0)
+    end (* end of [if] *)
+  end
+| _ => let
+    val ent1 = p_pi0de (buf, bt, err)
+  in
+    if err = err0 then
+      m0acarg_sing (ent1) else tokbuf_set_ntok_null (buf, n0)
+    // end of [if]
+  end
+//
+end // end of [p_m0acarg]
+
+(* ****** ****** *)
+
 (*
 m0acdef ::= di0de m0acargseq EQ d0exp
 *)
-fun
-p_m0acdef (
-  buf: &tokbuf, bt: int, err: &int
-) : m0acdef = let
+implement
+p_m0acdef
+  (buf, bt, err) = let
+//
   val err0 = err
   val n0 = tokbuf_get_ntok (buf)
 //
@@ -479,6 +535,9 @@ end // end of [p_m0acdef]
 (*
 stai0de ::= IDENT_alp
 *)
+//
+extern fun p_stai0de : parser (i0de)
+//
 implement
 p_stai0de
   (buf, bt, err) = let

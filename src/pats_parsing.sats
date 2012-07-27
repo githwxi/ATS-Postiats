@@ -531,10 +531,6 @@ fun p_extnamopt : parser (s0tringopt)
 
 (* ****** ****** *)
 
-fun p_m0acarg : parser (m0acarg)
-
-(* ****** ****** *)
-
 fun p_e0xp : parser (e0xp)
 fun p_datsdef : parser (datsdef)
 
@@ -622,8 +618,6 @@ fun p_d0eclseq_sta : parser (d0eclist)
 fun p_d0ecl_dyn : parser (d0ecl)
 fun p_d0eclseq_dyn : parser (d0eclist)
 //
-fun p_stai0de : parser (i0de)
-//
 fun p_d0atsrtdecseq : parser (d0atsrtdeclst)
 //
 fun p_s0rtdefseq : parser (s0rtdeflst)
@@ -641,6 +635,8 @@ fun p_s0aspdec : parser (s0aspdec)
 //
 fun p_e0xndecseq : parser (e0xndeclst)
 fun p_d0atdecseq : parser (d0atdeclst)
+//
+fun p_m0acdef : parser (m0acdef)
 //
 fun p_d0cstdecseq : parser (d0cstdeclst)
 //
@@ -677,6 +673,7 @@ fun parse_from_basename_toplevel
 fun parse_from_fileref_toplevel
   (stadyn: int, inp: FILEref): d0eclist
 // end of [parse_from_fileref_toplevel]
+
 fun parse_from_stdin_toplevel (stadyn: int): d0eclist
 
 (* ****** ****** *)
