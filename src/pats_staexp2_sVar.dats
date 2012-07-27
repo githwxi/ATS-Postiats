@@ -36,12 +36,15 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload _(*anon*) = "prelude/DATS/pointer.dats"
 staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
 staload UT = "pats_utils.sats"
+staload _(*anon*) = "pats_utils.dats"
 
 (* ****** ****** *)
 
@@ -71,9 +74,9 @@ s2Var_struct = @{
 , s2Var_link= s2expopt // solution
 , s2Var_svar= s2varopt // instantiated static var
 , s2Var_szexp= s2zexp // unique size
+, s2Var_sVarlst= ptr(*s2Varlst*) // exist. vars in its solution
 , s2Var_lbs= s2VarBoundlst // lower bounds
 , s2Var_ubs= s2VarBoundlst // upper bounds
-, s2Var_sVarset= s2Varset // existential Variable occurrences
 , s2Var_stamp= stamp // uniqueness
 } // end of [s2Var_struct]
 
@@ -106,13 +109,16 @@ p->s2Var_varknd := 0;
 *)
 p->s2Var_link := None ();
 p->s2Var_svar := None ();
-p->s2Var_szexp := S2ZEVar ($UN.cast {s2Var} (p));
+p->s2Var_szexp :=
+  S2ZEVar ($UN.cast{s2Var}(p));
+//
+p->s2Var_sVarlst := $UN.cast{ptr}(list_nil);
 //
 p->s2Var_lbs := list_nil ();
 p->s2Var_ubs := list_nil ();
 //
-p->s2Var_sVarset := s2Varset_make_nil ();
-p->s2Var_stamp := stamp
+p->s2Var_stamp := stamp;
+//
 end // end of [val]
 //
 in
@@ -138,13 +144,16 @@ p->s2Var_varknd := 0;
 *)
 p->s2Var_link := None ();
 p->s2Var_svar := None ();
-p->s2Var_szexp := S2ZEVar ($UN.cast {s2Var} (p));
+p->s2Var_szexp :=
+  S2ZEVar ($UN.cast {s2Var}(p));
+//
+p->s2Var_sVarlst := $UN.cast{ptr}(list_nil);
 //
 p->s2Var_lbs := list_nil ();
 p->s2Var_ubs := list_nil ();
 //
-p->s2Var_sVarset := s2Varset_make_nil ();
-p->s2Var_stamp := stamp
+p->s2Var_stamp := stamp;
+//
 end // end of [val]
 //
 in
@@ -184,6 +193,20 @@ s2Var_set_szexp (s2V, s2ze) = let
 end // end of [s2Var_set_szexp]
 
 implement
+s2Var_get_sVarlst (s2V) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2V)
+in
+  $UN.cast{s2Varlst}(p->s2Var_sVarlst)
+end // end of [s2Var_get_sVarlst]
+implement
+s2Var_add_sVarlst (s2V, s2V2) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2V)
+  val s2Vs2 = $UN.cast{s2Varlst}(p->s2Var_sVarlst)
+in
+  p->s2Var_sVarlst := $UN.cast{ptr}(list_cons(s2V2, s2Vs2))
+end // end of [s2Var_add_sVarlst]
+
+implement
 s2Var_get_lbs (s2V) = let
   val (vbox pf | p) = ref_get_view_ptr (s2V) in p->s2Var_lbs
 end // end of [s2Var_get_lbs]
@@ -206,6 +229,24 @@ s2Var_get_stamp (s2V) = $effmask_ref let
 end // end of [s2Var_get_stamp]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+s2Varlst_add_sVarlst
+  (s2Vs, s2V2) = let
+in
+  case+ s2Vs of
+  | list_cons
+      (s2V, s2Vs) => let
+      val () =
+        s2Var_add_sVarlst (s2V, s2V2)
+      // end of [val]
+    in
+      s2Varlst_add_sVarlst (s2Vs, s2V2)
+    end // end of [list_cons]
+  | list_nil () => ()
+end // end of [s2Varlst_add_sVarlst]
 
 (* ****** ****** *)
 
@@ -276,6 +317,11 @@ in
   // empty
 end // end of [fprint_s2Var]
 
+implement
+print_s2Var (s2V) = fprint_s2Var (stdout_ref, s2V)
+implement
+prerr_s2Var (s2V) = fprint_s2Var (stderr_ref, s2V)
+
 (* ****** ****** *)
 
 local
@@ -328,7 +374,44 @@ s2Varset_is_member
   val found = $SET.funset_is_member<s2Var1> (xs, x, cmp)
 } // end of [s2Varset_is_member]
 
+implement
+s2Varset_listize (xs) = let
+  val xs = of_s2Varset (xs)
+  viewtypedef res = List_vt (s2Var)
+in
+  $UN.castvwtp_trans{res}($SET.funset_listize<s2Var1> (xs))
+end // end of [s2Varset_listize]
+
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+fprint_s2Varlst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_s2Var)
+// end of [fprint_s2Varlst]
+
+implement
+print_s2Varlst (xs) = fprint_s2Varlst (stdout_ref, xs)
+implement
+prerr_s2Varlst (xs) = fprint_s2Varlst (stderr_ref, xs)
+
+(* ****** ****** *)
+
+implement
+fprint_s2Varset
+  (out, xs) = () where {
+  val xs = s2Varset_listize (xs)
+  val () = fprint_string (out, "[")
+  val () = fprint_s2Varlst (out, $UN.linlst2lst (xs))
+  val () = fprint_string (out, "]")
+  val () = list_vt_free (xs)
+} // end of [fprint_s2Varset]
+
+implement
+print_s2Varset (xs) = fprint_s2Varset (stdout_ref, xs)
+implement
+prerr_s2Varset (xs) = fprint_s2Varset (stderr_ref, xs)
 
 (* ****** ****** *)
 

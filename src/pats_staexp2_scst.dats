@@ -257,6 +257,15 @@ in
 end // end of [s2cst_supcls_add]
 
 implement
+s2cst_get_sVarset (s2c) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_sVarset
+end // end of [s2cst_get_sVarset]
+implement
+s2cst_set_sVarset (s2c, xs) = let
+  val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_sVarset := xs
+end // end of [s2cst_set_sVarset]
+
+implement
 s2cst_get_tag (s2c) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (s2c) in p->s2cst_tag
 end // end of [s2cst_get_tag]

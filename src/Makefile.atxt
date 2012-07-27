@@ -199,17 +199,23 @@ val SOURCES =
 , "pats_staexp2_pprint.dats"
 //
 , "pats_staexp2_sort.dats"
+//
 , "pats_staexp2_scst.dats"
 , "pats_staexp2_svar.dats"
 , "pats_staexp2_sVar.dats"
+//
 , "pats_staexp2_hole.dats"
 , "pats_staexp2_ctxt.dats"
+//
 , "pats_staexp2_dcon.dats"
+//
 , "pats_staexp2_skexp.dats"
 , "pats_staexp2_szexp.dats"
+//
 , "pats_staexp2_util.sats"
 , "pats_staexp2_util1.dats"
 , "pats_staexp2_util2.dats"
+, "pats_staexp2_util3.dats"
 //
 , "pats_staexp2_error.sats"
 , "pats_staexp2_error.dats"

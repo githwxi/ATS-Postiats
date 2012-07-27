@@ -157,10 +157,6 @@ fun s2exp_hrepl (s2e: s2exp, repl: s2exp): s2exp
 
 (* ****** ****** *)
 
-fun s2exp_freevars (s2e: s2exp): s2varset_vt
-
-(* ****** ****** *)
-
 fun s2exp_linkrem (s2e: s2exp): s2exp
 
 (* ****** ****** *)
@@ -219,6 +215,16 @@ fun s2exp_absuni (s2e: s2exp): @(s2exp, s2varlst_vt, s2explst_vt)
 fun s2exp_opnexi (s2e: s2exp): @(s2exp, s2varlst_vt, s2explst_vt)
 fun s2explst_opnexi (s2es: s2explst): @(s2explst, s2varlst_vt, s2explst_vt)
 //
+(* ****** ****** *)
+
+fun s2exp_freevars (s2e: s2exp): s2varset_vt
+
+(* ****** ****** *)
+
+fun s2Var_occurcheck_s2exp
+  (s2V0: s2Var, s2e: s2exp) : (int, s2cstlst, s2varlst, s2Varlst)
+// end of [s2Var_occurcheck_s2exp]
+
 (* ****** ****** *)
 
 (* end of [pats_staexp2_util.sats] *)

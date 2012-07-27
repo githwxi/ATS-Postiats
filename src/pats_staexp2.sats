@@ -183,17 +183,17 @@ and s2rtlstopt = Option (s2rtlst)
 
 (* ****** ****** *)
 
-fun fprint_s2rt : fprint_type (s2rt)
 fun print_s2rt (x: s2rt): void
 overload print with print_s2rt
 fun prerr_s2rt (x: s2rt): void
 overload prerr with prerr_s2rt
+fun fprint_s2rt : fprint_type (s2rt)
 
-fun fprint_s2rtlst : fprint_type (s2rtlst)
 fun print_s2rtlst (xs: s2rtlst): void
 overload print with print_s2rtlst
 fun prerr_s2rtlst (xs: s2rtlst): void
 overload prerr with prerr_s2rtlst
+fun fprint_s2rtlst : fprint_type (s2rtlst)
 
 (* ****** ****** *)
 //
@@ -304,9 +304,11 @@ s2itm = // static items
 typedef s2itmlst = List s2itm
 viewtypedef s2itmopt_vt = Option_vt (s2itm)
 
-fun fprint_s2itm : fprint_type (s2itm)
 fun print_s2itm (x: s2itm): void
+overload print with print_s2itm
 fun prerr_s2itm (x: s2itm): void
+overload prerr with prerr_s2itm
+fun fprint_s2itm : fprint_type (s2itm)
 
 (* ****** ****** *)
 
@@ -339,11 +341,11 @@ abstype s2hnf_type
 typedef s2hnf = s2hnf_type
 typedef s2hnflst = List (s2hnf)
 
-fun fprint_s2hnf : fprint_type (s2hnf)
 fun print_s2hnf (x: s2hnf): void
 overload print with print_s2hnf
 fun prerr_s2hnf (x: s2hnf): void
 overload prerr with prerr_s2hnf
+fun fprint_s2hnf : fprint_type (s2hnf)
 
 (* ****** ****** *)
 
@@ -478,12 +480,11 @@ viewtypedef s2qualst_vt = List_vt (s2qua)
 
 fun s2qua_make (s2vs: s2varlst, s2ps: s2explst): s2qua
 
-fun fprint_s2qua (out: FILEref, s2q: s2qua): void
+fun fprint_s2qua : fprint_type (s2qua)
 
-fun fprint_s2qualst
-  (out: FILEref, s2qs: s2qualst): void
 fun print_s2qualst (xs: s2qualst): void
 fun prerr_s2qualst (xs: s2qualst): void
+fun fprint_s2qualst : fprint_type (s2qualst)
 
 (* ****** ****** *)
 
@@ -543,6 +544,9 @@ fun s2cst_add_sup (x: s2cst, sup: s2cst): void
 fun s2cst_get_supcls (x: s2cst): s2explst
 fun s2cst_add_supcls (x: s2cst, sup: s2exp): void
 
+fun s2cst_get_sVarset (x: s2cst): s2Varset
+fun s2cst_set_sVarset (x: s2cst, _: s2Varset): void
+
 fun s2cst_get_tag (x: s2cst):<> int
 fun s2cst_set_tag (x: s2cst, tag: int): void
 
@@ -575,17 +579,17 @@ fun s2cst_subeq (s2c1: s2cst, s2c2: s2cst): bool
 
 (* ****** ****** *)
 
-fun fprint_s2cst : fprint_type (s2cst)
 fun print_s2cst (x: s2cst): void
 overload print with print_s2cst
 fun prerr_s2cst (x: s2cst): void
 overload prerr with prerr_s2cst
+fun fprint_s2cst : fprint_type (s2cst)
 
-fun fprint_s2cstlst : fprint_type (s2cstlst)
 fun print_s2cstlst (xs: s2cstlst): void
 overload print with print_s2cstlst
 fun prerr_s2cstlst (xs: s2cstlst): void
 overload prerr with prerr_s2cstlst
+fun fprint_s2cstlst : fprint_type (s2cstlst)
 
 (* ****** ****** *)
 //
@@ -620,8 +624,8 @@ fun s2var_get_sym (s2v: s2var):<> symbol
 fun s2var_get_srt (s2v: s2var):<> s2rt
 fun s2var_get_tmplev (s2v: s2var): int
 fun s2var_set_tmplev (s2v: s2var, lev: int): void
-fun s2var_get_sVarset (_: s2var): s2Varset
-fun s2var_set_sVarset (_: s2var, _: s2Varset): void
+fun s2var_get_sVarset (s2v: s2var): s2Varset
+fun s2var_set_sVarset (s2v: s2var, s2Vs: s2Varset): void
 fun s2varlst_set_sVarset (s2vs: s2varlst, s2Vs: s2Varset): void
 fun s2var_get_stamp (s2v: s2var):<> stamp
 
@@ -642,13 +646,17 @@ fun compare_s2vsym_s2vsym (x1: s2var, x2: s2var):<> Sgn
 
 (* ****** ****** *)
 
-fun fprint_s2var : fprint_type (s2var)
 fun print_s2var (x: s2var): void
+overload print with print_s2var
 fun prerr_s2var (x: s2var): void
+overload prerr with prerr_s2var
+fun fprint_s2var : fprint_type (s2var)
 
-fun fprint_s2varlst : fprint_type (s2varlst)
 fun print_s2varlst (xs: s2varlst): void
+overload print with print_s2varlst
 fun prerr_s2varlst (xs: s2varlst): void
+overload prerr with prerr_s2varlst
+fun fprint_s2varlst : fprint_type (s2varlst)
 
 (* ****** ****** *)
 
@@ -727,13 +735,16 @@ fun s2Var_get_cnt (s2V: s2Var):<> count
 fun s2Var_get_srt (s2V: s2Var):<> s2rt
 fun s2Var_get_link (s2V: s2Var): s2expopt
 fun s2Var_set_link (s2V: s2Var, link: s2expopt): void
-(*
-fun s2Var_get_varknd (s2V: s2Var): int
-fun s2Var_set_varknd (s2V: s2Var, knd: int): void
-*)
+//
+// HX: this is for occurchecks
+//
+fun s2Var_get_sVarlst (s2V: s2Var): s2Varlst
+fun s2Var_add_sVarlst (s2V: s2Var, s2V2: s2Var): void
+fun s2Varlst_add_sVarlst (s2Vs: s2Varlst, s2V2: s2Var): void
 //
 fun s2Var_get_lbs (s2V: s2Var): s2VarBoundlst
 fun s2Var_set_lbs (s2V: s2Var, lbs: s2VarBoundlst): void
+//
 fun s2Var_get_ubs (s2V: s2Var): s2VarBoundlst
 fun s2Var_set_ubs (s2V: s2Var, ubs: s2VarBoundlst): void
 //
@@ -763,13 +774,30 @@ overload compare with compare_s2Var_s2Var
 
 (* ****** ****** *)
 
+fun print_s2Var (x: s2Var): void
+overload print with print_s2Var
+fun prerr_s2Var (x: s2Var): void
+overload prerr with prerr_s2Var
 fun fprint_s2Var : fprint_type (s2Var)
+
+fun print_s2Varlst (xs: s2Varlst): void
+overload print with print_s2Varlst
+fun prerr_s2Varlst (xs: s2Varlst): void
+overload prerr with prerr_s2Varlst
+fun fprint_s2Varlst : fprint_type (s2Varlst)
 
 (* ****** ****** *)
 
 fun s2Varset_make_nil (): s2Varset
 fun s2Varset_add (xs: s2Varset, x: s2Var): s2Varset
 fun s2Varset_is_member (xs: s2Varset, x: s2Var): bool
+fun s2Varset_listize (xs: s2Varset): List_vt (s2Var)
+
+fun print_s2Varset (xs: s2Varset): void
+overload print with print_s2Varset
+fun prerr_s2Varset (xs: s2Varset): void
+overload prerr with prerr_s2Varset
+fun fprint_s2Varset : fprint_type (s2Varset)
 
 (* ****** ****** *)
 
@@ -842,13 +870,17 @@ fun d2con_is_prf (d2c: d2con): bool // proof constructor
 //
 // HX: implemented in [ats_staexp2_dcon.dats]
 //
-fun fprint_d2con : fprint_type (d2con)
 fun print_d2con (x: d2con): void
+overload print with print_d2con
 fun prerr_d2con (x: d2con): void
+overload prerr with prerr_d2con
+fun fprint_d2con : fprint_type (d2con)
 
-fun fprint_d2conlst : fprint_type (d2conlst)
 fun print_d2conlst (xs: d2conlst): void
+overload print with print_d2conlst
 fun prerr_d2conlst (xs: d2conlst): void
+overload prerr with prerr_d2conlst
+fun fprint_d2conlst : fprint_type (d2conlst)
 
 (* ****** ****** *)
 //
@@ -1004,32 +1036,32 @@ fun s2exp_t0ype_err (): s2exp // HX: s2exp_err (s2rt_t0ype)
 
 (* ****** ****** *)
 
-fun fprint_s2exp : fprint_type (s2exp)
 fun print_s2exp (x: s2exp): void
 overload print with print_s2exp
 fun prerr_s2exp (x: s2exp): void
 overload prerr with prerr_s2exp
+fun fprint_s2exp : fprint_type (s2exp)
 
-fun fprint_s2explst : fprint_type (s2explst)
 fun print_s2explst (xs: s2explst): void
 overload print with print_s2explst
 fun prerr_s2explst (xs: s2explst): void
 overload prerr with prerr_s2explst
+fun fprint_s2explst : fprint_type (s2explst)
 
-fun fprint_s2expopt : fprint_type (s2expopt)
 fun print_s2expopt (opt: s2expopt): void
 overload print with print_s2expopt
 fun prerr_s2expopt (opt: s2expopt): void
 overload prerr with prerr_s2expopt
+fun fprint_s2expopt : fprint_type (s2expopt)
 
 fun fprint_labs2explst : fprint_type (labs2explst)
 fun fprint_wths2explst : fprint_type (wths2explst)
 
 (* ****** ****** *)
 
-fun fprint_s2lab : fprint_type (s2lab)
 fun print_s2lab (s2l: s2lab): void
 fun prerr_s2lab (s2l: s2lab): void
+fun fprint_s2lab : fprint_type (s2lab)
 
 fun fprint_s2lablst : fprint_type (s2lablst)
 
@@ -1042,12 +1074,11 @@ fun s2eff_var (s2v: s2var): s2eff
 fun s2eff_exp (s2e: s2exp): s2eff
 fun s2eff_add (s2fe1: s2eff, s2fe2: s2eff): s2eff
 
-fun fprint_s2eff
-  : fprint_type (s2eff)
 fun print_s2eff (s2fe: s2eff): void
 overload print with print_s2eff
 fun prerr_s2eff (s2fe: s2eff): void
 overload prerr with prerr_s2eff
+fun fprint_s2eff : fprint_type (s2eff)
 
 (* ****** ****** *)
 
@@ -1057,13 +1088,13 @@ fun fprint_s2rtext : fprint_type (s2rtext)
 //
 // HX: for reporting error messages
 //
-fun fpprint_s2exp : fprint_type (s2exp)
 fun pprint_s2exp (s2e: s2exp): void
 and pprerr_s2exp (s2e: s2exp): void
+fun fpprint_s2exp : fprint_type (s2exp)
 
-fun fpprint_s2explst : fprint_type (s2explst)
 fun pprint_s2explst (s2es: s2explst): void
 and pprerr_s2explst (s2es: s2explst): void
+fun fpprint_s2explst : fprint_type (s2explst)
 
 fun fpprint_labs2explst : fprint_type (labs2explst)
 fun fpprint_wths2explst : fprint_type (wths2explst)
@@ -1123,12 +1154,13 @@ s2kexplstlst = List (s2kexplst)
 and
 labs2kexplst = List (labs2kexp)
 
-fun fprint_s2kexp : fprint_type (s2kexp)
 fun print_s2kexp (x: s2kexp): void
+overload print with print_s2kexp
 fun prerr_s2kexp (x: s2kexp): void
+overload prerr with prerr_s2kexp
+fun fprint_s2kexp : fprint_type (s2kexp)
 
 fun fprint_s2kexplst : fprint_type (s2kexplst)
-
 fun fprint_labs2kexp : fprint_type (labs2kexp)
 
 fun s2kexp_make_s2exp (s2e: s2exp): s2kexp
@@ -1163,9 +1195,9 @@ s2zexplstlst = List (s2zexplst)
 and
 labs2zexplst = List (labs2zexp)
 
-fun fprint_s2zexp : fprint_type (s2zexp)
 fun print_s2zexp (s2ze: s2zexp): void
 fun prerr_s2zexp (s2ze: s2zexp): void
+fun fprint_s2zexp : fprint_type (s2zexp)
 
 fun s2Var_get_szexp (s2V: s2Var): s2zexp
 fun s2Var_set_szexp (s2V: s2Var, s2ze: s2zexp): void

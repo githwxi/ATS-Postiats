@@ -228,8 +228,43 @@ fun s2hnf_equal_solve_lVar_err (
   loc: location
 , s2f1: s2hnf, s2f2: s2hnf, s2V1: s2Var, err: &int
 ) : void // end of [s2hnf_equal_solve_lVar_err]
+extern
+fun s2hnf_equal_solve_lVar_err_nck (
+  loc: location
+, s2f1: s2hnf, s2f2: s2hnf, s2V1: s2Var, err: &int
+) : void // end of [s2hnf_equal_solve_lVar_err_nck]
+
 implement
 s2hnf_equal_solve_lVar_err
+  (loc0, s2f1, s2f2, s2V1, err) = let
+(*
+  val () = (
+    println! ("s2hnf_equal_solve_lVar_err: s2f1 = ", s2f1);
+    println! ("s2hnf_equal_solve_lVar_err: s2f2 = ", s2f2);
+  ) // end of [val]
+*)
+  val s2e1 = s2hnf2exp (s2f1)
+  val s2e2 = s2hnf2exp (s2f2)
+  val (ans, s2cs, s2vs, s2Vs) = s2Var_occurcheck_s2exp (s2V1, s2e2)
+in
+//
+if ans = 0 then let
+  val () = s2Varlst_add_sVarlst (s2Vs, s2V1)
+in
+  s2hnf_equal_solve_lVar_err_nck (loc0, s2f1, s2f2, s2V1, err)
+end else let // ans > 0
+  val () = begin
+    println! ("s2exp_equal_solve_lVar_err: s2f1 = ", s2f1);
+    println! ("s2exp_equal_solve_lVar_err: s2f2 = ", s2f2);
+  end // end of [val]
+in
+  trans3_env_add_eqeq (loc0, s2e1, s2e2)
+end // end of [if]
+//
+end // end of [s2hnf_equal_solve_lVar_err]
+
+implement
+s2hnf_equal_solve_lVar_err_nck
   (loc0, s2f1, s2f2, s2V1, err) = let
   val s2e2 = s2hnf2exp (s2f2)
   val isimp = s2exp_is_impredicative (s2e2)
@@ -246,13 +281,21 @@ s2hnf_equal_solve_lVar_err
   } // end of [val]
 in
   // nothing  
-end // end of [s2hnf_equal_solve_lVar_err]
+end // end of [s2hnf_equal_solve_lVar_err_nck]
+
+(* ****** ****** *)
 
 extern
 fun s2hnf_equal_solve_rVar_err (
   loc: location
 , s2f1: s2hnf, s2f2: s2hnf, s2V2: s2Var, err: &int
 ) : void // end of [s2hnf_equal_solve_rVar_err]
+extern
+fun s2hnf_equal_solve_rVar_err_nck (
+  loc: location
+, s2f1: s2hnf, s2f2: s2hnf, s2V2: s2Var, err: &int
+) : void // end of [s2hnf_equal_solve_rVar_err_nck]
+
 implement
 s2hnf_equal_solve_rVar_err
   (loc0, s2f1, s2f2, s2V2, err) = let
@@ -262,6 +305,31 @@ s2hnf_equal_solve_rVar_err
     println! ("s2hnf_equal_solve_rVar_err: s2f2 = ", s2f2);
   ) // end of [val]
 *)
+  val s2e1 = s2hnf2exp (s2f1)
+  val s2e2 = s2hnf2exp (s2f2)
+  val (ans, s2cs, s2vs, s2Vs) = s2Var_occurcheck_s2exp (s2V2, s2e1)
+in
+//
+if ans = 0 then let
+  val () = s2Varlst_add_sVarlst (s2Vs, s2V2)
+in
+  s2hnf_equal_solve_rVar_err_nck (loc0, s2f1, s2f2, s2V2, err)
+end else let // ans > 0
+(*
+  val () = begin
+    println! ("s2exp_equal_solve_rVar_err: s2f1 = ", s2f1);
+    println! ("s2exp_equal_solve_rVar_err: s2f2 = ", s2f2);
+  end // end of [val]
+*)
+in
+  trans3_env_add_eqeq (loc0, s2e1, s2e2)
+end // end of [if]
+//
+end // end of [s2hnf_equal_solve_rVar_err]
+
+implement
+s2hnf_equal_solve_rVar_err_nck
+  (loc0, s2f1, s2f2, s2V2, err) = let
   val s2e1 = s2hnf2exp (s2f1)
   val isimp = s2exp_is_impredicative (s2e1)
   val () = if isimp then {
@@ -277,7 +345,7 @@ s2hnf_equal_solve_rVar_err
   } // end of [val]
 in
   // nothing
-end // end of [s2hnf_equal_solve_rVar_err]
+end // end of [s2hnf_equal_solve_rVar_err_nck]
 
 (* ****** ****** *)
 
@@ -359,7 +427,10 @@ fun aux_solve ( // nontailrec
 ) : void = let
 in
 //
-case+ (s2e1.s2exp_node, s2e2.s2exp_node) of
+case+ (
+  s2e1.s2exp_node
+, s2e2.s2exp_node
+) of
 | (S2Eapp (s2e11, s2es12), S2Eapp (s2e21, s2es22)) => let
     val () = aux_solve (loc0, s2e11, s2e21, err)
     val () = s2explst_equal_solve_err (loc0, s2es12, s2es22, err)
@@ -375,9 +446,14 @@ fun aux_check ( // tailrec
 ) : bool = let
 in
 //
-case+ (s2e1.s2exp_node, s2e2.s2exp_node) of
-| (S2Ecst s2c1, S2Ecst s2c2) => eq_s2cst_s2cst (s2c1, s2c2)
-| (S2Eapp (s2e1, _), S2Eapp (s2e2, _)) => aux_check (s2e1, s2e2)
+case+ (
+  s2e1.s2exp_node
+, s2e2.s2exp_node
+) of
+| (S2Ecst s2c1,
+   S2Ecst s2c2) => eq_s2cst_s2cst (s2c1, s2c2)
+| (S2Eapp (s2e1, _),
+   S2Eapp (s2e2, _)) => aux_check (s2e1, s2e2)
 | (_, _ ) => false
 //
 end // end of [aux_check]

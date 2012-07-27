@@ -526,13 +526,37 @@ a:vt0p
 fun{
 x,y:t0p
 } list_zip {m,n:int} (
-  xs: list (INV(x), m)
-, ys: list (INV(y), n)
-) :<> list_vt ((x, y), min(m,n)) // end of [list_zip]
+  xs: list (INV(x), m), ys: list (INV(y), n)
+) :<> list_vt ((x, y), min(m,n)) // endfun
+
+fun{
+x,y:t0p}{xy:vt0p
+} list_zipwith__fwork (x, y): xy
+fun{
+x,y:t0p}{xy:vt0p
+} list_zipwith
+  {m,n:int} (
+  xs: list (INV(x), m), ys: list (INV(y), n)
+) : list_vt (xy, min(m,n)) // endfun
 
 #atscode_separator()
 
-macdef list_zipwith (xs, ys) = list_map2 (,(xs), ,(ys))
+fun{
+x,y:t0p
+} list_cross
+  {m,n:int} (
+  xs: list (INV(x), m), ys: list (INV(y), n)
+) :<> list_vt ((x, y), m*n) // end of [list_cross]
+
+fun{
+x,y:t0p}{xy:vt0p
+} list_crosswith__fwork (x, y): xy
+fun{
+x,y:t0p}{xy:vt0p
+} list_crosswith
+  {m,n:int} (
+  xs: list (INV(x), m), ys: list (INV(y), n)
+) : list_vt (xy, m*n) // end of [list_crosswith]
 
 #atscode_separator()
 

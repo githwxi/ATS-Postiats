@@ -162,10 +162,14 @@ dynload "pats_staexp2_print.dats"
 dynload "pats_staexp2_pprint.dats"
 //
 dynload "pats_staexp2_sort.dats"
+//
 dynload "pats_staexp2_scst.dats"
 dynload "pats_staexp2_svar.dats"
 dynload "pats_staexp2_sVar.dats"
+//
 dynload "pats_staexp2_hole.dats"
+dynload "pats_staexp2_ctxt.dats"
+//
 dynload "pats_staexp2_dcon.dats"
 //
 dynload "pats_staexp2_skexp.dats"
@@ -173,7 +177,7 @@ dynload "pats_staexp2_szexp.dats"
 //
 dynload "pats_staexp2_util1.dats"
 dynload "pats_staexp2_util2.dats"
-dynload "pats_staexp2_ctxt.dats"
+dynload "pats_staexp2_util3.dats"
 //
 dynload "pats_staexp2_error.dats"
 dynload "pats_staexp2_solve.dats"

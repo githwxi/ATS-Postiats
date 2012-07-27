@@ -797,21 +797,81 @@ end // end of [list_make_intrange]
 #decldescrpt('\
 
 Given two lists xs and ys of length m and n, respectively, this function
-zips them into a linear list xys of length equal to the minimum of m and n
-such that element i in xys is the pair of element i in xs and element i in
-ys, where i ranges from 0 until the length of xys minus 1, inclusive.
-The implementation of this function in ATSLIB is tail-recursive.
+zips them into a linear list xys of length min(m,n) such that element i in
+xys is the pair of element i in xs and element i in ys, where i ranges from
+0 until min(m,n)-1, inclusive.  The implementation of this function in
+ATSLIB is tail-recursive.
 
 ')
 
 (* ****** ****** *)
 
+#declnamesynop("list_zipwith__fwork")
 #declnamesynop("list_zipwith")
 #decldescrpt('\
 
-This function does the same as #dyncode("list_map2").
+Given two lists xs and ys of length m and n, respectively, this function
+returns a linear list consisting of f (xs[i], ys[i]), where f is the
+function implemented by #dyncode("list_zipwith__fwork") and i ranges from 0
+until min(m,n)-1, inclusive.  The implementation of this function in ATSLIB
+is tail-recursive.
 
 ')
+
+(* ****** ****** *)
+
+#declnamesynop("list_cross")
+#decldescrpt("\
+
+Given two lists xs and ys of length m and n, respectively, this function
+returns a linear list xys of length m*n that is the cross-product of xs and
+ys. More specifically, element k in xys (for each k between 0 and m*n-1,
+inclusive) equals (xs[i], ys[j]), where i = k/n and j=k-i*n.
+
+")
+
+#declnamesynop("list_crosswith__fwork")
+#declnamesynop("list_crosswith")
+#decldescrpt("\
+
+Given two lists xs and ys of length m and n, respectively, this function
+returns a linear list xys of length m*n such that element k in xys (for
+each k between 0 and m*n-1, inclusive) is the return value of f (xs[i],
+ys[j]), where f is the function implemented by
+#dyncode("list_crosswith__fwork"), and i = k/n and j=k-i*n. ")
+
+#declexample("\
+
+The following code builds a list of natural numbers by calling
+#dyncode("list_crosswith"):
+
+#pats2xhtmld_tryit('\
+//
+staload UN = "prelude/SATS/unsafe.sats"
+//
+implement
+main () = let
+//
+val xs = $lst{int} (0, 1)
+val ys = $lst{int} (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+//
+implement
+list_crosswith__fwork<int,int><int> (x, y) = 10 * x + y
+//
+val xys = list_crosswith (xs, ys) // = 0, 1, 2, ..., 19
+val xys2 = list_make_intrange (0, 20) // = 0, 1, 2, ..., 19
+//
+val iseq = list_equal ($UN.linlst2lst(xys), $UN.linlst2lst(xys2))
+val () = assertloc (iseq) // [xys] and [xys2] contain same elements
+//
+val () = list_vt_free<int> (xys)
+val () = list_vt_free<int> (xys2)
+//
+in
+  0(*normal*)
+end // end of [main]
+')
+")
 
 (* ****** ****** *)
 

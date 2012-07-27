@@ -50,9 +50,8 @@ list_viewt0ype_int_viewtype (a:viewt@ype+, int) =
     list_vt_cons (a, n+1) of (a, list_viewt0ype_int_viewtype (a, n))
   | list_vt_nil (a, 0) of ()
 // end of [list_viewt0ype_int_viewtype]
-// end of [dataviewtype]
-')\
 ')')
+')
 #decldescrpt('\
 
 There are two data constructors #dyncode("list_vt_nil") and

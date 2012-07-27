@@ -163,9 +163,6 @@ s2exp_Var_make_srt
   (loc, s2t) = let
   val s2V = s2Var_make_srt (loc, s2t)
   val () = trans3_env_add_sVar (s2V)
-(*
-  val () = s2Var_set_sVarset (s2V, the_s2Varset_env_get_prev ())
-*)
 in
   s2exp_Var (s2V)
 end // end of [s2exp_Var_make_srt]
@@ -179,11 +176,8 @@ s2exp_Var_make_var (loc, s2v) = let
 *)
   val s2V = s2Var_make_var (loc, s2v)
 (*
-  val () = s2Var_set_sVarset (s2V, the_s2Varset_env_get_prev ())
-*)
-(*
   val () = begin
-    print "s2exp_Var_make_var: s2V = "; print s2V; print_newline ()
+    print "s2exp_Var_make_var: s2V = "; print_s2Var s2V; print_newline ()
   end // end of [val]
 *)
   val () = trans3_env_add_sVar (s2V)
@@ -766,7 +760,6 @@ end // end of [the_s2Varset_env_add]
 implement
 the_s2Varset_env_push () = let
   val xs = !the_s2Varset
-  val () = !the_s2Varset := s2Varset_nil
   val (vbox pf | pp) = ref_get_view_ptr (the_s2Varsetlst)
   val () = !pp := list_vt_cons (xs, !pp)
 in
@@ -922,10 +915,11 @@ implement
 trans3_env_add_sVar
   (s2V) = () where {
   val s3i = S3ITMsVar (s2V)
-(*
+//
   val () = the_s2Varset_env_add (s2V)
-*)
+//
   val () = the_s3itmlst_env_add (s3i)
+//
 } // end of [trans3_env_add_sVar]
 
 implement

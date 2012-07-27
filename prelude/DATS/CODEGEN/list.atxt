@@ -1231,10 +1231,22 @@ val () = loop (n, 0, res)
 
 implement
 {x,y}
-list_zip
-  (xs, ys) = let
+list_zip (xs, ys) = let
 //
 typedef xy = @(x, y)
+//
+implement
+list_zipwith__fwork<x,y><xy> (x, y) = @(x, y)
+//
+in
+  $effmask_all (list_zipwith<x,y><xy> (xs, ys))
+end // end of [list_zip]
+
+implement
+{x,y}{xy}
+list_zipwith
+  (xs, ys) = let
+//
 prval () = lemma_list_param (xs)
 prval () = lemma_list_param (ys)
 //
@@ -1243,17 +1255,18 @@ fun loop
   xs: list (x, m)
 , ys: list (y, n)
 , res: &ptr? >> list_vt (xy, min(m,n))
-) :<!wrt> void = let
+) : void = let
 in
 //
 case+ xs of
 | list_cons (x, xs) => (
   case+ ys of
   | list_cons (y, ys) => let
-      val () = res :=
-        list_vt_cons{xy}{0} (_, _)
+      val xy =
+        list_zipwith__fwork<x,y><xy> (x, y)
+      // end of [val]
+      val () = res := list_vt_cons{xy}{0} (xy, _)
       val+ list_vt_cons (xy, res1) = res
-      val () = xy.0 := x and () = xy.1 := y
       val () = loop (xs, ys, res1)
     in
       fold@ (res)
@@ -1265,10 +1278,75 @@ case+ xs of
 end // end of [loop]
 //
 var res: ptr
-val () = $effmask_wrt (loop (xs, ys, res))
+val () = loop (xs, ys, res)
 in
   res
-end // end of [list_zip]
+end // end of [list_zipwith]
+
+#atscode_separator()
+
+implement
+{x,y}
+list_cross (xs, ys) = let
+//
+typedef xy = @(x, y)
+//
+implement
+list_crosswith__fwork<x,y><xy> (x, y) = @(x, y)
+//
+in
+  $effmask_all (list_crosswith<x,y><xy> (xs, ys))
+end // end of [list_cross]
+
+implement
+{x,y}{xy}
+list_crosswith (xs, ys) = let
+//
+prval () = lemma_list_param (xs)
+prval () = lemma_list_param (ys)
+//
+fn* loop1
+  {m,n:nat} .<m,0,0>. (
+  xs: list (x, m)
+, ys: list (y, n)
+, res: &ptr? >> list_vt (xy, m*n)
+) : void = let
+in
+  case+ xs of
+  | list_cons
+      (x, xs) => loop2 (xs, ys, x, ys, res)
+  | list_nil () => (res := list_vt_nil)
+end // end of [loop1]
+
+and loop2
+  {m,n:nat}{n2:nat} .<m,n2,1>. (
+  xs: list (x, m)
+, ys: list (y, n)
+, x: x, ys2: list (y, n2)
+, res: &ptr? >> list_vt (xy, m*n+n2)
+) : void = let
+in
+  case+ ys2 of
+  | list_cons (y, ys2) => let
+      val xy = 
+        list_crosswith__fwork<x,y><xy> (x, y)
+      // end of [val]
+      val () = res := list_vt_cons{xy}{0} (xy, _)
+      val+ list_vt_cons (_, res1) = res
+      val () = loop2 (xs, ys, x, ys2, res1)
+      prval () = mul_gte_gte_gte {m,n} ()
+    in
+      fold@ (res)
+    end // end of [list_cons]
+  | list_nil () => loop1 (xs, ys, res)
+end // end of [loop2]
+//
+var res: ptr
+val () = loop1 (xs, ys, res)
+//
+in
+  res
+end // end of [list_crosswith]
 
 #atscode_separator()
 
