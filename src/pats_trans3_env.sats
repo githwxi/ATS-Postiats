@@ -162,15 +162,15 @@ fun h3ypo_eqeq
 
 (* ****** ****** *)
 
-fun fprint_c3nstr : fprint_type (c3nstr)
 fun print_c3nstr (x: c3nstr): void
 and prerr_c3nstr (x: c3nstr): void
+fun fprint_c3nstr : fprint_type (c3nstr)
 
 fun fprint_c3nstrkind : fprint_type (c3nstrkind)
 
-fun fprint_h3ypo : fprint_type (h3ypo)
 fun print_h3ypo (x: h3ypo): void
 and prerr_h3ypo (x: h3ypo): void
+fun fprint_h3ypo : fprint_type (h3ypo)
 
 fun fprint_s3itm : fprint_type (s3itm)
 fun fprint_s3itmlst : fprint_type (s3itmlst)
@@ -303,9 +303,10 @@ fun the_s2varbindmap_insert (s2v: s2var, s2f: s2hnf): void
 //
 // HX: for the purpose of debugging
 //
-fun fprint_the_s2varbindmap (out: FILEref): void
 fun fprint_the_s3itmlst (out: FILEref): void
 fun fprint_the_s3itmlstlst (out: FILEref): void
+//
+fun fprint_the_s2varbindmap (out: FILEref): void
 //
 (* ****** ****** *)
 //
@@ -502,9 +503,7 @@ fun lstbefitmlst_restore_linval_type (xs: lstbefitmlst): void
 absviewtype lstaftc3nstr_viewtype
 viewtypedef lstaftc3nstr = lstaftc3nstr_viewtype
 
-fun fprint_lstaftc3nstr
-  (out: FILEref, x: !lstaftc3nstr): void
-// end of [fprint_lstaftc3nstr]
+fun fprint_lstaftc3nstr : fprint_vtype (lstaftc3nstr)
 
 fun lstaftc3nstr_initize (xs: lstbefitmlst): lstaftc3nstr
 fun lstaftc3nstr_update (x: !lstaftc3nstr, ctr: c3nstroptref): void

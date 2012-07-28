@@ -493,31 +493,45 @@ end // end of [evalctx_extend_darg]
 
 (* ****** ****** *)
 
-fun s2exparglst_merge
+fun s2exparglst_join
   (s2as: s2exparglst): s2explst = let
+//
+fun auxwarn (loc) = {
+  val () = prerr_warning2_loc (loc)
+  val () = prerr ": the static macro argument is ignored."
+  val () = prerr_newline ()
+} // end of [auxwarn]
+//
 in
 //
 case+ s2as of
-| list_cons (s2a, s2as) => (
+| list_cons
+    (s2a, s2as) => (
   case+
     s2a.s2exparg_node of
   | S2EXPARGseq (s2es) => (
     case+ s2as of
     | list_cons _ => let
         val s2es2 =
-          s2exparglst_merge (s2as)
+          s2exparglst_join (s2as) in list_append (s2es, s2es2)
         // end of [val]
-      in
-        list_append (s2es, s2es2)
-      end
-    | list_nil () => s2es
+      end // end of [list_cons]
+    | list_nil () => s2es // HX: this is most likely by far!
     )
-  | S2EXPARGone () => s2exparglst_merge (s2as) // ignored arg
-  | S2EXPARGall () => s2exparglst_merge (s2as) // ignored arg
-  )
+  | S2EXPARGone () => let
+      val () =
+        auxwarn (s2a.s2exparg_loc) in s2exparglst_join (s2as)
+      // end of [val]
+    end // end of [S2EXPARGone]
+  | S2EXPARGall () => let
+      val () =
+        auxwarn (s2a.s2exparg_loc) in s2exparglst_join (s2as)
+      // end of [val]
+    end // end of [S2EXPARGall]
+  ) // end of [list_cons]
 | list_nil () => list_nil ()
 //
-end // end of [s2exparglst_merge]
+end // end of [s2exparglst_join]
 
 implement
 evalctx_extend_arg (
@@ -543,7 +557,7 @@ case+ arg of
 | M2ACARGsta (s2vs) => (
   case+ d2a of
   | D2EXPARGsta (loc, s2as) => let
-      val s2es = s2exparglst_merge (s2as)
+      val s2es = s2exparglst_join (s2as)
     in
       evalctx_extend_sarg (loc0, d2m, knd, ctx, env, s2vs, s2es, res)
     end // end of [D2EXPARGsta]

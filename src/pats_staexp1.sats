@@ -121,19 +121,17 @@ where e1xp: type = '{
 }
 and e1xplst: type = List (e1xp)
 
-fun fprint_e1xp : fprint_type (e1xp)
-overload fprint with fprint_e1xp
 fun print_e1xp (_: e1xp): void
-fun prerr_e1xp (_: e1xp): void
 overload print with print_e1xp
+fun prerr_e1xp (_: e1xp): void
 overload prerr with prerr_e1xp
+fun fprint_e1xp : fprint_type (e1xp)
 
-fun fprint_e1xplst : fprint_type (e1xplst)
-overload fprint with fprint_e1xplst
 fun print_e1xplst (_: e1xplst): void
-fun prerr_e1xplst (_: e1xplst): void
 overload print with print_e1xplst
+fun prerr_e1xplst (_: e1xplst): void
 overload prerr with prerr_e1xplst
+fun fprint_e1xplst : fprint_type (e1xplst)
 
 (* ****** ****** *)
 //
@@ -180,8 +178,6 @@ fun e1xp_err (loc: location): e1xp
 //
 fun e1xp_true (loc: location): e1xp
 and e1xp_false (loc: location): e1xp
-//
-fun fprint_e1xp : fprint_type (e1xp)
 //
 (* ****** ****** *)
 
@@ -231,19 +227,17 @@ typedef s1rtpol = '{
 
 (* ****** ****** *)
 
-fun fprint_s1rt : fprint_type (s1rt)
-overload fprint with fprint_s1rt
 fun print_s1rt (_: s1rt): void
-fun prerr_s1rt (_: s1rt): void
 overload print with print_s1rt
+fun prerr_s1rt (_: s1rt): void
 overload prerr with prerr_s1rt
+fun fprint_s1rt : fprint_type (s1rt)
 
-fun fprint_s1rtlst : fprint_type (s1rtlst)
-overload fprint with fprint_s1rtlst
 fun print_s1rtlst (_: s1rtlst): void
-fun prerr_s1rtlst (_: s1rtlst): void
 overload print with print_s1rtlst
+fun prerr_s1rtlst (_: s1rtlst): void
 overload prerr with prerr_s1rtlst
+fun fprint_s1rtlst : fprint_type (s1rtlst)
 
 fun fprint_s1rtopt : fprint_type (s1rtopt)
 
@@ -547,9 +541,13 @@ fun s1exp_ann (loc: location, s1e: s1exp, s1t: s1rt): s1exp
 
 fun s1exp_err (loc: location): s1exp
 
-fun fprint_s1exp : fprint_type (s1exp)
+(* ****** ****** *)
+
 fun print_s1exp (x: s1exp): void
+overload print with print_s1exp
 fun prerr_s1exp (x: s1exp): void
+overload prerr with prerr_s1exp
+fun fprint_s1exp : fprint_type (s1exp)
 
 fun fprint_s1explst : fprint_type (s1explst)
 fun fprint_s1expopt : fprint_type (s1expopt)
@@ -603,10 +601,9 @@ s1vararg =
 
 typedef s1vararglst = List (s1vararg)
 
-fun fprint_s1vararg
-  : fprint_type (s1vararg)
 fun print_s1vararg (x: s1vararg): void
 fun prerr_s1vararg (x: s1vararg): void
+fun fprint_s1vararg : fprint_type (s1vararg)
 
 (* ****** ****** *)
 
@@ -842,6 +839,8 @@ fun d1atcon_make (
 ) : d1atcon // end of [d1atcon_make]
 
 fun fprint_d1atcon : fprint_type (d1atcon)
+
+(* ****** ****** *)
 
 typedef d1atdec = '{
   d1atdec_loc= location

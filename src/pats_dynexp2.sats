@@ -148,9 +148,11 @@ fun d2cst_make (
 , extdef: dcstextdef
 ) : d2cst // end of [d2cst_make]
 
-fun fprint_d2cst : fprint_type (d2cst)
 fun print_d2cst (x: d2cst): void
+overload print with print_d2cst
 fun prerr_d2cst (x: d2cst): void
+overload prerr with prerr_d2cst
+fun fprint_d2cst : fprint_type (d2cst)
 
 (* ****** ****** *)
 
@@ -198,11 +200,11 @@ fun d2var_ptr_viewat_make_none (ptr: d2var): d2var
 
 (* ****** ****** *)
 
-fun fprint_d2var : fprint_type (d2var)
 fun print_d2var (x: d2var): void
 and prerr_d2var (x: d2var): void
 overload print with print_d2var
 overload prerr with prerr_d2var
+fun fprint_d2var : fprint_type (d2var)
 
 fun fprint_d2varlst : fprint_type (d2varlst)
 
@@ -216,9 +218,9 @@ datatype d2vfin =
   | D2VFINsome_vbox of s2exp // for vboxed proofs
 // end of [d2vfin]
 
-fun fprint_d2vfin : fprint_type (d2vfin)
 fun print_d2vfin (x: d2vfin): void
 fun prerr_d2vfin (x: d2vfin): void
+fun fprint_d2vfin : fprint_type (d2vfin)
 
 (* ****** ****** *)
 
@@ -315,16 +317,20 @@ fun d2mac_get_arglst (x: d2mac): m2acarglst
 
 fun d2mac_get_stamp (x: d2mac): stamp
 
-fun fprint_d2mac : fprint_type (d2mac)
 fun print_d2mac (x: d2mac): void
+overload print with print_d2mac
 fun prerr_d2mac (x: d2mac): void
+overload prerr with prerr_d2mac
+fun fprint_d2mac : fprint_type (d2mac)
 
 (* ****** ****** *)
 
+fun print_d2itm (x: d2itm): void
+overload print with print_d2itm
+fun prerr_d2itm (x: d2itm): void
+overload prerr with prerr_d2itm
 fun fprint_d2itm : fprint_type (d2itm)
 fun fprint_d2itmlst : fprint_type (d2itmlst)
-fun print_d2itm (x: d2itm): void
-fun prerr_d2itm (x: d2itm): void
 
 fun fprint_d2pitm : fprint_type (d2pitm)
 fun fprint_d2pitmlst : fprint_type (d2pitmlst)
@@ -348,8 +354,7 @@ datatype pckind =
 
 fun fprint_pckind : fprint_type (pckind)
 
-fun eq_pckind_pckind
-  (x1: pckind, x2: pckind): bool
+fun eq_pckind_pckind (x1: pckind, x2: pckind): bool
 overload = with eq_pckind_pckind
 
 (* ****** ****** *)
@@ -482,19 +487,17 @@ fun p2at_err (loc: location): p2at
 
 (* ****** ****** *)
 
-fun fprint_p2at
-  (out: FILEref, x: p2at): void
 fun print_p2at (x: p2at): void
 overload print with print_p2at
 fun prerr_p2at (x: p2at): void
 overload prerr with prerr_p2at
+fun fprint_p2at : fprint_type (p2at)
 
-fun fprint_p2atlst
-  (out: FILEref, xs: p2atlst): void
 fun print_p2atlst (xs: p2atlst): void
 overload print with print_p2atlst
 fun prerr_p2atlst (xs: p2atlst): void
 overload prerr with prerr_p2atlst
+fun fprint_p2atlst : fprint_type (p2atlst)
 
 fun fprint_labp2at : fprint_type (labp2at)
 fun fprint_labp2atlst : fprint_type (labp2atlst)
@@ -815,52 +818,52 @@ d2lval = // type for left-values
 
 (* ****** ****** *)
 
-fun fprint_d2exp : fprint_type (d2exp)
 fun print_d2exp (x: d2exp): void
 overload print with print_d2exp
 fun prerr_d2exp (x: d2exp): void
 overload prerr with prerr_d2exp
+fun fprint_d2exp : fprint_type (d2exp)
 
-fun fprint_d2explst : fprint_type (d2explst)
 fun print_d2explst (xs: d2explst): void
 overload print with print_d2explst
 fun prerr_d2explst (xs: d2explst): void
 overload prerr with prerr_d2explst
+fun fprint_d2explst : fprint_type (d2explst)
 
 fun fprint_d2expopt : fprint_type (d2expopt)
 
-fun fprint_labd2exp : fprint_type (labd2exp)
-fun fprint_labd2explst : fprint_type (labd2explst)
 fun print_labd2explst (xs: labd2explst): void
 overload print with print_labd2explst
 fun prerr_labd2explst (xs: labd2explst): void
 overload prerr with prerr_labd2explst
+fun fprint_labd2exp : fprint_type (labd2exp)
+fun fprint_labd2explst : fprint_type (labd2explst)
 
-fun fprint_d2exparg : fprint_type (d2exparg)
-fun fprint_d2exparglst : fprint_type (d2exparglst)
 fun print_d2exparglst (xs: d2exparglst): void
 overload print with print_d2exparglst
 fun prerr_d2exparglst (xs: d2exparglst): void
 overload prerr with prerr_d2exparglst
+fun fprint_d2exparg : fprint_type (d2exparg)
+fun fprint_d2exparglst : fprint_type (d2exparglst)
 
-fun fprint_d2lab : fprint_type (d2lab)
-fun fprint_d2lablst : fprint_type (d2lablst)
 fun print_d2lablst (xs: d2lablst): void
 overload print with print_d2lablst
 fun prerr_d2lablst (xs: d2lablst): void
 overload prerr with prerr_d2lablst
+fun fprint_d2lab : fprint_type (d2lab)
+fun fprint_d2lablst : fprint_type (d2lablst)
 
 (* ****** ****** *)
 
-fun fprint_d2ecl : fprint_type (d2ecl)
 fun print_d2ecl (x: d2ecl): void
 fun prerr_d2ecl (x: d2ecl): void
+fun fprint_d2ecl : fprint_type (d2ecl)
 
 (* ****** ****** *)
 
-fun fprint_d2lval : fprint_type (d2lval)
 fun print_d2lval (x: d2lval): void
 and prerr_d2lval (x: d2lval): void
+fun fprint_d2lval : fprint_type (d2lval)
 
 (* ****** ****** *)
 //

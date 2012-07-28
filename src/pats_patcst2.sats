@@ -121,25 +121,25 @@ fun p2atcstlstlst_vt_copy (xss: !p2atcstlstlst_vt): p2atcstlstlst_vt
 
 (* ****** ****** *)
 
-fun fprint_p2atcst : fprint_type (p2atcst)
 fun print_p2atcst (x: p2atcst): void
 and prerr_p2atcst (x: p2atcst): void
+fun fprint_p2atcst : fprint_type (p2atcst)
 
-fun fprint_p2atcstlst : fprint_type (p2atcstlst)
 fun print_p2atcstlst (xs: p2atcstlst): void
 and prerr_p2atcstlst (xs: p2atcstlst): void
 fun print_p2atcstlst_vt (xs: !p2atcstlst_vt): void
 and prerr_p2atcstlst_vt (xs: !p2atcstlst_vt): void
+fun fprint_p2atcstlst : fprint_type (p2atcstlst)
 
-fun fprint_labp2atcstlst : fprint_type (labp2atcstlst)
 fun print_labp2atcstlst (xs: labp2atcstlst): void
 and prerr_labp2atcstlst (xs: labp2atcstlst): void
+fun fprint_labp2atcstlst : fprint_type (labp2atcstlst)
 
-fun fprint_p2atcstlstlst : fprint_type (p2atcstlstlst)
 fun print_p2atcstlstlst (xss: p2atcstlstlst): void
 and prerr_p2atcstlstlst (xss: p2atcstlstlst): void
 fun print_p2atcstlstlst_vt (xss: !p2atcstlstlst_vt): void
 fun prerr_p2atcstlstlst_vt (xss: !p2atcstlstlst_vt): void
+fun fprint_p2atcstlstlst : fprint_type (p2atcstlstlst)
 
 (* ****** ****** *)
 

@@ -341,11 +341,12 @@ function in ATSLIB calls the libc-function of the same name (declared in
 
 #declname("string_length")
 #declsynop2("
+#para('\
 #pats2xhtmld('\
 symintr string_length
 overload string_length with string0_length of 0
 overload string_length with string1_length of 1
-')
+')')
 ")
 
 (* ****** ****** *)

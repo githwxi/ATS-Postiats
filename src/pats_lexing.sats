@@ -411,12 +411,11 @@ val ZERO : tnode // = T_INTEGER_dec ("0")
 
 (* ****** ****** *)
 
-fun fprint_token : fprint_type (token)
-overload fprint with fprint_token
 fun print_token (tok: token): void
 overload print with print_token
 fun prerr_token (tok: token): void
 overload prerr with prerr_token
+fun fprint_token : fprint_type (token)
 
 (* ****** ****** *)
 
@@ -471,10 +470,7 @@ fun the_lexerrlst_add (x: lexerr): void
 
 (* ****** ****** *)
 
-fun fprint_lexerr
-  (out: FILEref, err: lexerr): void
-// end of [fprint_lexerr]
-
+fun fprint_lexerr : fprint_type (lexerr)
 fun fprint_the_lexerrlst (out: FILEref): int(*err*) // 0/1
 
 (* ****** ****** *)

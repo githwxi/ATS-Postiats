@@ -38,6 +38,8 @@ staload _(*anon*) = "prelude/DATS/list.dats"
 
 typedef
 fprint_type (a: t@ype) = (FILEref, a) -> void
+typedef
+fprint_vtype (a: viewt@ype) = (FILEref, !a) -> void
 
 (* ****** ****** *)
 
@@ -145,9 +147,9 @@ macdef FUNCLOcloref = FUNCLOclo (CLOREF)
 
 fun funclo_is_ptr (fc: funclo): bool
 
-fun fprint_funclo : fprint_type (funclo)
 fun print_funclo (x: funclo): void
 fun prerr_funclo (x: funclo): void
+fun fprint_funclo : fprint_type (funclo)
 
 fun eq_funclo_funclo (fc1: funclo, fc2: funclo): bool 
 overload = with eq_funclo_funclo

@@ -88,11 +88,11 @@ val m2val_true : m2val and m2val_false : m2val
 
 (* ****** ****** *)
 
-fun fprint_m2val : fprint_type (m2val)
-fun print_m2val (x: m2val): void // fprint (stdout_ref, x)
+fun print_m2val (x: m2val): void
 overload print with print_m2val
-fun prerr_m2val (x: m2val): void // fprint (stderr_ref, x)
+fun prerr_m2val (x: m2val): void
 overload prerr with prerr_m2val
+fun fprint_m2val : fprint_type (m2val)
 
 fun fprint_m2valist : fprint_type (m2valist)
 
@@ -133,12 +133,11 @@ viewtypedef evalctx = evalctx_viewtype
 
 fun evalctx_nil ():<> evalctx
 
-fun fprint_evalctx
-  (out: FILEref, ctx: !evalctx): void
 fun print_evalctx (ctx: !evalctx): void
 overload print with print_evalctx
 fun prerr_evalctx (ctx: !evalctx): void
 overload prerr with prerr_evalctx
+fun fprint_evalctx : fprint_vtype (evalctx)
 
 fun evalctx_sadd
   (ctx: evalctx, s2v: s2var, m2v: m2val): evalctx

@@ -32,15 +32,15 @@
 //
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
 abst@ype effect_t0ype = int
 typedef effect = effect_t0ype
 typedef effectlst = List (effect)
 abst@ype effset_t0ype = uint
 typedef effset = effset_t0ype
-
-(* ****** ****** *)
-
-typedef fprint_type (a:t@ype) = (FILEref, a) -> void
 
 (* ****** ****** *)
 
@@ -52,16 +52,12 @@ val effectlst_all : effectlst
 
 fun effect_get_name (eff: effect): string
 
-fun fprint_effect : fprint_type (effect)
-overload fprint with fprint_effect
-
 fun print_effect (x: effect): void
 overload print with print_effect
 fun prerr_effect (x: effect): void
 overload prerr with prerr_effect
-
+fun fprint_effect : fprint_type (effect)
 fun fprint_effectlst : fprint_type (effectlst)
-overload fprint with fprint_effectlst
 
 fun eq_effect_effect (x1: effect, x2: effect):<> bool
 overload = with eq_effect_effect
@@ -113,10 +109,9 @@ fun effset_is_inter (efs1: effset, efs2: effset):<> bool
 
 (* ****** ****** *)
 
-fun fprint_effset
-  : fprint_type (effset)
 fun print_effset (efs: effset): void
 fun prerr_effset (efs: effset): void
+fun fprint_effset : fprint_type (effset)
 
 (* ****** ****** *)
 

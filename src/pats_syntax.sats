@@ -89,9 +89,9 @@ macsynkind =
   | MSKxstage of () // = decode(lift(.))
 // end of [macsynkind]
 
-fun fprint_macsynkind : fprint_type (macsynkind)
 fun print_macsynkind (x: macsynkind): void
 fun prerr_macsynkind (x: macsynkind): void
+fun fprint_macsynkind : fprint_type (macsynkind)
 
 (* ****** ****** *)
 
@@ -152,9 +152,9 @@ fun i0de_make_sym (loc: location, sym: symbol) : i0de
 fun i0de_make_string (loc: location, name: string) : i0de
 fun i0de_make_lrbrackets (t_beg: token, t_end: token): i0de
 
-fun fprint_i0de : fprint_type (i0de)
 fun print_i0de (x: i0de): void
 fun prerr_i0de (x: i0de): void
+fun fprint_i0de : fprint_type (i0de)
 
 (* ****** ****** *)
 
@@ -201,9 +201,9 @@ typedef s0rtq = '{
 fun s0rtq_none (loc: location): s0rtq
 fun s0rtq_symdot (ent1: i0de, tok2: token): s0rtq
 
-fun fprint_s0rtq : fprint_type (s0rtq)
 fun print_s0rtq (x: s0rtq): void
 fun prerr_s0rtq (x: s0rtq): void
+fun fprint_s0rtq : fprint_type (s0rtq)
 
 (* ****** ****** *)
 
@@ -227,9 +227,9 @@ fun s0taq_symcolon (ent1: i0de, tok2: token): s0taq
 
 fun s0taq_is_none (q: s0taq): bool
 
-fun fprint_s0taq : fprint_type (s0taq)
 fun print_s0taq (x: s0taq): void
 fun prerr_s0taq (x: s0taq): void
+fun fprint_s0taq : fprint_type (s0taq)
 
 (* ****** ****** *)
 
@@ -271,9 +271,9 @@ fun d0ynq_symdotcolon
 
 fun d0ynq_is_none (q: d0ynq): bool
 
-fun fprint_d0ynq : fprint_type (d0ynq)
 fun print_d0ynq (x: d0ynq): void
 fun prerr_d0ynq (x: d0ynq): void
+fun fprint_d0ynq : fprint_type (d0ynq)
 
 (* ****** ****** *)
 
@@ -285,9 +285,9 @@ typedef dqi0de = '{
 fun dqi0de_make_none (ent: i0de): dqi0de
 fun dqi0de_make_some (ent1: d0ynq, ent2: i0de): dqi0de
 
-fun fprint_dqi0de : fprint_type (dqi0de)
 fun print_dqi0de (x: dqi0de): void
 fun prerr_dqi0de (x: dqi0de): void
+fun fprint_dqi0de : fprint_type (dqi0de)
 
 (* ****** ****** *)
 
