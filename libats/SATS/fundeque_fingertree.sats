@@ -29,9 +29,9 @@
 
 (*
 **
-** A functional concatenable deque implementation based on fingertrees
+** A functional concatenable deque implementation based on fingertrees.
 ** Please see the JFP paper by Hinze and Paterson on fingertrees for more
-** details on this interesting data structure
+** details on this interesting data structure.
 **
 ** Contributed by
 **   Robbie Harwood (rharwood AT cs DOT bu DOT edu)
@@ -60,9 +60,12 @@
 //
 abstype
 deque_t0ype_int_type (elt:t@ype+, n:int)
+//
 stadef deque = deque_t0ype_int_type
 typedef deque (a:t@ype) = [n:int] deque (a, n)
-
+//
+typedef Deque (a:t@ype) = [n:int] deque (a, n)
+//
 (* ****** ****** *)
 
 sortdef t0p = t@ype and vt0p = viewt@ype
@@ -75,42 +78,53 @@ prfun lemma_deque_param
 
 (* ****** ****** *)
 
-fun fundeque_size
-  {a:t0p}{n:nat}
-  (xt: deque (a, n)):<> size_t (n)
-// end of [fundeque_size]
+fun{} fundeque_nil {a:t0p} ():<> deque (a, 0)
 
 (* ****** ****** *)
-
-fun{} fundeque_nil {a:t0p} ():<> deque (a, 0)
 
 fun{} fundeque_is_nil
   {a:t0p}{n:nat} (xt: deque (a, n)): bool (n==0)
 // end of [fundeque_is_nil]
+
+fun{} fundeque_is_cons
+  {a:t0p}{n:nat} (xt: deque (a, n)): bool (n > 0)
+// end of [fundeque_is_cons]
+
+(* ****** ****** *)
+
+fun fundeque_size
+  {a:t0p}{n:nat} (xt: deque (a, n)):<> size_t (n)
+// end of [fundeque_size]
 
 (* ****** ****** *)
 
 fun{a:t0p}
 fundeque_cons{n:nat}
   (x: a, xt: deque (a, n)):<> deque (a, n+1)
-// end of [fingertree0_cons]
+// end of [fundeque_cons]
 
 fun{a:t0p}
 fundeque_uncons{n:pos}
   (xt: deque (a, n), r: &a? >> a):<!wrt> deque (a, n-1)
 // end of [fundeque_uncons]
 
+fun{a:t0p}
+fundeque_get_atbeg {n:pos} (xt: deque (a, n)):<> a
+
 (* ****** ****** *)
 
 fun{a:t0p}
 fundeque_snoc{n:nat}
   (xt: deque (a, n), x: a):<> deque (a, n+1)
-// end of [fingertree0_snoc]
+// end of [fundeque_snoc]
 
 fun{a:t0p}
 fundeque_unsnoc{n:pos}
   (xt: deque (a, n), r: &a? >> a):<!wrt> deque (a, n-1)
 // end of [fundeque_unsnoc]
+
+fun{a:t0p}
+fundeque_get_atend {n:pos} (xt: deque (a, n)):<> a
 
 (* ****** ****** *)
 
@@ -121,21 +135,25 @@ fun fundeque_append
 
 (* ****** ****** *)
 
-fun{a:t0p}{env:vt0p}
-fundeque_foreach__fwork (x: a, env: &env): void
+fun{
+a:t0p}{env:vt0p
+} fundeque_foreach__fwork (x: a, env: &env): void
 fun{a:t0p}
-fundeque_foreach (xs: deque (a)): void
-fun{a:t0p}{env:vt0p}
-fundeque_foreach_env (xs: deque (a), env: &INV(env)>>env): void
+fundeque_foreach (xs: Deque (a)): void
+fun{
+a:t0p}{env:vt0p
+} fundeque_foreach_env (xs: Deque (a), env: &INV(env)>>env): void
 
 (* ****** ****** *)
 
-fun{a:t0p}{env:vt0p}
-fundeque_rforeach__fwork (x: a, env: &env): void
+fun{
+a:t0p}{env:vt0p
+} fundeque_rforeach__fwork (x: a, env: &env): void
 fun{a:t0p}
-fundeque_rforeach (xs: deque (a)): void
-fun{a:t0p}{env:vt0p}
-fundeque_rforeach_env (xs: deque (a), env: &INV(env)>>env): void
+fundeque_rforeach (xs: Deque (a)): void
+fun{
+a:t0p}{env:vt0p
+} fundeque_rforeach_env (xs: Deque (a), env: &INV(env)>>env): void
 
 (* ****** ****** *)
 

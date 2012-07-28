@@ -41,8 +41,11 @@
 //
 abstype
 ralist_t0ype_int_type (a:t@ype+, n:int)
+//
 stadef ralist = ralist_t0ype_int_type
 typedef ralist (a:t@ype) = [n:int] ralist (a, n)
+//
+typedef Ralist (a:t@ype) = [n:int] ralist (a, n)
 //
 (* ****** ****** *)
 
@@ -58,6 +61,18 @@ prfun lemma_ralist_param
 
 fun{}
 funralist_nil {a:t0p} ():<> ralist (a, 0)
+
+(* ****** ****** *)
+
+fun{}
+funralist_is_nil
+  {a:t0p}{n:int} (xs: ralist (a, n)):<> bool (n==0)
+// end of [funralist_is_nil]
+
+fun{}
+funralist_is_cons
+  {a:t0p}{n:int} (xs: ralist (a, n)):<> bool (n > 0)
+// end of [funralist_is_cons]
 
 (* ****** ****** *)
 
@@ -94,6 +109,8 @@ funralist_lookup
   {n:int} (xs: ralist (INV(a), n), i: natLt n):<> a
 // end of [funralist_lookup]
 
+(* ****** ****** *)
+
 fun{a:t0p}
 funralist_update
   {n:int} (xs: ralist (INV(a), n), i: natLt n, x: a):<> ralist (a, n)
@@ -105,9 +122,9 @@ fun{a:t0p}{env:vt0p}
 funralist_foreach__fwork (x: a, env: &env): void
 
 fun{a:t0p}
-funralist_foreach (xs: ralist (a)): void
+funralist_foreach (xs: Ralist (a)): void
 fun{a:t0p}{env:vt0p}
-funralist_foreach_env (xs: ralist (a), env: &INV(env)>>env): void
+funralist_foreach_env (xs: Ralist (a), env: &INV(env)>>env): void
 
 (* ****** ****** *)
 

@@ -67,6 +67,18 @@ funralist_nil{a} () = RAnil{a}{0} ()
 
 (* ****** ****** *)
 
+implement{}
+funralist_is_nil{a} (xs) =
+  case+ xs of RAnil () => true | _ =>> false
+// end of [funralist_is_nil]
+
+implement{}
+funralist_is_cons{a} (xs) =
+  case+ xs of RAnil () => false | _ =>> true
+// end of [funralist_is_cons]
+
+(* ****** ****** *)
+
 local
 
 fun
@@ -183,8 +195,8 @@ funralist_head
 implement{a}
 funralist_tail
   (xs) = xs where {
-  var _x: a
-  val xs = $effmask_wrt (funralist_uncons<a> (xs, _x))
+  var x: a
+  val xs = $effmask_wrt (funralist_uncons<a> (xs, x))
 } // end of [funralist_tail]
 
 (* ****** ****** *)

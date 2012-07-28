@@ -1,0 +1,82 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_funralist_nested")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/funralist_nested\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package implements a random-access list based on a structure of some
+nested datatype.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("ralist_t0ype_int_type")
+
+(* ****** ****** *)
+
+#declname("ralist")
+#declsynop2('
+#para('\
+#pats2xhtmls('\
+stadef ralist = ralist_t0ype_int_type
+typedef ralist (a:t@ype) = [n:int] ralist (a, n)
+')')
+')
+
+(* ****** ****** *)
+
+#declnamesynop("Ralist")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_ralist_param")
+
+(* ****** ****** *)
+
+#declnamesynop("funralist_nil")
+#declnamesynop("funralist_is_nil")
+#declnamesynop("funralist_is_cons")
+
+(* ****** ****** *)
+
+#declnamesynop("funralist_length")
+
+(* ****** ****** *)
+
+#declnamesynop("funralist_cons")
+#declnamesynop("funralist_uncons")
+
+(* ****** ****** *)
+
+#declnamesynop("funralist_head")
+#declnamesynop("funralist_tail")
+
+(* ****** ****** *)
+
+#declnamesynop("funralist_lookup")
+
+(* ****** ****** *)
+
+#declnamesynop("funralist_update")
+
+(* ****** ****** *)
+
+#declnamesynop("funralist_foreach__fwork")
+#declnamesynop("funralist_foreach")
+#declnamesynop("funralist_foreach_env")
+
+(* ****** ****** *)
+
+(* end of [funralist_nested.atxt] *)
