@@ -32,39 +32,16 @@
 //
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
-staload _(*anon*) = "pats_utils.dats"
+staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
-staload "pats_hisexp.sats"
+staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-implement
-fprint_hisexp
-   (out, hse) = let
-//
-macdef prstr (s) = fprint_string (out, ,(s))
-//
-in
-//
-case+ hse.hisexp_node of
-| HSEextype (name, hsess) => {
-    val () = prstr "HSEextype("
-    val () = $UT.fprintlst (out, hsess, "; ", fprint_hisexplst)
-    val () = prstr ")"
-  } // end of [HSEextype]
-//
-end // end of [fprint_hisexp]
+staload "pats_histaexp.sats"
 
 (* ****** ****** *)
 
-implement
-fprint_hisexplst
-  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_hisexp)
-// end of [fprint_hisexplst]
-
-(* ****** ****** *)
-
-(* end of [pats_hisexp_print.dats] *)
+(* end of [pats_hidynexp.sats] *)

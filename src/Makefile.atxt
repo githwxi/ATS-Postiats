@@ -311,10 +311,11 @@ val SOURCES =
 , "pats_constraint3_icnstr.dats"
 , "pats_constraint3_solve.dats"
 //
-, "pats_hisexp.sats"
-, "pats_hisexp.dats"
-, "pats_hidexp.sats"
-, "pats_hidexp.dats"
+, "pats_histaexp.sats"
+, "pats_histaexp.dats"
+, "pats_histaexp_print.dats"
+, "pats_hidynexp.sats"
+, "pats_hidynexp.dats"
 //
 , "pats_comarg.sats"
 , "pats_comarg.dats"

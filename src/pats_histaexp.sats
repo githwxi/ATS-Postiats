@@ -37,15 +37,45 @@ staload "pats_basics.sats"
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
-staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-staload "pats_hisexp.sats"
-staload "pats_hidexp.sats"
+datatype
+hitype =
+  | HITYPE of (int(*0/1:non/ptr*), string)
+// end of [hitype]
+
+fun print_hitype (hse: hitype): void
+overload print with print_hitype
+fun prerr_hitype (hse: hitype): void
+overload prerr with prerr_hitype
+fun fprint_hitype : fprint_type (hitype)
 
 (* ****** ****** *)
 
+datatype
+hisexp_node =
+  | HSEextype of (string(*name*), hisexplstlst)
+// end of [hisexp_node]
+
+where hisexp = '{
+  hisexp_name= hitype, hisexp_node= hisexp_node
+} // end of [hisexp]
+
+and hisexplst = List (hisexp)
+and hisexpopt = Option (hisexp)
+and hisexplstlst = List (hisexplst)
+
 (* ****** ****** *)
 
-(* end of [pats_hidexp.dats] *)
+fun print_hisexp (hse: hisexp): void
+overload print with print_hisexp
+fun prerr_hisexp (hse: hisexp): void
+overload prerr with prerr_hisexp
+fun fprint_hisexp : fprint_type (hisexp)
+
+fun fprint_hisexplst : fprint_type (hisexplst)
+
+(* ****** ****** *)
+
+(* end of [pats_histaexp.sats] *)

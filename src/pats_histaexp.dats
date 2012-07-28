@@ -40,10 +40,10 @@ staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
-staload "pats_hisexp.sats"
+staload "pats_histaexp.sats"
 
 (* ****** ****** *)
 
 (* ****** ****** *)
 
-(* end of [pats_hisexp.dats] *)
+(* end of [pats_histaexp.dats] *)

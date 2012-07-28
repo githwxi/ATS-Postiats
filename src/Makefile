@@ -210,10 +210,11 @@ SOURCES := \
   pats_constraint3_simplify.dats \
   pats_constraint3_icnstr.dats \
   pats_constraint3_solve.dats \
-  pats_hisexp.sats \
-  pats_hisexp.dats \
-  pats_hidexp.sats \
-  pats_hidexp.dats \
+  pats_histaexp.sats \
+  pats_histaexp.dats \
+  pats_histaexp_print.dats \
+  pats_hidynexp.sats \
+  pats_hidynexp.dats \
   pats_comarg.sats \
   pats_comarg.dats \
 
@@ -400,10 +401,11 @@ OBJECTS := \
   pats_constraint3_simplify_dats.o \
   pats_constraint3_icnstr_dats.o \
   pats_constraint3_solve_dats.o \
-  pats_hisexp_sats.o \
-  pats_hisexp_dats.o \
-  pats_hidexp_sats.o \
-  pats_hidexp_dats.o \
+  pats_histaexp_sats.o \
+  pats_histaexp_dats.o \
+  pats_histaexp_print_dats.o \
+  pats_hidynexp_sats.o \
+  pats_hidynexp_dats.o \
   pats_comarg_sats.o \
   pats_comarg_dats.o \
 
@@ -948,17 +950,20 @@ pats_constraint3_icnstr_dats.o: pats_constraint3_icnstr_dats.c; $(ATSCC) $(ATSCC
 pats_constraint3_solve_dats.c: pats_constraint3_solve.dats; $(ATSCC) -cc $<
 pats_constraint3_solve_dats.o: pats_constraint3_solve_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
-pats_hisexp_sats.c: pats_hisexp.sats; $(ATSCC) -cc $<
-pats_hisexp_sats.o: pats_hisexp_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+pats_histaexp_sats.c: pats_histaexp.sats; $(ATSCC) -cc $<
+pats_histaexp_sats.o: pats_histaexp_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
-pats_hisexp_dats.c: pats_hisexp.dats; $(ATSCC) -cc $<
-pats_hisexp_dats.o: pats_hisexp_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+pats_histaexp_dats.c: pats_histaexp.dats; $(ATSCC) -cc $<
+pats_histaexp_dats.o: pats_histaexp_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
-pats_hidexp_sats.c: pats_hidexp.sats; $(ATSCC) -cc $<
-pats_hidexp_sats.o: pats_hidexp_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+pats_histaexp_print_dats.c: pats_histaexp_print.dats; $(ATSCC) -cc $<
+pats_histaexp_print_dats.o: pats_histaexp_print_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
-pats_hidexp_dats.c: pats_hidexp.dats; $(ATSCC) -cc $<
-pats_hidexp_dats.o: pats_hidexp_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+pats_hidynexp_sats.c: pats_hidynexp.sats; $(ATSCC) -cc $<
+pats_hidynexp_sats.o: pats_hidynexp_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_hidynexp_dats.c: pats_hidynexp.dats; $(ATSCC) -cc $<
+pats_hidynexp_dats.o: pats_hidynexp_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_comarg_sats.c: pats_comarg.sats; $(ATSCC) -cc $<
 pats_comarg_sats.o: pats_comarg_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<

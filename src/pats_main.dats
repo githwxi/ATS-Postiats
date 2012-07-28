@@ -261,8 +261,9 @@ dynload "pats_constraint3_simplify.dats"
 dynload "pats_constraint3_icnstr.dats"
 dynload "pats_constraint3_solve.dats"
 //
-dynload "pats_hisexp.dats"
-dynload "pats_hidexp.dats"
+dynload "pats_histaexp.dats"
+dynload "pats_histaexp_print.dats"
+dynload "pats_hidynexp.dats"
 //
 dynload "pats_comarg.dats"
 //
