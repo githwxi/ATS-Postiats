@@ -263,6 +263,8 @@ dynload "pats_constraint3_solve.dats"
 //
 dynload "pats_histaexp.dats"
 dynload "pats_histaexp_print.dats"
+dynload "pats_histaexp_funlab.dats"
+//
 dynload "pats_hidynexp.dats"
 //
 dynload "pats_comarg.dats"

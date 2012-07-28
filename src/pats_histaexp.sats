@@ -40,14 +40,30 @@ staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
+abstype funlab_type
+typedef funlab = funlab_type
+typedef funlablst = List (funlab)
+
+fun print_funlab (x: funlab): void
+overload print with print_funlab
+fun prerr_funlab (x: funlab): void
+overload prerr with prerr_funlab
+fun fprint_funlab : fprint_type (funlab)
+
+(* ****** ****** *)
+
+fun funlab_get_name (fl: funlab): string
+
+(* ****** ****** *)
+
 datatype
 hitype =
   | HITYPE of (int(*0/1:non/ptr*), string)
 // end of [hitype]
 
-fun print_hitype (hse: hitype): void
+fun print_hitype (x: hitype): void
 overload print with print_hitype
-fun prerr_hitype (hse: hitype): void
+fun prerr_hitype (x: hitype): void
 overload prerr with prerr_hitype
 fun fprint_hitype : fprint_type (hitype)
 
@@ -55,8 +71,31 @@ fun fprint_hitype : fprint_type (hitype)
 
 datatype
 hisexp_node =
+  | HSEfun of (* function type *)
+      (funclo, hisexplst(*arg*), hisexp(*res*))
+//
+  | HSEcfun of funlab // HX: for closure funs
+//
   | HSEextype of (string(*name*), hisexplstlst)
+//
+  | HSErefarg of (int(*refval*), hisexp)
+//
+  | HSEtyarr of (hisexp, s2explstlst)
+  | HSEtyrec of (int(*knd*), labhisexplst)
+  | HSEtyrecsin of (hisexp) // HX: singleton tyrec
+  | HSEtysum of (d2con, hisexplst)
+//
+  | HSEvararg of ((*variadic function argument*))
+(*
+  | HSEs2var of s2var_t
+  | HSEtyrectemp of (* boxed record type in template *)
+      (int(*fltboxknd*), labhityplst) (* knd: flt/box: 0/1 *)
+  | HSEtysumtemp of (* constructor type in template *)
+      (d2con_t, hityplst)
+*)
 // end of [hisexp_node]
+
+and labhisexp = HSLABELED of (label, Option(string), hisexp)
 
 where hisexp = '{
   hisexp_name= hitype, hisexp_node= hisexp_node
@@ -66,11 +105,13 @@ and hisexplst = List (hisexp)
 and hisexpopt = Option (hisexp)
 and hisexplstlst = List (hisexplst)
 
+and labhisexplst = List (hisexp)
+
 (* ****** ****** *)
 
-fun print_hisexp (hse: hisexp): void
+fun print_hisexp (x: hisexp): void
 overload print with print_hisexp
-fun prerr_hisexp (hse: hisexp): void
+fun prerr_hisexp (x: hisexp): void
 overload prerr with prerr_hisexp
 fun fprint_hisexp : fprint_type (hisexp)
 

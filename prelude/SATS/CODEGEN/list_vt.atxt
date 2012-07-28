@@ -265,6 +265,18 @@ list_vt_filterlin
 #atscode_separator()
 
 fun{
+a:vt0p
+} list_vt_app__fwork (x: &a): void
+fun{a:vt0p} list_vt_app (xs: !List_vt (a)): void
+
+fun{
+a:vt0p
+} list_vt_appfree__fwork (x: &a >> a?): void
+fun{a:vt0p} list_vt_appfree (xs: List_vt (a)): void
+
+#atscode_separator()
+
+fun{
 a:vt0p}{b:vt0p
 } list_vt_map__fwork (x: &a): b
 fun{

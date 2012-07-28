@@ -83,6 +83,7 @@ staload "pats_staexp2.sats"
 abstype d2cst_type
 typedef d2cst = d2cst_type
 typedef d2cstlst = List (d2cst)
+typedef d2cstopt = Option (d2cst)
 
 (* ****** ****** *)
 

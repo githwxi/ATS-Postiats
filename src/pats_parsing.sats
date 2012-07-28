@@ -144,6 +144,7 @@ parerr_node =
 //
   | PE_d0exp
   | PE_d0exp0
+  | PE_d0exp1
   | PE_atmd0exp
   | PE_labd0exp
 //

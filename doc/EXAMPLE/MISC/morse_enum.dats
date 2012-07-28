@@ -42,8 +42,8 @@ fun morse
 //
   fn go (n: Nat):<!laz> sstring = (
     case+ n of
-    | 0 => $delay (""  :: ($delay (nil)))
-    | 1 => $delay ("." :: ($delay (nil)))
+    | 0 => $delay (""  :: $delay (nil))
+    | 1 => $delay ("." :: $delay (nil))
     | n =>> let
         val add_dots   = stream_map_fun( morse( n-1 ), add_dot )
         val add_dashes = stream_map_fun( morse( n-2 ), add_dash )

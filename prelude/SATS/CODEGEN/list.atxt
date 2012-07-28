@@ -107,6 +107,38 @@ fprint_listlist_sep (
 
 #atscode_separator()
 
+(*
+//
+// HX: for testing macdef
+//
+macdef
+fprintlst_mac
+  {T:t@ype}(f, out, xs, sep) = let
+//
+val out = ,(out)
+val xs  = ,(xs)
+val sep = ,(sep)
+//
+fun loop (
+  xs: List(T), i: int
+) : void =
+  case+ xs of
+  | list_cons
+      (x, xs) => let
+      val () = if i > 0 then fprint_string (out, sep)
+      val () = ,(f) (out, x)
+    in
+      loop (xs, i+1)
+    end
+  | list_nil () => ()
+//
+in
+  loop (xs, 0)
+end // end of [fprintlst_mac]
+*)
+
+#atscode_separator()
+
 fun{}
 list_is_nil {x:t0p}{n:int} (xs: list (x, n)):<> bool (n==0)
 fun{}
@@ -436,6 +468,20 @@ x:t0p
 } list_labelize
   {n:int} (xs: list (INV(x), n)):<> list_vt (@(int, x), n)
 // end of [list_labelize]
+
+#atscode_separator()
+
+fun{x:t0p} list_app__fwork (x): void
+fun{x:t0p} list_app (xs: List (x)): void
+
+fun{
+x:t0p
+} list_app_funenv
+  {v:view}{vt:viewtype}{n:int}{fe:eff} (
+  pfv: !v |
+  xs: list (INV(x), n)
+, f: (!v | x, !vt) -<fun,fe> void, env: !vt
+) :<fe> void // end of [list_app_funenv]
 
 #atscode_separator()
 

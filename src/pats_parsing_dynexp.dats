@@ -1112,6 +1112,95 @@ end // end of [p_d0exp0]
 (* ****** ****** *)
 
 (*
+d0exp1 ::=
+  | d0exp0 {d0exp1}*
+  | DLRRAISE d0exp1 // done!
+  | DLRDELAY d0exp1 // done!
+*)
+fun p_d0exp1 (
+  buf: &tokbuf, bt: int, err: &int
+) : d0exp = let
+  val err0 = err
+  var ent: synent?
+  val n0 = tokbuf_get_ntok (buf)
+  val tok = tokbuf_get_token (buf)
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| _ when
+    ptest_fun (
+    buf, p_d0exp0, ent
+  ) => let
+    val bt = 0
+    val ent1 = synent_decode {d0exp} (ent)
+    val ent2 = pstar_fun {d0exp} (buf, bt, p_d0exp1)
+    fun loop (
+      x0: d0exp, xs: d0explst_vt
+    ) : d0exp =
+      case+ xs of
+      | ~list_vt_cons (x, xs) => let
+          val x0 = d0exp_app (x0, x) in loop (x0, xs)
+        end
+      | ~list_vt_nil () => x0
+    // end of [loop]
+  in
+    loop (ent1, ent2)
+  end
+//
+| T_DLREFFMASK () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = pif_fun (buf, bt, err, p_LBRACE, err0)
+    val ent3 = pif_fun (buf, bt, err, p_e0fftaglst, err0)
+    val ent4 = pif_fun (buf, bt, err, p_RBRACE, err0)
+    val ent5 = pif_fun (buf, bt, err, p_d0exp1, err0)
+  in
+    if err = err0 then
+      d0exp_effmask (tok, ent3, ent5) else tokbuf_set_ntok_null (buf, n0)
+    (* end of [if] *)
+  end
+| T_DLREFFMASK_ARG (knd) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_d0exp1 (buf, bt, err)
+  in
+    if err = err0 then
+      d0exp_effmask_arg (knd, tok, ent2) else tokbuf_set_ntok_null (buf, n0)
+    (* end of [if] *)
+  end
+//
+| T_DLRRAISE () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_d0exp1 (buf, bt, err)
+  in
+    if err = err0 then
+      d0exp_raise (tok, ent2) else tokbuf_set_ntok_null (buf, n0)
+    (* end of [if] *)
+  end
+| T_DLRDELAY (knd) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_d0exp1 (buf, bt, err)
+  in
+    if err = err0 then
+      d0exp_delay (knd, tok, ent2) else tokbuf_set_ntok_null (buf, n0)
+    (* end of [if] *)
+  end
+//
+| _ => let
+    val loc = tok.token_loc
+    val () = err := err + 1
+    val () = the_parerrlst_add_ifnbt (bt, loc, PE_d0exp1)
+  in
+    synent_null ()
+  end
+end // end of [p_d0exp1]
+
+(* ****** ****** *)
+
+(*
 i0nvarg ::= di0de COLON [s0exp]
 *)
 fun p_i0nvarg (
@@ -1546,20 +1635,17 @@ end // end of [p_initestpost]
 
 (*
 d0exp  :: =
-  | d0exp0 {
-      WHERE LBRACE d0ecseq_dyn RBRACE
-    }* // done!
-  | ifhead d0exp0 THEN d0exp [ELSE d0exp] // done!
-  | sifhead s0exp THEN d0exp ELSE d0exp // done!
-  | casehead d0exp0 OF c0lauseq // done!
-  | scasehead s0exp OF sc0lauseq // done!
-  | lamkind f0arg1seq colons0expopt funarrow d0exp // done!
-  | fixkind di0de f0arg1seq colons0expopt funarrow d0exp // done!
-  | forhead initestpost d0exp // done!
+  | d0exp1
+    {WHERE LBRACE d0ecseq_dyn RBRACE}*
+  | ifhead    d0exp1 THEN d0exp [ELSE d0exp] // done!
+  | sifhead   s0exp  THEN d0exp  ELSE d0exp  // done!
+  | casehead  d0exp1 OF c0lauseq  // done!
+  | scasehead s0exp  OF sc0lauseq // done!
+  | lamkind   f0arg1seq colons0expopt funarrow d0exp // done!
+  | fixkind   di0de f0arg1seq colons0expopt funarrow d0exp // done!
   | whilehead atmd0exp d0exp // done!
-  | DLRRAISE d0exp0 // done!
-  | DLRDELAY d0exp0 // done!
-  | tryhead d0expsemiseq WITH c0lauseq // done!
+  | forhead   initestpost d0exp // done!
+  | tryhead   d0expsemiseq WITH c0lauseq // done!
 *)
 
 fun p_d0exp_tok (
@@ -1573,7 +1659,7 @@ in
 case+ tok.token_node of
 | _ when
     ptest_fun (
-    buf, p_d0exp0, ent
+    buf, p_d0exp1, ent
   ) => let
     val d0e = synent_decode {d0exp} (ent)
   in
@@ -1585,7 +1671,7 @@ case+ tok.token_node of
   ) => let
     val bt = 0
     val ent1 = synent_decode {ifhead} (ent)
-    val ent2 = p_d0exp0 (buf, bt, err)
+    val ent2 = p_d0exp1 (buf, bt, err)
     val ent3 = pif_fun (buf, bt, err, p_THEN, err0)
     val ent4 = pif_fun (buf, bt, err, p_d0exp, err0)
     val ent5 = ptokentopt_fun {d0exp} (buf, is_ELSE, p_d0exp)
@@ -1618,7 +1704,7 @@ case+ tok.token_node of
   ) => let
     val bt = 0
     val ent1 = synent_decode {casehead} (ent)
-    val ent2 = p_d0exp0 (buf, bt, err)
+    val ent2 = p_d0exp1 (buf, bt, err)
     val ent3 = pif_fun (buf, bt, err, p_OF, err0)
     val ent4 = pif_fun (buf, bt, err, p_c0lauseq, err0)
   in
@@ -1678,20 +1764,6 @@ case+ tok.token_node of
 //
 | _ when
     ptest_fun (
-    buf, p_forhead, ent
-  ) => let
-    val bt = 0
-    val ent1 = synent_decode {loophead} (ent)
-    val ent2 = p_initestpost (buf, bt, err)
-    val ent3 = pif_fun (buf, bt, err, p_d0exp, err0)
-  in
-    if err = err0 then
-      d0exp_forhead (ent1, ent2, ent3) else synent_null ()
-    // end of [if]
-  end
-//
-| _ when
-    ptest_fun (
     buf, p_whilehead, ent
   ) => let
     val bt = 0
@@ -1704,44 +1776,17 @@ case+ tok.token_node of
     // end of [if]
   end
 //
-| T_DLRRAISE () => let
+| _ when
+    ptest_fun (
+    buf, p_forhead, ent
+  ) => let
     val bt = 0
-    val () = incby1 ()
-    val ent2 = p_d0exp0 (buf, bt, err)
+    val ent1 = synent_decode {loophead} (ent)
+    val ent2 = p_initestpost (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_d0exp, err0)
   in
     if err = err0 then
-      d0exp_raise (tok, ent2) else synent_null ()
-    // end of [if]
-  end
-| T_DLRDELAY (knd) => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = p_d0exp0 (buf, bt, err)
-  in
-    if err = err0 then
-      d0exp_delay (knd, tok, ent2) else synent_null ()
-    (* end of [if] *)
-  end
-//
-| T_DLREFFMASK () => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = pif_fun (buf, bt, err, p_LBRACE, err0)
-    val ent3 = pif_fun (buf, bt, err, p_e0fftaglst, err0)
-    val ent4 = pif_fun (buf, bt, err, p_RBRACE, err0)
-    val ent5 = pif_fun (buf, bt, err, p_atmd0exp, err0)
-  in
-    if err = err0 then
-      d0exp_effmask (tok, ent3, ent5) else synent_null ()
-    (* end of [if] *)
-  end
-| T_DLREFFMASK_ARG (knd) => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = p_atmd0exp (buf, bt, err)
-  in
-    if err = err0 then
-      d0exp_effmask_arg (knd, tok, ent2) else synent_null ()
+      d0exp_forhead (ent1, ent2, ent3) else synent_null ()
     // end of [if]
   end
 //

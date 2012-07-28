@@ -25,7 +25,7 @@
 //
 // HX-2012-06:
 // the style of this code reflects a bit history of ATS;
-// please leave it so when porting it.
+// please leave it so when porting the code.
 //
 (* ****** ****** *)
 

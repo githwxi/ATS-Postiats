@@ -141,6 +141,9 @@ stadef s0vararglst = $SYN.s0vararglst
 //
 stadef s0marglst = $SYN.s0marglst
 //
+stadef m0acarglst = $SYN.m0acarglst
+stadef m0acdeflst = $SYN.m0acdeflst
+//
 stadef f0arglst = $SYN.f0arglst
 stadef witht0ype = $SYN.witht0ype
 //
@@ -356,6 +359,9 @@ extern fun s0arglst_mark : fmark_type (s0arglst)
 extern fun s0vararglst_mark : fmark_type (s0vararglst)
 //
 extern fun s0marglst_mark : fmark_type (s0marglst)
+//
+extern fun m0acarglst_mark : fmark_type (m0acarglst)
+extern fun m0acdeflst_mark : fmark_type (m0acdeflst)
 //
 extern fun f0arglst_mark : fmark_type (f0arglst)
 extern fun witht0ype_mark : fmark_type (witht0ype)
@@ -1190,6 +1196,48 @@ end // end of [s0marglst_mark]
 (* ****** ****** *)
 
 implement
+m0acarglst_mark
+  (xs, res) = let
+in
+//
+case+ xs of
+| list_cons (x, xs) => (
+  case+ x.m0acarg_node of
+  | $SYN.M0ACARGsta (s0as) => let
+      val () = s0arglst_mark (s0as, res)
+    in
+      m0acarglst_mark (xs, res)
+    end
+  | $SYN.M0ACARGdyn (ids) => let
+      val loc = x.m0acarg_loc
+      val () = psynmark_ins_begend (SMdynexp, loc, res)
+    in
+      m0acarglst_mark (xs, res)
+    end
+  ) // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [m0acarglst_mark]
+
+implement
+m0acdeflst_mark
+  (ds, res) = let
+in
+//
+case+ ds of
+| list_cons (d, ds) => let
+    val () =
+      m0acarglst_mark (d.m0acdef_arg, res)
+    val () = d0exp_mark (d.m0acdef_def, res)
+  in
+    m0acdeflst_mark (ds, res)
+  end // end of [list_cons]
+| list_nil () => ()
+end // end of [m0acdeflst_mark]
+
+(* ****** ****** *)
+
+implement
 f0arglst_mark
   (xs, res) = let
 in
@@ -1396,6 +1444,7 @@ case+ d0c0.d0ecl_node of
 | $SYN.D0Cmacdefs
     (knd, isrec, decs) => let
     val () = psynmark_ins_beg (SMdynexp, loc0, res)
+    val () = m0acdeflst_mark (decs, res)
     val () = psynmark_ins_end (SMdynexp, loc0, res)
   in
     // nothing

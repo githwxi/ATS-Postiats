@@ -414,11 +414,29 @@ implemented by #dyncode("list_vt_foreach__cont") returns false.  ")
 
 (* ****** ****** *)
 
+#declnamesynop("list_vt_app__fwork")
+#declnamesynop("list_vt_app")
+
+#declnamesynop("list_vt_appfree__fwork")
+#declnamesynop("list_vt_appfree")
+#decldescrpt("\
+
+This function is similar to #dyncode("list_vt_app"). However, it frees each
+list node after applying to the node the function implemented by
+#dyncode("list_vt_appfree__fwork").  ")
+
+(* ****** ****** *)
+
 #declnamesynop("list_vt_map__fwork")
 #declnamesynop("list_vt_map")
 
 #declnamesynop("list_vt_mapfree__fwork")
 #declnamesynop("list_vt_mapfree")
+#decldescrpt("\
+
+This function is similar to #dyncode("list_vt_map"). However, it frees each
+list node after applying to the node the function implemented by
+#dyncode("list_vt_mapfree__fwork"). ")
 
 (* ****** ****** *)
 

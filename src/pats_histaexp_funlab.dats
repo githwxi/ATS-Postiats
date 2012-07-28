@@ -32,8 +32,13 @@
 //
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
-staload _(*anon*) = "pats_utils.dats"
+staload
+STAMP = "pats_stamp.sats"
+typedef stamp = $STAMP.stamp
+
+(* ****** ****** *)
+
+staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 
@@ -41,59 +46,45 @@ staload "pats_histaexp.sats"
 
 (* ****** ****** *)
 
+typedef
+funlab_struct = @{
+  funlab_name= string
+, funlab_level= int
+, funlab_type= hitype (* function type *)
+, funlab_qopt= d2cstopt (* local or global *)
+, funlab_stamp= stamp
+} // end of [funlab_struct]
+
+(* ****** ****** *)
+
+local
+
+assume funlab_type = ref (funlab_struct)
+
+in // in of [local]
+
 implement
-fprint_hisexp
-   (out, hse) = let
-//
-macdef prstr (s) = fprint_string (out, ,(s))
-//
+funlab_get_name (fl) = let
+  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_name
+end // end of [funlab_get_name]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+fprint_funlab
+  (out, fl) = let
+  val name = funlab_get_name (fl)
 in
-//
-case+
-  hse.hisexp_node of
-| HSEfun (
-    fc, _arg, _res
-  ) => {
-    val () = prstr "HSEfun("
-    val () = fprint_hisexplst (out, _arg)
-    val () = prstr "; "
-    val () = fprint_hisexp (out, _res)
-    val () = prstr ")"
-  } // end of [HSEfun]
-| HSEcfun (fl) => {
-    val () = prstr "HSEcfun("
-    val () = fprint_funlab (out, fl)
-    val () = prstr ")"
-  } // end of [HSEcfun]
-| HSEextype
-    (name, hsess) => {
-    val () = prstr "HSEextype("
-    val () = $UT.fprintlst (out, hsess, "; ", fprint_hisexplst)
-    val () = prstr ")"
-  } // end of [HSEextype]
-//
-| HSErefarg
-    (refval, hse) => {
-    val () = prstr "HSErefarg("
-    val () = fprint_int (out, refval)
-    val () = prstr "; "
-    val () = fprint_hisexp (out, hse)
-    val () = prstr ")"
-  } // end of [HSErefarg]
-//
-| _ => {
-    val () = prstr "HSE...(...)"
-  }
-//
-end // end of [fprint_hisexp]
-
-(* ****** ****** *)
+  fprint_string (out, name)
+end // end of [fprint_funlab]
 
 implement
-fprint_hisexplst
-  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_hisexp)
-// end of [fprint_hisexplst]
+print_funlab (fl) = fprint_funlab (stdout_ref, fl)
+implement
+prerr_funlab (fl) = fprint_funlab (stderr_ref, fl)
 
 (* ****** ****** *)
 
-(* end of [pats_histaexp_print.dats] *)
+(* end of [pats_histaexp_funlab.dats] *)

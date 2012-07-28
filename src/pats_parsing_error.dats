@@ -307,6 +307,7 @@ case+ node of
 | PE_tmpqi0de () => SN (x, "tmpqi0de")
 | PE_impqi0de () => SN (x, "tmpqi0de")
 | PE_d0exp0 () => SN (x, "d0exp0")
+| PE_d0exp1 () => SN (x, "d0exp1")
 | PE_atmd0exp () => SN (x, "atmd0exp")
 | PE_labd0exp () => SN (x, "labd0exp")
 //

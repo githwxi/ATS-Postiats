@@ -270,6 +270,14 @@ end // end of [main]
 
 (* ****** ****** *)
 
+%{
+(*
+#declnamesynop("fprintlst_mac")
+*)
+%}
+
+(* ****** ****** *)
+
 #declnamesynop("list_append")
 #decldescrpt('\
 
@@ -707,6 +715,11 @@ refers to element i in xs. The implementation of this function in ATSLIB
 is tail-recursive.
 
 ')
+
+(* ****** ****** *)
+
+#declnamesynop("list_app__fwork")
+#declnamesynop("list_app")
 
 (* ****** ****** *)
 

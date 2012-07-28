@@ -647,7 +647,123 @@ val () = loop (xs)
 //
 in
   xs
-end // end of [list_vt_filter]
+end // end of [list_vt_filterlin]
+
+#atscode_separator()
+
+implement{a}
+list_vt_app
+  (xs) = let
+in
+//
+case+ xs of
+| @list_vt_cons
+    (x, xs1) => let
+    val () =
+      list_vt_app__fwork<a> (x)
+    val () = list_vt_app<a> (xs1)
+    prval () = fold@ (xs)
+  in
+    // nothing
+  end
+| list_vt_nil () => ()
+//
+end // end of [list_vt_app]
+
+implement{a}
+list_vt_appfree
+  (xs) = let
+in
+//
+case+ xs of
+| @list_vt_cons
+    (x, xs1) => let
+    val xs1 = xs1
+    val () = list_vt_appfree__fwork<a> (x)
+    val () = free@ {a}{0} (xs)
+  in
+    list_vt_appfree<a> (xs1)
+  end
+| ~list_vt_nil () => ()
+//
+end // end of [list_vt_appfree]
+
+#atscode_separator()
+
+implement
+{a}{b}
+list_vt_map
+  (xs) = let
+//
+prval () = lemma_list_vt_param (xs)
+//
+fun loop
+  {n:nat} .<n>. (
+  xs: !list_vt (a, n)
+, res: &ptr? >> list_vt (b, n)
+) : void = let
+in
+  case+ xs of
+  | @list_vt_cons
+      (x, xs1) => let
+      val y =
+        list_vt_map__fwork<a><b> (x)
+      // end of [val]
+      val () = res := list_vt_cons {b}{0} (y, _)
+      val+ list_vt_cons (_, res1) = res
+      val () = loop (xs1, res1)
+      val () = fold@ (xs)
+      prval () = fold@ (res)
+    in
+      // nothing
+    end // end of [list_vt_cons]
+  | list_vt_nil () => (res := list_vt_nil ())
+end // end of [loop]
+//
+var res: ptr
+val () = loop (xs, res)
+//
+in
+  res
+end // end of [list_vt_map]
+
+implement
+{a}{b}
+list_vt_mapfree
+  (xs) = let
+//
+prval () = lemma_list_vt_param (xs)
+//
+fun loop
+  {n:nat} .<n>. (
+  xs: list_vt (a, n)
+, res: &ptr? >> list_vt (b, n)
+) : void = let
+in
+  case+ xs of
+  | @list_vt_cons
+      (x, xs1) => let
+      val xs1 = xs1
+      val y =
+        list_vt_mapfree__fwork<a><b> (x)
+      // end of [val]
+      val () = free@ {a}{0} (xs)
+      val () = res := list_vt_cons {b}{0} (y, _)
+      val+ list_vt_cons (_, res1) = res
+      val () = loop (xs1, res1)
+      prval () = fold@ (res)
+    in
+      // nothing
+    end // end of [list_vt_cons]
+  | ~list_vt_nil () => (res := list_vt_nil ())
+end // end of [loop]
+//
+var res: ptr
+val () = loop (xs, res)
+//
+in
+  res
+end // end of [list_vt_mapfree]
 
 #atscode_separator()
 
