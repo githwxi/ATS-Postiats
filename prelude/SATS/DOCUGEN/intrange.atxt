@@ -62,7 +62,7 @@ viewtypedef env = List0_vt (a)
 //
 implement
 intrange_foreach__fwork<env>
-  (_, env) = env := list_vt_cons ($R.randgen<a> (), env)
+  (_, env) = env := list_vt_cons ($R.randgen_val<a> (), env)
 // end of [intrange_foreach__fwork]
 //
 var res: env = list_vt_nil ()

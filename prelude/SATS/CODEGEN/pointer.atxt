@@ -165,7 +165,9 @@ overload <> with neq_ptr0_intz of 0
 
 #atscode_separator()
 
-fun fprint_ptr (out: FILEref, p: ptr): void
+fun fprint_ptr
+  (out: FILEref, p: ptr): void = "mac\#atspre_fprint_ptr"
+// end of [fprint_ptr]
 
 #atscode_separator()
 

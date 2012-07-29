@@ -105,6 +105,16 @@ end // end of [fun_pointer_cmp0_decl]
 #fun_pointer_cmp0_decl("eq")
 #fun_pointer_cmp0_decl("neq")
 
+ATSinline()
+atstype_int
+atspre_compare_ptr_ptr (
+  atstype_ptr p1, atstype_ptr p2
+) {
+  if (p1 >= p2) {
+    if (p1 > p2) return 1 ; else return 0 ;
+  } else return (-1) ;
+} // end of [atspre_compare_ptr_ptr]
+
 #atscode_separator_for_C()
 
 ATSinline()
@@ -119,16 +129,6 @@ atspre_fprint_ptr (
 
 \#define atspre_print_ptr(x) atspre_fprint_ptr(stdout_ref, (x))
 \#define atspre_prerr_ptr(x) atspre_fprint_ptr(stderr_ref, (x))
-
-#atscode_separator_for_C()
-
-\#define lt_ptr1_ptr1 lt_ptr_ptr
-\#define lte_ptr1_ptr1 lte_ptr_ptr
-\#define gt_ptr1_ptr1 gt_ptr_ptr
-\#define gte_ptr1_ptr1 gte_ptr_ptr
-\#define eq_ptr1_ptr1 eq_ptr_ptr
-\#define neq_ptr1_ptr1 neq_ptr_ptr
-\#define compare_ptr1_ptr1 compare_ptr_ptr
 
 #atscode_separator_for_C()
 

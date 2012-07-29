@@ -9,8 +9,8 @@ test:: libc
 test:: libats
 test:: libats_ML
 
-#test:: cairo
-test:: atshwxi
+test:: contrib_cairo
+test:: contrib_atshwxi
 
 test:: fact2
 test:: revarr
@@ -102,18 +102,18 @@ libats_ML:: ; ./patsopt -d $(PATSHOME)/libats/ML/DATS/string.dats
 
 ######
 
-cairo:: ; ./patsopt -s $(PATSHOME)/contrib/cairo/SATS/cairo.sats
+contrib_cairo:: ; ./patsopt -s $(PATSHOME)/contrib/cairo/SATS/cairo.sats
 
-atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foreach.sats
-atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/SATS/foreach.dats
-atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foldleft.sats
-atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/foldleft.dats
-atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/fprint.sats
-atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/fprint.dats
-atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/tfprint.sats
-atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/tfprint.dats
-atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/randgen.sats
-atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/randgen.dats
+contrib_atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foreach.sats
+contrib_atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/SATS/foreach.dats
+contrib_atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foldleft.sats
+contrib_atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/foldleft.dats
+contrib_atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/fprint.sats
+contrib_atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/fprint.dats
+contrib_atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/tfprint.sats
+contrib_atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/tfprint.dats
+contrib_atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/randgen.sats
+contrib_atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/randgen.dats
 
 ######
 

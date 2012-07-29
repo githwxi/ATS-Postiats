@@ -4,30 +4,29 @@
 
 (* ****** ****** *)
 
-staload F =
-"contrib/atshwxi/testing/SATS/foreach.sats"
-// end of [staload]
-
-(* ****** ****** *)
-
 staload
 "contrib/atshwxi/testing/SATS/randgen.sats"
 // end of [staload]
 
 (* ****** ****** *)
+
+implement{a}
+randgen_ref (x) = x := randgen_val<a> ()
+
+(* ****** ****** *)
 //
-implement randgen<int> () = 0
-implement randgen<uint> () = 0u
+implement randgen_val<int> () = 0
+implement randgen_val<uint> () = 0u
 //
-implement randgen<lint> () = 0l
-implement randgen<ulint> () = 0ul
+implement randgen_val<lint> () = 0l
+implement randgen_val<ulint> () = 0ul
 //
-implement randgen<llint> () = 0ll
-implement randgen<ullint> () = 0ull
+implement randgen_val<llint> () = 0ll
+implement randgen_val<ullint> () = 0ull
 //
-implement randgen<float> () = 0.0f
-implement randgen<double> () = 0.0
-implement randgen<ldouble> () = 0.0l
+implement randgen_val<float> () = 0.0f
+implement randgen_val<double> () = 0.0
+implement randgen_val<ldouble> () = 0.0l
 //
 (* ****** ****** *)
 
@@ -43,7 +42,7 @@ randgen_list
       val () = res :=
         list_vt_cons{a}{0} (_, _)
       val+ list_vt_cons (x, res1) = res
-      val () = x := randgen<a> ()
+      val () = randgen_ref<a> (x)
       val () = loop (pred (n), res1)
     in
       fold@ (res)
@@ -56,23 +55,18 @@ randgen_list
 (* ****** ****** *)
 
 implement{a}
-randgen_array (A, n) = let
-//
-implement
-$F.iforeach_array_init__fwork<a> (_, x) = x := randgen<a> ()
-//
-in
-  $F.iforeach_array_init<a> (A, n)
-end // end of [randgen_array]
-
-implement{a}
 randgen_arrayptr
   (n) = A where {
-  val A = arrayptr_make_uninitized<a> (n)
-  val p = ptrcast (A)
-  prval pf = arrayptr_takeout (A)
-  val () = randgen_array (!p, n)
-  prval () = arrayptr_addback (pf | A)
+//
+val A = arrayptr_make_uninitized<a> (n)
+//
+implement
+array_initize__init<a> (_, x) = randgen_ref<a> (x)
+//
+prval pf = arrayptr_takeout (A)
+val () = array_initize<a> (!(ptrcast(A)), n)
+prval () = arrayptr_addback (pf | A)
+//
 } // end of [randgen_arrayptr]
 
 (* ****** ****** *)

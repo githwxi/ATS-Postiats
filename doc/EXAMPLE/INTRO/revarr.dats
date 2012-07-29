@@ -35,9 +35,6 @@ staload "contrib/atshwxi/testing/SATS/tfprint.sats"
 (* ****** ****** *)
 
 implement
-randgen<int> () = 0
-
-implement
 main (argc, argv) = let
   val asz = g1int2uint (10)
   val A = randgen_arrayptr (asz)
