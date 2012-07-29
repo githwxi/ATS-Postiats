@@ -37,7 +37,24 @@ staload _(*anon*) = "pats_utils.dats"
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
+staload LAB = "pats_label.sats"
+
+(* ****** ****** *)
+
+staload "pats_staexp2.sats"
+
+(* ****** ****** *)
+
 staload "pats_histaexp.sats"
+
+(* ****** ****** *)
+
+extern
+fun fprint_labhisexp : fprint_type (labhisexp)
 
 (* ****** ****** *)
 
@@ -81,11 +98,57 @@ case+
     val () = prstr ")"
   } // end of [HSErefarg]
 //
+| HSEtyarr
+    (hse, dim) => {
+    val () = prstr "HSEtyarr("
+    val () = fprint_hisexp (out, hse)
+    val () = prstr "; "
+    val () = $UT.fprintlst (out, dim, "; ", fprint_s2explst)
+    val () = prstr ")"
+  } // end of [HSEtyarr]
+//
+| HSEtyrec
+    (recknd, lhses) => {
+    val () = prstr "HSEtyrec("
+    val () = fprint_int (out, recknd)
+    val () = prstr "; "
+    val () = $UT.fprintlst (out, lhses, ", ", fprint_labhisexp)
+    val () = prstr ")"
+  } // end of [HSEtyrec]
+| HSEtyrecsin
+    (hse) => {
+    val () = prstr "HSEtyrecsin("
+    val () = fprint_hisexp (out, hse)
+    val () = prstr ")"
+  }
+//
+| HSEtysum (d2c, hses) => {
+    val () = prstr "HSEtysum("
+    val () = fprint_d2con (out, d2c)
+    val () = prstr "; "
+    val () = fprint_hisexplst (out, hses)
+    val () = prstr ")"
+  } // end of [HSEtysum]
+//
 | _ => {
     val () = prstr "HSE...(...)"
   }
 //
 end // end of [fprint_hisexp]
+
+(* ****** ****** *)
+
+implement
+fprint_labhisexp
+  (out, lx) = let
+  val HSLABELED (l, _, x) = lx
+  val () =
+    $LAB.fprint_label (out, l)
+  val () = fprint_string (out, "=")
+  val () = fprint_hisexp (out, x)
+in
+  // nothing
+end // end of [fprint_labhisexp]
 
 (* ****** ****** *)
 

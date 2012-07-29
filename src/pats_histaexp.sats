@@ -52,10 +52,6 @@ fun fprint_funlab : fprint_type (funlab)
 
 (* ****** ****** *)
 
-fun funlab_get_name (fl: funlab): string
-
-(* ****** ****** *)
-
 datatype
 hitype =
   | HITYPE of (int(*0/1:non/ptr*), string)
@@ -66,6 +62,13 @@ overload print with print_hitype
 fun prerr_hitype (x: hitype): void
 overload prerr with prerr_hitype
 fun fprint_hitype : fprint_type (hitype)
+
+(* ****** ****** *)
+
+fun funlab_get_name (fl: funlab): string
+fun funlab_get_level (fl: funlab): int
+fun funlab_get_type (fl: funlab): hitype
+fun funlab_get_stamp (fl: funlab): stamp
 
 (* ****** ****** *)
 
@@ -105,7 +108,7 @@ and hisexplst = List (hisexp)
 and hisexpopt = Option (hisexp)
 and hisexplstlst = List (hisexplst)
 
-and labhisexplst = List (hisexp)
+and labhisexplst = List (labhisexp)
 
 (* ****** ****** *)
 

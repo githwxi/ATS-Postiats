@@ -68,6 +68,21 @@ funlab_get_name (fl) = let
   val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_name
 end // end of [funlab_get_name]
 
+implement
+funlab_get_level (fl) = let
+  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_level
+end // end of [funlab_get_level]
+
+implement
+funlab_get_type (fl) = let
+  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_type
+end // end of [funlab_get_type]
+
+implement
+funlab_get_stamp (fl) = let
+  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_stamp
+end // end of [funlab_get_stamp]
+
 end // end of [local]
 
 (* ****** ****** *)

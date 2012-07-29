@@ -299,13 +299,15 @@ case+ node of
 | PE_guap0at () => SN (x, "guap0at")
 | PE_c0lau () => SN (x, "c0lau")
 //
-| PE_d0exp () => SN (x, "d0exp")
 | PE_di0de () => SN (x, "di0de")
 | PE_d0ynq () => SN (x, "d0ynq")
 | PE_dqi0de () => SN (x, "dqi0de")
+//
 | PE_arrqi0de () => SN (x, "arrqi0de")
 | PE_tmpqi0de () => SN (x, "tmpqi0de")
 | PE_impqi0de () => SN (x, "tmpqi0de")
+//
+| PE_d0exp () => SN (x, "d0exp")
 | PE_d0exp0 () => SN (x, "d0exp0")
 | PE_d0exp1 () => SN (x, "d0exp1")
 | PE_atmd0exp () => SN (x, "atmd0exp")
