@@ -170,6 +170,10 @@ eval1_type (a:type) =
   (location(*loc0*), !evalctx, &alphenv, a) -> a
 // end of [eval1_type]
 
+fun eval1_listmap {a:type}{n:int} (
+  loc0: location, ctx: !evalctx, env: &alphenv, xs: list(a, n), f: eval1_type (a)
+) : list (a, n) // end of [eval1_listmap]
+
 fun eval1_d2exp : eval1_type (d2exp)
 
 (* ****** ****** *)

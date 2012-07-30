@@ -78,7 +78,7 @@ fprintopt (
 
 (* ****** ****** *)
 //
-abstype lstord (a: type) // HX: for ordered lists
+abstype lstord (a:type) // HX: for ordered lists
 //
 fun lstord_nil {a:type} (): lstord (a)
 fun lstord_sing {a:type} (x: a): lstord (a)

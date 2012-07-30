@@ -53,21 +53,13 @@ end // end of [foreach_size]
 implement{a}
 foreach_list (xs) = let
 //
-fun loop
-  {n:nat} .<n>. (
-  xs: list (a, n)
-) : void =
-  case+ xs of
-  | list_cons (x, xs) => let
-      val () =
-        foreach_list__fwork<a> (x) in loop (xs)
-      // end of [val]
-    end // end of [list_cons]
-  | list_nil () => ()
-(* end of [loop] *)
+implement(env)
+list_foreach__cont<a><env> (x, env) = true
+implement(env)
+list_foreach__fwork<a><env> (x, env) = foreach_list__fwork<a> (x)
 //
 in
-  loop (xs)
+  list_foreach<a> (xs)
 end // end of [foreach_list]
 
 (* ****** ****** *)
@@ -75,23 +67,13 @@ end // end of [foreach_list]
 implement{a}
 iforeach_list (xs) = let
 //
-fun loop
-  {n:nat} .<n>. (
-  xs: list (a, n), i: int
-) : void =
-  case+ xs of
-  | list_cons (x, xs) => let
-      val () =
-        iforeach_list__fwork<a> (i, x)
-      // end of [val]
-    in
-      loop (xs, succ(i))
-    end // end of [list_cons]
-  | list_nil () => ()
-(* end of [loop] *)
+implement(env)
+list_iforeach__cont<a><env> (i, x, env) = true
+implement(env)
+list_iforeach__fwork<a><env> (i, x, env) = iforeach_list__fwork<a> (i, x)
 //
 in
-  loop (xs, 0)
+  ignoret (list_iforeach<a> (xs))
 end // end of [iforeach_list]
 
 (* ****** ****** *)
@@ -99,25 +81,13 @@ end // end of [iforeach_list]
 implement{a}
 foreach_list_vt (xs) = let
 //
-fun loop
-  {n:nat} .<n>. (
-  xs: !list_vt (a, n)
-) : void =
-  case+ xs of
-  | @list_vt_cons
-      (x, xs1) => let
-      val () =
-        foreach_list_vt__fwork<a> (x)
-      val () = loop (xs1)
-      prval () = fold@ (xs)
-    in
-      // nothing
-    end // end of [list_vt_cons]
-  | list_vt_nil () => ()
-(* end of [loop] *)
+implement(env)
+list_vt_foreach__cont<a><env> (x, env) = true
+implement(env)
+list_vt_foreach__fwork<a><env> (x, env) = foreach_list_vt__fwork<a> (x)
 //
 in
-  loop (xs)
+  list_vt_foreach<a> (xs)
 end // end of [foreach_list_vt]
 
 (* ****** ****** *)
@@ -125,24 +95,13 @@ end // end of [foreach_list_vt]
 implement{a}
 iforeach_list_vt (xs) = let
 //
-fun loop
-  {n:nat} .<n>. (
-  xs: !list_vt (a, n), i: int
-) : void =
-  case+ xs of
-  | @list_vt_cons (x, xs1) => let
-      val () =
-        iforeach_list_vt__fwork<a> (i, x)
-      val () = loop (xs1, succ(i))
-      prval () = fold@ (xs)
-    in
-      // nothing
-    end // end of [list_vt_cons]
-  | list_vt_nil () => ()
-(* end of [loop] *)
+implement(env)
+list_vt_iforeach__cont<a><env> (i, x, env) = true
+implement(env)
+list_vt_iforeach__fwork<a><env> (i, x, env) = iforeach_list_vt__fwork<a> (i, x)
 //
 in
-  loop (xs, 0)
+  ignoret (list_vt_iforeach<a> (xs))
 end // end of [iforeach_list_vt]
 
 (* ****** ****** *)
@@ -150,105 +109,34 @@ end // end of [iforeach_list_vt]
 implement{a}
 foreach_array (A, n) = let
 //
-prval () = lemma_array_param (A)
-//
-fun loop
-  {l:addr}
-  {n:nat} .<n>. (
-  pf: !array_v (a, l, n) | p: ptr l, n: size_t n
-) : void =
-  if n > 0 then let
-    prval (pf1, pf2) = array_v_uncons (pf)
-    val () = foreach_array__fwork<a> (!p)
-    val () = loop (pf2 | ptr1_add_int<a> (p, 1), pred(n))
-    prval () = pf := array_v_cons (pf1, pf2)
-  in
-    // nothing
-  end // end of [if]
-(* end of [loop] *)
+implement(env)
+array_foreach__cont<a><env> (x, env) = true
+implement(env)
+array_foreach__fwork<a><env> (x, env) = foreach_array__fwork<a> (x)
 //
 in
-  loop (view@(A) | addr@(A), n)
+  ignoret (array_foreach<a> (A, n))
 end // end of [foreach_array]
 
 (* ****** ****** *)
 
 implement{a}
-iforeach_array {n0} (A, n0) = let
+iforeach_array (A, n) = let
 //
-prval () = lemma_array_param (A)
+typedef tenv = size_t
 //
-fun loop
-  {l:addr}
-  {n:nat} .<n>. (
-  pf: !array_v (a, l, n)
-| p: ptr l, n: size_t n, i: size_t
-) : void =
-  if n > 0 then let
-    prval (
-      pf1, pf2
-    ) = array_v_uncons (pf)
-    val () = iforeach_array__fwork<a> (i, !p)
-    val () = loop (pf2 | ptr1_add_int<a> (p, 1), pred(n), succ(i))
-    prval () = pf := array_v_cons (pf1, pf2)
-  in
-    // nothing
-  end // end of [if]
-(* end of [loop] *)
+implement
+array_foreach__cont<a><tenv> (x, env) = true
+implement(env)
+array_foreach__fwork<a><tenv> (x, env) = let
+  val i = env; val () = env := succ (i) in iforeach_array__fwork<a> (i, x)
+end // end of [array_foreach__fwork]
+//
+var env: tenv = g1int2uint (0)
 //
 in
-  loop (view@(A) | addr@(A), n0, $UN.cast2size(0))
+  ignoret (array_foreach_env<a><tenv> (A, n, env))
 end // end of [iforeach_array]
-
-(* ****** ****** *)
-
-implement{a}
-iforeach_array_init
-  {n0} (A, n0) = let
-//
-implement
-iforeach_array__fwork<a> (i, x) = let
-  prval () = __assert (view@(x)) where {
-    extern praxi __assert {l:addr} (pf: !a@l >> (a?)@l): void
-  } // end of [prval]
-in
-  iforeach_array_init__fwork (i, x)
-end // end of [iforeach_array__fwork]
-//
-val () = let
-  extern praxi __assert
-    {l:addr} (pf: !array_v (a?, l, n0) >> array_v (a, l, n0)): void
-  // end of [__assert]
-in
-  __assert (view@ (A))
-end // end of [let] // end of [val]
-//
-in
-  iforeach_array (A, n0)
-end // end of [iforeach_array_init]
-
-(* ****** ****** *)
-
-implement{a}
-iforeach_array_clear
-  {n0} (A, n0) = let
-//
-implement
-iforeach_array__fwork<a> (i, x) = let
-  val () = iforeach_array_clear__fwork (i, x)
-  extern praxi __assert {l:addr} (pf: !(a?)@l >> a@l): void
-in
-  __assert (view@(x))
-end // end of [iforeach_array__fwork]
-//
-val () = iforeach_array (A, n0)
-//
-extern praxi __assert
-  {l:addr} (pf: !array_v (a, l, n0) >> array_v (a?, l, n0)): void
-// end of [__assert]
-in
-  __assert (view@ (A))
-end // end of [iforeach_array_clear]
 
 (* ****** ****** *)
 
@@ -306,7 +194,7 @@ fun loop
 in
   if test then let
     val p = $IT.iter_getref_inc (itr)
-    prval (pf, fpf) = $UN.ptr_vget {x} (p)
+    prval (pf, fpf) = $UN.ptr_vtake {x} (p)
     val () = foreach_literator__fwork (!p)
     prval () = fpf (pf)
   in

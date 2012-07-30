@@ -212,7 +212,7 @@ end // end of [float_get_nsfx]
 
 local
 
-assume lstord (a: type) = List (a)
+assume lstord (a:type) = List (a)
 
 in // in of [local]
 

@@ -54,22 +54,6 @@ iforeach_array
 
 (* ****** ****** *)
 
-fun{a:vt0p}
-iforeach_array_init__fwork (i: size_t, x: &a? >> a): void
-fun{a:vt0p}
-iforeach_array_init
-  {n:int} (A: &(@[a?][n]) >> @[a][n], asz: size_t n) : void
-// end of [iforeach_array_init]
-
-fun{a:vt0p}
-iforeach_array_clear__fwork (i: size_t, x: &a >> a?): void
-fun{a:vt0p}
-iforeach_array_clear
-  {n:int} (A: &(@[a][n]) >> @[a?][n], asz: size_t n) : void
-// end of [iforeach_array_clear]
-
-(* ****** ****** *)
-
 sortdef tk = tkind
 
 (* ****** ****** *)

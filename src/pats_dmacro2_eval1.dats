@@ -72,6 +72,9 @@ extern fun eval1_s2expopt : eval1_type (s2expopt)
 extern fun eval1_s2exparg : eval1_type (s2exparg)
 extern fun eval1_s2exparglst : eval1_type (s2exparglst)
 //
+extern fun eval1_t2mpmarg : eval1_type (t2mpmarg)
+extern fun eval1_t2mpmarglst : eval1_type (t2mpmarglst)
+//
 (* ****** ****** *)
 //
 extern fun eval1_p2at : eval1_type (p2at)
@@ -109,6 +112,25 @@ extern fun eval1_d2eclist : eval1_type (d2eclist)
 (* ****** ****** *)
 
 implement
+eval1_listmap
+  (loc0, ctx, env, xs, f) = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val x = f (loc0, ctx, env, x)
+    val xs = eval1_listmap (loc0, ctx, env, xs, f)
+  in
+    list_cons (x, xs)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [eval1_listmap]
+
+(* ****** ****** *)
+
+implement
 eval1_s2exp (
   loc0, ctx, env, s2e
 ) = let
@@ -127,22 +149,8 @@ in
 end // end of [eval1_s2exp]
 
 implement
-eval1_s2explst (
-  loc0, ctx, env, s2es
-) = let
-in
-//
-case+ s2es of
-| list_cons
-    (s2e, s2es) => let
-    val s2e = eval1_s2exp (loc0, ctx, env, s2e)
-    val s2es = eval1_s2explst (loc0, ctx, env, s2es)
-  in
-    list_cons (s2e, s2es)
-  end // end of [list_cons]
-| list_nil () => list_nil()
-//
-end // end of [eval1_s2explst]
+eval1_s2explst (loc0, ctx, env, s2es) =
+  eval1_listmap (loc0, ctx, env, s2es, eval1_s2exp)
 
 implement
 eval1_s2expopt
@@ -173,20 +181,23 @@ end // end of [eval1_s2exparg]
 implement
 eval1_s2exparglst (
   loc0, ctx, env, s2as
+) = eval1_listmap (loc0, ctx, env, s2as, eval1_s2exparg)
+
+(* ****** ****** *)
+
+implement
+eval1_t2mpmarg (
+  loc0, ctx, env, t2ma
 ) = let
+  val s2es = eval1_s2explst (loc0, ctx, env, t2ma.t2mpmarg_arg)
 in
-//
-case+ s2as of
-| list_cons
-    (s2a, s2as) => let
-    val s2a = eval1_s2exparg (loc0, ctx, env, s2a)
-    val s2as = eval1_s2exparglst (loc0, ctx, env, s2as)
-  in
-    list_cons (s2a, s2as)
-  end // end of [list_cons]
-| list_nil () => list_nil()
-//
-end // end of [eval1_s2exparglst]
+  t2mpmarg_make (loc0, s2es)
+end // end of [eval1_t2mpmarg]
+
+implement
+eval1_t2mpmarglst (
+  loc0, ctx, env, t2mas
+) = eval1_listmap (loc0, ctx, env, t2mas, eval1_t2mpmarg)
 
 (* ****** ****** *)
 
@@ -241,20 +252,9 @@ end // end of [eval1_p2at]
 (* ****** ****** *)
 
 implement
-eval1_p2atlst
-  (loc0, ctx, env, p2ts) = let
-in
-//
-case+ p2ts of
-| list_cons (p2t, p2ts) => let
-    val p2t = eval1_p2at (loc0, ctx, env, p2t)
-    val p2ts = eval1_p2atlst (loc0, ctx, env, p2ts)
-  in
-    list_cons (p2t, p2ts)
-  end
-| list_nil () => list_nil ()
-//
-end // end of [eval1_p2atlst]
+eval1_p2atlst (
+  loc0, ctx, env, p2ts
+) = eval1_listmap (loc0, ctx, env, p2ts, eval1_p2at)
 
 (* ****** ****** *)
 
@@ -274,20 +274,9 @@ case+ lp2t of
 end // end of [eval1_labp2at]
 
 implement
-eval1_labp2atlst
-  (loc0, ctx, env, lp2ts) = let
-in
-//
-case+ lp2ts of
-| list_cons (lp2t, lp2ts) => let
-    val lp2t = eval1_labp2at (loc0, ctx, env, lp2t)
-    val lp2ts = eval1_labp2atlst (loc0, ctx, env, lp2ts)
-  in
-    list_cons (lp2t, lp2ts)
-  end
-| list_nil () => list_nil ()
-//
-end // end of [eval1_labp2atlst]
+eval1_labp2atlst (
+  loc0, ctx, env, p2ts
+) = eval1_listmap (loc0, ctx, env, p2ts, eval1_labp2at)
 
 (* ****** ****** *)
 
@@ -305,20 +294,7 @@ end // end of [eval1_d2var]
 implement
 eval1_d2explst (
   loc0, ctx, env, d2es
-) = let
-in
-//
-case+ d2es of
-| list_cons
-    (d2e, d2es) => let
-    val d2e = eval1_d2exp (loc0, ctx, env, d2e)
-    val d2es = eval1_d2explst (loc0, ctx, env, d2es)
-  in
-    list_cons (d2e, d2es)
-  end // end of [list_cons]
-| list_nil () => list_nil ()
-//
-end // end of [eval1_d2explst]
+) = eval1_listmap (loc0, ctx, env, d2es, eval1_d2exp)
 
 implement
 eval1_d2expopt
@@ -331,20 +307,7 @@ eval1_d2expopt
 implement
 eval1_d2explstlst (
   loc0, ctx, env, d2ess
-) = let
-in
-//
-case+ d2ess of
-| list_cons
-    (d2es, d2ess) => let
-    val d2es = eval1_d2explst (loc0, ctx, env, d2es)
-    val d2ess = eval1_d2explstlst (loc0, ctx, env, d2ess)
-  in
-    list_cons (d2es, d2ess)
-  end // end of [list_cons]
-| list_nil () => list_nil ()
-//
-end // end of [eval1_d2explstlst]
+) = eval1_listmap (loc0, ctx, env, d2ess, eval1_d2explst)
 
 (* ****** ****** *)
 
@@ -360,20 +323,7 @@ end // end of [eval1_labd2exp]
 implement
 eval1_labd2explst (
   loc0, ctx, env, ld2es
-) = let
-in
-//
-case+ ld2es of
-| list_cons
-    (ld2e, ld2es) => let
-    val ld2e = eval1_labd2exp (loc0, ctx, env, ld2e)
-    val ld2es = eval1_labd2explst (loc0, ctx, env, ld2es)
-  in
-    list_cons (ld2e, ld2es)
-  end // end of [list_cons]
-| list_nil () => list_nil ()
-//
-end // end of [eval1_labd2explst]
+) = eval1_listmap (loc0, ctx, env, ld2es, eval1_labd2exp)
 
 (* ****** ****** *)
 
@@ -420,21 +370,9 @@ case+ d2a of
 end // end of [eval1_d2exparg]
 
 implement
-eval1_d2exparglst
-  (loc0, ctx, env, d2as) = let
-in
-//
-case+ d2as of
-| list_cons
-    (d2a, d2as) => let
-    val d2a = eval1_d2exparg (loc0, ctx, env, d2a)
-    val d2as = eval1_d2exparglst (loc0, ctx, env, d2as)
-  in
-    list_cons (d2a, d2as)
-  end // end of [list_cons]
-| list_nil () => list_nil ()
-//
-end // end of [eval1_d2exparglst]
+eval1_d2exparglst (
+  loc0, ctx, env, d2as
+) = eval1_listmap (loc0, ctx, env, d2as, eval1_d2exparg)
 
 (* ****** ****** *)
 
@@ -556,6 +494,9 @@ macdef eval1sexpopt (x) = eval1_s2expopt (loc0, ctx, env, ,(x))
 macdef eval1sexparg (x) = eval1_s2exparg (loc0, ctx, env, ,(x))
 macdef eval1sexparglst (x) = eval1_s2exparglst (loc0, ctx, env, ,(x))
 //
+macdef eval1tmpmarg (x) = eval1_t2mpmarg (loc0, ctx, env, ,(x))
+macdef eval1tmpmarglst (x) = eval1_t2mpmarglst (loc0, ctx, env, ,(x))
+//
 macdef eval1dvar (x) = eval1_d2var (loc0, ctx, env, ,(x))
 //
 macdef eval1dexp (x) = eval1_d2exp (loc0, ctx, env, ,(x))
@@ -609,6 +550,16 @@ case+ d2en0 of
   end // end of [D2Econ]
 //
 | D2Esym _ => reloc ()
+//
+| D2Etmpid (
+    d2e_id, t2mas
+  ) => let
+    val d2en = d2e_id.d2exp_node
+    val d2e_id = d2exp_make_node (loc0, d2en)
+    val t2mas = eval1tmpmarglst (t2mas)
+  in
+    d2exp_tmpid (loc0, d2e_id, t2mas)
+  end // end of [D2Etmpid]
 //
 | D2Elet (d2cs, d2e) => let
     val () = alphenv_push (env)
@@ -727,20 +678,7 @@ end // end of [eval1_d2ecl]
 implement
 eval1_d2eclist (
   loc0, ctx, env, d2cs
-) = let
-in
-//
-case+ d2cs of
-| list_cons
-    (d2c, d2cs) => let
-    val d2c = eval1_d2ecl (loc0, ctx, env, d2c)
-    val d2cs = eval1_d2eclist (loc0, ctx, env, d2cs)
-  in
-    list_cons (d2c, d2cs)
-  end // end of [list_cons]
-| list_nil () => list_nil ()
-//
-end // end of [eval1_d2eclist]
+) = eval1_listmap (loc0, ctx, env, d2cs, eval1_d2ecl)
 
 (* ****** ****** *)
 

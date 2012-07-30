@@ -574,7 +574,7 @@ case+ arg of
     end // end of [D2EXPARGsta]
   )
 //
-end // end of [eval0ctx_extend_arglst]
+end // end of [eval0ctx_extend_arg]
 
 (* ****** ****** *)
 
