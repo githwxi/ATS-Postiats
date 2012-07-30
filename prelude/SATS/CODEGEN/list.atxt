@@ -41,14 +41,14 @@ exception ListSubscriptExn of ()
 
 prfun
 lemma_list_param
-  {x:t0p}{n:int} (xs: list (x, n)): [n >= 0] void
+  {x:t0p}{n:int} (xs: list (INV(x), n)): [n >= 0] void
 // end of [lemma_list_param]
 
 #atscode_separator()
 
 castfn
 list_of_list_vt
-  {a:t0p}{n:int} (xs: list_vt (INV(a), n)):<> list (a, n)
+  {x:t0p}{n:int} (xs: list_vt (INV(x), n)):<> list (x, n)
 // end of [list_of_list_vt]
 
 #atscode_separator()
@@ -90,19 +90,19 @@ overload list with list_make_arrpsz
 
 fun{}
 fprint_list__sep (out: FILEref): void
-fun{a:t0p}
-fprint_list (out: FILEref, xs: List (a)): void
-fun{a:t0p}
+fun{x:t0p}
+fprint_list (out: FILEref, xs: List (INV(x))): void
+fun{x:t0p}
 fprint_list_sep
-  (out: FILEref, xs: List (a), sep: NSH(string)): void
+  (out: FILEref, xs: List (INV(x)), sep: NSH(string)): void
 // end of [fprint_list_sep]
 
 #atscode_separator()
 
-fun{a:t0p}
+fun{x:t0p}
 fprint_listlist_sep (
   out: FILEref
-, xss: List (List (a)), sep1: NSH(string), sep2: NSH(string)
+, xss: List (List (INV(x))), sep1: NSH(string), sep2: NSH(string)
 ) : void // end of [fprint_listlist_sep]
 
 #atscode_separator()
@@ -150,42 +150,42 @@ list_is_pair {x:t0p}{n:int} (xs: list (x, n)):<> bool (n==2)
 
 #atscode_separator()
 
-fun{a:t0p}
-list_head {n:pos} (xs: list (INV(a), n)):<> a
-fun{a:t0p}
-list_tail {n:pos} (xs: SHR(list (INV(a), n))):<> list (a, n-1)
+fun{x:t0p}
+list_head {n:pos} (xs: list (INV(x), n)):<> x
+fun{x:t0p}
+list_tail {n:pos} (xs: SHR(list (INV(x), n))):<> list (x, n-1)
 
 #atscode_separator()
 
 fun{
-a:t0p
+x:t0p
 } list_nth
-  {n:int} (xs: list (INV(a), n), i: natLt (n)):<> a
+  {n:int} (xs: list (INV(x), n), i: natLt (n)):<> x
 // end of [list_nth]
 
 #atscode_separator()
 
-fun{a:t0p}
+fun{x:t0p}
 list_get_at
-  {n:int} (xs: list (INV(a), n), i: natLt (n)):<> a
+  {n:int} (xs: list (INV(x), n), i: natLt (n)):<> x
 overload [] with list_get_at
 
-fun{a:t0p}
+fun{x:t0p}
 list_insert_at
   {n:int} (
-  xs: SHR(list (INV(a), n)), i: natLte (n), x: a
-) :<> list (a, n+1) // end of [list_insert_at]
+  xs: SHR(list (INV(x), n)), i: natLte (n), x: x
+) :<> list (x, n+1) // end of [list_insert_at]
 
-fun{a:t0p}
+fun{x:t0p}
 list_remove_at
   {n:int} (
-  xs: SHR(list (INV(a), n)), i: natLt (n), x: &a? >> _
-) :<> list (a, n-1) // end of [list_remove_at]
+  xs: SHR(list (INV(x), n)), i: natLt (n), x: &x? >> x
+) :<> list (x, n-1) // end of [list_remove_at]
 
 #atscode_separator()
 
 fun{x:t0p}
-list_length {n:int} (xs: list (x, n)):<> int (n)
+list_length {n:int} (xs: list (INV(x), n)):<> int (n)
 
 #atscode_separator()
 
@@ -251,42 +251,42 @@ list_reverse_append2_vt {m,n:int}
 
 #atscode_separator()
 
-fun{a:t0p}
-list_concat (xss: List (List (INV(a)))):<> List0_vt (a)
+fun{x:t0p}
+list_concat (xss: List (List (INV(x)))):<> List0_vt (x)
 
 #atscode_separator()
 
 fun{
-a:t0p
+x:t0p
 } list_take
   {n:int}{i:nat | i <= n}
-  (xs: list (INV(a), n), i: int i):<> list_vt (a, i)
+  (xs: list (INV(x), n), i: int i):<> list_vt (x, i)
 // end of [list_take]
 
 fun{
-a:t@ype
+x:t0p
 } list_take_exn
   {n:int}{i:nat}
-  (xs: list (INV(a), n), i: int i):<!exn> [i <= n] list_vt (a, i)
+  (xs: list (INV(x), n), i: int i):<!exn> [i <= n] list_vt (x, i)
 // end of [list_take_exn]
 
 #atscode_separator()
 
 fun{
-a:t0p
+x:t0p
 } list_drop
   {n:int}{i:nat | i <= n}
-  (xs: SHR(list (INV(a), n)), i: int i):<> list (a, n-i)
+  (xs: SHR(list (INV(x), n)), i: int i):<> list (x, n-i)
 // end of [list_drop]
 
 (*
 ** HX: it may raise [ListSubscriptException]
 *)
 fun{
-a:t0p
+x:t0p
 } list_drop_exn
   {n:int}{i:nat}
-  (xs: SHR(list (INV(a), n)), i: int i):<!exn> [i <= n] list (a, n-i)
+  (xs: SHR(list (INV(x), n)), i: int i):<!exn> [i <= n] list (x, n-i)
 // end of [list_drop_exn]
 
 #atscode_separator()
@@ -299,10 +299,10 @@ x:t0p}{env:vt0p
 } list_foreach__fwork (x: x, env: &env): void
 fun{
 x:t0p
-} list_foreach (xs: List (x)): void
+} list_foreach (xs: List (INV(x))): void
 fun{
 x:t0p}{env:vt0p
-} list_foreach_env (xs: List (x), env: &env): void
+} list_foreach_env (xs: List (INV(x)), env: &(env)>>env): void
 
 fun{x:t0p}
 list_foreach_funenv
@@ -357,10 +357,10 @@ x,y:t0p}{env:vt0p
 } list_foreach2__fwork (x: x, y: y, env: &env): void
 fun{
 x,y:t0p
-} list_foreach2 (xs: List (x), ys: List (y)): void
+} list_foreach2 (xs: List (INV(x)), ys: List (INV(y))): void
 fun{
 x,y:t0p}{env:vt0p
-} list_foreach2_env (xs: List (x), ys: List (y), env: &env): void
+} list_foreach2_env (xs: List (INV(x)), ys: List (INV(y)), env: &(env)>>env): void
 
 #atscode_separator()
 
@@ -372,10 +372,10 @@ x:t0p}{env:vt0p
 } list_iforeach__fwork (i: int, x: x, env: &env): void
 fun{
 x:t0p
-} list_iforeach {n:int} (xs: list (x, n)): natLte(n)
+} list_iforeach {n:int} (xs: list (INV(x), n)): natLte(n)
 fun{
 x:t0p}{env:vt0p
-} list_iforeach_env {n:int} (xs: list (x, n), env: &env): natLte(n)
+} list_iforeach_env {n:int} (xs: list (INV(x), n), env: &(env)>>env): natLte(n)
 
 fun{
 x:t0p // type for elements
@@ -396,12 +396,12 @@ x,y:t0p}{env:vt0p
 } list_iforeach2__fwork (i: int, x: x, y: y, env: &env): void
 fun{
 x,y:t0p
-} list_iforeach2
-  {m,n:int} (xs: list (x, m), ys: list(y, n)): natLte(min(m,n))
+} list_iforeach2 {m,n:int}
+  (xs: list (INV(x), m), ys: list(INV(y), n)): natLte(min(m,n))
 fun{
 x,y:t0p}{env:vt0p
-} list_iforeach2_env
-  {m,n:int} (xs: list (x, m), ys: list(y, n), env: &env): natLte(min(m,n))
+} list_iforeach2_env {m,n:int}
+  (xs: list (INV(x), m), ys: list(INV(y), n), env: &(env)>>env): natLte(min(m,n))
 // end of [list_iforeach2_env]
 
 #atscode_separator()
@@ -411,22 +411,22 @@ res:vt0p}{x:t0p
 } list_foldleft__fwork (acc: res, x: x): res
 fun{
 res:vt0p}{x:t0p
-} list_foldleft (xs: List (x), ini: res): res
+} list_foldleft (xs: List (INV(x)), ini: res): res
 
 fun{
 x:t0p}{res:vt0p
 } list_foldright__fwork (x: x, acc: res): res
 fun{
 x:t0p}{res:vt0p
-} list_foldright (xs: List (x), snk: res): res
+} list_foldright (xs: List (INV(x)), snk: res): res
 
 #atscode_separator()
 
 fun{x:t0p} list_exists__pred (x):<> bool
-fun{x:t0p} list_exists (xs: List (x)):<> bool
+fun{x:t0p} list_exists (xs: List (INV(x))):<> bool
 
 fun{x:t0p} list_forall__pred (x):<> bool
-fun{x:t0p} list_forall (xs: List (x)):<> bool
+fun{x:t0p} list_forall (xs: List (INV(x))):<> bool
 
 #atscode_separator()
 
@@ -436,8 +436,8 @@ fun{x:t0p} list_equal (xs1: List (INV(x)), xs2: List(x)):<> bool
 #atscode_separator()
 
 fun{x:t0p} list_find__pred (x):<> bool
-fun{x:t0p} list_find_exn (xs: List (x)):<!exn> x
-fun{x:t0p} list_find_opt (xs: List (x)):<> Option_vt (x)
+fun{x:t0p} list_find_exn (xs: List (INV(x))):<!exn> x
+fun{x:t0p} list_find_opt (xs: List (INV(x))):<> Option_vt (x)
 
 #atscode_separator()
 
@@ -447,7 +447,7 @@ x:t0p
 fun{
 x:t0p
 } list_filter {n:int}
-  (xs: list (x, n)): listLte_vt (x, n)
+  (xs: list (INV(x), n)): listLte_vt (x, n)
 // end of [list_filter]
 
 (*
@@ -472,7 +472,7 @@ x:t0p
 #atscode_separator()
 
 fun{x:t0p} list_app__fwork (x): void
-fun{x:t0p} list_app (xs: List (x)): void
+fun{x:t0p} list_app (xs: List (INV(x))): void
 
 fun{
 x:t0p
@@ -491,7 +491,7 @@ x:t0p}{y:vt0p
 fun{
 x:t0p}{y:vt0p
 } list_map {n:int}
-  (xs: list (x, n)): list_vt (y, n)
+  (xs: list (INV(x), n)): list_vt (y, n)
 // end of [list_map]
 
 fun{
@@ -511,7 +511,7 @@ x:t0p}{y:vt0p
 fun{
 x:t0p}{y:vt0p
 } list_imap {n:int}
-  (xs: list (x, n)): list_vt (y, n)
+  (xs: list (INV(x), n)): list_vt (y, n)
 // end of [list_imap]
 
 #atscode_separator()
@@ -522,8 +522,8 @@ x1,x2:t0p}{y:vt0p
 fun{
 x1,x2:t0p}{y:vt0p
 } list_map2 {n1,n2:int} (
-  xs1: list (x1, n1)
-, xs2: list (x2, n2)
+  xs1: list (INV(x1), n1)
+, xs2: list (INV(x2), n2)
 ) : list_vt (y, min(n1,n2)) // end of [list_map2]
 
 (*
@@ -546,7 +546,7 @@ x:t0p}{y:vt0p
 fun{
 x:t0p}{y:vt0p
 } list_mapopt {n:int}
-  (xs: list (x, n)): listLte_vt (y, n)
+  (xs: list (INV(x), n)): listLte_vt (y, n)
 // end of [list_mapopt]
 
 fun{

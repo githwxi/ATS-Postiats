@@ -34,7 +34,7 @@ intrange_foreach__fwork (i: int, env: &env >> env): void
 fun{}
 intrange_foreach (l: int, r: int): int
 fun{env:vt0p}
-intrange_foreach_env (l: int, r: int, env: &INV(env) >> env): int
+intrange_foreach_env (l: int, r: int, env: &(env)>>env): int
 
 #atscode_separator()
 
@@ -46,7 +46,9 @@ intrange_rforeach__fwork (i: int, env: &env >> env): void
 fun{}
 intrange_rforeach (l: int, r: int): int
 fun{env:vt0p}
-intrange_rforeach_env (l: int, r: int, env: &INV(env) >> env): int
+intrange_rforeach_env (l: int, r: int, env: &(env)>>env): int
+
+#atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
 

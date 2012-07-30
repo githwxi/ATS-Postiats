@@ -1220,9 +1220,8 @@ in
       fun f (x: i0de): d2var =
         d2var_make (x.i0de_loc, x.i0de_sym)
       val d2vs = list_map_fun (ids, f)
-      val d2vs = list_of_list_vt (d2vs)
     in
-      M2ACARGdyn (d2vs)
+      M2ACARGdyn ((l2l)d2vs)
     end
   | M1ACARGsta (s1as) => let
       fun f (s1a: s1arg): s2var = let
@@ -1234,17 +1233,14 @@ in
         s2var_make_id_srt (s1a.s1arg_sym, s2t)
       end // end of [f]
       val s2vs = list_map_fun (s1as, f)
-      val s2vs = list_of_list_vt (s2vs)
     in
-      M2ACARGsta (s2vs)
+      M2ACARGsta ((l2l)s2vs)
     end
 end // end of [m1acarg_tr]
 
 fun m1acarglst_tr
   (m1as: m1acarglst): m2acarglst = let
-  val m2as = list_map_fun (m1as, m1acarg_tr)
-in
-  list_of_list_vt (m2as)
+  val m2as = list_map_fun (m1as, m1acarg_tr) in (l2l)m2as
 end // end of [m1acarglst_tr]
 
 in // in of [local]

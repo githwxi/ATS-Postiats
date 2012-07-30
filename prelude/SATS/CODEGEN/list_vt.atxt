@@ -37,7 +37,7 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 prfun
 lemma_list_vt_param
-  {x:t0p}{n:int} (xs: !list_vt (x, n)): [n >= 0] void
+  {x:t0p}{n:int} (xs: !list_vt (INV(x), n)): [n >= 0] void
 // end of [lemma_list_vt_param]
 
 #atscode_separator()
@@ -49,102 +49,103 @@ lemma_list_vt_param
 
 #atscode_separator()
 
-fun{a:vt0p}
+fun{x:vt0p}
 list_vt_uncons {n:pos}
-  (xs: &list_vt (INV(a), n) >> list_vt (a, n-1)):<!wrt> a
+  (xs: &list_vt (INV(x), n) >> list_vt (x, n-1)):<!wrt> x
 // end of [list_vt_uncons]
 
 #atscode_separator()
 
 fun{}
 fprint_list_vt__sep (out: FILEref): void
-fun{a:vt0p}
+fun{x:vt0p}
 fprint_list_vt
-  (out: FILEref, xs: !List_vt (a)): void
+  (out: FILEref, xs: !List_vt (INV(x))): void
 // end of [fprint_list_vt]
 
-fun{a:vt0p}
+fun{x:vt0p}
 fprint_list_vt_sep (
-  out: FILEref, xs: !List_vt (a), sep: NSH(string)
+  out: FILEref, xs: !List_vt (INV(x)), sep: NSH(string)
 ) : void // end of [fprint_list_vt_sep]
 
 #atscode_separator()
 
 fun{} list_vt_is_nil
-  {a:vt0p} {n:int} (xs: !list_vt (a, n)):<> bool (n==0)
+  {x:vt0p} {n:int} (xs: !list_vt (INV(x), n)):<> bool (n==0)
 fun{} list_vt_is_cons
-  {a:vt0p} {n:int} (xs: !list_vt (a, n)):<> bool (n > 0)
+  {x:vt0p} {n:int} (xs: !list_vt (INV(x), n)):<> bool (n > 0)
 fun{} list_vt_is_sing
-  {a:vt0p} {n:int} (xs: !list_vt (a, n)):<> bool (n==1)
+  {x:vt0p} {n:int} (xs: !list_vt (INV(x), n)):<> bool (n==1)
 fun{} list_vt_is_pair
-  {a:vt0p} {n:int} (xs: !list_vt (a, n)):<> bool (n==2)
+  {x:vt0p} {n:int} (xs: !list_vt (INV(x), n)):<> bool (n==2)
 
 #atscode_separator()
 
-fun{a:vt0p}
-list_vt_length {n:int} (xs: !list_vt (a, n)):<> int n
+fun{x:vt0p}
+list_vt_length {n:int} (xs: !list_vt (INV(x), n)):<> int n
 // end of [list_vt_length]
 
 #atscode_separator()
 
-fun{a:vt0p}
+fun{x:vt0p}
 list_vt_getref_at
   {n:int}{i:nat | i <= n}
-  (xs: &list_vt (INV(a), n), i: int i):<> cPtr1 (list_vt (a, n-i))
+  (xs: &list_vt (INV(x), n), i: int i):<> cPtr1 (list_vt (x, n-i))
 // end of [list_vt_getref_at]
 
 #atscode_separator()
 
-fun{a:t0p}
+fun{x:t0p}
 list_vt_get_at {n:int}
-  (xs: !list_vt (INV(a), n), i: natLt n):<> a
+  (xs: !list_vt (INV(x), n), i: natLt n):<> x
 // end of [list_vt_get_at]
 
-fun{a:t0p}
+fun{x:t0p}
 list_vt_set_at {n:int}
-  (xs: !list_vt (INV(a), n), i: natLt n, x: a):<!wrt> void
+  (xs: !list_vt (INV(x), n), i: natLt n, x: x):<!wrt> void
 // end of [list_vt_set_at]
 
-fun{a:vt0p}
+fun{x:vt0p}
 list_vt_exch_at {n:int}
-  (xs: !list_vt (INV(a), n), i: natLt n, x: &a>>a):<!wrt> void
+  (xs: !list_vt (INV(x), n), i: natLt n, x: &x>>x):<!wrt> void
 // end of [list_vt_exch_at]
 
 #atscode_separator()
 
-fun{a:vt0p}
+fun{x:vt0p}
 list_vt_insert_at {n:int} (
-  xs: &list_vt (INV(a), n) >> list_vt (a, n+1), i: natLte n, x: a
+  xs: &list_vt (INV(x), n) >> list_vt (x, n+1), i: natLte n, x: x
 ) :<!wrt> void // end of [list_vt_insert_at]
 
-fun{a:vt0p}
+fun{x:vt0p}
 list_vt_remove_at {n:int}
-  (xs: &list_vt (INV(a), n) >> list_vt (a, n-1), i: natLt n):<!wrt> a
+  (xs: &list_vt (INV(x), n) >> list_vt (x, n-1), i: natLt n):<!wrt> x
 // end of [list_vt_remove_at]
 
 #atscode_separator()
 
-fun{a:vt0p}
+fun{x:vt0p}
+list_vt_free (xs: List_vt (INV(x))):<!wrt> void
+
+fun{x:vt0p}
 list_vt_freelin__clear
-  (x: &a >> a?):<!wrt> void
-fun{a:t0p}
-list_vt_freelin (xs: List_vt (a)):<!wrt> void
-fun{a:vt0p}
-list_vt_free (xs: List_vt (a)):<!wrt> void
+  (x: &x >> x?):<!wrt> void
+fun{x:t0p}
+list_vt_freelin (xs: List_vt (INV(x))):<!wrt> void
 
 #atscode_separator()
 
-fun{a:vt0p}
-list_vt_uninitize__clear (x: &a>>a?):<!wrt> void
+fun{x:vt0p}
+list_vt_uninitize__clear (x: &x>>x?):<!wrt> void
 fun{
-a:vt0p
+x:vt0p
 } list_vt_uninitize {n:int} (
-  xs: !list_vt (INV(a), n) >> list_vt (a?, n)
+  xs: !list_vt (INV(x), n) >> list_vt (x?, n)
 ) :<!wrt> void // end of [list_vt_uninitize]
 fun{
-a:vt0p
+x:vt0p
 } list_vt_uninitize_fun {n:int}{fe:eff} (
-  xs: !list_vt (INV(a), n) >> list_vt (a?, n), f: (&a>>a?) -<fe> void
+  xs: !list_vt (INV(x), n) >> list_vt (x?, n), f: (&x>>x?) -<fe> void
 ) :<fe> void // end of [list_vt_uninitize_fun]
 
 #atscode_separator()
@@ -159,9 +160,9 @@ a:vt0p
 #atscode_separator()
 
 fun{
-a:vt0p
+x:vt0p
 } list_vt_extend
-  {n:int} (xs1: list_vt (INV(a), n), x2: a):<!wrt> list_vt (a, n+1)
+  {n:int} (xs1: list_vt (INV(x), n), x2: x):<!wrt> list_vt (x, n+1)
 // end of [list_vt_extend]
 
 macdef list_vt_snoc = list_vt_extend
@@ -169,11 +170,11 @@ macdef list_vt_snoc = list_vt_extend
 #atscode_separator()
 
 fun{
-a:vt0p
+x:vt0p
 } list_vt_reverse
   {n:int} (
-  xs: list_vt (INV(a), n)
-) :<!wrt> list_vt (a, n) // endfun
+  xs: list_vt (INV(x), n)
+) :<!wrt> list_vt (x, n) // endfun
 
 fun{a:vt0p}
 list_vt_reverse_append
@@ -183,112 +184,112 @@ list_vt_reverse_append
 
 #atscode_separator()
 
-fun{a:vt0p}
+fun{x:vt0p}
 list_vt_concat
-  (xss: List_vt (List_vt (INV(a)))):<!wrt> List0_vt (a)
+  (xss: List_vt (List_vt (INV(x)))):<!wrt> List0_vt (x)
 // end of [list_vt_concat]
 
 #atscode_separator()
 
-fun{a:vt0p}
-list_vt_split__pred (x: &a): bool
-fun{a:vt0p}
+fun{x:vt0p}
+list_vt_split__pred (x: &x): bool
+fun{x:vt0p}
 list_vt_split {n:int} (
-  xs: &list_vt (INV(a), n) >> list_vt (a, n1)
-) : \#[n1:nat|n1 <= n] list_vt (a, n-n1)
+  xs: &list_vt (INV(x), n) >> list_vt (x, n1)
+) : \#[n1:nat|n1 <= n] list_vt (x, n-n1)
 
 #atscode_separator()
 
 fun{
-a:vt0p}{env:vt0p
-} list_vt_foreach__cont (x: &a, env: &env): bool
+x:vt0p}{env:vt0p
+} list_vt_foreach__cont (x: &x, env: &env): bool
 fun{
-a:vt0p}{env:vt0p
-} list_vt_foreach__fwork (x: &a, env: &env): void
+x:vt0p}{env:vt0p
+} list_vt_foreach__fwork (x: &x, env: &env): void
 fun{
-a:vt0p
-} list_vt_foreach (xs: !List_vt (a)): void
+x:vt0p
+} list_vt_foreach (xs: !List_vt (INV(x))): void
 fun{
-a:vt0p}{env:vt0p
-} list_vt_foreach_env (xs: !List_vt (a), env: &env): void
+x:vt0p}{env:vt0p
+} list_vt_foreach_env (xs: !List_vt (INV(x)), env: &(env)>>env): void
 
 fun{
-a:vt0p
+x:vt0p
 } list_vt_foreach_fun
   {fe:eff} (
-  xs: !List_vt (INV(a)), f: (&a) -<fe> void
+  xs: !List_vt (INV(x)), f: (&x) -<fe> void
 ) :<fe> void // end of [list_vt_foreach_fun]
 
 fun{
-a:vt0p
+x:vt0p
 } list_vt_foreach_funenv
   {v:view}{vt:viewtype}{fe:eff} (
   pfv: !v
-| xs: !List_vt (INV(a)), f: (!v | &a, !vt) -<fe> void, env: !vt
+| xs: !List_vt (INV(x)), f: (!v | &x, !vt) -<fe> void, env: !vt
 ) :<fe> void // end of [list_vt_foreach_funenv]
 
 #atscode_separator()
 
 fun{
-a:vt0p}{env:vt0p
+x:vt0p}{env:vt0p
 } list_vt_iforeach__cont
-  (i: int, x: &a, env: &env): bool
+  (i: int, x: &x, env: &env): bool
 fun{
-a:vt0p}{env:vt0p
+x:vt0p}{env:vt0p
 } list_vt_iforeach__fwork
-  (i: int, x: &a, env: &env): void
+  (i: int, x: &x, env: &env): void
 fun{
-a:vt0p
+x:vt0p
 } list_vt_iforeach
-  {n:int} (xs: !list_vt (a, n)): natLte(n)
+  {n:int} (xs: !list_vt (INV(x), n)): natLte(n)
 fun{
-a:vt0p}{env:vt0p
+x:vt0p}{env:vt0p
 } list_vt_iforeach_env
-  {n:int} (xs: !list_vt (a, n), env: &env): natLte(n)
+  {n:int} (xs: !list_vt (INV(x), n), env: &env): natLte(n)
 // end of [list_vt_iforeach_env]
 
 #atscode_separator()
 
-fun{a:vt0p}
-list_vt_filter__pred (x: &a):<> bool
-fun{a:t0p}
+fun{x:vt0p}
+list_vt_filter__pred (x: &x):<> bool
+fun{x:t0p}
 list_vt_filter
-  {n:int} (x: list_vt (INV(a), n)):<!wrt> listLte_vt (a, n)
+  {n:int} (x: list_vt (INV(x), n)):<!wrt> listLte_vt (x, n)
 // end of [list_vt_filter]
-fun{a:vt0p}
-list_vt_filterlin__clear (x: &a>>a?):<!wrt> void
-fun{a:vt0p}
+fun{x:vt0p}
+list_vt_filterlin__clear (x: &x>>x?):<!wrt> void
+fun{x:vt0p}
 list_vt_filterlin
-  {n:int} (x: list_vt (INV(a), n)):<!wrt> listLte_vt (a, n)
+  {n:int} (x: list_vt (INV(x), n)):<!wrt> listLte_vt (x, n)
 // end of [list_vt_filterlin]
 
 #atscode_separator()
 
 fun{
-a:vt0p
-} list_vt_app__fwork (x: &a): void
-fun{a:vt0p} list_vt_app (xs: !List_vt (a)): void
+x:vt0p
+} list_vt_app__fwork (x: &x): void
+fun{x:vt0p} list_vt_app (xs: !List_vt (INV(x))): void
 
 fun{
-a:vt0p
-} list_vt_appfree__fwork (x: &a >> a?): void
-fun{a:vt0p} list_vt_appfree (xs: List_vt (a)): void
+x:vt0p
+} list_vt_appfree__fwork (x: &x >> x?): void
+fun{x:vt0p} list_vt_appfree (xs: List_vt (INV(x))): void
 
 #atscode_separator()
 
 fun{
-a:vt0p}{b:vt0p
-} list_vt_map__fwork (x: &a): b
+x:vt0p}{y:vt0p
+} list_vt_map__fwork (x: &x): y
 fun{
-a:vt0p}{b:vt0p
-} list_vt_map {n:int} (xs: !list_vt (a, n)): list_vt (b, n)
+x:vt0p}{y:vt0p
+} list_vt_map {n:int} (xs: !list_vt (INV(x), n)): list_vt (y, n)
 
 fun{
-a:vt0p}{b:vt0p
-} list_vt_mapfree__fwork (x: &a >> a?): b
+x:vt0p}{y:vt0p
+} list_vt_mapfree__fwork (x: &x >> x?): y
 fun{
-a:vt0p}{b:vt0p
-} list_vt_mapfree {n:int} (xs: list_vt (a, n)): list_vt (b, n)
+x:vt0p}{y:vt0p
+} list_vt_mapfree {n:int} (xs: list_vt (INV(x), n)): list_vt (y, n)
 
 #atscode_separator()
 

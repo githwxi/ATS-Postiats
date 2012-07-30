@@ -195,7 +195,7 @@ a:vt0p
 fun{
 a:vt0p}{env:vt0p
 } arrayref_foreach_env {n:int} (
-  A: arrayref (INV(a), n), asz: size_t (n), env: &INV(env) >> env
+  A: arrayref (INV(a), n), asz: size_t (n), env: &(env)>>env
 ) : sizeLte(n) // end of [arrayref_foreach_env]
 
 #atscode_separator()
@@ -211,7 +211,7 @@ a:vt0p
 fun{
 a:vt0p}{env:vt0p
 } arrayref_rforeach_env {n:int} (
-  A: arrayref (INV(a), n), asz: size_t (n), env: &INV(env) >> env
+  A: arrayref (INV(a), n), asz: size_t (n), env: &(env)>>env
 ) : sizeLte(n) // end of [arrayref_rforeach_env]
 
 #atscode_separator()

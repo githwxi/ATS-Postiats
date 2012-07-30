@@ -372,8 +372,6 @@ and d1exp_node =
   | D1Efix of // dynamic fixed-point expression
       (int(*knd: 0/1: flat/boxed*), i0de, d1exp)
 //
-  | D1Etrywith of (i1nvresstate, d1exp, c1laulst)
-//
   | D1Efor of ( // for-loop
       loopi1nv
     , d1exp(*ini*)
@@ -382,6 +380,8 @@ and d1exp_node =
     , d1exp(*body*)
     ) // end of [D1Efor]
   | D1Ewhile of (loopi1nv, d1exp, d1exp) // while-loop
+//
+  | D1Etrywith of (i1nvresstate, d1exp, c1laulst)
 //
   | D1Emacsyn of (macsynkind, d1exp) // macro syntax
 //

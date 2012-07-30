@@ -194,8 +194,8 @@ strnptr_foreach__fwork (c: &charNZ>>charNZ, env: &env): void
 fun{}
 strnptr_foreach {n:nat} (str: !strnptr n): sizeLte(n)
 fun{env:vt0p}
-strnptr_foreach_env {n:nat}
-  (str: !strnptr n, env: &INV(env) >> env): sizeLte(n)
+strnptr_foreach_env
+  {n:nat} (str: !strnptr n, env: &(env) >> env): sizeLte(n)
 // end of [strnptr_foreach_env]
 
 #atscode_separator()
@@ -207,8 +207,8 @@ strnptr_rforeach__fwork (c: &charNZ>>charNZ, env: &env): void
 fun{}
 strnptr_rforeach {n:nat} (str: !strnptr n): sizeLte(n)
 fun{env:vt0p}
-strnptr_rforeach_env {n:nat}
-  (str: !strnptr n, env: &INV(env) >> env): sizeLte(n)
+strnptr_rforeach_env
+  {n:nat} (str: !strnptr n, env: &(env) >> env): sizeLte(n)
 // end of [strnptr_rforeach_env]
 
 #atscode_separator()

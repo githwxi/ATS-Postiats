@@ -726,6 +726,20 @@ d2exp_ldelay_none
 (* ****** ****** *)
 
 implement
+d2exp_while
+  (loc, i2nv, test, body) =
+  d2exp_make_node (loc, D2Ewhile (i2nv, test, body))
+// end of [d2exp_while]
+
+implement
+d2exp_for
+  (loc, i2nv, init, test, post, body) =
+  d2exp_make_node (loc, D2Efor (i2nv, init, test, post, body))
+// end of [d2exp_for]
+
+(* ****** ****** *)
+
+implement
 d2exp_trywith (
   loc, r2es, d2e, c2ls
 ) = d2exp_make_node (loc, D2Etrywith (r2es, d2e, c2ls))
@@ -835,8 +849,8 @@ i2nvresstate_make
   (s2vs, s2ps, arg) = '{
   i2nvresstate_svs= s2vs
 , i2nvresstate_gua= s2ps
-, i2nvresstate_arg= arg
 , i2nvresstate_met= None ()
+, i2nvresstate_arg= arg
 } // end of [i2nvresstate_make]
 
 implement
@@ -845,8 +859,8 @@ i2nvresstate_make_met (
 ) = '{
   i2nvresstate_svs= s2vs
 , i2nvresstate_gua= s2ps
-, i2nvresstate_arg= arg
 , i2nvresstate_met= met
+, i2nvresstate_arg= arg
 } // end of [i2nvresstate_make]
 
 (* ****** ****** *)

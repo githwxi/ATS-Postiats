@@ -505,12 +505,6 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
-| D1Etrywith _ => {
-    val () = prstr "D1Etrywith("
-    val () = prstr "..."
-    val () = prstr ")"
-  }
-//
 | D1Efor _ => {
     val () = prstr "D1Efor("
     val () = prstr "..."
@@ -518,6 +512,12 @@ case+ d1e0.d1exp_node of
   }
 | D1Ewhile _ => {
     val () = prstr "D1Ewhile("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+//
+| D1Etrywith _ => {
+    val () = prstr "D1Etrywith("
     val () = prstr "..."
     val () = prstr ")"
   }

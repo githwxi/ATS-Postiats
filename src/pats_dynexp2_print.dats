@@ -689,13 +689,41 @@ case+ x.d2exp_node of
     val () = fprint_d2exp (out, d2e)
     val () = prstr ")"
   } // end of [D2Edelay]
-| D2Eldelay (_eval, _free) => {
+| D2Eldelay
+    (_eval, _free) => {
     val () = prstr "D2Eldelay("
     val () = fprint_d2exp (out, _eval)
     val () = prstr "; "
     val () = fprint_d2expopt (out, _free)
     val () = prstr ")"
   } // end of [D2Edelay]
+//
+| D2Ewhile (
+    i2nv, test, body
+  ) => {
+    val () = prstr "D2Ewhile("
+    val () = fprint_loopi2nv (out, i2nv)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, test)
+    val () = prstr "; "
+    val () = fprint_d2exp (out, body)
+    val () = prstr ")"
+  } // end of [D2Ewhile]
+| D2Efor (
+    i2nv, init, test, post, body
+  ) => {
+    val () = prstr "D2Efor("
+    val () = fprint_loopi2nv (out, i2nv)
+    val () = prstr "; init="
+    val () = fprint_d2exp (out, init)
+    val () = prstr "; test="
+    val () = fprint_d2exp (out, test)
+    val () = prstr "; post="
+    val () = fprint_d2exp (out, post)
+    val () = prstr "; body="
+    val () = fprint_d2exp (out, body)
+    val () = prstr ")"
+  } // end of [D2Efor]
 //
 | D2Etrywith _ => {
     val () = prstr "D2Etrywith("
@@ -869,6 +897,71 @@ implement
 print_d2lablst (xs) = fprint_d2lablst (stdout_ref, xs)
 implement
 prerr_d2lablst (xs) = fprint_d2lablst (stderr_ref, xs)
+
+(* ****** ****** *)
+
+extern
+fun fprint_i2nvarg : fprint_type (i2nvarg)
+
+implement
+fprint_i2nvarg
+  (out, arg) = let
+//
+val d2v = arg.i2nvarg_var
+val opt = arg.i2nvarg_type
+val () = fprint_d2var (out, d2v)
+//
+in
+//
+case+ opt of
+| Some (s2e) => {
+    val () =
+      fprint_string (out, ": ")
+    val () = fprint_s2exp (out, s2e)
+  } // end of [Some]
+| None () => () // end of [None]
+//
+end // end of [fprint_i2nvarg]
+
+implement
+fprint_i2nvarglst
+  (out, args) =
+  $UT.fprintlst (out, args, ", ", fprint_i2nvarg)
+// end of [fprint_i2nvarglst]
+
+implement
+fprint_i2nvresstate
+  (out, r2es) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+  prstr ("i2nvresstate(svs=");
+  fprint_s2varlst (out, r2es.i2nvresstate_svs);
+  prstr ("; gua=");
+  fprint_s2explst (out, r2es.i2nvresstate_gua);
+  prstr ("; met=");
+  fprint_s2explstopt (out, r2es.i2nvresstate_met);
+  prstr ("; state=");
+  fprint_i2nvarglst (out, r2es.i2nvresstate_arg);
+  prstr (")");
+end // end of [fprint_i2nvresstate]
+
+implement
+fprint_loopi2nv
+  (out, i2nv) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+  prstr ("loop2inv(svs=");
+  fprint_s2varlst (out, i2nv.loopi2nv_svs);
+  prstr ("; gua=");
+  fprint_s2explst (out, i2nv.loopi2nv_gua);
+  prstr ("; met=");
+  fprint_s2explstopt (out, i2nv.loopi2nv_met);
+  prstr ("; state=");
+  fprint_i2nvarglst (out, i2nv.loopi2nv_arg);
+  prstr ("; ");
+  fprint_i2nvresstate (out, i2nv.loopi2nv_res);
+  prstr (")");
+end // end of [fprint_loopi2nv]
 
 (* ****** ****** *)
 

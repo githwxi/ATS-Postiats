@@ -518,6 +518,20 @@ prerr_s2expopt (opt) = fprint_s2expopt (stderr_ref, opt)
 
 (* ****** ****** *)
 
+implement
+fprint_s2explstopt
+  (out, opt) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+  case+ opt of
+  | Some (s2es) => (
+      prstr "Some("; fprint_s2explst (out, s2es); prstr ")"
+    ) // end of [Some]
+  | None () => ()
+end // end of [fprint_s2explstopt]
+
+(* ****** ****** *)
+
 extern
 fun fprint_labs2exp : fprint_type (labs2exp)
 

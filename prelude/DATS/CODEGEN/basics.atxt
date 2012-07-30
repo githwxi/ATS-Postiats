@@ -110,6 +110,7 @@ implement{a}
 print_val (x) = fprint_val<a> (stdout_ref, x)
 implement{a}
 prerr_val (x) = fprint_val<a> (stderr_ref, x)
+
 implement{a}
 fprint_val (out, x) = let
   val str = tostrptr_val<a> (x)
@@ -118,6 +119,8 @@ fprint_val (out, x) = let
 in
   // nothing
 end // end of [fprint_val]
+
+#atscode_separator()
 
 implement{a}
 fprint_ref (out, x) = fprint_val<a> (out, x)

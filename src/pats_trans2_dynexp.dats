@@ -878,12 +878,14 @@ fn loopi1nv_tr
   (inv: loopi1nv): loopi2nv = let
   val loc = inv.loopi1nv_loc
   val s2q = s1qualst_tr (inv.loopi1nv_qua)
-  val met = (case+ inv.loopi1nv_met of
+  val met = inv.loopi1nv_met
+  val met = (
+    case+ met of
     | Some s1es => let
         val s2es = s1explst_trdn_int s1es in Some (s2es)
       end // end of [Some]
     | None () => None ()
-  ) : s2explstopt
+  ) : s2explstopt // end of [val]
   val arg = i1nvarglst_tr (inv.loopi1nv_arg)
   val res = i1nvresstate_tr (inv.loopi1nv_res)
 in
@@ -1158,12 +1160,10 @@ end // end of [local]
 
 implement
 d1exp_tr (d1e0) = let
-(*
-  val () = begin
-    println! ("d1exp_tr: d1e0 = ", d1e0)
-  end // end of [val]
-*)
   val loc0 = d1e0.d1exp_loc
+(*
+  val () = println! ("d1exp_tr: d1e0 = ", d1e0)
+*)
 in
 //
 case+ d1e0.d1exp_node of
@@ -1444,6 +1444,35 @@ case+ d1e0.d1exp_node of
   end // end of [D1Elam_sta_syn]
 //
 | D1Edelay _ => d1exp_tr_delay (d1e0)
+//
+| D1Ewhile (
+    i1nv, d1e_test, d1e_body
+  ) => let
+    val (pfenv | ()) = the_s2expenv_push_nil ()
+    val i2nv = loopi1nv_tr (i1nv)
+    val d2e_test = d1exp_tr (d1e_test)
+    val d2e_body = d1exp_tr (d1e_body)
+    val () = the_s2expenv_pop_free (pfenv | (*none*))
+  in
+    d2exp_while (loc0, i2nv, d2e_test, d2e_body)
+  end // end of [D1Ewhile]
+//
+| D1Efor (
+    i1nv, init, test, post, body
+  ) => let
+    val init = d1exp_tr (init)
+    val (pfenv | ()) = the_s2expenv_push_nil ()
+    val i2nv = loopi1nv_tr (i1nv)
+    val test = (
+      case+ test.d1exp_node of
+      | D1Eempty () => d2exp_bool (loc0, true) | _ => d1exp_tr test
+    ) : d2exp // end of [val]
+    val post = d1exp_tr (post)
+    val body = d1exp_tr (body)
+    val () = the_s2expenv_pop_free (pfenv | (*none*))
+  in
+    d2exp_for (loc0, i2nv, init, test, post, body)
+  end // end of [D1Efor]
 //
 | D1Etrywith
     (r1es, d1e, c1ls) => let

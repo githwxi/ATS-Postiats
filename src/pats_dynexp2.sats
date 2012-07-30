@@ -649,6 +649,11 @@ and d2exp_node =
   | D2Edelay of (d2exp(*eval*)) // $delay
   | D2Eldelay of (d2exp(*eval*), d2expopt(*free*)) // $ldelay
 //
+  | D2Ewhile of (loopi2nv, d2exp(*test*), d2exp(*body*))
+  | D2Efor of (
+      loopi2nv, d2exp(*init*), d2exp(*test*), d2exp(*post*), d2exp(*body*)
+    ) // end of [D2Efor]
+//
   | D2Etrywith of (i2nvresstate, d2exp, c2laulst)
 //
   | D2Emac of (d2mac) // macro-expression
@@ -711,8 +716,8 @@ and i2nvarglst = List i2nvarg
 and i2nvresstate = '{
   i2nvresstate_svs= s2varlst
 , i2nvresstate_gua= s2explst
-, i2nvresstate_arg= i2nvarglst
 , i2nvresstate_met= s2explstopt
+, i2nvresstate_arg= i2nvarglst
 } // end of [i2nvresstate]
 
 and loopi2nv = '{
@@ -853,6 +858,12 @@ fun prerr_d2lablst (xs: d2lablst): void
 overload prerr with prerr_d2lablst
 fun fprint_d2lab : fprint_type (d2lab)
 fun fprint_d2lablst : fprint_type (d2lablst)
+
+(* ****** ****** *)
+
+fun fprint_loopi2nv : fprint_type (loopi2nv)
+fun fprint_i2nvarglst : fprint_type (i2nvarglst)
+fun fprint_i2nvresstate : fprint_type (i2nvresstate)
 
 (* ****** ****** *)
 
@@ -1087,6 +1098,18 @@ fun d2exp_fix (loc: location, knd: int, f: d2var, body: d2exp): d2exp
 fun d2exp_delay (loc: location, _eval: d2exp): d2exp
 fun d2exp_ldelay (loc: location, _eval: d2exp, _free: d2expopt): d2exp
 fun d2exp_ldelay_none (loc: location, _eval: d2exp): d2exp
+
+(* ****** ****** *)
+
+fun d2exp_while (
+  loc: location
+, i2nv: loopi2nv, test: d2exp, body: d2exp
+) : d2exp // end of [d2exp_while]
+
+fun d2exp_for (
+  loc: location
+, i2nv: loopi2nv, init: d2exp, test: d2exp, post: d2exp, body: d2exp
+) : d2exp // end of [d2exp_for]
 
 (* ****** ****** *)
 

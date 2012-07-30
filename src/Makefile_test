@@ -105,11 +105,9 @@ libats_ML:: ; ./patsopt -d $(PATSHOME)/libats/ML/DATS/string.dats
 contrib_cairo:: ; ./patsopt -s $(PATSHOME)/contrib/cairo/SATS/cairo.sats
 
 contrib_atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foreach.sats
-contrib_atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/SATS/foreach.dats
+contrib_atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/foreach.dats
 contrib_atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foldleft.sats
 contrib_atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/foldleft.dats
-contrib_atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/fprint.sats
-contrib_atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/fprint.dats
 contrib_atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/tfprint.sats
 contrib_atshwxi:: ; ./patsopt -d $(PATSHOME)/contrib/atshwxi/testing/DATS/tfprint.dats
 contrib_atshwxi:: ; ./patsopt -s $(PATSHOME)/contrib/atshwxi/testing/SATS/randgen.sats

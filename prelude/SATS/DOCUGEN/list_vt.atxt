@@ -553,7 +553,7 @@ list_quicksort__cmp<T> (x1, x2) = compare (x1, x2)
 //
 val ys =
   list_vt_quicksort<T> (xs)
-val () = fprint_list_vt (out, ys)
+val () = fprint_list_vt<T> (out, ys)
 val () = fprint_newline (out)
 val () = list_vt_free<T> (ys)
 //

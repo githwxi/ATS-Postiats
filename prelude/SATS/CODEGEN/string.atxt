@@ -308,8 +308,8 @@ string_foreach__fwork (c: char, env: &env): void
 fun{}
 string_foreach {n:int} (str: string(n)): sizeLte(n)
 fun{env:vt0p}
-string_foreach_env {n:int}
-  (str: string(n), env: &INV(env) >> env): sizeLte(n)
+string_foreach_env
+  {n:int} (str: string(n), env: &(env) >> env): sizeLte(n)
 // end of [string_foreach_env]
 
 #atscode_separator()
@@ -321,8 +321,8 @@ string_rforeach__fwork (c: char, env: &env): void
 fun{}
 string_rforeach {n:int} (str: string(n)): sizeLte(n)
 fun{env:vt0p}
-string_rforeach_env {n:int}
-  (str: string(n), env: &INV(env) >> env): sizeLte(n)
+string_rforeach_env
+  {n:int} (str: string(n), env: &(env) >> env): sizeLte(n)
 // end of [string_rforeach_env]
 
 #atscode_separator()

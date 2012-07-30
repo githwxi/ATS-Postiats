@@ -608,7 +608,7 @@ knd:tk}{x:vt0p}{env:vt0p
 } iter_foreach_env
   {kpm:tk}{f,r:int} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f1, r1)
-, env: &INV(env) >> env
+, env: &(env) >> env
 ) : #[f1,r1:int | f <= f1; f+r==f1+r1] void // end of [iter_foreach_env]
 
 #atscode_separator()
@@ -630,7 +630,7 @@ knd:tk}{x:vt0p}{env:vt0p
 } iter_rforeach_env
   {kpm:tk}{f,r:int} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f1, r1)
-, env: &INV(env) >> env
+, env: &(env) >> env
 ) : #[f1,r1:int | f <= f1; f+r==f1+r1] void // end of [iter_rforeach_env]
 
 #atscode_separator()

@@ -266,7 +266,7 @@ a:vt0p
 fun{
 a:vt0p}{env:vt0p
 } arrayptr_foreach_env {n:int} (
-  A: !arrayptr (INV(a), n), asz: size_t (n), env: &INV(env) >> env
+  A: !arrayptr (INV(a), n), asz: size_t (n), env: &(env)>>env
 ) : sizeLte(n) // end of [arrayptr_foreach_env]
 
 fun{a:vt0p}
@@ -298,7 +298,7 @@ array_rforeach__fwork (x: &a >> a, env: &env): void
 fun{
 a:vt0p}{env:vt0p
 } arrayptr_rforeach_env {n:int} (
-  A: !arrayptr (INV(a), n), asz: size_t (n), env: &INV(env) >> env
+  A: !arrayptr (INV(a), n), asz: size_t (n), env: &(env)>>env
 ) : sizeLte(n) // end of [arrayptr_rforeach_env]
 
 #atscode_separator()

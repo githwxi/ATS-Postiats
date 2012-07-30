@@ -149,8 +149,10 @@ in
 end // end of [eval1_s2exp]
 
 implement
-eval1_s2explst (loc0, ctx, env, s2es) =
+eval1_s2explst
+  (loc0, ctx, env, s2es) =
   eval1_listmap (loc0, ctx, env, s2es, eval1_s2exp)
+// end of [eval1_s2explst]
 
 implement
 eval1_s2expopt
@@ -179,9 +181,10 @@ case+ s2an of
 end // end of [eval1_s2exparg]
 
 implement
-eval1_s2exparglst (
-  loc0, ctx, env, s2as
-) = eval1_listmap (loc0, ctx, env, s2as, eval1_s2exparg)
+eval1_s2exparglst
+  (loc0, ctx, env, s2as) =
+  eval1_listmap (loc0, ctx, env, s2as, eval1_s2exparg)
+// end of [eval1_s2exparglst]
 
 (* ****** ****** *)
 
@@ -195,9 +198,10 @@ in
 end // end of [eval1_t2mpmarg]
 
 implement
-eval1_t2mpmarglst (
-  loc0, ctx, env, t2mas
-) = eval1_listmap (loc0, ctx, env, t2mas, eval1_t2mpmarg)
+eval1_t2mpmarglst
+  (loc0, ctx, env, t2mas) =
+  eval1_listmap (loc0, ctx, env, t2mas, eval1_t2mpmarg)
+// end of [eval1_t2mpmarglst]
 
 (* ****** ****** *)
 
@@ -252,9 +256,10 @@ end // end of [eval1_p2at]
 (* ****** ****** *)
 
 implement
-eval1_p2atlst (
-  loc0, ctx, env, p2ts
-) = eval1_listmap (loc0, ctx, env, p2ts, eval1_p2at)
+eval1_p2atlst
+  (loc0, ctx, env, p2ts) =
+  eval1_listmap (loc0, ctx, env, p2ts, eval1_p2at)
+// end of [eval1_p2atlst]
 
 (* ****** ****** *)
 
@@ -274,9 +279,10 @@ case+ lp2t of
 end // end of [eval1_labp2at]
 
 implement
-eval1_labp2atlst (
-  loc0, ctx, env, p2ts
-) = eval1_listmap (loc0, ctx, env, p2ts, eval1_labp2at)
+eval1_labp2atlst
+  (loc0, ctx, env, lp2ts) =
+  eval1_listmap (loc0, ctx, env, lp2ts, eval1_labp2at)
+// end of [eval1_labp2atlst]
 
 (* ****** ****** *)
 
@@ -292,9 +298,10 @@ end // end of [eval1_d2var]
 (* ****** ****** *)
 
 implement
-eval1_d2explst (
-  loc0, ctx, env, d2es
-) = eval1_listmap (loc0, ctx, env, d2es, eval1_d2exp)
+eval1_d2explst
+  (loc0, ctx, env, d2es) =
+  eval1_listmap (loc0, ctx, env, d2es, eval1_d2exp)
+// end of [eval1_d2explst]
 
 implement
 eval1_d2expopt
@@ -305,9 +312,10 @@ eval1_d2expopt
 ) // end of [eval1_d2expopt]
 
 implement
-eval1_d2explstlst (
-  loc0, ctx, env, d2ess
-) = eval1_listmap (loc0, ctx, env, d2ess, eval1_d2explst)
+eval1_d2explstlst
+  (loc0, ctx, env, d2ess) =
+  eval1_listmap (loc0, ctx, env, d2ess, eval1_d2explst)
+// end of [eval1_d2explstlst]
 
 (* ****** ****** *)
 
@@ -321,9 +329,10 @@ in
 end // end of [eval1_labd2exp]
 
 implement
-eval1_labd2explst (
-  loc0, ctx, env, ld2es
-) = eval1_listmap (loc0, ctx, env, ld2es, eval1_labd2exp)
+eval1_labd2explst
+  (loc0, ctx, env, ld2es) =
+  eval1_listmap (loc0, ctx, env, ld2es, eval1_labd2exp)
+// end of [eval1_labd2explst]
 
 (* ****** ****** *)
 
@@ -370,9 +379,10 @@ case+ d2a of
 end // end of [eval1_d2exparg]
 
 implement
-eval1_d2exparglst (
-  loc0, ctx, env, d2as
-) = eval1_listmap (loc0, ctx, env, d2as, eval1_d2exparg)
+eval1_d2exparglst
+  (loc0, ctx, env, d2as) =
+  eval1_listmap (loc0, ctx, env, d2as, eval1_d2exparg)
+// end of [eval1_d2exparglst]
 
 (* ****** ****** *)
 
@@ -676,9 +686,10 @@ end // end of [eval1_d2ecl]
 (* ****** ****** *)
 
 implement
-eval1_d2eclist (
-  loc0, ctx, env, d2cs
-) = eval1_listmap (loc0, ctx, env, d2cs, eval1_d2ecl)
+eval1_d2eclist
+  (loc0, ctx, env, d2cs) =
+  eval1_listmap (loc0, ctx, env, d2cs, eval1_d2ecl)
+// end of [eval1_d2eclist]
 
 (* ****** ****** *)
 

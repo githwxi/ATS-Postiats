@@ -558,7 +558,9 @@ s0exparg_tr
 // end of [s0exparg_tr]
 
 (* ****** ****** *)
-
+//
+// HX: two or more groups of static arguments are merged into one
+//
 implement
 m0acarglst_tr
   (m0as) = let
@@ -577,8 +579,25 @@ case+ m0as of
     ) : m1acarg // end of [val]
     val m1as = m0acarglst_tr (m0as)
   in
-    list_cons (m1a, m1as)
-  end
+    case+ m1a.m1acarg_node of
+    | M1ACARGdyn _ => list_cons (m1a, m1as)
+    | M1ACARGsta (s1as) => (
+      case+ m1as of
+      | list_cons
+          (m1a2, m1as2) => (
+        case+ m1a2.m1acarg_node of
+        | M1ACARGsta (s1as2) => let
+            val s1as = list_append (s1as, s1as2)
+            val loc = $LOC.location_combine (loc, m1a2.m1acarg_loc)
+            val m1a = m1acarg_make_sta (loc, s1as)
+          in
+            list_cons (m1a, m1as2)
+          end // end of [M1ACARGsta]
+        | _ => list_cons (m1a, m1as)
+        ) // end of [list_cons]
+      | list_nil () => list_sing (m1a)
+      )
+  end // end of [list_cons]
 | list_nil () => list_nil ()
 //
 end // end of [m0acarglst_tr]
