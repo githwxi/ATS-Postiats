@@ -47,12 +47,12 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 castfn 
 array0_of_arrszref
-  {a:vt0p} (A: arrszref (INV(a))):<> array0 (a)
+  {a:vt0p} (A: arrszref (a)):<> array0 (a)
 // end of [array0_of_arrszref]
 
 castfn 
 arrszref_of_array0
-  {a:vt0p} (A: array0 (INV(a))):<> arrszref (a)
+  {a:vt0p} (A: array0 (a)):<> arrszref (a)
 // end of [arrszref_of_array0]
 
 #atscode_separator()
@@ -77,19 +77,19 @@ overload array0 with array0_make_arrpsz
 #atscode_separator()
 
 fun{tk:tk}{a:t0p}
-array0_get_at_gint (A: array0 (INV(a)), i: g0int(tk)):<!exn,!ref> a
+array0_get_at_gint (A: array0 (a), i: g0int(tk)):<!exn,!ref> a
 fun{tk:tk}{a:t0p}
-array0_get_at_guint (A: array0 (INV(a)), i: g0uint(tk)):<!exn,!ref> a
+array0_get_at_guint (A: array0 (a), i: g0uint(tk)):<!exn,!ref> a
 
 fun{tk:tk}{a:t0p}
-array0_set_at_gint (A: array0 (INV(a)), i: g0int(tk), x: a):<!exn,!refwrt> void
+array0_set_at_gint (A: array0 (a), i: g0int(tk), x: a):<!exn,!refwrt> void
 fun{tk:tk}{a:t0p}
-array0_set_at_guint (A: array0 (INV(a)), i: g0uint(tk), x: a):<!exn,!refwrt> void
+array0_set_at_guint (A: array0 (a), i: g0uint(tk), x: a):<!exn,!refwrt> void
 
 fun{tk:tk}{a:vt0p}
-array0_exch_at_gint (A: array0 (INV(a)), i: g0int(tk), x: &a):<!exn,!refwrt> void
+array0_exch_at_gint (A: array0 (a), i: g0int(tk), x: &a):<!exn,!refwrt> void
 fun{tk:tk}{a:vt0p}
-array0_exch_at_guint (A: array0 (INV(a)), i: g0uint(tk), x: &a):<!exn,!refwrt> void
+array0_exch_at_guint (A: array0 (a), i: g0uint(tk), x: &a):<!exn,!refwrt> void
 
 #atscode_separator()
 
@@ -100,19 +100,19 @@ fun array0_length {a:t0p} (A: array0 a):<> size_t
 
 fun{a:t0p}
 array0_append
-  (A1: array0 (INV(a)), A2: array0 (a)):<> array0 (a)
+  (A1: array0 (a), A2: array0 (a)):<> array0 (a)
 // end of [array0_append]
 
 #atscode_separator()
 
 fun{a:t0p}
 array0_foreach
-  (A: array0 (INV(a)), f: (&a) -<cloref1> void): void
+  (A: array0 (a), f: (&a) -<cloref1> void): void
 // end of [array0_foreach]
 
 fun{a:t0p}
 array0_iforeach
-  (A: array0 (INV(a)), f: (size_t, &a) -<cloref1> void): void
+  (A: array0 (a), f: (size_t, &a) -<cloref1> void): void
 // end of [array0_iforeach]
 
 #atscode_separator()
@@ -122,12 +122,12 @@ array0_iforeach
 *)
 fun{a:t0p}
 array0_find_exn
-  (A: array0 (INV(a)), p: (&a) -<cloref1> bool): size_t
+  (A: array0 (a), p: (&a) -<cloref1> bool): size_t
 // end of [array0_find_exn]
 
 fun{a:t0p}
 array0_find_opt
-  (A: array0 (INV(a)), p: (&a) -<cloref1> bool): option0 (size_t)
+  (A: array0 (a), p: (&a) -<cloref1> bool): option0 (size_t)
 // end of [array0_find_opt]
 
 #atscode_separator()
@@ -135,20 +135,20 @@ array0_find_opt
 fun{
 a:t0p}{res:t0p
 } array0_foldleft (
-  A: array0 (INV(a)), ini: res, f: (res, &a) -<cloref1> res
+  A: array0 (a), ini: res, f: (res, &a) -<cloref1> res
 ) : res // end of [array0_foldleft]
 
 fun{
 a:t0p}{res:t0p
 } array0_ifoldleft (
-  A: array0 (INV(a)), ini: res, f: (res, size_t, &a) -<cloref1> res
+  A: array0 (a), ini: res, f: (res, size_t, &a) -<cloref1> res
 ) : res // end of [array0_ifoldleft]
 
 #atscode_separator()
 
 fun{a:t0p}
 array0_rforeach
-  (A: array0 (INV(a)), f: (&a) -<cloref1> void): void
+  (A: array0 (a), f: (&a) -<cloref1> void): void
 // end of [array0_rforeach]
 
 #atscode_separator()
@@ -156,7 +156,7 @@ array0_rforeach
 fun{
 a:t0p}{res:t0p
 } array0_foldright (
-  A: array0 (INV(a)), f: (&a, res) -<cloref1> res, snk: res
+  A: array0 (a), f: (&a, res) -<cloref1> res, snk: res
 ) : res // end of [array0_foldright]
 
 #atscode_separator()

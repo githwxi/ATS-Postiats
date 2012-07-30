@@ -74,7 +74,7 @@ overload list0 with list0_make_arrpsz
 
 fun{a:t0p}
 fprint_list0_sep (
-  out: FILEref, xs: list0 (a), sep: NSH(string)
+  out: FILEref, xs: list0 (INV(a)), sep: NSH(string)
 ) : void // end of [fprint_list0_sep]
 
 #atscode_separator()
@@ -314,7 +314,9 @@ a1,a2:t0p}{b:t0p
 #atscode_separator()
 
 fun{a:t0p}
-list0_filter (xs: list0 (INV(a)), f: cfun (a, bool)): list0 (a)
+list0_filter
+  (xs: list0 (INV(a)), f: cfun (a, bool)): list0 (a)
+// end of [list0_filter]
 
 #atscode_separator()
 
@@ -339,14 +341,14 @@ macdef list0_zipwith = list0_map2
 
 fun{a:t0p}
 list0_quicksort
-  (xs: NSH(list0 (a)), cmp: (a, a) -<cloref> int):<> list0 (a)
+  (xs: NSH(list0 (INV(a))), cmp: (a, a) -<cloref> int):<> list0 (a)
 // end of [list0_quicksort]
 
 #atscode_separator()
 
 fun{a:t0p}
 list0_mergesort
-  (xs: NSH(list0 (a)), cmp: (a, a) -<cloref> int):<> list0 (a)
+  (xs: NSH(list0 (INV(a))), cmp: (a, a) -<cloref> int):<> list0 (a)
 // end of [list0_mergesort]
 
 #atscode_separator()

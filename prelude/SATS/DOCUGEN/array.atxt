@@ -181,6 +181,7 @@ overload array_get_at with array_get_at_guint
 This function, which overloads the symbol #dyncode("[]"), returns the value
 stored in cell i of the given array A.  Note that the type for values
 stored in A is nonlinear.  ')
+
 #declexample("\
 
 The following code computes the sum of the integers stored in a given
@@ -267,8 +268,8 @@ value in its second argument. Note that the type of these values can be linear.
 #declnamesynop("array_exch_at_guint")
 #decldescrpt('\
 
-This function, which overloads the symbol #dyncode("[]"), is like
-#dyncode("array_exch_at_gint") except that the index is unsigned.  ')
+This function, which is like #dyncode("array_exch_at_gint") except that the
+index is unsigned.  ')
 
 (* ****** ****** *)
 

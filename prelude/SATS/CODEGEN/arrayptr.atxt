@@ -127,9 +127,7 @@ arrayptr_make_intrange
 
 fun
 arrayptr_make_arrpsz
-  {a:vt0p}{n:int} (
-  psz: arrpsz (INV(a), n)
-) :<> arrayptr (a, n) // end of [arrayptr_make_arrpsz]
+  {a:vt0p}{n:int} (psz: arrpsz (INV(a), n)) :<> arrayptr (a, n)
 overload arrayptr with arrayptr_make_arrpsz
 
 #atscode_separator()
@@ -156,16 +154,17 @@ arrayptr_make_uninitized
 #atscode_separator()
 
 fun{a:vt0p}
+fprint_arrayptr
+  {l:addr}{n:int} (
+  out: FILEref, A: !arrayptr (INV(a), l, n), n: size_t n
+) : void // end of [fprint_arrayptr]
+
+fun{a:vt0p}
 fprint_arrayptr_sep
   {l:addr}{n:int} (
   out: FILEref
-, A: !arrayptr (a, l, n), n: size_t n, sep: NSH(string)
+, A: !arrayptr (INV(a), l, n), n: size_t n, sep: NSH(string)
 ) : void // end of [fprint_arrayptr_sep]
-
-macdef
-fprint_arrayptr
-  (out, A, n) = fprint_arrayptr_sep (,(out), ,(A), ,(n), ", ")
-// end of [fprint_arrayptr]
 
 #atscode_separator()
 
@@ -249,7 +248,7 @@ overload arrayptr_exch_at with arrayptr_exch_at_guint
 #atscode_separator()
 
 fun arrayptr_free
-  {a:t0p}{l:addr}{n:int} (A: arrayptr (a, l, n)):<> void
+  {a:t0p}{l:addr}{n:int} (A: arrayptr (INV(a), l, n)):<> void
 // end of [arrayptr_free]
 
 #atscode_separator()
@@ -323,7 +322,7 @@ array_uninitize__fwork (i: size_t, x: &a >> a?): void
 fun{a:vt0p}
 arrayptr_uninitize
   {l:addr}{n:int} (
-  A: !arrayptr (a, l, n) >> arrayptr (a?, l, n), asz: size_t n
+  A: !arrayptr (INV(a), l, n) >> arrayptr (a?, l, n), asz: size_t n
 ) : void // end of [arrayptr_uninitize]
 macdef arrayptr_uninitialize = arrayptr_uninitize
 
