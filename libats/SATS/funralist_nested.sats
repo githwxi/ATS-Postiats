@@ -54,7 +54,7 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 (* ****** ****** *)
 
 prfun lemma_ralist_param
-  {a:t0p}{n:int} (xs: ralist (a, n)): [n >= 0] void
+  {a:t0p}{n:int} (xs: ralist (INV(a), n)): [n >= 0] void
 // end of [lemma_ralist_param]
 
 (* ****** ****** *)
@@ -66,18 +66,18 @@ funralist_nil {a:t0p} ():<> ralist (a, 0)
 
 fun{}
 funralist_is_nil
-  {a:t0p}{n:int} (xs: ralist (a, n)):<> bool (n==0)
+  {a:t0p}{n:int} (xs: ralist (INV(a), n)):<> bool (n==0)
 // end of [funralist_is_nil]
 
 fun{}
 funralist_is_cons
-  {a:t0p}{n:int} (xs: ralist (a, n)):<> bool (n > 0)
+  {a:t0p}{n:int} (xs: ralist (INV(a), n)):<> bool (n > 0)
 // end of [funralist_is_cons]
 
 (* ****** ****** *)
 
 fun funralist_length
-  {a:t0p}{n:nat} (xs: ralist (a, n)):<> int (n)
+  {a:t0p}{n:nat} (xs: ralist (INV(a), n)):<> int (n)
 // end of [funralist_length]
 
 (* ****** ****** *)
@@ -122,9 +122,9 @@ fun{a:t0p}{env:vt0p}
 funralist_foreach__fwork (x: a, env: &env): void
 
 fun{a:t0p}
-funralist_foreach (xs: Ralist (a)): void
+funralist_foreach (xs: Ralist (INV(a))): void
 fun{a:t0p}{env:vt0p}
-funralist_foreach_env (xs: Ralist (a), env: &INV(env)>>env): void
+funralist_foreach_env (xs: Ralist (INV(a)), env: &(env)>>env): void
 
 (* ****** ****** *)
 
