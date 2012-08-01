@@ -94,6 +94,7 @@ parerr_node =
   | PE_s0tring
 //
   | PE_i0de
+  | PE_i0dext
   | PE_i0de_dlr
 //
   | PE_s0rtid
@@ -245,13 +246,9 @@ fun is_WITH (x: tnode): bool
 fun p_WHEN : parser (token)
 fun is_WHEN (x: tnode): bool
 
-fun p_FOR : parser (token)
-fun is_FOR (x: tnode): bool
 fun p_FORSTAR : parser (token)
 fun is_FORSTAR (x: tnode): bool
 
-fun p_WHILE : parser (token)
-fun is_WHILE (x: tnode): bool
 fun p_WHILESTAR : parser (token)
 fun is_WHILESTAR (x: tnode): bool
 
@@ -511,6 +508,10 @@ fun p_s0tring : parser (s0tring) // strings
 
 fun p_i0de : parser (i0de) // identifier
 fun p_i0deseq1 : parser (i0delst) // = {i0de}+
+
+(* ****** ****** *)
+
+fun p_i0dext : parser (i0de) // identifier!
 
 (* ****** ****** *)
 

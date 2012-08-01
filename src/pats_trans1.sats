@@ -216,6 +216,17 @@ fun termination_metric_check
 // end of [termination_metric_check]
 
 (* ****** ****** *)
+//
+// HX: for supporting syndef
+//
+(* ****** ****** *)
+
+typedef
+fsyndef = (location, d1explst) -<fun1> d1exp
+
+fun d1exp_syndef_resolve (loc0: location, d1e: d1exp): d1exp
+
+(* ****** ****** *)
 
 fun d0ecl_tr (d0c: d0ecl): d1ecl
 fun d0eclist_tr (d0cs: d0eclist): d1eclist

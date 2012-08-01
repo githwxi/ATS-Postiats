@@ -139,7 +139,6 @@ dynload "pats_staexp1.dats"
 dynload "pats_staexp1_print.dats"
 dynload "pats_dynexp1.dats"
 dynload "pats_dynexp1_print.dats"
-dynload "pats_dynexp1_syndef.dats"
 //
 dynload "pats_trans1_env.dats"
 //
@@ -152,6 +151,7 @@ dynload "pats_trans1_effect.dats"
 dynload "pats_trans1_sort.dats"
 dynload "pats_trans1_staexp.dats"
 dynload "pats_trans1_p0at.dats"
+dynload "pats_trans1_syndef.dats"
 dynload "pats_trans1_dynexp.dats"
 dynload "pats_trans1_decl.dats"
 //

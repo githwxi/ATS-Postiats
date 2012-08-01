@@ -1503,7 +1503,7 @@ case+ d1e0.d1exp_node of
 | D1Eerr () => d2exp_err (loc0)
 //
 | D1Eidextapp
-    (id, ns, d1es) => let
+    (id, d1es) => let
     val () = prerr_error2_loc (loc0)
     val () = prerr ": the external id ["
     val () = $SYM.prerr_symbol (id)

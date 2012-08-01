@@ -1759,6 +1759,13 @@ case+ (i2c)i of
   in
     lexbufpos_token_reset (buf, pos, T_IDENT_arr (str))
   end
+| '!' => let
+    val () = posincby1 (pos)
+    val str = lexbuf_get_strptr1 (buf, k)
+    val str = string_of_strptr (str)
+  in
+    lexbufpos_token_reset (buf, pos, T_IDENT_ext (str))
+  end
 | _ => let
     val str =
       lexbuf_get_strptr1 (buf, k)

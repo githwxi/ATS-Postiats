@@ -124,7 +124,7 @@ token_node =
   | T_FIX of int // fix and fix@
   | T_FIXITY of
       (fxtykind) // infix, infixl, infixr, prefix, postfix
-  | T_FOR of int // for and for*
+  | T_FORSTAR of () // for*
   | T_FUN of (funkind) // fn, fn*, fun and prfun
   | T_IF of () // (dynamic) if
   | T_IMPLEMENT of
@@ -161,7 +161,7 @@ token_node =
   | T_VAR of () // var
   | T_WHEN of () // when
   | T_WHERE of () // where
-  | T_WHILE of int // while(0) and while*(1)
+  | T_WHILESTAR of () // while*
   | T_WITH of () // with
   | T_WITHTYPE of
       (int) // withtype, withprop, withview, withviewtype

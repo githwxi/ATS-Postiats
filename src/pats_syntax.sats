@@ -1281,6 +1281,8 @@ and d0exp_node =
   | D0Edqid of (d0ynq, symbol) // qualified dynamic identifiers
   | D0Eopid of symbol // dynamic op identifiers
 //
+  | D0Eidext of symbol // dynamic external identifiers
+//
   | D0Eint of i0nt
   | D0Echar of c0har
   | D0Efloat of f0loat
@@ -1528,13 +1530,15 @@ and i0mpdec = '{
 (* ****** ****** *)
 
 fun d0exp_ide (id: i0de): d0exp
+fun d0exp_opid (_: token, id: i0de): d0exp
 fun d0exp_dqid (qid: dqi0de): d0exp
-fun d0exp_opid (_1: token, _2: i0de): d0exp
+
+fun d0exp_idext (id: i0de): d0exp // external id
 
 fun d0exp_i0nt (_: i0nt): d0exp
 fun d0exp_c0har (_: c0har): d0exp
-fun d0exp_f0loat (_: f0loat): d0exp
 fun d0exp_s0tring (_: s0tring): d0exp
+fun d0exp_f0loat (_: f0loat): d0exp
 
 fun d0exp_empty (loc: location): d0exp
 

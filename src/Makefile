@@ -97,7 +97,6 @@ SOURCES := \
   pats_dynexp1.sats \
   pats_dynexp1.dats \
   pats_dynexp1_print.dats \
-  pats_dynexp1_syndef.dats \
   pats_trans1.sats \
   pats_trans1_env.sats \
   pats_trans1_env.dats \
@@ -110,6 +109,7 @@ SOURCES := \
   pats_trans1_sort.dats \
   pats_trans1_staexp.dats \
   pats_trans1_p0at.dats \
+  pats_trans1_syndef.dats \
   pats_trans1_dynexp.dats \
   pats_trans1_decl.dats \
   pats_staexp2.sats \
@@ -292,7 +292,6 @@ OBJECTS := \
   pats_dynexp1_sats.o \
   pats_dynexp1_dats.o \
   pats_dynexp1_print_dats.o \
-  pats_dynexp1_syndef_dats.o \
   pats_trans1_sats.o \
   pats_trans1_env_sats.o \
   pats_trans1_env_dats.o \
@@ -305,6 +304,7 @@ OBJECTS := \
   pats_trans1_sort_dats.o \
   pats_trans1_staexp_dats.o \
   pats_trans1_p0at_dats.o \
+  pats_trans1_syndef_dats.o \
   pats_trans1_dynexp_dats.o \
   pats_trans1_decl_dats.o \
   pats_staexp2_sats.o \
@@ -620,9 +620,6 @@ pats_dynexp1_dats.o: pats_dynexp1_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 pats_dynexp1_print_dats.c: pats_dynexp1_print.dats; $(ATSCC) -cc $<
 pats_dynexp1_print_dats.o: pats_dynexp1_print_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
-pats_dynexp1_syndef_dats.c: pats_dynexp1_syndef.dats; $(ATSCC) -cc $<
-pats_dynexp1_syndef_dats.o: pats_dynexp1_syndef_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
-
 pats_trans1_sats.c: pats_trans1.sats; $(ATSCC) -cc $<
 pats_trans1_sats.o: pats_trans1_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
@@ -658,6 +655,9 @@ pats_trans1_staexp_dats.o: pats_trans1_staexp_dats.c; $(ATSCC) $(ATSCCFLAGS) -c 
 
 pats_trans1_p0at_dats.c: pats_trans1_p0at.dats; $(ATSCC) -cc $<
 pats_trans1_p0at_dats.o: pats_trans1_p0at_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_trans1_syndef_dats.c: pats_trans1_syndef.dats; $(ATSCC) -cc $<
+pats_trans1_syndef_dats.o: pats_trans1_syndef_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_trans1_dynexp_dats.c: pats_trans1_dynexp.dats; $(ATSCC) -cc $<
 pats_trans1_dynexp_dats.o: pats_trans1_dynexp_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<

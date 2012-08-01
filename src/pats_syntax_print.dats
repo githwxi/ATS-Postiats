@@ -818,6 +818,12 @@ case+ x.d0exp_node of
     val () = prstr ")"
   }
 //
+| D0Eidext (sym) => {
+    val () = prstr "D0Eidext("
+    val () = fprint_symbol (out, sym)
+    val () = prstr ")"
+  }
+//
 | D0Eint (x) => {
     val () = prstr "D0Eint("
     val () = fprint_i0nt (out, x)

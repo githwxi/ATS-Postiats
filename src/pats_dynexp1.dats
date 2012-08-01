@@ -64,6 +64,8 @@ p1at_anys (loc) = '{
 }
 *)
 
+(* ****** ****** *)
+
 implement
 p1at_ide (loc, id) = '{
   p1at_loc= loc, p1at_node= P1Tide (id)
@@ -367,13 +369,27 @@ d1exp_make (loc, node) = '{
   d1exp_loc= loc, d1exp_node= node
 } // end of [d1exp_make]
 
+(* ****** ****** *)
+
 implement
 d1exp_ide (loc, id) = d1exp_make (loc, D1Eide (id))
+implement d1exp_opid (loc, id) = d1exp_ide (loc, id)
 implement
 d1exp_dqid
   (loc, dq, id) = d1exp_make (loc, D1Edqid (dq, id))
 // end of [d1exp_dqid]
-implement d1exp_opid (loc, id) = d1exp_ide (loc, id)
+
+(* ****** ****** *)
+
+implement
+d1exp_idext
+  (loc, id) = d1exp_idextapp (loc, id, list_nil)
+implement
+d1exp_idextapp
+  (loc, id, arg) = d1exp_make (loc, D1Eidextapp (id, arg))
+// end of [d1exp_idexpapp]
+
+(* ****** ****** *)
 
 implement
 d1exp_int (loc, i) = d1exp_make (loc, D1Eint (i:int))
@@ -386,6 +402,8 @@ d1exp_string (loc, str) = d1exp_make (loc, D1Estring (str))
 implement
 d1exp_float (loc, rep) = d1exp_make (loc, D1Efloat rep)
 
+(* ****** ****** *)
+
 implement
 d1exp_i0nt (loc, x) = d1exp_make (loc, D1Ei0nt (x))
 implement
@@ -395,11 +413,16 @@ d1exp_f0loat (loc, x) = d1exp_make (loc, D1Ef0loat (x))
 implement
 d1exp_s0tring (loc, x) = d1exp_make (loc, D1Es0tring (x))
 
+(* ****** ****** *)
+
 implement
 d1exp_cstsp (loc, x) = d1exp_make (loc, D1Ecstsp (x))
 
+(* ****** ****** *)
+
 implement
-d1exp_empty (loc) = d1exp_make (loc, D1Eempty ())
+d1exp_empty
+  (loc) = d1exp_make (loc, D1Eempty ())
 implement
 d1exp_top (loc) = d1exp_make (loc, D1Etop ())
 
@@ -408,6 +431,7 @@ d1exp_top (loc) = d1exp_make (loc, D1Etop ())
 implement
 d1exp_extval (loc, _type, _code) =
   d1exp_make (loc, D1Eextval (_type, _code))
+// end of [d1exp_extval]
 
 (* ****** ****** *)
 
@@ -430,6 +454,7 @@ d1exp_freeat (loc, s1as, d1e) =
 implement
 d1exp_tmpid (loc, qid, tmparg) =
   d1exp_make (loc, D1Etmpid (qid, tmparg))
+// end of [d1exp_tmpid]
 
 (* ****** ****** *)
 
@@ -453,12 +478,6 @@ d1exp_app_dyn
   (loc, d1e, loc_arg, npf, d1es) =
   d1exp_make (loc, D1Eapp_dyn (d1e, loc_arg, npf, d1es))
 // end of [d1exp_app_dyn]
-
-implement
-d1exp_idextapp
-  (loc, id, ns, d1es) =
-  d1exp_make (loc, D1Eidextapp (id, ns, d1es))
-// end of [d1exp_idextapp]
 
 (* ****** ****** *)
 

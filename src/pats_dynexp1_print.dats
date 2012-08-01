@@ -247,6 +247,7 @@ fprint_d1exp
 in
 //
 case+ d1e0.d1exp_node of
+//
 | D1Eide (id) => {
     val () = prstr "D1Eide("
     val () = fprint_symbol (out, id)
@@ -256,6 +257,14 @@ case+ d1e0.d1exp_node of
     val () = prstr "D1Edqid("
     val () = fprint_d0ynq (out, dq)
     val () = fprint_symbol (out, id)
+    val () = prstr ")"
+  }
+//
+| D1Eidextapp (id, d1es) => {
+    val () = prstr "D1Eidextapp("
+    val () = fprint_symbol (out, id)
+    val () = prstr "; "
+    val () = fprint_d1explst (out, d1es)
     val () = prstr ")"
   }
 //
@@ -311,8 +320,36 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
-| D1Eempty () => prstr "D1Eempty()"
+| D1Ecstsp (x) => {
+    val () = prstr "D1Ecstsp("
+    val () = fprint_cstsp (out, x)
+    val () = prstr ")"
+  }
+//
+| D1Eempty () => {
+    val () = prstr "D1Eempty()"
+  } // end of [D1Eempty]
 | D1Etop () => prstr "D1Etop()"
+//
+| D1Eextval
+    (s1e, code) => {
+    val () = prstr "D1Eextval("
+    val () = fprint_s1exp (out, s1e)
+    val () = prstr "; "
+    val () = fprint_string (out, "[code]")
+    val () = prstr ")"
+  } // end of [D1Eextval]
+//
+| D1Eloopexn (knd) => {
+    val () = fprintf (out, "D1Eloopexn(%i)", @(knd))
+  } // end of [D1Eloopexn]
+//
+| D1Efoldat _ => {
+    val () = fprintf (out, "D1Efoldat(...)", @())
+  }
+| D1Efreeat _ => {
+    val () = fprintf (out, "D1Efreeat(...)", @())
+  }
 //
 | D1Etmpid (qid, arg) => {
     val () = prstr "D1Etmpid("
@@ -329,6 +366,11 @@ case+ d1e0.d1exp_node of
   }
 | D1Ewhere _ => {
     val () = prstr "D1Ewhere("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| D1Edecseq _ => {
+    val () = prstr "D1Edecseq("
     val () = prstr "..."
     val () = prstr ")"
   }
@@ -394,7 +436,18 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
-| D1Etup (knd, npf, d1es) => {
+| D1Elst (lin, opt, d1es) => {
+    val () = prstr "D1Etup("
+    val () = fprint_int (out, lin)
+    val () = prstr "; "
+    val () = fprint_s1expopt (out, opt)
+    val () = prstr "; "
+    val () = fprint_d1explst (out, d1es)
+    val () = prstr ")"
+  }
+//
+| D1Etup
+    (knd, npf, d1es) => {
     val () = prstr "D1Etup(knd="
     val () = fprint_int (out, knd)
     val () = prstr "; npf="
@@ -403,7 +456,8 @@ case+ d1e0.d1exp_node of
     val () = fprint_d1explst (out, d1es)
     val () = prstr ")"
   } // end of [D1Etup]
-| D1Erec (knd, npf, ld1es) => {
+| D1Erec
+    (knd, npf, ld1es) => {
     val () = prstr "D1Erec(knd="
     val () = fprint_int (out, knd)
     val () = prstr "; npf="
@@ -471,6 +525,12 @@ case+ d1e0.d1exp_node of
     val () = prstr ")"
   }
 //
+| D1Esexparg (s1a) => {
+    val () = prstr "D1Esexparg("
+    val () = fprint_s1exparg (out, s1a)
+    val () = prstr ")"
+  }
+//
 | D1Eexist (s1a, d1e) => {
     val () = prstr "D1Eexist("
     val () = fprint_s1exparg (out, s1a)
@@ -501,6 +561,12 @@ case+ d1e0.d1exp_node of
   }
 | D1Elam_met _ => {
     val () = prstr "D1Elam_met("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+//
+| D1Efix _ => {
+    val () = prstr "D1Efix("
     val () = prstr "..."
     val () = prstr ")"
   }
@@ -556,7 +622,9 @@ case+ d1e0.d1exp_node of
     val () = prstr "D1Eerr()"
   }
 //
+(*
 | _ => prstr "D1E...(...)"
+*)
 //
 end // end of [fprint_d1exp]
 
@@ -565,10 +633,19 @@ print_d1exp (x) = fprint_d1exp (stdout_ref, x)
 implement
 prerr_d1exp (x) = fprint_d1exp (stderr_ref, x)
 
+(* ****** ****** *)
+
 implement
 fprint_d1explst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_d1exp)
 // end of [fprint_d1explst]
+
+implement
+print_d1explst (xs) = fprint_d1explst (stdout_ref, xs)
+implement
+prerr_d1explst (xs) = fprint_d1explst (stderr_ref, xs)
+
+(* ****** ****** *)
 
 implement
 fprint_d1expopt

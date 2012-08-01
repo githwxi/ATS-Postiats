@@ -281,6 +281,8 @@ and d1exp_node =
   | D1Eide of (symbol) // identifiers
   | D1Edqid of (d0ynq, symbol) // qualified identifiers
 //
+  | D1Eidextapp of (symbol(*id*), d1explst) // id: external
+//
   | D1Eint of int // dynamic integers
   | D1Eintrep of string(*rep*) // dynamic integers
   | D1Ebool of bool // boolean constants
@@ -295,7 +297,7 @@ and d1exp_node =
 //
   | D1Ecstsp of cstsp // special constants
 //
-  | D1Eempty (* empty expression *)
+  | D1Eempty of () (* empty expression *)
   | D1Etop of () // uninitialized expression of some size
 //
   | D1Eextval of
@@ -320,7 +322,6 @@ and d1exp_node =
       (d1exp, location(*arg*), int (*pfarity*), d1explst)
   | D1Eapp_sta of (* static application *)
       (d1exp, s1exparglst)
-  | D1Eidextapp of (symbol, intlst(*ns*), d1explst) // ns: arity list
 //
   | D1Elist of (int(*pfarity*), d1explst) // temporary
 //
@@ -357,6 +358,7 @@ and d1exp_node =
   | D1Eselab of (int(*knd*), d1exp, d1lab)
 //
   | D1Esexparg of s1exparg (* for temporary use *)
+//
   | D1Eexist of (s1exparg, d1exp) // witness-carrying expression
 //
   | D1Elam_dyn of (* dynamic abstraction: alloc/init *)
@@ -522,11 +524,12 @@ fun d1exp_make
 // end of [d1exp_make]
 
 fun d1exp_ide (loc: location, id: symbol): d1exp
-fun d1exp_dqid
-  (loc: location, dq: d0ynq, id: symbol): d1exp
-// end of [d1exp_dqid]
 fun d1exp_opid (loc: location, id: symbol): d1exp
-
+fun d1exp_dqid (loc: location, dq: d0ynq, id: symbol): d1exp
+//
+fun d1exp_idext (loc: location, id: symbol): d1exp
+fun d1exp_idextapp (loc: location, id: symbol, arg: d1explst): d1exp
+//
 fun d1exp_int (loc: location, i: int): d1exp
 fun d1exp_intrep (loc: location, rep: string): d1exp
 fun d1exp_char (loc: location, c: char): d1exp
@@ -578,10 +581,6 @@ fun d1exp_app_dyn (
   loc: location
 , d1e: d1exp, loc_arg: location, npf: int, d1es: d1explst
 ) : d1exp // end of [d1exp_app_dyn]
-
-fun d1exp_idextapp (
-  loc: location, id: symbol, ns: intlst, d1es: d1explst
-) : d1exp // end of [d1exp_idextapp]
 
 (* ****** ****** *)
 
@@ -749,7 +748,12 @@ fun prerr_d1exp (x: d1exp): void
 overload prerr with prerr_d1exp
 fun fprint_d1exp : fprint_type (d1exp)
 
+fun print_d1explst (xs: d1explst): void
+overload print with print_d1explst
+fun prerr_d1explst (xs: d1explst): void
+overload prerr with prerr_d1explst
 fun fprint_d1explst : fprint_type (d1explst)
+
 fun fprint_d1expopt : fprint_type (d1expopt)
 
 (* ****** ****** *)
@@ -787,21 +791,6 @@ fun c1lau_make (
 fun sc1lau_make
   (loc: location, pat: sp1at, body: d1exp): sc1lau
 // end of [sc1lau_make]
-
-(* ****** ****** *)
-//
-// HX: for supporting syndef
-//
-(* ****** ****** *)
-
-typedef
-fsyndef = (location, d1explst) -<fun1> d1exp
-
-fun d1exp_app_syndef (
-  loc: location, d1e_fun: d1exp, d1e_arg: d1exp
-) : d1exp // end of [d1exp_app_syndef]
-
-fun d1exp_idextapp_resolve (loc0: location, d1e: d1exp): d1exp
 
 (* ****** ****** *)
 //

@@ -100,7 +100,7 @@ fprint_token
   | T_EXTVAL () => fprintf (out, "EXTVAL()", @())
   | T_FIX (x) => fprintf (out, "FIX(%i)", @(x))
   | T_FIXITY (x) => fprintf (out, "FIXITY(...)", @())
-  | T_FOR (x) => fprintf (out, "FOR(%i)", @(x))
+  | T_FORSTAR () => fprintf (out, "FORSTAR()", @())
   | T_FUN (x) => fprintf (out, "FUN(...)", @())
   | T_IF () => fprintf (out, "IF()", @())
   | T_IMPLEMENT (k) => fprintf (out, "IMPLEMENT(%i)", @(k))
@@ -135,7 +135,7 @@ fprint_token
   | T_VAR () => fprintf (out, "VAR()", @())
   | T_WHEN () => fprintf (out, "WHEN()", @())
   | T_WHERE () => fprintf (out, "WHERE()", @())
-  | T_WHILE (x) => fprintf (out, "WHILE(%i)", @(x))
+  | T_WHILESTAR () => fprintf (out, "WHILESTAR()", @())
   | T_WITH () => fprintf (out, "WITH()", @())
   | T_WITHTYPE (x) => fprintf (out, "WITHTYPE(%i)", @(x))
 //

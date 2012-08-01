@@ -170,7 +170,6 @@ val SOURCES =
 , "pats_dynexp1.sats"
 , "pats_dynexp1.dats"
 , "pats_dynexp1_print.dats"
-, "pats_dynexp1_syndef.dats"
 //
 , "pats_trans1.sats"
 , "pats_trans1_env.sats"
@@ -186,6 +185,7 @@ val SOURCES =
 , "pats_trans1_sort.dats"
 , "pats_trans1_staexp.dats"
 , "pats_trans1_p0at.dats"
+, "pats_trans1_syndef.dats"
 , "pats_trans1_dynexp.dats"
 , "pats_trans1_decl.dats"
 //

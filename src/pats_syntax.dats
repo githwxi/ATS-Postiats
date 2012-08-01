@@ -1595,18 +1595,25 @@ d0exp_ide (id) = '{
 } // end of [d0exp_ide]
 
 implement
+d0exp_opid (x1, x2) = let
+  val loc = x1.token_loc + x2.i0de_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Eopid (x2.i0de_sym)
+} end // end of [d0exp_opid]
+
+implement
 d0exp_dqid (qid) = let
   val dq = qid.dqi0de_qua and sym = qid.dqi0de_sym
 in '{
   d0exp_loc= qid.dqi0de_loc, d0exp_node= D0Edqid (dq, sym)
 } end // end of [d0exp_dqid]
 
+(* ****** ****** *)
+
 implement
-d0exp_opid (x1, x2) = let
-  val loc = x1.token_loc + x2.i0de_loc
-in '{
-  d0exp_loc= loc, d0exp_node= D0Eopid (x2.i0de_sym)
-} end // end of [d0exp_opid]
+d0exp_idext (id) = '{
+  d0exp_loc= id.i0de_loc, d0exp_node= D0Eidext (id.i0de_sym)
+} // end of [d0exp_idext]
 
 (* ****** ****** *)
 

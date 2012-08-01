@@ -73,8 +73,8 @@ implement DATAVIEWTYPE = T_DATATYPE (VIEWTYPE_int)
 implement FIX = T_FIX (TYPE_int)
 implement FIXAT = T_FIX (T0YPE_int)
 
-implement FOR = T_FOR (0)
-implement FORSTAR = T_FOR (1)
+implement FOR = T_IDENT_ext "for"
+implement FORSTAR = T_FORSTAR ((*void*))
 
 implement FUN = T_FUN (FK_fun)
 implement PRFUN = T_FUN (FK_prfun)
@@ -155,11 +155,8 @@ implement VAL_pos = T_VAL (VK_val_pos)
 implement VAL_neg = T_VAL (VK_val_neg)
 implement PRVAL = T_VAL (VK_prval)
 
-implement WHILE = T_WHILE (0)
-(*
 implement WHILE = T_IDENT_ext "while"
-*)
-implement WHILESTAR = T_WHILE (1)
+implement WHILESTAR = T_WHILESTAR ((*void*))
 
 implement WITHTYPE = T_WITHTYPE (T0YPE_int)
 implement WITHPROP = T_WITHTYPE (PROP_int)

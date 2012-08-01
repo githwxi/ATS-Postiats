@@ -194,6 +194,29 @@ end // end of [p_i0deseq1]
 (* ****** ****** *)
 
 implement
+p_i0dext
+  (buf, bt, err) = let
+  val tok = tokbuf_get_token (buf)
+  val loc = tok.token_loc
+  macdef incby1 () = tokbuf_incby1 (buf)
+in
+//
+case+ tok.token_node of
+| T_IDENT_ext (x) => let
+    val () = incby1 () in i0de_make_string (loc, x)
+  end
+| _ => let
+    val () = err := err + 1
+    val () = the_parerrlst_add_ifnbt (bt, loc, PE_i0dext)
+  in
+    synent_null ()
+  end // end of [_] 
+//
+end // end of [p_i0dext]
+
+(* ****** ****** *)
+
+implement
 p_i0de_dlr
   (buf, bt, err) = let
   val tok = tokbuf_get_token (buf)

@@ -265,7 +265,10 @@ case+ node of
   }
 //
 | PE_i0de () => SN (x, "i0de")
+| PE_i0dext () => SN (x, "i0dext")
+//
 | PE_i0de_dlr () => SN (x, "i0de_dlr")
+//
 | PE_l0ab () => SN (x, "l0ab")
 | PE_p0rec () => SN (x, "p0rec")
 //
@@ -305,7 +308,7 @@ case+ node of
 //
 | PE_arrqi0de () => SN (x, "arrqi0de")
 | PE_tmpqi0de () => SN (x, "tmpqi0de")
-| PE_impqi0de () => SN (x, "tmpqi0de")
+| PE_impqi0de () => SN (x, "impqi0de")
 //
 | PE_d0exp () => SN (x, "d0exp")
 | PE_d0exp0 () => SN (x, "d0exp0")

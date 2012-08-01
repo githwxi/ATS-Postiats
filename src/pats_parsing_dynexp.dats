@@ -636,9 +636,14 @@ p_atmd0exp_tok (
 in
 //
 case+ tok.token_node of
+//
 | _ when
     ptest_fun (buf, p_di0de, ent) =>
     d0exp_ide (synent_decode {i0de} (ent))
+| _ when
+    ptest_fun (buf, p_i0dext, ent) =>
+    d0exp_idext (synent_decode {i0de} (ent))
+//
 | T_INTEGER _ => let
     val () = incby1 () in d0exp_i0nt (tok)
   end

@@ -36,6 +36,13 @@
 
 (* ****** ****** *)
 
+symintr macislist
+symintr macisnil
+symintr maciscons
+symintr maccar maccdr
+
+(* ****** ****** *)
+
 (* macros in short form *)
 //
 // [orelse] and [andalso] are declared as infix ops
@@ -55,6 +62,36 @@ macdef ignoret (x) = let val x = ,(x) in (*nothing*) end
 (* ****** ****** *)
 
 macdef foldret (x) = let val x = ,(x) in fold@ (x); x end
+
+(* ****** ****** *)
+
+local
+
+macrodef
+rec
+auxlist
+  (xs, y) = (
+  if maciscons (xs) then
+    `(print ,(maccar xs); ,(auxlist (maccdr xs, y)))
+  else y // end of [if]
+) // end of [auxlist]
+
+in // in of [local]
+
+macdef
+print_mac (xs) = ,(
+  if macislist (xs) then auxlist (xs, `()) else `(print ,(xs))
+) // end of [print_mac]
+
+macdef
+println_mac
+  (xs) = ,(
+  if macislist (xs)
+    then auxlist (xs, `(print_newline())) else `(print ,(xs))
+  // end of [if]
+) // end of [println_mac]
+
+end // end of [local]
 
 (* ****** ****** *)
 
