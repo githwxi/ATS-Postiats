@@ -52,6 +52,7 @@ prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/memory.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/pointer.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/reference.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/string.dats
+prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/tfprint.dats
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/unsafe.dats
 
 prelude:: ; ./patsopt -d $(PATSHOME)/prelude/DATS/basics.dats

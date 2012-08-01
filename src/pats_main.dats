@@ -503,6 +503,8 @@ fun prelude_load (
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/matrix.sats")
 //
+  val () = pervasive_load (ATSHOME, "prelude/SATS/tfprint.sats")
+//
   val () = pervasive_load (ATSHOME, "prelude/SATS/extern.sats")
 //
 } // end of [prelude_load]

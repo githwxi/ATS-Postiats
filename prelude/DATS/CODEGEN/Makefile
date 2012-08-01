@@ -136,16 +136,6 @@ clean:: ; $(RMF) strptr_atxt.exe
 cleanall:: ; $(RMF) strptr.dats
 
 
-all:: unsafe.dats
-unsafe.dats: unsafe_atxt.exe ; ./$< > $@
-unsafe_atxt.exe: unsafe_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ unsafe_atxt.dats -latsdoc
-unsafe_atxt.dats: unsafe.atxt
-	$(ATSDOC) --outcode $@ -i unsafe.atxt > unsafe_atxt.txt
-clean:: ; $(RMF) unsafe_atxt.exe
-cleanall:: ; $(RMF) unsafe.dats
-
-
 all:: basics.dats
 basics.dats: basics_atxt.exe ; ./$< > $@
 basics_atxt.exe: basics_atxt.dats
@@ -248,6 +238,26 @@ matrix_atxt.dats: matrix.atxt
 	$(ATSDOC) --outcode $@ -i matrix.atxt > matrix_atxt.txt
 clean:: ; $(RMF) matrix_atxt.exe
 cleanall:: ; $(RMF) matrix.dats
+
+
+all:: tfprint.dats
+tfprint.dats: tfprint_atxt.exe ; ./$< > $@
+tfprint_atxt.exe: tfprint_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ tfprint_atxt.dats -latsdoc
+tfprint_atxt.dats: tfprint.atxt
+	$(ATSDOC) --outcode $@ -i tfprint.atxt > tfprint_atxt.txt
+clean:: ; $(RMF) tfprint_atxt.exe
+cleanall:: ; $(RMF) tfprint.dats
+
+
+all:: unsafe.dats
+unsafe.dats: unsafe_atxt.exe ; ./$< > $@
+unsafe_atxt.exe: unsafe_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ unsafe_atxt.dats -latsdoc
+unsafe_atxt.dats: unsafe.atxt
+	$(ATSDOC) --outcode $@ -i unsafe.atxt > unsafe_atxt.txt
+clean:: ; $(RMF) unsafe_atxt.exe
+cleanall:: ; $(RMF) unsafe.dats
 
 
 ######

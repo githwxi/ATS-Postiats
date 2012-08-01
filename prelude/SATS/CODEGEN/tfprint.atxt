@@ -1,0 +1,86 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"tfprint.sats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/SATS/CODEGEN/tfprint.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("August, 2012")
+
+#atscode_separator()
+
+sortdef t0p = t@ype
+
+#atscode_separator()
+
+fun{}
+tfprint__out (): FILEref
+
+#atscode_separator()
+
+fun{a:t0p}
+tfprint (x: a): void
+
+#atscode_separator()
+
+fun{}
+tfprint_newline (): void
+
+#atscode_separator()
+
+fun{}
+tfprint_list__sep (): string
+fun{}
+tfprint_list__beg (): string
+fun{}
+tfprint_list__end (): string
+
+fun{a:t0p}
+tfprint_list (xs: List (a)): void
+
+#atscode_separator()
+
+fun{}
+tfprint_array__sep (): string
+fun{}
+tfprint_array__beg (): string
+fun{}
+tfprint_array__end (): string
+
+fun{a:t0p}
+tfprint_array
+  {n:int} (A: &(@[a][n]), n: size_t n): void
+// end of [tfprint_array]
+fun{a:t0p}
+tfprint_arrayptr
+  {n:int} (A: !arrayptr (a, n), n: size_t n): void
+// end of [tfprint_arrayptr]
+fun{a:t0p}
+tfprint_arrayref
+  {n:int} (A: arrayref (a, n), n: size_t n): void
+// end of [tfprint_arrayref]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "tfprint_atxt.txt")
+%}\

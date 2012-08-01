@@ -62,6 +62,7 @@ all::
 
 #make_entry("bool")
 #make_entry("char")
+#make_entry("filebas")
 #make_entry("float")
 #make_entry("integer")
 #make_entry("intrange")
@@ -70,8 +71,6 @@ all::
 #make_entry("reference")
 #make_entry("string")
 #make_entry("strptr")
-
-#make_entry("filebas")
 
 #make_entry("lazy")
 #make_entry("lazy_vt")
@@ -94,6 +93,8 @@ for pointer arrays terminated with the null pointer
 
 #make_entry("matrix")
 #make_entry("matrixptr")
+
+#make_entry("tfprint")
 
 #make_entry("iterator")
 

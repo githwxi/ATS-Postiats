@@ -1,14 +1,30 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"tfprint.dats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
 (*
-** Some print functions to faciliate testing
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/tfprint.atxt
+** Time of generation: #timestamp()
 *)
 
-(* ****** ****** *)
+#atscode_separator()
 
-staload
-"contrib/atshwxi/testing/SATS/tfprint.sats"
-// end of [staload]
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("August, 2012")
 
-(* ****** ****** *)
+#atscode_separator()
 
 implement{a}
 tfprint (x) = let
@@ -17,7 +33,7 @@ end // end of [tfprint]
 
 implement{} tfprint__out () = stdout_ref
 
-(* ****** ****** *)
+#atscode_separator()
 
 implement{}
 tfprint_list__sep () = ","
@@ -43,7 +59,7 @@ end // end of [tfprint_list]
 
 implement(a) tfprint<List(a)> (xs) = tfprint_list<a> (xs)
 
-(* ****** ****** *)
+#atscode_separator()
 
 implement{}
 tfprint_array__sep () = ","
@@ -77,6 +93,19 @@ tfprint_arrayptr
   prval () = arrayptr_addback (pf | A)
 } // end of [tfprint_arrayptr]
 
-(* ****** ****** *)
+#atscode_separator()
 
-(* end of [tfprint.dats] *)
+implement{a}
+tfprint_arrayref
+  (A, n) = () where {
+  val (vbox pf | p) = arrayref_get_viewptr (A)
+  val () = $effmask_ref (tfprint_array<a> (!p, n))
+} // end of [tfprint_arrayref]
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "tfprint_atxt.txt")
+%}\

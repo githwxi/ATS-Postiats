@@ -30,7 +30,6 @@ end // end of [revarr]
 (* ****** ****** *)
 
 staload "contrib/atshwxi/testing/SATS/randgen.sats"
-staload "contrib/atshwxi/testing/SATS/tfprint.sats"
 
 (* ****** ****** *)
 

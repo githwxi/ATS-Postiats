@@ -48,6 +48,15 @@ char_atxt.dats: char.atxt
 clean:: ; $(RMF) char_atxt.exe
 cleanall:: ; $(RMF) char.sats
 
+all:: filebas.sats
+filebas.sats: filebas_atxt.exe ; ./$< > $@
+filebas_atxt.exe: filebas_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ filebas_atxt.dats -latsdoc
+filebas_atxt.dats: filebas.atxt
+	$(ATSDOC) --outcode $@ -i filebas.atxt > filebas_atxt.txt
+clean:: ; $(RMF) filebas_atxt.exe
+cleanall:: ; $(RMF) filebas.sats
+
 all:: float.sats
 float.sats: float_atxt.exe ; ./$< > $@
 float_atxt.exe: float_atxt.dats
@@ -119,16 +128,6 @@ strptr_atxt.dats: strptr.atxt
 	$(ATSDOC) --outcode $@ -i strptr.atxt > strptr_atxt.txt
 clean:: ; $(RMF) strptr_atxt.exe
 cleanall:: ; $(RMF) strptr.sats
-
-
-all:: filebas.sats
-filebas.sats: filebas_atxt.exe ; ./$< > $@
-filebas_atxt.exe: filebas_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ filebas_atxt.dats -latsdoc
-filebas_atxt.dats: filebas.atxt
-	$(ATSDOC) --outcode $@ -i filebas.atxt > filebas_atxt.txt
-clean:: ; $(RMF) filebas_atxt.exe
-cleanall:: ; $(RMF) filebas.sats
 
 
 all:: lazy.sats
@@ -253,6 +252,16 @@ matrixptr_atxt.dats: matrixptr.atxt
 	$(ATSDOC) --outcode $@ -i matrixptr.atxt > matrixptr_atxt.txt
 clean:: ; $(RMF) matrixptr_atxt.exe
 cleanall:: ; $(RMF) matrixptr.sats
+
+
+all:: tfprint.sats
+tfprint.sats: tfprint_atxt.exe ; ./$< > $@
+tfprint_atxt.exe: tfprint_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ tfprint_atxt.dats -latsdoc
+tfprint_atxt.dats: tfprint.atxt
+	$(ATSDOC) --outcode $@ -i tfprint.atxt > tfprint_atxt.txt
+clean:: ; $(RMF) tfprint_atxt.exe
+cleanall:: ; $(RMF) tfprint.sats
 
 
 all:: iterator.sats
