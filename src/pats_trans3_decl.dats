@@ -638,9 +638,7 @@ val s2e0 = (
     ) // end of [None]
 ) : s2exp // end of [val]
 //
-val () = (
-  println! ("v2ardec_tr_sta: s2e0 = ", s2e0)
-)
+val () = println! ("v2ardec_tr_sta: s2e0 = ", s2e0)
 //
 val d2vw =
   d2var_mutablize (locvar, d2v, s2e0, d2c.v2ardec_wth)

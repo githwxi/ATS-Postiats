@@ -640,11 +640,6 @@ fprint_d1explst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_d1exp)
 // end of [fprint_d1explst]
 
-implement
-print_d1explst (xs) = fprint_d1explst (stdout_ref, xs)
-implement
-prerr_d1explst (xs) = fprint_d1explst (stderr_ref, xs)
-
 (* ****** ****** *)
 
 implement

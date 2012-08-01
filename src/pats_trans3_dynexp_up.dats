@@ -203,8 +203,8 @@ case+ d2e0.d2exp_node of
 | D2Eapplst (_fun, _arg) => let
 (*
     val () = (
-      println! ("d2exp_trup: D2Eapplst: _fun = ", _fun);
-      println! ("d2exp_trup: D2Eapplst: _arg = ", _arg);
+      fprintln! (stdout_ref, "d2exp_trup: D2Eapplst: _fun = ", _fun);
+      fprintln! (stdout_ref, "d2exp_trup: D2Eapplst: _arg = ", _arg);
     ) // end of [val]
 *)
   in
@@ -966,10 +966,9 @@ d23exp_trup_applst (
 ) : d3exp = let
 (*
   val () = (
-    print "d23exp_trup_applst: d3e_fun = ";
-    fprint_d3exp (stdout_ref, d3e_fun); print_newline ();
-    print "d23exp_trup_applst: d2as = ";
-    fprint_d2exparglst (stdout_ref, d2as); print_newline ();
+    fprintln!
+      (stdout_ref, "d23exp_trup_applst: d3e_fun = ", d3e_fun);
+    fprintln! (stdout_ref, "d23exp_trup_applst: d2as = ", d2as);
   ) // end of [val]
 *)
 in
@@ -1053,8 +1052,8 @@ val loc0 = d2e0.d2exp_loc
 val- D2Etup (tupknd, npf, d2es) = d2e0.d2exp_node
 (*
 val () = (
-    println! ("d2exp_trup_tup: d2es = ", d2es)
-  ) // end of [val]
+  fprintln! (stdout_ref, "d2exp_trup_tup: d2es = ", d2es)
+) // end of [val]
 *)
 //
 val d3es = d2explst_trup (d2es)

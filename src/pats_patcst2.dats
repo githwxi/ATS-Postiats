@@ -590,9 +590,9 @@ c2lau_pat_comp
 //
 val p2ts = c2l.c2lau_pat
 (*
-val () = begin
-  print "c2lau_pat_comp: c2l.c2lau_pat = "; print_p2atlst (p2ts); print_newline ()
-end // end of [val]
+val () = fprintln! (
+  stdout_ref, "c2lau_pat_comp: c2l.c2lau_pat = ", p2ts
+) (* end of [val] *)
 *)
 //
 in

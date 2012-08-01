@@ -298,11 +298,6 @@ fprint_p2atlst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_p2at)
 // end of [fprint_p2atlst]
 
-implement
-print_p2atlst (xs) = fprint_p2atlst (stdout_ref, xs)
-implement
-prerr_p2atlst (xs) = fprint_p2atlst (stderr_ref, xs)
-
 (* ****** ****** *)
 
 implement
@@ -786,10 +781,7 @@ prerr_d2exp (x) = fprint_d2exp (stderr_ref, x)
 implement
 fprint_d2explst (out, xs) =
   $UT.fprintlst (out, xs, ", ", fprint_d2exp)
-implement
-print_d2explst (xs) = fprint_d2explst (stdout_ref, xs)
-implement
-prerr_d2explst (xs) = fprint_d2explst (stderr_ref, xs)
+// end of [fprint_d2explst]
 
 (* ****** ****** *)
 
@@ -823,11 +815,6 @@ fprint_labd2explst (out, xs) =
   $UT.fprintlst (out, xs, ", ", fprint_labd2exp)
 // end of [fprint_labs2explst]
 
-implement
-print_labd2explst (xs) = fprint_labd2explst (stdout_ref, xs)
-implement
-prerr_labd2explst (xs) = fprint_labd2explst (stderr_ref, xs)
-
 (* ****** ****** *)
 
 implement
@@ -858,15 +845,6 @@ fprint_d2exparglst (out, xs) =
   $UT.fprintlst (out, xs, ", ", fprint_d2exparg)
 // end of [fprint_d2exparglst]
 
-implement
-print_d2exparglst
-  (xs) = fprint_d2exparglst (stdout_ref, xs)
-// end of [print_d2exparglst]
-implement
-prerr_d2exparglst
-  (xs) = fprint_d2exparglst (stderr_ref, xs)
-// end of [prerr_d2exparglst]
-
 (* ****** ****** *)
 
 implement
@@ -892,11 +870,6 @@ implement
 fprint_d2lablst (out, xs) =
   $UT.fprintlst (out, xs, ", ", fprint_d2lab)
 // end of [fprint_d2lablst]
-
-implement
-print_d2lablst (xs) = fprint_d2lablst (stdout_ref, xs)
-implement
-prerr_d2lablst (xs) = fprint_d2lablst (stderr_ref, xs)
 
 (* ****** ****** *)
 

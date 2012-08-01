@@ -471,6 +471,7 @@ overload print with print_d3exp
 fun prerr_d3exp (d3e: d3exp): void
 overload prerr with prerr_d3exp
 fun fprint_d3exp : fprint_type (d3exp)
+overload fprint with fprint_d3exp
 
 (* ****** ****** *)
 

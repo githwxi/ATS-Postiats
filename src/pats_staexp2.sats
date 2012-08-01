@@ -1047,6 +1047,7 @@ overload print with print_s2explst
 fun prerr_s2explst (xs: s2explst): void
 overload prerr with prerr_s2explst
 fun fprint_s2explst : fprint_type (s2explst)
+overload fprint with fprint_s2explst
 
 fun print_s2expopt (opt: s2expopt): void
 overload print with print_s2expopt

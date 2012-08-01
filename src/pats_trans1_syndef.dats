@@ -121,7 +121,9 @@ fun fsyndef_PRINT (
   loc0: location, d1es: d1explst
 ) : d1exp = let
 (*
-val () = println! ("fsyndef_PRINT: d1es = ", d1es)
+val () = fprintln!
+  (stdout_ref, "fsyndef_PRINT: d1es = ", d1es)
+// end of [val]
 *)
 val dq = $SYN.d0ynq_none (loc0)
 val fid = d1exp_dqid (loc0, dq, symbol_PRINT)
@@ -134,7 +136,9 @@ fun fsyndef_PRINTLN (
   loc0: location, d1es: d1explst
 ) : d1exp = let
 (*
-val () = println! ("fsyndef_PRINTLN: d1es = ", d1es)
+val () = fprintln!
+  (stdout_ref, "fsyndef_PRINTLN: d1es = ", d1es)
+// end of [val]
 *)
 val d1e1 = fsyndef_PRINT (loc0, d1es)
 //

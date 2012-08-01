@@ -520,8 +520,8 @@ p2atlst_trdn
   (loc0, p2ts, s2es, serr) = let
 (*
 val () = (
-  println! ("p2atlst_trdn: p2ts = ", p2ts);
-  println! ("p2atlst_trdn: s2es = ", s2es);
+  fprintln! (stdout_ref, "p2atlst_trdn: p2ts = ", p2ts);
+  fprintln! (stdout_ref, "p2atlst_trdn: s2es = ", s2es);
 ) // end of [val]
 *)
 in
