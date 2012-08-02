@@ -42,11 +42,18 @@ typedef location = $LOC.location
 staload
 SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
+//
+macdef symbol_CAR = $SYM.symbol_CAR
+macdef symbol_CDR = $SYM.symbol_CDR
+macdef symbol_ISNIL = $SYM.symbol_ISNIL
+macdef symbol_ISCONS = $SYM.symbol_ISCONS
+macdef symbol_ISLIST = $SYM.symbol_ISLIST
+//
 macdef symbol_TUPZ = $SYM.symbol_TUPZ
 overload = with $SYM.eq_symbol_symbol
-staload
-SYN = "pats_syntax.sats"
-
+//
+staload SYN = "pats_syntax.sats"
+//
 (* ****** ****** *)
 
 staload "pats_dynexp1.sats"
@@ -72,6 +79,27 @@ fun syndef_search_all : syndef_search_all_type
 (* ****** ****** *)
 
 local
+
+(* ****** ****** *)
+
+fun fsyndef_CAR (
+  loc0: location, d1es: d1explst
+) : d1exp = d1exp_macfun (loc0, symbol_CAR, d1es)
+fun fsyndef_CDR (
+  loc0: location, d1es: d1explst
+) : d1exp = d1exp_macfun (loc0, symbol_CDR, d1es)
+
+fun fsyndef_ISNIL (
+  loc0: location, d1es: d1explst
+) : d1exp = d1exp_macfun (loc0, symbol_ISNIL, d1es)
+fun fsyndef_ISCONS (
+  loc0: location, d1es: d1explst
+) : d1exp = d1exp_macfun (loc0, symbol_ISCONS, d1es)
+fun fsyndef_ISLIST (
+  loc0: location, d1es: d1explst
+) : d1exp = d1exp_macfun (loc0, symbol_ISLIST, d1es)
+
+(* ****** ****** *)
 
 val symbol_PRINT = $SYM.symbol_make_string "print"
 val symbol_PRINTLN = $SYM.symbol_make_string "println"
@@ -158,7 +186,16 @@ syndef_search_all (id) = let
 in
 //
 case+ 0 of
+//
+| _ when id = symbol_CAR => Some_vt (fsyndef_CAR)
+| _ when id = symbol_CDR => Some_vt (fsyndef_CDR)
+//
+| _ when id = symbol_ISNIL => Some_vt (fsyndef_ISNIL)
+| _ when id = symbol_ISCONS => Some_vt (fsyndef_ISCONS)
+| _ when id = symbol_ISLIST => Some_vt (fsyndef_ISLIST)
+//
 | _ when id = symbol_TUPZ => Some_vt (fsyndef_TUPZ)
+//
 | _ when id = symbol_PRINT => Some_vt (fsyndef_PRINT)
 | _ when id = symbol_PRINTLN => Some_vt (fsyndef_PRINTLN)
 | _ => None_vt ()

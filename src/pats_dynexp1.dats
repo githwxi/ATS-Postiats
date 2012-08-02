@@ -662,8 +662,16 @@ d1exp_while
 (* ****** ****** *)
 
 implement
-d1exp_macsyn (loc, knd, d1e) =
+d1exp_macsyn
+  (loc, knd, d1e) =
   d1exp_make (loc, D1Emacsyn (knd, d1e))
+// end of [d1exp_macsyn]
+
+implement
+d1exp_macfun
+  (loc, name, d1es) =
+  d1exp_make (loc, D1Emacfun (name, d1es))
+// end of [d1exp_macfun]
 
 (* ****** ****** *)
 

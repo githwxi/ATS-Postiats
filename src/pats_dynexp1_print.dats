@@ -595,6 +595,13 @@ case+ d1e0.d1exp_node of
     val () = fprint_d1exp (out, d1e)
     val () = prstr ")"
   }
+| D1Emacfun (name, d1es) => {
+    val () = prstr "D1Emacfun("
+    val () = fprint_symbol (out, name)
+    val () = prstr "; "
+    val () = fprint_d1explst (out, d1es)
+    val () = prstr ")"
+  }
 //
 | D1Eann_type (d1e, s1e) => {
     val () = prstr "D1Eann_type("

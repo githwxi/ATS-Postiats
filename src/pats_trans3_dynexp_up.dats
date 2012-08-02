@@ -146,15 +146,11 @@ extern fun d2exp_trup_macsyn (d2e0: d2exp): d3exp
 implement
 d2exp_trup
   (d2e0) = let
-(*
-val () = (
-  println! ("d2exp_trup: d2e0 = ", d2e0)
-) // end of [val]
-*)
 val loc0 = d2e0.d2exp_loc
 (*
 val () = (
-  println! ("d2exp_trup: loc0 = ", loc0)
+  println! ("d2exp_trup: loc0 = ", loc0);
+  println! ("d2exp_trup: d2e0 = ", d2e0);
 ) // end of [val]
 *)
 val d3e0 = (

@@ -60,9 +60,9 @@ val symbol_LT : symbol // <
 val symbol_LTEQ : symbol // <=
 //
 val symbol_EQ : symbol // =
-val symbol_EQEQ : symbol // =
+val symbol_EQEQ : symbol // ==
 val symbol_LTGT : symbol // <>
-val symbol_BANGEQ : symbol // <>
+val symbol_BANGEQ : symbol // !=
 //
 val symbol_GTLT : symbol // ><
 //
@@ -124,6 +124,14 @@ val symbol_UNDEFINED : symbol // undefined
 (* ****** ****** *)
 
 val symbol_TUPZ : symbol // TUPSIZE // for syndef
+
+(* ****** ****** *)
+
+val symbol_CAR : symbol // car
+val symbol_CDR : symbol // mfcdr
+val symbol_ISLIST : symbol // islist
+val symbol_ISCONS : symbol // iscons
+val symbol_ISNIL : symbol  // islist
 
 (* ****** ****** *)
 

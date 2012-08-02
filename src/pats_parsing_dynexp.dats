@@ -768,7 +768,9 @@ case+ tok.token_node of
 //
 | T_LPAREN () => let
     val () = incby1 ()
-    val d0e = p_d0exp (buf, bt, err)
+    val d0e =
+      p_d0exp (buf, 1(*bt*), err) // HX: may backtrack!
+    // end of [val]
   in
     if err = err0 then let
       val bt = 0
@@ -785,11 +787,13 @@ case+ tok.token_node of
           else synent_null ()
         end
       | _ => let
-          val ent2 = p1_d0expseq_BAR_d0expseq (d0e, buf, bt, err)
+          val ent2 =
+            p1_d0expseq_BAR_d0expseq (d0e, buf, bt, err)
+          // end of [val]
           val ent3 = p_RPAREN (buf, bt, err) // err = err0
         in
           d0exp_list12_if (tok, ent2, ent3, err, err0)
-        end
+        end // end of [_]
     end else let
       val bt = 0
       val () = err := err0
@@ -1767,20 +1771,17 @@ case+ tok.token_node of
     end (* end of [if] *)
   end
 //
-| _ when
-    ptest_fun (
-    buf, p_whilehead, ent
-  ) => let
-    val bt = 0
-    val ent1 = synent_decode {loophead} (ent)
-    val ent2 = pif_fun (buf, bt, err, p_atmd0exp, err0)
+| T_FOR () => let
+    val bt = 0 // no backtracking
+    val () = incby1 ()
+    val ent1 = loophead_make_none (tok)
+    val ent2 = p_initestpost (buf, bt, err)
     val ent3 = pif_fun (buf, bt, err, p_d0exp, err0)
   in
     if err = err0 then
-      d0exp_whilehead (ent1, ent2, ent3) else synent_null ()
+      d0exp_forhead (ent1, ent2, ent3) else synent_null ()
     // end of [if]
   end
-//
 | _ when
     ptest_fun (
     buf, p_forhead, ent
@@ -1792,6 +1793,32 @@ case+ tok.token_node of
   in
     if err = err0 then
       d0exp_forhead (ent1, ent2, ent3) else synent_null ()
+    // end of [if]
+  end
+//
+| T_WHILE () => let
+    val bt = 0 // no backtracking
+    val () = incby1 ()
+    val ent1 = loophead_make_none (tok)
+    val ent2 = p_atmd0exp (buf, bt, err)
+    val ent3 = pif_fun (buf, bt, err, p_d0exp, err0)
+  in
+    if err = err0 then
+      d0exp_whilehead (ent1, ent2, ent3) else synent_null ()
+    // end of [if]
+  end
+| _ when
+    ptest_fun (
+    buf, p_whilehead, ent
+  ) => let
+    val bt = 0
+    val ent1 = synent_decode {loophead} (ent)
+    val ent2 =
+      pif_fun (buf, bt, err, p_atmd0exp, err0)
+    val ent3 = pif_fun (buf, bt, err, p_d0exp, err0)
+  in
+    if err = err0 then
+      d0exp_whilehead (ent1, ent2, ent3) else synent_null ()
     // end of [if]
   end
 //

@@ -47,6 +47,34 @@ implement prerr_FILENAME<> () = prerr "pats_dmacro2_eval0"
 staload LEX = "pats_lexing.sats"
 
 (* ****** ****** *)
+//
+staload SYM = "pats_symbol.sats"
+//
+macdef symbol_ADD = $SYM.symbol_ADD
+macdef symbol_SUB = $SYM.symbol_SUB
+//
+macdef symbol_LT = $SYM.symbol_LT
+macdef symbol_LTEQ = $SYM.symbol_LTEQ
+//
+macdef symbol_GT = $SYM.symbol_GT
+macdef symbol_GTEQ = $SYM.symbol_GTEQ
+//
+macdef symbol_EQ = $SYM.symbol_EQ
+macdef symbol_LTGT = $SYM.symbol_LTGT
+macdef symbol_BANGEQ = $SYM.symbol_BANGEQ
+//
+macdef symbol_CAR = $SYM.symbol_CAR
+macdef symbol_CDR = $SYM.symbol_CDR
+macdef symbol_ISNIL = $SYM.symbol_ISNIL
+macdef symbol_ISCONS = $SYM.symbol_ISCONS
+macdef symbol_ISLIST = $SYM.symbol_ISLIST
+//
+overload = with $SYM.eq_symbol_symbol
+overload print with $SYM.print_symbol
+//
+staload SYN = "pats_syntax.sats"
+//
+(* ****** ****** *)
 
 staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
@@ -77,6 +105,40 @@ fun eval0_app_sym (
   loc0: location
 , sym: symbol, ctx: !evalctx, env: &alphenv, d2as: d2exparglst
 ) : m2val // end of [eval0_app_sym]
+
+(* ****** ****** *)
+
+local
+
+(* ****** ****** *)
+
+fun eval0_app_add (
+  loc0: location, m2v1: m2val, m2v2: m2val
+) : m2val = let
+in
+//
+case+ m2v1 of
+| M2Vint (i1) => (
+  case+ m2v2 of
+  | M2Vint (i2) => M2Vint (i1+i2) | _ => M2Verr()
+  ) // end of [M2Vint]
+| _ => M2Verr()
+//
+end // end of [eval0_app_add]
+
+fun eval0_app_sub (
+  loc0: location, m2v1: m2val, m2v2: m2val
+) : m2val = let
+in
+//
+case+ m2v1 of
+| M2Vint (i1) => (
+  case+ m2v2 of
+  | M2Vint (i2) => M2Vint (i1-i2) | _ => M2Verr()
+  ) // end of [M2Vint]
+| _ => M2Verr()
+//
+end // end of [eval0_app_sub]
 
 (* ****** ****** *)
 
@@ -161,6 +223,177 @@ end // end of [eval0_exp_app_neq]
 
 (* ****** ****** *)
 
+fun d2exparg_get_d2explst
+  (d2a: d2exparg): d2explst = let
+in
+  case+ d2a of
+  | D2EXPARGdyn
+      (_(*loc*), _(*npf*), d2es) => d2es
+  | D2EXPARGsta _ => list_nil ()
+end // end of [d2exparg_get_d2explst]
+
+(* ****** ****** *)
+
+fun eval0_d2exparg_1 (
+  loc0: location
+, ctx: !evalctx, env: &alphenv, d2a: d2exparg
+) : m2val = let
+  val d2es = d2exparg_get_d2explst (d2a)
+in
+//
+case+ d2es of
+| list_cons (d2e, _) =>
+    eval0_d2exp (loc0, ctx, env, d2e)
+| list_nil () => M2Verr()
+//
+end // end of [eval0_d2exparg_1]
+
+fun eval0_d2exparglst_1 (
+  loc0: location
+, ctx: !evalctx, env: &alphenv, d2as: d2exparglst
+) : m2val = (
+//
+case+ d2as of
+| list_cons (d2a, _) =>
+    eval0_d2exparg_1 (loc0, ctx, env, d2a)
+| list_nil () => M2Verr()
+//
+) // end of [eval0_d2exparglst_1]
+
+(* ****** ****** *)
+
+typedef m2val2 = @(m2val, m2val)
+
+(* ****** ****** *)
+
+fun eval0_d2exparg_2 (
+  loc0: location
+, ctx: !evalctx, env: &alphenv, d2a: d2exparg
+) : m2val2 = let
+  val d2es = d2exparg_get_d2explst (d2a)
+in
+//
+case+ d2es of
+| list_cons (d2e1, d2es) => let
+    val m2v1 = eval0_d2exp (loc0, ctx, env, d2e1)
+  in
+    case+ d2es of
+    | list_cons (d2e2, _) => let
+        val m2v2 = eval0_d2exp (loc0, ctx, env, d2e2)
+      in
+        (m2v1, m2v2)
+      end
+    | list_nil () => (m2v1, M2Verr())
+  end // end of [list_cons]
+| list_nil () => (M2Verr(), M2Verr())
+//
+end // end of [eval0_d2exparg_2]
+
+fun eval0_d2exparglst_2 (
+  loc0: location
+, ctx: !evalctx, env: &alphenv, d2as: d2exparglst
+) : m2val2 = let
+in
+//
+case+ d2as of
+| list_cons (d2a, _) =>
+    eval0_d2exparg_2 (loc0, ctx, env, d2a)
+| list_nil () => (M2Verr(), M2Verr())
+//
+end // end of [eval0_d2exparglst_2]
+
+(* ****** ****** *)
+
+in // in of [local]
+
+implement
+eval0_app_sym (
+  loc0, sym, ctx, env, d2as
+) = let
+(*
+val () =
+  println! ("eval0_app_sym: sym = ", sym)
+// end of [val]
+*)
+in
+//
+case+ 0 of
+//
+| _ when sym = symbol_ADD => let
+    val (m2v1, m2v2) =
+      eval0_d2exparglst_2 (loc0, ctx, env, d2as)
+    // end of [val]
+  in
+    eval0_app_add (loc0, m2v1, m2v2)
+  end
+| _ when sym = symbol_SUB => let
+    val (m2v1, m2v2) =
+      eval0_d2exparglst_2 (loc0, ctx, env, d2as)
+    // end of [val]
+  in
+    eval0_app_sub (loc0, m2v1, m2v2)
+  end
+//
+| _ when sym = symbol_LT => let
+    val (m2v1, m2v2) =
+      eval0_d2exparglst_2 (loc0, ctx, env, d2as)
+    // end of [val]
+  in
+    eval0_app_lt (loc0, m2v1, m2v2)
+  end
+| _ when sym = symbol_LTEQ => let
+    val (m2v1, m2v2) =
+      eval0_d2exparglst_2 (loc0, ctx, env, d2as)
+    // end of [val]
+  in
+    eval0_app_lte (loc0, m2v1, m2v2)
+  end
+//
+| _ when sym = symbol_GT => let
+    val (m2v1, m2v2) =
+      eval0_d2exparglst_2 (loc0, ctx, env, d2as)
+    // end of [val]
+  in
+    eval0_app_gt (loc0, m2v1, m2v2)
+  end
+| _ when sym = symbol_GTEQ => let
+    val (m2v1, m2v2) =
+      eval0_d2exparglst_2 (loc0, ctx, env, d2as)
+    // end of [val]
+  in
+    eval0_app_gte (loc0, m2v1, m2v2)
+  end
+//
+| _ when sym = symbol_EQ => let
+    val (m2v1, m2v2) =
+      eval0_d2exparglst_2 (loc0, ctx, env, d2as)
+    // end of [val]
+  in
+    eval0_app_eq (loc0, m2v1, m2v2)
+  end
+| _ when sym = symbol_LTGT => let
+    val (m2v1, m2v2) =
+      eval0_d2exparglst_2 (loc0, ctx, env, d2as)
+    // end of [val]
+  in
+    eval0_app_neq (loc0, m2v1, m2v2)
+  end
+| _ when sym = symbol_BANGEQ => let
+    val (m2v1, m2v2) =
+      eval0_d2exparglst_2 (loc0, ctx, env, d2as)
+    // end of [val]
+  in
+    eval0_app_neq (loc0, m2v1, m2v2)
+  end
+//
+| _ => M2Verr ()
+//
+end // end of [eval0_app_sym]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 fun eval0_app_eval (
   loc0: location, m2v: m2val
 ) : m2val = let
@@ -199,6 +432,77 @@ end // end of [eval0_app_lift]
 
 (* ****** ****** *)
 
+fun eval0_car
+  (m2vs: m2valist): m2val =
+  case+ m2vs of
+  | list_cons (m2v, _) => (
+    case+ m2v of
+    | M2Vlist (m2vs) => (
+      case m2vs of
+      | list_cons (m2v, _) => m2v | _ => M2Verr ()
+      )
+    | _ => M2Verr ()
+    )
+  | list_nil () => M2Verr () // argumentless
+// end of [eval0_car]
+
+fun eval0_cdr
+  (m2vs: m2valist): m2val =
+  case+ m2vs of
+  | list_cons (m2v, _) => (
+    case+ m2v of
+    | M2Vlist (m2vs) => (
+      case m2vs of
+      | list_cons (_, m2vs) => M2Vlist (m2vs) | _ => M2Verr ()
+      )
+    | _ => M2Verr ()
+    )
+  | list_nil () => M2Verr () // argumentless
+// end of [eval0_cdr]
+
+(* ****** ****** *)
+
+fun eval0_isnil
+  (m2vs: m2valist): m2val =
+  case+ m2vs of
+  | list_cons (m2v, _) => (
+    case+ m2v of
+    | M2Vlist (m2vs) => (
+      case m2vs of
+      | list_cons _ => M2Vbool (false) | list_nil _ => M2Vbool (true)
+      )
+    | _ => M2Verr ()
+    )
+  | list_nil () => M2Verr () // argumentless
+// end of [eval0_isnil]
+
+fun eval0_iscons
+  (m2vs: m2valist): m2val =
+  case+ m2vs of
+  | list_cons (m2v, _) => (
+    case+ m2v of
+    | M2Vlist (m2vs) => (
+      case m2vs of
+      | list_cons _ => M2Vbool (true) | list_nil _ => M2Vbool (false)
+      )
+    | _ => M2Verr ()
+    )
+  | list_nil () => M2Verr () // argumentless
+// end of [eval0_iscons]
+
+(* ****** ****** *)
+
+fun eval0_islist
+  (m2vs: m2valist): m2val =
+  case+ m2vs of
+  | list_cons (m2v, _) => (
+    case+ m2v of M2Vlist _ => M2Vbool (true) | _ => M2Vbool (false)
+    )
+  | list_nil () => M2Verr () // argumentless
+// end of [eval0_islist]
+
+(* ****** ****** *)
+
 fun eval0_d2var (
   loc0: location, ctx: !evalctx, d2v: d2var
 ) : m2val = let
@@ -225,28 +529,63 @@ end (* end of [eval0_d2var] *)
 (* ****** ****** *)
 
 extern
-fun eval0_labd2explst (
-  loc0: location, ctx: !evalctx, env: &alphenv, ld2es: labd2explst
-) : labd2explst // end of [eval0_labd2explst]
+fun eval0_d2explst (
+  loc0: location, ctx: !evalctx, env: &alphenv, d2es: d2explst
+) : m2valist // end of [eval0_d2expopt]
+implement
+eval0_d2explst
+  (loc0, ctx, env, d2es) = let
+in
+  case+ d2es of
+  | list_cons (d2e, d2es) => let
+      val m2v = eval0_d2exp (loc0, ctx, env, d2e)
+      val m2vs = eval0_d2explst (loc0, ctx, env, d2es)
+    in
+      list_cons (m2v, m2vs)
+    end // end of [list_cons]
+  | list_nil () => list_nil ()
+end // end of [eval0_d2explst]
+
+(* ****** ****** *)
+
+extern
+fun eval0_d2expopt (
+  loc0: location, ctx: !evalctx, env: &alphenv, opt: d2expopt
+) : m2val // end of [eval0_d2expopt]
+implement
+eval0_d2expopt
+  (loc0, ctx, env, opt) = let
+in
+  case+ opt of
+  | Some (d2e) => eval0_d2exp (loc0, ctx, env, d2e)
+  | None () => M2Vunit ()
+end // end of [eval0_d2expopt]
+
+(* ****** ****** *)
 
 implement
 eval0_d2exp
   (loc0, ctx, env, d2e0) = let
-(*
+// (*
 val () = (
   println! ("eval0_d2exp: d2e0 = ", d2e0)
 ) // end of [val]
-*)
+// *)
 //
 macdef
-eval0dexp (d2e) = eval0_d2exp (loc0, ctx, env, ,(d2e))
+eval0dexp (x) = eval0_d2exp (loc0, ctx, env, ,(x))
+macdef
+eval0dexplst (x) = eval0_d2explst (loc0, ctx, env, ,(x))
+macdef
+eval0dexpopt (x) = eval0_d2expopt (loc0, ctx, env, ,(x))
 //
 in
 //
 case+ d2e0.d2exp_node of
-| D2Evar d2v =>
-    eval0_d2var (loc0, ctx, d2v)
-  // end of [D2Evar]
+//
+| D2Evar (d2v) => m2v where {
+    val m2v = eval0_d2var (loc0, ctx, d2v)
+  } // end of [D2Evar]
 //
 | D2Eint (i) => M2Vint (i)
 | D2Echar (c) => M2Vchar (c)
@@ -281,12 +620,10 @@ case+ d2e0.d2exp_node of
       // expanding a macro in long form
       eval0_app_mac_long (loc0, d2m, ctx, env, d2as)
     ) // end of [D2Emac]
-(*
   | D2Esym (d2s) when d2sym_is_nonqua d2s => (
       // evaluating a predefined function (e.g., +, -, etc.)
       eval0_app_sym (loc0, d2s.d2sym_sym, ctx, env, d2as)
     ) // end of [D2Esym]
-*)
   | _ => let
       val () = prerr_errmac_loc (loc0)
       val () = prerr ": the dynamic expression at ("
@@ -297,11 +634,25 @@ case+ d2e0.d2exp_node of
       M2Verr ()
     end // end of [_]
   ) // end of [D2Eapplst]
+//
+| D2Eifhead (
+    i2nv, test, _then, _else
+  ) => let
+    val test = eval0dexp (test)
+  in
+    case+ test of
+    | M2Vbool (b) => 
+        if b then eval0dexp (_then) else eval0dexpopt (_else)
+      // end of [M2Vbool]
+    | _ => M2Verr ()
+  end // end of [D2Eifhead]
+//
 | D2Emac d2m => let
     val d2as = list_nil () // argumentless
   in
     eval0_app_mac_long (loc0, d2m, ctx, env, d2as)
   end // end of [D2Emac]
+//
 | D2Emacsyn (knd, d2e) => (
   case+ knd of
   | $SYN.MSKencode () => let
@@ -322,6 +673,19 @@ case+ d2e0.d2exp_node of
       M2Vdcode (liftval2dexp (loc0, m2v_res))
     end // end of [MSKxstage]
   ) // end of [D2Emacsyn]
+//
+| D2Emacfun (name, d2es) => let
+    val m2vs = eval0dexplst (d2es)
+  in
+    case+ 0 of
+    | _ when name = symbol_CAR => eval0_car (m2vs)
+    | _ when name = symbol_CDR => eval0_cdr (m2vs)
+    | _ when name = symbol_ISNIL => eval0_isnil (m2vs)
+    | _ when name = symbol_ISCONS => eval0_iscons (m2vs)
+    | _ when name = symbol_ISLIST => eval0_islist (m2vs)
+    | _ => M2Verr ()
+  end // end of [D2Emacfun]
+//
 | _ => let
     val () = prerr_errmac_loc (loc0)
     val () = prerr ": the form of dynamic expression ["
@@ -334,6 +698,7 @@ case+ d2e0.d2exp_node of
   in
     M2Verr ()
   end // end of [_]
+//
 end // end of [eval0_d2exp]
 
 (* ****** ****** *)
@@ -457,27 +822,63 @@ in
 if knd >= 1 then
   eval0_d2exp (loc0, ctx, env, d2e)
 else let // short form
-  val m2v = eval1_d2exp (loc0, ctx, env, d2e)
+  val d2e = eval1_d2exp (loc0, ctx, env, d2e)
 in
-  M2Vdcode (m2v)
+  M2Vdcode (d2e)
 end // end of [if]
 //
 end // end of [aux]
 //
+fun auxlst (
+  loc0: location, knd: int
+, ctx: !evalctx, env: &alphenv, d2es: d2explst
+) : m2valist = let
+in
+//
+case+ d2es of
+| list_cons (d2e, d2es) => let
+    val m2v = aux (loc0, knd, ctx, env, d2e)
+    val m2vs = auxlst (loc0, knd, ctx, env, d2es)
+  in
+    list_cons (m2v, m2vs)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [auxlst]
+//
 in
 //
 case+ d2vs of
-| list_cons (d2v, d2vs) => (
+| list_cons
+    (d2v, list_nil ()) => (
+  case+ d2es of
+  | list_cons
+      (d2e, list_nil ()) => let
+      val m2v =
+        aux (loc0, knd, ctx, env, d2e)
+      // end of [val]
+    in
+      evalctx_dadd (res, d2v, m2v)
+    end // end of [list_sing]
+  | _ => let
+      val m2vs =
+        auxlst (loc0, knd, ctx, env, d2es)
+      // end of [val]
+    in
+      evalctx_dadd (res, d2v, M2Vlist (m2vs))
+    end // end of [_]
+  ) // end of [list_sing]
+| list_cons
+    (d2v, d2vs) => (
   case+ d2es of
   | list_cons (d2e, d2es) => let
       val m2v =
         aux (loc0, knd, ctx, env, d2e)
-      // end of [val]
       val res = evalctx_dadd (res, d2v, m2v)
     in
       evalctx_extend_darg (loc0, d2m, knd, ctx, env, d2vs, d2es, res)
     end // end of [list_cons]
-  | _ => let
+  | list_nil () => let
       val () = auxerr (loc0, d2m, 1) in res
     end // end of [_]
   )
@@ -662,12 +1063,12 @@ val () = (
 val n = list_length (d2as)
 val args = d2mac_get_arglst (d2m)
 val narg = list_length (args)
-(*
+// (*
 val () = (
-  println! ("eval0_app_mac_short: n = ", n)
-  println! ("eval0_app_mac_short: narg = ", narg)
+  println! ("eval0_app_mac_short: n = ", n);
+  println! ("eval0_app_mac_short: narg = ", narg);
 ) // end of [val]
-*)
+// *)
 val () = (
   if n < narg then let
     val () = prerr_errmac_loc (loc0)

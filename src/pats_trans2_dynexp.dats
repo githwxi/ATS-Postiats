@@ -642,6 +642,23 @@ end // end of [d1exp_tr_macsyn]
 
 (* ****** ****** *)
 
+extern
+fun d1exp_tr_macfun (d1e0: d1exp): d2exp
+implement
+d1exp_tr_macfun
+  (d1e0) = let
+//
+val loc0 = d1e0.d1exp_loc
+val- D1Emacfun (name, d1es) = d1e0.d1exp_node
+//
+val d2es = d1explst_tr (d1es)
+//
+in
+  d2exp_macfun (loc0, name, d2es)
+end // end of [d1exp_tr_macfun]
+
+(* ****** ****** *)
+
 fn d2sym_lrbrackets
   (d1e0: d1exp): d2sym = let
   val loc0 = d1e0.d1exp_loc
@@ -1484,6 +1501,7 @@ case+ d1e0.d1exp_node of
   end // end of [D1Etrywith]
 //
 | D1Emacsyn _ => d1exp_tr_macsyn (d1e0)
+| D1Emacfun _ => d1exp_tr_macfun (d1e0)
 //
 | D1Eann_type (d1e, s1e) => let
     val d2e = d1exp_tr d1e

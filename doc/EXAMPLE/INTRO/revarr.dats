@@ -16,8 +16,9 @@ fun{a:vt0p}
 revarr {n:nat} .<>. (
   A: &array (a, n), n: size_t n
 ) :<!wrt> void = let
-  fun loop
-    {i,j:nat | i <= j+1; i+j==n-1} .<j>. (
+  fun loop {
+    i,j:nat | i <= j+1; i+j==n-1
+  } .<j>. (
     A: &array (a, n), i: size_t i, j: size_t j
   ) :<!wrt> void =
     if i < j then let
@@ -34,7 +35,9 @@ staload "contrib/atshwxi/testing/SATS/randgen.sats"
 (* ****** ****** *)
 
 implement
-main (argc, argv) = let
+main (
+  argc, argv
+) = let
   val asz = g1int2uint (10)
   val A = randgen_arrayptr (asz)
 //
@@ -54,7 +57,7 @@ main (argc, argv) = let
   val () = arrayptr_free (A)
 //
 in
-  0 (*norm*)
+  0 (*normal*)
 end // end of [main]
 
 (* ****** ****** *)

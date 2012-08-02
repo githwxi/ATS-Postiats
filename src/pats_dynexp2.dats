@@ -758,6 +758,12 @@ d2exp_macsyn
   d2exp_make_node (loc, D2Emacsyn (knd, d2e))
 // end of [d2exp_macsyn]
 
+implement
+d2exp_macfun
+  (loc, name, d2es) =
+  d2exp_make_node (loc, D2Emacfun (name, d2es))
+// end of [d2exp_macfun]
+
 (* ****** ****** *)
 
 implement
@@ -985,8 +991,9 @@ d2ecl_symelim
 // end of [d2ecl_symelim]
 
 implement
-d2ecl_overload (loc, id, def) =
-  d2ecl_make (loc, D2Coverload (id, def))
+d2ecl_overload
+  (loc, id, def) = d2ecl_make (loc, D2Coverload (id, def))
+// end of [d2ecl_overload]
 
 (*
 implement

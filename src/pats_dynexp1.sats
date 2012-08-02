@@ -386,6 +386,7 @@ and d1exp_node =
   | D1Etrywith of (i1nvresstate, d1exp, c1laulst)
 //
   | D1Emacsyn of (macsynkind, d1exp) // macro syntax
+  | D1Emacfun of (symbol(*name*), d1explst) // built-in macfun
 //
   | D1Eann_type of (d1exp, s1exp) // ascribed dynexp
   | D1Eann_effc of (d1exp, effcst) // ascribed with effects
@@ -724,6 +725,10 @@ fun d1exp_while (
 fun d1exp_macsyn
   (loc: location, knd: macsynkind, d1e: d1exp): d1exp
 // end of [d1exp_macsyn]
+
+fun d1exp_macfun
+  (loc: location, name: symbol, d1es: d1explst): d1exp
+// end of [d1exp_macfun]
 
 (* ****** ****** *)
 

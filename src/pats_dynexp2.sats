@@ -59,13 +59,14 @@ SYM = "pats_symbol.sats"
 typedef symbol = $SYM.symbol
 
 staload SYN = "pats_syntax.sats"
-typedef dcstextdef = $SYN.dcstextdef
 typedef i0nt = $SYN.i0nt
 typedef c0har = $SYN.c0har
 typedef f0loat = $SYN.f0loat
 typedef s0tring = $SYN.s0tring
 typedef l0ab = $SYN.l0ab
 typedef dl0abeled (a:type) = $SYN.dl0abeled (a)
+typedef dcstextdef = $SYN.dcstextdef
+typedef macsynkind = $SYN.macsynkind
 
 (* ****** ****** *)
 
@@ -654,7 +655,8 @@ and d2exp_node =
   | D2Etrywith of (i2nvresstate, d2exp, c2laulst)
 //
   | D2Emac of (d2mac) // macro-expression
-  | D2Emacsyn of ($SYN.macsynkind, d2exp) // backquote-comma-notation
+  | D2Emacsyn of (macsynkind, d2exp) // backquote-comma-notation
+  | D2Emacfun of (symbol(*name*), d2explst) // built-in macfun
 //
   | D2Eann_type of (d2exp, s2exp) // ascribled expression
   | D2Eann_seff of (d2exp, s2eff) // ascribed with effects
@@ -1106,9 +1108,14 @@ fun d2exp_trywith
 (* ****** ****** *)
 
 fun d2exp_mac (loc: location, d2m: d2mac): d2exp
+
 fun d2exp_macsyn
-  (loc: location, knd: $SYN.macsynkind, d2e: d2exp): d2exp
+  (loc: location, knd: macsynkind, d2e: d2exp): d2exp
 // end of [d2exp_macsyn]
+
+fun d2exp_macfun
+  (loc: location, name: symbol, d2es: d2explst): d2exp
+// end of [d2exp_macfun]
 
 (* ****** ****** *)
 

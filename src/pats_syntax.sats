@@ -1712,9 +1712,10 @@ fun d0exp_trywith_seq (
 
 (* ****** ****** *)
 
-fun d0exp_forhead
-  (hd: loophead, itp: initestpost, body: d0exp): d0exp
-// end of [d0exp_forhead]
+fun d0exp_forhead (
+  hd: loophead, itp: initestpost, body: d0exp
+) : d0exp // end of [d0exp_forhead]
+
 fun d0exp_whilehead
   (hd: loophead, test: d0exp, body: d0exp): d0exp
 // end of [d0exp_whilehead]

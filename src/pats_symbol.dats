@@ -297,6 +297,12 @@ implement symbol_UNDEFINED = symbol_make_string "undefined"
 
 (* ****** ****** *)
 
+implement symbol_CAR = symbol_make_string "car"
+implement symbol_CDR = symbol_make_string "cdr"
+implement symbol_ISNIL = symbol_make_string "isnil"
+implement symbol_ISCONS = symbol_make_string "iscons"
+implement symbol_ISLIST = symbol_make_string "islist"
+
 implement symbol_TUPZ = symbol_make_string "tupz"
 
 (* ****** ****** *)

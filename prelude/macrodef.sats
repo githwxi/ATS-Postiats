@@ -36,13 +36,6 @@
 
 (* ****** ****** *)
 
-symintr macislist
-symintr macisnil
-symintr maciscons
-symintr maccar maccdr
-
-(* ****** ****** *)
-
 (* macros in short form *)
 //
 // [orelse] and [andalso] are declared as infix ops
@@ -65,33 +58,41 @@ macdef foldret (x) = let val x = ,(x) in fold@ (x); x end
 
 (* ****** ****** *)
 
+(*
+//
+// HX-2012-08:
+//
+// this example makes use of recursive macrodef
+//
 local
 
 macrodef
 rec
 auxlist
   (xs, y) = (
-  if maciscons (xs) then
-    `(print ,(maccar xs); ,(auxlist (maccdr xs, y)))
+  if iscons! (xs) then
+    `(print ,(car! xs); ,(auxlist (cdr! xs, y)))
   else y // end of [if]
 ) // end of [auxlist]
 
 in // in of [local]
 
 macdef
-print_mac (xs) = ,(
-  if macislist (xs) then auxlist (xs, `()) else `(print ,(xs))
+print_mac (x) = ,(
+  if islist! (x) then auxlist (x, `()) else `(print ,(x))
 ) // end of [print_mac]
 
 macdef
 println_mac
-  (xs) = ,(
-  if macislist (xs)
-    then auxlist (xs, `(print_newline())) else `(print ,(xs))
+  (x) = ,(
+  if islist! (x)
+    then auxlist (x, `(print_newline())) else `(print ,(x))
   // end of [if]
 ) // end of [println_mac]
 
 end // end of [local]
+
+*)
 
 (* ****** ****** *)
 

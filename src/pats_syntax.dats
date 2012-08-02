@@ -1557,7 +1557,8 @@ in '{
 (* ****** ****** *)
 
 implement
-loophead_make_none (t_loop) = '{
+loophead_make_none
+  (t_loop) = '{
   loophead_tok= t_loop, loophead_inv= None ()
 } // end of [loophead_make_none]
 
@@ -1566,7 +1567,7 @@ loophead_make_some
   (t_loop, inv, t_eqgt) = let
   val loc = t_loop.token_loc + t_eqgt.token_loc
 in '{
-  loophead_tok= t_loop, loophead_inv= Some inv
+  loophead_tok= t_loop, loophead_inv= Some (inv)
 } end // end of [loophead_make_some]
 
 (* ****** ****** *)
@@ -1576,7 +1577,7 @@ tryhead_make
   (t_try, invopt) = let
   val inv = (
     case+ invopt of
-    | Some inv => inv
+    | Some (inv) => inv
     | None () => i0nvresstate_make_none (t_try.token_loc)
   ) : i0nvresstate // end of [val]
 in '{
@@ -2043,6 +2044,8 @@ in '{
   d0exp_loc= loc
 , d0exp_node= D0Efor (inv, loc_inv, itp, body)
 } end // end of [d0exp_forhead]
+
+(* ****** ****** *)
 
 implement
 d0exp_whilehead (

@@ -738,6 +738,13 @@ case+ x.d2exp_node of
     val () = fprint_d2exp (out, d2e)
     val () = prstr ")"
   } // end of [D2Emacsyn]
+| D2Emacfun (name, d2es) => {
+    val () = prstr "D2Emacfun("
+    val () = fprint_symbol (out, name)
+    val () = prstr "; "
+    val () = fprint_d2explst (out, d2es)
+    val () = prstr ")"
+  } // end of [D2Emacfun]
 //
 | D2Eann_type (d2e, s2f) => {
     val () = prstr "D2Eann_type("
