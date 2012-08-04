@@ -720,6 +720,10 @@ is tail-recursive.
 
 #declnamesynop("list_app__fwork")
 #declnamesynop("list_app")
+#decldescrpt('\
+
+This function traverses a given list, applying to each encountered element
+the function implemented by #dyncode("list_app__fwork").  ')
 
 (* ****** ****** *)
 

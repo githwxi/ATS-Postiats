@@ -49,7 +49,21 @@ run-time.  ")
 
 (* ****** ****** *)
 
-#declnamesynop("arrayref")
+#declname("arrayref")
+#declsynopsis2("
+#pats2xhtmls("\
+abstype
+arrayref_viewt0ype_int_type
+  (a: viewt@ype(*invariant*), n: int(*size*))
+stadef arrayref = arrayref_viewt0ype_int_type
+")
+")
+#decldescrpt("\
+
+Given a type T and an integer N, the type #stacode("arrayref(T, N)") is for
+persistent arrays of size N in which each element is of the type T.  ")
+
+(* ****** ****** *)
 
 #declnamesynop("arrayptr2ref")
 #declnamesynop("arrayref_get_viewptr")
@@ -72,9 +86,39 @@ handled by calling the function #dyncode("fprint_ref").
 
 (* ****** ****** *)
 
-#declnamesynop("arrayref_get_at")
-#declnamesynop("arrayref_set_at")
-#declnamesynop("arrayref_exch_at")
+#declname("arrayref_get_at")
+#decldescrpt('\
+#pats2xhtmls("\
+overload arrayref_get_at with arrayref_get_at_gint
+overload arrayref_get_at with arrayref_get_at_guint
+")\
+')
+#declnamesynop("arrayref_get_at_gint")
+#declnamesynop("arrayref_get_at_guint")
+
+(* ****** ****** *)
+
+#declname("arrayref_set_at")
+#decldescrpt('\
+#pats2xhtmls("\
+overload arrayref_set_at with arrayref_set_at_gint
+overload arrayref_set_at with arrayref_set_at_guint
+")\
+')
+#declnamesynop("arrayref_set_at_gint")
+#declnamesynop("arrayref_set_at_guint")
+
+(* ****** ****** *)
+
+#declname("arrayref_exch_at")
+#decldescrpt('\
+#pats2xhtmls("\
+overload arrayref_exch_at with arrayref_exch_at_gint
+overload arrayref_exch_at with arrayref_exch_at_guint
+")\
+')
+#declnamesynop("arrayref_exch_at_gint")
+#declnamesynop("arrayref_exch_at_guint")
 
 (* ****** ****** *)
 
@@ -104,9 +148,39 @@ arrszref-value. ")
 
 (* ****** ****** *)
 
-#declnamesynop("arrszref_get_at")
-#declnamesynop("arrszref_set_at")
-#declnamesynop("arrszref_exch_at")
+#declname("arrszref_get_at")
+#decldescrpt('\
+#pats2xhtmls("\
+overload arrszref_get_at with arrszref_get_at_gint
+overload arrszref_get_at with arrszref_get_at_guint
+")\
+')
+#declnamesynop("arrszref_get_at_gint")
+#declnamesynop("arrszref_get_at_guint")
+
+(* ****** ****** *)
+
+#declname("arrszref_set_at")
+#decldescrpt('\
+#pats2xhtmls("\
+overload arrszref_set_at with arrszref_set_at_gint
+overload arrszref_set_at with arrszref_set_at_guint
+")\
+')
+#declnamesynop("arrszref_set_at_gint")
+#declnamesynop("arrszref_set_at_guint")
+
+(* ****** ****** *)
+
+#declname("arrszref_exch_at")
+#decldescrpt('\
+#pats2xhtmls("\
+overload arrszref_exch_at with arrszref_exch_at_gint
+overload arrszref_exch_at with arrszref_exch_at_guint
+")\
+')
+#declnamesynop("arrszref_exch_at_gint")
+#declnamesynop("arrszref_exch_at_guint")
 
 (* ****** ****** *)
 

@@ -52,6 +52,7 @@ staload SYM = "pats_symbol.sats"
 //
 macdef symbol_ADD = $SYM.symbol_ADD
 macdef symbol_SUB = $SYM.symbol_SUB
+macdef symbol_MUL = $SYM.symbol_MUL
 //
 macdef symbol_LT = $SYM.symbol_LT
 macdef symbol_LTEQ = $SYM.symbol_LTEQ
@@ -99,7 +100,13 @@ d2sym_is_nonqua .<>.
 end // end of [d2sym_is_nonqua]
 
 (* ****** ****** *)
-
+//
+// HX-2012-08:
+// it is largely unclear how useful this feature is; so it is
+// now only given a primitive implementation, which can be readily
+// made more elaborate when a convincing need for it appears.
+// 
+//
 extern
 fun eval0_app_sym (
   loc0: location
@@ -139,6 +146,20 @@ case+ m2v1 of
 | _ => M2Verr()
 //
 end // end of [eval0_app_sub]
+
+fun eval0_app_mul (
+  loc0: location, m2v1: m2val, m2v2: m2val
+) : m2val = let
+in
+//
+case+ m2v1 of
+| M2Vint (i1) => (
+  case+ m2v2 of
+  | M2Vint (i2) => M2Vint (i1*i2) | _ => M2Verr()
+  ) // end of [M2Vint]
+| _ => M2Verr()
+//
+end // end of [eval0_app_mul]
 
 (* ****** ****** *)
 
@@ -332,6 +353,13 @@ case+ 0 of
     // end of [val]
   in
     eval0_app_sub (loc0, m2v1, m2v2)
+  end
+| _ when sym = symbol_MUL => let
+    val (m2v1, m2v2) =
+      eval0_d2exparglst_2 (loc0, ctx, env, d2as)
+    // end of [val]
+  in
+    eval0_app_mul (loc0, m2v1, m2v2)
   end
 //
 | _ when sym = symbol_LT => let
