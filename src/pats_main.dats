@@ -240,7 +240,7 @@ dynload "pats_trans3_assgn.dats"
 dynload "pats_trans3_xchng.dats"
 dynload "pats_trans3_lvalres.dats"
 dynload "pats_trans3_fldfrat.dats"
-dynload "pats_trans3_loopexn.dats"
+dynload "pats_trans3_looping.dats"
 dynload "pats_trans3_decl.dats"
 //
 dynload "pats_lintprgm.dats"

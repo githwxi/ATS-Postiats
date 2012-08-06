@@ -111,12 +111,17 @@ in
 //
 case+ ctxtopt of
 | Some (ctxt) => let
+//
+    val () = d2var_inc_linval (d2vw)
+//
     val s2e_out = s2exp_without (s2e_sel)
     val s2e_elt = s2ctxt_hrepl (ctxt, s2e_out)
     val s2e = s2exp_hrepl (s2e_ctx, s2e_elt)
     val () = d2var_set_type (d2vw, Some (s2e))
+//
     val s2ls = auxlabs (d3ls)
     val s2rt = s2exp_proj (s2l, s2e_elt, s2ls)
+//
   in
     s2exp_at (s2e_sel, s2rt)
   end // end of [Some]

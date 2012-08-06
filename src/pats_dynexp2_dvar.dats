@@ -258,6 +258,13 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+d2var_inc_linval (d2v) = let
+  val lin = d2var_get_linval (d2v) in d2var_set_linval (d2v, lin+1)
+end // end of [d2var_inc_linval]
+
+(* ****** ****** *)
+
+implement
 d2var_is_linear (d2v) = (d2var_get_linval d2v >= 0)
 
 implement
@@ -313,12 +320,10 @@ d2var_ptr_viewat_make
        d2var_make (loc, sym1)
      end // end of [None]
   ) : d2var // end of [val]
-  val () =
-    d2var_set_linval (d2vw, 0)
-  // end of [val]
-  val () =
-    d2var_set_addr (d2vw, d2var_get_addr ptr)
-  // end of [val]
+//
+  val () = d2var_set_linval (d2vw, 0)
+  val () = d2var_set_addr (d2vw, d2var_get_addr ptr)
+//
 } // end of [d2var_ptr_viewat_make]
 
 implement

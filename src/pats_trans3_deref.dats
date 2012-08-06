@@ -113,6 +113,8 @@ if islin then let
     val () = prerr_newline ()
     val () = the_trans3errlst_add (T3E_s2addr_deref_context (loc0, s2e_elt, d3ls))
   } // end of [val]
+//
+  val () = d2var_inc_linval (d2vw)
   val () = let
     val s2e_sel = s2exp_topize (1, s2e_sel)
     val s2e_elt = (
@@ -124,6 +126,7 @@ if islin then let
   in
     // nothing
   end // end of [val]
+//
 in
   s2e_sel
 end else s2e_sel // end of [if]

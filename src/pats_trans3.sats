@@ -324,10 +324,6 @@ fun d2exp_trup_freeat (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
-fun d2exp_trup_loopexn (d2e0: d2exp, knd: int): d3exp
-
-(* ****** ****** *)
-
 fun d2exp_trup_ptrof (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
@@ -381,9 +377,21 @@ fun d2exp_trup_viewat_assgn (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
+fun d2exp_trup_loop (
+  loc: location
+, inv: loopi2nv
+, init: d2expopt, test: d2exp, post: d2expopt, body: d2exp
+) : d3exp // end of [d2exp_trup_loop]
+
+fun d2exp_trup_loopexn (loc: location, knd: int): d3exp
+
+(* ****** ****** *)
+
 fun d2exp_trup (d2e: d2exp): d3exp
 fun d2explst_trup (d2es: d2explst): d3explst
 fun d2explstlst_trup (d2ess: d2explstlst): d3explstlst
+
+(* ****** ****** *)
 
 fun d2exp_trdn (d2e: d2exp, s2e: s2exp): d3exp
 fun d2explst_trdn_elt (d2es: d2explst, s2e: s2exp): d3explst

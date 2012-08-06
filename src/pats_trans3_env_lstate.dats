@@ -441,12 +441,14 @@ end // end of [lstaftc3nstr_finalize]
 extern
 fun lstaftc3nstr_check
   (lsaft: !lstaftc3nstr, invres: i2nvresstate): void
+// end of [lstaftc3nstr_check]
 
 local
 
 fun d2var_is_done
   (d2v: d2var): bool = let
-  val opt = d2var_get_finknd (d2v) in
+  val opt = d2var_get_finknd (d2v)
+in
   case+ opt of D2VFINdone () => true | _ => false
 end // end of [d2var_is_done]
 

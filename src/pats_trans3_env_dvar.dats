@@ -103,15 +103,15 @@ val s2e_ptr = s2exp_ptr_addr_type (s2e_addr)
 val () = d2var_set_type (d2v, Some (s2e_ptr))
 val () = d2var_set_mastype (d2v, None(*useless*))
 val () = d2var_set_linval (d2v, ~1(*nonlin*))
-(*
 //
-// HX-2012-05: this is rarely needed and can be readily asserted
+// HX-2012-07: this is often needed in 'unsafe' programming style
 //
 val () = let
   val s2p = s2exp_agtz (s2e_addr) in trans3_env_hypadd_prop (loc0, s2p)
 end // end of [val]
-*)
-val d2vw = d2var_ptr_viewat_make (d2v, opt)
+//
+val d2vw =
+  d2var_ptr_viewat_make (d2v, opt) // linval is properly set
 val () = d2var_set_view (d2v, Some d2vw) // [d2v] is mutable
 //
 val s2at0 = s2exp_at (s2e0, s2e_addr)

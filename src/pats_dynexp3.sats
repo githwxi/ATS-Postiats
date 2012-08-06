@@ -255,8 +255,6 @@ and d3exp_node =
 //
   | D3Eextval of (string(*rep*))
 //
-  | D3Eloopexn of (int(*knd*))
-//
   | D3Econ of (d2con, int(*npf*), d3explst(*arg*))
 //
   | D3Efoldat of (d3exp)
@@ -336,6 +334,10 @@ and d3exp_node =
   | D3Edelay of d3exp(*eval*) // delayed computation
   | D3Eldelay of (d3exp(*eval*), d3expopt(*free*)) // delayed LC
   | D3Elazy_force of (int(*lin*), d3exp) // lazy-value evaluation
+//
+  | D3Eloop of (* for-loop *)
+      (d3expopt(*init*), d3exp(*test*), d3expopt(*post*), d3exp(*body*))
+  | D3Eloopexn of int (* loop exception: 0/1: break/continue *)
 //
   | D3Etrywith of (d3exp(*try-exp*), c3laulst(*with-clauses*))
 //
@@ -529,12 +531,6 @@ fun d3exp_empty
 fun d3exp_extval
   (loc: location, s2f: s2exp, rep: string): d3exp
 // end of [d3exp_extval]
-
-(* ****** ****** *)
-
-fun d3exp_loopexn
-  (loc: location, s2f: s2exp, knd: int): d3exp
-// end of [d3exp_loopexn]
 
 (* ****** ****** *)
 
@@ -738,6 +734,15 @@ fun d3exp_ldelay
 fun d3exp_lazy_force
   (loc: location, s2e_res: s2exp, lin: int, delayed: d3exp): d3exp
 // end of [d3exp_lazy_force]
+
+(* ****** ****** *)
+
+fun d3exp_loop (
+  loc: location
+, init: d3expopt, test: d3exp, post: d3expopt, body: d3exp
+) : d3exp // end of [d3exp_loop]
+
+fun d3exp_loopexn (loc: location, knd: int): d3exp
 
 (* ****** ****** *)
 

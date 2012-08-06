@@ -104,8 +104,8 @@ in
 //
 case+ ctxtopt of
 | Some (ctxt) => let
-    val s2e_elt =
-      s2ctxt_hrepl (ctxt, s2e0_sel)
+    val () = d2var_inc_linval (d2vw)
+    val s2e_elt = s2ctxt_hrepl (ctxt, s2e0_sel)
     val s2e = s2exp_hrepl (s2e_ctx, s2e_elt)
     val () = d2var_set_type (d2vw, Some (s2e))
   in

@@ -138,6 +138,15 @@ extern fun d2exp_trup_delay (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
+extern fun d2exp_trup_for (d2e0: d2exp): d3exp
+extern fun d2exp_trup_while (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
+extern fun d2exp_trup_trywith (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
 extern fun d2exp_trup_mac (d2e0: d2exp): d3exp
 extern fun d2exp_trup_macsyn (d2e0: d2exp): d3exp
 
@@ -184,8 +193,6 @@ case+ d2e0.d2exp_node of
   end // end of [D2Eempty]
 | D2Eextval (s2e, rep) => d3exp_extval (loc0, s2e, rep)
 //
-| D2Eloopexn (knd) => d2exp_trup_loopexn (d2e0, knd)
-//
 | D2Econ _ => d2exp_trup_con (d2e0)
 //
 | D2Efoldat _ => d2exp_trup_foldat (d2e0)
@@ -211,14 +218,14 @@ case+ d2e0.d2exp_node of
     | D2Emac d2m => let
 // (*
         val () = (
-          println! ("d2exp_tr_up: D2Eapplst: D2Emac(bef): d2e0 = ", d2e0)
+          println! ("d2exp_trup: D2Eapplst: D2Emac(bef): d2e0 = ", d2e0)
         ) // end of [val]
 // *)
         val d2e0 =
           $MAC.dmacro_eval_app_short (loc0, d2m, _arg)
 // (*
         val () = (
-          println! ("d2exp_tr_up: D2Eapplst: D2Emac(aft): d2e0 = ", d2e0)
+          println! ("d2exp_trup: D2Eapplst: D2Emac(aft): d2e0 = ", d2e0)
         ) // end of [val]
 // *)
       in
@@ -350,9 +357,11 @@ case+ d2e0.d2exp_node of
 //
 | D2Edelay _ => d2exp_trup_delay (d2e0)
 //
-(*
+| D2Efor _ => d2exp_trup_for (d2e0)
+| D2Ewhile _ => d2exp_trup_while (d2e0)
+| D2Eloopexn (knd) => d2exp_trup_loopexn (loc0, knd)
+//
 | D2Etrywith _ => d2exp_trup_trywith (d2e0)
-*)
 //
 | D2Emac _ => d2exp_trup_mac (d2e0)
 | D2Emacsyn _ => d2exp_trup_macsyn (d2e0)
@@ -592,7 +601,7 @@ val () = (
 ) (* end of [val] *)
 *)
 val s2qs = d2var_get_decarg (d2v)
-val s2e = d2var_get_type_some (loc0, d2v)
+val s2e0 = d2var_get_type_some (loc0, d2v)
 //
 val () = if lin >= 0 then let
   val isllamlocal =
@@ -601,7 +610,7 @@ val () = if lin >= 0 then let
 in
 //
 if isllamlocal then let
-  val () = d2var_set_linval (d2v, lin+1)
+  val () = d2var_inc_linval (d2v)
 in
   d2var_set_type (d2v, None) // HX: [d2v] is consumed
 end else let
@@ -619,13 +628,13 @@ end // end of [if] // end of [val]
 in
 //
 case+ s2qs of
-| list_nil () => d3exp_var (loc0, s2e, d2v)
+| list_nil () => d3exp_var (loc0, s2e0, d2v)
 | list_cons _ => let
     val locsarg = $LOC.location_rightmost (loc0)
     var err: int = 0
     val (
       s2e_tmp, s2ess
-    ) = s2exp_tmp_instantiate_rest (s2e, locsarg, s2qs, err)
+    ) = s2exp_tmp_instantiate_rest (s2e0, locsarg, s2qs, err)
   in
     d3exp_tmpvar (loc0, s2e_tmp, d2v, s2ess)
   end // end of [list_cons]
@@ -1374,7 +1383,61 @@ end // end of [val]
 //
 in
   d3exp_delay (loc0, s2e_lazy, d3e_body)
-end // end of [d2exp_delay_tr_up]
+end // end of [d2exp_delay_trup]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_for (d2e0) = let
+//
+val loc0 = d2e0.d2exp_loc
+val- D2Efor (i2nv, init, test, post, body) = d2e0.d2exp_node
+//
+in
+  d2exp_trup_loop (loc0, i2nv, Some(init), test, Some(post), body)
+end // end of [d2exp_trup_for]
+
+implement
+d2exp_trup_while (d2e0) = let
+//
+val loc0 = d2e0.d2exp_loc
+val- D2Ewhile (i2nv, test, body) = d2e0.d2exp_node
+//
+in
+  d2exp_trup_loop (loc0, i2nv, None(*init*), test, None(*post*), body)
+end // end of [d2exp_trup_while]
+
+(* ****** ****** *)
+
+implement
+d2exp_trup_trywith
+  (d2e0) = let
+  val loc0 = d2e0.d2exp_loc
+  val- D2Etrywith
+    (r2es, d2e, c2ls) = d2e0.d2exp_node
+  val d3e = d2exp_trup (d2e)
+  val s2e_res = d3exp_get_type (d3e)
+//
+  val (pfpush | ()) = the_d2varenv_push_try ()
+//
+  val s2e_pat =
+    s2exp_exception_viewtype ()
+//
+  val loc = d3e.d3exp_loc
+  val d3e_dummy = d3exp_top (loc, s2e_pat)
+  val d3es = list_sing (d3e_dummy)
+//
+  val s2es_pat = list_sing (s2e_pat)
+//
+  val c3ls = c2laulst_trdn (
+    loc0, CK_case_neg, r2es, c2ls, d3es, s2es_pat, s2e_res
+  ) // end of [val]
+//
+  val () = the_d2varenv_pop (pfpush | (*none*))
+//
+in
+  d3exp_trywith (loc0, d3e, c3ls)
+end // end of [d2exp_trup_trywith]
 
 (* ****** ****** *)
 
@@ -1382,13 +1445,13 @@ implement
 d2exp_trup_mac (d2e0) = let
   val- D2Emac (d2m) = d2e0.d2exp_node
 (*
-  val () = println! ("d2exp_tr_up: D2Emac: loc0 = ", d2e0.d2exp_loc)
+  val () = println! ("d2exp_trup: D2Emac: loc0 = ", d2e0.d2exp_loc)
 *)
   val d2e_mac =
     $MAC.dmacro_eval_app_short (d2e0.d2exp_loc, d2m, list_nil(*d2as*))
   // end of [val]
 (*
-  val () = println! ("d2exp_tr_up: D2Emac: loc_mac = ", d2e_mac.d2exp_loc)
+  val () = println! ("d2exp_trup: D2Emac: loc_mac = ", d2e_mac.d2exp_loc)
 *)
 in
   d2exp_trup (d2e_mac)
@@ -1402,8 +1465,8 @@ val loc0 = d2e0.d2exp_loc
 val- D2Emacsyn (knd, d2e) = d2e0.d2exp_node
 //
 val () = (
-  println! ("d2exp_tr_up: D2Emacsyn: knd = ", knd);
-  println! ("d2exp_tr_up: D2Emacsyn: d2e = ", d2e);
+  println! ("d2exp_trup: D2Emacsyn: knd = ", knd);
+  println! ("d2exp_trup: D2Emacsyn: d2e = ", d2e);
 ) (* end of [val] *)
 //
 val d2e_mac = (
@@ -1419,7 +1482,7 @@ val d2e_mac = (
     end // end of [MSKINDencode]
 ) : d2exp // end of [val]
 (*
-val () = println! ("d2exp_tr_up: D2Emacsyn: d2e_mac = ", d2e_mac)
+val () = println! ("d2exp_trup: D2Emacsyn: d2e_mac = ", d2e_mac)
 *)
 in
   d2exp_trup (d2e_mac)

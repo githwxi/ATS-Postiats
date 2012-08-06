@@ -299,16 +299,6 @@ d3exp_extval
 (* ****** ****** *)
 
 implement
-d3exp_loopexn
-  (loc, s2f, knd) = '{
-  d3exp_loc= loc
-, d3exp_type= s2f
-, d3exp_node= D3Eloopexn (knd)
-} // end of [d3exp_loopexn]
-
-(* ****** ****** *)
-
-implement
 d3exp_cst (
   loc, s2f, d2c
 ) = '{
@@ -834,6 +824,29 @@ d3exp_lazy_force (
 , d3exp_type= s2e_res
 , d3exp_node= D3Elazy_force (lin, delayed)
 } // end of [d3exp_lazy_force]
+
+(* ****** ****** *)
+
+implement
+d3exp_loopexn
+  (loc, knd) = let
+  val s2f = s2exp_void_t0ype ()
+in '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eloopexn (knd)
+} end // end of [d3exp_loopexn]
+
+implement
+d3exp_loop (
+  loc, init, test, post, body
+) = let
+  val s2f = s2exp_void_t0ype ()
+in '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Eloop (init, test, post, body)
+} end // end of [d3exp_loop]
 
 (* ****** ****** *)
 

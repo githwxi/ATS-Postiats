@@ -126,6 +126,8 @@ in
   (pfpush | ())
 end // end of [the_lamlpenv_push_lam]
 
+(* ****** ****** *)
+
 implement
 the_lamlpenv_push_loop0 () = let
   val (vbox pf | pp) = ref_get_view_ptr (the_lamlplst)
@@ -143,6 +145,8 @@ the_lamlpenv_push_loop1 () = let
 in
   (pfpush | ())
 end // end of [the_lamlpenv_push_loop1]
+
+(* ****** ****** *)
 
 end // end of [local]
 

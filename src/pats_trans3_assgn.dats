@@ -112,7 +112,7 @@ fun d2var_assgn_lin0 (
 extern
 fun d2var_assgn_lin1 (
   loc0: location, d2v: d2var, d3ls: d3lablst, s2e_new: s2exp
-) : void // end of [d2var_assgn_lin]
+) : void // end of [d2var_assgn_lin1]
 extern
 fun d2var_assgn_lin (
   loc0: location, d2v: d2var, d3ls: d3lablst, s2e_new: s2exp
@@ -169,8 +169,11 @@ in
 end // end of [d2var_assgn_lin1]
 
 implement
-d2var_assgn_lin
-  (loc0, d2v, d3ls, s2e_new) = (
+d2var_assgn_lin (
+  loc0, d2v, d3ls, s2e_new
+) = let
+  val () = d2var_inc_linval (d2v)
+in
   case+ d3ls of
   | list_nil () =>
       d2var_assgn_lin0 (loc0, d2v, s2e_new)
@@ -178,7 +181,7 @@ d2var_assgn_lin
   | list_cons _ =>
       d2var_assgn_lin1 (loc0, d2v, d3ls, s2e_new)
     // end of [list_cons]
-) // end of [d2var_assgn_lin]
+end // end of [d2var_assgn_lin]
 
 end // end of [local]
 
@@ -260,14 +263,18 @@ in
 case+ ctxtopt of
 | Some (ctxt) =>
     d3e_r where {
+//
     val () = d3exp_open_and_add (d3e_r)
     val s2e_sel2 = d3exp_get_type (d3e_r)
 //
     val () = auxck_tszeq (loc0, s2e_sel, s2e_sel2)
 //
+    val () = d2var_inc_linval (d2vw)
+//
     val s2e_elt = s2ctxt_hrepl (ctxt, s2e_sel2)
     val s2e = s2exp_hrepl (s2e_ctx, s2e_elt)
     val () = d2var_set_type (d2vw, Some (s2e))
+//
   } // end of [Some]
 | None () =>
     d3exp_trdn (d3e_r, s2e_sel) // HX: assignment changes no type

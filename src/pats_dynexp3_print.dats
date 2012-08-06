@@ -247,6 +247,7 @@ case+ d3e0.d3exp_node of
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }
+//
 | D3Etmpcst (d2c, _) => {
     val () = prstr "D3Etmpcst("
     val () = fprint_d2cst (out, d2c)
@@ -261,6 +262,22 @@ case+ d3e0.d3exp_node of
     val () = prstr "..."
     val () = prstr ")"
   }
+//
+| D3Eloop _ => {
+    val () = prstr "D3Eloop("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+| D3Eloopexn (knd) => {
+    val () = fprintf (out, "D3Eloopexn(%i)", @(knd))
+  }
+//
+| D3Etrywith _ => {
+    val () = prstr "D3Etrywith("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+//
 | _ => {
     val () = prstr "D3E...(...)"
   }

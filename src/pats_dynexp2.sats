@@ -241,6 +241,7 @@ fun d2var_set_level (x: d2var, level: int): void
 
 fun d2var_get_linval (x: d2var):<> int
 fun d2var_set_linval (x: d2var, linval: int): void
+fun d2var_inc_linval (x: d2var): void
 
 fun d2var_get_decarg (x: d2var):<> s2qualst
 fun d2var_set_decarg (x: d2var, decarg: s2qualst): void
@@ -647,10 +648,10 @@ and d2exp_node =
   | D2Edelay of (d2exp(*eval*)) // $delay
   | D2Eldelay of (d2exp(*eval*), d2expopt(*free*)) // $ldelay
 //
-  | D2Ewhile of (loopi2nv, d2exp(*test*), d2exp(*body*))
   | D2Efor of (
       loopi2nv, d2exp(*init*), d2exp(*test*), d2exp(*post*), d2exp(*body*)
     ) // end of [D2Efor]
+  | D2Ewhile of (loopi2nv, d2exp(*test*), d2exp(*body*))
 //
   | D2Etrywith of (i2nvresstate, d2exp, c2laulst)
 //

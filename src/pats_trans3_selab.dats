@@ -727,6 +727,7 @@ if islin then let
     val () = the_trans3errlst_add (T3E_d2var_selab_context (loc0, d2v, d3ls))
   } // end of [if] // end of [val]
 //
+  val () = d2var_inc_linval (d2v)
   val () = let
     val s2e_sel = s2exp_topize (1, s2e_sel)
     val s2e = (

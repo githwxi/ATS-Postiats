@@ -194,7 +194,7 @@ SOURCES := \
   pats_trans3_xchng.dats \
   pats_trans3_lvalres.dats \
   pats_trans3_fldfrat.dats \
-  pats_trans3_loopexn.dats \
+  pats_trans3_looping.dats \
   pats_trans3_decl.dats \
   pats_lintprgm.sats \
   pats_lintprgm.dats \
@@ -389,7 +389,7 @@ OBJECTS := \
   pats_trans3_xchng_dats.o \
   pats_trans3_lvalres_dats.o \
   pats_trans3_fldfrat_dats.o \
-  pats_trans3_loopexn_dats.o \
+  pats_trans3_looping_dats.o \
   pats_trans3_decl_dats.o \
   pats_lintprgm_sats.o \
   pats_lintprgm_dats.o \
@@ -911,8 +911,8 @@ pats_trans3_lvalres_dats.o: pats_trans3_lvalres_dats.c; $(ATSCC) $(ATSCCFLAGS) -
 pats_trans3_fldfrat_dats.c: pats_trans3_fldfrat.dats; $(ATSCC) -cc $<
 pats_trans3_fldfrat_dats.o: pats_trans3_fldfrat_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
-pats_trans3_loopexn_dats.c: pats_trans3_loopexn.dats; $(ATSCC) -cc $<
-pats_trans3_loopexn_dats.o: pats_trans3_loopexn_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+pats_trans3_looping_dats.c: pats_trans3_looping.dats; $(ATSCC) -cc $<
+pats_trans3_looping_dats.o: pats_trans3_looping_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_trans3_decl_dats.c: pats_trans3_decl.dats; $(ATSCC) -cc $<
 pats_trans3_decl_dats.o: pats_trans3_decl_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
