@@ -1036,6 +1036,10 @@ fun s2exp_t0ype_err (): s2exp // HX: s2exp_err (s2rt_t0ype)
 
 (* ****** ****** *)
 
+fun s2exp_refeq (s2e1: s2exp, s2e2: s2exp):<> bool
+
+(* ****** ****** *)
+
 fun print_s2exp (x: s2exp): void
 overload print with print_s2exp
 fun prerr_s2exp (x: s2exp): void
@@ -1054,6 +1058,7 @@ overload print with print_s2expopt
 fun prerr_s2expopt (opt: s2expopt): void
 overload prerr with prerr_s2expopt
 fun fprint_s2expopt : fprint_type (s2expopt)
+overload fprint with fprint_s2expopt
 
 fun fprint_s2explstopt : fprint_type (s2explstopt)
 

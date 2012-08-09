@@ -335,7 +335,7 @@ and d3exp_node =
   | D3Eldelay of (d3exp(*eval*), d3expopt(*free*)) // delayed LC
   | D3Elazy_force of (int(*lin*), d3exp) // lazy-value evaluation
 //
-  | D3Eloop of (* for-loop *)
+  | D3Eloop of (* for/while-loops *)
       (d3expopt(*init*), d3exp(*test*), d3expopt(*post*), d3exp(*body*))
   | D3Eloopexn of int (* loop exception: 0/1: break/continue *)
 //

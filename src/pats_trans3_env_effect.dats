@@ -320,6 +320,11 @@ the_effenv_check_exn
 // end of [the_effenv_check_exn]
 
 implement
+the_effenv_check_ntm
+  (loc0) = the_effenv_check_set (loc0, effset_ntm)
+// end of [the_effenv_check_ntm]
+
+implement
 the_effenv_check_ref
   (loc0) = the_effenv_check_set (loc0, effset_ref)
 // end of [the_effenv_check_ref]

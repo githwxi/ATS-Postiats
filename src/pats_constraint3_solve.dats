@@ -418,6 +418,15 @@ case+ c3tknd of
     val () = prerr_newline ()
   } // end of [C3NSTRKINDlstate_var]
 //
+| C3NSTRKINDloop
+    (knd) => 0 where {
+    val () = prerr_error3_loc (loc0)
+    val () = if knd < 0 then prerr ": unsolved constraint for loop(enter)"
+    val () = if knd = 0 then prerr ": unsolved constraint for loop(exit)"
+    val () = if knd > 0 then prerr ": unsolved constraint for loop(continue)"
+    val () = prerr_newline ()
+  } // end of [C3STRKINDloop]
+//
 end // end of [c3nstr_solve_errmsg]
 
 (* ****** ****** *)

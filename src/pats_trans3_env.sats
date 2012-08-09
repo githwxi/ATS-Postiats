@@ -78,9 +78,7 @@ datatype c3nstrkind =
   | C3NSTRKINDlstate of () // lstate merge
   | C3NSTRKINDlstate_var of (d2var) // lstate merge for d2var
 //
-(*
-  | C3NSTRKINDloop of int (* 0/1/2: enter/break/continue *)
-*)
+  | C3NSTRKINDloop of int (* ~1/0/1: enter/break/continue *)
 // end of [c3nstrkind]
 
 datatype s3itm =
@@ -379,6 +377,7 @@ fun the_effenv_check_eff
   (loc: location, eff: effect): int (*succ/fail: 0/1*)
 //
 fun the_effenv_check_exn (loc: location): int (*succ/fail: 0/1*)
+fun the_effenv_check_ntm (loc: location): int (*succ/fail: 0/1*)
 fun the_effenv_check_ref (loc: location): int (*succ/fail: 0/1*)
 fun the_effenv_check_wrt (loc: location): int (*succ/fail: 0/1*)
 //
@@ -482,7 +481,7 @@ fun the_d2varenv_check_llam (loc0: location): void
 typedef
 lstbefitm = '{
   lstbefitm_var= d2var
-, lstbefitm_linval= int
+, lstbefitm_linval= int // HX: a relic no longer in use
 , lstbefitm_type= s2expopt
 } // end of [lstbefitm]
 
@@ -491,7 +490,9 @@ typedef lstbefitmlst = List (lstbefitm)
 fun lstbefitm_make (d2v: d2var, linval: int): lstbefitm
 
 fun fprint_lstbefitm : fprint_type (lstbefitm)
+overload fprint with fprint_lstbefitm
 fun fprint_lstbefitmlst : fprint_type (lstbefitmlst)
+overload fprint with fprint_lstbefitmlst
 
 fun the_d2varenv_save_lstbefitmlst (): lstbefitmlst
 
@@ -512,16 +513,35 @@ fun lstaftc3nstr_finalize (x: lstaftc3nstr): void
 
 (* ****** ****** *)
 
-absview lamlpenv_push_v
+fun i2nvarglst_update (args: i2nvarglst): void
+fun i2nvresstate_update (loc: location, invres: i2nvresstate): void
 
-fun the_lamlpenv_get_funarg (): Option_vt (p3atlst)
+(* ****** ****** *)
+//
+absview lamlpenv_push_v
+//
+// HX: the break/continue statements are skipped during the 1st round
+//
+datatype lamlp =
+  | LAMLPlam of p3atlst (* function arguments *)
+  | LAMLPloop0 of () // 1st round typechecking for loops
+//
+// 2nd round typechekcing for loops
+//
+  | LAMLPloop1 of (loopi2nv, lstbefitmlst, d2expopt(*post*))
+viewtypedef lamlplst_vt = List_vt (lamlp)
+
+fun the_lamlpenv_top ((*void*)): Option_vt (lamlp)
+fun the_lamlpenv_get_funarg ((*void*)): Option_vt (p3atlst)
 
 fun the_lamlpenv_pop (pf: lamlpenv_push_v | (*none*)): void
 
 fun the_lamlpenv_push_lam
   (p3ts: p3atlst): (lamlpenv_push_v | void)
 fun the_lamlpenv_push_loop0 () : (lamlpenv_push_v | void)
-fun the_lamlpenv_push_loop1 () : (lamlpenv_push_v | void)
+fun the_lamlpenv_push_loop1
+  (i2nv: loopi2nv, lbis: lstbefitmlst, post: d2expopt) : (lamlpenv_push_v | void)
+// end of [the_lamlpenv_push_loop1]
 
 (* ****** ****** *)
 

@@ -265,11 +265,9 @@ val () = p2atcstlstlst_vt_free (cp2tcss)
 val () = lstaftc3nstr_process (lsaft, invres)
 val () = lstaftc3nstr_finalize (lsaft) // HX: it must be processed
 //
-val () = if ~isexhaust then let
+val () = if ~isexhaust then {
   val _(*err*) = the_effenv_caskind_check_exn (loc0, casknd)
-in
-  // nothing
-end // end of [if] // end of [val]
+} // end of [if] // end of [val]
 //
 in
   c3l (* single-clause expression *)
@@ -571,8 +569,7 @@ in
 end // end of [val]
 val () = list_vt_free (s2es_pat)
 //
-val () = trans3_env_add_svarlst (invres.i2nvresstate_svs)
-val () = trans3_env_hypadd_proplst (loc0, invres.i2nvresstate_gua)
+val () = i2nvresstate_update (loc0, invres)
 //
 in
   d3exp_caseof (loc0, s2e0, casknd, d3es, c3ls)
@@ -649,9 +646,10 @@ fun auxsclist (
 val sc3ls = auxsclist
   (sc2ls, s2e_val, s2e0, true(*isfst*), lsbis, lsaft)
 //
-val () =
-  lstaftc3nstr_process (lsaft, invres)
-val () = lstaftc3nstr_finalize (lsaft)
+val () = lstaftc3nstr_process (lsaft, invres)
+val () = lstaftc3nstr_finalize (lsaft) // HX: it must be processed
+//
+val () = i2nvresstate_update (loc0, invres)
 //
 in
   d3exp_scaseof (loc0, s2e0, s2e_val, sc3ls)

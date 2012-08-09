@@ -48,28 +48,13 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_env_lamlp"
 
 (* ****** ****** *)
 
+staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
 
 staload "pats_trans3.sats"
 staload "pats_trans3_env.sats"
-
-(* ****** ****** *)
-//
-// HX:
-// [LMLPloop0]: for the first round typechecking
-// [LMLPloop1]: for the second round typechekcing
-//
-// HX: the break/continue statements are skipped during the first round.
-//
-datatype lamlp =
-  | LAMLPlam of p3atlst (* function arguments *)
-  | LAMLPloop0 of ()
-  | LAMLPloop1 of ()
-// end of [lamlp]
-
-viewtypedef lamlplst_vt = List_vt (lamlp)
 
 (* ****** ****** *)
 
@@ -83,30 +68,56 @@ val the_lamlplst = ref<lamlplst_vt> (list_vt_nil)
 in // in of [local]
 
 implement
-the_lamlpenv_get_funarg () = let
+the_lamlpenv_top
+  ((*void*)) = let
+  val (
+    vbox pf | pp
+  ) = ref_get_view_ptr (the_lamlplst)
+in
+  case+ !pp of
+  | list_vt_cons (x, _) => let
+      prval () = fold@ (!pp) in Some_vt x
+    end // end of [list_vt_cons]
+  | list_vt_nil () => let
+      prval () = fold@ (!pp) in None_vt ()
+    end // end of [list_vt_nil]
+end // end of [the_lamlpenv_push_top]
+
+(* ****** ****** *)
+
+implement
+the_lamlpenv_get_funarg
+  ((*void*)) = let
 //
-  fun loop (
-    xs: !lamlplst_vt
-  ) : Option_vt (p3atlst) =
-    case+ xs of
-    | list_vt_cons (x, !p_xs) => (
-      case+ x of
-      | LAMLPlam (p3ts) =>
-          (fold@ (xs); Some_vt (p3ts))
-      | LAMLPloop0 _ => let
-          val res = loop (!p_xs) in fold@ (xs); res
-        end // end of [LAMLPloop0]
-      | LAMLPloop1 _ => let
-          val res = loop (!p_xs) in fold@ (xs); res
-        end // end of [LAMLPloop1]
-      ) // end of [list_vt_cons]
-    | list_vt_nil () => (fold@ (xs); None_vt ())
+fun loop (
+  xs: !lamlplst_vt
+) : Option_vt (p3atlst) = let
+in
+//
+case+ xs of
+| list_vt_cons
+    (x, !p_xs) => (
+  case+ x of
+  | LAMLPlam (p3ts) =>
+      (fold@ (xs); Some_vt (p3ts))
+  | LAMLPloop0 _ => let
+      val res = loop (!p_xs) in fold@ (xs); res
+    end // end of [LAMLPloop0]
+  | LAMLPloop1 _ => let
+      val res = loop (!p_xs) in fold@ (xs); res
+    end // end of [LAMLPloop1]
+  ) // end of [list_vt_cons]
+| list_vt_nil () => (fold@ (xs); None_vt ())
+//
+end // end of [loop]
 //
   val (vbox pf | pp) = ref_get_view_ptr (the_lamlplst)
 //
 in
   $effmask_ref (loop (!pp))
 end // end of [the_lamlpenv_get_funarg]
+
+(* ****** ****** *)
 
 implement
 the_lamlpenv_pop
@@ -116,6 +127,8 @@ the_lamlpenv_pop
     ref_get_view_ptr (the_lamlplst)
   val- ~list_vt_cons (_, xs) = !pp in !pp := xs
 end // end of [the_lamlpenv_push_pop]
+
+(* ****** ****** *)
 
 implement
 the_lamlpenv_push_lam (p3ts) = let
@@ -138,9 +151,10 @@ in
 end // end of [the_lamlpenv_push_loop0]
 
 implement
-the_lamlpenv_push_loop1 () = let
+the_lamlpenv_push_loop1
+  (i2nv, lbis, post) = let
   val (vbox pf | pp) = ref_get_view_ptr (the_lamlplst)
-  val () = !pp := list_vt_cons (LAMLPloop1 (), !pp)
+  val () = !pp := list_vt_cons (LAMLPloop1 (i2nv, lbis, post), !pp)
   prval pfpush = unit_v ()
 in
   (pfpush | ())

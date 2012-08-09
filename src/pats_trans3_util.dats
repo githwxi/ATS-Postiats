@@ -277,8 +277,8 @@ fun aux .<>. (
   val s2e2 = s2hnf2exp (s2f2)
 (*
   val () = (
-    println! ("d3exp_trdn: s2e1 = ", s2e1);
-    println! ("d3exp_trdn: s2e2 = ", s2e2);
+    println! ("d3exp_trdn: aux: s2e1 = ", s2e1);
+    println! ("d3exp_trdn: aux: s2e2 = ", s2e2);
   ) // end of [val]
 *)
   val err = $SOL.s2hnf_tyleq_solve (loc, s2f1, s2f2)

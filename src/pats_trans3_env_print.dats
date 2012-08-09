@@ -91,11 +91,9 @@ case+ knd of
 | C3NSTRKINDlstate_var (d2v) => (
     prstr "lstate("; fprint_d2var (out, d2v); prstr ")"
   )
-(*
-| C3NSTRKINDloop (knd) => begin
-    prstr "loop("; fprint1_int (out, knd); prstr ")"
-  end (* end of [C3NSTRKINDloop] *)
-*)
+| C3NSTRKINDloop (knd) => (
+    prstr "loop("; fprint_int (out, knd); prstr ")"
+  ) (* end of [C3NSTRKINDloop] *)
 //
 end // end of [fprint_c3nstrkind]
 

@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload _(*anon*) = "prelude/DATS/list.dats"
 
 (* ****** ****** *)
@@ -479,6 +483,14 @@ implement
 s2exp_s2rt_err () = s2exp_err (s2rt_err ())
 implement
 s2exp_t0ype_err () = s2exp_err (s2rt_t0ype)
+
+(* ****** ****** *)
+
+implement
+s2exp_refeq
+  (s2e1, s2e2) = (
+  $UN.cast2ptr (s2e1) = $UN.cast2ptr (s2e2)
+) // end of [s2exp_refeq]
 
 (* ****** ****** *)
 

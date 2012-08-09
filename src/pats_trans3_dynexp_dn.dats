@@ -429,9 +429,8 @@ val- D2Eifhead
 // end of [val]
 //
 val d3e_cond = d2exp_trup (d2e_cond)
-val () = d3exp_open_and_add (d3e_cond)
-//
 val loc_cond = d3e_cond.d3exp_loc
+val () = d3exp_open_and_add (d3e_cond)
 val s2e_cond = d3exp_get_type (d3e_cond)
 val s2e_bool = s2exp_bool_t0ype ()
 val d3e_cond = d3exp_trdn (d3e_cond, s2e_bool)
@@ -489,8 +488,7 @@ val () =
   lstaftc3nstr_process (lsaft, invres)
 val () = lstaftc3nstr_finalize (lsaft)
 //
-val () = trans3_env_add_svarlst (invres.i2nvresstate_svs)
-val () = trans3_env_hypadd_proplst (loc0, invres.i2nvresstate_gua)
+val () = i2nvresstate_update (loc0, invres)
 //
 in
   d3exp_if (loc0, s2e_if, d3e_cond, d3e_then, d3e_else)
@@ -545,8 +543,7 @@ val () =
   lstaftc3nstr_process (lsaft, invres)
 val () = lstaftc3nstr_finalize (lsaft)
 //
-val () = trans3_env_add_svarlst (invres.i2nvresstate_svs)
-val () = trans3_env_hypadd_proplst (loc0, invres.i2nvresstate_gua)
+val () = i2nvresstate_update (loc0, invres)
 //
 in
   d3exp_sif (loc0, s2e_sif, s2p_cond, d3e_then, d3e_else)

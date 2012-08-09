@@ -435,11 +435,11 @@ d2exp_trup_assgn
   val loc0 = d2e0.d2exp_loc
   val- D2Eassgn (d2e_l, d2e_r) = d2e0.d2exp_node
   val d2lv = d2exp_lvalize (d2e_l)
-(*
+// (*
   val () = (
     print "d2exp_trup_assgn: d2lv = "; print_d2lval (d2lv); print_newline ()
   ) // end of [val]
-*)
+// *)
 in
 //
 case+ d2lv of

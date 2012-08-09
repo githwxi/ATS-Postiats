@@ -590,6 +590,34 @@ end // end of [v2aldeclst_rec_tr]
 
 extern
 fun v2ardec_tr_sta (d2c: v2ardec): v3ardec
+
+local
+
+fun auxInitCK (
+  loc0: location
+, d2v: d2var, s2e1: s2exp, s2e2: s2exp
+) : void = let
+  val tszeq = s2exp_tszeq (s2e1, s2e2)
+in
+//
+if ~tszeq then let
+  val () = prerr_error3_loc (loc0)
+  val () = prerr ": initialization for ["
+  val () = prerr_d2var (d2v)
+  val () = prerr "] cannot be performed properly"
+  val () = prerr ": mismatch of var/val type-sizes:\n"
+  val () = (prerr "var: ["; prerr_s2exp (s2e1); prerr "]")
+  val () = prerr_newline ()
+  val () = (prerr "val: ["; prerr_s2exp (s2e2); prerr "]")
+  val () = prerr_newline ()
+in
+  the_trans3errlst_add (T3E_s2exp_assgn_tszeq (loc0, s2e1, s2e2))
+end // end of [if] // end of [val]
+//
+end // end of [auxInitCK]
+
+in // in of [local]
+
 implement
 v2ardec_tr_sta
   (d2c) = let
@@ -600,16 +628,17 @@ val locvar = d2var_get_loc (d2v)
 val ann = d2c.v2ardec_type
 val ini2 = d2c.v2ardec_ini
 var ini3 : d3expopt = None ()
+//
 val s2e0 = (
   case+ ann of
   | Some s2e_ann => (
     case+ ini2 of
     | Some (d2e) => let
-        val d3e =
-          d2exp_trdn (d2e, s2e_ann)
+        val d3e = d2exp_trup (d2e)
         val () = ini3 := Some (d3e)
         val () = d3exp_open_and_add (d3e)
         val s2e = d3exp_get_type (d3e)
+        val () = auxInitCK (loc0, d2v, s2e_ann, s2e)
         val () = d2var_set_type (d2v, Some s2e)
       in
         s2e_ann
@@ -657,6 +686,8 @@ val () = the_pfmanenv_add_dvar (d2v)
 in
   d3c
 end // end of [v2ardec_tr_sta]
+
+end // end of [local]
 
 (* ****** ****** *)
 

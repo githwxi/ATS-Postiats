@@ -121,6 +121,7 @@ datatype trans3err =
   | T3E_d2exp_addrless of (d2exp) // addressless lval
   | T3E_d3exp_nonderef of (d3exp) // non-deref expression
   | T3E_pfobj_search_none of (location, s2exp(*addr*)) // pfobj not found
+//
   | T3E_s2exp_assgn_tszeq of (location, s2exp(*bef*), s2exp(*aft*))
   | T3E_s2addr_viewat_addreq of (location, s2exp(*bef*), d3lablst, s2exp(*aft*))
 //
@@ -164,6 +165,8 @@ datatype trans3err =
   | T3E_c2lau_trdn_arity of (c2lau, s2explst)
   | T3E_c2laulst0_trdn_noclause of (location)
   | T3E_c2laulst2_trdn_redundant of (location, c2lau)
+//
+  | T3E_loopexn of (location, int(*knd*)) // HX: 0/1: break/continue
 //
   | T3E_d2var_some of (location, d2var, s2exp) // should be retained but consumed
   | T3E_d2var_none of (location, d2var, s2exp) // should be consumed but retained

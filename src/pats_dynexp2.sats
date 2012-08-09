@@ -155,6 +155,7 @@ overload print with print_d2cst
 fun prerr_d2cst (x: d2cst): void
 overload prerr with prerr_d2cst
 fun fprint_d2cst : fprint_type (d2cst)
+overload fprint with fprint_d2cst
 
 (* ****** ****** *)
 
@@ -207,6 +208,7 @@ and prerr_d2var (x: d2var): void
 overload print with print_d2var
 overload prerr with prerr_d2var
 fun fprint_d2var : fprint_type (d2var)
+overload fprint with fprint_d2var
 
 fun fprint_d2varlst : fprint_type (d2varlst)
 
@@ -495,6 +497,7 @@ overload print with print_p2at
 fun prerr_p2at (x: p2at): void
 overload prerr with prerr_p2at
 fun fprint_p2at : fprint_type (p2at)
+overload fprint with fprint_p2at
 
 fun fprint_p2atlst : fprint_type (p2atlst)
 overload fprint with fprint_p2atlst

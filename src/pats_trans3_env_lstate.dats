@@ -187,12 +187,6 @@ fun saityplst_check
 
 local
 
-fn s2exp_refeq (
-  s2e1: s2exp, s2e2: s2exp
-) :<> bool =
-  $UN.cast2ptr (s2e1) = $UN.cast2ptr (s2e2)
-// end of [s2exp_refeq]
-
 fun auxlst (
   s2e0: s2exp, xs: saityplst
 ) : int = (
@@ -346,8 +340,8 @@ lstaftitmlst_update (xs) = (
       (!p_x, !p_xs1) => let
       val d2v = p_x->lstaftitm_var
       val sait = d2var_get_type (d2v)
-      val () = p_x->lstaftitm_saits :=
-        list_vt_cons (sait, p_x->lstaftitm_saits)
+      val saits = p_x->lstaftitm_saits
+      val () = p_x->lstaftitm_saits := list_vt_cons (sait, saits)
       val () = lstaftitmlst_update (!p_xs1)
       prval () = fold@ (xs)
     in
@@ -495,7 +489,8 @@ fun aux2 (
 ) // end of [aux2]
 
 fun aux3 (
-  d2v0: d2var, args: i2nvarglst, d2vs: d2varlst, k: &int
+  d2v0: d2var
+, args: i2nvarglst, d2vs: d2varlst, k: &int
 ) : s2expopt = (
   case+ args of
   | list_cons
@@ -620,10 +615,15 @@ case+ sait0 of
         ) : s2exp // end of [val]
         val (pfpush | ()) = trans3_env_push ()
         val err = $SOL.s2exp_tyleq_solve (loc, s2e, s2e0)
+        val () =
+          if (err > 0) then {
+          val () = prerr_the_staerrlst ()
+          val () = auxerr_some2 (loc, d2v, s2e0, s2e)
+        } // end of [if] // end of [val]
         val ctrknd = C3NSTRKINDlstate_var (d2v)
         val () = trans3_env_pop_and_add (pfpush | loc, ctrknd)
       in
-        if err > 0 then auxerr_some2 (loc, d2v, s2e0, s2e)
+        // nothing
       end
     | _ (*0*) => ()
     ) // end of [Some]
@@ -665,30 +665,33 @@ fun auxmain (
 fun auxmainlst (
   xs: !lstaftitmlst
 , ctrs: List_vt (c3nstroptref), invres: i2nvresstate
-) : void = (
-  case+ ctrs of
-  | ~list_vt_cons
-      (ctr, ctrs) => let
-      val ctrloc = ctr.c3nstroptref_loc
-      val sub =
-        stasub_make_svarlst (ctrloc, invres.i2nvresstate_svs)
-      val s2ps = s2explst_subst_vt (sub, invres.i2nvresstate_gua)
-      val (pfpush | ()) = trans3_env_push ()
-      val () = trans3_env_add_proplst_vt (ctrloc, s2ps)
-      val () = auxmain (xs, ctr, sub)
+) : void = let
+in
 //
-      val s3is = trans3_env_pop (pfpush | (*none*))
-      val c3t = c3nstr_itmlst (ctrloc, C3NSTRKINDlstate, (l2l)s3is)
-      val () = let
-        val ref = ctr.c3nstroptref_ref in !ref := Some (c3t)
-      end // end of [val]
+case+ ctrs of
+| ~list_vt_cons
+    (ctr, ctrs) => let
+    val ctrloc = ctr.c3nstroptref_loc
+    val sub =
+      stasub_make_svarlst (ctrloc, invres.i2nvresstate_svs)
+    val s2ps = s2explst_subst_vt (sub, invres.i2nvresstate_gua)
+    val (pfpush | ()) = trans3_env_push ()
+    val () = trans3_env_add_proplst_vt (ctrloc, s2ps)
+    val () = auxmain (xs, ctr, sub)
 //
-      val () = stasub_free (sub)
-    in
-      auxmainlst (xs, ctrs, invres)
-    end
-  | ~list_vt_nil () => ()
-) // end of [auxmainlst]
+    val s3is = trans3_env_pop (pfpush | (*none*))
+    val c3t = c3nstr_itmlst (ctrloc, C3NSTRKINDlstate, (l2l)s3is)
+    val () = let
+      val ref = ctr.c3nstroptref_ref in !ref := Some (c3t)
+    end // end of [val]
+//
+    val () = stasub_free (sub)
+  in
+    auxmainlst (xs, ctrs, invres)
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => ()
+//
+end // end of [auxmainlst]
 
 in // in of [local]
 
@@ -713,6 +716,44 @@ in
 end // end of [lstaftc3nstr_process]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+i2nvarglst_update
+  (args) = let
+//
+fun fupdate
+  (arg: i2nvarg): void = let
+  val d2v = i2nvarg_get_var (arg)
+  val opt = i2nvarg_get_type (arg)
+  val () = d2var_inc_linval (d2v)
+in
+  d2var_set_type (d2v, opt)
+end // end of [fupdate]
+//
+in
+  list_app_fun<i2nvarg> (args, fupdate)
+end // end of [i2nvarglst_update]
+
+(* ****** ****** *)
+
+implement
+i2nvresstate_update
+  (loc, invres) = let
+//
+val () =
+  trans3_env_add_svarlst (invres.i2nvresstate_svs)
+val () =
+  trans3_env_hypadd_proplst (loc, invres.i2nvresstate_gua)
+//
+in
+//
+// HX-2012-08:
+// updating is already done during merge but this is
+  i2nvarglst_update (invres.i2nvresstate_arg) // more appropriate
+//
+end // end of [i2nvresstate_update]
 
 (* ****** ****** *)
 
