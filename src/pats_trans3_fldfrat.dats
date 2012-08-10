@@ -120,7 +120,8 @@ case+ s2ls of
           ) = pfobj
 (*
 //
-//        HX: s2e_ctx is of the form []@l
+// HX-2012-08-10:
+// s2e_ctx is assumed to be of the form []@L for some L
 //
           val s2e_out = s2exp_without (s2e_elt)
           val s2e = s2exp_hrepl (s2e_ctx, s2e_out)
