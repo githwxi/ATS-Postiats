@@ -122,7 +122,7 @@ implement fileref_load<string> = fileref_load_string
 
 implement{a}
 fileref_get_optval (r) = let
-  var x: a
+  var x: a?
   val yn = fileref_load<a> (r, x)
 in
   option_vt_make_opt<a> (yn, x)
@@ -133,7 +133,7 @@ end // end of [fileref_get_optval]
 implement{a}
 fileref_get_exnmsg
   (r, msg) = let
-  var x: a
+  var x: a?
   val yn = fileref_load<a> (r, x)
 in
   if yn then let

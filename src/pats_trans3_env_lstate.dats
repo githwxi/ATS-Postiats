@@ -194,9 +194,9 @@ fun auxlst (
   | list_cons (x, xs) => (
     case+ x of
     | Some (s2e) => let
-        val test = s2exp_refeq (s2e0, s2e)
+        val iseq = s2exp_refeq (s2e0, s2e)
       in
-        if test then auxlst (s2e0, xs) else 1(*merge*)
+        if iseq then auxlst (s2e0, xs) else 1(*merge*)
       end // end of [SAITYPsome]
     | None () => auxlst (s2e0, xs)
     ) // end of [list_cons]
@@ -464,7 +464,7 @@ fun aux1
       val d2vs = aux1 (!p_xs1)
       prval () = fold@ (xs)
     in
-      if ans > 0 then list_vt_cons (d2v, d2vs) else d2vs
+      if ans(*merge*) > 0 then list_vt_cons (d2v, d2vs) else d2vs
     end // end of [list_vt_cons]
   | list_vt_nil () => let
       prval () = fold@ (xs) in list_vt_nil ()
@@ -480,7 +480,7 @@ fun aux2 (
       val sgn = compare (d2v0, d2v)
     in
       if sgn = 0 then let
-        val opt = d2var_get_type (d2v) in (k := 1; opt)
+        val opt = d2var_get_mastype (d2v) in (k := 1; opt)
       end else
         aux2 (d2v0, d2vs, k)
       // end of [if]
