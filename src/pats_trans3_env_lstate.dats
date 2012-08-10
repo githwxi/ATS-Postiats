@@ -613,15 +613,17 @@ case+ sait0 of
         val s2e0 = (
           if knd >= 2 then s2exp_subst (sub, s2e0) else s2e0
         ) : s2exp // end of [val]
+//
         val (pfpush | ()) = trans3_env_push ()
         val err = $SOL.s2exp_tyleq_solve (loc, s2e, s2e0)
+        val ctrknd = C3NSTRKINDlstate_var (d2v)
+        val () = trans3_env_pop_and_add (pfpush | loc, ctrknd)
+//
         val () =
           if (err > 0) then {
           val () = prerr_the_staerrlst ()
           val () = auxerr_some2 (loc, d2v, s2e0, s2e)
         } // end of [if] // end of [val]
-        val ctrknd = C3NSTRKINDlstate_var (d2v)
-        val () = trans3_env_pop_and_add (pfpush | loc, ctrknd)
       in
         // nothing
       end
