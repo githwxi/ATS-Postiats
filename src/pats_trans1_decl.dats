@@ -588,7 +588,7 @@ fn s0taload_tr (
 ) : d1eclist = let
   val loc0 = d0c0.d0ecl_loc
 //
-  val () = loadflag := 1 // HX: this is for ATS_STALOADFLAG
+  val () = loadflag := 1 // HX: for ATS_STALOADFLAG
 //
   val filopt = $FIL.filenameopt_make_relative (path)
 //
@@ -601,7 +601,7 @@ fn s0taload_tr (
         val () = prerr "] is not available for static loading."
         val () = prerr_newline ()
         val () = the_trans1errlst_add (T1E_s0taload_tr (d0c0))
-        val () = $ERR.abort ()
+        val () = $ERR.abort ((*void*))
       in
         $FIL.filename_dummy
       end // end of [None_vt]

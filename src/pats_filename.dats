@@ -72,6 +72,34 @@ end // end of [local]
 
 (* ****** ****** *)
 
+local
+
+staload
+STR = "libc/SATS/string.sats"
+macdef strncmp = $STR.strncmp
+
+in // in of [local]
+
+implement
+path_get_srchknd
+  (path) = let
+  val dir = theCurDir_get ()
+  val len = string_length (dir)
+in
+//
+if strncmp (path, dir, len) = 0 then 0 else let
+  val dir = theParDir_get ()
+  val len = string_length (dir)
+in
+  if strncmp (path, dir, len) = 0 then 0 else 1
+end // end of [if]
+//
+end // end of [path_get_srchknd]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 assume
 filename_type = '{
   filename_part= string
@@ -329,13 +357,18 @@ end // end of [the_filenamelst_pop]
 
 implement
 the_filenamelst_push (f0) = let
+  val () = the_filenamelst_ppush (f0) in (unit_v () | ())
+end // end of [the_filenamelst_push]
+
+implement
+the_filenamelst_ppush (f0) = let
   val x = !the_filename
   val () = !the_filename := f0
   val (vbox pf | p) = ref_get_view_ptr (the_filenamelst)
   val () = !p := list_vt_cons (x, !p)
 in
-  (unit_v () | ())
-end // end of [the_filenamelst_push]
+  // nothing
+end // end of [the_filenamelst_ppush]
 
 implement
 the_filenamelst_push_check
@@ -458,67 +491,118 @@ in '{
   filename_part= pname, filename_full= fsymb
 } end // end of [filename_make]
 
+(* ****** ****** *)
+
+local
+
+extern castfn s2s (x: string):<> String
+extern castfn p2s {l:agz} (x: !strptr l):<> String
+
+fun aux_local (
+  basename: string
+) : Stropt = let
+  val filename = filename_get_current ()
+  val pname = filename_get_part (filename)
+  val pname2 = filename_merge (pname, basename)
+//
+  val () = println! ("aux_local: pname = ", pname)
+  val () = println! ("aux_local: pname2 = ", pname2)
+//
+  val isexi = test_file_exists ((p2s)pname2)
+in
+  if isexi then
+    stropt_of_strptr (pname2)
+  else let
+    val () = strptr_free (pname2) in stropt_none
+  end // end of [if]
+end // end of [aux_local]
+
+fun aux_try {n:nat} .<n>. (
+  paths: list (path, n), basename: string
+) : Stropt = let
+in
+//
+case+ paths of
+| list_cons (path, paths) => let
+    val partname =
+      filename_append (path, basename)
+    val isexi = test_file_exists ((p2s)partname)
+(*
+    val () = begin
+      printf ("filenameopt_make_relative: aux_try: partname = %s\n", @(partname))
+    end // end of [val]
+*)
+  in
+    if isexi then (
+      stropt_of_strptr (partname)
+    ) else let
+      val () = strptr_free (partname) in aux_try (paths, basename)
+    end // end of [if]
+  end // end of [list_cons]
+| list_nil () => stropt_none
+//
+end // end of [aux_try]
+
+fun aux_try_pathlst
+  (basename: string): Stropt = let
+  val paths = the_pathlst_get ()
+  val ans =
+    aux_try ($UN.castvwtp1 {List(path)} (paths), basename)
+  val () = the_pathlst_set (paths)
+in
+  ans
+end // end of [aux_try_pathlst]
+
+fun aux_try_prepathlst
+  (basename: string): Stropt = let
+  val paths = the_prepathlst_get ()
+  val ans =
+    aux_try ($UN.castvwtp1 {List(path)} (paths), basename)
+  val () = the_prepathlst_set (paths)
+in
+  ans
+end // end of [aux_try_prepathlst]
+
+fun aux_relative (
+  basename: string
+) : Stropt = let
+  val basename = (s2s)basename
+  val knd = path_get_srchknd (basename)
+in
+//
+case+ knd of
+| 0 (*local*) => aux_local (basename)
+| _ (*external*) => let
+    val opt = aux_try_pathlst (basename)
+  in
+    if stropt_is_some (opt) then opt else aux_try_prepathlst (basename)
+  end // end of [_]
+//
+end // end of [aux_relative]
+
+in // in of [local]
+
+implement
+filenameopt_make_local
+  (basename) = let
+  val opt = aux_local (basename)
+  val issome = stropt_is_some (opt)
+in
+  if issome then let
+    val partname = stropt_unsome (opt)
+    val fullname = partname_fullize (partname)
+  in
+    Some_vt (filename_make (partname, fullname))
+  end else None_vt () // end of [if]
+end // end of [filenameopt_make_relative]
+
 implement
 filenameopt_make_relative
   (basename) = let
 //
-  extern castfn s2s (x: string):<> String
-  extern castfn p2s {l:agz} (x: !strptr l):<> String
-//
-  fun aux_try {n:nat} .<n>. (
-    paths: list (path, n), basename: string
-  ) : Stropt =
-    case+ paths of
-    | list_cons (path, paths) => let
-        val fullname =
-          filename_append (path, basename)
-        val isexi = test_file_exists ((p2s)fullname)
-(*
-        val () = begin
-          printf ("filenameopt_make_relative: aux_try: fullname = %s\n", @(fullname))
-        end // end of [val]
-*)
-      in
-        if isexi then let
-          val fullname = string1_of_strptr (fullname)
-        in
-          stropt_some (fullname)
-        end else let
-          val () = strptr_free (fullname) in aux_try (paths, basename)
-        end // end of [if]
-      end // end of [list_cons]
-    | list_nil () => stropt_none
-  (* end of [aux_try] *)
-//
-  fn aux_try_pathlst
-    (basename: string): Stropt = ans where {
-    val paths = the_pathlst_get ()
-    val ans = aux_try ($UN.castvwtp1 {List(path)} (paths), basename)
-    val () = the_pathlst_set (paths)
-  } // end of [aux_try_pathlst]
-  fn aux_try_prepathlst
-    (basename: string): Stropt = ans where {
-    val paths = the_prepathlst_get ()
-    val ans = aux_try ($UN.castvwtp1 {List(path)} (paths), basename)
-    val () = the_prepathlst_set (paths)
-  } // end of [aux_try_prepathlst]
-//
-  fun aux_relative
-    (basename: string): Stropt = let
-    val basename = (s2s)basename
-    val isexi = test_file_exists (basename)
-  in
-    if isexi then
-      stropt_some (basename)
-    else let
-      val opt = aux_try_pathlst (basename)
-    in
-      if stropt_is_some (opt) then opt else aux_try_prepathlst (basename)
-    end // end of [if]
-  end // end of [aux_relative]
-//
   val opt = (case+ 0 of
-    | _ when filename_is_relative (basename) => aux_relative (basename)
+    | _ when
+        filename_is_relative (basename) => aux_relative (basename)
     | _ => (
         if test_file_exists (basename) then let
           val basename = string1_of_string (basename) in stropt_some basename
@@ -534,11 +618,44 @@ in
   in
     Some_vt (filename_make (partname, fullname))
   end else None_vt () // end of [if]
-end // end of [filenameopt_make]
+end // end of [filenameopt_make_relative]
+
+end // end of [local]
 
 (* ****** ****** *)
 
 %{$
+
+ats_ptr_type
+patsopt_filename_merge (
+  ats_ptr_type ful, ats_ptr_type bas
+) {
+  char c, dirsep ;
+  char *p0, *p1, *p ;
+  int n, n1, n2, found = 0 ;
+  char *fulbas ;
+  p0 = p = (char*)ful ;
+  dirsep =
+    patsopt_filename_theDirSep_get () ;
+//
+  while (1) {
+    c = *p++ ;
+    if (c == 0) break ;
+    if (c == dirsep) { found = 1 ; p1 = p ; }
+  }
+//
+  n1 = 0 ;
+  if (found) n1 = (p1-p0) ;
+  n2 = strlen ((char*)bas) ;
+  n = n1 + n2 ;
+  fulbas = ATS_MALLOC (n+1) ;
+  memcpy (fulbas, ful, n1) ;
+  memcpy (fulbas + n1, bas, n2) ;
+  fulbas[n] = '\000' ;
+//
+  return fulbas ;
+//
+} // end of [patsopt_filename_merge]
 
 ats_ptr_type
 patsopt_filename_append (

@@ -56,33 +56,45 @@
 
 (* ****** ****** *)
 
-staload <"libats/SATS/fundeque_fingertree.sats">
+staload "libats/SATS/fundeque_fingertree.sats"
 
 (* ****** ****** *)
 
-datatype ftnode
-  (a:t@ype+, int(*d*), int(*n*)) =
+datatype
+ftnode (
+  a:t@ype+
+, int(*dpth*)
+, int(*size*)
+) =
   | FTN1 (a, 0, 1) of (a) // singleton
   | {d:nat} {n1,n2:nat}
-    FTN2 (a, d+1, n1+n2) of
-      (ftnode (a, d, n1), ftnode (a, d, n2))
+    FTN2 (a, d+1, n1+n2) of (
+      ftnode (a, d, n1), ftnode (a, d, n2)
+    ) // end of [FTN2]
   | {d:nat} {n1,n2,n3:nat}
     FTN3 (a, d+1, n1+n2+n3) of (
       ftnode (a, d, n1), ftnode (a, d, n2), ftnode (a, d, n3)
     ) // end of [FTN3]
-// end of [ftnode]
+// end of [ftnode] // end of [datatype]
 
 (* ****** ****** *)
 
-datatype ftdigit
-  (a:t@ype+, int(*d*), int(*n*)) =
+datatype
+ftdigit (
+  a:t@ype+
+, int(*dpth*)
+, int(*size*)
+) =
   | {d:nat} {n:nat}
     FTD1 (a, d, n) of ftnode (a, d, n)
   | {d:nat} {n1,n2:nat}
-    FTD2 (a, d, n1+n2) of (ftnode (a, d, n1), ftnode (a, d, n2))
+    FTD2 (a, d, n1+n2) of (
+      ftnode (a, d, n1), ftnode (a, d, n2)
+    ) // end of [FTN2]
   | {d:nat} {n1,n2,n3:nat}
-    FTD3 (a, d, n1+n2+n3) of
-      (ftnode (a, d, n1), ftnode (a, d, n2), ftnode (a, d, n3))
+    FTD3 (a, d, n1+n2+n3) of (
+      ftnode (a, d, n1), ftnode (a, d, n2), ftnode (a, d, n3)
+    ) // end of [FTN3]
   | {d:nat} {n1,n2,n3,n4:nat}
     FTD4 (a, d, n1+n2+n3+n4) of (
       ftnode (a, d, n1), ftnode (a, d, n2), ftnode (a, d, n3), ftnode (a, d, n4)

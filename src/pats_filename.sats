@@ -53,6 +53,13 @@ fun theCurDir_get (): string // current directory
 fun theParDir_get (): string // parent directory
 
 (* ****** ****** *)
+//
+// HX-2012-08:
+// 0/1: intepreted locally/externally
+// 
+fun path_get_srchknd (path: string): int
+
+(* ****** ****** *)
 
 fun fprint_filename
   (out: FILEref, fil: filename): void
@@ -73,6 +80,9 @@ fun filename_get_full (fil: filename): $SYM.symbol
 
 (* ****** ****** *)
 
+fun filename_merge (
+  fil: string, bas: string
+) : strptr1 = "patsopt_filename_merge"
 fun filename_append (
   dir: string, bas: string
 ) :<> strptr1 = "patsopt_filename_append"
@@ -105,12 +115,16 @@ the_filenamelst_push_v
 
 fun the_filenamelst_pop
   (pf: the_filenamelst_push_v | (*none*)): void
+
 fun the_filenamelst_push
   (fil: filename): (the_filenamelst_push_v | void)
 // end of [the_filenamelst_push]
+
 fun the_filenamelst_push_check
   (fil: filename): (the_filenamelst_push_v | bool)
 // end of [the_filenamelst_push_check]
+
+fun the_filenamelst_ppush (fil: filename): void // permanent
 
 fun fprint_the_filenamelst (out: FILEref): void
 
@@ -132,6 +146,7 @@ fun filename_make
   (part: string, full: string) : filename
 // end of [filename_make]
 
+fun filenameopt_make_local (name: string): filenameopt_vt
 fun filenameopt_make_relative (name: string): filenameopt_vt
 
 (* ****** ****** *)

@@ -93,8 +93,12 @@ parse_from_filename_toplevel
   prval pfmod = file_mode_lte_r_r
   val fullname = $FIL.filename_get_full (fil)
   val fullname = $SYM.symbol_get_name (fullname)
-  val (pffil | p_fil) = $STDIO.fopen_exn (fullname, file_mode_r)
-  val () = tokbuf_initialize_filp (pfmod, pffil | buf, p_fil)
+  val (
+    pffil | p_fil
+  ) = $STDIO.fopen_exn (fullname, file_mode_r)
+  val () =
+    tokbuf_initialize_filp (pfmod, pffil | buf, p_fil)
+  // end of [val]
 //
   val (pfpush | ()) = $FIL.the_filenamelst_push (fil)
   val d0cs = parse_from_tokbuf_toplevel (stadyn, buf)
@@ -110,14 +114,18 @@ parse_from_basename_toplevel
   (stadyn, basename) = let
 //
 val filopt =
-  $FIL.filenameopt_make_relative (basename)
+  $FIL.filenameopt_make_local (basename)
 // end of [val]
 in
 //
 case+ filopt of
-| ~Some_vt (fil) =>
-    parse_from_filename_toplevel (stadyn, fil)
-  // end of [Some_vt]
+| ~Some_vt (fil) => let
+    val d0cs = 
+      parse_from_filename_toplevel (stadyn, fil)
+    val () = $FIL.the_filenamelst_ppush (fil) // permanent push
+  in
+    d0cs
+  end // end of [Some_vt]
 | ~None_vt () => let
     val () = prerr "error(ATS)"
     val () = prerr ": the file of the name ["

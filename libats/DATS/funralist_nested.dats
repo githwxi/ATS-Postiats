@@ -33,7 +33,7 @@
 
 (* ****** ****** *)
 
-staload <"libats/SATS/funralist_nested.sats">
+staload "libats/SATS/funralist_nested.sats"
 
 (* ****** ****** *)
 
