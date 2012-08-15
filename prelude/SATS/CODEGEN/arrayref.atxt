@@ -66,12 +66,12 @@ lemma_arrayref_param
 ** to GC (leaks it if GC is unavailable)
 *)
 castfn
-arrayptr2ref
+arrayptr_refize
   {a:vt0p}
   {l:addr}
   {n:int} (
   A: arrayptr (INV(a), l, n)
-) :<> arrayref (a, n) // end of [arrayptr2ref]
+) :<> arrayref (a, n) // end of [arrayptr_refize]
 
 castfn
 arrayref_get_viewptr

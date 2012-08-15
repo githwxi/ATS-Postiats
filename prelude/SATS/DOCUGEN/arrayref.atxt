@@ -65,7 +65,10 @@ persistent arrays of size N in which each element is of the type T.  ")
 
 (* ****** ****** *)
 
-#declnamesynop("arrayptr2ref")
+#declnamesynop("arrayptr_refize")
+
+(* ****** ****** *)
+
 #declnamesynop("arrayref_get_viewptr")
 
 (* ****** ****** *)

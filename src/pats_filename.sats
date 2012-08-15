@@ -68,7 +68,7 @@ fun print_filename_full (fil: filename): void
 
 (* ****** ****** *)
 
-fun filename_get_base (fil: filename): string
+fun filename_get_part (fil: filename): string
 fun filename_get_full (fil: filename): $SYM.symbol
 
 (* ****** ****** *)
@@ -129,7 +129,7 @@ fun the_prepathlst_push (p: path): void
 (* ****** ****** *)
 
 fun filename_make
-  (basename: string, fullname: string) : filename
+  (part: string, full: string) : filename
 // end of [filename_make]
 
 fun filenameopt_make_relative (name: string): filenameopt_vt

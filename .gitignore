@@ -14,6 +14,8 @@ src/Makefile.exe
 src/Makefile_atxt.dats
 src/Makefile_atxt.txt
 
+bin/patsopt
+
 utils/atsyntax/HTML
 utils/atsyntax/pats2xhtml
 utils/atsyntax/Makefile_test

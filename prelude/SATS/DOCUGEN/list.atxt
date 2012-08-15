@@ -180,6 +180,26 @@ Given integers l and r satisfying l <= r, this function returns a list of
 integers ranging from l until r-1, inclusive.
 
 ')
+#declexample("\
+
+The following code demonstrates two ways of constructing the same list of
+digits:
+
+#pats2xhtmld_tryit('\
+//
+staload UN = "prelude/SATS/unsafe.sats"
+//
+implement
+main () = 0 where {
+  typedef T = int
+  val xs1 = list_make_intrange (0, 10)
+  val xs2 = list$arrpsz{T}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+  val () = assertloc (list_equal<T> ($UN.linlst2lst(xs1), $UN.linlst2lst(xs2)))
+  val () = list_vt_free (xs1)
+  val () = list_vt_free (xs2)
+} // end pf [main]
+')
+")
 
 (* ****** ****** *)
 
@@ -203,8 +223,8 @@ consumed after #dyncode("list_make_arrpsz") returns.
 ")
 #declexample("\
 
-The following code demonstrates two ways of constructing
-lists of fixed length:
+The following code demonstrates two ways of constructing lists of fixed
+length:
 
 #pats2xhtmld_tryit('\
 implement
@@ -213,7 +233,7 @@ main () = 0 where {
   val xs1 = $lst{T}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
   val xs2 = list$arrpsz{T}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
   val xs2 = list_of_list_vt (xs2)
-  val () = assert (list_equal<T> (xs1, xs2))
+  val () = assertloc (list_equal<T> (xs1, xs2))
 } // end pf [main]
 ')
 ")
@@ -288,6 +308,22 @@ is special about the implementation of this function in ATSLIB is that it
 is tail-recursive.
 
 ')
+#declexample("\
+
+The following code makes a simple use of #dyncode("list_append"):
+
+#pats2xhtmld_tryit('\
+implement
+main () = 0 where {
+  typedef T = int
+  val xs1 = $lst{T} (0, 1, 2, 3, 4)
+  val xs2 = $lst{T} (5, 6, 7, 8, 9)
+  val xs12 = $lst{T} (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+  val () = assertloc (list_equal<T> (xs1+xs2, xs12))
+} // end of [main]
+')
+
+")
 
 #declnamesynop("list_append1_vt")
 #decldescrpt('\
@@ -369,7 +405,7 @@ refers to element i in xss.
 ")
 #declexample("\
 
-The following code makes a simple use of #dyncode("list_vt_concat"):
+The following code makes a simple use of #dyncode("list_concat"):
 
 #pats2xhtmld_tryit('\
 implement
@@ -414,7 +450,7 @@ main () = 0 where {
   val xs1 = $lst{T}(0, 1, 2, 3, 4)
   val n1 = list_length (xs1)
   val xs2 = $lst{T}(5, 6, 7, 8, 9)
-  val () = assert (list_equal<T> (xs1, l2l (list_take (xs1 + xs2, n1))))
+  val () = assertloc (list_equal<T> (xs1, l2l (list_take (xs1 + xs2, n1))))
 } // end of [main]
 ')
 ")
@@ -448,7 +484,7 @@ main () = 0 where {
   val xs1 = $lst{T}(0, 1, 2, 3, 4)
   val n1 = list_length (xs1)
   val xs2 = $lst{T}(5, 6, 7, 8, 9)
-  val () = assert (list_equal<T> (xs2, list_drop (xs1 + xs2, n1)))
+  val () = assertloc (list_equal<T> (xs2, list_drop (xs1 + xs2, n1)))
 } // end of [main]
 ')
 ")

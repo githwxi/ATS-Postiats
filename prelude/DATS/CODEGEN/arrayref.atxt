@@ -55,7 +55,7 @@ end // end of [arrayref_exch_at_size]
 
 implement{a}
 arrayref_make_elt (asz, x) = let
-  val A = arrayptr_make_elt (asz, x) in arrayptr2ref (A)
+  val A = arrayptr_make_elt (asz, x) in arrayptr_refize (A)
 end // end of [arrayref_make_elt]
 
 #atscode_separator()

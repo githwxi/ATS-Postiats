@@ -56,7 +56,7 @@
 
 (* ****** ****** *)
 
-staload "libats/SATS/fundeque_fingertree.sats"
+staload <"libats/SATS/fundeque_fingertree.sats">
 
 (* ****** ****** *)
 

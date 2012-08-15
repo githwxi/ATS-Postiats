@@ -559,9 +559,9 @@ extern fun string_suffix_is_dats
 fn s0taload_tr_load (
   fil: filename, loadflag: &int >> int
 ) : d1eclist = let
-  val path = $FIL.filename_get_base (fil)
+  val pname = $FIL.filename_get_part (fil)
   val flag = (
-    if string_suffix_is_dats path then 1(*dyn*) else 0(*sta*)
+    if string_suffix_is_dats pname then 1(*dyn*) else 0(*sta*)
   ) : int // end of [val]
   val d0cs = $PAR.parse_from_filename_toplevel (flag, fil)
 //

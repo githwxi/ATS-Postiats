@@ -74,14 +74,15 @@ end // end of [local]
 
 assume
 filename_type = '{
-  filename_name= string, filename_full= symbol
+  filename_part= string
+, filename_full= symbol
 } // end of [filename]
 
 (* ****** ****** *)
 
 implement
 fprint_filename (out, fil) =
-  fprint_string (out, fil.filename_name)
+  fprint_string (out, fil.filename_part)
 // end of [fprint_filename]
 
 implement
@@ -104,7 +105,7 @@ print_filename_full (fil) = fprint_filename_full (stdout_ref, fil)
 
 (* ****** ****** *)
 
-implement filename_get_base (fil) = fil.filename_name
+implement filename_get_part (fil) = fil.filename_part
 implement filename_get_full (fil) = fil.filename_full
 
 (* ****** ****** *)
@@ -143,10 +144,16 @@ end // [filename_is_relative]
 
 implement
 filename_dummy = '{
-  filename_name= "", filename_full= $SYM.symbol_empty
+  filename_part= "", filename_full= $SYM.symbol_empty
 } // end of [filename_dummy]
 
 (* ****** ****** *)
+
+local
+
+staload UNISTD = "libc/SATS/unistd.sats"
+
+in // in of [local]
 
 fun path_normalize
   (s0: path): path = let
@@ -251,6 +258,26 @@ fun path_normalize
 in
   string_of_strptr (fullname)
 end // end of [path_normalize]
+
+fun partname_fullize
+  (pname: string): string = let
+  extern castfn p2s {l:agz} (x: !strptr l):<> string
+  val isrel = filename_is_relative (pname)
+in
+  if isrel then let
+    val cwd = $UNISTD.getcwd0 ()
+    val fname =
+      filename_append ((p2s)cwd, pname)
+    // end of [val]
+    val () = strptr_free (cwd)
+    val fname_norm = path_normalize ((p2s)fname)
+    val () = strptr_free (fname)
+  in
+    fname_norm
+  end else pname // HX: it is absolute
+end // end of [partname_fullize]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -420,26 +447,23 @@ end // end of [local]
 
 (* ****** ****** *)
 
-local
-
-staload UNISTD = "libc/SATS/unistd.sats"
-
-in // in of [local]
-
 implement
 filename_make (
-  basename, fullname
+  pname, fname
 ) = let
-  val fullname_sym = $SYM.symbol_make_string (fullname)
+  val fsymb =
+    $SYM.symbol_make_string (fname)
+  // end of [val]
 in '{
-  filename_name= basename, filename_full= fullname_sym
+  filename_part= pname, filename_full= fsymb
 } end // end of [filename_make]
 
 implement
 filenameopt_make_relative
   (basename) = let
 //
-  extern castfn p2s {l:agz} (x: !strptr l):<> string
+  extern castfn s2s (x: string):<> String
+  extern castfn p2s {l:agz} (x: !strptr l):<> String
 //
   fun aux_try {n:nat} .<n>. (
     paths: list (path, n), basename: string
@@ -481,24 +505,20 @@ filenameopt_make_relative
 //
   fun aux_relative
     (basename: string): Stropt = let
-    val fullnameopt = aux_try_prepathlst (basename)
+    val basename = (s2s)basename
+    val isexi = test_file_exists (basename)
   in
-    case+ 0 of
-    | _ when
-        stropt_is_some fullnameopt => fullnameopt
-    | _ when test_file_exists (basename) => let
-        val cwd = $UNISTD.getcwd0 ()
-        val fullname = filename_append ((p2s)cwd, basename)
-        val () = strptr_free (cwd)
-        val fullname = string1_of_strptr (fullname)
-      in
-        stropt_some (fullname)
-      end
-    | _ => aux_try_pathlst (basename)
+    if isexi then
+      stropt_some (basename)
+    else let
+      val opt = aux_try_pathlst (basename)
+    in
+      if stropt_is_some (opt) then opt else aux_try_prepathlst (basename)
+    end // end of [if]
   end // end of [aux_relative]
 //
-  val fullnameopt = (case+ 0 of
-    | _ when filename_is_relative basename => aux_relative (basename)
+  val opt = (case+ 0 of
+    | _ when filename_is_relative (basename) => aux_relative (basename)
     | _ => (
         if test_file_exists (basename) then let
           val basename = string1_of_string (basename) in stropt_some basename
@@ -506,18 +526,15 @@ filenameopt_make_relative
       ) // end of [_]
   ) : Stropt // end of [val]
 //
-  val issome = stropt_is_some (fullnameopt)
+  val issome = stropt_is_some (opt)
 in
   if issome then let
-    val fullname =
-      stropt_unsome (fullnameopt)
-    val fullname = path_normalize (fullname)
+    val partname = stropt_unsome (opt)
+    val fullname = partname_fullize (partname)
   in
-    Some_vt (filename_make (basename, fullname))
+    Some_vt (filename_make (partname, fullname))
   end else None_vt () // end of [if]
 end // end of [filenameopt_make]
-
-end // end of [local]
 
 (* ****** ****** *)
 
