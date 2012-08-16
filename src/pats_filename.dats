@@ -86,14 +86,7 @@ path_get_srchknd
   val dir = theCurDir_get ()
   val len = string_length (dir)
 in
-//
-if strncmp (path, dir, len) = 0 then 0 else let
-  val dir = theParDir_get ()
-  val len = string_length (dir)
-in
-  if strncmp (path, dir, len) = 0 then 0 else 1
-end // end of [if]
-//
+  if strncmp (path, dir, len) = 0 then 0(*loc*) else 1(*ext*)
 end // end of [path_get_srchknd]
 
 end // end of [local]
@@ -503,11 +496,13 @@ fun aux_local (
 ) : Stropt = let
   val filename = filename_get_current ()
   val pname = filename_get_part (filename)
-  val pname2 = filename_merge (pname, basename)
-//
+(*
   val () = println! ("aux_local: pname = ", pname)
+*)
+  val pname2 = filename_merge (pname, basename)
+(*
   val () = println! ("aux_local: pname2 = ", pname2)
-//
+*)
   val isexi = test_file_exists ((p2s)pname2)
 in
   if isexi then

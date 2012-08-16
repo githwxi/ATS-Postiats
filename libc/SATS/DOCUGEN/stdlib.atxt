@@ -245,7 +245,7 @@ typedef mi =
 stacst N: int
 val months = $extval (arrayref (mi, N), "months")
 val nr_of_months = $extval (int(N), "nr_of_months")
-val () = assert (nr_of_months = 12)
+val () = assertloc (nr_of_months = 12)
 
 fn mi_init (
   mi: &mi? >> _
