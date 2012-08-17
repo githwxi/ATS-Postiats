@@ -65,11 +65,7 @@ fun string_implode (cs: list0 (char)):<> string
 
 #atscode_separator()
 
-fun string_foreach (s: string, cfun (char, void)): void
-
-fun string_foreach2
-  (s1: string, s2: string, cfun2 (char, char, void)): void
-// end of [string_foreach2]
+fun string_foreach (s: string, f: cfun (char, void)): void
 
 #atscode_separator()
 

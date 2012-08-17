@@ -126,7 +126,7 @@ implement
 main () = 0 where {
   val str = "abcdefg"
   val str2 = substring_copy (str, g1int2uint(0), string_length(str))
-  val () = assert (str = str2)
+  val () = assertloc (str = str2)
 } // end of [main]
 ')
 ")
@@ -161,7 +161,7 @@ implement
 main () = 0 where {
   val str = "abcdefg"
   val cs = string_explode (str)
-  val () = assert (string_length (str) = g0int2uint(list0_length (cs)))
+  val () = assertloc (string_length (str) = g0int2uint(list0_length (cs)))
 } // end of [main]
 ')
 ")
@@ -191,7 +191,31 @@ main () = 0 where {
   val str = "abcdefg"
   val cs = string_explode (str)
   val str2 = string_implode (cs)
-  val () = assert (str = str2)
+  val () = assertloc (str = str2)
+} // end of [main]
+')
+")
+
+(* ****** ****** *)
+
+#declnamesynop("string_foreach")
+#decldescrpt("\
+
+This function traverses its first argument (a string) and applies to each
+encountered character its second argument (a closure-function).  ")
+#declexample("\
+
+The following code prints a given string onto the standard output channel:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/string.sats"
+//
+implement
+main () = 0 where {
+  val str = "abcdefg"
+  val () = string_foreach (str, lam (c) => print_char (c))
+  val () = print_newline ()
 } // end of [main]
 ')
 ")

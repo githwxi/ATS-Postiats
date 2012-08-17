@@ -32,7 +32,12 @@
 //
 (* ****** ****** *)
 
-staload "libc/SATS/stdio.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload STDIO = "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
 
@@ -56,6 +61,10 @@ staload "pats_lexing.sats"
 staload "pats_tokbuf.sats"
 staload "pats_parsing.sats"
 staload "pats_syntax.sats"
+
+(* ****** ****** *)
+
+staload DPGEN = "pats_depgen.sats"
 
 (* ****** ****** *)
 
@@ -90,9 +99,11 @@ staload "pats_comarg.sats"
 //
 dynload "pats_error.dats"
 //
-dynload "pats_counter.dats"
 dynload "pats_intinf.dats"
+dynload "pats_counter.dats"
+//
 dynload "pats_utils.dats"
+dynload "pats_global.dats"
 //
 dynload "pats_basics.dats"
 //
@@ -115,8 +126,9 @@ dynload "pats_label.dats"
 dynload "pats_effect.dats"
 dynload "pats_fixity_prec.dats"
 dynload "pats_fixity_fxty.dats"
-dynload "pats_syntax_print.dats"
 dynload "pats_syntax.dats"
+dynload "pats_syntax_print.dats"
+dynload "pats_depgen.dats"
 
 dynload "pats_tokbuf.dats"
 dynload "pats_parsing.dats"
@@ -317,6 +329,42 @@ fn waitkind_get_stadyn
 
 (* ****** ****** *)
 
+datatype
+outchan =
+  | OUTCHANref of (FILEref) | OUTCHANptr of (FILEref)
+// end of [outchan]
+
+fun
+outchan_get_filr
+  (oc: outchan): FILEref = (
+  case+ oc of
+  | OUTCHANref (filr) => filr | OUTCHANptr (filr) => filr
+) // end of [outchan_get_filr]
+
+fun
+outchan_make_path
+  (name: string): outchan = let
+//
+val (pfopt | filp) =
+  $STDIO.fopen_err (name, file_mode_w)
+//
+in
+//
+if filp > null then let
+  prval Some_v (pf) = pfopt
+  val filr = $UN.castvwtp_trans {FILEref} @(pf | filp)
+in
+  OUTCHANptr (filr)
+end else let
+  prval None_v () = pfopt
+in
+  OUTCHANref (stderr_ref)
+end // end of [if]
+//
+end // end of [outchan_make_path]
+
+(* ****** ****** *)
+
 typedef
 cmdstate = @{
   comarg0= comarg
@@ -328,6 +376,10 @@ cmdstate = @{
 , preludeflg= int
 // number of processed input files
 , ninputfile= int
+//
+, outchan= outchan
+//
+, depgenflag= int // dependency generation
 //
 , typecheckonly= bool
 // number of accumulated errors
@@ -592,15 +644,27 @@ case+ arglst of
     process_cmdline2 (state, arg, arglst)
 | ~list_vt_nil ()
     when state.ninputfile = 0 => let
-    val stadyn = waitkind_get_stadyn (state.waitkind)
+    val stadyn =
+      waitkind_get_stadyn (state.waitkind)
+    // end of [val]
   in
     case+ 0 of
     | _ when stadyn >= 0 => {
         val ATSHOME = state.ATSHOME
-        val () = prelude_load_if (
+        val () =
+          prelude_load_if (
           ATSHOME, state.preludeflg // loading once
         ) // end of [val]
         val d0cs = parse_from_stdin_toplevel (stadyn)
+//
+        val () =
+          if state.depgenflag > 0 then let
+          val filr = outchan_get_filr (state.outchan)
+          val ps = $DPGEN.depgen_eval (d0cs)
+        in
+          $DPGEN.fprint_entry (filr, "<stdin>", ps)
+        end // end of [val]
+//
         val d2cs = do_trans123 ("STDIN", d0cs)
       } // end of [_ when ...]
     | _ => ()
@@ -635,6 +699,15 @@ case+ arg of
         val () = state.ninputfile := state.ninputfile + 1
         val () = prelude_load_if (ATSHOME, state.preludeflg)
         val d0cs = parse_from_basename_toplevel (stadyn, basename)
+//
+        val () =
+          if state.depgenflag > 0 then let
+          val filr = outchan_get_filr (state.outchan)
+          val ps = $DPGEN.depgen_eval (d0cs)
+        in
+          $DPGEN.fprint_entry (filr, basename, ps)
+        end // end of [val]
+//
         val d2cs = do_trans123 (basename, d0cs)
       in
         process_cmdline (state, arglst)
@@ -643,9 +716,21 @@ case+ arg of
 //
 | _ when isoutwait (state) => let
     val () = state.waitkind := WTKnone ()
+//
     val COMARGkey (_, basename) = arg
     val basename = string1_of_string (basename)
     val () = theOutFilename_set (stropt_some (basename))
+//
+    val _old = state.outchan
+    val () = (
+      case+ _old of
+      | OUTCHANref _ => ()
+      | OUTCHANptr (filr) => $STDIO.fclose_exn (filr)
+    ) : void // end of [val]
+    val _new =
+      outchan_make_path (basename)
+    val () = state.outchan := _new
+//
   in
     process_cmdline (state, arglst)
   end // end of [_ when isoutwait]
@@ -687,19 +772,32 @@ process_cmdline2_COMARGkey1
 , key: string // [key]: the string following [-]
 ) :<fun1> void = let
   val () = state.waitkind := WTKnone ()
-  val () = (case+ key of
-    | "-s" => {
+  val () = (
+    case+ key of
+//
+    | "-tc" => let
+        val () = state.typecheckonly := true
+      in
+      end // end of [-tc]
+    | "-o" => let
+        val () = state.waitkind := WTKoutput
+      in
+      end // end of [-o]
+    | "-s" => let
         val () = state.ninputfile := 0
         val () = state.waitkind := WTKinput_sta
-      }
-    | "-d" => {
+      in
+      end // end of [-s]
+    | "-d" => let
         val () = state.ninputfile := 0
         val () = state.waitkind := WTKinput_dyn
+      in
+      end // end of [-d]
+//
+    | "-dep" => {
+        val () = state.depgenflag := 1
       }
-    | "-o" => {
-        val () = state.waitkind := WTKoutput ()
-      }
-    | "-tc" => state.typecheckonly := true
+//
     | _ when is_DATS_flag (key) => let
         val def = DATS_extract (key)
         val issome = stropt_is_some (def)
@@ -809,6 +907,12 @@ state = @{
 , preludeflg= 0
 // number of prcessed input files
 , ninputfile= 0
+//
+// HX: the default output channel
+, outchan= OUTCHANref (stdout_ref)
+//
+, depgenflag= 0 // dependency generation
+//
 , typecheckonly= false
 , nerror= 0 // number of accumulated errors
 } : cmdstate // end of [var]

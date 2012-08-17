@@ -40,6 +40,8 @@ UN = "prelude/SATS/unsafe.sats"
 
 macdef
 prelude_string_explode = string_explode
+macdef
+prelude_string_foreach = string_foreach
 
 (* ****** ****** *)
 
@@ -104,6 +106,23 @@ val () = $effmask_wrt (loop (p, cs))
 in
   $UN.castvwtp_trans{string} @(pf, pfgc | p)
 end // end of [string_implode]
+
+(* ****** ****** *)
+
+implement
+string_foreach (s, f) = let
+//
+val s = string1_of_string0 (s)
+//
+implement{env}
+string_foreach__cont (c, env) = true
+implement{env}
+string_foreach__fwork (c, env) = f (c)
+val _(*n*) = prelude_string_foreach (s)
+//
+in
+  // nothing
+end // end of [string_foreach]
 
 (* ****** ****** *)
 

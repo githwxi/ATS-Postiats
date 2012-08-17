@@ -132,6 +132,10 @@ fun fprint_the_filenamelst (out: FILEref): void
 
 typedef path = string
 
+fun path_normalize (s0: NSHARED(path)): path
+
+(* ****** ****** *)
+
 absview the_pathlst_push_v
 
 fun the_pathlst_pop

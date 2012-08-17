@@ -176,8 +176,8 @@ staload UNISTD = "libc/SATS/unistd.sats"
 
 in // in of [local]
 
-fun path_normalize
-  (s0: path): path = let
+implement
+path_normalize (s0) = let
   fun loop1
     {n0,i0:nat | i0 <= n0} (
     dirsep: char
@@ -270,14 +270,14 @@ fun path_normalize
   val s0 = string1_of_string s0; val n0 = string_length s0
   val () = loop1 (dirsep, s0, n0, 0, dirs)
   val () = dirs := dirs_process (curdir, pardir, 0, dirs, list_vt_nil ())
-  val fullname =
+  val path =
     stringlst_concat (__cast dirs) where {
     extern castfn __cast (x: !strptrlst): List string
   } // end of [val]
   val () = list_vt_free_fun<strptr1> (dirs, lam x => strptr_free (x))
 //
 in
-  string_of_strptr (fullname)
+  string_of_strptr (path)
 end // end of [path_normalize]
 
 fun partname_fullize

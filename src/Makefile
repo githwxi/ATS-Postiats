@@ -27,12 +27,14 @@ SOURCES := \
   pats_params.hats \
   pats_error.sats \
   pats_error.dats \
-  pats_counter.sats \
-  pats_counter.dats \
   pats_intinf.sats \
   pats_intinf.dats \
+  pats_counter.sats \
+  pats_counter.dats \
   pats_utils.sats \
   pats_utils.dats \
+  pats_global.sats \
+  pats_global.dats \
   pats_basics.sats \
   pats_basics.dats \
   pats_basics.hats \
@@ -69,6 +71,8 @@ SOURCES := \
   pats_syntax.sats \
   pats_syntax.dats \
   pats_syntax_print.dats \
+  pats_depgen.sats \
+  pats_depgen.dats \
   pats_tokbuf.sats \
   pats_tokbuf.dats \
   pats_tokbuf.cats \
@@ -230,12 +234,14 @@ SOURCESdyn := $(filter %.dats, $(SOURCES))
 OBJECTS := \
   pats_error_sats.o \
   pats_error_dats.o \
-  pats_counter_sats.o \
-  pats_counter_dats.o \
   pats_intinf_sats.o \
   pats_intinf_dats.o \
+  pats_counter_sats.o \
+  pats_counter_dats.o \
   pats_utils_sats.o \
   pats_utils_dats.o \
+  pats_global_sats.o \
+  pats_global_dats.o \
   pats_basics_sats.o \
   pats_basics_dats.o \
   pats_stamp_sats.o \
@@ -267,6 +273,8 @@ OBJECTS := \
   pats_syntax_sats.o \
   pats_syntax_dats.o \
   pats_syntax_print_dats.o \
+  pats_depgen_sats.o \
+  pats_depgen_dats.o \
   pats_tokbuf_sats.o \
   pats_tokbuf_dats.o \
   pats_parsing_sats.o \
@@ -434,23 +442,29 @@ pats_error_sats.o: pats_error_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 pats_error_dats.c: pats_error.dats; $(ATSCC) -cc $<
 pats_error_dats.o: pats_error_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
-pats_counter_sats.c: pats_counter.sats; $(ATSCC) -cc $<
-pats_counter_sats.o: pats_counter_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
-
-pats_counter_dats.c: pats_counter.dats; $(ATSCC) -cc $<
-pats_counter_dats.o: pats_counter_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
-
 pats_intinf_sats.c: pats_intinf.sats; $(ATSCC) -cc $<
 pats_intinf_sats.o: pats_intinf_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_intinf_dats.c: pats_intinf.dats; $(ATSCC) -cc $<
 pats_intinf_dats.o: pats_intinf_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
+pats_counter_sats.c: pats_counter.sats; $(ATSCC) -cc $<
+pats_counter_sats.o: pats_counter_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_counter_dats.c: pats_counter.dats; $(ATSCC) -cc $<
+pats_counter_dats.o: pats_counter_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
 pats_utils_sats.c: pats_utils.sats; $(ATSCC) -cc $<
 pats_utils_sats.o: pats_utils_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_utils_dats.c: pats_utils.dats; $(ATSCC) -cc $<
 pats_utils_dats.o: pats_utils_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_global_sats.c: pats_global.sats; $(ATSCC) -cc $<
+pats_global_sats.o: pats_global_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_global_dats.c: pats_global.dats; $(ATSCC) -cc $<
+pats_global_dats.o: pats_global_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_basics_sats.c: pats_basics.sats; $(ATSCC) -cc $<
 pats_basics_sats.o: pats_basics_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
@@ -544,6 +558,12 @@ pats_syntax_dats.o: pats_syntax_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_syntax_print_dats.c: pats_syntax_print.dats; $(ATSCC) -cc $<
 pats_syntax_print_dats.o: pats_syntax_print_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_depgen_sats.c: pats_depgen.sats; $(ATSCC) -cc $<
+pats_depgen_sats.o: pats_depgen_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_depgen_dats.c: pats_depgen.dats; $(ATSCC) -cc $<
+pats_depgen_dats.o: pats_depgen_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_tokbuf_sats.c: pats_tokbuf.sats; $(ATSCC) -cc $<
 pats_tokbuf_sats.o: pats_tokbuf_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
