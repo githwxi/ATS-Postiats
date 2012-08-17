@@ -38,7 +38,7 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 (* ****** ****** *)
 
 staload
-G = "./pats_global.sats"
+GLO = "./pats_global.sats"
 staload
 FIL = "./pats_filename.sats"
 
@@ -98,23 +98,28 @@ fun loop (
   | list_nil () => None_vt ()
 // end of [loop]
 //
-val filename = $FIL.filename_get_current ()
-val partname = $FIL.filename_get_part (filename)
-val partname2 = $FIL.filename_merge (partname, name)
-val isexi = test_file_exists ((p2s)partname2)
+val knd = $FIL.path_get_srchknd (name)
 //
 in
-  if isexi then let
-    val partname2_norm =
-      $FIL.path_normalize ((p2s)partname2)
-    val () = strptr_free (partname2)
+//
+case+ knd of
+| 0 (*local*) => let
+    val filename = $FIL.filename_get_current ()
+    val partname = $FIL.filename_get_part (filename)
+    val partname2 = $FIL.filename_merge (partname, name)
+    val isexi = test_file_exists ((p2s)partname2)
   in
-    Some_vt (partname2_norm)
-  end else let
-    val () = strptr_free (partname2)
-  in
-    loop ($G.the_IATSdirlst_get (), name)
-  end // end of [if]
+    if isexi then let
+      val partname2_norm = $FIL.path_normalize ((p2s)partname2)
+      val () = strptr_free (partname2)
+    in
+      Some_vt (partname2_norm)
+    end else let
+      val () = strptr_free (partname2) in None_vt ()
+    end // end of [if]
+  end // end of [0]
+| _ (*external*) => loop ($GLO.the_IATS_dirlst_get (), name)
+//
 end // end of [pathtry_basename]
 
 (* ****** ****** *)

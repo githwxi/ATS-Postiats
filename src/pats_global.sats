@@ -32,8 +32,8 @@
 //
 (* ****** ****** *)
 
-fun the_IATSdirlst_get (): List (string)
-fun the_IATSdirlst_push (dir: string):<!ref> void
+fun the_IATS_dirlst_get (): List (string)
+fun the_IATS_dirlst_ppush (dir: string):<!ref> void // permanent push
 
 (* ****** ****** *)
 

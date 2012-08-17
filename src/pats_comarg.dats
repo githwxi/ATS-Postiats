@@ -37,7 +37,9 @@ staload "libc/SATS/string.sats"
 (* ****** ****** *)
 
 staload ERR = "pats_error.sats"
+staload GLO = "pats_global.sats"
 staload LOC = "pats_location.sats"
+staload FIL = "pats_filename.sats"
 staload PAR = "pats_parsing.sats"
 staload SYN = "pats_syntax.sats"
 
@@ -181,13 +183,12 @@ case+ opt of
 end // end of [process_DATS_def]
 
 implement
-process_IATS_dir (dir) = () where {
-  val (pfpush | ()) = $FIL.the_pathlst_push (dir)
-  prval () = __assert (pfpush) where {
-    // HX: this is a permanent push!
-    extern prfun __assert (pf: $FIL.the_pathlst_push_v): void
-  } // end of [prval]
-} (* end of [process_IATS_dir] *)
+process_IATS_dir (dir) = let
+  val () = $FIL.the_pathlst_ppush (dir)
+  val () = $GLO.the_IATS_dirlst_ppush (dir)
+in
+  // nothing
+end (* end of [process_IATS_dir] *)
 
 (* ****** ****** *)
 

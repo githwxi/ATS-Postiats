@@ -592,7 +592,8 @@ fn s0taload_tr (
 //
   val filopt = $FIL.filenameopt_make_relative (path)
 //
-  val fil = (case+ filopt of
+  val fil = (
+    case+ filopt of
     | ~Some_vt filename => filename
     | ~None_vt () => let
         val () = prerr_error1_loc (loc0)

@@ -44,20 +44,20 @@ local
 
 typedef dirlst = List (string)
 
-val the_IATSdirlst = ref<dirlst> (list_nil ())
+val the_IATS_dirlst = ref<dirlst> (list_nil ())
 
 in // in of [local]
 
 implement
-the_IATSdirlst_get () = !the_IATSdirlst
+the_IATS_dirlst_get () = !the_IATS_dirlst
 
 implement
-the_IATSdirlst_push
+the_IATS_dirlst_ppush
   (dir) = let
-  val dirs = !the_IATSdirlst
+  val dirs = !the_IATS_dirlst
 in
-  !the_IATSdirlst := list_cons (dir, dirs)
-end // end of [the_IATSdirlst_push]
+  !the_IATS_dirlst := list_cons (dir, dirs)
+end // end of [the_IATS_dirlst_ppush]
 
 end // end of [local]
 

@@ -433,18 +433,22 @@ implement
 the_pathlst_pop
   (pf | (*none*)) = {
   prval unit_v () = pf
-  val (vbox pf | p) = ref_get_view_ptr (the_prepathlst)
+  val (vbox pf | p) = ref_get_view_ptr (the_pathlst)
   val- ~list_vt_cons (_, xs) = !p
   val () = !p := xs
-} // end of [the_prepathlst_push]
+} // end of [the_pathlst_push]
 
 implement
 the_pathlst_push (x) = let
-  val (vbox pf | p) = ref_get_view_ptr (the_prepathlst)
-  val () = !p := list_vt_cons (x, !p)
+  val () = the_pathlst_ppush (x) in (unit_v () | ())
+end // end of [the_pathlst_push]
+
+implement
+the_pathlst_ppush (x) = let
+  val (vbox pf | p) = ref_get_view_ptr (the_pathlst)
 in
-  (unit_v () | ())
-end // end of [the_prepathlst_push]
+  !p := list_vt_cons (x, !p)
+end // end of [the_pathlst_push]
 
 (* ****** ****** *)
 
@@ -524,7 +528,7 @@ case+ paths of
     val isexi = test_file_exists ((p2s)partname)
 (*
     val () = begin
-      printf ("filenameopt_make_relative: aux_try: partname = %s\n", @(partname))
+      printf ("aux_try: partname = %s\n", @(partname))
     end // end of [val]
 *)
   in
@@ -589,7 +593,7 @@ in
   in
     Some_vt (filename_make (partname, fullname))
   end else None_vt () // end of [if]
-end // end of [filenameopt_make_relative]
+end // end of [filenameopt_make_local]
 
 implement
 filenameopt_make_relative
