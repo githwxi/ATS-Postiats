@@ -720,6 +720,24 @@ least index i such that xs[i] satisfies the predicate implemented by
 function raises an exception (#dyncode("NotFoundExn")).
 
 ')
+#declexample("\
+
+The following code finds the first odd number in a give list:
+
+#pats2xhtmld_tryit("\
+implement
+main () = 0 where {
+//
+val xs = $lst{int} (0, 1, 2, 3, 4)
+//
+implement
+list_find__pred<int> (x) = x mod 2 = 1
+//
+val () = assertloc (1 = list_find_exn<int> (xs))
+} // end of [main]
+")
+")
+
 #declnamesynop("list_find_opt")
 #decldescrpt('\
 
@@ -795,6 +813,14 @@ ATSLIB is tail-recursive.
 
 #declnamesynop("list_mapopt__fwork")
 #declnamesynop("list_mapopt")
+#decldescrpt('\
+
+Given a list xs, this function applies the function implemented by
+#dyncode("list_mapopt__fwork") to each element x in xs; if the application
+returns an optional value of the form #dyncode("Some(y)") for some y, then
+y is collected in the linear list returned by #dyncode("list_mapopt").
+
+')
 
 (* ****** ****** *)
 
