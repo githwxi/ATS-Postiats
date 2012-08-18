@@ -386,6 +386,23 @@ cmdstate = @{
 , nerror= int
 } // end of [cmdstate]
 
+(* ****** ****** *)
+
+fun cmdstate_set_outchan (
+  state: &cmdstate, _new: outchan
+) : void = let
+  val _old = state.outchan
+  val () = state.outchan := _new
+in
+  case+ _old of
+  | OUTCHANref _ => ()
+  | OUTCHANptr (filp) => let
+      val _err = $STDIO.fclose0_err (filp) in (*nothing*)
+    end // end of [OUTCHANptr]
+end // end of [cmdstate_set_outchan]
+
+(* ****** ****** *)
+
 fn isinpwait
   (state: cmdstate): bool =
   case+ state.waitkind of
@@ -718,18 +735,13 @@ case+ arg of
     val () = state.waitkind := WTKnone ()
 //
     val COMARGkey (_, basename) = arg
-    val basename = string1_of_string (basename)
-    val () = theOutFilename_set (stropt_some (basename))
 //
-    val _old = state.outchan
-    val () = (
-      case+ _old of
-      | OUTCHANref _ => ()
-      | OUTCHANptr (filr) => $STDIO.fclose_exn (filr)
-    ) : void // end of [val]
-    val _new =
-      outchan_make_path (basename)
-    val () = state.outchan := _new
+    val basename =
+      string1_of_string (basename)
+    val () =
+      theOutFilename_set (stropt_some (basename))
+    val _new = outchan_make_path (basename)
+    val () = cmdstate_set_outchan (state, _new)
 //
   in
     process_cmdline (state, arglst)

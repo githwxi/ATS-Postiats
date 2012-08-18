@@ -223,7 +223,7 @@ pats2xhtml_level1_state_basename (
   state: &cmdstate, basename: string
 ) : void = let
 //
-val opt = $FIL.filenameopt_make_relative (basename)
+val opt = $FIL.filenameopt_make_local (basename)
 //
 in
 //
@@ -253,6 +253,32 @@ case+ opt of
   end // end of [None_vt]
 //
 end // end of [pats2xhtml_level1_state_basename]
+
+(* ****** ****** *)
+
+fn pats2xhtml_usage
+  (cmd: string): void = {
+  val () = printf
+    ("usage: %s <command> ... <command>\n\n", @(cmd))
+  val () = printf
+    ("where each <command> is of one of the following forms:\n\n", @())
+  val () = printf
+    ("  -o filename : output into <filename>\n", @())
+  val () = printf
+    ("  --output <filename> : output into <filename>\n", @())
+  val () = printf
+    ("  -s <filename> : for processing static <filename>\n", @())
+  val () = printf
+    ("  --static <filename> : for processing static <filename>\n", @())
+  val () = printf
+    ("  -d <filename> : for processing dynamic <filename>\n", @())
+  val () = printf
+    ("  --dynamic <filename> : for processing dynamic <filename>\n", @())
+  val () = printf
+    ("  -h : for printing out this help usage\n", @())
+  val () = printf
+    ("  -help : for printing out this help usage\n", @())
+} // end of [pats2xhtml_usage]
 
 (* ****** ****** *)
 
@@ -374,6 +400,10 @@ process_cmdline2_COMARGkey1
     | "-o" => {
         val () = state.waitkind := WTKoutput ()
       }
+    | "-h" => {
+        val () = state.waitkind := WTKnone ()
+        val () = pats2xhtml_usage ("pats2xhtml")
+      }
     | _ when
         is_DATS_flag (key) => let
         val def = DATS_extract (key)
@@ -426,6 +456,13 @@ process_cmdline2_COMARGkey2
         state.waitkind := WTKinput_dyn
     | "--output" =>
         state.waitkind := WTKoutput ()
+    | "--help" => let
+        val () =
+          state.waitkind := WTKnone ()
+        // end of [val]
+      in
+        pats2xhtml_usage ("pats2xhtml")
+      end // end of ["--help"]
     | _ => comarg_warning (key) // unrecognized
   ) : void // end of [val]
 in
@@ -434,6 +471,7 @@ end // end of [process_cmdline2_COMARGkey2]
 
 (* ****** ****** *)
 
+dynload "src/pats_global.dats"
 dynload "src/pats_errmsg.dats"
 dynload "src/pats_effect.dats"
 dynload "src/pats_symmap.dats"

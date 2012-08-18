@@ -57,6 +57,8 @@ SOURCES = \
   pats_error.dats \
   pats_utils.sats \
   pats_utils.dats \
+  pats_global.sats \
+  pats_global.dats \
   pats_basics.sats \
   pats_basics.dats \
   pats_symbol.sats \
