@@ -853,7 +853,8 @@ process_cmdline2_COMARGkey2
 , key: string // [key]: the string following [--]
 ) :<fun1> void = let
   val () = state.waitkind := WTKnone ()
-  val () = (case+ key of
+  val () = (
+    case+ key of
     | "--static" =>
         state.waitkind := WTKinput_sta
     | "--dynamic" =>

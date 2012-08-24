@@ -569,10 +569,10 @@ inclusive, and xs[i] (ys[i]) refers to element i in xs (ys).  ")
 #declnamesynop("list_iforeach")
 #decldescrpt("\
 
-Given a list xs, this function applies to (i, xs[i]) the function
-implemented by #dyncode("list_iforeach__fwork"), where i ranges from 0
-until the length of xs minus one, inclusive, and xs[i] refers to element
-i in xs.  ")
+Given a list xs of length n, this function applies to each pair (i, xs[i])
+the function implemented by #dyncode("list_iforeach__fwork"), where i
+ranges from 0 until n-1, inclusive, and xs[i] refers to element i in xs.
+")
 
 #declnamesynop("list_iforeach_env")
 
@@ -702,11 +702,11 @@ list_equal__pred (x, y) = gequal_val<a> (x, y)
 #declnamesynop("list_equal")
 #decldescrpt('\
 
-Given two lists xs1 and xs2, this function returns true if and only if xs1
-and xs2 are of the same length and the predicate implemented by
-#dyncode("list_equal__pred") holds on each pair (xs1[i], xs2[i]), where i
-ranges from 0 until the length of xs1 minus 1, inclusive, and xs1[i]
-(xs2[i]) refers to element i in xs1 (xs2). ')
+Given two lists xs1 and xs2 of length n1 and n2, respectively, this
+function returns true if and only if xs1 and xs2 are of the same length and
+the predicate implemented by #dyncode("list_equal__pred") holds on each
+pair (xs1[i], xs2[i]), where i ranges from 0 until n1-1, inclusive, and
+xs1[i] (xs2[i]) refers to element i in xs1 (xs2). ')
 
 (* ****** ****** *)
 
@@ -763,10 +763,10 @@ The implementation of this function in ATSLIB is tail-recursive.
 #declnamesynop("list_labelize")
 #decldescrpt('\
 
-Given a list xs, this function returns a linear list consisting pairs
-(i, xs[i]), where i ranges from 0 until the lenght of xs minus 1 and xs[i]
-refers to element i in xs. The implementation of this function in ATSLIB
-is tail-recursive.
+Given a list xs of length n-1, this function returns a linear list
+consisting pairs (i, xs[i]), where i ranges from 0 until n-1 and xs[i]
+refers to element i in xs. The implementation of this function in ATSLIB is
+tail-recursive.
 
 ')
 
@@ -786,11 +786,10 @@ the function implemented by #dyncode("list_app__fwork").  ')
 #declnamesynop("list_map")
 #decldescrpt('\
 
-Given a list xs, this function returns a linear list consisting f(xs[i]),
-where i ranges from 0 until the lenght of xs minus 1, xs[i] refers to
-element i in xs and f is the function implemented by
-#dyncode("list_map__fwork").  The implementation of this function in ATSLIB
-is tail-recursive.
+Given a list xs of length n, this function returns a linear list consisting
+f(xs[i]), where i ranges from 0 until n-1, xs[i] refers to element i in
+xs and f is the function implemented by #dyncode("list_map__fwork").  The
+implementation of this function in ATSLIB is tail-recursive.
 
 ')
 
@@ -801,11 +800,10 @@ is tail-recursive.
 #declnamesynop("list_imap")
 #decldescrpt('\
 
-Given a list xs, this function returns a linear list consisting f(i,
-xs[i]), where i ranges from 0 until the lenght of xs minus 1, xs[i] refers
-to element i in xs and f is the function implemented by
-#dyncode("list_imap__fwork").  The implementation of this function in
-ATSLIB is tail-recursive.
+Given a list xs of length n, this function returns a linear list consisting
+f(i, xs[i]), where i ranges from 0 until n-1, xs[i] refers to element i in
+xs and f is the function implemented by #dyncode("list_imap__fwork").  The
+implementation of this function in ATSLIB is tail-recursive.
 
 ')
 
@@ -819,6 +817,7 @@ Given a list xs, this function applies the function implemented by
 #dyncode("list_mapopt__fwork") to each element x in xs; if the application
 returns an optional value of the form #dyncode("Some(y)") for some y, then
 y is collected in the linear list returned by #dyncode("list_mapopt").
+The implementation of this function in ATSLIB is tail-recursive.
 
 ')
 

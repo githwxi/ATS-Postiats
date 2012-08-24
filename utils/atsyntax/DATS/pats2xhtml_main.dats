@@ -277,7 +277,7 @@ fn pats2xhtml_usage
   val () = printf
     ("  -h : for printing out this help usage\n", @())
   val () = printf
-    ("  -help : for printing out this help usage\n", @())
+    ("  --help : for printing out this help usage\n", @())
 } // end of [pats2xhtml_usage]
 
 (* ****** ****** *)
