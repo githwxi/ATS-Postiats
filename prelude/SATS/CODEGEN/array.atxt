@@ -83,10 +83,10 @@ lemma_array_v_param{a:vt0p}
 praxi array_v_nil :
   {a:vt0p}{l:addr} () -<prf> array_v (a, l, 0)
 praxi array_v_unnil :
-  {a:vt0p}{l:addr} array_v (INV(a), l, 0) -<prf> void
+  {a:vt0p}{l:addr} array_v (a, l, 0) -<prf> void
 
 prfun array_v_unnil_nil :
-  {a1,a2:vt0p}{l:addr} array_v (INV(a1), l, 0) -<prf> array_v (a2, l, 0)
+  {a1,a2:vt0p}{l:addr} array_v (a1, l, 0) -<prf> array_v (a2, l, 0)
 // end of [array_v_unnil_nil]
 
 #atscode_separator()

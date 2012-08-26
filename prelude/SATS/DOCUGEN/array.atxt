@@ -143,10 +143,10 @@ proof of array-view of size 1 into a proof of at-view.
 
 #declnamesynop("array_getref_at")
 #decldescrpt('\
-This function returns the pointer to cell i of the given array A, that is,
-the pointer equal to addr@(A)+i*#sizeof("a"), where addr@(A) refers to the
-starting address of A.
-')
+
+This function returns the pointer to array-cell i of the given array A,
+that is, the pointer equal to addr@(A)+i*#sizeof("a"), where addr@(A)
+refers to the starting address of A.  ')
 
 #declexample('\
 A typical use of
@@ -179,7 +179,7 @@ overload array_get_at with array_get_at_guint
 #decldescrpt('\
 
 This function, which overloads the symbol #dyncode("[]"), returns the value
-stored in cell i of the given array A.  Note that the type for values
+stored in array-cell i of the given array A.  Note that the type for values
 stored in A is nonlinear.  ')
 
 #declexample("\
@@ -224,11 +224,12 @@ overload array_set_at with array_set_at_guint
 #decldescrpt("\
 
 This function, which overloads the symbol #dyncode("[]"), stores a value
-into cell i of the given array A, overwriting the original value. Note that
-the type of values stored in A is nonlinear.  ")
+into array-cell i of the given array A, overwriting the original
+value. Note that the type of values stored in A is nonlinear.  ")
 #declexample("\
 
-The following code doubles the integer value of each cell in a given array:
+The following code doubles the integer value of each array-cell in a given
+array:
 
 #pats2xhtmld_tryit('\
 fun doubling {n:nat} 
@@ -262,7 +263,7 @@ overload array_exch_at with array_exch_at_guint
 ')
 #declnamesynop("array_exch_at_gint")
 #decldescrpt('\
-This function exchanges the value in cell i of the given array A and the
+This function exchanges the value in array-cell i of the given array A and the
 value in its second argument. Note that the type of these values can be linear.
 ')
 #declnamesynop("array_exch_at_guint")
@@ -424,7 +425,7 @@ end // end of [array_foldleft]
 #decldescrpt('\
 
 This function is like #dyncode("array_foreach") except that the function
-to be applied to each array cell is provided as an argument.  ')
+to be applied to each array-cell is provided as an argument.  ')
 
 #declnamesynop("array_foreach_fun")
 #decldescrpt('\
