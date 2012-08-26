@@ -18,8 +18,6 @@ bin/patsopt
 
 utils/atsyntax/HTML
 utils/atsyntax/pats2xhtml
-utils/atsyntax/Makefile_test
-utils/atsyntax/Makefile_test.atxt
 
 prelude/SATS/CODEGEN/*.exe
 prelude/SATS/CODEGEN/*.sats

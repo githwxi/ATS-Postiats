@@ -263,7 +263,7 @@ fn pats2xhtml_usage
   val () = printf
     ("where each <command> is of one of the following forms:\n\n", @())
   val () = printf
-    ("  -o filename : output into <filename>\n", @())
+    ("  -o <filename> : output into <filename>\n", @())
   val () = printf
     ("  --output <filename> : output into <filename>\n", @())
   val () = printf
