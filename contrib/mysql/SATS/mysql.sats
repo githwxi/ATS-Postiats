@@ -126,12 +126,12 @@ MYSQL *		STDCALL mysql_real_connect(MYSQL *mysql, const char *host,
 fun mysql_real_connect
   {l:agz} (
   mysql: !MYSQLptr (l)
-, host: Stropt
-, user: Stropt
-, passwd: Stropt
-, dbname: Stropt
+, host: stropt
+, user: stropt
+, passwd: stropt
+, dbname: stropt
 , port: uint
-, socket: Stropt
+, socket: stropt
 , clientflag: ulint
 ) : [l1:addr | l1==null || l1==l] ptr l1
   = "mac#atsctrb_mysql_real_connect"
@@ -167,6 +167,26 @@ fun mysql_error
 (* ****** ****** *)
 
 /*
+int mysql_ping(MYSQL *mysql);
+*/
+fun mysql_ping
+  {l:agz} (
+  mysql: !MYSQLptr l
+) : int = "mac#atsctrb_mysql_ping"
+
+(* ****** ****** *)
+
+/*
+my_bool mysql_commit (MYSQL *mysql);
+*/
+fun mysql_commit
+  {l:agz} (
+  mysql: !MYSQLptr l
+) : int = "mac#atsctrb_mysql_commit"
+
+(* ****** ****** *)
+
+/*
 int mysql_query(MYSQL *mysql, const char *q);
 */
 fun mysql_query
@@ -192,13 +212,15 @@ int mysql_drop_db (MYSQL *mysql, const char *db)
 *)
 
 (* ****** ****** *)
+
 /*
-my_bool mysql_commit (MYSQL *mysql);
+MYSQL_RES*
+mysql_list_dbs(MYSQL *mysql, const char *wild)
 */
-fun mysql_commit
+fun mysql_list_dbs
   {l:agz} (
-  mysql: !MYSQLptr l
-) : int = "mac#atsctrb_mysql_commit"
+  mysql: !MYSQLptr l, wild: stropt
+) : MYSQLRESptr0 = "mac#atsctrb_mysql_list_dbs"
 
 (* ****** ****** *)
 
@@ -206,6 +228,15 @@ fun mysql_field_count
   {l:agz} (
   mysql: !MYSQLptr l
 ) : uint = "mac#atsctrb_mysql_field_count"
+
+(* ****** ****** *)
+
+absprop MYSQLRESnrow (addr, int)
+
+praxi
+lemma_MYSQLRESnrow_param
+  {l:addr}{n:int} (pf: MYSQLRESnrow (l, n)): [l>null;n>=0] void
+// end of [lemma_MYSQLRESnrow_param]
 
 (* ****** ****** *)
 
@@ -221,14 +252,33 @@ lemma_MYSQLRESnfield_param
 fun mysql_num_rows
   {l:agz} (
   res: !MYSQLRESptr l
-) : uint = "mac#atsctrb_mysql_num_rows"
+) : [n:nat] (MYSQLRESnrow (l, n) | ullint n) = "mac#atsctrb_mysql_num_rows"
+macdef mysqlres_get_nrow = mysql_num_rows
 
 fun mysql_num_fields
   {l:agz} (
   res: !MYSQLRESptr l
 ) : [n:nat] (MYSQLRESnfield (l, n) | int n) = "mac#atsctrb_mysql_num_fields"
+macdef mysqlres_get_nfield = mysql_num_fields
 
 (* ****** ****** *)
+
+/*
+my_ulonglong mysql_affected_rows(MYSQL *mysql)
+*/
+fun mysql_affected_rows
+  {l:agz} (mysql: !MYSQLptr l): ullint = "mac#mysql_affected_rows"
+// end of [mysql_affected_rows]
+
+(* ****** ****** *)
+
+/*
+MYSQL_RES *mysql_use_result(MYSQL *mysql);
+*/
+fun mysql_use_result
+  {l:agz} (
+  mysql: !MYSQLptr l
+) : MYSQLRESptr0 = "mac#atsctrb_mysql_use_result"
 
 /*
 MYSQL_RES *mysql_store_result(MYSQL *mysql);
@@ -244,7 +294,7 @@ fun mysql_store_result
 void mysql_free_result(MYSQL_RES *result);
 */
 fun mysql_free_result
-  (result: MYSQLRESptr0): void = "mac#mysql_free_result"
+  (result: MYSQLRESptr0): void = "mac#atsctrb_mysql_free_result"
 // end of [mysql_free_result]
 
 (* ****** ****** *)
@@ -255,12 +305,12 @@ MYSQL_ROW mysql_fetch_row(MYSQL_RES *result);
 fun mysql_fetch_row
   {l:agz} (
   res: !MYSQLRESptr l
-) : MYSQLROWptr0 (l) = "mac#mysql_fetch_row"
+) : MYSQLROWptr0 (l) = "mac#atsctrb_mysql_fetch_row"
 macdef mysqlres_fetch_row = mysql_fetch_row
 
 prfun mysql_unfetch_row
   {l1,l2:addr} (
-  res: !MYSQLRESptr l1, row: MYSQLROWptr (l1, l2)
+  res: !MYSQLRESptr (l1), row: MYSQLROWptr (l1, l2)
 ) :<> void // end of [mysql_unfetch_row]
 macdef mysqlres_unfetch_row = mysql_unfetch_row
 
@@ -279,14 +329,26 @@ MYSQL_FIELD mysql_fetch_field(MYSQL_RES *result);
 fun mysql_fetch_field
   {l:agz} (
   res: !MYSQLRESptr l
-) : MYSQLFIELDptr0 (l) = "mac#mysql_fetch_field"
+) : MYSQLFIELDptr0 (l) = "mac#atsctrb_mysql_fetch_field"
 macdef mysqlres_fetch_field = mysql_fetch_field
 
 prfun mysql_unfetch_field
   {l1,l2:addr} (
-  res: !MYSQLRESptr l1, field: MYSQLFIELDptr (l1, l2)
+  res: !MYSQLRESptr (l1), field: MYSQLFIELDptr (l1, l2)
 ) :<> void // end of [mysql_unfetch_field]
 macdef mysqlres_unfetch_field = mysql_unfetch_field
+
+(* ****** ****** *)
+
+/*
+MYSQL_FIELD*
+mysql_fetch_field_direct(MYSQL_RES *result, unsigned int fieldnr)
+*/
+fun mysql_fetch_field_direct
+  {l:agz}{n:int} (
+  pfrow: MYSQLRESnfield (l, n) | res: !MYSQLRESptr (l), i: natLt n
+) : MYSQLFIELDptr1 (l) = "mac#atsctrb_mysql_fetch_field_direct"
+macdef mysqlres_fetch_field_at = mysql_fetch_field_direct
 
 (* ****** ****** *)
 

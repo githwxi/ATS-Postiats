@@ -407,6 +407,7 @@ stropt_int_type (n:int)
 stadef stropt = stropt_int_type
 typedef Stropt0 = [n:int] stropt_int_type (n)
 typedef Stropt1 = [n:int | n >= 0] stropt_int_type (n)
+stadef stropt = Stropt0
 
 (* ****** ****** *)
 
@@ -418,6 +419,8 @@ strptr_addr_viewtype (l:addr)
 stadef strptr = strptr_addr_viewtype
 viewtypedef Strptr0 = [l:addr] strptr (l)
 viewtypedef Strptr1 = [l:addr | l > null] strptr (l)
+stadef strptr = Strptr0
+
 absviewtype
 strnptr_addr_int_viewtype (l:addr, n:int)
 stadef strnptr = strnptr_addr_int_viewtype

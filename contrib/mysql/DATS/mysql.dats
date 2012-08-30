@@ -47,6 +47,10 @@ staload "mysql/SATS/mysql.sats"
 
 (* ****** ****** *)
 
+macdef null = the_null_ptr
+
+(* ****** ****** *)
+
 implement
 mysql_init0_exn
   ((*null*)) = let
@@ -56,9 +60,13 @@ in
 //
   if p > null then conn
   else let
-    prval () = mysql_free_null (conn)
+//
+    val () =
+      fprint_mysql_error (stderr_ref, conn)
+    prval () = mysql_free_null (conn) // HX: no-op
     val () = fprint_string (stderr_ref, "exit(ATS): [mysql_init0] failed.")
     val () = fprint_newline (stderr_ref)
+//
   in
     exit (1)
   end // end of [if]

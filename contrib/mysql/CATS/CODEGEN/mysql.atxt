@@ -62,7 +62,13 @@ typedef MYSQL_FIELD MYSQLFIELD_struct ;
 
 #atscode_separator_for_C()
 
+#atsctrb_define("mysql_ping")
+#atsctrb_define("mysql_commit")
+
+#atscode_separator_for_C()
+
 #atsctrb_define("mysql_query")
+#atsctrb_define("mysql_list_dbs")
 
 #atscode_separator_for_C()
 
@@ -75,8 +81,25 @@ typedef MYSQL_FIELD MYSQLFIELD_struct ;
 
 #atscode_separator_for_C()
 
-#atsctrb_define("mysql_free_result")
+#atsctrb_define("mysql_affected_rows")
+
+#atscode_separator_for_C()
+
+#atsctrb_define("mysql_use_result")
 #atsctrb_define("mysql_store_result")
+
+#atscode_separator_for_C()
+
+#atsctrb_define("mysql_free_result")
+
+#atscode_separator_for_C()
+
+#atsctrb_define("mysql_fetch_row")
+
+#atscode_separator_for_C()
+
+#atsctrb_define("mysql_fetch_field")
+#atsctrb_define("mysql_fetch_field_direct")
 
 #atscode_separator_for_C()
 
