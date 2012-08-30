@@ -17,14 +17,14 @@ all::
 
 ######
 
-all:: cairo.cats
-cairo.cats: cairo_atxt.exe ; ./$< > $@
-cairo_atxt.exe: cairo_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ cairo_atxt.dats -latsdoc
-cairo_atxt.dats: cairo.atxt
-	$(ATSDOC) --outcode $@ -i cairo.atxt > cairo_atxt.txt
-clean:: ; $(RMF) cairo_atxt.exe
-cleanall:: ; $(RMF) cairo.cats
+all:: mysql.cats
+mysql.cats: mysql_atxt.exe ; ./$< > $@
+mysql_atxt.exe: mysql_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ mysql_atxt.dats -latsdoc
+mysql_atxt.dats: mysql.atxt
+	$(ATSDOC) --outcode $@ -i mysql.atxt > mysql_atxt.txt
+clean:: ; $(RMF) mysql_atxt.exe
+cleanall:: ; $(RMF) mysql.cats
 
 ######
 

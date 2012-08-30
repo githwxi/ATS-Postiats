@@ -4,7 +4,7 @@
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
 val _thisfilename = atext_strcst"cairo.cats"
-val () = theTextMap_insert_str ("thisfilename", _thisfilename)
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 fun atsctrb_define (fname: string): atext = (
   atext_strptr (sprintf ("#define atsctrb_%s %s", @(fname, fname)))
 ) // end of [atsctrb_define]
@@ -21,7 +21,7 @@ fun atsctrb_define (fname: string): atext = (
 ** Time of generation: #timestamp()
 */
 
-#atscode_separator()
+#atscode_separator_for_C()
 
 /*
 #atscode_author("Hongwei Xi")

@@ -113,4 +113,9 @@ contrib/cairo/CATS/CODEGEN/*.cats
 contrib/cairo/CATS/CODEGEN/*_atxt.txt
 contrib/cairo/CATS/CODEGEN/*_atxt.dats
 
+contrib/mysql/CATS/CODEGEN/*.exe
+contrib/mysql/CATS/CODEGEN/*.cats
+contrib/mysql/CATS/CODEGEN/*_atxt.txt
+contrib/mysql/CATS/CODEGEN/*_atxt.dats
+
 libatsyntax/libatsyntax.a
