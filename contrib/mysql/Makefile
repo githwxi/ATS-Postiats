@@ -27,7 +27,7 @@ atsctrb_mysql.o: mysql_dats.o ; ld -r -o $@ $^
 ######
 
 mysql_dats.o: DATS/mysql.dats
-	$(ATSCC) -I$(ATSCTRB) -IATS$(ATSCTRB) -o $@ -c $< $(MYSQLCFLAGS)
+	$(ATSCC) -O2 -I$(ATSCTRB) -IATS$(ATSCTRB) -o $@ -c $< $(MYSQLCFLAGS)
 
 ######
 

@@ -46,8 +46,22 @@
 
 absviewt@ype MYSQL = $extype "MYSQL_struct"
 absviewt@ype MYSQLRES = $extype "MYSQLRES_struct"
-absviewt@ype MYSQLROW = $extype "MYSQLROW_struct"
 absviewt@ype MYSQLFIELD = $extype "MYSQLFIELD_struct"
+
+(* ****** ****** *)
+
+/*
+typedef char **MYSQLROW;
+*/
+absviewtype MYSQLROW (l1:addr, l2:addr)
+viewtypedef MYSQLROW0 (l1:addr) = [l2:addr] MYSQLROW (l1, l2)
+viewtypedef MYSQLROW1 (l1:addr) = [l2:addr| l2 > null] MYSQLROW (l1, l2)
+
+(* ****** ****** *)
+
+absviewtype MYSQLROWLEN (l1:addr, l2:addr)
+viewtypedef MYSQLROWLEN0 (l1:addr) = [l2:addr] MYSQLROWLEN (l1, l2)
+viewtypedef MYSQLROWLEN1 (l1:addr) = [l2:addr| l2 > null] MYSQLROWLEN (l1, l2)
 
 (* ****** ****** *)
 
@@ -63,10 +77,6 @@ viewtypedef MYSQLRESptr1 = [l:addr| l > null] MYSQLRESptr (l)
 
 (* ****** ****** *)
 
-absviewtype MYSQLROWptr (l1:addr, l2:addr)
-viewtypedef MYSQLROWptr0 (l1:addr) = [l2:addr] MYSQLROWptr (l1, l2)
-viewtypedef MYSQLROWptr1 (l1:addr) = [l2:addr| l2 > null] MYSQLROWptr (l1, l2)
-
 absviewtype MYSQLFIELDptr (l1:addr, l2:addr)
 viewtypedef MYSQLFIELDptr0 (l1:addr) = [l2:addr] MYSQLFIELDptr (l1, l2)
 viewtypedef MYSQLFIELDptr1 (l1:addr) = [l2:addr| l2 > null] MYSQLFIELDptr (l1, l2)
@@ -75,8 +85,11 @@ viewtypedef MYSQLFIELDptr1 (l1:addr) = [l2:addr| l2 > null] MYSQLFIELDptr (l1, l
 
 castfn MYSQLptr2ptr {l:addr} (x: !MYSQLptr l):<> ptr (l)
 castfn MYSQLRESptr2ptr {l:addr} (x: !MYSQLRESptr (l)):<> ptr (l)
-castfn MYSQLROWptr2ptr {l1,l2:addr} (x: !MYSQLROWptr (l1, l2)):<> ptr (l2)
 castfn MYSQLFIELDptr2ptr {l1,l2:addr} (x: !MYSQLFIELDptr (l1, l2)):<> ptr (l2)
+
+(* ****** ****** *)
+
+castfn MYSQLROW2ptr {l1,l2:addr} (x: !MYSQLROW (l1, l2)):<> ptr (l2)
 
 (* ****** ****** *)
 
@@ -95,7 +108,7 @@ prfun mysqlres_free_null
 overload free_null with mysqlres_free_null
 
 prfun mysqlrow_free_null
-  {l1,l2:addr | l2 <= null} (x: MYSQLROWptr (l1, l2)):<> void
+  {l1,l2:addr | l2 <= null} (x: MYSQLROW (l1, l2)):<> void
 overload free_null with mysqlrow_free_null
 
 prfun mysqlfield_free_null
@@ -305,21 +318,46 @@ MYSQL_ROW mysql_fetch_row(MYSQL_RES *result);
 fun mysql_fetch_row
   {l:agz} (
   res: !MYSQLRESptr l
-) : MYSQLROWptr0 (l) = "mac#atsctrb_mysql_fetch_row"
+) : MYSQLROW0 (l) = "mac#atsctrb_mysql_fetch_row"
 macdef mysqlres_fetch_row = mysql_fetch_row
 
 prfun mysql_unfetch_row
   {l1,l2:addr} (
-  res: !MYSQLRESptr (l1), row: MYSQLROWptr (l1, l2)
+  res: !MYSQLRESptr (l1), row: MYSQLROW (l1, l2)
 ) :<> void // end of [mysql_unfetch_row]
 macdef mysqlres_unfetch_row = mysql_unfetch_row
 
 (* ****** ****** *)
 
+/*
+MYSQL_ROWLEN
+mysql_fetch_lengths(MYSQL_RES *result);
+*/
+fun mysql_fetch_lengths
+  {l:agz} (
+  res: !MYSQLRESptr l
+) : MYSQLROWLEN0 (l) = "mac#atsctrb_mysql_fetch_lengths"
+macdef mysqlres_fetch_lengths = mysql_fetch_lengths
+
+prfun mysql_unfetch_lengths
+  {l1,l2:addr} (
+  res: !MYSQLRESptr l1, rowlen: MYSQLROWLEN (l1, l2)
+) :<> void // end of [mysql_unfetch_rowlen]
+macdef mysqlres_unfetch_lengths = mysql_unfetch_lengths
+
+(* ****** ****** *)
+
 fun mysqlrow_get_at
   {l1,l2:addr | l2 > null}{n:int} (
-  pfrow: MYSQLRESnfield (l1, n) | row: !MYSQLROWptr (l1, l2), i: natLt n
+  pfrow: MYSQLRESnfield (l1, n) | row: !MYSQLROW (l1, l2), i: natLt n
 ) : ptr = "mac#atsctrb_mysqlrow_get_at" // endfun
+
+(* ****** ****** *)
+
+fun mysqlrowlen_get_at
+  {l1,l2:addr | l2 > null}{n:int} (
+  pfrow: MYSQLRESnfield (l1, n) | rowlen: !MYSQLROWLEN (l1, l2), i: natLt n
+) : ulint = "mac#atsctrb_mysqlrowlen_get_at" // endfun
 
 (* ****** ****** *)
 
@@ -454,7 +492,7 @@ fun fprint_mysqlres_sep
 fun fprint_mysqlrow_sep
   {l1,l2:addr | l2 > null}{n:int} (
   pfrow: MYSQLRESnfield (l1, n)
-| out: FILEref, row: !MYSQLROWptr (l1, l2), n: int n, sep: string
+| out: FILEref, row: !MYSQLROW (l1, l2), n: int n, sep: string
 ) : void // end of [fprint_mysqlrow_sep]
 
 (* ****** ****** *)

@@ -26,12 +26,12 @@ main () = let
 //
   val () = assertloc (perr > null)
 //
-// mysql -h -P6401 -uyihaodian yihaodian -p eulerats
+// mysql -h... -P... -umysqlats mysqlats -p mysqlats16712
 //
-  val host = some"instance25306.db.xeround.com"
-  val user = some"yihaodian"
-  val pass = some"eulerats"
-  val port = 6401U
+  val host = some"instance25474.db.xeround.com"
+  val user = some"mysqlats"
+  val pass = some"mysqlats16712"
+  val port = 16712U
   val perr = mysql_real_connect
     (conn, host, user, pass, none, port, none, 0UL)
   val () = fprint_mysql_error (stderr_ref, conn)

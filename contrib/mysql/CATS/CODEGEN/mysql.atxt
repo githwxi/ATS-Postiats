@@ -95,6 +95,7 @@ typedef MYSQL_FIELD MYSQLFIELD_struct ;
 #atscode_separator_for_C()
 
 #atsctrb_define("mysql_fetch_row")
+#atsctrb_define("mysql_fetch_lengths")
 
 #atscode_separator_for_C()
 
@@ -108,6 +109,12 @@ ats_ptr_type
 atsctrb_mysqlrow_get_at
   (ats_ptr_type row, ats_int_type i) { return ((ats_ptr_type*)row)[i] ; }
 // end of [atsctrb_mysqlrow_get_at]
+
+ATSinline()
+ats_ulint_type
+atsctrb_mysqlrowlen_get_at
+  (ats_ptr_type rowlen, ats_int_type i) { return ((ats_ulint_type*)rowlen)[i] ; }
+// end of [atsctrb_mysqlrowlen_get_at]
 
 #atscode_separator_for_C()
 

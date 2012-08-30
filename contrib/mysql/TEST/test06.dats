@@ -30,34 +30,15 @@ main () = let
 //
   val host = some"instance25474.db.xeround.com"
   val user = some"mysqlats"
-  val pass = some"mysqlats16712"
+  val passwd = some"mysqlats16712"
+  val dbname = some"testdb"
   val port = 16712U
   val perr = mysql_real_connect
-    (conn, host, user, pass, none, port, none, 0UL)
+    (conn, host, user, passwd, dbname, port, none, 0UL)
   val () = fprint_mysql_error (stderr_ref, conn)
   val () = assertloc (perr > null)
 //
-  val res =
-    mysql_list_dbs (conn, none)
-  val () = fprint_mysql_error (stderr_ref, conn)
-  val perr = MYSQLRESptr2ptr (res)
-  val () = assertloc (perr > null)
-//
-  val () =
-    fprint_mysqlres_sep (stdout_ref, res, "\n", ", ")
-  val () = fprint_newline (stdout_ref)
-//
-  val (
-    _pf | nrow2
-  ) = mysql_num_rows (res)
-  val nrow2 = $UN.cast{ullint} (nrow2)
-  val () = println! ("nrow2 = ", nrow2)
-  val (_pf | nfld2) = mysql_num_fields (res)
-  val () = println! ("nfld2 = ", nfld2)
-//
-  val () = mysql_free_result (res)
-//
-  val qry = "SHOW DATABASES"
+  val qry = "SELECT * FROM writers"
   val ierr = mysql_query (conn, $UN.cast{query}(qry))
   val () = fprint_mysql_error (stderr_ref, conn)
   val () = assertloc (ierr = 0)
@@ -66,10 +47,18 @@ main () = let
   val () = println! ("nfld1 = ", nfld1)
 //
   val res =
-    mysql_use_result (conn)
+    mysql_store_result (conn)
   val () = fprint_mysql_error (stderr_ref, conn)
   val perr = MYSQLRESptr2ptr (res)
   val () = assertloc (perr > null)
+//
+  val (
+    _pf | nrow2
+  ) = mysql_num_rows (res)
+  val nrow2 = $UN.cast{ullint} (nrow2)
+  val () = println! ("nrow2 = ", nrow2)
+  val (_pf | nfld2) = mysql_num_fields (res)
+  val () = println! ("nfld2 = ", nfld2)
 //
   val () =
     fprint_mysqlres_sep (stdout_ref, res, "\n", ", ")
@@ -86,11 +75,10 @@ main () = let
   val () = mysql_free_result (res)
 //
   val () = mysql_close (conn)
-//
 in
   // nothing
 end // end of [main]
 
 (* ****** ****** *)
 
-(* end of [test03.dats] *)
+(* end of [test06.dats] *)

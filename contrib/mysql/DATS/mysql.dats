@@ -123,10 +123,10 @@ fun loop2 (
 ) :<cloref1> void = let
   val row =
     mysqlres_fetch_row (res)
-  val p = MYSQLROWptr2ptr (row)
+  val prow = MYSQLROW2ptr (row)
 in
 //
-if p > null then let
+if prow > null then let
   val () = if i > 0 then fprint_string (out, sep1)
   val () = fprint_mysqlrow_sep (pfrow | out, row, n, sep2)
   prval () = mysqlres_unfetch_row (res, row)
@@ -158,7 +158,7 @@ prval () = lemma_MYSQLRESnfield_param (pfrow)
 //
 fun loop
   {i:nat | i <= n} .<n-i>. (
-  out: FILEref, row: !MYSQLROWptr (l1, l2), n: int n, sep: string, i: int i
+  out: FILEref, row: !MYSQLROW (l1, l2), n: int n, sep: string, i: int i
 ) : void =
   if i < n then let
     val () =
