@@ -251,7 +251,7 @@ mysql_list_dbs(MYSQL *mysql, const char *wild)
 */
 fun mysql_list_dbs
   {l:agz} (
-  mysql: !MYSQLptr l, wild: stropt
+  mysql: !MYSQLptr l, wild: NSH(stropt)
 ) : MYSQLRESptr0 = "mac#atsctrb_mysql_list_dbs"
 
 /*
@@ -261,7 +261,8 @@ mysql_list_fields
 */
 fun mysql_list_fields
   {l:agz} (
-  mysql: !MYSQLptr l, table: string, wild: stropt
+  mysql: !MYSQLptr l
+, table: NSH(string), wild: NSH(stropt)
 ) : MYSQLRESptr0 = "mac#atsctrb_mysql_list_fields"
 
 (* ****** ****** *)
@@ -475,8 +476,8 @@ fun mysql_fetch_fields
   {l:agz}{n:int} (
   pf: MYSQLRESnfield (l, n) | res: !MYSQLRESptr l
 ) : [la:addr] (
-  array_v (MYSQLROW1 (l), n, la)
-, minus (MYSQLRESptr l, array_v (MYSQLROW1 (l), n, la))
+  array_v (MYSQLROW1 (l), la, n)
+, minus (MYSQLRESptr l, array_v (MYSQLROW1 (l), la, n))
 | ptr la
 ) = "mac#atsctrb_mysql_fetch_fields"
 
@@ -507,6 +508,28 @@ fun mysql_info
   mysql: !MYSQLptr l
 ) : string = "mac#atsctrb_mysql_info"
 // end of [mysql_info]  
+
+(* ****** ****** *)
+
+/*
+const char *mysql_stat (MYSQL *mysql);
+*/
+fun mysql_stat
+  {l:agz} (
+  mysql: !MYSQLptr l
+) : string = "mac#atsctrb_mysql_stat"
+// end of [mysql_stat]  
+
+(* ****** ****** *)
+
+/*
+const char *mysql_sqlstate (MYSQL *mysql);
+*/
+fun mysql_sqlstate
+  {l:agz} (
+  mysql: !MYSQLptr l
+) : string = "mac#atsctrb_mysql_sqlstate"
+// end of [mysql_sqlstate]  
 
 (* ****** ****** *)
 
@@ -574,7 +597,7 @@ mysql_hex_string
 fun mysql_hex_string
   {lb:addr}
   {m,n:int | m >= 2*n+1} (
-  pf: b0ytes(m) @ lb | pbuf: ptr lb, src: string n, n: size_t n
+  pf: b0ytes(m) @ lb | pbuf: ptr lb, src: NSH(string(n)), n: size_t n
 ) : sizeLt (m)
   = "mac#atsctrb_mysql_hex_string"
 
@@ -586,7 +609,7 @@ mysql_escape_string
 fun mysql_escape_string
   {lb:addr}
   {m,n:int | m >= 2*n+1} (
-  pf: b0ytes(m) @ lb | pbuf: ptr lb, src: string n, n: size_t n
+  pf: b0ytes(m) @ lb | pbuf: ptr lb, src: NSH(string(n)), n: size_t n
 ) : sizeLt (m)
   = "mac#atsctrb_mysql_escape_string"
 
@@ -598,7 +621,8 @@ mysql_real_escape_string
 fun mysql_real_escape_string
   {l,lb:addr | l > null}
   {m,n:int | m >= 2*n+1} (
-  pf: b0ytes(m) @ lb | mysql: !MYSQLptr l, pbuf: ptr lb, src: string n, n: size_t n
+  pf: b0ytes(m) @ lb
+| mysql: !MYSQLptr l, pbuf: ptr lb, src: NSH(string(n)), n: size_t n
 ) : sizeLt (m)
   = "mac#atsctrb_mysql_real_escape_string"
 
@@ -625,13 +649,14 @@ fun fprint_mysql_error
 
 fun fprint_mysqlres_sep
   {l:agz} (
-  out: FILEref, res: !MYSQLRESptr (l), sep1: string, sep2: string
+  out: FILEref
+, res: !MYSQLRESptr (l), sep1: NSH(string), sep2: NSH(string)
 ) : void // end of [fprint_mysqlres_sep]
 
 fun fprint_mysqlrow_sep
   {l1,l2:addr | l2 > null}{n:int} (
   pfrow: MYSQLRESnfield (l1, n)
-| out: FILEref, row: !MYSQLROW (l1, l2), n: int n, sep: string
+| out: FILEref, row: !MYSQLROW (l1, l2), n: int n, sep: NSH(string)
 ) : void // end of [fprint_mysqlrow_sep]
 
 (* ****** ****** *)

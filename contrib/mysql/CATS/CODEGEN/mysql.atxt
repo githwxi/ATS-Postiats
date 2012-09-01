@@ -139,6 +139,8 @@ atsctrb_mysqlfield_get_name
 #atscode_separator_for_C()
 
 \#define atsctrb_mysql_info(conn) ((char*)(mysql_info(conn)))
+\#define atsctrb_mysql_stat(conn) ((char*)(mysql_stat(conn)))
+\#define atsctrb_mysql_sqlstate(conn) ((char*)(mysql_sqlstate(conn)))
 
 #atscode_separator_for_C()
 
