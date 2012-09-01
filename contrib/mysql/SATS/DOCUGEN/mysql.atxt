@@ -16,10 +16,34 @@ ATSLIB/contrib/mysql/mysql\
 #declpreamble('\
 
 #para("\
-This package contains the API for mysql.\
+This package contains an API for programming mysql in ATS.\
 ")
 
 ')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("MYSQLptr")
+#declnamesynop("MYSQLptr0")
+#declnamesynop("MYSQLptr1")
+
+(* ****** ****** *)
+
+#declnamesynop("MYSQLRESptr")
+#declnamesynop("MYSQLRESptr0")
+#declnamesynop("MYSQLRESptr1")
+
+(* ****** ****** *)
+
+#declnamesynop("MYSQLFIELDptr")
+#declnamesynop("MYSQLFIELDptr0")
+#declnamesynop("MYSQLFIELDptr1")
+
+(* ****** ****** *)
+
+#declnamesynop("MYSQLROW")
+#declnamesynop("MYSQLROW0")
+#declnamesynop("MYSQLROW1")
 
 (* ****** ****** *)
 
@@ -125,8 +149,43 @@ This package contains the API for mysql.\
 
 #declnamesynop("mysql_get_host_info")
 #declnamesynop("mysql_get_proto_info")
+
+(* ****** ****** *)
+
 #declnamesynop("mysql_get_client_info")
+#declexample("\
+#pats2xhtmld_tryit('\
+//
+staload "mysql/SATS/mysql.sats"
+//
+implement
+main () = let
+  val info = mysql_get_client_info ()
+in
+  printf ("MySQL client info: %s\n", @(info))
+end // end of [main]
+')
+")
+
+(* ****** ****** *)
+
 #declnamesynop("mysql_get_client_version")
+#declexample("\
+#pats2xhtmld_tryit('\
+//
+staload "mysql/SATS/mysql.sats"
+//
+implement
+main () = let
+  val version = mysql_get_client_version ()
+in
+  printf ("MySQL client version: %lu\n", @(version))
+end // end of [main]
+')
+")
+
+(* ****** ****** *)
+
 #declnamesynop("mysql_get_server_info")
 #declnamesynop("mysql_get_server_version")
 

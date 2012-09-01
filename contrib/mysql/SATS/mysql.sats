@@ -55,21 +55,6 @@ absviewt@ype MYSQLFIELD = $extype "MYSQLFIELD_struct"
 
 (* ****** ****** *)
 
-/*
-typedef char **MYSQLROW;
-*/
-absviewtype MYSQLROW (l1:addr, l2:addr)
-viewtypedef MYSQLROW0 (l1:addr) = [l2:addr] MYSQLROW (l1, l2)
-viewtypedef MYSQLROW1 (l1:addr) = [l2:addr| l2 > null] MYSQLROW (l1, l2)
-
-(* ****** ****** *)
-
-absviewtype MYSQLROWLEN (l1:addr, l2:addr)
-viewtypedef MYSQLROWLEN0 (l1:addr) = [l2:addr] MYSQLROWLEN (l1, l2)
-viewtypedef MYSQLROWLEN1 (l1:addr) = [l2:addr| l2 > null] MYSQLROWLEN (l1, l2)
-
-(* ****** ****** *)
-
 absviewtype MYSQLptr (l:addr)
 viewtypedef MYSQLptr0 = [l:addr] MYSQLptr (l)
 viewtypedef MYSQLptr1 = [l:addr| l > null] MYSQLptr (l)
@@ -85,6 +70,21 @@ viewtypedef MYSQLRESptr1 = [l:addr| l > null] MYSQLRESptr (l)
 absviewtype MYSQLFIELDptr (l1:addr, l2:addr)
 viewtypedef MYSQLFIELDptr0 (l1:addr) = [l2:addr] MYSQLFIELDptr (l1, l2)
 viewtypedef MYSQLFIELDptr1 (l1:addr) = [l2:addr| l2 > null] MYSQLFIELDptr (l1, l2)
+
+(* ****** ****** *)
+
+/*
+typedef char **MYSQLROW;
+*/
+absviewtype MYSQLROW (l1:addr, l2:addr)
+viewtypedef MYSQLROW0 (l1:addr) = [l2:addr] MYSQLROW (l1, l2)
+viewtypedef MYSQLROW1 (l1:addr) = [l2:addr| l2 > null] MYSQLROW (l1, l2)
+
+(* ****** ****** *)
+
+absviewtype MYSQLROWLEN (l1:addr, l2:addr)
+viewtypedef MYSQLROWLEN0 (l1:addr) = [l2:addr] MYSQLROWLEN (l1, l2)
+viewtypedef MYSQLROWLEN1 (l1:addr) = [l2:addr| l2 > null] MYSQLROWLEN (l1, l2)
 
 (* ****** ****** *)
 

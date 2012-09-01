@@ -114,11 +114,6 @@ contrib/cairo/CATS/CODEGEN/*_atxt.txt
 contrib/cairo/CATS/CODEGEN/*_atxt.dats
 
 contrib/mysql/atsctrb_mysql.o
-contrib/mysql/CATS/CODEGEN/*.exe
-contrib/mysql/CATS/CODEGEN/*.cats
-contrib/mysql/CATS/CODEGEN/*_atxt.txt
-contrib/mysql/CATS/CODEGEN/*_atxt.dats
-
 contrib/mysql/SATS/DOCUGEN/*.exe
 contrib/mysql/SATS/DOCUGEN/*_atxt.txt
 contrib/mysql/SATS/DOCUGEN/*_atxt.dats
@@ -127,5 +122,10 @@ contrib/mysql/SATS/DOCUGEN/*_atxt.txt
 contrib/mysql/SATS/DOCUGEN/*_atxt.dats
 contrib/mysql/SATS/DOCUGEN/HTML
 contrib/mysql/SATS/DOCUGEN/TRYIT
+contrib/mysql/CATS/CODEGEN/*.exe
+contrib/mysql/CATS/CODEGEN/*.cats
+contrib/mysql/CATS/CODEGEN/*_atxt.txt
+contrib/mysql/CATS/CODEGEN/*_atxt.dats
+contrib/mysql/TEST/test??
 
 libatsyntax/libatsyntax.a

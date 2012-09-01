@@ -10,7 +10,7 @@ MYSQLCFLAGS=`mysql_config --cflags --libs`
 
 ######
 
-ATSCTRB=$(PATSHOME)/contrib
+ATSCTRB=$(ATSHOME)/contrib
 
 ######
 
