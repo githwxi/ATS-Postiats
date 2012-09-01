@@ -20,7 +20,7 @@ staload "mysql/SATS/mysql.sats"
 implement
 main () = let
   val [l:addr]
-    conn = mysql_init0 ()
+    conn = mysql_init ()
   val perr = MYSQLptr2ptr (conn)
   val () = fprint_mysql_error (stderr_ref, conn)
 //

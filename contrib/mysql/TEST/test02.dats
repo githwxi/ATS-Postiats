@@ -20,7 +20,7 @@ staload "mysql/SATS/mysql.sats"
 implement
 main () = let
   val [l:addr]
-    conn = mysql_init0 ()
+    conn = mysql_init ()
   val perr = MYSQLptr2ptr (conn)
   val () = fprint_mysql_error (stderr_ref, conn)
 //
@@ -37,6 +37,11 @@ main () = let
   val () = fprint_mysql_error (stderr_ref, conn)
 //
   val () = assertloc (perr > null)
+//
+  val stat = mysql_stat (conn)
+  val () = fprintf (stdout_ref, "stat: %s\n", @(stat))
+  val sqlstate = mysql_sqlstate (conn)
+  val () = fprintf (stdout_ref, "sqlstate: %s\n", @(sqlstate))
 //
   val info = mysql_get_host_info (conn)
   val () = fprintf (stdout_ref, "host info: %s\n", @(info))
