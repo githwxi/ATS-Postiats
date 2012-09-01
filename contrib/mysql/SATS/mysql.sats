@@ -141,7 +141,8 @@ MYSQL *		STDCALL mysql_real_connect(MYSQL *mysql, const char *host,
 					   const char *unix_socket,
 					   unsigned long clientflag);
 */
-fun mysql_real_connect
+fun
+mysql_real_connect
   {l:agz} (
   mysql: !MYSQLptr (l)
 , host: NSH(stropt)
@@ -161,7 +162,8 @@ fun mysql_real_connect
 my_bool mysql_change_user
   (MYSQL *mysql, const char *user, const char *passwd, const char *db);
 */
-fun mysql_change_user
+fun
+mysql_change_user
   {l:agz} (
   mysql: !MYSQLptr l
 , user: NSH(string)
@@ -172,39 +174,11 @@ fun mysql_change_user
 (* ****** ****** *)
 
 /*
-my_bool mysql_eof(MYSQL_RES *result);
-*/
-(*
-// HX-2012-08: this one is deprecated
-*)
-
-/*
-unsigned int
-mysql_errno(MYSQL *mysql);
-*/
-fun mysql_errno
-  {l:addr} (
-  mysql: !MYSQLptr l
-) : uint = "mac#atsctrb_mysql_errno"
-
-/*
-const char*
-mysql_error(MYSQL *mysql);
-*/
-fun mysql_error
-  {l:addr} (
-  mysql: !MYSQLptr l
-) : string = "mac#atsctrb_mysql_error"
-
-(* ****** ****** *)
-
-/*
 int mysql_ping(MYSQL *mysql);
 */
 fun mysql_ping
-  {l:agz} (
-  mysql: !MYSQLptr l
-) : int = "mac#atsctrb_mysql_ping"
+  {l:agz} (mysql: !MYSQLptr l): int = "mac#atsctrb_mysql_ping"
+// end of [mysql_ping]
 
 (* ****** ****** *)
 
@@ -212,19 +186,17 @@ fun mysql_ping
 my_bool mysql_commit (MYSQL *mysql);
 */
 fun mysql_commit
-  {l:agz} (
-  mysql: !MYSQLptr l
-) : int = "mac#atsctrb_mysql_commit"
+  {l:agz} (mysql: !MYSQLptr l): int = "mac#atsctrb_mysql_commit"
+// end of [mysql_commit]
 
 (* ****** ****** *)
 
 /*
 int mysql_query(MYSQL *mysql, const char *q);
 */
-fun mysql_query
-  {l:agz} (
-  mysql: !MYSQLptr l, q: query
-) : int(*err*) = "mac#atsctrb_mysql_query"
+fun mysql_query {l:agz}
+  (mysql: !MYSQLptr l, q: query): int(*err*) = "mac#atsctrb_mysql_query"
+// end of [mysql_query]
 
 (* ****** ****** *)
 
@@ -503,9 +475,7 @@ fun mysqlfield_get_max_length
 const char *mysql_info (MYSQL *mysql);
 */
 fun mysql_info
-  {l:agz} (
-  mysql: !MYSQLptr l
-) : string = "mac#atsctrb_mysql_info"
+  {l:agz} (mysql: !MYSQLptr l): string = "mac#atsctrb_mysql_info"
 // end of [mysql_info]  
 
 (* ****** ****** *)
@@ -563,6 +533,31 @@ fun mysql_get_server_version
   mysql: !MYSQLptr l
 ) : ulint = "mac#atsctrb_mysql_get_server_version"
 // end of [mysql_get_server_version]
+
+(* ****** ****** *)
+
+/*
+my_bool mysql_eof(MYSQL_RES *result);
+*/
+(*
+// HX-2012-08: this one is deprecated
+*)
+
+/*
+unsigned int
+mysql_errno(MYSQL *mysql);
+*/
+fun mysql_errno
+  {l:addr} (mysql: !MYSQLptr l): uint = "mac#atsctrb_mysql_errno"
+// end of [mysql_errno]
+
+/*
+const char*
+mysql_error(MYSQL *mysql);
+*/
+fun mysql_error
+  {l:addr} (mysql: !MYSQLptr l): string = "mac#atsctrb_mysql_error"
+// end of [mysql_errno]
 
 (* ****** ****** *)
 

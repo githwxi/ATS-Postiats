@@ -1,0 +1,141 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_mysql_mysql")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/mysql/mysql\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para("\
+This package contains the API for mysql.\
+")
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_init0")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_close")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_real_connect")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_change_user")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_ping")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_query")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_list_dbs")
+#declnamesynop("mysql_list_fields")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_field_count")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_num_rows")
+#declnamesynop("mysql_num_fields")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_field_tell")
+#declnamesynop("mysql_field_seek")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_affected_rows")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_use_result")
+#declnamesynop("mysql_store_result")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_free_result")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_data_seek")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_fetch_row")
+#declnamesynop("mysql_unfetch_row")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_fetch_lengths")
+#declnamesynop("mysql_unfetch_lengths")
+
+(* ****** ****** *)
+
+#declnamesynop("mysqlrow_get_at")
+#declnamesynop("mysqlrowlen_get_at")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_fetch_field")
+#declnamesynop("mysql_unfetch_field")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_fetch_field_direct")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_fetch_fields")
+
+(* ****** ****** *)
+
+#declnamesynop("mysqlfield_get_name")
+#declnamesynop("mysqlfield_get_length")
+#declnamesynop("mysqlfield_get_max_length")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_info")
+#declnamesynop("mysql_get_host_info")
+#declnamesynop("mysql_get_proto_info")
+#declnamesynop("mysql_get_client_info")
+#declnamesynop("mysql_get_client_version")
+#declnamesynop("mysql_get_server_info")
+#declnamesynop("mysql_get_server_version")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_errno")
+#declnamesynop("mysql_error")
+
+(* ****** ****** *)
+
+#declnamesynop("mysql_hex_string")
+#declnamesynop("mysql_escape_string")
+#declnamesynop("mysql_real_escape_string")
+
+(* ****** ****** *)
+
+(* end of [mysql.atxt] *)

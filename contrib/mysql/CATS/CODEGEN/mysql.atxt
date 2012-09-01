@@ -57,12 +57,6 @@ typedef MYSQL_FIELD MYSQLFIELD_struct ;
 
 #atscode_separator_for_C()
 
-#atsctrb_define("mysql_errno")
-
-\#define atsctrb_mysql_error(x) ((char*)(mysql_error(x)))
-
-#atscode_separator_for_C()
-
 #atsctrb_define("mysql_ping")
 #atsctrb_define("mysql_commit")
 
@@ -148,6 +142,11 @@ atsctrb_mysqlfield_get_name
 #atsctrb_define("mysql_get_client_version")
 \#define atsctrb_mysql_get_server_info(conn) ((char*)(mysql_get_server_info(conn)))
 #atsctrb_define("mysql_get_server_version")
+
+#atscode_separator_for_C()
+
+#atsctrb_define("mysql_errno")
+\#define atsctrb_mysql_error(x) ((char*)(mysql_error(x)))
 
 #atscode_separator_for_C()
 
