@@ -40,12 +40,12 @@
 
 (* ****** ****** *)
 
-typedef SHR(x:type) = x // for commenting purpose
-typedef NSH(x:type) = x // for commenting purpose
+#define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 
-#define ATS_STALOADFLAG 0 // no static loading at run-time
+typedef SHR(x:type) = x // for commenting purpose
+typedef NSH(x:type) = x // for commenting purpose
 
 (* ****** ****** *)
 
@@ -122,9 +122,17 @@ overload free_null with mysqlfield_free_null
 
 (* ****** ****** *)
 
-fun mysql_init0
-  ((*null*)): MYSQLptr0 = "mac#atsctrb_mysql_init0"
-fun mysql_init0_exn ((*null*)): MYSQLptr1
+symintr mysql_init
+
+fun mysql_init_0
+  ((*null*)): MYSQLptr0 = "mac#atsctrb_mysql_init_0"
+overload mysql_init with mysql_init_0
+
+fun mysql_init_1
+  {l:agz} (x: !MYSQLptr l): ptr = "mac#atsctrb_mysql_init_1"
+overload mysql_init with mysql_init_1
+
+fun mysql_init_exn ((*null*)): MYSQLptr1
 
 (* ****** ****** *)
 

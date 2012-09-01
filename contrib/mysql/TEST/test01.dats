@@ -14,6 +14,7 @@ main () = let
   val version = mysql_get_client_version ()
   val () = printf ("MySQL client version: %lu\n", @(version))
 in
+  // nothing
 end // end of [main]
 
 (* ****** ****** *)

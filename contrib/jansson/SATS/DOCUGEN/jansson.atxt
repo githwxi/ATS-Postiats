@@ -1,0 +1,129 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_jansson_jansson")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/jansson/jansson\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+
+This package contains an API in ATS for the <a
+href="http://www.digip.org/jansson/">jansson</a> library.  ')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("json_typeof")
+
+(* ****** ****** *)
+
+#declnamesynop("json_is_null")
+#declnamesynop("json_is_true")
+#declnamesynop("json_is_false")
+
+#declnamesynop("json_is_boolean")
+
+#declnamesynop("json_is_integer")
+#declnamesynop("json_is_real")
+#declnamesynop("json_is_number")
+
+#declnamesynop("json_is_string")
+#declnamesynop("json_is_array")
+#declnamesynop("json_is_object")
+
+(* ****** ****** *)
+
+#declnamesynop("json_incref")
+#declnamesynop("json_decref")
+
+(* ****** ****** *)
+
+#declnamesynop("json_null")
+#declnamesynop("json_true")
+#declnamesynop("json_false")
+
+(* ****** ****** *)
+
+#declnamesynop("json_integer")
+#declnamesynop("json_integer_value")
+#declnamesynop("json_integer_set")
+
+(* ****** ****** *)
+
+#declnamesynop("json_string")
+#declnamesynop("json_string_nocheck")
+
+#declnamesynop("json_string_value")
+
+#declnamesynop("json_string_set")
+#declnamesynop("json_string_set_nocheck")
+
+(* ****** ****** *)
+
+#declnamesynop("json_array")
+
+#declnamesynop("json_array_size")
+
+#declnamesynop("json_array_get")
+
+#declnamesynop("json_array_set")
+#declnamesynop("json_array_set_new")
+
+#declnamesynop("json_array_append")
+#declnamesynop("json_array_append_new")
+
+#declnamesynop("json_array_insert")
+#declnamesynop("json_array_insert_new")
+
+#declnamesynop("json_array_remove")
+
+#declnamesynop("json_array_clear")
+
+#declnamesynop("json_array_extend")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object")
+
+#declnamesynop("json_object_size")
+
+#declnamesynop("json_object_get")
+
+#declnamesynop("json_object_set")
+#declnamesynop("json_object_set_nocheck")
+#declnamesynop("json_object_set_new")
+#declnamesynop("json_object_set_new_nocheck")
+
+#declnamesynop("json_object_del")
+
+#declnamesynop("json_object_clear")
+
+#declnamesynop("json_object_update")
+
+(* ****** ****** *)
+
+#declnamesynop("json_loads")
+#declnamesynop("json_loadb")
+#declnamesynop("json_loadf")
+#declnamesynop("json_load_file")
+
+(* ****** ****** *)
+
+#declnamesynop("json_dumps")
+#declnamesynop("json_dumpf")
+#declnamesynop("json_dump_file")
+
+(* ****** ****** *)
+
+(* end of [jansson.atxt] *)

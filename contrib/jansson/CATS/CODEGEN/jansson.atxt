@@ -1,0 +1,146 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"jansson.cats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+fun atsctrb_define (fname: string): atext = (
+  atext_strptr (sprintf ("#define atsctrb_%s %s", @(fname, fname)))
+) // end of [atsctrb_define]
+%}\
+/*
+** Copyright (C) 2010 Chris Double.
+**
+** Permission to use, copy, modify, and distribute this software for any
+** purpose with or without fee is hereby granted, provided that the above
+** copyright notice and this permission notice appear in all copies.
+** 
+** THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+** WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+** MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+** ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+** WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+** ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+** OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+*/
+
+#atscode_separator_for_C()
+
+/*
+** Time: September, 2012
+** Author Hongwei Xi (gmhwxi AT gmail DOT com)
+**
+** The API is simplied a bit in the hope that it can be used more easily.
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSCTRB_JANSSON_JANSSON_CATS
+\#define ATSCTRB_JANSSON_JANSSON_CATS
+
+#atscode_separator_for_C()
+
+\#include <jansson.h>
+
+#atscode_separator_for_C()
+
+typedef json_t *JSONptr ;
+typedef const json_t *JSONconstptr ;
+
+#atscode_separator_for_C()
+
+#atsctrb_define("json_typeof")
+
+#atscode_separator_for_C()
+
+\#define atsctrb_json_is_null(x) json_is_null((JSONptr)x)
+\#define atsctrb_json_is_true(x) json_is_true((JSONptr)x)
+\#define atsctrb_json_is_false(x) json_is_false((JSONptr)x)
+
+\#define atsctrb_json_is_boolean(x) json_is_boolean((JSONptr)x)
+
+\#define atsctrb_json_is_integer(x) json_is_integer((JSONptr)x)
+\#define atsctrb_json_is_real(x) json_is_real((JSONptr)x)
+\#define atsctrb_json_is_number(x) json_is_number((JSONptr)x)
+
+\#define atsctrb_json_is_string(x) json_is_string((JSONptr)x)
+
+\#define atsctrb_json_is_array(x) json_is_array((JSONptr)x)
+
+\#define atsctrb_json_is_object(x) json_is_object((JSONptr)x)
+
+#atscode_separator_for_C()
+
+#atsctrb_define("json_incref")
+#atsctrb_define("json_decref")
+
+#atscode_separator_for_C()
+
+#atsctrb_define("json_null")
+#atsctrb_define("json_true")
+#atsctrb_define("json_false")
+
+#atscode_separator_for_C()
+
+#atsctrb_define("json_string")
+#atsctrb_define("json_string_nocheck")
+
+\#define atsctrb_json_string_value(x) ((char*)json_string_value(x))
+
+#atsctrb_define("json_string_set")
+#atsctrb_define("json_string_set_nocheck")
+
+#atscode_separator_for_C()
+
+#atsctrb_define("json_integer")
+#atsctrb_define("json_integer_value")
+#atsctrb_define("json_integer_set")
+
+#atscode_separator_for_C()
+
+#atsctrb_define("json_real")
+#atsctrb_define("json_real_value")
+#atsctrb_define("json_real_set")
+
+#atscode_separator_for_C()
+
+#atsctrb_define("json_number_value")
+
+#atscode_separator_for_C()
+
+#atsctrb_define("json_array")
+#atsctrb_define("json_array_size")
+#atsctrb_define("json_array_get")
+#atsctrb_define("json_array_set")
+#atsctrb_define("json_array_set_new")
+#atsctrb_define("json_array_append")
+#atsctrb_define("json_array_append_new")
+#atsctrb_define("json_array_insert")
+#atsctrb_define("json_array_insert_new")
+#atsctrb_define("json_array_remove")
+#atsctrb_define("json_array_clear")
+#atsctrb_define("json_array_extend")
+
+#atscode_separator_for_C()
+
+#atsctrb_define("json_object")
+#atsctrb_define("json_object_size")
+#atsctrb_define("json_object_get")
+
+#atscode_separator_for_C()
+
+#atsctrb_define("json_loads")
+#atsctrb_define("json_dumps")
+
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSHOME_CONTRIB_JANSSON_JANSSON_CATS
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "jansson_atxt.txt")
+%}\

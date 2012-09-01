@@ -52,9 +52,9 @@ macdef null = the_null_ptr
 (* ****** ****** *)
 
 implement
-mysql_init0_exn
+mysql_init_exn
   ((*null*)) = let
-  val conn = mysql_init0 ()
+  val conn = mysql_init_0 ()
   val p = MYSQLptr2ptr (conn)
 in
 //

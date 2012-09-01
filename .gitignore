@@ -19,6 +19,10 @@ bin/patsopt
 utils/atsyntax/HTML
 utils/atsyntax/pats2xhtml
 
+#
+# ATSLIB/prelude
+#
+
 prelude/SATS/CODEGEN/*.exe
 prelude/SATS/CODEGEN/*.sats
 prelude/SATS/CODEGEN/*_atxt.txt
@@ -41,6 +45,10 @@ prelude/SATS/DOCUGEN/HTML
 prelude/SATS/DOCUGEN/DBOOK
 prelude/SATS/DOCUGEN/TRYIT
 
+#
+# ATSLIB/libc
+#
+
 libc/SATS/CODEGEN/*.exe
 libc/SATS/CODEGEN/*.sats
 libc/SATS/CODEGEN/*_atxt.txt
@@ -60,6 +68,10 @@ libc/SATS/DOCUGEN/*_atxt.txt
 libc/SATS/DOCUGEN/*_atxt.dats
 libc/SATS/DOCUGEN/HTML
 libc/SATS/DOCUGEN/TRYIT
+
+#
+# ATSLIB/libats
+#
 
 libats/SATS/CODEGEN/*.exe
 libats/SATS/CODEGEN/*.sats
@@ -103,29 +115,27 @@ libats/ML/SATS/DOCUGEN/*_atxt.dats
 libats/ML/SATS/DOCUGEN/HTML
 libats/ML/SATS/DOCUGEN/TRYIT
 
-contrib/cairo/cairo-1.12.*
-contrib/cairo/SATS/CODEGEN/*.exe
-contrib/cairo/SATS/CODEGEN/*.sats
-contrib/cairo/SATS/CODEGEN/*_atxt.txt
-contrib/cairo/SATS/CODEGEN/*_atxt.dats
-contrib/cairo/CATS/CODEGEN/*.exe
-contrib/cairo/CATS/CODEGEN/*.cats
-contrib/cairo/CATS/CODEGEN/*_atxt.txt
-contrib/cairo/CATS/CODEGEN/*_atxt.dats
+#
+# ATSLIB/contrib
+#
 
-contrib/mysql/atsctrb_mysql.o
-contrib/mysql/SATS/DOCUGEN/*.exe
-contrib/mysql/SATS/DOCUGEN/*_atxt.txt
-contrib/mysql/SATS/DOCUGEN/*_atxt.dats
-contrib/mysql/SATS/DOCUGEN/Makefile
-contrib/mysql/SATS/DOCUGEN/*_atxt.txt
-contrib/mysql/SATS/DOCUGEN/*_atxt.dats
-contrib/mysql/SATS/DOCUGEN/HTML
-contrib/mysql/SATS/DOCUGEN/TRYIT
-contrib/mysql/CATS/CODEGEN/*.exe
-contrib/mysql/CATS/CODEGEN/*.cats
-contrib/mysql/CATS/CODEGEN/*_atxt.txt
-contrib/mysql/CATS/CODEGEN/*_atxt.dats
-contrib/mysql/TEST/test??
+contrib/*/atsctrb_*.o
+contrib/*/SATS/DOCUGEN/*.exe
+contrib/*/SATS/DOCUGEN/*_atxt.txt
+contrib/*/SATS/DOCUGEN/*_atxt.dats
+contrib/*/SATS/DOCUGEN/Makefile
+contrib/*/SATS/DOCUGEN/*_atxt.txt
+contrib/*/SATS/DOCUGEN/*_atxt.dats
+contrib/*/SATS/DOCUGEN/HTML
+contrib/*/SATS/DOCUGEN/TRYIT
+contrib/*/CATS/CODEGEN/*.exe
+contrib/*/CATS/CODEGEN/*.cats
+contrib/*/CATS/CODEGEN/*_atxt.txt
+contrib/*/CATS/CODEGEN/*_atxt.dats
+contrib/*/TEST/test??
+
+contrib/cairo/cairo-1.12.*
 
 libatsyntax/libatsyntax.a
+
+###### end of [.gitignore] ######

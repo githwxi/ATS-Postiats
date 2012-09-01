@@ -47,7 +47,8 @@ typedef MYSQL_FIELD MYSQLFIELD_struct ;
 
 #atscode_separator_for_C()
 
-\#define atsctrb_mysql_init0() mysql_init(NULL)
+\#define atsctrb_mysql_init_0() mysql_init(NULL)
+\#define atsctrb_mysql_init_1(conn) mysql_init(conn)
 
 #atscode_separator_for_C()
 
