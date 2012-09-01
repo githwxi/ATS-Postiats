@@ -485,9 +485,7 @@ fun mysql_info
 const char *mysql_stat (MYSQL *mysql);
 */
 fun mysql_stat
-  {l:agz} (
-  mysql: !MYSQLptr l
-) : string = "mac#atsctrb_mysql_stat"
+  {l:agz} (mysql: !MYSQLptr l): string = "mac#atsctrb_mysql_stat"
 // end of [mysql_stat]  
 
 (* ****** ****** *)
@@ -496,9 +494,7 @@ fun mysql_stat
 const char *mysql_sqlstate (MYSQL *mysql);
 */
 fun mysql_sqlstate
-  {l:agz} (
-  mysql: !MYSQLptr l
-) : string = "mac#atsctrb_mysql_sqlstate"
+  {l:agz} (mysql: !MYSQLptr l): string = "mac#atsctrb_mysql_sqlstate"
 // end of [mysql_sqlstate]  
 
 (* ****** ****** *)

@@ -118,6 +118,11 @@ This package contains the API for mysql.\
 (* ****** ****** *)
 
 #declnamesynop("mysql_info")
+#declnamesynop("mysql_stat")
+#declnamesynop("mysql_sqlstate")
+
+(* ****** ****** *)
+
 #declnamesynop("mysql_get_host_info")
 #declnamesynop("mysql_get_proto_info")
 #declnamesynop("mysql_get_client_info")

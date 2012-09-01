@@ -119,4 +119,13 @@ contrib/mysql/CATS/CODEGEN/*.cats
 contrib/mysql/CATS/CODEGEN/*_atxt.txt
 contrib/mysql/CATS/CODEGEN/*_atxt.dats
 
+contrib/mysql/SATS/DOCUGEN/*.exe
+contrib/mysql/SATS/DOCUGEN/*_atxt.txt
+contrib/mysql/SATS/DOCUGEN/*_atxt.dats
+contrib/mysql/SATS/DOCUGEN/Makefile
+contrib/mysql/SATS/DOCUGEN/*_atxt.txt
+contrib/mysql/SATS/DOCUGEN/*_atxt.dats
+contrib/mysql/SATS/DOCUGEN/HTML
+contrib/mysql/SATS/DOCUGEN/TRYIT
+
 libatsyntax/libatsyntax.a
