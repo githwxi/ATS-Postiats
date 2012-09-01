@@ -382,6 +382,10 @@ ptr_addr_type (l:addr) = ptr_type
 stadef ptr = ptr_addr_type // a shorthand
 typedef Ptr0 = [l:addr] ptr (l)
 typedef Ptr1 = [l:addr | l > null] ptr (l)
+typedef
+Ptrnull (l:addr) =
+  [l1:addr | l1 == null || l1 == l] ptr (l1)
+// end of [Ptrnull]
 //
 // HX-2012-02-14: it is an expriment for now:
 //

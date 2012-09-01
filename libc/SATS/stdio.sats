@@ -38,8 +38,8 @@
 
 (* ****** ****** *)
 
-#define SHR(x) x
-#define NSH(x) x
+typedef SHR(a:type) = a // for commenting purpose
+typedef NSH(a:type) = a // for commenting purpose
 
 (* ****** ****** *)
 
@@ -92,10 +92,9 @@ overload decode with FILEptr_decode
 
 (* ****** ****** *)
 
-fun FILEptr_free_null
-  {l:alez}{m:fm} (
-  p: FILEptr (l, m)
-) :<> void = "mac#atspre_ptr_free_null"
+prfun
+FILEptr_free_null
+  {l:alez}{m:fm} (p: FILEptr (l, m)):<prf> void
 // end of [FILEptr_free_null]
 
 (* ****** ****** *)

@@ -39,7 +39,7 @@
 (* ****** ****** *)
 
 %{#
-#include "contrib/cairo/CATS/cairo.cats"
+#include "cairo/CATS/cairo.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)

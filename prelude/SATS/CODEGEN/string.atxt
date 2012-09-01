@@ -36,8 +36,8 @@ sortdef tk = tkind
 
 #atscode_separator()
 
-\#define SHR(x) x // = SHARED
-\#define NSH(x) x // = NSHARED
+typedef SHR(a:type) = a // for commenting purpose
+typedef NSH(a:type) = a // for commenting purpose
 
 #atscode_separator()
 //

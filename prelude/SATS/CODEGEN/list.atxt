@@ -30,8 +30,8 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()
 
-\#define SHR(x) x // SHARED // HX: for commenting
-\#define NSH(x) x // NSHARED // HX: for commenting
+typedef SHR(a:type) = a // for commenting purpose
+typedef NSH(a:type) = a // for commenting purpose
 
 #atscode_separator()
 

@@ -53,6 +53,7 @@ typedef MYSQL_FIELD MYSQLFIELD_struct ;
 
 #atsctrb_define("mysql_close")
 #atsctrb_define("mysql_real_connect")
+#atsctrb_define("mysql_change_user")
 
 #atscode_separator_for_C()
 

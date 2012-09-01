@@ -40,6 +40,11 @@
 
 (* ****** ****** *)
 
+typedef SHR(x:type) = x // for commenting purpose
+typedef NSH(x:type) = x // for commenting purpose
+
+(* ****** ****** *)
+
 #define ATS_STALOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
@@ -139,16 +144,30 @@ MYSQL *		STDCALL mysql_real_connect(MYSQL *mysql, const char *host,
 fun mysql_real_connect
   {l:agz} (
   mysql: !MYSQLptr (l)
-, host: stropt
-, user: stropt
-, passwd: stropt
-, dbname: stropt
+, host: NSH(stropt)
+, user: NSH(stropt)
+, passwd: NSH(stropt)
+, dbname: NSH(stropt)
 , port: uint
-, socket: stropt
+, socket: NSH(stropt)
 , clientflag: ulint
-) : [l1:addr | l1==null || l1==l] ptr l1
+) : Ptrnull (l)
   = "mac#atsctrb_mysql_real_connect"
 // end of [mysql_real_connect]
+
+(* ****** ****** *)
+
+/*
+my_bool mysql_change_user
+  (MYSQL *mysql, const char *user, const char *passwd, const char *db);
+*/
+fun mysql_change_user
+  {l:agz} (
+  mysql: !MYSQLptr l
+, user: NSH(string)
+, passwd: NSH(stropt)
+, dbname: NSH(stropt)
+) : int = "mac#atsctrb_mysql_change_user"
 
 (* ****** ****** *)
 
