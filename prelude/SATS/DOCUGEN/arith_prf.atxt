@@ -455,13 +455,13 @@ end // end of [mul_distribute]
 #declnamesynop("mul_distribute2")
 #decldescrpt("\
 
-This proof function essentially proves identity
+This proof function essentially proves the identity
 #stacode("(m1+m2)*n=m1*n+m2*n") for any given integers m1, m2 and n.  It is
 kept mostly for the sake of backward compatibility as the constraint-solver
 of ATS2 (Postiats) is able to infer the identity
-#stacode("(m1+m2)*n=m1*n+m2*n") automatically.
-The following implementation of #dyncode("mul_distribute2") is
-based on #dyncode("mul_commute") and #dyncode("mul_distribute"):
+#stacode("(m1+m2)*n=m1*n+m2*n") automatically.  The following
+implementation of #dyncode("mul_distribute2") is based on
+#dyncode("mul_commute") and #dyncode("mul_distribute"):
 
 #pats2xhtmld_tryit("\
 primplmnt

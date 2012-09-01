@@ -69,6 +69,7 @@ typedef MYSQL_FIELD MYSQLFIELD_struct ;
 
 #atsctrb_define("mysql_query")
 #atsctrb_define("mysql_list_dbs")
+#atsctrb_define("mysql_list_fields")
 
 #atscode_separator_for_C()
 
@@ -78,6 +79,11 @@ typedef MYSQL_FIELD MYSQLFIELD_struct ;
 
 #atsctrb_define("mysql_num_rows")
 #atsctrb_define("mysql_num_fields")
+
+#atscode_separator_for_C()
+
+#atsctrb_define("mysql_field_tell")
+#atsctrb_define("mysql_field_seek")
 
 #atscode_separator_for_C()
 
@@ -94,6 +100,10 @@ typedef MYSQL_FIELD MYSQLFIELD_struct ;
 
 #atscode_separator_for_C()
 
+#atsctrb_define("mysql_data_seek")
+
+#atscode_separator_for_C()
+
 #atsctrb_define("mysql_fetch_row")
 #atsctrb_define("mysql_fetch_lengths")
 
@@ -101,6 +111,7 @@ typedef MYSQL_FIELD MYSQLFIELD_struct ;
 
 #atsctrb_define("mysql_fetch_field")
 #atsctrb_define("mysql_fetch_field_direct")
+#atsctrb_define("mysql_fetch_fields")
 
 #atscode_separator_for_C()
 
@@ -136,6 +147,16 @@ atsctrb_mysqlfield_get_name
 #atsctrb_define("mysql_get_client_version")
 \#define atsctrb_mysql_get_server_info(conn) ((char*)(mysql_get_server_info(conn)))
 #atsctrb_define("mysql_get_server_version")
+
+#atscode_separator_for_C()
+
+#atsctrb_define("mysql_hex_string")
+#atsctrb_define("mysql_escape_string")
+#atsctrb_define("mysql_real_escape_string")
+
+#atscode_separator_for_C()
+
+#atsctrb_define("mysql_warning_count")
 
 #atscode_separator_for_C()
 
