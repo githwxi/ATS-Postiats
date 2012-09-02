@@ -76,6 +76,7 @@ href="http://www.digip.org/jansson/">jansson</a> library.  ')
 #declnamesynop("json_array_size")
 
 #declnamesynop("json_array_get")
+#declnamesynop("json_array_get1")
 
 #declnamesynop("json_array_set")
 #declnamesynop("json_array_set_new")
@@ -99,6 +100,7 @@ href="http://www.digip.org/jansson/">jansson</a> library.  ')
 #declnamesynop("json_object_size")
 
 #declnamesynop("json_object_get")
+#declnamesynop("json_object_get1")
 
 #declnamesynop("json_object_set")
 #declnamesynop("json_object_set_nocheck")
@@ -110,6 +112,25 @@ href="http://www.digip.org/jansson/">jansson</a> library.  ')
 #declnamesynop("json_object_clear")
 
 #declnamesynop("json_object_update")
+#declnamesynop("json_object_update_existing")
+#declnamesynop("json_object_update_missing")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_iter")
+#declnamesynop("json_object_iter_at")
+#declnamesynop("json_object_iter_next")
+#declnamesynop("json_object_iter_nextret")
+
+(* ****** ****** *)
+
+#declnamesynop("json_object_iter_key")
+#declnamesynop("json_object_iter_value")
+
+#declnamesynop("json_object_iter_set")
+#declnamesynop("json_object_iter_set_new")
+
+#declnamesynop("json_object_key_to_iter")
 
 (* ****** ****** *)
 

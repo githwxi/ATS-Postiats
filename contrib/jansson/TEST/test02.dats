@@ -22,26 +22,30 @@
 
 staload
 UN = "prelude/SATS/unsafe.sats"
+staload "jansson/SATS/jansson.sats"
 
 (* ****** ****** *)
 
-staload "jansson/SATS/jansson.sats"
+#define isnz JSONptr_isnot_null
 
 (* ****** ****** *)
 
 implement
 main () = let
 //
-  val a = json_string("this is a string")
-  val () = assertloc(JSONptr_isnot_null(a))
+  val a =
+    json_string("this is a string")
+  val () = assertloc(isnz(a))
   val () = assertloc(json_is_string(a))
 //
-  val (pf | s) = json_string_value(a)
-  val () = assertloc(strptr_isnot_null(s))
+  val (
+    fpf | s
+  ) = json_string_value(a)
   val s2 = strptr_dup(s)
-  prval () = minus_addback(pf, s | a)
-
-  val err = json_string_set(a, $UN.castvwtp1{string}(s2))
+  prval () = minus_addback (fpf, s | a)
+//
+  val err =
+    json_string_set(a, $UN.castvwtp1{string}(s2))
   val () = print_string("Value is: ")
   val () = print_strptr(s2)
   val () = print_newline()

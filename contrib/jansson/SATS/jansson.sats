@@ -52,9 +52,19 @@ macdef JSON_FALSE    = $extval (json_type, "JSON_FALSE")
 macdef JSON_NULL     = $extval (json_type, "JSON_NULL")
 //
 abst@ype json_t = $extype"json_t" // json_type + refcount
-abst@ype json_error_t = $extype"json_error_t" // locinfo + errmsg
+typedef
+json_error_t =
+$extype_struct
+  "json_error_t" of {
+  line= int
+, column= int
+, position= int
+, source= (*char*)ptr
+, text= (*char*)ptr
+} // end of [typedef]
 //
-abst@ype json_int_t = $extype"json_int_t" // largest available int type
+abst@ype json_int_t =
+  $extype"json_int_t" // largest available int type
 //
 (* ****** ****** *)
 
@@ -64,25 +74,32 @@ viewtypedef JSONptr1 = [l:addr | l > null] JSONptr (l)
 
 (* ****** ****** *)
 
-absviewtype JSONiter (l:addr)
-viewtypedef JSONiter0 = [l:addr] JSONiter l
-viewtypedef JSONiter1 = [l:addr | l > null] JSONiter l
+absviewtype JSONiter (l1:addr, l2:addr)
+viewtypedef JSONiter0 (l1:addr) = [l2:addr] JSONiter (l1, l2)
+viewtypedef JSONiter1 (l1:addr) = [l2:addr | l2 > null] JSONiter (l1, l2)
 
 (* ****** ****** *)
 
 castfn JSONptr2ptr {l:addr} (x: !JSONptr l):<> ptr (l)
-castfn JSONiter2ptr {l:addr} (x: !JSONiter l):<> ptr (l)
+castfn JSONiter2ptr {l1,l2:addr} (x: !JSONiter (l1, l2)):<> ptr (l2)
 
 (* ****** ****** *)
 
-praxi JSONptr_free_null
+praxi
+JSONptr_free_null
   {l:addr | l <= null} (x: JSONptr l):<> void
 // end of [JSONptr_free_null]
+
+praxi
+JSONiter_return
+  {l1,l2:addr}
+  (json: !JSONptr l1, iter: JSONiter (l1, l2)):<> void
+// end of [JSONiter_return]
 
 (* ****** ****** *)
 
 fun JSONptr_is_null
-  {l:addr} (x: !JSONptr l):<> bool (l == null) = "mac#atspre_ptr_is_null"
+  {l:addr} (x: !JSONptr l):<> bool (l==null) = "mac#atspre_ptr_is_null"
 // end of [JSONptr_is_null]
 
 fun JSONptr_isnot_null
@@ -90,18 +107,6 @@ fun JSONptr_isnot_null
 // end of [JSONptr_isnot_null]
 
 overload ~ with JSONptr_isnot_null
-
-(* ****** ****** *)
-
-fun JSONiter_is_null
-  {l:addr} (x: !JSONiter l):<> bool (l == null) = "mac#atspre_ptr_is_null"
-// end of [JSONiter_is_null]
-
-fun JSONiter_isnot_null
-  {l:addr} (x: !JSONiter (l)):<> bool (l > null) = "mac#atspre_ptr_isnot_null"
-// end of [JSONiter_isnot_null]
-
-overload ~ with JSONiter_isnot_null
 
 (* ****** ****** *)
 
@@ -239,8 +244,13 @@ fun json_array_get
   {l1:agz} (
   json: !JSONptr (l1), index: size_t
 ) : [l2:addr]
-  (minus (JSONptr (l1), JSONptr (l2)) | JSONptr (l2)) = "mac#atsctrb_json_array_get"
+  (minus (JSONptr l1, JSONptr l2) | JSONptr l2) = "mac#atsctrb_json_array_get"
 // end of [json_array_get]
+
+fun json_array_get1
+  {l1:agz}
+  (json: !JSONptr (l1), index: size_t) : JSONptr0 = "mac#atsctrb_json_array_get1"
+// end of [json_array_get1]
 
 fun json_array_set
   {l1:agz}{l2:addr} (
@@ -304,6 +314,11 @@ fun json_object_get
   (minus (JSONptr l1, JSONptr l2) | JSONptr l2) = "mac#atsctrb_json_object_get"
 // end of [json_object_get]
 
+fun json_object_get1
+  {l1:agz}
+  (json: !JSONptr l1, key: NSH(string)) : JSONptr0 = "mac#atsctrb_json_object_get1"
+// end of [json_object_get1]
+
 fun json_object_set
   {l1:agz}{l2:addr} (
   json: !JSONptr (l1)
@@ -346,30 +361,137 @@ fun json_object_update
   json1: !JSONptr l1, json2: !JSONptr l2
 ) : int(*err*) = "mac#atsctrb_json_object_update"
 
+fun json_object_update_existing
+  {l1:agz}{l2:addr} (
+  json1: !JSONptr l1, json2: !JSONptr l2
+) : int(*err*) = "mac#atsctrb_json_object_update_existing"
+
+fun json_object_update_missing
+  {l1:agz}{l2:addr} (
+  json1: !JSONptr l1, json2: !JSONptr l2
+) : int(*err*) = "mac#atsctrb_json_object_update_missing"
+
+(* ****** ****** *)
+
+fun JSONiter_is_null
+  {l1,l2:addr}
+  (x: !JSONiter (l1, l2)):<> bool (l2==null) = "mac#atspre_ptr_is_null"
+// end of [JSONiter_is_null]
+
+fun JSONiter_isnot_null
+  {l1,l2:addr}
+  (x: !JSONiter (l1, l2)):<> bool (l2 > null) = "mac#atspre_ptr_isnot_null"
+// end of [JSONiter_isnot_null]
+
+overload ~ with JSONiter_isnot_null
+
+(* ****** ****** *)
+
+fun json_object_iter
+  {l1:agz} (
+  json: !JSONptr (l1)
+) : JSONiter0 (l1) = "mac#atsctrb_json_object_iter"
+
+fun json_object_iter_at
+  {l1:agz} (
+  json: !JSONptr (l1), key: NSH(string)
+) : JSONiter0 (l1) = "mac#atsctrb_json_object_iter_at"
+
+fun json_object_iter_next
+  {l1,l2:agz} (
+  json: !JSONptr l1, iter: !JSONiter (l1, l2)
+) : JSONiter0 (l1) = "mac#atsctrb_json_object_iter_next"
+
+fun json_object_iter_nextret
+  {l1,l2:agz} (
+  json: !JSONptr l1, iter:  JSONiter (l1, l2)
+) : JSONiter0 (l1) = "mac#atsctrb_json_object_iter_nextret"
+
+(* ****** ****** *)
+
+absviewtype
+objkey_addr_viewtype (l:addr) = ptr
+stadef objkey = objkey_addr_viewtype
+
+praxi
+objkey_return
+  {l:addr} (json: !JSONptr l, key: objkey l):<> void
+// end of [objkey_return]
+
+fun json_object_iter_key
+  {l1,l2:agz} (
+  iter: !JSONiter (l1, l2)
+) : objkey l1 = "mac#atsctrb_json_object_iter_key"
+
+fun json_object_iter_value
+  {l1,l2:agz} (
+  iter: !JSONiter (l1, l2)
+) : JSONptr1 = "mac#atsctrb_json_object_iter_value"
+
+(* ****** ****** *)
+
+fun json_object_iter_set
+  {l1,l2,l3:agz} (
+  json: !JSONptr l1
+, iter: !JSONiter (l1, l2)
+, value: !JSONptr l3(*preserved*)
+) : int(*err*) = "mac#atsctrb_json_object_iter_set"
+
+fun json_object_iter_set_new
+  {l1,l2,l3:agz} (
+  json: !JSONptr l1
+, iter: !JSONiter (l1, l2)
+, value:  JSONptr l3 /*consumed*/
+) : int(*err*) = "mac#atsctrb_json_object_iter_set_new"
+
+(* ****** ****** *)
+
+/*
+void *json_object_key_to_iter(const char *key)
+*/
+
+fun json_object_key_to_iter
+  {l:addr} (
+  key: objkey (l)
+) : JSONiter1 (l) = "mac#atsctrb_json_object_key_to_iter"
+
+(* ****** ****** *)
+
+macdef JSON_COMPACT = $extval (int, "JSON_COMPACT")
+macdef JSON_ENSURE_ASCII = $extval (int, "JSON_ENSURE_ASCII")
+macdef JSON_SORT_KEYS = $extval (int, "JSON_SORT_KEYS")
+macdef JSON_PRESERVE_ORDER = $extval (int, "JSON_PRESERVE_ORDER")
+macdef JSON_ENCODE_ANY = $extval (int, "JSON_ENCODE_ANY")
+
 (* ****** ****** *)
 
 typedef json_err = json_error_t
 
 fun json_loads (
   inp: NSH(string)
-, flags: int, error: &json_err?
+, flags: int
+, error: &json_err? >> json_err
 ) : JSONptr0 = "mac#atsctrb_json_loads"
 
 fun json_loadb
   {lb:addr}
   {n1,n2:int | n1 >= n2} (
-  pfbuf: !bytes(n1) @ lb | pbuf: ptr lb, n2: size_t n2
-, flags: int, error: &json_err?
+  pfbuf: !bytes(n1) @ lb
+| pbuf: ptr lb, n2: size_t n2
+, flags: int
+, error: &json_err? >> json_err
 ) : JSONptr0 = "mac#atsctrb_json_loadb"
 
 fun json_loadf (
   inp: FILEref
-, flags: int, error: &json_err?
+, flags: int
+, error: &json_err? >> json_err
 ) : JSONptr0 = "mac#atsctrb_json_loadf"
 
 fun json_load_file (
   path: NSH(string)
-, flags: int, error: &json_err?
+, flags: int
+, error: &json_err? >> json_err
 ) : JSONptr0 = "mac#atsctrb_json_load_file"
 
 (* ****** ****** *)
@@ -399,48 +521,4 @@ fun json_dump_file
 
 ////
 
-fun json_object_iter
-  {l1:agz} (
-    json: !JSONptr (l1,0)
-  ) : [l2:addr] (minus(JSONptr (l1,0), JSONiter l2) | JSONiter l2)
-  = "mac#atsctrb_json_object_iter"
 
-fun json_object_iter_at
-  {l1:agz} (
-    json: !JSONptr (l1,0), key: string
-  ) : [l2:addr] (minus(JSONptr (l1,0), JSONiter l2) | JSONiter l2)
-  = "mac#atsctrb_json_object_iter_at"
-
-fun json_object_iter_next
-  {l1:agz} (
-    json: !JSONptr (l1,0), iter: !JSONiter1
-  ) : [l2:addr] (minus(JSONptr (l1,0), JSONiter l2) | JSONiter l2)
-  = "mac#atsctrb_json_object_iter_next"
-
-fun json_object_iter_key
-  (
-    iter: !JSONiter1
-  ) : string = "mac#atsctrb_json_object_iter_key"
-
-fun json_object_iter_value
-  (
-    iter: !JSONiter1
-  ) : [l:agz] JSONptr (l, 0) = "mac#atsctrb_json_object_iter_value"
-
-fun json_object_iter_set
-  {l1, l2, l3:agz} {n1, n2:int} (
-    json: !JSONptr (l1, n1), iter: !JSONiter l3, value: !JSONptr (l2, n2)
-  ) : int = "mac#atsctrb_json_object_iter_set"
-
-fun json_object_iter_set_new
-  {l1, l2, l3:agz} {n1, n2:int} (
-    json: !JSONptr (l1, n1), iter: !JSONiter l3, value: JSONptr (l2, n2)
-  ) : int = "mac#atsctrb_json_object_iter_set_new"
-
-
-// TODO: JSON_INDENT
-macdef JSON_COMPACT   = $extval (int, "JSON_COMPACT")
-macdef JSON_ENSURE_ASCII   = $extval (int, "JSON_ENSURE_ASCII")
-macdef JSON_SORT_KEYS   = $extval (int, "JSON_SORT_KEYS")
-macdef JSON_PRESERVE_ORDER   = $extval (int, "JSON_PRESERVE_ORDER")
-macdef JSON_ENCODE_ANY   = $extval (int, "JSON_ENCODE_ANY")

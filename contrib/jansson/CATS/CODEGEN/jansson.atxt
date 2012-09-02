@@ -83,16 +83,6 @@ typedef const json_t *JSONconstptr ;
 
 #atscode_separator_for_C()
 
-#atsctrb_define("json_string")
-#atsctrb_define("json_string_nocheck")
-
-\#define atsctrb_json_string_value(x) ((char*)json_string_value(x))
-
-#atsctrb_define("json_string_set")
-#atsctrb_define("json_string_set_nocheck")
-
-#atscode_separator_for_C()
-
 #atsctrb_define("json_integer")
 #atsctrb_define("json_integer_value")
 #atsctrb_define("json_integer_set")
@@ -109,29 +99,107 @@ typedef const json_t *JSONconstptr ;
 
 #atscode_separator_for_C()
 
+#atsctrb_define("json_string")
+#atsctrb_define("json_string_nocheck")
+
+\#define atsctrb_json_string_value(x) ((char*)json_string_value(x))
+
+#atsctrb_define("json_string_set")
+#atsctrb_define("json_string_set_nocheck")
+
+#atscode_separator_for_C()
+
 #atsctrb_define("json_array")
+
 #atsctrb_define("json_array_size")
+
 #atsctrb_define("json_array_get")
+
+ATSinline()
+ats_ptr_type
+atsctrb_json_array_get1 (
+  ats_ptr_type json, ats_size_type ind
+) {
+  JSONptr itm ;
+  itm = json_array_get((JSONptr)json, ind);
+  if (itm) json_incref(itm) ;
+  return (itm) ;
+} // end of [atsctrb_json_array_get1]
+
 #atsctrb_define("json_array_set")
 #atsctrb_define("json_array_set_new")
+
 #atsctrb_define("json_array_append")
 #atsctrb_define("json_array_append_new")
+
 #atsctrb_define("json_array_insert")
 #atsctrb_define("json_array_insert_new")
+
 #atsctrb_define("json_array_remove")
+
 #atsctrb_define("json_array_clear")
+
 #atsctrb_define("json_array_extend")
 
 #atscode_separator_for_C()
 
 #atsctrb_define("json_object")
+
 #atsctrb_define("json_object_size")
+
 #atsctrb_define("json_object_get")
+
+ATSinline()
+ats_ptr_type
+atsctrb_json_object_get1 (
+  ats_ptr_type json, ats_ptr_type key
+) {
+  JSONptr itm ;
+  itm = json_object_get((JSONptr)json, (char*)key);
+  if (itm) json_incref(itm) ;
+  return (itm) ;
+} // end of [atsctrb_json_object_get1]
+
+#atsctrb_define("json_object_set")
+#atsctrb_define("json_object_set_nocheck")
+#atsctrb_define("json_object_set_new")
+#atsctrb_define("json_object_set_new_nocheck")
+
+#atsctrb_define("json_object_del")
+
+#atsctrb_define("json_object_clear")
+
+#atsctrb_define("json_object_update")
+#atsctrb_define("json_object_update_existing")
+#atsctrb_define("json_object_update_missing")
+
+#atscode_separator_for_C()
+
+#atsctrb_define("json_object_iter")
+#atsctrb_define("json_object_iter_at")
+#atsctrb_define("json_object_iter_next")
+#atsctrb_define("json_object_iter_nextret")
+
+#atscode_separator_for_C()
+
+#atsctrb_define("json_object_iter_key")
+#atsctrb_define("json_object_iter_value")
+
+#atsctrb_define("json_object_iter_set")
+#atsctrb_define("json_object_iter_set_new")
+
+#atsctrb_define("json_object_key_to_iter")
 
 #atscode_separator_for_C()
 
 #atsctrb_define("json_loads")
+#atsctrb_define("json_loadb")
+#atsctrb_define("json_loadf")
+#atsctrb_define("json_load_file")
+
 #atsctrb_define("json_dumps")
+#atsctrb_define("json_dumpf")
+#atsctrb_define("json_dump_file")
 
 #atscode_separator_for_C()
 
