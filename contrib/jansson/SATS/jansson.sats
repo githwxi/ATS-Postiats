@@ -247,6 +247,8 @@ fun json_array_size
   {l:agz} (json: !JSONptr l) : size_t = "mac#atsctrb_json_array_size"
 // end of [json_array_size]
 
+(* ****** ****** *)
+
 fun json_array_get
   {l1:agz} (
   json: !JSONptr (l1), index: size_t
@@ -254,10 +256,36 @@ fun json_array_get
   (minus (JSONptr l1, JSONptr l2) | JSONptr l2) = "mac#atsctrb_json_array_get"
 // end of [json_array_get]
 
+fun json_array_get_exnmsg
+  {l1:agz} (
+  json: !JSONptr (l1), index: size_t, msg: NSH(string)
+) : [l2:agz]
+  (minus (JSONptr l1, JSONptr l2) | JSONptr l2) = "mac#atsctrb_json_array_get_exnmsg"
+// end of [json_array_get_exnmsg]
+
+macdef
+json_array_get_exnloc (x, i) =
+  json_array_get_exnmsg (,(x), ,(i), #LOCATION)
+// end of [json_array_get_exnloc]
+
+(* ****** ****** *)
+
 fun json_array_get1
   {l1:agz}
-  (json: !JSONptr (l1), index: size_t) : JSONptr0 = "mac#atsctrb_json_array_get1"
-// end of [json_array_get1]
+  (json: !JSONptr (l1), index: size_t) : JSONptr0
+  = "mac#atsctrb_json_array_get1"
+
+fun json_array_get1_exnmsg
+  {l1:agz}
+  (json: !JSONptr (l1), index: size_t, msg: NSH(string)): JSONptr1
+  = "mac#atsctrb_json_array_get1_exnmsg"
+
+macdef
+json_array_get1_exnloc (x, i) =
+  json_array_get1_exnmsg (,(x), ,(i), #LOCATION)
+// end of [json_array_get1_exnloc]
+
+(* ****** ****** *)
 
 fun json_array_set
   {l1:agz}{l2:addr} (

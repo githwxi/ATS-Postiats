@@ -146,7 +146,7 @@ end // end of [process_root]
 macdef
 JPNZ (x) =
   assertloc (JSONptr_isnot_null ,(x))
-// end of [JPNS]
+// end of [JPNZ]
 
 implement
 process_root_array
@@ -161,20 +161,24 @@ in
 //
 if i < n then let
 //
-  val data = json_array_get1 (root, i)
-  val () = JPNZ (data)
+  val data =
+    json_array_get1_exnloc (root, i)
+  // end of [val]
   val () = assertloc (json_is_object (data))
 //
-  val sha = json_object_get1 (data, "sha")
-  val () = JPNZ (sha)
+  val sha =
+    json_object_get1_exnloc (data, "sha")
+  // end of [val]
   val () = assertloc (json_is_string (sha))
 //
   val commit =
     json_object_get1_exnloc (data, "commit")
+  // end of [val]
   val () = assertloc (json_is_object (commit))
 //
-  val message = json_object_get1 (commit, "message")
-  val () = JPNZ (message)
+  val message =
+    json_object_get1_exnloc (commit, "message")
+  // end of [val]
   val () = assertloc (json_is_string (message))
 //
   val (fpf1 | sha_value) = json_string_value (sha)

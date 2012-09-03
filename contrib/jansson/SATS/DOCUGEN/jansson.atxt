@@ -24,6 +24,16 @@ href="http://www.digip.org/jansson/">jansson</a> library.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("JSONptr_is_gtez")
+#declnamesynop("JSONptr_is_null")
+#declnamesynop("JSONptr_isnot_null")
+
+#declnamesynop("JSONiter_is_gtez")
+#declnamesynop("JSONiter_is_null")
+#declnamesynop("JSONiter_isnot_null")
+
+(* ****** ****** *)
+
 #declnamesynop("json_typeof")
 
 (* ****** ****** *)
@@ -75,8 +85,16 @@ href="http://www.digip.org/jansson/">jansson</a> library.  ')
 
 #declnamesynop("json_array_size")
 
+(* ****** ****** *)
+
 #declnamesynop("json_array_get")
+#declnamesynop("json_array_get_exnmsg")
+#declnamesynop("json_array_get_exnloc")
 #declnamesynop("json_array_get1")
+#declnamesynop("json_array_get1_exnmsg")
+#declnamesynop("json_array_get1_exnloc")
+
+(* ****** ****** *)
 
 #declnamesynop("json_array_set")
 #declnamesynop("json_array_set_new")
@@ -99,8 +117,16 @@ href="http://www.digip.org/jansson/">jansson</a> library.  ')
 
 #declnamesynop("json_object_size")
 
+(* ****** ****** *)
+
 #declnamesynop("json_object_get")
+#declnamesynop("json_object_get_exnmsg")
+#declnamesynop("json_object_get_exnloc")
 #declnamesynop("json_object_get1")
+#declnamesynop("json_object_get1_exnmsg")
+#declnamesynop("json_object_get1_exnloc")
+
+(* ****** ****** *)
 
 #declnamesynop("json_object_set")
 #declnamesynop("json_object_set_nocheck")
