@@ -19,6 +19,7 @@ ATSCTRB=$(PATSHOME)/contrib
 all::
 all:: test01
 all:: test02
+all:: github_commits
 
 ######
 

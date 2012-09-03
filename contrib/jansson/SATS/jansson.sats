@@ -20,7 +20,7 @@
 ** Time: September, 2012
 ** Author Hongwei Xi (gmhwxi AT gmail DOT com)
 **
-** The API is slightly modified in the hope that it can be used more easily.
+** The API is modified in the hope that it can be used more conveniently.
 *)
 
 (* ****** ****** *)
@@ -77,6 +77,13 @@ viewtypedef JSONptr1 = [l:addr | l > null] JSONptr (l)
 absviewtype JSONiter (l1:addr, l2:addr)
 viewtypedef JSONiter0 (l1:addr) = [l2:addr] JSONiter (l1, l2)
 viewtypedef JSONiter1 (l1:addr) = [l2:addr | l2 > null] JSONiter (l1, l2)
+
+(* ****** ****** *)
+
+praxi
+JSONptr_is_gtez {l:addr} (x: !JSONptr l): [l >= null] void
+praxi
+JSONiter_is_gtez {l1,l2:addr} (x: !JSONiter (l1, l2)): [l2 >= null] void
 
 (* ****** ****** *)
 
@@ -314,10 +321,35 @@ fun json_object_get
   (minus (JSONptr l1, JSONptr l2) | JSONptr l2) = "mac#atsctrb_json_object_get"
 // end of [json_object_get]
 
+fun json_object_get_exnmsg
+  {l1:agz} (
+  json: !JSONptr l1, key: NSH(string), msg: NSH(string)
+) : [l2:agz] (minus (JSONptr l1, JSONptr l2) | JSONptr l2)
+  = "atsctrb_json_object_get_exnmsg"
+
+macdef
+json_object_get_exnloc (x, k) =
+  json_object_get_exnmsg (,(x), ,(k), #LOCATION)
+// end of [json_object_get_exnloc]
+
+(* ****** ****** *)
+
 fun json_object_get1
   {l1:agz}
-  (json: !JSONptr l1, key: NSH(string)) : JSONptr0 = "mac#atsctrb_json_object_get1"
-// end of [json_object_get1]
+  (json: !JSONptr l1, key: NSH(string)): JSONptr0
+  = "mac#atsctrb_json_object_get1"
+
+fun json_object_get1_exnmsg
+  {l1:agz}
+  (json: !JSONptr l1, key: NSH(string), msg: NSH(string)): JSONptr1
+  = "mac#atsctrb_json_object_get1_exnmsg"
+
+macdef
+json_object_get1_exnloc (x, k) =
+  json_object_get1_exnmsg (,(x), ,(k), #LOCATION)
+// end of [json_object_get1_exnloc]
+
+(* ****** ****** *)
 
 fun json_object_set
   {l1:agz}{l2:addr} (
@@ -518,7 +550,3 @@ fun json_dump_file
 (* ****** ****** *)
 
 (* end of [jasson.sats] *)
-
-////
-
-
