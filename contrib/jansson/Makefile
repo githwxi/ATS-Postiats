@@ -13,7 +13,7 @@ ATSHOMEQ="$(ATSHOME)"
 
 ATSCC=$(ATSHOMEQ)/bin/atscc
 ATSCTRB="$(PATSHOME)"/contrib
-MYSQLCLFLAGSLAGS=`mysql_config --cflags --libs`
+JANSSONCLFLAGS=-ljansson
 
 ######
 
@@ -21,13 +21,13 @@ all::
 
 ######
 
-all:: atsctrb_mysql.o
-atsctrb_mysql.o: mysql_dats.o ; ld -r -o $@ $^
+all:: atsctrb_jansson.o
+atsctrb_jansson.o: jansson_dats.o ; ld -r -o $@ $^
 
 ######
 
-mysql_dats.o: DATS/mysql.dats
-	$(ATSCC) -O2 -I$(ATSCTRB) -IATS$(ATSCTRB) -o $@ -c $< $(MYSQLCLFLAGS)
+jansson_dats.o: DATS/jansson.dats
+	$(ATSCC) -O2 -I$(ATSCTRB) -IATS$(ATSCTRB) -o $@ -c $< $(JANSSONCLFLAGS)
 
 ######
 
@@ -42,6 +42,6 @@ clean:: ; $(RMF) *_?ats.c *_?ats.o
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) atsctrb_mysql.o
+cleanall:: ; $(RMF) atsctrb_jansson.o
 
 ###### end of [Makefile] ######

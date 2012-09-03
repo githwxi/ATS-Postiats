@@ -65,6 +65,9 @@ href="http://www.digip.org/jansson/">jansson</a> library.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("int2json_int")
+#declnamesynop("lint2json_int")
+#declnamesynop("llint2json_int")
 #declnamesynop("json_integer")
 #declnamesynop("json_integer_value")
 #declnamesynop("json_integer_set")
@@ -161,6 +164,37 @@ href="http://www.digip.org/jansson/">jansson</a> library.  ')
 (* ****** ****** *)
 
 #declnamesynop("json_loads")
+#declexample('\
+
+The following code creates a JSON-value based on a given string
+representation, prints it onto the standard output channel and then free
+the JSON-value:
+
+#pats2xhtmld_tryit('\
+//
+staload "jansson/SATS/jansson.sats"
+//
+implement
+main () = let
+//
+  var err: json_err? 
+//
+  val root =
+    json_loads ("{\"int\":0}", 0(*flag*), err)
+  val () = assertloc (JSONptr_isnot_null (root))
+//
+  val _(*err*) =
+    json_dumpf (rt, stdout_ref, 0)
+  // end of [val]
+  val () = fprint_newline (stdout_ref)
+//
+  val () = json_decref (root)
+in
+  // nothing
+end // end of [main]
+')
+')
+
 #declnamesynop("json_loadb")
 #declnamesynop("json_loadf")
 #declnamesynop("json_load_file")
@@ -170,6 +204,12 @@ href="http://www.digip.org/jansson/">jansson</a> library.  ')
 #declnamesynop("json_dumps")
 #declnamesynop("json_dumpf")
 #declnamesynop("json_dump_file")
+
+(* ****** ****** *)
+//
+// Some convenience functions
+//
+(* ****** ****** *)
 
 (* ****** ****** *)
 

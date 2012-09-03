@@ -576,5 +576,12 @@ fun json_dump_file
   = "mac#atsctrb_json_dump_file"
 
 (* ****** ****** *)
+//
+// Some convenience functions
+//
+(* ****** ****** *)
+
+
+(* ****** ****** *)
 
 (* end of [jasson.sats] *)

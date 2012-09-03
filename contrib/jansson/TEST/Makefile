@@ -29,11 +29,11 @@ cleanall::
 ######
 
 test01: test01_dats.c
-	$(ATSCC) $(CCFLAGS) -I$(ATSCTRB) -o $@ $< -ljansson
+	$(ATSCC) $(CCFLAGS) -I$(ATSCTRB) -o $@ $< -ljansson $(ATSCTRB)/jansson/atsctrb_jansson.o
 cleanall:: ; $(RMF) test01
 
 test02: test02_dats.c
-	$(ATSCC) $(CCFLAGS) -I$(ATSCTRB) -o $@ $< -ljansson
+	$(ATSCC) $(CCFLAGS) -I$(ATSCTRB) -o $@ $< -ljansson $(ATSCTRB)/jansson/atsctrb_jansson.o
 cleanall:: ; $(RMF) test02
 
 ######

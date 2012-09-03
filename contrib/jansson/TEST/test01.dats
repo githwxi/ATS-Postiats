@@ -35,17 +35,17 @@ main () = let
   var err: json_err? 
 //
   val rt = json_loads ("{\"one\":1}", 0, err)
-  val () = assertloc (~rt)
-  val (pf | one) = json_object_get (rt, "one")
-  val () = assertloc (~one)
-  prval () = minus_addback (pf, one | rt) 
-  val () = printf("test\n", @())
+  val () = assertloc (JSONptr_isnot_null (rt))
+  val (fpf | one) = json_object_get_exnloc (rt, "one")
+  val ji = json_integer_value (one)
+  val () = printf ("int = %i\n", @($UN.cast2int(ji)))
+  prval () = minus_addback (fpf, one | rt) 
 //
-  val dump = json_dumps (rt, 0)
-  val () = assertloc (strptr_isnot_null (dump))
-  val () = printf ("The dump is:\n%s", @($UN.castvwtp1{string}(dump)))
-  val () = print_newline ()
-  val () = strptr_free (dump)
+  val _(*err*) =
+    json_dumpf (rt, stdout_ref, 0)
+  // end of [val]
+  val () = fprint_newline (stdout_ref)
+//
   val () = json_decref(rt)
 in
   // nothing
