@@ -77,18 +77,17 @@ hisexp_node =
   | HSEfun of (* function type *)
       (funclo, hisexplst(*arg*), hisexp(*res*))
 //
-  | HSEcfun of funlab // HX: for closure funs
-//
   | HSEextype of (string(*name*), hisexplstlst)
 //
   | HSErefarg of (int(*refval*), hisexp)
 //
+  | HSEtyclo of funlab // for closures
   | HSEtyarr of (hisexp, s2explstlst)
   | HSEtyrec of (int(*knd*), labhisexplst)
   | HSEtyrecsin of (hisexp) // HX: singleton tyrec
   | HSEtysum of (d2con, hisexplst)
 //
-  | HSEvararg of ((*variadic function argument*))
+  | HSEvararg of () // variadic function argument
 (*
   | HSEs2var of s2var_t
   | HSEtyrectemp of (* boxed record type in template *)
@@ -96,6 +95,7 @@ hisexp_node =
   | HSEtysumtemp of (* constructor type in template *)
       (d2con_t, hityplst)
 *)
+  | HSEerr of (location, s2exp)
 // end of [hisexp_node]
 
 and labhisexp = HSLABELED of (label, Option(string), hisexp)
@@ -119,6 +119,30 @@ overload prerr with prerr_hisexp
 fun fprint_hisexp : fprint_type (hisexp)
 
 fun fprint_hisexplst : fprint_type (hisexplst)
+
+(* ****** ****** *)
+
+fun hisexp_fun (
+  fc: funclo, arg: hisexplst, res: hisexp
+) : hisexp // end of [hisexp_fun]
+
+fun hisexp_extype
+  (name: string, arglst: hisexplstlst): hisexp
+
+fun hisexp_refarg (knd: int, hse: hisexp): hisexp
+
+fun hisexp_tyclo (fl: funlab): hisexp
+
+fun hisexp_tyarr (elt: hisexp, dim: s2explstlst): hisexp
+
+fun hisexp_tyrec (knd: int, lhses: labhisexplst): hisexp
+fun hisexp_tyrecsin (hse: hisexp): hisexp // HX: singleton tyrec
+
+fun hisexp_tysum (d2c: d2con, hses: hisexplst): hisexp
+
+fun hisexp_vararg (): hisexp // HX: variadic funarg
+
+fun hisexp_err (loc: location, s2e: s2exp): hisexp
 
 (* ****** ****** *)
 

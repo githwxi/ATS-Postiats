@@ -279,7 +279,7 @@ dynload "pats_histaexp_funlab.dats"
 //
 dynload "pats_hidynexp.dats"
 //
-dynload "pats_typerase.dats"
+dynload "pats_typerase_staexp.dats"
 //
 dynload "pats_comarg.dats"
 //

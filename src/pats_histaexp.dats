@@ -44,6 +44,38 @@ staload "pats_histaexp.sats"
 
 (* ****** ****** *)
 
+val HITYPE_FUN = HITYPE (1(*ptr*), "atstype_funptr")
+val HITYPE_TYCLO = HITYPE (0(*non*), "atstype_tyclo")
+val HITYPE_ERROR = HITYPE (0(*non*), "atstype_error")
+
+(* ****** ****** *)
+
+fun hisexp_make_node (
+  hit: hitype, node: hisexp_node
+) : hisexp = '{
+  hisexp_name= hit, hisexp_node= node
+} // end of [hisexp_make_node]
+
+(* ****** ****** *)
+
+implement
+hisexp_fun
+  (fc, arg, res) =
+  hisexp_make_node (HITYPE_FUN, HSEfun (fc, arg, res))
+// end of [hisexp_fun]
+
+(* ****** ****** *)
+
+implement
+hisexp_tyclo (fl) =
+  hisexp_make_node (HITYPE_TYCLO, HSEtyclo (fl))
+// end of [hisexp_cfun]
+
+implement
+hisexp_err (loc, s2e) =
+  hisexp_make_node (HITYPE_ERROR, HSEerr (loc, s2e))
+// end of [hisexp_tyerr]
+
 (* ****** ****** *)
 
 (* end of [pats_histaexp.dats] *)
