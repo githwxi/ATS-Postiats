@@ -47,7 +47,9 @@ This package contains an API for programming mysql in ATS.\
 
 (* ****** ****** *)
 
-#declnamesynop("mysql_init0")
+#declnamesynop("mysql_init")
+#declnamesynop("mysql_init_0")
+#declnamesynop("mysql_init_1")
 
 (* ****** ****** *)
 
@@ -152,6 +154,11 @@ This package contains an API for programming mysql in ATS.\
 
 (* ****** ****** *)
 
+#declnamesynop("mysql_get_server_info")
+#declnamesynop("mysql_get_server_version")
+
+(* ****** ****** *)
+
 #declnamesynop("mysql_get_client_info")
 #declexample("\
 #pats2xhtmld_tryit('\
@@ -162,7 +169,7 @@ implement
 main () = let
   val info = mysql_get_client_info ()
 in
-  printf ("MySQL client info: %s\n", @(info))
+  printf ("MySQL client info: %s\\\n", @(info))
 end // end of [main]
 ')
 ")
@@ -179,15 +186,10 @@ implement
 main () = let
   val version = mysql_get_client_version ()
 in
-  printf ("MySQL client version: %lu\n", @(version))
+  printf ("MySQL client version: %lu\\\n", @(version))
 end // end of [main]
 ')
 ")
-
-(* ****** ****** *)
-
-#declnamesynop("mysql_get_server_info")
-#declnamesynop("mysql_get_server_version")
 
 (* ****** ****** *)
 

@@ -45,7 +45,9 @@ staload "pats_histaexp.sats"
 (* ****** ****** *)
 
 val HITYPE_FUN = HITYPE (1(*ptr*), "atstype_funptr")
+val HITYPE_REF = HITYPE (1(*ptr*), "atstype_refptr")
 val HITYPE_TYCLO = HITYPE (0(*non*), "atstype_tyclo")
+val HITYPE_VARARG = HITYPE (0(*non*), "atstype_vararg")
 val HITYPE_ERROR = HITYPE (0(*non*), "atstype_error")
 
 (* ****** ****** *)
@@ -67,9 +69,30 @@ hisexp_fun
 (* ****** ****** *)
 
 implement
+hisexp_refarg
+  (knd, arg) = let
+  val name = (
+    if knd > 0 then HITYPE_REF else arg.hisexp_name
+  ) : hitype // end of [val]
+in '{
+  hisexp_name= name, hisexp_node= HSErefarg (knd, arg)
+} end // end of [hisexp_refarg]
+
+(* ****** ****** *)
+
+implement
 hisexp_tyclo (fl) =
   hisexp_make_node (HITYPE_TYCLO, HSEtyclo (fl))
 // end of [hisexp_cfun]
+
+(* ****** ****** *)
+
+implement
+hisexp_vararg () = '{
+  hisexp_name= HITYPE_VARARG, hisexp_node= HSEvararg ()
+} // end of [hisexp_vararg]
+
+(* ****** ****** *)
 
 implement
 hisexp_err (loc, s2e) =

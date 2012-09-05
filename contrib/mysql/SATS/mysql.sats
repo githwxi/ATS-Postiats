@@ -528,22 +528,6 @@ fun mysql_get_proto_info
 (* ****** ****** *)
 
 /*
-const char* mysql_get_client_info(void);
-*/
-fun mysql_get_client_info
-  (): string = "mac#atsctrb_mysql_get_client_info"
-// end of [mysql_get_client_info]  
-
-/*
-unsigned long mysql_get_client_version(void);
-*/
-fun mysql_get_client_version
-  (): ulint = "mac#atsctrb_mysql_get_client_version"
-// end of [mysql_get_client_version]
-
-(* ****** ****** *)
-
-/*
 const char *mysql_get_server_info (MYSQL *mysql);
 */
 fun mysql_get_server_info
@@ -564,11 +548,29 @@ fun mysql_get_server_version
 (* ****** ****** *)
 
 /*
+const char* mysql_get_client_info(void);
+*/
+fun mysql_get_client_info
+  (): string = "mac#atsctrb_mysql_get_client_info"
+// end of [mysql_get_client_info]  
+
+/*
+unsigned long mysql_get_client_version(void);
+*/
+fun mysql_get_client_version
+  (): ulint = "mac#atsctrb_mysql_get_client_version"
+// end of [mysql_get_client_version]
+
+(* ****** ****** *)
+
+/*
 my_bool mysql_eof(MYSQL_RES *result);
 */
 (*
 // HX-2012-08: this one is deprecated
 *)
+
+(* ****** ****** *)
 
 /*
 unsigned int
