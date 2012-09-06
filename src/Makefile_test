@@ -11,6 +11,7 @@ test:: libats_ML
 
 test:: contrib_cairo
 test:: contrib_mysql
+test:: contrib_jansson
 test:: contrib_atshwxi
 
 test:: fact2

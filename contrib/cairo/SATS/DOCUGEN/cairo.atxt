@@ -139,7 +139,7 @@ This package contains an API for programming cairo in ATS.\
 //
 (* ****** ****** *)
 //
-#declnamesynop("content_t")
+#declnamesynop("cairo_content_t")
 //
 #declnamesynop("CAIRO_CONTENT_COLOR")
 #declnamesynop("CAIRO_CONTENT_ALPHA")
@@ -147,7 +147,7 @@ This package contains an API for programming cairo in ATS.\
 //
 (* ****** ****** *)
 //
-#declnamesynop("format_t")
+#declnamesynop("cairo_format_t")
 //
 #declnamesynop("CAIRO_FORMAT_INVALID")
 #declnamesynop("CAIRO_FORMAT_ARGB32")
@@ -170,10 +170,6 @@ This package contains an API for programming cairo in ATS.\
 
 (* ****** ****** *)
 
-#declnamesynop("cairo_save_v")
-
-(* ****** ****** *)
-
 #declnamesynop("cairo_create")
 
 (* ****** ****** *)
@@ -187,10 +183,27 @@ This package contains an API for programming cairo in ATS.\
 
 (* ****** ****** *)
 
+#declnamesynop("cairo_save_v")
+#decldescrpt("\
+
+This abstract view is introduced for ensuring that calls to #dyncode("cairo_save")
+and #dyncode("cairo_restore") are properly balanced.\
+
+")
+
 #declnamesynop("cairo_save")
 #declnamesynop("cairo_restore")
 
 (* ****** ****** *)
+
+#declnamesynop("cairo_push_group_v")
+#decldescrpt("\
+
+This abstract view is introduced for ensuring that calls to
+#dyncode("cairo_push_group") and #dyncode("cairo_pop_group") are properly
+balanced.\
+
+")
 
 #declnamesynop("cairo_push_group")
 #declnamesynop("cairo_push_group_with_content")
@@ -200,7 +213,7 @@ This package contains an API for programming cairo in ATS.\
 
 (* ****** ****** *)
 //
-#declnamesynop("operator_t")
+#declnamesynop("cairo_operator_t")
 //
 #declnamesynop("CAIRO_VERSION_MAJOR")
 #declnamesynop("CAIRO_OPERATOR_CLEAR")
@@ -245,7 +258,7 @@ This package contains an API for programming cairo in ATS.\
 
 (* ****** ****** *)
 //
-#declnamesynop("antialias_t")
+#declnamesynop("cairo_antialias_t")
 //
 #declnamesynop("CAIRO_ANTIALIAS_DEFAULT")
 #declnamesynop("CAIRO_ANTIALIAS_NONE")
@@ -259,7 +272,7 @@ This package contains an API for programming cairo in ATS.\
 //
 (* ****** ****** *)
 //
-#declnamesynop("fill_rule_t")
+#declnamesynop("cairo_fill_rule_t")
 //
 #declnamesynop("CAIRO_FILL_RULE_WINDING")
 #declnamesynop("CAIRO_FILL_RULE_EVEN_OD")
@@ -272,7 +285,7 @@ This package contains an API for programming cairo in ATS.\
 
 (* ****** ****** *)
 //
-#declnamesynop("line_cap_t")
+#declnamesynop("cairo_line_cap_t")
 //
 #declnamesynop("CAIRO_LINE_CAP_BUTT")
 #declnamesynop("CAIRO_LINE_CAP_ROUND")
@@ -282,7 +295,7 @@ This package contains an API for programming cairo in ATS.\
 //
 (* ****** ****** *)
 //
-#declnamesynop("line_join_t")
+#declnamesynop("cairo_line_join_t")
 //
 #declnamesynop("CAIRO_LINE_JOIN_MITER")
 #declnamesynop("CAIRO_LINE_JOIN_ROUND")
@@ -326,7 +339,7 @@ This package contains an API for programming cairo in ATS.\
 (* ****** ****** *)
 
 #declnamesynop("cairo_get_operator")
-#declnamesynop("cairo_get0_source")
+
 #declnamesynop("cairo_get_tolerance")
 #declnamesynop("cairo_get_antialias")
 
@@ -341,8 +354,15 @@ This package contains an API for programming cairo in ATS.\
 #declnamesynop("cairo_get_dash_count")
 #declnamesynop("cairo_get_matrix")
 
+(* ****** ****** *)
+
+#declnamesynop("cairo_get0_source")
+#declnamesynop("cairo_get1_source")
+
 #declnamesynop("cairo_get0_target")
+#declnamesynop("cairo_get1_target")
 #declnamesynop("cairo_get0_group_target")
+#declnamesynop("cairo_get1_group_target")
 
 (* ****** ****** *)
 //

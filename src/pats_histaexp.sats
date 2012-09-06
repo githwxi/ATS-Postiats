@@ -74,6 +74,7 @@ fun funlab_get_stamp (fl: funlab): stamp
 
 datatype
 hisexp_node =
+//
   | HSEfun of (* function type *)
       (funclo, hisexplst(*arg*), hisexp(*res*))
 //
@@ -81,21 +82,26 @@ hisexp_node =
 //
   | HSErefarg of (int(*refval*), hisexp)
 //
+  | HSEtyabs of () // for abstypes
+  | HSEtyptr of () // for pointers
   | HSEtyclo of funlab // for closures
-  | HSEtyarr of (hisexp, s2explstlst)
-  | HSEtyrec of (int(*knd*), labhisexplst)
-  | HSEtyrecsin of (hisexp) // HX: singleton tyrec
-  | HSEtysum of (d2con, hisexplst)
 //
-  | HSEvararg of () // variadic function argument
+  | HSEtyarr of (hisexp, s2explstlst) // for arrays
+  | HSEtyrec of (int(*knd*), labhisexplst) // for records
+  | HSEtyrecsin of (hisexp) // for singleton records
+  | HSEtysum of (d2con, hisexplst) // for tagged unions
+//
+  | HSEtyvar of s2var // for type variables
+//
+  | HSEvararg of () // for variadic funarg
+//
 (*
-  | HSEs2var of s2var_t
   | HSEtyrectemp of (* boxed record type in template *)
       (int(*fltboxknd*), labhityplst) (* knd: flt/box: 0/1 *)
   | HSEtysumtemp of (* constructor type in template *)
       (d2con_t, hityplst)
 *)
-  | HSEerr of (location, s2exp)
+  | HSEs2exp of (location, s2exp)
 // end of [hisexp_node]
 
 and labhisexp = HSLABELED of (label, Option(string), hisexp)
@@ -140,9 +146,15 @@ fun hisexp_tyrecsin (hse: hisexp): hisexp // HX: singleton tyrec
 
 fun hisexp_tysum (d2c: d2con, hses: hisexplst): hisexp
 
+fun hisexp_tyvar (s2v: s2var): hisexp
+
 fun hisexp_vararg (): hisexp // HX: variadic funarg
 
-fun hisexp_err (loc: location, s2e: s2exp): hisexp
+fun hisexp_s2exp (loc: location, s2e: s2exp): hisexp
+
+(* ****** ****** *)
+
+fun hisexp_make_srt (s2t: s2rt): hisexp
 
 (* ****** ****** *)
 

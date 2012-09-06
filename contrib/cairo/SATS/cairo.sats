@@ -268,9 +268,6 @@ cairo_rectangle_int_t = $extype_struct "cairo_rectangle_int_t" of {
 
 (* ****** ****** *)
 
-absview cairo_save_v (l:addr)
-
-(* ****** ****** *)
 (*
 ** Functions for manipulating state objects
 *)
@@ -322,6 +319,10 @@ fun cairo_set_user_data (
 
 (* ****** ****** *)
 
+absview cairo_save_v (l:addr)
+
+(* ****** ****** *)
+
 (*
 cairo_public void
 cairo_save (cairo_t *cr);
@@ -345,6 +346,8 @@ fun cairo_restore
 (* ****** ****** *)
 
 absview cairo_push_group_v (l:addr)
+
+(* ****** ****** *)
 
 (*
 cairo_public void
@@ -711,16 +714,6 @@ fun cairo_get_operator
 // end of [cairo_get_operator]
 
 (*
-cairo_public cairo_pattern_t *
-cairo_get_source (cairo_t *cr);
-*)
-fun cairo_get0_source
-  {l1:agz} (
-  ctx: !xr l1
-) : [l2:agz] vtget0 (xr l1, xrpat l2) = "mac#atsctrb_cairo_get0_source"
-// end of [cairo_get0_source]
-
-(*
 cairo_public double
 cairo_get_tolerance (cairo_t *cr);
 *)
@@ -814,6 +807,24 @@ fun cairo_get_matrix (
   ctx: !xr1, matrix: &cairo_matrix_t? >> cairo_matrix_t
 ) : void = "mac#atsctrb_cairo_get_matrix" // end of [fun]
 
+(* ****** ****** *)
+//
+// Accessing subresources
+//
+(* ****** ****** *)
+
+(*
+cairo_public cairo_pattern_t *
+cairo_get_source (cairo_t *cr);
+*)
+fun cairo_get0_source
+  {l1:agz} (
+  ctx: !xr l1
+) : [l2:agz] vtget0 (xr l1, xrpat l2) = "mac#atsctrb_cairo_get0_source"
+// end of [cairo_get0_source]
+
+fun cairo_get1_source (ctx: !xr1): xrpat1 // for convenience
+
 (*
 cairo_public cairo_surface_t *
 cairo_get_target (cairo_t *cr);
@@ -823,6 +834,8 @@ fun cairo_get0_target
   ctx: !xr l1
 ) : [l2:agz] vtget0 (xr l1, xrsf l2) = "mac#atsctrb_cairo_get0_target"
 
+fun cairo_get1_target (ctx: !xr1): xrsf1 // for convenience
+
 (*
 cairo_public cairo_surface_t *
 cairo_get_group_target (cairo_t *cr);
@@ -831,6 +844,8 @@ fun cairo_get0_group_target
   {l1:agz} (
   ctx: !xr l1
 ) : [l2:agz] vtget0 (xr l1, xrsf l2) = "mac#atsctrb_cairo_get0_group_target"
+
+fun cairo_get1_group_target (ctx: !xr1): xrsf1 // for convenience
 
 (* ****** ****** *)
 //

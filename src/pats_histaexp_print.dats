@@ -68,6 +68,7 @@ in
 //
 case+
   hse.hisexp_node of
+//
 | HSEfun (
     fc, _arg, _res
   ) => {
@@ -77,11 +78,6 @@ case+
     val () = fprint_hisexp (out, _res)
     val () = prstr ")"
   } // end of [HSEfun]
-| HSEcfun (fl) => {
-    val () = prstr "HSEcfun("
-    val () = fprint_funlab (out, fl)
-    val () = prstr ")"
-  } // end of [HSEcfun]
 | HSEextype
     (name, hsess) => {
     val () = prstr "HSEextype("
@@ -97,6 +93,19 @@ case+
     val () = fprint_hisexp (out, hse)
     val () = prstr ")"
   } // end of [HSErefarg]
+//
+| HSEtyabs () => {
+    val () = prstr "HSEtyabs()"
+  } // end of [HSEtyabs]
+| HSEtyptr () => {
+    val () = prstr "HSEtyptr()"
+  } // end of [HSEtyptr]
+//
+| HSEtyclo (fl) => {
+    val () = prstr "HSEtyclo("
+    val () = fprint_funlab (out, fl)
+    val () = prstr ")"
+  } // end of [HSEcfun]
 //
 | HSEtyarr
     (hse, dim) => {
@@ -130,9 +139,27 @@ case+
     val () = prstr ")"
   } // end of [HSEtysum]
 //
+| HSEtyvar (s2v) => {
+    val () = prstr "HSEtyvar("
+    val () = fprint_s2var (out, s2v)
+    val () = prstr ")"
+  }
+//
+| HSEvararg () => {
+    val () = prstr "HSEvararg()"
+  }
+//
+| HSEs2exp (loc, s2e) => {
+    val () = prstr "HSEs2exp("
+    val () = fprint_s2exp (out, s2e)
+    val () = prstr ")"
+  }
+//
+(*
 | _ => {
     val () = prstr "HSE...(...)"
   }
+*)
 //
 end // end of [fprint_hisexp]
 

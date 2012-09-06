@@ -13,7 +13,6 @@ ATSHOMEQ="$(ATSHOME)"
 
 ATSCC=$(ATSHOMEQ)/bin/atscc
 ATSCTRB="$(PATSHOME)"/contrib
-JANSSONCLFLAGS=-ljansson
 
 ######
 
@@ -27,7 +26,7 @@ atsctrb_jansson.o: jansson_dats.o ; ld -r -o $@ $^
 ######
 
 jansson_dats.o: DATS/jansson.dats
-	$(ATSCC) -O2 -I$(ATSCTRB) -IATS$(ATSCTRB) -o $@ -c $< $(JANSSONCLFLAGS)
+	$(ATSCC) -O2 -I$(ATSCTRB) -IATS$(ATSCTRB) -o $@ -c $<
 
 ######
 

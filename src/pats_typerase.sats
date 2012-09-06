@@ -52,9 +52,11 @@ staload "pats_hidynexp.sats"
 
 (* ****** ****** *)
 //
-// HX: flag=0/1:shallow/deep
+// HX-2012-09:
+// [s2exp_tyer] is essentially for
+// measuring the size of a given type
 //
-fun s2exp_tyer
+fun s2exp_tyer // flag=0/1:shallow/deep
   (loc: location, flag: int, s2e0: s2exp): hisexp
 // end of [s2exp_tyer]
 
