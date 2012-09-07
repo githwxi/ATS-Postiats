@@ -382,10 +382,12 @@ s2exp_node =
 //
   | S2Eapp of (s2exp, s2explst) // static application
   | S2Elam of (s2varlst, s2exp) // static abstraction
+//
   | S2Efun of ( // function type
       funclo, int(*lin*), s2eff, int(*npf*), s2explst(*arg*), s2exp(*res*)
     ) // end of S2Efun
   | S2Emetfun of (stampopt, s2explst, s2exp) // metricked function
+//
   | S2Emetdec of (s2explst(*met*), s2explst(*metbound*)) // strictly decreasing
 //
   | S2Etop of (int(*knd*), s2exp) // knd: 0/1: topization/typization

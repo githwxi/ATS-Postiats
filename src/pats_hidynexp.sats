@@ -51,38 +51,43 @@ staload "pats_histaexp.sats"
 
 datatype
 hipat_node =
-  | HIPany (* wildcard *)
-  | HIPvar of (int(*refknd*), d2var)
+  | HIPany of () // wildcard
+  | HIPvar of (d2var) // mutability from the context
   | HIPbool of bool
   | HIPchar of char
+  | HIPstring of string
+  | HIPfloat of string (* float point pattern *)
+  | HIPempty of () // empty pattern
 (*
-  | HIPann of (hipat, hisexp)
-  | HIPas of (* referenced pattern *)
-      (int(*refkind*), d2var_t, hipat)
   | HIPcon of (* constructor pattern *)
       (int (*freeknd*), d2con_t, hipatlst, hityp(*sum*))
   | HIPcon_any of (* constructor pattern with unused arg *)
       (int(*freeknd*), d2con_t)
-  | HIPempty (* empty pattern *)
-  | HIPfloat of string (* float point pattern *)
   | HIPint of (* integer pattern *)
       (string, intinf_t)
-  | HIPlst of (* list pattern *)
-      (hityp(*element*), hipatlst)
-  | HIPrec of (* record pattern *)
-      (int (*knd*), labhipatlst, hityp(*rec*))
-  | HIPstring of (* string pattern *)
-      string 
 *)
+  | HIPrec of (* record pattern *)
+      (int (*knd*), hisexp(*tyrec*), labhipatlst)
+  | HIPlst of (hisexp(*element*), hipatlst)
+//
+  | HIPrefas of (d2var, hipat) // referenced pattern
+//
+  | HIPann of (hipat, hisexp)
+//
+  | HIPerr of () // HX: error indication
 // end of [hipat_node]
+
+and labhipat = LABHIPAT of (label, hipat)
 
 where
 hipat = '{
-  hipat_loc= location, hipat_node= hipat_node
+  hipat_loc= location, hipat_type= hisexp, hipat_node= hipat_node
 } // end of [hipat]
 
 and hipatlst = List (hipat)
 and hipatopt = Option (hipat)
+
+and labhipatlst = List (labhipat)
 
 (* ****** ****** *)
 
@@ -91,6 +96,36 @@ overload print with print_hipat
 fun prerr_hipat (hip: hipat): void
 overload prerr with prerr_hipat
 fun fprint_hipat : fprint_type (hipat)
+
+(* ****** ****** *)
+
+fun hipat_make_node
+  (loc: location, hse: hisexp, node: hipat_node): hipat
+
+fun hipat_any (loc: location, hse: hisexp): hipat
+fun hipat_var (loc: location, hse: hisexp, d2v: d2var): hipat
+
+fun hipat_bool (loc: location, hse: hisexp, b: bool): hipat
+fun hipat_char (loc: location, hse: hisexp, c: char): hipat
+fun hipat_string (loc: location, hse: hisexp, str: string): hipat
+fun hipat_float (loc: location, hse: hisexp, rep: string): hipat
+
+fun hipat_rec (
+  loc: location
+, hse: hisexp, knd: int, hse_rec: hisexp, lhips: labhipatlst
+) : hipat // end of [hipat_rec]
+
+fun hipat_lst (
+  loc: location, hse: hisexp, hse_elt: hisexp, hips: hipatlst
+) : hipat // end of [hipat_lst]
+
+fun hipat_refas (
+  loc: location, hse: hisexp, d2v: d2var, hip: hipat
+) : hipat // end of [hipat_refas]
+
+fun hipat_ann
+  (loc: location, hse: hisexp, hip: hipat, ann: hisexp): hipat
+// end of [hipat_ann]
 
 (* ****** ****** *)
 

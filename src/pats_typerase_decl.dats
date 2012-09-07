@@ -28,60 +28,33 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: July, 2012
+// Start Time: September, 2012
 //
 (* ****** ****** *)
 
-staload
-LOC = "pats_location.sats"
-typedef location = $LOC.location
+staload "pats_basics.sats"
 
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
-staload "pats_dynexp2.sats"
-
-(* ****** ****** *)
-
-staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
 
 staload "pats_histaexp.sats"
-staload "pats_hidynexp.sats"
-
-(* ****** ****** *)
-//
-// HX-2012-09:
-// [s2exp_tyer] is essentially for
-// measuring the size of a given type
-//
-fun s2exp_tyer // flag=0/1:shallow/deep
-  (loc: location, flag: int, s2e0: s2exp): hisexp
-// end of [s2exp_tyer]
-
-fun s2exp_tyer_deep
-  (loc: location, s2e0: s2exp): hisexp
-// end of [s2exp_tyer_deep]
-
-fun s2exp_tyer_shallow
-  (loc: location, s2e0: s2exp): hisexp
-// end of [s2exp_tyer_shallow]
 
 (* ****** ****** *)
 
-fun p3at_tyer (p3t: p3at): hipat
-fun p3atlst_tyer (p3ts: p3atlst): hipatlst
+staload "pats_typerase.sats"
 
 (* ****** ****** *)
 
-fun d3exp_tyer (d3e: d3exp): hidexp
-fun d3explst_tyer (d3es: d3explst): hidexplst
+implement
+d3eclist_tyer
+  (d3cs) = let
+in
+  exitloc (1)
+end // end of [d3eclist_tyer]
 
 (* ****** ****** *)
 
-fun d3eclist_tyer (d3cs: d3eclist): hideclist
-
-(* ****** ****** *)
-
-(* end of [pats_typerase.sats] *)
+(* end of [pats_typerase_decl.dats] *)

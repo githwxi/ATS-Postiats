@@ -28,21 +28,15 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: July, 2012
+// Start Time: September, 2012
 //
 (* ****** ****** *)
 
-staload
-LOC = "pats_location.sats"
-typedef location = $LOC.location
+staload "pats_basics.sats"
 
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
-staload "pats_dynexp2.sats"
-
-(* ****** ****** *)
-
 staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
@@ -51,37 +45,47 @@ staload "pats_histaexp.sats"
 staload "pats_hidynexp.sats"
 
 (* ****** ****** *)
+
+staload "pats_typerase.sats"
+
+(* ****** ****** *)
+
+implement
+p3at_tyer (p3t0) = let
 //
-// HX-2012-09:
-// [s2exp_tyer] is essentially for
-// measuring the size of a given type
+val loc0 = p3t0.p3at_loc
+val s2e0 = p3at_get_type (p3t0)
+val hse0 = s2exp_tyer_shallow (loc0, s2e0)
 //
-fun s2exp_tyer // flag=0/1:shallow/deep
-  (loc: location, flag: int, s2e0: s2exp): hisexp
-// end of [s2exp_tyer]
-
-fun s2exp_tyer_deep
-  (loc: location, s2e0: s2exp): hisexp
-// end of [s2exp_tyer_deep]
-
-fun s2exp_tyer_shallow
-  (loc: location, s2e0: s2exp): hisexp
-// end of [s2exp_tyer_shallow]
-
-(* ****** ****** *)
-
-fun p3at_tyer (p3t: p3at): hipat
-fun p3atlst_tyer (p3ts: p3atlst): hipatlst
-
-(* ****** ****** *)
-
-fun d3exp_tyer (d3e: d3exp): hidexp
-fun d3explst_tyer (d3es: d3explst): hidexplst
-
-(* ****** ****** *)
-
-fun d3eclist_tyer (d3cs: d3eclist): hideclist
+(*
+val () = println! ("p3at_tyer: p3t0 = ", p3t0)
+val () = println! ("p3at_tyer: s2e0 = ", s2e0)
+val () = println! ("p3at_tyer: hse0 = ", hse0)
+*)
+//
+in
+//
+case+ p3t0.p3at_node of
+//
+| P3Tann (p3t, s2e_ann) => let
+    val hip = p3at_tyer (p3t)
+    val hse_ann = s2exp_tyer_shallow (loc0, s2e_ann)
+  in
+    hipat_ann (loc0, hse0, hip, hse_ann)
+  end // end of [P3Tann]
+//
+| _ => exitloc (1)
+//
+end // endof [p3at_tyer]
 
 (* ****** ****** *)
 
-(* end of [pats_typerase.sats] *)
+implement
+d3exp_tyer (d3e0) = let
+in
+  exitloc (1)
+end // endof [d3exp_tyer]
+
+(* ****** ****** *)
+
+(* end of [pats_typerase_dynexp.dats] *)

@@ -327,6 +327,8 @@ val SOURCES =
 //
 , "pats_typerase.sats"
 , "pats_typerase_staexp.dats"
+, "pats_typerase_dynexp.dats"
+, "pats_typerase_decl.dats"
 //
 , "pats_comarg.sats"
 , "pats_comarg.dats"
