@@ -24,11 +24,17 @@ href="http://www.digip.org/jansson/">jansson</a> library.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("JSONptr2ptr")
 #declnamesynop("JSONptr_is_gtez")
+#declnamesynop("JSONptr_free_null")
 #declnamesynop("JSONptr_is_null")
 #declnamesynop("JSONptr_isnot_null")
 
+(* ****** ****** *)
+
+#declnamesynop("JSONiter2ptr")
 #declnamesynop("JSONiter_is_gtez")
+#declnamesynop("JSONiter_free_null")
 #declnamesynop("JSONiter_is_null")
 #declnamesynop("JSONiter_isnot_null")
 

@@ -51,7 +51,9 @@ macdef JSON_TRUE     = $extval (json_type, "JSON_TRUE")
 macdef JSON_FALSE    = $extval (json_type, "JSON_FALSE")
 macdef JSON_NULL     = $extval (json_type, "JSON_NULL")
 //
-abst@ype json_t = $extype"json_t" // json_type + refcount
+abst@ype
+json_t = $extype"json_t" // json_type + refcount
+//
 typedef
 json_error_t =
 $extype_struct
