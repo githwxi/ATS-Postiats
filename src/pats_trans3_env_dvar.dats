@@ -464,7 +464,9 @@ case+ p3t.p3at_node of
   ) =>
     the_d2varenv_add_labp3atlst (lp3ts)
   // end of [P3Trec]
-| P3Tlst (lin, p3ts) => the_d2varenv_add_p3atlst (p3ts)
+| P3Tlst (
+    lin, _elt, p3ts
+  ) => the_d2varenv_add_p3atlst (p3ts)
 //
 | P3Trefas (d2v, p3t) => {
     val () = the_d2varenv_add_dvar (d2v)

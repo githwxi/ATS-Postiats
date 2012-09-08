@@ -162,7 +162,9 @@ where hidecl = '{
 and hideclist = List (hidecl)
 
 and hidexp = '{
-  hidexp_loc= location, hidexp_node= hidexp_node
+  hidexp_loc= location
+, hidexp_type= hisexp
+, hidexp_node= hidexp_node
 }
 
 and hidexplst = List (hidexp)
@@ -177,6 +179,10 @@ fun fprint_hidecl : fprint_type (hidecl)
 fun fprint_hideclist : fprint_type (hideclist)
 
 (* ****** ****** *)
+
+fun hidexp_make_node
+  (loc: location, hse: hisexp, node: hidexp_node): hidexp
+// end of [hidexp_make_node]
 
 fun hidexp_bool
   (loc: location, hse: hisexp, b: bool): hidexp

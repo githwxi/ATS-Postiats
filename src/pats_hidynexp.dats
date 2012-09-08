@@ -122,9 +122,38 @@ hipat_refas
 (* ****** ****** *)
 
 implement
-hipat_ann (loc, hse, hip, hse_ann) =
+hipat_ann
+  (loc, hse, hip, hse_ann) =
   hipat_make_node (loc, hse, HIPann (hip, hse_ann))
 // end of [hipat_ann]
+
+(* ****** ****** *)
+
+implement
+hidexp_make_node
+  (loc, hse, node) = '{
+  hidexp_loc= loc, hidexp_type= hse, hidexp_node= node
+} // end of [hidexp_make_node]
+
+(* ****** ****** *)
+
+implement
+hidexp_bool
+  (loc, hse, b) =
+  hidexp_make_node (loc, hse, HDEbool (b))
+// end of [hidexp_bool]
+
+implement
+hidexp_char
+  (loc, hse, c) =
+  hidexp_make_node (loc, hse, HDEchar (c))
+// end of [hidexp_char]
+
+implement
+hidexp_string
+  (loc, hse, str) =
+  hidexp_make_node (loc, hse, HDEstring (str))
+// end of [hidexp_string]
 
 (* ****** ****** *)
 

@@ -106,9 +106,13 @@ case+ p3t0.p3at_node of
 | P3Tempty () => prstr "P3Tempty()"
 //
 | P3Trec _ => prstr "P3Trec(...)"
-| P3Tlst (lin, p3ts) => {
+| P3Tlst (
+    lin, s2e_elt, p3ts
+  ) => {
     val () = prstr "P3Tlst("
     val () = fprint_int (out, lin)
+    val () = prstr "; "
+    val () = fprint_s2exp (out, s2e_elt)
     val () = prstr "; "
     val () = fprint_p3atlst (out, p3ts)
     val () = prstr ")"
