@@ -80,6 +80,7 @@ fun d3explst_tyer (d3es: d3explst): hidexplst
 
 (* ****** ****** *)
 
+fun d3ecl_tyer (d3c: d3ecl): hidecl
 fun d3eclist_tyer (d3cs: d3eclist): hideclist
 
 (* ****** ****** *)

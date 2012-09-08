@@ -115,8 +115,8 @@ p3at_rec (
 
 implement
 p3at_lst (
-  loc, s2f, lin, p3ts
-) = p3at_make_node (loc, s2f, P3Tlst (lin, p3ts))
+  loc, s2f, lin, s2e_elt, p3ts
+) = p3at_make_node (loc, s2f, P3Tlst (lin, s2e_elt, p3ts))
 
 implement
 p3at_refas (

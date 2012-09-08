@@ -67,7 +67,7 @@ hipat_node =
       (string, intinf_t)
 *)
   | HIPrec of (* record pattern *)
-      (int (*knd*), hisexp(*tyrec*), labhipatlst)
+      (int(*knd*), labhipatlst, hisexp(*tyrec*))
   | HIPlst of (hisexp(*element*), hipatlst)
 //
   | HIPrefas of (d2var, hipat) // referenced pattern
@@ -110,9 +110,11 @@ fun hipat_char (loc: location, hse: hisexp, c: char): hipat
 fun hipat_string (loc: location, hse: hisexp, str: string): hipat
 fun hipat_float (loc: location, hse: hisexp, rep: string): hipat
 
+fun hipat_empty (loc: location, hse: hisexp): hipat
+
 fun hipat_rec (
   loc: location
-, hse: hisexp, knd: int, hse_rec: hisexp, lhips: labhipatlst
+, hse: hisexp, knd: int, lhips: labhipatlst, hse_rec: hisexp
 ) : hipat // end of [hipat_rec]
 
 fun hipat_lst (
@@ -136,20 +138,21 @@ hidecl_node =
 // end of [hidecl_node]
 
 and hidexp_node =
-  | HIEbool of bool // boolean constants
-  | HIEchar of char // constant characters
-  | HIEstring of string // constant strings
+  | HDEbool of bool // boolean constants
+  | HDEchar of char // constant characters
+  | HDEstring of string // constant strings
+//
+  | HDEapp of (hisexp, hidexp, hidexplst) // dynapp
+//
 (*
-  | HIEapp of (* dynamic application *)
-      (hityp, hiexp, hiexplst)
-  | HIEarrinit of (* array construction *)
+  | HDEarrinit of (* array construction *)
       (hityp(*eltyp*), hiexpopt(*asz*), hiexplst(*elt*))
-  | HIEarrsize of (* arraysize construction *)
+  | HDEarrsize of (* arraysize construction *)
       (hityp(*eltyp*), hiexplst(*elt*))
-  | HIEassgn_ptr of (* assignment to a pointer with offsets *)
+  | HDEassgn_ptr of (* assignment to a pointer with offsets *)
       (hiexp, hilablst, hiexp)
-  | HIEassgn_var of (* assignment to a variable with ofsets *)
-      (d2var_t, hilablst, hiexp)
+  | HDEassgn_var of (* assignment to a variable with ofsets *)
+      (d2var_t, hilablst, hidexp)
 *)
 
 where hidecl = '{
@@ -172,6 +175,15 @@ fun fprint_hidexplst : fprint_type (hidexplst)
 
 fun fprint_hidecl : fprint_type (hidecl)
 fun fprint_hideclist : fprint_type (hideclist)
+
+(* ****** ****** *)
+
+fun hidexp_bool
+  (loc: location, hse: hisexp, b: bool): hidexp
+fun hidexp_char
+  (loc: location, hse: hisexp, c: char): hidexp
+fun hidexp_string
+  (loc: location, hse: hisexp, str: string): hidexp
 
 (* ****** ****** *)
 

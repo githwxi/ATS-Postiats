@@ -74,7 +74,7 @@ datatype p3at_node =
   | P3Tempty (* empty pattern *)
 //
   | P3Trec of (int(*knd*), int(*npf*), labp3atlst)
-  | P3Tlst of (int(*lin*), p3atlst) // pattern list
+  | P3Tlst of (int(*lin*), s2exp(*elt*), p3atlst) // pattern list
 //
   | P3Trefas of (d2var, p3at) // referenced pattern
 //
@@ -161,7 +161,7 @@ fun p3at_rec (
 , s2f: s2exp, knd: int, npf: int, lp3ts: labp3atlst
 ) : p3at // end of [p3at_rec]
 fun p3at_lst (
-  loc: location, s2f: s2exp, lin: int, p3ts: p3atlst
+  loc: location, s2f: s2exp, lin: int, s2e_elt: s2exp, p3ts: p3atlst
 ) : p3at // end of [p3at_lst]
 
 fun p3at_refas (

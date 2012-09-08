@@ -1123,7 +1123,7 @@ case+ s2e.s2exp_node of
     val- list_cons (s2e_arg, _) = s2es_arg
     val p3ts = p2atlst_trdn_elt (p2ts, s2e_arg)
   in
-    p3at_lst (loc0, s2e, lin, p3ts)
+    p3at_lst (loc0, s2e, lin, s2e_arg, p3ts)
   end // list0
 | S2Eapp (s2e_fun, s2es_arg)
     when s2cstref_equ_exp (
@@ -1140,7 +1140,7 @@ case+ s2e.s2exp_node of
     val s2f2_arg = s2exp2hnf (s2e2_arg)
     val () = trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f2_arg)
   in
-    p3at_lst (loc0, s2e, lin, p3ts)
+    p3at_lst (loc0, s2e, lin, s2e1_arg, p3ts)
   end // list1
 | _ => let
     val () = prerr_error3_loc (loc0)

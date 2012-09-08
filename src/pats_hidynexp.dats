@@ -91,10 +91,18 @@ hipat_float
 (* ****** ****** *)
 
 implement
+hipat_empty
+  (loc, hse) =
+  hipat_make_node (loc, hse, HIPempty ())
+// end of [hipat_empty]
+
+(* ****** ****** *)
+
+implement
 hipat_rec (
-  loc, hse, knd, hse_rec, lhips
+  loc, hse, knd, lhips, hse_rec
 ) =
-  hipat_make_node (loc, hse, HIPrec (knd, hse_rec, lhips))
+  hipat_make_node (loc, hse, HIPrec (knd, lhips, hse_rec))
 // end of [hipat_rec]
 
 implement

@@ -32,46 +32,100 @@
 //
 (* ****** ****** *)
 
+staload UT = "pats_utils.sats"
+staload _(*anon*) = "pats_utils.dats"
+
+(* ****** ****** *)
+
 staload "pats_basics.sats"
 
 (* ****** ****** *)
 
+staload LAB = "pats_label.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
+staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 
 staload "pats_histaexp.sats"
-
-(* ****** ****** *)
-
-staload "pats_typerase.sats"
+staload "pats_hidynexp.sats"
 
 (* ****** ****** *)
 
 implement
-d3ecl_tyer
-  (d3c) = let
+fprint_hipat
+  (out, x) = let
+   macdef prstr (s) = fprint_string (out, ,(s))
+in
+//
+case+ x.hipat_node of
+//
+| HIPany () => {
+    val () = prstr "HIPany()"
+  }
+| HIPvar (d2v) => {
+    val () = prstr "HIPvar("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr ")"
+  }
+| HIPbool (b) => {
+    val () = prstr "HIPbool("
+    val () = fprint_bool (out, b)
+    val () = prstr ")"
+  }
+| HIPchar (c) => {
+    val () = prstr "HIPchar("
+    val () = fprint_char (out, c)
+    val () = prstr ")"
+  }
+| HIPstring (str) => {
+    val () = prstr "HIPstring("
+    val () = fprint_string (out, str)
+    val () = prstr ")"
+  }
+//
+| _ => {
+    val () = fprint_string (out, "HIP...(...)")
+  } // end of [_]
+//
+end // end of [fprint_hipat]
+
+(* ****** ****** *)
+
+implement
+fprint_hidexp
+  (out, x) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
 in
 //
 case+
-  d3c.d3ecl_node of
+  x.hidexp_node of
 //
-| _ => exitloc (1)
+| HDEbool (b) => {
+    val () = prstr "HDEbool("
+    val () = fprint_bool (out, b)
+    val () = prstr ")"
+  }
+| HDEchar (c) => {
+    val () = prstr "HDEchar("
+    val () = fprint_char (out, c)
+    val () = prstr ")"
+  }
+| HDEstring (str) => {
+    val () = prstr "HDEstring("
+    val () = fprint_string (out, str)
+    val () = prstr ")"
+  }
 //
-end // end of [d3ecl_tyer]
+| _ => {
+    val () = fprint_string (out, "HDE...(...)")
+  } // end of [_]
+//
+end // end of [fprint_hidexp]
 
 (* ****** ****** *)
 
-implement
-d3eclist_tyer
-  (d3cs) = let
-  val hids =
-    list_map_fun (d3cs, d3ecl_tyer)
-  // end of [val]
-in
-  list_of_list_vt (hids)
-end // end of [d3eclist_tyer]
-
-(* ****** ****** *)
-
-(* end of [pats_typerase_decl.dats] *)
+(* end of [pats_hidynexp_print.dats] *)
