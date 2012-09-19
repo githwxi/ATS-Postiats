@@ -370,9 +370,13 @@ fun cairo_get_tolerance
 /*
 void                cairo_clip                          (cairo_t *cr);
 */
+fun cairo_clip (ctx: !xr1): void = "mac#atsctrb_cairo_clip"
+
 /*
 void                cairo_clip_preserve                 (cairo_t *cr);
 */
+fun cairo_clip_preserve (ctx: !xr1): void = "mac#atsctrb_cairo_clip_preserve"
+
 /*
 void                cairo_clip_extents                  (cairo_t *cr,
                                                          double *x1,
@@ -380,25 +384,28 @@ void                cairo_clip_extents                  (cairo_t *cr,
                                                          double *x2,
                                                          double *y2);
 */
+fun cairo_clip_extents (
+  ctx: !xr1
+, x1: &double? >> double
+, y1: &double? >> double
+, x2: &double? >> double
+, y2: &double? >> double
+) : void = "mac#atsctrb_cairo_clip_extents"
 
 /*
 cairo_bool_t        cairo_in_clip                       (cairo_t *cr,
                                                          double x,
                                                          double y);
 */
+fun cairo_in_clip (ctx: !xr1): bool = "mac#atsctrb_cairo_in_clip"
+
 /*
 void                cairo_reset_clip                    (cairo_t *cr);
 */
+fun cairo_reset_clip (ctx: !xr1): void = "mac#atsctrb_cairo_reset_clip"
 
 (* ****** ****** *)
 
-
-/*
-                    cairo_rectangle_t;
-*/
-/*
-                    cairo_rectangle_list_t;
-*/
 /*
 void                cairo_rectangle_list_destroy (cairo_rectangle_list_t *rectangle_list);
 */
@@ -407,12 +414,18 @@ void                cairo_rectangle_list_destroy (cairo_rectangle_list_t *rectan
 cairo_rectangle_list_t * cairo_copy_clip_rectangle_list (cairo_t *cr);
 */
 
+(* ****** ****** *)
+
 /*
 void                cairo_fill                          (cairo_t *cr);
 */
+fun cairo_fill (ctx: !xr1): void = "mac#atsctrb_cairo_fill"
+
 /*
 void                cairo_fill_preserve                 (cairo_t *cr);
 */
+fun cairo_fill_preserve (ctx: !xr1): void = "mac#atsctrb_cairo_fill_preserve"
+
 /*
 void                cairo_fill_extents                  (cairo_t *cr,
                                                          double *x1,
@@ -420,36 +433,62 @@ void                cairo_fill_extents                  (cairo_t *cr,
                                                          double *x2,
                                                          double *y2);
 */
+fun cairo_fill_extents (
+  ctx: !xr1
+, x1: &double? >> double
+, y1: &double? >> double
+, x2: &double? >> double
+, y2: &double? >> double
+) : void = "mac#atsctrb_cairo_fill_extents"
+
 /*
 cairo_bool_t        cairo_in_fill                       (cairo_t *cr,
                                                          double x,
                                                          double y);
 */
+fun cairo_in_fill (ctx: !xr1): bool = "mac#atsctrb_cairo_in_fill"
+
+(* ****** ****** *)
+
 /*
 void                cairo_mask                          (cairo_t *cr,
-                                                         cairo_pattern_t
-							 *pattern);
+                                                         cairo_pattern_t *pattern);
 */
+
 /*
 void                cairo_mask_surface                  (cairo_t *cr,
-                                                         cairo_surface_t
-							 *surface,
+                                                         cairo_surface_t *surface,
                                                          double surface_x,
                                                          double surface_y);
 */
+
+(* ****** ****** *)
+
 /*
 void                cairo_paint                         (cairo_t *cr);
 */
+fun cairo_paint (ctx: !xr1): void = "mac#atsctrb_cairo_paint"
+
 /*
 void                cairo_paint_with_alpha              (cairo_t *cr,
                                                          double alpha);
 */
+fun cairo_paint_with_alpha
+  (ctx: !xr1, alpha: double): void = "mac#atsctrb_cairo_paint_with_alpha"
+// end of [cairo_paint_with_alpha]
+
+(* ****** ****** *)
+
 /*
 void                cairo_stroke                        (cairo_t *cr);
 */
+fun cairo_stroke (ctx: !xr1): void = "mac#atsctrb_cairo_stroke"
+
 /*
 void                cairo_stroke_preserve               (cairo_t *cr);
 */
+fun cairo_stroke_preserve (ctx: !xr1): void = "mac#atsctrb_cairo_stroke_preserve"
+
 /*
 void                cairo_stroke_extents                (cairo_t *cr,
                                                          double *x1,
@@ -457,17 +496,32 @@ void                cairo_stroke_extents                (cairo_t *cr,
                                                          double *x2,
                                                          double *y2);
 */
+fun cairo_stroke_extents (
+  ctx: !xr1
+, x1: &double? >> double
+, y1: &double? >> double
+, x2: &double? >> double
+, y2: &double? >> double
+) : void = "mac#atsctrb_cairo_stroke_extents"
+
 /*
 cairo_bool_t        cairo_in_stroke                     (cairo_t *cr,
                                                          double x,
                                                          double y);
 */
+fun cairo_in_stroke (ctx: !xr1): bool = "mac#atsctrb_cairo_in_stroke"
+
+(* ****** ****** *)
+
 /*
 void                cairo_copy_page                     (cairo_t *cr);
 */
+fun cairo_copy_page (ctx: !xr1): void = "mac#atsctrb_cairo_copy_page"
+
 /*
 void                cairo_show_page                     (cairo_t *cr);
 */
+fun cairo_show_page (ctx: !xr1): void = "mac#atsctrb_cairo_show_page"
 
 (* ****** ****** *)
 

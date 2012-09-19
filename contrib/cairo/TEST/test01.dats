@@ -63,9 +63,9 @@ val () = cairo_surface_destroy (surface)
 //
 val () =
   if status = CAIRO_STATUS_SUCCESS then (
-  print "The image is written to the file [test01.png].\n"
+  println! "The image is written to the file [test01.png]."
 ) else (
-  print "exit(ATS): [cairo_surface_write_to_png] failed"; print_newline ()
+  println! "exit(ATS): [cairo_surface_write_to_png] failed"
 ) // end of [if]
 //
 } // end of [main]

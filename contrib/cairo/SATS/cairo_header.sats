@@ -50,6 +50,12 @@ macdef CAIRO_VERSION_MICRO = $extval (int, "CAIRO_VERSION_MICRO")
 
 (* ****** ****** *)
 
+macdef CAIRO_HAS_IMAGE_SURFACE = $extval (int, "CAIRO_HAS_IMAGE_SURFACE")
+macdef CAIRO_HAS_PDF_SURFACE = $extval (int, "CAIRO_HAS_PDF_SURFACE")
+macdef CAIRO_HAS_PNG_FUNCTIONS = $extval (int, "CAIRO_HAS_PNG_FUNCTIONS")
+
+(* ****** ****** *)
+
 macdef CAIRO_HAS_MIME_SURFACE = $extval (int, "CAIRO_HAS_MIME_SURFACE")
 macdef CAIRO_MIME_TYPE_JP2 = $extval (string, "CAIRO_MIME_TYPE_JP2")
 macdef CAIRO_MIME_TYPE_JPEG = $extval (string, "CAIRO_MIME_TYPE_JPEG")
@@ -118,6 +124,17 @@ stadef xrrgn1 = cairo_region_ref1
 //
 (* ****** ****** *)
 //
+// cairo_font_face_ref // cairo_font_fact_t*
+//
+absviewtype
+cairo_font_face_ref (l:addr) // cairo_font_face_t*
+viewtypedef
+cairo_font_face_ref1 = [l:addr | l > null] cairo_font_face_ref (l)
+stadef xrfontface = cairo_font_face_ref
+stadef xrfontface1 = cairo_font_face_ref1
+//
+(* ****** ****** *)
+//
 abst@ype cairo_status_t = $extype"cairo_status_t"
 //
 macdef CAIRO_STATUS_SUCCESS = $extval (cairo_status_t, "CAIRO_STATUS_SUCCESS")
@@ -159,6 +176,10 @@ macdef CAIRO_STATUS_DEVICE_ERROR = $extval (cairo_status_t, "CAIRO_STATUS_DEVICE
 macdef CAIRO_STATUS_INVALID_MESH_CONSTRUCTION = $extval (cairo_status_t, "CAIRO_STATUS_INVALID_MESH_CONSTRUCTION")
 macdef CAIRO_STATUS_DEVICE_FINISHED = $extval (cairo_status_t, "CAIRO_STATUS_DEVICE_FINISHED")
 macdef CAIRO_STATUS_LAST_STATUS = $extval (cairo_status_t, "CAIRO_STATUS_LAST_STATUS")
+//
+fun eq_cairo_status_cairo_status
+  (x1: cairo_status_t, x2: cairo_status_t):<> bool
+overload = with eq_cairo_status_cairo_status
 //
 (* ****** ****** *)
 //
@@ -252,12 +273,37 @@ macdef CAIRO_LINE_JOIN_BEVE = $extval (cairo_line_join_t, "CAIRO_LINE_JOIN_BEVE"
 //
 (* ****** ****** *)
 //
+abst@ype cairo_font_slant_t = $extype"cairo_font_slant_t"
+//
+macdef CAIRO_FONT_SLANT_NORMAL = $extval (cairo_font_slant_t, "CAIRO_FONT_SLANT_NORMAL")
+macdef CAIRO_FONT_SLANT_ITALIC = $extval (cairo_font_slant_t, "CAIRO_FONT_SLANT_ITALIC")
+macdef CAIRO_FONT_SLANT_OBLIQUE = $extval (cairo_font_slant_t, "CAIRO_FONT_SLANT_OBLIQUE")
+//
+(* ****** ****** *)
+//
+abst@ype cairo_font_weight_t = $extype"cairo_font_weight_t"
+//
+macdef CAIRO_FONT_WEIGHT_NORMAL = $extval (cairo_font_weight_t, "CAIRO_FONT_WEIGHT_NORMAL")
+macdef CAIRO_FONT_WEIGHT_BOLD = $extval (cairo_font_weight_t, "CAIRO_FONT_WEIGHT_BOLD")
+//
+(* ****** ****** *)
+//
 abst@ype cairo_path_data_type_t = $extype"cairo_path_data_type_t"
 //
 macdef CAIRO_PATH_MOVE_TO = $extval (cairo_path_data_type_t, "CAIRO_PATH_MOVE_TO")
 macdef CAIRO_PATH_LINE_TO = $extval (cairo_path_data_type_t, "CAIRO_PATH_LINE_TO")
 macdef CAIRO_PATH_CURVE_TO = $extval (cairo_path_data_type_t, "CAIRO_PATH_CURVE_TO")
 macdef CAIRO_PATH_CLOSE_PATH = $extval (cairo_path_data_type_t, "CAIRO_PATH_CLOSE_PATH")
+//
+(* ****** ****** *)
+//
+abst@ype cairo_font_type_t = $extype"cairo_font_type_t"
+//
+macdef CAIRO_FONT_TYPE_TOY = $extval (cairo_font_type_t, "CAIRO_FONT_TYPE_TOY")
+macdef CAIRO_FONT_TYPE_FT = $extval (cairo_font_type_t, "CAIRO_FONT_TYPE_FT")
+macdef CAIRO_FONT_TYPE_WIN32 = $extval (cairo_font_type_t, "CAIRO_FONT_TYPE_WIN32")
+macdef CAIRO_FONT_TYPE_QUARTZ = $extval (cairo_font_type_t, "CAIRO_FONT_TYPE_QUARTZ")
+macdef CAIRO_FONT_TYPE_USER = $extval (cairo_font_type_t, "CAIRO_FONT_TYPE_USER")
 //
 (* ****** ****** *)
 
@@ -280,6 +326,13 @@ typedef
 cairo_write_func_t =
  (voidptr0(*closure*), constcharptr0(*data*), uint(*length*)) -> cairo_status_t
 // end of [cairo_wirte_func_t]
+
+(* ****** ****** *)
+
+typedef
+cairo_glyph_t =
+  $extype_struct"cairo_glyph_t" of { index= ulint, x= double, y= double }
+// end of [cairo_glyph_t]
 
 (* ****** ****** *)
 

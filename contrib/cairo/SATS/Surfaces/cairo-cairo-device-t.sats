@@ -18,7 +18,7 @@ cairo_device_reference
   x: !xrdev l
 ) : xrdev (l)
   = "mac#atsctrb_cairo_device_reference"
-// end of [fun]
+// end of [cairo_device_reference]
 
 /*
 void                cairo_device_destroy                (cairo_device_t *device);
@@ -31,8 +31,30 @@ fun cairo_device_destroy
 
 /*
 cairo_status_t      cairo_device_status                 (cairo_device_t *device);
+*/
+fun cairo_device_status
+  (x: !xrdev1): cairo_status_t = "mac#atsctrb_cairo_device_status"
+// end of [cairo_device_status]
+
+(* ****** ****** *)
+
+/*
 void                cairo_device_finish                 (cairo_device_t *device);
+*/
+fun cairo_device_finish
+  (x: !xrdev1): void = "mac#atsctrb_cairo_device_finish"
+// end of [cairo_device_finish]
+
+/*
 void                cairo_device_flush                  (cairo_device_t *device);
+*/
+fun cairo_device_flush
+  (x: !xrdev1): void = "mac#atsctrb_cairo_device_flush"
+// end of [cairo_device_flush]
+
+(* ****** ****** *)
+
+/*
 enum                cairo_device_type_t;
 cairo_device_type_t cairo_device_get_type               (cairo_device_t *device);
 unsigned int        cairo_device_get_reference_count    (cairo_device_t *device);
