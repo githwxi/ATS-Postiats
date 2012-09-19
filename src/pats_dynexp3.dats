@@ -240,6 +240,14 @@ d3exp_string
 , d3exp_node= D3Estring (str)
 } // end of [d3exp_string]
 
+implement
+d3exp_float
+  (loc, s2f, rep) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Efloat (rep)
+} // end of [d3exp_float]
+
 (* ****** ****** *)
 
 implement

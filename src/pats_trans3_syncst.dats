@@ -384,7 +384,7 @@ float_syn_type
   val sfx = $UT.float_get_nsfx (rep)
 in
   floatsfx_syn_type (loc0, rep, sfx)
-end // end of [f0loat_syn_type]
+end // end of [float_syn_type]
 
 implement
 f0loat_syn_type
@@ -396,6 +396,15 @@ in
 end // end of [f0loat_syn_type]
 
 (* ****** ****** *)
+
+implement
+d2exp_trup_float
+  (d2e0, rep) = let
+  val loc0 = d2e0.d2exp_loc
+  val s2f = float_syn_type (loc0, rep)
+in
+  d3exp_float (loc0, s2f, rep)
+end // end of [d2exp_trup_float]
 
 implement
 d2exp_trup_f0loat

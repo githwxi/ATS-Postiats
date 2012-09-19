@@ -172,6 +172,7 @@ case+ d2e0.d2exp_node of
 | D2Eintrep (rep(*string*)) => d2exp_trup_intrep (d2e0, rep)
 | D2Ebool (b(*bool*)) => d2exp_trup_bool (d2e0, b)
 | D2Echar (c(*char*)) => d2exp_trup_char (d2e0, c)
+| D2Efloat (rep(*string*)) => d2exp_trup_float (d2e0, rep)
 //
 | D2Ei0nt (tok) => d2exp_trup_i0nt (d2e0, tok)
 | D2Ec0har (tok) => let

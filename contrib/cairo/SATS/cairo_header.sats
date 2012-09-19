@@ -178,7 +178,7 @@ macdef CAIRO_STATUS_DEVICE_FINISHED = $extval (cairo_status_t, "CAIRO_STATUS_DEV
 macdef CAIRO_STATUS_LAST_STATUS = $extval (cairo_status_t, "CAIRO_STATUS_LAST_STATUS")
 //
 fun eq_cairo_status_cairo_status
-  (x1: cairo_status_t, x2: cairo_status_t):<> bool
+  (x1: cairo_status_t, x2: cairo_status_t):<> bool = "mac#atspre_eq_int_int"
 overload = with eq_cairo_status_cairo_status
 //
 (* ****** ****** *)

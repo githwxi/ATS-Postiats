@@ -48,6 +48,19 @@ end // end of [fprint_print_prerr_decl]
 
 #atscode_separator()
 
+fun{tk:tk}
+g0float_neg (x: g0float (tk)): g0float (tk)
+overload ~ with g0float_neg of 0
+
+fun{tk:tk}
+g0float_succ (x: g0float (tk)):<> g0float (tk)
+overload succ with g0float_succ of 0
+fun{tk:tk}
+g0float_pred (x: g0float (tk)):<> g0float (tk)
+overload pred with g0float_pred of 0
+
+#atscode_separator()
+
 typedef
 g0float_aop_type
   (tk:tk) = (g0float (tk), g0float (tk)) -<> g0float (tk)
@@ -219,6 +232,22 @@ end // end of [g0float_declist]
 //
 #fprint_print_prerr_decl("ldouble")
 //
+#atscode_separator()
+
+fun{tk:tk}
+mul_g0float_int (x: g0float (tk), y: int): g0float (tk)
+overload * with mul_g0float_int of 0
+fun{tk:tk}
+mul_int_g0float (x: int, y: g0float (tk)): g0float (tk)
+overload * with mul_int_g0float of 0
+
+fun{tk:tk}
+div_g0float_int (x: g0float (tk), y: int): g0float (tk)
+overload / with div_g0float_int of 0
+fun{tk:tk}
+div_int_g0float (x: int, y: g0float (tk)): g0float (tk)
+overload / with div_int_g0float of 0
+
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

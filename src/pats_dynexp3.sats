@@ -502,6 +502,10 @@ fun d3exp_string
   (loc: location, s2f: s2exp, str: string): d3exp
 // end of [d3exp_string]
 
+fun d3exp_float
+  (loc: location, s2f: s2exp, rep: string): d3exp
+// end of [d3exp_float]
+
 (* ****** ****** *)
 
 fun d3exp_i0nt (
