@@ -296,30 +296,37 @@ than, equal to and greater than its second argument according to the
 lexicographic ordering on signed characters. ')
 
 ')
+#declfunretval("An integer between ~1 (negative 1) and 1 is returned.")
 
 (* ****** ****** *)
 
 #declnamesynop("strcmp")
 #decldescrpt('\
 
-This function returns ~1,0 and 1 to indicate that its first string argument
-is less than, equal to and greater than its second string argument,
-respectively, where the comparison is based on the lexicographic ordering
-on signed chars.  ')
+This function returns a negative integer, 0 and a postive integer to
+indicate that its first string argument is less than, equal to and greater
+than its second string argument, respectively, where the comparison is
+based on the lexicographic ordering on signed chars.  ')
 
 #declnamesynop("strintcmp")
+//
 #decldescrpt('\
 
 This function returns ~1,0 and 1 to indicate that the length of its first
 string argument is less than, equal to and greater than the value of its
 second integer argument, respectively.  ')
+//
+#declfunretval("An integer between ~1 (negative 1) and 1 is returned.")
 
 #declnamesynop("strlencmp")
+//
 #decldescrpt('\
 
 This function returns ~1,0 and 1 to indicate that the length of its first
 string argument is less than, equal to and greater than the length of its
 second string argument, respectively.  ')
+//
+#declfunretval("An integer between ~1 (negative 1) and 1 is returned.")
 
 (* ****** ****** *)
 
@@ -548,11 +555,14 @@ end // end of [strspn]
 (* ****** ****** *)
 
 #declnamesynop("string_foreach_env")
+//
 #decldescrpt('\
 
 This function does essentially the same as #dyncode("string_foreach")
 except for taking an additional argument that serves as an environment.  ')
-
+//
+#declfunretval("The number of processed chars is returned.")
+//
 #declexample('\
 The following code implements a function that computes the value of an
 unsigned integer represented as a sequence of digits (of base 10):
@@ -583,6 +593,7 @@ a sequence of digits.
 #declnamesynop("string_rforeach__fwork")
 
 #declnamesynop("string_rforeach")
+//
 #decldescrpt('\
 
 This function traverses a given string from right to left and applies to
@@ -591,6 +602,9 @@ each encountered char the function implemented by
 implemented by #dyncode("string_rforeach__cont") returns false.
 
 ')
+//
+#declfunretval("The number of processed chars is returned.")
+//
 #declexample('\
 
 The following code implements the function #dyncode("strrchr") that finds
@@ -614,15 +628,23 @@ end // end of [strrchr]
 (* ****** ****** *)
 
 #declnamesynop("string_rforeach_env")
+//
 #decldescrpt('\
 
 This function does essentially the same as #dyncode("string_rforeach")
 except for taking an additional argument that serves as an environment.  ')
+//
+#declfunretval("The number of processed chars is returned.")
 
 (* ****** ****** *)
 
 #declnamesynop("stropt_none")
+#declfunretval("The null pointer is returned as a stropt-value.")
+
 #declnamesynop("stropt_some")
+#decldescrpt("This function casts a string into a stropt-value.")
+
+(* ****** ****** *)
 
 #declnamesynop("stropt_is_none")
 #decldescrpt('\
