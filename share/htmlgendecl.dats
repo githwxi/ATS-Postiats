@@ -100,6 +100,50 @@ end // end of [theDeclnameLst_make_menu]
 
 (* ****** ****** *)
 
+datatype paramadd =
+  PMADD of (string(*name*), string(*desc*))
+// end of [paramadd]
+
+viewtypedef paramaddlst_vt = List_vt (paramadd)
+
+extern
+fun theParamaddLst_add (x: paramadd): void
+extern
+fun theParamaddLst_add2 (name: string, desc: string): void
+extern
+fun theParamaddLst_get (): paramaddlst_vt
+
+local
+
+val theParamaddLst = ref<paramaddlst_vt> (list_vt_nil)
+
+in
+
+implement
+theParamaddLst_add (x) = let
+  val (vbox pf | p) = ref_get_view_ptr (theParamaddLst)
+in
+  !p := list_vt_cons (x, !p)
+end // end of [theParamaddLst_add]
+
+implement
+theParamaddLst_add2
+  (name, desc) = theParamaddLst_add (PMADD (name, desc)) 
+// end of [theParamaddLst_add2]
+
+implement
+theParamaddLst_get () = let
+  val (vbox pf | p) = ref_get_view_ptr (theParamaddLst)
+  val xs = !p
+  val () = !p := list_vt_nil ()
+in
+  list_vt_reverse (xs)
+end // end of [theParamaddLst_get]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 local
 
 fn HR (sz: int): atext = let
@@ -153,6 +197,53 @@ in
   atext_apptxt2 (head, atext_strsub (cntnt))
 end // end of [aux_example]
 
+fun aux_paramadd
+  (name, desc) = let
+  val () = theParamaddLst_add2 (name, desc)
+in
+  atext_nil ()
+end // end of [aux_paramadd]
+
+fun aux_paramlist () = let
+//
+val head = atext_apptxt2 (H3 ("Parameters"), atext_newline())
+//
+val ul_beg = atext_strcst "<ul>"
+val ul_body = let
+  fun aux (xs: paramaddlst_vt): atext =
+    case+ xs of
+    | ~list_vt_cons (x, xs) => let
+         val li_beg = atext_strcst "<li>"
+         val li_end = atext_strcst "</li>"
+         val PMADD (name, desc) = x
+         val itm1 = atext_strsub name
+         val itm2 = atext_strcst " : "
+         val itm3 = atext_strsub desc
+         val li_body = atext_apptxt3 (itm1, itm2, itm3)
+         val li_one = atext_apptxt3 (li_beg, li_body, li_end)
+         val li_rest = aux (xs)
+       in
+         atext_apptxt2 (li_one, li_rest)
+       end
+    | ~list_vt_nil () => atext_nil ()
+  // end of [aux]
+in
+  aux (theParamaddLst_get ())
+end // end of [val]
+val ul_end = atext_strcst "</ul>"
+//
+val ul_all = atext_apptxt3 (ul_beg, ul_body, ul_end)
+//
+in
+  atext_apptxt2 (head, ul_all)
+end // end of [aux_funretval]
+
+fun aux_funretval (cntnt) = let
+  val head = atext_apptxt2 (H3 ("Return Value"), atext_newline())
+in
+  atext_apptxt2 (head, atext_strsub (cntnt))
+end // end of [aux_funretval]
+
 in // in of [local]
 
 implement
@@ -173,6 +264,12 @@ case+ x of
 | DITMdescrpt (cntnt) => aux_descrpt (cntnt)
 //
 | DITMexample (cntnt) => aux_example (cntnt)
+//
+| DITMparamadd
+    (name, desc) => aux_paramadd (name, desc)
+| DITMparamlist () => aux_paramlist ()
+//
+| DITMfunretval (cntnt) => aux_funretval (cntnt)
 //
 end // end of [aux]
 fun auxlst (

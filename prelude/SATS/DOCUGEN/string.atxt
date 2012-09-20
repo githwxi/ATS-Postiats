@@ -26,10 +26,9 @@ strings.
 #declnamesynop("string_index_p")
 #decldescrpt('\
 
-Given a string str of length n and an index i,
-#stacode("string_index_p(n, i, c)") means that str[i] in the string is
-of the type #stacode("char(c)").  If str[i] equals the null character, then
-i equals n.
+Given a string str of length n and an index i, #stacode("string_index_p(n,
+i, c)") means that str[i] in the string is of the type #stacode("char(c)").
+If str[i] equals the null character, then i equals n.\
 
 ')
 
@@ -39,6 +38,7 @@ i equals n.
 #decldescrpt('\
 This function constructs a singleton string consisting of its char argument.
 ')
+#declfunretval("A linear string of length 1 is returned.")
 
 (* ****** ****** *)
 
@@ -47,6 +47,9 @@ This function constructs a singleton string consisting of its char argument.
 
 This function returns a linear string consisting of the same sequence of
 non-null chars in its argument.  ')
+
+#declfunretval("A linear string is returned.")
+
 #declexample('\
 
 The following code implements a function that returns a linear string
@@ -72,11 +75,13 @@ end // end of [string_reverse]
 ')
 ')
 
+(* ****** ****** *)
+
 #declnamesynop("string_make_listlen")
 #decldescrpt('\
 
 This function does the same as #dyncode("string_make_list") except for
-taking the length of the given string as the second argument.  ')
+taking the length of the given string as its second argument.  ')
 
 (* ****** ****** *)
 
@@ -86,11 +91,17 @@ taking the length of the given string as the second argument.  ')
 This function returns a linear string consisting of the reverse of the
 sequence of non-null chars in its argument.  ')
 
+#declfunretval("A linear string is returned.")
+
+(* ****** ****** *)
+
 #declnamesynop("string_make_listlen_rev")
 #decldescrpt('\
 
 This function does the same as #dyncode("string_make_list_rev") except for
-taking the length of the given string as the second argument.  ')
+taking the length of the given string as its second argument.  ')
+
+#declfunretval("A linear string is returned.")
 
 (* ****** ****** *)
 
@@ -102,60 +113,86 @@ taking the length of the given string as the second argument.  ')
 #decldescrpt('\
 This funtion returns true if and only if its string argument is empty.
 ')
+#declfunretval("A boolean value is returned.")
 
 #declnamesynop("string_isnot_empty")
 #decldescrpt('\
 This funtion returns true if and only if its string argument is non-empty.
 ')
+#declfunretval("A boolean value is returned.")
 
 (* ****** ****** *)
 
-%{
-(*
 #declname("string_is_atend")
 #declsynop2("
 #pats2xhtmls('\
 symintr string_is_atend
-overload string_is_atend with string_is_atend_int
-overload string_is_atend with string_is_atend_uint
+overload string_is_atend with string_is_atend_gint
+overload string_is_atend with string_is_atend_guint
 ')
 ")
-#declnamesynop("string_is_atend_int")
+#declnamesynop("string_is_atend_gint")
 #decldescrpt('\
 
 Given a string of length n and an index i &lt;= n, this function returns true
 if and only if i equals n.  ')
 
-#declnamesynop("string_is_atend_uint")
+#declfunretval("A boolean value is returned.")
+
+#declnamesynop("string_is_atend_guint")
 #decldescrpt('\
 
-This function does the same as #dyncode("string_is_atend_int") except for
+This function does the same as #dyncode("string_is_atend_gint") except for
 taking an unsigned integer as the string index.  ')
-*)
-%}
-#declnamesynop("string_is_atend")
-#decldescrpt('\
 
-Given a string of length n and an index i &lt;= n, this function returns true
-if and only if i equals n.  ')
+#declfunretval("A boolean value is returned.")
 
 (* ****** ****** *)
 
-#declnamesynop("string_get_at")
+#declname("string_get_at")
+#declsynop2("
+#pats2xhtmls('\
+symintr string_get_at
+overload string_get_at with string_get_at_gint
+overload string_get_at with string_get_at_guint
+')
+")
+#declnamesynop("string_get_at_gint")
 #decldescrpt('\
 
-Given a string of length n and an index i &lt; n, this function returns the
-char stored in cell i of the string.  Note that the returned character is
-non-null. ')
+This function, which overloads the symbol #dyncode("[]"), returns the char
+stored in cell i of the given string.  Note that the given index i is
+guranteed to be legal and the returned character is always non-null. ')
+
+#declfunretval("A non-null char is returned.")
+
+#declnamesynop("string_get_at_guint")
+#decldescrpt('\
+
+This function, which overloads the symbol #dyncode("[]"), does the same as
+#dyncode("string_get_at_gint") except for taking an unsigned integer as the
+string index.  ')
+
+#declfunretval("A non-null char is returned.")
 
 (* ****** ****** *)
 
-#declnamesynop("string_test_at")
+#declname("string_test_at")
+#declsynop2("
+#pats2xhtmls('\
+symintr string_test_at
+overload string_test_at with string_test_at_gint
+overload string_test_at with string_test_at_guint
+')
+")
+#declnamesynop("string_test_at_gint")
 #decldescrpt('\
 
 Given a string of length n and an index i &lt;= n, this function returns a
 char c paired with a proof stating that i &lt; n holds if and only if c is
 non-null. ')
+
+#declfunretval("A char is returned.")
 
 #declexample('\
 
@@ -189,6 +226,14 @@ in
 end // end of [string1_length]
 ')
 ')
+
+#declnamesynop("string_test_at_guint")
+#decldescrpt('\
+
+This function does the same as #dyncode("string_test_at_gint") except for
+taking an unsigned integer as the string index.  ')
+
+#declfunretval("A char is returned.")
 
 (* ****** ****** *)
 
@@ -468,13 +513,17 @@ end // end of [string_make_substring]
 #declnamesynop("string_foreach__fwork")
 
 #declnamesynop("string_foreach")
+//
 #decldescrpt('\
-
 This function traverses a given string from left to right and applies to
 each encountered char the function implemented by
 #dyncode("string_foreach__fwork"). The traversal stops if the function
 implemented by #dyncode("string_foreach__cont") returns false.  ')
-
+//
+#declparamadd("#dyncode("str")", "the string to be traversed.")
+#declparamlist()
+#declfunretval("The number of processed chars is returned.")
+//
 #declexample('\
 
 The following code implements the function #dyncode("strspn") that computes
@@ -580,16 +629,24 @@ except for taking an additional argument that serves as an environment.  ')
 
 This function tests whether a stropt-value (optional string) is null.  ')
 
+#declfunretval("A boolean value is returned.")
+
 #declnamesynop("stropt_is_some")
 #decldescrpt('\
 
 This function tests whether a stropt-value (optional string) is non-null.  ')
+
+#declfunretval("A boolean value is returned.")
+
+(* ****** ****** *)
 
 #declnamesynop("stropt_unsome")
 #decldescrpt('\
 
 This function casts a non-null stropt-value (optional string) to a
 string-value.  ')
+
+#declfunretval("A string is returned.")
 
 (* ****** ****** *)
 
@@ -598,20 +655,31 @@ string-value.  ')
 
 This function computes the length of a given stropt-value (optional
 string). If the argument is the null pointer, then the returned value is ~1
-(negative 1).
+(negative 1).\
 
+')
+#declfunretval('\
+A signed-size integer is returned.
 ')
 
 (* ****** ****** *)
 
 #declnamesynop("fprint_stropt")
+//
 #decldescrpt('\
-
 This function prints a stropt-value (optional string) to a given output
 channel (its first argument). If the stropt-value is not null, then it is
-treated as a string. Otherwise, it is treated as the null pointer.
-
-')
+treated as a string. Otherwise, it is treated as the null pointer. ')
+//
+#declparamadd("#dyncode("out")", "the channel for receiving the output.")
+//
+#declparamadd("#dyncode("x")", "\
+the optional string to be printed. Note that an optional string is either a
+string or null pointer.")
+//
+#declparamlist()
+//
+#declfunretval("The void value is returned.")
 
 (* ****** ****** *)
 

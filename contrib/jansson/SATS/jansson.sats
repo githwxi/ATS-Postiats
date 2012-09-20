@@ -560,7 +560,7 @@ fun json_load_file (
 
 fun json_dumps
   {l:agz}
-  (root: !JSONptr l, flags: int): strptr0 = "mac#atsctrb_json_dumps"
+  (root: !JSONptr l, flags: int): Strptr0 = "mac#atsctrb_json_dumps"
 // end of [json_dumps]
 
 fun json_dumpf

@@ -105,11 +105,15 @@ libats_ML:: ; ./patsopt -d $(PATSHOME)/libats/ML/DATS/string.dats
 
 ######
 
-contrib_cairo:: ; ./patsopt -s $(PATSHOME)/contrib/cairo/SATS/cairo.sats
+contrib_cairo:: ; ./patsopt -IATS$(PATSHOME)/contrib -s $(PATSHOME)/contrib/cairo/SATS/cairo.sats
 
 ######
 
 contrib_mysql:: ; ./patsopt -s $(PATSHOME)/contrib/mysql/SATS/mysql.sats
+
+######
+
+contrib_jansson:: ; ./patsopt -s $(PATSHOME)/contrib/jansson/SATS/jansson.sats
 
 ######
 

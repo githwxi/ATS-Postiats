@@ -101,11 +101,6 @@ fun{} string_isnot_empty (x: string):<> bool
 
 #atscode_separator()
 
-fun string_is_atend_size
-  {n:int}{i:nat | i <= n}
-  (s: string (n), i: size_t (i)):<> bool (i==n)
-// end of [string_is_atend_size]
-
 symintr string_is_atend
 fun{tk:tk}
 string_is_atend_int
@@ -124,10 +119,6 @@ macdef string_isnot_atend
 *)
 (* ****** ****** *)
 
-fun string_get_at_size
-  {n:int} (s: string (n), i: sizeLt (n)):<> charNZ
-// end of [string_get_at_size]
-
 fun{tk:tk}
 string_get_at_gint
   {n:int} (s: string (n), i: g1intLt (tk, n)):<> charNZ
@@ -138,11 +129,6 @@ string_get_at_guint
 overload [] with string_get_at_guint
 
 (* ****** ****** *)
-
-fun string_test_at_size
-  {n:int}{i:nat | i <= n} (
-  s: string (n), i: size_t (i)
-) :<> [c:int] (string_index_p (n, i, c) | char (c))
 
 symintr string_test_at
 fun{tk:tk}

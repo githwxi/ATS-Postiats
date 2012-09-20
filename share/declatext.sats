@@ -24,6 +24,11 @@ declitem =
   | DITMsynop of () | DITMsynop2 of (string)
   | DITMdescrpt of (string)
   | DITMexample of (string)
+//
+  | DITMparamadd of (string, string)
+  | DITMparamlist of () // listing the parameters
+//
+  | DITMfunretval of (string) // describing the return value
 // end of [declitem]
 
 (* ****** ****** *)
@@ -68,7 +73,13 @@ fun declnamesynop (x: string): atext
 fun decldescrpt (x: string): atext
 //
 fun declexample (x: string): atext // HX: optional
-
+//
+fun declparamadd
+  (name: string, desc: string): atext
+fun declparamlist (): atext // HX: optional
+//
+fun declfunretval (x: string): atext // HX: optional
+//
 (* ****** ****** *)
 
 fun theDeclrepLst_get (): declreplst

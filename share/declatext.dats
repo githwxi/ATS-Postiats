@@ -170,6 +170,27 @@ in
   $LDOC.atext_nil ()
 end // end of [declexample]
 
+implement
+declparamlist () = let
+  val () = theDeclitemLst_add (DITMparamlist ())
+in
+  $LDOC.atext_nil ()
+end // end of [declparamlist]
+
+implement
+declparamadd (x1, x2) = let
+  val () = theDeclitemLst_add (DITMparamadd (x1, x2))
+in
+  $LDOC.atext_nil ()
+end // end of [declparamadd]
+
+implement
+declfunretval (x) = let
+  val () = theDeclitemLst_add (DITMfunretval (x))
+in
+  $LDOC.atext_nil ()
+end // end of [declfunretval]
+
 (* ****** ****** *)
 
 local
