@@ -208,7 +208,8 @@ fun p3at_is_unfold (p3t: p3at): bool
 
 datatype
 d3ecl_node =
-  | D3Cnone
+//
+  | D3Cnone of ()
   | D3Clist of d3eclist
 //
 // HX: needed for compiling abstract types
@@ -465,6 +466,10 @@ fun d3explstlst_get_type (d3ess: d3explstlst): s2explstlst
 fun d3exp_set_type
   (d3e: d3exp, s2f: s2exp): void = "patsopt_d3exp_set_type"
 // end of [d3exp_set_type]
+
+(* ****** ****** *)
+
+fun d3exp_is_prf (d3e: d3exp): bool
 
 (* ****** ****** *)
 

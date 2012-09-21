@@ -49,7 +49,7 @@ staload "pats_dynexp3.sats"
 //
 // HX-2011-05:
 // the list of possible errors that may occur
-// during the level-2 translation
+// during the level-3 translation
 //
 datatype trans3err =
 //

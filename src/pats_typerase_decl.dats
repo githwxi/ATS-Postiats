@@ -36,11 +36,19 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
+staload "pats_errmsg.sats"
+staload _(*anon*) = "pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans3_dynexp_up"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
+staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
 
 staload "pats_histaexp.sats"
+staload "pats_hidynexp.sats"
 
 (* ****** ****** *)
 
@@ -48,13 +56,30 @@ staload "pats_typerase.sats"
 
 (* ****** ****** *)
 
+extern
+fun d3ecl_tyer_fundecs (d3c0: d3ecl): hidecl
+extern
+fun d3ecl_tyer_valdecs (d3c0: d3ecl): hidecl
+
+(* ****** ****** *)
+
 implement
 d3ecl_tyer
-  (d3c) = let
+  (d3c0) = let
+//
+val loc0 = d3c0.d3ecl_loc
+//
 in
 //
 case+
-  d3c.d3ecl_node of
+  d3c0.d3ecl_node of
+//
+| D3Cnone () => hidecl_none (loc0)
+| D3Clist (d3cs) => let
+    val hids = d3eclist_tyer (d3cs) in hidecl_list (loc0, hids)
+  end // end of [D3Clist]
+//
+| D3Cvaldecs _ => d3ecl_tyer_valdecs (d3c0)
 //
 | _ => exitloc (1)
 //
@@ -65,12 +90,65 @@ end // end of [d3ecl_tyer]
 implement
 d3eclist_tyer
   (d3cs) = let
-  val hids =
-    list_map_fun (d3cs, d3ecl_tyer)
-  // end of [val]
+//
+val hids = list_map_fun (d3cs, d3ecl_tyer)
+//
 in
   list_of_list_vt (hids)
 end // end of [d3eclist_tyer]
+
+(* ****** ****** *)
+
+local
+
+fun v3aldec_tyer
+  (v3d: v3aldec): hivaldec = let
+  val loc = v3d.v3aldec_loc
+  val hip = p3at_tyer (v3d.v3aldec_pat)
+  val d3e_def = v3d.v3aldec_def
+  val isprf = d3exp_is_prf (d3e_def)
+  val () = if isprf then let
+    val () = prerr_error4_loc (loc)
+    val () = prerr ": [val] should be replaced with [prval] as this is a proof binding."
+    val () = prerr_newline ()
+  in
+    the_trans4errlst_add (T3E_d3exp_tyer_isprf (d3e_def))
+  end // end of [val]
+  val hde_def = d3exp_tyer (d3e_def)
+in
+  hivaldec_make (loc, hip, hde_def)
+end // end of [v3aldec_tyer]
+
+fun v3aldeclst_tyer (
+  knd: valkind, v3ds: v3aldeclst
+) : hivaldeclst = let
+  val isprf = valkind_is_proof (knd)
+in
+//
+if isprf then
+  list_nil ()
+else let
+  val hvds = list_map_fun (v3ds, v3aldec_tyer)
+in
+  list_of_list_vt (hvds)
+end // end of [if]
+//
+end // end of [v3aldeclst_tyer]
+
+in // in of [local]
+
+implement
+d3ecl_tyer_valdecs (d3c0) = let
+//
+val loc0 = d3c0.d3ecl_loc
+val- D3Cvaldecs (knd, v3ds) = d3c0.d3ecl_node
+val hvds = v3aldeclst_tyer (knd, v3ds)
+//
+in
+  hidecl_valdecs (hvds)
+end // end of [d3ecl_tyer_valdecs]
+
+end // end of [local]
 
 (* ****** ****** *)
 

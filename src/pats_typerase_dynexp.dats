@@ -94,12 +94,11 @@ in
 //
 case+ p3t0.p3at_node of
 //
-| P3Tbool
-    (b) => hipat_bool (loc0, hse0, b)
-| P3Tchar
-    (c) => hipat_char (loc0, hse0, c)
-| P3Tstring
-    (str) => hipat_string (loc0, hse0, str)
+| P3Tint (i) => hipat_int (loc0, hse0, i)
+//
+| P3Tbool (b) => hipat_bool (loc0, hse0, b)
+| P3Tchar (c) => hipat_char (loc0, hse0, c)
+| P3Tstring (str) => hipat_string (loc0, hse0, str)
 //
 | P3Tempty () => hipat_empty (loc0, hse0)
 //
@@ -134,7 +133,11 @@ case+ p3t0.p3at_node of
     hipat_ann (loc0, hse0, hip, hse_ann)
   end // end of [P3Tann]
 //
-| _ => exitloc (1)
+| _ => let
+    val () = println! ("p3at_tyer: p3t0 = ", p3t0)
+  in
+    exitloc (1)
+  end // end of [_]
 //
 end // endof [p3at_tyer]
 
@@ -221,6 +224,24 @@ case+
     hidexp_char (loc0, hse0, c)
 | D3Estring (str) =>
     hidexp_string (loc0, hse0, str)
+//
+| D3Elet (d3cs, d3e_scope) => let
+    val hids = d3eclist_tyer (d3cs)
+    val hde_scope = d3exp_tyer (d3e_scope)
+  in
+    hidexp_let_simplify (loc0, hse0, hids, hde_scope)
+  end // end of [D3Elet]
+//
+| D3Elam_dyn (
+    lin, npf, p3ts_arg, d3e_body
+  ) => let
+    val hse_fun = s2exp_tyer_deep (loc0, s2e0)
+    val hips_arg = p3atlst_npf_tyer (npf, p3ts_arg)
+    val hde_body = d3exp_tyer (d3e_body)
+  in
+    hidexp_lam (loc0, hse_fun, hips_arg, hde_body)
+  end // end of [D3Elam_dyn]
+| D3Elam_met (_(*met*), d3e) => d3exp_tyer (d3e)
 //
 | _ => exitloc (1)
 //

@@ -220,7 +220,9 @@ SOURCES := \
   pats_histaexp_funlab.dats \
   pats_hidynexp.sats \
   pats_hidynexp.dats \
+  pats_hidynexp_util.dats \
   pats_typerase.sats \
+  pats_typerase_error.dats \
   pats_typerase_staexp.dats \
   pats_typerase_dynexp.dats \
   pats_typerase_decl.dats \
@@ -420,7 +422,9 @@ OBJECTS := \
   pats_histaexp_funlab_dats.o \
   pats_hidynexp_sats.o \
   pats_hidynexp_dats.o \
+  pats_hidynexp_util_dats.o \
   pats_typerase_sats.o \
+  pats_typerase_error_dats.o \
   pats_typerase_staexp_dats.o \
   pats_typerase_dynexp_dats.o \
   pats_typerase_decl_dats.o \
@@ -998,8 +1002,14 @@ pats_hidynexp_sats.o: pats_hidynexp_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 pats_hidynexp_dats.c: pats_hidynexp.dats; $(ATSCC) -cc $<
 pats_hidynexp_dats.o: pats_hidynexp_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
+pats_hidynexp_util_dats.c: pats_hidynexp_util.dats; $(ATSCC) -cc $<
+pats_hidynexp_util_dats.o: pats_hidynexp_util_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
 pats_typerase_sats.c: pats_typerase.sats; $(ATSCC) -cc $<
 pats_typerase_sats.o: pats_typerase_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_typerase_error_dats.c: pats_typerase_error.dats; $(ATSCC) -cc $<
+pats_typerase_error_dats.o: pats_typerase_error_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_typerase_staexp_dats.c: pats_typerase_staexp.dats; $(ATSCC) -cc $<
 pats_typerase_staexp_dats.o: pats_typerase_staexp_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<

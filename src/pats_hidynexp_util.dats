@@ -28,31 +28,19 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: May, 2011
+// Start Time: September, 2012
 //
 (* ****** ****** *)
 
-staload
-LOC = "pats_location.sats"
-typedef location = $LOC.location
+staload "pats_histaexp.sats"
+staload "pats_hidynexp.sats"
 
 (* ****** ****** *)
-//
-fun{} prerr_FILENAME (): void // specific
-//
-fun{} prerr_interror (): void // generic
-fun{} prerr_interror_loc (loc: location): void // generic
-//
-fun{} prerr_error1_loc (loc: location): void // generic
-fun{} prerr_error2_loc (loc: location): void // generic
-fun{} prerr_errmac_loc (loc: location): void // generic
-fun{} prerr_error3_loc (loc: location): void // generic
-fun{} prerr_error4_loc (loc: location): void // generic
-//
-fun{} prerr_warning1_loc (loc: location): void // generic
-fun{} prerr_warning2_loc (loc: location): void // generic
-fun{} prerr_warning3_loc (loc: location): void // generic
-//
+
+implement
+hidexp_let_simplify
+  (loc, hse, hids, hde) = hidexp_let (loc, hse, hids, hde)
+
 (* ****** ****** *)
 
-(* end of [pats_errmsg.sats] *)
+(* end of [pats_hidynexp_util.dats] *)

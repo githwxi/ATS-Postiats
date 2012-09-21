@@ -93,6 +93,12 @@ staload CNSTR3 = "pats_constraint3.sats"
 
 (* ****** ****** *)
 
+staload "pats_histaexp.sats"
+staload "pats_hidynexp.sats"
+staload TYER = "pats_typerase.sats"
+
+(* ****** ****** *)
+
 staload "pats_comarg.sats"
 
 (* ****** ****** *)
@@ -278,7 +284,9 @@ dynload "pats_histaexp_print.dats"
 dynload "pats_histaexp_funlab.dats"
 //
 dynload "pats_hidynexp.dats"
+dynload "pats_hidynexp_util.dats"
 //
+dynload "pats_typerase_error.dats"
 dynload "pats_typerase_staexp.dats"
 dynload "pats_typerase_dynexp.dats"
 dynload "pats_typerase_decl.dats"
@@ -590,9 +598,27 @@ fun prelude_load_if (
 
 (* ****** ****** *)
 
-fn do_trans12 (
+extern
+fun do_trans12 (
   basename: string, d0cs: d0eclist
-) : d2eclist = let
+) : d2eclist // end of [do_trans12]
+
+extern
+fun do_trans123 (
+  basename: string, d0cs: d0eclist
+) : d3eclist // end of [do_trans123]
+
+extern
+fun do_trans1234 (
+  basename: string, d0cs: d0eclist
+) : hideclist // end of [do_trans1234]
+
+(* ****** ****** *)
+
+implement
+do_trans12 (
+  basename, d0cs
+) = let
 //
   val d1cs = $TRANS1.d0eclist_tr_errck (d0cs)
 //
@@ -601,7 +627,7 @@ fn do_trans12 (
     val () = print basename
     val () = print "] is successfully completed!"
     val () = print_newline ()
-  } // end of [if]
+  } // end of [if] // end of [val]
 //
   val d2cs = $TRANS2.d1eclist_tr_errck (d1cs)
 //
@@ -610,16 +636,17 @@ fn do_trans12 (
     val () = print basename
     val () = print "] is successfully completed!"
     val () = print_newline ()
-  } // end of [if]
+  } // end of [if] // end of [val]
 in
   d2cs
 end // end of [do_trans12]
 
 (* ****** ****** *)
 
-fn do_trans123 (
-  basename: string, d0cs: d0eclist
-) : d3eclist = let
+implement
+do_trans123 (
+  basename, d0cs
+) = let
 //
   val d2cs = do_trans12 (basename, d0cs)
   val () = $TRENV3.trans3_env_initialize ()
@@ -639,14 +666,36 @@ fn do_trans123 (
   } // end of [val]
 //
   val () = if isdebug() then {
-    val () = print "The 3rd translation (typechecking) of ["
+    val () = print "The 3rd translation (type-checking) of ["
     val () = print_string (basename)
     val () = print "] is successfully completed!"
     val () = print_newline ()
-  } // end of [if]
+  } // end of [if] // end of [val]
 in
   d3cs
 end // end of [do_trans123]
+
+(* ****** ****** *)
+
+implement
+do_trans1234 (
+  basename, d0cs
+) = let
+  val d3cs =
+    do_trans123 (basename, d0cs)
+  // end of [d3cs]
+  val hids = $TYER.d3eclist_tyer (d3cs)
+//
+  val () = if isdebug() then {
+    val () = print "The 4th translation (type/proof-erasing) of ["
+    val () = print_string (basename)
+    val () = print "] is successfully completed!"
+    val () = print_newline ()
+  } // end of [if] // end of [val]
+//
+in
+  hids
+end // end of [do_trans1234]
 
 (* ****** ****** *)
 
@@ -684,7 +733,7 @@ case+ arglst of
           $DPGEN.fprint_entry (filr, "<stdin>", ps)
         end // end of [val]
 //
-        val d2cs = do_trans123 ("STDIN", d0cs)
+        val hids = do_trans1234 ("STDIN", d0cs)
       } // end of [_ when ...]
     | _ => ()
   end // end of [list_vt_nil when ...]
@@ -727,7 +776,7 @@ case+ arg of
           $DPGEN.fprint_entry (filr, basename, ps)
         end // end of [val]
 //
-        val d2cs = do_trans123 (basename, d0cs)
+        val hids = do_trans1234 (basename, d0cs)
       in
         process_cmdline (state, arglst)
       end (* end of [_] *)

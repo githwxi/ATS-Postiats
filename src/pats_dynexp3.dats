@@ -191,6 +191,13 @@ end // end of [d3explstlst_get_type]
 (* ****** ****** *)
 
 implement
+d3exp_is_prf (d3e) = let
+  val s2e = d3exp_get_type (d3e) in s2exp_is_prf (s2e)
+end // end of [d3exp_is_prf]
+
+(* ****** ****** *)
+
+implement
 d3exp_var (
   loc, s2f, d2v
 ) = '{

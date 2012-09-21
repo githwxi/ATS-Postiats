@@ -28,31 +28,64 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: May, 2011
+// Start Time: September, 2011
 //
+(* ****** ****** *)
+
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload _(*anon*) = "prelude/DATS/reference.dats"
+
 (* ****** ****** *)
 
 staload
-LOC = "pats_location.sats"
-typedef location = $LOC.location
+ERR = "pats_error.sats"
 
 (* ****** ****** *)
-//
-fun{} prerr_FILENAME (): void // specific
-//
-fun{} prerr_interror (): void // generic
-fun{} prerr_interror_loc (loc: location): void // generic
-//
-fun{} prerr_error1_loc (loc: location): void // generic
-fun{} prerr_error2_loc (loc: location): void // generic
-fun{} prerr_errmac_loc (loc: location): void // generic
-fun{} prerr_error3_loc (loc: location): void // generic
-fun{} prerr_error4_loc (loc: location): void // generic
-//
-fun{} prerr_warning1_loc (loc: location): void // generic
-fun{} prerr_warning2_loc (loc: location): void // generic
-fun{} prerr_warning3_loc (loc: location): void // generic
-//
+
+staload "pats_typerase.sats"
+
 (* ****** ****** *)
 
-(* end of [pats_errmsg.sats] *)
+viewtypedef
+trans4errlst_vt = List_vt (trans4err)
+
+(* ****** ****** *)
+
+local
+
+val the_trans4errlst = ref<trans4errlst_vt> (list_vt_nil)
+
+fun the_trans4errlst_get
+  (): trans4errlst_vt = let
+  val (vbox pf | p) = ref_get_view_ptr (the_trans4errlst)
+  val xs = !p
+  val () = !p := list_vt_nil ()
+in
+  xs
+end // end of [the_trans4errlst_get]
+
+in // in of [local]
+
+implement
+the_trans4errlst_add (x) = () where {
+  val (vbox pf | p) = ref_get_view_ptr (the_trans4errlst)
+  val () = !p := list_vt_cons (x, !p)
+} // end of [the_trans4errlst_add]
+
+implement
+the_trans4errlst_finalize () = {
+  val xs = the_trans4errlst_get ()
+  val n = list_vt_length (xs); val () = list_vt_free (xs)
+// (*
+  val () = if n > 0 then {
+    val () = fprintf (stderr_ref, "TYPERASE: there are [%i] errors in total.\n", @(n))
+  } // end of [val]
+// *)
+  val () = if n > 0 then $ERR.abort () else ()
+} // end of [the_trans4errlst_finalize]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+(* end of [pats_typerase_error.dats] *)

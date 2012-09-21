@@ -50,6 +50,7 @@ staload "pats_dynexp2.sats"
 // during the level-2 translation
 //
 datatype trans2err =
+//
   | T2E_s1rt_tr of (s1rt)
   | T2E_s2var_check_tmplev of (s2var)
   | T2E_effvar_tr of (effvar)

@@ -53,6 +53,8 @@ datatype
 hipat_node =
   | HIPany of () // wildcard
   | HIPvar of (d2var) // mutability from the context
+//
+  | HIPint of int
   | HIPbool of bool
   | HIPchar of char
   | HIPstring of string
@@ -105,6 +107,7 @@ fun hipat_make_node
 fun hipat_any (loc: location, hse: hisexp): hipat
 fun hipat_var (loc: location, hse: hisexp, d2v: d2var): hipat
 
+fun hipat_int (loc: location, hse: hisexp, i: int): hipat
 fun hipat_bool (loc: location, hse: hisexp, b: bool): hipat
 fun hipat_char (loc: location, hse: hisexp, c: char): hipat
 fun hipat_string (loc: location, hse: hisexp, str: string): hipat
@@ -133,8 +136,11 @@ fun hipat_ann
 
 datatype
 hidecl_node =
+  | HIDnone of ()
   | HIDlist of hideclist
   | HIDsaspdec of s2aspdec
+//
+  | HIDvaldecs of (valkind, hivaldeclst)
 // end of [hidecl_node]
 
 and hidexp_node =
@@ -142,18 +148,25 @@ and hidexp_node =
   | HDEchar of char // constant characters
   | HDEstring of string // constant strings
 //
-  | HDEapp of (hisexp, hidexp, hidexplst) // dynapp
+  | HDElet of (hideclist, hidexp)
+//
+  | HDEapp of
+      (hisexp, hidexp, hidexplst) // app_dyn
+    // end of [HDEapp]
 //
 (*
   | HDEarrinit of (* array construction *)
-      (hityp(*eltyp*), hiexpopt(*asz*), hiexplst(*elt*))
+      (hityp(*eltyp*), hidexpopt(*asz*), hidexplst(*elt*))
   | HDEarrsize of (* arraysize construction *)
-      (hityp(*eltyp*), hiexplst(*elt*))
+      (hityp(*eltyp*), hidexplst(*elt*))
   | HDEassgn_ptr of (* assignment to a pointer with offsets *)
-      (hiexp, hilablst, hiexp)
+      (hidexp, hilablst, hidexp)
   | HDEassgn_var of (* assignment to a variable with ofsets *)
       (d2var_t, hilablst, hidexp)
 *)
+  | HDElam of (hipatlst, hidexp) // HX: lam_dyn
+
+// end of [hidexp_node]
 
 where hidecl = '{
   hidecl_loc= location, hidecl_node= hidecl_node
@@ -169,6 +182,16 @@ and hidexp = '{
 
 and hidexplst = List (hidexp)
 and hidexpopt = Option (hidexp)
+
+(* ****** ****** *)
+
+and hivaldec = '{
+  hivaldec_loc= location
+, hivaldec_pat= hipat
+, hivaldec_def= hidexp
+} // end of [v3aldec]
+
+and hivaldeclst = List (hivaldec)
 
 (* ****** ****** *)
 
@@ -190,6 +213,41 @@ fun hidexp_char
   (loc: location, hse: hisexp, c: char): hidexp
 fun hidexp_string
   (loc: location, hse: hisexp, str: string): hidexp
+
+(* ****** ****** *)
+
+fun hidexp_let
+  (loc: location, hse: hisexp, hids: hideclist, hde: hidexp): hidexp
+// end of [hidexp_let]
+
+fun hidexp_let_simplify
+  (loc: location, hse: hisexp, hids: hideclist, hde: hidexp): hidexp
+// end of [hidexp_let_simplify]
+
+(* ****** ****** *)
+
+fun hidexp_lam
+  (loc: location, hse: hisexp, hips: hipatlst, hde: hidexp): hidexp
+// end of [hidexp_lam]
+
+(* ****** ****** *)
+
+fun hivaldec_make
+  (loc: location, pat: hipat, def: hidexp): hivaldec
+// end of [hivaldec_make]
+
+(* ****** ****** *)
+
+fun hidecl_make_node
+  (loc: location, node: hidecl_node): hidecl
+// end of [hidecl_make_node]
+
+fun hidecl_none (loc: location): hidecl
+fun hidecl_list (loc: location, hids: hideclist): hidecl
+
+fun hidecl_valdecs
+  (loc: location, knd: valkind, hvds: hivaldeclst): hidecl
+// end of [hidecl_valdecs]
 
 (* ****** ****** *)
 

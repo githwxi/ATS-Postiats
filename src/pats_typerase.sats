@@ -53,6 +53,19 @@ staload "pats_hidynexp.sats"
 (* ****** ****** *)
 //
 // HX-2012-09:
+// the list of possible errors that may occur
+// during the level-4 translation
+//
+datatype trans4err =
+  | T3E_d3exp_tyer_isprf of (d3exp)
+// end of [trans4err]
+
+fun the_trans4errlst_add (x: trans4err): void
+fun the_trans4errlst_finalize (): void // cleanup all the errors
+
+(* ****** ****** *)
+//
+// HX-2012-09:
 // [s2exp_tyer] is essentially for
 // measuring the size of a given type
 //

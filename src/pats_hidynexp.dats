@@ -65,6 +65,12 @@ hipat_var (loc, hse, d2v) =
 (* ****** ****** *)
 
 implement
+hipat_int
+  (loc, hse, i) =
+  hipat_make_node (loc, hse, HIPint (i))
+// end of [hipat_int]
+
+implement
 hipat_bool
   (loc, hse, b) =
   hipat_make_node (loc, hse, HIPbool (b))
@@ -154,6 +160,54 @@ hidexp_string
   (loc, hse, str) =
   hidexp_make_node (loc, hse, HDEstring (str))
 // end of [hidexp_string]
+
+(* ****** ****** *)
+
+implement
+hidexp_let (loc, hse, hids, hde) =
+  hidexp_make_node (loc, hse, HDElet (hids, hde))
+// end of [hidexp_let]
+
+(* ****** ****** *)
+
+implement
+hidexp_lam
+  (loc, hse, hips_arg, hde_body) =
+  hidexp_make_node (loc, hse, HDElam (hips_arg, hde_body))
+// end of [hidexp_lam]
+
+(* ****** ****** *)
+
+implement
+hivaldec_make
+  (loc, pat, def) = '{
+  hivaldec_loc= loc
+, hivaldec_pat= pat
+, hivaldec_def= def
+} // end of [hivaldec_make]
+
+(* ****** ****** *)
+
+implement
+hidecl_make_node
+  (loc, node) = '{
+  hidecl_loc= loc, hidecl_node= node
+} // end of [hidecl_make_node]
+
+implement
+hidecl_none (loc) =
+  hidecl_make_node (loc, HIDnone ())
+// end of [hidecl_none]
+
+implement
+hidecl_list (loc, hids) =
+  hidecl_make_node (loc, HIDlist (hids))
+// end of [hidecl_list]
+
+implement
+hidecl_valdecs (loc, knd, hvds) =
+  hidecl_make_node (loc, HIDvaldecs (knd, hvds))
+// end of [hidecl_valdecs]
 
 (* ****** ****** *)
 

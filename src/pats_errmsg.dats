@@ -72,6 +72,11 @@ prerr_error3_loc (loc) = (
   $LOC.prerr_location loc; prerr ": error(3)"
 ) // end of [prerr_error3_loc]
 
+implement{}
+prerr_error4_loc (loc) = (
+  $LOC.prerr_location loc; prerr ": error(4)"
+) // end of [prerr_error4_loc]
+
 (* ****** ****** *)
 
 implement{}
