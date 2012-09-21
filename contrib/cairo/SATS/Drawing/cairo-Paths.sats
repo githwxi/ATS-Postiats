@@ -169,6 +169,10 @@ void                cairo_rel_curve_to                  (cairo_t *cr,
                                                          double dx3,
                                                          double dy3);
 */
+fun cairo_rel_curve_to (
+  ctx: !xr1
+, dx1: double, dy1: double, dx2: double, dy2: double, dx3: double, dy3: double
+) : void = "mac#atsctrb_cairo_rel_curve_to" // end of [cairo_rel_curve_to]
 
 (* ****** ****** *)
 
@@ -178,7 +182,7 @@ void                cairo_rel_line_to                   (cairo_t *cr,
                                                          double dy);
 */
 fun cairo_rel_line_to
-  (ctx: !xr1, x: double, y: double): void = "mac#atsctrb_cairo_rel_line_to"
+  (ctx: !xr1, dx: double, dy: double): void = "mac#atsctrb_cairo_rel_line_to"
 // end of [cairo_rel_line_to]
 
 /*
@@ -187,7 +191,7 @@ void                cairo_rel_move_to                   (cairo_t *cr,
                                                          double dy);
 */
 fun cairo_rel_move_to
-  (ctx: !xr1, x: double, y: double): void = "mac#atsctrb_cairo_rel_move_to"
+  (ctx: !xr1, dx: double, dy: double): void = "mac#atsctrb_cairo_rel_move_to"
 // end of [cairo_rel_move_to]
 
 (* ****** ****** *)

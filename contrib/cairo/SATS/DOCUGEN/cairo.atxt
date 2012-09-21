@@ -59,27 +59,10 @@ definitions and macros in the cairo package. ')
 
 (* ****** ****** *)
 
-#declnamesynop("cairo_save_v")
-#decldescrpt("\
-
-This abstract view is introduced for ensuring that calls to #dyncode("cairo_save")
-and #dyncode("cairo_restore") are properly balanced.\
-
-")
-
 #declnamesynop("cairo_save")
 #declnamesynop("cairo_restore")
 
 (* ****** ****** *)
-
-#declnamesynop("cairo_push_group_v")
-#decldescrpt("\
-
-This abstract view is introduced for ensuring that calls to
-#dyncode("cairo_push_group") and #dyncode("cairo_pop_group") are properly
-balanced.\
-
-")
 
 #declnamesynop("cairo_push_group")
 #declnamesynop("cairo_push_group_with_content")
@@ -88,37 +71,16 @@ balanced.\
 #declnamesynop("cairo_pop_group_to_source")
 
 (* ****** ****** *)
+
 #declnamesynop("cairo_set_source")
 #declnamesynop("cairo_set_source_rgb")
 #declnamesynop("cairo_set_source_rgba")
 #declnamesynop("cairo_set_source_surface")
 
 (* ****** ****** *)
-
-#declnamesynop("cairo_translate")
-#declnamesynop("cairo_scale")
-#declnamesynop("cairo_rotate")
-
-(* ****** ****** *)
-
-#declnamesynop("cairo_transform")
-#declnamesynop("cairo_set_matrix")
-#declnamesynop("cairo_identity_matrix")
-
-(* ****** ****** *)
-
-#declnamesynop("cairo_new_path")
-#declnamesynop("cairo_move_to")
-
-(* ****** ****** *)
 //
 // Various query functions
 //
-(* ****** ****** *)
-
-#declnamesynop("cairo_has_current_point")
-#declnamesynop("cairo_get_current_point")
-
 (* ****** ****** *)
 
 #declnamesynop("cairo_get0_source")

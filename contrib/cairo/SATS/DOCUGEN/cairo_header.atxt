@@ -221,4 +221,23 @@ ATSLIB/contrib/cairo/cairo_header\
 //
 (* ****** ****** *)
 
+#declnamesynop("cairo_save_v")
+#decldescrpt("\
+
+This abstract view is introduced for ensuring that calls to #dyncode("cairo_save")
+and #dyncode("cairo_restore") are properly balanced.\
+
+")
+
+#declnamesynop("cairo_push_group_v")
+#decldescrpt("\
+
+This abstract view is introduced for ensuring that calls to
+#dyncode("cairo_push_group") and #dyncode("cairo_pop_group") are properly
+balanced.\
+
+")
+
+(* ****** ****** *)
+
 (* end of [cairo_header.atxt] *)
