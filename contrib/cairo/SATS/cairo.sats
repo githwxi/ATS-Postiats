@@ -52,12 +52,6 @@ staload "cairo/SATS/cairo_header.sats"
 
 (* ****** ****** *)
 
-fun CAIRO_VERSION_ENCODE
-  (major: int, minor: int, micro: int): int = "mac#CAIRO_VERSION_ENCODE"
-// end of [CAIRO_VERSION_ENCODE]
-
-(* ****** ****** *)
-
 fun cairo_version
   ((*void*)): int = "mac#atsctrb_cairo_version"
 // end of [cairo_version]

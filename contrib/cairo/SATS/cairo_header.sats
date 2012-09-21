@@ -48,6 +48,10 @@ macdef CAIRO_VERSION_MAJOR = $extval (int, "CAIRO_VERSION_MAJOR")
 macdef CAIRO_VERSION_MINOR = $extval (int, "CAIRO_VERSION_MINOR")
 macdef CAIRO_VERSION_MICRO = $extval (int, "CAIRO_VERSION_MICRO")
 
+fun CAIRO_VERSION_ENCODE
+  (major: int, minor: int, micro: int): int = "mac#CAIRO_VERSION_ENCODE"
+// end of [CAIRO_VERSION_ENCODE]
+
 (* ****** ****** *)
 
 macdef CAIRO_HAS_IMAGE_SURFACE = $extval (int, "CAIRO_HAS_IMAGE_SURFACE")
@@ -62,10 +66,6 @@ macdef CAIRO_MIME_TYPE_JPEG = $extval (string, "CAIRO_MIME_TYPE_JPEG")
 macdef CAIRO_MIME_TYPE_PNG = $extval (string, "CAIRO_MIME_TYPE_PNG")
 macdef CAIRO_MIME_TYPE_URI = $extval (string, "CAIRO_MIME_TYPE_URI")
 macdef CAIRO_MIME_TYPE_UNIQUE_ID = $extval (string, "CAIRO_MIME_TYPE_UNIQUE_ID")
-
-(* ****** ****** *)
-
-typedef cairo_bool_t = bool
 
 (* ****** ****** *)
 //
@@ -307,13 +307,7 @@ macdef CAIRO_FONT_TYPE_USER = $extval (cairo_font_type_t, "CAIRO_FONT_TYPE_USER"
 //
 (* ****** ****** *)
 
-typedef
-cairo_destroy_func_t = ptr(*/void*/*) -> void
-
-(* ****** ****** *)
-
-abst@ype
-cairo_user_data_key_t = $extype"cairo_user_data_key_t"
+typedef cairo_bool_t = bool
 
 (* ****** ****** *)
 
@@ -326,6 +320,16 @@ typedef
 cairo_write_func_t =
  (voidptr0(*closure*), constcharptr0(*data*), uint(*length*)) -> cairo_status_t
 // end of [cairo_wirte_func_t]
+
+(* ****** ****** *)
+
+typedef
+cairo_destroy_func_t = ptr(*/void*/*) -> void
+
+(* ****** ****** *)
+
+abst@ype
+cairo_user_data_key_t = $extype"cairo_user_data_key_t"
 
 (* ****** ****** *)
 

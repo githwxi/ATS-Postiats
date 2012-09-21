@@ -103,15 +103,15 @@ fun{} string_isnot_empty (x: string):<> bool
 
 symintr string_is_atend
 fun{tk:tk}
-string_is_atend_int
+string_is_atend_gint
   {n:int}{i:nat | i <= n}
   (s: string (n), i: g1int (tk, i)):<> bool (i==n)
-overload string_is_atend with string_is_atend_int
+overload string_is_atend with string_is_atend_gint
 fun{tk:tk}
-string_is_atend_uint
+string_is_atend_guint
   {n:int}{i:nat | i <= n}
   (s: string (n), i: g1uint (tk, i)):<> bool (i==n)
-overload string_is_atend with string_is_atend_uint
+overload string_is_atend with string_is_atend_guint
 (*
 macdef string_isnot_atend
   (str, ind) = ~string_is_atend (,(str), ,(ind))

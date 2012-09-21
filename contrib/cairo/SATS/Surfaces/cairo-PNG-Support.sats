@@ -21,13 +21,10 @@ fun cairo_image_surface_create_from_png
 /*
 
 cairo_status_t      (*cairo_read_func_t)                (void *closure,
-                                                         unsigned char
-							 *data,
-                                                         unsigned int
-							 length);
+                                                         unsigned char *data,
+                                                         unsigned int length);
 cairo_surface_t *   cairo_image_surface_create_from_png_stream
-                                                        (cairo_read_func_t
-							read_func,
+                                                        (cairo_read_func_t read_func,
                                                          void *closure);
 */
 

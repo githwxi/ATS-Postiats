@@ -178,7 +178,7 @@ fun reader0_initialize_charlst_vt
         (c, cs) => let
         val () = !p := cs; prval () = pf.1 := pf1
       in
-        int_of_char (c)
+        int_of_uchar (uchar_of_char (c))
       end // end of [list_vt_cons]
     | list_vt_nil () => let
         prval () = fold@ (!p); prval () = pf.1 := pf1

@@ -482,13 +482,15 @@ such that element i in the list equals char i in the string for
 
 #declnamesynop("string_tabulate__fwork")
 #declnamesynop("string_tabulate")
+//
 #decldescrpt('\
 
 Given an integer n, this function returns a string of length n such that
 char i in the string equals f(i) for 0 &lt;= i &lt n, where f is the
-function implemented by #dyncode("string_tabulate__fwork").
-
-')
+function implemented by #dyncode("string_tabulate__fwork"). ')
+//
+#declfunretval("A linear string is returned.")
+//
 #declexample('\
 
 The following code gives an implementation of

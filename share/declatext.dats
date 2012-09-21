@@ -133,6 +133,14 @@ in
 end // end of [declname]
 
 implement
+declname2 (name, href) = let
+  val () = theDeclnameLst_add (name)
+  val () = theDeclitemLst_add (DITMname2 (name, href))
+in
+  $LDOC.atext_nil ()
+end // end of [declname]
+
+implement
 declsynop () = let
   val () = theDeclitemLst_add (DITMsynop ())
 in

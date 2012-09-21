@@ -20,7 +20,10 @@ typedef atextlst = $LDOC.atextlst
 
 datatype
 declitem =
+//
   | DITMname of (string)
+  | DITMname2 of (string(*name*), string(*href*))
+//
   | DITMsynop of () | DITMsynop2 of (string)
   | DITMdescrpt of (string)
   | DITMexample of (string)
@@ -59,6 +62,7 @@ fun theDeclitemLst_add (x: declitem): void
 fun theDeclitemLst_get (): List_vt (declitem)
 
 fun declname (x: string): atext
+fun declname2 (name: string, href: string): atext
 //
 // HX: for the current declname
 //

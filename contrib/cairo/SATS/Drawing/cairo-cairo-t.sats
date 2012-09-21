@@ -10,12 +10,6 @@ staload "cairo/SATS/cairo_header.sats"
 (* ****** ****** *)
 
 /*
-typedef             cairo_t;
-*/
-
-(* ****** ****** *)
-
-/*
 cairo_t *           cairo_create                        (cairo_surface_t *target);
 */
 fun cairo_create
@@ -529,8 +523,7 @@ fun cairo_show_page (ctx: !xr1): void = "mac#atsctrb_cairo_show_page"
 unsigned int        cairo_get_reference_count           (cairo_t *cr);
 */
 (*
-cairo_public unsigned int
-cairo_get_reference_count (cairo_t *cr);
+unsigned int        cairo_get_reference_count           (cairo_t *cr);
 *)
 fun cairo_get_reference_count
   (ctx: !xr1): uint = "mac#atsctrb_cairo_get_reference_count"

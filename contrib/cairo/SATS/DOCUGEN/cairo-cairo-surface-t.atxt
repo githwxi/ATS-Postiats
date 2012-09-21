@@ -1,0 +1,21 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_cairo_cairo")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/cairo/Surfaces/cairo-cairo-surface-t\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("cairo_surface_reference")
+#declnamesynop("cairo_surface_destroy")
+
+(* ****** ****** *)
+
+(* end of [cairo-cairo-surface-t.atxt] *)

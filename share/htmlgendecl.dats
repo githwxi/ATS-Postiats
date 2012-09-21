@@ -162,6 +162,14 @@ in
   $LDOC.atext_strptr (str)
 end // end of [aux_name]
 
+fn aux_name2
+  (name: string, href: string): atext = let
+  val () = theDeclname_set (name)
+  val str = sprintf ("<h2><a id=\"%s\" href=\"%s\">%s</a></h2>\n", @(name, href, name))
+in
+  $LDOC.atext_strptr (str)
+end // end of [aux_name2]
+
 fn aux_synop () = let
   val head =
     atext_apptxt2 (H3 ("Synopsis"), atext_newline())
@@ -257,6 +265,7 @@ in
 case+ x of
 //
 | DITMname (name) => aux_name (name)
+| DITMname2 (name, href) => aux_name2 (name, href)
 //
 | DITMsynop () => aux_synop ((*void*))
 | DITMsynop2 (synop) => aux_synop2 (synop)
@@ -284,7 +293,10 @@ in
       val res = list_cons {atext} (y, ys)
       val sep = (
         if i > 0 then (
-          case+ x of DITMname _ => true | _ => false
+          case+ x of
+          | DITMname _ => true
+          | DITMname2 _ => true
+          | _(*non-name-entry*) => false
         ) else false
       ) : bool // end of [val]
     in
