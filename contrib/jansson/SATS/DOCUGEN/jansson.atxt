@@ -35,6 +35,7 @@ href="http://www.digip.org/jansson/">jansson</a> library.  ')
 #declnamesynop("JSONiter2ptr")
 #declnamesynop("JSONiter_is_gtez")
 #declnamesynop("JSONiter_free_null")
+#declnamesynop("JSONiter_return")
 #declnamesynop("JSONiter_is_null")
 #declnamesynop("JSONiter_isnot_null")
 

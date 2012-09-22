@@ -84,8 +84,6 @@ viewtypedef JSONiter1 (l1:addr) = [l2:addr | l2 > null] JSONiter (l1, l2)
 
 praxi
 JSONptr_is_gtez {l:addr} (x: !JSONptr l): [l >= null] void
-praxi
-JSONiter_is_gtez {l1,l2:addr} (x: !JSONiter (l1, l2)): [l2 >= null] void
 
 (* ****** ****** *)
 
@@ -96,14 +94,8 @@ castfn JSONiter2ptr {l1,l2:addr} (x: !JSONiter (l1, l2)):<> ptr (l2)
 
 praxi
 JSONptr_free_null
-  {l:addr | l <= null} (x: JSONptr l):<> void
+  {l:addr | l <= null} (x: JSONptr l): void
 // end of [JSONptr_free_null]
-
-praxi
-JSONiter_return
-  {l1,l2:addr}
-  (json: !JSONptr l1, iter: JSONiter (l1, l2)):<> void
-// end of [JSONiter_return]
 
 (* ****** ****** *)
 
@@ -432,6 +424,25 @@ fun json_object_update_missing
   {l1:agz}{l2:addr} (
   json1: !JSONptr l1, json2: !JSONptr l2
 ) : int(*err*) = "mac#atsctrb_json_object_update_missing"
+
+(* ****** ****** *)
+
+praxi
+JSONiter_is_gtez
+  {l1,l2:addr}
+  (x: !JSONiter (l1, l2)): [l2 >= null] void
+// end of [JSONiter_is_gtez]
+
+praxi
+JSONiter_free_null
+  {l1,l2:addr | l2 <= null} (x: JSONiter (l1, l2)): void
+// end of [JSONiter_free_null]
+
+praxi
+JSONiter_return
+  {l1,l2:addr}
+  (json: !JSONptr l1, iter: JSONiter (l1, l2)): void
+// end of [JSONiter_return]
 
 (* ****** ****** *)
 
