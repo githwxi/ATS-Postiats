@@ -94,6 +94,9 @@ in
 //
 case+ p3t0.p3at_node of
 //
+| P3Tany (d2v) => hipat_any (loc0, hse0)
+| P3Tvar (d2v) => hipat_var (loc0, hse0, d2v)
+//
 | P3Tint (i) => hipat_int (loc0, hse0, i)
 //
 | P3Tbool (b) => hipat_bool (loc0, hse0, b)
@@ -207,6 +210,20 @@ end // end of [local]
 
 (* ****** ****** *)
 
+extern
+fun d3exp_tyer_tmpcst (
+  loc0: location, hse0: hisexp, d2c: d2cst, t2mas: t2mpmarglst
+) : hidexp // end of [d3exp_tyer_tmpcst]
+extern
+fun d3exp_tyer_tmpvar (
+  loc0: location, hse0: hisexp, d2v: d2var, t2mas: t2mpmarglst
+) : hidexp // end of [d3exp_tyer_tmpvar]
+
+extern
+fun d3explst_npf_tyer (npf: int, d3es: d3explst): hidexplst
+
+(* ****** ****** *)
+
 implement
 d3exp_tyer
   (d3e0) = let
@@ -225,12 +242,31 @@ case+
 | D3Estring (str) =>
     hidexp_string (loc0, hse0, str)
 //
+| D3Ei0nt (tok) =>
+    hidexp_i0nt (loc0, hse0, tok)
+| D3Ef0loat (tok) =>
+    hidexp_f0loat (loc0, hse0, tok)
+//
+| D3Eextval (name) => hidexp_extval (loc0, hse0, name)
+//
 | D3Elet (d3cs, d3e_scope) => let
     val hids = d3eclist_tyer (d3cs)
     val hde_scope = d3exp_tyer (d3e_scope)
   in
     hidexp_let_simplify (loc0, hse0, hids, hde_scope)
   end // end of [D3Elet]
+//
+| D3Eapp_dyn (
+    d3e_fun, npf, d3es_arg
+  ) => let
+    val s2e_fun = d3exp_get_type (d3e_fun)
+    val hse_fun = s2exp_tyer_deep (loc0, s2e_fun)
+    val hde_fun = d3exp_tyer (d3e_fun)
+    val hdes_arg = d3explst_npf_tyer (npf, d3es_arg)
+  in
+    hidexp_app (loc0, hse0, hse_fun, hde_fun, hdes_arg)
+  end // end of [D3Eapp_dyn]
+| D3Eapp_sta (d3e) => d3exp_tyer (d3e)
 //
 | D3Elam_dyn (
     lin, npf, p3ts_arg, d3e_body
@@ -243,7 +279,14 @@ case+
   end // end of [D3Elam_dyn]
 | D3Elam_met (_(*met*), d3e) => d3exp_tyer (d3e)
 //
-| _ => exitloc (1)
+| D3Etmpcst (d2c, t2mas) => d3exp_tyer_tmpcst (loc0, hse0, d2c, t2mas)
+| D3Etmpvar (d2v, t2mas) => d3exp_tyer_tmpvar (loc0, hse0, d2v, t2mas)
+//
+| _ => let
+    val () = println! ("d3exp_tyer: d3e0 = ", d3e0)
+  in
+    exitloc (1)
+  end // end of [_]
 //
 end // endof [d3exp_tyer]
 
@@ -258,6 +301,39 @@ d3explst_tyer
 in
   list_of_list_vt (hdes)
 end // end of [d3explst_tyer]
+
+implement
+d3explst_npf_tyer
+  (npf, d3es) = let
+in
+//
+if npf > 0 then let
+  val- list_cons (_, d3es) = d3es in d3explst_npf_tyer (npf, d3es)
+end else
+  d3explst_tyer (d3es)
+// end of [if]
+//
+end // end of [d3explst_npf_tyer]
+
+(* ****** ****** *)
+
+implement
+d3exp_tyer_tmpcst (
+  loc0, hse0, d2c, t2mas
+) = let
+  val hses_tmp = t2mpmarglst_tyer (t2mas)
+in
+  hidexp_tmpcst (loc0, hse0, d2c, hses_tmp)
+end // end of [d3exp_tyer_tmpcst]
+
+implement
+d3exp_tyer_tmpvar (
+  loc0, hse0, d2v, t2mas
+) = let
+  val hses_tmp = t2mpmarglst_tyer (t2mas)
+in
+  hidexp_tmpvar (loc0, hse0, d2v, hses_tmp)
+end // end of [d3exp_tyer_tmpvar]
 
 (* ****** ****** *)
 

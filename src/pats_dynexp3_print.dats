@@ -37,6 +37,7 @@ staload _(*anon*) = "pats_utils.dats"
 
 (* ****** ****** *)
 
+staload LEX = "pats_lexing.sats"
 staload SYM = "pats_symbol.sats"
 macdef fprint_symbol = $SYM.fprint_symbol
 staload SYN = "pats_syntax.sats"
@@ -182,6 +183,48 @@ case+ d3e0.d3exp_node of
 | D3Ecst (d2c) => {
     val () = prstr "D3Ecst("
     val () = fprint_d2cst (out, d2c)
+    val () = prstr ")"
+  }
+//
+| D3Eint (i) => {
+    val () = prstr "D3Eint("
+    val () = fprint_int (out, i)
+    val () = prstr ")"
+  }
+| D3Eintrep (rep) => {
+    val () = prstr "D3Eintrep("
+    val () = fprint_string (out, rep)
+    val () = prstr ")"
+  }
+| D3Ebool (b) => {
+    val () = prstr "D3Ebool("
+    val () = fprint_bool (out, b)
+    val () = prstr ")"
+  }
+| D3Echar (c) => {
+    val () = prstr "D3Echar("
+    val () = fprint_char (out, c)
+    val () = prstr ")"
+  }
+| D3Estring (str) => {
+    val () = prstr "D3Estring("
+    val () = fprint_string (out, str)
+    val () = prstr ")"
+  }
+| D3Efloat (rep) => {
+    val () = prstr "D3Efloat("
+    val () = fprint_string (out, rep)
+    val () = prstr ")"
+  }
+//
+| D3Ei0nt (tok) => {
+    val () = prstr "D3Ei0nt("
+    val () = $SYN.fprint_i0nt (out, tok)
+    val () = prstr ")"
+  }
+| D3Ef0loat (tok) => {
+    val () = prstr "D3Ef0loat("
+    val () = $SYN.fprint_f0loat (out, tok)
     val () = prstr ")"
   }
 //

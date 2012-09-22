@@ -363,19 +363,29 @@ s2rt_is_tkind
   | _ => false
 ) // end of [s2rt_is_tkind]
 
+(* ****** ****** *)
+
+local
+
+fun s2rt_test_fun
+  (s2t: s2rt, f: s2rt -> bool): bool = (
+  case+ s2t of
+  | S2RTfun (_, s2t) => s2rt_test_fun (s2t, f) | _ => f (s2t)
+) // end of [s2rt_test_fun]
+
+in // in of [local]
+
+implement
+s2rt_is_boxed_fun
+  (s2t) = s2rt_test_fun (s2t, s2rt_is_boxed)
+// end of [s2rt_is_boxed_fun]
+
 implement
 s2rt_is_tkind_fun
-  (s2t) = (
-  case+ s2t of
-  | S2RTbas s2tb => (
-    case+ s2tb of
-    | S2RTBASpre (sym) =>
-        sym = $SYM.symbol_TKIND
-    | _ => false
-    ) // end of [S2RTbas]
-  | S2RTfun (_, s2t) => s2rt_is_tkind_fun (s2t)
-  | _ => false
-) // end of [s2rt_is_fun_tkind]
+  (s2t) = s2rt_test_fun (s2t, s2rt_is_tkind)
+// end of [s2rt_is_tkind_fun]
+
+end // end of [local]
 
 (* ****** ****** *)
 

@@ -164,9 +164,39 @@ hidexp_string
 (* ****** ****** *)
 
 implement
+hidexp_i0nt
+  (loc, hse, tok) =
+  hidexp_make_node (loc, hse, HDEi0nt (tok))
+// end of [hidexp_i0nt]
+
+implement
+hidexp_f0loat
+  (loc, hse, tok) =
+  hidexp_make_node (loc, hse, HDEf0loat (tok))
+// end of [hidexp_f0loat]
+
+(* ****** ****** *)
+
+implement
+hidexp_extval
+  (loc, hse, name) =
+  hidexp_make_node (loc, hse, HDEextval (name))
+// end of [hidexp_extval]
+
+(* ****** ****** *)
+
+implement
 hidexp_let (loc, hse, hids, hde) =
   hidexp_make_node (loc, hse, HDElet (hids, hde))
 // end of [hidexp_let]
+
+(* ****** ****** *)
+
+implement
+hidexp_app
+  (loc, hse_res, hse_fun, _fun, _arg) =
+  hidexp_make_node (loc, hse_res, HDEapp (hse_fun, _fun, _arg))
+// end of [hidexp_app]
 
 (* ****** ****** *)
 
@@ -175,6 +205,20 @@ hidexp_lam
   (loc, hse, hips_arg, hde_body) =
   hidexp_make_node (loc, hse, HDElam (hips_arg, hde_body))
 // end of [hidexp_lam]
+
+(* ****** ****** *)
+
+implement
+hidexp_tmpcst
+  (loc, hse, d2c, tmparg) =
+  hidexp_make_node (loc, hse, HDEtmpcst (d2c, tmparg))
+// end of [hidexp_tmpcst]
+
+implement
+hidexp_tmpvar
+  (loc, hse, d2v, tmparg) =
+  hidexp_make_node (loc, hse, HDEtmpvar (d2v, tmparg))
+// end of [hidexp_tmpvar]
 
 (* ****** ****** *)
 
@@ -208,6 +252,11 @@ implement
 hidecl_valdecs (loc, knd, hvds) =
   hidecl_make_node (loc, HIDvaldecs (knd, hvds))
 // end of [hidecl_valdecs]
+
+implement
+hidecl_valdecs_rec (loc, knd, hvds) =
+  hidecl_make_node (loc, HIDvaldecs_rec (knd, hvds))
+// end of [hidecl_valdecs_rec]
 
 (* ****** ****** *)
 

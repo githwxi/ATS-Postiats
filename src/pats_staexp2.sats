@@ -261,9 +261,12 @@ fun s2rt_is_lin (x: s2rt): bool
 fun s2rt_is_flat (x: s2rt): bool // is flat?
 fun s2rt_is_boxed (x: s2rt): bool // is boxed?
 fun s2rt_is_impredicative (x: s2rt): bool
-
 fun s2rt_is_tkind (x: s2rt): bool // is tkind?
+
+fun s2rt_is_boxed_fun (x: s2rt): bool // is (... ->) boxed?
 fun s2rt_is_tkind_fun (x: s2rt): bool // is (... ->) tkind?
+
+(* ****** ****** *)
 
 fun s2rt_get_pol (x: s2rt): int // neg/neu/pos: -1/0/1
 

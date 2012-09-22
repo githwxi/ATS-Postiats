@@ -75,16 +75,18 @@ fun funlab_get_stamp (fl: funlab): stamp
 datatype
 hisexp_node =
 //
+  | HSEtyptr of () // for pointers
+  | HSEtyabs of (symbol) // for abstypes
+//
   | HSEfun of (* function type *)
       (funclo, hisexplst(*arg*), hisexp(*res*))
   | HSEcfun of (funlab) // for closures
 //
+  | HSEapp of (hisexp, hisexplst)
+//
   | HSEextype of (string(*name*), hisexplstlst)
 //
   | HSErefarg of (int(*refval*), hisexp)
-//
-  | HSEtyabs of () // for abstypes
-  | HSEtyptr of () // for pointers
 //
   | HSEtyarr of (hisexp, s2explst) // for arrays
   | HSEtyrec of (tyreckind, labhisexplst) // for records
@@ -122,10 +124,9 @@ fun fprint_hisexplst : fprint_type (hisexplst)
 
 (* ****** ****** *)
 //
-val hisexp_tyabs : hisexp
-val hisexp_tyclo : hisexp
-//
 val hisexp_typtr : hisexp
+//
+val hisexp_tyclo : hisexp
 //
 val hisexp_typtr_fun : hisexp
 val hisexp_typtr_clo : hisexp
@@ -138,11 +139,17 @@ fun hisexp_varetize (hse: hisexp): hisexp
 
 (* ****** ****** *)
 
+fun hisexp_tyabs (sym: symbol): hisexp
+
 fun hisexp_fun (
   fc: funclo, arg: hisexplst, res: hisexp
 ) : hisexp // end of [hisexp_fun]
 
 fun hisexp_cfun (fl: funlab): hisexp
+
+fun hisexp_app
+  (_fun: hisexp, _arg: hisexplst): hisexp
+// end of [hisexp_app]
 
 fun hisexp_extype
   (name: string, arglst: hisexplstlst): hisexp
@@ -165,6 +172,7 @@ fun hisexp_s2exp (s2e: s2exp): hisexp
 (* ****** ****** *)
 
 fun hisexp_make_srt (s2t: s2rt): hisexp
+fun hisexp_make_srtsym (s2t: s2rt, sym: symbol): hisexp
 
 (* ****** ****** *)
 

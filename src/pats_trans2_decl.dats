@@ -487,13 +487,13 @@ fn s1tacon_tr (
     id // sym
   , loc // location
   , s2t_fun // srt
-  , Some def // isabs
+  , Some (def) // isabs
   , true // iscon
   , false // isrec
   , false // isasp
   , None () // islst
   , argvars // argvarlst
-  , None () // def
+  , None () // definition
   ) // end of [val]
 in
   the_s2expenv_add_scst (s2c)

@@ -60,6 +60,8 @@ extern
 fun d3ecl_tyer_fundecs (d3c0: d3ecl): hidecl
 extern
 fun d3ecl_tyer_valdecs (d3c0: d3ecl): hidecl
+extern
+fun d3ecl_tyer_valdecs_rec (d3c0: d3ecl): hidecl
 
 (* ****** ****** *)
 
@@ -80,6 +82,7 @@ case+
   end // end of [D3Clist]
 //
 | D3Cvaldecs _ => d3ecl_tyer_valdecs (d3c0)
+| D3Cvaldecs_rec _ => d3ecl_tyer_valdecs_rec (d3c0)
 //
 | _ => exitloc (1)
 //
@@ -126,7 +129,7 @@ fun v3aldeclst_tyer (
 in
 //
 if isprf then
-  list_nil ()
+  list_nil () // proofs are erased
 else let
   val hvds = list_map_fun (v3ds, v3aldec_tyer)
 in
@@ -145,8 +148,19 @@ val- D3Cvaldecs (knd, v3ds) = d3c0.d3ecl_node
 val hvds = v3aldeclst_tyer (knd, v3ds)
 //
 in
-  hidecl_valdecs (hvds)
+  hidecl_valdecs (loc0, knd, hvds)
 end // end of [d3ecl_tyer_valdecs]
+
+implement
+d3ecl_tyer_valdecs_rec (d3c0) = let
+//
+val loc0 = d3c0.d3ecl_loc
+val- D3Cvaldecs_rec (knd, v3ds) = d3c0.d3ecl_node
+val hvds = v3aldeclst_tyer (knd, v3ds)
+//
+in
+  hidecl_valdecs_rec (loc0, knd, hvds)
+end // end of [d3ecl_tyer_valdecs_rec]
 
 end // end of [local]
 

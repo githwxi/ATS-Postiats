@@ -284,6 +284,7 @@ dynload "pats_histaexp_print.dats"
 dynload "pats_histaexp_funlab.dats"
 //
 dynload "pats_hidynexp.dats"
+dynload "pats_hidynexp_print.dats"
 dynload "pats_hidynexp_util.dats"
 //
 dynload "pats_typerase_error.dats"
@@ -685,6 +686,8 @@ do_trans1234 (
     do_trans123 (basename, d0cs)
   // end of [d3cs]
   val hids = $TYER.d3eclist_tyer (d3cs)
+//
+  val () = fprint_hideclist (stdout_ref, hids)
 //
   val () = if isdebug() then {
     val () = print "The 4th translation (type/proof-erasing) of ["
