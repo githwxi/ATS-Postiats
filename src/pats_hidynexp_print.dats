@@ -45,6 +45,10 @@ staload LAB = "pats_label.sats"
 
 (* ****** ****** *)
 
+staload SYN = "pats_syntax.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
 
@@ -87,6 +91,14 @@ case+ x.hipat_node of
     val () = prstr ")"
   }
 //
+| HIPann (hip, ann) => {
+    val () = prstr "HIPann("
+    val () = fprint_hipat (out, hip)
+    val () = prstr " : "
+    val () = fprint_hisexp (out, ann)
+    val () = prstr ")"
+  }
+//
 | _ => {
     val () = fprint_string (out, "HIP...(...)")
   } // end of [_]
@@ -120,11 +132,117 @@ case+
     val () = prstr ")"
   }
 //
+| HDEi0nt (tok) => {
+    val () = prstr "HDEi0nt("
+    val () = $SYN.fprint_i0nt (out, tok)
+    val () = prstr ")"
+  }
+| HDEf0loat (tok) => {
+    val () = prstr "HDEf0loat("
+    val () = $SYN.fprint_f0loat (out, tok)
+    val () = prstr ")"
+  }
+//
+| HDEextval (name) => {
+    val () = prstr "HDEextval("
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  }
+//
+| HDEapp (_, _fun, _arg) => {
+    val () = prstr "HDEapp("
+    val () = fprint_hidexp (out, _fun)
+    val () = prstr "; "
+    val () = fprint_hidexplst (out, _arg)
+    val () = prstr ")"
+  }
+//
+| HDEtmpcst (d2c, tmparg) => {
+    val () = prstr "HDEtmpcst("
+    val () = fprint_d2cst (out, d2c)
+    val () = prstr "<"
+    val () = $UT.fprintlst (out, tmparg, "><", fprint_hisexplst)
+    val () = prstr ">"
+    val () = prstr ")"
+  }
+| HDEtmpvar (d2v, tmparg) => {
+    val () = prstr "HDEtmpvar("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr "<"
+    val () = $UT.fprintlst (out, tmparg, "><", fprint_hisexplst)
+    val () = prstr ">"
+    val () = prstr ")"
+  }
+//
 | _ => {
     val () = fprint_string (out, "HDE...(...)")
   } // end of [_]
 //
 end // end of [fprint_hidexp]
+
+(* ****** ****** *)
+
+implement
+fprint_hidexplst
+  (out, xs) = $UT.fprintlst (out, xs, "; ", fprint_hidexp)
+// end of [fprint_hidexplst]
+
+(* ****** ****** *)
+
+implement
+fprint_hidecl
+  (out, hid) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+//
+case+ hid.hidecl_node of
+//
+| HIDvaldecs (knd, hvds) => {
+    val () = prstr "HIDvaldecs(\n"
+    val () = $UT.fprintlst (out, hvds, "\n", fprint_hivaldec)
+    val () = prstr "\n)"
+  } // end of [HIDvaldec]
+| HIDvaldecs_rec (knd, hvds) => {
+    val () = prstr "HIDvaldecs_rec(\n"
+    val () = $UT.fprintlst (out, hvds, "\n", fprint_hivaldec)
+    val () = prstr "\n)"
+  } // end of [HIDvaldec_rec]
+//
+| _ => {
+    val () = prstr "HID...(...)"
+  } // end of [_]
+//
+end // end of [fprint_hivaldec]
+
+(* ****** ****** *)
+
+implement
+fprint_hideclist
+  (out, hids) = let
+in
+//
+case+ hids of
+| list_cons
+    (hid, hids) => let
+    val () =
+      fprint_hidecl (out, hid)
+    val () = fprint_newline (out)
+  in
+    fprint_hideclist (out, hids)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [fprint_hideclist]
+
+(* ****** ****** *)
+
+implement
+fprint_hivaldec
+  (out, hvd) = {
+  val () = fprint_hipat (out, hvd.hivaldec_pat)
+  val () = fprint_string (out, " = ")
+  val () = fprint_hidexp (out, hvd.hivaldec_def)
+} // end of [fprint_hivaldec]
 
 (* ****** ****** *)
 

@@ -83,6 +83,11 @@ fun s2exp_tyer_shallow
 
 (* ****** ****** *)
 
+fun t2mpmarg_tyer (t2ma: t2mpmarg): hisexplst
+fun t2mpmarglst_tyer (t2mas: t2mpmarglst): hisexplstlst
+
+(* ****** ****** *)
+
 fun p3at_tyer (p3t: p3at): hipat
 fun p3atlst_tyer (p3ts: p3atlst): hipatlst
 

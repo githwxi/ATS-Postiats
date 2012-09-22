@@ -324,6 +324,7 @@ val SOURCES =
 //
 , "pats_hidynexp.sats"
 , "pats_hidynexp.dats"
+, "pats_hidynexp_print.dats"
 , "pats_hidynexp_util.dats"
 //
 , "pats_typerase.sats"

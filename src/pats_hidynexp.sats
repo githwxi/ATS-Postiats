@@ -141,17 +141,24 @@ hidecl_node =
   | HIDsaspdec of s2aspdec
 //
   | HIDvaldecs of (valkind, hivaldeclst)
+  | HIDvaldecs_rec of (valkind, hivaldeclst)
 // end of [hidecl_node]
 
 and hidexp_node =
+//
   | HDEbool of bool // boolean constants
   | HDEchar of char // constant characters
   | HDEstring of string // constant strings
 //
+  | HDEi0nt of i0nt // integer constants
+  | HDEf0loat of f0loat // floating point constants
+//
+  | HDEextval of (string(*name*)) // external values
+//
   | HDElet of (hideclist, hidexp)
 //
   | HDEapp of
-      (hisexp, hidexp, hidexplst) // app_dyn
+      (hisexp(*fun*), hidexp, hidexplst) // app_dyn
     // end of [HDEapp]
 //
 (*
@@ -165,7 +172,10 @@ and hidexp_node =
       (d2var_t, hilablst, hidexp)
 *)
   | HDElam of (hipatlst, hidexp) // HX: lam_dyn
-
+//
+  | HDEtmpcst of (d2cst, hisexplstlst)
+  | HDEtmpvar of (d2var, hisexplstlst)
+//
 // end of [hidexp_node]
 
 where hidecl = '{
@@ -201,6 +211,8 @@ fun fprint_hidexplst : fprint_type (hidexplst)
 fun fprint_hidecl : fprint_type (hidecl)
 fun fprint_hideclist : fprint_type (hideclist)
 
+fun fprint_hivaldec : fprint_type (hivaldec)
+
 (* ****** ****** *)
 
 fun hidexp_make_node
@@ -216,6 +228,18 @@ fun hidexp_string
 
 (* ****** ****** *)
 
+fun hidexp_i0nt
+  (loc: location, hse: hisexp, tok: i0nt): hidexp
+fun hidexp_f0loat
+  (loc: location, hse: hisexp, tok: f0loat): hidexp
+
+(* ****** ****** *)
+
+fun hidexp_extval
+  (loc: location, hse: hisexp, name: string): hidexp
+
+(* ****** ****** *)
+
 fun hidexp_let
   (loc: location, hse: hisexp, hids: hideclist, hde: hidexp): hidexp
 // end of [hidexp_let]
@@ -226,9 +250,25 @@ fun hidexp_let_simplify
 
 (* ****** ****** *)
 
+fun hidexp_app (
+  loc: location
+, hse_res: hisexp, hse_fun: hisexp, _fun: hidexp, _arg: hidexplst
+) : hidexp // end of [hidexp_app]
+
+(* ****** ****** *)
+
 fun hidexp_lam
   (loc: location, hse: hisexp, hips: hipatlst, hde: hidexp): hidexp
 // end of [hidexp_lam]
+
+(* ****** ****** *)
+
+fun hidexp_tmpcst (
+  loc: location, hse: hisexp, d2c: d2cst, tmparg: hisexplstlst
+) : hidexp // end of [hidexp_tmpcst]
+fun hidexp_tmpvar (
+  loc: location, hse: hisexp, d2v: d2var, tmparg: hisexplstlst
+) : hidexp // end of [hidexp_tmpvar]
 
 (* ****** ****** *)
 
@@ -248,6 +288,10 @@ fun hidecl_list (loc: location, hids: hideclist): hidecl
 fun hidecl_valdecs
   (loc: location, knd: valkind, hvds: hivaldeclst): hidecl
 // end of [hidecl_valdecs]
+
+fun hidecl_valdecs_rec
+  (loc: location, knd: valkind, hvds: hivaldeclst): hidecl
+// end of [hidecl_valdecs_rec]
 
 (* ****** ****** *)
 

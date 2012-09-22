@@ -42,6 +42,7 @@ staload "pats_basics.sats"
 (* ****** ****** *)
 
 staload LAB = "pats_label.sats"
+staload SYM = "pats_symbol.sats"
 
 (* ****** ****** *)
 
@@ -84,6 +85,15 @@ case+
     val () = prstr ")"
   } // end of [HSEcfun]
 //
+| HSEapp
+    (_fun, _arg) => {
+    val () = prstr "HSEapp("
+    val () = fprint_hisexp (out, _fun)
+    val () = prstr "; "
+    val () = fprint_hisexplst (out, _arg)
+    val () = prstr ")"
+  } // end of [HSEapp]
+//
 | HSEextype
     (name, hsess) => {
     val () = prstr "HSEextype("
@@ -100,8 +110,10 @@ case+
     val () = prstr ")"
   } // end of [HSErefarg]
 //
-| HSEtyabs () => {
-    val () = prstr "HSEtyabs()"
+| HSEtyabs (sym) => {
+    val () = prstr "HSEtyabs("
+    val () = $SYM.fprint_symbol (out, sym)
+    val () = prstr ")"
   } // end of [HSEtyabs]
 | HSEtyptr () => {
     val () = prstr "HSEtyptr()"

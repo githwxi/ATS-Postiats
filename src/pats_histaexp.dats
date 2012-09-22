@@ -36,6 +36,10 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
+staload SYM = "pats_symbol.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 
 (* ****** ****** *)
@@ -44,9 +48,10 @@ staload "pats_histaexp.sats"
 
 (* ****** ****** *)
 
-val HITYPE_ABS = HITYPE (0(*non*), "atstype_abs")
-val HITYPE_CLO = HITYPE (0(*non*), "atstype_tyclo")
 val HITYPE_PTR = HITYPE (1(*non*), "atstype_ptr")
+val HITYPE_ABS = HITYPE (0(*non*), "atstype_abs")
+val HITYPE_APP = HITYPE (0(*non*), "atstype_tyapp")
+val HITYPE_CLO = HITYPE (0(*non*), "atstype_tyclo")
 val HITYPE_REF = HITYPE (1(*ptr*), "atstype_ref")
 //
 val HITYPE_FUNPTR = HITYPE (1(*ptr*), "atstype_funptr")
@@ -70,19 +75,14 @@ val HITYPE_S2EXP = HITYPE (0(*non*), "atstype_s2exp")
 (* ****** ****** *)
 
 implement
-hisexp_tyabs = '{
-  hisexp_name= HITYPE_ABS, hisexp_node= HSEtyabs ()
+hisexp_typtr = '{
+  hisexp_name= HITYPE_PTR, hisexp_node= HSEtyptr ()
 }
 
 implement
 hisexp_tyclo = '{
-  hisexp_name= HITYPE_CLO, hisexp_node= HSEtyabs ()
-}
-
-implement
-hisexp_typtr = '{
-  hisexp_name= HITYPE_PTR, hisexp_node= HSEtyptr ()
-}
+  hisexp_name= HITYPE_CLO, hisexp_node= HSEtyabs ($SYM.symbol_empty)
+} // end of [hisexp_tyclo]
 
 implement
 hisexp_typtr_fun = '{
@@ -109,6 +109,13 @@ fun hisexp_make_node (
 (* ****** ****** *)
 
 implement
+hisexp_tyabs (sym) =
+  hisexp_make_node (HITYPE_ABS, HSEtyabs (sym))
+// end of [hisexp_tyabs]
+
+(* ****** ****** *)
+
+implement
 hisexp_varetize
   (hse) = let
   val node = hse.hisexp_node
@@ -117,7 +124,7 @@ in
 case+ node of
 | HSEtyvar (s2v) =>
     hisexp_make_node (hse.hisexp_name, node)
-| _ => hse
+| _ => hse // end of [_]
 //
 end // end of [hityp_varetize]
 
@@ -125,8 +132,13 @@ end // end of [hityp_varetize]
 
 implement
 hisexp_make_srt (s2t) =
-  if s2rt_is_boxed (s2t) then hisexp_typtr else hisexp_tyabs
-// end of [hisexp_make_srt]
+  hisexp_make_srtsym (s2t, $SYM.symbol_empty)
+(* end of [hisexp_make_srt]*)
+
+implement
+hisexp_make_srtsym (s2t, sym) =
+  if s2rt_is_boxed_fun (s2t) then hisexp_typtr else hisexp_tyabs (sym)
+// end of [hisexp_make_srtsym]
 
 (* ****** ****** *)
 
@@ -135,6 +147,13 @@ hisexp_fun
   (fc, arg, res) =
   hisexp_make_node (HITYPE_FUNPTR, HSEfun (fc, arg, res))
 // end of [hisexp_fun]
+
+(* ****** ****** *)
+
+implement
+hisexp_app
+  (_fun, _arg) = hisexp_make_node (HITYPE_APP, HSEapp (_fun, _arg))
+// end of [hisexp_app]
 
 (* ****** ****** *)
 
