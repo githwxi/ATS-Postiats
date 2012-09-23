@@ -31,6 +31,10 @@ ATSLIB/contrib/cairo/Surfaces/cairo-cairo-device-t\
 
 (* ****** ****** *)
 
+#declnamesynop("cairo_device_get_reference_count")
+
+(* ****** ****** *)
+
 #declnamesynop("cairo_device_acquire")
 #declnamesynop("cairo_device_release")
 

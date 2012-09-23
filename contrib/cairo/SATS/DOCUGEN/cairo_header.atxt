@@ -240,4 +240,15 @@ balanced.\
 
 (* ****** ****** *)
 
+#declnamesynop("cairo_device_acquire_v")
+#decldescrpt("\
+
+This abstract view is introduced for ensuring that calls to
+#dyncode("cairo_device_acquire") and #dyncode("cairo_device_release") are
+properly balance.  ")
+
+#declnamesynop("cairo_device_acquire_v_free_none")
+
+(* ****** ****** *)
+
 (* end of [cairo_header.atxt] *)

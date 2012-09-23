@@ -65,10 +65,21 @@ fun cairo_device_get_type
 
 /*
 unsigned int        cairo_device_get_reference_count    (cairo_device_t *device);
+*/
+fun cairo_device_get_reference_count
+  (dev: xrdev1): uint = "mac#atsctrb_cairo_device_get_reference_count"
+// end of [cairo_device_get_reference_count]
+
+(* ****** ****** *)
+
+/*
 cairo_status_t      cairo_device_set_user_data          (cairo_device_t *device,
                                                          const cairo_user_data_key_t *key,
                                                          void *user_data,
                                                          cairo_destroy_func_t destroy);
+*/
+
+/*
 void *              cairo_device_get_user_data          (cairo_device_t *device,
                                                          const cairo_user_data_key_t *key);
 */
@@ -79,14 +90,22 @@ void *              cairo_device_get_user_data          (cairo_device_t *device,
 cairo_status_t      cairo_device_acquire                (cairo_device_t *device);
 */
 fun cairo_device_acquire
-  (dev: !xrdev1): cairo_status_t = "mac#atsctrb_cairo_device_acquire"
+  {l:agz} (
+  dev: !xrdev l
+) : [i:nat] (
+  cairo_device_acquire_v (l, i)
+| int i // HX: i=0/i>0 : succ/fail
+) = "mac#atsctrb_cairo_device_acquire"
 // end of [cairo_device_acquire]
 
 /*
 void                cairo_device_release                (cairo_device_t *device);
 */
 fun cairo_device_release
-  (dev: !xrdev1): void = "mac#atsctrb_cairo_device_release"
+  {l:agz} (
+  pf: cairo_device_acquire_v (l, 0)
+| dev: !xrdev l
+) : void = "mac#atsctrb_cairo_device_release"
 // end of [cairo_device_release]
 
 (* ****** ****** *)
