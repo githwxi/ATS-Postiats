@@ -614,6 +614,11 @@ fun do_trans1234 (
   basename: string, d0cs: d0eclist
 ) : hideclist // end of [do_trans1234]
 
+extern
+fun do_trans_state (
+  state: &cmdstate, basename: string, d0cs: d0eclist
+) : void // end of [do_trans_state]
+
 (* ****** ****** *)
 
 implement
@@ -702,6 +707,25 @@ end // end of [do_trans1234]
 
 (* ****** ****** *)
 
+implement
+do_trans_state
+  (state, basename, d0cs) = let
+in
+//
+case+ 0 of
+| _ when state.typecheckonly => let
+    val d3cs = do_trans123 (basename, d0cs) in (*nothing*)
+  end // end of [...]
+| _ => let
+    val hids = do_trans1234 (basename, d0cs)
+  in
+    // nothing
+  end // end of [_]
+//
+end // end of [do_trans_state]
+
+(* ****** ****** *)
+
 fn*
 process_cmdline
   {i:nat} .<i,0>. (
@@ -736,7 +760,7 @@ case+ arglst of
           $DPGEN.fprint_entry (filr, "<stdin>", ps)
         end // end of [val]
 //
-        val hids = do_trans1234 ("STDIN", d0cs)
+        val () = do_trans_state (state, "STDIN", d0cs)
       } // end of [_ when ...]
     | _ => ()
   end // end of [list_vt_nil when ...]
@@ -779,7 +803,7 @@ case+ arg of
           $DPGEN.fprint_entry (filr, basename, ps)
         end // end of [val]
 //
-        val hids = do_trans1234 (basename, d0cs)
+        val () = do_trans_state (state, basename, d0cs)
       in
         process_cmdline (state, arglst)
       end (* end of [_] *)

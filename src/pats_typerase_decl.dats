@@ -81,6 +81,8 @@ case+
     val hids = d3eclist_tyer (d3cs) in hidecl_list (loc0, hids)
   end // end of [D3Clist]
 //
+| D3Cfundecs _ => d3ecl_tyer_fundecs (d3c0)
+//
 | D3Cvaldecs _ => d3ecl_tyer_valdecs (d3c0)
 | D3Cvaldecs_rec _ => d3ecl_tyer_valdecs_rec (d3c0)
 //
@@ -163,6 +165,60 @@ in
 end // end of [d3ecl_tyer_valdecs_rec]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun f3undec_tyer
+  (f3d: f3undec): hifundec = let
+  val loc = f3d.f3undec_loc
+  val d2v_fun = f3d.f3undec_var
+  val d3e_def = f3d.f3undec_def
+  val isprf = d3exp_is_prf (d3e_def)
+  val () = if isprf then let
+    val () = prerr_error4_loc (loc)
+    val () = prerr ": [fun] should be replaced with [prfun] as this is a proof binding."
+    val () = prerr_newline ()
+  in
+    the_trans4errlst_add (T3E_d3exp_tyer_isprf (d3e_def))
+  end // end of [val]
+  val hde_def = d3exp_tyer (d3e_def)
+in
+  hifundec_make (loc, d2v_fun, hde_def)
+end // end of [f3undec_tyer]
+
+fun f3undeclst_tyer (
+  knd: funkind, f3ds: f3undeclst
+) : hifundeclst = let
+  val isprf = funkind_is_proof (knd)
+in
+//
+if isprf then
+  list_nil () // proofs are erased
+else let
+  val hfds = list_map_fun (f3ds, f3undec_tyer)
+in
+  list_of_list_vt (hfds)
+end // end of [if]
+//
+end // end of [f3undeclst_tyer]
+
+in // in of [local]
+
+implement
+d3ecl_tyer_fundecs (d3c0) = let
+//
+val loc0 = d3c0.d3ecl_loc
+val- D3Cfundecs (knd, decarg, f3ds) = d3c0.d3ecl_node
+val hfds = f3undeclst_tyer (knd, f3ds)
+//
+in
+  hidecl_fundecs (loc0, knd, decarg, hfds)
+end // end of [d3ecl_tyer_fundecs]
+
+end // end of [local]
+
 
 (* ****** ****** *)
 

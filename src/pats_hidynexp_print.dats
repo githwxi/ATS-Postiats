@@ -273,6 +273,13 @@ in
 //
 case+ hid.hidecl_node of
 //
+| HIDfundecs (
+    knd, decarg, hfds
+  ) => {
+    val () = prstr "HIDfundecs(\n"
+    val () = $UT.fprintlst (out, hfds, "\n", fprint_hifundec)
+    val () = prstr "\n)"
+  } // end of [HIDfundec]
 | HIDvaldecs (knd, hvds) => {
     val () = prstr "HIDvaldecs(\n"
     val () = $UT.fprintlst (out, hvds, "\n", fprint_hivaldec)
@@ -311,6 +318,14 @@ case+ hids of
 end // end of [fprint_hideclist]
 
 (* ****** ****** *)
+
+implement
+fprint_hifundec
+  (out, hvd) = {
+  val () = fprint_d2var (out, hvd.hifundec_var)
+  val () = fprint_string (out, " = ")
+  val () = fprint_hidexp (out, hvd.hifundec_def)
+} // end of [fprint_hifundec]
 
 implement
 fprint_hivaldec

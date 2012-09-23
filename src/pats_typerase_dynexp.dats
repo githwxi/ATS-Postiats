@@ -37,6 +37,7 @@ staload "pats_basics.sats"
 (* ****** ****** *)
 
 staload LAB = "pats_label.sats"
+staload SYN = "pats_syntax.sats"
 
 (* ****** ****** *)
 
@@ -178,25 +179,29 @@ end // end of [p3atlst_npf_tyer]
 
 (* ****** ****** *)
 
-local
-
-fun labp3atlst_tyer
-  (lxs: labp3atlst): labhipatlst = let
+extern
+fun labp3atlst_tyer (lxs: labp3atlst): labhipatlst
+implement
+labp3atlst_tyer (lxs) = let
+in
 //
-  fun f (
-    lx: labp3at
-  ) : labhipat = let
+case+ lxs of
+| list_cons
+    (lx, lxs) => let
     val LABP3AT (l, x) = lx
   in
-    LABHIPAT (l, p3at_tyer (x))
-  end // end of [f]
+    if p3at_is_prf (x) then
+      labp3atlst_tyer (lxs)
+    else let
+      val hip = p3at_tyer (x)
+      val lhip = LABHIPAT (l, hip)
+    in
+      list_cons (lhip, labp3atlst_tyer (lxs))
+    end // end of [if]
+  end
+| list_nil () => list_nil ()
 //
-  val lhips = list_map_fun (lxs, f)
-in
-  list_of_list_vt (lhips)
 end // end of [labp3atlst_tyer]
-
-in // in of [local]
 
 implement
 labp3atlst_npf_tyer
@@ -210,8 +215,6 @@ in
     labp3atlst_tyer (lp3ts)
   // end of [if]
 end // end of [labp3atlst_npf_tyer]
-
-end // end of [local]
 
 (* ****** ****** *)
 
@@ -228,6 +231,9 @@ extern
 fun d3explst_npf_tyer (npf: int, d3es: d3explst): hidexplst
 extern
 fun d3explst_npf_tyer_recize (npf: int, d3es: d3explst): labhidexplst
+
+extern
+fun labd3explst_npf_tyer (npf: int, ld3es: labd3explst): labhidexplst
 
 (* ****** ****** *)
 
@@ -291,6 +297,16 @@ case+
   in
     hidexp_rec (loc0, hse0, knd, lhdes, hse_rec)
   end // end of [D3Etup]
+| D3Erec (
+    knd, npf, ld3es
+  ) => let
+    val hse_rec =
+       s2exp_tyer_deep (loc0, s2e0)
+    // end of [val]
+    val lhdes = labd3explst_npf_tyer (npf, ld3es)
+  in
+    hidexp_rec (loc0, hse0, knd, lhdes, hse_rec)
+  end // end of [D3Erec]
 //
 | D3Elam_dyn (
     lin, npf, p3ts_arg, d3e_body
@@ -398,6 +414,48 @@ val i0 = (if npf >= 0 then npf else 0): int
 in
   aux2 (i0, aux1 (npf, d3es))
 end // end of [d3explst_npf_tyer_recize]
+
+(* ****** ****** *)
+
+extern
+fun labd3explst_tyer (lxs: labd3explst): labhidexplst
+implement
+labd3explst_tyer
+  (lxs) = let
+in
+//
+case+ lxs of
+| list_cons
+    (lx, lxs) => let
+    val $SYN.DL0ABELED (l0, x) = lx
+  in
+    if d3exp_is_prf (x) then
+      labd3explst_tyer (lxs)
+    else let
+      val hde = d3exp_tyer (x)
+      val lhde = LABHIDEXP (l0.l0ab_lab, hde)
+    in
+      list_cons (lhde, labd3explst_tyer (lxs))
+    end // end of [if]
+  end
+| list_nil () => list_nil ()
+//
+end // end of [labd3explst_tyer]
+
+implement
+labd3explst_npf_tyer
+  (npf, lxs) = let
+in
+//
+if npf > 0 then let
+  val- list_cons (_, lxs) = lxs
+in
+  labd3explst_npf_tyer (npf-1, lxs)
+end else
+  labd3explst_tyer (lxs)
+// end of [if]
+//
+end // end of [labd3explst_npf_tyer]
 
 (* ****** ****** *)
 

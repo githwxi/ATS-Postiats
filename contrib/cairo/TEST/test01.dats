@@ -18,7 +18,7 @@ HX: how ot test the generated executable:
 
 ./test1
 
-HX: please use 'gthumb' or 'eof' to view the generated image file 'test01.png'
+HX: please use 'gthumb' or 'eog' to view the generated image file 'test01.png'
 *)
 
 (* ****** ****** *)

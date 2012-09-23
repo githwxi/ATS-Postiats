@@ -155,6 +155,13 @@ p3at_get_type_left (p3t) = p3t.p3at_type_left
 (* ****** ****** *)
 
 implement
+p3at_is_prf (p3t) = let
+  val s2e = p3at_get_type (p3t) in s2exp_is_prf (s2e)
+end // end of [p3at_is_prf]
+
+(* ****** ****** *)
+
+implement
 p3at_is_lincon (p3t) =
   case+ p3t.p3at_node of
   | P3Tcon (pck, _, _, _) => pck = PCKlincon

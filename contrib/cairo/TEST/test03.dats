@@ -14,9 +14,10 @@ atscc -o test3 \
   cairo-test3.dats
 
 HX: how to test the generated executable:
-  ./test03
 
-HX: please use 'gthumb' or 'eof' to view the generated image file 'test03.png'
+./test03
+
+HX: please use 'gthumb' or 'eog' to view the generated image file 'test03.png'
 *)
 
 (* ****** ****** *)
@@ -32,7 +33,6 @@ extern fun cos : double -> double
 (* ****** ****** *)
 
 stadef dbl = double
-stadef cr (l:addr) = cairo_ref (l)
 
 fun draw_reg_polygon
   {n:nat | n >= 3}

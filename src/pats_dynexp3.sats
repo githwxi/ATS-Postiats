@@ -201,6 +201,10 @@ fun p3at_set_type_left
 
 (* ****** ****** *)
 
+fun p3at_is_prf (p3t: p3at): bool
+
+(* ****** ****** *)
+
 fun p3at_is_lincon (p3t: p3at): bool
 fun p3at_is_unfold (p3t: p3at): bool
 

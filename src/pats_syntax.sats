@@ -1383,8 +1383,8 @@ and d0explstlst : type = List (d0explst)
 and d0expopt : type = Option (d0exp)
 and d0expopt_vt : viewtype = Option_vt (d0exp)
 
-and labd0exp = dl0abeled d0exp
-and labd0explst = List labd0exp
+and labd0exp = dl0abeled (d0exp)
+and labd0explst = List (labd0exp)
 
 (* ****** ****** *)
 

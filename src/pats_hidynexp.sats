@@ -143,6 +143,10 @@ hidecl_node =
   | HIDlist of hideclist
   | HIDsaspdec of s2aspdec
 //
+  | HIDfundecs of
+      (funkind, s2qualst(*decarg*), hifundeclst)
+    // end of [HIDfundecs]
+//
   | HIDvaldecs of (valkind, hivaldeclst)
   | HIDvaldecs_rec of (valkind, hivaldeclst)
 // end of [hidecl_node]
@@ -212,9 +216,19 @@ and hivaldec = '{
   hivaldec_loc= location
 , hivaldec_pat= hipat
 , hivaldec_def= hidexp
-} // end of [v3aldec]
+} // end of [hivaldec]
 
 and hivaldeclst = List (hivaldec)
+
+(* ****** ****** *)
+
+and hifundec = '{
+  hifundec_loc= location
+, hifundec_var= d2var
+, hifundec_def= hidexp
+} // end of [hifundec]
+
+and hifundeclst = List (hifundec)
 
 (* ****** ****** *)
 
@@ -225,6 +239,7 @@ fun fprint_labhidexplst : fprint_type (labhidexplst)
 fun fprint_hidecl : fprint_type (hidecl)
 fun fprint_hideclist : fprint_type (hideclist)
 
+fun fprint_hifundec : fprint_type (hifundec)
 fun fprint_hivaldec : fprint_type (hivaldec)
 
 (* ****** ****** *)
@@ -301,6 +316,10 @@ fun hidexp_tmpvar (
 
 (* ****** ****** *)
 
+fun hifundec_make
+  (loc: location, d2v: d2var, def: hidexp): hifundec
+// end of [hifundec_make]
+
 fun hivaldec_make
   (loc: location, pat: hipat, def: hidexp): hivaldec
 // end of [hivaldec_make]
@@ -313,6 +332,10 @@ fun hidecl_make_node
 
 fun hidecl_none (loc: location): hidecl
 fun hidecl_list (loc: location, hids: hideclist): hidecl
+
+fun hidecl_fundecs (
+  loc: location, knd: funkind, decarg: s2qualst, hfds: hifundeclst
+) : hidecl // end of [hidecl_fundecs]
 
 fun hidecl_valdecs
   (loc: location, knd: valkind, hvds: hivaldeclst): hidecl

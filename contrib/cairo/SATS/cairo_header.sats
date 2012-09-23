@@ -134,6 +134,10 @@ stadef xrfontface = cairo_font_face_ref
 stadef xrfontface1 = cairo_font_face_ref1
 //
 (* ****** ****** *)
+
+typedef cairo_bool_t = bool
+
+(* ****** ****** *)
 //
 abst@ype cairo_status_t = $extype"cairo_status_t"
 //
@@ -205,7 +209,6 @@ macdef CAIRO_FORMAT_RGB30 = $extval (cairo_format_t, "CAIRO_FORMAT_RGB30")
 //
 abst@ype cairo_operator_t = $extype"cairo_operator_t"
 //
-macdef CAIRO_VERSION_MAJOR = $extval (int, "CAIRO_VERSION_MAJOR")
 macdef CAIRO_OPERATOR_CLEAR = $extval (cairo_operator_t, "CAIRO_OPERATOR_CLEAR")
 macdef CAIRO_OPERATOR_SOURCE = $extval (cairo_operator_t, "CAIRO_OPERATOR_SOURCE")
 macdef CAIRO_OPERATOR_OVER = $extval (cairo_operator_t, "CAIRO_OPERATOR_OVER")
@@ -307,8 +310,18 @@ macdef CAIRO_FONT_TYPE_USER = $extval (cairo_font_type_t, "CAIRO_FONT_TYPE_USER"
 //
 (* ****** ****** *)
 
-typedef cairo_bool_t = bool
-
+abst@ype cairo_device_type_t = $extype"cairo_device_type_t"
+//
+macdef CAIRO_DEVICE_TYPE_INVALID = $extval(cairo_device_type_t, "CAIRO_DEVICE_TYPE_INVALID")
+macdef CAIRO_DEVICE_TYPE_DRM = $extval(cairo_device_type_t, "CAIRO_DEVICE_TYPE_DRM")
+macdef CAIRO_DEVICE_TYPE_GL = $extval(cairo_device_type_t, "CAIRO_DEVICE_TYPE_GL")
+macdef CAIRO_DEVICE_TYPE_SCRIPT = $extval(cairo_device_type_t, "CAIRO_DEVICE_TYPE_SCRIPT")
+macdef CAIRO_DEVICE_TYPE_XCB = $extval(cairo_device_type_t, "CAIRO_DEVICE_TYPE_XCB")
+macdef CAIRO_DEVICE_TYPE_XLIB = $extval(cairo_device_type_t, "CAIRO_DEVICE_TYPE_XLIB")
+macdef CAIRO_DEVICE_TYPE_XML = $extval(cairo_device_type_t, "CAIRO_DEVICE_TYPE_XML")
+macdef CAIRO_DEVICE_TYPE_COGL = $extval(cairo_device_type_t, "CAIRO_DEVICE_TYPE_COGL")
+macdef CAIRO_DEVICE_TYPE_WIN32 = $extval(cairo_device_type_t, "CAIRO_DEVICE_TYPE_WIN32")
+//
 (* ****** ****** *)
 
 typedef

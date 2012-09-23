@@ -239,6 +239,14 @@ hidexp_tmpvar
 (* ****** ****** *)
 
 implement
+hifundec_make
+  (loc, d2v, def) = '{
+  hifundec_loc= loc
+, hifundec_var= d2v
+, hifundec_def= def
+} // end of [hifundec_make]
+
+implement
 hivaldec_make
   (loc, pat, def) = '{
   hivaldec_loc= loc
@@ -263,6 +271,16 @@ implement
 hidecl_list (loc, hids) =
   hidecl_make_node (loc, HIDlist (hids))
 // end of [hidecl_list]
+
+(* ****** ****** *)
+
+implement
+hidecl_fundecs
+  (loc, knd, decarg, hfds) =
+  hidecl_make_node (loc, HIDfundecs (knd, decarg, hfds))
+// end of [hidecl_fundecs]
+
+(* ****** ****** *)
 
 implement
 hidecl_valdecs (loc, knd, hvds) =

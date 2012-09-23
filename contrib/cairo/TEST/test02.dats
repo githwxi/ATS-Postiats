@@ -15,9 +15,10 @@ atscc -o test2 \
    test02.dats
 
 HX: how to test the generated executable:
-  ./test02
 
-HX: please use 'gthumb' or 'eof' to view the generated image file 'test02.png'
+./test02
+
+HX: please use 'gthumb' or 'eog' to view the generated image file 'test02.png'
 *)
 
 (* ****** ****** *)
