@@ -428,18 +428,18 @@ and d1lablst = List (d1lab)
 
 (* ****** ****** *)
 
-and m1atch = '{
-  m1atch_loc= location, m1atch_exp= d1exp, m1atch_pat= p1atopt
-} // end of [m1atch]
+and gm1at = '{
+  gm1at_loc= location, gm1at_exp= d1exp, gm1at_pat= p1atopt
+} // end of [gm1at]
 
-and m1atchlst = List m1atch
+and gm1atlst = List gm1at
 
 (* ****** ****** *)
 
 and c1lau = '{
   c1lau_loc= location
 , c1lau_pat= p1at
-, c1lau_gua= m1atchlst
+, c1lau_gua= gm1atlst
 , c1lau_seq= int
 , c1lau_neg= int
 , c1lau_body= d1exp
@@ -781,13 +781,13 @@ fun fprint_d1lab : fprint_type (d1lab)
 
 (* ****** ****** *)
 
-fun m1atch_make
-  (loc: location, d1e: d1exp, opt: p1atopt): m1atch
-// end of [m1atch_make]
+fun gm1at_make
+  (loc: location, d1e: d1exp, opt: p1atopt): gm1at
+// end of [gm1at_make]
 
 fun c1lau_make (
   loc: location
-, pat: p1at, gua: m1atchlst, seq: int, neg: int, body: d1exp
+, pat: p1at, gua: gm1atlst, seq: int, neg: int, body: d1exp
 ) : c1lau // end of [c1lau_make]
 
 fun sc1lau_make

@@ -604,15 +604,15 @@ end // end of [p_f0arg2]
 (* ****** ****** *)
 
 (*
-m0atch
-  : d0exp  { $$ = m0atch_make_none ($1) ; }
-  | d0exp AS p0at  { $$ = m0atch_make_some ($1, $3) ; }
-; /* m0atch */
+gm0at
+  : d0exp  { $$ = gm0at_make_none ($1) ; }
+  | d0exp AS p0at  { $$ = gm0at_make_some ($1, $3) ; }
+; /* gm0at */
 *)
 
-fun p_m0atch (
+fun p_gm0at (
   buf: &tokbuf, bt: int, err: &int
-) : m0atch = let
+) : gm0at = let
   val err0 = err
   val ent1 = p_d0exp (buf, bt, err)
 in
@@ -620,20 +620,20 @@ in
 if err = err0 then let
   val ent2 = ptokentopt_fun {p0at} (buf, is_AS, p_p0at)
 in
-  m0atch_make (ent1, (t2t)ent2)
+  gm0at_make (ent1, (t2t)ent2)
 end else let
   val tok = tokbuf_get_token (buf)
-  val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_m0atch)
+  val () = the_parerrlst_add_ifnbt (bt, tok.token_loc, PE_gm0at)
 in
   synent_null ((*okay*)) // HX: [err] is already set
 end // end of [if]
-end // end of [p_m0atch]
+end // end of [p_gm0at]
 
-fun p_m0atchseq (
+fun p_gm0atseq (
   buf: &tokbuf, bt: int, err: &int
-) : m0atchlst =
-  l2l (pstar_fun1_AND (buf, bt, err, p_m0atch))
-// end of [p_m0atchseq]
+) : gm0atlst =
+  l2l (pstar_fun1_AND (buf, bt, err, p_gm0at))
+// end of [p_gm0atseq]
 
 fun p_guap0at (
   buf: &tokbuf, bt: int, err: &int
@@ -643,7 +643,7 @@ fun p_guap0at (
 in
 //
 if err = err0 then let
-  val ent2 = ptokentopt_fun {m0atchlst} (buf, is_WHEN, p_m0atchseq)
+  val ent2 = ptokentopt_fun {gm0atlst} (buf, is_WHEN, p_gm0atseq)
 in
   guap0at_make (ent1, (t2t)ent2)
 end else let

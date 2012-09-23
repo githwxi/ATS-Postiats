@@ -123,6 +123,17 @@ end // end of [lte_impkind_impkind]
 (* ****** ****** *)
 
 implement
+fprint_caskind
+  (out, knd) = (
+  case+ knd of
+  | CK_case () => fprint_string (out, "case")
+  | CK_case_pos () => fprint_string (out, "case+")
+  | CK_case_neg () => fprint_string (out, "case-")
+) // end of [fprint_caskind]
+
+(* ****** ****** *)
+
+implement
 funkind_is_proof fk = case+ fk of
   | FK_prfun () => true
   | FK_prfn () => true

@@ -77,6 +77,12 @@ end // end of [labhipatlst_get_labhisexplst]
 (* ****** ****** *)
 
 extern
+fun p3at_tyer_con (
+  loc0: location, hse0: hisexp
+, pck: pckind, d2c: d2con, npf: int, p3ts: p3atlst
+) : hipat // end of [p3at_tyer_con]
+
+extern
 fun p3atlst_npf_tyer (npf: int, p3ts: p3atlst): hipatlst
 extern
 fun labp3atlst_npf_tyer (npf: int, lp3ts: labp3atlst): labhipatlst
@@ -103,11 +109,18 @@ case+ p3t0.p3at_node of
 | P3Tany (d2v) => hipat_any (loc0, hse0)
 | P3Tvar (d2v) => hipat_var (loc0, hse0, d2v)
 //
+| P3Tcon (
+    pck, d2c, npf, p3ts
+  ) => p3at_tyer_con (loc0, hse0, pck, d2c, npf, p3ts)
+//
 | P3Tint (i) => hipat_int (loc0, hse0, i)
 //
 | P3Tbool (b) => hipat_bool (loc0, hse0, b)
 | P3Tchar (c) => hipat_char (loc0, hse0, c)
 | P3Tstring (str) => hipat_string (loc0, hse0, str)
+//
+| P3Ti0nt (tok) => hipat_i0nt (loc0, hse0, tok)
+| P3Tf0loat (tok) => hipat_f0loat (loc0, hse0, tok)
 //
 | P3Tempty () => hipat_empty (loc0, hse0)
 //
@@ -218,6 +231,44 @@ end // end of [labp3atlst_npf_tyer]
 
 (* ****** ****** *)
 
+implement
+p3at_tyer_con (
+  loc0, hse0, pck, d2c, npf, p3ts
+) = let
+  val hips =
+    p3atlst_npf_tyer (npf, p3ts)
+  // end of [val]
+  val test = hipatlst_is_unused (hips)
+in
+//
+case+ 0 of
+| _ when test =>
+    hipat_con_any (loc0, hse0, pck, d2c)
+| _ => let
+    val hses =
+      list_map_fun (hips, hipat_get_type)
+    val hses = list_of_list_vt (hses)
+    val hse_sum = hisexp_tysum (d2c, hses)
+  in
+    hipat_con (loc0, hse0, pck, d2c, hips, hse_sum)
+  end // end of [_]
+//
+end // end of [p3at_tyer_con]
+
+
+(* ****** ****** *)
+
+extern
+fun gm3at_tyer (gm3t: gm3at): higmat
+extern
+fun c3lau_tyer (c3l: c3lau): hiclau
+extern
+fun c3laulst_tyer (c3ls: c3laulst): hiclaulst
+
+extern
+fun d3exp_tyer_cst
+  (loc0: location, hse0: hisexp, d2c: d2cst): hidexp
+
 extern
 fun d3exp_tyer_tmpcst (
   loc0: location, hse0: hisexp, d2c: d2cst, t2mas: t2mpmarglst
@@ -253,6 +304,8 @@ case+
   in
     hidexp_var (loc0, hse0, d2v)
   end // end of [D3Evar]
+| D3Ecst (d2c) =>
+    d3exp_tyer_cst (loc0, hse0, d2c)
 //
 | D3Ebool (b) =>
     hidexp_bool (loc0, hse0, b)
@@ -286,6 +339,25 @@ case+
     hidexp_app (loc0, hse0, hse_fun, hde_fun, hdes_arg)
   end // end of [D3Eapp_dyn]
 | D3Eapp_sta (d3e) => d3exp_tyer (d3e)
+//
+| D3Eif (
+    _cond, _then, _else
+  ) => let
+    val hse_cond = d3exp_tyer (_cond)
+    val hse_then = d3exp_tyer (_then)
+    val hse_else = d3exp_tyer (_else)
+  in
+    hidexp_if (loc0, hse0, hse_cond, hse_then, hse_else)
+  end // end of [D3Eif]
+//
+| D3Ecase (
+    knd, d3es, c3ls
+  ) => let
+    val hses = d3explst_tyer (d3es)
+    val hcls = c3laulst_tyer (c3ls)
+  in
+    hidexp_case (loc0, hse0, knd, hses, hcls)
+  end // end of [D3Ecase]
 //
 | D3Etup (
     knd, npf, d3es
@@ -460,22 +532,58 @@ end // end of [labd3explst_npf_tyer]
 (* ****** ****** *)
 
 implement
+d3exp_tyer_cst
+  (loc0, hse0, d2c) = let
+in
+  hidexp_cst (loc0, hse0, d2c)
+end // end of [d3exp_tyer_cst]
+
+
+(* ****** ****** *)
+
+implement
 d3exp_tyer_tmpcst (
   loc0, hse0, d2c, t2mas
-) = let
-  val hses_tmp = t2mpmarglst_tyer (t2mas)
-in
-  hidexp_tmpcst (loc0, hse0, d2c, hses_tmp)
-end // end of [d3exp_tyer_tmpcst]
+) = hidexp_tmpcst (loc0, hse0, d2c, t2mas)
 
 implement
 d3exp_tyer_tmpvar (
   loc0, hse0, d2v, t2mas
-) = let
-  val hses_tmp = t2mpmarglst_tyer (t2mas)
+) = hidexp_tmpvar (loc0, hse0, d2v, t2mas)
+
+(* ****** ****** *)
+
+implement
+gm3at_tyer (gm3t) = let
+  val loc = gm3t.gm3at_loc
+  val hde = d3exp_tyer (gm3t.gm3at_exp)
+  val opt = (
+    case+ gm3t.gm3at_pat of
+    | Some (p3t) => Some (p3at_tyer (p3t)) | None () => None ()
+  ) : hipatopt // end of [val]
 in
-  hidexp_tmpvar (loc0, hse0, d2v, hses_tmp)
-end // end of [d3exp_tyer_tmpvar]
+  higmat_make (loc, hde, opt)
+end // end of [gm3at_tyer]
+
+implement
+c3lau_tyer (c3l) = let
+  val loc = c3l.c3lau_loc
+  val hips = p3atlst_tyer (c3l.c3lau_pat)
+  val gua = list_map_fun (c3l.c3lau_gua, gm3at_tyer)
+  val gua = list_of_list_vt (gua)
+  val seq = c3l.c3lau_seq
+  val neg = c3l.c3lau_neg
+  val body = d3exp_tyer (c3l.c3lau_body)
+in
+  hiclau_make (loc, hips, gua, seq, neg, body)
+end // end of [c3lau_tyer]
+
+implement
+c3laulst_tyer (c3ls) = let
+  val hcls = list_map_fun (c3ls, c3lau_tyer)
+in
+  list_of_list_vt (hcls)
+end // end of [c3laulst_tyer]
 
 (* ****** ****** *)
 

@@ -1400,18 +1400,18 @@ and initestpost = '{
 
 (* ****** ****** *)
 
-and m0atch = '{
-  m0atch_loc= location, m0atch_exp= d0exp, m0atch_pat= p0atopt
-} // end of [m0atch]
+and gm0at = '{
+  gm0at_loc= location, gm0at_exp= d0exp, gm0at_pat= p0atopt
+} // end of [gm0at]
 
-and m0atchlst = List m0atch
+and gm0atlst = List (gm0at)
 
 (* ****** ****** *)
 
 and guap0at = '{ 
   guap0at_loc= location
 , guap0at_pat= p0at
-, guap0at_gua= m0atchlst
+, guap0at_gua= gm0atlst
 } // end of [guap0at]
 
 (* ****** ****** *)
@@ -1766,8 +1766,8 @@ fun initestpost_make (
 
 (* ****** ****** *)
 
-fun m0atch_make (d0e: d0exp, pat: p0atopt): m0atch
-fun guap0at_make (p0t: p0at, mat: Option (m0atchlst)): guap0at
+fun gm0at_make (d0e: d0exp, pat: p0atopt): gm0at
+fun guap0at_make (p0t: p0at, mat: Option (gm0atlst)): guap0at
 
 (* ****** ****** *)
 

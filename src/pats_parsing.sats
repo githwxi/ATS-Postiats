@@ -139,7 +139,7 @@ parerr_node =
   | PE_atmp0at
   | PE_labp0at
   | PE_p0at_as
-  | PE_m0atch
+  | PE_gm0at
   | PE_guap0at
   | PE_c0lau
 //

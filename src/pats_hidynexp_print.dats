@@ -75,6 +75,27 @@ case+ x.hipat_node of
     val () = fprint_d2var (out, d2v)
     val () = prstr ")"
   }
+//
+| HIPcon (
+    pck, d2c, hips, hse_sum
+  ) => {
+    val () = prstr "HIPcon("
+    val () = fprint_d2con (out, d2c)
+    val () = prstr "; "
+    val () = fprint_hipatlst (out, hips)
+    val () = prstr ")"
+  }
+| HIPcon_any (pck, d2c) => {
+    val () = prstr "HIPcon_any("
+    val () = fprint_d2con (out, d2c)
+    val () = prstr ")"
+  }
+//
+| HIPint (i) => {
+    val () = prstr "HIPint("
+    val () = fprint_int (out, i)
+    val () = prstr ")"
+  }
 | HIPbool (b) => {
     val () = prstr "HIPbool("
     val () = fprint_bool (out, b)
@@ -88,6 +109,22 @@ case+ x.hipat_node of
 | HIPstring (str) => {
     val () = prstr "HIPstring("
     val () = fprint_string (out, str)
+    val () = prstr ")"
+  }
+| HIPfloat (rep) => {
+    val () = prstr "HIPfloat("
+    val () = fprint_string (out, rep)
+    val () = prstr ")"
+  }
+//
+| HIPi0nt (tok) => {
+    val () = prstr "HIPi0nt("
+    val () = $SYN.fprint_i0nt (out, tok)
+    val () = prstr ")"
+  }
+| HIPf0loat (tok) => {
+    val () = prstr "HIPf0loat("
+    val () = $SYN.fprint_f0loat (out, tok)
     val () = prstr ")"
   }
 //
@@ -120,7 +157,6 @@ fprint_hipatlst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_hipat)
 // end of [fprint_hipatlst]
 
-
 extern
 fun fprint_labhipat : fprint_type (labhipat)
 implement
@@ -140,6 +176,13 @@ fprint_labhipatlst
 
 (* ****** ****** *)
 
+extern
+fun fprint_higmat : fprint_type (higmat)
+extern
+fun fprint_hiclau : fprint_type (hiclau)
+
+(* ****** ****** *)
+
 implement
 fprint_hidexp
   (out, x) = let
@@ -152,6 +195,11 @@ case+
 | HDEvar (d2v) => {
     val () = prstr "HDEvar("
     val () = fprint_d2var (out, d2v)
+    val () = prstr ")"
+  }
+| HDEcst (d2c) => {
+    val () = prstr "HDEcst("
+    val () = fprint_d2cst (out, d2c)
     val () = prstr ")"
   }
 //
@@ -198,6 +246,30 @@ case+
     val () = prstr ")"
   }
 //
+| HDEif (
+    _cond, _then, _else
+  ) => {
+    val () = prstr "HDEif("
+    val () = fprint_hidexp (out, _cond)
+    val () = prstr "; "
+    val () = fprint_hidexp (out, _then)
+    val () = prstr "; "
+    val () = fprint_hidexp (out, _else)
+    val () = prstr ")"
+  } // end of [HDEif]
+//
+| HDEcase (
+    knd, hdes, hcls
+  ) => {
+    val () = prstr "HDEcase(\n"
+    val () = fprint_caskind (out, knd)
+    val () = prstr "\n"
+    val () = fprint_hidexplst (out, hdes)
+    val () = prstr "\n"
+    val () = $UT.fprintlst (out, hcls, "\n", fprint_hiclau)
+    val () = prstr "\n)"
+  } // end of [HDEcase]
+//
 | HDErec (
     knd, lhdes, hse_rec
   ) => {
@@ -208,19 +280,19 @@ case+
     val () = prstr ")"
   } // end of [HDErec]
 //
-| HDEtmpcst (d2c, tmparg) => {
+| HDEtmpcst (d2c, t2mas) => {
     val () = prstr "HDEtmpcst("
     val () = fprint_d2cst (out, d2c)
     val () = prstr "<"
-    val () = $UT.fprintlst (out, tmparg, "><", fprint_hisexplst)
+    val () = $UT.fprintlst (out, t2mas, "><", fprint_t2mpmarg)
     val () = prstr ">"
     val () = prstr ")"
   }
-| HDEtmpvar (d2v, tmparg) => {
+| HDEtmpvar (d2v, t2mas) => {
     val () = prstr "HDEtmpvar("
     val () = fprint_d2var (out, d2v)
     val () = prstr "<"
-    val () = $UT.fprintlst (out, tmparg, "><", fprint_hisexplst)
+    val () = $UT.fprintlst (out, t2mas, "><", fprint_t2mpmarg)
     val () = prstr ">"
     val () = prstr ")"
   }
@@ -262,6 +334,28 @@ implement
 fprint_labhidexplst
   (out, lxs) = $UT.fprintlst (out, lxs, "; ", fprint_labhidexp)
 // end of [fprint_labhidexplst]
+
+(* ****** ****** *)
+
+implement
+fprint_higmat (out, x) = {
+  val () = fprint_string (out, "HIGMAT(")
+  val () = fprint_hidexp (out, x.higmat_exp)
+  val () = fprint_string (out, "; ")
+  val () = $UT.fprintopt (out, x.higmat_pat, fprint_hipat)
+  val () = fprint_string (out, ")")
+} // end of [fprint_higmat]
+
+(* ****** ****** *)
+
+implement
+fprint_hiclau (out, x) = {
+  val () = fprint_string (out, "HICLAU(")
+  val () = fprint_hipatlst (out, x.hiclau_pat)
+  val () = fprint_string (out, " => ")
+  val () = fprint_hidexp (out, x.hiclau_body)
+  val () = fprint_string (out, ")")
+} // end of [fprint_hiclau]
 
 (* ****** ****** *)
 

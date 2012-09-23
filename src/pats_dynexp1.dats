@@ -337,9 +337,10 @@ end // end of [loopi1nv_nil]
 (* ****** ****** *)
 
 implement
-m1atch_make (loc, d1e, op1t) = '{
-  m1atch_loc= loc, m1atch_exp= d1e, m1atch_pat= op1t
-}
+gm1at_make
+  (loc, d1e, op1t) = '{
+  gm1at_loc= loc, gm1at_exp= d1e, gm1at_pat= op1t
+} // end of [gm1at_make]
 
 implement
 c1lau_make (

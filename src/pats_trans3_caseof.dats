@@ -71,14 +71,14 @@ staload "pats_trans3_env.sats"
 (* ****** ****** *)
 
 fn
-m2atch_trup (
-  m2at: m2atch
-) : m3atch = let
-  val loc0 = m2at.m2atch_loc
-  val d2e = m2at.m2atch_exp
+gm2at_trup (
+  gm2t: gm2at
+) : gm3at = let
+  val loc0 = gm2t.gm2at_loc
+  val d2e = gm2t.gm2at_exp
   val d3e = d2exp_trup (d2e)
   val s2e = d3exp_get_type (d3e)
-  val op2t = m2at.m2atch_pat 
+  val op2t = gm2t.gm2at_pat 
   val op3t = (
     case+ op2t of
     | Some p2t => let
@@ -93,17 +93,17 @@ m2atch_trup (
       end // end of [None]
   ) : p3atopt // end of [val]
 in
-  m3atch_make (loc0, d3e, op3t)
-end // end of [m2atch_tr_up]
+  gm3at_make (loc0, d3e, op3t)
+end // end of [gm2at_tr_up]
 
 fn
-m2atchlst_trup (
-  m2ats: m2atchlst
-) : m3atchlst = let
-  val m3ats = list_map_fun (m2ats, m2atch_trup)
+gm2atlst_trup (
+  gm2ts: gm2atlst
+) : gm3atlst = let
+  val m3ats = list_map_fun (gm2ts, gm2at_trup)
 in
   (l2l)m3ats
-end // end of [m2atchlst_trup]
+end // end of [gm2atlst_trup]
 
 (* ****** ****** *)
 
@@ -159,7 +159,7 @@ val () = the_d2varenv_add_p3atlst (p3ts)
 val (pfman | ()) = the_pfmanenv_push_let ()
 val () = the_pfmanenv_add_p3atlst (p3ts)
 //
-val gua = m2atchlst_trup (c2l.c2lau_gua)
+val gua = gm2atlst_trup (c2l.c2lau_gua)
 //
 // HX-2012-05:
 // if p3t is a PCKlincon, it is assumed read-only!
@@ -572,7 +572,7 @@ val () = list_vt_free (s2es_pat)
 val () = i2nvresstate_update (loc0, invres)
 //
 in
-  d3exp_caseof (loc0, s2e0, casknd, d3es, c3ls)
+  d3exp_case (loc0, s2e0, casknd, d3es, c3ls)
 end (* end of [d2exp_trdn_casehead] *)
 
 (* ****** ****** *)
@@ -652,7 +652,7 @@ val () = lstaftc3nstr_finalize (lsaft) // HX: it must be processed
 val () = i2nvresstate_update (loc0, invres)
 //
 in
-  d3exp_scaseof (loc0, s2e0, s2e_val, sc3ls)
+  d3exp_scase (loc0, s2e0, s2e_val, sc3ls)
 end // end of [d2exp_trdn_scasehead]
 
 (* ****** ****** *)

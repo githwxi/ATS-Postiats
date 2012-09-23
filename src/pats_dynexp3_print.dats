@@ -268,6 +268,17 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
+| D3Ecase _ => {
+    val () = prstr "D3Ecase("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| D3Escase _ => {
+    val () = prstr "D3Escase("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+//
 | D3Eptrof_var (d2v) => {
     val () = prstr "D3Eptr_var("
     val () = fprint_d2var (out, d2v)

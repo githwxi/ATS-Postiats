@@ -738,20 +738,18 @@ and loopi2nv = '{
 
 (* ****** ****** *)
 
-and m2atch = '{
-  m2atch_loc= location
-, m2atch_exp= d2exp
-, m2atch_pat= p2atopt
-} // end of [m2atch]
+and gm2at = '{
+  gm2at_loc= location, gm2at_exp= d2exp, gm2at_pat= p2atopt
+} // end of [gm2at]
 
-and m2atchlst = List (m2atch)
+and gm2atlst = List (gm2at)
 
 (* ****** ****** *)
 
 and c2lau = '{
   c2lau_loc= location
 , c2lau_pat= p2atlst
-, c2lau_gua= m2atchlst
+, c2lau_gua= gm2atlst
 , c2lau_seq= int
 , c2lau_neg= int
 , c2lau_body= d2exp
@@ -1181,14 +1179,14 @@ fun loopi2nv_make (
 
 (* ****** ****** *)
 
-fun m2atch_make (
+fun gm2at_make (
   loc: location, d2e: d2exp, p2topt: p2atopt
-) : m2atch // end of [m2atch_make]
+) : gm2at // end of [gm2at_make]
 
 fun c2lau_make (
   loc: location
 , p2ts: p2atlst
-, gua: m2atchlst
+, gua: gm2atlst
 , seq: int, neg: int
 , body: d2exp
 ) : c2lau // end of [c2lau_make]

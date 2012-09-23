@@ -359,28 +359,28 @@ end // end of [loopi0nv_tr]
 
 (* ****** ****** *)
 
-fn m0atch_tr
-  (m0at: m0atch): m1atch = let
-  val d1e = d0exp_tr m0at.m0atch_exp
+fn gm0at_tr
+  (gm0t: gm0at): gm1at = let
+  val d1e = d0exp_tr gm0t.gm0at_exp
   val opt = (
-    case+ m0at.m0atch_pat of
+    case+ gm0t.gm0at_pat of
     | Some p0t => Some (p0at_tr p0t) | None () => None ()
   ) : p1atopt // end of [val]
 in
-  m1atch_make (m0at.m0atch_loc, d1e, opt)
-end // end of [m0atch_tr]
+  gm1at_make (gm0t.gm0at_loc, d1e, opt)
+end // end of [gm0at_tr]
 
-fn m0atchlst_tr
-  (m0ats: m0atchlst): m1atchlst =
-  l2l (list_map_fun (m0ats, m0atch_tr))
-// end of [m0atchlst_tr]
+fn gm0atlst_tr
+  (gm0ts: gm0atlst): gm1atlst =
+  l2l (list_map_fun (gm0ts, gm0at_tr))
+// end of [gm0atlst_tr]
 
 (* ****** ****** *)
 
 fn c0lau_tr
   (c0l: c0lau): c1lau = let
   val gp0t = c0l.c0lau_pat
-  val gua = m0atchlst_tr (gp0t.guap0at_gua)
+  val gua = gm0atlst_tr (gp0t.guap0at_gua)
   val p1t = p0at_tr (gp0t.guap0at_pat)
   val body = d0exp_tr (c0l.c0lau_body)
 in

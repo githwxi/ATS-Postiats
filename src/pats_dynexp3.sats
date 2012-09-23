@@ -282,10 +282,10 @@ and d3exp_node =
       s2exp(*cond*), d3exp(*then*), d3exp(*else*)
     ) // end of [D3Esif]
 //
-  | D3Ecaseof of (
+  | D3Ecase of (
       caskind, d3explst(*values*), c3laulst(*clauses*)
     ) // end of [D3Ecase]
-  | D3Escaseof of (s2exp(*value*), sc3laulst(*clauses*))
+  | D3Escase of (s2exp(*value*), sc3laulst(*clauses*))
 //
   | D3Elst of (* list expression *)
       (int(*lin*), s2exp(*elt*), d3explst)
@@ -385,18 +385,18 @@ and d3lablst = List (d3lab)
 
 (* ****** ****** *)
 
-and m3atch = '{
-  m3atch_loc= location
-, m3atch_exp= d3exp
-, m3atch_pat= p3atopt
-} // end of [m3atch]
+and gm3at = '{
+  gm3at_loc= location
+, gm3at_exp= d3exp
+, gm3at_pat= p3atopt
+} // end of [gm3at]
 
-and m3atchlst = List m3atch
+and gm3atlst = List (gm3at)
 
 and c3lau (n:int) = '{
   c3lau_loc= location
 , c3lau_pat= list (p3at, n)
-, c3lau_gua= m3atchlst // clause guard
+, c3lau_gua= gm3atlst // clause guard
 , c3lau_seq= int // sequentiality
 , c3lau_neg= int // negativativity
 , c3lau_body= d3exp // expression body
@@ -633,13 +633,13 @@ fun d3exp_sif (
 
 (* ****** ****** *)
 
-fun d3exp_caseof (
+fun d3exp_case (
   loc: location
 , s2e_case: s2exp
 , knd: caskind, d3es: d3explst, c3ls: c3laulst
 ) : d3exp // end of [d3exp_case]
 
-fun d3exp_scaseof (
+fun d3exp_scase (
   loc: location
 , s2e_scase: s2exp
 , s2e_val: s2exp, sc3ls: sc3laulst
@@ -781,15 +781,15 @@ fun d3lab_ind (loc: location, ind: d3explstlst): d3lab
 
 (* ****** ****** *)
 
-fun m3atch_make (
+fun gm3at_make (
   loc: location, d3e: d3exp, opt: p3atopt
-) : m3atch // end of [m3atch_make]
+) : gm3at // end of [gm3at_make]
 
 fun c3lau_make
   {n:nat} (
   loc: location
 , p3ts: list (p3at, n)
-, gua: m3atchlst
+, gua: gm3atlst
 , seq: int, neg: int
 , body: d3exp
 ): c3lau (n) // end of [c3lau_make]

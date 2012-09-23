@@ -2166,7 +2166,7 @@ in '{
 (* ****** ****** *)
 
 implement
-m0atch_make
+gm0at_make
   (d0e, p0topt) = let
   val loc = (
     case+ p0topt of
@@ -2174,18 +2174,18 @@ m0atch_make
     | None _ => d0e.d0exp_loc
   ) : location // end of [val]
 in '{
-  m0atch_loc= loc, m0atch_exp= d0e, m0atch_pat= p0topt
-} end // end of [m0atch_make]
+  gm0at_loc= loc, gm0at_exp= d0e, gm0at_pat= p0topt
+} end // end of [gm0at_make]
 
 implement
 guap0at_make (p0t, matopt) = let
   val xs = (
     case+ matopt of Some xs => xs | None () => list_nil
-  ) : m0atchlst
+  ) : gm0atlst
   val loc = p0t.p0at_loc
   val loc = (
-    case+ list_last_opt<m0atch> (xs) of
-    | ~Some_vt x => loc + x.m0atch_loc | ~None_vt () => loc
+    case+ list_last_opt<gm0at> (xs) of
+    | ~Some_vt x => loc + x.gm0at_loc | ~None_vt () => loc
   ) : location // end of [val]
 in '{
   guap0at_loc= loc, guap0at_pat= p0t, guap0at_gua= xs

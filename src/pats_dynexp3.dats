@@ -556,24 +556,24 @@ d3exp_sif (
 (* ****** ****** *)
 
 implement
-d3exp_caseof (
+d3exp_case (
   loc, s2e_case, casknd, d3es, c3ls
 ) = let
 in '{
   d3exp_loc= loc
 , d3exp_type= s2e_case
-, d3exp_node= D3Ecaseof (casknd, d3es, c3ls)
-} end // end of [d3exp_caseof]
+, d3exp_node= D3Ecase (casknd, d3es, c3ls)
+} end // end of [d3exp_case]
 
 implement
-d3exp_scaseof (
+d3exp_scase (
   loc, s2e_scase, s2e_val, sc3ls
 ) = let
 in '{
   d3exp_loc= loc
 , d3exp_type= s2e_scase
-, d3exp_node= D3Escaseof (s2e_val, sc3ls)
-} end // end of [d3exp_scaseof]
+, d3exp_node= D3Escase (s2e_val, sc3ls)
+} end // end of [d3exp_scase]
 
 (* ****** ****** *)
 
@@ -928,10 +928,10 @@ d3lab_ind
 (* ****** ****** *)
 
 implement
-m3atch_make
+gm3at_make
   (loc, d3e, op3t) = '{
-  m3atch_loc= loc, m3atch_exp= d3e, m3atch_pat= op3t
-} // end of [m3atch_make]
+  gm3at_loc= loc, gm3at_exp= d3e, gm3at_pat= op3t
+} // end of [gm3at_make]
 
 implement
 c3lau_make (

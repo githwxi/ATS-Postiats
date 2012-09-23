@@ -77,6 +77,10 @@ caskind =
   | CK_case_neg // case-
 // end of [caskind]
 
+fun fprint_caskind : fprint_type (caskind)
+
+(* ****** ****** *)
+
 datatype
 funkind =
   | FK_fun // recursive fun

@@ -886,9 +886,10 @@ loopi2nv_make (
 (* ****** ****** *)
 
 implement
-m2atch_make (loc, d2e, p2topt) = '{
-  m2atch_loc= loc, m2atch_exp= d2e, m2atch_pat= p2topt
-} // end of [m2atch_make]
+gm2at_make
+  (loc, d2e, p2topt) = '{
+  gm2at_loc= loc, gm2at_exp= d2e, gm2at_pat= p2topt
+} // end of [gm2at_make]
 
 implement
 c2lau_make (

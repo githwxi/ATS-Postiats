@@ -47,6 +47,24 @@ staload "pats_hidynexp.sats"
 (* ****** ****** *)
 
 implement
+hipat_get_type (hip) = hip.hipat_type
+
+(* ****** ****** *)
+
+implement
+hipatlst_is_unused
+  (hips) = let
+//
+fun f (hip: hipat): bool =
+  case+ hip.hipat_node of HIPany () => true | _ => false
+//
+in
+  list_forall_fun (hips, f)
+end // end of [hipatlst_is_unused]
+
+(* ****** ****** *)
+
+implement
 hipat_make_node
   (loc, hse, node) = '{
   hipat_loc= loc, hipat_type= hse, hipat_node= node
@@ -61,6 +79,19 @@ implement
 hipat_var (loc, hse, d2v) =
   hipat_make_node (loc, hse, HIPvar (d2v))
 // end of [hipat_var]
+
+(* ****** ****** *)
+
+implement
+hipat_con (
+  loc, hse, pck, d2c, hips, hse_sum
+) = hipat_make_node (loc, hse, HIPcon (pck, d2c, hips, hse_sum))
+
+implement
+hipat_con_any
+  (loc, hse, pck, d2c) =
+  hipat_make_node (loc, hse, HIPcon_any (pck, d2c))
+// end of [hipat_con_any]
 
 (* ****** ****** *)
 
@@ -93,6 +124,20 @@ hipat_float
   (loc, hse, rep) =
   hipat_make_node (loc, hse, HIPfloat (rep))
 // end of [hipat_float]
+
+(* ****** ****** *)
+
+implement
+hipat_i0nt
+  (loc, hse, tok) =
+  hipat_make_node (loc, hse, HIPi0nt (tok))
+// end of [hipat_i0nt]
+
+implement
+hipat_f0loat
+  (loc, hse, tok) =
+  hipat_make_node (loc, hse, HIPf0loat (tok))
+// end of [hipat_f0loat]
 
 (* ****** ****** *)
 
@@ -148,6 +193,12 @@ hidexp_var
   (loc, hse, d2v) =
   hidexp_make_node (loc, hse, HDEvar (d2v))
 // end of [hidexp_var]
+
+implement
+hidexp_cst
+  (loc, hse, d2c) =
+  hidexp_make_node (loc, hse, HDEcst (d2c))
+// end of [hidexp_cst]
 
 (* ****** ****** *)
 
@@ -209,6 +260,22 @@ hidexp_app
 (* ****** ****** *)
 
 implement
+hidexp_if
+  (loc, hse, _cond, _then, _else) =
+  hidexp_make_node (loc, hse, HDEif (_cond, _then, _else))
+// end of [hidexp_if]
+
+(* ****** ****** *)
+
+implement
+hidexp_case
+  (loc, hse, knd, hdes, hcls) =
+  hidexp_make_node (loc, hse, HDEcase (knd, hdes, hcls))
+// end of [hidexp_case]
+
+(* ****** ****** *)
+
+implement
 hidexp_rec
   (loc, hse, knd, lhses, hse_rec) =
   hidexp_make_node (loc, hse, HDErec (knd, lhses, hse_rec))
@@ -226,15 +293,36 @@ hidexp_lam
 
 implement
 hidexp_tmpcst
-  (loc, hse, d2c, tmparg) =
-  hidexp_make_node (loc, hse, HDEtmpcst (d2c, tmparg))
+  (loc, hse, d2c, t2mas) =
+  hidexp_make_node (loc, hse, HDEtmpcst (d2c, t2mas))
 // end of [hidexp_tmpcst]
 
 implement
 hidexp_tmpvar
-  (loc, hse, d2v, tmparg) =
-  hidexp_make_node (loc, hse, HDEtmpvar (d2v, tmparg))
+  (loc, hse, d2v, t2mas) =
+  hidexp_make_node (loc, hse, HDEtmpvar (d2v, t2mas))
 // end of [hidexp_tmpvar]
+
+(* ****** ****** *)
+
+implement
+higmat_make
+  (loc, ghde, ghip) = '{
+  higmat_loc= loc
+, higmat_exp= ghde
+, higmat_pat= ghip
+} // end of [higmat_make]
+
+implement
+hiclau_make
+  (loc, hips, gua, seq, neg, body) = '{
+  hiclau_loc= loc
+, hiclau_pat= hips
+, hiclau_gua= gua
+, hiclau_seq= seq
+, hiclau_neg= neg
+, hiclau_body= body
+} // end of [hiclau_make]
 
 (* ****** ****** *)
 

@@ -615,9 +615,9 @@ fun do_trans1234 (
 ) : hideclist // end of [do_trans1234]
 
 extern
-fun do_trans_state (
+fun do_transfinal (
   state: &cmdstate, basename: string, d0cs: d0eclist
-) : void // end of [do_trans_state]
+) : void // end of [do_transfinal]
 
 (* ****** ****** *)
 
@@ -708,7 +708,7 @@ end // end of [do_trans1234]
 (* ****** ****** *)
 
 implement
-do_trans_state
+do_transfinal
   (state, basename, d0cs) = let
 in
 //
@@ -722,7 +722,7 @@ case+ 0 of
     // nothing
   end // end of [_]
 //
-end // end of [do_trans_state]
+end // end of [do_transfinal]
 
 (* ****** ****** *)
 
@@ -760,7 +760,7 @@ case+ arglst of
           $DPGEN.fprint_entry (filr, "<stdin>", ps)
         end // end of [val]
 //
-        val () = do_trans_state (state, "STDIN", d0cs)
+        val () = do_transfinal (state, "STDIN", d0cs)
       } // end of [_ when ...]
     | _ => ()
   end // end of [list_vt_nil when ...]
@@ -803,7 +803,7 @@ case+ arg of
           $DPGEN.fprint_entry (filr, basename, ps)
         end // end of [val]
 //
-        val () = do_trans_state (state, basename, d0cs)
+        val () = do_transfinal (state, basename, d0cs)
       in
         process_cmdline (state, arglst)
       end (* end of [_] *)

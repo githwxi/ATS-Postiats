@@ -298,7 +298,7 @@ case+ node of
 | PE_atmp0at () => SN (x, "atmp0at")
 | PE_labp0at () => SN (x, "labp0at")
 | PE_p0at_as () => SN (x, "p0at_as")
-| PE_m0atch () => SN (x, "m0atch")
+| PE_gm0at () => SN (x, "gm0at")
 | PE_guap0at () => SN (x, "guap0at")
 | PE_c0lau () => SN (x, "c0lau")
 //

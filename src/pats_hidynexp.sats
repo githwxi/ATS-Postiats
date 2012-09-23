@@ -54,20 +54,21 @@ hipat_node =
   | HIPany of () // wildcard
   | HIPvar of (d2var) // mutability from the context
 //
+  | HIPcon of (* constructor pattern *)
+      (pckind, d2con, hipatlst, hisexp(*tysum*))
+  | HIPcon_any of (pckind, d2con) // HX: unused arg
+//
   | HIPint of int
   | HIPbool of bool
   | HIPchar of char
   | HIPstring of string
   | HIPfloat of string (* float point pattern *)
+//
+  | HIPi0nt of $SYN.i0nt
+  | HIPf0loat of $SYN.f0loat
+//
   | HIPempty of () // empty pattern
-(*
-  | HIPcon of (* constructor pattern *)
-      (int (*freeknd*), d2con_t, hipatlst, hityp(*sum*))
-  | HIPcon_any of (* constructor pattern with unused arg *)
-      (int(*freeknd*), d2con_t)
-  | HIPint of (* integer pattern *)
-      (string, intinf_t)
-*)
+//
   | HIPrec of (* record pattern *)
       (int(*knd*), labhipatlst, hisexp(*tyrec*))
   | HIPlst of (hisexp(*element*), hipatlst)
@@ -104,17 +105,37 @@ fun fprint_labhipatlst : fprint_type (labhipatlst)
 
 (* ****** ****** *)
 
+fun hipat_get_type (hip: hipat): hisexp
+
+(* ****** ****** *)
+
+fun hipatlst_is_unused (hips: hipatlst): bool
+
+(* ****** ****** *)
+
 fun hipat_make_node
   (loc: location, hse: hisexp, node: hipat_node): hipat
 
 fun hipat_any (loc: location, hse: hisexp): hipat
 fun hipat_var (loc: location, hse: hisexp, d2v: d2var): hipat
 
+fun hipat_con (
+  loc: location
+, hse: hisexp, pck: pckind
+, d2c: d2con, hips: hipatlst, hse_sum: hisexp
+) : hipat // end of [hipat_con]
+fun hipat_con_any (
+  loc: location, hse:hisexp, pck: pckind, d2c: d2con
+) : hipat // end of [hipat_con_any]
+
 fun hipat_int (loc: location, hse: hisexp, i: int): hipat
 fun hipat_bool (loc: location, hse: hisexp, b: bool): hipat
 fun hipat_char (loc: location, hse: hisexp, c: char): hipat
 fun hipat_string (loc: location, hse: hisexp, str: string): hipat
 fun hipat_float (loc: location, hse: hisexp, rep: string): hipat
+
+fun hipat_i0nt (loc: location, hse: hisexp, tok: i0nt): hipat
+fun hipat_f0loat (loc: location, hse: hisexp, tok: f0loat): hipat
 
 fun hipat_empty (loc: location, hse: hisexp): hipat
 
@@ -153,7 +174,8 @@ hidecl_node =
 
 and hidexp_node =
 //
-  | HDEvar of d2var // dynamic variables
+  | HDEvar of (d2var) // dynamic variables
+  | HDEcst of (d2cst) // dynamic constants
 //
   | HDEbool of bool // boolean constants
   | HDEchar of char // constant characters
@@ -169,6 +191,14 @@ and hidexp_node =
   | HDEapp of
       (hisexp(*fun*), hidexp, hidexplst) // app_dyn
     // end of [HDEapp]
+//
+  | HDEif of (
+      hidexp(*cond*), hidexp(*then*), hidexp(*else*)
+    ) // end f [HDEif]
+//
+  | HDEcase of (
+      caskind, hidexplst(*values*), hiclaulst(*clauses*)
+    ) // end of [HDEcase]
 //
   | HDErec of
       (int(*knd*), labhidexplst, hisexp(*tyrec*))
@@ -186,8 +216,8 @@ and hidexp_node =
 *)
   | HDElam of (hipatlst, hidexp) // HX: lam_dyn
 //
-  | HDEtmpcst of (d2cst, hisexplstlst)
-  | HDEtmpvar of (d2var, hisexplstlst)
+  | HDEtmpcst of (d2cst, t2mpmarglst)
+  | HDEtmpvar of (d2var, t2mpmarglst)
 //
 // end of [hidexp_node]
 
@@ -209,6 +239,29 @@ and hidexplst = List (hidexp)
 and hidexpopt = Option (hidexp)
 
 and labhidexplst = List (labhidexp)
+
+(* ****** ****** *)
+
+and higmat = '{
+  higmat_loc= location
+, higmat_exp= hidexp
+, higmat_pat= hipatopt
+} // end of [higmat]
+
+and higmatlst = List (higmat)
+
+(* ****** ****** *)
+
+and hiclau = '{
+  hiclau_loc= location
+, hiclau_pat= hipatlst (* pattern *)
+, hiclau_gua= higmatlst (* clause guard *)
+, hiclau_seq= int // sequentiality
+, hiclau_neg= int // negativativity
+, hiclau_body= hidexp (* clause body *)
+} // end of [hiclau]
+
+and hiclaulst = List (hiclau)
 
 (* ****** ****** *)
 
@@ -254,6 +307,10 @@ fun hidexp_var
   (loc: location, hse: hisexp, d2v: d2var): hidexp
 // end of [hidexp_var]
 
+fun hidexp_cst
+  (loc: location, hse: hisexp, d2c: d2cst): hidexp
+// end of [hidexp_cst]
+
 (* ****** ****** *)
 
 fun hidexp_bool
@@ -294,6 +351,20 @@ fun hidexp_app (
 
 (* ****** ****** *)
 
+fun hidexp_if (
+  loc: location
+, hse: hisexp, _cond: hidexp, _then: hidexp, _else: hidexp
+) : hidexp // end of [hidexp_if]
+
+(* ****** ****** *)
+
+fun hidexp_case (
+  loc: location
+, hse: hisexp, knd: caskind, hdes: hidexplst, hcls: hiclaulst
+) : hidexp // end of [hidexp_case]
+
+(* ****** ****** *)
+
 fun hidexp_rec (
   loc: location
 , hse: hisexp, knd: int, lhses: labhidexplst, hse_rec: hisexp
@@ -308,11 +379,20 @@ fun hidexp_lam
 (* ****** ****** *)
 
 fun hidexp_tmpcst (
-  loc: location, hse: hisexp, d2c: d2cst, tmparg: hisexplstlst
+  loc: location, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst
 ) : hidexp // end of [hidexp_tmpcst]
 fun hidexp_tmpvar (
-  loc: location, hse: hisexp, d2v: d2var, tmparg: hisexplstlst
+  loc: location, hse: hisexp, d2v: d2var, t2mas: t2mpmarglst
 ) : hidexp // end of [hidexp_tmpvar]
+
+(* ****** ****** *)
+
+fun higmat_make
+  (loc: location, hde: hidexp, opt: hipatopt): higmat
+fun hiclau_make (
+  loc: location
+, hips: hipatlst, gua: higmatlst, seq: int, neg: int, body: hidexp
+) : hiclau // end of [hiclau_make]
 
 (* ****** ****** *)
 

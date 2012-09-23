@@ -911,11 +911,11 @@ end // end of [loopi1nv_tr]
 
 (* ****** ****** *)
 
-fn m1atch_tr
-  (m1at: m1atch): m2atch = let
-  val d2e = d1exp_tr (m1at.m1atch_exp)
+fn gm1at_tr
+  (gm1t: gm1at): gm2at = let
+  val d2e = d1exp_tr (gm1t.gm1at_exp)
   val p2topt = (
-    case+ m1at.m1atch_pat of
+    case+ gm1t.gm1at_pat of
     | Some p1t => let
         val p2t = p1at_tr p1t
         val s2vs = $UT.lstord2list (p2t.p2at_svs)
@@ -928,8 +928,8 @@ fn m1atch_tr
     | None () => None ()
   ) : p2atopt // end of [val]
 in
-  m2atch_make (m1at.m1atch_loc, d2e, p2topt)
-end // end of [m1atch_tr]
+  gm2at_make (gm1t.gm1at_loc, d2e, p2topt)
+end // end of [gm1at_tr]
 
 (* ****** ****** *)
 
@@ -976,7 +976,7 @@ fn c1lau_tr {n:nat}
   in
     the_d2expenv_add_dvarlst (d2vs)
   end // end of [val]
-  val gua = l2l (list_map_fun (c1l.c1lau_gua, m1atch_tr))
+  val gua = l2l (list_map_fun (c1l.c1lau_gua, gm1at_tr))
   val body = d1exp_tr (c1l.c1lau_body)
   val () = the_trans2_env_pop (pfenv | (*none*))
 //
