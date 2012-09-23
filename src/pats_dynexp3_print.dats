@@ -310,6 +310,41 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
+| D3Elam_dyn (
+    lin, npf, _arg, _body
+  ) => {
+    val () = prstr "D3Elam_dyn("
+    val () = prstr "lin="
+    val () = fprint_int (out, lin)
+    val () = prstr "; "
+    val () = prstr "npf="
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_p3atlst (out, _arg)
+    val () = prstr "; "
+    val () = fprint_d3exp (out, _body)
+    val () = prstr ")"
+  } // end of [D3Elam_dyn]
+| D3Elam_sta (
+    s2vs, s2ps, _body
+  ) => {
+    val () = prstr "D3Elam_sta("
+    val () = fprint_s2varlst (out, s2vs)
+    val () = prstr "; "
+    val () = fprint_s2explst (out, s2ps)
+    val () = prstr "; "
+    val () = fprint_d3exp (out, _body)
+    val () = prstr ")"
+  }
+| D3Elam_met
+    (_met, _body) => {
+    val () = prstr "D3Elam_met("
+    val () = fprint_s2explst (out, _met)
+    val () = prstr "; "
+    val () = fprint_d3exp (out, _body)
+    val () = prstr ")"
+  }
+//
 | D3Eloop _ => {
     val () = prstr "D3Eloop("
     val () = fprint_string (out, "...")
@@ -322,6 +357,15 @@ case+ d3e0.d3exp_node of
 | D3Etrywith _ => {
     val () = prstr "D3Etrywith("
     val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+//
+| D3Eann_type
+    (d3e, ann) => {
+    val () = prstr "D3Eann_type("
+    val () = fprint_d3exp (out, d3e)
+    val () = prstr " : "
+    val () = fprint_s2exp (out, ann)
     val () = prstr ")"
   }
 //

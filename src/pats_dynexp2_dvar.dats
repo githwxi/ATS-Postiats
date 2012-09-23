@@ -87,7 +87,7 @@ d2var_struct = @{
 , d2var_finknd= d2vfin // the status at the end of scope
 , d2var_type= s2expopt // the (current) type of a variable
 , d2var_mastype= s2expopt // the master type of a variable
-, d2var_count= int //
+, d2var_utimes= int //
 , d2var_stamp= stamp // uniqueness stamp
 } // end of [d2var_struct]
 
@@ -118,7 +118,7 @@ val () = p->d2var_view := d2varopt_encode (None)
 val () = p->d2var_finknd := D2VFINnone ()
 val () = p->d2var_type := None ()
 val () = p->d2var_mastype := None ()
-val () = p->d2var_count := 0
+val () = p->d2var_utimes := 0
 val () = p->d2var_stamp := stamp
 //
 in
@@ -249,6 +249,15 @@ d2var_set_mastype (d2v, opt) = let
 end // end of [d2var_set_mastype]
 
 implement
+d2var_get_utimes (d2v) = $effmask_ref let
+  val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_utimes
+end // end of [d2var_get_utimes]
+implement
+d2var_set_utimes (d2v, nused) = $effmask_ref let
+  val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_utimes := nused
+end // end of [d2var_set_utimes]
+
+implement
 d2var_get_stamp (d2v) = $effmask_ref let
   val (vbox pf | p) = ref_get_view_ptr (d2v) in p->d2var_stamp
 end // end of [d2var_get_stamp]
@@ -261,6 +270,11 @@ implement
 d2var_inc_linval (d2v) = let
   val lin = d2var_get_linval (d2v) in d2var_set_linval (d2v, lin+1)
 end // end of [d2var_inc_linval]
+
+implement
+d2var_inc_utimes (d2v) = let
+  val nused = d2var_get_utimes (d2v) in d2var_set_utimes (d2v, nused+1)
+end // end of [d2var_inc_utimes]
 
 (* ****** ****** *)
 

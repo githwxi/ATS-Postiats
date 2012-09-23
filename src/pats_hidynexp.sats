@@ -99,6 +99,9 @@ fun prerr_hipat (hip: hipat): void
 overload prerr with prerr_hipat
 fun fprint_hipat : fprint_type (hipat)
 
+fun fprint_hipatlst : fprint_type (hipatlst)
+fun fprint_labhipatlst : fprint_type (labhipatlst)
+
 (* ****** ****** *)
 
 fun hipat_make_node
@@ -146,6 +149,8 @@ hidecl_node =
 
 and hidexp_node =
 //
+  | HDEvar of d2var // dynamic variables
+//
   | HDEbool of bool // boolean constants
   | HDEchar of char // constant characters
   | HDEstring of string // constant strings
@@ -160,6 +165,10 @@ and hidexp_node =
   | HDEapp of
       (hisexp(*fun*), hidexp, hidexplst) // app_dyn
     // end of [HDEapp]
+//
+  | HDErec of
+      (int(*knd*), labhidexplst, hisexp(*tyrec*))
+    // end of [HDErec]
 //
 (*
   | HDEarrinit of (* array construction *)
@@ -178,6 +187,8 @@ and hidexp_node =
 //
 // end of [hidexp_node]
 
+and labhidexp = LABHIDEXP of (label, hidexp)
+
 where hidecl = '{
   hidecl_loc= location, hidecl_node= hidecl_node
 }
@@ -193,6 +204,8 @@ and hidexp = '{
 and hidexplst = List (hidexp)
 and hidexpopt = Option (hidexp)
 
+and labhidexplst = List (labhidexp)
+
 (* ****** ****** *)
 
 and hivaldec = '{
@@ -207,6 +220,7 @@ and hivaldeclst = List (hivaldec)
 
 fun fprint_hidexp : fprint_type (hidexp)
 fun fprint_hidexplst : fprint_type (hidexplst)
+fun fprint_labhidexplst : fprint_type (labhidexplst)
 
 fun fprint_hidecl : fprint_type (hidecl)
 fun fprint_hideclist : fprint_type (hideclist)
@@ -218,6 +232,14 @@ fun fprint_hivaldec : fprint_type (hivaldec)
 fun hidexp_make_node
   (loc: location, hse: hisexp, node: hidexp_node): hidexp
 // end of [hidexp_make_node]
+
+(* ****** ****** *)
+
+fun hidexp_var
+  (loc: location, hse: hisexp, d2v: d2var): hidexp
+// end of [hidexp_var]
+
+(* ****** ****** *)
 
 fun hidexp_bool
   (loc: location, hse: hisexp, b: bool): hidexp
@@ -252,8 +274,15 @@ fun hidexp_let_simplify
 
 fun hidexp_app (
   loc: location
-, hse_res: hisexp, hse_fun: hisexp, _fun: hidexp, _arg: hidexplst
+, hse: hisexp, hse_fun: hisexp, _fun: hidexp, _arg: hidexplst
 ) : hidexp // end of [hidexp_app]
+
+(* ****** ****** *)
+
+fun hidexp_rec (
+  loc: location
+, hse: hisexp, knd: int, lhses: labhidexplst, hse_rec: hisexp
+) : hidexp // end of [hidexp_rec]
 
 (* ****** ****** *)
 

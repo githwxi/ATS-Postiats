@@ -36,7 +36,12 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
+staload LAB = "pats_label.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
+staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
@@ -221,6 +226,8 @@ fun d3exp_tyer_tmpvar (
 
 extern
 fun d3explst_npf_tyer (npf: int, d3es: d3explst): hidexplst
+extern
+fun d3explst_npf_tyer_recize (npf: int, d3es: d3explst): labhidexplst
 
 (* ****** ****** *)
 
@@ -234,6 +241,12 @@ in
 //
 case+
   d3e0.d3exp_node of
+//
+| D3Evar (d2v) => let
+    val () = d2var_inc_utimes (d2v)
+  in
+    hidexp_var (loc0, hse0, d2v)
+  end // end of [D3Evar]
 //
 | D3Ebool (b) =>
     hidexp_bool (loc0, hse0, b)
@@ -268,6 +281,17 @@ case+
   end // end of [D3Eapp_dyn]
 | D3Eapp_sta (d3e) => d3exp_tyer (d3e)
 //
+| D3Etup (
+    knd, npf, d3es
+  ) => let
+    val hse_rec =
+       s2exp_tyer_deep (loc0, s2e0)
+    // end of [val]
+    val lhdes = d3explst_npf_tyer_recize (npf, d3es)
+  in
+    hidexp_rec (loc0, hse0, knd, lhdes, hse_rec)
+  end // end of [D3Etup]
+//
 | D3Elam_dyn (
     lin, npf, p3ts_arg, d3e_body
   ) => let
@@ -279,8 +303,14 @@ case+
   end // end of [D3Elam_dyn]
 | D3Elam_met (_(*met*), d3e) => d3exp_tyer (d3e)
 //
-| D3Etmpcst (d2c, t2mas) => d3exp_tyer_tmpcst (loc0, hse0, d2c, t2mas)
-| D3Etmpvar (d2v, t2mas) => d3exp_tyer_tmpvar (loc0, hse0, d2v, t2mas)
+| D3Etmpcst (
+    d2c, t2mas
+  ) => d3exp_tyer_tmpcst (loc0, hse0, d2c, t2mas)
+| D3Etmpvar (
+    d2v, t2mas
+  ) => d3exp_tyer_tmpvar (loc0, hse0, d2v, t2mas)
+//
+| D3Eann_type (d3e, _(*ann*)) => d3exp_tyer (d3e)
 //
 | _ => let
     val () = println! ("d3exp_tyer: d3e0 = ", d3e0)
@@ -295,11 +325,23 @@ end // endof [d3exp_tyer]
 implement
 d3explst_tyer
   (d3es) = let
-  val hdes =
-    list_map_fun (d3es, d3exp_tyer)
-  // end of [val]
 in
-  list_of_list_vt (hdes)
+//
+case+ d3es of
+| list_cons
+    (d3e, d3es) => let
+    val isprf = d3exp_is_prf (d3e)
+  in
+    if isprf then
+      d3explst_tyer (d3es)
+    else let
+      val hde = d3exp_tyer (d3e)
+    in
+      list_cons (hde, d3explst_tyer (d3es))
+    end // end of [if]
+  end
+| list_nil () => list_nil ()
+//
 end // end of [d3explst_tyer]
 
 implement
@@ -314,6 +356,48 @@ end else
 // end of [if]
 //
 end // end of [d3explst_npf_tyer]
+
+implement
+d3explst_npf_tyer_recize
+  (npf, d3es) = let
+//
+fun aux1 (
+  npf: int, d3es: d3explst
+) : d3explst =
+  if npf > 0 then let
+    val- list_cons (_, d3es) = d3es in aux1 (npf-1, d3es)
+  end else d3es // end of [aux1]
+//
+fun aux2 (
+  i: int, d3es: d3explst
+) : labhidexplst = let
+in
+//
+case+ d3es of
+| list_cons
+    (d3e, d3es) => let
+    val isprf = d3exp_is_prf (d3e)
+  in
+    if isprf then
+      aux2 (i+1, d3es)
+    else let
+      val l =
+        $LAB.label_make_int (i)
+      val hde = d3exp_tyer (d3e)
+      val lhde = LABHIDEXP (l, hde)
+    in
+      list_cons (lhde, aux2 (i+1, d3es))
+    end // end of [if]
+  end
+| list_nil () => list_nil ()
+//
+end // end of [aux2]
+//
+val i0 = (if npf >= 0 then npf else 0): int
+//
+in
+  aux2 (i0, aux1 (npf, d3es))
+end // end of [d3explst_npf_tyer_recize]
 
 (* ****** ****** *)
 

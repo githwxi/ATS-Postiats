@@ -144,6 +144,14 @@ hidexp_make_node
 (* ****** ****** *)
 
 implement
+hidexp_var
+  (loc, hse, d2v) =
+  hidexp_make_node (loc, hse, HDEvar (d2v))
+// end of [hidexp_var]
+
+(* ****** ****** *)
+
+implement
 hidexp_bool
   (loc, hse, b) =
   hidexp_make_node (loc, hse, HDEbool (b))
@@ -194,9 +202,17 @@ hidexp_let (loc, hse, hids, hde) =
 
 implement
 hidexp_app
-  (loc, hse_res, hse_fun, _fun, _arg) =
-  hidexp_make_node (loc, hse_res, HDEapp (hse_fun, _fun, _arg))
+  (loc, hse, hse_fun, _fun, _arg) =
+  hidexp_make_node (loc, hse, HDEapp (hse_fun, _fun, _arg))
 // end of [hidexp_app]
+
+(* ****** ****** *)
+
+implement
+hidexp_rec
+  (loc, hse, knd, lhses, hse_rec) =
+  hidexp_make_node (loc, hse, HDErec (knd, lhses, hse_rec))
+// end of [hidexp_rec]
 
 (* ****** ****** *)
 

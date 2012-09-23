@@ -91,6 +91,16 @@ case+ x.hipat_node of
     val () = prstr ")"
   }
 //
+| HIPrec (
+    knd, lhips, hse_rec
+  ) => {
+    val () = prstr "HIPrec("
+    val () = fprintf (out, "knd= %i", @(knd))
+    val () = prstr "; "
+    val () = fprint_labhipatlst (out, lhips)
+    val () = prstr ")"
+  } // end of [HIPrec]
+//
 | HIPann (hip, ann) => {
     val () = prstr "HIPann("
     val () = fprint_hipat (out, hip)
@@ -105,6 +115,29 @@ case+ x.hipat_node of
 //
 end // end of [fprint_hipat]
 
+implement
+fprint_hipatlst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_hipat)
+// end of [fprint_hipatlst]
+
+
+extern
+fun fprint_labhipat : fprint_type (labhipat)
+implement
+fprint_labhipat
+  (out, lx) = {
+  val LABHIPAT (l, x) = lx
+  val () =
+    $LAB.fprint_label (out, l)
+  val () = fprint_string (out, "= ")
+  val () = fprint_hipat (out, x)
+} // end of [fprint_labhipat]
+
+implement
+fprint_labhipatlst
+  (out, lxs) = $UT.fprintlst (out, lxs, ", ", fprint_labhipat)
+// end of [fprint_labhipatlst]
+
 (* ****** ****** *)
 
 implement
@@ -115,6 +148,12 @@ in
 //
 case+
   x.hidexp_node of
+//
+| HDEvar (d2v) => {
+    val () = prstr "HDEvar("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr ")"
+  }
 //
 | HDEbool (b) => {
     val () = prstr "HDEbool("
@@ -149,13 +188,25 @@ case+
     val () = prstr ")"
   }
 //
-| HDEapp (_, _fun, _arg) => {
+| HDEapp (
+    hse_fun, _fun, _arg
+  ) => {
     val () = prstr "HDEapp("
     val () = fprint_hidexp (out, _fun)
     val () = prstr "; "
     val () = fprint_hidexplst (out, _arg)
     val () = prstr ")"
   }
+//
+| HDErec (
+    knd, lhdes, hse_rec
+  ) => {
+    val () = prstr "HDErec("
+    val () = fprintf (out, "knd= %i", @(knd))
+    val () = prstr "; "
+    val () = fprint_labhidexplst (out, lhdes)
+    val () = prstr ")"
+  } // end of [HDErec]
 //
 | HDEtmpcst (d2c, tmparg) => {
     val () = prstr "HDEtmpcst("
@@ -174,18 +225,43 @@ case+
     val () = prstr ")"
   }
 //
+| HDElam (_arg, _body) => {
+    val () = prstr "HDElam("
+    val () = fprint_hipatlst (out, _arg)
+    val () = prstr "; "
+    val () = fprint_hidexp (out, _body)
+    val () = prstr ")"
+  } // end of [DDElam]
+//
 | _ => {
     val () = fprint_string (out, "HDE...(...)")
   } // end of [_]
 //
 end // end of [fprint_hidexp]
 
-(* ****** ****** *)
-
 implement
 fprint_hidexplst
   (out, xs) = $UT.fprintlst (out, xs, "; ", fprint_hidexp)
 // end of [fprint_hidexplst]
+
+(* ****** ****** *)
+
+extern
+fun fprint_labhidexp : fprint_type (labhidexp)
+implement
+fprint_labhidexp
+  (out, lx) = {
+  val LABHIDEXP (l, x) = lx
+  val () =
+    $LAB.fprint_label (out, l)
+  val () = fprint_string (out, "= ")
+  val () = fprint_hidexp (out, x)
+} // end of [fprint_labhidexp]
+
+implement
+fprint_labhidexplst
+  (out, lxs) = $UT.fprintlst (out, lxs, "; ", fprint_labhidexp)
+// end of [fprint_labhidexplst]
 
 (* ****** ****** *)
 
@@ -212,7 +288,7 @@ case+ hid.hidecl_node of
     val () = prstr "HID...(...)"
   } // end of [_]
 //
-end // end of [fprint_hivaldec]
+end // end of [fprint_hidecl]
 
 (* ****** ****** *)
 
