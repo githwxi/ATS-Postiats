@@ -295,7 +295,7 @@ and d3exp_node =
       (int(*tupknd*), int(*npf*), d3explst)
   | D3Erec of (* record expression *)
       (int(*recknd*), int(*npf*), labd3explst)
-  | D3Eseq of d3explst // sequencing
+  | D3Eseq of (d3explst) // sequencing
 //
   | D3Esel_var of (d2var, d3lablst) // call-by-val/ref
   | D3Esel_ptr of (d3exp, d3lablst) // pointed record/tuple selection

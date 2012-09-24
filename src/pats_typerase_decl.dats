@@ -38,7 +38,7 @@ staload "pats_basics.sats"
 
 staload "pats_errmsg.sats"
 staload _(*anon*) = "pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans3_dynexp_up"
+implement prerr_FILENAME<> () = prerr "pats_typerase_decl"
 
 (* ****** ****** *)
 
@@ -173,7 +173,7 @@ fun f3undec_tyer
     val () = prerr ": [fun] should be replaced with [prfun] as this is a proof binding."
     val () = prerr_newline ()
   in
-    the_trans4errlst_add (T3E_d3exp_tyer_isprf (d3e_def))
+    the_trans4errlst_add (T4E_d3exp_tyer_isprf (d3e_def))
   end // end of [val]
   val hde_def = d3exp_tyer (d3e_def)
 in
@@ -226,7 +226,7 @@ fun v3aldec_tyer
     val () = prerr ": [val] should be replaced with [prval] as this is a proof binding."
     val () = prerr_newline ()
   in
-    the_trans4errlst_add (T3E_d3exp_tyer_isprf (d3e_def))
+    the_trans4errlst_add (T4E_d3exp_tyer_isprf (d3e_def))
   end // end of [val]
   val hde_def = d3exp_tyer (d3e_def)
 in

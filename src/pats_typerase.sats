@@ -57,7 +57,8 @@ staload "pats_hidynexp.sats"
 // during the level-4 translation
 //
 datatype trans4err =
-  | T3E_d3exp_tyer_isprf of (d3exp)
+  | T4E_d3exp_tyer_isprf of (d3exp)
+  | T4E_d3exp_tyer_isnotval of (d3exp)
 // end of [trans4err]
 
 fun the_trans4errlst_add (x: trans4err): void

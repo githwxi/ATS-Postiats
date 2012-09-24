@@ -734,13 +734,6 @@ fprint_s2exparglst (out, xs) =
 (* ****** ****** *)
 
 implement
-fprint_t2mpmarg
-  (out, x) = fprint_s2explst (out, x.t2mpmarg_arg)
-// end of [fprint_t2mpmarg]
-
-(* ****** ****** *)
-
-implement
 fprint_sp2at
   (out, sp2t) = let
   macdef prstr (s) = fprint_string (out, ,(s))

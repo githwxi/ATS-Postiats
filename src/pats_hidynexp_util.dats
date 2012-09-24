@@ -37,6 +37,55 @@ staload "pats_hidynexp.sats"
 
 (* ****** ****** *)
 
+local
+
+fun hidexplst_is_value
+  (xs: hidexplst): bool =
+  list_forall_fun (xs, hidexp_is_value)
+// end of [hidexplst_is_value]
+
+fun labhidexplst_is_value
+  (lxs: labhidexplst): bool = let
+//
+fun ftest (lx: labhidexp) = let
+  val LABHIDEXP (l, x) = lx in hidexp_is_value (x)
+end // end of [fun]
+//
+in
+  list_forall_fun (lxs, ftest)
+end // end of [labhidexplst_is_value]
+
+in // in of [local]
+
+implement
+hidexp_is_value
+  (hde0) = case+ hde0.hidexp_node of
+//
+  | HDEvar _ => true
+  | HDEcst _ => true
+//
+  | HDEbool _ => true
+  | HDEchar _ => true
+  | HDEstring _ => true
+//
+  | HDEi0nt _ => true
+  | HDEf0loat _ => true
+//
+  | HDEextval _ => true
+//
+  | HDElam _ => true
+  | HDErec (_, lhdes, _) => labhidexplst_is_value (lhdes)
+//
+  | HDEtmpcst _ => true
+  | HDEtmpvar _ => true
+//
+  | _ => false
+// end of [hidexp_is_value]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 implement
 hidexp_let_simplify
   (loc, hse, hids, hde) = hidexp_let (loc, hse, hids, hde)

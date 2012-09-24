@@ -458,7 +458,7 @@ case+ x.d2exp_node of
     val () = prstr "D2Etmpid("
     val () = fprint_d2exp (out, d2e_id)
     val () = prstr "; "
-    val () = $UT.fprintlst (out, t2mas, "; ", fprint_t2mpmarg)
+    val () = $UT.fprintlst (out, t2mas, "; ", fpprint_t2mpmarg)
     val () = prstr ")"
   }
 //

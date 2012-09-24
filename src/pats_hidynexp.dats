@@ -281,6 +281,12 @@ hidexp_rec
   hidexp_make_node (loc, hse, HDErec (knd, lhses, hse_rec))
 // end of [hidexp_rec]
 
+implement
+hidexp_seq
+  (loc, hse, hdes) =
+  hidexp_make_node (loc, hse, HDEseq (hdes))
+// end of [hidexp_seq]
+
 (* ****** ****** *)
 
 implement

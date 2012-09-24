@@ -36,6 +36,12 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
+staload "pats_errmsg.sats"
+staload _(*anon*) = "pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_typerase_dynexp"
+
+(* ****** ****** *)
+
 staload LAB = "pats_label.sats"
 
 staload LOC = "pats_location.sats"
@@ -384,6 +390,14 @@ case+
     hidexp_rec (loc0, hse0, knd, lhdes, hse_rec)
   end // end of [D3Erec]
 //
+| D3Eseq (d3es) => let
+    val hdes =
+      list_map_fun (d3es, d3exp_tyer)
+    val hdes = list_of_list_vt (hdes)
+  in
+    hidexp_seq (loc0, hse0, hdes)
+  end // end of [D3Eseq]
+//
 | D3Earrpsz (
     s2e_elt, d3es_elt, asz
   ) => let
@@ -403,6 +417,21 @@ case+
   in
     hidexp_lam (loc0, hse_fun, hips_arg, hde_body)
   end // end of [D3Elam_dyn]
+| D3Elam_sta (
+    s2vs, s2ps, d3e_body
+  ) => let
+    val hde_body = d3exp_tyer (d3e_body)
+    val isval = hidexp_is_value (hde_body)
+    val () = if not(isval) then let
+      val () = prerr_error4_loc (loc0)
+      val () = prerr ": a non-value body for static lambda-abstraction is not supported."
+      val () = prerr_newline ()
+    in
+      the_trans4errlst_add (T4E_d3exp_tyer_isnotval (d3e_body))
+    end (* end of [if] *)
+  in
+    hde_body
+  end // end of [D3Elam_sta]
 | D3Elam_met (_(*met*), d3e) => d3exp_tyer (d3e)
 //
 | D3Etmpcst (

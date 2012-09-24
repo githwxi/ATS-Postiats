@@ -211,6 +211,7 @@ and hidexp_node =
   | HDErec of
       (int(*knd*), labhidexplst, hisexp(*tyrec*))
     // end of [HDErec]
+  | HDEseq of (hidexplst) // sequencing
 //
   | HDEarrpsz of (* arrsize construction *)
       (hisexp(*elt*), hidexplst(*elt*), int(*asz*))
@@ -316,6 +317,10 @@ fun fprint_hivaldec : fprint_type (hivaldec)
 
 (* ****** ****** *)
 
+fun hidexp_is_value (hde: hidexp): bool
+
+(* ****** ****** *)
+
 fun hidexp_make_node
   (loc: location, hse: hisexp, node: hidexp_node): hidexp
 // end of [hidexp_make_node]
@@ -388,6 +393,10 @@ fun hidexp_rec (
   loc: location
 , hse: hisexp, knd: int, lhses: labhidexplst, hse_rec: hisexp
 ) : hidexp // end of [hidexp_rec]
+
+fun hidexp_seq
+  (loc: location, hse: hisexp, hdes: hidexplst): hidexp
+// end of [hidexp_seq]
 
 (* ****** ****** *)
 

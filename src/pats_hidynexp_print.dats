@@ -42,9 +42,7 @@ staload "pats_basics.sats"
 (* ****** ****** *)
 
 staload LAB = "pats_label.sats"
-
-(* ****** ****** *)
-
+staload FIL = "pats_filename.sats"
 staload SYN = "pats_syntax.sats"
 
 (* ****** ****** *)
@@ -287,6 +285,11 @@ case+
     val () = fprint_labhidexplst (out, lhdes)
     val () = prstr ")"
   } // end of [HDErec]
+| HDEseq (hdes) => {
+    val () = prstr "HDEseq("
+    val () = fprint_hidexplst (out, hdes)
+    val () = prstr ")"
+  }
 //
 | HDEarrpsz (
     hse_elt, hdes_elt, asz
@@ -304,7 +307,7 @@ case+
     val () = prstr "HDEtmpcst("
     val () = fprint_d2cst (out, d2c)
     val () = prstr "<"
-    val () = $UT.fprintlst (out, t2mas, "><", fprint_t2mpmarg)
+    val () = $UT.fprintlst (out, t2mas, "><", fpprint_t2mpmarg)
     val () = prstr ">"
     val () = prstr ")"
   }
@@ -312,7 +315,7 @@ case+
     val () = prstr "HDEtmpvar("
     val () = fprint_d2var (out, d2v)
     val () = prstr "<"
-    val () = $UT.fprintlst (out, t2mas, "><", fprint_t2mpmarg)
+    val () = $UT.fprintlst (out, t2mas, "><", fpprint_t2mpmarg)
     val () = prstr ">"
     val () = prstr ")"
   }
@@ -410,6 +413,13 @@ case+ hid.hidecl_node of
     val () = $UT.fprintlst (out, hvds, "\n", fprint_hivaldec)
     val () = prstr "\n)"
   } // end of [HIDvaldec_rec]
+//
+| HIDstaload
+    (fname, _, _, _) => {
+    val () = prstr "HIDstaload("
+    val () = $FIL.fprint_filename (out, fname)
+    val () = prstr ")"
+  }
 //
 | _ => {
     val () = prstr "HID...(...)"
