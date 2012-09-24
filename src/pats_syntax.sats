@@ -1320,9 +1320,9 @@ and d0exp_node =
 //
   | D0Earrsub of // array subscripting
       (dqi0de, location(*ind*), d0explstlst(*ind*))
+  | D0Earrpsz of (s0expopt (*elt*), d0exp (*int*)) // arraysize expression
   | D0Earrinit of (* array initilization *)
       (s0exp (*elt*), d0expopt (*asz*), d0explst (*ini*))
-  | D0Earrpsz of (s0expopt (*elt*), d0exp (*int*)) // arraysize expression
 //
   | D0Eraise of d0exp // $raise
   | D0Edelay of (int(*knd*), d0exp(*body*)) // $delay and $ldelay

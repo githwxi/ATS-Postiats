@@ -607,14 +607,14 @@ d2exp_arrsub (
 ) = d2exp_make_node (loc, D2Earrsub (d2s, arr, locind, ind))
 
 implement
-d2exp_arrinit (
-  loc, s2e_elt, asz, init
-) = d2exp_make_node (loc, D2Earrinit (s2e_elt, asz, init))
-
-implement
 d2exp_arrpsz (
   loc, s2eopt_elt, d2es_ini
 ) = d2exp_make_node (loc, D2Earrpsz (s2eopt_elt, d2es_ini))
+
+implement
+d2exp_arrinit (
+  loc, s2e_elt, asz, init
+) = d2exp_make_node (loc, D2Earrinit (s2e_elt, asz, init))
 
 (* ****** ****** *)
 

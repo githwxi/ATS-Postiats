@@ -611,13 +611,13 @@ case+ x.d2exp_node of
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }
-| D2Earrinit _ => {
-    val () = prstr "D2Earrinit("
+| D2Earrpsz _ => {
+    val () = prstr "D2Earrpsz("
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }
-| D2Earrpsz _ => {
-    val () = prstr "D2Earrpsz("
+| D2Earrinit _ => {
+    val () = prstr "D2Earrinit("
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }

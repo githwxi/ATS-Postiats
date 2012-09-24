@@ -1358,6 +1358,16 @@ case+ d1e0.d1exp_node of
 | D1Earrsub (arr, locind, ind) =>
     d1exp_tr_arrsub (d1e0, arr, locind, ind)
   // end of [D1Earrsub]
+| D1Earrpsz
+    (elt, ini) => let
+    val opt = s1expopt_trup (elt)
+    val opt = (case+ opt of
+      | Some s2e => Some (s2e) | None () => None ()
+    ) : s2expopt
+    val ini = d1explst_tr (ini)
+  in
+    d2exp_arrpsz (loc0, opt, ini)
+  end // end of [D1Earrpsz]
 | D1Earrinit
     (s1e_elt, asz, ini) => let
     val s2t_elt = (case+ asz of
@@ -1373,16 +1383,6 @@ case+ d1e0.d1exp_node of
   in
     d2exp_arrinit (loc0, s2e_elt, asz, ini)
   end // end of [D1Earrinit]
-| D1Earrpsz
-    (elt, ini) => let
-    val opt = s1expopt_trup (elt)
-    val opt = (case+ opt of
-      | Some s2e => Some (s2e) | None () => None ()
-    ) : s2expopt
-    val ini = d1explst_tr (ini)
-  in
-    d2exp_arrpsz (loc0, opt, ini)
-  end // end of [D1Earrpsz]
 //
 | D1Eraise (d1e) => d2exp_raise (loc0, d1exp_tr d1e)
 //

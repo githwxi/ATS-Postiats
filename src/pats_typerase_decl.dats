@@ -42,6 +42,11 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_dynexp_up"
 
 (* ****** ****** *)
 
+staload LOC = "pats_location.sats"
+overload print with $LOC.print_location
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 staload "pats_dynexp3.sats"
 
@@ -105,6 +110,7 @@ case+
   end // end of [D3Clocal]
 //
 | _ => let
+    val () = println! ("d3exp_tyer: loc0 = ", loc0)
 (*
     val () = println! ("d3ecl_tyer: d3c0 = ", d3c0)
 *)

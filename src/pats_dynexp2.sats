@@ -630,10 +630,10 @@ and d2exp_node =
 //
   | D2Earrsub of (* array subscription *)
       (d2sym, d2exp, location(*ind*), d2explstlst(*ind*))
+  | D2Earrpsz of (* $arrpsz expression *)
+      (s2expopt (*elt*), d2explst (*elements*))
   | D2Earrinit of (* array initialization *)
       (s2exp (*elt*), d2expopt (*asz*), d2explst (*ini*))
-  | D2Earrpsz of (* $arrpsz expression *)
-      (s2expopt (*element type*), d2explst (*elements*))
 //
   | D2Eraise of (d2exp) // raised exception
 //
@@ -1028,14 +1028,14 @@ fun d2exp_arrsub (
 , d2s: d2sym, arr: d2exp, ind: location, ind: d2explstlst
 ) : d2exp // end of [d2exp_arrsub]
 
+fun d2exp_arrpsz (
+  loc: location, elt: s2expopt, elts: d2explst
+) : d2exp // end of [d2exp_arrpsz]
+
 fun d2exp_arrinit (
   loc: location
 , elt: s2exp, asz: d2expopt, ini: d2explst
 ) : d2exp // end of [d2exp_arrinit]
-
-fun d2exp_arrpsz (
-  loc: location, elt: s2expopt, elts: d2explst
-) : d2exp // end of [d2exp_arrpsz]
 
 (* ****** ****** *)
 

@@ -212,11 +212,11 @@ and hidexp_node =
       (int(*knd*), labhidexplst, hisexp(*tyrec*))
     // end of [HDErec]
 //
+  | HDEarrpsz of (* arrsize construction *)
+      (hisexp(*elt*), hidexplst(*elt*), int(*asz*))
+  | HDEarrinit of (* array initialization *)
+      (hisexp(*elt*), hidexp(*asz*), hidexplst(*elt*))
 (*
-  | HDEarrinit of (* array construction *)
-      (hityp(*eltyp*), hidexpopt(*asz*), hidexplst(*elt*))
-  | HDEarrsize of (* arraysize construction *)
-      (hityp(*eltyp*), hidexplst(*elt*))
   | HDEassgn_ptr of (* assignment to a pointer with offsets *)
       (hidexp, hilablst, hidexp)
   | HDEassgn_var of (* assignment to a variable with ofsets *)
@@ -310,6 +310,7 @@ fun fprint_labhidexplst : fprint_type (labhidexplst)
 fun fprint_hidecl : fprint_type (hidecl)
 fun fprint_hideclist : fprint_type (hideclist)
 
+fun fprint_hiimpdec : fprint_type (hiimpdec)
 fun fprint_hifundec : fprint_type (hifundec)
 fun fprint_hivaldec : fprint_type (hivaldec)
 
@@ -387,6 +388,13 @@ fun hidexp_rec (
   loc: location
 , hse: hisexp, knd: int, lhses: labhidexplst, hse_rec: hisexp
 ) : hidexp // end of [hidexp_rec]
+
+(* ****** ****** *)
+
+fun hidexp_arrpsz (
+  loc: location
+, hse: hisexp, hse_elt: hisexp, hdes_elt: hidexplst, asz: int
+) : hidexp // end of [hidexp_arrpsz]
 
 (* ****** ****** *)
 

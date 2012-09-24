@@ -639,13 +639,13 @@ fun d1exp_arrsub
   (loc: location, arr: d1exp, ind: location, ind: d1explstlst): d1exp
 // end of [d1exp_arrsub]
 
-fun d1exp_arrinit (
-  loc: location, elt: s1exp, asz: d1expopt, d1es: d1explst
-) : d1exp // end of [d1exp_arrinit]
-
 fun d1exp_arrpsz
   (loc: location, elt: s1expopt, d1es: d1explst): d1exp
 // end of [d1exp_arrpsz]
+
+fun d1exp_arrinit (
+  loc: location, elt: s1exp, asz: d1expopt, d1es: d1explst
+) : d1exp // end of [d1exp_arrinit]
 
 (* ****** ****** *)
 

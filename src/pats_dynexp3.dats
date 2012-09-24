@@ -747,11 +747,11 @@ d3exp_arrinit (
 
 implement
 d3exp_arrpsz (
-  loc, s2f_arrpsz, d3es, asz
+  loc, s2f_arrpsz, s2e, d3es, asz
 ) = '{
   d3exp_loc= loc
 , d3exp_type= s2f_arrpsz
-, d3exp_node= D3Earrpsz (d3es, asz)
+, d3exp_node= D3Earrpsz (s2e, d3es, asz)
 } // end of [d3exp_arrpsz]
 
 (* ****** ****** *)

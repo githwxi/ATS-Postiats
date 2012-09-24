@@ -950,6 +950,22 @@ case+ x.d0exp_node of
     val () = prstr ")"
   }
 //
+| D0Earrsub _ => {
+    val () = prstr "D0Earrsub("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+| D0Earrpsz _ => {
+    val () = prstr "D0Earrpsz("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+| D0Earrinit _ => {
+    val () = prstr "D0Earrinit("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+//
 | D0Eptrof () => prstr "D0Eptrof()"
 | D0Eviewat () => prstr "D0Eviewat()"
 //

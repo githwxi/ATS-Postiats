@@ -634,13 +634,6 @@ case+ d0e0.d0exp_node of
   in
     FXITMatm (d1exp_arrsub (loc0, d1e_arr, loc_ind, d1ess_ind))
   end // end of [D0Earrsub]
-| D0Earrinit (elt, asz, ini) => let
-    val elt = s0exp_tr (elt)
-    val asz = d0expopt_tr (asz)
-    val ini = d0explst_tr (ini)
-  in
-    FXITMatm (d1exp_arrinit (loc0, elt, asz, ini))
-  end // end of [D0Earrinit]
 | D0Earrpsz (elt, d0e_elts) => let
     val elt = s0expopt_tr (elt)
     val d1e_elts = d0exp_tr (d0e_elts)
@@ -650,6 +643,13 @@ case+ d0e0.d0exp_node of
   in
     FXITMatm (d1exp_arrpsz (loc0, elt, d1es_elts))
   end // end of [D0Earrpsz]
+| D0Earrinit (elt, asz, ini) => let
+    val elt = s0exp_tr (elt)
+    val asz = d0expopt_tr (asz)
+    val ini = d0explst_tr (ini)
+  in
+    FXITMatm (d1exp_arrinit (loc0, elt, asz, ini))
+  end // end of [D0Earrinit]
 //
 | D0Eraise (d0e) => FXITMatm (d1exp_raise (loc0, d0exp_tr (d0e)))
 | D0Edelay (knd, d0e) => let

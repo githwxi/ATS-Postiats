@@ -37,6 +37,10 @@ staload "pats_basics.sats"
 (* ****** ****** *)
 
 staload LAB = "pats_label.sats"
+
+staload LOC = "pats_location.sats"
+overload print with $LOC.print_location
+
 staload SYN = "pats_syntax.sats"
 
 (* ****** ****** *)
@@ -380,6 +384,16 @@ case+
     hidexp_rec (loc0, hse0, knd, lhdes, hse_rec)
   end // end of [D3Erec]
 //
+| D3Earrpsz (
+    s2e_elt, d3es_elt, asz
+  ) => let
+    val hse_elt = s2exp_tyer_shallow (loc0, s2e_elt)
+    val hdes_elt = list_map_fun (d3es_elt, d3exp_tyer)
+    val hdes_elt = list_of_list_vt (hdes_elt)
+  in
+    hidexp_arrpsz (loc0, hse0, hse_elt, hdes_elt, asz)
+  end // end of [D3Earrpsz]
+//
 | D3Elam_dyn (
     lin, npf, p3ts_arg, d3e_body
   ) => let
@@ -401,6 +415,7 @@ case+
 | D3Eann_type (d3e, _(*ann*)) => d3exp_tyer (d3e)
 //
 | _ => let
+    val () = println! ("d3exp_tyer: loc0 = ", loc0)
     val () = println! ("d3exp_tyer: d3e0 = ", d3e0)
   in
     exitloc (1)

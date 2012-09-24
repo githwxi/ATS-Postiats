@@ -539,10 +539,10 @@ d1exp_seq (loc, d1es) = d1exp_make (loc, D1Eseq (d1es))
 (* ****** ****** *)
 
 implement
-d1exp_arrinit
-  (loc, elt, asz, ini) =
-  d1exp_make (loc, D1Earrinit (elt, asz, ini))
-// end of [d1exp_arrinit]
+d1exp_arrsub
+  (loc, arr, loc_ind, ind) =
+  d1exp_make (loc, D1Earrsub (arr, loc_ind, ind))
+// end of [d1exp_arrsub]
 
 implement
 d1exp_arrpsz
@@ -551,10 +551,10 @@ d1exp_arrpsz
 // end of [d1exp_arrpsz]
 
 implement
-d1exp_arrsub
-  (loc, arr, loc_ind, ind) =
-  d1exp_make (loc, D1Earrsub (arr, loc_ind, ind))
-// end of [d1exp_arrsub]
+d1exp_arrinit
+  (loc, elt, asz, ini) =
+  d1exp_make (loc, D1Earrinit (elt, asz, ini))
+// end of [d1exp_arrinit]
 
 (* ****** ****** *)
 

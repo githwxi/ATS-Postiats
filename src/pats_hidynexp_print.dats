@@ -236,6 +236,14 @@ case+
     val () = prstr ")"
   }
 //
+| HDElet (hids, hde) => {
+    val () = prstr "HDElet(\n"
+    val () = fprint_hideclist (out, hids)
+    val () = prstr "**in**\n"
+    val () = fprint_hidexp (out, hde)
+    val () = prstr "\n)"
+  }
+//
 | HDEapp (
     hse_fun, _fun, _arg
   ) => {
@@ -279,6 +287,18 @@ case+
     val () = fprint_labhidexplst (out, lhdes)
     val () = prstr ")"
   } // end of [HDErec]
+//
+| HDEarrpsz (
+    hse_elt, hdes_elt, asz
+  ) => {
+    val () = prstr "HDEarrpsz("
+    val () = fprint_hisexp (out, hse_elt)
+    val () = prstr "; "
+    val () = fprint_hidexplst (out, hdes_elt)
+    val () = prstr "; "
+    val () = fprint_int (out, asz)
+    val () = prstr ")"
+  }
 //
 | HDEtmpcst (d2c, t2mas) => {
     val () = prstr "HDEtmpcst("
@@ -367,6 +387,12 @@ in
 //
 case+ hid.hidecl_node of
 //
+| HIDimpdec (knd, himpdec) => {
+    val () = prstr "HIDimpdec(\n"
+    val () = fprint_hiimpdec (out, himpdec)
+    val () = prstr "\n)"
+  }
+//
 | HIDfundecs (
     knd, decarg, hfds
   ) => {
@@ -410,6 +436,16 @@ case+ hids of
 | list_nil () => ()
 //
 end // end of [fprint_hideclist]
+
+(* ****** ****** *)
+
+implement
+fprint_hiimpdec
+  (out, himpdec) = {
+  val () = fprint_d2cst (out, himpdec.hiimpdec_cst)
+  val () = fprint_string (out, " = ")
+  val () = fprint_hidexp (out, himpdec.hiimpdec_def)
+} // end of [fprint_hiimpdec]
 
 (* ****** ****** *)
 

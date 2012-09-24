@@ -279,6 +279,16 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
+| D3Earrpsz
+    (s2e, d3es, asz) => {
+    val () = prstr "D3Earrpsz("
+    val () = fprint_s2exp (out, s2e)
+    val () = prstr "; "
+    val () = fprint_d3explst (out, d3es)
+    val () = prstr "; "
+    val () = fprint_int (out, asz)
+    val () = prstr ")"
+  }
 | D3Earrinit (
     s2e_elt, d3e_asz, d3es_elt
   ) => {
@@ -290,14 +300,6 @@ case+ d3e0.d3exp_node of
     val () = fprint_d3explst (out, d3es_elt)
     val () = prstr ")"
   } // end of [D3Earrinit]
-| D3Earrpsz
-    (d3es, asz) => {
-    val () = prstr "D3Earrpsz("
-    val () = fprint_d3explst (out, d3es)
-    val () = prstr "; "
-    val () = fprint_int (out, asz)
-    val () = prstr ")"
-  }
 //
 | D3Eraise (d3e) => {
     val () = prstr "D3Eraise("

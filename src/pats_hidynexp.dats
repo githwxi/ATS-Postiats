@@ -284,6 +284,14 @@ hidexp_rec
 (* ****** ****** *)
 
 implement
+hidexp_arrpsz
+  (loc, hse, hse_elt, hdes, asz) =
+  hidexp_make_node (loc, hse, HDEarrpsz (hse_elt, hdes, asz))
+// end of [hidexp_arrpsz]
+
+(* ****** ****** *)
+
+implement
 hidexp_lam
   (loc, hse, hips_arg, hde_body) =
   hidexp_make_node (loc, hse, HDElam (hips_arg, hde_body))
