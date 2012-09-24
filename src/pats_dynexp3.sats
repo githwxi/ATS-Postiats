@@ -226,14 +226,16 @@ d3ecl_node =
   | D3Cexndec of (d2conlst) // HX: exception decls
   | D3Cdcstdec of (dcstkind, d2cstlst)
 //
-  | D3Cimpdec of (i3mpdec)
+  | D3Cimpdec of (int(*knd*), i3mpdec) // knd=0/1 : implement/primplmnt
 //
   | D3Cfundecs of (funkind, s2qualst(*decarg*), f3undeclst)
   | D3Cvaldecs of (valkind, v3aldeclst)
   | D3Cvaldecs_rec of (valkind, v3aldeclst)
   | D3Cvardecs of (v3ardeclst)
 //
-  | D3Cstaload of (filename, int(*loadflag*), int(*loaded*), filenv)
+  | D3Cstaload of (
+      filename, int(*flag*), int(*loaded*), filenv
+    ) // end of [D3Cstaload]
 //
   | D3Clocal of (d3eclist(*head*), d3eclist(*body*))
 // end of [d3ecl_node]
@@ -483,6 +485,8 @@ fun prerr_d3exp (d3e: d3exp): void
 overload prerr with prerr_d3exp
 fun fprint_d3exp : fprint_type (d3exp)
 overload fprint with fprint_d3exp
+
+fun fprint_d3explst : fprint_type (d3explst)
 
 (* ****** ****** *)
 
@@ -863,7 +867,7 @@ fun d3ecl_dcstdec
 (* ****** ****** *)
 
 fun d3ecl_impdec
-  (loc: location, d3c: i3mpdec) : d3ecl
+  (loc: location, knd: int, d3c: i3mpdec) : d3ecl
 // end of [d3ecl_impdec]
 
 (* ****** ****** *)

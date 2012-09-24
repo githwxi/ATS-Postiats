@@ -156,7 +156,7 @@ case+ d2c0.d2ecl_node of
   //
   // HX: should combined imps be supported?
   //
-    val d3c = i2mpdec_tr (d2c) in d3ecl_impdec (loc0, d3c)
+    val d3c = i2mpdec_tr (d2c) in d3ecl_impdec (loc0, knd, d3c)
   end // end of [D2Cimpdec]
 //
 | D2Cfundecs

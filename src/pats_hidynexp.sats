@@ -164,12 +164,20 @@ hidecl_node =
   | HIDlist of hideclist
   | HIDsaspdec of s2aspdec
 //
+  | HIDimpdec of (int(*knd*), hiimpdec)
+//
   | HIDfundecs of
       (funkind, s2qualst(*decarg*), hifundeclst)
     // end of [HIDfundecs]
 //
   | HIDvaldecs of (valkind, hivaldeclst)
   | HIDvaldecs_rec of (valkind, hivaldeclst)
+//
+  | HIDstaload of (
+      filename, int(*flag*), int(*loaded*), filenv
+    ) // end of [HIDstaload]
+//
+  | HIDlocal of (hideclist (*head*), hideclist (*body*))
 // end of [hidecl_node]
 
 and hidexp_node =
@@ -265,13 +273,13 @@ and hiclaulst = List (hiclau)
 
 (* ****** ****** *)
 
-and hivaldec = '{
-  hivaldec_loc= location
-, hivaldec_pat= hipat
-, hivaldec_def= hidexp
-} // end of [hivaldec]
-
-and hivaldeclst = List (hivaldec)
+and hiimpdec = '{
+  hiimpdec_loc= location
+, hiimpdec_cst= d2cst
+, hiimpdec_imparg= s2varlst
+, hiimpdec_tmparg= s2explstlst
+, hiimpdec_def= hidexp
+} // end of [hiimpdec]
 
 (* ****** ****** *)
 
@@ -282,6 +290,16 @@ and hifundec = '{
 } // end of [hifundec]
 
 and hifundeclst = List (hifundec)
+
+(* ****** ****** *)
+
+and hivaldec = '{
+  hivaldec_loc= location
+, hivaldec_pat= hipat
+, hivaldec_def= hidexp
+} // end of [hivaldec]
+
+and hivaldeclst = List (hivaldec)
 
 (* ****** ****** *)
 
@@ -396,6 +414,13 @@ fun hiclau_make (
 
 (* ****** ****** *)
 
+fun hiimpdec_make (
+  loc: location
+, d2c: d2cst, imparg: s2varlst, tmparg: s2explstlst, def: hidexp
+) : hiimpdec // end of [hiimpdec_make]
+
+(* ****** ****** *)
+
 fun hifundec_make
   (loc: location, d2v: d2var, def: hidexp): hifundec
 // end of [hifundec_make]
@@ -413,6 +438,10 @@ fun hidecl_make_node
 fun hidecl_none (loc: location): hidecl
 fun hidecl_list (loc: location, hids: hideclist): hidecl
 
+fun hidecl_impdec
+  (loc: location, knd: int, himpdec: hiimpdec): hidecl
+// end of [hidecl_impdec]
+
 fun hidecl_fundecs (
   loc: location, knd: funkind, decarg: s2qualst, hfds: hifundeclst
 ) : hidecl // end of [hidecl_fundecs]
@@ -424,6 +453,19 @@ fun hidecl_valdecs
 fun hidecl_valdecs_rec
   (loc: location, knd: valkind, hvds: hivaldeclst): hidecl
 // end of [hidecl_valdecs_rec]
+
+(* ****** ****** *)
+
+fun hidecl_staload (
+  loc: location
+, fname: filename, flag: int, loaded: int, fenv: filenv
+) : hidecl // end of [hidecl_staload]
+
+(* ****** ****** *)
+      
+fun hidecl_local
+  (loc: location, head: hideclist, body: hideclist): hidecl
+// end of [hidecl_local]
 
 (* ****** ****** *)
 

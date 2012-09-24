@@ -327,6 +327,19 @@ hiclau_make
 (* ****** ****** *)
 
 implement
+hiimpdec_make (
+  loc, d2c, imparg, tmparg, def
+) = '{
+  hiimpdec_loc= loc
+, hiimpdec_cst= d2c
+, hiimpdec_imparg= imparg
+, hiimpdec_tmparg= tmparg
+, hiimpdec_def= def
+} // end of [hiimpdec_make]
+
+(* ****** ****** *)
+
+implement
 hifundec_make
   (loc, d2v, def) = '{
   hifundec_loc= loc
@@ -363,6 +376,14 @@ hidecl_list (loc, hids) =
 (* ****** ****** *)
 
 implement
+hidecl_impdec
+  (loc, knd, himpdec) =
+  hidecl_make_node (loc, HIDimpdec (knd, himpdec))
+// end of [hidecl_impdec]
+
+(* ****** ****** *)
+
+implement
 hidecl_fundecs
   (loc, knd, decarg, hfds) =
   hidecl_make_node (loc, HIDfundecs (knd, decarg, hfds))
@@ -379,6 +400,22 @@ implement
 hidecl_valdecs_rec (loc, knd, hvds) =
   hidecl_make_node (loc, HIDvaldecs_rec (knd, hvds))
 // end of [hidecl_valdecs_rec]
+
+(* ****** ****** *)
+
+implement
+hidecl_staload (
+  loc, fname, flag, loaded, fenv
+) = hidecl_make_node (
+  loc, HIDstaload (fname, flag, loaded, fenv)
+) // end of [hidecl_staload]
+
+(* ****** ****** *)
+
+implement
+hidecl_local (loc, head, body) =
+  hidecl_make_node (loc, HIDlocal (head, body))
+// end of [hidecl_local]
 
 (* ****** ****** *)
 

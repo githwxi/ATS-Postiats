@@ -57,6 +57,8 @@ staload "pats_typerase.sats"
 (* ****** ****** *)
 
 extern
+fun d3ecl_tyer_impdec (d3c0: d3ecl): hidecl
+extern
 fun d3ecl_tyer_fundecs (d3c0: d3ecl): hidecl
 extern
 fun d3ecl_tyer_valdecs (d3c0: d3ecl): hidecl
@@ -81,12 +83,34 @@ case+
     val hids = d3eclist_tyer (d3cs) in hidecl_list (loc0, hids)
   end // end of [D3Clist]
 //
+| D3Cimpdec _ => d3ecl_tyer_impdec (d3c0)
+//
 | D3Cfundecs _ => d3ecl_tyer_fundecs (d3c0)
 //
 | D3Cvaldecs _ => d3ecl_tyer_valdecs (d3c0)
 | D3Cvaldecs_rec _ => d3ecl_tyer_valdecs_rec (d3c0)
 //
-| _ => exitloc (1)
+| D3Cstaload (
+    filename, flag, loaded, filenv
+  ) =>
+    hidecl_staload (loc0, filename, flag, loaded, filenv)
+  // end of [D3Cstaload]
+//
+| D3Clocal
+    (head, body) => let
+    val head = d3eclist_tyer (head)
+    val body = d3eclist_tyer (body)
+  in
+    hidecl_local (loc0, head, body)
+  end // end of [D3Clocal]
+//
+| _ => let
+(*
+    val () = println! ("d3ecl_tyer: d3c0 = ", d3c0)
+*)
+  in
+    exitloc (1)
+  end // end of [_]
 //
 end // end of [d3ecl_tyer]
 
@@ -101,6 +125,85 @@ val hids = list_map_fun (d3cs, d3ecl_tyer)
 in
   list_of_list_vt (hids)
 end // end of [d3eclist_tyer]
+
+(* ****** ****** *)
+
+implement
+d3ecl_tyer_impdec
+  (d3c0) = let
+//
+val loc0 = d3c0.d3ecl_loc
+val- D3Cimpdec (knd, impdec) = d3c0.d3ecl_node
+//
+in
+//
+if knd = 0 then let
+  val loc = impdec.i3mpdec_loc
+  val d2c = impdec.i3mpdec_cst
+  val imparg = impdec.i3mpdec_imparg
+  val tmparg = impdec.i3mpdec_tmparg
+  val hse_def = d3exp_tyer (impdec.i3mpdec_def)
+  val himpdec = hiimpdec_make (loc, d2c, imparg, tmparg, hse_def)
+in
+  hidecl_impdec (loc0, knd(*0*), himpdec)
+end else
+  hidecl_none (loc0)
+// end of [if]
+//
+end // end of [d3ecl_tyer_impdec]
+
+(* ****** ****** *)
+
+local
+
+fun f3undec_tyer
+  (f3d: f3undec): hifundec = let
+  val loc = f3d.f3undec_loc
+  val d2v_fun = f3d.f3undec_var
+  val d3e_def = f3d.f3undec_def
+  val isprf = d3exp_is_prf (d3e_def)
+  val () = if isprf then let
+    val () = prerr_error4_loc (loc)
+    val () = prerr ": [fun] should be replaced with [prfun] as this is a proof binding."
+    val () = prerr_newline ()
+  in
+    the_trans4errlst_add (T3E_d3exp_tyer_isprf (d3e_def))
+  end // end of [val]
+  val hde_def = d3exp_tyer (d3e_def)
+in
+  hifundec_make (loc, d2v_fun, hde_def)
+end // end of [f3undec_tyer]
+
+fun f3undeclst_tyer (
+  knd: funkind, f3ds: f3undeclst
+) : hifundeclst = let
+  val isprf = funkind_is_proof (knd)
+in
+//
+if isprf then
+  list_nil () // proofs are erased
+else let
+  val hfds = list_map_fun (f3ds, f3undec_tyer)
+in
+  list_of_list_vt (hfds)
+end // end of [if]
+//
+end // end of [f3undeclst_tyer]
+
+in // in of [local]
+
+implement
+d3ecl_tyer_fundecs (d3c0) = let
+//
+val loc0 = d3c0.d3ecl_loc
+val- D3Cfundecs (knd, decarg, f3ds) = d3c0.d3ecl_node
+val hfds = f3undeclst_tyer (knd, f3ds)
+//
+in
+  hidecl_fundecs (loc0, knd, decarg, hfds)
+end // end of [d3ecl_tyer_fundecs]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -165,60 +268,6 @@ in
 end // end of [d3ecl_tyer_valdecs_rec]
 
 end // end of [local]
-
-(* ****** ****** *)
-
-local
-
-fun f3undec_tyer
-  (f3d: f3undec): hifundec = let
-  val loc = f3d.f3undec_loc
-  val d2v_fun = f3d.f3undec_var
-  val d3e_def = f3d.f3undec_def
-  val isprf = d3exp_is_prf (d3e_def)
-  val () = if isprf then let
-    val () = prerr_error4_loc (loc)
-    val () = prerr ": [fun] should be replaced with [prfun] as this is a proof binding."
-    val () = prerr_newline ()
-  in
-    the_trans4errlst_add (T3E_d3exp_tyer_isprf (d3e_def))
-  end // end of [val]
-  val hde_def = d3exp_tyer (d3e_def)
-in
-  hifundec_make (loc, d2v_fun, hde_def)
-end // end of [f3undec_tyer]
-
-fun f3undeclst_tyer (
-  knd: funkind, f3ds: f3undeclst
-) : hifundeclst = let
-  val isprf = funkind_is_proof (knd)
-in
-//
-if isprf then
-  list_nil () // proofs are erased
-else let
-  val hfds = list_map_fun (f3ds, f3undec_tyer)
-in
-  list_of_list_vt (hfds)
-end // end of [if]
-//
-end // end of [f3undeclst_tyer]
-
-in // in of [local]
-
-implement
-d3ecl_tyer_fundecs (d3c0) = let
-//
-val loc0 = d3c0.d3ecl_loc
-val- D3Cfundecs (knd, decarg, f3ds) = d3c0.d3ecl_node
-val hfds = f3undeclst_tyer (knd, f3ds)
-//
-in
-  hidecl_fundecs (loc0, knd, decarg, hfds)
-end // end of [d3ecl_tyer_fundecs]
-
-end // end of [local]
-
 
 (* ****** ****** *)
 

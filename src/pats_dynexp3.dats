@@ -1062,38 +1062,38 @@ d3ecl_dcstdec
 
 implement
 d3ecl_impdec
-  (loc, d3c) =
-  d3ecl_make_node (loc, D3Cimpdec (d3c))
+  (loc, knd, impdec) =
+  d3ecl_make_node (loc, D3Cimpdec (knd, impdec))
 // end of [d3ecl_impdec]
 
 (* ****** ****** *)
 
 implement
 d3ecl_fundecs
-  (loc, funknd, decarg, d3cs) =
-  d3ecl_make_node (loc, D3Cfundecs (funknd, decarg, d3cs))
+  (loc, funknd, decarg, f3ds) =
+  d3ecl_make_node (loc, D3Cfundecs (funknd, decarg, f3ds))
 // end of [d3ecl_fundecs]
 
 (* ****** ****** *)
 
 implement
 d3ecl_valdecs
-  (loc, knd, d3cs) =
-  d3ecl_make_node (loc, D3Cvaldecs (knd, d3cs))
+  (loc, knd, v3ds) =
+  d3ecl_make_node (loc, D3Cvaldecs (knd, v3ds))
 // end of [d3ecl_valdecs]
 
 implement
 d3ecl_valdecs_rec
-  (loc, knd, d3cs) =
-  d3ecl_make_node (loc, D3Cvaldecs_rec (knd, d3cs))
+  (loc, knd, v3ds) =
+  d3ecl_make_node (loc, D3Cvaldecs_rec (knd, v3ds))
 // end of [d3ecl_valdecs_rec]
 
 (* ****** ****** *)
 
 implement
 d3ecl_vardecs
-  (loc, d3cs) =
-  d3ecl_make_node (loc, D3Cvardecs (d3cs))
+  (loc, v3ds) =
+  d3ecl_make_node (loc, D3Cvardecs (v3ds))
 // end of [d3ecl_vardecs]
 
 (* ****** ****** *)
