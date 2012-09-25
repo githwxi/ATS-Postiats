@@ -226,12 +226,14 @@ d3ecl_node =
   | D3Cexndec of (d2conlst) // HX: exception decls
   | D3Cdcstdec of (dcstkind, d2cstlst)
 //
-  | D3Cimpdec of (int(*knd*), i3mpdec) // knd=0/1 : implement/primplmnt
+  | D3Cimpdec of (
+      int(*knd*), i3mpdec // knd=0/1 : implement/primplmnt
+    ) // end of [D3Cimpdec]
 //
   | D3Cfundecs of (funkind, s2qualst(*decarg*), f3undeclst)
   | D3Cvaldecs of (valkind, v3aldeclst)
   | D3Cvaldecs_rec of (valkind, v3aldeclst)
-  | D3Cvardecs of (v3ardeclst)
+  | D3Cvardecs of (v3ardeclst) // local variable declarations
 //
   | D3Cstaload of (
       filename, int(*flag*), int(*loaded*), filenv

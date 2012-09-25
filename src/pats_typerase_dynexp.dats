@@ -533,6 +533,14 @@ end // end of [d3explst_npf_tyer_recize]
 
 (* ****** ****** *)
 
+implement
+d3expopt_tyer (opt) = (
+  case+ opt of
+  | Some (d3e) => Some (d3exp_tyer (d3e)) | None () => None ()
+) // end of [d3expopt_tyer]
+
+(* ****** ****** *)
+
 extern
 fun labd3explst_tyer (lxs: labd3explst): labhidexplst
 implement

@@ -96,6 +96,12 @@ fun p3atlst_tyer (p3ts: p3atlst): hipatlst
 
 fun d3exp_tyer (d3e: d3exp): hidexp
 fun d3explst_tyer (d3es: d3explst): hidexplst
+fun d3expopt_tyer (opt: d3expopt): hidexpopt
+
+(* ****** ****** *)
+
+fun d3lab_typer (d3l: d3lab): hilab
+fun d3lablst_typer (d3ls: d3lablst): hilablst
 
 (* ****** ****** *)
 

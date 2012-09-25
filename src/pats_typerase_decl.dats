@@ -69,6 +69,8 @@ extern
 fun d3ecl_tyer_valdecs (d3c0: d3ecl): hidecl
 extern
 fun d3ecl_tyer_valdecs_rec (d3c0: d3ecl): hidecl
+extern
+fun d3ecl_tyer_vardecs (d3c0: d3ecl): hidecl
 
 (* ****** ****** *)
 
@@ -94,6 +96,8 @@ case+
 //
 | D3Cvaldecs _ => d3ecl_tyer_valdecs (d3c0)
 | D3Cvaldecs_rec _ => d3ecl_tyer_valdecs_rec (d3c0)
+//
+| D3Cvardecs _ => d3ecl_tyer_vardecs (d3c0)
 //
 | D3Cstaload (
     filename, flag, loaded, filenv
@@ -272,6 +276,38 @@ val hvds = v3aldeclst_tyer (knd, v3ds)
 in
   hidecl_valdecs_rec (loc0, knd, hvds)
 end // end of [d3ecl_tyer_valdecs_rec]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun v3ardec_tyer
+  (v3d: v3ardec): hivardec = let
+  val loc = v3d.v3ardec_loc
+  val knd = v3d.v3ardec_knd
+  val d2v = v3d.v3ardec_dvar_ptr
+  val d2vw = v3d.v3ardec_dvar_view
+  val type = s2exp_tyer_shallow (loc, v3d.v3ardec_type)
+  val ini = d3expopt_tyer (v3d.v3ardec_ini)
+in
+  hivardec_make (loc, knd, d2v, d2vw, type, ini)
+end // end of [v3ardec_tyer]
+
+in // in of [local]
+
+implement
+d3ecl_tyer_vardecs (d3c0) = let
+//
+val loc0 = d3c0.d3ecl_loc
+val- D3Cvardecs (v3ds) = d3c0.d3ecl_node
+val hvds = list_map_fun (v3ds, v3ardec_tyer)
+val hvds = list_of_list_vt (hvds)
+//
+in
+  hidecl_vardecs (loc0, hvds)
+end // end of [d3ecl_tyer_vardecs]
 
 end // end of [local]
 

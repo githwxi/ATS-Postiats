@@ -173,6 +173,8 @@ hidecl_node =
   | HIDvaldecs of (valkind, hivaldeclst)
   | HIDvaldecs_rec of (valkind, hivaldeclst)
 //
+  | HIDvardecs of (hivardeclst) // variable declarations
+//
   | HIDstaload of (
       filename, int(*flag*), int(*loaded*), filenv
     ) // end of [HIDstaload]
@@ -232,6 +234,12 @@ and hidexp_node =
 
 and labhidexp = LABHIDEXP of (label, hidexp)
 
+and hilab_node =
+  | HILlab of (label, hisexp)
+  | HILind of (* array subscription *)
+      (hidexplstlst (*index*), hisexp (*elt*))
+// end of [hilab_node]
+
 where hidecl = '{
   hidecl_loc= location, hidecl_node= hidecl_node
 }
@@ -246,8 +254,17 @@ and hidexp = '{
 
 and hidexplst = List (hidexp)
 and hidexpopt = Option (hidexp)
+and hidexplstlst = List (hidexplst)
 
 and labhidexplst = List (labhidexp)
+
+(* ****** ****** *)
+
+and hilab = '{
+  hilab_loc= location, hilab_node= hilab_node
+} // end of [hilab]
+
+and hilablst = List (hilab)
 
 (* ****** ****** *)
 
@@ -301,6 +318,19 @@ and hivaldec = '{
 } // end of [hivaldec]
 
 and hivaldeclst = List (hivaldec)
+
+(* ****** ****** *)
+
+and hivardec = '{
+  hivardec_loc= location
+, hivardec_knd= int
+, hivardec_dvar_ptr= d2var
+, hivardec_dvar_view= d2var
+, hivardec_type= hisexp
+, hivardec_ini= hidexpopt
+} // end of [hivardec]
+
+and hivardeclst = List (hivardec)
 
 (* ****** ****** *)
 
@@ -446,6 +476,11 @@ fun hivaldec_make
   (loc: location, pat: hipat, def: hidexp): hivaldec
 // end of [hivaldec_make]
 
+fun hivardec_make (
+  loc: location, knd: int
+, d2v: d2var, d2vw: d2var, type: hisexp, ini: hidexpopt
+) : hivardec // end of [hivardec_make]
+
 (* ****** ****** *)
 
 fun hidecl_make_node
@@ -470,6 +505,8 @@ fun hidecl_valdecs
 fun hidecl_valdecs_rec
   (loc: location, knd: valkind, hvds: hivaldeclst): hidecl
 // end of [hidecl_valdecs_rec]
+
+fun hidecl_vardecs (loc: location, hvds: hivardeclst): hidecl
 
 (* ****** ****** *)
 

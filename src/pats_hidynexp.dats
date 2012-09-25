@@ -369,6 +369,18 @@ hivaldec_make
 , hivaldec_def= def
 } // end of [hivaldec_make]
 
+implement
+hivardec_make (
+  loc, knd, d2v, d2vw, type, ini
+) = '{
+  hivardec_loc= loc
+, hivardec_knd= knd
+, hivardec_dvar_ptr= d2v
+, hivardec_dvar_view= d2vw
+, hivardec_type= type
+, hivardec_ini= ini
+} // end of [hivardec_make]
+
 (* ****** ****** *)
 
 implement
@@ -414,6 +426,13 @@ implement
 hidecl_valdecs_rec (loc, knd, hvds) =
   hidecl_make_node (loc, HIDvaldecs_rec (knd, hvds))
 // end of [hidecl_valdecs_rec]
+
+(* ****** ****** *)
+
+implement
+hidecl_vardecs (loc, hvds) =
+  hidecl_make_node (loc, HIDvardecs (hvds))
+// end of [hidecl_vardecs]
 
 (* ****** ****** *)
 
