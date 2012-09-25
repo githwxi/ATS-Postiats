@@ -162,6 +162,7 @@ datatype
 hidecl_node =
   | HIDnone of ()
   | HIDlist of hideclist
+//
   | HIDsaspdec of s2aspdec
 //
   | HIDimpdec of (int(*knd*), hiimpdec)
@@ -215,16 +216,14 @@ and hidexp_node =
     // end of [HDErec]
   | HDEseq of (hidexplst) // sequencing
 //
+  | HDEassgn_var of (d2var(*left*), hilablst, hidexp(*right*))
+  | HDEassgn_ptr of (hidexp(*left*), hilablst, hidexp(*right*))
+//
   | HDEarrpsz of (* arrsize construction *)
       (hisexp(*elt*), hidexplst(*elt*), int(*asz*))
   | HDEarrinit of (* array initialization *)
       (hisexp(*elt*), hidexp(*asz*), hidexplst(*elt*))
-(*
-  | HDEassgn_ptr of (* assignment to a pointer with offsets *)
-      (hidexp, hilablst, hidexp)
-  | HDEassgn_var of (* assignment to a variable with ofsets *)
-      (d2var_t, hilablst, hidexp)
-*)
+//
   | HDElam of (hipatlst, hidexp) // HX: lam_dyn
 //
   | HDEtmpcst of (d2cst, t2mpmarglst)
@@ -343,6 +342,7 @@ fun fprint_hideclist : fprint_type (hideclist)
 fun fprint_hiimpdec : fprint_type (hiimpdec)
 fun fprint_hifundec : fprint_type (hifundec)
 fun fprint_hivaldec : fprint_type (hivaldec)
+fun fprint_hivardec : fprint_type (hivardec)
 
 (* ****** ****** *)
 
@@ -426,6 +426,18 @@ fun hidexp_rec (
 fun hidexp_seq
   (loc: location, hse: hisexp, hdes: hidexplst): hidexp
 // end of [hidexp_seq]
+
+(* ****** ****** *)
+
+fun hidexp_assgn_var (
+  loc: location
+, hse: hisexp, d2v_l: d2var, hils: hilablst, hde_r: hidexp
+) : hidexp // end of [hidexp_assgn_var]
+
+fun hidexp_assgn_ptr (
+  loc: location
+, hse: hisexp, hde_l: hidexp, hils: hilablst, hde_r: hidexp
+) : hidexp // end of [hidexp_assgn_ptr]
 
 (* ****** ****** *)
 

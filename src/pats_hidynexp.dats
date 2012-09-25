@@ -290,6 +290,20 @@ hidexp_seq
 (* ****** ****** *)
 
 implement
+hidexp_assgn_var
+  (loc, hse, d2v_l, hils, hde_r) =
+  hidexp_make_node (loc, hse, HDEassgn_var (d2v_l, hils, hde_r))
+// end of [hidexp_assgn_var]
+
+implement
+hidexp_assgn_ptr
+  (loc, hse, hde_l, hils, hde_r) =
+  hidexp_make_node (loc, hse, HDEassgn_ptr (hde_l, hils, hde_r))
+// end of [hidexp_assgn_ptr]
+
+(* ****** ****** *)
+
+implement
 hidexp_arrpsz
   (loc, hse, hse_elt, hdes, asz) =
   hidexp_make_node (loc, hse, HDEarrpsz (hse_elt, hdes, asz))

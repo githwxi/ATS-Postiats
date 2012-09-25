@@ -398,6 +398,24 @@ case+
     hidexp_seq (loc0, hse0, hdes)
   end // end of [D3Eseq]
 //
+| D3Eassgn_var (
+    d2v_l, d3ls, d3e_r
+  ) => let
+    val hils = d3lablst_tyer (d3ls)
+    val hde_r = d3exp_tyer (d3e_r)
+  in
+    hidexp_assgn_var (loc0, hse0, d2v_l, hils, hde_r)
+  end // end of [D3Eassgn_var]
+| D3Eassgn_ptr (
+    d3e_l, d3ls, d3e_r
+  ) => let
+    val hde_l = d3exp_tyer (d3e_l)
+    val hils = d3lablst_tyer (d3ls)
+    val hde_r = d3exp_tyer (d3e_r)
+  in
+    hidexp_assgn_ptr (loc0, hse0, hde_l, hils, hde_r)
+  end // end of [D3Eassgn_var]
+//
 | D3Earrpsz (
     s2e_elt, d3es_elt, asz
   ) => let

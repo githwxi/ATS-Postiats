@@ -60,7 +60,7 @@ staload "pats_hidynexp.sats"
 implement
 fprint_hipat
   (out, x) = let
-   macdef prstr (s) = fprint_string (out, ,(s))
+  macdef prstr (s) = fprint_string (out, ,(s))
 in
 //
 case+ x.hipat_node of
@@ -125,6 +125,8 @@ case+ x.hipat_node of
     val () = $SYN.fprint_f0loat (out, tok)
     val () = prstr ")"
   }
+//
+| HIPempty () => prstr "HIPempty()"
 //
 | HIPrec (
     knd, lhips, hse_rec
@@ -291,6 +293,27 @@ case+
     val () = prstr ")"
   }
 //
+| HDEassgn_var (
+    d2v_l, hils, hde_r
+  ) => {
+    val () = prstr "HDEassgn_var("
+    val () = fprint_d2var (out, d2v_l)
+    val () = prstr "[...]"
+    val () = prstr " := "
+    val () = fprint_hidexp (out, hde_r)
+    val () = prstr ")"
+  }
+| HDEassgn_ptr (
+    hde_l, hils, hde_r
+  ) => {
+    val () = prstr "HDEassgn_ptr("
+    val () = fprint_hidexp (out, hde_l)
+    val () = prstr "[...]"
+    val () = prstr " := "
+    val () = fprint_hidexp (out, hde_r)
+    val () = prstr ")"
+  }
+//
 | HDEarrpsz (
     hse_elt, hdes_elt, asz
   ) => {
@@ -390,6 +413,13 @@ in
 //
 case+ hid.hidecl_node of
 //
+| HIDnone () => prstr "HIDnone()"
+| HIDlist (hids) => {
+    val () = prstr "HIDlist(\n"
+    val () = $UT.fprintlst (out, hids, "\n", fprint_hidecl)
+    val () = prstr "\n)"
+  }
+//
 | HIDimpdec (knd, himpdec) => {
     val () = prstr "HIDimpdec(\n"
     val () = fprint_hiimpdec (out, himpdec)
@@ -413,6 +443,11 @@ case+ hid.hidecl_node of
     val () = $UT.fprintlst (out, hvds, "\n", fprint_hivaldec)
     val () = prstr "\n)"
   } // end of [HIDvaldec_rec]
+| HIDvardecs (hvds) => {
+    val () = prstr "HIDvardecs(\n"
+    val () = $UT.fprintlst (out, hvds, "\n", fprint_hivardec)
+    val () = prstr "\n)"
+  } // end of [HIDvardec]
 //
 | HIDstaload
     (fname, _, _, _) => {
@@ -474,6 +509,19 @@ fprint_hivaldec
   val () = fprint_string (out, " = ")
   val () = fprint_hidexp (out, hvd.hivaldec_def)
 } // end of [fprint_hivaldec]
+
+implement
+fprint_hivardec
+  (out, hvd) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+  val () = fprint_d2var (out, hvd.hivardec_dvar_ptr)
+  val () = prstr " : "
+  val () = fprint_hisexp (out, hvd.hivardec_type)
+  val () = prstr " = "
+  val () = $UT.fprintopt (out, hvd.hivardec_ini, fprint_hidexp)
+in
+  // nothing
+end // end of [fprint_hivardec]
 
 (* ****** ****** *)
 
