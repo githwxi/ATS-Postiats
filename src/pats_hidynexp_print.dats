@@ -176,6 +176,33 @@ fprint_labhipatlst
 
 (* ****** ****** *)
 
+implement
+fprint_hilab
+  (out, hil) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+//
+case+ hil.hilab_node of
+| HILlab (lab) => {
+    val () = prstr "HILlab("
+    val () = $LAB.fprint_label (out, lab)
+    val () = prstr ")"
+  } // end of [HILlab]
+| HILind (ind) => {
+    val () = prstr "HILind("
+    val () = $UT.fprintlst (out, ind, "; ", fprint_hidexplst)
+    val () = prstr ")"
+  } // end of [HILind]
+//
+end // end of [fprint_hilab]
+
+implement
+fprint_hilablst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_hilab)
+// end of [fprint_hilablst]
+
+(* ****** ****** *)
+
 extern
 fun fprint_higmat : fprint_type (higmat)
 extern
@@ -293,12 +320,40 @@ case+
     val () = prstr ")"
   }
 //
+| HDEselab (hde, hils) => {
+    val () = prstr "HDEselab("
+    val () = fprint_hidexp (out, hde)
+    val () = prstr "["
+    val () = fprint_hilablst (out, hils)
+    val () = prstr "]"
+    val () = prstr ")"
+  }
+//
+| HDEsel_var (d2v, hils) => {
+    val () = prstr "HDEsel_var("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr "["
+    val () = fprint_hilablst (out, hils)
+    val () = prstr "]"
+    val () = prstr ")"
+  }
+| HDEsel_ptr (hde, hils) => {
+    val () = prstr "HDEsel_ptr("
+    val () = fprint_hidexp (out, hde)
+    val () = prstr "["
+    val () = fprint_hilablst (out, hils)
+    val () = prstr "]"
+    val () = prstr ")"
+  }
+//
 | HDEassgn_var (
     d2v_l, hils, hde_r
   ) => {
     val () = prstr "HDEassgn_var("
     val () = fprint_d2var (out, d2v_l)
-    val () = prstr "[...]"
+    val () = prstr "["
+    val () = fprint_hilablst (out, hils)
+    val () = prstr "]"
     val () = prstr " := "
     val () = fprint_hidexp (out, hde_r)
     val () = prstr ")"

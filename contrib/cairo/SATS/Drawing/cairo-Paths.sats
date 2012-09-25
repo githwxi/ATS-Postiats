@@ -145,7 +145,7 @@ void                cairo_glyph_path                    (cairo_t *cr,
                                                          int num_glyphs);
 */
 fun cairo_glyph_path {n:int} (
-  ctx: !xr1, glyphs: !arrayref (cairo_glyph_t, n), n: int n
+  ctx: !xr1, glyphs: arrayref (cairo_glyph_t, n), n: int n
 ) : void = "mac#atsctrb_cairo_glyph_path" // end of [cairo_glyph_path]
 
 (* ****** ****** *)

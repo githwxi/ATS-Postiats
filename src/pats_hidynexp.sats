@@ -216,8 +216,17 @@ and hidexp_node =
     // end of [HDErec]
   | HDEseq of (hidexplst) // sequencing
 //
-  | HDEassgn_var of (d2var(*left*), hilablst, hidexp(*right*))
-  | HDEassgn_ptr of (hidexp(*left*), hilablst, hidexp(*right*))
+  | HDEselab of (hidexp, hilablst) // record/tuple field selection
+//
+  | HDEsel_var of (* path selection for var *)
+      (d2var, hilablst)
+  | HDEsel_ptr of (* path selection for ptr *)
+      (hidexp, hilablst)
+//
+  | HDEassgn_var of
+      (d2var(*left*), hilablst, hidexp(*right*))
+  | HDEassgn_ptr of
+      (hidexp(*left*), hilablst, hidexp(*right*))
 //
   | HDEarrpsz of (* arrsize construction *)
       (hisexp(*elt*), hidexplst(*elt*), int(*asz*))
@@ -336,6 +345,9 @@ fun fprint_hidexp : fprint_type (hidexp)
 fun fprint_hidexplst : fprint_type (hidexplst)
 fun fprint_labhidexplst : fprint_type (labhidexplst)
 
+fun fprint_hilab : fprint_type (hilab)
+fun fprint_hilablst : fprint_type (hilablst)
+
 fun fprint_hidecl : fprint_type (hidecl)
 fun fprint_hideclist : fprint_type (hideclist)
 
@@ -426,6 +438,25 @@ fun hidexp_rec (
 fun hidexp_seq
   (loc: location, hse: hisexp, hdes: hidexplst): hidexp
 // end of [hidexp_seq]
+
+(* ****** ****** *)
+
+fun hidexp_selab (
+  loc: location
+, hse: hisexp, hde: hidexp, hils: hilablst
+) : hidexp // end of [hidexp_selab]
+
+(* ****** ****** *)
+
+fun hidexp_sel_var (
+  loc: location
+, hse: hisexp, d2v: d2var, hils: hilablst
+) : hidexp // end of [hidexp_sel_var]
+
+fun hidexp_sel_ptr (
+  loc: location
+, hse: hisexp, hde: hidexp, hils: hilablst
+) : hidexp // end of [hidexp_sel_ptr]
 
 (* ****** ****** *)
 

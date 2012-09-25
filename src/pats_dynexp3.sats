@@ -299,9 +299,20 @@ and d3exp_node =
       (int(*recknd*), int(*npf*), labd3explst)
   | D3Eseq of (d3explst) // sequencing
 //
+  | D3Eselab of (d3exp, d3lablst) // record/tuple field selection
+//
+  | D3Eptrof_var of (d2var) // taking the address of
+  | D3Eptrof_ptrsel of (d3exp, d3lablst) // taking the address of
+  | D3Eviewat of (d3exp, d3lablst) // taking the atview of
+//
+  | D3Erefarg of
+      // refval=1/0: call-by-ref/val argument
+      // freeknd=1/0: to be freed or not after call
+      (int(*refval*), int(*freeknd*), d3exp) 
+//
   | D3Esel_var of (d2var, d3lablst) // call-by-val/ref
-  | D3Esel_ptr of (d3exp, d3lablst) // pointed record/tuple selection
-  | D3Esel_ref of (d3exp, d3lablst) // referenced record/tuple selection
+  | D3Esel_ptr of (d3exp, d3lablst) // pointed record/tuple field selection
+  | D3Esel_ref of (d3exp, d3lablst) // referenced record/tuple field selection
 //
   | D3Eassgn_var of (d2var(*left*), d3lablst, d3exp(*right*))
   | D3Eassgn_ptr of (d3exp(*left*), d3lablst, d3exp(*right*))
@@ -311,10 +322,7 @@ and d3exp_node =
   | D3Exchng_ptr of (d3exp(*left*), d3lablst, d3exp(*right*))
   | D3Exchng_ref of (d3exp(*left*), d3lablst, d3exp(*right*))
 //
-  | D3Erefarg of
-      // refval=1/0: call-by-ref/val argument
-      // freeknd=1/0: to be freed or not after call
-      (int(*refval*), int(*freeknd*), d3exp) 
+  | D3Eviewat_assgn of (d3exp, d3lablst, d3exp) // returing the atview of
 //
   | D3Earrpsz of
       (s2exp(*elt*), d3explst, int(*size*))
@@ -324,14 +332,6 @@ and d3exp_node =
   | D3Eraise of (d3exp) // HX: raised exception
 //
   | D3Eeffmask of (s2eff, d3exp) // $effmask(s2eff, d3exp)
-//
-  | D3Eselab of (d3exp, d3lablst) // record/tuple field selection
-//
-  | D3Eptrof_var of (d2var) // taking the address of
-  | D3Eptrof_ptrsel of (d3exp, d3lablst) // taking the address of
-//
-  | D3Eviewat of (d3exp, d3lablst) // taking the atview of
-  | D3Eviewat_assgn of (d3exp, d3lablst, d3exp) // returing the atview of
 //
   | D3Elam_dyn of // dynamic abstraction
       (int(*lin*), int(*npf*), p3atlst, d3exp)
