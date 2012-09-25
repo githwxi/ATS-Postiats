@@ -584,12 +584,45 @@ end // end of [labd3explst_npf_tyer]
 (* ****** ****** *)
 
 implement
+d3lab_tyer
+  (d3l) = let
+//
+val loc0 = d3l.d3lab_loc
+//
+in
+//
+case+ d3l.d3lab_node of
+| D3LABlab (l) =>
+    hilab_lab (loc0, l)
+  // end of [D3LABlab]
+| D3LABind (d3ess) => let
+    val hdess =
+      list_map_fun (d3ess, d3explst_tyer)
+    val hdess = list_of_list_vt (hdess)
+  in
+    hilab_ind (loc0, hdess)
+  end // end of [D3LABind]
+//
+end // end of [d3lab_tyer]
+
+implement
+d3lablst_tyer
+  (d3ls) = let
+  val hils =
+    list_map_fun (d3ls, d3lab_tyer)
+  // end of [val]
+in
+  list_of_list_vt (hils)
+end // end of [d3lablst_tyer]
+
+(* ****** ****** *)
+
+implement
 d3exp_tyer_cst
   (loc0, hse0, d2c) = let
 in
   hidexp_cst (loc0, hse0, d2c)
 end // end of [d3exp_tyer_cst]
-
 
 (* ****** ****** *)
 

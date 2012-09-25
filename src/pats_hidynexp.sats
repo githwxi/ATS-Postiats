@@ -235,9 +235,8 @@ and hidexp_node =
 and labhidexp = LABHIDEXP of (label, hidexp)
 
 and hilab_node =
-  | HILlab of (label, hisexp)
-  | HILind of (* array subscription *)
-      (hidexplstlst (*index*), hisexp (*elt*))
+  | HILlab of (label) // field selection
+  | HILind of (hidexplstlst (*index*)) // array subscription
 // end of [hilab_node]
 
 where hidecl = '{
@@ -449,6 +448,11 @@ fun hidexp_tmpcst (
 fun hidexp_tmpvar (
   loc: location, hse: hisexp, d2v: d2var, t2mas: t2mpmarglst
 ) : hidexp // end of [hidexp_tmpvar]
+
+(* ****** ****** *)
+
+fun hilab_lab (loc: location, lab: label): hilab
+fun hilab_ind (loc: location, ind: hidexplstlst): hilab
 
 (* ****** ****** *)
 

@@ -320,6 +320,17 @@ hidexp_tmpvar
 (* ****** ****** *)
 
 implement
+hilab_lab (loc, lab) = '{
+  hilab_loc= loc, hilab_node = HILlab (lab)
+}
+implement
+hilab_ind (loc, ind) = '{
+  hilab_loc= loc, hilab_node = HILind (ind)
+}
+
+(* ****** ****** *)
+
+implement
 higmat_make
   (loc, ghde, ghip) = '{
   higmat_loc= loc

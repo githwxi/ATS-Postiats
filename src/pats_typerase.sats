@@ -100,8 +100,8 @@ fun d3expopt_tyer (opt: d3expopt): hidexpopt
 
 (* ****** ****** *)
 
-fun d3lab_typer (d3l: d3lab): hilab
-fun d3lablst_typer (d3ls: d3lablst): hilablst
+fun d3lab_tyer (d3l: d3lab): hilab
+fun d3lablst_tyer (d3ls: d3lablst): hilablst
 
 (* ****** ****** *)
 
