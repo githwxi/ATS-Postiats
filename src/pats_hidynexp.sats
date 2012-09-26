@@ -214,6 +214,9 @@ and hidexp_node =
   | HDEif of (
       hidexp(*cond*), hidexp(*then*), hidexp(*else*)
     ) // end f [HDEif]
+  | HDEsif of (
+      s2exp(*cond*), hidexp(*then*), hidexp(*else*)
+    ) // end of [HDEsif]
 //
   | HDEcase of (
       caskind, hidexplst(*values*), hiclaulst(*clauses*)
@@ -450,6 +453,11 @@ fun hidexp_if (
   loc: location
 , hse: hisexp, _cond: hidexp, _then: hidexp, _else: hidexp
 ) : hidexp // end of [hidexp_if]
+
+fun hidexp_sif (
+  loc: location
+, hse: hisexp, _cond: s2exp, _then: hidexp, _else: hidexp
+) : hidexp // end of [hidexp_sif]
 
 (* ****** ****** *)
 

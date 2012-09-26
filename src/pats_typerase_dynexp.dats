@@ -340,6 +340,13 @@ case+
     hidexp_con (loc0, hse0, d2c, hdes)
   end // end of [D3Econ]
 //
+| D3Etmpcst (
+    d2c, t2mas
+  ) => d3exp_tyer_tmpcst (loc0, hse0, d2c, t2mas)
+| D3Etmpvar (
+    d2v, t2mas
+  ) => d3exp_tyer_tmpvar (loc0, hse0, d2v, t2mas)
+//
 | D3Efoldat _ => hidexp_foldat (loc0, hse0)
 | D3Efreeat (d3e) => let
     val hde = d3exp_tyer (d3e) in hidexp_freeat (loc0, hse0, hde)
@@ -367,20 +374,28 @@ case+
 | D3Eif (
     _cond, _then, _else
   ) => let
-    val hse_cond = d3exp_tyer (_cond)
-    val hse_then = d3exp_tyer (_then)
-    val hse_else = d3exp_tyer (_else)
+    val hde_cond = d3exp_tyer (_cond)
+    val hde_then = d3exp_tyer (_then)
+    val hde_else = d3exp_tyer (_else)
   in
-    hidexp_if (loc0, hse0, hse_cond, hse_then, hse_else)
+    hidexp_if (loc0, hse0, hde_cond, hde_then, hde_else)
   end // end of [D3Eif]
+| D3Esif (
+    s2e_cond, _then, _else
+  ) => let
+    val hde_then = d3exp_tyer (_then)
+    val hde_else = d3exp_tyer (_else)
+  in
+    hidexp_sif (loc0, hse0, s2e_cond, hde_then, hde_else)
+  end // end of [D3Esif]
 //
 | D3Ecase (
     knd, d3es, c3ls
   ) => let
-    val hses = d3explst_tyer (d3es)
+    val hdes = d3explst_tyer (d3es)
     val hcls = c3laulst_tyer (c3ls)
   in
-    hidexp_case (loc0, hse0, knd, hses, hcls)
+    hidexp_case (loc0, hse0, knd, hdes, hcls)
   end // end of [D3Ecase]
 //
 | D3Elst (
@@ -471,6 +486,8 @@ case+
     hidexp_assgn_ptr (loc0, hse0, hde_l, hils, hde_r)
   end // end of [D3Eassgn_ptr]
 //
+| D3Eviewat_assgn _ => hidexp_empty (loc0, hse0)
+//
 | D3Earrpsz (
     s2e_elt, d3es_elt, asz
   ) => let
@@ -506,13 +523,6 @@ case+
     hde_body
   end // end of [D3Elam_sta]
 | D3Elam_met (_(*met*), d3e) => d3exp_tyer (d3e)
-//
-| D3Etmpcst (
-    d2c, t2mas
-  ) => d3exp_tyer_tmpcst (loc0, hse0, d2c, t2mas)
-| D3Etmpvar (
-    d2v, t2mas
-  ) => d3exp_tyer_tmpvar (loc0, hse0, d2v, t2mas)
 //
 | D3Eann_type (d3e, _(*ann*)) => d3exp_tyer (d3e)
 //

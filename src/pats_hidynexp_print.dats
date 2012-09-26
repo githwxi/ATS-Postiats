@@ -310,6 +310,17 @@ case+
     val () = fprint_hidexp (out, _else)
     val () = prstr ")"
   } // end of [HDEif]
+| HDEsif (
+    _cond, _then, _else
+  ) => {
+    val () = prstr "HDEsif("
+    val () = fpprint_s2exp (out, _cond)
+    val () = prstr "; "
+    val () = fprint_hidexp (out, _then)
+    val () = prstr "; "
+    val () = fprint_hidexp (out, _else)
+    val () = prstr ")"
+  } // end of [HDEsif]
 //
 | HDEcase (
     knd, hdes, hcls

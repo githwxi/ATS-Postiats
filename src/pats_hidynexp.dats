@@ -296,6 +296,12 @@ hidexp_if
   hidexp_make_node (loc, hse, HDEif (_cond, _then, _else))
 // end of [hidexp_if]
 
+implement
+hidexp_sif
+  (loc, hse, _cond, _then, _else) =
+  hidexp_make_node (loc, hse, HDEsif (_cond, _then, _else))
+// end of [hidexp_sif]
+
 (* ****** ****** *)
 
 implement
