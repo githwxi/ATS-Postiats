@@ -329,6 +329,7 @@ case+
 | D3Ef0loat (tok) =>
     hidexp_f0loat (loc0, hse0, tok)
 //
+| D3Eempty () => hidexp_empty (loc0, hse0)
 | D3Eextval (name) => hidexp_extval (loc0, hse0, name)
 //
 | D3Elet (d3cs, d3e_scope) => let

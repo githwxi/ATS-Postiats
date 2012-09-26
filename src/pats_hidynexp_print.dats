@@ -257,6 +257,8 @@ case+
     val () = prstr ")"
   }
 //
+| HDEempty () => prstr "HDEempty()"
+//
 | HDEextval (name) => {
     val () = prstr "HDEextval("
     val () = fprint_string (out, name)
@@ -363,7 +365,9 @@ case+
   ) => {
     val () = prstr "HDEassgn_ptr("
     val () = fprint_hidexp (out, hde_l)
-    val () = prstr "[...]"
+    val () = prstr "["
+    val () = fprint_hilablst (out, hils)
+    val () = prstr "]"
     val () = prstr " := "
     val () = fprint_hidexp (out, hde_r)
     val () = prstr ")"

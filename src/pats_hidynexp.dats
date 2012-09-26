@@ -237,6 +237,11 @@ hidexp_f0loat
 (* ****** ****** *)
 
 implement
+hidexp_empty (loc, hse) = 
+  hidexp_make_node (loc, hse, HDEempty ())
+// end of [hidexp_empty]
+
+implement
 hidexp_extval
   (loc, hse, name) =
   hidexp_make_node (loc, hse, HDEextval (name))
@@ -450,8 +455,8 @@ hidecl_list (loc, hids) =
 
 implement
 hidecl_impdec
-  (loc, knd, himpdec) =
-  hidecl_make_node (loc, HIDimpdec (knd, himpdec))
+  (loc, knd, himp) =
+  hidecl_make_node (loc, HIDimpdec (knd, himp))
 // end of [hidecl_impdec]
 
 (* ****** ****** *)

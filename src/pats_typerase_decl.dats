@@ -153,9 +153,9 @@ if knd = 0 then let
   val imparg = impdec.i3mpdec_imparg
   val tmparg = impdec.i3mpdec_tmparg
   val hse_def = d3exp_tyer (impdec.i3mpdec_def)
-  val himpdec = hiimpdec_make (loc, d2c, imparg, tmparg, hse_def)
+  val himp = hiimpdec_make (loc, d2c, imparg, tmparg, hse_def)
 in
-  hidecl_impdec (loc0, knd(*0*), himpdec)
+  hidecl_impdec (loc0, knd(*0*), himp)
 end else
   hidecl_none (loc0)
 // end of [if]

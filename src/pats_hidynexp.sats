@@ -195,6 +195,8 @@ and hidexp_node =
   | HDEi0nt of i0nt // integer constants
   | HDEf0loat of f0loat // floating point constants
 //
+  | HDEempty of () // for the void value
+//
   | HDEextval of (string(*name*)) // external values
 //
   | HDElet of (hideclist, hidexp)
@@ -394,8 +396,12 @@ fun hidexp_f0loat
 
 (* ****** ****** *)
 
+fun hidexp_empty
+  (loc: location, hse: hisexp): hidexp
+
 fun hidexp_extval
   (loc: location, hse: hisexp, name: string): hidexp
+// end of [hidexp_extval]
 
 (* ****** ****** *)
 
@@ -534,11 +540,13 @@ fun hidecl_make_node
   (loc: location, node: hidecl_node): hidecl
 // end of [hidecl_make_node]
 
+(* ****** ****** *)
+
 fun hidecl_none (loc: location): hidecl
 fun hidecl_list (loc: location, hids: hideclist): hidecl
 
 fun hidecl_impdec
-  (loc: location, knd: int, himpdec: hiimpdec): hidecl
+  (loc: location, knd: int, himp: hiimpdec): hidecl
 // end of [hidecl_impdec]
 
 fun hidecl_fundecs (
