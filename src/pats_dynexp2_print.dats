@@ -971,21 +971,21 @@ case+ x.d2ecl_node of
     val () = prstr ")"
   } // end of [D2Coverload]
 //
-| D2Cdatdec (knd, s2cs) => {
-    val () = prstr "D2Cdatdec(\n"
+| D2Cdatdecs (knd, s2cs) => {
+    val () = prstr "D2Cdatdecs("
     val () = fprint_int (out, knd)
     val () = prstr "; "
     val () = $UT.fprintlst (out, s2cs, ", ", fprint_s2cst)
-    val () = prstr "\n)"
-  } // end of [D2Cdatdec]
+    val () = prstr ")"
+  } // end of [D2Cdatdecs]
 //
-| D2Cdcstdec (knd, d2cs) => {
-    val () = prstr "D2Cdcstdec("
+| D2Cdcstdecs (knd, d2cs) => {
+    val () = prstr "D2Cdcstdecs("
     val () = fprint_dcstkind (out, knd)
     val () = prstr "; "
     val () = $UT.fprintlst (out, d2cs, ", ", fprint_d2cst)
     val () = prstr ")"
-  } // end of [D2Cdcstdec]
+  } // end of [D2Cdcstdecs]
 //
 | D2Cfundecs _ => {
     val () = prstr "D2Cfundecs(\n"

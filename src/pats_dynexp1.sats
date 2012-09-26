@@ -264,7 +264,7 @@ datatype d1ecl_node =
   | D1Cmacdefs of (int(*knd*), bool(*isrec*), m1acdeflst)
   | D1Cvaldecs of (valkind, bool(*isrec*), v1aldeclst) // val declarations
   | D1Cfundecs of (funkind, q1marglst, f1undeclst) // function declaration
-  | D1Cvardecs of v1ardeclst (* variable declaration *)
+  | D1Cvardecs of (int(*knd*), v1ardeclst) (* variable declaration *)
 //
   | D1Cimpdec of (int(*knd*), i1mparg, i1mpdec) // knd=0/1: implement/primplmnt
 //
@@ -892,7 +892,7 @@ fun d1ecl_extcode (
 ) : d1ecl // end of [d1ecl_extcode]
 
 fun d1ecl_macdefs (
-  loc: location, knd: int, isrec: bool, ds: m1acdeflst
+  loc: location, knd: int, isrec: bool, m1ds: m1acdeflst
 ) : d1ecl // end of [d1ecl_macdefs]
 
 fun d1ecl_impdec (
@@ -900,14 +900,14 @@ fun d1ecl_impdec (
 ) : d1ecl // end of [d1ecl_impdec]
 
 fun d1ecl_fundecs (
-  loc: location, knd: funkind, qarg: q1marglst, ds: f1undeclst
+  loc: location, knd: funkind, qarg: q1marglst, f1ds: f1undeclst
 ) : d1ecl // end of [d1ecl_fundecs]
 
 fun d1ecl_valdecs (
-  loc: location, knd: valkind, isrec: bool, ds: v1aldeclst
+  loc: location, knd: valkind, isrec: bool, v1ds: v1aldeclst
 ) : d1ecl // end of [d1ecl_valdecs]
 
-fun d1ecl_vardecs (loc: location, ds: v1ardeclst): d1ecl
+fun d1ecl_vardecs (loc: location, knd: int, v1ds: v1ardeclst): d1ecl
 
 (* ****** ****** *)
 

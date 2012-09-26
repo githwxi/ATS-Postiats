@@ -1255,7 +1255,7 @@ d0ecl_node =
   | D0Cfundecs of (funkind, q0marglst, f0undeclst)
   | D0Cvaldecs of // value declarations
       (valkind, bool(*isrec*), v0aldeclst)
-  | D0Cvardecs of v0ardeclst // variable declarations
+  | D0Cvardecs of (int(*knd*), v0ardeclst) // variable declarations
 //
   | D0Cimpdec of
       (int(*knd*), i0mparg, i0mpdec) // knd=0/1: implement/primplmnt
@@ -1901,7 +1901,7 @@ fun d0ecl_fundecs (
 fun d0ecl_valdecs (
   knd: valkind, isrec: bool, tok: token, ds: v0aldeclst
 ) : d0ecl // end of [d0ecl_valdecs]
-fun d0ecl_vardecs (tok: token, ds: v0ardeclst): d0ecl
+fun d0ecl_vardecs (knd: int, tok: token, ds: v0ardeclst): d0ecl
 //
 fun d0ecl_staload_none (tok: token, tok2: token): d0ecl
 fun d0ecl_staload_some (tok: token, ent2: i0de, ent4: token): d0ecl

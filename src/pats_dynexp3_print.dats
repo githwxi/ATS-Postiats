@@ -248,17 +248,6 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
-| D3Efoldat (d3e) => {
-    val () = prstr "D3Efoldat("
-    val () = fprint_d3exp (out, d3e)
-    val () = prstr ")"
-  }
-| D3Efreeat (d3e) => {
-    val () = prstr "D3Efreeat("
-    val () = fprint_d3exp (out, d3e)
-    val () = prstr ")"
-  }
-//
 | D3Etmpcst (d2c, _) => {
     val () = prstr "D3Etmpcst("
     val () = fprint_d2cst (out, d2c)
@@ -271,6 +260,17 @@ case+ d3e0.d3exp_node of
     val () = fprint_d2var (out, d2v)
     val () = prstr "; "
     val () = prstr "..."
+    val () = prstr ")"
+  }
+//
+| D3Efoldat (d3e) => {
+    val () = prstr "D3Efoldat("
+    val () = fprint_d3exp (out, d3e)
+    val () = prstr ")"
+  }
+| D3Efreeat (d3e) => {
+    val () = prstr "D3Efreeat("
+    val () = fprint_d3exp (out, d3e)
     val () = prstr ")"
   }
 //

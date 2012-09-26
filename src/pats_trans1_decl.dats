@@ -843,10 +843,10 @@ case+ d0c0.d0ecl_node of
   in
     d1ecl_valdecs (loc0, knd, isrec, d1cs)
   end // end of [D0Cvaldecs]
-| D0Cvardecs (d0cs) => let
+| D0Cvardecs (knd, d0cs) => let
     val d1cs = l2l (list_map_fun (d0cs, v0ardec_tr))
   in
-    d1ecl_vardecs (loc0, d1cs)
+    d1ecl_vardecs (loc0, knd, d1cs)
   end // end of [D0Cvardecs]
 //
 | D0Cimpdec (knd, i0mparg, d0c) => let

@@ -159,7 +159,7 @@ token_node =
   | T_TYPEDEF of
       (int) // typedef, propdef, viewdef, viewtypedef
   | T_VAL of (valkind) // val, val+, val-, prval
-  | T_VAR of () // var
+  | T_VAR of (int(*knd*)) // knd = 0/1: var/prvar
   | T_WHEN of () // when
   | T_WHERE of () // where
   | T_WHILE of () // while
@@ -372,6 +372,9 @@ val VAL : tnode
 val VAL_pos : tnode
 val VAL_neg : tnode
 val PRVAL  : tnode
+
+val VAR : tnode
+val PRVAR  : tnode
 
 val WHILE : tnode
 val WHILESTAR : tnode

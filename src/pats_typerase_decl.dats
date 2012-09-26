@@ -90,6 +90,8 @@ case+
     val hids = d3eclist_tyer (d3cs) in hidecl_list (loc0, hids)
   end // end of [D3Clist]
 //
+| D3Cdatdecs (knd, s2cs) => hidecl_datdecs (loc0, knd, s2cs)
+//
 | D3Cimpdec _ => d3ecl_tyer_impdec (d3c0)
 //
 | D3Cfundecs _ => d3ecl_tyer_fundecs (d3c0)

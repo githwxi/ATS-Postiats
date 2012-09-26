@@ -222,9 +222,9 @@ d3ecl_node =
 //
   | D3Cextcode of (int(*knd*), int(*pos*), string(*code*))  
 //
-  | D3Cdatdec of (int(*knd*), s2cstlst)
-  | D3Cexndec of (d2conlst) // HX: exception decls
-  | D3Cdcstdec of (dcstkind, d2cstlst)
+  | D3Cdatdecs of (int(*knd*), s2cstlst)
+  | D3Cexndecs of (d2conlst) // HX: exception decls
+  | D3Cdcstdecs of (dcstkind, d2cstlst)
 //
   | D3Cimpdec of (
       int(*knd*), i3mpdec // knd=0/1 : implement/primplmnt
@@ -266,11 +266,11 @@ and d3exp_node =
 //
   | D3Econ of (d2con, int(*npf*), d3explst(*arg*))
 //
-  | D3Efoldat of (d3exp)
-  | D3Efreeat of (d3exp)
-//
   | D3Etmpcst of (d2cst, t2mpmarglst)
   | D3Etmpvar of (d2var, t2mpmarglst)
+//
+  | D3Efoldat of (d3exp)
+  | D3Efreeat of (d3exp)
 //
   | D3Eitem of d2itm // HX: for temporary use
 //
@@ -854,19 +854,19 @@ fun d3ecl_extcode
 
 (* ****** ****** *)
 
-fun d3ecl_datdec
+fun d3ecl_datdecs
   (loc: location, knd: int, s2cs: s2cstlst): d3ecl
-// end of [d3ecl_datdec]
+// end of [d3ecl_datdecs]
 
 (* ****** ****** *)
 
-fun d3ecl_exndec (loc: location, d2cs: d2conlst): d3ecl
+fun d3ecl_exndecs (loc: location, d2cs: d2conlst): d3ecl
 
 (* ****** ****** *)
 
-fun d3ecl_dcstdec
+fun d3ecl_dcstdecs
   (loc: location, knd: dcstkind, d2cs: d2cstlst): d3ecl
-// end of [d3ecl_dcstdec]
+// end of [d3ecl_dcstdecs]
 
 (* ****** ****** *)
 

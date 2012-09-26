@@ -265,6 +265,20 @@ hidexp_con
 (* ****** ****** *)
 
 implement
+hidexp_tmpcst
+  (loc, hse, d2c, t2mas) =
+  hidexp_make_node (loc, hse, HDEtmpcst (d2c, t2mas))
+// end of [hidexp_tmpcst]
+
+implement
+hidexp_tmpvar
+  (loc, hse, d2v, t2mas) =
+  hidexp_make_node (loc, hse, HDEtmpvar (d2v, t2mas))
+// end of [hidexp_tmpvar]
+
+(* ****** ****** *)
+
+implement
 hidexp_foldat (loc, hse) =
   hidexp_make_node (loc, hse, HDEfoldat ())
 
@@ -399,16 +413,16 @@ hidexp_lam
 (* ****** ****** *)
 
 implement
-hidexp_tmpcst
-  (loc, hse, d2c, t2mas) =
-  hidexp_make_node (loc, hse, HDEtmpcst (d2c, t2mas))
-// end of [hidexp_tmpcst]
+hidexp_loop
+  (loc, hse, init, test, post, body) =
+  hidexp_make_node (loc, hse, HDEloop (init, test, post, body))
+// end of [hidexp_loop]
 
 implement
-hidexp_tmpvar
-  (loc, hse, d2v, t2mas) =
-  hidexp_make_node (loc, hse, HDEtmpvar (d2v, t2mas))
-// end of [hidexp_tmpvar]
+hidexp_loopexn
+  (loc, hse, knd) =
+  hidexp_make_node (loc, hse, HDEloopexn (knd))
+// end of [hidexp_loopexn]
 
 (* ****** ****** *)
 
@@ -510,6 +524,14 @@ hidecl_impdec
   (loc, knd, himp) =
   hidecl_make_node (loc, HIDimpdec (knd, himp))
 // end of [hidecl_impdec]
+
+(* ****** ****** *)
+
+implement
+hidecl_datdecs
+  (loc, knd, s2cs) =
+  hidecl_make_node (loc, HIDdatdecs (knd, s2cs))
+// end of [hidecl_datdecs]
 
 (* ****** ****** *)
 

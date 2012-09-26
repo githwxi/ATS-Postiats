@@ -133,7 +133,7 @@ fprint_token
   | T_TYPE (x) => fprintf (out, "TYPE(%i)", @(x))
   | T_TYPEDEF (x) => fprintf (out, "TYPEDEF(%i)", @(x))
   | T_VAL (x) => fprintf (out, "VAL(...)", @())
-  | T_VAR () => fprintf (out, "VAR()", @())
+  | T_VAR (x) => fprintf (out, "VAR(%i)", @(x))
   | T_WHEN () => fprintf (out, "WHEN()", @())
   | T_WHERE () => fprintf (out, "WHERE()", @())
   | T_WHILE () => fprintf (out, "WHILE()", @())

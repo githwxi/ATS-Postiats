@@ -145,12 +145,12 @@ case+ d2c0.d2ecl_node of
     knd, pos, code
   ) => d3ecl_extcode (loc0, knd, pos, code)
 //
-| D2Cdatdec
-    (knd, s2cs) => d3ecl_datdec (loc0, knd, s2cs)
-| D2Cexndec (d2cs) =>
-    d3ecl_exndec (loc0, d2cs) // HX: exception decls
-| D2Cdcstdec
-    (knd, d2cs) => d3ecl_dcstdec (loc0, knd, d2cs)
+| D2Cdatdecs
+    (knd, s2cs) => d3ecl_datdecs (loc0, knd, s2cs)
+| D2Cexndecs (d2cs) =>
+    d3ecl_exndecs (loc0, d2cs) // HX: exception decls
+| D2Cdcstdecs
+    (knd, d2cs) => d3ecl_dcstdecs (loc0, knd, d2cs)
 //
 | D2Cimpdec (knd, d2c) => let
   //
@@ -179,7 +179,7 @@ case+ d2c0.d2ecl_node of
     d3ecl_valdecs_rec (loc0, knd, d3cs)
   end // end of [D2Cvaldecs_rec]
 //
-| D2Cvardecs (d2cs) => let
+| D2Cvardecs (knd, d2cs) => let
     val d3cs = v2ardeclst_tr (d2cs) in d3ecl_vardecs (loc0, d3cs)
   end // end of [D2Cvardecs]
 //

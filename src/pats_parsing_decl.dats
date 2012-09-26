@@ -1454,13 +1454,13 @@ case+ tok.token_node of
       synent_null ()
     end (* end of [if] *)
   end // end of [T_FUN]
-| T_VAR () => let
+| T_VAR (knd) => let
     val bt = 0
     val () = incby1 ()
     val ent2 = pstar_fun1_AND {v0ardec} (buf, bt, err, p_v0ardec)
   in
     if err = err0 then
-      d0ecl_vardecs (tok, (l2l)ent2)
+      d0ecl_vardecs (knd, tok, (l2l)ent2)
     else let
       val () = list_vt_free (ent2) in synent_null ()
     end (* end of [if] *)

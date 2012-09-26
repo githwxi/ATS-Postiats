@@ -531,10 +531,10 @@ d2ecl_node =
   | D2Cextval of (string(*name*), d2exp(*def*))
   | D2Cextcode of (int(*knd*), int(*pos*), string(*code*))
 //
-  | D2Cdatdec of (int(*knd*), s2cstlst) // datatype declarations
-  | D2Cexndec of (d2conlst) // exception constructor declarations
+  | D2Cdatdecs of (int(*knd*), s2cstlst) // datatype declarations
+  | D2Cexndecs of (d2conlst) // exception constructor declarations
 //
-  | D2Cdcstdec of (dcstkind, d2cstlst) // dyn. const. declarations
+  | D2Cdcstdecs of (dcstkind, d2cstlst) // dyn. const. declarations
 //
   | D2Cimpdec of (int(*knd*), i2mpdec) // knd=0/1 : implement/primplmnt
 //
@@ -545,7 +545,7 @@ d2ecl_node =
   | D2Cvaldecs_rec of
       (valkind, v2aldeclst) // (recursive) value declarations
     // end of [D2Cvaldecs_rec]
-  | D2Cvardecs of (v2ardeclst) // variable declarations
+  | D2Cvardecs of (int(*knd*), v2ardeclst) // variable declarations
 //
   | D2Cinclude of d2eclist (* file inclusion *)
   | D2Cstaload of (
@@ -1275,14 +1275,14 @@ fun d2ecl_extcode
   (loc: location, knd: int, pos: int, code: string): d2ecl
 // end of [d2ecl_extcode]
 
-fun d2ecl_datdec (
+fun d2ecl_datdecs (
   loc: location, knd: int, s2cs: s2cstlst
-) : d2ecl // end of [d2ecl_datdec]
-fun d2ecl_exndec (loc: location, d2cs: d2conlst): d2ecl
+) : d2ecl // end of [d2ecl_datdecs]
+fun d2ecl_exndecs (loc: location, d2cs: d2conlst): d2ecl
 
-fun d2ecl_dcstdec (
+fun d2ecl_dcstdecs (
   loc: location, knd: dcstkind, d2cs: d2cstlst
-) : d2ecl // end of [d2ecl_dcstdec]
+) : d2ecl // end of [d2ecl_dcstdecs]
 
 (* ****** ****** *)
 
@@ -1305,7 +1305,9 @@ fun d2ecl_valdecs_rec (
   loc: location, knd: valkind, d2cs: v2aldeclst
 ) : d2ecl // end of [d2ecl_valdecs_rec]
 
-fun d2ecl_vardecs (loc: location, d2cs: v2ardeclst): d2ecl
+fun d2ecl_vardecs
+  (loc: location, knd: int, d2cs: v2ardeclst): d2ecl
+// end of [d2ecl_vardecs]
 
 (* ****** ****** *)
 

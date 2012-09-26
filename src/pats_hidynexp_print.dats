@@ -257,6 +257,15 @@ case+
     val () = prstr ")"
   }
 //
+| HDEtop () => prstr "HDEtop()"
+| HDEempty () => prstr "HDEempty()"
+//
+| HDEextval (name) => {
+    val () = prstr "HDEextval("
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  }
+//
 | HDEcon (d2c, hdes) => {
     val () = prstr "HDEcon("
     val () = fprint_d2con (out, d2c)
@@ -265,12 +274,20 @@ case+
     val () = prstr ")"
   } // end of [HDEcon]
 //
-| HDEtop () => prstr "HDEtop()"
-| HDEempty () => prstr "HDEempty()"
-//
-| HDEextval (name) => {
-    val () = prstr "HDEextval("
-    val () = fprint_string (out, name)
+| HDEtmpcst (d2c, t2mas) => {
+    val () = prstr "HDEtmpcst("
+    val () = fprint_d2cst (out, d2c)
+    val () = prstr "<"
+    val () = $UT.fprintlst (out, t2mas, "><", fpprint_t2mpmarg)
+    val () = prstr ">"
+    val () = prstr ")"
+  }
+| HDEtmpvar (d2v, t2mas) => {
+    val () = prstr "HDEtmpvar("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr "<"
+    val () = $UT.fprintlst (out, t2mas, "><", fpprint_t2mpmarg)
+    val () = prstr ">"
     val () = prstr ")"
   }
 //
@@ -438,23 +455,6 @@ case+
     val () = prstr ")"
   }
 //
-| HDEtmpcst (d2c, t2mas) => {
-    val () = prstr "HDEtmpcst("
-    val () = fprint_d2cst (out, d2c)
-    val () = prstr "<"
-    val () = $UT.fprintlst (out, t2mas, "><", fpprint_t2mpmarg)
-    val () = prstr ">"
-    val () = prstr ")"
-  }
-| HDEtmpvar (d2v, t2mas) => {
-    val () = prstr "HDEtmpvar("
-    val () = fprint_d2var (out, d2v)
-    val () = prstr "<"
-    val () = $UT.fprintlst (out, t2mas, "><", fpprint_t2mpmarg)
-    val () = prstr ">"
-    val () = prstr ")"
-  }
-//
 | HDElam (_arg, _body) => {
     val () = prstr "HDElam("
     val () = fprint_hipatlst (out, _arg)
@@ -530,6 +530,14 @@ case+ hid.hidecl_node of
     val () = prstr "HIDlist(\n"
     val () = $UT.fprintlst (out, hids, "\n", fprint_hidecl)
     val () = prstr "\n)"
+  }
+//
+| HIDdatdecs (knd, s2cs) => {
+    val () = prstr "HIDdatdecs("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_s2cstlst (out, s2cs)
+    val () = prstr ")"
   }
 //
 | HIDimpdec (knd, himpdec) => {

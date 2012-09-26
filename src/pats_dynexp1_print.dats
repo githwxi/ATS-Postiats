@@ -921,7 +921,8 @@ case+ d1c0.d1ecl_node of
     val () = $UT.fprintlst (out, ds, "\n", fprint_v1aldec)
     val () = prstr "\n)"
   }
-| D1Cfundecs (knd, q1mas, ds) => {
+| D1Cfundecs
+    (knd, q1mas, ds) => {
     val () = prstr "D1Cfundecs("
     val () = fprint_funkind (out, knd)
     val () = prstr "; "
@@ -930,11 +931,14 @@ case+ d1c0.d1ecl_node of
     val () = prstr "..."
     val () = prstr "\n)"
   }
-| D1Cvardecs (ds) => {
-    val () = prstr "D1Cvardecs(\n"
+| D1Cvardecs (knd, ds) => {
+    val () = prstr "D1Cvardecs("
+    val () = fprint_int (out, knd)
+    val () = prstr "\n"
     val () = $UT.fprintlst (out, ds, "\n", fprint_v1ardec)
     val () = prstr "\n)"
   }
+//
 | D1Cimpdec (knd, imparg, d) => {
     val qid = d.i1mpdec_qid
     val () = prstr "D1Cimpdec["

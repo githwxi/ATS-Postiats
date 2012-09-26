@@ -524,6 +524,18 @@ case+
   end // end of [D3Elam_sta]
 | D3Elam_met (_(*met*), d3e) => d3exp_tyer (d3e)
 //
+| D3Eloop (
+    init, test, post, body
+  ) => let
+    val init = d3expopt_tyer (init)
+    val test = d3exp_tyer (test)
+    val post = d3expopt_tyer (post)
+    val body = d3exp_tyer (body)
+  in
+    hidexp_loop (loc0, hse0, init, test, post, body)
+  end // end of [D3Eloop]
+| D3Eloopexn (knd) => hidexp_loopexn (loc0, hse0, knd)
+//
 | D3Eann_type (d3e, _(*ann*)) => d3exp_tyer (d3e)
 //
 | _ => let
@@ -565,7 +577,7 @@ d3explst_npf_tyer
 in
 //
 if npf > 0 then let
-  val- list_cons (_, d3es) = d3es in d3explst_npf_tyer (npf, d3es)
+  val- list_cons (_, d3es) = d3es in d3explst_npf_tyer (npf-1, d3es)
 end else
   d3explst_tyer (d3es)
 // end of [if]

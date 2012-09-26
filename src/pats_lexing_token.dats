@@ -152,6 +152,9 @@ implement VAL_pos = T_VAL (VK_val_pos)
 implement VAL_neg = T_VAL (VK_val_neg)
 implement PRVAL = T_VAL (VK_prval)
 
+implement VAR = T_VAR (0)
+implement PRVAR = T_VAR (1)
+
 implement FOR = T_FOR ((*void*))
 implement FORSTAR = T_FORSTAR ((*void*))
 implement WHILE = T_WHILE ((*void*))
@@ -448,7 +451,9 @@ val () = ins ("val", VAL)
 *)
 val () = ins ("prval", PRVAL)
 //
-val () = ins ("var", T_VAR)
+val () = ins ("var", VAR)
+val () = ins ("prvar", PRVAR)
+//
 val () = ins ("when", T_WHEN)
 val () = ins ("where", T_WHERE)
 //

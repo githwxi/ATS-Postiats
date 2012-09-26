@@ -397,6 +397,26 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+d3exp_tmpcst (
+  loc, s2f_res, d2c, t2mas
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f_res
+, d3exp_node= D3Etmpcst (d2c, t2mas)
+} // end of [d3exp_tmpcst]
+
+implement
+d3exp_tmpvar (
+  loc, s2f_res, d2v, t2mas
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f_res
+, d3exp_node= D3Etmpvar (d2v, t2mas)
+} // end of [d3exp_tmpvar]
+
+(* ****** ****** *)
+
+implement
 d3exp_foldat
   (loc, d3e) = let
   val s2f = s2exp_void_t0ype ()
@@ -415,26 +435,6 @@ in '{
 , d3exp_type= s2f
 , d3exp_node= D3Efreeat (d3e)
 } end // end of [d3exp_freeat]
-
-(* ****** ****** *)
-
-implement
-d3exp_tmpcst (
-  loc, s2f_res, d2c, t2mas
-) = '{
-  d3exp_loc= loc
-, d3exp_type= s2f_res
-, d3exp_node= D3Etmpcst (d2c, t2mas)
-} // end of [d3exp_tmpcst]
-
-implement
-d3exp_tmpvar (
-  loc, s2f_res, d2v, t2mas
-) = '{
-  d3exp_loc= loc
-, d3exp_type= s2f_res
-, d3exp_node= D3Etmpvar (d2v, t2mas)
-} // end of [d3exp_tmpvar]
 
 (* ****** ****** *)
 
@@ -1037,26 +1037,26 @@ d3ecl_extcode
 (* ****** ****** *)
 
 implement
-d3ecl_datdec
+d3ecl_datdecs
   (loc, knd, s2cs) =
-  d3ecl_make_node (loc, D3Cdatdec (knd, s2cs))
-// end of [d3ecl_exndec]
+  d3ecl_make_node (loc, D3Cdatdecs (knd, s2cs))
+// end of [d3ecl_datdecs]
 
 (* ****** ****** *)
 
 implement
-d3ecl_exndec
+d3ecl_exndecs
   (loc, d2cs) =
-  d3ecl_make_node (loc, D3Cexndec (d2cs))
-// end of [d3ecl_exndec]
+  d3ecl_make_node (loc, D3Cexndecs (d2cs))
+// end of [d3ecl_exndecs]
 
 (* ****** ****** *)
 
 implement
-d3ecl_dcstdec
+d3ecl_dcstdecs
   (loc, knd, d2cs) =
-  d3ecl_make_node (loc, D3Cdcstdec (knd, d2cs))
-// end of [d3ecl_dcstdec]
+  d3ecl_make_node (loc, D3Cdcstdecs (knd, d2cs))
+// end of [d3ecl_dcstdecs]
 
 (* ****** ****** *)
 

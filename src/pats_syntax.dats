@@ -2734,14 +2734,14 @@ in '{
 
 implement
 d0ecl_vardecs
-  (tok, xs) = let
+  (knd, tok, xs) = let
   val loc = tok.token_loc
   val loc = (case+
     list_last_opt<v0ardec> (xs) of
     | ~Some_vt x => loc + x.v0ardec_loc | ~None_vt _ => loc
   ) : location // end of [val]
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cvardecs (xs)
+  d0ecl_loc= loc, d0ecl_node= D0Cvardecs (knd, xs)
 } end // end of [d0ecl_vardecs]
 
 (* ****** ****** *)

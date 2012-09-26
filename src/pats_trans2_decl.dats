@@ -1631,10 +1631,10 @@ case+ d1c0.d1ecl_node of
 | D1Cdatdecs (knd, d1cs_dat, d1cs_def) => let
     val s2cs = d1atdeclst_tr (knd, d1cs_dat, d1cs_def)
   in
-    d2ecl_datdec (loc0, knd, s2cs)
+    d2ecl_datdecs (loc0, knd, s2cs)
   end // end of [D1Cdatdecs]
 | D1Cexndecs (d1cs) => let
-    val d2cs = e1xndeclst_tr d1cs in d2ecl_exndec (loc0, d2cs)
+    val d2cs = e1xndeclst_tr d1cs in d2ecl_exndecs (loc0, d2cs)
   end // end of [D1Cexndecs]
 //
 | D1Cclassdec (id, sup) => let
@@ -1664,7 +1664,7 @@ case+ d1c0.d1ecl_node of
     val d2cs = d1cstdeclst_tr (dck, s2qss, d1cs)
     val () = the_s2expenv_pop_free (pfenv | (*none*))
   in
-    d2ecl_dcstdec (loc0, dck, d2cs)
+    d2ecl_dcstdecs (loc0, dck, d2cs)
   end // end of [D1Cdcstdecs]
 //
 | D1Cmacdefs (
@@ -1687,8 +1687,8 @@ case+ d1c0.d1ecl_node of
       d2ecl_valdecs_rec (loc0, knd, d2cs)
     // end of [if]
   end // end of [D1Cvaldecs]
-| D1Cvardecs (d1cs) => let
-    val d2cs = v1ardeclst_tr d1cs in d2ecl_vardecs (loc0, d2cs)
+| D1Cvardecs (knd, d1cs) => let
+    val d2cs = v1ardeclst_tr d1cs in d2ecl_vardecs (loc0, knd, d2cs)
   end // end of [D1Cvardecs]
 | D1Cfundecs (funknd, decarg, d1cs) => let
     val (pfenv | ()) = the_s2expenv_push_nil ()

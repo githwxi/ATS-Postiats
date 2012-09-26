@@ -874,67 +874,67 @@ v1ardec_make (
 
 (* ****** ****** *)
 
+extern
+fun d1ecl_make_node
+  (loc: location, node: d1ecl_node): d1ecl
 implement
-d1ecl_none (loc) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cnone ()
-} // end of [d1ecl_none]
-
-implement
-d1ecl_list (loc, ds) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Clist (ds)
-} // end of [d1ecl_list]
-
-(* ****** ****** *)
-
-implement
-d1ecl_symintr (loc, ids) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Csymintr (ids)
-}
-
-implement
-d1ecl_symelim (loc, ids) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Csymelim (ids)
-}
-
-implement
-d1ecl_overload (loc, id, qid, pval) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Coverload (id, qid, pval)
+d1ecl_make_node
+  (loc, node) = '{
+  d1ecl_loc= loc, d1ecl_node= node
 }
 
 (* ****** ****** *)
 
 implement
-d1ecl_e1xpdef (loc, id, def) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Ce1xpdef (id, def)
-}
+d1ecl_none (loc) =
+  d1ecl_make_node (loc, D1Cnone ())
+
 implement
-d1ecl_e1xpundef (loc, id, def) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Ce1xpundef (id, def)
-}
+d1ecl_list (loc, ds) =
+  d1ecl_make_node (loc, D1Clist (ds))
 
 (* ****** ****** *)
 
 implement
-d1ecl_datsrts (loc, xs) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cdatsrts (xs)
-}
+d1ecl_symintr (loc, ids) =
+  d1ecl_make_node (loc, D1Csymintr (ids))
 
 implement
-d1ecl_srtdefs (loc, xs) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Csrtdefs (xs)
-}
+d1ecl_symelim (loc, ids) =
+  d1ecl_make_node (loc, D1Csymelim (ids))
+
+implement
+d1ecl_overload (loc, id, qid, pval) =
+  d1ecl_make_node (loc, D1Coverload (id, qid, pval))
 
 (* ****** ****** *)
 
 implement
-d1ecl_stacsts (loc, xs) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cstacsts (xs)
-}
+d1ecl_e1xpdef (loc, id, def) =
+  d1ecl_make_node (loc, D1Ce1xpdef (id, def))
+implement
+d1ecl_e1xpundef (loc, id, def) =
+  d1ecl_make_node (loc, D1Ce1xpundef (id, def))
+
+(* ****** ****** *)
 
 implement
-d1ecl_stacons (loc, knd, xs) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cstacons (knd, xs)
-}
+d1ecl_datsrts (loc, xs) =
+  d1ecl_make_node (loc, D1Cdatsrts (xs))
+
+implement
+d1ecl_srtdefs (loc, xs) =
+  d1ecl_make_node (loc, D1Csrtdefs (xs))
+
+(* ****** ****** *)
+
+implement
+d1ecl_stacsts (loc, xs) =
+  d1ecl_make_node (loc, D1Cstacsts (xs))
+
+implement
+d1ecl_stacons (loc, knd, xs) =
+  d1ecl_make_node (loc, D1Cstacons (knd, xs))
 
 (* ****** ****** *)
 
@@ -943,141 +943,119 @@ d1ecl_stacons (loc, knd, xs) = '{
 // HX-2012-05-23: removed
 //
 implement
-d1ecl_stavars (loc, xs) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cstavars (xs)
-}
+d1ecl_stavars (loc, xs) =
+  d1ecl_make_node (loc, D1Cstavars (xs))
 *)
 
 (* ****** ****** *)
 
 implement
-d1ecl_tkindef (loc, x) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Ctkindef (x)
-}
+d1ecl_tkindef (loc, x) =
+  d1ecl_make_node (loc, D1Ctkindef (x))
 
 (* ****** ****** *)
 
 implement
-d1ecl_sexpdefs (loc, knd, xs) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Csexpdefs (knd, xs)
-}
+d1ecl_sexpdefs (loc, knd, xs) =
+  d1ecl_make_node (loc, D1Csexpdefs (knd, xs))
 
 implement
-d1ecl_saspdec (loc, x) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Csaspdec (x)
-}
+d1ecl_saspdec (loc, x) =
+  d1ecl_make_node (loc, D1Csaspdec (x))
 
 (* ****** ****** *)
 
 implement
-d1ecl_datdecs (
-  loc, knd, d1cs_datdec, d1cs_sexpdef
-) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cdatdecs (knd, d1cs_datdec, d1cs_sexpdef)
-} // end of [d1ecl_datdecs]
+d1ecl_datdecs
+  (loc, knd, _datdec, _sexpdef) =
+  d1ecl_make_node (loc, D1Cdatdecs (knd, _datdec, _sexpdef))
+// end of [d1ecl_datdec]
 
 implement
-d1ecl_exndecs (loc, d1cs) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cexndecs (d1cs)
-}
+d1ecl_exndecs (loc, d1cs) =
+  d1ecl_make_node (loc, D1Cexndecs (d1cs))
 
 (* ****** ****** *)
 
 implement
-d1ecl_classdec (loc, id, sup) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cclassdec (id, sup)
-}
+d1ecl_classdec (loc, id, sup) =
+  d1ecl_make_node (loc, D1Cclassdec (id, sup))
 
 (* ****** ****** *)
 
 implement
-d1ecl_extype
-  (loc, name, def) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cextype (name, def)
-} // end of [d1ecl_extype]
-implement
-d1ecl_extype2
-  (loc, knd, name, def) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cextype (knd, name, def)
-} // end of [d1ecl_extype]
+d1ecl_extype (loc, name, def) =
+  d1ecl_make_node (loc, D1Cextype (name, def))
 
 implement
-d1ecl_extval
-  (loc, name, def) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cextval (name, def)
-} // end of [d1ecl_extval]
-
-implement
-d1ecl_extcode
-  (loc, knd, pos, code) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cextcode (knd, pos, code)
-} // end of [d1ecl_extcode]
+d1ecl_extype2 (loc, knd, name, def) =
+  d1ecl_make_node (loc, D1Cextype (knd, name, def))
 
 (* ****** ****** *)
 
 implement
-d1ecl_dcstdecs (loc, dck, qarg, ds) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cdcstdecs (dck, qarg, ds)
-} // end of [d1ecl_dcstdecs]
+d1ecl_extval (loc, name, def) =
+  d1ecl_make_node (loc, D1Cextval (name, def))
+
+implement
+d1ecl_extcode (loc, knd, pos, code) =
+  d1ecl_make_node (loc, D1Cextcode (knd, pos, code))
 
 (* ****** ****** *)
 
 implement
-d1ecl_macdefs (loc, knd, isrec, ds) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cmacdefs (knd, isrec, ds)
-} // end of [d1ecl_macdefs]
+d1ecl_dcstdecs (loc, dck, qarg, ds) =
+  d1ecl_make_node (loc, D1Cdcstdecs (dck, qarg, ds))
 
 (* ****** ****** *)
 
 implement
-d1ecl_impdec
-  (loc, knd, imparg, d1c) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cimpdec (knd, imparg, d1c)
-} // end of [d1ecl_impdec]
+d1ecl_macdefs (loc, knd, isrec, ds) =
+  d1ecl_make_node (loc, D1Cmacdefs (knd, isrec, ds))
 
 (* ****** ****** *)
 
 implement
-d1ecl_valdecs
-  (loc, knd, isrec, ds) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cvaldecs (knd, isrec, ds)
-}
-implement
-d1ecl_fundecs
-  (loc, knd, qarg, ds) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cfundecs (knd, qarg, ds)
-}
-implement
-d1ecl_vardecs (loc, ds) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cvardecs (ds)
-}
+d1ecl_impdec (loc, knd, imparg, d1c) =
+  d1ecl_make_node (loc, D1Cimpdec (knd, imparg, d1c))
 
 (* ****** ****** *)
 
 implement
-d1ecl_include (loc, ds) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cinclude (ds)
-} // end of [d1ecl_include]
+d1ecl_valdecs (loc, knd, isrec, ds) =
+  d1ecl_make_node (loc, D1Cvaldecs (knd, isrec, ds))
+
+implement
+d1ecl_fundecs (loc, knd, qarg, ds) =
+  d1ecl_make_node (loc, D1Cfundecs (knd, qarg, ds))
+
+implement
+d1ecl_vardecs
+  (loc, knd, ds) = d1ecl_make_node (loc, D1Cvardecs (knd, ds))
+// end of [d1ecl_vardecs]
+
+(* ****** ****** *)
+
+implement
+d1ecl_include (loc, ds) =
+  d1ecl_make_node (loc, D1Cinclude (ds))
 
 implement
 d1ecl_staload (
   loc, idopt, fil, loadflag, d1cs
-) = '{
-  d1ecl_loc= loc
-, d1ecl_node= D1Cstaload (idopt, fil, loadflag, d1cs)
-} // end of [d1ecl_staload]
+) = d1ecl_make_node
+  (loc, D1Cstaload (idopt, fil, loadflag, d1cs))
+// end of [d1ecl_staload]
 
 implement
-d1ecl_dynload (loc, fil) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Cdynload (fil)
-} // end of [d1ecl_dynload]
+d1ecl_dynload (loc, fil) =
+  d1ecl_make_node (loc, D1Cdynload (fil))
 
 (* ****** ****** *)
 
 implement
-d1ecl_local (loc, ds_head, ds_body) = '{
-  d1ecl_loc= loc, d1ecl_node= D1Clocal (ds_head, ds_body)
-}
+d1ecl_local (loc, ds_head, ds_body) =
+  d1ecl_make_node (loc, D1Clocal (ds_head, ds_body))
 
 (* ****** ****** *)
 

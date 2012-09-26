@@ -165,6 +165,8 @@ hidecl_node =
 //
   | HIDsaspdec of s2aspdec
 //
+  | HIDdatdecs of (int(*knd*), s2cstlst)
+//
   | HIDimpdec of (int(*knd*), hiimpdec)
 //
   | HIDfundecs of
@@ -201,6 +203,9 @@ and hidexp_node =
   | HDEextval of (string(*name*)) // external values
 //
   | HDEcon of (d2con, hidexplst(*arg*)) // constructors
+//
+  | HDEtmpcst of (d2cst, t2mpmarglst)
+  | HDEtmpvar of (d2var, t2mpmarglst)
 //
   | HDEfoldat of () // constructor-folding
   | HDEfreeat of (hidexp) // constructor-freeing
@@ -251,9 +256,9 @@ and hidexp_node =
 //
   | HDElam of (hipatlst, hidexp) // HX: lam_dyn
 //
-  | HDEtmpcst of (d2cst, t2mpmarglst)
-  | HDEtmpvar of (d2var, t2mpmarglst)
-//
+  | HDEloop of (* for/while-loops *)
+      (hidexpopt(*init*), hidexp(*test*), hidexpopt(*post*), hidexp(*body*))
+  | HDEloopexn of (int) (* loop exception: 0/1: break/continue *)
 // end of [hidexp_node]
 
 and labhidexp = LABHIDEXP of (label, hidexp)
@@ -427,6 +432,15 @@ fun hidexp_con
 
 (* ****** ****** *)
 
+fun hidexp_tmpcst (
+  loc: location, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst
+) : hidexp // end of [hidexp_tmpcst]
+fun hidexp_tmpvar (
+  loc: location, hse: hisexp, d2v: d2var, t2mas: t2mpmarglst
+) : hidexp // end of [hidexp_tmpvar]
+
+(* ****** ****** *)
+
 fun hidexp_foldat (loc: location, hse: hisexp): hidexp
 fun hidexp_freeat (loc: location, hse: hisexp, hde: hidexp): hidexp
 
@@ -536,12 +550,12 @@ fun hidexp_lam
 
 (* ****** ****** *)
 
-fun hidexp_tmpcst (
-  loc: location, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst
-) : hidexp // end of [hidexp_tmpcst]
-fun hidexp_tmpvar (
-  loc: location, hse: hisexp, d2v: d2var, t2mas: t2mpmarglst
-) : hidexp // end of [hidexp_tmpvar]
+fun hidexp_loop (
+  loc: location, hse: hisexp
+, init: hidexpopt, test: hidexp, post: hidexpopt, body: hidexp
+) : hidexp // end of [hidexp_loop]
+
+fun hidexp_loopexn (loc: location, hse: hisexp, knd: int): hidexp
 
 (* ****** ****** *)
 
@@ -589,6 +603,10 @@ fun hidecl_make_node
 
 fun hidecl_none (loc: location): hidecl
 fun hidecl_list (loc: location, hids: hideclist): hidecl
+
+fun hidecl_datdecs
+  (loc: location, knd: int, s2cs: s2cstlst) : hidecl
+// end of [hidecl_datdecs]
 
 fun hidecl_impdec
   (loc: location, knd: int, himp: hiimpdec): hidecl
