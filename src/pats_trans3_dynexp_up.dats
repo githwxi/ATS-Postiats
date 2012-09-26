@@ -998,31 +998,37 @@ end // end of [d2exp_trup_applst]
 implement
 d2exp_trup_lst
   (d2e0) = let
-  val loc0 = d2e0.d2exp_loc
-  val- D2Elst (lin, opt, d2es) = d2e0.d2exp_node
+//
+val loc0 = d2e0.d2exp_loc
+val- D2Elst (lin, opt, d2es) = d2e0.d2exp_node
 (*
 val () = println! ("d2exp_trup_lst: lin = ", lin)
 *)
-  val s2e_elt = (case+ opt of
-    | Some s2e => s2e | None () => let
-        val s2t = (
-          if lin > 0 then s2rt_viewt0ype else s2rt_t0ype
-        ) : s2rt // end of [val]
-      in
-        s2exp_Var_make_srt (loc0, s2t)
-      end // end of [None]
-  ) : s2exp // end of [val]
-  val n = list_length (d2es)
-  val d3es = d2explst_trdn_elt (d2es, s2e_elt)
-  val isnonlin = (
-    if lin >= 0 then (lin = 0) else s2exp_is_nonlin (s2e_elt)
-  ) :bool // end of [val]
-  val s2e_lst = (
-    if isnonlin then
-      s2exp_list_t0ype_int_type (s2e_elt, n)
-    else
-      s2exp_list_viewt0ype_int_viewtype (s2e_elt, n)
-  ) : s2exp // end of [val]
+val islin = (
+  if lin >= 0 then test_linkind (lin) else false
+) : bool // end of [val]
+val s2e_elt = (
+  case+ opt of
+  | Some s2e => s2e | None () => let
+      val s2t = (
+        if islin then s2rt_viewt0ype else s2rt_t0ype
+      ) : s2rt // end of [val]
+    in
+      s2exp_Var_make_srt (loc0, s2t)
+    end // end of [None]
+) : s2exp // end of [val]
+val n = list_length (d2es)
+val d3es = d2explst_trdn_elt (d2es, s2e_elt)
+val isnonlin = (
+  if lin >= 0 then islin else s2exp_is_nonlin (s2e_elt)
+) : bool // end of [val]
+val s2e_lst = (
+  if isnonlin then
+    s2exp_list_t0ype_int_type (s2e_elt, n)
+  else
+    s2exp_list_viewt0ype_int_viewtype (s2e_elt, n)
+) : s2exp // end of [val]
+//
 in
   d3exp_lst (loc0, s2e_lst, lin, s2e_elt, d3es)
 end // end of [d2exp_trup_lst]

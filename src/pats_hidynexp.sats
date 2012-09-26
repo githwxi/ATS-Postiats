@@ -195,9 +195,15 @@ and hidexp_node =
   | HDEi0nt of i0nt // integer constants
   | HDEf0loat of f0loat // floating point constants
 //
+  | HDEtop of () // for uninitialized
   | HDEempty of () // for the void value
 //
   | HDEextval of (string(*name*)) // external values
+//
+  | HDEcon of (d2con, hidexplst(*arg*)) // constructors
+//
+  | HDEfoldat of () // constructor-folding
+  | HDEfreeat of (hidexp) // constructor-freeing
 //
   | HDElet of (hideclist, hidexp)
 //
@@ -213,12 +219,17 @@ and hidexp_node =
       caskind, hidexplst(*values*), hiclaulst(*clauses*)
     ) // end of [HDEcase]
 //
+  | HDElst of (* list expression *)
+      (int(*lin*), hisexp(*elt*), hidexplst)
   | HDErec of
       (int(*knd*), labhidexplst, hisexp(*tyrec*))
     // end of [HDErec]
   | HDEseq of (hidexplst) // sequencing
 //
   | HDEselab of (hidexp, hilablst) // record/tuple field selection
+//
+  | HDEptrof_var of (d2var) // taking address of a variable
+  | HDEptrof_ptrsel of (hidexp, hilablst) // taking the address of ...
 //
   | HDEsel_var of (* path selection for var *)
       (d2var, hilablst)
@@ -396,12 +407,25 @@ fun hidexp_f0loat
 
 (* ****** ****** *)
 
+fun hidexp_top
+  (loc: location, hse: hisexp): hidexp
 fun hidexp_empty
   (loc: location, hse: hisexp): hidexp
 
 fun hidexp_extval
   (loc: location, hse: hisexp, name: string): hidexp
 // end of [hidexp_extval]
+
+(* ****** ****** *)
+
+fun hidexp_con
+  (loc: location, hse: hisexp, d2c: d2con, hdes: hidexplst): hidexp
+// end of [hidexp_con]
+
+(* ****** ****** *)
+
+fun hidexp_foldat (loc: location, hse: hisexp): hidexp
+fun hidexp_freeat (loc: location, hse: hisexp, hde: hidexp): hidexp
 
 (* ****** ****** *)
 
@@ -436,6 +460,11 @@ fun hidexp_case (
 
 (* ****** ****** *)
 
+fun hidexp_lst (
+  loc: location
+, hse: hisexp, lin: int, hse_elt: hisexp, hdes: hidexplst
+) : hidexp // end of [hidexp_lst]
+
 fun hidexp_rec (
   loc: location
 , hse: hisexp, knd: int, lhses: labhidexplst, hse_rec: hisexp
@@ -451,6 +480,14 @@ fun hidexp_selab (
   loc: location
 , hse: hisexp, hde: hidexp, hils: hilablst
 ) : hidexp // end of [hidexp_selab]
+
+(* ****** ****** *)
+
+fun hidexp_ptrof_var
+  (loc: location, hse: hisexp, d2v: d2var): hidexp
+fun hidexp_ptrof_ptrsel
+  (loc: location, hse: hisexp, hde: hidexp, hils: hilablst): hidexp
+// end of [hidexp_ptrof_ptrsel]
 
 (* ****** ****** *)
 

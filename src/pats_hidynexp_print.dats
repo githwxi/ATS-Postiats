@@ -257,11 +257,27 @@ case+
     val () = prstr ")"
   }
 //
+| HDEcon (d2c, hdes) => {
+    val () = prstr "HDEcon("
+    val () = fprint_d2con (out, d2c)
+    val () = prstr "; "
+    val () = fprint_hidexplst (out, hdes)
+    val () = prstr ")"
+  } // end of [HDEcon]
+//
+| HDEtop () => prstr "HDEtop()"
 | HDEempty () => prstr "HDEempty()"
 //
 | HDEextval (name) => {
     val () = prstr "HDEextval("
     val () = fprint_string (out, name)
+    val () = prstr ")"
+  }
+//
+| HDEfoldat () => prstr "HDEfoldat()"
+| HDEfreeat (hde) => {
+    val () = prstr "HDEfreeat("
+    val () = fprint_hidexp (out, hde)
     val () = prstr ")"
   }
 //
@@ -307,6 +323,17 @@ case+
     val () = prstr "\n)"
   } // end of [HDEcase]
 //
+| HDElst (
+    lin, hse_elt, hdes
+  ) => {
+    val () = prstr "HDElst("
+    val () = fprintf (out, "lin= %i", @(lin))
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse_elt)
+    val () = prstr "; "
+    val () = fprint_hidexplst (out, hdes)
+    val () = prstr ")"
+  } // end of [HDElst]
 | HDErec (
     knd, lhdes, hse_rec
   ) => {
@@ -324,6 +351,21 @@ case+
 //
 | HDEselab (hde, hils) => {
     val () = prstr "HDEselab("
+    val () = fprint_hidexp (out, hde)
+    val () = prstr "["
+    val () = fprint_hilablst (out, hils)
+    val () = prstr "]"
+    val () = prstr ")"
+  }
+//
+| HDEptrof_var (d2v) => {
+    val () = prstr "HDEptrof_var("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr ")"
+  }
+| HDEptrof_ptrsel
+    (hde, hils) => {
+    val () = prstr "HDEptrof_ptrsel("
     val () = fprint_hidexp (out, hde)
     val () = prstr "["
     val () = fprint_hilablst (out, hils)

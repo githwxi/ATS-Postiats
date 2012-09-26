@@ -237,15 +237,41 @@ hidexp_f0loat
 (* ****** ****** *)
 
 implement
+hidexp_top (loc, hse) = 
+  hidexp_make_node (loc, hse, HDEtop ())
+// end of [hidexp_top]
+
+implement
 hidexp_empty (loc, hse) = 
   hidexp_make_node (loc, hse, HDEempty ())
 // end of [hidexp_empty]
+
+(* ****** ****** *)
 
 implement
 hidexp_extval
   (loc, hse, name) =
   hidexp_make_node (loc, hse, HDEextval (name))
 // end of [hidexp_extval]
+
+(* ****** ****** *)
+
+implement
+hidexp_con
+  (loc, hse, d2c, hdes) =
+  hidexp_make_node (loc, hse, HDEcon (d2c, hdes))
+// end of [hidexp_con]
+
+(* ****** ****** *)
+
+implement
+hidexp_foldat (loc, hse) =
+  hidexp_make_node (loc, hse, HDEfoldat ())
+
+implement
+hidexp_freeat (loc, hse, hde) =
+  hidexp_make_node (loc, hse, HDEfreeat (hde))
+// end of [hidexp_freeat]
 
 (* ****** ****** *)
 
@@ -281,9 +307,15 @@ hidexp_case
 (* ****** ****** *)
 
 implement
+hidexp_lst
+  (loc, hse, lin, hse_elt, hdes) =
+  hidexp_make_node (loc, hse, HDElst (lin, hse_elt, hdes))
+// end of [hidexp_lst]
+
+implement
 hidexp_rec
-  (loc, hse, knd, lhses, hse_rec) =
-  hidexp_make_node (loc, hse, HDErec (knd, lhses, hse_rec))
+  (loc, hse, knd, lhdes, hse_rec) =
+  hidexp_make_node (loc, hse, HDErec (knd, lhdes, hse_rec))
 // end of [hidexp_rec]
 
 implement
@@ -299,6 +331,20 @@ hidexp_selab
   (loc, hse, hde, hils) =
   hidexp_make_node (loc, hse, HDEselab (hde, hils))
 // end of [hidexp_selab]
+
+(* ****** ****** *)
+
+implement
+hidexp_ptrof_var
+  (loc, hse, d2v) =
+  hidexp_make_node (loc, hse, HDEptrof_var (d2v))
+// end of [hidexp_ptrof_var]
+
+implement
+hidexp_ptrof_ptrsel
+  (loc, hse, hde, hils) =
+  hidexp_make_node (loc, hse, HDEptrof_ptrsel (hde, hils))
+// end of [hidexp_ptrof_ptrsel]
 
 (* ****** ****** *)
 

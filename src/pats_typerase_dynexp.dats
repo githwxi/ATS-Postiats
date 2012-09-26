@@ -329,8 +329,21 @@ case+
 | D3Ef0loat (tok) =>
     hidexp_f0loat (loc0, hse0, tok)
 //
+| D3Etop () => hidexp_top (loc0, hse0)
 | D3Eempty () => hidexp_empty (loc0, hse0)
+//
 | D3Eextval (name) => hidexp_extval (loc0, hse0, name)
+//
+| D3Econ (d2c, npf, d3es) => let
+    val hdes = d3explst_npf_tyer (npf, d3es)
+  in
+    hidexp_con (loc0, hse0, d2c, hdes)
+  end // end of [D3Econ]
+//
+| D3Efoldat _ => hidexp_foldat (loc0, hse0)
+| D3Efreeat (d3e) => let
+    val hde = d3exp_tyer (d3e) in hidexp_freeat (loc0, hse0, hde)
+  end // end of [D3Efreeat]
 //
 | D3Elet (d3cs, d3e_scope) => let
     val hids = d3eclist_tyer (d3cs)
@@ -370,6 +383,16 @@ case+
     hidexp_case (loc0, hse0, knd, hses, hcls)
   end // end of [D3Ecase]
 //
+| D3Elst (
+    lin, s2e_elt, d3es
+  ) => let
+    val hse_elt =
+      s2exp_tyer_shallow (loc0, s2e_elt)
+    val hdes = list_map_fun (d3es, d3exp_tyer)
+    val hdes = list_of_list_vt (hdes)
+  in
+    hidexp_lst (loc0, hse0, lin, hse_elt, hdes)
+  end // end of [D3Elst]
 | D3Etup (
     knd, npf, d3es
   ) => let
@@ -406,6 +429,15 @@ case+
   in
     hidexp_selab (loc0, hse0, hde, hils)
   end // end of [D3Eselab]
+//
+| D3Eptrof_var (d2v) =>
+    hidexp_ptrof_var (loc0, hse0, d2v)
+| D3Eptrof_ptrsel (d3e, d3ls) => let
+    val hde = d3exp_tyer (d3e)
+    val hils = d3lablst_tyer (d3ls)
+  in
+    hidexp_ptrof_ptrsel (loc0, hse0, hde, hils)
+  end // end of [D3Eptrof_ptrsel]
 //
 | D3Esel_var
     (d2v, d3ls) => let
