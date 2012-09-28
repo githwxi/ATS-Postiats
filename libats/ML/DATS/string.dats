@@ -50,6 +50,10 @@ staload "libats/ML/SATS/string.sats"
 
 (* ****** ****** *)
 
+macdef castvwtp_trans = $UN.castvwtp0 // former name
+
+(* ****** ****** *)
+
 implement
 string_append (s1, s2) = let
   val res = string_append_ref (s1, s2) in $UN.cast{string}(res)
@@ -104,7 +108,7 @@ end // end of [loop]
 val () = $effmask_wrt (loop (p, cs))
 //
 in
-  $UN.castvwtp_trans{string} @(pf, pfgc | p)
+  castvwtp_trans {string} @(pf, pfgc | p)
 end // end of [string_implode]
 
 (* ****** ****** *)

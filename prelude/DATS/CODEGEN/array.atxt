@@ -31,6 +31,10 @@ staload IT = "prelude/SATS/iterator.sats"
 
 #atscode_separator()
 
+macdef castvwtp_trans = $UN.castvwtp0 // former name
+
+#atscode_separator()
+
 implement{a}
 array_getref_at
   (A, i) = let
@@ -553,8 +557,7 @@ array_initize_list_vt
 viewtypedef list0 = listGte_vt (a, 0)
 viewtypedef list1 = listGte_vt (a, 1)
 //
-var xs =
-  $UN.castvwtp_trans{ptr} (xs)
+var xs = castvwtp_trans {ptr} (xs)
 val p_xs = $UN.cast{Ptr1} (addr@ (xs))
 //
 implement

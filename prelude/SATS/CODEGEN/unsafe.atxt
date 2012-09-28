@@ -31,7 +31,8 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 #atscode_separator()
 //
 castfn cast {to:t0p}{from:t0p} (x: from):<> to
-castfn castvwtp_trans {to:vt0p}{from:vt0p} (x: from):<> to
+//
+castfn castvwtp0 {to:vt0p}{from:vt0p} (x: from):<> to
 //
 // HX:
 // [castvwtp1] is mostly used in a situation
@@ -40,7 +41,7 @@ castfn castvwtp_trans {to:vt0p}{from:vt0p} (x: from):<> to
 // done for treating a linear string as a nonlinear one
 // temporarily.
 //
-castfn castvwtp1 {to:t0p}{from:vt0p} (x: !INV(from)>>from):<> to
+castfn castvwtp1 {to:vt0p}{from:vt0p} (x: !INV(from)>>from):<> to
 //
 #atscode_separator()
 //

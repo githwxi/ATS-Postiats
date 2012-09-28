@@ -32,6 +32,8 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 \#define CNUL '\000'
 
+macdef castvwtp_trans = $UN.castvwtp0 // former name
+
 #atscode_separator()
 
 extern
@@ -178,7 +180,7 @@ val p1 = loop (cs, n, p0)
 val () = $UN.ptr0_set<char> (p1, CNUL)
 //
 in
-  $UN.castvwtp_trans {strnptr(n)} @(pf, pfgc | p0)
+  castvwtp_trans {strnptr(n)} @(pf, pfgc | p0)
 end // end of [string_make_listlen]
 
 #atscode_separator()
@@ -216,7 +218,7 @@ val () = $UN.ptr0_set<char> (p1, CNUL)
 val p0 = loop (cs, n, p1)
 //
 in
-  $UN.castvwtp_trans {strnptr(n)} @(pf, pfgc | p0)
+  castvwtp_trans {strnptr(n)} @(pf, pfgc | p0)
 end // end of [string_make_listlen_rev]
 
 #atscode_separator()
@@ -237,7 +239,7 @@ val () =
   $UN.ptr0_set<char> (p_dst_ln, CNUL)
 //
 in
-  $UN.castvwtp_trans {strnptr(ln)} @(pf, pfgc | p_dst)
+  castvwtp_trans {strnptr(ln)} @(pf, pfgc | p_dst)
 end // end of [string_make_substring]
 
 #atscode_separator()
@@ -274,7 +276,7 @@ string1_copy
   val (pf, pfgc | p) = malloc_gc (n1)
   val _(*p*) = $effmask_wrt (memcpy (p, string2ptr(str), n1))
 in
-  $UN.castvwtp_trans {strnptr(n)} @(pf, pfgc | p)
+  castvwtp_trans {strnptr(n)} @(pf, pfgc | p)
 end // end of [string1_copy]
 
 #atscode_separator()
@@ -371,7 +373,7 @@ val (pf, pfgc | p) = malloc_gc (succ(ntot))
 val () = loop (p, xs, ns)
 //
 in
-  $UN.castvwtp_trans {Strptr1} @(pf, pfgc | p)
+  castvwtp_trans {Strptr1} @(pf, pfgc | p)
 end // end of [stringlst_concat]
 
 #atscode_separator()
