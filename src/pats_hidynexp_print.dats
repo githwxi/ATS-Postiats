@@ -455,6 +455,12 @@ case+
     val () = prstr ")"
   }
 //
+| HDEraise (hde) => {
+    val () = prstr "HDEraise("
+    val () = fprint_hidexp (out, hde)
+    val () = prstr ")"
+  }
+//
 | HDElam (_arg, _body) => {
     val () = prstr "HDElam("
     val () = fprint_hipatlst (out, _arg)
@@ -462,6 +468,8 @@ case+
     val () = fprint_hidexp (out, _body)
     val () = prstr ")"
   } // end of [DDElam]
+//
+| HDEerr () => prstr "HDEerr()"
 //
 | _ => {
     val () = fprint_string (out, "HDE...(...)")

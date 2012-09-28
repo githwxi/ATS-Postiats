@@ -497,6 +497,20 @@ case+
   in
     hidexp_arrpsz (loc0, hse0, hse_elt, hdes_elt, asz)
   end // end of [D3Earrpsz]
+| D3Earrinit (
+    s2e_elt, asz, d3es_elt
+  ) => let
+    val hse_elt = s2exp_tyer_shallow (loc0, s2e_elt)
+    val asz = d3exp_tyer (asz)
+    val hdes_elt = list_map_fun (d3es_elt, d3exp_tyer)
+    val hdes_elt = list_of_list_vt (hdes_elt)
+  in
+    hidexp_arrinit (loc0, hse0, hse_elt, asz, hdes_elt)
+  end // end of [D3Earrinit]
+//
+| D3Eraise (d3e) => let
+    val hde = d3exp_tyer (d3e) in hidexp_raise (loc0, hse0, hde)
+  end // end of [D3Eraise]
 //
 | D3Elam_dyn (
     lin, npf, p3ts_arg, d3e_body
@@ -537,6 +551,8 @@ case+
 | D3Eloopexn (knd) => hidexp_loopexn (loc0, hse0, knd)
 //
 | D3Eann_type (d3e, _(*ann*)) => d3exp_tyer (d3e)
+//
+| D3Eerr () => hidexp_err (loc0, hse0)
 //
 | _ => let
     val () = println! ("d3exp_tyer: loc0 = ", loc0)

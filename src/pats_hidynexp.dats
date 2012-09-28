@@ -402,6 +402,20 @@ hidexp_arrpsz
   hidexp_make_node (loc, hse, HDEarrpsz (hse_elt, hdes, asz))
 // end of [hidexp_arrpsz]
 
+implement
+hidexp_arrinit
+  (loc, hse, hse_elt, asz, hdes_elt) =
+  hidexp_make_node (loc, hse, HDEarrinit (hse_elt, asz, hdes_elt))
+// end of [hidexp_arrinit]
+
+(* ****** ****** *)
+
+implement
+hidexp_raise
+  (loc, hse, hde_exn) =
+  hidexp_make_node (loc, hse, HDEraise (hde_exn))
+// end of [hidexp_raise]
+
 (* ****** ****** *)
 
 implement
@@ -423,6 +437,11 @@ hidexp_loopexn
   (loc, hse, knd) =
   hidexp_make_node (loc, hse, HDEloopexn (knd))
 // end of [hidexp_loopexn]
+
+(* ****** ****** *)
+
+implement
+hidexp_err (loc, hse) = hidexp_make_node (loc, hse, HDEerr ())
 
 (* ****** ****** *)
 

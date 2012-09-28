@@ -254,11 +254,15 @@ and hidexp_node =
   | HDEarrinit of (* array initialization *)
       (hisexp(*elt*), hidexp(*asz*), hidexplst(*elt*))
 //
+  | HDEraise of (hidexp(*exn*))
+//
   | HDElam of (hipatlst, hidexp) // HX: lam_dyn
 //
   | HDEloop of (* for/while-loops *)
       (hidexpopt(*init*), hidexp(*test*), hidexpopt(*post*), hidexp(*body*))
   | HDEloopexn of (int) (* loop exception: 0/1: break/continue *)
+//
+  | HDEerr of () // HX: indication of error
 // end of [hidexp_node]
 
 and labhidexp = LABHIDEXP of (label, hidexp)
@@ -542,6 +546,17 @@ fun hidexp_arrpsz (
 , hse: hisexp, hse_elt: hisexp, hdes_elt: hidexplst, asz: int
 ) : hidexp // end of [hidexp_arrpsz]
 
+fun hidexp_arrinit (
+  loc: location
+, hse: hisexp, hse_elt: hisexp, hde_asz: hidexp, hdes_elt: hidexplst
+) : hidexp // end of [hidexp_arrinit]
+
+(* ****** ****** *)
+
+fun hidexp_raise
+  (loc: location, hse: hisexp, hde_exn: hidexp): hidexp
+// end of [hidexp_raise]
+
 (* ****** ****** *)
 
 fun hidexp_lam
@@ -556,6 +571,10 @@ fun hidexp_loop (
 ) : hidexp // end of [hidexp_loop]
 
 fun hidexp_loopexn (loc: location, hse: hisexp, knd: int): hidexp
+
+(* ****** ****** *)
+
+fun hidexp_err (loc: location, hse: hisexp): hidexp
 
 (* ****** ****** *)
 
