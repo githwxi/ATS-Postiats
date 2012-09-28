@@ -928,16 +928,26 @@ v2aldec_make (
 
 implement
 v2ardec_make (
-  loc, knd, d2v, s2v, s2e, wth, ini
+  loc, knd, d2v, s2v, s2eopt, wth, ini
 ) = '{
   v2ardec_loc= loc
 , v2ardec_knd= knd
 , v2ardec_dvar= d2v
 , v2ardec_svar= s2v
-, v2ardec_type= s2e
+, v2ardec_type= s2eopt
 , v2ardec_wth= wth
 , v2ardec_ini= ini
 } // end of [v2ardec_make]
+
+implement
+prv2ardec_make (
+  loc, d2v, s2eopt, ini
+) = '{
+  prv2ardec_loc= loc
+, prv2ardec_dvar= d2v
+, prv2ardec_type= s2eopt
+, prv2ardec_ini= ini
+} // end of [prv2ardec_make]
 
 (* ****** ****** *)
 
@@ -1031,25 +1041,35 @@ implement
 d2ecl_dcstdecs (loc, knd, d2cs) =
   d2ecl_make_node (loc, D2Cdcstdecs (knd, d2cs))
 
-implement
-d2ecl_valdecs (loc, knd, d2cs) =
-  d2ecl_make_node (loc, D2Cvaldecs (knd, d2cs))
-
-implement
-d2ecl_valdecs_rec (loc, knd, d2cs) =
-  d2ecl_make_node (loc, D2Cvaldecs_rec (knd, d2cs))
-
-implement
-d2ecl_vardecs (loc, knd, d2cs) =
-  d2ecl_make_node (loc, D2Cvardecs (knd, d2cs))
-
-implement
-d2ecl_fundecs (loc, knd, decarg, d2cs) =
-  d2ecl_make_node (loc, D2Cfundecs (knd, decarg, d2cs))
+(* ****** ****** *)
 
 implement
 d2ecl_impdec (loc, knd, d2c) =
   d2ecl_make_node (loc, D2Cimpdec (knd, d2c))
+
+(* ****** ****** *)
+
+implement
+d2ecl_fundecs (loc, knd, decarg, f2ds) =
+  d2ecl_make_node (loc, D2Cfundecs (knd, decarg, f2ds))
+
+implement
+d2ecl_valdecs (loc, knd, v2ds) =
+  d2ecl_make_node (loc, D2Cvaldecs (knd, v2ds))
+
+implement
+d2ecl_valdecs_rec (loc, knd, v2ds) =
+  d2ecl_make_node (loc, D2Cvaldecs_rec (knd, v2ds))
+
+implement
+d2ecl_vardecs (loc, v2ds) =
+  d2ecl_make_node (loc, D2Cvardecs (v2ds))
+
+implement
+d2ecl_prvardecs (loc, v2ds) =
+  d2ecl_make_node (loc, D2Cprvardecs (v2ds))
+
+(* ****** ****** *)
 
 implement
 d2ecl_include (loc, d2cs) =

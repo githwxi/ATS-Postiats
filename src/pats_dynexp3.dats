@@ -1000,6 +1000,16 @@ v3ardec_make (
 , v3ardec_ini= ini
 } // end of [v3ardec_make]
 
+implement
+prv3ardec_make (
+  loc, d2v, s2e, ini
+) = '{
+  prv3ardec_loc= loc
+, prv3ardec_dvar= d2v
+, prv3ardec_type= s2e
+, prv3ardec_ini= ini
+} // end of [prv3ardec_make]
+
 (* ****** ****** *)
 
 implement
@@ -1095,6 +1105,12 @@ d3ecl_vardecs
   (loc, v3ds) =
   d3ecl_make_node (loc, D3Cvardecs (v3ds))
 // end of [d3ecl_vardecs]
+
+implement
+d3ecl_prvardecs
+  (loc, v3ds) =
+  d3ecl_make_node (loc, D3Cprvardecs (v3ds))
+// end of [d3ecl_prvardecs]
 
 (* ****** ****** *)
 

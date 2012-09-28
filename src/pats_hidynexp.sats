@@ -249,6 +249,11 @@ and hidexp_node =
   | HDEassgn_ptr of
       (hidexp(*left*), hilablst, hidexp(*right*))
 //
+  | HDExchng_var of
+      (d2var(*left*), hilablst, hidexp(*right*))
+  | HDExchng_ptr of
+      (hidexp(*left*), hilablst, hidexp(*right*))
+//
   | HDEarrpsz of (* arrsize construction *)
       (hisexp(*elt*), hidexplst(*elt*), int(*asz*))
   | HDEarrinit of (* array initialization *)
@@ -538,6 +543,18 @@ fun hidexp_assgn_ptr (
   loc: location
 , hse: hisexp, hde_l: hidexp, hils: hilablst, hde_r: hidexp
 ) : hidexp // end of [hidexp_assgn_ptr]
+
+(* ****** ****** *)
+
+fun hidexp_xchng_var (
+  loc: location
+, hse: hisexp, d2v_l: d2var, hils: hilablst, hde_r: hidexp
+) : hidexp // end of [hidexp_xchng_var]
+
+fun hidexp_xchng_ptr (
+  loc: location
+, hse: hisexp, hde_l: hidexp, hils: hilablst, hde_r: hidexp
+) : hidexp // end of [hidexp_xchng_ptr]
 
 (* ****** ****** *)
 

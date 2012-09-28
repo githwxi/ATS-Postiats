@@ -1007,6 +1007,11 @@ case+ x.d2ecl_node of
     val () = prstr "..."
     val () = prstr "\n)"
   } // end of [D2Cvardecs]
+| D2Cprvardecs _ => {
+    val () = prstr "D2Cprvardecs(\n"
+    val () = prstr "..."
+    val () = prstr "\n)"
+  } // end of [D2Cprvardecs]
 //
 | D2Cinclude (d2cs) => {
     val () = prstr "D2Cinclude(\n"

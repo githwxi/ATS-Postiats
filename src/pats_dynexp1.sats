@@ -262,9 +262,11 @@ datatype d1ecl_node =
   | D1Cdcstdecs of (dcstkind, q1marglst, d1cstdeclst) // dyn constants
 //
   | D1Cmacdefs of (int(*knd*), bool(*isrec*), m1acdeflst)
-  | D1Cvaldecs of (valkind, bool(*isrec*), v1aldeclst) // val declarations
   | D1Cfundecs of (funkind, q1marglst, f1undeclst) // function declaration
-  | D1Cvardecs of (int(*knd*), v1ardeclst) (* variable declaration *)
+  | D1Cvaldecs of (valkind, bool(*isrec*), v1aldeclst) // val declarations
+  | D1Cvardecs of
+      (int(*knd*), v1ardeclst) (* variable declaration *) // knd=0/1:var/prvar
+    // end of [D1Cvardecs]
 //
   | D1Cimpdec of (int(*knd*), i1mparg, i1mpdec) // knd=0/1: implement/primplmnt
 //
@@ -470,17 +472,6 @@ and m1acdeflst = List m1acdef
 
 (* ****** ****** *)
 
-and v1aldec = '{
-  v1aldec_loc= location
-, v1aldec_pat= p1at
-, v1aldec_def= d1exp
-, v1aldec_ann= witht1ype
-} // end of [v1aldec]
-
-and v1aldeclst = List (v1aldec)
-
-(* ****** ****** *)
-
 and f1undec = '{
   f1undec_loc= location
 , f1undec_sym= symbol
@@ -490,6 +481,17 @@ and f1undec = '{
 } // end of [f1undec]
 
 and f1undeclst = List f1undec
+
+(* ****** ****** *)
+
+and v1aldec = '{
+  v1aldec_loc= location
+, v1aldec_pat= p1at
+, v1aldec_def= d1exp
+, v1aldec_ann= witht1ype
+} // end of [v1aldec]
+
+and v1aldeclst = List (v1aldec)
 
 (* ****** ****** *)
 

@@ -101,6 +101,8 @@ case+
 //
 | D3Cvardecs _ => d3ecl_tyer_vardecs (d3c0)
 //
+| D3Cprvardecs _ => hidecl_none (loc0) // proof vars
+//
 | D3Cstaload (
     filename, flag, loaded, filenv
   ) =>

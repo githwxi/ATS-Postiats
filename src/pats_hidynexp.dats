@@ -397,6 +397,20 @@ hidexp_assgn_ptr
 (* ****** ****** *)
 
 implement
+hidexp_xchng_var
+  (loc, hse, d2v_l, hils, hde_r) =
+  hidexp_make_node (loc, hse, HDExchng_var (d2v_l, hils, hde_r))
+// end of [hidexp_xchng_var]
+
+implement
+hidexp_xchng_ptr
+  (loc, hse, hde_l, hils, hde_r) =
+  hidexp_make_node (loc, hse, HDExchng_ptr (hde_l, hils, hde_r))
+// end of [hidexp_xchng_ptr]
+
+(* ****** ****** *)
+
+implement
 hidexp_arrpsz
   (loc, hse, hse_elt, hdes, asz) =
   hidexp_make_node (loc, hse, HDEarrpsz (hse_elt, hdes, asz))

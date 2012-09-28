@@ -81,32 +81,37 @@ extern
 fun i2mpdec_tr (d2c: i2mpdec): i3mpdec
 
 extern
-fun f2undec_tr (d2c: f2undec): d3exp
+fun f2undec_tr (f2d: f2undec): d3exp
 extern
 fun f2undeclst_tr (
-  knd: funkind, decarg: s2qualst, d2cs: f2undeclst
+  knd: funkind, decarg: s2qualst, f2ds: f2undeclst
 ) : f3undeclst // end of [f2undeclst_tr]
 
 (* ****** ****** *)
 
 extern
 fun v2aldec_tr
-  (knd: valkind, d2c: v2aldec): v3aldec
+  (knd: valkind, v2d: v2aldec): v3aldec
 extern
 fun v2aldeclst_tr
-  (knd: valkind, d2cs: v2aldeclst): v3aldeclst
+  (knd: valkind, v2ds: v2aldeclst): v3aldeclst
 // end of [v2aldeclst_tr]
 extern
 fun v2aldeclst_rec_tr
-  (knd: valkind, d2cs: v2aldeclst): v3aldeclst
+  (knd: valkind, v2ds: v2aldeclst): v3aldeclst
 // end of [v2aldeclst_rec_tr]
 
 (* ****** ****** *)
 
 extern
-fun v2ardec_tr (d2c: v2ardec): v3ardec
+fun v2ardec_tr (v2d: v2ardec): v3ardec
 extern
-fun v2ardeclst_tr (d2cs: v2ardeclst): v3ardeclst
+fun v2ardeclst_tr (v2ds: v2ardeclst): v3ardeclst
+
+extern
+fun prv2ardec_tr (v2d: prv2ardec): prv3ardec
+extern
+fun prv2ardeclst_tr (v2ds: prv2ardeclst): prv3ardeclst
 
 (* ****** ****** *)
 
@@ -160,28 +165,31 @@ case+ d2c0.d2ecl_node of
   end // end of [D2Cimpdec]
 //
 | D2Cfundecs
-    (knd, s2qs, d2cs) => let
-    val d3cs = f2undeclst_tr (knd, s2qs, d2cs)
+    (knd, s2qs, f2ds) => let
+    val f3ds = f2undeclst_tr (knd, s2qs, f2ds)
   in
-    d3ecl_fundecs (loc0, knd, s2qs, d3cs)
+    d3ecl_fundecs (loc0, knd, s2qs, f3ds)
   end // end of [D2Cfundecs]
 //
 | D2Cvaldecs
-    (knd, d2cs) => let
-    val d3cs = v2aldeclst_tr (knd, d2cs)
+    (knd, v2ds) => let
+    val v3ds = v2aldeclst_tr (knd, v2ds)
   in
-    d3ecl_valdecs (loc0, knd, d3cs)
+    d3ecl_valdecs (loc0, knd, v3ds)
   end // end of [D2Cvaldecs]
 | D2Cvaldecs_rec
-    (knd, d2cs) => let
-    val d3cs = v2aldeclst_rec_tr (knd, d2cs)
+    (knd, v2ds) => let
+    val v3ds = v2aldeclst_rec_tr (knd, v2ds)
   in
-    d3ecl_valdecs_rec (loc0, knd, d3cs)
+    d3ecl_valdecs_rec (loc0, knd, v3ds)
   end // end of [D2Cvaldecs_rec]
 //
-| D2Cvardecs (knd, d2cs) => let
-    val d3cs = v2ardeclst_tr (d2cs) in d3ecl_vardecs (loc0, d3cs)
+| D2Cvardecs (v2ds) => let
+    val v3ds = v2ardeclst_tr (v2ds) in d3ecl_vardecs (loc0, v3ds)
   end // end of [D2Cvardecs]
+| D2Cprvardecs (v2ds) => let
+    val v3ds = prv2ardeclst_tr (v2ds) in d3ecl_prvardecs (loc0, v3ds)
+  end // end of [D2Cprvardecs]
 //
 | D2Cinclude d2cs => (
     d3ecl_list (loc0, d2eclist_tr d2cs)
@@ -620,13 +628,13 @@ in // in of [local]
 
 implement
 v2ardec_tr_sta
-  (d2c) = let
+  (v2d) = let
 //
-val loc0 = d2c.v2ardec_loc
-val d2v = d2c.v2ardec_dvar
+val loc0 = v2d.v2ardec_loc
+val d2v = v2d.v2ardec_dvar
 val locvar = d2var_get_loc (d2v)
-val ann = d2c.v2ardec_type
-val ini2 = d2c.v2ardec_ini
+val ann = v2d.v2ardec_type
+val ini2 = v2d.v2ardec_ini
 var ini3 : d3expopt = None ()
 //
 val s2e0 = (
@@ -670,7 +678,7 @@ val s2e0 = (
 val () = println! ("v2ardec_tr_sta: s2e0 = ", s2e0)
 //
 val d2vw =
-  d2var_mutablize (locvar, d2v, s2e0, d2c.v2ardec_wth)
+  d2var_mutablize (locvar, d2v, s2e0, v2d.v2ardec_wth)
 val- Some
   (s2l) = d2var_get_addr (d2v)
 val s2e0_top = s2exp_topize_0 (s2e0)
@@ -692,34 +700,66 @@ end // end of [local]
 (* ****** ****** *)
 
 extern
-fun v2ardec_tr_dyn (d2c: v2ardec): v3ardec
-implement
-v2ardec_tr_dyn (d2c) = let
-in
-  exitloc (1)
-end // end of [v2ardec_tr_dyn]
+fun v2ardec_tr_dyn (v2d: v2ardec): v3ardec
+implement v2ardec_tr_dyn (v2d) = exitloc (1)
 
 (* ****** ****** *)
 
 implement
-v2ardec_tr (d2c) = let
-  val knd = d2c.v2ardec_knd
+v2ardec_tr (v2d) = let
+  val knd = v2d.v2ardec_knd
 in
   if knd = 0 then begin
-    v2ardec_tr_sta (d2c) // static allocation
+    v2ardec_tr_sta (v2d) // static allocation
   end else begin (* dynamic *)
-    v2ardec_tr_dyn (d2c) // dynamic allocation
+    v2ardec_tr_dyn (v2d) // dynamic allocation
   end // end of [if]
 end // end of [v2ardec_tr]
 
 implement
-v2ardeclst_tr (d2cs) = let
+v2ardeclst_tr (v2ds) = let
   val () = list_app_fun<v2ardec> (
-    d2cs, lam d2c =<1> trans3_env_add_svar (d2c.v2ardec_svar)
+    v2ds, lam v2d =<1> trans3_env_add_svar (v2d.v2ardec_svar)
   ) // end of [val]
 in
-  list_of_list_vt (list_map_fun (d2cs, v2ardec_tr))
+  list_of_list_vt (list_map_fun (v2ds, v2ardec_tr))
 end // end of [v2ardeclst_tr]
+
+(* ****** ****** *)
+
+implement
+prv2ardec_tr (v2d) = let
+//
+val loc = v2d.prv2ardec_loc
+val d2v = v2d.prv2ardec_dvar
+val loc_d2v = d2var_get_loc (d2v)
+val () = d2var_set_linval (d2v, 0)
+//
+val s2eopt = v2d.prv2ardec_type
+val d2e = (
+  case+ v2d.prv2ardec_ini of
+  | Some (d2e) => d2e | None () => d2exp_empty (loc_d2v)
+) : d2exp // end of [val]
+val d3e = (
+  case+ s2eopt of
+  | Some (s2e) => d2exp_trdn (d2e, s2e) | None () => d2exp_trup (d2e)
+) : d3exp // end of [val]
+val s2e = d3exp_get_type (d3e)
+val s2f = s2exp2hnf (s2e)
+val s2e = s2hnf_opnexi_and_add (loc_d2v, s2f)
+val () = d2var_set_type (d2v, Some (s2e))
+//
+val () = the_d2varenv_add_dvar (d2v)
+val () = the_pfmanenv_add_dvar (d2v)
+//
+in
+  prv3ardec_make (loc, d2v, s2e, d3e)
+end // end of [prv2ardec_tr]
+
+implement
+prv2ardeclst_tr (v2ds) =
+  list_of_list_vt (list_map_fun (v2ds, prv2ardec_tr))
+// end of [prv2ardeclst_tr]
 
 (* ****** ****** *)
 

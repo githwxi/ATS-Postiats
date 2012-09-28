@@ -233,7 +233,9 @@ d3ecl_node =
   | D3Cfundecs of (funkind, s2qualst(*decarg*), f3undeclst)
   | D3Cvaldecs of (valkind, v3aldeclst)
   | D3Cvaldecs_rec of (valkind, v3aldeclst)
+//
   | D3Cvardecs of (v3ardeclst) // local variable declarations
+  | D3Cprvardecs of (prv3ardeclst) // local proof variable declarations
 //
   | D3Cstaload of (
       filename, int(*flag*), int(*loaded*), filenv
@@ -464,7 +466,16 @@ and v3ardec = '{
 , v3ardec_ini= d3expopt
 } // end of [v3ardec]
 
-and v3ardeclst = List v3ardec
+and v3ardeclst = List (v3ardec)
+
+(* ****** ****** *)
+
+and prv3ardec = '{
+  prv3ardec_loc= location
+, prv3ardec_dvar= d2var, prv3ardec_type= s2exp, prv3ardec_ini= d3exp
+} // end of [prv3ardec]
+
+and prv3ardeclst = List (prv3ardec)
 
 (* ****** ****** *)
 
@@ -808,12 +819,9 @@ fun sc3lau_make (
 
 (* ****** ****** *)
 
-fun
-i3mpdec_make (
-  loc: location
-, d2c: d2cst
-, imparg: s2varlst, tmparg: s2explstlst
-, def: d3exp
+fun i3mpdec_make (
+  loc: location, d2c: d2cst
+, imparg: s2varlst, tmparg: s2explstlst, def: d3exp
 ) : i3mpdec // end of [i3mpdec_make]
 
 (* ****** ****** *)
@@ -826,10 +834,16 @@ fun v3aldec_make (
   loc: location, p3t: p3at, def: d3exp
 ) : v3aldec // end of [v3aldec_make]
 
+(* ****** ****** *)
+
 fun v3ardec_make (
   loc: location, knd: int (*0/1:sta/dyn*)
 , d2v: d2var, d2vw: d2var, s2e0: s2exp, ini: d3expopt
 ) : v3ardec // end of [v3ardec_make]
+
+fun prv3ardec_make (
+  loc: location, d2v: d2var, s2e0: s2exp, ini: d3exp
+) : prv3ardec // end of [prv3ardec_make]
 
 (* ****** ****** *)
 
@@ -877,18 +891,19 @@ fun d3ecl_impdec
 (* ****** ****** *)
 
 fun d3ecl_fundecs (
-  loc: location, knd: funkind, decarg: s2qualst, d3cs: f3undeclst
+  loc: location, knd: funkind, decarg: s2qualst, f3ds: f3undeclst
 ) : d3ecl // end of [d3ecl_fundecs]
 
 fun d3ecl_valdecs (
-  loc: location, knd: valkind, d3cs: v3aldeclst
+  loc: location, knd: valkind, v3ds: v3aldeclst
 ) : d3ecl // end of [d3ecl_valdecs]
 
 fun d3ecl_valdecs_rec (
-  loc: location, knd: valkind, d3cs: v3aldeclst
+  loc: location, knd: valkind, v3ds: v3aldeclst
 ) : d3ecl // end of [d3ecl_valdecs_rec]
 
-fun d3ecl_vardecs (loc: location, ds: v3ardeclst): d3ecl
+fun d3ecl_vardecs (loc: location, v3ds: v3ardeclst): d3ecl
+fun d3ecl_prvardecs (loc: location, v3ds: prv3ardeclst): d3ecl
 
 (* ****** ****** *)
 

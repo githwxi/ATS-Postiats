@@ -1252,13 +1252,15 @@ d0ecl_node =
 //
   | D0Cmacdefs of
       (int(*knd*), bool(*rec*), m0acdeflst) // macro definitions
-  | D0Cfundecs of (funkind, q0marglst, f0undeclst)
-  | D0Cvaldecs of // value declarations
-      (valkind, bool(*isrec*), v0aldeclst)
-  | D0Cvardecs of (int(*knd*), v0ardeclst) // variable declarations
+  | D0Cfundecs of (funkind, q0marglst, f0undeclst) // fun declarations
+  | D0Cvaldecs of (valkind, bool(*isrec*), v0aldeclst) // val declarations
+  | D0Cvardecs of
+      (int(*knd*), v0ardeclst) // variable declarations // knd=0/1:var/prvar
+    // end of [D0Cvardec]
 //
   | D0Cimpdec of
       (int(*knd*), i0mparg, i0mpdec) // knd=0/1: implement/primplmnt
+    // end of [D0Cimpdec]
 //
   | D0Cinclude of (* file inclusion *)
       (int(*0:sta/1:dyn*), string(*filename*))
@@ -1479,17 +1481,6 @@ and m0acdeflst = List m0acdef
 
 (* ****** ****** *)
 
-and v0aldec = '{
-  v0aldec_loc= location
-, v0aldec_pat= p0at
-, v0aldec_def= d0exp
-, v0aldec_ann= witht0ype
-} // end of [v0aldec]
-
-and v0aldeclst: type = List v0aldec
-
-(* ****** ****** *)
-
 and f0undec = '{
   f0undec_loc= location
 , f0undec_sym= symbol
@@ -1505,9 +1496,20 @@ and f0undeclst = List f0undec
 
 (* ****** ****** *)
 
+and v0aldec = '{
+  v0aldec_loc= location
+, v0aldec_pat= p0at
+, v0aldec_def= d0exp
+, v0aldec_ann= witht0ype
+} // end of [v0aldec]
+
+and v0aldeclst: type = List v0aldec
+
+(* ****** ****** *)
+
 and v0ardec = '{
   v0ardec_loc= location
-, v0ardec_knd= int (* BANG: knd = 1 *)
+, v0ardec_knd= int (* NO/BANG: knd=0/1 *)
 , v0ardec_sym= symbol
 , v0ardec_sym_loc= location
 , v0ardec_typ= s0expopt

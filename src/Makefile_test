@@ -18,6 +18,8 @@ test:: fact2
 test:: revarr
 
 test:: isqrt
+test:: fibver_rec
+test:: fibver_loop
 test:: hanoi
 test:: ferryman
 test:: morse_enum
@@ -133,6 +135,10 @@ revarr: ; \
 
 isqrt: ; \
   ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/isqrt.dats
+fibver_rec: ; \
+  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/fibver_rec.dats
+fibver_loop: ; \
+  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/fibver_loop.dats
 hanoi: ; \
   ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/hanoi.dats
 ferryman: ; \
