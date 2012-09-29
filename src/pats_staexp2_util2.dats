@@ -549,7 +549,7 @@ fun s2lab_syneq_exn (
   | S2LABind ind1 => (
     case+ s2l2 of
     | S2LABlab _ => $raise (SYNEQexn)
-    | S2LABind ind2 => s2explstlst_syneq_exn (ind1, ind2)
+    | S2LABind (ind2) => s2explst_syneq_exn (ind1, ind2)
     )
 ) // end of [s2lab_syneq_exn]
 

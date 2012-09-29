@@ -1061,13 +1061,13 @@ s2lab_subst_flag
   (sub, s2l0, flag) = (
   case+ s2l0 of
   | S2LABlab _ => s2l0
-  | S2LABind (s2ess) => let
+  | S2LABind (s2es) => let
       val flag0 = flag
-      val s2ess =
-        s2explstlst_subst_flag (sub, s2ess, flag)
+      val s2es =
+        s2explst_subst_flag (sub, s2es, flag)
       // end of [val]
     in
-      if flag > flag0 then S2LABind (s2ess) else s2l0
+      if flag > flag0 then S2LABind (s2es) else s2l0
     end // end of [S2LABind]
 ) // end of [s2lab_subst_flag]
 

@@ -32,6 +32,13 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+
+(* ****** ****** *)
+
 staload ERR = "pats_error.sats"
 staload LOC = "pats_location.sats"
 overload + with $LOC.location_combine
@@ -630,9 +637,11 @@ case+ d0e0.d0exp_node of
     val d1e_arr =
       d1exp_dqid (qid.dqi0de_loc, qid.dqi0de_qua, qid.dqi0de_sym)
     // end of [val]
-    val d1ess_ind = l2l (list_map_fun (d0ess, d0explst_tr))
+    val d0es_ind = list_concat (d0ess)
+    val d1es_ind = d0explst_tr ($UN.castvwtp1{d0explst}(d0es_ind))
+    val () = list_vt_free (d0es_ind)
   in
-    FXITMatm (d1exp_arrsub (loc0, d1e_arr, loc_ind, d1ess_ind))
+    FXITMatm (d1exp_arrsub (loc0, d1e_arr, loc_ind, d1es_ind))
   end // end of [D0Earrsub]
 | D0Earrpsz (elt, d0e_elts) => let
     val elt = s0expopt_tr (elt)
@@ -751,9 +760,11 @@ case+ d0e0.d0exp_node of
   in
     FXITMopr (loc0, FXOPRpos (select_prec, f))
   end // end of [D0Esel_lab]
-| D0Esel_ind (knd, ind) => let
-    val ind = l2l (list_map_fun (ind, d0explst_tr))
-    val d1l = d1lab_ind (loc0, ind)
+| D0Esel_ind (knd, d0ess) => let
+    val d0es_ind = list_concat (d0ess)
+    val d1es_ind = d0explst_tr ($UN.castvwtp1{d0explst}(d0es_ind))
+    val () = list_vt_free (d0es_ind)
+    val d1l = d1lab_ind (loc0, d1es_ind)
     fn f (d1e: d1exp):<cloref1> d1expitm =
       let val loc = d1e.d1exp_loc + loc0 in
         FXITMatm (d1exp_selab (loc, knd, d1e, d1l))

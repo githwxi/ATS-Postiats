@@ -88,7 +88,7 @@ fun auxlabs (
         list_cons (s2l, auxlabs d3ls)
       end // end of [D3LABlab]
     | D3LABind (ind) => let
-        val ind = d3explstlst_get_type (ind)
+        val ind = d3explst_get_type (ind)
         val s2l = S2LABind (ind)
       in
         list_cons (s2l, auxlabs d3ls)      

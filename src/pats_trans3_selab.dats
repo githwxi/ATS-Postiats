@@ -86,8 +86,8 @@ in
 //
 case+ d2l.d2lab_node of
 | D2LABlab (lab) => d3lab_lab (loc, lab)
-| D2LABind ind => let
-    val ind = d2explstlst_trup (ind) in d3lab_ind (loc, ind)
+| D2LABind (ind) => let
+    val ind = d2explst_trup (ind) in d3lab_ind (loc, ind)
   end // end of [D2LABind]
 //
 end // end of [aux]
@@ -156,12 +156,12 @@ end // end of [arrbndck]
 in // in of [local]
 
 fun arrbndlst_check (
-  loc0: location, ind: d3explstlst, dim: s2explst
+  loc0: location, ind: d3explst, dim: s2explst
 ) : s2explst_vt = let
 //
 fun auxerr (
   loc0: location
-, dim: s2explst, ind: d3explstlst, sgn: int
+, dim: s2explst, ind: d3explst, sgn: int
 ) : void = let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": the label is expected to contain "
@@ -172,36 +172,26 @@ in
   the_trans3errlst_add (T3E_d3exp_arrdim (loc0, dim, ind))
 end // end of [auxerr] 
 //
-val nind =
-  loop (ind, 0) where {
-  fun loop (xss: d3explstlst, n: int): int =
-    case+ xss of
-    | list_cons (xs, xss) => loop (xss, n + list_length (xs))
-    | list_nil () => n
-  // end of [loop]
-} // end of [val]
+val nind = list_length (ind)
 val ndim = list_length (dim)
 //
-fun auxcheck1 (
-  xss: d3explstlst, s2es: s2explst
-) : s2explst_vt =
-  case+ xss of
-  | list_cons (xs, xss) => auxcheck2 (xs, xss, s2es)
-  | list_nil () => list_vt_nil ()
-// end of [auxcheck1]
-and auxcheck2 (
-  xs: d3explst, xss: d3explstlst, s2es: s2explst
-) : s2explst_vt =
-  case+ xs of
-  | list_cons (x, xs) => let
-      val- list_cons (s2e, s2es) = s2es
-      val s2ps1 = arrbndck (x, s2e)
-      val s2ps2 = auxcheck2 (xs, xss, s2es)
+fun
+auxcheck (
+  d3es: d3explst
+, s2es: s2explst
+) : s2explst_vt = (
+  case+ d3es of
+  | list_cons
+      (d3e, d3es) => let
+      val- list_cons
+        (s2e, s2es) = s2es // match!
+      val s2ps1 = arrbndck (d3e, s2e)
+      val s2ps2 = auxcheck (d3es, s2es)
     in
       list_vt_append (s2ps1, s2ps2)
     end // end of [list_cons]
-  | list_nil () => auxcheck1 (xss, s2es)
-// end of [auxcheck2]
+  | list_nil () => list_vt_nil ()
+) // end of [auxcheck]
 //
 val sgn = nind - ndim
 //
@@ -211,7 +201,7 @@ if sgn < 0 then let
   val () = auxerr (loc0, dim, ind, sgn) in list_vt_nil ()
 end else if sgn > 0 then let
   val () = auxerr (loc0, dim, ind, sgn) in list_vt_nil ()
-end else auxcheck1 (ind, dim) // end of [if]
+end else auxcheck (ind, dim) // end of [if]
 //
 end // end of [arrbndlst_check]
 
@@ -321,7 +311,7 @@ case+ s2e.s2exp_node of
 end // end of [auxlab_shnf]
 
 fun auxind (
-  loc0: location, s2e: s2exp, ind: d3explstlst
+  loc0: location, s2e: s2exp, ind: d3explst
 ) : (
   s2exp(*elt*), s2explst_vt(*array-bounds-checking*)
 ) = let
@@ -514,7 +504,7 @@ end // end of [auxlab]
 
 fun auxind (
   loc0: location
-, s2f: s2hnf, ind: d3explstlst
+, s2f: s2hnf, ind: d3explst
 , context: &ctxtopt_vt
 , ischeck: bool
 ) : (s2exp, s2explst_vt) = let

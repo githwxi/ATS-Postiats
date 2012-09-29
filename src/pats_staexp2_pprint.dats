@@ -455,9 +455,9 @@ case+ s2l of
     val () = $LAB.fprint_label (out, lab)
     val () = prstr ")"
   }
-| S2LABind (s2ess) => {
+| S2LABind (ind) => {
     val () = prstr "S2LABind("
-    val () = aux_s2explstlst (out, n, s2ess)
+    val () = aux_s2explst (out, n, ind)
     val () = prstr ")"
   }
 //

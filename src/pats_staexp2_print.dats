@@ -250,7 +250,7 @@ case+ x.s2exp_node of
     val () = prstr "S2Etkname("
     val () = fprint_string (out, name)
     val () = prstr ")"
-  }
+  } // end of [S2Etkname]
 | S2Eextype (name, s2ess) => {
     val () = prstr "S2Eextype("
     val () = fprint_string (out, name)
@@ -612,9 +612,9 @@ case+ s2l of
     val () = $LAB.fprint_label (out, lab)
     val () = prstr ")"
   }
-| S2LABind (s2ess) => {
+| S2LABind (ind) => {
     val () = prstr "S2LABind("
-    val () = $UT.fprintlst (out, s2ess, "; ", fprint_s2explst)
+    val () = $UT.fprintlst (out, ind, ", ", fprint_s2exp)
     val () = prstr ")"
   }
 //

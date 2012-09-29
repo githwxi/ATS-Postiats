@@ -1836,7 +1836,9 @@ fn auxerr // for S2Eextype
 in
 //
 case+ (s1e.s1exp_node, s2t) of
+//
 | (S1Elam _, S2RTfun _) => s1exp_trdn_lam (s1e, s2t)
+//
 | (S1Eextype (name, s1ess), _) =>
     if s2rt_ltmat1 (s2t, s2rt_viewt0ype) then let
       val s2ess = list_map_fun (s1ess, s1explst_trdn_viewt0ype)
@@ -1845,6 +1847,7 @@ case+ (s1e.s1exp_node, s2t) of
     end else let
       val () = auxerr (s1e, s2t) in s2exp_err (s2t)
     end // end of [if]
+//
 | (_, _) => let
     val s2e = s1exp_trup (s1e) in s2exp_trdn (s1e.s1exp_loc, s2e, s2t)
   end (* end of [_] *)

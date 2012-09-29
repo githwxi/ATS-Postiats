@@ -190,7 +190,7 @@ case+ hil.hilab_node of
   } // end of [HILlab]
 | HILind (ind) => {
     val () = prstr "HILind("
-    val () = $UT.fprintlst (out, ind, "; ", fprint_hidexplst)
+    val () = $UT.fprintlst (out, ind, ", ", fprint_hidexp)
     val () = prstr ")"
   } // end of [HILind]
 //

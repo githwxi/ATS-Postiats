@@ -188,13 +188,6 @@ in
   list_of_list_vt (s2es)
 end // end of [d3explst_get_type]
 
-implement
-d3explstlst_get_type (d3ess) = let
-  val s2ess = list_map_fun (d3ess, d3explst_get_type)
-in
-  list_of_list_vt (s2ess)
-end // end of [d3explstlst_get_type]
-
 (* ****** ****** *)
 
 implement

@@ -685,7 +685,7 @@ case+ d1l.d1lab_node of
   } // end of [D1LABlab]
 | D1LABind (ind) => {
     val () = prstr "D1LABind("
-    val () = $UT.fprintlst (out, ind, "; ", fprint_d1explst)
+    val () = $UT.fprintlst (out, ind, ", ", fprint_d1exp)
     val () = prstr ")"
   } // end of [D1LABind]
 //

@@ -344,7 +344,7 @@ and d1exp_node =
   | D1Eseq of d1explst // dynamic sequence-expression
 //
   | D1Earrsub of (* array subscription *)
-      (d1exp, location(*ind*), d1explstlst(*ind*))
+      (d1exp, location(*ind*), d1explst(*ind*))
   | D1Earrinit of (* array initialization *)
       (s1exp (*eltyp*), d1expopt (*asz*), d1explst (*elt*))
   | D1Earrpsz of (* arraysize expression *)
@@ -398,7 +398,7 @@ and d1exp_node =
 // end of [d1exp_node]
 
 and d1lab_node =
-  | D1LABlab of label | D1LABind of d1explstlst
+  | D1LABlab of (label) | D1LABind of (d1explst)
 // end of [d1lab_node]
 
 (* ****** ****** *)
@@ -416,7 +416,6 @@ and d1exp = '{
 }
 and d1explst = List (d1exp)
 and d1expopt = Option (d1exp)
-and d1explstlst = List (d1explst)
 
 and labd1exp = dl0abeled (d1exp)
 and labd1explst = List (labd1exp)
@@ -637,9 +636,9 @@ fun d1exp_seq (loc: location, d1es: d1explst): d1exp
 
 (* ****** ****** *)
 
-fun d1exp_arrsub
-  (loc: location, arr: d1exp, ind: location, ind: d1explstlst): d1exp
-// end of [d1exp_arrsub]
+fun d1exp_arrsub (
+  loc: location, arr: d1exp, ind: location, ind: d1explst
+) : d1exp // end of [d1exp_arrsub]
 
 fun d1exp_arrpsz
   (loc: location, elt: s1expopt, d1es: d1explst): d1exp
@@ -777,7 +776,7 @@ fun e1xp_make_d1exp (loc: location, d1e: d1exp): e1xp
 (* ****** ****** *)
 
 fun d1lab_lab (loc: location, lab: label): d1lab
-fun d1lab_ind (loc: location, ind: d1explstlst): d1lab
+fun d1lab_ind (loc: location, ind: d1explst): d1lab
 
 fun fprint_d1lab : fprint_type (d1lab)
 

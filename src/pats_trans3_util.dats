@@ -345,18 +345,12 @@ d3exp_get_ind
   // end of [val]
 end // end of [d3exp_get_ind]
 
-fun
-d3explst_get_ind
-  (xs: d3explst): s2explst =
-  l2l (list_map_fun (xs, d3exp_get_ind))
-// end of [d3explst_get_ind]
-
 in // in of [local]
 
 implement
-d3explstlst_get_ind (xss) =
-  l2l (list_map_fun (xss, d3explst_get_ind))
-// end of [d3explstlst_get_ind]
+d3explst_get_ind (xs) =
+  l2l (list_map_fun (xs, d3exp_get_ind))
+// end of [d3explst_get_ind]
 
 end // end of [local]
 

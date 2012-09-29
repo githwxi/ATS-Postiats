@@ -724,12 +724,12 @@ case+ d3l.d3lab_node of
 | D3LABlab (l) =>
     hilab_lab (loc0, l)
   // end of [D3LABlab]
-| D3LABind (d3ess) => let
-    val hdess =
-      list_map_fun (d3ess, d3explst_tyer)
-    val hdess = list_of_list_vt (hdess)
+| D3LABind (d3es_ind) => let
+    val hdes_ind =
+      list_map_fun (d3es_ind, d3exp_tyer)
+    val hdes_ind = list_of_list_vt (hdes_ind)
   in
-    hilab_ind (loc0, hdess)
+    hilab_ind (loc0, hdes_ind)
   end // end of [D3LABind]
 //
 end // end of [d3lab_tyer]

@@ -478,7 +478,7 @@ case+ d2lv of
 | D2LVALarrsub (
     d2s, arr, loc_ind, ind // d2s: lrbrackets
   ) => let
-    val ind = list_concat (ind)
+    val ind = list_copy (ind)
     val d2es_arg = list_vt_extend (ind, d2e_r)
     val d2es_arg = list_vt_cons (arr, d2es_arg)
     val d2es_arg = list_of_list_vt (d2es_arg)

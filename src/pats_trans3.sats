@@ -111,7 +111,7 @@ datatype trans3err =
   | T3E_s2exp_selab_tyarr of (location, s2exp)
   | T3E_d3exp_arrind of (d3exp) // arrind is not a generic integer
   | T3E_d3exp_arrdim of
-      (location, s2explst, d3explstlst) // array dimen/index mismatch
+      (location, s2explst, d3explst) // array dimen/index mismatch
     // end of [T3E_d3exp_arrdim]
   | T3E_d3exp_selab_linrest of (location, d3exp, d3lablst)
 //
@@ -310,7 +310,7 @@ fun d23exp_trup_applst
 
 fun d2lablst_trup (d2ls: d2lablst) : d3lablst
 
-fun d3explstlst_get_ind (d3ess: d3explstlst): s2explstlst
+fun d3explst_get_ind (d3es: d3explst): s2explst
 
 fun s2exp_get_dlablst_linrest (
   loc0: location, s2e: s2exp, d3ls: d3lablst, linrest: &int
@@ -392,7 +392,6 @@ fun d2exp_trup_loopexn (loc: location, knd: int): d3exp
 
 fun d2exp_trup (d2e: d2exp): d3exp
 fun d2explst_trup (d2es: d2explst): d3explst
-fun d2explstlst_trup (d2ess: d2explstlst): d3explstlst
 
 (* ****** ****** *)
 

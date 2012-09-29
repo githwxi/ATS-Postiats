@@ -274,7 +274,7 @@ and labhidexp = LABHIDEXP of (label, hidexp)
 
 and hilab_node =
   | HILlab of (label) // field selection
-  | HILind of (hidexplstlst (*index*)) // array subscription
+  | HILind of (hidexplst (*index*)) // array subscription
 // end of [hilab_node]
 
 where hidecl = '{
@@ -291,7 +291,6 @@ and hidexp = '{
 
 and hidexplst = List (hidexp)
 and hidexpopt = Option (hidexp)
-and hidexplstlst = List (hidexplst)
 
 and labhidexplst = List (labhidexp)
 
@@ -596,7 +595,7 @@ fun hidexp_err (loc: location, hse: hisexp): hidexp
 (* ****** ****** *)
 
 fun hilab_lab (loc: location, lab: label): hilab
-fun hilab_ind (loc: location, ind: hidexplstlst): hilab
+fun hilab_ind (loc: location, ind: hidexplst): hilab
 
 (* ****** ****** *)
 

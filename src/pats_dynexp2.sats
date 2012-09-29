@@ -631,7 +631,7 @@ and d2exp_node =
   | D2Exchng of (d2exp(*left*), d2exp(*right*))
 //
   | D2Earrsub of (* array subscription *)
-      (d2sym, d2exp, location(*ind*), d2explstlst(*ind*))
+      (d2sym, d2exp, location(*ind*), d2explst(*ind*))
   | D2Earrpsz of (* $arrpsz expression *)
       (s2expopt (*elt*), d2explst (*elements*))
   | D2Earrinit of (* array initialization *)
@@ -681,7 +681,7 @@ and d2exparg =
 // end of [d2exparg]
 
 and d2lab_node =
-  | D2LABlab of label | D2LABind of d2explstlst
+  | D2LABlab of (label) | D2LABind of (d2explst)
 // end of [d2lab_node]
 
 where
@@ -698,7 +698,6 @@ d2exp = '{
 }
 and d2explst = List (d2exp)
 and d2expopt = Option (d2exp)
-and d2explstlst = List (d2explst)
 
 and labd2exp = dl0abeled (d2exp)
 and labd2explst = List (labd2exp)
@@ -835,7 +834,7 @@ d2lval = // type for left-values
   | D2LVALvar_lin of (d2var, d2lablst) // linear d2var
   | D2LVALvar_mut of (d2var, d2lablst) // mutable d2var
   | D2LVALarrsub of (* array subscription *)
-      (d2sym(*brackets*), d2exp, location(*ind*), d2explstlst)
+      (d2sym(*brackets*), d2exp, location(*ind*), d2explst)
   | D2LVALviewat of (d2exp(*lval*)) // [lval] is 'addresssed'
   | D2LVALnone of d2exp (* non-left-values *)
 // end of [d2lval]
@@ -1038,7 +1037,7 @@ fun d2exp_xchng
 
 fun d2exp_arrsub (
   loc: location
-, d2s: d2sym, arr: d2exp, ind: location, ind: d2explstlst
+, d2s: d2sym, arr: d2exp, ind: location, ind: d2explst
 ) : d2exp // end of [d2exp_arrsub]
 
 fun d2exp_arrpsz (
@@ -1153,7 +1152,7 @@ fun labd2exp_make (l: l0ab, d2e: d2exp): labd2exp
 (* ****** ****** *)
 
 fun d2lab_lab (loc: location, lab: label): d2lab
-fun d2lab_ind (loc: location, ind: d2explstlst): d2lab
+fun d2lab_ind (loc: location, ind: d2explst): d2lab
 
 fun fprint_d2lab : fprint_type (d2lab)
 

@@ -359,7 +359,7 @@ and d3exp_node =
 // end of [d3exp_node]
 
 and d3lab_node =
-  | D3LABlab of label | D3LABind of d3explstlst
+  | D3LABlab of (label) | D3LABind of (d3explst)
 // end of [d3lab_node]
 
 where
@@ -377,7 +377,6 @@ and d3exp = '{
 
 and d3explst = List (d3exp)
 and d3expopt = Option (d3exp)
-and d3explstlst = List (d3explst)
 
 and labd3exp = dl0abeled (d3exp)
 and labd3explst = List (labd3exp)
@@ -481,7 +480,6 @@ and prv3ardeclst = List (prv3ardec)
 
 fun d3exp_get_type (d3e: d3exp): s2exp
 fun d3explst_get_type (d3es: d3explst): s2explst
-fun d3explstlst_get_type (d3ess: d3explstlst): s2explstlst
 
 fun d3exp_set_type
   (d3e: d3exp, s2f: s2exp): void = "patsopt_d3exp_set_type"
@@ -796,7 +794,7 @@ fun d3exp_void_err (loc: location): d3exp
 (* ****** ****** *)
 
 fun d3lab_lab (loc: location, lab: label): d3lab
-fun d3lab_ind (loc: location, ind: d3explstlst): d3lab
+fun d3lab_ind (loc: location, ind: d3explst): d3lab
 
 (* ****** ****** *)
 

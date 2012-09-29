@@ -227,6 +227,7 @@ SOURCES := \
   pats_typerase_staexp.dats \
   pats_typerase_dynexp.dats \
   pats_typerase_decl.dats \
+  pats_ccomp.sats \
   pats_comarg.sats \
   pats_comarg.dats \
 
@@ -430,6 +431,7 @@ OBJECTS := \
   pats_typerase_staexp_dats.o \
   pats_typerase_dynexp_dats.o \
   pats_typerase_decl_dats.o \
+  pats_ccomp_sats.o \
   pats_comarg_sats.o \
   pats_comarg_dats.o \
 
@@ -1024,6 +1026,9 @@ pats_typerase_dynexp_dats.o: pats_typerase_dynexp_dats.c; $(ATSCC) $(ATSCCFLAGS)
 
 pats_typerase_decl_dats.c: pats_typerase_decl.dats; $(ATSCC) -cc $<
 pats_typerase_decl_dats.o: pats_typerase_decl_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_ccomp_sats.c: pats_ccomp.sats; $(ATSCC) -cc $<
+pats_ccomp_sats.o: pats_ccomp_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_comarg_sats.c: pats_comarg.sats; $(ATSCC) -cc $<
 pats_comarg_sats.o: pats_comarg_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<

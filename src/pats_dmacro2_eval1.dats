@@ -89,7 +89,6 @@ extern fun eval1_d2var : eval1_type (d2var)
 //
 extern fun eval1_d2explst : eval1_type (d2explst)
 extern fun eval1_d2expopt : eval1_type (d2expopt)
-extern fun eval1_d2explstlst : eval1_type (d2explstlst)
 //
 extern fun eval1_labd2exp : eval1_type (labd2exp)
 extern fun eval1_labd2explst : eval1_type (labd2explst)
@@ -311,12 +310,6 @@ eval1_d2expopt
   | None () => None ()
 ) // end of [eval1_d2expopt]
 
-implement
-eval1_d2explstlst
-  (loc0, ctx, env, d2ess) =
-  eval1_listmap (loc0, ctx, env, d2ess, eval1_d2explst)
-// end of [eval1_d2explstlst]
-
 (* ****** ****** *)
 
 implement
@@ -349,7 +342,7 @@ case+ d2ls of
       case+ d2l.d2lab_node of
       | D2LABlab _ => d2l
       | D2LABind (ind) =>
-          d2lab_ind (loc, eval1_d2explstlst (loc0, ctx, env, ind))
+          d2lab_ind (loc, eval1_d2explst (loc0, ctx, env, ind))
     ) : d2lab // end of [val]
     val d2ls = eval1_d2lablst (loc0, ctx, env, d2ls)
   in
@@ -512,7 +505,6 @@ macdef eval1dvar (x) = eval1_d2var (loc0, ctx, env, ,(x))
 macdef eval1dexp (x) = eval1_d2exp (loc0, ctx, env, ,(x))
 macdef eval1dexplst (x) = eval1_d2explst (loc0, ctx, env, ,(x))
 macdef eval1dexpopt (x) = eval1_d2expopt (loc0, ctx, env, ,(x))
-macdef eval1dexplstlst (x) = eval1_d2explstlst (loc0, ctx, env, ,(x))
 //
 macdef eval1labdexp (x) = eval1_labd2exp (loc0, ctx, env, ,(x))
 macdef eval1labdexplst (x) = eval1_labd2explst (loc0, ctx, env, ,(x))
@@ -621,7 +613,7 @@ case+ d2en0 of
 | D2Earrsub (
     d2s, d2e, locind, ind
   ) => d2exp_arrsub (
-    loc0, d2s, eval1dexp (d2e), loc0, eval1dexplstlst (ind)
+    loc0, d2s, eval1dexp (d2e), loc0, eval1dexplst (ind)
   ) // end of [D2Earrsub]
 | D2Earrinit
     (elt, asz, ini) => d2exp_arrinit (

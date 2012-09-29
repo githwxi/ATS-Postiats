@@ -277,9 +277,8 @@ case+ d2e0.d2exp_node of
 | D2Earrsub (
     d2s, arr, loc_ind, ind // d2s = lrbrackets
   ) => let
-    val ind = list_concat (ind)
-    val ind = list_of_list_vt (ind)
-    val loc_arg = arr.d2exp_loc + loc_ind
+    val loc_arr = arr.d2exp_loc
+    val loc_arg = loc_arr + loc_ind
     val d2es_arg = list_cons (arr, ind)
     val d2a = D2EXPARGdyn (~1(*npf*), loc_arg, d2es_arg)
     val d2as = list_sing (d2a)
@@ -403,11 +402,6 @@ implement
 d2explst_trup
   (d2es) = l2l (list_map_fun (d2es, d2exp_trup))
 // end of [d2explst_trup]
-
-implement
-d2explstlst_trup
-  (d2ess) = l2l (list_map_fun (d2ess, d2explst_trup))
-// end of [d2explstlst_trup]
 
 (* ****** ****** *)
 

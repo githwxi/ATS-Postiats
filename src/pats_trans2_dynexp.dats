@@ -685,12 +685,12 @@ end // end of [d2sym_lrbrackets]
 
 fn d1exp_tr_arrsub (
   d1e0: d1exp
-, arr: d1exp, locind: location, ind: d1explstlst
+, arr: d1exp, locind: location, ind: d1explst
 ) : d2exp = let
   val loc0 = d1e0.d1exp_loc
   val d2s = d2sym_lrbrackets (d1e0)
   val arr = d1exp_tr (arr)
-  val ind = l2l (list_map_fun (ind, d1explst_tr))
+  val ind = d1explst_tr (ind)
 in
   d2exp_arrsub (loc0, d2s, arr, locind, ind)
 end // end of [d1exp_tr_arrsub]
@@ -1579,11 +1579,11 @@ implement
 d1lab_tr (d1l0) = let
   val loc0 = d1l0.d1lab_loc
 in
-  case+ d1l0.d1lab_node of
-  | D1LABlab lab => d2lab_lab (loc0, lab)
-  | D1LABind ind =>
-      d2lab_ind (loc0, l2l (list_map_fun (ind, d1explst_tr)))
-    // end of [D1LABind]
+//
+case+ d1l0.d1lab_node of
+| D1LABlab lab => d2lab_lab (loc0, lab)
+| D1LABind ind => d2lab_ind (loc0, d1explst_tr (ind))
+//
 end // end of [d1lab_tr]
 
 (* ****** ****** *)

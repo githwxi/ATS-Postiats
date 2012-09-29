@@ -867,7 +867,7 @@ case+ x.d2lab_node of
   } // end of [D2LABlab]
 | D2LABind (ind) => {
     val () = prstr "D2LABind("
-    val () = $UT.fprintlst (out, ind, "; ", fprint_d2explst)
+    val () = $UT.fprintlst (out, ind, ", ", fprint_d2exp)
     val () = prstr ")"
   } // end of [D2LABind]
 //
@@ -1080,7 +1080,7 @@ case+ x of
     val () = prstr "D2LVALarrsub("
     val () = fprint_d2exp (out, d2e)
     val () = prstr "; "
-    val () = $UT.fprintlst (out, ind, "; ", fprint_d2explst)
+    val () = $UT.fprintlst (out, ind, ", ", fprint_d2exp)
     val () = prstr ")"
   }
 | D2LVALviewat (d2e) => {

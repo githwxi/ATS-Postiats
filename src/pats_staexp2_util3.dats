@@ -210,7 +210,7 @@ and aux_s2lab (
 ) : void =
   case+ s2l of
   | S2LABlab _ => ()
-  | S2LABind (s2ess) => aux_s2explstlst (s2ess, fvs)
+  | S2LABind (ind) => aux_s2explst (ind, fvs)
 // end of [aux_s2lab]
 
 and aux_s2lablst (
@@ -561,8 +561,9 @@ in
 //
 case+ s2l of
 | S2LABlab _ => ()
-| S2LABind (s2ess) =>
-    aux_s2explstlst (s2V0, s2ess, ans, s2cs, s2vs, s2Vs)
+| S2LABind (ind) =>
+    aux_s2explst (s2V0, ind, ans, s2cs, s2vs, s2Vs)
+  // end of [S2LABind]
 //
 end // end of [aux_s2lab]
 

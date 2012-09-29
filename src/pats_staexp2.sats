@@ -420,8 +420,7 @@ s2exp_node =
 // end of [s2exp_node]
 
 and s2lab = 
-  | S2LABlab of label
-  | S2LABind of s2explstlst
+  | S2LABlab of (label) | S2LABind of (s2explst)
 // end of [s2lab]
 
 and s2eff =
