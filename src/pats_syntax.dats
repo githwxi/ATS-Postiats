@@ -2269,36 +2269,41 @@ in '{
 
 implement
 v0ardec_make (
-  tokopt, id, typ, varwth, ini
+  tokopt, id, s0eopt, varwth, d0eopt
 ) = let
-  var knd: int = 0
-  val loc_hd = (
-    case+ tokopt of
-    | Some tok => let
-        val () = knd := 1 in tok.token_loc
-      end
-    | None () => id.i0de_loc
-  ) : location
-  val loc_tl = (
-    case+ ini of
-    | Some d0e => d0e.d0exp_loc
-    | None () => (case+ varwth of
-      | Some id2 => id2.i0de_loc
-      | None () => (case+ typ of
-        | Some s0e => s0e.s0exp_loc
-        | None => id.i0de_loc
-      )
-    )
-  ) : location // end of [val]
-  val loc = loc_hd + loc_tl
+//
+var knd: int = 0
+//
+val loc_hd = (
+  case+ tokopt of
+  | Some tok => let
+      val () = knd := 1 in tok.token_loc
+    end
+  | None () => id.i0de_loc
+) : location
+//
+val loc_tl = (
+  case+ d0eopt of
+  | Some d0e => d0e.d0exp_loc
+  | None () => (
+    case+ varwth of
+    | Some id2 => id2.i0de_loc
+    | None () => (
+      case+ s0eopt of
+      | Some s0e => s0e.s0exp_loc | None () => id.i0de_loc
+    ) // end of [None]
+  )
+) : location // end of [val]
+val loc = loc_hd + loc_tl
+//
 in '{
   v0ardec_loc= loc
 , v0ardec_knd= knd
 , v0ardec_sym= id.i0de_sym
 , v0ardec_sym_loc= id.i0de_loc
-, v0ardec_typ= typ
+, v0ardec_type= s0eopt
 , v0ardec_wth= varwth
-, v0ardec_ini= ini
+, v0ardec_ini= d0eopt
 } end // end of [v0ardec_make]
 
 (* ****** ****** *)

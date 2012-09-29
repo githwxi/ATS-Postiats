@@ -744,6 +744,7 @@ val d3e = (
   case+ s2eopt of
   | Some (s2e) => d2exp_trdn (d2e, s2e) | None () => d2exp_trup (d2e)
 ) : d3exp // end of [val]
+//
 val s2e = d3exp_get_type (d3e)
 val s2f = s2exp2hnf (s2e)
 val s2e = s2hnf_opnexi_and_add (loc_d2v, s2f)

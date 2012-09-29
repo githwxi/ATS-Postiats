@@ -954,6 +954,10 @@ sc3lau_make (
 } // end of [sc3lau_make]
 
 (* ****** ****** *)
+//
+// HX: various declarations
+//
+(* ****** ****** *)
 
 implement
 i3mpdec_make (

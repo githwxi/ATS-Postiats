@@ -1512,7 +1512,7 @@ and v0ardec = '{
 , v0ardec_knd= int (* NO/BANG: knd=0/1 *)
 , v0ardec_sym= symbol
 , v0ardec_sym_loc= location
-, v0ardec_typ= s0expopt
+, v0ardec_type= s0expopt
 , v0ardec_wth= i0deopt // proof of at-view
 , v0ardec_ini= d0expopt
 } // end of [v0ardec]
@@ -1827,9 +1827,9 @@ fun f0undec_make (
 fun v0ardec_make (
   opt: tokenopt // optional BANG
 , pid: i0de
-, ann: s0expopt
+, s0eopt: s0expopt
 , varwth: i0deopt // proof of at-view
-, def : d0expopt
+, d0eopt: d0expopt
 ) : v0ardec // end of [v0ardec_make]
 
 (* ****** ****** *)

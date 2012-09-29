@@ -915,6 +915,33 @@ sc2lau_make (loc, sp2t, d2e) = '{
 (* ****** ****** *)
 
 implement
+i2mpdec_make (
+  loc, locid
+, d2c, s2vs, s2ess, s2pss, def
+) = '{
+  i2mpdec_loc= loc
+, i2mpdec_locid= locid
+, i2mpdec_cst= d2c
+, i2mpdec_imparg= s2vs
+, i2mpdec_tmparg= s2ess, i2mpdec_tmpgua= s2pss
+, i2mpdec_def= def
+} // end of [i2mpdec_make]
+
+(* ****** ****** *)
+
+implement
+f2undec_make (
+  loc, d2v, def, ann
+) = '{
+  f2undec_loc= loc
+, f2undec_var= d2v
+, f2undec_def= def
+, f2undec_ann= ann
+} // end of [f2undec_make]
+
+(* ****** ****** *)
+
+implement
 v2aldec_make (
   loc, p2t, def, ann
 ) = '{
@@ -951,33 +978,6 @@ prv2ardec_make (
 
 (* ****** ****** *)
 
-implement
-f2undec_make (
-  loc, d2v, def, ann
-) = '{
-  f2undec_loc= loc
-, f2undec_var= d2v
-, f2undec_def= def
-, f2undec_ann= ann
-} // end of [f2undec_make]
-
-(* ****** ****** *)
-
-implement
-i2mpdec_make (
-  loc, locid
-, d2c, s2vs, s2ess, s2pss, def
-) = '{
-  i2mpdec_loc= loc
-, i2mpdec_locid= locid
-, i2mpdec_cst= d2c
-, i2mpdec_imparg= s2vs
-, i2mpdec_tmparg= s2ess, i2mpdec_tmpgua= s2pss
-, i2mpdec_def= def
-} // end of [i2mpdec_make]
-
-(* ****** ****** *)
-
 extern
 fun d2ecl_make_node
   (loc: location, node: d2ecl_node): d2ecl
@@ -995,6 +995,8 @@ d2ecl_none (loc) = d2ecl_make_node (loc, D2Cnone ())
 implement
 d2ecl_list (loc, xs) = d2ecl_make_node (loc, D2Clist (xs))
 
+(* ****** ****** *)
+
 implement
 d2ecl_symintr
   (loc, ids) = d2ecl_make_node (loc, D2Csymintr (ids))
@@ -1004,10 +1006,14 @@ d2ecl_symelim
   (loc, ids) = d2ecl_make_node (loc, D2Csymelim (ids))
 // end of [d2ecl_symelim]
 
+(* ****** ****** *)
+
 implement
 d2ecl_overload
   (loc, id, def) = d2ecl_make_node (loc, D2Coverload (id, def))
 // end of [d2ecl_overload]
+
+(* ****** ****** *)
 
 (*
 implement
@@ -1016,8 +1022,12 @@ d2ecl_stavars
 // end of [d2ecl_stavars]
 *)
 
+(* ****** ****** *)
+
 implement
 d2ecl_saspdec (loc, d) = d2ecl_make_node (loc, D2Csaspdec (d))
+
+(* ****** ****** *)
 
 implement
 d2ecl_extype (loc, name, def) =
@@ -1029,6 +1039,8 @@ implement
 d2ecl_extcode (loc, knd, pos, code) =
   d2ecl_make_node (loc, D2Cextcode (knd, pos, code))
 
+(* ****** ****** *)
+
 implement
 d2ecl_datdecs (loc, knd, s2cs) =
   d2ecl_make_node (loc, D2Cdatdecs (knd, s2cs))
@@ -1036,6 +1048,8 @@ d2ecl_datdecs (loc, knd, s2cs) =
 implement
 d2ecl_exndecs (loc, d2cs) =
  d2ecl_make_node (loc, D2Cexndecs (d2cs))
+
+(* ****** ****** *)
 
 implement
 d2ecl_dcstdecs (loc, knd, d2cs) =
