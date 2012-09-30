@@ -334,6 +334,7 @@ val SOURCES =
 , "pats_typerase_decl.dats"
 //
 , "pats_ccomp.sats"
+, "pats_ccomp_print.dats"
 //
 , "pats_comarg.sats"
 , "pats_comarg.dats"

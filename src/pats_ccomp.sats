@@ -32,12 +32,13 @@
 //
 (* ****** ****** *)
 
-staload
-LAB = "pats_label.sats"
-typedef label = $LAB.label
+staload "pats_basics.sats"
 
-staload
-LOC = "pats_location.sats"
+(* ****** ****** *)
+
+staload LAB = "pats_label.sats"
+typedef label = $LAB.label
+staload LOC = "pats_location.sats"
 typedef location = $LOC.location
 
 (* ****** ****** *)
@@ -53,16 +54,20 @@ staload "pats_histaexp.sats"
 
 datatype
 primval_node =
-  | PVarg of (int)
-  | PVargref of (int) // call-by-reference
-  | PVbool of (bool)
-  | PVcastfn of (d2cst, primval)
+  | PMVint of (int)
+  | PMVbool of (bool)
+  | PMVchar of (char)
+  | PMVstring of (string)
+  | PMVvoid of ()
+  | PMVarg of (int)
+  | PMVargref of (int) // call-by-reference
+  | PMVcastfn of (d2cst, primval)
+  | PMVerr of ()
 // end of [primval_node]
 
-and offset =
-  | OFSlam of (label, hisexp(*rec*))
-  | OFSind of (primvalist(*ind*), hisexp(*elt*))
-// end of [offset]
+and primlab_node =
+  | PMLlab of (label) | PMLind of (primvalist(*ind*))
+// end of [primlab]
 
 where
 primval = '{
@@ -72,6 +77,20 @@ primval = '{
 } // end of [primval]
 
 and primvalist = List (primval)
+
+and primlab = '{
+  primlab_loc= location
+, primlab_node= primlab_node
+}
+
+(* ****** ****** *)
+
+fun fprint_primval : fprint_type (primval)
+fun fprint_primvalist : fprint_type (primvalist)
+
+(* ****** ****** *)
+
+fun fprint_primlab : fprint_type (primlab)
 
 (* ****** ****** *)
 
