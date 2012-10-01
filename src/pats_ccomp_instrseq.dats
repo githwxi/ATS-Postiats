@@ -32,8 +32,12 @@
 //
 (* ****** ****** *)
 
-staload "pats_histaexp.sats"
-staload "pats_hidynexp.sats"
+staload _(*anon*) = "prelude/DATS/pointer.dats"
+
+(* ****** ****** *)
+
+staload LQ = "libats/SATS/linqueue_lst.sats"
+staload _(*anon*) = "libats/DATS/linqueue_lst.dats"
 
 (* ****** ****** *)
 
@@ -41,55 +45,24 @@ staload "pats_ccomp.sats"
 
 (* ****** ****** *)
 
-extern
-fun primval_make_node
-  (loc: location, hse: hisexp, node: primval_node): primval
-implement
-primval_make_node
-  (loc, hse, node) = '{
-  primval_loc= loc, primval_type= hse, primval_node= node
-} // end of [primval_make_node]
+dataviewtype
+instrseq = INSTRSEQ of ($LQ.QUEUE1 (instr))
+assume instrseq_vtype = instrseq
 
 (* ****** ****** *)
 
 implement
-primval_int (loc, hse, i) =
-  primval_make_node (loc, hse, PMVint (i))
-// end of [primval_int]
-
-implement
-primval_bool (loc, hse, b) =
-  primval_make_node (loc, hse, PMVbool (b))
-// end of [primval_bool]
-
-implement
-primval_char (loc, hse, c) =
-  primval_make_node (loc, hse, PMVchar (c))
-// end of [primval_char]
-
-implement
-primval_string (loc, hse, str) =
-  primval_make_node (loc, hse, PMVstring (str))
-// end of [primval_string]
+instrseq_add
+  (seq, x) = let
+in
+//
+case+ seq of
+| INSTRSEQ (!p_xs) => let
+    val () = $LQ.queue_insert (!p_xs, x) in fold@ (seq)
+  end // end of [INSTRSEQ]
+//
+end // end of [instrseq_add]
 
 (* ****** ****** *)
 
-implement
-instr_make_node
-  (loc, node) = '{
-  instr_loc= loc, instr_node= node
-} // end of [instr_make_node]
-
-implement
-instr_move_val (loc, tmp, pmv) =
-  instr_make_node (loc, INSmove_val (tmp, pmv))
-// end of [instr_move_val]
-
-implement
-instr_move_arg_val (loc, arg, pmv) =
-  instr_make_node (loc, INSmove_arg_val (arg, pmv))
-// end of [instr_move_arg_val]
-
-(* ****** ****** *)
-
-(* end of [pats_ccomp.dats] *)
+(* end of [pats_ccomp_instrseq.dats] *)

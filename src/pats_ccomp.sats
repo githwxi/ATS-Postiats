@@ -63,6 +63,7 @@ abstype tmplab_type
 typedef tmplab = tmplab_type
 
 fun tmplab_make (): tmplab
+
 fun tmplab_get_stamp (x: tmplab): stamp
 
 fun fprint_tmplab : fprint_type (tmplab)
@@ -78,6 +79,10 @@ typedef tmpvar = tmpvar_type
 typedef tmpvarlst = List (tmpvar)
 typedef tmpvaropt = Option (tmpvar)
 
+fun tmpvar_make
+  (loc: location, hse: hisexp): tmpvar
+// end of [tmpvar_make]
+
 fun fprint_tmpvar : fprint_type (tmpvar)
 fun print_tmpvar (x: tmpvar): void
 overload print with print_tmpvar
@@ -89,8 +94,6 @@ overload = with eq_tmpvar_tmpvar
 
 fun compare_tmpvar_tmpvar (x1: tmpvar, x2: tmpvar): int
 overload = with compare_tmpvar_tmpvar
-
-fun tmpvar_make (loc: location, hse: hisexp): tmpvar
 
 (* ****** ****** *)
 
@@ -220,11 +223,28 @@ fun fprint_instrlst : fprint_type (instrlst)
 
 (* ****** ****** *)
 
-absviewtype instrseq_viewtype
-viewtypedef instrseq = instrseq_viewtype
+fun instr_make_node
+  (loc: location, node: instr_node): instr
 
-absviewtype ccompenv_viewtype
-viewtypedef ccompenv = ccompenv_viewtype
+fun instr_move_val (
+  loc: location, tmp: tmpvar, pmv: primval
+) : instr // end of [instr_move_val]
+
+fun instr_move_arg_val
+  (loc: location, arg: int, pmv: primval): instr
+// end of [instr_move_arg_val]
+
+(* ****** ****** *)
+
+absviewtype instrseq_vtype
+viewtypedef instrseq = instrseq_vtype
+
+fun instrseq_add (xs: !instrseq, x: instr): void
+
+(* ****** ****** *)
+
+absviewtype ccompenv_vtype
+viewtypedef ccompenv = ccompenv_vtype
 
 (* ****** ****** *)
 
@@ -232,6 +252,10 @@ fun hidexp_ccomp
   (env: !ccompenv, res: !instrseq, hde: hidexp): primval
 fun hidexplst_ccomp
   (env: !ccompenv, res: !instrseq, hdes: hidexplst): primvalist
+
+fun hidexp_ccomp_ret
+  (env: !ccompenv, res: !instrseq, hde: hidexp, tmpret: tmpvar): void
+// end of [hidexp_ccomp_ret]
 
 (* ****** ****** *)
 

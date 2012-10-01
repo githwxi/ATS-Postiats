@@ -102,4 +102,26 @@ end // end of [hidexplst_ccomp]
 
 (* ****** ****** *)
 
+implement
+hidexp_ccomp_ret (
+  env, res, hde0, tmpret
+) = let
+  val loc0 = hde0.hidexp_loc
+  val hse0 = hde0.hidexp_type
+in
+//
+case+ hde0.hidexp_node of
+| HDEbool (b) => let
+    val pmv = primval_bool (loc0, hse0, b)
+    val ins = instr_move_val (loc0, tmpret, pmv)
+  in
+    instrseq_add (res, ins)
+  end // end of [HDEbool]
+//
+| _ => exitloc (1)
+//
+end // end of [hidexp_ccomp_ret]
+
+(* ****** ****** *)
+
 (* end of [pats_ccomp_dynexp.dats] *)

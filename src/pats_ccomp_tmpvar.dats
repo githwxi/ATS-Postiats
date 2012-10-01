@@ -70,6 +70,20 @@ assume tmpvar_type = tmpvar
 in // in of [local]
 
 implement
+tmpvar_make
+  (loc, hse) = let
+  val stamp = $STMP.tmpvar_stamp_make () in '{
+  tmpvar_loc= loc
+, tmpvar_type= hse
+, tmpvar_ret= 0
+, tmpvar_top= 0 (*local*)
+, tmpvar_root= None () // HX: tmpvar is not an alias
+, tmpvar_stamp= stamp
+} end // end of [tmpvar_make]
+
+(* ****** ****** *)
+
+implement
 fprint_tmpvar
   (out, tmp) = () where {
   val () = fprint_string (out, "tmp(")
@@ -88,20 +102,6 @@ implement
 compare_tmpvar_tmpvar (tmp1, tmp2) =
   $STMP.compare_stamp_stamp (tmp1.tmpvar_stamp, tmp2.tmpvar_stamp)
 // end of [compare_tmpvar_tmpvar]
-
-(* ****** ****** *)
-
-implement
-tmpvar_make
-  (loc, hse) = let
-  val stamp = $STMP.tmpvar_stamp_make () in '{
-  tmpvar_loc= loc
-, tmpvar_type= hse
-, tmpvar_ret= 0
-, tmpvar_top= 0 (*local*)
-, tmpvar_root= None () // HX: tmpvar is not an alias
-, tmpvar_stamp= stamp
-} end // end of [tmpvar_make]
 
 (* ****** ****** *)
 
