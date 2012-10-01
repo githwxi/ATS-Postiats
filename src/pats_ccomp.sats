@@ -36,6 +36,12 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
+staload
+STMP = "pats_stamp.sats"
+typedef stamp = $STMP.stamp
+
+(* ****** ****** *)
+
 staload LAB = "pats_label.sats"
 typedef label = $LAB.label
 staload LOC = "pats_location.sats"
@@ -49,19 +55,47 @@ staload "pats_dynexp2.sats"
 (* ****** ****** *)
 
 staload "pats_histaexp.sats"
+staload "pats_hidynexp.sats"
+
+(* ****** ****** *)
+
+abstype tmplab_type
+typedef tmplab = tmplab_type
+
+fun tmplab_make (): tmplab
+fun tmplab_get_stamp (x: tmplab): stamp
+
+fun fprint_tmplab : fprint_type (tmplab)
+fun print_tmplab (x: tmplab): void
+overload print with print_tmplab
+fun prerr_tmplab (x: tmplab): void
+overload prerr with prerr_tmplab
+
+(* ****** ****** *)
+
+abstype tmpvar_type
+typedef tmpvar = tmpvar_type
+typedef tmpvarlst = List (tmpvar)
+typedef tmpvaropt = Option (tmpvar)
 
 (* ****** ****** *)
 
 datatype
 primval_node =
+  | PMtmp of (tmpvar)
+  | PMtmpref of (tmpvar)
+//
   | PMVint of (int)
   | PMVbool of (bool)
   | PMVchar of (char)
   | PMVstring of (string)
   | PMVvoid of ()
+//
   | PMVarg of (int)
   | PMVargref of (int) // call-by-reference
+//
   | PMVcastfn of (d2cst, primval)
+//
   | PMVerr of ()
 // end of [primval_node]
 
@@ -91,6 +125,74 @@ fun fprint_primvalist : fprint_type (primvalist)
 (* ****** ****** *)
 
 fun fprint_primlab : fprint_type (primlab)
+
+(* ****** ****** *)
+
+fun primval_int
+  (loc: location, hse: hisexp, i: int): primval
+fun primval_bool
+  (loc: location, hse: hisexp, b: bool): primval
+fun primval_char
+  (loc: location, hse: hisexp, c: char): primval
+fun primval_string
+  (loc: location, hse: hisexp, str: string): primval
+
+(* ****** ****** *)
+
+datatype
+instr_node =
+//
+  | INSmove_val of (tmpvar, primval)
+  | INSmove_arg_val of (int(*arg*), primval)
+  | INSTRmove_con of
+      (tmpvar, hisexp, d2con, primvalist(*arg*))
+  | INSTRmove_ref of (tmpvar, primval)
+//
+  | INScall of
+      (tmpvar, hisexp, primval(*fun*), primvalist(*arg*))
+    // end of [INScall]
+//    
+  | INScond of ( // conditinal instruction
+      primval(*test*), instrlst(*then*), instrlst(*else*)
+    ) // end of [INScond]
+// end of [instr_node]
+
+where
+instr = '{
+  instr_loc= location, instr_node= instr_node
+} // end of [instr]
+
+and instrlst = List (instr)
+and instrlst_vt = List_vt (instr)
+
+and ibranch = '{
+  ibranch_lab= tmplab, ibranch_inslst= instrlst
+} // end of [ibranch]
+
+(* ****** ****** *)
+
+fun fprint_instr : fprint_type (instr)
+fun print_instr (x: instr): void
+overload print with print_instr
+fun prerr_instr (x: instr): void
+overload print with prerr_instr
+
+fun fprint_instrlst : fprint_type (instrlst)
+
+(* ****** ****** *)
+
+absviewtype instrseq_viewtype
+viewtypedef instrseq = instrseq_viewtype
+
+absviewtype ccompenv_viewtype
+viewtypedef ccompenv = ccompenv_viewtype
+
+(* ****** ****** *)
+
+fun hidexp_ccomp
+  (env: !ccompenv, res: &instrseq, hde: hidexp): primval
+fun hidexplst_ccomp
+  (env: !ccompenv, res: &instrseq, hdes: hidexplst): primvalist
 
 (* ****** ****** *)
 

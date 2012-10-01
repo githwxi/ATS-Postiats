@@ -40,6 +40,8 @@
 
 /* ****** ****** */
 
+#define ATSMACcastfn(castfn, arg) arg // castfn application
+
 /* ****** ****** */
 
 #endif /* PATS_BASICS_H */

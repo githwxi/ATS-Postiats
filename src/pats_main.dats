@@ -292,7 +292,10 @@ dynload "pats_typerase_staexp.dats"
 dynload "pats_typerase_dynexp.dats"
 dynload "pats_typerase_decl.dats"
 //
+dynload "pats_ccomp.dats"
 dynload "pats_ccomp_print.dats"
+dynload "pats_ccomp_dynexp.dats"
+dynload "pats_ccomp_decl.dats"
 //
 dynload "pats_comarg.dats"
 //

@@ -64,9 +64,6 @@ castfn cast2ssize {a:t0p} (x: a):<> ssize_t
 castfn cast2sint {a:t0p} (x: a):<> sint
 castfn cast2usint {a:t0p} (x: a):<> usint
 //
-castfn cast2ssint {a:t0p} (x: a):<> ssint
-castfn cast2ussint {a:t0p} (x: a):<> ussint
-//
 #atscode_separator()
 //
 // HX: these are popular ones:

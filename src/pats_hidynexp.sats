@@ -190,6 +190,7 @@ and hidexp_node =
   | HDEvar of (d2var) // dynamic variables
   | HDEcst of (d2cst) // dynamic constants
 //
+  | HDEint of int // integer constants
   | HDEbool of bool // boolean constants
   | HDEchar of char // constant characters
   | HDEstring of string // constant strings

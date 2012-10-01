@@ -40,6 +40,45 @@
 
 /* ****** ****** */
 
+struct atstype_struct ; /* of indefinite size */
+
+/* ****** ****** */
+
+typedef void atstype_void ;
+
+/* ****** ****** */
+
+typedef int atstype_int ;
+typedef unsigned int atstype_uint ;
+
+typedef long int atstype_lint ;
+typedef unsigned long int atstype_ulint ;
+
+typedef long long int atstype_llint ;
+typedef unsigned long long int atstype_ullint ;
+
+typedef short int atstype_sint ;
+typedef unsigned short int atstype_usint ;
+
+/* ****** ****** */
+
+typedef int atstype_bool ; // true/false: 1/0
+
+/* ****** ****** */
+
+typedef char atstype_char ;
+typedef signed char atstype_schar ;
+typedef unsigned char atstype_uchar ;
+
+/* ****** ****** */
+
+typedef char *atstype_string ;
+
+/* ****** ****** */
+
+typedef float atstype_float ;
+typedef double atstype_double ;
+
 /* ****** ****** */
 
 #endif /* PATS_TYPEDEFS_H */

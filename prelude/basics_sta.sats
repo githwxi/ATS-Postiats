@@ -236,24 +236,13 @@ stadef ullint = ullint0 // second
 tkindef sint_kind = "atstype_sint"
 typedef sint0 = g0int (sint_kind)
 typedef sint1 (i:int) = g1int (sint_kind, i)
-stadef sint = sint0 // first
-stadef sint = sint1 // second
+stadef sint = sint1 // first
+stadef sint = sint0 // second
 tkindef usint_kind = "atstype_usint"
 typedef usint0 = g0uint (usint_kind)
 typedef usint1 (i:int) = g1uint (usint_kind, i)
-stadef usint = usint0 // first
-stadef usint = usint1 // second
-
-tkindef ssint_kind = "atstype_ssint"
-typedef ssint0 = g0int (ssint_kind)
-typedef ssint1 (i:int) = g1int (ssint_kind, i)
-stadef ssint = ssint0 // first
-stadef ssint = ssint1 // second
-tkindef ussint_kind = "atstype_ussint"
-typedef ussint0 = g0uint (ussint_kind)
-typedef ussint1 (i:int) = g1uint (ussint_kind, i)
-stadef ussint = ussint0 // first
-stadef ussint = ussint1 // second
+stadef usint = usint1 // first
+stadef usint = usint0 // second
 
 (* ****** ****** *)
 //
