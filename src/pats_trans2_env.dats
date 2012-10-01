@@ -667,6 +667,8 @@ end // end of [local]
 ** this function is currently not used
 ** in the implementation of ATS2
 *)
+#if (0) #then
+
 implement
 s2var_check_tmplev
   (loc, s2v) = let
@@ -688,6 +690,10 @@ in
     end // end of [_ when lev > 0]]
   | _ => () // HX: [s2v] is not a template variable
 end // end of [s2var_tmplev_check]
+
+#endif // PATS_UNUSED_CODE
+
+(* ****** ****** *)
 
 implement
 s2qualstlst_set_tmplev
