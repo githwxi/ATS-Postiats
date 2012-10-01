@@ -32,8 +32,21 @@
 //
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
+staload
+STMP = "pats_stamp.sats"
+typedef stamp = $STMP.stamp
+
+staload
+LOC = "pats_location.sats"
+typedef location = $LOC.location
+
+(* ****** ****** *)
+
 staload "pats_histaexp.sats"
-staload "pats_hidynexp.sats"
 
 (* ****** ****** *)
 
@@ -41,57 +54,32 @@ staload "pats_ccomp.sats"
 
 (* ****** ****** *)
 
+local
+
+assume
+tmplab_type = '{
+  tmplab_stamp = stamp
+} // end of [tmplab]
+
+in // in of [local]
+
 implement
-hidecl_ccomp
-  (env, res, hdc) = let
-in
-//
-case+ hdc of
-| _ => exitloc (1)
-//
-end // end of [hidecl_ccomp]
+tmplab_make () = '{
+  tmplab_stamp= $STMP.tmplab_stamp_make ()
+} // end of [tmplab_make]
+
+implement
+tmplab_get_stamp (tl) = tl.tmplab_stamp
+
+implement
+fprint_tmplab
+  (out, tl) = () where {
+  val () = fprint_string (out, "tmplab(")
+  val () = $STMP.fprint_stamp (out, tl.tmplab_stamp)
+} // end of [fprint_tmplab]
+
+end // end of [local]
 
 (* ****** ****** *)
 
-implement
-hideclist_ccomp
-  (env, res, hdcs) = let
-//
-fun loop (
-  env: !ccompenv
-, res: !instrseq
-, hdcs: hideclist
-, pmds: &primdeclst_vt? >> primdeclst_vt
-) : void = let
-in
-//
-case+ hdcs of
-| list_cons
-    (hdc, hdcs) => let
-    val pmd =
-      hidecl_ccomp (env, res, hdc)
-    val () = pmds := list_vt_cons {..}{0} (pmd, ?)
-    val list_vt_cons (_, !p_pmds) = pmds
-    val () = loop (env, res, hdcs, !p_pmds)
-    val () = fold@ (pmds)
-  in
-    // nothing
-  end // end of [list_cons]
-| list_nil () => let
-    val () = pmds := list_vt_nil () in (*nothing*)
-  end // end of [list_nil]
-//
-end // end of [loop]
-//
-var pmds: primdeclst_vt
-val () = loop (env, res, hdcs, pmds)
-//
-in
-//
-list_of_list_vt (pmds)
-//
-end // end of [hideclist_ccomp]
-
-(* ****** ****** *)
-
-(* end of [pats_ccomp_decl.dats] *)
+(* end of [pats_ccomp_tmplab.dats] *)

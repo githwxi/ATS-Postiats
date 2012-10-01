@@ -58,6 +58,18 @@ macdef prstr (s) = fprint_string (out, ,(s))
 in
 //
 case+ x.primval_node of
+//
+| PMVtmp (tmp) => {
+    val () = prstr "PMVtmp("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr ")"
+  }
+| PMVtmpref (tmp) => {
+    val () = prstr "PMVtmpref("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr ")"
+  }
+//
 | PMVint (i) => {
     val () = prstr "PMVint("
     val () = fprint_int (out, i)

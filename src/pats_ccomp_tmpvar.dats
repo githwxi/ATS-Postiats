@@ -32,8 +32,21 @@
 //
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
+staload
+STMP = "pats_stamp.sats"
+typedef stamp = $STMP.stamp
+
+staload
+LOC = "pats_location.sats"
+typedef location = $LOC.location
+
+(* ****** ****** *)
+
 staload "pats_histaexp.sats"
-staload "pats_hidynexp.sats"
 
 (* ****** ****** *)
 
@@ -41,57 +54,59 @@ staload "pats_ccomp.sats"
 
 (* ****** ****** *)
 
+local
+
+typedef tmpvar = '{
+  tmpvar_loc= location
+, tmpvar_type= hisexp
+, tmpvar_ret= int (* return status *)
+, tmpvar_top= int (* 0/1 : local/top(static) *)
+, tmpvar_root= tmpvaropt
+, tmpvar_stamp= stamp (* unicity *)
+} // end of [tmpvar]
+
+assume tmpvar_type = tmpvar
+
+in // in of [local]
+
 implement
-hidecl_ccomp
-  (env, res, hdc) = let
-in
-//
-case+ hdc of
-| _ => exitloc (1)
-//
-end // end of [hidecl_ccomp]
+fprint_tmpvar
+  (out, tmp) = () where {
+  val () = fprint_string (out, "tmp(")
+  val () = $STMP.fprint_stamp (out, tmp.tmpvar_stamp)
+  val () = fprint_string (out, ")")
+} // end of [fprint_tmpvar]
 
 (* ****** ****** *)
 
 implement
-hideclist_ccomp
-  (env, res, hdcs) = let
-//
-fun loop (
-  env: !ccompenv
-, res: !instrseq
-, hdcs: hideclist
-, pmds: &primdeclst_vt? >> primdeclst_vt
-) : void = let
-in
-//
-case+ hdcs of
-| list_cons
-    (hdc, hdcs) => let
-    val pmd =
-      hidecl_ccomp (env, res, hdc)
-    val () = pmds := list_vt_cons {..}{0} (pmd, ?)
-    val list_vt_cons (_, !p_pmds) = pmds
-    val () = loop (env, res, hdcs, !p_pmds)
-    val () = fold@ (pmds)
-  in
-    // nothing
-  end // end of [list_cons]
-| list_nil () => let
-    val () = pmds := list_vt_nil () in (*nothing*)
-  end // end of [list_nil]
-//
-end // end of [loop]
-//
-var pmds: primdeclst_vt
-val () = loop (env, res, hdcs, pmds)
-//
-in
-//
-list_of_list_vt (pmds)
-//
-end // end of [hideclist_ccomp]
+eq_tmpvar_tmpvar (tmp1, tmp2) =
+  $STMP.eq_stamp_stamp (tmp1.tmpvar_stamp, tmp2.tmpvar_stamp)
+// end of [eq_tmpvar_tmpvar]
+
+implement
+compare_tmpvar_tmpvar (tmp1, tmp2) =
+  $STMP.compare_stamp_stamp (tmp1.tmpvar_stamp, tmp2.tmpvar_stamp)
+// end of [compare_tmpvar_tmpvar]
 
 (* ****** ****** *)
 
-(* end of [pats_ccomp_decl.dats] *)
+implement
+tmpvar_make
+  (loc, hse) = let
+  val stamp = $STMP.tmpvar_stamp_make () in '{
+  tmpvar_loc= loc
+, tmpvar_type= hse
+, tmpvar_ret= 0
+, tmpvar_top= 0 (*local*)
+, tmpvar_root= None () // HX: tmpvar is not an alias
+, tmpvar_stamp= stamp
+} end // end of [tmpvar_make]
+
+(* ****** ****** *)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+(* end of [pats_ccomp_tmpvar.dats] *)

@@ -78,12 +78,50 @@ typedef tmpvar = tmpvar_type
 typedef tmpvarlst = List (tmpvar)
 typedef tmpvaropt = Option (tmpvar)
 
+fun fprint_tmpvar : fprint_type (tmpvar)
+fun print_tmpvar (x: tmpvar): void
+overload print with print_tmpvar
+fun prerr_tmpvar (x: tmpvar): void
+overload prerr with prerr_tmpvar
+
+fun eq_tmpvar_tmpvar (x1: tmpvar, x2: tmpvar): bool
+overload = with eq_tmpvar_tmpvar
+
+fun compare_tmpvar_tmpvar (x1: tmpvar, x2: tmpvar): int
+overload = with compare_tmpvar_tmpvar
+
+fun tmpvar_make (loc: location, hse: hisexp): tmpvar
+
+(* ****** ****** *)
+
+datatype
+primdec_node =
+  | PMDnone of () 
+  | PMDimpdec of ()
+  | PMDfundec of ()
+  | PMDvaldec of ()
+  | PMDvardec of ()
+  | PMDlocal of (primdeclst, primdeclst)
+
+where
+primdec = '{
+  primdec_loc= location, primdec_node= primdec_node
+} // end of [primdec]
+
+and primdeclst = List (primdec)
+and primdeclst_vt = List_vt (primdec)
+
+(* ****** ****** *)
+
+fun fprint_primdec : fprint_type (primdec)
+fun fprint_primdeclst : fprint_type (primdeclst)
+
 (* ****** ****** *)
 
 datatype
 primval_node =
-  | PMtmp of (tmpvar)
-  | PMtmpref of (tmpvar)
+  | PMVtmp of (tmpvar)
+  | PMVtmpref of (tmpvar)
 //
   | PMVint of (int)
   | PMVbool of (bool)
@@ -111,6 +149,7 @@ primval = '{
 } // end of [primval]
 
 and primvalist = List (primval)
+and primvalist_vt = List_vt (primval)
 
 and primlab = '{
   primlab_loc= location
@@ -190,9 +229,16 @@ viewtypedef ccompenv = ccompenv_viewtype
 (* ****** ****** *)
 
 fun hidexp_ccomp
-  (env: !ccompenv, res: &instrseq, hde: hidexp): primval
+  (env: !ccompenv, res: !instrseq, hde: hidexp): primval
 fun hidexplst_ccomp
-  (env: !ccompenv, res: &instrseq, hdes: hidexplst): primvalist
+  (env: !ccompenv, res: !instrseq, hdes: hidexplst): primvalist
+
+(* ****** ****** *)
+
+fun hidecl_ccomp
+  (env: !ccompenv, res: !instrseq, hdc: hidecl): primdec
+fun hideclist_ccomp
+  (env: !ccompenv, res: !instrseq, hdcs: hideclist): primdeclst
 
 (* ****** ****** *)
 

@@ -157,6 +157,29 @@ end // end of [local]
 
 (* ****** ****** *)
 
+local
+//
+val cntr = $CNTR.counter_make ()
+//
+in
+//
+implement tmplab_stamp_make () = $CNTR.counter_getinc (cntr)
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+//
+val cntr = $CNTR.counter_make ()
+//
+in
+//
+implement tmpvar_stamp_make () = $CNTR.counter_getinc (cntr)
+//
+end // end of [local]
+
+(* ****** ****** *)
 
 local
 

@@ -87,6 +87,11 @@ fun d2mac_stamp_make (): stamp
 fun d2var_stamp_make (): stamp
 //
 (* ****** ****** *)
+
+fun tmplab_stamp_make (): stamp
+fun tmpvar_stamp_make (): stamp
+
+(* ****** ****** *)
 //
 absviewtype stampset_viewtype
 viewtypedef stampset_vt = stampset_viewtype

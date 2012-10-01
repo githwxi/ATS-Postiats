@@ -64,17 +64,39 @@ end // end of [hidexp_ccomp]
 implement
 hidexplst_ccomp
   (env, res, hdes) = let
+//
+fun loop (
+  env: !ccompenv
+, res: !instrseq
+, hdes: hidexplst
+, pmvs: &primvalist_vt? >> primvalist_vt
+) : void = let
 in
 //
 case+ hdes of
 | list_cons
     (hde, hdes) => let
-    val pmv = hidexp_ccomp (env, res, hde)
-    val pmvs = hidexplst_ccomp (env, res, hdes)
+    val pmv =
+      hidexp_ccomp (env, res, hde)
+    val () = pmvs := list_vt_cons {..}{0} (pmv, ?)
+    val list_vt_cons (_, !p_pmvs) = pmvs
+    val () = loop (env, res, hdes, !p_pmvs)
+    val () = fold@ (pmvs)
   in
-    list_cons (pmv, pmvs)
+    // nothing
   end // end of [list_cons]
-| list_nil () => list_nil ()
+| list_nil () => let
+    val () = pmvs := list_vt_nil () in (*nothing*)
+  end // end of [list_nil]
+//
+end // end of [loop]
+//
+var pmvs: primvalist_vt
+val () = loop (env, res, hdes, pmvs)
+//
+in
+//
+list_of_list_vt (pmvs)
 //
 end // end of [hidexplst_ccomp]
 
