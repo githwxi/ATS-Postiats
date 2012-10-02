@@ -99,6 +99,7 @@ overload compare with compare_filename_filename
 (* ****** ****** *)
 
 val filename_dummy : filename (* dummy *)
+val filename_stdin : filename (* STDIN *)
 
 (* ****** ****** *)
 

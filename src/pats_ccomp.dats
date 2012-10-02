@@ -42,6 +42,21 @@ staload "pats_ccomp.sats"
 (* ****** ****** *)
 
 extern
+fun primdec_make_node
+  (loc: location, node: primdec_node): primdec
+implement
+primdec_make_node
+  (loc, node) = '{
+  primdec_loc= loc, primdec_node= node
+} // end of [primdec_make_node]
+
+implement
+primdec_vardec (loc, d2v) =
+  primdec_make_node (loc, PMDvardec (d2v))
+
+(* ****** ****** *)
+
+extern
 fun primval_make_node
   (loc: location, hse: hisexp, node: primval_node): primval
 implement
@@ -74,11 +89,16 @@ primval_string (loc, hse, str) =
 
 (* ****** ****** *)
 
+extern
+fun instr_make_node
+  (loc: location, node: instr_node): instr
 implement
 instr_make_node
   (loc, node) = '{
   instr_loc= loc, instr_node= node
 } // end of [instr_make_node]
+
+(* ****** ****** *)
 
 implement
 instr_move_val (loc, tmp, pmv) =

@@ -168,6 +168,11 @@ filename_dummy = '{
   filename_part= "", filename_full= $SYM.symbol_empty
 } // end of [filename_dummy]
 
+implement
+filename_stdin = '{
+  filename_part= "<STDIN>", filename_full= $SYM.symbol_empty
+} // end of [filename_stdin]
+
 (* ****** ****** *)
 
 local

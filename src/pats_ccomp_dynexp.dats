@@ -111,12 +111,19 @@ hidexp_ccomp_ret (
 in
 //
 case+ hde0.hidexp_node of
+//
 | HDEbool (b) => let
     val pmv = primval_bool (loc0, hse0, b)
     val ins = instr_move_val (loc0, tmpret, pmv)
   in
     instrseq_add (res, ins)
   end // end of [HDEbool]
+| HDEchar (c) => let
+    val pmv = primval_char (loc0, hse0, c)
+    val ins = instr_move_val (loc0, tmpret, pmv)
+  in
+    instrseq_add (res, ins)
+  end // end of [HDEchar]
 //
 | _ => exitloc (1)
 //

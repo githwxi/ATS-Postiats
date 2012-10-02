@@ -99,6 +99,10 @@ staload TYER = "pats_typerase.sats"
 
 (* ****** ****** *)
 
+staload CCOMP = "pats_ccomp.sats"
+
+(* ****** ****** *)
+
 staload "pats_comarg.sats"
 
 (* ****** ****** *)
@@ -299,6 +303,7 @@ dynload "pats_ccomp_tmpvar.dats"
 dynload "pats_ccomp_instrseq.dats"
 dynload "pats_ccomp_dynexp.dats"
 dynload "pats_ccomp_decl.dats"
+dynload "pats_ccomp_main.dats"
 //
 dynload "pats_comarg.dats"
 //
@@ -395,6 +400,8 @@ cmdstate = @{
 , preludeflg= int
 // number of processed input files
 , ninputfile= int
+//
+, infil=filename
 //
 , outchan= outchan
 //
@@ -698,9 +705,9 @@ do_trans1234 (
   val d3cs =
     do_trans123 (basename, d0cs)
   // end of [d3cs]
-  val hids = $TYER.d3eclist_tyer (d3cs)
+  val hdcs = $TYER.d3eclist_tyer (d3cs)
 //
-  val () = fprint_hideclist (stdout_ref, hids)
+  val () = fprint_hideclist (stdout_ref, hdcs)
 //
   val () = if isdebug() then {
     val () = print "The 4th translation (type/proof-erasing) of ["
@@ -710,7 +717,7 @@ do_trans1234 (
   } // end of [if] // end of [val]
 //
 in
-  hids
+  hdcs
 end // end of [do_trans1234]
 
 (* ****** ****** *)
@@ -725,7 +732,10 @@ case+ 0 of
     val d3cs = do_trans123 (basename, d0cs) in (*nothing*)
   end // end of [...]
 | _ => let
-    val hids = do_trans1234 (basename, d0cs)
+    val hdcs = do_trans1234 (basename, d0cs)
+    val out = outchan_get_filr (state.outchan)
+    val flag = waitkind_get_stadyn (state.waitkind)
+    val () = $CCOMP.ccomp_main (out, flag, state.infil, hdcs)
   in
     // nothing
   end // end of [_]
@@ -758,6 +768,9 @@ case+ arglst of
           prelude_load_if (
           ATSHOME, state.preludeflg // loading once
         ) // end of [val]
+//
+        val () = state.infil := $FIL.filename_stdin
+//
         val d0cs = parse_from_stdin_toplevel (stadyn)
 //
         val () =
@@ -768,7 +781,7 @@ case+ arglst of
           $DPGEN.fprint_entry (filr, "<stdin>", ps)
         end // end of [val]
 //
-        val () = do_transfinal (state, "STDIN", d0cs)
+        val () = do_transfinal (state, "<STDIN>", d0cs)
       } // end of [_ when ...]
     | _ => ()
   end // end of [list_vt_nil when ...]
@@ -801,7 +814,8 @@ case+ arg of
         val ATSHOME = state.ATSHOME
         val () = state.ninputfile := state.ninputfile + 1
         val () = prelude_load_if (ATSHOME, state.preludeflg)
-        val d0cs = parse_from_basename_toplevel (stadyn, basename)
+//
+        val d0cs = parse_from_basename_toplevel (stadyn, basename, state.infil)
 //
         val () =
           if state.depgenflag > 0 then let
@@ -1007,6 +1021,7 @@ state = @{
 // number of prcessed input files
 , ninputfile= 0
 //
+, infil= $FIL.filename_dummy
 // HX: the default output channel
 , outchan= OUTCHANref (stdout_ref)
 //

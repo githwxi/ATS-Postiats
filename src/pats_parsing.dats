@@ -111,7 +111,7 @@ end // end of [parser_from_filename_toplevel]
 
 implement
 parse_from_basename_toplevel
-  (stadyn, basename) = let
+  (stadyn, basename, filref) = let
 //
 val filopt =
   $FIL.filenameopt_make_local (basename)
@@ -120,6 +120,7 @@ in
 //
 case+ filopt of
 | ~Some_vt (fil) => let
+    val () = filref := fil
     val d0cs = 
       parse_from_filename_toplevel (stadyn, fil)
     val () = $FIL.the_filenamelst_ppush (fil) // permanent push
@@ -127,13 +128,14 @@ case+ filopt of
     d0cs
   end // end of [Some_vt]
 | ~None_vt () => let
+    val () = filref := $FIL.filename_dummy
     val () = prerr "error(ATS)"
     val () = prerr ": the file of the name ["
     val () = prerr (basename)
     val () = prerr "] is not available."
     val () = prerr_newline ()
 (*
-    val () = assertloc (false) // immediately abort!
+    val () = assertloc (false) // HX: immediately abort!
 *)
   in
     list_nil ()

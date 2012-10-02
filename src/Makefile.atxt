@@ -341,6 +341,7 @@ val SOURCES =
 , "pats_ccomp_instrseq.dats"
 , "pats_ccomp_dynexp.dats"
 , "pats_ccomp_decl.dats"
+, "pats_ccomp_main.dats"
 //
 , "pats_comarg.sats"
 , "pats_comarg.dats"

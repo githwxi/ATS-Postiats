@@ -32,12 +32,32 @@
 //
 (* ****** ****** *)
 
+staload "pats_staexp2.sats"
+staload "pats_dynexp2.sats"
+
+(* ****** ****** *)
+
+staload "pats_trans3.sats"
+
+(* ****** ****** *)
+
 staload "pats_histaexp.sats"
 staload "pats_hidynexp.sats"
 
 (* ****** ****** *)
 
+staload "pats_typerase.sats"
+
+(* ****** ****** *)
+
 staload "pats_ccomp.sats"
+
+(* ****** ****** *)
+
+extern
+fun hivardec_ccomp_sta (
+  env: !ccompenv, res: !instrseq, level: int, hvd: hivardec
+) : primdec // end of [hivardec_ccomp_sta]
 
 (* ****** ****** *)
 
@@ -91,6 +111,31 @@ in
 list_of_list_vt (pmds)
 //
 end // end of [hideclist_ccomp]
+
+(* ****** ****** *)
+
+implement
+hivardec_ccomp_sta (
+  env, res, level, hvd
+) = let
+//
+val loc = hvd.hivardec_loc
+val d2v = hvd.hivardec_dvar_ptr
+val d2vw = hvd.hivardec_dvar_view
+val loc_d2v = d2var_get_loc (d2v)
+val () = d2var_set_level (d2v, level)
+val s2at = d2var_get_type_some (loc_d2v, d2vw)
+val- S2Eat (s2e_elt, _) = s2at.s2exp_node
+val hse_elt = s2exp_tyer_shallow (loc_d2v, s2e_elt)
+val tmp = tmpvar_make (loc_d2v, hse_elt)
+val () = (
+  case+ hvd.hivardec_ini of
+  | Some (hde) => hidexp_ccomp_ret (env, res, hde, tmp) | None () => ()
+) : void // end of [val]
+//
+in
+  primdec_vardec (loc, d2v)
+end // end of [hivardec_ccomp_sta]
 
 (* ****** ****** *)
 

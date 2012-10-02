@@ -44,9 +44,15 @@ typedef stamp = $STMP.stamp
 
 staload LAB = "pats_label.sats"
 typedef label = $LAB.label
+
+(* ****** ****** *)
+//
+staload FIL = "pats_filename.sats"
+typedef filename = $FIL.filename
+//
 staload LOC = "pats_location.sats"
 typedef location = $LOC.location
-
+//
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
@@ -103,7 +109,7 @@ primdec_node =
   | PMDimpdec of ()
   | PMDfundec of ()
   | PMDvaldec of ()
-  | PMDvardec of ()
+  | PMDvardec of (d2var)
   | PMDlocal of (primdeclst, primdeclst)
 
 where
@@ -118,6 +124,10 @@ and primdeclst_vt = List_vt (primdec)
 
 fun fprint_primdec : fprint_type (primdec)
 fun fprint_primdeclst : fprint_type (primdeclst)
+
+(* ****** ****** *)
+
+fun primdec_vardec (loc: location, d2v: d2var): primdec
 
 (* ****** ****** *)
 
@@ -223,9 +233,6 @@ fun fprint_instrlst : fprint_type (instrlst)
 
 (* ****** ****** *)
 
-fun instr_make_node
-  (loc: location, node: instr_node): instr
-
 fun instr_move_val (
   loc: location, tmp: tmpvar, pmv: primval
 ) : instr // end of [instr_move_val]
@@ -263,6 +270,14 @@ fun hidecl_ccomp
   (env: !ccompenv, res: !instrseq, hdc: hidecl): primdec
 fun hideclist_ccomp
   (env: !ccompenv, res: !instrseq, hdcs: hideclist): primdeclst
+
+fun hideclist_ccomp0 (hdcs: hideclist): primdeclst
+
+(* ****** ****** *)
+
+fun ccomp_main (
+  out: FILEref, flag: int, infil: filename, hdcs: hideclist
+) : void // end of [ccomp_main]
 
 (* ****** ****** *)
 
