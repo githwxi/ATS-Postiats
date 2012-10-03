@@ -1417,7 +1417,6 @@ end (* end of [v1aldeclst_tr] *)
 fn v1ardec_tr (
   v1d: v1ardec
 ) : v2ardec = let
-  val stadyn = v1d.v1ardec_knd
 (*
 // HX: toplevel stack allocation is supported.
 *)
@@ -1446,7 +1445,9 @@ fn v1ardec_tr (
   ) : d2varopt // end of [val]
   val ini = d1expopt_tr (v1d.v1ardec_ini)
 in
-  v2ardec_make (v1d.v1ardec_loc, stadyn, d2v_ptr, s2v_addr, s2eopt, wth, ini)
+  v2ardec_make (
+    v1d.v1ardec_loc, v1d.v1ardec_knd, d2v_ptr, s2v_addr, s2eopt, wth, ini
+  ) // end of [v2ardec_make]
 end // end of [v1ardec_tr]
 
 fn v1ardeclst_tr (

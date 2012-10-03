@@ -37,6 +37,10 @@ staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 
+staload "pats_trans2_env.sats"
+
+(* ****** ****** *)
+
 staload "pats_trans3.sats"
 
 (* ****** ****** *)
@@ -55,18 +59,29 @@ staload "pats_ccomp.sats"
 (* ****** ****** *)
 
 extern
-fun hivardec_ccomp_sta (
+fun hivardec_ccomp (
   env: !ccompenv, res: !instrseq, level: int, hvd: hivardec
-) : primdec // end of [hivardec_ccomp_sta]
+) : d2var // end of [hivardec_ccomp]
+extern
+fun hivardeclst_ccomp (
+  env: !ccompenv, res: !instrseq, level: int, hvds: hivardeclst
+) : d2varlst // end of [hivardeclst_ccomp]
 
 (* ****** ****** *)
 
 implement
 hidecl_ccomp
-  (env, res, hdc) = let
+  (env, res, hid) = let
+  val loc = hid.hidecl_loc
 in
 //
-case+ hdc of
+case+ hid.hidecl_node of
+| HIDvardecs (hvds) => let
+    val level = the_d2varlev_get ()
+    val d2vs = hivardeclst_ccomp (env, res, level, hvds)
+  in
+    primdec_vardecs (loc, d2vs)
+  end // end of [HIDvardecs]
 | _ => exitloc (1)
 //
 end // end of [hidecl_ccomp]
@@ -75,24 +90,24 @@ end // end of [hidecl_ccomp]
 
 implement
 hideclist_ccomp
-  (env, res, hdcs) = let
+  (env, res, hids) = let
 //
 fun loop (
   env: !ccompenv
 , res: !instrseq
-, hdcs: hideclist
+, hids: hideclist
 , pmds: &primdeclst_vt? >> primdeclst_vt
 ) : void = let
 in
 //
-case+ hdcs of
+case+ hids of
 | list_cons
-    (hdc, hdcs) => let
+    (hid, hids) => let
     val pmd =
-      hidecl_ccomp (env, res, hdc)
+      hidecl_ccomp (env, res, hid)
     val () = pmds := list_vt_cons {..}{0} (pmd, ?)
     val list_vt_cons (_, !p_pmds) = pmds
-    val () = loop (env, res, hdcs, !p_pmds)
+    val () = loop (env, res, hids, !p_pmds)
     val () = fold@ (pmds)
   in
     // nothing
@@ -104,7 +119,7 @@ case+ hdcs of
 end // end of [loop]
 //
 var pmds: primdeclst_vt
-val () = loop (env, res, hdcs, pmds)
+val () = loop (env, res, hids, pmds)
 //
 in
 //
@@ -115,7 +130,21 @@ end // end of [hideclist_ccomp]
 (* ****** ****** *)
 
 implement
-hivardec_ccomp_sta (
+hideclist_ccomp0 (hids) = let
+  val env = ccompenv_make ()
+  val res = instrseq_make ()
+  val pmds = hideclist_ccomp (env, res, hids)
+  val () = ccompenv_free (env)
+  val inss = instrseq_getfree (res)
+  val inss = list_of_list_vt (inss)
+in
+  pmds
+end // end of [hideclist_ccomp0]
+
+(* ****** ****** *)
+
+implement
+hivardec_ccomp (
   env, res, level, hvd
 ) = let
 //
@@ -134,8 +163,25 @@ val () = (
 ) : void // end of [val]
 //
 in
-  primdec_vardec (loc, d2v)
-end // end of [hivardec_ccomp_sta]
+  d2v
+end // end of [hivardec_ccomp]
+
+implement
+hivardeclst_ccomp (
+  env, res, level, hvds
+) = let
+in
+//
+case+ hvds of
+| list_cons (hvd, hvds) => let
+    val d2v = hivardec_ccomp (env, res, level, hvd)
+    val d2vs = hivardeclst_ccomp (env, res, level, hvds)
+  in
+    list_cons (d2v, d2vs)
+  end
+| list_nil () => list_nil ()
+//
+end // end of [hivardeclst_ccomp]
 
 (* ****** ****** *)
 

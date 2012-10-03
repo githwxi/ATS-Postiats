@@ -153,6 +153,11 @@ case+ x.hipat_node of
 end // end of [fprint_hipat]
 
 implement
+print_hipat (x) = fprint_hipat (stdout_ref, x)
+implement
+prerr_hipat (x) = fprint_hipat (stderr_ref, x)
+
+implement
 fprint_hipatlst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_hipat)
 // end of [fprint_hipatlst]
@@ -476,6 +481,11 @@ case+
   } // end of [_]
 //
 end // end of [fprint_hidexp]
+
+implement
+print_hidexp (x) = fprint_hidexp (stdout_ref, x)
+implement
+prerr_hidexp (x) = fprint_hidexp (stderr_ref, x)
 
 implement
 fprint_hidexplst

@@ -32,12 +32,16 @@
 //
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/pointer.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload LQ = "libats/SATS/linqueue_lst.sats"
-staload _(*anon*) = "libats/DATS/linqueue_lst.dats"
+staload "pats_dynexp2.sats"
+
+(* ****** ****** *)
+
+staload "pats_histaexp.sats"
+staload "pats_hidynexp.sats"
 
 (* ****** ****** *)
 
@@ -45,45 +49,59 @@ staload "pats_ccomp.sats"
 
 (* ****** ****** *)
 
+viewtypedef
+ccompenv_struct = @{
+  ccompenv_dvs = d2varlst_vt
+}
+
+(* ****** ****** *)
+
+extern
+fun ccompenv_struct_uninitize
+  (x: &ccompenv_struct >> ccompenv_struct?): void
+// end of [ccompenv_struct_uninitize]
+
+implement
+ccompenv_struct_uninitize (x) = let
+  val () = list_vt_free (x.ccompenv_dvs)
+in
+end // end of [ccompenv_struct_uninitize]
+
+(* ****** ****** *)
+
 dataviewtype
-instrseq = INSTRSEQ of ($LQ.QUEUE1 (instr))
-assume instrseq_vtype = instrseq
+ccompenv = CCOMPENV of ccompenv_struct
+
+(* ****** ****** *)
+
+assume ccompenv_vtype = ccompenv
 
 (* ****** ****** *)
 
 implement
-instrseq_make
-  () = res where {
-  val res = INSTRSEQ (?)
-  val+ INSTRSEQ (!p_xs) = res
-  val () = $LQ.queue_initialize (!p_xs)
-  val () = fold@ (res)
-} // end of [instrseq_make]
+ccompenv_make
+  () = env where {
+  val env = CCOMPENV (?)
+  val CCOMPENV (!p) = env
+  val () = p->ccompenv_dvs := list_vt_nil ()
+  val () = fold@ (env)
+} // end of [ccompenv_make]
 
 (* ****** ****** *)
 
 implement
-instrseq_add
-  (seq, x) = let
+ccompenv_free (env) = let
 in
 //
-case+ seq of
-| INSTRSEQ (!p_xs) => let
-    val () = $LQ.queue_insert (!p_xs, x) in fold@ (seq)
-  end // end of [INSTRSEQ]
+case+ env of
+| CCOMPENV (!p_env) => let
+    val () = ccompenv_struct_uninitize (!p_env)
+  in
+    free@ (env)
+  end // end of [CCOMPENV]
 //
-end // end of [instrseq_add]
+end // end of [ccompenv_free]
 
 (* ****** ****** *)
 
-implement
-instrseq_getfree
-  (res) = xs where {
-  val INSTRSEQ (!p_xs) = res
-  val xs = $LQ.queue_uninitialize (!p_xs)
-  val () = free@ (res)
-} // end of [instrseq_getfree]
-
-(* ****** ****** *)
-
-(* end of [pats_ccomp_instrseq.dats] *)
+(* end of [pats_ccomp_ccompenv.dats] *)

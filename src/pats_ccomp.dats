@@ -50,9 +50,11 @@ primdec_make_node
   primdec_loc= loc, primdec_node= node
 } // end of [primdec_make_node]
 
+(* ****** ****** *)
+
 implement
-primdec_vardec (loc, d2v) =
-  primdec_make_node (loc, PMDvardec (d2v))
+primdec_vardecs (loc, d2vs) =
+  primdec_make_node (loc, PMDvardecs (d2vs))
 
 (* ****** ****** *)
 

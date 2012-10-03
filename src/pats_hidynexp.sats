@@ -94,11 +94,11 @@ and labhipatlst = List (labhipat)
 
 (* ****** ****** *)
 
+fun fprint_hipat : fprint_type (hipat)
 fun print_hipat (hip: hipat): void
 overload print with print_hipat
 fun prerr_hipat (hip: hipat): void
 overload prerr with prerr_hipat
-fun fprint_hipat : fprint_type (hipat)
 
 fun fprint_hipatlst : fprint_type (hipatlst)
 fun fprint_labhipatlst : fprint_type (labhipatlst)
@@ -372,6 +372,11 @@ and hivardeclst = List (hivardec)
 (* ****** ****** *)
 
 fun fprint_hidexp : fprint_type (hidexp)
+fun print_hidexp (x: hidexp): void
+overload print with print_hidexp
+fun prerr_hidexp (x: hidexp): void
+overload prerr with prerr_hidexp
+
 fun fprint_hidexplst : fprint_type (hidexplst)
 fun fprint_labhidexplst : fprint_type (labhidexplst)
 

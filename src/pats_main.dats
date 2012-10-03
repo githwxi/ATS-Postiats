@@ -300,6 +300,7 @@ dynload "pats_ccomp.dats"
 dynload "pats_ccomp_print.dats"
 dynload "pats_ccomp_tmplab.dats"
 dynload "pats_ccomp_tmpvar.dats"
+dynload "pats_ccomp_ccompenv.dats"
 dynload "pats_ccomp_instrseq.dats"
 dynload "pats_ccomp_dynexp.dats"
 dynload "pats_ccomp_decl.dats"
@@ -705,9 +706,9 @@ do_trans1234 (
   val d3cs =
     do_trans123 (basename, d0cs)
   // end of [d3cs]
-  val hdcs = $TYER.d3eclist_tyer (d3cs)
+  val hids = $TYER.d3eclist_tyer (d3cs)
 //
-  val () = fprint_hideclist (stdout_ref, hdcs)
+  val () = fprint_hideclist (stdout_ref, hids)
 //
   val () = if isdebug() then {
     val () = print "The 4th translation (type/proof-erasing) of ["
@@ -717,7 +718,7 @@ do_trans1234 (
   } // end of [if] // end of [val]
 //
 in
-  hdcs
+  hids
 end // end of [do_trans1234]
 
 (* ****** ****** *)
@@ -732,10 +733,10 @@ case+ 0 of
     val d3cs = do_trans123 (basename, d0cs) in (*nothing*)
   end // end of [...]
 | _ => let
-    val hdcs = do_trans1234 (basename, d0cs)
+    val hids = do_trans1234 (basename, d0cs)
     val out = outchan_get_filr (state.outchan)
     val flag = waitkind_get_stadyn (state.waitkind)
-    val () = $CCOMP.ccomp_main (out, flag, state.infil, hdcs)
+    val () = $CCOMP.ccomp_main (out, flag, state.infil, hids)
   in
     // nothing
   end // end of [_]

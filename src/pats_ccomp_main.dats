@@ -38,9 +38,9 @@ staload "pats_ccomp.sats"
 
 implement
 ccomp_main (
-  out, flag, infil, hdcs
+  out, flag, infil, hids
 ) = let
-  val pmds = hideclist_ccomp0 (hdcs)
+  val pmds = hideclist_ccomp0 (hids)
 in
 end // end of [ccomp_main]
 

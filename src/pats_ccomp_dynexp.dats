@@ -125,7 +125,11 @@ case+ hde0.hidexp_node of
     instrseq_add (res, ins)
   end // end of [HDEchar]
 //
-| _ => exitloc (1)
+| _ => let
+    val () = println! ("hidexp_ccomp_ret: hde0 = ", hde0)
+  in
+    exitloc (1)
+  end
 //
 end // end of [hidexp_ccomp_ret]
 

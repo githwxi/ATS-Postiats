@@ -107,9 +107,9 @@ datatype
 primdec_node =
   | PMDnone of () 
   | PMDimpdec of ()
-  | PMDfundec of ()
-  | PMDvaldec of ()
-  | PMDvardec of (d2var)
+  | PMDfundecs of ()
+  | PMDvaldecs of ()
+  | PMDvardecs of (d2varlst)
   | PMDlocal of (primdeclst, primdeclst)
 
 where
@@ -127,7 +127,7 @@ fun fprint_primdeclst : fprint_type (primdeclst)
 
 (* ****** ****** *)
 
-fun primdec_vardec (loc: location, d2v: d2var): primdec
+fun primdec_vardecs (loc: location, d2vs: d2varlst): primdec
 
 (* ****** ****** *)
 
@@ -246,12 +246,17 @@ fun instr_move_arg_val
 absviewtype instrseq_vtype
 viewtypedef instrseq = instrseq_vtype
 
+fun instrseq_make (): instrseq
 fun instrseq_add (xs: !instrseq, x: instr): void
+fun instrseq_getfree (xs: instrseq): instrlst_vt
 
 (* ****** ****** *)
 
 absviewtype ccompenv_vtype
 viewtypedef ccompenv = ccompenv_vtype
+
+fun ccompenv_make (): ccompenv
+fun ccompenv_free (env: ccompenv): void
 
 (* ****** ****** *)
 

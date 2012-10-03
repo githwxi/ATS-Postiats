@@ -596,9 +596,6 @@ end // end of [v2aldeclst_rec_tr]
 
 (* ****** ****** *)
 
-extern
-fun v2ardec_tr_sta (d2c: v2ardec): v3ardec
-
 local
 
 fun auxInitCK (
@@ -627,10 +624,11 @@ end // end of [auxInitCK]
 in // in of [local]
 
 implement
-v2ardec_tr_sta
+v2ardec_tr
   (v2d) = let
 //
 val loc0 = v2d.v2ardec_loc
+val stadyn = v2d.v2ardec_knd
 val d2v = v2d.v2ardec_dvar
 val locvar = d2var_get_loc (d2v)
 val ann = v2d.v2ardec_type
@@ -675,7 +673,7 @@ val s2e0 = (
     ) // end of [None]
 ) : s2exp // end of [val]
 //
-val () = println! ("v2ardec_tr_sta: s2e0 = ", s2e0)
+val () = println! ("v2ardec_tr: s2e0 = ", s2e0)
 //
 val d2vw =
   d2var_mutablize (locvar, d2v, s2e0, v2d.v2ardec_wth)
@@ -686,35 +684,18 @@ val s2at0 = s2exp_at (s2e0_top, s2l)
 val () = d2var_set_finknd (d2vw, D2VFINsome_lvar (s2at0))
 //
 val d3c =
-  v3ardec_make (loc0, 0(*sta*), d2v, d2vw, s2e0, ini3)
+  v3ardec_make (loc0, stadyn, d2v, d2vw, s2e0, ini3)
 // end of [val]
 val () = the_d2varenv_add_dvar (d2v)
 val () = the_pfmanenv_add_dvar (d2v)
 //
 in
   d3c
-end // end of [v2ardec_tr_sta]
+end // end of [v2ardec_tr]
 
 end // end of [local]
 
 (* ****** ****** *)
-
-extern
-fun v2ardec_tr_dyn (v2d: v2ardec): v3ardec
-implement v2ardec_tr_dyn (v2d) = exitloc (1)
-
-(* ****** ****** *)
-
-implement
-v2ardec_tr (v2d) = let
-  val knd = v2d.v2ardec_knd
-in
-  if knd = 0 then begin
-    v2ardec_tr_sta (v2d) // static allocation
-  end else begin (* dynamic *)
-    v2ardec_tr_dyn (v2d) // dynamic allocation
-  end // end of [if]
-end // end of [v2ardec_tr]
 
 implement
 v2ardeclst_tr (v2ds) = let
