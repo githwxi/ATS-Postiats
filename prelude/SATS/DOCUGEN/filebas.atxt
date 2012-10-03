@@ -124,9 +124,9 @@ fileref_puts (out, str) = let
 val str = string1_of_string0 (str)
 //
 implement{env}
-string_foreach__cont (c, env) = true
+string_foreach$cont (c, env) = true
 implement{env}
-string_foreach__fwork (c, env) = fileref_putc (out, c)
+string_foreach$fwork (c, env) = fileref_putc (out, c)
 //
 val _ = string_foreach (str)
 //

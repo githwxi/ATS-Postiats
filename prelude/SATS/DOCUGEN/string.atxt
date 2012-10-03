@@ -480,14 +480,14 @@ such that element i in the list equals char i in the string for
 
 (* ****** ****** *)
 
-#declnamesynop("string_tabulate__fwork")
+#declnamesynop("string_tabulate$fwork")
 #declnamesynop("string_tabulate")
 //
 #decldescrpt('\
 
 Given an integer n, this function returns a string of length n such that
 char i in the string equals f(i) for 0 &lt;= i &lt n, where f is the
-function implemented by #dyncode("string_tabulate__fwork"). ')
+function implemented by #dyncode("string_tabulate$fwork"). ')
 //
 #declfunretval("A linear string is returned.")
 //
@@ -506,9 +506,9 @@ string_make_substring
   {n}{st,ln} (str, st, ln) = let
 //
 implement
-string_tabulate__fwork (i) = let
+string_tabulate$fwork (i) = let
   val i = $UN.cast{sizeLt(ln)} (i) in str[st+i]
-end // end of [string_tabulate__fwork]
+end // end of [string_tabulate$fwork]
 //
 in
   $effmask_all (string_tabulate (ln))
@@ -518,16 +518,16 @@ end // end of [string_make_substring]
 
 (* ****** ****** *)
 
-#declnamesynop("string_foreach__cont")
-#declnamesynop("string_foreach__fwork")
+#declnamesynop("string_foreach$cont")
+#declnamesynop("string_foreach$fwork")
 
 #declnamesynop("string_foreach")
 //
 #decldescrpt('\
 This function traverses a given string from left to right and applies to
 each encountered char the function implemented by
-#dyncode("string_foreach__fwork"). The traversal stops if the function
-implemented by #dyncode("string_foreach__cont") returns false.  ')
+#dyncode("string_foreach$fwork"). The traversal stops if the function
+implemented by #dyncode("string_foreach$cont") returns false.  ')
 //
 #declparamadd("#dyncode("str")", "the string to be traversed.")
 #declparamlist()
@@ -546,7 +546,7 @@ strspn (str, accept) = let
 val accept = string1_of_string0 (accept)
 //
 implement{env}
-string_foreach__cont (c, env) = strchr (accept, c) >= 0
+string_foreach$cont (c, env) = strchr (accept, c) >= 0
 //
 in
   $effmask_all (string_foreach<> (str))
@@ -577,7 +577,7 @@ val str = string1_of_string0 (str)
 //
 var env: int = 0
 implement
-string_foreach__fwork<int>
+string_foreach$fwork<int>
   (c, env) = env := 10 * env + (c - \'0\')
 val _ = string_foreach_env<int> (str, env)
 //
@@ -591,8 +591,8 @@ a sequence of digits.
 
 (* ****** ****** *)
 
-#declnamesynop("string_rforeach__cont")
-#declnamesynop("string_rforeach__fwork")
+#declnamesynop("string_rforeach$cont")
+#declnamesynop("string_rforeach$fwork")
 
 #declnamesynop("string_rforeach")
 //
@@ -600,8 +600,8 @@ a sequence of digits.
 
 This function traverses a given string from right to left and applies to
 each encountered char the function implemented by
-#dyncode("string_rforeach__fwork"). The traversal stops if the function
-implemented by #dyncode("string_rforeach__cont") returns false.
+#dyncode("string_rforeach$fwork"). The traversal stops if the function
+implemented by #dyncode("string_rforeach$cont") returns false.
 
 ')
 //
@@ -618,7 +618,7 @@ implement
 strrchr (str, c0) = let
 //
 implement{env}
-string_rforeach__cont (c, env) = c0 != c
+string_rforeach$cont (c, env) = c0 != c
 val i = $effmask_all (string_rforeach<> (str))
 //
 in

@@ -27,7 +27,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 implement{env}
-intrange_foreach__cont (l, env) = true
+intrange_foreach$cont (l, env) = true
 
 implement{}
 intrange_foreach (l, r) = let
@@ -42,10 +42,10 @@ fun loop (
   l: int, r: int, env: &env
 ) : int = (
   if l < r then let
-    val cont = intrange_foreach__cont (l, env)
+    val cont = intrange_foreach$cont (l, env)
   in
     if cont then let
-      val () = intrange_foreach__fwork (l, env) in loop (succ(l), r, env)
+      val () = intrange_foreach$fwork (l, env) in loop (succ(l), r, env)
     end else l // end of [if]
   end else l // end of [if]
 ) // end of [loop]
@@ -57,7 +57,7 @@ end // end of [intrange_foreach_env]
 #atscode_eof_strsub("\#thisfilename$")\
 
 implement{env}
-intrange_rforeach__cont (r, env) = true
+intrange_rforeach$cont (r, env) = true
 
 implement{}
 intrange_rforeach (l, r) = let
@@ -73,10 +73,10 @@ fun loop (
 ) : int = (
   if l < r then let
     val r1 = pred (r)
-    val cont = intrange_rforeach__cont (r1, env)
+    val cont = intrange_rforeach$cont (r1, env)
   in
     if cont then let
-      val () = intrange_rforeach__fwork (r1, env) in loop (l, r1, env)
+      val () = intrange_rforeach$fwork (r1, env) in loop (l, r1, env)
     end else r // end of [if]
   end else r // end of [if]
 ) // end of [loop]

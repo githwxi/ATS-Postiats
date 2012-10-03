@@ -80,10 +80,10 @@ stream_drop_exn
 
 fun{
 env:vt0p
-} stream_foreach__cont (env: &env): bool
+} stream_foreach$cont (env: &env): bool
 fun{
 a:t0p}{env:vt0p
-} stream_foreach__fwork
+} stream_foreach$fwork
   (x: a, env: &env): void // lin-cleared
 fun{a:t0p}
 stream_foreach (xs: stream (a)): void
@@ -94,7 +94,7 @@ a:t0p}{env:vt0p
 #atscode_separator()
 
 fun{a:t0p}
-stream_filter__pred (x: a):<> bool
+stream_filter$pred (x: a):<> bool
 fun{a:t0p}
 stream_filter (xs: stream (INV(a))):<> stream (a)
 fun{a:t0p}
@@ -110,7 +110,7 @@ stream_filter_cloref
 
 fun{
 a:t0p}{b:t0p
-} stream_map__fwork (x: a):<!laz> b
+} stream_map$fwork (x: a):<!laz> b
 fun{
 a:t0p}{b:t0p
 } stream_map (xs: stream (INV(a))):<> stream (b)
@@ -129,7 +129,7 @@ a:t0p}{b:t0p
 
 fun{
 a1,a2:t0p}{b:t0p
-} stream_map2__fwork (x1: a1, x2: a2):<!laz> b
+} stream_map2$fwork (x1: a1, x2: a2):<!laz> b
 fun{
 a1,a2:t0p}{b:t0p
 } stream_map2
@@ -155,7 +155,7 @@ a1,a2:t0p}{b:t0p
 #atscode_separator()
 
 fun{a:t0p}
-stream_merge__cmp (x1: a, x2: a):<> int
+stream_merge$cmp (x1: a, x2: a):<> int
 fun{a:t0p}
 stream_merge
   (xs1: stream (INV(a)), xs2: stream (a)):<> stream (a)

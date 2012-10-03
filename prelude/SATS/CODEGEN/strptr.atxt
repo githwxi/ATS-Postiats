@@ -188,9 +188,9 @@ fun strptrlst_concat (xs: List_vt (Strptr0)):<!wrt> Strptr0
 #atscode_separator()
 
 fun{env:vt0p}
-strnptr_foreach__cont (c: &charNZ, env: &env): bool
+strnptr_foreach$cont (c: &charNZ, env: &env): bool
 fun{env:vt0p}
-strnptr_foreach__fwork (c: &charNZ>>charNZ, env: &env): void
+strnptr_foreach$fwork (c: &charNZ>>charNZ, env: &env): void
 fun{}
 strnptr_foreach {n:nat} (str: !strnptr n): sizeLte(n)
 fun{env:vt0p}
@@ -201,9 +201,9 @@ strnptr_foreach_env
 #atscode_separator()
 
 fun{env:vt0p}
-strnptr_rforeach__cont (c: &charNZ, env: &env): bool
+strnptr_rforeach$cont (c: &charNZ, env: &env): bool
 fun{env:vt0p}
-strnptr_rforeach__fwork (c: &charNZ>>charNZ, env: &env): void
+strnptr_rforeach$fwork (c: &charNZ>>charNZ, env: &env): void
 fun{}
 strnptr_rforeach {n:nat} (str: !strnptr n): sizeLte(n)
 fun{env:vt0p}

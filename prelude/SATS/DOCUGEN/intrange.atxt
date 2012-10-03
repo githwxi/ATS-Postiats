@@ -22,20 +22,20 @@ ATSLIB/prelude/intrange\
 
 (* ****** ****** *)
 
-#declnamesynop("intrange_foreach__cont")
+#declnamesynop("intrange_foreach$cont")
 #decldescrpt('\
 
 The default implementation of this function always returns true.  ')
 
-#declnamesynop("intrange_foreach__fwork")
+#declnamesynop("intrange_foreach$fwork")
 
 #declnamesynop("intrange_foreach")
 #decldescrpt('\
 
 Given two integers l and r, this function enumerates the integers between l
 and r-1, inclusive, and then applies to each enumerated integer the
-function implemented by #dyncode("intrange_foreach__fwork"). The enumeration
-process stops if the function implemented by #dyncode("intrange_foreach__cont")
+function implemented by #dyncode("intrange_foreach$fwork"). The enumeration
+process stops if the function implemented by #dyncode("intrange_foreach$cont")
 returns false, and the integer value returned by #dyncode("intrange_foreach")
 indicates the point of the stoppage. ')
 
@@ -61,9 +61,9 @@ list_randgen
 viewtypedef env = List0_vt (a)
 //
 implement
-intrange_foreach__fwork<env>
+intrange_foreach$fwork<env>
   (_, env) = env := list_vt_cons ($R.randgen_val<a> (), env)
-// end of [intrange_foreach__fwork]
+// end of [intrange_foreach$fwork]
 //
 var res: env = list_vt_nil ()
 val _(*n*) = intrange_foreach_env<env> (0, n, res)
@@ -76,12 +76,12 @@ end // end of [list_randgen]
 
 (* ****** ****** *)
 
-#declnamesynop("intrange_rforeach__cont")
+#declnamesynop("intrange_rforeach$cont")
 #decldescrpt('\
 
 The default implementation of this function always returns true.  ')
 
-#declnamesynop("intrange_rforeach__fwork")
+#declnamesynop("intrange_rforeach$fwork")
 
 #declnamesynop("intrange_rforeach")
 #decldescrpt('\
@@ -89,8 +89,8 @@ The default implementation of this function always returns true.  ')
 Given two integers l and r, this function enumerates in the reverse order
 the integers between l and r-1, inclusive, and then applies to each
 enumerated integer the function implemented by
-#dyncode("intrange_rforeach__fwork"). The enumeration process stops if the
-function implemented by #dyncode("intrange_rforeach__cont") returns false,
+#dyncode("intrange_rforeach$fwork"). The enumeration process stops if the
+function implemented by #dyncode("intrange_rforeach$cont") returns false,
 and the return integer value of #dyncode("intrange_rforeach") indicates the
 point of the stoppage. ')
 

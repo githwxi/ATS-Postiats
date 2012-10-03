@@ -327,13 +327,13 @@ end // end of [insertion_sort]
 
 (* ****** ****** *)
 
-#declnamesynop("fprint_array__sep")
+#declnamesynop("fprint_array$sep")
 #declnamesynop("fprint_array")
 #decldescrpt("\
 
 This function prints the elements in a given array to the output
 channel provided as its first argument, and it calls the function
-#dyncode("fprint_array__sep") before printing an element as long as the
+#dyncode("fprint_array$sep") before printing an element as long as the
 element is not the first one.  Note that printing each array element is
 handled by calling the function #dyncode("fprint_ref").  ")
 
@@ -349,16 +349,16 @@ handled by calling the function #dyncode("fprint_ref").
 
 (* ****** ****** *)
 
-#declnamesynop("array_foreach__cont")
-#declnamesynop("array_foreach__fwork")
+#declnamesynop("array_foreach$cont")
+#declnamesynop("array_foreach$fwork")
 
 #declnamesynop("array_foreach")
 #decldescrpt('\
 
 This function traverses a given array from left to right, applying to each
 encountered array-cell the function implemented by
-#dyncode("array_foreach__fwork").  The traversal stops if the function
-implemented by #dyncode("array_foreach__cont") returns false, and the return
+#dyncode("array_foreach$fwork").  The traversal stops if the function
+implemented by #dyncode("array_foreach$cont") returns false, and the return
 value of #dyncode("array_foreach") indicates the number of processed
 array-cells.  ')
 #declexample('\
@@ -374,9 +374,9 @@ array_find {n:int} (
 ) : Option_vt (sizeLt(n)) = let
 //
 implement(env)
-array_foreach__cont<a><env> (x, env) = ~p(x)
+array_foreach$cont<a><env> (x, env) = ~p(x)
 implement(env)
-array_foreach__fwork<a><env> (x, env) = ((*nothing*))
+array_foreach$fwork<a><env> (x, env) = ((*nothing*))
 val i = array_foreach (A, n)
 //
 in
@@ -410,7 +410,7 @@ a:t0p}{res:t0p
 var env: res = ini
 //
 implement
-array_foreach__fwork<a><res> (x, env) = env := f (env, x)
+array_foreach$fwork<a><res> (x, env) = env := f (env, x)
 val _ = array_foreach_env (A, asz, env)
 //
 in
@@ -435,24 +435,24 @@ the provided function does not take an argument as its environment.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("array_foreach2__cont")
-#declnamesynop("array_foreach2__fwork")
+#declnamesynop("array_foreach2$cont")
+#declnamesynop("array_foreach2$fwork")
 
 #declnamesynop("array_foreach2")
 #declnamesynop("array_foreach2_env")
 
 (* ****** ****** *)
 
-#declnamesynop("array_rforeach__cont")
-#declnamesynop("array_rforeach__fwork")
+#declnamesynop("array_rforeach$cont")
+#declnamesynop("array_rforeach$fwork")
 
 #declnamesynop("array_rforeach")
 #decldescrpt('\
 
 This function traverses a given array from right to left, applying to each
 encountered array-cell the function implemented by
-#dyncode("array_rforeach__fwork"). The traversal stops is the function
-implemented by #dyncode("array_rforeach__cont") returns false, and the
+#dyncode("array_rforeach$fwork"). The traversal stops is the function
+implemented by #dyncode("array_rforeach$cont") returns false, and the
 return value of #dyncode("array_rforeach") indicates the number of
 processed array-cells.  ')
 #declexample('\
@@ -468,9 +468,9 @@ array_rfind {n:int} (
 ) : Option_vt (sizeLt(n)) = let
 //
 implement(env)
-array_rforeach__cont<a><env> (x, env) = ~p(x)
+array_rforeach$cont<a><env> (x, env) = ~p(x)
 implement(env)
-array_rforeach__fwork<a><env> (x, env) = ((*nothing*))
+array_rforeach$fwork<a><env> (x, env) = ((*nothing*))
 val i = array_rforeach (A, n)
 //
 in
@@ -504,7 +504,7 @@ a:t0p}{res:t0p
 var env: res = snk
 //
 implement
-array_rforeach__fwork<a><res> (x, env) = env := f (x, env)
+array_rforeach$fwork<a><res> (x, env) = env := f (x, env)
 val _ = array_rforeach_env (A, asz, env)
 //
 in
@@ -515,15 +515,15 @@ end // end of [array_foldright]
 
 (* ****** ****** *)
 
-#declnamesynop("array_initize__init")
+#declnamesynop("array_initize$init")
 #declnamesynop("array_initize")
 
-#declnamesynop("array_uninitize__clear")
+#declnamesynop("array_uninitize$clear")
 #declnamesynop("array_uninitize")
 
 (* ****** ****** *)
 
-#declnamesynop("array_quicksort__cmp")
+#declnamesynop("array_quicksort$cmp")
 #decldescrpt("\
 
 This function is called in the implementation of
@@ -532,19 +532,19 @@ and its default implementation is based on #dyncode("gcompare_ref"):
 
 #pats2xhtmld_tryit("\
 implement{a}
-array_quicksort__cmp (x, y) = gcompare_ref<a> (x, y)
+array_quicksort$cmp (x, y) = gcompare_ref<a> (x, y)
 ")
 ")
 #declnamesynop("array_quicksort")
 
 (* ****** ****** *)
 
-#declnamesynop("array_permute__randint")
+#declnamesynop("array_permute$randint")
 #declnamesynop("array_permute")
 #decldescrpt('\
 
 This function permutes the contents of a given array according to the
-random number generator implemented by #dyncode("array_permute__randint").
+random number generator implemented by #dyncode("array_permute$randint").
 ')
 #declexample('\
 
@@ -563,11 +563,11 @@ val asz = g1int2uint (N)
 val (pf, pfgc | p) = array_ptr_alloc<int> (asz)
 //
 implement
-array_initize__init<int> (i, x) = x := g0uint2int(i)+1
+array_initize$init<int> (i, x) = x := g0uint2int(i)+1
 val () = array_initize<int> (!p, asz) // array: 0, 1, 2, ..., N-1
 //
 implement
-array_permute__randint<>
+array_permute$randint<>
   (n) = pred(n) // this is not random
 val () = array_permute<int> (!p, asz) // array: N-1, 0, 1, 2, ...
 //

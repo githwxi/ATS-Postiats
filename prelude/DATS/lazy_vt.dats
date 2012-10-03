@@ -48,7 +48,7 @@ stream_vt_free (xs) = ~(xs)
 (* ****** ****** *)
 
 implement{env}
-stream_vt_foreach__cont (env) = true
+stream_vt_foreach$cont (env) = true
 
 implement{a}
 stream_vt_foreach (xs) = let
@@ -58,7 +58,7 @@ end // end of [stream_vt_foreach]
 implement{a}{env}
 stream_vt_foreach_env
   (xs, env) = let
-  val test = stream_vt_foreach__cont (env)
+  val test = stream_vt_foreach$cont (env)
 in
 //
 if test then let
@@ -67,7 +67,7 @@ in
   case+ xs_con of
   | @stream_vt_cons (x, xs1) => let
       val xs1 = xs1
-      val () = stream_vt_foreach__fwork<a> (x, env)
+      val () = stream_vt_foreach$fwork<a> (x, env)
       val () = free@ {a} (xs_con)
     in
       stream_vt_foreach<a> (xs1)

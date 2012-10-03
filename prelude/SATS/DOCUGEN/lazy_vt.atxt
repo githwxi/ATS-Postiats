@@ -31,30 +31,30 @@ ATSLIB/prelude/lazy_vt\
 
 (* ****** ****** *)
 
-#declnamesynop("stream_vt_foreach__cont")
-#declnamesynop("stream_vt_foreach__fwork")
+#declnamesynop("stream_vt_foreach$cont")
+#declnamesynop("stream_vt_foreach$fwork")
 #declnamesynop("stream_vt_foreach")
 #declnamesynop("stream_vt_foreach_env")
 
 (* ****** ****** *)
 
-#declnamesynop("stream_vt_filter__pred")
+#declnamesynop("stream_vt_filter$pred")
 #declnamesynop("stream_vt_filter")
 #declnamesynop("stream_vt_filter_fun")
 #declnamesynop("stream_vt_filter_cloptr")
-#declnamesynop("stream_vt_filterlin__clear")
+#declnamesynop("stream_vt_filterlin$clear")
 #declnamesynop("stream_vt_filterlin")
 
 (* ****** ****** *)
 
-#declnamesynop("stream_vt_map__fwork")
+#declnamesynop("stream_vt_map$fwork")
 #declnamesynop("stream_vt_map")
 #declnamesynop("stream_vt_map_fun")
 #declnamesynop("stream_vt_map_cloptr")
 
 (* ****** ****** *)
 
-#declnamesynop("stream_vt_map2__fwork")
+#declnamesynop("stream_vt_map2$fwork")
 #declnamesynop("stream_vt_map2")
 #declnamesynop("stream_vt_map2_fun")
 #declnamesynop("stream_vt_map2_cloptr")

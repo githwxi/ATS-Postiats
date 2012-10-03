@@ -63,10 +63,10 @@ stream_vt_free (xs: stream_vt a):<!wrt> void
 
 fun{
 env:vt0p
-} stream_vt_foreach__cont (env: &env): bool
+} stream_vt_foreach$cont (env: &env): bool
 fun{
 a:vt0p}{env:vt0p
-} stream_vt_foreach__fwork
+} stream_vt_foreach$fwork
   (x: &a >> a?!, env: &env): void // lin-cleared
 fun{a:vt0p}
 stream_vt_foreach (xs: stream_vt (a)): void
@@ -77,7 +77,7 @@ a:vt0p}{env:vt0p
 #atscode_separator()
 //
 fun{a:vt0p}
-stream_vt_filter__pred (x: &a): bool
+stream_vt_filter$pred (x: &a): bool
 //
 fun{a:t0p}
 stream_vt_filter (xs: stream_vt (INV(a))): stream_vt (a)
@@ -92,7 +92,7 @@ stream_vt_filter_cloptr (
 ) :<> stream_vt (a) // end of [stream_vt_filter_cloptr]
 //
 fun{a:vt0p}
-stream_vt_filterlin__clear (x: &a >> a?):<!wrt> void
+stream_vt_filterlin$clear (x: &a >> a?):<!wrt> void
 fun{a:vt0p}
 stream_vt_filterlin (xs: stream_vt (INV(a))): stream_vt (a)
 //
@@ -100,7 +100,7 @@ stream_vt_filterlin (xs: stream_vt (INV(a))): stream_vt (a)
 //
 fun{
 a:vt0p}{b:vt0p
-} stream_vt_map__fwork (x: &a >> a?!): b // lin-cleared
+} stream_vt_map$fwork (x: &a >> a?!): b // lin-cleared
 fun{
 a:vt0p}{b:vt0p
 } stream_vt_map (xs: stream_vt (INV(a))): stream_vt (b)
@@ -118,7 +118,7 @@ a:vt0p}{b:vt0p
 //
 fun{
 a1,a2:vt0p}{b:vt0p
-} stream_vt_map2__fwork
+} stream_vt_map2$fwork
   (x1: &a1 >> a1?!, x2: &a2 >> a2?!): b
 fun{
 a1,a2:vt0p}{b:vt0p

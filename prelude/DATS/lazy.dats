@@ -153,7 +153,7 @@ stream_filter_con
 in
   case+ !xs of
   | stream_cons (x, xs) => (
-      if stream_filter__pred (x) then
+      if stream_filter$pred (x) then
         stream_cons (x, stream_filter<a> (xs))
       else
         stream_filter_con (xs)
@@ -173,7 +173,7 @@ implement{a}
 stream_filter_fun (xs, p) = let
 //
 implement
-stream_filter__pred<a> (x) = p (x)
+stream_filter$pred<a> (x) = p (x)
 //
 in
   stream_filter (xs)
@@ -183,7 +183,7 @@ implement{a}
 stream_filter_cloref (xs, p) = let
 //
 implement
-stream_filter__pred<a> (x) = p (x)
+stream_filter$pred<a> (x) = p (x)
 //
 in
   stream_filter (xs)
@@ -201,7 +201,7 @@ stream_map
 case+ !xs of
 | stream_cons
     (x, xs) => let
-    val y = stream_map__fwork<a><b> (x)
+    val y = stream_map$fwork<a><b> (x)
   in
     stream_cons (y, stream_map<a><b> (xs))
   end // end of [stream_cons]
@@ -215,7 +215,7 @@ stream_map_fun
   (xs, f) = let
 //
 implement
-stream_map__fwork<a><b> (x) = f (x)
+stream_map$fwork<a><b> (x) = f (x)
 //
 in
   stream_map (xs)
@@ -227,7 +227,7 @@ stream_map_cloref
   (xs, f) = let
 //
 implement
-stream_map__fwork<a><b> (x) = f (x)
+stream_map$fwork<a><b> (x) = f (x)
 //
 in
   stream_map (xs)
@@ -251,7 +251,7 @@ case+ !xs1 of
   case+ !xs2 of
   | x2 :: xs2 => let
       val y =
-        stream_map2__fwork<a1,a2><b> (x1, x2)
+        stream_map2$fwork<a1,a2><b> (x1, x2)
       // end of [val]
     in
       stream_cons (y, stream_map2<a1,a2><b> (xs1, xs2))
@@ -270,7 +270,7 @@ stream_map2_fun
   (xs1, xs2, f) = let
 //
 implement
-stream_map2__fwork<a1,a2><b> (x1, x2) = f (x1, x2)
+stream_map2$fwork<a1,a2><b> (x1, x2) = f (x1, x2)
 //
 in
   stream_map2 (xs1, xs2)
@@ -282,7 +282,7 @@ stream_map2_cloref
   (xs1, xs2, f) = let
 //
 implement
-stream_map2__fwork<a1,a2><b> (x1, x2) = f (x1, x2)
+stream_map2$fwork<a1,a2><b> (x1, x2) = f (x1, x2)
 //
 in
   stream_map2 (xs1, xs2)
@@ -305,7 +305,7 @@ case+ !xs10 of
   case+ !xs20 of
   | x2 :: xs2 => let
       val sgn =
-        stream_merge__cmp (x1, x2)
+        stream_merge$cmp (x1, x2)
     in
       if sgn <= 0 then
         x1 :: stream_merge (xs1, xs20)
@@ -325,7 +325,7 @@ stream_merge_fun
   (xs1, xs2, cmp) = let
 //
 implement
-stream_merge__cmp<a> (x1, x2) = cmp (x1, x2)
+stream_merge$cmp<a> (x1, x2) = cmp (x1, x2)
 //
 in
   stream_merge (xs1, xs2)
@@ -336,7 +336,7 @@ stream_merge_cloref
   (xs1, xs2, cmp) = let
 //
 implement
-stream_merge__cmp<a> (x1, x2) = cmp (x1, x2)
+stream_merge$cmp<a> (x1, x2) = cmp (x1, x2)
 //
 in
   stream_merge (xs1, xs2)

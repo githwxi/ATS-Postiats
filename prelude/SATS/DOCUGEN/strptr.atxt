@@ -116,16 +116,16 @@ returns. ")
 
 (* ****** ****** *)
 
-#declnamesynop("strnptr_foreach__cont")
-#declnamesynop("strnptr_foreach__fwork")
+#declnamesynop("strnptr_foreach$cont")
+#declnamesynop("strnptr_foreach$fwork")
 
 #declnamesynop("strnptr_foreach")
 #decldescrpt('\
 
 This function traverses a given linear string from left to right and
 applies to each encountered char-cell the function implemented by
-#dyncode("strnptr_foreach__fwork"). The traversal stops if the function
-implemented by #dyncode("strnptr_foreach__cont") returns false.  ')
+#dyncode("strnptr_foreach$fwork"). The traversal stops if the function
+implemented by #dyncode("strnptr_foreach$cont") returns false.  ')
 #declexample("\
 
 The following code implements a function that captializes each letter in a
@@ -138,7 +138,7 @@ fun strnptr_upperize
   {n:nat} (str: !strnptr n): void = let
 //
 implement(env)
-strnptr_foreach__fwork<env>
+strnptr_foreach$fwork<env>
   (c, env) = c := $UN.cast{charNZ}(toupper_char(c))
 //
 val _(*n*) = strnptr_foreach (str)
@@ -153,8 +153,8 @@ end // end of [strnptr_upperize]
 
 (* ****** ****** *)
 
-#declnamesynop("strnptr_rforeach__cont")
-#declnamesynop("strnptr_rforeach__fwork")
+#declnamesynop("strnptr_rforeach$cont")
+#declnamesynop("strnptr_rforeach$fwork")
 #declnamesynop("strnptr_rforeach")
 #declnamesynop("strnptr_rforeach_env")
 

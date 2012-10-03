@@ -27,9 +27,9 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 fun{env:vt0p}
-intrange_foreach__cont (i: int, env: &env >> env): bool
+intrange_foreach$cont (i: int, env: &env >> env): bool
 fun{env:vt0p}
-intrange_foreach__fwork (i: int, env: &env >> env): void
+intrange_foreach$fwork (i: int, env: &env >> env): void
 
 fun{}
 intrange_foreach (l: int, r: int): int
@@ -39,9 +39,9 @@ intrange_foreach_env (l: int, r: int, env: &(env)>>env): int
 #atscode_separator()
 
 fun{env:vt0p}
-intrange_rforeach__cont (i: int, env: &env >> env): bool
+intrange_rforeach$cont (i: int, env: &env >> env): bool
 fun{env:vt0p}
-intrange_rforeach__fwork (i: int, env: &env >> env): void
+intrange_rforeach$fwork (i: int, env: &env >> env): void
 
 fun{}
 intrange_rforeach (l: int, r: int): int

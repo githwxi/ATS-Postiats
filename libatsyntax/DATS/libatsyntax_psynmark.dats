@@ -117,7 +117,7 @@ stadef labd0explst = $SYN.labd0explst
 //
 stadef t0mpmarglst = $SYN.t0mpmarglst
 //
-stadef m0atchlst = $SYN.m0atchlst
+stadef gm0atlst = $SYN.gm0atlst
 //
 stadef guap0at = $SYN.guap0at
 stadef c0laulst = $SYN.c0laulst
@@ -330,7 +330,7 @@ extern fun labd0explst_npf_mark
 //
 extern fun t0mpmarglst_mark : fmark_type (t0mpmarglst)
 //
-extern fun m0atchlst_mark : fmark_type (m0atchlst)
+extern fun gm0atlst_mark : fmark_type (gm0atlst)
 //
 extern fun guap0at_mark : fmark_type (guap0at)
 extern fun c0laulst_mark : fmark_type (c0laulst)
@@ -897,20 +897,20 @@ end // end of [t0mpmarglst_mark]
 (* ****** ****** *)
 
 implement
-m0atchlst_mark
+gm0atlst_mark
   (xs, res) = let
 in
 //
 case+ xs of
 | list_cons (x, xs) => let
-    val () = d0exp_mark (x.m0atch_exp, res)
-    val () = p0atopt_mark (x.m0atch_pat, res)
+    val () = d0exp_mark (x.gm0at_exp, res)
+    val () = p0atopt_mark (x.gm0at_pat, res)
   in
-    m0atchlst_mark (xs, res)
+    gm0atlst_mark (xs, res)
   end // end of [list_cons]
 | list_nil () => ()
 //
-end // end of [m0atchlst_mark]
+end // end of [gm0atlst_mark]
 
 (* ****** ****** *)
 
@@ -921,7 +921,7 @@ guap0at_mark
     p0at_mark (x.guap0at_pat, res)
   // end of [val]
 in
-  m0atchlst_mark (x.guap0at_gua, res)
+  gm0atlst_mark (x.guap0at_gua, res)
 end // end of [guap0at_mark]
 
 implement
@@ -1321,7 +1321,7 @@ in
 //
 case+ ds of
 | list_cons (d, ds) => let
-    val () = s0expopt_mark (d.v0ardec_typ, res)
+    val () = s0expopt_mark (d.v0ardec_type, res)
     val () = (
       case+ d.v0ardec_wth of
       | Some (id) =>
@@ -1477,7 +1477,7 @@ case+ d0c0.d0ecl_node of
     // nothing
   end // end of [D0Cvaldecs]
 //
-| $SYN.D0Cvardecs (decs) => v0ardeclst_mark (decs, res)
+| $SYN.D0Cvardecs (knd, decs) => v0ardeclst_mark (decs, res)
 //
 | $SYN.D0Cimpdec
     (knd, imparg, impdec) => let
