@@ -78,31 +78,27 @@ geq_val (x, y) = gcompare_val<a> (x, y) = 0
 implement{a}
 gneq_val (x, y) = gcompare_val<a> (x, y) != 0
 
+#atscode_separator()
+
 implement{a}
-glt_ref (x, y) = glt_val<a> (x, y)
+glt_ref (x, y) = gcompare_ref<a> (x, y) < 0
 implement{a}
-glte_ref (x, y) = glte_val<a> (x, y)
+glte_ref (x, y) = gcompare_ref<a> (x, y) <= 0
 implement{a}
-ggt_ref (x, y) = ggt_val<a> (x, y)
+ggt_ref (x, y) = gcompare_ref<a> (x, y) > 0
 implement{a}
-ggte_ref (x, y) = ggte_val<a> (x, y)
+ggte_ref (x, y) = gcompare_ref<a> (x, y) >= 0
 implement{a}
-geq_ref (x, y) = geq_val<a> (x, y)
+geq_ref (x, y) = gcompare_ref<a> (x, y) = 0
 implement{a}
-gneq_ref (x, y) = gneq_val<a> (x, y)
-implement{a}
-gcompare_ref (x, y) = gcompare_val<a> (x, y)
+gneq_ref (x, y) = gcompare_ref<a> (x, y) != 0
 
 #atscode_separator()
 
 implement{a}
 tostring_val (x) =
   string_of_strptr (tostrptr_val<a> (x))
-implement{a}
-tostring_ref (x) = tostring_val<a> (x)
-
-implement{a}
-tostrptr_ref (x) = tostrptr_val<a> (x)
+// end of [tostring_val]
 
 #atscode_separator()
 
@@ -122,8 +118,6 @@ end // end of [fprint_val]
 
 #atscode_separator()
 
-implement{a}
-fprint_ref (out, x) = fprint_val<a> (out, x)
 implement{a}
 print_ref (x) = fprint_ref<a> (stdout_ref, x)
 implement{a}

@@ -51,7 +51,7 @@ The following code builds an array of digits and then print them out:
 staload "libats/ML/SATS/array0.sats"
 //
 implement main () = let
-  val xs = array0$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+  val xs = (array0)$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
   val () = array0_foreach<int> (xs, lam (x) => print_int (x))
   val () = print_newline ()
 in

@@ -103,9 +103,9 @@ var asz: size_t
 val A = arrszref_get_refsize (A0, asz)
 //
 implement(env)
-array_foreach__cont<a><env> (x, env) = true
+array_foreach$cont<a><env> (x, env) = true
 implement(env)
-array_foreach__fwork<a><env> (x, env) = f (x)
+array_foreach$fwork<a><env> (x, env) = f (x)
 //
 val _ = arrayref_foreach<a> (A, asz)
 //
@@ -127,9 +127,9 @@ val A = arrszref_get_refsize (A0, asz)
 typedef env = size_t
 //
 implement
-array_foreach__cont<a><env> (x, env) = true
+array_foreach$cont<a><env> (x, env) = true
 implement
-array_foreach__fwork<a><env>
+array_foreach$fwork<a><env>
   (x, env) = let val i = env in env := succ(i); f (i, x) end
 //
 var idx: env = g1int2uint (0)
@@ -150,9 +150,9 @@ var asz: size_t
 val A = arrszref_get_refsize (A0, asz)
 //
 implement(env)
-array_foreach__cont<a><env> (x, env) = ~p(x)
+array_foreach$cont<a><env> (x, env) = ~p(x)
 implement(env)
-array_foreach__fwork<a><env> (x, env) = ((*nothing*))
+array_foreach$fwork<a><env> (x, env) = ((*nothing*))
 //
 val idx = arrayref_foreach<a> (A, asz)
 //
@@ -180,9 +180,9 @@ val A = arrszref_get_refsize (A0, asz)
 typedef env = res
 //
 implement
-array_foreach__cont<a><env> (x, env) = true
+array_foreach$cont<a><env> (x, env) = true
 implement
-array_foreach__fwork<a><env> (x, env) = env := f (env, x)
+array_foreach$fwork<a><env> (x, env) = env := f (env, x)
 //
 var res: env = ini
 val _ = arrayref_foreach_env<a><env> (A, asz, res)
@@ -206,14 +206,14 @@ val A = arrszref_get_refsize (A0, asz)
 typedef env = (res, size_t)
 //
 implement
-array_foreach__cont<a><env> (x, env) = true
+array_foreach$cont<a><env> (x, env) = true
 implement
-array_foreach__fwork<a><env>
+array_foreach$fwork<a><env>
   (x, env) = let
   val i = env.1; val () = env.1 := succ(i)
 in
   env.0 := f (env.0, i, x)
-end // end of [array_foreach__fwork]
+end // end of [array_foreach$fwork]
 //
 var residx: env = (ini, g1int2uint(0))
 val _ = arrayref_foreach_env<a><env> (A, asz, residx)
@@ -234,9 +234,9 @@ var asz: size_t
 val A = arrszref_get_refsize (A0, asz)
 //
 implement(env)
-array_rforeach__cont<a><env> (x, env) = true
+array_rforeach$cont<a><env> (x, env) = true
 implement(env)
-array_rforeach__fwork<a><env> (x, env) = f (x)
+array_rforeach$fwork<a><env> (x, env) = f (x)
 //
 val _ = arrayref_rforeach<a> (A, asz)
 //
@@ -259,9 +259,9 @@ val A = arrszref_get_refsize (A0, asz)
 typedef env = res
 //
 implement
-array_rforeach__cont<a><env> (x, env) = true
+array_rforeach$cont<a><env> (x, env) = true
 implement
-array_rforeach__fwork<a><env> (x, env) = env := f (x, env)
+array_rforeach$fwork<a><env> (x, env) = env := f (x, env)
 //
 var res: env = snk
 val _ = arrayref_rforeach_env<a><env> (A, asz, snk)

@@ -78,7 +78,7 @@ frees the array:
 implement
 main () = 0 where {
   val out = stdout_ref
-  val A = arrayptr$arrpsz{int} (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+  val A = (arrayptr)$arrpsz{int} (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
   val () = fprint_arrayptr_sep<int> (out, A, g1int2uint(10), ", ")
   val () = arrayptr_free (A)
   val () = fprint_newline (out)

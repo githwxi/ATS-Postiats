@@ -28,27 +28,27 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 implement{a}
 tfprint (x) = let
-  val out = tfprint__out () in fprint_val<a> (out, x)
+  val out = tfprint$out () in fprint_val<a> (out, x)
 end // end of [tfprint]
 
-implement{} tfprint__out () = stdout_ref
+implement{} tfprint$out () = stdout_ref
 
 #atscode_separator()
 
 implement{}
-tfprint_list__sep () = ","
+tfprint_list$sep () = ","
 implement{}
-tfprint_list__beg () = "("
+tfprint_list$beg () = "("
 implement{}
-tfprint_list__end () = ")"
+tfprint_list$end () = ")"
 
 implement{a}
 tfprint_list (xs) = let
 //
-val out = tfprint__out ()
-val sep = tfprint_list__sep ()
-val _beg = tfprint_list__beg ()
-and _end = tfprint_list__end ()
+val out = tfprint$out ()
+val sep = tfprint_list$sep ()
+val _beg = tfprint_list$beg ()
+and _end = tfprint_list$end ()
 //
 val () = fprint_string (out, _beg)
 val () = fprint_list_sep (out, xs, sep)
@@ -62,19 +62,19 @@ implement(a) tfprint<List(a)> (xs) = tfprint_list<a> (xs)
 #atscode_separator()
 
 implement{}
-tfprint_array__sep () = ","
+tfprint_array$sep () = ","
 implement{}
-tfprint_array__beg () = "["
+tfprint_array$beg () = "["
 implement{}
-tfprint_array__end () = "]"
+tfprint_array$end () = "]"
 
 implement{a}
 tfprint_array (A, n) = let
 //
-val out = tfprint__out ()
-val sep = tfprint_array__sep ()
-val _beg = tfprint_list__beg ()
-and _end = tfprint_list__end ()
+val out = tfprint$out ()
+val sep = tfprint_array$sep ()
+val _beg = tfprint_list$beg ()
+and _end = tfprint_list$end ()
 //
 val () = fprint_string (out, _beg)
 val () = fprint_array_sep (out, A, n, sep)

@@ -245,7 +245,7 @@ fileref_put_charlst
   (out, cs) = let
 //
 implement(env)
-list_vt_foreach__fwork<char><env> (c, env) = fileref_putc (out, c)
+list_vt_foreach$fwork<char><env> (c, env) = fileref_putc (out, c)
 //
 in
   list_vt_foreach<char> (cs)

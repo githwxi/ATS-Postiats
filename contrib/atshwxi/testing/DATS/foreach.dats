@@ -21,7 +21,7 @@ fun loop
   n: int n, i: int i
 ) : void =
   if i < n then let
-    val () = foreach_int__fwork (i) in loop (n, succ(i))
+    val () = foreach_int$fwork (i) in loop (n, succ(i))
   end else () // end of [if]
 (* end of [loop] *)
 //
@@ -40,7 +40,7 @@ fun loop
   n: size_t (n), i: size_t (i)
 ) : void =
   if i < n then let
-    val () = foreach_size__fwork (i) in loop (n, succ(i))
+    val () = foreach_size$fwork (i) in loop (n, succ(i))
   end else () // end of [if]
 (* end of [loop] *)
 //
@@ -54,9 +54,9 @@ implement{a}
 foreach_list (xs) = let
 //
 implement(env)
-list_foreach__cont<a><env> (x, env) = true
+list_foreach$cont<a><env> (x, env) = true
 implement(env)
-list_foreach__fwork<a><env> (x, env) = foreach_list__fwork<a> (x)
+list_foreach$fwork<a><env> (x, env) = foreach_list$fwork<a> (x)
 //
 in
   list_foreach<a> (xs)
@@ -68,9 +68,9 @@ implement{a}
 iforeach_list (xs) = let
 //
 implement(env)
-list_iforeach__cont<a><env> (i, x, env) = true
+list_iforeach$cont<a><env> (i, x, env) = true
 implement(env)
-list_iforeach__fwork<a><env> (i, x, env) = iforeach_list__fwork<a> (i, x)
+list_iforeach$fwork<a><env> (i, x, env) = iforeach_list$fwork<a> (i, x)
 //
 in
   ignoret (list_iforeach<a> (xs))
@@ -82,9 +82,9 @@ implement{a}
 foreach_list_vt (xs) = let
 //
 implement(env)
-list_vt_foreach__cont<a><env> (x, env) = true
+list_vt_foreach$cont<a><env> (x, env) = true
 implement(env)
-list_vt_foreach__fwork<a><env> (x, env) = foreach_list_vt__fwork<a> (x)
+list_vt_foreach$fwork<a><env> (x, env) = foreach_list_vt$fwork<a> (x)
 //
 in
   list_vt_foreach<a> (xs)
@@ -96,9 +96,9 @@ implement{a}
 iforeach_list_vt (xs) = let
 //
 implement(env)
-list_vt_iforeach__cont<a><env> (i, x, env) = true
+list_vt_iforeach$cont<a><env> (i, x, env) = true
 implement(env)
-list_vt_iforeach__fwork<a><env> (i, x, env) = iforeach_list_vt__fwork<a> (i, x)
+list_vt_iforeach$fwork<a><env> (i, x, env) = iforeach_list_vt$fwork<a> (i, x)
 //
 in
   ignoret (list_vt_iforeach<a> (xs))
@@ -110,9 +110,9 @@ implement{a}
 foreach_array (A, n) = let
 //
 implement(env)
-array_foreach__cont<a><env> (x, env) = true
+array_foreach$cont<a><env> (x, env) = true
 implement(env)
-array_foreach__fwork<a><env> (x, env) = foreach_array__fwork<a> (x)
+array_foreach$fwork<a><env> (x, env) = foreach_array$fwork<a> (x)
 //
 in
   ignoret (array_foreach<a> (A, n))
@@ -126,11 +126,11 @@ iforeach_array (A, n) = let
 typedef tenv = size_t
 //
 implement
-array_foreach__cont<a><tenv> (x, env) = true
+array_foreach$cont<a><tenv> (x, env) = true
 implement(env)
-array_foreach__fwork<a><tenv> (x, env) = let
-  val i = env; val () = env := succ (i) in iforeach_array__fwork<a> (i, x)
-end // end of [array_foreach__fwork]
+array_foreach$fwork<a><tenv> (x, env) = let
+  val i = env; val () = env := succ (i) in iforeach_array$fwork<a> (i, x)
+end // end of [array_foreach$fwork]
 //
 var env: tenv = g1int2uint (0)
 //
@@ -164,7 +164,7 @@ fun loop
 in
   if test then let
     val x = $IT.iter_get_inc (itr)
-    val () = foreach_fiterator__fwork (x)
+    val () = foreach_fiterator$fwork (x)
   in
     loop (itr)
   end else () // end of [if]
@@ -195,7 +195,7 @@ in
   if test then let
     val p = $IT.iter_getref_inc (itr)
     prval (pf, fpf) = $UN.ptr_vtake {x} (p)
-    val () = foreach_literator__fwork (!p)
+    val () = foreach_literator$fwork (!p)
     prval () = fpf (pf)
   in
     loop (itr)

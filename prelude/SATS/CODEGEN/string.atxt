@@ -282,15 +282,15 @@ fun string_explode
 
 #atscode_separator()
 
-fun string_tabulate__fwork (size_t): charNZ
+fun string_tabulate$fwork (size_t): charNZ
 fun string_tabulate {n:int} (n: size_t n): strnptr (n)
 
 #atscode_separator()
 
 fun{env:vt0p}
-string_foreach__cont (c: char, env: &env): bool
+string_foreach$cont (c: char, env: &env): bool
 fun{env:vt0p}
-string_foreach__fwork (c: char, env: &env): void
+string_foreach$fwork (c: char, env: &env): void
 fun{}
 string_foreach {n:int} (str: string(n)): sizeLte(n)
 fun{env:vt0p}
@@ -301,9 +301,9 @@ string_foreach_env
 #atscode_separator()
 
 fun{env:vt0p}
-string_rforeach__cont (c: char, env: &env): bool
+string_rforeach$cont (c: char, env: &env): bool
 fun{env:vt0p}
-string_rforeach__fwork (c: char, env: &env): void
+string_rforeach$fwork (c: char, env: &env): void
 fun{}
 string_rforeach {n:int} (str: string(n)): sizeLte(n)
 fun{env:vt0p}

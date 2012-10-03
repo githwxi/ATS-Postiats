@@ -144,21 +144,21 @@ end // end of [list_make_arrpsz]
 #atscode_separator()
 
 implement{}
-fprint_list__sep
+fprint_list$sep
   (out) = fprint_string (out, ", ")
-// end of [fprint_list__sep]
+// end of [fprint_list$sep]
 implement{a}
 fprint_list (out, xs) = let
 //
 implement(env)
-list_iforeach__fwork<a><env>
+list_iforeach$fwork<a><env>
   (i, x, env) = let
   val () =
-    if i > 0 then fprint_list__sep<> (out)
+    if i > 0 then fprint_list$sep<> (out)
   // end of [val]
 in
   fprint_val<a> (out, x)
-end // end of [list_iforeach__fwork]
+end // end of [list_iforeach$fwork]
 //
 val _(*n*) = list_iforeach<a> (xs)
 //
@@ -171,7 +171,7 @@ fprint_list_sep
   (out, xs, sep) = let
 //
 implement
-fprint_list__sep<> (out) = fprint_string (out, sep)
+fprint_list$sep<> (out) = fprint_string (out, sep)
 //
 in
   fprint_list<a> (out, xs)
@@ -609,7 +609,7 @@ in
 //
 case+ xs of
 | list_cons (x, xs) =>
-    if list_exists__pred<x> (x) then true else list_exists<x> (xs)
+    if list_exists$pred<x> (x) then true else list_exists<x> (xs)
 | list_nil () => false
 //
 end // end of [list_exists]
@@ -620,7 +620,7 @@ in
 //
 case+ xs of
 | list_cons (x, xs) =>
-    if list_forall__pred<x> (x) then list_forall<x> (xs) else false
+    if list_forall$pred<x> (x) then list_forall<x> (xs) else false
 | list_nil () => true
 //
 end // end of [list_forall]
@@ -628,7 +628,7 @@ end // end of [list_forall]
 #atscode_separator()
 
 implement{a}
-list_equal__pred (x1, x2) = gequal_val<a> (x1, x2)
+list_equal$pred (x1, x2) = gequal_val<a> (x1, x2)
 
 implement{x}
 list_equal (xs1, xs2) = let
@@ -638,7 +638,7 @@ case+ xs1 of
 | list_cons (x1, xs1) => (
   case+ xs2 of
   | list_cons (x2, xs2) => let
-      val iseq = list_equal__pred (x1, x2)
+      val iseq = list_equal$pred (x1, x2)
     in
       if iseq then list_equal<x> (xs1, xs2) else false
     end
@@ -659,7 +659,7 @@ in
 //
 case+ xs of
 | list_cons (x, xs) =>
-    if list_find__pred<x> (x) then x else list_find_exn<x> (xs)
+    if list_find$pred<x> (x) then x else list_find_exn<x> (xs)
 | list_nil () => $raise NotFoundExn()
 //
 end // end of [list_find_exn]
@@ -683,7 +683,7 @@ fun loop
 ) : void = (
   case+ xs of
   | list_cons (x, xs) => let
-      val test = list_filter__pred<x> (x)
+      val test = list_filter$pred<x> (x)
     in
       case+ test of
       | true => let
@@ -712,7 +712,7 @@ end // end of [list_filter]
 
 implement
 {x}{env}
-list_foreach__cont (x, env) = true
+list_foreach$cont (x, env) = true
 
 implement
 {x}{env}
@@ -730,11 +730,11 @@ in
 case+ xs of
 | list_cons (x, xs) => let
     val test =
-      list_foreach__cont<x><env> (x, env)
+      list_foreach$cont<x><env> (x, env)
     // end of [val]
   in
     if test then let
-      val () = list_foreach__fwork<x><env> (x, env)
+      val () = list_foreach$fwork<x><env> (x, env)
     in
       loop (xs, env)
     end else () // end of [if]
@@ -779,7 +779,7 @@ $FC.foreach_funenv<List(x)><x>
 
 implement
 {x,y}{env}
-list_foreach2__cont (x, y, env) = true
+list_foreach2$cont (x, y, env) = true
 
 implement
 {x,y}{env}
@@ -798,11 +798,11 @@ fun loop
     case+ ys of
     | list_cons (y, ys) => let
         val test =
-          list_foreach2__cont<x,y><env> (x, y, env)
+          list_foreach2$cont<x,y><env> (x, y, env)
         // end of [val]
       in
         if test then let
-          val () = list_foreach2__fwork<x,y><env> (x, y, env)
+          val () = list_foreach2$fwork<x,y><env> (x, y, env)
         in
           loop (xs, ys, env)
         end else () // end of [if]
@@ -820,7 +820,7 @@ end // end of [list_foreach2_env]
 
 implement
 {x}{env}
-list_iforeach__cont (i, x, env) = true
+list_iforeach$cont (i, x, env) = true
 
 implement
 {x}{env}
@@ -836,11 +836,11 @@ fun loop
   case+ xs of
   | list_cons (x, xs) => let
       val test =
-        list_iforeach__cont<x><env> (i, x, env)
+        list_iforeach$cont<x><env> (i, x, env)
       // end of [test]
     in
       if test then let
-        val () = list_iforeach__fwork<x><env> (i, x, env)
+        val () = list_iforeach$fwork<x><env> (i, x, env)
       in
         loop (succ(i), xs, env)
       end else (i) // end of [if]
@@ -889,7 +889,7 @@ end // end of [iforeach_funenv]
 
 implement
 {x,y}{env}
-list_iforeach2__cont (i, x, y, env) = true
+list_iforeach2$cont (i, x, y, env) = true
 
 implement
 {x,y}{env}
@@ -910,11 +910,11 @@ case+ xs of
   case+ ys of
   | list_cons (y, ys) => let
       val test =
-        list_iforeach2__cont<x,y><env> (i, x, y, env)
+        list_iforeach2$cont<x,y><env> (i, x, y, env)
       // end of [val]
     in
       if test then let
-        val () = list_iforeach2__fwork<x,y><env> (i, x, y, env)
+        val () = list_iforeach2$fwork<x,y><env> (i, x, y, env)
       in
         loop (succ(i), xs, ys, env)
       end else (i) // end of [if]
@@ -943,7 +943,7 @@ fun loop
   case+ xs of
   | list_cons (x, xs) => let
       val acc =
-        list_foldleft__fwork<res><x> (acc, x)
+        list_foldleft$fwork<res><x> (acc, x)
     in
       loop (xs, acc)
     end // end of [list_cons]
@@ -1004,7 +1004,7 @@ fun loop
   case+ xs of
   | list_cons (x, xs) => let
       val y =
-        list_map__fwork<x><y> (x)
+        list_map$fwork<x><y> (x)
       val () = res :=
         list_vt_cons{y}{0} (y, _(*?*))
       val+ list_vt_cons
@@ -1088,7 +1088,7 @@ fun loop
   case+ xs of
   | list_cons (x, xs) => let
       val y =
-        list_imap__fwork<x><y> (i, x)
+        list_imap$fwork<x><y> (i, x)
       val () = res :=
         list_vt_cons{y}{0} (y, _(*?*))
       val+ list_vt_cons
@@ -1123,7 +1123,7 @@ fun loop
   case+ xs of
   | list_cons (x, xs) => let
       val opt =
-        list_mapopt__fwork<x><y> (x)
+        list_mapopt$fwork<x><y> (x)
     in
       case+ opt of
       | ~Some_vt (y) => let
@@ -1211,7 +1211,7 @@ fun loop
 ) : void =
   if n > i then let
     val x =
-      list_tabulate__fwork<x> (i)
+      list_tabulate$fwork<x> (i)
     val () = res :=
       list_vt_cons{x}{0} (x, _(*?*))
     val+ list_vt_cons
@@ -1236,7 +1236,7 @@ list_zip (xs, ys) = let
 typedef xy = @(x, y)
 //
 implement
-list_zipwith__fwork<x,y><xy> (x, y) = @(x, y)
+list_zipwith$fwork<x,y><xy> (x, y) = @(x, y)
 //
 in
   $effmask_all (list_zipwith<x,y><xy> (xs, ys))
@@ -1263,7 +1263,7 @@ case+ xs of
   case+ ys of
   | list_cons (y, ys) => let
       val xy =
-        list_zipwith__fwork<x,y><xy> (x, y)
+        list_zipwith$fwork<x,y><xy> (x, y)
       // end of [val]
       val () = res := list_vt_cons{xy}{0} (xy, _)
       val+ list_vt_cons (xy, res1) = res
@@ -1292,7 +1292,7 @@ list_cross (xs, ys) = let
 typedef xy = @(x, y)
 //
 implement
-list_crosswith__fwork<x,y><xy> (x, y) = @(x, y)
+list_crosswith$fwork<x,y><xy> (x, y) = @(x, y)
 //
 in
   $effmask_all (list_crosswith<x,y><xy> (xs, ys))
@@ -1329,7 +1329,7 @@ in
   case+ ys2 of
   | list_cons (y, ys2) => let
       val xy = 
-        list_crosswith__fwork<x,y><xy> (x, y)
+        list_crosswith$fwork<x,y><xy> (x, y)
       // end of [val]
       val () = res := list_vt_cons{xy}{0} (xy, _)
       val+ list_vt_cons (_, res1) = res
@@ -1351,7 +1351,7 @@ end // end of [list_crosswith]
 #atscode_separator()
 
 implement{a}
-list_mergesort__cmp (x1, x2) = gcompare_val<a> (x1, x2)
+list_mergesort$cmp (x1, x2) = gcompare_val<a> (x1, x2)
 
 implement{a}
 list_mergesort
@@ -1360,8 +1360,8 @@ list_mergesort
 val xs = list_copy (xs)
 //
 implement
-list_vt_mergesort__cmp<a>
-  (x1, x2) = list_mergesort__cmp<a> (x1, x2)
+list_vt_mergesort$cmp<a>
+  (x1, x2) = list_mergesort$cmp<a> (x1, x2)
 //
 in
   $effmask_wrt (list_vt_mergesort<a> (xs))
@@ -1370,7 +1370,7 @@ end // end of [list_mergesort]
 #atscode_separator()
 
 implement{a}
-list_quicksort__cmp (x1, x2) = gcompare_val<a> (x1, x2)
+list_quicksort$cmp (x1, x2) = gcompare_val<a> (x1, x2)
 
 implement{a}
 list_quicksort
@@ -1379,8 +1379,8 @@ list_quicksort
 val xs = list_copy (xs)
 //
 implement
-list_vt_quicksort__cmp<a>
-  (x1, x2) = list_quicksort__cmp<a> (x1, x2)
+list_vt_quicksort$cmp<a>
+  (x1, x2) = list_quicksort$cmp<a> (x1, x2)
 //
 in
   $effmask_wrt (list_vt_quicksort<a> (xs))

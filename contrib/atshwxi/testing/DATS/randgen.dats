@@ -61,7 +61,7 @@ randgen_arrayptr
 val A = arrayptr_make_uninitized<a> (n)
 //
 implement
-array_initize__init<a> (_, x) = randgen_ref<a> (x)
+array_initize$init<a> (_, x) = randgen_ref<a> (x)
 //
 prval pf = arrayptr_takeout (A)
 val () = array_initize<a> (!(ptrcast(A)), n)

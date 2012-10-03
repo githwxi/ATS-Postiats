@@ -5,48 +5,48 @@
 (* ****** ****** *)
 
 fun{}
-foreach_int__fwork (i: int): void
+foreach_int$fwork (i: int): void
 fun{} foreach_int (n: Nat): void
 
 fun{}
-foreach_size__fwork (i: size_t): void
+foreach_size$fwork (i: size_t): void
 fun{} foreach_size (n: Size): void
 
 (* ****** ****** *)
 
 fun{a:t0p}
-foreach_list__fwork (x: a): void
+foreach_list$fwork (x: a): void
 fun{a:t0p}
 foreach_list (xs: List (a)): void
 
 fun{a:t0p}
-iforeach_list__fwork (i: int, x: a): void
+iforeach_list$fwork (i: int, x: a): void
 fun{a:t0p}
 iforeach_list (xs: List (a)): void
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-foreach_list_vt__fwork (x: &a): void
+foreach_list_vt$fwork (x: &a): void
 fun{a:vt0p}
 foreach_list_vt (xs: !List_vt (a)): void
 
 fun{a:vt0p}
-iforeach_list_vt__fwork (i: int, x: &a): void
+iforeach_list_vt$fwork (i: int, x: &a): void
 fun{a:vt0p}
 iforeach_list_vt (xs: !List_vt (a)): void
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-foreach_array__fwork (x: &a): void
+foreach_array$fwork (x: &a): void
 fun{a:vt0p}
 foreach_array
   {n:int} (A: &(@[a][n]), asz: size_t n) : void
 // end of [foreach_array]
 
 fun{a:vt0p}
-iforeach_array__fwork (i: size_t, x: &a): void
+iforeach_array$fwork (i: size_t, x: &a): void
 fun{a:vt0p}
 iforeach_array
   {n:int} (A: &(@[a][n]), asz: size_t n) : void
@@ -63,7 +63,7 @@ IT = "prelude/SATS/iterator.sats"
 stadef iterator = $IT.iterator_5
 
 fun{x:vt0p}
-foreach_fiterator__fwork (x: x): void
+foreach_fiterator$fwork (x: x): void
 fun{
 knd:tk}{x:vt0p
 } foreach_fiterator
@@ -72,7 +72,7 @@ knd:tk}{x:vt0p
 ) : void // end of [foreach_fiterator]
 
 fun{x:vt0p}
-foreach_literator__fwork (x: &x): void
+foreach_literator$fwork (x: &x): void
 fun{
 knd:tk}{x:vt0p
 } foreach_literator

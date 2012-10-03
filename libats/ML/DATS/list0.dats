@@ -581,7 +581,7 @@ implement
 list0_map (xs, f) = let
 //
 val xs = list_of_list0 (xs)
-implement list_map__fwork<a><b> (x) = f (x)
+implement list_map$fwork<a><b> (x) = f (x)
 val ys = list_map<a><b> (xs)
 //
 in
@@ -593,7 +593,7 @@ implement
 list0_imap (xs, f) = let
 //
 val xs = list_of_list0 (xs)
-implement list_imap__fwork<a><b> (i, x) = f (i, x)
+implement list_imap$fwork<a><b> (i, x) = f (i, x)
 val ys = list_imap<a><b> (xs)
 //
 in
@@ -629,7 +629,7 @@ list0_map2
 val xs1 = list_of_list0 (xs1)
 val xs2 = list_of_list0 (xs2)
 implement
-list_map2__fwork<a1,a2><b> (x1, x2) = f (x1, x2)
+list_map2$fwork<a1,a2><b> (x1, x2) = f (x1, x2)
 val ys = list_map2<a1,a2><b> (xs1, xs2)
 //
 in
@@ -645,7 +645,7 @@ list0_filter
 val xs = list_of_list0 (xs)
 //
 implement
-list_filter__pred<a> (x) = p (x)
+list_filter$pred<a> (x) = p (x)
 val ys = list_filter<a> (xs)
 //
 in
@@ -659,7 +659,7 @@ list0_tabulate
   (n, f) = let
 //
 implement
-list_tabulate__fwork<a> (i) = f (i)
+list_tabulate$fwork<a> (i) = f (i)
 //
 val n = g1ofg0_int (n)
 //
@@ -689,7 +689,7 @@ implement{a}
 list0_quicksort (xs, cmp) = let
 //
 implement
-list_quicksort__cmp<a> (x, y) = cmp (x, y)
+list_quicksort$cmp<a> (x, y) = cmp (x, y)
 //
 in
   list0_of_list_vt (list_quicksort (list_of_list0 (xs)))
@@ -701,7 +701,7 @@ implement{a}
 list0_mergesort (xs, cmp) = let
 //
 implement
-list_mergesort__cmp<a> (x, y) = cmp (x, y)
+list_mergesort$cmp<a> (x, y) = cmp (x, y)
 //
 in
   list0_of_list_vt (list_mergesort (list_of_list0 (xs)))

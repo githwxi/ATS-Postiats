@@ -73,13 +73,14 @@ fun loop
   val test = iter_isnot_atend (itr)
 in
   if test then let
-    val (fpf | x) = iter_vttake_inc (itr)
+    val p = iter_getref_inc<knd><x> (itr)
+    prval (pf, fpf) = $UN.ptr_vtake {x} (p)
     val () = if notbeg then fprint_string (out, sep)
-    val () = fprint_val<x> (out, x)
-    prval () = fpf (x)
+    val () = fprint_ref<x> (out, !p)
+    prval () = fpf (pf)
   in
     loop (out, itr, sep, true)
-  end else ()
+  end else () // end of [if]
 end // end of [loop]
 //
 in
@@ -452,10 +453,10 @@ in
     val p =
       iter_getref_inc<knd><x> (itr)
     prval (pf, fpf) = $UN.ptr_vtake (p)
-    val cont = iter_foreach__cont (!p, env)
+    val cont = iter_foreach$cont (!p, env)
   in
     if cont then let
-      val () = iter_foreach__fwork (!p, env)
+      val () = iter_foreach$fwork (!p, env)
       prval () = fpf (pf)
     in
       loop (itr, env)
@@ -501,7 +502,7 @@ fun loop
       iter_fgetref_at (itr, ra2)
     prval
       (pf, fpf) = $UN.ptr_vtake (p)
-    val sgn = iter_bsearch__ford (!p)
+    val sgn = iter_bsearch$ford (!p)
     prval () = fpf (pf)
   in
     if sgn <= 0 then

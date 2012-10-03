@@ -54,27 +54,27 @@ gclear_ref (x: &a >> a?):<!wrt> void
 
 (* ****** ****** *)
 
-fun{a:vt0p}
-gequal_val (x: !INV(a), y: !a):<> bool
+fun{a:t0p}
+gequal_val (x: a, y: a):<> bool
 fun{a:vt0p}
 gequal_ref (x: &INV(a), y: &a):<> bool
 
 (* ****** ****** *)
 
-fun{a:vt0p}
-glt_val (x: !INV(a), y: !a):<> bool
-fun{a:vt0p}
-glte_val (x: !INV(a), y: !a):<> bool
-fun{a:vt0p}
-ggt_val (x: !INV(a), y: !a):<> bool
-fun{a:vt0p}
-ggte_val (x: !INV(a), y: !a):<> bool
-fun{a:vt0p}
-geq_val (x: !INV(a), y: !a):<> bool
-fun{a:vt0p}
-gneq_val (x: !INV(a), y: !a):<> bool
-fun{a:vt0p}
-gcompare_val (x: !INV(a), y: !a):<> int
+fun{a:t0p}
+glt_val (x: a, y: a):<> bool
+fun{a:t0p}
+glte_val (x: a, y: a):<> bool
+fun{a:t0p}
+ggt_val (x: a, y: a):<> bool
+fun{a:t0p}
+ggte_val (x: a, y: a):<> bool
+fun{a:t0p}
+geq_val (x: a, y: a):<> bool
+fun{a:t0p}
+gneq_val (x: a, y: a):<> bool
+fun{a:t0p}
+gcompare_val (x: a, y: a):<> int
 
 fun{a:vt0p}
 glt_ref (x: &INV(a), y: &a):<> bool
@@ -95,33 +95,28 @@ gcompare_ref (x: &INV(a), y: &a):<> int
 //
 // generic number operations
 //
-fun{a:vt0p}
-gadd_val (x: !INV(a), y: !a):<> a
-fun{a:vt0p}
-gsub_val (x: !INV(a), y: !a):<> a
-fun{a:vt0p}
-gmul_val (x: !INV(a), y: !a):<> a
-fun{a:vt0p}
-gdiv_val (x: !INV(a), y: !a):<> a
-fun{a:vt0p}
-gmod_val (x: !INV(a), y: !a):<> a
-
+fun{a:t0p} gadd_val (x: a, y: a):<> a
+fun{a:t0p} gsub_val (x: a, y: a):<> a
+fun{a:t0p} gmul_val (x: a, y: a):<> a
+fun{a:t0p} gdiv_val (x: a, y: a):<> a
+fun{a:t0p} gmod_val (x: a, y: a):<> a
+//
 (* ****** ****** *)
 
-fun{a:vt0p} tostring_val (x: !INV(a)):<> string
+fun{a:t0p} tostring_val (x: a):<> string
 fun{a:vt0p} tostring_ref (x: &INV(a)):<> string
 
-fun{a:vt0p} tostrptr_val (x: !INV(a)):<> Strptr1
+fun{a:t0p} tostrptr_val (x: a):<> Strptr1
 fun{a:vt0p} tostrptr_ref (x: &INV(a)):<> Strptr1
 
 (* ****** ****** *)
 
-fun{a:vt0p}
-fprint_val (out: FILEref, x: !INV(a)): void
-fun{a:vt0p}
-print_val (x: !INV(a)): void // = fprint_val (stdout_ref, x)
-fun{a:vt0p}
-prerr_val (x: !INV(a)): void // = fprint_val (stderr_ref, x)
+fun{a:t0p}
+fprint_val (out: FILEref, x: a): void
+fun{a:t0p}
+print_val (x: a): void // = fprint_val (stdout_ref, x)
+fun{a:t0p}
+prerr_val (x: a): void // = fprint_val (stderr_ref, x)
 
 fun{a:vt0p}
 fprint_ref (out: FILEref, x: &INV(a)): void

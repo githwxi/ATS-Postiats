@@ -83,7 +83,7 @@ staload "libats/ML/SATS/string.sats"
 implement
 main () = 0 where {
   val Hello = stringlst_concat (
-    list0$arrpsz{string} ("H", "e", "l", "l", "o")
+    (list0)$arrpsz{string} ("H", "e", "l", "l", "o")
   ) // end of [val]
   val _rest = ", world!\\\n"
   val () = print (Hello + _rest)

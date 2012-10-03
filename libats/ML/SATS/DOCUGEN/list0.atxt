@@ -132,7 +132,7 @@ The following code builds a list of digits and then prints them out:
 staload "libats/ML/SATS/list0.sats"
 //
 implement main () = let
-  val xs = list0$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+  val xs = (list0)$arrpsz{int}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
   val () = list0_foreach<int> (xs, lam (x) => print_int (x))
   val () = print_newline ()
 in

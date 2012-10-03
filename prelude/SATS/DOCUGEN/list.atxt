@@ -193,7 +193,7 @@ implement
 main () = 0 where {
   typedef T = int
   val xs1 = list_make_intrange (0, 10)
-  val xs2 = list$arrpsz{T}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+  val xs2 = (list)$arrpsz{T}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
   val () = assertloc (list_equal<T> ($UN.linlst2lst(xs1), $UN.linlst2lst(xs2)))
   val () = list_vt_free (xs1)
   val () = list_vt_free (xs2)
@@ -231,7 +231,7 @@ implement
 main () = 0 where {
   typedef T = int
   val xs1 = $lst{T}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
-  val xs2 = list$arrpsz{T}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+  val xs2 = (list)$arrpsz{T}(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
   val xs2 = list_of_list_vt (xs2)
   val () = assertloc (list_equal<T> (xs1, xs2))
 } // end pf [main]

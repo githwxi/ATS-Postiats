@@ -119,9 +119,9 @@ string_foreach (s, f) = let
 val s = string1_of_string0 (s)
 //
 implement{env}
-string_foreach__cont (c, env) = true
+string_foreach$cont (c, env) = true
 implement{env}
-string_foreach__fwork (c, env) = f (c)
+string_foreach$fwork (c, env) = f (c)
 val _(*n*) = prelude_string_foreach (s)
 //
 in

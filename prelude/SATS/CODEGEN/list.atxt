@@ -89,7 +89,7 @@ overload list with list_make_arrpsz
 #atscode_separator()
 
 fun{}
-fprint_list__sep (out: FILEref): void
+fprint_list$sep (out: FILEref): void
 fun{x:t0p}
 fprint_list (out: FILEref, xs: List (INV(x))): void
 fun{x:t0p}
@@ -293,10 +293,10 @@ x:t0p
 
 fun{
 x:t0p}{env:vt0p
-} list_foreach__cont (x: x, env: &env): bool
+} list_foreach$cont (x: x, env: &env): bool
 fun{
 x:t0p}{env:vt0p
-} list_foreach__fwork (x: x, env: &env): void
+} list_foreach$fwork (x: x, env: &env): void
 fun{
 x:t0p
 } list_foreach (xs: List (INV(x))): void
@@ -351,10 +351,10 @@ list_foreach_cloref
 
 fun{
 x,y:t0p}{env:vt0p
-} list_foreach2__cont (x: x, y: y, env: &env): bool
+} list_foreach2$cont (x: x, y: y, env: &env): bool
 fun{
 x,y:t0p}{env:vt0p
-} list_foreach2__fwork (x: x, y: y, env: &env): void
+} list_foreach2$fwork (x: x, y: y, env: &env): void
 fun{
 x,y:t0p
 } list_foreach2 (xs: List (INV(x)), ys: List (INV(y))): void
@@ -366,10 +366,10 @@ x,y:t0p}{env:vt0p
 
 fun{
 x:t0p}{env:vt0p
-} list_iforeach__cont (i: int, x: x, env: &env): bool
+} list_iforeach$cont (i: int, x: x, env: &env): bool
 fun{
 x:t0p}{env:vt0p
-} list_iforeach__fwork (i: int, x: x, env: &env): void
+} list_iforeach$fwork (i: int, x: x, env: &env): void
 fun{
 x:t0p
 } list_iforeach {n:int} (xs: list (INV(x), n)): natLte(n)
@@ -390,10 +390,10 @@ x:t0p // type for elements
 
 fun{
 x,y:t0p}{env:vt0p
-} list_iforeach2__cont (i: int, x: x, y: y, env: &env): bool
+} list_iforeach2$cont (i: int, x: x, y: y, env: &env): bool
 fun{
 x,y:t0p}{env:vt0p
-} list_iforeach2__fwork (i: int, x: x, y: y, env: &env): void
+} list_iforeach2$fwork (i: int, x: x, y: y, env: &env): void
 fun{
 x,y:t0p
 } list_iforeach2 {m,n:int}
@@ -408,34 +408,34 @@ x,y:t0p}{env:vt0p
 
 fun{
 res:vt0p}{x:t0p
-} list_foldleft__fwork (acc: res, x: x): res
+} list_foldleft$fwork (acc: res, x: x): res
 fun{
 res:vt0p}{x:t0p
 } list_foldleft (xs: List (INV(x)), ini: res): res
 
 fun{
 x:t0p}{res:vt0p
-} list_foldright__fwork (x: x, acc: res): res
+} list_foldright$fwork (x: x, acc: res): res
 fun{
 x:t0p}{res:vt0p
 } list_foldright (xs: List (INV(x)), snk: res): res
 
 #atscode_separator()
 
-fun{x:t0p} list_exists__pred (x):<> bool
+fun{x:t0p} list_exists$pred (x):<> bool
 fun{x:t0p} list_exists (xs: List (INV(x))):<> bool
 
-fun{x:t0p} list_forall__pred (x):<> bool
+fun{x:t0p} list_forall$pred (x):<> bool
 fun{x:t0p} list_forall (xs: List (INV(x))):<> bool
 
 #atscode_separator()
 
-fun{x:t0p} list_equal__pred (x, x):<> bool
+fun{x:t0p} list_equal$pred (x, x):<> bool
 fun{x:t0p} list_equal (xs1: List (INV(x)), xs2: List(x)):<> bool
 
 #atscode_separator()
 
-fun{x:t0p} list_find__pred (x):<> bool
+fun{x:t0p} list_find$pred (x):<> bool
 fun{x:t0p} list_find_exn (xs: List (INV(x))):<!exn> x
 fun{x:t0p} list_find_opt (xs: List (INV(x))):<> Option_vt (x)
 
@@ -443,7 +443,7 @@ fun{x:t0p} list_find_opt (xs: List (INV(x))):<> Option_vt (x)
 
 fun{
 x:t0p
-} list_filter__pred (x): bool
+} list_filter$pred (x): bool
 fun{
 x:t0p
 } list_filter {n:int}
@@ -471,7 +471,7 @@ x:t0p
 
 #atscode_separator()
 
-fun{x:t0p} list_app__fwork (x): void
+fun{x:t0p} list_app$fwork (x): void
 fun{x:t0p} list_app (xs: List (INV(x))): void
 
 fun{
@@ -487,7 +487,7 @@ x:t0p
 
 fun{
 x:t0p}{y:vt0p
-} list_map__fwork (x): y
+} list_map$fwork (x): y
 fun{
 x:t0p}{y:vt0p
 } list_map {n:int}
@@ -507,7 +507,7 @@ x:t0p}{y:t0p
 
 fun{
 x:t0p}{y:vt0p
-} list_imap__fwork (int, x): y
+} list_imap$fwork (int, x): y
 fun{
 x:t0p}{y:vt0p
 } list_imap {n:int}
@@ -518,7 +518,7 @@ x:t0p}{y:vt0p
 
 fun{
 x1,x2:t0p}{y:vt0p
-} list_map2__fwork (x1, x2): y
+} list_map2$fwork (x1, x2): y
 fun{
 x1,x2:t0p}{y:vt0p
 } list_map2 {n1,n2:int} (
@@ -542,7 +542,7 @@ x1,x2:t0p}{y:t0p
 
 fun{
 x:t0p}{y:vt0p
-} list_mapopt__fwork (x): Option_vt (y)
+} list_mapopt$fwork (x): Option_vt (y)
 fun{
 x:t0p}{y:vt0p
 } list_mapopt {n:int}
@@ -562,7 +562,7 @@ x:t0p}{y:t0p
 
 fun{
 a:vt0p
-} list_tabulate__fwork (i: int): a
+} list_tabulate$fwork (i: int): a
 fun{
 a:vt0p
 } list_tabulate {n:nat} (n: int n): list_vt (a, n)
@@ -577,7 +577,7 @@ x,y:t0p
 
 fun{
 x,y:t0p}{xy:vt0p
-} list_zipwith__fwork (x, y): xy
+} list_zipwith$fwork (x, y): xy
 fun{
 x,y:t0p}{xy:vt0p
 } list_zipwith
@@ -596,7 +596,7 @@ x,y:t0p
 
 fun{
 x,y:t0p}{xy:vt0p
-} list_crosswith__fwork (x, y): xy
+} list_crosswith$fwork (x, y): xy
 fun{
 x,y:t0p}{xy:vt0p
 } list_crosswith
@@ -607,7 +607,7 @@ x,y:t0p}{xy:vt0p
 #atscode_separator()
 
 fun{a:t0p}
-list_mergesort__cmp (x1: a, x2: a):<> int
+list_mergesort$cmp (x1: a, x2: a):<> int
 
 fun{
 a:t0p
@@ -626,7 +626,7 @@ a:t0p
 #atscode_separator()
 
 fun{a:t0p}
-list_quicksort__cmp (x1: a, x2: a):<> int
+list_quicksort$cmp (x1: a, x2: a):<> int
 
 fun{
 a:t0p

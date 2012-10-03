@@ -42,14 +42,14 @@ fprint_list_vt
   (out, xs) = let
 //
 implement(env)
-list_vt_iforeach__fwork<a><env>
+list_vt_iforeach$fwork<a><env>
   (i, x, env) = let
   val () =
-    if i > 0 then fprint_list_vt__sep<> (out)
+    if i > 0 then fprint_list_vt$sep<> (out)
   // end of [val]
 in
   fprint_ref<a> (out, x)
-end // end of [list_iforeach__fwork]
+end // end of [list_iforeach$fwork]
 //
 val _(*n*) = list_vt_iforeach<a> (xs)
 //
@@ -62,7 +62,7 @@ fprint_list_vt_sep
   (out, xs, sep) = let
 //
 implement
-fprint_list_vt__sep<> (out) = fprint_string (out, sep)
+fprint_list_vt$sep<> (out) = fprint_string (out, sep)
 //
 in
   fprint_list_vt<a> (out, xs)
@@ -234,17 +234,17 @@ implement{a}
 list_vt_free (xs) = let
 //
 implement
-list_vt_freelin__clear<a>
+list_vt_freelin$clear<a>
   (x) = let
   prval () = topize (x) in (*void*)
-end // end of [list_vt_freelin__clear]
+end // end of [list_vt_freelin$clear]
 //
 in
   list_vt_freelin (xs)
 end // end of [list_vt_free]
 
 implement{a}
-list_vt_freelin__clear (x) = gclear_ref (x)
+list_vt_freelin$clear (x) = gclear_ref (x)
 implement{a}
 list_vt_freelin (xs) = let
 //
@@ -258,7 +258,7 @@ fun loop
   | @list_vt_cons
       (x, xs1) => let
       val () =
-        list_vt_freelin__clear<a> (x)
+        list_vt_freelin$clear<a> (x)
       val xs1 = xs1
       val () = free@ {a}{0} (xs)
     in
@@ -274,7 +274,7 @@ end // end of [list_vt_freelin]
 #atscode_separator()
 
 implement{a}
-list_vt_uninitize__clear (x) = gclear_ref (x)
+list_vt_uninitize$clear (x) = gclear_ref (x)
 
 implement{a}
 list_vt_uninitize
@@ -290,7 +290,7 @@ fun loop
   | @list_vt_cons
       (x, xs1) => let
       val () =
-        list_vt_uninitize__clear (x)
+        list_vt_uninitize$clear (x)
       val () = loop (xs1)
       prval () = fold@ {a?} (xs)
     in
@@ -425,7 +425,7 @@ case+ xs of
 | @list_vt_cons
     (x, xs_tl) => let
     val xs_tl_v = xs_tl
-    val test = list_vt_split__pred (x)
+    val test = list_vt_split$pred (x)
   in
     if test then let
       val () = res1 := xs
@@ -458,7 +458,7 @@ end // end of [list_vt_split]
 
 implement
 {x}{env}
-list_vt_foreach__cont (x, env) = true
+list_vt_foreach$cont (x, env) = true
 
 implement
 {x}{env}
@@ -475,10 +475,10 @@ in
   case+ xs of
   | @list_vt_cons
       (x, xs1) => let
-      val test = list_vt_foreach__cont (x, env)
+      val test = list_vt_foreach$cont (x, env)
     in
       if test then let
-        val () = list_vt_foreach__fwork<x><env> (x, env)
+        val () = list_vt_foreach$fwork<x><env> (x, env)
         val () = loop (xs1, env)
         prval () = fold@ (xs)
       in
@@ -553,7 +553,7 @@ end // end of [list_vt_foreach_funenv]
 
 implement
 {x}{env}
-list_vt_iforeach__cont (i, x, env) = true
+list_vt_iforeach$cont (i, x, env) = true
 
 implement
 {x}{env}
@@ -570,12 +570,12 @@ in
   case+ xs of
   | @list_vt_cons (x, xs1) => let
       val test =
-        list_vt_iforeach__cont<x><env> (i, x, env)
+        list_vt_iforeach$cont<x><env> (i, x, env)
       // end of [val]
     in
       if test then let
         val () =
-          list_vt_iforeach__fwork<x><env> (i, x, env)
+          list_vt_iforeach$fwork<x><env> (i, x, env)
         // end of [val]
         val i = loop (succ(i), xs1, env)
         prval () = fold@ (xs)
@@ -600,17 +600,17 @@ implement{a}
 list_vt_filter (xs) = let
 //
 implement
-list_vt_filterlin__clear<a>
+list_vt_filterlin$clear<a>
   (x) = let
   prval () = topize (x) in (*void*)
-end // end of [list_vt_filterlin__clear]
+end // end of [list_vt_filterlin$clear]
 //
 in
   list_vt_filterlin<a> (xs)
 end // end of [list_vt_filter]
 
 implement{a}
-list_vt_filterlin__clear (x) = gclear_ref (x)
+list_vt_filterlin$clear (x) = gclear_ref (x)
 implement{a}
 list_vt_filterlin (xs) = let
 //
@@ -623,7 +623,7 @@ fun loop
 in
   case+ xs of
   | @list_vt_cons (x, xs1) => let
-      val test = list_vt_filter__pred<a> (x)
+      val test = list_vt_filter$pred<a> (x)
     in
       if test then let
         val () = loop (xs1)
@@ -632,7 +632,7 @@ in
       end else let
         val xs1 = xs1
         val () =
-          list_vt_freelin__clear<a> (x)
+          list_vt_freelin$clear<a> (x)
         val () = free@ {..}{0} (xs)
         val () = xs := xs1
       in
@@ -660,7 +660,7 @@ case+ xs of
 | @list_vt_cons
     (x, xs1) => let
     val () =
-      list_vt_app__fwork<a> (x)
+      list_vt_app$fwork<a> (x)
     val () = list_vt_app<a> (xs1)
     prval () = fold@ (xs)
   in
@@ -679,7 +679,7 @@ case+ xs of
 | @list_vt_cons
     (x, xs1) => let
     val xs1 = xs1
-    val () = list_vt_appfree__fwork<a> (x)
+    val () = list_vt_appfree$fwork<a> (x)
     val () = free@ {a}{0} (xs)
   in
     list_vt_appfree<a> (xs1)
@@ -707,7 +707,7 @@ in
   | @list_vt_cons
       (x, xs1) => let
       val y =
-        list_vt_map__fwork<a><b> (x)
+        list_vt_map$fwork<a><b> (x)
       // end of [val]
       val () = res := list_vt_cons {b}{0} (y, _)
       val+ list_vt_cons (_, res1) = res
@@ -745,7 +745,7 @@ in
       (x, xs1) => let
       val xs1 = xs1
       val y =
-        list_vt_mapfree__fwork<a><b> (x)
+        list_vt_mapfree$fwork<a><b> (x)
       // end of [val]
       val () = free@ {a}{0} (xs)
       val () = res := list_vt_cons {b}{0} (y, _)
@@ -768,7 +768,7 @@ end // end of [list_vt_mapfree]
 #atscode_separator()
 
 implement{a}
-list_vt_mergesort__cmp (x1, x2) = gcompare_ref<a> (x1, x2)
+list_vt_mergesort$cmp (x1, x2) = gcompare_ref<a> (x1, x2)
 
 implement{a}
 list_vt_mergesort
@@ -801,7 +801,7 @@ fun merge {n1,n2:nat} .<n1+n2>. (
     case+ xs2 of
     | @list_vt_cons (x2, xs21) => let
         val sgn =
-          list_vt_mergesort__cmp (x1, x2)
+          list_vt_mergesort$cmp (x1, x2)
         // end of [val]
       in
         if sgn <= 0 then let
@@ -844,7 +844,7 @@ end // end of [list_vt_mergesort]
 #atscode_separator()
 
 implement{a}
-list_vt_quicksort__cmp (x1, x2) = gcompare_val<a> (x1, x2)
+list_vt_quicksort$cmp (x1, x2) = gcompare_ref<a> (x1, x2)
 
 (*
 ** HX-2012-05:
@@ -858,18 +858,18 @@ list_vt_quicksort
 abst@ype a2 = a?
 //
 implement
-array_quicksort__cmp<a2>
+array_quicksort$cmp<a2>
   (x1, x2) = let
   extern praxi __to {l:addr} (pf: !a2 @ l >> a @ l): void
   extern praxi __fr {l:addr} (pf: !a @ l >> a2 @ l): void
   prval () = __to (view@(x1))
   prval () = __to (view@(x2))
-  val ans = list_vt_quicksort__cmp<a> (x1, x2)
+  val ans = list_vt_quicksort$cmp<a> (x1, x2)
   prval () = __fr (view@(x1))
   prval () = __fr (view@(x2))
 in
   ans
-end // end of [array_quicksort__cmp]
+end // end of [array_quicksort$cmp]
 //
 prval () = lemma_list_vt_param (xs)
 //

@@ -343,11 +343,11 @@ stringlst_concat
 prval () = lemma_list_param (xs)
 //
 implement
-list_map__fwork<string><size_t> (x) = string0_length x
+list_map$fwork<string><size_t> (x) = string0_length x
 val ns = list_map<string><size_t> (xs)
 //
 implement
-list_foldleft__fwork<size_t><size_t> (acc, n) = acc + n
+list_foldleft$fwork<size_t><size_t> (acc, n) = acc + n
 val ntot = list_foldleft ($UN.linlst2lst (ns), g1int2uint(0))
 //
 fun loop {n:nat} .<n>. (
@@ -422,9 +422,9 @@ end // end of [string_explode]
 #atscode_separator()
 
 implement{env}
-string_foreach__cont (c, env) = true
+string_foreach$cont (c, env) = true
 implement{env}
-string_foreach__fwork (c, env) = ((*void*))
+string_foreach$fwork (c, env) = ((*void*))
 
 implement{}
 string_foreach (str) = let
@@ -440,12 +440,12 @@ fun loop (
 ) : ptr = let
   val c = $UN.ptr0_get<char> (p)
   val cont = (
-    if c != CNUL then string_foreach__cont (c, env) else false
+    if c != CNUL then string_foreach$cont (c, env) else false
   ) : bool // end of [val]
 in
   if cont then let
     val () =
-      string_foreach__fwork<env> (c, env)
+      string_foreach$fwork<env> (c, env)
     val p = ptr0_succ<char> (p)
   in
     loop (p, env)
@@ -463,9 +463,9 @@ end // end of [string_foreach_env]
 #atscode_separator()
 
 implement{env}
-string_rforeach__cont (c, env) = true
+string_rforeach$cont (c, env) = true
 implement{env}
-string_rforeach__fwork (c, env) = ((*void*))
+string_rforeach$fwork (c, env) = ((*void*))
 
 implement{}
 string_rforeach (str) = let
@@ -482,11 +482,11 @@ val p = string2ptr (str)
 prval (pf, fpf) = $UN.ptr_vtake {chararr} (p)
 //
 implement
-array_rforeach__cont<char><env>
-  (c, env) = string_rforeach__cont<env> (c, env)
+array_rforeach$cont<char><env>
+  (c, env) = string_rforeach$cont<env> (c, env)
 implement
-array_rforeach__fwork<char><env>
-  (c, env) = string_rforeach__fwork<env> (c, env)
+array_rforeach$fwork<char><env>
+  (c, env) = string_rforeach$fwork<env> (c, env)
 val res = array_rforeach_env<char><env> (!p, n, env)
 //
 prval () = fpf (pf)

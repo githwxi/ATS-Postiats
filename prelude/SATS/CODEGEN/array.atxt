@@ -203,7 +203,7 @@ fun array_ptr_free
 #atscode_separator()
 
 fun{}
-fprint_array__sep (out: FILEref): void
+fprint_array$sep (out: FILEref): void
 fun{a:vt0p}
 fprint_array
   {n:int} (
@@ -255,10 +255,10 @@ macdef array2lst = array_copy_to_list_vt
 
 fun{
 a:vt0p}{env:vt0p
-} array_foreach__cont (x: &a, env: &env): bool
+} array_foreach$cont (x: &a, env: &env): bool
 fun{
 a:vt0p}{env:vt0p
-} array_foreach__fwork (x: &a >> _, env: &env): void
+} array_foreach$fwork (x: &a >> _, env: &env): void
 fun{
 a:vt0p
 } array_foreach {n:int} (
@@ -351,10 +351,10 @@ array_foreach_cloref
 
 fun{
 a1,a2:vt0p}{env:vt0p
-} array_foreach2__cont (x1: &a1, x2: &a2, env: &env): bool
+} array_foreach2$cont (x1: &a1, x2: &a2, env: &env): bool
 fun{
 a1,a2:vt0p}{env:vt0p
-} array_foreach2__fwork (x1: &a1 >> _, x2: &a2 >> _, env: &env): void
+} array_foreach2$fwork (x1: &a1 >> _, x2: &a2 >> _, env: &env): void
 fun{
 a1,a2:vt0p
 } array_foreach2
@@ -377,10 +377,10 @@ a1,a2:vt0p}{env:vt0p
 
 fun{
 a:vt0p}{env:vt0p
-} array_rforeach__cont (x: &a, env: &env): bool
+} array_rforeach$cont (x: &a, env: &env): bool
 fun{
 a:vt0p}{env:vt0p
-} array_rforeach__fwork (x: &a >> _, env: &env): void
+} array_rforeach$fwork (x: &a >> _, env: &env): void
 fun{
 a:vt0p
 } array_rforeach {n:int} (
@@ -395,7 +395,7 @@ a:vt0p}{env:vt0p
 #atscode_separator()
 
 fun{a:vt0p}
-array_initize__init
+array_initize$init
   (i: size_t, x: &a? >> a): void
 fun{a:vt0p}
 array_initize
@@ -428,7 +428,7 @@ array_initize_list_vt
 #atscode_separator()
 
 fun{a:vt0p}
-array_uninitize__clear
+array_uninitize$clear
   (i: size_t, x: &a >> a?): void
 fun{a:vt0p}
 array_uninitize
@@ -440,7 +440,7 @@ macdef array_uninitialize = array_uninitize
 #atscode_separator()
 
 fun{x:vt0p}
-array_bsearch__ford (x: &x): int
+array_bsearch$ford (x: &x): int
 fun{a:vt0p}
 array_bsearch
   {n:int} (A: &(@[a][n]), n: size_t (n)):<> sizeLte (n)
@@ -449,7 +449,7 @@ array_bsearch
 #atscode_separator()
 
 fun{a:vt0p}
-array_quicksort__cmp
+array_quicksort$cmp
   (x1: &a, x2: &a):<> int
 fun{a:vt0p}
 array_quicksort {n:int}
@@ -467,7 +467,7 @@ array_quicksort_fun {n:int} (
 #atscode_separator()
 
 fun{}
-array_permute__randint
+array_permute$randint
   {n:int | n > 0} (n: size_t n): sizeLt (n)
 fun{a:vt0p}
 array_permute {n:int}

@@ -355,6 +355,7 @@ fun IDENTRST_test
   | _ when ('0' <= c andalso c <= '9') => true
   | _ when c = '_' => true
   | _ when c = '\'' => true
+  | _ when c = '$' => true
   | _ => false
 // end of [IDENTRST_test]
 

@@ -592,10 +592,10 @@ knd:tk}{x:vt0p
 
 fun{
 x:vt0p}{env:vt0p
-} iter_foreach__cont (x: &x, env: &env): bool
+} iter_foreach$cont (x: &x, env: &env): bool
 fun{
 x:vt0p}{env:vt0p
-} iter_foreach__fwork (x: &x, env: &env): void
+} iter_foreach$fwork (x: &x, env: &env): void
 fun{
 knd:tk}{x:vt0p
 } iter_foreach
@@ -614,10 +614,10 @@ knd:tk}{x:vt0p}{env:vt0p
 
 fun{
 x:vt0p}{env:vt0p
-} iter_rforeach__cont (x: &x, env: &env): bool
+} iter_rforeach$cont (x: &x, env: &env): bool
 fun{
 x:vt0p}{env:vt0p
-} iter_rforeach__fwork (x: &x, env: &env): void
+} iter_rforeach$fwork (x: &x, env: &env): void
 fun{
 knd:tk}{x:vt0p
 } iter_rforeach
@@ -646,7 +646,7 @@ knd:tk}{x:vt0p}{env:vt0p
 ** orderedness.
 *)
 fun{x:vt0p}
-iter_bsearch__ford (x: &x): int
+iter_bsearch$ford (x: &x): int
 fun{
 knd:tk}{x:vt0p
 } iter_bsearch

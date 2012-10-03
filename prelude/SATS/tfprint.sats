@@ -30,7 +30,7 @@
 (*
 ** Source:
 ** $PATSHOME/prelude/SATS/CODEGEN/tfprint.atxt
-** Time of generation: Wed Aug  1 16:25:54 2012
+** Time of generation: Wed Oct  3 01:47:25 2012
 *)
 
 (* ****** ****** *)
@@ -46,7 +46,7 @@ sortdef t0p = t@ype
 (* ****** ****** *)
 
 fun{}
-tfprint__out (): FILEref
+tfprint$out (): FILEref
 
 (* ****** ****** *)
 
@@ -61,11 +61,11 @@ tfprint_newline (): void
 (* ****** ****** *)
 
 fun{}
-tfprint_list__sep (): string
+tfprint_list$sep (): string
 fun{}
-tfprint_list__beg (): string
+tfprint_list$beg (): string
 fun{}
-tfprint_list__end (): string
+tfprint_list$end (): string
 
 fun{a:t0p}
 tfprint_list (xs: List (a)): void
@@ -73,11 +73,11 @@ tfprint_list (xs: List (a)): void
 (* ****** ****** *)
 
 fun{}
-tfprint_array__sep (): string
+tfprint_array$sep (): string
 fun{}
-tfprint_array__beg (): string
+tfprint_array$beg (): string
 fun{}
-tfprint_array__end (): string
+tfprint_array$end (): string
 
 fun{a:t0p}
 tfprint_array
