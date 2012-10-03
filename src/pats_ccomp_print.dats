@@ -51,9 +51,54 @@ staload "pats_ccomp.sats"
 (* ****** ****** *)
 
 implement
+fprint_primdec
+  (out, x) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+//
+case+ x.primdec_node of
+| PMDnone () => prstr "PMDnone()"
+| PMDimpdec () => {
+    val () = prstr "PMDimpdec("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+| PMDfundecs () => {
+    val () = prstr "PMDfundecs("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+| PMDvaldecs () => {
+    val () = prstr "PMDvaldecs("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+| PMDvardecs (d2vs) => {
+    val () = prstr "PMDvardecs("
+    val () = fprint_d2varlst (out, d2vs)
+    val () = prstr ")"
+  }
+| PMDlocal (
+    pmds_head, pmds_body
+  ) => {
+    val () = prstr "PMDlocal("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  } // end of [PMDlocal]
+//
+end // end of [fprint_primdec]
+
+implement
+fprint_primdeclst
+  (out, pmds) = $UT.fprintlst (out, pmds, "\n", fprint_primdec)
+// end of [fprint_primdeclst]
+
+(* ****** ****** *)
+
+implement
 fprint_primval (out, x) = let
 //
-macdef prstr (s) = fprint_string (out, ,(s))
+  macdef prstr (s) = fprint_string (out, ,(s))
 //
 in
 //
