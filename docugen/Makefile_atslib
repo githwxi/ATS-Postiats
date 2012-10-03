@@ -42,6 +42,13 @@ libats_ML_sats:
 
 ######
 
+uploadall:: ; make -C prelude/SATS/DOCUGEN -f Makefile uploadall
+uploadall:: ; make -C libc/SATS/DOCUGEN -f Makefile uploadall
+uploadall:: ; make -C libats/SATS/DOCUGEN -f Makefile uploadall
+uploadall:: ; make -C libats/ML/SATS/DOCUGEN -f Makefile uploadall
+
+######
+
 clean:: ; make -C prelude/SATS/DOCUGEN -f Makefile clean
 clean:: ; make -C libc/SATS/DOCUGEN -f Makefile clean
 clean:: ; make -C libats/SATS/DOCUGEN -f Makefile clean

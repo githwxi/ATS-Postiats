@@ -119,7 +119,7 @@ funralist_update
 (* ****** ****** *)
 
 fun{a:t0p}{env:vt0p}
-funralist_foreach__fwork (x: a, env: &env): void
+funralist_foreach$fwork (x: a, env: &env): void
 
 fun{a:t0p}
 funralist_foreach (xs: Ralist (INV(a))): void

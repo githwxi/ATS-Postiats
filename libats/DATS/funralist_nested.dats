@@ -372,7 +372,7 @@ val f = lam
   (x: node): void =<cloref> let
   val+ N1 (x) = x
   prval (pf, fpf) = $UN.ptr_vtake {env} (p_env)
-  val () = $effmask_all (funralist_foreach__fwork<a> (x, !p_env))
+  val () = $effmask_all (funralist_foreach$fwork<a> (x, !p_env))
   prval () = fpf (pf)
 in
   // nothing

@@ -137,7 +137,7 @@ fun fundeque_append
 
 fun{
 a:t0p}{env:vt0p
-} fundeque_foreach__fwork (x: a, env: &env): void
+} fundeque_foreach$fwork (x: a, env: &env): void
 fun{a:t0p}
 fundeque_foreach (xs: Deque (INV(a))): void
 fun{
@@ -148,7 +148,7 @@ a:t0p}{env:vt0p
 
 fun{
 a:t0p}{env:vt0p
-} fundeque_rforeach__fwork (x: a, env: &env): void
+} fundeque_rforeach$fwork (x: a, env: &env): void
 fun{a:t0p}
 fundeque_rforeach (xs: Deque (INV(a))): void
 fun{
