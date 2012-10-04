@@ -90,8 +90,13 @@ end // end of [fprint_primdec]
 
 implement
 fprint_primdeclst
-  (out, pmds) = $UT.fprintlst (out, pmds, "\n", fprint_primdec)
-// end of [fprint_primdeclst]
+  (out, pmds) = let
+  val () =
+    $UT.fprintlst (out, pmds, "\n", fprint_primdec)
+  // end of [val]
+in
+  fprint_newline (out)
+end // end of [fprint_primdeclst]
 
 (* ****** ****** *)
 
@@ -193,6 +198,47 @@ case+ x.primlab_node of
   }
 //
 end // end of [fprint_primlab]
+
+(* ****** ****** *)
+
+implement
+fprint_instr
+  (out, x) = let
+//
+macdef prstr (s) = fprint_string (out, ,(s))
+//
+in
+//
+case+ x.instr_node of
+//
+| INSmove_val (tmp, pmv) => {
+    val () = prstr "INSmove_val("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr " := "
+    val () = fprint_primval (out, pmv)
+    val () = prstr ")"
+  }
+| INSmove_arg_val (i, pmv) => {
+    val () = prstr "INSmove_arg_val("
+    val () = fprintf (out, "arg(%i)", @(i))
+    val () = prstr " := "
+    val () = fprint_primval (out, pmv)
+    val () = prstr ")"
+  }
+//
+| _ => prstr "INS...(...)"
+//
+end // end of [fprint_instr]
+
+implement
+fprint_instrlst
+  (out, xs) = let
+  val () =
+    $UT.fprintlst (out, xs, "\n", fprint_instr)
+  // end of [val]
+in
+  fprint_newline (out)
+end // end of [fprint_instrlst]
 
 (* ****** ****** *)
 

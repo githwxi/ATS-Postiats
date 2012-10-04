@@ -41,12 +41,15 @@ ccomp_main (
   out, flag, infil, hids
 ) = let
 //
-val pmds = hideclist_ccomp0 (hids)
+val (inss, pmds) = hideclist_ccomp0 (hids)
+//
+val () =
+  print ("ccomp_main: inss =\n")
+val () = fprint_instrlst (out, inss)
 //
 val () =
   print ("ccomp_main: pmds =\n")
 val () = fprint_primdeclst (out, pmds)
-val () = print_newline ()
 //
 in
 end // end of [ccomp_main]

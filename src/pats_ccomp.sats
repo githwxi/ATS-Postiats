@@ -111,6 +111,7 @@ primdec_node =
   | PMDvaldecs of ()
   | PMDvardecs of (d2varlst)
   | PMDlocal of (primdeclst, primdeclst)
+// end of [primdec_node]
 
 where
 primdec = '{
@@ -276,7 +277,9 @@ fun hidecl_ccomp
 fun hideclist_ccomp
   (env: !ccompenv, res: !instrseq, hdcs: hideclist): primdeclst
 
-fun hideclist_ccomp0 (hdcs: hideclist): primdeclst
+fun hideclist_ccomp0
+  (hdcs: hideclist): (instrlst, primdeclst)
+// end of [hideclist_ccomp0]
 
 (* ****** ****** *)
 
