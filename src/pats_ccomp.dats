@@ -89,6 +89,11 @@ primval_string (loc, hse, str) =
   primval_make_node (loc, hse, PMVstring (str))
 // end of [primval_string]
 
+implement
+primval_empty (loc, hse) =
+  primval_make_node (loc, hse, PMVempty ())
+// end of [primval_empty]
+
 (* ****** ****** *)
 
 extern

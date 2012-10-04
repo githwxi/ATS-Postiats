@@ -140,7 +140,8 @@ primval_node =
   | PMVbool of (bool)
   | PMVchar of (char)
   | PMVstring of (string)
-  | PMVvoid of ()
+//
+  | PMVempty of ()
 //
   | PMVarg of (int)
   | PMVargref of (int) // call-by-reference
@@ -188,6 +189,8 @@ fun primval_char
   (loc: location, hse: hisexp, c: char): primval
 fun primval_string
   (loc: location, hse: hisexp, str: string): primval
+
+fun primval_empty (loc: location, hse: hisexp): primval
 
 (* ****** ****** *)
 

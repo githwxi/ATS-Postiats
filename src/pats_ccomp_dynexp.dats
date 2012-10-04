@@ -125,6 +125,13 @@ case+ hde0.hidexp_node of
     instrseq_add (res, ins)
   end // end of [HDEchar]
 //
+| HDEempty () => let
+    val pmv = primval_empty (loc0, hse0)
+    val ins = instr_move_val (loc0, tmpret, pmv)
+  in
+    instrseq_add (res, ins)
+  end // end of [HDEchar]
+//
 | _ => let
     val () = println! ("hidexp_ccomp_ret: hde0 = ", hde0)
   in

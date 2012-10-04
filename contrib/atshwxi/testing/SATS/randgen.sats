@@ -9,7 +9,7 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 (* ****** ****** *)
 
 fun{a:vt0p}
-randgen_val (): a // for ranval generation
+randgen_val (): a // for randval generation
 fun{a:vt0p}
 randgen_ref (x: &a? >> a): void // for randval initialization
 
