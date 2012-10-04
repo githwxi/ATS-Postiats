@@ -1,5 +1,5 @@
 #
-# API for mysql in ATS
+# API for postgresql in ATS
 #
 # Start Time: August, 2012
 # Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
@@ -13,7 +13,7 @@ ATSHOMEQ="$(ATSHOME)"
 
 ATSCC=$(ATSHOMEQ)/bin/atscc
 ATSCTRB="$(PATSHOME)"/contrib
-MYSQLCLFLAGSLAGS=`mysql_config --cflags --libs`
+PGCLFLAGSLAGS=`pg_config --cflags --libs`
 
 ######
 
@@ -21,13 +21,13 @@ all::
 
 ######
 
-all:: atsctrb_mysql.o
-atsctrb_mysql.o: mysql_dats.o ; ld -r -o $@ $^
+all:: atsctrb_postgresql.o
+atsctrb_postgresql.o: postgresql_dats.o ; ld -r -o $@ $^
 
 ######
 
-mysql_dats.o: DATS/mysql.dats
-	$(ATSCC) -O2 -I$(ATSCTRB) -IATS$(ATSCTRB) -o $@ -c $< $(MYSQLCLFLAGS)
+postgresql_dats.o: DATS/postgresql.dats
+	$(ATSCC) -O2 -I$(ATSCTRB) -IATS$(ATSCTRB) -o $@ -c $< $(PGCLFLAGS)
 
 ######
 
@@ -42,6 +42,6 @@ clean:: ; $(RMF) *_?ats.c *_?ats.o
 ######
 
 cleanall:: clean
-cleanall:: ; $(RMF) atsctrb_mysql.o
+cleanall:: ; $(RMF) atsctrb_postgresql.o
 
 ###### end of [Makefile] ######

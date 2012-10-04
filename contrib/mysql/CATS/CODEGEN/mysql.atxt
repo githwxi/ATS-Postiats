@@ -26,7 +26,7 @@ fun atsctrb_define (fname: string): atext = (
 /*
 #atscode_author("Hongwei Xi")
 #atscode_authoremail("hwxi AT cs DOT bu DOT edu")
-#atscode_start_time("May, 2012")
+#atscode_start_time("August, 2012")
 */
 
 #atscode_separator_for_C()
