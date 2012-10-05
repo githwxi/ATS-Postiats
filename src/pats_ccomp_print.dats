@@ -140,7 +140,14 @@ case+ x.primval_node of
     val () = fprint_string (out, str)
     val () = prstr ")"
   }
-| PMVvoid () => prstr "PMVvoid()"
+//
+| PMVempty () => prstr "PMVempty()"
+//
+| PMVextval (name) => {
+    val () = prstr "PMVextval("
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  }
 //
 | PMVarg (n) => {
     val () = prstr "PMVarg("

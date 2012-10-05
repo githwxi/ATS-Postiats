@@ -144,6 +144,8 @@ primval_node =
 //
   | PMVempty of ()
 //
+  | PMVextval of (string(*name*))
+//
   | PMVarg of (int)
   | PMVargref of (int) // call-by-reference
 //
@@ -192,6 +194,10 @@ fun primval_string
   (loc: location, hse: hisexp, str: string): primval
 
 fun primval_empty (loc: location, hse: hisexp): primval
+
+fun primval_extval
+  (loc: location, hse: hisexp, name: string): primval
+// end of [primval_extval]
 
 (* ****** ****** *)
 

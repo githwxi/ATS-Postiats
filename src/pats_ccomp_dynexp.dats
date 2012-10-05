@@ -51,11 +51,21 @@ val hse0 = hde0.hidexp_type
 in
 //
 case+ hde0.hidexp_node of
+//
 | HDEint (i) => primval_int (loc0, hse0, i)
 | HDEbool (b) => primval_bool (loc0, hse0, b)
 | HDEchar (c) => primval_char (loc0, hse0, c)
 | HDEstring (str) => primval_string (loc0, hse0, str)
-| _ => exitloc (1)
+//
+| HDEempty () => primval_empty (loc0, hse0)
+//
+| HDEextval (name) => primval_extval (loc0, hse0, name)
+//
+| _ => let
+    val () = println! ("hidexp_ccomp: hde0 = ", hde0)
+  in
+    exitloc (1)
+  end // end of [_]
 //
 end // end of [hidexp_ccomp]
 
@@ -112,31 +122,12 @@ in
 //
 case+ hde0.hidexp_node of
 //
-| HDEbool (b) => let
-    val pmv = primval_bool (loc0, hse0, b)
-    val ins = instr_move_val (loc0, tmpret, pmv)
-  in
-    instrseq_add (res, ins)
-  end // end of [HDEbool]
-| HDEchar (c) => let
-    val pmv = primval_char (loc0, hse0, c)
-    val ins = instr_move_val (loc0, tmpret, pmv)
-  in
-    instrseq_add (res, ins)
-  end // end of [HDEchar]
-//
-| HDEempty () => let
-    val pmv = primval_empty (loc0, hse0)
-    val ins = instr_move_val (loc0, tmpret, pmv)
-  in
-    instrseq_add (res, ins)
-  end // end of [HDEchar]
-//
 | _ => let
-    val () = println! ("hidexp_ccomp_ret: hde0 = ", hde0)
+    val pmv = hidexp_ccomp (env, res, hde0)
+    val ins = instr_move_val (loc0, tmpret, pmv)
   in
-    exitloc (1)
-  end
+    instrseq_add (res, ins)
+  end // end of [_] 
 //
 end // end of [hidexp_ccomp_ret]
 

@@ -94,6 +94,11 @@ primval_empty (loc, hse) =
   primval_make_node (loc, hse, PMVempty ())
 // end of [primval_empty]
 
+implement
+primval_extval (loc, hse, name) =
+  primval_make_node (loc, hse, PMVextval (name))
+// end of [primval_extval]
+
 (* ****** ****** *)
 
 extern
