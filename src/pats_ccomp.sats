@@ -206,8 +206,13 @@ instr_node =
 //
   | INSmove_val of (tmpvar, primval)
   | INSmove_arg_val of (int(*arg*), primval)
+  | INSmove_ptr_val of (tmpvar(*ptr*), primval)
+//
   | INSTRmove_con of
       (tmpvar, hisexp, d2con, primvalist(*arg*))
+  | INSTRmove_ptr_con of
+      (tmpvar(*ptr*), hisexp, d2con, primvalist(*arg*))
+//
   | INSTRmove_ref of (tmpvar, primval)
 //
   | INScall of
