@@ -55,6 +55,13 @@ typedef location = $LOC.location
 //
 (* ****** ****** *)
 
+staload
+SYN = "pats_syntax.sats"
+typedef i0nt = $SYN.i0nt
+typedef f0loat = $SYN.f0loat
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
 
@@ -142,6 +149,9 @@ primval_node =
   | PMVchar of (char)
   | PMVstring of (string)
 //
+  | PMVi0nt of (i0nt)
+  | PMVf0loat of (f0loat)
+//
   | PMVempty of ()
 //
   | PMVextval of (string(*name*))
@@ -150,6 +160,8 @@ primval_node =
   | PMVargref of (int) // call-by-reference
 //
   | PMVcastfn of (d2cst, primval)
+//
+  | PMVlet of (primdeclst, primval)
 //
   | PMVerr of ()
 // end of [primval_node]
@@ -187,6 +199,11 @@ fun fprint_primlablst : fprint_type (primlablst)
 
 (* ****** ****** *)
 
+fun primval_tmp
+  (loc: location, hse: hisexp, tmp: tmpvar): primval
+fun primval_tmpref
+  (loc: location, hse: hisexp, tmp: tmpvar): primval
+
 fun primval_int
   (loc: location, hse: hisexp, i: int): primval
 fun primval_bool
@@ -196,11 +213,20 @@ fun primval_char
 fun primval_string
   (loc: location, hse: hisexp, str: string): primval
 
+fun primval_i0nt
+  (loc: location, hse: hisexp, tok: i0nt): primval
+fun primval_f0loat
+  (loc: location, hse: hisexp, tok: f0loat): primval
+
 fun primval_empty (loc: location, hse: hisexp): primval
 
 fun primval_extval
   (loc: location, hse: hisexp, name: string): primval
 // end of [primval_extval]
+
+fun primval_let (
+  loc: location, hse: hisexp, pmds: primdeclst, pmv: primval
+) : primval // end of [primval_let]
 
 (* ****** ****** *)
 

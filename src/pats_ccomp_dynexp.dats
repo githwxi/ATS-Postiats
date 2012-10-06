@@ -63,6 +63,32 @@ fun hilablst_ccomp
 
 (* ****** ****** *)
 
+typedef
+hidexp_ccomp_ret_funtype =
+  (!ccompenv, !instrseq, hidexp, tmpvar(*ret*)) -> void
+// end of [hidexp_ccomp_ret_funtype]
+
+extern
+fun hidexp_ccomp_ret_app : hidexp_ccomp_ret_funtype
+
+(* ****** ****** *)
+
+local
+
+fun auxret (
+  env: !ccompenv
+, res: !instrseq
+, hde0: hidexp
+) : primval = let
+  val loc0 = hde0.hidexp_loc
+  val hse0 = hde0.hidexp_type
+  val tmpret = tmpvar_make (loc0, hse0)
+in
+  primval_tmp (loc0, hse0, tmpret)
+end // end of [auxret]
+
+in // in of [local]
+
 implement
 hidexp_ccomp
   (env, res, hde0) = let
@@ -79,11 +105,31 @@ case+ hde0.hidexp_node of
 | HDEchar (c) => primval_char (loc0, hse0, c)
 | HDEstring (str) => primval_string (loc0, hse0, str)
 //
+| HDEi0nt (tok) => primval_i0nt (loc0, hse0, tok)
+| HDEf0loat (tok) => primval_f0loat (loc0, hse0, tok)
+//
 | HDEempty () => primval_empty (loc0, hse0)
 //
 | HDEextval (name) => primval_extval (loc0, hse0, name)
 //
+| HDElet (hids, hde_scope) => let
+    val (
+      pfpush | ()
+    ) = ccompenv_push (env)
+    val pmds = hideclist_ccomp (env, res, hids)
+    val pmv_scope = hidexp_ccomp (env, res, hde_scope)
+    val () = ccompenv_pop (pfpush | env)
+  in
+    primval_let (loc0, hse0, pmds, pmv_scope)
+  end // end of [HDElet]
+//
+| HDEapp _ => auxret (env, res, hde0)
+//
+| HDEif _ => auxret (env, res, hde0)
+//
 | HDEseq _ => hidexp_ccomp_seq (env, res, hde0)
+//
+| HDEselab _ => auxret (env, res, hde0)
 //
 | HDEassgn_var _ => hidexp_ccomp_assgn_var (env, res, hde0)
 | HDEassgn_ptr _ => hidexp_ccomp_assgn_ptr (env, res, hde0)
@@ -95,6 +141,8 @@ case+ hde0.hidexp_node of
   end // end of [_]
 //
 end // end of [hidexp_ccomp]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -139,6 +187,23 @@ end // end of [hidexplst_ccomp]
 
 (* ****** ****** *)
 
+local
+
+fun auxval (
+  env: !ccompenv
+, res: !instrseq
+, hde0: hidexp
+, tmpret: tmpvar
+) : void = let
+  val loc0 = hde0.hidexp_loc
+  val pmv = hidexp_ccomp (env, res, hde0)
+  val ins = instr_move_val (loc0, tmpret, pmv)
+in
+  instrseq_add (res, ins)
+end // end of [auxval]
+
+in // in of [local]
+
 implement
 hidexp_ccomp_ret (
   env, res, hde0, tmpret
@@ -149,14 +214,29 @@ in
 //
 case+ hde0.hidexp_node of
 //
+| HDEint _ => auxval (env, res, hde0, tmpret)
+| HDEbool _ => auxval (env, res, hde0, tmpret)
+| HDEchar _ => auxval (env, res, hde0, tmpret)
+| HDEstring _ => auxval (env, res, hde0, tmpret)
+//
+| HDEi0nt _ => auxval (env, res, hde0, tmpret)
+| HDEf0loat _ => auxval (env, res, hde0, tmpret)
+//
+| HDEempty _ => auxval (env, res, hde0, tmpret)
+//
+| HDEextval _ => auxval (env, res, hde0, tmpret)
+//
+| HDEapp _ => hidexp_ccomp_ret_app (env, res, hde0, tmpret)
+//
 | _ => let
-    val pmv = hidexp_ccomp (env, res, hde0)
-    val ins = instr_move_val (loc0, tmpret, pmv)
+    val () = println! ("hidexp_ccomp_ret: hde0 = ", hde0)
   in
-    instrseq_add (res, ins)
-  end // end of [_] 
+    exitloc (1)
+  end // end of [_]
 //
 end // end of [hidexp_ccomp_ret]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -268,6 +348,14 @@ hidexp_ccomp_assgn_ptr
 in
   primval_empty (loc0, hse0)
 end // end of [ccomp_exp_assgn_ptr]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_ret_app
+  (env, res, hde0, tmpret) = let
+in
+end // end of [hidexp_ccomp_ret_app]
 
 (* ****** ****** *)
 
