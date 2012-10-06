@@ -198,6 +198,17 @@ end // end of [d3exp_is_prf]
 (* ****** ****** *)
 
 implement
+d3exp_cst (
+  loc, s2f, d2c
+) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Ecst (d2c)
+} // end of [d3exp_cst]
+
+(* ****** ****** *)
+
+implement
 d3exp_var (
   loc, s2f, d2v
 ) = '{
@@ -310,17 +321,6 @@ d3exp_extval
 , d3exp_type= s2f
 , d3exp_node= D3Eextval (rep)
 } // end of [d3exp_extval]
-
-(* ****** ****** *)
-
-implement
-d3exp_cst (
-  loc, s2f, d2c
-) = '{
-  d3exp_loc= loc
-, d3exp_type= s2f
-, d3exp_node= D3Ecst (d2c)
-} // end of [d3exp_cst]
 
 (* ****** ****** *)
 

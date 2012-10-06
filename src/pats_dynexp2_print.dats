@@ -325,16 +325,16 @@ in
 //
 case+ x.d2exp_node of
 //
-| D2Evar (x) => {
-    val () = prstr "D2Evar("
-    val () = fprint_d2var (out, x)
-    val () = prstr ")"
-  } // end of [D2Evar]
 | D2Ecst (d2c) => {
     val () = prstr "D2Ecst("
     val () = fprint_d2cst (out, d2c)
     val () = prstr ")"
   } // end of [D2Ecst]
+| D2Evar (x) => {
+    val () = prstr "D2Evar("
+    val () = fprint_d2var (out, x)
+    val () = prstr ")"
+  } // end of [D2Evar]
 //
 | D2Eint (x) => {
     val () = prstr "D2Eint("

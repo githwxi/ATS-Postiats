@@ -224,14 +224,14 @@ in
 case+
   x.hidexp_node of
 //
-| HDEvar (d2v) => {
-    val () = prstr "HDEvar("
-    val () = fprint_d2var (out, d2v)
-    val () = prstr ")"
-  }
 | HDEcst (d2c) => {
     val () = prstr "HDEcst("
     val () = fprint_d2cst (out, d2c)
+    val () = prstr ")"
+  }
+| HDEvar (d2v) => {
+    val () = prstr "HDEvar("
+    val () = fprint_d2var (out, d2v)
     val () = prstr ")"
   }
 //

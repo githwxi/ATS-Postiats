@@ -189,16 +189,16 @@ hidexp_make_node
 (* ****** ****** *)
 
 implement
-hidexp_var
-  (loc, hse, d2v) =
-  hidexp_make_node (loc, hse, HDEvar (d2v))
-// end of [hidexp_var]
-
-implement
 hidexp_cst
   (loc, hse, d2c) =
   hidexp_make_node (loc, hse, HDEcst (d2c))
 // end of [hidexp_cst]
+
+implement
+hidexp_var
+  (loc, hse, d2v) =
+  hidexp_make_node (loc, hse, HDEvar (d2v))
+// end of [hidexp_var]
 
 (* ****** ****** *)
 

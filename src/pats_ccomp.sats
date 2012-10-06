@@ -96,6 +96,8 @@ fun tmpvar_make
   (loc: location, hse: hisexp): tmpvar
 // end of [tmpvar_make]
 
+(* ****** ****** *)
+
 fun fprint_tmpvar : fprint_type (tmpvar)
 fun print_tmpvar (x: tmpvar): void
 overload print with print_tmpvar
@@ -160,7 +162,11 @@ primval_node =
   | PMVtmp of (tmpvar)
   | PMVtmpref of (tmpvar)
 //
-  | PMVdcst of (d2cst)
+  | PMVcst of (d2cst)
+  | PMVvar of (d2var) // temporary
+//
+  | PMVtmpcst of (d2cst, t2mpmarglst)
+  | PMVtmpvar of (d2var, t2mpmarglst)
 //
   | PMVint of (int)
   | PMVbool of (bool)
@@ -222,9 +228,17 @@ fun primval_tmp
 fun primval_tmpref
   (loc: location, hse: hisexp, tmp: tmpvar): primval
 
-fun primval_dcst
+(* ****** ****** *)
+
+fun primval_cst
   (loc: location, hse: hisexp, d2c: d2cst): primval
-// end of [primval_dcst]
+// end of [primval_cst]
+
+fun primval_var
+  (loc: location, hse: hisexp, d2v: d2var): primval
+// end of [primval_var]
+
+(* ****** ****** *)
 
 fun primval_int
   (loc: location, hse: hisexp, i: int): primval
@@ -245,6 +259,13 @@ fun primval_empty (loc: location, hse: hisexp): primval
 fun primval_extval
   (loc: location, hse: hisexp, name: string): primval
 // end of [primval_extval]
+
+fun primval_tmpcst (
+  loc: location, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst
+) : primval // end of [primval_tmpcst]
+fun primval_tmpvar (
+  loc: location, hse: hisexp, d2v: d2var, t2mas: t2mpmarglst
+) : primval // end of [primval_tmpvar]
 
 fun primval_let (
   loc: location, hse: hisexp, pmds: primdeclst, pmv: primval
@@ -326,6 +347,12 @@ fun instr_funcall (
 
 (* ****** ****** *)
 
+fun instr_cond (
+  loc: location, _cond: primval, _then: instrlst, _else: instrlst
+) : instr // end of [instr_cond]
+
+(* ****** ****** *)
+
 fun instr_assgn_varofs (
   loc: location, d2v_l: d2var, ofs: primlablst, pmv_r: primval
 ) : instr // end of [instr_assgn_varofs]
@@ -339,9 +366,10 @@ fun instr_assgn_ptrofs (
 absviewtype instrseq_vtype
 viewtypedef instrseq = instrseq_vtype
 
-fun instrseq_make (): instrseq
+fun instrseq_make_nil (): instrseq
+fun instrseq_get_free (xs: instrseq): instrlst
+
 fun instrseq_add (xs: !instrseq, x: instr): void
-fun instrseq_getfree (xs: instrseq): instrlst_vt
 
 (* ****** ****** *)
 

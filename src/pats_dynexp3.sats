@@ -246,13 +246,13 @@ d3ecl_node =
 
 and d3exp_node =
 //
-  | D3Evar of d2var
-  | D3Ecst of d2cst
+  | D3Ecst of (d2cst) // dynamic constants
+  | D3Evar of (d2var) // dynamic variables
 //
   | D3Eint of (int)
   | D3Eintrep of (string(*rep*))
-  | D3Ebool of bool
-  | D3Echar of char
+  | D3Ebool of (bool)
+  | D3Echar of (char)
   | D3Estring of string(*val*)
   | D3Efloat of string(*rep*)
 //

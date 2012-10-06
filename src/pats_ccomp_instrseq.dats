@@ -52,13 +52,13 @@ assume instrseq_vtype = instrseq
 (* ****** ****** *)
 
 implement
-instrseq_make
+instrseq_make_nil
   () = res where {
   val res = INSTRSEQ (?)
   val+ INSTRSEQ (!p_xs) = res
   val () = $LQ.queue_initialize (!p_xs)
   val () = fold@ (res)
-} // end of [instrseq_make]
+} // end of [instrseq_make_nil]
 
 (* ****** ****** *)
 
@@ -77,12 +77,14 @@ end // end of [instrseq_add]
 (* ****** ****** *)
 
 implement
-instrseq_getfree
-  (res) = xs where {
+instrseq_get_free
+  (res) = let
   val INSTRSEQ (!p_xs) = res
   val xs = $LQ.queue_uninitialize (!p_xs)
   val () = free@ (res)
-} // end of [instrseq_getfree]
+in
+  list_of_list_vt (xs)
+end // end of [instrseq_get_free]
 
 (* ****** ****** *)
 

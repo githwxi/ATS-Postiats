@@ -561,8 +561,8 @@ d2ecl_node =
 
 and d2exp_node =
 //
-  | D2Evar of d2var (* dynamic variables *)
   | D2Ecst of d2cst (* dynamic constants *)
+  | D2Evar of d2var (* dynamic variables *)
 //
   | D2Eint of int
   | D2Eintrep of string(*rep*)

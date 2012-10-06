@@ -97,10 +97,16 @@ primval_tmpref (loc, hse, tmp) =
 (* ****** ****** *)
 
 implement
-primval_dcst
+primval_cst
   (loc, hse, d2c) =
-  primval_make_node (loc, hse, PMVdcst (d2c))
-// end of [primval_dcst]
+  primval_make_node (loc, hse, PMVcst (d2c))
+// end of [primval_cst]
+
+implement
+primval_var
+  (loc, hse, d2v) =
+  primval_make_node (loc, hse, PMVvar (d2v))
+// end of [primval_var]
 
 (* ****** ****** *)
 
@@ -147,6 +153,22 @@ implement
 primval_extval (loc, hse, name) =
   primval_make_node (loc, hse, PMVextval (name))
 // end of [primval_extval]
+
+(* ****** ****** *)
+
+implement
+primval_tmpcst
+  (loc, hse, d2c, t2mas) =
+  primval_make_node (loc, hse, PMVtmpcst (d2c, t2mas))
+// end of [primval_tmpcst]
+
+implement
+primval_tmpvar
+  (loc, hse, d2v, t2mas) =
+  primval_make_node (loc, hse, PMVtmpvar (d2v, t2mas))
+// end of [primval_tmpvar]
+
+(* ****** ****** *)
 
 implement
 primval_let
@@ -197,6 +219,13 @@ instr_funcall (
 ) = instr_make_node
   (loc, INSfuncall (tmpret, hse_fun, _fun, _arg))
 // end of [instr_funcall]
+
+(* ****** ****** *)
+
+implement
+instr_cond (
+  loc, _cond, _then, _else
+) = instr_make_node (loc, INScond (_cond, _then, _else))
 
 (* ****** ****** *)
 

@@ -189,8 +189,8 @@ hidecl_node =
 
 and hidexp_node =
 //
-  | HDEvar of (d2var) // dynamic variables
   | HDEcst of (d2cst) // dynamic constants
+  | HDEvar of (d2var) // dynamic variables
 //
   | HDEint of int // integer constants
   | HDEbool of bool // boolean constants

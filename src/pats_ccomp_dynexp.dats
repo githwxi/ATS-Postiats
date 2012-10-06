@@ -71,6 +71,13 @@ hidexp_ccomp_ret_funtype =
 extern
 fun hidexp_ccomp_ret_app : hidexp_ccomp_ret_funtype
 
+extern
+fun hidexp_ccomp_ret_if : hidexp_ccomp_ret_funtype
+(*
+extern
+fun hidexp_ccomp_ret_sif : hidexp_ccomp_ret_funtype
+*)
+
 (* ****** ****** *)
 
 local
@@ -101,7 +108,9 @@ in
 //
 case+ hde0.hidexp_node of
 //
-| HDEcst (d2c) => primval_dcst (loc0, hse0, d2c)
+| HDEvar (d2v) => primval_var (loc0, hse0, d2v)
+//
+| HDEcst (d2c) => primval_cst (loc0, hse0, d2c)
 //
 | HDEint (i) => primval_int (loc0, hse0, i)
 | HDEbool (b) => primval_bool (loc0, hse0, b)
@@ -114,6 +123,9 @@ case+ hde0.hidexp_node of
 | HDEempty () => primval_empty (loc0, hse0)
 //
 | HDEextval (name) => primval_extval (loc0, hse0, name)
+//
+| HDEtmpcst (d2c, t2mas) => primval_tmpcst (loc0, hse0, d2c, t2mas)
+| HDEtmpvar (d2v, t2mas) => primval_tmpvar (loc0, hse0, d2v, t2mas)
 //
 | HDElet (hids, hde_scope) => let
     val (
@@ -232,6 +244,8 @@ case+ hde0.hidexp_node of
 | HDEextval _ => auxval (env, res, hde0, tmpret)
 //
 | HDEapp _ => hidexp_ccomp_ret_app (env, res, hde0, tmpret)
+//
+| HDEif _ => hidexp_ccomp_ret_if (env, res, hde0, tmpret)
 //
 | _ => let
     val () = println! ("hidexp_ccomp_ret: hde0 = ", hde0)
@@ -370,11 +384,42 @@ val pmv_fun = hidexp_ccomp (env, res, hde_fun)
 val pmvs_arg = hidexplst_ccomp (env, res, hdes_arg)
 //
 val ins = instr_funcall (loc0, tmpret, hse_fun, pmv_fun, pmvs_arg)
-val () = instrseq_add (res, ins)
 //
 in
-  // nothing
+  instrseq_add (res, ins)
 end // end of [hidexp_ccomp_ret_app]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_ret_if
+  (env, res, hde0, tmpret) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val- HDEif (hde_cond, hde_then, hde_else) = hde0.hidexp_node
+//
+val pmv_cond = hidexp_ccomp (env, res, hde_cond)
+//
+val tmpret_then = tmpret
+val res_then = instrseq_make_nil ()
+val (pfpush | ()) = ccompenv_push (env)
+val () = hidexp_ccomp_ret (env, res_then, hde_then, tmpret_then)
+val () = ccompenv_pop (pfpush | env)
+val inss_then = instrseq_get_free (res_then)
+//
+val tmpret_else = tmpret
+val res_else = instrseq_make_nil ()
+val (pfpush | ()) = ccompenv_push (env)
+val () = hidexp_ccomp_ret (env, res_else, hde_else, tmpret_else)
+val () = ccompenv_pop (pfpush | env)
+val inss_else = instrseq_get_free (res_else)
+//
+val ins = instr_cond (loc0, pmv_cond, inss_then, inss_else)
+//
+in
+  instrseq_add (res, ins)
+end // end of [hidexp_ccomp_ret_if]
 
 (* ****** ****** *)
 

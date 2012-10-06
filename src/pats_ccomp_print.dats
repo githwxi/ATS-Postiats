@@ -42,6 +42,7 @@ staload SYN = "pats_syntax.sats"
 
 (* ****** ****** *)
 
+staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
@@ -136,9 +137,14 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
-| PMVdcst (d2c) => {
-    val () = prstr "PMVdcst("
+| PMVcst (d2c) => {
+    val () = prstr "PMVcst("
     val () = fprint_d2cst (out, d2c)
+    val () = prstr ")"
+  }
+| PMVvar (d2v) => {
+    val () = prstr "PMVvar("
+    val () = fprint_d2var (out, d2v)
     val () = prstr ")"
   }
 //
@@ -190,6 +196,23 @@ case+ x.primval_node of
 | PMVargref (n) => {
     val () = prstr "PMVargref("
     val () = fprint_int (out, n)
+    val () = prstr ")"
+  }
+//
+| PMVtmpcst (d2c, t2mas) => {
+    val () = prstr "PMVtmpcst("
+    val () = fprint_d2cst (out, d2c)
+    val () = prstr "<"
+    val () = $UT.fprintlst (out, t2mas, "><", fpprint_t2mpmarg)
+    val () = prstr ">"
+    val () = prstr ")"
+  }
+| PMVtmpvar (d2v, t2mas) => {
+    val () = prstr "PMVtmpvar("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr "<"
+    val () = $UT.fprintlst (out, t2mas, "><", fpprint_t2mpmarg)
+    val () = prstr ">"
     val () = prstr ")"
   }
 //
@@ -290,6 +313,20 @@ case+ x.instr_node of
     val () = fprint_primvalist (out, _arg)
     val () = prstr ")"
   } // end of [INSfuncall]
+//
+| INScond (
+    pmv_cond, inss_then, inss_else
+  ) => {
+    val () = prstr "INScond(\n"
+    val () = prstr "**COND**\n"
+    val () = fprint_primval (out, pmv_cond)
+    val () = prstr "\n"
+    val () = prstr "**THEN**\n"
+    val () = fprint_instrlst (out, inss_then)
+    val () = prstr "**ELSE**\n"
+    val () = fprint_instrlst (out, inss_else)
+    val () = prstr ")"
+  }
 //
 | INSassgn_varofs
     (d2v_l, ofs, pmv_r) => {

@@ -175,14 +175,14 @@ in
 //
 case+ d3e0.d3exp_node of
 //
-| D3Evar (d2v) => {
-    val () = prstr "D3Evar("
-    val () = fprint_d2var (out, d2v)
-    val () = prstr ")"
-  }
 | D3Ecst (d2c) => {
     val () = prstr "D3Ecst("
     val () = fprint_d2cst (out, d2c)
+    val () = prstr ")"
+  }
+| D3Evar (d2v) => {
+    val () = prstr "D3Evar("
+    val () = fprint_d2var (out, d2v)
     val () = prstr ")"
   }
 //

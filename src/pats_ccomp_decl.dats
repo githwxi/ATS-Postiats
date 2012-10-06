@@ -141,10 +141,10 @@ implement
 hideclist_ccomp0
   (hids) = let
   val env = ccompenv_make ()
-  val res = instrseq_make ()
+  val res = instrseq_make_nil ()
   val pmds = hideclist_ccomp (env, res, hids)
   val () = ccompenv_free (env)
-  val inss = list_of_list_vt (instrseq_getfree (res))
+  val inss = instrseq_get_free (res)
 in
   (inss, pmds)
 end // end of [hideclist_ccomp0]

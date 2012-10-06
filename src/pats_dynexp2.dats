@@ -336,6 +336,11 @@ d2exp_make_node (loc, node) = '{
   d2exp_loc= loc, d2exp_node= node, d2exp_type= None()
 } // end of [d2exp_make_node]
 
+(* ****** ****** *)
+
+implement
+d2exp_cst (loc, d2c) = d2exp_make_node (loc, D2Ecst (d2c))
+
 implement
 d2exp_var (loc, d2v) = d2exp_make_node (loc, D2Evar (d2v))
 
@@ -392,9 +397,6 @@ d2exp_con
   (loc, d2c, locfun, sarg, npf, locarg, darg) =
   d2exp_make_node (loc, D2Econ (d2c, locfun, sarg, npf, locarg, darg))
 // end of [d2exp_con]
-
-implement
-d2exp_cst (loc, d2c) = d2exp_make_node (loc, D2Ecst (d2c))
 
 implement
 d2exp_sym (loc, d2s) = d2exp_make_node (loc, D2Esym (d2s))
