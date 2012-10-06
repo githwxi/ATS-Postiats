@@ -137,6 +137,15 @@ instr_move_arg_val (loc, arg, pmv) =
 (* ****** ****** *)
 
 implement
+instr_call (
+  loc, tmpret, hse_fun, _fun, _arg
+) = instr_make_node
+  (loc, INScall (tmpret, hse_fun, _fun, _arg))
+// end of [instr_call]
+
+(* ****** ****** *)
+
+implement
 instr_assgn_varofs
   (loc, d2v_l, ofs, pmv_r) =
   instr_make_node (loc, INSassgn_varofs (d2v_l, ofs, pmv_r))

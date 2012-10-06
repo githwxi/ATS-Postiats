@@ -223,11 +223,6 @@ instr_node =
 //
   | INSTRmove_ref of (tmpvar, primval)
 //
-  | INSassgn_varofs of
-      (d2var(*left*), primlablst(*ofs*), primval(*right*))
-  | INSassgn_ptrofs of
-      (primval(*left*), primlablst(*ofs*), primval(*right*))
-//
   | INScall of
       (tmpvar, hisexp, primval(*fun*), primvalist(*arg*))
     // end of [INScall]
@@ -235,6 +230,11 @@ instr_node =
   | INScond of ( // conditinal instruction
       primval(*test*), instrlst(*then*), instrlst(*else*)
     ) // end of [INScond]
+//
+  | INSassgn_varofs of
+      (d2var(*left*), primlablst(*ofs*), primval(*right*))
+  | INSassgn_ptrofs of
+      (primval(*left*), primlablst(*ofs*), primval(*right*))
 // end of [instr_node]
 
 where
@@ -268,6 +268,13 @@ fun instr_move_val (
 fun instr_move_arg_val
   (loc: location, arg: int, pmv: primval): instr
 // end of [instr_move_arg_val]
+
+(* ****** ****** *)
+
+fun instr_call (
+  loc: location
+, tmpret: tmpvar, hse_fun: hisexp, _fun: primval, _arg: primvalist
+) : instr // end of [instr_call]
 
 (* ****** ****** *)
 

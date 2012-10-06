@@ -238,6 +238,18 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
+| INScall (
+    tmpret, hse_fun, _fun, _arg
+  ) => {
+    val () = prstr "INScall("
+    val () = fprint_tmpvar (out, tmpret)
+    val () = prstr " <- "
+    val () = fprint_primval (out, _fun)
+    val () = prstr "; "
+    val () = fprint_primvalist (out, _arg)
+    val () = prstr ")"
+  } // end of [INScall]
+//
 | INSassgn_varofs
     (d2v_l, ofs, pmv_r) => {
     val () = prstr "INSassgn_varofs("
