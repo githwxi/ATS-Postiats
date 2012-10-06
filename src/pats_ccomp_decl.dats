@@ -162,6 +162,8 @@ val () = (
   | Some (hde) => hidexp_ccomp_ret (env, res, hde, tmp) | None () => ()
 ) : void // end of [val]
 //
+val () = ccompenv_add_dvar (env, d2v)
+//
 in
   d2v
 end // end of [hivardec_ccomp]
@@ -178,7 +180,7 @@ case+ hvds of
     val d2vs = hivardeclst_ccomp (env, res, level, hvds)
   in
     list_cons (d2v, d2vs)
-  end
+  end // end of [list_cons]
 | list_nil () => list_nil ()
 //
 end // end of [hivardeclst_ccomp]

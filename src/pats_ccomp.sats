@@ -173,6 +173,8 @@ and primlab = '{
 , primlab_node= primlab_node
 }
 
+and primlablst = List (primlab)
+
 (* ****** ****** *)
 
 fun fprint_primval : fprint_type (primval)
@@ -181,6 +183,7 @@ fun fprint_primvalist : fprint_type (primvalist)
 (* ****** ****** *)
 
 fun fprint_primlab : fprint_type (primlab)
+fun fprint_primlablst : fprint_type (primlablst)
 
 (* ****** ****** *)
 
@@ -201,6 +204,11 @@ fun primval_extval
 
 (* ****** ****** *)
 
+fun primlab_lab (loc: location, lab: label): primlab
+fun primlab_ind (loc: location, ind: primvalist): primlab
+
+(* ****** ****** *)
+
 datatype
 instr_node =
 //
@@ -214,6 +222,11 @@ instr_node =
       (tmpvar(*ptr*), hisexp, d2con, primvalist(*arg*))
 //
   | INSTRmove_ref of (tmpvar, primval)
+//
+  | INSassgn_varofs of
+      (d2var(*left*), primlablst(*ofs*), primval(*right*))
+  | INSassgn_ptrofs of
+      (primval(*left*), primlablst(*ofs*), primval(*right*))
 //
   | INScall of
       (tmpvar, hisexp, primval(*fun*), primvalist(*arg*))
@@ -258,6 +271,16 @@ fun instr_move_arg_val
 
 (* ****** ****** *)
 
+fun instr_assgn_varofs (
+  loc: location, d2v_l: d2var, ofs: primlablst, pmv_r: primval
+) : instr // end of [instr_assgn_varofs]
+
+fun instr_assgn_ptrofs (
+  loc: location, pmv_l: primval, ofs: primlablst, pmv_r: primval
+) : instr // end of [instr_assgn_ptrofs]
+
+(* ****** ****** *)
+
 absviewtype instrseq_vtype
 viewtypedef instrseq = instrseq_vtype
 
@@ -272,6 +295,16 @@ viewtypedef ccompenv = ccompenv_vtype
 
 fun ccompenv_make (): ccompenv
 fun ccompenv_free (env: ccompenv): void
+
+absview ccompenv_push_v
+
+fun ccompenv_pop
+  (pfpush: ccompenv_push_v | env: !ccompenv): void
+// end of [ccompenv_pop]
+
+fun ccompenv_push (env: !ccompenv): (ccompenv_push_v | void)
+
+fun ccompenv_add_dvar (env: !ccompenv, d2v: d2var): void
 
 (* ****** ****** *)
 

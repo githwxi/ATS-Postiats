@@ -101,6 +101,18 @@ primval_extval (loc, hse, name) =
 
 (* ****** ****** *)
 
+implement
+primlab_lab (loc, lab) = '{
+  primlab_loc= loc, primlab_node= PMLlab (lab)
+}
+
+implement
+primlab_ind (loc, ind) = '{
+  primlab_loc= loc, primlab_node= PMLind (ind)
+}
+
+(* ****** ****** *)
+
 extern
 fun instr_make_node
   (loc: location, node: instr_node): instr
@@ -121,6 +133,20 @@ implement
 instr_move_arg_val (loc, arg, pmv) =
   instr_make_node (loc, INSmove_arg_val (arg, pmv))
 // end of [instr_move_arg_val]
+
+(* ****** ****** *)
+
+implement
+instr_assgn_varofs
+  (loc, d2v_l, ofs, pmv_r) =
+  instr_make_node (loc, INSassgn_varofs (d2v_l, ofs, pmv_r))
+// end of [instr_assgn_varofs]
+
+implement
+instr_assgn_ptrofs
+  (loc, pmv_l, ofs, pmv_r) =
+  instr_make_node (loc, INSassgn_ptrofs (pmv_l, ofs, pmv_r))
+// end of [instr_assgn_ptrofs]
 
 (* ****** ****** *)
 

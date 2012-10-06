@@ -206,6 +206,11 @@ case+ x.primlab_node of
 //
 end // end of [fprint_primlab]
 
+implement
+fprint_primlablst
+  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_primlab)
+// end of [fprint_primlablst]
+
 (* ****** ****** *)
 
 implement
@@ -221,15 +226,38 @@ case+ x.instr_node of
 | INSmove_val (tmp, pmv) => {
     val () = prstr "INSmove_val("
     val () = fprint_tmpvar (out, tmp)
-    val () = prstr " := "
+    val () = prstr " <- "
     val () = fprint_primval (out, pmv)
     val () = prstr ")"
   }
 | INSmove_arg_val (i, pmv) => {
     val () = prstr "INSmove_arg_val("
     val () = fprintf (out, "arg(%i)", @(i))
-    val () = prstr " := "
+    val () = prstr " <- "
     val () = fprint_primval (out, pmv)
+    val () = prstr ")"
+  }
+//
+| INSassgn_varofs
+    (d2v_l, ofs, pmv_r) => {
+    val () = prstr "INSassgn_varofs("
+    val () = fprint_d2var (out, d2v_l)
+    val () = prstr "["
+    val () = fprint_primlablst (out, ofs)
+    val () = prstr "]"
+    val () = prstr " := "
+    val () = fprint_primval (out, pmv_r)
+    val () = prstr ")"
+  }
+| INSassgn_ptrofs
+    (pmv_l, ofs, pmv_r) => {
+    val () = prstr "INSassgn_ptrofs("
+    val () = fprint_primval (out, pmv_l)
+    val () = prstr "["
+    val () = fprint_primlablst (out, ofs)
+    val () = prstr "]"
+    val () = prstr " := "
+    val () = fprint_primval (out, pmv_r)
     val () = prstr ")"
   }
 //

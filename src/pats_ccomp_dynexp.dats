@@ -41,6 +41,28 @@ staload "pats_ccomp.sats"
 
 (* ****** ****** *)
 
+typedef
+hidexp_ccomp_funtype =
+  (!ccompenv, !instrseq, hidexp) -> primval
+// end of [hidexp_ccomp_funtype]
+
+extern fun hidexp_ccomp_seq : hidexp_ccomp_funtype
+extern fun hidexp_ccomp_assgn_var : hidexp_ccomp_funtype
+extern fun hidexp_ccomp_assgn_ptr : hidexp_ccomp_funtype
+
+(* ****** ****** *)
+
+extern
+fun hilab_ccomp
+  (env: !ccompenv, res: !instrseq, hil: hilab): primlab
+// end of [fun hilab_ccomp]
+extern
+fun hilablst_ccomp
+  (env: !ccompenv, res: !instrseq, hils: hilablst): primlablst
+// end of [fun hilablst_ccomp]
+
+(* ****** ****** *)
+
 implement
 hidexp_ccomp
   (env, res, hde0) = let
@@ -60,6 +82,11 @@ case+ hde0.hidexp_node of
 | HDEempty () => primval_empty (loc0, hse0)
 //
 | HDEextval (name) => primval_extval (loc0, hse0, name)
+//
+| HDEseq _ => hidexp_ccomp_seq (env, res, hde0)
+//
+| HDEassgn_var _ => hidexp_ccomp_assgn_var (env, res, hde0)
+| HDEassgn_ptr _ => hidexp_ccomp_assgn_ptr (env, res, hde0)
 //
 | _ => let
     val () = println! ("hidexp_ccomp: hde0 = ", hde0)
@@ -130,6 +157,117 @@ case+ hde0.hidexp_node of
   end // end of [_] 
 //
 end // end of [hidexp_ccomp_ret]
+
+(* ****** ****** *)
+
+implement
+hilab_ccomp
+  (env, res, hil) = let
+  val loc = hil.hilab_loc
+in
+//
+case+ hil.hilab_node of
+| HILlab (lab) =>
+    primlab_lab (loc, lab)
+  // end of [HILlab]
+| HILind (hdes_ind) => let
+    val pmvs_ind = hidexplst_ccomp (env, res, hdes_ind)
+  in
+    primlab_ind (loc, pmvs_ind)
+  end // end of [HILind]
+//
+end // end of [hilab_ccomp]
+
+implement
+hilablst_ccomp
+  (env, res, hils) = let
+in
+//
+case hils of
+| list_cons (hil, hils) => let
+    val pml = hilab_ccomp (env, res, hil)
+    val pmls = hilablst_ccomp (env, res, hils)
+  in
+    list_cons (pml, pmls)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [hilablst_ccomp]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_seq
+  (env, res, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+//
+val- HDEseq (hdes) = hde0.hidexp_node
+//
+fun loop (
+  env: !ccompenv
+, res: !instrseq
+, hde0: hidexp, hdes: hidexplst
+) : primval = let
+in
+//
+case+ hdes of
+| list_cons
+    (hde, hdes) => let
+    val _(*void*) =
+      hidexp_ccomp (env, res, hde0)
+    // end of [list_cons]
+  in
+    loop (env, res, hde, hdes)
+  end // end of [list_cons]
+| list_nil () => hidexp_ccomp (env, res, hde0)
+//
+end // end of [loop]
+//
+in
+//
+case+ hdes of
+| list_cons
+     (hde, hdes) => loop (env, res, hde, hdes)
+| list_nil () => primval_empty (loc0, hse0)
+//
+end // end of [hidexp_ccomp_seq]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_assgn_var
+  (env, res, hde0) = let
+  val loc0 = hde0.hidexp_loc
+  val hse0 = hde0.hidexp_type
+  val- HDEassgn_var
+    (d2v_l, hils, hde_r) = hde0.hidexp_node
+  // end of [val]
+  val ofs = hilablst_ccomp (env, res, hils)
+  val pmv_r = hidexp_ccomp (env, res, hde_r)
+  val ins = instr_assgn_varofs (loc0, d2v_l, ofs, pmv_r)
+  val () = instrseq_add (res, ins)
+in
+  primval_empty (loc0, hse0)
+end // end of [ccomp_exp_assgn_var]
+
+implement
+hidexp_ccomp_assgn_ptr
+  (env, res, hde0) = let
+  val loc0 = hde0.hidexp_loc
+  val hse0 = hde0.hidexp_type
+  val- HDEassgn_ptr
+    (hde_l, hils, hde_r) = hde0.hidexp_node
+  // end of [val]
+  val pmv_l = hidexp_ccomp (env, res, hde_l)
+  val ofs = hilablst_ccomp (env, res, hils)
+  val pmv_r = hidexp_ccomp (env, res, hde_r)
+  val ins = instr_assgn_ptrofs (loc0, pmv_l, ofs, pmv_r)
+  val () = instrseq_add (res, ins)
+in
+  primval_empty (loc0, hse0)
+end // end of [ccomp_exp_assgn_ptr]
 
 (* ****** ****** *)
 

@@ -49,9 +49,89 @@ staload "pats_ccomp.sats"
 
 (* ****** ****** *)
 
+dataviewtype
+d2varmarklst_vt =
+  | DVMLSTnil of ()
+  | DVMLSTmark of (d2varmarklst_vt)
+  | DVMLSTcons of (d2var, d2varmarklst_vt)
+// end of [d2varmarklst]
+
+(* ****** ****** *)
+
+extern
+fun d2varmarklst_vt_free_all (xs: d2varmarklst_vt): void
+implement
+d2varmarklst_vt_free_all (xs) = let
+in
+  case+ xs of
+  | ~DVMLSTnil () => ()
+  | ~DVMLSTmark (xs) => d2varmarklst_vt_free_all (xs)
+  | ~DVMLSTcons (_, xs) => d2varmarklst_vt_free_all (xs)
+end // end of [d2varmarklst_vt_free_all]
+
+extern
+fun d2varmarklst_vt_free_mark (xs: d2varmarklst_vt): d2varmarklst_vt
+implement
+d2varmarklst_vt_free_mark (xs) = let
+in
+  case+ xs of
+  | DVMLSTnil () => let
+      prval () = fold@ (xs) in xs
+    end // end of [DVMLSTnil]
+  | ~DVMLSTmark (xs) => xs
+  | ~DVMLSTcons (_, xs) => d2varmarklst_vt_free_mark (xs)
+end // end of [d2varmarklst_vt_free_mark]
+
+(* ****** ****** *)
+
+extern
+fun fprint_dvmlst
+  (out: FILEref, xs: !d2varmarklst_vt): void
+// end of [fprint_dvmlst]
+
+implement
+fprint_dvmlst
+  (out, xs) = let
+//
+fun loop (
+  out: FILEref, xs: !d2varmarklst_vt, i: int
+) : void = let
+in
+//
+case+ xs of
+| DVMLSTnil () => fold@ (xs)
+| DVMLSTmark (!p_xs) => let
+    val () =
+      if i > 0 then fprint_string (out, ", ")
+    val () = fprint_string (out, "||")
+    val () = loop (out, !p_xs, i+1)
+    prval () = fold@ (xs)
+  in
+    // nothing
+  end // end of [DVMLSTmark]
+| DVMLSTcons
+    (!p_x, !p_xs) => let
+    val () =
+      if i > 0 then fprint_string (out, ", ")
+    // end of [val]
+    val () = fprint_d2var (out, !p_x)
+    val () = loop (out, !p_xs, i+1)
+    prval () = fold@ (xs)
+  in
+    // nothing
+  end // end of [DVMLSTcons]
+//
+end // end of [loop]
+//
+in
+  loop (out, xs, 0)
+end // end of [fprint_dvmlst]
+
+(* ****** ****** *)
+
 viewtypedef
 ccompenv_struct = @{
-  ccompenv_dvs = d2varlst_vt
+  ccompenv_dvmlst = d2varmarklst_vt
 }
 
 (* ****** ****** *)
@@ -63,8 +143,9 @@ fun ccompenv_struct_uninitize
 
 implement
 ccompenv_struct_uninitize (x) = let
-  val () = list_vt_free (x.ccompenv_dvs)
+  val () = d2varmarklst_vt_free_all (x.ccompenv_dvmlst)
 in
+  // end of [ccompenv_struct_uninitize]
 end // end of [ccompenv_struct_uninitize]
 
 (* ****** ****** *)
@@ -83,7 +164,7 @@ ccompenv_make
   () = env where {
   val env = CCOMPENV (?)
   val CCOMPENV (!p) = env
-  val () = p->ccompenv_dvs := list_vt_nil ()
+  val () = p->ccompenv_dvmlst := DVMLSTnil ()
   val () = fold@ (env)
 } // end of [ccompenv_make]
 
@@ -101,6 +182,61 @@ case+ env of
   end // end of [CCOMPENV]
 //
 end // end of [ccompenv_free]
+
+(* ****** ****** *)
+
+local
+
+assume ccompenv_push_v = unit_v
+
+in // in of [local]
+
+implement
+ccompenv_pop
+  (pfpush | env) = let
+//
+  prval unit_v () = pfpush
+//
+  val CCOMPENV (!p) = env
+  val dvms = p->ccompenv_dvmlst
+  val () = p->ccompenv_dvmlst := d2varmarklst_vt_free_mark (dvms)
+//
+  prval () = fold@ (env)
+//
+in
+  // nothing
+end // end of [ccompenv_pop]
+
+implement
+ccompenv_push (env) = let
+//
+  val CCOMPENV (!p) = env
+//
+  val () = p->ccompenv_dvmlst := DVMLSTmark (p->ccompenv_dvmlst)
+//
+  prval () = fold@ (env)
+//
+in
+  (unit_v | ())
+end // end of [ccompenv_push]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+ccompenv_add_dvar
+  (env, d2v) = let
+//
+  val CCOMPENV (!p) = env
+  val dvms = p->ccompenv_dvmlst
+  val () = p->ccompenv_dvmlst := DVMLSTcons (d2v, dvms)
+//
+  prval () = fold@ (env)
+//
+in
+  // nothing
+end // end of [ccompenv_add_dvar]
 
 (* ****** ****** *)
 
