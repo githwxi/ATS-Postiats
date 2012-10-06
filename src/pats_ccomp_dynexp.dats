@@ -83,6 +83,7 @@ fun auxret (
   val loc0 = hde0.hidexp_loc
   val hse0 = hde0.hidexp_type
   val tmpret = tmpvar_make (loc0, hse0)
+  val () = hidexp_ccomp_ret (env, res, hde0, tmpret)
 in
   primval_tmp (loc0, hse0, tmpret)
 end // end of [auxret]
@@ -99,6 +100,8 @@ val hse0 = hde0.hidexp_type
 in
 //
 case+ hde0.hidexp_node of
+//
+| HDEcst (d2c) => primval_dcst (loc0, hse0, d2c)
 //
 | HDEint (i) => primval_int (loc0, hse0, i)
 | HDEbool (b) => primval_bool (loc0, hse0, b)
@@ -213,6 +216,8 @@ hidexp_ccomp_ret (
 in
 //
 case+ hde0.hidexp_node of
+//
+| HDEcst _ => auxval (env, res, hde0, tmpret)
 //
 | HDEint _ => auxval (env, res, hde0, tmpret)
 | HDEbool _ => auxval (env, res, hde0, tmpret)
@@ -335,16 +340,18 @@ end // end of [ccomp_exp_assgn_var]
 implement
 hidexp_ccomp_assgn_ptr
   (env, res, hde0) = let
-  val loc0 = hde0.hidexp_loc
-  val hse0 = hde0.hidexp_type
-  val- HDEassgn_ptr
-    (hde_l, hils, hde_r) = hde0.hidexp_node
-  // end of [val]
-  val pmv_l = hidexp_ccomp (env, res, hde_l)
-  val ofs = hilablst_ccomp (env, res, hils)
-  val pmv_r = hidexp_ccomp (env, res, hde_r)
-  val ins = instr_assgn_ptrofs (loc0, pmv_l, ofs, pmv_r)
-  val () = instrseq_add (res, ins)
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val- HDEassgn_ptr
+  (hde_l, hils, hde_r) = hde0.hidexp_node
+// end of [val]
+val pmv_l = hidexp_ccomp (env, res, hde_l)
+val ofs = hilablst_ccomp (env, res, hils)
+val pmv_r = hidexp_ccomp (env, res, hde_r)
+val ins = instr_assgn_ptrofs (loc0, pmv_l, ofs, pmv_r)
+val () = instrseq_add (res, ins)
+//
 in
   primval_empty (loc0, hse0)
 end // end of [ccomp_exp_assgn_ptr]
@@ -354,7 +361,19 @@ end // end of [ccomp_exp_assgn_ptr]
 implement
 hidexp_ccomp_ret_app
   (env, res, hde0, tmpret) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val- HDEapp (hse_fun, hde_fun, hdes_arg) = hde0.hidexp_node
+//
+val pmv_fun = hidexp_ccomp (env, res, hde_fun)
+val pmvs_arg = hidexplst_ccomp (env, res, hdes_arg)
+//
+val ins = instr_funcall (loc0, tmpret, hse_fun, pmv_fun, pmvs_arg)
+val () = instrseq_add (res, ins)
+//
 in
+  // nothing
 end // end of [hidexp_ccomp_ret_app]
 
 (* ****** ****** *)

@@ -166,6 +166,8 @@ hidecl_node =
   | HIDsaspdec of s2aspdec
 //
   | HIDdatdecs of (int(*knd*), s2cstlst)
+  | HIDexndecs of (d2conlst) // HX: exception decls
+  | HIDdcstdecs of (dcstkind, d2cstlst)
 //
   | HIDimpdec of (int(*knd*), hiimpdec)
 //
@@ -380,10 +382,19 @@ overload prerr with prerr_hidexp
 fun fprint_hidexplst : fprint_type (hidexplst)
 fun fprint_labhidexplst : fprint_type (labhidexplst)
 
+(* ****** ****** *)
+
 fun fprint_hilab : fprint_type (hilab)
 fun fprint_hilablst : fprint_type (hilablst)
 
+(* ****** ****** *)
+
 fun fprint_hidecl : fprint_type (hidecl)
+fun print_hidecl (x: hidecl): void
+overload print with print_hidecl
+fun prerr_hidecl (x: hidecl): void
+overload prerr with prerr_hidecl
+
 fun fprint_hideclist : fprint_type (hideclist)
 
 fun fprint_hiimpdec : fprint_type (hiimpdec)
@@ -648,6 +659,10 @@ fun hidecl_list (loc: location, hids: hideclist): hidecl
 fun hidecl_datdecs
   (loc: location, knd: int, s2cs: s2cstlst) : hidecl
 // end of [hidecl_datdecs]
+
+fun hidecl_dcstdecs
+  (loc: location, knd: dcstkind, d2cs: d2cstlst) : hidecl
+// end of [hidecl_dcstdecs]
 
 fun hidecl_impdec
   (loc: location, knd: int, himp: hiimpdec): hidecl

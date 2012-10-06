@@ -600,6 +600,11 @@ case+ hid.hidecl_node of
 //
 end // end of [fprint_hidecl]
 
+implement
+print_hidecl (hid) = fprint_hidecl (stdout_ref, hid)
+implement
+prerr_hidecl (hid) = fprint_hidecl (stderr_ref, hid)
+
 (* ****** ****** *)
 
 implement

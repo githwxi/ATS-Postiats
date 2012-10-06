@@ -566,6 +566,12 @@ hidecl_datdecs
   hidecl_make_node (loc, HIDdatdecs (knd, s2cs))
 // end of [hidecl_datdecs]
 
+implement
+hidecl_dcstdecs
+  (loc, knd, d2cs) =
+  hidecl_make_node (loc, HIDdcstdecs (knd, d2cs))
+// end of [hidecl_dcstdecs]
+
 (* ****** ****** *)
 
 implement

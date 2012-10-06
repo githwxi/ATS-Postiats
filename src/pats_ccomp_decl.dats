@@ -76,13 +76,21 @@ hidecl_ccomp
 in
 //
 case+ hid.hidecl_node of
+//
+| HIDdcstdecs (knd, d2cs) => primdec_none (loc)
+//
 | HIDvardecs (hvds) => let
     val level = the_d2varlev_get ()
     val d2vs = hivardeclst_ccomp (env, res, level, hvds)
   in
     primdec_vardecs (loc, d2vs)
   end // end of [HIDvardecs]
-| _ => exitloc (1)
+//
+| _ => let
+    val () = println! ("hidecl_ccomp: hid = ", hid)
+  in
+    exitloc (1)
+  end // end of [_]
 //
 end // end of [hidecl_ccomp]
 

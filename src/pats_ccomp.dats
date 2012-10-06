@@ -53,6 +53,21 @@ primdec_make_node
 (* ****** ****** *)
 
 implement
+primdec_none (loc) =
+  primdec_make_node (loc, PMDnone ())
+// end of [primdec_none]
+
+(* ****** ****** *)
+
+implement
+primdec_dcstdecs
+  (loc, knd, d2cs) =
+  primdec_make_node (loc, PMDdcstdecs (knd, d2cs))
+// end of [primdec_dcstdecs]
+
+(* ****** ****** *)
+
+implement
 primdec_vardecs (loc, d2vs) =
   primdec_make_node (loc, PMDvardecs (d2vs))
 
@@ -78,6 +93,14 @@ implement
 primval_tmpref (loc, hse, tmp) =
   primval_make_node (loc, hse, PMVtmpref (tmp))
 // end of [primval_tmpref]
+
+(* ****** ****** *)
+
+implement
+primval_dcst
+  (loc, hse, d2c) =
+  primval_make_node (loc, hse, PMVdcst (d2c))
+// end of [primval_dcst]
 
 (* ****** ****** *)
 
@@ -169,11 +192,11 @@ instr_move_arg_val (loc, arg, pmv) =
 (* ****** ****** *)
 
 implement
-instr_call (
+instr_funcall (
   loc, tmpret, hse_fun, _fun, _arg
 ) = instr_make_node
-  (loc, INScall (tmpret, hse_fun, _fun, _arg))
-// end of [instr_call]
+  (loc, INSfuncall (tmpret, hse_fun, _fun, _arg))
+// end of [instr_funcall]
 
 (* ****** ****** *)
 

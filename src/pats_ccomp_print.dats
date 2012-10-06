@@ -57,7 +57,16 @@ fprint_primdec
 in
 //
 case+ x.primdec_node of
+//
 | PMDnone () => prstr "PMDnone()"
+//
+| PMDdcstdecs
+    (knd, d2cs) => {
+    val () = prstr "PMDdcstdecs("
+    val () = $UT.fprintlst (out, d2cs, ", ", fprint_d2cst)
+    val () = prstr ")"
+  }
+//
 | PMDimpdec () => {
     val () = prstr "PMDimpdec("
     val () = fprint_string (out, "...")
@@ -89,6 +98,13 @@ case+ x.primdec_node of
 end // end of [fprint_primdec]
 
 implement
+print_primdec (pmd) = fprint_primdec (stdout_ref, pmd)
+implement
+prerr_primdec (pmd) = fprint_primdec (stderr_ref, pmd)
+
+(* ****** ****** *)
+
+implement
 fprint_primdeclst
   (out, pmds) = let
   val () =
@@ -117,6 +133,12 @@ case+ x.primval_node of
 | PMVtmpref (tmp) => {
     val () = prstr "PMVtmpref("
     val () = fprint_tmpvar (out, tmp)
+    val () = prstr ")"
+  }
+//
+| PMVdcst (d2c) => {
+    val () = prstr "PMVdcst("
+    val () = fprint_d2cst (out, d2c)
     val () = prstr ")"
   }
 //
@@ -257,17 +279,17 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
-| INScall (
+| INSfuncall (
     tmpret, hse_fun, _fun, _arg
   ) => {
-    val () = prstr "INScall("
+    val () = prstr "INSfuncall("
     val () = fprint_tmpvar (out, tmpret)
     val () = prstr " <- "
     val () = fprint_primval (out, _fun)
     val () = prstr "; "
     val () = fprint_primvalist (out, _arg)
     val () = prstr ")"
-  } // end of [INScall]
+  } // end of [INSfuncall]
 //
 | INSassgn_varofs
     (d2v_l, ofs, pmv_r) => {

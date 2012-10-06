@@ -113,6 +113,7 @@ overload = with compare_tmpvar_tmpvar
 datatype
 primdec_node =
   | PMDnone of () 
+  | PMDdcstdecs of (dcstkind, d2cstlst)
   | PMDimpdec of ()
   | PMDfundecs of ()
   | PMDvaldecs of ()
@@ -131,7 +132,22 @@ and primdeclst_vt = List_vt (primdec)
 (* ****** ****** *)
 
 fun fprint_primdec : fprint_type (primdec)
+fun print_primdec (pmd: primdec): void
+overload print with print_primdec
+fun prerr_primdec (pmd: primdec): void
+overload prerr with prerr_primdec
+
 fun fprint_primdeclst : fprint_type (primdeclst)
+
+(* ****** ****** *)
+
+fun primdec_none (loc: location): primdec
+
+(* ****** ****** *)
+
+fun primdec_dcstdecs
+  (loc: location, knd: dcstkind, d2cs: d2cstlst): primdec
+// end of [primdec_dcstdecs]
 
 (* ****** ****** *)
 
@@ -143,6 +159,8 @@ datatype
 primval_node =
   | PMVtmp of (tmpvar)
   | PMVtmpref of (tmpvar)
+//
+  | PMVdcst of (d2cst)
 //
   | PMVint of (int)
   | PMVbool of (bool)
@@ -204,6 +222,10 @@ fun primval_tmp
 fun primval_tmpref
   (loc: location, hse: hisexp, tmp: tmpvar): primval
 
+fun primval_dcst
+  (loc: location, hse: hisexp, d2c: d2cst): primval
+// end of [primval_dcst]
+
 fun primval_int
   (loc: location, hse: hisexp, i: int): primval
 fun primval_bool
@@ -249,9 +271,9 @@ instr_node =
 //
   | INSTRmove_ref of (tmpvar, primval)
 //
-  | INScall of
+  | INSfuncall of
       (tmpvar, hisexp, primval(*fun*), primvalist(*arg*))
-    // end of [INScall]
+    // end of [INSfuncall]
 //    
   | INScond of ( // conditinal instruction
       primval(*test*), instrlst(*then*), instrlst(*else*)
@@ -297,10 +319,10 @@ fun instr_move_arg_val
 
 (* ****** ****** *)
 
-fun instr_call (
+fun instr_funcall (
   loc: location
 , tmpret: tmpvar, hse_fun: hisexp, _fun: primval, _arg: primvalist
-) : instr // end of [instr_call]
+) : instr // end of [instr_funcall]
 
 (* ****** ****** *)
 

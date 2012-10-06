@@ -91,6 +91,7 @@ case+
   end // end of [D3Clist]
 //
 | D3Cdatdecs (knd, s2cs) => hidecl_datdecs (loc0, knd, s2cs)
+| D3Cdcstdecs (knd, d2cs) => hidecl_dcstdecs (loc0, knd, d2cs)
 //
 | D3Cimpdec _ => d3ecl_tyer_impdec (d3c0)
 //
