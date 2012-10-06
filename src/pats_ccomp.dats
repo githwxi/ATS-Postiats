@@ -70,6 +70,18 @@ primval_make_node
 (* ****** ****** *)
 
 implement
+primval_tmp (loc, hse, tmp) =
+  primval_make_node (loc, hse, PMVtmp (tmp))
+// end of [primval_tmp]
+
+implement
+primval_tmpref (loc, hse, tmp) =
+  primval_make_node (loc, hse, PMVtmpref (tmp))
+// end of [primval_tmpref]
+
+(* ****** ****** *)
+
+implement
 primval_int (loc, hse, i) =
   primval_make_node (loc, hse, PMVint (i))
 // end of [primval_int]
@@ -89,6 +101,20 @@ primval_string (loc, hse, str) =
   primval_make_node (loc, hse, PMVstring (str))
 // end of [primval_string]
 
+(* ****** ****** *)
+
+implement
+primval_i0nt (loc, hse, x) =
+  primval_make_node (loc, hse, PMVi0nt (x))
+// end of [primval_i0nt]
+
+implement
+primval_f0loat (loc, hse, x) =
+  primval_make_node (loc, hse, PMVf0loat (x))
+// end of [primval_f0loat]
+
+(* ****** ****** *)
+
 implement
 primval_empty (loc, hse) =
   primval_make_node (loc, hse, PMVempty ())
@@ -98,6 +124,12 @@ implement
 primval_extval (loc, hse, name) =
   primval_make_node (loc, hse, PMVextval (name))
 // end of [primval_extval]
+
+implement
+primval_let
+  (loc, hse, hids, hde) =
+  primval_make_node (loc, hse, PMVlet (hids, hde))
+// end of [primval_let]
 
 (* ****** ****** *)
 

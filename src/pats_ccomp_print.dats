@@ -37,8 +37,8 @@ staload _ (*anon*) = "pats_utils.dats"
 
 (* ****** ****** *)
 
-staload
-LAB = "pats_label.sats"
+staload LAB = "pats_label.sats"
+staload SYN = "pats_syntax.sats"
 
 (* ****** ****** *)
 
@@ -141,6 +141,17 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
+| PMVi0nt (tok) => {
+    val () = prstr "PMVi0nt("
+    val () = $SYN.fprint_i0nt (out, tok)
+    val () = prstr ")"
+  }
+| PMVf0loat (tok) => {
+    val () = prstr "PMVf0loat("
+    val () = $SYN.fprint_f0loat (out, tok)
+    val () = prstr ")"
+  }
+//
 | PMVempty () => prstr "PMVempty()"
 //
 | PMVextval (name) => {
@@ -157,6 +168,14 @@ case+ x.primval_node of
 | PMVargref (n) => {
     val () = prstr "PMVargref("
     val () = fprint_int (out, n)
+    val () = prstr ")"
+  }
+//
+| PMVlet (pmds, pmv) => {
+    val () = prstr "PMVlet("
+    val () = fprint_string (out, "...")
+    val () = prstr "; "
+    val () = fprint_primval (out, pmv)
     val () = prstr ")"
   }
 //
