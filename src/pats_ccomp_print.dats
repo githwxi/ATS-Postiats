@@ -47,6 +47,10 @@ staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 
+staload "pats_hidynexp.sats"
+
+(* ****** ****** *)
+
 staload "pats_ccomp.sats"
 
 (* ****** ****** *)
@@ -78,9 +82,9 @@ case+ x.primdec_node of
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }
-| PMDvaldecs () => {
+| PMDvaldecs (hips) => {
     val () = prstr "PMDvaldecs("
-    val () = fprint_string (out, "...")
+    val () = fprint_hipatlst (out, hips)
     val () = prstr ")"
   }
 | PMDvardecs (d2vs) => {

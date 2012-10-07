@@ -68,6 +68,10 @@ primdec_dcstdecs
 (* ****** ****** *)
 
 implement
+primdec_valdecs (loc, hips) =
+  primdec_make_node (loc, PMDvaldecs (hips))
+
+implement
 primdec_vardecs (loc, d2vs) =
   primdec_make_node (loc, PMDvardecs (d2vs))
 

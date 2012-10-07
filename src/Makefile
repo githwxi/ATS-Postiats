@@ -232,8 +232,10 @@ SOURCES := \
   pats_ccomp_print.dats \
   pats_ccomp_tmplab.dats \
   pats_ccomp_tmpvar.dats \
+  pats_ccomp_util.dats \
   pats_ccomp_ccompenv.dats \
   pats_ccomp_instrseq.dats \
+  pats_ccomp_hipat.dats \
   pats_ccomp_dynexp.dats \
   pats_ccomp_decl.dats \
   pats_ccomp_main.dats \
@@ -445,8 +447,10 @@ OBJECTS := \
   pats_ccomp_print_dats.o \
   pats_ccomp_tmplab_dats.o \
   pats_ccomp_tmpvar_dats.o \
+  pats_ccomp_util_dats.o \
   pats_ccomp_ccompenv_dats.o \
   pats_ccomp_instrseq_dats.o \
+  pats_ccomp_hipat_dats.o \
   pats_ccomp_dynexp_dats.o \
   pats_ccomp_decl_dats.o \
   pats_ccomp_main_dats.o \
@@ -1060,11 +1064,17 @@ pats_ccomp_tmplab_dats.o: pats_ccomp_tmplab_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 pats_ccomp_tmpvar_dats.c: pats_ccomp_tmpvar.dats; $(ATSCC) -cc $<
 pats_ccomp_tmpvar_dats.o: pats_ccomp_tmpvar_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
+pats_ccomp_util_dats.c: pats_ccomp_util.dats; $(ATSCC) -cc $<
+pats_ccomp_util_dats.o: pats_ccomp_util_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
 pats_ccomp_ccompenv_dats.c: pats_ccomp_ccompenv.dats; $(ATSCC) -cc $<
 pats_ccomp_ccompenv_dats.o: pats_ccomp_ccompenv_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_ccomp_instrseq_dats.c: pats_ccomp_instrseq.dats; $(ATSCC) -cc $<
 pats_ccomp_instrseq_dats.o: pats_ccomp_instrseq_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_ccomp_hipat_dats.c: pats_ccomp_hipat.dats; $(ATSCC) -cc $<
+pats_ccomp_hipat_dats.o: pats_ccomp_hipat_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_ccomp_dynexp_dats.c: pats_ccomp_dynexp.dats; $(ATSCC) -cc $<
 pats_ccomp_dynexp_dats.o: pats_ccomp_dynexp_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<

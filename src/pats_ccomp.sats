@@ -118,7 +118,7 @@ primdec_node =
   | PMDdcstdecs of (dcstkind, d2cstlst)
   | PMDimpdec of ()
   | PMDfundecs of ()
-  | PMDvaldecs of ()
+  | PMDvaldecs of (hipatlst)
   | PMDvardecs of (d2varlst)
   | PMDlocal of (primdeclst, primdeclst)
 // end of [primdec_node]
@@ -152,6 +152,8 @@ fun primdec_dcstdecs
 // end of [primdec_dcstdecs]
 
 (* ****** ****** *)
+
+fun primdec_valdecs (loc: location, hips: hipatlst): primdec
 
 fun primdec_vardecs (loc: location, d2vs: d2varlst): primdec
 
@@ -223,6 +225,10 @@ fun fprint_primlablst : fprint_type (primlablst)
 
 (* ****** ****** *)
 
+fun primval_is_mutabl (pmv: primval): bool
+
+(* ****** ****** *)
+
 fun primval_tmp
   (loc: location, hse: hisexp, tmp: tmpvar): primval
 fun primval_tmpref
@@ -275,6 +281,34 @@ fun primval_let (
 
 fun primlab_lab (loc: location, lab: label): primlab
 fun primlab_ind (loc: location, ind: primvalist): primlab
+
+(* ****** ****** *)
+
+datatype patck =
+//
+  | PATCKint of int
+  | PATCKbool of bool
+  | PATCKchar of char
+  | PATCKfloat of string
+  | PATCKstring of string
+//
+  | PATCKcon of d2con
+  | PATCKexn of d2con
+// end of [patck]
+
+fun fprint_patck : fprint_type (patck)
+
+(* ****** ****** *)
+
+datatype
+patckont =
+  | PCKNTnone of ()
+  | PCKNTtmplab of tmplab
+  | PCKNTtmplabint of (tmplab, int)
+  | PCKNTcaseof_fail of (location) // run-time failure
+  | PCKNTfunarg_fail of (location, funlab) // run-time failure
+  | PCKNTraise of primval
+// end of [patckont]
 
 (* ****** ****** *)
 
@@ -381,13 +415,25 @@ fun ccompenv_free (env: ccompenv): void
 
 absview ccompenv_push_v
 
+fun ccompenv_add_varbind
+  (env: !ccompenv, d2v: d2var, pmv: primval): void
+// end of [ccompenv_add_varbind]
+
 fun ccompenv_pop
   (pfpush: ccompenv_push_v | env: !ccompenv): void
 // end of [ccompenv_pop]
 
 fun ccompenv_push (env: !ccompenv): (ccompenv_push_v | void)
 
-fun ccompenv_add_dvar (env: !ccompenv, d2v: d2var): void
+(* ****** ****** *)
+
+fun hipatck_ccomp (
+  res: !instrseq, hip: hipat, pmv: primval, fail: patckont
+) : void // end of [hipatck_ccomp]
+
+fun himatch_ccomp (
+  env: !ccompenv,res: !instrseq, level: int, hip: hipat, pmv: primval
+) : void // end of [himatch_ccomp]
 
 (* ****** ****** *)
 

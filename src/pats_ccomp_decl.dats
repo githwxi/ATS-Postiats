@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
 staload "pats_staexp2.sats"
 staload "pats_dynexp2.sats"
 
@@ -59,6 +63,17 @@ staload "pats_ccomp.sats"
 (* ****** ****** *)
 
 extern
+fun hivaldec_ccomp (
+  env: !ccompenv, res: !instrseq
+, level: int, knd: valkind, hvd: hivaldec
+) : hipat // end of [hivaldec_ccomp]
+extern
+fun hivaldeclst_ccomp (
+  env: !ccompenv, res: !instrseq
+, level: int, lnd: valkind, hvds: hivaldeclst
+) : hipatlst // end of [hivaldeclst_ccomp]
+
+extern
 fun hivardec_ccomp (
   env: !ccompenv, res: !instrseq, level: int, hvd: hivardec
 ) : d2var // end of [hivardec_ccomp]
@@ -78,6 +93,13 @@ in
 case+ hid.hidecl_node of
 //
 | HIDdcstdecs (knd, d2cs) => primdec_none (loc)
+//
+| HIDvaldecs (knd, hvds) => let
+    val level = the_d2varlev_get ()
+    val hips = hivaldeclst_ccomp (env, res, level, knd, hvds)
+  in
+    primdec_valdecs (loc, hips)
+  end // end of [HIDvaldecs]
 //
 | HIDvardecs (hvds) => let
     val level = the_d2varlev_get ()
@@ -152,6 +174,43 @@ end // end of [hideclist_ccomp0]
 (* ****** ****** *)
 
 implement
+hivaldec_ccomp (
+  env, res, lev0, knd, hvd
+) = let
+  val loc = hvd.hivaldec_loc
+  val hde_def = hvd.hivaldec_def
+  val pmv_def = hidexp_ccomp (env, res, hde_def)
+  val hip = hvd.hivaldec_pat
+  val fail = (
+    case+ knd of
+    | VK_val_pos () => PCKNTnone () | _ => PCKNTcaseof_fail (loc)
+  ) : patckont // end of [val]
+  val () = hipatck_ccomp (res, hip, pmv_def, fail)
+  val () = himatch_ccomp (env, res, lev0, hip, pmv_def)
+in
+  hip
+end // end of [hivaldec_ccomp]
+
+implement
+hivaldeclst_ccomp (
+  env, res, lev0, knd, hvds
+) = let
+in
+//
+case+ hvds of
+| list_cons (hvd, hvds) => let
+    val hip = hivaldec_ccomp (env, res, lev0, knd, hvd)
+    val hips = hivaldeclst_ccomp (env, res, lev0, knd, hvds)
+  in
+    list_cons (hip, hips)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [hivardeclst_ccomp]
+
+(* ****** ****** *)
+
+implement
 hivardec_ccomp (
   env, res, level, hvd
 ) = let
@@ -170,7 +229,8 @@ val () = (
   | Some (hde) => hidexp_ccomp_ret (env, res, hde, tmp) | None () => ()
 ) : void // end of [val]
 //
-val () = ccompenv_add_dvar (env, d2v)
+val pmv = primval_tmpref (loc, hse_elt, tmp)
+val () = ccompenv_add_varbind (env, d2v, pmv)
 //
 in
   d2v

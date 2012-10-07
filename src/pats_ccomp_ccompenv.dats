@@ -225,8 +225,8 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-ccompenv_add_dvar
-  (env, d2v) = let
+ccompenv_add_varbind
+  (env, d2v, pmv) = let
 //
   val CCOMPENV (!p) = env
   val dvms = p->ccompenv_dvmlst
@@ -236,7 +236,7 @@ ccompenv_add_dvar
 //
 in
   // nothing
-end // end of [ccompenv_add_dvar]
+end // end of [ccompenv_add_varbind]
 
 (* ****** ****** *)
 
