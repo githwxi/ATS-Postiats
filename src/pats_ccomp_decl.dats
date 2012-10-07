@@ -183,7 +183,7 @@ hivaldec_ccomp (
   val hip = hvd.hivaldec_pat
   val fail = (
     case+ knd of
-    | VK_val_pos () => PCKNTnone () | _ => PCKNTcaseof_fail (loc)
+    | VK_val_pos () => PTCKNTnone () | _ => PTCKNTcaseof_fail (loc)
   ) : patckont // end of [val]
   val () = hipatck_ccomp (res, hip, pmv_def, fail)
   val () = himatch_ccomp (env, res, lev0, hip, pmv_def)

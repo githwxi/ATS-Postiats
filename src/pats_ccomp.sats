@@ -289,8 +289,11 @@ datatype patck =
   | PATCKint of int
   | PATCKbool of bool
   | PATCKchar of char
-  | PATCKfloat of string
   | PATCKstring of string
+  | PATCKfloat of string
+//
+  | PATCKi0nt of (i0nt)
+  | PATCKf0loat of (f0loat)
 //
   | PATCKcon of d2con
   | PATCKexn of d2con
@@ -302,12 +305,12 @@ fun fprint_patck : fprint_type (patck)
 
 datatype
 patckont =
-  | PCKNTnone of ()
-  | PCKNTtmplab of tmplab
-  | PCKNTtmplabint of (tmplab, int)
-  | PCKNTcaseof_fail of (location) // run-time failure
-  | PCKNTfunarg_fail of (location, funlab) // run-time failure
-  | PCKNTraise of primval
+  | PTCKNTnone of ()
+  | PTCKNTtmplab of tmplab
+  | PTCKNTtmplabint of (tmplab, int)
+  | PTCKNTcaseof_fail of (location) // run-time failure
+  | PTCKNTfunarg_fail of (location, funlab) // run-time failure
+  | PTCKNTraise of primval
 // end of [patckont]
 
 (* ****** ****** *)
@@ -333,6 +336,8 @@ instr_node =
   | INScond of ( // conditinal instruction
       primval(*test*), instrlst(*then*), instrlst(*else*)
     ) // end of [INScond]
+//
+  | INSpatck of (primval, patck, patckont) // pattern check
 //
   | INSassgn_varofs of
       (d2var(*left*), primlablst(*ofs*), primval(*right*))
@@ -385,6 +390,12 @@ fun instr_cond (
   loc: location, _cond: primval, _then: instrlst, _else: instrlst
 ) : instr // end of [instr_cond]
 
+(* ****** ****** *)
+
+fun instr_patck (
+  loc: location, pmv: primval, pck: patck, pcknt: patckont
+) : instr // pattern check
+  
 (* ****** ****** *)
 
 fun instr_assgn_varofs (

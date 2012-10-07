@@ -227,9 +227,18 @@ instr_funcall (
 (* ****** ****** *)
 
 implement
-instr_cond (
-  loc, _cond, _then, _else
-) = instr_make_node (loc, INScond (_cond, _then, _else))
+instr_cond
+  (loc, _cond, _then, _else) =
+  instr_make_node (loc, INScond (_cond, _then, _else))
+// end of [instr_cond]
+
+(* ****** ****** *)
+
+implement
+instr_patck
+  (loc, pmv, pck, pcknt) =
+  instr_make_node (loc, INSpatck (pmv, pck, pcknt))
+// end of [instr_patck]
 
 (* ****** ****** *)
 

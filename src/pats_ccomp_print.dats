@@ -332,6 +332,13 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
+| INSpatck
+    (pmv, pck, pcknt) => {
+    val () = prstr "INSpatck("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+//
 | INSassgn_varofs
     (d2v_l, ofs, pmv_r) => {
     val () = prstr "INSassgn_varofs("

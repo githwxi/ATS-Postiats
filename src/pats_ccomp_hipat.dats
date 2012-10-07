@@ -70,6 +70,33 @@ case+ hip0.hipat_node of
 | HIPany _ => ()
 | HIPvar _ => ()
 //
+| HIPint (i) => let
+    val ins = instr_patck (loc0, pmv0, PATCKint (i), fail)
+  in
+    instrseq_add (res, ins)
+  end // end of [HIPint]
+| HIPbool (b) => let
+    val ins = instr_patck (loc0, pmv0, PATCKbool (b), fail)
+  in
+    instrseq_add (res, ins)
+  end // end of [HIPbool]
+| HIPchar (c) => let
+    val ins = instr_patck (loc0, pmv0, PATCKchar (c), fail)
+  in
+    instrseq_add (res, ins)
+  end // end of [HIPchar]
+//
+| HIPi0nt (tok) => let
+    val ins = instr_patck (loc0, pmv0, PATCKi0nt (tok), fail)
+  in
+    instrseq_add (res, ins)
+  end // end of [HIPi0nt]
+| HIPf0loat (tok) => let
+    val ins = instr_patck (loc0, pmv0, PATCKf0loat (tok), fail)
+  in
+    instrseq_add (res, ins)
+  end // end of [HIPf0loat]
+//
 | HIPann (hip, ann) => hipatck_ccomp (res, hip, pmv0, fail)
 //
 | _ => let
@@ -150,6 +177,10 @@ case+ hip0.hipat_node of
 | HIPint _ => ()
 | HIPbool _ => ()
 | HIPchar _ => ()
+| HIPstring _ => ()
+//
+| HIPi0nt _ => ()
+| HIPf0loat _ => ()
 //
 | HIPann (hip, ann) => himatch_ccomp (env, res, lev0, hip, pmv0)
 //

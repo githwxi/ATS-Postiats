@@ -229,6 +229,7 @@ in
 //
 case+ hde0.hidexp_node of
 //
+| HDEvar _ => auxval (env, res, hde0, tmpret)
 | HDEcst _ => auxval (env, res, hde0, tmpret)
 //
 | HDEint _ => auxval (env, res, hde0, tmpret)
