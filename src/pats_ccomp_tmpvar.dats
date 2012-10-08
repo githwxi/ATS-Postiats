@@ -68,6 +68,7 @@ typedef tmpvar = '{
 } // end of [tmpvar]
 
 assume tmpvar_type = tmpvar
+extern typedef "tmpvar_t" = tmpvar
 
 in // in of [local]
 
@@ -88,12 +89,7 @@ tmpvar_make
 (* ****** ****** *)
 
 implement
-fprint_tmpvar
-  (out, tmp) = () where {
-  val () = fprint_string (out, "tmp(")
-  val () = $STMP.fprint_stamp (out, tmp.tmpvar_stamp)
-  val () = fprint_string (out, ")")
-} // end of [fprint_tmpvar]
+tmpvar_get_stamp (tmp) = tmp.tmpvar_stamp
 
 (* ****** ****** *)
 
@@ -109,7 +105,49 @@ compare_tmpvar_tmpvar (tmp1, tmp2) =
 
 (* ****** ****** *)
 
+implement
+fprint_tmpvar
+  (out, tmp) = () where {
+  val () = fprint_string (out, "tmp(")
+  val () = $STMP.fprint_stamp (out, tmp.tmpvar_stamp)
+  val () = fprint_string (out, ")")
+} // end of [fprint_tmpvar]
+
+(* ****** ****** *)
+
 end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+extern
+fun tmpvar_set_ret
+  (tmp: tmpvar, ret: int): void = "patsopt_tmpvar_set_ret"
+// end of [tmpvar_set_ret]
+
+in // in of [local]
+
+implement
+tmpvar_make_ret
+  (loc, hse) = tmp where {
+  val tmp = tmpvar_make (loc, hse)
+  val () = tmpvar_set_ret (tmp, 1(*ret*))
+} // end of [tmpvar_make_ret]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+%{$
+
+ats_void_type
+patsopt_tmpvar_set_ret
+  (ats_ptr_type tmp, ats_int_type ret) {
+  ((tmpvar_t)tmp)->atslab_tmpvar_ret = ret ; return ;
+} // end of [patsopt_tmpvar_set_ret]
+
+%} // end of [%{$]
 
 (* ****** ****** *)
 

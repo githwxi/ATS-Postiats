@@ -145,10 +145,11 @@ fun s2qualstlst_set_tmplev (s2qs: s2qualst, tmplev: int): void
 (* ****** ****** *)
 
 absview the_d2varlev_inc_v
+//
 fun the_d2varlev_get (): int
 fun the_d2varlev_inc (): (the_d2varlev_inc_v | void)
 fun the_d2varlev_dec (pf: the_d2varlev_inc_v | (*none*)): void
-
+//
 (* ****** ****** *)
 
 fun the_d2expenv_add

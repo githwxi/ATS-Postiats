@@ -52,7 +52,7 @@ staload "pats_ccomp.sats"
 
 implement
 hipatck_ccomp (
-  res, hip0, pmv0, fail
+  res, fail, hip0, pmv0
 ) = let
 //
 (*
@@ -97,7 +97,7 @@ case+ hip0.hipat_node of
     instrseq_add (res, ins)
   end // end of [HIPf0loat]
 //
-| HIPann (hip, ann) => hipatck_ccomp (res, hip, pmv0, fail)
+| HIPann (hip, ann) => hipatck_ccomp (res, fail, hip, pmv0)
 //
 | _ => let
     val () = println! ("hipatck_ccomp: hip0 = ", hip0)
@@ -193,6 +193,100 @@ case+ hip0.hipat_node of
 end (* end of [himatch_ccomp] *)
 
 end // end of [local]
+
+(* ****** ****** *)
+
+extern
+fun primval_make_funarg
+  (loc: location, hse: hisexp, narg: int): primval
+// end of [primval_make_funarg]
+
+implement
+primval_make_funarg (
+  loc, hse0, narg
+) : primval = let
+in
+//
+case+ hse0.hisexp_node of
+| HSErefarg
+    (refval, hse) => (
+    if refval = 0 then
+      primval_arg (loc, hse, narg)
+    else
+      primval_argref (loc, hse, narg)
+    // end of [if]
+  ) // end of [HITrefarg]
+| HSEvararg _ =>
+    primval_argtmpref (loc, hse0, narg)
+| _ => primval_arg (loc, hse0, narg)
+//
+end // end of [primval_make_funarg]
+
+(* ****** ****** *)
+
+implement
+hifunarg_ccomp (
+  env, res, fl, lev0, loc_fun, hips
+) = let
+//
+fun
+auxpatck
+  {n:nat} .<n>. (
+  res: !instrseq
+, narg: int
+, hips: list (hipat, n)
+, fail: patckont
+) : list_vt (primval, n) = let
+in
+//
+case+ hips of
+| list_cons
+    (hip, hips) => let
+    val loc = hip.hipat_loc
+    val hse = hip.hipat_type
+(*
+    val () = begin
+      println! ("hifunarg_ccomp: auxpatck: hip = ", hip);
+      println! ("hifunarg_ccomp: auxpatck: hse = ", hse);
+    end // end of [val]
+*)
+    val pmv = primval_make_funarg (loc, hse, narg)
+    val ((*void*)) = hipatck_ccomp (res, fail, hip, pmv)
+    val pmvs = auxpatck (res, narg+1, hips, fail)
+  in
+    list_vt_cons (pmv, pmvs)
+  end // end of [list_cons]
+| list_nil () => list_vt_nil ()
+//
+end // end of [auxpatck]
+//
+fun auxmatch
+  {n:nat} .<n>. (
+  env: !ccompenv
+, res: !instrseq
+, lev0: int
+, hips: list (hipat, n)
+, pmvs: list_vt (primval, n)
+) : void = let
+in
+//
+case+ pmvs of
+| ~list_vt_cons (pmv, pmvs) => let
+    val+ list_cons (hip, hips) = hips
+    val () = himatch_ccomp (env, res, lev0, hip, pmv)
+  in
+    auxmatch (env, res, lev0, hips, pmvs)
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => ()
+//
+end // end of [aux_match]
+//
+val fail = PTCKNTfunarg_fail (loc_fun, fl)
+val pmvs = auxpatck (res, 0, hips, fail)
+//
+in
+  auxmatch (env, res, lev0, hips, pmvs)
+end // end of [hifunarg_ccomp]
 
 (* ****** ****** *)
 

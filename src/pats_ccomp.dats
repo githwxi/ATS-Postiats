@@ -101,6 +101,18 @@ primval_tmpref (loc, hse, tmp) =
 (* ****** ****** *)
 
 implement
+primval_arg (loc, hse, narg) =
+  primval_make_node (loc, hse, PMVarg (narg))
+implement
+primval_argref (loc, hse, narg) =
+  primval_make_node (loc, hse, PMVargref (narg))
+implement
+primval_argtmpref (loc, hse, narg) =
+  primval_make_node (loc, hse, PMVargtmpref (narg))
+
+(* ****** ****** *)
+
+implement
 primval_cst
   (loc, hse, d2c) =
   primval_make_node (loc, hse, PMVcst (d2c))
@@ -157,6 +169,13 @@ implement
 primval_extval (loc, hse, name) =
   primval_make_node (loc, hse, PMVextval (name))
 // end of [primval_extval]
+
+(* ****** ****** *)
+
+implement
+primval_fun (loc, hse, fl) =
+  primval_make_node (loc, hse, PMVfun (fl))
+// end of [primval_fun]
 
 (* ****** ****** *)
 
@@ -253,6 +272,11 @@ instr_assgn_ptrofs
   (loc, pmv_l, ofs, pmv_r) =
   instr_make_node (loc, INSassgn_ptrofs (pmv_l, ofs, pmv_r))
 // end of [instr_assgn_ptrofs]
+
+(* ****** ****** *)
+
+implement
+instr_funlab (loc, fl) = instr_make_node (loc, INSfunlab (fl))
 
 (* ****** ****** *)
 

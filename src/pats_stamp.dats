@@ -57,6 +57,13 @@ compare_stamp_stamp (x1, x2) = $CNTR.compare_count_count (x1, x2)
 
 (* ****** ****** *)
 
+implement
+tostring_stamp (x) = $CNTR.tostring_count (x)
+implement
+tostring_prefix_stamp (pre, x) = $CNTR.tostring_prefix_count (pre, x)
+
+(* ****** ****** *)
+
 implement fprint_stamp (out, x) = $CNTR.fprint_count (out, x)
 
 (* ****** ****** *)
@@ -167,6 +174,16 @@ implement tmplab_stamp_make () = $CNTR.counter_getinc (cntr)
 //
 end // end of [local]
 
+local
+//
+val cntr = $CNTR.counter_make ()
+//
+in
+//
+implement tmpvar_stamp_make () = $CNTR.counter_getinc (cntr)
+//
+end // end of [local]
+
 (* ****** ****** *)
 
 local
@@ -175,7 +192,7 @@ val cntr = $CNTR.counter_make ()
 //
 in
 //
-implement tmpvar_stamp_make () = $CNTR.counter_getinc (cntr)
+implement funlab_stamp_make () = $CNTR.counter_getinc (cntr)
 //
 end // end of [local]
 

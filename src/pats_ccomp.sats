@@ -94,7 +94,10 @@ typedef tmpvaropt = Option (tmpvar)
 
 fun tmpvar_make
   (loc: location, hse: hisexp): tmpvar
-// end of [tmpvar_make]
+fun tmpvar_make_ret
+  (loc: location, hse: hisexp): tmpvar
+
+fun tmpvar_get_stamp (tmp: tmpvar): stamp
 
 (* ****** ****** *)
 
@@ -109,6 +112,47 @@ overload = with eq_tmpvar_tmpvar
 
 fun compare_tmpvar_tmpvar (x1: tmpvar, x2: tmpvar): int
 overload = with compare_tmpvar_tmpvar
+
+(* ****** ****** *)
+//
+// HX: function label
+//
+abstype ccomp_funlab_type
+typedef funlab = ccomp_funlab_type
+//
+fun print_funlab (x: funlab): void
+overload print with print_funlab
+fun prerr_funlab (x: funlab): void
+overload prerr with prerr_funlab
+fun fprint_funlab : fprint_type (funlab)
+//
+fun funlab_make_type (hse: hisexp): funlab
+//
+fun funlab_get_name (fl: funlab): string
+fun funlab_get_level (fl: funlab): int
+fun funlab_get_type (fl: funlab): hisexp
+fun funlab_get_stamp (fl: funlab): stamp
+//
+(* ****** ****** *)
+//
+// HX: function entry
+//
+abstype funent_type
+typedef funent = funent_type
+typedef funentlst = List (funent)
+typedef funentopt = Option (funent)
+viewtypedef funentopt_vt = Option_vt (funent)
+//
+fun print_funent (x: funent): void
+overload print with print_funent
+fun prerr_funent (x: funent): void
+overload prerr with prerr_funent
+fun fprint_funent : fprint_type (funent)
+//
+(* ****** ****** *)
+
+fun funlab_get_entry (fl: funlab): funentopt
+fun funlab_set_entry (fl: funlab, opt: funentopt): void
 
 (* ****** ****** *)
 
@@ -164,6 +208,10 @@ primval_node =
   | PMVtmp of (tmpvar)
   | PMVtmpref of (tmpvar)
 //
+  | PMVarg of (int)
+  | PMVargref of (int) // call-by-reference
+  | PMVargtmpref of (int) // call-by-reference but treated as tmpvar
+//
   | PMVcst of (d2cst)
   | PMVvar of (d2var) // temporary
 //
@@ -182,8 +230,7 @@ primval_node =
 //
   | PMVextval of (string(*name*))
 //
-  | PMVarg of (int)
-  | PMVargref of (int) // call-by-reference
+  | PMVfun of (funlab)
 //
   | PMVcastfn of (d2cst, primval)
 //
@@ -236,6 +283,15 @@ fun primval_tmpref
 
 (* ****** ****** *)
 
+fun primval_arg
+  (loc: location, hse: hisexp, narg: int): primval
+fun primval_argref
+  (loc: location, hse: hisexp, narg: int): primval
+fun primval_argtmpref
+  (loc: location, hse: hisexp, narg: int): primval
+
+(* ****** ****** *)
+
 fun primval_cst
   (loc: location, hse: hisexp, d2c: d2cst): primval
 // end of [primval_cst]
@@ -266,6 +322,10 @@ fun primval_extval
   (loc: location, hse: hisexp, name: string): primval
 // end of [primval_extval]
 
+fun primval_fun
+  (loc: location, hse: hisexp, fl: funlab): primval
+// end of [primval_fun]
+
 fun primval_tmpcst (
   loc: location, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst
 ) : primval // end of [primval_tmpcst]
@@ -290,7 +350,6 @@ datatype patck =
   | PATCKbool of bool
   | PATCKchar of char
   | PATCKstring of string
-  | PATCKfloat of string
 //
   | PATCKi0nt of (i0nt)
   | PATCKf0loat of (f0loat)
@@ -312,6 +371,8 @@ patckont =
   | PTCKNTfunarg_fail of (location, funlab) // run-time failure
   | PTCKNTraise of primval
 // end of [patckont]
+
+fun fprint_patckont : fprint_type (patckont)
 
 (* ****** ****** *)
 
@@ -343,6 +404,8 @@ instr_node =
       (d2var(*left*), primlablst(*ofs*), primval(*right*))
   | INSassgn_ptrofs of
       (primval(*left*), primlablst(*ofs*), primval(*right*))
+//
+  | INSfunlab of (funlab)
 // end of [instr_node]
 
 where
@@ -408,13 +471,24 @@ fun instr_assgn_ptrofs (
 
 (* ****** ****** *)
 
+fun instr_funlab (loc: location, fl: funlab): instr
+
+(* ****** ****** *)
+
 absviewtype instrseq_vtype
 viewtypedef instrseq = instrseq_vtype
 
 fun instrseq_make_nil (): instrseq
-fun instrseq_get_free (xs: instrseq): instrlst
+fun instrseq_get_free (res: instrseq): instrlst
 
-fun instrseq_add (xs: !instrseq, x: instr): void
+fun instrseq_add (res: !instrseq, x: instr): void
+fun instrseq_addlst (res: !instrseq, x: instrlst): void
+
+(* ****** ****** *)
+
+fun funent_make (
+  loc: location, fl: funlab, level: int, ret: tmpvar, inss: instrlst
+) : funent // end of [funent_make]
 
 (* ****** ****** *)
 
@@ -439,12 +513,21 @@ fun ccompenv_push (env: !ccompenv): (ccompenv_push_v | void)
 (* ****** ****** *)
 
 fun hipatck_ccomp (
-  res: !instrseq, hip: hipat, pmv: primval, fail: patckont
+  res: !instrseq
+, fail: patckont, hip: hipat, pmv: primval
 ) : void // end of [hipatck_ccomp]
 
 fun himatch_ccomp (
-  env: !ccompenv,res: !instrseq, level: int, hip: hipat, pmv: primval
+  env: !ccompenv, res: !instrseq
+, level: int, hip: hipat, pmv: primval // HX: [pmv] matches [hip]
 ) : void // end of [himatch_ccomp]
+
+(* ****** ****** *)
+
+fun hifunarg_ccomp (
+  env: !ccompenv, res: !instrseq
+, fl: funlab, level: int, loc_fun: location, hips: hipatlst
+) : void // end of [hifunarg_ccomp]
 
 (* ****** ****** *)
 
@@ -454,7 +537,7 @@ fun hidexplst_ccomp
   (env: !ccompenv, res: !instrseq, hdes: hidexplst): primvalist
 
 fun hidexp_ccomp_ret
-  (env: !ccompenv, res: !instrseq, hde: hidexp, tmpret: tmpvar): void
+  (env: !ccompenv, res: !instrseq, tmpret: tmpvar, hde: hidexp): void
 // end of [hidexp_ccomp_ret]
 
 (* ****** ****** *)

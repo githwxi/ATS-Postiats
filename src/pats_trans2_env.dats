@@ -721,7 +721,8 @@ implement
 the_d2varlev_get () = !the_d2varlev
 
 implement
-the_d2varlev_inc () = let
+the_d2varlev_inc
+  ((*void*)) = let
   prval pfinc = unit_v ()
   val n = !the_d2varlev
   val () = !the_d2varlev := n + 1

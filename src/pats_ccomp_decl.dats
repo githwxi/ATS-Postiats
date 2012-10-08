@@ -185,7 +185,7 @@ hivaldec_ccomp (
     case+ knd of
     | VK_val_pos () => PTCKNTnone () | _ => PTCKNTcaseof_fail (loc)
   ) : patckont // end of [val]
-  val () = hipatck_ccomp (res, hip, pmv_def, fail)
+  val () = hipatck_ccomp (res, fail, hip, pmv_def)
   val () = himatch_ccomp (env, res, lev0, hip, pmv_def)
 in
   hip
@@ -226,7 +226,7 @@ val hse_elt = s2exp_tyer_shallow (loc_d2v, s2e_elt)
 val tmp = tmpvar_make (loc_d2v, hse_elt)
 val () = (
   case+ hvd.hivardec_ini of
-  | Some (hde) => hidexp_ccomp_ret (env, res, hde, tmp) | None () => ()
+  | Some (hde) => hidexp_ccomp_ret (env, res, tmp, hde) | None () => ()
 ) : void // end of [val]
 //
 val pmv = primval_tmpref (loc, hse_elt, tmp)

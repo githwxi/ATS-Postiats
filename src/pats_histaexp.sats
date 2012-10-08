@@ -40,9 +40,8 @@ staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
-abstype funlab_type
-typedef funlab = funlab_type
-typedef funlablst = List (funlab)
+abstype histaexp_funlab_type
+typedef funlab = histaexp_funlab_type
 
 fun print_funlab (x: funlab): void
 overload print with print_funlab
@@ -62,13 +61,6 @@ overload print with print_hitype
 fun prerr_hitype (x: hitype): void
 overload prerr with prerr_hitype
 fun fprint_hitype : fprint_type (hitype)
-
-(* ****** ****** *)
-
-fun funlab_get_name (fl: funlab): string
-fun funlab_get_level (fl: funlab): int
-fun funlab_get_type (fl: funlab): hitype
-fun funlab_get_stamp (fl: funlab): stamp
 
 (* ****** ****** *)
 

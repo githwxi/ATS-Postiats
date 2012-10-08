@@ -338,6 +338,8 @@ val SOURCES =
 , "pats_ccomp_print.dats"
 , "pats_ccomp_tmplab.dats"
 , "pats_ccomp_tmpvar.dats"
+, "pats_ccomp_funlab.dats"
+, "pats_ccomp_funent.dats"
 , "pats_ccomp_util.dats"
 , "pats_ccomp_ccompenv.dats"
 , "pats_ccomp_instrseq.dats"

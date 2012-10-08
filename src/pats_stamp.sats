@@ -60,6 +60,11 @@ overload compare with compare_stamp_stamp
 
 (* ****** ****** *)
 
+fun tostring_stamp (x: stamp): string
+fun tostring_prefix_stamp (pre: string, x: stamp): string
+
+(* ****** ****** *)
+
 fun fprint_stamp : fprint_type (stamp)
 
 (* ****** ****** *)
@@ -90,6 +95,10 @@ fun d2var_stamp_make (): stamp
 
 fun tmplab_stamp_make (): stamp
 fun tmpvar_stamp_make (): stamp
+
+(* ****** ****** *)
+
+fun funlab_stamp_make (): stamp
 
 (* ****** ****** *)
 //

@@ -28,50 +28,88 @@
 (* ****** ****** *)
 //
 // Author: Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-// Start Time: July, 2012
-//
-(* ****** ****** *)
-//
-// HX-2012-10:
-// Note that [funlab_type] is assumed in [pats_ccomp.sats]
+// Start Time: October, 2012
 //
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload LAB = "pats_label.sats"
+staload LOC = "pats_location.sats"
+typedef location = $LOC.location
 
 (* ****** ****** *)
 
-staload
-STMP = "pats_stamp.sats"
-typedef stamp = $STMP.stamp
+staload "pats_ccomp.sats"
 
 (* ****** ****** *)
 
-staload "pats_dynexp2.sats"
+local
 
-(* ****** ****** *)
+typedef
+funent = '{
+  funent_loc= location
+, funent_lab= funlab // attached function label
+, funent_level= int // =0/>0 for top/inner function
+, funent_ret= tmpvar // storing the return value
+, funent_body= instrlst // instructions of function body
+} // end of [funent]
 
-staload CCOMP = "pats_ccomp.sats"
+assume funent_type = funent
+extern typedef "funent_t" = funent
 
-(* ****** ****** *)
-
-staload "pats_histaexp.sats"
+in // in of [local]
 
 (* ****** ****** *)
 
 implement
-fprint_funlab
-  (out, fl) = let
-  val name = $CCOMP.funlab_get_name ($UN.cast(fl))
+funent_make (
+  loc, fl, lev, tmp, inss
+) = '{
+  funent_loc= loc
+, funent_lab= fl
+, funent_level= lev
+, funent_ret= tmp
+, funent_body= inss
+} // end of [funenv_make]
+
+(* ****** ****** *)
+
+implement
+fprint_funent
+  (out, fent) = let
+//
+macdef prstr (s) = fprint_string (out, ,(s))
+//
+val () = prstr "FUNENT("
+//
+val () = prstr "level="
+val () = fprint_int (out, fent.funent_level)
+val () = prstr "\n"
+//
+val () = prstr "lab="
+val () = fprint_funlab (out, fent.funent_lab)
+val () = prstr "\n"
+//
+val () = prstr "ret="
+val () = fprint_tmpvar (out, fent.funent_ret)
+val () = prstr "\n"
+//
+val () = prstr "body=\n"
+val () = fprint_instrlst (out, fent.funent_body)
+//
+val () = prstr ")"
 in
-  fprint_string (out, name)
-end // end of [fprint_funlab]
+  // nothing
+end // end of [fprint_funent]
 
-implement
-print_funlab (fl) = fprint_funlab (stdout_ref, fl)
-implement
-prerr_funlab (fl) = fprint_funlab (stderr_ref, fl)
+end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [pats_histaexp_funlab.dats] *)
+implement
+print_funent (fent) = fprint_funent (stdout_ref, fent)
+implement
+prerr_funent (fent) = fprint_funent (stderr_ref, fent)
+
+(* ****** ****** *)
+
+(* end of [pats_ccomp_funent.dats] *)

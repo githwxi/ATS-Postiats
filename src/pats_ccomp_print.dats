@@ -152,6 +152,22 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
+| PMVarg (n) => {
+    val () = prstr "PMVarg("
+    val () = fprint_int (out, n)
+    val () = prstr ")"
+  }
+| PMVargref (n) => {
+    val () = prstr "PMVargref("
+    val () = fprint_int (out, n)
+    val () = prstr ")"
+  }
+| PMVargtmpref (n) => {
+    val () = prstr "PMVargtmpref("
+    val () = fprint_int (out, n)
+    val () = prstr ")"
+  }
+//
 | PMVint (i) => {
     val () = prstr "PMVint("
     val () = fprint_int (out, i)
@@ -192,14 +208,9 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
-| PMVarg (n) => {
-    val () = prstr "PMVarg("
-    val () = fprint_int (out, n)
-    val () = prstr ")"
-  }
-| PMVargref (n) => {
-    val () = prstr "PMVargref("
-    val () = fprint_int (out, n)
+| PMVfun (fl) => {
+    val () = prstr "PMVfun("
+    val () = fprint_funlab (out, fl)
     val () = prstr ")"
   }
 //
@@ -282,6 +293,103 @@ fprint_primlablst
 (* ****** ****** *)
 
 implement
+fprint_patck
+  (out, x) = let
+//
+macdef prstr (s) = fprint_string (out, ,(s))
+//
+in
+//
+case+ x of
+//
+| PATCKint (i) => {
+    val () = prstr "PATCKint("
+    val () = fprint_int (out, i)
+    val () = prstr ")"
+  }
+| PATCKbool (b) => {
+    val () = prstr "PATCKbool("
+    val () = fprint_bool (out, b)
+    val () = prstr ")"
+  }
+| PATCKchar (c) => {
+    val () = prstr "PATCKchar("
+    val () = fprint_char (out, c)
+    val () = prstr ")"
+  }
+| PATCKstring (str) => {
+    val () = prstr "PATCKstring("
+    val () = fprint_string (out, str)
+    val () = prstr ")"
+  }
+//
+| PATCKi0nt (tok) => {
+    val () = prstr "PATCKi0nt("
+    val () = $SYN.fprint_i0nt (out, tok)
+    val () = prstr ")"
+  }
+| PATCKf0loat (tok) => {
+    val () = prstr "PATCKi0nt("
+    val () = $SYN.fprint_f0loat (out, tok)
+    val () = prstr ")"
+  }
+//
+| PATCKcon (d2c) => {
+    val () = prstr "PATCKcon("
+    val () = fprint_d2con (out, d2c)
+    val () = prstr ")"
+  }
+| PATCKexn (d2c) => {
+    val () = prstr "PATCKexn("
+    val () = fprint_d2con (out, d2c)
+    val () = prstr ")"
+  }
+//
+end // end of [patck]
+
+(* ****** ****** *)
+
+implement
+fprint_patckont
+  (out, x) = let
+//
+macdef prstr (s) = fprint_string (out, ,(s))
+//
+in
+//
+case+ x of
+| PTCKNTnone () =>
+    prstr "PTCKNTnone()"
+| PTCKNTtmplab (tl) => {
+    val () = prstr "PTCKNTtmplab("
+    val () = fprint_tmplab (out, tl)
+    val () = prstr ")"
+  }
+| PTCKNTtmplabint (tl, i) => {
+    val () = prstr "PTCKNTtmplab("
+    val () = fprint_tmplab (out, tl)
+    val () = prstr ", "
+    val () = fprint_int (out, i)
+    val () = prstr ")"
+  }
+| PTCKNTcaseof_fail (loc) => {
+    val () = prstr "PTCKNTcaseof_fail("
+    val () = prstr ")"
+  }
+| PTCKNTfunarg_fail (loc, fl) => {
+    val () = prstr "PTCKNTfunarg_fail("
+    val () = prstr ")"
+  }
+| PTCKNTraise (pmv) => {
+    val () = prstr "PTCKNTraise("
+    val () = fprint_primval (out, pmv)
+    val () = prstr ")"
+  } 
+end // end of [patckont]
+
+(* ****** ****** *)
+
+implement
 fprint_instr
   (out, x) = let
 //
@@ -335,7 +443,9 @@ case+ x.instr_node of
 | INSpatck
     (pmv, pck, pcknt) => {
     val () = prstr "INSpatck("
-    val () = fprint_string (out, "...")
+    val () = fprint_patck (out, pck)
+    val () = prstr "; "
+    val () = fprint_patckont (out, pcknt)
     val () = prstr ")"
   }
 //

@@ -64,15 +64,31 @@ instrseq_make_nil
 
 implement
 instrseq_add
-  (seq, x) = let
+  (res, x) = let
 in
 //
-case+ seq of
+case+ res of
 | INSTRSEQ (!p_xs) => let
-    val () = $LQ.queue_insert (!p_xs, x) in fold@ (seq)
+    val () = $LQ.queue_insert (!p_xs, x) in fold@ (res)
   end // end of [INSTRSEQ]
 //
 end // end of [instrseq_add]
+
+(* ****** ****** *)
+
+implement
+instrseq_addlst
+  (res, xs) = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = instrseq_add (res, x) in instrseq_addlst (res, xs)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [instrseq_addlst]
 
 (* ****** ****** *)
 
