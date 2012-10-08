@@ -79,7 +79,7 @@ fprint_funent
 //
 macdef prstr (s) = fprint_string (out, ,(s))
 //
-val () = prstr "FUNENT("
+val () = prstr "FUNENT(\n"
 //
 val () = prstr "level="
 val () = fprint_int (out, fent.funent_level)

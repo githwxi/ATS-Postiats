@@ -127,6 +127,7 @@ overload prerr with prerr_funlab
 fun fprint_funlab : fprint_type (funlab)
 //
 fun funlab_make_type (hse: hisexp): funlab
+fun funlab_make_vartype (d2v: d2var, hse: hisexp): funlab
 //
 fun funlab_get_name (fl: funlab): string
 fun funlab_get_level (fl: funlab): int
@@ -161,7 +162,7 @@ primdec_node =
   | PMDnone of () 
   | PMDdcstdecs of (dcstkind, d2cstlst)
   | PMDimpdec of ()
-  | PMDfundecs of ()
+  | PMDfundecs of (d2varlst)
   | PMDvaldecs of (hipatlst)
   | PMDvardecs of (d2varlst)
   | PMDlocal of (primdeclst, primdeclst)
@@ -196,11 +197,12 @@ fun primdec_dcstdecs
 // end of [primdec_dcstdecs]
 
 (* ****** ****** *)
-
+//
+fun primdec_fundecs (loc: location, d2vs: d2varlst): primdec
+//
 fun primdec_valdecs (loc: location, hips: hipatlst): primdec
-
 fun primdec_vardecs (loc: location, d2vs: d2varlst): primdec
-
+//
 (* ****** ****** *)
 
 datatype
@@ -339,6 +341,10 @@ fun primval_let (
 
 (* ****** ****** *)
 
+fun primval_make_funlab (loc: location, fl: funlab): primval
+
+(* ****** ****** *)
+
 fun primlab_lab (loc: location, lab: label): primlab
 fun primlab_ind (loc: location, ind: primvalist): primlab
 
@@ -379,6 +385,8 @@ fun fprint_patckont : fprint_type (patckont)
 datatype
 instr_node =
 //
+  | INSfunlab of (funlab)
+//
   | INSmove_val of (tmpvar, primval)
   | INSmove_arg_val of (int(*arg*), primval)
   | INSmove_ptr_val of (tmpvar(*ptr*), primval)
@@ -404,8 +412,6 @@ instr_node =
       (d2var(*left*), primlablst(*ofs*), primval(*right*))
   | INSassgn_ptrofs of
       (primval(*left*), primlablst(*ofs*), primval(*right*))
-//
-  | INSfunlab of (funlab)
 // end of [instr_node]
 
 where
@@ -429,6 +435,10 @@ fun prerr_instr (x: instr): void
 overload print with prerr_instr
 
 fun fprint_instrlst : fprint_type (instrlst)
+
+(* ****** ****** *)
+
+fun instr_funlab (loc: location, fl: funlab): instr
 
 (* ****** ****** *)
 
@@ -468,10 +478,6 @@ fun instr_assgn_varofs (
 fun instr_assgn_ptrofs (
   loc: location, pmv_l: primval, ofs: primlablst, pmv_r: primval
 ) : instr // end of [instr_assgn_ptrofs]
-
-(* ****** ****** *)
-
-fun instr_funlab (loc: location, fl: funlab): instr
 
 (* ****** ****** *)
 
@@ -539,6 +545,13 @@ fun hidexplst_ccomp
 fun hidexp_ccomp_ret
   (env: !ccompenv, res: !instrseq, tmpret: tmpvar, hde: hidexp): void
 // end of [hidexp_ccomp_ret]
+
+(* ****** ****** *)
+
+fun hidexp_ccomp_funlab_arg_body (
+  env: !ccompenv, fl: funlab, prolog: instrlst
+, loc_fun: location, hips_arg: hipatlst, hde_body: hidexp
+) : funent // end of [ccomp_exp_arg_body_funlab]
 
 (* ****** ****** *)
 

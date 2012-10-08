@@ -43,6 +43,10 @@ typedef stamp = $STMP.stamp
 
 (* ****** ****** *)
 
+staload SYM = "pats_symbol.sats"
+
+(* ****** ****** *)
+
 staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
@@ -144,13 +148,28 @@ end // end of [local]
 
 implement
 funlab_make_type
-  (hse0) = let
+  (hse) = let
   val lev0 = the_d2varlev_get ()
   val stamp = $STMP.funlab_stamp_make ()
-  val name = $STMP.tostring_prefix_stamp ("__patsfun_", stamp)
+  val flname = $STMP.tostring_prefix_stamp ("__patsfun_", stamp)
 in
-  funlab_make (name, lev0, hse0, None(*qopt*), stamp)
+  funlab_make (flname, lev0, hse, None(*qopt*), stamp)
 end // end of [funlab_make_type]
+
+(* ****** ****** *)
+
+implement
+funlab_make_vartype
+  (d2v, hse) = let
+  val lev0 = the_d2varlev_get ()
+  val d2v2 = $SYM.symbol_get_name (d2var_get_sym d2v)
+  val stamp = $STMP.funlab_stamp_make ()
+  val stamp2 = $STMP.tostring_stamp (stamp)
+  val flname = sprintf ("%s_%s", @(d2v2, stamp2))
+  val flname = string_of_strptr (flname)
+in
+  funlab_make (flname, lev0, hse, None(*qopt*), stamp)
+end // end of [funlab_make_vartype]
 
 (* ****** ****** *)
 

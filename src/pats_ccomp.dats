@@ -68,6 +68,10 @@ primdec_dcstdecs
 (* ****** ****** *)
 
 implement
+primdec_fundecs (loc, d2vs) =
+  primdec_make_node (loc, PMDfundecs (d2vs))
+
+implement
 primdec_valdecs (loc, hips) =
   primdec_make_node (loc, PMDvaldecs (hips))
 
@@ -225,6 +229,13 @@ instr_make_node
 (* ****** ****** *)
 
 implement
+instr_funlab (loc, fl) =
+  instr_make_node (loc, INSfunlab (fl))
+// end of [instr_funlab]
+
+(* ****** ****** *)
+
+implement
 instr_move_val (loc, tmp, pmv) =
   instr_make_node (loc, INSmove_val (tmp, pmv))
 // end of [instr_move_val]
@@ -272,11 +283,6 @@ instr_assgn_ptrofs
   (loc, pmv_l, ofs, pmv_r) =
   instr_make_node (loc, INSassgn_ptrofs (pmv_l, ofs, pmv_r))
 // end of [instr_assgn_ptrofs]
-
-(* ****** ****** *)
-
-implement
-instr_funlab (loc, fl) = instr_make_node (loc, INSfunlab (fl))
 
 (* ****** ****** *)
 

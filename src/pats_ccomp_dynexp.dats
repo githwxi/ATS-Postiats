@@ -481,12 +481,6 @@ end // end of [hidexp_ccomp_ret_seq]
 
 (* ****** ****** *)
 
-extern
-fun hidexp_ccomp_funlab_arg_body (
-  env: !ccompenv, fl: funlab, prolog: instrlst
-, loc_fun: location, hips_arg: hipatlst, hde_body: hidexp
-) : funent // end of [ccomp_exp_arg_body_funlab]
-
 implement
 hidexp_ccomp_funlab_arg_body (
   env, fl, prolog, loc_fun, hips_arg, hde_body
@@ -521,16 +515,6 @@ end // end of [hidexp_ccomp_funlab_arg_body]
 
 (* ****** ****** *)
 
-extern
-fun primval_make_funlab
-  (loc: location, fl: funlab): primval
-implement
-primval_make_funlab (loc, fl) = let
-  val hse = funlab_get_type (fl) in primval_fun (loc, hse, fl)
-end // end of [primval_make_funlab]
-
-(* ****** ****** *)
-
 implement
 hidexp_ccomp_lam
   (env, res, hde0)  = let
@@ -541,12 +525,14 @@ val- HDElam (
   hips_arg, hde_body
 ) = hde0.hidexp_node
 val fl = funlab_make_type (hse0)
-val _(*funent*) = let
+val fent = let
   val ins = instr_funlab (loc0, fl)
   val prolog = list_sing (ins)
 in
   hidexp_ccomp_funlab_arg_body (env, fl, prolog, loc0, hips_arg, hde_body)
 end // end of [val]
+//
+val () = println! ("hidexp_ccomp_lam: fent=", fent)
 //
 in
   primval_make_funlab (loc0, fl)

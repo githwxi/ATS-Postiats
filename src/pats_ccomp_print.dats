@@ -77,11 +77,12 @@ case+ x.primdec_node of
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }
-| PMDfundecs () => {
+| PMDfundecs (d2vs) => {
     val () = prstr "PMDfundecs("
-    val () = fprint_string (out, "...")
+    val () = fprint_d2varlst (out, d2vs)
     val () = prstr ")"
   }
+//
 | PMDvaldecs (hips) => {
     val () = prstr "PMDvaldecs("
     val () = fprint_hipatlst (out, hips)
@@ -92,6 +93,7 @@ case+ x.primdec_node of
     val () = fprint_d2varlst (out, d2vs)
     val () = prstr ")"
   }
+//
 | PMDlocal (
     pmds_head, pmds_body
   ) => {
@@ -398,6 +400,12 @@ macdef prstr (s) = fprint_string (out, ,(s))
 in
 //
 case+ x.instr_node of
+//
+| INSfunlab (fl) => {
+    val () = prstr "INSfunlab("
+    val () = fprint_funlab (out, fl)
+    val () = prstr ")"
+  }
 //
 | INSmove_val (tmp, pmv) => {
     val () = prstr "INSmove_val("
