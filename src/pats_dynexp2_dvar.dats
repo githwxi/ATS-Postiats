@@ -81,7 +81,7 @@ d2var_struct = @{
 , d2var_linval= int // nonlinear (-1) and linear (>=0)
 , d2var_isfix= bool // is fix-variable?
 , d2var_isprf= bool // is proof?
-, d2var_decarg= s2qualst // template arg
+, d2var_decarg= s2qualst // nil/cons -> function/template
 , d2var_addr= s2expopt //
 , d2var_view= d2varopt_t // 
 , d2var_finknd= d2vfin // the status at the end of scope

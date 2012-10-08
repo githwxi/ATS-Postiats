@@ -502,6 +502,7 @@ end // end of [val]
 *)
 //
 val casknd = valkind2caskind (knd)
+//
 val cp2tcss = (
   case+ casknd of
   | CK_case () =>

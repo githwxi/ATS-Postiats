@@ -1311,9 +1311,10 @@ fun d2ecl_impdec
 (* ****** ****** *)
 
 fun d2ecl_fundecs (
-  loc: location
-, knd: funkind, decarg: s2qualst, f2ds: f2undeclst
+  loc: location, knd: funkind, decarg: s2qualst, f2ds: f2undeclst
 ) : d2ecl // end of [d2ecl_fundecs]
+
+(* ****** ****** *)
 
 fun d2ecl_valdecs (
   loc: location, knd: valkind, v2ds: v2aldeclst

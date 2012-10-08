@@ -493,7 +493,13 @@ fun instrseq_addlst (res: !instrseq, x: instrlst): void
 (* ****** ****** *)
 
 fun funent_make (
-  loc: location, fl: funlab, level: int, ret: tmpvar, inss: instrlst
+  loc: location
+, fl: funlab
+, level: int
+, imparg: s2varlst
+, tmparg: s2explstlst
+, ret: tmpvar
+, inss: instrlst
 ) : funent // end of [funent_make]
 
 (* ****** ****** *)
@@ -549,8 +555,14 @@ fun hidexp_ccomp_ret
 (* ****** ****** *)
 
 fun hidexp_ccomp_funlab_arg_body (
-  env: !ccompenv, fl: funlab, prolog: instrlst
-, loc_fun: location, hips_arg: hipatlst, hde_body: hidexp
+  env: !ccompenv
+, fl: funlab
+, imparg: s2varlst
+, tmparg: s2explstlst
+, prolog: instrlst
+, loc_fun: location
+, hips_arg: hipatlst
+, hde_body: hidexp
 ) : funent // end of [ccomp_exp_arg_body_funlab]
 
 (* ****** ****** *)

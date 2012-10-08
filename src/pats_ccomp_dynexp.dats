@@ -483,14 +483,23 @@ end // end of [hidexp_ccomp_ret_seq]
 
 implement
 hidexp_ccomp_funlab_arg_body (
-  env, fl, prolog, loc_fun, hips_arg, hde_body
+  env
+, fl
+, imparg
+, tmparg
+, prolog
+, loc_fun
+, hips_arg
+, hde_body
 ) = let
 (*
 val () = begin
   println! ("hidexp_ccomp_funlab_arg_body: fl = ", fl)
 end // end of [val]
 *)
+//
 val lev0 = the_d2varlev_get ()
+//
 val res = instrseq_make_nil ()
 val ((*void*)) = instrseq_addlst (res, prolog)
 //
@@ -507,7 +516,7 @@ val () = the_d2varlev_dec (pfinc | (*none*))
 //
 val inss = instrseq_get_free (res)
 //
-val fent = funent_make (loc_fun, fl, lev0, tmpret, inss)
+val fent = funent_make (loc_fun, fl, lev0, imparg, tmparg, tmpret, inss)
 //
 in
   fent
@@ -526,10 +535,14 @@ val- HDElam (
 ) = hde0.hidexp_node
 val fl = funlab_make_type (hse0)
 val fent = let
+  val imparg = list_nil(*s2vs*)
+  val tmparg = list_nil(*s2ess*)
   val ins = instr_funlab (loc0, fl)
   val prolog = list_sing (ins)
 in
-  hidexp_ccomp_funlab_arg_body (env, fl, prolog, loc0, hips_arg, hde_body)
+  hidexp_ccomp_funlab_arg_body
+    (env, fl, imparg, tmparg, prolog, loc0, hips_arg, hde_body)
+  // end of [hidexp_ccomp_funlab_arg_body]
 end // end of [val]
 //
 val () = println! ("hidexp_ccomp_lam: fent=", fent)

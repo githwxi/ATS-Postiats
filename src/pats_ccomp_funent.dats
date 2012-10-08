@@ -32,9 +32,18 @@
 //
 (* ****** ****** *)
 
+staload UT = "pats_utils.sats"
+staload _(*anon*) = "pats_utils.dats"
+
+(* ****** ****** *)
+
 staload LAB = "pats_label.sats"
 staload LOC = "pats_location.sats"
 typedef location = $LOC.location
+
+(* ****** ****** *)
+
+staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
@@ -49,6 +58,10 @@ funent = '{
   funent_loc= location
 , funent_lab= funlab // attached function label
 , funent_level= int // =0/>0 for top/inner function
+//
+, funent_imparg= s2varlst
+, funent_tmparg= s2explstlst
+//
 , funent_ret= tmpvar // storing the return value
 , funent_body= instrlst // instructions of function body
 } // end of [funent]
@@ -62,12 +75,14 @@ in // in of [local]
 
 implement
 funent_make (
-  loc, fl, lev, tmp, inss
+  loc, fl, lev, imparg, tmparg, tmpret, inss
 ) = '{
   funent_loc= loc
 , funent_lab= fl
 , funent_level= lev
-, funent_ret= tmp
+, funent_imparg= imparg
+, funent_tmparg= tmparg
+, funent_ret= tmpret
 , funent_body= inss
 } // end of [funenv_make]
 
@@ -87,6 +102,15 @@ val () = prstr "\n"
 //
 val () = prstr "lab="
 val () = fprint_funlab (out, fent.funent_lab)
+val () = prstr "\n"
+//
+val () = prstr "imparg="
+val () = fprint_s2varlst (out, fent.funent_imparg)
+val () = prstr "\n"
+//
+val () = prstr "tmparg="
+val tmparg = fent.funent_tmparg
+val () = $UT.fprintlst (out, tmparg, "; ", fprint_s2explst)
 val () = prstr "\n"
 //
 val () = prstr "ret="

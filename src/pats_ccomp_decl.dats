@@ -65,7 +65,7 @@ staload "pats_ccomp.sats"
 extern
 fun hifundeclst_ccomp (
   env: !ccompenv, res: !instrseq
-, level: int, knd: funkind, hfds: hifundeclst
+, level: int, knd: funkind, decarg: s2qualst, hfds: hifundeclst
 ) : d2varlst // end of [hifundeclst_ccomp]
 
 (* ****** ****** *)
@@ -96,7 +96,9 @@ case+ hid.hidecl_node of
 | HIDfundecs
     (knd, decarg, hfds) => let
     val level = the_d2varlev_get ()
-    val d2vs = hifundeclst_ccomp (env, res, level, knd, hfds)
+    val d2vs =
+      hifundeclst_ccomp (env, res, level, knd, decarg, hfds)
+    // end of [val]
   in
     primdec_fundecs (loc, d2vs)
   end // end of [HIDfundecs]
@@ -180,6 +182,23 @@ end // end of [hideclist_ccomp0]
 
 (* ****** ****** *)
 
+extern
+fun decarg2imparg (s2qs: s2qualst): s2varlst
+implement
+decarg2imparg (s2qs) = let
+in
+//
+case+ s2qs of
+| list_cons
+    (s2q, s2qs) =>
+    list_append<s2var> (s2q.s2qua_svs, decarg2imparg (s2qs))
+  // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [decarg2imparg]
+
+(* ****** ****** *)
+
 local
 
 fun auxinit
@@ -209,6 +228,7 @@ end (* end of [auxinit] *)
 fun auxmain
   {n:nat} .<n>. (
   env: !ccompenv
+, knd: funkind, imparg: s2varlst
 , hfds: list (hifundec, n), fls: list_vt (funlab, n)
 ) : void = let
 in
@@ -220,16 +240,18 @@ case+ hfds of
     val hde_def = hfd.hifundec_def
     val- HDElam (hips_arg, hde_body) = hde_def.hidexp_node
     val+ ~list_vt_cons (fl, fls) = fls
+    val tmparg = list_nil(*s2ess*)
     val ins = instr_funlab (loc, fl)
     val prolog = list_sing (ins)
     val fent =
-      hidexp_ccomp_funlab_arg_body (env, fl, prolog, loc, hips_arg, hde_body)
-    // end of [val]
+      hidexp_ccomp_funlab_arg_body (
+      env, fl, imparg, tmparg, prolog, loc, hips_arg, hde_body
+    ) // end of [val]
 //
     val () = println! ("auxmain: fent=", fent)
 //
   in
-    auxmain (env, hfds, fls)
+    auxmain (env, knd, imparg, hfds, fls)
   end // end of [list_vt_cons]
 | list_nil () => let
     val+ ~list_vt_nil () = fls in (*nothing*)
@@ -241,10 +263,11 @@ in // in of [local]
 
 implement
 hifundeclst_ccomp (
-  env, res, lev0, knd, hfds
+  env, res, lev0, knd, decarg, hfds
 ) = let
   val fls = auxinit (lev0, hfds)
-  val ((*void*)) = auxmain (env, hfds, fls)
+  val imparg = decarg2imparg (decarg)
+  val ((*void*)) = auxmain (env, knd, imparg, hfds, fls)
   val d2vs = list_map_fun<hifundec><d2var> (hfds, lam (hfd) =<1> hfd.hifundec_var)
   val d2vs = list_of_list_vt (d2vs)
 in

@@ -1036,13 +1036,13 @@ fn e1xndec_tr (
   val loc = d1c.e1xndec_loc
   val fil = d1c.e1xndec_fil and id = d1c.e1xndec_sym
   val (pfenv | ()) = the_s2expenv_push_nil ()
-  val s2qss = l2l (list_map_fun (d1c.e1xndec_qua, q1marg_tr))
+  val s2qs = l2l (list_map_fun (d1c.e1xndec_qua, q1marg_tr))
   val npf = d1c.e1xndec_npf
   val s1es_arg = d1c.e1xndec_arg
   val s2es_arg = s1explst_trdn_viewt0ype s1es_arg
   val () = the_s2expenv_pop_free (pfenv | (*none*))
   val d2c = d2con_make
-    (loc, fil, id, s2c, 1(*vwtp*), s2qss, npf, s2es_arg, None(*ind*))
+    (loc, fil, id, s2c, 1(*vwtp*), s2qs, npf, s2es_arg, None(*ind*))
   val () = d2con_set_tag (d2c, ~1)
   val () = the_d2expenv_add_dcon (d2c)
 in
@@ -1326,15 +1326,20 @@ fn f1undeclst_tr
 , decarg: s2qualst
 , f1ds: list (f1undec, n)
 ) : f2undeclst = let
+//
   val isprf = funkind_is_proof (knd)
   val isrec = funkind_is_recursive (knd)
+//
   val d2vs = let
     fun aux1 {n:nat} .<n>. (
       isprf: bool, f1ds: list (f1undec, n)
     ) : list (d2var, n) = 
       case+ f1ds of
-      | list_cons (f1d, f1ds) => let
-          val d2v = d2var_make (f1d.f1undec_sym_loc, f1d.f1undec_sym)
+      | list_cons
+          (f1d, f1ds) => let
+          val sym = f1d.f1undec_sym
+          val loc = f1d.f1undec_sym_loc
+          val d2v = d2var_make (loc, sym)
           val () = d2var_set_isfix (d2v, true)
           val () = d2var_set_isprf (d2v, isprf)
         in
@@ -1346,7 +1351,9 @@ fn f1undeclst_tr
     aux1 (isprf, f1ds)
   end // end of [val]
 //
-  val () = if isrec then the_d2expenv_add_dvarlst (d2vs) else ()
+  val () = (
+    if isrec then the_d2expenv_add_dvarlst (d2vs) else ()
+  ) : void // end of [val]
 //
   val f2ds = let
     fun aux2
@@ -1370,7 +1377,9 @@ fn f1undeclst_tr
     aux2 (level, decarg, d2vs, f1ds)
   end // end of [val]
 //
-  val () = if isrec then () else the_d2expenv_add_dvarlst (d2vs)
+  val () = (
+    if isrec then () else the_d2expenv_add_dvarlst (d2vs)
+  ) : void // end of [val]
 //
 in
   f2ds
@@ -1753,8 +1762,8 @@ case+ d1c0.d1ecl_node of
     dck, decarg, d1cs
   ) => let
     val (pfenv | ()) = the_s2expenv_push_nil ()
-    val s2qss = l2l (list_map_fun (decarg, q1marg_tr_dec))
-    val d2cs = d1cstdeclst_tr (dck, s2qss, d1cs)
+    val s2qs = l2l (list_map_fun (decarg, q1marg_tr_dec))
+    val d2cs = d1cstdeclst_tr (dck, s2qs, d1cs)
     val () = the_s2expenv_pop_free (pfenv | (*none*))
   in
     d2ecl_dcstdecs (loc0, dck, d2cs)
@@ -1775,18 +1784,18 @@ case+ d1c0.d1ecl_node of
     val () = (case+ decarg of
       | list_cons _ => the_tmplev_inc () | list_nil _ => ()
     ) // end of [val]
-    val s2qss = l2l (list_map_fun (decarg, q1marg_tr_dec))
-    val () = s2qualstlst_set_tmplev (s2qss, the_tmplev_get ())
+    val s2qs = l2l (list_map_fun (decarg, q1marg_tr_dec))
+    val () = s2qualstlst_set_tmplev (s2qs, the_tmplev_get ())
     val f2ds = let
       val level = the_d2varlev_get () in
-      f1undeclst_tr (funknd, level, s2qss, f1ds)
+      f1undeclst_tr (funknd, level, s2qs, f1ds)
     end // end of [val]
     val () = the_s2expenv_pop_free (pfenv | (*none*))
     val () = (case+ decarg of
       | list_cons _ => the_tmplev_dec () | list_nil _ => ()
     ) // end of [val]
   in
-    d2ecl_fundecs (loc0, funknd, s2qss, f2ds)
+    d2ecl_fundecs (loc0, funknd, s2qs, f2ds)
   end // end of [D1Cfundecs]
 | D1Cvaldecs (
     knd, isrec, v1ds

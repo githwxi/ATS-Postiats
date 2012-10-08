@@ -222,7 +222,7 @@ in
       if boxed > 0 then s2rt_viewtype else s2rt_viewt0ype
     // end of [if]
   ) // end of [if]
-end // end of [s2rt_npf_lin_prf_prgm_boxed_labs2explst]
+end // end of [s2rt_npf_lin_prf_prgm_boxed_labs2explst]  
 
 (* ****** ****** *)
 
