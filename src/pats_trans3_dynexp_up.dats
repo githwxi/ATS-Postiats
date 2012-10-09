@@ -366,11 +366,18 @@ case+ d2e0.d2exp_node of
 | D2Emac _ => d2exp_trup_mac (d2e0)
 | D2Emacsyn _ => d2exp_trup_macsyn (d2e0)
 //
-| D2Eann_type (d2e, s2e_ann) => let
+| D2Eann_type
+    (d2e, s2e_ann) => let
     val d3e = d2exp_trdn (d2e, s2e_ann)
   in
     d3exp_ann_type (loc0, d3e, s2e_ann)
   end // end of [D2Eann_type]
+//
+| D2Eann_seff
+    (d2e, _(*s2fe*)) => let
+  in
+    d2exp_trup (d2e) // HX: [d2e] should be a value
+  end // end of [D2Eann_seff]
 //
 | D2Eerr () => d3exp_err (loc0) // of type [s2exp_t0ype_err]
 //

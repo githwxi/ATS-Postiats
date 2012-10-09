@@ -72,8 +72,11 @@ primdec_fundecs (loc, d2vs) =
   primdec_make_node (loc, PMDfundecs (d2vs))
 
 implement
-primdec_valdecs (loc, hips) =
-  primdec_make_node (loc, PMDvaldecs (hips))
+primdec_valdecs (loc, knd, hips) =
+  primdec_make_node (loc, PMDvaldecs (knd, hips))
+implement
+primdec_valdecs_rec (loc, knd, hips) =
+  primdec_make_node (loc, PMDvaldecs_rec (knd, hips))
 
 implement
 primdec_vardecs (loc, d2vs) =

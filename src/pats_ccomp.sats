@@ -163,7 +163,8 @@ primdec_node =
   | PMDdcstdecs of (dcstkind, d2cstlst)
   | PMDimpdec of ()
   | PMDfundecs of (d2varlst)
-  | PMDvaldecs of (hipatlst)
+  | PMDvaldecs of (valkind, hipatlst)
+  | PMDvaldecs_rec of (valkind, hipatlst)
   | PMDvardecs of (d2varlst)
   | PMDlocal of (primdeclst, primdeclst)
 // end of [primdec_node]
@@ -200,7 +201,11 @@ fun primdec_dcstdecs
 //
 fun primdec_fundecs (loc: location, d2vs: d2varlst): primdec
 //
-fun primdec_valdecs (loc: location, hips: hipatlst): primdec
+fun primdec_valdecs
+  (loc: location, knd: valkind, hips: hipatlst): primdec
+fun primdec_valdecs_rec
+  (loc: location, knd: valkind, hips: hipatlst): primdec
+//
 fun primdec_vardecs (loc: location, d2vs: d2varlst): primdec
 //
 (* ****** ****** *)
@@ -564,6 +569,10 @@ fun hidexp_ccomp_funlab_arg_body (
 , hips_arg: hipatlst
 , hde_body: hidexp
 ) : funent // end of [ccomp_exp_arg_body_funlab]
+
+(* ****** ****** *)
+
+fun decarg2imparg (s2qs: s2qualst): s2varlst
 
 (* ****** ****** *)
 

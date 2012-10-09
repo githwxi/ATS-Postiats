@@ -32,6 +32,11 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+
+(* ****** ****** *)
+
 staload "pats_basics.sats"
 
 (* ****** ****** *)
@@ -73,8 +78,14 @@ fun hifundeclst_ccomp (
 extern
 fun hivaldeclst_ccomp (
   env: !ccompenv, res: !instrseq
-, level: int, lnd: valkind, hvds: hivaldeclst
+, level: int, knd: valkind, hvds: hivaldeclst
 ) : hipatlst // end of [hivaldeclst_ccomp]
+
+extern
+fun hivaldeclst_ccomp_rec (
+  env: !ccompenv, res: !instrseq
+, level: int, knd: valkind, hvds: hivaldeclst
+) : hipatlst // end of [hivaldeclst_ccomp_rec]
 
 extern
 fun hivardeclst_ccomp (
@@ -107,8 +118,14 @@ case+ hid.hidecl_node of
     val level = the_d2varlev_get ()
     val hips = hivaldeclst_ccomp (env, res, level, knd, hvds)
   in
-    primdec_valdecs (loc, hips)
+    primdec_valdecs (loc, knd, hips)
   end // end of [HIDvaldecs]
+| HIDvaldecs_rec (knd, hvds) => let
+    val level = the_d2varlev_get ()
+    val hips = hivaldeclst_ccomp_rec (env, res, level, knd, hvds)
+  in
+    primdec_valdecs_rec (loc, knd, hips)
+  end // end of [HIDvaldecs_rec]
 //
 | HIDvardecs (hvds) => let
     val level = the_d2varlev_get ()
@@ -179,23 +196,6 @@ hideclist_ccomp0
 in
   (inss, pmds)
 end // end of [hideclist_ccomp0]
-
-(* ****** ****** *)
-
-extern
-fun decarg2imparg (s2qs: s2qualst): s2varlst
-implement
-decarg2imparg (s2qs) = let
-in
-//
-case+ s2qs of
-| list_cons
-    (s2q, s2qs) =>
-    list_append<s2var> (s2q.s2qua_svs, decarg2imparg (s2qs))
-  // end of [list_cons]
-| list_nil () => list_nil ()
-//
-end // end of [decarg2imparg]
 
 (* ****** ****** *)
 
@@ -316,6 +316,77 @@ case+ hvds of
 | list_nil () => list_nil ()
 //
 end // end of [hivardeclst_ccomp]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+fun auxinit
+  {n:nat} .<n>. (
+  env: !ccompenv
+, res: !instrseq
+, lev0: int
+, hvds: list (hivaldec, n)
+) : list_vt (tmpvar, n) = let
+in
+//
+case+ hvds of
+| list_cons
+    (hvd, hvds) => let
+    val hip = hvd.hivaldec_pat
+    val loc = hip.hipat_loc
+    val hse = hip.hipat_type
+    val tmp = tmpvar_make (loc, hse)
+    val pmv = primval_tmp (loc, hse, tmp)
+    val () = himatch_ccomp (env, res, lev0, hip, pmv)
+    val tmps = auxinit (env, res, lev0, hvds)
+  in
+    list_vt_cons (tmp, tmps)
+  end // end of [list_cons]
+| list_nil () => list_vt_nil ()
+//
+end // end of [auxinit]
+
+fun auxmain
+  {n:nat} (
+  env: !ccompenv
+, res: !instrseq
+, hvds: list (hivaldec, n)
+, tmps: list_vt (tmpvar, n)
+) : hipatlst = let
+in
+//
+case+ hvds of
+| list_cons
+    (hvd, hvds) => let
+    val hip = hvd.hivaldec_pat
+    val hde_def = hvd.hivaldec_def
+    val+ ~list_vt_cons (tmp, tmps) = tmps
+    val () = hidexp_ccomp_ret (env, res, tmp, hde_def)
+    val hips = auxmain (env, res, hvds, tmps)
+  in
+    list_cons (hip, hips)
+  end // end of [list_cons]
+| list_nil () => let
+    val+ ~list_vt_nil () = tmps in list_nil ()
+  end // end of [list_nil]
+//
+end // end of [auxmain]
+
+in // in of [local]
+
+implement
+hivaldeclst_ccomp_rec (
+  env, res, lev0, knd, hvds
+) = let
+//
+val tmps =
+  auxinit (env, res, lev0, hvds)
+in
+  auxmain (env, res, hvds, tmps)
+end // end of [hivaldeclst_ccomp_rec]
 
 end // end of [local]
 

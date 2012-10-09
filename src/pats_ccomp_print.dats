@@ -37,6 +37,10 @@ staload _ (*anon*) = "pats_utils.dats"
 
 (* ****** ****** *)
 
+staload "pats_basics.sats"
+
+(* ****** ****** *)
+
 staload LAB = "pats_label.sats"
 staload SYN = "pats_syntax.sats"
 
@@ -83,11 +87,23 @@ case+ x.primdec_node of
     val () = prstr ")"
   }
 //
-| PMDvaldecs (hips) => {
+| PMDvaldecs
+    (knd, hips) => {
     val () = prstr "PMDvaldecs("
+    val () = fprint_valkind (out, knd)
+    val () = prstr "; "
     val () = fprint_hipatlst (out, hips)
     val () = prstr ")"
   }
+| PMDvaldecs_rec
+    (knd, hips) => {
+    val () = prstr "PMDvaldecs_rec("
+    val () = fprint_valkind (out, knd)
+    val () = prstr "; "
+    val () = fprint_hipatlst (out, hips)
+    val () = prstr ")"
+  }
+//
 | PMDvardecs (d2vs) => {
     val () = prstr "PMDvardecs("
     val () = fprint_d2varlst (out, d2vs)
