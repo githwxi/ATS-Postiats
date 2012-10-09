@@ -76,11 +76,18 @@ case+ x.primdec_node of
     val () = prstr ")"
   }
 //
-| PMDimpdec () => {
+| PMDimpdec (
+    d2c, imparg, tmparg
+  ) => {
     val () = prstr "PMDimpdec("
-    val () = fprint_string (out, "...")
+    val () = fprint_d2cst (out, d2c)
+    val () = prstr "; imparg="
+    val () = fprint_s2varlst (out, imparg)
+    val () = prstr "; tmparg="
+    val () = $UT.fprintlst (out, tmparg, "; ", fprint_s2explst)
     val () = prstr ")"
   }
+//
 | PMDfundecs (d2vs) => {
     val () = prstr "PMDfundecs("
     val () = fprint_d2varlst (out, d2vs)

@@ -69,19 +69,6 @@ in
   | ~DVMLSTcons (_, xs) => d2varmarklst_vt_free_all (xs)
 end // end of [d2varmarklst_vt_free_all]
 
-extern
-fun d2varmarklst_vt_free_mark (xs: d2varmarklst_vt): d2varmarklst_vt
-implement
-d2varmarklst_vt_free_mark (xs) = let
-in
-  case+ xs of
-  | DVMLSTnil () => let
-      prval () = fold@ (xs) in xs
-    end // end of [DVMLSTnil]
-  | ~DVMLSTmark (xs) => xs
-  | ~DVMLSTcons (_, xs) => d2varmarklst_vt_free_mark (xs)
-end // end of [d2varmarklst_vt_free_mark]
-
 (* ****** ****** *)
 
 extern
@@ -132,6 +119,7 @@ end // end of [fprint_dvmlst]
 viewtypedef
 ccompenv_struct = @{
   ccompenv_dvmlst = d2varmarklst_vt
+, ccompenv_varbindmap= d2varmap_vt (primval)
 }
 
 (* ****** ****** *)
@@ -143,7 +131,10 @@ fun ccompenv_struct_uninitize
 
 implement
 ccompenv_struct_uninitize (x) = let
-  val () = d2varmarklst_vt_free_all (x.ccompenv_dvmlst)
+  val () =
+    d2varmarklst_vt_free_all (x.ccompenv_dvmlst)
+  // end of [val]
+  val () = d2varmap_vt_free (x.ccompenv_varbindmap)
 in
   // end of [ccompenv_struct_uninitize]
 end // end of [ccompenv_struct_uninitize]
@@ -165,6 +156,7 @@ ccompenv_make
   val env = CCOMPENV (?)
   val CCOMPENV (!p) = env
   val () = p->ccompenv_dvmlst := DVMLSTnil ()
+  val () = p->ccompenv_varbindmap := d2varmap_vt_make_nil ()
   val () = fold@ (env)
 } // end of [ccompenv_make]
 
@@ -189,6 +181,24 @@ local
 
 assume ccompenv_push_v = unit_v
 
+fun auxpop (
+  map: &d2varmap_vt (primval), xs: d2varmarklst_vt
+) : d2varmarklst_vt = let
+in
+//
+case+ xs of
+| DVMLSTnil () => let
+    prval () = fold@ (xs) in xs
+  end // end of [DVMLSTnil]
+| ~DVMLSTmark (xs) => xs
+| ~DVMLSTcons (d2v, xs) => let
+    val _(*removed*) = d2varmap_vt_remove (map, d2v)
+  in
+    auxpop (map, xs)
+  end // end of [DVMLSTcons]
+//
+end // end of [auxpop]
+
 in // in of [local]
 
 implement
@@ -199,7 +209,7 @@ ccompenv_pop
 //
   val CCOMPENV (!p) = env
   val dvms = p->ccompenv_dvmlst
-  val () = p->ccompenv_dvmlst := d2varmarklst_vt_free_mark (dvms)
+  val () = p->ccompenv_dvmlst := auxpop (p->ccompenv_varbindmap, dvms)
 //
   prval () = fold@ (env)
 //
@@ -231,12 +241,22 @@ ccompenv_add_varbind
   val CCOMPENV (!p) = env
   val dvms = p->ccompenv_dvmlst
   val () = p->ccompenv_dvmlst := DVMLSTcons (d2v, dvms)
+  val _(*inserted*) = d2varmap_vt_insert (p->ccompenv_varbindmap, d2v, pmv)
 //
   prval () = fold@ (env)
 //
 in
   // nothing
 end // end of [ccompenv_add_varbind]
+
+implement
+ccompenv_find_varbind
+  (env, d2v) = opt where {
+//
+  val CCOMPENV (!p) = env
+  val opt = d2varmap_vt_search (p->ccompenv_varbindmap, d2v)
+  prval () = fold@ (env)
+} // end of [ccompenv_add_varbind]
 
 (* ****** ****** *)
 

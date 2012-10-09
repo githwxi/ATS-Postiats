@@ -50,6 +50,8 @@ hidexp_ccomp_funtype =
   (!ccompenv, !instrseq, hidexp) -> primval
 // end of [hidexp_ccomp_funtype]
 
+extern fun hidexp_ccomp_var : hidexp_ccomp_funtype
+
 extern fun hidexp_ccomp_seq : hidexp_ccomp_funtype
 
 extern fun hidexp_ccomp_assgn_var : hidexp_ccomp_funtype
@@ -117,7 +119,9 @@ in
 //
 case+ hde0.hidexp_node of
 //
-| HDEvar (d2v) => primval_var (loc0, hse0, d2v)
+| HDEvar _ =>
+    hidexp_ccomp_var (env, res, hde0)
+  // end of [HDEvar]
 //
 | HDEcst (d2c) => primval_cst (loc0, hse0, d2c)
 //
@@ -308,6 +312,27 @@ case hils of
 | list_nil () => list_nil ()
 //
 end // end of [hilablst_ccomp]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_var
+  (env, res, hde0) = let
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val- HDEvar (d2v) = hde0.hidexp_node
+val opt = ccompenv_find_varbind (env, d2v)
+//
+in
+//
+case+ opt of
+| ~Some_vt (pmv) => let
+  in
+    pmv
+  end // end of [Some_vt]
+| ~None_vt () => primval_var (loc0, hse0, d2v)
+//
+end // end of [hidexp_ccomp_var]
 
 (* ****** ****** *)
 

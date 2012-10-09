@@ -68,8 +68,18 @@ primdec_dcstdecs
 (* ****** ****** *)
 
 implement
+primdec_impdec
+  (loc, d2c, imparg, tmparg) =
+  primdec_make_node (loc, PMDimpdec (d2c, imparg, tmparg))
+// end of [primdec_impdec]
+
+(* ****** ****** *)
+
+implement
 primdec_fundecs (loc, d2vs) =
   primdec_make_node (loc, PMDfundecs (d2vs))
+
+(* ****** ****** *)
 
 implement
 primdec_valdecs (loc, knd, hips) =
@@ -77,6 +87,8 @@ primdec_valdecs (loc, knd, hips) =
 implement
 primdec_valdecs_rec (loc, knd, hips) =
   primdec_make_node (loc, PMDvaldecs_rec (knd, hips))
+
+(* ****** ****** *)
 
 implement
 primdec_vardecs (loc, d2vs) =

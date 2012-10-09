@@ -87,7 +87,7 @@ typedef d2cstlst = List (d2cst)
 typedef d2cstopt = Option (d2cst)
 
 (* ****** ****** *)
-
+//
 abstype d2var_type
 typedef d2var = d2var_type
 typedef d2varlst = List (d2var)
@@ -100,6 +100,13 @@ abstype d2varset_type // assumed in [pats_dynexp2_dvar.dats]
 typedef d2varset = d2varset_type
 absviewtype d2varset_viewtype // assumed in [pats_dynexp2_dvar.dats]
 viewtypedef d2varset_vt = d2varset_viewtype
+//
+abstype
+d2varmap_type (a:type) // assumed in [pats_dynexp2_dvar.dats]
+typedef d2varmap (a:type) = d2varmap_type (a)
+absviewtype
+d2varmap_viewtype (a:type) // assumed in [pats_dynexp2_dvar.dats]
+viewtypedef d2varmap_vt (a:type) = d2varmap_viewtype (a)
 //
 (* ****** ****** *)
 
@@ -301,6 +308,26 @@ fun d2varset_vt_is_member (xs: !d2varset_vt, x: d2var):<> bool
 fun d2varset_vt_add (xs: d2varset_vt, x: d2var):<> d2varset_vt
 
 fun d2varset_vt_listize (xs: !d2varset_vt):<> d2varlst_vt
+
+(* ****** ****** *)
+
+fun d2varmap_make_nil {a:type} ():<> d2varmap (a)
+fun d2varmap_search
+  {a:type} (map: d2varmap(a), d2v: d2var): Option_vt a
+fun d2varmap_insert
+  {a:type} (map: &d2varmap(a), d2v: d2var, x: a): bool(*found*)
+
+(* ****** ****** *)
+
+fun d2varmap_vt_make_nil {a:type} ():<> d2varmap_vt (a)
+fun d2varmap_vt_free {a:type} (map: d2varmap_vt(a)):<> void
+
+fun d2varmap_vt_search
+  {a:type} (map: !d2varmap_vt(a), d2v: d2var): Option_vt a
+fun d2varmap_vt_insert
+  {a:type} (map: &d2varmap_vt(a), d2v: d2var, x: a): bool(*found*)
+fun d2varmap_vt_remove
+  {a:type} (map: &d2varmap_vt(a), d2v: d2var): bool(*found*)
 
 (* ****** ****** *)
 

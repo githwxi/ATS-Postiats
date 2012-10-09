@@ -42,11 +42,15 @@ absviewtype
 symmap_vtype (itm:type)
 stadef symmap = symmap_vtype
 
+(* ****** ****** *)
+
 fun symmap_make_nil
   {itm:type} ():<> symmap (itm)
 
 fun symmap_free
   {itm:type} (map: symmap (itm)):<> void
+
+(* ****** ****** *)
 
 fun
 symmap_search

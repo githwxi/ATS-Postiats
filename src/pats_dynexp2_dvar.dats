@@ -63,13 +63,13 @@ staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 //
-// HX: this is just for handling type recursion
+// HX: this is for handling type recursion
 //
-abstype d2varopt_t // = d2varopt
+abstype d2varopt2 // = d2varopt
 extern
-castfn d2varopt_encode (x: d2varopt):<> d2varopt_t
+castfn d2varopt2_encode (x: d2varopt):<> d2varopt2
 extern
-castfn d2varopt_decode (x: d2varopt_t):<> d2varopt
+castfn d2varopt2_decode (x: d2varopt2):<> d2varopt
 //
 (* ****** ****** *)
 
@@ -83,7 +83,7 @@ d2var_struct = @{
 , d2var_isprf= bool // is proof?
 , d2var_decarg= s2qualst // nil/cons -> function/template
 , d2var_addr= s2expopt //
-, d2var_view= d2varopt_t // 
+, d2var_view= d2varopt2 // 
 , d2var_finknd= d2vfin // the status at the end of scope
 , d2var_type= s2expopt // the (current) type of a variable
 , d2var_mastype= s2expopt // the master type of a variable
@@ -114,7 +114,7 @@ val () = p->d2var_isfix := false
 val () = p->d2var_isprf := false
 val () = p->d2var_decarg := list_nil ()
 val () = p->d2var_addr := None ()
-val () = p->d2var_view := d2varopt_encode (None)
+val () = p->d2var_view := d2varopt2_encode (None(*d2v*))
 val () = p->d2var_finknd := D2VFINnone ()
 val () = p->d2var_type := None ()
 val () = p->d2var_mastype := None ()
@@ -209,13 +209,15 @@ end // end of [d2var_set_addr]
 implement
 d2var_get_view
   (d2v) = $effmask_ref let
-  val (vbox pf | p) =
-    ref_get_view_ptr (d2v) in d2varopt_decode (p->d2var_view)
+  val (
+    vbox pf | p
+  ) = ref_get_view_ptr (d2v) in d2varopt2_decode (p->d2var_view)
 end // end of [d2var_get_view]
 implement
-d2var_set_view (d2v, d2vopt) = let
-  val (vbox pf | p) =
-    ref_get_view_ptr (d2v) in p->d2var_view := d2varopt_encode (d2vopt)
+d2var_set_view (d2v, opt) = let
+  val (
+    vbox pf | p
+  ) = ref_get_view_ptr (d2v) in p->d2var_view := d2varopt2_encode (opt)
 end // end of [d2var_set_view]
 
 implement
@@ -461,6 +463,76 @@ d2varset_vt_add
 
 implement
 d2varset_vt_listize (xs) = $LS.linset_listize (xs)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+staload
+FM = "libats/SATS/funmap_avltree.sats"
+staload _ = "libats/DATS/funmap_avltree.dats"
+
+staload
+LM = "libats/SATS/linmap_avltree.sats"
+staload _ = "libats/DATS/linmap_avltree.dats"
+
+val cmp = lam (
+  d2v1: d2var, d2v2: d2var
+) : int =<cloref>
+  compare_d2var_d2var (d2v1, d2v2)
+// end of [val]
+
+assume d2varmap_type (a:type) = $FM.map (d2var, a)
+assume d2varmap_viewtype (a:type) = $LM.map (d2var, a)
+
+in // in of [local]
+
+implement
+d2varmap_make_nil () = $FM.funmap_make_nil ()
+
+implement
+d2varmap_search
+  {a} (map, d2v) =
+  $FM.funmap_search_opt (map, d2v, cmp)
+// end of [d2varmap_search]
+
+implement
+d2varmap_insert
+  {a} (map, d2v, x) =
+  $FM.funmap_insert (map, d2v, x, cmp)
+// end of [d2varmap_insert]
+
+(* ****** ****** *)
+
+implement
+d2varmap_vt_make_nil () = $LM.linmap_make_nil ()
+
+implement
+d2varmap_vt_free (map) = $LM.linmap_free (map)
+
+implement
+d2varmap_vt_search
+  {a} (map, d2v) =
+  $LM.linmap_search_opt (map, d2v, cmp)
+// end of [d2varmap_vt_search]
+
+implement
+d2varmap_vt_insert
+  {a} (map, d2v, x) = let
+  var res: a? // uninitialized
+  val ans = $LM.linmap_insert (map, d2v, x, cmp, res)
+  prval () = opt_clear (res)
+in
+  ans
+end // end of [d2varmap_vt_insert]
+
+implement
+d2varmap_vt_remove
+  {a} (map, d2v) =
+  $LM.linmap_remove (map, d2v, cmp)
+// end of [d2varmap_vt_remove]
 
 end // end of [local]
 

@@ -159,17 +159,36 @@ end // end of [funlab_make_type]
 (* ****** ****** *)
 
 implement
-funlab_make_vartype
+funlab_make_dvar_type
   (d2v, hse) = let
   val lev0 = the_d2varlev_get ()
-  val d2v2 = $SYM.symbol_get_name (d2var_get_sym d2v)
+  val d2v2 =
+    $SYM.symbol_get_name (d2var_get_sym (d2v))
+  // end of [val]
   val stamp = $STMP.funlab_stamp_make ()
   val stamp2 = $STMP.tostring_stamp (stamp)
   val flname = sprintf ("%s_%s", @(d2v2, stamp2))
   val flname = string_of_strptr (flname)
 in
   funlab_make (flname, lev0, hse, None(*qopt*), stamp)
-end // end of [funlab_make_vartype]
+end // end of [funlab_make_dvar_type]
+
+(* ****** ****** *)
+
+implement
+funlab_make_dcst_type
+  (d2c, hse) = let
+  val lev0 = the_d2varlev_get ()
+  val d2c2 =
+    $SYM.symbol_get_name (d2cst_get_sym (d2c))
+  // end of [val]
+  val stamp = $STMP.funlab_stamp_make ()
+  val stamp2 = $STMP.tostring_stamp (stamp)
+  val flname = sprintf ("%s_%s", @(d2c2, stamp2))
+  val flname = string_of_strptr (flname)
+in
+  funlab_make (flname, lev0, hse, None(*qopt*), stamp)
+end // end of [funlab_make_dcst_type]
 
 (* ****** ****** *)
 

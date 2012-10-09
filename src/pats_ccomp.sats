@@ -127,7 +127,8 @@ overload prerr with prerr_funlab
 fun fprint_funlab : fprint_type (funlab)
 //
 fun funlab_make_type (hse: hisexp): funlab
-fun funlab_make_vartype (d2v: d2var, hse: hisexp): funlab
+fun funlab_make_dvar_type (d2v: d2var, hse: hisexp): funlab
+fun funlab_make_dcst_type (d2c: d2cst, hse: hisexp): funlab
 //
 fun funlab_get_name (fl: funlab): string
 fun funlab_get_level (fl: funlab): int
@@ -161,7 +162,9 @@ datatype
 primdec_node =
   | PMDnone of () 
   | PMDdcstdecs of (dcstkind, d2cstlst)
-  | PMDimpdec of ()
+  | PMDimpdec of (
+      d2cst, s2varlst(*imparg*), s2explstlst(*tmparg*)
+    ) // end of [PMDimpdec]
   | PMDfundecs of (d2varlst)
   | PMDvaldecs of (valkind, hipatlst)
   | PMDvaldecs_rec of (valkind, hipatlst)
@@ -198,6 +201,10 @@ fun primdec_dcstdecs
 // end of [primdec_dcstdecs]
 
 (* ****** ****** *)
+//
+fun primdec_impdec (
+  loc: location, d2c: d2cst, imparg: s2varlst, tmparg: s2explstlst
+) : primdec // end of [primdec_impdec]
 //
 fun primdec_fundecs (loc: location, d2vs: d2varlst): primdec
 //
@@ -517,15 +524,19 @@ fun ccompenv_free (env: ccompenv): void
 
 absview ccompenv_push_v
 
-fun ccompenv_add_varbind
-  (env: !ccompenv, d2v: d2var, pmv: primval): void
-// end of [ccompenv_add_varbind]
-
 fun ccompenv_pop
   (pfpush: ccompenv_push_v | env: !ccompenv): void
 // end of [ccompenv_pop]
 
 fun ccompenv_push (env: !ccompenv): (ccompenv_push_v | void)
+
+fun ccompenv_add_varbind
+  (env: !ccompenv, d2v: d2var, pmv: primval): void
+// end of [ccompenv_add_varbind]
+
+fun ccompenv_find_varbind
+  (env: !ccompenv, d2v: d2var): Option_vt (primval)
+// end of [ccompenv_find_varbind]
 
 (* ****** ****** *)
 
