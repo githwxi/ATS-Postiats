@@ -169,10 +169,26 @@ end // end of [d3ecl_tyer_impdec]
 
 (* ****** ****** *)
 
+implement
+decarg2imparg (s2qs) = let
+in
+//
+case+ s2qs of
+| list_cons
+    (s2q, s2qs) =>
+    list_append<s2var> (s2q.s2qua_svs, decarg2imparg (s2qs))
+  // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [decarg2imparg]
+
+(* ****** ****** *)
+
 local
 
-fun f3undec_tyer
-  (f3d: f3undec): hifundec = let
+fun f3undec_tyer (
+  imparg: s2varlst, f3d: f3undec
+) : hifundec = let
   val loc = f3d.f3undec_loc
   val d2v_fun = f3d.f3undec_var
   val d3e_def = f3d.f3undec_def
@@ -186,11 +202,11 @@ fun f3undec_tyer
   end // end of [val]
   val hde_def = d3exp_tyer (d3e_def)
 in
-  hifundec_make (loc, d2v_fun, hde_def)
+  hifundec_make (loc, d2v_fun, imparg, hde_def)
 end // end of [f3undec_tyer]
 
 fun f3undeclst_tyer (
-  knd: funkind, f3ds: f3undeclst
+  knd: funkind, decarg: s2qualst, f3ds: f3undeclst
 ) : hifundeclst = let
   val isprf = funkind_is_proof (knd)
 in
@@ -198,7 +214,8 @@ in
 if isprf then
   list_nil () // proofs are erased
 else let
-  val hfds = list_map_fun (f3ds, f3undec_tyer)
+  val imparg = decarg2imparg (decarg)
+  val hfds = list_map_cloptr<f3undec><hifundec> (f3ds, lam (f3d) =<1> f3undec_tyer (imparg, f3d))
 in
   list_of_list_vt (hfds)
 end // end of [if]
@@ -212,7 +229,7 @@ d3ecl_tyer_fundecs (d3c0) = let
 //
 val loc0 = d3c0.d3ecl_loc
 val- D3Cfundecs (knd, decarg, f3ds) = d3c0.d3ecl_node
-val hfds = f3undeclst_tyer (knd, f3ds)
+val hfds = f3undeclst_tyer (knd, decarg, f3ds)
 //
 in
   hidecl_fundecs (loc0, knd, decarg, hfds)

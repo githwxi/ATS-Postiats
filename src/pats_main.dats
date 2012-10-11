@@ -1013,6 +1013,7 @@ end : string // end of [ATSHOME]
 // for the run-time and atslib
 //
 val () = $FIL.the_prepathlst_push (ATSHOME)
+//
 val () = $TRENV1.the_trans1_env_initialize ()
 val () = $TRENV2.the_trans2_env_initialize ()
 //

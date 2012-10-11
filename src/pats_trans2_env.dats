@@ -175,6 +175,8 @@ end // end of [the_s2rtenv_find_namespace]
 
 in // in of [local]
 
+(* ****** ****** *)
+
 implement
 the_s2rtenv_add (id, s2te) = let
   prval vbox pf = pf0 in symenv_insert (!p0, id, s2te)

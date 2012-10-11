@@ -56,26 +56,49 @@ d2varmarklst_vt =
   | DVMLSTcons of (d2var, d2varmarklst_vt)
 // end of [d2varmarklst]
 
-(* ****** ****** *)
+dataviewtype
+funimpmarklst_vt =
+  | FIMPMLSTnil of ()
+  | FIMPMLSTmark of (funimpmarklst_vt)
+  | FIMPMLSTcons_cst of (hiimpdec, funimpmarklst_vt)
+  | FIMPMLSTcons_var of (hifundec, funimpmarklst_vt)
+// end of [funentmarklst_vt]
 
+(* ****** ****** *)
+//
 extern
-fun d2varmarklst_vt_free_all (xs: d2varmarklst_vt): void
+fun d2varmarklst_vt_free (xs: d2varmarklst_vt): void
+//
 implement
-d2varmarklst_vt_free_all (xs) = let
+d2varmarklst_vt_free (xs) = let
 in
   case+ xs of
   | ~DVMLSTnil () => ()
-  | ~DVMLSTmark (xs) => d2varmarklst_vt_free_all (xs)
-  | ~DVMLSTcons (_, xs) => d2varmarklst_vt_free_all (xs)
-end // end of [d2varmarklst_vt_free_all]
+  | ~DVMLSTmark (xs) => d2varmarklst_vt_free (xs)
+  | ~DVMLSTcons (_, xs) => d2varmarklst_vt_free (xs)
+end // end of [d2varmarklst_vt_free]
 
 (* ****** ****** *)
+//
+extern
+fun funimpmarklst_vt_free (xs: funimpmarklst_vt): void
+//
+implement
+funimpmarklst_vt_free (xs) = let
+in
+  case+ xs of
+  | ~FIMPMLSTnil () => ()
+  | ~FIMPMLSTmark (xs) => funimpmarklst_vt_free (xs)
+  | ~FIMPMLSTcons_cst (_, xs) => funimpmarklst_vt_free (xs)
+  | ~FIMPMLSTcons_var (_, xs) => funimpmarklst_vt_free (xs)
+end // end of [funimpmarklst_vt_free]
 
+(* ****** ****** *)
+//
 extern
 fun fprint_dvmlst
   (out: FILEref, xs: !d2varmarklst_vt): void
-// end of [fprint_dvmlst]
-
+//
 implement
 fprint_dvmlst
   (out, xs) = let
@@ -89,7 +112,9 @@ case+ xs of
 | DVMLSTnil () => fold@ (xs)
 | DVMLSTmark (!p_xs) => let
     val () =
-      if i > 0 then fprint_string (out, ", ")
+      if i > 0 then
+        fprint_string (out, ", ")
+      // end of [if]
     val () = fprint_string (out, "||")
     val () = loop (out, !p_xs, i+1)
     prval () = fold@ (xs)
@@ -99,8 +124,9 @@ case+ xs of
 | DVMLSTcons
     (!p_x, !p_xs) => let
     val () =
-      if i > 0 then fprint_string (out, ", ")
-    // end of [val]
+      if i > 0 then
+        fprint_string (out, ", ")
+      // end of [if]
     val () = fprint_d2var (out, !p_x)
     val () = loop (out, !p_xs, i+1)
     prval () = fold@ (xs)
@@ -120,7 +146,8 @@ viewtypedef
 ccompenv_struct = @{
   ccompenv_dvmlst = d2varmarklst_vt
 , ccompenv_varbindmap= d2varmap_vt (primval)
-}
+, ccompenv_fimpmlst = funimpmarklst_vt
+} // end of [ccompenv_struct]
 
 (* ****** ****** *)
 
@@ -132,9 +159,12 @@ fun ccompenv_struct_uninitize
 implement
 ccompenv_struct_uninitize (x) = let
   val () =
-    d2varmarklst_vt_free_all (x.ccompenv_dvmlst)
+    d2varmarklst_vt_free (x.ccompenv_dvmlst)
   // end of [val]
   val () = d2varmap_vt_free (x.ccompenv_varbindmap)
+  val () =
+    funimpmarklst_vt_free (x.ccompenv_fimpmlst)
+  // end of [val]
 in
   // end of [ccompenv_struct_uninitize]
 end // end of [ccompenv_struct_uninitize]
@@ -155,8 +185,11 @@ ccompenv_make
   () = env where {
   val env = CCOMPENV (?)
   val CCOMPENV (!p) = env
+//
   val () = p->ccompenv_dvmlst := DVMLSTnil ()
   val () = p->ccompenv_varbindmap := d2varmap_vt_make_nil ()
+  val () = p->ccompenv_fimpmlst := FIMPMLSTnil ()
+//
   val () = fold@ (env)
 } // end of [ccompenv_make]
 
@@ -257,6 +290,36 @@ ccompenv_find_varbind
   val opt = d2varmap_vt_search (p->ccompenv_varbindmap, d2v)
   prval () = fold@ (env)
 } // end of [ccompenv_add_varbind]
+
+(* ****** ****** *)
+
+implement
+ccompenv_add_funimp_cst
+  (env, imp) = let
+//
+  val CCOMPENV (!p) = env
+  val xs = p->ccompenv_fimpmlst
+  val () = p->ccompenv_fimpmlst := FIMPMLSTcons_cst (imp, xs)
+//
+  prval () = fold@ (env)
+//
+in
+  // nothing
+end // end of [ccompenv_add_funimp_cst]
+
+implement
+ccompenv_add_funimp_var
+  (env, hfd) = let
+//
+  val CCOMPENV (!p) = env
+  val xs = p->ccompenv_fimpmlst
+  val () = p->ccompenv_fimpmlst := FIMPMLSTcons_var (hfd, xs)
+//
+  prval () = fold@ (env)
+//
+in
+  // nothing
+end // end of [ccompenv_add_funimp_var]
 
 (* ****** ****** *)
 

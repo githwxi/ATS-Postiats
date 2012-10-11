@@ -97,6 +97,8 @@ case+ hip0.hipat_node of
     instrseq_add (res, ins)
   end // end of [HIPf0loat]
 //
+| HIPempty () => ()
+//
 | HIPann (hip, ann) => hipatck_ccomp (res, fail, hip, pmv0)
 //
 | _ => let
@@ -181,6 +183,8 @@ case+ hip0.hipat_node of
 //
 | HIPi0nt _ => ()
 | HIPf0loat _ => ()
+//
+| HIPempty () => ()
 //
 | HIPann (hip, ann) => himatch_ccomp (env, res, lev0, hip, pmv0)
 //

@@ -256,14 +256,6 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
-| PMVlet (pmds, pmv) => {
-    val () = prstr "PMVlet("
-    val () = fprint_string (out, "...")
-    val () = prstr "; "
-    val () = fprint_primval (out, pmv)
-    val () = prstr ")"
-  }
-//
 | PMVcastfn (d2c, pmv) => {
     val () = prstr "PMVcastfn("
     val () = fprint_d2cst (out, d2c)
