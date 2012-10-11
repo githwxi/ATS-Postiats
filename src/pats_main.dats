@@ -960,12 +960,15 @@ process_cmdline2_COMARGkey2
   val () = state.waitkind := WTKnone ()
   val () = (
     case+ key of
+    | "--output" =>
+        state.waitkind := WTKoutput ()
     | "--static" =>
         state.waitkind := WTKinput_sta
     | "--dynamic" =>
         state.waitkind := WTKinput_dyn
-    | "--output" =>
-        state.waitkind := WTKoutput ()
+    | "--typecheck" => {
+        val () = state.typecheckonly := true
+      } // end of [--typecheck]
     | "--version" => patsopt_version (stdout_ref)
     | _ => comarg_warning (key) // unrecognized
   ) : void // end of [val]
