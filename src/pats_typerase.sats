@@ -105,6 +105,10 @@ fun d3lablst_tyer (d3ls: d3lablst): hilablst
 
 (* ****** ****** *)
 
+fun decarg2imparg (s2qs: s2qualst): s2varlst
+
+(* ****** ****** *)
+
 fun d3ecl_tyer (d3c: d3ecl): hidecl
 fun d3eclist_tyer (d3cs: d3eclist): hideclist
 

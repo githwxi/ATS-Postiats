@@ -506,9 +506,10 @@ hiimpdec_make (
 
 implement
 hifundec_make
-  (loc, d2v, def) = '{
+  (loc, d2v, s2vs, def) = '{
   hifundec_loc= loc
 , hifundec_var= d2v
+, hifundec_imparg= s2vs
 , hifundec_def= def
 } // end of [hifundec_make]
 

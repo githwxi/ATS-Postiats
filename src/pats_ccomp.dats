@@ -213,14 +213,6 @@ primval_tmpvar
 (* ****** ****** *)
 
 implement
-primval_let
-  (loc, hse, hids, hde) =
-  primval_make_node (loc, hse, PMVlet (hids, hde))
-// end of [primval_let]
-
-(* ****** ****** *)
-
-implement
 primlab_lab (loc, lab) = '{
   primlab_loc= loc, primlab_node= PMLlab (lab)
 }

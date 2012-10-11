@@ -343,6 +343,7 @@ and hiimpdec = '{
 and hifundec = '{
   hifundec_loc= location
 , hifundec_var= d2var
+, hifundec_imparg= s2varlst
 , hifundec_def= hidexp
 } // end of [hifundec]
 
@@ -633,8 +634,10 @@ fun hiimpdec_make (
 (* ****** ****** *)
 
 fun hifundec_make
-  (loc: location, d2v: d2var, def: hidexp): hifundec
+  (loc: location, d2v: d2var, imparg: s2varlst, def: hidexp): hifundec
 // end of [hifundec_make]
+
+(* ****** ****** *)
 
 fun hivaldec_make
   (loc: location, pat: hipat, def: hidexp): hivaldec

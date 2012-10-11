@@ -524,6 +524,8 @@ fun ccompenv_pop
 
 fun ccompenv_push (env: !ccompenv): (ccompenv_push_v | void)
 
+(* ****** ****** *)
+
 fun ccompenv_add_varbind
   (env: !ccompenv, d2v: d2var, pmv: primval): void
 // end of [ccompenv_add_varbind]
@@ -531,6 +533,13 @@ fun ccompenv_add_varbind
 fun ccompenv_find_varbind
   (env: !ccompenv, d2v: d2var): Option_vt (primval)
 // end of [ccompenv_find_varbind]
+
+(* ****** ****** *)
+
+fun ccompenv_add_funimp_cst
+  (env: !ccompenv, imp: hiimpdec): void
+fun ccompenv_add_funimp_var
+  (env: !ccompenv, hfd: hifundec): void
 
 (* ****** ****** *)
 
@@ -574,10 +583,6 @@ fun hidexp_ccomp_funlab_arg_body (
 , hips_arg: hipatlst
 , hde_body: hidexp
 ) : funent // end of [ccomp_exp_arg_body_funlab]
-
-(* ****** ****** *)
-
-fun decarg2imparg (s2qs: s2qualst): s2varlst
 
 (* ****** ****** *)
 

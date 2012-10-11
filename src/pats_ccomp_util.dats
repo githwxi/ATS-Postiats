@@ -46,21 +46,6 @@ staload "pats_ccomp.sats"
 (* ****** ****** *)
 
 implement
-decarg2imparg (s2qs) = let
-in
-//
-case+ s2qs of
-| list_cons
-    (s2q, s2qs) =>
-    list_append<s2var> (s2q.s2qua_svs, decarg2imparg (s2qs))
-  // end of [list_cons]
-| list_nil () => list_nil ()
-//
-end // end of [decarg2imparg]
-
-(* ****** ****** *)
-
-implement
 primval_is_mutabl
   (pmv) = let
 in

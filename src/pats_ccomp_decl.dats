@@ -300,6 +300,13 @@ case+ 0 of
     val imparg = impdec.hiimpdec_imparg
     val tmparg = impdec.hiimpdec_tmparg
     val hde_def = impdec.hiimpdec_def
+//
+    val () = (
+      case+ tmparg of
+      | list_cons _ => ccompenv_add_funimp_cst (env, impdec)
+      | list_nil () => ()
+    ) : void // end of [val]
+//
     val () =
       auxmain (env, res, loc0, d2c, imparg, tmparg, hde_def)
     // end of [val]
@@ -317,7 +324,8 @@ local
 
 fun auxinit
   {n:nat} .<n>. (
-  env: !ccompenv, lev0: int, hfds: list (hifundec, n)
+  env: !ccompenv
+, lev0: int, decarg: s2qualst, hfds: list (hifundec, n)
 ) : list_vt (funlab, n) = let
 in
 //
@@ -332,7 +340,14 @@ case+ hfds of
     val fl = funlab_make_dvar_type (d2v, hse)
     val pmv = primval_make_funlab (loc, fl)
     val () = ccompenv_add_varbind (env, d2v, pmv)
-    val fls = auxinit (env, lev0, hfds)
+//
+    val () = (
+      case+ decarg of
+      | list_cons _ => ccompenv_add_funimp_var (env, hfd)
+      | list_nil () => ()
+    ) : void // end of [val]
+//
+    val fls = auxinit (env, lev0, decarg, hfds)
   in
     list_vt_cons (fl, fls)
   end // end of [list_cons]
@@ -343,7 +358,7 @@ end (* end of [auxinit] *)
 fun auxmain
   {n:nat} .<n>. (
   env: !ccompenv
-, knd: funkind, imparg: s2varlst
+, knd: funkind, decarg: s2qualst
 , hfds: list (hifundec, n), fls: list_vt (funlab, n)
 ) : d2varlst = let
 in
@@ -353,6 +368,7 @@ case+ hfds of
     (hfd, hfds) => let
     val loc = hfd.hifundec_loc
     val d2v = hfd.hifundec_var
+    val imparg = hfd.hifundec_imparg
     val hde_def = hfd.hifundec_def
     val- HDElam (hips_arg, hde_body) = hde_def.hidexp_node
     val+ ~list_vt_cons (fl, fls) = fls
@@ -366,7 +382,7 @@ case+ hfds of
 //
     val () = println! ("auxmain: fent=", fent)
 //
-    val d2vs = auxmain (env, knd, imparg, hfds, fls)
+    val d2vs = auxmain (env, knd, decarg, hfds, fls)
   in
     list_cons (d2v, d2vs)
   end // end of [list_vt_cons]
@@ -382,10 +398,11 @@ implement
 hifundeclst_ccomp (
   env, res, lev0, knd, decarg, hfds
 ) = let
-  val fls = auxinit (env, lev0, hfds)
-  val imparg = decarg2imparg (decarg) // s2varlts
+  val fls =
+    auxinit (env, lev0, decarg, hfds)
+  // end of [val]
 in
-  auxmain (env, knd, imparg, hfds, fls)
+  auxmain (env, knd, decarg, hfds, fls)
 end // end of [hifundeclst_ccomp]
 
 end // end of [local]
