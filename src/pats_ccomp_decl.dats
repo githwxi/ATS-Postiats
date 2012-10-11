@@ -317,7 +317,7 @@ local
 
 fun auxinit
   {n:nat} .<n>. (
-  lev0: int, hfds: list (hifundec, n)
+  env: !ccompenv, lev0: int, hfds: list (hifundec, n)
 ) : list_vt (funlab, n) = let
 in
 //
@@ -331,7 +331,8 @@ case+ hfds of
     val hse = s2exp_tyer_deep (loc, s2e)
     val fl = funlab_make_dvar_type (d2v, hse)
     val pmv = primval_make_funlab (loc, fl)
-    val fls = auxinit (lev0, hfds)
+    val () = ccompenv_add_varbind (env, d2v, pmv)
+    val fls = auxinit (env, lev0, hfds)
   in
     list_vt_cons (fl, fls)
   end // end of [list_cons]
@@ -381,8 +382,8 @@ implement
 hifundeclst_ccomp (
   env, res, lev0, knd, decarg, hfds
 ) = let
-  val fls = auxinit (lev0, hfds)
-  val imparg = decarg2imparg (decarg)
+  val fls = auxinit (env, lev0, hfds)
+  val imparg = decarg2imparg (decarg) // s2varlts
 in
   auxmain (env, knd, imparg, hfds, fls)
 end // end of [hifundeclst_ccomp]

@@ -802,7 +802,8 @@ case+ ans of
       val s2cs = list_filter_fun<s2cst> (s2cs, s2cst_is_abstr)
     in
       case+ s2cs of
-      | ~list_vt_cons (s2c, s2cs) => let
+      | ~list_vt_cons
+          (s2c, s2cs) => let
           val () = list_vt_free (s2cs)
           val (pfenv | ()) = the_s2expenv_push_nil ()
           var s2t_fun = s2cst_get_srt (s2c)
@@ -813,11 +814,11 @@ case+ ans of
           val s2e_def = s2exp_lamlst ((castvwtp1)s2vss, s2e_body)
           val () = list_vt_free (s2vss)
 (*
-          // HX: definition binding is to be done in [pats_trans3_dec.dats]
+          // HX: definition binding is to be done in [pats_trans3_decl.dats]
 *)
         in
           Some_vt (s2aspdec_make (loc, s2c, s2e_def))
-        end
+        end // end of [list_vt_cons]
       | ~list_vt_nil () => let
           val () = auxerr1 (d1c, q, id) in None_vt ()
         end // end of [list_vt_nil]
@@ -1589,39 +1590,41 @@ fn s1taload_tr (
 , loaded: &int? >> int
 ) : filenv = let
 (*
-  val () = print "s1taload_tr: staid = "
-  val () = (case+ idopt of
-    | Some id => $SYM.print_symbol (id) | None () => print "(*none*)"
-  ) : void // end of [val]
-  val () = print_newline ()
-  val () = begin
-    print "s1taload_tr: filename = "; $FIL.print_filename fil; print_newline ()
-  end // end of [val]
+val () = print "s1taload_tr: staid = "
+val () = (case+ idopt of
+  | Some id => $SYM.print_symbol (id) | None () => print "(*none*)"
+) : void // end of [val]
+val () = print_newline ()
+val () = begin
+  print "s1taload_tr: filename = "; $FIL.print_filename fil; print_newline ()
+end // end of [val]
 *)
-  val filsym = $FIL.filename_get_full (fil)
-  val (pflev | ()) = the_staload_level_push ()
-  val ans = the_filenvmap_find (filsym)
-  val fenv = (case+
-    :(loaded: int) => ans of
-    | ~Some_vt fenv => let
-        val () = loaded := 1 in fenv
-      end // end of [Some_vt]
-    | ~None_vt _ => let
-        val () = loaded := 0
-        val (pfsave | ()) = the_trans2_env_save ()
-        val d2cs = d1eclist_tr (d1cs)
-        val (m0, m1, m2) = the_trans2_env_restore (pfsave | (*none*))
-        val fenv = filenv_make (fil, m0, m1, m2, d2cs)
-        val () = the_filenvmap_add (filsym, fenv)
-      in
-        fenv
-      end // end of [None_vt]
-  ) : filenv // end of [val]
-  val () = (case+ idopt of
-    | Some id => the_s2expenv_add (id, S2ITMfil fenv)
-    | None () => $NS.the_namespace_add (fenv) // opened file
-  ) : void // end of [val]
-  val () = the_staload_level_pop (pflev | (*none*))
+val filsym = $FIL.filename_get_full (fil)
+val (pflev | ()) = the_staload_level_push ()
+val ans = the_filenvmap_find (filsym)
+val fenv = (case+
+  :(loaded: int) => ans of
+  | ~Some_vt fenv => let
+      val () = loaded := 1 in fenv
+    end // end of [Some_vt]
+  | ~None_vt _ => let
+      val () = loaded := 0
+      val (pfsave | ()) = the_trans2_env_save ()
+      val d2cs = d1eclist_tr (d1cs)
+      val (m0, m1, m2) = the_trans2_env_restore (pfsave | (*none*))
+      val fenv = filenv_make (fil, m0, m1, m2, d2cs)
+      val () = the_filenvmap_add (filsym, fenv)
+    in
+      fenv
+    end // end of [None_vt]
+) : filenv // end of [val]
+//
+val () = (case+ idopt of
+  | Some id => the_s2expenv_add (id, S2ITMfil fenv)
+  | None () => $NS.the_namespace_add (fenv) // opened file
+) : void // end of [val]
+val () = the_staload_level_pop (pflev | (*none*))
+//
 in
   fenv
 end // end of [s1taload_tr]

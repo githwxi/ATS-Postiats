@@ -410,29 +410,31 @@ end // end of [local]
 
 (* ****** ****** *)
 
-viewtypedef pathlst = List_vt (path)
+typedef pathlst = List (path)
+viewtypedef pathlst_vt = List_vt (path)
 
 local
-
+//
 assume the_pathlst_push_v = unit_v
-val the_pathlst = ref_make_elt<pathlst> (list_vt_nil)
-val the_prepathlst = ref_make_elt<pathlst> (list_vt_nil)
-
+//
+val the_pathlst = ref_make_elt<pathlst_vt> (list_vt_nil)
+val the_prepathlst = ref_make_elt<pathlst_vt> (list_vt_nil)
+//
 in // in of [local]
 
 fun the_pathlst_get
-  (): pathlst = xs where {
+  (): pathlst_vt = xs where {
   val (vbox pf | p) = ref_get_view_ptr (the_pathlst)
   val xs = !p
   val () = !p := list_vt_nil ()
 } // end of [the_pathlst_get]
 
 fun the_pathlst_set
-  (xs: pathlst): void = {
+  (xs: pathlst_vt): void = {
   val (vbox pf | p) = ref_get_view_ptr (the_pathlst)
   val- ~list_vt_nil () = !p
   val () = !p := xs
-} // end of [the_pathlst_get]
+} // end of [the_pathlst_set]
 
 implement
 the_pathlst_pop
@@ -441,7 +443,7 @@ the_pathlst_pop
   val (vbox pf | p) = ref_get_view_ptr (the_pathlst)
   val- ~list_vt_cons (_, xs) = !p
   val () = !p := xs
-} // end of [the_pathlst_push]
+} // end of [the_pathlst_pop]
 
 implement
 the_pathlst_push (x) = let
@@ -453,23 +455,23 @@ the_pathlst_ppush (x) = let
   val (vbox pf | p) = ref_get_view_ptr (the_pathlst)
 in
   !p := list_vt_cons (x, !p)
-end // end of [the_pathlst_push]
+end // end of [the_pathlst_ppush]
 
 (* ****** ****** *)
 
 fun the_prepathlst_get
-  (): pathlst = xs where {
+  (): pathlst_vt = xs where {
   val (vbox pf | p) = ref_get_view_ptr (the_prepathlst)
   val xs = !p
   val () = !p := list_vt_nil ()
 } // end of [the_prepathlst_get]
 
 fun the_prepathlst_set
-  (xs: pathlst): void = {
+  (xs: pathlst_vt): void = {
   val (vbox pf | p) = ref_get_view_ptr (the_prepathlst)
   val- ~list_vt_nil () = !p
   val () = !p := xs
-} // end of [the_prepathlst_get]
+} // end of [the_prepathlst_set]
 
 implement
 the_prepathlst_push (x) = let
@@ -521,37 +523,53 @@ in
   end // end of [if]
 end // end of [aux_local]
 
-fun aux_try {n:nat} .<n>. (
+(* ****** ****** *)
+
+fun aux_try
+  {n:nat} .<n,0>. (
   paths: list (path, n), basename: string
 ) : Stropt = let
 in
 //
 case+ paths of
-| list_cons (path, paths) => let
-    val partname =
-      filename_append (path, basename)
-    val isexi = test_file_exists ((p2s)partname)
-(*
-    val () = begin
-      printf ("aux_try: partname = %s\n", @(partname))
-    end // end of [val]
-*)
-  in
-    if isexi then (
-      stropt_of_strptr (partname)
-    ) else let
-      val () = strptr_free (partname) in aux_try (paths, basename)
-    end // end of [if]
-  end // end of [list_cons]
+| list_cons (
+    path, paths
+  ) => aux2_try (path, paths, basename)
 | list_nil () => stropt_none
 //
 end // end of [aux_try]
 
+and aux2_try
+  {n:nat} .<n,1>. (
+  path: path, paths: list (path, n), basename: string
+) : Stropt = let
+  val partname =
+    filename_append (path, basename)
+  val isexi = test_file_exists ((p2s)partname)
+(*
+  val () = begin
+    printf ("aux2_try: partname = %s\n", @(partname))
+  end // end of [val]
+*)
+in
+//
+if isexi then (
+  stropt_of_strptr (partname)
+) else let
+  val () = strptr_free (partname) in aux_try (paths, basename)
+end // end of [if]
+//
+end // end of [aux2_try]
+
+(* ****** ****** *)
+
 fun aux_try_pathlst
   (basename: string): Stropt = let
+  val path = theCurDir_get ()
   val paths = the_pathlst_get ()
-  val ans =
-    aux_try ($UN.castvwtp1 {List(path)} (paths), basename)
+  val ans = // HX: search the current directory first
+    aux2_try (path, $UN.castvwtp1{pathlst}(paths), basename)
+  // end of [val]
   val () = the_pathlst_set (paths)
 in
   ans
@@ -561,11 +579,13 @@ fun aux_try_prepathlst
   (basename: string): Stropt = let
   val paths = the_prepathlst_get ()
   val ans =
-    aux_try ($UN.castvwtp1 {List(path)} (paths), basename)
+    aux_try ($UN.castvwtp1{pathlst}(paths), basename)
   val () = the_prepathlst_set (paths)
 in
   ans
 end // end of [aux_try_prepathlst]
+
+(* ****** ****** *)
 
 fun aux_relative (
   basename: string
@@ -673,6 +693,7 @@ patsopt_filename_append (
   n1 = strlen ((char*)dir) ;
   n2 = strlen ((char*)bas) ;
   n = n1 + n2 ;
+//
   if (n1 > 0 && ((char*)dir)[n1-1] != dirsep) n += 1 ;
   dirbas = ATS_MALLOC (n + 1) ;
   memcpy (dirbas, dir, n1) ;
