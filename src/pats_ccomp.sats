@@ -248,8 +248,6 @@ primval_node =
 //
   | PMVcastfn of (d2cst, primval)
 //
-  | PMVlet of (primdeclst, primval)
-//
   | PMVerr of ()
 // end of [primval_node]
 
@@ -346,10 +344,6 @@ fun primval_tmpcst (
 fun primval_tmpvar (
   loc: location, hse: hisexp, d2v: d2var, t2mas: t2mpmarglst
 ) : primval // end of [primval_tmpvar]
-
-fun primval_let (
-  loc: location, hse: hisexp, pmds: primdeclst, pmv: primval
-) : primval // end of [primval_let]
 
 (* ****** ****** *)
 

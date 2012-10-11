@@ -144,11 +144,11 @@ case+ hde0.hidexp_node of
     val (
       pfpush | ()
     ) = ccompenv_push (env)
-    val pmds = hideclist_ccomp (env, res, hids)
+    val _(*pmds*) = hideclist_ccomp (env, res, hids)
     val pmv_scope = hidexp_ccomp (env, res, hde_scope)
     val () = ccompenv_pop (pfpush | env)
   in
-    primval_let (loc0, hse0, pmds, pmv_scope)
+    pmv_scope
   end // end of [HDElet]
 //
 | HDEapp _ => auxret (env, res, hde0)
@@ -258,6 +258,17 @@ case+ hde0.hidexp_node of
 | HDEempty _ => auxval (env, res, tmpret, hde0)
 //
 | HDEextval _ => auxval (env, res, tmpret, hde0)
+//
+| HDElet (hids, hde_scope) => let
+    val (
+      pfpush | ()
+    ) = ccompenv_push (env)
+    val _(*pmds*) = hideclist_ccomp (env, res, hids)
+    val () = hidexp_ccomp_ret (env, res, tmpret, hde_scope)
+    val () = ccompenv_pop (pfpush | env)
+  in
+    // nothing
+  end // end of [HDElet]
 //
 | HDEapp _ => hidexp_ccomp_ret_app (env, res, tmpret, hde0)
 //
