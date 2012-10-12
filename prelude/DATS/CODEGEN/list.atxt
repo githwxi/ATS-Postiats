@@ -274,6 +274,25 @@ end // end of [list_insert_at]
 #atscode_separator()
 
 implement{x}
+list_length (xs) = let
+//
+prval () = lemma_list_param (xs)
+//
+fun loop
+  {i,j:nat} .<i>. (
+  xs: list (x, i), j: int j
+) :<> int (i+j) = (
+  case+ xs of
+  | list_cons (_, xs) => loop (xs, n+1) | _ =>> j
+) // end of [loop]
+//
+in
+  loop (xs, 0)
+end // end of [list_length]
+
+#atscode_separator()
+
+implement{x}
 list_copy (xs) = let
   viewtypedef res = List0_vt (x)
   prval () = lemma_list_param (xs)
