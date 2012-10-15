@@ -84,7 +84,11 @@ and labhipat = LABHIPAT of (label, hipat)
 
 where
 hipat = '{
-  hipat_loc= location, hipat_type= hisexp, hipat_node= hipat_node
+  hipat_loc= location
+, hipat_type= hisexp
+, hipat_node= hipat_node
+// HX: a variable for storing the value
+, hipat_asvar= d2varopt // that matches the pattern
 } // end of [hipat]
 
 and hipatlst = List (hipat)
@@ -106,6 +110,10 @@ fun fprint_labhipatlst : fprint_type (labhipatlst)
 (* ****** ****** *)
 
 fun hipat_get_type (hip: hipat): hisexp
+
+fun hipat_set_asvar
+  (hip: hipat, opt: d2varopt): void = "patsopt_hipat_set_asvar"
+// end of [hipat_set_asvar]
 
 (* ****** ****** *)
 

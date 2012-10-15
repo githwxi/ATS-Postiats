@@ -142,6 +142,65 @@ end // end of [fprint_dvmlst]
 
 (* ****** ****** *)
 
+extern
+fun fprint_fimpmlst
+  (out: FILEref, xs: !funimpmarklst_vt): void
+// end of [fprint_fimpmlst]
+
+implement
+fprint_fimpmlst
+  (out, xs) = let
+//
+fun loop (
+  out: FILEref, xs: !funimpmarklst_vt, i: int
+) : void = let
+in
+//
+case+ xs of
+| FIMPMLSTnil () => fold@ (xs)
+| FIMPMLSTmark (!p_xs) => let
+    val () =
+      if i > 0 then
+        fprint_string (out, ", ")
+      // end of [if]
+    val () = fprint_string (out, "||")
+    val () = loop (out, !p_xs, i+1)
+    prval () = fold@ (xs)
+  in
+    // nothing
+  end // end of [FIMPDVMLSTmark]
+//
+| FIMPMLSTcons_cst
+    (imp, !p_xs) => let
+    val () =
+      if i > 0 then fprint_string (out, ", ")
+    // end of [val]
+    val () = fprint_d2cst (out, imp.hiimpdec_cst)
+    val () = loop (out, !p_xs, i+1)
+    prval () = fold@ (xs)
+  in
+    // nothing
+  end // end of [FIMPDVMLSTcons_cst]
+| FIMPMLSTcons_var
+    (hfd, !p_xs) => let
+    val () =
+      if i > 0 then fprint_string (out, ", ")
+    // end of [val]
+    val () = fprint_d2var (out, hfd.hifundec_var)
+    val () = loop (out, !p_xs, i+1)
+    prval () = fold@ (xs)
+  in
+    // nothing
+  end // end of [FIMPDVMLSTcons_var]
+//
+end // end of [loop]
+//
+in
+  loop (out, xs, 0)
+end // end of [fprint_fimpmlst]
+
+(* ****** ****** *)
+
 viewtypedef
 ccompenv_struct = @{
   ccompenv_dvmlst = d2varmarklst_vt
@@ -207,6 +266,27 @@ case+ env of
   end // end of [CCOMPENV]
 //
 end // end of [ccompenv_free]
+
+(* ****** ****** *)
+
+implement
+fprint_ccompenv
+  (out, env) = let
+in
+//
+case+ env of
+| CCOMPENV (!p_env) => let
+    val () = fprint_string (out, "ccompenv_dvmlst: ")
+    val () = fprint_dvmlst (out, p_env->ccompenv_dvmlst)
+    val () = fprint_newline (out)
+    val () = fprint_string (out, "ccompenv_fimpmlst: ")
+    val () = fprint_fimpmlst (out, p_env->ccompenv_fimpmlst)
+    val () = fprint_newline (out)
+  in
+    fold@ (env)
+  end // end of [CCOMPENV]
+//
+end // end of [fprint_ccompenv]
 
 (* ****** ****** *)
 

@@ -51,6 +51,7 @@ staload "pats_dynexp2.sats"
 
 (* ****** ****** *)
 
+staload "pats_histaexp.sats"
 staload "pats_hidynexp.sats"
 
 (* ****** ****** *)
@@ -462,6 +463,20 @@ case+ x.instr_node of
     val () = fprint_instrlst (out, inss_else)
     val () = prstr ")"
   }
+//
+| INSselect (
+    tmp, pmv, hse_rec, hils
+  ) => {
+    val () = prstr "INSselect("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr " <- "
+    val () = fprint_primval (out, pmv)
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse_rec)
+    val () = prstr "; "
+    val () = fprint_hilablst (out, hils)
+    val () = prstr ")"
+  } // end of [INSselect]
 //
 | INSpatck
     (pmv, pck, pcknt) => {

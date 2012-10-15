@@ -414,6 +414,8 @@ instr_node =
 //
   | INSpatck of (primval, patck, patckont) // pattern check
 //
+  | INSselect of (tmpvar, primval, hisexp(*rec*), hilablst)
+//
   | INSassgn_varofs of
       (d2var(*left*), primlablst(*ofs*), primval(*right*))
   | INSassgn_ptrofs of
@@ -477,6 +479,13 @@ fun instr_patck (
   
 (* ****** ****** *)
 
+fun instr_select (
+  loc: location
+, tmp: tmpvar, pmv: primval, hse_rec: hisexp, hils: hilablst
+) : instr // end of [instr_select]
+
+(* ****** ****** *)
+
 fun instr_assgn_varofs (
   loc: location, d2v_l: d2var, ofs: primlablst, pmv_r: primval
 ) : instr // end of [instr_assgn_varofs]
@@ -516,6 +525,12 @@ viewtypedef ccompenv = ccompenv_vtype
 fun ccompenv_make (): ccompenv
 fun ccompenv_free (env: ccompenv): void
 
+(* ****** ****** *)
+
+fun fprint_ccompenv (out: FILEref, env: !ccompenv): void
+
+(* ****** ****** *)
+
 absview ccompenv_push_v
 
 fun ccompenv_pop
@@ -544,7 +559,7 @@ fun ccompenv_add_funimp_var
 (* ****** ****** *)
 
 fun hipatck_ccomp (
-  res: !instrseq
+  env: !ccompenv, res: !instrseq
 , fail: patckont, hip: hipat, pmv: primval
 ) : void // end of [hipatck_ccomp]
 

@@ -272,6 +272,14 @@ instr_cond
 (* ****** ****** *)
 
 implement
+instr_select
+  (loc, tmp, pmv, hse_rec, hils) =
+  instr_make_node (loc, INSselect (tmp, pmv, hse_rec, hils))
+// end of [instr_select]
+
+(* ****** ****** *)
+
+implement
 instr_patck
   (loc, pmv, pck, pcknt) =
   instr_make_node (loc, INSpatck (pmv, pck, pcknt))

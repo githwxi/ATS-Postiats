@@ -65,10 +65,14 @@ end // end of [hipatlst_is_unused]
 (* ****** ****** *)
 
 implement
-hipat_make_node
-  (loc, hse, node) = '{
-  hipat_loc= loc, hipat_type= hse, hipat_node= node
+hipat_make_node (
+  loc, hse, node
+) = '{
+  hipat_loc= loc
+, hipat_type= hse, hipat_node= node, hipat_asvar= None(*d2v*)
 } // end of [hipat_make_node]
+
+(* ****** ****** *)
 
 implement
 hipat_any (loc, hse) =
@@ -615,6 +619,21 @@ implement
 hidecl_local (loc, head, body) =
   hidecl_make_node (loc, HIDlocal (head, body))
 // end of [hidecl_local]
+
+(* ****** ****** *)
+
+extern typedef "hipat_t" = hipat
+
+%{$
+
+ats_void_type
+patsopt_hipat_set_asvar (
+  ats_ptr_type hip, ats_ptr_type opt
+) {
+  ((hipat_t)hip)->atslab_hipat_asvar = opt ; return ;
+} // end of [patsopt_hipat_set_asvar]
+
+%} // end of [%{$]
 
 (* ****** ****** *)
 
