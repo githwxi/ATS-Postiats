@@ -298,6 +298,16 @@ fun labd3explst_npf_tyer (npf: int, ld3es: labd3explst): labhidexplst
 
 (* ****** ****** *)
 
+fun d3exp_tyer_type
+  (d3e: d3exp): hisexp = let
+  val loc = d3e.d3exp_loc
+  val s2e = d3exp_get_type (d3e)
+in
+  s2exp_tyer_deep (loc, s2e)
+end // end of [d3exp_tyer_type]
+
+(* ****** ****** *)
+
 implement
 d3exp_tyer
   (d3e0) = let
@@ -440,9 +450,10 @@ case+
 | D3Eselab
     (d3e, d3ls) => let
     val hde = d3exp_tyer (d3e)
+    val hse_flt = d3exp_tyer_type (d3e)
     val hils = d3lablst_tyer (d3ls)
   in
-    hidexp_selab (loc0, hse0, hde, hils)
+    hidexp_selab (loc0, hse0, hde, hse_flt, hils)
   end // end of [D3Eselab]
 //
 | D3Eptrof_var (d2v) =>

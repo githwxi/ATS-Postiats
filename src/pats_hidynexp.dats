@@ -352,8 +352,8 @@ hidexp_seq
 
 implement
 hidexp_selab
-  (loc, hse, hde, hils) =
-  hidexp_make_node (loc, hse, HDEselab (hde, hils))
+  (loc, hse, hde, hse_flt, hils) =
+  hidexp_make_node (loc, hse, HDEselab (hde, hse_flt, hils))
 // end of [hidexp_selab]
 
 (* ****** ****** *)

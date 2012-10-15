@@ -245,7 +245,9 @@ and hidexp_node =
     // end of [HDErec]
   | HDEseq of (hidexplst) // sequencing
 //
-  | HDEselab of (hidexp, hilablst) // record/tuple field selection
+// HX: record field selection; array subscripting
+//
+  | HDEselab of (hidexp, hisexp(*flt*), hilablst)
 //
   | HDEptrof_var of (d2var) // taking address of a variable
   | HDEptrof_ptrsel of (hidexp, hilablst) // taking the address of ...
@@ -534,7 +536,7 @@ fun hidexp_seq
 
 fun hidexp_selab (
   loc: location
-, hse: hisexp, hde: hidexp, hils: hilablst
+, hse: hisexp, hde: hidexp, hse_flt: hisexp, hils: hilablst
 ) : hidexp // end of [hidexp_selab]
 
 (* ****** ****** *)

@@ -382,12 +382,15 @@ case+
     val () = prstr ")"
   }
 //
-| HDEselab (hde, hils) => {
+| HDEselab (
+    hde, hse_flt, hils
+  ) => {
     val () = prstr "HDEselab("
     val () = fprint_hidexp (out, hde)
-    val () = prstr "["
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse_flt)
+    val () = prstr "; "
     val () = fprint_hilablst (out, hils)
-    val () = prstr "]"
     val () = prstr ")"
   }
 //

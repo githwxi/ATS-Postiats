@@ -89,6 +89,8 @@ fun hidexp_ccomp_ret_sif : hidexp_ccomp_ret_funtype
 
 extern fun hidexp_ccomp_ret_seq : hidexp_ccomp_ret_funtype
 
+extern fun hidexp_ccomp_ret_selab : hidexp_ccomp_ret_funtype
+
 (* ****** ****** *)
 
 local
@@ -275,6 +277,8 @@ case+ hde0.hidexp_node of
 | HDEif _ => hidexp_ccomp_ret_if (env, res, tmpret, hde0)
 //
 | HDEseq _ => hidexp_ccomp_ret_seq (env, res, tmpret, hde0)
+//
+| HDEselab _ => hidexp_ccomp_ret_selab (env, res, tmpret, hde0)
 //
 | HDElam _ => auxval (env, res, tmpret, hde0)
 //
@@ -514,6 +518,26 @@ case+ hdes of
 | list_nil () => ()
 //
 end // end of [hidexp_ccomp_ret_seq]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_ret_selab
+  (env, res, tmpret, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+//
+val- HDEselab (hde, hse_flt, hils) = hde0.hidexp_node
+//
+val pmv = hidexp_ccomp (env, res, hde)
+val ofs = hilablst_ccomp (env, res, hils)
+val ins = instr_select (loc0, tmpret, pmv, hse_flt, hils)
+val () = instrseq_add (res, ins)
+//
+in
+  // nothing
+end // end of [hidexp_ccomp_ret_selab]
 
 (* ****** ****** *)
 
