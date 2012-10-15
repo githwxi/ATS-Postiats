@@ -551,10 +551,8 @@ fun ccompenv_find_varbind
 
 (* ****** ****** *)
 
-fun ccompenv_add_funimp_cst
-  (env: !ccompenv, imp: hiimpdec): void
-fun ccompenv_add_funimp_var
-  (env: !ccompenv, hfd: hifundec): void
+fun ccompenv_add_impdec (env: !ccompenv, imp: hiimpdec): void
+fun ccompenv_add_fundec (env: !ccompenv, hfd: hifundec): void
 
 (* ****** ****** *)
 

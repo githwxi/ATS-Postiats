@@ -147,6 +147,11 @@ case+ hde0.hidexp_node of
       pfpush | ()
     ) = ccompenv_push (env)
     val _(*pmds*) = hideclist_ccomp (env, res, hids)
+//
+    val () =
+      println! ("hidexp_ccomp: HDElet: env =")
+    val () = fprint_ccompenv (stdout_ref, env)
+//
     val pmv_scope = hidexp_ccomp (env, res, hde_scope)
     val () = ccompenv_pop (pfpush | env)
   in
@@ -266,6 +271,11 @@ case+ hde0.hidexp_node of
       pfpush | ()
     ) = ccompenv_push (env)
     val _(*pmds*) = hideclist_ccomp (env, res, hids)
+//
+    val () =
+      println! ("hidexp_ccomp: HDElet: env =")
+    val () = fprint_ccompenv (stdout_ref, env)
+//
     val () = hidexp_ccomp_ret (env, res, tmpret, hde_scope)
     val () = ccompenv_pop (pfpush | env)
   in

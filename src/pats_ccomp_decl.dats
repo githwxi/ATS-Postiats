@@ -303,7 +303,7 @@ case+ 0 of
 //
     val () = (
       case+ tmparg of
-      | list_cons _ => ccompenv_add_funimp_cst (env, impdec)
+      | list_cons _ => ccompenv_add_impdec (env, impdec)
       | list_nil () => ()
     ) : void // end of [val]
 //
@@ -343,7 +343,7 @@ case+ hfds of
 //
     val () = (
       case+ decarg of
-      | list_cons _ => ccompenv_add_funimp_var (env, hfd)
+      | list_cons _ => ccompenv_add_fundec (env, hfd)
       | list_nil () => ()
     ) : void // end of [val]
 //

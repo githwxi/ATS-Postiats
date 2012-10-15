@@ -50,67 +50,47 @@ staload "pats_ccomp.sats"
 (* ****** ****** *)
 
 dataviewtype
-d2varmarklst_vt =
-  | DVMLSTnil of ()
-  | DVMLSTmark of (d2varmarklst_vt)
-  | DVMLSTcons of (d2var, d2varmarklst_vt)
-// end of [d2varmarklst]
-
-dataviewtype
-funimpmarklst_vt =
-  | FIMPMLSTnil of ()
-  | FIMPMLSTmark of (funimpmarklst_vt)
-  | FIMPMLSTcons_cst of (hiimpdec, funimpmarklst_vt)
-  | FIMPMLSTcons_var of (hifundec, funimpmarklst_vt)
-// end of [funentmarklst_vt]
+markenvlst_vt =
+  | MARKENVLSTnil of ()
+  | MARKENVLSTmark of (markenvlst_vt)
+  | MARKENVLSTcons_var of (d2var, markenvlst_vt)
+  | MARKENVLSTcons_impdec of (hiimpdec, markenvlst_vt)
+  | MARKENVLSTcons_fundec of (hifundec, markenvlst_vt)
+// end of [markenvlst]
 
 (* ****** ****** *)
 //
 extern
-fun d2varmarklst_vt_free (xs: d2varmarklst_vt): void
+fun markenvlst_vt_free (xs: markenvlst_vt): void
 //
 implement
-d2varmarklst_vt_free (xs) = let
+markenvlst_vt_free (xs) = let
 in
   case+ xs of
-  | ~DVMLSTnil () => ()
-  | ~DVMLSTmark (xs) => d2varmarklst_vt_free (xs)
-  | ~DVMLSTcons (_, xs) => d2varmarklst_vt_free (xs)
-end // end of [d2varmarklst_vt_free]
+  | ~MARKENVLSTnil () => ()
+  | ~MARKENVLSTmark (xs) => markenvlst_vt_free (xs)
+  | ~MARKENVLSTcons_var (_, xs) => markenvlst_vt_free (xs)
+  | ~MARKENVLSTcons_impdec (_, xs) => markenvlst_vt_free (xs)
+  | ~MARKENVLSTcons_fundec (_, xs) => markenvlst_vt_free (xs)
+end // end of [markenvlst_vt_free]
 
 (* ****** ****** *)
 //
 extern
-fun funimpmarklst_vt_free (xs: funimpmarklst_vt): void
+fun fprint_markenvlst
+  (out: FILEref, xs: !markenvlst_vt): void
 //
 implement
-funimpmarklst_vt_free (xs) = let
-in
-  case+ xs of
-  | ~FIMPMLSTnil () => ()
-  | ~FIMPMLSTmark (xs) => funimpmarklst_vt_free (xs)
-  | ~FIMPMLSTcons_cst (_, xs) => funimpmarklst_vt_free (xs)
-  | ~FIMPMLSTcons_var (_, xs) => funimpmarklst_vt_free (xs)
-end // end of [funimpmarklst_vt_free]
-
-(* ****** ****** *)
-//
-extern
-fun fprint_dvmlst
-  (out: FILEref, xs: !d2varmarklst_vt): void
-//
-implement
-fprint_dvmlst
-  (out, xs) = let
+fprint_markenvlst (out, xs) = let
 //
 fun loop (
-  out: FILEref, xs: !d2varmarklst_vt, i: int
+  out: FILEref, xs: !markenvlst_vt, i: int
 ) : void = let
 in
 //
 case+ xs of
-| DVMLSTnil () => fold@ (xs)
-| DVMLSTmark (!p_xs) => let
+| MARKENVLSTnil () => fold@ (xs)
+| MARKENVLSTmark (!p_xs) => let
     val () =
       if i > 0 then
         fprint_string (out, ", ")
@@ -120,8 +100,8 @@ case+ xs of
     prval () = fold@ (xs)
   in
     // nothing
-  end // end of [DVMLSTmark]
-| DVMLSTcons
+  end // end of [MARKENVLSTmark]
+| MARKENVLSTcons_var
     (!p_x, !p_xs) => let
     val () =
       if i > 0 then
@@ -132,80 +112,46 @@ case+ xs of
     prval () = fold@ (xs)
   in
     // nothing
-  end // end of [DVMLSTcons]
-//
-end // end of [loop]
-//
-in
-  loop (out, xs, 0)
-end // end of [fprint_dvmlst]
-
-(* ****** ****** *)
-
-extern
-fun fprint_fimpmlst
-  (out: FILEref, xs: !funimpmarklst_vt): void
-// end of [fprint_fimpmlst]
-
-implement
-fprint_fimpmlst
-  (out, xs) = let
-//
-fun loop (
-  out: FILEref, xs: !funimpmarklst_vt, i: int
-) : void = let
-in
-//
-case+ xs of
-| FIMPMLSTnil () => fold@ (xs)
-| FIMPMLSTmark (!p_xs) => let
+  end // end of [MARKENVLSTcons_var]
+| MARKENVLSTcons_impdec
+    (!p_x, !p_xs) => let
     val () =
       if i > 0 then
         fprint_string (out, ", ")
       // end of [if]
-    val () = fprint_string (out, "||")
-    val () = loop (out, !p_xs, i+1)
-    prval () = fold@ (xs)
-  in
-    // nothing
-  end // end of [FIMPDVMLSTmark]
-//
-| FIMPMLSTcons_cst
-    (imp, !p_xs) => let
-    val () =
-      if i > 0 then fprint_string (out, ", ")
-    // end of [val]
+    val imp = !p_x
     val () = fprint_d2cst (out, imp.hiimpdec_cst)
     val () = loop (out, !p_xs, i+1)
     prval () = fold@ (xs)
   in
     // nothing
-  end // end of [FIMPDVMLSTcons_cst]
-| FIMPMLSTcons_var
-    (hfd, !p_xs) => let
+  end // end of [MARKENVLSTcons_impdec]
+| MARKENVLSTcons_fundec
+    (!p_x, !p_xs) => let
     val () =
-      if i > 0 then fprint_string (out, ", ")
-    // end of [val]
+      if i > 0 then
+        fprint_string (out, ", ")
+      // end of [if]
+    val hfd = !p_x
     val () = fprint_d2var (out, hfd.hifundec_var)
     val () = loop (out, !p_xs, i+1)
     prval () = fold@ (xs)
   in
     // nothing
-  end // end of [FIMPDVMLSTcons_var]
+  end // end of [MARKENVLSTcons_fundec]
 //
 end // end of [loop]
 //
 in
   loop (out, xs, 0)
-end // end of [fprint_fimpmlst]
+end // end of [fprint_markenvlst]
 
 (* ****** ****** *)
 
 viewtypedef
 ccompenv_struct = @{
-  ccompenv_dvmlst = d2varmarklst_vt
+  ccompenv_markenvlst = markenvlst_vt
 , ccompenv_varbindmap= d2varmap_vt (primval)
-, ccompenv_fimpmlst = funimpmarklst_vt
 } // end of [ccompenv_struct]
 
 (* ****** ****** *)
@@ -218,12 +164,9 @@ fun ccompenv_struct_uninitize
 implement
 ccompenv_struct_uninitize (x) = let
   val () =
-    d2varmarklst_vt_free (x.ccompenv_dvmlst)
+    markenvlst_vt_free (x.ccompenv_markenvlst)
   // end of [val]
   val () = d2varmap_vt_free (x.ccompenv_varbindmap)
-  val () =
-    funimpmarklst_vt_free (x.ccompenv_fimpmlst)
-  // end of [val]
 in
   // end of [ccompenv_struct_uninitize]
 end // end of [ccompenv_struct_uninitize]
@@ -245,9 +188,8 @@ ccompenv_make
   val env = CCOMPENV (?)
   val CCOMPENV (!p) = env
 //
-  val () = p->ccompenv_dvmlst := DVMLSTnil ()
+  val () = p->ccompenv_markenvlst := MARKENVLSTnil ()
   val () = p->ccompenv_varbindmap := d2varmap_vt_make_nil ()
-  val () = p->ccompenv_fimpmlst := FIMPMLSTnil ()
 //
   val () = fold@ (env)
 } // end of [ccompenv_make]
@@ -276,11 +218,8 @@ in
 //
 case+ env of
 | CCOMPENV (!p_env) => let
-    val () = fprint_string (out, "ccompenv_dvmlst: ")
-    val () = fprint_dvmlst (out, p_env->ccompenv_dvmlst)
-    val () = fprint_newline (out)
-    val () = fprint_string (out, "ccompenv_fimpmlst: ")
-    val () = fprint_fimpmlst (out, p_env->ccompenv_fimpmlst)
+    val () = fprint_string (out, "ccompenv_markenvlst: ")
+    val () = fprint_markenvlst (out, p_env->ccompenv_markenvlst)
     val () = fprint_newline (out)
   in
     fold@ (env)
@@ -295,20 +234,22 @@ local
 assume ccompenv_push_v = unit_v
 
 fun auxpop (
-  map: &d2varmap_vt (primval), xs: d2varmarklst_vt
-) : d2varmarklst_vt = let
+  map: &d2varmap_vt (primval), xs: markenvlst_vt
+) : markenvlst_vt = let
 in
 //
 case+ xs of
-| DVMLSTnil () => let
+| MARKENVLSTnil () => let
     prval () = fold@ (xs) in xs
-  end // end of [DVMLSTnil]
-| ~DVMLSTmark (xs) => xs
-| ~DVMLSTcons (d2v, xs) => let
+  end // end of [MENVLSTnil]
+| ~MARKENVLSTmark (xs) => xs
+| ~MARKENVLSTcons_var (d2v, xs) => let
     val _(*removed*) = d2varmap_vt_remove (map, d2v)
   in
     auxpop (map, xs)
-  end // end of [DVMLSTcons]
+  end // end of [MENVLSTcons]
+| ~MARKENVLSTcons_impdec (_, xs) => auxpop (map, xs)
+| ~MARKENVLSTcons_fundec (_, xs) => auxpop (map, xs)
 //
 end // end of [auxpop]
 
@@ -321,8 +262,9 @@ ccompenv_pop
   prval unit_v () = pfpush
 //
   val CCOMPENV (!p) = env
-  val dvms = p->ccompenv_dvmlst
-  val () = p->ccompenv_dvmlst := auxpop (p->ccompenv_varbindmap, dvms)
+//
+  val xs = p->ccompenv_markenvlst
+  val () = p->ccompenv_markenvlst := auxpop (p->ccompenv_varbindmap, xs)
 //
   prval () = fold@ (env)
 //
@@ -335,7 +277,7 @@ ccompenv_push (env) = let
 //
   val CCOMPENV (!p) = env
 //
-  val () = p->ccompenv_dvmlst := DVMLSTmark (p->ccompenv_dvmlst)
+  val () = p->ccompenv_markenvlst := MARKENVLSTmark (p->ccompenv_markenvlst)
 //
   prval () = fold@ (env)
 //
@@ -352,8 +294,8 @@ ccompenv_add_varbind
   (env, d2v, pmv) = let
 //
   val CCOMPENV (!p) = env
-  val dvms = p->ccompenv_dvmlst
-  val () = p->ccompenv_dvmlst := DVMLSTcons (d2v, dvms)
+  val xs = p->ccompenv_markenvlst
+  val () = p->ccompenv_markenvlst := MARKENVLSTcons_var (d2v, xs)
   val _(*inserted*) = d2varmap_vt_insert (p->ccompenv_varbindmap, d2v, pmv)
 //
   prval () = fold@ (env)
@@ -374,32 +316,32 @@ ccompenv_find_varbind
 (* ****** ****** *)
 
 implement
-ccompenv_add_funimp_cst
+ccompenv_add_impdec
   (env, imp) = let
 //
   val CCOMPENV (!p) = env
-  val xs = p->ccompenv_fimpmlst
-  val () = p->ccompenv_fimpmlst := FIMPMLSTcons_cst (imp, xs)
+  val xs = p->ccompenv_markenvlst
+  val () = p->ccompenv_markenvlst := MARKENVLSTcons_impdec (imp, xs)
 //
   prval () = fold@ (env)
 //
 in
   // nothing
-end // end of [ccompenv_add_funimp_cst]
+end // end of [ccompenv_add_impdec]
 
 implement
-ccompenv_add_funimp_var
+ccompenv_add_fundec
   (env, hfd) = let
 //
   val CCOMPENV (!p) = env
-  val xs = p->ccompenv_fimpmlst
-  val () = p->ccompenv_fimpmlst := FIMPMLSTcons_var (hfd, xs)
+  val xs = p->ccompenv_markenvlst
+  val () = p->ccompenv_markenvlst := MARKENVLSTcons_fundec (hfd, xs)
 //
   prval () = fold@ (env)
 //
 in
   // nothing
-end // end of [ccompenv_add_funimp_var]
+end // end of [ccompenv_add_impdec]
 
 (* ****** ****** *)
 
