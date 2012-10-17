@@ -139,6 +139,8 @@ case+ hde0.hidexp_node of
 //
 | HDEextval (name) => primval_extval (loc0, hse0, name)
 //
+| HDEcon _ => auxret (env, res, hde0)
+//
 | HDEtmpcst (d2c, t2mas) => primval_tmpcst (loc0, hse0, d2c, t2mas)
 | HDEtmpvar (d2v, t2mas) => primval_tmpvar (loc0, hse0, d2v, t2mas)
 //
@@ -265,6 +267,15 @@ case+ hde0.hidexp_node of
 | HDEempty _ => auxval (env, res, tmpret, hde0)
 //
 | HDEextval _ => auxval (env, res, tmpret, hde0)
+//
+| HDEcon (
+    d2c, hse_sum, _arg
+  ) => let
+    val pmvs = hidexplst_ccomp (env, res, _arg)
+    val ins = instr_move_con (loc0, tmpret, d2c, hse_sum, pmvs)
+  in
+    instrseq_add (res, ins)
+  end // end of [HDEcon]
 //
 | HDElet (hids, hde_scope) => let
     val (
@@ -444,12 +455,12 @@ hidexp_ccomp_ret_app
 //
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
-val- HDEapp (hse_fun, hde_fun, hdes_arg) = hde0.hidexp_node
+val- HDEapp (hde_fun, hse_fun, hdes_arg) = hde0.hidexp_node
 //
 val pmv_fun = hidexp_ccomp (env, res, hde_fun)
 val pmvs_arg = hidexplst_ccomp (env, res, hdes_arg)
 //
-val ins = instr_funcall (loc0, tmpret, hse_fun, pmv_fun, pmvs_arg)
+val ins = instr_funcall (loc0, tmpret, pmv_fun, hse_fun, pmvs_arg)
 //
 in
   instrseq_add (res, ins)

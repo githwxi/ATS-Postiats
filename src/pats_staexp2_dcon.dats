@@ -260,6 +260,20 @@ compare_d2con_d2con (x1, x2) =
 
 (* ****** ****** *)
 
+#define D2CON_TAG_EXN ~1
+#define D2CON_TAG_MSG ~2
+
+implement
+d2con_is_exn (d2c) = let
+  val tag = d2con_get_tag (d2c) in tag = D2CON_TAG_EXN
+end // end of [d2con_is_exn]
+
+implement d2con_is_msg (d2c) = let
+  val tag = d2con_get_tag (d2c) in tag = D2CON_TAG_MSG
+end // end of [d2con_is_msg]
+
+(* ****** ****** *)
+
 implement
 fprint_d2con (out, x) = let
   val sym = d2con_get_sym (x) in $SYM.fprint_symbol (out, sym)

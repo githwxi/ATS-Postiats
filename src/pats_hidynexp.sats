@@ -55,7 +55,7 @@ hipat_node =
   | HIPvar of (d2var) // mutability from the context
 //
   | HIPcon of (* constructor pattern *)
-      (pckind, d2con, hipatlst, hisexp(*tysum*))
+      (pckind, d2con, hisexp(*tysum*), hipatlst)
   | HIPcon_any of (pckind, d2con) // HX: unused arg
 //
   | HIPint of int
@@ -130,7 +130,7 @@ fun hipat_var (loc: location, hse: hisexp, d2v: d2var): hipat
 fun hipat_con (
   loc: location
 , hse: hisexp, pck: pckind
-, d2c: d2con, hips: hipatlst, hse_sum: hisexp
+, d2c: d2con, hse_sum: hisexp, hips: hipatlst
 ) : hipat // end of [hipat_con]
 fun hipat_con_any (
   loc: location, hse:hisexp, pck: pckind, d2c: d2con
@@ -213,7 +213,7 @@ and hidexp_node =
 //
   | HDEextval of (string(*name*)) // external values
 //
-  | HDEcon of (d2con, hidexplst(*arg*)) // constructors
+  | HDEcon of (d2con, hisexp, hidexplst(*arg*)) // constructors
 //
   | HDEtmpcst of (d2cst, t2mpmarglst)
   | HDEtmpvar of (d2var, t2mpmarglst)
@@ -223,9 +223,7 @@ and hidexp_node =
 //
   | HDElet of (hideclist, hidexp)
 //
-  | HDEapp of
-      (hisexp(*fun*), hidexp, hidexplst) // app_dyn
-    // end of [HDEapp]
+  | HDEapp of (hidexp, hisexp(*fun*), hidexplst) // dynamic apps
 //
   | HDEif of (
       hidexp(*cond*), hidexp(*then*), hidexp(*else*)
@@ -415,6 +413,11 @@ fun fprint_hivardec : fprint_type (hivardec)
 
 (* ****** ****** *)
 
+fun hidexp_get_type (hde: hidexp): hisexp
+fun hidexplst_get_type (hdes: hidexplst): hisexplst
+
+(* ****** ****** *)
+
 fun hidexp_is_value (hde: hidexp): bool
 
 (* ****** ****** *)
@@ -462,9 +465,10 @@ fun hidexp_extval
 
 (* ****** ****** *)
 
-fun hidexp_con
-  (loc: location, hse: hisexp, d2c: d2con, hdes: hidexplst): hidexp
-// end of [hidexp_con]
+fun hidexp_con (
+  loc: location
+, hse: hisexp, d2c: d2con, hse_sum: hisexp, hdes: hidexplst
+) : hidexp // end of [hidexp_con]
 
 (* ****** ****** *)
 

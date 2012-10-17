@@ -397,15 +397,15 @@ instr_node =
   | INSmove_arg_val of (int(*arg*), primval)
   | INSmove_ptr_val of (tmpvar(*ptr*), primval)
 //
-  | INSTRmove_con of
-      (tmpvar, hisexp, d2con, primvalist(*arg*))
-  | INSTRmove_ptr_con of
-      (tmpvar(*ptr*), hisexp, d2con, primvalist(*arg*))
+  | INSmove_con of
+      (tmpvar, d2con, hisexp, primvalist(*arg*))
+  | INSmove_ptr_con of
+      (tmpvar(*ptr*), d2con, hisexp, primvalist(*arg*))
 //
-  | INSTRmove_ref of (tmpvar, primval)
+  | INSmove_ref of (tmpvar, primval)
 //
   | INSfuncall of
-      (tmpvar, hisexp, primval(*fun*), primvalist(*arg*))
+      (tmpvar, primval(*fun*), hisexp, primvalist(*arg*))
     // end of [INSfuncall]
 //    
   | INScond of ( // conditinal instruction
@@ -415,6 +415,7 @@ instr_node =
   | INSpatck of (primval, patck, patckont) // pattern check
 //
   | INSselect of (tmpvar, primval, hisexp(*rec*), hilablst)
+  | INSselcon of (tmpvar, primval, hisexp(*sum*), int(*narg*))
 //
   | INSassgn_varofs of
       (d2var(*left*), primlablst(*ofs*), primval(*right*))
@@ -460,9 +461,21 @@ fun instr_move_arg_val
 
 (* ****** ****** *)
 
+fun instr_move_con (
+  loc: location
+, tmp: tmpvar, d2c: d2con, hse_sum: hisexp, pmvs: primvalist
+) : instr // end of [instr_move_con]
+
+fun instr_move_ptr_con (
+  loc: location
+, tmp: tmpvar, d2c: d2con, hse_sum: hisexp, pmvs: primvalist
+) : instr // end of [instr_move_ptr_con]
+
+(* ****** ****** *)
+
 fun instr_funcall (
   loc: location
-, tmpret: tmpvar, hse_fun: hisexp, _fun: primval, _arg: primvalist
+, tmpret: tmpvar, _fun: primval, hse_fun: hisexp, _arg: primvalist
 ) : instr // end of [instr_funcall]
 
 (* ****** ****** *)
@@ -483,6 +496,11 @@ fun instr_select (
   loc: location
 , tmp: tmpvar, pmv: primval, hse_rec: hisexp, hils: hilablst
 ) : instr // end of [instr_select]
+
+fun instr_selcon (
+  loc: location
+, tmp: tmpvar, pmv: primval, hse_sum: hisexp, narg: int
+) : instr // end of [instr_selcon]
 
 (* ****** ****** *)
 

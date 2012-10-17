@@ -260,7 +260,7 @@ case+ 0 of
     val hses = list_of_list_vt (hses)
     val hse_sum = hisexp_tysum (d2c, hses)
   in
-    hipat_con (loc0, hse0, pck, d2c, hips, hse_sum)
+    hipat_con (loc0, hse0, pck, d2c, hse_sum, hips)
   end // end of [_]
 //
 end // end of [p3at_tyer_con]
@@ -345,9 +345,13 @@ case+
 | D3Eextval (name) => hidexp_extval (loc0, hse0, name)
 //
 | D3Econ (d2c, npf, d3es) => let
-    val hdes = d3explst_npf_tyer (npf, d3es)
+    val hdes =
+      d3explst_npf_tyer (npf, d3es)
+    // end of [val]
+    val hses = hidexplst_get_type (hdes)
+    val hse_sum = hisexp_tysum (d2c, hses)
   in
-    hidexp_con (loc0, hse0, d2c, hdes)
+    hidexp_con (loc0, hse0, d2c, hse_sum, hdes)
   end // end of [D3Econ]
 //
 | D3Etmpcst (

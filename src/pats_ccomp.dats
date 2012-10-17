@@ -255,10 +255,19 @@ instr_move_arg_val (loc, arg, pmv) =
 (* ****** ****** *)
 
 implement
-instr_funcall (
-  loc, tmpret, hse_fun, _fun, _arg
+instr_move_con (
+  loc, tmpret, d2c, hse_sum, _arg
 ) = instr_make_node
-  (loc, INSfuncall (tmpret, hse_fun, _fun, _arg))
+  (loc, INSmove_con (tmpret, d2c, hse_sum, _arg))
+// end of [instr_move_con]
+
+(* ****** ****** *)
+
+implement
+instr_funcall (
+  loc, tmpret, _fun, hse_fun, _arg
+) = instr_make_node
+  (loc, INSfuncall (tmpret, _fun, hse_fun, _arg))
 // end of [instr_funcall]
 
 (* ****** ****** *)
@@ -276,6 +285,12 @@ instr_select
   (loc, tmp, pmv, hse_rec, hils) =
   instr_make_node (loc, INSselect (tmp, pmv, hse_rec, hils))
 // end of [instr_select]
+
+implement
+instr_selcon
+  (loc, tmp, pmv, hse_sum, narg) =
+  instr_make_node (loc, INSselcon (tmp, pmv, hse_sum, narg))
+// end of [instr_selcon]
 
 (* ****** ****** *)
 

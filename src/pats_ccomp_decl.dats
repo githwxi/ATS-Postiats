@@ -247,7 +247,7 @@ fun auxlam (
     // end of [hidexp_ccomp_funlab_arg_body]
   end // end of [val]
 //
-  val () = println! ("hiimpdec_ccomp: auxlam: fent =", fent)
+  val () = println! ("hiimpdec_ccomp: auxlam: fent = ", fent)
 //
 in
   // nothing

@@ -88,8 +88,8 @@ hipat_var (loc, hse, d2v) =
 
 implement
 hipat_con (
-  loc, hse, pck, d2c, hips, hse_sum
-) = hipat_make_node (loc, hse, HIPcon (pck, d2c, hips, hse_sum))
+  loc, hse, pck, d2c, hse_sum, hips
+) = hipat_make_node (loc, hse, HIPcon (pck, d2c, hse_sum, hips))
 
 implement
 hipat_con_any
@@ -185,6 +185,17 @@ hipat_ann
 (* ****** ****** *)
 
 implement
+hidexp_get_type (hde) = hde.hidexp_type
+implement
+hidexplst_get_type (hdes) = let
+  val hses =
+    list_map_fun (hdes, hidexp_get_type) in list_of_list_vt (hses)
+  // end of [val]
+end // end of [hidexplst_get_type]
+
+(* ****** ****** *)
+
+implement
 hidexp_make_node
   (loc, hse, node) = '{
   hidexp_loc= loc, hidexp_type= hse, hidexp_node= node
@@ -262,8 +273,8 @@ hidexp_extval
 
 implement
 hidexp_con
-  (loc, hse, d2c, hdes) =
-  hidexp_make_node (loc, hse, HDEcon (d2c, hdes))
+  (loc, hse, d2c, hse_sum, hdes) =
+  hidexp_make_node (loc, hse, HDEcon (d2c, hse_sum, hdes))
 // end of [hidexp_con]
 
 (* ****** ****** *)
@@ -303,7 +314,7 @@ hidexp_let (loc, hse, hids, hde) =
 implement
 hidexp_app
   (loc, hse, hse_fun, _fun, _arg) =
-  hidexp_make_node (loc, hse, HDEapp (hse_fun, _fun, _arg))
+  hidexp_make_node (loc, hse, HDEapp (_fun, hse_fun, _arg))
 // end of [hidexp_app]
 
 (* ****** ****** *)
