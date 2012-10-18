@@ -297,35 +297,35 @@ overload compare with g1int_compare of 20
 
 fun{tk:tk}
 g1int_lt_int {i,j:int}
-  (x: g1int (tk, i), y: g1int (int_kind, j)):<> bool (i < j)
+  (x: g1int (tk, i), y: int (j)):<> bool (i < j)
 overload < with g1int_lt_int of 21
 fun{tk:tk}
 g1int_lte_int {i,j:int}
-  (x: g1int (tk, i), y: g1int (int_kind, j)):<> bool (i <= j)
+  (x: g1int (tk, i), y: int (j)):<> bool (i <= j)
 overload <= with g1int_lte_int of 21
 
 fun{tk:tk}
 g1int_gt_int {i,j:int}
-  (x: g1int (tk, i), y: g1int (int_kind, j)):<> bool (i > j)
+  (x: g1int (tk, i), y: int (j)):<> bool (i > j)
 overload > with g1int_gt_int of 21
 fun{tk:tk}
 g1int_gte_int {i,j:int}
-  (x: g1int (tk, i), y: g1int (int_kind, j)):<> bool (i >= j)
+  (x: g1int (tk, i), y: int (j)):<> bool (i >= j)
 overload >= with g1int_gte_int of 21
 
 fun{tk:tk}
 g1int_eq_int {i,j:int}
-  (x: g1int (tk, i), y: g1int (int_kind, j)):<> bool (i == j)
+  (x: g1int (tk, i), y: int (j)):<> bool (i == j)
 overload = with g1int_eq_int of 21
 fun{tk:tk}
 g1int_neq_int {i,j:int}
-  (x: g1int (tk, i), y: g1int (int_kind, j)):<> bool (i != j)
+  (x: g1int (tk, i), y: int (j)):<> bool (i != j)
 overload != with g1int_neq_int of 21
 overload <> with g1int_neq_int of 21
 
 fun{tk:tk}
 g1int_compare_int {i,j:int}
-  (x: g1int (tk, i), y: g1int (int_kind, j)):<> int (i-j)
+  (x: g1int (tk, i), y: int (j)):<> int (i-j)
 overload compare with g1int_compare_int of 21
 
 #atscode_separator()
@@ -594,20 +594,20 @@ overload compare with g1uint_compare of 20
 
 fun{tk:tk}
 g1uint_lt_int {i:int;j:nat}
-  (x: g1uint (tk, i), y: g1int (int_kind, j)):<> bool (i < j)
+  (x: g1uint (tk, i), y: int (j)):<> bool (i < j)
 overload < with g1uint_lt_int of 21
 fun{tk:tk}
 g1uint_lte_int {i:int;j:nat}
-  (x: g1uint (tk, i), y: g1int (int_kind, j)):<> bool (i <= j)
+  (x: g1uint (tk, i), y: int (j)):<> bool (i <= j)
 overload <= with g1uint_lte_int of 21
 
 fun{tk:tk}
 g1uint_gt_int {i:int;j:nat}
-  (x: g1uint (tk, i), y: g1int (int_kind, j)):<> bool (i > j)
+  (x: g1uint (tk, i), y: int (j)):<> bool (i > j)
 overload > with g1uint_gt_int of 21
 fun{tk:tk}
 g1uint_gte_int {i:int;j:nat}
-  (x: g1uint (tk, i), y: g1int (int_kind, j)):<> bool (i >= j)
+  (x: g1uint (tk, i), y: int (j)):<> bool (i >= j)
 overload >= with g1uint_gte_int of 21
 
 fun{tk:tk}
@@ -616,7 +616,7 @@ g1uint_eq_int {i:int;j:nat}
 overload = with g1uint_eq_int of 21
 fun{tk:tk}
 g1uint_neq_int {i:int;j:nat}
-  (x: g1uint (tk, i), y: g1int (int_kind, j)):<> bool (i != j)
+  (x: g1uint (tk, i), y: int (j)):<> bool (i != j)
 overload != with g1uint_neq_int of 21
 
 #atscode_separator()
