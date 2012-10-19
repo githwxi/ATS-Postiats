@@ -544,7 +544,7 @@ val () = (
 ) : void // end of [val]
 //
 val pmv = primval_tmpref (loc, hse_elt, tmp)
-val () = ccompenv_add_varbind (env, d2v, pmv)
+val ((*void*)) = ccompenv_add_varbind (env, d2v, pmv)
 //
 in
   d2v

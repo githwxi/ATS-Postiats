@@ -213,6 +213,22 @@ primval_tmpvar
 (* ****** ****** *)
 
 implement
+primval_make_tmp
+  (loc, tmp) = let
+  val hse = tmpvar_get_type (tmp) in primval_tmp (loc, hse, tmp)
+end // end of [primval_make_tmp]
+  
+(* ****** ****** *)
+
+implement
+primval_make_ptrof
+  (loc, pmv) = let
+  val hse = hisexp_typtr in primval_make_node (loc, hse, PMVptrof (pmv))
+end // end of [primval_make_ptrof]
+
+(* ****** ****** *)
+
+implement
 primlab_lab (loc, lab) = '{
   primlab_loc= loc, primlab_node= PMLlab (lab)
 }
@@ -260,6 +276,33 @@ instr_move_con (
 ) = instr_make_node
   (loc, INSmove_con (tmpret, d2c, hse_sum, _arg))
 // end of [instr_move_con]
+
+(* ****** ****** *)
+
+implement
+instr_move_list_nil
+  (loc, tmp) = instr_make_node (loc, INSmove_list_nil (tmp))
+// end of [instr_move_list_nil]
+implement
+instr_pmove_list_nil
+  (loc, tmp) = instr_make_node (loc, INSpmove_list_nil (tmp))
+// end of [instr_pmove_list_nil]
+implement
+instr_pmove_list_cons
+  (loc, tmp) = instr_make_node (loc, INSpmove_list_cons (tmp))
+// end of [instr_pmove_list_cons]
+
+implement
+instr_update_list_head
+  (loc, tmphd, tmptl, hse_elt) =
+  instr_make_node (loc, INSupdate_list_head (tmphd, tmptl, hse_elt))
+// end of [instr_update_list_head]
+
+implement
+instr_update_list_tail
+  (loc, tl_new, tl_old, hse_elt) =
+  instr_make_node (loc, INSupdate_list_tail (tl_new, tl_old, hse_elt))
+// end of [instr_update_list_tail]
 
 (* ****** ****** *)
 

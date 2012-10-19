@@ -97,6 +97,8 @@ fun tmpvar_make
 fun tmpvar_make_ret
   (loc: location, hse: hisexp): tmpvar
 
+fun tmpvar_get_type (tmp: tmpvar): hisexp
+
 fun tmpvar_get_stamp (tmp: tmpvar): stamp
 
 (* ****** ****** *)
@@ -219,8 +221,9 @@ fun primdec_vardecs (loc: location, d2vs: d2varlst): primdec
 
 datatype
 primval_node =
-  | PMVtmp of (tmpvar)
-  | PMVtmpref of (tmpvar)
+//
+  | PMVtmp of (tmpvar) // temporary variables
+  | PMVtmpref of (tmpvar) // for addresses of temporary variables
 //
   | PMVarg of (int)
   | PMVargref of (int) // call-by-reference
@@ -229,8 +232,8 @@ primval_node =
   | PMVcst of (d2cst)
   | PMVvar of (d2var) // temporary
 //
-  | PMVtmpcst of (d2cst, t2mpmarglst)
-  | PMVtmpvar of (d2var, t2mpmarglst)
+  | PMVtmpcst of (d2cst, t2mpmarglst) // for template constants
+  | PMVtmpvar of (d2var, t2mpmarglst) // for template variables
 //
   | PMVint of (int)
   | PMVbool of (bool)
@@ -245,6 +248,8 @@ primval_node =
   | PMVextval of (string(*name*))
 //
   | PMVfun of (funlab)
+//
+  | PMVptrof of (primval)
 //
   | PMVcastfn of (d2cst, primval)
 //
@@ -264,6 +269,7 @@ primval = '{
 
 and primvalist = List (primval)
 and primvalist_vt = List_vt (primval)
+and primvalopt = Option (primval)
 
 and primlab = '{
   primlab_loc= location
@@ -323,20 +329,30 @@ fun primval_char
 fun primval_string
   (loc: location, hse: hisexp, str: string): primval
 
+(* ****** ****** *)
+
 fun primval_i0nt
   (loc: location, hse: hisexp, tok: i0nt): primval
 fun primval_f0loat
   (loc: location, hse: hisexp, tok: f0loat): primval
 
+(* ****** ****** *)
+
 fun primval_empty (loc: location, hse: hisexp): primval
+
+(* ****** ****** *)
 
 fun primval_extval
   (loc: location, hse: hisexp, name: string): primval
 // end of [primval_extval]
 
+(* ****** ****** *)
+
 fun primval_fun
   (loc: location, hse: hisexp, fl: funlab): primval
 // end of [primval_fun]
+
+(* ****** ****** *)
 
 fun primval_tmpcst (
   loc: location, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst
@@ -348,6 +364,11 @@ fun primval_tmpvar (
 (* ****** ****** *)
 
 fun primval_make_funlab (loc: location, fl: funlab): primval
+
+(* ****** ****** *)
+
+fun primval_make_tmp (loc: location, tmp: tmpvar): primval
+fun primval_make_ptrof (loc: location, pmv: primval): primval
 
 (* ****** ****** *)
 
@@ -402,7 +423,15 @@ instr_node =
   | INSmove_ptr_con of
       (tmpvar(*ptr*), d2con, hisexp, primvalist(*arg*))
 //
-  | INSmove_ref of (tmpvar, primval)
+  | INSmove_list_nil of (tmpvar) // tmp <- list_nil
+  | INSpmove_list_nil of (tmpvar) // *tmp <- list_nil
+  | INSpmove_list_cons of (tmpvar) // *tmp <- list_cons
+  | INSupdate_list_head of // hd <- &(tl->val)
+      (tmpvar(*hd*), tmpvar(*tl*), hisexp(*elt*))
+  | INSupdate_list_tail of // tl_new <- &(tl_old->next)
+      (tmpvar(*new*), tmpvar(*old*), hisexp(*elt*))
+//
+  | INSmove_ref of (tmpvar, primval) // tmp := ref (pmv)
 //
   | INSfuncall of
       (tmpvar, primval(*fun*), hisexp, primvalist(*arg*))
@@ -470,6 +499,17 @@ fun instr_move_ptr_con (
   loc: location
 , tmp: tmpvar, d2c: d2con, hse_sum: hisexp, pmvs: primvalist
 ) : instr // end of [instr_move_ptr_con]
+
+(* ****** ****** *)
+
+fun instr_move_list_nil (loc: location, tmp: tmpvar): instr
+fun instr_pmove_list_nil (loc: location, tmp: tmpvar): instr
+fun instr_pmove_list_cons (loc: location, tmp: tmpvar): instr
+
+fun instr_update_list_head
+  (loc: location, tmphd: tmpvar, tmptl: tmpvar, hse_elt: hisexp): instr
+fun instr_update_list_tail
+  (loc: location, tl_new: tmpvar, tl_old: tmpvar, hse_elt: hisexp): instr
 
 (* ****** ****** *)
 

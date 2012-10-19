@@ -61,9 +61,7 @@ typedef tmpvar = '{
 , tmpvar_type= hisexp
 , tmpvar_ret= int (* return status *)
 , tmpvar_top= int (* 0/1 : local/top(static) *)
-(*
-, tmpvar_root= tmpvaropt
-*)
+, tmpvar_alias= primvalopt // it is address of the [tmp] 
 , tmpvar_stamp= stamp (* unicity *)
 } // end of [tmpvar]
 
@@ -80,11 +78,14 @@ tmpvar_make
 , tmpvar_type= hse
 , tmpvar_ret= 0
 , tmpvar_top= 0 (*local*)
-(*
-, tmpvar_root= None () // HX: tmpvar is not an alias
-*)
+, tmpvar_alias= None () // HX: tmpvar is not an alias
 , tmpvar_stamp= stamp
 } end // end of [tmpvar_make]
+
+(* ****** ****** *)
+
+implement
+tmpvar_get_type (tmp) = tmp.tmpvar_type
 
 (* ****** ****** *)
 

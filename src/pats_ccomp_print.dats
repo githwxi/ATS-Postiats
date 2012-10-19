@@ -240,6 +240,12 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
+| PMVptrof (pmv) => {
+    val () = prstr "PMVptrof("
+    val () = fprint_primval (out, pmv)
+    val () = prstr ")"
+  }
+//
 | PMVtmpcst (d2c, t2mas) => {
     val () = prstr "PMVtmpcst("
     val () = fprint_d2cst (out, d2c)
@@ -450,6 +456,46 @@ case+ x.instr_node of
     val () = prstr ";"
     val () = fprint_primvalist (out, pmvs)
     val () = prstr ")"
+    val () = prstr ")"
+  }
+//
+| INSmove_list_nil (tmp) => {
+    val () =
+      prstr "INSmove_list_nil("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr ")"
+  }
+| INSpmove_list_nil (tmp) => {
+    val () =
+      prstr "INSpmove_list_nil("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr ")"
+  }
+| INSpmove_list_cons (tmp) => {
+    val () =
+      prstr "INSpmove_list_cons("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr ")"
+  }
+//
+| INSupdate_list_head
+    (tmphd, tmptl, hse_elt) => {
+    val () = prstr "INSupdate_list_head("
+    val () = fprint_tmpvar (out, tmphd)
+    val () = prstr "; "
+    val () = fprint_tmpvar (out, tmptl)
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse_elt)
+    val () = prstr ")"
+  }
+| INSupdate_list_tail
+    (tl_new, tl_old, hse_elt) => {
+    val () = prstr "INSupdate_list_tail("
+    val () = fprint_tmpvar (out, tl_new)
+    val () = prstr "; "
+    val () = fprint_tmpvar (out, tl_old)
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse_elt)
     val () = prstr ")"
   }
 //

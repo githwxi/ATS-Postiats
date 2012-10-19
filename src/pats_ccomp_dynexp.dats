@@ -87,6 +87,8 @@ extern
 fun hidexp_ccomp_ret_sif : hidexp_ccomp_ret_funtype
 *)
 
+
+extern fun hidexp_ccomp_ret_lst : hidexp_ccomp_ret_funtype
 extern fun hidexp_ccomp_ret_seq : hidexp_ccomp_ret_funtype
 
 extern fun hidexp_ccomp_ret_selab : hidexp_ccomp_ret_funtype
@@ -105,7 +107,7 @@ fun auxret (
   val tmpret = tmpvar_make (loc0, hse0)
   val () = hidexp_ccomp_ret (env, res, tmpret, hde0)
 in
-  primval_tmp (loc0, hse0, tmpret)
+  primval_make_tmp (loc0, tmpret)
 end // end of [auxret]
 
 in // in of [local]
@@ -163,6 +165,8 @@ case+ hde0.hidexp_node of
 | HDEapp _ => auxret (env, res, hde0)
 //
 | HDEif _ => auxret (env, res, hde0)
+//
+| HDElst _ => auxret (env, res, hde0)
 //
 | HDEseq _ => hidexp_ccomp_seq (env, res, hde0)
 //
@@ -296,6 +300,8 @@ case+ hde0.hidexp_node of
 | HDEapp _ => hidexp_ccomp_ret_app (env, res, tmpret, hde0)
 //
 | HDEif _ => hidexp_ccomp_ret_if (env, res, tmpret, hde0)
+//
+| HDElst _ => hidexp_ccomp_ret_lst (env, res, tmpret, hde0)
 //
 | HDEseq _ => hidexp_ccomp_ret_seq (env, res, tmpret, hde0)
 //
@@ -497,6 +503,85 @@ val ins = instr_cond (loc0, pmv_cond, inss_then, inss_else)
 in
   instrseq_add (res, ins)
 end // end of [hidexp_ccomp_ret_if]
+
+(* ****** ****** *)
+
+local
+
+fun auxnode (
+  env: !ccompenv
+, res: !instrseq
+, tmphd: tmpvar
+, tmptl: tmpvar
+, hde: hidexp, hse_elt: hisexp
+) : void = let
+  val loc = hde.hidexp_loc
+  val ins = instr_pmove_list_cons (loc, tmptl)
+  val () = instrseq_add (res, ins)
+  val ins = instr_update_list_head (loc, tmphd, tmptl, hse_elt)
+  val () = instrseq_add (res, ins)
+  val () = hidexp_ccomp_ret (env, res, tmphd, hde)
+  val ins = instr_update_list_tail (loc, tmptl, tmptl, hse_elt)
+  val () = instrseq_add (res, ins)
+in
+  // nothing
+end // end of [auxnode]
+
+fun auxnodelst (
+  env: !ccompenv
+, res: !instrseq
+, tmphd: tmpvar, tmptl: tmpvar
+, loc0: location, hdes: hidexplst, hse_elt: hisexp
+) : void = let
+in
+//
+case+ hdes of
+| list_cons
+    (hde, hdes) => let
+    val () =
+      auxnode (env, res, tmphd, tmptl, hde, hse_elt)
+    // end of [list_cons]
+  in
+    auxnodelst (env, res, tmphd, tmptl, loc0, hdes, hse_elt)
+  end // end of [list_cons]
+| list_nil () => let
+    val ins =
+      instr_pmove_list_nil (loc0, tmptl) in instrseq_add (res, ins)
+    // end of [val]
+  end // end of [list_nil]
+//
+end // end of [auxnodelst]
+
+in // in of [local]
+
+implement
+hidexp_ccomp_ret_lst
+  (env, res, tmpret, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+//
+val- HDElst (knd, hse_elt, hdes) = hde0.hidexp_node
+//
+in
+//
+case+ hdes of
+| list_cons _ => let
+    val pmv = primval_make_tmp (loc0, tmpret)
+    val pmv_ptr = primval_make_ptrof (loc0, pmv)
+    val tmphd = tmpvar_make (loc0, hisexp_typtr)
+    val tmptl = tmpvar_make (loc0, hisexp_typtr)
+    val ins = instr_move_val (loc0, tmptl, pmv_ptr)
+    val () = instrseq_add (res, ins)
+  in
+    auxnodelst (env, res, tmphd, tmptl, loc0, hdes, hse_elt)
+  end // end of [list_cons]
+| list_nil () => let
+    val ins = instr_move_list_nil (loc0, tmpret) in instrseq_add (res, ins)
+  end // end of [list_nil]
+end // end of [hidexp_ccomp_ret_lst]
+
+end // end of [local]
 
 (* ****** ****** *)
 
