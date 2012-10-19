@@ -87,7 +87,8 @@ tmpvar_make
 implement
 tmpvar_get_type (tmp) = tmp.tmpvar_type
 
-(* ****** ****** *)
+implement
+tmpvar_get_alias (tmp) = tmp.tmpvar_alias
 
 implement
 tmpvar_get_stamp (tmp) = tmp.tmpvar_stamp
@@ -147,6 +148,12 @@ patsopt_tmpvar_set_ret
   (ats_ptr_type tmp, ats_int_type ret) {
   ((tmpvar_t)tmp)->atslab_tmpvar_ret = ret ; return ;
 } // end of [patsopt_tmpvar_set_ret]
+
+ats_void_type
+patsopt_tmpvar_set_alias
+  (ats_ptr_type tmp, ats_ptr_type opt) {
+  ((tmpvar_t)tmp)->atslab_tmpvar_alias = opt ; return ;
+} // end of [patsopt_tmpvar_set_alias]
 
 %} // end of [%{$]
 

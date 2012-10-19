@@ -103,11 +103,12 @@ fun tmpvar_get_stamp (tmp: tmpvar): stamp
 
 (* ****** ****** *)
 
-fun fprint_tmpvar : fprint_type (tmpvar)
 fun print_tmpvar (x: tmpvar): void
 overload print with print_tmpvar
 fun prerr_tmpvar (x: tmpvar): void
 overload prerr with prerr_tmpvar
+fun fprint_tmpvar : fprint_type (tmpvar) // implemented in [pats_ccomp_tmpvar.dats]
+fun fpprint_tmpvar : fprint_type (tmpvar) // implemented in [pats_ccomp_print.dats]
 
 fun eq_tmpvar_tmpvar (x1: tmpvar, x2: tmpvar): bool
 overload = with eq_tmpvar_tmpvar
@@ -287,6 +288,13 @@ fun fprint_primvalist : fprint_type (primvalist)
 
 fun fprint_primlab : fprint_type (primlab)
 fun fprint_primlablst : fprint_type (primlablst)
+
+(* ****** ****** *)
+
+fun tmpvar_get_alias (tmp: tmpvar): primvalopt
+fun tmpvar_set_alias
+  (tmp: tmpvar, opt: primvalopt): void = "patsopt_tmpvar_set_alias"
+// end of [tmpvar_set_alias]
 
 (* ****** ****** *)
 

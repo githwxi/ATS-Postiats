@@ -511,8 +511,7 @@ local
 fun auxnode (
   env: !ccompenv
 , res: !instrseq
-, tmphd: tmpvar
-, tmptl: tmpvar
+, tmphd: tmpvar, pmvhd: primval, tmptl: tmpvar
 , hde: hidexp, hse_elt: hisexp
 ) : void = let
   val loc = hde.hidexp_loc
@@ -520,7 +519,12 @@ fun auxnode (
   val () = instrseq_add (res, ins)
   val ins = instr_update_list_head (loc, tmphd, tmptl, hse_elt)
   val () = instrseq_add (res, ins)
-  val () = hidexp_ccomp_ret (env, res, tmphd, hde)
+  val () = let
+    val tmp = tmpvar_make (loc, hse_elt)
+    val () = tmpvar_set_alias (tmp, Some (pmvhd))
+  in
+    hidexp_ccomp_ret (env, res, tmp, hde)
+  end // end of [val]
   val ins = instr_update_list_tail (loc, tmptl, tmptl, hse_elt)
   val () = instrseq_add (res, ins)
 in
@@ -530,7 +534,7 @@ end // end of [auxnode]
 fun auxnodelst (
   env: !ccompenv
 , res: !instrseq
-, tmphd: tmpvar, tmptl: tmpvar
+, tmphd: tmpvar, pmvhd: primval, tmptl: tmpvar
 , loc0: location, hdes: hidexplst, hse_elt: hisexp
 ) : void = let
 in
@@ -539,10 +543,10 @@ case+ hdes of
 | list_cons
     (hde, hdes) => let
     val () =
-      auxnode (env, res, tmphd, tmptl, hde, hse_elt)
+      auxnode (env, res, tmphd, pmvhd, tmptl, hde, hse_elt)
     // end of [list_cons]
   in
-    auxnodelst (env, res, tmphd, tmptl, loc0, hdes, hse_elt)
+    auxnodelst (env, res, tmphd, pmvhd, tmptl, loc0, hdes, hse_elt)
   end // end of [list_cons]
 | list_nil () => let
     val ins =
@@ -570,11 +574,12 @@ case+ hdes of
     val pmv = primval_make_tmp (loc0, tmpret)
     val pmv_ptr = primval_make_ptrof (loc0, pmv)
     val tmphd = tmpvar_make (loc0, hisexp_typtr)
+    val pmvhd = primval_make_tmp (loc0, tmphd)
     val tmptl = tmpvar_make (loc0, hisexp_typtr)
     val ins = instr_move_val (loc0, tmptl, pmv_ptr)
     val () = instrseq_add (res, ins)
   in
-    auxnodelst (env, res, tmphd, tmptl, loc0, hdes, hse_elt)
+    auxnodelst (env, res, tmphd, pmvhd, tmptl, loc0, hdes, hse_elt)
   end // end of [list_cons]
 | list_nil () => let
     val ins = instr_move_list_nil (loc0, tmpret) in instrseq_add (res, ins)
