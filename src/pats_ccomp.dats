@@ -307,6 +307,20 @@ instr_update_list_tail
 (* ****** ****** *)
 
 implement
+instr_move_arrpsz
+  (loc, tmp, hse_elt, asz) =
+  instr_make_node (loc, INSmove_arrpsz (tmp, hse_elt, asz))
+// end of [instr_move_arrpsz]
+
+implement
+instr_update_ptrinc
+  (loc, tmpelt, hse_elt) =
+  instr_make_node (loc, INSupdate_ptrinc (tmpelt, hse_elt))
+// end of [instr_update_ptrinc]
+
+(* ****** ****** *)
+
+implement
 instr_funcall (
   loc, tmpret, _fun, hse_fun, _arg
 ) = instr_make_node

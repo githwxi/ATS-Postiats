@@ -516,6 +516,15 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
+| INSupdate_ptrinc
+    (tmpelt, hse_elt) => {
+    val () = prstr "INSupdate_ptrinc("
+    val () = fpprint_tmpvar (out, tmpelt)
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse_elt)
+    val () = prstr ")"
+  }
+//
 | INSfuncall (
     tmpret, _fun, hse_fun, _arg
   ) => {

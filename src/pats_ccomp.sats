@@ -439,6 +439,10 @@ instr_node =
   | INSupdate_list_tail of // tl_new <- &(tl_old->next)
       (tmpvar(*new*), tmpvar(*old*), hisexp(*elt*))
 //
+  | INSmove_arrpsz of
+      (tmpvar, hisexp(*elt*), int(*asz*))
+  | INSupdate_ptrinc of (tmpvar, hisexp(*elt*))
+//
   | INSmove_ref of (tmpvar, primval) // tmp := ref (pmv)
 //
   | INSfuncall of
@@ -518,6 +522,16 @@ fun instr_update_list_head
   (loc: location, tmphd: tmpvar, tmptl: tmpvar, hse_elt: hisexp): instr
 fun instr_update_list_tail
   (loc: location, tl_new: tmpvar, tl_old: tmpvar, hse_elt: hisexp): instr
+
+(* ****** ****** *)
+
+fun instr_move_arrpsz (
+  loc: location, tmp: tmpvar, hse_elt: hisexp, asz: int
+) : instr // end of [instr_move_arrpsz]
+
+fun instr_update_ptrinc
+  (loc: location, tmpelt: tmpvar, hse_elt: hisexp): instr
+// end of [instr_update_ptrinc]
 
 (* ****** ****** *)
 
