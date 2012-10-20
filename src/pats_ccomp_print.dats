@@ -516,6 +516,17 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
+| INSmove_arrpsz (
+    tmp, hse_elt, asz
+  ) => {
+    val () = prstr "INSmov_arrpsz("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse_elt)
+    val () = prstr "; "
+    val () = fprint_int (out, asz)
+    val () = prstr ")"
+  }
 | INSupdate_ptrinc
     (tmpelt, hse_elt) => {
     val () = prstr "INSupdate_ptrinc("
