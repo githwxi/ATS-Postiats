@@ -336,6 +336,12 @@ fprint_primlablst
 
 extern
 fun fprint_labprimval : fprint_type (labprimval)
+implement
+fprint_labprimval
+  (out, lx) = let
+  val LABPRIMVAL (l, x) = lx in
+  $LAB.fprint_label (out, l); fprint_string (out, "="); fprint_primval (out, x)
+end // end of [fprint_labprimval]
 
 implement
 fprint_labprimvalist
