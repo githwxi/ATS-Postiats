@@ -281,6 +281,13 @@ and primlablst = List (primlab)
 
 (* ****** ****** *)
 
+datatype
+labprimval = LABPRIMVAL of (label, primval)
+
+typedef labprimvalist = List (labprimval)
+
+(* ****** ****** *)
+
 fun fprint_primval : fprint_type (primval)
 fun fprint_primvalist : fprint_type (primvalist)
 
@@ -288,6 +295,10 @@ fun fprint_primvalist : fprint_type (primvalist)
 
 fun fprint_primlab : fprint_type (primlab)
 fun fprint_primlablst : fprint_type (primlablst)
+
+(* ****** ****** *)
+
+fun fprint_labprimvalist : fprint_type (labprimvalist)
 
 (* ****** ****** *)
 
@@ -430,6 +441,11 @@ instr_node =
       (tmpvar, d2con, hisexp, primvalist(*arg*))
   | INSmove_ptr_con of
       (tmpvar(*ptr*), d2con, hisexp, primvalist(*arg*))
+//
+  | INSTRmove_rec_box of
+      (tmpvar, labprimvalist(*arg*), hisexp)
+  | INSTRmove_rec_flt of
+      (tmpvar, labprimvalist(*arg*), hisexp)
 //
   | INSmove_list_nil of (tmpvar) // tmp <- list_nil
   | INSpmove_list_nil of (tmpvar) // *tmp <- list_nil

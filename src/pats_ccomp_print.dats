@@ -328,8 +328,20 @@ end // end of [fprint_primlab]
 
 implement
 fprint_primlablst
-  (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_primlab)
+  (out, xs) =
+  $UT.fprintlst (out, xs, ", ", fprint_primlab)
 // end of [fprint_primlablst]
+
+(* ****** ****** *)
+
+extern
+fun fprint_labprimval : fprint_type (labprimval)
+
+implement
+fprint_labprimvalist
+  (out, xs) =
+  $UT.fprintlst (out, xs, ", ", fprint_labprimval)
+// end of [fprint_labprimvalist]
 
 (* ****** ****** *)
 
