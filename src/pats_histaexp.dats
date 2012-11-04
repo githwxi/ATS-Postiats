@@ -48,11 +48,19 @@ staload "pats_histaexp.sats"
 
 (* ****** ****** *)
 
-val HITYPE_PTR = HITYPE (1(*non*), "atstype_ptr")
-val HITYPE_ABS = HITYPE (0(*non*), "atstype_abs")
+#define ATSTYPE_PTR "atstype_ptr"
+#define ATSTYPE_ABS "atstype_abs"
+#define ATSTYPE_REF "atstype_ref"
+#define ATSTYPE_VOID "atstype_void"
+
+(* ****** ****** *)
+//
+val HITYPE_PTR = HITYPE (1(*non*), ATSTYPE_PTR)
+val HITYPE_ABS = HITYPE (0(*non*), ATSTYPE_ABS)
+val HITYPE_REF = HITYPE (1(*ptr*), ATSTYPE_REF)
+//
 val HITYPE_APP = HITYPE (0(*non*), "atstype_tyapp")
 val HITYPE_CLO = HITYPE (0(*non*), "atstype_tyclo")
-val HITYPE_REF = HITYPE (1(*ptr*), "atstype_ref")
 //
 val HITYPE_FUNPTR = HITYPE (1(*ptr*), "atstype_funptr")
 val HITYPE_CFUNPTR = HITYPE (1(*ptr*), "atstype_cfunptr")
@@ -71,6 +79,29 @@ val HITYPE_TYVARET = HITYPE (0(*non*), "atstype_tyvaret")
 val HITYPE_VARARG = HITYPE (0(*non*), "atstype_vararg")
 //
 val HITYPE_S2EXP = HITYPE (0(*non*), "atstype_s2exp")
+
+(* ****** ****** *)
+
+implement
+hisexp_is_void
+  (hse0) = let
+in
+//
+case+ hse0.hisexp_node of
+(*
+| HSEextype (name, _(*arglst*)) => (
+  case+ 0 of
+  | _ when name = ATSTYPE_VOID => true
+  | _ => false
+  ) (* end of [HSEextype] *)
+*)
+| HSEtyrecsin (lhse) => let
+    val HSLABELED (_, _, hse) = lhse in hisexp_is_void (hse)
+  end // end of [HSEtyrecsin]
+//
+| _ => false
+//
+end // end of [hityp_is_void]
 
 (* ****** ****** *)
 

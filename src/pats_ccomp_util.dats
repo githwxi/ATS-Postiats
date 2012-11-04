@@ -41,7 +41,18 @@ staload "pats_staexp2.sats"
 
 (* ****** ****** *)
 
+staload "pats_histaexp.sats"
+
+(* ****** ****** *)
+
 staload "pats_ccomp.sats"
+
+(* ****** ****** *)
+
+implement
+primval_is_void
+  (pmv) = hisexp_is_void (pmv.primval_type)
+// end of [primval_is_void]
 
 (* ****** ****** *)
 

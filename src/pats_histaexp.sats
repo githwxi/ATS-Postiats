@@ -131,6 +131,11 @@ fun hisexp_varetize (hse: hisexp): hisexp
 
 (* ****** ****** *)
 
+fun hisexp_is_void (hse: hisexp): bool
+fun hisexp_fun_is_void (hse: hisexp): bool
+
+(* ****** ****** *)
+
 fun hisexp_tyabs (sym: symbol): hisexp
 
 fun hisexp_fun (

@@ -56,6 +56,7 @@ staload GLOB = "pats_global.sats"
 
 (* ****** ****** *)
 
+staload S2E = "pats_staexp2.sats"
 staload D2E = "pats_dynexp2.sats"
 
 (* ****** ****** *)
@@ -120,16 +121,18 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+emit_ident
+  (out, name) = fprint_string (out, name)
+// end of [emit_ident]
+
+(* ****** ****** *)
+
+implement
 emit_label
   (out, lab) = $LAB.fprint_label (out, lab)
 // end of [emit_label]
 
 (* ****** ****** *)
-
-implement
-emit_ident
-  (out, name) = fprint_string (out, name)
-// end of [emit_ident]
 
 implement
 emit_filename
@@ -141,6 +144,28 @@ emit_filename
 in
   emit_ident (out, name)
 end // end of [emit_filename]
+
+(* ****** ****** *)
+
+implement
+emit_d2con
+  (out, d2c) = let
+  val fil = $S2E.d2con_get_fil (d2c)
+  val sym = $S2E.d2con_get_sym (d2c)
+  val name = $SYM.symbol_get_name (sym)
+  val () = emit_filename (out, fil)
+  val () = fprint_string (out, "__")
+  val () = emit_ident (out, name)
+  val tag = $S2E.d2con_get_tag (d2c)
+  val () = if
+    tag >= 0 then let // HX: not exncon
+    val () = fprintf (out, "_%i", @(tag))
+  in
+    // nothing
+  end // end of [val]
+in
+  // nothing
+end // end of [emit_d2con]
 
 (* ****** ****** *)
 
@@ -345,8 +370,10 @@ end (* end of [emit_primval_bool] *)
 
 (* ****** ****** *)
 
-extern
-fun emit_instr_funcall (out: FILEref, ins: instr): void
+typedef
+emit_instr_type = (FILEref, instr) -> void
+
+extern fun emit_instr_funcall : emit_instr_type
 
 (* ****** ****** *)
 
@@ -382,7 +409,35 @@ val () = (
 in
 //
 case+ ins.instr_node of
+//
+| INSmove_val
+    (tmp, pmv) => {
+    val isvoid = primval_is_void (pmv)
+    val () =
+      if isvoid then fprint_string (out, "/* ")
+    val () =
+      emit_tmpvar_assgn (out, tmp)
+    val () = emit_primval (out, pmv)
+    val () =
+      if isvoid then fprint_string (out, " */")
+  } // end of [INSmove_val]
+//
 | INSfuncall _ => emit_instr_funcall (out, ins)
+//
+| INScond (
+    pmv_cond, inss_then, inss_else
+  ) => {
+    val () = fprint_string (out, "if (")
+    val () = emit_primval (out, pmv_cond)
+    val () = fprint_string (out, ") {\n")
+    val () = emit_instrlst (out, inss_then)
+    val () = fprint_string (out, "\n} else {\n")
+    val () = emit_instrlst (out, inss_else)
+    val () =
+      fprint_string (out, "\n} /* end of [if] */")
+    // end of [val]
+  } // end of [INScond]
+//
 | _ => let
     val () = prerr_interror_loc (loc0)
     val () = (

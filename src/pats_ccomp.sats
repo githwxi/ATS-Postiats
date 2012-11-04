@@ -322,6 +322,8 @@ fun tmpvar_set_alias
 
 (* ****** ****** *)
 
+fun primval_is_void (pmv: primval): bool
+
 fun primval_is_mutabl (pmv: primval): bool
 
 (* ****** ****** *)
@@ -721,9 +723,9 @@ fun hideclist_ccomp0
 
 fun emit_time_stamp (out: FILEref): void
 
-fun emit_label (out: FILEref, lab: label): void
-
 fun emit_ident (out: FILEref, id: string): void
+
+fun emit_label (out: FILEref, lab: label): void
 
 fun emit_filename (out: FILEref, fil: filename): void
 
