@@ -41,6 +41,8 @@ ccomp_main (
   out, flag, infil, hids
 ) = let
 //
+val () = emit_time_stamp (out)
+//
 val (inss, pmds) = hideclist_ccomp0 (hids)
 //
 val () =

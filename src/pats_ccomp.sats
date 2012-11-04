@@ -708,6 +708,8 @@ fun hideclist_ccomp0
 
 (* ****** ****** *)
 
+fun emit_time_stamp (out: FILEref): void
+
 fun emit_ident (out: FILEref, id: string): void
 
 fun emit_label (out: FILEref, lab: label): void
