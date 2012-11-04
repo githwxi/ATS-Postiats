@@ -37,7 +37,7 @@ staload "libc/SATS/string.sats"
 (* ****** ****** *)
 
 staload ERR = "pats_error.sats"
-staload GLO = "pats_global.sats"
+staload GLOB = "pats_global.sats"
 staload LOC = "pats_location.sats"
 staload FIL = "pats_filename.sats"
 staload PAR = "pats_parsing.sats"
@@ -185,7 +185,7 @@ end // end of [process_DATS_def]
 implement
 process_IATS_dir (dir) = let
   val () = $FIL.the_pathlst_ppush (dir)
-  val () = $GLO.the_IATS_dirlst_ppush (dir)
+  val () = $GLOB.the_IATS_dirlst_ppush (dir)
 in
   // nothing
 end (* end of [process_IATS_dir] *)

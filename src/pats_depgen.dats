@@ -38,7 +38,7 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 (* ****** ****** *)
 
 staload
-GLO = "./pats_global.sats"
+GLOB = "./pats_global.sats"
 staload
 FIL = "./pats_filename.sats"
 
@@ -118,7 +118,7 @@ case+ knd of
       val () = strptr_free (partname2) in None_vt ()
     end // end of [if]
   end // end of [0]
-| _ (*external*) => loop ($GLO.the_IATS_dirlst_get (), name)
+| _ (*external*) => loop ($GLOB.the_IATS_dirlst_get (), name)
 //
 end // end of [pathtry_basename]
 

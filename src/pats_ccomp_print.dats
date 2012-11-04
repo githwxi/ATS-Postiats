@@ -647,6 +647,15 @@ case+ x.instr_node of
 //
 end // end of [fprint_instr]
 
+(* ****** ****** *)
+
+implement
+print_instr (ins) = fprint_instr (stdout_ref, ins)
+implement
+prerr_instr (ins) = fprint_instr (stderr_ref, ins)
+
+(* ****** ****** *)
+
 implement
 fprint_instrlst
   (out, xs) = let

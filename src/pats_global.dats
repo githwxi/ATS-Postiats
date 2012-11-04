@@ -63,4 +63,34 @@ end // end of [local]
 
 (* ****** ****** *)
 
+local
+
+val the_DEBUGATS_dbgflag = ref<int> (0)
+
+in // in of [local]
+
+implement
+the_DEBUGATS_dbgflag_get () = !the_DEBUGATS_dbgflag
+implement
+the_DEBUGATS_dbgflag_set (flag) = !the_DEBUGATS_dbgflag := flag
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+val the_DEBUGATS_dbgline = ref<int> (0)
+
+in // in of [local]
+
+implement
+the_DEBUGATS_dbgline_get () = !the_DEBUGATS_dbgline
+implement
+the_DEBUGATS_dbgline_set (line) = !the_DEBUGATS_dbgline := line
+
+end // end of [local]
+
+(* ****** ****** *)
+
 (* end of [pats_global.dats] *)

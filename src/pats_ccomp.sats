@@ -99,6 +99,8 @@ fun tmpvar_make_ret
 
 fun tmpvar_get_type (tmp: tmpvar): hisexp
 
+fun tmpvar_get_tpknd (tmp: tmpvar): int // 0/1: local/(static)top
+
 fun tmpvar_get_stamp (tmp: tmpvar): stamp
 
 (* ****** ****** *)
@@ -703,6 +705,29 @@ fun hideclist_ccomp
 fun hideclist_ccomp0
   (hdcs: hideclist): (instrlst, primdeclst)
 // end of [hideclist_ccomp0]
+
+(* ****** ****** *)
+
+fun emit_ident (out: FILEref, id: string): void
+
+fun emit_label (out: FILEref, lab: label): void
+
+fun emit_d2con (out: FILEref, d2c: d2con): void
+fun emit_d2cst (out: FILEref, d2c: d2cst): void
+
+fun emit_funlab (out: FILEref, fl: funlab): void
+
+fun emit_tmpvar (out: FILEref, tmp: tmpvar): void
+
+(* ****** ****** *)
+
+fun emit_primval (out: FILEref, pmv: primval): void
+fun emit_primvalist (out: FILEref, pmvs: primvalist): void
+
+(* ****** ****** *)
+
+fun emit_instr (out: FILEref, ins: instr): void
+fun emit_instrlst (out: FILEref, inss: instrlst): void
 
 (* ****** ****** *)
 

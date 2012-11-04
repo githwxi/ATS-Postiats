@@ -321,4 +321,36 @@ end // end of [local]
 
 (* ****** ****** *)
 
+implement
+fprint_line_pragma
+  (out, loc) = let
+//
+val line = loc.beg_nrow
+//
+val () =
+  if line >= 0 then let
+  val () = fprint_string (out, "#line ")
+  val () = fprint_int (out, line+1) // HX: counting from 1
+  val () = fprint_string (out, " \"")
+  val () = $FIL.fprint_filename (out, loc.filename)
+  val () = fprint_string (out, "\"\n")
+in
+  // nothing
+end else let
+(*
+//
+// HX-2010-11-02: this is another possibility:
+//
+  val () = fprint1_string (out, "#line 1 \"<built-in>\"\n")
+*)
+in
+  // nothing
+end // end of [if]
+//
+in
+  // nothing
+end // end of [fprint_line_pragma]
+
+(* ****** ****** *)
+
 (* end of [pats_location.dats] *)

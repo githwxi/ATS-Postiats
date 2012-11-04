@@ -308,6 +308,7 @@ dynload "pats_ccomp_instrseq.dats"
 dynload "pats_ccomp_hipat.dats"
 dynload "pats_ccomp_dynexp.dats"
 dynload "pats_ccomp_decl.dats"
+dynload "pats_ccomp_emit.dats"
 dynload "pats_ccomp_main.dats"
 //
 dynload "pats_comarg.dats"

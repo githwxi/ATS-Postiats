@@ -136,4 +136,8 @@ fun location_combine
 
 (* ****** ****** *)
 
+fun fprint_line_pragma (out: FILEref, loc: location): void
+
+(* ****** ****** *)
+
 (* end of [pats_location.sats] *)

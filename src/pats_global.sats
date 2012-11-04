@@ -37,4 +37,12 @@ fun the_IATS_dirlst_ppush (dir: string):<!ref> void // permanent push
 
 (* ****** ****** *)
 
+fun the_DEBUGATS_dbgflag_get (): int
+fun the_DEBUGATS_dbgflag_set (flag: int): void
+
+fun the_DEBUGATS_dbgline_get (): int
+fun the_DEBUGATS_dbgline_set (line: int): void
+
+(* ****** ****** *)
+
 (* end of [pats_global.sats] *)
