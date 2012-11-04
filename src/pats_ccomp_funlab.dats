@@ -123,6 +123,11 @@ end // end of [funlab_make]
 (* ****** ****** *)
 
 implement
+funlab_get_qopt (fl) = let
+  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_qopt
+end // end of [funlab_get_qopt]
+
+implement
 funlab_get_name (fl) = let
   val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_name
 end // end of [funlab_get_name]

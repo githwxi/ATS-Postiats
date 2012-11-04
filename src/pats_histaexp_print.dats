@@ -180,6 +180,13 @@ end // end of [fprint_hisexp]
 (* ****** ****** *)
 
 implement
+print_hisexp (pmv) = fprint_hisexp (stdout_ref, pmv)
+implement
+prerr_hisexp (pmv) = fprint_hisexp (stderr_ref, pmv)
+
+(* ****** ****** *)
+
+implement
 fprint_labhisexp
   (out, lx) = let
   val HSLABELED (l, _, x) = lx

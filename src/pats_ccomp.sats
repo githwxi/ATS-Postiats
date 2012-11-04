@@ -135,9 +135,15 @@ fun funlab_make_type (hse: hisexp): funlab
 fun funlab_make_dvar_type (d2v: d2var, hse: hisexp): funlab
 fun funlab_make_dcst_type (d2c: d2cst, hse: hisexp): funlab
 //
+fun funlab_get_qopt
+  (fl: funlab): d2cstopt // qualifier
+//
 fun funlab_get_name (fl: funlab): string
+//
 fun funlab_get_level (fl: funlab): int
+//
 fun funlab_get_type (fl: funlab): hisexp
+//
 fun funlab_get_stamp (fl: funlab): stamp
 //
 (* ****** ****** *)
@@ -290,7 +296,12 @@ typedef labprimvalist = List (labprimval)
 
 (* ****** ****** *)
 
+fun print_primval (x: primval): void
+overload print with print_primval
+fun prerr_primval (x: primval): void
+overload prerr with prerr_primval
 fun fprint_primval : fprint_type (primval)
+
 fun fprint_primvalist : fprint_type (primvalist)
 
 (* ****** ****** *)
@@ -710,9 +721,11 @@ fun hideclist_ccomp0
 
 fun emit_time_stamp (out: FILEref): void
 
+fun emit_label (out: FILEref, lab: label): void
+
 fun emit_ident (out: FILEref, id: string): void
 
-fun emit_label (out: FILEref, lab: label): void
+fun emit_filename (out: FILEref, fil: filename): void
 
 fun emit_d2con (out: FILEref, d2c: d2con): void
 fun emit_d2cst (out: FILEref, d2c: d2cst): void
@@ -720,6 +733,7 @@ fun emit_d2cst (out: FILEref, d2c: d2cst): void
 fun emit_funlab (out: FILEref, fl: funlab): void
 
 fun emit_tmpvar (out: FILEref, tmp: tmpvar): void
+fun emit_tmpvar_assgn (out: FILEref, tmp: tmpvar): void
 
 (* ****** ****** *)
 

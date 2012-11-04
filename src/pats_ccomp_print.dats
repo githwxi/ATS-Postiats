@@ -297,6 +297,13 @@ end // end of [fprint_primval]
 (* ****** ****** *)
 
 implement
+print_primval (pmv) = fprint_primval (stdout_ref, pmv)
+implement
+prerr_primval (pmv) = fprint_primval (stderr_ref, pmv)
+
+(* ****** ****** *)
+
+implement
 fprint_primvalist
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_primval)
 // end of [fprint_primvalist]
