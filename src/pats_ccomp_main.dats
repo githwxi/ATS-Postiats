@@ -42,6 +42,8 @@ ccomp_main (
 ) = let
 //
 val () = emit_time_stamp (out)
+val () = emit_ats_runtime_incl (out)
+val () = emit_ats_prelude_cats (out)
 //
 val (inss, pmds) = hideclist_ccomp0 (hids)
 //
@@ -52,6 +54,12 @@ val () = fprint_instrlst (out, inss)
 val () =
   print ("ccomp_main: pmds =\n")
 val () = fprint_primdeclst (out, pmds)
+//
+val () = fprint_string (out, "/*\n")
+val () = fprint_string (out, "** declaration initialization\n")
+val () = fprint_string (out, "*/\n")
+val () = emit_instrlst (out, inss)
+val () = fprint_newline (out)
 //
 in
 end // end of [ccomp_main]

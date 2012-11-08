@@ -40,7 +40,7 @@
 
 /* ****** ****** */
 
-#define ATSMACcastfn(castfn, arg) arg // castfn application
+#define ATSMACcastfn(castfn, arg) (arg) // castfn application
 
 /* ****** ****** */
 

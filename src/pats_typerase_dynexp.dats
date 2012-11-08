@@ -47,6 +47,9 @@ staload LAB = "pats_label.sats"
 staload LOC = "pats_location.sats"
 overload print with $LOC.print_location
 
+staload SYM = "pats_symbol.sats"
+overload = with $SYM.eq_symbol_symbol
+
 staload SYN = "pats_syntax.sats"
 
 (* ****** ****** *)
@@ -278,6 +281,7 @@ fun c3laulst_tyer (c3ls: c3laulst): hiclaulst
 extern
 fun d3exp_tyer_cst
   (loc0: location, hse0: hisexp, d2c: d2cst): hidexp
+// end of [d3exp_tyer_cst]
 
 extern
 fun d3exp_tyer_tmpcst (
@@ -764,8 +768,16 @@ end // end of [d3lablst_tyer]
 implement
 d3exp_tyer_cst
   (loc0, hse0, d2c) = let
+  val sym = d2cst_get_sym (d2c)
 in
-  hidexp_cst (loc0, hse0, d2c)
+//
+case+ sym of
+| _ when sym =
+    $SYM.symbol_TRUE_BOOL => hidexp_bool (loc0, hse0, true)
+| _ when sym =
+    $SYM.symbol_FALSE_BOOL => hidexp_bool (loc0, hse0, false)
+| _ => hidexp_cst (loc0, hse0, d2c)
+//
 end // end of [d3exp_tyer_cst]
 
 (* ****** ****** *)

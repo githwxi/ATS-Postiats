@@ -110,13 +110,67 @@ in
 end // end of [if]
 //
 val () = fprint_string (out, "**\n")
-val () = fprint_string (out, "*/\n\n")
+val () = fprint_string (out, "*/\n")
 //
 in
-// nothing
+  fprint_newline (out)
 end // end of [emit_time_stamp]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+emit_ats_runtime_incl (out) = let
+  val () = fprint_string (out, "/*\n")
+  val () = fprint_string (out, "** include runtime header files\n")
+  val () = fprint_string (out, "*/\n")
+  val () = fprint_string (out, "#ifndef _ATS_HEADER_NONE\n")
+  val () = fprint_string (out, "#include \"pats_config.h\"\n")
+  val () = fprint_string (out, "#include \"pats_basics.h\"\n")
+  val () = fprint_string (out, "#include \"pats_typedefs.h\"\n")
+  val () = fprint_string (out, "#include \"pats_exception.h\"\n")
+  val () = fprint_string (out, "#include \"pats_memalloc.h\"\n")
+  val () = fprint_string (out, "#endif /* _ATS_HEADER_NONE */\n")
+  val () = fprint_newline (out)
+in
+  fprint_newline (out)
+end // end of [emit_ats_runtime_incl]
+
+(* ****** ****** *)
+
+implement
+emit_ats_prelude_cats (out) = let
+//
+val () = fprint_string (out, "/*\n")
+val () = fprint_string (out, "** include prelude cats files\n")
+val () = fprint_string (out, "*/\n")
+//
+val () = fprint_string (out, "#ifndef _ATS_PRELUDE_NONE\n")
+//
+// HX: primary prelude cats files
+//
+val () = fprint_string (out, "//\n")
+val () = fprint_string (out, "#include \"prelude/CATS/bool.cats\"\n")
+val () = fprint_string (out, "#include \"prelude/CATS/char.cats\"\n")
+val () = fprint_string (out, "#include \"prelude/CATS/float.cats\"\n")
+val () = fprint_string (out, "#include \"prelude/CATS/integer.cats\"\n")
+val () = fprint_string (out, "#include \"prelude/CATS/string.cats\"\n")
+//
+// HX: secondary prelude cats files
+//
+val () = fprint_string (out, "//\n")
+val () = fprint_string (out, "#include \"prelude/CATS/list.cats\"\n")
+val () = fprint_string (out, "#include \"prelude/CATS/option.cats\"\n")
+val () = fprint_string (out, "#include \"prelude/CATS/array.cats\"\n")
+val () = fprint_string (out, "#include \"prelude/CATS/matrix.cats\"\n")
+//
+val () = fprint_string (out, "//\n")
+val () = fprint_string (out, "#endif /* _ATS_PRELUDE_NONE */\n")
+//
+in
+  fprint_newline (out)
+end // end of [emit_ats_prelude_cats]
 
 (* ****** ****** *)
 
@@ -242,15 +296,6 @@ end // end of [emit_tmpvar]
 
 (* ****** ****** *)
 
-implement
-emit_tmpvar_assgn
-  (out, tmp) = {
-  val () = emit_tmpvar (out, tmp)
-  val () = fprint_string (out, " = ")
-} // end of [emit_tmpvar_assgn]
-
-(* ****** ****** *)
-
 typedef
 emit_primval_type = (FILEref, primval) -> void
 
@@ -278,14 +323,20 @@ case+ pmv0.primval_node of
 | PMVargref _ => emit_primval_argref (out, pmv0)
 *)
 | PMVbool _ => emit_primval_bool (out, pmv0)
+//
+| PMVi0nt (tok) => $SYN.fprint_i0nt (out, tok)
+| PMVf0loat (tok) => $SYN.fprint_f0loat (out, tok)
+//
 | _ => let
+(*
     val () = prerr_interror_loc (loc0)
     val () = (
       prerr ": emit_primval: pmv0 = "; prerr pmv0; prerr_newline ()
     ) // end of [val]
     val () = assertloc (false)
+*)
   in
-    // nothing
+    fprint_primval (out, pmv0)
   end // end of [_]
 //
 end // end of [emit_primval]
@@ -370,6 +421,16 @@ end (* end of [emit_primval_bool] *)
 
 (* ****** ****** *)
 
+implement
+emit_tmpvar_assgn
+  (out, tmp, pmv) = {
+  val () = emit_tmpvar (out, tmp)
+  val () = fprint_string (out, " = ")
+  val () = emit_primval (out, pmv)
+} // end of [emit_tmpvar_assgn]
+
+(* ****** ****** *)
+
 typedef
 emit_instr_type = (FILEref, instr) -> void
 
@@ -413,13 +474,10 @@ case+ ins.instr_node of
 | INSmove_val
     (tmp, pmv) => {
     val isvoid = primval_is_void (pmv)
-    val () =
-      if isvoid then fprint_string (out, "/* ")
-    val () =
-      emit_tmpvar_assgn (out, tmp)
-    val () = emit_primval (out, pmv)
-    val () =
-      if isvoid then fprint_string (out, " */")
+    val () = if isvoid then fprint_string (out, "/* ")
+    val () = emit_tmpvar_assgn (out, tmp, pmv)
+    val () = if isvoid then fprint_string (out, " */")
+    val () = fprint_string (out, " ;")
   } // end of [INSmove_val]
 //
 | INSfuncall _ => emit_instr_funcall (out, ins)
@@ -494,14 +552,16 @@ emit_instr_funcall
 val loc0 = ins.instr_loc
 val- INSfuncall
   (tmp, pmv_fun, hse_fun, pmvs_arg) = ins.instr_node
-//
+(*
 val () = (
   println! ("emit_instr_funcall: pmv_fun = ", pmv_fun)
 ) // end of [val]
-//
+*)
 val isvoid = false
 val () = if isvoid then fprint_string (out, "/* ")
-val () = emit_tmpvar_assgn (out, tmp)
+val () = (
+  emit_tmpvar (out, tmp); fprint_string (out, " = ")
+) // end of [val]
 val () = if isvoid then fprint_string (out, "*/ ")
 //
 in
@@ -515,7 +575,16 @@ case+ pmv_fun.primval_node of
     val () = fprint_string (out, ") ;")
   in
     // nothing
-  end // end of [VPfun]
+  end // end of [PMVfun]
+//
+| PMVtmpcst _ => let
+    val () = emit_primval (out, pmv_fun)
+    val () = fprint_string (out, "(")
+    val () = emit_primvalist (out, pmvs_arg)
+    val () = fprint_string (out, ") ;")
+  in
+    // nothing
+  end // end of [PMVtmpcst]
 //
 | _ => let
     val () = prerr_interror_loc (loc0)

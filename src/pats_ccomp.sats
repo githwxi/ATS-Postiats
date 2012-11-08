@@ -722,6 +722,10 @@ fun hideclist_ccomp0
 (* ****** ****** *)
 
 fun emit_time_stamp (out: FILEref): void
+fun emit_ats_runtime_incl (out: FILEref): void
+fun emit_ats_prelude_cats (out: FILEref): void
+
+(* ****** ****** *)
 
 fun emit_ident (out: FILEref, id: string): void
 
@@ -735,12 +739,17 @@ fun emit_d2cst (out: FILEref, d2c: d2cst): void
 fun emit_funlab (out: FILEref, fl: funlab): void
 
 fun emit_tmpvar (out: FILEref, tmp: tmpvar): void
-fun emit_tmpvar_assgn (out: FILEref, tmp: tmpvar): void
 
 (* ****** ****** *)
 
 fun emit_primval (out: FILEref, pmv: primval): void
 fun emit_primvalist (out: FILEref, pmvs: primvalist): void
+
+(* ****** ****** *)
+
+fun emit_tmpvar_assgn
+  (out: FILEref, tmp: tmpvar, pmv: primval): void
+// end of [emit_tmpvar_assgn]
 
 (* ****** ****** *)
 
