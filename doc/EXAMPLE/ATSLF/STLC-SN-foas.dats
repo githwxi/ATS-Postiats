@@ -1,19 +1,26 @@
+(*
 //
-// simply typed lambda calculus is strongly-normalizing
+// The simply typed lambda calculus (STLC) is strongly-normalizing
 // This formalization uses first-order abstract syntax for lambda-terms.
 // There are several unproven lemmas, which can certainly be finished
 // but require significant effort that is uninspiring and tedious.
 //
+*)
 
+(* ****** ****** *)
+//
 // April 2006:
 // The code is written by Kevin Donnelly and Hongwei Xi.
-
+//
 // January 2007:
 // The code is ported to ATS/Geizella by Hongwei Xi
-
+//
 // March 3rd, 2008
-// It is ported to ATS/Anairiats by Hongwei Xi
-
+// The code is ported to ATS/Anairiats by Hongwei Xi
+//
+// June 13th, 2012
+// The code is ported to ATS/Postiats by Hongwei Xi
+//
 (* ****** ****** *)
 
 datasort tm =
@@ -75,6 +82,8 @@ propdef subst1
   (t1:tm, t2:tm, t3:tm) = subst (tmsmore (tmsnil, t1), t2, t3)
 // end of [subst1]
 
+(* ****** ****** *)
+
 datasort tp = tpbas | tpfun of (tp, tp)
 
 datasort tps = tpsnil | tpsmore of (tps, tp)
@@ -84,8 +93,6 @@ dataprop TP (tp, int) =
   | {T1,T2:tp} {n1,n2:nat}
     TPfun (tpfun (T1, T2), n1+n2+1) of (TP (T1, n1), TP (T2, n2))
 propdef TP0 (T:tp) = [n:nat] TP (T, n)
-
-//
 
 dataprop
 TPI (int, tp, tps) =
@@ -126,9 +133,11 @@ RED (tm, tm, int) =
   | {t,v,t':tm} REDapp3 (tmapp (tmlam t, v), t', 0) of subst1 (v, t, t')
 propdef RED0 (t:tm, t':tm) = [s:nat] RED (t, t', s)
 
-//
+(* ****** ****** *)
 
-(* Strong Normalization *)
+(*
+** Strong Normalization
+*)
 dataprop SN (tm, int) =
   | {t:tm} {n:nat}
     SN (t, n) of {t':tm} (RED0 (t, t') -<fun> [n':nat | n' < n] SN (t', n'))
@@ -141,22 +150,36 @@ prfn forwardSN {t,t':tm} {n:nat}
 
 extern prval backwardSN : {t:tm} ({t':tm} RED0 (t, t') -<fun> SN0 t') -<fun> SN0 t
 
-(* Reducibility *)
-dataprop R(tm, tp) = 
+(* ****** ****** *)
+
+(*
+** Reducibility
+*)
+dataprop
+R (tm, tp) = 
   | {t:tm} Rbas(t, tpbas) of SN0 t
   | {t:tm} {T1,T2:tp}
-      Rfun (t, tpfun (T1, T2)) of ({t1:tm} R (t1, T1) -<fun> R (tmapp (t, t1), T2))
+    Rfun (t, tpfun (T1, T2)) of ({t1:tm} R (t1, T1) -<fun> R (tmapp (t, t1), T2))
+// end of [R]
 
 // sequence of redubility predicates for a substitution
-dataprop RS (tms, tps, int) =
+dataprop
+RS (tms, tps, int) =
   | RSnil (tmsnil, tpsnil, 0)
   | {ts:tms} {t:tm} {G:tps} {T:tp} {n:nat} 
     RSmore (tmsmore (ts, t), tpsmore(G, T), n+1) of (RS(ts, G, n), R(t, T))
+// end of [RS]
 
 propdef RS0(ts:tms, G:tps) = [n:nat] RS(ts, G, n)
 
+(* ****** ****** *)
+//
 // definition of neutral terms
-dataprop NEU(tm) = {i:int} NEUvar(tmvar i) | {t1,t2:tm} NEUapp(tmapp(t1, t2))
+//
+dataprop NEU(tm) =
+  {i:int} NEUvar(tmvar i) | {t1,t2:tm} NEUapp(tmapp(t1, t2))
+//
+(* ****** ****** *)
 
 extern prval lamSN :
   {t1,t2,t3:tm} {n:nat} (subst1 (t1, t2, t3), SN (t3, n)) -> SN (t2, n)
@@ -194,7 +217,6 @@ prfun cr2
 end // end of [cr2]
 
 (* CR 1 *)
-// R implies strongly normalizing
 prfun cr1
   {t:tm}
   {T:tp}
@@ -220,7 +242,6 @@ in
 end // end of [cr4]
 
 (* CR 3*)
-// (NEU t and for all t' such that t --> t' we have R(t',T)) implies R(t,T)
 and cr3 {t:tm} {T:tp} {n:nat} .<n, 1>. (
     neu: NEU(t)
   , tp: TP(T, n)
@@ -253,24 +274,21 @@ and cr3a
     (rd: RED0 (tmapp (t, t1), tt)): R (tt, T2) =
     case+ rd of
     | REDapp1 rd => let
-        prval Rfun fr = f rd
-      in
-        fr (r1)
-      end
+        prval Rfun fr = f rd in fr (r1)
+      end // end of [REDapp1]
     | REDapp2 rd => let
-        prval SN fsn1 = sn1
-      in
+        prval SN fsn1 = sn1 in
         cr3a (tp1, tp2, neu, cr2 (tp1, r1, rd), fsn1 rd, f)
-      end
+      end // end of [REDapp2]
     | REDapp3 _ =/=> begin
         case+ neu of NEUvar() => () | NEUapp() => ()
-      end
+      end // end of [REDapp3]
   // end of [ff]
 in
   cr3  (NEUapp, tp2, ff)
 end // end of [cr3a]
 
-//
+(* ****** ****** *)
 
 prfun mainLemmaVar
   {G:tps} {T:tp}
@@ -279,10 +297,12 @@ prfun mainLemmaVar
   tpi: TPI (i, T, G), tmi: TMI (i, t, ts), rs: RS0 (ts, G)
 ) : R (t, T) =
   case+ (tpi, tmi) of
-  | (TPIone (), TMIone ())  => let prval RSmore (_, r) = rs in r end
-  | (TPIshi tpi, TMIshi tmi) => begin
+  | (TPIone (), TMIone ())  =>
+       let prval RSmore (_, r) = rs in r end
+    // end of [TPIone, TPIone]
+  | (TPIshi tpi, TMIshi tmi) =>
       let prval RSmore (rs, _) = rs in mainLemmaVar (tpi, tmi, rs) end
-    end
+    // end of [TPIshi, TPIshi]
 // end of [mainLemmaVar]
 
 extern prval der2tp
@@ -356,17 +376,23 @@ case+ der of
 //
 end // end of [mainLemma]
 
-// all typable terms are reducible
-prfn reduce
+(* ****** ****** *)
+//
+// every typable term is reducible
+//
+prfn IsReducible
   {t:tm} {T:tp} (
   der: DER0 (tpsnil,t,T)
 ) : R (t,T) = mainLemma(der, RSnil(), lemma10)
 
-// the final payoff
-prfn normalize
+(* ****** ****** *)
+//
+// the final payoff: every typable term is SN
+//
+prfn StrongNormalizing
   {t:tm} {T:tp}
-  (der: DER0 (tpsnil,t,T)): SN0 t = cr1(der2tp der, reduce der)
-// end of [normalize]
+  (der: DER0 (tpsnil,t,T)): SN0 t = cr1 (der2tp der, IsReducible der)
+// end of [StrongNormalizing]
 
 (* ****** ****** *)
 
