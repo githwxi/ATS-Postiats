@@ -56,6 +56,10 @@ SYN = "pats_syntax.sats"
 typedef d0ynq = $SYN.d0ynq
 
 macdef
+print_dqid (dq, id) =
+  ($SYN.print_d0ynq ,(dq); $SYM.print_symbol ,(id))
+// end of [print_dqid]
+macdef
 prerr_dqid (dq, id) =
   ($SYN.prerr_d0ynq ,(dq); $SYM.prerr_symbol ,(id))
 // end of [prerr_dqid]
@@ -186,7 +190,8 @@ val ans = the_d2expenv_find_qua (dq, id)
 in
 //
 case+ ans of
-| ~Some_vt d2i0 => (case+ d2i0 of
+| ~Some_vt d2i0 => (
+  case+ d2i0 of
   | D2ITMcon d2cs => let
       val d2cs = d2con_select_arity (d2cs, 0)
       val- list_cons (d2c, _) = d2cs // HX: [d2cs] cannot be nil
@@ -457,13 +462,23 @@ d1exp_tr_app_sta_dyn_dqid_itm (
 , sarg: s1exparglst
 , locarg: location, npf: int, darg: d1explst 
 ) : d2exp = let
+(*
+val () = (
+  print "d1exp_tr_app_sta_dyn_dqid_itm: loc = ";
+  $LOC.print_location (d1e0.d1exp_loc); print_newline ()
+) // end of [val]
+val () = (
+  print "d1exp_tr_app_sta_dyn_dqid_itm: dqid = "; print_dqid (dq, id); print_newline ()
+) // end of [val]
+*)
 in
 //
 case+ d2i of
 | D2ITMcon d2cs => let
     val loc0 = d1e0.d1exp_loc
     val loc1 = d1e1.d1exp_loc
-    val d2cs = d2con_select_arity (d2cs, 0)
+    val n = list_length (darg)
+    val d2cs = d2con_select_arity (d2cs, n)
     val- list_cons (d2c, _) = d2cs
     val sarg = s1exparglst_tr (sarg)
     val darg = d1explst_tr (darg)
