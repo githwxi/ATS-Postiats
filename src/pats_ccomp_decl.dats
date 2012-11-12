@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
@@ -247,6 +251,9 @@ fun auxlam (
     // end of [hidexp_ccomp_funlab_arg_body]
   end // end of [val]
 //
+  val () = the_funlablst_add (fl)
+  val () = funlab_set_entry (fl, Some (fent))
+//
   val () = println! ("hiimpdec_ccomp: auxlam: fent = ", fent)
 //
 in
@@ -382,6 +389,8 @@ case+ hfds of
 //
     val () = println! ("auxmain: fent=", fent)
 //
+    val () = funlab_set_entry (fl, Some (fent))
+//
     val d2vs = auxmain (env, knd, decarg, hfds, fls)
   in
     list_cons (d2v, d2vs)
@@ -401,6 +410,7 @@ hifundeclst_ccomp (
   val fls =
     auxinit (env, lev0, decarg, hfds)
   // end of [val]
+  val () = the_funlablst_addlst ($UN.castvwtp1{funlablst}(fls))
 in
   auxmain (env, knd, decarg, hfds, fls)
 end // end of [hifundeclst_ccomp]

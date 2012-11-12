@@ -71,8 +71,6 @@ extern typedef "funent_t" = funent
 
 in // in of [local]
 
-(* ****** ****** *)
-
 implement
 funent_make (
   loc, fl, lev, imparg, tmparg, tmpret, inss
@@ -85,6 +83,20 @@ funent_make (
 , funent_ret= tmpret
 , funent_body= inss
 } // end of [funenv_make]
+
+(* ****** ****** *)
+
+implement
+funent_get_loc (fent) = fent.funent_loc
+
+implement
+funent_get_lab (fent) = fent.funent_lab
+
+implement
+funent_get_ret (fent) = fent.funent_ret
+
+implement
+funent_get_body (fent) = fent.funent_body
 
 (* ****** ****** *)
 

@@ -62,6 +62,8 @@ staload D2E = "pats_dynexp2.sats"
 (* ****** ****** *)
 
 staload HSE = "pats_histaexp.sats"
+typedef hisexp = $HSE.hisexp
+typedef hisexplst = $HSE.hisexplst
 
 (* ****** ****** *)
 
@@ -431,6 +433,56 @@ emit_tmpvar_assgn
 
 (* ****** ****** *)
 
+implement
+emit_hisexp
+  (out, hse) = let
+in
+  $HSE.fprint_hisexp (out, hse)
+end // end of [emit_hisexp]
+
+implement
+emit_hisexplst_sep
+  (out, hses, sep) = let
+//
+fun loop (
+  out: FILEref
+, hses: hisexplst, sep: string, i: int
+) : void = let
+in
+  case+ hses of
+  | list_cons (
+      hse, hses
+    ) => let
+      val () =
+        if i > 0 then fprint_string (out, sep)
+      // end of [val]
+      val () = emit_hisexp (out, hse)
+    in
+      loop (out, hses, sep, i+1)
+    end // end of [list_cons]
+  | list_nil () => ()
+end // end of [loop]
+//
+in
+  loop (out, hses, sep, 0)
+end // end of [emit_hisexplst_sep]
+
+(* ****** ****** *)
+
+implement
+emit_funtype_arg_res (
+  out, hses_arg, hse_res
+) = let
+  val () = emit_hisexp (out, hse_res)
+  val () = fprint_string (out, "(*)(")
+  val () = emit_hisexplst_sep (out, hses_arg, ", ")
+  val () = fprint_string (out, ")")
+in
+  // nothing
+end // end of [emit_funtype_arg_res]
+
+(* ****** ****** *)
+
 typedef
 emit_instr_type = (FILEref, instr) -> void
 
@@ -470,6 +522,13 @@ val () = (
 in
 //
 case+ ins.instr_node of
+//
+| INSfunlab (fl) => {
+    val () =
+      fprint_string (out, "__pats_lab_")
+    val () = emit_funlab (out, fl)
+    val () = fprint_string (out, ":")
+  } // end of [INSfunlab]
 //
 | INSmove_val
     (tmp, pmv) => {
@@ -597,6 +656,154 @@ case+ pmv_fun.primval_node of
   end // end of [_]
 //
 end // end of [emit_instr_funcall]
+
+(* ****** ****** *)
+
+implement
+emit_funarglst
+  (out, hses) = let
+//
+fun loop (
+  out: FILEref
+, hses: hisexplst, sep: string, i: int
+) : void = let
+in
+//
+case+ hses of
+| list_cons
+    (hse, hses) => let
+    val () =
+      if i > 0 then fprint_string (out, sep)
+    val () = emit_hisexp (out, hse)
+    val () = fprintf (out, " arg%i", @(i))
+  in
+    loop (out, hses, sep, i+1)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [loop]
+//
+in
+  loop (out, hses, ", ", 0)
+end // end of [emit_funarglst]
+
+(* ****** ****** *)
+
+local
+
+fun auxfun (
+  out: FILEref, fent: funent
+) : void = let
+//
+  val fl = funent_get_lab (fent)
+  val opt = funlab_get_qopt (fl)
+  val isext = (
+    case+ opt of Some _ => true | None _ => false
+  ) : bool // end of [val]
+  val issta = not (isext)
+//
+  val () = if isext then fprint_string (out, "/*\n")
+//
+  val () = if isext then fprint_string (out, "extern\n")
+  val () = if issta then fprint_string (out, "static\n")
+//
+  val () =
+    emit_hisexp (out, hse_res) where {
+    val hse_res = funlab_get_type_res (fl)
+  }
+//
+  val () = fprint_string (out, "\n")
+  val () = emit_funlab (out, fl)
+  val () = fprint_string (out, " (")
+//
+  val () =
+    emit_funarglst (out, hses_arg) where {
+    val hses_arg = funlab_get_type_arg (fl)
+  } // end of [val]
+//
+  val () = fprint_string (out, ") ;")
+  val () = if isext then fprint_string (out, "\n*/")
+//
+  val () = fprint_newline (out)
+//
+in
+  // nothing
+end // end of [auxfun]
+
+in // in of [local]
+
+implement
+emit_funent_ptype
+  (out, fent) = let
+//
+  val () = auxfun (out, fent)
+//
+in
+  // nothing
+end // end of [emit_funentry_ptype]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+emit_funent_implmnt
+  (out, fent) = let
+//
+val locent = funent_get_loc (fent)
+//
+val fl = funent_get_lab (fent)
+//
+val fc = funlab_get_funclo (fl)
+val hses_arg = funlab_get_type_arg (fl)
+val hse_res = funlab_get_type_res (fl)
+//
+val tmpret = funent_get_ret (fent)
+//
+// function header
+//
+val qopt = funlab_get_qopt (fl)
+val isext = (
+  case+ qopt of Some _ => true | None _ => false
+) : bool // end of [val]
+val issta = not (isext)
+val () =
+  if isext then fprint_string (out, "ATSglobaldec()\n")
+val () =
+  if issta then fprint_string (out, "ATSstaticdec()\n")
+val () = emit_hisexp (out, hse_res)
+val () = fprint_string (out, "\n")
+val () = emit_funlab (out, fl)
+val () = fprint_string (out, " (")
+val () = emit_funarglst (out, hses_arg)
+val () = fprint_string (out, ")\n")
+//
+// function body
+//
+val () = fprint_string (out, "{\n")
+val body_inss = funent_get_body (fent)
+val () = emit_instrlst (out, body_inss)
+//
+// function return
+//
+val () = fprint_string (out, "\n")
+val () = fprint_string (out, "return ")
+val isvoid = tmpvar_is_void (tmpret)
+val () =
+  if isvoid then fprint_string (out, "/* ")
+val () = emit_tmpvar (out, tmpret)
+val () =
+  if isvoid then fprint_string (out, " */")
+val () = fprint_string (out, " ;")
+//
+val () = fprint_string (out, "\n}")
+val () =
+  fprint_string (out, " /* end of [")
+val () = emit_funlab (out, fl)
+val () = fprint_string (out, "] */\n")
+//
+in
+end // end of [emit_funent_implmnt]
 
 (* ****** ****** *)
 

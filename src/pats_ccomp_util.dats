@@ -50,6 +50,13 @@ staload "pats_ccomp.sats"
 (* ****** ****** *)
 
 implement
+tmpvar_is_void (tmp) =
+  hisexp_is_void (tmpvar_get_type (tmp))
+// end of [tmpvar_is_void]
+
+(* ****** ****** *)
+
+implement
 primval_is_void
   (pmv) = hisexp_is_void (pmv.primval_type)
 // end of [primval_is_void]

@@ -124,6 +124,7 @@ overload = with compare_tmpvar_tmpvar
 //
 abstype ccomp_funlab_type
 typedef funlab = ccomp_funlab_type
+typedef funlablst = List (funlab)
 //
 fun print_funlab (x: funlab): void
 overload print with print_funlab
@@ -132,8 +133,8 @@ overload prerr with prerr_funlab
 fun fprint_funlab : fprint_type (funlab)
 //
 fun funlab_make_type (hse: hisexp): funlab
-fun funlab_make_dvar_type (d2v: d2var, hse: hisexp): funlab
 fun funlab_make_dcst_type (d2c: d2cst, hse: hisexp): funlab
+fun funlab_make_dvar_type (d2v: d2var, hse: hisexp): funlab
 //
 fun funlab_get_qopt
   (fl: funlab): d2cstopt // qualifier
@@ -143,6 +144,9 @@ fun funlab_get_name (fl: funlab): string
 fun funlab_get_level (fl: funlab): int
 //
 fun funlab_get_type (fl: funlab): hisexp
+fun funlab_get_funclo (fl: funlab): funclo
+fun funlab_get_type_arg (fl: funlab): hisexplst
+fun funlab_get_type_res (fl: funlab): hisexp
 //
 fun funlab_get_stamp (fl: funlab): stamp
 //
@@ -164,8 +168,20 @@ fun fprint_funent : fprint_type (funent)
 //
 (* ****** ****** *)
 
+fun funent_get_loc (fent: funent): location
+fun funent_get_lab (fent: funent): funlab
+fun funent_get_ret (fent: funent): tmpvar // return val
+
+(* ****** ****** *)
+
 fun funlab_get_entry (fl: funlab): funentopt
 fun funlab_set_entry (fl: funlab, opt: funentopt): void
+
+(* ****** ****** *)
+
+fun the_funlablst_get (): funlablst
+fun the_funlablst_add (fl: funlab): void
+fun the_funlablst_addlst (fls: funlablst): void
 
 (* ****** ****** *)
 
@@ -312,6 +328,10 @@ fun fprint_primlablst : fprint_type (primlablst)
 (* ****** ****** *)
 
 fun fprint_labprimvalist : fprint_type (labprimvalist)
+
+(* ****** ****** *)
+
+fun tmpvar_is_void (tmp: tmpvar): bool
 
 (* ****** ****** *)
 
@@ -630,6 +650,10 @@ fun funent_make (
 
 (* ****** ****** *)
 
+fun funent_get_body (fent: funent): instrlst
+
+(* ****** ****** *)
+
 absviewtype ccompenv_vtype
 viewtypedef ccompenv = ccompenv_vtype
 
@@ -742,6 +766,18 @@ fun emit_tmpvar (out: FILEref, tmp: tmpvar): void
 
 (* ****** ****** *)
 
+fun emit_hisexp (out: FILEref, hse: hisexp): void
+
+fun emit_hisexplst_sep
+  (out: FILEref, hses: hisexplst, sep: string): void
+// end of [emit_hisexplst_sep]
+
+fun emit_funtype_arg_res
+  (out: FILEref, _arg: hisexplst, _res: hisexp): void
+// end of [emit_funtype_arg_res]
+
+(* ****** ****** *)
+
 fun emit_primval (out: FILEref, pmv: primval): void
 fun emit_primvalist (out: FILEref, pmvs: primvalist): void
 
@@ -756,6 +792,20 @@ fun emit_tmpvar_assgn
 fun emit_instr (out: FILEref, ins: instr): void
 fun emit_instrlst (out: FILEref, inss: instrlst): void
 
+(* ****** ****** *)
+
+fun emit_funarglst
+  (out: FILEref, _arg: hisexplst): void
+// end of [emit_funarglst]
+
+(* ****** ****** *)
+//
+// HX: for emitting the prototype of a function entry
+//
+fun emit_funent_ptype (out: FILEref, fent: funent): void
+//
+fun emit_funent_implmnt (out: FILEref, fent: funent): void
+//
 (* ****** ****** *)
 
 fun ccomp_main (

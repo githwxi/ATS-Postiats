@@ -32,7 +32,9 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
+staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
@@ -46,6 +48,42 @@ staload "pats_hidynexp.sats"
 (* ****** ****** *)
 
 staload "pats_ccomp.sats"
+
+(* ****** ****** *)
+
+local
+
+viewtypedef funlablst_vt = List_vt (funlab)
+
+val the_funlablst = ref_make_elt<funlablst_vt> (list_vt_nil ())
+
+in // in of [local]
+
+implement
+the_funlablst_add (fl) = let
+  val (vbox pf | p) = ref_get_view_ptr (the_funlablst)
+in
+  !p := list_vt_cons (fl, !p)
+end // end of [the_funlablst_add]
+
+implement
+the_funlablst_get () = let
+  val xs = xs where {
+    val (vbox pf | p) = ref_get_view_ptr (the_funlablst)
+    val xs = !p
+    val () = !p := list_vt_nil ()
+  } // end of [val]
+  val xs = list_vt_reverse (xs)
+in
+  list_of_list_vt (xs)
+end // end of [the_funlablst_get]
+
+end // end of [local]
+
+implement
+the_funlablst_addlst
+  (fls) = list_app_fun (fls, the_funlablst_add)
+// end of [the_funlablst_addlst]
 
 (* ****** ****** *)
 

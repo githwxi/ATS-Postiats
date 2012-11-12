@@ -37,6 +37,12 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
+staload "pats_errmsg.sats"
+staload _(*anon*) = "pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_ccomp_funlab"
+
+(* ****** ****** *)
+
 staload
 STMP = "pats_stamp.sats"
 typedef stamp = $STMP.stamp
@@ -44,6 +50,7 @@ typedef stamp = $STMP.stamp
 (* ****** ****** *)
 
 staload SYM = "pats_symbol.sats"
+staload SYN = "pats_syntax.sats"
 
 (* ****** ****** *)
 
@@ -123,11 +130,6 @@ end // end of [funlab_make]
 (* ****** ****** *)
 
 implement
-funlab_get_qopt (fl) = let
-  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_qopt
-end // end of [funlab_get_qopt]
-
-implement
 funlab_get_name (fl) = let
   val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_name
 end // end of [funlab_get_name]
@@ -143,11 +145,76 @@ funlab_get_type (fl) = let
 end // end of [funlab_get_type]
 
 implement
+funlab_get_qopt (fl) = let
+  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_qopt
+end // end of [funlab_get_qopt]
+
+implement
+funlab_get_entry (fl) = let
+  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_entry
+end // end of [funlab_get_entry]
+implement
+funlab_set_entry (fl, opt) = let
+  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_entry := opt
+end // end of [funlab_set_entry]
+
+implement
 funlab_get_stamp (fl) = let
   val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_stamp
 end // end of [funlab_get_stamp]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+funlab_get_funclo
+  (fl) = fc where {
+  val hse = funlab_get_type (fl)
+  val- HSEfun (fc, _(*arg*), _(*res*)) = hse.hisexp_node
+} // end of [funlab_get_funclo]
+
+(* ****** ****** *)
+
+implement
+funlab_get_type_arg
+  (fl) = let
+  val hse = funlab_get_type (fl)
+in
+//
+case+ hse.hisexp_node of
+| HSEfun (_(*fc*), _arg, _(*res*)) => _arg
+| _ => let
+    val () = prerr_interror ()
+    val () = (
+      prerr ": funlab_get_type_arg: hse = "; prerr hse; prerr_newline ()
+    ) // end of [val]
+    val () = assertloc (false)
+  in
+    exit (1) // HX: this is deadcode
+  end (* end of [_] *)
+//
+end // end of [funlab_get_type_arg]
+
+implement
+funlab_get_type_res
+  (fl) = let
+  val hse = funlab_get_type (fl)
+in
+//
+case+ hse.hisexp_node of
+| HSEfun (_(*fc*), _(*arg*), _res) => _res
+| _ => let
+    val () = prerr_interror ()
+    val () = (
+      prerr ": funlab_get_type_res: hse = "; prerr hse; prerr_newline ()
+    ) // end of [val]
+    val () = assertloc (false)
+  in
+    exit (1) // HX: this is deadcode
+  end (* end of [_] *)
+//
+end // end of [funlab_get_type_res]
 
 (* ****** ****** *)
 
@@ -160,6 +227,44 @@ funlab_make_type
 in
   funlab_make (flname, lev0, hse, None(*qopt*), stamp)
 end // end of [funlab_make_type]
+
+(* ****** ****** *)
+
+local
+
+fun d2cst_get_gname
+  (d2c: d2cst): string = let
+  val extdef = d2cst_get_extdef (d2c)
+in
+  case+ extdef of
+//
+  | $SYN.DCSTEXTDEFnone () => let
+      val sym = d2cst_get_sym (d2c) in $SYM.symbol_get_name (sym)
+    end // end of [DCSTEXTDEFnone]
+//
+  | $SYN.DCSTEXTDEFsome_ext (name) => name
+  | $SYN.DCSTEXTDEFsome_mac (name) => name
+  | $SYN.DCSTEXTDEFsome_sta (name) => name
+//
+end // end of [global_cst_name_make]
+
+in // in of [local]
+
+implement
+funlab_make_dcst_type
+  (d2c, hse) = let
+  val lev0 = the_d2varlev_get ()
+  val d2c2 = d2cst_get_gname (d2c)
+  val qopt = Some (d2c)
+  val stamp = $STMP.funlab_stamp_make ()
+  val stamp2 = $STMP.tostring_stamp (stamp)
+  val flname = sprintf ("%s_%s", @(d2c2, stamp2))
+  val flname = string_of_strptr (flname)
+in
+  funlab_make (flname, lev0, hse, qopt, stamp)
+end // end of [funlab_make_dcst_type]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -177,23 +282,6 @@ funlab_make_dvar_type
 in
   funlab_make (flname, lev0, hse, None(*qopt*), stamp)
 end // end of [funlab_make_dvar_type]
-
-(* ****** ****** *)
-
-implement
-funlab_make_dcst_type
-  (d2c, hse) = let
-  val lev0 = the_d2varlev_get ()
-  val d2c2 =
-    $SYM.symbol_get_name (d2cst_get_sym (d2c))
-  // end of [val]
-  val stamp = $STMP.funlab_stamp_make ()
-  val stamp2 = $STMP.tostring_stamp (stamp)
-  val flname = sprintf ("%s_%s", @(d2c2, stamp2))
-  val flname = string_of_strptr (flname)
-in
-  funlab_make (flname, lev0, hse, None(*qopt*), stamp)
-end // end of [funlab_make_dcst_type]
 
 (* ****** ****** *)
 
