@@ -519,6 +519,13 @@ prerr_s2expopt (opt) = fprint_s2expopt (stderr_ref, opt)
 (* ****** ****** *)
 
 implement
+fprint_s2explstlst
+  (out, xss) = $UT.fprintlst (out, xss, "; ", fprint_s2explst)
+// end of [fprint_s2explstlst]
+
+(* ****** ****** *)
+
+implement
 fprint_s2explstopt
   (out, opt) = let
   macdef prstr (s) = fprint_string (out, ,(s))

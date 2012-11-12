@@ -168,8 +168,12 @@ fun fprint_funent : fprint_type (funent)
 //
 (* ****** ****** *)
 
+fun funent_is_tmplt (feng: funent): bool
+
 fun funent_get_loc (fent: funent): location
 fun funent_get_lab (fent: funent): funlab
+fun funent_get_imparg (fent: funent): s2varlst
+fun funent_get_tmparg (fent: funent): s2explstlst
 fun funent_get_ret (fent: funent): tmpvar // return val
 
 (* ****** ****** *)

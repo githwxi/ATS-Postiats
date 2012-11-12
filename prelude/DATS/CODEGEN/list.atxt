@@ -147,6 +147,7 @@ implement{}
 fprint_list$sep
   (out) = fprint_string (out, ", ")
 // end of [fprint_list$sep]
+
 implement{a}
 fprint_list (out, xs) = let
 //
@@ -283,7 +284,7 @@ fun loop
   xs: list (x, i), j: int j
 ) :<> int (i+j) = (
   case+ xs of
-  | list_cons (_, xs) => loop (xs, n+1) | _ =>> j
+  | list_cons (_, xs) => loop (xs, j+1) | _ =>> j
 ) // end of [loop]
 //
 in
@@ -733,6 +734,11 @@ implement
 {x}{env}
 list_foreach$cont (x, env) = true
 
+implement{x}
+list_foreach (xs) = let
+  var env: void = () in list_foreach_env (xs, env)
+end // end of [list_foreach]
+
 implement
 {x}{env}
 list_foreach_env
@@ -840,6 +846,11 @@ end // end of [list_foreach2_env]
 implement
 {x}{env}
 list_iforeach$cont (i, x, env) = true
+
+implement{x}
+list_iforeach (xs) = let
+  var env: void = () in list_iforeach_env (xs, env)
+end // end of [list_iforeach]
 
 implement
 {x}{env}

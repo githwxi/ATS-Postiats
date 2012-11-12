@@ -1064,6 +1064,7 @@ overload prerr with prerr_s2expopt
 fun fprint_s2expopt : fprint_type (s2expopt)
 overload fprint with fprint_s2expopt
 
+fun fprint_s2explstlst : fprint_type (s2explstlst)
 fun fprint_s2explstopt : fprint_type (s2explstopt)
 
 fun fprint_labs2explst : fprint_type (labs2explst)

@@ -93,6 +93,12 @@ implement
 funent_get_lab (fent) = fent.funent_lab
 
 implement
+funent_get_imparg (fent) = fent.funent_imparg
+
+implement
+funent_get_tmparg (fent) = fent.funent_tmparg
+
+implement
 funent_get_ret (fent) = fent.funent_ret
 
 implement
@@ -138,6 +144,17 @@ in
 end // end of [fprint_funent]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+funent_is_tmplt (fent) = let
+  val tmparg = funent_get_tmparg (fent)
+in
+//
+case+ tmparg of list_cons _ => true | list_nil () => false
+//
+end // end of [funent_is_tmplst]
 
 (* ****** ****** *)
 

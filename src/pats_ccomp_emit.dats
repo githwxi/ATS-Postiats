@@ -746,6 +746,29 @@ end // end of [local]
 
 (* ****** ****** *)
 
+local
+
+fun auxtmp (
+  out: FILEref, fent: funent
+) : void = let
+//
+val imparg = funent_get_imparg (fent)
+val tmparg = funent_get_tmparg (fent)
+val () = fprint_string (out, "/*\n")
+val () = fprint_string (out, "imparg = ")
+val () = $S2E.fprint_s2varlst (out, imparg)
+val () = fprint_string (out, "\n")
+val () = fprint_string (out, "tmparg = ")
+val () = $S2E.fprint_s2explstlst (out, tmparg)
+val () = fprint_string (out, "\n")
+val () = fprint_string (out, "*/\n")
+//
+in
+  // nothing
+end // end of [auxtmp]
+
+in // in of [local]
+
 implement
 emit_funent_implmnt
   (out, fent) = let
@@ -771,6 +794,10 @@ val () =
   if isext then fprint_string (out, "ATSglobaldec()\n")
 val () =
   if issta then fprint_string (out, "ATSstaticdec()\n")
+//
+val istmp = funent_is_tmplt (fent)
+val () = if istmp then auxtmp (out, fent)
+//
 val () = emit_hisexp (out, hse_res)
 val () = fprint_string (out, "\n")
 val () = emit_funlab (out, fl)
@@ -804,6 +831,8 @@ val () = fprint_string (out, "] */\n")
 //
 in
 end // end of [emit_funent_implmnt]
+
+end // end of [local]
 
 (* ****** ****** *)
 
