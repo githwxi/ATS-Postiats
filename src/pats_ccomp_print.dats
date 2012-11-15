@@ -650,6 +650,12 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
+| INSdeclst (pmds) => {
+    val () = prstr "INSdeclst(\n"
+    val () = fprint_primdeclst (out, pmds)
+    val () = prstr ")"
+  }
+//
 | _ => prstr "INS...(...)"
 //
 end // end of [fprint_instr]

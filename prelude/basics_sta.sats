@@ -511,9 +511,9 @@ bottom_viewt0ype_exi = [a:viewt@ype | false] a
 (* ****** ****** *)
 
 typedef cmpval_fun
-  (a: viewt@ype) = (!a, !a) -<fun> int
+  (a: t@ype) = (a, a) -<fun> int
 typedef cmpval_funenv
-  (a: viewt@ype, vt: viewt@ype) = (!a, !a, !vt) -<fun> int
+  (a: t@ype, vt: t@ype) = (a, a, !vt) -<fun> int
 stadef cmpval = cmpval_fun
 stadef cmpval = cmpval_funenv
 

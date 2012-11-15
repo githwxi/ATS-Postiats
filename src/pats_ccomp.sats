@@ -517,6 +517,8 @@ instr_node =
       (d2var(*left*), primlablst(*ofs*), primval(*right*))
   | INSassgn_ptrofs of
       (primval(*left*), primlablst(*ofs*), primval(*right*))
+//
+  | INSdeclst of primdeclst
 // end of [instr_node]
 
 where
@@ -628,6 +630,10 @@ fun instr_assgn_varofs (
 fun instr_assgn_ptrofs (
   loc: location, pmv_l: primval, ofs: primlablst, pmv_r: primval
 ) : instr // end of [instr_assgn_ptrofs]
+
+(* ****** ****** *)
+
+fun instr_declst (loc: location, pmds: primdeclst): instr
 
 (* ****** ****** *)
 

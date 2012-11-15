@@ -36,22 +36,22 @@ staload "libc/SATS/string.sats"
 
 (* ****** ****** *)
 
-staload ERR = "pats_error.sats"
-staload GLOB = "pats_global.sats"
-staload LOC = "pats_location.sats"
-staload FIL = "pats_filename.sats"
-staload PAR = "pats_parsing.sats"
-staload SYN = "pats_syntax.sats"
+staload ERR = "./pats_error.sats"
+staload GLOB = "./pats_global.sats"
+staload LOC = "./pats_location.sats"
+staload FIL = "./pats_filename.sats"
+staload PAR = "./pats_parsing.sats"
+staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp1.sats"
-staload TRANS1 = "pats_trans1.sats"
-staload TRENV1 = "pats_trans1_env.sats"
+staload "./pats_staexp1.sats"
+staload TRANS1 = "./pats_trans1.sats"
+staload TRENV1 = "./pats_trans1_env.sats"
 
 (* ****** ****** *)
 
-staload "pats_comarg.sats"
+staload "./pats_comarg.sats"
 
 (* ****** ****** *)
 

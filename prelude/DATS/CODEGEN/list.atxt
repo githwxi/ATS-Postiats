@@ -806,6 +806,11 @@ implement
 {x,y}{env}
 list_foreach2$cont (x, y, env) = true
 
+implement{x,y}
+list_foreach2 (xs, ys) = let
+  var env: void = () in list_foreach2_env (xs, ys, env)
+end // end of [list_foreach2]
+
 implement
 {x,y}{env}
 list_foreach2_env
@@ -817,25 +822,29 @@ prval () = lemma_list_param (ys)
 fun loop
   {m,n:nat} .<m>. (
   xs: list (x, m), ys: list (y, n), env: &env
-) : void =
-  case+ xs of
-  | list_cons (x, xs) => (
-    case+ ys of
-    | list_cons (y, ys) => let
-        val test =
-          list_foreach2$cont<x,y><env> (x, y, env)
-        // end of [val]
+) : void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => (
+  case+ ys of
+  | list_cons (y, ys) => let
+      val test =
+        list_foreach2$cont<x,y><env> (x, y, env)
+      // end of [val]
+    in
+      if test then let
+        val () = list_foreach2$fwork<x,y><env> (x, y, env)
       in
-        if test then let
-          val () = list_foreach2$fwork<x,y><env> (x, y, env)
-        in
-          loop (xs, ys, env)
-        end else () // end of [if]
-      end // end of [list_cons]
-    | list_nil () => ()
-    ) // end of [list_cons]
+        loop (xs, ys, env)
+      end else () // end of [if]
+    end // end of [list_cons]
   | list_nil () => ()
-// end of [loop]
+  ) // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [loop]
 //
 in
   loop (xs, ys, env)
@@ -907,19 +916,26 @@ in
   loop (pfv | 0, xs, f, env)
 end // end of [list_iforeach_funenv]
 
+#atscode_separator()
+
 implement(x)
 $FC.iforeach_funenv<List(x)><x>
   (pfv | xs, f, env) = let
   prval () = lemma_list_param (xs)
 in
   list_iforeach_funenv<x> (pfv | xs, f, env)
-end // end of [iforeach_funenv]
+end // end of [$FC.iforeach_funenv]
 
 #atscode_separator()
 
 implement
 {x,y}{env}
 list_iforeach2$cont (i, x, y, env) = true
+
+implement{x,y}
+list_iforeach2 (xs, ys) = let
+  var env: void = () in list_iforeach2_env (xs, ys, env)
+end // end of [list_iforeach2]
 
 implement
 {x,y}{env}
@@ -1397,6 +1413,17 @@ in
   $effmask_wrt (list_vt_mergesort<a> (xs))
 end // end of [list_mergesort]
 
+implement{a}
+list_mergesort_fun
+  (xs, cmp) = let
+//
+implement
+list_mergesort$cmp<a> (x1, x2) = cmp (x1, x2)
+//
+in
+  list_mergesort (xs)
+end // end of [list_mergesort_fun]
+
 #atscode_separator()
 
 implement{a}
@@ -1415,6 +1442,17 @@ list_vt_quicksort$cmp<a>
 in
   $effmask_wrt (list_vt_quicksort<a> (xs))
 end // end of [list_quicksort]
+
+implement{a}
+list_quicksort_fun
+  (xs, cmp) = let
+//
+implement
+list_quicksort$cmp<a> (x1, x2) = cmp (x1, x2)
+//
+in
+  list_quicksort (xs)
+end // end of [list_quicksort_fun]
 
 #atscode_separator()
 

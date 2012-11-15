@@ -373,4 +373,9 @@ instr_assgn_ptrofs
 
 (* ****** ****** *)
 
+implement
+instr_declst (loc, pmds) = instr_make_node (loc, INSdeclst (pmds))
+
+(* ****** ****** *)
+
 (* end of [pats_ccomp.dats] *)

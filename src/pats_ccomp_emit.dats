@@ -34,7 +34,7 @@
 
 staload "pats_errmsg.sats"
 staload _(*anon*) = "pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans3_dynexp_up"
+implement prerr_FILENAME<> () = prerr "pats_ccomp_emit"
 
 (* ****** ****** *)
 
@@ -555,6 +555,12 @@ case+ ins.instr_node of
     // end of [val]
   } // end of [INScond]
 //
+| INSdeclst _ => {
+    val () = fprint_string (out, "/*\n")
+    val () = fprint_instr (out, ins)
+    val () = fprint_string (out, "\n*/")
+  }
+//
 | _ => let
     val () = prerr_interror_loc (loc0)
     val () = (
@@ -645,6 +651,16 @@ case+ pmv_fun.primval_node of
     // nothing
   end // end of [PMVtmpcst]
 //
+| _(*function variable*) => let
+    val () = emit_primval (out, pmv_fun)
+    val () = fprint_string (out, "(")
+    val () = emit_primvalist (out, pmvs_arg)
+    val () = fprint_string (out, ") ;")
+  in
+    // nothing
+  end // end of [_]
+//
+(*
 | _ => let
     val () = prerr_interror_loc (loc0)
     val () = (
@@ -654,6 +670,7 @@ case+ pmv_fun.primval_node of
   in
     // nothing
   end // end of [_]
+*)
 //
 end // end of [emit_instr_funcall]
 

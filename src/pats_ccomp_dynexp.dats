@@ -151,7 +151,11 @@ case+ hde0.hidexp_node of
     val (
       pfpush | ()
     ) = ccompenv_push (env)
-    val _(*pmds*) = hideclist_ccomp (env, res, hids)
+//
+    val pmds =
+      hideclist_ccomp (env, res, hids)
+    val ins_decs = instr_declst (loc0, pmds)
+    val () = instrseq_add (res, ins_decs)
 //
     val () =
       println! ("hidexp_ccomp: HDElet: env =")
@@ -288,7 +292,11 @@ case+ hde0.hidexp_node of
     val (
       pfpush | ()
     ) = ccompenv_push (env)
-    val _(*pmds*) = hideclist_ccomp (env, res, hids)
+//
+    val pmds =
+      hideclist_ccomp (env, res, hids)
+    val ins_decs = instr_declst (loc0, pmds)
+    val () = instrseq_add (res, ins_decs)
 //
     val () =
       println! ("hidexp_ccomp: HDElet: env =")

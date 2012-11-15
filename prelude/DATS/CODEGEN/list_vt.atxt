@@ -768,7 +768,9 @@ end // end of [list_vt_mapfree]
 #atscode_separator()
 
 implement{a}
-list_vt_mergesort$cmp (x1, x2) = gcompare_ref<a> (x1, x2)
+list_vt_mergesort$cmp
+  (x1, x2) = gcompare_ref<a> (x1, x2)
+// end of [list_vt_mergesort$cmp]
 
 implement{a}
 list_vt_mergesort
@@ -840,6 +842,17 @@ in
 end else xs // end of [if]
 //
 end // end of [list_vt_mergesort]
+
+implement{a}
+list_vt_mergesort_fun
+  (xs, cmp) = let
+//
+implement
+list_vt_mergesort$cmp<a> (x1, x2) = cmp (x1, x2)
+//
+in
+  list_vt_mergesort (xs)
+end // end of [list_vt_mergesort_fun]
 
 #atscode_separator()
 
@@ -917,6 +930,17 @@ val () = array_ptr_free {a2} (pf, pfgc | p)
 in
   xs
 end // end of [list_vt_quicksort]
+
+implement{a}
+list_vt_quicksort_fun
+  (xs, cmp) = let
+//
+implement
+list_vt_quicksort$cmp<a> (x1, x2) = cmp (x1, x2)
+//
+in
+  list_vt_quicksort (xs)
+end // end of [list_vt_quicksort_fun]
 
 #atscode_separator()
 
