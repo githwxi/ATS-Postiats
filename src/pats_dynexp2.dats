@@ -41,25 +41,25 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
+staload UT = "./pats_utils.sats"
 
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
+staload LOC = "./pats_location.sats"
 macdef location_combine = $LOC.location_combine
 
 (* ****** ****** *)
 
-staload LEX = "pats_lexing.sats"
+staload LEX = "./pats_lexing.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_dynexp2.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-#include "pats_basics.hats"
+#include "./pats_basics.hats"
 
 (* ****** ****** *)
 

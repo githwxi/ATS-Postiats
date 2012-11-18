@@ -32,17 +32,17 @@
 //
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
-staload _(*anon*) = "pats_utils.dats"
+staload UT = "./pats_utils.sats"
+staload _(*anon*) = "./pats_utils.dats"
 
 (* ****** ****** *)
 
-staload EFF = "pats_effect.sats"
+staload EFF = "./pats_effect.sats"
 
 (* ****** ****** *)
 
-staload "pats_syntax.sats"
-staload "pats_staexp1.sats"
+staload "./pats_syntax.sats"
+staload "./pats_staexp1.sats"
 
 (* ****** ****** *)
 

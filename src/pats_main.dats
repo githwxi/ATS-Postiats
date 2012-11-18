@@ -41,69 +41,70 @@ staload STDIO = "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
+staload UT = "./pats_utils.sats"
 
 (* ****** ****** *)
 
-staload ERR = "pats_error.sats"
-staload FIL = "pats_filename.sats"
-staload LOC = "pats_location.sats"
-staload SYM = "pats_symbol.sats"
+staload ERR = "./pats_error.sats"
+staload FIL = "./pats_filename.sats"
+staload LOC = "./pats_location.sats"
+staload SYM = "./pats_symbol.sats"
 
 (* ****** ****** *)
-
-staload "pats_basics.sats"
+//
+staload "./pats_basics.sats"
+//
 macdef isdebug () = (debug_flag_get () > 0)
+//
+(* ****** ****** *)
+
+staload "./pats_lexing.sats"
+staload "./pats_tokbuf.sats"
+staload "./pats_parsing.sats"
+staload "./pats_syntax.sats"
 
 (* ****** ****** *)
 
-staload "pats_lexing.sats"
-staload "pats_tokbuf.sats"
-staload "pats_parsing.sats"
-staload "pats_syntax.sats"
+staload DPGEN = "./pats_depgen.sats"
 
 (* ****** ****** *)
 
-staload DPGEN = "pats_depgen.sats"
+staload "./pats_staexp1.sats"
+staload "./pats_dynexp1.sats"
+staload TRANS1 = "./pats_trans1.sats"
+staload TRENV1 = "./pats_trans1_env.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp1.sats"
-staload "pats_dynexp1.sats"
-staload TRANS1 = "pats_trans1.sats"
-staload TRENV1 = "pats_trans1_env.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_stacst2.sats"
+staload "./pats_dynexp2.sats"
+staload TRANS2 = "./pats_trans2.sats"
+staload TRENV2 = "./pats_trans2_env.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_stacst2.sats"
-staload "pats_dynexp2.sats"
-staload TRANS2 = "pats_trans2.sats"
-staload TRENV2 = "pats_trans2_env.sats"
+staload "./pats_dynexp3.sats"
+staload TRANS3 = "./pats_trans3.sats"
+staload TRENV3 = "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 
-staload "pats_dynexp3.sats"
-staload TRANS3 = "pats_trans3.sats"
-staload TRENV3 = "pats_trans3_env.sats"
+staload CNSTR3 = "./pats_constraint3.sats"
 
 (* ****** ****** *)
 
-staload CNSTR3 = "pats_constraint3.sats"
+staload "./pats_histaexp.sats"
+staload "./pats_hidynexp.sats"
+staload TYER = "./pats_typerase.sats"
 
 (* ****** ****** *)
 
-staload "pats_histaexp.sats"
-staload "pats_hidynexp.sats"
-staload TYER = "pats_typerase.sats"
+staload CCOMP = "./pats_ccomp.sats"
 
 (* ****** ****** *)
 
-staload CCOMP = "pats_ccomp.sats"
-
-(* ****** ****** *)
-
-staload "pats_comarg.sats"
+staload "./pats_comarg.sats"
 
 (* ****** ****** *)
 //

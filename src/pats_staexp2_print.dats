@@ -32,37 +32,37 @@
 //
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
-staload _(*anon*) = "pats_utils.dats"
+staload UT = "./pats_utils.sats"
+staload _(*anon*) = "./pats_utils.dats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
 staload
-INTINF = "pats_intinf.sats"
+INTINF = "./pats_intinf.sats"
 macdef
 fprint_intinf = $INTINF.fprint_intinf
 
 (* ****** ****** *)
 
-staload SYM = "pats_symbol.sats"
+staload SYM = "./pats_symbol.sats"
 macdef fprint_symbol = $SYM.fprint_symbol
-staload STMP = "pats_stamp.sats"
+staload STMP = "./pats_stamp.sats"
 macdef fprint_stamp = $STMP.fprint_stamp
-staload SYN = "pats_syntax.sats"
+staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
 
-staload EFF = "pats_effect.sats"
+staload EFF = "./pats_effect.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp1.sats"
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
+staload "./pats_staexp1.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
 
 (* ****** ****** *)
 

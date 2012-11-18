@@ -32,15 +32,15 @@
 //
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_dynexp1"
 
 (* ****** ****** *)
 
-staload "pats_syntax.sats"
-staload "pats_staexp1.sats"
-staload "pats_dynexp1.sats"
+staload "./pats_syntax.sats"
+staload "./pats_staexp1.sats"
+staload "./pats_dynexp1.sats"
 
 (* ****** ****** *)
 

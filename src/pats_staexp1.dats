@@ -36,13 +36,13 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload LEX = "pats_lexing.sats"
+staload LEX = "./pats_lexing.sats"
 
 (* ****** ****** *)
 
-staload "pats_effect.sats"
-staload "pats_syntax.sats"
-staload "pats_staexp1.sats"
+staload "./pats_effect.sats"
+staload "./pats_syntax.sats"
+staload "./pats_staexp1.sats"
 
 (* ****** ****** *)
 

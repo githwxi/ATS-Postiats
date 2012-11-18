@@ -39,23 +39,23 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 (* ****** ****** *)
 
 staload
-LOC = "pats_location.sats"
+LOC = "./pats_location.sats"
 overload + with $LOC.location_combine
 
-staload SYM = "pats_symbol.sats"
+staload SYM = "./pats_symbol.sats"
 
 (* ****** ****** *)
 
-staload LAB = "pats_label.sats"
-staload FIX = "pats_fixity.sats"
-staload FIL = "pats_filename.sats"
+staload LAB = "./pats_label.sats"
+staload FIX = "./pats_fixity.sats"
+staload FIL = "./pats_filename.sats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
-staload "pats_lexing.sats"
-staload "pats_parsing.sats"
-staload "pats_syntax.sats"
+staload "./pats_basics.sats"
+staload "./pats_lexing.sats"
+staload "./pats_parsing.sats"
+staload "./pats_syntax.sats"
 
 (* ****** ****** *)
 

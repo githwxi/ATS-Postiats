@@ -36,30 +36,30 @@ staload _(*anon*) = "prelude/DATS/list.dats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
 staload
-LOC = "pats_location.sats"
+LOC = "./pats_location.sats"
 typedef location = $LOC.location
-staload LEX = "pats_lexing.sats"
+staload LEX = "./pats_lexing.sats"
 typedef token = $LEX.token
 typedef tokenopt = Option (token)
-staload SYM = "pats_symbol.sats"
+staload SYM = "./pats_symbol.sats"
 typedef symbol = $SYM.symbol
 typedef symbolist = $SYM.symbolist
 typedef symbolopt = $SYM.symbolopt
 
 (* ****** ****** *)
 
-staload LAB = "pats_label.sats"
+staload LAB = "./pats_label.sats"
 typedef label = $LAB.label
 
-staload FIX = "pats_fixity.sats"
+staload FIX = "./pats_fixity.sats"
 typedef assoc = $FIX.assoc
 
-staload FIL = "pats_filename.sats"
+staload FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
 
 (* ****** ****** *)

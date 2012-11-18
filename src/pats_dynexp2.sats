@@ -32,33 +32,33 @@
 //
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
+staload UT = "./pats_utils.sats"
 typedef lstord (a:type) = $UT.lstord (a)
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
+staload LOC = "./pats_location.sats"
 typedef location = $LOC.location
 
 (* ****** ****** *)
 
 staload
-LAB = "pats_label.sats"
+LAB = "./pats_label.sats"
 typedef label = $LAB.label
 
 staload
-FIL = "pats_filename.sats"
+FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
 
 staload
-SYM = "pats_symbol.sats"
+SYM = "./pats_symbol.sats"
 typedef symbol = $SYM.symbol
 
-staload SYN = "pats_syntax.sats"
+staload SYN = "./pats_syntax.sats"
 typedef i0nt = $SYN.i0nt
 typedef c0har = $SYN.c0har
 typedef f0loat = $SYN.f0loat
@@ -70,14 +70,14 @@ typedef macsynkind = $SYN.macsynkind
 
 (* ****** ****** *)
 
-staload "pats_staexp1.sats"
+staload "./pats_staexp1.sats"
 typedef s1exp = s1exp
-staload "pats_dynexp1.sats"
+staload "./pats_dynexp1.sats"
 typedef d1exp = d1exp
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
+staload "./pats_staexp2.sats"
 
 (* ****** ****** *)
 

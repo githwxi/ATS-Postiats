@@ -33,41 +33,41 @@
 (* ****** ****** *)
 
 staload
-INT = "pats_intinf.sats"
+INT = "./pats_intinf.sats"
 typedef intinf = $INT.intinf
 
 staload
-CNTR = "pats_counter.sats"
+CNTR = "./pats_counter.sats"
 typedef count = $CNTR.count
-staload STMP = "pats_stamp.sats"
+staload STMP = "./pats_stamp.sats"
 typedef stamp = $STMP.stamp
 typedef stampopt = $STMP.stampopt
-staload SYM = "pats_symbol.sats"
+staload SYM = "./pats_symbol.sats"
 typedef symbol = $SYM.symbol
 
 (* ****** ****** *)
 
-staload LAB = "pats_label.sats"
+staload LAB = "./pats_label.sats"
 typedef label = $LAB.label
 
-staload LOC = "pats_location.sats"
+staload LOC = "./pats_location.sats"
 typedef location = $LOC.location
 
-staload FIL = "pats_filename.sats"
+staload FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
 
-staload SYN = "pats_syntax.sats"
+staload SYN = "./pats_syntax.sats"
 typedef c0har = $SYN.c0har
 typedef sl0abeled (a:type) = $SYN.sl0abeled (a)
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload "pats_effect.sats"
-staload "pats_staexp1.sats"
+staload "./pats_effect.sats"
+staload "./pats_staexp1.sats"
 
 (* ****** ****** *)
 //

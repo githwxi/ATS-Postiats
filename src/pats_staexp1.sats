@@ -33,29 +33,29 @@
 (* ****** ****** *)
 
 staload
-INTINF = "pats_intinf.sats"
+INTINF = "./pats_intinf.sats"
 typedef intinf = $INTINF.intinf
 
-staload FIL = "pats_filename.sats"
+staload FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
-staload LOC = "pats_location.sats"
+staload LOC = "./pats_location.sats"
 typedef location = $LOC.location
-staload SYM = "pats_symbol.sats"
+staload SYM = "./pats_symbol.sats"
 typedef symbol = $SYM.symbol
 typedef symbolist = $SYM.symbolist
 typedef symbolopt = $SYM.symbolopt
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 (*
-staload EFF = "pats_effect.sats"
+staload EFF = "./pats_effect.sats"
 typedef effect = $EFF.effect
 typedef effset = $EFF.effset
 *)
-staload "pats_effect.sats"
+staload "./pats_effect.sats"
 (*
-staload SYN = "pats_syntax.sats"
+staload SYN = "./pats_syntax.sats"
 typedef i0de = $SYN.i0de
 typedef i0delst = $SYN.i0delst
 typedef i0nt = $SYN.i0nt
@@ -67,7 +67,7 @@ typedef l0ab = $SYN.l0ab
 typedef l0abeled (a:type) = $SYN.l0abeled (a)
 typedef dcstextdef = $SYN.dcstextdef
 *)
-staload "pats_syntax.sats"
+staload "./pats_syntax.sats"
 
 (* ****** ****** *)
 

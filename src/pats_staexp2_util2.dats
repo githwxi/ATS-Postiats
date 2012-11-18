@@ -38,29 +38,29 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
+staload UT = "./pats_utils.sats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload LAB = "pats_label.sats"
+staload LAB = "./pats_label.sats"
 overload = with $LAB.eq_label_label
 overload != with $LAB.neq_label_label
-staload EFF = "pats_effect.sats"
+staload EFF = "./pats_effect.sats"
 overload = with $EFF.eq_effset_effset
-staload INTINF = "pats_intinf.sats"
+staload INTINF = "./pats_intinf.sats"
 macdef eq_intinf_int = $INTINF.eq_intinf_int
 macdef eq_int_intinf = $INTINF.eq_int_intinf
 macdef eq_intinf_intinf = $INTINF.eq_intinf_intinf
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_stacst2.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_stacst2.sats"
 
 (* ****** ****** *)
 

@@ -36,25 +36,25 @@ staload _(*anon*) = "prelude/DATS/pointer.dats"
 
 (* ****** ****** *)
 
-staload ERR = "pats_error.sats"
-staload SYM = "pats_symbol.sats"
+staload ERR = "./pats_error.sats"
+staload SYM = "./pats_symbol.sats"
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_stacst2"
 
 (* ****** ****** *)
 
-staload "pats_effect.sats"
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_stacst2.sats"
+staload "./pats_effect.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_stacst2.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans2_env.sats"
+staload "./pats_trans2_env.sats"
 
 (* ****** ****** *)
 

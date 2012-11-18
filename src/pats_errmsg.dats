@@ -32,7 +32,7 @@
 //
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
+staload "./pats_errmsg.sats"
 
 (* ****** ****** *)
 

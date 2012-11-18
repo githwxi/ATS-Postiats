@@ -32,19 +32,19 @@
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
 staload
-EFF = "pats_effect.sats"
+EFF = "./pats_effect.sats"
 typedef effect = $EFF.effect
 typedef effset = $EFF.effset
 
 (* ****** ****** *)
 
-staload "pats_staexp1.sats"
-staload "pats_staexp2.sats"
+staload "./pats_staexp1.sats"
+staload "./pats_staexp2.sats"
 
 (* ****** ****** *)
 

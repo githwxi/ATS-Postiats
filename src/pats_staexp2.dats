@@ -40,28 +40,28 @@ staload _(*anon*) = "prelude/DATS/list.dats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload LEX = "pats_lexing.sats"
+staload LEX = "./pats_lexing.sats"
 
 (* ****** ****** *)
 
 staload
-STMP = "pats_stamp.sats"
+STMP = "./pats_stamp.sats"
 macdef eq_stamp_stamp = $STMP.eq_stamp_stamp
 
 (* ****** ****** *)
 //
-staload EFF = "pats_effect.sats"
+staload EFF = "./pats_effect.sats"
 //
 macdef effset_isnil = $EFF.effset_isnil
 macdef effset_isall = $EFF.effset_isall
 //
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
+staload "./pats_staexp2.sats"
 
 (* ****** ****** *)
 

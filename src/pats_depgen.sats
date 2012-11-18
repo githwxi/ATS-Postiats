@@ -33,7 +33,7 @@
 (* ****** ****** *)
 
 staload
-SYN = "pats_syntax.sats"
+SYN = "./pats_syntax.sats"
 typedef d0eclist = $SYN.d0eclist
 
 (* ****** ****** *)
