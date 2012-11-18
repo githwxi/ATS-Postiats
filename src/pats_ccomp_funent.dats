@@ -32,22 +32,22 @@
 //
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
-staload _(*anon*) = "pats_utils.dats"
+staload UT = "./pats_utils.sats"
+staload _(*anon*) = "./pats_utils.dats"
 
 (* ****** ****** *)
 
-staload LAB = "pats_label.sats"
-staload LOC = "pats_location.sats"
+staload LAB = "./pats_label.sats"
+staload LOC = "./pats_location.sats"
 typedef location = $LOC.location
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
+staload "./pats_staexp2.sats"
 
 (* ****** ****** *)
 
-staload "pats_ccomp.sats"
+staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 

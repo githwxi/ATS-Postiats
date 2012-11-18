@@ -4,7 +4,7 @@
 
 (* ****** ****** *)
 
-staload "utils/atsyntax/SATS/pats2xhtml.sats"
+staload "../SATS/pats2xhtml.sats"
 
 (* ****** ****** *)
 

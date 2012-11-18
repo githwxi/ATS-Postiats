@@ -41,7 +41,7 @@ staload _(*anon*) = "libats/DATS/linqueue_lst.dats"
 
 (* ****** ****** *)
 
-staload "pats_ccomp.sats"
+staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 

@@ -37,10 +37,10 @@ staload _(*anon*) = "prelude/DATS/list.dats"
 (* ****** ****** *)
 
 staload
-LOC = "pats_location.sats"
+LOC = "./pats_location.sats"
 typedef location = $LOC.location
 staload
-SYM = "pats_symbol.sats"
+SYM = "./pats_symbol.sats"
 typedef symbol = $SYM.symbol
 //
 macdef symbol_CAR = $SYM.symbol_CAR
@@ -52,15 +52,15 @@ macdef symbol_ISLIST = $SYM.symbol_ISLIST
 macdef symbol_TUPZ = $SYM.symbol_TUPZ
 overload = with $SYM.eq_symbol_symbol
 //
-staload SYN = "pats_syntax.sats"
+staload SYN = "./pats_syntax.sats"
 //
 (* ****** ****** *)
 
-staload "pats_dynexp1.sats"
+staload "./pats_dynexp1.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans1.sats"
+staload "./pats_trans1.sats"
 
 (* ****** ****** *)
 

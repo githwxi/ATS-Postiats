@@ -41,33 +41,33 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_dynexp2.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans2_env.sats"
+staload "./pats_trans2_env.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans3.sats"
+staload "./pats_trans3.sats"
 
 (* ****** ****** *)
 
-staload "pats_histaexp.sats"
-staload "pats_hidynexp.sats"
+staload "./pats_histaexp.sats"
+staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
 
-staload "pats_typerase.sats"
+staload "./pats_typerase.sats"
 
 (* ****** ****** *)
 
-staload "pats_ccomp.sats"
+staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 

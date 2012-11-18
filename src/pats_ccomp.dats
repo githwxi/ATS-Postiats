@@ -32,12 +32,12 @@
 //
 (* ****** ****** *)
 
-staload "pats_histaexp.sats"
-staload "pats_hidynexp.sats"
+staload "./pats_histaexp.sats"
+staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
 
-staload "pats_ccomp.sats"
+staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 

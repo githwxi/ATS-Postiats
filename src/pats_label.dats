@@ -28,13 +28,13 @@
 (* ****** ****** *)
 
 staload
-SYM = "pats_symbol.sats"
+SYM = "./pats_symbol.sats"
 overload
 compare with $SYM.compare_symbol_symbol
 
 (* ****** ****** *)
 
-staload "pats_label.sats"
+staload "./pats_label.sats"
 
 (* ****** ****** *)
 

@@ -33,7 +33,7 @@ typedef symbol = symbol_type
 (* ****** ****** *)
 
 staload
-SYM = "pats_symbol.sats"
+SYM = "./pats_symbol.sats"
 typedef symbol = $SYM.symbol
 
 (* ****** ****** *)

@@ -36,8 +36,8 @@ staload _(*anon*) = "prelude/DATS/pointer.dats"
 
 (* ****** ****** *)
 
-staload "pats_symmap.sats"
-staload "pats_symenv.sats"
+staload "./pats_symmap.sats"
+staload "./pats_symenv.sats"
 
 (* ****** ****** *)
 

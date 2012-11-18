@@ -33,20 +33,20 @@
 (* ****** ****** *)
 
 staload
-FIL = "pats_filename.sats"
-staload FIX = "pats_fixity.sats"
-staload SYM = "pats_symbol.sats"
+FIL = "./pats_filename.sats"
+staload FIX = "./pats_fixity.sats"
+staload SYM = "./pats_symbol.sats"
 
 (* ****** ****** *)
 
-staload "pats_symmap.sats"
-staload "pats_symenv.sats"
+staload "./pats_symmap.sats"
+staload "./pats_symenv.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp1.sats"
-staload "pats_dynexp1.sats"
-staload "pats_trans1_env.sats"
+staload "./pats_staexp1.sats"
+staload "./pats_dynexp1.sats"
+staload "./pats_trans1_env.sats"
 
 (* ****** ****** *)
 

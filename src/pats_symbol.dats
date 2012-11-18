@@ -36,7 +36,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "pats_symbol.sats"
+staload "./pats_symbol.sats"
 
 (* ****** ****** *)
 

@@ -32,8 +32,8 @@
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
-staload "pats_counter.sats"
+staload "./pats_basics.sats"
+staload "./pats_counter.sats"
 
 (* ****** ****** *)
 

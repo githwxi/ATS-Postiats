@@ -32,31 +32,31 @@
 //
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
-staload _ (*anon*) = "pats_utils.dats"
+staload UT = "./pats_utils.sats"
+staload _ (*anon*) = "./pats_utils.dats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload LAB = "pats_label.sats"
-staload SYN = "pats_syntax.sats"
+staload LAB = "./pats_label.sats"
+staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_dynexp2.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-staload "pats_histaexp.sats"
-staload "pats_hidynexp.sats"
+staload "./pats_histaexp.sats"
+staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
 
-staload "pats_ccomp.sats"
+staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 

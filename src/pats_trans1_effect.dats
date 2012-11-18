@@ -32,18 +32,18 @@
 //
 (* ****** ****** *)
 
-staload ERR = "pats_error.sats"
+staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
-staload "pats_effect.sats"
-staload "pats_syntax.sats"
+staload "./pats_basics.sats"
+staload "./pats_effect.sats"
+staload "./pats_syntax.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp1.sats"
-staload "pats_trans1.sats"
+staload "./pats_staexp1.sats"
+staload "./pats_trans1.sats"
 
 (* ****** ****** *)
 

@@ -32,25 +32,25 @@
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
 staload
-STMP = "pats_stamp.sats"
+STMP = "./pats_stamp.sats"
 typedef stamp = $STMP.stamp
 
 staload
-LOC = "pats_location.sats"
+LOC = "./pats_location.sats"
 typedef location = $LOC.location
 
 (* ****** ****** *)
 
-staload "pats_histaexp.sats"
+staload "./pats_histaexp.sats"
 
 (* ****** ****** *)
 
-staload "pats_ccomp.sats"
+staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 

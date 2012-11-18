@@ -32,10 +32,10 @@
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
-staload "pats_syntax.sats"
-staload "pats_staexp1.sats"
-staload "pats_dynexp1.sats"
+staload "./pats_basics.sats"
+staload "./pats_syntax.sats"
+staload "./pats_staexp1.sats"
+staload "./pats_dynexp1.sats"
 
 (* ****** ****** *)
 //

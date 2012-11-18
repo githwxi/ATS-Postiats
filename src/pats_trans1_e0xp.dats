@@ -32,15 +32,15 @@
 //
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
+staload UT = "./pats_utils.sats"
 
 (* ****** ****** *)
 
-staload ERR = "pats_error.sats"
-staload LOC = "pats_location.sats"
+staload ERR = "./pats_error.sats"
+staload LOC = "./pats_location.sats"
 overload + with $LOC.location_combine
 //
-staload SYM = "pats_symbol.sats"
+staload SYM = "./pats_symbol.sats"
 //
 macdef BACKSLASH = $SYM.symbol_BACKSLASH
 //
@@ -48,28 +48,28 @@ overload = with $SYM.eq_symbol_symbol
 //
 (* ****** ****** *)
 
-staload "pats_lexing.sats"
+staload "./pats_lexing.sats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_trans1_e0xp"
 
 (* ****** ****** *)
 
-staload "pats_fixity.sats"
-staload "pats_syntax.sats"
-staload "pats_staexp1.sats"
+staload "./pats_fixity.sats"
+staload "./pats_syntax.sats"
+staload "./pats_staexp1.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans1.sats"
-staload "pats_trans1_env.sats"
+staload "./pats_trans1.sats"
+staload "./pats_trans1_env.sats"
 
 (* ****** ****** *)
 

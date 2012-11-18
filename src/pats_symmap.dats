@@ -33,9 +33,9 @@
 (* ****** ****** *)
 
 (*
-#include "pats_symmap_avltree.hats"
+#include "./pats_symmap_avltree.hats"
 *)
-#include "pats_symmap_htlinprb.hats" // HX: hashtable for experiment
+#include "./pats_symmap_htlinprb.hats" // HX: hashtable for experiment
 
 (* ****** ****** *)
 

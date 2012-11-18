@@ -32,42 +32,42 @@
 //
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_ccomp_emit"
 
 (* ****** ****** *)
 
-staload LAB = "pats_label.sats"
-staload STMP = "pats_stamp.sats"
+staload LAB = "./pats_label.sats"
+staload STMP = "./pats_stamp.sats"
 
 (* ****** ****** *)
 
-staload FIL = "pats_filename.sats"
+staload FIL = "./pats_filename.sats"
 
 (* ****** ****** *)
 
-staload SYM = "pats_symbol.sats"
-staload SYN = "pats_syntax.sats"
+staload SYM = "./pats_symbol.sats"
+staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
 
-staload GLOB = "pats_global.sats"
+staload GLOB = "./pats_global.sats"
 
 (* ****** ****** *)
 
-staload S2E = "pats_staexp2.sats"
-staload D2E = "pats_dynexp2.sats"
+staload S2E = "./pats_staexp2.sats"
+staload D2E = "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-staload HSE = "pats_histaexp.sats"
+staload HSE = "./pats_histaexp.sats"
 typedef hisexp = $HSE.hisexp
 typedef hisexplst = $HSE.hisexplst
 
 (* ****** ****** *)
 
-staload "pats_ccomp.sats"
+staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 

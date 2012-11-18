@@ -32,17 +32,17 @@
 //
 (* ****** ****** *)
 
-staload FIX = "pats_fixity.sats"
+staload FIX = "./pats_fixity.sats"
 typedef fxty = $FIX.fxty
-staload SYM = "pats_symbol.sats"
+staload SYM = "./pats_symbol.sats"
 typedef symbol = $SYM.symbol
 
 (* ****** ****** *)
 
-staload "pats_syntax.sats"
-staload "pats_symmap.sats"
-staload "pats_staexp1.sats"
-staload "pats_dynexp1.sats"
+staload "./pats_syntax.sats"
+staload "./pats_symmap.sats"
+staload "./pats_staexp1.sats"
+staload "./pats_dynexp1.sats"
 
 (* ****** ****** *)
 

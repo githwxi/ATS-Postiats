@@ -4,8 +4,8 @@
 
 (* ****** ****** *)
 
-staload LSYN =
-"libatsyntax/SATS/libatsyntax.sats"
+staload
+LSYN = "libatsyntax/SATS/libatsyntax.sats"
 typedef putc_type = $LSYN.putc_type
 
 (* ****** ****** *)

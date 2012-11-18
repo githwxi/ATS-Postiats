@@ -32,21 +32,21 @@
 //
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
-staload _(*anon*) = "pats_utils.dats"
+staload UT = "./pats_utils.sats"
+staload _(*anon*) = "./pats_utils.dats"
 
 (* ****** ****** *)
 
-staload SYM = "pats_symbol.sats"
+staload SYM = "./pats_symbol.sats"
 macdef fprint_symbol = $SYM.fprint_symbol
-staload SYN = "pats_syntax.sats"
+staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
-staload "pats_syntax.sats"
-staload "pats_staexp1.sats"
-staload "pats_dynexp1.sats"
+staload "./pats_basics.sats"
+staload "./pats_syntax.sats"
+staload "./pats_staexp1.sats"
+staload "./pats_dynexp1.sats"
 
 (* ****** ****** *)
 
