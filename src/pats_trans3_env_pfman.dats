@@ -37,25 +37,31 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
-staload _(*anon*) = "pats_utils.dats"
+staload UT = "./pats_utils.sats"
+staload _(*anon*) = "./pats_utils.dats"
+
+(* ****** ****** *)
+
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans3_env_pfman"
 
 (* ****** ****** *)
 
 staload
-LAB = "pats_label.sats"
+LAB = "./pats_label.sats"
 typedef label = $LAB.label
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_dynexp2.sats"
-staload "pats_dynexp3.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_dynexp2.sats"
+staload "./pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans3_env.sats"
+staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 

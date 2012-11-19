@@ -42,28 +42,28 @@ staload "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans3_exp_up"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_staexp2_szexp"
 
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
-staload _(*anon*) = "pats_utils.dats"
+staload UT = "./pats_utils.sats"
+staload _(*anon*) = "./pats_utils.dats"
 
 (* ****** ****** *)
 
-staload LAB = "pats_label.sats"
+staload LAB = "./pats_label.sats"
 overload = with $LAB.eq_label_label
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
 
 (* ****** ****** *)
 

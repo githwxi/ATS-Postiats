@@ -37,22 +37,22 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
+staload UT = "./pats_utils.sats"
 macdef strcasecmp = $UT.strcasecmp
 
 (* ****** ****** *)
 
-staload INT = "pats_intinf.sats"
+staload INT = "./pats_intinf.sats"
 stadef intinf = $INT.intinf // integers of infinite precision
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_trans3_syncst"
 
 (* ****** ****** *)
@@ -60,17 +60,17 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_syncst"
 (*
 ** for T_* constructors
 *)
-staload "pats_lexing.sats"
+staload "./pats_lexing.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_stacst2.sats"
-staload "pats_dynexp3.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_stacst2.sats"
+staload "./pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans3.sats"
+staload "./pats_trans3.sats"
 
 (* ****** ****** *)
 

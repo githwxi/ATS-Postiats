@@ -45,7 +45,8 @@
 (* ****** ****** *)
 
 absviewt@ype
-reader_vt0ype = $extype "pats_reader_struct"
+reader_vt0ype =
+$extype "pats_reader_struct"
 viewtypedef reader = reader_vt0ype
 
 (* ****** ****** *)

@@ -32,28 +32,28 @@
 //
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_dmacro2_eval0"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_dmacro2_eval1"
 
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
+staload LOC = "./pats_location.sats"
 overload print with $LOC.print_location
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_dynexp2.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans3.sats"
+staload "./pats_trans3.sats"
 
 (* ****** ****** *)
 
-staload "pats_dmacro2.sats"
+staload "./pats_dmacro2.sats"
 
 (* ****** ****** *)
 

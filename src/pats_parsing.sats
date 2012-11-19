@@ -33,13 +33,13 @@
 (* ****** ****** *)
 
 staload
-LEX = "pats_lexing.sats"
+LEX = "./pats_lexing.sats"
 typedef tnode = $LEX.tnode
 
 (* ****** ****** *)
 
-staload "pats_tokbuf.sats"
-staload "pats_syntax.sats"
+staload "./pats_tokbuf.sats"
+staload "./pats_syntax.sats"
 
 (* ****** ****** *)
 

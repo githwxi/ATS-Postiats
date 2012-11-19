@@ -41,35 +41,35 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_trans3_decl"
 
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
+staload LOC = "./pats_location.sats"
 macdef print_location = $LOC.print_location
 
 (* ****** ****** *)
 
-staload EFF = "pats_effect.sats"
+staload EFF = "./pats_effect.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_patcst2.sats"
-staload "pats_dynexp2.sats"
-staload "pats_dynexp3.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_patcst2.sats"
+staload "./pats_dynexp2.sats"
+staload "./pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans3.sats"
-staload "pats_trans3_env.sats"
+staload "./pats_trans3.sats"
+staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 

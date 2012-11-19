@@ -39,13 +39,13 @@
 (* ****** ****** *)
 
 staload
-LBF = "pats_lexbuf.sats"
+LBF = "./pats_lexbuf.sats"
 stadef lexbuf = $LBF.lexbuf
 staload
-LEX = "pats_lexing.sats"
+LEX = "./pats_lexing.sats"
 typedef token = $LEX.token
 staload
-LOC = "pats_location.sats"
+LOC = "./pats_location.sats"
 typedef location = $LOC.location
 
 (* ****** ****** *)

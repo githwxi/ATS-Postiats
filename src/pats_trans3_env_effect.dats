@@ -37,25 +37,25 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_trans3_env_effect"
 
 (* ****** ****** *)
 
-staload "pats_effect.sats"
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_stacst2.sats"
+staload "./pats_effect.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_stacst2.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans3.sats"
-staload "pats_trans3_env.sats"
+staload "./pats_trans3.sats"
+staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 

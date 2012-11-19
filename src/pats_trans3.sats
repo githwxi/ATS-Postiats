@@ -32,18 +32,18 @@
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload EFF = "pats_effect.sats"
+staload EFF = "./pats_effect.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_dynexp2.sats"
-staload "pats_dmacro2.sats"
-staload "pats_dynexp3.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_dynexp2.sats"
+staload "./pats_dmacro2.sats"
+staload "./pats_dynexp3.sats"
 
 (* ****** ****** *)
 //

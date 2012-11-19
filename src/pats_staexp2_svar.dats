@@ -39,23 +39,23 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
-staload _(*anon*) = "pats_utils.dats"
+staload UT = "./pats_utils.sats"
+staload _(*anon*) = "./pats_utils.dats"
 
 (* ****** ****** *)
 
 staload
-CNTR = "pats_counter.sats"
-staload STMP = "pats_stamp.sats"
+CNTR = "./pats_counter.sats"
+staload STMP = "./pats_stamp.sats"
 typedef stamp = $STMP.stamp
 overload compare with $STMP.compare_stamp_stamp
-staload SYM = "pats_symbol.sats"
+staload SYM = "./pats_symbol.sats"
 typedef symbol = $SYM.symbol
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
 
 (* ****** ****** *)
 

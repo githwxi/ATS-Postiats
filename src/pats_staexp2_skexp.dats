@@ -41,18 +41,18 @@ staload "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
-staload _(*anon*) = "pats_utils.dats"
+staload UT = "./pats_utils.sats"
+staload _(*anon*) = "./pats_utils.dats"
 
 (* ****** ****** *)
 
-staload LAB = "pats_label.sats"
+staload LAB = "./pats_label.sats"
 overload = with $LAB.eq_label_label
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
 
 (* ****** ****** *)
 

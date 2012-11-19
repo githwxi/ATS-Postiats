@@ -37,17 +37,17 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-staload STMP = "pats_stamp.sats"
-staload SYM = "pats_symbol.sats"
+staload STMP = "./pats_stamp.sats"
+staload SYM = "./pats_symbol.sats"
 overload = with $SYM.eq_symbol_symbol
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
+staload "./pats_staexp2.sats"
 
 (* ****** ****** *)
 
@@ -151,7 +151,7 @@ end // end of [local]
 
 local
 //
-#include "pats_basics.hats"
+#include "./pats_basics.hats"
 //
 val s2tb_prop: s2rtbas = S2RTBASimp ($SYM.symbol_PROP, PROP_int)
 val s2tb_prop_pos: s2rtbas = S2RTBASimp ($SYM.symbol_PROP, PROP_pos_int)

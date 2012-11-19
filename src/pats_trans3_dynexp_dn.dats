@@ -41,36 +41,36 @@ staload _(*anon*) = "prelude/DATS/option_vt.dats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_trans3_dynexp_dn"
 
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
+staload LOC = "./pats_location.sats"
 overload print with $LOC.print_location
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_staexp2_error.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_stacst2.sats"
-staload "pats_dynexp2.sats"
-staload "pats_dynexp3.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_error.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_stacst2.sats"
+staload "./pats_dynexp2.sats"
+staload "./pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-staload SOL = "pats_staexp2_solve.sats"
+staload SOL = "./pats_staexp2_solve.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans3.sats"
-staload "pats_trans3_env.sats"
+staload "./pats_trans3.sats"
+staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 

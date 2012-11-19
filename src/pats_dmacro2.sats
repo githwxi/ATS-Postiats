@@ -36,25 +36,25 @@
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
 staload
-LOC = "pats_location.sats"
+LOC = "./pats_location.sats"
 typedef location = $LOC.location
 
 staload
-SEXP2 = "pats_staexp2.sats"
+SEXP2 = "./pats_staexp2.sats"
 typedef s2var = $SEXP2.s2var
 typedef s2exp = $SEXP2.s2exp
 
 staload
-SUTIL = "pats_staexp2_util.sats"
+SUTIL = "./pats_staexp2_util.sats"
 viewtypedef stasub = $SUTIL.stasub
 
 staload
-DEXP2 = "pats_dynexp2.sats"
+DEXP2 = "./pats_dynexp2.sats"
 typedef d2var = $DEXP2.d2var
 typedef p2at  = $DEXP2.p2at
 typedef d2exp = $DEXP2.d2exp

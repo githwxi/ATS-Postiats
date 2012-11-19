@@ -41,22 +41,22 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_trans3_dynexp_up"
 
 (* ****** ****** *)
 
-staload LAB = "pats_label.sats"
-staload LOC = "pats_location.sats"
+staload LAB = "./pats_label.sats"
+staload LOC = "./pats_location.sats"
 overload + with $LOC.location_combine
 overload print with $LOC.print_location
 
-staload SYN = "pats_syntax.sats"
+staload SYN = "./pats_syntax.sats"
 overload print with $SYN.print_macsynkind
 
 (* ****** ****** *)
@@ -64,27 +64,27 @@ overload print with $SYN.print_macsynkind
 (*
 ** for T_* constructors
 *)
-staload "pats_lexing.sats"
+staload "./pats_lexing.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_staexp2_error.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_stacst2.sats"
-staload "pats_dynexp2.sats"
-staload "pats_dynexp2_util.sats"
-staload "pats_dynexp3.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_error.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_stacst2.sats"
+staload "./pats_dynexp2.sats"
+staload "./pats_dynexp2_util.sats"
+staload "./pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-staload MAC = "pats_dmacro2.sats"
-staload SOL = "pats_staexp2_solve.sats"
+staload MAC = "./pats_dmacro2.sats"
+staload SOL = "./pats_staexp2_solve.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans3.sats"
-staload "pats_trans3_env.sats"
+staload "./pats_trans3.sats"
+staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 

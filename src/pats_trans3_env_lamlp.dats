@@ -38,23 +38,23 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
+staload UT = "./pats_utils.sats"
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_trans3_env_lamlp"
 
 (* ****** ****** *)
 
-staload "pats_dynexp2.sats"
-staload "pats_dynexp3.sats"
+staload "./pats_dynexp2.sats"
+staload "./pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans3.sats"
-staload "pats_trans3_env.sats"
+staload "./pats_trans3.sats"
+staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 

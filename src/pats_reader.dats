@@ -37,7 +37,7 @@ staload _(*anon*) = "prelude/DATS/pointer.dats"
 
 (* ****** ****** *)
 
-staload "pats_reader.sats"
+staload "./pats_reader.sats"
 
 (* ****** ****** *)
 

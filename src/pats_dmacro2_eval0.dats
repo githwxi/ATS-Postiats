@@ -36,19 +36,19 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_dmacro2_eval0"
 
 (* ****** ****** *)
 (*
 ** for T_* constructors
 *)
-staload LEX = "pats_lexing.sats"
+staload LEX = "./pats_lexing.sats"
 
 (* ****** ****** *)
 //
-staload SYM = "pats_symbol.sats"
+staload SYM = "./pats_symbol.sats"
 //
 macdef symbol_ADD = $SYM.symbol_ADD
 macdef symbol_SUB = $SYM.symbol_SUB
@@ -73,20 +73,20 @@ macdef symbol_ISLIST = $SYM.symbol_ISLIST
 overload = with $SYM.eq_symbol_symbol
 overload print with $SYM.print_symbol
 //
-staload SYN = "pats_syntax.sats"
+staload SYN = "./pats_syntax.sats"
 //
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_dynexp2.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans3.sats"
+staload "./pats_trans3.sats"
 
 (* ****** ****** *)
 
-staload "pats_dmacro2.sats"
+staload "./pats_dmacro2.sats"
 
 (* ****** ****** *)
 //

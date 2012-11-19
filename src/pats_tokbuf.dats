@@ -32,7 +32,8 @@
 //
 (* ****** ****** *)
 
-staload LBF = "pats_lexbuf.sats"
+staload
+LBF = "./pats_lexbuf.sats"
 viewtypedef lexbuf = $LBF.lexbuf
 
 (* ****** ****** *)
@@ -45,8 +46,8 @@ stadef DEQUE = $DQ.DEQUE // double-ended queue
 //
 (* ****** ****** *)
 
-staload "pats_lexing.sats"
-staload "pats_tokbuf.sats"
+staload "./pats_lexing.sats"
+staload "./pats_tokbuf.sats"
 
 (* ****** ****** *)
 

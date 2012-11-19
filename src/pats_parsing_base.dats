@@ -40,18 +40,18 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "pats_symbol.sats"
-staload "pats_label.sats"
-staload "pats_syntax.sats"
+staload "./pats_symbol.sats"
+staload "./pats_label.sats"
+staload "./pats_syntax.sats"
 
 (* ****** ****** *)
 
-staload "pats_lexing.sats" // for tokens
-staload "pats_tokbuf.sats" // for tokenizing
+staload "./pats_lexing.sats" // for tokens
+staload "./pats_tokbuf.sats" // for tokenizing
 
 (* ****** ****** *)
 
-staload "pats_parsing.sats"
+staload "./pats_parsing.sats"
 
 (* ****** ****** *)
 

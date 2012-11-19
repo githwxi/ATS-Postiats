@@ -36,18 +36,18 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload "pats_symbol.sats"
-staload "pats_lexing.sats"
-staload "pats_tokbuf.sats"
-staload "pats_syntax.sats"
+#include "./pats_basics.hats"
 
 (* ****** ****** *)
 
-staload "pats_parsing.sats"
+staload "./pats_symbol.sats"
+staload "./pats_lexing.sats"
+staload "./pats_tokbuf.sats"
+staload "./pats_syntax.sats"
 
 (* ****** ****** *)
 
-#include "pats_basics.hats"
+staload "./pats_parsing.sats"
 
 (* ****** ****** *)
 

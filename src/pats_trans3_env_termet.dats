@@ -36,18 +36,18 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-staload "pats_stamp.sats"
+staload "./pats_stamp.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_stacst2.sats"
-staload "pats_dynexp2.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_stacst2.sats"
+staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans3_env.sats"
+staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 

@@ -41,29 +41,29 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload ERR = "pats_error.sats"
+staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_dmacro2"
 
 (* ****** ****** *)
 
 staload
-STMP = "pats_stamp.sats"
+STMP = "./pats_stamp.sats"
 typedef stamp = $STMP.stamp
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_dynexp2.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-staload "pats_dmacro2.sats"
+staload "./pats_dmacro2.sats"
 
 (* ****** ****** *)
 

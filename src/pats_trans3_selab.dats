@@ -42,33 +42,33 @@ staload _(*anon*) = "prelude/DATS/option_vt.dats"
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_trans3_selab"
 
 (* ****** ****** *)
 
 staload
-LAB = "pats_label.sats"
+LAB = "./pats_label.sats"
 overload = with $LAB.eq_label_label
 macdef prerr_label = $LAB.prerr_label
 
 staload
-LOC = "pats_location.sats"
+LOC = "./pats_location.sats"
 stadef location = $LOC.location
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_stacst2.sats"
-staload "pats_dynexp2.sats"
-staload "pats_dynexp3.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_stacst2.sats"
+staload "./pats_dynexp2.sats"
+staload "./pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans3.sats"
-staload "pats_trans3_env.sats"
+staload "./pats_trans3.sats"
+staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 

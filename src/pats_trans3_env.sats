@@ -32,36 +32,36 @@
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
 staload
-LOC = "pats_location.sats"
+LOC = "./pats_location.sats"
 typedef location = $LOC.location
 
 (* ****** ****** *)
 
 staload
-STMP = "pats_stamp.sats"
+STMP = "./pats_stamp.sats"
 viewtypedef
 stampset_vt = $STMP.stampset_vt
 
 (* ****** ****** *)
 
 staload
-EFF = "pats_effect.sats"
+EFF = "./pats_effect.sats"
 typedef effect = $EFF.effect
 typedef effectlst = $EFF.effectlst
 typedef effset = $EFF.effset
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_patcst2.sats"
-staload "pats_dynexp2.sats"
-staload "pats_dynexp3.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_patcst2.sats"
+staload "./pats_dynexp2.sats"
+staload "./pats_dynexp3.sats"
 
 (* ****** ****** *)
 
