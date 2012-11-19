@@ -199,16 +199,16 @@ primval_fun (loc, hse, fl) =
 (* ****** ****** *)
 
 implement
-primval_tmpcst
+primval_tmplt_cst
   (loc, hse, d2c, t2mas) =
-  primval_make_node (loc, hse, PMVtmpcst (d2c, t2mas))
-// end of [primval_tmpcst]
+  primval_make_node (loc, hse, PMVtmplt_cst (d2c, t2mas))
+// end of [primval_tmplt_cst]
 
 implement
-primval_tmpvar
+primval_tmplt_var
   (loc, hse, d2v, t2mas) =
-  primval_make_node (loc, hse, PMVtmpvar (d2v, t2mas))
-// end of [primval_tmpvar]
+  primval_make_node (loc, hse, PMVtmplt_var (d2v, t2mas))
+// end of [primval_tmplt_var]
 
 (* ****** ****** *)
 

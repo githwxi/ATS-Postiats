@@ -37,16 +37,22 @@ staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
+//
+staload "./pats_basics.sats"
+//
+macdef isdebug () = (debug_flag_get () > 0)
+//
+(* ****** ****** *)
 
-staload UT = "pats_utils.sats"
-staload ERR = "pats_error.sats"
+staload UT = "./pats_utils.sats"
+staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
+staload LOC = "./pats_location.sats"
 macdef prerr_location = $LOC.prerr_location
 
-staload SYM = "pats_symbol.sats"
+staload SYM = "./pats_symbol.sats"
 //
 macdef ADD = $SYM.symbol_ADD
 macdef SUB = $SYM.symbol_SUB
@@ -75,15 +81,10 @@ overload = with $SYM.eq_symbol_symbol
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
-macdef isdebug () = (debug_flag_get () > 0)
-
-(* ****** ****** *)
-
-staload "pats_syntax.sats"
-staload "pats_staexp1.sats"
-staload "pats_trans1_env.sats"
-staload "pats_e1xpval.sats"
+staload "./pats_syntax.sats"
+staload "./pats_staexp1.sats"
+staload "./pats_trans1_env.sats"
+staload "./pats_e1xpval.sats"
 
 (* ****** ****** *)
 

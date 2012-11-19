@@ -642,14 +642,23 @@ case+ pmv_fun.primval_node of
     // nothing
   end // end of [PMVfun]
 //
-| PMVtmpcst _ => let
+| PMVtmplt_cst _ => let
     val () = emit_primval (out, pmv_fun)
     val () = fprint_string (out, "(")
     val () = emit_primvalist (out, pmvs_arg)
     val () = fprint_string (out, ") ;")
   in
     // nothing
-  end // end of [PMVtmpcst]
+  end // end of [PMVtmplt_cst]
+//
+| PMVtmplt_var _ => let
+    val () = emit_primval (out, pmv_fun)
+    val () = fprint_string (out, "(")
+    val () = emit_primvalist (out, pmvs_arg)
+    val () = fprint_string (out, ") ;")
+  in
+    // nothing
+  end // end of [PMVtmplt_var]
 //
 | _(*function variable*) => let
     val () = emit_primval (out, pmv_fun)

@@ -144,10 +144,14 @@ case+ hde0.hidexp_node of
 //
 | HDEcon _ => auxret (env, res, hde0)
 //
-| HDEtmpcst (d2c, t2mas) => primval_tmpcst (loc0, hse0, d2c, t2mas)
-| HDEtmpvar (d2v, t2mas) => primval_tmpvar (loc0, hse0, d2v, t2mas)
+| HDEtmpcst (d2c, t2mas) =>
+    primval_tmplt_cst (loc0, hse0, d2c, t2mas)
+| HDEtmpvar (d2v, t2mas) =>
+    primval_tmplt_var (loc0, hse0, d2v, t2mas)
 //
-| HDElet (hids, hde_scope) => let
+| HDElet (
+    hids, hde_scope
+  ) => let
     val (
       pfpush | ()
     ) = ccompenv_push (env)

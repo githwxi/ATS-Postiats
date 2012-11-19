@@ -263,16 +263,18 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
-| PMVtmpcst (d2c, t2mas) => {
-    val () = prstr "PMVtmpcst("
+| PMVtmplt_cst
+    (d2c, t2mas) => {
+    val () = prstr "PMVtmplt_cst("
     val () = fprint_d2cst (out, d2c)
     val () = prstr "<"
     val () = $UT.fprintlst (out, t2mas, "><", fpprint_t2mpmarg)
     val () = prstr ">"
     val () = prstr ")"
   }
-| PMVtmpvar (d2v, t2mas) => {
-    val () = prstr "PMVtmpvar("
+| PMVtmplt_var
+    (d2v, t2mas) => {
+    val () = prstr "PMVtmplt_var("
     val () = fprint_d2var (out, d2v)
     val () = prstr "<"
     val () = $UT.fprintlst (out, t2mas, "><", fpprint_t2mpmarg)

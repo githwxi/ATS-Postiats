@@ -258,11 +258,11 @@ primval_node =
   | PMVargref of (int) // call-by-reference
   | PMVargtmpref of (int) // call-by-reference but treated as tmpvar
 //
-  | PMVcst of (d2cst)
-  | PMVvar of (d2var) // temporary
+  | PMVcst of (d2cst) // for constants
+  | PMVvar of (d2var) // for temporaries
 //
-  | PMVtmpcst of (d2cst, t2mpmarglst) // for template constants
-  | PMVtmpvar of (d2var, t2mpmarglst) // for template variables
+  | PMVtmplt_cst of (d2cst, t2mpmarglst) // for template constants
+  | PMVtmplt_var of (d2var, t2mpmarglst) // for template variables
 //
   | PMVint of (int)
   | PMVbool of (bool)
@@ -412,12 +412,12 @@ fun primval_fun
 
 (* ****** ****** *)
 
-fun primval_tmpcst (
+fun primval_tmplt_cst (
   loc: location, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst
-) : primval // end of [primval_tmpcst]
-fun primval_tmpvar (
+) : primval // end of [primval_tmplst_cst]
+fun primval_tmplt_var (
   loc: location, hse: hisexp, d2v: d2var, t2mas: t2mpmarglst
-) : primval // end of [primval_tmpvar]
+) : primval // end of [primval_tmplt_var]
 
 (* ****** ****** *)
 
