@@ -32,7 +32,45 @@
 //
 (* ****** ****** *)
 
+staload "./pats_staexp2.sats"
+
+(* ****** ****** *)
+
 staload "./pats_ccomp.sats"
+
+(* ****** ****** *)
+
+dataviewtype impenv =
+  | IMPENVcons of (s2var, s2exp, impenv) | IMPENVnil of ()
+// end of [impenv]
+
+(* ****** ****** *)
+
+extern
+fun impenv_make_svarlst
+  (s2vs: s2varlst): impenv
+implement
+impenv_make_svarlst (s2vs) = let
+in
+//
+case+ s2vs of
+| list_cons
+    (s2v, s2vs) => let
+    val env = impenv_make_svarlst (s2vs)
+    val s2e = s2exp_err (s2var_get_srt (s2v))
+  in
+    IMPENVcons (s2v, s2e, env)
+  end // end of [list_cons]
+| list_nil () => IMPENVnil ()
+//
+end // end of [impenv_make_svarlst]
+
+(* ****** ****** *)
+
+extern
+fun tmparg_match
+  (env: impenv, s2e_pat: s2exp, s2e_arg: s2exp): bool
+// end of [tmparg_match]
 
 (* ****** ****** *)
 

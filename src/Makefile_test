@@ -132,6 +132,8 @@ fact2: ; \
   ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/fact2.dats
 revarr: ; \
   ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/revarr.dats
+bintree: ; \
+  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/bintree.dats
 
 isqrt: ; \
   ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/isqrt.dats

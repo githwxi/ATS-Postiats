@@ -122,6 +122,7 @@ lexsym =
   | LS_NONE of () // this is a dymmy
 //
   | LS_ABST // for abst@ype
+  | LS_ABSVT // for absvt@ype
   | LS_ABSVIEWT // for absviewt@ype
   | LS_ADDR // for addr@
   | LS_CASE // for case+ and case-
@@ -234,6 +235,7 @@ fun insert (
 } // end of [insert]
 //
 val () = insert (ptbl, "abst", LS_ABST)
+val () = insert (ptbl, "absvt", LS_ABSVT)
 val () = insert (ptbl, "absviewt", LS_ABSVIEWT)
 val () = insert (ptbl, "addr", LS_ADDR)
 val () = insert (ptbl, "case", LS_CASE)
@@ -1791,6 +1793,11 @@ case+ sym of
     testing_literal (buf, pos, "@ype") >= 0 => let
     val () = strptr_free (str) in
     lexbufpos_token_reset (buf, pos, ABST0YPE)
+  end
+| LS_ABSVT () when
+    testing_literal (buf, pos, "@ype") >= 0 => let
+    val () = strptr_free (str) in
+    lexbufpos_token_reset (buf, pos, ABSVIEWT0YPE)
   end
 | LS_ABSVIEWT () when
     testing_literal (buf, pos, "@ype") >= 0 => let
