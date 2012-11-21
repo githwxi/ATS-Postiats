@@ -37,22 +37,22 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload ERR = "pats_error.sats"
+staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_trans2_dynexp"
 
 (* ****** ****** *)
 
 staload
-SYM = "pats_symbol.sats"
+SYM = "./pats_symbol.sats"
 overload = with $SYM.eq_symbol_symbol
 
 staload
-SYN = "pats_syntax.sats"
+SYN = "./pats_syntax.sats"
 typedef d0ynq = $SYN.d0ynq
 
 macdef
@@ -66,26 +66,26 @@ prerr_dqid (dq, id) =
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp1.sats"
-staload "pats_e1xpval.sats"
-staload "pats_dynexp1.sats"
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_dynexp2.sats"
-staload "pats_dynexp2_util.sats"
+staload "./pats_staexp1.sats"
+staload "./pats_e1xpval.sats"
+staload "./pats_dynexp1.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_dynexp2.sats"
+staload "./pats_dynexp2_util.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans2.sats"
-staload "pats_trans2_env.sats"
+staload "./pats_trans2.sats"
+staload "./pats_trans2_env.sats"
 
 (* ****** ****** *)
 
-#include "pats_basics.hats"
+#include "./pats_basics.hats"
 
 (* ****** ****** *)
 

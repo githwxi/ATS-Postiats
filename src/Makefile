@@ -477,6 +477,14 @@ patsopt: pats_main_dats.o $(OBJECTS) ; \
 cleanall:: ; $(RMF) patsopt
 
 ######
+#
+# for building patsopt through CMake
+#
+BUILD/init: ; cd BUILD; cmake ..; cd ..
+BUILD/clean: ; make -C BUILD -f Makefile clean
+BUILD/patsopt: ; make -C BUILD -j8 -f Makefile patsopt
+
+######
 
 pats_error_sats.c: pats_error.sats; $(ATSCC) -cc $<
 pats_error_sats.o: pats_error_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<

@@ -32,16 +32,16 @@
 //
 (* ****** ****** *)
 
-staload SYM = "pats_symbol.sats"
+staload SYM = "./pats_symbol.sats"
 typedef symbol = $SYM.symbol
-staload SYMMAP = "pats_symmap.sats"
+staload SYMMAP = "./pats_symmap.sats"
 stadef symmap = $SYMMAP.symmap
-staload SYN = "pats_syntax.sats"
+staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_dynexp2.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 //

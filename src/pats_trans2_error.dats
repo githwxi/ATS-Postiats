@@ -38,11 +38,11 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 (* ****** ****** *)
 
 staload
-ERR = "pats_error.sats"
+ERR = "./pats_error.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans2.sats"
+staload "./pats_trans2.sats"
 
 (* ****** ****** *)
 

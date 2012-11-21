@@ -38,33 +38,39 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
+staload UT = "./pats_utils.sats"
 
-staload ERR = "pats_error.sats"
-staload INT = "pats_intinf.sats"
+staload ERR = "./pats_error.sats"
+staload INT = "./pats_intinf.sats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
+
+(* ****** ****** *)
+
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans2_staexp"
 
 (* ****** ****** *)
 
 staload
-LOC = "pats_location.sats"
+LOC = "./pats_location.sats"
 overload + with $LOC.location_combine
 
-staload LEX = "pats_lexing.sats"
+staload LEX = "./pats_lexing.sats"
 typedef token = $LEX.token
 
 (* ****** ****** *)
 
 staload
-SYM = "pats_symbol.sats"
+SYM = "./pats_symbol.sats"
 typedef symbol = $SYM.symbol
 overload = with $SYM.eq_symbol_symbol
 
 staload
-SYN = "pats_syntax.sats"
+SYN = "./pats_syntax.sats"
 typedef s0taq = $SYN.s0taq
 typedef i0delst = $SYN.i0delst
 
@@ -75,26 +81,20 @@ prerr_sqid (sq, id) =
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans2_staexp"
+staload "./pats_staexp1.sats"
+staload "./pats_e1xpval.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_stacst2.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp1.sats"
-staload "pats_e1xpval.sats"
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_stacst2.sats"
+staload "./pats_trans2.sats"
+staload "./pats_trans2_env.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans2.sats"
-staload "pats_trans2_env.sats"
-
-(* ****** ****** *)
-
-#include "pats_basics.hats"
+#include "./pats_basics.hats"
 
 (* ****** ****** *)
 

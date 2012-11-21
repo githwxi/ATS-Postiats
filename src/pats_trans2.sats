@@ -32,16 +32,17 @@
 //
 (* ****** ****** *)
 
-staload SYN = "pats_syntax.sats"
+staload
+SYN = "./pats_syntax.sats"
 typedef s0rtq = $SYN.s0rtq
 
 (* ****** ****** *)
 
-staload "pats_staexp1.sats"
-staload "pats_dynexp1.sats"
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_dynexp2.sats"
+staload "./pats_staexp1.sats"
+staload "./pats_dynexp1.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 //

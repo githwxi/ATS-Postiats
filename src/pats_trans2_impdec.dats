@@ -39,8 +39,18 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload SYM = "pats_symbol.sats"
-staload SYN = "pats_syntax.sats"
+staload "./pats_basics.sats"
+
+(* ****** ****** *)
+
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans2_impdec"
+
+(* ****** ****** *)
+
+staload SYM = "./pats_symbol.sats"
+staload SYN = "./pats_syntax.sats"
 
 macdef
 prerr_dqid (dq, id) =
@@ -49,27 +59,17 @@ prerr_dqid (dq, id) =
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans2_impdec"
+staload "./pats_staexp1.sats"
+staload "./pats_dynexp1.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_dynexp2.sats"
+staload "./pats_dynexp2_util.sats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
-
-(* ****** ****** *)
-
-staload "pats_staexp1.sats"
-staload "pats_dynexp1.sats"
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_dynexp2.sats"
-staload "pats_dynexp2_util.sats"
-
-(* ****** ****** *)
-
-staload "pats_trans2.sats"
-staload "pats_trans2_env.sats"
+staload "./pats_trans2.sats"
+staload "./pats_trans2_env.sats"
 
 (* ****** ****** *)
 

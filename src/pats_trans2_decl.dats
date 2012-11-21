@@ -32,23 +32,34 @@
 //
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
 macdef castvwtp1 = $UN.castvwtp1
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload ERR = "pats_error.sats"
+staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
 
-staload SYM = "pats_symbol.sats"
+staload "./pats_basics.sats"
+
+(* ****** ****** *)
+
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_trans2_decl"
+
+(* ****** ****** *)
+
+staload SYM = "./pats_symbol.sats"
 macdef EQEQ = $SYM.symbol_EQEQ
 overload = with $SYM.eq_symbol_symbol
 overload != with $SYM.neq_symbol_symbol
 
-staload SYN = "pats_syntax.sats"
+staload SYN = "./pats_syntax.sats"
 typedef i0de = $SYN.i0de
 typedef i0delst = $SYN.i0delst
 typedef s0taq = $SYN.s0taq
@@ -63,32 +74,22 @@ prerr_dqid (dq, id) =
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload NS = "./pats_namespace.sats"
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_trans2_decl"
+staload "./pats_staexp1.sats"
+staload "./pats_dynexp1.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_stacst2.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_dynexp2.sats"
+staload "./pats_dynexp2_util.sats"
 
 (* ****** ****** *)
 
-staload NS = "pats_namespace.sats"
-
-(* ****** ****** *)
-
-staload "pats_staexp1.sats"
-staload "pats_dynexp1.sats"
-staload "pats_staexp2.sats"
-staload "pats_stacst2.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_dynexp2.sats"
-staload "pats_dynexp2_util.sats"
-
-(* ****** ****** *)
-
-staload "pats_trans2.sats"
-staload "pats_trans2_env.sats"
+staload "./pats_trans2.sats"
+staload "./pats_trans2_env.sats"
 
 (* ****** ****** *)
 

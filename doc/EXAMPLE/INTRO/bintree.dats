@@ -6,6 +6,9 @@
 
 (* ****** ****** *)
 
+(*
+** [datavtype] for [dataviewtype]
+*)
 datavtype
 bintree (a:t@ype) =
   | BTnil of () | BTcons of (bintree a, a, bintree a)

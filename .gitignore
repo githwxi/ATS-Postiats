@@ -16,6 +16,11 @@ src/Makefile_atxt.txt
 
 bin/patsopt
 
+#
+# building patsopt thru CMake 
+#
+src/BUILD/*
+
 utils/atsyntax/HTML
 utils/atsyntax/pats2xhtml
 

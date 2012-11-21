@@ -38,30 +38,30 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 (* ****** ****** *)
 
 staload
-FIL = "pats_filename.sats"
+FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
 
-staload SYM = "pats_symbol.sats"
-staload SYN = "pats_syntax.sats"
+staload SYM = "./pats_symbol.sats"
+staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_trans2_env"
 
 (* ****** ****** *)
 
-staload "pats_symmap.sats"
-staload "pats_symenv.sats"
-staload "pats_staexp2.sats"
-staload "pats_dynexp2.sats"
-staload "pats_namespace.sats"
+staload "./pats_symmap.sats"
+staload "./pats_symenv.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_dynexp2.sats"
+staload "./pats_namespace.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans2.sats"
-staload "pats_trans2_env.sats"
+staload "./pats_trans2.sats"
+staload "./pats_trans2_env.sats"
 
 (* ****** ****** *)
 
