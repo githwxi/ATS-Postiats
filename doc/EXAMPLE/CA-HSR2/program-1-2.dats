@@ -9,7 +9,7 @@
 //
 (* ****** ****** *)
 
-staload "program-1-2.sats"
+staload "./program-1-2.sats"
 
 (* ****** ****** *)
 
@@ -23,6 +23,8 @@ SelectionSort
   {n} (A, n) = let
 //
 stadef tsz = sizeof(a)
+//
+prval () = lemma_array_param (A)
 //
 fun findmin
   {l1,l2,l3:addr;n1,n2,n3:nat |
@@ -57,8 +59,8 @@ fun findmin
     if p1 < p2 then let
 //
       extern praxi lemma
-        {x,y:int | x*y !=0} (): [x!=0;y!=0] void
-      prval () = lemma {n1,tsz} ()
+        {x,y:int | x*y != 0} (): [x != 0; y != 0] void
+      prval () = lemma {n1,tsz} () // n1 != 0; tsz != 0
 //
       prval (pf11, pf12) = array_v_uncons (pf1)
       prval (pf21, pf22) = array_v_uncons (pf2)
@@ -88,8 +90,6 @@ fun loop
   in
     // nothing
   end else () // end of [if]
-//
-prval () = lemma_array_param (A)
 //
 in
   loop (view@(A) | addr@(A), n)

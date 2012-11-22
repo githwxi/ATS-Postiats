@@ -38,12 +38,13 @@ main () = 0 where {
   #define N 10
   typedef T = float
   val asz = g1int2uint (N)
-  val (
-    pf, pfgc | p
-  ) = array_ptr_alloc<T> (asz)
-  val () = randgen_array<T> (!p, asz)
+  val A =
+    randgen_arrayptr<T> (asz)
+  val p = arrayptr2ptr (A)
+  prval pfarr = arrayptr_takeout (A)
   val sum = Sum (!p, N)
-  val () = array_ptr_free (pf, pfgc | p)
+  prval () = arrayptr_addback (pfarr | A)
+  val () = arrayptr_free (A)
   val () = (
     print "sum of the array = "; print sum; print_newline ()
   ) // end of [val]

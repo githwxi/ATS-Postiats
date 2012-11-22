@@ -9,7 +9,7 @@
 //
 (* ****** ****** *)
 
-staload "program-1-2.sats"
+staload "./program-1-2.sats"
 
 (* ****** ****** *)
 
@@ -21,10 +21,10 @@ main () = 0 where {
   typedef T = int
 //
   val asz = g1int2uint (N)
-  val (
-    pf, pfgc | p
-  ) = array_ptr_alloc<T> (asz)
-  val () = randgen_array (!p, asz)
+  val A =
+    randgen_arrayptr<T> (asz)
+  val p = arrayptr2ptr (A)
+  prval pfarr = arrayptr_takeout (A)
 //
   val out = stdout_ref
 //
@@ -38,7 +38,9 @@ main () = 0 where {
   val () = fprint_array<T> (out, !p, asz)
   val () = fprint_newline (out)
 //
-  val () = array_ptr_free {T} (pf, pfgc | p)
+  prval () = arrayptr_addback (pfarr | A)
+//
+  val () = arrayptr_free (A)
 //
 } // end of [main]
 
