@@ -53,8 +53,9 @@ stadef S5 (n:int) = (n*n*n*n*n*n+15*S4(n)-20*S3(n)+15*S2(n)-6*S1(n)+S0(n))/6
 //
 // HX: for testing the level-1 macro system of ATS:
 //
-#define pow1(n) n
-#define pow2(n) n*n
+#define pow0(n) 1
+#define pow1(n) n*pow0(n)
+#define pow2(n) n*pow1(n)
 #define pow3(n) n*pow2(n)
 #define pow4(n) n*pow3(n)
 #define pow5(n) n*pow4(n)

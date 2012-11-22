@@ -55,10 +55,10 @@ praxi stateTrans10
 
 (* ****** ****** *)
 
-absviewtype F (f:bool)
-absviewtype C (c:bool)
-absviewtype G (g:bool)
-absviewtype W (w:bool)
+absvtype F (f:bool)
+absvtype C (c:bool)
+absvtype G (g:bool)
+absvtype W (w:bool)
 
 (* ****** ****** *)
 

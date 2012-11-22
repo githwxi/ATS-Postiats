@@ -29,8 +29,11 @@
 //
 (* ****** ****** *)
 
-staload "doc/EXAMPLE/ARITH/basics.sats"
-staload "doc/EXAMPLE/ARITH/fibonacci.sats"
+staload "./basics.sats"
+
+(* ****** ******)
+
+staload "./fibonacci.sats"
 
 (* ****** ******)
 

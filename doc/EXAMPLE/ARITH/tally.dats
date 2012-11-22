@@ -29,7 +29,7 @@
 //
 (* ****** ****** *)
 
-staload "doc/EXAMPLE/ARITH/tally.sats"
+staload "./tally.sats"
 
 (* ****** ****** *)
 

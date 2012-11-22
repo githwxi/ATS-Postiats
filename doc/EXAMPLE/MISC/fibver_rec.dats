@@ -5,10 +5,14 @@
 ** Time: 2006 (?) // this is one of the first examples in ATS
 *)
 
+(* ****** ****** *)
+
 dataprop FIB (int, int) =
   | FIB0 (0, 0) | FIB1 (1, 1)
   | {n:nat} {r0,r1:int} FIB2 (n+2, r0+r1) of (FIB (n, r0), FIB (n+1, r1))
 // end of [FIB]
+
+(* ****** ****** *)
 
 fun fibver
   {n:nat} (n: int n)
@@ -24,6 +28,14 @@ fun fibver
 in
   loop {0} (FIB0 (), FIB1 () | n, 0, 1)
 end // end of [fibver]
+
+(* ****** ****** *)
+
+implement
+main () = 0 where {
+  val () = assertloc ((fibver(10)).1 = 55)
+  val () = assertloc ((fibver(20)).1 = 6765)
+} // end of [main]
 
 (* ****** ****** *)
 
