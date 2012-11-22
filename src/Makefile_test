@@ -27,6 +27,7 @@ test:: fibver_loop
 test:: hanoi
 test:: ferryman
 test:: morse_enum
+test:: passwdgen
 test:: strmat
 
 test:: tally
@@ -140,6 +141,8 @@ revarr: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/revarr.dats
 bintree: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/bintree.dats
+intrange: ; \
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/intrange.dats
 
 isqrt: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/isqrt.dats
@@ -153,6 +156,8 @@ ferryman: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/ferryman.dats
 morse_enum: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/morse_enum.dats
+passwdgen: ; \
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/passwdgen.dats
 strmat: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/strmat.dats
 
