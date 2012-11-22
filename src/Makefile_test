@@ -4,6 +4,10 @@
 
 ######
 
+PATSOPT=./patsopt
+
+######
+
 test:: prelude
 test:: libc
 test:: libats
@@ -42,141 +46,162 @@ test:: KolmogorovTrans
 test:: naive-set
 test:: irrationality-of-sqrt2
 
-######
-
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/arith_prf.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/bool.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/char.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/filebas_prf.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/filebas.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/float.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/integer.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/intrange.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/memory.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/pointer.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/reference.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/string.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/tfprint.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/unsafe.dats
-
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/basics.dats
-
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/list.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/list_vt.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/option.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/option_vt.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/array.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/array_prf.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/arrayptr.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/arrayref.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/lazy.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/lazy_vt.dats
-
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/iterator.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/iterator_flist.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/iterator_array.dats
-
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/fcontainer.dats
-prelude:: ; ./patsopt -tc -d $(PATSHOME)/prelude/DATS/fcontainer_foreach.dats
+test:: CA-HSR2
 
 ######
 
-libc:: ; ./patsopt -tc -s $(PATSHOME)/libc/SATS/stddef.sats
-libc:: ; ./patsopt -tc -s $(PATSHOME)/libc/SATS/stdio.sats
-libc:: ; ./patsopt -tc -d $(PATSHOME)/libc/DATS/stdio.dats
-libc:: ; ./patsopt -tc -d $(PATSHOME)/libc/DATS/stdio_iterator.dats
-libc:: ; ./patsopt -tc -s $(PATSHOME)/libc/SATS/stdlib.sats
-libc:: ; ./patsopt -tc -s $(PATSHOME)/libc/SATS/unistd.sats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/arith_prf.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/bool.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/char.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/filebas_prf.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/filebas.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/float.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/integer.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/intrange.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/memory.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/pointer.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/reference.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/string.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/tfprint.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/unsafe.dats
+
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/basics.dats
+
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/list.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/list_vt.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/option.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/option_vt.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/array.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/array_prf.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/arrayptr.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/arrayref.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/lazy.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/lazy_vt.dats
+
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/iterator.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/iterator_flist.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/iterator_array.dats
+
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/fcontainer.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/fcontainer_foreach.dats
 
 ######
 
-libats:: ; ./patsopt -tc -s $(PATSHOME)/libats/SATS/fundeque_fingertree.sats
-libats:: ; ./patsopt -tc -d $(PATSHOME)/libats/DATS/fundeque_fingertree.dats
-
-libats:: ; ./patsopt -tc -s $(PATSHOME)/libats/SATS/funralist_nested.sats
-libats:: ; ./patsopt -tc -d $(PATSHOME)/libats/DATS/funralist_nested.dats
-
-libats_ML:: ; ./patsopt -tc -s $(PATSHOME)/libats/ML/SATS/list0.sats
-libats_ML:: ; ./patsopt -tc -d $(PATSHOME)/libats/ML/DATS/list0.dats
-libats_ML:: ; ./patsopt -tc -s $(PATSHOME)/libats/ML/SATS/option0.sats
-libats_ML:: ; ./patsopt -tc -d $(PATSHOME)/libats/ML/DATS/option0.dats
-libats_ML:: ; ./patsopt -tc -s $(PATSHOME)/libats/ML/SATS/array0.sats
-libats_ML:: ; ./patsopt -tc -d $(PATSHOME)/libats/ML/DATS/array0.dats
-libats_ML:: ; ./patsopt -tc -s $(PATSHOME)/libats/ML/SATS/string.sats
-libats_ML:: ; ./patsopt -tc -d $(PATSHOME)/libats/ML/DATS/string.dats
+libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/stddef.sats
+libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/stdio.sats
+libc:: ; $(PATSOPT) -tc -d $(PATSHOME)/libc/DATS/stdio.dats
+libc:: ; $(PATSOPT) -tc -d $(PATSHOME)/libc/DATS/stdio_iterator.dats
+libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/stdlib.sats
+libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/unistd.sats
 
 ######
 
-contrib_cairo:: ; ./patsopt -tc -IATS$(PATSHOME)/contrib -s $(PATSHOME)/contrib/cairo/SATS/cairo.sats
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/fundeque_fingertree.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/fundeque_fingertree.dats
+
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funralist_nested.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/funralist_nested.dats
+
+libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/list0.sats
+libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/list0.dats
+libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/option0.sats
+libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/option0.dats
+libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/array0.sats
+libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/array0.dats
+libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/string.sats
+libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/string.dats
 
 ######
 
-contrib_mysql:: ; ./patsopt -tc -s $(PATSHOME)/contrib/mysql/SATS/mysql.sats
+contrib_cairo:: ; $(PATSOPT) -tc -IATS$(PATSHOME)/contrib -s $(PATSHOME)/contrib/cairo/SATS/cairo.sats
 
 ######
 
-contrib_jansson:: ; ./patsopt -tc -s $(PATSHOME)/contrib/jansson/SATS/jansson.sats
+contrib_mysql:: ; $(PATSOPT) -tc -s $(PATSHOME)/contrib/mysql/SATS/mysql.sats
 
 ######
 
-contrib_atshwxi:: ; ./patsopt -tc -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foreach.sats
-contrib_atshwxi:: ; ./patsopt -tc -d $(PATSHOME)/contrib/atshwxi/testing/DATS/foreach.dats
-contrib_atshwxi:: ; ./patsopt -tc -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foldleft.sats
-contrib_atshwxi:: ; ./patsopt -tc -d $(PATSHOME)/contrib/atshwxi/testing/DATS/foldleft.dats
-contrib_atshwxi:: ; ./patsopt -tc -s $(PATSHOME)/contrib/atshwxi/testing/SATS/randgen.sats
-contrib_atshwxi:: ; ./patsopt -tc -d $(PATSHOME)/contrib/atshwxi/testing/DATS/randgen.dats
+contrib_jansson:: ; $(PATSOPT) -tc -s $(PATSHOME)/contrib/jansson/SATS/jansson.sats
+
+######
+
+contrib_atshwxi:: ; $(PATSOPT) -tc -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foreach.sats
+contrib_atshwxi:: ; $(PATSOPT) -tc -d $(PATSHOME)/contrib/atshwxi/testing/DATS/foreach.dats
+contrib_atshwxi:: ; $(PATSOPT) -tc -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foldleft.sats
+contrib_atshwxi:: ; $(PATSOPT) -tc -d $(PATSHOME)/contrib/atshwxi/testing/DATS/foldleft.dats
+contrib_atshwxi:: ; $(PATSOPT) -tc -s $(PATSHOME)/contrib/atshwxi/testing/SATS/randgen.sats
+contrib_atshwxi:: ; $(PATSOPT) -tc -d $(PATSHOME)/contrib/atshwxi/testing/DATS/randgen.dats
 
 ######
 
 fact2: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/fact2.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/fact2.dats
 revarr: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/revarr.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/revarr.dats
 bintree: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/bintree.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/bintree.dats
 
 isqrt: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/isqrt.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/isqrt.dats
 fibver_rec: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/fibver_rec.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/fibver_rec.dats
 fibver_loop: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/fibver_loop.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/fibver_loop.dats
 hanoi: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/hanoi.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/hanoi.dats
 ferryman: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/ferryman.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/ferryman.dats
 morse_enum: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/morse_enum.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/morse_enum.dats
 strmat: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/strmat.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/strmat.dats
 
 tally: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/ARITH/tally.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/ARITH/tally.dats
 fibonacci: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/ARITH/fibonacci.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/ARITH/fibonacci.dats
 
-SMI: ; ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/SMI.dats
-PHP: ; ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/PHP.dats
-CPS: ; ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/CPS.dats
+SMI: ; $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/SMI.dats
+PHP: ; $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/PHP.dats
+CPS: ; $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/CPS.dats
 infprime: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/infprime.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/infprime.dats
 Ackermann: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/Ackermann.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/Ackermann.dats
 BinaryTreeLemmas: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/BinaryTreeLemmas.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/BinaryTreeLemmas.dats
 CutElimIL: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/CutElimIL.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/CutElimIL.dats
 CutElimILL: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/CutElimILL.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/CutElimILL.dats
 STLC-SN-foas: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/STLC-SN-foas.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/STLC-SN-foas.dats
 HilbertCalc: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/HilbertCalc.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/HilbertCalc.dats
 KolmogorovTrans: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/KolmogorovTrans.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/KolmogorovTrans.dats
 naive-set: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/naive-set.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/naive-set.dats
 irrationality-of-sqrt2: ; \
-  ./patsopt -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/irrationality-of-sqrt2.dats
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/ATSLF/irrationality-of-sqrt2.dats
+
+######
+
+CA-HSR2:: ; \
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-2.dats
+CA-HSR2:: ; \
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-2-test.dats
+CA-HSR2:: ; \
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-3.dats
+CA-HSR2:: ; \
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-4.dats
+CA-HSR2:: ; \
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-5.dats
+CA-HSR2:: ; \
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-6.dats
+CA-HSR2:: ; \
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-7.dats
+CA-HSR2:: ; \
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/CA-HSR2/program-1-14.dats
 
 ###### end of [Makefile_test] ######
