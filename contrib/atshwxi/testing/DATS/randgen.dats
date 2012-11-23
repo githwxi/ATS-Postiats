@@ -71,4 +71,17 @@ prval () = arrayptr_addback (pf | A)
 
 (* ****** ****** *)
 
+implement{a}
+randarr_initize
+  (A, n) = let
+//
+implement
+array_initize$init<a> (_, x) = randgen_ref<a> (x)
+//
+in
+  array_initize (A, n)
+end // end of [randarr_initize]
+
+(* ****** ****** *)
+
 (* end of [randgen.dats] *)

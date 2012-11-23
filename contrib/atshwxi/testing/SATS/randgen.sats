@@ -29,4 +29,11 @@ randgen_arrayptr {n:int} (n: size_t n): arrayptr (a, n)
 
 (* ****** ****** *)
 
+fun{a:vt0p}
+randarr_initize
+  {n:int} (A: &(@[a?][n]) >> @[a][n], n: size_t n): void
+// end of [randarr_initize]
+
+(* ****** ****** *)
+
 (* end of [randgen.sats] *)
