@@ -69,6 +69,45 @@ fun d2var_reset_type
 
 (* ****** ****** *)
 
+fun lsbis_opnset_and_add
+  (loc: location, xs: lstbefitmlst): void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = d2var_opnset_and_add (loc, x.lstbefitm_var)
+  in
+    lsbis_opnset_and_add (loc, xs)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [lsbis_opnset_and_add]
+
+fun invargs_opnset_and_add
+  (loc: location, xs: i2nvarglst): void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = d2var_opnset_and_add (loc, x.i2nvarg_var)
+  in
+    invargs_opnset_and_add (loc, xs)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [invargs_opnset_and_add]
+
+fun lsbis_invargs_opnset_and_add (
+  loc: location, xs: lstbefitmlst, ys: i2nvarglst
+) : void = {
+  val () = lsbis_opnset_and_add (loc, xs)
+  val () = invargs_opnset_and_add (loc, ys)
+} // end of [lsbis_invargs_opnset_and_add]
+
+(* ****** ****** *)
+
 extern
 fun d2exp_trup_loop_dryrun (
   loc0: location
@@ -133,6 +172,7 @@ val linval2 = d2var_get_linval (d2v)
 in
   lstbefitm_make (d2v, linval2)
 end // end of [aux]
+//
 val lsbis2 = list_map_fun (lsbis, aux)
 //
 in
@@ -574,17 +614,22 @@ val () =
   trans3_env_add_svarlst (i2nv.loopi2nv_svs)
 val () =
   trans3_env_hypadd_proplst (locinv, i2nv.loopi2nv_gua)
-val () = i2nvarglst_update (i2nv.loopi2nv_arg)
 //
-val _(*err*) = (
-  case+ i2nv.loopi2nv_met of
+val _(*err*) = let
+  val opt = i2nv.loopi2nv_met
+in
+  case+ opt of
   | Some (met) => let
       val () = s2explst_check_termet (loc0, met) in (0)
     end // end of [Some]
   | None () =>
       the_effenv_check_ntm (loc0) // HX: raising ntm-effect
     // end of [None]
-) : int // end of [val]
+end : int // end of [val]
+//
+val invargs = i2nv.loopi2nv_arg
+val () = i2nvarglst_update (locinv, invargs)
+val () = lsbis_invargs_opnset_and_add (locinv, lsbis1, invargs)
 //
 val test = d2exp_trup (test)
 val loc_test = test.d3exp_loc
@@ -593,6 +638,7 @@ val s2e_test = d3exp_get_type (test)
 val s2e_bool = s2exp_bool_t0ype ()
 val test = d3exp_trdn (test, s2e_bool)
 val s2f_test = s2exp2hnf (s2e_test)
+//
 val os2p_test = un_s2exp_bool_index_t0ype (s2f_test)
 //
 val (pfpush | ()) = trans3_env_push ()
@@ -617,8 +663,8 @@ val () = trans3_env_pop_and_add_main (pfpush | loc0)
 val () = option_vt_free (os2p_test)
 //
 val () = lstbefitmlst_restore_type (lsbis1)
-val () = i2nvarglst_update (i2nv.loopi2nv_arg)
-val () = i2nvresstate_update (loc0, i2nv.loopi2nv_res)
+val () = i2nvarglst_update (locinv, i2nv.loopi2nv_arg)
+val () = i2nvresstate_update (locinv, i2nv.loopi2nv_res)
 //
 in
   d3exp_loop (loc0, init, test, post, body)

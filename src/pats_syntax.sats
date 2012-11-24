@@ -1326,11 +1326,10 @@ and d0exp_node =
   | D0Earrinit of (* array initilization *)
       (s0exp (*elt*), d0expopt (*asz*), d0explst (*ini*))
 //
-  | D0Eraise of d0exp // $raise
-  | D0Edelay of (int(*knd*), d0exp(*body*)) // $delay and $ldelay
-//
+  | D0Eraise of (d0exp) // $raise
   | D0Eeffmask of (e0fftaglst, d0exp)
   | D0Eeffmask_arg of (int(*knd*), d0exp)
+  | D0Eshowtype of (d0exp) // $showtype
 //
   | D0Eptrof of () // taking the addr of a left-value
   | D0Eviewat of () // taking the view at the addr of a left-value
@@ -1344,6 +1343,8 @@ and d0exp_node =
 //
   | D0Elam of (int(*knd*), f0arglst, s0expopt, e0fftaglstopt, d0exp)
   | D0Efix of (int(*knd*), i0de, f0arglst, s0expopt, e0fftaglstopt, d0exp)
+//
+  | D0Edelay of (int(*knd*), d0exp(*body*)) // $delay and $ldelay
 //
   | D0Etrywith of (tryhead, d0exp, c0laulst) (* try-expression *)
 //
@@ -1651,9 +1652,6 @@ fun d0exp_arrpsz (
 (* ****** ****** *)
 
 fun d0exp_raise (tok: token, d0e: d0exp): d0exp
-fun d0exp_delay (knd: int, tok: token, body: d0exp): d0exp
-
-(* ****** ****** *)
 
 fun d0exp_effmask (
   tok: token, eff: e0fftaglst, d0e: d0exp
@@ -1662,6 +1660,8 @@ fun d0exp_effmask (
 fun d0exp_effmask_arg
   (knd: int, tok: token, d0e: d0exp): d0exp
 // end of [d0exp_effmask_arg]
+
+fun d0exp_showtype (tok: token, d0e: d0exp): d0exp
 
 (* ****** ****** *)
 
@@ -1705,6 +1705,10 @@ fun d0exp_fix (
 , eff: e0fftaglstopt
 , d0e: d0exp
 ) : d0exp // end of [d0exp_fix]
+
+(* ****** ****** *)
+
+fun d0exp_delay (knd: int, tok: token, body: d0exp): d0exp
 
 (* ****** ****** *)
 

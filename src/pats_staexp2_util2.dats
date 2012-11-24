@@ -789,25 +789,40 @@ fun s2exp_prenexize (
 in
 //
 case+ s2e0.s2exp_node of
-| S2Eexi (s2vs, s2ps, s2e_body) => (
+//
+| S2Eexi (
+    s2vs, s2ps, s2e_body
+  ) => (
     if knd = 0 then
       s2exp_prenexize_work (
       knd, s2vs, s2ps, s2e_body, s2vs_res, s2ps_res, flag
     ) else s2e0 // end of [if]
   ) // end of [S2Eexi]
-| S2Euni (s2vs, s2ps, s2e_body) => (
+| S2Euni (
+    s2vs, s2ps, s2e_body
+  ) => (
     if knd > 0 then
       s2exp_prenexize_work (
       knd, s2vs, s2ps, s2e_body, s2vs_res, s2ps_res, flag
     ) else s2e0 // end of [if]
   ) // end of [S2Euni]
+//
+| S2Eat (s2e1, s2e2) => let
+    val flag0 = flag
+    val s2e1 = s2exp_prenexize (knd, s2e1, s2vs_res, s2ps_res, flag)
+  in
+    if flag > flag0 then s2exp_at (s2e1, s2e2) else s2e0
+  end // end of [S2Eat]
+//
 (*
-| S2Etyrec (tyrecknd, npf, ls2es) => let
+| S2Etyrec (
+    recknd, npf, ls2es
+  ) => let
     val flag0 = flag
     val ls2es = labs2explst_prenexize (knd, ls2es, s2vs_res, s2ps_res, flag)
   in
     if flag > flag0 then
-      s2exp_tyrec_srt (s2e0.s2exp_srt, tyrecknd, npf, ls2es)
+      s2exp_tyrec_srt (s2e0.s2exp_srt, recknd, npf, ls2es)
     else s2e0 // end of [if]
   end // end of [S2Etyrec]
 *)
@@ -833,7 +848,7 @@ and s2exp_prenexize_work (
   val s2e_body = s2exp_prenexize (knd, s2e_body, s2vs_res, s2ps_res, flag)
 in
   s2e_body
-end // end of [s2exp_prenexize_main]
+end // end of [s2exp_prenexize_work]
 
 and s2explst_prenexize (
   knd: int

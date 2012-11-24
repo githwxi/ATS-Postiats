@@ -723,19 +723,30 @@ end // end of [local]
 
 implement
 i2nvarglst_update
-  (args) = let
-//
-fun fupdate
-  (arg: i2nvarg): void = let
-  val d2v = i2nvarg_get_var (arg)
-  val opt = i2nvarg_get_type (arg)
-  val () = d2var_inc_linval (d2v)
+  (loc, args) = let
 in
-  d2var_set_type (d2v, opt)
-end // end of [fupdate]
 //
-in
-  list_app_fun<i2nvarg> (args, fupdate)
+case+ args of
+| list_cons
+    (arg, args) => let
+//
+    val d2v = i2nvarg_get_var (arg)
+    val opt = i2nvarg_get_type (arg)
+(*
+    val () = println! ("i2nvarglst_update: d2v = ", d2v)
+    val () = println! ("i2nvarglst_update: opt = ", opt)
+*)
+    val () =
+      d2var_inc_linval (d2v)
+    // end of [val]
+//
+    val () = d2var_set_type (d2v, opt)
+//
+  in
+    i2nvarglst_update (loc, args)
+  end // end of [list_cons]
+| list_nil () => ()
+//
 end // end of [i2nvarglst_update]
 
 (* ****** ****** *)
@@ -753,7 +764,7 @@ in
 //
 // HX-2012-08:
 // updating is already done during merge but this is
-  i2nvarglst_update (invres.i2nvresstate_arg) // more appropriate
+  i2nvarglst_update (loc, invres.i2nvresstate_arg) // more appropriate
 //
 end // end of [i2nvresstate_update]
 

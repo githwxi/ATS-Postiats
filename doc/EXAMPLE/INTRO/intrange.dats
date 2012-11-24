@@ -54,4 +54,4 @@ main (
 
 (* ****** ****** *)
 
-(* end of [make-list.dats] *)
+(* end of [intrange.dats] *)

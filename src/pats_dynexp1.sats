@@ -350,10 +350,9 @@ and d1exp_node =
   | D1Earrpsz of (* arraysize expression *)
       (s1expopt (*element type*), d1explst (*elements*))
 //
-  | D1Eraise of d1exp // raised exception
-  | D1Edelay of (int(*knd*), d1exp(*body*)) // $delay and $ldelay
-//
+  | D1Eraise of (d1exp) // raised exception
   | D1Eeffmask of (effcst(*eff*), d1exp(*body*)) // $effmask(...)
+  | D1Eshowtype of (d1exp) // $showtype: for debugging
 //
   | D1Eptrof of d1exp // taking the address of
   | D1Eviewat of d1exp // taking view at a given address
@@ -375,6 +374,8 @@ and d1exp_node =
       (location (*loc_arg*), s1qualst, d1exp)
   | D1Efix of // dynamic fixed-point expression
       (int(*knd: 0/1: flat/boxed*), i0de, d1exp)
+//
+  | D1Edelay of (int(*knd*), d1exp(*body*)) // $delay and $ldelay
 //
   | D1Efor of ( // for-loop
       loopi1nv
@@ -655,6 +656,29 @@ fun d1exp_exist (loc: location, s1a: s1exparg, d1e: d1exp): d1exp
 
 (* ****** ****** *)
 
+fun d1exp_raise (loc: location, d1e: d1exp): d1exp
+
+(* ****** ****** *)
+
+fun d1exp_effmask (
+  loc: location, eff: effcst, d1e: d1exp
+) : d1exp // end of [d1exp_effmask]
+
+fun d1exp_effmask_arg
+  (loc: location, knd: int, d1e: d1exp): d1exp
+// end of [d1exp_effmask_arg]
+
+(* ****** ****** *)
+
+fun d1exp_showtype (loc: location, d1e: d1exp): d1exp
+
+(* ****** ****** *)
+
+fun d1exp_ptrof (loc: location, d1e: d1exp): d1exp
+fun d1exp_viewat (loc: location, d1e: d1exp): d1exp
+
+(* ****** ****** *)
+
 fun d1exp_lam_dyn
   (loc: location, lin: int, arg: p1at, body: d1exp): d1exp
 
@@ -679,23 +703,7 @@ fun d1exp_fix
 
 (* ****** ****** *)
 
-fun d1exp_raise (loc: location, d1e: d1exp): d1exp
 fun d1exp_delay (loc: location, knd: int, d1e: d1exp): d1exp
-
-(* ****** ****** *)
-
-fun d1exp_effmask (
-  loc: location, eff: effcst, d1e: d1exp
-) : d1exp // end of [d1exp_effmask]
-
-fun d1exp_effmask_arg
-  (loc: location, knd: int, d1e: d1exp): d1exp
-// end of [d1exp_effmask_arg]
-
-(* ****** ****** *)
-
-fun d1exp_ptrof (loc: location, d1e: d1exp): d1exp
-fun d1exp_viewat (loc: location, d1e: d1exp): d1exp
 
 (* ****** ****** *)
 

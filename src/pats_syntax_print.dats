@@ -966,6 +966,17 @@ case+ x.d0exp_node of
     val () = prstr ")"
   }
 //
+| D0Eraise (d0e) => {
+    val () = prstr "D0Eraise("
+    val () = fprint_d0exp (out, d0e)
+    val () = prstr ")"
+  }
+| D0Eshowtype (d0e) => {
+    val () = prstr "D0Eshowtype("
+    val () = fprint_d0exp (out, d0e)
+    val () = prstr ")"
+  }
+//
 | D0Eptrof () => prstr "D0Eptrof()"
 | D0Eviewat () => prstr "D0Eviewat()"
 //
@@ -1006,6 +1017,14 @@ case+ x.d0exp_node of
 | D0Efix _ => {
     val () = prstr "D0Efix("
     val () = prstr "..."
+    val () = prstr ")"
+  }
+//
+| D0Edelay (knd, d0e) => {
+    val () = prstr "D0Edelay("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_d0exp (out, d0e)
     val () = prstr ")"
   }
 //

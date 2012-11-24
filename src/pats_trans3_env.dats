@@ -56,6 +56,7 @@ staload "pats_staexp2.sats"
 staload "pats_staexp2_util.sats"
 staload "pats_stacst2.sats"
 staload "pats_patcst2.sats"
+staload "pats_dynexp2.sats"
 staload "pats_dynexp3.sats"
 
 (* ****** ****** *)
@@ -1602,6 +1603,25 @@ in
 end // end of [s2fun_arg_res_opninv_and_add]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+d2var_opnset_and_add
+  (loc, d2v) = let
+  val opt = d2var_get_type (d2v)
+in
+//
+case+ opt of
+| Some (s2e) => let
+    val s2f = s2exp2hnf (s2e)
+    val s2e = s2hnf_opnexi_and_add (loc, s2f)
+  in
+    d2var_set_type (d2v, Some (s2e))
+  end // end of [Some]
+| None () => d2var_set_type (d2v, None ())
+//
+end // end of [d2var_opnset_and_add]
 
 (* ****** ****** *)
 

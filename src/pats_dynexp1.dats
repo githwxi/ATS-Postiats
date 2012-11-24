@@ -597,14 +597,14 @@ d1exp_fix (loc, knd, id, d1e) =
 (* ****** ****** *)
 
 implement
-d1exp_raise (loc, d1e) =
-  d1exp_make (loc, D1Eraise (d1e))
-
-implement
 d1exp_delay (loc, knd, d1e) =
   d1exp_make (loc, D1Edelay (knd, d1e))
 
 (* ****** ****** *)
+
+implement
+d1exp_raise (loc, d1e) =
+  d1exp_make (loc, D1Eraise (d1e))
 
 implement
 d1exp_effmask (loc, efc, d1e) =
@@ -624,6 +624,12 @@ d1exp_effmask_arg
 in
   d1exp_effmask (loc, efc, d1e)
 end // end of [d1exp_effmask_arg]
+
+(* ****** ****** *)
+
+implement
+d1exp_showtype (loc, d1e) =
+  d1exp_make (loc, D1Eshowtype (d1e))
 
 (* ****** ****** *)
 

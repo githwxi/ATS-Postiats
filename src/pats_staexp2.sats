@@ -389,9 +389,11 @@ s2exp_node =
   | S2Efun of ( // function type
       funclo, int(*lin*), s2eff, int(*npf*), s2explst(*arg*), s2exp(*res*)
     ) // end of S2Efun
-  | S2Emetfun of (stampopt, s2explst, s2exp) // metricked function
 //
-  | S2Emetdec of (s2explst(*met*), s2explst(*metbound*)) // strictly decreasing
+  | S2Emetfun of (stampopt, s2explst, s2exp) // metricked function
+  | S2Emetdec of
+      (s2explst(*met*), s2explst(*metbound*)) // expected to strictly decrease
+    // end of [S2Emetdec]
 //
   | S2Etop of (int(*knd*), s2exp) // knd: 0/1: topization/typization
   | S2Ewithout of (s2exp) // for a component taken out by the [view@] operation
@@ -409,10 +411,10 @@ s2exp_node =
       s2varlst(*vars*), s2explst(*props*), s2exp(*body*)
     ) // end of [S2Euni]
 //
-  | S2Erefarg of (* reference argument type *)
-      (int(*0/1:val/ref*), s2exp) (* !/&: call-by-val/ref *) // related to [S1Einvar]
+// HX: reference argument type // related to [S1Einvar]
+  | S2Erefarg of (int(*0/1:val/ref*), s2exp) (* !/&: call-by-val/ref *)
 //
-  | S2Evararg of s2exp // variadic argument type
+  | S2Evararg of (s2exp) // variadic argument type
 //
   | S2Ewth of (s2exp, wths2explst) // the result part of a fun type
 //

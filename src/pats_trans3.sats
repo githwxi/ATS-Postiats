@@ -236,6 +236,10 @@ fun labd2explst_syn_type (ld2es: labd2explst): labs2explst
 
 (* ****** ****** *)
 
+fun fshowtype_d3exp (d3e: d3exp): void
+
+(* ****** ****** *)
+
 dataviewtype d23exp =
   | D23Ed2exp of d2exp | D23Ed3exp of d3exp
 viewtypedef d23explst = List_vt (d23exp)

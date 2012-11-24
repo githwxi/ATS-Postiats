@@ -493,6 +493,8 @@ val () = ins ("$extval", T_DLREXTVAL)
 //
 val () = ins ("$raise", T_DLRRAISE)
 //
+val () = ins ("$showtype", T_DLRSHOWTYPE)
+//
 val () = ins ("$lst", DLRLST)
 val () = ins ("$lst_t", DLRLST_T)
 val () = ins ("$lst_vt", DLRLST_VT)

@@ -1157,6 +1157,26 @@ case+ tok.token_node of
     loop (ent1, ent2)
   end
 //
+| T_DLRRAISE () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_d0exp1 (buf, bt, err)
+  in
+    if err = err0 then
+      d0exp_raise (tok, ent2) else tokbuf_set_ntok_null (buf, n0)
+    (* end of [if] *)
+  end
+//
+| T_DLRDELAY (knd) => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_d0exp1 (buf, bt, err)
+  in
+    if err = err0 then
+      d0exp_delay (knd, tok, ent2) else tokbuf_set_ntok_null (buf, n0)
+    (* end of [if] *)
+  end
+//
 | T_DLREFFMASK () => let
     val bt = 0
     val () = incby1 ()
@@ -1179,22 +1199,13 @@ case+ tok.token_node of
     (* end of [if] *)
   end
 //
-| T_DLRRAISE () => let
+| T_DLRSHOWTYPE () => let
     val bt = 0
     val () = incby1 ()
     val ent2 = p_d0exp1 (buf, bt, err)
   in
     if err = err0 then
-      d0exp_raise (tok, ent2) else tokbuf_set_ntok_null (buf, n0)
-    (* end of [if] *)
-  end
-| T_DLRDELAY (knd) => let
-    val bt = 0
-    val () = incby1 ()
-    val ent2 = p_d0exp1 (buf, bt, err)
-  in
-    if err = err0 then
-      d0exp_delay (knd, tok, ent2) else tokbuf_set_ntok_null (buf, n0)
+      d0exp_showtype (tok, ent2) else tokbuf_set_ntok_null (buf, n0)
     (* end of [if] *)
   end
 //

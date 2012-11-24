@@ -192,6 +192,8 @@ token_node =
   | T_DLRREC of int // $rec and $rec_t and $rec_vt
   | T_DLRTUP of int // $tup and $tup_t and $tup_vt
 //
+  | T_DLRSHOWTYPE of () // $showtype // for debugging purpose
+//
   | T_SRPASSERT of () // #assert
   | T_SRPDEFINE of () // #define
   | T_SRPELIF of () // #elif

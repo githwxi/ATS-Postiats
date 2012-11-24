@@ -1848,6 +1848,16 @@ in '{
 (* ****** ****** *)
 
 implement
+d0exp_delay
+  (knd, tok, body) = let
+  val loc = tok.token_loc + body.d0exp_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Edelay (knd, body)
+} end // end of [d0exp_delay]
+
+(* ****** ****** *)
+
+implement
 d0exp_lst (
   lin, t_beg, elt, t_lp, d0es, t_rp
 ) = let
@@ -1936,14 +1946,6 @@ end // end of [d0exp_seq]
 (* ****** ****** *)
 
 implement
-d0exp_delay
-  (knd, tok, body) = let
-  val loc = tok.token_loc + body.d0exp_loc
-in '{
-  d0exp_loc= loc, d0exp_node= D0Edelay (knd, body)
-} end // end of [d0exp_delay]
-
-implement
 d0exp_raise (tok, ent2) = let
   val loc = tok.token_loc + ent2.d0exp_loc
 in '{
@@ -1967,6 +1969,15 @@ d0exp_effmask_arg
 in '{
   d0exp_loc= loc, d0exp_node= D0Eeffmask_arg (knd, body)
 } end // end of [d0exp_effmask_arg]
+
+(* ****** ****** *)
+
+implement
+d0exp_showtype (tok, ent2) = let
+  val loc = tok.token_loc + ent2.d0exp_loc
+in '{
+  d0exp_loc= loc, d0exp_node= D0Eshowtype (ent2)
+} end // end of [d0exp_showtype]
 
 (* ****** ****** *)
 

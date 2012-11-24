@@ -336,8 +336,6 @@ case+ d2e0.d2exp_node of
     d3exp_arrinit (loc0, s2e_arr, s2e_elt, d3e_asz, d3es)
   end // end of [D2Earrinit]
 //
-| D2Eeffmask _ => d2exp_trup_effmask (d2e0)
-//
 | D2Eraise (d2e_exn) => let
     val err = the_effenv_check_exn (loc0)
     val () = if (err > 0) then (
@@ -349,6 +347,14 @@ case+ d2e0.d2exp_node of
   in
     d3exp_raise (loc0, s2e_raise, d3e_exn)
   end // end of [D2Eraise]
+//
+| D2Eeffmask _ => d2exp_trup_effmask (d2e0)
+//
+| D2Eshowtype
+    (d2e) => d3e where {
+    val d3e = d2exp_trup (d2e)
+    val () = fshowtype_d3exp (d3e)
+  } // end of [D2Eshowtype]
 //
 | D2Elam_dyn _ => d2exp_trup_lam_dyn (d2e0)
 | D2Elaminit_dyn _ => d2exp_trup_laminit_dyn (d2e0)

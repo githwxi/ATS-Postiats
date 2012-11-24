@@ -69,6 +69,35 @@ staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 
+local
+
+staload
+LOC = "./pats_location.sats"
+
+in // in of [local]
+
+implement
+fshowtype_d3exp
+  (d3e) = let
+//
+val loc = d3e.d3exp_loc
+val s2e = d3exp_get_type (d3e)
+//
+val out = stdout_ref
+val () = print "**SHOWTYPE**("
+val () = $LOC.print_location (loc)
+val () = print "): "
+val () = fpprint_s2exp (out, s2e)
+val () = print_newline ()
+//
+in
+  // nothing
+end // end of [fshowtype_d3exp]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 implement
 d2exp_funclo_of_d2exp
   (d2e0, fc0) =
@@ -335,24 +364,16 @@ d3explst_trdn_arg
 
 (* ****** ****** *)
 
-local
-
-fun
-d3exp_get_ind
-  (x: d3exp): s2exp = let
-  val () =
-    d3exp_open_and_add (x) in d3exp_get_type (x)
-  // end of [val]
-end // end of [d3exp_get_ind]
-
-in // in of [local]
-
 implement
-d3explst_get_ind (xs) =
-  l2l (list_map_fun (xs, d3exp_get_ind))
-// end of [d3explst_get_ind]
-
-end // end of [local]
+d3explst_get_ind (xs) = let
+//
+fun f (x: d3exp): s2exp = let
+  val () = d3exp_open_and_add (x) in d3exp_get_type (x)
+end // end of [d3exp_get_ind]
+//
+in
+  l2l (list_map_fun (xs, f))
+end // end of [d3explst_get_ind]
 
 (* ****** ****** *)
 

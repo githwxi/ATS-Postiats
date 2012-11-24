@@ -1407,6 +1407,8 @@ case+ d1e0.d1exp_node of
     d2exp_effmask (loc0, s2fe, d2e)
   end // end of [D1Eeffmask]
 //
+| D1Eshowtype (d1e) => d2exp_showtype (loc0, d1exp_tr d1e)
+//
 | D1Eptrof (d1e) => d2exp_ptrof (loc0, d1exp_tr d1e)
 | D1Eviewat (d1e) => d2exp_viewat (loc0, d1exp_tr d1e)
 | D1Eselab (knd, d1e, d1l) => let

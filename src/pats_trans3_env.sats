@@ -410,6 +410,10 @@ fun s2fun_opninv_and_add
 
 (* ****** ****** *)
 
+fun d2var_opnset_and_add (loc: location, d2v: d2var): void
+
+(* ****** ****** *)
+
 fun un_s2exp_wthtype (
   loc: location, s2e: s2exp
 ) : (
@@ -513,7 +517,7 @@ fun lstaftc3nstr_finalize (x: lstaftc3nstr): void
 
 (* ****** ****** *)
 
-fun i2nvarglst_update (args: i2nvarglst): void
+fun i2nvarglst_update (loc: location, args: i2nvarglst): void
 fun i2nvresstate_update (loc: location, invres: i2nvresstate): void
 
 (* ****** ****** *)

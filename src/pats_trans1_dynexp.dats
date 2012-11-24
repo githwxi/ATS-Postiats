@@ -661,9 +661,6 @@ case+ d0e0.d0exp_node of
   end // end of [D0Earrinit]
 //
 | D0Eraise (d0e) => FXITMatm (d1exp_raise (loc0, d0exp_tr (d0e)))
-| D0Edelay (knd, d0e) => let
-    val d1e = d0exp_tr (d0e) in FXITMatm (d1exp_delay (loc0, knd, d1e))
-  end // end of [D0Edelay]
 //
 | D0Eeffmask (eff, d0e) => let
       val (
@@ -676,6 +673,8 @@ case+ d0e0.d0exp_node of
 | D0Eeffmask_arg (knd, d0e) => let
     val d1e = d0exp_tr (d0e) in FXITMatm (d1exp_effmask_arg (loc0, knd, d1e))
   end // end of [D0Eeffmask_arg]
+//
+| D0Eshowtype (d0e) => FXITMatm (d1exp_showtype (loc0, d0exp_tr (d0e)))
 //
   | D0Eptrof () => let
     fn f (d1e: d1exp):<cloref1> d1expitm = let
@@ -749,6 +748,10 @@ case+ d0e0.d0exp_node of
   in
     FXITMatm (d1exp_fix (loc0, knd, id, d1e_def))
   end // end of [D0Efix]
+//
+| D0Edelay (knd, d0e) => let
+    val d1e = d0exp_tr (d0e) in FXITMatm (d1exp_delay (loc0, knd, d1e))
+  end // end of [D0Edelay]
 //
 | D0Esel_lab (knd, lab) => let
     val d1l = d1lab_lab (loc0, lab)

@@ -160,6 +160,8 @@ fprint_token
   | T_DLRREC (x) => fprintf (out, "DLRREC(%i)", @(x))
   | T_DLRTUP (x) => fprintf (out, "DLRTUP(%i)", @(x))
 //
+  | T_DLRSHOWTYPE () => fprintf (out, "DLRSHOWTYPE()", @())
+//
   | T_SRPASSERT () => fprintf (out, "SRPASSERT()", @())
   | T_SRPDEFINE () => fprintf (out, "SRPDEFINE()", @())
   | T_SRPELIF () => fprintf (out, "SRPELIF()", @())
