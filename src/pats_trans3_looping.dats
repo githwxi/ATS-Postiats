@@ -69,7 +69,7 @@ fun d2var_reset_type
 
 (* ****** ****** *)
 
-fun lsbis_opnset_and_add
+fun lstbefitmlst_opnset_and_add
   (loc: location, xs: lstbefitmlst): void = let
 in
 //
@@ -78,13 +78,17 @@ case+ xs of
     (x, xs) => let
     val () = d2var_opnset_and_add (loc, x.lstbefitm_var)
   in
-    lsbis_opnset_and_add (loc, xs)
+    lstbefitmlst_opnset_and_add (loc, xs)
   end // end of [list_cons]
 | list_nil () => ()
 //
-end // end of [lsbis_opnset_and_add]
+end // end of [lstbefitmlst_opnset_and_add]
 
-fun invargs_opnset_and_add
+(*
+//
+// HX-2012-11-24: is this necessary?
+//
+fun invarglst_opnset_and_add
   (loc: location, xs: i2nvarglst): void = let
 in
 //
@@ -93,18 +97,12 @@ case+ xs of
     (x, xs) => let
     val () = d2var_opnset_and_add (loc, x.i2nvarg_var)
   in
-    invargs_opnset_and_add (loc, xs)
+    invarglst_opnset_and_add (loc, xs)
   end // end of [list_cons]
 | list_nil () => ()
 //
-end // end of [invargs_opnset_and_add]
-
-fun lsbis_invargs_opnset_and_add (
-  loc: location, xs: lstbefitmlst, ys: i2nvarglst
-) : void = {
-  val () = lsbis_opnset_and_add (loc, xs)
-  val () = invargs_opnset_and_add (loc, ys)
-} // end of [lsbis_invargs_opnset_and_add]
+end // end of [invarglst_opnset_and_add]
+*)
 
 (* ****** ****** *)
 
@@ -629,7 +627,7 @@ end : int // end of [val]
 //
 val invargs = i2nv.loopi2nv_arg
 val () = i2nvarglst_update (locinv, invargs)
-val () = lsbis_invargs_opnset_and_add (locinv, lsbis1, invargs)
+val () = lstbefitmlst_opnset_and_add (locinv, lsbis1)
 //
 val test = d2exp_trup (test)
 val loc_test = test.d3exp_loc

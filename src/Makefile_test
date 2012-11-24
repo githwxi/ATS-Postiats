@@ -24,10 +24,11 @@ test:: revarr
 test:: isqrt
 test:: fibver_rec
 test:: fibver_loop
-test:: hanoi
 test:: ferryman
+test:: hanoi
 test:: morse_enum
 test:: passwdgen
+test:: queens_loop
 test:: strmat
 
 test:: tally
@@ -150,14 +151,16 @@ fibver_rec: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/fibver_rec.dats
 fibver_loop: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/fibver_loop.dats
-hanoi: ; \
-  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/hanoi.dats
 ferryman: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/ferryman.dats
+hanoi: ; \
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/hanoi.dats
 morse_enum: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/morse_enum.dats
 passwdgen: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/passwdgen.dats
+queens_loop: ; \
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/queens_loop.dats
 strmat: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/strmat.dats
 
