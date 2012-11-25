@@ -236,7 +236,7 @@ case+ opt of
     val () = prerr_error3_loc (loc)
     val () = prerr ": a value matching this pattern may not be freed";
     val () = prerr ": it contains a linear component of the following type [";
-    val () = prerr_s2exp (s2e)
+    val () = pprerr_s2exp (s2e)
     val () = prerr "]."
     val () = prerr_newline ()
   in
@@ -431,7 +431,7 @@ val () = if (flag > 0) then (
 val () = if (flag < 0) then let
   val () = prerr_error3_loc (loc0)
   val () = prerr ": the constructor pattern cannot be assigned the type ["
-  val () = prerr_s2exp (s2e)
+  val () = pprerr_s2exp (s2e)
   val () = prerr "]."
   val () = prerr_newline ()
 in

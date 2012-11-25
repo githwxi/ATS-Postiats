@@ -3,7 +3,6 @@
 // A program to solve the 8-queens problem
 //
 // This example is taken from Appel's book:
-//
 // Modern Compiler Design and Implementation in ML
 //
 *)
@@ -95,6 +94,7 @@ main () = let
   val () = _try (out, 0)
   val () = 
     println! ("The total number of solutions is [", !NSOL, "]")
+  // end of [val]
 in
   0 (*normal*)
 end // end of [main]

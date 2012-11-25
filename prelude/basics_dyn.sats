@@ -84,6 +84,10 @@ prfun prop_verify_and_add {b:bool} ():<prf> [b] void
 
 (* ****** ****** *)
 
+prfun pridentity {a:viewt@ype} (x: &INV(a)): void
+
+(* ****** ****** *)
+
 castfn
 viewptr_match
   {a:vt0p}{l1,l2:addr | l1==l2}

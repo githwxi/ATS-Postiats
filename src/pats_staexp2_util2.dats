@@ -134,6 +134,9 @@ fun s2exp_topize_flag
 // end of [s2exp_topize_flag]
 
 extern
+fun s2exp_invar_flag (s2e: s2exp, flag: &int): s2exp
+
+extern
 fun s2exp_hnfize_flag (s2e: s2exp, flag: &int): s2exp
 
 extern
@@ -204,6 +207,31 @@ implement
 s2exp_topize_0 (s2e) = s2exp_topize (0(*knd*), s2e)
 implement
 s2exp_topize_1 (s2e) = s2exp_topize (1(*knd*), s2e)
+
+(* ****** ****** *)
+
+implement
+s2exp_invar_flag
+  (s2e0, flag) = let
+  val- S2Einvar (s2e) = s2e0.s2exp_node
+in
+//
+case+
+  s2e.s2exp_node of
+| S2Evar _ => s2e0
+| S2EVar _ => let
+    val flag0 = flag
+    val s2e =
+      s2exp_hnfize_flag (s2e, flag)
+    // end of [val]
+  in
+    if flag <= flag0 then s2e0 else s2e
+  end // end of [S2Evar]
+| _ => let
+    val () = flag := flag + 1 in s2exp_hnfize_flag (s2e, flag)
+  end // end of [_]
+//
+end // end of [s2exp_invar_flag]
 
 (* ****** ****** *)
 
@@ -310,7 +338,7 @@ case+ s2e0.s2exp_node of
 | S2Etyarr _ => s2e0
 | S2Etyrec _ => s2e0
 //
-| S2Einvar _ => s2e0
+| S2Einvar _ => s2exp_invar_flag (s2e0, flag)
 //
 (*
 | S2Eexi (s2vs, s2ps, s2e) => let

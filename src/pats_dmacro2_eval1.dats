@@ -624,6 +624,7 @@ case+ d2en0 of
   // end of [D2Earrpsz]
 //
 | D2Eraise (d2e) => d2exp_raise (loc0, eval1dexp (d2e))
+| D2Eshowtype (d2e) => d2exp_showtype (loc0, eval1dexp (d2e))
 //
 | D2Eexist (s2a, d2e) =>
     d2exp_exist (loc0, eval1sexparg (s2a), eval1dexp (d2e))
