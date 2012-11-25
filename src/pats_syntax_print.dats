@@ -72,8 +72,9 @@ prerr_macsynkind (x) = fprint_macsynkind (stderr_ref, x)
 implement
 fprint_cstsp (out, x) =
   case+ x of
-  | CSTSPfilename () => fprint_string (out, "#FILENAME")
-  | CSTSPlocation () => fprint_string (out, "#LOCATION")
+  | CSTSPmyfile () => fprint_string (out, "$myfile")
+  | CSTSPmylocation () => fprint_string (out, "$mylocation")
+  | CSTSPmyfunction () => fprint_string (out, "$myfunction")
 // end of [fprint_cstsp]
 
 (* ****** ****** *)

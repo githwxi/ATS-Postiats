@@ -421,8 +421,9 @@ end // end of [d2exp_trup_f0loat]
 implement
 cstsp_syn_type (d2e0, x) =
   case+ x of
-  | $SYN.CSTSPfilename () => s2exp_string_type ()
-  | $SYN.CSTSPlocation () => s2exp_string_type ()
+  | $SYN.CSTSPmyfile () => s2exp_string_type ()
+  | $SYN.CSTSPmylocation () => s2exp_string_type ()
+  | $SYN.CSTSPmyfunction () => s2exp_string_type ()
 (*
   | CSTSPcharcount (int) => s2exp_int_t0ype ()
   | CSTSPlinecount (int) => s2exp_int_t0ype ()

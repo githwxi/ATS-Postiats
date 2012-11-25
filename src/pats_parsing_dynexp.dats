@@ -669,11 +669,14 @@ case+ tok.token_node of
     ptest_fun (buf, p_dqi0de, ent) =>
     d0exp_dqid (synent_decode {dqi0de} (ent))
 //
-| T_SRPFILENAME () => let
-    val () = incby1 () in d0exp_FILENAME (tok)
+| T_DLRMYFILE () => let
+    val () = incby1 () in d0exp_MYFILE (tok)
   end
-| T_SRPLOCATION () => let
-    val () = incby1 () in d0exp_LOCATION (tok)
+| T_DLRMYLOCATION () => let
+    val () = incby1 () in d0exp_MYLOCATION (tok)
+  end
+| T_DLRMYFUNCTION () => let
+    val () = incby1 () in d0exp_MYFUNCTION (tok)
   end
 //
 | _ when

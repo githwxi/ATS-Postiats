@@ -147,7 +147,7 @@ a:t0p
 
 macdef
 fileref_get_exnloc
-  (r) = fileref_get_exnmsg (,(r), \#LOCATION)
+  (r) = fileref_get_exnmsg (,(r), $mylocation)
 // end of [fileref_get_exnloc]
 
 #atscode_separator()

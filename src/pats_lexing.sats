@@ -192,6 +192,10 @@ token_node =
   | T_DLRREC of int // $rec and $rec_t and $rec_vt
   | T_DLRTUP of int // $tup and $tup_t and $tup_vt
 //
+  | T_DLRMYFILE of () // $myfile
+  | T_DLRMYLOCATION of () // $mylocation
+  | T_DLRMYFUNCTION of () // $myfunction
+//
   | T_DLRSHOWTYPE of () // $showtype // for debugging purpose
 //
   | T_SRPASSERT of () // #assert
@@ -209,9 +213,6 @@ token_node =
   | T_SRPPRINT of () // #print
   | T_SRPTHEN of () // #then
   | T_SRPUNDEF of () // #undef
-//
-  | T_SRPFILENAME of () // #FILENAME
-  | T_SRPLOCATION of () // #LOCATION
 //
   | T_IDENT_alp of string
   | T_IDENT_sym of string

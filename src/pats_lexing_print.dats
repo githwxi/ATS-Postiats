@@ -160,6 +160,10 @@ fprint_token
   | T_DLRREC (x) => fprintf (out, "DLRREC(%i)", @(x))
   | T_DLRTUP (x) => fprintf (out, "DLRTUP(%i)", @(x))
 //
+  | T_DLRMYFILE () => fprintf (out, "DLRMYFILE()", @())
+  | T_DLRMYLOCATION () => fprintf (out, "DLRMYLOCATION()", @())
+  | T_DLRMYFUNCTION () => fprintf (out, "DLRMYFUNCTION()", @())
+//
   | T_DLRSHOWTYPE () => fprintf (out, "DLRSHOWTYPE()", @())
 //
   | T_SRPASSERT () => fprintf (out, "SRPASSERT()", @())
@@ -177,9 +181,6 @@ fprint_token
   | T_SRPPRINT () => fprintf (out, "SRPPRINT()", @())
   | T_SRPTHEN () => fprintf (out, "SRPTHEN()", @())
   | T_SRPUNDEF () => fprintf (out, "SRPUNDEF()", @())
-//
-  | T_SRPFILENAME () => fprintf (out, "SRPFILENAME()", @())
-  | T_SRPLOCATION () => fprintf (out, "SRPLOCATION()", @())
 //
   | T_IDENT_alp (x) => fprintf (out, "IDENT_alp(%s)", @(x))
   | T_IDENT_sym (x) => fprintf (out, "IDENT_sym(%s)", @(x))

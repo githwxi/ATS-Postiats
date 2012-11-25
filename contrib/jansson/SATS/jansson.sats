@@ -259,7 +259,7 @@ fun json_array_get_exnmsg
 
 macdef
 json_array_get_exnloc (x, i) =
-  json_array_get_exnmsg (,(x), ,(i), #LOCATION)
+  json_array_get_exnmsg (,(x), ,(i), $mylocation)
 // end of [json_array_get_exnloc]
 
 (* ****** ****** *)
@@ -276,7 +276,7 @@ fun json_array_get1_exnmsg
 
 macdef
 json_array_get1_exnloc (x, i) =
-  json_array_get1_exnmsg (,(x), ,(i), #LOCATION)
+  json_array_get1_exnmsg (,(x), ,(i), $mylocation)
 // end of [json_array_get1_exnloc]
 
 (* ****** ****** *)
@@ -351,7 +351,7 @@ fun json_object_get_exnmsg
 
 macdef
 json_object_get_exnloc (x, k) =
-  json_object_get_exnmsg (,(x), ,(k), #LOCATION)
+  json_object_get_exnmsg (,(x), ,(k), $mylocation)
 // end of [json_object_get_exnloc]
 
 (* ****** ****** *)
@@ -368,7 +368,7 @@ fun json_object_get1_exnmsg
 
 macdef
 json_object_get1_exnloc (x, k) =
-  json_object_get1_exnmsg (,(x), ,(k), #LOCATION)
+  json_object_get1_exnmsg (,(x), ,(k), $mylocation)
 // end of [json_object_get1_exnloc]
 
 (* ****** ****** *)

@@ -45,8 +45,8 @@ macdef andalso (x, y) = if ,(x) then ,(y) else false
 //
 (* ****** ****** *)
 
-macdef exitloc (x) = exit_errmsg (,(x), #LOCATION)
-macdef assertloc (x) = assert_errmsg (,(x), #LOCATION)
+macdef exitloc (x) = exit_errmsg (,(x), $mylocation)
+macdef assertloc (x) = assert_errmsg (,(x), $mylocation)
 
 (* ****** ****** *)
 

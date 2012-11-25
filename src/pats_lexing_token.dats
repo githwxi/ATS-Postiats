@@ -491,10 +491,6 @@ val () = ins ("$extype", T_DLREXTYPE)
 val () = ins ("$extype_struct", T_DLREXTYPE_STRUCT)
 val () = ins ("$extval", T_DLREXTVAL)
 //
-val () = ins ("$raise", T_DLRRAISE)
-//
-val () = ins ("$showtype", T_DLRSHOWTYPE)
-//
 val () = ins ("$lst", DLRLST)
 val () = ins ("$lst_t", DLRLST_T)
 val () = ins ("$lst_vt", DLRLST_VT)
@@ -504,6 +500,14 @@ val () = ins ("$rec_vt", DLRREC_VT)
 val () = ins ("$tup", DLRTUP)
 val () = ins ("$tup_t", DLRTUP_T)
 val () = ins ("$tup_vt", DLRTUP_VT)
+//
+val () = ins ("$raise", T_DLRRAISE)
+//
+val () = ins ("$showtype", T_DLRSHOWTYPE)
+//
+val () = ins ("$myfile", T_DLRMYFILE)
+val () = ins ("$mylocation", T_DLRMYLOCATION)
+val () = ins ("$myfunction", T_DLRMYFUNCTION)
 //
 val () = ins ("#assert", T_SRPASSERT)
 val () = ins ("#define", T_SRPDEFINE)
@@ -520,9 +524,6 @@ val () = ins ("#include", T_SRPINCLUDE)
 val () = ins ("#print", T_SRPPRINT)
 val () = ins ("#then", T_SRPTHEN)
 val () = ins ("#undef", T_SRPUNDEF)
-//
-val () = ins ("#FILENAME", T_SRPFILENAME)
-val () = ins ("#LOCATION", T_SRPLOCATION)
 //
 // HX: end of special tokens
 //

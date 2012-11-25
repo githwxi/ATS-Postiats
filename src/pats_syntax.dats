@@ -1650,16 +1650,24 @@ d0exp_empty (loc) = '{
 (* ****** ****** *)
 
 implement
-d0exp_FILENAME (tok) = '{
+d0exp_MYFILE (tok) = '{
   d0exp_loc= tok.token_loc
-, d0exp_node= D0Ecstsp CSTSPfilename
+, d0exp_node= D0Ecstsp (CSTSPmyfile)
 }
 
 implement
-d0exp_LOCATION (tok) = '{
+d0exp_MYLOCATION (tok) = '{
   d0exp_loc= tok.token_loc
-, d0exp_node= D0Ecstsp CSTSPlocation
+, d0exp_node= D0Ecstsp (CSTSPmylocation)
 }
+
+implement
+d0exp_MYFUNCTION (tok) = '{
+  d0exp_loc= tok.token_loc
+, d0exp_node= D0Ecstsp (CSTSPmyfunction)
+}
+
+(* ****** ****** *)
 
 implement
 d0exp_extval (

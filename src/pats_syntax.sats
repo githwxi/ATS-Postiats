@@ -113,8 +113,9 @@ fun lamkind_islin (knd: int): int
 
 datatype
 cstsp = // special constants
-  | CSTSPfilename (* the filename where #FILENAME appears *)
-  | CSTSPlocation (* the location where #LOCATION appears *)
+  | CSTSPmyfile (* the filename where $myfile appears *)
+  | CSTSPmylocation (* the location where $mylocation appears *)
+  | CSTSPmyfunction (* the function name where $myfunction appears *)
 (*
   | CSTSPcharcount of int
   | CSTSPlinecount of int
@@ -1545,8 +1546,9 @@ fun d0exp_f0loat (_: f0loat): d0exp
 
 fun d0exp_empty (loc: location): d0exp
 
-fun d0exp_FILENAME (tok: token): d0exp
-fun d0exp_LOCATION (tok: token): d0exp
+fun d0exp_MYFILE (tok: token): d0exp
+fun d0exp_MYLOCATION (tok: token): d0exp
+fun d0exp_MYFUNCTION (tok: token): d0exp
 
 fun d0exp_extval (
   t_beg: token, _type: s0exp, _code: token, t_end: token
