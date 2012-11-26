@@ -73,7 +73,7 @@ typedef ralist (a:t@ype) = [n:int] ralist (a, n)
 
 (* ****** ****** *)
 
-#declnamesynop("funralist_foreach__fwork")
+#declnamesynop("funralist_foreach$fwork")
 #declnamesynop("funralist_foreach")
 #declnamesynop("funralist_foreach_env")
 
