@@ -133,16 +133,16 @@ implement
 eval1_s2exp (
   loc0, ctx, env, s2e
 ) = let
-//
+(*
   val () = println! ("eval1_s2exp: s2e(bef) = ", s2e)
-//
+*)
   val sub =
     stasub_make_evalctx (ctx)
   val s2e = s2exp_subst (sub, s2e)
   val () = stasub_free (sub)
-//
+(*
   val () = println! ("eval1_s2exp: s2e(aft) = ", s2e)
-//
+*)
 in
   s2e
 end // end of [eval1_s2exp]
@@ -479,12 +479,12 @@ end // end of [eval1_d2exp_macsyn]
 implement
 eval1_d2exp
   (loc0, ctx, env, d2e0) = let
-//
+(*
 val () = (
   println! ("eval1_d2exp: loc0 = ", loc0);
   println! ("eval1_d2exp: d2e0 = ", d2e0);
 ) (* end of [val] *)
-//
+*)
 val d2en0 = d2e0.d2exp_node
 //
 macdef reloc () = d2exp_make_node (loc0, d2en0)

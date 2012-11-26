@@ -84,7 +84,7 @@ prfun prop_verify_and_add {b:bool} ():<prf> [b] void
 
 (* ****** ****** *)
 
-prfun pridentity {a:viewt@ype} (x: &INV(a)): void
+prfun pridentity {a:viewt@ype} (x: !INV(a)): void
 
 (* ****** ****** *)
 
@@ -101,6 +101,12 @@ val{a:viewt@ype} sizeof : size_t (sizeof(a))
 (* ****** ****** *)
 
 praxi topize {a:t@ype} (x: !INV(a) >> a?): void
+
+(* ****** ****** *)
+
+fun cloptr_free
+  {a:t@ype} (p: cloptr a):<!wrt> void = "atspre_cloptr_free"
+// end of [cloptr_free]
 
 (* ****** ****** *)
 (*

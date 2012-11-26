@@ -355,15 +355,20 @@ at_viewt0ype_addr_view (viewt@ype+, addr)
 stadef @ = at_viewt0ype_addr_view // HX: @ is infix
 
 (* ****** ****** *)
-
+//
 absviewt@ype
 clo_t0ype_t0ype (a: t@ype) = a
 absviewt@ype
 clo_viewt0ype_viewt0ype (a: viewt@ype) = a
+//
 absviewtype
-cloptr_viewt0ype_viewtype (a: viewt@ype) // = ptr
-absviewtype cloref_t0ype_type (a: t@ype) // = ptr
-
+cloptr_viewt0ype_viewtype (a: viewt@ype)
+stadef cloptr = cloptr_viewt0ype_viewtype
+//
+abstype
+cloref_t0ype_type (a: t@ype)
+stadef cloref = cloref_t0ype_type
+//
 (* ****** ****** *)
 (*
 absview

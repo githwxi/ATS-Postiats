@@ -54,7 +54,7 @@ list_of_list_vt
 #atscode_separator()
 
 \#define list_sing(x) list_cons(x, list_nil())
-\#define list_pair(x) list_cons(x1, list_cons (x2, list_nil()))
+\#define list_pair(x1, x2) list_cons(x1, list_cons (x2, list_nil()))
 
 #atscode_separator()
 

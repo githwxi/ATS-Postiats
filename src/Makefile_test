@@ -145,8 +145,8 @@ bintree: ; \
 intrange: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/INTRO/intrange.dats
 
-isqrt: ; \
-  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/isqrt.dats
+auto_diff: ; \
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/auto_diff.dats
 fibver_rec: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/fibver_rec.dats
 fibver_loop: ; \
@@ -155,6 +155,8 @@ ferryman: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/ferryman.dats
 hanoi: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/hanoi.dats
+isqrt: ; \
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/isqrt.dats
 morse_enum: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/morse_enum.dats
 passwdgen: ; \

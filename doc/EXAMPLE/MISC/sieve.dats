@@ -50,8 +50,7 @@ end // end of [primes]
 
 //
 
-fun
-print_ints (
+fun print_ints (
   xs: llist
 ) : void = let
   val+ x :: fxs = xs in

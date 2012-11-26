@@ -594,11 +594,11 @@ end // end of [eval0_d2expopt]
 implement
 eval0_d2exp
   (loc0, ctx, env, d2e0) = let
-// (*
+(*
 val () = (
   println! ("eval0_d2exp: d2e0 = ", d2e0)
 ) // end of [val]
-// *)
+*)
 //
 macdef
 eval0dexp (x) = eval0_d2exp (loc0, ctx, env, ,(x))
@@ -1083,20 +1083,20 @@ end // end of [eval0_app_mac_long]
 implement
 eval0_app_mac_short
   (loc0, d2m, ctx, env, d2as) = let
-// (*
+(*
 val () = (
   print "eval0_app_mac_short: d2m = "; print_d2mac d2m; print_newline ()
 ) // end of [val]
-// *)
+*)
 val n = list_length (d2as)
 val args = d2mac_get_arglst (d2m)
 val narg = list_length (args)
-// (*
+(*
 val () = (
   println! ("eval0_app_mac_short: n = ", n);
   println! ("eval0_app_mac_short: narg = ", narg);
 ) // end of [val]
-// *)
+*)
 val () = (
   if n < narg then let
     val () = prerr_errmac_loc (loc0)
