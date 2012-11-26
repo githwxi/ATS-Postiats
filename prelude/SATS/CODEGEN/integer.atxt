@@ -258,6 +258,14 @@ g1int_ndiv2 {i,j:int | j > 0} (
   x: g1int (tk, i), y: g1int (tk, j)
 ) :<> [q,r:int | 0 <= r; r < j] (DIVMOD (i, j, q, r) | g1int (tk, q))
 
+fun{tk:tk}
+g1int_nmod {i,j:int | j > 0}
+  (x: g1int (tk, i), y: g1int (tk, j)):<> [r: nat | r < j] g1int (tk, r)
+fun{tk:tk}
+g1int_nmod2 {i,j:int | j > 0} (
+  x: g1int (tk, i), y: g1int (tk, j)
+) :<> [q,r:int | 0 <= r; r < j] (DIVMOD (i, j, q, r) | g1int (tk, r))
+
 #atscode_separator()
 
 fun{tk:tk}

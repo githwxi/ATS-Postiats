@@ -64,11 +64,11 @@ postfix 69 ?
 prefix  61 ~
 
 infixl 60 * /
-infixl ( * ) imul imul1 imul2 nmul umul
-infixl ( / ) idiv idiv1 idiv2 idiv3 ndiv udiv
+infixl ( * ) imul imul2 nmul umul
+infixl ( / ) idiv idiv2 idiv3 ndiv udiv
 
 infix 60 mod
-infix (mod) nmod nmod1 nmod2 umod uimod
+infix (mod) nmod nmod2 umod uimod
 
 infixl 50 + -
 infixl ( + ) iadd fadd padd uadd

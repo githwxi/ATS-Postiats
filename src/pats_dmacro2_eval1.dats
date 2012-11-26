@@ -337,12 +337,11 @@ in
 case+ d2ls of
 | list_cons
     (d2l, d2ls) => let
-    val loc = d2l.d2lab_loc
     val d2l = (
       case+ d2l.d2lab_node of
       | D2LABlab _ => d2l
       | D2LABind (ind) =>
-          d2lab_ind (loc, eval1_d2explst (loc0, ctx, env, ind))
+          d2lab_ind (loc0, eval1_d2explst (loc0, ctx, env, ind))
     ) : d2lab // end of [val]
     val d2ls = eval1_d2lablst (loc0, ctx, env, d2ls)
   in
@@ -361,12 +360,12 @@ in
 //
 case+ d2a of
 | D2EXPARGsta
-    (locarg, s2as) => D2EXPARGsta (locarg, s2as)
+    (locarg, s2as) => D2EXPARGsta (loc0, s2as)
 | D2EXPARGdyn
     (npf, locarg, d2es) => let
     val d2es = eval1_d2explst (loc0, ctx, env, d2es)
   in
-    D2EXPARGdyn (npf, locarg, d2es)
+    D2EXPARGdyn (npf, loc0, d2es)
   end // end of [D2EXPARGdyn]
 //
 end // end of [eval1_d2exparg]

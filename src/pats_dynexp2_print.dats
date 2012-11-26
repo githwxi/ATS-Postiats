@@ -319,20 +319,21 @@ fprint_labp2atlst
 (* ****** ****** *)
 
 implement
-fprint_d2exp (out, x) = let
+fprint_d2exp
+  (out, d2e0) = let
   macdef prstr (s) = fprint_string (out, ,(s))
 in
 //
-case+ x.d2exp_node of
+case+ d2e0.d2exp_node of
 //
 | D2Ecst (d2c) => {
     val () = prstr "D2Ecst("
     val () = fprint_d2cst (out, d2c)
     val () = prstr ")"
   } // end of [D2Ecst]
-| D2Evar (x) => {
+| D2Evar (d2v) => {
     val () = prstr "D2Evar("
-    val () = fprint_d2var (out, x)
+    val () = fprint_d2var (out, d2v)
     val () = prstr ")"
   } // end of [D2Evar]
 //

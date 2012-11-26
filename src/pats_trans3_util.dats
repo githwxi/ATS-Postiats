@@ -37,6 +37,8 @@ implement prerr_FILENAME<> () = prerr "pats_trans3_util"
 
 (* ****** ****** *)
 
+staload
+LOC = "./pats_location.sats"
 staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
@@ -332,7 +334,9 @@ in // in of [local]
 implement
 d3exp_trdn
   (d3e1, s2e2) = let
-  val s2f2 = s2exp2hnf (s2e2)
+//
+val s2f2 = s2exp2hnf (s2e2)
+//
 in
 //
 case+ s2e2.s2exp_node of

@@ -217,18 +217,20 @@ case+ d2e0.d2exp_node of
         d2exp_trup_applst_sym (d2e0, d2s, _arg)
       // end of [D2Esym]
     | D2Emac d2m => let
-// (*
+(*
         val () = (
           println! ("d2exp_trup: D2Eapplst: D2Emac(bef): d2e0 = ", d2e0)
         ) // end of [val]
-// *)
+*)
         val d2e0 =
           $MAC.dmacro_eval_app_short (loc0, d2m, _arg)
-// (*
+        // end of [val]
+(*
         val () = (
-          println! ("d2exp_trup: D2Eapplst: D2Emac(aft): d2e0 = ", d2e0)
+          println! ("d2exp_trup: D2Eapplst: D2Emac(aft): loc0 = ", loc0);
+          println! ("d2exp_trup: D2Eapplst: D2Emac(aft): d2e0 = ", d2e0);
         ) // end of [val]
-// *)
+*)
       in
         d2exp_trup (d2e0)
       end // end of [D2Emac]

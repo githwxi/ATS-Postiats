@@ -279,11 +279,18 @@ case+ d3e0.d3exp_node of
     val () = fprint_d3exp (out, d3e)
     val () = prstr ")"
   }
-| D3Eapp_dyn _ => {
+| D3Eapp_dyn (
+    d3e, npf, d3es
+  ) => {
     val () = prstr "D3Eapp_dyn("
-    val () = prstr "..."
+    val () = prstr "; "
+    val () = fprint_d3exp (out, d3e)
+    val () = prstr "; "
+    val () = fprint_int (out, npf)
+    val () = prstr "; "
+    val () = fprint_d3explst (out, d3es)
     val () = prstr ")"
-  }
+  } // end of [D3Eapp_dyn]
 //
 | D3Eitem (d2i) => {
     val () = prstr "D3Eitem("
