@@ -23,6 +23,9 @@ typedef
 tpair (a: type, b: type) = '(a, b)
 stadef * = tpair
 
+fn pair_get_fst {X,Y:type} (xy: X * Y):<> X = xy.0
+fn pair_get_snd {X,Y:type} (xy: X * Y):<> Y = xy.1
+
 (* ****** ****** *)
 //
 // Implementing Church numerals in System F
@@ -38,11 +41,6 @@ typedef nat_f =
 
 typedef nat2_f = nat_f * nat_f
 typedef fnat_f = cfun (nat_f, nat_f)
-
-(* ****** ****** *)
-
-fn pair_get_fst {X,Y:type} (xy: X * Y):<> X = xy.0
-fn pair_get_snd {X,Y:type} (xy: X * Y):<> Y = xy.1
 
 (* ****** ****** *)
 
@@ -62,7 +60,7 @@ val _5f = S(_4f)
 
 fn add (m: nat_f, n: nat_f):<> nat_f = m (S) (n)
 fn mul (m: nat_f, n: nat_f):<> nat_f = m {nat_f} (n S) (Z)
-fn pow (m: nat_f, n: nat_f):<> nat_f = n {nat_f-<cloref0>nat_f} (m {nat_f}) (S) (Z)
+fn pow (m: nat_f, n: nat_f):<> nat_f = n {fnat_f} (m {nat_f}) (S) (Z)
 
 (* ****** ****** *)
 
