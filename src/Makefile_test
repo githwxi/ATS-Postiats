@@ -30,6 +30,7 @@ test:: morse_enum
 test:: passwdgen
 test:: queens_loop
 test:: strmat
+test:: systemf
 
 test:: tally
 test:: fibonacci
@@ -165,6 +166,12 @@ queens_loop: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/queens_loop.dats
 strmat: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/strmat.dats
+systemf:: ; \
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/systemf/numeral.dats
+systemf:: ; \
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/systemf/list.dats
+systemf:: ; \
+  $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/MISC/systemf/gtree.dats
 
 tally: ; \
   $(PATSOPT) -tc -d $(PATSHOME)/doc/EXAMPLE/ARITH/tally.dats
