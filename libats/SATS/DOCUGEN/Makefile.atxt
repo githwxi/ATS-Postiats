@@ -102,6 +102,8 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ; \
 
 all_html::
 
+#make_entry("gflist")
+#make_entry("ilist_prf")
 #make_entry("funralist_nested")
 #make_entry("fundeque_fingertree")
 

@@ -1,0 +1,40 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_gflist")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/gflist\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package contains some common proof functions involving integer sequences.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("gflist")
+
+(* ****** ****** *)
+
+#declnamesynop("gflist_length")
+
+(* ****** ****** *)
+
+#declnamesynop("gflist_append")
+
+(* ****** ****** *)
+
+#declnamesynop("gflist_revapp")
+
+(* ****** ****** *)
+
+(* end of [gflist.atxt] *)

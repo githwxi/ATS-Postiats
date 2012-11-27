@@ -453,6 +453,17 @@ viewtypedef OPT (a:t@ype) = optarg_t0ype_t0ype (a)
 //
 *)
 (* ****** ****** *)
+//
+abst@ype
+stamped_t0ype (a:t@ype, int) = a
+absviewt@ype
+stamped_viewt0ype (a:viewt@ype, int) = a
+//
+viewtypedef
+stamped (a:viewt@ype, i:int) = stamped_viewt0ype (a, i)
+typedef stamped (a:t@ype, i:int) = stamped_t0ype (a, i)
+//
+(* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
 #print "Loading [basics_pre.sats] finishes!\n"
