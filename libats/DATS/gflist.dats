@@ -132,6 +132,9 @@ case+ xs of
 //
 end // end of [gflist_append]
 
+implement{a}
+gflist_reverse (xs) = gflist_revapp (xs, gflist_nil)
+
 (* ****** ****** *)
 
 (* end of [gflist.dats] *)

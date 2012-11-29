@@ -92,8 +92,8 @@ gflist_revapp
 fun{a:t@ype}
 gflist_reverse
   {xs:ilist} (
-  xs: gflist (xs)
-) :<> [ys:ilist] (REVERSE (xs, ys) | gflist (ys))
+  xs: gflist (a, xs)
+) :<> [ys:ilist] (REVERSE (xs, ys) | gflist (a, ys))
 // end of [gflist_reverse]
 
 (* ****** ****** *)
