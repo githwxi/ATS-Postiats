@@ -140,7 +140,7 @@ gllist_reverse (xs) = gllist_revapp (xs, gllist_nil)
 
 (* ****** ****** *)
 //
-// HX-2012-11-28: mersort on gllist // ported from ATS/Anairiats
+// HX-2012-11-28: mergesort on gllist // ported from ATS/Anairiats
 //
 (* ****** ****** *)
 
@@ -290,28 +290,32 @@ a:vt0p
   SORT (xs, ys) | gllist (a, ys)
 ) = let
 in
-  if n >= 2 then let
-    var xs = xs
-    val n2 = n/2
-    val (pfapp, pf1len | xs2) = split (pflen | xs, n2)
-    val xs1 = xs
-    prval pf2len = length_istot ()
-    prval pflen_alt = lemma_append_length (pfapp, pf1len, pf2len)
-    prval () = length_isfun (pflen, pflen_alt)
-    val (pf1srt | ys1) = msort (pf1len | xs1, n2)
-    prval (pf1ord, pf1perm) = sort_elim (pf1srt)
-    val (pf2srt | ys2) = msort (pf2len | xs2, n-n2)
-    prval (pf2ord, pf2perm) = sort_elim (pf2srt)
-    val (pfuni, pford | ()) = merge (pf1ord, pf2ord | ys1, ys2, xs)
-    prval pfperm = lemma (pfapp, pf1perm, pf2perm, pfuni) where {
-      extern prfun lemma {xs1,xs2:ilist} {xs:ilist} {ys1,ys2:ilist} {ys:ilist} (
-        pfapp: APPEND (xs1, xs2, xs), pf1: PERMUTE (xs1, ys1), pf2: PERMUTE (xs2, ys2), pf4: UNION (ys1, ys2, ys)
-      ) : PERMUTE (xs, ys)
-    } // end of [prval]
-    prval pfsrt = sort_make (pford, pfperm)
-  in
-    (pfsrt | xs)
-  end else (sort_nilsing (pflen) | xs)
+//
+if n >= 2 then let
+  var xs = xs
+  val n2 = n/2
+  val (pfapp, pf1len | xs2) = split (pflen | xs, n2)
+  val xs1 = xs
+  prval pf2len = length_istot ()
+  prval pflen_alt = lemma_append_length (pfapp, pf1len, pf2len)
+  prval () = length_isfun (pflen, pflen_alt)
+  val (pf1srt | ys1) = msort (pf1len | xs1, n2)
+  prval (pf1ord, pf1perm) = sort_elim (pf1srt)
+  val (pf2srt | ys2) = msort (pf2len | xs2, n-n2)
+  prval (pf2ord, pf2perm) = sort_elim (pf2srt)
+  val (pfuni, pford | ()) = merge (pf1ord, pf2ord | ys1, ys2, xs)
+  prval pfperm = lemma (pfapp, pf1perm, pf2perm, pfuni) where {
+    extern prfun lemma {xs1,xs2:ilist} {xs:ilist} {ys1,ys2:ilist} {ys:ilist} (
+      pfapp: APPEND (xs1, xs2, xs), pf1: PERMUTE (xs1, ys1), pf2: PERMUTE (xs2, ys2), pf4: UNION (ys1, ys2, ys)
+    ) : PERMUTE (xs, ys)
+  } // end of [prval]
+  prval pfsrt = sort_make (pford, pfperm)
+in
+  (pfsrt | xs)
+end else
+  (sort_nilsing (pflen) | xs)
+// end of [if]
+//
 end // end of [msort]
 
 in // in of [local]

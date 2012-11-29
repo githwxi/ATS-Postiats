@@ -80,6 +80,49 @@ in
 end // end of [list_reverse]
 
 (* ****** ****** *)
+//
+// insertion sort
+// HX-2010-fall: a question in cs520 final
+// HX-2010-11-29: ported from ATS/Anairiats
+//
+fn insort
+  {A:type} (
+  xs: list_f A, lte: (A, A) -<0> bool
+) : list_f (A) = let
+//
+typedef X0 = list_f (A)
+//
+val nil0 = Nil
+val cons0 = lam (
+  x0: A, xs0: X0
+) : X0 =<cloref0> let
+  typedef X1 = '(
+    A // the first element of the inserted
+  , list_f (A) // original
+  , list_f (A) // inserted
+  ) // end of [typedef]
+  val nil1 = '(x0, Nil, Cons (x0, Nil))
+  val cons1 = lam (
+    x: A, xs: X1
+  ) : X1 =<cloref0> let
+    val x0 = xs.0
+  in
+    if x \lte x0 then
+      '(x, Cons (x, xs.1), Cons (x, xs.2))
+    else
+      '(x0, Cons (x, xs.1), Cons (x0, Cons (x, xs.1)))
+    // end of [if]
+  end // end of [val]
+  val res = xs0 {X1} (nil1, cons1)
+in
+  res.2
+end // end of [insert]
+//
+in
+  xs {X0} (nil0, cons0)
+end // end of [insort]
+
+(* ****** ****** *)
 
 implement main () = 0 where { }
 
