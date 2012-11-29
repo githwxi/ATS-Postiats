@@ -340,9 +340,9 @@ absprop
 SORT (xs: ilist, ys: ilist)
 
 prfun sort_elim {xs,ys:ilist}
-  (pf: SORT (xs, ys)): @(PERMUTE (xs, ys), ISORD ys)
+  (pf: SORT (xs, ys)): @(ISORD ys, PERMUTE (xs, ys))
 prfun sort_make {xs,ys:ilist}
-  (pf1: PERMUTE (xs, ys), pf2: ISORD ys): SORT (xs, ys)
+  (pf1: ISORD ys, pf2: PERMUTE (xs, ys)): SORT (xs, ys)
 
 (* ****** ****** *)
 

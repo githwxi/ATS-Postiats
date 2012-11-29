@@ -1,0 +1,47 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_gllist")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/gllist\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package contains various functions for manipulating generic linear
+lists that are assigned the fully indexed list type.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("gllist")
+
+(* ****** ****** *)
+
+#declnamesynop("gllist_length")
+
+(* ****** ****** *)
+
+#declnamesynop("gllist_append")
+
+(* ****** ****** *)
+
+#declnamesynop("gllist_revapp")
+#declnamesynop("gllist_reverse")
+
+(* ****** ****** *)
+
+#declnamesynop("gllist_mergesort$cmp")
+#declnamesynop("gllist_mergesort")
+
+(* ****** ****** *)
+
+(* end of [gllist.atxt] *)
