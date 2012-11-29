@@ -139,13 +139,12 @@ implement{a}
 gllist_reverse (xs) = gllist_revapp (xs, gllist_nil)
 
 (* ****** ****** *)
+//
+// HX-2012-11-28: mersort on gllist // ported from ATS/Anairiats
+//
+(* ****** ****** *)
 
 local
-
-extern
-prfun sort_nilsing
-  {xs:ilist} {n:nat | n <= 1} (pf: LENGTH (xs, n)): SORT (xs, xs)
-// end of [sort_nilsing]
 
 fun{
 a:vt0p
@@ -275,6 +274,11 @@ a:vt0p
 
 (* ****** ****** *)
 
+extern
+prfun sort_nilsing
+  {xs:ilist} {n:nat | n <= 1} (pf: LENGTH (xs, n)): SORT (xs, xs)
+// end of [sort_nilsing]
+
 fun{
 a:vt0p
 } msort
@@ -309,8 +313,6 @@ in
     (pfsrt | xs)
   end else (sort_nilsing (pflen) | xs)
 end // end of [msort]
-
-(* ****** ****** *)
 
 in // in of [local]
 
