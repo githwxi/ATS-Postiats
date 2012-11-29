@@ -67,13 +67,13 @@ upload_gflist:: ;   scp HTML/gflist.html ats-hwxi,ats-lang@web.sourceforge.net:h
 clean:: ; $(RMF) gflist_atxt.exe
 cleanall:: ; $(RMF) HTML/gflist.html
 
-all_html:: HTML/gllist.html
-HTML/gllist.html:   gllist_atxt.exe ; $(CAT) ../gllist.sats | ./$< > $@
-gllist_atxt.txt: gllist.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
-gllist_atxt.exe: htmlgendecl_atxt.dats   gllist_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
-upload_gllist:: ;   scp HTML/gllist.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
-clean:: ; $(RMF) gllist_atxt.exe
-cleanall:: ; $(RMF) HTML/gllist.html
+all_html:: HTML/gflist_vt.html
+HTML/gflist_vt.html:   gflist_vt_atxt.exe ; $(CAT) ../gflist_vt.sats | ./$< > $@
+gflist_vt_atxt.txt: gflist_vt.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+gflist_vt_atxt.exe: htmlgendecl_atxt.dats   gflist_vt_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_gflist_vt:: ;   scp HTML/gflist_vt.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) gflist_vt_atxt.exe
+cleanall:: ; $(RMF) HTML/gflist_vt.html
 
 all_html:: HTML/ilist_prf.html
 HTML/ilist_prf.html:   ilist_prf_atxt.exe ; $(CAT) ../ilist_prf.sats | ./$< > $@

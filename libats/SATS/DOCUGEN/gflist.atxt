@@ -23,6 +23,7 @@ lists that are assigned the fully indexed list type.
 (* ****** ****** *)
 
 #declnamesynop("gflist")
+#declnamesynop("gflist_vt")
 
 (* ****** ****** *)
 

@@ -81,6 +81,37 @@ end // end of [gflist_length]
 (* ****** ****** *)
 
 implement{a}
+gflist_copy (xs) = let
+//
+fun loop
+  {xs:ilist} .<xs>. (
+  xs: gflist (a, xs), res: &ptr? >> gflist_vt (a, xs)
+) :<!wrt> void =
+  case+ xs of
+  | gflist_cons
+      (x, xs1) => let
+      val x = stamped_t2vt (x)
+      val () =
+        res := gflist_vt_cons (x, _)
+      // end of [val]
+      val+ gflist_vt_cons (_, res1) = res
+      val () = loop (xs1, res1)
+      prval () = fold@ (res)
+    in
+      // nothing
+    end // end of [gflist_vt_cons]
+  | gflist_nil () => (res := gflist_vt_nil ())
+//
+var res: ptr // uninitialized
+val () = $effmask_wrt (loop (xs, res))
+//
+in
+  res
+end // end of [gflist_copy]
+
+(* ****** ****** *)
+
+implement{a}
 gflist_append
   (xs, ys) = let
 //
