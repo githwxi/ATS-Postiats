@@ -37,4 +37,9 @@ This package contains some common proof functions involving integer sequences.
 
 (* ****** ****** *)
 
+#declnamesynop("gflist_mergesort$cmp")
+#declnamesynop("gflist_mergesort")
+
+(* ****** ****** *)
+
 (* end of [gflist.atxt] *)
