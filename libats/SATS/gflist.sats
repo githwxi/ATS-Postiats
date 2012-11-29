@@ -75,7 +75,7 @@ gflist_length {xs:ilist}
 fun{a:t@ype}
 gflist_append {xs1,xs2:ilist}
   (xs1: gflist (a, xs1), xs2: gflist (a, xs2))
-  : [res:ilist] (APPEND (xs1, xs2, res) | gflist (a, res))
+  :<> [res:ilist] (APPEND (xs1, xs2, res) | gflist (a, res))
 // end of [gflist_append]
 
 (* ****** ****** *)
@@ -83,8 +83,15 @@ gflist_append {xs1,xs2:ilist}
 fun{a:t@ype}
 gflist_revapp {xs1,xs2:ilist}
   (xs1: gflist (a, xs1), xs2: gflist (a, xs2))
-  : [res:ilist] (REVAPP (xs1, xs2, res) | gflist (a, res))
+  :<> [res:ilist] (REVAPP (xs1, xs2, res) | gflist (a, res))
 // end of [gflist_revapp]
+
+fun{a:t@ype}
+gflist_reverse
+  {xs:ilist} (
+  xs: gflist (xs)
+) :<> [ys:ilist] (REVERSE (xs, ys) | gflist (ys))
+// end of [gflist_reverse]
 
 (* ****** ****** *)
 

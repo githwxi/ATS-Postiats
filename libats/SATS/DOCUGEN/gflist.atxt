@@ -15,7 +15,8 @@ ATSLIB/libats/gflist\
 
 #declpreamble("\
 
-This package contains some common proof functions involving integer sequences.
+This package contains various functions for manipulating lists that are
+assigned the fully indexed list type.
 
 ")
 

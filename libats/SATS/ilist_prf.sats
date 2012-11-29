@@ -186,6 +186,8 @@ REVAPP (ilist, ilist, ilist) =
     REVAPPcons (ilist_cons (x, xs), ys, zs) of REVAPP (xs, ilist_cons (x, ys), zs)
 // end of [REVAPP]
 
+propdef REVERSE (xs: ilist, ys: ilist) = REVAPP (xs, ilist_nil, ys)
+
 (* ****** ****** *)
 
 dataprop
