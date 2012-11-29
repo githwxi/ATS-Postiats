@@ -38,4 +38,9 @@ assigned the fully indexed list type.
 
 (* ****** ****** *)
 
+#declnamesynop("gflist_mergesort$cmp")
+#declnamesynop("gflist_mergesort")
+
+(* ****** ****** *)
+
 (* end of [gflist.atxt] *)

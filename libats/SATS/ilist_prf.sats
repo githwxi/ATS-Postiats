@@ -249,4 +249,101 @@ prfun lemma_nth_insert
 
 (* ****** ****** *)
 
+absprop LTB
+  (x: int, xs: ilist) // [x] is a strict lower bound for [xs]
+// end of [LTB]
+
+prfun ltb_istot {xs:ilist} (): [x:int] LTB (x, xs)
+
+prfun ltb_nil {x:int} (): LTB (x, ilist_nil)
+
+prfun ltb_cons {x0:int}
+  {x:int | x0 < x} {xs:ilist} (pf: LTB (x0, xs)): LTB (x0, ilist_cons (x, xs))
+// end of [ltb_cons]
+prfun ltb_cons_elim {x0:int}
+  {x:int} {xs:ilist} (pf: LTB (x0, ilist_cons (x, xs))): [x0 < x] LTB (x0, xs)
+// end of [ltb_cons_elim]
+
+prfun ltb_dec {x1:int}
+  {x2:int | x2 <= x1} {xs:ilist} (pf: LTB (x1, xs)): LTB (x2, xs)
+// end of [ltb_dec]
+
+(* ****** ****** *)
+
+absprop LTEB
+  (x: int, xs: ilist) // [x] is a lower bound for [xs]
+// end of [LTEB]
+
+prfun lteb_istot {xs:ilist} (): [x:int] LTEB (x, xs)
+
+prfun lteb_nil {x:int} (): LTEB (x, ilist_nil)
+
+prfun lteb_cons {x0:int}
+  {x:int | x0 <= x} {xs:ilist} (pf: LTEB (x0, xs)): LTEB (x0, ilist_cons (x, xs))
+// end of [lteb_cons]
+prfun lteb_cons_elim {x0:int}
+  {x:int} {xs:ilist} (pf: LTEB (x0, ilist_cons (x, xs))): [x0 <= x] LTEB (x0, xs)
+// end of [lteb_cons_elim]
+
+prfun lteb_dec {x1:int}
+  {x2:int | x2 <= x1} {xs:ilist} (pf: LTEB (x1, xs)): LTEB (x2, xs)
+// end of [lteb_dec]
+
+(* ****** ****** *)
+
+dataprop ISORD (ilist) =
+  | ISORDnil (ilist_nil) of ()
+  | {x:int} {xs:ilist}
+    ISORDcons (ilist_cons (x, xs)) of (ISORD xs, LTEB (x, xs))
+// end of [ISORD]
+
+(* ****** ****** *)
+//
+// PERMUTE (xs, ys):
+// [ys] is a permutation of [xs]
+//
+absprop
+PERMUTE (xs1:ilist, xs2:ilist)
+
+prfun permute_refl {xs:ilist} (): PERMUTE (xs, xs)
+prfun permute_symm
+  {xs1,xs2:ilist} (pf: PERMUTE (xs1, xs2)): PERMUTE (xs2, xs1)
+prfun permute_trans {xs1,xs2,xs3:ilist}
+  (pf1: PERMUTE (xs1, xs2), pf2: PERMUTE (xs2, xs3)): PERMUTE (xs1, xs3)
+
+(* ****** ****** *)
+
+prfun lemma_permute_length
+  {xs1,xs2:ilist} {n:nat}
+  (pf1: PERMUTE (xs1, xs2), pf2: LENGTH (xs1, n)): LENGTH (xs2, n)
+// end of [lemma_permute_length]
+
+prfun lemma_permute_insert
+  {x:int} {xs:ilist} {ys:ilist}
+  (pf: PERMUTE (ilist_cons (x, xs), ys)): [ys1:ilist;i:nat] INSERT (x, ys1, i, ys)
+// end of [lemma_permute_insert]
+
+prfun lemma_ltb_permute {x:int}
+  {xs1,xs2:ilist} (pf1: LTB (x, xs1), pf2: PERMUTE (xs1, xs2)): LTB (x, xs2)
+// end of [lemma_ltb_permute]
+
+prfun lemma_lteb_permute {x:int}
+  {xs1,xs2:ilist} (pf1: LTEB (x, xs1), pf2: PERMUTE (xs1, xs2)): LTEB (x, xs2)
+// end of [lemma_lteb_permute]
+
+(* ****** ****** *)
+//
+// SORT (xs, ys):
+// [ys] is a sorted version of [xs]
+//
+absprop
+SORT (xs: ilist, ys: ilist)
+
+prfun sort_elim {xs,ys:ilist}
+  (pf: SORT (xs, ys)): @(PERMUTE (xs, ys), ISORD ys)
+prfun sort_make {xs,ys:ilist}
+  (pf1: PERMUTE (xs, ys), pf2: ISORD ys): SORT (xs, ys)
+
+(* ****** ****** *)
+
 (* end of [ilist_prf.sats] *)
