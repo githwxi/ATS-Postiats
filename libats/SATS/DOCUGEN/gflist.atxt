@@ -15,8 +15,8 @@ ATSLIB/libats/gflist\
 
 #declpreamble("\
 
-This package contains various functions for manipulating lists that are
-assigned the fully indexed list type.
+This package contains various functions for manipulating generic functional
+lists that are assigned the fully indexed list type.
 
 ")
 
@@ -35,6 +35,7 @@ assigned the fully indexed list type.
 (* ****** ****** *)
 
 #declnamesynop("gflist_revapp")
+#declnamesynop("gflist_reverse")
 
 (* ****** ****** *)
 

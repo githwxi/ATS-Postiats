@@ -54,7 +54,7 @@ staload "libats/SATS/ilist_prf.sats" // for handling integer sequences
 
 datatype
 gflist (
-  a:t@ype, ilist(*ind*)
+  a:t@ype+, ilist(*ind*)
 ) =
   | gflist_nil (a, ilist_nil) of ()
   | {x:int}{xs:ilist}
