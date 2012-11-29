@@ -32,7 +32,7 @@
 //
 (* ****** ****** *)
 //
-// HX: generic functional lists (fully indexed)
+// HX: generic lists (fully indexed)
 //
 (* ****** ****** *)
 //
@@ -52,64 +52,51 @@ sortdef vt0p = viewt@ype
 
 (* ****** ****** *)
 
-(*
-// HX: [stamped] is introduced in prelude/basics_pre.sats
-*)
-
-dataviewtype
-gllist (
-  a:viewt@ype+, ilist(*ind*)
-) =
-  | gllist_nil (a, ilist_nil) of ()
-  | {x:int}{xs:ilist}
-    gllist_cons
-      (a, ilist_cons (x, xs)) of (stamped (a, x), gllist (a, xs))
-    // end of [gllist_cons]
-// end of [gllist]
+staload "libats/SATS/gflist.sats"
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-gllist_length
+gflist_vt_length
   {xs:ilist}
-  (xs: !gllist (a, xs)):<> [n:nat] (LENGTH (xs, n) | int n)
-// end of [gllist_length]
+  (xs: !gflist_vt (INV(a), xs)):<> [n:nat] (LENGTH (xs, n) | int n)
+// end of [gflist_vt_length]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-gllist_append
+gflist_vt_append
   {xs1,xs2:ilist} (
-  xs1: gllist (a, xs1), xs2: gllist (a, xs2)
-) :<!wrt> [res:ilist] (APPEND (xs1, xs2, res) | gllist (a, res))
-// end of [gllist_append]
+  xs1: gflist_vt (INV(a), xs1), xs2: gflist_vt (a, xs2)
+) :<!wrt> [res:ilist] (APPEND (xs1, xs2, res) | gflist_vt (a, res))
+// end of [gflist_vt_append]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-gllist_revapp
+gflist_vt_revapp
   {xs1,xs2:ilist} (
-  xs1: gllist (a, xs1), xs2: gllist (a, xs2)
-) :<!wrt> [res:ilist] (REVAPP (xs1, xs2, res) | gllist (a, res))
-// end of [gllist_revapp]
+  xs1: gflist_vt (INV(a), xs1), xs2: gflist_vt (a, xs2)
+) :<!wrt> [res:ilist] (REVAPP (xs1, xs2, res) | gflist_vt (a, res))
+// end of [gflist_vt_revapp]
 
 fun{a:vt0p}
-gllist_reverse
+gflist_vt_reverse
   {xs:ilist} (
-  xs: gllist (a, xs)
-) :<!wrt> [ys:ilist] (REVERSE (xs, ys) | gllist (a, ys))
-// end of [gllist_reverse]
+  xs: gflist_vt (INV(a), xs)
+) :<!wrt> [ys:ilist] (REVERSE (xs, ys) | gflist_vt (a, ys))
+// end of [gflist_vt_reverse]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-gllist_mergesort$cmp {x1,x2:int}
+gflist_vt_mergesort$cmp {x1,x2:int}
   (x1: &stamped (a, x1), x2: &stamped (a, x2)): int(sgn(x1-x2))
 fun{a:vt0p}
-gllist_mergesort {xs:ilist}
-  (xs: gllist (a, xs)): [ys:ilist] (SORT (xs, ys) | gllist (a, ys))
-// end of [gllist_mergesort]
+gflist_vt_mergesort {xs:ilist}
+  (xs: gflist_vt (INV(a), xs)): [ys:ilist] (SORT (xs, ys) | gflist_vt (a, ys))
+// end of [gflist_vt_mergesort]
 
 (* ****** ****** *)
 
-(* end of [gllist.sats] *)
+(* end of [gflist_vt.sats] *)

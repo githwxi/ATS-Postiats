@@ -48,50 +48,82 @@ staload "libats/SATS/ilist_prf.sats"
 
 (* ****** ****** *)
 
-staload "libats/SATS/gllist.sats"
+staload "libats/SATS/gflist.sats"
+staload "libats/SATS/gflist_vt.sats"
 
 (* ****** ****** *)
 
 implement{a}
-gllist_length (xs) = let
+gflist_vt_length (xs) = let
 //
 fun loop
   {xs:ilist}{j:int} .<xs>. (
-  xs: !gllist (a, xs), j: int j
+  xs: !gflist_vt (a, xs), j: int j
 ) :<> [i:nat]
   (LENGTH (xs, i) | int (i+j)) = let
 in
 //
 case+ xs of
-| gllist_cons
+| gflist_vt_cons
     (_, xs) => let
     val (pf | res) = loop (xs, j+1)
   in
     (LENGTHcons (pf) | res)
-  end // end of [gllist_cons]
-| gllist_nil () => (LENGTHnil () | j)
+  end // end of [gflist_vt_cons]
+| gflist_vt_nil () => (LENGTHnil () | j)
 //
 end // end of [loop]
 //
 in
   loop (xs, 0)
-end // end of [gllist_length]
+end // end of [gflist_vt_length]
 
 (* ****** ****** *)
 
 implement{a}
-gllist_append
+gflist_copy (xs) = let
+//
+fun loop
+  {xs:ilist} .<xs>. (
+  xs: gflist (a, xs), res: &ptr? >> gflist_vt (a, xs)
+) :<!wrt> void =
+  case+ xs of
+  | gflist_cons
+      (x, xs1) => let
+      val x = stamped_t2vt (x)
+      val () =
+        res := gflist_vt_cons (x, _)
+      // end of [val]
+      val+ gflist_vt_cons (_, res1) = res
+      val () = loop (xs1, res1)
+      prval () = fold@ (res)
+    in
+      // nothing
+    end // end of [gflist_vt_cons]
+  | gflist_nil () => (res := gflist_vt_nil ())
+//
+var res: ptr // uninitialized
+val () = $effmask_wrt (loop (xs, res))
+//
+in
+  res
+end // end of [gflist_vt_copy]
+
+(* ****** ****** *)
+
+implement{a}
+gflist_vt_append
   (xs, ys) = let
 //
 fun loop
   {xs:ilist}
   {ys:ilist} .<xs>. (
-  xs: gllist (a, xs), ys: gllist (a, ys), res: &ptr? >> gllist (a, zs)
+  xs: gflist_vt (a, xs), ys: gflist_vt (a, ys), res: &ptr? >> gflist_vt (a, zs)
 ) :<!wrt> #[zs:ilist] (APPEND (xs, ys, zs) | void) = let
 in
 //
 case+ xs of
-| @gllist_cons
+| @gflist_vt_cons
     (x, xs1) => let
     val () = res := xs
     val xs = xs1
@@ -99,10 +131,10 @@ case+ xs of
     prval () = fold@ (res)
   in
     (APPENDcons (pf) | ())
-  end // end of [gllist_cons]
-| ~gllist_nil () => let
+  end // end of [gflist_vt_cons]
+| ~gflist_vt_nil () => let
     val () = res := ys in (APPENDnil () | ())
-  end // end of [gllist_nil]
+  end // end of [gflist_vt_nil]
 //
 end // end of [loop]
 //
@@ -112,35 +144,35 @@ val (pf | ()) = loop (xs, ys, res)
 //
 in
   (pf | res)
-end // end of [gllist_append]
+end // end of [gflist_vt_append]
 
 (* ****** ****** *)
 
 implement{a}
-gllist_revapp
+gflist_vt_revapp
   (xs, ys) = let
 in
 //
 case+ xs of
-| @gllist_cons
+| @gflist_vt_cons
     (x, xs1) => let
     val xs1_ = xs1
     val () = xs1 := ys
     prval () = fold@ (xs)
-    val (pf | res) = gllist_revapp (xs1_, xs)
+    val (pf | res) = gflist_vt_revapp (xs1_, xs)
   in
     (REVAPPcons (pf) | res)
-  end // end of [gllist_cons]
-| ~gllist_nil () => (REVAPPnil () | ys)
+  end // end of [gflist_vt_cons]
+| ~gflist_vt_nil () => (REVAPPnil () | ys)
 //
-end // end of [gllist_append]
+end // end of [gflist_vt_append]
 
 implement{a}
-gllist_reverse (xs) = gllist_revapp (xs, gllist_nil)
+gflist_vt_reverse (xs) = gflist_vt_revapp (xs, gflist_vt_nil)
 
 (* ****** ****** *)
 //
-// HX-2012-11-28: mergesort on gllist // ported from ATS/Anairiats
+// HX-2012-11-28: mergesort on gflist_vt // ported from ATS/Anairiats
 //
 (* ****** ****** *)
 
@@ -152,20 +184,20 @@ a:vt0p
   {xs:ilist}
   {n,i:nat | i <= n} .<i>. (
   pflen: LENGTH (xs, n)
-| xs: &gllist (a, xs) >> gllist (a, xs1), i: int i
+| xs: &gflist_vt (a, xs) >> gflist_vt (a, xs1), i: int i
 ) : #[xs1,xs2:ilist] (
-  APPEND (xs1, xs2, xs), LENGTH (xs1, i) | gllist (a, xs2)
+  APPEND (xs1, xs2, xs), LENGTH (xs1, i) | gflist_vt (a, xs2)
 ) =
   if i > 0 then let
     prval LENGTHcons (pflen) = pflen
-    val @gllist_cons (_, xs1) = xs
+    val @gflist_vt_cons (_, xs1) = xs
     val (pfapp, pf1len | xs2) = split (pflen | xs1, i-1)
     prval () = fold@ (xs)
   in
     (APPENDcons (pfapp), LENGTHcons (pf1len) | xs2)
   end else let
     val xs2 = xs
-    val () = xs := gllist_nil ()
+    val () = xs := gflist_vt_nil ()
     prval pfapp = append_unit1 ()
   in
     (pfapp, LENGTHnil () | xs2)
@@ -226,18 +258,18 @@ a:vt0p
 } (
   pf1ord: ISORD (ys1)
 , pf2ord: ISORD (ys2)
-| ys1: gllist (a, ys1), ys2: gllist (a, ys2)
-, ys: &ptr? >> gllist (a, ys)
+| ys1: gflist_vt (a, ys1), ys2: gflist_vt (a, ys2)
+, ys: &ptr? >> gflist_vt (a, ys)
 ) : #[ys:ilist] (UNION (ys1, ys2, ys), ISORD (ys) | void) =
   case+ ys1 of
-  | @gllist_cons (
+  | @gflist_vt_cons (
       y1, ys1_tl
     ) => (
     case+ ys2 of
-    | @gllist_cons (
+    | @gflist_vt_cons (
         y2, ys2_tl
       ) => let
-        val sgn = gllist_mergesort$cmp (y1, y2)
+        val sgn = gflist_vt_mergesort$cmp (y1, y2)
       in
         if sgn <= 0 then let
           val () = ys := ys1; val ys1 = ys1_tl
@@ -262,14 +294,14 @@ a:vt0p
         in
           (pfuni, pford | ())
         end // end of [if]
-      end // end of [gllist_cons]
-    | ~gllist_nil () => let
+      end // end of [gflist_vt_cons]
+    | ~gflist_vt_nil () => let
         val () = fold@ (ys1); val () = ys := ys1 in (union_nil2 (), pf1ord | ())
-      end // end of [gllist_nil]
-    ) // end of [gllist_cons]
-  | ~gllist_nil () => let
+      end // end of [gflist_vt_nil]
+    ) // end of [gflist_vt_cons]
+  | ~gflist_vt_nil () => let
       val () = ys := ys2 in (union_nil1 (), pf2ord | ())
-    end // end of [gllist_nil]
+    end // end of [gflist_vt_nil]
 // end of [merge]
 
 (* ****** ****** *)
@@ -285,9 +317,9 @@ a:vt0p
   {xs:ilist}
 {n:nat} .<n>. (
   pflen: LENGTH (xs, n)
-| xs: gllist (a, xs), n: int n
+| xs: gflist_vt (a, xs), n: int n
 ) : [ys:ilist] (
-  SORT (xs, ys) | gllist (a, ys)
+  SORT (xs, ys) | gflist_vt (a, ys)
 ) = let
 in
 //
@@ -321,12 +353,12 @@ end // end of [msort]
 in // in of [local]
 
 implement{a}
-gllist_mergesort (xs) = let
-  val (pflen | n) = gllist_length<a> (xs) in msort<a> (pflen | xs, n)
+gflist_vt_mergesort (xs) = let
+  val (pflen | n) = gflist_vt_length<a> (xs) in msort<a> (pflen | xs, n)
 end // end of [mergesort]
 
 end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [gllist.dats] *)
+(* end of [gflist_vt.dats] *)

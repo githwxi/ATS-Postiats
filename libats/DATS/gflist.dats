@@ -49,6 +49,7 @@ staload "libats/SATS/ilist_prf.sats"
 (* ****** ****** *)
 
 staload "libats/SATS/gflist.sats"
+staload "libats/SATS/gflist_vt.sats"
 
 (* ****** ****** *)
 
@@ -134,6 +135,22 @@ end // end of [gflist_append]
 
 implement{a}
 gflist_reverse (xs) = gflist_revapp (xs, gflist_nil)
+
+(* ****** ****** *)
+
+implement{a}
+gflist_mergesort
+  (xs) = let
+//
+val xs = gflist_copy (xs)
+//
+implement
+gflist_vt_mergesort$cmp<a> (x1, x2) =
+  gflist_mergesort$cmp<a> (stamped_vt2t (x1), stamped_vt2t (x2))
+//
+in
+  gflist_vt_mergesort<a> (xs)
+end // end of [gflist_mergesort]
 
 (* ****** ****** *)
 

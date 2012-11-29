@@ -142,6 +142,28 @@ read_unsplit // HX: there is no need to check
 *)
 (* ****** ****** *)
 
+castfn
+unstamp_t0ype
+  {a:t@ype}{x:int} (x: stamped_t0ype (INV(a), x)):<> a
+// end of [unstamp_t0ype]
+castfn
+unstamp_viewt0ype
+  {a:viewt@ype}{x:int} (x: stamped_viewt0ype (INV(a), x)):<> a
+// end of [unstamp_viewt0ype]
+
+castfn
+stamped_t2vt
+  {a:t@ype}{x:int}
+  (x: stamped_t0ype (INV(a), x)):<> stamped_viewt0ype (a, x)
+// end of [stamped_t2vt]
+castfn
+stamped_vt2t
+  {a:t@ype}{x:int}
+  (x: &stamped_viewt0ype (INV(a), x)):<> stamped_t0ype (a, x)
+// end of [stamped_vt2t]
+
+(* ****** ****** *)
+
 /*
 ** HX: the_null_ptr = (void*)0
 */
