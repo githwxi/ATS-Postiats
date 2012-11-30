@@ -49,7 +49,7 @@ staload "libats/SATS/ilist_prf.sats" // for handling integer sequences
 (* ****** ****** *)
 
 (*
-// HX: [stamped] is introduced in prelude/basics_pre.sats
+// HX: [stamped_vt] is introduced in prelude/basics_pre.sats
 *)
 
 (* ****** ****** *)
@@ -85,7 +85,8 @@ gfarray_v_split
   {xs:ilist}
   {n:int}
   {i:nat | i <= n} (
-  pflen: LENGTH (xs, n), pfarr: gfarray_v (a, l, xs)
+  pflen: LENGTH (xs, n)
+, pfarr: gfarray_v (a, l, xs)
 ) : [xs1,xs2:ilist] (
   LENGTH (xs1, i)
 , APPEND (xs1, xs2, xs)
