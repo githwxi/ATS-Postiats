@@ -108,13 +108,15 @@ overload compare with compare_strobjref_strobjref
 #atscode_separator()
 
 #atscode_decl_strcst('\
+fun print_strobjref
+  {l:addr} (x: !strobjref l): void
+overload print with print_strobjref
+fun prerr_strobjref
+  {l:addr} (x: !strobjref l): void
+overload prerr with prerr_strobjref
 fun fprint_strobjref
   {l:addr} (out: FILEref, x: !strobjref l): void
 overload fprint with fprint_strobjref
-fun print_strobjref {l:addr} (x: !strobjref l): void
-and prerr_strobjref {l:addr} (x: !strobjref l): void
-overload print with print_strobjref
-overload prerr with prerr_strobjref
 ')\
 
 #atscode_separator()
