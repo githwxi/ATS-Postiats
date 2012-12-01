@@ -495,7 +495,7 @@ x:t0p}{y:vt0p
 // end of [list_map]
 
 fun{
-x:t0p}{y:t0p
+x:t0p}{y:vt0p
 } list_map_funenv
   {v:view}{vt:viewtype}{n:int}{fe:eff} (
   pfv: !v |

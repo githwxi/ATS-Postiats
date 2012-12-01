@@ -99,7 +99,7 @@ praxi decode
 
 (* ****** ****** *)
 
-implement(x)
+implement(x:t0p)
 iter_is_atend<itrknd><x>
   (itr) = let
   prval () = decode (itr)
@@ -111,7 +111,7 @@ end // end of [iter_is_atend]
 
 (* ****** ****** *)
 
-implement(x)
+implement(x:t0p)
 iter_vttake<itrknd><x> (itr) = let
   prval () = decode (itr)
   val+ ITR (xs) = itr; val+ list_cons (x, _) = xs
@@ -123,7 +123,7 @@ end // end of [iter_vttake]
 
 (* ****** ****** *)
 
-implement(x)
+implement(x:t0p)
 iter_inc<itrknd><x> (itr) = let
   prval () = decode (itr)
   val+ @ITR (xs) = itr; val+ list_cons (_, xs1) = xs; val () = xs := xs1
@@ -135,7 +135,7 @@ end // end of [iter_inc]
 
 (* ****** ****** *)
 
-implement(x)
+implement(x:t0p)
 iter_vttake_inc<itrknd><x> (itr) = let
   prval () = decode (itr)
   val+ @ITR (xs) = itr; val+ list_cons (x, xs1) = xs; val () = xs := xs1

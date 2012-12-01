@@ -49,7 +49,8 @@ staload "libats/SATS/ilist_prf.sats" // for handling integer sequences
 (* ****** ****** *)
 
 (*
-// HX: [stamped] is introduced in prelude/basics_pre.sats
+// HX: [stamped_t] is introduced in prelude/basics_pre.sats
+// HX: [stamped_vt] is introduced in prelude/basics_pre.sats
 *)
 
 (* ****** ****** *)
@@ -61,7 +62,7 @@ gflist (
   | gflist_nil (a, ilist_nil) of ()
   | {x:int}{xs:ilist}
     gflist_cons
-      (a, ilist_cons (x, xs)) of (stamped (a, x), gflist (a, xs))
+      (a, ilist_cons (x, xs)) of (stamped_t (a, x), gflist (a, xs))
     // end of [gflist_cons]
 // end of [gflist]
 
@@ -74,7 +75,7 @@ gflist_vt (
   | gflist_vt_nil (a, ilist_nil) of ()
   | {x:int}{xs:ilist}
     gflist_vt_cons
-      (a, ilist_cons (x, xs)) of (stamped (a, x), gflist_vt (a, xs))
+      (a, ilist_cons (x, xs)) of (stamped_vt (a, x), gflist_vt (a, xs))
     // end of [gflist_vt_cons]
 // end of [gflist_vt]
 
@@ -84,6 +85,34 @@ castfn
 gflist_vt2t
   {a:t@ype}{xs:ilist} (xs: gflist_vt (a, xs)):<!wrt> gflist (a, xs)
 // end of [gflist_vt2t]
+
+(* ****** ****** *)
+
+castfn
+gflist2list
+  {a:t@ype}{xs:ilist}
+  (xs: gflist (a, xs)):<> [n:nat] (LENGTH (xs, n) | list (a, n))
+// end of [gflist2list]
+
+castfn
+list2gflist
+  {a:t@ype}{n:int}
+  (xs: list (a, n)):<> [xs:ilist] (LENGTH (xs, n) | gflist (a, xs))
+// end of [list2gflist]
+
+(* ****** ****** *)
+
+castfn
+gflist2list_vt
+  {a:viewt@ype}{xs:ilist}
+  (xs: gflist_vt (a, xs)):<> [n:nat] (LENGTH (xs, n) | list_vt (a, n))
+// end of [gflist2list_vt]
+
+castfn
+list2gflist_vt
+  {a:viewt@ype}{n:int}
+  (xs: list_vt (a, n)): [xs:ilist] (LENGTH (xs, n) | gflist_vt (a, xs))
+// end of [list2gflist_vt]
 
 (* ****** ****** *)
 
@@ -145,7 +174,7 @@ gflist_reverse
 
 fun{a:t@ype}
 gflist_mergesort$cmp {x1,x2:int}
-  (x1: stamped (a, x1), x2: stamped (a, x2)): int(sgn(x1-x2))
+  (x1: stamped_t (a, x1), x2: stamped_t (a, x2)): int(sgn(x1-x2))
 fun{a:t@ype}
 gflist_mergesort {xs:ilist}
   (xs: gflist (INV(a), xs)): [ys:ilist] (SORT (xs, ys) | gflist_vt (a, ys))

@@ -75,6 +75,14 @@ upload_gflist_vt:: ;   scp HTML/gflist_vt.html ats-hwxi,ats-lang@web.sourceforge
 clean:: ; $(RMF) gflist_vt_atxt.exe
 cleanall:: ; $(RMF) HTML/gflist_vt.html
 
+all_html:: HTML/gfarray.html
+HTML/gfarray.html:   gfarray_atxt.exe ; $(CAT) ../gfarray.sats | ./$< > $@
+gfarray_atxt.txt: gfarray.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+gfarray_atxt.exe: htmlgendecl_atxt.dats   gfarray_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_gfarray:: ;   scp HTML/gfarray.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) gfarray_atxt.exe
+cleanall:: ; $(RMF) HTML/gfarray.html
+
 all_html:: HTML/ilist_prf.html
 HTML/ilist_prf.html:   ilist_prf_atxt.exe ; $(CAT) ../ilist_prf.sats | ./$< > $@
 ilist_prf_atxt.txt: ilist_prf.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@

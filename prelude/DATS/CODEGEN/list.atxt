@@ -430,19 +430,23 @@ fun loop {m,n:nat} .<m>. (
   xs: list_vt (a, m), ys: list (a, n)
 ) :<!wrt> list (a, m+n) = let
 in
-  case+ xs of
-  | @list_vt_cons (x, xs1) => let
-      val xs1_ = xs1
-      val ys = __cast (ys) where {
-        extern castfn __cast (ys: list (a, n)):<> list_vt (a, n)
-      } // end of [val]
-      val () = xs1 := ys
-      prval () = fold@ (xs)
-    in
-      loop (xs1_, list_of_list_vt (xs))
-    end // end of [list_vt_cons]
-  | ~list_vt_nil () => ys
+//
+case+ xs of
+| @list_vt_cons
+    (x, xs1) => let
+    val xs1_ = xs1
+    val ys = __cast (ys) where {
+      extern castfn __cast (ys: list (a, n)):<> list_vt (a, n)
+    } // end of [val]
+    val () = xs1 := ys
+    prval () = fold@ (xs)
+  in
+    loop (xs1_, list_of_list_vt{a}(xs))
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => ys
+//
 end // end of [loop]
+//
 in
   loop (xs, ys)
 end // end of [list_reverse_append1_vt]

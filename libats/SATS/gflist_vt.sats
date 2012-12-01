@@ -32,7 +32,7 @@
 //
 (* ****** ****** *)
 //
-// HX: generic lists (fully indexed)
+// HX: generic linear lists (fully indexed)
 //
 (* ****** ****** *)
 //
@@ -91,7 +91,7 @@ gflist_vt_reverse
 
 fun{a:vt0p}
 gflist_vt_mergesort$cmp {x1,x2:int}
-  (x1: &stamped (a, x1), x2: &stamped (a, x2)): int(sgn(x1-x2))
+  (x1: &stamped_vt (a, x1), x2: &stamped_vt (a, x2)): int(sgn(x1-x2))
 fun{a:vt0p}
 gflist_vt_mergesort {xs:ilist}
   (xs: gflist_vt (INV(a), xs)): [ys:ilist] (SORT (xs, ys) | gflist_vt (a, ys))

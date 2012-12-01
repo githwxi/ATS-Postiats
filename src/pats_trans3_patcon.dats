@@ -179,7 +179,9 @@ local
 
 fun auxvar
   (d2v: d2var): void = let
-  val islin = d2var_is_linear (d2v)
+//
+val islin = d2var_is_linear (d2v)
+//
 in
 //
 if islin then let
@@ -386,7 +388,12 @@ in // in of [local]
 implement
 p2at_trdn_con
   (p2t0, s2f0) = let
-//
+(*
+val () = (
+  println! ("p2at_trdn_con: p2t0 = ", p2t0);
+  println! ("p2at_trdn_con: s2f0 = ", s2f0);
+) // end of [val]
+*)
 val loc0 = p2t0.p2at_loc
 val s2e0 = s2hnf2exp (s2f0)
 val- P2Tcon (
@@ -445,7 +452,10 @@ var pck: pckind = pck
 val () = if pck = PCKcon then
   (if flag_vwtp > 0 then pck := PCKlincon)
 // end of [if] // end of [val]
-//
+(*
+val () = println! ("p2at_trdn_con: pck = ", pck)
+val () = println! ("p2at_trdn_con: flag = ", flag)
+*)
 val p3t0 = (case+ 0 of
 | _ when flag = 0 => let
     val ~PATCONTRUP

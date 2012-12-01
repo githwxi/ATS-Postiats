@@ -54,7 +54,7 @@ stadef itrkpm = iter_array_param
 
 dataviewtype
 iterk (
-  a:t@ype+, l:addr, int(*f*), int(*r*)
+  a:viewt@ype+, l:addr, int(*f*), int(*r*)
 ) = {f,r:int}
   ITR (a, l, f, r) of (
     array_v (a, l, f+r) | ptr l(*beg*), ptr(*end*), ptr(*cur*)
@@ -64,13 +64,13 @@ iterk (
 
 extern
 castfn iterk2iter
-  {x:t0p}{l:addr}{n:int}
+  {x:vt0p}{l:addr}{n:int}
   (xs: iterk (x, l, 0, n)):<> iterator (itrknd, itrkpm(l), x, 0, n)
 // end of [iterk2iter]
 
 extern
 castfn iter2iterk
-  {x:t0p}{l:addr}{f,r:int}
+  {x:vt0p}{l:addr}{f,r:int}
   (itr: iterator (itrknd, itrkpm(l), x, f, r)):<> iterk (x, l, f, r)
 // end of [iter2iterk]
 
@@ -90,13 +90,13 @@ end // end of [iter_free_array]
 
 extern
 praxi encode
-  {kpm:tk}{x:t0p}{l:addr}{f,r:int}
+  {kpm:tk}{x:vt0p}{l:addr}{f,r:int}
   (xs: !iterk (x, l, f, r) >> iterator (itrknd, kpm, x, f, r)): void
 // end of [encode]
 
 extern
 praxi decode
-  {kpm:tk}{x:t0p}{l:addr}{f,r:int}
+  {kpm:tk}{x:vt0p}{l:addr}{f,r:int}
   (itr: !iterator (itrknd, kpm, x, f, r) >> iterk (x, l, f, r)): void
 // end of [decode]
 

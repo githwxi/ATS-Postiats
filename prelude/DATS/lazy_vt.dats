@@ -47,9 +47,6 @@ stream_vt_free (xs) = ~(xs)
 
 (* ****** ****** *)
 
-implement{env}
-stream_vt_foreach$cont (env) = true
-
 implement{a}
 stream_vt_foreach (xs) = let
   var env: void = () in stream_vt_foreach_env<a><void> (xs, env)
@@ -58,24 +55,20 @@ end // end of [stream_vt_foreach]
 implement{a}{env}
 stream_vt_foreach_env
   (xs, env) = let
-  val test = stream_vt_foreach$cont (env)
-in
-//
-if test then let
   val xs_con = !xs
 in
-  case+ xs_con of
-  | @stream_vt_cons (x, xs1) => let
-      val xs1 = xs1
-      val () = stream_vt_foreach$fwork<a> (x, env)
-      val () = free@ {a} (xs_con)
-    in
-      stream_vt_foreach<a> (xs1)
-    end // end of [stream_vt_cons]
-  | ~stream_vt_nil () => ()
-end else
-  stream_vt_free (xs)
-// end of [if]
+//
+case+ xs_con of
+| @stream_vt_cons
+    (x, xs1) => let
+    val xs1 = xs1
+    val () = stream_vt_foreach$fwork<a> (x, env)
+    val () = free@ {a} (xs_con)
+  in
+    stream_vt_foreach<a> (xs1)
+  end // end of [stream_vt_cons]
+| ~stream_vt_nil () => ()
+//
 end // end of [stream_vt_foreach_env]
 
 (* ****** ****** *)

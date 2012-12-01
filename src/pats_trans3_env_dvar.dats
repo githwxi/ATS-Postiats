@@ -647,11 +647,13 @@ in // in of [local]
 
 implement
 d2vfin_check (loc0, d2v) = let
+//
 (*
 val () = (
   println! ("d2vfin_check: d2v = ", d2v)
 ) // end of [val]
 *)
+//
 val opt = d2var_get_type (d2v)
 //
 in

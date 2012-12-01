@@ -56,6 +56,10 @@ overload print with $LOC.print_location
 
 (* ****** ****** *)
 
+staload SYN = "./pats_syntax.sats"
+
+(* ****** ****** *)
+
 staload "./pats_staexp2.sats"
 staload "./pats_staexp2_error.sats"
 staload "./pats_staexp2_util.sats"
@@ -116,6 +120,10 @@ fun d2exp_trdn_top (d2e0: d2exp, s2f0: s2hnf): d3exp
 
 (* ****** ****** *)
 
+extern
+fun d2exp_trdn_tup (d2e0: d2exp, s2f0: s2hnf): d3exp
+extern
+fun d2exp_trdn_rec (d2e0: d2exp, s2f0: s2hnf): d3exp
 extern
 fun d2exp_trdn_seq (d2e0: d2exp, s2f0: s2hnf): d3exp
 
@@ -179,6 +187,8 @@ case+ d2e0.d2exp_node of
     d2exp_trdn_letwhere (d2e0, s2f0, d2cs, d2e)
   // end of [D2Ewhere]
 //
+| D2Etup _ => d2exp_trdn_tup (d2e0, s2f0)
+| D2Erec _ => d2exp_trdn_rec (d2e0, s2f0)
 | D2Eseq _ => d2exp_trdn_seq (d2e0, s2f0)
 //
 | D2Eeffmask _ => d2exp_trdn_effmask (d2e0, s2f0)
@@ -584,6 +594,178 @@ d2exp_trdn_top
 in
   d3exp_top (loc0, s2e0)
 end // end of [d2exp_trdn_top]
+
+(* ****** ****** *)
+
+local
+
+fun auxerrlen (
+  loc0: location, serr: int
+) : void = () where {
+//
+val () =
+  prerr_error3_loc (loc0)
+val () = if serr < 0 then prerr ": more record field expected."
+val () = if serr > 0 then prerr ": fewer record field expected."
+val () = prerr_newline ()
+//
+} // end if [auxerrlen]
+
+(* ****** ****** *)
+
+fun auxtup (
+  d2es: d2explst, ls2es: labs2explst, serr: &int
+) : d3explst = let
+in
+//
+case+ d2es of
+| list_cons
+    (d2e, d2es) => let
+  in
+    case+ ls2es of
+    | list_cons
+        (ls2e, ls2es) => let
+        val+ SLABELED
+          (l, name, s2e) = ls2e
+        // end of [val]
+        val d3e = d2exp_trdn (d2e, s2e)
+        val d3es = auxtup (d2es, ls2es, serr)
+      in
+        list_cons (d3e, d3es)
+      end // end of [list_cons]
+    | list_nil () => let
+        val () = serr := serr+1 in list_nil ()
+      end // end of [list_nil]
+  end // end of [list_cons]
+| list_nil () => let
+  in
+    case+ ls2es of
+    | list_cons _ => let
+        val () = serr := serr-1 in list_nil ()
+      end // end of [list_cons]
+    | list_nil () => list_nil ()
+  end // end of [list_nil]
+//
+end // end of [auxtup]
+
+fun auxrec (
+  ld2es: labd2explst, ls2es: labs2explst, serr: &int
+) : labd3explst = let
+in
+//
+case+ ld2es of
+| list_cons
+    (ld2e, ld2es) => let
+    val $SYN.DL0ABELED (l0, d2e) = ld2e
+  in
+    case+ ls2es of
+    | list_cons
+        (ls2e, ls2es) => let
+        val+ SLABELED
+          (l, name, s2e) = ls2e
+        // end of [val]
+        val d3e = d2exp_trdn (d2e, s2e)
+        val ld3e = $SYN.DL0ABELED (l0, d3e)
+        val ld3es = auxrec (ld2es, ls2es, serr)
+      in
+        list_cons (ld3e, ld3es)
+      end // end of [list_cons]
+    | list_nil () => let
+        val () = serr := serr+1 in list_nil ()
+      end // end of [list_nil]
+  end // end of [list_cons]
+| list_nil () => let
+  in
+    case+ ls2es of
+    | list_cons _ => let
+        val () = serr := serr-1 in list_nil ()
+      end // end of [list_cons]
+    | list_nil () => list_nil ()
+  end // end of [list_nil]
+//
+end // end of [auxrec]
+
+in // in of [local]
+
+implement
+d2exp_trdn_tup
+  (d2e0, s2f0) = let
+//
+val loc0 = d2e0.d2exp_loc
+val- D2Etup (knd, npf, d2es) = d2e0.d2exp_node
+val s2e0 = s2hnf2exp (s2f0)
+//
+in
+//
+case+
+  s2e0.s2exp_node of
+//
+| S2Etyrec (
+    knd1, npf1, ls2es
+  ) => let
+//
+    var err: int = 0
+    val () = $SOL.boxity_equal_solve_err (loc0, knd, knd1, err)
+    val () = $SOL.pfarity_equal_solve_err (loc0, npf, npf1, err)
+    val () = if err != 0 then {
+      val () = prerr_the_staerrlst ()
+      val () = the_trans3errlst_add (T3E_d2exp_trdn_tup (d2e0, s2e0))
+    } // end of [if] // end of [val]
+//
+    var serr: int = 0
+    val d3es = auxtup (d2es, ls2es, serr)
+    val () = if (serr != 0) then {
+      val () = auxerrlen (loc0, serr)
+      val () = the_trans3errlst_add (T3E_d2exp_trdn_tup (d2e0, s2e0))
+    } // end of [if] // end of [val]
+//
+  in
+    d3exp_tup (loc0, s2e0, knd, npf, d3es)
+  end // end of [S2Etyrec]
+| _ => d2exp_trdn_rest (d2e0, s2f0)
+//
+end // end of [d2exp_trdn_tup]
+
+implement
+d2exp_trdn_rec
+  (d2e0, s2f0) = let
+//
+val loc0 = d2e0.d2exp_loc
+val- D2Erec (knd, npf, ld2es) = d2e0.d2exp_node
+val s2e0 = s2hnf2exp (s2f0)
+//
+in
+//
+case+
+  s2e0.s2exp_node of
+//
+| S2Etyrec (
+    knd1, npf1, ls2es
+  ) => let
+    var err: int = 0
+    val () = $SOL.boxity_equal_solve_err (loc0, knd, knd1, err)
+    val () = $SOL.pfarity_equal_solve_err (loc0, npf, npf1, err)
+    val () = if err != 0 then {
+      val () = prerr_the_staerrlst ()
+      val () = the_trans3errlst_add (T3E_d2exp_trdn_rec (d2e0, s2e0))
+    } // end of [if] // end of [val]
+    var serr: int = 0
+    val ld3es = auxrec (ld2es, ls2es, serr)
+    val () = if (serr != 0) then {
+      val () = auxerrlen (loc0, serr)
+      val () = the_trans3errlst_add (T3E_d2exp_trdn_tup (d2e0, s2e0))
+    } // end of [if] // end of [val]
+//
+  in
+    d3exp_rec (loc0, s2e0, knd, npf, ld3es)
+  end // end of [S2Etyrec]
+| _ => d2exp_trdn_rest (d2e0, s2f0)
+//
+end // end of [d2exp_trdn_rec]
+
+end // end of [local]
+
+(* ****** ****** *)
 
 implement
 d2exp_trdn_seq (d2e0, s2f0) = let

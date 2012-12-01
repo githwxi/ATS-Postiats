@@ -615,23 +615,23 @@ fun d3exp_app_dyn (
 (* ****** ****** *)
 
 fun d3exp_lst (
-  loc: location, typ: s2exp
-, lin: int, s2f_elt: s2exp, d3es: d3explst
+  loc: location
+, s2f0: s2exp, lin: int, s2f_elt: s2exp, d3es: d3explst
 ) : d3exp // end of [d3exp_lst]
 
 fun d3exp_tup (
-  loc: location, typ: s2exp
-, tupknd: int, npf: int, d3es: d3explst
+  loc: location
+, s2f0: s2exp, tupknd: int, npf: int, d3es: d3explst
 ) : d3exp // end of [d3exp_tup]
 
 fun d3exp_rec (
-  loc: location, typ: s2exp
-, recknd: int, npf: int, ld3es: labd3explst
+  loc: location
+, s2f0: s2exp, recknd: int, npf: int, ld3es: labd3explst
 ) : d3exp // end of [d3exp_rec]
 
-fun d3exp_seq (
-  loc: location, typ: s2exp, d3es: d3explst
-) : d3exp // end of [d3exp_seq]
+fun d3exp_seq
+  (loc: location, s2f: s2exp, d3es: d3explst): d3exp
+// end of [d3exp_seq]
 
 (* ****** ****** *)
 

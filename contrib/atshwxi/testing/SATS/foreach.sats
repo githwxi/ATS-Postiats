@@ -62,10 +62,10 @@ staload
 IT = "prelude/SATS/iterator.sats"
 stadef iterator = $IT.iterator_5
 
-fun{x:vt0p}
+fun{x:t0p}
 foreach_fiterator$fwork (x: x): void
 fun{
-knd:tk}{x:vt0p
+knd:tk}{x:t0p
 } foreach_fiterator
   {kpm:tk} {f,r:int} (
   itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+r, 0)
