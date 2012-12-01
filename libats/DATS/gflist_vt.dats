@@ -140,12 +140,14 @@ implement{a}
 gflist_vt_reverse (xs) = gflist_vt_revapp (xs, gflist_vt_nil)
 
 (* ****** ****** *)
+
+local
+
+(*
 //
 // HX-2012-11-28: mergesort on gflist_vt // ported from ATS/Anairiats
 //
-(* ****** ****** *)
-
-local
+*)
 
 fun{
 a:vt0p

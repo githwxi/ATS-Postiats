@@ -113,34 +113,34 @@ end // end of [gflist_copy]
 
 implement{a}
 gflist_append
-  (xs, ys) = let
+  (xs1, xs2) = let
 //
 fun loop
-  {xs:ilist}
-  {ys:ilist} .<xs>. (
-  xs: gflist (a, xs), ys: gflist (a, ys), res: &ptr? >> gflist (a, zs)
-) :<!wrt> #[zs:ilist] (APPEND (xs, ys, zs) | void) = let
+  {xs1:ilist}
+  {xs2:ilist} .<xs1>. (
+  xs1: gflist (a, xs1), xs2: gflist (a, xs2), res: &ptr? >> gflist (a, ys)
+) :<!wrt> #[ys:ilist] (APPEND (xs1, xs2, ys) | void) = let
 in
 //
-case+ xs of
+case+ xs1 of
 | gflist_cons
-    (x, xs) => let
-    val () = res := gflist_cons (x, _)
+    (x1, xs1) => let
+    val () = res := gflist_cons (x1, _)
     val+ gflist_cons (_, res1) = res
-    val (pf | ()) = loop (xs, ys, res1)
+    val (pf | ()) = loop (xs1, xs2, res1)
     prval () = fold@ (res)
   in
     (APPENDcons (pf) | ())
   end // end of [gflist_cons]
 | gflist_nil () => let
-    val () = res := ys in (APPENDnil () | ())
+    val () = res := xs2 in (APPENDnil () | ())
   end // end of [gflist_nil]
 //
 end // end of [loop]
 //
 var res: ptr // uninitialized
 //
-val (pf | ()) = $effmask_wrt (loop (xs, ys, res))
+val (pf | ()) = $effmask_wrt (loop (xs1, xs2, res))
 //
 in
   (pf | res)
@@ -150,22 +150,84 @@ end // end of [gflist_append]
 
 implement{a}
 gflist_revapp
-  (xs, ys) = let
+  (xs1, xs2) = let
+//
+fun loop
+  {xs1,xs2:ilist} .<xs1>. (
+  xs1: gflist (INV(a), xs1), xs2: gflist (a, xs2)
+) :<> [res:ilist]
+  (REVAPP (xs1, xs2, res) | gflist (a, res)) = let
 in
 //
-case+ xs of
+case+ xs1 of
 | gflist_cons
-    (x, xs) => let
-    val (pf | res) = gflist_revapp (xs, gflist_cons (x, ys))
+    (x1, xs1) => let
+    val (pf | res) = loop (xs1, gflist_cons (x1, xs2))
   in
     (REVAPPcons (pf) | res)
   end // end of [gflist_cons]
-| gflist_nil () => (REVAPPnil () | ys)
+| gflist_nil () => (REVAPPnil () | xs2)
 //
-end // end of [gflist_append]
+end // end of [loop]
+//
+in
+  loop (xs1, xs2)
+end // end of [gflist_revapp]
+
+(* ****** ****** *)
 
 implement{a}
-gflist_reverse (xs) = gflist_revapp (xs, gflist_nil)
+gflist_revapp1_vt
+  (xs1, xs2) = let
+//
+val xs2 =
+  __cast (xs2) where {
+  extern
+  castfn __cast {xs2:ilist}
+    (xs2: gflist (a, xs2)):<> gflist_vt (a, xs2)
+  // end of [castfn]
+} // end of [val]
+val (pf | ys) = gflist_vt_revapp<a> (xs1, xs2)
+//
+in
+  (pf | gflist_vt2t (ys))
+end // end of [gflist_revapp1_vt]
+
+(* ****** ****** *)
+
+implement{a}
+gflist_revapp2_vt
+  (xs1, xs2) = let
+//
+fun loop
+  {xs1,xs2:ilist} .<xs1>. (
+  xs1: gflist (INV(a), xs1), xs2: gflist_vt (a, xs2)
+) :<> [res:ilist]
+  (REVAPP (xs1, xs2, res) | gflist_vt (a, res)) = let
+in
+//
+case+ xs1 of
+| gflist_cons
+    (x1, xs1) => let
+    val x1 = stamped_t2vt (x1)
+    val (pf | res) = loop (xs1, gflist_vt_cons (x1, xs2))
+  in
+    (REVAPPcons (pf) | res)
+  end // end of [gflist_cons]
+| gflist_nil () => (REVAPPnil () | xs2)
+//
+end // end of [loop]
+//
+in
+  loop (xs1, xs2)
+end // end of [gflist_revapp2_vt]
+
+(* ****** ****** *)
+
+implement{a}
+gflist_reverse (xs) =
+  $effmask_wrt (gflist_revapp2_vt<a> (xs, gflist_vt_nil))
+// end of [gflist_reverse]
 
 (* ****** ****** *)
 

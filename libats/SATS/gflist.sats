@@ -81,9 +81,9 @@ gflist_vt (
 (* ****** ****** *)
 
 castfn
-gflist_t2vt
-  {a:t@ype}{xs:ilist} (xs: gflist_vt (a, xs)): gflist (a, xs)
-// end of [gflist_t2vt]
+gflist_vt2t
+  {a:t@ype}{xs:ilist} (xs: gflist_vt (a, xs)):<!wrt> gflist (a, xs)
+// end of [gflist_vt2t]
 
 (* ****** ****** *)
 
@@ -116,11 +116,29 @@ gflist_revapp
 ) :<> [res:ilist] (REVAPP (xs1, xs2, res) | gflist (a, res))
 // end of [gflist_revapp]
 
+(* ****** ****** *)
+
+fun{a:t@ype}
+gflist_revapp1_vt
+  {xs1,xs2:ilist} (
+  xs1: gflist_vt (INV(a), xs1), xs2: gflist (a, xs2)
+) :<!wrt> [res:ilist] (REVAPP (xs1, xs2, res) | gflist (a, res))
+// end of [gflist_revapp1_vt]
+
+fun{a:t@ype}
+gflist_revapp2_vt
+  {xs1,xs2:ilist} (
+  xs1: gflist (INV(a), xs1), xs2: gflist_vt (a, xs2)
+) :<!wrt> [res:ilist] (REVAPP (xs1, xs2, res) | gflist_vt (a, res))
+// end of [gflist_revapp2_vt]
+
+(* ****** ****** *)
+
 fun{a:t@ype}
 gflist_reverse
   {xs:ilist} (
   xs: gflist (INV(a), xs)
-) :<> [ys:ilist] (REVERSE (xs, ys) | gflist (a, ys))
+) :<> [ys:ilist] (REVERSE (xs, ys) | gflist_vt (a, ys))
 // end of [gflist_reverse]
 
 (* ****** ****** *)
