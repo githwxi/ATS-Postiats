@@ -103,6 +103,57 @@ end // end of [list_vt_length]
 
 #atscode_separator()
 
+implement{x}
+list_vt_copy (xs) = let
+//
+implement
+list_vt_copylin$copy<x> (x) = x
+//
+in
+  $effmask_all (list_vt_copylin<x> (xs))
+end // end of [list_vt_copy]
+
+implement{x}
+list_vt_copylin
+  (xs) = let
+//
+prval () = lemma_list_vt_param (xs)
+//
+fun loop
+  {n:nat} .<n>. (
+  xs: !list_vt (x, n), res: &ptr? >> list_vt (x, n)
+) : void = let
+in
+//
+case+ xs of
+| @list_vt_cons
+    (x, xs1) => let
+    val x =
+      list_vt_copylin$copy<x> (x)
+    // end of [val]
+    val () =
+      res := list_vt_cons{x}{0}(x, _)
+    // end of [val]
+    val list_vt_cons (_, res1) = res
+    val () = loop (xs1, res1)
+    prval () = fold@ (res)
+    prval () = fold@ (xs)
+  in
+    // nothing
+  end
+| list_vt_nil () => res := list_vt_nil ()
+//
+end // end of [loop]
+//
+var res: ptr
+val () = loop (xs, res)
+//
+in
+  res
+end // end of [list_vt_copylin]
+
+#atscode_separator()
+
 implement{a}
 list_vt_getref_at
   {n}{i} (xs, i) = let
