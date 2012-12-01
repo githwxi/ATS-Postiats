@@ -42,8 +42,16 @@
 
 (* ****** ****** *)
 
+fun{a:t0p}
+gcopy_val (x: INV(a)):<> a
+
 fun{a:vt0p}
-gfree_val (x: a):<!wrt> void
+gcopy_ref (x: &INV(a)):<> a
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+gfree_val (x: INV(a)):<!wrt> void
 
 (* ****** ****** *)
 

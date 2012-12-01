@@ -1,0 +1,48 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_gfarray")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/gfarray\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package contains various functions for manipulating generic
+arrays that are assigned the fully indexed list type.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("gfarray_v")
+
+(* ****** ****** *)
+
+#declnamesynop("gfarray_v_split")
+#declnamesynop("gfarray_v_unsplit")
+
+(* ****** ****** *)
+
+#declnamesynop("gfarray_v_extend")
+#declnamesynop("gfarray_v_unextend")
+
+(* ****** ****** *)
+
+#declnamesynop("gfarray_get_at")
+#declnamesynop("gfarray_set_at")
+
+(* ****** ****** *)
+
+#declnamesynop("gfarray_exch_at")
+
+(* ****** ****** *)
+
+(* end of [gfarray.atxt] *)

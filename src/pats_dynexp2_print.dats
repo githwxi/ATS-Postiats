@@ -147,6 +147,11 @@ in
   | PCKunfold () => prstr "PCKunfold"
 end // end of [fprint_pckind]
 
+implement
+print_pckind (x) = fprint_pckind (stdout_ref, x)
+implement
+prerr_pckind (x) = fprint_pckind (stderr_ref, x)
+
 (* ****** ****** *)
 
 implement
@@ -293,10 +298,17 @@ print_p2at (x) = fprint_p2at (stdout_ref, x)
 implement
 prerr_p2at (x) = fprint_p2at (stderr_ref, x)
 
+(* ****** ****** *)
+
 implement
 fprint_p2atlst
   (out, xs) = $UT.fprintlst (out, xs, ", ", fprint_p2at)
 // end of [fprint_p2atlst]
+
+implement
+print_p2atlst (xs) = fprint_p2atlst (stdout_ref, xs)
+implement
+prerr_p2atlst (xs) = fprint_p2atlst (stderr_ref, xs)
 
 (* ****** ****** *)
 

@@ -600,6 +600,9 @@ implement{a}
 list_vt_filter (xs) = let
 //
 implement
+list_vt_filterlin$pred<a>
+  (x) = list_vt_filter$pred<a> (x)
+implement
 list_vt_filterlin$clear<a>
   (x) = let
   prval () = topize (x) in (*void*)
@@ -623,7 +626,7 @@ fun loop
 in
   case+ xs of
   | @list_vt_cons (x, xs1) => let
-      val test = list_vt_filter$pred<a> (x)
+      val test = list_vt_filterlin$pred<a> (x)
     in
       if test then let
         val () = loop (xs1)

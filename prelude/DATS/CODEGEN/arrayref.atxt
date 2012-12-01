@@ -55,7 +55,7 @@ end // end of [arrayref_exch_at_size]
 
 implement{a}
 arrayref_make_elt (asz, x) = let
-  val A = arrayptr_make_elt (asz, x) in arrayptr_refize (A)
+  val A = arrayptr_make_elt<a> (asz, x) in arrayptr_refize (A)
 end // end of [arrayref_make_elt]
 
 #atscode_separator()
@@ -111,7 +111,7 @@ end // end of [arrszref_exch_at_size]
 implement{a}
 arrszref_make_elt (asz, x) = let
   val asz = g1ofg0_uint (asz)
-  val A = arrayref_make_elt (asz, x) in arrszref_make (A, asz)
+  val A = arrayref_make_elt<a> (asz, x) in arrszref_make (A, asz)
 end // end of [arrszref_make_elt]
 
 #atscode_separator()

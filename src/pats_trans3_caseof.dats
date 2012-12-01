@@ -128,6 +128,7 @@ c2lau_trdn (
 //
 val loc0 = c2l.c2lau_loc
 val p2ts = c2l.c2lau_pat
+//
 (*
 val () = begin
   print "c2lau_trdn: p2ts = "; print_p2atlst (p2ts); print_newline ();
@@ -135,6 +136,7 @@ val () = begin
   print "c2lau_trdn: s2e_res = "; print_s2exp (s2e_res); print_newline ();
 end // end of [val]
 *)
+//
 val (pfpush | ()) = trans3_env_push ()
 //
 val seq = c2l.c2lau_seq
@@ -169,6 +171,8 @@ val s2e_res = (
   if neg > 0 then s2exp_bottom_viewt0ype_exi () else s2e_res
 ) : s2exp // end of [val]
 val d3e_body = d2exp_trdn (c2l.c2lau_body, s2e_res)
+//
+val () = the_d2varenv_check (loc0)
 //
 val () = p2atcstlstlst_vt_free (cp2tcss)
 //

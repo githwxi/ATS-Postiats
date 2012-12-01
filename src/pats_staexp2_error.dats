@@ -151,6 +151,8 @@ fn prerr_staerr_pfarity_equal (
   prerr "The needed proof arity is: "; prerr_int npf2; prerr_newline ();
 end // end of [prerr_staerr_pfarity_equal]
 
+(* ****** ****** *)
+
 fn prerr_staerr_s2eff_subeq (
   loc: location, s2fe1: s2eff, s2fe2: s2eff
 ) : void = begin
@@ -159,6 +161,46 @@ fn prerr_staerr_s2eff_subeq (
   prerr "The actual effects are: "; prerr_s2eff s2fe1; prerr_newline ();
   prerr "The allowed effects are: "; prerr_s2eff s2fe2; prerr_newline ();
 end // end of [prerr_staerr_s2eff_subeq]
+
+(* ****** ****** *)
+
+fn prerr_staerr_boxity_equal (
+  loc: location, knd1: int, knd2: tyreckind
+) : void = let
+//
+val () = prerr_error3_loc (loc)
+val () = prerr ": boxity mismatch"
+val () = prerr_newline ()
+//
+in
+  // nothing
+end // end of [prerr_staerr_boxity_equal]
+
+fn prerr_staerr_tyreckind_equal (
+  loc: location, knd1: tyreckind, knd2: tyreckind
+) : void = let
+//
+val () = prerr_error3_loc (loc)
+val () = prerr ": tyreckind mismatch: "
+val () = prerr_tyreckind (knd1)
+val () = prerr " <> "
+val () = prerr_tyreckind (knd2)
+val () = prerr_newline ()
+//
+in
+  // nothing
+end // end of [prerr_staerr_boxity_equal]
+
+(* ****** ****** *)
+
+fn prerr_staerr_s2exp_equal (
+  loc: location, s2e1: s2exp, s2e2: s2exp
+) : void = begin
+  prerr_error3_loc (loc);
+  prerr ": mismatch of static terms (equal):\n";
+  prerr "The actual term is: "; pprerr_s2exp (s2e1); prerr_newline ();
+  prerr "The needed term is: "; pprerr_s2exp (s2e2); prerr_newline ();
+end // end of [prerr_staerr_s2exp_equal]
 
 fn prerr_staerr_s2exp_tyleq (
   loc: location, s2e1: s2exp, s2e2: s2exp
@@ -169,14 +211,19 @@ fn prerr_staerr_s2exp_tyleq (
   prerr "The needed term is: "; pprerr_s2exp (s2e2); prerr_newline ();
 end // end of [prerr_staerr_s2exp_tyleq]
 
-fn prerr_staerr_s2exp_equal (
-  loc: location, s2e1: s2exp, s2e2: s2exp
-) : void = begin
+fn prerr_staerr_s2Var_s2exp_solve (
+  loc: location, s2V1: s2Var, s2e2: s2exp
+) : void = let
+  val s2t1 =
+    s2Var_get_srt (s2V1)
+  // end of [val]
+  val s2t2 = s2e2.s2exp_srt
+in
   prerr_error3_loc (loc);
-  prerr ": mismatch of static terms (equal):\n";
-  prerr "The actual term is: "; pprerr_s2exp (s2e1); prerr_newline ();
-  prerr "The needed term is: "; pprerr_s2exp (s2e2); prerr_newline ();
-end // end of [prerr_staerr_s2exp_equal]
+  prerr ": mismatch of sorts in unification:\n";
+  prerr "The sort of variable is: "; prerr_s2rt (s2t1); prerr_newline ();
+  prerr "The sort of solution is: "; prerr_s2rt (s2t2); prerr_newline ();
+end // end of [prerr_staerr_s2Var_s2exp_solve]
 
 in // in of [local]
 
@@ -189,15 +236,25 @@ fun loop (
 in
 //
 case+ xs of
-| ~list_vt_cons (x, xs) => let
+| ~list_vt_cons
+    (x, xs) => let
     val () = (case+ x of
+//
     | STAERR_funclo_equal (loc, fc1, fc2) => prerr_staerr_funclo_equal (loc, fc1, fc2)
     | STAERR_clokind_equal (loc, knd1, knd2) => prerr_staerr_clokind_equal (loc, knd1, knd2)
     | STAERR_linearity_equal (loc, lin1, lin2) => prerr_staerr_linearity_equal (loc, lin1, lin2)
     | STAERR_pfarity_equal (loc, npf1, npf2) => prerr_staerr_pfarity_equal (loc, npf1, npf2)
+//
     | STAERR_s2eff_subeq (loc, s2fe1, s2fe2) => prerr_staerr_s2eff_subeq (loc, s2fe1, s2fe2)
+//
+    | STAERR_boxity_equal (loc, knd1, knd2) => prerr_staerr_boxity_equal (loc, knd1, knd2)
+    | STAERR_tyreckind_equal (loc, knd1, knd2) => prerr_staerr_tyreckind_equal (loc, knd1, knd2)
+//
     | STAERR_s2exp_equal (loc, s2e1, s2e2) => prerr_staerr_s2exp_equal (loc, s2e1, s2e2)
     | STAERR_s2exp_tyleq (loc, s2e1, s2e2) => prerr_staerr_s2exp_tyleq (loc, s2e1, s2e2)
+//
+    | STAERR_s2Var_s2exp_solve (loc, s2V1, s2e2) => prerr_staerr_s2Var_s2exp_solve (loc, s2V1, s2e2)
+//
     | _ => ()
     ) : void // end of [case] // end of [val]
   in

@@ -101,9 +101,9 @@ val+ ~PFOBJ (
   d2v, s2e_ctx, s2e_elt, s2l
 ) = pfobj // end of [val]
 var ctxtopt: s2ctxtopt = None ()
-//
+(*
 val () = println! ("auxmain: s2e_elt = ", s2e_elt)
-//
+*)
 val s2es2ps =
   s2exp_get_dlablst_context_check (loc0, s2e_elt, d3ls, ctxtopt)
 val s2e_old = s2es2ps.0
@@ -195,15 +195,18 @@ d3lval_set_type_err (
 ) = let
 //
 val loc0 = d3e0.d3exp_loc
+//
 (*
 val () = (
   println! ("d3lval_set_type_err: d3e0 = ", d3e0);
   println! ("d3lval_set_type_err: s2e_new = ", s2e_new);
 ) // end of [val]
 *)
+//
 in
 //
 case+ d3e0.d3exp_node of
+//
 | D3Evar (d2v)
     when d2var_is_mutabl (d2v) => let
     val- Some (s2l) = d2var_get_addr (d2v)
@@ -212,6 +215,7 @@ case+ d3e0.d3exp_node of
   in
     // nothing
   end // end of [D2Evar/mutabl]
+//
 | D3Evar (d2v)
     when d2var_is_linear (d2v) => let
     val () =

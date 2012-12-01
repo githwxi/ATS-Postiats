@@ -388,6 +388,10 @@ datatype pckind =
   | PCKunfold of () // 3 // folding
 // end of [pckind]
 
+fun print_pckind (x: pckind): void
+overload print with print_pckind
+fun prerr_pckind (x: pckind): void
+overload prerr with prerr_pckind
 fun fprint_pckind : fprint_type (pckind)
 
 fun eq_pckind_pckind (x1: pckind, x2: pckind): bool
@@ -530,6 +534,8 @@ overload prerr with prerr_p2at
 fun fprint_p2at : fprint_type (p2at)
 overload fprint with fprint_p2at
 
+fun print_p2atlst (xs: p2atlst): void
+fun prerr_p2atlst (xs: p2atlst): void
 fun fprint_p2atlst : fprint_type (p2atlst)
 overload fprint with fprint_p2atlst
 

@@ -52,6 +52,7 @@ datatype staerr =
 //
   | STAERR_s2eff_subeq of (location, s2eff, s2eff)
 //
+  | STAERR_boxity_equal of (location, int(*knd*), tyreckind)
   | STAERR_tyreckind_equal of (location, tyreckind, tyreckind)
 //
   | STAERR_refval_equal of (location, int(*knd*), int(*knd*))
@@ -60,7 +61,8 @@ datatype staerr =
 //
   | STAERR_s2exp_equal of (location, s2exp, s2exp)
   | STAERR_s2exp_tyleq of (location, s2exp, s2exp)
-  | STAERR_s2eff_leq of (location, s2eff, s2eff)
+//
+  | STAERR_s2Var_s2exp_solve of (location, s2Var, s2exp)
 //
   | STAERR_s2explst_length of (location, int(*-1/1*))
   | STAERR_labs2explst_length of (location, int(*-1/1*))

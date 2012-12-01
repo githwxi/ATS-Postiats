@@ -95,6 +95,10 @@ fun s2eff_subeq_solve_err
 
 (* ****** ****** *)
 
+fun boxity_equal_solve_err (
+  loc: location, knd1: int, knd2: tyreckind, err: &int
+) : void // end of [boxity_equal_solve_err]
+
 fun tyreckind_equal_solve_err (
   loc: location, knd1: tyreckind, knd2: tyreckind, err: &int
 ) : void // end of [tyreckind_equal_solve_err]

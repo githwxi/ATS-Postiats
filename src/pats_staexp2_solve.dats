@@ -168,6 +168,21 @@ pfarity_equal_solve_err
 (* ****** ****** *)
 
 implement
+boxity_equal_solve_err
+  (loc0, knd1, knd2, err) = let
+  val i = (
+    if tyreckind_is_box (knd2) then 1-knd1 else knd1
+  ) : int // end of [val]
+in
+  if (i = 0) then () else let
+    val () = err := err + 1
+    val () = the_staerrlst_add (STAERR_boxity_equal (loc0, knd1, knd2))
+  in
+    // nothing
+  end // end of [if]
+end // end of [boxity_equal_solve_err]
+
+implement
 tyreckind_equal_solve_err
   (loc0, knd1, knd2, err) =
   if knd1 = knd2 then () else let
@@ -209,6 +224,30 @@ s2Var_merge_szexp_err
 in
   s2Var_set_szexp (s2V1, s2ze12)
 end // end of [s2Var_merge_szexp_err]
+
+(* ****** ****** *)
+
+extern
+fun s2Var_s2exp_srtck_err (
+  loc0: location, s2V1: s2Var, s2e2: s2exp, err: &int
+) : void // end of [s2Var_s2exp_srtck_err]
+
+implement
+s2Var_s2exp_srtck_err
+  (loc0, s2V1, s2e2, err) = let
+//
+val s2t1 =
+  s2Var_get_srt (s2V1)
+val s2t2 = s2e2.s2exp_srt
+val ltmat = s2rt_ltmat1 (s2t2, s2t1) // HX: real-run
+val () = if ~(ltmat) then {
+  val () = err := err + 1
+  val () = the_staerrlst_add (STAERR_s2Var_s2exp_solve (loc0, s2V1, s2e2))
+} // end of [if] // end of [val]
+//
+in
+  // nothing
+end // end of [s2Var_s2exp_srtck_err]
 
 (* ****** ****** *)
 
@@ -270,19 +309,26 @@ end // end of [s2hnf_equal_solve_lVar_err]
 implement
 s2hnf_equal_solve_lVar_err_nck
   (loc0, s2f1, s2f2, s2V1, err) = let
-  val s2e2 = s2hnf2exp (s2f2)
-  val isimp = s2exp_is_impredicative (s2e2)
-  val () = if isimp then {
-    val s2ze2 = s2zexp_make_s2exp (s2e2)
-    val () = s2Var_merge_szexp_err (loc0, s2V1, s2ze2, err)
-  } // end of [val]
-  val () = s2Var_set_link (s2V1, Some s2e2)
-  val () = if isimp then {
-    val lbs = s2Var_get_lbs (s2V1)
-    val () = s2hnf_tyleq_solve_lbs_err (loc0, lbs, s2f2, err)
-    val ubs = s2Var_get_ubs (s2V1)
-    val () = s2hnf_tyleq_solve_ubs_err (loc0, s2f2, ubs, err)
-  } // end of [val]
+//
+val s2e2 = s2hnf2exp (s2f2)
+//
+val () = s2Var_s2exp_srtck_err (loc0, s2V1, s2e2, err)
+//
+val isimp =
+  s2exp_is_impredicative (s2e2)
+val () = if isimp then {
+  val s2ze2 = s2zexp_make_s2exp (s2e2)
+  val () = s2Var_merge_szexp_err (loc0, s2V1, s2ze2, err)
+} // end of [if] // end of [val]
+//
+val () = s2Var_set_link (s2V1, Some s2e2)
+val () = if isimp then {
+  val lbs = s2Var_get_lbs (s2V1)
+  val () = s2hnf_tyleq_solve_lbs_err (loc0, lbs, s2f2, err)
+  val ubs = s2Var_get_ubs (s2V1)
+  val () = s2hnf_tyleq_solve_ubs_err (loc0, s2f2, ubs, err)
+} // end of [if] // end of [val]
+//
 in
   // nothing  
 end // end of [s2hnf_equal_solve_lVar_err_nck]
@@ -303,15 +349,19 @@ fun s2hnf_equal_solve_rVar_err_nck (
 implement
 s2hnf_equal_solve_rVar_err
   (loc0, s2f1, s2f2, s2V2, err) = let
+//
+val s2e1 = s2hnf2exp (s2f1)
+val s2e2 = s2hnf2exp (s2f2)
 (*
-  val () = (
-    println! ("s2hnf_equal_solve_rVar_err: s2f1 = ", s2f1);
-    println! ("s2hnf_equal_solve_rVar_err: s2f2 = ", s2f2);
-  ) // end of [val]
+val () = (
+  println! ("s2hnf_equal_solve_rVar_err: s2e1 = ", s2e1);
+  println! ("s2hnf_equal_solve_rVar_err: s2t1 = ", s2e1.s2exp_srt);
+  println! ("s2hnf_equal_solve_rVar_err: s2e2 = ", s2e2);
+  println! ("s2hnf_equal_solve_rVar_err: s2t2 = ", s2e2.s2exp_srt);
+) // end of [val]
 *)
-  val s2e1 = s2hnf2exp (s2f1)
-  val s2e2 = s2hnf2exp (s2f2)
-  val (ans, s2cs, s2vs, s2Vs) = s2Var_occurcheck_s2exp (s2V2, s2e1)
+val (ans, s2cs, s2vs, s2Vs) = s2Var_occurcheck_s2exp (s2V2, s2e1)
+//
 in
 //
 if ans = 0 then let
@@ -336,19 +386,26 @@ end // end of [s2hnf_equal_solve_rVar_err]
 implement
 s2hnf_equal_solve_rVar_err_nck
   (loc0, s2f1, s2f2, s2V2, err) = let
-  val s2e1 = s2hnf2exp (s2f1)
-  val isimp = s2exp_is_impredicative (s2e1)
-  val () = if isimp then {
-    val s2ze1 = s2zexp_make_s2exp (s2e1)
-    val () = s2Var_merge_szexp_err (loc0, s2V2, s2ze1, err)
-  } // end of [val]
-  val () = s2Var_set_link (s2V2, Some s2e1)
-  val () = if isimp then {
-    val lbs = s2Var_get_lbs (s2V2)
-    val () = s2hnf_tyleq_solve_lbs_err (loc0, lbs, s2f1, err)
-    val ubs = s2Var_get_ubs (s2V2)
-    val () = s2hnf_tyleq_solve_ubs_err (loc0, s2f1, ubs, err)
-  } // end of [val]
+//
+val s2e1 = s2hnf2exp (s2f1)
+//
+val () = s2Var_s2exp_srtck_err (loc0, s2V2, s2e1, err)
+//
+val isimp =
+  s2exp_is_impredicative (s2e1)
+val () = if isimp then {
+  val s2ze1 = s2zexp_make_s2exp (s2e1)
+  val () = s2Var_merge_szexp_err (loc0, s2V2, s2ze1, err)
+} // end of [if] // end of [val]
+//
+val () = s2Var_set_link (s2V2, Some s2e1)
+val () = if isimp then {
+  val lbs = s2Var_get_lbs (s2V2)
+  val () = s2hnf_tyleq_solve_lbs_err (loc0, lbs, s2f1, err)
+  val ubs = s2Var_get_ubs (s2V2)
+  val () = s2hnf_tyleq_solve_ubs_err (loc0, s2f1, ubs, err)
+} // end of [if] // end of [val]
+//
 in
   // nothing
 end // end of [s2hnf_equal_solve_rVar_err_nck]
@@ -480,6 +537,7 @@ val err0 = err
 val s2e10 = s2hnf2exp (s2f10)
 and s2e20 = s2hnf2exp (s2f20)
 val s2en10 = s2e10.s2exp_node and s2en20 = s2e20.s2exp_node
+//
 (*
 val () = (
   println! ("s2hnf_equal_solve_err: s2e10 = ", s2e10);
@@ -487,6 +545,7 @@ val () = (
   println! ("s2hnf_equal_solve_err: err0 = ", err0);
 ) // end of [val]
 *)
+//
 val () = case+
   (s2en10, s2en20) of
 //
@@ -679,7 +738,7 @@ val sgn = loop (
 val () = if (sgn != 0) then {
   val () = err := err + 1
   val () = the_staerrlst_add (STAERR_labs2explst_length (loc0, sgn))
-} // end of [val]
+} // end of [if] // end of [val]
 in
   // nothing
 end // end of [labs2explst_equal_solve_err]
@@ -744,17 +803,20 @@ fun s2hnf_tyleq_solve_lVar_err (
 implement
 s2hnf_tyleq_solve_lVar_err
   (loc0, s2f1, s2f2, s2V1, err) = let
-  val s2e2 = s2hnf2exp (s2f2)
 //
-  val s2ze2 = s2zexp_make_s2exp (s2e2)
-  val () = s2Var_merge_szexp_err (loc0, s2V1, s2ze2, err)
+val s2e2 = s2hnf2exp (s2f2)
 //
-  val lbs = s2Var_get_lbs (s2V1)
-  val () = s2hnf_tyleq_solve_lbs_err (loc0, lbs, s2f2, err)
+val () = s2Var_s2exp_srtck_err (loc0, s2V1, s2e2, err)
 //
-  val ub = s2VarBound_make (loc0, s2e2)
-  val ubs = s2Var_get_ubs (s2V1)
-  val () = s2Var_set_ubs (s2V1, list_cons (ub, ubs))
+val s2ze2 = s2zexp_make_s2exp (s2e2)
+val () = s2Var_merge_szexp_err (loc0, s2V1, s2ze2, err)
+//
+val lbs = s2Var_get_lbs (s2V1)
+val () = s2hnf_tyleq_solve_lbs_err (loc0, lbs, s2f2, err)
+//
+val ub = s2VarBound_make (loc0, s2e2)
+val ubs = s2Var_get_ubs (s2V1)
+val () = s2Var_set_ubs (s2V1, list_cons (ub, ubs))
 //
 in
   // nothing
@@ -768,17 +830,20 @@ fun s2hnf_tyleq_solve_rVar_err (
 implement
 s2hnf_tyleq_solve_rVar_err
   (loc0, s2f1, s2f2, s2V2, err) = let
-  val s2e1 = s2hnf2exp (s2f1)
 //
-  val s2ze1 = s2zexp_make_s2exp (s2e1)
-  val () = s2Var_merge_szexp_err (loc0, s2V2, s2ze1, err)
+val s2e1 = s2hnf2exp (s2f1)
 //
-  val ubs = s2Var_get_ubs (s2V2)
-  val () = s2hnf_tyleq_solve_ubs_err (loc0, s2f1, ubs, err)
+val () = s2Var_s2exp_srtck_err (loc0, s2V2, s2e1, err)
 //
-  val lb = s2VarBound_make (loc0, s2e1)
-  val lbs = s2Var_get_lbs (s2V2)
-  val () = s2Var_set_lbs (s2V2, list_cons (lb, lbs))
+val s2ze1 = s2zexp_make_s2exp (s2e1)
+val () = s2Var_merge_szexp_err (loc0, s2V2, s2ze1, err)
+//
+val ubs = s2Var_get_ubs (s2V2)
+val () = s2hnf_tyleq_solve_ubs_err (loc0, s2f1, ubs, err)
+//
+val lb = s2VarBound_make (loc0, s2e1)
+val lbs = s2Var_get_lbs (s2V2)
+val () = s2Var_set_lbs (s2V2, list_cons (lb, lbs))
 //
 in
   // nothing
@@ -810,13 +875,15 @@ val err0 = err
 val s2e10 = s2hnf2exp (s2f10)
 and s2e20 = s2hnf2exp (s2f20)
 val s2en10 = s2e10.s2exp_node and s2en20 = s2e20.s2exp_node
+//
 (*
 val () = (
+  println! ("s2hnf_tyleq_solve_err: err0 = ", err0);
   println! ("s2hnf_tyleq_solve_err: s2f10 = ", s2e10);
   println! ("s2hnf_tyleq_solve_err: s2f20 = ", s2e20);
-  println! ("s2hnf_tyleq_solve_err: err0 = ", err0);
 ) // end of [val]
 *)
+//
 val () = case+
   (s2en10, s2en20) of
 //

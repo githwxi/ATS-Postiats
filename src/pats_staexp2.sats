@@ -278,8 +278,8 @@ fun s2rtVar_occurscheck (V: s2rtVar, s2t: s2rt): bool
 fun s2rt_delink (x: s2rt): s2rt // HX: shallow removal
 fun s2rt_delink_all (x: s2rt): s2rt // HX: perform deep removal
 
-fun s2rt_ltmat0 (s2t1: s2rt, s2t2: s2rt): bool // HX: dry
-fun s2rt_ltmat1 (s2t1: s2rt, s2t2: s2rt): bool // HX: real
+fun s2rt_ltmat0 (s2t1: s2rt, s2t2: s2rt): bool // HX: dry-run
+fun s2rt_ltmat1 (s2t1: s2rt, s2t2: s2rt): bool // HX: real-run
 
 (* ****** ****** *)
 //
@@ -325,6 +325,8 @@ tyreckind =
 
 fun tyreckind_is_box (knd: tyreckind): bool
 
+fun print_tyreckind (x: tyreckind): void
+fun prerr_tyreckind (x: tyreckind): void
 fun fprint_tyreckind: fprint_type (tyreckind)
 
 fun eq_tyreckind_tyreckind

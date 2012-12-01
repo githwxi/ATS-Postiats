@@ -77,7 +77,7 @@ end // end of [array0_exch_at_guint]
 
 implement{a}
 array0_make_elt (asz, x) = let
-  val A0 = arrszref_make_elt (asz, x) in array0_of_arrszref (A0)
+  val A0 = arrszref_make_elt<a> (asz, x) in array0_of_arrszref (A0)
 end // end of [array0_make_elt]
 
 (* ****** ****** *)

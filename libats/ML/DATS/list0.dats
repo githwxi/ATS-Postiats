@@ -665,7 +665,7 @@ val n = g1ofg0_int (n)
 //
 in
   if n >= 0 then
-    list0_of_list_vt (list_tabulate (n))
+    list0_of_list_vt (list_tabulate<a> (n))
   else
     $raise IllegalArgExn("list0_tabulate:n")
   // end of [if]

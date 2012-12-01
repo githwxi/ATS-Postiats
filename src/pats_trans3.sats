@@ -97,8 +97,9 @@ datatype trans3err =
   | T3E_d2exp_trup_exn of (location)
   | T3E_d2exp_trup_wrt of (location)
 //
+  | T3E_d2exp_trdn_tup of (d2exp, s2exp)
+  | T3E_d2exp_trdn_rec of (d2exp, s2exp)
   | T3E_d2exp_trdn_exist of (d2exp, s2exp)
-//
   | T3E_d2exp_trdn_lam_dyn of (d2exp, s2exp)
 //
   | T3E_d3exp_foldat of (location, d3exp)

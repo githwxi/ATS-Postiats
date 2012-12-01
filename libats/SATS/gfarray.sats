@@ -87,7 +87,9 @@ gfarray_v_split
   {i:nat | i <= n} (
   pflen: LENGTH (xs, n)
 , pfarr: gfarray_v (a, l, xs)
-) : [xs1,xs2:ilist] (
+) : [
+  xs1,xs2:ilist
+] (
   LENGTH (xs1, i)
 , APPEND (xs1, xs2, xs)
 , gfarray_v (a, l, xs1)
@@ -103,8 +105,9 @@ gfarray_v_unsplit
   pflen: LENGTH (xs1, n1)
 , pfarr1: gfarray_v (a, l, xs1)
 , pfarr2: gfarray_v (a, l+n1*sizeof(a), xs2)
-) : [xs:ilist] (APPEND (xs1, xs2, xs), gfarray_v (a, l, xs))
-// end of [gfarray_v_unsplit]
+) : [xs:ilist] (
+  APPEND (xs1, xs2, xs), gfarray_v (a, l, xs)
+) // end of [gfarray_v_unsplit]
 
 (* ****** ****** *)
 
@@ -114,10 +117,10 @@ gfarray_v_extend
   {l:addr}
   {xs:ilist}{x:int}{xsx:ilist}
   {n:nat} (
-  pfsnoc: SNOC (xs, x, xsx)
-, pflen: LENGTH (xs, n)
+  pflen: LENGTH (xs, n)
+, pfsnoc: SNOC (xs, x, xsx)
+, pfat: stamped_vt (a, x) @ l+n*sizeof(a)
 , pfarr: gfarray_v (a, l, xs)
-, pfat: a @ l+n*sizeof(a)
 ) : gfarray_v (a, l, xsx)
 // end of [gfarray_v_extend]
 
@@ -130,7 +133,7 @@ gfarray_v_unextend
   pflen: LENGTH (xs, n)
 , pfarr: gfarray_v (a, l, xs)
 ) : [xsf:ilist;x:int] ( // xsf: the front
-  SNOC (xsf, x, xs), gfarray_v (a, l, xsf), stamped_vt (a, x) @ l+(n-1)*sizeof(a)
+  SNOC (xsf, x, xs), stamped_vt (a, x) @ l+(n-1)*sizeof(a), gfarray_v (a, l, xsf)
 ) // end of [gfarray_v_unextend]
 
 (* ****** ****** *)
@@ -143,7 +146,8 @@ gfarray_get_at
   pf1: NTH (x, xs, i)
 , pf2: gfarray_v (a, l, xs)
 | p: ptr l, i: size_t i
-) :<> stamped_t (a, x) // end of [gfarray_get_at]
+) :<> stamped_t (a, x)
+// end of [gfarray_get_at]
 
 fun{a:t0p}
 gfarray_set_at
@@ -153,7 +157,7 @@ gfarray_set_at
   pf1: INSERT (x, xs1, i, xs2)
 , pf2: !gfarray_v (a, l, xs1) >> gfarray_v (a, l, xs2)
 | p: ptr l, i: size_t i, x: stamped_t (a, x)
-) :<> void // end of [gfarray_set_at]
+) :<!wrt> void // end of [gfarray_set_at]
 
 (* ****** ****** *)
 
@@ -168,7 +172,7 @@ gfarray_exch_at
 , pf3: !gfarray_v (a, l, xs1) >> gfarray_v (a, l, xs2)
 | p: ptr l, i: size_t i
 , x: &stamped_vt (a, x0) >> stamped_vt (a, x1)
-) :<> void // end of [gfarray_exch_at]
+) :<!wrt> void // end of [gfarray_exch_at]
 
 (* ****** ****** *)
 

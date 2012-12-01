@@ -195,7 +195,8 @@ implement prerr_s2itm (xs) = fprint_s2itm (stderr_ref, xs)
 (* ****** ****** *)
 
 implement
-fprint_tyreckind (out, knd) = let
+fprint_tyreckind
+  (out, knd) = let
   macdef prstr (s) = fprint_string (out, ,(s))
 in
   case+ knd of
@@ -208,6 +209,11 @@ in
     } // end of [TYRECKINDflt1]
   | TYRECKINDflt_ext (name) => fprintf (out, "flt_ext(%s)", @(name))
 end // end of [fprint_tyreckind]
+
+implement
+print_tyreckind (knd) = fprint_tyreckind (stdout_ref, knd)
+implement
+prerr_tyreckind (knd) = fprint_tyreckind (stderr_ref, knd)
 
 (* ****** ****** *)
 

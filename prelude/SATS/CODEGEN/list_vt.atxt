@@ -37,7 +37,7 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 prfun
 lemma_list_vt_param
-  {x:t0p}{n:int} (xs: !list_vt (INV(x), n)): [n >= 0] void
+  {x:vt0p}{n:int} (xs: !list_vt (INV(x), n)): [n >= 0] void
 // end of [lemma_list_vt_param]
 
 #atscode_separator()
@@ -87,6 +87,16 @@ list_vt_length {n:int} (xs: !list_vt (INV(x), n)):<> int n
 
 #atscode_separator()
 
+fun{x:t0p}
+list_vt_copy {n:int} (xs: !list_vt (INV(x), n)): list_vt (x, n)
+
+fun{x:vt0p}
+list_vt_copylin$copy (x: &x): x
+fun{x:vt0p}
+list_vt_copylin {n:int} (xs: !list_vt (INV(x), n)): list_vt (x, n)
+
+#atscode_separator()
+
 fun{x:vt0p}
 list_vt_getref_at
   {n:int}{i:nat | i <= n}
@@ -124,7 +134,7 @@ list_vt_remove_at {n:int}
 
 #atscode_separator()
 
-fun{x:vt0p}
+fun{x:t0p}
 list_vt_free (xs: List_vt (INV(x))):<!wrt> void
 
 fun{x:vt0p}
@@ -250,12 +260,15 @@ x:vt0p}{env:vt0p
 
 #atscode_separator()
 
-fun{x:vt0p}
+fun{x:t0p}
 list_vt_filter$pred (x: &x):<> bool
 fun{x:t0p}
 list_vt_filter
   {n:int} (x: list_vt (INV(x), n)):<!wrt> listLte_vt (x, n)
 // end of [list_vt_filter]
+
+fun{x:vt0p}
+list_vt_filterlin$pred (x: &x):<> bool
 fun{x:vt0p}
 list_vt_filterlin$clear (x: &x>>x?):<!wrt> void
 fun{x:vt0p}
