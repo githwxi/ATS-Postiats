@@ -108,10 +108,13 @@ libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/gflist_vt.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gflist_vt.dats
 
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funralist_nested.sats
-libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/funralist_nested.dats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/FUNRALIST/funralist_nested.dats
 
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/fundeque_fingertree.sats
-libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/fundeque_fingertree.dats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/FUNDEQUE/fundeque_fingertree.dats
+
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linmap_randbst.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/SATS/LINMAP/linmap_randbst.dats
 
 libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/list0.sats
 libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/list0.dats

@@ -33,6 +33,64 @@
 
 (* ****** ****** *)
 
+implement{key}
+compare_key_key
+  (k1, k2) = gcompare_val<key> (k1, k2)
+// end of [compare_key_key]
+
 (* ****** ****** *)
 
-(* end of [linmap_skiplist.sats] *)
+implement{}
+linmap_isnot_nil (map) =
+  if linmap_is_nil<> (map) then true else false
+// end of [linmap_isnot_nil]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_search
+  (t, k0, res) = let
+  val [l:addr] p = linmap_search_ref (t, k0)
+in
+  if p > 0 then let
+    prval (fpf, pf) = __assert () where {
+      extern praxi __assert (): (itm @ l -<prf> void, itm @ l)
+    } // end of [prval]
+    val () = res := !p
+    prval () = fpf (pf)
+    prval () = opt_some (res)
+  in
+    true
+  end else let
+    prval () = opt_none (res)
+  in
+    false
+  end // end of [if]
+end // end of [linmap_search]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_search_opt
+  (map, k0) = $effmask_wrt let
+  var res: itm?
+  val ans =
+    linmap_search (map, k0, res)
+  // end of [val]
+in
+  if ans then let
+    prval () = opt_unsome {itm} (res)
+  in
+    Some_vt (res)
+  end else let
+    prval () = opt_unnone {itm} (res)
+  in
+    None_vt (*void*)
+  end // end of [if]
+end // end of [linmap_search_opt]
+
+(* ****** ****** *)
+
+(* end of [linmap_share.hats] *)
