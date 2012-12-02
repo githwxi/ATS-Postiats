@@ -111,7 +111,7 @@ fun{
 fun{
 key:t0p;itm:vt0p
 } linmap_insert (
-  map: &map (key, itm) >> map (key, itm)
+  map: &map (key, itm) >> _
 , k0: key, x0: itm, res: &itm? >> opt (itm, b)
 ) : #[b:bool] bool (b) // end of [linmap_insert]
 
@@ -120,9 +120,15 @@ key:t0p;itm:vt0p
 fun{
 key:t0p;itm:vt0p
 } linmap_takeout (
-  map: &map (key, itm) >> map (key, itm)
+  map: &map (key, itm) >> _
 , k0: key, res: &itm? >> opt (itm, b)
 ) : #[b:bool] bool (b) // end of [linmap_takeout]
+
+fun{
+key:t0p;itm:t0p
+} linmap_remove (
+  map: &map (key, itm) >> _, k0: key): bool
+// end of [linmap_remove]
 
 (* ****** ****** *)
 
