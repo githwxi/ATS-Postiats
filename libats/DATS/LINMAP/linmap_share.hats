@@ -53,20 +53,22 @@ linmap_search
   (t, k0, res) = let
   val [l:addr] p = linmap_search_ref (t, k0)
 in
-  if p > 0 then let
-    prval (fpf, pf) = __assert () where {
-      extern praxi __assert (): (itm @ l -<prf> void, itm @ l)
-    } // end of [prval]
-    val () = res := !p
-    prval () = fpf (pf)
-    prval () = opt_some (res)
-  in
-    true
-  end else let
-    prval () = opt_none (res)
-  in
-    false
-  end // end of [if]
+//
+if p > 0 then let
+  prval (fpf, pf) = __assert () where {
+    extern praxi __assert (): (itm @ l -<prf> void, itm @ l)
+  } // end of [prval]
+  val () = res := !p
+  prval () = fpf (pf)
+  prval () = opt_some (res)
+in
+  true
+end else let
+  prval () = opt_none (res)
+in
+  false
+end // end of [if]
+//
 end // end of [linmap_search]
 
 (* ****** ****** *)
@@ -80,16 +82,29 @@ linmap_search_opt
     linmap_search (map, k0, res)
   // end of [val]
 in
-  if ans then let
-    prval () = opt_unsome {itm} (res)
-  in
-    Some_vt (res)
-  end else let
-    prval () = opt_unnone {itm} (res)
-  in
-    None_vt (*void*)
-  end // end of [if]
+//
+if ans then let
+  prval () = opt_unsome {itm} (res)
+in
+  Some_vt (res)
+end else let
+  prval () = opt_unnone {itm} (res)
+in
+  None_vt (*void*)
+end // end of [if]
+//
 end // end of [linmap_search_opt]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_foreach
+  (map) = let
+//
+var env: void = () in linmap_foreach_env<key,itm><void> (map, env)
+//
+end // end of [linmap_foreach]
 
 (* ****** ****** *)
 

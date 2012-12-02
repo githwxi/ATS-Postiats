@@ -628,6 +628,8 @@ case+ s3e0 of
     if flag > flag0 then S3Ebineq (knd, s3e) else s3e0
   end // end of [S3Ebineq]
 //
+| S3Ebdom _ => s3e0
+//
 | S3Eiatm _ => let
     val () = flag := flag + 1
     val s2v = s2vbcfenv_replace_nonlin (env, s3e0)

@@ -124,7 +124,8 @@ case+ ic of
       | 1 => prstr "disj"
       | _ => fprint_int (out, knd)
     ) : void // end of [val]
-    val () = prstr "; "
+    val () = prstr ";"
+    val () = prstr "\n"
     val () = fprint_icnstrlst (out, !p_ics, n)
     val () = prstr ")"
   in

@@ -77,9 +77,7 @@ fun{a:t@ype}
 neg1_myint (x: !myint(a)):<> myint(a)
 
 fun{a:t@ype}
-succ_myint (x: myint(a)):<> myint(a)
-fun{a:t@ype}
-pred_myint (x: myint(a)):<> myint(a)
+add_myint_int (x: myint(a), i: int):<> myint(a)
 
 fun{a:t@ype}
 add01_myint_myint (x: myint(a), y: !myint(a)):<> myint(a)
@@ -223,12 +221,14 @@ myintvec_set_at
 overload [] with myintvec_set_at
 
 fun{a:t@ype}
+myintvec_add_int
+  {n:int | n > 0} (iv: !myintvec (a, n), i:int): void
+// end of [myintvec_add_int]
+
+fun{a:t@ype}
 myintvec_compare_at
   {n:int} (iv: !myintvec (a, n), i: natLt n, x: int): int
 // end of [myintvec_compare_at]
-
-fun{a:t@ype}
-myintvec_pred_unit {n:pos} (iv: !myintvec (a, n)): void
 
 (* ****** ****** *)
 
@@ -314,8 +314,8 @@ icnstr_copy {n:int}
   (ic: !icnstr (a, n), n: int n): icnstr (a, n)
 // end of [icnstr_copy]
 fun{a:t@ype}
-icnstrlst_copy {n:int}
-  (ics: !icnstrlst (a, n), n: int n): icnstrlst (a, n)
+icnstrlst_copy {n:int}{s:int}
+  (ics: !list_vt (icnstr (a, n), s), n: int n): icnstrlst (a, n)
 // end of [icnstrlst_copy]
 
 fun{a:t@ype}

@@ -969,7 +969,7 @@ in
 //
 if sgn = 0 then let
   val () = myintvec_negate (iv, n)
-  val () = myintvec_pred_unit (iv)
+  val () = myintvec_add_int (iv, ~1)
   val () = myintvec_normalize_gte (iv, n)
   val () = i1vs := MYIVLSTcons (stamp, iv, i1vs)
 in
@@ -1117,11 +1117,11 @@ in
 //
 if sgn = 0 then let
   val iv1_new = myintvec_copy (iv, n)
-  val () = myintvec_pred_unit (iv1_new)
+  val () = myintvec_add_int (iv1_new, ~1)
   val cff = myint_make_int (~1)
   val iv2_new = myintvec_copy_cff (cff, iv, n)
   val () = myint_free (cff)
-  val () = myintvec_pred_unit (iv2_new)
+  val () = myintvec_add_int (iv2_new, ~1)
 //
   val () = myintvec_free (iv, n)
 //
@@ -1154,7 +1154,7 @@ auxmain {n}{s} (
 viewtypedef ic = icnstr (a, n)
 (*
 val () = (
-  print "auxmain: stamp = "; print stamp; print_newline ()
+  print "auxmain: ics = "; print_icnstrlst (ics, n); print_newline ()
 ) // end of [val]
 *)
 in
@@ -1217,14 +1217,17 @@ case+ !p_ic of
     (knd, !p_ics1) => (
   case+ 0 of
   | _ when knd = 0 => let
-      val ans2 = auxmain_conj
-        (stamp, iset, i1vs, i1veqs, n, !p_ics, !p_ics1)
+      val ans2 =
+        auxmain_conj (
+        stamp, iset, i1vs, i1veqs, n, !p_ics, !p_ics1
+      ) // end of [val]
       prval () = fold@ (!p_ic); prval () = fold@ (ics)
     in
       ans2
     end // end of [conj]
   | _ (* knd = 1 *) => let
-      val ans2 = auxmain_disj (
+      val ans2 =
+        auxmain_disj (
         stamp, iset, i1vs, i1veqs, n, !p_ics, !p_ics1, list_vt_nil
       ) // end of [val]
       prval () = fold@ (!p_ic); prval () = fold@ (ics)
@@ -1247,10 +1250,12 @@ implement{a}
 auxmain_conj {n}{s} (
   stamp, iset, i1vs, i1veqs, n, ics, ics1
 ) = ans2 where {
+//
   prval () =
     list_vt_length_is_nonnegative (ics)
   prval () =
     list_vt_length_is_nonnegative (ics1)
+//
   val s1 = list_vt_length (ics1)
   val () = ics := list_vt_append (ics1, ics)
   val ans2 = auxmain (stamp, iset, i1vs, i1veqs, n, ics)
@@ -1266,37 +1271,36 @@ auxmain_disj {n}{s} (
 in
 //
 case+ ics1 of
-| list_vt_cons
-    (_(*ic1*), !p_ics1) => let
+| ~list_vt_cons
+    (ic1, ics1_next) => let
 //
-    val ics1_next = !p_ics1
-    val () = !p_ics1 := ics
-    val () = ics := ics1
-    prval () = fold@ {ic}{s} (ics)
     val () = ics1 := ics1_next
+//
+    var ics_copy = icnstrlst_copy (ics, n)
+    val () =
+      ics_copy := list_vt_cons (ic1, ics_copy)
+    // end of [val]
 //
     val () = i1vs := myivlst_mark (i1vs)
     val () = i1veqs := myiveqlst_mark (i1veqs)
-    val ans2 = auxmain (stamp, iset, i1vs, i1veqs, n, ics)
+    val ans2 = auxmain (stamp, iset, i1vs, i1veqs, n, ics_copy)
     val () = i1vs := myivlst_unmark (i1vs, n)
     val () = i1veqs := myiveqlst_unmark (i1veqs, n)
 //
-    val+ list_vt_cons (_, !p_ics) = ics
-    val ics_orig = !p_ics;
-    val () = !p_ics := rics1
-    prval () = fold@ (ics)
-    val rics1 = ics; val () = ics := ics_orig
+    val+ ~list_vt_cons (ic1, ics_copy) = ics_copy
+    val () = icnstrlst_free (ics_copy, n)
+    val rics1 = list_vt_cons (ic1, rics1)
 //
   in
     if ans2 >= 0 then let
-      val () = ics1 :=
-        list_vt_reverse_append<ic> (rics1, ics1)
+      val () =
+        ics1 := list_vt_reverse_append<ic> (rics1, ics1)
       // end of [val]
     in
       0(*unsolved*)
-    end else // solved and continue
+    end else ( // solved and continue
       auxmain_disj (stamp, iset, i1vs, i1veqs, n, ics, ics1, rics1)
-    // end of [if]
+    ) // end of [if]
   end // end of [list_vt_cons]
 | ~list_vt_nil () => let
     val () = ics1 := list_vt_reverse (rics1) in ~1(*solved*)
@@ -1310,11 +1314,11 @@ implement{a}
 icnstrlst_solve
   {n} (iset, ics, n) = let
 (*
-  val () = (
-    print "icnstrlst_solve: ics =\n";
-    fprint_icnstrlst (stdout_ref, ics, n);
-    print "icnstrlst_solve: n = "; print n; print_newline ()
-  ) (* end of [val] *)
+val () = (
+  print "icnstrlst_solve: ics =\n";
+  fprint_icnstrlst (stdout_ref, ics, n);
+  print "icnstrlst_solve: n = "; print n; print_newline ()
+) // end of [val]
 *)
 var i1vs: myivlst (a, n) = MYIVLSTnil ()
 var i1veqs: myiveqlst (a, n) = MYIVEQLSTnil ()

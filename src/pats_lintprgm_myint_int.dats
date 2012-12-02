@@ -96,6 +96,13 @@ neg_myint<intknd> (x) = i2mi(~(mi2i0)x)
 implement
 neg1_myint<intknd> (x) = i2mi(~(mi2i1)x)
 
+(* ****** ****** *)
+
+implement
+add_myint_int<intknd> (x, i) = i2mi((mi2i0)x + i)
+
+(* ****** ****** *)
+
 implement
 add01_myint_myint<intknd>
   (x, y) = i2mi(res) where {
@@ -107,11 +114,6 @@ sub01_myint_myint<intknd>
   (x, y) = (i2mi)res where {
   val res = (mi2i0)x - (mi2i1)y
 } // end of [sub_myint_myint<intknd>]
-
-implement
-succ_myint<intknd> (x) = i2mi((mi2i0)x + 1)
-implement
-pred_myint<intknd> (x) = i2mi((mi2i0)x - 1)
 
 (* ****** ****** *)
 

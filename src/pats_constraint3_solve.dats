@@ -127,7 +127,8 @@ val ics_asmp = let
     loc0: location
   , vim: !s2varindmap (n), n: int n, s3ps: s3explst
   , res: res
-  ) : res =
+  ) : res = let
+  in
     case+ s3ps of
     | list_cons (s3p, s3ps) => let
         val ic =
@@ -143,12 +144,20 @@ val ics_asmp = let
         loop (loc0, vim, n, s3ps, list_vt_cons (ic, res))
       end // end of [list_cons]
     | list_nil () => res
-  // end of [loop]
+  end // end of [loop]
 in
   loop (loc0, vim, n, s3ps_asmp, list_vt_nil)
 end // end of [val]
-val ic_conc = s3exp2icnstr<a> (loc0, vim, n, s3p_conc)
+//
+val ic_conc =
+  s3exp2icnstr<a> (loc0, vim, n, s3p_conc)
 val ic_conc = icnstr_negate<a> (ic_conc)
+(*
+val () = (
+  print ("auxsolve: ic_conc = ");
+  print_icnstr (ic_conc, n+1); print_newline ()
+) // end of [val]
+*)
 //
 val iset = indexset_make_s3exp (vim, s3p_conc)
 var ics_all
@@ -156,6 +165,9 @@ var ics_all
 val ans = icnstrlst_solve<a> (iset, ics_all, n+1)
 val () = icnstrlst_free<a> (ics_all, n+1)
 //
+(*
+val () = println! ("auxsolve: ans = ", ans)
+*)
 in
 //
 ans // ~1: contradiction reached; 0: undecided yet

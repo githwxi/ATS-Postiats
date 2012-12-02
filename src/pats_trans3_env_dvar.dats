@@ -770,23 +770,25 @@ val () = (
   println! ("funarg_d2vfin_check: enter")
 ) // end of [val]
 *)
-fun auxvar
-  (loc0: location, d2v: d2var): void = let
+fun auxvar (
+  loc0: location, d2v: d2var
+) : void = let
 (*
-  val () = begin
-    println! ("funarg_d2vfin_check: auxvar: d2v (bef) = ", d2v)
-  end // end of [val]
-// *)
-  val d2v = let
-    val opt = d2var_get_view (d2v) in
-    case+ opt of Some (d2v) => d2v | None () => d2v
-  end : d2var // end of [val]
-(*
-  val () = begin
-    println! ("funarg_d2vfin_check: auxvar: d2v (aft) = ", d2v)
-  end // end of [val]
+val () = begin
+  println! ("funarg_d2vfin_check: auxvar: d2v (bef) = ", d2v)
+end // end of [val]
 *)
-  val () = d2vfin_check (loc0, d2v)
+val d2v = let
+  val opt = d2var_get_view (d2v) in
+  case+ opt of Some (d2v) => d2v | None () => d2v
+end : d2var // end of [val]
+(*
+val () = begin
+  println! ("funarg_d2vfin_check: auxvar: d2v (aft) = ", d2v)
+end // end of [val]
+*)
+//
+val () = d2vfin_check (loc0, d2v)
 //
 in
   d2vfin_checked (d2v) // HX: indicating that [d2vfin_check] should skip it
@@ -876,7 +878,7 @@ case+ d2vfin of
     (d2vfin) => d2var_set_finknd (d2v, d2vfin)
 | _ => () // HX: is this deadcode?
 //
-end // end of [d2vfin]
+end // end of [d2vfin_unchecked]
 //
 fun aux_invar .<>. (
   refknd: int, p3t: p3at, s2e: s2exp
@@ -902,6 +904,9 @@ fun aux_trans .<>. (
 ) : void = let
 //
 val d2v = p3at_get_var (p3t)
+//
+val () = println! ("aux_trans: d2v = ", d2v)
+val () = println! ("aux_trans: s2e = ", s2e)
 //
 in
 //
@@ -970,58 +975,3 @@ end // end of [s2exp_wth_instantiate]
 (* ****** ****** *)
 
 (* end of [pats_trans3_env_dvar.dats] *)
-
-////
-
-implement
-the_d2varset_env_stbefitemlst_save
-  () = let
-//
-  var sbis: stbefitemlst = list_nil ()
-//
-  typedef sbisptr = ptr sbis
-  viewdef V = stbefitemlst @ sbis
-//
-  fun f (
-    pf: !V | d2v: d2var_t, sbis: !sbisptr
-  ) : void = let
-    val lin = d2var_get_lin d2v
-(*
-    val () = begin
-      println! ("the_d2varset_env_stbefitemlst_save: f: d2v = ", d2v);
-      println! ("the_d2varset_env_stbefitemlst_save: f: lin = ", lin);
-    end // end of [val]
-*)
-  in
-    if lin >= 0 then let val sbi =
-      stbefitem_make (d2v, lin) in !sbis := list_cons (sbi, !sbis)
-    end // end of [if]
-  end (* end of [f] *)
-//
-  fun aux (
-    pf: !V | xs: ld2vsitemlst, sbis: !sbisptr
-  ) : void = begin
-    case+ xs of
-    | list_cons (x, xs) => begin case+ x of
-      | LD2VSITEMlam () => ()
-      | LD2VSITEMllam _ => aux (pf | xs, sbis)
-      | LD2VSITEMset dvs => let
-          val () = begin
-            d2varset_foreach_main {V} {sbisptr} (pf | dvs, f, sbis)
-          end
-        in
-          aux (pf | xs, sbis)
-        end (* LD2VSITEMset *)
-      end // end of [list_cons]
-    | list_nil () => ()
-  end // end of [aux]
-//
-  prval pf = view@ (sbis)
-  val () = begin
-    d2varset_foreach_main {V} {sbisptr} (pf | !the_ld2vs, f, &sbis)
-  end // end of [val]
-  val () = aux (pf | !the_ld2vsitems, &sbis)
-//
-in
-  view@ sbis := pf; sbis
-end // end of [the_d2varset_env_stbefitemlst_save]

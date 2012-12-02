@@ -511,6 +511,11 @@ implement
 {x}{env}
 list_vt_foreach$cont (x, env) = true
 
+implement{x}
+list_vt_foreach (xs) = let
+  var env: void = () in list_vt_foreach_env<x><void> (xs, env)
+end // end of [list_vt_foreach]
+
 implement
 {x}{env}
 list_vt_foreach_env
@@ -605,6 +610,11 @@ end // end of [list_vt_foreach_funenv]
 implement
 {x}{env}
 list_vt_iforeach$cont (i, x, env) = true
+
+implement{x}
+list_vt_iforeach (xs) = let
+  var env: void = () in list_vt_iforeach_env<x><void> (xs, env)
+end // end of [list_vt_iforeach]
 
 implement
 {x}{env}

@@ -740,7 +740,7 @@ list_foreach$cont (x, env) = true
 
 implement{x}
 list_foreach (xs) = let
-  var env: void = () in list_foreach_env (xs, env)
+  var env: void = () in list_foreach_env<x><void> (xs, env)
 end // end of [list_foreach]
 
 implement
@@ -812,7 +812,7 @@ list_foreach2$cont (x, y, env) = true
 
 implement{x,y}
 list_foreach2 (xs, ys) = let
-  var env: void = () in list_foreach2_env (xs, ys, env)
+  var env: void = () in list_foreach2_env<x,y><void> (xs, ys, env)
 end // end of [list_foreach2]
 
 implement
@@ -862,7 +862,7 @@ list_iforeach$cont (i, x, env) = true
 
 implement{x}
 list_iforeach (xs) = let
-  var env: void = () in list_iforeach_env (xs, env)
+  var env: void = () in list_iforeach_env<x><void> (xs, env)
 end // end of [list_iforeach]
 
 implement
@@ -938,7 +938,7 @@ list_iforeach2$cont (i, x, y, env) = true
 
 implement{x,y}
 list_iforeach2 (xs, ys) = let
-  var env: void = () in list_iforeach2_env (xs, ys, env)
+  var env: void = () in list_iforeach2_env<x,y><void> (xs, ys, env)
 end // end of [list_iforeach2]
 
 implement

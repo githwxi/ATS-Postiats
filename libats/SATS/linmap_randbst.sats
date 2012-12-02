@@ -67,32 +67,35 @@ fun{
 
 fun{
 key:t0p;itm:vt0p
-} linmap_size (map: !map (key, itm)):<> size_t
+} linmap_size
+  (map: !map (key, INV(itm))):<> size_t
+// end of [linmap_size]
 
 (* ****** ****** *)
 
 fun{
 key:t0p;itm:t0p
-} linmap_free (map: map (key, itm)):<!wrt> void
+} linmap_free (map: map (key, INV(itm))):<!wrt> void
 
 (* ****** ****** *)
 
 fun{
 key:t0p;itm:t0p
 } linmap_search (
-  map: !map (key, itm), k0: key, res: &itm? >> opt (itm, b)
+  map: !map (key, INV(itm))
+, k0: key, res: &itm? >> opt (itm, b)
 ) :<!wrt> #[b:bool] bool b // end of [linmap_search]
 
 fun{
 key:t0p;itm:vt0p
 } linmap_search_ref
-  (map: !map (key, itm), k0: key):<> Ptr0
+  (map: !map (key, INV(itm)), k0: key):<> Ptr0
 // end of [linmap_search_ref]
 
 fun{
 key:t0p;itm:t0p
 } linmap_search_opt
-  (map: !map (key, itm), k0: key):<> Option_vt (itm)
+  (map: !map (key, INV(itm)), k0: key):<> Option_vt (itm)
 // end of [linmap_search_opt]
 
 (* ****** ****** *)
@@ -111,7 +114,7 @@ fun{
 fun{
 key:t0p;itm:vt0p
 } linmap_insert (
-  map: &map (key, itm) >> _
+  map: &map (key, INV(itm)) >> _
 , k0: key, x0: itm, res: &itm? >> opt (itm, b)
 ) : #[b:bool] bool (b) // end of [linmap_insert]
 
@@ -120,14 +123,14 @@ key:t0p;itm:vt0p
 fun{
 key:t0p;itm:vt0p
 } linmap_takeout (
-  map: &map (key, itm) >> _
+  map: &map (key, INV(itm)) >> _
 , k0: key, res: &itm? >> opt (itm, b)
 ) : #[b:bool] bool (b) // end of [linmap_takeout]
 
 fun{
 key:t0p;itm:t0p
 } linmap_remove (
-  map: &map (key, itm) >> _, k0: key): bool
+  map: &map (key, INV(itm)) >> _, k0: key): bool
 // end of [linmap_remove]
 
 (* ****** ****** *)
@@ -138,13 +141,41 @@ key:t0p;itm:t0p
 //
 *)
 //
-fun{key:t0p;itm:t0p}
-linmap_listize (m: !map (key, itm)):<> List_vt @(key, itm)
+fun{
+key:t0p;itm:t0p
+} linmap_listize
+  (map: !map (key, INV(itm))):<> List_vt @(key, itm)
 // end of [linmap_listize]
 
-fun{key:t0p;itm:vt0p}
-linmap_listize_free (m: map (key, itm)):<!wrt> List_vt @(key, itm)
+fun{
+key:t0p;itm:vt0p
+} linmap_listize_free
+  (map: map (key, INV(itm))):<!wrt> List_vt @(key, itm)
 // end of [linmap_listize_free]
+
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:vt0p
+}{
+env:vt0p
+} linmap_foreach$fwork
+  (k: key, x: &itm, env: &env): void
+// end of [linmap_foreach$fwork]
+
+fun{
+key:t0p;itm:vt0p
+} linmap_foreach
+  (map: !map (key, INV(itm))): void
+// end of [linmap_foreach]
+
+fun{
+key:t0p;itm:vt0p
+}{
+env:vt0p
+} linmap_foreach_env
+  (map: !map (key, INV(itm)), env: &env): void
+// end of [linmap_foreach_env]
 
 (* ****** ****** *)
 

@@ -126,6 +126,12 @@ case+ x of
     val () = prstr ")"
   } // end of [S3Ebineq]
 //
+| S3Ebdom (s2v) => {
+    val () = prstr "S3Ebdom("
+    val () = fprint_s2var (out, s2v)
+    val () = prstr ")"
+  } // end of [S3Ebdom]
+//
 | S3Eiatm (s2vs) => {
     val () = prstr "S3Eiatm("
     val () = fprint_s2varmset (out, s2vs)

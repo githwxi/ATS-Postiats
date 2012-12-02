@@ -184,22 +184,13 @@ sub01_myint_myint<intinfknd>
 (* ****** ****** *)
 
 implement
-succ_myint<intinfknd>
-  (x) = i2mi(x) where {
+add_myint_int<intinfknd>
+  (x, i) = i2mi(x) where {
   val x = mi2i (x)
   prval pfat_x = x.1
-  val () = mpz_add2_int (!(x.2), 1)
+  val () = mpz_add2_int (!(x.2), i)
   prval () = x.1 := pfat_x
-} // end of [succ_myint<intinfknd>]
-
-implement
-pred_myint<intinfknd>
-  (x) = i2mi(x) where {
-  val x = mi2i (x)
-  prval pfat_x = x.1
-  val () = mpz_sub2_int (!(x.2), 1)
-  prval () = x.1 := pfat_x
-} // end of [pred_myint<intinfknd>]
+} // end of [add_myint_int<intinfknd>]
 
 (* ****** ****** *)
 

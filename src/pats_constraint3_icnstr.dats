@@ -182,25 +182,29 @@ case+ s3e0 of
     if b then
       ICveclst (0(*conj*), list_vt_nil) // ic_true
     else
-      ICveclst (1(*conj*), list_vt_nil) // ic_false
+      ICveclst (1(*disj*), list_vt_nil) // ic_false
     // end of [if]
   ) // end of [S3Ebool]
 //
 | S3Ebvar (s2v) => let
-    val iv = myintvec_make<a> (n+1)
+    val n1 = n + 1
+    val iv = myintvec_make<a> (n1)
     val cff = myint_make_int<a> (1)
     var err: int = 0
     val () = myintvec_addby_cffvar<a> (iv, vim, cff, s2v, err)
-    val () = myintvec_pred_unit (iv)
+    val () = myintvec_add_int (iv, ~1)
   in
     if err > 0 then let
-      val () = myintvec_free<a> (iv, n+1) in ICerr (loc0, $UN.cast(s3e0))
+      val () = myintvec_free<a> (iv, n1) in ICerr (loc0, $UN.cast(s3e0))
     end else ICvec (1(*eq*), iv)
   end // end of [S3Ebvar]
 //
 | S3Ebneg (s3e) => let
-    val ic = s3exp2icnstr<a> (loc0, vim, n, s3e) in icnstr_negate (ic)
+    val ic = s3exp2icnstr<a> (loc0, vim, n, s3e)
+  in
+    icnstr_negate (ic)
   end // end of [S3Ebneg]
+//
 | S3Ebadd (s3e1, s3e2) => let
     val ic1 = s3exp2icnstr<a> (loc0, vim, n, s3e1)
     val ic2 = s3exp2icnstr<a> (loc0, vim, n, s3e2)
@@ -213,6 +217,7 @@ case+ s3e0 of
   in
     ICveclst (0(*conj*), list_vt_pair (ic1, ic2))
   end // end of [S3Ebmul]
+//
 | S3Ebeq (s3e1, s3e2) => let
     val n1 = n + 1
     val ic1 = s3exp2icnstr<a> (loc0, vim, n, s3e1)
@@ -244,6 +249,38 @@ case+ s3e0 of
       val () = myintvec_free<a> (iv, n+1) in ICerr (loc0, $UN.cast(s3e0))
     end else ICvec (knd, iv)
   end // end of [S3Ebineq]
+//
+| S3Ebdom (s2v) => ICveclst (0(*conj*), list_vt_nil)
+(*
+| S3Ebdom
+    (s2v) => let // 0 <= s2v <= 1
+//
+    val n1 = n + 1
+    var err: int = 0
+//
+    val iv0 = myintvec_make<a> (n1)
+    val cff0 = myint_make_int<a> (1)
+    val () = myintvec_addby_cffvar<a> (iv0, vim, cff0, s2v, err)
+//
+    val iv1 = myintvec_make<a> (n1)
+    val cff1 = myint_make_int<a> (~1)
+    val () = myintvec_addby_cffvar<a> (iv1, vim, cff1, s2v, err)
+    val () = myintvec_add_int<a> (iv1, 1)
+//
+  in
+    if err > 0 then let
+      val () = myintvec_free<a> (iv0, n1)
+      val () = myintvec_free<a> (iv1, n1)
+    in
+      ICerr (loc0, $UN.cast(s3e0))
+    end else let
+      val ic0 = ICvec(2(*gte*), iv0)
+      val ic1 = ICvec(2(*gte*), iv1)
+    in
+      ICveclst (0(*conj*), list_vt_pair (ic0, ic1))
+    end (* end of [if] *)
+  end // end of [S3Ebdom]
+*)
 //
 | _ => let
 (*

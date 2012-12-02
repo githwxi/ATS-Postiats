@@ -61,13 +61,15 @@ datatype s3exp =
   | S3Eunit of () // = 1
   | S3Ebool of bool (* boolean constant *)
 //
-  | S3Ebvar of s2var
+  | S3Ebvar of s2var // s2v == 1
   | S3Ebneg of s3exp
   | S3Ebadd of (s3exp, s3exp)
   | S3Ebmul of (s3exp, s3exp)
   | S3Ebeq of (s3exp, s3exp)
   | S3Ebneq of (s3exp, s3exp)
   | S3Ebineq of (int2(*knd*), s3exp)
+//
+  | S3Ebdom of s2var // 0 <= s2v <= 1
 //
   | S3Eiatm of s2varmset (* mononomial term *)
   | S3Eicff of (intinf, s3exp) // HX: coefficient

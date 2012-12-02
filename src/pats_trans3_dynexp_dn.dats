@@ -235,6 +235,7 @@ val s2e0 = (
 (*
 val () = println! ("d2exp_trdn_rest: s2e0 = ", s2e0)
 *)
+//
 val () = if iswth then funarg_d2vfin_check (loc0)
 //
 in

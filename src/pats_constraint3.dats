@@ -75,8 +75,10 @@ s3exp_get_srt (s3e) = let
 in
 //
 case+ s3e of
-| S3Evar (s2v) => s2var_get_srt (s2v)
-| S3Ecst (s2c) => s2cst_get_srt (s2c)
+| S3Evar (s2v) =>
+    s2var_get_srt (s2v)
+| S3Ecst (s2c) =>
+    s2cst_get_srt (s2c)
 | S3Enull () => s2rt_int
 | S3Eunit () => s2rt_int
 | S3Ebool (b) => s2rt_bool
@@ -88,6 +90,8 @@ case+ s3e of
 | S3Ebeq _ => s2rt_bool
 | S3Ebneq _ => s2rt_bool
 | S3Ebineq _ => s2rt_bool
+//
+| S3Ebdom _ => s2rt_bool
 //
 | S3Eiatm _ => s2rt_int
 | S3Eicff _ => s2rt_int
@@ -136,6 +140,8 @@ case+ s3e0 of
     val res = loop (res, s3e1) in loop (res, s3e2)
   end // end of [S3Ebneq]
 | S3Ebineq (_, s3e) => loop (res, s3e)
+//
+| S3Ebdom (s2v) => s2varset_vt_add (res, s2v)
 //
 | S3Eiatm (s2vs) => let
     fun traux (
@@ -201,8 +207,8 @@ case+ x1 of
   case+ x2 of S3Ebool b2 => b1 = b2 | _ => false
   ) // end of [S3Ebool]
 //
-| S3Ebvar s2v1 => (
-  case+ x2 of S3Ebvar s2v2 => s2v1 = s2v2 | _ => false
+| S3Ebvar (s2v1) => (
+  case+ x2 of S3Ebvar (s2v2) => s2v1 = s2v2 | _ => false
   ) // end of [S3Ebvar]
 | S3Ebneg (x1) => (
   case+ x2 of S3Ebneg (x2) => s3exp_syneq (x1, x2) | _ => false
@@ -232,6 +238,10 @@ case+ x1 of
       if knd1 = knd2 then s3exp_syneq (x1, x2) else false
   | _ => false // end of [_]
   ) // end of [S3Ebineq]
+//
+| S3Ebdom (s2v1) => (
+  case+ x2 of S3Ebdom (s2v2) => s2v1 = s2v2 | _ => false
+  ) // end of [S3Ebdom]
 //
 | S3Eiatm (s2vs1) => (case+ x2 of
   | S3Eiatm (s2vs2) => s2varmset_is_equal (s2vs1, s2vs2) | _ => false
@@ -766,7 +776,7 @@ case+ env of
     val () = s2vs := list_vt_cons (s2v, s2vs)
     val isb = s2var_is_bool (s2v)
     val () = if isb then
-      s3bes := list_vt_cons (S3Ebvar (s2v), s3bes)
+      s3bes := list_vt_cons (S3Ebdom (s2v), s3bes)
     // end of [val]
     val () = loop (!p_env, s2vs, s3bes) in fold@ (env)
   end // end of [S2VBCFLSTsvar]

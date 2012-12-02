@@ -1070,7 +1070,7 @@ trans3_env_hypadd_bind
 (*
   val () = begin
     print "trans3_env_hypadd_bind: s2v1 = "; print_s2var s2v1; print_newline ();
-    print "trans3_env_hypadd_bind: s2e2 = "; print_s2exp s2e2; print_newline ();
+    print "trans3_env_hypadd_bind: s2f2 = "; pprint_s2hnf s2f2; print_newline ();
   end // end of [val]
 *)
   val () =

@@ -96,14 +96,17 @@ myintvec_compare_at
 (* ****** ****** *)
 
 implement{a}
-myintvec_pred_unit (iv) = {
+myintvec_add_int
+  (iv, i) = let
   viewtypedef x = myint(a)
   val (pf | p) = myintvec_takeout {a} (iv)
   prval (pf1, pf2) = array_v_uncons {x} (pf)
-  val () = !p := pred_myint (!p)
+  val () = !p := add_myint_int (!p, i)
   prval () = pf := array_v_cons {x} (pf1, pf2)
   prval () = myintvecout_addback (pf | iv)
-} // end of [pred_myintvec_unit]
+in
+  // nothing
+end // end of [myintvec_add_int]
 
 (* ****** ****** *)
 
@@ -479,7 +482,7 @@ if gcd > 1 then let
           !p := (!p \div gcd)
         else let // !p < 0
           val () = !p := (!p \sub gcd)
-          val () = !p := succ_myint (!p)
+          val () = !p := add_myint_int (!p, 1)
         in
           !p := (!p \div gcd)
         end // end of [if]
