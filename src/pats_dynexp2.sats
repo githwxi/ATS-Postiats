@@ -222,11 +222,11 @@ fun fprint_d2varlst : fprint_type (d2varlst)
 (* ****** ****** *)
 
 datatype d2vfin =
-  | D2VFINdone of ()
   | D2VFINnone of ()
   | D2VFINsome of (s2exp)
-  | D2VFINsome_lvar of s2exp // for local vars
-  | D2VFINsome_vbox of s2exp // for vboxed proofs
+  | D2VFINsome_lvar of (s2exp) // for local vars
+  | D2VFINsome_vbox of (s2exp) // for vboxed proofs
+  | D2VFINdone of (d2vfin) // funarg_d2vfin_checked
 // end of [d2vfin]
 
 fun print_d2vfin (x: d2vfin): void

@@ -271,21 +271,21 @@ sizeof (a:viewt@ype): int = sizeof_t0ype_int (a?)
 //
 (* ****** ****** *)
 
-sortdef nat = { i: int | i >= 0 } // natural numbers
-sortdef pos = { i: int | i > 0 }
-sortdef neg = { i: int | i < 0 }
-sortdef npos = { i: int | i <= 0 } // non-positive integers
+sortdef nat = { i:int | i >= 0 } // natural numbers
+sortdef pos = { i:int | i > 0 }
+sortdef neg = { i:int | i < 0 }
+sortdef npos = { i:int | i <= 0 } // non-positive integers
 
-sortdef nat1 = { n: nat | n < 1 } // for 0
-sortdef nat2 = { n: nat | n < 2 } // for 0, 1
-sortdef nat3 = { n: nat | n < 3 } // for 0, 1, 2
-sortdef nat4 = { n: nat | n < 4 } // for 0, 1, 2, 3
+sortdef nat1 = { n:nat | n < 1 } // for 0
+sortdef nat2 = { n:nat | n < 2 } // for 0, 1
+sortdef nat3 = { n:nat | n < 3 } // for 0, 1, 2
+sortdef nat4 = { n:nat | n < 4 } // for 0, 1, 2, 3
 
 sortdef sgn = { i:int | ~1 <= i; i <= 1 }
 
-sortdef agz = { l: addr | l > null }
-sortdef agez = { l: addr | l >= null }
-sortdef alez = { l: addr | l <= null }
+sortdef agz = { l:addr | l > null }
+sortdef agez = { l:addr | l >= null }
+sortdef alez = { l:addr | l <= null }
 
 (* ****** ****** *)
 

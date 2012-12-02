@@ -281,7 +281,6 @@ case+ 0 of
 | _ when refknd = 0 => let // call-by-value
     val p3t0 = p2at_trdn_var (p2t0, s2f)
     val () = p3at_set_type (p3t0, s2e0)
-    val () = d2var_set_mastype (d2v, Some s2e)
     val- Some (s2e) = d2var_get_type (d2v)
     val () = d2var_set_finknd (d2v, D2VFINsome (s2e)) // HX: may be overwritten later
   in

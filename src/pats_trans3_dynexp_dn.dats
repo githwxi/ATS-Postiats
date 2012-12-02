@@ -432,7 +432,10 @@ end // end of [d2exp_trdn_lam_sta_nil]
 implement
 d2exp_trdn_ifhead
   (d2e0, s2f_if) = let
-//
+(*
+val () = println! ("d2exp_trdn_ifhead: d2e0 = ", d2e0)
+val () = println! ("d2exp_trdn_ifhead: s2f_if = ", s2f_if)
+*)
 val loc0 = d2e0.d2exp_loc
 val- D2Eifhead
   (invres, d2e_cond, d2e_then, od2e_else) = d2e0.d2exp_node

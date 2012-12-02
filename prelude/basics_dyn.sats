@@ -79,8 +79,8 @@ prfun booleq_make {x,y:bool | x == y} ():<prf> BOOLEQ (x, y)
 
 (* ****** ****** *)
 
-prfun prop_verify {b:bool} ():<prf> void
-prfun prop_verify_and_add {b:bool} ():<prf> [b] void
+prfun prop_verify {b:bool | b} ():<prf> void
+prfun prop_verify_and_add {b:bool | b} ():<prf> [b] void
 
 (* ****** ****** *)
 

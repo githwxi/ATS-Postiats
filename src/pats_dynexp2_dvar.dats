@@ -377,8 +377,6 @@ fprint_d2vfin
   macdef prstr (s) = fprint_string (out, ,(s))
 in
   case+ d2vfin of
-  | D2VFINdone () =>
-      prstr "D2VFINdone()"
   | D2VFINnone () =>
       prstr "D2VFINnone()"
   | D2VFINsome (s2e) => {
@@ -394,6 +392,11 @@ in
   | D2VFINsome_vbox (s2e) => {
       val () = prstr "D2VFINsome_vbox("
       val () = fprint_s2exp (out, s2e)
+      val () = prstr ")"
+    }
+  | D2VFINdone (d2vfin) => {
+      val () = prstr "D2VFINdone("
+      val () = fprint_d2vfin (out, d2vfin)
       val () = prstr ")"
     }
 end // end of [fprint_d2vfin]

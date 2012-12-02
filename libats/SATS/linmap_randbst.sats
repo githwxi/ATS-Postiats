@@ -48,7 +48,8 @@ compare_key_key (x1: key, x2: key):<> int
 
 (* ****** ****** *)
 
-fun{} linmap_make_nil {key:t0p;itm:vt0p} ():<> map (key, itm)
+fun{
+} linmap_make_nil {key:t0p;itm:vt0p} ():<> map (key, itm)
 
 (* ****** ****** *)
 
@@ -67,6 +68,12 @@ fun{
 fun{
 key:t0p;itm:vt0p
 } linmap_size (map: !map (key, itm)):<> size_t
+
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:t0p
+} linmap_free (map: map (key, itm)):<!wrt> void
 
 (* ****** ****** *)
 
@@ -91,8 +98,31 @@ key:t0p;itm:t0p
 (* ****** ****** *)
 
 fun{
-key:t0p;itm:t0p
-} linmap_free (map: map (key, itm)):<!wrt> void
+} linmap_choose_m_n
+  {m,n:nat} (m: int m, n: int n): natLt (2)
+// end of [linmap_choose_m_n]
+ 
+(* ****** ****** *)
+//
+// HX-2012-12:
+// if [k0] occurs in [map], [x0] replaces the item
+// associated with [k0] in [map]
+//
+fun{
+key:t0p;itm:vt0p
+} linmap_insert (
+  map: &map (key, itm) >> map (key, itm)
+, k0: key, x0: itm, res: &itm? >> opt (itm, b)
+) : #[b:bool] bool (b) // end of [linmap_insert]
+
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:vt0p
+} linmap_takeout (
+  map: &map (key, itm) >> map (key, itm)
+, k0: key, res: &itm? >> opt (itm, b)
+) : #[b:bool] bool (b) // end of [linmap_takeout]
 
 (* ****** ****** *)
 

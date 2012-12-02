@@ -542,12 +542,20 @@ fun auxerr2 (
 val d2vfin = d2var_get_finknd (d2v)
 (*
 val () = (
-  print "d2vfin_check_some: d2vfin = "; print_d2vfin (d2vfin); print_newline ()
+  print "d2vfin_check_some: d2v = "; print_d2var (d2v); print_newline ();
+  print "d2vfin_check_some: d2vfin = "; print_d2vfin (d2vfin); print_newline ();
 ) (* end of [val] *)
 *)
 in
 //
 case+ d2vfin of
+| D2VFINnone () => let
+    val islin = s2exp_is_lin2 (s2e)
+    val () = if islin then auxerr2 (loc0, d2v, s2e)
+    val linval = d2var_get_linval (d2v)
+  in
+    if linval >= 0 then d2var_set_type (d2v, None ())
+  end // end of [D2VFINnone]
 | D2VFINsome (s2e_fin) => let
     val (pfpush | ()) = trans3_env_push ()
     val err = $SOL.s2exp_tyleq_solve (loc0, s2e, s2e_fin)
@@ -588,14 +596,7 @@ case+ d2vfin of
   in
     d2var_set_type (d2v, Some s2e_box)
   end // end of [D2VFINsome_vbox]
-| D2VFINdone () => () // HX: handled by [funarg_d2vfin_check]
-| D2VFINnone () => let
-    val islin = s2exp_is_lin2 (s2e)
-    val () = if islin then auxerr2 (loc0, d2v, s2e)
-    val linval = d2var_get_linval (d2v)
-  in
-    if linval >= 0 then d2var_set_type (d2v, None ())
-  end // end of [D2VFINnone]
+| D2VFINdone _ => () // HX: handled by [funarg_d2vfin_check]
 // end of [case]
 //
 end // end of [d2vfin_check_some]
@@ -617,14 +618,14 @@ fun auxerr (
 val d2vfin = d2var_get_finknd (d2v)
 (*
 val () = (
-  print "d2vfin_check_none: d2vfin = "; print_d2vfin (d2vfin); print_newline ()
+  print "d2vfin_check_none: d2v = "; print_d2var (d2v); print_newline ();
+  print "d2vfin_check_none: d2vfin = "; print_d2vfin (d2vfin); print_newline ();
 ) (* end of [val] *)
 *)
 in
 //
 case+ d2vfin of
 | D2VFINnone () => ()
-| D2VFINdone () => () // HX: handled by [funarg_d2vfin_check]
 | D2VFINsome _ => let
     val () = auxerr (loc0, d2v)
   in
@@ -640,6 +641,7 @@ case+ d2vfin of
   in
     the_trans3errlst_add (T3E_d2var_fin_none_some (loc0, d2v))
   end // end of [D2VFINsome_vbox]
+| D2VFINdone _ => () // HX: handled by [funarg_d2vfin_check]
 //
 end // end of [d2vfin_check_none]
 
@@ -746,6 +748,21 @@ end // end of [local]
 
 (* ****** ****** *)
 
+local
+
+fun d2vfin_checked
+  (d2v: d2var): void = let
+  val d2vfin = d2var_get_finknd (d2v)
+in
+//
+case+ d2vfin of
+| D2VFINdone _ => ()
+| _ => d2var_set_finknd (d2v, D2VFINdone (d2vfin))
+//
+end // end of [d2vfin_checked]
+
+in // in of [local]
+
 implement
 funarg_d2vfin_check (loc0) = let
 (*
@@ -757,21 +774,22 @@ fun auxvar
   (loc0: location, d2v: d2var): void = let
 (*
   val () = begin
-    println! ("funarg_varfin_check: auxvar: d2v (bef) = ", d2v)
+    println! ("funarg_d2vfin_check: auxvar: d2v (bef) = ", d2v)
   end // end of [val]
-*)
+// *)
   val d2v = let
     val opt = d2var_get_view (d2v) in
     case+ opt of Some (d2v) => d2v | None () => d2v
   end : d2var // end of [val]
 (*
   val () = begin
-    println! ("funarg_varfin_check: auxvar: d2v (aft) = ", d2v)
+    println! ("funarg_d2vfin_check: auxvar: d2v (aft) = ", d2v)
   end // end of [val]
 *)
   val () = d2vfin_check (loc0, d2v)
+//
 in
-  d2var_set_finknd (d2v, D2VFINdone ()) // HX: indicating that [d2vfin_check] should skip it
+  d2vfin_checked (d2v) // HX: indicating that [d2vfin_check] should skip it
 end // end of [auxvar]
 //
 fun auxpatlst (
@@ -800,43 +818,90 @@ val opt = the_lamlpenv_get_funarg ()
 in
 //
 case+ opt of
-| ~Some_vt p3ts => auxpatlst (loc0, p3ts)
+| ~Some_vt p3ts => let
+    val () = auxpatlst (loc0, p3ts)
+  in
+    // nothing
+  end // end of [Some_vt]
+//
 | ~None_vt () => let
     val () = prerr_interror_loc (loc0)
-    val () = prerr ": funarg_varfin_check: there is no funarg."
+    val () = prerr ": funarg_d2vfin_check: there is no funarg."
     val () = prerr_newline ()
   in
     assertloc (false)
   end // end of [None_vt]
-end (* end of [funarg_varfin_check] *)
+end (* end of [funarg_d2vfin_check] *)
+
+end // end of [local]
 
 (* ****** ****** *)
 
 implement
 s2exp_wth_instantiate (loc0, s2e0) = let
+//
 (*
 val () = begin
   println! ("s2exp_wth_instantiate: s2e0 = ", s2e0)
 end // end of [val]
 *)
-fun aux .<>. (
-  loc0: location
-, refknd: int, p3t: p3at, s2e: s2exp
+//
+fun p3at_get_var
+  (p3t: p3at): d2var = let
+in
+//
+case+ p3t.p3at_node of
+| P3Tvar (d2v) => d2v
+| P3Trefas (d2v, _) => d2v
+| _ => let
+    val loc = p3t.p3at_loc
+    val () = prerr_interror_loc (loc)
+    val () = prerr ": s2exp_wth_instantiate"
+    val () = prerr ": p2at_get_var: the pattern is expected to be a variable."
+    val () = prerr_newline ()
+    val () = assertloc (false)
+  in
+    $ERR.abort {d2var} ()
+  end // end of [_]
+//
+end // end of [p3at_get_var]
+//
+fun d2vfin_unchecked
+  (d2v: d2var): void = let
+  val d2vfin = d2var_get_finknd (d2v)
+in
+//
+case+ d2vfin of
+| D2VFINdone
+    (d2vfin) => d2var_set_finknd (d2v, d2vfin)
+| _ => () // HX: is this deadcode?
+//
+end // end of [d2vfin]
+//
+fun aux_invar .<>. (
+  refknd: int, p3t: p3at, s2e: s2exp
 ) : void = let
-  val d2v = (
-    case+ p3t.p3at_node of
-    | P3Tvar (d2v) => d2v
-    | P3Trefas (d2v, _) => d2v
-    | _ => let
-        val () = prerr_interror_loc (loc0)
-        val () = prerr ": s2exp_wth_instantiate"
-        val () = prerr ": aux: the pattern is expected to be a variable."
-        val () = prerr_newline ()
-        val () = assertloc (false)
-      in
-        $ERR.abort {d2var} ()
-      end // end of [_]
-  ) : d2var // end of [val]
+//
+val d2v = p3at_get_var (p3t)
+//
+in
+//
+case+ 0 of
+| _ when
+    refknd = 0 => d2vfin_unchecked (d2v)
+| _ (* refknd = 1 *) => let
+    val- Some (
+      d2v_view
+    ) = d2var_get_view (d2v) in d2vfin_unchecked (d2v_view)
+  end // end of [_]
+//
+end // end of [aux_invar]
+//
+fun aux_trans .<>. (
+  refknd: int, p3t: p3at, s2e: s2exp
+) : void = let
+//
+val d2v = p3at_get_var (p3t)
 //
 in
 //
@@ -851,7 +916,7 @@ case+ 0 of
     d2var_set_finknd (d2v_view, D2VFINsome (s2e_at))
   end // end of [_]
 //
-end // end of [aux]
+end // end of [aux_trans]
 //
 fun auxlst (
   loc0: location
@@ -861,15 +926,16 @@ in
 //
 case+ wths2es of
 | WTHS2EXPLSTcons_invar
-    (refknd, _, wths2es) => let
-    val- list_cons (p3t, p3ts) = p3ts // HX: already handled
+    (refknd, s2e, wths2es) => let
+    val- list_cons (p3t, p3ts) = p3ts
+    val () = aux_invar (refknd, p3t, s2e)
   in
     auxlst (loc0, p3ts, wths2es)
   end // end of [WTHS2EXPLSTcons_invar]
 | WTHS2EXPLSTcons_trans
     (refknd, s2e, wths2es) => let
     val- list_cons (p3t, p3ts) = p3ts
-    val () = aux (loc0, refknd, p3t, s2e)
+    val () = aux_trans (refknd, p3t, s2e)
   in
     auxlst (loc0, p3ts, wths2es)     
   end // end of [WTHS2EXPLSTcons_trans]

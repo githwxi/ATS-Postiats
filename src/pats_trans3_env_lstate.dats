@@ -443,7 +443,7 @@ fun d2var_is_done
   (d2v: d2var): bool = let
   val opt = d2var_get_finknd (d2v)
 in
-  case+ opt of D2VFINdone () => true | _ => false
+  case+ opt of D2VFINdone _ => true | _ => false
 end // end of [d2var_is_done]
 
 fun aux1
