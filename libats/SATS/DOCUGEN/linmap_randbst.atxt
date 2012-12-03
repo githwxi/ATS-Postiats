@@ -1,0 +1,43 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_linmap_randbst")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/linmap_randbst\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package implements a linear map based on the randomized
+binary-search-tree structure.
+")
+
+(* ****** ****** *)
+
+#declnamesynop("compare_key_key")
+#decldescrpt("This function is for comparing map keys.")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_nil")
+#decldescrpt("This function creates an empty map.")
+#declnamesynop("linmap_make_nil")
+#decldescrpt("This function is the same as #dyncode("linmap_nil").")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_is_nil")
+#decldescrpt("This function tests whether a given map is empty.")
+#declnamesynop("linmap_isnot_nil")
+#decldescrpt("This function tests whether a given map is non-empty.")
+
+(* ****** ****** *)
+
+(* end of [linmap_randbst.atxt] *)

@@ -33,6 +33,10 @@
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "libats/SATS/linmap_skiplist.sats"
 
 (* ****** ****** *)
@@ -65,9 +69,10 @@ node2ptr
 
 (* ****** ****** *)
 
-extern
-fun{}
-node_nil {key:t0p;itm:vt0p} ():<> node (null, key, itm)
+fun{
+} node_nil
+  {key:t0p;itm:vt0p} .<>. (
+) :<> node (null, key, itm) = $UN.castvwtp1 (the_null_ptr)
 
 (* ****** ****** *)
 
