@@ -99,6 +99,11 @@ fun nodearr_getref_node
   (nxa: nodearr (key, itm, n), i: natLt n):<> Ptr1
 // end of [nodearr_getref_node]
 
+extern
+fun nodearr_make // HX: initized with nulls
+  {key:t0p;itm:vt0p}{n:nat} (n: int n):<> nodearr (key, itm, n)
+// end of [nodearr_make]
+
 (* ****** ****** *)
 
 extern
@@ -110,12 +115,16 @@ key:t0p;itm:vt0p
 
 (* ****** ****** *)
 
+#define lgMAX 100 // 2^100 >= 10^30
+
+(* ****** ****** *)
+
 datavtype
 skiplist (
   key:t@ype, itm:viewt@ype+
 ) =
-  | {lgN:nat}
-    SKIPLIST (key, itm) of (nodearr(key, itm, lgN), int(lgN))
+  | {N:nat}{lgN:nat | lgN <= lgMAX}
+    SKIPLIST (key, itm) of (int(N), int(lgN), nodearr(key, itm, lgMAX))
 // end of [skiplist]
 
 (* ****** ****** *)
@@ -124,6 +133,13 @@ assume
 map_viewtype
   (key:t0p, itm:vt0p) = skiplist (key, itm)
 // end of [map_viewtype]
+
+(* ****** ****** *)
+
+implement
+linmap_make_nil () =
+  SKIPLIST (0, 0, nodearr_make (lgMAX))
+// end of [linmap_make_nil]
 
 (* ****** ****** *)
 //
@@ -201,7 +217,7 @@ in
 //
 case+ map of
 | SKIPLIST
-    (nxa, lgN) => let
+    (N, lgN, nxa) => let
     val nx =
       nodearr_search_ref (nxa, lgN, k0)
     val p_nx = node2ptr (nx)
