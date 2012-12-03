@@ -115,6 +115,14 @@ upload_linmap_randbst:: ;   scp HTML/linmap_randbst.html ats-hwxi,ats-lang@web.s
 clean:: ; $(RMF) linmap_randbst_atxt.exe
 cleanall:: ; $(RMF) HTML/linmap_randbst.html
 
+all_html:: HTML/linmap_skiplist.html
+HTML/linmap_skiplist.html:   linmap_skiplist_atxt.exe ; $(CAT) ../linmap_skiplist.sats | ./$< > $@
+linmap_skiplist_atxt.txt: linmap_skiplist.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+linmap_skiplist_atxt.exe: htmlgendecl_atxt.dats   linmap_skiplist_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_linmap_skiplist:: ;   scp HTML/linmap_skiplist.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) linmap_skiplist_atxt.exe
+cleanall:: ; $(RMF) HTML/linmap_skiplist.html
+
 
 ######
 

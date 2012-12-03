@@ -1,0 +1,43 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_linmap_skiplist")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/linmap_skiplist\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package implements a linear map based on the
+(randomized) skip-list structure.
+")
+
+(* ****** ****** *)
+
+#declnamesynop("compare_key_key")
+#decldescrpt("This function is for comparing map keys.")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_nil")
+#decldescrpt("This function creates an empty map.")
+#declnamesynop("linmap_make_nil")
+#decldescrpt("This function is the same as #dyncode("linmap_nil").")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_is_nil")
+#decldescrpt("This function tests whether a given map is empty.")
+#declnamesynop("linmap_isnot_nil")
+#decldescrpt("This function tests whether a given map is non-empty.")
+
+(* ****** ****** *)
+
+(* end of [linmap_skiplist.atxt] *)
