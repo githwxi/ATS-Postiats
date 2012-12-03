@@ -85,7 +85,6 @@ key:t0p;itm:vt0p
 (* ****** ****** *)
 
 implement{} linmap_nil () = BSTnil ()
-implement{} linmap_make_nil () = BSTnil ()
 
 (* ****** ****** *)
 

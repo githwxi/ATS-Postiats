@@ -28,8 +28,6 @@ binary-search-tree structure.
 
 #declnamesynop("linmap_nil")
 #decldescrpt("This function creates an empty map.")
-#declnamesynop("linmap_make_nil")
-#decldescrpt("This function is the same as #dyncode("linmap_nil").")
 
 (* ****** ****** *)
 

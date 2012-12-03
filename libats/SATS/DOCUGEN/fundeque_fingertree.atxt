@@ -47,8 +47,6 @@ typedef deque (a:t@ype) = [n:int] deque (a, n)
 
 #declnamesynop("fundeque_nil")
 #decldescrpt("This function creates an empty deque.")
-#declnamesynop("fundeque_make_nil")
-#decldescrpt("This function is the same as #dyncode("fundeque_nil").")
 
 (* ****** ****** *)
 
