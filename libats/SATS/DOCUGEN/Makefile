@@ -107,6 +107,22 @@ upload_fundeque_fingertree:: ;   scp HTML/fundeque_fingertree.html ats-hwxi,ats-
 clean:: ; $(RMF) fundeque_fingertree_atxt.exe
 cleanall:: ; $(RMF) HTML/fundeque_fingertree.html
 
+all_html:: HTML/linmap_randbst.html
+HTML/linmap_randbst.html:   linmap_randbst_atxt.exe ; $(CAT) ../linmap_randbst.sats | ./$< > $@
+linmap_randbst_atxt.txt: linmap_randbst.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+linmap_randbst_atxt.exe: htmlgendecl_atxt.dats   linmap_randbst_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_linmap_randbst:: ;   scp HTML/linmap_randbst.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) linmap_randbst_atxt.exe
+cleanall:: ; $(RMF) HTML/linmap_randbst.html
+
+all_html:: HTML/linmap_skiplist.html
+HTML/linmap_skiplist.html:   linmap_skiplist_atxt.exe ; $(CAT) ../linmap_skiplist.sats | ./$< > $@
+linmap_skiplist_atxt.txt: linmap_skiplist.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+linmap_skiplist_atxt.exe: htmlgendecl_atxt.dats   linmap_skiplist_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_linmap_skiplist:: ;   scp HTML/linmap_skiplist.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) linmap_skiplist_atxt.exe
+cleanall:: ; $(RMF) HTML/linmap_skiplist.html
+
 
 ######
 

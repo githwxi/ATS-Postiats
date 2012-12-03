@@ -79,6 +79,7 @@ prfun lemma_deque_param
 (* ****** ****** *)
 
 fun{} fundeque_nil {a:t0p} ():<> deque (a, 0)
+fun{} fundeque_make_nil {a:t0p} ():<> deque (a, 0)
 
 (* ****** ****** *)
 

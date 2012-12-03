@@ -49,6 +49,8 @@ compare_key_key (x1: key, x2: key):<> int
 (* ****** ****** *)
 
 fun{
+} linmap_nil {key:t0p;itm:vt0p} ():<> map (key, itm)
+fun{
 } linmap_make_nil {key:t0p;itm:vt0p} ():<> map (key, itm)
 
 (* ****** ****** *)

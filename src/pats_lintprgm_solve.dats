@@ -1277,18 +1277,18 @@ case+ ics1 of
 //
     val () = ics1 := ics1_next
 //
-    val icsy = icnstrlst_copy (ics, n)
-    val icsy = list_vt_cons (ic1, icsy)
+    val icsx = icnstrlst_copy (ics, n)
+    val icsx = list_vt_cons (ic1, icsx)
 //
     val () = i1vs := myivlst_mark (i1vs)
     val () = i1veqs := myiveqlst_mark (i1veqs)
-    var icsy = icsy // HX: for call-by-reference
-    val ans2 = auxmain (stamp, iset, i1vs, i1veqs, n, icsy)
+    var icsx = icsx // HX: for call-by-reference
+    val ans2 = auxmain (stamp, iset, i1vs, i1veqs, n, icsx)
     val () = i1vs := myivlst_unmark (i1vs, n)
     val () = i1veqs := myiveqlst_unmark (i1veqs, n)
 //
-    val+ ~list_vt_cons (ic1, icsy) = icsy
-    val () = icnstrlst_free (icsy, n)
+    val+ ~list_vt_cons (ic1, icsx) = icsx
+    val () = icnstrlst_free (icsx, n)
     val rics1 = list_vt_cons (ic1, rics1)
 //
   in

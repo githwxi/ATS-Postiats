@@ -491,8 +491,8 @@ lemma_deque_param (xs) = fingertree_prop1_sznat (xs)
 
 (* ****** ****** *)
 
-implement{}
-fundeque_nil () = FTemp ()
+implement{} fundeque_nil () = FTemp ()
+implement{} fundeque_make_nil () = FTemp ()
 
 (* ****** ****** *)
 
