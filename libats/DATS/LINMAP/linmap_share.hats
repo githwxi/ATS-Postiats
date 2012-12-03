@@ -40,13 +40,6 @@ compare_key_key
 
 (* ****** ****** *)
 
-implement{}
-linmap_isnot_nil (map) =
-  if linmap_is_nil<> (map) then true else false
-// end of [linmap_isnot_nil]
-
-(* ****** ****** *)
-
 implement
 {key,itm}
 linmap_search

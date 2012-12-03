@@ -26,7 +26,7 @@ This package implements a linear map based on the
 
 (* ****** ****** *)
 
-#declnamesynop("linmap_nil")
+#declnamesynop("linmap_make_nil")
 #decldescrpt("This function creates an empty map.")
 
 (* ****** ****** *)
@@ -35,6 +35,18 @@ This package implements a linear map based on the
 #decldescrpt("This function tests whether a given map is empty.")
 #declnamesynop("linmap_isnot_nil")
 #decldescrpt("This function tests whether a given map is non-empty.")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_search")
+#declnamesynop("linmap_search_ref")
+#declnamesynop("linmap_search_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_foreach$fwork")
+#declnamesynop("linmap_foreach")
+#declnamesynop("linmap_foreach_env")
 
 (* ****** ****** *)
 

@@ -45,7 +45,7 @@ staload "libats/SATS/linmap_skiplist.sats"
 // the file should be included here
 // before [map_viewtype] is assumed
 //
-// #include "./linmap_share.hats" // in current dir
+#include "./linmap_share.hats" // in current dir
 //
 (* ****** ****** *)
 
@@ -129,7 +129,7 @@ skiplist (
   key:t@ype, itm:viewt@ype+
 ) =
   | {N:nat}{lgN:nat | lgN <= lgMAX}
-    SKIPLIST (key, itm) of (int(N), int(lgN), nodearr(key, itm, lgMAX))
+    SKIPLIST (key, itm) of (size_t(N), int(lgN), nodearr(key, itm, lgMAX))
 // end of [skiplist]
 
 (* ****** ****** *)
@@ -143,8 +143,27 @@ map_viewtype
 
 implement
 linmap_make_nil () =
-  SKIPLIST (0, 0, nodearr_make (lgMAX))
+  SKIPLIST (g1int2uint(0), 0, nodearr_make (lgMAX))
 // end of [linmap_make_nil]
+
+(* ****** ****** *)
+
+implement
+linmap_is_nil (map) = let
+  val SKIPLIST (N, _, _) = map in N = g1int2uint(0)
+end // end of [linmap_is_nil]
+
+implement
+linmap_isnot_nil (map) = let
+  val SKIPLIST (N, _, _) = map in N > g1int2uint(0)
+end // end of [linmap_isnot_nil]
+
+(* ****** ****** *)
+
+implement
+linmap_size (map) = let
+  val SKIPLIST (N, _, _) = map in N
+end // end of [linmap_size]
 
 (* ****** ****** *)
 //
@@ -233,6 +252,19 @@ case+ map of
   end // end of [SKIPLIST]
 //
 end // end of [linmap_search_ref]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_remove
+  (map, k0) = let
+  var res: itm
+  val takeout = linmap_takeout<key,itm> (map, k0, res)
+  prval () = opt_clear (res)
+in
+  takeout(*removed*)
+end // end of [linmap_remove]
 
 (* ****** ****** *)
 

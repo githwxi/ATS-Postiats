@@ -38,4 +38,25 @@ binary-search-tree structure.
 
 (* ****** ****** *)
 
+#declnamesynop("linmap_search")
+#declnamesynop("linmap_search_ref")
+#declnamesynop("linmap_search_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_insert")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_takeout")
+#declnamesynop("linmap_remove")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_foreach$fwork")
+#declnamesynop("linmap_foreach")
+#declnamesynop("linmap_foreach_env")
+
+(* ****** ****** *)
+
 (* end of [linmap_randbst.atxt] *)

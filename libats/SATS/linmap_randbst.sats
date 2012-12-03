@@ -55,12 +55,12 @@ fun{
 
 fun{
 } linmap_is_nil
-  {key:t0p;itm:vt0p} (map: !map (key, itm)):<> bool
+  {key:t0p;itm:vt0p} (map: !map (key, INV(itm))):<> bool
 // end of [linmap_is_nil]
 
 fun{
 } linmap_isnot_nil
-  {key:t0p;itm:vt0p} (map: !map (key, itm)):<> bool
+  {key:t0p;itm:vt0p} (map: !map (key, INV(itm))):<> bool
 // end of [linmap_isnot_nil]
 
 (* ****** ****** *)

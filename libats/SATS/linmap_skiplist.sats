@@ -54,22 +54,18 @@ fun linmap_make_nil
 
 (* ****** ****** *)
 
-fun{
-} linmap_is_nil
-  {key:t0p;itm:vt0p} (map: !map (key, itm)):<> bool
+fun linmap_is_nil
+  {key:t0p;itm:vt0p} (map: !map (key, INV(itm))):<> bool
 // end of [linmap_is_nil]
 
-fun{
-} linmap_isnot_nil
-  {key:t0p;itm:vt0p} (map: !map (key, itm)):<> bool
+fun linmap_isnot_nil
+  {key:t0p;itm:vt0p} (map: !map (key, INV(itm))):<> bool
 // end of [linmap_isnot_nil]
 
 (* ****** ****** *)
 
-fun{
-key:t0p;itm:vt0p
-} linmap_size
-  (map: !map (key, INV(itm))):<> size_t
+fun linmap_size
+  {key:t0p;itm:vt0p} (map: !map (key, INV(itm))):<> size_t
 // end of [linmap_size]
 
 (* ****** ****** *)
@@ -97,6 +93,45 @@ key:t0p;itm:t0p
 
 fun{
 } linmap_random_lgN (): intGte (1)
+
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:vt0p
+} linmap_takeout (
+  map: &map (key, INV(itm)) >> _
+, k0: key, res: &itm? >> opt (itm, b)
+) : #[b:bool] bool (b) // end of [linmap_takeout]
+
+fun{
+key:t0p;itm:t0p
+} linmap_remove (
+  map: &map (key, INV(itm)) >> _, k0: key): bool
+// end of [linmap_remove]
+
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:vt0p
+}{
+env:vt0p
+} linmap_foreach$fwork
+  (k: key, x: &itm, env: &env): void
+// end of [linmap_foreach$fwork]
+
+fun{
+key:t0p;itm:vt0p
+} linmap_foreach
+  (map: !map (key, INV(itm))): void
+// end of [linmap_foreach]
+
+fun{
+key:t0p;itm:vt0p
+}{
+env:vt0p
+} linmap_foreach_env
+  (map: !map (key, INV(itm)), env: &env): void
+// end of [linmap_foreach_env]
 
 (* ****** ****** *)
 
