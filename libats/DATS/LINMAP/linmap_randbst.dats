@@ -263,7 +263,7 @@ case+ t of
 | @BSTcons (
     n, k, x, tl, tr
   ) => let
-    val randbit = linmap_choose_m_n<> (1, n)
+    val randbit = linmap_random_m_n<> (1, n)
   in
     if randbit = 0 then let
       prval () = fold@ (t) in bstree_insert_atroot<key,itm> (t, k0, x0)
@@ -328,7 +328,7 @@ case+ tl of
       nr, _, _, trl, trr
     ) => let
       val n = nl + nr
-      val randbit = linmap_choose_m_n<> (nl, nr)
+      val randbit = linmap_random_m_n<> (nl, nr)
     in
       if randbit = 0 then let
         prval () = fold@ (tr)

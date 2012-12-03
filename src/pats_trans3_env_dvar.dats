@@ -905,8 +905,10 @@ fun aux_trans .<>. (
 //
 val d2v = p3at_get_var (p3t)
 //
+(*
 val () = println! ("aux_trans: d2v = ", d2v)
 val () = println! ("aux_trans: s2e = ", s2e)
+*)
 //
 in
 //

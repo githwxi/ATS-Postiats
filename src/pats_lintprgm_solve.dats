@@ -1249,18 +1249,19 @@ end // end of [auxmain]
 implement{a}
 auxmain_conj {n}{s} (
   stamp, iset, i1vs, i1veqs, n, ics, ics1
-) = ans2 where {
+) = let
 //
-  prval () =
-    list_vt_length_is_nonnegative (ics)
-  prval () =
-    list_vt_length_is_nonnegative (ics1)
+  viewtypedef ic = icnstr (a, n)
+  prval () = list_vt_length_is_nonnegative{ic} (ics)
+  prval () = list_vt_length_is_nonnegative{ic} (ics1)
 //
   val s1 = list_vt_length (ics1)
   val () = ics := list_vt_append (ics1, ics)
   val ans2 = auxmain (stamp, iset, i1vs, i1veqs, n, ics)
   val () = ics1 := list_vt_split_at (ics, s1)
-} // end of [auxmain_conj]
+in
+  ans2
+end // end of [auxmain_conj]
 
 implement{a}
 auxmain_disj {n}{s} (
@@ -1276,26 +1277,23 @@ case+ ics1 of
 //
     val () = ics1 := ics1_next
 //
-    var ics_copy = icnstrlst_copy (ics, n)
-    val () =
-      ics_copy := list_vt_cons (ic1, ics_copy)
-    // end of [val]
+    val icsy = icnstrlst_copy (ics, n)
+    val icsy = list_vt_cons (ic1, icsy)
 //
     val () = i1vs := myivlst_mark (i1vs)
     val () = i1veqs := myiveqlst_mark (i1veqs)
-    val ans2 = auxmain (stamp, iset, i1vs, i1veqs, n, ics_copy)
+    var icsy = icsy // HX: for call-by-reference
+    val ans2 = auxmain (stamp, iset, i1vs, i1veqs, n, icsy)
     val () = i1vs := myivlst_unmark (i1vs, n)
     val () = i1veqs := myiveqlst_unmark (i1veqs, n)
 //
-    val+ ~list_vt_cons (ic1, ics_copy) = ics_copy
-    val () = icnstrlst_free (ics_copy, n)
+    val+ ~list_vt_cons (ic1, icsy) = icsy
+    val () = icnstrlst_free (icsy, n)
     val rics1 = list_vt_cons (ic1, rics1)
 //
   in
     if ans2 >= 0 then let
-      val () =
-        ics1 := list_vt_reverse_append<ic> (rics1, ics1)
-      // end of [val]
+      val () = (ics1 := list_vt_reverse_append<ic> (rics1, ics1))
     in
       0(*unsolved*)
     end else ( // solved and continue

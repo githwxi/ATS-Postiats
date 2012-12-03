@@ -64,7 +64,9 @@ fun{
 // end of [linmap_isnot_nil]
 
 (* ****** ****** *)
-
+//
+// HX: this function is O(1)
+//
 fun{
 key:t0p;itm:vt0p
 } linmap_size
@@ -101,9 +103,9 @@ key:t0p;itm:t0p
 (* ****** ****** *)
 
 fun{
-} linmap_choose_m_n
+} linmap_random_m_n
   {m,n:nat} (m: int m, n: int n): natLt (2)
-// end of [linmap_choose_m_n]
+// end of [linmap_random_m_n]
  
 (* ****** ****** *)
 //

@@ -33,6 +33,72 @@
 
 (* ****** ****** *)
 
+absviewtype
+map_viewtype (key:t@ype, itm:viewt@ype+)
+stadef map = map_viewtype
+
+(* ****** ****** *)
+
+sortdef t0p = t@ype and vt0p = viewt@ype
+
+(* ****** ****** *)
+
+fun{key:t0p}
+compare_key_key (x1: key, x2: key):<> int
+
+(* ****** ****** *)
+
+fun{
+} linmap_make_nil
+  {key:t0p;itm:vt0p} ():<> map (key, itm)
+// end of [linmap_make_nil]
+
+(* ****** ****** *)
+
+fun{
+} linmap_is_nil
+  {key:t0p;itm:vt0p} (map: !map (key, itm)):<> bool
+// end of [linmap_is_nil]
+
+fun{
+} linmap_isnot_nil
+  {key:t0p;itm:vt0p} (map: !map (key, itm)):<> bool
+// end of [linmap_isnot_nil]
+
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:vt0p
+} linmap_size
+  (map: !map (key, INV(itm))):<> size_t
+// end of [linmap_size]
+
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:t0p
+} linmap_search (
+  map: !map (key, INV(itm))
+, k0: key, res: &itm? >> opt (itm, b)
+) :<!wrt> #[b:bool] bool b // end of [linmap_search]
+
+fun{
+key:t0p;itm:vt0p
+} linmap_search_ref
+  (map: !map (key, INV(itm)), k0: key):<> Ptr0
+// end of [linmap_search_ref]
+
+fun{
+key:t0p;itm:t0p
+} linmap_search_opt
+  (map: !map (key, INV(itm)), k0: key):<> Option_vt (itm)
+// end of [linmap_search_opt]
+
+(* ****** ****** *)
+
+fun{
+} linmap_random_lgN (): intGte (1)
+
 (* ****** ****** *)
 
 (* end of [linmap_skiplist.sats] *)
