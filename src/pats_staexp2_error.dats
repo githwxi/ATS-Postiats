@@ -221,7 +221,13 @@ fn prerr_staerr_s2Var_s2exp_solve (
 in
   prerr_error3_loc (loc);
   prerr ": mismatch of sorts in unification:\n";
+(*
+  prerr "The sVar of variable is: "; prerr_s2Var (s2V1); prerr_newline ();
+*)
   prerr "The sort of variable is: "; prerr_s2rt (s2t1); prerr_newline ();
+(*
+  prerr "The sexp of solution is: "; pprerr_s2exp (s2e2); prerr_newline ();
+*)
   prerr "The sort of solution is: "; prerr_s2rt (s2t2); prerr_newline ();
 end // end of [prerr_staerr_s2Var_s2exp_solve]
 

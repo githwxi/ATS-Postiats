@@ -90,6 +90,9 @@ case+ x of
     val pol = test_polkind (knd)
     val () = if pol > 0 then prstr "+"
     val () = if pol < 0 then prstr "-"
+    val () = prstr "("
+    val () = fprint_int (out, knd)
+    val () = prstr ")"
     val () = prstr ")"
   } // end of [S2RTBASimp]
 | S2RTBASdef (s2td) => {

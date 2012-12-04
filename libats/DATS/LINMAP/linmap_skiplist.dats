@@ -27,8 +27,12 @@
 
 (* ****** ****** *)
 
+(* Author: Adam Udi *)
+(* Authoremail: adamudi AT bu DOT edu *)
+
 (* Author: Hongwei Xi *)
 (* Authoremail: hwxi AT cs DOT bu DOT edu *)
+
 (* Start time: December, 2012 *)
 
 (* ****** ****** *)
@@ -122,8 +126,6 @@ key:t0p;itm:vt0p
   (k0: key, x0: itm, lgN: int lgN): node1 (key, itm, lgN)
 // end of [node_make]
 
-(* ****** ****** *)
-
 extern
 fun{
 key:t0p;itm:vt0p
@@ -133,24 +135,6 @@ extern
 fun{
 key:t0p;itm:vt0p
 } node_getref_item (nx: node1 (key, itm)):<> Ptr1
-
-(* ****** ****** *)
-
-extern
-fun{
-key:t0p;itm:vt0p
-} node_get_next
-  {n:int}{ni:nat | ni < n}
-  (nx: node1 (key, itm, n), ni: int ni):<> nodeGt0 (key, itm, ni)
-// end of [node_get_next]
-
-extern
-fun{
-key:t0p;itm:vt0p
-} node_set_next
-  {n,n1:int}{ni:nat | ni < n} (
-  nx: node1 (key, itm, n), ni: int ni, nx0: nodeGt0 (key, itm, ni)
-) :<> void // end of [node_set_next]
 
 (* ****** ****** *)
 
@@ -180,14 +164,83 @@ fun nodearr_make // HX: initized with nulls
 
 (* ****** ****** *)
 
-#define lgMAX 100 // 2^100 >= 10^30
+implement
+{key,itm}
+node_make
+  {lgN} (
+  k0, x0, lgN
+) = let
+  typedef T = (key, itm?, ptr, int)
+  val (pfat, pfgc | p) = ptr_alloc<T> ()
+  val () = p->0 := k0
+  val () = p->1 := $UN.castvwtp0{itm?}{itm}(x0)
+  val () = p->2 := $UN.cast{ptr}(nodearr_make(lgN))
+  val () = p->3 := lgN
+in
+  $UN.cast {node1(key,itm,lgN)} @(pfat, pfgc | p)
+end // end of [node_make]
+
+(* ****** ****** *)
+
+local
+
+assume
+nodearr_type
+  (key:t0p, itm:vt0p, n:int) = arrayref (ptr, n)
+// end of [nodearr_type]
+
+in // in of [local]
+
+implement
+nodearr_make (n) = let
+  val asz = g1int2uint(n) in arrayref_make_elt<ptr> (asz, nullp)
+end // end of [nodearr]
+
+implement
+nodearr_get_at
+  {key,itm}{i}
+  (nxa, i) = let
+  typedef T = nodeGt0 (key, itm, i)
+  val nx0 = $effmask_ref (arrayref_get_at (nxa, i)) in $UN.cast{T}(nx0)
+end // end of [nodearr_get_at]
+
+implement
+nodearr_set_at
+  {key,itm}{i}
+  (nxa, i, nx0) = let
+  val nx0 = $UN.cast{ptr} (nx0) in $effmask_ref (arrayref_set_at (nxa, i, nx0))
+end // end of [nodearr_set_at]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+extern
+fun{
+key:t0p;itm:vt0p
+} node_get_next
+  {n:int}{ni:nat | ni < n}
+  (nx: node1 (key, itm, n), ni: int ni):<> nodeGt0 (key, itm, ni)
+// end of [node_get_next]
+
+extern
+fun{
+key:t0p;itm:vt0p
+} node_set_next
+  {n,n1:int}{ni:nat | ni < n} (
+  nx: node1 (key, itm, n), ni: int ni, nx0: nodeGt0 (key, itm, ni)
+) :<> void // end of [node_set_next]
+
+(* ****** ****** *)
+
+#define lgMAX 100 // HX: it should be enough: 2^100 >= 10^30 :)
 
 (* ****** ****** *)
 
 datavtype
 skiplist (
   key:t@ype, itm:viewt@ype+
-) =
+) = // HX: [lgN] is the *current* highest level
   | {N:nat}{lgN:nat | lgN <= lgMAX}
     SKIPLIST (key, itm) of (size_t(N), int(lgN), nodearr(key, itm, lgMAX))
 // end of [skiplist]
@@ -461,7 +514,11 @@ case+ map of
     (N, lgN, nxa) => let
     val () = N := succ (N)
     val () =
-      if :(lgN: natLte (lgMAX)) => lgN < lgN0 then lgN := lgN0
+      if :(
+        lgN: natLte (lgMAX)
+      ) =>
+        (lgN < lgN0) then lgN := lgN0
+      // end of [if]
     val () = nodearr_insert (nxa, k0, lgN0, nx0)
     prval () =
       pridentity (lgN) // opening the type of [lgN]

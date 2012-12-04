@@ -147,9 +147,9 @@ fun fprint_s2rtdat : fprint_type (s2rtdat)
 (* ****** ****** *)
 
 datatype s2rtbas =
-  | S2RTBASpre of symbol // predicative: bool, char, int, ...
+  | S2RTBASpre of (symbol) // predicative: bool, char, int, ...
   | S2RTBASimp of (symbol, int(*knd*)) // impredicative sorts
-  | S2RTBASdef of s2rtdat // user-defined datasorts
+  | S2RTBASdef of (s2rtdat) // user-defined datasorts
 // end of [s2rtbas]
 
 fun fprint_s2rtbas : fprint_type (s2rtbas)

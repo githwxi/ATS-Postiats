@@ -44,6 +44,24 @@ This package implements a linear map based on the
 
 (* ****** ****** *)
 
+#declnamesynop("linmap_insert")
+#decldescrpt("\
+
+In the case where the key [k0] is already associated with some item in
+the given map, this function replaces the item with [x0] while storing
+the item into [res].\
+
+")
+#declnamesynop("linmap_insert_any")
+#decldescrpt("\
+
+This function carries out insertion regardless whether
+the key [k0] is already associated with some item in the given map.\
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("linmap_takeout")
 #declnamesynop("linmap_takeout_opt")
 #declnamesynop("linmap_remove")

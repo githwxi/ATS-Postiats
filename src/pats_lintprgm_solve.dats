@@ -1277,6 +1277,7 @@ case+ ics1 of
 //
     val () = ics1 := ics1_next
 //
+//  HX: copying needed for backtracking
     val icsx = icnstrlst_copy (ics, n)
     val icsx = list_vt_cons (ic1, icsx)
 //
@@ -1288,7 +1289,7 @@ case+ ics1 of
     val () = i1veqs := myiveqlst_unmark (i1veqs, n)
 //
     val+ ~list_vt_cons (ic1, icsx) = icsx
-    val () = icnstrlst_free (icsx, n)
+    val () = icnstrlst_free (icsx, n) // HX: [icsx] may have been modified!
     val rics1 = list_vt_cons (ic1, rics1)
 //
   in

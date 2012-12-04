@@ -583,7 +583,8 @@ s2rt_fun (_arg, _res) = S2RTfun (_arg, _res)
 implement
 s2rt_tup (s2ts) = S2RTtup (s2ts) // HX: tuple sort not yet supported
 
-implement s2rt_err () = S2RTerr () // HX: error indication
+implement
+s2rt_err () = S2RTerr () // HX: error indication
 
 (* ****** ****** *)
 

@@ -339,6 +339,25 @@ typedef constcharptr (l:addr) = charptr (l) // HX: commenting
 typedef constcharptr0 = charptr0 // HX: for commenting purpose
 typedef constcharptr1 = charptr1 // HX: for commenting purpose
 
+#atscode_separator()
+
+fun{a:vt0p}
+ptr_alloc ()
+  :<> [l:agz] (a? @ l, free_gc_v (l) | ptr l)
+// end of [ptr_alloc]
+
+fun ptr_alloc_tsz
+  {a:vt0p} (tsz: sizeof_t a)
+  :<> [l:agz] (a? @ l, free_gc_v (l) | ptr l) = "atspre_ptr_alloc_tsz"
+// end of [ptr_alloc_tsz]
+
+fun ptr_free
+  {a:t@ype}{l:addr}
+  (pfgc: free_gc_v (l), pfat: a @ l | p: ptr l):<> void = "atspre_ptr_free"
+// end of [ptr_free]
+
+#atscode_separator()
+
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
