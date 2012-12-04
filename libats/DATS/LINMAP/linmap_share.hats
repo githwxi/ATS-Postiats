@@ -69,11 +69,9 @@ end // end of [linmap_search]
 implement
 {key,itm}
 linmap_search_opt
-  (map, k0) = $effmask_wrt let
+  (map, k0) = let
   var res: itm?
-  val ans =
-    linmap_search (map, k0, res)
-  // end of [val]
+  val ans = linmap_search (map, k0, res)
 in
 //
 if ans then let
@@ -87,6 +85,28 @@ in
 end // end of [if]
 //
 end // end of [linmap_search_opt]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_takeout_opt
+  (map, k0) = let
+  var res: itm?
+  val ans = linmap_takeout (map, k0, res)
+in
+//
+if ans then let
+  prval () = opt_unsome {itm} (res)
+in
+  Some_vt (res)
+end else let
+  prval () = opt_unnone {itm} (res)
+in
+  None_vt (*void*)
+end // end of [if]
+//
+end // end of [linmap_takeout_opt]
 
 (* ****** ****** *)
 

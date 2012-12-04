@@ -50,13 +50,47 @@ staload "libats/SATS/linmap_skiplist.sats"
 (* ****** ****** *)
 
 abstype
-node_type
-  (l:addr, key:t@ype, itm:viewt@ype+)
+node_type (
+  key:t@ype, itm:viewt@ype+, l:addr, n:int
+) // end of [node_type]
+
 stadef node = node_type
+
 typedef
-node0 (key:t0p, itm:vt0p) = [l:addr] node (l, key, itm)
+node0 (
+  key:t0p
+, itm:vt0p
+, n:int
+) = [l:addr] node (key, itm, l, n)
 typedef
-node1 (key:t0p, itm:vt0p) = [l:addr | l > null] node (l, key, itm)
+node0 (
+  key:t0p
+, itm:vt0p
+) = [l:addr;n:nat] node (key, itm, l, n)
+
+typedef
+node1 (
+  key:t0p
+, itm:vt0p
+, n:int
+) = [l:agz] node (key, itm, l, n)
+typedef
+node1 (
+  key:t0p
+, itm:vt0p
+) = [l:agz;n:nat] node (key, itm, l, n)
+
+(* ****** ****** *)
+
+typedef
+nodeGt0 (
+  key:t0p, itm:vt0p, ni:int
+) = [n:int | n > ni] node0 (key, itm, n)
+
+typedef
+nodeGte1 (
+  key:t0p, itm:vt0p, ni:int
+) = [n:int | n >= ni] node1 (key, itm, n)
 
 (* ****** ****** *)
 
@@ -64,15 +98,29 @@ extern
 castfn
 node2ptr
   {key:t0p;itm:vt0p}
-  {l:addr} (nx: node (l, key, itm)):<> ptr (l)
+  {l:addr}{n:int} (nx: node (key, itm, l, n)):<> ptr (l)
 // end of [node2ptr]
 
 (* ****** ****** *)
 
+#define nullp the_null_ptr
+
+(* ****** ****** *)
+
 fun{
-} node_nil
-  {key:t0p;itm:vt0p} .<>. (
-) :<> node (null, key, itm) = $UN.castvwtp1 (the_null_ptr)
+} node_null
+  {key:t0p;itm:vt0p}{n:int} .<>. (
+) :<> node (key, itm, null, n) = $UN.castvwtp1 (nullp)
+
+(* ****** ****** *)
+
+extern
+fun{
+key:t0p;itm:vt0p
+} node_make
+  {lgN:int | lgN > 0}
+  (k0: key, x0: itm, lgN: int lgN): node1 (key, itm, lgN)
+// end of [node_make]
 
 (* ****** ****** *)
 
@@ -80,10 +128,29 @@ extern
 fun{
 key:t0p;itm:vt0p
 } node_get_key (nx: node1 (key, itm)):<> key
+
 extern
 fun{
 key:t0p;itm:vt0p
 } node_getref_item (nx: node1 (key, itm)):<> Ptr1
+
+(* ****** ****** *)
+
+extern
+fun{
+key:t0p;itm:vt0p
+} node_get_next
+  {n:int}{ni:nat | ni < n}
+  (nx: node1 (key, itm, n), ni: int ni):<> nodeGt0 (key, itm, ni)
+// end of [node_get_next]
+
+extern
+fun{
+key:t0p;itm:vt0p
+} node_set_next
+  {n,n1:int}{ni:nat | ni < n} (
+  nx: node1 (key, itm, n), ni: int ni, nx0: nodeGt0 (key, itm, ni)
+) :<> void // end of [node_set_next]
 
 (* ****** ****** *)
 
@@ -93,30 +160,23 @@ nodearr_type
 stadef nodearr = nodearr_type
 
 extern
-fun nodearr_get_node
-  {key:t0p;itm:vt0p}{n:int} (
-  nxa: nodearr (key, itm, n), i: natLt n
-) :<> node0 (key, itm) // endfun
+fun nodearr_get_at
+  {key:t0p;itm:vt0p}
+  {n:int}{i:nat | i < n}
+  (nxa: nodearr (key, itm, n), i: int i):<> nodeGt0 (key, itm, i)
+// end of [nodearr_get_at]
 
 extern
-fun nodearr_getref_node
-  {key:t0p;itm:vt0p}{n:int}
-  (nxa: nodearr (key, itm, n), i: natLt n):<> Ptr1
-// end of [nodearr_getref_node]
+fun nodearr_set_at
+  {key:t0p;itm:vt0p}
+  {n:int}{i:nat | i < n}
+  (nxa: nodearr (key, itm, n), i: int i, nx0: nodeGt0 (key, itm, i)): void
+// end of [nodearr_set_at]
 
 extern
 fun nodearr_make // HX: initized with nulls
   {key:t0p;itm:vt0p}{n:nat} (n: int n):<> nodearr (key, itm, n)
 // end of [nodearr_make]
-
-(* ****** ****** *)
-
-extern
-fun{
-key:t0p;itm:vt0p
-} node_get_nodearr_size (
-  nx: node1 (key, itm), n: &int? >> int n
-) :<> #[n:nat] nodearr (key, itm, n)
 
 (* ****** ****** *)
 
@@ -167,69 +227,81 @@ end // end of [linmap_size]
 
 (* ****** ****** *)
 //
-// HX: returning node pointer
+// HX:
+// for [node_search] to be called, k0 > the key contained in it
 //
 extern
 fun{
 key:t0p;itm:vt0p
-} node_search_ref
-  (nx: node1 (key, itm), k0: key):<> node0 (key, itm)
-// end of [node_search_ref]
+} node_search {n:int}
+  (nx: node1 (key, itm, n), k0: key, ni: natLte n):<> node0 (key, itm)
+// end of [node_search]
 extern
 fun{
 key:t0p;itm:vt0p
-} nodearr_search_ref {n:int}
-  (nxa: nodearr (key, itm, n), ni: natLte n, k0: key):<> node0 (key, itm)
-// end of [nodearr_search_ref]
+} nodearr_search {n:int}
+  (nxa: nodearr (key, itm, n), k0: key, ni: natLte n):<> node0 (key, itm)
+// end of [nodearr_search]
 
 (* ****** ****** *)
 
 implement
 {key,itm}
-node_search_ref
-  (nx, k0) = let
-//
-  val k = node_get_key (nx)
-  val sgn = compare_key_key (k0, k)
-//
-in
-//
-if sgn < 0 then let
-  var n: int
-  val nxa = node_get_nodearr_size (nx, n)
-  val res = nodearr_search_ref (nxa, n, k0)
-in
-  res
-end else (
-  if sgn > 0 then node_nil () else nx
-) // end of [if]
-//
-end // end of [node_search_ref]
-
-implement
-{key,itm}
-nodearr_search_ref
-  (nxa, ni, k0) = let
+node_search
+  (nx, k0, ni) = let
 in
 //
 if ni > 0 then let
-  val ni = ni - 1
-  val nx = nodearr_get_node (nxa, ni)
-  val p_nx = node2ptr (nx)
+  val ni1 = ni - 1
+  val nx1 = node_get_next (nx, ni1)
+  val p_nx1 = node2ptr (nx1)
 in
-  if p_nx > the_null_ptr then let
-    val nx1 = node_search_ref (nx, k0)
-    val p_nx1 = node2ptr (nx)
-  in
-    if p_nx1 > the_null_ptr then nx1 else nodearr_search_ref (nxa, ni, k0)
-  end else
-    nodearr_search_ref (nxa, ni, k0)
-  // end of [if]
+//
+if p_nx1 > nullp then let
+  val k1 = node_get_key (nx1)
+  val sgn = compare_key_key (k0, k1)
+in
+  if sgn < 0 then
+    node_search (nx, k0, ni1)
+  else if sgn > 0 then
+    node_search (nx1, k0, ni)
+  else nx1 // end of [if]
 end else
-  node_nil ()
+  node_search (nx, k0, ni1)
 // end of [if]
 //
-end // end of [nodearr_search_ref]
+end else node_null{..}{0} ()
+//
+end // end of [node_search]
+
+implement
+{key,itm}
+nodearr_search
+  (nxa, k0, ni) = let
+in
+//
+if ni > 0 then let
+  val ni1 = ni - 1
+  val nx = nodearr_get_at (nxa, ni1)
+  val p_nx = node2ptr (nx)
+in
+  if p_nx > nullp then let
+    val k = node_get_key (nx)
+    val sgn = compare_key_key (k0, k)
+  in
+    if sgn < 0 then
+      nodearr_search (nxa, k0, ni1)
+    else if sgn > 0 then
+      node_search (nx, k0, ni)
+    else nx // end of [if]
+  end else
+    nodearr_search (nxa, k0, ni1)  
+  // end of [if]
+end else
+  node_null{..}{0} ()
+// end of [if]
+//
+end // end of [nodearr_search]
 
 (* ****** ****** *)
 
@@ -243,15 +315,163 @@ case+ map of
 | SKIPLIST
     (N, lgN, nxa) => let
     val nx =
-      nodearr_search_ref (nxa, lgN, k0)
+      nodearr_search (nxa, k0, lgN)
     val p_nx = node2ptr (nx)
   in 
-    if p_nx > the_null_ptr
-      then node_getref_item (nx) else the_null_ptr
+    if p_nx > nullp
+      then node_getref_item (nx) else nullp
     // end of [if]
   end // end of [SKIPLIST]
 //
 end // end of [linmap_search_ref]
+
+(* ****** ****** *)
+//
+// HX:
+// for [node_insert] to be called, k0 > the key contained in it
+//
+extern
+fun{
+key:t0p;itm:vt0p
+} node_insert {n:int}{ni:nat | ni <= n} (
+  nx: node1 (key, itm, n), k0: key, ni: int ni, nx0: nodeGte1 (key, itm, ni)
+) : void // end of [node_insert]
+extern
+fun{
+key:t0p;itm:vt0p
+} nodearr_insert {n:int}{ni:nat | ni <= n} (
+  nxa: nodearr (key, itm, n), k0: key, ni: int ni, nx0: nodeGte1 (key, itm, ni)
+) : void // end of [nodearr_insert]
+
+implement
+{key,itm}
+node_insert
+  (nx, k0, ni, nx0) = let
+in
+//
+if ni > 0 then let
+  val ni1 = ni - 1
+  val nx1 = node_get_next (nx, ni1)
+  val p_nx1 = node2ptr (nx1)
+in
+  if p_nx1 > nullp then let
+    val k1 = node_get_key (nx1)
+    val sgn = compare_key_key (k0, k1)
+  in
+    if sgn <= 0 then let
+      val () = node_set_next (nx, ni1, nx0)
+      val () = node_set_next (nx0, ni1, nx1)
+    in
+      node_insert (nx, k0, ni1, nx0)
+    end else
+      node_insert (nx1, k0, ni, nx0)
+    // end of [if]
+  end else let
+    val () = node_set_next (nx, ni1, nx0)
+  in
+    node_insert (nx, k0, ni1, nx0)
+  end // end of [if]
+end else (
+  // nothing
+) // end of [if]
+//
+end // end of [node_insert]
+
+implement
+{key,itm}
+nodearr_insert
+  (nxa, k0, ni, nx0) = let
+in
+//
+if ni > 0 then let
+  val ni1 = ni - 1
+  val nx = nodearr_get_at (nxa, ni1)
+  val p_nx = node2ptr (nx)
+in
+  if p_nx > nullp then let
+    val k = node_get_key (nx)
+    val sgn = compare_key_key (k0, k)
+  in
+    if sgn <= 0 then let
+      val () = nodearr_set_at (nxa, ni1, nx0)
+      val () = node_set_next (nx0, ni1, nx)
+    in
+      nodearr_insert (nxa, k0, ni1, nx0)
+    end else
+      node_insert (nx, k0, ni, nx0)
+    // end of [if]
+  end else let
+    val () = nodearr_set_at (nxa, ni1, nx0)
+  in
+    nodearr_insert (nxa, k0, ni1, nx0)
+  end // end of [if]
+end else (
+  // nothing
+) // end of [if]
+//
+end // end of [nodearr_insert]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_insert
+  (map, k0, x0, res) = let
+//
+val [l:addr]
+  p_nx = linmap_search_ref (map, k0)
+// end of [val]
+//
+in
+//
+if p_nx > nullp then let
+  prval (pf, fpf) = __assert () where {
+    extern praxi __assert : () -<prf> (itm @ l, itm @ l -<lin,prf> void)
+  } // end of [prval]
+  val () = res := !p_nx
+  prval () = opt_some {itm} (res)
+  val () = !p_nx := x0
+  prval () = fpf (pf)
+in
+  true
+end else let
+  val () = linmap_insert_any (map, k0, x0)
+  prval () = opt_none {itm} (res)
+in
+  false
+end // end of [if]
+//
+end // end of [linmap_insert]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_insert_any
+  (map, k0, x0) = let
+//
+val lgN0 =
+  linmap_random_lgN (lgMAX)
+val nx0 = node_make<key,itm> (k0, x0, lgN0)
+//
+in
+//
+case+ map of
+| @SKIPLIST
+    (N, lgN, nxa) => let
+    val () = N := succ (N)
+    val () =
+      if :(lgN: natLte (lgMAX)) => lgN < lgN0 then lgN := lgN0
+    val () = nodearr_insert (nxa, k0, lgN0, nx0)
+    prval () =
+      pridentity (lgN) // opening the type of [lgN]
+    // end of [prval]
+    prval () = fold@ (map)
+  in
+    // nothing
+  end // end of [SKIPLIST]
+//
+end // end of [linmap_insert_any]
 
 (* ****** ****** *)
 

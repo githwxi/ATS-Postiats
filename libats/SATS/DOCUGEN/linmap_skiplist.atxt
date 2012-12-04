@@ -44,6 +44,12 @@ This package implements a linear map based on the
 
 (* ****** ****** *)
 
+#declnamesynop("linmap_takeout")
+#declnamesynop("linmap_takeout_opt")
+#declnamesynop("linmap_remove")
+
+(* ****** ****** *)
+
 #declnamesynop("linmap_foreach$fwork")
 #declnamesynop("linmap_foreach")
 #declnamesynop("linmap_foreach_env")

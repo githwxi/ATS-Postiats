@@ -86,18 +86,18 @@ key:t0p;itm:t0p
 } linmap_search (
   map: !map (key, INV(itm))
 , k0: key, res: &itm? >> opt (itm, b)
-) :<!wrt> #[b:bool] bool b // end of [linmap_search]
+) : #[b:bool] bool b // end of [linmap_search]
 
 fun{
 key:t0p;itm:vt0p
 } linmap_search_ref
-  (map: !map (key, INV(itm)), k0: key):<> Ptr0
+  (map: !map (key, INV(itm)), k0: key): Ptr0
 // end of [linmap_search_ref]
 
 fun{
 key:t0p;itm:t0p
 } linmap_search_opt
-  (map: !map (key, INV(itm)), k0: key):<> Option_vt (itm)
+  (map: !map (key, INV(itm)), k0: key): Option_vt (itm)
 // end of [linmap_search_opt]
 
 (* ****** ****** *)
@@ -110,15 +110,16 @@ fun{
 (* ****** ****** *)
 //
 // HX-2012-12:
-// if [k0] occurs in [map], [x0] replaces the item
-// associated with [k0] in [map]
+// if [k0] occurs in [map], [x0] replaces the
+// item associated with [k0] in [map] while the
+// item is stored in [res] instead.
 //
 fun{
 key:t0p;itm:vt0p
 } linmap_insert (
   map: &map (key, INV(itm)) >> _
 , k0: key, x0: itm, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool (b) // end of [linmap_insert]
+) : #[b:bool] bool (b) // endfun
 
 (* ****** ****** *)
 
@@ -127,7 +128,13 @@ key:t0p;itm:vt0p
 } linmap_takeout (
   map: &map (key, INV(itm)) >> _
 , k0: key, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool (b) // end of [linmap_takeout]
+) : #[b:bool] bool (b) // endfun
+
+fun{
+key:t0p;itm:vt0p
+} linmap_takeout_opt
+  (map: &map (key, INV(itm)) >> _, k0: key): Option_vt (itm)
+// end of [linmap_takeout_opt]
 
 fun{
 key:t0p;itm:t0p

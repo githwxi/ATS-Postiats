@@ -49,6 +49,7 @@ binary-search-tree structure.
 (* ****** ****** *)
 
 #declnamesynop("linmap_takeout")
+#declnamesynop("linmap_takeout_opt")
 #declnamesynop("linmap_remove")
 
 (* ****** ****** *)
