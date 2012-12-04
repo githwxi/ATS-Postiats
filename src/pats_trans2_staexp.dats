@@ -1008,10 +1008,10 @@ val s2es_arg = let
           case+ s2t of
           | S2RTbas s2tb => (
             case+ s2tb of
-            | S2RTBASimp (id, _) => {
+            | S2RTBASimp (_, name) => {
                 val () = imp := 1 // impredicative
                 val () =
-                  if id = $SYM.symbol_TYPES then types := 1
+                  if name = $SYM.symbol_TYPES then types := 1
                 // end of [val]
               } // end of [S2RTBASimp]
             | _ => () // end of [_]

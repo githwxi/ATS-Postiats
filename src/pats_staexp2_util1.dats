@@ -50,6 +50,11 @@ staload EFF = "./pats_effect.sats"
 
 (* ****** ****** *)
 
+staload SYM = "./pats_symbol.sats"
+overload = with $SYM.eq_symbol_symbol
+
+(* ****** ****** *)
+
 staload "./pats_staexp2.sats"
 staload "./pats_staexp2_util.sats"
 
@@ -66,27 +71,48 @@ fn prerr_error2_loc
 
 (* ****** ****** *)
 
+local
+
+fn impname_linearize
+  (name: $SYM.symbol): $SYM.symbol = let
+in
+//
+case+ 0 of
+| _ when name = $SYM.symbol_PROP => $SYM.symbol_VIEW
+| _ when name = $SYM.symbol_TYPE => $SYM.symbol_VIEWTYPE
+| _ when name = $SYM.symbol_T0YPE => $SYM.symbol_VIEWT0YPE
+| _ => name
+//
+end // end of [impname_linearize]
+
+in // in of [local]
+
 implement
 s2rt_linearize
   (s2t) = let
   var err: int = 0
   var s2t: s2rt = s2t
-  val () = case+ s2t of
+  val () = (
+    case+ s2t of
     | S2RTbas s2tb => (case+ s2tb of
-      | S2RTBASimp (name, knd) => let
+      | S2RTBASimp (knd, name) => let
           val knd = impkind_linearize (knd)
+          val name = impname_linearize (name)
         in
-          s2t := S2RTbas (S2RTBASimp (name, knd))
+          s2t := S2RTbas (S2RTBASimp (knd, name))
         end // end of [S2RTBASimp]
       | _ => err := 1
       ) // end of [S2RTbas]
     | _ => err := 1
+  ) : void // end of [val]
 (*
   val () = assertloc (err > 0) // [s2t] maybe [S2RTerr]
 *)
 in
   s2t
 end // end of [s2rt_linearize]
+
+end // end of [local]
 
 (* ****** ****** *)
 

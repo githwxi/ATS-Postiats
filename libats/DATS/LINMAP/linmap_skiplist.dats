@@ -177,7 +177,7 @@ node_make
   val () = p->2 := $UN.cast{ptr}(nodearr_make(lgN))
   val () = p->3 := lgN
 in
-  $UN.cast {node1(key,itm,lgN)} @(pfat, pfgc | p)
+  $UN.castvwtp0 {node1(key,itm,lgN)} @(pfat, pfgc | p)
 end // end of [node_make]
 
 (* ****** ****** *)
@@ -233,7 +233,7 @@ key:t0p;itm:vt0p
 
 (* ****** ****** *)
 
-#define lgMAX 100 // HX: it should be enough: 2^100 >= 10^30 :)
+#define lgMAX 40 // HX: it should be enough: 2^40 >= 10^12 :)
 
 (* ****** ****** *)
 

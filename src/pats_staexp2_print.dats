@@ -84,15 +84,14 @@ case+ x of
     val () = fprint_symbol (out, sym)
     val () = prstr ")"
   } // end of [S2RTBASpre]
-| S2RTBASimp (sym, knd) => {
+| S2RTBASimp (knd, sym) => {
     val () = prstr "S2RTBASimp("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
     val () = fprint_symbol (out, sym)
     val pol = test_polkind (knd)
     val () = if pol > 0 then prstr "+"
     val () = if pol < 0 then prstr "-"
-    val () = prstr "("
-    val () = fprint_int (out, knd)
-    val () = prstr ")"
     val () = prstr ")"
   } // end of [S2RTBASimp]
 | S2RTBASdef (s2td) => {
