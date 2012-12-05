@@ -129,6 +129,14 @@ key:t0p;itm:vt0p
 extern
 fun{
 key:t0p;itm:vt0p
+} node_free
+  {lgN:int | lgN > 0}
+  (nx: node1 (key, itm, lgN), res: &itm? >> itm): void
+// end of [node_free]
+
+extern
+fun{
+key:t0p;itm:vt0p
 } node_get_key (nx: node1 (key, itm)):<> key
 
 extern
@@ -170,8 +178,8 @@ node_make
   {lgN} (
   k0, x0, lgN
 ) = let
-  typedef T = (key, itm?, ptr, int)
-  val (pfat, pfgc | p) = ptr_alloc<T> ()
+  viewtypedef VT = (key, itm, ptr, int)
+  val (pfat, pfgc | p) = ptr_alloc<VT> ()
   val () = p->0 := k0
   val () = p->1 := $UN.castvwtp0{itm?}{itm}(x0)
   val () = p->2 := $UN.cast{ptr}(nodearr_make(lgN))
@@ -179,6 +187,25 @@ node_make
 in
   $UN.castvwtp0 {node1(key,itm,lgN)} @(pfat, pfgc | p)
 end // end of [node_make]
+
+implement
+{key,itm}
+node_free
+  (nx, res) = let
+  viewtypedef VT = (key, itm, ptr, int)
+  prval (
+    pfat, pfgc | p
+  ) = __cast (nx) where {
+    extern
+    castfn __cast (
+      nx: node1 (key, itm)
+    ) :<> [l:addr] (VT @ l, free_gc_v l | ptr l)
+  } // end of [prval]
+  val () = res := p->1
+  val () = ptr_free {VT?} (pfgc, pfat | p)
+in
+  // nothing
+end // end of [node_free]
 
 (* ****** ****** *)
 
