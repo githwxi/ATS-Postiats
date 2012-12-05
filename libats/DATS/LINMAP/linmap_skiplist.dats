@@ -113,8 +113,9 @@ node2ptr
 
 fun{
 } node_null
-  {key:t0p;itm:vt0p}{n:int} .<>. (
-) :<> node (key, itm, null, n) = $UN.castvwtp1 (nullp)
+  {key:t0p;itm:vt0p}{n:nat} .<>.
+  (n: int n):<> node (key, itm, null, n) = $UN.castvwtp1 (nullp)
+// end of [node_null]
 
 (* ****** ****** *)
 
@@ -350,7 +351,7 @@ end else
   node_search (nx, k0, ni1)
 // end of [if]
 //
-end else node_null{..}{0} ()
+end else node_null (0)
 //
 end // end of [node_search]
 
@@ -378,7 +379,7 @@ in
     nodearr_search (nxa, k0, ni1)  
   // end of [if]
 end else
-  node_null{..}{0} ()
+  node_null (0)
 // end of [if]
 //
 end // end of [nodearr_search]
@@ -556,6 +557,128 @@ case+ map of
   end // end of [SKIPLIST]
 //
 end // end of [linmap_insert_any]
+
+(* ****** ****** *)
+//
+// HX:
+// for [node_takeout] to be called, k0 > the key contained in it
+//
+extern
+fun{
+key:t0p;itm:vt0p
+} node_takeout
+  {n:int}{ni:nat | ni <= n}
+  (nx: node1 (key, itm, n), k0: key, ni: int ni): nodeGt0 (key, itm, 0)
+// end of [node_takeout]
+extern
+fun{
+key:t0p;itm:vt0p
+} nodearr_takeout
+  {n:int}{ni:nat | ni <= n}
+  (nxa: nodearr (key, itm, n), k0: key, ni: int ni): nodeGt0 (key, itm, 0)
+// end of [nodearr_takeout]
+
+implement
+{key,itm}
+node_takeout
+  (nx, k0, ni) = let
+in
+//
+if ni > 0 then let
+  val ni1 = ni - 1
+  val nx1 = node_get_next (nx, ni1)
+  val p_nx1 = node2ptr (nx1)
+in
+  if p_nx1 > nullp then let
+    val k1 = node_get_key (nx1)
+    val sgn = compare_key_key (k0, k1)
+  in
+    if sgn < 0 then
+      node_takeout (nx, k0, ni1)
+    else if sgn > 0 then
+      node_takeout (nx1, k1, ni)
+    else let // sgn = 0
+      val () =
+        node_set_next (nx, ni1, node_get_next (nx1, ni1))
+      // end of [val]
+    in
+      if ni1 > 0 then node_takeout (nx, k0, ni1) else nx1
+    end // end of [if]
+  end else
+    node_takeout (nx, k0, ni1)
+  // end of [if]
+end else
+  node_null (1)
+// end of [of]
+//
+end // end of [node_takeout]
+
+implement
+{key,itm}
+nodearr_takeout
+  (nxa, k0, ni) = let
+in
+//
+if ni > 0 then let
+  val ni1 = ni - 1
+  val nx = nodearr_get_at (nxa, ni1)
+  val p_nx = node2ptr (nx)
+in
+  if p_nx > nullp then let
+    val k = node_get_key (nx)
+    val sgn = compare_key_key (k0, k)
+  in
+    if sgn < 0 then
+      nodearr_takeout (nxa, k0, ni1)
+    else if sgn > 0 then
+      node_takeout (nx, k0, ni)
+    else let // sgn = 0
+      val () = nodearr_set_at (nxa, ni1, node_get_next (nx, ni1))
+    in
+      if ni1 > 0 then nodearr_takeout (nxa, k0, ni1) else nx
+    end
+  end else
+    nodearr_takeout (nxa, k0, ni1)
+  // end of [if]
+end else
+  node_null (1)
+// end of [if]
+//
+end // end of [nodearr_takeout]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_takeout
+  (map, k0, res) = let
+in
+//
+case+ map of
+| @SKIPLIST
+    (N, lgN, nxa) => let
+    val nx = nodearr_takeout (nxa, k0, lgN)
+    val p_nx = node2ptr (nx)
+  in
+    if p_nx > nullp then let
+      prval () = __assert (N) where {
+        extern praxi __assert {N:int} (N: size_t N): [N>0] void
+      } // end of [prval]
+      val () = N := pred (N)
+      val () = node_free (nx, res)
+      prval () = opt_some {itm} (res)
+      prval () = fold@ (map)
+    in
+      true
+    end else let
+      prval () = fold@ (map)
+      prval () = opt_none {itm} (res)
+    in
+      false
+    end // end of [if]
+  end // end of [SKIPLIST]
+//
+end // end of [linmap_takeout]
 
 (* ****** ****** *)
 

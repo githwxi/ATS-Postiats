@@ -486,4 +486,35 @@ end // end of [linmap_listize_free]
 
 (* ****** ****** *)
 
+implement
+{key,itm}{env}
+linmap_foreach_env
+  (map, env) = let
+//
+fun aux {n:nat} .<n>. (
+  t: !bstree (key, itm, n), env: &env
+) : void = let
+in
+//
+case+ t of
+| @BSTcons (
+    n, k, x, tl, tr
+  ) => let
+    val () = aux (tl, env)
+    val () = linmap_foreach$fwork (k, x, env)
+    val () = aux (tr, env)
+    prval () = fold@ (t)
+  in
+    // nothing
+  end // end of [BSTcons]
+| BSTnil () => ()
+//
+end // end of [aux]
+//
+in
+  aux (map, env)
+end // end of [linmap_foreach_env]
+
+(* ****** ****** *)
+
 (* end of [linmap_randbst.dats] *)
