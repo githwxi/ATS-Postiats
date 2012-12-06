@@ -170,7 +170,7 @@ int zmq_send (void *socket, void *buf, size_t len, int flags);
 fun zmq_send
   {m:int}{n:int | n <= m} (
   sock: !zmqsock1, buf: &(@[byte][m]), len: size_t (n), flags: int
-) : interr = "atsctrb_zmq_send" // end of [zmq_send]
+) : int(*verr*) = "atsctrb_zmq_send" // end of [zmq_send]
 
 (* ****** ****** *)
 
@@ -180,7 +180,7 @@ int zmq_recv (void *socket, void *buf, size_t len, int flags);
 fun zmq_recv
   {m:int}{n:int | n <= m} (
   sock: !zmqsock1, buf: &(@[byte][m]), len: size_t (n), flags: int
-) : interr = "atsctrb_zmq_recv" // end of [zmq_recv]
+) : int(*verr*) = "atsctrb_zmq_recv" // end of [zmq_recv]
 
 (* ****** ****** *)
 
@@ -206,13 +206,13 @@ fun zmq_msg_size
 
 (* ****** ****** *)
 
-extern ZMQ_MORE = $extval (int, "ZMQ_MORE")
+macdef ZMQ_MORE = $extval (int, "ZMQ_MORE")
 
 (*
 int zmq_msg_get (zmq_msg_t *message, int property);
 *)
 fun zmq_msg_get
-  (msg: &zmqmsg, property: int): int(*valerr*) = "atsctrb_zmq_msg_get"
+  (msg: &zmqmsg, property: int): int(*verr*) = "atsctrb_zmq_msg_get"
 // end of [zmq_msg_get]
 
 fun zmq_msg_get_exn

@@ -37,6 +37,15 @@ This package contains an API for programming zeromq in ATS.\
 
 (* ****** ****** *)
 
+#declnamesynop("zmq_close")
+
+(* ****** ****** *)
+
+#declnamesynop("zmq_send")
+#declnamesynop("zmq_recv")
+
+(* ****** ****** *)
+
 #declnamesynop("zmq_connect")
 #declnamesynop("zmq_connect_exn")
 
@@ -56,6 +65,10 @@ This package contains an API for programming zeromq in ATS.\
 (* ****** ****** *)
 
 #declnamesynop("zmq_msg_copy")
+#declnamesynop("zmq_msg_copy_exn")
+
+#declnamesynop("zmq_msg_move")
+#declnamesynop("zmq_msg_move_exn")
 
 (* ****** ****** *)
 
