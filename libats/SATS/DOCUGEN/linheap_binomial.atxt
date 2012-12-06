@@ -32,6 +32,35 @@ binomial-heap structure.\
 
 (* ****** ****** *)
 
+#declnamesynop("linheap_is_nil")
+#declnamesynop("linheap_isnot_nil")
+
+(* ****** ****** *)
+
+#declnamesynop("linheap_size")
+
+(* ****** ****** *)
+
+#declnamesynop("linheap_insert")
+#declnamesynop("linheap_merge")
+
+(* ****** ****** *)
+
+#declnamesynop("linheap_getmin")
+#declnamesynop("linheap_getmin_ref")
+#declnamesynop("linheap_getmin_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("linheap_delmin")
+#declnamesynop("linheap_delmin_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("linheap_free")
+#declnamesynop("linheap_freelin")
+#declnamesynop("linheap_free_vt")
+
 (* ****** ****** *)
 
 (* end of [linheap_binomial.atxt] *)
