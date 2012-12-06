@@ -21,6 +21,14 @@ binary-search-tree structure.
 
 (* ****** ****** *)
 
+#declnamesynop("map_viewtype")
+
+(* ****** ****** *)
+
+#declnamesynop("map") // = map_viewtype
+
+(* ****** ****** *)
+
 #declnamesynop("compare_key_key")
 #decldescrpt("This function is for comparing map keys.")
 

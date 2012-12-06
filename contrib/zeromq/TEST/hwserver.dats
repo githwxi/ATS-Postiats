@@ -52,6 +52,10 @@ staload "zeromq/SATS/zmq.sats"
 
 (* ****** ****** *)
 
+postfix SZ; macdef SZ (i) = g1int2uint (,(i))
+
+(* ****** ****** *)
+
 implement
 main () = 0 where {
 //
@@ -61,7 +65,6 @@ val () = assertloc (zmqctx2ptr (context) > nullp)
 val responder = zmq_socket_exn (context, ZMQ_REP)
 val () = assertloc (zmq_bind (responder, "tcp://*:5555") >= 0)
 //
-(*
 val () =
   while (true) {
 //
@@ -82,7 +85,7 @@ val () =
 // Send reply back to client
 //
   var reply : zmqmsg
-  val () = zmq_msg_init_size_exn (reply, 5)
+  val () = zmq_msg_init_size_exn (reply, 5SZ)
   val () = memcpy (
     zmq_msg_data (reply), "World", 5
   ) where {
@@ -93,7 +96,6 @@ val () =
   val _(*nbyte*) = zmq_msg_send (reply, responder, 0)
   val () = zmq_msg_close_exn (reply)
 } // end of [while] // end of [val]
-*)
 //
 val () = zmq_close_exn (responder)
 val () = assertloc (zmq_ctx_destroy (context) >= 0)

@@ -116,6 +116,12 @@ libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/FUNDEQUE/fundeque_fingertre
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linmap_randbst.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/SATS/LINMAP/linmap_randbst.dats
 
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linmap_skiplist.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/SATS/LINMAP/linmap_skiplist.dats
+
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linheap_binomial.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/SATS/LINMAP/linheap_binomial.dats
+
 libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/list0.sats
 libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/list0.dats
 libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/option0.sats

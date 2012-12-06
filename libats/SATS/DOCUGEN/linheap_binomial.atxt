@@ -22,6 +22,14 @@ binomial-heap structure.\
 
 (* ****** ****** *)
 
+#declnamesynop("heap_viewtype")
+
+(* ****** ****** *)
+
+#declnamesynop("heap") // = heap_viewtype
+
+(* ****** ****** *)
+
 #declnamesynop("compare_elt_elt")
 #decldescrpt("This function is for comparing heap elements.")
 
