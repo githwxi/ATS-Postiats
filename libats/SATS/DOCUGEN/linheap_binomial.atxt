@@ -1,0 +1,37 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_linheap_binomial")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/linheap_binomial\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package implements a linear heap based on the
+binomial-heap structure.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("compare_elt_elt")
+#decldescrpt("This function is for comparing heap elements.")
+
+(* ****** ****** *)
+
+#declnamesynop("linheap_nil")
+#decldescrpt("This function creates an empty heap.")
+
+(* ****** ****** *)
+
+(* ****** ****** *)
+
+(* end of [linheap_binomial.atxt] *)
