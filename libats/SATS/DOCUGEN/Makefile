@@ -123,6 +123,14 @@ upload_linmap_skiplist:: ;   scp HTML/linmap_skiplist.html ats-hwxi,ats-lang@web
 clean:: ; $(RMF) linmap_skiplist_atxt.exe
 cleanall:: ; $(RMF) HTML/linmap_skiplist.html
 
+all_html:: HTML/linheap_binomial.html
+HTML/linheap_binomial.html:   linheap_binomial_atxt.exe ; $(CAT) ../linheap_binomial.sats | ./$< > $@
+linheap_binomial_atxt.txt: linheap_binomial.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+linheap_binomial_atxt.exe: htmlgendecl_atxt.dats   linheap_binomial_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_linheap_binomial:: ;   scp HTML/linheap_binomial.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) linheap_binomial_atxt.exe
+cleanall:: ; $(RMF) HTML/linheap_binomial.html
+
 
 ######
 

@@ -57,7 +57,7 @@ fun eventp_null
 prfun eventp_free_null {l:alez} (p: eventp l):<> void
 
 castfn
-eventp2ptr {l:addr} (p: eventp (l)):<> ptr (l)
+eventp2ptr {l:addr} (p: !eventp (l)):<> ptr (l)
 
 fun eventp_is_null
   {l:addr}

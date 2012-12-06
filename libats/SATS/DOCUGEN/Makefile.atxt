@@ -110,6 +110,7 @@ all_html::
 #make_entry("fundeque_fingertree")
 #make_entry("linmap_randbst")
 #make_entry("linmap_skiplist")
+#make_entry("linheap_binomial")
 
 ######
 
