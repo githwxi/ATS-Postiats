@@ -107,6 +107,9 @@ libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gflist.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/gflist_vt.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gflist_vt.dats
 
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funset_listord.sats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/FUNSET/funset_listord.dats
+
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funralist_nested.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/FUNRALIST/funralist_nested.dats
 

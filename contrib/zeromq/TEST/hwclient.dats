@@ -88,7 +88,7 @@ if nbr < N then let
   val _(*nbyte*) = zmq_msg_send_exn (request, requester, 0)
   val () = zmq_msg_close_exn (request)
 in
-  loop (nbr, requester, request, reply)
+  loop (nbr+1, requester, request, reply)
 end // end of [if]
 //
 end // end of [loop]
