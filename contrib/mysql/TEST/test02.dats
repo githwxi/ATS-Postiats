@@ -12,8 +12,10 @@ staload "mysql/SATS/mysql.sats"
 //
 (* ****** ****** *)
 
-#define some stropt_some
-#define none stropt_none
+#define nullp the_null_ptr
+
+macdef none() = stropt_none()
+macdef some(x) = stropt_some(,(x))
 
 (* ****** ****** *)
 
@@ -24,34 +26,36 @@ main () = let
   val perr = MYSQLptr2ptr (conn)
   val () = fprint_mysql_error (stderr_ref, conn)
 //
-  val () = assertloc (perr > null)
+  val () = assertloc (perr > nullp)
 //
 // mysql -h... -P... -umysqlats mysqlats -p mysqlats16712
 //
   val host = some"instance25474.db.xeround.com"
   val user = some"mysqlats"
+  val dbname = none()
   val pass = some"mysqlats16712"
   val port = 16712U
+  val socket = none()
   val perr = mysql_real_connect
-    (conn, host, user, pass, none, port, none, 0UL)
+    (conn, host, user, pass, dbname, port, socket, 0UL)
   val () = fprint_mysql_error (stderr_ref, conn)
 //
-  val () = assertloc (perr > null)
+  val () = assertloc (perr > nullp)
 //
   val stat = mysql_stat (conn)
-  val () = fprintf (stdout_ref, "stat: %s\n", @(stat))
+  val () = println! ("stat: ", stat)
   val sqlstate = mysql_sqlstate (conn)
-  val () = fprintf (stdout_ref, "sqlstate: %s\n", @(sqlstate))
+  val () = println! ("sqlstate: ", sqlstate)
 //
   val info = mysql_get_host_info (conn)
-  val () = fprintf (stdout_ref, "host info: %s\n", @(info))
+  val () = println! ("host info: ", info)
   val proto = mysql_get_proto_info (conn)
-  val () = fprintf (stdout_ref, "proto info: %u\n", @(proto))
+  val () = println! ("proto info: ", proto)
 //
   val info = mysql_get_server_info (conn)
-  val () = fprintf (stdout_ref, "server info: %s\n", @(info))
+  val () = println! ("serve info: ", info)
   val version = mysql_get_server_version (conn)
-  val () = fprintf (stdout_ref, "server info: %lu\n", @(version))
+  val () = println! ("serve version: ", version)
 //
   val qry = "create database testdb"
   val ierr = mysql_query (conn, $UN.cast{query}(qry))
@@ -65,7 +69,7 @@ main () = let
 //
   val () = mysql_close (conn)
 in
-  // nothing
+  0(*normal*)
 end // end of [main]
 
 (* ****** ****** *)

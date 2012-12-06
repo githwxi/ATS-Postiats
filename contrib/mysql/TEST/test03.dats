@@ -12,8 +12,10 @@ staload "mysql/SATS/mysql.sats"
 //
 (* ****** ****** *)
 
-#define some stropt_some
-#define none stropt_none
+#define nullp the_null_ptr
+
+macdef none() = stropt_none()
+macdef some(x) = stropt_some(,(x))
 
 (* ****** ****** *)
 
@@ -24,24 +26,27 @@ main () = let
   val perr = MYSQLptr2ptr (conn)
   val () = fprint_mysql_error (stderr_ref, conn)
 //
-  val () = assertloc (perr > null)
+  val () = assertloc (perr > nullp)
 //
 // mysql -h... -P... -umysqlats mysqlats -p mysqlats16712
 //
   val host = some"instance25474.db.xeround.com"
   val user = some"mysqlats"
   val pass = some"mysqlats16712"
+  val dbname = none()
   val port = 16712U
+  val socket = none()
   val perr = mysql_real_connect
-    (conn, host, user, pass, none, port, none, 0UL)
+    (conn, host, user, pass, dbname, port, socket, 0UL)
   val () = fprint_mysql_error (stderr_ref, conn)
-  val () = assertloc (perr > null)
+  val () = assertloc (perr > nullp)
 //
+  val wild = none()
   val res =
-    mysql_list_dbs (conn, none)
+    mysql_list_dbs (conn, wild)
   val () = fprint_mysql_error (stderr_ref, conn)
   val perr = MYSQLRESptr2ptr (res)
-  val () = assertloc (perr > null)
+  val () = assertloc (perr > nullp)
 //
   val () =
     fprint_mysqlres_sep (stdout_ref, res, "\n", ", ")
@@ -69,7 +74,7 @@ main () = let
     mysql_use_result (conn)
   val () = fprint_mysql_error (stderr_ref, conn)
   val perr = MYSQLRESptr2ptr (res)
-  val () = assertloc (perr > null)
+  val () = assertloc (perr > nullp)
 //
   val () =
     fprint_mysqlres_sep (stdout_ref, res, "\n", ", ")
@@ -88,7 +93,7 @@ main () = let
   val () = mysql_close (conn)
 //
 in
-  // nothing
+  0(*normal*)
 end // end of [main]
 
 (* ****** ****** *)

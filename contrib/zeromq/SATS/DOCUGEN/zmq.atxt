@@ -1,0 +1,70 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/contrib_zeromq_zmq")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/contrib/zeromq/zmq\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para("\
+This package contains an API for programming zeromq in ATS.\
+")
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("zmq_ctx_new")
+
+(* ****** ****** *)
+
+#declnamesynop("zmq_ctx_destroy")
+#declnamesynop("zmq_ctx_destroy_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("zmq_bind")
+#declnamesynop("zmq_bind_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("zmq_connect")
+#declnamesynop("zmq_connect_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("zmq_msg_data")
+#declnamesynop("zmq_msg_size")
+
+(* ****** ****** *)
+
+#declnamesynop("zmq_msg_init")
+#declnamesynop("zmq_msg_init_exn")
+
+#declnamesynop("zmq_msg_init_size")
+#declnamesynop("zmq_msg_init_size_exn")
+
+(* ****** ****** *)
+
+#declnamesynop("zmq_msg_copy")
+
+(* ****** ****** *)
+
+#declnamesynop("zmq_msg_send")
+#declnamesynop("zmq_msg_send_exn")
+
+#declnamesynop("zmq_msg_recv")
+#declnamesynop("zmq_msg_recv_exn")
+
+(* ****** ****** *)
+
+(* end of [zmq.atxt] *)

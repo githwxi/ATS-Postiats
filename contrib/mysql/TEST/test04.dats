@@ -12,8 +12,10 @@ staload "mysql/SATS/mysql.sats"
 //
 (* ****** ****** *)
 
-#define some stropt_some
-#define none stropt_none
+#define nullp the_null_ptr
+
+macdef none() = stropt_none()
+macdef some(x) = stropt_some(,(x))
 
 (* ****** ****** *)
 
@@ -21,10 +23,11 @@ implement
 main () = let
   val [l:addr]
     conn = mysql_init ()
+  // end of [val]
   val perr = MYSQLptr2ptr (conn)
   val () = fprint_mysql_error (stderr_ref, conn)
 //
-  val () = assertloc (perr > null)
+  val () = assertloc (perr > nullp)
 //
 // mysql -h... -P... -umysqlats mysqlats -p mysqlats16712
 //
@@ -33,11 +36,11 @@ main () = let
   val passwd = some"mysqlats16712"
   val dbname = some"testdb"
   val port = 16712U
-  val socket = none
+  val socket = none()
   val perr = mysql_real_connect
     (conn, host, user, passwd, dbname, port, socket, 0UL)
   val () = fprint_mysql_error (stderr_ref, conn)
-  val () = assertloc (perr > null)
+  val () = assertloc (perr > nullp)
 //
   val qry = "CREATE DATABASE testdb"
   val ierr = mysql_query (conn, $UN.cast{query}(qry))
@@ -46,7 +49,7 @@ main () = let
 //
   val () = mysql_close (conn)
 in
-  // nothing
+  0(*normal*)
 end // end of [main]
 
 (* ****** ****** *)

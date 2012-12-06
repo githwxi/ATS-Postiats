@@ -141,13 +141,16 @@ fun mysql_close (x: MYSQLptr0): void = "mac#atsctrb_mysql_close"
 (* ****** ****** *)
 
 /*
-MYSQL *		STDCALL mysql_real_connect(MYSQL *mysql, const char *host,
-					   const char *user,
-					   const char *passwd,
-					   const char *db,
-					   unsigned int port,
-					   const char *unix_socket,
-					   unsigned long clientflag);
+MYSQL*
+mysql_real_connect(
+  MYSQL *mysql, const char *host,
+  const char *user,
+  const char *passwd,
+  const char *db,
+  unsigned int port,
+  const char *unix_socket,
+  unsigned long clientflag
+) ; // end of [mysql_real_connect]
 */
 fun
 mysql_real_connect

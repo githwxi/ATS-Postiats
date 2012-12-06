@@ -10,8 +10,9 @@ staload "mysql/SATS/mysql.sats"
 implement
 main () = let
   val version = mysql_get_client_info ()
-  val () = printf("MySQL client version: %s\n", @(version))
+  val () = println! ("MySQL client version: ", version)
 in
+  0(*normal*)
 end // end of [main]
 
 (* ****** ****** *)
