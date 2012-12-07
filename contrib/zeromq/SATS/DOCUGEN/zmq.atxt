@@ -51,8 +51,16 @@ This package contains an API for programming zeromq in ATS.\
 
 (* ****** ****** *)
 
-#declnamesynop("zmq_msg_data")
 #declnamesynop("zmq_msg_size")
+#declnamesynop("zmq_msg_data")
+
+#declnamesynop("zmq_msg_more")
+#decldescrpt("\
+
+This function returns an integer indicating whether the given message is
+part of a multi-part message or there are further parts to receive.\
+
+")
 
 (* ****** ****** *)
 

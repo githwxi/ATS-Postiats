@@ -63,6 +63,7 @@ val context = zmq_ctx_new ()
 val () = assertloc (zmqctx2ptr (context) > nullp)
 //
 val responder = zmq_socket_exn (context, ZMQ_REP)
+//
 val () = assertloc (zmq_bind (responder, "tcp://*:5555") >= 0)
 //
 val () =

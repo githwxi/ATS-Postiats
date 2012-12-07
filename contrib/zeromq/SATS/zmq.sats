@@ -96,10 +96,14 @@ fun zmq_errno (): int = "mac#atsctrb_zmq_errno"
 
 fun zmq_ctx_new (): zmqctx0 = "mac#atsctrb_zmq_ctx_new"
 
+(* ****** ****** *)
+
 fun zmq_ctx_destroy
   {l:agz} (
   ctx: !zmqctx (l) >> zmqctxopt (l, i < 0)
 ) : #[i:int | i <= 0] int (i) = "mac#atsctrb_zmq_ctx_destroy"
+
+fun zmq_ctx_destroy_exn (ctx: zmqctx1): void
 
 (* ****** ****** *)
 
@@ -188,6 +192,13 @@ viewtypedef zmqmsg = zmqmsg_viewt0ype
 (* ****** ****** *)
 
 (*
+void *zmq_msg_size (zmq_msg_t *msg);
+*)
+fun zmq_msg_size
+  (msg: &zmqmsg):<> size_t = "mac#atsctrb_zmq_msg_size"
+// end of [zmq_msg_size]
+
+(*
 void *zmq_msg_data (zmq_msg_t *msg);
 *)
 fun zmq_msg_data
@@ -195,11 +206,9 @@ fun zmq_msg_data
 // end of [zmq_msg_data]
 
 (*
-void *zmq_msg_size (zmq_msg_t *msg);
+int zmq_msg_more (zmq_msg_t *message);
 *)
-fun zmq_msg_size
-  (msg: &zmqmsg):<> size_t = "mac#atsctrb_zmq_msg_size"
-// end of [zmq_msg_size]
+fun zmq_msg_more (msg: &zmqmsg):<> natLt(2)
 
 (* ****** ****** *)
 
@@ -325,6 +334,18 @@ void zmq_version (int *major, int *minor, int *patch);
 fun zmq_version (
   major: &int? >> int, minor: &int? >> int, patch: &int? >> int
 ) : void = "mac#atsctrb_zmq_version" // end of [zmq_version]
+
+(* ****** ****** *)
+
+(*
+** HX: this one has been deprecated!
+*)
+fun zmq_term
+  {l:agz} (
+  ctx: !zmqctx (l) >> zmqctxopt (l, i < 0)
+) : #[i:int | i <= 0] int (i) = "mac#atsctrb_zmq_term"
+
+fun zmq_term_exn (ctx: zmqctx1): void
 
 (* ****** ****** *)
 
