@@ -25,6 +25,10 @@ INCLATS:=-IATS $(PATSHOMEQ) -IATS $(ATSHOMEQ)
 
 ######
 
+ATSGCFLAG=-D_ATS_GCATS
+
+######
+
 CAT=cat
 
 ######
@@ -62,7 +66,7 @@ all_html::
 all_html:: HTML/list0.html
 HTML/list0.html:   list0_atxt.exe ; $(CAT) ../list0.sats | ./$< > $@
 list0_atxt.txt: list0.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
-list0_atxt.exe: htmlgendecl_atxt.dats   list0_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+list0_atxt.exe: htmlgendecl_atxt.dats   list0_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
 upload_list0:: ;   scp HTML/list0.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
 clean:: ; $(RMF) list0_atxt.exe
 cleanall:: ; $(RMF) HTML/list0.html
@@ -70,7 +74,7 @@ cleanall:: ; $(RMF) HTML/list0.html
 all_html:: HTML/option0.html
 HTML/option0.html:   option0_atxt.exe ; $(CAT) ../option0.sats | ./$< > $@
 option0_atxt.txt: option0.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
-option0_atxt.exe: htmlgendecl_atxt.dats   option0_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+option0_atxt.exe: htmlgendecl_atxt.dats   option0_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
 upload_option0:: ;   scp HTML/option0.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
 clean:: ; $(RMF) option0_atxt.exe
 cleanall:: ; $(RMF) HTML/option0.html
@@ -78,7 +82,7 @@ cleanall:: ; $(RMF) HTML/option0.html
 all_html:: HTML/array0.html
 HTML/array0.html:   array0_atxt.exe ; $(CAT) ../array0.sats | ./$< > $@
 array0_atxt.txt: array0.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
-array0_atxt.exe: htmlgendecl_atxt.dats   array0_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+array0_atxt.exe: htmlgendecl_atxt.dats   array0_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
 upload_array0:: ;   scp HTML/array0.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
 clean:: ; $(RMF) array0_atxt.exe
 cleanall:: ; $(RMF) HTML/array0.html
@@ -86,7 +90,7 @@ cleanall:: ; $(RMF) HTML/array0.html
 all_html:: HTML/string.html
 HTML/string.html:   string_atxt.exe ; $(CAT) ../string.sats | ./$< > $@
 string_atxt.txt: string.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
-string_atxt.exe: htmlgendecl_atxt.dats   string_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) -D_ATS_GCATS -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+string_atxt.exe: htmlgendecl_atxt.dats   string_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
 upload_string:: ;   scp HTML/string.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
 clean:: ; $(RMF) string_atxt.exe
 cleanall:: ; $(RMF) HTML/string.html

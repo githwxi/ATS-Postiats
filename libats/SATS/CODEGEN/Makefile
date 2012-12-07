@@ -13,6 +13,10 @@ ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 
 ######
 
+ATSGCFLAG=-D_ATS_GCATS
+
+######
+
 all::
 
 ######
