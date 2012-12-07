@@ -68,6 +68,10 @@ INCLATS:=-IATS $(PATSHOMEQ) -IATS $(ATSHOMEQ)
 
 ######
 
+ATSGCFLAG=-D_ATS_GCATS
+
+######
+
 CAT=cat
 
 ######

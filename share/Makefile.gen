@@ -13,10 +13,6 @@ ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 
 ######
 
-ATSGCFLAG=-D_ATS_GCATS
-
-######
-
 Makefile: Makefile.exe ; ./$< > $@
 
 Makefile.exe: Makefile_atxt.dats
