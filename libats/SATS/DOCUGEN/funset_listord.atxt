@@ -1,0 +1,80 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_funset_nested")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/funset_nested\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package implements sets based on lists ordered according to
+some total ordering.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("set_t0ype_type")
+#declnamesynop("set") // set = set_t0ype_type
+
+(* ****** ****** *)
+
+fun{a:t0p}
+compare_elt_elt (x1: a, x2: a):<> int
+
+(* ****** ****** *)
+
+#declnamesynop("funset_nil")
+#declnamesynop("funset_sing")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_make_list")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_size")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_is_member")
+#declnamesynop("funset_isnot_member")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_insert")
+#declnamesynop("funset_remove")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_union")
+#declnamesynop("funset_intersect")
+#declnamesynop("funset_diff")
+#declnamesynop("funset_symdiff")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_is_equal")
+
+#declnamesynop("funset_is_subset")
+#declnamesynop("funset_is_supset")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_compare")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_listize")
+
+(* ****** ****** *)
+
+(* end of [funset_listord.atxt] *)

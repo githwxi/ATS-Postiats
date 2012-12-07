@@ -15,7 +15,7 @@ ATSLIB/libats/linmap_randbst\
 
 #declpreamble("\
 
-This package implements a linear map based on the randomized
+This package implements linear maps based on the randomized
 binary-search-tree structure.
 ")
 

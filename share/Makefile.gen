@@ -13,10 +13,14 @@ ATSDOC=$(ATSHOMEQ)/bin/atsdoc
 
 ######
 
+ATSGCFLAG=-D_ATS_GCATS
+
+######
+
 Makefile: Makefile.exe ; ./$< > $@
 
 Makefile.exe: Makefile_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ $< -latsdoc
+	$(ATSCC) $(ATSGCFLAG) -o $@ $< -latsdoc
 Makefile_atxt.dats: Makefile.atxt
 	$(ATSDOC) --outcode $@ -i $< > Makefile_atxt.txt
 
@@ -25,7 +29,7 @@ Makefile_atxt.dats: Makefile.atxt
 Makefile2: Makefile2.exe ; ./$< > $@
 
 Makefile2.exe: Makefile2_atxt.dats
-	$(ATSCC) -D_ATS_GCATS -o $@ $< -latsdoc
+	$(ATSCC) $(ATSGCFLAG) -o $@ $< -latsdoc
 Makefile2_atxt.dats: Makefile2.atxt
 	$(ATSDOC) --outcode $@ -i $< > Makefile2_atxt.txt
 

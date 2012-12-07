@@ -15,8 +15,9 @@ ATSLIB/libats/linmap_skiplist\
 
 #declpreamble("\
 
-This package implements a linear map based on the
-(randomized) skip-list structure.
+This package implements linear maps based on the (randomized) skip-list
+structure.\
+
 ")
 
 (* ****** ****** *)

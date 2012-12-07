@@ -16,7 +16,7 @@ ATSLIB/libats/fundeque_fingertree\
 #declpreamble("\
 
 This package implements a functional deque (double-ended queue) based on
-finger-tree structure.
+the so-called finger-tree structure.
 
 ")
 
