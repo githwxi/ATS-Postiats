@@ -55,11 +55,11 @@ ATS and vice versa.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("dlist_vt_is_beg")
-#declnamesynop("dlist_vt_is_end")
+#declnamesynop("dlist_vt_is_atbeg")
+#declnamesynop("dlist_vt_is_atend")
 
-#declnamesynop("rdlist_vt_is_beg")
-#declnamesynop("rdlist_vt_is_end")
+#declnamesynop("rdlist_vt_is_atbeg")
+#declnamesynop("rdlist_vt_is_atend")
 
 (* ****** ****** *)
 
@@ -78,8 +78,8 @@ ATS and vice versa.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("dlist_vt_move_end")
-#declnamesynop("rdlist_vt_move_end")
+#declnamesynop("dlist_vt_move_all")
+#declnamesynop("rdlist_vt_move_all")
 
 (* ****** ****** *)
 

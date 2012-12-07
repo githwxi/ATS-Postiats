@@ -25,6 +25,10 @@ various finite precision.
 
 (* ****** ****** *)
 
+#declnamesynop("g1int_get_index")
+
+(* ****** ****** *)
+
 #declnamesynop("g0int_neg")
 #declnamesynop("g1int_neg")
 #declnamesynop("g0int_succ")
@@ -119,6 +123,10 @@ unequal to its second argument. It is for signed integers.
 (* ****** ****** *)
 
 #declnamesynop("g0uint_of_string")
+
+(* ****** ****** *)
+
+#declnamesynop("g1uint_get_index")
 
 (* ****** ****** *)
 

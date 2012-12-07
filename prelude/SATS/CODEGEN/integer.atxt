@@ -200,6 +200,12 @@ g1int_of_string (str: NSH(string)):<> g1int (tk)
 
 #atscode_separator()
 
+prfun g1int_get_index
+  {i1:int} (x: g1int (k, i1)): [i2:int] INTEQ (i1, i2)
+// end of [g1int_get_index]
+
+#atscode_separator()
+
 fun{tk:tk}
 g1int_neg {i:int}
   (x: g1int (tk, i)):<> g1int (tk, ~i)
@@ -515,6 +521,12 @@ fun{k1,k2:tk}
 g1uint2uint // u2u
   {u:int} (x: g1uint (k1, u)):<> [u>=0] g1uint (k2, u)
 // end of [g1uint2uint]
+
+#atscode_separator()
+
+prfun g1uint_get_index
+  {i1:int} (x: g1uint (k, i1)): [i2:int] INTEQ (i1, i2)
+// end of [g1uint_get_index]
 
 #atscode_separator()
 

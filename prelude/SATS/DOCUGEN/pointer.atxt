@@ -111,16 +111,16 @@ overload ptr_pred with ptr1_pred of 1
 #declsynop2("
 #pats2xhtmls("\
 symintr ptr_add
-overload ptr_add with ptr0_add_int of 0
-overload ptr_add with ptr0_add_uint of 0
-overload ptr_add with ptr1_add_int of 2
-overload ptr_add with ptr1_add_uint of 2
+overload ptr_add with ptr0_add_gint of 0
+overload ptr_add with ptr0_add_guint of 0
+overload ptr_add with ptr1_add_gint of 2
+overload ptr_add with ptr1_add_guint of 2
 ")
 ")
-#declnamesynop("ptr0_add_int")
-#declnamesynop("ptr0_add_uint")
-#declnamesynop("ptr1_add_int")
-#declnamesynop("ptr1_add_uint")
+#declnamesynop("ptr0_add_gint")
+#declnamesynop("ptr0_add_guint")
+#declnamesynop("ptr1_add_gint")
+#declnamesynop("ptr1_add_guint")
 
 (* ****** ****** *)
 
@@ -128,16 +128,16 @@ overload ptr_add with ptr1_add_uint of 2
 #declsynop2("
 #pats2xhtmls("\
 symintr ptr_sub
-overload ptr_sub with ptr0_sub_int of 0
-overload ptr_sub with ptr0_sub_uint of 0
-overload ptr_sub with ptr1_sub_int of 2
-overload ptr_sub with ptr1_sub_uint of 2
+overload ptr_sub with ptr0_sub_gint of 0
+overload ptr_sub with ptr0_sub_guint of 0
+overload ptr_sub with ptr1_sub_gint of 2
+overload ptr_sub with ptr1_sub_guint of 2
 ")
 ")
-#declnamesynop("ptr0_sub_int")
-#declnamesynop("ptr0_sub_uint")
-#declnamesynop("ptr1_sub_int")
-#declnamesynop("ptr1_sub_uint")
+#declnamesynop("ptr0_sub_gint")
+#declnamesynop("ptr0_sub_guint")
+#declnamesynop("ptr1_sub_gint")
+#declnamesynop("ptr1_sub_guint")
 
 (* ****** ****** *)
 
