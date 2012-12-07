@@ -74,6 +74,7 @@ all::
 
 #make_entry("list")
 #make_entry("list_vt")
+#make_entry("dlist_vt")
 #make_entry("option")
 #make_entry("option_vt")
 

@@ -72,6 +72,7 @@ prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/basics.dats
 
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/list.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/list_vt.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/dlist_vt.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/option.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/option_vt.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/array.dats

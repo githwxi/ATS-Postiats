@@ -1,0 +1,331 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"dlist_vt.dats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/dlist_vt.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("Feburary, 2012")
+
+#atscode_separator()
+
+staload UN = "prelude/SATS/unsafe.sats"
+
+#atscode_separator()
+
+staload "prelude/SATS/dlist_vt.sats"
+
+#atscode_separator()
+
+dataviewtype
+DLIST (
+  a:viewt@ype+, int
+) = // DLIST
+  | {r:nat}
+    DLISTcons (a, r+1) of (a, ptr(*prev*), DLIST (a, r))
+  | DLISTnil (a, 0) of ()
+// end of [DLIST]
+
+#atscode_separator()
+
+extern
+castfn
+DLIST2ptr {a:vt0p}{r:int} (xs: !DLIST(a, r)):<> ptr
+
+#atscode_separator()
+
+assume
+dlist_viewtype (a: vt0p, f:int, r:int) = DLIST (a, r)
+
+#atscode_separator()
+
+\#define nullp the_null_ptr
+
+#atscode_separator()
+
+implement{} dlist_vt_nil {a} () = DLISTnil ()
+
+#atscode_separator()
+
+implement{a}
+dlist_vt_cons
+  (x, xs) = let
+in
+//
+case+ xs of
+| @DLISTcons
+    (_, prev, _) => let
+    val p_prev = addr@ (prev)
+    prval () = fold@ (xs)
+    val res = DLISTcons (x, nullp, xs)
+    val () =
+      $effmask_wrt ($UN.ptr_set<ptr> (p_prev, DLIST2ptr(res)))
+    // end of [val]
+  in
+    res
+  end // end of [DLISTcons]
+| ~DLISTnil () => DLISTcons (x, nullp, DLISTnil ())
+//
+end // end of [dlist_vt_cons]
+
+#atscode_separator()
+
+implement{a}
+dlist_vt_snoc
+  (xs, x) = let
+  val node =
+    DLISTcons (x, DLIST2ptr(xs), DLISTnil ())
+  val node1 = __copy (node) where {
+    extern castfn __copy (xs: !DLIST(a, 1)):<> DLIST(a, 1)
+  }
+  val+ @DLISTcons (_, _, xs1) = xs
+  val+ ~DLISTnil () = xs1; val () = $effmask_wrt (xs1 := node1)
+  prval () = fold@ {a} (xs)
+  prval () = __hide (xs) where {
+    extern praxi __hide (xs: DLIST(a, 2)):<> void
+  } // end of [prval]
+in
+  node
+end // end of [dlist_vt_snoc]
+
+#atscode_separator()
+
+implement{a}
+dlist_vt_get
+  {f,r} (xs) = let
+  val+ DLISTcons (x, _, _) = xs in x
+end // end of [dlist_vt_get]
+
+implement{a}
+dlist_vt_set
+  {f,r} (xs, x0) = let
+  val+ @DLISTcons (x, _, _) = xs in x := x0; fold@ (xs)
+end // end of [dlist_vt_set]
+
+#atscode_separator()
+
+implement{a}
+dlist_vt_is_beg
+  {f,r} (xs) = let
+  val+ DLISTcons (_, prev, _) = xs
+  val [b:bool] ans = (
+    if prev > nullp then false else true
+  ) : Bool // end of [val]
+  prval () = __assert () where {
+    extern praxi __assert (): [b==(f==0)] void
+  } // end of [prval]
+in
+  ans
+end // end of [dlist_vt_is_beg]
+
+implement{a}
+dlist_vt_is_end
+  {f,r} (xs) = let
+  val+ @DLISTcons
+    (_, _, xs1) = xs
+  val next = DLIST2ptr (xs1)
+  prval () = fold@ (xs)
+  val [b:bool] ans = (
+    if next > nullp then false else true
+  ) : Bool // end of [val]
+  prval () = __assert () where {
+    extern praxi __assert (): [b==(r==1)] void
+  } // end of [prval]
+in
+  ans
+end // end of [dlist_vt_is_end]
+
+implement{a}
+rdlist_vt_is_beg
+  {f,r} (xs) = dlist_vt_is_end {f,r} (xs)
+// end of [rdlist_vt_is_beg]
+
+implement{a}
+rdlist_vt_is_end
+  {f,r} (xs) = dlist_vt_is_beg {f,r} (xs)
+// end of [rdlist_vt_is_end]
+
+#atscode_separator()
+
+implement{a}
+dlist_vt_length
+  {f,r} (xs) = let
+//
+fun loop {r:nat}{r0:int} .<r>.
+  (xs: !DLIST (a, r), res: int (r0)):<> int (r0+r) =
+  case+ xs of
+  | DLISTcons
+      (_, _, xs1) => loop (xs1, res + 1)
+  | DLISTnil () => res
+// end of [loop]
+prval () = lemma1_dlist_vt_params {a}{f,r} (xs)
+//
+in
+  loop (xs, 0)
+end // end of [dlist_vt_length]
+
+implement{a}
+rdlist_vt_length
+  {f,r} (xs) = let
+//
+fun loop {f:nat} .<f>.
+  (prev: ptr, res: int):<> int = let
+  val xs = __cast (prev) where {
+    extern castfn __cast (p: ptr):<> [r:nat] DLIST (a, r)
+  } // end of [where] // end of [val]
+in
+//
+case+ xs of
+| DLISTcons
+    (_, prev, _) => let
+    prval () = __assert () where {
+      extern praxi __assert (): [f > 0] void
+    } // end of [where] // end of [prval]
+    prval () = __free (xs) where {
+      extern praxi __free {r:int} (xs: DLIST (a, r)): void
+    } // end of [where] // end of [prval]
+  in
+    loop {f-1} (prev, res + 1)
+  end // end of [DLISTcons]
+| ~DLISTnil () => res
+//
+end // end of [loop]
+//
+prval () = lemma1_dlist_vt_params {a}{f,r} (xs)
+//
+val res = (
+  case+ xs of
+  | DLISTcons
+      (_, prev, _) => loop {f} (prev, 0)
+  | DLISTnil () => 0
+) : int // end of [val]
+//
+in
+//
+__cast (res) where { extern castfn __cast (res: int):<> int (f) }
+//
+end // end of [rdlist_vt_length]
+
+#atscode_separator()
+
+implement{a}
+dlist_vt_move
+  {f,r} (xs) = let
+//
+val+ DLISTcons (_, _, xs1) = xs
+//
+val xs1 =
+  __copy (xs1) where {
+  extern castfn __copy (xs: !DLIST(a, r-1)):<> DLIST(a, r-1)
+} // end of [where] // end of [val]
+prval () =
+  __free (xs) where { extern praxi __free (xs: DLIST (a, r)): void}
+// end of [prval]
+//
+in
+  xs1 (* : dlist_vt (a, f+1, r-1) *)
+end // end of [dlist_vt_move]
+
+implement{a}
+rdlist_vt_move
+  {f,r} (xs) = let
+//
+prval () =
+  lemma1_dlist_vt_params {a}{f,r} (xs)
+prval () = (
+  sif r == 0 then lemma2_dlist_vt_params {a}{f} (xs) else () 
+) : [r > 0] void // end of [prval]
+//
+val+ DLISTcons (_, prev, _) = xs
+//
+prval () =
+  __free (xs) where {
+  extern praxi __free (xs: DLIST (a, r)): void
+} // end of [where] // end of [prval]
+//
+in
+//
+__cast (prev) where { extern castfn __cast (p: ptr):<> DLIST(a, r+1) }
+//
+end // end of [rdlist_vt_move]
+
+#atscode_separator()
+
+implement{a}
+dlist_vt_move_end
+  {f,r} (xs) = let
+  val isend = dlist_vt_is_end {f,r} (xs)
+  prval () = lemma1_dlist_vt_params {a}{f,r} (xs)
+in
+  if isend then
+    xs else dlist_vt_move_end {f+1,r-1} (dlist_vt_move {f,r} (xs))
+  // end of [if]
+end // end of [dlist_vt_move_end]
+
+implement{a}
+rdlist_vt_move_end
+  {f,r} (xs) = let
+  val isend = rdlist_vt_is_end {f,r} (xs)
+  prval () = lemma1_dlist_vt_params {a}{f,r} (xs)
+in
+  if isend then
+    xs else rdlist_vt_move_end {f-1,r+1} (rdlist_vt_move {f,r} (xs))
+  // end of [if]
+end // end of [rdlist_vt_move_end]
+
+#atscode_separator()
+
+implement{a}
+dlist_vt_insert {f,r}
+  (xs, x) = let
+  val p_xs = DLIST2ptr (xs)
+  val+ @DLISTcons (_, _, xs1) = xs
+  val xs2 = dlist_vt_cons (x, xs1)
+  val+ @DLISTcons (_, prev, _) = xs2
+  val () = prev := p_xs
+  prval () = fold@ {a} (xs2)
+  val () = xs1 := xs2
+  prval () = fold@ {a} (xs)
+in
+  xs
+end // end of [dlist_vt_insert]
+
+#atscode_separator()
+
+implement{a}
+dlist_vt_free {r} (xs) = let
+//
+fun loop
+  {r:nat} .<r>.
+  (xs: DLIST (a, r)):<> void =
+  case+ xs of
+  | ~DLISTcons (_, _, xs) => loop (xs) | ~DLISTnil () => ()
+// end of [loop]
+prval () = lemma1_dlist_vt_params {a}{0,r} (xs)
+//
+in
+  loop (xs)
+end // end of [dlist_vt_free]
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "dlist_vt_atxt.txt")
+%}\
