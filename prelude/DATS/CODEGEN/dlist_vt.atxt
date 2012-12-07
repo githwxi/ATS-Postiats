@@ -26,7 +26,9 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
+// end of [staload]
 
 #atscode_separator()
 
@@ -90,17 +92,21 @@ end // end of [dlist_vt_cons]
 implement{a}
 dlist_vt_snoc
   (xs, x) = let
-  val node =
-    DLISTcons (x, DLIST2ptr(xs), DLISTnil ())
-  val node1 = __copy (node) where {
-    extern castfn __copy (xs: !DLIST(a, 1)):<> DLIST(a, 1)
-  }
-  val+ @DLISTcons (_, _, xs1) = xs
-  val+ ~DLISTnil () = xs1; val () = $effmask_wrt (xs1 := node1)
-  prval () = fold@ {a} (xs)
-  prval () = __hide (xs) where {
-    extern praxi __hide (xs: DLIST(a, 2)):<> void
-  } // end of [prval]
+//
+val node =
+  DLISTcons (x, DLIST2ptr(xs), DLISTnil ())
+val node1 =
+  __copy (node) where {
+  extern castfn __copy (xs: !DLIST(a, 1)):<> DLIST(a, 1)
+} // end of [where] // end of [val]
+val+ @DLISTcons
+  (_, _, xs1) = xs
+val+ ~DLISTnil () = xs1; val () = $effmask_wrt (xs1 := node1)
+prval () = fold@ {a} (xs)
+prval () =
+  __free (xs) where { extern praxi __free (xs: DLIST(a, 2)): void }
+// end of [prval]
+//
 in
   node
 end // end of [dlist_vt_snoc]
