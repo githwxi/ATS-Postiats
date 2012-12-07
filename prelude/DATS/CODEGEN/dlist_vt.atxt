@@ -128,7 +128,7 @@ end // end of [dlist_vt_set]
 #atscode_separator()
 
 implement{a}
-dlist_vt_is_beg
+dlist_vt_is_atbeg
   {f,r} (xs) = let
   val+ DLISTcons (_, prev, _) = xs
   val [b:bool] ans = (
@@ -139,10 +139,10 @@ dlist_vt_is_beg
   } // end of [prval]
 in
   ans
-end // end of [dlist_vt_is_beg]
+end // end of [dlist_vt_is_atbeg]
 
 implement{a}
-dlist_vt_is_end
+dlist_vt_is_atend
   {f,r} (xs) = let
   val+ @DLISTcons
     (_, _, xs1) = xs
@@ -156,17 +156,17 @@ dlist_vt_is_end
   } // end of [prval]
 in
   ans
-end // end of [dlist_vt_is_end]
+end // end of [dlist_vt_is_atend]
 
 implement{a}
-rdlist_vt_is_beg
-  {f,r} (xs) = dlist_vt_is_end {f,r} (xs)
-// end of [rdlist_vt_is_beg]
+rdlist_vt_is_atbeg
+  {f,r} (xs) = dlist_vt_is_atend {f,r} (xs)
+// end of [rdlist_vt_is_atbeg]
 
 implement{a}
-rdlist_vt_is_end
-  {f,r} (xs) = dlist_vt_is_beg {f,r} (xs)
-// end of [rdlist_vt_is_end]
+rdlist_vt_is_atend
+  {f,r} (xs) = dlist_vt_is_atbeg {f,r} (xs)
+// end of [rdlist_vt_is_atend]
 
 #atscode_separator()
 
@@ -250,6 +250,19 @@ in
 end // end of [dlist_vt_move]
 
 implement{a}
+dlist_vt_move_all
+  {f,r} (xs) = let
+  val isend = dlist_vt_is_atend {f,r} (xs)
+  prval () = lemma1_dlist_vt_params {a}{f,r} (xs)
+in
+  if isend then
+    xs else dlist_vt_move_all {f+1,r-1} (dlist_vt_move {f,r} (xs))
+  // end of [if]
+end // end of [dlist_vt_move_all]
+
+#atscode_separator()
+
+implement{a}
 rdlist_vt_move
   {f,r} (xs) = let
 //
@@ -272,29 +285,16 @@ __cast (prev) where { extern castfn __cast (p: ptr):<> DLIST(a, r+1) }
 //
 end // end of [rdlist_vt_move]
 
-#atscode_separator()
-
 implement{a}
-dlist_vt_move_end
+rdlist_vt_move_all
   {f,r} (xs) = let
-  val isend = dlist_vt_is_end {f,r} (xs)
+  val isend = rdlist_vt_is_atend {f,r} (xs)
   prval () = lemma1_dlist_vt_params {a}{f,r} (xs)
 in
   if isend then
-    xs else dlist_vt_move_end {f+1,r-1} (dlist_vt_move {f,r} (xs))
+    xs else rdlist_vt_move_all {f-1,r+1} (rdlist_vt_move {f,r} (xs))
   // end of [if]
-end // end of [dlist_vt_move_end]
-
-implement{a}
-rdlist_vt_move_end
-  {f,r} (xs) = let
-  val isend = rdlist_vt_is_end {f,r} (xs)
-  prval () = lemma1_dlist_vt_params {a}{f,r} (xs)
-in
-  if isend then
-    xs else rdlist_vt_move_end {f-1,r+1} (rdlist_vt_move {f,r} (xs))
-  // end of [if]
-end // end of [rdlist_vt_move_end]
+end // end of [rdlist_vt_move_all]
 
 #atscode_separator()
 

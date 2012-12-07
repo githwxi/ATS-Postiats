@@ -87,26 +87,26 @@ dlist_vt_snoc {f:int}
 #atscode_separator()
 
 fun{a:vt0p}
-dlist_vt_is_beg
+dlist_vt_is_atbeg
   {f,r:int | r > 0}
   (xs: !dlist_vt (a, f, r)):<> bool (f==0)
-// end of [dlist_vt_is_beg]
+// end of [dlist_vt_is_atbeg]
 fun{a:vt0p}
-dlist_vt_is_end
+dlist_vt_is_atend
   {f,r:int | r > 0}
   (xs: !dlist_vt (a, f, r)):<> bool (r==1)
-// end of [dlist_vt_is_end]
+// end of [dlist_vt_is_atend]
 
 fun{a:vt0p}
-rdlist_vt_is_beg
+rdlist_vt_is_atbeg
   {f,r:int | r > 0}
   (xs: !dlist_vt (a, f, r)):<> bool (r==1)
-// end of [rdlist_vt_is_end]
+// end of [rdlist_vt_is_atend]
 fun{a:vt0p}
-rdlist_vt_is_end
+rdlist_vt_is_atend
   {f,r:int | r > 0}
   (xs: !dlist_vt (a, f, r)):<> bool (f==0)
-// end of [rdlist_vt_is_end]
+// end of [rdlist_vt_is_atend]
 
 #atscode_separator()
 
@@ -135,22 +135,22 @@ dlist_vt_move
   {f,r:int | r > 1}
   (xs: dlist_vt (a, f, r)):<> dlist_vt (a, f+1, r-1)
 fun{a:vt0p}
-rdlist_vt_move
-  {f,r:int | f > 0}
-  (xs: dlist_vt (a, f, r)):<> dlist_vt (a, f-1, r+1)
+dlist_vt_move_all
+  {f,r:int | r > 0}
+  (xs: dlist_vt (a, f, r)):<> dlist_vt (a, f+r-1, 1)
+// end of [dlist_vt_move_all]
 
 #atscode_separator()
 
 fun{a:vt0p}
-dlist_vt_move_end
-  {f,r:int | r > 0}
-  (xs: dlist_vt (a, f, r)):<> dlist_vt (a, f+r-1, 1)
-// end of [dlist_vt_move_end]
+rdlist_vt_move
+  {f,r:int | f > 0}
+  (xs: dlist_vt (a, f, r)):<> dlist_vt (a, f-1, r+1)
 fun{a:vt0p}
-rdlist_vt_move_end
+rdlist_vt_move_all
   {f,r:int | r > 0}
   (xs: dlist_vt (a, f, r)):<> dlist_vt (a, 0, f+r)
-// end of [rdlist_vt_move_end]
+// end of [rdlist_vt_move_all]
 
 #atscode_separator()
 
