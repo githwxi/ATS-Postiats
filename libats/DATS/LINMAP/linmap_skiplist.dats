@@ -193,7 +193,9 @@ implement
 {key,itm}
 node_free
   (nx, res) = let
+//
   viewtypedef VT = (key, itm, ptr, int)
+//
   prval (
     pfat, pfgc | p
   ) = __cast (nx) where {
@@ -202,8 +204,16 @@ node_free
       nx: node1 (key, itm)
     ) :<> [l:addr] (VT @ l, free_gc_v l | ptr l)
   } // end of [prval]
+//
   val () = res := p->1
+//
+  val () =
+    __free (p->2) where {
+    extern fun __free : ptr -> void = "atsruntime_free"
+  } // end of [val]
+//
   val () = ptr_free {VT?} (pfgc, pfat | p)
+//
 in
   // nothing
 end // end of [node_free]
