@@ -96,20 +96,32 @@ dlist_vt_snoc
 val node =
   DLISTcons (x, DLIST2ptr(xs), DLISTnil ())
 val node1 =
-  __copy (node) where {
-  extern castfn __copy (xs: !DLIST(a, 1)):<> DLIST(a, 1)
+  __ref (node) where {
+  extern castfn __ref (xs: !DLIST(a, 1)):<> DLIST(a, 1)
 } // end of [where] // end of [val]
 val+ @DLISTcons
   (_, _, xs1) = xs
 val+ ~DLISTnil () = xs1; val () = $effmask_wrt (xs1 := node1)
 prval () = fold@ {a} (xs)
 prval () =
-  __free (xs) where { extern praxi __free (xs: DLIST(a, 2)): void }
+  __unref (xs) where { extern praxi __unref (xs: DLIST(a, 2)): void }
 // end of [prval]
 //
 in
   node
 end // end of [dlist_vt_snoc]
+
+#atscode_separator()
+
+implement{a}
+dlist_vt_getref_elt (xs) = let
+  val+ @DLISTcons (x, _, _) = xs; val p_x = addr@ (x) in fold@(xs); p_x
+end // end of [dlist_vt_get_elt]
+
+implement{a}
+dlist_vt_getref_next (xs) = let
+  val+ @DLISTcons (_, _, xs1) = xs; val p_xs1 = addr@ (xs1) in fold@(xs); p_xs1
+end // end of [dlist_vt_get_next]
 
 #atscode_separator()
 
@@ -124,16 +136,6 @@ dlist_vt_set
   (xs, x0) = let
   val+ @DLISTcons (x, _, _) = xs in x := x0; fold@ (xs)
 end // end of [dlist_vt_set]
-
-implement{a}
-dlist_vt_getref_elt (xs) = let
-  val+ @DLISTcons (x, _, _) = xs; val p_x = addr@ (x) in fold@(xs); p_x
-end // end of [dlist_vt_get_elt]
-
-implement{a}
-dlist_vt_getref_next (xs) = let
-  val+ @DLISTcons (_, _, xs1) = xs; val p_xs1 = addr@ (xs1) in fold@(xs); p_xs1
-end // end of [dlist_vt_get_next]
 
 #atscode_separator()
 
@@ -203,8 +205,8 @@ rdlist_vt_length
 //
 fun loop {f:nat} .<f>.
   (prev: ptr, res: int):<> int = let
-  val xs = __cast (prev) where {
-    extern castfn __cast (p: ptr):<> [r:nat] DLIST (a, r)
+  val [r:int] xs = __cast (prev) where {
+    extern castfn __cast : ptr -<> [r:nat] DLIST (a, r)
   } // end of [where] // end of [val]
 in
 //
@@ -215,7 +217,7 @@ case+ xs of
       extern praxi __assert (): [f > 0] void
     } // end of [where] // end of [prval]
     prval () = __free (xs) where {
-      extern praxi __free {r:int} (xs: DLIST (a, r)): void
+      extern praxi __free : DLIST (a, r) -<prf> void
     } // end of [where] // end of [prval]
   in
     loop {f-1} (prev, res + 1)
@@ -224,7 +226,8 @@ case+ xs of
 //
 end // end of [loop]
 //
-prval () = lemma1_dlist_vt_param {a}{f,r} (xs)
+prval () =
+  lemma1_dlist_vt_param {a}{f,r} (xs)
 //
 val res = (
   case+ xs of
@@ -234,9 +237,7 @@ val res = (
 ) : int // end of [val]
 //
 in
-//
-__cast (res) where { extern castfn __cast (res: int):<> int (f) }
-//
+  $UN.cast {int(f)} (res)
 end // end of [rdlist_vt_length]
 
 #atscode_separator()
@@ -248,11 +249,11 @@ dlist_vt_move
 val+ DLISTcons (_, _, xs1) = xs
 //
 val xs1 =
-  __copy (xs1) where {
-  extern castfn __copy (xs: !DLIST(a, r-1)):<> DLIST(a, r-1)
+  __ref (xs1) where {
+  extern castfn __ref (xs: !DLIST(a, r-1)):<> DLIST(a, r-1)
 } // end of [where] // end of [val]
 prval () =
-  __free (xs) where { extern praxi __free (xs: DLIST (a, r)): void}
+  __unref (xs) where { extern praxi __unref (xs: DLIST (a, r)): void}
 // end of [prval]
 //
 in
@@ -291,7 +292,7 @@ prval () =
 //
 in
 //
-__cast (prev) where { extern castfn __cast (p: ptr):<> DLIST(a, r+1) }
+  $UN.castvwtp0 {DLIST(a, r+1)} (prev)
 //
 end // end of [rdlist_vt_move]
 
@@ -313,8 +314,8 @@ dlist_vt_insert
   (xs, x) = let
   val p_xs = DLIST2ptr (xs)
   val+ @DLISTcons (_, _, xs1) = xs
-  val xs2 = dlist_vt_cons (x, xs1)
-  val+ @DLISTcons (_, prev, _) = xs2
+  val xs2 = DLISTcons (x, _, xs1)
+  val+ DLISTcons (_, prev, _) = xs2
   val () = prev := p_xs
   prval () = fold@ {a} (xs2)
   val () = xs1 := xs2
@@ -349,11 +350,13 @@ dlist_vt_remove
   val () =
     if (prev > nullp) then {
 //
-    val xs_prev = $UN.castvwtp0 {VT} (prev)
+    val xs_prev =
+      __cast (prev) where { extern castfn __cast : ptr -<> VT }
+    // end of [val]
     val p_prev_next = dlist_vt_getref_next (xs_prev)
-    prval () = (
+    prval () =
       __free (xs_prev) where { extern praxi __free : VT -<prf> void }
-    ) // end of [prval]
+    // end of [prval]
 //
     val () = $UN.ptr_set (p_prev_next, DLIST2ptr (xs1))
 //

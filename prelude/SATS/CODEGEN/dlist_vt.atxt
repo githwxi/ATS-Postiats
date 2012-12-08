@@ -115,16 +115,6 @@ rdlist_vt_is_atend
 
 #atscode_separator()
 
-fun{a:t0p}
-dlist_vt_get
-  {f,r:int | r > 0} (xs: !dlist_vt (INV(a), f, r)): a
-// end of [dlist_vt_get]
-
-fun{a:t0p}
-dlist_vt_set
-  {f,r:int | r > 0} (xs: !dlist_vt (INV(a), f, r), x0: a): void
-// end of [dlist_vt_set]
-
 fun{a:vt0p}
 dlist_vt_getref_elt
   {f,r:int | r > 0} (xs: !dlist_vt (INV(a), f, r)):<> Ptr1
@@ -134,6 +124,18 @@ fun{a:vt0p}
 dlist_vt_getref_next
   {f,r:int | r > 0} (xs: !dlist_vt (INV(a), f, r)):<> Ptr1
 // end of [dlist_vt_getref_next]
+
+#atscode_separator()
+
+fun{a:t0p}
+dlist_vt_get
+  {f,r:int | r > 0} (xs: !dlist_vt (INV(a), f, r)): a
+// end of [dlist_vt_get]
+
+fun{a:t0p}
+dlist_vt_set
+  {f,r:int | r > 0} (xs: !dlist_vt (INV(a), f, r), x0: a): void
+// end of [dlist_vt_set]
 
 #atscode_separator()
 
@@ -183,6 +185,20 @@ dlist_vt_remove
   {f,r:int | f > 0}
   (xs: dlist_vt (INV(a), f, r), x0: &a? >> a):<!wrt> dlist_vt (a, f-1, r)
 // end of [dlist_vt_remove]
+
+#atscode_separator()
+
+fun{a:vt0p}
+dlist_vt_append
+  {f1,r1:int}{f2,r2:int} (
+  xs1: dlist_vt (INV(a), f1, r1), xs2: dlist_vt (a, f2, r2)
+) :<!wrt> dlist_vt (a, f1, r1+f2+r2) // end of [dlist_vt_append]
+
+fun{a:vt0p}
+rdlist_vt_append
+  {f1,r1:int}{f2,r2:int | r2 > 0} (
+  xs1: dlist_vt (INV(a), f1, r1), xs2: dlist_vt (a, f2, r2)
+) :<!wrt> dlist_vt (a, f1+r1+f2, r2) // end of [rdlist_vt_append]
 
 #atscode_separator()
 
