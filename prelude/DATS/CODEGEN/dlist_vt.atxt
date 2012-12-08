@@ -409,6 +409,25 @@ end // end of [dlist_vt_remove]
 #atscode_separator()
 
 implement{a}
+rdlist_vt_insert
+  (xs, x0) =
+  dlist_vt_move (dlist_vt_insert (xs, x0))
+// end of [rdlist_vt_insert]
+
+implement{a}
+rdlist_vt_remove
+  {f,r} (xs, x0) = let
+//
+  prval () = lemma1_dlist_vt_param {a}{f,r} (xs)
+  prval () = lemma2_dlist_vt_param {a}{f,r} (xs)
+//
+in
+  dlist_vt_remove (rdlist_vt_move {f,r} (xs), x0)
+end // end of [rdlist_vt_remove]
+
+#atscode_separator()
+
+implement{a}
 dlist_vt_append
   {f1,r1}{f2,r2} (xs1, xs2) = let
   prval () = lemma1_dlist_vt_param {a}{f1,r1} (xs1)
@@ -419,17 +438,23 @@ if dlist_vt_is_cons (xs2) then let
   val xs2 = rdlist_vt_move_all {f2,r2} (xs2)
 in
   if dlist_vt_is_cons (xs1) then let
+//
     val p1 = DLIST2ptr (xs1)
     val xs1_last = dlist_vt_move_all {f1,r1} (xs1)
 //
-    val+ @DLISTcons (_, prev, _) = xs2
-    val () = prev := DLIST2ptr (xs1_last)
-    val () = fold@ (xs2)
+    val () = {
+      val+ @DLISTcons (_, prev, _) = xs2
+      val () = prev := DLIST2ptr (xs1_last)
+      prval () = fold@ (xs2)
+    } // end of [val]
 //
-    val+ @DLISTcons (_, _, xs1_last_next) = xs1_last
-    val+ ~DLISTnil () = xs1_last_next
-    val () = xs1_last_next := xs2
-    prval () = fold@ (xs1_last)
+    val () = {
+      val+ @DLISTcons
+        (_, _, next) = xs1_last
+      val+ ~DLISTnil () = next // HX: no-op
+      val () = next := xs2
+      prval () = fold@ (xs1_last)
+    } // end of [val]
 //
     prval () =
       __free (xs1_last) where {
@@ -458,6 +483,9 @@ end // end of [dlist_vt_append]
 implement{a}
 rdlist_vt_append
   {f1,r1}{f2,r2} (xs1, xs2) = let
+//
+  viewtypedef res = dlist_vt (a, f1+r1+f2, r2)
+//
   prval () = lemma1_dlist_vt_param {a}{f1,r1} (xs1)
   prval () = lemma1_dlist_vt_param {a}{f2,r2} (xs2)
 //
@@ -470,15 +498,19 @@ if dlist_vt_is_cons (xs1) then let
   val p2 = DLIST2ptr (xs2)
   val xs2_first = rdlist_vt_move_all {f2,r2} (xs2)
 //
-  val+ @DLISTcons
-    (_, prev, _) = xs2_first
-  val () = prev := DLIST2ptr (xs1)
-  val () = fold@ (xs2_first)
+  val () = {
+    val+ @DLISTcons
+      (_, prev, _) = xs2_first
+    val () = prev := DLIST2ptr (xs1)
+    val () = fold@ (xs2_first)
+  } // end of [val]
 //
-  val+ @DLISTcons (_, _, xs1_next) = xs1
-  val+ ~DLISTnil () = xs1_next
-  val () = xs1_next := xs2_first
-  prval () = fold@ (xs1)
+  val () = {
+    val+ @DLISTcons (_, _, next) = xs1
+    val+ ~DLISTnil () = next // HX: no-op
+    val () = next := xs2_first
+    prval () = fold@ (xs1)
+  } // end of [val]
 //
   prval () =
     __free (xs1) where {
@@ -486,7 +518,7 @@ if dlist_vt_is_cons (xs1) then let
   } // end of [prval]
 //
 in
-  $UN.castvwtp0 {dlist_vt (a, f1+r1+f2, r2)} (p2)
+  $UN.castvwtp0 {res} (p2)
 end else let
   prval () = lemma3_dlist_vt_param {a}{f1} (xs1)
   val+ ~DLISTnil () = xs1
@@ -495,25 +527,6 @@ in
 end // end of [if]
 //
 end // end of [rdlist_vt_append]
-
-#atscode_separator()
-
-implement{a}
-rdlist_vt_insert
-  (xs, x0) =
-  dlist_vt_move (dlist_vt_insert (xs, x0))
-// end of [rdlist_vt_insert]
-
-implement{a}
-rdlist_vt_remove
-  {f,r} (xs, x0) = let
-//
-  prval () = lemma1_dlist_vt_param {a}{f,r} (xs)
-  prval () = lemma2_dlist_vt_param {a}{f,r} (xs)
-//
-in
-  dlist_vt_remove (rdlist_vt_move {f,r} (xs), x0)
-end // end of [rdlist_vt_remove]
 
 #atscode_separator()
 
