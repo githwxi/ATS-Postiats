@@ -75,7 +75,7 @@ case+ xs of
 | @DLISTcons
     (_, prev, _) => let
     val p_prev = addr@ (prev)
-    prval () = fold@ (xs)
+    prval () = fold@ (xs) // HX: no-op
     val res = DLISTcons (x, nullp, xs)
     val () =
       $effmask_wrt ($UN.ptr_set<ptr> (p_prev, DLIST2ptr(res)))
@@ -115,13 +115,18 @@ end // end of [dlist_vt_snoc]
 
 implement{a}
 dlist_vt_get
-  {f,r} (xs) = let
+  (xs) = let
   val+ DLISTcons (x, _, _) = xs in x
 end // end of [dlist_vt_get]
 
 implement{a}
+dlist_vt_getref (xs) = let
+  val+ @DLISTcons (x, _, _) = xs; val p_x = addr@ (x) in fold@(xs); p_x
+end // end of [dlist_vt_get]
+
+implement{a}
 dlist_vt_set
-  {f,r} (xs, x0) = let
+  (xs, x0) = let
   val+ @DLISTcons (x, _, _) = xs in x := x0; fold@ (xs)
 end // end of [dlist_vt_set]
 
@@ -181,7 +186,7 @@ fun loop {r:nat}{r0:int} .<r>.
       (_, _, xs1) => loop (xs1, res + 1)
   | DLISTnil () => res
 // end of [loop]
-prval () = lemma1_dlist_vt_params {a}{f,r} (xs)
+prval () = lemma1_dlist_vt_param {a}{f,r} (xs)
 //
 in
   loop (xs, 0)
@@ -214,7 +219,7 @@ case+ xs of
 //
 end // end of [loop]
 //
-prval () = lemma1_dlist_vt_params {a}{f,r} (xs)
+prval () = lemma1_dlist_vt_param {a}{f,r} (xs)
 //
 val res = (
   case+ xs of
@@ -253,7 +258,7 @@ implement{a}
 dlist_vt_move_all
   {f,r} (xs) = let
   val isend = dlist_vt_is_atend {f,r} (xs)
-  prval () = lemma1_dlist_vt_params {a}{f,r} (xs)
+  prval () = lemma1_dlist_vt_param {a}{f,r} (xs)
 in
   if isend then
     xs else dlist_vt_move_all {f+1,r-1} (dlist_vt_move {f,r} (xs))
@@ -267,9 +272,9 @@ rdlist_vt_move
   {f,r} (xs) = let
 //
 prval () =
-  lemma1_dlist_vt_params {a}{f,r} (xs)
+  lemma1_dlist_vt_param {a}{f,r} (xs)
 prval () = (
-  sif r == 0 then lemma2_dlist_vt_params {a}{f} (xs) else () 
+  sif r == 0 then lemma2_dlist_vt_param {a}{f} (xs) else () 
 ) : [r > 0] void // end of [prval]
 //
 val+ DLISTcons (_, prev, _) = xs
@@ -289,7 +294,7 @@ implement{a}
 rdlist_vt_move_all
   {f,r} (xs) = let
   val isend = rdlist_vt_is_atend {f,r} (xs)
-  prval () = lemma1_dlist_vt_params {a}{f,r} (xs)
+  prval () = lemma1_dlist_vt_param {a}{f,r} (xs)
 in
   if isend then
     xs else rdlist_vt_move_all {f-1,r+1} (rdlist_vt_move {f,r} (xs))
@@ -324,11 +329,49 @@ fun loop
   case+ xs of
   | ~DLISTcons (_, _, xs) => loop (xs) | ~DLISTnil () => ()
 // end of [loop]
-prval () = lemma1_dlist_vt_params {a}{0,r} (xs)
+prval () = lemma1_dlist_vt_param {a}{0,r} (xs)
 //
 in
   loop (xs)
 end // end of [dlist_vt_free]
+
+#atscode_separator()
+
+implement
+{a}{env}
+dlist_vt_foreach_env
+  (xs, env) = let
+//
+prval () =
+  lemma1_dlist_vt_param (xs)
+// end of [prval]
+//
+fun loop
+  {r:nat} .<r>. (
+  xs: !DLIST (a, r), env: &env
+) : void = let
+in
+//
+case+ xs of
+| @DLISTcons
+    (x, _(*prev*), xs1) => let
+    val () =
+      dlist_vt_foreach$fwork<a><env> (x, env)
+    // end of [val]
+    val () = loop (xs1, env)
+    prval () = fold@ (xs) // HX: no-op
+  in
+    // nothing
+  end // end of [DLISTcons]
+| DLISTnil () => ()
+//
+end // end of [loop]
+//
+in
+  loop (xs, env)
+end // end of [dlist_vt_foreach_env]
+
+#atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
 

@@ -55,12 +55,12 @@ stadef dlist_vt = dlist_viewtype
 #atscode_separator()
 
 praxi
-lemma1_dlist_vt_params {a:vt0p}
+lemma1_dlist_vt_param {a:vt0p}
   {f,r:int} (xs: !dlist_vt (a, f, r)): [f >= 0;r >= 0] void
 // end of [lemma_dlist_vt_params]
 
 praxi
-lemma2_dlist_vt_params
+lemma2_dlist_vt_param
   {a:vt0p} {f:int} (xs: !dlist_vt (a, f, 0)): [f == 0] void
 // end of [lemma2_dlist_vt_params]
 
@@ -114,6 +114,12 @@ fun{a:t0p}
 dlist_vt_get
   {f,r:int | r > 0} (xs: !dlist_vt (a, f, r)): a
 // end of [dlist_vt_get]
+
+fun{a:t0p}
+dlist_vt_getref
+  {f,r:int | r > 0} (xs: !dlist_vt (a, f, r)): Ptr1
+// end of [dlist_vt_getref]
+
 fun{a:t0p}
 dlist_vt_set
   {f,r:int | r > 0} (xs: !dlist_vt (a, f, r), x0: a): void
@@ -157,15 +163,19 @@ rdlist_vt_move_all
 fun{a:vt0p}
 dlist_vt_insert
   {f,r:int | r > 0}
-  (xs: dlist_vt (a, f, r), x: a):<> dlist_vt (a, f, r+1)
+  (xs: dlist_vt (a, f, r), x: a):<!wrt> dlist_vt (a, f, r+1)
 // end of [dlist_vt_insert]
 
 #atscode_separator()
 
 fun{a:t@ype}
-dlist_vt_free {r:int} (xs: dlist_vt (a, 0, r)):<> void
+dlist_vt_free {r:int} (xs: dlist_vt (a, 0, r)):<!wrt> void
 
 #atscode_separator()
+
+fun{
+a:vt0p}{env:vt0p
+} dlist_vt_foreach$fwork (x: &a, env: &env): void
 
 fun{a:vt0p}
 dlist_vt_foreach
@@ -179,6 +189,10 @@ a:vt0p}{env:vt0p
 // end of [dlist_vt_foreach_env]
 
 #atscode_separator()
+
+fun{
+a:vt0p}{env:vt0p
+} rdlist_vt_foreach$fwork (x: &a, env: &env): void
 
 fun{a:vt0p}
 rdlist_vt_foreach
