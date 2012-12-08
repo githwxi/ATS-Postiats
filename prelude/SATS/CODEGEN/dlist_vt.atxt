@@ -91,6 +91,18 @@ dlist_vt_snoc {f:int}
 
 #atscode_separator()
 
+fun{}
+dlist_vt_is_nil
+  {a:vt0p}{f,r:int} (xs: !dlist_vt (a, f, r)):<> bool (r==0)
+// end of [dlist_vt_is_nil]
+
+fun{}
+dlist_vt_is_cons
+  {a:vt0p}{f,r:int} (xs: !dlist_vt (a, f, r)):<> bool (r > 0)
+// end of [dlist_vt_is_cons]
+
+#atscode_separator()
+
 fun{a:vt0p}
 dlist_vt_is_atbeg
   {f,r:int | r > 0}

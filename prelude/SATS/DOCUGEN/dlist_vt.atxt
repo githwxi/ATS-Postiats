@@ -56,6 +56,11 @@ ATS and vice versa.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("dlist_vt_is_nil")
+#declnamesynop("dlist_vt_is_cons")
+
+(* ****** ****** *)
+
 #declnamesynop("dlist_vt_is_atbeg")
 #declnamesynop("dlist_vt_is_atend")
 

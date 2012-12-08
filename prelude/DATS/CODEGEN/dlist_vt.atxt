@@ -113,6 +113,18 @@ end // end of [dlist_vt_snoc]
 
 #atscode_separator()
 
+implement{}
+dlist_vt_is_nil (xs) =
+  case+ xs of DLISTnil () => true | DLISTcons _ => false
+// end of [dlist_vt_is_nil]
+
+implement{}
+dlist_vt_is_cons (xs) =
+  case+ xs of DLISTnil () => false | DLISTcons _ => true
+// end of [dlist_vt_is_cons]
+
+#atscode_separator()
+
 implement{a}
 dlist_vt_getref_elt (xs) = let
   val+ @DLISTcons (x, _, _) = xs; val p_x = addr@ (x) in fold@(xs); p_x
@@ -349,6 +361,96 @@ val () =
 in
   xs1
 end // end of [dlist_vt_remove]
+
+#atscode_separator()
+
+implement{a}
+dlist_vt_append
+  {f1,r1}{f2,r2} (xs1, xs2) = let
+  prval () = lemma1_dlist_vt_param {a}{f1,r1} (xs1)
+  prval () = lemma1_dlist_vt_param {a}{f2,r2} (xs2)
+in
+//
+if dlist_vt_is_cons (xs2) then let
+  val xs2 = rdlist_vt_move_all {f2,r2} (xs2)
+in
+  if dlist_vt_is_cons (xs1) then let
+    val p1 = DLIST2ptr (xs1)
+    val xs1_last = dlist_vt_move_all {f1,r1} (xs1)
+//
+    val+ @DLISTcons (_, prev, _) = xs2
+    val () = prev := DLIST2ptr (xs1_last)
+    val () = fold@ (xs2)
+//
+    val+ @DLISTcons (_, _, xs1_last_next) = xs1_last
+    val+ ~DLISTnil () = xs1_last_next
+    val () = xs1_last_next := xs2
+    prval () = fold@ (xs1_last)
+//
+    prval () =
+      __free (xs1_last) where {
+      extern praxi __free : DLIST (a, 1+f2+r2) -<prf> void
+    } // end of [prval]
+//
+  in
+    $UN.castvwtp0 {dlist_vt (a, f1, r1+f2+r2)} (p1)
+  end else let
+    prval () = lemma3_dlist_vt_param {a}{f1} (xs1)
+    val+ ~DLISTnil () = xs1
+  in
+    xs2
+  end // end of [if]
+end else let
+  prval () = lemma3_dlist_vt_param {a}{f2} (xs2)
+  val+ ~DLISTnil () = xs2
+in
+  xs1
+end // end of [if]
+//
+end // end of [dlist_vt_append]
+
+#atscode_separator()
+
+implement{a}
+rdlist_vt_append
+  {f1,r1}{f2,r2} (xs1, xs2) = let
+  prval () = lemma1_dlist_vt_param {a}{f1,r1} (xs1)
+  prval () = lemma1_dlist_vt_param {a}{f2,r2} (xs2)
+//
+in
+//
+if dlist_vt_is_cons (xs1) then let
+//
+  val xs1 = dlist_vt_move_all {f1,r1} (xs1)
+//
+  val p2 = DLIST2ptr (xs2)
+  val xs2_first = rdlist_vt_move_all {f2,r2} (xs2)
+//
+  val+ @DLISTcons
+    (_, prev, _) = xs2_first
+  val () = prev := DLIST2ptr (xs1)
+  val () = fold@ (xs2_first)
+//
+  val+ @DLISTcons (_, _, xs1_next) = xs1
+  val+ ~DLISTnil () = xs1_next
+  val () = xs1_next := xs2_first
+  prval () = fold@ (xs1)
+//
+  prval () =
+    __free (xs1) where {
+    extern praxi __free : DLIST (a, 1+f2+r2) -<prf> void
+  } // end of [prval]
+//
+in
+  $UN.castvwtp0 {dlist_vt (a, f1+r1+f2, r2)} (p2)
+end else let
+  prval () = lemma3_dlist_vt_param {a}{f1} (xs1)
+  val+ ~DLISTnil () = xs1
+in
+  xs2
+end // end of [if]
+//
+end // end of [rdlist_vt_append]
 
 #atscode_separator()
 
