@@ -49,7 +49,7 @@ DLIST (
 
 extern
 castfn
-DLIST2ptr {a:vt0p}{r:int} (xs: !DLIST(a, r)):<> ptr
+DLIST2ptr {a:vt0p}{r:int} (xs: !DLIST(INV(a), r)):<> ptr
 
 #atscode_separator()
 
@@ -154,15 +154,25 @@ end // end of [dlist_vt_set]
 implement{a}
 dlist_vt_is_atbeg
   {f,r} (xs) = let
+  prval () = lemma1_dlist_vt_param {a}{f,r} (xs)
+in
+//
+if dlist_vt_is_cons (xs) then let
   val+ DLISTcons (_, prev, _) = xs
   val [b:bool] ans = (
     if prev > nullp then false else true
   ) : Bool // end of [val]
   prval () = __assert () where {
     extern praxi __assert (): [b==(f==0)] void
-  } // end of [prval]
+  } // end of [where] // end of [prval]
 in
   ans
+end else let
+  prval () = lemma3_dlist_vt_param {a}{f} (xs)
+in
+  true
+end // end of [if]
+//
 end // end of [dlist_vt_is_atbeg]
 
 implement{a}
@@ -181,6 +191,8 @@ dlist_vt_is_atend
 in
   ans
 end // end of [dlist_vt_is_atend]
+
+#atscode_separator()
 
 implement{a}
 rdlist_vt_is_atbeg
@@ -345,16 +357,26 @@ end // end of [rdlist_vt_move_all]
 implement{a}
 dlist_vt_insert
   (xs, x0) = let
-  val p_xs = DLIST2ptr (xs)
-  val+ @DLISTcons (_, _, xs1) = xs
-  val xs2 = DLISTcons (x0, _, xs1)
-  val+ DLISTcons (_, prev, _) = xs2
-  val () = prev := p_xs
-  prval () = fold@ {a} (xs2)
-  val () = xs1 := xs2
-  prval () = fold@ {a} (xs)
+//
+val+ @DLISTcons (_, prev, _) = xs
+val p_prev = addr@ (prev); val prev = prev
+prval () = fold@ (xs)
+val xs2 = dlist_vt_cons (x0, prev, xs)
+val () = $UN.ptr_set (p_prev, DLIST2ptr (xs2))
+//
+val () =
+  if prev > nullp then {
+  val xs_prev =
+    $UN.castvwtp0 {DLIST (a, 1)} (prev)
+  val p_prev_next = dlist_vt_getref_next (xs_prev)
+  prval () =
+    __free (xs_prev) where { extern praxi __free : DLIST (a, 1) -<prf> void }
+  // end of [prval]
+  val () = $UN.ptr_set (p_prev_next, DLIST2ptr (xs2))
+} // end of [if] // end of [val]
+//
 in
-  xs
+  xs2
 end // end of [dlist_vt_insert]
 
 #atscode_separator()
@@ -379,6 +401,7 @@ val () =
   // end of [prval]
   val () = $UN.ptr_set (p_prev_next, DLIST2ptr (xs1))
 } // end of [if] // end of [val]
+//
 in
   xs1
 end // end of [dlist_vt_remove]
@@ -479,7 +502,7 @@ implement{a}
 rdlist_vt_insert
   (xs, x0) =
   dlist_vt_move (dlist_vt_insert (xs, x0))
-// end of [dlist_vt_insert]
+// end of [rdlist_vt_insert]
 
 implement{a}
 rdlist_vt_remove

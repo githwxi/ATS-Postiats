@@ -105,7 +105,7 @@ dlist_vt_is_cons
 
 fun{a:vt0p}
 dlist_vt_is_atbeg
-  {f,r:int | r > 0}
+  {f,r:int}
   (xs: !dlist_vt (INV(a), f, r)):<> bool (f==0)
 // end of [dlist_vt_is_atbeg]
 fun{a:vt0p}
@@ -121,7 +121,7 @@ rdlist_vt_is_atbeg
 // end of [rdlist_vt_is_atend]
 fun{a:vt0p}
 rdlist_vt_is_atend
-  {f,r:int | r > 0}
+  {f,r:int}
   (xs: !dlist_vt (INV(a), f, r)):<> bool (f==0)
 // end of [rdlist_vt_is_atend]
 
