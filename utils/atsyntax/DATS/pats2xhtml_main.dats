@@ -275,6 +275,8 @@ fn pats2xhtml_usage
   val () = printf
     ("  --dynamic <filename> : for processing dynamic <filename>\n", @())
   val () = printf
+    ("  --embedded : for outputing xhtml code to be embedded\n", @())
+  val () = printf
     ("  -h : for printing out this help usage\n", @())
   val () = printf
     ("  --help : for printing out this help usage\n", @())
@@ -456,7 +458,7 @@ process_cmdline2_COMARGkey2
         state.waitkind := WTKinput_dyn
     | "--output" =>
         state.waitkind := WTKoutput ()
-    | "--embed" =>
+    | "--embedded" =>
         state.standalone := false
     | "--help" => let
         val () =
