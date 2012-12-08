@@ -430,8 +430,11 @@ end // end of [rdlist_vt_remove]
 implement{a}
 dlist_vt_append
   {f1,r1}{f2,r2} (xs1, xs2) = let
+//
+  viewtypedef res = dlist_vt (a, f1, r1+f2+r2)
   prval () = lemma1_dlist_vt_param {a}{f1,r1} (xs1)
   prval () = lemma1_dlist_vt_param {a}{f2,r2} (xs2)
+//
 in
 //
 if dlist_vt_is_cons (xs2) then let
@@ -462,7 +465,7 @@ in
     } // end of [prval]
 //
   in
-    $UN.castvwtp0 {dlist_vt (a, f1, r1+f2+r2)} (p1)
+    $UN.castvwtp0 {res} (p1)
   end else let
     prval () = lemma3_dlist_vt_param {a}{f1} (xs1)
     val+ ~DLISTnil () = xs1
@@ -485,7 +488,6 @@ rdlist_vt_append
   {f1,r1}{f2,r2} (xs1, xs2) = let
 //
   viewtypedef res = dlist_vt (a, f1+r1+f2, r2)
-//
   prval () = lemma1_dlist_vt_param {a}{f1,r1} (xs1)
   prval () = lemma1_dlist_vt_param {a}{f2,r2} (xs2)
 //
