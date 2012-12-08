@@ -43,8 +43,8 @@ ATS and vice versa.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("lemma1_dlist_vt_params")
-#declnamesynop("lemma2_dlist_vt_params")
+#declnamesynop("lemma1_dlist_vt_param")
+#declnamesynop("lemma2_dlist_vt_param")
 
 (* ****** ****** *)
 
@@ -64,6 +64,7 @@ ATS and vice versa.  ')
 (* ****** ****** *)
 
 #declnamesynop("dlist_vt_get")
+#declnamesynop("dlist_vt_getref")
 #declnamesynop("dlist_vt_set")
 
 (* ****** ****** *)
@@ -84,6 +85,7 @@ ATS and vice versa.  ')
 (* ****** ****** *)
 
 #declnamesynop("dlist_vt_insert")
+#declnamesynop("dlist_vt_remove")
 
 (* ****** ****** *)
 

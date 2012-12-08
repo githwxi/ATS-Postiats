@@ -120,15 +120,20 @@ dlist_vt_get
 end // end of [dlist_vt_get]
 
 implement{a}
-dlist_vt_getref (xs) = let
-  val+ @DLISTcons (x, _, _) = xs; val p_x = addr@ (x) in fold@(xs); p_x
-end // end of [dlist_vt_get]
-
-implement{a}
 dlist_vt_set
   (xs, x0) = let
   val+ @DLISTcons (x, _, _) = xs in x := x0; fold@ (xs)
 end // end of [dlist_vt_set]
+
+implement{a}
+dlist_vt_getref_elt (xs) = let
+  val+ @DLISTcons (x, _, _) = xs; val p_x = addr@ (x) in fold@(xs); p_x
+end // end of [dlist_vt_get_elt]
+
+implement{a}
+dlist_vt_getref_next (xs) = let
+  val+ @DLISTcons (_, _, xs1) = xs; val p_xs1 = addr@ (xs1) in fold@(xs); p_xs1
+end // end of [dlist_vt_get_next]
 
 #atscode_separator()
 
@@ -274,7 +279,7 @@ rdlist_vt_move
 prval () =
   lemma1_dlist_vt_param {a}{f,r} (xs)
 prval () = (
-  sif r == 0 then lemma2_dlist_vt_param {a}{f} (xs) else () 
+  sif r == 0 then lemma3_dlist_vt_param {a}{f} (xs) else () 
 ) : [r > 0] void // end of [prval]
 //
 val+ DLISTcons (_, prev, _) = xs
@@ -304,7 +309,7 @@ end // end of [rdlist_vt_move_all]
 #atscode_separator()
 
 implement{a}
-dlist_vt_insert {f,r}
+dlist_vt_insert
   (xs, x) = let
   val p_xs = DLIST2ptr (xs)
   val+ @DLISTcons (_, _, xs1) = xs
@@ -317,6 +322,43 @@ dlist_vt_insert {f,r}
 in
   xs
 end // end of [dlist_vt_insert]
+
+#atscode_separator()
+
+implement{a}
+dlist_vt_remove
+  {f,r} (xs, x0) = xs1 where {
+//
+  prval () = lemma1_dlist_vt_param {a}{f,r} (xs)
+  prval () = lemma2_dlist_vt_param {a}{f,r} (xs)
+//
+  val xs =
+    rdlist_vt_move {f,r} (xs)
+  // end of [val]
+  val+ ~DLISTcons (x, prev, xs1) = xs
+  val () = x0 := x
+  val () = {
+    val+ @DLISTcons
+      (_, prev1, xs2) = xs1
+    val () = prev1 := prev
+    prval () = fold@ (xs1)
+  } // end of [val]
+//
+  viewtypedef VT =
+    [f,r:int | r > 0] dlist_vt (a, f, r)
+  val () =
+    if (prev > nullp) then {
+//
+    val xs_prev = $UN.castvwtp0 {VT} (prev)
+    val p_prev_next = dlist_vt_getref_next (xs_prev)
+    prval () = (
+      __free (xs_prev) where { extern praxi __free : VT -<prf> void }
+    ) // end of [prval]
+//
+    val () = $UN.ptr_set (p_prev_next, DLIST2ptr (xs1))
+//
+  } // end of [if] // end of [val]
+} // end of [dlist_vt_remove]
 
 #atscode_separator()
 
