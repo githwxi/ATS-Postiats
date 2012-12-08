@@ -1016,11 +1016,12 @@ val () = println! ("d2exp_trup_lst: lin = ", lin)
 val islin = (
   if lin >= 0 then test_linkind (lin) else false
 ) : bool // end of [val]
+val isnonlin = ~(islin)
 val s2e_elt = (
   case+ opt of
   | Some s2e => s2e | None () => let
       val s2t = (
-        if islin then s2rt_viewt0ype else s2rt_t0ype
+        if isnonlin then s2rt_t0ype else s2rt_viewt0ype
       ) : s2rt // end of [val]
     in
       s2exp_Var_make_srt (loc0, s2t)
@@ -1029,7 +1030,7 @@ val s2e_elt = (
 val n = list_length (d2es)
 val d3es = d2explst_trdn_elt (d2es, s2e_elt)
 val isnonlin = (
-  if lin >= 0 then islin else s2exp_is_nonlin (s2e_elt)
+  if lin >= 0 then isnonlin else s2exp_is_nonlin (s2e_elt)
 ) : bool // end of [val]
 val s2e_lst = (
   if isnonlin then
