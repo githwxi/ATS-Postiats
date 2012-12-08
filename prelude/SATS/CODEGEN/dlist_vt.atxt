@@ -178,13 +178,25 @@ dlist_vt_insert
   (xs: dlist_vt (INV(a), f, r), x0: a):<!wrt> dlist_vt (a, f, r+1)
 // end of [dlist_vt_insert]
 
+fun{a:vt0p}
+dlist_vt_remove
+  {f,r:int | r > 1}
+  (xs: dlist_vt (INV(a), f, r), x0: &a? >> a):<!wrt> dlist_vt (a, f, r-1)
+// end of [dlist_vt_remove]
+
 #atscode_separator()
 
 fun{a:vt0p}
-dlist_vt_remove
+rdlist_vt_insert
+  {f,r:int | r > 0}
+  (xs: dlist_vt (INV(a), f, r), x0: a):<!wrt> dlist_vt (a, f+1, r)
+// end of [rdlist_vt_insert]
+
+fun{a:vt0p}
+rdlist_vt_remove
   {f,r:int | f > 0}
   (xs: dlist_vt (INV(a), f, r), x0: &a? >> a):<!wrt> dlist_vt (a, f-1, r)
-// end of [dlist_vt_remove]
+// end of [rdlist_vt_remove]
 
 #atscode_separator()
 

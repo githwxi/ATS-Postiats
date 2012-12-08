@@ -94,6 +94,11 @@ ATS and vice versa.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("rdlist_vt_insert")
+#declnamesynop("rdlist_vt_remove")
+
+(* ****** ****** *)
+
 #declnamesynop("dlist_vt_append")
 #declnamesynop("rdlist_vt_append")
 

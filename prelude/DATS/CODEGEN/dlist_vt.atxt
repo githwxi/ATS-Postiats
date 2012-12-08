@@ -327,41 +327,21 @@ end // end of [dlist_vt_insert]
 #atscode_separator()
 
 implement{a}
-dlist_vt_remove
-  {f,r} (xs, x0) = xs1 where {
+rdlist_vt_insert
+  (xs, x0) =
+  dlist_vt_move (dlist_vt_insert (xs, x0))
+// end of [dlist_vt_insert]
+
+implement{a}
+rdlist_vt_remove
+  {f,r} (xs, x0) = let
 //
   prval () = lemma1_dlist_vt_param {a}{f,r} (xs)
   prval () = lemma2_dlist_vt_param {a}{f,r} (xs)
 //
-  val xs =
-    rdlist_vt_move {f,r} (xs)
-  // end of [val]
-  val+ ~DLISTcons (x, prev, xs1) = xs
-  val () = x0 := x
-  val () = {
-    val+ @DLISTcons
-      (_, prev1, xs2) = xs1
-    val () = prev1 := prev
-    prval () = fold@ (xs1)
-  } // end of [val]
-//
-  viewtypedef VT =
-    [f,r:int | r > 0] dlist_vt (a, f, r)
-  val () =
-    if (prev > nullp) then {
-//
-    val xs_prev =
-      __cast (prev) where { extern castfn __cast : ptr -<> VT }
-    // end of [val]
-    val p_prev_next = dlist_vt_getref_next (xs_prev)
-    prval () =
-      __free (xs_prev) where { extern praxi __free : VT -<prf> void }
-    // end of [prval]
-//
-    val () = $UN.ptr_set (p_prev_next, DLIST2ptr (xs1))
-//
-  } // end of [if] // end of [val]
-} // end of [dlist_vt_remove]
+in
+  dlist_vt_remove (rdlist_vt_move {f,r} (xs), x0)
+end // end of [rdlist_vt_remove]
 
 #atscode_separator()
 
