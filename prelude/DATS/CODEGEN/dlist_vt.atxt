@@ -76,14 +76,14 @@ case+ xs of
     (_, prev, _) => let
     val p_prev = addr@ (prev)
     prval () = fold@ (xs) // HX: no-op
-    val res = DLISTcons (x, nullp, xs)
+    val res = DLISTcons {a} (x, nullp, xs)
     val () =
       $effmask_wrt ($UN.ptr_set<ptr> (p_prev, DLIST2ptr(res)))
     // end of [val]
   in
     res
   end // end of [DLISTcons]
-| ~DLISTnil () => DLISTcons (x, nullp, DLISTnil ())
+| ~DLISTnil () => DLISTcons {a} (x, nullp, DLISTnil ())
 //
 end // end of [dlist_vt_cons]
 
@@ -94,7 +94,7 @@ dlist_vt_snoc
   (xs, x) = let
 //
 val node =
-  DLISTcons (x, DLIST2ptr(xs), DLISTnil ())
+  DLISTcons {a} (x, DLIST2ptr(xs), DLISTnil ())
 val node1 =
   __ref (node) where {
   extern castfn __ref (xs: !DLIST(a, 1)):<> DLIST(a, 1)
@@ -361,7 +361,7 @@ dlist_vt_insert
 val+ @DLISTcons (_, prev, _) = xs
 val p_prev = addr@ (prev); val prev = prev
 prval () = fold@ (xs)
-val xs2 = dlist_vt_cons (x0, prev, xs)
+val xs2 = DLISTcons {a} (x0, prev, xs)
 val () = $UN.ptr_set (p_prev, DLIST2ptr (xs2))
 //
 val () =
