@@ -456,6 +456,8 @@ process_cmdline2_COMARGkey2
         state.waitkind := WTKinput_dyn
     | "--output" =>
         state.waitkind := WTKoutput ()
+    | "--embed" =>
+        state.standalone := false
     | "--help" => let
         val () =
           state.waitkind := WTKnone ()
