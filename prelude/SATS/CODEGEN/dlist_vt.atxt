@@ -178,7 +178,7 @@ rdlist_vt_move
   (xs: dlist_vt (INV(a), f, r)):<> dlist_vt (a, f-1, r+1)
 fun{a:vt0p}
 rdlist_vt_move_all
-  {f,r:int | r > 0}
+  {f,r:int | r >= 0}
   (xs: dlist_vt (INV(a), f, r)):<> dlist_vt (a, 0, f+r)
 // end of [rdlist_vt_move_all]
 

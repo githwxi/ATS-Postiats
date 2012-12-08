@@ -85,11 +85,11 @@ ATS and vice versa.  ')
 (* ****** ****** *)
 
 #declnamesynop("dlist_vt_move")
-#declnamesynop("rdlist_vt_move")
+#declnamesynop("dlist_vt_move_all")
 
 (* ****** ****** *)
 
-#declnamesynop("dlist_vt_move_all")
+#declnamesynop("rdlist_vt_move")
 #declnamesynop("rdlist_vt_move_all")
 
 (* ****** ****** *)

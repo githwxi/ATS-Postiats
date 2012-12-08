@@ -311,12 +311,33 @@ end // end of [rdlist_vt_move]
 implement{a}
 rdlist_vt_move_all
   {f,r} (xs) = let
+//
+val () =
+  lemma1_dlist_vt_param {a}{f,r} (xs)
+//
+fun loop 
+  {f,r:int | f >= 0; r > 0} .<f>. (
+  xs: dlist_vt (INV(a), f, r)
+) :<> dlist_vt (a, 0, f+r) = let
   val isend = rdlist_vt_is_atend {f,r} (xs)
   prval () = lemma1_dlist_vt_param {a}{f,r} (xs)
 in
   if isend then
-    xs else rdlist_vt_move_all {f-1,r+1} (rdlist_vt_move {f,r} (xs))
+    xs else loop {f-1,r+1} (rdlist_vt_move {f,r} (xs))
   // end of [if]
+end // end of [loop]
+//
+in
+//
+if dlist_vt_is_cons (xs) then let
+in
+ loop {f,r} (xs)
+end else let
+  prval () = lemma3_dlist_vt_param {a}{f} (xs)
+in
+  xs
+end // end of [if]
+//
 end // end of [rdlist_vt_move_all]
 
 #atscode_separator()
