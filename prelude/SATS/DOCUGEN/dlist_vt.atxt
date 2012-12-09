@@ -51,8 +51,16 @@ ATS and vice versa.  ')
 
 #declnamesynop("dlist_vt_nil")
 #declnamesynop("dlist_vt_sing")
+
+(* ****** ****** *)
+
 #declnamesynop("dlist_vt_cons")
+#declnamesynop("dist_vt_uncons")
+
+(* ****** ****** *)
+
 #declnamesynop("dlist_vt_snoc")
+#declnamesynop("dist_vt_unsnoc")
 
 (* ****** ****** *)
 
