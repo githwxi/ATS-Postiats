@@ -87,7 +87,7 @@ dlist_vt_cons {r:int}
 fun{a:vt0p}
 dist_vt_uncons
   {r:int | r > 0}
-  (xs: dlist_vt (INV(a), 0, r), x0: a? >> a):<!wrt> dlist_vt (a, 0, r-1)
+  (xs: &dlist_vt (INV(a), 0, r) >> dlist_vt (a, 0, r-1)):<!wrt> a
 // end of [dist_vt_uncons]
 
 #atscode_separator()
@@ -100,7 +100,7 @@ dlist_vt_snoc {f:int}
 fun{a:vt0p}
 dist_vt_unsnoc
   {f:int | f > 0}
-  (xs: dlist_vt (INV(a), f, 1), x0: a? >> a):<!wrt> dlist_vt (a, f-1, 1)
+  (xs: &dlist_vt (INV(a), f, 1) >> dlist_vt (a, f-1, 1)):<!wrt> a
 // end of [dist_vt_unsnoc]
 
 #atscode_separator()
@@ -207,7 +207,7 @@ dlist_vt_insert
 fun{a:vt0p}
 dlist_vt_remove
   {f,r:int | r > 1}
-  (xs: dlist_vt (INV(a), f, r), x0: &a? >> a):<!wrt> dlist_vt (a, f, r-1)
+  (xs: &dlist_vt (INV(a), f, r) >> dlist_vt (a, f, r-1)):<!wrt> a
 // end of [dlist_vt_remove]
 
 #atscode_separator()
@@ -221,7 +221,7 @@ rdlist_vt_insert
 fun{a:vt0p}
 rdlist_vt_remove
   {f,r:int | f > 0}
-  (xs: dlist_vt (INV(a), f, r), x0: &a? >> a):<!wrt> dlist_vt (a, f-1, r)
+  (xs: &dlist_vt (INV(a), f, r) >> dlist_vt (a, f-1, r)):<!wrt> a
 // end of [rdlist_vt_remove]
 
 #atscode_separator()

@@ -387,10 +387,9 @@ end // end of [dlist_vt_insert]
 
 implement{a}
 dlist_vt_remove
-  (xs, x0) = let
+  (xs) = x where {
 //
 val+ ~DLISTcons (x, prev, xs1) = xs
-val () = x0 := x
 val+ @DLISTcons (_, prev1, xs2) = xs1
 val () = prev1 := prev
 prval () = fold@ (xs1)
@@ -406,9 +405,9 @@ val () =
   val () = $UN.ptr_set (p_prev_next, DLIST2ptr (xs1))
 } // end of [if] // end of [val]
 //
-in
-  xs1
-end // end of [dlist_vt_remove]
+val () = xs := xs1
+//
+} // end of [dlist_vt_remove]
 
 #atscode_separator()
 
@@ -419,14 +418,22 @@ rdlist_vt_insert
 // end of [rdlist_vt_insert]
 
 implement{a}
+rdlist_vt_insert
+  (xs, x0) =
+  dlist_vt_move (dlist_vt_insert (xs, x0))
+// end of [rdlist_vt_insert]
+
+implement{a}
 rdlist_vt_remove
-  {f,r} (xs, x0) = let
+  {f,r} (xs) = let
 //
   prval () = lemma1_dlist_vt_param {a}{f,r} (xs)
   prval () = lemma2_dlist_vt_param {a}{f,r} (xs)
 //
+  val () = xs := rdlist_vt_move {f,r} (xs)
+//
 in
-  dlist_vt_remove (rdlist_vt_move {f,r} (xs), x0)
+  dlist_vt_remove (xs)
 end // end of [rdlist_vt_remove]
 
 #atscode_separator()
