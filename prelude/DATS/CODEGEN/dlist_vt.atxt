@@ -49,12 +49,16 @@ DLIST (
 
 extern
 castfn
-DLIST2ptr {a:vt0p}{r:int} (xs: !DLIST(INV(a), r)):<> ptr
+DLIST2ptr
+  {a:vt0p}{r:int} (xs: !DLIST(INV(a), r)):<> ptr
+// end of [DLIST2ptr]
 
 #atscode_separator()
 
 assume
-dlist_viewtype (a: vt0p, f:int, r:int) = DLIST (a, r)
+dlist_viewtype
+  (a: vt0p, f:int, r:int) = DLIST (a, r)
+// end of [dlist_viewtype]
 
 #atscode_separator()
 

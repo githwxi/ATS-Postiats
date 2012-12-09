@@ -91,6 +91,20 @@ dlist_vt_snoc {f:int}
 
 #atscode_separator()
 
+fun{a:vt0p}
+dist_vt_uncons
+  {r:int | r > 0}
+  (xs: dlist_vt (INV(a), 0, r): x0: a? >> a):<!wrt> dlist_vt (a, 0, r-1)
+// end of [dist_vt_uncons]
+
+fun{a:vt0p}
+dist_vt_unsnoc
+  {f:int | f > 0}
+  (xs: dlist_vt (INV(a), f, 1): x0: a? >> a):<!wrt> dlist_vt (a, f-1, 1)
+// end of [dist_vt_unsnoc]
+
+#atscode_separator()
+
 fun{}
 dlist_vt_is_nil
   {a:vt0p}{f,r:int} (xs: !dlist_vt (a, f, r)):<> bool (r==0)
