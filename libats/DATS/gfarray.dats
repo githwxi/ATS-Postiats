@@ -114,8 +114,17 @@ end // end of [sif]
 //
 end // end of [split]
 //
+val [
+  xs1:ilist,xs2:ilist
+] (
+  pf1len, pfapp, pf1arr, pf2arr
+) = split {l}{xs}{n}{i} (pflen, pfarr)
+prval pf2len = length_istot {xs2} ()
+prval pflen2 = lemma_append_length (pfapp, pf1len, pf2len)
+prval () = length_isfun (pflen, pflen2)
+//
 in
-  split {l}{xs}{n}{i} (pflen, pfarr)
+  (pf1len, pf2len, pfapp, pf1arr, pf2arr)
 end // end of [gfarray_v_split]
 
 (* ****** ****** *)
@@ -237,14 +246,11 @@ gfarray_v_unextend
 prval [
   xs1:ilist,xs2:ilist
 ] (
-  pf1len, pfapp, pf1arr, pf2arr
+  pf1len, pf2len, pfapp, pf1arr, pf2arr
 ) = gfarray_v_split {a}{l}{xs}{n}{n-1} (pflen, pfarr)
 //
-prval pf2len = length_istot {xs2} ()
-prval pflen2 = lemma_append_length (pfapp, pf1len, pf2len)
-prval () = length_isfun (pflen, pflen2)
-prval LENGTHcons (LENGTHnil ()) = pf2len
-val pf2at = gfarray_v_unsing (pf2arr)
+prval LENGTHcons (LENGTHnil()) = pf2len
+prval pf2at = gfarray_v_unsing (pf2arr)
 //
 prval pfsnoc =
   lemma (pfapp) where { extern praxi lemma :

@@ -106,6 +106,7 @@ gfarray_v_split
   xs1,xs2:ilist
 ] (
   LENGTH (xs1, i)
+, LENGTH (xs2, n-i)
 , APPEND (xs1, xs2, xs)
 , gfarray_v (a, l, xs1)
 , gfarray_v (a, l+i*sizeof(a), xs2)
