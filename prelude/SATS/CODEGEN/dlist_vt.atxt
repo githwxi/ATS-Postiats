@@ -147,6 +147,11 @@ dlist_vt_getref_elt
 // end of [dlist_vt_getref_elt]
 
 fun{a:vt0p}
+dlist_vt_getref_prev
+  {f,r:int | r > 0} (xs: !dlist_vt (INV(a), f, r)):<> Ptr1
+// end of [dlist_vt_getref_prev]
+
+fun{a:vt0p}
 dlist_vt_getref_next
   {f,r:int | r > 0} (xs: !dlist_vt (INV(a), f, r)):<> Ptr1
 // end of [dlist_vt_getref_next]
@@ -203,6 +208,12 @@ dlist_vt_insert
   {f,r:int | r > 0}
   (xs: dlist_vt (INV(a), f, r), x0: a):<!wrt> dlist_vt (a, f, r+1)
 // end of [dlist_vt_insert]
+
+fun{a:vt0p}
+dlist_vt_insert_next
+  {f,r:int | r > 0}
+  (xs: dlist_vt (INV(a), f, r), x0: a):<!wrt> dlist_vt (a, f+1, r)
+// end of [dlist_vt_insert_next]
 
 fun{a:vt0p}
 dlist_vt_remove

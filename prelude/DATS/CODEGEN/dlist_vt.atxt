@@ -358,30 +358,92 @@ end // end of [rdlist_vt_move_all]
 
 #atscode_separator()
 
+fun{a:vt0p}
+DLISTptr_set_prev
+  .<>. (
+  p: ptr, pp: ptr
+) :<!wrt> void = let
+in
+//
+if p > nullp then let
+  val xs =
+    $UN.castvwtp0 {DLIST(a,1)} (p)
+  val+ @DLISTcons (_, prev, _) = xs
+  val () = prev := pp
+  prval () = fold@ (xs)
+  prval () =
+    __free (xs) where { extern praxi __free : DLIST (a,1) -<prf> void }
+  // end of [prval]
+in
+  // nothing
+end else () // end of [if]
+//
+end // end of [DLISTptr_set_prev]
+
+fun{a:vt0p}
+DLISTptr_set_next
+  .<>. (
+  p: ptr, pn: ptr
+) :<!wrt> void = let
+in
+//
+if p > nullp then let
+  val xs =
+    $UN.castvwtp0 {DLIST(a,1)} (p)
+  val+ @DLISTcons (_, _, xs1) = xs
+  val () = $UN.ptr_set (addr@ (xs1), pn)
+  prval () = fold@ (xs)
+  prval () =
+    __free (xs) where { extern praxi __free : DLIST (a,1) -<prf> void }
+  // end of [prval]
+in
+  // nothing  
+end else () // end of [if]
+//
+end // end of [DLISTptr_set_next]
+
+#atscode_separator()
+
 implement{a}
 dlist_vt_insert
   (xs, x0) = let
 //
 val+ @DLISTcons (_, prev, _) = xs
-val p_prev = addr@ (prev); val prev = prev
+val p_prev = addr@ (prev)
+val prev = prev
 prval () = fold@ (xs)
-val xs2 = DLISTcons {a} (x0, prev, xs)
-val () = $UN.ptr_set (p_prev, DLIST2ptr (xs2))
-//
-val () =
-  if prev > nullp then {
-  val xs_prev =
-    $UN.castvwtp0 {DLIST (a, 1)} (prev)
-  val p_prev_next = dlist_vt_getref_next (xs_prev)
-  prval () =
-    __free (xs_prev) where { extern praxi __free : DLIST (a, 1) -<prf> void }
-  // end of [prval]
-  val () = $UN.ptr_set (p_prev_next, DLIST2ptr (xs2))
-} // end of [if] // end of [val]
+val xs_new = DLISTcons {a} (x0, prev, xs)
+val p0_new = DLIST2ptr (xs_new)
+val () = $UN.ptr_set (p_prev, p0_new)
+val () = DLISTptr_set_next<a> (prev, p0_new)
 //
 in
-  xs2
+  xs_new
 end // end of [dlist_vt_insert]
+
+#atscode_separator()
+
+implement{a}
+dlist_vt_insert_next
+  {f,r} (xs, x0) = let
+//
+viewtypedef res = dlist_vt (a, f+1, r)
+//
+val p0 = DLIST2ptr (xs)
+val+ @DLISTcons (_, _, xs1) = xs
+val p1 = DLIST2ptr (xs1)
+val xs_new = DLISTcons (x0, p0, xs1)
+val p0_new = DLIST2ptr (xs_new)
+val () = DLISTptr_set_prev (p1, p0_new)
+val () = xs1 := xs_new
+prval () = fold@ (xs)
+prval () =
+  __free (xs) where
+    { extern praxi __free : dlist_vt (a, f, r+1) -<prf> void }
+// end of [prval]
+in
+  $UN.castvwtp0 {res} (p0_new)
+end // end of [dlist_vt_inesrt_next]
 
 #atscode_separator()
 
@@ -394,16 +456,7 @@ val+ @DLISTcons (_, prev1, xs2) = xs1
 val () = prev1 := prev
 prval () = fold@ (xs1)
 //
-val () =
-  if prev > nullp then {
-  val xs_prev =
-    $UN.castvwtp0 {DLIST (a, 1)} (prev)
-  val p_prev_next = dlist_vt_getref_next (xs_prev)
-  prval () =
-    __free (xs_prev) where { extern praxi __free : DLIST (a, 1) -<prf> void }
-  // end of [prval]
-  val () = $UN.ptr_set (p_prev_next, DLIST2ptr (xs1))
-} // end of [if] // end of [val]
+val () = DLISTptr_set_next (prev, DLIST2ptr (xs1))
 //
 val () = xs := xs1
 //
