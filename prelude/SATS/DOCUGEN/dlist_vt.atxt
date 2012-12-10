@@ -103,6 +103,7 @@ ATS and vice versa.  ')
 (* ****** ****** *)
 
 #declnamesynop("dlist_vt_insert")
+#declnamesynop("dlist_vt_insert_next")
 #declnamesynop("dlist_vt_remove")
 
 (* ****** ****** *)

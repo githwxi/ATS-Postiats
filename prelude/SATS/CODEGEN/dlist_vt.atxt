@@ -251,7 +251,7 @@ rdlist_vt_append
 
 #atscode_separator()
 
-fun{a:t@ype}
+fun{a:t0p}
 dlist_vt_free {r:int} (xs: dlist_vt (INV(a), 0, r)):<!wrt> void
 
 #atscode_separator()

@@ -71,10 +71,25 @@ gfarray_v (
 
 (* ****** ****** *)
 
-prfun gfarray2array_v
+prfun
+gfarray2array_v
   {a:vt0p} {xs:ilist} {l:addr}
   (pf: gfarray_v (a, l, xs)): [n:nat] (LENGTH (xs, n), array_v (a, l, n))
 // end of [gfarray2array_v]
+
+(* ****** ****** *)
+
+prfun
+gfarray_v_sing
+  {a:vt0p}{l:addr}{x:int}
+  (pf: stamped_vt (a, x) @ l): gfarray_v (a, l, ilist_sing(x))
+// end of [gfarray_v_sing]
+
+prfun
+gfarray_v_unsing
+  {a:vt0p}{l:addr}{x:int}
+  (pf: gfarray_v (a, l, ilist_sing(x))): stamped_vt (a, x) @ l
+// end of [gfarray_v_unsing]
 
 (* ****** ****** *)
 
