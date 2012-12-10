@@ -103,9 +103,9 @@ val node1 =
   __ref (node) where {
   extern castfn __ref (xs: !DLIST(a, 1)):<> DLIST(a, 1)
 } // end of [where] // end of [val]
-val+ @DLISTcons
-  (_, _, xs1) = xs
-val+ ~DLISTnil () = xs1; val () = $effmask_wrt (xs1 := node1)
+val+ @DLISTcons (_, _, xs1) = xs
+val+ ~DLISTnil () = xs1
+val () = $effmask_wrt (xs1 := node1)
 prval () = fold@ {a} (xs)
 prval () =
   __unref (xs) where { extern praxi __unref (xs: DLIST(a, 2)): void }
@@ -182,8 +182,7 @@ end // end of [dlist_vt_is_atbeg]
 implement{a}
 dlist_vt_is_atend
   {f,r} (xs) = let
-  val+ @DLISTcons
-    (_, _, xs1) = xs
+  val+ @DLISTcons (_, _, xs1) = xs
   val next = DLIST2ptr (xs1)
   prval () = fold@ (xs)
   val [b:bool] ans = (
@@ -516,9 +515,8 @@ in
     } // end of [val]
 //
     val () = {
-      val+ @DLISTcons
-        (_, _, next) = xs1_last
-      val+ ~DLISTnil () = next // HX: no-op
+      val+ @DLISTcons (_, _, next) = xs1_last
+      val+ ~DLISTnil () = next // HX: it is a no-op
       val () = next := xs2
       prval () = fold@ (xs1_last)
     } // end of [val]
@@ -565,9 +563,8 @@ if dlist_vt_is_cons (xs1) then let
   val xs2_first = rdlist_vt_move_all {f2,r2} (xs2)
 //
   val () = {
-    val+ @DLISTcons
-      (_, prev, _) = xs2_first
-    val () = prev := DLIST2ptr (xs1)
+    val+ @DLISTcons (_, prev, _) = xs2_first
+    val () = prev := DLIST2ptr (xs1) // HX: DLISTnil in [prev]
     val () = fold@ (xs2_first)
   } // end of [val]
 //

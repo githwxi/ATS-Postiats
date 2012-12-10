@@ -42,6 +42,11 @@ gfarray_v (
 
 (* ****** ****** *)
 
+#declnamesynop("gfarray_v_sing")
+#declnamesynop("gfarray_v_unsing")
+
+(* ****** ****** *)
+
 #declnamesynop("gfarray_v_split")
 #declnamesynop("gfarray_v_unsplit")
 
