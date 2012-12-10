@@ -22,7 +22,23 @@ arrays that are assigned the fully indexed list type.
 
 (* ****** ****** *)
 
-#declnamesynop("gfarray_v")
+#declname("gfarray_v")
+#declsynop2('\
+#para('\
+#pats2xhtmls('\
+dataview
+gfarray_v (
+  a:viewt@ype+, addr, ilist
+) =
+  | {l:addr}
+    gfarray_v_nil (a, l, ilist_nil) of ()
+  | {x:int} {xs:ilist} {l:addr}
+    gfarray_v_cons (a, l, ilist_cons (x, xs)) of
+      (stamped_vt (a, x) @ l, gfarray_v (a, l+sizeof(a), xs))
+// end of [gfarray_v]
+')
+')
+')
 
 (* ****** ****** *)
 

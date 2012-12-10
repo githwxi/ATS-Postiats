@@ -81,7 +81,7 @@ linheap_insert (hp: &heap (a) >> _, x: a): void
 
 (* ****** ****** *)
 
-fun{a:t@ype}
+fun{a:t0p}
 linheap_getmin (
   hp: !heap (a), res: &a? >> opt (a, b)
 ) : #[b:bool] bool b // endfun
