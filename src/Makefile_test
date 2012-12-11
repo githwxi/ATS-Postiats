@@ -108,6 +108,9 @@ libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gflist.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/gflist_vt.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gflist_vt.dats
 
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funmap_avltree.sats
+
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funset_avltree.sats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funset_listord.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/FUNSET/funset_listord.dats
 
@@ -134,6 +137,11 @@ libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/array0.sats
 libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/array0.dats
 libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/string.sats
 libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/string.dats
+
+libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/funset.sats
+libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/funset.dats
+libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/funmap.sats
+libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/funmap.dats
 
 ######
 

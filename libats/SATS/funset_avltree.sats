@@ -29,7 +29,7 @@
 
 (*
 **
-** A functional map implementation based on AVL trees
+** A functional set implementation based on AVL trees
 **
 ** Contributed by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
 ** Time: May, 2011 // based on a version done in October, 2008

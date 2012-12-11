@@ -27,6 +27,10 @@
 
 (* ****** ****** *)
 
+staload "libats/ML/basics.sats"
+
+(* ****** ****** *)
+
 sortdef t0p = t@ype
 
 (* ****** ****** *)
@@ -44,9 +48,9 @@ typedef cmp (key:t0p) = (key, key) -<cloref0> int
 
 fun{
 key,itm:t0p
-} funmap_insert
-  (map: &map (key, itm) >> map, k: key, x: itm): option0 (itm)
-// end of [funmap_insert]
+} funmap_insert (
+  map: &map (key, itm) >> _, k: key, x: itm, cmp: cmp(key)
+) : option0 (itm) // end of [funmap_insert]
 
 (* ****** ****** *)
 
