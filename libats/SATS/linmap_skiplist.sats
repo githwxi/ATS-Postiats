@@ -180,6 +180,12 @@ key:t0p;itm:t0p
   (map: !map (key, INV(itm))):<> List_vt @(key, itm)
 // end of [linmap_listize]
 
+fun{
+key:t0p;itm:vt0p
+} linmap_listize_free
+  (map: map (key, INV(itm))):<!wrt> List_vt @(key, itm)
+// end of [linmap_listize_free]
+
 (* ****** ****** *)
 
 (* end of [linmap_skiplist.sats] *)

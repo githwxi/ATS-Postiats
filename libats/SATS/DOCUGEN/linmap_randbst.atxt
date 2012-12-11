@@ -68,4 +68,9 @@ binary-search-tree structure.
 
 (* ****** ****** *)
 
+#declnamesynop("linmap_listize")
+#declnamesynop("linmap_listize_free")
+
+(* ****** ****** *)
+
 (* end of [linmap_randbst.atxt] *)

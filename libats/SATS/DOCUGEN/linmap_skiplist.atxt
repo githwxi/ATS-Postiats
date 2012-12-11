@@ -146,4 +146,18 @@ environment as an extra argument.  ")
 
 (* ****** ****** *)
 
+#declnamesynop("linmap_listize")
+#decldescrpt("\
+
+This function returns a linear list of pairs consisting of keys and
+their associated items in a given map while keeping the map. ")
+
+#declnamesynop("linmap_listize_free")
+#decldescrpt("\
+
+This function returns a linear list of pairs consisting of keys and
+their associated items in a given map while freeing the map. ")
+
+(* ****** ****** *)
+
 (* end of [linmap_skiplist.atxt] *)
