@@ -37,6 +37,10 @@
 //
 (* ****** ****** *)
 
+staload "libats/ML/SATS/list0.sats"
+
+(* ****** ****** *)
+
 staload FS =
   "libats/SATS/funset_avltree.sats"
 // end of [FS]
@@ -182,6 +186,13 @@ $FS.compare_elt_elt<a> (x1, x2) = cmp (x1, x2)
 in
   $FS.funset_compare (xs1, xs2)
 end // end of [funset_compare]
+
+(* ****** ****** *)
+
+implement{a}
+funset_listize (xs) = let
+  val ys = $FS.funset_listize (xs) in list0_of_list_vt (ys)
+end // end of [funset_listize]
 
 (* ****** ****** *)
 
