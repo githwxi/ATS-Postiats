@@ -22,11 +22,23 @@ structure.\
 
 (* ****** ****** *)
 
-#declnamesynop("map_viewtype")
+#declnamesynop("map") // = map_viewtype
+#decldescrpt("\
+
+The type constructor #stacode("map") is a shorthand for
+#stacode("may_viewtype").  ")
 
 (* ****** ****** *)
 
-#declnamesynop("map") // = map_viewtype
+#declnamesynop("map_viewtype")
+#decldescrpt("\
+
+Given a type K and a viewtype T, the abstract viewtype
+#stacode("map_viewtype(K, T)") is for a map storing links from keys of the
+type K to items of the viewtype T. Note that #stacode("map_viewtype") is
+co-variant in its second argument.\
+
+")
 
 (* ****** ****** *)
 
@@ -48,38 +60,89 @@ structure.\
 (* ****** ****** *)
 
 #declnamesynop("linmap_search")
+#decldescrpt("\
+
+This function searches for key [k0] in a given map [map]. If found, the
+item assciated with [k0] is put into [res], and the boolean value true is
+returned.  Otherwise, the boolean value false is returned.  ")
+
+#declfunretval("\
+
+The boolean value returned by this function indicates whether the key [k0]
+appears in the given map.")
+
 #declnamesynop("linmap_search_ref")
+#decldescrpt("\
+
+This function searches for key [k0] in a given map [map]. If found, a
+non-null pointer is returned which points to the location where the item
+associated with [k0] is stored. Otherwize, the null pointer is returned.\
+")
+
 #declnamesynop("linmap_search_opt")
+#decldescrpt("\
+
+This function is the optional version of #dyncode("linmap_search").  ")
 
 (* ****** ****** *)
 
 #declnamesynop("linmap_insert")
 #decldescrpt("\
 
+This function inserts a link from [k0] to [x0] into a given map [map].
 In the case where the key [k0] is already associated with some item in
-the given map, this function replaces the item with [x0] while storing
-the item into [res].\
+the given map, this function replaces the item with [x0] and then stores
+the item into [res]. The returned value indicates wether replacement is
+actually performed.
 
 ")
 #declnamesynop("linmap_insert_any")
 #decldescrpt("\
 
-This function carries out insertion regardless whether
-the key [k0] is already associated with some item in the given map.\
+This function inserts a link from [k0] to [x0] into a given map [map].
+Note that it carries out insertion regardless whether the key [k0] is
+already associated with some item in the given map.\
 
 ")
 
 (* ****** ****** *)
 
 #declnamesynop("linmap_takeout")
+#decldescrpt("\
+
+If key k0 can be found in a given map, this function takes out the item
+associated with [k0] from the map, puts it into [res] and then returns the
+boolean value true. Otherwise, it simply returns the boolean value false.  ")
+
 #declnamesynop("linmap_takeout_opt")
+#decldescrpt("\
+
+This function is the optional version of #dyncode("linmap_takeout").  ")
+
 #declnamesynop("linmap_remove")
+
+#decldescrpt("\
+
+This function is similar to #dyncode("linmap_takeout") except that it
+discards the item associated with [k0] if it is taken out. Note that the
+type for items stored in the map is assumed to be non-linear. ")
+
 
 (* ****** ****** *)
 
 #declnamesynop("linmap_foreach$fwork")
 #declnamesynop("linmap_foreach")
+#decldescrpt("\
+
+This function traverses a given map, applying the function implemented by
+#dyncode("linmap_foreach$fwork") to the key and item stored in each node.
+")
+
 #declnamesynop("linmap_foreach_env")
+#decldescrpt("\
+
+This function is similar to #dyncode("linmap_foreach") except taking an
+environment as an extra argument.  ")
 
 (* ****** ****** *)
 

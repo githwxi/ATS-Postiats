@@ -144,26 +144,6 @@ key:t0p;itm:t0p
 
 (* ****** ****** *)
 
-(*
-//
-// HX: listization is done in the in-order fashion
-//
-*)
-//
-fun{
-key:t0p;itm:t0p
-} linmap_listize
-  (map: !map (key, INV(itm))):<> List_vt @(key, itm)
-// end of [linmap_listize]
-
-fun{
-key:t0p;itm:vt0p
-} linmap_listize_free
-  (map: map (key, INV(itm))):<!wrt> List_vt @(key, itm)
-// end of [linmap_listize_free]
-
-(* ****** ****** *)
-
 fun{
 key:t0p;itm:vt0p
 }{
@@ -185,6 +165,26 @@ env:vt0p
 } linmap_foreach_env
   (map: !map (key, INV(itm)), env: &env): void
 // end of [linmap_foreach_env]
+
+(* ****** ****** *)
+
+(*
+//
+// HX: listization is done in the in-order fashion
+//
+*)
+//
+fun{
+key:t0p;itm:t0p
+} linmap_listize
+  (map: !map (key, INV(itm))):<> List_vt @(key, itm)
+// end of [linmap_listize]
+
+fun{
+key:t0p;itm:vt0p
+} linmap_listize_free
+  (map: map (key, INV(itm))):<!wrt> List_vt @(key, itm)
+// end of [linmap_listize_free]
 
 (* ****** ****** *)
 

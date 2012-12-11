@@ -111,10 +111,10 @@ a:vt0p}{env:vt0p
 } queue_foreach$fwork (x: &a, env: &env): void
 fun{
 a:vt0p
-} queue_foreach (q: QUEUE (a, n)): void
+} queue_foreach (q: !QUEUE (a)): void
 fun{
 a:vt0p}{env:vt0p
-} queue_foreach_env (q: QUEUE (a, n), env: &env): void
+} queue_foreach_env (q: !QUEUE (a), env: &env): void
 
 (* ****** ****** *)
 

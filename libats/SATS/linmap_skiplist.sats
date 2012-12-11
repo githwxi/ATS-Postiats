@@ -168,4 +168,18 @@ env:vt0p
 
 (* ****** ****** *)
 
+(*
+//
+// HX: listization is done ascendingly
+//
+*)
+//
+fun{
+key:t0p;itm:t0p
+} linmap_listize
+  (map: !map (key, INV(itm))):<> List_vt @(key, itm)
+// end of [linmap_listize]
+
+(* ****** ****** *)
+
 (* end of [linmap_skiplist.sats] *)

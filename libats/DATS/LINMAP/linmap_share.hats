@@ -121,4 +121,36 @@ end // end of [linmap_foreach]
 
 (* ****** ****** *)
 
+local
+
+staload Q = "libats/SATS/linqueue_lst.sats"
+
+in // in of [local]
+
+implement
+{key,itm}
+linmap_listize
+  (map) = let
+//
+viewtypedef tkx = @(key, itm)
+viewtypedef tenv = $Q.QUEUE (tkx)
+viewtypedef tenv0 = $Q.QUEUESZ (tkx)
+//
+var env: tenv0
+val () = $Q.queue_initialize (env)
+//
+implement
+linmap_foreach$fwork<key,itm><tenv>
+  (k, x, env) = $Q.queue_insert<tkx> (env, @(k, x))
+//
+val () = $effmask_all (linmap_foreach_env (map, env))
+//
+in
+  $Q.queue_uninitialize (env)
+end // end of [linmap_listize]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 (* end of [linmap_share.hats] *)
