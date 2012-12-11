@@ -106,6 +106,83 @@ in
   $FS.funset_union (xs1, xs2)
 end // end of [funset_union]
 
+implement{a}
+funset_intersect
+  (xs1, xs2, cmp) = let
+//
+implement
+$FS.compare_elt_elt<a> (x1, x2) = cmp (x1, x2)
+//
+in
+  $FS.funset_intersect (xs1, xs2)
+end // end of [funset_intersect]
+
+implement{a}
+funset_diff
+  (xs1, xs2, cmp) = let
+//
+implement
+$FS.compare_elt_elt<a> (x1, x2) = cmp (x1, x2)
+//
+in
+  $FS.funset_diff (xs1, xs2)
+end // end of [funset_diff]
+
+implement{a}
+funset_symdiff
+  (xs1, xs2, cmp) = let
+//
+implement
+$FS.compare_elt_elt<a> (x1, x2) = cmp (x1, x2)
+//
+in
+  $FS.funset_symdiff (xs1, xs2)
+end // end of [funset_symdiff]
+
+(* ****** ****** *)
+
+implement{a}
+funset_is_equal
+  (xs1, xs2, cmp) = let
+//
+implement
+$FS.compare_elt_elt<a> (x1, x2) = cmp (x1, x2)
+//
+in
+  $FS.funset_is_equal (xs1, xs2)
+end // end of [funset_is_equal]
+
+(* ****** ****** *)
+
+implement{a}
+funset_is_subset
+  (xs1, xs2, cmp) = let
+//
+implement
+$FS.compare_elt_elt<a> (x1, x2) = cmp (x1, x2)
+//
+in
+  $FS.funset_is_subset (xs1, xs2)
+end // end of [funset_is_subset]
+
+implement{a}
+funset_is_supset
+  (xs1, xs2, cmp) = funset_is_subset (xs2, xs1, cmp)
+// end of [funset_is_supset]
+
+(* ****** ****** *)
+
+implement{a}
+funset_compare
+  (xs1, xs2, cmp) = let
+//
+implement
+$FS.compare_elt_elt<a> (x1, x2) = cmp (x1, x2)
+//
+in
+  $FS.funset_compare (xs1, xs2)
+end // end of [funset_compare]
+
 (* ****** ****** *)
 
 (* end of [funset.dats] *)

@@ -413,7 +413,7 @@ funset_compare
 fun aux // tail-recursive
   {n1,n2:nat} .<n1>. (
   xs1: list (a, n1), xs2: list (a, n2)
-) :<cloref0> int = (
+) :<cloref0> Sgn = (
   case+ xs1 of
   | list_cons (x1, xs1) => (
     case+ xs2 of

@@ -119,7 +119,7 @@ funset_is_supset (xs1: set (a), xs2: set (a)):<> bool
 // set ordering induced by the ordering on elements
 //
 fun{a:t0p}
-funset_compare (xs1: set (a), xs2: set (a)):<> int
+funset_compare (xs1: set (a), xs2: set (a)):<> Sgn
 //
 (* ****** ****** *)
 
