@@ -99,26 +99,32 @@ in
 end // end of [loop1]
 and loop2 {n:nat} .<n,1>. (
   x0: a, xs: list_vt (a, n), ys: List0_vt (a)
-) :<!wrt> List0_vt (a) =
-  case+ xs of
-  | @list_vt_cons
-      (x, xs1) => let
-      val sgn = compare_elt_elt<a> (x0, x)
-    in
-      if sgn < 0 then let // HX: [xs] is ascending!
-        prval () = fold@ (xs) in loop1 (xs, ys)
-      end else let
-        val xs1 = xs1
-        val () = free@ {a}{0} (xs) in loop2 (x0, xs1, ys)
-      end // end of [if]
-    end (* end of [list_vt_cons] *)
-  | ~list_vt_nil () => ys
-// end of [loop2]
+) :<!wrt> List0_vt (a) = let
+in
+case+ xs of
+| @list_vt_cons
+    (x, xs1) => let
+    val sgn = compare_elt_elt<a> (x0, x)
+  in
+    if sgn < 0 then let // HX: [xs] is ascending!
+      prval () = fold@ (xs) in loop1 (xs, ys)
+    end else let
+      val xs1 = xs1
+      val () = free@ {a}{0} (xs) in loop2 (x0, xs1, ys)
+    end // end of [if]
+  end (* end of [list_vt_cons] *)
+| ~list_vt_nil () => ys
+//
+end // end of [loop2]
 in
 //
 case+ xs of
 | list_vt_cons _ => let
-    val ys = loop1 (xs, list_vt_nil) in list_of_list_vt (ys)
+    val ys =
+      $effmask_wrt (loop1 (xs, list_vt_nil))
+    // end of [val]
+  in
+    list_of_list_vt (ys)
   end // end of [list_vt_cons]
 | ~list_vt_nil () => list_nil ()
 //
@@ -228,7 +234,7 @@ funset_union
   fun aux // non-tail-recursive
     {n1,n2:nat} .<n1+n2>. (
     xs1: list (a, n1), xs2: list (a, n2)
-  ) :<cloref1> List0 (a) =
+  ) :<cloref0> List0 (a) =
   case xs1 of
   | list_cons (x1, xs11) => (
       case+ xs2 of
@@ -258,7 +264,7 @@ funset_intersect
   fun aux // non-tail-recursive
     {n1,n2:nat} .<n1+n2>. (
     xs1: list (a, n1), xs2: list (a, n2)
-  ) :<cloref1> List0 (a) =
+  ) :<cloref0> List0 (a) =
   case xs1 of
   | list_cons (x1, xs11) => (
       case+ xs2 of
@@ -288,7 +294,7 @@ funset_diff
   fun aux // non-tail-recursive
     {n1,n2:nat} .<n1+n2>. (
     xs1: list (a, n1), xs2: list (a, n2)
-  ) :<cloref1> List0 (a) =
+  ) :<cloref0> List0 (a) =
   case xs1 of
   | list_cons (x1, xs11) => (
       case+ xs2 of
@@ -318,7 +324,7 @@ funset_symdiff
   fun aux // non-tail-recursive
     {n1,n2:nat} .<n1+n2>. (
     xs1: list (a, n1), xs2: list (a, n2)
-  ) :<cloref1> List0 (a) =
+  ) :<cloref0> List0 (a) =
   case xs1 of
   | list_cons (x1, xs11) => (
       case+ xs2 of
@@ -348,7 +354,7 @@ funset_is_subset
   fun aux // tail-recursive
     {n1,n2:nat} .<n1+n2>. (
     xs1: list (a, n1), xs2: list (a, n2)
-  ) :<cloref1> bool =
+  ) :<cloref0> bool =
     case+ xs1 of
     | list_cons (x1, xs11) => (
       case+ xs2 of
@@ -367,12 +373,19 @@ in
 end // end of [funset_is_subset]
 
 implement{a}
+funset_is_supset
+  (xs1, xs2) = funset_is_subset<a> (xs2, xs1)
+// end of [funset_is_supset]
+
+(* ****** ****** *)
+
+implement{a}
 funset_is_equal
   (xs1, xs2) = let
   fun aux // tail-recursive
     {n1,n2:nat} .<n1>. (
     xs1: list (a, n1), xs2: list (a, n2)
-  ) :<cloref1> bool = (
+  ) :<cloref0> bool = (
     case+ xs1 of
     | list_cons (x1, xs1) => (
       case+ xs2 of
@@ -400,7 +413,7 @@ funset_compare
 fun aux // tail-recursive
   {n1,n2:nat} .<n1>. (
   xs1: list (a, n1), xs2: list (a, n2)
-) :<cloref1> int = (
+) :<cloref0> int = (
   case+ xs1 of
   | list_cons (x1, xs1) => (
     case+ xs2 of

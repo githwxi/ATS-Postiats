@@ -37,10 +37,9 @@
 (*
 #define C3NSTRINTKIND "intknd"
 *)
-// (*
+//
 #define C3NSTRINTKIND "intinfknd"
-// *)
-
+//
 (* ****** ****** *)
 
 (* end of [pats_params.hats] *)

@@ -29,13 +29,17 @@
 
 (*
 **
-** A functional map implementation based on ordered lists
+** A functional map implementation based on AVL trees
 **
 ** Contributed by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-** Time: May 18, 2011
+** Time: May, 2011 // based on a version done in October, 2008
 **
 *)
 
+(* ****** ****** *)
+//
+// License: LGPL 3.0 (available at http://www.gnu.org/licenses/lgpl.txt)
+//
 (* ****** ****** *)
 //
 // HX-2012-12: ported to ATS/Postitats from ATS/Anairiats
@@ -120,8 +124,8 @@ funset_compare (xs1: set (a), xs2: set (a)):<> int
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_listize (xs: set (a)):<> List_vt (a) // = list_copy
+funset_listize (xs: set (a)):<> List_vt (a)
 
 (* ****** ****** *)
 
-(* end of [funset_listord.sats] *)
+(* end of [funset_avltree.sats] *)

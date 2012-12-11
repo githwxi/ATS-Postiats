@@ -227,6 +227,8 @@ end // end of [val]
 //
 val (vim, n) = s2varindmap_make (s2vs)
 //
+// HX: [C3NSTRINTKIND] defined in [pats_params.hats]
+//
 #if C3NSTRINTKIND="intknd" #then
 val ans = auxsolve<intknd> (loc0, vim, n, s3ps_asmp, s3p_conc)
 #elif C3NSTRINTKIND="intinfknd" #then
