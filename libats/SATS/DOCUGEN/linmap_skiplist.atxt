@@ -22,7 +22,7 @@ structure.\
 
 (* ****** ****** *)
 
-#declnamesynop("map") // = map_viewtype
+#declnamesynop("map")
 #decldescrpt("\
 
 The type constructor #stacode("map") is a shorthand for
