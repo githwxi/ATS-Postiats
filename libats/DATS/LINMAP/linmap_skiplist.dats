@@ -792,4 +792,45 @@ end // end of [linmap_foreach_env]
 
 (* ****** ****** *)
 
+implement
+{key,itm}
+linmap_free_vt (m) = let
+//
+viewtypedef VT = map (key, itm)
+val m1 =
+  __cast (m) where {
+  extern castfn __cast : (!VT >> VT?) -<> VT
+}
+//
+in
+//
+case+ m1 of
+| SKIPLIST
+    (N, lgN, nxa) => let
+  in
+    if N = 0 then let
+      val () = free@ {..}{0}{0} (m1)
+      val () = __free (nxa) where {
+        extern fun __free
+          : {n:int} nodearr (key, itm, n) -<> void
+      } // end of [val]
+      prval () = opt_none {VT} (m)
+    in
+      false
+    end else let
+      prval () = fold@ (m1)
+      prval () =
+        __assert (m, m1) where {
+        extern praxi __assert : (!VT? >> VT, VT) -<prf> void
+      } // end of [val]
+      prval () = opt_some {VT} (m)
+    in
+      true
+    end // end of [if]
+  end // end of [SKIPLIST]
+//
+end // end of [linmap_free_vt]
+
+(* ****** ****** *)
+
 (* end of [linmap_skiplist.dats] *)
