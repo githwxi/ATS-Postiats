@@ -57,6 +57,52 @@ macdef i2sz (i) = g1int2uint (,(i))
 //
 (* ****** ****** *)
 
+#define lgMAX 40 // HX: it should be enough: 2^40 >= 10^12 :)
+
+(* ****** ****** *)
+
+(*
+fun linmap_random_lgN
+  {n:int | n >= 1} (n: int (n)): intBtwe (1, n)
+// end of [linmap_random_lgN]
+*)
+local
+
+staload "libc/SATS/stdlib.sats"
+
+in // in of [local]
+
+implement
+linmap_initize () =
+  ftmp () where {
+  extern fun ftmp : () -> void = "atslib_srand48_with_time"
+} // end of [linmap_initize]
+
+implement
+linmap_random_lgN
+  (n) = let
+//
+fun loop
+  {n:int}
+  {i:int | 1 <= i; i <= n}
+  .<n-i>. (
+  n: int n, i: int i, r: double
+) :<> intBtwe (1, n) =
+  if i < n then
+    if (r <= 0.5) then loop (n, i+1, r+r) else i
+  else n // end of [if]
+// end of [loop]
+//
+val r = drand48 () // HX: containing ref-effect!
+//
+in
+  loop (n, 1, r)
+end // end of [linmap_random_lgN]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 abstype
 node_type (
   key:t@ype, itm:viewt@ype+, l:addr, n:int
@@ -94,11 +140,6 @@ typedef
 nodeGt0 (
   key:t0p, itm:vt0p, ni:int
 ) = [n:int | n > ni] node0 (key, itm, n)
-
-typedef
-nodeGte1 (
-  key:t0p, itm:vt0p, ni:int
-) = [n:int | n >= ni] node1 (key, itm, n)
 
 (* ****** ****** *)
 
@@ -176,15 +217,29 @@ fun nodearr_make // HX: initized with nulls
 // end of [nodearr_make]
 
 (* ****** ****** *)
+
+extern
+fun{
+key:t0p;itm:vt0p
+} node_get_nodearr
+  {n:nat} (nx: node1 (key, itm, n)):<> nodearr (key, itm, n)
+// end of [node_get_nodearr]
+
+extern
+fun{
+key:t0p;itm:vt0p
+} node_get_nodeasz {n:nat} (nx: node1 (key, itm, n)):<> int (n)
+
+(* ****** ****** *)
 //
 // HX: internal representation of a node
 //
 viewtypedef
-_node (
+_node_struct (
   key: t0p, itm: vt0p
 ) = @{
   key= key, item=itm, nodearr=ptr, nodeasz= int
-} // end of [_node]
+} // end of [_node_struct]
 
 (* ****** ****** *)
 
@@ -194,7 +249,7 @@ node_make
   {lgN} (
   k0, x0, lgN
 ) = let
-  viewtypedef VT = _node (key, itm)
+  viewtypedef VT = _node_struct (key, itm)
   val (pfat, pfgc | p) = ptr_alloc<VT> ()
   val () = p->key := k0
   val () = p->item := $UN.castvwtp0{itm?}{itm}(x0)
@@ -209,7 +264,7 @@ implement
 node_free
   (nx, res) = let
 //
-  viewtypedef VT = _node (key, itm)
+  viewtypedef VT = _node_struct (key, itm)
 //
   prval (
     pfat, pfgc | p
@@ -240,14 +295,15 @@ fun __cast_node
   {key:t0p;itm:vt0p} (
   nx: node1 (key, itm)
 ) :<> [l:addr] (
-  _node (key, itm) @ l
-, _node (key, itm) @ l -<lin,prf> void
+  _node_struct (key, itm) @ l
+, _node_struct (key, itm) @ l -<lin,prf> void
 | ptr l
-) // end of [node_cast]
+) // end of [__cast_node]
 
 implement
 {key,itm}
-node_get_key (nx) = let
+node_get_key
+  (nx) = let
   val (pf, fpf | p) = __cast_node (nx)
   val key = p->key
   prval () = fpf (pf)
@@ -257,13 +313,36 @@ end // end of [node_get_key]
 
 implement
 {key,itm}
-node_getref_item (nx) = let
+node_getref_item
+  (nx) = let
   val (pf, fpf | p) = __cast_node (nx)
   val p_item = addr@ (p->item)
   prval () = fpf (pf)
 in
   $UN.cast2Ptr1 (p_item)
 end // end of [node_getref_item]
+
+implement
+{key,itm}
+node_get_nodearr
+  {n} (nx) = let
+  val (pf, fpf | p) = __cast_node (nx)
+  val nxa = p->nodearr
+  prval () = fpf (pf)
+in
+  $UN.cast {nodearr(key, itm, n)} (nxa)
+end // end of [node_get_nodearr]
+
+implement
+{key,itm}
+node_get_nodeasz
+  {n} (nx) = let
+  val (pf, fpf | p) = __cast_node (nx)
+  val asz = p->nodeasz
+  prval () = fpf (pf)
+in
+  $UN.cast {int(n)} (asz)
+end // end of [node_get_nodeasz]
 
 (* ****** ****** *)
 
@@ -315,10 +394,6 @@ key:t0p;itm:vt0p
   {n,n1:int}{ni:nat | ni < n} (
   nx: node1 (key, itm, n), ni: int ni, nx0: nodeGt0 (key, itm, ni)
 ) :<> void // end of [node_set_next]
-
-(* ****** ****** *)
-
-#define lgMAX 40 // HX: it should be enough: 2^40 >= 10^12 :)
 
 (* ****** ****** *)
 
@@ -472,13 +547,13 @@ extern
 fun{
 key:t0p;itm:vt0p
 } node_insert {n:int}{ni:nat | ni <= n} (
-  nx: node1 (key, itm, n), k0: key, ni: int ni, nx0: nodeGte1 (key, itm, ni)
+  nx: node1 (key, itm, n), k0: key, ni: int ni, nx0: node1 (key, itm)
 ) : void // end of [node_insert]
 extern
 fun{
 key:t0p;itm:vt0p
 } nodearr_insert {n:int}{ni:nat | ni <= n} (
-  nxa: nodearr (key, itm, n), k0: key, ni: int ni, nx0: nodeGte1 (key, itm, ni)
+  nxa: nodearr (key, itm, n), k0: key, ni: int ni, nx0: node1 (key, itm)
 ) : void // end of [nodearr_insert]
 
 implement
@@ -497,15 +572,22 @@ in
     val sgn = compare_key_key (k0, k1)
   in
     if sgn <= 0 then let
-      val () = node_set_next (nx, ni1, nx0)
-      val () = node_set_next (nx0, ni1, nx1)
+      val n0 = node_get_nodeasz (nx0)
+      val () =
+        if (n0 >= ni) then {
+        val () = node_set_next (nx, ni1, nx0)
+        val () = node_set_next (nx0, ni1, nx1)
+      } // end of [if] // end of [val]
     in
       node_insert (nx, k0, ni1, nx0)
     end else
       node_insert (nx1, k0, ni, nx0)
     // end of [if]
   end else let
-    val () = node_set_next (nx, ni1, nx0)
+    val n0 = node_get_nodeasz (nx0)
+    val () =
+      if (n0 >= ni) then node_set_next (nx, ni1, nx0)
+    // end of [val]
   in
     node_insert (nx, k0, ni1, nx0)
   end // end of [if]
@@ -531,15 +613,23 @@ in
     val sgn = compare_key_key (k0, k)
   in
     if sgn <= 0 then let
-      val () = nodearr_set_at (nxa, ni1, nx0)
-      val () = node_set_next (nx0, ni1, nx)
+      val n0 = node_get_nodeasz (nx0)
+      val () =
+        if (n0 >= ni) then {
+        val () =
+          nodearr_set_at (nxa, ni1, nx0)
+        val () = node_set_next (nx0, ni1, nx)
+      } // end of [if] // end of [val]
     in
       nodearr_insert (nxa, k0, ni1, nx0)
     end else
       node_insert (nx, k0, ni, nx0)
     // end of [if]
   end else let
-    val () = nodearr_set_at (nxa, ni1, nx0)
+    val n0 = node_get_nodeasz (nx0)
+    val () =
+      if (n0 >= ni) then nodearr_set_at (nxa, ni1, nx0)
+    // end of [val]
   in
     nodearr_insert (nxa, k0, ni1, nx0)
   end // end of [if]

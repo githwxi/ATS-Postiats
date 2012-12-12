@@ -48,6 +48,14 @@ compare_key_key (x1: key, x2: key):<> int
 
 (* ****** ****** *)
 
+fun linmap_initize (): void
+
+fun linmap_random_lgN
+  {n:int | n >= 1} (lgMAX: int (n)): intBtwe (1, n)
+// end of [linmap_random_lgN]
+
+(* ****** ****** *)
+
 fun linmap_make_nil
   {key:t0p;itm:vt0p} ():<> map (key, itm)
 // end of [linmap_make_nil]
@@ -88,12 +96,6 @@ key:t0p;itm:t0p
 } linmap_search_opt
   (map: !map (key, INV(itm)), k0: key): Option_vt (itm)
 // end of [linmap_search_opt]
-
-(* ****** ****** *)
-
-fun linmap_random_lgN
-  {n:int | n >= 1} (lgMAX: int (n)): intBtwe (1, n)
-// end of [linmap_random_lgN]
 
 (* ****** ****** *)
 //
