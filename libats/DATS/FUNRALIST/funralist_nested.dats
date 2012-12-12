@@ -148,6 +148,7 @@ uncons{a:t0p}
   xs: ralist (a, d, n), x: &ptr? >> node (a, d)
 ) :<!wrt> ralist (a, d, n-1) = let
 in
+//
 case+ xs of
 | RAevn (xxs) => let
     var nxx: ptr
@@ -165,20 +166,20 @@ case+ xs of
     case+ xxs of
     | RAnil () => RAnil () | _ =>> RAevn (xxs)
   end // end of [RAodd]
+//
 end // end of [uncons]
 
 in // in of [local]
 
 implement{a}
 funralist_uncons
-  (xs, x) = let
+  (xs) = let
   var nx: ptr // unintialized
-  val xs = uncons (xs, nx)
+  val () = xs := uncons (xs, nx)
   val+ N1 (x0) = nx
   prval () = topize (nx) // HX: this is not necessary
-  val () = x := x0
 in
-  xs
+  x0
 end // end of [funralist_uncons]
 
 end // end of [local]
@@ -187,16 +188,17 @@ end // end of [local]
 
 implement{a}
 funralist_head
-  (xs) = x where {
-  var x: a
-  val _ = $effmask_wrt (funralist_uncons<a> (xs, x))
-} // end of [funralist_head]
+  (xs) = let
+  var xs1 = xs
+in
+  $effmask_wrt (funralist_uncons<a> (xs1))
+end // end of [funralist_head]
 
 implement{a}
 funralist_tail
-  (xs) = xs where {
-  var x: a
-  val xs = $effmask_wrt (funralist_uncons<a> (xs, x))
+  (xs) = xs1 where {
+  var xs1 = xs
+  val _ = $effmask_wrt (funralist_uncons<a> (xs1))
 } // end of [funralist_tail]
 
 (* ****** ****** *)

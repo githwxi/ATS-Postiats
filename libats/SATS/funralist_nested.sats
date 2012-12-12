@@ -89,7 +89,7 @@ funralist_cons {n:int}
 
 fun{a:t0p}
 funralist_uncons {n:pos}
-  (xs: ralist (INV(a), n), x: &a? >> a):<!wrt> ralist (a, n-1)
+  (xs: &ralist (INV(a), n) >> ralist (a, n-1)):<!wrt> a
 // end of [funralist_uncons]
 
 (* ****** ****** *)

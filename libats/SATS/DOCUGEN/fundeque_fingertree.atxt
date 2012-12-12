@@ -61,12 +61,15 @@ typedef deque (a:t@ype) = [n:int] deque (a, n)
 
 #declnamesynop("fundeque_cons")
 #declnamesynop("fundeque_uncons")
-#declnamesynop("fundeque_get_atbeg")
 
 (* ****** ****** *)
 
 #declnamesynop("fundeque_snoc")
 #declnamesynop("fundeque_unsnoc")
+
+(* ****** ****** *)
+
+#declnamesynop("fundeque_get_atbeg")
 #declnamesynop("fundeque_get_atend")
 
 (* ****** ****** *)

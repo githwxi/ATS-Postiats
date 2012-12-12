@@ -544,17 +544,11 @@ fundeque_cons (xn, xt) =
 
 implement{a}
 fundeque_uncons
-  (xt, r) = xt where {
+  (xt) = x0 where {
   var xn: ptr?
-  val xt = fingertree_uncons (xt, xn)
-  val+ FTN1 (x) = xn
-  val () = (r := x)
+  val () = xt := fingertree_uncons (xt, xn)
+  val+ FTN1 (x0) = xn
 } // end of [fundeque_uncons]
-
-implement{a}
-fundeque_get_atbeg (xt) = let
-  val+ FTN1 (x) = fingertree_get_atbeg{a} (xt) in x
-end // end of [fundeque_get_atbeg]
 
 (* ****** ****** *)
 
@@ -565,12 +559,18 @@ fundeque_snoc (xt, xn) =
 
 implement{a}
 fundeque_unsnoc
-  (xt, r) = xt where {
+  (xt) = x0 where {
   var xn: ptr?
-  val xt = fingertree_unsnoc (xt, xn)
-  val+ FTN1 (x) = xn
-  val () = (r := x)
+  val () = xt := fingertree_unsnoc (xt, xn)
+  val+ FTN1 (x0) = xn
 } // end of [fundeque_unsnoc]
+
+(* ****** ****** *)
+
+implement{a}
+fundeque_get_atbeg (xt) = let
+  val+ FTN1 (x) = fingertree_get_atbeg{a} (xt) in x
+end // end of [fundeque_get_atbeg]
 
 implement{a}
 fundeque_get_atend (xt) = let

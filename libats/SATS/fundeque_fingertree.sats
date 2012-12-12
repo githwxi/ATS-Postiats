@@ -105,11 +105,8 @@ fundeque_cons{n:nat}
 
 fun{a:t0p}
 fundeque_uncons{n:pos}
-  (xt: deque (INV(a), n), r: &a? >> a):<!wrt> deque (a, n-1)
+  (xt: &deque (INV(a), n) >> deque (a, n-1)):<!wrt> a
 // end of [fundeque_uncons]
-
-fun{a:t0p}
-fundeque_get_atbeg {n:pos} (xt: deque (INV(a), n)):<> a
 
 (* ****** ****** *)
 
@@ -120,8 +117,13 @@ fundeque_snoc{n:nat}
 
 fun{a:t0p}
 fundeque_unsnoc{n:pos}
-  (xt: deque (INV(a), n), r: &a? >> a):<!wrt> deque (a, n-1)
+  (xt: &deque (INV(a), n) >> deque (a, n-1)):<!wrt> a
 // end of [fundeque_unsnoc]
+
+(* ****** ****** *)
+
+fun{a:t0p}
+fundeque_get_atbeg {n:pos} (xt: deque (INV(a), n)):<> a
 
 fun{a:t0p}
 fundeque_get_atend {n:pos} (xt: deque (INV(a), n)):<> a
