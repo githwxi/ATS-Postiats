@@ -22,10 +22,6 @@ the so-called finger-tree structure.
 
 (* ****** ****** *)
 
-#declnamesynop("deque_t0ype_int_type")
-
-(* ****** ****** *)
-
 #declname("deque")
 #declsynop2('
 #para('\
@@ -38,6 +34,10 @@ typedef deque (a:t@ype) = [n:int] deque (a, n)
 (* ****** ****** *)
 
 #declnamesynop("Deque")
+
+(* ****** ****** *)
+
+#declnamesynop("deque_t0ype_int_type")
 
 (* ****** ****** *)
 

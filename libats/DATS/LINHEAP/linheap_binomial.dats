@@ -35,11 +35,17 @@
 
 (* ****** ****** *)
 //
+// HX: Note that this implementation is largely of
+// functional-style; it does not support decrease-key.
+//
+(* ****** ****** *)
+//
 // HX-2012-12: ported to ATS/Postiats
 //
 (* ****** ****** *)
 //
-// License: LGPL 3.0 (available at http://www.gnu.org/licenses/lgpl.txt)
+// License: LGPL 3.0
+// available at http://www.gnu.org/licenses/lgpl.txt
 //
 (* ****** ****** *)
 
@@ -515,19 +521,6 @@ case+ hp of
         | ~btlst_nil () => hp
       // end of [loop]
       val hp1 = loop (bts, bheap_nil)
-(*
-//
-// HX: This unsafe trick seems to gain by 5%
-//
-      viewtypedef T = btree (a, 0)
-      val xs = __cast (bts) where {
-        extern castfn __cast {n:nat} (bts: btreelst (a, n)):<> List_vt (T)
-      } (* end of [val] *)
-      val xs = list_vt_reverse<T> (xs)
-      val hp1 = __cast (xs) where {
-        extern castfn __cast (xs: List_vt (T)):<> [sz:nat] bheap (a, 0, sz)
-      } (* end of [val] *)
-*)
     } // end of [val]
     val () = hp := bheap_bheap_merge (hp, hp1)
   in

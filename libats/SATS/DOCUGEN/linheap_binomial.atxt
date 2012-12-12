@@ -15,8 +15,9 @@ ATSLIB/libats/linheap_binomial\
 
 #declpreamble("\
 
-This package implements a linear heap based on the
-binomial-heap structure.\
+This package implements a linear heap based on the binomial-heap
+structure. The implementation is largely of functional style (with manual
+memory management) and it does not support the decrease-key operation. \
 
 ")
 
@@ -58,17 +59,26 @@ for a heap storing items of the viewtype T. Note that
 (* ****** ****** *)
 
 #declnamesynop("linheap_size")
-#decldescrpt("This function computes the size of a given heap.")
+#decldescrpt("\
+
+This function computes the size of a given heap. It is time-complexity
+O(1).")
 
 (* ****** ****** *)
 
 #declnamesynop("linheap_insert")
-#decldescrpt("This function inserts an element into a given heap.")
+#decldescrpt("\
+
+This function inserts an element into a given heap.  It is of
+time-complexity O(log(n)).")
 
 (* ****** ****** *)
 
 #declnamesynop("linheap_merge")
-#decldescrpt("This function merges two given heaps into one.")
+#decldescrpt("\
+
+This function merges two given heaps into one. It is of time-complexity
+O(log(n)).")
 
 (* ****** ****** *)
 
@@ -77,7 +87,8 @@ for a heap storing items of the viewtype T. Note that
 
 Given a heap [hp], this function copies the minimal element in [hp] into
 [res] and returns true if [hp] is not empty. Otherwise, the function
-returns false.  Note that the type for the elements in the heap is assumed
+returns false. For a heap of size n, the time-complexity of the function
+is O(log(n)). Note that the type for the elements in the heap is assumed
 to be non-linear.  ")
 
 #declfunretval("\
@@ -103,7 +114,8 @@ This function is the optional version of #dyncode("linheap_getmin_opt"). ")
 #decldescrpt("\
 
 This function is similar to #dyncode("linheap_getmin") except that it
-removes the minimal element in [hp] if [hp] is not empty.  ")
+removes the minimal element in [hp] if [hp] is not empty.  For a heap of
+size n, the time-complexity of the function in O(log(n)).  ")
 
 #declfunretval("\
 
@@ -118,8 +130,27 @@ This function is the optional version of #dyncode("linheap_delmin_opt"). ")
 (* ****** ****** *)
 
 #declnamesynop("linheap_free")
+#decldescrpt("\
+
+This function is called to free a given linear heap [hp]. Note that the
+elements contained in [hp] are assumed to be non-linear.  ")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_freelin$clear")
 #declnamesynop("linheap_freelin")
+#decldescrpt("\
+
+This function is called to free a given linear heap [hp]. It calls
+#dyncode("linmap_freelin$clear") to free the elements contained in [hp].
+
+")
+
 #declnamesynop("linheap_free_vt")
+#decldescrpt("\
+
+Given a heap [hp], this function frees [hp] and returns false if [hp] is
+empty.  Otherwise, the function keeps [hp] and returns true. ")
 
 (* ****** ****** *)
 

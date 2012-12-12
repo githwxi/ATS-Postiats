@@ -22,10 +22,6 @@ assigned a nested datatype.\
 
 (* ****** ****** *)
 
-#declnamesynop("ralist_t0ype_int_type")
-
-(* ****** ****** *)
-
 #declname("ralist")
 #declsynop2('
 #para('\
@@ -38,6 +34,10 @@ typedef ralist (a:t@ype) = [n:int] ralist (a, n)
 (* ****** ****** *)
 
 #declnamesynop("Ralist")
+
+(* ****** ****** *)
+
+#declnamesynop("ralist_t0ype_int_type")
 
 (* ****** ****** *)
 

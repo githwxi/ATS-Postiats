@@ -143,6 +143,14 @@ upload_linheap_binomial:: ;   scp HTML/linheap_binomial.html ats-hwxi,ats-lang@w
 clean:: ; $(RMF) linheap_binomial_atxt.exe
 cleanall:: ; $(RMF) HTML/linheap_binomial.html
 
+all_html:: HTML/linheap_fibonacci.html
+HTML/linheap_fibonacci.html:   linheap_fibonacci_atxt.exe ; $(CAT) ../linheap_fibonacci.sats | ./$< > $@
+linheap_fibonacci_atxt.txt: linheap_fibonacci.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+linheap_fibonacci_atxt.exe: htmlgendecl_atxt.dats   linheap_fibonacci_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_linheap_fibonacci:: ;   scp HTML/linheap_fibonacci.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) linheap_fibonacci_atxt.exe
+cleanall:: ; $(RMF) HTML/linheap_fibonacci.html
+
 
 ######
 

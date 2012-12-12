@@ -114,6 +114,11 @@ linheap_merge
 fun{a:t0p}
 linheap_free (hp: heap (a)):<!wrt> void
 
+(* ****** ****** *)
+
+fun{x:vt0p}
+linmap_freelin$clear
+  (x: &x >> x?):<!wrt> void
 fun{a:vt0p}
 linheap_freelin (hp: heap (a)):<!wrt> void
 
