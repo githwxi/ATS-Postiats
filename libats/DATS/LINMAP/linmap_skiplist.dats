@@ -259,6 +259,8 @@ in
   $UN.castvwtp0 {node1(key,itm,lgN)} @(pfat, pfgc | p)
 end // end of [node_make]
 
+(* ****** ****** *)
+
 implement
 {key,itm}
 node_free
@@ -291,7 +293,8 @@ end // end of [node_free]
 (* ****** ****** *)
 
 extern
-fun __cast_node
+castfn
+__cast_node
   {key:t0p;itm:vt0p} (
   nx: node1 (key, itm)
 ) :<> [l:addr] (
@@ -299,6 +302,8 @@ fun __cast_node
 , _node_struct (key, itm) @ l -<lin,prf> void
 | ptr l
 ) // end of [__cast_node]
+
+(* ****** ****** *)
 
 implement
 {key,itm}

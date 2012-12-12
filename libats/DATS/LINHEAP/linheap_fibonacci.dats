@@ -87,13 +87,14 @@ extern
 fun{a:vt0p} node_get_children (nx: !node1 (a)):<> nodelst (a)
 
 (* ****** ****** *)
-
+//
+// HX: [nodelst_add] is expected to be O(1)
+//
 extern
 fun{a:vt0p}
-nodelst_insert {n:int}
+nodelst_add {n:int}
   (nxs: nodelst (a, n), nx: node1 (a)): nodlst (a, n+1)
-// end of [nodelst_insert]
-
+// end of [nodelst_add]
 //
 // HX: [nodelst_union] is expected to be O(1)
 //
@@ -105,18 +106,14 @@ nodelst_union {n1,n2:int}
 
 (* ****** ****** *)
 
-#define MAX_DEGREE 45
+datavtype
+fibheap (a:viewtype+) =
+  | FIBHEAP (a) of (nodelst (a), int(*size*))
+// end of [fibheap]
 
 (* ****** ****** *)
 
-dataviewtype
-FIBHEAP (a:viewtype+) =
-  FIBHEAPcon (a) of (nodelst (a), int(*size*))
-// end of [FIBHEAP]
-
-(* ****** ****** *)
-
-assume heap_viewtype (a) = FIBHEAP (a)
+assume heap_viewtype (a) = fibheap (a)
 
 (* ****** ****** *)
 
