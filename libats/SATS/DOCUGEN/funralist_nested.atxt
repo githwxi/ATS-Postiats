@@ -15,8 +15,8 @@ ATSLIB/libats/funralist_nested\
 
 #declpreamble("\
 
-This package implements random-access lists based on some structure that is
-assigned a nested datatype.\
+This package implements random-access lists based on an interesting
+structure that is assigned a nested datatype.
 
 ")
 

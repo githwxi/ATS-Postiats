@@ -15,8 +15,18 @@ ATSLIB/libats/linmap_randbst\
 
 #declpreamble("\
 
+#para("\
+
 This package implements linear maps based on the randomized
-binary-search-tree structure.
+binary-search-tree (BST) structure.  ")
+
+#para("\
+
+Compared to balanced trees such as AVL-trees and red-black-trees randomized
+binary-search-trees are relatively easier to implement.  However, maps
+based on randomized BSTs are significantly less efficient than those based
+balanced trees. ")
+
 ")
 
 (* ****** ****** *)

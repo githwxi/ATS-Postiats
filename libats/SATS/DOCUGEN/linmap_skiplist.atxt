@@ -15,8 +15,21 @@ ATSLIB/libats/linmap_skiplist\
 
 #declpreamble("\
 
-This package implements linear maps based on the (randomized) skip-list
-structure.\
+#para("\
+
+This package implements a linear map based on the (randomized) skip-list
+structure.")
+
+#para("\
+
+While skip-lists are interesting, maps based on them are not as efficient
+as those based on balanced trees such as AVL-trees and red-black-trees. An
+often claimed advantage of skip-lists is that they are easier to implement
+than balanced trees. This, however, is not supported in ATS. With proper
+use of types, it seems on the contrary that correctly implementing balanced
+trees in ATS is significantly easier than skip-lists.  So this package is
+largely for educational purpose, demonstrating a reasonable approach to
+handling inherently imperative structures like skip-list.")
 
 ")
 

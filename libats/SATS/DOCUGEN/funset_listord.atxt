@@ -2,21 +2,25 @@
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/libats_funset_nested")
+val () = patscode_prefix_set("TRYIT/libats_funset_listord")
 %}
 
 (* ****** ****** *)
 
 #decltitle("\
-ATSLIB/libats/funset_nested\
+ATSLIB/libats/funset_listord\
 ")
 
 (* ****** ****** *)
 
 #declpreamble("\
 
-This package implements sets based on lists ordered according to
-some total ordering.\
+#para("\
+
+This package implements sets based on lists ordered according to some total
+ordering. The implementation should only be used for handling sets that are
+relatively small.  For large sets, an implementation based on balanced
+trees may be considered.  ")
 
 ")
 
@@ -58,83 +62,95 @@ xs. Note that duplicated elements in xs are all removed in the formed set.
 #declnamesynop("funset_size")
 #decldescrpt("\
 
-This function returns the size of a given set. Its time complexity is
-O(n).\ ")
+This function returns the size of a given set xs. Its time complexity is
+O(|xs|). ")
 
 (* ****** ****** *)
 
 #declnamesynop("funset_is_member")
 #decldescrpt("\
 
-This function tests whether an element occurs in a given set.  ")
+This function tests whether an element occurs in a given set xs.  The time
+complexity of this function is O(|xs|).  ")
 
 #declnamesynop("funset_isnot_member")
 #decldescrpt("\
 
-This function tests whether an element does not occur in a given set.  ")
+This function tests whether an element does not occur in a given set xs.  The
+time complexity of this function is O(|xs|).  ")
 
 (* ****** ****** *)
 
 #declnamesynop("funset_insert")
 #decldescrpt("\
 
-This function adds an element to a given set.  The return value indicates
-whether the element is already in the set.  ")
+This function adds an element to a given set |xs|.  The return value
+indicates whether the element is already in the set.  The time complexity
+of this function is O(|xs|). ")
 
 #declnamesynop("funset_remove")
 #decldescrpt("\
 
-This function removes an element from a given set.  The return value indicates
-whether the element is actually removed from the set.  ")
+This function removes an element from a given set xs.  The return value
+indicates whether the element is actually removed from the set.  The time
+complexity of this function is O(|xs|).")
 
 (* ****** ****** *)
 
 #declnamesynop("funset_union")
 #decldescrpt("\
 
-This function returns the union of two given sets.  ")
+Given sets xs1 and xs2, this function returns the union of xs1 and xs2.
+The time complexity of this function is O(|xs1|+|xs2|).  ")
 
 #declnamesynop("funset_intersect")
 #decldescrpt("\
 
-This function returns the intersection of two given sets.  ")
+Given sets xs1 and xs2, this function returns the intersection of xs1 and
+xs2.  The time complexity of this function is O(|xs1|+|xs2|).  ")
+
 
 #declnamesynop("funset_diff")
 #decldescrpt("\
 
 Given sets xs1 and xs2, this function returns the difference of xs1 from
-xs2.  ")
+xs2.  The time complexity of this function is O(|xs1|+|xs2|).  ")
 
 #declnamesynop("funset_symdiff")
 #decldescrpt("\
 
 Given sets xs1 and xs2, this function returns the symmetric difference
-between xs1 and xs2.  ")
+between xs1 and xs2.  The time complexity of this function is
+O(|xs1|+|xs2|).  ")
 
 (* ****** ****** *)
 
 #declnamesynop("funset_is_equal")
-#decldescrpt("This function tests whether two given sets are equal.")
+#decldescrpt("\
+
+This function tests whether two given sets xs1 and xs2 are equal.  The time
+complexity of this function is O(|xs1|+|xs2|).  ")
 
 #declnamesynop("funset_is_subset")
 #decldescrpt("\
 
 Given sets xs1 and xs2, this function tests whether xs1 is a subset of xs2.
-")
+The time complexity of this function is O(|xs1|+|xs2|).  ")
 
 #declnamesynop("funset_is_supset")
 #decldescrpt("\
 
-Given sets xs1 and xs2, this function tests whether xs1 is a superset of xs2.
-")
+Given sets xs1 and xs2, this function tests whether xs1 is a superset of
+xs2.  The time complexity of this function is O(|xs1|+|xs2|).  ")
 
 (* ****** ****** *)
 
 #declnamesynop("funset_compare")
 #decldescrpt("\
 
-This function compares two given sets based on the ordering induced from
-the one (implemented by #dyncode("compare_elt_elt")) on set elements. ")
+This function compares two given sets xs1 and xs2 based on the ordering
+induced from the one (implemented by #dyncode("compare_elt_elt")) on set
+elements.  The time complexity of this function is O(|xs1|+|xs2|).  ")
 
 (* ****** ****** *)
 
@@ -142,7 +158,7 @@ the one (implemented by #dyncode("compare_elt_elt")) on set elements. ")
 #decldescrpt("\
 
 Given a set xs, this function returns a linear list consisting of all the
-elements in xs.  ")
+elements in xs.  The time complexity of this function is O(|xs|).  ")
 
 (* ****** ****** *)
 
