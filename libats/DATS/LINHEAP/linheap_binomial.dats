@@ -463,6 +463,23 @@ end // end of [linheap_getmin_ref]
 
 (* ****** ****** *)
 
+implement{a}
+linheap_getmin_opt
+  (hp0) = let
+  var res: a? // unintialized
+  val b = linheap_getmin (hp0, res)
+in
+//
+if b then let
+  prval () = opt_unsome {a} (res) in Some_vt (res)
+end else let
+  prval () = opt_unnone {a} (res) in None_vt ()
+end // end of [if]
+//
+end // end of [linheap_getmin_opt]
+
+(* ****** ****** *)
+
 local
 
 staload _(*anon*) = "prelude/DATS/list_vt.dats"

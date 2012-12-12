@@ -63,7 +63,7 @@ implement
 $FS.compare_elt_elt<a> (x1, x2) = cmp (x1, x2)
 //
 in
-  $FS.funset_is_member (xs, x0)
+  $FS.funset_is_member<a> (xs, x0)
 end // end of [funset_is_member]
 
 implement{a}
@@ -81,7 +81,7 @@ implement
 $FS.compare_elt_elt<a> (x1, x2) = cmp (x1, x2)
 //
 in
-  $effmask_all ($FS.funset_insert (xs, x0))
+  $effmask_all ($FS.funset_insert<a> (xs, x0))
 end // end of [funset_insert]
 
 (* ****** ****** *)

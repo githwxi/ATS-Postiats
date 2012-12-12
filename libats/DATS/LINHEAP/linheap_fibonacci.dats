@@ -29,103 +29,95 @@
 
 (* ****** ****** *)
 
+(* Author: Hanwen Wu *)
+(* Authoremail: hwwu AT cs DOT bu DOT edu *)
+
 (* Author: Hongwei Xi *)
 (* Authoremail: hwxi AT cs DOT bu DOT edu *)
 (* Start time: November, 2011 *)
 
 (* ****** ****** *)
 //
-// HX-2012-12: ported to ATS/Postiats
-//
-(* ****** ****** *)
-//
 // License: LGPL 3.0 (available at http://www.gnu.org/licenses/lgpl.txt)
 //
 (* ****** ****** *)
 
-#define ATS_STALOADFLAG 0 // no static loading at run-time
+#define ATS_DYNLOADFLAG 0 // no static loading at run-time
 
 (* ****** ****** *)
 
-absviewtype
-heap_viewtype (a:viewt@ype+)
-stadef heap = heap_viewtype
+staload "libats/SATS/linheap_fibonacci.sats"
 
 (* ****** ****** *)
 
-sortdef t0p = t@ype and vt0p = viewt@ype
+#define nullp the_null_ptr
 
 (* ****** ****** *)
 
+abstype node (a:vt0p+, l:addr)
+typedef node0 (a:vt0p) = [l:addr | l >= null] node (a, l) // nullable
+typedef node1 (a:vt0p) = [l:addr | l >  null] node (a, l) // non-null
+
+(* ****** ****** *)
+
+abstype nodelst (a:vt0p+, n:int)
+typedef nodelst (a:vt0p) = [n:nat] nodelst (a, n)
+
+(* ****** ****** *)
+
+extern
+fun{a:t0p} node_getref_elt (nx: !node1 (a)):<> a
+extern
+fun{a:vt0p} node_getref_elt (nx: !node1 (a)):<> Ptr1
+
+extern
+fun{a:vt0p} node_get_degree (nx: !node1 (a)):<> int
+extern
+fun{a:vt0p} node_get_marked (nx: !node1 (a)):<> bool
+
+extern
+fun{a:vt0p} node_get_parent (nx: !node1 (a)):<> node0 (a)
+
+extern
+fun{a:vt0p} node_get_left (nx: !node1 (a)):<> node0 (a)
+extern
+fun{a:vt0p} node_get_right (nx: !node1 (a)):<> node0 (a)
+
+extern
+fun{a:vt0p} node_get_children (nx: !node1 (a)):<> nodelst (a)
+
+(* ****** ****** *)
+
+extern
 fun{a:vt0p}
-compare_elt_elt (x1: &a, x2: &a):<> int
+nodelst_insert {n:int}
+  (nxs: nodelst (a, n), nx: node1 (a)): nodlst (a, n+1)
+// end of [nodelst_insert]
 
-(* ****** ****** *)
-
-fun{} linheap_nil {a:vt0p} ():<> heap (a)
-
-(* ****** ****** *)
-
-fun linheap_is_nil {a:vt0p} (hp: !heap (a)):<> bool
-fun linheap_isnot_nil {a:vt0p} (hp: !heap (a)):<> bool
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-linheap_size (hp: !heap a): size_t
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-linheap_insert (hp: &heap (a) >> _, x: a): void
-
-(* ****** ****** *)
-
-fun{a:t0p}
-linheap_getmin (
-  hp: !heap (a), res: &a? >> opt (a, b)
-) : #[b:bool] bool b // endfun
-
-fun{a:vt0p}
-linheap_getmin_ref (hp: !heap (a)): Ptr0
-
-fun{a:t0p}
-linheap_getmin_opt (hp: !heap (a)): Option_vt (a)
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-linheap_delmin (
-  hp: &heap (a) >> _, res: &a? >> opt (a, b)
-) : #[b:bool] bool b // endfun
-
-fun{a:vt0p}
-linheap_delmin_opt (hp: &heap (a) >> _): Option_vt (a)
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-linheap_merge
-  (hp1: heap (a), hp2: heap (a)): heap (a)
-// end of [linheap_merge]
-
-(* ****** ****** *)
-
-fun{a:t0p}
-linheap_free (hp: heap (a)):<!wrt> void
-
-fun{a:vt0p}
-linheap_freelin (hp: heap (a)):<!wrt> void
-
-(* ****** ****** *)
 //
-// HX: a heap is freed only if it is empty
+// HX: [nodelst_union] is expected to be O(1)
 //
+extern
 fun{a:vt0p}
-linheap_free_vt
-  (hp: !heap (a) >> opt (heap (a), b)) :<> #[b:bool] bool(b)
-// end of [linheap_free_vt]
+nodelst_union {n1,n2:int}
+  (nxs1: nodelst (a, n1), nxs2: nodelst (a, n2)): nodelst (a, n1+n2)
+// end of [nodelst_union]
 
 (* ****** ****** *)
 
-(* end of [linheap_binomial.sats] *)
+#define MAX_DEGREE 45
+
+(* ****** ****** *)
+
+dataviewtype
+FIBHEAP (a:viewtype+) =
+  FIBHEAPcon (a) of (nodelst (a), int(*size*))
+// end of [FIBHEAP]
+
+(* ****** ****** *)
+
+assume heap_viewtype (a) = FIBHEAP (a)
+
+(* ****** ****** *)
+
+(* linheap_fibonacci.dats *)

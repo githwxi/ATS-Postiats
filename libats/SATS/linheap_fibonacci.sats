@@ -29,14 +29,13 @@
 
 (* ****** ****** *)
 
+(* Author: Hanwen Wu *)
+(* Authoremail: hwwu AT cs DOT bu DOT edu *)
+
 (* Author: Hongwei Xi *)
 (* Authoremail: hwxi AT cs DOT bu DOT edu *)
 (* Start time: November, 2011 *)
 
-(* ****** ****** *)
-//
-// HX-2012-12: ported to ATS/Postiats
-//
 (* ****** ****** *)
 //
 // License: LGPL 3.0 (available at http://www.gnu.org/licenses/lgpl.txt)
@@ -62,7 +61,7 @@ compare_elt_elt (x1: &a, x2: &a):<> int
 
 (* ****** ****** *)
 
-fun{} linheap_nil {a:vt0p} ():<> heap (a)
+fun{} linheap_make_nil {a:vt0p} ():<> heap (a)
 
 (* ****** ****** *)
 
@@ -128,4 +127,4 @@ linheap_free_vt
 
 (* ****** ****** *)
 
-(* end of [linheap_binomial.sats] *)
+(* end of [linheap_fibonacci.sats] *)

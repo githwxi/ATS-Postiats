@@ -114,7 +114,7 @@ node2ptr
 fun{
 } node_null
   {key:t0p;itm:vt0p}{n:nat} .<>.
-  (n: int n):<> node (key, itm, null, n) = $UN.castvwtp1 (nullp)
+  (n: int n):<> node (key, itm, null, n) = $UN.castvwtp0 (nullp)
 // end of [node_null]
 
 (* ****** ****** *)
@@ -172,6 +172,17 @@ fun nodearr_make // HX: initized with nulls
 // end of [nodearr_make]
 
 (* ****** ****** *)
+//
+// HX: internal representation of a node
+//
+viewtypedef
+_node (
+  key: t0p, itm: vt0p
+) = @{
+  key= key, item=itm, nodearr=ptr, nodesz= int
+} // end of [_node]
+
+(* ****** ****** *)
 
 implement
 {key,itm}
@@ -179,12 +190,12 @@ node_make
   {lgN} (
   k0, x0, lgN
 ) = let
-  viewtypedef VT = (key, itm, ptr, int)
+  viewtypedef VT = _node (key, itm)
   val (pfat, pfgc | p) = ptr_alloc<VT> ()
-  val () = p->0 := k0
-  val () = p->1 := $UN.castvwtp0{itm?}{itm}(x0)
-  val () = p->2 := $UN.cast{ptr}(nodearr_make(lgN))
-  val () = p->3 := lgN
+  val () = p->key := k0
+  val () = p->item := $UN.castvwtp0{itm?}{itm}(x0)
+  val () = p->nodearr := $UN.cast{ptr}(nodearr_make(lgN))
+  val () = p->nodesz := lgN
 in
   $UN.castvwtp0 {node1(key,itm,lgN)} @(pfat, pfgc | p)
 end // end of [node_make]
@@ -217,6 +228,38 @@ node_free
 in
   // nothing
 end // end of [node_free]
+
+(* ****** ****** *)
+
+extern
+fun __cast_node
+  {key:t0p;itm:vt0p} (
+  nx: node1 (key, itm)
+) :<> [l:addr] (
+  _node (key, itm) @ l
+, _node (key, itm) @ l -<lin,prf> void
+| ptr l
+) // end of [node_cast]
+
+implement
+{key,itm}
+node_get_key (nx) = let
+  val (pf, fpf | p) = __cast_node (nx)
+  val key = p->key
+  prval () = fpf (pf)
+in
+  key
+end // end of [node_get_key]
+
+implement
+{key,itm}
+node_getref_item (nx) = let
+  val (pf, fpf | p) = __cast_node (nx)
+  val p_item = addr@ (p->item)
+  prval () = fpf (pf)
+in
+  $UN.cast2Ptr1 (p_item)
+end // end of [node_getref_item]
 
 (* ****** ****** *)
 
