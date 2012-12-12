@@ -48,11 +48,7 @@ compare_key_key (x1: key, x2: key):<> int
 
 (* ****** ****** *)
 
-fun linmap_initize (): void
-
-fun linmap_random_lgN
-  {n:int | n >= 1} (lgMAX: int (n)): intBtwe (1, n)
-// end of [linmap_random_lgN]
+fun linmap_random_initize (): void
 
 (* ****** ****** *)
 

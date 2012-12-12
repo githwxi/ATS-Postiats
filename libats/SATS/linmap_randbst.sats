@@ -48,6 +48,10 @@ compare_key_key (x1: key, x2: key):<> int
 
 (* ****** ****** *)
 
+fun linmap_random_initize (): void
+
+(* ****** ****** *)
+
 fun{
 } linmap_nil {key:t0p;itm:vt0p} ():<> map (key, itm)
 
@@ -100,13 +104,6 @@ key:t0p;itm:t0p
   (map: !map (key, INV(itm)), k0: key): Option_vt (itm)
 // end of [linmap_search_opt]
 
-(* ****** ****** *)
-
-fun{
-} linmap_random_m_n
-  {m,n:nat} (m: int m, n: int n): natLt (2)
-// end of [linmap_random_m_n]
- 
 (* ****** ****** *)
 //
 // HX-2012-12:

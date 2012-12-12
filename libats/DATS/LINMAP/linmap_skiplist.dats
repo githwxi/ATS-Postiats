@@ -57,26 +57,28 @@ macdef i2sz (i) = g1int2uint (,(i))
 //
 (* ****** ****** *)
 
+implement
+linmap_random_initize () =
+  ftmp () where {
+  extern fun ftmp : () -> void = "atslib_srand48_with_time"
+} // end of [linmap_random_initize]
+
+(* ****** ****** *)
+
 #define lgMAX 40 // HX: it should be enough: 2^40 >= 10^12 :)
 
 (* ****** ****** *)
 
-(*
+extern
 fun linmap_random_lgN
-  {n:int | n >= 1} (n: int (n)): intBtwe (1, n)
+  {n:int | n >= 1} (lgMAX: int (n)): intBtwe (1, n)
 // end of [linmap_random_lgN]
-*)
+
 local
 
 staload "libc/SATS/stdlib.sats"
 
 in // in of [local]
-
-implement
-linmap_initize () =
-  ftmp () where {
-  extern fun ftmp : () -> void = "atslib_srand48_with_time"
-} // end of [linmap_initize]
 
 implement
 linmap_random_lgN

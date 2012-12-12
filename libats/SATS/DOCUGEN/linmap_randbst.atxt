@@ -34,6 +34,16 @@ binary-search-tree structure.
 
 (* ****** ****** *)
 
+#declnamesynop("linmap_random_initize")
+#decldescrpt("\
+
+This function is called to initialize the random number generator employed
+in the implementation of randomized binary search trees.\
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("linmap_nil")
 #decldescrpt("This function creates an empty map.")
 

@@ -44,6 +44,41 @@ staload "libats/SATS/linmap_randbst.sats"
 #include "./linmap_share.hats" // in current dir
 //
 (* ****** ****** *)
+
+implement
+linmap_random_initize () =
+  ftmp () where {
+  extern fun ftmp : () -> void = "atslib_srand48_with_time"
+} // end of [linmap_random_initize]
+
+(* ****** ****** *)
+
+extern
+fun linmap_random_m_n
+  {m,n:nat} (m: int m, n: int n): natLt (2)
+// end of [linmap_random_m_n]
+
+local
+
+staload "libc/SATS/stdlib.sats"
+
+in // in of [local]
+
+macdef i2d (i) =
+  g0int2float<int_kind,double_kind> (,(i))
+// end of [madef]
+
+implement
+linmap_random_m_n
+  (m, n) = let
+  val r = drand48 ()
+in
+  if i2d (m+n) * r <= i2d (m) then 0 else 1
+end // end of [linmap_random_m_n]
+
+end // end of [local]
+
+(* ****** ****** *)
 //
 // HX: for linear binary search trees
 //
@@ -267,7 +302,7 @@ case+ t of
 | @BSTcons (
     n, k, x, tl, tr
   ) => let
-    val randbit = linmap_random_m_n<> (1, n)
+    val randbit = linmap_random_m_n (1, n)
   in
     if randbit = 0 then let
       prval () = fold@ (t) in bstree_insert_atroot<key,itm> (t, k0, x0)
@@ -332,7 +367,7 @@ case+ tl of
       nr, _, _, trl, trr
     ) => let
       val n = nl + nr
-      val randbit = linmap_random_m_n<> (nl, nr)
+      val randbit = linmap_random_m_n (nl, nr)
     in
       if randbit = 0 then let
         prval () = fold@ (tr)

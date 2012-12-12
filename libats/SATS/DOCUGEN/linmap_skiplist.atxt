@@ -47,6 +47,16 @@ co-variant in its second argument.\
 
 (* ****** ****** *)
 
+#declnamesynop("linmap_random_initize")
+#decldescrpt("\
+
+This function is called to initialize the random number generator employed
+in the skip-list implementation.\
+
+")
+
+(* ****** ****** *)
+
 #declnamesynop("linmap_make_nil")
 #decldescrpt("This function creates an empty map.")
 

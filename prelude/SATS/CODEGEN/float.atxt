@@ -48,6 +48,11 @@ end // end of [fprint_print_prerr_decl]
 
 #atscode_separator()
 
+fun{tk1,tk2:tk}
+g0int2float (x: g0int (tk1)): g0float (tk2)
+
+#atscode_separator()
+
 fun{tk:tk}
 g0float_neg (x: g0float (tk)): g0float (tk)
 overload ~ with g0float_neg of 0
