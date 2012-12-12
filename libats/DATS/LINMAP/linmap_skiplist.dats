@@ -45,6 +45,10 @@ staload "libats/SATS/linmap_skiplist.sats"
 
 (* ****** ****** *)
 //
+macdef i2sz (i) = g1int2uint (,(i))
+//
+(* ****** ****** *)
+//
 // HX-2012-12-01:
 // the file should be included here
 // before [map_viewtype] is assumed
@@ -179,7 +183,7 @@ viewtypedef
 _node (
   key: t0p, itm: vt0p
 ) = @{
-  key= key, item=itm, nodearr=ptr, nodesz= int
+  key= key, item=itm, nodearr=ptr, nodeasz= int
 } // end of [_node]
 
 (* ****** ****** *)
@@ -195,7 +199,7 @@ node_make
   val () = p->key := k0
   val () = p->item := $UN.castvwtp0{itm?}{itm}(x0)
   val () = p->nodearr := $UN.cast{ptr}(nodearr_make(lgN))
-  val () = p->nodesz := lgN
+  val () = p->nodeasz := lgN
 in
   $UN.castvwtp0 {node1(key,itm,lgN)} @(pfat, pfgc | p)
 end // end of [node_make]
@@ -205,7 +209,7 @@ implement
 node_free
   (nx, res) = let
 //
-  viewtypedef VT = (key, itm, ptr, int)
+  viewtypedef VT = _node (key, itm)
 //
   prval (
     pfat, pfgc | p
@@ -216,10 +220,10 @@ node_free
     ) :<> [l:addr] (VT @ l, free_gc_v l | ptr l)
   } // end of [prval]
 //
-  val () = res := p->1
+  val () = res := p->item
 //
   val () =
-    __free (p->2) where {
+    __free (p->nodearr) where {
     extern fun __free : ptr -> void = "atsruntime_free"
   } // end of [val]
 //
@@ -274,7 +278,7 @@ in // in of [local]
 
 implement
 nodearr_make (n) = let
-  val asz = g1int2uint(n) in arrayref_make_elt<ptr> (asz, nullp)
+  val asz = i2sz(n) in arrayref_make_elt<ptr> (asz, nullp)
 end // end of [nodearr]
 
 implement
@@ -337,19 +341,19 @@ map_viewtype
 
 implement
 linmap_make_nil () =
-  SKIPLIST (g1int2uint(0), 0, nodearr_make (lgMAX))
+  SKIPLIST (i2sz(0), 0, nodearr_make (lgMAX))
 // end of [linmap_make_nil]
 
 (* ****** ****** *)
 
 implement
 linmap_is_nil (map) = let
-  val SKIPLIST (N, _, _) = map in N = g1int2uint(0)
+  val SKIPLIST (N, _, _) = map in N = i2sz(0)
 end // end of [linmap_is_nil]
 
 implement
 linmap_isnot_nil (map) = let
-  val SKIPLIST (N, _, _) = map in N > g1int2uint(0)
+  val SKIPLIST (N, _, _) = map in N > i2sz(0)
 end // end of [linmap_isnot_nil]
 
 (* ****** ****** *)
@@ -805,12 +809,14 @@ val m1 =
 in
 //
 case+ m1 of
-| SKIPLIST
+| @SKIPLIST
     (N, lgN, nxa) => let
   in
-    if N = 0 then let
-      val () = free@ {..}{0}{0} (m1)
-      val () = __free (nxa) where {
+    if N = i2sz(0) then let
+      val nxa_ = nxa
+      val () =
+        free@ {..}{0}{0} (m1)
+      val () = __free (nxa_) where {
         extern fun __free
           : {n:int} nodearr (key, itm, n) -<> void
       } // end of [val]

@@ -1,0 +1,57 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_ML_funset")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/ML/funset\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package implements functional sets based on ordered AVL-trees.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("set")
+#declnamesynop("set_type")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_is_member")
+#declnamesynop("funset_isnot_member")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_insert")
+#declnamesynop("funset_remove")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_union")
+#declnamesynop("funset_intersect")
+#declnamesynop("funset_diff")
+#declnamesynop("funset_symdiff")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_is_equal")
+
+#declnamesynop("funset_is_subset")
+#declnamesynop("funset_is_supset")
+
+(* ****** ****** *)
+
+#declnamesynop("funset_listize")
+
+(* ****** ****** *)
+
+(* end of [funset.atxt] *)
