@@ -168,6 +168,20 @@ env:vt0p
 
 (* ****** ****** *)
 
+fun{
+key:t0p;itm:t0p
+} linmap_free (m: map (key, itm)):<!wrt> void
+//
+// HX: a linear map can be properly freed only if it is empty
+//
+fun{
+key:t0p;itm:vt0p
+} linmap_free_vt (
+  m: !map (key, itm) >> opt (map (key, itm), b)
+) :<!wrt> #[b:bool] bool b(*~freed*) // end of [linmap_free_vt]
+
+(* ****** ****** *)
+
 (*
 //
 // HX: listization is done ascendingly

@@ -1,0 +1,34 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_ML_funmap")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/ML/funmap\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package implements functional associative maps based on ordered
+AVL-trees.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("map")
+#declnamesynop("map_type")
+
+(* ****** ****** *)
+
+#declnamesynop("funmap_listize")
+
+(* ****** ****** *)
+
+(* end of [funmap.atxt] *)

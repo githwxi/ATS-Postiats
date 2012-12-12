@@ -95,6 +95,22 @@ upload_string:: ;   scp HTML/string.html ats-hwxi,ats-lang@web.sourceforge.net:h
 clean:: ; $(RMF) string_atxt.exe
 cleanall:: ; $(RMF) HTML/string.html
 
+all_html:: HTML/funmap.html
+HTML/funmap.html:   funmap_atxt.exe ; $(CAT) ../funmap.sats | ./$< > $@
+funmap_atxt.txt: funmap.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+funmap_atxt.exe: htmlgendecl_atxt.dats   funmap_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_funmap:: ;   scp HTML/funmap.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
+clean:: ; $(RMF) funmap_atxt.exe
+cleanall:: ; $(RMF) HTML/funmap.html
+
+all_html:: HTML/funset.html
+HTML/funset.html:   funset_atxt.exe ; $(CAT) ../funset.sats | ./$< > $@
+funset_atxt.txt: funset.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+funset_atxt.exe: htmlgendecl_atxt.dats   funset_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_funset:: ;   scp HTML/funset.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
+clean:: ; $(RMF) funset_atxt.exe
+cleanall:: ; $(RMF) HTML/funset.html
+
 
 ######
 
