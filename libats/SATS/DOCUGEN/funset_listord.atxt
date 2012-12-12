@@ -22,58 +22,127 @@ some total ordering.\
 
 (* ****** ****** *)
 
+#declnamesynop("set")
+#decldescrpt("\
+
+The type constructor #stacode("set") is a shorthand for
+#stacode("set_t0ype_type").  ")
+
 #declnamesynop("set_t0ype_type")
-#declnamesynop("set") // set = set_t0ype_type
 
 (* ****** ****** *)
 
-fun{a:t0p}
-compare_elt_elt (x1: a, x2: a):<> int
+#declnamesynop("compare_elt_elt")
+#decldescrpt("This function is for comparing elements in sets.")
 
 (* ****** ****** *)
 
 #declnamesynop("funset_nil")
+#decldescrpt("This function forms an empty set.")
+
 #declnamesynop("funset_sing")
+#decldescrpt("Given an element x, this function forms the singleton set
+containing x.")
 
 (* ****** ****** *)
 
 #declnamesynop("funset_make_list")
+#decldescrpt("\
+
+Given a list xs, this function forms the set consisting of elements in
+xs. Note that duplicated elements in xs are all removed in the formed set.
+")
 
 (* ****** ****** *)
 
 #declnamesynop("funset_size")
+#decldescrpt("\
+
+This function returns the size of a given set. Its time complexity is
+O(n).\ ")
 
 (* ****** ****** *)
 
 #declnamesynop("funset_is_member")
+#decldescrpt("\
+
+This function tests whether an element occurs in a given set.  ")
+
 #declnamesynop("funset_isnot_member")
+#decldescrpt("\
+
+This function tests whether an element does not occur in a given set.  ")
 
 (* ****** ****** *)
 
 #declnamesynop("funset_insert")
+#decldescrpt("\
+
+This function adds an element to a given set.  The return value indicates
+whether the element is already in the set.  ")
+
 #declnamesynop("funset_remove")
+#decldescrpt("\
+
+This function removes an element from a given set.  The return value indicates
+whether the element is actually removed from the set.  ")
 
 (* ****** ****** *)
 
 #declnamesynop("funset_union")
+#decldescrpt("\
+
+This function returns the union of two given sets.  ")
+
 #declnamesynop("funset_intersect")
+#decldescrpt("\
+
+This function returns the intersection of two given sets.  ")
+
 #declnamesynop("funset_diff")
+#decldescrpt("\
+
+Given sets xs1 and xs2, this function returns the difference of xs1 from
+xs2.  ")
+
 #declnamesynop("funset_symdiff")
+#decldescrpt("\
+
+Given sets xs1 and xs2, this function returns the symmetric difference
+between xs1 and xs2.  ")
 
 (* ****** ****** *)
 
 #declnamesynop("funset_is_equal")
+#decldescrpt("This function tests whether two given sets are equal.")
 
 #declnamesynop("funset_is_subset")
+#decldescrpt("\
+
+Given sets xs1 and xs2, this function tests whether xs1 is a subset of xs2.
+")
+
 #declnamesynop("funset_is_supset")
+#decldescrpt("\
+
+Given sets xs1 and xs2, this function tests whether xs1 is a superset of xs2.
+")
 
 (* ****** ****** *)
 
 #declnamesynop("funset_compare")
+#decldescrpt("\
+
+This function compares two given sets based on the ordering induced from
+the one (implemented by #dyncode("compare_elt_elt")) on set elements. ")
 
 (* ****** ****** *)
 
 #declnamesynop("funset_listize")
+#decldescrpt("\
+
+Given a set xs, this function returns a linear list consisting of all the
+elements in xs.  ")
 
 (* ****** ****** *)
 

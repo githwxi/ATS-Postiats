@@ -113,7 +113,7 @@ funralist_lookup
 
 fun{a:t0p}
 funralist_update
-  {n:int} (xs: ralist (INV(a), n), i: natLt n, x: a):<> ralist (a, n)
+  {n:int} (xs: ralist (INV(a), n), i: natLt n, x0: a):<> ralist (a, n)
 // end of [funralist_update]
 
 (* ****** ****** *)

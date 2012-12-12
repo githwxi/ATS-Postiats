@@ -305,9 +305,9 @@ in // in of [local]
 
 implement{a}
 funralist_update
-  (xs, i, x) = xs where {
+  (xs, i, x0) = xs where {
   typedef node = node (a, 0)
-  val f = lam (_: node): node =<cloref> N1 (x)
+  val f = lam (_: node): node =<cloref> N1 (x0)
   val xs = fupdate (xs, i, f)
   val () = __free ($UN.cast2ptr(f))
 } // end of [funralist_update]

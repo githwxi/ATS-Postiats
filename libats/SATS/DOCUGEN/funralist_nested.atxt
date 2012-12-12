@@ -46,30 +46,62 @@ typedef ralist (a:t@ype) = [n:int] ralist (a, n)
 (* ****** ****** *)
 
 #declnamesynop("funralist_nil")
+#decldescrpt("This function forms an empty list.")
+
+(* ****** ****** *)
+
 #declnamesynop("funralist_is_nil")
+#decldescrpt("This function tests whether a given list is empty.")
 #declnamesynop("funralist_is_cons")
+#decldescrpt("This function tests whether a given list is non-empty.")
 
 (* ****** ****** *)
 
 #declnamesynop("funralist_length")
+#decldescrpt("\
+
+This function returns the length of a given list. Its time-complexity is
+O(log(n)).  ")
 
 (* ****** ****** *)
 
 #declnamesynop("funralist_cons")
+#decldescrpt("\
+
+Given x and xs, this function forms a list whose head and tail are x ans
+xs, respectively. ")
+
 #declnamesynop("funralist_uncons")
+#decldescrpt("\
+
+Given a non-empty list, this function returns the head of the list while
+storing the tail of the list into its (call-by-reference) argument.  ")
 
 (* ****** ****** *)
 
 #declnamesynop("funralist_head")
+#decldescrpt("This function returns the head of a given non-empty list.")
+
 #declnamesynop("funralist_tail")
+#decldescrpt("This function returns the tail of a given non-empty list.")
 
 (* ****** ****** *)
 
 #declnamesynop("funralist_lookup")
+#decldescrpt("\
+
+Given a list xs of length n and a natural number less than n, this function
+returns xs[i], that is, element i in the list xs.  The time-complexity of
+the function is O(log(i)).  ")
 
 (* ****** ****** *)
 
 #declnamesynop("funralist_update")
+#decldescrpt("\
+
+Given a list xs of length n, a natural number less than n and an element
+x0, this function returns a list obtained from replacing element i in xs
+with x0. The time-complexity of the function is O(log(i)).  ")
 
 (* ****** ****** *)
 
