@@ -169,6 +169,13 @@ environment as an extra argument.  ")
 
 (* ****** ****** *)
 
+#declnamesynop("linmap_free")
+#declnamesynop("linmap_freelin$clear")
+#declnamesynop("linmap_freelin")
+#declnamesynop("linmap_free_vt")
+
+(* ****** ****** *)
+
 #declnamesynop("linmap_listize")
 #decldescrpt("\
 

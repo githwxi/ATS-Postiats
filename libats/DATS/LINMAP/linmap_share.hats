@@ -137,7 +137,7 @@ viewtypedef tenv = $Q.QUEUE (tkx)
 viewtypedef tenv0 = $Q.QUEUESZ (tkx)
 //
 var env: tenv0
-val () = $Q.queue_initialize (env)
+val () = $Q.queue_initize (env)
 //
 implement
 linmap_foreach$fwork<key,itm><tenv>
@@ -146,10 +146,23 @@ linmap_foreach$fwork<key,itm><tenv>
 val () = $effmask_all (linmap_foreach_env (map, env))
 //
 in
-  $Q.queue_uninitialize (env)
+  $Q.queue_uninitize (env)
 end // end of [linmap_listize]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_free (map) = let
+//
+implement
+linmap_freelin$clear<itm> (x) = ()
+//
+in
+  linmap_freelin<key,itm> (map)
+end // end of [linmap_free]
 
 (* ****** ****** *)
 

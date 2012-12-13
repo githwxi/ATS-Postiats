@@ -70,38 +70,38 @@ viewtypedef QUEUE (a:vt0p) = [n:nat] QUEUE (a, n)
 (* ****** ****** *)
 
 fun{a:vt0p}
-queue_size {n:nat} (q: &QUEUE (a, n)):<> size_t n
+queue_size {n:nat} (q: &QUEUE (INV(a), n)):<> size_t n
 
 fun queue_is_empty
-  {a:vt0p} {n:nat} (q: &QUEUE (a, n)):<> bool (n <= 0)
+  {a:vt0p} {n:nat} (q: &QUEUE (INV(a), n)):<> bool (n <= 0)
 // end of [queue_is_empty]
 
 fun queue_isnot_empty
-  {a:vt0p} {n:nat} (q: &QUEUE (a, n)):<> bool (n > 0)
+  {a:vt0p} {n:nat} (q: &QUEUE (INV(a), n)):<> bool (n > 0)
 // end of [queue_isnot_empty]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 queue_initialize
-  (q: &QUEUESZ a >> QUEUE (a, 0)):<> void
-// end of [queue_initialize]
+  (q: &QUEUESZ (INV(a)) >> QUEUE (a, 0)):<> void
+macdef queue_initize = queue_initialize
 
 fun{a:vt0p}
 queue_uninitialize
-  {n:nat} (q: &QUEUE (a, n) >> QUEUESZ (a)):<> list_vt (a, n)
-// end of [queue_uninitialize]
+  {n:nat} (q: &QUEUE (INV(a), n) >> QUEUESZ (a)):<> list_vt (a, n)
+macdef queue_uninitize = queue_uninitialize
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 queue_insert (*last*)
-  {n:nat} (q: &QUEUE (a, n) >> QUEUE (a, n+1), x: a):<> void
+  {n:nat} (q: &QUEUE (INV(a), n) >> QUEUE (a, n+1), x: a):<> void
 // end of [queue_insert]
 
 fun{a:vt0p}
 queue_remove (*first*)
-  {n:nat | n > 0} (q: &QUEUE (a, n) >> QUEUE (a, n-1)):<> a
+  {n:nat | n > 0} (q: &QUEUE (INV(a), n) >> QUEUE (a, n-1)):<> a
 // end of [queue_remove]
 
 (* ****** ****** *)
@@ -114,7 +114,7 @@ a:vt0p
 } queue_foreach (q: !QUEUE (a)): void
 fun{
 a:vt0p}{env:vt0p
-} queue_foreach_env (q: !QUEUE (a), env: &env): void
+} queue_foreach_env (q: !QUEUE (INV(a)), env: &env): void
 
 (* ****** ****** *)
 

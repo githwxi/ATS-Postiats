@@ -849,11 +849,12 @@ end // end of [linmap_remove]
 
 (* ****** ****** *)
 
-fun{
-key:t0p;itm:vt0p
-}{
-env:vt0p
-} node_foreach_env (
+implement
+{key,itm}{env}
+linmap_foreach_env
+  (map, env) = let
+//
+fun node_foreach_env (
   nx: nodeGt0 (key, itm, 0), env: &env
 ) : void = let
   val p_nx = node2ptr (nx)
@@ -863,22 +864,18 @@ if p_nx > nullp then let
   val k = node_get_key (nx)
   val [l:addr]
     p_i = node_getref_item (nx)
+  val nx1 = node_get_next<key,itm> (nx, 0)
   prval (pf, fpf) = __assert () where {
     extern praxi __assert : () -<prf> (itm @ l, itm @ l -<lin,prf> void)
   } // end of [prval]
   val () = linmap_foreach$fwork<key,itm><env> (k, !p_i, env)
   prval () = fpf (pf)
-  val nx1 = node_get_next<key,itm> (nx, 0)
 in
   node_foreach_env (nx1, env)
 end else () // end of [if]
 //
 end // end of [node_foreach_env]
-
-implement
-{key,itm}{env}
-linmap_foreach_env
-  (map, env) = let
+//
 in
 //
 case+ map of
@@ -890,6 +887,48 @@ case+ map of
   end // end of [SKIPLIST]
 //
 end // end of [linmap_foreach_env]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_freelin
+  (map) = let
+//
+fun node_freelin (
+  nx: nodeGt0 (key, itm, 0)
+) : void = let
+  val p_nx = node2ptr (nx)
+in
+//
+if p_nx > nullp then let
+  val [l:addr]
+    p_i = node_getref_item (nx)
+  val nx1 = node_get_next<key,itm> (nx, 0)
+  prval (pf, fpf) = __assert () where {
+    extern praxi __assert : () -<prf> (itm @ l, itm? @ l -<lin,prf> void)
+  } // end of [prval]
+  val () = linmap_freelin$clear<itm> (!p_i)
+  prval () = fpf (pf)
+  val () =
+    __free (nx) where {
+    extern fun __free : node1 (key, itm) -> void = "atsruntime_free"
+  } // end of [val]
+in
+  node_freelin (nx1)
+end else () // end of [if]
+//
+end // end of [node_freelin]
+//
+in
+//
+case+ map of
+| ~SKIPLIST
+    (N, lgN, nxa) => (
+    $effmask_all (node_freelin (nodearr_get_at (nxa, 0)))
+  ) // end of [SKIPLIST]
+//
+end // end of [linmap_freelin]
 
 (* ****** ****** *)
 

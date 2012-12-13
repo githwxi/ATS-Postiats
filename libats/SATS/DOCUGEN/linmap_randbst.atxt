@@ -98,6 +98,13 @@ in the implementation of randomized binary search trees.\
 
 (* ****** ****** *)
 
+#declnamesynop("linmap_free")
+#declnamesynop("linmap_freelin$clear")
+#declnamesynop("linmap_freelin")
+#declnamesynop("linmap_free_vt")
+
+(* ****** ****** *)
+
 #declnamesynop("linmap_listize")
 #declnamesynop("linmap_listize_free")
 
