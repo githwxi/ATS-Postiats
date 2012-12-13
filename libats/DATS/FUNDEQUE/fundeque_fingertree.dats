@@ -495,6 +495,36 @@ implement{} fundeque_nil () = FTemp ()
 
 (* ****** ****** *)
 
+implement{a}
+fundeque_cons (xn, xt) =
+  fingertree_cons (FTN1 (xn), xt)
+// end of [fundeque_cons]
+
+implement{a}
+fundeque_uncons
+  (xt) = x0 where {
+  var xn: ptr?
+  val () = xt := fingertree_uncons (xt, xn)
+  val+ FTN1 (x0) = xn
+} // end of [fundeque_uncons]
+
+(* ****** ****** *)
+
+implement{a}
+fundeque_snoc (xt, xn) =
+  fingertree_snoc (xt, FTN1 (xn))
+// end of [fundeque_snoc]
+
+implement{a}
+fundeque_unsnoc
+  (xt) = x0 where {
+  var xn: ptr?
+  val () = xt := fingertree_unsnoc (xt, xn)
+  val+ FTN1 (x0) = xn
+} // end of [fundeque_unsnoc]
+
+(* ****** ****** *)
+
 implement{}
 fundeque_is_nil (xt) =
   case+ xt of
@@ -534,36 +564,6 @@ fun size
 in
   size (xt)
 end // end of [fundeque_size]
-
-(* ****** ****** *)
-
-implement{a}
-fundeque_cons (xn, xt) =
-  fingertree_cons (FTN1 (xn), xt)
-// end of [fundeque_cons]
-
-implement{a}
-fundeque_uncons
-  (xt) = x0 where {
-  var xn: ptr?
-  val () = xt := fingertree_uncons (xt, xn)
-  val+ FTN1 (x0) = xn
-} // end of [fundeque_uncons]
-
-(* ****** ****** *)
-
-implement{a}
-fundeque_snoc (xt, xn) =
-  fingertree_snoc (xt, FTN1 (xn))
-// end of [fundeque_snoc]
-
-implement{a}
-fundeque_unsnoc
-  (xt) = x0 where {
-  var xn: ptr?
-  val () = xt := fingertree_unsnoc (xt, xn)
-  val+ FTN1 (x0) = xn
-} // end of [fundeque_unsnoc]
 
 (* ****** ****** *)
 
