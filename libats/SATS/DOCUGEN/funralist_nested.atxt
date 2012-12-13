@@ -90,16 +90,16 @@ O(log(n)).  ")
 #declnamesynop("funralist_lookup")
 #decldescrpt("\
 
-Given a list xs of length n and a natural number less than n, this function
-returns xs[i], that is, element i in the list xs.  The time-complexity of
-the function is O(log(i)).  ")
+Given a list xs of length n and a natural number i less than n, this
+function returns xs[i], that is, element i in the list xs.  The
+time-complexity of the function is O(log(i)).  ")
 
 (* ****** ****** *)
 
 #declnamesynop("funralist_update")
 #decldescrpt("\
 
-Given a list xs of length n, a natural number less than n and an element
+Given a list xs of length n, a natural number i less than n and an element
 x0, this function returns a list obtained from replacing element i in xs
 with x0. The time-complexity of the function is O(log(i)).  ")
 
