@@ -120,7 +120,9 @@ fun zmq_ctx_set
 (*
 void *zmq_socket (void *context, int type);
 *)
-fun zmq_socket (ctx: !zmqctx1, type: int): zmqsock0
+fun zmq_socket
+  (ctx: !zmqctx1, type: int): zmqsock0 = "mac#atsctrb_zmq_socket"
+// end of [zmq_socket]
 fun zmq_socket_exn (ctx: !zmqctx1, type: int): zmqsock1
 
 (* ****** ****** *)
@@ -317,7 +319,9 @@ fun zmq_msg_data
 (*
 int zmq_msg_more (zmq_msg_t *message);
 *)
-fun zmq_msg_more (msg: &zmqmsg):<> natLt(2)
+fun zmq_msg_more
+  (msg: &zmqmsg):<> natLt(2) = "mac#atsctrb_zmq_msg_more"
+// end of [zmq_msg_more]
 
 (* ****** ****** *)
 

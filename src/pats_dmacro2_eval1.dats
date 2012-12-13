@@ -207,7 +207,9 @@ eval1_t2mpmarglst
 implement
 eval1_p2at 
   (loc0, ctx, env, p2t0) = let
+(*
   val () = println! ("eval1_p2at: p2t0 = ", p2t0)
+*)
 in
 //
 case+
@@ -479,12 +481,12 @@ end // end of [eval1_d2exp_macsyn]
 implement
 eval1_d2exp
   (loc0, ctx, env, d2e0) = let
-(*
+// (*
 val () = (
   println! ("eval1_d2exp: loc0 = ", loc0);
   println! ("eval1_d2exp: d2e0 = ", d2e0);
 ) (* end of [val] *)
-*)
+// *)
 val d2en0 = d2e0.d2exp_node
 //
 macdef reloc () = d2exp_make_node (loc0, d2en0)
@@ -582,6 +584,7 @@ case+ d2en0 of
 | D2Eapplst _ =>
     eval1_d2exp_applst (loc0, ctx, env, d2e0)
   // end of [D2Eapplst]
+| D2Emac _ => reloc () // HX-2012-12: is this right?
 | D2Emacsyn _ =>
     eval1_d2exp_macsyn (loc0, ctx, env, d2e0)
   // end of [D2Emacsyn]
