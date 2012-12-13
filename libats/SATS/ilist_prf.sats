@@ -148,9 +148,9 @@ prfun append_isfun {xs,ys:ilist} {zs1,zs2:ilist}
 
 (* ****** ****** *)
 
-prfun append_unit1
+prfun append_unit_left
   {xs:ilist} (): APPEND (ilist_nil, xs, xs)
-prfun append_unit2
+prfun append_unit_right
   {xs:ilist} (): APPEND (xs, ilist_nil, xs)
 
 prfun append_sing
@@ -175,9 +175,17 @@ lemma_append_snoc
   {xs2:ilist}
   {xs1x:ilist}
   {xs:ilist} (
-  pf1: APPEND (xs1, ilist_cons (x, xs2), xs)
-, pf2: SNOC (xs1, x, xs1x)
+  pf1: APPEND (xs1, ilist_cons (x, xs2), xs), pf2: SNOC (xs1, x, xs1x)
 ) : APPEND (xs1x, xs2, xs) // end of [lemma_append_snoc]
+
+prfun
+lemma_append_assoc
+  {xs1,xs2,xs3:ilist}
+  {xs12,xs23:ilist}
+  {xs12_3,xs1_23:ilist} (
+  pf12: APPEND (xs1, xs2, xs12), pf23: APPEND (xs2, xs3, xs23)
+, pf12_3: APPEND (xs12, xs3, xs12_3), pf1_23: APPEND (xs1, xs23, xs1_23)
+) : ILISTEQ (xs12_3, xs1_23) // end of [lemma_append_assoc]
 
 (* ****** ****** *)
 
@@ -189,6 +197,10 @@ REVAPP (ilist, ilist, ilist) =
 // end of [REVAPP]
 
 propdef REVERSE (xs: ilist, ys: ilist) = REVAPP (xs, ilist_nil, ys)
+
+prfun lemma_reverse_symm
+  {xs,ys:ilist} (pf: REVERSE (xs, ys)): REVERSE (ys, xs)
+// end of [lemma_reverse_symm]
 
 (* ****** ****** *)
 

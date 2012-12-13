@@ -47,11 +47,23 @@ This package contains some common proof functions involving integer sequences.
 #declnamesynop("append_istot")
 #declnamesynop("append_isfun")
 
-#declnamesynop("append_unit1")
-#declnamesynop("append_unit2")
+#declnamesynop("append_unit_left")
+#declnamesynop("append_unit_right")
 
 #declnamesynop("lemma_append_length")
+#decldescrpt("\
+
+Given two sequences xs1 and xs2, this function proves that the length of
+the concatenation of xs1 and xs2 equals the length of xs1 plus
+the length of xs2.  ")
+
 #declnamesynop("lemma_append_snoc")
+
+#declnamesynop("lemma_append_assoc")
+#decldescrpt("\
+
+This function proves that the append operation on sequences is
+associative.")
 
 (* ****** ****** *)
 

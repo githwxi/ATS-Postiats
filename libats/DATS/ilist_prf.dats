@@ -146,18 +146,37 @@ prfun lemma
 in
 //
 case+ pf1 of
-| SNOCcons (pf1) => let
-    prval LENGTHcons (pf2) = pf2 in LENGTHcons (lemma (pf1, pf2))
-  end // end of [SNOCcons]
 | SNOCnil () => let
     prval LENGTHnil () = pf2 in LENGTHcons (LENGTHnil ())
   end // end of [SNOCnil]
+| SNOCcons (pf1) => let
+    prval LENGTHcons (pf2) = pf2 in LENGTHcons (lemma (pf1, pf2))
+  end // end of [SNOCcons]
 //
 end // end of [lemma]
 //
 in
   lemma (pf1, pf2)
 end // end of [lemma_snoc_length]
+
+(* ****** ****** *)
+
+primplmnt
+append_unit_left () = APPENDnil ()
+
+primplmnt
+append_unit_right {xs} () = let
+//
+prfun lemma
+  {xs:ilist} .<xs>. (
+) : APPEND (xs, ilist_nil, xs) =
+  scase xs of
+  | ilist_cons (x, xs) => APPENDcons (lemma {xs} ())
+  | ilist_nil () => APPENDnil ()
+//
+in
+  lemma {xs} ()
+end // end of [append_unit_right]
 
 (* ****** ****** *)
 
@@ -183,12 +202,12 @@ prfun lemma
 in
 //
 case+ pf of
-| APPENDcons (pf) => let
-    prval LENGTHcons (pf1len) = pf1len in LENGTHcons (lemma (pf, pf1len, pf2len))
-  end // end of [APPENDcons]
 | APPENDnil () => let
     prval LENGTHnil () = pf1len in pf2len
   end // end of [APPENDnil]
+| APPENDcons (pf) => let
+    prval LENGTHcons (pf1len) = pf1len in LENGTHcons (lemma (pf, pf1len, pf2len))
+  end // end of [APPENDcons]
 //
 end // end of [lemma]
 //
@@ -198,6 +217,50 @@ prval () = length_isnat (pf2len)
 in
   lemma (pf, pf1len, pf2len)
 end // end of [lemma_append_length]
+
+(* ****** ****** *)
+
+(*
+prfun
+lemma_append_snoc
+  {xs1:ilist}
+  {x:int}
+  {xs2:ilist}
+  {xs1x:ilist}
+  {xs:ilist} (
+  pf1: APPEND (xs1, ilist_cons (x, xs2), xs)
+, pf2: SNOC (xs1, x, xs1x)
+) : APPEND (xs1x, xs2, xs) // end of [lemma_append_snoc]
+*)
+primplmnt
+lemma_append_snoc
+  (pf1, pf2) = let
+//
+prfun
+lemma
+  {xs1:ilist}
+  {x:int}
+  {xs2:ilist}
+  {xs1x:ilist}
+  {xs:ilist} .<xs1>. (
+  pf1: APPEND (xs1, ilist_cons (x, xs2), xs)
+, pf2: SNOC (xs1, x, xs1x)
+) : APPEND (xs1x, xs2, xs) = let
+in
+//
+case+ pf1 of
+| APPENDnil () => let
+    prval SNOCnil () = pf2 in APPENDcons (APPENDnil)
+  end // end of [APPENDnil]
+| APPENDcons (pf1) => let
+    prval SNOCcons (pf2) = pf2 in APPENDcons (lemma (pf1, pf2))
+  end // end of [APPENDcons]
+//
+end // end of [lemma]
+//
+in
+  lemma (pf1, pf2)
+end // end of [lemma_append_snoc]
 
 (* ****** ****** *)
 

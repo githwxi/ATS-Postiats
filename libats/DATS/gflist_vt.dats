@@ -169,7 +169,7 @@ a:vt0p
   end else let
     val xs2 = xs
     val () = xs := gflist_vt_nil ()
-    prval pfapp = append_unit1 ()
+    prval pfapp = append_unit_left ()
   in
     (pfapp, LENGTHnil () | xs2)
   end // end of [if]
