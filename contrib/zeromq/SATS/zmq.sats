@@ -72,8 +72,8 @@ zmqctxopt_unnone
 
 (* ****** ****** *)
 
-macdef ZMQ_REP = $extval (int, "ZMQ_REP")
-macdef ZMQ_REQ = $extval (int, "ZMQ_REQ")
+macdef ZMQ_REP = $extval(int, "ZMQ_REP")
+macdef ZMQ_REQ = $extval(int, "ZMQ_REQ")
 
 absviewtype zmqsock (l:addr)
 viewtypedef zmqsock0 = [l:addr] zmqsock (l)
@@ -107,11 +107,100 @@ fun zmq_ctx_destroy_exn (ctx: zmqctx1): void
 
 (* ****** ****** *)
 
+fun zmq_ctx_get
+  (ctx: !zmqctx1, name: int): int = "mac#atsctrb_zmq_ctx_get"
+// end of [zmq_ctx_get]
+
+fun zmq_ctx_set
+  (ctx: !zmqctx1, name: int, value: int): int = "mac#atsctrb_zmq_ctx_set"
+// end of [zmq_ctx_set]
+
+(* ****** ****** *)
+
 (*
 void *zmq_socket (void *context, int type);
 *)
 fun zmq_socket (ctx: !zmqctx1, type: int): zmqsock0
 fun zmq_socket_exn (ctx: !zmqctx1, type: int): zmqsock1
+
+(* ****** ****** *)
+
+abst@ype zmqsockopt (a:t@ype) = int
+
+macdef ZMQ_TYPE = $extval(zmqsockopt(int), "ZMQ_TYPE")
+
+macdef ZMQ_RCVMORE = $extval(zmqsockopt(int), "ZMQ_RCVMORE")
+
+macdef ZMQ_SNDHWM = $extval(zmqsockopt(int), "ZMQ_SNDHWM")
+macdef ZMQ_RCVHWM = $extval(zmqsockopt(int), "ZMQ_RCVHWM")
+
+macdef ZMQ_AFFINITY = $extval(zmqsockopt(uint64), "ZMQ_AFFINITY")
+
+macdef ZMQ_IDENTITY = $extval(zmqsockopt(void), "ZMQ_IDENTITY")
+
+macdef ZMQ_SUBSCRIBE = $extval(zmqsockopt(void), "ZMQ_SUBSCRIBE")
+macdef ZMQ_UNSUBSCRIBE = $extval(zmqsockopt(void), "ZMQ_UNSUBSCRIBE")
+
+macdef ZMQ_RATE = $extval(zmqsockopt(int), "ZMQ_RATE")
+
+macdef ZMQ_RECOVERY_IVL = $extval(zmqsockopt(int), "ZMQ_RECOVERY_IVL")
+
+macdef ZMQ_RECONNECT_IVL = $extval(zmqsockopt(int), "ZMQ_RECONNECT_IVL")
+macdef ZMQ_RECONNECT_IVL_MAX = $extval(zmqsockopt(int), "ZMQ_RECONNECT_IVL_MAX")
+
+macdef ZMQ_SNDBUF = $extval(zmqsockopt(int), "ZMQ_SNDBUF")
+macdef ZMQ_RCVBUF = $extval(zmqsockopt(int), "ZMQ_RCVBUF")
+
+macdef ZMQ_LINGER = $extval(zmqsockopt(int), "ZMQ_LINGER")
+
+macdef ZMQ_BACKLOG = $extval(zmqsockopt(int), "ZMQ_BACKLOG")
+
+macdef ZMQ_MAXMSGSIZE = $extval(zmqsockopt(int64), "ZMQ_MAXMSGSIZE")
+
+macdef ZMQ_MULTICAST_HOPS = $extval(zmqsockopt(int64), "ZMQ_MULTICAST_HOPS")
+
+macdef ZMQ_SNDTIMEO = $extval(zmqsockopt(int), "ZMQ_SNDTIMEO")
+macdef ZMQ_RCVTIMEO = $extval(zmqsockopt(int), "ZMQ_RCVTIMEO")
+
+macdef ZMQ_IPV4ONLY = $extval(zmqsockopt(int), "ZMQ_IPV4ONLY")
+
+macdef ZMQ_DELAY_ATTACH_ON_CONNECT = $extval(zmqsockopt(int), "ZMQ_DELAY_ATTACH_ON_CONNECT")
+
+macdef ZMQ_FD = $extval(zmqsockopt(int), "ZMQ_FD") // on POSIX
+(*
+macdef ZMQ_FD = $extval(zmqsockopt(SOCKET), "ZMQ_FD") // on Windows
+*)
+
+macdef ZMQ_EVENTS = $extval(zmqsockopt(int), "ZMQ_EVENTS")
+
+macdef ZMQ_LAST_ENDPOINT = $extval(zmqsockopt(void), "ZMQ_LAST_ENDPOINT")
+
+macdef ZMQ_XPUB_VERBOSE = $extval(zmqsockopt(int), "ZMQ_XPUB_VERBOSE")
+macdef ZMQ_ROUTER_MANDATORY = $extval(zmqsockopt(int), "ZMQ_ROUTER_MANDATORY")
+
+macdef ZMQ_TCP_KEEPALIVE = $extval(zmqsockopt(int), "ZMQ_TCP_KEEPALIVE")
+macdef ZMQ_TCP_KEEPALIVE_IDLE = $extval(zmqsockopt(int), "ZMQ_TCP_KEEPALIVE_IDLE")
+macdef ZMQ_TCP_KEEPALIVE_CNT = $extval(zmqsockopt(int), "ZMQ_TCP_KEEPALIVE_CNT")
+macdef ZMQ_TCP_KEEPALIVE_INTVL = $extval(zmqsockopt(int), "ZMQ_TCP_KEEPALIVE_INTVL")
+
+macdef ZMQ_TCP_ACCEPT_FILTER = $extval(zmqsockopt(void), "ZMQ_TCP_ACCEPT_FILTER")
+
+(* ****** ****** *)
+
+(*
+int zmq_getsockopt (
+  void *socket, int name, void *value, size_t *len
+) : int ; // end of [zmq_getsockopt]
+*)
+fun zmq_getsockopt
+  {a:t@ype} (
+  sock: !zmqsock1, name: zmqsockopt(a), value: ptr, len: &size_t
+) : int = "mac#atsctrb_zmq_getsockopt" // endfun
+
+fun zmq_setsockopt
+  {a:t@ype} (
+  sock: !zmqsock1, name: zmqsockopt(a), value: ptr, len: (size_t)
+) : int = "mac#atsctrb_zmq_setsockopt" // endfun
 
 (* ****** ****** *)
 
@@ -225,7 +314,7 @@ fun zmq_msg_more (msg: &zmqmsg):<> natLt(2)
 
 (* ****** ****** *)
 
-macdef ZMQ_MORE = $extval (int, "ZMQ_MORE")
+macdef ZMQ_MORE = $extval(int, "ZMQ_MORE")
 
 (*
 int zmq_msg_get (zmq_msg_t *message, int property);
@@ -330,11 +419,11 @@ fun zmq_msg_move_exn (dst: &zmqmsg >> _, src: &zmqmsg): void
 
 macdef
 ZMQ_DONTWAIT =
-  $extval (int, "ZMQ_DONTWAIT") // non-blocking send/receive
+  $extval(int, "ZMQ_DONTWAIT") // non-blocking send/receive
 // end of [ZMQ_DONTWAIT]
 macdef
 ZMQ_SNDMORE =
-  $extval (int, "ZMQ_SNDMORE") // for sending multi-part messages
+  $extval(int, "ZMQ_SNDMORE") // for sending multi-part messages
 macdef ZMQ_SENDMORE = ZMQ_SNDMORE // alias of more appropriate spelling
 
 (* ****** ****** *)
@@ -390,14 +479,14 @@ fun zmq_term_exn (ctx: zmqctx1): void
 ** HX: this one has been deprecated!
 *)
 fun zmq_sendmsg (
-  msg: &zmqmsg, sock: !zmqsock1, flags: int
+  sock: !zmqsock1, msg: &zmqmsg, flags: int
 ) : interr = "mac#atsctrb_zmq_sendmsg" // endfun
 
 (*
 ** HX: this one has been deprecated!
 *)
 fun zmq_recvmsg (
-  msg: &zmqmsg >> _, sock: !zmqsock1, flags: int
+  sock: !zmqsock1, msg: &zmqmsg >> _, flags: int
 ) : interr = "mac#atsctrb_zmq_recvmsg" // endfun
 
 (* ****** ****** *)
