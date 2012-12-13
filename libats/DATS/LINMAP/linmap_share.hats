@@ -53,11 +53,11 @@ if p > 0 then let
   } // end of [prval]
   val () = res := !p
   prval () = fpf (pf)
-  prval () = opt_some (res)
+  prval () = opt_some {itm} (res)
 in
   true
 end else let
-  prval () = opt_none (res)
+  prval () = opt_none {itm} (res)
 in
   false
 end // end of [if]
