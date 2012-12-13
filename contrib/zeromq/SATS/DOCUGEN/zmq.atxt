@@ -40,7 +40,7 @@ If successful, this function returns the value of the context option
 named by its second argument.")
 
 #declfunretval("
-The function returns a non-negative integer if successful, or it retruns -1.
+The function returns a non-negative integer if successful, or it returns -1.
 ")
 
 #declnamesynop("zmq_ctx_set")
@@ -49,7 +49,7 @@ The function returns a non-negative integer if successful, or it retruns -1.
 If successful, this function sets the context option named to by its second
 argument with the value given as its third argument. ")
 
-#declfunretval("The function returns 0 if successful, or it retruns -1.")
+#declfunretval("The function returns 0 if successful, or it returns -1.")
 
 (* ****** ****** *)
 
@@ -59,7 +59,7 @@ argument with the value given as its third argument. ")
 This function creates a zeromq socket within the specified context and
 returns an opaque handle to the newly created socket.  ")
 
-#declfunretval("The function returns 0 if successful, or it retruns -1.")
+#declfunretval("The function returns 0 if successful, or it returns -1.")
 
 #declnamesynop("zmq_socket_exn")
 #decldescrpt("\
@@ -72,11 +72,11 @@ abnormally.  ")
 
 #declnamesynop("zmq_getsockopt")
 #decldescrpt("This function gets the value of a zmq-socket option.")
-#declfunretval("The function returns 0 if successful, or it retruns -1.")
+#declfunretval("The function returns 0 if successful, or it returns -1.")
 
 #declnamesynop("zmq_setsockopt")
 #decldescrpt("This function sets a zmq-socket option with a given value.")
-#declfunretval("The function returns 0 if successful, or it retruns -1.")
+#declfunretval("The function returns 0 if successful, or it returns -1.")
 
 (* ****** ****** *)
 
@@ -106,7 +106,7 @@ This function creates an outgoing connection from a given socket by
 connecting the socket to a given endpoint and then accepts incoming
 connections on that endpoint. ")
 
-#declfunretval("The function returns 0 if successful, or it retruns -1.")
+#declfunretval("The function returns 0 if successful, or it returns -1.")
 
 #declnamesynop("zmq_connect_exn")
 #decldescrpt("\
@@ -122,7 +122,7 @@ exits abnormally.  ")
 
 This function disconnects a given socket from a given endpoint.  ")
 
-#declfunretval("The function returns 0 if successful, or it retruns -1.")
+#declfunretval("The function returns 0 if successful, or it returns -1.")
 
 #declnamesynop("zmq_disconnect_exn")
 #decldescrpt("\
@@ -153,7 +153,7 @@ If successful, this function returns the value of the message property
 referred to by its second argument.")
 
 #declfunretval("
-The function returns a non-negative integer if successful, or it retruns -1.
+The function returns a non-negative integer if successful, or it returns -1.
 ")
 
 #declnamesynop("zmq_msg_set")
@@ -162,7 +162,7 @@ The function returns a non-negative integer if successful, or it retruns -1.
 If successful, this function sets the message property referred to by its
 second argument with the value given as its third argument. ")
 
-#declfunretval("The function returns 0 if successful, or it retruns -1.")
+#declfunretval("The function returns 0 if successful, or it returns -1.")
 
 (* ****** ****** *)
 
@@ -191,7 +191,7 @@ second argument with the value given as its third argument. ")
 #decldescrpt("\
 This function releases the resource held in a zmq-message.
 ")
-#declfunretval("The function returns 0 if successful, or it retruns -1.")
+#declfunretval("The function returns 0 if successful, or it returns -1.")
 
 #declnamesynop("zmq_msg_close_exn")
 #decldescrpt("This function is the exit version of #dyncode("zmq_msg_close").")
@@ -248,7 +248,7 @@ This function terminates a given zmq-context.  Note that it has been
 #emph("deprecated"), and #dyncode("zmq_ctx_destroy") should be called
 instead. ")
 
-#declfunretval("The function returns 0 if successful, or it retruns -1.")
+#declfunretval("The function returns 0 if successful, or it returns -1.")
 
 #declnamesynop("zmq_term_exn")
 #decldescrpt("This function is the exit version of #dyncode("zmq_term").")

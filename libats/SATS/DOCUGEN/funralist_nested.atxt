@@ -50,6 +50,20 @@ typedef ralist (a:t@ype) = [n:int] ralist (a, n)
 
 (* ****** ****** *)
 
+#declnamesynop("funralist_cons")
+#decldescrpt("\
+
+Given x and xs, this function forms a list whose head and tail are x ans
+xs, respectively. ")
+
+#declnamesynop("funralist_uncons")
+#decldescrpt("\
+
+Given a non-empty list, this function returns the head of the list while
+storing the tail of the list into its (call-by-reference) argument.  ")
+
+(* ****** ****** *)
+
 #declnamesynop("funralist_is_nil")
 #decldescrpt("This function tests whether a given list is empty.")
 #declnamesynop("funralist_is_cons")
@@ -62,20 +76,6 @@ typedef ralist (a:t@ype) = [n:int] ralist (a, n)
 
 This function returns the length of a given list. Its time-complexity is
 O(log(n)).  ")
-
-(* ****** ****** *)
-
-#declnamesynop("funralist_cons")
-#decldescrpt("\
-
-Given x and xs, this function forms a list whose head and tail are x ans
-xs, respectively. ")
-
-#declnamesynop("funralist_uncons")
-#decldescrpt("\
-
-Given a non-empty list, this function returns the head of the list while
-storing the tail of the list into its (call-by-reference) argument.  ")
 
 (* ****** ****** *)
 

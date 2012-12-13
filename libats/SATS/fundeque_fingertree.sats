@@ -82,22 +82,6 @@ fun{} fundeque_nil {a:t0p} ():<> deque (a, 0)
 
 (* ****** ****** *)
 
-fun{} fundeque_is_nil
-  {a:t0p}{n:nat} (xt: deque (INV(a), n)): bool (n==0)
-// end of [fundeque_is_nil]
-
-fun{} fundeque_is_cons
-  {a:t0p}{n:nat} (xt: deque (INV(a), n)): bool (n > 0)
-// end of [fundeque_is_cons]
-
-(* ****** ****** *)
-
-fun fundeque_size
-  {a:t0p}{n:nat} (xt: deque (INV(a), n)):<> size_t (n)
-// end of [fundeque_size]
-
-(* ****** ****** *)
-
 fun{a:t0p}
 fundeque_cons{n:nat}
   (x: a, xt: deque (INV(a), n)):<> deque (a, n+1)
@@ -119,6 +103,22 @@ fun{a:t0p}
 fundeque_unsnoc{n:pos}
   (xt: &deque (INV(a), n) >> deque (a, n-1)):<!wrt> a
 // end of [fundeque_unsnoc]
+
+(* ****** ****** *)
+
+fun{} fundeque_is_nil
+  {a:t0p}{n:nat} (xt: deque (INV(a), n)): bool (n==0)
+// end of [fundeque_is_nil]
+
+fun{} fundeque_is_cons
+  {a:t0p}{n:nat} (xt: deque (INV(a), n)): bool (n > 0)
+// end of [fundeque_is_cons]
+
+(* ****** ****** *)
+
+fun fundeque_size
+  {a:t0p}{n:nat} (xt: deque (INV(a), n)):<> size_t (n)
+// end of [fundeque_size]
 
 (* ****** ****** *)
 

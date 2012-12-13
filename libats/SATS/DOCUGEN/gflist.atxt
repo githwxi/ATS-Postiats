@@ -63,20 +63,49 @@ gflist_vt (
 (* ****** ****** *)
 
 #declnamesynop("gflist_length")
+#decldescrpt("\
+
+Given a list, this function returns a proof and an integer such that the
+proof attests to the integer being the length of the list.  ")
 
 (* ****** ****** *)
 
 #declnamesynop("gflist_append")
+#decldescrpt("\
+
+Given two lists xs1 and xs2, this function returns a proof and a list res
+such that the proof attests to res being the result of appending xs1 to
+xs2. The implementation given for #dyncode("gflist_append") is
+tail-recursive.
+
+")
 
 (* ****** ****** *)
 
 #declnamesynop("gflist_revapp")
+#decldescrpt("\
+
+Given two lists xs1 and xs2, this function returns a proof and a list res
+such that the proof attests to res being the result of appending the reverse of
+xs1 to xs2.  ")
+
+(* ****** ****** *)
+
 #declnamesynop("gflist_reverse")
+#decldescrpt("\
+
+Given a list xs, this function returns a proof and another list ys such
+that the proof attests to ys being the reverse of xs. ")
+
 
 (* ****** ****** *)
 
 #declnamesynop("gflist_mergesort$cmp")
 #declnamesynop("gflist_mergesort")
+#decldescrpt("\
+
+Given a list xs, this function returns a proof and another list ys such
+that the proof attests to ys being an ordered permutation of ys. ")
 
 (* ****** ****** *)
 

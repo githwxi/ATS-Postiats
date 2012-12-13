@@ -67,83 +67,38 @@ funralist_nil{a} () = RAnil{a}{0} ()
 
 (* ****** ****** *)
 
-implement{}
-funralist_is_nil{a} (xs) =
-  case+ xs of RAnil () => true | _ =>> false
-// end of [funralist_is_nil]
-
-implement{}
-funralist_is_cons{a} (xs) =
-  case+ xs of RAnil () => false | _ =>> true
-// end of [funralist_is_cons]
-
-(* ****** ****** *)
-
-local
-
-fun
-length{a:t0p}
-  {d:nat}{n:nat} .<n>.
-  (xs: ralist (a, d, n)):<> int (n) =
-  case+ xs of
-  | RAevn (xxs) => let
-      val n2 = length (xxs) in 2 * n2
-    end // end of [RAevn]
-  | RAodd (_, xxs) => let
-      val n2 = length (xxs) in 2 * n2 + 1
-    end // end of [RAodd]
-  | RAnil () => 0
-// end of [length]
-
-in // in of [local]
-
-implement
-funralist_length {a} (xs) = let
+implement{a}
+funralist_cons
+  (x, xs) = let
 //
-prval () = lemma_ralist_param (xs)
-//
-in
-  length (xs)
-end // end of [funralist_length]
-
-end // end of [local]
-
-(* ****** ****** *)
-
-local
-
-fun
-cons{a:t0p}
+fun cons
   {d:nat}{n:nat} .<n>. (
   x0: node (a, d), xs: ralist (a, d, n)
-) :<> ralist (a, d, n+1) =
-  case+ xs of
-  | RAevn (xxs) => RAodd (x0, xxs)
-  | RAodd (x1, xxs) => let
+) :<> ralist (a, d, n+1) = let
+in
+//
+case+ xs of
+| RAevn (xxs) => RAodd (x0, xxs)
+| RAodd (x1, xxs) => let
       val x0x1 = N2 (x0, x1) in RAevn (cons (x0x1, xxs))
-    end // end of [RAodd]
-  | RAnil () => RAodd (x0, RAnil)
-// end of [cons]
-
-in // in of [local]
-
-implement{a}
-funralist_cons (x, xs) = let
+  end // end of [RAodd]
+| RAnil () => RAodd (x0, RAnil)
+//
+end // end of [cons]
 //
 prval () = lemma_ralist_param (xs)
 //
 in
   cons (N1(x), xs)
-end // end of [funralist]
-
-end // end of [local]
+end // end of [funralist_cons]
 
 (* ****** ****** *)
 
-local
-
-fun
-uncons{a:t0p}
+implement{a}
+funralist_uncons
+  (xs) = let
+//
+fun uncons
   {d:nat}{n:pos} .<n>. (
   xs: ralist (a, d, n), x: &ptr? >> node (a, d)
 ) :<!wrt> ralist (a, d, n-1) = let
@@ -168,21 +123,56 @@ case+ xs of
   end // end of [RAodd]
 //
 end // end of [uncons]
-
-in // in of [local]
-
-implement{a}
-funralist_uncons
-  (xs) = let
-  var nx: ptr // unintialized
-  val () = xs := uncons (xs, nx)
-  val+ N1 (x0) = nx
-  prval () = topize (nx) // HX: this is not necessary
+//
+var nx: ptr // unintialized
+val () = xs := uncons (xs, nx)
+val+ N1 (x0) = nx
+prval () = topize (nx) // HX: this is not necessary
+//
 in
   x0
 end // end of [funralist_uncons]
 
-end // end of [local]
+(* ****** ****** *)
+
+implement{}
+funralist_is_nil{a} (xs) =
+  case+ xs of RAnil () => true | _ =>> false
+// end of [funralist_is_nil]
+
+implement{}
+funralist_is_cons{a} (xs) =
+  case+ xs of RAnil () => false | _ =>> true
+// end of [funralist_is_cons]
+
+(* ****** ****** *)
+
+implement
+funralist_length {a} (xs) = let
+//
+fun length
+  {d:nat}
+  {n:nat} .<n>. (
+  xs: ralist (a, d, n)
+) :<> int (n) = let
+in
+//
+case+ xs of
+| RAevn (xxs) => let
+    val n2 = length (xxs) in 2 * n2
+  end // end of [RAevn]
+| RAodd (_, xxs) => let
+    val n2 = length (xxs) in 2 * n2 + 1
+  end // end of [RAodd]
+| RAnil () => 0
+//
+end // end of [length]
+//
+prval () = lemma_ralist_param (xs)
+//
+in
+  length (xs)
+end // end of [funralist_length]
 
 (* ****** ****** *)
 
@@ -203,45 +193,43 @@ funralist_tail
 
 (* ****** ****** *)
 
-local
-
-fun
-lookup{a:t0p}
-  {d:nat}{n:nat} .<n>. (
-  xs: ralist (a, d, n), i: natLt n
-) :<> node (a, d) =
-  case+ xs of
-  | RAevn xxs => let
-      val x01 = lookup (xxs, half i)
-    in
-      if i mod 2 = 0 then
-        let val+ N2 (x0, _) = x01 in x0 end
-      else
-        let val+ N2 (_, x1) = x01 in x1 end
-      // end of [if]
-    end // end of [RAevn]
-  | RAodd (x, xxs) =>
-      if i = 0 then x else let
-        val x01 = lookup (xxs, half (i-1))
-      in
-        if i mod 2 = 0 then
-          let val+ N2 (_, x1) = x01 in x1 end
-        else
-          let val+ N2 (x0, _) = x01 in x0 end
-        // end of [if]
-      end // end of [if]
-    // end of [RAodd]
-// end of [lookup]
-
-in // in of [local]
-
 implement{a}
 funralist_lookup
   (xs, i) = let
-  val+ N1 (x) = lookup (xs, i) in x
+//
+fun lookup
+  {d:nat}{n:nat} .<n>. (
+  xs: ralist (a, d, n), i: natLt n
+) :<> node (a, d) = let
+in
+//
+case+ xs of
+| RAevn (xxs) => let
+    val x01 = lookup (xxs, half i)
+  in
+    if i mod 2 = 0 then
+      let val+ N2 (x0, _) = x01 in x0 end
+    else
+      let val+ N2 (_, x1) = x01 in x1 end
+    // end of [if]
+  end // end of [RAevn]
+| RAodd (x, xxs) => (
+    if i = 0 then x else let
+      val x01 = lookup (xxs, half (i-1))
+    in
+      if i mod 2 = 0 then
+        let val+ N2 (_, x1) = x01 in x1 end
+      else
+        let val+ N2 (x0, _) = x01 in x0 end
+      // end of [if]
+    end // end of [if]
+  ) // end of [RAodd]
+//
+end // end of [lookup]
+//
+val+ N1 (x) = lookup (xs, i) in x (*return*)
+//
 end // end of [funralist_lookup]
-
-end // end of [local]
 
 (* ****** ****** *)
 
@@ -249,12 +237,14 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-local
-
-extern fun __free (p: ptr):<> void = "mac#ats_free_gc"
-
-fun
-fupdate{a:t0p}
+implement{a}
+funralist_update
+  (xs, i, x0) = let
+//
+extern
+fun __free (p: ptr):<> void = "mac#ats_free_gc"
+//
+fun fupdate
   {d:nat}
   {n:nat} .<n,1>. (
   xs: ralist (a, d, n)
@@ -267,9 +257,8 @@ in
   | RAodd (x, xxs) =>
       if i = 0 then RAodd (f x, xxs) else RAodd (x, fupdate2 (xxs, i-1, f))
 end // end of [fupdate]
-
-and
-fupdate2{a:t0p}
+//
+and fupdate2
   {d:nat}
   {n2:pos} .<2*n2,0>. (
   xxs: ralist (a, d+1, n2)
@@ -300,25 +289,22 @@ in
     xxs
   end // end of [if]
 end // end of [fupdate2]
-
-in // in of [local]
-
-implement{a}
-funralist_update
-  (xs, i, x0) = xs where {
-  typedef node = node (a, 0)
-  val f = lam (_: node): node =<cloref> N1 (x0)
-  val xs = fupdate (xs, i, f)
-  val () = __free ($UN.cast2ptr(f))
-} // end of [funralist_update]
-
-end // end of [local]
+//
+typedef node = node (a, 0)
+val f = lam (_: node): node =<cloref> N1 (x0)
+val xs = fupdate (xs, i, f)
+val () = __free ($UN.cast2ptr(f))
+//
+in
+  xs
+end // end of [funralist_update]
 
 (* ****** ****** *)
 
 local
 
-extern fun __free (p: ptr):<> void = "mac#ats_free_gc"
+extern
+fun __free (p: ptr):<> void = "mac#ats_free_gc"
 
 fn* foreach
   {a:t0p}

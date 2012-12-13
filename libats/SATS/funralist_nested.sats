@@ -64,6 +64,18 @@ funralist_nil {a:t0p} ():<> ralist (a, 0)
 
 (* ****** ****** *)
 
+fun{a:t0p}
+funralist_cons {n:int}
+  (x: a, xs: ralist (INV(a), n)):<> ralist (a, n+1)
+// end of [funralist_cons]
+
+fun{a:t0p}
+funralist_uncons {n:pos}
+  (xs: &ralist (INV(a), n) >> ralist (a, n-1)):<!wrt> a
+// end of [funralist_uncons]
+
+(* ****** ****** *)
+
 fun{}
 funralist_is_nil
   {a:t0p}{n:int} (xs: ralist (INV(a), n)):<> bool (n==0)
@@ -79,18 +91,6 @@ funralist_is_cons
 fun funralist_length
   {a:t0p}{n:nat} (xs: ralist (INV(a), n)):<> int (n)
 // end of [funralist_length]
-
-(* ****** ****** *)
-
-fun{a:t0p}
-funralist_cons {n:int}
-  (x: a, xs: ralist (INV(a), n)):<> ralist (a, n+1)
-// end of [funralist_cons]
-
-fun{a:t0p}
-funralist_uncons {n:pos}
-  (xs: &ralist (INV(a), n) >> ralist (a, n-1)):<!wrt> a
-// end of [funralist_uncons]
 
 (* ****** ****** *)
 
