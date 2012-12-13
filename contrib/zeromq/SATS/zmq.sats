@@ -194,13 +194,20 @@ int zmq_getsockopt (
 *)
 fun zmq_getsockopt
   {a:t@ype} (
-  sock: !zmqsock1, name: zmqsockopt(a), value: ptr, len: &size_t
-) : int = "mac#atsctrb_zmq_getsockopt" // endfun
+  sock: !zmqsock1, name: zmqsockopt(a), value: ptr, len: &size_t >> _
+) : interr = "mac#atsctrb_zmq_getsockopt" // endfun
+
+fun zmq_getsockopt2
+  {a:t@ype} (
+  sock: !zmqsock1, name: zmqsockopt(a), value: &(a?)>>a, len: &size_t(sizeof(a)) >> _
+) : interr = "mac#atsctrb_zmq_getsockopt2" // endfun
+
+(* ****** ****** *)
 
 fun zmq_setsockopt
   {a:t@ype} (
   sock: !zmqsock1, name: zmqsockopt(a), value: ptr, len: (size_t)
-) : int = "mac#atsctrb_zmq_setsockopt" // endfun
+) : interr = "mac#atsctrb_zmq_setsockopt" // endfun
 
 (* ****** ****** *)
 

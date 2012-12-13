@@ -168,16 +168,25 @@ env:vt0p
 
 fun{
 key:t0p;itm:t0p
-} linmap_free (map: map (key, itm)):<!wrt> void
+} linmap_free (map: map (key, INV(itm))):<!wrt> void
+
+fun{
+itm:vt0p
+} linmap_freelin$clear (x: &itm >> _?):<!wrt> void
+fun{
+key:t0p;itm:vt0p
+} linmap_freelin (map: map (key, INV(itm))):<!wrt> void
+
+(* ****** ****** *)
 //
 // HX: a linear map can be properly freed only if it is empty
 //
 fun{
 key:t0p;itm:vt0p
 } linmap_free_vt (
-  map: !map (key, itm) >> opt (map (key, itm), b)
+  map: !map (key, INV(itm)) >> opt (map (key, itm), b)
 ) :<!wrt> #[b:bool] bool b(*~freed*) // end of [linmap_free_vt]
-
+//
 (* ****** ****** *)
 
 (*

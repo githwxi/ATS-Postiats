@@ -22,10 +22,10 @@ binary-search-tree (BST) structure.  ")
 
 #para("\
 
-Compared to balanced trees such as AVL-trees and red-black-trees randomized
-binary-search-trees are relatively easier to implement.  However, maps
-based on randomized BSTs are significantly less efficient than those based
-balanced trees. ")
+Compared to balanced trees such as AVL-trees and red-black-trees,
+randomized binary-search-trees are relatively easier to implement.
+However, maps based on randomized BSTs are significantly less efficient
+than those based on balanced trees. ")
 
 ")
 
@@ -95,6 +95,13 @@ in the implementation of randomized binary search trees.\
 #declnamesynop("linmap_foreach$fwork")
 #declnamesynop("linmap_foreach")
 #declnamesynop("linmap_foreach_env")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_free")
+#declnamesynop("linmap_freelin$clear")
+#declnamesynop("linmap_freelin")
+#declnamesynop("linmap_free_vt")
 
 (* ****** ****** *)
 

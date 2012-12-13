@@ -462,6 +462,69 @@ end // end of [linmap_remove]
 (* ****** ****** *)
 
 implement
+{key,itm}{env}
+linmap_foreach_env
+  (map, env) = let
+//
+fun aux {n:nat} .<n>. (
+  t: !bstree (key, itm, n), env: &env
+) : void = let
+in
+//
+case+ t of
+| @BSTcons (
+    n, k, x, tl, tr
+  ) => let
+    val () = aux (tl, env)
+    val () = linmap_foreach$fwork (k, x, env)
+    val () = aux (tr, env)
+    prval () = fold@ (t)
+  in
+    // nothing
+  end // end of [BSTcons]
+| BSTnil () => ()
+//
+end // end of [aux]
+//
+in
+  aux (map, env)
+end // end of [linmap_foreach_env]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_freelin
+  (map) = let
+//
+fun aux
+  {n:nat} .<n>. (
+  t: bstree (key, itm, n)
+) : void = let
+in
+//
+case+ t of
+| @BSTcons (
+    _, k, x, tl, tr
+  ) => let
+    val () = linmap_freelin$clear (x)
+    val tl = tl and tr = tr
+    val () = free@ {..}{0,0} (t)
+    val () = aux (tl) and () = aux (tr)
+  in
+    // nothing
+  end // end of [BSTcons]
+| ~BSTnil () => ()
+//
+end // end of [aux]
+//
+in
+  $effmask_all (aux (map))
+end // end of [linmap_freelin]
+
+(* ****** ****** *)
+
+implement
 {key,itm}
 linmap_listize
   (map) = let
@@ -518,37 +581,6 @@ end // end of [aux]
 in
   aux (map, list_vt_nil ())
 end // end of [linmap_listize_free]
-
-(* ****** ****** *)
-
-implement
-{key,itm}{env}
-linmap_foreach_env
-  (map, env) = let
-//
-fun aux {n:nat} .<n>. (
-  t: !bstree (key, itm, n), env: &env
-) : void = let
-in
-//
-case+ t of
-| @BSTcons (
-    n, k, x, tl, tr
-  ) => let
-    val () = aux (tl, env)
-    val () = linmap_foreach$fwork (k, x, env)
-    val () = aux (tr, env)
-    prval () = fold@ (t)
-  in
-    // nothing
-  end // end of [BSTcons]
-| BSTnil () => ()
-//
-end // end of [aux]
-//
-in
-  aux (map, env)
-end // end of [linmap_foreach_env]
 
 (* ****** ****** *)
 

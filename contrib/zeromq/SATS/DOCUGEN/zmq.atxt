@@ -74,6 +74,16 @@ abnormally.  ")
 #decldescrpt("This function gets the value of a zmq-socket option.")
 #declfunretval("The function returns 0 if successful, or it returns -1.")
 
+#declnamesynop("zmq_getsockopt2")
+#decldescrpt("\
+
+This function does the same as #dyncode("zmq_getsockopt") but is given a
+more accurate type. ")
+
+#declfunretval("The function returns 0 if successful, or it returns -1.")
+
+(* ****** ****** *)
+
 #declnamesynop("zmq_setsockopt")
 #decldescrpt("This function sets a zmq-socket option with a given value.")
 #declfunretval("The function returns 0 if successful, or it returns -1.")
