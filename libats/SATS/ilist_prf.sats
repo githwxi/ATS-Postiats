@@ -75,6 +75,8 @@ dataprop ILISTEQ
   (ilist, ilist) = {xs:ilist} ILISTEQ (xs, xs) of ()
 // end of [ILISTEQ]
 
+(* ****** ****** *)
+
 prfun ilisteq_elim
   {xs1,xs2:ilist} (pf: ilisteq (xs1, xs2)): ILISTEQ (xs1, xs2)
 // end of [ilisteq_elim]
