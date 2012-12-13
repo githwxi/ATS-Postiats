@@ -13,13 +13,14 @@ ATSLIB/contrib/zeromq/zmq\
 
 (* ****** ****** *)
 
-#declpreamble('\
+#declpreamble("\
 
-#para("\
-This package contains an API for programming zeromq in ATS.\
-")
+#para('\
 
-')#comment("declpreamble")
+This package contains an API for programming <a
+href="http://www.zeromq.org/">zeromq</a> in ATS.  ')
+
+")#comment("declpreamble")
 
 (* ****** ****** *)
 
@@ -32,8 +33,30 @@ This package contains an API for programming zeromq in ATS.\
 
 (* ****** ****** *)
 
+#declnamesynop("zmq_socket")
+#decldescrpt("\
+
+This function creates a zeromq socket within the specified context and
+returns an opaque handle to the newly created socket.  ")
+
+#declfunretval("The function returns 0 if successful, or it retruns -1.")
+
+#declnamesynop("zmq_socket_exn")
+#decldescrpt("\
+
+This function is the exit version of #dyncode("zmq_socket").  After calling
+#dyncode("zmq_socket"), it returns if there is no error, or it exits
+abnormally.  ")
+
+(* ****** ****** *)
+
 #declnamesynop("zmq_bind")
 #declnamesynop("zmq_bind_exn")
+#decldescrpt("\
+
+This function is the exit version of #dyncode("zmq_bind").  After
+calling #dyncode("zmq_bind"), it returns if there is no error, or it
+exits abnormally.  ")
 
 (* ****** ****** *)
 
@@ -47,7 +70,36 @@ This package contains an API for programming zeromq in ATS.\
 (* ****** ****** *)
 
 #declnamesynop("zmq_connect")
+#decldescrpt("\
+
+This function creates an outgoing connection from a given socket by
+connecting the socket to a given endpoint and then accepts incoming
+connections on that endpoint. ")
+
+#declfunretval("The function returns 0 if successful, or it retruns -1.")
+
 #declnamesynop("zmq_connect_exn")
+#decldescrpt("\
+
+This function is the exit version of #dyncode("zmq_connect").  After
+calling #dyncode("zmq_connect"), it returns if there is no error, or it
+exits abnormally.  ")
+
+(* ****** ****** *)
+
+#declnamesynop("zmq_disconnect")
+#decldescrpt("\
+
+This function disconnects a given socket from a given endpoint.  ")
+
+#declfunretval("The function returns 0 if successful, or it retruns -1.")
+
+#declnamesynop("zmq_disconnect_exn")
+#decldescrpt("\
+
+This function is the exit version of #dyncode("zmq_disconnect").  After
+calling #dyncode("zmq_disconnect"), it returns if there is no error, or it
+exits abnormally.  ")
 
 (* ****** ****** *)
 
@@ -65,26 +117,103 @@ part of a multi-part message or there are further parts to receive.\
 (* ****** ****** *)
 
 #declnamesynop("zmq_msg_init")
+
 #declnamesynop("zmq_msg_init_exn")
+#decldescrpt("This function is the exit version of #dyncode("zmq_msg_init").")
+
+(* ****** ****** *)
 
 #declnamesynop("zmq_msg_init_size")
+
 #declnamesynop("zmq_msg_init_size_exn")
+#decldescrpt("This function is the exit version of #dyncode("zmq_msg_size_init").")
+
+(* ****** ****** *)
+
+#declnamesynop("zmq_msg_init_data")
+
+#declnamesynop("zmq_msg_init_data_exn")
+#decldescrpt("This function is the exit version of #dyncode("zmq_msg_init_data").")
+
+(* ****** ****** *)
+
+#declnamesynop("zmq_msg_close")
+#decldescrpt("\
+This function releases the resource held in a zmq-message.
+")
+#declfunretval("The function returns 0 if successful, or it retruns -1.")
+
+#declnamesynop("zmq_msg_close_exn")
+#decldescrpt("This function is the exit version of #dyncode("zmq_msg_close").")
 
 (* ****** ****** *)
 
 #declnamesynop("zmq_msg_copy")
 #declnamesynop("zmq_msg_copy_exn")
+#decldescrpt("This function is the exit version of #dyncode("zmq_msg_copy").")
+
+(* ****** ****** *)
 
 #declnamesynop("zmq_msg_move")
 #declnamesynop("zmq_msg_move_exn")
+#decldescrpt("This function is the exit version of #dyncode("zmq_msg_move").")
 
 (* ****** ****** *)
 
 #declnamesynop("zmq_msg_send")
+#decldescrpt("\
+
+This function sends a massage part from a given socket and returns the
+number of bytes of the massage sent if successful or -1 instead.  ")
+
 #declnamesynop("zmq_msg_send_exn")
+#decldescrpt("This function is the exit version of #dyncode("zmq_msg_send").")
+#declfunretval("\
+
+The function returns a nonnegative integer indicating the size of the
+sent message.")
+
+(* ****** ****** *)
 
 #declnamesynop("zmq_msg_recv")
+
+#decldescrpt("\
+
+This function recieves a massage part from a given socket and returns the
+number of bytes of the received massage if successful or -1 instead.  ")
+
 #declnamesynop("zmq_msg_recv_exn")
+#decldescrpt("This function is the exit version of #dyncode("zmq_msg_recv").")
+#declfunretval("\
+
+The function returns a nonnegative integer indicating the size of the
+received message.")
+
+(* ****** ****** *)
+
+#declnamesynop("zmq_term")
+#decldescrpt("\
+
+This function terminates a given zmq-context.  Note that it has been
+#emph("deprecated"), and #dyncode("zmq_ctx_destroy") should be called
+instead. ")
+
+#declfunretval("The function returns 0 if successful, or it retruns -1.")
+
+#declnamesynop("zmq_term_exn")
+#decldescrpt("This function is the exit version of #dyncode("zmq_term").")
+
+(* ****** ****** *)
+
+#declnamesynop("zmq_sendmsg")
+#decldescrpt("\
+
+This function is identical to #dyncode("zmq_msg_send"). It has been #emph("deprecated").")
+
+#declnamesynop("zmq_recvmsg")
+#decldescrpt("\
+
+This function is identical to #dyncode("zmq_msg_recv"). It has been #emph("deprecated").")
 
 (* ****** ****** *)
 

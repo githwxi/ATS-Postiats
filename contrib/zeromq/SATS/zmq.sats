@@ -155,6 +155,19 @@ fun zmq_connect_exn
 (* ****** ****** *)
 
 (*
+int zmq_disconnect (void *socket, const char *endpt);
+*)
+fun zmq_disconnect (
+  sock: !zmqsock1, endpt: NSH(string)
+) : interr = "mac#atsctrb_zmq_disconnect"
+
+fun zmq_disconnect_exn
+  (sock: !zmqsock1, endpt: NSH(string)): void
+// end of [zmq_disconnect_exn]
+
+(* ****** ****** *)
+
+(*
 int zmq_close (void *socket);
 *)
 fun zmq_close
@@ -222,7 +235,7 @@ fun zmq_msg_get
 // end of [zmq_msg_get]
 
 fun zmq_msg_get_exn
-  (msg: &zmqmsg, property: int): intGt(0) // valid value
+  (msg: &zmqmsg, property: int): intGt(0) // valid return value
 // end of [zmq_msg_get_exn]
 
 (* ****** ****** *)
@@ -230,12 +243,12 @@ fun zmq_msg_get_exn
 (*
 int zmq_msg_set (zmq_msg_t *message, int property, int value);
 *)
-fun zmq_msg_set
-  (msg: &zmqmsg, property: int, value: int): interr = "mac#atsctrb_zmq_msg_set"
-// end of [zmq_msg_set]
+fun zmq_msg_set (
+  msg: &zmqmsg >> _, property: int, value: int
+) : interr = "mac#atsctrb_zmq_msg_set" // endfun
 
 fun zmq_msg_set_exn
-  (msg: &zmqmsg, property: int, value: int): void
+  (msg: &zmqmsg >> _, property: int, value: int): void
 // end of [zmq_msg_set_exn]
 
 (* ****** ****** *)
@@ -263,6 +276,26 @@ fun zmq_msg_init_size_exn (msg: &zmqmsg? >> zmqmsg, n: size_t): void
 (* ****** ****** *)
 
 (*
+typedef void (zmq_free_fn) (void *data, void *hint);
+int zmq_msg_init_data (
+  zmq_msg_t *msg, void *data, size_t size, zmq_free_fn *ffn, void *hint
+) ; // end of [zmq_msg_init_data]
+*)
+//
+typedef zmq_free_fn = (ptr(*data*), ptr(*hint*)) -> void
+//
+fun zmq_msg_init_data (
+  msg: &zmqmsg? >> opt (zmqmsg, i==0)
+, data: ptr, size: size_t, ffn: zmq_free_fn, hint: ptr
+) : #[i:int | i <= 0] int (i) = "mac#atsctrb_zmq_msg_init_data"
+
+fun zmq_msg_init_data_exn
+  (msg: &zmqmsg? >> zmqmsg, data: ptr, size: size_t, ffn: zmq_free_fn, hint: ptr): void
+ // end of [zmq_msg_init_data_exn]
+
+(* ****** ****** *)
+
+(*
 int zmq_msg_close (zmq_msg_t *msg);
 *)
 fun zmq_msg_close (
@@ -277,8 +310,10 @@ fun zmq_msg_close_exn (msg: &zmqmsg >> zmqmsg?): void
 int zmq_msg_copy (zmq_msg_t *dest, zmq_msg_t *src);
 *)
 fun zmq_msg_copy
-  (dst: &zmqmsg, src: &zmqmsg): interr = "mac#atsctrb_zmq_msg_copy"
+  (dst: &zmqmsg >> _, src: &zmqmsg): interr = "mac#atsctrb_zmq_msg_copy"
 // end of [zmq_msg_copy]
+
+fun zmq_msg_copy_exn (dst: &zmqmsg >> _, src: &zmqmsg): void
 
 (* ****** ****** *)
 
@@ -286,8 +321,10 @@ fun zmq_msg_copy
 int zmq_msg_move (zmq_msg_t *dest, zmq_msg_t *src);
 *)
 fun zmq_msg_move
-  (dst: &zmqmsg, src: &zmqmsg): interr = "mac#atsctrb_zmq_msg_move"
+  (dst: &zmqmsg >> _, src: &zmqmsg): interr = "mac#atsctrb_zmq_msg_move"
 // end of [zmq_msg_move]
+
+fun zmq_msg_move_exn (dst: &zmqmsg >> _, src: &zmqmsg): void
 
 (* ****** ****** *)
 
@@ -319,11 +356,11 @@ fun zmq_msg_send_exn
 int zmq_msg_recv (zmq_msg_t *msg, void *socket, int flags);
 *)
 fun zmq_msg_recv (
-  msg: &zmqmsg, sock: !zmqsock1, flags: int
+  msg: &zmqmsg >> _, sock: !zmqsock1, flags: int
 ) : interr = "mac#atsctrb_zmq_msg_recv" // endfun
 
 fun zmq_msg_recv_exn
-  (msg: &zmqmsg, sock: !zmqsock1, flags: int): intGte(0)
+  (msg: &zmqmsg >> _, sock: !zmqsock1, flags: int): intGte(0)
 // end of [zmq_msg_recv_exn]
 
 (* ****** ****** *)
@@ -346,6 +383,22 @@ fun zmq_term
 ) : #[i:int | i <= 0] int (i) = "mac#atsctrb_zmq_term"
 
 fun zmq_term_exn (ctx: zmqctx1): void
+
+(* ****** ****** *)
+
+(*
+** HX: this one has been deprecated!
+*)
+fun zmq_sendmsg (
+  msg: &zmqmsg, sock: !zmqsock1, flags: int
+) : interr = "mac#atsctrb_zmq_sendmsg" // endfun
+
+(*
+** HX: this one has been deprecated!
+*)
+fun zmq_recvmsg (
+  msg: &zmqmsg >> _, sock: !zmqsock1, flags: int
+) : interr = "mac#atsctrb_zmq_recvmsg" // endfun
 
 (* ****** ****** *)
 
