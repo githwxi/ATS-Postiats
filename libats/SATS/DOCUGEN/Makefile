@@ -95,6 +95,14 @@ upload_ilist_prf:: ;   scp HTML/ilist_prf.html ats-hwxi,ats-lang@web.sourceforge
 clean:: ; $(RMF) ilist_prf_atxt.exe
 cleanall:: ; $(RMF) HTML/ilist_prf.html
 
+all_html:: HTML/funset_avltree.html
+HTML/funset_avltree.html:   funset_avltree_atxt.exe ; $(CAT) ../funset_avltree.sats | ./$< > $@
+funset_avltree_atxt.txt: funset_avltree.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+funset_avltree_atxt.exe: htmlgendecl_atxt.dats   funset_avltree_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_funset_avltree:: ;   scp HTML/funset_avltree.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) funset_avltree_atxt.exe
+cleanall:: ; $(RMF) HTML/funset_avltree.html
+
 all_html:: HTML/funset_listord.html
 HTML/funset_listord.html:   funset_listord_atxt.exe ; $(CAT) ../funset_listord.sats | ./$< > $@
 funset_listord_atxt.txt: funset_listord.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@

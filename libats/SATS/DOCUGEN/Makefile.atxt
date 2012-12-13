@@ -110,6 +110,7 @@ all_html::
 #make_entry("gflist_vt")
 #make_entry("gfarray")
 #make_entry("ilist_prf")
+#make_entry("funset_avltree")
 #make_entry("funset_listord")
 #make_entry("funralist_nested")
 #make_entry("fundeque_fingertree")
