@@ -156,8 +156,9 @@ xs2.  The time complexity of this function is O(|xs1|+|xs2|).  ")
 #decldescrpt("\
 
 This function compares two given sets xs1 and xs2 based on the ordering
-induced from the one (implemented by #dyncode("compare_elt_elt")) on set
-elements.  The time complexity of this function is O(|xs1|+|xs2|).  ")
+induced from the one on set elements, which is implemented by
+#dyncode("compare_elt_elt").  The time complexity of this function is
+O(|xs1|+|xs2|).  ")
 
 (* ****** ****** *)
 

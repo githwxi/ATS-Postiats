@@ -186,7 +186,7 @@ second argument with the value given as its third argument. ")
 #declnamesynop("zmq_msg_init_size")
 
 #declnamesynop("zmq_msg_init_size_exn")
-#decldescrpt("This function is the exit version of #dyncode("zmq_msg_size_init").")
+#decldescrpt("This function is the exit version of #dyncode("zmq_msg_init_size").")
 
 (* ****** ****** *)
 
