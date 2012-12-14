@@ -502,6 +502,62 @@ end // end of [lemma_reverse_symm]
 (* ****** ****** *)
 
 (*
+prfun lemma_insert_length
+  {x0:int}{xs:ilist}{i:int}{ys:ilist}{n:int}
+  (pf1: INSERT (x0, xs, i, ys), pf2: LENGTH (xs, n)): LENGTH (ys, n+1)
+// end of [lemma_insert_length]
+*)
+primplmnt
+lemma_insert_length
+  (pf1, pf2) = let
+//
+prfun
+lemma
+  {x0:int}{xs:ilist}{i:int}{ys:ilist}{n:int} .<xs>.
+  (pf1: INSERT (x0, xs, i, ys), pf2: LENGTH (xs, n)): LENGTH (ys, n+1) = let
+in
+//
+case+ pf1 of
+| INSERTbas () => let
+    prval () = length_isnat (pf2) in LENGTHcons (pf2)
+  end // end of [INSERTbas]
+| INSERTind (pf1) => let
+    prval LENGTHcons (pf2) = pf2 in LENGTHcons (lemma (pf1, pf2))
+  end // end of [INSERTind]
+//
+end // end of [lemma]  
+//
+in
+  lemma (pf1, pf2)
+end // end of [lemma_insert_length]
+
+(* ****** ****** *)
+
+(*
+prfun lemma_insert_nth_at
+  {x0:int}{xs:ilist}{i:int}{ys:ilist}
+  (pf: INSERT (x0, xs, i, ys)): NTH (x0, ys, i)
+// end of [lemma_insert_nth_eq]
+*)
+primplmnt
+lemma_insert_nth_at (pf) = let
+//
+prfun
+lemma
+  {x0:int}{xs:ilist}{i:int}{ys:ilist} .<xs>.
+  (pf: INSERT (x0, xs, i, ys)): NTH (x0, ys, i) = let
+in
+  case+ pf of
+  | INSERTbas () => NTHbas () | INSERTind (pf) => NTHind (lemma (pf))
+end // end of [lemma]  
+//
+in
+  lemma (pf)
+end // end of [lemma_insert_nth_at]
+
+(* ****** ****** *)
+
+(*
 prfun lemma_insert_nth_lt
   {x0:int}{xs:ilist}{i:int}{ys:ilist}{x:int}{j:int | j < i}
   (pf1: INSERT (x0, xs, i, ys), pf2: NTH (x, xs, j)): NTH (x, ys, j)

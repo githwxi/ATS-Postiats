@@ -298,9 +298,11 @@ prfun lemma_insert_length
   (pf1: INSERT (x0, xs, i, ys), pf2: LENGTH (xs, n)): LENGTH (ys, n+1)
 // end of [lemma_insert_length]
 
+(* ****** ****** *)
+
 prfun lemma_insert_nth_at
-  {x0:int} {xs:ilist} {i:int} {ys:ilist}
-  (pf1: INSERT (x0, xs, i, ys)): NTH (x0, ys, i)
+  {x0:int}{xs:ilist}{i:int}{ys:ilist}
+  (pf: INSERT (x0, xs, i, ys)): NTH (x0, ys, i)
 // end of [lemma_insert_nth_eq]
 
 prfun lemma_insert_nth_lt
