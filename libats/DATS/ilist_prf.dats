@@ -316,7 +316,7 @@ end // end of [lemma_append_assoc]
 prfun lemma_nth_ilisteq
   {xs1,xs2:ilist}{n:nat} (
   pf1len: LENGTH (xs1, n), pf2len: LENGTH (xs2, n)
-, fpf: {i:nat | i < n}{x:int} NTH (x, xs1, i) -> NTH (x, xs2, i)
+, fpf: {x:int}{i:nat | i < n} NTH (x, xs1, i) -> NTH (x, xs2, i)
 ) : ILISTEQ (xs1, xs2) =
 *)
 primplmnt
@@ -329,28 +329,31 @@ lemma
   {n:nat} .<n>. (
   pf1len: LENGTH (xs1, n)
 , pf2len: LENGTH (xs2, n)
-, fpf: {i:nat | i < n}{x:int} NTH (x, xs1, i) -> NTH (x, xs2, i)
-) : ILISTEQ (xs1, xs2) =
-  sif n > 0 then let
-    prval LENGTHcons {x1}{xs11} pf11len = pf1len
-    prval LENGTHcons {x2}{xs21} pf21len = pf2len
-    prval NTHbas () = fpf {0}{x1} (NTHbas ())
-    prfn fpf1
-      {i:nat | i < n-1}
-      {x:int} (pf: NTH (x, xs11, i)): NTH (x, xs21, i) = let
-      prval NTHind (pfres) = fpf (NTHind (pf))
-    in
-      pfres
-    end // end of [fpf1]
-    prval ILISTEQ () = lemma (pf11len, pf21len, fpf1)
+, fpf: {x:int}{i:nat | i < n} NTH (x, xs1, i) -> NTH (x, xs2, i)
+) : ILISTEQ (xs1, xs2) = let
+in
+//
+sif n > 0 then let
+  prval LENGTHcons {x1}{xs11} pf11len = pf1len
+  prval LENGTHcons {x2}{xs21} pf21len = pf2len
+  prval NTHbas () = fpf {x1}{0} (NTHbas ())
+  prfn fpf1
+    {x:int}{i:nat | i < n-1}
+    (pf: NTH (x, xs11, i)): NTH (x, xs21, i) = let
+    prval NTHind (pfres) = fpf (NTHind (pf))
   in
-    ILISTEQ ()
-  end else let
-    prval LENGTHnil () = pf1len
-    prval LENGTHnil () = pf2len
-  in
-    ILISTEQ ()
-  end // end of [sif]
+    pfres
+  end // end of [fpf1]
+  prval ILISTEQ () = lemma (pf11len, pf21len, fpf1)
+in
+  ILISTEQ ()
+end else let
+  prval LENGTHnil () = pf1len and LENGTHnil () = pf2len
+in
+  ILISTEQ ()
+end // end of [sif]
+//
+end // end of [lemma]
 //
 in
   lemma (pf1len, pf2len, fpf)
@@ -483,7 +486,7 @@ prval pflen_ys = lemma_revapp_length (pf, pflen_xs, LENGTHnil ())
 prval [zs:ilist] pf2 = revapp_istot {ys,ilist_nil} ()
 prval pflen_zs = lemma_revapp_length (pf2, pflen_ys, LENGTHnil ())
 //
-prfn fpf {i:nat | i < n}{x:int}
+prfn fpf {x:int}{i:nat | i < n}
   (pfnth: NTH (x, xs, i)): NTH (x, zs, i) = let
   prval pf2nth = lemma_reverse_nth (pf, pflen_xs, pfnth)
 in

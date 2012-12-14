@@ -249,7 +249,7 @@ prfun lemma_rnth_nth
 prfun lemma_nth_ilisteq
   {xs1,xs2:ilist} {n:nat} (
   pf1len: LENGTH (xs1, n), pf2len: LENGTH (xs2, n)
-, fpf: {i:nat | i < n}{x:int} NTH (x, xs1, i) -> NTH (x, xs2, i)
+, fpf: {x:int}{i:nat | i < n} NTH (x, xs1, i) -> NTH (x, xs2, i)
 ) : ILISTEQ (xs1, xs2) // end of [lemma_nth_ilisteq]
 
 (* ****** ****** *)
