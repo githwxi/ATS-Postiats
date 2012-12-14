@@ -264,4 +264,238 @@ end // end of [lemma_append_snoc]
 
 (* ****** ****** *)
 
+(*
+prfun
+lemma_append_assoc
+  {xs1,xs2,xs3:ilist}
+  {xs12,xs23:ilist}
+  {xs12_3,xs1_23:ilist} (
+  pf12: APPEND (xs1, xs2, xs12), pf23: APPEND (xs2, xs3, xs23)
+, pf12_3: APPEND (xs12, xs3, xs12_3), pf1_23: APPEND (xs1, xs23, xs1_23)
+) : ILISTEQ (xs12_3, xs1_23) // end of [lemma_append_assoc]
+*)
+primplmnt
+lemma_append_assoc (
+  pf12, pf23, pf12_3, pf1_23
+) = let
+//
+prfun
+lemma
+  {xs1,xs2,xs3:ilist}
+  {xs12,xs23:ilist}
+  {xs12_3,xs1_23:ilist} .<xs1>. (
+  pf12: APPEND (xs1, xs2, xs12), pf23: APPEND (xs2, xs3, xs23)
+, pf12_3: APPEND (xs12, xs3, xs12_3), pf1_23: APPEND (xs1, xs23, xs1_23)
+) : ILISTEQ (xs12_3, xs1_23) = let
+in
+//
+case+ pf12 of
+| APPENDnil () => let
+    prval APPENDnil () = pf1_23
+    prval ILISTEQ () = append_isfun (pf23, pf12_3)
+  in
+    ILISTEQ ()
+  end // end of [APPENDnil]
+| APPENDcons (pf12) => let
+    prval APPENDcons (pf12_3) = pf12_3
+    prval APPENDcons (pf1_23) = pf1_23
+    prval ILISTEQ () = lemma (pf12, pf23, pf12_3, pf1_23)
+  in
+    ILISTEQ ()
+  end // end of [APPENDcons]
+//
+end // end of [lemma]
+//
+in
+  lemma (pf12, pf23, pf12_3, pf1_23)
+end // end of [lemma_append_assoc]
+
+(* ****** ****** *)
+
+(*
+prfun lemma_nth_ilisteq
+  {xs1,xs2:ilist}{n:nat} (
+  pf1len: LENGTH (xs1, n), pf2len: LENGTH (xs2, n)
+, fpf: {i:nat | i < n}{x:int} NTH (x, xs1, i) -> NTH (x, xs2, i)
+) : ILISTEQ (xs1, xs2) =
+*)
+primplmnt
+lemma_nth_ilisteq
+  (pf1len, pf2len, fpf) = let
+//
+prfun
+lemma
+  {xs1,xs2:ilist}
+  {n:nat} .<n>. (
+  pf1len: LENGTH (xs1, n)
+, pf2len: LENGTH (xs2, n)
+, fpf: {i:nat | i < n}{x:int} NTH (x, xs1, i) -> NTH (x, xs2, i)
+) : ILISTEQ (xs1, xs2) =
+  sif n > 0 then let
+    prval LENGTHcons {x1}{xs11} pf11len = pf1len
+    prval LENGTHcons {x2}{xs21} pf21len = pf2len
+    prval NTHbas () = fpf {0}{x1} (NTHbas ())
+    prfn fpf1
+      {i:nat | i < n-1}
+      {x:int} (pf: NTH (x, xs11, i)): NTH (x, xs21, i) = let
+      prval NTHind (pfres) = fpf (NTHind (pf))
+    in
+      pfres
+    end // end of [fpf1]
+    prval ILISTEQ () = lemma (pf11len, pf21len, fpf1)
+  in
+    ILISTEQ ()
+  end else let
+    prval LENGTHnil () = pf1len
+    prval LENGTHnil () = pf2len
+  in
+    ILISTEQ ()
+  end // end of [sif]
+//
+in
+  lemma (pf1len, pf2len, fpf)
+end // end of [lemma_nth_ilisteq]
+
+(* ****** ****** *)
+
+(*
+prfun lemma_revapp_length
+  {xs,ys,zs:ilist}{m,n:nat} .<xs>. (
+  pf1: REVAPP (xs, ys, zs), pf2: LENGTH (xs, m), pf3: LENGTH (ys, n)
+) : LENGTH (zs, m+n) // end of [lemma_revapp_length]
+*)
+primplmnt
+lemma_revapp_length
+  (pf, pf1len, pf2len) = let
+//
+prfun
+lemma
+  {xs,ys,zs:ilist}
+  {m,n:nat} .<xs>. (
+  pf: REVAPP (xs, ys, zs)
+, pf1len: LENGTH (xs, m), pf2len: LENGTH (ys, n)
+) : LENGTH (zs, m+n) = let
+in
+//
+case+ pf of
+| REVAPPnil () => let
+    prval LENGTHnil () = pf1len in pf2len
+  end // end of[REVAPPnil]
+| REVAPPcons (pf) => let
+    prval LENGTHcons (pf1len) = pf1len
+  in
+    lemma (pf, pf1len, LENGTHcons (pf2len))
+  end // end of [REVAPPcons]
+//
+end // end of [revapp_length_lemma]
+//
+prval () = length_isnat (pf1len)
+prval () = length_isnat (pf2len)
+//
+in
+  lemma (pf, pf1len, pf2len)
+end // end of [lemma_revapp_length]
+
+(* ****** ****** *)
+
+(*
+prfun lemma1_revapp_nth
+  {xs,ys,zs:ilist}{n:nat}{x:int}{i:nat} (
+  pf: REVAPP (xs, ys, zs), pflen: LENGTH (xs, n), pfnth: NTH (x, ys, i)
+) : NTH (x, zs, n+i) // end of [lemma1_revapp_nth]
+*)
+primplmnt
+lemma1_revapp_nth
+  (pf, pflen, pfnth) = let
+//
+prfun lemma
+  {xs,ys,zs:ilist}{n:nat}{x:int}{i:nat} .<xs>. (
+  pf: REVAPP (xs, ys, zs), pflen: LENGTH (xs, n), pfnth: NTH (x, ys, i)
+) : NTH (x, zs, n+i) = let
+in
+//
+case+ pf of
+| REVAPPnil () => let
+    prval LENGTHnil () = pflen in pfnth
+  end // end of [REVAPPnil]
+| REVAPPcons (pf) => let
+    prval LENGTHcons (pflen) = pflen in lemma (pf, pflen, NTHind (pfnth))
+  end // end of[REVAPPcons]
+//
+end // end of [lemma1_revapp_nth]
+//
+in
+  lemma (pf, pflen, pfnth)
+end // end of [lemma1_revapp_nth]
+
+(* ****** ****** *)
+
+(*
+prfun lemma2_revapp_nth
+  {xs,ys,zs:ilist}{n:nat}{x:int}{i:nat} (
+  pf: REVAPP (xs, ys, zs), pflen: LENGTH (xs, n), pfnth: NTH (x, xs, i)
+) : NTH (x, zs, n-1-i) // end of [lemma2_revapp_nth]
+*)
+primplmnt
+lemma2_revapp_nth
+  (pf, pflen, pfnth) = let
+//
+prfun lemma
+  {xs,ys,zs:ilist}{n:nat}{x:int}{i:nat} .<i>. (
+  pf: REVAPP (xs, ys, zs), pflen: LENGTH (xs, n), pfnth: NTH (x, xs, i)
+) : NTH (x, zs, n-1-i) = let
+in
+//
+case+ pfnth of
+| NTHbas () => let
+    prval REVAPPcons (pf) = pf
+    prval LENGTHcons pflen = pflen
+  in
+    lemma1_revapp_nth (pf, pflen, NTHbas ())
+  end // end of [NTHbas]
+| NTHind (pfnth) => let
+    prval REVAPPcons (pf) = pf
+    prval LENGTHcons (pflen) = pflen
+  in
+    lemma (pf, pflen, pfnth)
+  end // end of [NTHind]
+//
+end // end of [lemma]
+//
+in
+  lemma (pf, pflen, pfnth)
+end // end of [lemma2_revapp_nth]
+
+(* ****** ****** *)
+
+primplmnt
+lemma_reverse_nth
+  (pf, pflen, pfnth) = lemma2_revapp_nth (pf, pflen, pfnth)
+// end of [lemma_reverse_nth]    
+
+(* ****** ****** *)
+
+primplmnt
+lemma_reverse_symm {xs,ys} (pf) = let
+//
+prval [n:int] pflen_xs = length_istot {xs} ()
+prval pflen_ys = lemma_revapp_length (pf, pflen_xs, LENGTHnil ())
+prval [zs:ilist] pf2 = revapp_istot {ys,ilist_nil} ()
+prval pflen_zs = lemma_revapp_length (pf2, pflen_ys, LENGTHnil ())
+//
+prfn fpf {i:nat | i < n}{x:int}
+  (pfnth: NTH (x, xs, i)): NTH (x, zs, i) = let
+  prval pf2nth = lemma_reverse_nth (pf, pflen_xs, pfnth)
+in
+  lemma_reverse_nth (pf2, pflen_ys, pf2nth)
+end // end of [fpf]
+//
+prval ILISTEQ () = lemma_nth_ilisteq (pflen_xs, pflen_zs, fpf)
+//
+in
+  pf2
+end // end of [lemma_reverse_symm]
+
+(* ****** ****** *)
+
 (* end of [ilist_prf.dats] *)

@@ -144,7 +144,6 @@ prfun append_istot
   {xs,ys:ilist} (): [zs:ilist] APPEND (xs, ys, zs)
 prfun append_isfun {xs,ys:ilist} {zs1,zs2:ilist}
   (pf1: APPEND (xs, ys, zs1), pf2: APPEND (xs, ys, zs2)): ILISTEQ (zs1, zs2)
-// end of [append_isfun]
 
 (* ****** ****** *)
 
@@ -198,9 +197,19 @@ REVAPP (ilist, ilist, ilist) =
 
 propdef REVERSE (xs: ilist, ys: ilist) = REVAPP (xs, ilist_nil, ys)
 
-prfun lemma_reverse_symm
-  {xs,ys:ilist} (pf: REVERSE (xs, ys)): REVERSE (ys, xs)
-// end of [lemma_reverse_symm]
+(* ****** ****** *)
+
+prfun revapp_istot
+  {xs,ys:ilist} (): [zs:ilist] REVAPP (xs, ys, zs)
+prfun revapp_isfun {xs,ys:ilist} {zs1,zs2:ilist}
+  (pf1: REVAPP (xs, ys, zs1), pf2: REVAPP (xs, ys, zs2)): ILISTEQ (zs1, zs2)
+
+(* ****** ****** *)
+
+prfun lemma_revapp_length
+  {xs,ys,zs:ilist}{m,n:int} (
+  pf: REVAPP (xs, ys, zs), pf1len: LENGTH (xs, m), pf2len: LENGTH (ys, n)
+) : LENGTH (zs, m+n) // end of [lemma_revapp_length]
 
 (* ****** ****** *)
 
@@ -234,6 +243,37 @@ prfun lemma_rnth_nth
   {n:int} {i:nat | i < n}
   (pf1: RNTH (x, xs, i), pf2: LENGTH (xs, n)): NTH (x, xs, n-1-i)
 // end of [lemma_rnth_nth]
+
+(* ****** ****** *)
+
+prfun lemma_nth_ilisteq
+  {xs1,xs2:ilist} {n:nat} (
+  pf1len: LENGTH (xs1, n), pf2len: LENGTH (xs2, n)
+, fpf: {i:nat | i < n}{x:int} NTH (x, xs1, i) -> NTH (x, xs2, i)
+) : ILISTEQ (xs1, xs2) // end of [lemma_nth_ilisteq]
+
+(* ****** ****** *)
+
+prfun lemma1_revapp_nth
+  {xs,ys,zs:ilist}{n:nat}{x:int}{i:nat} (
+  pf: REVAPP (xs, ys, zs), pflen: LENGTH (xs, n), pfnth: NTH (x, ys, i)
+) : NTH (x, zs, n+i) // end of [lemma1_revapp_nth]
+
+prfun lemma2_revapp_nth
+  {xs,ys,zs:ilist}{n:nat}{x:int}{i:nat} (
+  pf: REVAPP (xs, ys, zs), pflen: LENGTH (xs, n), pfnth: NTH (x, xs, i)
+) : NTH (x, zs, n-1-i) // end of [lemma2_revapp_nth]
+
+(* ****** ****** *)
+
+prfun lemma_reverse_nth
+  {xs,ys:ilist}{n:nat}{x:int}{i:nat} (
+  pf: REVERSE (xs, ys), pflen: LENGTH (xs, n), pfnth: NTH (x, xs, i)
+) : NTH (x, ys, n-1-i) // end of [lemma_reverse_nth]
+    
+prfun lemma_reverse_symm
+  {xs,ys:ilist} (pf: REVERSE (xs, ys)): REVERSE (ys, xs)
+// end of [lemma_reverse_symm]
 
 (* ****** ****** *)
 
