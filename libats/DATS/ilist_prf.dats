@@ -501,4 +501,90 @@ end // end of [lemma_reverse_symm]
 
 (* ****** ****** *)
 
+(*
+prfun lemma_insert_nth_lt
+  {x0:int}{xs:ilist}{i:int}{ys:ilist}{x:int}{j:int | j < i}
+  (pf1: INSERT (x0, xs, i, ys), pf2: NTH (x, xs, j)): NTH (x, ys, j)
+// end of [lemma_insert_nth_lt]
+*)
+primplmnt
+lemma_insert_nth_lt
+  (pf1, pf2) = let
+//
+prfun lemma
+  {x0:int}{xs:ilist}{i:int}{ys:ilist}{x:int}{j:int | j < i} .<xs>.
+  (pf1: INSERT (x0, xs, i, ys), pf2: NTH (x, xs, j)): NTH (x, ys, j) = let
+in
+//
+case+ pf2 of
+| NTHbas () => let
+    prval INSERTind (pf1) = pf1 in NTHbas ()
+  end // end of [NTHbas]
+| NTHind (pf2) => let
+    prval INSERTind (pf1) = pf1 in NTHind (lemma (pf1, pf2))
+  end // end of [NTHind]
+//
+end // end of [lemma]
+//
+in
+  lemma (pf1, pf2)
+end // end of [lemma_insert_nth_lt]
+
+(* ****** ****** *)
+
+(*
+prfun lemma_insert_nth_gte
+  {x0:int}{xs:ilist}{i:int}{ys:ilist}{x:int}{j:int | j >= i}
+  (pf1: INSERT (x0, xs, i, ys), pf2: NTH (x, xs, j)): NTH (x, ys, j+1)
+// end of [lemma_insert_nth_lt]
+*)
+primplmnt
+lemma_insert_nth_gte
+  (pf1, pf2) = let
+//
+prfun lemma
+  {x0:int}{xs:ilist}{i:int}{ys:ilist}{x:int}{j:int | j >= i} .<xs>.
+  (pf1: INSERT (x0, xs, i, ys), pf2: NTH (x, xs, j)): NTH (x, ys, j+1) = let
+//
+in
+//
+case+ pf1 of
+| INSERTbas () => NTHind (pf2)
+| INSERTind (pf1) => let
+    prval NTHind (pf2) = pf2 in NTHind (lemma (pf1, pf2))
+  end // end of [INSERTind]
+//
+end // end of [lemma]
+//
+in
+  lemma (pf1, pf2)
+end // end of [lemma_insert_nth_gte]
+
+(* ****** ****** *)
+
+(*
+prfun lemma_nth_insert
+  {x:int} {xs:ilist} {n:int}
+  (pf: NTH (x, xs, n)): [ys:ilist] INSERT (x, ys, n, xs)
+// end of [lemma_nth_insert]
+*)
+primplmnt
+lemma_nth_insert (pf) = let
+//
+prfun lemma
+  {x:int} {xs:ilist} {n:int} .<xs>.
+  (pf: NTH (x, xs, n)): [ys:ilist] INSERT (x, ys, n, xs) = let
+in
+//
+case+ pf of
+| NTHbas () => INSERTbas () | NTHind (pf) => INSERTind (lemma (pf))
+//
+end
+//
+in
+  lemma (pf)
+end // end of [lemma_nth_insert]
+
+(* ****** ****** *)
+
 (* end of [ilist_prf.dats] *)

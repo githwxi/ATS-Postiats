@@ -291,13 +291,32 @@ INSERT (
     ) of INSERT (x0, xs, i, ys) // end of [INSERTind]
 // end of [INSERT]
 
+(* ****** ****** *)
+
 prfun lemma_insert_length
-  {x0:int} {xs:ilist} {i:int} {ys:ilist} {n:nat}
+  {x0:int}{xs:ilist}{i:int}{ys:ilist}{n:int}
   (pf1: INSERT (x0, xs, i, ys), pf2: LENGTH (xs, n)): LENGTH (ys, n+1)
 // end of [lemma_insert_length]
 
+prfun lemma_insert_nth_at
+  {x0:int} {xs:ilist} {i:int} {ys:ilist}
+  (pf1: INSERT (x0, xs, i, ys)): NTH (x0, ys, i)
+// end of [lemma_insert_nth_eq]
+
+prfun lemma_insert_nth_lt
+  {x0:int}{xs:ilist}{i:int}{ys:ilist}{x:int}{j:int | j < i}
+  (pf1: INSERT (x0, xs, i, ys), pf2: NTH (x, xs, j)): NTH (x, ys, j)
+// end of [lemma_insert_nth_lt]
+
+prfun lemma_insert_nth_gte
+  {x0:int}{xs:ilist}{i:int}{ys:ilist}{x:int}{j:int | j >= i}
+  (pf1: INSERT (x0, xs, i, ys), pf2: NTH (x, xs, j)): NTH (x, ys, j+1)
+// end of [lemma_insert_nth_lt]
+
+(* ****** ****** *)
+
 prfun lemma_nth_insert
-  {x:int} {xs:ilist} {n:nat}
+  {x:int}{xs:ilist}{n:int}
   (pf: NTH (x, xs, n)): [ys:ilist] INSERT (x, ys, n, xs)
 // end of [lemma_nth_insert]
 
