@@ -57,7 +57,7 @@ postfix SZ; macdef SZ (i) = g1int2uint (,(i))
 (* ****** ****** *)
 
 implement
-main () = 0 where {
+main () = (0) where {
 //
 val context = zmq_ctx_new ()
 val () = assertloc (zmqctx2ptr (context) > nullp)
@@ -79,8 +79,8 @@ val () =
 //
 // Do some 'work'
 //
-   val () = sleep (1) where {
-     extern fun sleep: int -> void = "atslib_sleep"
+   val _ = sleep (1) where {
+     extern fun sleep: int -> uint = "mac#atslib_sleep"
    } // end of [val]
 //
 // Send reply back to client
@@ -91,7 +91,7 @@ val () =
     zmq_msg_data (reply), "World", 5
   ) where {
     extern fun memcpy
-      : (ptr, string, int) -> void = "atslib_memcpy"
+      : (ptr, string, int) -> void = "mac#atslib_memcpy"
     // end of [extern]
   } // end of [val]
   val _(*nbyte*) = zmq_msg_send (reply, responder, 0)
