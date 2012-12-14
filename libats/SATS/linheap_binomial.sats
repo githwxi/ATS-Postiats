@@ -127,9 +127,9 @@ linheap_freelin (hp: heap (a)):<!wrt> void
 // HX: a heap is freed only if it is empty
 //
 fun{a:vt0p}
-linheap_free_vt
+linheap_free_ifnil
   (hp: !heap (a) >> opt (heap (a), b)) :<> #[b:bool] bool(b)
-// end of [linheap_free_vt]
+// end of [linheap_free_ifnil]
 
 (* ****** ****** *)
 

@@ -146,7 +146,7 @@ This function is called to free a given linear heap [hp]. It calls
 
 ")
 
-#declnamesynop("linheap_free_vt")
+#declnamesynop("linheap_free_ifnil")
 #decldescrpt("\
 
 Given a heap [hp], this function frees [hp] and returns false if [hp] is

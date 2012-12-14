@@ -13,6 +13,9 @@ ATSHOMEQ="$(ATSHOME)"
 
 ATSCC=$(ATSHOMEQ)/bin/atscc
 ATSCTRB="$(PATSHOME)"/contrib
+
+######
+
 ZMQCLFLAGS=-lzmq
 
 ######
@@ -26,7 +29,7 @@ atsctrb_zeromq.o: zeromq_dats.o ; ld -r -o $@ $^
 
 ######
 
-zeromq_dats.o: DATS/zeromq.dats
+zeromq_dats.o: DATS/zmq.dats
 	$(ATSCC) -O2 -I$(ATSCTRB) -IATS$(ATSCTRB) -o $@ -c $< $(ZMQCLFLAGS)
 
 ######

@@ -526,6 +526,36 @@ end // end of [linmap_freelin]
 
 implement
 {key,itm}
+linmap_free_ifnil
+  (map) = let
+//
+viewtypedef map = map (key, itm)
+val map1 =
+  __cast (map) where {
+  extern castfn __cast : (!map >> map?) -<> map
+} (* end of [val] *)
+//
+in
+//
+case+ map1 of
+| ~BSTnil () => let
+    prval () = opt_none {map} (map) in false
+  end // end of [BSTnil]
+| @BSTcons _ => let
+    prval () = fold@ (map1)
+    prval () =
+      __assert (map, map1) where {
+      extern praxi __assert : (!map? >> map, map) -<prf> void
+    } // end of [val]
+    prval () = opt_some {map} (map) in true
+  end // end of [BSTcons]
+//
+end // end of [linmap_free_ifnil]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
 linmap_listize
   (map) = let
 //

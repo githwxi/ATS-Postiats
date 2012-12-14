@@ -47,8 +47,21 @@ This package contains some common proof functions involving integer sequences.
 #declnamesynop("append_istot")
 #declnamesynop("append_isfun")
 
+(* ****** ****** *)
+
 #declnamesynop("append_unit_left")
+#decldescrpt("\
+
+This function proves that the nil sequence is a left unit for the append
+operation. ")
+
 #declnamesynop("append_unit_right")
+#decldescrpt("\
+
+This function proves that the nil sequence is a right unit for the append
+operation. ")
+
+(* ****** ****** *)
 
 #declnamesynop("lemma_append_length")
 #decldescrpt("\
@@ -64,6 +77,13 @@ the length of xs2.  ")
 
 This function proves that the append operation on sequences is
 associative.")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_reverse_symm")
+#decldescrpt("\
+
+This function proves that the #dyncode("REVERSE") relation is symmetric. ")
 
 (* ****** ****** *)
 

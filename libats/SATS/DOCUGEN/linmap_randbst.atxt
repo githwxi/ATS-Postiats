@@ -99,9 +99,22 @@ in the implementation of randomized binary search trees.\
 (* ****** ****** *)
 
 #declnamesynop("linmap_free")
+#decldescrpt("\
+
+This function frees a given map containing only non-linear items. ")
+
+(* ****** ****** *)
+
 #declnamesynop("linmap_freelin$clear")
 #declnamesynop("linmap_freelin")
-#declnamesynop("linmap_free_vt")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_free_ifnil")
+#decldescrpt("\
+
+Given a map, this function frees it and returns false if the map is empty.
+Otherwise, the function keeps the map and returns true. ")
 
 (* ****** ****** *)
 

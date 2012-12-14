@@ -934,44 +934,45 @@ end // end of [linmap_freelin]
 
 implement
 {key,itm}
-linmap_free_vt (m) = let
+linmap_free_ifnil
+  (map) = let
 //
-viewtypedef VT = map (key, itm)
-val m1 =
-  __cast (m) where {
-  extern castfn __cast : (!VT >> VT?) -<> VT
+viewtypedef map = map (key, itm)
+val map1 =
+  __cast (map) where {
+  extern castfn __cast : (!map >> map?) -<> map
 }
 //
 in
 //
-case+ m1 of
+case+ map1 of
 | @SKIPLIST
     (N, lgN, nxa) => let
   in
     if N = i2sz(0) then let
       val nxa_ = nxa
       val () =
-        free@ {..}{0}{0} (m1)
+        free@ {..}{0}{0} (map1)
       val () = __free (nxa_) where {
         extern fun __free
           : {n:int} nodearr (key, itm, n) -<> void
       } // end of [val]
-      prval () = opt_none {VT} (m)
+      prval () = opt_none {map} (map)
     in
       false
     end else let
-      prval () = fold@ (m1)
+      prval () = fold@ (map1)
       prval () =
-        __assert (m, m1) where {
-        extern praxi __assert : (!VT? >> VT, VT) -<prf> void
+        __assert (map, map1) where {
+        extern praxi __assert : (!map? >> map, map) -<prf> void
       } // end of [val]
-      prval () = opt_some {VT} (m)
+      prval () = opt_some {map} (map)
     in
       true
     end // end of [if]
   end // end of [SKIPLIST]
 //
-end // end of [linmap_free_vt]
+end // end of [linmap_free_ifnil]
 
 (* ****** ****** *)
 
