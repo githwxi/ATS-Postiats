@@ -323,6 +323,18 @@ prfun lemma_nth_insert
 // end of [lemma_nth_insert]
 
 (* ****** ****** *)
+//
+// SWAP (xs, i, j, ys) means:
+// ys[i]=xs[j]; ys[j]=xs[i]; ys[k]=xs[k] for k != i or j
+//
+absprop SWAP (xs:ilist, i:int, j:int, ys:ilist)
+
+prfun lemma_swap_symm
+  {xs:ilist}{i,j:int}{ys:ilist}
+  (pf: SWAP (xs, i, j, ys)): SWAP (ys, i, j, xs)
+// end of [lemma_swap_symm]
+
+(* ****** ****** *)
 
 absprop LTB
   (x: int, xs: ilist) // [x] is a strict lower bound for [xs]
@@ -393,10 +405,21 @@ prfun lemma_permute_length
   (pf1: PERMUTE (xs1, xs2), pf2: LENGTH (xs1, n)): LENGTH (xs2, n)
 // end of [lemma_permute_length]
 
+(* ****** ****** *)
+
 prfun lemma_permute_insert
   {x:int} {xs:ilist} {ys:ilist}
   (pf: PERMUTE (ilist_cons (x, xs), ys)): [ys1:ilist;i:nat] INSERT (x, ys1, i, ys)
 // end of [lemma_permute_insert]
+
+(* ****** ****** *)
+
+prfun lemma_swap_permute
+  {xs:ilist}{i,j:int}{ys:ilist}
+  (pf: SWAP (xs, i, j, ys)): PERMUTE (xs, ys)
+// end of [lemma_swap_permute]
+
+(* ****** ****** *)
 
 prfun lemma_ltb_permute {x:int}
   {xs1,xs2:ilist} (pf1: LTB (x, xs1), pf2: PERMUTE (xs1, xs2)): LTB (x, xs2)
