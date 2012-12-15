@@ -170,7 +170,7 @@ gfarray_set_at
   {l:addr}
   {x:int}{xs1:ilist}{xs2:ilist}
   {i:int} (
-  pf1: INSERT (x, xs1, i, xs2)
+  pf1: UPDATE (x, xs1, i, xs2)
 , pf2: !gfarray_v (a, l, xs1) >> gfarray_v (a, l, xs2)
 | p: ptr l, i: size_t i, x: stamped_t (a, x)
 ) :<!wrt> void // end of [gfarray_set_at]
@@ -184,10 +184,10 @@ gfarray_exch_at
   {xs1:ilist}{xs2:ilist}
   {i:int} (
   pf1: NTH (x1, xs1, i)
-, pf2: INSERT (x0, xs1, i, xs2)
+, pf2: UPDATE (x0, xs1, i, xs2)
 , pf3: !gfarray_v (a, l, xs1) >> gfarray_v (a, l, xs2)
 | p: ptr l, i: size_t i
-, x: &stamped_vt (a, x0) >> stamped_vt (a, x1)
+, x0: &stamped_vt (a, x0) >> stamped_vt (a, x1)
 ) :<!wrt> void // end of [gfarray_exch_at]
 
 (* ****** ****** *)
