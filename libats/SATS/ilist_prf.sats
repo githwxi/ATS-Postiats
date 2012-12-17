@@ -149,12 +149,17 @@ prfun append_isfun {xs,ys:ilist} {zs1,zs2:ilist}
   (pf1: APPEND (xs, ys, zs1), pf2: APPEND (xs, ys, zs2)): ILISTEQ (zs1, zs2)
 
 (* ****** ****** *)
-
+(*
+// HX-2012-12-13: proven
+*)
 prfun append_unit_left
   {xs:ilist} (): APPEND (ilist_nil, xs, xs)
 prfun append_unit_right
   {xs:ilist} (): APPEND (xs, ilist_nil, xs)
 
+(*
+// HX-2012-12-17: proven
+*)
 prfun append_sing
   {x:int}{xs:ilist}
   (): APPEND (ilist_sing(x), xs, ilist_cons (x, xs))

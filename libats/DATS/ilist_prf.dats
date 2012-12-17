@@ -162,6 +162,42 @@ end // end of [lemma_snoc_length]
 (* ****** ****** *)
 
 primplmnt
+append_istot
+  {xs,ys} () = let
+//
+prfun
+istot {xs,ys:ilist} .<xs>.
+  () : [zs:ilist] APPEND (xs, ys, zs) =
+  scase xs of
+  | ilist_nil () => APPENDnil ()
+  | ilist_cons (x, xs) => APPENDcons (istot {xs,ys} ())
+// end of [istot]
+in
+  istot {xs,ys} ()
+end // end of [append_istot]
+
+primplmnt
+append_isfun
+  (pf1, pf2) = let
+//
+prfun isfun
+  {xs,ys:ilist}
+  {zs1,zs2:ilist} .<xs>. (
+  pf1: APPEND (xs, ys, zs1), pf2: APPEND (xs, ys, zs2)
+) : ILISTEQ (zs1, zs2) = (
+  case+ (pf1, pf2) of
+  | (APPENDnil (), APPENDnil ()) => ILISTEQ ()
+  | (APPENDcons (pf1), APPENDcons (pf2)) => let
+      prval ILISTEQ () = isfun (pf1, pf2) in ILISTEQ ()
+    end // end of [...]
+) // end of [isfun]
+in
+  isfun (pf1, pf2)
+end // end of [append_isfun]
+
+(* ****** ****** *)
+
+primplmnt
 append_unit_left () = APPENDnil ()
 
 primplmnt
@@ -177,6 +213,11 @@ prfun lemma
 in
   lemma {xs} ()
 end // end of [append_unit_right]
+
+(* ****** ****** *)
+
+primplmnt
+append_sing () = APPENDcons (APPENDnil ())
 
 (* ****** ****** *)
 
@@ -358,6 +399,44 @@ end // end of [lemma]
 in
   lemma (pf1len, pf2len, fpf)
 end // end of [lemma_nth_ilisteq]
+
+(* ****** ****** *)
+
+primplmnt
+revapp_istot
+  {xs,ys} () = let
+//
+prfun
+istot {xs,ys:ilist} .<xs>.
+  () : [zs:ilist] REVAPP (xs, ys, zs) =
+  scase xs of
+  | ilist_nil () => REVAPPnil ()
+  | ilist_cons (x, xs) =>
+      REVAPPcons (istot {xs,ilist_cons (x,ys)} ())
+    // end of [ilist_cons]
+// end of [istot]
+in
+  istot {xs,ys} ()
+end // end of [revapp_istot]
+
+primplmnt
+revapp_isfun
+  (pf1, pf2) = let
+//
+prfun isfun
+  {xs,ys:ilist}
+  {zs1,zs2:ilist} .<xs>. (
+  pf1: REVAPP (xs, ys, zs1), pf2: REVAPP (xs, ys, zs2)
+) : ILISTEQ (zs1, zs2) = (
+  case+ (pf1, pf2) of
+  | (REVAPPnil (), REVAPPnil ()) => ILISTEQ ()
+  | (REVAPPcons (pf1), REVAPPcons (pf2)) => let
+      prval ILISTEQ () = isfun (pf1, pf2) in ILISTEQ ()
+    end // end of [...]
+) // end of [isfun]
+in
+  isfun (pf1, pf2)
+end // end of [revapp_isfun]
 
 (* ****** ****** *)
 
