@@ -404,6 +404,41 @@ prfun lemma_interchange_symm
 // end of [lemma_interchange_symm]
 
 (* ****** ****** *)
+//
+// PERMUTE (xs, ys):
+// [ys] is a permutation of [xs]
+//
+absprop
+PERMUTE (xs1:ilist, xs2:ilist)
+
+prfun permute_refl {xs:ilist} (): PERMUTE (xs, xs)
+prfun permute_symm
+  {xs1,xs2:ilist} (pf: PERMUTE (xs1, xs2)): PERMUTE (xs2, xs1)
+prfun permute_trans {xs1,xs2,xs3:ilist}
+  (pf1: PERMUTE (xs1, xs2), pf2: PERMUTE (xs2, xs3)): PERMUTE (xs1, xs3)
+
+(* ****** ****** *)
+
+prfun lemma_permute_length
+  {xs1,xs2:ilist} {n:nat}
+  (pf1: PERMUTE (xs1, xs2), pf2: LENGTH (xs1, n)): LENGTH (xs2, n)
+// end of [lemma_permute_length]
+
+(* ****** ****** *)
+
+prfun lemma_permute_insert
+  {x:int} {xs:ilist} {ys:ilist}
+  (pf: PERMUTE (ilist_cons (x, xs), ys)): [ys1:ilist;i:nat] INSERT (x, ys1, i, ys)
+// end of [lemma_permute_insert]
+
+(* ****** ****** *)
+
+prfun lemma_interchange_permute
+  {xs:ilist}{i,j:int}{ys:ilist}
+  (pf: INTERCHANGE (xs, i, j, ys)): PERMUTE (xs, ys)
+// end of [lemma_interchange_permute]
+
+(* ****** ****** *)
 
 absprop LTB
   (x: int, xs: ilist) // [x] is a strict lower bound for [xs]
@@ -466,41 +501,6 @@ dataprop ISORD (ilist) =
   | {x:int} {xs:ilist}
     ISORDcons (ilist_cons (x, xs)) of (ISORD xs, LTEB (x, xs))
 // end of [ISORD]
-
-(* ****** ****** *)
-//
-// PERMUTE (xs, ys):
-// [ys] is a permutation of [xs]
-//
-absprop
-PERMUTE (xs1:ilist, xs2:ilist)
-
-prfun permute_refl {xs:ilist} (): PERMUTE (xs, xs)
-prfun permute_symm
-  {xs1,xs2:ilist} (pf: PERMUTE (xs1, xs2)): PERMUTE (xs2, xs1)
-prfun permute_trans {xs1,xs2,xs3:ilist}
-  (pf1: PERMUTE (xs1, xs2), pf2: PERMUTE (xs2, xs3)): PERMUTE (xs1, xs3)
-
-(* ****** ****** *)
-
-prfun lemma_permute_length
-  {xs1,xs2:ilist} {n:nat}
-  (pf1: PERMUTE (xs1, xs2), pf2: LENGTH (xs1, n)): LENGTH (xs2, n)
-// end of [lemma_permute_length]
-
-(* ****** ****** *)
-
-prfun lemma_permute_insert
-  {x:int} {xs:ilist} {ys:ilist}
-  (pf: PERMUTE (ilist_cons (x, xs), ys)): [ys1:ilist;i:nat] INSERT (x, ys1, i, ys)
-// end of [lemma_permute_insert]
-
-(* ****** ****** *)
-
-prfun lemma_interchange_permute
-  {xs:ilist}{i,j:int}{ys:ilist}
-  (pf: INTERCHANGE (xs, i, j, ys)): PERMUTE (xs, ys)
-// end of [lemma_interchange_permute]
 
 (* ****** ****** *)
 

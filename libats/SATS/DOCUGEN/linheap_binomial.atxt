@@ -17,7 +17,8 @@ ATSLIB/libats/linheap_binomial\
 
 This package implements a linear heap based on the binomial-heap
 structure. The implementation is largely of functional style (with manual
-memory management) and it does not support the decrease-key operation. \
+memory management) and supports only mergeable-heap operations. In
+particular, it does not support the decrease-key operation. \
 
 ")
 

@@ -63,6 +63,10 @@ operation. ")
 
 (* ****** ****** *)
 
+#declnamesynop("append_sing")
+
+(* ****** ****** *)
+
 #declnamesynop("lemma_append_length")
 #decldescrpt("\
 
@@ -70,7 +74,11 @@ Given two sequences xs1 and xs2, this function proves that the length of
 the concatenation of xs1 and xs2 equals the length of xs1 plus
 the length of xs2.  ")
 
+(* ****** ****** *)
+
 #declnamesynop("lemma_append_snoc")
+
+(* ****** ****** *)
 
 #declnamesynop("lemma_append_assoc")
 #decldescrpt("\
@@ -80,10 +88,14 @@ associative.")
 
 (* ****** ****** *)
 
-#declnamesynop("lemma_reverse_symm")
-#decldescrpt("\
+#declnamesynop("REVAPP")
 
-This function proves that the #dyncode("REVERSE") relation is symmetric. ")
+#declnamesynop("revapp_istot")
+#declnamesynop("revapp_isfun")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_revapp_length")
 
 (* ****** ****** *)
 
@@ -94,9 +106,63 @@ This function proves that the #dyncode("REVERSE") relation is symmetric. ")
 
 (* ****** ****** *)
 
+#declnamesynop("lemma_nth_ilisteq")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma1_revapp_nth")
+#declnamesynop("lemma2_revapp_nth")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_reverse_nth")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_reverse_symm")
+#decldescrpt("\
+
+This function proves that the #dyncode("REVERSE") relation is symmetric. ")
+
+(* ****** ****** *)
+
 #declnamesynop("INSERT")
+
+(* ****** ****** *)
+
 #declnamesynop("lemma_insert_length")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_insert_nth_at")
+#declnamesynop("lemma_insert_nth_lt")
+#declnamesynop("lemma_insert_nth_gte")
+
+(* ****** ****** *)
+
 #declnamesynop("lemma_nth_insert")
+
+(* ****** ****** *)
+
+#declnamesynop("UPDATE")
+
+(* ****** ****** *)
+
+#declnamesynop("INTERCHANGE")
+
+(* ****** ****** *)
+
+#declnamesynop("PERMUTE")
+
+(* ****** ****** *)
+
+#declnamesynop("LTB")
+#declnamesynop("LTEB")
+#declnamesynop("ISORD")
+
+(* ****** ****** *)
+
+#declnamesynop("SORT")
 
 (* ****** ****** *)
 
