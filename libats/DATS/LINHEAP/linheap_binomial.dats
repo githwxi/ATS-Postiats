@@ -97,11 +97,53 @@ datavtype bheap (
 fun{
 a:vt0p
 } btree_rank
-  {n:nat} .<>. (
+  {n:int} .<>. (
   bt: !btree (a, n)
 ) :<> int (n) = let
   val btnode (n, _, _) = bt in n
 end // end of [btree_rank]
+
+(* ****** ****** *)
+
+local
+
+extern
+fun pow2 {n:nat}
+  (n: int n):<> [p:int] (EXP2 (n, p) | size_t p)
+// end of [pow2]
+
+in // in of [local]
+
+fun{
+a:vt0p
+} btree_size
+  {n:int} .<>. (
+  bt: !btree (a, n)
+) :<> [p:int] (
+  EXP2 (n, p) | size_t (p)
+) = let
+  val btnode (n, _, _) = bt in pow2 (n)
+end // end of [btree_size]
+
+end // end of [local]
+
+fun{
+a:vt0p
+} bheap_size
+  {n:int}{sz:int} (
+  hp: !bheap (a, n, sz)
+) : size_t (sz) = let
+in
+  case+ hp of
+  | bheap_cons
+      (pf | bt, hp) => let
+      val (pf2 | p) = btree_size (bt)
+      prval () = exp2_isfun (pf, pf2)
+    in
+      p + bheap_size (hp)
+    end // end of [bheap_cons]
+  | bheap_nil () => g1int2uint (0)
+end // end of [bheap_size]
 
 (* ****** ****** *)
 
@@ -159,7 +201,7 @@ end // end of [btree_btree_merge]
 
 fun{a:vt0p}
 btree_bheap_merge
-  {sz:nat}{n,n1:nat | n <= n1}{p:int} .<sz>. (
+  {n,n1:nat | n <= n1}{sz:nat}{p:int} .<sz>. (
   pf: EXP2 (n, p)
 | bt: btree (a, n), n: int (n), hp: bheap (a, n1, sz)
 ) :<!wrt> [n2:int | n2 >= min(n, n1)] bheap (a, n2, sz+p) =
@@ -419,6 +461,11 @@ linheap_isnot_nil (hp) =
 (* ****** ****** *)
 
 implement{a}
+linheap_size (hp) = bheap_size<a> (hp)
+
+(* ****** ****** *)
+
+implement{a}
 linheap_insert
   (hp, x0) = let
   val bt = btnode (0, x0, btlst_nil ())
@@ -562,7 +609,7 @@ end // end of [linheap_free]
 (* ****** ****** *)
 
 implement{a}
-linheap_free_vt
+linheap_free_ifnil
   (hp) = let
   viewtypedef hp = heap (a)
 in
