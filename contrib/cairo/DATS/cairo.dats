@@ -35,6 +35,7 @@
 (* ****** ****** *)
 
 staload "cairo/SATS/cairo.sats"
+staload "cairo/SATS/cairo_extrats.sats"
 
 (* ****** ****** *)
 
@@ -72,6 +73,28 @@ cairo_get1_group_target (ctx) = let
 in
   xrsf1
 end // end of [cairo_get1_group_target]
+
+(* ****** ****** *)
+
+implement
+cairo_set_source_rgb_arr (ctx, A) =
+  cairo_set_source_rgb (ctx, A.[0], A.[1], A.[2])
+// end of [cairo_set_source_rgb_arr]
+implement
+cairo_set_source_rgb_vec (ctx, rgb) =
+  cairo_set_source_rgb (ctx, rgb.red, rgb.green, rgb.blue)
+// end of [cairo_set_source_rgb_vec]
+
+(* ****** ****** *)
+
+implement
+cairo_set_source_rgba_arr (ctx, A) =
+  cairo_set_source_rgba (ctx, A.[0], A.[1], A.[2], A.[3])
+// end of [cairo_set_source_rgba_arr]
+implement
+cairo_set_source_rgba_vec (ctx, rgba) =
+  cairo_set_source_rgba (ctx, rgba.red, rgba.green, rgba.blue, rgba.alpha)
+// end of [cairo_set_source_rgba_vec]
 
 (* ****** ****** *)
 
