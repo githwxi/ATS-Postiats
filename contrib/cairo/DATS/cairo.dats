@@ -35,7 +35,6 @@
 (* ****** ****** *)
 
 staload "cairo/SATS/cairo.sats"
-staload "cairo/SATS/cairo_extrats.sats"
 
 (* ****** ****** *)
 

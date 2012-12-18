@@ -134,6 +134,12 @@ fun cairo_set_source_rgb (
   ctx: !xr1, r: double, g: double, b: double
 ) : void = "mac#atsctrb_cairo_set_source_rgb" // end of [cairo_set_source_rgb]
 
+fun cairo_set_source_rgb_arr
+  {n:int | n >= 3} (ctx: !xr1, rgb: &(@[double][n])): void // for convenience
+fun cairo_set_source_rgb_vec (ctx: !xr1, rgb: &rgb): void // for convenience
+
+(* ****** ****** *)
+
 /*
 void                cairo_set_source_rgba               (cairo_t *cr,
                                                          double red,
@@ -144,6 +150,12 @@ void                cairo_set_source_rgba               (cairo_t *cr,
 fun cairo_set_source_rgba (
   ctx: !xr1, r: double, g: double, b: double, alpha: double
 ) : void = "mac#atsctrb_cairo_set_source_rgba" // end of [cairo_set_source_rgba]
+
+fun cairo_set_source_rgba_arr
+  {n:int | n >= 4} (ctx: !xr1, rgb: &(@[double][n])): void // for convenience
+fun cairo_set_source_rgba_vec (ctx: !xr1, rgba: &rgba): void // for convenience
+
+(* ****** ****** *)
 
 /*
 void                cairo_set_source                    (cairo_t *cr,

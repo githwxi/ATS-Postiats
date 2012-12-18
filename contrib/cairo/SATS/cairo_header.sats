@@ -40,6 +40,18 @@
 
 (* ****** ****** *)
 //
+// HX: for convenience
+//
+typedef rgb_type =
+  @{red= double, green= double, blue= double}
+typedef rgb = rgb_type
+
+typedef rgba_type =
+  @{red= double, green= double, blue= double, alpha= double}
+typedef rgba = rgba_type
+
+(* ****** ****** *)
+//
 // API for cairo in ATS // this one is based on cairo-1.12
 //
 (* ****** ****** *)

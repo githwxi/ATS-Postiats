@@ -47,8 +47,21 @@ ATSLIB/contrib/cairo/Drawing/cairo-cairo-t\
 (* ****** ****** *)
 
 #declnamesynop("cairo_set_source")
+
+(* ****** ****** *)
+
 #declnamesynop("cairo_set_source_rgb")
+#declnamesynop("cairo_set_source_rgb_arr")
+#declnamesynop("cairo_set_source_rgb_vec")
+
+(* ****** ****** *)
+
 #declnamesynop("cairo_set_source_rgba")
+#declnamesynop("cairo_set_source_rgba_arr")
+#declnamesynop("cairo_set_source_rgba_vec")
+
+(* ****** ****** *)
+
 #declnamesynop("cairo_set_source_surface")
 
 (* ****** ****** *)
