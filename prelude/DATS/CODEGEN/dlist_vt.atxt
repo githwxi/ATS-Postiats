@@ -25,6 +25,11 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_start_time("Feburary, 2012")
 
 #atscode_separator()
+//
+// HX-2012-12:
+// this style implementation is largely an experiment
+//
+#atscode_separator()
 
 staload
 UN = "prelude/SATS/unsafe.sats"

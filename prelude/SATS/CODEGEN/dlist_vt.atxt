@@ -254,6 +254,11 @@ rdlist_vt_append
 fun{a:t0p}
 dlist_vt_free {r:int} (xs: dlist_vt (INV(a), 0, r)):<!wrt> void
 
+fun{x:vt0p}
+dlist_vt_freelin$clear (x: &x >> x?):<!wrt> void
+fun{a:vt0p}
+dlist_vt_freelin {r:int} (xs: dlist_vt (INV(a), 0, r)):<!wrt> void
+
 #atscode_separator()
 
 fun{

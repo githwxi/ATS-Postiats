@@ -78,6 +78,7 @@ ATS and vice versa.  ')
 (* ****** ****** *)
 
 #declnamesynop("dlist_vt_getref_elt")
+#declnamesynop("dlist_vt_getref_prev")
 #declnamesynop("dlist_vt_getref_next")
 
 (* ****** ****** *)
@@ -119,6 +120,8 @@ ATS and vice versa.  ')
 (* ****** ****** *)
 
 #declnamesynop("dlist_vt_free")
+#declnamesynop("dlist_vt_freelin$clear")
+#declnamesynop("dlist_vt_freelin")
 
 (* ****** ****** *)
 
