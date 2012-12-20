@@ -438,14 +438,13 @@ heap_viewtype
 
 (* ****** ****** *)
 
-implement{}
-linheap_nil {a} () = bheap_nil {a}{0} ()
+implement{a}
+linheap_nil () = bheap_nil {a}{0} ()
 
 (* ****** ****** *)
 
-implement
-linheap_is_nil
-  (hp) = let
+implement{a}
+linheap_is_nil (hp) = let
 in
 //
 case+ hp of
@@ -453,10 +452,14 @@ case+ hp of
 //
 end // end of [linheap_is_nil]
 
-implement
-linheap_isnot_nil (hp) =
-  if linheap_is_nil (hp) then false else true
-// end of [linheap_isnot_nil]
+implement{a}
+linheap_isnot_nil (hp) = let
+in
+//
+case+ hp of
+| bheap_cons (_ | _, _) => true | bheap_nil () => false
+//
+end // end of [linheap_is_cons]
 
 (* ****** ****** *)
 

@@ -78,7 +78,7 @@ prfun lemma_deque_param
 
 (* ****** ****** *)
 
-fun{} fundeque_nil {a:t0p} ():<> deque (a, 0)
+fun{a:t0p} fundeque_nil ():<> deque (a, 0)
 
 (* ****** ****** *)
 
@@ -106,12 +106,12 @@ fundeque_unsnoc{n:pos}
 
 (* ****** ****** *)
 
-fun{} fundeque_is_nil
-  {a:t0p}{n:nat} (xt: deque (INV(a), n)): bool (n==0)
+fun{a:t0p} fundeque_is_nil
+  {n:nat} (xt: deque (INV(a), n)): bool (n==0)
 // end of [fundeque_is_nil]
 
-fun{} fundeque_is_cons
-  {a:t0p}{n:nat} (xt: deque (INV(a), n)): bool (n > 0)
+fun{a:t0p} fundeque_is_cons
+  {n:nat} (xt: deque (INV(a), n)): bool (n > 0)
 // end of [fundeque_is_cons]
 
 (* ****** ****** *)

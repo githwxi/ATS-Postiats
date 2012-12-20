@@ -59,8 +59,8 @@ prfun lemma_ralist_param
 
 (* ****** ****** *)
 
-fun{}
-funralist_nil {a:t0p} ():<> ralist (a, 0)
+fun{a:t0p}
+funralist_nil ():<> ralist (a, 0)
 
 (* ****** ****** *)
 
@@ -76,14 +76,14 @@ funralist_uncons {n:pos}
 
 (* ****** ****** *)
 
-fun{}
+fun{a:t0p}
 funralist_is_nil
-  {a:t0p}{n:int} (xs: ralist (INV(a), n)):<> bool (n==0)
+  {n:int} (xs: ralist (INV(a), n)):<> bool (n==0)
 // end of [funralist_is_nil]
 
-fun{}
+fun{a:t0p}
 funralist_is_cons
-  {a:t0p}{n:int} (xs: ralist (INV(a), n)):<> bool (n > 0)
+  {n:int} (xs: ralist (INV(a), n)):<> bool (n > 0)
 // end of [funralist_is_cons]
 
 (* ****** ****** *)

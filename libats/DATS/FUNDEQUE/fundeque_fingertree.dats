@@ -491,7 +491,7 @@ lemma_deque_param (xs) = fingertree_prop1_sznat (xs)
 
 (* ****** ****** *)
 
-implement{} fundeque_nil () = FTemp ()
+implement{a} fundeque_nil () = FTemp ()
 
 (* ****** ****** *)
 
@@ -525,7 +525,7 @@ fundeque_unsnoc
 
 (* ****** ****** *)
 
-implement{}
+implement{a}
 fundeque_is_nil (xt) =
   case+ xt of
   | FTemp () => true
@@ -537,9 +537,9 @@ fundeque_is_nil (xt) =
     end // end of [FTdeep]
 // end of [fundeque_is_nil]
 
-implement{}
+implement{a}
 fundeque_is_cons (xt) = let
-  prval () = lemma_deque_param (xt) in ~fundeque_is_nil (xt)
+  prval () = lemma_deque_param (xt) in ~fundeque_is_nil<a> (xt)
 end // end of [fundeque_is_cons]
 
 (* ****** ****** *)

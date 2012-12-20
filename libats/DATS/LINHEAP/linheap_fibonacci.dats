@@ -107,10 +107,10 @@ node_getref_elt (nx: !node1 (INV(a))):<> Ptr1
 
 extern
 fun{a:vt0p}
-node_get_degree (nx: !node1 (INV(a))):<> int
+node_get_rank (nx: !node1 (INV(a))):<> int
 extern
 fun{a:vt0p}
-node_set_degree (nx: !node1 (INV(a)), d: int):<!wrt> void
+node_set_rank (nx: !node1 (INV(a)), d: int):<!wrt> void
 
 (* ****** ****** *)
 
@@ -158,7 +158,6 @@ node_set_children (nx: !node1 (INV(a)), nxs: nodelst0 (a)): void
 extern
 fun{a:vt0p}
 node_make_elt (x: a):<> node1 (a)
-
 extern
 fun{a:vt0p}
 node_free_elt (nx: node1 (a), res: &(a?) >> a): void
@@ -286,7 +285,7 @@ assume heap_viewtype (a:vt0p) = fibheap (a)
 
 (* ****** ****** *)
 
-implement
+implement{a}
 linheap_is_nil (hp) = let
 in
 case+ hp of
@@ -294,7 +293,7 @@ case+ hp of
 //
 end // end of [linheap_is_nil]
 
-implement
+implement{a}
 linheap_isnot_nil (hp) = let
 in
 case+ hp of

@@ -61,12 +61,12 @@ compare_elt_elt (x1: &a, x2: &a):<> int
 
 (* ****** ****** *)
 
-fun{} linheap_make_nil {a:vt0p} ():<> heap (a)
+fun{a:vt0p} linheap_make_nil ():<> heap (a)
 
 (* ****** ****** *)
 
-fun linheap_is_nil {a:vt0p} (hp: !heap (a)):<> bool
-fun linheap_isnot_nil {a:vt0p} (hp: !heap (a)):<> bool
+fun{a:vt0p} linheap_is_nil (hp: !heap (a)):<> bool
+fun{a:vt0p} linheap_isnot_nil (hp: !heap (a)):<> bool
 
 (* ****** ****** *)
 

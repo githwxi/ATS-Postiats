@@ -62,8 +62,8 @@ assume ralist_t0ype_int_type = ra0list
 
 (* ****** ****** *)
 
-implement{}
-funralist_nil{a} () = RAnil{a}{0} ()
+implement{a}
+funralist_nil () = RAnil{a}{0} ()
 
 (* ****** ****** *)
 
@@ -135,13 +135,13 @@ end // end of [funralist_uncons]
 
 (* ****** ****** *)
 
-implement{}
-funralist_is_nil{a} (xs) =
+implement{a}
+funralist_is_nil (xs) =
   case+ xs of RAnil () => true | _ =>> false
 // end of [funralist_is_nil]
 
-implement{}
-funralist_is_cons{a} (xs) =
+implement{a}
+funralist_is_cons (xs) =
   case+ xs of RAnil () => false | _ =>> true
 // end of [funralist_is_cons]
 
