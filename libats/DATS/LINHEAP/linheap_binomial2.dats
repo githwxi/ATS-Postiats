@@ -8,7 +8,7 @@
 
 (*
 ** ATS - Unleashing the Potential of Types!
-** Copyright (C) 2002-2011 Hongwei Xi, Boston University
+** Copyright (C) 2002-2012 Hongwei Xi, Boston University
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
@@ -31,7 +31,7 @@
 
 (* Author: Hongwei Xi *)
 (* Authoremail: hwxi AT cs DOT bu DOT edu *)
-(* Start time: November, 2011 *)
+(* Start time: December, 2012 *)
 
 (* ****** ****** *)
 //
