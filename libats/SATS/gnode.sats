@@ -62,6 +62,10 @@ castfn gnode2ptr {a:vt0p}{l:addr} (nx: gnode (a, l)):<> ptr (l)
 
 (* ****** ****** *)
 
+fun{a:vt0p} gnode_null ():<> gnode (a, null)
+
+(* ****** ****** *)
+
 fun{a:vt0p}
 gnode_is_null
   {l:addr} (nx: gnode (a, l)):<> bool (l==null)
@@ -101,6 +105,35 @@ fun{a:vt0p}
 gnode_get_children (nx: gnode1 (a)):<> gnode0 (a)
 fun{a:vt0p}
 gnode_set_children (nx: gnode1 (a), nx2: gnode (a)):<!wrt> void
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+gnode_link (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> void
+fun{a:vt0p}
+gnode_link00 (nx1: gnode0 (a), nx2: gnode0 (a)):<!wrt> void
+fun{a:vt0p}
+gnode_link01 (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> void
+fun{a:vt0p}
+gnode_link10 (nx1: gnode1 (a), nx2: gnode0 (a)):<!wrt> void
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+gnode_prev_null (nx: gnode1 (a)):<!wrt> void
+
+fun{a:vt0p}
+gnode_next_null (nx: gnode1 (a)):<!wrt> void
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+gnode_reverse (nx: gnode1 (a)):<!wrt> gnode1 (a)
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+gnode_slink (nx1: gnode1 (a), nx2: gnode0 (a)):<!wrt> void
 
 (* ****** ****** *)
 

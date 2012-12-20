@@ -41,6 +41,65 @@ staload "libats/SATS/gnode.sats"
 (* ****** ****** *)
 
 implement{a}
+gnode_prev_null
+  (nx) = gnode_set_prev (nx, gnode_null ())
+// end of [gnode_prev_null]
+
+implement{a}
+gnode_next_null
+  (nx) = gnode_set_next (nx, gnode_null ())
+// end of [gnode_next_null]
+
+(* ****** ****** *)
+
+implement{a}
+gnode_reverse (nx) = let
+//
+fun loop (
+  nx: gnode (a), res: gnode1 (a)
+) : gnode1 (a) = let
+  val isnot = gnode_isnot_null (nx)
+in
+//
+if isnot then let
+  val nx_next =
+    gnode_get_next (nx)
+  // end of [val]
+  val () = gnode_link (nx, res)
+in
+  loop (nx_next, nx)
+end else let
+  val () = gnode_prev_null (res) in res
+end // end of [if]
+//
+end // end of [loop]
+//
+val isnot = gnode_isnot_null (nx)
+//
+in
+//
+if isnot then let
+  val nx_next =
+    gnode_get_next (nx)
+  val () = gnode_next_null (nx)
+in
+  $effmask_all (loop (nx_next, nx))
+end else
+  gnode_null () // nx = null
+// end of [if]
+//
+end // end of [gnode_reverse]
+
+(* ****** ****** *)
+
+implement{a}
+gnode_slink
+  (nx1, nx2) = gnode_set_next (nx1, nx2)
+// end of [gnode_slink]
+
+(* ****** ****** *)
+
+implement{a}
 gnode_dlink
   (nx1, nx2) = let
   val () = gnode_set_next (nx1, nx2)
