@@ -113,7 +113,7 @@ gnode_link (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> void
 fun{a:vt0p}
 gnode_link00 (nx1: gnode0 (a), nx2: gnode0 (a)):<!wrt> void
 fun{a:vt0p}
-gnode_link01 (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> void
+gnode_link01 (nx1: gnode0 (a), nx2: gnode1 (a)):<!wrt> void
 fun{a:vt0p}
 gnode_link10 (nx1: gnode1 (a), nx2: gnode0 (a)):<!wrt> void
 

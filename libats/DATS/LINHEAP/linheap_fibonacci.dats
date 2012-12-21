@@ -98,7 +98,7 @@ castfn nodelst2node1 {a:vt0p} (nx: nodelst1 (INV(a))):<> node1 (a)
 
 extern
 fun{a:t0p}
-node_getref_elt (nx: !node1 (INV(a))):<> a
+node_get_elt (nx: !node1 (INV(a))):<> a
 extern
 fun{a:vt0p}
 node_getref_elt (nx: !node1 (INV(a))):<> Ptr1
