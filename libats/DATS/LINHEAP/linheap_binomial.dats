@@ -63,6 +63,14 @@ staload "libats/SATS/linheap_binomial.sats"
 
 (* ****** ****** *)
 //
+// HX-2012-12-21:
+// the file should be included here
+// before [heap_viewtype] is assumed
+//
+#include "./linheap_share.hats" // in current dir
+//
+(* ****** ****** *)
+//
 // binomial trees:
 // btree(a, n) is for a binomial tree of rank(n)
 //
@@ -470,37 +478,13 @@ linheap_size (hp) = bheap_size<a> (hp)
 
 implement{a}
 linheap_insert
-  (hp, x0) = let
-  val bt = btnode (0, x0, btlst_nil ())
-in
-  hp := btree_bheap_merge (EXP2bas () | bt, 0, hp)
+  (hp0, x0) = let
+  val bt = btnode (0, x0, btlst_nil ()) in
+  hp0 := btree_bheap_merge (EXP2bas () | bt, 0, hp0)
 end // end of [linheap_insert]
 
 (* ****** ****** *)
 
-implement{a}
-linheap_getmin
-  (hp0, res) = let
-  val p_min = linheap_getmin_ref (hp0)
-in
-//
-if p_min > nullp then let
-  prval (pf, fpf) = __assert (p_min) where {
-    extern praxi __assert
-      {l:addr} (p: ptr l): (a @ l, a @ l -<lin,prf> void)
-    // end of [extern]
-  } // end of [prval]
-  val () = res := !p_min
-  prval () = fpf (pf)
-  prval () = opt_some {a} (res) in true
-end else let
-  prval () = opt_none {a} (res) in false
-end // end of [if]
-//
-end // end of [linheap_getmin]
-
-(* ****** ****** *)
-  
 implement{a}
 linheap_getmin_ref (hp0) = let
 (*
@@ -521,23 +505,6 @@ end // end of [linheap_getmin_ref]
 
 (* ****** ****** *)
 
-implement{a}
-linheap_getmin_opt
-  (hp0) = let
-  var res: a? // unintialized
-  val b = linheap_getmin (hp0, res)
-in
-//
-if b then let
-  prval () = opt_unsome {a} (res) in Some_vt (res)
-end else let
-  prval () = opt_unnone {a} (res) in None_vt ()
-end // end of [if]
-//
-end // end of [linheap_getmin_opt]
-
-(* ****** ****** *)
-
 local
 
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
@@ -546,7 +513,7 @@ in // in of [local]
 
 implement{a}
 linheap_delmin
-  (hp, res) = let
+  (hp0, res) = let
 (*
 val () = (
   print ("linheap_delmin: enter"); print_newline ()
@@ -554,11 +521,11 @@ val () = (
 *)
 in
 //
-case+ hp of
+case+ hp0 of
 | bheap_cons
     (pf0 | _, _) => let
     prval () = exp2_ispos (pf0)
-    val (_(*pf*) | btmin) = bheap_remove (hp)
+    val (_(*pf*) | btmin) = bheap_remove (hp0)
     val ~btnode (_, x, bts) = btmin
     val () = res := x
     prval () = opt_some {a} (res)
@@ -574,7 +541,7 @@ case+ hp of
       // end of [loop]
       val hp1 = loop (bts, bheap_nil)
     } // end of [val]
-    val () = hp := bheap_bheap_merge (hp, hp1)
+    val () = hp0 := bheap_bheap_merge (hp0, hp1)
   in
     true
   end // end of [bheap_cons]
@@ -597,10 +564,10 @@ linheap_merge
 (* ****** ****** *)
 
 implement{a}
-linheap_free (hp) = let
+linheap_free (hp0) = let
 in
 //
-case+ hp of
+case+ hp0 of
 | ~bheap_cons
     (_ | bt, hp) => let
     val () = btree_free (bt) in linheap_free (hp)
@@ -613,23 +580,23 @@ end // end of [linheap_free]
 
 implement{a}
 linheap_free_ifnil
-  (hp) = let
+  (hp0) = let
   viewtypedef hp = heap (a)
 in
 //
-case+ hp of
+case+ hp0 of
 | bheap_cons
     (_ | _, _) => let
-    prval () = opt_some {hp} (hp) in true
+    prval () = opt_some {hp} (hp0) in true
   end // end of [bheap_cons]
 | bheap_nil () => let
     prval () =
-      __assert (hp) where {
+      __assert (hp0) where {
       extern fun __assert
         {n:int} (hp: !bheap (a, n, 0) >> ptr):<> void
       // end of [extern]
     } // end of [prval]
-    prval () = opt_none {hp} (hp) in false
+    prval () = opt_none {hp} (hp0) in false
   end // end of [bheap_nil]
 //
 end // end of [linheap_free_vt]

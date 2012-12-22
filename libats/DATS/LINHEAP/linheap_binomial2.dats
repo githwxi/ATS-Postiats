@@ -50,7 +50,12 @@
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload "libats/SATS/gnode.sats"
 
 (* ****** ****** *)
 
@@ -61,212 +66,197 @@ staload "libats/SATS/linheap_binomial.sats"
 #define nullp the_null_ptr
 
 (* ****** ****** *)
-
-abstype node (a:viewt@ype+, l:addr)
-typedef node0 (a: vt0p) = [l:addr | l >= null] node (a, l)
-typedef node1 (a: vt0p) = [l:addr | l >  null] node (a, l)
-
-(* ****** ****** *)
-
-extern
-fun{a:vt0p} node_nil (): node (a, null)
-
-extern
-fun{a:vt0p}
-node_make_elt (x: a):<> node1 (a)
-extern
-fun{a:vt0p}
-node_free_elt (nx: node1 (a), res: &(a?) >> a): void
-
-(* ****** ****** *)
-
-extern
-castfn
-node2ptr {a:vt0p}{l:addr} (nx: node (a, l)):<> ptr l
-
-(* ****** ****** *)
-
-abstype nodelst (a:viewt@ype+, n:int)
-typedef nodelst0 (a: vt0p) = [n:nat] nodelst (a, n)
-typedef nodelst1 (a: vt0p) = [n:int | n > 0] nodelst (a, n)
-
-(* ****** ****** *)
-
-extern
-fun{a:vt0p}
-node_getref_elt (nx: node1 (a)):<> Ptr1
-
-extern
-fun{a:vt0p}
-node_get_rank (nx: node1 (a)):<> int
-extern
-fun{a:vt0p}
-node_set_rank (nx: node1 (a), r: int):<!wrt> void
-
-extern
-fun{a:vt0p}
-node_get_parent (nx: node1 (a)):<> node0 (a)
-extern
-fun{a:vt0p}
-node_set_parent (nx: node1 (a), par: node0 (a)):<!wrt> void
-
-extern
-fun{a:vt0p}
-node_get_children (nx: node1 (a)):<> nodelst0 (a)
-extern
-fun{a:vt0p}
-node_set_children (nx: node1 (a), nxs: nodelst0 (a)):<!wrt> void
-
-extern
-fun{a:vt0p}
-node_get_children2
-  (nx: node1 (a), n: &int? >> int n):<!wrt> #[n:nat] nodelst (a, n)
-// end of [node_get_children2]
-
-(* ****** ****** *)
-
-extern
-fun{a:vt0p}
-nodelst_nil ():<> nodelst (a, 0)
-
-extern
-fun{a:vt0p}
-nodelst_cons {n:nat} (
-  nx1: node1 (a), nxs2: nodelst (a, n)
-) :<> nodelst (a, n+1) // endfun
-
-extern
-fun{a:vt0p}
-nodelst_uncons
-  {n:int | n > 0} (
-  xs: &nodelst (a, n) >> nodelst (a, n-1)
-) : node1 (a) // end of [nodelst_uncons]
-
-(* ****** ****** *)
-
-extern
-fun{a:vt0p}
-nodelst_sing_elt (x0: a):<> nodelst (a, 1)
-implement{a}
-nodelst_sing_elt (x0) = let
-  val nx = node_make_elt<a> (x0) in nodelst_cons (nx, nodelst_nil ())
-end  // end of [nodelst_sing_elt]
-
-(* ****** ****** *)
-
-extern
-castfn
-nodelst_is_nil {a:vt0p}{n:nat} (xs: nodelst (a, n)):<> bool (n==0)
-extern
-castfn
-nodelst_is_cons {a:vt0p}{n:nat} (xs: nodelst (a, n)):<> bool (n > 0)
-
-(* ****** ****** *)
-
-extern
-castfn
-node2nodelst0 {a:vt0p} (nx: node0 (a)):<> nodelst0 (a)
-
-extern
-castfn
-nodelst2node1 {a:vt0p} (nxs: nodelst1 (a)):<> node1 (a)
-
-(* ****** ****** *)
-
-extern
-fun{a:vt0p}
-nodelst_revapp
-  {m,n:nat} (
-  xs: nodelst (a, m), ys: nodelst (a, n)
-) : nodelst (a, m+n) // endfun
-implement{a}
-nodelst_revapp
-  (xs, ys) = let
-in
 //
-if nodelst_is_cons (xs) then let
-  var xs = xs
-  val x = nodelst_uncons (xs)
-in
-  nodelst_revapp (xs, nodelst_cons (x, ys))
-end else ys // end of [if]
+// HX-2012-12-21:
+// the file should be included here
+// before [heap_viewtype] is assumed
 //
-end // end of [nodelst_revapp]
+#include "./linheap_share.hats" // in current dir
+//
+(* ****** ****** *)
 
-extern
-fun{a:vt0p}
-nodelst_reverse
-  {n:nat} (xs: nodelst (a, n)): nodelst (a, n)
-implement{a}
-nodelst_reverse (xs) = nodelst_revapp (xs, nodelst_nil ())
+macdef assertloc_debug (x) = ()
 
 (* ****** ****** *)
 
 extern
 fun{a:vt0p}
-compare_node_node
-  (nx1: node1 (a), nx2: node1 (a)):<> int
+gnode_get_rank (nx: gnode1 (a)):<> int
+extern
+fun{a:vt0p}
+gnode_set_rank (nx: gnode1 (a), r: int):<!wrt> void
+
+(* ****** ****** *)
+
+extern
+fun{a:vt0p}
+gnode_compare
+  (nx1: gnode1 (a), nx2: gnode1 (a)):<> int
 implement{a}
-compare_node_node
+gnode_compare
   (nx1, nx2) = sgn where {
-  val p_x1 = node_getref_elt (nx1)
+  val p_x1 = gnode_getref_elt (nx1)
   prval (pf1, fpf1) = $UN.ptr_vtake {a} (p_x1)
-  val p_x2 = node_getref_elt (nx2)
+  val p_x2 = gnode_getref_elt (nx2)
   prval (pf2, fpf2) = $UN.ptr_vtake {a} (p_x2)
   val sgn = compare_elt_elt<a> (!p_x1, !p_x2)
   prval () = fpf1 (pf1) and () = fpf2 (pf2)
-} // end of [compare_node_node]
+} // end of [gnode_compare]
+
+extern
+fun{a:vt0p}
+gnode_compare01
+  (nx1: gnode0 (a), nx2: gnode1 (a)):<> int
+implement{a}
+gnode_compare01
+  (nx1, nx2) =
+  if gnode_isnot_null (nx1) then gnode_compare (nx1, nx2) else 1
+// end of [gnode_compare01]
+
+extern
+fun{a:vt0p}
+gnode_compare10
+  (nx1: gnode1 (a), nx2: gnode0 (a)):<> int
+implement{a}
+gnode_compare10
+  (nx1, nx2) =
+  if gnode_isnot_null (nx2) then gnode_compare (nx1, nx2) else ~1
+// end of [gnode_compare10]
 
 (* ****** ****** *)
 
 extern
 fun{a:vt0p}
-join_node_node (nx1: node1 (a), nx2: node1 (a)):<!wrt> void
-
+join_gnode_gnode
+  (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> void
 implement{a}
-join_node_node (nx1, nx2) = let
-  var r: int
-  val nxs1 =
-    node_get_children2 (nx1, r)
-  // end of [val]
-  val () = node_set_rank (nx1, r+1)
-  val () = node_set_parent (nx2, nx1)
-  val () = node_set_children (nx1, nodelst_cons (nx2, nxs1))
+join_gnode_gnode
+  (nx1, nx2) = let
+  val r = gnode_get_rank (nx1)
+(*
+  val () = assertloc_debug (r = gnode_get_rank (nx2))
+*)
+  val () = gnode_set_rank (nx1, r+1)
+  val () = gnode_set_parent (nx2, nx1)
+  val () = gnode_link10 (nx2, gnode_get_children (nx1))
+  val () = gnode_set_children (nx1, nx2)
 in
   // nothing
-end // end of [join_node_node]
+end // end of [join_gnode_gnode]
 
 (* ****** ****** *)
+
+local
 
 extern
 fun{a:vt0p}
-merge_nodelst_nodelst
-  (nxs1: nodelst0 (a), nxs2: nodelst0 (a)):<!wrt> nodelst0 (a)
-// end of [merge_nodelst_nodelst]
+merge_gnode_gnodelst
+  (nx1: gnode1 (a), nxs2: gnode0 (a)):<!wrt> gnode1 (a)
+implement{a}
+merge_gnode_gnodelst
+  (nx1, nxs2) = let
+  val sgn = gnode_compare10 (nx1, nxs2)
+in
+//
+if sgn < 0 then
+  gnode_cons (nx1, nxs2)
+else let // sgn = 0
+  val nx2 =
+    $UN.cast{gnode1(a)} (nxs2)
+  val nxs2 = gnode_get_next (nx2)
+  val () = join_gnode_gnode (nx1, nx2)
+in
+  merge_gnode_gnodelst (nx1, nxs2)
+end // end of [if]
+//
+end // end of [merge_gnode_gnodelst]
+
+in // in of [local]
+
+(*
+** HX-2012-12:
+** pre-condition for merging_gnodelst_gnodelst:
+** both [nxs1] and [nxs2] are sorted ascendingly
+** according to ranks of binomial trees
+*)
+extern
+fun{a:vt0p}
+merge_gnodelst_gnodelst
+  (nxs1: gnode0 (a), nxs2: gnode0 (a)):<!wrt> gnode0 (a)
+implement{a}
+merge_gnodelst_gnodelst
+  (nxs1, nxs2) = let
+//
+fun loop (
+  nxs1: gnode0 (a), nxs2: gnode0 (a), res: Ptr1
+) : void = let
+in
+//
+if gnode_isnot_null (nxs1) then (
+  if gnode_isnot_null (nxs2) then let
+    val sgn = gnode_compare (nxs1, nxs2)
+  in
+    if sgn < 0 then let
+      val () =
+        $UN.ptr_set<gnode1(a)> (res, nxs1)
+      val res = gnode_getref_next (nxs1)
+      val nxs1 = $UN.ptr_get<gnode0(a)> (res)
+    in
+      loop (nxs1, nxs2, res)
+    end else if sgn > 0 then let
+      val () = 
+        $UN.ptr_set<gnode1(a)> (res, nxs2)
+      val res = gnode_getref_next (nxs2)
+      val nxs2 = $UN.ptr_get<gnode0(a)> (res)
+    in
+      loop (nxs1, nxs2, res)
+    end else let // sgn = 0
+      val nx1 = nxs1
+      val nxs1 = gnode_get_next (nx1)
+      val nx2 = nxs2
+      val nxs2 = gnode_get_next (nx2)
+      val () = join_gnode_gnode (nx1, nx2)
+      val nxs1 = merge_gnode_gnodelst (nx1, nxs1)
+    in
+      loop (nxs1, nxs2, res)
+    end // end of [if]
+  end else $UN.ptr_set<gnode0(a)> (res, nxs1)
+) else $UN.ptr_set<gnode0(a)> (res, nxs2)
+//
+end // end of [loop]
+//
+var res: gnode0(a)
+val () = $effmask_all (loop (nxs1, nxs2, addr@ (res)))
+//
+in
+  $UN.cast{gnode0(a)} (res)
+end // end of [merge_gnodelst_gnodelst]
+
+end // end of [local]
 
 (* ****** ****** *)
 
-assume heap_viewtype (a: vt0p) = nodelst0 (a)
+assume heap_viewtype (a: vt0p) = gnode0 (a)
 
 (* ****** ****** *)
 
-implement{a} linheap_nil () = nodelst_nil ()
+implement{a} linheap_nil () = gnode_null<a> ()
 
 (* ****** ****** *)
 
 implement{a}
-linheap_is_nil (hp) = nodelst_is_nil (hp)
+linheap_is_nil (hp) = gnode_is_nil (hp)
 implement{a}
-linheap_isnot_nil (hp) = nodelst_is_cons (hp)
+linheap_isnot_nil (hp) = gnode_is_cons (hp)
 
 (* ****** ****** *)
   
 implement{a}
 linheap_insert
-  (hp, x0) = let
-  val nxs = hp
-  val nxs2 = nodelst_sing_elt (x0)
-  val () = hp := merge_nodelst_nodelst (nxs, nxs2)
+  (hp0, x0) = let
+  val nxs = hp0
+  val nxs2 = gnode_make_elt (x0)
+  val () = hp0 := merge_gnodelst_gnodelst (nxs, nxs2)
 in
   // nothing
 end // end of [linheap_insert]
@@ -277,28 +267,146 @@ implement{a}
 linheap_getmin_ref (hp0) = let
 //
 fun loop (
-  nxs: &nodelst0 (a) >> _, nx0: node1 (a)
-) : node1 (a) = let
+  nxs: gnode0 (a), nx0: gnode0 (a)
+) : gnode0 (a) = let
+  val iscons = gnode_is_cons (nxs)
 in
 //
-if nodelst_is_cons (nxs) then let
-  val nx = nodelst_uncons (nxs)
-  val sgn = compare_node_node (nx, nx0)
+if iscons then let
+  val nx = nxs
+  val nxs = gnode_get_next (nx)
+  val sgn = gnode_compare01 (nx0, nx)
 in
-  if sgn < 0 then loop (nxs, nx) else loop (nxs, nx0)
+  if sgn <= 0 then loop (nxs, nx0) else loop (nxs, nx)
 end else nx0 // end of [if]
 //
 end // end of [loop]
 //
-var nxs: nodelst0 (a) = $UN.castvwtp1 {nodelst0(a)} (hp0)
+var nxs =
+  $UN.castvwtp1{gnode0(a)} (hp0)
+val nx_min = loop (nxs, gnode_null<a> ())
+//
+in
+  gnode2ptr (nx_min)
+end // end of [linheap_getmin_ref]
+
+(* ****** ****** *)
+
+local
+
+fun{a:vt0p}
+auxrev (
+  nxs: gnode (a)
+) : gnode0 (a) = let
+//
+fun loop (
+  nxs: gnode (a), res: gnode0 (a)
+) : gnode0 (a) = let
+  val isnot = gnode_isnot_null (nxs)
+in
+//
+if isnot then let
+  val nx = nxs
+  val () = gnode_set_parent_null (nx)
+  val nxs = gnode_get_next (nx)
+in
+  loop (nxs, gnode_cons (nx, res))
+end else res // end of [if]
+//
+end // end of [loop]
+//
+in
+  $effmask_all (loop (nxs, gnode_null<a> ()))
+end // end of [auxrev]
+
+in // end of [local]
+
+implement{a}
+linheap_delmin
+  (hp0, res) = let
+//
+fun loop (
+  nxs_ref: Ptr1, nx0_ref: Ptr1, nx0: gnode1 (a)
+) : gnode1 (a) = let
+  val nxs =
+    $UN.ptr_get<gnode0(a)> (nxs_ref)
+  val iscons = gnode_is_cons (nxs)
+in
+//
+if iscons then let
+  val nx = nxs
+  val nx_ref = nxs_ref
+  val nxs_ref = gnode_getref_next (nx)
+  val sgn = gnode_compare01 (nx0, nx)
+in
+  if sgn <= 0 then
+    loop (nxs_ref, nx0_ref, nx0) else loop (nxs_ref, nx_ref, nx)
+  // end of [if]
+end else let
+  val () = $UN.ptr_set<gnode0(a)> (nx0_ref, gnode_get_next (nx0))
+in
+  nx0
+end // end of [if]
+//
+end // end of [loop]
+//
+var nxs0 =
+  $UN.cast{gnode0(a)} (hp0)
+val iscons = gnode_is_cons (nxs0)
 //
 in
 //
-if nodelst_is_cons (nxs) then let
-  val nx = nodelst_uncons (nxs) in node2ptr (loop (nxs, nx))
-end else nullp // end of [if]
+if iscons then let
+  val nx0_ref = addr@ (nxs0)
+  val nx0 = nxs0
+  val nxs_ref = gnode_getref_next (nx0)
 //
-end // end of [linheap_getmin_ref]
+  val nx_min = loop (nxs_ref, nx0_ref, nx0)
+//
+  val nxs_min = gnode_get_children (nx_min)
+  val () = gnode_free_elt (nx_min, res)
+//
+  val nxs_min = auxrev (nxs_min)
+  val () = hp0 := merge_gnodelst_gnodelst (nxs0, nxs_min)
+//
+  prval () = opt_some {a} (res)
+//
+in
+  true
+end else let
+  prval () = opt_none {a} (res)
+in
+  false
+end // end of [if]
+//
+end // end of [linheap_delmin]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement{a}
+linheap_free (hp0) = let
+//
+fun loop (
+  nxs: gnode0 (a)
+) : void = let
+//
+val iscons = gnode_is_cons (nxs)
+//
+in
+  if iscons then let
+    val nx = nxs
+    val nxs = gnode_get_next (nx)
+    val () = gnode_free (nx)
+  in
+    loop (nxs)
+  end else () // end of [if]
+end // end of [loop]
+//
+in
+  $effmask_all (loop (hp0))
+end // end of [linheap_free]
 
 (* ****** ****** *)
 
