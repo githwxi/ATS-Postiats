@@ -184,46 +184,6 @@ end // end of [gnode_snoc]
 (* ****** ****** *)
 
 implement{a}
-gnodelst_reverse (nx) = let
-//
-fun loop (
-  nxs: gnode (a), res: gnode1 (a)
-) : gnode1 (a) = let
-  val isnot = gnode_isnot_null (nxs)
-in
-//
-if isnot then let
-  val nx = nxs
-  val nxs = gnode_get_next (nx)
-  val () = gnode_link (nx, res)
-in
-  loop (nxs, nx)
-end else let
-  val () = gnode_set_prev_null (res) in res
-end // end of [if]
-//
-end // end of [loop]
-//
-val isnot = gnode_isnot_null (nx)
-//
-in
-//
-if isnot then let
-  val nxs =
-    gnode_get_next (nx)
-  val () =
-    gnode_set_next_null (nx)
-in
-  $effmask_all (loop (nxs, nx))
-end else
-  gnode_null () // nx = null
-// end of [if]
-//
-end // end of [gnodelst_reverse]
-
-(* ****** ****** *)
-
-implement{a}
 gnode_insert_next
   (nx1, nx2) = let
   val nx1_next = gnode_get_next (nx1)
@@ -272,6 +232,71 @@ end // end of [of] // end of [val]
 in
   nx_prev
 end // end of [gnode_remove_prev]
+
+(* ****** ****** *)
+
+implement{a}
+gnodelst_length (nxs) = let
+//
+fun loop (
+  nxs: gnode0 (a), n: intGte(0)
+) : intGte(0) = let
+  val iscons = gnodelst_is_cons (nxs)
+in
+//
+if iscons then let
+  val nx = nxs
+  val nxs = gnode_get_next (nxs)
+in
+  loop (nxs, succ (n))
+end else n // end of [if]
+//
+end // end of [loop]
+//
+in
+  $effmask_all (loop (nxs, 0))
+end // end of [gnodelst_length]
+
+(* ****** ****** *)
+
+implement{a}
+gnodelst_reverse (nxs) = let
+//
+fun loop (
+  nxs: gnode (a), res: gnode1 (a)
+) : gnode1 (a) = let
+  val iscons = gnodelst_is_cons (nxs)
+in
+//
+if iscons then let
+  val nx = nxs
+  val nxs = gnode_get_next (nx)
+  val () = gnode_link (nx, res)
+in
+  loop (nxs, nx)
+end else let
+  val () = gnode_set_prev_null (res) in res
+end // end of [if]
+//
+end // end of [loop]
+//
+val iscons = gnodelst_is_cons (nxs)
+//
+in
+//
+if iscons then let
+  val nx = nxs
+  val nxs =
+    gnode_get_next (nx)
+  val () =
+    gnode_set_next_null (nx)
+in
+  $effmask_all (loop (nxs, nx))
+end else
+  gnode_null () // nx = null
+// end of [if]
+//
+end // end of [gnodelst_reverse]
 
 (* ****** ****** *)
 

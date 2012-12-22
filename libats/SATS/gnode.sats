@@ -90,13 +90,6 @@ gnode_isnot_null
 
 (* ****** ****** *)
 
-macdef
-gnode_is_nil (nxs) = gnode_is_null (,(nxs))
-macdef
-gnode_is_cons (nxs) = gnode_isnot_null (,(nxs))
-
-(* ****** ****** *)
-
 fun{a:vt0p}
 gnode_getref_elt (nx: gnode1 (a)):<> Ptr1
 
@@ -184,6 +177,16 @@ fun{a:vt0p}
 gnode_remove_next (nx: gnode1 (a)):<!wrt> gnode0 (a)
 
 (* ****** ****** *)
+
+macdef
+gnodelst_is_nil (nxs) = gnode_is_null (,(nxs))
+macdef
+gnodelst_is_cons (nxs) = gnode_isnot_null (,(nxs))
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+gnodelst_length (nx: gnode1 (a)):<!wrt> intGte(0)
 
 fun{a:vt0p}
 gnodelst_reverse (nx: gnode1 (a)):<!wrt> gnode1 (a)

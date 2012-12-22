@@ -266,9 +266,9 @@ implement{a} linheap_nil () = gnode_null<a> ()
 (* ****** ****** *)
 
 implement{a}
-linheap_is_nil (hp) = gnode_is_nil (hp)
+linheap_is_nil (hp) = gnodelst_is_nil (hp)
 implement{a}
-linheap_isnot_nil (hp) = gnode_is_cons (hp)
+linheap_isnot_nil (hp) = gnodelst_is_cons (hp)
 
 (* ****** ****** *)
   
@@ -290,7 +290,7 @@ linheap_getmin_ref (hp0) = let
 fun loop (
   nxs: gnode0 (a), nx0: gnode0 (a)
 ) : gnode0 (a) = let
-  val iscons = gnode_is_cons (nxs)
+  val iscons = gnodelst_is_cons (nxs)
 in
 //
 if iscons then let
@@ -351,7 +351,7 @@ fun loop (
 ) : gnode1 (a) = let
   val nxs =
     $UN.ptr_get<gnode0(a)> (nxs_ref)
-  val iscons = gnode_is_cons (nxs)
+  val iscons = gnodelst_is_cons (nxs)
 in
 //
 if iscons then let
@@ -373,7 +373,7 @@ end // end of [loop]
 //
 var nxs0 =
   $UN.cast{gnode0(a)} (hp0)
-val iscons = gnode_is_cons (nxs0)
+val iscons = gnodelst_is_cons (nxs0)
 //
 in
 //
@@ -413,7 +413,7 @@ fun loop (
   nxs: gnode0 (a)
 ) : void = let
 //
-val iscons = gnode_is_cons (nxs)
+val iscons = gnodelst_is_cons (nxs)
 //
 in
   if iscons then let

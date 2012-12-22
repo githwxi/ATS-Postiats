@@ -83,7 +83,7 @@ fun{a:vt0p}
 gnode_get_marked (nx: gnode1 (INV(a))):<> bool
 extern
 fun{a:vt0p}
-gnode_get_marked (nx: gnode1 (INV(a)), mark: bool):<!wrt> void
+gnode_set_marked (nx: gnode1 (INV(a)), mark: bool):<!wrt> void
 
 (* ****** ****** *)
 
@@ -239,6 +239,7 @@ fun{a:vt0p}
 gnodelst_consolidate (nxs: gnode0 (a)): gnode0 (a)
 
 (* ****** ****** *)
+
 extern
 fun{a:vt0p}
 join_gnode_gnode
@@ -252,6 +253,7 @@ join_gnode_gnode
 *)
   val () = gnode_set_rank (nx1, r+1)
   val () = gnode_set_parent (nx2, nx1)
+  val () = gnode_set_marked (nx2, false)
   val () = gnode_link10 (nx2, gnode_get_children (nx1))
   val () = gnode_set_children (nx1, nx2)
 in
@@ -308,7 +310,7 @@ end // end of [aux]
 fun auxlst (
   nxs: gnode0 (a), r0: int
 ) : int = let
-  val iscons = gnode_is_cons (nxs)
+  val iscons = gnodelst_is_cons (nxs)
 in
 //
 if iscons then let
@@ -363,7 +365,7 @@ end // end of [auxlink]
 //
 in
 //
-if gnode_is_cons (nxs) then let
+if gnodelst_is_cons (nxs) then let
   val nx = nxs
   val nx_prev = gnode_get_prev (nx)
   val nx_prev = $UN.cast{gnode1(a)} (nx_prev)
