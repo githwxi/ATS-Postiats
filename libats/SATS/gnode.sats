@@ -170,39 +170,23 @@ gnode_snoc {l:agz}
 (* ****** ****** *)
 
 fun{a:vt0p}
+gnode_insert_prev
+  (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> void
+fun{a:vt0p}
+gnode_insert_next
+  (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> void
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+gnode_remove_prev (nx: gnode1 (a)):<!wrt> gnode0 (a)
+fun{a:vt0p}
+gnode_remove_next (nx: gnode1 (a)):<!wrt> gnode0 (a)
+
+(* ****** ****** *)
+
+fun{a:vt0p}
 gnodelst_reverse (nx: gnode1 (a)):<!wrt> gnode1 (a)
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-gnode_slink (nx1: gnode1 (a), nx2: gnode0 (a)):<!wrt> void
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-gnode_dlink (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> void
-fun{a:vt0p}
-gnode_dlink00 (nx1: gnode0 (a), nx2: gnode0 (a)):<!wrt> void
-fun{a:vt0p}
-gnode_dlink01 (nx1: gnode0 (a), nx2: gnode1 (a)):<!wrt> void
-fun{a:vt0p}
-gnode_dlink10 (nx1: gnode1 (a), nx2: gnode0 (a)):<!wrt> void
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-gnode_dinsert_prev
-  (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> void
-fun{a:vt0p}
-gnode_dinsert_next
-  (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> void
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-gnode_dremove_prev (nx: gnode1 (a)):<!wrt> gnode0 (a)
-fun{a:vt0p}
-gnode_dremove_next (nx: gnode1 (a)):<!wrt> gnode0 (a)
 
 (* ****** ****** *)
 

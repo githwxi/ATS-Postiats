@@ -63,6 +63,14 @@ htmlgendecl_atxt.dats: htmlgendecl.atxt ;   $(ATSDOC) --outcode $@ -i $< > htmlg
 
 all_html::
 
+all_html:: HTML/gnode.html
+HTML/gnode.html:   gnode_atxt.exe ; $(CAT) ../gnode.sats | ./$< > $@
+gnode_atxt.txt: gnode.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+gnode_atxt.exe: htmlgendecl_atxt.dats   gnode_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_gnode:: ;   scp HTML/gnode.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) gnode_atxt.exe
+cleanall:: ; $(RMF) HTML/gnode.html
+
 all_html:: HTML/gflist.html
 HTML/gflist.html:   gflist_atxt.exe ; $(CAT) ../gflist.sats | ./$< > $@
 gflist_atxt.txt: gflist.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@

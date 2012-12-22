@@ -127,6 +127,51 @@ gnode_set_parent_null
 (* ****** ****** *)
 
 implement{a}
+gnode_link
+  (nx1, nx2) = let
+  val () = gnode_set_next (nx1, nx2)
+  val () = gnode_set_prev (nx2, nx1)
+in
+  // nothing
+end // end of [gnode_link]
+
+implement{a}
+gnode_link00
+  (nx1, nx2) = let
+  val () =
+    if gnode_isnot_null (nx1) then gnode_set_next (nx1, nx2)
+  val () =
+    if gnode_isnot_null (nx2) then gnode_set_prev (nx2, nx1)
+  // end of [val]
+in
+  // nothing
+end // end of [gnode_link00]
+
+implement{a}
+gnode_link01
+  (nx1, nx2) = let
+  val () =
+    if gnode_isnot_null (nx1) then gnode_set_next (nx1, nx2)
+  // end of [val]
+  val () = gnode_set_prev (nx2, nx1)
+in
+  // nothing
+end // end of [gnode_link01]
+
+implement{a}
+gnode_link10
+  (nx1, nx2) = let
+  val () = gnode_set_next (nx1, nx2)
+  val () =
+    if gnode_isnot_null (nx2) then gnode_set_prev (nx2, nx1)
+  // end of [val]
+in
+  // nothing
+end // end of [gnode_link10]
+
+(* ****** ****** *)
+
+implement{a}
 gnode_cons (nx1, nx2) = let
   val () = gnode_link10 (nx1, nx2) in nx1
 end // end of [gnode_cons]
@@ -179,106 +224,54 @@ end // end of [gnodelst_reverse]
 (* ****** ****** *)
 
 implement{a}
-gnode_slink
-  (nx1, nx2) = gnode_set_next (nx1, nx2)
-// end of [gnode_slink]
-
-(* ****** ****** *)
-
-implement{a}
-gnode_dlink
-  (nx1, nx2) = let
-  val () = gnode_set_next (nx1, nx2)
-  val () = gnode_set_prev (nx2, nx1)
-in
-  // nothing
-end // end of [gnode_dlink]
-
-implement{a}
-gnode_dlink00
-  (nx1, nx2) = let
-  val () =
-    if gnode_isnot_null (nx1) then gnode_set_next (nx1, nx2)
-  val () =
-    if gnode_isnot_null (nx2) then gnode_set_prev (nx2, nx1)
-  // end of [val]
-in
-  // nothing
-end // end of [gnode_dlink00]
-
-implement{a}
-gnode_dlink01
-  (nx1, nx2) = let
-  val () =
-    if gnode_isnot_null (nx1) then gnode_set_next (nx1, nx2)
-  // end of [val]
-  val () = gnode_set_prev (nx2, nx1)
-in
-  // nothing
-end // end of [gnode_dlink01]
-
-implement{a}
-gnode_dlink10
-  (nx1, nx2) = let
-  val () = gnode_set_next (nx1, nx2)
-  val () =
-    if gnode_isnot_null (nx2) then gnode_set_prev (nx2, nx1)
-  // end of [val]
-in
-  // nothing
-end // end of [gnode_dlink10]
-
-(* ****** ****** *)
-
-implement{a}
-gnode_dinsert_prev
+gnode_insert_prev
   (nx1, nx2) = let
   val nx1_prev = gnode_get_prev (nx1)
-  val () = gnode_dlink (nx2, nx1)
-  val () = gnode_dlink01 (nx1_prev, nx2)
+  val () = gnode_link (nx2, nx1)
+  val () = gnode_link01 (nx1_prev, nx2)
 in
   // nothing
-end // end of [gnode_dinsert_prev]
+end // end of [gnode_insert_prev]
 
 implement{a}
-gnode_dinsert_next
+gnode_insert_next
   (nx1, nx2) = let
   val nx1_next = gnode_get_next (nx1)
-  val () = gnode_dlink (nx1, nx2)
-  val () = gnode_dlink10 (nx2, nx1_next)
+  val () = gnode_link (nx1, nx2)
+  val () = gnode_link10 (nx2, nx1_next)
 in
   // nothing
-end // end of [gnode_dinsert_next]
+end // end of [gnode_insert_next]
 
 (* ****** ****** *)
 
 implement{a}
-gnode_dremove_prev (nx) = let
+gnode_remove_prev (nx) = let
 //
 val nx_prev = gnode_get_prev (nx)
 val isnot = gnode_isnot_null (nx_prev)
 val () =
   if isnot then let
-  val nx_prev2 = gnode_get_prev (nx_prev) in gnode_dlink01 (nx_prev2, nx)
+  val nx_prev2 = gnode_get_prev (nx_prev) in gnode_link01 (nx_prev2, nx)
 end // end of [of] // end of [val]
 //
 in
   nx_prev
-end // end of [gnode_dremove_prev]
+end // end of [gnode_remove_prev]
 
 implement{a}
-gnode_dremove_next (nx) = let
+gnode_remove_next (nx) = let
 //
 val nx_next = gnode_get_next (nx)
 val isnot = gnode_isnot_null (nx_next)
 val () =
   if isnot then let
-  val nx_next2 = gnode_get_next (nx_next) in gnode_dlink10 (nx, nx_next2)
+  val nx_next2 = gnode_get_next (nx_next) in gnode_link10 (nx, nx_next2)
 end // end of [of] // end of [val]
 //
 in
   nx_next
-end // end of [gnode_dremove_next]
+end // end of [gnode_remove_next]
 
 (* ****** ****** *)
 
