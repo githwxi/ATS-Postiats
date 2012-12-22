@@ -76,6 +76,10 @@ This package contains various functions for manipulating generic nodes.
 
 (* ****** ****** *)
 
+#declnamesynop("gnodelst_length")
+
+(* ****** ****** *)
+
 #declnamesynop("gnodelst_reverse")
 
 (* ****** ****** *)

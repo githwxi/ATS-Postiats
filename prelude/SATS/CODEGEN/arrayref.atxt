@@ -185,7 +185,7 @@ overload arrayref_exch_at with arrayref_exch_at_guint
 
 (*
 fun{a:vt0p}{env:vt0p}
-array_foreach__fwork (x: &a >> a, env: &env): void
+array_foreach__fwork (x: &a >> a, env: &(env) >> _): void
 *)
 fun{
 a:vt0p
@@ -201,7 +201,7 @@ a:vt0p}{env:vt0p
 #atscode_separator()
 (*
 fun{a:vt0p}{env:vt0p}
-array_rforeach__fwork (x: &a >> a, env: &env): void
+array_rforeach__fwork (x: &a >> a, env: &(env) >> _): void
 *)
 fun{
 a:vt0p

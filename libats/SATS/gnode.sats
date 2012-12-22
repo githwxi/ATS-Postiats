@@ -163,18 +163,21 @@ gnode_snoc {l:agz}
 (* ****** ****** *)
 
 fun{a:vt0p}
-gnode_insert_prev
-  (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> void
-fun{a:vt0p}
 gnode_insert_next
   (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> void
+// end of [gnode_insert_next]
+
+fun{a:vt0p}
+gnode_insert_prev
+  (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> void
+// end of [gnode_insert_prev]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-gnode_remove_prev (nx: gnode1 (a)):<!wrt> gnode0 (a)
-fun{a:vt0p}
 gnode_remove_next (nx: gnode1 (a)):<!wrt> gnode0 (a)
+fun{a:vt0p}
+gnode_remove_prev (nx: gnode1 (a)):<!wrt> gnode0 (a)
 
 (* ****** ****** *)
 
@@ -186,10 +189,21 @@ gnodelst_is_cons (nxs) = gnode_isnot_null (,(nxs))
 (* ****** ****** *)
 
 fun{a:vt0p}
-gnodelst_length (nx: gnode1 (a)):<!wrt> intGte(0)
+gnodelst_length (nxs: gnode1 (a)):<!wrt> intGte(0)
 
 fun{a:vt0p}
-gnodelst_reverse (nx: gnode1 (a)):<!wrt> gnode1 (a)
+gnodelst_reverse (nxs: gnode1 (a)):<!wrt> gnode1 (a)
+
+(* ****** ****** *)
+
+fun{
+a:vt0p}{env:vt0p
+} gnodelst_foreach$fwork (x: &a, env: &env >> _): void
+fun{a:vt0p}
+gnodelst_foreach (nx: gnode0 (INV(a))): void
+fun{
+a:vt0p}{env:vt0p
+} gnodelst_foreach_env (nx: gnode0 (INV(a)), env: &env >> _): void
 
 (* ****** ****** *)
 

@@ -255,7 +255,7 @@ fun arrayptr_free
 
 (*
 fun{a:vt0p}{env:vt0p}
-array_foreach__fwork (x: &a >> a, env: &env): void
+array_foreach__fwork (x: &a >> a, env: &(env) >> _): void
 *)
 fun{
 a:vt0p
@@ -292,7 +292,7 @@ arrayptr_foreach_fun
 
 (*
 fun{a:vt0p}{env:vt0p}
-array_rforeach__fwork (x: &a >> a, env: &env): void
+array_rforeach__fwork (x: &a >> a, env: &(env) >> _): void
 *)
 fun{
 a:vt0p}{env:vt0p

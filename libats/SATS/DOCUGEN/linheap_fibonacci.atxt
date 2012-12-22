@@ -44,7 +44,7 @@ for a heap storing items of the viewtype T. Note that
 
 (* ****** ****** *)
 
-#declnamesynop("linheap_nil")
+#declnamesynop("linheap_make_nil")
 #decldescrpt("This function creates an empty heap.")
 
 (* ****** ****** *)

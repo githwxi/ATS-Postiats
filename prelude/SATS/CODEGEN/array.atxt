@@ -258,7 +258,7 @@ a:vt0p}{env:vt0p
 } array_foreach$cont (x: &a, env: &env): bool
 fun{
 a:vt0p}{env:vt0p
-} array_foreach$fwork (x: &a >> _, env: &env): void
+} array_foreach$fwork (x: &a >> _, env: &(env) >> _): void
 fun{
 a:vt0p
 } array_foreach {n:int} (
@@ -267,7 +267,7 @@ a:vt0p
 fun{
 a:vt0p}{env:vt0p
 } array_foreach_env {n:int} (
-  A: &(@[INV(a)][n]) >> @[a][n], asz: size_t n, env: &(env)>>env
+  A: &(@[INV(a)][n]) >> @[a][n], asz: size_t n, env: &(env) >> _
 ) : sizeLte (n) // end of [array_foreach_env]
 
 fun
@@ -351,10 +351,12 @@ array_foreach_cloref
 
 fun{
 a1,a2:vt0p}{env:vt0p
-} array_foreach2$cont (x1: &a1, x2: &a2, env: &env): bool
+} array_foreach2$cont
+  (x1: &a1, x2: &a2, env: &env): bool
 fun{
 a1,a2:vt0p}{env:vt0p
-} array_foreach2$fwork (x1: &a1 >> _, x2: &a2 >> _, env: &env): void
+} array_foreach2$fwork
+  (x1: &a1 >> _, x2: &a2 >> _, env: &(env) >> _): void
 fun{
 a1,a2:vt0p
 } array_foreach2
@@ -380,7 +382,7 @@ a:vt0p}{env:vt0p
 } array_rforeach$cont (x: &a, env: &env): bool
 fun{
 a:vt0p}{env:vt0p
-} array_rforeach$fwork (x: &a >> _, env: &env): void
+} array_rforeach$fwork (x: &a >> _, env: &(env) >> _): void
 fun{
 a:vt0p
 } array_rforeach {n:int} (
@@ -389,7 +391,7 @@ a:vt0p
 fun{
 a:vt0p}{env:vt0p
 } array_rforeach_env {n:int} (
-  A: &(@[INV(a)][n]) >> @[a][n], asz: size_t n, env: &(env)>>env
+  A: &(@[INV(a)][n]) >> @[a][n], asz: size_t n, env: &(env) >> _
 ) : sizeLte (n) // end of [array_rforeach_env]
 
 #atscode_separator()

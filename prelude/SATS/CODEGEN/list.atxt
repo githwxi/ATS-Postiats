@@ -296,13 +296,13 @@ x:t0p}{env:vt0p
 } list_foreach$cont (x: x, env: &env): bool
 fun{
 x:t0p}{env:vt0p
-} list_foreach$fwork (x: x, env: &env): void
+} list_foreach$fwork (x: x, env: &(env) >> _): void
 fun{
 x:t0p
 } list_foreach (xs: List (INV(x))): void
 fun{
 x:t0p}{env:vt0p
-} list_foreach_env (xs: List (INV(x)), env: &(env)>>env): void
+} list_foreach_env (xs: List (INV(x)), env: &(env) >> _): void
 
 fun{x:t0p}
 list_foreach_funenv
@@ -354,13 +354,13 @@ x,y:t0p}{env:vt0p
 } list_foreach2$cont (x: x, y: y, env: &env): bool
 fun{
 x,y:t0p}{env:vt0p
-} list_foreach2$fwork (x: x, y: y, env: &env): void
+} list_foreach2$fwork (x: x, y: y, env: &(env) >> _): void
 fun{
 x,y:t0p
 } list_foreach2 (xs: List (INV(x)), ys: List (INV(y))): void
 fun{
 x,y:t0p}{env:vt0p
-} list_foreach2_env (xs: List (INV(x)), ys: List (INV(y)), env: &(env)>>env): void
+} list_foreach2_env (xs: List (INV(x)), ys: List (INV(y)), env: &(env) >> _): void
 
 #atscode_separator()
 
@@ -369,13 +369,13 @@ x:t0p}{env:vt0p
 } list_iforeach$cont (i: int, x: x, env: &env): bool
 fun{
 x:t0p}{env:vt0p
-} list_iforeach$fwork (i: int, x: x, env: &env): void
+} list_iforeach$fwork (i: int, x: x, env: &(env) >> _): void
 fun{
 x:t0p
 } list_iforeach {n:int} (xs: list (INV(x), n)): natLte(n)
 fun{
 x:t0p}{env:vt0p
-} list_iforeach_env {n:int} (xs: list (INV(x), n), env: &(env)>>env): natLte(n)
+} list_iforeach_env {n:int} (xs: list (INV(x), n), env: &(env) >> _): natLte(n)
 
 fun{
 x:t0p // type for elements
@@ -393,7 +393,7 @@ x,y:t0p}{env:vt0p
 } list_iforeach2$cont (i: int, x: x, y: y, env: &env): bool
 fun{
 x,y:t0p}{env:vt0p
-} list_iforeach2$fwork (i: int, x: x, y: y, env: &env): void
+} list_iforeach2$fwork (i: int, x: x, y: y, env: &(env) >> _): void
 fun{
 x,y:t0p
 } list_iforeach2 {m,n:int}
@@ -401,7 +401,7 @@ x,y:t0p
 fun{
 x,y:t0p}{env:vt0p
 } list_iforeach2_env {m,n:int}
-  (xs: list (INV(x), m), ys: list(INV(y), n), env: &(env)>>env): natLte(min(m,n))
+  (xs: list (INV(x), m), ys: list(INV(y), n), env: &(env) >> _): natLte(min(m,n))
 // end of [list_iforeach2_env]
 
 #atscode_separator()

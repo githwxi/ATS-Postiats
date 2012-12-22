@@ -215,13 +215,13 @@ x:vt0p}{env:vt0p
 } list_vt_foreach$cont (x: &x, env: &env): bool
 fun{
 x:vt0p}{env:vt0p
-} list_vt_foreach$fwork (x: &x, env: &env): void
+} list_vt_foreach$fwork (x: &x, env: &(env) >> _): void
 fun{
 x:vt0p
 } list_vt_foreach (xs: !List_vt (INV(x))): void
 fun{
 x:vt0p}{env:vt0p
-} list_vt_foreach_env (xs: !List_vt (INV(x)), env: &(env)>>env): void
+} list_vt_foreach_env (xs: !List_vt (INV(x)), env: &(env) >> _): void
 
 fun{
 x:vt0p
@@ -247,7 +247,7 @@ x:vt0p}{env:vt0p
 fun{
 x:vt0p}{env:vt0p
 } list_vt_iforeach$fwork
-  (i: int, x: &x, env: &env): void
+  (i: int, x: &x, env: &(env) >> _): void
 fun{
 x:vt0p
 } list_vt_iforeach
@@ -255,7 +255,7 @@ x:vt0p
 fun{
 x:vt0p}{env:vt0p
 } list_vt_iforeach_env
-  {n:int} (xs: !list_vt (INV(x), n), env: &env): natLte(n)
+  {n:int} (xs: !list_vt (INV(x), n), env: &(env) >> _): natLte(n)
 // end of [list_vt_iforeach_env]
 
 #atscode_separator()
