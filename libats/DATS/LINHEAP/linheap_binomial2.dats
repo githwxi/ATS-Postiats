@@ -144,6 +144,22 @@ in
   // nothing
 end // end of [join_gnode_gnode]
 
+extern
+fun{a:vt0p}
+merge_gnode_gnode
+  (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> gnode1 (a)
+implement{a}
+merge_gnode_gnode
+  (nx1, nx2) = let
+  val sgn = gnode_compare (nx1, nx2)
+in
+  if sgn < 0 then let
+    val () = gnode_link (nx1, nx2) in nx1
+  end else let
+    val () = gnode_link (nx2, nx1) in nx2
+  end // end of [if]
+end // end of [merge_gnode_gnode]
+
 (* ****** ****** *)
 
 local
@@ -151,23 +167,27 @@ local
 extern
 fun{a:vt0p}
 merge_gnode_gnodelst
-  (nx1: gnode1 (a), nxs2: gnode0 (a)):<!wrt> gnode1 (a)
+  (nx1: gnode1 (a), r1: int, nxs2: gnode0 (a)):<!wrt> gnode1 (a)
 implement{a}
 merge_gnode_gnodelst
-  (nx1, nxs2) = let
-  val sgn = gnode_compare10 (nx1, nxs2)
+  (nx1, r1, nxs2) = let
 in
 //
-if sgn < 0 then
-  gnode_cons (nx1, nxs2)
-else let // sgn = 0
-  val nx2 =
-    $UN.cast{gnode1(a)} (nxs2)
-  val nxs2 = gnode_get_next (nx2)
-  val () = join_gnode_gnode (nx1, nx2)
+if gnode2ptr (nxs2) > 0 then let
+  val nx2 = nxs2
+  val r2 = gnode_get_rank (nx2)
 in
-  merge_gnode_gnodelst (nx1, nxs2)
-end // end of [if]
+  if r1 < r2 then
+    gnode_cons (nx1, nxs2)
+  else let
+    val nxs2 = gnode_get_next (nx2)
+    val nx1 = merge_gnode_gnode (nx1, nx2)
+  in
+    merge_gnode_gnodelst (nx1, r1+1, nxs2)
+  end // end of [if]
+end else
+  gnode_cons (nx1, gnode_null<a> ())
+// end of [if]
 //
 end // end of [merge_gnode_gnodelst]
 
@@ -194,29 +214,30 @@ in
 //
 if gnode_isnot_null (nxs1) then (
   if gnode_isnot_null (nxs2) then let
-    val sgn = gnode_compare (nxs1, nxs2)
+    val nx1 = nxs1
+    val r1 = gnode_get_rank (nx1)
+    val nx2 = nxs2
+    val r2 = gnode_get_rank (nx2)
   in
-    if sgn < 0 then let
+    if r1 < r2 then let
       val () =
-        $UN.ptr_set<gnode1(a)> (res, nxs1)
-      val res = gnode_getref_next (nxs1)
+        $UN.ptr_set<gnode1(a)> (res, nx1)
+      val res = gnode_getref_next (nx1)
       val nxs1 = $UN.ptr_get<gnode0(a)> (res)
     in
       loop (nxs1, nxs2, res)
-    end else if sgn > 0 then let
+    end else if r1 > r2 then let
       val () = 
-        $UN.ptr_set<gnode1(a)> (res, nxs2)
-      val res = gnode_getref_next (nxs2)
+        $UN.ptr_set<gnode1(a)> (res, nx2)
+      val res = gnode_getref_next (nx2)
       val nxs2 = $UN.ptr_get<gnode0(a)> (res)
     in
       loop (nxs1, nxs2, res)
-    end else let // sgn = 0
-      val nx1 = nxs1
+    end else let // r1 = r2
       val nxs1 = gnode_get_next (nx1)
-      val nx2 = nxs2
       val nxs2 = gnode_get_next (nx2)
-      val () = join_gnode_gnode (nx1, nx2)
-      val nxs1 = merge_gnode_gnodelst (nx1, nxs1)
+      val nx1 = merge_gnode_gnode (nx1, nx2)
+      val nxs1 = merge_gnode_gnodelst (nx1, r1+1, nxs1)
     in
       loop (nxs1, nxs2, res)
     end // end of [if]

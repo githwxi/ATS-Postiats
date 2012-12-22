@@ -239,6 +239,147 @@ fun{a:vt0p}
 gnodelst_consolidate (nxs: gnode0 (a)): gnode0 (a)
 
 (* ****** ****** *)
+extern
+fun{a:vt0p}
+join_gnode_gnode
+  (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> void
+implement{a}
+join_gnode_gnode
+  (nx1, nx2) = let
+  val r = gnode_get_rank (nx1)
+(*
+  val () = assertloc_debug (r = gnode_get_rank (nx2))
+*)
+  val () = gnode_set_rank (nx1, r+1)
+  val () = gnode_set_parent (nx2, nx1)
+  val () = gnode_link10 (nx2, gnode_get_children (nx1))
+  val () = gnode_set_children (nx1, nx2)
+in
+  // nothing
+end // end of [join_gnode_gnode]
+
+extern
+fun{a:vt0p}
+merge_gnode_gnode
+  (nx1: gnode1 (a), nx2: gnode1 (a)):<!wrt> gnode1 (a)
+implement{a}
+merge_gnode_gnode
+  (nx1, nx2) = let
+  val sgn = compare_gnode_gnode (nx1, nx2)
+in
+  if sgn < 0 then let
+    val () = gnode_link (nx1, nx2) in nx1
+  end else let
+    val () = gnode_link (nx2, nx1) in nx2
+  end // end of [if]
+end // end of [merge_gnode_gnode]
+
+(* ****** ****** *)
+
+local
+
+extern
+fun{a:vt0p}
+rank2gnode_takeout (r: int): gnode0 (a)
+
+extern
+fun{a:vt0p}
+rank2gnode_putinto (r: int, nx: gnode0 (a)): void
+
+in // in of [local]
+
+implement{a}
+gnodelst_consolidate (nxs) = let
+//
+fun aux (
+  nx: gnode1 (a), r: int
+) : int = let
+  val nx2 = rank2gnode_takeout (r)
+in
+  if gnode2ptr (nx2) > 0 then let
+    val nx = merge_gnode_gnode (nx, nx2)
+  in
+    aux (nx, r+1)
+  end else let
+    val () = rank2gnode_putinto (r, nx) in r
+  end // end of [if]
+end // end of [aux]
+//
+fun auxlst (
+  nxs: gnode0 (a), r0: int
+) : int = let
+  val iscons = gnode_is_cons (nxs)
+in
+//
+if iscons then let
+  val nx = nxs
+  val nxs =
+    gnode_get_next (nxs)
+  val r = gnode_get_rank (nx)
+  val r = aux (nx, r)
+  val r0 = (if r > r0 then r else r0): int
+in
+  auxlst (nxs, r0)
+end else r0 // end of [if]
+//
+end // end of [auxlst]
+//
+fun auxlink (r0: int): gnode1 (a) = let
+//
+fun loop
+  (r0: int, r: int): gnode1 (a) = let
+  val nx = rank2gnode_takeout (r)
+in
+  if gnode_isnot_null (nx)
+    then loop2 (r0, r+1, nx, nx, nx) else loop (r0, r+1)
+  // end of [if]
+end // end of [loop]
+
+and loop2 (
+  r0: int, r: int
+, nx1: gnode1 (a), nx2: gnode1 (a), nx_min: gnode1 (a)
+) : gnode1 (a) = let
+in
+  if r > r0 then let
+    val () = gnode_link (nx2, nx1) in nx_min
+  end else let
+    val nx21 = rank2gnode_takeout (r)
+  in
+    if gnode_isnot_null (nx21) then let
+      val sgn =
+        compare_gnode_gnode (nx21, nx_min)
+      val nx_min = if sgn < 0 then nx21 else nx_min
+    in
+      loop2 (r0, r, nx1, nx21, nx_min)
+    end else
+      loop2 (r0, r, nx1, nx2, nx_min)
+    // end of [if]
+  end // end of [if]
+end // end of [loop2]
+//
+in
+  loop (r0, 0)
+end // end of [auxlink]
+//
+in
+//
+if gnode_is_cons (nxs) then let
+  val nx = nxs
+  val nx_prev = gnode_get_prev (nx)
+  val nx_prev = $UN.cast{gnode1(a)} (nx_prev)
+  val () = gnode_set_next_null (nx_prev)
+  val r0 = auxlst (nxs, 0)
+in
+  auxlink (r0)
+end else
+  gnode_null<a> () // end of [if]
+// end of [if]
+//
+end // end of [gnodelst_consolidate]
+
+end // end of [local]
+
+(* ****** ****** *)
 
 implement{a}
 linheap_delmin
