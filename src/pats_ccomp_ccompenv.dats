@@ -188,7 +188,8 @@ end // end of [fprint_markenvlst]
 
 viewtypedef
 ccompenv_struct = @{
-  ccompenv_markenvlst = markenvlst_vt
+  ccompenv_tmplev = int
+, ccompenv_markenvlst = markenvlst_vt
 , ccompenv_varbindmap= d2varmap_vt (primval)
 } // end of [ccompenv_struct]
 
@@ -226,6 +227,7 @@ ccompenv_make
   val env = CCOMPENV (?)
   val CCOMPENV (!p) = env
 //
+  val () = p->ccompenv_tmplev := 0
   val () = p->ccompenv_markenvlst := MARKENVLSTnil ()
   val () = p->ccompenv_varbindmap := d2varmap_vt_make_nil ()
 //
@@ -264,6 +266,38 @@ case+ env of
   end // end of [CCOMPENV]
 //
 end // end of [fprint_ccompenv]
+
+(* ****** ****** *)
+
+implement
+ccompenv_tmplev_get
+  (env) = let
+  val CCOMPENV (!p) = env
+  val lev = p->ccompenv_tmplev
+  prval () = fold@ (env)
+in
+  lev
+end // end of [ccompenv_tmplev_get]
+
+implement
+ccompenv_tmplev_inc
+  (env) = let
+  val CCOMPENV (!p) = env
+  val () = (p->ccompenv_tmplev := p->ccompenv_tmplev + 1)
+  prval () = fold@ (env)
+in
+  // nothing
+end // end of [ccompenv_tmplev_inc]
+
+implement
+ccompenv_tmplev_dec
+  (env) = let
+  val CCOMPENV (!p) = env
+  val () = (p->ccompenv_tmplev := p->ccompenv_tmplev - 1)
+  prval () = fold@ (env)
+in
+  // nothing
+end // end of [ccompenv_tmplev_dec]
 
 (* ****** ****** *)
 

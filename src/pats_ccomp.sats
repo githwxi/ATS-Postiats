@@ -63,6 +63,7 @@ typedef f0loat = $SYN.f0loat
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
 staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
@@ -676,6 +677,12 @@ fun fprint_ccompenv (out: FILEref, env: !ccompenv): void
 
 (* ****** ****** *)
 
+fun ccompenv_tmplev_get (env: !ccompenv): int
+fun ccompenv_tmplev_inc (env: !ccompenv): void
+fun ccompenv_tmplev_dec (env: !ccompenv): void
+
+(* ****** ****** *)
+
 absview ccompenv_push_v
 
 fun ccompenv_pop
@@ -817,19 +824,10 @@ fun emit_funent_ptype (out: FILEref, fent: funent): void
 fun emit_funent_implmnt (out: FILEref, fent: funent): void
 //
 (* ****** ****** *)
-
-dataviewtype impenv =
-  | IMPENVcons of (s2var, s2hnf, impenv) | IMPENVnil of ()
-// end of [impenv]
-
-fun fprint_impenv : fprint_vtype (impenv)
-
-(* ****** ****** *)
-
-fun impenv_find
-  (env: !impenv, s2v: s2var): s2hnf
-fun impenv_update
-  (env: !impenv, s2v: s2var, s2f: s2hnf): void
+ 
+fun hiimpdec_match
+  (impdec: hiimpdec, d2c: d2cst, t2mas: t2mpmarglst): Option_vt (stasub)
+// end of [hiimpdec_match]
 
 (* ****** ****** *)
 

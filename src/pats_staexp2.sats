@@ -403,8 +403,8 @@ s2exp_node =
   | S2Etyarr of (s2exp (*element*), s2explst (*dimension*))
   | S2Etyrec of (tyreckind, int(*npf*), labs2explst) // tuple and record
 //
-// HX: note that [S2Einvar] is *not* related to [S1Einvar]; it is
-  | S2Einvar of (s2exp) // a special type for handling type unification
+// HX: note that [S2Einvar] is *not* related to [S1Einvar];
+  | S2Einvar of (s2exp) // it is a special type for handling type unification
 //
   | S2Eexi of ( // exist. quantified type
       s2varlst(*vars*), s2explst(*props*), s2exp(*body*)
@@ -420,7 +420,8 @@ s2exp_node =
 //
   | S2Ewth of (s2exp, wths2explst) // the result part of a fun type
 //
-  | S2Eerr of () // HX: placeholder for indicating error
+  | S2Eerr of () // HX: placeholder for indicating error or something else
+//
 // end of [s2exp_node]
 
 and s2lab = 
