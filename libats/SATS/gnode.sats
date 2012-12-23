@@ -133,6 +133,9 @@ gnode_set_parent_null (nx: gnode1 (a)):<!wrt> void
 (* ****** ****** *)
 
 fun{a:vt0p}
+gnode_getref_children (nx: gnode1 (a)):<> Ptr1
+
+fun{a:vt0p}
 gnode_get_children (nx: gnode1 (a)):<> gnode0 (a)
 fun{a:vt0p}
 gnode_set_children (nx: gnode1 (a), nx2: gnode (a)):<!wrt> void

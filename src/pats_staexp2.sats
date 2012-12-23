@@ -923,6 +923,9 @@ fun s2exp_extype_srt
 fun s2exp_at
   (s2e1: s2exp, s2e2: s2exp): s2exp
 // end of [s2exp_at]
+
+(* ****** ****** *)
+
 fun s2exp_sizeof (s2e_type: s2exp): s2exp
 
 (* ****** ****** *)

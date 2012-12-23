@@ -818,6 +818,21 @@ fun emit_funent_implmnt (out: FILEref, fent: funent): void
 //
 (* ****** ****** *)
 
+dataviewtype impenv =
+  | IMPENVcons of (s2var, s2hnf, impenv) | IMPENVnil of ()
+// end of [impenv]
+
+fun fprint_impenv : fprint_vtype (impenv)
+
+(* ****** ****** *)
+
+fun impenv_find
+  (env: !impenv, s2v: s2var): s2hnf
+fun impenv_update
+  (env: !impenv, s2v: s2var, s2f: s2hnf): void
+
+(* ****** ****** *)
+
 fun ccomp_main (
   out: FILEref, flag: int, infil: filename, hdcs: hideclist
 ) : void // end of [ccomp_main]
