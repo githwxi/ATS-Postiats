@@ -70,14 +70,25 @@ fprint_list_vt_sep (
 
 #atscode_separator()
 
-fun{} list_vt_is_nil
-  {x:vt0p} {n:int} (xs: !list_vt (INV(x), n)):<> bool (n==0)
-fun{} list_vt_is_cons
-  {x:vt0p} {n:int} (xs: !list_vt (INV(x), n)):<> bool (n > 0)
-fun{} list_vt_is_sing
-  {x:vt0p} {n:int} (xs: !list_vt (INV(x), n)):<> bool (n==1)
-fun{} list_vt_is_pair
-  {x:vt0p} {n:int} (xs: !list_vt (INV(x), n)):<> bool (n==2)
+fun{x:vt0p}
+list_vt_is_nil
+  {n:int} (xs: !list_vt (INV(x), n)):<> bool (n==0)
+// end of [list_vt_is_nil]
+
+fun{x:vt0p}
+list_vt_is_cons
+  {n:int} (xs: !list_vt (INV(x), n)):<> bool (n > 0)
+// end of [list_vt_is_cons]
+
+fun{x:vt0p}
+list_vt_is_sing
+  {n:int} (xs: !list_vt (INV(x), n)):<> bool (n==1)
+// end of [list_vt_is_sing]
+
+fun{x:vt0p}
+list_vt_is_pair
+  {n:int} (xs: !list_vt (INV(x), n)):<> bool (n==2)
+// end of [list_vt_is_pair]
 
 #atscode_separator()
 

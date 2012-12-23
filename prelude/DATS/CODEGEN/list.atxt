@@ -198,27 +198,33 @@ end // end of [fprint_listlist_sep]
 
 #atscode_separator()
 
-implement{}
+implement{x}
 list_is_nil (xs) =
   case+ xs of list_nil () => true | _ =>> false
-implement{}
+// end of [list_is_nil]
+
+implement{x}
 list_is_cons (xs) =
   case+ xs of list_cons _ => true | _ =>> false
-implement{}
+// end of [list_is_cons]
+
+implement{x}
 list_is_sing (xs) =
   case+ xs of list_sing (x) => true | _ =>> false
-implement{}
+// end of [list_is_sing]
+
+implement{x}
 list_is_pair (xs) =
   case+ xs of list_pair (x1, x2) => true | _ =>> false
 // end of [list_is_pair]
 
 #atscode_separator()
 
-implement{a}
+implement{x}
 list_head (xs) =
   let val+ list_cons (x, _) = xs in x end
 // end of [list_head]
-implement{a}
+implement{x}
 list_tail (xs) =
   let val+ list_cons (_, xs) = xs in xs end
 // end of [list_tail]

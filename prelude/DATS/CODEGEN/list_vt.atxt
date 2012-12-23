@@ -70,16 +70,22 @@ end // end of [fprint_list_vt_sep]
 
 #atscode_separator()
 
-implement{}
+implement{x}
 list_vt_is_nil (xs) =
   case+ xs of list_vt_nil () => true | _ =>> false
-implement{}
+// end of [list_vt_is_nil]
+
+implement{x}
 list_vt_is_cons (xs) =
   case+ xs of list_vt_cons _ => true | _ =>> false
-implement{}
+// end of [list_vt_is_cons]
+
+implement{x}
 list_vt_is_sing (xs) =
   case+ xs of list_vt_sing (x) => true | _ =>> false
-implement{}
+// end of [list_vt_is_sing]
+
+implement{x}
 list_vt_is_pair (xs) =
   case+ xs of list_vt_pair (x1, x2) => true | _ =>> false
 // end of [list_vt_is_pair]
