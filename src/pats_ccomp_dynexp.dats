@@ -52,6 +52,9 @@ hidexp_ccomp_funtype =
 
 extern fun hidexp_ccomp_var : hidexp_ccomp_funtype
 
+extern fun hidexp_ccomp_tmpcst : hidexp_ccomp_funtype
+extern fun hidexp_ccomp_tmpvar : hidexp_ccomp_funtype
+
 extern fun hidexp_ccomp_seq : hidexp_ccomp_funtype
 
 extern fun hidexp_ccomp_assgn_var : hidexp_ccomp_funtype
@@ -144,10 +147,10 @@ case+ hde0.hidexp_node of
 //
 | HDEcon _ => auxret (env, res, hde0)
 //
-| HDEtmpcst (d2c, t2mas) =>
-    primval_tmplt_cst (loc0, hse0, d2c, t2mas)
+| HDEtmpcst _ =>
+    hidexp_ccomp_tmpcst (env, res, hde0)
 | HDEtmpvar (d2v, t2mas) =>
-    primval_tmplt_var (loc0, hse0, d2v, t2mas)
+    hidexp_ccomp_tmpvar (env, res, hde0)
 //
 | HDElet (
     hids, hde_scope
@@ -392,6 +395,36 @@ case+ opt of
 | ~None_vt () => primval_var (loc0, hse0, d2v)
 //
 end // end of [hidexp_ccomp_var]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_tmpcst
+  (env, res, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val- HDEtmpcst (d2c, t2mas) = hde0.hidexp_node
+//
+val opt = ccompenv_tmpcst_match (env, d2c, t2mas)
+//
+in
+  primval_tmplt_cst (loc0, hse0, d2c, t2mas)
+end // end of [hidexp_ccomp_tmpcst]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_tmpvar
+  (env, res, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val- HDEtmpvar (d2v, t2mas) = hde0.hidexp_node
+//
+in
+  primval_tmplt_var (loc0, hse0, d2v, t2mas)
+end // end of [hidexp_ccomp_tmpvar]
 
 (* ****** ****** *)
 

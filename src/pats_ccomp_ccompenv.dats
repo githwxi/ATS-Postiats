@@ -37,14 +37,15 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
-
+//
+staload "./pats_staexp2.sats"
 staload "./pats_dynexp2.sats"
-
+//
 (* ****** ****** *)
-
+//
 staload "./pats_histaexp.sats"
 staload "./pats_hidynexp.sats"
-
+//
 (* ****** ****** *)
 
 staload "./pats_ccomp.sats"
@@ -414,6 +415,52 @@ ccompenv_add_fundec
 in
   // nothing
 end // end of [ccompenv_add_impdec]
+
+(* ****** ****** *)
+
+implement
+ccompenv_tmpcst_match
+  (env, d2c0, t2mas) = let
+//
+fun auxlst (
+  xs: !markenvlst_vt, d2c0: d2cst, t2mas: t2mpmarglst
+) : tmpcstmat = let
+in
+//
+case+ xs of
+| MARKENVLSTnil () => let
+    prval () = fold@ (xs) in TMPCSTMATnone ()
+  end // end of [MARKENVLSTnil]
+| MARKENVLSTmark (!p_xs) => let
+    val opt = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); opt
+  end // end of [MARKENVLSTmark]
+| MARKENVLSTcons_var (_, !p_xs) => let
+    val opt = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); opt
+  end // end of [MARKENVLSTcons_var]
+| MARKENVLSTcons_impdec (imp, !p_xs) => let
+    val opt = hiimpdec_tmpcst_match (imp, d2c0, t2mas)
+  in
+    case+ opt of
+    | ~None_vt () => let
+        val res = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); res
+      end // end of [None]
+    | ~Some_vt (sub) =>
+        let prval () = fold@ (xs) in TMPCSTMATsome (imp, sub) end
+      // end of [Some_vt]
+  end // end of [MARKENVLSTcons_impdec]
+| MARKENVLSTcons_fundec (fdc, !p_xs) => let
+    val opt = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); opt
+  end // end of [MARKENVLSTcons_fundec]
+//
+end // end of [auxlst]
+//
+val CCOMPENV (!p) = env
+val opt = auxlst (p->ccompenv_markenvlst, d2c0, t2mas)
+prval () = fold@ (env)
+//
+in
+  opt
+end // end of [ccompenv_tmpcst_match]
 
 (* ****** ****** *)
 

@@ -824,10 +824,25 @@ fun emit_funent_ptype (out: FILEref, fent: funent): void
 fun emit_funent_implmnt (out: FILEref, fent: funent): void
 //
 (* ****** ****** *)
+
+datatype tmpsub =
+  | tmpsub_cons of (s2var, s2exp, tmpsub) | tmpsub_nil of ()
+viewtypedef tmpsubopt_vt = Option_vt (tmpsub)
  
-fun hiimpdec_match
-  (impdec: hiimpdec, d2c: d2cst, t2mas: t2mpmarglst): Option_vt (stasub)
-// end of [hiimpdec_match]
+fun hiimpdec_tmpcst_match
+  (imp: hiimpdec, d2c: d2cst, t2mas: t2mpmarglst): tmpsubopt_vt
+// end of [hiimpdec_tmpcst_match]
+
+(* ****** ****** *)
+
+datatype
+tmpcstmat =
+  | TMPCSTMATsome of (hiimpdec, tmpsub) | TMPCSTMATnone of ()
+// end of [tmpcstmat]
+
+fun ccompenv_tmpcst_match
+  (env: !ccompenv, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
+// end of [ccompenv_tmpcst_match]
 
 (* ****** ****** *)
 

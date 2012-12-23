@@ -215,32 +215,28 @@ end // end of [impenv_free]
 (* ****** ****** *)
 
 extern
-fun impenv2stasub (env: impenv): stasub
+fun impenv2tmpsub (env: impenv): tmpsub
 implement
-impenv2stasub
+impenv2tmpsub
   (env) = let
 //
 fun aux (
-  sub: &stasub, env: impenv
-) : void = let
+  env: impenv, sub: tmpsub
+) : tmpsub = let
 in
   case+ env of
   | ~IMPENVcons
       (s2v, s2f, env) => let
       val s2e = s2hnf2exp (s2f)
-      val () = stasub_add (sub, s2v, s2e)
+      val sub = tmpsub_cons (s2v, s2e, sub)
     in
-      aux (sub, env)
+      aux (env, sub)
     end // end of [IMPENVcons]
-  | ~IMPENVnil () => ()
+  | ~IMPENVnil () => sub
 end // end of [aux]
 //
-var sub
-  : stasub = stasub_make_nil ()
-val () = aux (sub, env)
-//
 in
-  sub
+  aux (env, tmpsub_nil ())
 end // end of [impenv2stasub]
 
 (* ****** ****** *)
@@ -304,9 +300,8 @@ end // end of [auxlst]
 in // in of [local]
 
 implement
-hiimpdec_match (
-  impdec, d2c0, t2mas
-) = let
+hiimpdec_tmpcst_match
+  (imp, d2c0, t2mas) = let
 //
 fun auxlstlst (
   env: !impenv, s2ess: s2explstlst, t2mas: t2mpmarglst
@@ -329,24 +324,24 @@ case+ s2ess of
 //
 end // end of [auxlstlst]
 //
-val d2c = impdec.hiimpdec_cst
+val d2c = imp.hiimpdec_cst
 //
 in
 //
 if d2c = d2c0 then let
   val env =
-    impenv_make_svarlst (impdec.hiimpdec_imparg)
+    impenv_make_svarlst (imp.hiimpdec_imparg)
   // end of [val]
-  val ans = auxlstlst (env, impdec.hiimpdec_tmparg, t2mas)
+  val ans = auxlstlst (env, imp.hiimpdec_tmparg, t2mas)
 in
   if ans then
-    Some_vt (impenv2stasub (env))
+    Some_vt (impenv2tmpsub (env))
   else let
     val () = impenv_free (env) in None_vt ()
   end // end of [if]
 end else None_vt () // end of [if]
 //
-end // end of [hiimpdec_match]
+end // end of [hiimpdec_tmpcst_match]
 
 end // end of [local]
 
