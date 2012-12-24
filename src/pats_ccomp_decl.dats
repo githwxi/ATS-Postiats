@@ -120,9 +120,15 @@ case+ hid.hidecl_node of
     (knd, impdec) => let
     val lev0 = the_d2varlev_get ()
     val d2c = impdec.hiimpdec_cst
+//
     val imparg = impdec.hiimpdec_imparg
     val tmparg = impdec.hiimpdec_tmparg
+//
+    val istmp = list_is_cons (tmparg)
+    val () = if istmp then ccompenv_inc_tmplev (env)
     val _(*d2c*) = hiimpdec_ccomp (env, res, lev0, impdec)
+    val () = if istmp then ccompenv_dec_tmplev (env)
+//
   in
     primdec_impdec (loc, d2c, imparg, tmparg)
   end // end of [HIDimpdec]
@@ -156,6 +162,8 @@ case+ hid.hidecl_node of
   in
     primdec_vardecs (loc, d2vs)
   end // end of [HIDvardecs]
+//
+| HIDstaload (fil, _, _, _) => primdec_staload (loc, fil)
 //
 | _ => let
     val () = println! ("hidecl_ccomp: hid = ", hid)

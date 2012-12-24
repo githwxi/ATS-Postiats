@@ -291,7 +291,7 @@ case+
     val () = prstr "HDEtmpcst("
     val () = fprint_d2cst (out, d2c)
     val () = prstr "<"
-    val () = $UT.fprintlst (out, t2mas, "><", fpprint_t2mpmarg)
+    val () = fpprint_t2mpmarglst (out, t2mas)
     val () = prstr ">"
     val () = prstr ")"
   }
@@ -299,7 +299,7 @@ case+
     val () = prstr "HDEtmpvar("
     val () = fprint_d2var (out, d2v)
     val () = prstr "<"
-    val () = $UT.fprintlst (out, t2mas, "><", fpprint_t2mpmarg)
+    val () = fpprint_t2mpmarglst (out, t2mas)
     val () = prstr ">"
     val () = prstr ")"
   }

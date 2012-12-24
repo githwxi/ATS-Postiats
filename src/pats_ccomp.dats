@@ -96,6 +96,12 @@ primdec_vardecs (loc, d2vs) =
 
 (* ****** ****** *)
 
+implement
+primdec_staload (loc, fil) =
+  primdec_make_node (loc, PMDstaload (fil))
+
+(* ****** ****** *)
+
 extern
 fun primval_make_node
   (loc: location, hse: hisexp, node: primval_node): primval
@@ -199,16 +205,22 @@ primval_fun (loc, hse, fl) =
 (* ****** ****** *)
 
 implement
-primval_tmplt_cst
+primval_tmpltcst
   (loc, hse, d2c, t2mas) =
-  primval_make_node (loc, hse, PMVtmplt_cst (d2c, t2mas))
-// end of [primval_tmplt_cst]
+  primval_make_node (loc, hse, PMVtmpltcst (d2c, t2mas))
+// end of [primval_tmpltcst]
 
 implement
-primval_tmplt_var
+primval_tmpltcstmat
+  (loc, hse, d2c, t2mas, mat) =
+  primval_make_node (loc, hse, PMVtmpltcstmat (d2c, t2mas, mat))
+// end of [primval_tmpltcstmat]
+
+implement
+primval_tmpltvar
   (loc, hse, d2v, t2mas) =
-  primval_make_node (loc, hse, PMVtmplt_var (d2v, t2mas))
-// end of [primval_tmplt_var]
+  primval_make_node (loc, hse, PMVtmpltvar (d2v, t2mas))
+// end of [primval_tmpltvar]
 
 (* ****** ****** *)
 

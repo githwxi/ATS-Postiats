@@ -1273,6 +1273,7 @@ typedef t2mpmarglst = List (t2mpmarg)
 viewtypedef t2mpmarglst_vt = List_vt (t2mpmarg)
 
 fun fpprint_t2mpmarg : fprint_type (t2mpmarg)
+fun fpprint_t2mpmarglst : fprint_type (t2mpmarglst)
 
 fun t2mpmarg_make (loc: location, arg: s2explst): t2mpmarg
 

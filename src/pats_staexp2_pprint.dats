@@ -550,6 +550,11 @@ fpprint_t2mpmarg
   (out, x) = fpprint_s2explst (out, x.t2mpmarg_arg)
 // end of [fpprint_t2mpmarg]
 
+implement
+fpprint_t2mpmarglst
+  (out, xs) = $UT.fprintlst (out, xs, "><", fpprint_t2mpmarg)
+// end of [fpprint_t2mpmarglst]
+
 (* ****** ****** *)
 
 (* end of [pats_staexp2_pprint.dats] *)

@@ -42,6 +42,9 @@ staload "./pats_basics.sats"
 (* ****** ****** *)
 
 staload LAB = "./pats_label.sats"
+
+staload FIL = "./pats_filename.sats"
+
 staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
@@ -132,6 +135,12 @@ case+ x.primdec_node of
 | PMDvardecs (d2vs) => {
     val () = prstr "PMDvardecs("
     val () = fprint_d2varlst (out, d2vs)
+    val () = prstr ")"
+  }
+//
+| PMDstaload (fil) => {
+    val () = prstr "PMDstaload("
+    val () = $FIL.fprint_filename (out, fil)
     val () = prstr ")"
   }
 //
@@ -263,21 +272,32 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
-| PMVtmplt_cst
+| PMVtmpltcst
     (d2c, t2mas) => {
-    val () = prstr "PMVtmplt_cst("
+    val () = prstr "PMVtmpltcst("
     val () = fprint_d2cst (out, d2c)
     val () = prstr "<"
-    val () = $UT.fprintlst (out, t2mas, "><", fpprint_t2mpmarg)
+    val () = fpprint_t2mpmarglst (out, t2mas)
     val () = prstr ">"
     val () = prstr ")"
   }
-| PMVtmplt_var
+| PMVtmpltcstmat
+    (d2c, t2mas, mat) => {
+    val () = prstr "PMVtmpltcstmat["
+    val () = fprint_tmpcstmat_kind (out, mat)
+    val () = prstr "]("
+    val () = fprint_d2cst (out, d2c)
+    val () = prstr "<"
+    val () = fpprint_t2mpmarglst (out, t2mas)
+    val () = prstr ">"
+    val () = prstr ")"
+  }
+| PMVtmpltvar
     (d2v, t2mas) => {
-    val () = prstr "PMVtmplt_var("
+    val () = prstr "PMVtmpltvar("
     val () = fprint_d2var (out, d2v)
     val () = prstr "<"
-    val () = $UT.fprintlst (out, t2mas, "><", fpprint_t2mpmarg)
+    val () = fpprint_t2mpmarglst (out, t2mas)
     val () = prstr ">"
     val () = prstr ")"
   }
@@ -680,6 +700,71 @@ fprint_instrlst
 in
   fprint_newline (out)
 end // end of [fprint_instrlst]
+
+(* ****** ****** *)
+
+implement
+fprint_tmpsub
+  (out, xs) = let
+//
+fun loop (
+  out: FILEref, xs: tmpsub, i: int
+) : void = let
+//
+macdef prstr (s) = fprint_string (out, ,(s))
+//
+in
+//
+case+ xs of
+| tmpsub_cons
+   (s2v, s2e, xs) => let
+   val () =
+     if i > 0 then prstr "; "
+   // end of [val]
+   val () = fprint_s2var (out, s2v)
+   val () = prstr " -> "
+   val () = fprint_s2exp (out, s2e)
+ in
+   loop (out, xs, i+1)
+ end // end of [tmpsub_cons]
+| tmpsub_nil () => ()
+//
+end // end of [loop]
+//
+in
+  loop (out, xs, 0)
+end // end of [fprint_tmpsub]
+
+implement
+fprint_tmpcstmat
+  (out, opt) = let
+  macdef prstr (s) = fprint_string (out, ,(s))
+in
+//
+case+ opt of
+| TMPCSTMATnone (
+  ) => prstr "TMPCSTMATnone()"
+| TMPCSTMATsome
+    (imp, sub) => let
+    val () = prstr "TMPCSTMATsome("
+    val () = fprint_tmpsub (out, sub)
+    val () = prstr ")"
+  in
+    // nothing
+  end // end of [TMPCSTMATnone]
+//
+end // end of [fprint_tmpcstmat]
+
+implement
+fprint_tmpcstmat_kind
+  (out, opt) = let
+in
+//
+case+ opt of
+| TMPCSTMATnone _ => fprint_int (out, 0)
+| TMPCSTMATsome _ => fprint_int (out, 1)
+//
+end // end of [fprint_tmpcstmat_kind]
 
 (* ****** ****** *)
 

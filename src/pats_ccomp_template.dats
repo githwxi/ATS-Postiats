@@ -245,13 +245,16 @@ local
 
 fun aux (
   env: !impenv
-, s2f_pat: s2hnf
-, s2f_arg: s2hnf
+, s2e_pat: s2exp
+, s2e_arg: s2exp
 ) : bool = let
 //
+val s2f_pat = s2exp2hnf (s2e_pat)
+val s2f_arg = s2exp2hnf (s2e_arg)
 val s2e_pat = s2hnf2exp (s2f_pat)
 val s2e_arg = s2hnf2exp (s2f_arg)
 val s2en_pat = s2e_pat.s2exp_node
+val s2en_arg = s2e_arg.s2exp_node
 //
 in
 //
@@ -268,12 +271,39 @@ case+ s2en_pat of
     // end of [if]
   end // end of [S2Evar]
 //
+| S2Ecst
+    (s2c_pat) => let
+  in
+    case+ s2en_arg of
+    | S2Ecst (s2c_arg) =>
+        if s2c_pat = s2c_arg then true else false
+      // end of [S2Ecst]
+    | _ => false
+  end // end of [S2Ecst]
+//
+| S2Eapp (
+    s2e_pat, s2es_pat
+  ) => let
+  in
+    case+ s2en_arg of
+    | S2Eapp (s2e_arg, s2es_arg) => let
+        val ans = aux (env, s2e_pat, s2e_arg)
+      in
+        if ans then auxlst (env, s2es_pat, s2es_arg) else false
+      end // end of [S2Eapp]
+    | _ => false
+  end // end of [S2Eapp]
+//
+| _ when s2hnf_syneq (s2f_pat, s2f_arg) => true
+//
 | _ => false
 //
 end // end of [aux]
 
-fun auxlst (
-  env: !impenv, s2es_pat: s2explst, s2es_arg: s2explst
+and auxlst (
+  env: !impenv
+, s2es_pat: s2explst
+, s2es_arg: s2explst
 ) : bool = let
 in
 //
@@ -285,9 +315,7 @@ case+ s2es_pat of
     | list_cons (
         s2e_arg, s2es_arg
       ) => let
-         val s2f_pat = s2exp2hnf (s2e_pat)
-         val s2f_arg = s2exp2hnf (s2e_arg)
-         val ans = aux (env, s2f_pat, s2f_arg)
+         val ans = aux (env, s2e_pat, s2e_arg)
        in
          if ans then auxlst (env, s2es_pat, s2es_arg) else false
        end // end of [list_cons]

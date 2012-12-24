@@ -271,34 +271,34 @@ end // end of [fprint_ccompenv]
 (* ****** ****** *)
 
 implement
-ccompenv_tmplev_get
+ccompenv_get_tmplev
   (env) = let
   val CCOMPENV (!p) = env
   val lev = p->ccompenv_tmplev
   prval () = fold@ (env)
 in
   lev
-end // end of [ccompenv_tmplev_get]
+end // end of [ccompenv_get_tmplev]
 
 implement
-ccompenv_tmplev_inc
+ccompenv_inc_tmplev
   (env) = let
   val CCOMPENV (!p) = env
   val () = (p->ccompenv_tmplev := p->ccompenv_tmplev + 1)
   prval () = fold@ (env)
 in
   // nothing
-end // end of [ccompenv_tmplev_inc]
+end // end of [ccompenv_inc_tmplev]
 
 implement
-ccompenv_tmplev_dec
+ccompenv_dec_tmplev
   (env) = let
   val CCOMPENV (!p) = env
   val () = (p->ccompenv_tmplev := p->ccompenv_tmplev - 1)
   prval () = fold@ (env)
 in
   // nothing
-end // end of [ccompenv_tmplev_dec]
+end // end of [ccompenv_dec_tmplev]
 
 (* ****** ****** *)
 

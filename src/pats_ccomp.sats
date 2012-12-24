@@ -48,7 +48,6 @@ typedef label = $LAB.label
 (* ****** ****** *)
 //
 staload FIL = "./pats_filename.sats"
-typedef filename = $FIL.filename
 //
 staload LOC = "./pats_location.sats"
 typedef location = $LOC.location
@@ -190,6 +189,22 @@ fun the_funlablst_addlst (fls: funlablst): void
 
 (* ****** ****** *)
 
+datatype tmpsub =
+  | tmpsub_cons of (s2var, s2exp, tmpsub) | tmpsub_nil of ()
+viewtypedef tmpsubopt_vt = Option_vt (tmpsub)
+ 
+fun fprint_tmpsub : fprint_type (tmpsub)
+
+datatype
+tmpcstmat =
+  | TMPCSTMATsome of (hiimpdec, tmpsub) | TMPCSTMATnone of ()
+// end of [tmpcstmat]
+
+fun fprint_tmpcstmat : fprint_type (tmpcstmat)
+fun fprint_tmpcstmat_kind : fprint_type (tmpcstmat)
+
+(* ****** ****** *)
+
 datatype
 primdec_node =
   | PMDnone of () 
@@ -201,6 +216,7 @@ primdec_node =
   | PMDvaldecs of (valkind, hipatlst)
   | PMDvaldecs_rec of (valkind, hipatlst)
   | PMDvardecs of (d2varlst)
+  | PMDstaload of ($FIL.filename)
   | PMDlocal of (primdeclst, primdeclst)
 // end of [primdec_node]
 
@@ -247,6 +263,8 @@ fun primdec_valdecs_rec
 //
 fun primdec_vardecs (loc: location, d2vs: d2varlst): primdec
 //
+fun primdec_staload (loc: location, fil: $FIL.filename): primdec
+//
 (* ****** ****** *)
 
 datatype
@@ -262,8 +280,9 @@ primval_node =
   | PMVcst of (d2cst) // for constants
   | PMVvar of (d2var) // for temporaries
 //
-  | PMVtmplt_cst of (d2cst, t2mpmarglst) // for template constants
-  | PMVtmplt_var of (d2var, t2mpmarglst) // for template variables
+  | PMVtmpltcst of (d2cst, t2mpmarglst) // for template constants
+  | PMVtmpltcstmat of (d2cst, t2mpmarglst, tmpcstmat) // for matched template constants
+  | PMVtmpltvar of (d2var, t2mpmarglst) // for template variables
 //
   | PMVint of (int)
   | PMVbool of (bool)
@@ -413,12 +432,17 @@ fun primval_fun
 
 (* ****** ****** *)
 
-fun primval_tmplt_cst (
+fun primval_tmpltcst (
   loc: location, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst
-) : primval // end of [primval_tmplst_cst]
-fun primval_tmplt_var (
+) : primval // end of [primval_tmpltcst]
+
+fun primval_tmpltcstmat (
+  loc: location, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst, mat: tmpcstmat
+) : primval // end of [primval_tmpltcstmat]
+
+fun primval_tmpltvar (
   loc: location, hse: hisexp, d2v: d2var, t2mas: t2mpmarglst
-) : primval // end of [primval_tmplt_var]
+) : primval // end of [primval_tmpltvar]
 
 (* ****** ****** *)
 
@@ -677,9 +701,9 @@ fun fprint_ccompenv (out: FILEref, env: !ccompenv): void
 
 (* ****** ****** *)
 
-fun ccompenv_tmplev_get (env: !ccompenv): int
-fun ccompenv_tmplev_inc (env: !ccompenv): void
-fun ccompenv_tmplev_dec (env: !ccompenv): void
+fun ccompenv_get_tmplev (env: !ccompenv): int
+fun ccompenv_inc_tmplev (env: !ccompenv): void
+fun ccompenv_dec_tmplev (env: !ccompenv): void
 
 (* ****** ****** *)
 
@@ -772,7 +796,7 @@ fun emit_ident (out: FILEref, id: string): void
 
 fun emit_label (out: FILEref, lab: label): void
 
-fun emit_filename (out: FILEref, fil: filename): void
+fun emit_filename (out: FILEref, fil: $FIL.filename): void
 
 fun emit_d2con (out: FILEref, d2c: d2con): void
 fun emit_d2cst (out: FILEref, d2c: d2cst): void
@@ -825,20 +849,11 @@ fun emit_funent_implmnt (out: FILEref, fent: funent): void
 //
 (* ****** ****** *)
 
-datatype tmpsub =
-  | tmpsub_cons of (s2var, s2exp, tmpsub) | tmpsub_nil of ()
-viewtypedef tmpsubopt_vt = Option_vt (tmpsub)
- 
 fun hiimpdec_tmpcst_match
   (imp: hiimpdec, d2c: d2cst, t2mas: t2mpmarglst): tmpsubopt_vt
 // end of [hiimpdec_tmpcst_match]
 
 (* ****** ****** *)
-
-datatype
-tmpcstmat =
-  | TMPCSTMATsome of (hiimpdec, tmpsub) | TMPCSTMATnone of ()
-// end of [tmpcstmat]
 
 fun ccompenv_tmpcst_match
   (env: !ccompenv, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
@@ -847,7 +862,7 @@ fun ccompenv_tmpcst_match
 (* ****** ****** *)
 
 fun ccomp_main (
-  out: FILEref, flag: int, infil: filename, hdcs: hideclist
+  out: FILEref, flag: int, infil: $FIL.filename, hdcs: hideclist
 ) : void // end of [ccomp_main]
 
 (* ****** ****** *)
