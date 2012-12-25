@@ -78,7 +78,10 @@ fun filenv_get_d2eclist (fenv: filenv): d2eclist
 (* ****** ****** *)
 
 fun filenv_getref_d3eclistopt (fenv: filenv): Ptr1
+(*
 fun filenv_getref_hideclistopt (fenv: filenv): Ptr1
+*)
+fun filenv_getref_tmpcstdecmap (fenv: filenv): Ptr1
 
 (* ****** ****** *)
 

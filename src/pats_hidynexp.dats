@@ -36,8 +36,9 @@ staload "pats_basics.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_dynexp3.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_dynexp2.sats"
+staload "./pats_dynexp3.sats"
 
 (* ****** ****** *)
 
@@ -630,6 +631,46 @@ implement
 hidecl_local (loc, head, body) =
   hidecl_make_node (loc, HIDlocal (head, body))
 // end of [hidecl_local]
+
+(* ****** ****** *)
+
+local
+//
+staload UN = "prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/unsafe.dats"
+//
+staload TRENV2 = "./pats_trans2_env.sats"
+//
+in // in of [local]
+
+implement
+filenv_get_tmpcstdecmapopt (fenv) = let
+  val p = $TRENV2.filenv_getref_tmpcstdecmap (fenv) in $UN.ptrget<tmpcstdecmapopt> (p)
+end // end of [filenv_get_tmpcstdecmapopt]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+tmpcstdecmap_find
+  (map, d2c) = let
+  val opt = d2cstmap_search (map, d2c)
+in
+//
+case+ opt of
+| ~Some_vt (impdecs) => impdecs | ~None_vt () => list_nil ()
+//
+end // end of [tmpcstdecmap_find]
+
+implement
+tmpcstdecmap_insert
+  (map, d2c, x) = let
+  val xs = tmpcstdecmap_find (map, d2c)
+  val _(*found*) = d2cstmap_insert (map, d2c, list_cons (x, xs))
+in
+  // nothing
+end // end of [tmpcstdecmap_insert]
 
 (* ****** ****** *)
 

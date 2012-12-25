@@ -206,7 +206,7 @@ overload compare with compare_d2cst_d2cst
 
 fun d2cstmap_make_nil {a:type} ():<> d2cstmap (a)
 fun d2cstmap_search
-  {a:type} (map: d2cstmap(a), d2v: d2cst): Option_vt a
+  {a:type} (map: d2cstmap(a), d2v: d2cst): Option_vt (a)
 fun d2cstmap_insert
   {a:type} (map: &d2cstmap(a), d2v: d2cst, x: a): bool(*found*)
 
@@ -325,7 +325,7 @@ fun d2varset_vt_listize (xs: !d2varset_vt):<> d2varlst_vt
 
 fun d2varmap_make_nil {a:type} ():<> d2varmap (a)
 fun d2varmap_search
-  {a:type} (map: d2varmap(a), d2v: d2var): Option_vt a
+  {a:type} (map: d2varmap(a), d2v: d2var): Option_vt (a)
 fun d2varmap_insert
   {a:type} (map: &d2varmap(a), d2v: d2var, x: a): bool(*found*)
 
@@ -1397,7 +1397,10 @@ fun d2ecl_errdec (loc: location): d2ecl
 (* ****** ****** *)
 
 abstype dynexp2_d3eclist_type
+(*
 abstype dynexp2_hideclist_type
+*)
+abstype dynexp2_tmpcstdecmap_type
 
 (* ****** ****** *)
 

@@ -347,6 +347,8 @@ and hiimpdec = '{
 , hiimpdec_def= hidexp
 } // end of [hiimpdec]
 
+and hiimpdeclst = List (hiimpdec)
+
 (* ****** ****** *)
 
 and hifundec = '{
@@ -712,6 +714,23 @@ fun hidecl_staload (
 fun hidecl_local
   (loc: location, head: hideclist, body: hideclist): hidecl
 // end of [hidecl_local]
+
+(* ****** ****** *)
+//
+typedef
+tmpcstdecmap = d2cstmap (hiimpdeclst)
+typedef
+tmpcstdecmapopt = Option (tmpcstdecmap)
+//
+fun tmpcstdecmap_find
+  (map: tmpcstdecmap, d2c: d2cst): hiimpdeclst
+//
+fun tmpcstdecmap_insert
+  (map: &tmpcstdecmap, d2c: d2cst, dec: hiimpdec): void
+//
+(* ****** ****** *)
+
+fun filenv_get_tmpcstdecmapopt (fenv: filenv): tmpcstdecmapopt
 
 (* ****** ****** *)
 

@@ -49,10 +49,13 @@ implement prerr_FILENAME<> () = prerr "pats_typerase_decl"
 
 staload LOC = "./pats_location.sats"
 overload print with $LOC.print_location
+staload FIL = "./pats_filename.sats"
+overload print with $FIL.print_filename
 
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
+staload "./pats_dynexp2.sats"
 staload "./pats_dynexp3.sats"
 
 (* ****** ****** *)
@@ -81,6 +84,11 @@ extern
 fun d3ecl_tyer_valdecs_rec (d3c0: d3ecl): hidecl
 extern
 fun d3ecl_tyer_vardecs (d3c0: d3ecl): hidecl
+
+(* ****** ****** *)
+
+extern
+fun tmpcstdecmap_make_hideclist (xs: hideclist): tmpcstdecmap
 
 (* ****** ****** *)
 
@@ -115,26 +123,29 @@ case+
 | D3Cprvardecs _ => hidecl_none (loc0) // proof vars
 //
 | D3Cstaload (
-    filename, flag, fenv, loaded
+    fname, flag, fenv, loaded
   ) => let
-    val opt =
+    val- Some (d3cs) =
       $TRENV3.filenv_get_d3eclistopt (fenv)
     // end of [val]
+(*
     val () = (
-      case+ opt of
-      | Some (d3cs) => let
-          val hids = d3eclist_tyer (d3cs)
-          val p =
-            $TRENV2.filenv_getref_hideclistopt (fenv)
-          // end of [val]
-          val () = $UN.ptrset<hideclistopt> (p, Some (hids))
-        in
-          // nothing
-        end // end of [Some]
-      | None () => ()
+      println! ("d3ecl_tyer: D3Cstaload: fname = ", fname);
+      println! ("d3ecl_tyer: D3Cstaload: loaded = ", loaded);
+    ) // end of [val]
+*)
+    val () = (
+      if (loaded = 0) then let
+        val hids = d3eclist_tyer (d3cs)
+        val tcdmap = tmpcstdecmap_make_hideclist (hids)
+        val p = $TRENV2.filenv_getref_tmpcstdecmap (fenv)
+        val () = $UN.ptrset<tmpcstdecmapopt> (p, Some (tcdmap))
+      in
+        // nothing
+      end // end of [Some]
     ) : void // end of [val]
   in
-    hidecl_staload (loc0, filename, flag, fenv, loaded)
+    hidecl_staload (loc0, fname, flag, fenv, loaded)
   end // end of [D3Cstaload]
 //
 | D3Clocal
@@ -359,6 +370,50 @@ in
 end // end of [d3ecl_tyer_vardecs]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+tmpcstdecmap_make_hideclist (xs) = let
+//
+fun loop (
+  map: &tmpcstdecmap, xs: hideclist
+) : void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = (
+      case+ x.hidecl_node of
+      | HIDimpdec
+          (knd, impdec) => let
+          val tmparg = impdec.hiimpdec_tmparg
+        in
+          case+ tmparg of
+          | list_cons _ => let
+              val d2c = impdec.hiimpdec_cst
+            in
+              tmpcstdecmap_insert (map, d2c, impdec)
+            end // end of [list_cons]
+          | _ => ()
+        end // end of [HIDimpdec]
+      | _ => ()
+    ) : void // end of [val]
+  in
+    loop (map, xs)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [loop]
+//
+var map
+  : tmpcstdecmap = d2cstmap_make_nil ()
+val () = loop (map, xs)
+//
+in
+  map
+end // end of [tmpcstdecmap_make_hideclist]
 
 (* ****** ****** *)
 
