@@ -185,6 +185,46 @@ val res = list_reverse (res)
 in
   atext_concatxt (list_of_list_vt (res))
 end // end of [g1int_implist]
+//
+fun g1uint_implist (
+  knm: string, tnm: string
+) : atext = let
+//
+fun f (opr: string):<cloref1> atext = let
+//
+val x = sprintf (
+"implement g1uint_%s<%s> = g1uint_%s_%s\n", @(opr, knm, opr, tnm)
+) (* end of [val] *)
+//
+in
+  atext_strptr (x)
+end // end of [f]
+var res: atextlst = list_nil
+//
+val () = res := list_cons (f "succ", res)
+val () = res := list_cons (f "pred", res)
+val () = res := list_cons (atext_newline(), res)
+val () = res := list_cons (f "add", res)
+val () = res := list_cons (f "sub", res)
+val () = res := list_cons (f "mul", res)
+val () = res := list_cons (f "div", res)
+val () = res := list_cons (atext_newline(), res)
+val () = res := list_cons (f "lt", res)
+val () = res := list_cons (f "lte", res)
+val () = res := list_cons (f "gt", res)
+val () = res := list_cons (f "gte", res)
+val () = res := list_cons (f "eq", res)
+val () = res := list_cons (f "neq", res)
+val () = res := list_cons (f "compare", res)
+val () = res := list_cons (atext_newline(), res)
+val () = res := list_cons (f "max", res)
+val () = res := list_cons (f "min", res)
+//
+val res = list_reverse (res)
+//
+in
+  atext_concatxt (list_of_list_vt (res))
+end // end of [g1uint_implist]
 %}
 \
 #atscode_separator()
@@ -240,6 +280,8 @@ end // end of [local]
 #atscode_separator()
 //
 #g1int_implist("int_kind", "int")\
+//
+#g1uint_implist("uint_kind", "uint")\
 //
 #atscode_separator()
 
