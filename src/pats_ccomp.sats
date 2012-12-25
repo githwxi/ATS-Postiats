@@ -189,6 +189,10 @@ fun the_funlablst_addlst (fls: funlablst): void
 
 (* ****** ****** *)
 
+fun hiimpdec_get_funlabopt (imp: hiimpdec): Option (funlab)
+
+(* ****** ****** *)
+
 datatype tmpsub =
   | tmpsub_cons of (s2var, s2exp, tmpsub) | tmpsub_nil of ()
 viewtypedef tmpsubopt_vt = Option_vt (tmpsub)
@@ -197,7 +201,8 @@ fun fprint_tmpsub : fprint_type (tmpsub)
 
 datatype
 tmpcstmat =
-  | TMPCSTMATsome of (hiimpdec, tmpsub) | TMPCSTMATnone of ()
+  | TMPCSTMATsome of (hiimpdec, t2mpmarglst, tmpsub)
+  | TMPCSTMATnone of ()
 // end of [tmpcstmat]
 
 fun fprint_tmpcstmat : fprint_type (tmpcstmat)
@@ -729,6 +734,7 @@ fun ccompenv_find_varbind
 
 fun ccompenv_add_impdec (env: !ccompenv, imp: hiimpdec): void
 fun ccompenv_add_fundec (env: !ccompenv, hfd: hifundec): void
+fun ccompenv_add_staload (env: !ccompenv, fenv: filenv): void
 
 (* ****** ****** *)
 
@@ -850,8 +856,11 @@ fun emit_funent_implmnt (out: FILEref, fent: funent): void
 (* ****** ****** *)
 
 fun hiimpdec_tmpcst_match
-  (imp: hiimpdec, d2c: d2cst, t2mas: t2mpmarglst): tmpsubopt_vt
+  (imp: hiimpdec, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
 // end of [hiimpdec_tmpcst_match]
+fun hiimpdeclst_tmpcst_match
+  (imps: hiimpdeclst, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
+// end of [hiimpdeclst_tmpcst_match]
 
 (* ****** ****** *)
 

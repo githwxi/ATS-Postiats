@@ -516,6 +516,7 @@ hiimpdec_make (
 , hiimpdec_imparg= imparg
 , hiimpdec_tmparg= tmparg
 , hiimpdec_def= def
+, hiimpdec_funlab= None ()
 } // end of [hiimpdec_make]
 
 (* ****** ****** *)
@@ -675,6 +676,7 @@ end // end of [tmpcstdecmap_insert]
 (* ****** ****** *)
 
 extern typedef "hipat_t" = hipat
+extern typedef "hiimpdec_t" = hiimpdec
 
 %{$
 
@@ -684,6 +686,12 @@ patsopt_hipat_set_asvar (
 ) {
   ((hipat_t)hip)->atslab_hipat_asvar = opt ; return ;
 } // end of [patsopt_hipat_set_asvar]
+
+ats_ptr_type
+patsopt_hiimpdec_getref_funlabopt
+  (ats_ptr_type impdec) {
+  return &((hiimpdec_t)impdec)->atslab_hiimpdec_funlab ;
+} // end of [patsopt_hiimpdec_getref_funlabopt]
 
 %} // end of [%{$]
 

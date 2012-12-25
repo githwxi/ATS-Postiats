@@ -1117,6 +1117,8 @@ fun pprint_s2explst (s2es: s2explst): void
 and pprerr_s2explst (s2es: s2explst): void
 fun fpprint_s2explst : fprint_type (s2explst)
 
+fun fpprint_s2explstlst : fprint_type (s2explstlst)
+
 fun fpprint_labs2explst : fprint_type (labs2explst)
 fun fpprint_wths2explst : fprint_type (wths2explst)
 //

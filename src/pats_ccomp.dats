@@ -32,12 +32,24 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/unsafe.dats"
+
+(* ****** ****** *)
+
 staload "./pats_histaexp.sats"
 staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
 
 staload "./pats_ccomp.sats"
+
+(* ****** ****** *)
+
+implement
+hiimpdec_get_funlabopt (imp) =
+  $UN.ptrget<Option(funlab)> (hiimpdec_getref_funlabopt (imp))
+// end of [hiimpdec_get_funlabopt]
 
 (* ****** ****** *)
 

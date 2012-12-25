@@ -362,16 +362,43 @@ if d2c = d2c0 then let
   // end of [val]
   val ans = auxlstlst (env, imp.hiimpdec_tmparg, t2mas)
 in
-  if ans then
-    Some_vt (impenv2tmpsub (env))
-  else let
-    val () = impenv_free (env) in None_vt ()
+  if ans then let
+    val sub =
+      impenv2tmpsub (env)
+    // end of [val]
+  in
+    TMPCSTMATsome (imp, t2mas, sub)
+  end else let
+    val () = impenv_free (env) in TMPCSTMATnone ()
   end // end of [if]
-end else None_vt () // end of [if]
+end else
+  TMPCSTMATnone ()
+// end of [if]
 //
 end // end of [hiimpdec_tmpcst_match]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement
+hiimpdeclst_tmpcst_match
+  (imps, d2c0, t2mas) = let
+in
+//
+case+ imps of
+| list_cons (
+    imp, imps
+  ) => let
+    val opt = hiimpdec_tmpcst_match (imp, d2c0, t2mas)
+  in
+    case+ opt of
+    | TMPCSTMATsome _ => opt
+    | TMPCSTMATnone _ => hiimpdeclst_tmpcst_match (imps, d2c0, t2mas)
+  end // end of [list_cons]
+| list_nil () => TMPCSTMATnone ()
+//
+end // end of [hiimpdeclst_tmpcst_match]
 
 (* ****** ****** *)
 

@@ -37,6 +37,10 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
+
+staload FIL = "./pats_filename.sats"
+
+(* ****** ****** *)
 //
 staload "./pats_staexp2.sats"
 staload "./pats_dynexp2.sats"
@@ -95,6 +99,7 @@ markenvlst_vt =
   | MARKENVLSTcons_var of (d2var, markenvlst_vt)
   | MARKENVLSTcons_impdec of (hiimpdec, markenvlst_vt)
   | MARKENVLSTcons_fundec of (hifundec, markenvlst_vt)
+  | MARKENVLSTcons_staload of (filenv, markenvlst_vt)
 // end of [markenvlst]
 
 (* ****** ****** *)
@@ -111,6 +116,7 @@ in
   | ~MARKENVLSTcons_var (_, xs) => markenvlst_vt_free (xs)
   | ~MARKENVLSTcons_impdec (_, xs) => markenvlst_vt_free (xs)
   | ~MARKENVLSTcons_fundec (_, xs) => markenvlst_vt_free (xs)
+  | ~MARKENVLSTcons_staload (_, xs) => markenvlst_vt_free (xs)
 end // end of [markenvlst_vt_free]
 
 (* ****** ****** *)
@@ -178,6 +184,20 @@ case+ xs of
   in
     // nothing
   end // end of [MARKENVLSTcons_fundec]
+//
+| MARKENVLSTcons_staload
+    (!p_x, !p_xs) => let
+    val () =
+      if i > 0 then
+        fprint_string (out, ", ")
+      // end of [if]
+    val fname = filenv_get_name (!p_x)
+    val () = $FIL.fprint_filename (out, fname)
+    val () = loop (out, !p_xs, i+1)
+    prval () = fold@ (xs)
+  in
+    // nothing
+  end // end of [MARKENVLSTcons_staload]
 //
 end // end of [loop]
 //
@@ -323,6 +343,7 @@ case+ xs of
   end // end of [MENVLSTcons]
 | ~MARKENVLSTcons_impdec (_, xs) => auxpop (map, xs)
 | ~MARKENVLSTcons_fundec (_, xs) => auxpop (map, xs)
+| ~MARKENVLSTcons_staload (_, xs) => auxpop (map, xs)
 //
 end // end of [auxpop]
 
@@ -414,7 +435,21 @@ ccompenv_add_fundec
 //
 in
   // nothing
-end // end of [ccompenv_add_impdec]
+end // end of [ccompenv_add_fundec]
+
+implement
+ccompenv_add_staload
+  (env, fenv) = let
+//
+  val CCOMPENV (!p) = env
+  val xs = p->ccompenv_markenvlst
+  val () = p->ccompenv_markenvlst := MARKENVLSTcons_staload (fenv, xs)
+//
+  prval () = fold@ (env)
+//
+in
+  // nothing
+end // end of [ccompenv_add_staload]
 
 (* ****** ****** *)
 
@@ -423,7 +458,9 @@ ccompenv_tmpcst_match
   (env, d2c0, t2mas) = let
 //
 fun auxlst (
-  xs: !markenvlst_vt, d2c0: d2cst, t2mas: t2mpmarglst
+  xs: !markenvlst_vt
+, d2c0: d2cst
+, t2mas: t2mpmarglst
 ) : tmpcstmat = let
 in
 //
@@ -438,21 +475,40 @@ case+ xs of
     val opt = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); opt
   end // end of [MARKENVLSTcons_var]
 | MARKENVLSTcons_impdec (imp, !p_xs) => let
-    val opt = hiimpdec_tmpcst_match (imp, d2c0, t2mas)
+    val opt =
+      hiimpdec_tmpcst_match (imp, d2c0, t2mas)
+    val res = auxcont (opt, !p_xs, d2c0, t2mas)
+    prval () = fold@ (xs)
   in
-    case+ opt of
-    | ~None_vt () => let
-        val res = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); res
-      end // end of [None]
-    | ~Some_vt (sub) =>
-        let prval () = fold@ (xs) in TMPCSTMATsome (imp, sub) end
-      // end of [Some_vt]
+    res
   end // end of [MARKENVLSTcons_impdec]
 | MARKENVLSTcons_fundec (fdc, !p_xs) => let
     val opt = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); opt
   end // end of [MARKENVLSTcons_fundec]
+| MARKENVLSTcons_staload (fenv, !p_xs) => let
+    val- Some (map) = filenv_get_tmpcstdecmapopt (fenv)
+    val imps = tmpcstdecmap_find (map, d2c0)
+    val opt = hiimpdeclst_tmpcst_match (imps, d2c0, t2mas)
+    val res = auxcont (opt, !p_xs, d2c0, t2mas)
+    prval () = fold@ (xs)
+  in
+    res
+  end // end of [MARKENVLSTcons_fundec]
 //
 end // end of [auxlst]
+//
+and auxcont (
+  opt: tmpcstmat
+, xs: !markenvlst_vt
+, d2c0: d2cst
+, t2mas: t2mpmarglst
+) : tmpcstmat = let
+in
+//
+case+ opt of
+| TMPCSTMATsome _ => opt | TMPCSTMATnone _ => auxlst (xs, d2c0, t2mas)
+//
+end // end of [auxcont]
 //
 val CCOMPENV (!p) = env
 val opt = auxlst (p->ccompenv_markenvlst, d2c0, t2mas)

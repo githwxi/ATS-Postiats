@@ -206,44 +206,57 @@ prfun g1int_get_index
 
 #atscode_separator()
 
+typedef
+g1int_neg_type (tk:tk) =
+  {i:int} g1int (tk, i) -<> g1int (tk, ~i)
 fun{tk:tk}
-g1int_neg {i:int}
-  (x: g1int (tk, i)):<> g1int (tk, ~i)
+g1int_neg : g1int_neg_type (tk)
 overload ~ with g1int_neg of 10
 
 #atscode_separator()
 
+typedef
+g1int_succ_type (tk:tk) =
+  {i:int} g1int (tk, i) -<> g1int (tk, i+1)
 fun{tk:tk}
-g1int_succ
-  {i:int} (x: g1int (tk, i)):<> g1int (tk, i+1)
+g1int_succ : g1int_succ_type (tk)
 overload succ with g1int_succ of 10
+
+typedef
+g1int_pred_type (tk:tk) =
+  {i:int} g1int (tk, i) -<> g1int (tk, i-1)
 fun{tk:tk}
-g1int_pred
-  {i:int} (x: g1int (tk, i)):<> g1int (tk, i-1)
+g1int_pred : g1int_pred_type (tk)
 overload pred with g1int_pred of 10
 
+typedef
+g1int_half_type (tk:tk) =
+  {i:int} g1int (tk, i) -<> g1int (tk, i/2)
 fun{tk:tk}
-g1int_half
-  {i:int} (x: g1int (tk, i)):<> g1int (tk, i/2)
+g1int_half : g1int_half_type (tk)
 overload half with g1int_half of 10
 
 #atscode_separator()
 
+typedef
+g1int_add_type (tk:tk) =
+  {i,j:int} (g1int (tk, i), g1int (tk, j)) -<> g1int (tk, i+j)
 fun{tk:tk}
-g1int_add {i,j:int} (
-  x: g1int (tk, i), y: g1int (tk, j)
-) :<> g1int (tk, i+j)
+g1int_add : g1int_add_type (tk)
 overload + with g1int_add of 20
 
+typedef
+g1int_sub_type (tk:tk) =
+  {i,j:int} (g1int (tk, i), g1int (tk, j)) -<> g1int (tk, i-j)
 fun{tk:tk}
-g1int_sub {i,j:int} (
-  x: g1int (tk, i), y: g1int (tk, j)
-) :<> g1int (tk, i-j)
+g1int_sub : g1int_sub_type (tk)
 overload - with g1int_sub of 20
 
+typedef
+g1int_mul_type (tk:tk) =
+  {i,j:int} (g1int (tk, i), g1int (tk, j)) -<> g1int (tk, i*j)
 fun{tk:tk}
-g1int_mul {i,j:int}
-  (x: g1int (tk, i), y: g1int (tk, j)):<> g1int (tk, i*j)
+g1int_mul : g1int_mul_type (tk)
 overload * with g1int_mul of 20
 
 fun{tk:tk}
@@ -251,9 +264,11 @@ g1int_mul2 {i,j:int} (
   x: g1int (tk, i), y: g1int (tk, j)
 ) :<> [ij:int] (MUL (i, j, ij) | g1int (tk, ij))
 
+typedef
+g1int_div_type (tk:tk) =
+  {i,j:int} (g1int (tk, i), g1int (tk, j)) -<> g1int (tk, i/j)
 fun{tk:tk}
-g1int_div {i,j:int | j != 0}
-  (x: g1int (tk, i), y: g1int (tk, j)):<> g1int (tk, i/j)
+g1int_div : g1int_div_type (tk)
 overload / with g1int_div of 20
 
 fun{tk:tk}
@@ -274,37 +289,51 @@ g1int_nmod2 {i,j:int | j > 0} (
 
 #atscode_separator()
 
+typedef
+g1int_lt_type (tk:tk) =
+  {i,j:int} (g1int (tk, i), g1int (tk, j)) -<> bool (i < j)
+typedef
+g1int_lte_type (tk:tk) =
+  {i,j:int} (g1int (tk, i), g1int (tk, j)) -<> bool (i <= j)
 fun{tk:tk}
-g1int_lt {i,j:int}
-  (x: g1int (tk, i), y: g1int (tk, j)):<> bool (i < j)
+g1int_lt : g1int_lt_type (tk)
 overload < with g1int_lt of 20
 fun{tk:tk}
-g1int_lte {i,j:int}
-  (x: g1int (tk, i), y: g1int (tk, j)):<> bool (i <= j)
+g1int_lte : g1int_lte_type (tk)
 overload <= with g1int_lte of 20
 
+typedef
+g1int_gt_type (tk:tk) =
+  {i,j:int} (g1int (tk, i), g1int (tk, j)) -<> bool (i > j)
+typedef
+g1int_gte_type (tk:tk) =
+  {i,j:int} (g1int (tk, i), g1int (tk, j)) -<> bool (i >= j)
 fun{tk:tk}
-g1int_gt {i,j:int}
-  (x: g1int (tk, i), y: g1int (tk, j)):<> bool (i > j)
+g1int_gt : g1int_gt_type (tk)
 overload > with g1int_gt of 20
 fun{tk:tk}
-g1int_gte {i,j:int}
-  (x: g1int (tk, i), y: g1int (tk, j)):<> bool (i >= j)
+g1int_gte : g1int_gte_type (tk)
 overload >= with g1int_gte of 20
 
+typedef
+g1int_eq_type (tk:tk) =
+  {i,j:int} (g1int (tk, i), g1int (tk, j)) -<> bool (i == j)
+typedef
+g1int_neq_type (tk:tk) =
+  {i,j:int} (g1int (tk, i), g1int (tk, j)) -<> bool (i != j)
 fun{tk:tk}
-g1int_eq {i,j:int}
-  (x: g1int (tk, i), y: g1int (tk, j)):<> bool (i == j)
+g1int_eq : g1int_eq_type (tk)
 overload = with g1int_eq of 20
 fun{tk:tk}
-g1int_neq {i,j:int}
-  (x: g1int (tk, i), y: g1int (tk, j)):<> bool (i != j)
+g1int_neq : g1int_neq_type (tk)
 overload != with g1int_neq of 20
 overload <> with g1int_neq of 20
 
+typedef
+g1int_compare_type (tk:tk) =
+  {i,j:int} (g1int (tk, i), g1int (tk, j)) -<> int (i-j)
 fun{tk:tk}
-g1int_compare {i,j:int}
-  (x: g1int (tk, i), y: g1int (tk, j)):<> int (i-j)
+g1int_compare : g1int_compare_type (tk)
 overload compare with g1int_compare of 20
 
 #atscode_separator()
@@ -349,13 +378,18 @@ g1int_sgn {i:int} (x: g1int (tk, i)): int(sgn(i))
 
 #atscode_separator()
 
+typedef
+g1int_max_type (tk:tk) =
+  {i,j:int} (g1int (tk, i), g1int (tk, j)) -<> g1int (tk, max(i, j))
 fun{tk:tk}
-g1int_max {i,j:int}
-  (x: g1int (tk, i), y: g1int (tk, j)):<> g1int (tk, max(i, j))
+g1int_max : g1int_max_type (tk)
 overload max with g1int_max of 20
+
+typedef
+g1int_min_type (tk:tk) =
+  {i,j:int} (g1int (tk, i), g1int (tk, j)) -<> g1int (tk, min(i, j))
 fun{tk:tk}
-g1int_min {i,j:int}
-  (x: g1int (tk, i), y: g1int (tk, j)):<> g1int (tk, min(i, j))
+g1int_min : g1int_min_type (tk)
 overload min with g1int_min of 20
 
 #atscode_separator()
@@ -864,6 +898,28 @@ end // end of [local]
 //
 #fprint_print_prerr_decl("size", "size_t")\
 //
+#atscode_separator()
+
+fun g1int_neg_int : g1int_neg_type (int_kind)
+fun g1int_succ_int : g1int_succ_type (int_kind)
+fun g1int_pred_int : g1int_pred_type (int_kind)
+//
+fun g1int_add_int : g1int_add_type (int_kind)
+fun g1int_sub_int : g1int_sub_type (int_kind)
+fun g1int_mul_int : g1int_mul_type (int_kind)
+fun g1int_div_int : g1int_div_type (int_kind)
+//
+fun g1int_lt_int : g1int_lt_type (int_kind)
+fun g1int_lte_int : g1int_lte_type (int_kind)
+fun g1int_gt_int : g1int_gt_type (int_kind)
+fun g1int_gte_int : g1int_gte_type (int_kind)
+fun g1int_eq_int : g1int_eq_type (int_kind)
+fun g1int_neq_int : g1int_neq_type (int_kind)
+fun g1int_compare_int : g1int_compare_type (int_kind)
+//
+fun g1int_max_int : g1int_max_type (int_kind)
+fun g1int_min_int : g1int_min_type (int_kind)
+
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

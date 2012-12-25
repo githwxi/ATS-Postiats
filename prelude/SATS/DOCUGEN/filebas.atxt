@@ -314,11 +314,14 @@ fun remove_empty_lines (
   out: FILEref, inp: FILEref, isfst: bool
 ) : void = let
   val EOL = '\\\n'
+  val iseof = fileref_is_eof (inp)
 in
 //
-if ~fileref_is_eof (inp) then let
+if ~iseof then let
   var isfst: bool = isfst
-  val cs = fileref_get_line_charlst (inp)
+  val cs =
+    fileref_get_line_charlst (inp)
+  // end of [val]
   val iscons = list_vt_is_cons (cs)
   val () = if iscons then {
     val () = if isfst then (isfst := false) else fileref_putc (out, EOL)

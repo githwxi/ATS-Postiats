@@ -532,6 +532,11 @@ implement
 pprerr_s2explst (s2es) = fpprint_s2explst (stderr_ref, s2es)
 
 implement
+fpprint_s2explstlst
+  (out, s2ess) = aux_s2explstlst (out, MAXLEVEL, s2ess)
+// end of [fpprint_s2explstlst]
+
+implement
 fpprint_labs2explst
   (out, ls2es) = aux_labs2explst (out, MAXLEVEL, ls2es)
 // end of [fpprint_labs2explst]

@@ -393,6 +393,14 @@ case+ xs of
           case+ tmparg of
           | list_cons _ => let
               val d2c = impdec.hiimpdec_cst
+(*
+              val () = print ("tmpcstdecmap_make_hideclist: ")
+              val () = print_d2cst (d2c)
+              val () = print_string ("<")
+              val () = fpprint_s2explstlst (stdout_ref, impdec.hiimpdec_tmparg)
+              val () = print_string (">")
+              val () = print_newline ()
+*)
             in
               tmpcstdecmap_insert (map, d2c, impdec)
             end // end of [list_cons]

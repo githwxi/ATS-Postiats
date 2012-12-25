@@ -61,6 +61,12 @@ fun filenv_make (
 , m0: s2temap, m1: s2itmmap, m2: d2itmmap, d2cs: d2eclist
 ) : filenv // end of [filenv_make]
 
+(*
+fun filenv_get_name
+  (fenv: filenv): filename // in [pats_staexp2.sats]
+// end of [filenv_get_name]
+*)
+
 fun filenv_get_s2temap (fenv: filenv):
   [l:addr] (s2temap @ l, minus (filenv, s2temap @ l) | ptr l)
 // end of [filenv_get_s2temap]

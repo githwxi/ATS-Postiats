@@ -745,9 +745,17 @@ case+ opt of
 | TMPCSTMATnone (
   ) => prstr "TMPCSTMATnone()"
 | TMPCSTMATsome
-    (imp, sub) => let
+    (imp, t2mas, tmpsub) => let
     val () = prstr "TMPCSTMATsome("
-    val () = fprint_tmpsub (out, sub)
+    val () = fprint_d2cst (out, imp.hiimpdec_cst)
+    val () = prstr "; "
+    val () = fprint_s2varlst (out, imp.hiimpdec_imparg)
+    val () = prstr "; "
+    val () = fprint_s2explstlst (out, imp.hiimpdec_tmparg)
+    val () = prstr "; "
+    val () = fpprint_t2mpmarglst (out, t2mas)
+    val () = prstr "; "
+    val () = fprint_tmpsub (out, tmpsub)
     val () = prstr ")"
   in
     // nothing
@@ -758,12 +766,11 @@ end // end of [fprint_tmpcstmat]
 implement
 fprint_tmpcstmat_kind
   (out, opt) = let
+  val knd = (
+    case+ opt of TMPCSTMATsome _ => 1 | TMPCSTMATnone _ => 0
+  ) : int // end of [val]
 in
-//
-case+ opt of
-| TMPCSTMATnone _ => fprint_int (out, 0)
-| TMPCSTMATsome _ => fprint_int (out, 1)
-//
+  fprint_int (out, knd)
 end // end of [fprint_tmpcstmat_kind]
 
 (* ****** ****** *)
