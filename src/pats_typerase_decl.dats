@@ -32,6 +32,11 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/unsafe.dats"
+
+(* ****** ****** *)
+
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
@@ -49,6 +54,11 @@ overload print with $LOC.print_location
 
 staload "./pats_staexp2.sats"
 staload "./pats_dynexp3.sats"
+
+(* ****** ****** *)
+
+staload TRENV2 = "./pats_trans2_env.sats"
+staload TRENV3 = "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 
@@ -105,10 +115,27 @@ case+
 | D3Cprvardecs _ => hidecl_none (loc0) // proof vars
 //
 | D3Cstaload (
-    filename, flag, loaded, filenv
-  ) =>
-    hidecl_staload (loc0, filename, flag, loaded, filenv)
-  // end of [D3Cstaload]
+    filename, flag, fenv, loaded
+  ) => let
+    val opt =
+      $TRENV3.filenv_get_d3eclistopt (fenv)
+    // end of [val]
+    val () = (
+      case+ opt of
+      | Some (d3cs) => let
+          val hids = d3eclist_tyer (d3cs)
+          val p =
+            $TRENV2.filenv_getref_hideclistopt (fenv)
+          // end of [val]
+          val () = $UN.ptrset<hideclistopt> (p, Some (hids))
+        in
+          // nothing
+        end // end of [Some]
+      | None () => ()
+    ) : void // end of [val]
+  in
+    hidecl_staload (loc0, filename, flag, fenv, loaded)
+  end // end of [D3Cstaload]
 //
 | D3Clocal
     (head, body) => let

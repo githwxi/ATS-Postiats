@@ -33,6 +33,7 @@
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
 
@@ -62,6 +63,10 @@ staload "pats_dynexp3.sats"
 (* ****** ****** *)
 
 staload TR2 = "pats_trans2.sats"
+staload TRENV2 = "pats_trans2_env.sats"
+
+(* ****** ****** *)
+
 staload SOL = "pats_staexp2_solve.sats"
 
 (* ****** ****** *)
@@ -75,6 +80,13 @@ staload "pats_trans3_env.sats"
 (* ****** ****** *)
 
 #define l2l list_of_list_vt
+
+(* ****** ****** *)
+
+implement
+filenv_get_d3eclistopt (fenv) = let
+  val p = $TRENV2.filenv_getref_d3eclistopt (fenv) in $UN.ptrget<d3eclistopt> (p)
+end // end of [filenv_get_d3eclistopt]
 
 (* ****** ****** *)
 

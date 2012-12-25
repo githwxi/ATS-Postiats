@@ -98,7 +98,7 @@ where p3at = '{
 } // end of [p3at]
 
 and p3atlst = List (p3at)
-and p3atopt = Option p3at
+and p3atopt = Option (p3at)
 
 and labp3atlst = List (labp3at)
 
@@ -231,14 +231,19 @@ d3ecl_node =
     ) // end of [D3Cimpdec]
 //
   | D3Cfundecs of (funkind, s2qualst(*decarg*), f3undeclst)
+//
   | D3Cvaldecs of (valkind, v3aldeclst)
   | D3Cvaldecs_rec of (valkind, v3aldeclst)
 //
-  | D3Cvardecs of (v3ardeclst) // local variable declarations
-  | D3Cprvardecs of (prv3ardeclst) // local proof variable declarations
+  | D3Cvardecs of
+      (v3ardeclst) // local variable declarations
+    // end of [D3Cvardecs]
+  | D3Cprvardecs of
+      (prv3ardeclst) // local proof variable declarations
+    // end of [D3Cprvardecs]
 //
   | D3Cstaload of (
-      filename, int(*flag*), int(*loaded*), filenv
+      filename, int(*flag*), filenv, int(*loaded*)
     ) // end of [D3Cstaload]
 //
   | D3Clocal of (d3eclist(*head*), d3eclist(*body*))
@@ -368,6 +373,7 @@ d3ecl = '{
 } // end of [d3ecl]
 
 and d3eclist = List (d3ecl)
+and d3eclistopt = Option (d3eclist)
 
 and d3exp = '{
   d3exp_loc= location
@@ -907,7 +913,7 @@ fun d3ecl_prvardecs (loc: location, v3ds: prv3ardeclst): d3ecl
 
 fun d3ecl_staload (
   loc: location
-, fil: filename, loadflag: int, loaded: int, fenv: filenv
+, fil: filename, loadflag: int, fenv: filenv, loaded: int
 ) : d3ecl // end of [d2ecl_staload]
 
 (* ****** ****** *)

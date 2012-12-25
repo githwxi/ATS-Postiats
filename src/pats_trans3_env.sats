@@ -65,6 +65,10 @@ staload "./pats_dynexp3.sats"
 
 (* ****** ****** *)
 
+fun filenv_get_d3eclistopt (fenv: filenv): d3eclistopt
+
+(* ****** ****** *)
+
 datatype c3nstrkind =
   | C3NSTRKINDmain of () // generic
   | C3NSTRKINDcase_exhaustiveness of

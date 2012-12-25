@@ -1098,9 +1098,9 @@ d2ecl_include (loc, d2cs) =
 
 implement
 d2ecl_staload (
-  loc, idopt, fil, flag, loaded, fenv
+  loc, idopt, fil, flag, fenv, loaded
 ) =
-  d2ecl_make_node (loc, D2Cstaload (idopt, fil, flag, loaded, fenv))
+  d2ecl_make_node (loc, D2Cstaload (idopt, fil, flag, fenv, loaded))
 // endof [d2ecl_staload]
 
 implement

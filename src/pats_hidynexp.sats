@@ -189,7 +189,7 @@ hidecl_node =
   | HIDvardecs of (hivardeclst) // variable declarations
 //
   | HIDstaload of (
-      filename, int(*flag*), int(*loaded*), filenv
+      filename, int(*flag*), filenv, int(*loaded*)
     ) // end of [HIDstaload]
 //
   | HIDlocal of (hideclist (*head*), hideclist (*body*))
@@ -293,6 +293,7 @@ where hidecl = '{
 }
 
 and hideclist = List (hidecl)
+and hideclistopt = Option (hideclist)
 
 and hidexp = '{
   hidexp_loc= location
@@ -703,7 +704,7 @@ fun hidecl_vardecs (loc: location, hvds: hivardeclst): hidecl
 
 fun hidecl_staload (
   loc: location
-, fname: filename, flag: int, loaded: int, fenv: filenv
+, fname: filename, flag: int, fenv: filenv, loaded: int
 ) : hidecl // end of [hidecl_staload]
 
 (* ****** ****** *)

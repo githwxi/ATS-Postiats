@@ -232,4 +232,40 @@ compare_d2cst_d2cst (x1, x2) =
 
 (* ****** ****** *)
 
+local
+
+staload
+FM = "libats/SATS/funmap_avltree.sats"
+staload _ = "libats/DATS/funmap_avltree.dats"
+
+val cmp = lam (
+  d2c1: d2cst, d2c2: d2cst
+) : int =<cloref>
+  compare_d2cst_d2cst (d2c1, d2c2)
+// end of [val]
+
+assume
+d2cstmap_type (a:type) = $FM.map (d2cst, a)
+
+in // in of [local]
+
+implement
+d2cstmap_make_nil () = $FM.funmap_make_nil ()
+
+implement
+d2cstmap_search
+  {a} (map, d2c) =
+  $FM.funmap_search_opt (map, d2c, cmp)
+// end of [d2cstmap_search]
+
+implement
+d2cstmap_insert
+  {a} (map, d2c, x) =
+  $FM.funmap_insert (map, d2c, x, cmp)
+// end of [d2cstmap_insert]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 (* end of [pats_dynexp2_dcst.dats] *)

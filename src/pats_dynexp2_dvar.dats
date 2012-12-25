@@ -487,8 +487,10 @@ val cmp = lam (
   compare_d2var_d2var (d2v1, d2v2)
 // end of [val]
 
-assume d2varmap_type (a:type) = $FM.map (d2var, a)
-assume d2varmap_viewtype (a:type) = $LM.map (d2var, a)
+assume
+d2varmap_type (a:type) = $FM.map (d2var, a)
+assume
+d2varmap_viewtype (a:type) = $LM.map (d2var, a)
 
 in // in of [local]
 

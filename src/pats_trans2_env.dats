@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload _(*anon*) = "prelude/DATS/pointer.dats"
 staload _(*anon*) = "prelude/DATS/reference.dats"
 
@@ -73,7 +77,9 @@ filenv_struct = @{
 , sort= s2temap
 , sexp= s2itmmap
 , dexp= d2itmmap
-, decl= d2eclist
+, decl2= d2eclist
+, decl3= Option (dynexp2_d3eclist_type)
+, hidecl= Option (dynexp2_hideclist_type)
 } // end of [filenv_struct]
 
 assume filenv_type = ref (filenv_struct)
@@ -94,7 +100,9 @@ val () = p->name := fil
 val () = p->sort := s2tm
 val () = p->sexp := s2im
 val () = p->dexp := d2im
-val () = p->decl := d2cs
+val () = p->decl2 := d2cs
+val () = p->decl3 := None ()
+val () = p->hidecl := None ()
 in
 //
 ref_make_view_ptr (pfat | p)
@@ -138,8 +146,20 @@ end // end of [filenv_get_d2itmmap]
 
 implement
 filenv_get_d2eclist (fenv) = let
-  val (vbox pf | p) = ref_get_view_ptr (fenv) in p->decl
+  val (vbox pf | p) = ref_get_view_ptr (fenv) in p->decl2
 end // end of [filenv_get_d2eclist]
+
+implement
+filenv_getref_d3eclistopt
+  (fenv) = let
+  val (vbox pf | p) = ref_get_view_ptr (fenv) in $UN.cast2Ptr1(&(p->decl3))
+end // end of [filenv_getref_d3eclist]
+
+implement
+filenv_getref_hideclistopt
+  (fenv) = let
+  val (vbox pf | p) = ref_get_view_ptr (fenv) in $UN.cast2Ptr1(&(p->hidecl))
+end // end of [filenv_getref_hideclist]
 
 end // end of [local]
 

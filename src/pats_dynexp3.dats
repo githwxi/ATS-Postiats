@@ -1113,8 +1113,8 @@ d3ecl_prvardecs
 
 implement
 d3ecl_staload
-  (loc, fil, flag, loaded, fenv) =
-  d3ecl_make_node (loc, D3Cstaload (fil, flag, loaded, fenv))
+  (loc, fil, flag, loaded, opt) =
+  d3ecl_make_node (loc, D3Cstaload (fil, flag, loaded, opt))
 // endof [d3ecl_staload]
 
 (* ****** ****** *)

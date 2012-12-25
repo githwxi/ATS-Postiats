@@ -549,6 +549,8 @@ case+
     val hde = d3exp_tyer (d3e) in hidexp_raise (loc0, hse0, hde)
   end // end of [D3Eraise]
 //
+| D3Eeffmask (_, d3e) => d3exp_tyer (d3e)
+//
 | D3Elam_dyn (
     lin, npf, p3ts_arg, d3e_body
   ) => let

@@ -1839,15 +1839,19 @@ case+ d1c0.d1ecl_node of
     val d2cs = d1eclist_tr (d1cs) in d2ecl_include (loc0, d2cs)
   end // end of [D1Cinclude]
 //
-| D1Cstaload (idopt, fil, loadflag, d1cs) => let
+| D1Cstaload (
+    idopt, fil, loadflag, d1cs
+  ) => let
     var loaded: int
     val fenv = s1taload_tr (loc0, idopt, fil, loadflag, d1cs, loaded)
   in
-    d2ecl_staload (loc0, idopt, fil, loadflag, loaded, fenv)
+    d2ecl_staload (loc0, idopt, fil, loadflag, fenv, loaded)
   end // end of [D1Cstaload]
 | D1Cdynload (fil) => d2ecl_dynload (loc0, fil)
 //
-| D1Clocal (d1cs_head, d1cs_body) => let
+| D1Clocal (
+    d1cs_head, d1cs_body
+  ) => let
     val (pf1env | ()) = the_trans2_env_push ()
     val d2cs_head = d1eclist_tr (d1cs_head)
     val (pf2env | ()) = the_trans2_env_push ()

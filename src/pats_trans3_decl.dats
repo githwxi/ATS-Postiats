@@ -38,6 +38,7 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 (* ****** ****** *)
 
 staload UN = "prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
 
@@ -65,6 +66,11 @@ staload "./pats_staexp2_util.sats"
 staload "./pats_patcst2.sats"
 staload "./pats_dynexp2.sats"
 staload "./pats_dynexp3.sats"
+
+(* ****** ****** *)
+
+staload
+TRENV2 = "./pats_trans2_env.sats"
 
 (* ****** ****** *)
 
@@ -751,10 +757,28 @@ d2ecl_tr_staload
   (d2c0) = let
   val loc0 = d2c0.d2ecl_loc
   val- D2Cstaload (
-    idopt, fil, loadflag, loaded, filenv
+    idopt, fil, loadflag, fenv, loaded
   ) = d2c0.d2ecl_node // end of [val]
+  val () = let
+    val opt = filenv_get_d3eclistopt (fenv)
+  in
+    case+ opt of
+    | Some _ => ()
+    | None _ => let
+        val d2cs =
+          $TRENV2.filenv_get_d2eclist (fenv)
+        // end of [val]
+        val (pfpush | ()) = the_s2cstbindlst_push ()
+        val d3cs = d2eclist_tr (d2cs)
+        val () = the_s2cstbindlst_pop_and_unbind (pfpush | (*none*))
+        val p = $TRENV2.filenv_getref_d3eclistopt (fenv)
+        val () = $UN.ptrset<d3eclistopt> (p, Some (d3cs))
+      in
+        // nothing
+      end // end of [None]
+  end // end of [val]
 in
-  d3ecl_staload (loc0, fil, loadflag, loaded, filenv)
+  d3ecl_staload (loc0, fil, loadflag, fenv, loaded)
 end // end of [d2ecl_tr_staload]
 
 (* ****** ****** *)

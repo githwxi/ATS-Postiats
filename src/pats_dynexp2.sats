@@ -80,12 +80,16 @@ typedef d1exp = d1exp
 staload "./pats_staexp2.sats"
 
 (* ****** ****** *)
-
+//
 abstype d2cst_type
 typedef d2cst = d2cst_type
 typedef d2cstlst = List (d2cst)
 typedef d2cstopt = Option (d2cst)
-
+//
+abstype
+d2cstmap_type (a:type) // assumed in [pats_dynexp2_dcst.dats]
+typedef d2cstmap (a:type) = d2cstmap_type (a)
+//
 (* ****** ****** *)
 //
 abstype d2var_type
@@ -197,6 +201,14 @@ overload != with neq_d2cst_d2cst
 
 fun compare_d2cst_d2cst (x1: d2cst, x2: d2cst):<> Sgn
 overload compare with compare_d2cst_d2cst
+
+(* ****** ****** *)
+
+fun d2cstmap_make_nil {a:type} ():<> d2cstmap (a)
+fun d2cstmap_search
+  {a:type} (map: d2cstmap(a), d2v: d2cst): Option_vt a
+fun d2cstmap_insert
+  {a:type} (map: &d2cstmap(a), d2v: d2cst, x: a): bool(*found*)
 
 (* ****** ****** *)
 
@@ -584,7 +596,7 @@ d2ecl_node =
 //
   | D2Cinclude of d2eclist (* file inclusion *)
   | D2Cstaload of (
-      symbolopt(*id*), filename, int(*loadflag*), int(*loaded*), filenv
+      symbolopt(*id*), filename, int(*loadflag*), filenv, int(*loaded*)
     ) // end of [D2staload]
   | D2Cdynload of filename (* dynamic load *)
   | D2Clocal of (d2eclist(*head*), d2eclist(*body*)) // local declaration
@@ -1371,7 +1383,7 @@ fun d2ecl_include (loc: location, d2cs: d2eclist): d2ecl
 fun d2ecl_staload (
   loc: location
 , idopt: symbolopt
-, fil: filename, loadflag: int, loaded: int, fenv: filenv
+, fil: filename, loadflag: int, fenv: filenv, loaded: int
 ) : d2ecl // end of [d2ecl_staload]
 
 fun d2ecl_dynload (loc: location, fil: filename): d2ecl
@@ -1381,6 +1393,11 @@ fun d2ecl_local (loc: location, ds1: d2eclist, ds2: d2eclist): d2ecl
 (* ****** ****** *)
 
 fun d2ecl_errdec (loc: location): d2ecl
+
+(* ****** ****** *)
+
+abstype dynexp2_d3eclist_type
+abstype dynexp2_hideclist_type
 
 (* ****** ****** *)
 
