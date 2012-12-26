@@ -72,39 +72,31 @@ primdec_none (loc) =
 (* ****** ****** *)
 
 implement
-primdec_dcstdecs
-  (loc, knd, d2cs) =
-  primdec_make_node (loc, PMDdcstdecs (knd, d2cs))
-// end of [primdec_dcstdecs]
-
-(* ****** ****** *)
-
-implement
 primdec_impdec
-  (loc, d2c, imparg, tmparg) =
-  primdec_make_node (loc, PMDimpdec (d2c, imparg, tmparg))
+  (loc, impdec) =
+  primdec_make_node (loc, PMDimpdec (impdec))
 // end of [primdec_impdec]
 
 (* ****** ****** *)
 
 implement
-primdec_fundecs (loc, d2vs) =
-  primdec_make_node (loc, PMDfundecs (d2vs))
+primdec_fundecs (loc, hfds) =
+  primdec_make_node (loc, PMDfundecs (hfds))
 
 (* ****** ****** *)
 
 implement
-primdec_valdecs (loc, knd, hips) =
-  primdec_make_node (loc, PMDvaldecs (knd, hips))
+primdec_valdecs (loc, knd, hvds, inss) =
+  primdec_make_node (loc, PMDvaldecs (knd, hvds, inss))
 implement
-primdec_valdecs_rec (loc, knd, hips) =
-  primdec_make_node (loc, PMDvaldecs_rec (knd, hips))
+primdec_valdecs_rec (loc, knd, hvds, inss) =
+  primdec_make_node (loc, PMDvaldecs_rec (knd, hvds, inss))
 
 (* ****** ****** *)
 
 implement
-primdec_vardecs (loc, d2vs) =
-  primdec_make_node (loc, PMDvardecs (d2vs))
+primdec_vardecs (loc, hvds, inss) =
+  primdec_make_node (loc, PMDvardecs (hvds, inss))
 
 (* ****** ****** *)
 

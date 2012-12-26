@@ -165,7 +165,7 @@ case+ hde0.hidexp_node of
     ) = ccompenv_push (env)
 //
     val pmds =
-      hideclist_ccomp (env, res, hids)
+      hideclist_ccomp (env, hids)
     val ins_decs = instr_declst (loc0, pmds)
     val () = instrseq_add (res, ins_decs)
 //
@@ -306,7 +306,7 @@ case+ hde0.hidexp_node of
     ) = ccompenv_push (env)
 //
     val pmds =
-      hideclist_ccomp (env, res, hids)
+      hideclist_ccomp (env, hids)
     val ins_decs = instr_declst (loc0, pmds)
     val () = instrseq_add (res, ins_decs)
 //

@@ -83,23 +83,20 @@ end // end of [fpprint_tmpvar]
 implement
 fprint_primdec
   (out, x) = let
-  macdef prstr (s) = fprint_string (out, ,(s))
+//
+val sep = ", "
+macdef prstr (s) = fprint_string (out, ,(s))
+//
 in
 //
 case+ x.primdec_node of
 //
 | PMDnone () => prstr "PMDnone()"
 //
-| PMDdcstdecs
-    (knd, d2cs) => {
-    val () = prstr "PMDdcstdecs("
-    val () = $UT.fprintlst (out, d2cs, ", ", fprint_d2cst)
-    val () = prstr ")"
-  }
-//
-| PMDimpdec (
-    d2c, imparg, tmparg
-  ) => {
+| PMDimpdec (imp) => {
+    val d2c = imp.hiimpdec_cst
+    val imparg = imp.hiimpdec_imparg
+    val tmparg = imp.hiimpdec_tmparg
     val () = prstr "PMDimpdec("
     val () = fprint_d2cst (out, d2c)
     val () = prstr "; imparg="
@@ -109,32 +106,45 @@ case+ x.primdec_node of
     val () = prstr ")"
   }
 //
-| PMDfundecs (d2vs) => {
+| PMDfundecs (hfds) => {
     val () = prstr "PMDfundecs("
-    val () = fprint_d2varlst (out, d2vs)
+    val () =
+      $UT.fprintlst<hifundec> (
+      out, hfds, sep, lam (out, hfd) => fprint_d2var (out, hfd.hifundec_var)
+    ) // end of [val]
     val () = prstr ")"
   }
 //
 | PMDvaldecs
-    (knd, hips) => {
+    (knd, hvds, inss) => {
     val () = prstr "PMDvaldecs("
     val () = fprint_valkind (out, knd)
     val () = prstr "; "
-    val () = fprint_hipatlst (out, hips)
+    val () =
+      $UT.fprintlst<hivaldec> (
+      out, hvds, sep, lam (out, hvd) => fprint_hipat (out, hvd.hivaldec_pat)
+    ) // end of [val]
     val () = prstr ")"
   }
 | PMDvaldecs_rec
-    (knd, hips) => {
+    (knd, hvds, inss) => {
     val () = prstr "PMDvaldecs_rec("
     val () = fprint_valkind (out, knd)
     val () = prstr "; "
-    val () = fprint_hipatlst (out, hips)
+    val () =
+      $UT.fprintlst<hivaldec> (
+      out, hvds, sep, lam (out, hvd) => fprint_hipat (out, hvd.hivaldec_pat)
+    ) // end of [val]
     val () = prstr ")"
   }
 //
-| PMDvardecs (d2vs) => {
+| PMDvardecs
+    (hvds, inss) => {
     val () = prstr "PMDvardecs("
-    val () = fprint_d2varlst (out, d2vs)
+    val () =
+      $UT.fprintlst<hivardec> (
+      out, hvds, sep, lam (out, hvd) => fprint_d2var (out, hvd.hivardec_dvar_ptr)
+    ) // end of [val]
     val () = prstr ")"
   }
 //

@@ -870,4 +870,58 @@ end // end of [local]
 
 (* ****** ****** *)
 
+local
+
+staload UN = "prelude/SATS/unsafe.sats"
+
+fun emit_primdec
+  (out: FILEref, pmd: primdec) : void = let
+in
+//
+case+ pmd.primdec_node of
+//
+| PMDnone () => ()
+//
+| PMDimpdec _ => ()
+//
+| PMDfundecs _ => ()
+//
+| PMDvaldecs (knd, hvds, inss) =>
+    emit_instrlst (out, $UN.cast{instrlst}(inss))
+| PMDvaldecs_rec (knd, hvds, inss) =>
+    emit_instrlst (out, $UN.cast{instrlst}(inss))
+//
+| PMDvardecs (hvds, inss) =>
+    emit_instrlst (out, $UN.cast{instrlst}(inss))
+//
+| PMDstaload _ => ()
+//
+| PMDlocal (
+    pmds_head, pmds_body
+  ) => {
+    val () = emit_primdeclst (out, pmds_head)
+    val () = emit_primdeclst (out, pmds_body)
+  } // end of [PMDlocal]
+//
+end // end of [emit_primdec]
+
+in // in of [local]
+
+implement
+emit_primdeclst
+  (out, pmds) = let
+in
+//
+case+ pmds of
+| list_cons (pmd, pmds) => let
+    val () = emit_primdec (out, pmd) in emit_primdeclst (out, pmds)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [emit_primdeclst]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 (* end of [pats_ccomp_emit.dats] *)

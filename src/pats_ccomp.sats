@@ -210,70 +210,32 @@ fun fprint_tmpcstmat_kind : fprint_type (tmpcstmat)
 
 (* ****** ****** *)
 
+abstype ccomp_instrlst_type
+typedef instrlst = ccomp_instrlst_type
+
 datatype
 primdec_node =
   | PMDnone of () 
-  | PMDdcstdecs of (dcstkind, d2cstlst)
-  | PMDimpdec of (
-      d2cst, s2varlst(*imparg*), s2explstlst(*tmparg*)
-    ) // end of [PMDimpdec]
-  | PMDfundecs of (d2varlst)
-  | PMDvaldecs of (valkind, hipatlst)
-  | PMDvaldecs_rec of (valkind, hipatlst)
-  | PMDvardecs of (d2varlst)
+//
+  | PMDimpdec of (hiimpdec)
+//
+  | PMDfundecs of (hifundeclst)
+//
+  | PMDvaldecs of
+      (valkind, hivaldeclst, instrlst)
+    // end of [PMDvaldecs]
+  | PMDvaldecs_rec of
+      (valkind, hivaldeclst, instrlst)
+    // end of [PMDvaldecs_rec]
+//
+  | PMDvardecs of (hivardeclst, instrlst)
+//
   | PMDstaload of ($FIL.filename)
+//
   | PMDlocal of (primdeclst, primdeclst)
 // end of [primdec_node]
 
-where
-primdec = '{
-  primdec_loc= location, primdec_node= primdec_node
-} // end of [primdec]
-
-and primdeclst = List (primdec)
-and primdeclst_vt = List_vt (primdec)
-
-(* ****** ****** *)
-
-fun fprint_primdec : fprint_type (primdec)
-fun print_primdec (pmd: primdec): void
-overload print with print_primdec
-fun prerr_primdec (pmd: primdec): void
-overload prerr with prerr_primdec
-
-fun fprint_primdeclst : fprint_type (primdeclst)
-
-(* ****** ****** *)
-
-fun primdec_none (loc: location): primdec
-
-(* ****** ****** *)
-
-fun primdec_dcstdecs
-  (loc: location, knd: dcstkind, d2cs: d2cstlst): primdec
-// end of [primdec_dcstdecs]
-
-(* ****** ****** *)
-//
-fun primdec_impdec (
-  loc: location, d2c: d2cst, imparg: s2varlst, tmparg: s2explstlst
-) : primdec // end of [primdec_impdec]
-//
-fun primdec_fundecs (loc: location, d2vs: d2varlst): primdec
-//
-fun primdec_valdecs
-  (loc: location, knd: valkind, hips: hipatlst): primdec
-fun primdec_valdecs_rec
-  (loc: location, knd: valkind, hips: hipatlst): primdec
-//
-fun primdec_vardecs (loc: location, d2vs: d2varlst): primdec
-//
-fun primdec_staload (loc: location, fil: $FIL.filename): primdec
-//
-(* ****** ****** *)
-
-datatype
-primval_node =
+and primval_node =
 //
   | PMVtmp of (tmpvar) // temporary variables
   | PMVtmpref of (tmpvar) // for addresses of temporary variables
@@ -314,8 +276,20 @@ and primlab_node =
   | PMLlab of (label) | PMLind of (primvalist(*ind*))
 // end of [primlab]
 
+and labprimval = LABPRIMVAL of (label, primval)
+
+(* ****** ****** *)
+
 where
-primval = '{
+primdec = '{
+  primdec_loc= location
+, primdec_node= primdec_node
+} // end of [primdec]
+
+and primdeclst = List (primdec)
+and primdeclst_vt = List_vt (primdec)
+
+and primval = '{
   primval_loc= location
 , primval_type= hisexp
 , primval_node= primval_node
@@ -328,17 +302,49 @@ and primvalopt = Option (primval)
 and primlab = '{
   primlab_loc= location
 , primlab_node= primlab_node
-}
+} // end of [primlab]
 
 and primlablst = List (primlab)
 
+and labprimvalist = List (labprimval)
+
 (* ****** ****** *)
 
-datatype
-labprimval = LABPRIMVAL of (label, primval)
+fun fprint_primdec : fprint_type (primdec)
+fun print_primdec (pmd: primdec): void
+overload print with print_primdec
+fun prerr_primdec (pmd: primdec): void
+overload prerr with prerr_primdec
 
-typedef labprimvalist = List (labprimval)
+fun fprint_primdeclst : fprint_type (primdeclst)
 
+(* ****** ****** *)
+
+fun primdec_none (loc: location): primdec
+
+(* ****** ****** *)
+
+fun primdec_impdec
+  (loc: location, imp: hiimpdec): primdec
+// end of [primdec_impdec]
+
+fun primdec_fundecs
+  (loc: location, hfds: hifundeclst): primdec
+// end of [primdec_fundecs]
+
+fun primdec_valdecs (
+  loc: location, knd: valkind, hvds: hivaldeclst, inss: instrlst
+) : primdec // end of [primdec_valdecs]
+fun primdec_valdecs_rec (
+  loc: location, knd: valkind, hvds: hivaldeclst, inss: instrlst
+) : primdec // end of [primdec_valdecs_rec]
+//
+fun primdec_vardecs
+  (loc: location, hvds: hivardeclst, inss: instrlst): primdec
+// end of [primdec_vardecs]
+//
+fun primdec_staload (loc: location, fil: $FIL.filename): primdec
+//
 (* ****** ****** *)
 
 fun print_primval (x: primval): void
@@ -479,12 +485,7 @@ datatype patck =
   | PATCKexn of d2con
 // end of [patck]
 
-fun fprint_patck : fprint_type (patck)
-
-(* ****** ****** *)
-
-datatype
-patckont =
+and patckont =
   | PTCKNTnone of ()
   | PTCKNTtmplab of tmplab
   | PTCKNTtmplabint of (tmplab, int)
@@ -493,6 +494,9 @@ patckont =
   | PTCKNTraise of primval
 // end of [patckont]
 
+(* ****** ****** *)
+
+fun fprint_patck : fprint_type (patck)
 fun fprint_patckont : fprint_type (patckont)
 
 (* ****** ****** *)
@@ -782,13 +786,11 @@ fun hidexp_ccomp_funlab_arg_body (
 (* ****** ****** *)
 
 fun hidecl_ccomp
-  (env: !ccompenv, res: !instrseq, hdc: hidecl): primdec
+  (env: !ccompenv, hdc: hidecl): primdec
 fun hideclist_ccomp
-  (env: !ccompenv, res: !instrseq, hdcs: hideclist): primdeclst
+  (env: !ccompenv, hdcs: hideclist): primdeclst
 
-fun hideclist_ccomp0
-  (hdcs: hideclist): (instrlst, primdeclst)
-// end of [hideclist_ccomp0]
+fun hideclist_ccomp0 (hdcs: hideclist): primdeclst
 
 (* ****** ****** *)
 
@@ -853,6 +855,10 @@ fun emit_funent_ptype (out: FILEref, fent: funent): void
 //
 fun emit_funent_implmnt (out: FILEref, fent: funent): void
 //
+(* ****** ****** *)
+
+fun emit_primdeclst (out: FILEref, pmds: primdeclst): void
+
 (* ****** ****** *)
 
 fun hiimpdec_tmpcst_match
