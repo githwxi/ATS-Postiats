@@ -682,8 +682,11 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
-| INSdeclst (pmds) => {
-    val () = prstr "INSdeclst(\n"
+| INSletpop () => {
+    val () = prstr "INSletpop()"
+  }
+| INSletpush (pmds) => {
+    val () = prstr "INSletpush(\n"
     val () = fprint_primdeclst (out, pmds)
     val () = prstr ")"
   }

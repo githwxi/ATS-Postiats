@@ -555,7 +555,12 @@ case+ ins.instr_node of
     // end of [val]
   } // end of [INScond]
 //
-| INSdeclst _ => {
+| INSletpop _ => {
+    val () = fprint_string (out, "/*\n")
+    val () = fprint_instr (out, ins)
+    val () = fprint_string (out, "\n*/")
+  }
+| INSletpush _ => {
     val () = fprint_string (out, "/*\n")
     val () = fprint_instr (out, ins)
     val () = fprint_string (out, "\n*/")

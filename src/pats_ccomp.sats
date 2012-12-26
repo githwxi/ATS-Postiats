@@ -552,7 +552,8 @@ instr_node =
   | INSassgn_ptrofs of
       (primval(*left*), primlablst(*ofs*), primval(*right*))
 //
-  | INSdeclst of primdeclst
+  | INSletpop of ()
+  | INSletpush of (primdeclst)
 // end of [instr_node]
 
 where
@@ -667,7 +668,8 @@ fun instr_assgn_ptrofs (
 
 (* ****** ****** *)
 
-fun instr_declst (loc: location, pmds: primdeclst): instr
+fun instr_letpop (loc: location): instr
+fun instr_letpush (loc: location, pmds: primdeclst): instr
 
 (* ****** ****** *)
 

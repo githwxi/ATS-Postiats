@@ -390,7 +390,14 @@ instr_assgn_ptrofs
 (* ****** ****** *)
 
 implement
-instr_declst (loc, pmds) = instr_make_node (loc, INSdeclst (pmds))
+instr_letpop
+  (loc) = instr_make_node (loc, INSletpop ())
+// end of [instr_letpop]
+
+implement
+instr_letpush
+  (loc, pmds) = instr_make_node (loc, INSletpush (pmds))
+// end of [instr_letpush]
 
 (* ****** ****** *)
 

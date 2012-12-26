@@ -164,16 +164,18 @@ case+ hde0.hidexp_node of
       pfpush | ()
     ) = ccompenv_push (env)
 //
-    val pmds =
-      hideclist_ccomp (env, hids)
-    val ins_decs = instr_declst (loc0, pmds)
-    val () = instrseq_add (res, ins_decs)
+    val pmds = hideclist_ccomp (env, hids)
+    val ins_push = instr_letpush (loc0, pmds)
+    val () = instrseq_add (res, ins_push)
 //
     val () =
       println! ("hidexp_ccomp: HDElet: env =")
     val () = fprint_ccompenv (stdout_ref, env)
 //
     val pmv_scope = hidexp_ccomp (env, res, hde_scope)
+//
+    val ins_pop = instr_letpop (loc0)
+    val () = instrseq_add (res, ins_pop)
     val () = ccompenv_pop (pfpush | env)
   in
     pmv_scope
@@ -307,14 +309,17 @@ case+ hde0.hidexp_node of
 //
     val pmds =
       hideclist_ccomp (env, hids)
-    val ins_decs = instr_declst (loc0, pmds)
-    val () = instrseq_add (res, ins_decs)
+    val ins_push = instr_letpush (loc0, pmds)
+    val () = instrseq_add (res, ins_push)
 //
     val () =
       println! ("hidexp_ccomp: HDElet: env =")
     val () = fprint_ccompenv (stdout_ref, env)
 //
     val () = hidexp_ccomp_ret (env, res, tmpret, hde_scope)
+//
+    val ins_pop = instr_letpop (loc0)
+    val () = instrseq_add (res, ins_pop)
     val () = ccompenv_pop (pfpush | env)
   in
     // nothing
