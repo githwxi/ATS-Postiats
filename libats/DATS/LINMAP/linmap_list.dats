@@ -156,4 +156,14 @@ end // end of [linmap_foreach_env]
 
 (* ****** ****** *)
 
+implement
+{key,itm}
+linmap_listize
+  (map) = list_vt_copy<(key,itm)> (map)
+// end of [linmap_listize]
+
+implement {key,itm} linmap_listize_free (map) = map
+
+(* ****** ****** *)
+
 (* end of [linmap_list.dats] *)

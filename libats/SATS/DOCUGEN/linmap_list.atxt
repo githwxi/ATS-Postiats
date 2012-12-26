@@ -98,6 +98,7 @@ already associated with some item in the given map.\
 
 (* ****** ****** *)
 
+#declnamesynop("linmap_foreach$cont")
 #declnamesynop("linmap_foreach$fwork")
 #declnamesynop("linmap_foreach")
 #declnamesynop("linmap_foreach_env")

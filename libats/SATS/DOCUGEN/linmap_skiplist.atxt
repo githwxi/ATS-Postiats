@@ -153,6 +153,7 @@ type for items stored in the map is assumed to be non-linear. ")
 
 (* ****** ****** *)
 
+#declnamesynop("linmap_foreach$cont")
 #declnamesynop("linmap_foreach$fwork")
 #declnamesynop("linmap_foreach")
 #decldescrpt("\

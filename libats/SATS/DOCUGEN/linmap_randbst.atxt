@@ -92,6 +92,7 @@ in the implementation of randomized binary search trees.\
 
 (* ****** ****** *)
 
+#declnamesynop("linmap_foreach$cont")
 #declnamesynop("linmap_foreach$fwork")
 #declnamesynop("linmap_foreach")
 #declnamesynop("linmap_foreach_env")
