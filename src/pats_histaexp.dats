@@ -259,4 +259,12 @@ hisexp_s2exp (s2e) =
 
 (* ****** ****** *)
 
+local
+
+in // in of [local]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 (* end of [pats_histaexp.dats] *)

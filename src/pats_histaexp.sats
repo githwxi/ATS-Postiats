@@ -173,4 +173,11 @@ fun hisexp_make_srtsym (s2t: s2rt, sym: symbol): hisexp
 
 (* ****** ****** *)
 
+absviewtype hsesub_viewtype
+viewtypedef hsesub = hsesub_viewtype
+
+fun hisexp_subst (sub: !hsesub, hse: hisexp): hisexp
+
+(* ****** ****** *)
+
 (* end of [pats_histaexp.sats] *)

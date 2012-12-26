@@ -33,7 +33,18 @@
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "libats/SATS/linmap_randbst.sats"
+
+(* ****** ****** *)
+
+implement{key}
+compare_key_key
+  (k1, k2) = gcompare_val<key> (k1, k2)
+// end of [compare_key_key]
 
 (* ****** ****** *)
 //
@@ -101,9 +112,16 @@ bstree (
 //
 (* ****** ****** *)
 
+viewtypedef
+bstree0 (
+  key:t0p, itm:vt0p
+) = [n:nat] bstree (key, itm, n)
+
+(* ****** ****** *)
+
 assume
 map_viewtype
-  (key:t0p, itm: vt0p) = [n:nat] bstree (key, itm, n)
+  (key:t0p, itm: vt0p) = bstree0 (key, itm)
 // end of [map_viewtype]
 
 (* ****** ****** *)
@@ -119,17 +137,19 @@ key:t0p;itm:vt0p
 
 (* ****** ****** *)
 
-implement{} linmap_nil () = BSTnil ()
+implement{key,itm} linmap_nil () = BSTnil ()
 
 (* ****** ****** *)
 
-implement{
-} linmap_is_nil (map) =
+implement
+{key,itm}
+linmap_is_nil (map) =
   case+ map of BSTnil _ => true | BSTcons _ => false
 // end of [linmap_is_nil]
 
-implement{
-} linmap_isnot_nil (map) =
+implement
+{key,itm}
+linmap_isnot_nil (map) =
   case+ map of BSTnil _ => false | BSTcons _ => true
 // end of [linmap_isnot_nil]
 
@@ -466,8 +486,11 @@ implement
 linmap_foreach_env
   (map, env) = let
 //
-fun aux {n:nat} .<n>. (
-  t: !bstree (key, itm, n), env: &env
+exception DISCONT of ()
+//
+fun aux
+  {n:nat} .<n>. (
+  t: !bstree (key, itm, n), env: &(env) >> _
 ) : void = let
 in
 //
@@ -476,6 +499,9 @@ case+ t of
     n, k, x, tl, tr
   ) => let
     val () = aux (tl, env)
+    val () =
+      if ~linmap_foreach$cont (k, x, env) then $raise DISCONT()
+    // end of [val]
     val () = linmap_foreach$fwork (k, x, env)
     val () = aux (tr, env)
     prval () = fold@ (t)
@@ -486,8 +512,21 @@ case+ t of
 //
 end // end of [aux]
 //
+fun aux2 (
+  t: ptr, env: &(env) >> _
+) : void = let
+  stadef bst = bstree0(key,itm)
+  val t = $UN.castvwtp0 {bst} (t)
+  val () = aux (t, env)
+  val t = $UN.castvwtp0 {ptr} (t)
 in
-  aux (map, env)
+  // nothing
+end // end of [aux2]
+//
+val map = $UN.castvwtp1{ptr} (map)
+//
+in
+  try aux2 (map, env) with ~DISCONT () => ()
 end // end of [linmap_foreach_env]
 
 (* ****** ****** *)

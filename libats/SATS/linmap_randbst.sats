@@ -53,19 +53,18 @@ fun linmap_random_initize (): void
 (* ****** ****** *)
 
 fun{
-} linmap_nil {key:t0p;itm:vt0p} ():<> map (key, itm)
+key:t0p;itm:vt0p
+} linmap_nil () :<> map (key, itm)
 
 (* ****** ****** *)
 
 fun{
-} linmap_is_nil
-  {key:t0p;itm:vt0p} (map: !map (key, INV(itm))):<> bool
-// end of [linmap_is_nil]
+key:t0p;itm:vt0p
+} linmap_is_nil (map: !map (key, INV(itm))):<> bool
 
 fun{
-} linmap_isnot_nil
-  {key:t0p;itm:vt0p} (map: !map (key, INV(itm))):<> bool
-// end of [linmap_isnot_nil]
+key:t0p;itm:vt0p
+} linmap_isnot_nil (map: !map (key, INV(itm))):<> bool
 
 (* ****** ****** *)
 //
@@ -162,8 +161,16 @@ fun{
 key:t0p;itm:vt0p
 }{
 env:vt0p
+} linmap_foreach$cont
+  (k: key, x: &itm, env: &env): bool
+// end of [linmap_foreach$cont]
+
+fun{
+key:t0p;itm:vt0p
+}{
+env:vt0p
 } linmap_foreach$fwork
-  (k: key, x: &itm, env: &env): void
+  (k: key, x: &itm, env: &(env) >> _): void
 // end of [linmap_foreach$fwork]
 
 fun{
@@ -177,7 +184,7 @@ key:t0p;itm:vt0p
 }{
 env:vt0p
 } linmap_foreach_env
-  (map: !map (key, INV(itm)), env: &env): void
+  (map: !map (key, INV(itm)), env: &(env) >> _): void
 // end of [linmap_foreach_env]
 
 (* ****** ****** *)

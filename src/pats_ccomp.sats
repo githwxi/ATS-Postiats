@@ -206,7 +206,7 @@ tmpcstmat =
 // end of [tmpcstmat]
 
 fun fprint_tmpcstmat : fprint_type (tmpcstmat)
-fun fprint_tmpcstmat_kind : fprint_type (tmpcstmat)
+fun fprint_tmpcstmat_kind : fprint_type (tmpcstmat) // 1/0:found/not
 
 (* ****** ****** *)
 

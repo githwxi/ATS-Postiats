@@ -1,0 +1,132 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_linmap_list")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/linmap_list\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+#para("\
+
+This package implements linear maps based on the singly-linked list
+structure. Note that this is practical for maps of short size (e.g.,
+containing only a few dozens keys).
+
+")
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("map")
+#decldescrpt("\
+
+The type constructor #stacode("map") is a shorthand for
+#stacode("may_viewtype").  ")
+
+#declnamesynop("map_viewtype")
+#decldescrpt("\
+
+Given a type K and a viewtype T, the abstract viewtype
+#stacode("map_viewtype(K, T)") is for a map storing links from keys of the
+type K to items of the viewtype T. Note that #stacode("map_viewtype") is
+co-variant in its second argument.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("equal_key_key")
+#decldescrpt("This function is for testing whether two keys are equal.")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_nil")
+#decldescrpt("This function creates an empty map.")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_is_nil")
+#decldescrpt("This function tests whether a given map is empty.")
+#declnamesynop("linmap_isnot_nil")
+#decldescrpt("This function tests whether a given map is non-empty.")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_search")
+#declnamesynop("linmap_search_ref")
+#declnamesynop("linmap_search_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_insert")
+#decldescrpt("\
+
+This function inserts a link from [k0] to [x0] into a given map [map].
+In the case where the key [k0] is already associated with some item in
+the given map, this function replaces the item with [x0] and then stores
+the item into [res]. The returned value indicates wether replacement is
+actually performed.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_insert_any")
+#decldescrpt("\
+
+This function inserts a link from [k0] to [x0] into a given map [map].
+Note that it carries out insertion regardless whether the key [k0] is
+already associated with some item in the given map.\
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_takeout")
+#declnamesynop("linmap_takeout_opt")
+#declnamesynop("linmap_remove")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_foreach$fwork")
+#declnamesynop("linmap_foreach")
+#declnamesynop("linmap_foreach_env")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_free")
+#decldescrpt("\
+
+This function frees a given map containing only non-linear items. ")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_freelin$clear")
+#declnamesynop("linmap_freelin")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_free_ifnil")
+#decldescrpt("\
+
+Given a map, this function frees it and returns false if the map is empty.
+Otherwise, the function keeps the map and returns true. ")
+
+(* ****** ****** *)
+
+#declnamesynop("linmap_listize")
+#declnamesynop("linmap_listize_free")
+
+(* ****** ****** *)
+
+(* end of [linmap_list.atxt] *)

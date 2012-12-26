@@ -581,15 +581,17 @@ stasub_addlst
     sub: &stasub, s2vs: s2varlst, s2fs: s2explst
   ) : int =
     case+ s2vs of
-    | list_cons (s2v, s2vs) => (case+ s2fs of
+    | list_cons
+        (s2v, s2vs) => (
+      case+ s2fs of
       | list_cons (s2f, s2fs) => let
           val () = stasub_add (sub, s2v, s2f) in loop (sub, s2vs, s2fs)
         end // end of [list_cons]
       | list_nil () => 1
-      )
-    | list_nil () => (case+ s2fs of
-      | list_cons _ => ~1 | list_nil () => 0
-      )
+      ) // end of [list_cons]
+    | list_nil () => (
+      case+ s2fs of list_cons _ => ~1 | list_nil () => 0
+      ) // end of [list_nil]
   // end of [loop]
 in
   loop (sub, s2vs, s2fs)

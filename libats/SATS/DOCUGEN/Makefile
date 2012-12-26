@@ -135,6 +135,14 @@ upload_fundeque_fingertree:: ;   scp HTML/fundeque_fingertree.html ats-hwxi,ats-
 clean:: ; $(RMF) fundeque_fingertree_atxt.exe
 cleanall:: ; $(RMF) HTML/fundeque_fingertree.html
 
+all_html:: HTML/linmap_list.html
+HTML/linmap_list.html:   linmap_list_atxt.exe ; $(CAT) ../linmap_list.sats | ./$< > $@
+linmap_list_atxt.txt: linmap_list.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+linmap_list_atxt.exe: htmlgendecl_atxt.dats   linmap_list_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_linmap_list:: ;   scp HTML/linmap_list.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) linmap_list_atxt.exe
+cleanall:: ; $(RMF) HTML/linmap_list.html
+
 all_html:: HTML/linmap_randbst.html
 HTML/linmap_randbst.html:   linmap_randbst_atxt.exe ; $(CAT) ../linmap_randbst.sats | ./$< > $@
 linmap_randbst_atxt.txt: linmap_randbst.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@

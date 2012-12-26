@@ -115,6 +115,7 @@ all_html::
 #make_entry("funset_listord")
 #make_entry("funralist_nested")
 #make_entry("fundeque_fingertree")
+#make_entry("linmap_list")
 #make_entry("linmap_randbst")
 #make_entry("linmap_skiplist")
 #make_entry("linheap_binomial")

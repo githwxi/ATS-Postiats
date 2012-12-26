@@ -44,17 +44,13 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 (* ****** ****** *)
 
 fun{key:t0p}
-compare_key_key (x1: key, x2: key):<> int
-
-(* ****** ****** *)
-
-fun linmap_random_initize (): void
+equal_key_key (x1: key, x2: key):<> bool
 
 (* ****** ****** *)
 
 fun{
 key:t0p;itm:vt0p
-} linmap_make_nil ():<> map (key, itm)
+} linmap_nil ():<> map (key, itm)
 
 (* ****** ****** *)
 
@@ -67,11 +63,38 @@ key:t0p;itm:vt0p
 } linmap_isnot_nil (map: !map (key, INV(itm))):<> bool
 
 (* ****** ****** *)
-
+//
+// HX: this function is O(1)
+//
 fun{
 key:t0p;itm:vt0p
-} linmap_size (map: !map (key, INV(itm))):<> size_t
+} linmap_size
+  (map: !map (key, INV(itm))):<> size_t
+// end of [linmap_size]
 
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:t0p
+} linmap_free (map: map (key, INV(itm))):<!wrt> void
+
+fun{
+itm:vt0p
+} linmap_freelin$clear (x: &itm >> _?):<!wrt> void
+fun{
+key:t0p;itm:vt0p
+} linmap_freelin (map: map (key, INV(itm))):<!wrt> void
+
+(* ****** ****** *)
+//
+// HX: a linear map can be properly freed only if it is empty
+//
+fun{
+key:t0p;itm:vt0p
+} linmap_free_ifnil (
+  map: !map (key, INV(itm)) >> opt (map (key, itm), b)
+) :<!wrt> #[b:bool] bool b(*~freed*) // end of [linmap_free_ifnil]
+//
 (* ****** ****** *)
 
 fun{
@@ -79,7 +102,7 @@ key:t0p;itm:t0p
 } linmap_search (
   map: !map (key, INV(itm))
 , k0: key, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool (b) // endfun
+) : #[b:bool] bool b // end of [linmap_search]
 
 fun{
 key:t0p;itm:vt0p
@@ -136,8 +159,8 @@ key:t0p;itm:vt0p
 
 fun{
 key:t0p;itm:t0p
-} linmap_remove
-  (map: &map (key, INV(itm)) >> _, k0: key): bool
+} linmap_remove (
+  map: &map (key, INV(itm)) >> _, k0: key): bool
 // end of [linmap_remove]
 
 (* ****** ****** *)
@@ -174,32 +197,9 @@ env:vt0p
 
 (* ****** ****** *)
 
-fun{
-key:t0p;itm:t0p
-} linmap_free (map: map (key, INV(itm))):<!wrt> void
-
-fun{
-itm:vt0p
-} linmap_freelin$clear (x: &itm >> _?):<!wrt> void
-fun{
-key:t0p;itm:vt0p
-} linmap_freelin (map: map (key, INV(itm))):<!wrt> void
-
-(* ****** ****** *)
-//
-// HX: a linear map can be properly freed only if it is empty
-//
-fun{
-key:t0p;itm:vt0p
-} linmap_free_ifnil (
-  map: !map (key, INV(itm)) >> opt (map (key, itm), b)
-) :<!wrt> #[b:bool] bool b(*~freed*) // end of [linmap_free_ifnil]
-//
-(* ****** ****** *)
-
 (*
 //
-// HX: listization is done ascendingly
+// HX: listization is done in the in-order fashion
 //
 *)
 //
@@ -217,4 +217,4 @@ key:t0p;itm:vt0p
 
 (* ****** ****** *)
 
-(* end of [linmap_skiplist.sats] *)
+(* end of [linmap_list.sats] *)

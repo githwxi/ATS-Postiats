@@ -48,6 +48,13 @@ staload "libats/SATS/linmap_skiplist.sats"
 macdef i2sz (i) = g1int2uint (,(i))
 //
 (* ****** ****** *)
+
+implement{key}
+compare_key_key
+  (k1, k2) = gcompare_val<key> (k1, k2)
+// end of [compare_key_key]
+
+(* ****** ****** *)
 //
 // HX-2012-12-01:
 // the file should be included here
@@ -422,6 +429,7 @@ map_viewtype
 (* ****** ****** *)
 
 implement
+{key,itm}
 linmap_make_nil () =
   SKIPLIST (i2sz(0), 0, nodearr_make (lgMAX))
 // end of [linmap_make_nil]
@@ -429,11 +437,13 @@ linmap_make_nil () =
 (* ****** ****** *)
 
 implement
+{key,itm}
 linmap_is_nil (map) = let
   val SKIPLIST (N, _, _) = map in N = i2sz(0)
 end // end of [linmap_is_nil]
 
 implement
+{key,itm}
 linmap_isnot_nil (map) = let
   val SKIPLIST (N, _, _) = map in N > i2sz(0)
 end // end of [linmap_isnot_nil]
@@ -441,9 +451,10 @@ end // end of [linmap_isnot_nil]
 (* ****** ****** *)
 
 implement
-linmap_size (map) = let
-  val SKIPLIST (N, _, _) = map in N
-end // end of [linmap_size]
+{key,itm}
+linmap_size (map) =
+  let val SKIPLIST (N, _, _) = map in N end
+// end of [linmap_size]
 
 (* ****** ****** *)
 //
@@ -865,13 +876,23 @@ if p_nx > nullp then let
   val [l:addr]
     p_i = node_getref_item (nx)
   val nx1 = node_get_next<key,itm> (nx, 0)
-  prval (pf, fpf) = __assert () where {
+//
+  prval (
+    pf, fpf
+  ) = __assert () where {
     extern praxi __assert : () -<prf> (itm @ l, itm @ l -<lin,prf> void)
   } // end of [prval]
-  val () = linmap_foreach$fwork<key,itm><env> (k, !p_i, env)
-  prval () = fpf (pf)
+//
+  val test = linmap_foreach$cont<key,itm><env> (k, !p_i, env)
 in
-  node_foreach_env (nx1, env)
+  if test then let
+    val () = linmap_foreach$fwork<key,itm><env> (k, !p_i, env)
+    prval () = fpf (pf)
+  in
+    node_foreach_env (nx1, env)
+  end else let
+    prval () = fpf (pf) in (*nothing*)
+  end // end of [if]
 end else () // end of [if]
 //
 end // end of [node_foreach_env]
