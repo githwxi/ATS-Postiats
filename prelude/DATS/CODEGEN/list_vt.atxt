@@ -45,7 +45,7 @@ implement(env)
 list_vt_iforeach$fwork<a><env>
   (i, x, env) = let
   val () =
-    if i > 0 then fprint_list_vt$sep<> (out)
+    if i > 0 then fprint_list_vt$sep<(*none*)> (out)
   // end of [val]
 in
   fprint_ref<a> (out, x)
@@ -62,7 +62,7 @@ fprint_list_vt_sep
   (out, xs, sep) = let
 //
 implement
-fprint_list_vt$sep<> (out) = fprint_string (out, sep)
+fprint_list_vt$sep<(*none*)> (out) = fprint_string (out, sep)
 //
 in
   fprint_list_vt<a> (out, xs)

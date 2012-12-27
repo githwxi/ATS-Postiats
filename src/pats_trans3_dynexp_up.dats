@@ -754,10 +754,13 @@ end // end [d2exp_trup_con]
 (* ****** ****** *)
 
 implement
-d2exp_trup_tmpid (d2e0) = let
-  val loc0 = d2e0.d2exp_loc
-  val locarg = $LOC.location_rightmost (loc0)
-  val- D2Etmpid (d2e_id, t2mas) = d2e0.d2exp_node
+d2exp_trup_tmpid
+  (d2e0) = let
+//
+val loc0 = d2e0.d2exp_loc
+val locarg = $LOC.location_rightmost (loc0)
+val- D2Etmpid (d2e_id, t2mas) = d2e0.d2exp_node
+//
 in
 //
 case+ d2e_id.d2exp_node of

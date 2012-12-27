@@ -175,6 +175,14 @@ upload_linheap_fibonacci:: ;   scp HTML/linheap_fibonacci.html ats-hwxi,ats-lang
 clean:: ; $(RMF) linheap_fibonacci_atxt.exe
 cleanall:: ; $(RMF) HTML/linheap_fibonacci.html
 
+all_html:: HTML/linqueue_list.html
+HTML/linqueue_list.html:   linqueue_list_atxt.exe ; $(CAT) ../linqueue_list.sats | ./$< > $@
+linqueue_list_atxt.txt: linqueue_list.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+linqueue_list_atxt.exe: htmlgendecl_atxt.dats   linqueue_list_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_linqueue_list:: ;   scp HTML/linqueue_list.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) linqueue_list_atxt.exe
+cleanall:: ; $(RMF) HTML/linqueue_list.html
+
 
 ######
 

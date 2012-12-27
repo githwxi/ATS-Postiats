@@ -560,10 +560,8 @@ in // in of [local]
 
 implement
 stasub_make_nil () = list_vt_nil ()
-
 implement
 stasub_copy (sub) = list_vt_copy (sub)
-
 implement
 stasub_free (sub) = list_vt_free (sub)
 

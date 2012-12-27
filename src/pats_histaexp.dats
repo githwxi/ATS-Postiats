@@ -32,6 +32,11 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+
+(* ****** ****** *)
+
 staload "pats_basics.sats"
 
 (* ****** ****** *)
@@ -261,7 +266,22 @@ hisexp_s2exp (s2e) =
 
 local
 
+#define :: list_vt_cons
+assume hsesub_viewtype = List_vt @(s2var, s2exp)
+
 in // in of [local]
+
+implement
+hsesub_make_nil () = list_vt_nil ()
+implement
+hsesub_copy (sub) = list_vt_copy (sub)
+implement
+hsesub_free (sub) = list_vt_free (sub)
+
+(* ****** ****** *)
+
+implement
+hisexp_subst (sub, hse) = hse
 
 end // end of [local]
 

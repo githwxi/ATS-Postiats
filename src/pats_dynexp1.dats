@@ -44,6 +44,10 @@ staload "./pats_dynexp1.sats"
 
 (* ****** ****** *)
 
+#include "./pats_basics.hats"
+
+(* ****** ****** *)
+
 #define l2l list_of_list_vt
 
 (* ****** ****** *)
@@ -484,14 +488,25 @@ d1exp_app_dyn
 
 implement
 d1exp_list
-  (loc, npf, d1es) =
-  if npf >= 0 then
-    d1exp_make (loc, D1Elist (npf, d1es))
-  else (case+ d1es of
-    | list_cons (d1e, list_nil ()) => d1e
-    | _ => d1exp_make (loc, D1Elist (npf, d1es))
-  ) // end of [if]
-// end of [d1exp_list]
+  (loc, npf, d1es) = let
+in
+//
+if npf >= 0 then
+  d1exp_make (loc, D1Elist (npf, d1es))
+else (case+ d1es of
+  | list_cons (
+      d1e, list_nil ()
+    ) => (
+      case+ d1e.d1exp_node of
+      | D1Elist (npf, d1es) => let
+          val knd = TYTUPKIND_flt in d1exp_tup (loc, knd, npf, d1es)
+        end // end of [D1Elist]
+      | _ => d1e // end of [_]
+    ) // end of [list_cons]
+  | _ => d1exp_make (loc, D1Elist (npf, d1es))
+) // end of [if]
+//
+end // end of [d1exp_list]
 
 (* ****** ****** *)
 

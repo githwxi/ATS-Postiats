@@ -155,7 +155,7 @@ implement(env)
 list_iforeach$fwork<a><env>
   (i, x, env) = let
   val () =
-    if i > 0 then fprint_list$sep<> (out)
+    if i > 0 then fprint_list$sep<(*none*)> (out)
   // end of [val]
 in
   fprint_val<a> (out, x)
@@ -172,7 +172,7 @@ fprint_list_sep
   (out, xs, sep) = let
 //
 implement
-fprint_list$sep<> (out) = fprint_string (out, sep)
+fprint_list$sep<(*none*)> (out) = fprint_string (out, sep)
 //
 in
   fprint_list<a> (out, xs)

@@ -49,7 +49,7 @@
 (* ****** ****** *)
 
 %{#
-#include "libats/CATS/linqueue_lst.cats"
+#include "libats/CATS/linqueue_list.cats"
 %} // end of [%{#]
 
 (* ****** ****** *)
@@ -62,35 +62,39 @@
 //
 absviewt@ype
 QUEUE (a:viewt@ype+, n: int) =
-  $extype "atslib_linqueue_lst_QUEUE"
+  $extype "atslib_linqueue_list_QUEUE"
 // end of [QUEUE]
-typedef QUEUESZ (a:vt0p) = QUEUE (a, 0)?
+typedef QUEUETSZ (a:vt0p) = QUEUE (a, 0)?
 viewtypedef QUEUE (a:vt0p) = [n:nat] QUEUE (a, n)
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-queue_size {n:nat} (q: &QUEUE (INV(a), n)):<> size_t n
-
-fun queue_is_empty
-  {a:vt0p} {n:nat} (q: &QUEUE (INV(a), n)):<> bool (n <= 0)
+queue_is_empty
+  {n:nat} (q: &QUEUE (INV(a), n)):<> bool (n <= 0)
 // end of [queue_is_empty]
 
-fun queue_isnot_empty
-  {a:vt0p} {n:nat} (q: &QUEUE (INV(a), n)):<> bool (n > 0)
+fun{a:vt0p}
+queue_isnot_empty
+  {n:nat} (q: &QUEUE (INV(a), n)):<> bool (n >  0)
 // end of [queue_isnot_empty]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
+queue_size {n:nat} (q: &QUEUE (INV(a), n)):<> size_t (n)
+
+(* ****** ****** *)
+
+fun{a:vt0p}
 queue_initialize
-  (q: &QUEUESZ (INV(a)) >> QUEUE (a, 0)):<> void
-macdef queue_initize = queue_initialize
+  (q: &QUEUETSZ (INV(a)) >> QUEUE (a, 0)):<> void
+macdef queue_initize (q) = queue_initialize (,(q))
 
 fun{a:vt0p}
 queue_uninitialize
-  {n:nat} (q: &QUEUE (INV(a), n) >> QUEUESZ (a)):<> list_vt (a, n)
-macdef queue_uninitize = queue_uninitialize
+  {n:nat} (q: &QUEUE (INV(a), n) >> QUEUETSZ (a)):<> list_vt (a, n)
+macdef queue_uninitize (q) = queue_uninitialize (,(q))
 
 (* ****** ****** *)
 
@@ -108,14 +112,17 @@ queue_remove (*first*)
 
 fun{
 a:vt0p}{env:vt0p
-} queue_foreach$fwork (x: &a, env: &env): void
+} queue_foreach$cont (x: &a, env: &env): void
+fun{
+a:vt0p}{env:vt0p
+} queue_foreach$fwork (x: &a, env: &(env) >> _): void
 fun{
 a:vt0p
 } queue_foreach (q: !QUEUE (a)): void
 fun{
 a:vt0p}{env:vt0p
-} queue_foreach_env (q: !QUEUE (INV(a)), env: &env): void
+} queue_foreach_env (q: !QUEUE (INV(a)), env: &(env) >> _): void
 
 (* ****** ****** *)
 
-(* end of [linqueue_lst.sats] *)
+(* end of [linqueue_list.sats] *)

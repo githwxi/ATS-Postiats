@@ -810,8 +810,8 @@ case+ 0 of
     | cons (
         d1e1, cons (d1e2, d1es)
       ) => let
-        val d2e1 = d1exp_tr d1e1
-        and d2e2 = d1exp_tr d1e2
+        val d2e1 = d1exp_tr (d1e1)
+        and d2e2 = d1exp_tr (d1e2)
       in
         d2exp_ldelay (loc0, d2e1, Some (d2e2))
       end // cons (_, cons (_, nil))

@@ -62,6 +62,10 @@ co-variant in its second argument.\
 
 (* ****** ****** *)
 
+#declnamesynop("linmap_size")
+
+(* ****** ****** *)
+
 #declnamesynop("linmap_search")
 #declnamesynop("linmap_search_ref")
 #declnamesynop("linmap_search_opt")

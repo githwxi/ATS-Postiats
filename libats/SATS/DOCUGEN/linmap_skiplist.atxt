@@ -82,6 +82,10 @@ in the skip-list implementation.\
 
 (* ****** ****** *)
 
+#declnamesynop("linmap_size")
+
+(* ****** ****** *)
+
 #declnamesynop("linmap_search")
 #decldescrpt("\
 

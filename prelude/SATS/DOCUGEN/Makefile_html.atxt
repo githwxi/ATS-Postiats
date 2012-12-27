@@ -135,6 +135,8 @@ all_html::
 #make_entry("lazy")
 #make_entry("lazy_vt")
 
+#make_entry("tfprint")
+
 #make_entry("iterator")
 
 ######

@@ -1,0 +1,68 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_linqueue_list")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/linqueue_list\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+#para("\
+
+This package implements linear queues based on the singly-linked list
+structure.
+
+")
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("QUEUE")
+#declnamesynop("QUEUETSZ")
+
+(* ****** ****** *)
+
+#declnamesynop("queue_is_empty")
+#declnamesynop("queue_isnot_empty")
+
+(* ****** ****** *)
+
+#declnamesynop("queue_size")
+
+(* ****** ****** *)
+
+#declnamesynop("queue_initialize")
+#declnamesynop("queue_uninitialize")
+
+(* ****** ****** *)
+
+#declnamesynop("queue_insert")
+#decldescrpt("\
+
+This function inserts an element at the end of a given queue.")
+
+#declnamesynop("queue_remove")
+#decldescrpt("\
+
+This function removes the element at the front of a given queue if the
+queue is not empty, and returns true. Otherwise, it returns false. ")
+
+(* ****** ****** *)
+
+#declnamesynop("queue_foreach$cont")
+#declnamesynop("queue_foreach$fwork")
+#declnamesynop("queue_foreach")
+#declnamesynop("queue_foreach_env")
+
+(* ****** ****** *)
+
+(* end of [linqueue_list.atxt] *)
