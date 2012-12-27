@@ -33,43 +33,24 @@
 
 (* ****** ****** *)
 
-implement
-{key,itm}
-funmap_search_opt
-  (map, k0) = let
-  var res: itm?
-  val ans = funmap_search (map, k0, res)
-in
-//
-if ans then let
-  prval () = opt_unsome {itm} (res)
-in
-  Some_vt (res)
-end else let
-  prval () = opt_unnone {itm} (res)
-in
-  None_vt (*void*)
-end // end of [if]
-//
-end // end of [funmap_search_opt]
+staload "libats/SATS/funmap_avltree.sats"
 
 (* ****** ****** *)
 
 implement
-{key,itm}{env}
-funmap_foreach$cont (k, x, env) = true
+{key}
+compare_key_key
+  (k1, k2) = gcompare_val<key> (k1, k2)
+// end of [compare_key_key]
 
 (* ****** ****** *)
-
-implement
-{key,itm}
-funmap_foreach
-  (map) = let
 //
-var env: void = () in funmap_foreach_env<key,itm><void> (map, env)
+// HX-2012-12-26:
+// the file should be included here
+// before [map_type] is assumed
 //
-end // end of [funmap_foreach]
-
+#include "./funmap_share.hats" // in current dir
+//
 (* ****** ****** *)
 
-(* end of [funmap_share.hats] *)
+(* end of [funmap_avltree.dats] *)

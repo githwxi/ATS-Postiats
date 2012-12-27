@@ -301,6 +301,11 @@ end // end of [funralist_update]
 
 (* ****** ****** *)
 
+implement{a}{env}
+funralist_foreach$cont (x, env) = true
+
+(* ****** ****** *)
+
 local
 
 extern
@@ -334,7 +339,7 @@ and foreach2
     val+ N2 (x0, x1) = xx in f (x0); f (x1)
   end // end of [val]
   val () = foreach (xxs, f1)
-  prval () = __free ($UN.cast2ptr(f1))
+  val () = __free ($UN.cast2ptr(f1))
 in
   // nothing
 end // end of [foreach2]
@@ -350,6 +355,8 @@ implement{a}{env}
 funralist_foreach_env
   (xs, env) = let
 //
+exception DISCONT of ()
+//
 prval () = lemma_ralist_param (xs)
 //
 typedef node = node (a, 0)
@@ -360,14 +367,22 @@ val f = lam
   (x: node): void =<cloref> let
   val+ N1 (x) = x
   prval (pf, fpf) = $UN.ptr_vtake {env} (p_env)
-  val () = $effmask_all (funralist_foreach$fwork<a> (x, !p_env))
+  val test =
+    $effmask_all (funralist_foreach$cont<a> (x, !p_env))
+  val () =
+    $effmask_all (
+    if test then funralist_foreach$fwork<a> (x, !p_env) else $raise DISCONT()
+  ) : void // end of [val]
   prval () = fpf (pf)
 in
   // nothing
 end // end of [val]
 //
-val () = foreach (xs, f)
-prval () = __free ($UN.cast2ptr(f))  
+val () =
+  try foreach (xs, f) with ~DISCONT () => ()
+// end of [val]
+//
+val () = __free ($UN.cast2ptr(f))  
 //
 in
   // nothing

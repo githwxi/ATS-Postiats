@@ -126,6 +126,24 @@ end // end of [funmap_search]
 (* ****** ****** *)
 
 implement
+{key,itm}{env}
+funmap_foreach_env
+  (map, env) = let
+//
+viewtypedef keyitm = @(key, itm)
+//
+implement
+list_foreach$cont<keyitm><env> (kx, env) = funmap_foreach$cont (kx.0, kx.1, env)
+implement
+list_foreach$fwork<keyitm><env> (kx, env) = funmap_foreach$fwork (kx.0, kx.1, env)
+//
+in
+  list_foreach_env (map, env)
+end // end of [funmap_foreach_env]
+
+(* ****** ****** *)
+
+implement
 {key,itm}
 funmap_listize (map) = list_copy<(key,itm)> (map)
 

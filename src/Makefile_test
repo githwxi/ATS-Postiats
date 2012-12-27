@@ -109,7 +109,10 @@ libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gflist.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/gflist_vt.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gflist_vt.dats
 
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funmap_list.sats
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/DATS/funmap_list.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funmap_avltree.sats
+libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/DATS/funmap_avltree.dats
 
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funset_avltree.sats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funset_listord.sats

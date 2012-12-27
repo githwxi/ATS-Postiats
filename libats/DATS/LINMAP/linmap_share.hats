@@ -103,6 +103,11 @@ end // end of [linmap_takeout_opt]
 
 (* ****** ****** *)
 
+implement{a}{env}
+linmap_foreach$cont (x, env) = true
+
+(* ****** ****** *)
+
 implement
 {key,itm}
 linmap_foreach
