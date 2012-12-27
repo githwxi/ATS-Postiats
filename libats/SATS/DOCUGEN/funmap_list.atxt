@@ -1,0 +1,52 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_funmap_list")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/funmap_list\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package implements functional maps based on lists.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("map")
+#decldescrpt("\
+
+The type constructor #stacode("map") is a shorthand for
+#stacode("map_type").  ")
+
+#declnamesynop("map_type")
+
+(* ****** ****** *)
+
+#declnamesynop("equal_key_key")
+#decldescrpt("This function is for testing whether two map keys are equal.")
+
+(* ****** ****** *)
+
+#declnamesynop("funmap_nil")
+#decldescrpt("This function forms an empty map.")
+
+(* ****** ****** *)
+
+#declnamesynop("funmap_size")
+#decldescrpt("\
+
+This function returns the size of a given map. Its time complexity is
+O(n). ")
+
+(* ****** ****** *)
+
+(* end of [funmap_list.atxt] *)

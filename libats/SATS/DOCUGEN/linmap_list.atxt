@@ -46,7 +46,7 @@ co-variant in its second argument.\
 (* ****** ****** *)
 
 #declnamesynop("equal_key_key")
-#decldescrpt("This function is for testing whether two keys are equal.")
+#decldescrpt("This function is for testing whether two map keys are equal.")
 
 (* ****** ****** *)
 

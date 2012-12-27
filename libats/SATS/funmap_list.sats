@@ -28,21 +28,18 @@
 (* ****** ****** *)
 
 (*
-**
-** A functional map implementation based on AVL trees
-**
-** Contributed by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-** Time: May, 2011 // based on a version done in October, 2008
-**
+** A functional map implementation based on lists
 *)
+
+(* ****** ****** *)
+
+(* Author: Hongwei Xi *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: December, 2012 *)
 
 (* ****** ****** *)
 //
 // License: LGPL 3.0 (available at http://www.gnu.org/licenses/lgpl.txt)
-//
-(* ****** ****** *)
-//
-// HX-2012-12: ported to ATS/Postitats from ATS/Anairiats
 //
 (* ****** ****** *)
 
@@ -56,11 +53,11 @@ sortdef t0p = t@ype
 //
 abstype map_type (key:t@ype, itm:t@ype+)
 typedef map (key:t0p, itm:t0p) = map_type (key, itm)
-//
+
 (* ****** ****** *)
 
 fun{key:t0p}
-compare_key_key (x1: key, x2: key):<> int
+equal_key_key (x1: key, x2: key):<> bool
 
 (* ****** ****** *)
 
@@ -79,13 +76,9 @@ fun{key,itm:t@ype} funmap_size (map: map (key, itm)):<> size_t
 //
 (* ****** ****** *)
 
-fun{key,itm:t@ype} funmap_size (map: map (key, itm)):<> size_t
-
-(* ****** ****** *)
-
 fun{key,itm:t0p}
 funmap_listize (xs: map (key, itm)):<> List_vt @(key, itm)
 
 (* ****** ****** *)
 
-(* end of [funmap_avltree.sats] *)
+(* end of [funmap_list.sats] *)

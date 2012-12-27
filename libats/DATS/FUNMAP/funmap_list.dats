@@ -27,65 +27,69 @@
 
 (* ****** ****** *)
 
-(*
-**
-** A functional map implementation based on AVL trees
-**
-** Contributed by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-** Time: May, 2011 // based on a version done in October, 2008
-**
-*)
+(* Author: Hongwei Xi *)
+(* Authoremail: hwxi AT cs DOT bu DOT edu *)
+(* Start time: December, 2012 *)
+
+(* ****** ****** *)
+
+staload "libats/SATS/funmap_list.sats"
+
+(* ****** ****** *)
+
+implement
+{key}
+equal_key_key
+  (k1, k2) = gequal_val<key> (k1, k2)
+// end of [equal_key_key]
 
 (* ****** ****** *)
 //
-// License: LGPL 3.0 (available at http://www.gnu.org/licenses/lgpl.txt)
+// HX-2012-12-26:
+// the file should be included here
+// before [map_type] is assumed
 //
-(* ****** ****** *)
-//
-// HX-2012-12: ported to ATS/Postitats from ATS/Anairiats
-//
-(* ****** ****** *)
-
-sortdef t0p = t@ype
-
-(* ****** ****** *)
-//
-// HX-2012-12:
-// for maps associating keys with items
-// of types [key] and [itm], respectively
-//
-abstype map_type (key:t@ype, itm:t@ype+)
-typedef map (key:t0p, itm:t0p) = map_type (key, itm)
+// #include "./funmap_share.hats" // in current dir
 //
 (* ****** ****** *)
 
-fun{key:t0p}
-compare_key_key (x1: key, x2: key):<> int
+assume
+map_type
+  (key:t0p, itm: vt0p) = List0 @(key, itm)
+// end of [map_type]
 
 (* ****** ****** *)
 
-fun{key,itm:t0p} funmap_nil ():<> map (key, itm)
+implement{key,itm} funmap_nil () = list_nil ()
 
 (* ****** ****** *)
 
-fun{key,itm:t0p} funmap_is_nil (map: map (key, itm)):<> bool
-fun{key,itm:t0p} funmap_isnot_nil (map: map (key, itm)):<> bool
+implement
+{key,itm}
+funmap_is_nil (map) =
+  case+ map of list_nil _ => true | list_cons _ => false
+// end of [funmap_is_nil]
 
-(* ****** ****** *)
-//
-// HX-2012-12: this function is O(n)-time
-//
-fun{key,itm:t@ype} funmap_size (map: map (key, itm)):<> size_t
-//
-(* ****** ****** *)
-
-fun{key,itm:t@ype} funmap_size (map: map (key, itm)):<> size_t
-
-(* ****** ****** *)
-
-fun{key,itm:t0p}
-funmap_listize (xs: map (key, itm)):<> List_vt @(key, itm)
+implement
+{key,itm}
+funmap_isnot_nil (map) =
+  case+ map of list_nil _ => false | list_cons _ => true
+// end of [funmap_isnot_nil]
 
 (* ****** ****** *)
 
-(* end of [funmap_avltree.sats] *)
+implement
+{key,itm}
+funmap_size
+  (map) = g1int2uint (list_length (map))
+// end of [funmap_size]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+funmap_listize (map) = list_copy<(key,itm)> (map)
+
+(* ****** ****** *)
+
+(* end of [funmap_list.dats] *)

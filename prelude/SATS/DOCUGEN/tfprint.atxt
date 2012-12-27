@@ -1,0 +1,44 @@
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/prelude_tfprint")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/prelude/tfprint\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('This package contains a variety of common printing functions.')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("tfprint_list$sep")
+#declnamesynop("tfprint_list$beg")
+#declnamesynop("tfprint_list$end")
+
+#declnamesynop("tfprint_list")
+
+(* ****** ****** *)
+
+#declnamesynop("tfprint_array$sep")
+#declnamesynop("tfprint_array$beg")
+#declnamesynop("tfprint_array$end")
+
+(* ****** ****** *)
+
+#declnamesynop("tfprint_array")
+#declnamesynop("tfprint_arrayptr")
+#declnamesynop("tfprint_arrayref")
+
+(* ****** ****** *)
+
+(* end of [tfprint.atxt] *)
