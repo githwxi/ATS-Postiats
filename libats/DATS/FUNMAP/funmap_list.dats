@@ -49,7 +49,7 @@ equal_key_key
 // the file should be included here
 // before [map_type] is assumed
 //
-// #include "./funmap_share.hats" // in current dir
+#include "./funmap_share.hats" // in current dir
 //
 (* ****** ****** *)
 
@@ -83,6 +83,45 @@ implement
 funmap_size
   (map) = g1int2uint (list_length (map))
 // end of [funmap_size]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+funmap_search
+  (map, k0, res) = let
+//
+fun search (
+  kxs: List @(key, itm)
+, k0: key, res: &itm? >> opt (itm, b)
+) : #[b:bool] bool (b) = let
+in
+//
+case+ kxs of
+| list_cons
+    (kx, kxs) => let
+    val iseq =
+      equal_key_key<key> (k0, kx.0)
+    // end of [val]
+  in
+    if iseq then let
+      val () = res := kx.1
+      prval () = opt_some {itm} (res) in true
+    end else
+      search (kxs, k0, res)
+    // end of [if]
+  end // end of [list_cons]
+| list_nil () => let
+    prval () = opt_none {itm} (res) in false
+  end // end of [list_nil]
+//
+end // end of [search]
+//
+in
+//
+  $effmask_all (search (map, k0, res))
+//
+end // end of [funmap_search]
 
 (* ****** ****** *)
 

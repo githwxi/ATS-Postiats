@@ -27,73 +27,32 @@
 
 (* ****** ****** *)
 
-(*
-** A functional map implementation based on lists
-*)
-
-(* ****** ****** *)
-
 (* Author: Hongwei Xi *)
 (* Authoremail: hwxi AT cs DOT bu DOT edu *)
 (* Start time: December, 2012 *)
 
 (* ****** ****** *)
+
+implement
+{key,itm}
+funmap_search_opt
+  (map, k0) = let
+  var res: itm?
+  val ans = funmap_search (map, k0, res)
+in
 //
-// License: LGPL 3.0 (available at http://www.gnu.org/licenses/lgpl.txt)
+if ans then let
+  prval () = opt_unsome {itm} (res)
+in
+  Some_vt (res)
+end else let
+  prval () = opt_unnone {itm} (res)
+in
+  None_vt (*void*)
+end // end of [if]
 //
-(* ****** ****** *)
-
-sortdef t0p = t@ype
-
-(* ****** ****** *)
-//
-// HX-2012-12:
-// for maps associating keys with items
-// of types [key] and [itm], respectively
-//
-abstype map_type (key:t@ype, itm:t@ype+)
-typedef map (key:t0p, itm:t0p) = map_type (key, itm)
+end // end of [funmap_search_opt]
 
 (* ****** ****** *)
 
-fun{key:t0p}
-equal_key_key (x1: key, x2: key):<> bool
-
-(* ****** ****** *)
-
-fun{key,itm:t0p} funmap_nil ():<> map (key, itm)
-
-(* ****** ****** *)
-
-fun{key,itm:t0p} funmap_is_nil (map: map (key, itm)):<> bool
-fun{key,itm:t0p} funmap_isnot_nil (map: map (key, itm)):<> bool
-
-(* ****** ****** *)
-//
-// HX-2012-12: this function is O(n)-time
-//
-fun{key,itm:t@ype} funmap_size (map: map (key, itm)):<> size_t
-//
-(* ****** ****** *)
-
-fun{
-key:t0p;itm:t0p
-} funmap_search (
-  map: !map (key, INV(itm))
-, k0: key, res: &itm? >> opt (itm, b)
-) : #[b:bool] bool b // end of [funmap_search]
-
-fun{
-key:t0p;itm:t0p
-} funmap_search_opt
-  (map: !map (key, INV(itm)), k0: key): Option_vt (itm)
-// end of [funmap_search_opt]
-
-(* ****** ****** *)
-
-fun{key,itm:t0p}
-funmap_listize (xs: map (key, itm)):<> List_vt @(key, itm)
-
-(* ****** ****** *)
-
-(* end of [funmap_list.sats] *)
+(* end of [funmap_share.hats] *)
