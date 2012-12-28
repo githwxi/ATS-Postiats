@@ -56,13 +56,13 @@ O(n). ")
 
 (* ****** ****** *)
 
+#declnamesynop("funmap_insert")
 #declnamesynop("funmap_insert_any")
 
 (* ****** ****** *)
 
 #declnamesynop("funmap_takeout")
 #declnamesynop("funmap_takeout_opt")
-
 #declnamesynop("funmap_remove")
 
 (* ****** ****** *)

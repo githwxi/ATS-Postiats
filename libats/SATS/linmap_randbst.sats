@@ -134,6 +134,12 @@ key:t0p;itm:vt0p
 , k0: key, x0: itm, res: &itm? >> opt (itm, b)
 ) : #[b:bool] bool (b) // endfun
 
+fun{
+key:t0p;itm:vt0p
+} linmap_insert_opt (
+  map: &map (key, INV(itm)) >> _, k0: key, x0: itm
+) : Option_vt (itm) // endfun
+
 (* ****** ****** *)
 
 fun{

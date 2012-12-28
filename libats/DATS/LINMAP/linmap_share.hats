@@ -83,6 +83,28 @@ end // end of [linmap_search_opt]
 
 implement
 {key,itm}
+linmap_insert_opt
+  (map, k0, x0) = let
+  var res: itm?
+  val ans = linmap_insert (map, k0, x0, res)
+in
+//
+if ans then let
+  prval () = opt_unsome {itm} (res)
+in
+  Some_vt (res)
+end else let
+  prval () = opt_unnone {itm} (res)
+in
+  None_vt (*void*)
+end // end of [if]
+//
+end // end of [linmap_insert_opt]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
 linmap_takeout_opt
   (map, k0) = let
   var res: itm?
@@ -116,8 +138,9 @@ end // end of [linmap_remove]
 
 (* ****** ****** *)
 
-implement{a}{env}
-linmap_foreach$cont (x, env) = true
+implement
+{key,itm}{env}
+linmap_foreach$cont (k, x, env) = true
 
 (* ****** ****** *)
 

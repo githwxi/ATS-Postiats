@@ -57,6 +57,28 @@ end // end of [funmap_search_opt]
 
 implement
 {key,itm}
+funmap_insert_opt
+  (map, k0, x0) = let
+  var res: itm?
+  val ans = funmap_insert (map, k0, x0, res)
+in
+//
+if ans then let
+  prval () = opt_unsome {itm} (res)
+in
+  Some_vt (res)
+end else let
+  prval () = opt_unnone {itm} (res)
+in
+  None_vt (*void*)
+end // end of [if]
+//
+end // end of [funmap_insert_opt]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
 funmap_takeout_opt
   (map, k0) = let
   var res: itm?

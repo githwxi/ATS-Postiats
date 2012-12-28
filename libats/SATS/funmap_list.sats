@@ -103,6 +103,12 @@ key,itm:t0p
 , k0: key, x0: itm, res: &itm? >> opt (itm, b)
 ) : #[b:bool] bool (b) // endfun
 
+fun{
+key,itm:t0p
+} funmap_insert_opt (
+  map: &map (key, INV(itm)) >> _, k0: key, x0: itm
+) : Option_vt (itm) // endfun
+
 (* ****** ****** *)
 //
 // HX-2012-12:
