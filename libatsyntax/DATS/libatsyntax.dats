@@ -27,6 +27,29 @@ staload "libatsyntax/SATS/libatsyntax.sats"
 (* ****** ****** *)
 
 implement
+libatsyntax_filename_set_current
+  (name) = let
+//
+val opt = $FIL.filenameopt_make_local (name)
+//
+in
+//
+case+ opt of
+| ~Some_vt
+    (fil) => $FIL.the_filenamelst_ppush (fil)
+  // end of [Some_vt]
+| ~None_vt () => let
+    val () = prerr ": warning(libatsyntax)"
+    val () = prerrln! (": the file [", name, "] is not available.")
+  in
+    $ERR.abort ()
+  end // end of [None_vt]
+//
+end // end of [filename_set_current]
+
+(* ****** ****** *)
+
+implement
 fhtml_putc (c, putc) = let
   macdef fpr (s) = fstring_putc (,(s), putc)
 in
@@ -498,9 +521,15 @@ in
 end // end of [tokbufobj_unget_token]
 
 (* ****** ****** *)
-
+//
+staload SYM = "src/pats_symbol.sats"
+//
 overload = with $SYM.eq_symbol_symbol
 overload print with $SYM.print_symbol
+//
+(* ****** ****** *)
+
+staload SYN = "src/pats_syntax.sats"
 
 (* ****** ****** *)
 
@@ -675,8 +704,10 @@ end // end of [test_symbol_d0ecl]
 end // end of [local]
 
 (* ****** ****** *)
-
+//
 staload PAR = "src/pats_parsing.sats"
+//
+(* ****** ****** *)
 
 local
 
@@ -684,10 +715,6 @@ typedef charlst = List (char)
 viewtypedef charlst_vt = List_vt (char)
 
 typedef d0eclist = $SYN.d0eclist
-
-viewtypedef declrep = @(d0ecl, charlst)
-viewtypedef declreplst_vt = List_vt (declrep)
-viewtypedef res = declreplst_vt
 
 fun drop (
   inp: &charlst_vt, pos1: lint, pos2: lint
@@ -737,6 +764,39 @@ if pos1 < pos2 then (
 //
 end // end of [take_main]
 
+fun
+include_declitemize
+(
+  loc0: location, stadyn: int, path: string
+) : d0eclreplst = let
+//
+val filopt = $FIL.filenameopt_make_relative (path)
+//
+val fil = (
+  case+ filopt of
+  | ~Some_vt filename => filename
+  | ~None_vt () => let
+      val () = $LOC.prerr_location (loc0)
+      val () = prerr ": error(libatsyntax)"
+      val () = prerrln! (": the file [", path, "] is not available for inclusion.")
+      val () = $ERR.abort ()
+    in
+      $FIL.filename_dummy
+    end // end of [None_vt]
+) : $FIL.filename // end of [val]
+//
+val fullname = $FIL.filename_get_full (fil)
+val fullname = $SYM.symbol_get_name (fullname)
+val (
+  pffil | filp
+) = $STDIO.fopen_exn (fullname, file_mode_r)
+val inp = char_list_vt_make_file ($UN.cast{FILEref}(filp))
+val () = $STDIO.fclose_exn (pffil | filp)
+//
+in
+  charlst_declitemize (stadyn, inp)
+end // end of [include_declitemize]
+
 in // in of [local]
 
 implement
@@ -754,10 +814,30 @@ val d0cs = $PAR.parse_from_tokbuf_toplevel (stadyn, !p)
 val () = $TBF.tokbuf_uninitialize (!p)
 val () = ptr_free (pfgc, pfat | p)  
 //
+fun d0eclrep_make (
+  d0c: d0ecl, cs: charlst
+) : d0eclrep = let
+in
+//
+case+ d0c.d0ecl_node of
+| $SYN.D0Cinclude
+    (pfil, stadyn, path) => let
+    val (
+      pfpush | ()
+    ) = $FIL.the_filenamelst_push (pfil)
+    val replst = include_declitemize (d0c.d0ecl_loc, stadyn, path)
+    val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+  in
+    D0ECLREPinclude (d0c, cs, replst)
+  end // end of [D0Cinclude]
+| _ => D0ECLREPsing (d0c, cs)
+//
+end // end of [d0eclrep_make]
+//
 fun loop (
   d0cs: d0eclist
 , inp: &charlst_vt, pos: lint
-, res: &res? >> res
+, res: &d0eclreplst? >> d0eclreplst
 ) : void =
   case+ d0cs of
   | list_cons
@@ -770,17 +850,17 @@ fun loop (
       val cs = take (inp, pos, pos2)
       val pos = pos2
       val () = res :=
-        list_vt_cons{declrep}{0} (?, ?)
-      val+ list_vt_cons (!p1, !p2) = res
-      val () = p1->0 := d0c and () = p1->1 := cs
+        list_cons{d0eclrep}{0} (?, ?)
+      val+ list_cons (!p1, !p2) = res
+      val () = !p1 := d0eclrep_make (d0c, cs)
       val () = loop (d0cs, inp, pos, !p2)
     in
       fold@ (res)
     end // end of [list_cons]
-  | list_nil () => res := list_vt_nil ()
+  | list_nil () => res := list_nil ()
 //
 var inp = inp
-var res: res
+var res: d0eclreplst
 val () = loop (d0cs, inp, 0L, res)
 val () = list_vt_free (inp)
 //
@@ -793,26 +873,35 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-declreplst_find_synop
+d0eclreplst_find_synop
   (xs, sym) = let
 //
 fun auxfind (
-  xs: declreplst, sym: symbol
+  xs: d0eclreplst, sym: symbol
 ) : Option_vt (charlst) = let
 in
 //
 case+ xs of
-| list_cons (x, xs) =>
-    if test_symbol_d0ecl (sym, x.0)
-      then Some_vt (x.1) else auxfind (xs, sym)
-    // end of [if]
+| list_cons (x, xs) => (
+  case+ x of
+  | D0ECLREPsing (d0c, cs) =>
+      if test_symbol_d0ecl (sym, d0c)
+        then Some_vt (cs) else auxfind (xs, sym)
+      // end of [if]
+  | D0ECLREPinclude (d0c, cs, replst) => let
+      val opt = d0eclreplst_find_synop (replst, sym)
+    in
+      case+ opt of
+      | ~Some_vt cs => Some_vt (cs) | ~None_vt () => auxfind (xs, sym)
+    end // end of [D0ECLREPinclude]
+  ) // end of [list_cons]
 | list_nil () => None_vt ()
 //
 end // end of [auxfind]
 //
 in
   auxfind (xs, sym)
-end // end of [declreplst_find_synop]
+end // end of [d0eclreplst_find_synop]
 
 (* ****** ****** *)
 

@@ -14,7 +14,7 @@ macdef fstring_putc = $LSYN.fstring_putc
 
 (* ****** ****** *)
 
-fun fileref2charlst (inp: FILEref): List_vt (char)
+fun fileref2charlst (fil: FILEref): List_vt (char)
 
 (* ****** ****** *)
 

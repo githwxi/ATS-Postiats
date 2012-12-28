@@ -1,6 +1,12 @@
 (* ****** ****** *)
 
 %{
+implement srcfilename_get () = "../funset_listord.sats"
+%}
+
+(* ****** ****** *)
+
+%{
 val () = patscode_count_reset()
 val () = patscode_prefix_set("TRYIT/libats_funset_listord")
 %}

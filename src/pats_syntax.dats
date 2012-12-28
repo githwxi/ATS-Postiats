@@ -2432,12 +2432,16 @@ in '{
 implement
 d0ecl_include
   (knd, tok, ent2) = let
+//
   val loc = ent2.token_loc
   val- T_STRING (name) = ent2.token_node
   val () = the_parerrlst_add_ifunclosed (loc, name)
   val loc = tok.token_loc + loc
+//
+  val pfil = $FIL.filename_get_current ()
+//
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cinclude (knd, name)
+  d0ecl_loc= loc, d0ecl_node= D0Cinclude (pfil, knd, name)
 } end // end of [d0ecl_include]
 
 (* ****** ****** *)
@@ -2773,36 +2777,49 @@ in '{
 implement
 d0ecl_staload_none
   (tok, tok2) = let
+//
   val loc = tok2.token_loc
   val- T_STRING (name) = tok2.token_node
   val () = the_parerrlst_add_ifunclosed (loc, name)
   val loc = tok.token_loc + loc
+//
+  val pfil = $FIL.filename_get_current ()
+//
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cstaload (None, name)
+  d0ecl_loc= loc, d0ecl_node= D0Cstaload (pfil, None, name)
 } end // end of [d0ecl_staload_none]
 
 implement
 d0ecl_staload_some
   (tok, ent2, ent4) = let
+//
   val loc = ent4.token_loc
   val- T_STRING (name) = ent4.token_node
   val () = the_parerrlst_add_ifunclosed (loc, name)
   val loc = tok.token_loc + loc
+//
   val sym = ent2.i0de_sym
+//
+  val pfil = $FIL.filename_get_current ()
+//
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cstaload (Some sym, name)
+  d0ecl_loc= loc, d0ecl_node= D0Cstaload (pfil, Some (sym), name)
 } end // end of [d0ecl_staload_some]
 
 (* ****** ****** *)
 
 implement
 d0ecl_dynload (tok, ent2) = let
+//
   val loc = ent2.token_loc
   val- T_STRING (name) = ent2.token_node
   val () = the_parerrlst_add_ifunclosed (loc, name)
   val loc = tok.token_loc + loc
+//
+  val pfil = $FIL.filename_get_current ()
+//
 in '{
-  d0ecl_loc= loc, d0ecl_node= D0Cdynload (name)
+  d0ecl_loc= loc, d0ecl_node= D0Cdynload (pfil, name)
 } end // end of [d0ecl_dynload]
 
 (* ****** ****** *)

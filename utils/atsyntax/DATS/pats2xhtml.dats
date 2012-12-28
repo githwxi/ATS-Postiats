@@ -9,7 +9,7 @@ staload "../SATS/pats2xhtml.sats"
 (* ****** ****** *)
 
 implement
-fileref2charlst (inp) = char_list_vt_make_file (inp)
+fileref2charlst (fil) = char_list_vt_make_file (fil)
 
 (* ****** ****** *)
 

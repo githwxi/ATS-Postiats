@@ -100,10 +100,15 @@ fun fsyndef_ISLIST (
 ) : d1exp = d1exp_macfun (loc0, symbol_ISLIST, d1es)
 
 (* ****** ****** *)
-
+//
 val symbol_PRINT = $SYM.symbol_make_string "print"
+val symbol_PRINT_NEWLINE = $SYM.symbol_make_string "print_newline"
 val symbol_PRINTLN = $SYM.symbol_make_string "println"
-
+//
+val symbol_PRERR = $SYM.symbol_make_string "prerr"
+val symbol_PRERR_NEWLINE = $SYM.symbol_make_string "prerr_newline"
+val symbol_PRERRLN = $SYM.symbol_make_string "prerrln"
+//
 (* ****** ****** *)
 
 fun aux1 (
@@ -145,39 +150,66 @@ fun fsyndef_TUPZ (
   loc0: location, d1es: d1explst
 ) : d1exp = d1exp_list (loc0, ~1(*npf*), d1es)
 
-fun fsyndef_PRINT (
-  loc0: location, d1es: d1explst
+(* ****** ****** *)
+
+local
+
+fun auxpr (
+  loc0: location
+, d1es: d1explst, sym: symbol
 ) : d1exp = let
 (*
-val () = fprintln!
-  (stdout_ref, "fsyndef_PRINT: d1es = ", d1es)
-// end of [val]
+val () = println! ("auxpr: d1es = ", d1es)
 *)
 val dq = $SYN.d0ynq_none (loc0)
-val fid = d1exp_dqid (loc0, dq, symbol_PRINT)
+val fid = d1exp_dqid (loc0, dq, sym)
 //
 in
   d1exp_seq (loc0, aux2lst (loc0, fid, d1es))
-end // end of [fsyndef_PRINT]
+end // end of [auxpr]
 
-fun fsyndef_PRINTLN (
-  loc0: location, d1es: d1explst
+fun auxprln (
+  loc0: location
+, d1es: d1explst, sym: symbol, sym2: symbol
 ) : d1exp = let
 (*
-val () = fprintln!
-  (stdout_ref, "fsyndef_PRINTLN: d1es = ", d1es)
-// end of [val]
+val () = println! ("auxprln: d1es = ", d1es)
 *)
-val d1e1 = fsyndef_PRINT (loc0, d1es)
+val d1e1 = auxpr (loc0, d1es, sym)
 //
 val dq = $SYN.d0ynq_none (loc0)
-val sym = $SYM.symbol_make_string ("print_newline")
-val fid = d1exp_dqid (loc0, dq, sym)
+val fid = d1exp_dqid (loc0, dq, sym2)
 val d1e2 = d1exp_app_dyn (loc0, fid, loc0, ~1(*npf*), list_nil)
 //
 in
   d1exp_seq (loc0, list_pair (d1e1, d1e2))
+end // end of [auxprln]
+
+in (* in of [local] *)
+
+fun fsyndef_PRINT (
+  loc0: location, d1es: d1explst
+) : d1exp = auxpr (loc0, d1es, symbol_PRINT)
+fun fsyndef_PRINTLN (
+  loc0: location, d1es: d1explst
+) : d1exp = let
+in
+  auxprln (loc0, d1es, symbol_PRINT, symbol_PRINT_NEWLINE)
 end // end of [fsyndef_PRINTLN]
+
+fun fsyndef_PRERR (
+  loc0: location, d1es: d1explst
+) : d1exp = auxpr (loc0, d1es, symbol_PRERR)
+fun fsyndef_PRERRLN (
+  loc0: location, d1es: d1explst
+) : d1exp = let
+in
+  auxprln (loc0, d1es, symbol_PRERR, symbol_PRERR_NEWLINE)
+end // end of [fsyndef_PRERRLN]
+
+end // end of [local]
+
+(* ****** ****** *)
 
 in // in of [local]
 
@@ -198,6 +230,9 @@ case+ 0 of
 //
 | _ when id = symbol_PRINT => Some_vt (fsyndef_PRINT)
 | _ when id = symbol_PRINTLN => Some_vt (fsyndef_PRINTLN)
+| _ when id = symbol_PRERR => Some_vt (fsyndef_PRERR)
+| _ when id = symbol_PRERRLN => Some_vt (fsyndef_PRERRLN)
+//
 | _ => None_vt ()
 //
 end // end of [syndef_search_all]

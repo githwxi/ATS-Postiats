@@ -262,7 +262,7 @@ case+
   d0c0.d0ecl_node of
 //
 | D0Cinclude
-    (_, basename) => let
+    (cfil, _, basename) => let
     val opt = pathtry_basename (basename)
   in
     case+ opt of
@@ -270,7 +270,7 @@ case+
     | ~None_vt () => ()
   end // end of [DOCinclude]
 | D0Cstaload
-    (_, basename) => let
+    (cfil, _, basename) => let
     val opt = pathtry_basename (basename)
   in
     case+ opt of

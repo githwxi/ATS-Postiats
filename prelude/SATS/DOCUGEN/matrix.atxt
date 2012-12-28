@@ -1,8 +1,14 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../matrix.sats"
+%}
+
 <(* ****** ****** *)
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/prelude_array")
+val () = patscode_prefix_set("TRYIT/prelude_matrix")
 %}
 
 (* ****** ****** *)

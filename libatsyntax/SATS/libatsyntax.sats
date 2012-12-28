@@ -16,14 +16,16 @@ viewtypedef charlst_vt = List_vt (char)
 
 (* ****** ****** *)
 
-staload
-SYM = "src/pats_symbol.sats"
+staload ERR = "src/pats_error.sats"
+
+(* ****** ****** *)
+
+staload SYM = "src/pats_symbol.sats"
 typedef symbol = $SYM.symbol
 
 (* ****** ****** *)
 
-staload
-LOC = "src/pats_location.sats"
+staload LOC = "src/pats_location.sats"
 typedef position = $LOC.position
 typedef location = $LOC.location
 
@@ -31,6 +33,15 @@ typedef location = $LOC.location
 
 fun fprint_position (out: FILEref, x: position): void
 fun fprint_location (out: FILEref, x: location): void
+
+(* ****** ****** *)
+
+staload FIL = "src/pats_filename.sats"
+(*
+// HX-2012-12:
+// this is needed for [#include] and [staload]
+*)
+fun libatsyntax_filename_set_current (name: string): void
 
 (* ****** ****** *)
 
@@ -91,15 +102,16 @@ fun test_symbol_d0ecl (sym: symbol, d0c: d0ecl): bool
 
 (* ****** ****** *)
 
-typedef
-declreplst = List @(d0ecl, charlst)
-viewtypedef
-declreplst_vt = List_vt @(d0ecl, charlst)
+datatype
+d0eclrep =
+  | D0ECLREPsing of (d0ecl, charlst)
+  | D0ECLREPinclude of (d0ecl, charlst, d0eclreplst)
+where d0eclreplst = List (d0eclrep)
 
 (* ****** ****** *)
 
 fun charlst_declitemize
-  (stadyn: int, inp: charlst_vt): declreplst_vt
+  (stadyn: int, inp: charlst_vt): d0eclreplst
 // end of [charlst_declitemize]
 
 (* ****** ****** *)
@@ -273,8 +285,8 @@ fun charlst_pats2xhtmlize_embedded
 //
 // HX: it is for building ATSLIB documentation
 //
-fun declreplst_find_synop
-  (xs: declreplst, sym: symbol): Option_vt (charlst)
+fun d0eclreplst_find_synop
+  (xs: d0eclreplst, sym: symbol): Option_vt (charlst)
 //
 (* ****** ****** *)
 

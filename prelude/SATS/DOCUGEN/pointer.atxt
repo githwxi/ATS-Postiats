@@ -1,6 +1,12 @@
 (* ****** ****** *)
 
 %{
+implement srcfilename_get () = "../pointer.sats"
+%}
+
+(* ****** ****** *)
+
+%{
 val () = patscode_count_reset()
 val () = patscode_prefix_set("HTML/TRYIT/pointer")
 %}

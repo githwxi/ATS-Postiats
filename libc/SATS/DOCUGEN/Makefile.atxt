@@ -21,7 +21,7 @@ fun make_entry
 val ent = sprintf ("\
 all_html:: HTML/%s.html\n\
 HTML/%s.html: \
-  %s_atxt.exe ; $(CAT) ../%s.sats | ./$< > $@
+  %s_atxt.exe ; ./$< > $@
 %s_atxt.txt: %s.atxt ; $(CAT) $< | \
   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
 %s_atxt.exe: htmlgendecl_atxt.dats \
@@ -33,7 +33,7 @@ upload_%s:: ; \
 upload:: upload_%s
 clean:: ; $(RMF) %s_atxt.exe
 cleanall:: ; $(RMF) HTML/%s.html
-", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
+", @(nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm, nm)
 ) // end of [val]
 //
 in

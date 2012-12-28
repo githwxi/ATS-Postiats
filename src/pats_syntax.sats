@@ -1264,9 +1264,13 @@ d0ecl_node =
     // end of [D0Cimpdec]
 //
   | D0Cinclude of (* file inclusion *)
-      (int(*0:sta/1:dyn*), string(*filename*))
-  | D0Cstaload of (symbolopt, string)
-  | D0Cdynload of (string) // HX: dynloading for initialization
+      (filename(*pfil*), int(*0:sta/1:dyn*), string(*filename*))
+    // end of [D0Cinclude]
+//
+  | D0Cstaload of (
+      filename(*pfil*), symbolopt, string(*path*)
+    ) // end of [D0Cstaload]
+  | D0Cdynload of (filename(*pfil*), string(*path*)) // HX: dynloading(*initialization*)
 //
   | D0Clocal of (d0eclist, d0eclist)
   | D0Cguadecl of (srpifkind, guad0ecl)

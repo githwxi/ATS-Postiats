@@ -1,3 +1,18 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../float.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/prelude_float")
+%}
+
+(* ****** ****** *)
+
 #decltitle("\
 ATSLIB/prelude/float\
 ")

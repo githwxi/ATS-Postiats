@@ -1,3 +1,18 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../char.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/prelude_char")
+%}
+
+(* ****** ****** *)
+
 #decltitle("\
 ATSLIB/prelude/char\
 ")

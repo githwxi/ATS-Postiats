@@ -1,8 +1,14 @@
 (* ****** ****** *)
 
 %{
+implement srcfilename_get () = "../option_vt.sats"
+%}
+
+(* ****** ****** *)
+
+%{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/option_vt")
+val () = patscode_prefix_set("TRYIT/prelude_option_vt")
 %}
 
 (* ****** ****** *)

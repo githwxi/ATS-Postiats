@@ -12,27 +12,49 @@ staload "declatext.sats"
 dynload "htmlgendecl.dats"
 staload "htmlgendecl.sats"
 //
-local
-//
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload _(*anon*) = "prelude/DATS/reference.dats"
 //
+extern
+fun theDeclrepLst_initize (fil: FILEref): void
+implement
+theDeclrepLst_initize
+  (filr) = let
+  val cs = char_list_vt_make_file (filr)
+  val replst = charlst_declitemize (0(*sta*), cs)
+  val replst = list_reverse (replst)
+  val replst = list_of_list_vt (replst)
 in
-//
-val () = let
-  val cs =
-    char_list_vt_make_file (stdin_ref)
-  val declreplst = charlst_declitemize (0(*sta*), cs)
-  val declreplst = list_vt_reverse (declreplst)
-  val declreplst = list_of_list_vt (declreplst)
-in
-  theDeclrepLst_set (declreplst)
+  theDeclrepLst_set (replst)
 end // end of [theDeclrepLst]
 //
-end // end of [local]
+extern
+fun srcfilename_get (): string
+//
+extern
+fun htmlgendecl_initize (): void
 //
 #include "htmlgendecl_data_atxt.dats"
+//
+#ifndef
+IMPLEMENT_HTMLGENDECL_INITIZE
+//
+implement
+htmlgendecl_initize () = let
+//
+val name = srcfilename_get ()
+val filr =
+  open_file_exn (name, file_mode_r)
+val () = libatsyntax_filename_set_current (name)
+val () = theDeclrepLst_initize (filr)
+val () = close_file_exn (filr)
+//
+in
+  // nothing
+end // end of [htmlgendecl_initize]
+//
+#endif // [IMPLEMENT_HTMLGENDECL_INITIZE]
 //
 val theDecltitle = theDecltitle_get ()
 val theDeclpreamble = theDeclpreamble_get ()

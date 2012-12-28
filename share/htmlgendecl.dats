@@ -40,7 +40,7 @@ declname_find_synopsis
 val sym =
   $SYM.symbol_make_string (name)
 val xs = theDeclrepLst_get ()
-val opt = $LSYN.declreplst_find_synop (xs, sym)
+val opt = $LSYN.d0eclreplst_find_synop (xs, sym)
 //
 in
 //

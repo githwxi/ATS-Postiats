@@ -101,9 +101,15 @@ filename_type = '{
 
 (* ****** ****** *)
 
+(*
 implement
 fprint_filename (out, fil) =
   fprint_string (out, fil.filename_part)
+// end of [fprint_filename]
+*)
+implement
+fprint_filename (out, fil) =
+  $SYM.fprint_symbol (out, fil.filename_full)
 // end of [fprint_filename]
 
 implement
@@ -505,8 +511,8 @@ extern castfn p2s {l:agz} (x: !strptr l):<> String
 fun aux_local (
   basename: string
 ) : Stropt = let
-  val filename = filename_get_current ()
-  val pname = filename_get_part (filename)
+  val fil = filename_get_current ()
+  val pname = filename_get_part (fil)
 (*
   val () = println! ("aux_local: pname = ", pname)
 *)

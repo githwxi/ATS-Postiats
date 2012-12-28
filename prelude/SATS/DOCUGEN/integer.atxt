@@ -1,3 +1,18 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../integer.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/prelude_integer")
+%}
+
+(* ****** ****** *)
+
 #decltitle("\
 ATSLIB/prelude/integer\
 ")

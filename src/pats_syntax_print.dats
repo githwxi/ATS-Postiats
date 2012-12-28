@@ -1303,21 +1303,24 @@ case+ x.d0ecl_node of
     val () = prstr "\n)"
   }
 //
-| D0Cinclude (knd, name) => {
+| D0Cinclude
+    (cfil, knd, name) => {
     val () = prstr "D0Cinclude("
     val () = fprint_int (out, knd)
     val () = prstr "; "
     val () = fprint_string (out, name)
     val () = prstr ")"
   }
-| D0Cstaload (symopt, name) => {
+| D0Cstaload
+    (cfil, opt, name) => {
     val () = prstr "D0Cstaload("
-    val () = $UT.fprintopt<symbol> (out, symopt, fprint_symbol)
+    val () = $UT.fprintopt<symbol> (out, opt, fprint_symbol)
     val () = prstr "; "
     val () = fprint_string (out, name)
     val () = prstr ")"
   }
-| D0Cdynload (name) => {
+| D0Cdynload
+    (cfil, name) => {
     val () = prstr "D0Cdynload("
     val () = fprint_string (out, name)
     val () = prstr ")"

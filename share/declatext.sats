@@ -7,7 +7,7 @@
 
 staload
 LSYN = "libatsyntax/SATS/libatsyntax.sats"
-typedef declreplst = $LSYN.declreplst
+typedef d0eclreplst = $LSYN.d0eclreplst
 
 (* ****** ****** *)
 
@@ -86,8 +86,8 @@ fun declfunretval (x: string): atext // HX: optional
 //
 (* ****** ****** *)
 
-fun theDeclrepLst_get (): declreplst
-fun theDeclrepLst_set (xs: declreplst): void
+fun theDeclrepLst_get (): d0eclreplst
+fun theDeclrepLst_set (xs: d0eclreplst): void
 
 (* ****** ****** *)
 

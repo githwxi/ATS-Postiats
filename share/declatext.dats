@@ -202,7 +202,7 @@ end // end of [declfunretval]
 (* ****** ****** *)
 
 local
-val theDeclrepLst = ref<declreplst> (list_nil)
+val theDeclrepLst = ref<d0eclreplst> (list_nil)
 in // in of [local]
 implement theDeclrepLst_get () = !theDeclrepLst
 implement theDeclrepLst_set (xs) = !theDeclrepLst := xs

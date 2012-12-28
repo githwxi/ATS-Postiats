@@ -509,6 +509,8 @@ fn i0nclude_tr (
       end // end of [None_vt]
   ) : filename // end of [val]
 //
+  val d0cs = $PAR.parse_from_filename_toplevel (stadyn, fil)
+//
   val (pfpush | isexi) = $FIL.the_filenamelst_push_check (fil)
 //
   val () = if isexi then {
@@ -526,7 +528,6 @@ fn i0nclude_tr (
     print "Including ["; print fullname; print "] starts."; print_newline ()
   end // end of [val]
 *)
-  val d0cs = $PAR.parse_from_filename_toplevel (stadyn, fil)
   val d1cs = d0eclist_tr (d0cs)
 (*
   val () = begin
@@ -594,7 +595,7 @@ fn s0taload_tr (
 //
   val fil = (
     case+ filopt of
-    | ~Some_vt filename => filename
+    | ~Some_vt fil => fil
     | ~None_vt () => let
         val () = prerr_error1_loc (loc0)
         val () = prerr ": the file ["
@@ -854,18 +855,38 @@ case+ d0c0.d0ecl_node of
     d1ecl_impdec (loc0, knd, i1mparg, i0mpdec_tr d0c)
   end // end of [D0Cimpdec]
 //
-| D0Cinclude (stadyn, path) => let
-    val d1cs = i0nclude_tr (d0c0, stadyn, path) in d1ecl_include (loc0, d1cs)
+| D0Cinclude
+    (pfil, stadyn, path) => let
+    val (
+      pfpush | ()
+    ) = $FIL.the_filenamelst_push (pfil)
+    val d1cs = i0nclude_tr (d0c0, stadyn, path)
+    val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+  in
+    d1ecl_include (loc0, d1cs)
   end // end of [D0Cinclude]
-| D0Cstaload (idopt, path) => let
+| D0Cstaload
+    (pfil, idopt, path) => let
     var loadflag: int // unitialized
     var fil: filename // unitialized
+//
+    val (
+      pfpush | ()
+    ) = $FIL.the_filenamelst_push (pfil)
     val d1cs = s0taload_tr (d0c0, idopt, path, loadflag, fil)
+    val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+//
   in
     d1ecl_staload (loc0, idopt, fil, loadflag, d1cs)
   end // end of [D0Cstaload]
-| D0Cdynload (path) => let
-    val fil = d0ynload_tr (d0c0, path) in d1ecl_dynload (loc0, fil)
+| D0Cdynload (pfil, path) => let
+    val (
+      pfpush | ()
+    ) = $FIL.the_filenamelst_push (pfil)
+    val cfil = d0ynload_tr (d0c0, path)
+    val () = $FIL.the_filenamelst_pop (pfpush | (*none*))
+  in
+    d1ecl_dynload (loc0, cfil)
   end // end of [D0Cdynload]
 //
 | D0Clocal (

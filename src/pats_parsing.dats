@@ -94,10 +94,10 @@ parse_from_filename_toplevel
   val fullname = $FIL.filename_get_full (fil)
   val fullname = $SYM.symbol_get_name (fullname)
   val (
-    pffil | p_fil
+    pffil | filp
   ) = $STDIO.fopen_exn (fullname, file_mode_r)
   val () =
-    tokbuf_initialize_filp (pfmod, pffil | buf, p_fil)
+    tokbuf_initialize_filp (pfmod, pffil | buf, filp)
   // end of [val]
 //
   val (pfpush | ()) = $FIL.the_filenamelst_push (fil)
