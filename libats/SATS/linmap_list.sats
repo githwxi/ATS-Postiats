@@ -132,9 +132,9 @@ key:t0p;itm:vt0p
 
 fun{
 key:t0p;itm:vt0p
-} linmap_insert_opt (
-  map: &map (key, INV(itm)) >> _, k0: key, x0: itm
-) : Option_vt (itm) // endfun
+} linmap_insert_opt
+  (map: &map (key, INV(itm)) >> _, k0: key, x0: itm): Option_vt (itm)
+// end of [linmap_insert_opt]
 
 (* ****** ****** *)
 //

@@ -112,9 +112,9 @@ key,itm:t0p
 
 fun{
 key,itm:t0p
-} funmap_insert_opt (
-  map: &map (key, INV(itm)) >> _, k0: key, x0: itm
-) : Option_vt (itm) // endfun
+} funmap_insert_opt
+  (map: &map (key, INV(itm)) >> _, k0: key, x0: itm): Option_vt (itm)
+// end of [funmap_insert_opt]
 
 (* ****** ****** *)
 
