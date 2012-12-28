@@ -52,7 +52,7 @@ fun execve
   pf1: !parrnull_v (string, l1, n1)
 , pf2: !parrnull_v (string, l2, n2)
 | fname: NSH(string), argv: ptr l1, envp: ptr l2
-) : intLt(0) = "mac\#atslib_execv3"
+) : intLt(0) = "mac\#atslib_execve"
 fun execve_unsafe // HX: for failure, ~1 is returned
   (fname: NSH(string), argv: ptr, envp: ptr): intLt(0) = "mac\#atslib_execve"
 // end of [execve_unsafe]

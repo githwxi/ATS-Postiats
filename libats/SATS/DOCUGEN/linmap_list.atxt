@@ -18,7 +18,7 @@ ATSLIB/libats/linmap_list\
 #para("\
 
 This package implements linear maps based on the singly-linked list
-structure. Note that this is practical for maps of short size (e.g.,
+structure. Note that this is only practical for maps of short size (e.g.,
 containing only a few dozens keys).
 
 ")
@@ -46,7 +46,7 @@ co-variant in its second argument.\
 (* ****** ****** *)
 
 #declnamesynop("equal_key_key")
-#decldescrpt("This function is for testing whether two map keys are equal.")
+#decldescrpt("This function is for testing whether two given map keys are equal.")
 
 (* ****** ****** *)
 

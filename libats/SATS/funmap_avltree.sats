@@ -84,14 +84,14 @@ fun{key,itm:t@ype} funmap_size (map: map (key, itm)):<> size_t
 (* ****** ****** *)
 
 fun{
-key:t0p;itm:t0p
+key,itm:t0p
 } funmap_search (
   map: map (key, INV(itm))
 , k0: key, res: &itm? >> opt (itm, b)
 ) : #[b:bool] bool b // end of [funmap_search]
 
 fun{
-key:t0p;itm:t0p
+key,itm:t0p
 } funmap_search_opt
   (map: map (key, INV(itm)), k0: key): Option_vt (itm)
 // end of [funmap_search_opt]
@@ -99,7 +99,7 @@ key:t0p;itm:t0p
 (* ****** ****** *)
 
 fun{
-key:t0p;itm:t0p
+key,itm:t0p
 }{
 env:t0p
 } funmap_foreach$cont
@@ -107,7 +107,7 @@ env:t0p
 // end of [funmap_foreach$cont]
 
 fun{
-key:t0p;itm:t0p
+key,itm:t0p
 }{
 env:t0p
 } funmap_foreach$fwork
@@ -115,13 +115,13 @@ env:t0p
 // end of [funmap_foreach$fwork]
 
 fun{
-key:t0p;itm:t0p
+key,itm:t0p
 } funmap_foreach
   (map: map (key, INV(itm))): void
 // end of [funmap_foreach]
 
 fun{
-key:t0p;itm:t0p
+key,itm:t0p
 }{
 env:t0p
 } funmap_foreach_env

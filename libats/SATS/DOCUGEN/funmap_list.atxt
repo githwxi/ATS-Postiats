@@ -16,6 +16,8 @@ ATSLIB/libats/funmap_list\
 #declpreamble("\
 
 This package implements functional maps based on lists.
+Note that this is only practical for maps of short size (e.g.,
+containing only a few dozens keys).
 
 ")
 
@@ -32,7 +34,7 @@ The type constructor #stacode("map") is a shorthand for
 (* ****** ****** *)
 
 #declnamesynop("equal_key_key")
-#decldescrpt("This function is for testing whether two map keys are equal.")
+#decldescrpt("This function is for testing whether two given map keys are equal.")
 
 (* ****** ****** *)
 
@@ -46,6 +48,17 @@ The type constructor #stacode("map") is a shorthand for
 
 This function returns the size of a given map. Its time complexity is
 O(n). ")
+
+(* ****** ****** *)
+
+#declnamesynop("funmap_foreach$cont")
+#declnamesynop("funmap_foreach$fwork")
+#declnamesynop("funmap_foreach")
+#declnamesynop("funmap_foreach_env")
+
+(* ****** ****** *)
+
+#declnamesynop("funmap_listize")
 
 (* ****** ****** *)
 
