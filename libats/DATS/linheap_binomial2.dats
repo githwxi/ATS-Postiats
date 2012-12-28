@@ -71,7 +71,7 @@ staload "libats/SATS/linheap_binomial.sats"
 // the file should be included here
 // before [heap_viewtype] is assumed
 //
-#include "./linheap_share.hats" // in current dir
+#include "./SHARE/linheap.hats" // code reuse
 //
 (* ****** ****** *)
 

@@ -49,7 +49,7 @@ equal_key_key
 // the file should be included here
 // before [map_viewtype] is assumed
 //
-#include "./linmap_share.hats" // in current dir
+#include "./SHARE/linmap.hats" // code reuse
 //
 (* ****** ****** *)
 

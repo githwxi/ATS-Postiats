@@ -57,6 +57,7 @@ O(n). ")
 (* ****** ****** *)
 
 #declnamesynop("funmap_insert")
+#declnamesynop("funmap_insert_opt")
 #declnamesynop("funmap_insert_any")
 
 (* ****** ****** *)

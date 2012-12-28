@@ -49,7 +49,7 @@ equal_key_key
 // the file should be included here
 // before [map_type] is assumed
 //
-#include "./funmap_share.hats" // in current dir
+#include "./SHARE/funmap.hats" // code reuse
 //
 (* ****** ****** *)
 

@@ -83,6 +83,12 @@ in the implementation of randomized binary search trees.\
 (* ****** ****** *)
 
 #declnamesynop("linmap_insert")
+#declnamesynop("linmap_insert_opt")
+#decldescrpt("\
+
+This function is the optional version of #dyncode("linmap_insert").\
+
+")
 
 (* ****** ****** *)
 

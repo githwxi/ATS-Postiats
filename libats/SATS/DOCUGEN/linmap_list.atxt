@@ -83,6 +83,13 @@ actually performed.
 
 ")
 
+#declnamesynop("linmap_insert_opt")
+#decldescrpt("\
+
+This function is the optional version of #dyncode("linmap_insert").\
+
+")
+
 (* ****** ****** *)
 
 #declnamesynop("linmap_insert_any")
