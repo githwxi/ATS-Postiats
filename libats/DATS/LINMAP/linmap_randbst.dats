@@ -468,17 +468,6 @@ in
   if i > 0 then true else false
 end // end of [linmap_takeout]
 
-implement
-{key,itm}
-linmap_remove
-  (map, k0) = let
-  var res: itm
-  val i = bstree_remove_random<key,itm> (map, k0, res)
-  prval () = opt_clear (res)
-in
-  if i > 0 then true else false
-end // end of [linmap_remove]
-
 (* ****** ****** *)
 
 implement

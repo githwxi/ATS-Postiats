@@ -848,19 +848,6 @@ end // end of [linmap_takeout]
 (* ****** ****** *)
 
 implement
-{key,itm}
-linmap_remove
-  (map, k0) = let
-  var res: itm
-  val takeout = linmap_takeout<key,itm> (map, k0, res)
-  prval () = opt_clear (res)
-in
-  takeout(*removed*)
-end // end of [linmap_remove]
-
-(* ****** ****** *)
-
-implement
 {key,itm}{env}
 linmap_foreach_env
   (map, env) = let

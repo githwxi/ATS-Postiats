@@ -51,6 +51,22 @@ O(n). ")
 
 (* ****** ****** *)
 
+#declnamesynop("funmap_search")
+#declnamesynop("funmap_search_opt")
+
+(* ****** ****** *)
+
+#declnamesynop("funmap_insert_any")
+
+(* ****** ****** *)
+
+#declnamesynop("funmap_takeout")
+#declnamesynop("funmap_takeout_opt")
+
+#declnamesynop("funmap_remove")
+
+(* ****** ****** *)
+
 #declnamesynop("funmap_foreach$cont")
 #declnamesynop("funmap_foreach$fwork")
 #declnamesynop("funmap_foreach")

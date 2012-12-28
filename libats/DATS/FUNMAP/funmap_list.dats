@@ -126,6 +126,69 @@ end // end of [funmap_search]
 (* ****** ****** *)
 
 implement
+{key,itm}
+funmap_insert
+  (map, k0, x0, res) = let
+  val ans = funmap_takeout (map, k0, res)
+  val ( ) = (map := list_cons ( @(k0, x0), map ))
+in
+  ans
+end // end of [funmap_insert]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+funmap_insert_any
+  (map, k0, x0) = (map := list_cons ( @(k0, x0), map ))
+// end of [funmap_insert_any]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+funmap_takeout
+  (map, k0, res) = let
+//
+typedef map = map (key, itm)
+//
+fun loop (
+  map: &map >> _
+, kxs1: List0 @(key, itm)
+, kxs2: List0_vt @(key, itm)
+, k0: key, res: &itm? >> opt (itm, b)
+) : #[b:bool] bool (b) = let
+in
+//
+case+ kxs1 of
+| list_cons
+    (kx, kxs1) => let
+    val iseq = equal_key_key<key> (k0, kx.0)
+  in
+    if iseq then let
+      val () = res := kx.1
+      prval () = opt_some {itm} (res)
+      val () = map := list_reverse_append1_vt (kxs2, kxs1)
+    in
+      true
+    end else
+      loop (map, kxs1, list_vt_cons (kx, kxs2), k0, res)
+    // end of [if]
+  end // end of [list_cons]
+| list_nil () => let
+    val () = list_vt_free (kxs2)
+    prval () = opt_none {itm} (res) in false
+  end // end of [list_nil]
+//
+end // end of [loop]
+//
+in
+  loop (map, map, list_vt_nil (), k0, res)
+end // end of [funmap_takeout]
+
+(* ****** ****** *)
+
+implement
 {key,itm}{env}
 funmap_foreach_env
   (map, env) = let

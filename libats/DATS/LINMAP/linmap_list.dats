@@ -132,8 +132,7 @@ end // end of [linmap_search_ref]
 implement
 {key,itm}
 linmap_insert_any
-  (map, k0, x0) =
-  map := list_vt_cons (@(k0, x0), map)
+  (map, k0, x0) = (map := list_vt_cons ( @(k0, x0), map ))
 // end of [linmap_insert_any]
 
 (* ****** ****** *)

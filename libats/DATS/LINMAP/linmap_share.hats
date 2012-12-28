@@ -103,6 +103,19 @@ end // end of [linmap_takeout_opt]
 
 (* ****** ****** *)
 
+implement
+{key,itm}
+linmap_remove
+  (map, k0) = let
+  var res: itm
+  val takeout = linmap_takeout<key,itm> (map, k0, res)
+  prval () = opt_clear (res)
+in
+  takeout(*removed*)
+end // end of [linmap_remove]
+
+(* ****** ****** *)
+
 implement{a}{env}
 linmap_foreach$cont (x, env) = true
 

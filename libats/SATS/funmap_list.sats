@@ -90,6 +90,55 @@ key,itm:t0p
 // end of [funmap_search_opt]
 
 (* ****** ****** *)
+//
+// HX-2012-12:
+// if [k0] occurs in [map], [x0] replaces the
+// item associated with [k0] in [map] while the
+// item is stored in [res] instead.
+//
+fun{
+key,itm:t0p
+} funmap_insert (
+  map: &map (key, INV(itm)) >> _
+, k0: key, x0: itm, res: &itm? >> opt (itm, b)
+) : #[b:bool] bool (b) // endfun
+
+(* ****** ****** *)
+//
+// HX-2012-12:
+// insertion always happens regardless whether
+// [k0] is associated with some item in [map]
+//
+fun{
+key,itm:t0p
+} funmap_insert_any
+  (map: &map (key, INV(itm)) >> _, k0: key, x0: itm): void
+// end of [funmap_insert_any]
+
+(* ****** ****** *)
+
+fun{
+key,itm:t0p
+} funmap_takeout (
+  map: &map (key, INV(itm)) >> _
+, k0: key, res: &itm? >> opt (itm, b)
+) : #[b:bool] bool (b) // endfun
+
+fun{
+key,itm:t0p
+} funmap_takeout_opt
+  (map: &map (key, INV(itm)) >> _, k0: key): Option_vt (itm)
+// end of [funmap_takeout_opt]
+
+(* ****** ****** *)
+
+fun{
+key,itm:t0p
+} funmap_remove (
+  map: &map (key, INV(itm)) >> _, k0: key): bool
+// end of [funmap_remove]
+
+(* ****** ****** *)
 
 fun{
 key,itm:t0p

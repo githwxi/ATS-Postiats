@@ -56,6 +56,41 @@ end // end of [funmap_search_opt]
 (* ****** ****** *)
 
 implement
+{key,itm}
+funmap_takeout_opt
+  (map, k0) = let
+  var res: itm?
+  val ans = funmap_takeout (map, k0, res)
+in
+//
+if ans then let
+  prval () = opt_unsome {itm} (res)
+in
+  Some_vt (res)
+end else let
+  prval () = opt_unnone {itm} (res)
+in
+  None_vt (*void*)
+end // end of [if]
+//
+end // end of [funmap_takeout_opt]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+funmap_remove
+  (map, k0) = let
+  var res: itm
+  val takeout = funmap_takeout<key,itm> (map, k0, res)
+  prval () = opt_clear (res)
+in
+  takeout(*removed*)
+end // end of [funmap_remove]
+
+(* ****** ****** *)
+
+implement
 {key,itm}{env}
 funmap_foreach$cont (k, x, env) = true
 
