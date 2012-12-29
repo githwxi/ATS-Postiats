@@ -62,6 +62,25 @@
 sortdef t0p = t@ype and vt0p = viewt@ype
 
 (* ****** ****** *)
+
+absviewtype
+mynode_viewtype (a:viewt@ype+, l:addr)
+stadef mynode = mynode_viewtype
+viewtypedef mynode (a) = [l:addr] mynode (a, l)
+viewtypedef mynode0 (a) = [l:addr | l >= null] mynode (a, l)
+viewtypedef mynode1 (a) = [l:addr | l >  null] mynode (a, l)
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+mynode_getref_elt (nx: mynode1 (INV(a))):<> Ptr1
+
+fun{a:vt0p}
+mynode_make_elt (x: a):<> mynode1 (a)
+fun{a:vt0p}
+mynode_free_elt (nx: mynode1 (INV(a)), res: &(a?) >> a):<!wrt> void
+
+(* ****** ****** *)
 //
 // HX: a: item type; n: current size
 //
@@ -124,15 +143,29 @@ queue_size {n:int} (q: !queue (INV(a), n)):<> size_t (n)
 
 fun{a:vt0p}
 queue_insert (*last*)
-  {n:nat} (
+  {n:int} (
   q: !queue (INV(a), n) >> queue (a, n+1), x: a
 ) :<!wrt> void // end of [queue_insert]
 
 fun{a:vt0p}
+queue_insert_ngc (*last*)
+  {n:int} (
+  q: !queue (INV(a), n) >> queue (a, n+1), nx: mynode1 (a)
+) :<!wrt> void // end of [queue_insert_ngc]
+
+(* ****** ****** *)
+
+fun{a:vt0p}
 queue_remove (*first*)
-  {n:nat | n > 0}
+  {n:int | n > 0}
   (q: !queue (INV(a), n) >> queue (a, n-1)):<!wrt> a
 // end of [queue_remove]
+
+fun{a:vt0p}
+queue_remove_ngc (*first*)
+  {n:int | n > 0}
+  (q: !queue (INV(a), n) >> queue (a, n-1)):<!wrt> mynode1 (a)
+// end of [queue_remove_ngc]
 
 (* ****** ****** *)
 
