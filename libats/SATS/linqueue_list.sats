@@ -47,6 +47,11 @@
 // License: LGPL 3.0 (available at http://www.gnu.org/licenses/lgpl.txt)
 //
 (* ****** ****** *)
+//
+// HX: no need for staloading at
+#define ATS_STALOADFLAG 0 // run-time
+//
+(* ****** ****** *)
 
 %{#
 #include "libats/CATS/linqueue_list.cats"
@@ -54,58 +59,79 @@
 
 (* ****** ****** *)
 
-#define ATS_STALOADFLAG 0 // no static loading at run-time
+sortdef t0p = t@ype and vt0p = viewt@ype
 
 (* ****** ****** *)
 //
 // HX: a: item type; n: current size
 //
 absviewt@ype
-QUEUE (a:viewt@ype+, n: int) =
-  $extype "atslib_linqueue_list_QUEUE"
-// end of [QUEUE]
-typedef QUEUETSZ (a:vt0p) = QUEUE (a, 0)?
-viewtypedef QUEUE (a:vt0p) = [n:nat] QUEUE (a, n)
+queue_struct =
+  $extype "atslib_linqueue_list_queue_struct"
+// end of [queue_struct]
+
+(* ****** ****** *)
+
+absviewtype
+queue_viewtype (a:viewt@ype+, n:int)
+stadef queue = queue_viewtype
+
+(* ****** ****** *)
+
+praxi lemma_queue_param
+  {a:vt0p}{n:int} (q: !queue (INV(a), n)): [n>=0] void
+// end of [lemma_queue_param]
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+queue_make (): queue (a, 0)
+
+fun{a:vt0p}
+queue_make_ngc {l:addr}
+  (pf: queue_struct? @ l | p: ptr l): (free_ngc_v (l) | queue (a, 0))
+// end of [queue_make_ngc]
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+queue_free (q: queue (a, 0)):<!wrt> void
+
+fun{a:vt0p}
+queue_free_ngc
+  {l:addr} (
+  pf: free_ngc_v l | p: ptr l, q: queue (INV(a), 0)
+) :<!wrt> (queue_struct? @ l | void) // endfun
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 queue_is_empty
-  {n:nat} (q: &QUEUE (INV(a), n)):<> bool (n <= 0)
+  {n:int} (q: !queue (a, n)):<> bool (n == 0)
 // end of [queue_is_empty]
 
 fun{a:vt0p}
 queue_isnot_empty
-  {n:nat} (q: &QUEUE (INV(a), n)):<> bool (n >  0)
+  {n:nat} (q: !queue (INV(a), n)):<> bool (n > 0)
 // end of [queue_isnot_empty]
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-queue_size {n:nat} (q: &QUEUE (INV(a), n)):<> size_t (n)
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-queue_initialize
-  (q: &QUEUETSZ (INV(a)) >> QUEUE (a, 0)):<> void
-macdef queue_initize (q) = queue_initialize (,(q))
-
-fun{a:vt0p}
-queue_uninitialize
-  {n:nat} (q: &QUEUE (INV(a), n) >> QUEUETSZ (a)):<> list_vt (a, n)
-macdef queue_uninitize (q) = queue_uninitialize (,(q))
+queue_size {n:int} (q: !queue (INV(a), n)):<> size_t (n)
 
 (* ****** ****** *)
 
 fun{a:vt0p}
 queue_insert (*last*)
-  {n:nat} (q: &QUEUE (INV(a), n) >> QUEUE (a, n+1), x: a):<> void
-// end of [queue_insert]
+  {n:nat} (
+  q: !queue (INV(a), n) >> queue (a, n+1), x: a
+) :<!wrt> void // end of [queue_insert]
 
 fun{a:vt0p}
 queue_remove (*first*)
-  {n:nat | n > 0} (q: &QUEUE (INV(a), n) >> QUEUE (a, n-1)):<> a
+  {n:nat | n > 0}
+  (q: !queue (INV(a), n) >> queue (a, n-1)):<!wrt> a
 // end of [queue_remove]
 
 (* ****** ****** *)
@@ -118,10 +144,10 @@ a:vt0p}{env:vt0p
 } queue_foreach$fwork (x: &a, env: &(env) >> _): void
 fun{
 a:vt0p
-} queue_foreach (q: !QUEUE (a)): void
+} queue_foreach {n:int} (q: !queue (INV(a), n)): void
 fun{
 a:vt0p}{env:vt0p
-} queue_foreach_env (q: !QUEUE (INV(a)), env: &(env) >> _): void
+} queue_foreach_env {n:int} (q: !queue (INV(a), n), env: &(env) >> _): void
 
 (* ****** ****** *)
 

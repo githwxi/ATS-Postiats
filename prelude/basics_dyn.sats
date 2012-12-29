@@ -104,6 +104,12 @@ praxi topize {a:t@ype} (x: !INV(a) >> a?): void
 
 (* ****** ****** *)
 
+praxi free_gcngc_v_nullify
+  {l:addr} (pf1: free_gc_v (l), pf1: free_ngc_v (l)): void
+// en dof [free_gcngc_nullify_v]
+
+(* ****** ****** *)
+
 fun cloptr_free
   {a:t@ype} (p: cloptr a):<!wrt> void = "atspre_cloptr_free"
 // end of [cloptr_free]

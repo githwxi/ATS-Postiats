@@ -1,6 +1,12 @@
 (* ****** ****** *)
 
 %{
+implement srcfilename_get () = "../zmq.sats"
+%}
+
+(* ****** ****** *)
+
+%{
 val () = patscode_count_reset()
 val () = patscode_prefix_set("TRYIT/contrib_zeromq_zmq")
 %}

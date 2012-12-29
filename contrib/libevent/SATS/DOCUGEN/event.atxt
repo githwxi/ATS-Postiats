@@ -1,8 +1,14 @@
 (* ****** ****** *)
 
 %{
+implement srcfilename_get () = "../event.sats"
+%}
+
+(* ****** ****** *)
+
+%{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/contrib_event_event")
+val () = patscode_prefix_set("TRYIT/contrib_libevent_event")
 %}
 
 (* ****** ****** *)

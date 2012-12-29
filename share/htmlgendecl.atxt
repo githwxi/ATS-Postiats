@@ -35,6 +35,8 @@ fun srcfilename_get (): string
 extern
 fun htmlgendecl_initize (): void
 //
+val () = htmlgendecl_initize ()
+//
 #include "htmlgendecl_data_atxt.dats"
 //
 #ifndef

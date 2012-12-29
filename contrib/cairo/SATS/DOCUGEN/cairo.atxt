@@ -1,6 +1,12 @@
 (* ****** ****** *)
 
 %{
+implement srcfilename_get () = "../cairo.sats"
+%}
+
+(* ****** ****** *)
+
+%{
 val () = patscode_count_reset()
 val () = patscode_prefix_set("TRYIT/contrib_cairo_cairo")
 %}

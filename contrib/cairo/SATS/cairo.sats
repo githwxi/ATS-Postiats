@@ -48,7 +48,7 @@
 
 (* ****** ****** *)
 
-staload "cairo/SATS/cairo_header.sats"
+staload "./cairo_header.sats"
 
 (* ****** ****** *)
 
@@ -71,13 +71,13 @@ Transformations — Manipulating the current transformation matrix
 text — Rendering text and glyphs
 Raster Sources — Supplying arbitrary image data 
 *)
-#include "cairo/SATS/Drawing/cairo-cairo-t.sats"
-#include "cairo/SATS/Drawing/cairo-Paths.sats"
-#include "cairo/SATS/Drawing/cairo-cairo-pattern-t.sats"
-#include "cairo/SATS/Drawing/cairo-Regions.sats"
-#include "cairo/SATS/Drawing/cairo-Transformations.sats"
-#include "cairo/SATS/Drawing/cairo-text.sats"
-#include "cairo/SATS/Drawing/cairo-Raster-Sources.sats"
+#include "./Drawing/cairo-cairo-t.sats"
+#include "./Drawing/cairo-Paths.sats"
+#include "./Drawing/cairo-cairo-pattern-t.sats"
+#include "./Drawing/cairo-Regions.sats"
+#include "./Drawing/cairo-Transformations.sats"
+#include "./Drawing/cairo-text.sats"
+#include "./Drawing/cairo-Raster-Sources.sats"
 
 (* ****** ****** *)
 
@@ -91,7 +91,7 @@ Win32 Fonts — Font support for Microsoft Windows
 Quartz (CGFont) Fonts — Font support via CGFont on OS X
 User Fonts — Font support with font data provided by the user 
 *)
-#include "cairo/SATS/Fonts/cairo-cairo-font-face-t.sats"
+#include "./Fonts/cairo-cairo-font-face-t.sats"
 
 (* ****** ****** *)
 
@@ -112,10 +112,10 @@ XLib Surfaces — X Window System rendering using XLib
 XLib-XRender Backend — X Window System rendering using XLib and the X Render extension
 Script Surfaces — Rendering to replayable scripts 
 *)
-#include "cairo/SATS/Surfaces/cairo-cairo-device-t.sats"
-#include "cairo/SATS/Surfaces/cairo-cairo-surface-t.sats"
-#include "cairo/SATS/Surfaces/cairo-Image-Surfaces.sats"
-#include "cairo/SATS/Surfaces/cairo-PNG-Support.sats"
+#include "./Surfaces/cairo-cairo-device-t.sats"
+#include "./Surfaces/cairo-cairo-surface-t.sats"
+#include "./Surfaces/cairo-Image-Surfaces.sats"
+#include "./Surfaces/cairo-PNG-Support.sats"
 
 (* ****** ****** *)
 
@@ -125,9 +125,9 @@ cairo_matrix_t — Generic matrix operations
 Error handling — Decoding cairo's status
 Types — Generic data types 
 *)
-#include "cairo/SATS/Utilities/cairo-cairo-matrix-t.sats"
-#include "cairo/SATS/Utilities/cairo-Error-Handling.sats"
-#include "cairo/SATS/Utilities/cairo-Types.sats"
+#include "./Utilities/cairo-cairo-matrix-t.sats"
+#include "./Utilities/cairo-Error-Handling.sats"
+#include "./Utilities/cairo-Types.sats"
 
 (* ****** ****** *)
 
