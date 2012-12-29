@@ -75,6 +75,7 @@ all::
 #make_entry("reference")
 #make_entry("string")
 #make_entry("strptr")
+#make_entry("tuple")
 
 #make_entry("lazy")
 #make_entry("lazy_vt")

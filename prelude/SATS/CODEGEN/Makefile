@@ -133,6 +133,15 @@ strptr_atxt.dats: strptr.atxt
 clean:: ; $(RMF) strptr_atxt.exe
 cleanall:: ; $(RMF) strptr.sats
 
+all:: tuple.sats
+tuple.sats: tuple_atxt.exe ; ./$< > $@
+tuple_atxt.exe: tuple_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ tuple_atxt.dats -latsdoc
+tuple_atxt.dats: tuple.atxt
+	$(ATSDOC) --outcode $@ -i tuple.atxt > tuple_atxt.txt
+clean:: ; $(RMF) tuple_atxt.exe
+cleanall:: ; $(RMF) tuple.sats
+
 
 all:: lazy.sats
 lazy.sats: lazy_atxt.exe ; ./$< > $@
