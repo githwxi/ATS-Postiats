@@ -110,31 +110,31 @@ libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/gflist_vt.sats
 libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/gflist_vt.dats
 
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funmap_list.sats
-libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/FUNMAP/funmap_list.dats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/funmap_list.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funmap_avltree.sats
-libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/FUNMAP/funmap_avltree.dats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/funmap_avltree.dats
 
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funset_avltree.sats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funset_listord.sats
-libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/FUNSET/funset_listord.dats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/funset_listord.dats
 
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/funralist_nested.sats
-libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/FUNRALIST/funralist_nested.dats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/funralist_nested.dats
 
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/fundeque_fingertree.sats
-libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/FUNDEQUE/fundeque_fingertree.dats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/fundeque_fingertree.dats
 
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linmap_list.sats
-libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/LINMAP/linmap_list.dats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linmap_list.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linmap_randbst.sats
-libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/LINMAP/linmap_randbst.dats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linmap_randbst.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linmap_skiplist.sats
-libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/LINMAP/linmap_skiplist.dats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linmap_skiplist.dats
 
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linheap_binomial.sats
-libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/LINHEAP/linheap_binomial.dats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linheap_binomial.dats
 libats:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/SATS/linheap_fibonacci.sats
-libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/LINHEAP/linheap_fibonacci.dats
+libats:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/DATS/linheap_fibonacci.dats
 
 libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/list0.sats
 libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/list0.dats

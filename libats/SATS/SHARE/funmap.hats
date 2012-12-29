@@ -53,7 +53,7 @@ equal_key_key (x1: key, x2: key):<> bool
 
 #ifdef COMPARE_KEY_KEY
 fun{key:t0p}
-cmpare_key_key (x1: key, x2: key):<> int
+compare_key_key (x1: key, x2: key):<> int
 #endif // end of [COMPARE_KEY_KEY]
 
 (* ****** ****** *)
