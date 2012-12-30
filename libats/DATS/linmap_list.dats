@@ -169,4 +169,51 @@ end // end of [linmap_search_ngc]
 
 (* ****** ****** *)
 
+implement
+{key,itm}
+linmap_takeout_ngc
+  (map, k0) = let
+//
+viewtypedef tki = @(key, itm)
+//
+fun loop (
+  kxs: &List0_vt (tki) >> _, k0: key
+) : mynode0 (key, itm) = let
+//
+viewtypedef tkis = List0_vt (tki)
+viewtypedef mynode1 = mynode1 (key, itm)
+//
+in
+//
+case+ kxs of
+| @list_vt_cons
+    (kx, kxs1) => let
+    val iseq =
+      equal_key_key<key> (kx.0, k0)
+    // end of [val]
+  in
+    if iseq then let
+      val p1 = addr@ (kxs1)
+      prval () = fold@ (kxs)
+      val res = $UN.castvwtp0{mynode1} (kxs)
+      val () = kxs := $UN.castvwtp0{tkis} (p1)
+    in
+      res
+    end else let
+      val res = loop (kxs1, k0)
+      prval () = fold@ (kxs) in res
+    end // end of [if]
+  end // end of [list_vt_cons]
+| @list_vt_nil () => let
+    prval () = fold@ (kxs) in mynode_null<key,itm> ()
+  end // end of [list_vt_cons]
+//
+end // end of [loop]
+//
+in
+  loop (map, k0)
+end // end of [linmap_search_ngc]
+
+(* ****** ****** *)
+
 (* end of [linmap_list.dats] *)

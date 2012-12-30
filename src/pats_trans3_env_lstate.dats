@@ -576,7 +576,7 @@ fun auxerr_none (
   val () = prerr_d2var (d2v)
   val () = prerr "] is retained with the type ["
   val () = prerr_s2exp (s2e)
-  val () = prerr "but it should be consumed instead."
+  val () = prerr "] but it should be consumed instead."
   val () = prerr_newline ()
 in
   the_trans3errlst_add (T3E_d2var_some (loc, d2v, s2e))

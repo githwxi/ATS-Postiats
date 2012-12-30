@@ -134,6 +134,31 @@ end // end of [linmap_insert_opt]
 
 implement
 {key,itm}
+linmap_takeout
+  (map, k0, res) = let
+//
+val nx =
+  linmap_takeout_ngc (map, k0)
+val p_nx = mynode2ptr (nx)
+//
+in
+//
+if p_nx > 0 then let
+  val () =
+    res := mynode_getfree_itm (nx)
+  // end of [val]
+  prval () = opt_some {itm} (res) in true
+end else let
+  prval () = mynode_free_null (nx)
+  prval () = opt_none {itm} (res) in false
+end // end of [if]
+//
+end // end of [linmap_takeout]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
 linmap_takeout_opt
   (map, k0) = let
   var res: itm?

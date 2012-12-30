@@ -46,11 +46,22 @@ mynode1 (key:t0p, itm:vt0p) = [l:addr | l >  null] mynode (key, itm, l)
 
 (* ****** ****** *)
 
+castfn
+mynode2ptr
+  {key:t0p;itm:vt0p}
+  {l:addr} (nx: !mynode (key, INV(itm), l)):<> ptr (l)
+// end of [mynode2ptr]
+
+(* ****** ****** *)
+//
+fun{
+key:t0p;itm:vt0p
+} mynode_null (): mynode (key, itm, null)
+//
 praxi
 mynode_free_null
   {key:t0p;itm:vt0p} (nx: mynode (key, itm, null)): void
-// end of [mynode_free_null]
-
+//
 (* ****** ****** *)
 
 fun{
@@ -67,7 +78,7 @@ key:t0p;itm:vt0p
 } mynode_getref_itm (nx: !mynode1 (key, itm)):<> Ptr1
 fun{
 key:t0p;itm:vt0p
-} mynode_getfree_itm (nx: !mynode1 (key, itm)):<> itm
+} mynode_getfree_itm (nx: mynode1 (key, itm)):<> itm
 
 fun{
 key:t0p;itm:vt0p

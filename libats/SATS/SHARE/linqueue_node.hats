@@ -56,10 +56,12 @@ mynode2ptr
 // end of [mynode2ptr]
 
 (* ****** ****** *)
-
+//
+fun{a:vt0p} mynode_null (): mynode (a, null)
+//
 praxi
 mynode_free_null {a:vt0p} (nx: mynode (a, null)): void
-
+//
 (* ****** ****** *)
 
 fun{a:vt0p}

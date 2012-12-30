@@ -152,6 +152,14 @@ Otherwise, the function keeps the map and returns true. ")
 
 (* ****** ****** *)
 
+#declnamesynop("mynode_make_keyitm")
+#declnamesynop("mynode_get_key")
+#declnamesynop("mynode_getref_itm")
+#declnamesynop("mynode_getfree_itm")
+#declnamesynop("mynode_free_keyitm")
+
+(* ****** ****** *)
+
 #declnamesynop("linmap_search_ngc")
 #declnamesynop("linmap_insert_ngc")
 #declnamesynop("linmap_takeout_ngc")
