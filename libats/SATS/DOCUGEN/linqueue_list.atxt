@@ -37,12 +37,6 @@ structure.
 
 (* ****** ****** *)
 
-#declnamesynop("mynode")
-#declnamesynop("mynode_make_elt")
-#declnamesynop("mynode_free_elt")
-
-(* ****** ****** *)
-
 #declnamesynop("queue_is_empty")
 #declnamesynop("queue_isnot_empty")
 
@@ -57,24 +51,46 @@ structure.
 
 This function inserts an element at the end of a given queue.")
 
-#declnamesynop("queue_insert_ngc")
-
-(* ****** ****** *)
-
-#declnamesynop("queue_remove")
+#declnamesynop("queue_takeout")
 #decldescrpt("\
 
-This function removes the element at the front of a given queue if the
+This function takes out the element at the front of a given queue if the
 queue is not empty, and returns true. Otherwise, it returns false. ")
-
-#declnamesynop("queue_remove_ngc")
-
-(* ****** ****** *)
 
 #declnamesynop("queue_foreach$cont")
 #declnamesynop("queue_foreach$fwork")
 #declnamesynop("queue_foreach")
 #declnamesynop("queue_foreach_env")
+
+(* ****** ****** *)
+
+#declnamesynop("queue_struct")
+
+(* ****** ****** *)
+
+#declnamesynop("queue_make_ngc")
+#declnamesynop("queue_free_ngc")
+
+(* ****** ****** *)
+
+#declnamesynop("mynode")
+#declnamesynop("mynode_viewtype")
+
+(* ****** ****** *)
+
+#declnamesynop("mynode2ptr")
+#declnamesynop("mynode_free_null")
+
+(* ****** ****** *)
+
+#declnamesynop("mynode_make_elt")
+#declnamesynop("mynode_getref_elt")
+#declnamesynop("mynode_free_elt")
+
+(* ****** ****** *)
+
+#declnamesynop("queue_insert_ngc")
+#declnamesynop("queue_takeout_ngc")
 
 (* ****** ****** *)
 

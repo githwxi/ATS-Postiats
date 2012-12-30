@@ -223,7 +223,7 @@ key:t0p;itm:vt0p
 fun{
 key:t0p;itm:t0p
 } linmap_listize
-  (map: !map (key, INV(itm))):<> List_vt @(key, itm)
+  (map: !map (key, INV(itm))):<!wrt> List_vt @(key, itm)
 // end of [linmap_listize]
 
 fun{

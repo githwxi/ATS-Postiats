@@ -94,43 +94,6 @@ linmap_free (map) = list_vt_free<(key,itm)> (map)
 
 implement
 {key,itm}
-linmap_search_ref
-  (map, k0) = let
-//
-viewtypedef keyitm = @(key, itm)
-//
-fun loop
-  {n:nat} .<n>. (
-  kxs: !list_vt (keyitm, n), k0: key
-) :<> Ptr0 = let
-in
-//
-case+ kxs of
-| @list_vt_cons (kx, kxs1) => let
-    val iseq = equal_key_key<key> (kx.0, k0)
-  in
-    if iseq then let
-      val res = addr@ (kx.1)
-      prval () = fold@ (kxs) in res
-    end else let
-      val res = loop (kxs1, k0)
-      prval () = fold@ (kxs) in res
-    end // end of [if]
-  end // end of [list_vt_cons]
-| @list_vt_nil () => let
-    prval () = fold@ (kxs) in the_null_ptr
-  end // end of [list_vt_cons]
-//
-end // end of [loop]
-//
-in
-  loop (map, k0)
-end // end of [linmap_search_ref]
-
-(* ****** ****** *)
-
-implement
-{key,itm}
 linmap_insert_any
   (map, k0, x0) = (map := list_vt_cons ( @(k0, x0), map ))
 // end of [linmap_insert_any]
@@ -162,6 +125,48 @@ linmap_listize
 // end of [linmap_listize]
 
 implement {key,itm} linmap_listize_free (map) = map
+
+(* ****** ****** *)
+
+
+implement
+{key,itm}
+linmap_search_ngc
+  (map, k0) = let
+//
+viewtypedef keyitm = @(key, itm)
+//
+fun loop
+  {n:nat} .<n>. (
+  kxs: !list_vt (keyitm, n), k0: key
+) :<> Ptr0 = let
+in
+//
+case+ kxs of
+| @list_vt_cons
+    (kx, kxs1) => let
+    val iseq =
+      equal_key_key<key> (kx.0, k0)
+    // end of [val]
+  in
+    if iseq then let
+      prval () = fold@ (kxs)
+    in
+      $UN.castvwtp1{Ptr1} (kxs)
+    end else let
+      val res = loop (kxs1, k0)
+      prval () = fold@ (kxs) in res
+    end // end of [if]
+  end // end of [list_vt_cons]
+| @list_vt_nil () => let
+    prval () = fold@ (kxs) in the_null_ptr
+  end // end of [list_vt_cons]
+//
+end // end of [loop]
+//
+in
+  loop (map, k0)
+end // end of [linmap_search_ngc]
 
 (* ****** ****** *)
 

@@ -33,6 +33,10 @@
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 implement
 {key,itm}
 linmap_search
@@ -41,8 +45,10 @@ linmap_search
 in
 //
 if p > 0 then let
-  prval (fpf, pf) = __assert () where {
-    extern praxi __assert (): (itm @ l -<prf> void, itm @ l)
+  prval (
+    pf, fpf
+  ) = __assert () where {
+    extern praxi __assert (): (itm @ l, itm @ l -<prf> void)
   } // end of [prval]
   val () = res := !p
   prval () = fpf (pf)
@@ -78,6 +84,29 @@ in
 end // end of [if]
 //
 end // end of [linmap_search_opt]
+
+(* ****** ****** *)
+
+implement
+{key,itm}
+linmap_search_ref
+  (map, k0) = let
+//
+val p0 = linmap_search_ngc (map, k0)
+//
+viewtypedef mynode1 = mynode1 (key,itm)
+//
+in
+//
+if p0 > 0 then let
+  val nx = $UN.castvwtp0{mynode1}{ptr}(p0)
+  val p_elt = mynode_getref_itm<key,itm> (nx)
+  val p0 = $UN.castvwtp0{ptr}{mynode1}(nx)
+in
+  p_elt
+end else the_null_ptr // end of [if]
+//
+end // end of [linmap_search_ref]
 
 (* ****** ****** *)
 
@@ -167,20 +196,37 @@ linmap_listize
   (map) = let
 //
 viewtypedef tki = @(key, itm)
-viewtypedef tenv = $Q.QUEUE (tki)
-viewtypedef tenv0 = $Q.QUEUETSZ (tki)
 //
-var env: tenv0
-val () = $Q.queue_initize (env)
+viewtypedef tenv = $Q.queue0_struct (tki)
 //
 implement
 linmap_foreach$fwork<key,itm><tenv>
-  (k, x, env) = $Q.queue_insert<tki> (env, @(k, x))
+  (k, x, env) = let
+  val p_env = addr@(env)
+  val que = ptr2ptrlin (p_env)
+//
+prval (pfngc | ()) =
+  $Q.queue_objectify (view@(env) | que)
+val () = $Q.queue_insert<tki> (que, @(k, x))
+prval (pfat | ()) = $Q.queue_unobjectify (pfngc | p_env, que)
+prval () = ptrlin_free (que)
+prval () = view@(env) := pfat
+//
+in
+  // nothing
+end // end of [linmap_foreach$fwork]
+//
+var env: $Q.qstruct
+val () = $Q.qstruct_initize<tki> (env)
 //
 val () = $effmask_all (linmap_foreach_env (map, env))
 //
+val res = $Q.qstruct_takeout_list (env)
+//
+val () = $Q.qstruct_uninitize<tki> (env)
+//
 in
-  $Q.queue_uninitize (env)
+  res
 end // end of [linmap_listize]
 
 end // end of [local]

@@ -46,8 +46,39 @@ mynode1 (key:t0p, itm:vt0p) = [l:addr | l >  null] mynode (key, itm, l)
 
 (* ****** ****** *)
 
+praxi
+mynode_free_null
+  {key:t0p;itm:vt0p} (nx: mynode (key, itm, null)): void
+// end of [mynode_free_null]
+
+(* ****** ****** *)
+
 fun{
-key:t0p;itm:t0p
+key:t0p;itm:vt0p
+} mynode_make_keyitm
+  (k: key, x: itm):<!wrt> mynode1 (key, itm)
+// end of [mynode_make_keyitm]
+
+fun{
+key:t0p;itm:vt0p
+} mynode_get_key (nx: !mynode1 (key, itm)):<> key
+fun{
+key:t0p;itm:vt0p
+} mynode_getref_itm (nx: !mynode1 (key, itm)):<> Ptr1
+fun{
+key:t0p;itm:vt0p
+} mynode_getfree_itm (nx: !mynode1 (key, itm)):<> itm
+
+fun{
+key:t0p;itm:vt0p
+} mynode_free_keyitm
+  (nx: !mynode1 (key, itm), res: &(key, itm)):<> void
+// end of [mynode_free_keyitm]
+
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:vt0p
 } linmap_search_ngc
   (map: !map (key, INV(itm)), k0: key): Ptr0
 // end of [linmap_search_ngc]

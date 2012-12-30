@@ -68,25 +68,56 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 (* ****** ****** *)
 
+fun{a:vt0p}
+queue_takeout_list
+  {n:int} (q: !queue (INV(a), n) >> queue (a, 0)):<!wrt> list_vt (a, n)
+// end of [queue_takeout_list]
+
+(* ****** ****** *)
+//
 absviewt@ype
-queue_struct =
-  $extype "atslib_linqueue_list_queue_struct"
-// end of [queue_struct]
+qstruct_0 =
+  $extype "atslib_linqueue_list_qstruct"
+absviewt@ype
+qstruct_2 (a:viewt@ype+, n:int) = qstruct_0
+//
+stadef qstruct = qstruct_2
+stadef qstruct = qstruct_0
+//
+viewtypedef
+queue0_struct (a:vt0p) = [n:nat] qstruct (a, n)
+//
+(* ****** ****** *)
+
+fun{a:vt0p}
+qstruct_initize
+  (q: &qstruct? >> qstruct (a, 0)):<!wrt> void
+fun{a:vt0p}
+qstruct_uninitize
+  (q: &qstruct (a, 0) >> qstruct?):<!wrt> void
 
 (* ****** ****** *)
 
 fun{a:vt0p}
-queue_make_ngc {l:addr}
-  (pf: queue_struct? @ l | p: ptr l): (free_ngc_v (l) | queue (a, 0))
-// end of [queue_make_ngc]
+qstruct_takeout_list
+  {n:int} (q: &qstruct (INV(a), n) >> qstruct (a, 0)):<!wrt> list_vt (a, n)
+// end of [qstruct_takeout_list]
 
 (* ****** ****** *)
 
-fun{a:vt0p}
-queue_free_ngc
-  {l:addr} (
-  pf: free_ngc_v l | p: ptr l, q: queue (INV(a), 0)
-) :<!wrt> (queue_struct? @ l | void) // endfun
+praxi
+queue_objectify
+  {a:vt0p}{l:addr}{n:int} (
+  pf: qstruct (INV(a), n) @ l | p: !ptrlin l >> queue (a, n)
+) :<> (free_ngc_v (l) | void) // endfun
+
+(* ****** ****** *)
+
+praxi
+queue_unobjectify
+  {a:vt0p}{l:addr}{n:int} (
+  pf: free_ngc_v l | p: ptr l, q: !queue (INV(a), n) >> ptrlin l
+) :<> (qstruct (a, n) @ l | void) // endfun
 
 (* ****** ****** *)
 
