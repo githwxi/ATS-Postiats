@@ -3,7 +3,7 @@
 #if (ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"tfprint.dats"
+val _thisfilename = atext_strcst"gprint.dats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
@@ -14,7 +14,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 (*
 ** Source:
-** $PATSHOME/prelude/DATS/CODEGEN/tfprint.atxt
+** $PATSHOME/prelude/DATS/CODEGEN/gprint.atxt
 ** Time of generation: #timestamp()
 *)
 
@@ -27,55 +27,55 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 implement{a}
-tfprint (x) = let
-  val out = tfprint$out () in fprint_val<a> (out, x)
-end // end of [tfprint]
+gprint (x) = let
+  val out = gprint$out () in fprint_val<a> (out, x)
+end // end of [gprint]
 
-implement{} tfprint$out () = stdout_ref
+implement{} gprint$out () = stdout_ref
 
 #atscode_separator()
 
 implement{}
-tfprint_list$beg () = "("
+gprint_list$beg () = "("
 implement{}
-tfprint_list$end () = ")"
+gprint_list$end () = ")"
 implement{}
-tfprint_list$sep () = ", "
+gprint_list$sep () = ", "
 
 implement{a}
-tfprint_list (xs) = let
+gprint_list (xs) = let
 //
-val out = tfprint$out ()
-val sep = tfprint_list$sep ()
-val _beg = tfprint_list$beg ()
-and _end = tfprint_list$end ()
+val out = gprint$out ()
+val sep = gprint_list$sep ()
+val _beg = gprint_list$beg ()
+and _end = gprint_list$end ()
 //
 val () = fprint_string (out, _beg)
 val () = fprint_list_sep (out, xs, sep)
 val () = fprint_string (out, _end)
 //
 in
-end // end of [tfprint_list]
+end // end of [gprint_list]
 
 implement(a)
-tfprint<List(a)> (xs) = tfprint_list<a> (xs)
+gprint<List(a)> (xs) = gprint_list<a> (xs)
 
 #atscode_separator()
 
 implement{}
-tfprint_array$beg () = "["
+gprint_array$beg () = "["
 implement{}
-tfprint_array$end () = "]"
+gprint_array$end () = "]"
 implement{}
-tfprint_array$sep () = ", "
+gprint_array$sep () = ", "
 
 implement{a}
-tfprint_array (A, n) = let
+gprint_array (A, n) = let
 //
-val out = tfprint$out ()
-val sep = tfprint_array$sep ()
-val _beg = tfprint_list$beg ()
-and _end = tfprint_list$end ()
+val out = gprint$out ()
+val sep = gprint_array$sep ()
+val _beg = gprint_list$beg ()
+and _end = gprint_list$end ()
 //
 val () = fprint_string (out, _beg)
 val () = fprint_array_sep (out, A, n, sep)
@@ -83,32 +83,32 @@ val () = fprint_string (out, _end)
 //
 in
   // nothing
-end // end of [tfprint_array]
+end // end of [gprint_array]
 
 #atscode_separator()
 
 implement{a}
-tfprint_arrayptr
+gprint_arrayptr
   (A, n) = () where {
   val p = ptrcast (A)
   prval pf = arrayptr_takeout (A)
-  val () = tfprint_array<a> (!p, n)
+  val () = gprint_array<a> (!p, n)
   prval () = arrayptr_addback (pf | A)
-} // end of [tfprint_arrayptr]
+} // end of [gprint_arrayptr]
 
 #atscode_separator()
 
 implement{a}
-tfprint_arrayref
+gprint_arrayref
   (A, n) = () where {
   val (vbox pf | p) = arrayref_get_viewptr (A)
-  val () = $effmask_ref (tfprint_array<a> (!p, n))
-} // end of [tfprint_arrayref]
+  val () = $effmask_ref (gprint_array<a> (!p, n))
+} // end of [gprint_arrayref]
 
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "tfprint_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "gprint_atxt.txt")
 %}\

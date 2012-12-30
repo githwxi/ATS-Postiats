@@ -3,7 +3,7 @@
 #if (ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"tfprint.sats"
+val _thisfilename = atext_strcst"gprint.sats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
@@ -14,7 +14,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 (*
 ** Source:
-** $PATSHOME/prelude/SATS/CODEGEN/tfprint.atxt
+** $PATSHOME/prelude/SATS/CODEGEN/gprint.atxt
 ** Time of generation: #timestamp()
 *)
 
@@ -31,56 +31,56 @@ sortdef t0p = t@ype
 #atscode_separator()
 
 fun{}
-tfprint$out (): FILEref
+gprint$out (): FILEref
 
 #atscode_separator()
 
 fun{a:t0p}
-tfprint (x: a): void
+gprint (x: a): void
 
 #atscode_separator()
 
 fun{}
-tfprint_newline (): void
+gprint_newline (): void
 
 #atscode_separator()
 
 fun{}
-tfprint_list$sep (): string
+gprint_list$sep (): string
 fun{}
-tfprint_list$beg (): string
+gprint_list$beg (): string
 fun{}
-tfprint_list$end (): string
+gprint_list$end (): string
 
 fun{a:t0p}
-tfprint_list (xs: List (a)): void
+gprint_list (xs: List (a)): void
 
 #atscode_separator()
 
 fun{}
-tfprint_array$sep (): string
+gprint_array$sep (): string
 fun{}
-tfprint_array$beg (): string
+gprint_array$beg (): string
 fun{}
-tfprint_array$end (): string
+gprint_array$end (): string
 
 fun{a:t0p}
-tfprint_array
+gprint_array
   {n:int} (A: &(@[a][n]), n: size_t n): void
-// end of [tfprint_array]
+// end of [gprint_array]
 fun{a:t0p}
-tfprint_arrayptr
+gprint_arrayptr
   {n:int} (A: !arrayptr (a, n), n: size_t n): void
-// end of [tfprint_arrayptr]
+// end of [gprint_arrayptr]
 fun{a:t0p}
-tfprint_arrayref
+gprint_arrayref
   {n:int} (A: arrayref (a, n), n: size_t n): void
-// end of [tfprint_arrayref]
+// end of [gprint_arrayref]
 
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "tfprint_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "gprint_atxt.txt")
 %}\

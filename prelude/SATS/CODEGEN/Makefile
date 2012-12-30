@@ -128,6 +128,25 @@ clean:: ; $(RMF) strptr_atxt.exe
 cleanall:: ; $(RMF) strptr.sats
 
 
+all:: lazy.sats
+lazy.sats: lazy_atxt.exe ; ./$< > $@
+lazy_atxt.exe: lazy_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ lazy_atxt.dats -latsdoc
+lazy_atxt.dats: lazy.atxt
+	$(ATSDOC) --outcode $@ -i lazy.atxt > lazy_atxt.txt
+clean:: ; $(RMF) lazy_atxt.exe
+cleanall:: ; $(RMF) lazy.sats
+
+all:: lazy_vt.sats
+lazy_vt.sats: lazy_vt_atxt.exe ; ./$< > $@
+lazy_vt_atxt.exe: lazy_vt_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ lazy_vt_atxt.dats -latsdoc
+lazy_vt_atxt.dats: lazy_vt.atxt
+	$(ATSDOC) --outcode $@ -i lazy_vt.atxt > lazy_vt_atxt.txt
+clean:: ; $(RMF) lazy_vt_atxt.exe
+cleanall:: ; $(RMF) lazy_vt.sats
+
+
 all:: filebas.sats
 filebas.sats: filebas_atxt.exe ; ./$< > $@
 filebas_atxt.exe: filebas_atxt.dats
@@ -147,23 +166,14 @@ clean:: ; $(RMF) intrange_atxt.exe
 cleanall:: ; $(RMF) intrange.sats
 
 
-all:: lazy.sats
-lazy.sats: lazy_atxt.exe ; ./$< > $@
-lazy_atxt.exe: lazy_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ lazy_atxt.dats -latsdoc
-lazy_atxt.dats: lazy.atxt
-	$(ATSDOC) --outcode $@ -i lazy.atxt > lazy_atxt.txt
-clean:: ; $(RMF) lazy_atxt.exe
-cleanall:: ; $(RMF) lazy.sats
-
-all:: lazy_vt.sats
-lazy_vt.sats: lazy_vt_atxt.exe ; ./$< > $@
-lazy_vt_atxt.exe: lazy_vt_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ lazy_vt_atxt.dats -latsdoc
-lazy_vt_atxt.dats: lazy_vt.atxt
-	$(ATSDOC) --outcode $@ -i lazy_vt.atxt > lazy_vt_atxt.txt
-clean:: ; $(RMF) lazy_vt_atxt.exe
-cleanall:: ; $(RMF) lazy_vt.sats
+all:: unsafe.sats
+unsafe.sats: unsafe_atxt.exe ; ./$< > $@
+unsafe_atxt.exe: unsafe_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ unsafe_atxt.dats -latsdoc
+unsafe_atxt.dats: unsafe.atxt
+	$(ATSDOC) --outcode $@ -i unsafe.atxt > unsafe_atxt.txt
+clean:: ; $(RMF) unsafe_atxt.exe
+cleanall:: ; $(RMF) unsafe.sats
 
 
 all:: list.sats
@@ -269,14 +279,14 @@ clean:: ; $(RMF) matrixptr_atxt.exe
 cleanall:: ; $(RMF) matrixptr.sats
 
 
-all:: tfprint.sats
-tfprint.sats: tfprint_atxt.exe ; ./$< > $@
-tfprint_atxt.exe: tfprint_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ tfprint_atxt.dats -latsdoc
-tfprint_atxt.dats: tfprint.atxt
-	$(ATSDOC) --outcode $@ -i tfprint.atxt > tfprint_atxt.txt
-clean:: ; $(RMF) tfprint_atxt.exe
-cleanall:: ; $(RMF) tfprint.sats
+all:: gprint.sats
+gprint.sats: gprint_atxt.exe ; ./$< > $@
+gprint_atxt.exe: gprint_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ gprint_atxt.dats -latsdoc
+gprint_atxt.dats: gprint.atxt
+	$(ATSDOC) --outcode $@ -i gprint.atxt > gprint_atxt.txt
+clean:: ; $(RMF) gprint_atxt.exe
+cleanall:: ; $(RMF) gprint.sats
 
 
 all:: iterator.sats

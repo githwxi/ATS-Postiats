@@ -79,6 +79,8 @@ all::
 #make_entry("string")
 #make_entry("strptr")
 
+#make_entry("unsafe")
+
 #make_entry("basics")
 
 #make_entry("list")
@@ -98,9 +100,7 @@ for pointer arrays terminated with the null pointer
 
 #make_entry("matrix")
 
-#make_entry("tfprint")
-
-#make_entry("unsafe")
+#make_entry("gprint")
 
 ######
 

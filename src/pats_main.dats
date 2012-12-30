@@ -585,11 +585,15 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/SATS/string.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/strptr.sats")
 //
+  val () = pervasive_load (ATSHOME, "prelude/SATS/lazy.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/lazy_vt.sats")
+//
   val () = pervasive_load (ATSHOME, "prelude/SATS/filebas.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/intrange.sats")
 //
-  val () = pervasive_load (ATSHOME, "prelude/SATS/lazy.sats")
-  val () = pervasive_load (ATSHOME, "prelude/SATS/lazy_vt.sats")
+(*
+  val () = pervasive_load (ATSHOME, "prelude/SATS/unsafe.sats") // manual loading
+*)
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/list.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/list_vt.sats")
@@ -605,7 +609,7 @@ fun prelude_load (
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/matrix.sats")
 //
-  val () = pervasive_load (ATSHOME, "prelude/SATS/tfprint.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/gprint.sats")
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/parray.sats") // null-terminated
 //

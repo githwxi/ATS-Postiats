@@ -1,0 +1,100 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../gprint.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/prelude_gprint")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/prelude/gprint\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('This package contains a variety of common printing functions.')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("gprint$out")
+#decldescrpt('\
+
+This funtion is called to get the output channel for various
+gprint-functions.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("gprint_list$beg")
+#decldescrpt('\
+
+This funtion is called to obtain the opening parenthesis
+of a list.
+
+')
+
+#declnamesynop("gprint_list$end")
+#decldescrpt('\
+
+This funtion is called to obtain the closing parenthesis
+of a list.
+
+')
+
+#declnamesynop("gprint_list$sep")
+#decldescrpt('\
+
+This funtion is called to obtain the separator between
+list elements.
+
+')
+
+#declnamesynop("gprint_list")
+
+(* ****** ****** *)
+
+#declnamesynop("gprint_array$beg")
+#decldescrpt('\
+
+This funtion is called to obtain the opening parenthesis
+of an array.
+
+')
+
+#declnamesynop("gprint_array$end")
+#decldescrpt('\
+
+This funtion is called to obtain the closing parenthesis
+of an array.
+
+')
+
+#declnamesynop("gprint_array$sep")
+#decldescrpt('\
+
+This funtion is called to obtain the separator between
+array elements.
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("gprint_array")
+#declnamesynop("gprint_arrayptr")
+#declnamesynop("gprint_arrayref")
+
+(* ****** ****** *)
+
+(* end of [gprint.atxt] *)

@@ -116,6 +116,9 @@ all_html::
 #make_entry("string")
 #make_entry("strptr")
 
+#make_entry("lazy")
+#make_entry("lazy_vt")
+
 #make_entry("filebas")
 #make_entry("intrange")
 
@@ -136,10 +139,7 @@ all_html::
 #make_entry("matrix")
 #make_entry("matrixptr")
 
-#make_entry("lazy")
-#make_entry("lazy_vt")
-
-#make_entry("tfprint")
+#make_entry("gprint")
 
 #make_entry("iterator")
 
