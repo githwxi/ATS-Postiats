@@ -41,18 +41,18 @@ main (
   val asz = g1int2uint (10)
   val A = randgen_arrayptr (asz)
 //
-  val () = tfprint "A = "
-  val () = tfprint_arrayptr<int> (A, asz)
-  val () = tfprint_newline ()
+  val () = gprint "A = "
+  val () = gprint_arrayptr<int> (A, asz)
+  val () = gprint_newline ()
 //
   val p = ptrcast (A)
   prval pfarr = arrayptr_takeout (A)
   val () = revarr (!p, asz)
   prval () = arrayptr_addback (pfarr | A)
 //
-  val () = tfprint "A = "
-  val () = tfprint_arrayptr<int> (A, asz)
-  val () = tfprint_newline ()
+  val () = gprint "A = "
+  val () = gprint_arrayptr<int> (A, asz)
+  val () = gprint_newline ()
 //
   val () = arrayptr_free (A)
 //

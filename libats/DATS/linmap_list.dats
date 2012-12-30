@@ -128,7 +128,6 @@ implement {key,itm} linmap_listize_free (map) = map
 
 (* ****** ****** *)
 
-
 implement
 {key,itm}
 linmap_search_ngc

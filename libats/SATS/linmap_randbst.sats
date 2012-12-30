@@ -42,6 +42,7 @@ fun linmap_random_initize (): void
 (* ****** ****** *)
 
 #include "./SHARE/linmap.hats"
+#include "./SHARE/linmap_node.hats"
 
 (* ****** ****** *)
 
