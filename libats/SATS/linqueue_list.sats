@@ -63,48 +63,17 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 (* ****** ****** *)
 
-absviewtype
-mynode_viewtype (a:viewt@ype+, l:addr)
-stadef mynode = mynode_viewtype
-viewtypedef mynode (a) = [l:addr] mynode (a, l)
-viewtypedef mynode0 (a) = [l:addr | l >= null] mynode (a, l)
-viewtypedef mynode1 (a) = [l:addr | l >  null] mynode (a, l)
+#include "./SHARE/linqueue.hats"
+#include "./SHARE/linqueue_node.hats"
 
 (* ****** ****** *)
 
-fun{a:vt0p}
-mynode_getref_elt (nx: mynode1 (INV(a))):<> Ptr1
-
-fun{a:vt0p}
-mynode_make_elt (x: a):<> mynode1 (a)
-fun{a:vt0p}
-mynode_free_elt (nx: mynode1 (INV(a)), res: &(a?) >> a):<!wrt> void
-
-(* ****** ****** *)
-//
-// HX: a: item type; n: current size
-//
 absviewt@ype
 queue_struct =
   $extype "atslib_linqueue_list_queue_struct"
 // end of [queue_struct]
 
 (* ****** ****** *)
-
-absviewtype
-queue_viewtype (a:viewt@ype+, n:int)
-stadef queue = queue_viewtype
-
-(* ****** ****** *)
-
-praxi lemma_queue_param
-  {a:vt0p}{n:int} (q: !queue (INV(a), n)): [n>=0] void
-// end of [lemma_queue_param]
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-queue_make (): queue (a, 0)
 
 fun{a:vt0p}
 queue_make_ngc {l:addr}
@@ -114,73 +83,10 @@ queue_make_ngc {l:addr}
 (* ****** ****** *)
 
 fun{a:vt0p}
-queue_free (q: queue (a, 0)):<!wrt> void
-
-fun{a:vt0p}
 queue_free_ngc
   {l:addr} (
   pf: free_ngc_v l | p: ptr l, q: queue (INV(a), 0)
 ) :<!wrt> (queue_struct? @ l | void) // endfun
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-queue_is_empty
-  {n:int} (q: !queue (a, n)):<> bool (n == 0)
-// end of [queue_is_empty]
-
-fun{a:vt0p}
-queue_isnot_empty
-  {n:nat} (q: !queue (INV(a), n)):<> bool (n > 0)
-// end of [queue_isnot_empty]
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-queue_size {n:int} (q: !queue (INV(a), n)):<> size_t (n)
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-queue_insert (*last*)
-  {n:int} (
-  q: !queue (INV(a), n) >> queue (a, n+1), x: a
-) :<!wrt> void // end of [queue_insert]
-
-fun{a:vt0p}
-queue_insert_ngc (*last*)
-  {n:int} (
-  q: !queue (INV(a), n) >> queue (a, n+1), nx: mynode1 (a)
-) :<!wrt> void // end of [queue_insert_ngc]
-
-(* ****** ****** *)
-
-fun{a:vt0p}
-queue_remove (*first*)
-  {n:int | n > 0}
-  (q: !queue (INV(a), n) >> queue (a, n-1)):<!wrt> a
-// end of [queue_remove]
-
-fun{a:vt0p}
-queue_remove_ngc (*first*)
-  {n:int | n > 0}
-  (q: !queue (INV(a), n) >> queue (a, n-1)):<!wrt> mynode1 (a)
-// end of [queue_remove_ngc]
-
-(* ****** ****** *)
-
-fun{
-a:vt0p}{env:vt0p
-} queue_foreach$cont (x: &a, env: &env): void
-fun{
-a:vt0p}{env:vt0p
-} queue_foreach$fwork (x: &a, env: &(env) >> _): void
-fun{
-a:vt0p
-} queue_foreach {n:int} (q: !queue (INV(a), n)): void
-fun{
-a:vt0p}{env:vt0p
-} queue_foreach_env {n:int} (q: !queue (INV(a), n), env: &(env) >> _): void
 
 (* ****** ****** *)
 

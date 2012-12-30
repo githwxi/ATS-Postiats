@@ -32,14 +32,76 @@
 (* Start time: December, 2012 *)
 
 (* ****** ****** *)
+//
+// HX-2012-12:
+// [a]: item type; [n]: queue size
+//
+absviewtype
+queue_viewtype (a:viewt@ype+, n:int)
+stadef queue = queue_viewtype
+//
+(* ****** ****** *)
 
-#define EQUAL_KEY_KEY 1
+praxi lemma_queue_param
+  {a:vt0p}{n:int} (q: !queue (INV(a), n)): [n>=0] void
+// end of [lemma_queue_param]
 
 (* ****** ****** *)
 
-#include "./SHARE/linmap.hats"
-#include "./SHARE/linmap_node.hats"
+fun{a:vt0p}
+queue_make (): queue (a, 0)
+
+fun{a:vt0p}
+queue_free (q: queue (a, 0)):<!wrt> void
 
 (* ****** ****** *)
 
-(* end of [linmap_list.sats] *)
+fun{a:vt0p}
+queue_is_empty
+  {n:int} (q: !queue (a, n)):<> bool (n == 0)
+// end of [queue_is_empty]
+
+fun{a:vt0p}
+queue_isnot_empty
+  {n:nat} (q: !queue (INV(a), n)):<> bool (n > 0)
+// end of [queue_isnot_empty]
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+queue_size {n:int} (q: !queue (INV(a), n)):<> size_t (n)
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+queue_insert (*last*)
+  {n:int} (
+  q: !queue (INV(a), n) >> queue (a, n+1), x: a
+) :<!wrt> void // end of [queue_insert]
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+queue_takeout (*first*)
+  {n:int | n > 0}
+  (q: !queue (INV(a), n) >> queue (a, n-1)):<!wrt> a
+// end of [queue_takeout]
+
+(* ****** ****** *)
+
+fun{
+a:vt0p}{env:vt0p
+} queue_foreach$cont (x: &a, env: &env): void
+fun{
+a:vt0p}{env:vt0p
+} queue_foreach$fwork (x: &a, env: &(env) >> _): void
+fun{
+a:vt0p
+} queue_foreach {n:int} (q: !queue (INV(a), n)): void
+fun{
+a:vt0p}{env:vt0p
+} queue_foreach_env {n:int} (q: !queue (INV(a), n), env: &(env) >> _): void
+
+(* ****** ****** *)
+
+(* end of [linqueue.hats] *)

@@ -39,11 +39,29 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "libats/SATS/gnode.sats"
+staload "libats/SATS/linqueue_list.sats"
 
 (* ****** ****** *)
 
-staload "libats/SATS/linqueue_list.sats"
+implement{a}
+queue_insert
+  {n} (q, x) = let
+  val nx = mynode_make_elt (x)
+in
+  queue_insert_ngc {n} (q, nx)
+end // end of [queue_insert]
+
+implement{a}
+queue_takeout
+  {n} (q) = res where {
+  var res: a
+  val nx = queue_takeout_ngc {n} (q)
+  val () = mynode_free_elt (nx, res)
+} // end of [queue_takeout]
+
+(* ****** ****** *)
+
+staload "libats/SATS/gnode.sats"
 
 (* ****** ****** *)
 
@@ -56,6 +74,18 @@ myqueue (
 
 assume
 queue_viewtype (a:vt0p, n:int) = myqueue (a)
+
+(* ****** ****** *)
+
+implement{a}
+queue_make (
+) = q where {
+  val (
+    pf, pfgc | p
+  ) = ptr_alloc<queue_struct> ()
+  val (pfngc | q) = queue_make_ngc (pf | p)
+  prval () = free_gcngc_v_nullify (pfgc, pfngc)
+} // end of [queue_make]
 
 (* ****** ****** *)
 
@@ -75,47 +105,8 @@ val () = nxr := gnode_null<a> ()
 prval () = fold@ (q)
 //
 in
-  (pfngc | $UN.castvwtp0 {queue(a,0)} (q))
+  (pfngc | q)
 end // end of [queue_make_ngc]
-
-(* ****** ****** *)
-
-implement{a}
-queue_insert
-  {n} (q, x) = let
-  val nx = mynode_make_elt (x)
-in
-  queue_insert_ngc {n} (q, nx)
-end // end of [queue_insert]
-
-implement{a}
-queue_remove
-  {n} (q) = res where {
-  var res: a
-  val nx = queue_remove_ngc {n} (q)
-  val () = mynode_free_elt (nx, res)
-} // end of [queue_remove]
-
-(* ****** ****** *)
-
-assume
-mynode_viewtype (a:vt0p,l:addr) = gnode (a, l)
-
-(* ****** ****** *)
-
-stadef qstruct = queue_struct
-
-(* ****** ****** *)
-
-implement{a}
-queue_make (
-) = q where {
-  val (
-    pf, pfgc | p
-  ) = ptr_alloc<qstruct> ()
-  val (pfngc | q) = queue_make_ngc (pf | p)
-  prval () = free_gcngc_v_nullify (pfgc, pfngc)
-} // end of [queue_make]
 
 (* ****** ****** *)
 
@@ -134,6 +125,11 @@ queue_isnot_empty
 in
   $UN.cast{bool(n > 0)} (gnode_isnot_null (nx0))
 end // end of [queue_isnot_empty]
+
+(* ****** ****** *)
+
+assume
+mynode_viewtype (a:vt0p,l:addr) = gnode (a, l)
 
 (* ****** ****** *)
 
@@ -168,7 +164,7 @@ end // end of [queue_insert_ngc]
 (* ****** ****** *)
 
 implement{a}
-queue_remove_ngc
+queue_takeout_ngc
   {n} (q) = let
 //
 val @MYQUEUE (nxf, nxr) = q
@@ -190,7 +186,7 @@ in
   nx0
 end // end of [if]
 //  
-end // end of [queue_remove_ngc]
+end // end of [queue_takeout_ngc]
 
 (* ****** ****** *)
 

@@ -33,13 +33,47 @@
 
 (* ****** ****** *)
 
-#define EQUAL_KEY_KEY 1
+absviewtype
+mynode_viewtype
+  (key: t@ype, itm:viewt@ype+, l:addr)
+stadef mynode = mynode_viewtype
+viewtypedef
+mynode (key:t0p, itm:vt0p) = [l:addr] mynode (key, itm, l)
+viewtypedef
+mynode0 (key:t0p, itm:vt0p) = [l:addr | l >= null] mynode (key, itm, l)
+viewtypedef
+mynode1 (key:t0p, itm:vt0p) = [l:addr | l >  null] mynode (key, itm, l)
 
 (* ****** ****** *)
 
-#include "./SHARE/linmap.hats"
-#include "./SHARE/linmap_node.hats"
+fun{
+key:t0p;itm:t0p
+} linmap_search_ngc
+  (map: !map (key, INV(itm)), k0: key): Ptr0
+// end of [linmap_search_ngc]
 
 (* ****** ****** *)
 
-(* end of [linmap_list.sats] *)
+fun{
+key:t0p;itm:vt0p
+} linmap_insert_ngc (
+  map: &map (key, INV(itm)) >> _, nx: mynode1 (key, itm)
+) : mynode0 (key, itm) // endfun
+
+fun{
+key:t0p;itm:vt0p
+} linmap_insert_any_ngc (
+  map: &map (key, INV(itm)) >> _, nx: mynode1 (key, itm)
+) : void // end of [linmap_insert_any_ngc]
+
+(* ****** ****** *)
+
+fun{
+key:t0p;itm:vt0p
+} linmap_takeout_ngc
+  (map: &map (key, INV(itm)) >> _, k0: key): mynode0 (key, itm)
+// end of [linmap_takeout_ngc]
+
+(* ****** ****** *)
+
+(* end of [linmap_node.hats] *)

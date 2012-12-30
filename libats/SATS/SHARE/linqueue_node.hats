@@ -33,13 +33,54 @@
 
 (* ****** ****** *)
 
-#define EQUAL_KEY_KEY 1
+absviewtype
+mynode_viewtype (a:viewt@ype+, l:addr)
+stadef mynode = mynode_viewtype
+viewtypedef mynode (a) = [l:addr] mynode (a, l)
+viewtypedef mynode0 (a) = [l:addr | l >= null] mynode (a, l)
+viewtypedef mynode1 (a) = [l:addr | l >  null] mynode (a, l)
 
 (* ****** ****** *)
 
-#include "./SHARE/linmap.hats"
-#include "./SHARE/linmap_node.hats"
+praxi lemma_mynode_param
+  {a:vt0p}{l:addr} (nx: !mynode (INV(a), l)): [l >= null] void
+// end of [lemma_mynode_param]
 
 (* ****** ****** *)
 
-(* end of [linmap_list.sats] *)
+praxi mynode_free_null {a:vt0p}{l:addr} (nx: mynode (a, l)): void
+
+(* ****** ****** *)
+
+castfn
+mynode2ptr {a:vt0p}{l:addr} (nx: !mynode (INV(a), l)):<> ptr (l)
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+mynode_getref_elt (nx: mynode1 (INV(a))):<> Ptr1
+
+fun{a:vt0p}
+mynode_make_elt (x: a):<> mynode1 (a)
+fun{a:vt0p}
+mynode_free_elt (nx: mynode1 (INV(a)), res: &(a?) >> a):<!wrt> void
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+queue_insert_ngc (*last*)
+  {n:int} (
+  q: !queue (INV(a), n) >> queue (a, n+1), nx: mynode1 (a)
+) :<!wrt> void // end of [queue_insert_ngc]
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+queue_takeout_ngc (*first*)
+  {n:int | n > 0}
+  (q: !queue (INV(a), n) >> queue (a, n-1)):<!wrt> mynode1 (a)
+// end of [queue_takeout_ngc]
+
+(* ****** ****** *)
+
+(* end of [linqueue_node.hats] *)
