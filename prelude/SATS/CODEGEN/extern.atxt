@@ -59,12 +59,12 @@ argv_takeout_strarr
 ) // end of [argv_takeout_strarr]
 
 castfn
-argv_takeout_parrnull
+argv_takeout_parray
   {n:int} (
   argv: !argv (n)
 ) :<> [l:addr] (
-  parrnull_v (string, l, n), minus (argv n, parrnull_v (string, l, n)) | ptr l
-) // end of [argv_takeout_parrnull]
+  parray_v (string, l, n), minus (argv n, parray_v (string, l, n)) | ptr l
+) // end of [argv_takeout_parray]
 
 #atscode_separator()
 

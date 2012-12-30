@@ -106,14 +106,18 @@ all_html::
 
 #make_entry("bool")
 #make_entry("char")
-#make_entry("filebas")
-#make_entry("float")
 #make_entry("integer")
-#make_entry("intrange")
+#make_entry("float")
+#make_entry("tuple")
+
 #make_entry("pointer")
 #make_entry("reference")
+
 #make_entry("string")
 #make_entry("strptr")
+
+#make_entry("filebas")
+#make_entry("intrange")
 
 #make_entry("unsafe")
 

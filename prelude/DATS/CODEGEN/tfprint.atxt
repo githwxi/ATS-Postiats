@@ -36,11 +36,11 @@ implement{} tfprint$out () = stdout_ref
 #atscode_separator()
 
 implement{}
-tfprint_list$sep () = ","
-implement{}
 tfprint_list$beg () = "("
 implement{}
 tfprint_list$end () = ")"
+implement{}
+tfprint_list$sep () = ", "
 
 implement{a}
 tfprint_list (xs) = let
@@ -57,16 +57,17 @@ val () = fprint_string (out, _end)
 in
 end // end of [tfprint_list]
 
-implement(a) tfprint<List(a)> (xs) = tfprint_list<a> (xs)
+implement(a)
+tfprint<List(a)> (xs) = tfprint_list<a> (xs)
 
 #atscode_separator()
 
 implement{}
-tfprint_array$sep () = ","
-implement{}
 tfprint_array$beg () = "["
 implement{}
 tfprint_array$end () = "]"
+implement{}
+tfprint_array$sep () = ", "
 
 implement{a}
 tfprint_array (A, n) = let
@@ -83,6 +84,8 @@ val () = fprint_string (out, _end)
 in
   // nothing
 end // end of [tfprint_array]
+
+#atscode_separator()
 
 implement{a}
 tfprint_arrayptr

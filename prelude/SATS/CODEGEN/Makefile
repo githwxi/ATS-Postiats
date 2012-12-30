@@ -52,14 +52,14 @@ char_atxt.dats: char.atxt
 clean:: ; $(RMF) char_atxt.exe
 cleanall:: ; $(RMF) char.sats
 
-all:: filebas.sats
-filebas.sats: filebas_atxt.exe ; ./$< > $@
-filebas_atxt.exe: filebas_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ filebas_atxt.dats -latsdoc
-filebas_atxt.dats: filebas.atxt
-	$(ATSDOC) --outcode $@ -i filebas.atxt > filebas_atxt.txt
-clean:: ; $(RMF) filebas_atxt.exe
-cleanall:: ; $(RMF) filebas.sats
+all:: integer.sats
+integer.sats: integer_atxt.exe ; ./$< > $@
+integer_atxt.exe: integer_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ integer_atxt.dats -latsdoc
+integer_atxt.dats: integer.atxt
+	$(ATSDOC) --outcode $@ -i integer.atxt > integer_atxt.txt
+clean:: ; $(RMF) integer_atxt.exe
+cleanall:: ; $(RMF) integer.sats
 
 all:: float.sats
 float.sats: float_atxt.exe ; ./$< > $@
@@ -70,32 +70,15 @@ float_atxt.dats: float.atxt
 clean:: ; $(RMF) float_atxt.exe
 cleanall:: ; $(RMF) float.sats
 
-all:: integer.sats
-integer.sats: integer_atxt.exe ; ./$< > $@
-integer_atxt.exe: integer_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ integer_atxt.dats -latsdoc
-integer_atxt.dats: integer.atxt
-	$(ATSDOC) --outcode $@ -i integer.atxt > integer_atxt.txt
-clean:: ; $(RMF) integer_atxt.exe
-cleanall:: ; $(RMF) integer.sats
+all:: tuple.sats
+tuple.sats: tuple_atxt.exe ; ./$< > $@
+tuple_atxt.exe: tuple_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ tuple_atxt.dats -latsdoc
+tuple_atxt.dats: tuple.atxt
+	$(ATSDOC) --outcode $@ -i tuple.atxt > tuple_atxt.txt
+clean:: ; $(RMF) tuple_atxt.exe
+cleanall:: ; $(RMF) tuple.sats
 
-all:: intrange.sats
-intrange.sats: intrange_atxt.exe ; ./$< > $@
-intrange_atxt.exe: intrange_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ intrange_atxt.dats -latsdoc
-intrange_atxt.dats: intrange.atxt
-	$(ATSDOC) --outcode $@ -i intrange.atxt > intrange_atxt.txt
-clean:: ; $(RMF) intrange_atxt.exe
-cleanall:: ; $(RMF) intrange.sats
-
-all:: pointer.sats
-pointer.sats: pointer_atxt.exe ; ./$< > $@
-pointer_atxt.exe: pointer_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ pointer_atxt.dats -latsdoc
-pointer_atxt.dats: pointer.atxt
-	$(ATSDOC) --outcode $@ -i pointer.atxt > pointer_atxt.txt
-clean:: ; $(RMF) pointer_atxt.exe
-cleanall:: ; $(RMF) pointer.sats
 
 all:: memory.sats
 memory.sats: memory_atxt.exe ; ./$< > $@
@@ -106,6 +89,16 @@ memory_atxt.dats: memory.atxt
 clean:: ; $(RMF) memory_atxt.exe
 cleanall:: ; $(RMF) memory.sats
 
+
+all:: pointer.sats
+pointer.sats: pointer_atxt.exe ; ./$< > $@
+pointer_atxt.exe: pointer_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ pointer_atxt.dats -latsdoc
+pointer_atxt.dats: pointer.atxt
+	$(ATSDOC) --outcode $@ -i pointer.atxt > pointer_atxt.txt
+clean:: ; $(RMF) pointer_atxt.exe
+cleanall:: ; $(RMF) pointer.sats
+
 all:: reference.sats
 reference.sats: reference_atxt.exe ; ./$< > $@
 reference_atxt.exe: reference_atxt.dats
@@ -114,6 +107,7 @@ reference_atxt.dats: reference.atxt
 	$(ATSDOC) --outcode $@ -i reference.atxt > reference_atxt.txt
 clean:: ; $(RMF) reference_atxt.exe
 cleanall:: ; $(RMF) reference.sats
+
 
 all:: string.sats
 string.sats: string_atxt.exe ; ./$< > $@
@@ -133,14 +127,24 @@ strptr_atxt.dats: strptr.atxt
 clean:: ; $(RMF) strptr_atxt.exe
 cleanall:: ; $(RMF) strptr.sats
 
-all:: tuple.sats
-tuple.sats: tuple_atxt.exe ; ./$< > $@
-tuple_atxt.exe: tuple_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ tuple_atxt.dats -latsdoc
-tuple_atxt.dats: tuple.atxt
-	$(ATSDOC) --outcode $@ -i tuple.atxt > tuple_atxt.txt
-clean:: ; $(RMF) tuple_atxt.exe
-cleanall:: ; $(RMF) tuple.sats
+
+all:: filebas.sats
+filebas.sats: filebas_atxt.exe ; ./$< > $@
+filebas_atxt.exe: filebas_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ filebas_atxt.dats -latsdoc
+filebas_atxt.dats: filebas.atxt
+	$(ATSDOC) --outcode $@ -i filebas.atxt > filebas_atxt.txt
+clean:: ; $(RMF) filebas_atxt.exe
+cleanall:: ; $(RMF) filebas.sats
+
+all:: intrange.sats
+intrange.sats: intrange_atxt.exe ; ./$< > $@
+intrange_atxt.exe: intrange_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ intrange_atxt.dats -latsdoc
+intrange_atxt.dats: intrange.atxt
+	$(ATSDOC) --outcode $@ -i intrange.atxt > intrange_atxt.txt
+clean:: ; $(RMF) intrange_atxt.exe
+cleanall:: ; $(RMF) intrange.sats
 
 
 all:: lazy.sats
@@ -246,17 +250,6 @@ clean:: ; $(RMF) arrayref_atxt.exe
 cleanall:: ; $(RMF) arrayref.sats
 
 
-
-all:: parrnull.sats
-parrnull.sats: parrnull_atxt.exe ; ./$< > $@
-parrnull_atxt.exe: parrnull_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ parrnull_atxt.dats -latsdoc
-parrnull_atxt.dats: parrnull.atxt
-	$(ATSDOC) --outcode $@ -i parrnull.atxt > parrnull_atxt.txt
-clean:: ; $(RMF) parrnull_atxt.exe
-cleanall:: ; $(RMF) parrnull.sats
-
-
 all:: matrix.sats
 matrix.sats: matrix_atxt.exe ; ./$< > $@
 matrix_atxt.exe: matrix_atxt.dats
@@ -295,7 +288,6 @@ iterator_atxt.dats: iterator.atxt
 clean:: ; $(RMF) iterator_atxt.exe
 cleanall:: ; $(RMF) iterator.sats
 
-
 all:: fcontainer.sats
 fcontainer.sats: fcontainer_atxt.exe ; ./$< > $@
 fcontainer_atxt.exe: fcontainer_atxt.dats
@@ -304,6 +296,17 @@ fcontainer_atxt.dats: fcontainer.atxt
 	$(ATSDOC) --outcode $@ -i fcontainer.atxt > fcontainer_atxt.txt
 clean:: ; $(RMF) fcontainer_atxt.exe
 cleanall:: ; $(RMF) fcontainer.sats
+
+
+
+all:: parray.sats
+parray.sats: parray_atxt.exe ; ./$< > $@
+parray_atxt.exe: parray_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ parray_atxt.dats -latsdoc
+parray_atxt.dats: parray.atxt
+	$(ATSDOC) --outcode $@ -i parray.atxt > parray_atxt.txt
+clean:: ; $(RMF) parray_atxt.exe
+cleanall:: ; $(RMF) parray.sats
 
 
 all:: extern.sats

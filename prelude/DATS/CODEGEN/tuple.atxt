@@ -1,0 +1,222 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"tuple.dats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/prelude/DATS/CODEGEN/tuple.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("December, 2012")
+
+#atscode_separator()
+
+implement
+fprint_tup$beg<> (out) = fprint_string (out, "(")
+implement
+fprint_tup$end<> (out) = fprint_string (out, "(")
+implement
+fprint_tup$sep<> (out) = fprint_string (out, ", ")
+
+#atscode_separator()
+
+implement
+{a0,a1}
+fprint_tupval2
+  (out, x) = let
+  val () = fprint_tup$beg<> (out)
+  val () = fprint_val<a0> (out, x.0)
+  val () = fprint_tup$sep<> (out)
+  val () = fprint_val<a1> (out, x.1)
+  val () = fprint_tup$end<> (out)
+in
+  // nothing
+end // end of [fprint_tupval2]
+
+implement(a0,a1)
+fprint_val<tup(a0,a1)> (out, x) = fprint_tupval2 (out, x)
+
+#atscode_separator()
+
+implement
+{a0,a1,a2}
+fprint_tupval3
+  (out, x) = let
+  val () = fprint_tup$beg<> (out)
+  val () = fprint_val<a0> (out, x.0)
+  val () = fprint_tup$sep<> (out)
+  val () = fprint_val<a1> (out, x.1)
+  val () = fprint_tup$sep<> (out)
+  val () = fprint_val<a2> (out, x.2)
+  val () = fprint_tup$end<> (out)
+in
+  // nothing
+end // end of [fprint_tupval3]
+
+implement(a0,a1,a2)
+fprint_val<tup(a0,a1,a2)> (out, x) = fprint_tupval3 (out, x)
+
+#atscode_separator()
+
+implement
+{a0,a1,a2,a3}
+fprint_tupval4
+  (out, x) = let
+  val () = fprint_tup$beg<> (out)
+  val () = fprint_val<a0> (out, x.0)
+  val () = fprint_tup$sep<> (out)
+  val () = fprint_val<a1> (out, x.1)
+  val () = fprint_tup$sep<> (out)
+  val () = fprint_val<a2> (out, x.2)
+  val () = fprint_tup$sep<> (out)
+  val () = fprint_val<a3> (out, x.3)
+  val () = fprint_tup$end<> (out)
+in
+  // nothing
+end // end of [fprint_tupval4]
+
+implement(a0,a1,a2,a3)
+fprint_val<tup(a0,a1,a2,a3)> (out, x) = fprint_tupval4 (out, x)
+
+#atscode_separator()
+
+implement
+{a0,a1}
+fprint_tupref2
+  (out, x) = let
+  val () = fprint_tup$beg<> (out)
+  val () = fprint_ref<a0> (out, x.0)
+  val () = fprint_tup$sep<> (out)
+  val () = fprint_ref<a1> (out, x.1)
+  val () = fprint_tup$end<> (out)
+in
+  // nothing
+end // end of [fprint_tupref2]
+
+implement(a0,a1)
+fprint_ref<tup(a0,a1)> (out, x) = fprint_tupref2 (out, x)
+
+#atscode_separator()
+
+implement
+{a0,a1,a2}
+fprint_tupref3
+  (out, x) = let
+  val () = fprint_tup$beg<> (out)
+  val () = fprint_ref<a0> (out, x.0)
+  val () = fprint_tup$sep<> (out)
+  val () = fprint_ref<a1> (out, x.1)
+  val () = fprint_tup$sep<> (out)
+  val () = fprint_ref<a2> (out, x.2)
+  val () = fprint_tup$end<> (out)
+in
+  // nothing
+end // end of [fprint_tupref3]
+
+implement(a0,a1,a2)
+fprint_ref<tup(a0,a1,a2)> (out, x) = fprint_tupref3 (out, x)
+
+#atscode_separator()
+
+implement
+{a0,a1,a2,a3}
+fprint_tupref4
+  (out, x) = let
+  val () = fprint_tup$beg<> (out)
+  val () = fprint_ref<a0> (out, x.0)
+  val () = fprint_tup$sep<> (out)
+  val () = fprint_ref<a1> (out, x.1)
+  val () = fprint_tup$sep<> (out)
+  val () = fprint_ref<a2> (out, x.2)
+  val () = fprint_tup$sep<> (out)
+  val () = fprint_ref<a3> (out, x.3)
+  val () = fprint_tup$end<> (out)
+in
+  // nothing
+end // end of [fprint_tupref4]
+
+implement(a0,a1,a2,a3)
+fprint_ref<tup(a0,a1,a2,a3)> (out, x) = fprint_tupref4 (out, x)
+
+#atscode_separator()
+
+implement
+{a0,a1}
+tupval2_compare (x, y) = let
+  val sgn0 = gcompare_val<a0> (x.0, y.0)
+in
+  if sgn0 != 0 then sgn0 else gcompare_val<a1> (x.1, y.1)
+end // end of [tupval2_compare]  
+
+implement(a0,a1)
+gcompare_val<tup(a0,a1)> (x, y) = tupval2_compare<a0,a1> (x, y)
+
+#atscode_separator()
+
+implement
+{a0,a1,a2}
+tupval3_compare (x, y) = let
+  val sgn0 = gcompare_val<a0> (x.0, y.0)
+in
+//
+if sgn0 != 0 then sgn0
+else let
+  val sgn1 = gcompare_val<a1> (x.1, y.1)
+in
+  if sgn1 != 0 then sgn1 else gcompare_val<a2> (x.2, y.2)
+end // end of [if]
+//
+end // end of [tupval3_compare]
+
+implement(a0,a1,a2)
+gcompare_val<tup(a0,a1,a2)> (x, y) = tupval3_compare<a0,a1,a2> (x, y)
+
+#atscode_separator()
+
+implement
+{a0,a1,a2,a3}
+tupval4_compare (x, y) = let
+  val sgn0 = gcompare_val<a0> (x.0, y.0)
+in
+//
+if sgn0 != 0 then sgn0
+else let
+  val sgn1 = gcompare_val<a1> (x.1, y.1)
+in
+//
+if sgn1 != 0 then sgn1
+else let
+  val sgn2 = gcompare_val<a2> (x.2, y.2)
+in
+  if sgn2 != 0 then sgn2 else gcompare_val<a3> (x.3, y.3)
+end // end of [if]
+//
+end // end of [if]
+//
+end // end of [tupval4_compare]  
+
+implement(a0,a1,a2,a3)
+gcompare_val<tup(a0,a1,a2,a3)> (x, y) = tupval4_compare<a0,a1,a2,a3> (x, y)
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "tuple_atxt.txt")
+%}\

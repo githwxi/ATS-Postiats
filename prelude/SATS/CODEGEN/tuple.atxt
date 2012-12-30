@@ -35,21 +35,85 @@ typedef NSH(a:type) = a // for commenting purpose
 
 #atscode_separator()
 
-fun fprint_tup$beg (out: FILEref): void
-fun fprint_tup$end (out: FILEref): void
-fun fprint_tup$sep (out: FILEref): void
+typedef tup2
+  (a0:t0p, a1:t0p) = @(a0, a1)
+stadef tup = tup2
+typedef tup3
+  (a0:t0p, a1:t0p, a2:t0p) = @(a0, a1, a2)
+stadef tup = tup3
+typedef tup4
+  (a0:t0p, a1:t0p, a2:t0p, a3:t0p) = @(a0, a1, a2, a3)
+stadef tup = tup4
+
+#atscode_separator()
+
+fun{} fprint_tup$beg (out: FILEref): void
+fun{} fprint_tup$end (out: FILEref): void
+fun{} fprint_tup$sep (out: FILEref): void
 
 #atscode_separator()
 
 fun{
-a1,a2:t@ype
-} fprint_tup2 (out: FILEref, x: (a1, a2)): void
+a1,a2:t0p
+} fprint_tupval2 (out: FILEref, x: @(a1, a2)): void
 fun{
-a1,a2:t@ype
-} fprint_tup3 (out: FILEref, x: (a1, a2, a3)): void
+a1,a2,a3:t0p
+} fprint_tupval3 (out: FILEref, x: @(a1, a2, a3)): void
 fun{
-a1,a2:t@ype
-} fprint_tup4 (out: FILEref, x: (a1, a2, a3, a4)): void
+a1,a2,a3,a4:t0p
+} fprint_tupval4 (out: FILEref, x: @(a1, a2, a3, a4)): void
+
+#atscode_separator()
+
+fun{
+a1,a2:vt0p
+} fprint_tupref2 (out: FILEref, x: &(a1, a2)): void
+fun{
+a1,a2,a3:vt0p
+} fprint_tupref3 (out: FILEref, x: &(a1, a2, a3)): void
+fun{
+a1,a2,a3,a4:vt0p
+} fprint_tupref4 (out: FILEref, x: &(a1, a2, a3, a4)): void
+
+#atscode_separator()
+
+fun{
+a0,a1:t0p
+} tupval2_compare
+  (x: @(a0, a1), y: @(a0, a1)):<> int
+// end of [tupval2_compare]
+
+fun{
+a0,a1,a2:t0p
+} tupval3_compare
+  (x: @(a0, a1, a2), y: @(a0, a1, a2)):<> int
+// end of [tupval3_compare]
+
+fun{
+a0,a1,a2,a3:t0p
+} tupval4_compare
+  (x: @(a0, a1, a2, a3), y: @(a0, a1, a2, a3)):<> int
+// end of [tupval4_compare]
+
+#atscode_separator()
+
+fun{
+a0,a1:vt0p
+} tupref2_compare
+  (x: &(a0, a1), y: &(a0, a1)):<> int
+// end of [tupref2_compare]
+
+fun{
+a0,a1,a2:vt0p
+} tupref3_compare
+  (x: &(a0, a1, a2), y: &(a0, a1, a2)):<> int
+// end of [tupref3_compare]
+
+fun{
+a0,a1,a2,a3:vt0p
+} tupref4_compare
+  (x: &(a0, a1, a2, a3), y: &(a0, a1, a2, a3)):<> int
+// end of [tupref4_compare]
 
 #atscode_separator()
 

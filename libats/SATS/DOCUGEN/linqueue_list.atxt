@@ -32,8 +32,14 @@ structure.
 
 (* ****** ****** *)
 
-#declnamesynop("QUEUE")
-#declnamesynop("QUEUETSZ")
+#declnamesynop("queue")
+#declnamesynop("queue_viewtype")
+
+(* ****** ****** *)
+
+#declnamesynop("mynode")
+#declnamesynop("mynode_make_elt")
+#declnamesynop("mynode_free_elt")
 
 (* ****** ****** *)
 
@@ -46,21 +52,22 @@ structure.
 
 (* ****** ****** *)
 
-#declnamesynop("queue_initialize")
-#declnamesynop("queue_uninitialize")
-
-(* ****** ****** *)
-
 #declnamesynop("queue_insert")
 #decldescrpt("\
 
 This function inserts an element at the end of a given queue.")
+
+#declnamesynop("queue_insert_ngc")
+
+(* ****** ****** *)
 
 #declnamesynop("queue_remove")
 #decldescrpt("\
 
 This function removes the element at the front of a given queue if the
 queue is not empty, and returns true. Otherwise, it returns false. ")
+
+#declnamesynop("queue_remove_ngc")
 
 (* ****** ****** *)
 

@@ -3,7 +3,7 @@
 #if (ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"parrnull.dats"
+val _thisfilename = atext_strcst"parray.dats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
@@ -14,7 +14,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 (*
 ** Source:
-** $PATSHOME/prelude/DATS/CODEGEN/parrnull.atxt
+** $PATSHOME/prelude/DATS/CODEGEN/parray.atxt
 ** Time of generation: #timestamp()
 *)
 
@@ -31,11 +31,11 @@ staload UN = "prelude/SATS/unsafe.sats"
 #atscode_separator()
 
 implement{a}
-parrnull_is_empty
+parray_is_empty
   {l}{n} (pf | p) = let
 //
 prval () =
-  lemma_parrnull_v_params (pf)
+  lemma_parray_v_params (pf)
 val x = $UN.ptr_get<ptr> (p)
 val [lx:addr] x = ptr1_of_ptr0 (x)
 prval () = __assert () where {
@@ -44,14 +44,14 @@ prval () = __assert () where {
 //
 in
   lte_ptr1_ptr1 (x, null)
-end // end of [parrnull_is_empty]
+end // end of [parray_is_empty]
 
 implement{a}
-parrnull_isnot_empty
+parray_isnot_empty
   {l}{n} (pf | p) = let
 //
 prval () =
-  lemma_parrnull_v_params (pf)
+  lemma_parray_v_params (pf)
 val x = $UN.ptr_get<ptr> (p)
 val [lx:addr] x = ptr1_of_ptr0 (x)
 prval () = __assert () where {
@@ -60,35 +60,35 @@ prval () = __assert () where {
 //
 in
   gt_ptr1_ptr1 (x, null)
-end // end of [parrnull_isnot_empty]
+end // end of [parray_isnot_empty]
 
 #atscode_separator()
 
 implement{a}
-parrnull_size (pf | p) = let
-  prval () = lemma_parrnull_v_params (pf)
+parray_size (pf | p) = let
+  prval () = lemma_parray_v_params (pf)
   fun loop
     {l:addr}{i,j:nat} .<i>. (
-    pf: !parrnull_v (a, l, i) | p: ptr l, j: size_t j
+    pf: !parray_v (a, l, i) | p: ptr l, j: size_t j
   ) :<> size_t (i+j) = let
-    val isnemp = parrnull_isnot_empty<a> (pf | p)
+    val isnemp = parray_isnot_empty<a> (pf | p)
   in
     if isnemp then let
-      prval parrnull_v_cons (pf1, pf2) = pf
+      prval parray_v_cons (pf1, pf2) = pf
       val n = loop (pf2 | p+sizeof<a>, j+1)
-      prval () = pf := parrnull_v_cons (pf1, pf2)
+      prval () = pf := parray_v_cons (pf1, pf2)
     in
       n
     end else j
   end (* end of [loop] *)
 in
   loop (pf | p, 0)
-end // end of [parrnull_size]
+end // end of [parray_size]
 
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "parrnull_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "parray_atxt.txt")
 %}\

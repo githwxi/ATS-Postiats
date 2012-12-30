@@ -1,0 +1,73 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../tuple.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/prelude_tuple")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/prelude/tuple\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para("\
+This package contains various generic functions on tuples.
+")
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_tup$beg")
+#declnamesynop("fprint_tup$end")
+#declnamesynop("fprint_tup$sep")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_tupval2")
+#declnamesynop("fprint_tupval3")
+#declnamesynop("fprint_tupval4")
+
+(* ****** ****** *)
+
+#declnamesynop("fprint_tupref2")
+#declnamesynop("fprint_tupref3")
+#declnamesynop("fprint_tupref4")
+
+(* ****** ****** *)
+
+#declnamesynop("tupval2_compare")
+#decldescrpt('\
+This function implements lexicographic ordering on tuples of length 2.
+')
+
+#declnamesynop("tupval3_compare")
+#decldescrpt('\
+This function implements lexicographic ordering on tuples of length 3.
+')
+
+#declnamesynop("tupval4_compare")
+#decldescrpt('\
+This function implements lexicographic ordering on tuples of length 4.
+')
+
+(* ****** ****** *)
+
+#declnamesynop("tupref2_compare")
+#declnamesynop("tupref3_compare")
+#declnamesynop("tupref4_compare")
+
+(* ****** ****** *)
+
+(* end of [tuple.atxt] *)
