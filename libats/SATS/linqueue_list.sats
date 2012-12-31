@@ -75,14 +75,14 @@ queue_takeout_list
 
 (* ****** ****** *)
 //
-absviewt@ype
-qstruct_0 =
+abst@ype
+qstruct_tsz =
   $extype "atslib_linqueue_list_qstruct"
 absviewt@ype
-qstruct_2 (a:viewt@ype+, n:int) = qstruct_0
+qstruct_vt0ype (a:viewt@ype+, n:int) = qstruct_tsz
 //
-stadef qstruct = qstruct_2
-stadef qstruct = qstruct_0
+stadef qstruct = qstruct_vt0ype
+stadef qstruct = qstruct_tsz // HX: order significant
 //
 viewtypedef
 Qstruct (a:vt0p) = [n:nat] qstruct (a, n)
