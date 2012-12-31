@@ -44,6 +44,20 @@ staload "libats/SATS/linqueue_list.sats"
 (* ****** ****** *)
 
 implement{a}
+queue_make (
+) = que where {
+  val (
+    pf, pfgc | p
+  ) = ptr_alloc<qstruct> ()
+  val que = ptr2ptrlin (p)
+  val () = qstruct_initize (!p)
+  prval pfngc = qstruct_objfize (pf | que)
+  prval () = free_gcngc_v_nullify (pfgc, pfngc)
+} // end of [queue_make]
+
+(* ****** ****** *)
+
+implement{a}
 queue_insert
   {n} (q, x) = let
   val nx = mynode_make_elt (x)
@@ -69,7 +83,7 @@ datavtype
 myqueue (
   a:viewt@ype+
 ) =
-  MYQUEUE of (gnode0(a), gnode0(a))
+  MYQUEUE of (gnode0(a), ptr)
 // end of [datavtype]
 
 assume
@@ -78,52 +92,23 @@ queue_viewtype (a:vt0p, n:int) = myqueue (a)
 (* ****** ****** *)
 
 implement{a}
-queue_make (
-) = q where {
-  val (
-    pf, pfgc | p
-  ) = ptr_alloc<queue_struct> ()
-  val (pfngc | q) = queue_make_ngc (pf | p)
-  prval () = free_gcngc_v_nullify (pfgc, pfngc)
-} // end of [queue_make]
-
-(* ****** ****** *)
-
-implement{a}
-queue_make_ngc
-  {l} (pfat | p) = let
-//
-extern
-praxi __assert
-  : (ptr l) -<prf> (free_gc_v l, free_ngc_v l)
-//
-prval (pfgc, pfngc) = __assert (p)
-val q = $UN.castvwtp0 {myqueue(a)} @(pfat, pfgc | p)
-val @MYQUEUE (nxf, nxr) = q
-val () = nxf := gnode_null<a> ()
-val () = nxr := gnode_null<a> ()
-prval () = fold@ (q)
-//
-in
-  (pfngc | q)
-end // end of [queue_make_ngc]
-
-(* ****** ****** *)
-
-implement{a}
 queue_is_empty
   {n} (q) = let
-  val+ MYQUEUE (nx0, nx1) = q
+  val+ @MYQUEUE (nxf, p_nxr) = q
+  val res = (addr@ (nxf) = p_nxr)
+  prval () = fold@ (q)
 in
-  $UN.cast{bool(n==0)} (gnode_is_null (nx0))
+  $UN.cast{bool(n==0)} (res)
 end // end of [queue_is_empty]
 
 implement{a}
 queue_isnot_empty
   {n} (q) = let
-  val+ MYQUEUE (nx0, nx1) = q
+  val+ @MYQUEUE (nxf, p_nxr) = q
+  val res = (addr@ (nxf) != p_nxr)
+  prval () = fold@ (q)
 in
-  $UN.cast{bool(n > 0)} (gnode_isnot_null (nx0))
+  $UN.cast{bool(n > 0)} (res)
 end // end of [queue_isnot_empty]
 
 (* ****** ****** *)
@@ -137,56 +122,30 @@ implement{a}
 queue_insert_ngc
   {n} (q, nx0) = let
 //
-val nx0 =
-  $UN.castvwtp0{gnode1(a)} (nx0)
 //
-val @MYQUEUE (nxf, nxr) = q
-val isnot = gnode_isnot_null (nxf)
-//
-in
-//
-if isnot then let
-  val () = gnode_link (nx0, nxf)
-  val () = nxf := nx0
-  prval () = fold@ (q)
-in
-  // nothing
-end else let
-  val () = nxf := nx0
-  val () = nxr := nx0
-  prval () = fold@ (q)
-in
-  // nothing
-end // end of [if]
+val @MYQUEUE (nxf, p_nxr) = q
+val nx0 = $UN.castvwtp0{gnode1(a)} (nx0)
+val () = $UN.ptr0_set<gnode1(a)> (p_nxr, nx0)
+val () = p_nxr := gnode_getref_next (nx0)
+prval () = fold@ (q)
 //  
+in
+  // nothing
 end // end of [queue_insert_ngc]
 
 (* ****** ****** *)
 
 implement{a}
 queue_takeout_ngc
-  {n} (q) = let
+  {n} (q) = nx0 where {
 //
-val @MYQUEUE (nxf, nxr) = q
+val @MYQUEUE (nxf, p_nxr) = q
 val nx0 = $UN.cast{gnode1(a)}(nxf)
-val neq = gnode2ptr (nxf) != gnode2ptr (nxr)
+val () = nxf := gnode_get_next (nx0)
+val () = if gnode_is_null (nxf) then p_nxr := addr@ (nxf)
+prval () = fold@ (q)
 //
-in
-//
-if neq then let
-  val () = nxf := gnode_get_next (nx0)
-  prval () = fold@ (q)
-in
-  nx0
-end else let
-  val () = nxf := gnode_null<a> ()
-  val () = nxr := gnode_null<a> ()
-  prval () = fold@ (q)
-in
-  nx0
-end // end of [if]
-//  
-end // end of [queue_takeout_ngc]
+} // end of [queue_takeout_ngc]
 
 (* ****** ****** *)
 

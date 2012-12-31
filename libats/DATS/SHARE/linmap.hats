@@ -222,26 +222,15 @@ linmap_listize
 //
 viewtypedef tki = @(key, itm)
 //
-viewtypedef tenv = $Q.queue0_struct (tki)
+viewtypedef tenv = $Q.Qstruct (tki)
 //
 implement
 linmap_foreach$fwork<key,itm><tenv>
-  (k, x, env) = let
-  val p_env = addr@(env)
-  val que = ptr2ptrlin (p_env)
-//
-prval (pfngc | ()) =
-  $Q.queue_objectify (view@(env) | que)
-val () = $Q.queue_insert<tki> (que, @(k, x))
-prval (pfat | ()) = $Q.queue_unobjectify (pfngc | p_env, que)
-prval () = ptrlin_free (que)
-prval () = view@(env) := pfat
-//
-in
-  // nothing
-end // end of [linmap_foreach$fwork]
+  (k, x, env) = $Q.qstruct_insert<tki> (env, @(k, x))
+// end of [linmap_foreach$fwork]
 //
 var env: $Q.qstruct
+//
 val () = $Q.qstruct_initize<tki> (env)
 //
 val () = $effmask_all (linmap_foreach_env (map, env))

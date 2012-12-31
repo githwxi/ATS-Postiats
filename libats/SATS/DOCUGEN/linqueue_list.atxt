@@ -51,11 +51,25 @@ structure.
 
 This function inserts an element at the end of a given queue.")
 
+(* ****** ****** *)
+
 #declnamesynop("queue_takeout")
 #decldescrpt("\
 
 This function takes out the element at the front of a given queue if the
 queue is not empty, and returns true. Otherwise, it returns false. ")
+
+(* ****** ****** *)
+
+#declnamesynop("queue_takeout_list")
+#decldescrpt("\
+
+This function takes out all of the elements in a given queue. Note
+that the complexity of the funtion is O(1).
+
+")
+
+(* ****** ****** *)
 
 #declnamesynop("queue_foreach$cont")
 #declnamesynop("queue_foreach$fwork")
@@ -64,12 +78,20 @@ queue is not empty, and returns true. Otherwise, it returns false. ")
 
 (* ****** ****** *)
 
-#declnamesynop("queue_struct")
+#declnamesynop("qstruct")
 
 (* ****** ****** *)
 
-#declnamesynop("queue_make_ngc")
-#declnamesynop("queue_free_ngc")
+#declnamesynop("qstruct_initize")
+#declnamesynop("qstruct_uninitize")
+#declnamesynop("qstruct_objfize")
+#declnamesynop("qstruct_unobjfize")
+
+(* ****** ****** *)
+
+#declnamesynop("qstruct_insert")
+#declnamesynop("qstruct_takeout")
+#declnamesynop("qstruct_takeout_list")
 
 (* ****** ****** *)
 

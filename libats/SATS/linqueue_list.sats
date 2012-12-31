@@ -85,7 +85,7 @@ stadef qstruct = qstruct_2
 stadef qstruct = qstruct_0
 //
 viewtypedef
-queue0_struct (a:vt0p) = [n:nat] qstruct (a, n)
+Qstruct (a:vt0p) = [n:nat] qstruct (a, n)
 //
 (* ****** ****** *)
 
@@ -98,26 +98,34 @@ qstruct_uninitize
 
 (* ****** ****** *)
 
+praxi
+qstruct_objfize
+  {a:vt0p}{l:addr}{n:int} (
+  pf: qstruct (INV(a), n) @ l | p: !ptrlin l >> queue (a, n)
+) :<> free_ngc_v (l) // endfun
+
+praxi
+qstruct_unobjfize
+  {a:vt0p}{l:addr}{n:int} (
+  pf: free_ngc_v l | p: ptr l, q: !queue (INV(a), n) >> ptrlin l
+) :<> qstruct (a, n) @ l // endfun
+
+(* ****** ****** *)
+
+fun{a:vt0p}
+qstruct_insert (*last*)
+  {n:int} (q: &qstruct (INV(a), n) >> qstruct (a, n+1), x: a):<!wrt> void
+// end of [qstruct_insert]
+
+fun{a:vt0p}
+qstruct_takeout (*first*)
+  {n:int | n > 0} (q: &qstruct (INV(a), n) >> qstruct (a, n-1)):<!wrt> (a)
+// end of [qstruct_takeout]
+
 fun{a:vt0p}
 qstruct_takeout_list
   {n:int} (q: &qstruct (INV(a), n) >> qstruct (a, 0)):<!wrt> list_vt (a, n)
 // end of [qstruct_takeout_list]
-
-(* ****** ****** *)
-
-praxi
-queue_objectify
-  {a:vt0p}{l:addr}{n:int} (
-  pf: qstruct (INV(a), n) @ l | p: !ptrlin l >> queue (a, n)
-) :<> (free_ngc_v (l) | void) // endfun
-
-(* ****** ****** *)
-
-praxi
-queue_unobjectify
-  {a:vt0p}{l:addr}{n:int} (
-  pf: free_ngc_v l | p: ptr l, q: !queue (INV(a), n) >> ptrlin l
-) :<> (qstruct (a, n) @ l | void) // endfun
 
 (* ****** ****** *)
 
