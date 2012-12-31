@@ -129,20 +129,20 @@ implement{a}
 queue_is_empty
   {n} (q) = let
   val+ @MYQUEUE (nxf, p_nxr) = q
-  val res = (addr@ (nxf) = p_nxr)
+  val isemp = (addr@ (nxf) = p_nxr)
   prval () = fold@ (q)
 in
-  $UN.cast{bool(n==0)} (res)
+  $UN.cast{bool(n==0)} (isemp)
 end // end of [queue_is_empty]
 
 implement{a}
 queue_isnot_empty
   {n} (q) = let
   val+ @MYQUEUE (nxf, p_nxr) = q
-  val res = (addr@ (nxf) != p_nxr)
+  val isnot = (addr@ (nxf) != p_nxr)
   prval () = fold@ (q)
 in
-  $UN.cast{bool(n > 0)} (res)
+  $UN.cast{bool(n > 0)} (isnot)
 end // end of [queue_isnot_empty]
 
 (* ****** ****** *)
@@ -180,6 +180,23 @@ val () = if gnode_is_null (nxf) then p_nxr := addr@ (nxf)
 prval () = fold@ (q)
 //
 } // end of [queue_takeout_ngc]
+
+(* ****** ****** *)
+
+implement{a}
+queue_takeout_list
+  {n} (q) = let
+//
+val @MYQUEUE (nxf, p_nxr) = q
+val () =
+  $UN.ptr0_set (p_nxr, gnode_null<a> ())
+val nx0 = nxf
+val () = p_nxr := addr@ (nxf)
+prval () = fold@ (q)
+//
+in
+  $UN.castvwtp0{list_vt(a,n)} (nx0)
+end // end of [queue_takeout_list]
 
 (* ****** ****** *)
 
