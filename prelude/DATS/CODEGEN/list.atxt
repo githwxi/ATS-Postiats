@@ -118,7 +118,7 @@ fun loop
   end // end of [if]
 // end of [loop]
 var res: ptr // uninitialized
-val () = $effmask_wrt (loop (view@(A) | addr@(A), n, res))
+val () = loop (view@(A) | addr@(A), n, res)
 //
 in
   res
@@ -300,36 +300,33 @@ end // end of [list_length]
 #atscode_separator()
 
 implement{x}
-list_copy (xs) = let
-  viewtypedef res = List0_vt (x)
-  prval () = lemma_list_param (xs)
-  fun loop
-    {n:nat} .<n>. (
-    xs: list (x, n)
-  , res: &res? >> list_vt (x, n)
-  ) :<!wrt> void = case+ xs of
-    | list_cons (x, xs) => let
-        val () = res :=
-          list_vt_cons{x}{0} (x, _(*?*))
-        val+ list_vt_cons
-          (_, res1) = res // res1 = res.1
-        val () = loop (xs, res1)
-        prval () = fold@ (res)
-      in
-        // nothing
-      end // end of [cons]
-    | list_nil () => res := list_vt_nil ()
-  // end of [loop]
-  var res: res? // uninitialized
-  val () = $effmask_wrt (loop (xs, res))
-in
-  res (*linear list*)
-end // end of [list_copy]
-
-implement(x)
-$FC.listize<List(x)><x> (xs) = let
-  prval () = lemma_list_param (xs) in list_copy (xs)
-end // end of [$FC.listize]
+list_copy
+  (xs) = res where {
+//
+viewtypedef res = List0_vt (x)
+prval () = lemma_list_param (xs)
+//
+fun loop
+  {n:nat} .<n>. (
+  xs: list (x, n)
+, res: &res? >> list_vt (x, n)
+) :<!wrt> void = case+ xs of
+  | list_cons (x, xs) => let
+      val () = res :=
+        list_vt_cons{x}{0} (x, _(*?*))
+      val+ list_vt_cons
+        (_, res1) = res // res1 = res.1
+      val () = loop (xs, res1)
+      prval () = fold@ (res)
+    in
+      // nothing
+    end // end of [cons]
+  | list_nil () => res := list_vt_nil ()
+// end of [loop]
+//
+var res: res? ; val () = loop (xs, res)
+//
+} // end of [list_copy]
 
 #atscode_separator()
 
@@ -393,22 +390,16 @@ end // end of [list_append2_vt]
 
 implement{a}
 list_extend
-  (xs, y) = $effmask_wrt (
+  (xs, y) = (
   list_append2_vt<a> (xs, list_vt_sing (y))
 ) // end of [list_extend]
 
 #atscode_separator()
 
 implement{x}
-list_reverse (xs) =
-  $effmask_wrt (
+list_reverse (xs) = (
   list_reverse_append2_vt<x> (xs, list_vt_nil)
 ) // end of [list_reverse]
-
-implement(x)
-$FC.rlistize<List(x)><x> (xs) = let
-  prval () = lemma_list_param (xs) in list_reverse<x> (xs)
-end // end of [$FC.rlistize]
 
 #atscode_separator()
 
@@ -488,7 +479,7 @@ typedef T = List (a)
 fun aux {n:nat} .<n>. (
   xs0: T
 , xss: list (T, n)
-) :<> List0_vt (a) = let
+) :<!wrt> List0_vt (a) = let
   prval () = lemma_list_param (xs0)
 in
   case+ xss of
@@ -497,7 +488,7 @@ in
       val res = aux (xs, xss)
       val ys0 = list_copy (xs0)
     in
-      $effmask_wrt (list_vt_append<a> (ys0, res))
+      list_vt_append<a> (ys0, res)
     end // end of [list_cons]
   | list_nil () => list_copy (xs0)
 end // end of [aux]
@@ -534,7 +525,7 @@ fun loop
 // end of [loop]
 //
 var res: ptr
-val () = $effmask_wrt (loop (xs, i, res))
+val () = loop (xs, i, res)
 //
 in
   res
@@ -579,16 +570,14 @@ in
 end // end of [loop] 
 //   
 var res: ptr
-val ans = $effmask_wrt (loop {n}{i} (xs, i, res))
+val ans = loop {n}{i} (xs, i, res)
 //
 in
 //
 if ans then
   res // i <= n && length (res) == i
 else let
-  val () =
-    $effmask_wrt (list_vt_free<a> (res)) in $raise ListSubscriptExn()
-  // end of [val]
+  val () = list_vt_free<a> (res) in $raise ListSubscriptExn()
 end // end of [if]
 //
 end (* end of [list_take_exn] *)
@@ -805,11 +794,6 @@ in
   loop (pfv | xs, f, env)
 end // end of [list_foreach_funenv]
 
-implement(x)
-$FC.foreach_funenv<List(x)><x>
-  (pfv | xs, f, env) = list_foreach_funenv<x> (pfv | xs, f, env)
-// end of [foreach_funenv]
-
 #atscode_separator()
 
 implement
@@ -928,16 +912,6 @@ end // end of [list_iforeach_funenv]
 
 #atscode_separator()
 
-implement(x)
-$FC.iforeach_funenv<List(x)><x>
-  (pfv | xs, f, env) = let
-  prval () = lemma_list_param (xs)
-in
-  list_iforeach_funenv<x> (pfv | xs, f, env)
-end // end of [$FC.iforeach_funenv]
-
-#atscode_separator()
-
 implement
 {x,y}{env}
 list_iforeach2$cont (i, x, y, env) = true
@@ -1013,7 +987,8 @@ end // end of [list_foldleft]
 #atscode_separator()
 
 implement{x}
-list_labelize (xs) = let
+list_labelize
+  (xs) = res where {
 //
 typedef ix = @(int, x)
 prval () = lemma_list_param (xs)
@@ -1038,12 +1013,9 @@ in
   | list_nil () => (res := list_vt_nil)
 end // end of [loop]
 //
-var res: ptr
-val () = $effmask_wrt (loop (xs, 0, res))
+var res: ptr ; val () = loop (xs, 0, res)
 //
-in
-  res
-end // end of [list_labelize]
+} // end of [list_labelize]
 
 #atscode_separator()
 
@@ -1080,6 +1052,9 @@ in
   res (*list_vt (y, n)*)
 end // end of [list_map]
 
+#atscode_separator()
+
+(*
 implement{x}{y}
 list_map_funenv
   {v}{vt}{n}{fe}
@@ -1111,23 +1086,16 @@ in
     in
       (*nothing*)
     end // end of [list_vt_cons]
-  | list_nil () =>
-      $effmask_wrt (res := list_vt_nil ())
-    // end of [list_nil]
+  | list_nil () => (res := list_vt_nil ())
 end // end of [loop]
 //
 var res: ys // uninitialized
-val () = $effmask_wrt (loop (pfv | xs, f, env, res))
+val () = loop (pfv | xs, f, env, res)
 //
 in
   res(*list_vt(y,n)*)
 end // end of [list_map_funenv]
-
-implement(x,y)
-$FC.listize_funenv<List(x)><x><y>
-  (pfv | xs, f, env) = let
-  prval () = lemma_list_param (xs) in list_map_funenv<x> (pfv | xs, f, env)
-end // end of [listize_funenv]
+*)
 
 #atscode_separator()
 
@@ -1204,6 +1172,9 @@ in
   res (*listLte_vt(y, n)*)
 end // end of [list_mapopt]
 
+#atscode_separator()
+
+(*
 implement{x}{y}
 list_mapopt_funenv
   {v}{vt}{n}{fe}
@@ -1240,17 +1211,17 @@ in
         end // end of [Some_vt]
       | ~None_vt () => loop (pfv | xs, f, env, res)
     end // end of [list_vt_cons]
-  | list_nil () =>
-      $effmask_wrt (res := list_vt_nil ())
+  | list_nil () => (res := list_vt_nil ())
     // end of [list_nil]
 end // end of [loop]
 //
 var res: ys // uninitialized
-val () = $effmask_wrt (loop (pfv | xs, f, env, res))
+val () = loop (pfv | xs, f, env, res)
 //
 in
   res(*listLte_vt(y,n)*)
 end // end of [list_mapopt_funenv]
+*)
 
 #atscode_separator()
 
@@ -1420,7 +1391,7 @@ list_vt_mergesort$cmp<a>
   (x1, x2) = list_mergesort$cmp<a> (x1, x2)
 //
 in
-  $effmask_wrt (list_vt_mergesort<a> (xs))
+  list_vt_mergesort<a> (xs)
 end // end of [list_mergesort]
 
 implement{a}
@@ -1450,7 +1421,7 @@ list_vt_quicksort$cmp<a>
   (x1, x2) = list_quicksort$cmp<a> (x1, x2)
 //
 in
-  $effmask_wrt (list_vt_quicksort<a> (xs))
+  list_vt_quicksort<a> (xs)
 end // end of [list_quicksort]
 
 implement{a}

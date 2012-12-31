@@ -184,7 +184,10 @@ This function is the optional version of #dyncode("list0_tail_exn").  ")
 
 This function returns element i of a given list if i is a natural number
 less than the length of the list.  Otherwise, it raises an exception
-(#dyncode("ListSubscriptExn")). ")
+(#dyncode("ListSubscriptExn")). The time complexity of this function is
+O(i).\
+
+")
 
 #declexample("\
 

@@ -99,7 +99,7 @@ list_vt_length {n:int} (xs: !list_vt (INV(x), n)):<> int n
 #atscode_separator()
 
 fun{x:t0p}
-list_vt_copy {n:int} (xs: !list_vt (INV(x), n)):<> list_vt (x, n)
+list_vt_copy {n:int} (xs: !list_vt (INV(x), n)):<!wrt> list_vt (x, n)
 
 fun{x:vt0p}
 list_vt_copylin$copy (x: &x): x

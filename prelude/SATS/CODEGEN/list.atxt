@@ -60,14 +60,14 @@ list_of_list_vt
 
 fun{x:t0p}
 list_make_elt
-  {n:nat} (n: int n, x: x):<> list_vt (x, n)
+  {n:nat} (n: int n, x: x):<!wrt> list_vt (x, n)
 // end of [list_make_elt]
 
 #atscode_separator()
 
 fun list_make_intrange
   {l,r:int | l <= r}
-  (l: int l, r: int r):<> list_vt (intBtw (l, r), r-l)
+  (l: int l, r: int r):<!wrt> list_vt (intBtw (l, r), r-l)
 // end of [list_make_intrange]
 
 #atscode_separator()
@@ -203,7 +203,7 @@ list_length {n:int} (xs: list (INV(x), n)):<> int (n)
 fun{
 x:t0p // type for elements
 } list_copy
-  {n:int} (xs: list (INV(x), n)):<> list_vt (x, n)
+  {n:int} (xs: list (INV(x), n)):<!wrt> list_vt (x, n)
 // end of [list_copy]
 
 #atscode_separator()
@@ -232,7 +232,7 @@ a:t0p // type for elements
 fun{
 x:t0p
 } list_extend {n:int}
-  (xs: list (INV(x), n), x: x):<> list_vt (x, n+1)
+  (xs: list (INV(x), n), x: x):<!wrt> list_vt (x, n+1)
 // end of [list_extend]
 
 macdef list_snoc (xs, x) = list_extend (,(xs), ,(x))
@@ -241,7 +241,7 @@ macdef list_snoc (xs, x) = list_extend (,(xs), ,(x))
 
 fun{x:t0p}
 list_reverse
-  {n:int} (xs: list (INV(x), n)):<> list_vt (x, n)
+  {n:int} (xs: list (INV(x), n)):<!wrt> list_vt (x, n)
 // end of [list_reverse]
 
 #atscode_separator()
@@ -263,7 +263,7 @@ list_reverse_append2_vt {m,n:int}
 #atscode_separator()
 
 fun{x:t0p}
-list_concat (xss: List (List (INV(x)))):<> List0_vt (x)
+list_concat (xss: List (List (INV(x)))):<!wrt> List0_vt (x)
 
 #atscode_separator()
 
@@ -271,14 +271,14 @@ fun{
 x:t0p
 } list_take
   {n:int}{i:nat | i <= n}
-  (xs: list (INV(x), n), i: int i):<> list_vt (x, i)
+  (xs: list (INV(x), n), i: int i):<!wrt> list_vt (x, i)
 // end of [list_take]
 
 fun{
 x:t0p
 } list_take_exn
   {n:int}{i:nat}
-  (xs: list (INV(x), n), i: int i):<!exn> [i <= n] list_vt (x, i)
+  (xs: list (INV(x), n), i: int i):<!exnwrt> [i <= n] list_vt (x, i)
 // end of [list_take_exn]
 
 #atscode_separator()
@@ -469,7 +469,7 @@ x:t0p
   pfv: !v |
   xs: list (INV(x), n)
 , f: (!v | x, !vt) -<fun,fe> bool, env: !vt
-) :<fe> listLte_vt (x, n) // end of [list_filter_funenv]
+) :<fe,!wrt> listLte_vt (x, n) // end of [list_filter_funenv]
 *)
 
 #atscode_separator()
@@ -477,7 +477,7 @@ x:t0p
 fun{
 x:t0p
 } list_labelize
-  {n:int} (xs: list (INV(x), n)):<> list_vt (@(int, x), n)
+  {n:int} (xs: list (INV(x), n)):<!wrt> list_vt (@(int, x), n)
 // end of [list_labelize]
 
 #atscode_separator()
@@ -485,6 +485,7 @@ x:t0p
 fun{x:t0p} list_app$fwork (x): void
 fun{x:t0p} list_app (xs: List (INV(x))): void
 
+(*
 fun{
 x:t0p
 } list_app_funenv
@@ -493,6 +494,7 @@ x:t0p
   xs: list (INV(x), n)
 , f: (!v | x, !vt) -<fun,fe> void, env: !vt
 ) :<fe> void // end of [list_app_funenv]
+*)
 
 #atscode_separator()
 
@@ -505,6 +507,7 @@ x:t0p}{y:vt0p
   (xs: list (INV(x), n)): list_vt (y, n)
 // end of [list_map]
 
+(*
 fun{
 x:t0p}{y:vt0p
 } list_map_funenv
@@ -512,7 +515,8 @@ x:t0p}{y:vt0p
   pfv: !v |
   xs: list (INV(x), n)
 , f: (!v | x, !vt) -<fun,fe> y, env: !vt
-) :<fe> list_vt (y, n) // end of [list_map_funenv]
+) :<fe,!wrt> list_vt (y, n) // end of [list_map_funenv]
+*)
 
 #atscode_separator()
 
@@ -560,6 +564,7 @@ x:t0p}{y:vt0p
   (xs: list (INV(x), n)): listLte_vt (y, n)
 // end of [list_mapopt]
 
+(*
 fun{
 x:t0p}{y:t0p
 } list_mapopt_funenv
@@ -568,6 +573,7 @@ x:t0p}{y:t0p
   xs: list (INV(x), n)
 , f: (!v | x, !vt) -<fun,fe> Option_vt (y), env: !vt
 ) :<fe> listLte_vt (y, n) // end of [list_mapopt_funenv]
+*)
 
 #atscode_separator()
 
@@ -584,7 +590,7 @@ fun{
 x,y:t0p
 } list_zip {m,n:int} (
   xs: list (INV(x), m), ys: list (INV(y), n)
-) :<> list_vt ((x, y), min(m,n)) // endfun
+) :<!wrt> list_vt ((x, y), min(m,n)) // endfun
 
 fun{
 x,y:t0p}{xy:vt0p
@@ -603,7 +609,7 @@ x,y:t0p
 } list_cross
   {m,n:int} (
   xs: list (INV(x), m), ys: list (INV(y), n)
-) :<> list_vt ((x, y), m*n) // end of [list_cross]
+) :<!wrt> list_vt ((x, y), m*n) // end of [list_cross]
 
 fun{
 x,y:t0p}{xy:vt0p
@@ -625,14 +631,14 @@ a:t0p
 } list_mergesort
   {n:int} (
   xs: list (INV(a), n)
-) :<> list_vt (a, n) // end of [list_mergesort]
+) :<!wrt> list_vt (a, n) // end of [list_mergesort]
 
 fun{
 a:t0p
 } list_mergesort_fun
   {n:int} (
   xs: list (INV(a), n), cmp: cmpval (a)
-) :<> list_vt (a, n) // end of [list_mergesort_fun]
+) :<!wrt> list_vt (a, n) // end of [list_mergesort_fun]
 
 #atscode_separator()
 
@@ -644,14 +650,14 @@ a:t0p
 } list_quicksort
   {n:int} (
   xs: list (INV(a), n)
-) :<> list_vt (a, n) // end of [list_quicksort]
+) :<!wrt> list_vt (a, n) // end of [list_quicksort]
 
 fun{
 a:t0p
 } list_quicksort_fun
   {n:int} (
   xs: list (INV(a), n), cmp: cmpval (a)
-) :<> list_vt (a, n) // end of [list_quicksort_fun]
+) :<!wrt> list_vt (a, n) // end of [list_quicksort_fun]
 
 #atscode_separator()
 
