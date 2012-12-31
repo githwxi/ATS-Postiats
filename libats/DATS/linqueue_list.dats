@@ -148,7 +148,7 @@ end // end of [queue_isnot_empty]
 (* ****** ****** *)
 
 assume
-mynode_viewtype (a:vt0p,l:addr) = gnode (a, l)
+mynode_viewtype (a:vt0p, l:addr) = gnode (a, l)
 
 (* ****** ****** *)
 
@@ -175,8 +175,8 @@ queue_takeout_ngc
 //
 val @MYQUEUE (nxf, p_nxr) = q
 val nx0 = $UN.cast{gnode1(a)}(nxf)
-val () = nxf := gnode_get_next (nx0)
-val () = if gnode_is_null (nxf) then p_nxr := addr@ (nxf)
+val iseq = (p_nxr = gnode_getref_next (nx0))
+val () = if iseq then p_nxr := addr@ (nxf)
 prval () = fold@ (q)
 //
 } // end of [queue_takeout_ngc]
@@ -188,8 +188,7 @@ queue_takeout_list
   {n} (q) = let
 //
 val @MYQUEUE (nxf, p_nxr) = q
-val () =
-  $UN.ptr0_set (p_nxr, gnode_null<a> ())
+val () = $UN.ptr0_set<List_vt(a)> (p_nxr, list_vt_nil)
 val nx0 = nxf
 val () = p_nxr := addr@ (nxf)
 prval () = fold@ (q)

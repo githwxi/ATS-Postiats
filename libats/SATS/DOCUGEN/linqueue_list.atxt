@@ -78,23 +78,6 @@ that the complexity of the funtion is O(1).
 
 (* ****** ****** *)
 
-#declnamesynop("qstruct")
-
-(* ****** ****** *)
-
-#declnamesynop("qstruct_initize")
-#declnamesynop("qstruct_uninitize")
-#declnamesynop("qstruct_objfize")
-#declnamesynop("qstruct_unobjfize")
-
-(* ****** ****** *)
-
-#declnamesynop("qstruct_insert")
-#declnamesynop("qstruct_takeout")
-#declnamesynop("qstruct_takeout_list")
-
-(* ****** ****** *)
-
 #declnamesynop("mynode")
 #declnamesynop("mynode_viewtype")
 
@@ -113,6 +96,55 @@ that the complexity of the funtion is O(1).
 
 #declnamesynop("queue_insert_ngc")
 #declnamesynop("queue_takeout_ngc")
+
+(* ****** ****** *)
+
+#declname("qstruct")
+#declsynop2('\
+#para('
+#pats2xhtmls('\
+abst@ype
+qstruct_tsz =
+  $extype "atslib_linqueue_list_qstruct"
+stadef qstruct = qstruct_tsz
+absviewt@ype
+qstruct_vt0ype (a:viewt@ype+, n:int) = qstruct_tsz
+stadef qstruct = qstruct_vt0ype
+')
+')
+')
+
+#decldescrpt('\
+#para('\
+
+The abstract type #stacode("qstruct_tsz") is primarily
+needed for allocating a variable in a function frame for
+storing a qstruct-value.
+
+')
+
+#para('\
+
+Given a type T and an integer N,
+the abstract type #stacode("qstruct_vt0ype(T, N)") is
+for an unboxed queue containing N elements of type T.
+
+')
+
+')
+
+(* ****** ****** *)
+
+#declnamesynop("qstruct_initize")
+#declnamesynop("qstruct_uninitize")
+#declnamesynop("qstruct_objfize")
+#declnamesynop("qstruct_unobjfize")
+
+(* ****** ****** *)
+
+#declnamesynop("qstruct_insert")
+#declnamesynop("qstruct_takeout")
+#declnamesynop("qstruct_takeout_list")
 
 (* ****** ****** *)
 
