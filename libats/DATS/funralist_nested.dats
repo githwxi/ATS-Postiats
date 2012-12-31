@@ -392,4 +392,39 @@ end // end of [local]
 
 (* ****** ****** *)
 
+local
+
+staload Q = "libats/SATS/linqueue_list.sats"
+
+in // in of [local]
+
+implement{a}
+funralist_listize
+  {n} (xs) = let
+//
+viewtypedef tenv = $Q.Qstruct (a)
+//
+implement
+funralist_foreach$fwork<a><tenv>
+  (x, env) = $Q.qstruct_insert<a> (env, x)
+// end of [funralist_foreach$fwork]
+//
+var env: $Q.qstruct
+//
+val () = $Q.qstruct_initize<a> (env)
+//
+val () = $effmask_all (funralist_foreach_env (xs, env))
+//
+val res = $Q.qstruct_takeout_list (env)
+//
+val () = $Q.qstruct_uninitize<a> (env)
+//
+in
+  $UN.castvwtp0{list_vt(a,n)}(res)
+end // end of [funralist_listize]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 (* end of [funralist_nested.dats] *)

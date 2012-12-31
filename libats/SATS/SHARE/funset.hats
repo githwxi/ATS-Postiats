@@ -105,7 +105,7 @@ funset_compare (xs1: set (a), xs2: set (a)):<> Sgn
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_listize (xs: set (a)):<> List_vt (a) // = list_copy
+funset_listize (xs: set (a)):<!wrt> List_vt (a) // = list_copy
 
 (* ****** ****** *)
 

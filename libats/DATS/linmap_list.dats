@@ -212,7 +212,7 @@ end // end of [loop]
 //
 in
   loop (map, k0)
-end // end of [linmap_search_ngc]
+end // end of [linmap_takeout_ngc]
 
 (* ****** ****** *)
 

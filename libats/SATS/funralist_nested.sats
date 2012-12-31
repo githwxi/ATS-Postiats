@@ -106,15 +106,17 @@ funralist_tail
 
 fun{a:t0p}
 funralist_lookup
-  {n:int} (xs: ralist (INV(a), n), i: natLt n):<> a
-// end of [funralist_lookup]
+  {n:int} (
+  xs: ralist (INV(a), n), i: natLt n
+) :<> (a) // endfun
 
 (* ****** ****** *)
 
 fun{a:t0p}
 funralist_update
-  {n:int} (xs: ralist (INV(a), n), i: natLt n, x0: a):<> ralist (a, n)
-// end of [funralist_update]
+  {n:int} (
+  xs: ralist (INV(a), n), i: natLt n, x0: a
+) :<> ralist (a, n) // endfun
 
 (* ****** ****** *)
 
@@ -127,6 +129,13 @@ fun{a:t0p}
 funralist_foreach (xs: Ralist (INV(a))): void
 fun{a:t0p}{env:vt0p}
 funralist_foreach_env (xs: Ralist (INV(a)), env: &(env)>>env): void
+
+(* ****** ****** *)
+
+fun{a:t0p}
+funralist_listize
+  {n:int} (xs: ralist (INV(a), n)):<!wrt> list_vt (a, n)
+// end of [funralist_listize]
 
 (* ****** ****** *)
 

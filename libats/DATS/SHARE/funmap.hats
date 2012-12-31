@@ -129,4 +129,42 @@ end // end of [funmap_foreach]
 
 (* ****** ****** *)
 
+local
+
+staload Q = "libats/SATS/linqueue_list.sats"
+
+in // in of [local]
+
+implement
+{key,itm}
+funmap_listize
+  (map) = let
+//
+typedef tki = @(key, itm)
+//
+viewtypedef tenv = $Q.Qstruct (tki)
+//
+implement
+funmap_foreach$fwork<key,itm><tenv>
+  (k, x, env) = $Q.qstruct_insert<tki> (env, @(k, x))
+// end of [funmap_foreach$fwork]
+//
+var env: $Q.qstruct
+//
+val () = $Q.qstruct_initize<tki> (env)
+//
+val () = $effmask_all (funmap_foreach_env (map, env))
+//
+val res = $Q.qstruct_takeout_list (env)
+//
+val () = $Q.qstruct_uninitize<tki> (env)
+//
+in
+  res
+end // end of [funmap_listize]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 (* end of [funmap_share.hats] *)
