@@ -37,6 +37,20 @@ gprint-functions.
 
 (* ****** ****** *)
 
+#declnamesynop("gprint_newline")
+
+(* ****** ****** *)
+
+#declnamesynop("gprint")
+
+#declnamesynop("gprint_int")
+#declnamesynop("gprint_char")
+#declnamesynop("gprint_float")
+#declnamesynop("gprint_double")
+#declnamesynop("gprint_string")
+
+(* ****** ****** *)
+
 #declnamesynop("gprint_list$beg")
 #decldescrpt('\
 
@@ -62,6 +76,17 @@ list elements.
 ')
 
 #declnamesynop("gprint_list")
+
+(* ****** ****** *)
+
+#declnamesynop("gprint_listlist$sep1")
+#declnamesynop("gprint_listlist$beg1")
+#declnamesynop("gprint_listlist$end1")
+#declnamesynop("gprint_listlist$sep2")
+#declnamesynop("gprint_listlist$beg2")
+#declnamesynop("gprint_listlist$end2")
+
+#declnamesynop("gprint_listlist")
 
 (* ****** ****** *)
 

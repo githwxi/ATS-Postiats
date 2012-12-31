@@ -35,35 +35,67 @@ gprint$out (): FILEref
 
 #atscode_separator()
 
+fun{}
+gprint_newline (): void
+
+#atscode_separator()
+
 fun{a:t0p}
 gprint (x: a): void
 
 #atscode_separator()
 
 fun{}
-gprint_newline (): void
+gprint_int (x: int): void
+fun{}
+gprint_char (x: char): void
+fun{}
+gprint_float (x: float): void
+fun{}
+gprint_double (x: double): void
+fun{}
+gprint_string (x: string): void
 
 #atscode_separator()
 
 fun{}
-gprint_list$sep (): string
-fun{}
 gprint_list$beg (): string
 fun{}
 gprint_list$end (): string
-
+fun{}
+gprint_list$sep (): string
+//
 fun{a:t0p}
 gprint_list (xs: List (a)): void
 
 #atscode_separator()
 
 fun{}
-gprint_array$sep (): string
+gprint_listlist$beg1 (): string
+fun{}
+gprint_listlist$end1 (): string
+fun{}
+gprint_listlist$sep1 (): string
+//
+fun{}
+gprint_listlist$beg2 (): string
+fun{}
+gprint_listlist$end2 (): string
+fun{}
+gprint_listlist$sep2 (): string
+//
+fun{a:t0p}
+gprint_listlist (xss: List (List (a))): void
+
+#atscode_separator()
+
 fun{}
 gprint_array$beg (): string
 fun{}
 gprint_array$end (): string
-
+fun{}
+gprint_array$sep (): string
+//
 fun{a:t0p}
 gprint_array
   {n:int} (A: &(@[a][n]), n: size_t n): void

@@ -26,13 +26,46 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+implement{} gprint$out () = stdout_ref
+
+#atscode_separator()
+
 implement{a}
 gprint (x) = let
   val out = gprint$out () in fprint_val<a> (out, x)
 end // end of [gprint]
 
-implement{} gprint$out () = stdout_ref
+#atscode_separator()
 
+implement{}
+gprint_newline () = let
+  val out = gprint$out () in fprint_newline (out)
+end // end of [gprint_newline]
+
+#atscode_separator()
+//
+implement{}
+gprint_int (x) =
+  fprint_val<int> (gprint$out (), x)
+implement{}
+gprint_char (x) =
+  fprint_val<char> (gprint$out (), x)
+implement{}
+gprint_float (x) =
+  fprint_val<float> (gprint$out (), x)
+implement{}
+gprint_double (x) =
+  fprint_val<double> (gprint$out (), x)
+implement{}
+gprint_string (x) =
+  fprint_val<string> (gprint$out (), x)
+//
+implement gprint<int> (x) = gprint_int (x)
+implement gprint<char> (x) = gprint_char (x)
+implement gprint<float> (x) = gprint_float (x)
+implement gprint<double> (x) = gprint_double (x)
+implement gprint<string> (x) = gprint_string (x)
+//
 #atscode_separator()
 
 implement{}
@@ -42,19 +75,23 @@ gprint_list$end () = ")"
 implement{}
 gprint_list$sep () = ", "
 
+#atscode_separator()
+
 implement{a}
 gprint_list (xs) = let
 //
 val out = gprint$out ()
-val sep = gprint_list$sep ()
+//
 val _beg = gprint_list$beg ()
 and _end = gprint_list$end ()
+val _sep = gprint_list$sep ()
 //
-val () = fprint_string (out, _beg)
-val () = fprint_list_sep (out, xs, sep)
-val () = fprint_string (out, _end)
+val () = gprint_string (_beg)
+val () = fprint_list_sep (out, xs, _sep)
+val () = gprint_string (_end)
 //
 in
+  // nothing
 end // end of [gprint_list]
 
 implement(a)
@@ -63,23 +100,69 @@ gprint<List(a)> (xs) = gprint_list<a> (xs)
 #atscode_separator()
 
 implement{}
-gprint_array$beg () = "["
+gprint_listlist$beg1 () = "("
 implement{}
-gprint_array$end () = "]"
+gprint_listlist$end1 () = ")"
+implement{}
+gprint_listlist$sep1 () = ", "
+
+implement{}
+gprint_listlist$beg2 () = "("
+implement{}
+gprint_listlist$end2 () = ")"
+implement{}
+gprint_listlist$sep2 () = ", "
+
+implement{a}
+gprint_listlist
+  (xss) = let
+//
+typedef xs = List (a)
+//
+implement
+fprint_val<xs>
+  (out, xs) = let
+//
+implement gprint$out<> () = out
+implement gprint_list$beg<> () = gprint_listlist$beg2 ()
+implement gprint_list$end<> () = gprint_listlist$end2 ()
+implement gprint_list$sep<> () = gprint_listlist$sep2 ()
+//
+in
+  gprint_list<a> (xs)
+end // end of [fprint_val]
+//
+implement gprint_list$beg<> () = gprint_listlist$beg1 ()
+implement gprint_list$end<> () = gprint_listlist$end1 ()
+implement gprint_list$sep<> () = gprint_listlist$sep1 ()
+//
+in
+  gprint_list<xs> (xss)
+end // end of [gprint_listlist]
+
+#atscode_separator()
+
+implement{}
+gprint_array$beg () = "@("
+implement{}
+gprint_array$end () = ")"
 implement{}
 gprint_array$sep () = ", "
+
+#atscode_separator()
 
 implement{a}
 gprint_array (A, n) = let
 //
 val out = gprint$out ()
-val sep = gprint_array$sep ()
-val _beg = gprint_list$beg ()
-and _end = gprint_list$end ()
 //
-val () = fprint_string (out, _beg)
-val () = fprint_array_sep (out, A, n, sep)
-val () = fprint_string (out, _end)
+val _beg = gprint_array$beg ()
+and _end = gprint_array$end ()
+val _sep = gprint_array$sep ()
+//
+val () = gprint_string (_beg)
+val () = fprint_array_sep (out, A, n, _sep)
+val () = gprint_string (_end)
 //
 in
   // nothing
