@@ -21,14 +21,6 @@ all::
 
 ######
 
-all:: strobjref.sats
-strobjref.sats: strobjref_atxt.exe ; ./$< > $@
-strobjref_atxt.exe: strobjref_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ strobjref_atxt.dats -latsdoc
-strobjref_atxt.dats: strobjref.atxt
-	$(ATSDOC) --outcode $@ -i strobjref.atxt > strobjref_atxt.txt
-clean:: ; $(RMF) strobjref_atxt.exe
-cleanall:: ; $(RMF) strobjref.sats
 
 
 ######

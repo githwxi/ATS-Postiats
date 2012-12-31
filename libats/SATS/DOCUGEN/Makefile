@@ -159,6 +159,14 @@ upload_linmap_list:: ;   scp HTML/linmap_list.html ats-hwxi,ats-lang@web.sourcef
 clean:: ; $(RMF) linmap_list_atxt.exe
 cleanall:: ; $(RMF) HTML/linmap_list.html
 
+all_html:: HTML/linmap_avltree.html
+HTML/linmap_avltree.html:   linmap_avltree_atxt.exe ; ./$< > $@
+linmap_avltree_atxt.txt: linmap_avltree.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+linmap_avltree_atxt.exe: htmlgendecl_atxt.dats   linmap_avltree_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_linmap_avltree:: ;   scp HTML/linmap_avltree.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats
+clean:: ; $(RMF) linmap_avltree_atxt.exe
+cleanall:: ; $(RMF) HTML/linmap_avltree.html
+
 all_html:: HTML/linmap_randbst.html
 HTML/linmap_randbst.html:   linmap_randbst_atxt.exe ; ./$< > $@
 linmap_randbst_atxt.txt: linmap_randbst.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@

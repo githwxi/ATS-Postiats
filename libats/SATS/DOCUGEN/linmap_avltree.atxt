@@ -1,7 +1,7 @@
 (* ****** ****** *)
 
 %{
-implement srcfilename_get () = "../linmap_randbst.sats"
+implement srcfilename_get () = "../linmap_avltree.sats"
 %}
 
 (* ****** ****** *)
@@ -23,15 +23,10 @@ ATSLIB/libats/linmap_randbst\
 
 #para("\
 
-This package implements linear maps based on the randomized
-binary-search-tree (BST) structure.  ")
+This package implements linear maps based on the AVL-tree structure.  Note
+that such maps are particularly efficient for supporting search operations.
 
-#para("\
-
-Compared to balanced trees such as AVL-trees and red-black-trees,
-randomized binary-search-trees are relatively easier to implement.
-However, maps based on randomized BSTs are significantly less efficient
-than those based on balanced trees. ")
+")
 
 ")
 
@@ -126,14 +121,14 @@ Otherwise, the function keeps the map and returns true. ")
 
 (* ****** ****** *)
 
-#declnamesynop("linmap_random_initize")
+#declnamesynop("linmap_avltree_height")
 #decldescrpt("\
 
-This function is called to initialize the random number generator employed
-in the implementation of randomized binary search trees.\
+Given a map (represented by some AVL-tree), this function returns the
+height the AVL-tree.\
 
 ")
 
 (* ****** ****** *)
 
-(* end of [linmap_randbst.atxt] *)
+(* end of [linmap_avltree.atxt] *)
