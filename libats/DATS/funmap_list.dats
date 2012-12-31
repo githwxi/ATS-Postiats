@@ -45,10 +45,6 @@ equal_key_key
 
 (* ****** ****** *)
 //
-// HX-2012-12-26:
-// the file should be included here
-// before [map_type] is assumed
-//
 #include "./SHARE/funmap.hats" // code reuse
 //
 (* ****** ****** *)
@@ -203,12 +199,6 @@ list_foreach$fwork<keyitm><env> (kx, env) = funmap_foreach$fwork (kx.0, kx.1, en
 in
   list_foreach_env (map, env)
 end // end of [funmap_foreach_env]
-
-(* ****** ****** *)
-
-implement
-{key,itm}
-funmap_listize (map) = list_copy<(key,itm)> (map)
 
 (* ****** ****** *)
 

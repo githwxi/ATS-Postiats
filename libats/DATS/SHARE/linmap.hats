@@ -260,4 +260,4 @@ end // end of [linmap_free]
 
 (* ****** ****** *)
 
-(* end of [linmap_share.hats] *)
+(* end of [linmap.hats] *)

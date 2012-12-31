@@ -177,7 +177,10 @@ env:vt0p
 (* ****** ****** *)
 
 fun{key,itm:t0p}
-funmap_listize (xs: map (key, itm)):<!wrt> List_vt @(key, itm)
+funmap_listize (xs: map (key, itm)):<> List @(key, itm)
+
+fun{key,itm:t0p}
+funmap_listize_vt (xs: map (key, itm)):<!wrt> List_vt @(key, itm)
 
 (* ****** ****** *)
 

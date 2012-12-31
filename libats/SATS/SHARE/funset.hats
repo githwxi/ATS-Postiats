@@ -43,10 +43,13 @@ compare_elt_elt (x1: a, x2: a):<> int
 
 (* ****** ****** *)
 
-fun{} funset_nil {a:t0p} ():<> set (a)
+fun{a:t0p} funset_nil ():<> set (a)
 fun{a:t0p} funset_sing (x0: a):<> set (a) // singleton set
 
 (* ****** ****** *)
+
+fun{a:t0p}
+funset_make_nil ():<> set (a)
 
 fun{a:t0p}
 funset_make_list (xs: List a):<> set (a)
@@ -71,7 +74,7 @@ funset_insert
 
 fun{a:t0p}
 funset_remove
-  (xs: &set (a) >> _, x0: a) : bool(*[x0] is [xs]*)
+  (xs: &set (a) >> _, x0: a) : bool(*[x0] in [xs]*)
 // end of [funset_remove]
 
 (* ****** ****** *)
@@ -105,7 +108,10 @@ funset_compare (xs1: set (a), xs2: set (a)):<> Sgn
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_listize (xs: set (a)):<!wrt> List_vt (a) // = list_copy
+funset_listize (xs: set (a)):<> List (a) // = list_copy
+
+fun{a:t0p}
+funset_listize_vt (xs: set (a)):<!wrt> List_vt (a) // = list_copy
 
 (* ****** ****** *)
 

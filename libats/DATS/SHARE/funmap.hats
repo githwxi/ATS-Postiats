@@ -129,6 +129,13 @@ end // end of [funmap_foreach]
 
 (* ****** ****** *)
 
+implement{key,itm}
+funmap_listize (xs) = let
+  val ys = $effmask_wrt (funmap_listize_vt (xs)) in list_of_list_vt (ys)
+end // end of [funmap_listize]
+
+(* ****** ****** *)
+
 local
 
 staload Q = "libats/SATS/linqueue_list.sats"
@@ -137,7 +144,7 @@ in // in of [local]
 
 implement
 {key,itm}
-funmap_listize
+funmap_listize_vt
   (map) = let
 //
 typedef tki = @(key, itm)
@@ -161,10 +168,10 @@ val () = $Q.qstruct_uninitize<tki> (env)
 //
 in
   res
-end // end of [funmap_listize]
+end // end of [funmap_listize_vt]
 
 end // end of [local]
 
 (* ****** ****** *)
 
-(* end of [funmap_share.hats] *)
+(* end of [funmap.hats] *)

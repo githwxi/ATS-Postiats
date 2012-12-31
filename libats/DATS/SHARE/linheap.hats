@@ -73,4 +73,4 @@ end // end of [linheap_getmin_opt]
 
 (* ****** ****** *)
 
-(* end of [linheap_share.dats] *)
+(* end of [linheap.dats] *)

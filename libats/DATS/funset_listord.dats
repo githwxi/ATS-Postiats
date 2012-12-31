@@ -53,6 +53,10 @@
 staload "libats/SATS/funset_listord.sats"
 
 (* ****** ****** *)
+//
+#include "./SHARE/funset.hats" // code reuse
+//
+(* ****** ****** *)
 
 assume
 set_t0ype_type (a: t0p) = List0 (a)
@@ -65,16 +69,17 @@ set_t0ype_type (a: t0p) = List0 (a)
 //
 (* ****** ****** *)
 
-implement{} funset_nil () = list_nil ()
-
-(* ****** ****** *)
-
+implement{a} funset_nil () = list_nil ()
 implement{a} funset_sing (x) = list_sing (x)
 
 (* ****** ****** *)
-
+(*
+** HX-2012-12:
+** it supersedes the one in [./SHARE/funset.hats]
+*)
 implement{a}
-funset_make_list (xs) = let
+funset_make_list
+  (xs) = let
 //
 val xs = let
 //
@@ -84,38 +89,44 @@ list_mergesort$cmp<a>
 //
 in
   list_mergesort<a> (xs) // [xs] is ascending!
-end // end of [val]
+end // end of [let] // [val]
 //
 fun loop1
-  {m:pos} .<m,0>. (
-  xs: list_vt (a, m), ys: List0_vt (a)
-) :<!wrt> List0_vt (a) = let
-  val- @list_vt_cons (x, xs1) = xs
-  val x_ = x and xs1_ = xs1
-  val () = xs1 := ys
-  prval () = fold@ (xs)
+  {m:pos;n:nat} .<m,0>. (
+  xs: list_vt (a, m), ys: list_vt (a, n)
+) :<!wrt> listLte_vt (a, m+n) = let
+//
+val- @list_vt_cons (x, xs1) = xs
+val x_ = x
+val xs1_ = xs1; val () = (xs1 := ys)
+prval () = fold@ (xs)
+//
 in
   loop2 (x_, xs1_, xs)
 end // end of [loop1]
-and loop2 {n:nat} .<n,1>. (
-  x0: a, xs: list_vt (a, n), ys: List0_vt (a)
-) :<!wrt> List0_vt (a) = let
+//
+and loop2
+  {m:nat;n:nat} .<m,1>. (
+  x0: a, xs: list_vt (a, m), ys: list_vt (a, n)
+) :<!wrt> listLte_vt (a, m+n) = let
 in
+//
 case+ xs of
-| @list_vt_cons
+| @list_vt_cons 
     (x, xs1) => let
     val sgn = compare_elt_elt<a> (x0, x)
   in
-    if sgn < 0 then let // HX: [xs] is ascending!
+    if sgn < 0 then let // [xs] ascending!
       prval () = fold@ (xs) in loop1 (xs, ys)
     end else let
-      val xs1 = xs1
-      val () = free@ {a}{0} (xs) in loop2 (x0, xs1, ys)
+      val xs1_ = xs1
+      val () = free@ {a}{0} (xs) in loop2 (x0, xs1_, ys)
     end // end of [if]
   end (* end of [list_vt_cons] *)
 | ~list_vt_nil () => ys
 //
 end // end of [loop2]
+//
 in
 //
 case+ xs of
@@ -158,11 +169,6 @@ end // end of [aux]
 in
   aux (xs)
 end // end of [funset_is_member]
-
-implement{a}
-funset_isnot_member
-  (xs, x0) = not (funset_is_member<a> (xs, x0))
-// end of [funset_isnot_member]
 
 (* ****** ****** *)
 
@@ -372,38 +378,6 @@ in
   aux (xs1, xs2)
 end // end of [funset_is_subset]
 
-implement{a}
-funset_is_supset
-  (xs1, xs2) = funset_is_subset<a> (xs2, xs1)
-// end of [funset_is_supset]
-
-(* ****** ****** *)
-
-implement{a}
-funset_is_equal
-  (xs1, xs2) = let
-  fun aux // tail-recursive
-    {n1,n2:nat} .<n1>. (
-    xs1: list (a, n1), xs2: list (a, n2)
-  ) :<cloref0> bool = (
-    case+ xs1 of
-    | list_cons (x1, xs1) => (
-      case+ xs2 of
-      | list_cons (x2, xs2) => let
-          val sgn = compare_elt_elt (x1, x2)
-        in
-          if sgn = 0 then aux (xs1, xs2) else false
-        end
-      | list_nil () => false
-      ) // end of [list_cons]
-    | list_nil () => (case+ xs2 of
-      | list_cons _ => false | list_nil () => true
-      ) // end of [list_nil]
-  ) // end of [aux]
-in
-  aux (xs1, xs2)
-end // end of [funset_is_equal]
-
 (* ****** ****** *)
 
 implement{a}
@@ -437,8 +411,7 @@ end // end of [funset_compare]
 
 (* ****** ****** *)
 
-implement{a}
-funset_listize (xs) = list_copy<a> (xs)
+implement{a} funset_listize_vt (xs) = list_copy<a> (xs)
 
 (* ****** ****** *)
 
