@@ -66,12 +66,46 @@ in
 end // end of [queue_insert]
 
 implement{a}
+qstruct_insert
+  {n} (q, x) = let
+//
+val pq = addr@(q)
+val q2 = ptr2ptrlin (pq)
+prval pfngc =
+  qstruct_objfize (view@(q) | q2)
+val () = queue_insert<a> (q2, x)
+prval pfat = qstruct_unobjfize (pfngc | pq, q2)
+prval () = view@(q) := pfat
+prval () = ptrlin_free (q2)
+//
+in
+  // nothing
+end // end of [qstruct_insert]
+
+(* ****** ****** *)
+
+implement{a}
 queue_takeout
   {n} (q) = res where {
   var res: a
   val nx = queue_takeout_ngc {n} (q)
   val () = mynode_free_elt (nx, res)
 } // end of [queue_takeout]
+
+implement{a}
+qstruct_takeout
+  {n} (q) = res where {
+//
+val pq = addr@(q)
+val q2 = ptr2ptrlin (pq)
+prval pfngc =
+  qstruct_objfize (view@(q) | q2)
+val res = queue_takeout<a> (q2)
+prval pfat = qstruct_unobjfize (pfngc | pq, q2)
+prval () = view@(q) := pfat
+prval () = ptrlin_free (q2)
+//
+} // end of [qstruct_takeout]
 
 (* ****** ****** *)
 
