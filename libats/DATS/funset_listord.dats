@@ -144,6 +144,13 @@ end // end of [funset_make_list]
 (* ****** ****** *)
 
 implement{a}
+funset_is_empty (xs) = list_is_nil (xs)
+implement{a}
+funset_isnot_empty (xs) = list_is_cons (xs)
+
+(* ****** ****** *)
+
+implement{a}
 funset_size (xs) = g1int2uint (list_length<a> (xs))
 
 (* ****** ****** *)

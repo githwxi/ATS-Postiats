@@ -132,11 +132,6 @@ between xs1 and xs2.  ")
 
 (* ****** ****** *)
 
-#declnamesynop("funset_is_equal")
-#decldescrpt("\
-
-This function tests whether two given sets xs1 and xs2 are equal. ")
-
 #declnamesynop("funset_is_subset")
 #decldescrpt("\
 
@@ -150,6 +145,13 @@ xs2. ")
 
 (* ****** ****** *)
 
+#declnamesynop("funset_is_equal")
+#decldescrpt("\
+
+This function tests whether two given sets xs1 and xs2 are equal. ")
+
+(* ****** ****** *)
+
 #declnamesynop("funset_compare")
 #decldescrpt("\
 
@@ -159,7 +161,7 @@ elements.  ")
 
 (* ****** ****** *)
 
-#declnamesynop("funset_listize")
+#declnamesynop("funset_listize_vt")
 #decldescrpt("\
 
 Given a set xs, this function returns a linear list consisting of all the

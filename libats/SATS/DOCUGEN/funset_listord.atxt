@@ -65,6 +65,11 @@ xs. Note that duplicated elements in xs are all removed in the formed set.
 
 (* ****** ****** *)
 
+#declnamesynop("funset_is_empty")
+#declnamesynop("funset_isnot_empty")
+
+(* ****** ****** *)
+
 #declnamesynop("funset_size")
 #decldescrpt("\
 
@@ -138,12 +143,6 @@ O(|xs1|+|xs2|).  ")
 
 (* ****** ****** *)
 
-#declnamesynop("funset_is_equal")
-#decldescrpt("\
-
-This function tests whether two given sets xs1 and xs2 are equal.  The time
-complexity of this function is O(|xs1|+|xs2|).  ")
-
 #declnamesynop("funset_is_subset")
 #decldescrpt("\
 
@@ -158,6 +157,14 @@ xs2.  The time complexity of this function is O(|xs1|+|xs2|).  ")
 
 (* ****** ****** *)
 
+#declnamesynop("funset_is_equal")
+#decldescrpt("\
+
+This function tests whether two given sets xs1 and xs2 are equal.  The time
+complexity of this function is O(|xs1|+|xs2|).  ")
+
+(* ****** ****** *)
+
 #declnamesynop("funset_compare")
 #decldescrpt("\
 
@@ -168,7 +175,7 @@ O(|xs1|+|xs2|).  ")
 
 (* ****** ****** *)
 
-#declnamesynop("funset_listize")
+#declnamesynop("funset_listize_vt")
 #decldescrpt("\
 
 Given a set xs, this function returns a linear list consisting of all the

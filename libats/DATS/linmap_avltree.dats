@@ -33,65 +33,19 @@
 
 (* ****** ****** *)
 
-implement{a}
-funset_isnot_empty
-  (xs) = not (funset_is_empty<a> (xs))
-// end of [funset_isnot_empty]
+staload "libats/SATS/linmap_avltree.sats"
 
 (* ****** ****** *)
 
-implement{a}
-funset_make_list
-  (xs) = set where {
+implement{key}
+compare_key_key
+  (k1, k2) = gcompare_val<key> (k1, k2)
+// end of [compare_key_key]
+
+(* ****** ****** *)
 //
-typedef set = set (a)
+#include "./SHARE/linmap.hats" // code reuse
 //
-fun loop (
-  set: &set >> _, xs: List (a)
-) : void = let
-in
-  case+ xs of
-  | list_cons (x, xs) => let
-      val _(*exi*) = funset_insert (set, x) in loop (set, xs)
-    end // end of [list_cons]
-  | list_nil () => ()
-end // end of [loop]
-//
-var set
-  : set = funset_make_nil ()
-//
-val () = $effmask_all (loop (set, xs))
-//
-} // end of [funset_make_list]
-
 (* ****** ****** *)
 
-implement{a}
-funset_isnot_member
-  (xs, x0) = not (funset_is_member<a> (xs, x0))
-// end of [funset_isnot_member]
-
-(* ****** ****** *)
-
-implement{a}
-funset_is_supset
-  (xs1, xs2) = funset_is_subset<a> (xs2, xs1)
-// end of [funset_is_supset]
-
-(* ****** ****** *)
-
-implement{a}
-funset_is_equal (xs1, xs2) = let
-  val sgn = funset_compare (xs1, xs2) in sgn = 0
-end // end of [funset_equal]
-
-(* ****** ****** *)
-
-implement{a}
-funset_listize (xs) = let
-  val ys = $effmask_wrt (funset_listize_vt (xs)) in list_of_list_vt (ys)
-end // end of [funset_listize]
-
-(* ****** ****** *)
-
-(* end of [funset.hats] *)
+(* end of [linmap_avltree.dats] *)

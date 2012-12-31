@@ -54,4 +54,10 @@
 
 (* ****** ****** *)
 
+fun{
+key:t0p;itm:t0p
+} funmap_avltree_height (map: map (key, itm)):<> intGte (0)
+
+(* ****** ****** *)
+
 (* end of [funmap_avltree.sats] *)

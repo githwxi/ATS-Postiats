@@ -2,23 +2,27 @@
 (*                                                                     *)
 (*                         Applied Type System                         *)
 (*                                                                     *)
+(*                              Hongwei Xi                             *)
+(*                                                                     *)
 (***********************************************************************)
 
 (*
-** ATS/Postiats - Unleashing the Potential of Types!
-** Copyright (C) 2011-2012 Hongwei Xi, ATS Trustful Software, Inc.
+** ATS - Unleashing the Potential of Types!
+**
+** Copyright (C) 2002-2010 Hongwei Xi, Boston University
+**
 ** All rights reserved
 **
 ** ATS is free software;  you can  redistribute it and/or modify it under
-** the terms of the GNU LESSER GENERAL PUBLIC LICENSE as published by the
-** Free Software Foundation; either version 2.1, or (at your option)  any
-** later version.
-**
+** the  terms of the  GNU General Public License as published by the Free
+** Software Foundation; either version 2.1, or (at your option) any later
+** version.
+** 
 ** ATS is distributed in the hope that it will be useful, but WITHOUT ANY
 ** WARRANTY; without  even  the  implied  warranty  of MERCHANTABILITY or
 ** FITNESS FOR A PARTICULAR PURPOSE.  See the  GNU General Public License
 ** for more details.
-**
+** 
 ** You  should  have  received  a  copy of the GNU General Public License
 ** along  with  ATS;  see the  file COPYING.  If not, please write to the
 ** Free Software Foundation,  51 Franklin Street, Fifth Floor, Boston, MA
@@ -27,32 +31,16 @@
 
 (* ****** ****** *)
 
-(*
-**
-** A functional set implementation based on AVL trees
-**
-** Contributed by Hongwei Xi (hwxi AT cs DOT bu DOT edu)
-** Time: May, 2011 // based on a version done in October, 2008
-**
-*)
+#define ATS_DYNLOADFLAG 0 // no dynamic loading at run-time
+
+(* ****** ****** *)
+
+staload "libats/SATS/funset_avltree.sats"
 
 (* ****** ****** *)
 //
-// License: LGPL 3.0 (available at http://www.gnu.org/licenses/lgpl.txt)
-//
-(* ****** ****** *)
-//
-// HX-2012-12: ported to ATS/Postitats from ATS/Anairiats
+#include "./SHARE/funset.hats" // code reuse
 //
 (* ****** ****** *)
 
-#include "./SHARE/funset.hats"
-
-(* ****** ****** *)
-
-fun{a:t0p}
-funset_avltree_height (xs: set (a)):<> intGte (0)
-
-(* ****** ****** *)
-
-(* end of [funset_avltree.sats] *)
+(* end of [funset_avltree.dats] *)
