@@ -31,10 +31,6 @@ staload _(*anon*) = "prelude/DATS/unsafe.dats"
 
 #atscode_separator()
 
-staload FC = "prelude/SATS/fcontainer.sats"
-
-#atscode_separator()
-
 implement{x}
 list_make_elt
   {n} (n, x) = let

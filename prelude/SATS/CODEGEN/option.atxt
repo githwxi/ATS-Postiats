@@ -35,9 +35,9 @@ exception NotSomeExn of ()
 #atscode_separator()
 
 fun{a:t0p}
-option_some (x: a): option (a, true)
+option_some (x: a):<> option (a, true)
 fun{a:t0p}
-option_none ((*void*)): option (a, false)
+option_none ((*void*)):<> option (a, false)
 
 #atscode_separator()
 

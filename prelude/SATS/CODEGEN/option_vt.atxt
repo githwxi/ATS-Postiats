@@ -31,9 +31,9 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 fun{a:vt0p}
-option_vt_some (x: a):<> option_vt (a, true)
+option_vt_some (x: a):<!wrt> option_vt (a, true)
 fun{a:vt0p}
-option_vt_none ((*void*)):<> option_vt (a, false)
+option_vt_none ((*void*)):<!wrt> option_vt (a, false)
 
 #atscode_separator()
 
@@ -41,7 +41,7 @@ fun{a:vt0p}
 option_vt_make_opt
   {b:bool} (
   b: bool b, x: &opt (a, b) >> a?
-) :<> option_vt (a, b) // end of [option_vt_make_opt]
+) :<!wrt> option_vt (a, b) // end of [option_vt_make_opt]
 
 #atscode_separator()
 
@@ -57,14 +57,14 @@ option_vt_is_none{a:vt0p}
 #atscode_separator()
 
 fun{a:vt0p}
-option_vt_unsome (opt: option_vt (a, true)):<> a
+option_vt_unsome (opt: option_vt (a, true)):<!wrt> a
 fun{a:vt0p}
-option_vt_unnone (opt: option_vt (a, false)):<> void
+option_vt_unnone (opt: option_vt (a, false)):<!wrt> void
 
 #atscode_separator()
 
 fun{a:t0p}
-option_vt_free (opt: Option_vt (a)):<> void
+option_vt_free (opt: Option_vt (a)):<!wrt> void
 
 #atscode_separator()
 
