@@ -23,7 +23,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 /*
 #atscode_author("Hongwei Xi")
 #atscode_authoremail("hwxi AT cs DOT bu DOT edu")
-#atscode_start_time("December, 2012")
+#atscode_start_time("January, 2013")
 */
 
 #atscode_separator_for_C()
@@ -56,7 +56,7 @@ val ent = sprintf ("\
 ATSinline()
 atstype_bool
 atspre_g0int_%s_%s
-  (atstype_%s f1, atstype_%s f2) { return (f1 %s f2) ; }
+  (atstype_%s x1, atstype_%s x2) { return (x1 %s x2) ; }
 // end of [atspre_g0int_%s_%s]\
 ", @(
  opr, knd, knd, knd, fopr, opr, knd
@@ -87,6 +87,63 @@ end // end of [fun_g0int_aop_decl]
 
 %{
 fun
+fun_g0int_cmpz_decl (
+  opr: string, knd: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "isltz" => "<"
+  | "isltez" => "<="
+  | "isgtz" => ">"
+  | "isgtez" => ">="
+  | "iseqz" => "=="
+  | "isneqz" => "!="
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_bool
+atspre_g0int_%s_%s
+  (atstype_%s x) {
+  return (x %s 0 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_g0int_%s_%s]\
+", @(
+ opr, knd, knd, fopr, opr, knd
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_g0int_cmpz_decl]
+%}\
+\
+#fun_g0int_cmpz_decl("isltz", "int")
+#fun_g0int_cmpz_decl("isltez", "int")
+#fun_g0int_cmpz_decl("isgtz", "int")
+#fun_g0int_cmpz_decl("isgtez", "int")
+#fun_g0int_cmpz_decl("iseqz", "int")
+#fun_g0int_cmpz_decl("isneqz", "int")
+//
+#fun_g0int_cmpz_decl("isltz", "lint")
+#fun_g0int_cmpz_decl("isltez", "lint")
+#fun_g0int_cmpz_decl("isgtz", "lint")
+#fun_g0int_cmpz_decl("isgtez", "lint")
+#fun_g0int_cmpz_decl("iseqz", "lint")
+#fun_g0int_cmpz_decl("isneqz", "lint")
+//
+#fun_g0int_cmpz_decl("isltz", "llint")
+#fun_g0int_cmpz_decl("isltez", "llint")
+#fun_g0int_cmpz_decl("isgtz", "llint")
+#fun_g0int_cmpz_decl("isgtez", "llint")
+#fun_g0int_cmpz_decl("iseqz", "llint")
+#fun_g0int_cmpz_decl("isneqz", "llint")
+
+#atscode_separator_for_C()
+
+%{
+fun
 fun_g0int_cmp_decl (
   opr: string, knd: string
 ) : atext = let
@@ -103,8 +160,8 @@ val ent = sprintf ("\
 ATSinline()
 atstype_bool
 atspre_g0int_%s_%s
-  (atstype_%s f1, atstype_%s f2) {
-  return (f1 %s f2 ? atsbool_true : atsbool_false) ;
+  (atstype_%s x1, atstype_%s x2) {
+  return (x1 %s x2 ? atsbool_true : atsbool_false) ;
 } // end of [atspre_g0int_%s_%s]\
 ", @(
  opr, knd, knd, knd, fopr, opr, knd
@@ -187,5 +244,5 @@ atspre_fprint_llint (
 #atscode_eof_strsub_for_C("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "int_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "integer_atxt.txt")
 %}\

@@ -3,7 +3,7 @@
 #if (ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"bool.cats"
+val _thisfilename = atext_strcst"string.cats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
@@ -14,7 +14,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 /*
 ** Source:
-** $PATSHOME/prelude/CATS/CODEGEN/bool.atxt
+** $PATSHOME/prelude/CATS/CODEGEN/string.atxt
 ** Time of generation: #timestamp()
 */
 
@@ -59,5 +59,5 @@ atspre_compare_string_string (
 #atscode_eof_strsub_for_C("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "bool_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "string_atxt.txt")
 %}\
