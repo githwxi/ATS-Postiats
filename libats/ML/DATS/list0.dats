@@ -47,11 +47,17 @@ list0_make_elt
   (n, x) = let
   val n = g1ofg0_int (n)
 in
-  if n >= 0 then
-    list0_of_list_vt (list_make_elt (n, x))
-  else // HX: n < 0
-    $raise (IllegalArgExn"list0_make_elt:n")
-  // end of [if]
+//
+if n >= 0 then let
+  val xs =
+    $effmask_wrt (list_make_elt (n, x))
+  // end of [val]
+in
+  list0_of_list_vt (xs)
+end else // HX: n < 0
+  $raise (IllegalArgExn"list0_make_elt:n")
+// end of [if]
+//
 end // end of [list0_make_elt]
 
 (* ****** ****** *)
@@ -298,9 +304,7 @@ implement{a}
 list0_concat
   (xss) = let
   typedef xss = List(List(a))
-  val xss =
-    $UN.cast {xss} (xss)
-  val ys = list_concat<a> (xss)
+  val ys = $effmask_wrt (list_concat<a> ($UN.cast{xss}(xss)))
 in
   list0_of_list_vt (ys)
 end // end of [list0_concat]
@@ -313,9 +317,13 @@ list0_take_exn
   val i = g1ofg0_int (i)
   val xs = list_of_list0 (xs)
 in
-  if i >= 0 then
-    list0_of_list_vt (list_take_exn (xs, i))
-  else
+  if i >= 0 then let
+    val res =
+      $effmask_wrt (list_take_exn (xs, i))
+    // end of [val]
+  in
+    list0_of_list_vt (res)
+  end else
     $raise (IllegalArgExn"list0_take_exn:i")
   // end of [if]
 end // end of [list0_take_exn]
@@ -678,7 +686,7 @@ implement
 list0_zip (xs, ys) = let
   val xs = list_of_list0 (xs)
   val ys = list_of_list0 (ys)
-  val xys = list_zip<x,y> (xs, ys)
+  val xys = $effmask_wrt (list_zip<x,y> (xs, ys))
 in
   list0_of_list_vt (xys)
 end // end of [list0_zip]
@@ -691,8 +699,10 @@ list0_quicksort (xs, cmp) = let
 implement
 list_quicksort$cmp<a> (x, y) = cmp (x, y)
 //
+val ys = $effmask_wrt (list_quicksort (list_of_list0 (xs)))
+//
 in
-  list0_of_list_vt (list_quicksort (list_of_list0 (xs)))
+  list0_of_list_vt (ys)
 end // end of [list0_quicksort]
 
 (* ****** ****** *)
@@ -703,8 +713,10 @@ list0_mergesort (xs, cmp) = let
 implement
 list_mergesort$cmp<a> (x, y) = cmp (x, y)
 //
+val ys = $effmask_wrt (list_mergesort (list_of_list0 (xs)))
+//
 in
-  list0_of_list_vt (list_mergesort (list_of_list0 (xs)))
+  list0_of_list_vt (ys)
 end // end of [list0_mergesort]
 
 (* ****** ****** *)

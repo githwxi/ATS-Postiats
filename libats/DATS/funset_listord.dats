@@ -85,10 +85,10 @@ val xs = let
 //
 implement
 list_mergesort$cmp<a>
-  (x, y) = compare_elt_elt<a> (y, x)
+  (x, y) = compare_elt_elt<a> (y, x) // HX: descending!
 //
 in
-  list_mergesort<a> (xs) // [xs] is ascending!
+  $effmask_wrt (list_mergesort<a> (xs))
 end // end of [let] // [val]
 //
 fun loop1

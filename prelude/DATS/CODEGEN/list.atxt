@@ -1328,7 +1328,7 @@ list_crosswith (xs, ys) = let
 prval () = lemma_list_param (xs)
 prval () = lemma_list_param (ys)
 //
-fn* loop1
+fnx loop1
   {m,n:nat} .<m,0,0>. (
   xs: list (x, m)
 , ys: list (y, n)

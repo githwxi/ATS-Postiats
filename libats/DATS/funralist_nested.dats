@@ -311,7 +311,7 @@ local
 extern
 fun __free (p: ptr):<> void = "mac#ats_free_gc"
 
-fn* foreach
+fnx foreach
   {a:t0p}
   {d:nat}{n:nat} .<n,1>. (
   xs: ralist (a, d, n), f: node (a, d) -<cloref> void
