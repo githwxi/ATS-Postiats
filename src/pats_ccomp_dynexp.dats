@@ -439,7 +439,7 @@ else let
   val () = print_newline ()
 //
 in
-  hidexp_ccomp_tmpcstmat (env, hde0, mat)
+  ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, mat)
 end // end of [if]
 //
 end // end of [hidexp_ccomp_tmpcst]

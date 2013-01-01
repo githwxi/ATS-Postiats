@@ -376,7 +376,7 @@ in
       impenv2tmpsub (env)
     // end of [val]
   in
-    TMPCSTMATsome (imp, t2mas, sub)
+    TMPCSTMATsome (imp, sub)
   end else let
     val () = impenv_free (env) in TMPCSTMATnone ()
   end // end of [if]
@@ -410,20 +410,28 @@ case+ imps of
 end // end of [hiimpdeclst_tmpcst_match]
 
 (* ****** ****** *)
-
+//
 extern
-fun funlab_tmpsubst
-  (env: !ccompenv, fl: funlab, sub: tmpsub): funlab
+fun ccomp_funlab_tmpsubst
+  (env: !ccompenv, loc0: location, hse0: hisexp, fl: funlab, sub: tmpsub): primval
 extern
-fun hidexp_ccomp_tmpcstmat_some
-  (env: !ccompenv, hde0: hidexp, mat: tmpcstmat): primval
-// end of [hidexp_ccomp_tmpcstmat_some]
-
+fun ccomp_funlab_tmpsubst_none
+  (env: !ccompenv, loc0: location, hse0: hisexp, fl: funlab, sub: tmpsub): primval
+extern
+fun ccomp_funlab_tmpsubst_some (
+  env: !ccompenv, loc0: location, hse0: hisexp, fl: funlab, sub: tmpsub, fent: funent
+) : primval // end of [ccomp_funlab_tmpsubst_some]
+//
+extern
+fun ccomp_tmpcstmat_some (
+  env: !ccompenv, loc0: location, hse0: hisexp, d2c: d2cst, t2mas: t2mpmarglst, mat: tmpcstmat
+) : primval // end of [ccomp_tmpcstmat_some]
+//
 (* ****** ****** *)
 
 implement
-funlab_tmpsubst
-  (env, fl, sub) = let
+ccomp_funlab_tmpsubst
+  (env, loc0, hse0, fl, sub) = let
 //
 val opt = funlab_get_funentopt (fl)
 //
@@ -438,47 +446,61 @@ case+ opt of
   in
     exitloc (1)
   end // end of [Some]
-| None () => fl
+| None () =>
+    ccomp_funlab_tmpsubst_none (env, loc0, hse0, fl, sub)
+  // end of [None]
 //
-end // end of [funlab_tmpsubst]
+end // end of [ccomp_funlab_tmpsubst]
+
+implement
+ccomp_funlab_tmpsubst_none
+  (env, loc0, hse0, fl, sub) = let
+//
+val t2mas = funlab_get_tmparg (fl)
+//
+in
+//
+case+ t2mas of
+| list_cons _ => let
+    val- Some (d2c) = funlab_get_qopt (fl)
+    val mat = ccompenv_tmpcst_match (env, d2c, t2mas)
+  in
+    ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, mat)
+  end // end of [list_cons]
+| list_nil () => primval_funlab (loc0, hse0, fl)
+//
+end // end of [funlab_tmpsubst_none]
 
 (* ****** ****** *)
 
 implement
-hidexp_ccomp_tmpcstmat
-  (env, hde0, mat) = let
-  val loc0 = hde0.hidexp_loc
-  val hse0 = hde0.hidexp_type
-  val- HDEtmpcst (d2c, t2mas) = hde0.hidexp_node
+ccomp_tmpcstmat
+  (env, loc0, hse0, d2c, t2mas, mat) = let
 in
 //
 case+ mat of
 | TMPCSTMATsome _ =>
-    hidexp_ccomp_tmpcstmat_some (env, hde0, mat)
+    ccomp_tmpcstmat_some (env, loc0, hse0, d2c, t2mas, mat)
+  // end of [TMPCSTMATsome]
 | TMPCSTMATnone (
   ) => primval_tmpltcstmat (loc0, hse0, d2c, t2mas, mat)
 //
-end // end of [hidexp_ccomp_tmpltcstmat]
+end // end of [ccomp_tmpltcstmat]
 
 (* ****** ****** *)
 
 implement
-hidexp_ccomp_tmpcstmat_some
-  (env, hde0, mat) = let
+ccomp_tmpcstmat_some
+  (env, loc0, hse0, d2c, t2mas, mat) = let
 //
-val loc0 = hde0.hidexp_loc
-val hse0 = hde0.hidexp_type
-val- HDEtmpcst (d2c, t2mas) = hde0.hidexp_node
-//
-val- TMPCSTMATsome (imp, t2mas, sub) = mat
+val- TMPCSTMATsome (imp, sub) = mat
 val l0 = the_d2varlev_get ()
 val () = hiimpdec_ccomp_if (env, l0, imp)
 val- Some (fl) = hiimpdec_get_funlabopt (imp)
-val fl2 = funlab_tmpsubst (env, fl, sub)
 //
 in
-  primval_make_funlab (loc0, fl2)
-end // end of [hidexp_ccomp_tmpcstmat_some]
+  ccomp_funlab_tmpsubst (env, loc0, hse0, fl, sub)
+end // end of [ccomp_tmpcstmat_some]
 
 (* ****** ****** *)
 

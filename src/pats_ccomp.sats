@@ -135,6 +135,9 @@ fun fprint_funlab : fprint_type (funlab)
 fun funlab_make_type (hse: hisexp): funlab
 fun funlab_make_dcst_type (d2c: d2cst, hse: hisexp): funlab
 fun funlab_make_dvar_type (d2v: d2var, hse: hisexp): funlab
+fun funlab_make_tmpcst_type
+   (d2c: d2cst, t2ms: t2mpmarglst, hse: hisexp): funlab
+// end of [funlab_make_tmpcst_typ]
 //
 fun funlab_get_qopt
   (fl: funlab): d2cstopt // qualifier
@@ -147,6 +150,8 @@ fun funlab_get_type (fl: funlab): hisexp
 fun funlab_get_funclo (fl: funlab): funclo
 fun funlab_get_type_arg (fl: funlab): hisexplst
 fun funlab_get_type_res (fl: funlab): hisexp
+//
+fun funlab_get_tmparg (fl: funlab): t2mpmarglst
 //
 fun funlab_get_stamp (fl: funlab): stamp
 //
@@ -202,10 +207,10 @@ viewtypedef tmpsubopt_vt = Option_vt (tmpsub)
  
 fun fprint_tmpsub : fprint_type (tmpsub)
 
-datatype
-tmpcstmat =
-  | TMPCSTMATsome of (hiimpdec, t2mpmarglst, tmpsub)
-  | TMPCSTMATnone of ()
+(* ****** ****** *)
+
+datatype tmpcstmat =
+  | TMPCSTMATsome of (hiimpdec, tmpsub) | TMPCSTMATnone of ()
 // end of [tmpcstmat]
 
 fun fprint_tmpcstmat : fprint_type (tmpcstmat)
@@ -790,12 +795,6 @@ fun hidexp_ccomp_funlab_arg_body (
 
 (* ****** ****** *)
 
-fun hidexp_ccomp_tmpcstmat (
-  env: !ccompenv, hde0: hidexp, mat: tmpcstmat
-) : primval // end of [hidexp_ccomp_tmpcstmat]
-
-(* ****** ****** *)
-
 fun hiimpdec_ccomp (
   env: !ccompenv, level: int, imp: hiimpdec
 ) : void // end of [hiimpdec_ccomp]
@@ -889,11 +888,16 @@ fun hiimpdeclst_tmpcst_match
   (imps: hiimpdeclst, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
 // end of [hiimpdeclst_tmpcst_match]
 
-(* ****** ****** *)
-
 fun ccompenv_tmpcst_match
   (env: !ccompenv, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
 // end of [ccompenv_tmpcst_match]
+
+(* ****** ****** *)
+
+fun ccomp_tmpcstmat (
+  env: !ccompenv, loc0: location, hse0: hisexp
+, d2c: d2cst, t2ms: t2mpmarglst, mat: tmpcstmat
+) : primval // end of [ccomp_tmpcstmat]
 
 (* ****** ****** *)
 

@@ -54,6 +54,7 @@ staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
 
+staload "./pats_staexp2.sats"
 staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
@@ -71,12 +72,12 @@ staload "./pats_ccomp.sats"
 (* ****** ****** *)
 
 extern
-fun
-funlab_make (
+fun funlab_make (
   name: string
 , level: int
 , hse: hisexp
 , qopt: d2cstopt
+, t2ms: t2mpmarglst
 , stamp: stamp
 ) : funlab // end of [funlab_make]
 
@@ -85,9 +86,13 @@ funlab_make (
 typedef
 funlab_struct = @{
   funlab_name= string
+//
 , funlab_level= int
+//
 , funlab_type= hisexp (* function type *)
+//
 , funlab_qopt= d2cstopt (* local or global *)
+, funlab_tmparg= t2mpmarglst (* tmplate arguments *)
 //
 , funlab_funent= funentopt // function entry
 , funlab_tailjoin= tmpvarlst // tail-call optimization
@@ -105,7 +110,7 @@ in // in of [local]
 
 implement
 funlab_make (
-  name, level, hse, qopt, stamp
+  name, level, hse, qopt, t2ms, stamp
 ) = let
 //
 val (
@@ -116,7 +121,9 @@ prval () = free_gc_elim {funlab_struct?} (pfgc)
 val () = p->funlab_name := name
 val () = p->funlab_level := level
 val () = p->funlab_type := hse
+//
 val () = p->funlab_qopt := qopt
+val () = p->funlab_tmparg := t2ms
 //
 val () = p->funlab_funent := None(*funent*)
 val () = p->funlab_tailjoin := list_nil(*tmpvarlst*)
@@ -157,6 +164,11 @@ implement
 funlab_set_funentopt (fl, opt) = let
   val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_funent := opt
 end // end of [funlab_set_funentopt]
+
+implement
+funlab_get_tmparg (fl) = let
+  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_tmparg
+end // end of [funlab_get_tmparg]
 
 implement
 funlab_get_stamp (fl) = let
@@ -224,8 +236,10 @@ funlab_make_type
   val lev0 = the_d2varlev_get ()
   val stamp = $STMP.funlab_stamp_make ()
   val flname = $STMP.tostring_prefix_stamp ("__patsfun_", stamp)
+  val qopt = None ()
+  val t2ms = list_nil ()
 in
-  funlab_make (flname, lev0, hse, None(*qopt*), stamp)
+  funlab_make (flname, lev0, hse, qopt, t2ms, stamp)
 end // end of [funlab_make_type]
 
 (* ****** ****** *)
@@ -256,13 +270,28 @@ funlab_make_dcst_type
   val lev0 = the_d2varlev_get ()
   val d2c2 = d2cst_get_gname (d2c)
   val qopt = Some (d2c)
+  val t2ms = list_nil ()
   val stamp = $STMP.funlab_stamp_make ()
   val stamp2 = $STMP.tostring_stamp (stamp)
   val flname = sprintf ("%s_%s", @(d2c2, stamp2))
   val flname = string_of_strptr (flname)
 in
-  funlab_make (flname, lev0, hse, qopt, stamp)
+  funlab_make (flname, lev0, hse, qopt, t2ms, stamp)
 end // end of [funlab_make_dcst_type]
+
+implement
+funlab_make_tmpcst_type
+  (d2c, t2ms, hse) = let
+  val lev0 = the_d2varlev_get ()
+  val d2c2 = d2cst_get_gname (d2c)
+  val qopt = Some (d2c)
+  val stamp = $STMP.funlab_stamp_make ()
+  val stamp2 = $STMP.tostring_stamp (stamp)
+  val flname = sprintf ("%s_%s", @(d2c2, stamp2))
+  val flname = string_of_strptr (flname)
+in
+  funlab_make (flname, lev0, hse, qopt, t2ms, stamp)
+end // end of [funlab_make_tmpcst_type]
 
 end // end of [local]
 
@@ -274,13 +303,14 @@ funlab_make_dvar_type
   val lev0 = the_d2varlev_get ()
   val d2v2 =
     $SYM.symbol_get_name (d2var_get_sym (d2v))
-  // end of [val]
+  val qopt = None ()
+  val t2ms = list_nil ()
   val stamp = $STMP.funlab_stamp_make ()
   val stamp2 = $STMP.tostring_stamp (stamp)
   val flname = sprintf ("%s_%s", @(d2v2, stamp2))
   val flname = string_of_strptr (flname)
 in
-  funlab_make (flname, lev0, hse, None(*qopt*), stamp)
+  funlab_make (flname, lev0, hse, qopt, t2ms, stamp)
 end // end of [funlab_make_dvar_type]
 
 (* ****** ****** *)

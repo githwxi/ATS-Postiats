@@ -287,6 +287,10 @@ case+ hde0.hidexp_node of
 | HDEcst (d2c0) => (
     funlab_make_dcst_type (d2c0, hde0.hidexp_type)
   ) // end of [HDEcst]
+| HDEtmpcst (d2c0, t2ms) => (
+    funlab_make_tmpcst_type (d2c0, t2ms, hde0.hidexp_type)
+  ) // end of [HDEtmpcst]
+//
 | _ => let
     val () =
       println! ("hiimpdec_ccomp: auxmain: hde0 = ", hde0)
@@ -294,7 +298,6 @@ case+ hde0.hidexp_node of
   in
     exitloc (1)
   end // end of [_]
-//
 end // end of [auxmain]
 
 in // in of [local]

@@ -758,15 +758,13 @@ case+ opt of
 | TMPCSTMATnone (
   ) => prstr "TMPCSTMATnone()"
 | TMPCSTMATsome
-    (imp, t2mas, tmpsub) => let
+    (imp, tmpsub) => let
     val () = prstr "TMPCSTMATsome("
     val () = fprint_d2cst (out, imp.hiimpdec_cst)
     val () = prstr "; "
     val () = fprint_s2varlst (out, imp.hiimpdec_imparg)
     val () = prstr "; "
     val () = fprint_s2explstlst (out, imp.hiimpdec_tmparg)
-    val () = prstr "; "
-    val () = fpprint_t2mpmarglst (out, t2mas)
     val () = prstr "; "
     val () = fprint_tmpsub (out, tmpsub)
     val () = prstr ")"
