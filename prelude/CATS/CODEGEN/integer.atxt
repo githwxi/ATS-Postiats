@@ -102,10 +102,10 @@ val fopr = (
 val ent = sprintf ("\
 ATSinline()
 atstype_bool
-atspre_g0float_%s_%s
+atspre_g0int_%s_%s
   (atstype_%s f1, atstype_%s f2) {
   return (f1 %s f2 ? atsbool_true : atsbool_false) ;
-} // end of [atspre_g0float_%s_%s]\
+} // end of [atspre_g0int_%s_%s]\
 ", @(
  opr, knd, knd, knd, fopr, opr, knd
 )
@@ -187,5 +187,5 @@ atspre_fprint_llint (
 #atscode_eof_strsub_for_C("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "float_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "int_atxt.txt")
 %}\
