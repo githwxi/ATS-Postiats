@@ -74,12 +74,9 @@ g1uint_of_uchar1
 
 #atscode_separator()
 //
-implement
-fprint_val<char> (out, x) = fprint_char (out, x)
-implement
-fprint_val<uchar> (out, x) = fprint_uchar (out, x)
-implement
-fprint_val<schar> (out, x) = fprint_schar (out, x)
+implement fprint_val<char> = fprint_char
+implement fprint_val<uchar> = fprint_uchar
+implement fprint_val<schar> = fprint_schar
 //
 #atscode_separator()
 

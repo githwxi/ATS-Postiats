@@ -60,20 +60,17 @@ var res: atextlst = list_nil
 val () = res := list_cons (f "neg", res)
 val () = res := list_cons (f "succ", res)
 val () = res := list_cons (f "pred", res)
-val () = res := list_cons (atext_newline(), res)
 val () = res := list_cons (f "add", res)
 val () = res := list_cons (f "sub", res)
 val () = res := list_cons (f "mul", res)
 val () = res := list_cons (f "div", res)
 val () = res := list_cons (f "mod", res)
-val () = res := list_cons (atext_newline(), res)
 val () = res := list_cons (f "isltz", res)
 val () = res := list_cons (f "isltez", res)
 val () = res := list_cons (f "isgtz", res)
 val () = res := list_cons (f "isgtez", res)
 val () = res := list_cons (f "iseqz", res)
 val () = res := list_cons (f "isneqz", res)
-val () = res := list_cons (atext_newline(), res)
 val () = res := list_cons (f "lt", res)
 val () = res := list_cons (f "lte", res)
 val () = res := list_cons (f "gt", res)
@@ -81,10 +78,11 @@ val () = res := list_cons (f "gte", res)
 val () = res := list_cons (f "eq", res)
 val () = res := list_cons (f "neq", res)
 val () = res := list_cons (f "compare", res)
-val () = res := list_cons (atext_newline(), res)
 val () = res := list_cons (f "max", res)
 val () = res := list_cons (f "min", res)
-val () = res := list_cons (atext_newline(), res)
+//
+val () = res := list_cons (atext_strcst("//\n"), res)
+//
 val () = res := list_cons (f2 (), res)
 //
 val res = list_reverse (res)
@@ -107,7 +105,8 @@ in
   atext_strptr (x)
 end // end of [f]
 //
-fun f2 ():<cloref1> atext = let
+fun f2 (
+):<cloref1> atext = let
 //
 val x = sprintf (
 "\
@@ -123,18 +122,15 @@ var res: atextlst = list_nil
 //
 val () = res := list_cons (f "succ", res)
 val () = res := list_cons (f "pred", res)
-val () = res := list_cons (atext_newline(), res)
 val () = res := list_cons (f "add", res)
 val () = res := list_cons (f "sub", res)
 val () = res := list_cons (f "mul", res)
 val () = res := list_cons (f "div", res)
 val () = res := list_cons (f "mod", res)
-val () = res := list_cons (atext_newline(), res)
 val () = res := list_cons (f "isgtz", res)
 val () = res := list_cons (f "isgtez", res)
 val () = res := list_cons (f "iseqz", res)
 val () = res := list_cons (f "isneqz", res)
-val () = res := list_cons (atext_newline(), res)
 val () = res := list_cons (f "lt", res)
 val () = res := list_cons (f "lte", res)
 val () = res := list_cons (f "gt", res)
@@ -142,10 +138,11 @@ val () = res := list_cons (f "gte", res)
 val () = res := list_cons (f "eq", res)
 val () = res := list_cons (f "neq", res)
 val () = res := list_cons (f "compare", res)
-val () = res := list_cons (atext_newline(), res)
 val () = res := list_cons (f "max", res)
 val () = res := list_cons (f "min", res)
-val () = res := list_cons (atext_newline(), res)
+//
+val () = res := list_cons (atext_strcst("//\n"), res)
+//
 val () = res := list_cons (f2 (), res)
 //
 val res = list_reverse (res)
@@ -170,17 +167,16 @@ val x = sprintf (
 in
   atext_strptr (x)
 end // end of [f]
+//
 var res: atextlst = list_nil
 //
 val () = res := list_cons (f "neg", res)
 val () = res := list_cons (f "succ", res)
 val () = res := list_cons (f "pred", res)
-val () = res := list_cons (atext_newline(), res)
 val () = res := list_cons (f "add", res)
 val () = res := list_cons (f "sub", res)
 val () = res := list_cons (f "mul", res)
 val () = res := list_cons (f "div", res)
-val () = res := list_cons (atext_newline(), res)
 val () = res := list_cons (f "lt", res)
 val () = res := list_cons (f "lte", res)
 val () = res := list_cons (f "gt", res)
@@ -188,7 +184,6 @@ val () = res := list_cons (f "gte", res)
 val () = res := list_cons (f "eq", res)
 val () = res := list_cons (f "neq", res)
 val () = res := list_cons (f "compare", res)
-val () = res := list_cons (atext_newline(), res)
 val () = res := list_cons (f "max", res)
 val () = res := list_cons (f "min", res)
 //
@@ -211,16 +206,15 @@ val x = sprintf (
 in
   atext_strptr (x)
 end // end of [f]
+//
 var res: atextlst = list_nil
 //
 val () = res := list_cons (f "succ", res)
 val () = res := list_cons (f "pred", res)
-val () = res := list_cons (atext_newline(), res)
 val () = res := list_cons (f "add", res)
 val () = res := list_cons (f "sub", res)
 val () = res := list_cons (f "mul", res)
 val () = res := list_cons (f "div", res)
-val () = res := list_cons (atext_newline(), res)
 val () = res := list_cons (f "lt", res)
 val () = res := list_cons (f "lte", res)
 val () = res := list_cons (f "gt", res)
@@ -228,7 +222,6 @@ val () = res := list_cons (f "gte", res)
 val () = res := list_cons (f "eq", res)
 val () = res := list_cons (f "neq", res)
 val () = res := list_cons (f "compare", res)
-val () = res := list_cons (atext_newline(), res)
 val () = res := list_cons (f "max", res)
 val () = res := list_cons (f "min", res)
 //
@@ -286,6 +279,7 @@ g0uint_of_string<ullint_kind> (str) =
 implement
 g0uint_of_string<size_kind> (str) =
   g0uint2uint (g0uint_of_string<ulint_kind> (str))
+// end of [g0uint_of_string_size]
 
 end // end of [local]
 
@@ -293,7 +287,36 @@ end // end of [local]
 //
 #g1int_implist("int_kind", "int")\
 //
+#g1int_implist("lint_kind", "lint")\
+//
+#g1int_implist("llint_kind", "llint")\
+//
+#g1int_implist("ssize_kind", "ssize")\
+//
+#atscode_separator()
+
+implement
+lt_g1int_int<int_kind> = g1int_lt<int_kind>
+implement
+lte_g1int_int<int_kind> = g1int_lte<int_kind>
+implement
+gt_g1int_int<int_kind> = g1int_gt<int_kind>
+implement
+gte_g1int_int<int_kind> = g1int_gte<int_kind>
+implement
+eq_g1int_int<int_kind> = g1int_eq<int_kind>
+implement
+neq_g1int_int<int_kind> = g1int_neq<int_kind>
+
+#atscode_separator()
+//
 #g1uint_implist("uint_kind", "uint")\
+//
+#g1uint_implist("ulint_kind", "ulint")\
+//
+#g1uint_implist("ullint_kind", "ullint")\
+//
+#g1uint_implist("size_kind", "size")\
 //
 #atscode_separator()
 

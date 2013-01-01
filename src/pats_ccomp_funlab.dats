@@ -89,7 +89,7 @@ funlab_struct = @{
 , funlab_type= hisexp (* function type *)
 , funlab_qopt= d2cstopt (* local or global *)
 //
-, funlab_entry= funentopt // function entry
+, funlab_funent= funentopt // function entry
 , funlab_tailjoin= tmpvarlst // tail-call optimization
 //
 , funlab_stamp= stamp
@@ -118,7 +118,7 @@ val () = p->funlab_level := level
 val () = p->funlab_type := hse
 val () = p->funlab_qopt := qopt
 //
-val () = p->funlab_entry := None(*funent*)
+val () = p->funlab_funent := None(*funent*)
 val () = p->funlab_tailjoin := list_nil(*tmpvarlst*)
 //
 val () = p->funlab_stamp := stamp
@@ -150,13 +150,13 @@ funlab_get_qopt (fl) = let
 end // end of [funlab_get_qopt]
 
 implement
-funlab_get_entry (fl) = let
-  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_entry
-end // end of [funlab_get_entry]
+funlab_get_funentopt (fl) = let
+  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_funent
+end // end of [funlab_get_funentopt]
 implement
-funlab_set_entry (fl, opt) = let
-  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_entry := opt
-end // end of [funlab_set_entry]
+funlab_set_funentopt (fl, opt) = let
+  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_funent := opt
+end // end of [funlab_set_funentopt]
 
 implement
 funlab_get_stamp (fl) = let

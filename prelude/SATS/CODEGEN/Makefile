@@ -329,16 +329,6 @@ clean:: ; $(RMF) extern_atxt.exe
 cleanall:: ; $(RMF) extern.sats
 
 
-all:: unsafe.sats
-unsafe.sats: unsafe_atxt.exe ; ./$< > $@
-unsafe_atxt.exe: unsafe_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ unsafe_atxt.dats -latsdoc
-unsafe_atxt.dats: unsafe.atxt
-	$(ATSDOC) --outcode $@ -i unsafe.atxt > unsafe_atxt.txt
-clean:: ; $(RMF) unsafe_atxt.exe
-cleanall:: ; $(RMF) unsafe.sats
-
-
 ######
 
 RMF=rm -f

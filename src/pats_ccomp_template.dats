@@ -412,9 +412,37 @@ end // end of [hiimpdeclst_tmpcst_match]
 (* ****** ****** *)
 
 extern
+fun funlab_tmpsubst
+  (env: !ccompenv, fl: funlab, sub: tmpsub): funlab
+extern
 fun hidexp_ccomp_tmpcstmat_some
   (env: !ccompenv, hde0: hidexp, mat: tmpcstmat): primval
 // end of [hidexp_ccomp_tmpcstmat_some]
+
+(* ****** ****** *)
+
+implement
+funlab_tmpsubst
+  (env, fl, sub) = let
+//
+val opt = funlab_get_funentopt (fl)
+//
+in
+//
+case+ opt of
+| Some
+    (ent) => let
+(*
+    val fl2 = ...
+*)
+  in
+    exitloc (1)
+  end // end of [Some]
+| None () => fl
+//
+end // end of [funlab_tmpsubst]
+
+(* ****** ****** *)
 
 implement
 hidexp_ccomp_tmpcstmat
@@ -446,9 +474,10 @@ val- TMPCSTMATsome (imp, t2mas, sub) = mat
 val l0 = the_d2varlev_get ()
 val () = hiimpdec_ccomp_if (env, l0, imp)
 val- Some (fl) = hiimpdec_get_funlabopt (imp)
+val fl2 = funlab_tmpsubst (env, fl, sub)
 //
 in
-  primval_make_funlab (loc0, fl)
+  primval_make_funlab (loc0, fl2)
 end // end of [hidexp_ccomp_tmpcstmat_some]
 
 (* ****** ****** *)

@@ -638,7 +638,7 @@ in
 //
 case+ pmv_fun.primval_node of
 //
-| PMVfun (fl) => let
+| PMVfunlab (fl) => let
     val () = emit_funlab (out, fl)
     val () = fprint_string (out, "(")
     val () = emit_primvalist (out, pmvs_arg)

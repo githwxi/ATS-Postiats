@@ -378,40 +378,40 @@ g1int_min : g1int_min_type (tk)
 overload min with g1int_min of 20
 
 #atscode_separator()
-
+//
 fun{tk:tk}
-g1int_lt_int {i,j:int}
+lt_g1int_int {i,j:int}
   (x: g1int (tk, i), y: int (j)):<> bool (i < j)
-overload < with g1int_lt_int of 21
+overload < with lt_g1int_int of 21
 fun{tk:tk}
-g1int_lte_int {i,j:int}
+lte_g1int_int {i,j:int}
   (x: g1int (tk, i), y: int (j)):<> bool (i <= j)
-overload <= with g1int_lte_int of 21
-
+overload <= with lte_g1int_int of 21
+//
 fun{tk:tk}
-g1int_gt_int {i,j:int}
+gt_g1int_int {i,j:int}
   (x: g1int (tk, i), y: int (j)):<> bool (i > j)
-overload > with g1int_gt_int of 21
+overload > with gt_g1int_int of 21
 fun{tk:tk}
-g1int_gte_int {i,j:int}
+gte_g1int_int {i,j:int}
   (x: g1int (tk, i), y: int (j)):<> bool (i >= j)
-overload >= with g1int_gte_int of 21
-
+overload >= with gte_g1int_int of 21
+//
 fun{tk:tk}
-g1int_eq_int {i,j:int}
+eq_g1int_int {i,j:int}
   (x: g1int (tk, i), y: int (j)):<> bool (i == j)
-overload = with g1int_eq_int of 21
+overload = with eq_g1int_int of 21
 fun{tk:tk}
-g1int_neq_int {i,j:int}
+neq_g1int_int {i,j:int}
   (x: g1int (tk, i), y: int (j)):<> bool (i != j)
-overload != with g1int_neq_int of 21
-overload <> with g1int_neq_int of 21
-
+overload != with neq_g1int_int of 21
+overload <> with neq_g1int_int of 21
+//
 fun{tk:tk}
-g1int_compare_int {i,j:int}
+compare_g1int_int {i,j:int}
   (x: g1int (tk, i), y: int (j)):<> int (i-j)
-overload compare with g1int_compare_int of 21
-
+overload compare with compare_g1int_int of 21
+//
 #atscode_separator()
 
 fun{tk:tk}
@@ -726,34 +726,34 @@ g1uint_min : g1uint_min_type (tk)
 overload min with g1uint_min of 20
 
 #atscode_separator()
-
+//
 fun{tk:tk}
-g1uint_lt_int {i:int;j:nat}
+lt_g1uint_int {i:int;j:nat}
   (x: g1uint (tk, i), y: int (j)):<> bool (i < j)
-overload < with g1uint_lt_int of 21
+overload < with lt_g1uint_int of 21
 fun{tk:tk}
-g1uint_lte_int {i:int;j:nat}
+lte_g1uint_int {i:int;j:nat}
   (x: g1uint (tk, i), y: int (j)):<> bool (i <= j)
-overload <= with g1uint_lte_int of 21
-
+overload <= with lte_g1uint_int of 21
+//
 fun{tk:tk}
-g1uint_gt_int {i:int;j:nat}
+gt_g1uint_int {i:int;j:nat}
   (x: g1uint (tk, i), y: int (j)):<> bool (i > j)
-overload > with g1uint_gt_int of 21
+overload > with gt_g1uint_int of 21
 fun{tk:tk}
-g1uint_gte_int {i:int;j:nat}
+gte_g1uint_int {i:int;j:nat}
   (x: g1uint (tk, i), y: int (j)):<> bool (i >= j)
-overload >= with g1uint_gte_int of 21
-
+overload >= with gte_g1uint_int of 21
+//
 fun{tk:tk}
-g1uint_eq_int {i:int;j:nat}
+eq_g1uint_int {i:int;j:nat}
   (x: g1uint (tk, i), y: g1uint (int_kind, j)):<> bool (i == j)
-overload = with g1uint_eq_int of 21
+overload = with eq_g1uint_int of 21
 fun{tk:tk}
-g1uint_neq_int {i:int;j:nat}
+neq_g1uint_int {i:int;j:nat}
   (x: g1uint (tk, i), y: int (j)):<> bool (i != j)
-overload != with g1uint_neq_int of 21
-
+overload != with neq_g1uint_int of 21
+//
 #atscode_separator()
 //
 %{
@@ -766,8 +766,10 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 fun f_intofstr (
   tnm1: string, tnm2: string
 ) : atext = let
-val ent = sprintf
-  ("fun g0int_of_string_%s (str: NSH(string)):<> %s\n", @(tnm1, tnm2))
+val ent = sprintf ("\
+fun g0int_of_string_%s (str: NSH(string)):<> %s = \"mac#g0int_of_string_%s\"\n\
+", @(tnm1, tnm2, tnm1)
+) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
 end // end of [f_intofstr]
@@ -775,8 +777,10 @@ end // end of [f_intofstr]
 fun f_int_int (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
-val ent = sprintf
-  ("fun g0int_%s_%s (x: %s):<> %s\n", @(fnm, tnm1, tnm2, tnm2))
+val ent = sprintf ("\
+fun g0int_%s_%s (x: %s):<> %s = \"mac#atspre_g0int_%s_%s\"\n\
+", @(fnm, tnm1, tnm2, tnm2, fnm, tnm1)
+) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
 end // end of [f_int_int]
@@ -784,8 +788,10 @@ end // end of [f_int_int]
 fun f_int_bool (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
-val ent = sprintf
-  ("fun g0int_%s_%s (x: %s):<> bool\n", @(fnm, tnm1, tnm2))
+val ent = sprintf ("\
+fun g0int_%s_%s (x: %s):<> bool = \"mac#atspre_g0int_%s_%s\"\n\
+", @(fnm, tnm1, tnm2, fnm, tnm1)
+) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
 end // end of [f_int_bool]
@@ -793,8 +799,10 @@ end // end of [f_int_bool]
 fun f_int2_int (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
-val ent = sprintf
-  ("fun g0int_%s_%s (x: %s, y: %s):<> %s\n", @(fnm, tnm1, tnm2, tnm2, tnm2))
+val ent = sprintf ("\
+fun g0int_%s_%s (x: %s, y: %s):<> %s = \"mac#atspre_g0int_%s_%s\"\n\
+", @(fnm, tnm1, tnm2, tnm2, tnm2, fnm, tnm1)
+) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
 end // end of [f_int2_int]
@@ -802,16 +810,22 @@ end // end of [f_int2_int]
 fun f_int2_bool (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
-val ent = sprintf
-  ("fun g0int_%s_%s (x: %s, y: %s):<> bool\n", @(fnm, tnm1, tnm2, tnm2))
+val ent = sprintf ("\
+fun g0int_%s_%s (x: %s, y: %s):<> bool = \"mac#atspre_g0int_%s_%s\"\n\
+", @(fnm, tnm1, tnm2, tnm2, fnm, tnm1)
+) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
 end // end of [f_int2_bool]
+//
 fun f_compare (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
-val ent = sprintf
-  ("fun g0int_%s_%s (x: %s, y: %s):<> int\n", @(fnm, tnm1, tnm2, tnm2))
+val ent = sprintf ("\
+fun g0int_%s_%s (x: %s, y: %s):<> int = \"mac#atspre_g0int_%s_%s\"\n\
+", @(fnm, tnm1, tnm2, tnm2, fnm, tnm1)
+) // end of [sprintf] // end of [val]
+//
 in
   atext_strptr (ent)
 end // end of [f_compare]
@@ -891,8 +905,12 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 fun f_uintofstr (
   tnm1: string, tnm2: string
 ) : atext = let
-val ent = sprintf
-  ("fun g0uint_of_string_%s (str: NSH(string)):<> %s\n", @(tnm1, tnm2))
+val ent = sprintf ("\
+fun g0uint_of_string_%s
+  (str: NSH(string)):<> %s = \"mac#atspre_g0uint_of_string_%s\"\n\
+// end of [g0uint_of_string_%s]
+", @(tnm1, tnm2, tnm1, tnm1)
+) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
 end // end of [f_uintofstr]
@@ -900,8 +918,10 @@ end // end of [f_uintofstr]
 fun f_uint_uint (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
-val ent = sprintf
-  ("fun g0uint_%s_%s (x: %s):<> %s\n", @(fnm, tnm1, tnm2, tnm2))
+val ent = sprintf ("\
+fun g0uint_%s_%s (x: %s):<> %s = \"mac#atspre_g0uint_%s_%s\"\n\
+", @(fnm, tnm1, tnm2, tnm2, fnm, tnm1)
+) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
 end // end of [f_uint_uint]
@@ -909,8 +929,11 @@ end // end of [f_uint_uint]
 fun f_uint_bool (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
-val ent = sprintf
-  ("fun g0uint_%s_%s (x: %s):<> bool\n", @(fnm, tnm1, tnm2))
+val ent = sprintf ("\
+fun g0uint_%s_%s (x: %s):<> bool = \"mac#atspre_g0uint_%s_%s\"\n\
+" , @(fnm, tnm1, tnm2, fnm, tnm1)
+) // end of [sprintf] // end of [val]
+//
 in
   atext_strptr (ent)
 end // end of [f_uint_bool]
@@ -918,8 +941,10 @@ end // end of [f_uint_bool]
 fun f_uint2_uint (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
-val ent = sprintf
-  ("fun g0uint_%s_%s (x: %s, y: %s):<> %s\n", @(fnm, tnm1, tnm2, tnm2, tnm2))
+val ent = sprintf ("\
+fun g0uint_%s_%s (x: %s, y: %s):<> %s = \"mac#atspre_g0uint_%s_%s\"\n\
+", @(fnm, tnm1, tnm2, tnm2, tnm2, fnm, tnm1)
+) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
 end // end of [f_uint2_uint]
@@ -927,16 +952,21 @@ end // end of [f_uint2_uint]
 fun f_uint2_bool (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
-val ent = sprintf
-  ("fun g0uint_%s_%s (x: %s, y: %s):<> bool\n", @(fnm, tnm1, tnm2, tnm2))
+val ent = sprintf ("\
+fun g0uint_%s_%s (x: %s, y: %s):<> bool = \"mac#atspre_g0uint_%s_%s\"\n\
+", @(fnm, tnm1, tnm2, tnm2, fnm, tnm1)
+) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
 end // end of [f_uint2_bool]
+//
 fun f_compare (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
-val ent = sprintf
-  ("fun g0uint_%s_%s (x: %s, y: %s):<> int\n", @(fnm, tnm1, tnm2, tnm2))
+val ent = sprintf ("\
+fun g0uint_%s_%s (x: %s, y: %s):<> int = \"mac#atspre_g0uint_%s_%s\"\n\
+", @(fnm, tnm1, tnm2, tnm2, fnm, tnm1)
+) // end of [sprintf] // end of [val]
 in
   atext_strptr (ent)
 end // end of [f_compare]
@@ -944,7 +974,7 @@ end // end of [f_compare]
 in
 //
 fun
-fun_guint_type_aop0_cmp0_decl (
+fun_g0uint_type_aop_cmp_decl (
   tnm1: string, tnm2: string
 ) : atext = let
 var res: atextlst = list_nil
@@ -977,19 +1007,20 @@ val () = res := list_cons (f_compare ("compare", tnm1, tnm2), res)
 val () = res := list_cons (f_uint2_uint ("max", tnm1, tnm2), res)
 val () = res := list_cons (f_uint2_uint ("min", tnm1, tnm2), res)
 val res = list_reverse (res)
+//
 in
   atext_concatxt (list_of_list_vt (res))
-end // end of [fun_guint_type_aop0_cmp0_decl]
+end // end of [fun_g0uint_type_aop_cmp_decl]
 //
 end // end of [local]
 %}\
-#fun_guint_type_aop0_cmp0_decl("uint", "uint")\
+#fun_g0uint_type_aop_cmp_decl("uint", "uint")\
 //
-#fun_guint_type_aop0_cmp0_decl("ulint", "ulint")\
+#fun_g0uint_type_aop_cmp_decl("ulint", "ulint")\
 //
-#fun_guint_type_aop0_cmp0_decl("ullint", "ullint")\
+#fun_g0uint_type_aop_cmp_decl("ullint", "ullint")\
 //
-#fun_guint_type_aop0_cmp0_decl("size", "size_t")\
+#fun_g0uint_type_aop_cmp_decl("size", "size_t")\
 //
 #atscode_separator()
 //
@@ -1003,68 +1034,108 @@ end // end of [local]
 //
 #atscode_separator()
 //
-fun g1int_neg_int : g1int_neg_type (int_kind)
-fun g1int_succ_int : g1int_succ_type (int_kind)
-fun g1int_pred_int : g1int_pred_type (int_kind)
+%{
+fun
+fun_g1int_type_aop_cmp_decl
+  (tnm1: string, tnm2: string): atext = let
 //
-fun g1int_add_int : g1int_add_type (int_kind)
-fun g1int_sub_int : g1int_sub_type (int_kind)
-fun g1int_mul_int : g1int_mul_type (int_kind)
-fun g1int_div_int : g1int_div_type (int_kind)
+fun f (
+  fnm: string, tnm1: string, tnm2: string
+) : atext = let
+val ent = sprintf ("\
+fun g1int_%s_%s : g1int_%s_type (%s_kind) = \"mac#atspre_g1int_%s_%s\"\n\
+", @(fnm, tnm1, fnm, tnm1, fnm, tnm1)
+) // end of [sprintf] // end of [val]
+in
+  atext_strptr (ent)
+end // end of [f]
 //
-fun g1int_lt_int : g1int_lt_type (int_kind)
-fun g1int_lte_int : g1int_lte_type (int_kind)
-fun g1int_gt_int : g1int_gt_type (int_kind)
-fun g1int_gte_int : g1int_gte_type (int_kind)
-fun g1int_eq_int : g1int_eq_type (int_kind)
-fun g1int_neq_int : g1int_neq_type (int_kind)
-fun g1int_compare_int : g1int_compare_type (int_kind)
+var res: atextlst = list_nil
 //
-fun g1int_max_int : g1int_max_type (int_kind)
-fun g1int_min_int : g1int_min_type (int_kind)
+val () = res := list_cons (f ("neg", tnm1, tnm2), res)
+val () = res := list_cons (f ("succ", tnm1, tnm2), res)
+val () = res := list_cons (f ("pred", tnm1, tnm2), res)
+//
+val () = res := list_cons (f ("add", tnm1, tnm2), res)
+val () = res := list_cons (f ("sub", tnm1, tnm2), res)
+val () = res := list_cons (f ("mul", tnm1, tnm2), res)
+val () = res := list_cons (f ("div", tnm1, tnm2), res)
+//
+val () = res := list_cons (f ("lt", tnm1, tnm2), res)
+val () = res := list_cons (f ("lte", tnm1, tnm2), res)
+val () = res := list_cons (f ("gt", tnm1, tnm2), res)
+val () = res := list_cons (f ("gte", tnm1, tnm2), res)
+val () = res := list_cons (f ("eq", tnm1, tnm2), res)
+val () = res := list_cons (f ("neq", tnm1, tnm2), res)
+//
+val () = res := list_cons (f ("compare", tnm1, tnm2), res)
+//
+val () = res := list_cons (f ("max", tnm1, tnm2), res)
+val () = res := list_cons (f ("min", tnm1, tnm2), res)
+//
+val res = list_reverse (res)
+//
+in
+  atext_concatxt (list_of_list_vt (res))
+end // end of [fun_g1int_type_aop_cmp_decl]
+%}\
+\
+#fun_g1int_type_aop_cmp_decl("int", "int")\
+#fun_g1int_type_aop_cmp_decl("lint", "lint")\
+#fun_g1int_type_aop_cmp_decl("llint", "llint")\
+#fun_g1int_type_aop_cmp_decl("ssize", "ssize_t")\
 //
 #atscode_separator()
 //
-fun g1int_neg_lint : g1int_neg_type (lint_kind)
-fun g1int_succ_lint : g1int_succ_type (lint_kind)
-fun g1int_pred_lint : g1int_pred_type (lint_kind)
+%{
+fun
+fun_g1uint_type_aop_cmp_decl
+  (tnm1: string, tnm2: string): atext = let
 //
-fun g1int_add_lint : g1int_add_type (lint_kind)
-fun g1int_sub_lint : g1int_sub_type (lint_kind)
-fun g1int_mul_lint : g1int_mul_type (lint_kind)
-fun g1int_div_lint : g1int_div_type (lint_kind)
+fun f (
+  fnm: string, tnm1: string, tnm2: string
+) : atext = let
+val ent = sprintf ("\
+fun g1uint_%s_%s : g1uint_%s_type (%s_kind) = \"mac#atspre_g1uint_%s_%s\"\n\
+", @(fnm, tnm1, fnm, tnm1, fnm, tnm1)
+) // end of [sprintf] // end of [val]
+in
+  atext_strptr (ent)
+end // end of [f]
 //
-fun g1int_lt_lint : g1int_lt_type (lint_kind)
-fun g1int_lte_lint : g1int_lte_type (lint_kind)
-fun g1int_gt_lint : g1int_gt_type (lint_kind)
-fun g1int_gte_lint : g1int_gte_type (lint_kind)
-fun g1int_eq_lint : g1int_eq_type (lint_kind)
-fun g1int_neq_lint : g1int_neq_type (lint_kind)
-fun g1int_compare_lint : g1int_compare_type (lint_kind)
+var res: atextlst = list_nil
 //
-fun g1int_max_lint : g1int_max_type (lint_kind)
-fun g1int_min_lint : g1int_min_type (lint_kind)
+val () = res := list_cons (f ("succ", tnm1, tnm2), res)
+val () = res := list_cons (f ("pred", tnm1, tnm2), res)
 //
-#atscode_separator()
+val () = res := list_cons (f ("add", tnm1, tnm2), res)
+val () = res := list_cons (f ("sub", tnm1, tnm2), res)
+val () = res := list_cons (f ("mul", tnm1, tnm2), res)
+val () = res := list_cons (f ("div", tnm1, tnm2), res)
 //
-fun g1uint_succ_uint : g1uint_succ_type (uint_kind)
-fun g1uint_pred_uint : g1uint_pred_type (uint_kind)
+val () = res := list_cons (f ("lt", tnm1, tnm2), res)
+val () = res := list_cons (f ("lte", tnm1, tnm2), res)
+val () = res := list_cons (f ("gt", tnm1, tnm2), res)
+val () = res := list_cons (f ("gte", tnm1, tnm2), res)
+val () = res := list_cons (f ("eq", tnm1, tnm2), res)
+val () = res := list_cons (f ("neq", tnm1, tnm2), res)
 //
-fun g1uint_add_uint : g1uint_add_type (uint_kind)
-fun g1uint_sub_uint : g1uint_sub_type (uint_kind)
-fun g1uint_mul_uint : g1uint_mul_type (uint_kind)
-fun g1uint_div_uint : g1uint_div_type (uint_kind)
+val () = res := list_cons (f ("compare", tnm1, tnm2), res)
 //
-fun g1uint_lt_uint : g1uint_lt_type (uint_kind)
-fun g1uint_lte_uint : g1uint_lte_type (uint_kind)
-fun g1uint_gt_uint : g1uint_gt_type (uint_kind)
-fun g1uint_gte_uint : g1uint_gte_type (uint_kind)
-fun g1uint_eq_uint : g1uint_eq_type (uint_kind)
-fun g1uint_neq_uint : g1uint_neq_type (uint_kind)
-fun g1uint_compare_uint : g1uint_compare_type (uint_kind)
+val () = res := list_cons (f ("max", tnm1, tnm2), res)
+val () = res := list_cons (f ("min", tnm1, tnm2), res)
 //
-fun g1uint_max_uint : g1uint_max_type (uint_kind)
-fun g1uint_min_uint : g1uint_min_type (uint_kind)
+val res = list_reverse (res)
+//
+in
+  atext_concatxt (list_of_list_vt (res))
+end // end of [fun_g1uint_type_aop_cmp_decl]
+%}\
+\
+#fun_g1uint_type_aop_cmp_decl("uint", "uint")\
+#fun_g1uint_type_aop_cmp_decl("ulint", "ulint")\
+#fun_g1uint_type_aop_cmp_decl("ullint", "ullint")\
+#fun_g1uint_type_aop_cmp_decl("size", "size_t")\
 //
 #atscode_separator()
 

@@ -178,8 +178,8 @@ fun funent_get_ret (fent: funent): tmpvar // return val
 
 (* ****** ****** *)
 
-fun funlab_get_entry (fl: funlab): funentopt
-fun funlab_set_entry (fl: funlab, opt: funentopt): void
+fun funlab_get_funentopt (fl: funlab): funentopt
+fun funlab_set_funentopt (fl: funlab, opt: funentopt): void
 
 (* ****** ****** *)
 

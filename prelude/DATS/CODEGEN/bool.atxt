@@ -27,7 +27,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 implement
-gcompare_val<bool> (b1, b2) = compare_bool0_bool0 (b1, b2)
+gcompare_val<bool> = compare_bool0_bool0
 
 #atscode_separator()
 
@@ -42,7 +42,7 @@ tostring_bool
 *)
 
 implement
-tostring_val<bool> (b) = tostring_bool (b)
+tostring_val<bool> = tostring_bool
 
 #atscode_separator()
 
@@ -56,8 +56,7 @@ fprint_bool (out, x) =
 // end of [fprint_bool]
 *)
 
-implement
-fprint_val<bool> (out, x) = fprint_bool (out, x)
+implement fprint_val<bool> = fprint_bool
 
 #atscode_separator()
 

@@ -264,7 +264,7 @@ fun auxlam (
   end // end of [val]
 //
   val () = the_funlablst_add (fl)
-  val () = funlab_set_entry (fl, Some (fent))
+  val () = funlab_set_funentopt (fl, Some (fent))
 //
   val () = println! ("hiimpdec_ccomp: auxlam: fent = ", fent)
 //
@@ -416,7 +416,7 @@ case+ hfds of
 //
     val () = println! ("auxmain: fent=", fent)
 //
-    val () = funlab_set_entry (fl, Some (fent))
+    val () = funlab_set_funentopt (fl, Some (fent))
 //
   in
     auxmain (env, knd, decarg, hfds, fls)
