@@ -126,7 +126,7 @@ token_node =
       (fxtykind) // infix, infixl, infixr, prefix, postfix
   | T_FOR of () // for
   | T_FORSTAR of () // for*
-  | T_FUN of (funkind) // fn, fn*, fun and prfun
+  | T_FUN of (funkind) // fn, fnx, fun, prfn and prfun
   | T_IF of () // (dynamic) if
   | T_IMPLEMENT of
       (int) // 0/1: implement/primplement
@@ -304,13 +304,16 @@ val DATAPROP : tnode
 val DATAVIEW : tnode
 val DATAVIEWTYPE : tnode
 
-val FUN : tnode
-val PRFUN : tnode
-val PRAXI : tnode
-val CASTFN : tnode
 val FN : tnode
-val FNSTAR : tnode
+val FNX : tnode
+val FUN : tnode
+//
 val PRFN : tnode
+val PRFUN : tnode
+//
+val PRAXI : tnode
+//
+val CASTFN : tnode
 
 val FOLD : tnode
 val FOLDAT : tnode

@@ -73,14 +73,16 @@ implement DATAVIEWTYPE = T_DATATYPE (VIEWTYPE_int)
 implement FIX = T_FIX (TYPE_int)
 implement FIXAT = T_FIX (T0YPE_int)
 
-implement FUN = T_FUN (FK_fun)
-implement PRFUN = T_FUN (FK_prfun)
-implement PRAXI = T_FUN (FK_praxi)
-implement CASTFN = T_FUN (FK_castfn)
-
 implement FN = T_FUN (FK_fn)
-implement FNSTAR = T_FUN (FK_fnstar)
+implement FNX = T_FUN (FK_fnx)
+implement FUN = T_FUN (FK_fun)
+//
 implement PRFN = T_FUN (FK_prfn)
+implement PRFUN = T_FUN (FK_prfun)
+//
+implement PRAXI = T_FUN (FK_praxi)
+//
+implement CASTFN = T_FUN (FK_castfn)
 
 implement IMPLEMENT = T_IMPLEMENT (0)
 implement PRIMPLMNT = T_IMPLEMENT (1)
@@ -379,15 +381,15 @@ val () = ins ("extern", T_EXTERN)
 val () = ins ("extype", T_EXTYPE)
 val () = ins ("extval", T_EXTVAL)
 //
-val () = ins ("fun", FUN)
+val () = ins ("fn", FN) // non-recursive
+val () = ins ("fnx", FNX) // mutual tail-rec.
+val () = ins ("fun", FUN) // general-recursive
+//
+val () = ins ("prfn", PRFN)
 val () = ins ("prfun", PRFUN)
+//
 val () = ins ("praxi", PRAXI)
 val () = ins ("castfn", CASTFN)
-(*
-val () = ins ("fn", FN)
-val () = ins ("fnstar", FNSTAR)
-*)
-val () = ins ("prfn", PRFN)
 //
 val () = ins ("if", T_IF)
 val () = ins ("in", T_IN)

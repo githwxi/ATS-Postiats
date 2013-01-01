@@ -42,6 +42,11 @@ staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
+staload "./pats_histaexp.sats"
+staload "./pats_hidynexp.sats"
+
+(* ****** ****** *)
+
 staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
@@ -399,6 +404,47 @@ case+ imps of
 | list_nil () => TMPCSTMATnone ()
 //
 end // end of [hiimpdeclst_tmpcst_match]
+
+(* ****** ****** *)
+
+local
+
+extern
+fun hidexp_ccomp_tmpcstmat_some
+  (env: !ccompenv, hde0: hidexp, mat: tmpcstmat): primval
+implement
+hidexp_ccomp_tmpcstmat_some
+  (env, hde0, mat) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val- HDEtmpcst (d2c, t2mas) = hde0.hidexp_node
+//
+val- TMPCSTMATsome (imp, t2mas, sub) = mat
+//
+in
+  primval_tmpltcstmat (loc0, hse0, d2c, t2mas, mat)
+end // end of [hidexp_ccomp_tmpcstmat_some]
+
+in // in of [local]
+
+implement
+hidexp_ccomp_tmpcstmat
+  (env, hde0, mat) = let
+  val loc0 = hde0.hidexp_loc
+  val hse0 = hde0.hidexp_type
+  val- HDEtmpcst (d2c, t2mas) = hde0.hidexp_node
+in
+//
+case+ mat of
+| TMPCSTMATsome _ =>
+    hidexp_ccomp_tmpcstmat_some (env, hde0, mat)
+| TMPCSTMATnone (
+  ) => primval_tmpltcstmat (loc0, hse0, d2c, t2mas, mat)
+//
+end // end of [hidexp_ccomp_tmpltcstmat]
+
+end // end of [local]
 
 (* ****** ****** *)
 

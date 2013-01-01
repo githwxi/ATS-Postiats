@@ -427,7 +427,9 @@ else let
     ccompenv_tmpcst_match (env, d2c, t2mas)
   // end of [val]
 //
-  val () = print ("hidexp_ccomp_tmpcst:\n")
+  val () = print (
+    "hidexp_ccomp_tmpcst:\n"
+  ) // end of [val]
   val () = println! ("d2c = ", d2c)
   val () = print ("t2mas = ")
   val () = fpprint_t2mpmarglst (stdout_ref, t2mas)
@@ -437,7 +439,7 @@ else let
   val () = print_newline ()
 //
 in
-  primval_tmpltcstmat (loc0, hse0, d2c, t2mas, mat)
+  hidexp_ccomp_tmpcstmat (env, hde0, mat)
 end // end of [if]
 //
 end // end of [hidexp_ccomp_tmpcst]

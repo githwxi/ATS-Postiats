@@ -83,13 +83,17 @@ fun fprint_caskind : fprint_type (caskind)
 
 datatype
 funkind =
-  | FK_fun // recursive fun
-  | FK_prfun // recursive proof fun
-  | FK_praxi // proof axion
-  | FK_castfn // casting fun
+//
   | FK_fn // nonrec fun
-  | FK_fnstar // tailrec fun
+  | FK_fnx // tailrec fun
+  | FK_fun // recursive fun
+//
   | FK_prfn // nonrec proof fun
+  | FK_prfun // recursive proof fun
+//
+  | FK_praxi // proof axion
+//
+  | FK_castfn // casting fun
 // end of [funkind]
 
 fun funkind_is_proof (x: funkind): bool

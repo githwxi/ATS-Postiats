@@ -447,13 +447,13 @@ fun primval_tmpltcst (
   loc: location, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst
 ) : primval // end of [primval_tmpltcst]
 
-fun primval_tmpltcstmat (
-  loc: location, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst, mat: tmpcstmat
-) : primval // end of [primval_tmpltcstmat]
-
 fun primval_tmpltvar (
   loc: location, hse: hisexp, d2v: d2var, t2mas: t2mpmarglst
 ) : primval // end of [primval_tmpltvar]
+
+fun primval_tmpltcstmat (
+  loc: location, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst, mat: tmpcstmat
+) : primval // end of [primval_tmpltcstmat]
 
 (* ****** ****** *)
 
@@ -776,7 +776,7 @@ fun hidexp_ccomp_ret
 
 fun hidexp_ccomp_funlab_arg_body (
   env: !ccompenv
-, fl: funlab
+, fl: funlab // HX: needed for recursion
 , imparg: s2varlst
 , tmparg: s2explstlst
 , prolog: instrlst
@@ -784,6 +784,12 @@ fun hidexp_ccomp_funlab_arg_body (
 , hips_arg: hipatlst
 , hde_body: hidexp
 ) : funent // end of [ccomp_exp_arg_body_funlab]
+
+(* ****** ****** *)
+
+fun hidexp_ccomp_tmpcstmat (
+  env: !ccompenv, hde0: hidexp, mat: tmpcstmat
+) : primval // end of [hidexp_ccomp_tmpcstmat]
 
 (* ****** ****** *)
 

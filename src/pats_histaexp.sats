@@ -37,6 +37,7 @@ staload "pats_basics.sats"
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
@@ -173,14 +174,7 @@ fun hisexp_make_srtsym (s2t: s2rt, sym: symbol): hisexp
 
 (* ****** ****** *)
 
-absviewtype hsesub_viewtype
-viewtypedef hsesub = hsesub_viewtype
-
-fun hsesub_make_nil () : hsesub
-fun hsesub_copy (sub: !hsesub): hsesub
-fun hsesub_free (sub: hsesub): void
-
-fun hisexp_subst (sub: !hsesub, hse: hisexp): hisexp
+fun hisexp_subst (sub: !stasub, hse: hisexp): hisexp
 
 (* ****** ****** *)
 

@@ -350,13 +350,13 @@ fun token_get_dcstkind
   case+ tok.token_node of
   | T_FUN (fk) => (
       case+ fk of
+      | FK_fn () => DCKfun ()
+      | FK_fnx () => DCKfun ()
       | FK_fun () => DCKfun ()
+      | FK_prfn () => DCKprfun ()
       | FK_prfun () => DCKprfun ()
       | FK_praxi () => DCKpraxi ()
       | FK_castfn () => DCKcastfn ()
-      | FK_fn () => DCKfun ()
-      | FK_fnstar () => DCKfun ()
-      | FK_prfn () => DCKprfun ()
     ) // end of [T_FUN]
   | T_VAL (vk) => (
       case+ vk of

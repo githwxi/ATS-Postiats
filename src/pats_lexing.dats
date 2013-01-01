@@ -127,7 +127,6 @@ lexsym =
   | LS_ADDR // for addr@
   | LS_CASE // for case+ and case-
   | LS_FIX // for fix@
-  | LS_FN // for fn*
   | LS_FOR // for for*
   | LS_FOLD // for fold@
   | LS_FREE // for free@
@@ -240,7 +239,6 @@ val () = insert (ptbl, "absviewt", LS_ABSVIEWT)
 val () = insert (ptbl, "addr", LS_ADDR)
 val () = insert (ptbl, "case", LS_CASE)
 val () = insert (ptbl, "fix", LS_FIX)
-val () = insert (ptbl, "fn", LS_FN)
 val () = insert (ptbl, "for", LS_FOR)
 val () = insert (ptbl, "fold", LS_FOLD)
 val () = insert (ptbl, "free", LS_FREE)
@@ -1633,9 +1631,6 @@ end // end of [lexing_polarity]
 
 (* ****** ****** *)
 
-fun lexing_FN (
-  buf: &lexbuf, pos: &position
-) : token = lexing_postfix (buf, pos, FN, FNSTAR, '*')
 fun lexing_FOR (
   buf: &lexbuf, pos: &position
 ) : token = lexing_postfix (buf, pos, FOR, FORSTAR, '*')
@@ -1806,9 +1801,6 @@ case+ sym of
   end
 | LS_CASE () => let
     val () = strptr_free (str) in lexing_CASE (buf, pos)
-  end
-| LS_FN () => let
-    val () = strptr_free (str) in lexing_FN (buf, pos)
   end
 | LS_FOR () => let
     val () = strptr_free (str) in lexing_FOR (buf, pos)

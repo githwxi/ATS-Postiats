@@ -134,38 +134,56 @@ fprint_caskind
 (* ****** ****** *)
 
 implement
-funkind_is_proof fk = case+ fk of
-  | FK_prfun () => true
-  | FK_prfn () => true
-  | FK_praxi () => true
-  | _ => false
-// end of [funkind_is_proof]
+funkind_is_proof
+  (fk) = let
+in
+//
+case+ fk of
+| FK_prfn () => true
+| FK_prfun () => true
+| FK_praxi () => true
+| _ => false
+//
+end // end of [funkind_is_proof]
 
 implement
-funkind_is_recursive fk = case+ fk of
-  | FK_fun () => true
-  | FK_fnstar () => true
-  | FK_prfun () => true
-  | FK_castfn () => true
-  | _ => false
-// end of [funkind_is_recursive]
+funkind_is_recursive
+  (fk) = let
+in
+//
+case+ fk of
+| FK_fnx () => true
+| FK_fun () => true
+| FK_prfun () => true
+| FK_castfn () => true
+| _ => false
+//
+end // end of [funkind_is_recursive]
 
 implement
 funkind_is_tailrecur fk =
-  case+ fk of FK_fnstar () => true | _ => false
+  case+ fk of FK_fnx () => true | _ => false
 // end of [funkind_is_tailrecur]
 
 implement
 fprint_funkind
-  (out, fk) = case+ fk of
-  | FK_fun () => fprint_string (out, "fun")
-  | FK_prfun () => fprint_string (out, "prfun")
-  | FK_praxi () => fprint_string (out, "praxi")
-  | FK_castfn () => fprint_string (out, "castfn")
+  (out, fk) = let
+in
+//
+case+ fk of
+//
   | FK_fn () => fprint_string (out, "fn")
-  | FK_fnstar () => fprint_string (out, "fn*")
+  | FK_fnx () => fprint_string (out, "fnx")
+  | FK_fun () => fprint_string (out, "fun")
+//
   | FK_prfn () => fprint_string (out, "prfn")
-// end of [fprint_funkind]
+  | FK_prfun () => fprint_string (out, "prfun")
+//
+  | FK_praxi () => fprint_string (out, "praxi")
+//
+  | FK_castfn () => fprint_string (out, "castfn")
+//
+end // end of [fprint_funkind]
 
 (* ****** ****** *)
 

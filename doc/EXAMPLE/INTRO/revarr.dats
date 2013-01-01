@@ -1,6 +1,7 @@
 //
-// Reversing the content of an array. This is a simple example
-// for illustrating some benefits of dependent types.
+// Reversing the content of an array.
+// This is a simple and convincing example for
+// illustrating some benefits of dependent types.
 //
 // Author: Hongwei Xi (Spring, 2009)
 // Author: Hongwei Xi (May, 2012) // porting to ATS2
