@@ -28,8 +28,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#ifndef ATSHOME_PRELUDE_BOOL_CATS
-\#define ATSHOME_PRELUDE_BOOL_CATS
+\#ifndef ATSHOME_PRELUDE_FLOAT_CATS
+\#define ATSHOME_PRELUDE_FLOAT_CATS
 
 #atscode_separator_for_C()
 
@@ -41,7 +41,53 @@ int fprintf (FILE *stream, char *format, ...) ;
 
 %{
 fun
-fun_float_cmp0_decl (
+fun_f0loat_aop_decl (
+  opr: string, knd: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "add" => "+" | "sub" => "-"
+  | "mul" => "*" | "div" => "/"
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_bool
+atspre_g0float_%s_%s
+  (atstype_%s f1, atstype_%s f2) { return (f1 %s f2) ; }
+// end of [atspre_g0float_%s_%s]\
+", @(
+ opr, knd, knd, knd, fopr, opr, knd
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_f0loat_aop_decl]
+%}\
+\
+#fun_f0loat_aop_decl("add", "float")
+#fun_f0loat_aop_decl("sub", "float"))
+#fun_f0loat_aop_decl("mul", "float"))
+#fun_f0loat_aop_decl("div", "float"))
+//
+#fun_f0loat_aop_decl("add", "double")
+#fun_f0loat_aop_decl("sub", "double"))
+#fun_f0loat_aop_decl("mul", "double"))
+#fun_f0loat_aop_decl("div", "double"))
+//
+#fun_f0loat_aop_decl("add", "ldouble")
+#fun_f0loat_aop_decl("sub", "ldouble"))
+#fun_f0loat_aop_decl("mul", "ldouble"))
+#fun_f0loat_aop_decl("div", "ldouble"))
+//
+#atscode_separator_for_C()
+
+%{
+fun
+fun_f0loat_cmp_decl (
   opr: string, knd: string
 ) : atext = let
 //
@@ -67,30 +113,30 @@ atspre_g0float_%s_%s
 //
 in
   atext_strptr (ent)
-end // end of [fun_float_cmp0_decl]
+end // end of [fun_f0loat_cmp_decl]
 %}\
 \
-#fun_float_cmp0_decl("lt", "float")
-#fun_float_cmp0_decl("lte", "float"))
-#fun_float_cmp0_decl("gt", "float"))
-#fun_float_cmp0_decl("gte", "float"))
-#fun_float_cmp0_decl("eq", "float"))
-#fun_float_cmp0_decl("neq", "float"))
-
-#fun_float_cmp0_decl("lt", "double")
-#fun_float_cmp0_decl("lte", "double"))
-#fun_float_cmp0_decl("gt", "double"))
-#fun_float_cmp0_decl("gte", "double"))
-#fun_float_cmp0_decl("eq", "double"))
-#fun_float_cmp0_decl("neq", "double"))
-
-#fun_float_cmp0_decl("lt", "ldouble")
-#fun_float_cmp0_decl("lte", "ldouble"))
-#fun_float_cmp0_decl("gt", "ldouble"))
-#fun_float_cmp0_decl("gte", "ldouble"))
-#fun_float_cmp0_decl("eq", "ldouble"))
-#fun_float_cmp0_decl("neq", "ldouble"))
-
+#fun_f0loat_cmp_decl("lt", "float")
+#fun_f0loat_cmp_decl("lte", "float"))
+#fun_f0loat_cmp_decl("gt", "float"))
+#fun_f0loat_cmp_decl("gte", "float"))
+#fun_f0loat_cmp_decl("eq", "float"))
+#fun_f0loat_cmp_decl("neq", "float"))
+//
+#fun_f0loat_cmp_decl("lt", "double")
+#fun_f0loat_cmp_decl("lte", "double"))
+#fun_f0loat_cmp_decl("gt", "double"))
+#fun_f0loat_cmp_decl("gte", "double"))
+#fun_f0loat_cmp_decl("eq", "double"))
+#fun_f0loat_cmp_decl("neq", "double"))
+//
+#fun_f0loat_cmp_decl("lt", "ldouble")
+#fun_f0loat_cmp_decl("lte", "ldouble"))
+#fun_f0loat_cmp_decl("gt", "ldouble"))
+#fun_f0loat_cmp_decl("gte", "ldouble"))
+#fun_f0loat_cmp_decl("eq", "ldouble"))
+#fun_f0loat_cmp_decl("neq", "ldouble"))
+//
 #atscode_separator_for_C()
 
 ATSinline()
@@ -134,7 +180,7 @@ atspre_fprint_ldouble (
 
 #atscode_separator_for_C()
 
-\#endif // ifndef ATSHOME_PRELUDE_BOOL_CATS
+\#endif // ifndef ATSHOME_PRELUDE_FLOAT_CATS
 
 #atscode_separator_for_C()
 

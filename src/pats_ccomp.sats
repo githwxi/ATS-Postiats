@@ -189,7 +189,10 @@ fun the_funlablst_addlst (fls: funlablst): void
 
 (* ****** ****** *)
 
-fun hiimpdec_get_funlabopt (imp: hiimpdec): Option (funlab)
+fun hiimpdec_get_funlabopt
+  (imp: hiimpdec): Option (funlab)
+fun hiimpdec_set_funlabopt
+  (imp: hiimpdec, opt: Option (funlab)): void
 
 (* ****** ****** *)
 
@@ -263,7 +266,7 @@ and primval_node =
 //
   | PMVextval of (string(*name*))
 //
-  | PMVfun of (funlab)
+  | PMVfunlab of (funlab)
 //
   | PMVptrof of (primval)
 //
@@ -437,9 +440,9 @@ fun primval_extval
 
 (* ****** ****** *)
 
-fun primval_fun
+fun primval_funlab
   (loc: location, hse: hisexp, fl: funlab): primval
-// end of [primval_fun]
+// end of [primval_funlab]
 
 (* ****** ****** *)
 
@@ -790,6 +793,16 @@ fun hidexp_ccomp_funlab_arg_body (
 fun hidexp_ccomp_tmpcstmat (
   env: !ccompenv, hde0: hidexp, mat: tmpcstmat
 ) : primval // end of [hidexp_ccomp_tmpcstmat]
+
+(* ****** ****** *)
+
+fun hiimpdec_ccomp (
+  env: !ccompenv, level: int, imp: hiimpdec
+) : void // end of [hiimpdec_ccomp]
+
+fun hiimpdec_ccomp_if (
+  env: !ccompenv, level: int, imp: hiimpdec
+) : void // end of [hiimpdec_ccomp_if]
 
 (* ****** ****** *)
 

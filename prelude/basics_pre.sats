@@ -315,10 +315,11 @@ stadef - = add_eff_eff // difference of effsets
 symintr ~ not
 symintr && || << >> land lor lxor
 symintr + - * / mod gcd
-symintr < <= > >= = <> !=
-symintr succ pred half
-symintr abs square sqrt cube cbrt
-symintr compare max min pow
+symintr < <= > >= = != <>
+symintr succ pred half double
+symintr isltz isltez isgtz isgtez iseqz isneqz
+symintr compare abs max min pow
+symintr square sqrt cube cbrt
 (*
 symintr foreach iforeach rforeach
 *)

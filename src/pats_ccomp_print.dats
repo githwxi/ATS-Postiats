@@ -270,8 +270,8 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
-| PMVfun (fl) => {
-    val () = prstr "PMVfun("
+| PMVfunlab (fl) => {
+    val () = prstr "PMVfunlab("
     val () = fprint_funlab (out, fl)
     val () = prstr ")"
   }

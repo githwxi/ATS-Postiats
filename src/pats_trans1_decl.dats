@@ -346,29 +346,33 @@ end // end of [e0xndec_tr]
 (* ****** ****** *)
 
 fun token_get_dcstkind
-  (tok: token): dcstkind = (
-  case+ tok.token_node of
-  | T_FUN (fk) => (
-      case+ fk of
-      | FK_fn () => DCKfun ()
-      | FK_fnx () => DCKfun ()
-      | FK_fun () => DCKfun ()
-      | FK_prfn () => DCKprfun ()
-      | FK_prfun () => DCKprfun ()
-      | FK_praxi () => DCKpraxi ()
-      | FK_castfn () => DCKcastfn ()
-    ) // end of [T_FUN]
-  | T_VAL (vk) => (
-      case+ vk of
-      | VK_val () => DCKval ()
-      | VK_prval () => DCKprval ()
-      | VK_val_pos () => DCKval ()
-      | VK_val_neg () => DCKval ()
-    ) // end of [T_VAL]
-  | _ => let
-      val () = assertloc (false) in DCKfun ()
-    end // end of [_]
-) // end of [token_get_dcstkind]
+  (tok: token): dcstkind = let
+in
+//
+case+
+  tok.token_node of
+| T_FUN (fk) => (
+  case+ fk of
+  | FK_fn () => DCKfun ()
+  | FK_fnx () => DCKfun ()
+  | FK_fun () => DCKfun ()
+  | FK_prfn () => DCKprfun ()
+  | FK_prfun () => DCKprfun ()
+  | FK_praxi () => DCKpraxi ()
+  | FK_castfn () => DCKcastfn ()
+  ) // end of [T_FUN]
+| T_VAL (vk) => (
+  case+ vk of
+  | VK_val () => DCKval ()
+  | VK_val_pos () => DCKval ()
+  | VK_val_neg () => DCKval ()
+  | VK_prval () => DCKprval ()
+  ) // end of [T_VAL]
+| _ => let
+    val () = assertloc (false) in DCKfun ()
+  end // end of [_]
+//
+end // end of [token_get_dcstkind]
 
 (* ****** ****** *)
 
@@ -376,8 +380,7 @@ fn m0acdef_tr
   (d: m0acdef): m1acdef = let
   val loc = d.m0acdef_loc
   val sym = d.m0acdef_sym
-  val arg =
-    m0acarglst_tr (d.m0acdef_arg)
+  val arg = m0acarglst_tr (d.m0acdef_arg)
   val def = d0exp_tr (d.m0acdef_def)
 in
   m1acdef_make (loc, sym, arg, def)

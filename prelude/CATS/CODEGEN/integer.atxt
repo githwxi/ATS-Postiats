@@ -1,0 +1,191 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"integer.cats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_LGPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/prelude/CATS/CODEGEN/integer.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("December, 2012")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSHOME_PRELUDE_INTEGER_CATS
+\#define ATSHOME_PRELUDE_INTEGER_CATS
+
+#atscode_separator_for_C()
+
+extern
+int fprintf (FILE *stream, char *format, ...) ;
+// in stdio.h
+
+#atscode_separator_for_C()
+
+%{
+fun
+fun_g0int_aop_decl (
+  opr: string, knd: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "add" => "+" | "sub" => "-"
+  | "mul" => "*" | "div" => "/"
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_bool
+atspre_g0int_%s_%s
+  (atstype_%s f1, atstype_%s f2) { return (f1 %s f2) ; }
+// end of [atspre_g0int_%s_%s]\
+", @(
+ opr, knd, knd, knd, fopr, opr, knd
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_g0int_aop_decl]
+%}\
+\
+#fun_g0int_aop_decl("add", "int")
+#fun_g0int_aop_decl("sub", "int"))
+#fun_g0int_aop_decl("mul", "int"))
+#fun_g0int_aop_decl("div", "int"))
+//
+#fun_g0int_aop_decl("add", "lint")
+#fun_g0int_aop_decl("sub", "lint"))
+#fun_g0int_aop_decl("mul", "lint"))
+#fun_g0int_aop_decl("div", "lint"))
+//
+#fun_g0int_aop_decl("add", "llint")
+#fun_g0int_aop_decl("sub", "llint"))
+#fun_g0int_aop_decl("mul", "llint"))
+#fun_g0int_aop_decl("div", "llint"))
+//
+#atscode_separator_for_C()
+
+%{
+fun
+fun_g0int_cmp_decl (
+  opr: string, knd: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "==" | "neq" => "!="
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_bool
+atspre_g0float_%s_%s
+  (atstype_%s f1, atstype_%s f2) {
+  return (f1 %s f2 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_g0float_%s_%s]\
+", @(
+ opr, knd, knd, knd, fopr, opr, knd
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_g0int_cmp_decl]
+%}\
+\
+#fun_g0int_cmp_decl("lt", "int")
+#fun_g0int_cmp_decl("lte", "int"))
+#fun_g0int_cmp_decl("gt", "int"))
+#fun_g0int_cmp_decl("gte", "int"))
+#fun_g0int_cmp_decl("eq", "int"))
+#fun_g0int_cmp_decl("neq", "int"))
+//
+#fun_g0int_cmp_decl("lt", "lint")
+#fun_g0int_cmp_decl("lte", "lint"))
+#fun_g0int_cmp_decl("gt", "lint"))
+#fun_g0int_cmp_decl("gte", "lint"))
+#fun_g0int_cmp_decl("eq", "lint"))
+#fun_g0int_cmp_decl("neq", "lint"))
+//
+#fun_g0int_cmp_decl("lt", "llint")
+#fun_g0int_cmp_decl("lte", "llint"))
+#fun_g0int_cmp_decl("gt", "llint"))
+#fun_g0int_cmp_decl("gte", "llint"))
+#fun_g0int_cmp_decl("eq", "llint"))
+#fun_g0int_cmp_decl("neq", "llint"))
+//
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_void
+atspre_fprint_int (
+  atstype_ref r, atstype_int x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%i", x) ;
+  return ;
+} // end [atspre_fprint_int]
+
+\#define atspre_print_int(x) atspre_fprint_int(stdout_ref, (x))
+\#define atspre_prerr_int(x) atspre_fprint_int(stderr_ref, (x))
+
+ATSinline()
+atstype_void
+atspre_fprint_lint (
+  atstype_ref r, atstype_lint x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%li", x) ;
+  return ;
+} // end [atspre_fprint_lint]
+
+\#define atspre_print_lint(x) atspre_fprint_lint(stdout_ref, (x))
+\#define atspre_prerr_lint(x) atspre_fprint_lint(stderr_ref, (x))
+
+ATSinline()
+atstype_void
+atspre_fprint_llint (
+  atstype_ref r, atstype_llint x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%lli", x) ;
+  return ;
+} // end [atspre_fprint_llint]
+
+\#define atspre_print_llint(x) atspre_fprint_llint(stdout_ref, (x))
+\#define atspre_prerr_llint(x) atspre_fprint_llint(stderr_ref, (x))
+
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSHOME_PRELUDE_INTEGER_CATS
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "float_atxt.txt")
+%}\

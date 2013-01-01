@@ -51,6 +51,11 @@ hiimpdec_get_funlabopt (imp) =
   $UN.ptrget<Option(funlab)> (hiimpdec_getref_funlabopt (imp))
 // end of [hiimpdec_get_funlabopt]
 
+implement
+hiimpdec_set_funlabopt (imp, opt) =
+  $UN.ptrset<Option(funlab)> (hiimpdec_getref_funlabopt (imp), opt)
+// end of [hiimpdec_set_funlabopt]
+
 (* ****** ****** *)
 
 extern
@@ -202,9 +207,9 @@ primval_extval (loc, hse, name) =
 (* ****** ****** *)
 
 implement
-primval_fun (loc, hse, fl) =
-  primval_make_node (loc, hse, PMVfun (fl))
-// end of [primval_fun]
+primval_funlab (loc, hse, fl) =
+  primval_make_node (loc, hse, PMVfunlab (fl))
+// end of [primval_funlab]
 
 (* ****** ****** *)
 

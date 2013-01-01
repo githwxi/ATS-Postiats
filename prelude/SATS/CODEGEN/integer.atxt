@@ -86,11 +86,15 @@ fun{tk:tk}
 g0int_half (x: g0int (tk)):<> g0int (tk)
 overload half with g0int_half of 0
 
+fun{tk:tk}
+g0int_double (x: g0int (tk)):<> g0int (tk)
+overload double with g0int_double of 0
+
 #atscode_separator()
 
 %{
 fun
-fun_gint_aop0_decl (
+fun_g0int_aop_decl (
   opr: string
 ) : atext = let
 //
@@ -114,19 +118,40 @@ overload %s with g0int_%s of 0\
 //
 in
   atext_strptr (ent)
-end // end of [fun_gint_cmp0_decl]
+end // end of [fun_g0int_aop_decl]
 %}\
-#fun_gint_aop0_decl("add")
-#fun_gint_aop0_decl("sub")
-#fun_gint_aop0_decl("mul")
-#fun_gint_aop0_decl("div")
-#fun_gint_aop0_decl("mod")
+#fun_g0int_aop_decl("add")
+#fun_g0int_aop_decl("sub")
+#fun_g0int_aop_decl("mul")
+#fun_g0int_aop_decl("div")
+#fun_g0int_aop_decl("mod")
+
+#atscode_separator()
+
+fun{tk:tk}
+g0int_isltz (x: g0int (tk)):<> bool
+overload isltz with g0int_isltz of 0
+fun{tk:tk}
+g0int_isltez (x: g0int (tk)):<> bool
+overload isltez with g0int_isltez of 0
+fun{tk:tk}
+g0int_isgtz (x: g0int (tk)):<> bool
+overload isgtz with g0int_isgtz of 0
+fun{tk:tk}
+g0int_isgtez (x: g0int (tk)):<> bool
+overload isgtez with g0int_isgtez of 0
+fun{tk:tk}
+g0int_iseqz (x: g0int (tk)):<> bool
+overload iseqz with g0int_iseqz of 0
+fun{tk:tk}
+g0int_isneqz (x: g0int (tk)):<> bool
+overload isneqz with g0int_isneqz of 0
 
 #atscode_separator()
 
 %{
 fun
-fun_gint_cmp0_decl (
+fun_g0int_cmp_decl (
   opr: string
 ) : atext = let
 //
@@ -151,16 +176,16 @@ overload %s with g0int_%s of 0\
 //
 in
   atext_strptr (ent)
-end // end of [fun_gint_cmp0_decl]
+end // end of [fun_g0int_cmp_decl]
 %}\
-#fun_gint_cmp0_decl("lt")
-#fun_gint_cmp0_decl("lte")
+#fun_g0int_cmp_decl("lt")
+#fun_g0int_cmp_decl("lte")
 
-#fun_gint_cmp0_decl("gt")
-#fun_gint_cmp0_decl("gte")
+#fun_g0int_cmp_decl("gt")
+#fun_g0int_cmp_decl("gte")
 
-#fun_gint_cmp0_decl("eq")
-#fun_gint_cmp0_decl("neq")
+#fun_g0int_cmp_decl("eq")
+#fun_g0int_cmp_decl("neq")
 overload <> with g0int_neq of 0
 
 fun{tk:tk}
@@ -427,7 +452,7 @@ overload half with g0uint_half
 
 %{
 fun
-fun_guint_aop0_decl (
+fun_g0uint_aop_decl (
   opr: string
 ) : atext = let
 //
@@ -451,19 +476,34 @@ overload %s with g0uint_%s of 0\
 //
 in
   atext_strptr (ent)
-end // end of [fun_guint_aop0_decl]
+end // end of [fun_g0uint_aop_decl]
 %}\
-#fun_guint_aop0_decl("add")
-#fun_guint_aop0_decl("sub")
-#fun_guint_aop0_decl("mul")
-#fun_guint_aop0_decl("div")
-#fun_guint_aop0_decl("mod")
+#fun_g0uint_aop_decl("add")
+#fun_g0uint_aop_decl("sub")
+#fun_g0uint_aop_decl("mul")
+#fun_g0uint_aop_decl("div")
+#fun_g0uint_aop_decl("mod")
+
+#atscode_separator()
+
+fun{tk:tk}
+g0uint_isgtz (x: g0uint (tk)):<> bool
+overload isgtz with g0uint_isgtz of 0
+fun{tk:tk}
+g0uint_isgtez (x: g0uint (tk)):<> bool
+overload isgtez with g0uint_isgtez of 0
+fun{tk:tk}
+g0uint_iseqz (x: g0uint (tk)):<> bool
+overload iseqz with g0uint_iseqz of 0
+fun{tk:tk}
+g0uint_isneqz (x: g0uint (tk)):<> bool
+overload isneqz with g0uint_isneqz of 0
 
 #atscode_separator()
 
 %{
 fun
-fun_guint_cmp0_decl (
+fun_g0uint_cmp_decl (
   opr: string
 ) : atext = let
 //
@@ -488,16 +528,16 @@ overload %s with g0uint_%s of 0\
 //
 in
   atext_strptr (ent)
-end // end of [fun_guint_cmp0_decl]
+end // end of [fun_g0uint_cmp_decl]
 %}\
-#fun_guint_cmp0_decl("lt")
-#fun_guint_cmp0_decl("lte")
+#fun_g0uint_cmp_decl("lt")
+#fun_g0uint_cmp_decl("lte")
 
-#fun_guint_cmp0_decl("gt")
-#fun_guint_cmp0_decl("gte")
+#fun_g0uint_cmp_decl("gt")
+#fun_g0uint_cmp_decl("gte")
 
-#fun_guint_cmp0_decl("eq")
-#fun_guint_cmp0_decl("neq")
+#fun_g0uint_cmp_decl("eq")
+#fun_g0uint_cmp_decl("neq")
 overload <> with g0uint_neq of 0
 
 fun{tk:tk}
@@ -740,6 +780,16 @@ val ent = sprintf
 in
   atext_strptr (ent)
 end // end of [f_int_int]
+//
+fun f_int_bool (
+  fnm: string, tnm1: string, tnm2: string
+) : atext = let
+val ent = sprintf
+  ("fun g0int_%s_%s (x: %s):<> bool\n", @(fnm, tnm1, tnm2))
+in
+  atext_strptr (ent)
+end // end of [f_int_bool]
+//
 fun f_int2_int (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
@@ -748,6 +798,7 @@ val ent = sprintf
 in
   atext_strptr (ent)
 end // end of [f_int2_int]
+//
 fun f_int2_bool (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
@@ -768,7 +819,7 @@ end // end of [f_compare]
 in
 //
 fun
-fun_gint_type_aop0_cmp0_decl (
+fun_g0int_type_aop_cmp_decl (
   tnm1: string, tnm2: string
 ) : atext = let
 var res: atextlst = list_nil
@@ -785,6 +836,13 @@ val () = res := list_cons (f_int2_int ("mul", tnm1, tnm2), res)
 val () = res := list_cons (f_int2_int ("div", tnm1, tnm2), res)
 val () = res := list_cons (f_int2_int ("mod", tnm1, tnm2), res)
 //
+val () = res := list_cons (f_int_bool ("isltz", tnm1, tnm2), res)
+val () = res := list_cons (f_int_bool ("isltez", tnm1, tnm2), res)
+val () = res := list_cons (f_int_bool ("isgtz", tnm1, tnm2), res)
+val () = res := list_cons (f_int_bool ("isgtez", tnm1, tnm2), res)
+val () = res := list_cons (f_int_bool ("iseqz", tnm1, tnm2), res)
+val () = res := list_cons (f_int_bool ("isneqz", tnm1, tnm2), res)
+//
 val () = res := list_cons (f_int2_bool ("lt", tnm1, tnm2), res)
 val () = res := list_cons (f_int2_bool ("lte", tnm1, tnm2), res)
 val () = res := list_cons (f_int2_bool ("gt", tnm1, tnm2), res)
@@ -799,17 +857,17 @@ val () = res := list_cons (f_int2_int ("min", tnm1, tnm2), res)
 val res = list_reverse (res)
 in
   atext_concatxt (list_of_list_vt (res))
-end // end of [fun_gint_type_aop0_cmp0_decl]
+end // end of [fun_g0int_type_aop_cmp_decl]
 //
 end // end of [local]
 %}\
-#fun_gint_type_aop0_cmp0_decl("int", "int")\
+#fun_g0int_type_aop_cmp_decl("int", "int")\
 //
-#fun_gint_type_aop0_cmp0_decl("lint", "lint")\
+#fun_g0int_type_aop_cmp_decl("lint", "lint")\
 //
-#fun_gint_type_aop0_cmp0_decl("llint", "llint")\
+#fun_g0int_type_aop_cmp_decl("llint", "llint")\
 //
-#fun_gint_type_aop0_cmp0_decl("ssize", "ssize_t")\
+#fun_g0int_type_aop_cmp_decl("ssize", "ssize_t")\
 //
 #atscode_separator()
 //
@@ -847,6 +905,16 @@ val ent = sprintf
 in
   atext_strptr (ent)
 end // end of [f_uint_uint]
+//
+fun f_uint_bool (
+  fnm: string, tnm1: string, tnm2: string
+) : atext = let
+val ent = sprintf
+  ("fun g0uint_%s_%s (x: %s):<> bool\n", @(fnm, tnm1, tnm2))
+in
+  atext_strptr (ent)
+end // end of [f_uint_bool]
+//
 fun f_uint2_uint (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
@@ -855,6 +923,7 @@ val ent = sprintf
 in
   atext_strptr (ent)
 end // end of [f_uint2_uint]
+//
 fun f_uint2_bool (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
@@ -890,6 +959,11 @@ val () = res := list_cons (f_uint2_uint ("sub", tnm1, tnm2), res)
 val () = res := list_cons (f_uint2_uint ("mul", tnm1, tnm2), res)
 val () = res := list_cons (f_uint2_uint ("div", tnm1, tnm2), res)
 val () = res := list_cons (f_uint2_uint ("mod", tnm1, tnm2), res)
+//
+val () = res := list_cons (f_uint_bool ("isgtz", tnm1, tnm2), res)
+val () = res := list_cons (f_uint_bool ("isgtez", tnm1, tnm2), res)
+val () = res := list_cons (f_uint_bool ("iseqz", tnm1, tnm2), res)
+val () = res := list_cons (f_uint_bool ("isneqz", tnm1, tnm2), res)
 //
 val () = res := list_cons (f_uint2_bool ("lt", tnm1, tnm2), res)
 val () = res := list_cons (f_uint2_bool ("lte", tnm1, tnm2), res)

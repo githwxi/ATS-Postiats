@@ -58,10 +58,12 @@ g0float_neg (x: g0float (tk)): g0float (tk)
 overload ~ with g0float_neg of 0
 
 fun{tk:tk}
-g0float_succ (x: g0float (tk)):<> g0float (tk)
+g0float_succ
+  (x: g0float (tk)):<> g0float (tk)
 overload succ with g0float_succ of 0
 fun{tk:tk}
-g0float_pred (x: g0float (tk)):<> g0float (tk)
+g0float_pred
+  (x: g0float (tk)):<> g0float (tk)
 overload pred with g0float_pred of 0
 
 #atscode_separator()
@@ -95,13 +97,34 @@ overload %s with g0float_%s of 0\
 //
 in
   atext_strptr (ent)
-end // end of [fun_gfloat_cmp0_decl]
+end // end of [fun_g0float_aop_decl]
 %}\
 #fun_g0float_aop_decl("add")
 #fun_g0float_aop_decl("sub")
 #fun_g0float_aop_decl("mul")
 #fun_g0float_aop_decl("div")
 #fun_g0float_aop_decl("mod")
+
+#atscode_separator()
+
+fun{tk:tk}
+g0float_isltz (x: g0float (tk)):<> bool
+overload isltz with g0float_isltz of 0
+fun{tk:tk}
+g0float_isltez (x: g0float (tk)):<> bool
+overload isltez with g0float_isltez of 0
+fun{tk:tk}
+g0float_isgtz (x: g0float (tk)):<> bool
+overload isgtz with g0float_isgtz of 0
+fun{tk:tk}
+g0float_isgtez (x: g0float (tk)):<> bool
+overload isgtez with g0float_isgtez of 0
+fun{tk:tk}
+g0float_iseqz (x: g0float (tk)):<> bool
+overload iseqz with g0float_iseqz of 0
+fun{tk:tk}
+g0float_isneqz (x: g0float (tk)):<> bool
+overload isneqz with g0float_isneqz of 0
 
 #atscode_separator()
 
@@ -137,7 +160,6 @@ in
   atext_strptr (ent)
 end // end of [fun_g0float_cmp_decl]
 %}\
-\
 #fun_g0float_cmp_decl("lt")
 #fun_g0float_cmp_decl("lte")
 

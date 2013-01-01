@@ -77,22 +77,9 @@ assume ccomp_instrlst_type = instrlst
 (* ****** ****** *)
 
 extern
-fun hiimpdec_ccomp (
-  env: !ccompenv, level: int, imp: hiimpdec
-) : void // end of [hiimpdec_ccomp]
-
-extern
-fun hiimpdec_ccomp_if (
-  env: !ccompenv, level: int, imp: hiimpdec
-) : void // end of [hiimpdec_ccomp_if]
-
-(* ****** ****** *)
-
-extern
-fun
-hifundeclst_ccomp (
-  env: !ccompenv
-, level: int, knd: funkind, decarg: s2qualst, hfds: hifundeclst
+fun hifundeclst_ccomp (
+  env: !ccompenv, level: int
+, knd: funkind, decarg: s2qualst, hfds: hifundeclst
 ) : void // end of [hifundeclst_ccomp]
 
 (* ****** ****** *)
@@ -129,7 +116,6 @@ case+ hid.hidecl_node of
 //
 | HIDimpdec
     (knd, imp) => let
-    val lev0 = the_d2varlev_get ()
     val d2c = imp.hiimpdec_cst
 //
     val imparg = imp.hiimpdec_imparg
@@ -139,7 +125,8 @@ case+ hid.hidecl_node of
     val () =
       if istmp then ccompenv_inc_tmplev (env)
     // end of [val]
-    val () = hiimpdec_ccomp (env, lev0, imp)
+    val l0 = the_d2varlev_get ()
+    val () = hiimpdec_ccomp (env, l0, imp)
     val () =
       if istmp then ccompenv_dec_tmplev (env)
     // end of [val]
@@ -150,30 +137,30 @@ case+ hid.hidecl_node of
 //
 | HIDfundecs
     (knd, decarg, hfds) => let
-    val lev0 = the_d2varlev_get ()
+    val l0 = the_d2varlev_get ()
     val () =
-      hifundeclst_ccomp (env, lev0, knd, decarg, hfds)
+      hifundeclst_ccomp (env, l0, knd, decarg, hfds)
     // end of [val]
   in
     primdec_fundecs (loc, hfds)
   end // end of [HIDfundecs]
 //
 | HIDvaldecs (knd, hvds) => let
-    val lev0 = the_d2varlev_get ()
-    val inss = hivaldeclst_ccomp (env, lev0, knd, hvds)
+    val l0 = the_d2varlev_get ()
+    val inss = hivaldeclst_ccomp (env, l0, knd, hvds)
   in
     primdec_valdecs (loc, knd, hvds, inss)
   end // end of [HIDvaldecs]
 | HIDvaldecs_rec (knd, hvds) => let
-    val lev0 = the_d2varlev_get ()
-    val inss = hivaldeclst_ccomp_rec (env, lev0, knd, hvds)
+    val l0 = the_d2varlev_get ()
+    val inss = hivaldeclst_ccomp_rec (env, l0, knd, hvds)
   in
     primdec_valdecs_rec (loc, knd, hvds, inss)
   end // end of [HIDvaldecs_rec]
 //
 | HIDvardecs (hvds) => let
-    val lev0 = the_d2varlev_get ()
-    val inss = hivardeclst_ccomp (env, lev0, hvds)
+    val l0 = the_d2varlev_get ()
+    val inss = hivardeclst_ccomp (env, l0, hvds)
   in
     primdec_vardecs (loc, hvds, inss)
   end // end of [HIDvardecs]
@@ -297,6 +284,9 @@ case+ hde0.hidexp_node of
 | HDElam _ =>
     auxlam (env, loc0, d2c, imparg, tmparg, hde0)
   // end of [HDElam]
+| HDEcst (d2c0) => (
+    funlab_make_dcst_type (d2c0, hde0.hidexp_type)
+  ) // end of [HDEcst]
 | _ => let
     val () =
       println! ("hiimpdec_ccomp: auxmain: hde0 = ", hde0)
@@ -358,8 +348,7 @@ hiimpdec_ccomp_if (
 in
 //
 case+ opt of
-| Some _ => ()
-| None _ => hiimpdec_ccomp_if (env, lev0, imp)
+| Some _ => () | None _ => hiimpdec_ccomp (env, lev0, imp)
 //
 end // end of [hiimpdec_ccomp_if]
 

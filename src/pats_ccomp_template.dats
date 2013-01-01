@@ -42,6 +42,10 @@ staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
+staload "./pats_trans2_env.sats"
+
+(* ****** ****** *)
+
 staload "./pats_histaexp.sats"
 staload "./pats_hidynexp.sats"
 
@@ -407,26 +411,10 @@ end // end of [hiimpdeclst_tmpcst_match]
 
 (* ****** ****** *)
 
-local
-
 extern
 fun hidexp_ccomp_tmpcstmat_some
   (env: !ccompenv, hde0: hidexp, mat: tmpcstmat): primval
-implement
-hidexp_ccomp_tmpcstmat_some
-  (env, hde0, mat) = let
-//
-val loc0 = hde0.hidexp_loc
-val hse0 = hde0.hidexp_type
-val- HDEtmpcst (d2c, t2mas) = hde0.hidexp_node
-//
-val- TMPCSTMATsome (imp, t2mas, sub) = mat
-//
-in
-  primval_tmpltcstmat (loc0, hse0, d2c, t2mas, mat)
-end // end of [hidexp_ccomp_tmpcstmat_some]
-
-in // in of [local]
+// end of [hidexp_ccomp_tmpcstmat_some]
 
 implement
 hidexp_ccomp_tmpcstmat
@@ -444,7 +432,24 @@ case+ mat of
 //
 end // end of [hidexp_ccomp_tmpltcstmat]
 
-end // end of [local]
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_tmpcstmat_some
+  (env, hde0, mat) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val- HDEtmpcst (d2c, t2mas) = hde0.hidexp_node
+//
+val- TMPCSTMATsome (imp, t2mas, sub) = mat
+val l0 = the_d2varlev_get ()
+val () = hiimpdec_ccomp_if (env, l0, imp)
+val- Some (fl) = hiimpdec_get_funlabopt (imp)
+//
+in
+  primval_make_funlab (loc0, fl)
+end // end of [hidexp_ccomp_tmpcstmat_some]
 
 (* ****** ****** *)
 
