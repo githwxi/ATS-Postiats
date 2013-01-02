@@ -64,11 +64,16 @@ typedef NSH(a:type) = a // for commenting purpose
 fun{k1,k2:tk}
 g0int2int (x: g0int (k1)):<> g0int (k2)
 //
-fun g0int2int_int_int (x: int):<> int
-fun g0int2int_int_lint (x: int):<> lint
-fun g0int2int_int_llint (x: int):<> llint
-fun g0int2int_int_ssize (x: int):<> ssize_t
-fun g0int2int_int_sint (x: int):<> sint
+fun g0int2int_int_int
+  (x: int):<> int = "mac\#atspre_g0int2int_int_int"
+fun g0int2int_int_lint
+  (x: int):<> lint = "mac\#atspre_g0int2int_int_lint"
+fun g0int2int_int_llint
+  (x: int):<> llint = "mac\#atspre_g0int2int_int_llint"
+fun g0int2int_int_ssize
+  (x: int):<> ssize_t = "mac\#atspre_g0int2int_int_ssize"
+fun g0int2int_int_sint
+  (x: int):<> sint = "mac\#atspre_g0int2int_int_sint"
 //
 #atscode_separator()
 
@@ -92,9 +97,11 @@ fun{tk:tk}
 g0int_half (x: g0int (tk)):<> g0int (tk)
 overload half with g0int_half of 0
 
+(*
 fun{tk:tk}
 g0int_double (x: g0int (tk)):<> g0int (tk)
 overload double with g0int_double of 0
+*)
 
 #atscode_separator()
 
@@ -297,12 +304,14 @@ fun{tk:tk}
 g1int_half : g1int_half_type (tk)
 overload half with g1int_half of 10
 
+(*
 typedef
 g1int_double_type (tk:tk) =
   {i:int} g1int (tk, i) -<> g1int (tk, 2*i)
 fun{tk:tk}
 g1int_double : g1int_double_type (tk)
 overload double with g1int_double of 10
+*)
 
 #atscode_separator()
 
@@ -510,10 +519,14 @@ g1int_sgn {i:int} (x: g1int (tk, i)): int(sgn(i))
 fun{k1,k2:tk}
 g0int2uint (x: g0int (k1)):<> g0uint (k2)
 //
-fun g0int2uint_int_uint (x: int):<> uint
-fun g0int2uint_int_ulint (x: int):<> ulint
-fun g0int2uint_int_ullint (x: int):<> ullint
-fun g0int2uint_int_size (x: int):<> size_t
+fun g0int2uint_int_uint
+  (x: int):<> uint = "mac\#atspre_g0int2uint_int_uint"
+fun g0int2uint_int_ulint
+  (x: int):<> ulint = "mac\#atspre_g0int2uint_int_ulint"
+fun g0int2uint_int_ullint
+  (x: int):<> ullint = "mac\#atspre_g0int2uint_int_ullint"
+fun g0int2uint_int_size
+  (x: int):<> size_t = "mac\#atspre_g0int2uint_int_size"
 //
 #atscode_separator()
 
@@ -539,9 +552,12 @@ overload pred with g0uint_pred of 0
 fun{tk:tk}
 g0uint_half (x: g0uint (tk)):<> g0uint (tk)
 overload half with g0uint_half of 0
+
+(*
 fun{tk:tk}
 g0uint_double (x: g0uint (tk)):<> g0uint (tk)
 overload double with g0uint_double of 0
+*)
 
 #atscode_separator()
 
@@ -760,12 +776,14 @@ fun{tk:tk}
 g1uint_half : g1uint_half_type (tk)
 overload half with g1uint_half of 10
 
+(*
 typedef
 g1uint_double_type (tk:tk) =
   {i:int} (g1uint (tk, i)) -<> g1uint (tk, 2*i)
 fun{tk:tk}
 g1uint_double : g1uint_double_type (tk)
 overload double with g1uint_double of 10
+*)
 
 #atscode_separator()
 
@@ -1016,7 +1034,6 @@ val () = res := list_cons (f_int_int ("succ", tnm1, tnm2), res)
 val () = res := list_cons (f_int_int ("pred", tnm1, tnm2), res)
 //
 val () = res := list_cons (f_int_int ("half", tnm1, tnm2), res)
-val () = res := list_cons (f_int_int ("double", tnm1, tnm2), res)
 //
 val () = res := list_cons (f_int2_int ("add", tnm1, tnm2), res)
 val () = res := list_cons (f_int2_int ("sub", tnm1, tnm2), res)
@@ -1159,7 +1176,6 @@ val () = res := list_cons (f_uint_uint ("succ", tnm1, tnm2), res)
 val () = res := list_cons (f_uint_uint ("pred", tnm1, tnm2), res)
 //
 val () = res := list_cons (f_uint_uint ("half", tnm1, tnm2), res)
-val () = res := list_cons (f_uint_uint ("double", tnm1, tnm2), res)
 //
 val () = res := list_cons (f_uint2_uint ("add", tnm1, tnm2), res)
 val () = res := list_cons (f_uint2_uint ("sub", tnm1, tnm2), res)
@@ -1235,7 +1251,6 @@ val () = res := list_cons (f ("succ", tnm1, tnm2), res)
 val () = res := list_cons (f ("pred", tnm1, tnm2), res)
 //
 val () = res := list_cons (f ("half", tnm1, tnm2), res)
-val () = res := list_cons (f ("double", tnm1, tnm2), res)
 //
 val () = res := list_cons (f ("add", tnm1, tnm2), res)
 val () = res := list_cons (f ("sub", tnm1, tnm2), res)
@@ -1297,7 +1312,6 @@ val () = res := list_cons (f ("succ", tnm1, tnm2), res)
 val () = res := list_cons (f ("pred", tnm1, tnm2), res)
 //
 val () = res := list_cons (f ("half", tnm1, tnm2), res)
-val () = res := list_cons (f ("double", tnm1, tnm2), res)
 //
 val () = res := list_cons (f ("add", tnm1, tnm2), res)
 val () = res := list_cons (f ("sub", tnm1, tnm2), res)

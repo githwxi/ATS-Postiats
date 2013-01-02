@@ -152,9 +152,9 @@ s2hnf_tyer
   (loc0, flag, s2f0) = let
 //
 val s2e0 = s2hnf2exp (s2f0)
-//
+(*
 val () = println! ("s2hnf_tyer: s2e0 = ", s2e0)
-//
+*)
 in
 //
 case+

@@ -84,7 +84,6 @@ val () = res := list_cons (f "succ", res)
 val () = res := list_cons (f "pred", res)
 //
 val () = res := list_cons (f "half", res)
-val () = res := list_cons (f "double", res)
 //
 val () = res := list_cons (f "add", res)
 val () = res := list_cons (f "sub", res)
@@ -156,7 +155,6 @@ val () = res := list_cons (f "succ", res)
 val () = res := list_cons (f "pred", res)
 //
 val () = res := list_cons (f "half", res)
-val () = res := list_cons (f "double", res)
 //
 val () = res := list_cons (f "add", res)
 val () = res := list_cons (f "sub", res)
@@ -247,7 +245,6 @@ val () = res := list_cons (f "succ", res)
 val () = res := list_cons (f "pred", res)
 //
 val () = res := list_cons (f "half", res)
-val () = res := list_cons (f "double", res)
 //
 val () = res := list_cons (f "add", res)
 val () = res := list_cons (f "sub", res)
@@ -324,7 +321,6 @@ val () = res := list_cons (f "succ", res)
 val () = res := list_cons (f "pred", res)
 //
 val () = res := list_cons (f "half", res)
-val () = res := list_cons (f "double", res)
 //
 val () = res := list_cons (f "add", res)
 val () = res := list_cons (f "sub", res)

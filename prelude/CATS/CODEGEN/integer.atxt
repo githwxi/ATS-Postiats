@@ -37,6 +37,28 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+\#define atspre_g0int2int_int_int(x) ((atstype_int)(x))
+\#define atspre_g0int2int_int_lint(x) ((atstype_lint)(x))
+\#define atspre_g0int2int_int_llint(x) ((atstype_llint)(x))
+\#define atspre_g0int2int_int_ssize(x) ((atstype_ssize)(x))
+
+\#define atspre_g1int2int_int_int atspre_g0int2int_int_int
+\#define atspre_g1int2int_int_lint atspre_g0int2int_int_lint
+\#define atspre_g1int2int_int_llint atspre_g0int2int_int_llint
+\#define atspre_g1int2int_int_ssize atspre_g0int2int_int_ssize
+
+\#define atspre_g0int2uint_int_uint(x) ((atstype_uint)(x))
+\#define atspre_g0int2uint_int_ulint(x) ((atstype_ulint)(x))
+\#define atspre_g0int2uint_int_ullint(x) ((atstype_ullint)(x))
+\#define atspre_g0int2uint_int_size(x) ((atstype_size)(x))
+
+\#define atspre_g1int2uint_int_uint atspre_g0int2uint_int_uint
+\#define atspre_g1int2uint_int_ulint atspre_g0int2uint_int_ulint
+\#define atspre_g1int2uint_int_ullint atspre_g0int2uint_int_ullint
+\#define atspre_g1int2uint_int_size atspre_g0int2uint_int_size
+
+#atscode_separator_for_C()
+
 %{
 local
 //
@@ -110,23 +132,6 @@ atspre_g0int_half_%s
 in
   atext_strptr (ent)
 end // end of [fun_half_decl]
-//
-fun
-fun_double_decl
-  (knd: string): atext = let
-//
-val ent = sprintf ("\
-ATSinline()
-atstype_%s
-atspre_g0int_double_%s
-  (atstype_%s x) { return (x << 1) ; }
-// end of [atspre_g0int_double_%s]
-", @(knd, knd, knd, knd)
-) // end of [sprintf] // end of [val]
-//
-in
-  atext_strptr (ent)
-end // end of [fun_double_decl]
 //
 fun
 fun_aop_decl (
@@ -231,7 +236,6 @@ val () = res := list_cons (fun_succ_decl(tnm), res)
 val () = res := list_cons (fun_pred_decl(tnm), res)
 //
 val () = res := list_cons (fun_half_decl(tnm), res)
-val () = res := list_cons (fun_double_decl(tnm), res)
 //
 val () = res := list_cons (fun_aop_decl("add", tnm), res)
 val () = res := list_cons (fun_aop_decl("sub", tnm), res)
@@ -315,7 +319,6 @@ atspre_fprint_llint (
 \#define atspre_g1int_succ_int atspre_g0int_succ_int
 \#define atspre_g1int_pred_int atspre_g0int_pred_int
 \#define atspre_g1int_half_int atspre_g0int_half_int
-\#define atspre_g1int_double_int atspre_g0int_double_int
 \#define atspre_g1int_add_int atspre_g0int_add_int
 \#define atspre_g1int_sub_int atspre_g0int_sub_int
 \#define atspre_g1int_mul_int atspre_g0int_mul_int
@@ -394,23 +397,6 @@ atspre_g0uint_half_%s
 in
   atext_strptr (ent)
 end // end of [fun_half_decl]
-//
-fun
-fun_double_decl
-  (knd: string): atext = let
-//
-val ent = sprintf ("\
-ATSinline()
-atstype_%s
-atspre_g0uint_double_%s
-  (atstype_%s x) { return (x << 1) ; }
-// end of [atspre_g0uint_pred_%s]
-", @(knd, knd, knd, knd)
-) // end of [sprintf] // end of [val]
-//
-in
-  atext_strptr (ent)
-end // end of [fun_double_decl]
 //
 fun
 fun_aop_decl (
@@ -511,7 +497,6 @@ val () = res := list_cons (fun_succ_decl(tnm), res)
 val () = res := list_cons (fun_pred_decl(tnm), res)
 //
 val () = res := list_cons (fun_half_decl(tnm), res)
-val () = res := list_cons (fun_double_decl(tnm), res)
 //
 val () = res := list_cons (fun_aop_decl("add", tnm), res)
 val () = res := list_cons (fun_aop_decl("sub", tnm), res)
