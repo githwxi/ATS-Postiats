@@ -60,10 +60,16 @@ typedef SHR(a:type) = a // for commenting purpose
 typedef NSH(a:type) = a // for commenting purpose
 
 #atscode_separator()
-
+//
 fun{k1,k2:tk}
 g0int2int (x: g0int (k1)):<> g0int (k2)
-
+//
+fun g0int2int_int_int (x: int):<> int
+fun g0int2int_int_lint (x: int):<> lint
+fun g0int2int_int_llint (x: int):<> llint
+fun g0int2int_int_ssize (x: int):<> ssize_t
+fun g0int2int_int_sint (x: int):<> sint
+//
 #atscode_separator()
 
 fun{tk:tk}
@@ -205,6 +211,30 @@ g0int_min
 overload min with g0int_min of 0
 
 #atscode_separator()
+
+fun{tk:tk}
+lt_g0int_int (x: g0int (tk), y: int):<> bool
+overload < with lt_g0int_int
+fun{tk:tk}
+lte_g0int_int (x: g0int (tk), y: int):<> bool
+overload <= with lte_g0int_int
+
+fun{tk:tk}
+gt_g0int_int (x: g0int (tk), y: int):<> bool
+overload > with gt_g0int_int
+fun{tk:tk}
+gte_g0int_int (x: g0int (tk), y: int):<> bool
+overload >= with gte_g0int_int
+
+fun{tk:tk}
+eq_g0int_int (x: g0int (tk), y: int):<> bool
+overload = with eq_g0int_int
+fun{tk:tk}
+neq_g0int_int (x: g0int (tk), y: int):<> bool
+overload != with neq_g0int_int
+overload <> with neq_g0int_int
+
+#atscode_separator()
 //
 // HX: for indexed integer types
 //
@@ -212,12 +242,18 @@ castfn
 g1ofg0_int {tk:tk} (x: g0int tk):<> g1int (tk)
 castfn
 g0tog1_int {tk:tk} (x: g0int tk):<> g1int (tk)
-
+//
+#atscode_separator()
+//
 fun{k1,k2:tk}
 g1int2int // i2i
   {i:int} (x: g1int (k1, i)):<> g1int (k2, i)
-// end of [g1int2int]
-
+//
+fun g1int2int_int_int {i:int} (x: int i):<> int (i)
+fun g1int2int_int_lint {i:int} (x: int i):<> lint (i)
+fun g1int2int_int_llint {i:int} (x: int i):<> llint (i)
+fun g1int2int_int_ssize {i:int} (x: int i):<> ssize_t (i)
+//
 #atscode_separator()
 
 fun{tk:tk}
@@ -260,6 +296,13 @@ g1int_half_type (tk:tk) =
 fun{tk:tk}
 g1int_half : g1int_half_type (tk)
 overload half with g1int_half of 10
+
+typedef
+g1int_double_type (tk:tk) =
+  {i:int} g1int (tk, i) -<> g1int (tk, 2*i)
+fun{tk:tk}
+g1int_double : g1int_double_type (tk)
+overload double with g1int_double of 10
 
 #atscode_separator()
 
@@ -311,6 +354,47 @@ fun{tk:tk}
 g1int_nmod2 {i,j:int | j > 0} (
   x: g1int (tk, i), y: g1int (tk, j)
 ) :<> [q,r:int | 0 <= r; r < j] (DIVMOD (i, j, q, r) | g1int (tk, r))
+
+#atscode_separator()
+
+typedef
+g1int_isltz_type (tk:tk) =
+  {i:int} (g1int (tk, i)) -<> bool (i < 0)
+typedef
+g1int_isltez_type (tk:tk) =
+  {i:int} (g1int (tk, i)) -<> bool (i <= 0)
+fun{tk:tk}
+g1int_isltz : g1int_isltz_type (tk)
+overload isltz with g1int_isltz of 10
+fun{tk:tk}
+g1int_isltez : g1int_isltez_type (tk)
+overload isltez with g1int_isltez of 10
+
+typedef
+g1int_isgtz_type (tk:tk) =
+  {i:int} (g1int (tk, i)) -<> bool (i > 0)
+typedef
+g1int_isgtez_type (tk:tk) =
+  {i:int} (g1int (tk, i)) -<> bool (i >= 0)
+fun{tk:tk}
+g1int_isgtz : g1int_isgtz_type (tk)
+overload isgtz with g1int_isgtz of 10
+fun{tk:tk}
+g1int_isgtez : g1int_isgtez_type (tk)
+overload isgtez with g1int_isgtez of 10
+
+typedef
+g1int_iseqz_type (tk:tk) =
+  {i:int} (g1int (tk, i)) -<> bool (i > 0)
+typedef
+g1int_isneqz_type (tk:tk) =
+  {i:int} (g1int (tk, i)) -<> bool (i >= 0)
+fun{tk:tk}
+g1int_iseqz : g1int_iseqz_type (tk)
+overload iseqz with g1int_iseqz of 10
+fun{tk:tk}
+g1int_isneqz : g1int_isneqz_type (tk)
+overload isneqz with g1int_isneqz of 10
 
 #atscode_separator()
 
@@ -425,6 +509,14 @@ g1int_sgn {i:int} (x: g1int (tk, i)): int(sgn(i))
 
 fun{k1,k2:tk}
 g0int2uint (x: g0int (k1)):<> g0uint (k2)
+//
+fun g0int2uint_int_uint (x: int):<> uint
+fun g0int2uint_int_ulint (x: int):<> ulint
+fun g0int2uint_int_ullint (x: int):<> ullint
+fun g0int2uint_int_size (x: int):<> size_t
+//
+#atscode_separator()
+
 fun{k1,k2:tk}
 g0uint2int (x: g0uint (k1)):<> g0int (k2)
 fun{k1,k2:tk}
@@ -439,14 +531,17 @@ g0uint_of_string (str: NSH(string)):<> g0uint (tk)
 
 fun{tk:tk}
 g0uint_succ (x: g0uint (tk)):<> g0uint (tk)
-overload succ with g0uint_succ
+overload succ with g0uint_succ of 0
 fun{tk:tk}
 g0uint_pred (x: g0uint (tk)):<> g0uint (tk)
-overload pred with g0uint_pred
+overload pred with g0uint_pred of 0
 
 fun{tk:tk}
 g0uint_half (x: g0uint (tk)):<> g0uint (tk)
-overload half with g0uint_half
+overload half with g0uint_half of 0
+fun{tk:tk}
+g0uint_double (x: g0uint (tk)):<> g0uint (tk)
+overload double with g0uint_double of 0
 
 #atscode_separator()
 
@@ -547,12 +642,38 @@ overload compare with g0uint_compare of 0
 #atscode_separator()
 
 fun{tk:tk}
-g0uint_max (x: g0uint (tk), y: g0uint (tk)):<> g0uint (tk)
+g0uint_max
+  (x: g0uint (tk), y: g0uint (tk)):<> g0uint (tk)
 overload max with g0uint_max of 0
 
 fun{tk:tk}
-g0uint_min (x: g0uint (tk), y: g0uint (tk)):<> g0uint (tk)
+g0uint_min
+  (x: g0uint (tk), y: g0uint (tk)):<> g0uint (tk)
 overload min with g0uint_min of 0
+
+#atscode_separator()
+
+fun{tk:tk}
+lt_g0uint_int (x: g0uint (tk), y: int):<> bool
+overload < with lt_g0uint_int
+fun{tk:tk}
+lte_g0uint_int (x: g0uint (tk), y: int):<> bool
+overload <= with lte_g0uint_int
+
+fun{tk:tk}
+gt_g0uint_int (x: g0uint (tk), y: int):<> bool
+overload > with gt_g0uint_int
+fun{tk:tk}
+gte_g0uint_int (x: g0uint (tk), y: int):<> bool
+overload >= with gte_g0uint_int
+
+fun{tk:tk}
+eq_g0uint_int (x: g0uint (tk), y: int):<> bool
+overload = with eq_g0uint_int
+fun{tk:tk}
+neq_g0uint_int (x: g0uint (tk), y: int):<> bool
+overload != with neq_g0uint_int
+overload <> with neq_g0uint_int
 
 #atscode_separator()
 //
@@ -582,20 +703,34 @@ g0tog1_uint
 // end of [g0tog1_uint]
 
 #atscode_separator()
-
+//
 fun{k1,k2:tk}
 g1int2uint // i2u
   {i:nat} (x: g1int (k1, i)):<> g1uint (k2, i)
-// end of [g1int2uint]
+//
+fun g1int2uint_int_uint {i:nat} (x: int i):<> uint (i)
+fun g1int2uint_int_ulint {i:nat} (x: int i):<> ulint (i)
+fun g1int2uint_int_ullint {i:nat} (x: int i):<> ullint (i)
+fun g1int2uint_int_size {i:nat} (x: int i):<> size_t (i)
+//
+#atscode_separator()
+
 fun{k1,k2:tk}
 g1uint2int // u2i
   {u:int} (x: g1uint (k1, u)):<> [u>=0] g1int (k2, u)
 // end of [g1uint2int]
+
+#atscode_separator()
+//
 fun{k1,k2:tk}
 g1uint2uint // u2u
-  {u:int} (x: g1uint (k1, u)):<> [u>=0] g1uint (k2, u)
-// end of [g1uint2uint]
-
+  {u:int} (x: g1uint (k1, u)):<> g1uint (k2, u)
+//
+fun g1uint2uint_uint_uint {u:int} (x: uint u):<> uint (u)
+fun g1uint2uint_uint_ulint {u:int} (x: uint u):<> ulint (u)
+fun g1uint2uint_uint_ullint {u:int} (x: uint u):<> ullint (u)
+fun g1uint2uint_uint_size {u:int} (x: uint u):<> size_t (u)
+//
 #atscode_separator()
 
 prfun g1uint_get_index
@@ -620,10 +755,17 @@ overload pred with g1uint_pred of 10
 
 typedef
 g1uint_half_type (tk:tk) =
-  {i:int} (g1uint (tk, i)) -<> g1uint (tk, i ndiv 2)
+  {i:int} (g1uint (tk, i)) -<> g1uint (tk, i/2)
 fun{tk:tk}
 g1uint_half : g1uint_half_type (tk)
 overload half with g1uint_half of 10
+
+typedef
+g1uint_double_type (tk:tk) =
+  {i:int} (g1uint (tk, i)) -<> g1uint (tk, 2*i)
+fun{tk:tk}
+g1uint_double : g1uint_double_type (tk)
+overload double with g1uint_double of 10
 
 #atscode_separator()
 
@@ -659,6 +801,34 @@ g1uint_div_type (tk:tk) =
 fun{tk:tk}
 g1uint_div : g1uint_div_type (tk)
 overload / with g1uint_div of 20
+
+#atscode_separator()
+
+typedef
+g1uint_isgtz_type (tk:tk) =
+  {i:int} (g1uint (tk, i)) -<> bool (i > 0)
+typedef
+g1uint_isgtez_type (tk:tk) =
+  {i:int} (g1uint (tk, i)) -<> bool (i >= 0)
+fun{tk:tk}
+g1uint_isgtz : g1uint_isgtz_type (tk)
+overload isgtz with g1uint_isgtz of 10
+fun{tk:tk}
+g1uint_isgtez : g1uint_isgtez_type (tk)
+overload isgtez with g1uint_isgtez of 10
+
+typedef
+g1uint_iseqz_type (tk:tk) =
+  {i:int} (g1uint (tk, i)) -<> bool (i > 0)
+typedef
+g1uint_isneqz_type (tk:tk) =
+  {i:int} (g1uint (tk, i)) -<> bool (i >= 0)
+fun{tk:tk}
+g1uint_iseqz : g1uint_iseqz_type (tk)
+overload iseqz with g1uint_iseqz of 10
+fun{tk:tk}
+g1uint_isneqz : g1uint_isneqz_type (tk)
+overload isneqz with g1uint_isneqz of 10
 
 #atscode_separator()
 
@@ -747,7 +917,7 @@ overload >= with gte_g1uint_int of 21
 //
 fun{tk:tk}
 eq_g1uint_int {i:int;j:nat}
-  (x: g1uint (tk, i), y: g1uint (int_kind, j)):<> bool (i == j)
+  (x: g1uint (tk, i), y: int (j)):<> bool (i == j)
 overload = with eq_g1uint_int of 21
 fun{tk:tk}
 neq_g1uint_int {i:int;j:nat}
@@ -841,8 +1011,12 @@ var res: atextlst = list_nil
 val () = res := list_cons (f_intofstr (tnm1, tnm2), res)
 *)
 val () = res := list_cons (f_int_int ("neg", tnm1, tnm2), res)
+//
 val () = res := list_cons (f_int_int ("succ", tnm1, tnm2), res)
 val () = res := list_cons (f_int_int ("pred", tnm1, tnm2), res)
+//
+val () = res := list_cons (f_int_int ("half", tnm1, tnm2), res)
+val () = res := list_cons (f_int_int ("double", tnm1, tnm2), res)
 //
 val () = res := list_cons (f_int2_int ("add", tnm1, tnm2), res)
 val () = res := list_cons (f_int2_int ("sub", tnm1, tnm2), res)
@@ -984,6 +1158,9 @@ val () = res := list_cons (f_uintofstr (tnm1, tnm2), res)
 val () = res := list_cons (f_uint_uint ("succ", tnm1, tnm2), res)
 val () = res := list_cons (f_uint_uint ("pred", tnm1, tnm2), res)
 //
+val () = res := list_cons (f_uint_uint ("half", tnm1, tnm2), res)
+val () = res := list_cons (f_uint_uint ("double", tnm1, tnm2), res)
+//
 val () = res := list_cons (f_uint2_uint ("add", tnm1, tnm2), res)
 val () = res := list_cons (f_uint2_uint ("sub", tnm1, tnm2), res)
 val () = res := list_cons (f_uint2_uint ("mul", tnm1, tnm2), res)
@@ -1053,13 +1230,24 @@ end // end of [f]
 var res: atextlst = list_nil
 //
 val () = res := list_cons (f ("neg", tnm1, tnm2), res)
+//
 val () = res := list_cons (f ("succ", tnm1, tnm2), res)
 val () = res := list_cons (f ("pred", tnm1, tnm2), res)
+//
+val () = res := list_cons (f ("half", tnm1, tnm2), res)
+val () = res := list_cons (f ("double", tnm1, tnm2), res)
 //
 val () = res := list_cons (f ("add", tnm1, tnm2), res)
 val () = res := list_cons (f ("sub", tnm1, tnm2), res)
 val () = res := list_cons (f ("mul", tnm1, tnm2), res)
 val () = res := list_cons (f ("div", tnm1, tnm2), res)
+//
+val () = res := list_cons (f ("isltz", tnm1, tnm2), res)
+val () = res := list_cons (f ("isltez", tnm1, tnm2), res)
+val () = res := list_cons (f ("isgtz", tnm1, tnm2), res)
+val () = res := list_cons (f ("isgtez", tnm1, tnm2), res)
+val () = res := list_cons (f ("iseqz", tnm1, tnm2), res)
+val () = res := list_cons (f ("isneqz", tnm1, tnm2), res)
 //
 val () = res := list_cons (f ("lt", tnm1, tnm2), res)
 val () = res := list_cons (f ("lte", tnm1, tnm2), res)
@@ -1108,10 +1296,18 @@ var res: atextlst = list_nil
 val () = res := list_cons (f ("succ", tnm1, tnm2), res)
 val () = res := list_cons (f ("pred", tnm1, tnm2), res)
 //
+val () = res := list_cons (f ("half", tnm1, tnm2), res)
+val () = res := list_cons (f ("double", tnm1, tnm2), res)
+//
 val () = res := list_cons (f ("add", tnm1, tnm2), res)
 val () = res := list_cons (f ("sub", tnm1, tnm2), res)
 val () = res := list_cons (f ("mul", tnm1, tnm2), res)
 val () = res := list_cons (f ("div", tnm1, tnm2), res)
+//
+val () = res := list_cons (f ("isgtz", tnm1, tnm2), res)
+val () = res := list_cons (f ("isgtez", tnm1, tnm2), res)
+val () = res := list_cons (f ("iseqz", tnm1, tnm2), res)
+val () = res := list_cons (f ("isneqz", tnm1, tnm2), res)
 //
 val () = res := list_cons (f ("lt", tnm1, tnm2), res)
 val () = res := list_cons (f ("lte", tnm1, tnm2), res)

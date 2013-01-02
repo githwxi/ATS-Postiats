@@ -193,7 +193,7 @@ typedef natLte (n:int) = intBtwe (0, n)
 tkindef uint_kind = "atstype_uint"
 //
 typedef uint0 = g0uint (uint_kind)
-typedef uint1 (n:int) = g1uint (int_kind, n)
+typedef uint1 (n:int) = g1uint (uint_kind, n)
 //
 stadef uint = uint1 // first
 stadef uint = uint0 // second
@@ -216,7 +216,7 @@ stadef lint = lint1 // first
 stadef lint = lint0 // second
 tkindef ulint_kind = "atsype_ulint"
 typedef ulint0 = g0uint (ulint_kind)
-typedef ulint1 (i:int) = g1uint (lint_kind, i)
+typedef ulint1 (i:int) = g1uint (ulint_kind, i)
 stadef ulint = ulint1 // first
 stadef ulint = ulint0 // second
 
@@ -227,7 +227,7 @@ stadef llint = llint1 // first
 stadef llint = llint0 // second
 tkindef ullint_kind = "atstype_ullint"
 typedef ullint0 = g0uint (ullint_kind)
-typedef ullint1 (i:int) = g1uint (llint_kind, i)
+typedef ullint1 (i:int) = g1uint (ullint_kind, i)
 stadef ullint = ullint1 // first
 stadef ullint = ullint0 // second
 

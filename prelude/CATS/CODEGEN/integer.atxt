@@ -38,49 +38,107 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator_for_C()
 
 %{
+local
+//
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+//
 fun
-fun_g0int_succ_decl
+fun_neg_decl
   (knd: string): atext = let
 //
 val ent = sprintf ("\
 ATSinline()
-atstype_int
+atstype_%s
+atspre_g0int_neg_%s
+  (atstype_%s x) { return (-x) ; }
+// end of [atspre_g0int_neg_%s]
+", @(knd, knd, knd, knd)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_neg_decl]
+//
+fun
+fun_succ_decl
+  (knd: string): atext = let
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_%s
 atspre_g0int_succ_%s
   (atstype_%s x) { return (x + 1) ; }
-// end of [atspre_g0int_succ_%s]\
-", @(knd, knd, knd)
+// end of [atspre_g0int_succ_%s]
+", @(knd, knd, knd, knd)
 ) // end of [sprintf] // end of [val]
 //
 in
   atext_strptr (ent)
-end // end of [fun_g0int_succ_decl]
+end // end of [fun_succ_decl]
 //
 fun
-fun_g0int_pred_decl
+fun_pred_decl
   (knd: string): atext = let
 //
 val ent = sprintf ("\
 ATSinline()
-atstype_int
+atstype_%s
 atspre_g0int_pred_%s
   (atstype_%s x) { return (x - 1) ; }
-// end of [atspre_g0int_pred_%s]\
-", @(knd, knd, knd)
+// end of [atspre_g0int_pred_%s]
+", @(knd, knd, knd, knd)
 ) // end of [sprintf] // end of [val]
 //
 in
   atext_strptr (ent)
-end // end of [fun_g0int_pred_decl]
+end // end of [fun_pred_decl]
 //
 fun
-fun_g0int_aop_decl (
+fun_half_decl
+  (knd: string): atext = let
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_%s
+atspre_g0int_half_%s
+  (atstype_%s x) { return (x / 2) ; }
+// end of [atspre_g0int_half_%s]
+", @(knd, knd, knd, knd)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_half_decl]
+//
+fun
+fun_double_decl
+  (knd: string): atext = let
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_%s
+atspre_g0int_double_%s
+  (atstype_%s x) { return (x << 1) ; }
+// end of [atspre_g0int_double_%s]
+", @(knd, knd, knd, knd)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_double_decl]
+//
+fun
+fun_aop_decl (
   opr: string, knd: string
 ) : atext = let
 //
 val fopr = (
   case+ opr of
-  | "add" => "+" | "sub" => "-"
-  | "mul" => "*" | "div" => "/"
+  | "add" => "+"
+  | "sub" => "-"
+  | "mul" => "*"
+  | "div" => "/"
   | _ => opr
 ) : string // end of [val]
 //
@@ -89,7 +147,7 @@ ATSinline()
 atstype_%s
 atspre_g0int_%s_%s
   (atstype_%s x1, atstype_%s x2) { return (x1 %s x2) ; }
-// end of [atspre_g0int_%s_%s]\
+// end of [atspre_g0int_%s_%s]
 ", @(
  knd, opr, knd, knd, knd, fopr, opr, knd
 )
@@ -97,35 +155,10 @@ atspre_g0int_%s_%s
 //
 in
   atext_strptr (ent)
-end // end of [fun_g0int_aop_decl]
-%}\
-\
-#fun_g0int_succ_decl("int")
-#fun_g0int_pred_decl("int")
-#fun_g0int_aop_decl("add", "int")
-#fun_g0int_aop_decl("sub", "int"))
-#fun_g0int_aop_decl("mul", "int"))
-#fun_g0int_aop_decl("div", "int"))
+end // end of [fun_aop_decl]
 //
-#fun_g0int_succ_decl("lint")
-#fun_g0int_pred_decl("lint")
-#fun_g0int_aop_decl("add", "lint")
-#fun_g0int_aop_decl("sub", "lint"))
-#fun_g0int_aop_decl("mul", "lint"))
-#fun_g0int_aop_decl("div", "lint"))
-//
-#fun_g0int_succ_decl("llint")
-#fun_g0int_pred_decl("llint")
-#fun_g0int_aop_decl("add", "llint")
-#fun_g0int_aop_decl("sub", "llint"))
-#fun_g0int_aop_decl("mul", "llint"))
-#fun_g0int_aop_decl("div", "llint"))
-//
-#atscode_separator_for_C()
-
-%{
 fun
-fun_g0int_cmpz_decl (
+fun_cmpz_decl (
   opr: string, knd: string
 ) : atext = let
 //
@@ -146,43 +179,18 @@ atstype_bool
 atspre_g0int_%s_%s
   (atstype_%s x) {
   return (x %s 0 ? atsbool_true : atsbool_false) ;
-} // end of [atspre_g0int_%s_%s]\
+} // end of [atspre_g0int_%s_%s]
 ", @(
- opr, knd, knd, fopr, opr, knd
+  opr, knd, knd, fopr, opr, knd
 )
 ) // end of [sprintf] // end of [val]
 //
 in
   atext_strptr (ent)
-end // end of [fun_g0int_cmpz_decl]
-%}\
-\
-#fun_g0int_cmpz_decl("isltz", "int")
-#fun_g0int_cmpz_decl("isltez", "int")
-#fun_g0int_cmpz_decl("isgtz", "int")
-#fun_g0int_cmpz_decl("isgtez", "int")
-#fun_g0int_cmpz_decl("iseqz", "int")
-#fun_g0int_cmpz_decl("isneqz", "int")
+end // end of [fun_cmpz_decl]
 //
-#fun_g0int_cmpz_decl("isltz", "lint")
-#fun_g0int_cmpz_decl("isltez", "lint")
-#fun_g0int_cmpz_decl("isgtz", "lint")
-#fun_g0int_cmpz_decl("isgtez", "lint")
-#fun_g0int_cmpz_decl("iseqz", "lint")
-#fun_g0int_cmpz_decl("isneqz", "lint")
-//
-#fun_g0int_cmpz_decl("isltz", "llint")
-#fun_g0int_cmpz_decl("isltez", "llint")
-#fun_g0int_cmpz_decl("isgtz", "llint")
-#fun_g0int_cmpz_decl("isgtez", "llint")
-#fun_g0int_cmpz_decl("iseqz", "llint")
-#fun_g0int_cmpz_decl("isneqz", "llint")
-
-#atscode_separator_for_C()
-
-%{
 fun
-fun_g0int_cmp_decl (
+fun_cmp_decl (
   opr: string, knd: string
 ) : atext = let
 //
@@ -200,37 +208,65 @@ atstype_bool
 atspre_g0int_%s_%s
   (atstype_%s x1, atstype_%s x2) {
   return (x1 %s x2 ? atsbool_true : atsbool_false) ;
-} // end of [atspre_g0int_%s_%s]\
+} // end of [atspre_g0int_%s_%s]
 ", @(
- opr, knd, knd, knd, fopr, opr, knd
+  opr, knd, knd, knd, fopr, opr, knd
 )
 ) // end of [sprintf] // end of [val]
 //
 in
   atext_strptr (ent)
-end // end of [fun_g0int_cmp_decl]
+end // end of [fun_cmp_decl]
+//
+in // in of [local]
+//
+fun g0int_implist
+  (tnm: string): atext = let
+//
+var res: atextlst = list_nil
+//
+val () = res := list_cons (fun_neg_decl(tnm), res)
+//
+val () = res := list_cons (fun_succ_decl(tnm), res)
+val () = res := list_cons (fun_pred_decl(tnm), res)
+//
+val () = res := list_cons (fun_half_decl(tnm), res)
+val () = res := list_cons (fun_double_decl(tnm), res)
+//
+val () = res := list_cons (fun_aop_decl("add", tnm), res)
+val () = res := list_cons (fun_aop_decl("sub", tnm), res)
+val () = res := list_cons (fun_aop_decl("mul", tnm), res)
+val () = res := list_cons (fun_aop_decl("div", tnm), res)
+//
+val () = res := list_cons (fun_cmpz_decl("isltz", tnm), res)
+val () = res := list_cons (fun_cmpz_decl("isltez", tnm), res)
+val () = res := list_cons (fun_cmpz_decl("isgtz", tnm), res)
+val () = res := list_cons (fun_cmpz_decl("isgtez", tnm), res)
+val () = res := list_cons (fun_cmpz_decl("iseqz", tnm), res)
+val () = res := list_cons (fun_cmpz_decl("isneqz", tnm), res)
+//
+val () = res := list_cons (fun_cmp_decl("lt", tnm), res)
+val () = res := list_cons (fun_cmp_decl("lte", tnm), res)
+val () = res := list_cons (fun_cmp_decl("gt", tnm), res)
+val () = res := list_cons (fun_cmp_decl("gte", tnm), res)
+val () = res := list_cons (fun_cmp_decl("eq", tnm), res)
+val () = res := list_cons (fun_cmp_decl("neq", tnm), res)
+//
+val res = list_reverse (res)
+//
+in
+  atext_concatxt (list_of_list_vt (res))
+end // end of [g0int_implist]
+//
+end // end of [local]
+//
 %}\
 \
-#fun_g0int_cmp_decl("lt", "int")
-#fun_g0int_cmp_decl("lte", "int"))
-#fun_g0int_cmp_decl("gt", "int"))
-#fun_g0int_cmp_decl("gte", "int"))
-#fun_g0int_cmp_decl("eq", "int"))
-#fun_g0int_cmp_decl("neq", "int"))
+#g0int_implist("int")\
 //
-#fun_g0int_cmp_decl("lt", "lint")
-#fun_g0int_cmp_decl("lte", "lint"))
-#fun_g0int_cmp_decl("gt", "lint"))
-#fun_g0int_cmp_decl("gte", "lint"))
-#fun_g0int_cmp_decl("eq", "lint"))
-#fun_g0int_cmp_decl("neq", "lint"))
+#g0int_implist("lint")\
 //
-#fun_g0int_cmp_decl("lt", "llint")
-#fun_g0int_cmp_decl("lte", "llint"))
-#fun_g0int_cmp_decl("gt", "llint"))
-#fun_g0int_cmp_decl("gte", "llint"))
-#fun_g0int_cmp_decl("eq", "llint"))
-#fun_g0int_cmp_decl("neq", "llint"))
+#g0int_implist("llint")\
 //
 #atscode_separator_for_C()
 
@@ -278,22 +314,237 @@ atspre_fprint_llint (
 \#define atspre_g1int_neg_int atspre_g0int_neg_int
 \#define atspre_g1int_succ_int atspre_g0int_succ_int
 \#define atspre_g1int_pred_int atspre_g0int_pred_int
-
+\#define atspre_g1int_half_int atspre_g0int_half_int
+\#define atspre_g1int_double_int atspre_g0int_double_int
 \#define atspre_g1int_add_int atspre_g0int_add_int
 \#define atspre_g1int_sub_int atspre_g0int_sub_int
 \#define atspre_g1int_mul_int atspre_g0int_mul_int
 \#define atspre_g1int_div_int atspre_g0int_div_int
-
+\#define atspre_g1int_isltz_int atspre_g0int_isltz_int
+\#define atspre_g1int_isltez_int atspre_g0int_isltez_int
+\#define atspre_g1int_isgtz_int atspre_g0int_isgtz_int
+\#define atspre_g1int_isgtez_int atspre_g0int_isgtez_int
+\#define atspre_g1int_iseqz_int atspre_g0int_iseqz_int
+\#define atspre_g1int_isneqz_int atspre_g0int_isneqz_int
 \#define atspre_g1int_lt_int atspre_g0int_lt_int
 \#define atspre_g1int_lte_int atspre_g0int_lte_int
 \#define atspre_g1int_gt_int atspre_g0int_gt_int
 \#define atspre_g1int_gte_int atspre_g0int_gte_int
 \#define atspre_g1int_eq_int atspre_g0int_eq_int
 \#define atspre_g1int_neq_int atspre_g0int_neq_int
-
 \#define atspre_g1int_compare_int atspre_g0int_compare_int
+\#define atspre_g1int_max_int atspre_g0int_max_int
+\#define atspre_g1int_min_int atspre_g0int_min_int
 
+#atscode_separator_for_C()
 
+%{
+local
+//
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+//
+fun
+fun_succ_decl
+  (knd: string): atext = let
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_%s
+atspre_g0uint_succ_%s
+  (atstype_%s x) { return (x + 1) ; }
+// end of [atspre_g0uint_succ_%s]
+", @(knd, knd, knd, knd)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_succ_decl]
+//
+fun
+fun_pred_decl
+  (knd: string): atext = let
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_%s
+atspre_g0uint_pred_%s
+  (atstype_%s x) { return (x - 1) ; }
+// end of [atspre_g0uint_pred_%s]
+", @(knd, knd, knd, knd)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_pred_decl]
+//
+fun
+fun_half_decl
+  (knd: string): atext = let
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_%s
+atspre_g0uint_half_%s
+  (atstype_%s x) { return (x >> 1) ; }
+// end of [atspre_g0uint_pred_%s]
+", @(knd, knd, knd, knd)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_half_decl]
+//
+fun
+fun_double_decl
+  (knd: string): atext = let
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_%s
+atspre_g0uint_double_%s
+  (atstype_%s x) { return (x << 1) ; }
+// end of [atspre_g0uint_pred_%s]
+", @(knd, knd, knd, knd)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_double_decl]
+//
+fun
+fun_aop_decl (
+  opr: string, knd: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "add" => "+"
+  | "sub" => "-"
+  | "mul" => "*"
+  | "div" => "/"
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_%s
+atspre_g0uint_%s_%s
+  (atstype_%s x1, atstype_%s x2) { return (x1 %s x2) ; }
+// end of [atspre_g0uint_%s_%s]
+", @(
+ knd, opr, knd, knd, knd, fopr, opr, knd
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_aop_decl]
+//
+fun
+fun_cmpz_decl (
+  opr: string, knd: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "isgtz" => ">"
+  | "isgtez" => ">="
+  | "iseqz" => "=="
+  | "isneqz" => "!="
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_bool
+atspre_g0uint_%s_%s
+  (atstype_%s x) {
+  return (x %s 0 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_g0uint_%s_%s]
+", @(
+  opr, knd, knd, fopr, opr, knd
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_cmpz_decl]
+//
+fun
+fun_cmp_decl (
+  opr: string, knd: string
+) : atext = let
+//
+val fopr = (
+  case+ opr of
+  | "lt" => "<" | "lte" => "<="
+  | "gt" => ">" | "gte" => ">="
+  | "eq" => "==" | "neq" => "!="
+  | _ => opr
+) : string // end of [val]
+//
+val ent = sprintf ("\
+ATSinline()
+atstype_bool
+atspre_g0uint_%s_%s
+  (atstype_%s x1, atstype_%s x2) {
+  return (x1 %s x2 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_g0uint_%s_%s]
+", @(
+  opr, knd, knd, knd, fopr, opr, knd
+)
+) // end of [sprintf] // end of [val]
+//
+in
+  atext_strptr (ent)
+end // end of [fun_cmp_decl]
+//
+in // in of [local]
+//
+fun g0uint_implist
+  (tnm: string): atext = let
+//
+var res: atextlst = list_nil
+//
+val () = res := list_cons (fun_succ_decl(tnm), res)
+val () = res := list_cons (fun_pred_decl(tnm), res)
+//
+val () = res := list_cons (fun_half_decl(tnm), res)
+val () = res := list_cons (fun_double_decl(tnm), res)
+//
+val () = res := list_cons (fun_aop_decl("add", tnm), res)
+val () = res := list_cons (fun_aop_decl("sub", tnm), res)
+val () = res := list_cons (fun_aop_decl("mul", tnm), res)
+val () = res := list_cons (fun_aop_decl("div", tnm), res)
+//
+val () = res := list_cons (fun_cmpz_decl("isgtz", tnm), res)
+val () = res := list_cons (fun_cmpz_decl("isgtez", tnm), res)
+val () = res := list_cons (fun_cmpz_decl("iseqz", tnm), res)
+val () = res := list_cons (fun_cmpz_decl("isneqz", tnm), res)
+//
+val () = res := list_cons (fun_cmp_decl("lt", tnm), res)
+val () = res := list_cons (fun_cmp_decl("lte", tnm), res)
+val () = res := list_cons (fun_cmp_decl("gt", tnm), res)
+val () = res := list_cons (fun_cmp_decl("gte", tnm), res)
+val () = res := list_cons (fun_cmp_decl("eq", tnm), res)
+val () = res := list_cons (fun_cmp_decl("neq", tnm), res)
+//
+val res = list_reverse (res)
+//
+in
+  atext_concatxt (list_of_list_vt (res))
+end // end of [g0uint_implist]
+//
+end // end of [local]
+%}\
+\
+#g0uint_implist("uint")\
+//
+#g0uint_implist("ulint")\
+//
+#g0uint_implist("ullint")\
+//
 #atscode_separator_for_C()
 
 \#endif // ifndef ATSHOME_PRELUDE_INTEGER_CATS

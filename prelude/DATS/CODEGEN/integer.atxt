@@ -23,11 +23,32 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_author("Hongwei Xi")
 #atscode_authoremail("hwxi AT cs DOT bu DOT edu")
 #atscode_start_time("May, 2012")
-\
+
+#atscode_separator()
+//
 %{
 //
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
+//
+%}\
+//
+#atscode_separator()
+
+implement
+g0int2int<int_kind,int_kind> = g0int2int_int_int
+implement
+g0int2int<int_kind,lint_kind> = g0int2int_int_lint
+implement
+g0int2int<int_kind,llint_kind> = g0int2int_int_llint
+implement
+g0int2int<int_kind,ssize_kind> = g0int2int_int_ssize
+implement
+g0int2int<int_kind,sint_kind> = g0int2int_int_sint
+
+#atscode_separator()
+
+%{
 //
 fun g0int_implist (
   knm: string, tnm: string
@@ -43,7 +64,7 @@ in
   atext_strptr (x)
 end // end of [f]
 //
-fun f2 ():<cloref1> atext = let
+fun fpr ():<cloref1> atext = let
 //
 val x = sprintf (
 "\
@@ -53,37 +74,46 @@ implement fprint_val<%s> (out, x) = fprint_%s (out, x)\
 ", @(tnm, tnm, tnm, tnm, tnm, tnm))
 in
   atext_strptr (x)
-end // end of [f2]
+end // end of [fpr]
 //
 var res: atextlst = list_nil
 //
 val () = res := list_cons (f "neg", res)
+//
 val () = res := list_cons (f "succ", res)
 val () = res := list_cons (f "pred", res)
+//
+val () = res := list_cons (f "half", res)
+val () = res := list_cons (f "double", res)
+//
 val () = res := list_cons (f "add", res)
 val () = res := list_cons (f "sub", res)
 val () = res := list_cons (f "mul", res)
 val () = res := list_cons (f "div", res)
 val () = res := list_cons (f "mod", res)
+//
 val () = res := list_cons (f "isltz", res)
 val () = res := list_cons (f "isltez", res)
 val () = res := list_cons (f "isgtz", res)
 val () = res := list_cons (f "isgtez", res)
 val () = res := list_cons (f "iseqz", res)
 val () = res := list_cons (f "isneqz", res)
+//
 val () = res := list_cons (f "lt", res)
 val () = res := list_cons (f "lte", res)
 val () = res := list_cons (f "gt", res)
 val () = res := list_cons (f "gte", res)
 val () = res := list_cons (f "eq", res)
 val () = res := list_cons (f "neq", res)
+//
 val () = res := list_cons (f "compare", res)
+//
 val () = res := list_cons (f "max", res)
 val () = res := list_cons (f "min", res)
 //
 val () = res := list_cons (atext_strcst("//\n"), res)
 //
-val () = res := list_cons (f2 (), res)
+val () = res := list_cons (fpr (), res)
 //
 val res = list_reverse (res)
 //
@@ -91,68 +121,18 @@ in
   atext_concatxt (list_of_list_vt (res))
 end // end of [g0int_implist]
 //
-fun g0uint_implist (
-  knm: string, tnm: string
-) : atext = let
-//
-fun f (opr: string):<cloref1> atext = let
-//
-val x = sprintf (
-"implement g0uint_%s<%s> = g0uint_%s_%s\n", @(opr, knm, opr, tnm)
-) (* end of [val] *)
-//
-in
-  atext_strptr (x)
-end // end of [f]
-//
-fun f2 (
-):<cloref1> atext = let
-//
-val x = sprintf (
-"\
-implement print_%s (x) = fprint_%s (stdout_ref, x)\n\
-implement prerr_%s (x) = fprint_%s (stderr_ref, x)\n\
-implement fprint_val<%s> (out, x) = fprint_%s (out, x)\
-", @(tnm, tnm, tnm, tnm, tnm, tnm))
-in
-  atext_strptr (x)
-end // end of [f2]
-//
-var res: atextlst = list_nil
-//
-val () = res := list_cons (f "succ", res)
-val () = res := list_cons (f "pred", res)
-val () = res := list_cons (f "add", res)
-val () = res := list_cons (f "sub", res)
-val () = res := list_cons (f "mul", res)
-val () = res := list_cons (f "div", res)
-val () = res := list_cons (f "mod", res)
-val () = res := list_cons (f "isgtz", res)
-val () = res := list_cons (f "isgtez", res)
-val () = res := list_cons (f "iseqz", res)
-val () = res := list_cons (f "isneqz", res)
-val () = res := list_cons (f "lt", res)
-val () = res := list_cons (f "lte", res)
-val () = res := list_cons (f "gt", res)
-val () = res := list_cons (f "gte", res)
-val () = res := list_cons (f "eq", res)
-val () = res := list_cons (f "neq", res)
-val () = res := list_cons (f "compare", res)
-val () = res := list_cons (f "max", res)
-val () = res := list_cons (f "min", res)
-//
-val () = res := list_cons (atext_strcst("//\n"), res)
-//
-val () = res := list_cons (f2 (), res)
-//
-val res = list_reverse (res)
-//
-in
-  atext_concatxt (list_of_list_vt (res))
-end // end of [g0uint_implist]
-//
-%}
+%}\
 \
+#atscode_separator()
+//
+#g0int_implist("int_kind", "int")
+//
+#g0int_implist("lint_kind", "lint")
+//
+#g0int_implist("llint_kind", "llint")
+//
+#atscode_separator()
+
 %{
 fun g1int_implist (
   knm: string, tnm: string
@@ -171,19 +151,34 @@ end // end of [f]
 var res: atextlst = list_nil
 //
 val () = res := list_cons (f "neg", res)
+//
 val () = res := list_cons (f "succ", res)
 val () = res := list_cons (f "pred", res)
+//
+val () = res := list_cons (f "half", res)
+val () = res := list_cons (f "double", res)
+//
 val () = res := list_cons (f "add", res)
 val () = res := list_cons (f "sub", res)
 val () = res := list_cons (f "mul", res)
 val () = res := list_cons (f "div", res)
+//
+val () = res := list_cons (f "isltz", res)
+val () = res := list_cons (f "isltez", res)
+val () = res := list_cons (f "isgtz", res)
+val () = res := list_cons (f "isgtez", res)
+val () = res := list_cons (f "iseqz", res)
+val () = res := list_cons (f "isneqz", res)
+//
 val () = res := list_cons (f "lt", res)
 val () = res := list_cons (f "lte", res)
 val () = res := list_cons (f "gt", res)
 val () = res := list_cons (f "gte", res)
 val () = res := list_cons (f "eq", res)
 val () = res := list_cons (f "neq", res)
+//
 val () = res := list_cons (f "compare", res)
+//
 val () = res := list_cons (f "max", res)
 val () = res := list_cons (f "min", res)
 //
@@ -193,6 +188,122 @@ in
   atext_concatxt (list_of_list_vt (res))
 end // end of [g1int_implist]
 //
+%}\
+\
+#g1int_implist("int_kind", "int")\
+//
+#g1int_implist("lint_kind", "lint")\
+//
+#g1int_implist("llint_kind", "llint")\
+//
+#g1int_implist("ssize_kind", "ssize")\
+//
+#atscode_separator()
+
+implement
+g0int2uint<int_kind,uint_kind> = g0int2uint_int_uint
+implement
+g0int2uint<int_kind,ulint_kind> = g0int2uint_int_ulint
+implement
+g0int2uint<int_kind,ullint_kind> = g0int2uint_int_ullint
+implement
+g0int2uint<int_kind,size_kind> = g0int2uint_int_size
+
+#atscode_separator()
+
+%{
+//
+fun g0uint_implist (
+  knm: string, tnm: string
+) : atext = let
+//
+fun f (opr: string):<cloref1> atext = let
+//
+val x = sprintf (
+"implement g0uint_%s<%s> = g0uint_%s_%s\n", @(opr, knm, opr, tnm)
+) // end of [val]
+//
+in
+  atext_strptr (x)
+end // end of [f]
+//
+fun fpr (
+):<cloref1> atext = let
+//
+val x = sprintf ("\
+implement print_%s (x) = fprint_%s (stdout_ref, x)\n\
+implement prerr_%s (x) = fprint_%s (stderr_ref, x)\n\
+implement fprint_val<%s> (out, x) = fprint_%s (out, x)\
+", @(tnm, tnm, tnm, tnm, tnm, tnm)
+) // end of [val]
+//
+in
+  atext_strptr (x)
+end // end of [fpr]
+//
+var res: atextlst = list_nil
+//
+val () = res := list_cons (f "succ", res)
+val () = res := list_cons (f "pred", res)
+//
+val () = res := list_cons (f "half", res)
+val () = res := list_cons (f "double", res)
+//
+val () = res := list_cons (f "add", res)
+val () = res := list_cons (f "sub", res)
+val () = res := list_cons (f "mul", res)
+val () = res := list_cons (f "div", res)
+val () = res := list_cons (f "mod", res)
+//
+val () = res := list_cons (f "isgtz", res)
+val () = res := list_cons (f "isgtez", res)
+val () = res := list_cons (f "iseqz", res)
+val () = res := list_cons (f "isneqz", res)
+//
+val () = res := list_cons (f "lt", res)
+val () = res := list_cons (f "lte", res)
+val () = res := list_cons (f "gt", res)
+val () = res := list_cons (f "gte", res)
+val () = res := list_cons (f "eq", res)
+val () = res := list_cons (f "neq", res)
+//
+val () = res := list_cons (f "compare", res)
+//
+val () = res := list_cons (f "max", res)
+val () = res := list_cons (f "min", res)
+//
+val () = res := list_cons (atext_strcst("//\n"), res)
+//
+val () = res := list_cons (fpr (), res)
+//
+val res = list_reverse (res)
+//
+in
+  atext_concatxt (list_of_list_vt (res))
+end // end of [g0uint_implist]
+//
+%}\
+\
+#g0uint_implist("uint_kind", "uint")
+//
+#g0uint_implist("ulint_kind", "ulint")
+//
+#g0uint_implist("ullint_kind", "ullint")
+//
+#atscode_separator()
+
+implement
+g1int2uint<int_kind,uint_kind> = g1int2uint_int_uint
+implement
+g1int2uint<int_kind,ulint_kind> = g1int2uint_int_ulint
+implement
+g1int2uint<int_kind,ullint_kind> = g1int2uint_int_ullint
+implement
+g1int2uint<int_kind,size_kind> = g1int2uint_int_size
+
+#atscode_separator()
+
+%{
 fun g1uint_implist (
   knm: string, tnm: string
 ) : atext = let
@@ -211,17 +322,29 @@ var res: atextlst = list_nil
 //
 val () = res := list_cons (f "succ", res)
 val () = res := list_cons (f "pred", res)
+//
+val () = res := list_cons (f "half", res)
+val () = res := list_cons (f "double", res)
+//
 val () = res := list_cons (f "add", res)
 val () = res := list_cons (f "sub", res)
 val () = res := list_cons (f "mul", res)
 val () = res := list_cons (f "div", res)
+//
+val () = res := list_cons (f "isgtz", res)
+val () = res := list_cons (f "isgtez", res)
+val () = res := list_cons (f "iseqz", res)
+val () = res := list_cons (f "isneqz", res)
+//
 val () = res := list_cons (f "lt", res)
 val () = res := list_cons (f "lte", res)
 val () = res := list_cons (f "gt", res)
 val () = res := list_cons (f "gte", res)
 val () = res := list_cons (f "eq", res)
 val () = res := list_cons (f "neq", res)
+//
 val () = res := list_cons (f "compare", res)
+//
 val () = res := list_cons (f "max", res)
 val () = res := list_cons (f "min", res)
 //
@@ -230,23 +353,15 @@ val res = list_reverse (res)
 in
   atext_concatxt (list_of_list_vt (res))
 end // end of [g1uint_implist]
-%}
+%}\
 \
-#atscode_separator()
+#g1uint_implist("uint_kind", "uint")\
 //
-#g0int_implist("int_kind", "int")
+#g1uint_implist("ulint_kind", "ulint")\
 //
-#g0int_implist("lint_kind", "lint")
+#g1uint_implist("ullint_kind", "ullint")\
 //
-#g0int_implist("llint_kind", "llint")
-//
-#atscode_separator()
-//
-#g0uint_implist("uint_kind", "uint")
-//
-#g0uint_implist("ulint_kind", "ulint")
-//
-#g0uint_implist("ullint_kind", "ullint")
+#g1uint_implist("size_kind", "size")\
 //
 #atscode_separator()
 
@@ -284,40 +399,65 @@ g0uint_of_string<size_kind> (str) =
 end // end of [local]
 
 #atscode_separator()
-//
-#g1int_implist("int_kind", "int")\
-//
-#g1int_implist("lint_kind", "lint")\
-//
-#g1int_implist("llint_kind", "llint")\
-//
-#g1int_implist("ssize_kind", "ssize")\
-//
-#atscode_separator()
 
-implement
-lt_g1int_int<int_kind> = g1int_lt<int_kind>
-implement
-lte_g1int_int<int_kind> = g1int_lte<int_kind>
-implement
-gt_g1int_int<int_kind> = g1int_gt<int_kind>
-implement
-gte_g1int_int<int_kind> = g1int_gte<int_kind>
-implement
-eq_g1int_int<int_kind> = g1int_eq<int_kind>
-implement
-neq_g1int_int<int_kind> = g1int_neq<int_kind>
+implement{tk}
+lt_g0int_int (x, y) = g0int_lt<tk> (x, g0int2int (y))
+implement{tk}
+lte_g0int_int (x, y) = g0int_lte<tk> (x, g0int2int (y))
+implement{tk}
+gt_g0int_int (x, y) = g0int_gt<tk> (x, g0int2int (y))
+implement{tk}
+gte_g0int_int (x, y) = g0int_gte<tk> (x, g0int2int (y))
+implement{tk}
+eq_g0int_int (x, y) = g0int_eq<tk> (x, g0int2int (y))
+implement{tk}
+neq_g0int_int (x, y) = g0int_neq<tk> (x, g0int2int (y))
 
 #atscode_separator()
-//
-#g1uint_implist("uint_kind", "uint")\
-//
-#g1uint_implist("ulint_kind", "ulint")\
-//
-#g1uint_implist("ullint_kind", "ullint")\
-//
-#g1uint_implist("size_kind", "size")\
-//
+
+implement{tk}
+lt_g1int_int (x, y) = g1int_lt<tk> (x, g1int2int (y))
+implement{tk}
+lte_g1int_int (x, y) = g1int_lte<tk> (x, g1int2int (y))
+implement{tk}
+gt_g1int_int (x, y) = g1int_gt<tk> (x, g1int2int (y))
+implement{tk}
+gte_g1int_int (x, y) = g1int_gte<tk> (x, g1int2int (y))
+implement{tk}
+eq_g1int_int (x, y) = g1int_eq<tk> (x, g1int2int (y))
+implement{tk}
+neq_g1int_int (x, y) = g1int_neq<tk> (x, g1int2int (y))
+
+#atscode_separator()
+
+implement{tk}
+lt_g0uint_int (x, y) = g0uint_lt<tk> (x, g0int2uint (y))
+implement{tk}
+lte_g0uint_int (x, y) = g0uint_lte<tk> (x, g0int2uint (y))
+implement{tk}
+gt_g0uint_int (x, y) = g0uint_gt<tk> (x, g0int2uint (y))
+implement{tk}
+gte_g0uint_int (x, y) = g0uint_gte<tk> (x, g0int2uint (y))
+implement{tk}
+eq_g0uint_int (x, y) = g0uint_eq<tk> (x, g0int2uint (y))
+implement{tk}
+neq_g0uint_int (x, y) = g0uint_neq<tk> (x, g0int2uint (y))
+
+#atscode_separator()
+
+implement{tk}
+lt_g1uint_int (x, y) = g1uint_lt<tk> (x, g1int2uint (y))
+implement{tk}
+lte_g1uint_int (x, y) = g1uint_lte<tk> (x, g1int2uint (y))
+implement{tk}
+gt_g1uint_int (x, y) = g1uint_gt<tk> (x, g1int2uint (y))
+implement{tk}
+gte_g1uint_int (x, y) = g1uint_gte<tk> (x, g1int2uint (y))
+implement{tk}
+eq_g1uint_int (x, y) = g1uint_eq<tk> (x, g1int2uint (y))
+implement{tk}
+neq_g1uint_int (x, y) = g1uint_neq<tk> (x, g1int2uint (y))
+
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\
