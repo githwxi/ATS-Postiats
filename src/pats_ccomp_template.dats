@@ -438,19 +438,16 @@ val opt = funlab_get_funentopt (fl)
 in
 //
 case+ opt of
-| Some
-    (ent) => let
-(*
-    val fl2 = ...
-*)
-  in
-    exitloc (1)
-  end // end of [Some]
 | None () =>
     ccomp_funlab_tmpsubst_none (env, loc0, hse0, fl, sub)
   // end of [None]
+| Some (ent) =>
+    ccomp_funlab_tmpsubst_some (env, loc0, hse0, fl, sub, ent)
+  // end of [None]
 //
 end // end of [ccomp_funlab_tmpsubst]
+
+(* ****** ****** *)
 
 implement
 ccomp_funlab_tmpsubst_none
@@ -470,6 +467,16 @@ case+ t2mas of
 | list_nil () => primval_funlab (loc0, hse0, fl)
 //
 end // end of [funlab_tmpsubst_none]
+
+(* ****** ****** *)
+
+implement
+ccomp_funlab_tmpsubst_some (
+  env, loc0, hse0, fl, sub, ent
+) = let
+in
+  exitloc (1)
+end // end of [ccomp_funlab_tmpsubst_some]
 
 (* ****** ****** *)
 

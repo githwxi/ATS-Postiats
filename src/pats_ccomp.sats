@@ -900,6 +900,16 @@ fun ccomp_tmpcstmat (
 ) : primval // end of [ccomp_tmpcstmat]
 
 (* ****** ****** *)
+//
+fun tmpvar_subst
+  (tmp: tmpvar, sub: !stasub, sfx: int): tmpvar
+fun primval_subst
+  (pmv: primval, sub: !stasub, sfx: int): primval
+//
+fun instr_subst (ins: instr, sub: !stasub, sfx: int): instr
+fun instrlst_subst (ins: instrlst, sub: !stasub, sfx: int): instrlst
+//
+(* ****** ****** *)
 
 fun ccomp_main (
   out: FILEref, flag: int, infil: $FIL.filename, hdcs: hideclist

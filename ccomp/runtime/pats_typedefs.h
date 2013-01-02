@@ -81,6 +81,11 @@ typedef double atstype_double ;
 
 /* ****** ****** */
 
+typedef void *atstype_ptr ;
+typedef void *atstype_ref ;
+
+/* ****** ****** */
+
 #endif /* PATS_TYPEDEFS_H */
 
 /* end of [pats_typedefs.h] */

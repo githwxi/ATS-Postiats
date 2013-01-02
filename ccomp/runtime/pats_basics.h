@@ -40,6 +40,23 @@
 
 /* ****** ****** */
 
+#define ATSglobaldec()
+#define ATSstaticdec() static
+
+/* ****** ****** */
+
+#define ATSextfun() extern
+#define ATSinline() static inline
+
+/* ****** ****** */
+//
+// HX: boolean values
+//
+#define atsbool_true 1
+#define atsbool_false 0
+ //
+/* ****** ****** */
+
 #define ATSMACcastfn(castfn, arg) (arg) // castfn application
 
 /* ****** ****** */

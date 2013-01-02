@@ -405,9 +405,9 @@ funralist_listize
 viewtypedef tenv = $Q.Qstruct (a)
 //
 implement
-funralist_foreach$fwork<a><tenv>
-  (x, env) = $Q.qstruct_insert<a> (env, x)
-// end of [funralist_foreach$fwork]
+funralist_foreach$cont<a><tenv> (x, env) = true
+implement
+funralist_foreach$fwork<a><tenv> (x, env) = $Q.qstruct_insert<a> (env, x)
 //
 var env: $Q.qstruct
 //
