@@ -616,7 +616,7 @@ fun prelude_load (
   val () = pervasive_load (ATSHOME, "prelude/SATS/extern.sats") // interfacing externs
 //
 (*
-  val () = pervasive_load (ATSHOME, "prelude/SATS/iterator.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/giterator.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/fcontainer.sats")
 *)
 //

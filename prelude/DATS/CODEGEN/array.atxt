@@ -27,7 +27,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 staload UN = "prelude/SATS/unsafe.sats"
-staload IT = "prelude/SATS/iterator.sats"
+staload IT = "prelude/SATS/giterator.sats"
 
 #atscode_separator()
 
@@ -581,15 +581,15 @@ array_bsearch
   (A, n) = $effmask_all let
 //
 val itr =
-  $IT.iter_make_array (view@(A) | addr@(A), n)
+  $IT.giter_make_array (view@(A) | addr@(A), n)
 // end of [val]
 implement
-$IT.iter_bsearch$ford<a> (x) = array_bsearch$ford<a> (x)
-val () = $IT.iter_bsearch (itr, n)
+$IT.giter_bsearch$ford<a> (x) = array_bsearch$ford<a> (x)
+val () = $IT.giter_bsearch (itr, n)
 //
-val ofs = $IT.iter_get_fofs (itr)
+val ofs = $IT.giter_get_fofs (itr)
 //
-val (pf | ()) = $IT.iter_free_array (itr)
+val (pf | ()) = $IT.giter_free_array (itr)
 prval () = view@ (A) := pf
 //
 in

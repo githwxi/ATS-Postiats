@@ -59,26 +59,26 @@ sortdef tk = tkind
 (* ****** ****** *)
 
 staload
-IT = "prelude/SATS/iterator.sats"
-stadef iterator = $IT.iterator_5
+IT = "prelude/SATS/giterator.sats"
+stadef giter = $IT.giter_5
 
 fun{x:t0p}
-foreach_fiterator$fwork (x: x): void
+foreach_giter_val$fwork (x: x): void
 fun{
 knd:tk}{x:t0p
-} foreach_fiterator
+} foreach_giter_val
   {kpm:tk} {f,r:int} (
-  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+r, 0)
-) : void // end of [foreach_fiterator]
+  itr: !giter (knd, kpm, x, f, r) >> giter (knd, kpm, x, f+r, 0)
+) : void // end of [foreach_giter_val]
 
 fun{x:vt0p}
-foreach_literator$fwork (x: &x): void
+foreach_giter_ref$fwork (x: &x): void
 fun{
 knd:tk}{x:vt0p
-} foreach_literator
+} foreach_giter_ref
   {kpm:tk} {f,r:int} (
-  itr: !iterator (knd, kpm, x, f, r) >> iterator (knd, kpm, x, f+r, 0)
-) : void // end of [foreach_literator]
+  itr: !giter (knd, kpm, x, f, r) >> giter (knd, kpm, x, f+r, 0)
+) : void // end of [foreach_giter_ref]
 
 (* ****** ****** *)
 

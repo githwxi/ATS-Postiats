@@ -223,7 +223,7 @@ funralist_uncons
   (xs) = let
 //
 var nx: ptr // unintialized
-val () = xs := uncons{a} (xs, nx)
+val () = (xs := uncons{a} (xs, nx))
 val+ N1 (x0) = nx
 prval () = topize (nx) // HX: this is not necessary
 //

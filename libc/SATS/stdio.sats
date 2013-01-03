@@ -979,26 +979,27 @@ overload setvbuf with setvbuf1
 //
 (* ****** ****** *)
 
-staload IT = "prelude/SATS/iterator.sats"
+staload IT = "prelude/SATS/giterator.sats"
 
-stacst iter_fileptr_charlst_kind : tkind
-stacst iter_fileptr_charlst_param : (addr, fm) -> tkind
+stacst giter_fileptr_charlst_kind : tkind
+stacst giter_fileptr_charlst_param : (addr, fm) -> tkind
 
 (*
-** HX: this one is a fiterator
+** HX-2012:
+** this one is a fun-iterator
 *)
-fun iter_make_fileptr_charlst
+fun giter_make_fileptr_charlst
   {l:addr}{m:fm} (
   pf: fmlte (m, r()) | filp: FILEptr (l, m)
-) : $IT.iterator (
-  iter_fileptr_charlst_kind, iter_fileptr_charlst_param(l,m), char
-) // end of [iter_make_fileptr_charlst]
+) : $IT.giter (
+  giter_fileptr_charlst_kind, giter_fileptr_charlst_param(l,m), char
+) // end of [giter_make_fileptr_charlst]
 
-fun iter_free_fileptr_charlst
+fun giter_free_fileptr_charlst
   {l:addr}{m:fm} (
-  itr: $IT.iterator
-    (iter_fileptr_charlst_kind, iter_fileptr_charlst_param(l,m), char)
-) : FILEptr (l, m) // end of [iter_free_fileptr_charlst]
+  itr: $IT.giter
+    (giter_fileptr_charlst_kind, giter_fileptr_charlst_param(l,m), char)
+) : FILEptr (l, m) // end of [giter_free_fileptr_charlst]
 
 (* ****** ****** *)
 

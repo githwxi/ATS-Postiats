@@ -142,29 +142,29 @@ end // end of [iforeach_array]
 
 local
 
-staload IT = "prelude/SATS/iterator.sats"
+staload IT = "prelude/SATS/giterator.sats"
 
 in // in of [local]
 
 implement
 {knd}{x}
-foreach_fiterator
+foreach_giter_val
   {kpm}{f,r} (itr) = let
 //
-val () = $IT.lemma_iterator_param (itr)
+val () = $IT.lemma_giter_param (itr)
 //
-stadef iter
-  (f:int, r:int) = $IT.iterator (knd, kpm, x, f, r)
+stadef giter
+  (f:int, r:int) = $IT.giter (knd, kpm, x, f, r)
 //
 fun loop
   {f,r:int | r >= 0} .<r>. (
-  itr: !iter (f, r) >> iter (f+r, 0)
+  itr: !giter (f, r) >> giter (f+r, 0)
 ) : void = let
-  val test = $IT.iter_isnot_atend (itr)
+  val test = $IT.giter_isnot_atend (itr)
 in
   if test then let
-    val x = $IT.iter_get_inc (itr)
-    val () = foreach_fiterator$fwork (x)
+    val x = $IT.giter_get_inc (itr)
+    val () = foreach_giter_val$fwork (x)
   in
     loop (itr)
   end else () // end of [if]
@@ -172,30 +172,30 @@ end (* end of [loop] *)
 //
 in
   loop (itr)
-end // end of [foreach_fiterator]
+end // end of [foreach_giter_val]
 
 (* ****** ****** *)
 
 implement
 {knd}{x}
-foreach_literator
+foreach_giter_ref
   {kpm}{f,r} (itr) = let
 //
-val () = $IT.lemma_iterator_param (itr)
+val () = $IT.lemma_giter_param (itr)
 //
-stadef iter
-  (f:int, r:int) = $IT.iterator (knd, kpm, x, f, r)
+stadef giter
+  (f:int, r:int) = $IT.giter (knd, kpm, x, f, r)
 //
 fun loop
   {f,r:int | r >= 0} .<r>. (
-  itr: !iter (f, r) >> iter (f+r, 0)
+  itr: !giter (f, r) >> giter (f+r, 0)
 ) : void = let
-  val test = $IT.iter_isnot_atend (itr)
+  val test = $IT.giter_isnot_atend (itr)
 in
   if test then let
-    val p = $IT.iter_getref_inc (itr)
+    val p = $IT.giter_getref_inc (itr)
     prval (pf, fpf) = $UN.ptr_vtake {x} (p)
-    val () = foreach_literator$fwork (!p)
+    val () = foreach_giter_ref$fwork (!p)
     prval () = fpf (pf)
   in
     loop (itr)
@@ -204,7 +204,7 @@ end (* end of [loop] *)
 //
 in
   loop (itr)
-end // end of [foreach_literator]
+end // end of [foreach_giter_ref]
 
 end // end of [local]
 
