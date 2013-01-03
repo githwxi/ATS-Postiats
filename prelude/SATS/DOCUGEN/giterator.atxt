@@ -1,14 +1,14 @@
 (* ****** ****** *)
 
 %{
-implement srcfilename_get () = "../giter.sats"
+implement srcfilename_get () = "../giterator.sats"
 %}
 
 (* ****** ****** *)
 
 %{
 val () = patscode_count_reset()
-val () = patscode_prefix_set("TRYIT/prelude_giter")
+val () = patscode_prefix_set("TRYIT/prelude_giterator")
 %}
 
 (* ****** ****** *)
