@@ -70,10 +70,10 @@ fun loop
 , sep: string
 , notbeg: bool
 ) : void = let
-  val test = iter_isnot_atend (itr)
+  val test = giter_isnot_atend (itr)
 in
   if test then let
-    val p = iter_getref_inc<knd><x> (itr)
+    val p = giter_getref_inc<knd><x> (itr)
     prval (pf, fpf) = $UN.ptr_vtake {x} (p)
     val () = if notbeg then fprint_string (out, sep)
     val () = fprint_ref<x> (out, !p)
@@ -91,23 +91,23 @@ end // end of [fprint_iterator_sep]
 
 implement
 {knd}{x}
-iter_isnot_atbeg (itr) = let
-  prval () = lemma_iterator_param (itr) in ~iter_is_atbeg (itr)
-end // end of [iter_isnot_atbeg]
+giter_isnot_atbeg (itr) = let
+  prval () = lemma_iterator_param (itr) in ~giter_is_atbeg (itr)
+end // end of [giter_isnot_atbeg]
 
 implement
 {knd}{x}
-iter_isnot_atend (itr) = let
-  prval () = lemma_iterator_param (itr) in ~iter_is_atend (itr)
-end // end of [iter_isnot_atend]
+giter_isnot_atend (itr) = let
+  prval () = lemma_iterator_param (itr) in ~giter_is_atend (itr)
+end // end of [giter_isnot_atend]
 
 (* ****** ****** *)
 
 implement
 {knd}{x}
-iter_vttake (itr) = let
+giter_vttake (itr) = let
   val p =
-    iter_getref<knd><x> (itr)
+    giter_getref<knd><x> (itr)
   prval (
     pf, fpf
   ) = $UN.ptr_vtake {x} (p)
@@ -115,33 +115,33 @@ iter_vttake (itr) = let
   prval () = fpf (pf)
 in
   res
-end // end of [iter_vttake]
+end // end of [giter_vttake]
 
 implement
 {knd}{x}
-iter_get (itr) = x where {
-  val (fpf | x) = iter_vttake<knd><x> (itr); prval () = fpf (x)
-} // end of [iter_get]
+giter_get (itr) = x where {
+  val (fpf | x) = giter_vttake<knd><x> (itr); prval () = fpf (x)
+} // end of [giter_get]
 
 implement
 {knd}{x}
-iter_set (itr, x) =
-  $UN.ptr_set<x> (iter_getref<knd><x> (itr), x)
-// end of [iter_set]
+giter_set (itr, x) =
+  $UN.ptr_set<x> (giter_getref<knd><x> (itr), x)
+// end of [giter_set]
 
 (* ****** ****** *)
 
 implement
 {knd}{x}
-iter_getref_inc (itr) = let
-  val p = iter_getref<knd><x> (itr) in iter_inc<knd><x> (itr); p
-end // end of [iter_getref_inc]
+giter_getref_inc (itr) = let
+  val p = giter_getref<knd><x> (itr) in giter_inc<knd><x> (itr); p
+end // end of [giter_getref_inc]
 
 implement
 {knd}{x}
-iter_vttake_inc (itr) = let
+giter_vttake_inc (itr) = let
   val p =
-    iter_getref_inc<knd><x> (itr)
+    giter_getref_inc<knd><x> (itr)
   prval (
     pf, fpf
   ) = $UN.ptr_vtake {x} (p)
@@ -149,44 +149,44 @@ iter_vttake_inc (itr) = let
   prval () = fpf (pf)
 in
   res
-end // end of [iter_vttake_inc]
+end // end of [giter_vttake_inc]
 
 implement
 {knd}{x}
-iter_get_inc
+giter_get_inc
   (itr) = x where {
   val (fpf | x) =
-    iter_vttake_inc<knd><x> (itr)
+    giter_vttake_inc<knd><x> (itr)
   prval () = fpf (x)
-} // end of [iter_get_inc]
+} // end of [giter_get_inc]
 implement
 {knd}{x}
-iter_set_inc (itr, x) =
-  $UN.ptr_set<x> (iter_getref_inc<knd><x> (itr), x)
-// end of [iter_set_inc]
+giter_set_inc (itr, x) =
+  $UN.ptr_set<x> (giter_getref_inc<knd><x> (itr), x)
+// end of [giter_set_inc]
 implement
 {knd}{x}
-iter_exch_inc (itr, x) =
-  $UN.ptr_exch<x> (iter_getref_inc<knd><x> (itr), x)
-// end of [iter_exch_inc]
+giter_exch_inc (itr, x) =
+  $UN.ptr_exch<x> (giter_getref_inc<knd><x> (itr), x)
+// end of [giter_exch_inc]
 
 (* ****** ****** *)
 
 implement
 {knd}{x}
-iter_dec_getref (itr) = let
+giter_dec_getref (itr) = let
   prval () =
     lemma_iterator_param (itr)
-  val () = iter_dec<knd><x> (itr)
+  val () = giter_dec<knd><x> (itr)
 in
-  iter_getref<knd><x> (itr)
-end // end of [iter_dec_getref]
+  giter_getref<knd><x> (itr)
+end // end of [giter_dec_getref]
 
 implement
 {knd}{x}
-iter_dec_vttake (itr) = let
+giter_dec_vttake (itr) = let
   val p =
-    iter_dec_getref<knd><x> (itr)
+    giter_dec_getref<knd><x> (itr)
   prval (
     pf, fpf
   ) = $UN.ptr_vtake {x} (p)
@@ -194,26 +194,26 @@ iter_dec_vttake (itr) = let
   prval () = fpf (pf)
 in
   res
-end // end of [iter_dec_vttake]
+end // end of [giter_dec_vttake]
 
 implement
 {knd}{x}
-iter_dec_get
+giter_dec_get
   (itr) = x where {
   val (fpf | x) =
-    iter_dec_vttake<knd><x> (itr)
+    giter_dec_vttake<knd><x> (itr)
   prval () = fpf (x)
-} // end of [iter_dec_get]
+} // end of [giter_dec_get]
 implement
 {knd}{x}
-iter_dec_set (itr, x) =
-  $UN.ptr_set<x> (iter_dec_getref<knd><x> (itr), x)
-// end of [iter_dec_set]
+giter_dec_set (itr, x) =
+  $UN.ptr_set<x> (giter_dec_getref<knd><x> (itr), x)
+// end of [giter_dec_set]
 implement
 {knd}{x}
-iter_dec_exch (itr, x) =
-  $UN.ptr_exch<x> (iter_dec_getref<knd><x> (itr), x)
-// end of [iter_dec_exch]
+giter_dec_exch (itr, x) =
+  $UN.ptr_exch<x> (giter_dec_getref<knd><x> (itr), x)
+// end of [giter_dec_exch]
 
 (* ****** ****** *)
 (*
@@ -221,19 +221,19 @@ iter_dec_exch (itr, x) =
 *)
 implement
 {knd}{x}
-iter_fget_at (itr, i) =
-  $UN.ptr_get<x> (iter_fgetref_at<knd><x> (itr, i))
-// end of [iter_fget_at]
+giter_fget_at (itr, i) =
+  $UN.ptr_get<x> (giter_fgetref_at<knd><x> (itr, i))
+// end of [giter_fget_at]
 implement
 {knd}{x}
-iter_fset_at (itr, i, x) =
-  $UN.ptr_set<x> (iter_fgetref_at<knd><x> (itr, i), x)
-// end of [iter_fset_at]
+giter_fset_at (itr, i, x) =
+  $UN.ptr_set<x> (giter_fgetref_at<knd><x> (itr, i), x)
+// end of [giter_fset_at]
 implement
 {knd}{x}
-iter_fexch_at (itr, i, x) =
-  $UN.ptr_exch<x> (iter_fgetref_at<knd><x> (itr, i), x)
-// end of [iter_fexch_at]
+giter_fexch_at (itr, i, x) =
+  $UN.ptr_exch<x> (giter_fgetref_at<knd><x> (itr, i), x)
+// end of [giter_fexch_at]
 
 (* ****** ****** *)
 (*
@@ -241,25 +241,25 @@ iter_fexch_at (itr, i, x) =
 *)
 implement
 {knd}{x}
-iter_fbget_at (itr, i) =
-  $UN.ptr_get<x> (iter_fbgetref_at<knd><x> (itr, i))
-// end of [iter_fbget_at]
+giter_fbget_at (itr, i) =
+  $UN.ptr_get<x> (giter_fbgetref_at<knd><x> (itr, i))
+// end of [giter_fbget_at]
 implement
 {knd}{x}
-iter_fbset_at (itr, i, x) =
-  $UN.ptr_set<x> (iter_fbgetref_at<knd><x> (itr, i), x)
-// end of [iter_fbset_at]
+giter_fbset_at (itr, i, x) =
+  $UN.ptr_set<x> (giter_fbgetref_at<knd><x> (itr, i), x)
+// end of [giter_fbset_at]
 implement
 {knd}{x}
-iter_fbexch_at (itr, i, x) =
-  $UN.ptr_exch<x> (iter_fbgetref_at<knd><x> (itr, i), x)
-// end of [iter_fbexch_at]
+giter_fbexch_at (itr, i, x) =
+  $UN.ptr_exch<x> (giter_fbgetref_at<knd><x> (itr, i), x)
+// end of [giter_fbexch_at]
 
 (* ****** ****** *)
 
 implement
 {knd}{x}
-iter_fgetlst {kpm} (itr, i) = let
+giter_fgetlst {kpm} (itr, i) = let
 //
 prval () = lemma_iterator_param (itr)
 //
@@ -275,11 +275,11 @@ fun loop
 in
 //
 if i > 0 then let
-  val test = iter_isnot_atend (itr)
+  val test = giter_isnot_atend (itr)
 in
   if test then let
     val () = i := i - 1
-    val x = iter_get_inc (itr)
+    val x = giter_get_inc (itr)
     val () = res :=
       list_vt_cons {x}{0} (x, _)
     val+ list_vt_cons (x, res1) = res
@@ -297,13 +297,13 @@ val () = loop (itr, i, res)
 //
 in
   res
-end // end of [iter_fgetlst]
+end // end of [giter_fgetlst]
 
 (* ****** ****** *)
 
 implement
 {knd}{x}
-iter_bgetlst {kpm} (itr, i) = let
+giter_bgetlst {kpm} (itr, i) = let
 //
 prval () = lemma_iterator_param (itr)
 //
@@ -319,11 +319,11 @@ fun loop
 in
 //
 if i > 0 then let
-  val test = iter_isnot_atbeg (itr)
+  val test = giter_isnot_atbeg (itr)
 in
   if test then let
     val () = i := i - 1
-    val x = iter_dec_get (itr)
+    val x = giter_dec_get (itr)
     val () = res :=
       list_vt_cons {x}{0} (x, _)
     val+ list_vt_cons (x, res1) = res
@@ -341,23 +341,23 @@ val () = loop (itr, i, res)
 //
 in
   res
-end // end of [iter_bgetlst]
+end // end of [giter_bgetlst]
 
 (* ****** ****** *)
 
 implement
 {knd}{x}
-iter_ins_inc (itr, x) = let
+giter_ins_inc (itr, x) = let
   prval () = lemma_iterator_param (itr)
-  val () = iter_ins (itr, x) in iter_inc (itr)
-end // end of [iter_ins_inc]
+  val () = giter_ins (itr, x) in giter_inc (itr)
+end // end of [giter_ins_inc]
 
 implement
 {knd}{x}
-iter_dec_rmv (itr) = let
+giter_dec_rmv (itr) = let
   prval () = lemma_iterator_param (itr)
-  val () = iter_dec (itr) in iter_rmv (itr)
-end // end of [iter_dec_rmv]
+  val () = giter_dec (itr) in giter_rmv (itr)
+end // end of [giter_dec_rmv]
 
 (* ****** ****** *)
 //
@@ -367,7 +367,7 @@ end // end of [iter_dec_rmv]
 
 implement
 {knd}{x}
-iter_listize_cpy {kpm} (itr) = let
+giter_listize_cpy {kpm} (itr) = let
 //
 prval () = lemma_iterator_param (itr)
 //
@@ -377,10 +377,10 @@ fun loop
   {f,r:int | r >= 0} .<r>. (
   itr: !iter (f, r) >> iter (f+r, 0), res: &ptr? >> list_vt (x, r)
 ) : void = let
-  val test = iter_isnot_atend (itr)
+  val test = giter_isnot_atend (itr)
 in
   if test then let
-    val x = iter_get_inc (itr)
+    val x = giter_get_inc (itr)
     val () = res :=
       list_vt_cons {x}{0} (x, _)
     val+ list_vt_cons (x, res1) = res
@@ -396,11 +396,11 @@ val () = loop (itr, res)
 //
 in
   res
-end // end of [iter_listize_cpy]
+end // end of [giter_listize_cpy]
 
 implement
 {knd}{x}
-iter_rlistize_cpy
+giter_rlistize_cpy
   {kpm} (itr) = let
 //
 prval () = lemma_iterator_param (itr)
@@ -411,10 +411,10 @@ fun loop
   {f,r:int | r >= 0}{r2:nat} .<r>. (
   itr: !iter (f, r) >> iter (f+r, 0), res: list_vt (x, r2)
 ) : list_vt (x, r+r2) = let
-  val test = iter_isnot_atend (itr)
+  val test = giter_isnot_atend (itr)
 in
   if test then let
-    val x = iter_get_inc (itr)
+    val x = giter_get_inc (itr)
   in
     loop (itr, list_vt_cons (x, res))
   end else res // end of [if]
@@ -422,19 +422,19 @@ end // end of [loop]
 //
 in
   loop (itr, list_vt_nil)
-end // end of [iter_listize_cpy]
+end // end of [giter_listize_cpy]
 
 (* ****** ****** *)
 
 implement
 {knd}{x}
-iter_foreach (itr) = let
-  var env: void = () in iter_foreach_env<knd><x><void> (itr, env)
-end // end of [iter_foreach]
+giter_foreach (itr) = let
+  var env: void = () in giter_foreach_env<knd><x><void> (itr, env)
+end // end of [giter_foreach]
 
 implement
 {knd}{x}{env}
-iter_foreach_env
+giter_foreach_env
   {kpm}{f,r} (itr, env) = let
 //
 prval () = lemma_iterator_param (itr)
@@ -446,17 +446,17 @@ fun loop
   itr: !iter (f, r) >> iter (f1, r1), env: &env
 ) : #[f1,r1:int | f <= f1 | f+r==f1+r1] void = let
   val isnotend =
-    iter_isnot_atend<knd><x> (itr) 
+    giter_isnot_atend<knd><x> (itr) 
   // end of [val]
 in
   if isnotend then let
     val p =
-      iter_getref_inc<knd><x> (itr)
+      giter_getref_inc<knd><x> (itr)
     prval (pf, fpf) = $UN.ptr_vtake (p)
-    val cont = iter_foreach$cont (!p, env)
+    val cont = giter_foreach$cont (!p, env)
   in
     if cont then let
-      val () = iter_foreach$fwork (!p, env)
+      val () = giter_foreach$fwork (!p, env)
       prval () = fpf (pf)
     in
       loop (itr, env)
@@ -470,7 +470,7 @@ end // end of [loop]
 //
 in
   loop (itr, env)
-end // end of [iter_foreach_env]
+end // end of [giter_foreach_env]
 
 (* ****** ****** *)
 (*
@@ -479,7 +479,7 @@ end // end of [iter_foreach_env]
 *)
 implement
 {knd}{x}
-iter_bsearch
+giter_bsearch
   {kpm} (itr, ra) = let
 //
 prval () = lemma_g1uint_param (ra)
@@ -499,17 +499,17 @@ fun loop
   if ra > 0 then let
     val ra2 = half (ra)
     val p =
-      iter_fgetref_at (itr, ra2)
+      giter_fgetref_at (itr, ra2)
     prval
       (pf, fpf) = $UN.ptr_vtake (p)
-    val sgn = iter_bsearch$ford (!p)
+    val sgn = giter_bsearch$ford (!p)
     prval () = fpf (pf)
   in
     if sgn <= 0 then
       loop (itr, ra2)
     else let
       val ra21 = succ(ra2)
-      val () = iter_fjmp (itr, ra21)
+      val () = giter_fjmp (itr, ra21)
     in
       loop (itr, ra-ra21)
     end // end of [if]
@@ -518,7 +518,7 @@ fun loop
 //
 in
   loop (itr, ra)
-end // end of [iter_bsearch]
+end // end of [giter_bsearch]
 
 (* ****** ****** *)
 

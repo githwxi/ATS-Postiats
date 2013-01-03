@@ -101,9 +101,10 @@ all::
 #make_entry("matrix")
 #make_entry("matrixptr")
 
+#make_entry("giter")
+
 #make_entry("gprint")
 
-#make_entry("iterator")
 #make_entry("fcontainer")
 
 #comment("

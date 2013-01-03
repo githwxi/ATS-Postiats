@@ -44,13 +44,13 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "prelude/SATS/iterator.sats"
+staload "prelude/SATS/giter.sats"
 
 (* ****** ****** *)
 
 sortdef t0p = t@ype
-stadef itrknd = iter_flist_kind
-stadef itrkpm = iter_flist_param
+stadef itrknd = giter_list_kind
+stadef itrkpm = giter_list_param
 
 (* ****** ****** *)
 
@@ -64,79 +64,79 @@ iterk (
 extern
 castfn iterk2iter
   {x:t0p}{n:int}
-  (xs: iterk (x, 0, n)):<> iterator (itrknd, itrkpm(), x, 0, n)
+  (xs: iterk (x, 0, n)):<> giter (itrknd, itrkpm(), x, 0, n)
 // end of [iterk2iter]
 
 extern
 castfn iter2iterk
   {x:t0p}{f,r:int}
-  (itr: iterator (itrknd, itrkpm(), x, f, r)):<> iterk (x, f, r)
+  (itr: giter (itrknd, itrkpm(), x, f, r)):<> iterk (x, f, r)
 // end of [iter2iterk]
 
 (* ****** ****** *)
 
 implement{x}
-iter_make_list
+giter_make_list
   (xs) = iterk2iter (ITR (xs))
 implement
-iter_free_list (itr) = let
+giter_free_list (itr) = let
   val+ ~ITR (xs) = iter2iterk (itr) in xs
-end // end of [iter_free_list]
+end // end of [giter_free_list]
 
 (* ****** ****** *)
 
 extern
 praxi encode
   {kpm:tk}{x:t0p}{f,r:int}
-  (xs: !iterk (x, f, r) >> iterator (itrknd, kpm, x, f, r)): void
+  (xs: !iterk (x, f, r) >> giter (itrknd, kpm, x, f, r)): void
 // end of [encode]
 
 extern
 praxi decode
   {kpm:tk}{x:t0p}{f,r:int}
-  (itr: !iterator (itrknd, kpm, x, f, r) >> iterk (x, f, r)): void
+  (itr: !giter (itrknd, kpm, x, f, r) >> iterk (x, f, r)): void
 // end of [decode]
 
 (* ****** ****** *)
 
 implement(x:t0p)
-iter_is_atend<itrknd><x>
+giter_is_atend<itrknd><x>
   (itr) = let
   prval () = decode (itr)
   val+ ITR (xs) = itr
   prval () = encode (itr)
 in
   list_is_nil (xs)
-end // end of [iter_is_atend]
+end // end of [giter_is_atend]
 
 (* ****** ****** *)
 
 implement(x:t0p)
-iter_vttake<itrknd><x> (itr) = let
+giter_vttake<itrknd><x> (itr) = let
   prval () = decode (itr)
   val+ ITR (xs) = itr; val+ list_cons (x, _) = xs
   prval () = encode (itr)
   var x = x
 in
   $UN.vttakeout_void (x)
-end // end of [iter_vttake]
+end // end of [giter_vttake]
 
 (* ****** ****** *)
 
 implement(x:t0p)
-iter_inc<itrknd><x> (itr) = let
+giter_inc<itrknd><x> (itr) = let
   prval () = decode (itr)
   val+ @ITR (xs) = itr; val+ list_cons (_, xs1) = xs; val () = xs := xs1
   prval () = fold@ (itr)
   prval () = encode (itr)
 in
   // nothing
-end // end of [iter_inc]
+end // end of [giter_inc]
 
 (* ****** ****** *)
 
 implement(x:t0p)
-iter_vttake_inc<itrknd><x> (itr) = let
+giter_vttake_inc<itrknd><x> (itr) = let
   prval () = decode (itr)
   val+ @ITR (xs) = itr; val+ list_cons (x, xs1) = xs; val () = xs := xs1
   prval () = fold@ (itr)
@@ -144,8 +144,8 @@ iter_vttake_inc<itrknd><x> (itr) = let
   var x = x
 in
   $UN.vttakeout_void (x)
-end // end of [iter_vttake_inc]
+end // end of [giter_vttake_inc]
 
 (* ****** ****** *)
 
-(* end of [iterator_flist.dats] *)
+(* end of [giter_list.dats] *)

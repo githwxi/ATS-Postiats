@@ -44,14 +44,14 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "prelude/SATS/iterator.sats"
+staload "prelude/SATS/giter.sats"
 
 (* ****** ****** *)
 
 sortdef t0p = t@ype
 sortdef vt0p = viewt@ype
-stadef itrknd = iter_slist_kind
-stadef itrkpm = iter_slist_param
+stadef itrknd = giter_list_vt_kind
+stadef itrkpm = giter_list_vt_param
 
 (* ****** ****** *)
 
@@ -64,20 +64,20 @@ iterk (
 
 extern
 castfn iterk2iter
-  {x:t0p}{n:int}
-  (xs: iterk (x, 0, n)):<> iterator (itrknd, itrkpm(), x, 0, n)
+  {x:vt0p}{n:int}
+  (xs: iterk (x, 0, n)):<> giter (itrknd, itrkpm(), x, 0, n)
 // end of [iterk2iter]
 
 extern
 castfn iter2iterk
-  {x:t0p}{f,r:int}
-  (itr: iterator (itrknd, itrkpm(), x, f, r)):<> iterk (x, f, r)
+  {x:vt0p}{f,r:int}
+  (itr: giter (itrknd, itrkpm(), x, f, r)):<> iterk (x, f, r)
 // end of [iter2iterk]
 
 (* ****** ****** *)
 
 implement{x}
-iter_make_list_vt
+giter_make_list_vt
   {n} (xs) = let
   val itr = ITR {x}{0,n} (xs, _)
   val+ ITR (xs, p) = itr
@@ -85,31 +85,31 @@ iter_make_list_vt
   prval () = fold@ (itr)
 in
   iterk2iter (itr)
-end // end of [iter_make_list_vt]
+end // end of [giter_make_list_vt]
 
 implement
-iter_free_list_vt (itr) = let
+giter_free_list_vt (itr) = let
   val+ ~ITR (xs, _) = iter2iterk (itr) in xs
-end // end of [iter_free_list_vt]
+end // end of [giter_free_list_vt]
 
 (* ****** ****** *)
 
 extern
 praxi encode
-  {kpm:tk}{x:t0p}{f,r:int}
-  (xs: !iterk (x, f, r) >> iterator (itrknd, kpm, x, f, r)): void
+  {kpm:tk}{x:vt0p}{f,r:int}
+  (xs: !iterk (x, f, r) >> giter (itrknd, kpm, x, f, r)): void
 // end of [encode]
 
 extern
 praxi decode
-  {kpm:tk}{x:t0p}{f,r:int}
-  (itr: !iterator (itrknd, kpm, x, f, r) >> iterk (x, f, r)): void
+  {kpm:tk}{x:vt0p}{f,r:int}
+  (itr: !giter (itrknd, kpm, x, f, r) >> iterk (x, f, r)): void
 // end of [decode]
 
 (* ****** ****** *)
 
 implement(x)
-iter_is_atbeg<itrknd><x>
+giter_is_atbeg<itrknd><x>
   {kpm}{f,r} (itr) = let
 //
   prval () = decode (itr)
@@ -124,12 +124,12 @@ iter_is_atbeg<itrknd><x>
   // end of [extern]
 in
   if p_xs0 = p then __cast(true) else __cast(false)
-end // end of [iter_is_atbeg]
+end // end of [giter_is_atbeg]
 
 (* ****** ****** *)
 
 implement(x)
-iter_is_atend<itrknd><x>
+giter_is_atend<itrknd><x>
   {kpm}{f,r} (itr) = let
 //
   viewtypedef vt = list_vt (x, r)
@@ -144,12 +144,12 @@ iter_is_atend<itrknd><x>
   } // end of [prval]
 in
   isnil
-end // end of [iter_is_atend]
+end // end of [giter_is_atend]
 
 (* ****** ****** *)
 
 implement(x)
-iter_getref<itrknd><x>
+giter_getref<itrknd><x>
   {kpm}{f,r} (itr) = let
 //
   viewtypedef vt = list_vt (x, r)
@@ -167,12 +167,12 @@ iter_getref<itrknd><x>
   } // end of [prval]
 in
   $UN.cast2Ptr1 (p_x)
-end // end of [iter_getref]
+end // end of [giter_getref]
 
 (* ****** ****** *)
 
 implement(x)
-iter_inc<itrknd><x>
+giter_inc<itrknd><x>
   {kpm}{f,r} (itr) = let
 //
   viewtypedef vt = list_vt (x, r)
@@ -191,12 +191,12 @@ iter_inc<itrknd><x>
   } // end of [prval]
 in
   // nothing
-end // end of [iter_inc]
+end // end of [giter_inc]
 
 (* ****** ****** *)
 
 implement(x)
-iter_getref_inc<itrknd><x>
+giter_getref_inc<itrknd><x>
   {kpm}{f,r} (itr) = let
 //
   viewtypedef vt = list_vt (x, r)
@@ -216,16 +216,16 @@ iter_getref_inc<itrknd><x>
   } // end of [prval]
 in
   $UN.cast2Ptr1 (p_x)
-end // end of [iter_getref_inc]
+end // end of [giter_getref_inc]
 
 (* ****** ****** *)
 
 implement(x)
-iter_ins<itrknd><x>
+giter_ins<itrknd><x>
   {kpm}{f,r} (itr, x) = let
 //
   prval () =
-    lemma_iterator_param (itr)
+    lemma_giter_param (itr)
   (* end of [prval] *)
 //
   viewtypedef vt = list_vt (x, r)
@@ -245,12 +245,12 @@ iter_ins<itrknd><x>
   prval () = encode (itr)
 in
   // nothing
-end // end of [iter_ins]
+end // end of [giter_ins]
 
 (* ****** ****** *)
 
 implement(x)
-iter_rmv<itrknd><x>
+giter_rmv<itrknd><x>
   {kpm}{f,r} (itr) = let
 //
   viewtypedef vt = list_vt (x, r)
@@ -273,8 +273,8 @@ iter_rmv<itrknd><x>
 //
 in
   x
-end // end of [iter_rmv]
+end // end of [giter_rmv]
 
 (* ****** ****** *)
 
-(* end of [iterator_slist.dats] *)
+(* end of [giter_list_vt.dats] *)

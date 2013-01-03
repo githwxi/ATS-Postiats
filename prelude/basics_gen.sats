@@ -46,7 +46,7 @@ fun{a:t0p}
 gcopy_val (x: INV(a)):<> a
 
 fun{a:vt0p}
-gcopy_ref (x: &INV(a)):<> a
+gcopy_ref (x: &INV(a)):<!wrt> a
 
 (* ****** ****** *)
 

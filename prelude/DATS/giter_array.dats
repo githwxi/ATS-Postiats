@@ -42,13 +42,13 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "prelude/SATS/iterator.sats"
+staload "prelude/SATS/giter.sats"
 
 (* ****** ****** *)
 
 sortdef t0p = t@ype
-stadef itrknd = iter_array_kind
-stadef itrkpm = iter_array_param
+stadef itrknd = giter_array_kind
+stadef itrkpm = giter_array_param
 
 (* ****** ****** *)
 
@@ -65,45 +65,45 @@ iterk (
 extern
 castfn iterk2iter
   {x:vt0p}{l:addr}{n:int}
-  (xs: iterk (x, l, 0, n)):<> iterator (itrknd, itrkpm(l), x, 0, n)
+  (xs: iterk (x, l, 0, n)):<> giter (itrknd, itrkpm(l), x, 0, n)
 // end of [iterk2iter]
 
 extern
 castfn iter2iterk
   {x:vt0p}{l:addr}{f,r:int}
-  (itr: iterator (itrknd, itrkpm(l), x, f, r)):<> iterk (x, l, f, r)
+  (itr: giter (itrknd, itrkpm(l), x, f, r)):<> iterk (x, l, f, r)
 // end of [iter2iterk]
 
 (* ****** ****** *)
 
 implement{x}
-iter_make_array (pf | p, n) =
+giter_make_array (pf | p, n) =
   iterk2iter (ITR (pf | p, ptr0_add_guint<x> (p, n), p))
-// end of [iter_make_array]
+// end of [giter_make_array]
 
 implement
-iter_free_array (itr) = let
+giter_free_array (itr) = let
   val+ ~ITR (pf | _, _, _) = iter2iterk (itr) in (pf | ())
-end // end of [iter_free_array]
+end // end of [giter_free_array]
 
 (* ****** ****** *)
 
 extern
 praxi encode
   {kpm:tk}{x:vt0p}{l:addr}{f,r:int}
-  (xs: !iterk (x, l, f, r) >> iterator (itrknd, kpm, x, f, r)): void
+  (xs: !iterk (x, l, f, r) >> giter (itrknd, kpm, x, f, r)): void
 // end of [encode]
 
 extern
 praxi decode
   {kpm:tk}{x:vt0p}{l:addr}{f,r:int}
-  (itr: !iterator (itrknd, kpm, x, f, r) >> iterk (x, l, f, r)): void
+  (itr: !giter (itrknd, kpm, x, f, r) >> iterk (x, l, f, r)): void
 // end of [decode]
 
 (* ****** ****** *)
 
 implement(x)
-iter_is_atbeg<itrknd><x>
+giter_is_atbeg<itrknd><x>
   {kpm}{f,r} (itr) = let
   prval () = decode (itr)
   val+ ITR (_ | p_beg, p_end, pi) = itr
@@ -113,10 +113,10 @@ iter_is_atbeg<itrknd><x>
   prval () = __assert (res)
 in
   res
-end // end of [iter_is_atbeg]
+end // end of [giter_is_atbeg]
 
 implement(x)
-iter_isnot_atbeg<itrknd><x>
+giter_isnot_atbeg<itrknd><x>
   {kpm}{f,r} (itr) = let
   prval () = decode (itr)
   val+ ITR (_ | p_beg, p_end, pi) = itr
@@ -124,12 +124,12 @@ iter_isnot_atbeg<itrknd><x>
   extern castfn __cast {b:bool} (b: bool b):<> [b==(f>0)] bool (b)
 in
   if p_beg < pi then __cast(true) else __cast(false)
-end // end of [iter_isnot_atbeg]
+end // end of [giter_isnot_atbeg]
 
 (* ****** ****** *)
 
 implement(x)
-iter_is_atend<itrknd><x>
+giter_is_atend<itrknd><x>
   {kpm}{f,r} (itr) = let
   prval () = decode (itr)
   val+ ITR (_ | p_beg, p_end, pi) = itr
@@ -139,10 +139,10 @@ iter_is_atend<itrknd><x>
   prval () = __assert (res)
 in
   res
-end // end of [iter_is_atend]
+end // end of [giter_is_atend]
 
 implement(x)
-iter_isnot_atend<itrknd><x>
+giter_isnot_atend<itrknd><x>
   {kpm}{f,r} (itr) = let
   prval () = decode (itr)
   val+ ITR (_ | p_beg, p_end, pi) = itr
@@ -150,23 +150,23 @@ iter_isnot_atend<itrknd><x>
   extern castfn __cast {b:bool} (b: bool b):<> [b==(r>0)] bool (b)
 in
   if pi < p_end then __cast(true) else __cast(false)
-end // end of [iter_isnot_atend]
+end // end of [giter_isnot_atend]
 
 (* ****** ****** *)
 
 implement(x)
-iter_getref<itrknd><x> (itr) = let
+giter_getref<itrknd><x> (itr) = let
   prval () = decode (itr)
   val+ ITR (_ | _, _, pi) = itr
   prval () = encode (itr)
 in
   $UN.cast2Ptr1 (pi)
-end // end of [iter_getref]
+end // end of [giter_getref]
 
 (* ****** ****** *)
 
 implement(x)
-iter_inc<itrknd><x> (itr) = let
+giter_inc<itrknd><x> (itr) = let
   prval () = decode (itr)
   val+ @ITR (_ | _, _, rpi) = itr
   val () = rpi := ptr0_succ<x> (rpi)
@@ -174,10 +174,10 @@ iter_inc<itrknd><x> (itr) = let
   prval () = encode (itr)
 in
   // nothing
-end // end of [iter_inc]
+end // end of [giter_inc]
 
 implement(x)
-iter_dec<itrknd><x> (itr) = let
+giter_dec<itrknd><x> (itr) = let
   prval () = decode (itr)
   val+ @ITR (_ | _, _, rpi) = itr
   val () = rpi := ptr0_pred<x> (rpi)
@@ -185,12 +185,12 @@ iter_dec<itrknd><x> (itr) = let
   prval () = encode (itr)
 in
   // nothing
-end // end of [iter_dec]
+end // end of [giter_dec]
 
 (* ****** ****** *)
 
 implement(x)
-iter_getref_inc<itrknd><x> (itr) = let
+giter_getref_inc<itrknd><x> (itr) = let
   prval () = decode (itr)
   val+ @ITR (_ | _, _, rpi) = itr
   val pi = rpi
@@ -199,10 +199,10 @@ iter_getref_inc<itrknd><x> (itr) = let
   prval () = encode (itr)
 in
   $UN.cast2Ptr1 (pi)
-end // end of [iter_getref_inc]
+end // end of [giter_getref_inc]
 
 implement(x)
-iter_dec_getref<itrknd><x> (itr) = let
+giter_dec_getref<itrknd><x> (itr) = let
   prval () = decode (itr)
   val+ @ITR (_ | _, _, rpi) = itr
   val pi = ptr0_pred<x> (rpi)
@@ -211,12 +211,12 @@ iter_dec_getref<itrknd><x> (itr) = let
   prval () = encode (itr)
 in
   $UN.cast2Ptr1 (pi)
-end // end of [iter_getref_dec]
+end // end of [giter_getref_dec]
 
 (* ****** ****** *)
 
 implement(x)
-iter_fjmp<itrknd><x>
+giter_fjmp<itrknd><x>
   (itr, i) = let
   prval () = decode (itr)
   val+ @ITR (_ | _, _, rpi) = itr
@@ -225,24 +225,24 @@ iter_fjmp<itrknd><x>
   prval () = encode (itr)
 in
   // nothing
-end // end of [iter_fjmp]
+end // end of [giter_fjmp]
 
 (* ****** ****** *)
 
 implement(x)
-iter_fgetref_at<itrknd><x>
+giter_fgetref_at<itrknd><x>
   (itr, i) = let
   prval () = decode (itr)
   val+ ITR (_ | _, _, pi) = itr
   prval () = encode (itr)
 in
   $UN.cast2Ptr1 (ptr0_add_guint<x> (pi, i))
-end // end of [iter_fgetref_at]
+end // end of [giter_fgetref_at]
 
 (* ****** ****** *)
 
 implement(x)
-iter_fbjmp<itrknd><x> (itr, i) = let
+giter_fbjmp<itrknd><x> (itr, i) = let
   prval () = decode (itr)
   val+ @ITR (_ | _, _, rpi) = itr
   val () = rpi := ptr0_add_gint<x> (rpi, i)
@@ -250,18 +250,18 @@ iter_fbjmp<itrknd><x> (itr, i) = let
   prval () = encode (itr)
 in
   // nothing
-end // end of [iter_fbjmp]
+end // end of [giter_fbjmp]
 
 implement(x)
-iter_fbgetref_at<itrknd><x>
+giter_fbgetref_at<itrknd><x>
   (itr, i) = let
   prval () = decode (itr)
   val+ ITR (_ | _, _, pi) = itr
   prval () = encode (itr)
 in
   $UN.cast2Ptr1 (ptr0_add_gint<x> (pi, i))
-end // end of [iter_fbget_at]
+end // end of [giter_fbget_at]
 
 (* ****** ****** *)
 
-(* end of [iterator_array.dats] *)
+(* end of [giter_array.dats] *)

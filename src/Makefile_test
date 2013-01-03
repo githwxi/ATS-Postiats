@@ -82,9 +82,10 @@ prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/arrayref.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/lazy.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/lazy_vt.dats
 
-prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/iterator.dats
-prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/iterator_flist.dats
-prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/iterator_array.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/giter.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/giter_list.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/giter_list_vt.dats
+prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/giter_array.dats
 
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/fcontainer.dats
 prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/fcontainer_foreach.dats
@@ -94,7 +95,7 @@ prelude:: ; $(PATSOPT) -tc -d $(PATSHOME)/prelude/DATS/fcontainer_foreach.dats
 libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/stddef.sats
 libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/stdio.sats
 libc:: ; $(PATSOPT) -tc -d $(PATSHOME)/libc/DATS/stdio.dats
-libc:: ; $(PATSOPT) -tc -d $(PATSHOME)/libc/DATS/stdio_iterator.dats
+libc:: ; $(PATSOPT) -tc -d $(PATSHOME)/libc/DATS/stdio_giter.dats
 libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/stdlib.sats
 libc:: ; $(PATSOPT) -tc -s $(PATSHOME)/libc/SATS/unistd.sats
 

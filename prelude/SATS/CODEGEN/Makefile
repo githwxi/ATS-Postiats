@@ -279,6 +279,16 @@ clean:: ; $(RMF) matrixptr_atxt.exe
 cleanall:: ; $(RMF) matrixptr.sats
 
 
+all:: giter.sats
+giter.sats: giter_atxt.exe ; ./$< > $@
+giter_atxt.exe: giter_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ giter_atxt.dats -latsdoc
+giter_atxt.dats: giter.atxt
+	$(ATSDOC) --outcode $@ -i giter.atxt > giter_atxt.txt
+clean:: ; $(RMF) giter_atxt.exe
+cleanall:: ; $(RMF) giter.sats
+
+
 all:: gprint.sats
 gprint.sats: gprint_atxt.exe ; ./$< > $@
 gprint_atxt.exe: gprint_atxt.dats
@@ -288,15 +298,6 @@ gprint_atxt.dats: gprint.atxt
 clean:: ; $(RMF) gprint_atxt.exe
 cleanall:: ; $(RMF) gprint.sats
 
-
-all:: iterator.sats
-iterator.sats: iterator_atxt.exe ; ./$< > $@
-iterator_atxt.exe: iterator_atxt.dats
-	$(ATSCC) $(ATSGCFLAG) -o $@ iterator_atxt.dats -latsdoc
-iterator_atxt.dats: iterator.atxt
-	$(ATSDOC) --outcode $@ -i iterator.atxt > iterator_atxt.txt
-clean:: ; $(RMF) iterator_atxt.exe
-cleanall:: ; $(RMF) iterator.sats
 
 all:: fcontainer.sats
 fcontainer.sats: fcontainer_atxt.exe ; ./$< > $@
