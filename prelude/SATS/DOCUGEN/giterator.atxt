@@ -66,7 +66,7 @@ manipulating iterators.
 #declnamesynop("giter_set")
 #declnamesynop("giter_exch")
 #declnamesynop("giter_getref")
-#declnamesynop("giter_vget")
+#declnamesynop("giter_vttake")
 
 (* ****** ****** *)
 
@@ -79,7 +79,7 @@ manipulating iterators.
 #declnamesynop("giter_set_inc")
 #declnamesynop("giter_exch_inc")
 #declnamesynop("giter_getref_inc")
-#declnamesynop("giter_vget_inc")
+#declnamesynop("giter_vttake_inc")
 
 (* ****** ****** *)
 
@@ -87,7 +87,7 @@ manipulating iterators.
 #declnamesynop("giter_dec_set")
 #declnamesynop("giter_dec_exch")
 #declnamesynop("giter_dec_getref")
-#declnamesynop("giter_dec_vget")
+#declnamesynop("giter_dec_vttake")
 
 (* ****** ****** *)
 
