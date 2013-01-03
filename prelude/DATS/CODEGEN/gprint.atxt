@@ -171,8 +171,7 @@ in
   gprint_val (x)
 end // end of [array_foreach$fwork]
 //
-var env
-  : tenv = g1int2uint(0)
+var env: tenv = (i2sz)0
 val () = gprint_list$beg ()
 val _(*n*) = array_foreach_env<a><tenv> (A, n, env)
 val () = gprint_list$end ()

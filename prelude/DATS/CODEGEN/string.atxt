@@ -175,7 +175,7 @@ end // end of [loop]
 val n1 = n + 1
 val (
   pf, pfgc | p0
-) = malloc_gc (g1int2uint(n1))
+) = malloc_gc ((i2sz)n1)
 val p1 = loop (cs, n, p0)
 val () = $UN.ptr0_set<char> (p1, CNUL)
 //
@@ -212,7 +212,7 @@ end // end of [loop]
 val n1 = n + 1
 val (
   pf, pfgc | p0
-) = malloc_gc (g1int2uint(n1))
+) = malloc_gc ((i2sz)n1)
 val p1 = ptr0_add_gint<char> (p0, n)
 val () = $UN.ptr0_set<char> (p1, CNUL)
 val p0 = loop (cs, n, p1)
@@ -289,7 +289,7 @@ strchr {n} (str, c0) = let
   val p0 = string2ptr (str)
   val p1 = __strchr (str, (char2int0)c0)
 in
-  if p1 > the_null_ptr then __sub (p1, p0) else g1int2int (~1)
+  if p1 > the_null_ptr then __sub (p1, p0) else i2ssz(~1)
 end // end of [strchr]
 
 implement
@@ -300,7 +300,7 @@ strrchr {n} (str, c0) = let
   val p0 = string2ptr (str)
   val p1 = __strrchr (str, (char2int0)c0)
 in
-  if p1 > the_null_ptr then __sub (p1, p0) else g1int2int (~1)
+  if p1 > the_null_ptr then __sub (p1, p0) else i2ssz(~1)
 end // end of [strrchr]
 
 #atscode_separator()
@@ -313,7 +313,7 @@ strstr {n} (haystack, needle) = let
   val p0 = string2ptr (haystack)
   val p1 = __strstr (haystack, needle)
 in
-  if p1 > the_null_ptr then __sub (p1, p0) else g1int2int (~1)
+  if p1 > the_null_ptr then __sub (p1, p0) else i2ssz(~1)
 end // end of [strstr]
 
 #atscode_separator()
@@ -348,7 +348,7 @@ val ns = list_map<string><size_t> (xs)
 //
 implement
 list_foldleft$fwork<size_t><size_t> (acc, n) = acc + n
-val ntot = list_foldleft ($UN.linlst2lst (ns), g1int2uint(0))
+val ntot = list_foldleft ($UN.linlst2lst (ns), (i2sz)0)
 //
 fun loop {n:nat} .<n>. (
   p: ptr, xs: list (string, n), ns: list_vt (size_t, n)
@@ -520,7 +520,7 @@ stropt_length (x) = let
 in
   if stropt_is_some (x) then
     g1uint2int (string1_length (stropt_unsome(x)))
-  else g1int2int(~1) // end of [if]
+  else i2ssz(~1) // end of [if]
 end // end of [stropt_length]
 
 #atscode_separator()

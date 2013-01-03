@@ -168,12 +168,19 @@ contrib_jansson:: ; $(PATSOPT) -tc -s $(PATSHOME)/contrib/jansson/SATS/jansson.s
 
 ######
 
-contrib_atshwxi:: ; $(PATSOPT) -tc -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foreach.sats
-contrib_atshwxi:: ; $(PATSOPT) -tc -d $(PATSHOME)/contrib/atshwxi/testing/DATS/foreach.dats
-contrib_atshwxi:: ; $(PATSOPT) -tc -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foldleft.sats
-contrib_atshwxi:: ; $(PATSOPT) -tc -d $(PATSHOME)/contrib/atshwxi/testing/DATS/foldleft.dats
-contrib_atshwxi:: ; $(PATSOPT) -tc -s $(PATSHOME)/contrib/atshwxi/testing/SATS/randgen.sats
-contrib_atshwxi:: ; $(PATSOPT) -tc -d $(PATSHOME)/contrib/atshwxi/testing/DATS/randgen.dats
+IATS=-IATS $(PATSHOME)/contrib
+contrib_atshwxi:: ; \
+  $(PATSOPT) $(IATS) -tc -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foreach.sats
+contrib_atshwxi:: ; \
+  $(PATSOPT) $(IATS) -tc -d $(PATSHOME)/contrib/atshwxi/testing/DATS/foreach.dats
+contrib_atshwxi:: ; \
+  $(PATSOPT) $(IATS) -tc -s $(PATSHOME)/contrib/atshwxi/testing/SATS/foldleft.sats
+contrib_atshwxi:: ; \
+  $(PATSOPT) $(IATS) -tc -d $(PATSHOME)/contrib/atshwxi/testing/DATS/foldleft.dats
+contrib_atshwxi:: ; \
+  $(PATSOPT) $(IATS) -tc -s $(PATSHOME)/contrib/atshwxi/testing/SATS/randgen.sats
+contrib_atshwxi:: ; \
+  $(PATSOPT) $(IATS) -tc -d $(PATSHOME)/contrib/atshwxi/testing/DATS/randgen.dats
 
 ######
 

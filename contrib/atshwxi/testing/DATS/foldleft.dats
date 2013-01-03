@@ -23,7 +23,7 @@ fun loop
   n: int n, i: int i, acc: res
 ) : res =
   if i < n then let
-    val acc = foldleft_int__fwork (acc, i) in loop (n, succ(i), acc)
+    val acc = foldleft_int$fwork (acc, i) in loop (n, succ(i), acc)
   end else acc // end of [if]
 (* end of [loop] *)
 //
@@ -47,7 +47,7 @@ fun loop
   case+ xs of
   | list_cons (x, xs) => let
       val acc =
-        foldleft_list__fwork<x> (acc, x) in loop (xs, acc)
+        foldleft_list$fwork<x> (acc, x) in loop (xs, acc)
       // end of [val]
     end // end of [list_cons]
   | list_nil () => acc
@@ -73,7 +73,7 @@ fun loop
   case+ xs of
   | @list_vt_cons (x, xs1) => let
       val acc =
-        foldleft_list_vt__fwork<x> (acc, x)
+        foldleft_list_vt$fwork<x> (acc, x)
       val res = loop (xs1, acc)
       prval () = fold@ (xs)
     in
@@ -102,7 +102,7 @@ fun loop
 ) : res =
   if n > 0 then let
     prval (pf1, pf2) = array_v_uncons (pf)
-    val acc = foldleft_array__fwork<a> (acc, !p)
+    val acc = foldleft_array$fwork<a> (acc, !p)
     val res = loop (pf2 | ptr1_succ<a> (p), pred(n), acc)
     prval () = pf := array_v_cons (pf1, pf2)
   in

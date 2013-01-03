@@ -143,9 +143,7 @@ all_html::
 
 #make_entry("giterator")
 
-#
-# #make_entry("fcontainer")
-#
+#make_entry("fcontainer")
 
 ######
 

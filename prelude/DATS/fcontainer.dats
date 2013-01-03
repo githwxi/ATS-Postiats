@@ -61,12 +61,12 @@ var i
 val p_i = $UN.cast2Ptr1 (addr@ (i))
 //
 implement
-foreach__fwork<x>
+foreach$fwork<x>
   (x) = () where {
   val i = $UN.ptr_get<size_t> (p_i)
-  val () = iforeach__fwork<x> (i, x)
+  val () = iforeach$fwork<x> (i, x)
   val () = $UN.ptr_set<size_t> (p_i, succ(i))
-} // [foreach__work]
+} // [foreach$work]
 //
 in
   foreach<xs><x> (xs)

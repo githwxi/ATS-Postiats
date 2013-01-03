@@ -124,10 +124,9 @@ prval () = lemma_list_param (xs)
 //
 val n = list_length<a> (xs)
 val A = arrayref_make_listlen (xs, n)
-val asz = g1int2uint (n)
 //
 in
-  arrszref_make (A, asz)
+  arrszref_make (A, (i2sz)n)
 end // end of [arrszref_make_list]
 
 #atscode_separator()

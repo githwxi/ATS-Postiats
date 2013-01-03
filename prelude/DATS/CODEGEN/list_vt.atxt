@@ -956,20 +956,18 @@ end // end of [array_quicksort$cmp]
 //
 prval () = lemma_list_vt_param (xs)
 //
-val n =
-  list_vt_length (xs)
-val nsz = g1int2uint(n)
+val n = list_vt_length (xs)
 //
 val (
   pf, pfgc | p
-) = array_ptr_alloc<a2> (nsz)
+) = array_ptr_alloc<a2> ((i2sz)n)
 val () = let
   val xs1 = $UN.castvwtp1 {list(a2,n)} (xs)
 in
   array_copy_from_list (!p, xs1)
 end // end of [val]
 //
-val () = array_quicksort<a2> (!p, nsz)
+val () = array_quicksort<a2> (!p, (i2sz)n)
 //
 val () = let
   fun loop

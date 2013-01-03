@@ -14,7 +14,7 @@ val () = patscode_prefix_set("TRYIT/prelude_giterator")
 (* ****** ****** *)
 
 #decltitle("\
-ATSLIB/prelude/giter\
+ATSLIB/prelude/giterator\
 ")
 
 (* ****** ****** *)

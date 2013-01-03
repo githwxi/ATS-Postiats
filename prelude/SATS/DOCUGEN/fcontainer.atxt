@@ -1,0 +1,61 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../fcontainer.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/prelude_fcontainer")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/prelude/fcontainer\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+This package contains common functions operating on functional containers.
+')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("foreach$fwork")
+#declnamesynop("foreach")
+
+(* ****** ****** *)
+
+#declnamesynop("foldleft$fwork")
+#declnamesynop("foldleft")
+
+(* ****** ****** *)
+
+#declnamesynop("foldright$fwork")
+#declnamesynop("foldright")
+
+(* ****** ****** *)
+
+#declnamesynop("forall$pred")
+#declnamesynop("forall")
+
+(* ****** ****** *)
+
+#declnamesynop("exists$pred")
+#declnamesynop("exists")
+
+(* ****** ****** *)
+
+#declnamesynop("rlistize")
+
+(* ****** ****** *)
+
+(* end of [fcontainer.atxt] *)

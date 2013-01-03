@@ -54,7 +54,7 @@ gprint-functions.
 #declnamesynop("gprint_list$beg")
 #decldescrpt('\
 
-This funtion is called to obtain the opening parenthesis
+This funtion is called to print the opening parenthesis
 of a list.
 
 ')
@@ -62,7 +62,7 @@ of a list.
 #declnamesynop("gprint_list$end")
 #decldescrpt('\
 
-This funtion is called to obtain the closing parenthesis
+This funtion is called to print the closing parenthesis
 of a list.
 
 ')
@@ -70,7 +70,7 @@ of a list.
 #declnamesynop("gprint_list$sep")
 #decldescrpt('\
 
-This funtion is called to obtain the separator between
+This funtion is called to print the separator between
 list elements.
 
 ')
@@ -93,7 +93,7 @@ list elements.
 #declnamesynop("gprint_array$beg")
 #decldescrpt('\
 
-This funtion is called to obtain the opening parenthesis
+This funtion is called to print the opening parenthesis
 of an array.
 
 ')
@@ -101,7 +101,7 @@ of an array.
 #declnamesynop("gprint_array$end")
 #decldescrpt('\
 
-This funtion is called to obtain the closing parenthesis
+This funtion is called to print the closing parenthesis
 of an array.
 
 ')
@@ -109,7 +109,7 @@ of an array.
 #declnamesynop("gprint_array$sep")
 #decldescrpt('\
 
-This funtion is called to obtain the separator between
+This funtion is called to print the separator between
 array elements.
 
 ')
