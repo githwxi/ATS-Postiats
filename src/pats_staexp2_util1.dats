@@ -1159,6 +1159,12 @@ s2explst_subst_vt
   | list_nil () => list_vt_nil ()
 // end of [s2explst_subst_vt]
 
+implement
+s2explstlst_subst
+  (sub, s2ess) = let
+  var flag: int = 0 in s2explstlst_subst_flag (sub, s2ess, flag)
+end // end of [s2explstlst_subst]
+
 (* ****** ****** *)
 
 implement

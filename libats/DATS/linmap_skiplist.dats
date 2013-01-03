@@ -290,7 +290,7 @@ node_free
 //
   val () =
     __free (p->nodearr) where {
-    extern fun __free : ptr -<!wrt> void = "ats_free_gc"
+    extern fun __free : ptr -<0,!wrt> void = "ats_free_gc"
   } // end of [val]
 //
   val () = ptr_free {VT?} (pfgc, pfat | p)
@@ -920,7 +920,7 @@ if p_nx > nullp then let
   prval () = fpf (pf)
   val () =
     __free (nx) where {
-    extern fun __free : node1 (key, itm) -<!wrt> void = "ats_free_gc"
+    extern fun __free : node1 (key, itm) -<0,!wrt> void = "ats_free_gc"
   } // end of [where] // end of [val]
 in
   node_freelin (nx1)

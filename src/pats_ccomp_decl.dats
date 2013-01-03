@@ -123,12 +123,12 @@ case+ hid.hidecl_node of
 //
     val istmp = list_is_cons (tmparg)
     val () =
-      if istmp then ccompenv_inc_tmplev (env)
+      if istmp then ccompenv_inc_tmplevel (env)
     // end of [val]
     val l0 = the_d2varlev_get ()
     val () = hiimpdec_ccomp (env, l0, imp)
     val () =
-      if istmp then ccompenv_dec_tmplev (env)
+      if istmp then ccompenv_dec_tmplevel (env)
     // end of [val]
 //
   in
@@ -286,6 +286,9 @@ case+ hde0.hidexp_node of
   // end of [HDElam]
 | HDEcst (d2c0) => (
     funlab_make_dcst_type (d2c0, hde0.hidexp_type)
+  ) // end of [HDEcst]
+| HDEvar (d2v0) => (
+    funlab_make_dvar_type (d2v0, hde0.hidexp_type)
   ) // end of [HDEcst]
 | HDEtmpcst (d2c0, t2ms) => (
     funlab_make_tmpcst_type (d2c0, t2ms, hde0.hidexp_type)

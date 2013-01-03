@@ -202,7 +202,7 @@ fun hiimpdec_set_funlabopt
 (* ****** ****** *)
 
 datatype tmpsub =
-  | tmpsub_cons of (s2var, s2exp, tmpsub) | tmpsub_nil of ()
+  | TMPSUBcons of (s2var, s2exp, tmpsub) | TMPSUBnil of ()
 viewtypedef tmpsubopt_vt = Option_vt (tmpsub)
  
 fun fprint_tmpsub : fprint_type (tmpsub)
@@ -720,9 +720,9 @@ fun fprint_ccompenv (out: FILEref, env: !ccompenv): void
 
 (* ****** ****** *)
 
-fun ccompenv_get_tmplev (env: !ccompenv): int
-fun ccompenv_inc_tmplev (env: !ccompenv): void
-fun ccompenv_dec_tmplev (env: !ccompenv): void
+fun ccompenv_get_tmplevel (env: !ccompenv): int
+fun ccompenv_inc_tmplevel (env: !ccompenv): void
+fun ccompenv_dec_tmplevel (env: !ccompenv): void
 
 (* ****** ****** *)
 

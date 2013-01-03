@@ -416,7 +416,7 @@ val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 val- HDEtmpcst (d2c, t2mas) = hde0.hidexp_node
 //
-val tmplev = ccompenv_get_tmplev (env)
+val tmplev = ccompenv_get_tmplevel (env)
 //
 in
 //

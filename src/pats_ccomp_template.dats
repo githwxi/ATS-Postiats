@@ -230,22 +230,24 @@ impenv2tmpsub
   (env) = let
 //
 fun aux (
-  env: impenv, sub: tmpsub
+  env: impenv, tsub: tmpsub
 ) : tmpsub = let
 in
-  case+ env of
-  | ~IMPENVcons
-      (s2v, s2f, env) => let
-      val s2e = s2hnf2exp (s2f)
-      val sub = tmpsub_cons (s2v, s2e, sub)
-    in
-      aux (env, sub)
-    end // end of [IMPENVcons]
-  | ~IMPENVnil () => sub
+//
+case+ env of
+| ~IMPENVcons
+    (s2v, s2f, env) => let
+    val s2e = s2hnf2exp (s2f)
+    val tsub = TMPSUBcons (s2v, s2e, tsub)
+  in
+    aux (env, tsub)
+  end // end of [IMPENVcons]
+| ~IMPENVnil () => tsub
+//
 end // end of [aux]
 //
 in
-  aux (env, tmpsub_nil ())
+  aux (env, TMPSUBnil ())
 end // end of [impenv2stasub]
 
 (* ****** ****** *)
@@ -334,19 +336,14 @@ case+ s2es_pat of
 //
 end // end of [auxlst]
 
-in // in of [local]
-
-implement
-hiimpdec_tmpcst_match
-  (imp, d2c0, t2mas) = let
-//
 fun auxlstlst (
   env: !impenv, s2ess: s2explstlst, t2mas: t2mpmarglst
 ) : bool = let
 in
 //
 case+ s2ess of
-| list_cons (s2es, s2ess) => (
+| list_cons
+    (s2es, s2ess) => (
     case+ t2mas of
     | list_cons (t2ma, t2mas) => let
         val ans =
@@ -360,6 +357,12 @@ case+ s2ess of
 | list_nil () => true
 //
 end // end of [auxlstlst]
+
+in // in of [local]
+
+implement
+hiimpdec_tmpcst_match
+  (imp, d2c0, t2mas) = let
 //
 val d2c = imp.hiimpdec_cst
 //
@@ -372,11 +375,11 @@ if d2c = d2c0 then let
   val ans = auxlstlst (env, imp.hiimpdec_tmparg, t2mas)
 in
   if ans then let
-    val sub =
+    val tsub =
       impenv2tmpsub (env)
     // end of [val]
   in
-    TMPCSTMATsome (imp, sub)
+    TMPCSTMATsome (imp, tsub)
   end else let
     val () = impenv_free (env) in TMPCSTMATnone ()
   end // end of [if]
@@ -410,16 +413,77 @@ case+ imps of
 end // end of [hiimpdeclst_tmpcst_match]
 
 (* ****** ****** *)
+
+extern
+fun t2mpmarglst_subst
+  (loc0: location, tsub: tmpsub, t2mas: t2mpmarglst): t2mpmarglst
+// end of [t2mpmarglst_subst]
+
+local
+
+fun auxinit (
+  sub: &stasub, tsub: tmpsub
+) : void = let
+in
+//
+case+ tsub of
+| TMPSUBcons
+    (s2v, s2e, tsub) => let
+    val () = stasub_add (sub, s2v, s2e) in auxinit (sub, tsub)
+  end // end of [TMPSUBcons]
+| TMPSUBnil () => ()
+//
+end // end of [auxinit]
+
+fun auxlst (
+  loc0: location
+, sub: !stasub, xs: t2mpmarglst
+) : t2mpmarglst = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val s2es = x.t2mpmarg_arg
+    val s2es2 =
+      s2explst_subst (sub, s2es)
+    val x2 = t2mpmarg_make (loc0, s2es2)
+    val xs2 = auxlst (loc0, sub, xs)
+  in
+    list_cons (x2, xs2)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [auxlst]
+
+in // in of [local]
+
+implement
+t2mpmarglst_subst
+  (loc0, tsub, t2mas) = let
+//
+var sub
+  : stasub = stasub_make_nil ()
+val () = auxinit (sub, tsub)
+val t2mas2 = auxlst (loc0, sub, t2mas)
+val () = stasub_free (sub)
+in
+  t2mas2
+end // end of [t2mpmarglst_subst]
+
+end // end of [local]
+
+(* ****** ****** *)
 //
 extern
 fun ccomp_funlab_tmpsubst
-  (env: !ccompenv, loc0: location, hse0: hisexp, fl: funlab, sub: tmpsub): primval
+  (env: !ccompenv, loc0: location, hse0: hisexp, fl: funlab, tsub: tmpsub): primval
 extern
 fun ccomp_funlab_tmpsubst_none
-  (env: !ccompenv, loc0: location, hse0: hisexp, fl: funlab, sub: tmpsub): primval
+  (env: !ccompenv, loc0: location, hse0: hisexp, fl: funlab, tsub: tmpsub): primval
 extern
 fun ccomp_funlab_tmpsubst_some (
-  env: !ccompenv, loc0: location, hse0: hisexp, fl: funlab, sub: tmpsub, fent: funent
+  env: !ccompenv, loc0: location, hse0: hisexp, fl: funlab, tsub: tmpsub, fent: funent
 ) : primval // end of [ccomp_funlab_tmpsubst_some]
 //
 extern
@@ -431,7 +495,7 @@ fun ccomp_tmpcstmat_some (
 
 implement
 ccomp_funlab_tmpsubst
-  (env, loc0, hse0, fl, sub) = let
+  (env, loc0, hse0, fl, tsub) = let
 //
 val opt = funlab_get_funentopt (fl)
 //
@@ -439,10 +503,10 @@ in
 //
 case+ opt of
 | None () =>
-    ccomp_funlab_tmpsubst_none (env, loc0, hse0, fl, sub)
+    ccomp_funlab_tmpsubst_none (env, loc0, hse0, fl, tsub)
   // end of [None]
 | Some (ent) =>
-    ccomp_funlab_tmpsubst_some (env, loc0, hse0, fl, sub, ent)
+    ccomp_funlab_tmpsubst_some (env, loc0, hse0, fl, tsub, ent)
   // end of [None]
 //
 end // end of [ccomp_funlab_tmpsubst]
@@ -451,7 +515,7 @@ end // end of [ccomp_funlab_tmpsubst]
 
 implement
 ccomp_funlab_tmpsubst_none
-  (env, loc0, hse0, fl, sub) = let
+  (env, loc0, hse0, fl, tsub) = let
 //
 val t2mas = funlab_get_tmparg (fl)
 //
@@ -460,6 +524,7 @@ in
 case+ t2mas of
 | list_cons _ => let
     val- Some (d2c) = funlab_get_qopt (fl)
+    val t2mas = t2mpmarglst_subst (loc0, tsub, t2mas)
     val mat = ccompenv_tmpcst_match (env, d2c, t2mas)
   in
     ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, mat)
@@ -472,7 +537,7 @@ end // end of [funlab_tmpsubst_none]
 
 implement
 ccomp_funlab_tmpsubst_some (
-  env, loc0, hse0, fl, sub, ent
+  env, loc0, hse0, fl, tsub, ent
 ) = let
 in
   exitloc (1)
@@ -483,14 +548,25 @@ end // end of [ccomp_funlab_tmpsubst_some]
 implement
 ccomp_tmpcstmat
   (env, loc0, hse0, d2c, t2mas, mat) = let
+//
+val () = (
+  print ("ccomp_tmpcstmat: d2c = ");
+  print_d2cst (d2c); print_newline ();
+  print ("ccomp_tmpcstmat: t2mas = ");
+  fpprint_t2mpmarglst (stdout_ref, t2mas); print_newline ();
+  print ("ccomp_tmpcstmat: mat = ");
+  fprint_tmpcstmat (stdout_ref, mat); print_newline ();
+) // end of [val]
+//
 in
 //
 case+ mat of
 | TMPCSTMATsome _ =>
     ccomp_tmpcstmat_some (env, loc0, hse0, d2c, t2mas, mat)
   // end of [TMPCSTMATsome]
-| TMPCSTMATnone (
-  ) => primval_tmpltcstmat (loc0, hse0, d2c, t2mas, mat)
+| TMPCSTMATnone
+    () => primval_tmpltcstmat (loc0, hse0, d2c, t2mas, mat)
+  // end of [TMPCSTMATnone]
 //
 end // end of [ccomp_tmpltcstmat]
 
@@ -500,13 +576,13 @@ implement
 ccomp_tmpcstmat_some
   (env, loc0, hse0, d2c, t2mas, mat) = let
 //
-val- TMPCSTMATsome (imp, sub) = mat
+val- TMPCSTMATsome (imp, tsub) = mat
 val l0 = the_d2varlev_get ()
 val () = hiimpdec_ccomp_if (env, l0, imp)
 val- Some (fl) = hiimpdec_get_funlabopt (imp)
 //
 in
-  ccomp_funlab_tmpsubst (env, loc0, hse0, fl, sub)
+  ccomp_funlab_tmpsubst (env, loc0, hse0, fl, tsub)
 end // end of [ccomp_tmpcstmat_some]
 
 (* ****** ****** *)

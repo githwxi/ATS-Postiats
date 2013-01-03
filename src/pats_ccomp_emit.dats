@@ -565,7 +565,7 @@ case+ ins.instr_node of
 | INSletpush (pmds) => let
     val () = fprint_string (out, "/*\n")
     val () = fprint_instr (out, ins)
-    val () = fprint_string (out, "\n*/")
+    val () = fprint_string (out, "\n*/\n")
   in
     emit_primdeclst (out, pmds)
   end // end of [INSletpush]

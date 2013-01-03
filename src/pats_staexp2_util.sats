@@ -133,6 +133,8 @@ fun s2exp_subst (sub: !stasub, s2e: s2exp): s2exp
 fun s2explst_subst (sub: !stasub, s2es: s2explst): s2explst
 fun s2explst_subst_vt (sub: !stasub, s2es: s2explst): s2explst_vt
 //
+fun s2explstlst_subst (sub: !stasub, s2ess: s2explstlst): s2explstlst
+//
 fun s2expopt_subst (sub: !stasub, os2e: s2expopt): s2expopt
 //
 (* ****** ****** *)
