@@ -80,7 +80,7 @@ in
 case+ xs of
 | RAevn (xxs) => RAodd (x0, xxs)
 | RAodd (x1, xxs) => let
-      val x0x1 = N2 (x0, x1) in RAevn (cons (x0x1, xxs))
+    val x0x1 = N2 (x0, x1) in RAevn (cons (x0x1, xxs))
   end // end of [RAodd]
 | RAnil () => RAodd (x0, RAnil)
 //
