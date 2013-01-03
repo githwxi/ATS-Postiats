@@ -5,7 +5,7 @@
 (* ****** ****** *)
 
 staload
-"contrib/atshwxi/testing/SATS/randgen.sats"
+"atshwxi/testing/SATS/randgen.sats"
 // end of [staload]
 
 (* ****** ****** *)

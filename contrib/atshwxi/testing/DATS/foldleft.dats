@@ -4,11 +4,13 @@
 
 (* ****** ****** *)
 
-staload UN = "prelude/SATS/unsafe.sats"
+staload
+UN = "prelude/SATS/unsafe.sats"
+// end of [staload]
 
 (* ****** ****** *)
 
-staload "contrib/atshwxi/testing/SATS/foldleft.sats"
+staload "atshwxi/testing/SATS/foldleft.sats"
 
 (* ****** ****** *)
 

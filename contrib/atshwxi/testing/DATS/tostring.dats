@@ -4,9 +4,7 @@
 
 (* ****** ****** *)
 
-staload
-"contrib/atshwxi/testing/SATS/tostring.sats"
-// end of [staload]
+staload "atshwxi/testing/SATS/tostring.sats"
 
 (* ****** ****** *)
 

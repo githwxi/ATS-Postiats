@@ -7,7 +7,8 @@
 
 (* ****** ****** *)
 
-staload "contrib/atshwxi/testing/foreach.sats"
+staload "atshwxi/testing/SATS/foreach.sats"
+staload "atshwxi/testing/SATS/foldleft.sats"
 
 (* ****** ****** *)
 
@@ -17,13 +18,13 @@ fprint_list (
 ) : void = let
 //
 implement
-iforeach_list__fwork<a>
+iforeach_list$fwork<a>
   (i, x) = let
   val () =
     if i > 0 then
       fprint_string (out, sep)
     // end of [if]
-  val () = fprint_elt<a> (out, x)
+  val () = fprint_val<a> (out, x)
 in end // endimp
 //
 in
@@ -32,15 +33,11 @@ end // end of [fprint_list]
 
 (* ****** ****** *)
 
-staload "contrib/atshwxi/testing/foldleft.sats"
-
-(* ****** ****** *)
-
 fun factorial
   {n:nat} (n: int n): int = let
   typedef res = int
   implement
-  foldleft_int__fwork<res> (acc, n) = acc * (n+1)
+  foldleft_int$fwork<res> (acc, n) = acc * (n+1)
 in
   foldleft_int<res> (n, 1)
 end // end of [factorial]
@@ -51,7 +48,7 @@ fun fibonacci
   {n:nat} (n: int n): int = let
   typedef res = (int, int)
   implement
-  foldleft_int__fwork<res>
+  foldleft_int$fwork<res>
     (acc, n) = (acc.1, acc.0 + acc.1)
 in
   if n > 0 then let

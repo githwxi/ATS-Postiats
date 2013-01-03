@@ -7,19 +7,30 @@
 
 (* ****** ****** *)
 
-staload "contrib/atshwxi/testing/listize.sats"
-staload "contrib/atshwxi/testing/foldleft.sats"
+staload "atshwxi/testing/SATS/listize.sats"
+staload "atshwxi/testing/SATS/foldleft.sats"
 
 (* ****** ****** *)
 
-fun factorial
+fun
+factorial
   {n:nat} (n: int n): int = let
-  val xs = listize_int (n)
-  typedef res = int
+//
+val xs =
+  list_tabulate (n) where {
+  implement list_tabulate$fwork<int> (i) = i
+} // end of [where] // end of [val]
+//
+typedef res = int
+//
+val res =
+  foldleft_list_vt<res> (xs, 1) where {
   implement
-  foldleft_list_vt__fwork<int><res> (acc, n) = acc * (n+1)
-  val res = foldleft_int<res> (n, 1)
-  val () = list_vt_free (xs)
+  foldleft_list_vt$fwork<int><res> (acc, n) = acc * (n+1)
+} // end of [where] // end of [val]
+//
+val () = list_vt_free<int> (xs)
+//
 in
   res
 end // end of [factorial]

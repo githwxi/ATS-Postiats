@@ -5,7 +5,7 @@
 (* ****** ****** *)
 
 fun{res:vt0p}
-foldleft_int__fwork
+foldleft_int$fwork
   (acc: res, i: int): res
 fun{res:vt0p}
 foldleft_int (n: Nat, ini: res): res
@@ -14,7 +14,7 @@ foldleft_int (n: Nat, ini: res): res
 
 fun{
 x:t0p}{res:vt0p
-} foldleft_list__fwork (acc: res, x: x): res
+} foldleft_list$fwork (acc: res, x: x): res
 fun{
 x:t0p}{res:vt0p
 } foldleft_list (xs: List (x), ini: res): res
@@ -23,7 +23,7 @@ x:t0p}{res:vt0p
 
 fun{
 x:vt0p}{res:vt0p
-} foldleft_list_vt__fwork (acc: res, x: &x): res
+} foldleft_list_vt$fwork (acc: res, x: &x): res
 fun{
 x:vt0p}{res:vt0p
 } foldleft_list_vt (xs: !List_vt (x), ini: res): res
@@ -32,7 +32,7 @@ x:vt0p}{res:vt0p
 
 fun{
 a:vt0p}{res:vt0p
-} foldleft_array__fwork (acc: res, x: &a): res
+} foldleft_array$fwork (acc: res, x: &a): res
 fun{
 a:vt0p}{res:vt0p
 } foldleft_array
