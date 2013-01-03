@@ -67,12 +67,10 @@ funralist_nil () = RAnil{a}{0} ()
 
 (* ****** ****** *)
 
-implement{a}
-funralist_cons
-  (x, xs) = let
-//
+local
+
 fun cons
-  {d:nat}{n:nat} .<n>. (
+  {a:t0p}{d:nat}{n:nat} .<n>. (
   x0: node (a, d), xs: ralist (a, d, n)
 ) :<> ralist (a, d, n+1) = let
 in
@@ -85,21 +83,27 @@ case+ xs of
 | RAnil () => RAodd (x0, RAnil)
 //
 end // end of [cons]
+
+in (* end of [local] *)
+
+implement{a}
+funralist_cons
+  (x, xs) = let
 //
 prval () = lemma_ralist_param (xs)
 //
 in
-  cons (N1(x), xs)
+  cons{a} (N1(x), xs)
 end // end of [funralist_cons]
+
+end // end of [local]
 
 (* ****** ****** *)
 
-implement{a}
-funralist_uncons
-  (xs) = let
-//
+local
+
 fun uncons
-  {d:nat}{n:pos} .<n>. (
+  {a:t0p}{d:nat}{n:pos} .<n>. (
   xs: ralist (a, d, n), x: &ptr? >> node (a, d)
 ) :<!wrt> ralist (a, d, n-1) = let
 in
@@ -123,15 +127,23 @@ case+ xs of
   end // end of [RAodd]
 //
 end // end of [uncons]
+
+in (* in of [local] *)
+
+implement{a}
+funralist_uncons
+  (xs) = let
 //
 var nx: ptr // unintialized
-val () = xs := uncons (xs, nx)
+val () = xs := uncons{a} (xs, nx)
 val+ N1 (x0) = nx
 prval () = topize (nx) // HX: this is not necessary
 //
 in
   x0
 end // end of [funralist_uncons]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -193,12 +205,10 @@ funralist_tail
 
 (* ****** ****** *)
 
-implement{a}
-funralist_lookup
-  (xs, i) = let
-//
+local
+
 fun lookup
-  {d:nat}{n:nat} .<n>. (
+  {a:t0p}{d:nat}{n:nat} .<n>. (
   xs: ralist (a, d, n), i: natLt n
 ) :<> node (a, d) = let
 in
@@ -226,10 +236,18 @@ case+ xs of
   ) // end of [RAodd]
 //
 end // end of [lookup]
+
+in (* in of [local] *)
+
+implement{a}
+funralist_lookup
+  (xs, i) = let
 //
-val+ N1 (x) = lookup (xs, i) in x (*return*)
+val+ N1 (x) = lookup{a} (xs, i) in x (*return*)
 //
 end // end of [funralist_lookup]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -237,14 +255,14 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-implement{a}
-funralist_update
-  (xs, i, x0) = let
-//
+local
+
 extern
 fun __free (p: ptr):<> void = "mac#ats_free_gc"
 //
-fun fupdate
+fun
+fupdate
+  {a:t0p}
   {d:nat}
   {n:nat} .<n,1>. (
   xs: ralist (a, d, n)
@@ -258,7 +276,9 @@ in
       if i = 0 then RAodd (f x, xxs) else RAodd (x, fupdate2 (xxs, i-1, f))
 end // end of [fupdate]
 //
-and fupdate2
+and
+fupdate2
+  {a:t0p}
   {d:nat}
   {n2:pos} .<2*n2,0>. (
   xxs: ralist (a, d+1, n2)
@@ -289,15 +309,23 @@ in
     xxs
   end // end of [if]
 end // end of [fupdate2]
+
+in (* in of [local] *)
+
+implement{a}
+funralist_update
+  (xs, i, x0) = let
 //
 typedef node = node (a, 0)
 val f = lam (_: node): node =<cloref> N1 (x0)
-val xs = fupdate (xs, i, f)
+val xs = fupdate{a} (xs, i, f)
 val () = __free ($UN.cast2ptr(f))
 //
 in
   xs
 end // end of [funralist_update]
+
+end // end of [local]
 
 (* ****** ****** *)
 
