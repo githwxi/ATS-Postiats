@@ -31,7 +31,7 @@ implement{} gprint$out () = stdout_ref
 #atscode_separator()
 
 implement{a}
-gprint (x) = let
+gprint_val (x) = let
   val out = gprint$out () in fprint_val<a> (out, x)
 end // end of [gprint]
 
@@ -60,58 +60,65 @@ implement{}
 gprint_string (x) =
   fprint_val<string> (gprint$out (), x)
 //
-implement gprint<int> (x) = gprint_int (x)
-implement gprint<char> (x) = gprint_char (x)
-implement gprint<float> (x) = gprint_float (x)
-implement gprint<double> (x) = gprint_double (x)
-implement gprint<string> (x) = gprint_string (x)
+implement gprint_val<int> (x) = gprint_int (x)
+implement gprint_val<char> (x) = gprint_char (x)
+implement gprint_val<float> (x) = gprint_float (x)
+implement gprint_val<double> (x) = gprint_double (x)
+implement gprint_val<string> (x) = gprint_string (x)
 //
 #atscode_separator()
 
 implement{}
-gprint_list$beg () = "("
+gprint_list$beg () = gprint_string "("
 implement{}
-gprint_list$end () = ")"
+gprint_list$end () = gprint_string ")"
 implement{}
-gprint_list$sep () = ", "
+gprint_list$sep () = gprint_string ", "
 
 #atscode_separator()
 
 implement{a}
 gprint_list (xs) = let
 //
-val out = gprint$out ()
+typedef tenv = int
 //
-val _beg = gprint_list$beg ()
-and _end = gprint_list$end ()
-val _sep = gprint_list$sep ()
+implement
+list_foreach$fwork<a><tenv>
+  (x, env) = let
+  val () =
+    if env > 0 then gprint_list$sep ()
+  val () = env := succ (env)
+in
+  gprint_val (x)
+end // end of [list_foreach$fwork]
 //
-val () = gprint_string (_beg)
-val () = fprint_list_sep (out, xs, _sep)
-val () = gprint_string (_end)
+var env: tenv = 0
+val () = gprint_list$beg ()
+val () = list_foreach_env<a><tenv> (xs, env)
+val () = gprint_list$end ()
 //
 in
   // nothing
 end // end of [gprint_list]
 
 implement(a)
-gprint<List(a)> (xs) = gprint_list<a> (xs)
+gprint_val<List(a)> (xs) = gprint_list<a> (xs)
 
 #atscode_separator()
 
 implement{}
-gprint_listlist$beg1 () = "("
+gprint_listlist$beg1 () = gprint_string "("
 implement{}
-gprint_listlist$end1 () = ")"
+gprint_listlist$end1 () = gprint_string ")"
 implement{}
-gprint_listlist$sep1 () = ", "
+gprint_listlist$sep1 () = gprint_string ", "
 
 implement{}
-gprint_listlist$beg2 () = "("
+gprint_listlist$beg2 () = gprint_string "("
 implement{}
-gprint_listlist$end2 () = ")"
+gprint_listlist$end2 () = gprint_string ")"
 implement{}
-gprint_listlist$sep2 () = ", "
+gprint_listlist$sep2 () = gprint_string ", "
 
 implement{a}
 gprint_listlist
@@ -120,17 +127,15 @@ gprint_listlist
 typedef xs = List (a)
 //
 implement
-fprint_val<xs>
-  (out, xs) = let
+gprint_val<xs> (xs) = let
 //
-implement gprint$out<> () = out
 implement gprint_list$beg<> () = gprint_listlist$beg2 ()
 implement gprint_list$end<> () = gprint_listlist$end2 ()
 implement gprint_list$sep<> () = gprint_listlist$sep2 ()
 //
 in
   gprint_list<a> (xs)
-end // end of [fprint_val]
+end // end of [gprint_val]
 //
 implement gprint_list$beg<> () = gprint_listlist$beg1 ()
 implement gprint_list$end<> () = gprint_listlist$end1 ()
@@ -143,26 +148,34 @@ end // end of [gprint_listlist]
 #atscode_separator()
 
 implement{}
-gprint_array$beg () = "@("
+gprint_array$beg () = gprint_string "("
 implement{}
-gprint_array$end () = ")"
+gprint_array$end () = gprint_string ")"
 implement{}
-gprint_array$sep () = ", "
+gprint_array$sep () = gprint_string ", "
 
 #atscode_separator()
 
 implement{a}
 gprint_array (A, n) = let
 //
-val out = gprint$out ()
+typedef tenv = size_t
 //
-val _beg = gprint_array$beg ()
-and _end = gprint_array$end ()
-val _sep = gprint_array$sep ()
+implement
+array_foreach$fwork<a><tenv>
+  (x, env) = let
+  val () =
+    if env > 0 then gprint_list$sep ()
+  val () = env := succ (env)
+in
+  gprint_val (x)
+end // end of [array_foreach$fwork]
 //
-val () = gprint_string (_beg)
-val () = fprint_array_sep (out, A, n, _sep)
-val () = gprint_string (_end)
+var env
+  : tenv = g1int2uint(0)
+val () = gprint_list$beg ()
+val _(*n*) = array_foreach_env<a><tenv> (A, n, env)
+val () = gprint_list$end ()
 //
 in
   // nothing

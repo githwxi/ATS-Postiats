@@ -59,11 +59,11 @@ gprint_string (x: string): void
 #atscode_separator()
 
 fun{}
-gprint_list$beg (): string
+gprint_list$beg (): void
 fun{}
-gprint_list$end (): string
+gprint_list$end (): void
 fun{}
-gprint_list$sep (): string
+gprint_list$sep (): void
 //
 fun{a:t0p}
 gprint_list (xs: List (a)): void
@@ -71,18 +71,18 @@ gprint_list (xs: List (a)): void
 #atscode_separator()
 
 fun{}
-gprint_listlist$beg1 (): string
+gprint_listlist$beg1 (): void
 fun{}
-gprint_listlist$end1 (): string
+gprint_listlist$end1 (): void
 fun{}
-gprint_listlist$sep1 (): string
+gprint_listlist$sep1 (): void
 //
 fun{}
-gprint_listlist$beg2 (): string
+gprint_listlist$beg2 (): void
 fun{}
-gprint_listlist$end2 (): string
+gprint_listlist$end2 (): void
 fun{}
-gprint_listlist$sep2 (): string
+gprint_listlist$sep2 (): void
 //
 fun{a:t0p}
 gprint_listlist (xss: List (List (a))): void
@@ -90,11 +90,11 @@ gprint_listlist (xss: List (List (a))): void
 #atscode_separator()
 
 fun{}
-gprint_array$beg (): string
+gprint_array$beg (): void
 fun{}
-gprint_array$end (): string
+gprint_array$end (): void
 fun{}
-gprint_array$sep (): string
+gprint_array$sep (): void
 //
 fun{a:t0p}
 gprint_array

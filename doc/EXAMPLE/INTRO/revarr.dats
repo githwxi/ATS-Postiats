@@ -42,7 +42,7 @@ main (
   val asz = g1int2uint (10)
   val A = randgen_arrayptr (asz)
 //
-  val () = gprint "A = "
+  val () = gprint_string "A = "
   val () = gprint_arrayptr<int> (A, asz)
   val () = gprint_newline ()
 //
@@ -51,7 +51,7 @@ main (
   val () = revarr (!p, asz)
   prval () = arrayptr_addback (pfarr | A)
 //
-  val () = gprint "A = "
+  val () = gprint_string "A = "
   val () = gprint_arrayptr<int> (A, asz)
   val () = gprint_newline ()
 //

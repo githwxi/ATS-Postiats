@@ -270,6 +270,8 @@ a:vt0p}{env:vt0p
   A: &(@[INV(a)][n]) >> @[a][n], asz: size_t n, env: &(env) >> _
 ) : sizeLte (n) // end of [array_foreach_env]
 
+#atscode_separator()
+
 fun
 array_foreach_funenv_tsz
   {a:vt0p}
