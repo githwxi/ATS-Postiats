@@ -64,10 +64,6 @@ extern
 castfn
 __cast_filp (r: FILEref): FILEptr1
 
-extern
-praxi
-__free_filp (p: FILEptr1(*void*)): void
-
 #atscode_separator()
 
 implement

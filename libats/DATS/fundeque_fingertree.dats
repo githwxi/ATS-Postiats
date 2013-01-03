@@ -950,7 +950,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 local
 
-extern fun __free (p: ptr):<> void = "mac#ats_free_gc"
+extern fun __free (p: ptr):<!wrt> void = "mac#ats_free_gc"
 
 fun foreach
   {a:t0p}
@@ -989,7 +989,7 @@ case+ xt of
             | FTN3 (xn1, xn2, xn3) => (f (xn1); f (xn2); f (xn3))
           end // end of [lam] // end of [val]
           val () = foreach (m, f1)
-          val () = __free ($UN.cast2ptr(f1))
+          val () = $effmask_wrt (__free ($UN.cast2ptr(f1)))
         in
           // nothing          
         end // end of [_]
@@ -1034,7 +1034,7 @@ in
 end // end of [val]
 //
 val () = foreach (xs, f)
-prval () = __free ($UN.cast2ptr(f))  
+prval () = $effmask_wrt (__free ($UN.cast2ptr(f)))
 //
 in
   // nothing
@@ -1046,7 +1046,7 @@ end // end of [local]
 
 local
 
-extern fun __free (p: ptr):<> void = "mac#ats_free_gc"
+extern fun __free (p: ptr):<!wrt> void = "mac#ats_free_gc"
 
 fun rforeach
   {a:t0p}
@@ -1083,7 +1083,7 @@ case+ xt of
             | FTN3 (xn1, xn2, xn3) => (f (xn3); f (xn2); f (xn1))
           end // end of [val]
           val () = rforeach (m, f1)
-          val () = __free ($UN.cast2ptr(f1))
+          val () = $effmask_wrt (__free ($UN.cast2ptr(f1)))
         in
           // nothing          
         end // end of [_]
@@ -1129,7 +1129,7 @@ in
 end // end of [val]
 //
 val () = rforeach (xs, f)
-prval () = __free ($UN.cast2ptr(f))  
+prval () = $effmask_wrt (__free ($UN.cast2ptr(f)))
 //
 in
   // nothing

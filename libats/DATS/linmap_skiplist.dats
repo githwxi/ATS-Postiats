@@ -290,7 +290,7 @@ node_free
 //
   val () =
     __free (p->nodearr) where {
-    extern fun __free : ptr -> void = "atsruntime_free"
+    extern fun __free : ptr -<!wrt> void = "ats_free_gc"
   } // end of [val]
 //
   val () = ptr_free {VT?} (pfgc, pfat | p)
@@ -920,8 +920,8 @@ if p_nx > nullp then let
   prval () = fpf (pf)
   val () =
     __free (nx) where {
-    extern fun __free : node1 (key, itm) -> void = "atsruntime_free"
-  } // end of [val]
+    extern fun __free : node1 (key, itm) -<!wrt> void = "ats_free_gc"
+  } // end of [where] // end of [val]
 in
   node_freelin (nx1)
 end else () // end of [if]
@@ -961,10 +961,10 @@ case+ map1 of
       val nxa_ = nxa
       val () =
         free@ {..}{0}{0} (map1)
-      val () = __free (nxa_) where {
-        extern fun __free
-          : {n:int} nodearr (key, itm, n) -<> void
-      } // end of [val]
+      val () =
+        __free_null (nxa_) where {
+        extern praxi __free_null : {n:int} nodearr (key, itm, n) -<> void
+      } // end of [where] // end of [val]
       prval () = opt_none {map} (map)
     in
       false

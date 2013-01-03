@@ -139,8 +139,8 @@ iter_is_atend<itrknd><x>
   prval () = encode (itr)
   val xs = $UN.ptr_get<vt> (p)
   val isnil = list_vt_is_nil (xs)
-  prval () = __free (xs) where {
-    extern praxi __free (xs: vt): void // returned back to [!p]
+  prval () = __vfree (xs) where {
+    extern praxi __vfree (xs: vt): void // returned back to [!p]
   } // end of [prval]
 in
   isnil
@@ -162,8 +162,8 @@ iter_getref<itrknd><x>
   val @list_vt_cons (x, _) = xs
   val p_x = addr@ (x)
   prval () = fold@ (xs)
-  prval () = __free (xs) where {
-    extern praxi __free (xs: vt): void // returned back to [!p]
+  prval () = __vfree (xs) where {
+    extern praxi __vfree (xs: vt): void // returned back to [!p]
   } // end of [prval]
 in
   $UN.cast2Ptr1 (p_x)
@@ -186,8 +186,8 @@ iter_inc<itrknd><x>
   prval () = encode (itr)
 //
   prval () = fold@ (xs)
-  prval () = __free (xs) where {
-    extern praxi __free (xs: vt): void // returned back to [!p]
+  prval () = __vfree (xs) where {
+    extern praxi __vfree (xs: vt): void // returned back to [!p]
   } // end of [prval]
 in
   // nothing
@@ -211,8 +211,8 @@ iter_getref_inc<itrknd><x>
   prval () = encode (itr)
 //
   prval () = fold@ (xs)
-  prval () = __free (xs) where {
-    extern praxi __free (xs: vt): void // returned back to [!p]
+  prval () = __vfree (xs) where {
+    extern praxi __vfree (xs: vt): void // returned back to [!p]
   } // end of [prval]
 in
   $UN.cast2Ptr1 (p_x)

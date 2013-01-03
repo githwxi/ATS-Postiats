@@ -105,9 +105,10 @@ prval () = pfv := pfv1.0
 prval () = view@(res) := pfv1.1
 prval () = view@(penv) := pfv1.2
 //
-prval () = __free (env, penv.1) where {
-  extern praxi __free (env: !vt? >> vt, env1: vt): void
-} // end of [prval]
+prval () =
+  __xfree (env, penv.1) where {
+  extern praxi __xfree (env: !vt? >> vt, env1: vt): void
+} // end of [where] // end of [prval]
 //
 in
   res

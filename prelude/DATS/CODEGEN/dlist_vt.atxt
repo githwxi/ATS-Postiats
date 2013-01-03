@@ -248,8 +248,9 @@ case+ xs of
     prval () = __assert () where {
       extern praxi __assert (): [f > 0] void
     } // end of [where] // end of [prval]
-    prval () = __free (xs) where {
-      extern praxi __free : DLIST (a, r) -<prf> void
+    prval () =
+      __vfree (xs) where {
+      extern praxi __vfree : DLIST (a, r) -<prf> void
     } // end of [where] // end of [prval]
   in
     loop {f-1} (prev, res + 1)
@@ -318,8 +319,8 @@ prval () = (
 val+ DLISTcons (_, prev, _) = xs
 //
 prval () =
-  __free (xs) where {
-  extern praxi __free (xs: DLIST (a, r)): void
+  __vfree (xs) where {
+  extern praxi __vfree : DLIST (a, r) -<prf> void
 } // end of [where] // end of [prval]
 //
 in
@@ -376,8 +377,9 @@ if p > nullp then let
   val () = prev := pp
   prval () = fold@ (xs)
   prval () =
-    __free (xs) where { extern praxi __free : DLIST (a,1) -<prf> void }
-  // end of [prval]
+    __vfree (xs) where {
+    extern praxi __vfree : DLIST (a,1) -<prf> void
+  } // end of [where] // end of [prval]
 in
   // nothing
 end else () // end of [if]
@@ -398,8 +400,9 @@ if p > nullp then let
   val () = $UN.ptr_set (addr@ (xs1), pn)
   prval () = fold@ (xs)
   prval () =
-    __free (xs) where { extern praxi __free : DLIST (a,1) -<prf> void }
-  // end of [prval]
+    __vfree (xs) where {
+    extern praxi __vfree : DLIST (a,1) -<prf> void
+  } // end of [where] // end of [prval]
 in
   // nothing  
 end else () // end of [if]
@@ -442,9 +445,10 @@ val () = DLISTptr_set_prev (p1, p0_new)
 val () = xs1 := xs_new
 prval () = fold@ (xs)
 prval () =
-  __free (xs) where
-    { extern praxi __free : dlist_vt (a, f, r+1) -<prf> void }
-// end of [prval]
+  __vfree (xs) where {
+  extern praxi __vfree : dlist_vt (a, f, r+1) -<prf> void
+} // end of [where] // end of [prval]
+//
 in
   $UN.castvwtp0 {res} (p0_new)
 end // end of [dlist_vt_inesrt_next]
@@ -527,9 +531,9 @@ in
     } // end of [val]
 //
     prval () =
-      __free (xs1_last) where {
-      extern praxi __free : DLIST (a, 1+f2+r2) -<prf> void
-    } // end of [prval]
+      __vfree (xs1_last) where {
+      extern praxi __vfree : DLIST (a, 1+f2+r2) -<prf> void
+    } // end of [where] // end of [prval]
 //
   in
     $UN.castvwtp0 {res} (p1)
@@ -581,9 +585,9 @@ if dlist_vt_is_cons (xs1) then let
   } // end of [val]
 //
   prval () =
-    __free (xs1) where {
-    extern praxi __free : DLIST (a, 1+f2+r2) -<prf> void
-  } // end of [prval]
+    __vfree (xs1) where {
+    extern praxi __vfree : DLIST (a, 1+f2+r2) -<prf> void
+  } // end of [where] // end of [prval]
 //
 in
   $UN.castvwtp0 {res} (p2)

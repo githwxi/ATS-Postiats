@@ -84,7 +84,7 @@ case+ xs of
 //
 end // end of [cons]
 
-in (* end of [local] *)
+in (* in of [local] *)
 
 implement{a}
 funralist_cons
@@ -159,10 +159,11 @@ funralist_is_cons (xs) =
 
 (* ****** ****** *)
 
-implement
-funralist_length {a} (xs) = let
-//
-fun length
+local
+
+fun
+length
+  {a:t0p}
   {d:nat}
   {n:nat} .<n>. (
   xs: ralist (a, d, n)
@@ -179,12 +180,19 @@ case+ xs of
 | RAnil () => 0
 //
 end // end of [length]
+
+in (* in of [local] *)
+
+implement
+funralist_length {a} (xs) = let
 //
 prval () = lemma_ralist_param (xs)
 //
 in
-  length (xs)
+  length{a} (xs)
 end // end of [funralist_length]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -200,7 +208,7 @@ implement{a}
 funralist_tail
   (xs) = xs1 where {
   var xs1 = xs
-  val _ = $effmask_wrt (funralist_uncons<a> (xs1))
+  val _(*hd*) = $effmask_wrt (funralist_uncons<a> (xs1))
 } // end of [funralist_tail]
 
 (* ****** ****** *)
@@ -258,7 +266,7 @@ staload UN = "prelude/SATS/unsafe.sats"
 local
 
 extern
-fun __free (p: ptr):<> void = "mac#ats_free_gc"
+fun __free (p: ptr):<!wrt> void = "mac#ats_free_gc"
 //
 fun
 fupdate
@@ -294,7 +302,7 @@ in
     // end of [val]
     val xxs =
       fupdate (xxs, i / 2, f1)
-    val () = __free ($UN.cast2ptr(f1))
+    val () = $effmask_wrt (__free ($UN.cast2ptr(f1)))
   in
     xxs
   end else let
@@ -304,7 +312,7 @@ in
     // end of [val]
     val xxs =
       fupdate (xxs, i / 2, f1)
-    val () = __free ($UN.cast2ptr(f1))
+    val () = $effmask_wrt (__free ($UN.cast2ptr(f1)))
   in
     xxs
   end // end of [if]
@@ -319,7 +327,7 @@ funralist_update
 typedef node = node (a, 0)
 val f = lam (_: node): node =<cloref> N1 (x0)
 val xs = fupdate{a} (xs, i, f)
-val () = __free ($UN.cast2ptr(f))
+val () = $effmask_wrt (__free ($UN.cast2ptr(f)))
 //
 in
   xs
@@ -337,7 +345,7 @@ funralist_foreach$cont (x, env) = true
 local
 
 extern
-fun __free (p: ptr):<> void = "mac#ats_free_gc"
+fun __free (p: ptr):<!wrt> void = "mac#ats_free_gc"
 
 fnx foreach
   {a:t0p}
@@ -367,7 +375,7 @@ and foreach2
     val+ N2 (x0, x1) = xx in f (x0); f (x1)
   end // end of [val]
   val () = foreach (xxs, f1)
-  val () = __free ($UN.cast2ptr(f1))
+  val () = $effmask_wrt (__free ($UN.cast2ptr(f1)))
 in
   // nothing
 end // end of [foreach2]
@@ -410,7 +418,7 @@ val () =
   try foreach (xs, f) with ~DISCONT () => ()
 // end of [val]
 //
-val () = __free ($UN.cast2ptr(f))  
+val () = $effmask_wrt (__free ($UN.cast2ptr(f)))
 //
 in
   // nothing

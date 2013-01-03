@@ -221,25 +221,25 @@ overload min with g0int_min of 0
 
 fun{tk:tk}
 lt_g0int_int (x: g0int (tk), y: int):<> bool
-overload < with lt_g0int_int
+overload < with lt_g0int_int of 11
 fun{tk:tk}
 lte_g0int_int (x: g0int (tk), y: int):<> bool
-overload <= with lte_g0int_int
+overload <= with lte_g0int_int of 11
 
 fun{tk:tk}
 gt_g0int_int (x: g0int (tk), y: int):<> bool
-overload > with gt_g0int_int
+overload > with gt_g0int_int of 11
 fun{tk:tk}
 gte_g0int_int (x: g0int (tk), y: int):<> bool
-overload >= with gte_g0int_int
+overload >= with gte_g0int_int of 11
 
 fun{tk:tk}
 eq_g0int_int (x: g0int (tk), y: int):<> bool
-overload = with eq_g0int_int
+overload = with eq_g0int_int of 11
 fun{tk:tk}
 neq_g0int_int (x: g0int (tk), y: int):<> bool
-overload != with neq_g0int_int
-overload <> with neq_g0int_int
+overload != with neq_g0int_int of 11
+overload <> with neq_g0int_int of 11
 
 #atscode_separator()
 //
@@ -671,25 +671,25 @@ overload min with g0uint_min of 0
 
 fun{tk:tk}
 lt_g0uint_int (x: g0uint (tk), y: int):<> bool
-overload < with lt_g0uint_int
+overload < with lt_g0uint_int of 11
 fun{tk:tk}
 lte_g0uint_int (x: g0uint (tk), y: int):<> bool
-overload <= with lte_g0uint_int
+overload <= with lte_g0uint_int of 11
 
 fun{tk:tk}
 gt_g0uint_int (x: g0uint (tk), y: int):<> bool
-overload > with gt_g0uint_int
+overload > with gt_g0uint_int of 11
 fun{tk:tk}
 gte_g0uint_int (x: g0uint (tk), y: int):<> bool
-overload >= with gte_g0uint_int
+overload >= with gte_g0uint_int of 11
 
 fun{tk:tk}
 eq_g0uint_int (x: g0uint (tk), y: int):<> bool
-overload = with eq_g0uint_int
+overload = with eq_g0uint_int of 11
 fun{tk:tk}
 neq_g0uint_int (x: g0uint (tk), y: int):<> bool
-overload != with neq_g0uint_int
-overload <> with neq_g0uint_int
+overload != with neq_g0uint_int of 11
+overload <> with neq_g0uint_int of 11
 
 #atscode_separator()
 //
