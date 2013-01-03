@@ -1,0 +1,133 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../giter.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/prelude_giter")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/prelude/giter\
+")
+
+(* ****** ****** *)
+
+#declpreamble('\
+
+#para('\
+This package contains common functions for assembling/deassembling and
+manipulating iterators.
+')
+
+')#comment("declpreamble")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_giter_param")
+
+(* ****** ****** *)
+
+#declnamesynop("giter_make_list")
+#declnamesynop("giter_free_list")
+
+(* ****** ****** *)
+
+#declnamesynop("giter_make_list_vt")
+#declnamesynop("giter_free_list_vt")
+
+(* ****** ****** *)
+
+#declnamesynop("giter_make_array")
+#declnamesynop("giter_free_array")
+
+(* ****** ****** *)
+
+#declnamesynop("giter_make_string")
+#declnamesynop("giter_free_string")
+
+(* ****** ****** *)
+
+#declnamesynop("giter_is_atbeg")
+#declnamesynop("giter_isnot_atbeg")
+
+#declnamesynop("giter_is_atend")
+#declnamesynop("giter_isnot_atend")
+
+(* ****** ****** *)
+
+#declnamesynop("giter_get")
+#declnamesynop("giter_set")
+#declnamesynop("giter_exch")
+#declnamesynop("giter_getref")
+#declnamesynop("giter_vget")
+
+(* ****** ****** *)
+
+#declnamesynop("giter_inc")
+#declnamesynop("giter_dec")
+
+(* ****** ****** *)
+
+#declnamesynop("giter_get_inc")
+#declnamesynop("giter_set_inc")
+#declnamesynop("giter_exch_inc")
+#declnamesynop("giter_getref_inc")
+#declnamesynop("giter_vget_inc")
+
+(* ****** ****** *)
+
+#declnamesynop("giter_dec_get")
+#declnamesynop("giter_dec_set")
+#declnamesynop("giter_dec_exch")
+#declnamesynop("giter_dec_getref")
+#declnamesynop("giter_dec_vget")
+
+(* ****** ****** *)
+
+#declnamesynop("giter_get_fofs")
+#declnamesynop("giter_get_rofs")
+
+(* ****** ****** *)
+
+#declnamesynop("giter_fjmp")
+
+(* ****** ****** *)
+
+#declnamesynop("giter_fget_at")
+#declnamesynop("giter_fset_at")
+#declnamesynop("giter_fexch_at")
+#declnamesynop("giter_fgetref_at")
+
+(* ****** ****** *)
+
+#declnamesynop("giter_fbjmp")
+
+(* ****** ****** *)
+
+#declnamesynop("giter_fbget_at")
+#declnamesynop("giter_fbset_at")
+#declnamesynop("giter_fbexch_at")
+#declnamesynop("giter_fbgetref_at")
+
+(* ****** ****** *)
+
+#declnamesynop("giter_fgetlst")
+#declnamesynop("giter_bgetlst")
+
+(* ****** ****** *)
+
+#declnamesynop("giter_ins")
+#declnamesynop("giter_ins_inc")
+#declnamesynop("giter_rmv")
+#declnamesynop("giter_dec_rmv")
+
+(* ****** ****** *)
+
+(* end of [giterator.atxt] *)

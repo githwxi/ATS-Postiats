@@ -37,7 +37,7 @@
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [iterator.dats] starts!\n"
+#print "Loading [giterator.dats] starts!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
@@ -48,25 +48,25 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "prelude/SATS/iterator.sats"
+staload "prelude/SATS/giterator.sats"
 
 (* ****** ****** *)
 
 implement
 {knd}{x}
-fprint_iterator_sep
+fprint_giter_sep
   {kpm}{f,r}
   (out, itr, sep) = let
 //
-val () = lemma_iterator_param (itr)
+val () = lemma_giter_param (itr)
 //
-stadef iter
-  (f:int, r:int) = iterator (knd, kpm, x, f, r)
+stadef giter
+  (f:int, r:int) = giter (knd, kpm, x, f, r)
 //
 fun loop
   {f,r:int | r >= 0} .<r>. (
   out: FILEref
-, itr: !iter (f, r) >> iter (f+r, 0)
+, itr: !giter (f, r) >> giter (f+r, 0)
 , sep: string
 , notbeg: bool
 ) : void = let
@@ -85,20 +85,20 @@ end // end of [loop]
 //
 in
   loop (out, itr, sep, false(*notbeg*))
-end // end of [fprint_iterator_sep]
+end // end of [fprint_giter_sep]
 
 (* ****** ****** *)
 
 implement
 {knd}{x}
 giter_isnot_atbeg (itr) = let
-  prval () = lemma_iterator_param (itr) in ~giter_is_atbeg (itr)
+  prval () = lemma_giter_param (itr) in ~giter_is_atbeg (itr)
 end // end of [giter_isnot_atbeg]
 
 implement
 {knd}{x}
 giter_isnot_atend (itr) = let
-  prval () = lemma_iterator_param (itr) in ~giter_is_atend (itr)
+  prval () = lemma_giter_param (itr) in ~giter_is_atend (itr)
 end // end of [giter_isnot_atend]
 
 (* ****** ****** *)
@@ -176,7 +176,7 @@ implement
 {knd}{x}
 giter_dec_getref (itr) = let
   prval () =
-    lemma_iterator_param (itr)
+    lemma_giter_param (itr)
   val () = giter_dec<knd><x> (itr)
 in
   giter_getref<knd><x> (itr)
@@ -261,14 +261,14 @@ implement
 {knd}{x}
 giter_fgetlst {kpm} (itr, i) = let
 //
-prval () = lemma_iterator_param (itr)
+prval () = lemma_giter_param (itr)
 //
-stadef iter
-  (f:int, r:int) = iterator (knd, kpm, x, f, r)
+stadef giter
+  (f:int, r:int) = giter (knd, kpm, x, f, r)
 //
 fun loop
   {f,r:int | r >= 0} {i:nat} .<r>. (
-  itr: !iter (f, r) >> iter (f+i1, r-i1)
+  itr: !giter (f, r) >> giter (f+i1, r-i1)
 , i: &int(i) >> int(i-i1)
 , res: &ptr? >> list_vt (x, i1)
 ) : #[i1:int | i1 == min(i,r)] void = let
@@ -305,14 +305,14 @@ implement
 {knd}{x}
 giter_bgetlst {kpm} (itr, i) = let
 //
-prval () = lemma_iterator_param (itr)
+prval () = lemma_giter_param (itr)
 //
-stadef iter
-  (f:int, r:int) = iterator (knd, kpm, x, f, r)
+stadef giter
+  (f:int, r:int) = giter (knd, kpm, x, f, r)
 //
 fun loop
   {f,r:int | f >= 0} {i:nat} .<f>. (
-  itr: !iter (f, r) >> iter (f-i1, r+i1)
+  itr: !giter (f, r) >> giter (f-i1, r+i1)
 , i: &int(i) >> int(i-i1)
 , res: &ptr? >> list_vt (x, i1)
 ) : #[i1:int | i1 == min(i,f)] void = let
@@ -348,20 +348,20 @@ end // end of [giter_bgetlst]
 implement
 {knd}{x}
 giter_ins_inc (itr, x) = let
-  prval () = lemma_iterator_param (itr)
+  prval () = lemma_giter_param (itr)
   val () = giter_ins (itr, x) in giter_inc (itr)
 end // end of [giter_ins_inc]
 
 implement
 {knd}{x}
 giter_dec_rmv (itr) = let
-  prval () = lemma_iterator_param (itr)
+  prval () = lemma_giter_param (itr)
   val () = giter_dec (itr) in giter_rmv (itr)
 end // end of [giter_dec_rmv]
 
 (* ****** ****** *)
 //
-// HX: some common generic functions on iterators
+// HX: some common generic functions on giterators
 //
 (* ****** ****** *)
 
@@ -369,13 +369,13 @@ implement
 {knd}{x}
 giter_listize_cpy {kpm} (itr) = let
 //
-prval () = lemma_iterator_param (itr)
+prval () = lemma_giter_param (itr)
 //
-stadef iter (f:int, r:int) = iterator (knd, kpm, x, f, r)
+stadef giter (f:int, r:int) = giter (knd, kpm, x, f, r)
 //
 fun loop
   {f,r:int | r >= 0} .<r>. (
-  itr: !iter (f, r) >> iter (f+r, 0), res: &ptr? >> list_vt (x, r)
+  itr: !giter (f, r) >> giter (f+r, 0), res: &ptr? >> list_vt (x, r)
 ) : void = let
   val test = giter_isnot_atend (itr)
 in
@@ -403,13 +403,13 @@ implement
 giter_rlistize_cpy
   {kpm} (itr) = let
 //
-prval () = lemma_iterator_param (itr)
+prval () = lemma_giter_param (itr)
 //
-stadef iter (f:int, r:int) = iterator (knd, kpm, x, f, r)
+stadef giter (f:int, r:int) = giter (knd, kpm, x, f, r)
 //
 fun loop
   {f,r:int | r >= 0}{r2:nat} .<r>. (
-  itr: !iter (f, r) >> iter (f+r, 0), res: list_vt (x, r2)
+  itr: !giter (f, r) >> giter (f+r, 0), res: list_vt (x, r2)
 ) : list_vt (x, r+r2) = let
   val test = giter_isnot_atend (itr)
 in
@@ -437,13 +437,13 @@ implement
 giter_foreach_env
   {kpm}{f,r} (itr, env) = let
 //
-prval () = lemma_iterator_param (itr)
+prval () = lemma_giter_param (itr)
 //
-stadef iter (f:int, r:int) = iterator (knd, kpm, x, f, r)
+stadef giter (f:int, r:int) = giter (knd, kpm, x, f, r)
 //
 fun loop
   {f,r:int | r >= 0} .<r>. (
-  itr: !iter (f, r) >> iter (f1, r1), env: &env
+  itr: !giter (f, r) >> giter (f1, r1), env: &env
 ) : #[f1,r1:int | f <= f1 | f+r==f1+r1] void = let
   val isnotend =
     giter_isnot_atend<knd><x> (itr) 
@@ -482,16 +482,16 @@ implement
 giter_bsearch
   {kpm} (itr, ra) = let
 //
+prval () = lemma_giter_param (itr)
 prval () = lemma_g1uint_param (ra)
-prval () = lemma_iterator_param (itr)
 //
-stadef iter
-  (f:int, r:int) = iterator (knd, kpm, x, f, r)
+stadef giter
+  (f:int, r:int) = giter (knd, kpm, x, f, r)
 //
 fun loop
   {f,r:nat}
   {ra:nat | ra <= r} .<ra>. (
-  itr: !iter (f, r) >> iter (f1, r1)
+  itr: !giter (f, r) >> giter (f1, r1)
 , ra: size_t (ra)
 ) : #[
   f1,r1:int | f1>=f;f+ra>=f1;f+r==f1+r1
@@ -523,9 +523,9 @@ end // end of [giter_bsearch]
 (* ****** ****** *)
 
 #if VERBOSE_PRELUDE #then
-#print "Loading [iterator.dats] finishes!\n"
+#print "Loading [giterator.dats] finishes!\n"
 #endif // end of [VERBOSE_PRELUDE]
 
 (* ****** ****** *)
 
-(* end of [iterator.dats] *)
+(* end of [giterator.dats] *)

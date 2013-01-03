@@ -44,7 +44,7 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "prelude/SATS/giter.sats"
+staload "prelude/SATS/giterator.sats"
 
 (* ****** ****** *)
 
@@ -63,16 +63,16 @@ iterk (
 (* ****** ****** *)
 
 extern
-castfn iterk2iter
+castfn iterk2giter
   {x:vt0p}{n:int}
   (xs: iterk (x, 0, n)):<> giter (itrknd, itrkpm(), x, 0, n)
-// end of [iterk2iter]
+// end of [iterk2giter]
 
 extern
-castfn iter2iterk
+castfn giter2iterk
   {x:vt0p}{f,r:int}
   (itr: giter (itrknd, itrkpm(), x, f, r)):<> iterk (x, f, r)
-// end of [iter2iterk]
+// end of [giter2iterk]
 
 (* ****** ****** *)
 
@@ -84,12 +84,12 @@ giter_make_list_vt
   val () = p := $UN.cast2Ptr1 (addr@ (xs))
   prval () = fold@ (itr)
 in
-  iterk2iter (itr)
+  iterk2giter (itr)
 end // end of [giter_make_list_vt]
 
 implement
 giter_free_list_vt (itr) = let
-  val+ ~ITR (xs, _) = iter2iterk (itr) in xs
+  val+ ~ITR (xs, _) = giter2iterk (itr) in xs
 end // end of [giter_free_list_vt]
 
 (* ****** ****** *)

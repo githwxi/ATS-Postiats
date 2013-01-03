@@ -42,7 +42,7 @@ UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "prelude/SATS/giter.sats"
+staload "prelude/SATS/giterator.sats"
 
 (* ****** ****** *)
 
@@ -63,27 +63,27 @@ iterk (
 (* ****** ****** *)
 
 extern
-castfn iterk2iter
+castfn iterk2giter
   {x:vt0p}{l:addr}{n:int}
   (xs: iterk (x, l, 0, n)):<> giter (itrknd, itrkpm(l), x, 0, n)
-// end of [iterk2iter]
+// end of [iterk2giter]
 
 extern
-castfn iter2iterk
+castfn giter2iterk
   {x:vt0p}{l:addr}{f,r:int}
   (itr: giter (itrknd, itrkpm(l), x, f, r)):<> iterk (x, l, f, r)
-// end of [iter2iterk]
+// end of [giter2iterk]
 
 (* ****** ****** *)
 
 implement{x}
 giter_make_array (pf | p, n) =
-  iterk2iter (ITR (pf | p, ptr0_add_guint<x> (p, n), p))
+  iterk2giter (ITR (pf | p, ptr0_add_guint<x> (p, n), p))
 // end of [giter_make_array]
 
 implement
 giter_free_array (itr) = let
-  val+ ~ITR (pf | _, _, _) = iter2iterk (itr) in (pf | ())
+  val+ ~ITR (pf | _, _, _) = giter2iterk (itr) in (pf | ())
 end // end of [giter_free_array]
 
 (* ****** ****** *)
