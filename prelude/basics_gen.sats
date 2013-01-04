@@ -103,6 +103,13 @@ gcompare_ref (x: &INV(a), y: &a):<> int
 //
 // generic number operations
 //
+fun{a:t0p} gnum_int (x: int):<> a
+fun{a:t0p} gnum_double (x: double):<> a
+//
+fun{a:t0p} gneg_val (x: a):<> a
+fun{a:t0p} gsucc_val (x: a):<> a
+fun{a:t0p} gpred_val (x: a):<> a
+//
 fun{a:t0p} gadd_val (x: a, y: a):<> a
 fun{a:t0p} gsub_val (x: a, y: a):<> a
 fun{a:t0p} gmul_val (x: a, y: a):<> a

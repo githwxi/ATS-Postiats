@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
@@ -82,6 +86,139 @@ implement
 primval_make_funlab (loc, fl) = let
   val hse = funlab_get_type (fl) in primval_funlab (loc, hse, fl)
 end // end of [primval_make_funlab]
+
+(* ****** ****** *)
+
+implement
+instrlst_get_tmpvarset
+  (xs) = let
+//
+fun aux (
+  res: &tmpvarset_vt, x: instr
+) : void = let
+//
+macdef tmpadd (tmp) =
+  (res := tmpvarset_vt_add (res, ,(tmp)))
+//
+in
+//
+case+ x.instr_node of
+| INSfunlab _ => ()
+//
+| INSmove_val (tmp, _) => tmpadd (tmp)
+| INSmove_arg_val _ => ()
+| INSmove_ptr_val (tmp, _) => tmpadd (tmp)
+//
+| INSmove_con (tmp, _, _, _) => tmpadd (tmp)
+| INSmove_ptr_con (tmp, _, _, _) => tmpadd (tmp)
+//
+| INSTRmove_rec_box (tmp, _, _) => tmpadd (tmp)
+| INSTRmove_rec_flt (tmp, _, _) => tmpadd (tmp)
+//
+| INSmove_list_nil (tmp) => tmpadd (tmp)
+| INSpmove_list_nil (tmp) => tmpadd (tmp)
+| INSpmove_list_cons (tmp) => tmpadd (tmp)
+| INSupdate_list_head
+    (tmp_hd, tmp_tl, _) => (tmpadd (tmp_hd); tmpadd (tmp_tl))
+| INSupdate_list_tail
+    (tmp_hd, tmp_tl, _) => (tmpadd (tmp_hd); tmpadd (tmp_tl))
+//
+| INSmove_arrpsz (tmp, _, _) => tmpadd (tmp)
+| INSupdate_ptrinc (tmp(*ptr*), _(*type*)) => tmpadd (tmp)
+//
+| INSmove_ref (tmp, _) => tmpadd (tmp)
+//
+| INSfuncall (tmp, _, _, _) => tmpadd (tmp)
+//    
+| INScond
+    (_, _then, _else) => {
+    val () = auxlst (res, _then) and () = auxlst (res, _else)
+  } // end of [INScond]
+//
+| INSpatck _ => ()
+//
+| INSselect (tmp, _, _, _) => tmpadd (tmp)
+| INSselcon (tmp, _, _, _) => tmpadd (tmp)
+//
+| INSassgn_varofs _ => ()
+| INSassgn_ptrofs _ => ()
+//
+| INSletpop () => ()
+| INSletpush (pmds) => auxpmdlst (res, pmds)
+//
+end // end of [aux]
+//
+and auxlst (
+  res: &tmpvarset_vt, xs: instrlst
+) : void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val () = aux (res, x) in auxlst (res, xs)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [auxlst]
+//
+and auxpmd (
+  res: &tmpvarset_vt, pmd: primdec
+) : void = let
+in
+//
+case+ pmd.primdec_node of
+| PMDnone () => ()
+| PMDimpdec _ => ()
+//
+| PMDfundecs _ => ()
+//
+| PMDvaldecs
+    (_, _, inss) => let
+    val inss = $UN.cast{instrlst} (inss) in auxlst (res, inss)
+  end // end of [PMDvaldecs]
+| PMDvaldecs_rec
+    (_, _, inss) => let
+    val inss = $UN.cast{instrlst} (inss) in auxlst (res, inss)
+  end // end of [PMDvaldecs_rec]
+//
+| PMDvardecs (_, inss) => let
+    val inss = $UN.cast{instrlst} (inss) in auxlst (res, inss)
+  end // end of [PMDvardecs]
+//
+| PMDstaload _ => ()
+//
+| PMDlocal (
+    pmds_head, pmds_body
+  ) => {
+    val () = auxpmdlst (res, pmds_head)
+    val () = auxpmdlst (res, pmds_body)
+  } // end of [PMDlocal]
+//
+end // end of [auxpmd]
+//
+and auxpmdlst (
+  res: &tmpvarset_vt, pmds: primdeclst
+) : void = let
+in
+//
+case+ pmds of
+| list_cons
+    (pmd, pmds) => let
+    val () = auxpmd (res, pmd) in auxpmdlst (res, pmds)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [auxpmdlst]
+//
+var res
+  : tmpvarset_vt = tmpvarset_vt_nil ()
+//
+val () = auxlst (res, xs)
+//
+in
+  res
+end // end of [instrlst_get_tmpvarset]
 
 (* ****** ****** *)
 

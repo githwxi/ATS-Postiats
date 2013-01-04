@@ -144,6 +144,44 @@ end // end of [local]
 
 (* ****** ****** *)
 
+local
+
+staload
+LS = "libats/SATS/linset_avltree.sats"
+staload _ = "libats/DATS/linset_avltree.dats"
+
+val cmp = lam (
+  tmp1: tmpvar, tmp2: tmpvar
+) : int =<cloref>
+  compare_tmpvar_tmpvar (tmp1, tmp2)
+// end of [val]
+
+assume tmpvarset_viewtype = $LS.set (tmpvar)
+
+in // in of [local]
+
+implement
+tmpvarset_vt_nil () = $LS.linset_make_nil ()
+
+implement
+tmpvarset_vt_free (xs) = $LS.linset_free (xs)
+
+implement
+tmpvarset_vt_add
+  (xs, x) = xs where {
+  var xs = xs
+  val _(*replaced*) = $LS.linset_insert (xs, x, cmp)
+} // end of [tmpvarset_vt_add]
+
+implement
+tmpvarset_vt_listize (xs) = $LS.linset_listize (xs)
+implement
+tmpvarset_vt_listize_free (xs) = $LS.linset_listize_free (xs)
+
+end // end of [local]
+
+(* ****** ****** *)
+
 %{$
 
 ats_void_type

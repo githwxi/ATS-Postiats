@@ -62,8 +62,9 @@ funent = '{
 , funent_imparg= s2varlst
 , funent_tmparg= s2explstlst
 //
-, funent_ret= tmpvar // storing the return value
-, funent_body= instrlst // instructions of function body
+, funent_tmpret= tmpvar // storing the return value
+, funent_instrlst= instrlst // instructions of function body
+, funent_tmpvarlst= tmpvarlst // tmpvars in function body
 } // end of [funent]
 
 assume funent_type = funent
@@ -73,16 +74,23 @@ in // in of [local]
 
 implement
 funent_make (
-  loc, fl, lev, imparg, tmparg, tmpret, inss
-) = '{
+  loc, fl, lev
+, imparg, tmparg, tmpret, inss
+) = let
+  val tmps = instrlst_get_tmpvarset (inss)
+  val tmps = tmpvarset_vt_add (tmps, tmpret)
+  val tmplst = tmpvarset_vt_listize_free (tmps)
+  val tmplst = list_of_list_vt (tmplst)
+in '{
   funent_loc= loc
 , funent_lab= fl
 , funent_level= lev
 , funent_imparg= imparg
 , funent_tmparg= tmparg
-, funent_ret= tmpret
-, funent_body= inss
-} // end of [funenv_make]
+, funent_tmpret= tmpret
+, funent_instrlst= inss
+, funent_tmpvarlst= tmplst
+} end // end of [funenv_make]
 
 (* ****** ****** *)
 
@@ -99,10 +107,13 @@ implement
 funent_get_tmparg (fent) = fent.funent_tmparg
 
 implement
-funent_get_ret (fent) = fent.funent_ret
+funent_get_tmpret (fent) = fent.funent_tmpret
 
 implement
-funent_get_body (fent) = fent.funent_body
+funent_get_instrlst (fent) = fent.funent_instrlst
+
+implement
+funent_get_tmpvarlst (fent) = fent.funent_tmpvarlst
 
 (* ****** ****** *)
 
@@ -132,11 +143,11 @@ val () = $UT.fprintlst (out, tmparg, "; ", fprint_s2explst)
 val () = prstr "\n"
 //
 val () = prstr "ret="
-val () = fprint_tmpvar (out, fent.funent_ret)
+val () = fprint_tmpvar (out, fent.funent_tmpret)
 val () = prstr "\n"
 //
 val () = prstr "body=\n"
-val () = fprint_instrlst (out, fent.funent_body)
+val () = fprint_instrlst (out, fent.funent_instrlst)
 //
 val () = prstr ")"
 in

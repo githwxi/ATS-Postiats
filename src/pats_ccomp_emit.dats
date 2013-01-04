@@ -298,6 +298,34 @@ end // end of [emit_tmpvar]
 
 (* ****** ****** *)
 
+implement
+emit_tmpdec
+  (out, tmp) = let
+  val hse = tmpvar_get_type (tmp)
+  val () = emit_hisexp (out, hse)
+  val () = fprint_string (out, " ")
+  val () = emit_tmpvar (out, tmp)
+  val () = fprint_string (out, " ; \n")
+in
+  // nothing
+end // end of [emit_tmpdec]
+
+implement
+emit_tmpdeclst
+  (out, tmps) = let
+in
+//
+case+ tmps of
+| list_cons
+    (tmp, tmps) => let
+    val () = emit_tmpdec (out, tmp) in emit_tmpdeclst (out, tmps)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [emit_tmpdeclst]
+
+(* ****** ****** *)
+
 typedef
 emit_primval_type = (FILEref, primval) -> void
 
@@ -566,8 +594,9 @@ case+ ins.instr_node of
     val () = fprint_string (out, "/*\n")
     val () = fprint_instr (out, ins)
     val () = fprint_string (out, "\n*/\n")
+    val () = emit_primdeclst (out, pmds)
   in
-    emit_primdeclst (out, pmds)
+    // nothing
   end // end of [INSletpush]
 //
 | _ => let
@@ -616,6 +645,14 @@ end // end of [loop]
 in
   loop (out, inss, "\n", 0)
 end // end of [emit_instrlst]    
+
+implement
+emit_instrlst_ln
+  (out, inss) = let
+  val () =
+    emit_instrlst (out, inss) in fprint_string (out, "\n")
+  // end of [val]
+end // end of [emit_instrlst_ln]
 
 (* ****** ****** *)
 
@@ -824,7 +861,7 @@ val fc = funlab_get_funclo (fl)
 val hses_arg = funlab_get_type_arg (fl)
 val hse_res = funlab_get_type_res (fl)
 //
-val tmpret = funent_get_ret (fent)
+val tmpret = funent_get_tmpret (fent)
 //
 // function header
 //
@@ -851,8 +888,13 @@ val () = fprint_string (out, ")\n")
 // function body
 //
 val () = fprint_string (out, "{\n")
-val body_inss = funent_get_body (fent)
+val tmplst = funent_get_tmpvarlst (fent)
+val () = fprint_string (out, "/* tmpdeclst: beg */\n")
+val () = emit_tmpdeclst (out, tmplst)
+val () = fprint_string (out, "/* tmpdeclst: end */\n")
+val body_inss = funent_get_instrlst (fent)
 val () = emit_instrlst (out, body_inss)
+val () = fprint_string (out, "\n")
 //
 // function return
 //
@@ -895,21 +937,29 @@ case+ pmd.primdec_node of
 //
 | PMDfundecs _ => ()
 //
-| PMDvaldecs (knd, hvds, inss) =>
-    emit_instrlst (out, $UN.cast{instrlst}(inss))
+| PMDvaldecs
+    (knd, hvds, inss) =>
+    emit_instrlst_ln (out, $UN.cast{instrlst}(inss))
 | PMDvaldecs_rec (knd, hvds, inss) =>
-    emit_instrlst (out, $UN.cast{instrlst}(inss))
+    emit_instrlst_ln (out, $UN.cast{instrlst}(inss))
 //
 | PMDvardecs (hvds, inss) =>
-    emit_instrlst (out, $UN.cast{instrlst}(inss))
+    emit_instrlst_ln (out, $UN.cast{instrlst}(inss))
 //
 | PMDstaload _ => ()
 //
 | PMDlocal (
     pmds_head, pmds_body
   ) => {
+    val () =
+      fprint_string (out, "/* local */\n")
     val () = emit_primdeclst (out, pmds_head)
+    val () =
+      fprint_string (out, "/* in of [local] */\n")
     val () = emit_primdeclst (out, pmds_body)
+    val () =
+      fprint_string (out, "/* end of [local] */\n")
+    // end of [val]
   } // end of [PMDlocal]
 //
 end // end of [emit_primdec]
@@ -922,8 +972,11 @@ emit_primdeclst
 in
 //
 case+ pmds of
-| list_cons (pmd, pmds) => let
-    val () = emit_primdec (out, pmd) in emit_primdeclst (out, pmds)
+| list_cons
+    (pmd, pmds) => let
+    val () =
+      emit_primdec (out, pmd) in emit_primdeclst (out, pmds)
+    // end of [val]
   end // end of [list_cons]
 | list_nil () => ()
 //

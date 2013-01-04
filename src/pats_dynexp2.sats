@@ -318,7 +318,6 @@ fun d2varset_vt_nil ():<> d2varset_vt
 fun d2varset_vt_free (xs: d2varset_vt):<> void
 fun d2varset_vt_is_member (xs: !d2varset_vt, x: d2var):<> bool
 fun d2varset_vt_add (xs: d2varset_vt, x: d2var):<> d2varset_vt
-
 fun d2varset_vt_listize (xs: !d2varset_vt):<> d2varlst_vt
 
 (* ****** ****** *)

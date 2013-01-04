@@ -729,7 +729,7 @@ macdef prstr (s) = fprint_string (out, ,(s))
 in
 //
 case+ xs of
-| tmpsub_cons
+| TMPSUBcons
    (s2v, s2e, xs) => let
    val () =
      if i > 0 then prstr "; "
@@ -740,7 +740,7 @@ case+ xs of
  in
    loop (out, xs, i+1)
  end // end of [tmpsub_cons]
-| tmpsub_nil () => ()
+| TMPSUBnil () => ()
 //
 end // end of [loop]
 //

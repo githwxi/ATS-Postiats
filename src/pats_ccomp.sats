@@ -89,8 +89,19 @@ overload prerr with prerr_tmplab
 
 abstype tmpvar_type
 typedef tmpvar = tmpvar_type
+//
 typedef tmpvarlst = List (tmpvar)
 typedef tmpvaropt = Option (tmpvar)
+//
+viewtypedef tmpvarlst_vt = List_vt (tmpvar)
+viewtypedef tmpvaropt_vt = Option_vt (tmpvar)
+
+(* ****** ****** *)
+
+absviewtype tmpvarset_viewtype
+viewtypedef tmpvarset_vt = tmpvarset_viewtype
+
+(* ****** ****** *)
 
 fun tmpvar_make
   (loc: location, hse: hisexp): tmpvar
@@ -112,11 +123,19 @@ overload prerr with prerr_tmpvar
 fun fprint_tmpvar : fprint_type (tmpvar) // implemented in [pats_ccomp_tmpvar.dats]
 fun fpprint_tmpvar : fprint_type (tmpvar) // implemented in [pats_ccomp_print.dats]
 
-fun eq_tmpvar_tmpvar (x1: tmpvar, x2: tmpvar): bool
+fun eq_tmpvar_tmpvar (x1: tmpvar, x2: tmpvar):<> bool
 overload = with eq_tmpvar_tmpvar
 
-fun compare_tmpvar_tmpvar (x1: tmpvar, x2: tmpvar): int
+fun compare_tmpvar_tmpvar (x1: tmpvar, x2: tmpvar):<> int
 overload = with compare_tmpvar_tmpvar
+
+(* ****** ****** *)
+
+fun tmpvarset_vt_nil ():<> tmpvarset_vt
+fun tmpvarset_vt_free (xs: tmpvarset_vt):<> void
+fun tmpvarset_vt_add (xs: tmpvarset_vt, x: tmpvar):<> tmpvarset_vt
+fun tmpvarset_vt_listize (xs: !tmpvarset_vt):<> tmpvarlst_vt
+fun tmpvarset_vt_listize_free (xs: tmpvarset_vt):<> tmpvarlst_vt
 
 (* ****** ****** *)
 //
@@ -175,12 +194,17 @@ fun fprint_funent : fprint_type (funent)
 
 fun funent_is_tmplt (feng: funent): bool
 
+(* ****** ****** *)
+
 fun funent_get_loc (fent: funent): location
 fun funent_get_lab (fent: funent): funlab
+//
 fun funent_get_imparg (fent: funent): s2varlst
 fun funent_get_tmparg (fent: funent): s2explstlst
-fun funent_get_ret (fent: funent): tmpvar // return val
-
+//
+fun funent_get_tmpret (fent: funent): tmpvar // return value
+fun funent_get_tmpvarlst (fent: funent): tmpvarlst // tmporaries
+//
 (* ****** ****** *)
 
 fun funlab_get_funentopt (fl: funlab): funentopt
@@ -681,6 +705,10 @@ fun instr_letpush (loc: location, pmds: primdeclst): instr
 
 (* ****** ****** *)
 
+fun instrlst_get_tmpvarset (xs: instrlst): tmpvarset_vt
+
+(* ****** ****** *)
+
 absviewtype instrseq_vtype
 viewtypedef instrseq = instrseq_vtype
 
@@ -704,7 +732,7 @@ fun funent_make (
 
 (* ****** ****** *)
 
-fun funent_get_body (fent: funent): instrlst
+fun funent_get_instrlst (fent: funent): instrlst
 
 (* ****** ****** *)
 
@@ -833,6 +861,9 @@ fun emit_funlab (out: FILEref, fl: funlab): void
 
 fun emit_tmpvar (out: FILEref, tmp: tmpvar): void
 
+fun emit_tmpdec (out: FILEref, tmp: tmpvar): void
+fun emit_tmpdeclst (out: FILEref, tmps: tmpvarlst): void
+
 (* ****** ****** *)
 
 fun emit_hisexp (out: FILEref, hse: hisexp): void
@@ -860,6 +891,7 @@ fun emit_tmpvar_assgn
 
 fun emit_instr (out: FILEref, ins: instr): void
 fun emit_instrlst (out: FILEref, inss: instrlst): void
+fun emit_instrlst_ln (out: FILEref, inss: instrlst): void
 
 (* ****** ****** *)
 
