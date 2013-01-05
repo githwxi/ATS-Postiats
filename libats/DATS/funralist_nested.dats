@@ -52,21 +52,20 @@ datatype node
     N2 (a, d+1) of (node (a, d), node (a, d))
 // end of [node]
 
-datatype ralist
+datatype myralist
   (a:t@ype+, int(*d*), int(*n*)) =
   | {d:nat}
     RAnil (a, d, 0) of ()
   | {d:nat}{n:pos}
-    RAevn (a, d, n+n) of ralist (a, d+1, n)
+    RAevn (a, d, n+n) of myralist (a, d+1, n)
   | {d:nat}{n:nat}
-    RAodd (a, d, n+n+1) of (node (a, d), ralist (a, d+1, n))
-// end of [ralist]
+    RAodd (a, d, n+n+1) of (node (a, d), myralist (a, d+1, n))
+// end of [myralist]
 
 (* ****** ****** *)
 
-typedef ra0list
-  (a:t@ype, n:int) = ralist (a, 0, n)
-assume ralist_t0ype_int_type = ra0list
+assume
+ralist_t0ype_int_type (a:t0p, n:int) = myralist (a, 0, n)
 
 (* ****** ****** *)
 
@@ -79,8 +78,8 @@ local
 
 fun cons
   {a:t0p}{d:nat}{n:nat} .<n>. (
-  x0: node (a, d), xs: ralist (a, d, n)
-) :<> ralist (a, d, n+1) = let
+  x0: node (a, d), xs: myralist (a, d, n)
+) :<> myralist (a, d, n+1) = let
 in
 //
 case+ xs of
@@ -127,7 +126,7 @@ length
   {a:t0p}
   {d:nat}
   {n:nat} .<n>. (
-  xs: ralist (a, d, n)
+  xs: myralist (a, d, n)
 ) :<> int (n) = let
 in
 //
@@ -163,7 +162,7 @@ fun head
   {a:t0p}
   {d:nat}
   {n:pos} .<n>. (
-  xs: ralist (a, d, n)
+  xs: myralist (a, d, n)
 ) :<> node (a, d) = let
 in
 //
@@ -199,8 +198,8 @@ local
 
 fun uncons
   {a:t0p}{d:nat}{n:pos} .<n>. (
-  xs: ralist (a, d, n), x: &ptr? >> node (a, d)
-) :<!wrt> ralist (a, d, n-1) = let
+  xs: myralist (a, d, n), x: &ptr? >> node (a, d)
+) :<!wrt> myralist (a, d, n-1) = let
 in
 //
 case+ xs of
@@ -247,7 +246,7 @@ local
 
 fun get_at
   {a:t0p}{d:nat}{n:nat} .<n>. (
-  xs: ralist (a, d, n), i: natLt n
+  xs: myralist (a, d, n), i: natLt n
 ) :<> node (a, d) = let
 in
 //
@@ -305,10 +304,10 @@ fset_at
   {a:t0p}
   {d:nat}
   {n:nat} .<n,1>. (
-  xs: ralist (a, d, n)
+  xs: myralist (a, d, n)
 , i: natLt (n)
 , f: node (a, d) -<cloref> node (a, d)
-) :<> ralist (a, d, n) = let
+) :<> myralist (a, d, n) = let
 in
   case+ xs of
   | RAevn (xxs) => RAevn (fset2_at (xxs, i, f))
@@ -321,10 +320,10 @@ fset2_at
   {a:t0p}
   {d:nat}
   {n2:pos} .<2*n2,0>. (
-  xxs: ralist (a, d+1, n2)
+  xxs: myralist (a, d+1, n2)
 , i: natLt (2*n2)
 , f: node (a, d) -<cloref> node (a, d)
-) :<> ralist (a, d+1, n2) = let
+) :<> myralist (a, d+1, n2) = let
   typedef node = node (a, d+1)
 in
   if i mod 2 = 0 then let
@@ -384,7 +383,7 @@ fun __free (p: ptr):<!wrt> void = "mac#ats_free_gc"
 fnx foreach
   {a:t0p}
   {d:nat}{n:nat} .<n,1>. (
-  xs: ralist (a, d, n), f: node (a, d) -<cloref> void
+  xs: myralist (a, d, n), f: node (a, d) -<cloref> void
 ) :<> void =
   case+ xs of
   | RAevn (xxs) =>
@@ -401,7 +400,7 @@ and foreach2
   {a:t0p}
   {d:nat}
   {n2:pos} .<2*n2,0>. (
-  xxs: ralist (a, d+1, n2), f: node (a, d) -<cloref> void
+  xxs: myralist (a, d+1, n2), f: node (a, d) -<cloref> void
 ) :<> void = let
   typedef node = node (a, d+1)
   val f1 = lam
