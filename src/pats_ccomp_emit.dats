@@ -252,9 +252,10 @@ end // end of [emit_d2cst]
 
 implement
 emit_funlab
-  (out, fl) = let
+  (out, flab) = let
 //
-val opt = funlab_get_qopt (fl)
+val opt = funlab_get_qopt (flab)
+val sfx = funlab_get_suffix (flab)
 //
 val () = (
   case+ opt of
@@ -263,10 +264,13 @@ val () = (
     in
     end // end of [Some]
   | None () => let
-      val () = emit_ident (out, funlab_get_name (fl))
+      val () = emit_ident (out, funlab_get_name (flab))
     in
     end // end of [None]
 ) : void // end of [val]
+//
+val () = if sfx > 0 then fprintf (out, "$%i", @(sfx))
+//
 in
   // nothing
 end // end of [emit_funlab]
@@ -277,7 +281,7 @@ implement
 emit_tmpvar
   (out, tmp) = let
 //
-val knd = tmpvar_get_tpknd (tmp)
+val knd = tmpvar_get_topknd (tmp)
 //
 val () = (case+ 0 of
   | _ when knd = 0 => let
@@ -290,10 +294,26 @@ val () = (case+ 0 of
     end // end of [knd = 1]
 ) : void // end of [val]
 //
-val stmp = tmpvar_get_stamp (tmp)
+val opt = tmpvar_get_origin (tmp)
 //
 in
-  $STMP.fprint_stamp (out, stmp)
+//
+case+ opt of
+| Some (tmpp) => let
+    val sfx = tmpvar_get_suffix (tmp)
+    val stmp = tmpvar_get_stamp (tmpp)
+    val () = $STMP.fprint_stamp (out, stmp)
+    val () = fprintf (out, "$%i", @(sfx))
+  in
+    // nothing
+  end // end of [Some]
+| None () => let
+    val stmp = tmpvar_get_stamp (tmp)
+    val () = $STMP.fprint_stamp (out, stmp)
+  in
+    // nothing
+  end // end of [None]
+//
 end // end of [emit_tmpvar]
 
 (* ****** ****** *)
@@ -551,10 +571,10 @@ in
 //
 case+ ins.instr_node of
 //
-| INSfunlab (fl) => {
+| INSfunlab (flab) => {
     val () =
       fprint_string (out, "__pats_lab_")
-    val () = emit_funlab (out, fl)
+    val () = emit_funlab (out, flab)
     val () = fprint_string (out, ":")
   } // end of [INSfunlab]
 //
@@ -679,8 +699,8 @@ in
 //
 case+ pmv_fun.primval_node of
 //
-| PMVfunlab (fl) => let
-    val () = emit_funlab (out, fl)
+| PMVfunlab (flab) => let
+    val () = emit_funlab (out, flab)
     val () = fprint_string (out, "(")
     val () = emit_primvalist (out, pmvs_arg)
     val () = fprint_string (out, ") ;")
@@ -775,8 +795,8 @@ fun auxfun (
   out: FILEref, fent: funent
 ) : void = let
 //
-  val fl = funent_get_lab (fent)
-  val opt = funlab_get_qopt (fl)
+  val flab = funent_get_lab (fent)
+  val opt = funlab_get_qopt (flab)
   val isext = (
     case+ opt of Some _ => true | None _ => false
   ) : bool // end of [val]
@@ -789,16 +809,16 @@ fun auxfun (
 //
   val () =
     emit_hisexp (out, hse_res) where {
-    val hse_res = funlab_get_type_res (fl)
+    val hse_res = funlab_get_type_res (flab)
   }
 //
   val () = fprint_string (out, "\n")
-  val () = emit_funlab (out, fl)
+  val () = emit_funlab (out, flab)
   val () = fprint_string (out, " (")
 //
   val () =
     emit_funarglst (out, hses_arg) where {
-    val hses_arg = funlab_get_type_arg (fl)
+    val hses_arg = funlab_get_type_arg (flab)
   } // end of [val]
 //
   val () = fprint_string (out, ") ;")
@@ -834,12 +854,17 @@ fun auxtmp (
 //
 val imparg = funent_get_imparg (fent)
 val tmparg = funent_get_tmparg (fent)
+val tsubopt = funent_get_tmpsub (fent)
+//
 val () = fprint_string (out, "/*\n")
 val () = fprint_string (out, "imparg = ")
 val () = $S2E.fprint_s2varlst (out, imparg)
 val () = fprint_string (out, "\n")
 val () = fprint_string (out, "tmparg = ")
 val () = $S2E.fprint_s2explstlst (out, tmparg)
+val () = fprint_string (out, "\n")
+val () = fprint_string (out, "tmpsub = ")
+val () = fprint_tmpsubopt (out, tsubopt)
 val () = fprint_string (out, "\n")
 val () = fprint_string (out, "*/\n")
 //
@@ -855,17 +880,17 @@ emit_funent_implmnt
 //
 val locent = funent_get_loc (fent)
 //
-val fl = funent_get_lab (fent)
+val flab = funent_get_lab (fent)
 //
-val fc = funlab_get_funclo (fl)
-val hses_arg = funlab_get_type_arg (fl)
-val hse_res = funlab_get_type_res (fl)
+val fc = funlab_get_funclo (flab)
+val hses_arg = funlab_get_type_arg (flab)
+val hse_res = funlab_get_type_res (flab)
 //
 val tmpret = funent_get_tmpret (fent)
 //
 // function header
 //
-val qopt = funlab_get_qopt (fl)
+val qopt = funlab_get_qopt (flab)
 val isext = (
   case+ qopt of Some _ => true | None _ => false
 ) : bool // end of [val]
@@ -880,7 +905,7 @@ val () = if istmp then auxtmp (out, fent)
 //
 val () = emit_hisexp (out, hse_res)
 val () = fprint_string (out, "\n")
-val () = emit_funlab (out, fl)
+val () = emit_funlab (out, flab)
 val () = fprint_string (out, " (")
 val () = emit_funarglst (out, hses_arg)
 val () = fprint_string (out, ")\n")
@@ -911,7 +936,7 @@ val () = fprint_string (out, " ;")
 val () = fprint_string (out, "\n}")
 val () =
   fprint_string (out, " /* end of [")
-val () = emit_funlab (out, fl)
+val () = emit_funlab (out, flab)
 val () = fprint_string (out, "] */\n")
 //
 in

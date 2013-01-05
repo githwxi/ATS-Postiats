@@ -44,6 +44,7 @@ typedef location = $LOC.location
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
@@ -56,11 +57,14 @@ local
 typedef
 funent = '{
   funent_loc= location
+//
+, funent_level= int // =0/>0 for top/inner fun
+//
 , funent_lab= funlab // attached function label
-, funent_level= int // =0/>0 for top/inner function
 //
 , funent_imparg= s2varlst
 , funent_tmparg= s2explstlst
+, funent_tmpsub= tmpsubopt
 //
 , funent_tmpret= tmpvar // storing the return value
 , funent_instrlst= instrlst // instructions of function body
@@ -74,23 +78,26 @@ in // in of [local]
 
 implement
 funent_make (
-  loc, fl, lev
-, imparg, tmparg, tmpret, inss
+  loc, level, flab
+, imparg, tmparg, tmpsub, tmpret, inss, tmplst
 ) = let
-  val tmps = instrlst_get_tmpvarset (inss)
-  val tmps = tmpvarset_vt_add (tmps, tmpret)
-  val tmplst = tmpvarset_vt_listize_free (tmps)
-  val tmplst = list_of_list_vt (tmplst)
 in '{
   funent_loc= loc
-, funent_lab= fl
-, funent_level= lev
+//
+, funent_level= level
+//
+, funent_lab= flab
+//
 , funent_imparg= imparg
 , funent_tmparg= tmparg
+, funent_tmpsub= tmpsub
+//
 , funent_tmpret= tmpret
+//
 , funent_instrlst= inss
 , funent_tmpvarlst= tmplst
-} end // end of [funenv_make]
+//
+} end // end of [funent_make]
 
 (* ****** ****** *)
 
@@ -101,10 +108,16 @@ implement
 funent_get_lab (fent) = fent.funent_lab
 
 implement
+funent_get_level (fent) = fent.funent_level
+
+implement
 funent_get_imparg (fent) = fent.funent_imparg
 
 implement
 funent_get_tmparg (fent) = fent.funent_tmparg
+
+implement
+funent_get_tmpsub (fent) = fent.funent_tmpsub
 
 implement
 funent_get_tmpret (fent) = fent.funent_tmpret
@@ -117,44 +130,79 @@ funent_get_tmpvarlst (fent) = fent.funent_tmpvarlst
 
 (* ****** ****** *)
 
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+funent_make2 (
+  loc, flab, level
+, imparg, tmparg, tmpret, inss
+) = let
+  val tmps = instrlst_get_tmpvarset (inss)
+  val tmps = tmpvarset_vt_add (tmps, tmpret)
+  val tmplst = tmpvarset_vt_listize_free (tmps)
+  val tmplst = list_of_list_vt (tmplst)
+in
+//
+funent_make (
+  loc, flab, level, imparg, tmparg, None(*tsub*), tmpret, inss, tmplst
+) // end of [funent_make]
+//
+end // end of [funent_make2]
+
+(* ****** ****** *)
+
 implement
 fprint_funent
   (out, fent) = let
 //
 macdef prstr (s) = fprint_string (out, ,(s))
 //
+val flab = funent_get_lab (fent)
+val level = funent_get_level (fent)
+//
+val imparg = funent_get_imparg (fent)
+val tmparg = funent_get_tmparg (fent)
+val tsubopt = funent_get_tmpsub (fent)
+//
+val tmpret = funent_get_tmpret (fent)
+//
+val inss = funent_get_instrlst (fent)
+//
 val () = prstr "FUNENT(\n"
 //
-val () = prstr "level="
-val () = fprint_int (out, fent.funent_level)
+val () = prstr "lab="
+val () = fprint_funlab (out, flab)
 val () = prstr "\n"
 //
-val () = prstr "lab="
-val () = fprint_funlab (out, fent.funent_lab)
+val () = prstr "level="
+val () = fprint_int (out, level)
 val () = prstr "\n"
 //
 val () = prstr "imparg="
-val () = fprint_s2varlst (out, fent.funent_imparg)
+val () = fprint_s2varlst (out, imparg)
 val () = prstr "\n"
 //
 val () = prstr "tmparg="
-val tmparg = fent.funent_tmparg
 val () = $UT.fprintlst (out, tmparg, "; ", fprint_s2explst)
 val () = prstr "\n"
 //
-val () = prstr "ret="
-val () = fprint_tmpvar (out, fent.funent_tmpret)
+val () = prstr "tmpsub="
+val () = fprint_tmpsubopt (out, tsubopt)
 val () = prstr "\n"
 //
-val () = prstr "body=\n"
-val () = fprint_instrlst (out, fent.funent_instrlst)
+val () = prstr "tmpret="
+val () = fprint_tmpvar (out, tmpret)
+val () = prstr "\n"
+//
+val () = prstr "instrlst=\n"
+val () = fprint_instrlst (out, inss)
 //
 val () = prstr ")"
 in
   // nothing
 end // end of [fprint_funent]
-
-end // end of [local]
 
 (* ****** ****** *)
 
@@ -173,6 +221,51 @@ implement
 print_funent (fent) = fprint_funent (stdout_ref, fent)
 implement
 prerr_funent (fent) = fprint_funent (stderr_ref, fent)
+
+(* ****** ****** *)
+
+implement
+funent_subst
+  (env, sub, flab2, fent, sfx) = let
+//
+val loc = funent_get_loc (fent)
+val flab = funent_get_lab (fent)
+val level = funent_get_level (fent)
+//
+val imparg = funent_get_imparg (fent)
+val tmparg = funent_get_tmparg (fent)
+val tmpret = funent_get_tmpret (fent)
+val inss = funent_get_instrlst (fent)
+val tmplst = funent_get_tmpvarlst (fent)
+//
+val tmplst2 = tmpvarlst_subst (sub, tmplst, sfx)
+//
+(*
+val inss2 = instrlst_subst (env, sub, inss, sfx)
+*)
+//
+val inss2 = inss
+//
+val fent2 =
+  funent_make (
+  loc, level, flab2, imparg, tmparg, None(), tmpret, inss2, tmplst2
+) // end of [val]
+//
+in
+  fent2
+end // end of [funent_subst]
+
+(* ****** ****** *)
+
+%{$
+
+ats_void_type
+patsopt_funent_set_tmpsub
+  (ats_ptr_type fent, ats_ptr_type opt) {
+  ((funent_t)fent)->atslab_funent_tmpsub = opt ; return ;
+} // end of [patsopt_funent_set_tmpsub]
+
+%}
 
 (* ****** ****** *)
 

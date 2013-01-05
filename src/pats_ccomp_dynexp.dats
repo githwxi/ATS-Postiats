@@ -802,7 +802,7 @@ end // end of [local]
 implement
 hidexp_ccomp_funlab_arg_body (
   env
-, fl
+, flab
 , imparg
 , tmparg
 , prolog
@@ -812,7 +812,7 @@ hidexp_ccomp_funlab_arg_body (
 ) = let
 (*
 val () = begin
-  println! ("hidexp_ccomp_funlab_arg_body: fl = ", fl)
+  println! ("hidexp_ccomp_funlab_arg_body: flab = ", flab)
 end // end of [val]
 *)
 //
@@ -824,7 +824,7 @@ val ((*void*)) = instrseq_addlst (res, prolog)
 val (pfinc | ()) = the_d2varlev_inc ()
 val () = let
   val lev1 = the_d2varlev_get () in
-  hifunarg_ccomp (env, res, fl, lev1, loc_fun, hips_arg)
+  hifunarg_ccomp (env, res, flab, lev1, loc_fun, hips_arg)
 end // end of [val]
 val loc_body = hde_body.hidexp_loc
 val hse_body = hde_body.hidexp_type
@@ -834,7 +834,7 @@ val () = the_d2varlev_dec (pfinc | (*none*))
 //
 val inss = instrseq_get_free (res)
 //
-val fent = funent_make (loc_fun, fl, lev0, imparg, tmparg, tmpret, inss)
+val fent = funent_make2 (loc_fun, lev0, flab, imparg, tmparg, tmpret, inss)
 //
 in
   fent
@@ -851,22 +851,22 @@ val hse0 = hde0.hidexp_type
 val- HDElam (
   hips_arg, hde_body
 ) = hde0.hidexp_node
-val fl = funlab_make_type (hse0)
+val flab = funlab_make_type (hse0)
 val fent = let
   val imparg = list_nil(*s2vs*)
   val tmparg = list_nil(*s2ess*)
-  val ins = instr_funlab (loc0, fl)
+  val ins = instr_funlab (loc0, flab)
   val prolog = list_sing (ins)
 in
   hidexp_ccomp_funlab_arg_body
-    (env, fl, imparg, tmparg, prolog, loc0, hips_arg, hde_body)
+    (env, flab, imparg, tmparg, prolog, loc0, hips_arg, hde_body)
   // end of [hidexp_ccomp_funlab_arg_body]
 end // end of [val]
 //
 val () = println! ("hidexp_ccomp_lam: fent=", fent)
 //
 in
-  primval_make_funlab (loc0, fl)
+  primval_make_funlab (loc0, flab)
 end // end of [hidexp_ccomp_lam]
 
 (* ****** ****** *)

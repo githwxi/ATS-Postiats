@@ -97,7 +97,7 @@ fun s2eff_contain_s2eff (s2fe1: s2eff, s2fe2: s2eff): bool
 (* ****** ****** *)
 
 absviewtype
-stasub_viewtype // for static substitution
+stasub_viewtype // for static subst
 viewtypedef stasub = stasub_viewtype
 
 fun stasub_make_nil () : stasub
@@ -137,6 +137,16 @@ fun s2explstlst_subst (sub: !stasub, s2ess: s2explstlst): s2explstlst
 //
 fun s2expopt_subst (sub: !stasub, os2e: s2expopt): s2expopt
 //
+(* ****** ****** *)
+
+fun s2exp_subst_flag
+  (sub: !stasub, s2e: s2exp, flag: &int): s2exp
+// end of [s2exp_subst_flag]
+
+fun s2explst_subst_flag
+  (sub: !stasub, s2es: s2explst, flag: &int): s2explst
+// end of [s2explst_subst_flag]
+
 (* ****** ****** *)
 
 fun s2exp_alpha 

@@ -673,16 +673,6 @@ end // end of [stasub_extend_svarlst]
 (* ****** ****** *)
 
 extern
-fun s2exp_subst_flag
-  (sub: !stasub, s2e: s2exp, flag: &int): s2exp
-// end of [s2exp_subst_flag]
-
-extern
-fun s2explst_subst_flag
-  (sub: !stasub, s2es: s2explst, flag: &int): s2explst
-// end of [s2explst_subst_flag]
-
-extern
 fun s2explstlst_subst_flag
   (sub: !stasub, s2ess0: s2explstlst, flag: &int): s2explstlst
 // end of [s2explstlst_subst_flag]

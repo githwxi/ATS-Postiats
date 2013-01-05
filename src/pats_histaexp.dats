@@ -46,6 +46,7 @@ staload SYM = "pats_symbol.sats"
 (* ****** ****** *)
 
 staload "pats_staexp2.sats"
+staload "pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
@@ -172,9 +173,12 @@ hisexp_make_srt (s2t) =
 (* end of [hisexp_make_srt]*)
 
 implement
-hisexp_make_srtsym (s2t, sym) =
-  if s2rt_is_boxed_fun (s2t) then hisexp_typtr else hisexp_tyabs (sym)
-// end of [hisexp_make_srtsym]
+hisexp_make_srtsym
+  (s2t, sym) = let
+  val isbox = s2rt_is_boxed_fun (s2t)
+in
+  if isbox then hisexp_typtr else hisexp_tyabs (sym)
+end // end of [hisexp_make_srtsym]
 
 (* ****** ****** *)
 
@@ -188,8 +192,19 @@ hisexp_fun
 
 implement
 hisexp_app
-  (_fun, _arg) = hisexp_make_node (HITYPE_APP, HSEapp (_fun, _arg))
+  (_fun, _arg) =
+  hisexp_make_node (HITYPE_APP, HSEapp (_fun, _arg))
 // end of [hisexp_app]
+
+(* ****** ****** *)
+
+implement
+hisexp_extype
+  (name, s2ess) = let
+  val hit = HITYPE(0(*non*), name)
+in
+  hisexp_make_node (hit, HSEextype (name, s2ess))
+end // end of [hisexp_extype]
 
 (* ****** ****** *)
 
@@ -266,10 +281,130 @@ hisexp_s2exp (s2e) =
 
 local
 
+fun aux (
+  sub: !stasub, hse0: hisexp, flag: &int
+) : hisexp = let
+in
+//
+case+
+  hse0.hisexp_node
+of // of [case]
+//
+| HSEtyptr _ => hse0
+| HSEtyabs _ => hse0
+//
+| HSEfun (fc, hses_arg, hse_res) => let
+    val flag0 = flag
+    val hses_arg = auxlst (sub, hses_arg, flag)
+    val hse_res = aux (sub, hse_res, flag)
+  in
+    if flag > flag0
+      then hisexp_fun (fc, hses_arg, hse_res) else hse0
+    // end of [if]
+  end // end of [HSEfun]
+//
+| HSEcfun _ => hse0
+//
+| HSEapp (hse_fun, hses_arg) => let
+    val flag0 = flag
+    val hse_fun = aux (sub, hse_fun, flag)
+    val hses_arg = auxlst (sub, hses_arg, flag)
+  in
+    if flag > flag0 then hisexp_app (hse_fun, hses_arg) else hse0
+  end // end of [HSEapp]
+//
+| HSEextype (name, hsess) => let
+    val flag0 = flag
+    val hsess = auxlstlst (sub, hsess, flag)
+  in
+    if flag > flag0 then hisexp_extype (name, hsess) else hse0
+  end // end of [HSEextype]
+//
+| HSErefarg (knd, hse) => let
+    val flag0 = flag
+    val hse = aux (sub, hse, flag)
+  in
+    if flag > flag0 then hisexp_refarg (knd, hse) else hse0
+  end // end of [HSErefarg]
+//
+(*
+| HSEtyarr (hisexp, s2explst) // for arrays
+| HSEtyrec of (tyreckind, labhisexplst) // for records
+| HSEtyrecsin of (labhisexp) // for singleton records
+| HSEtysum of (d2con, hisexplst) // for tagged unions
+*)
+//
+| HSEtyvar (s2v) => let
+    val ans = stasub_find (sub, s2v)
+  in
+    case+ ans of
+    | ~Some_vt (s2e) => let
+        val () = flag := flag + 1 in hisexp_s2exp (s2e)
+      end // end of [Some_vt]
+    | ~None_vt () => hse0
+  end // end of [HSEtyvar]
+//
+| HSEvararg (s2e) => let
+    val flag0 = flag
+    val s2e = s2exp_subst_flag (sub, s2e, flag)
+  in
+    if flag > flag0 then hisexp_vararg (s2e) else hse0
+  end // end of [HSEvararg]
+//
+| HSEs2exp (s2e) => let
+    val flag0 = flag
+    val s2e = s2exp_subst_flag (sub, s2e, flag)
+  in
+    if flag > flag0 then hisexp_s2exp (s2e) else hse0
+  end // end of [HSEs2exp]
+//
+| _ => hse0
+//
+end // end of [aux]
+
+and auxlst (
+  sub: !stasub, hses0: hisexplst, flag: &int
+) : hisexplst = let
+in
+//
+case+ hses0 of
+| list_cons
+    (hse, hses) => let
+    val flag0 = flag
+    val hse = aux (sub, hse, flag)
+    val hses = auxlst (sub, hses, flag)
+  in
+    if flag > flag0 then list_cons (hse, hses) else hses0
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [auxlst]
+
+and auxlstlst (
+  sub: !stasub, hsess0: hisexplstlst, flag: &int
+) : hisexplstlst = let
+in
+//
+case+ hsess0 of
+| list_cons
+    (hses, hsess) => let
+    val flag0 = flag
+    val hses = auxlst (sub, hses, flag)
+    val hsess = auxlstlst (sub, hsess, flag)
+  in
+    if flag > flag0 then list_cons (hses, hsess) else hsess0
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [auxlstlst]
+
 in // in of [local]
 
 implement
-hisexp_subst (sub, hse) = hse
+hisexp_subst
+  (sub, hse0) = let
+  var flag: int = 0 in aux (sub, hse0, flag)
+end // end of [hisexp_subst]
 
 end // end of [local]
 

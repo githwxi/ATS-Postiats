@@ -749,6 +749,27 @@ in
 end // end of [fprint_tmpsub]
 
 implement
+fprint_tmpsubopt
+  (out, opt) = let
+//
+macdef
+prstr (x) = fprint_string (out, ,(x))
+//
+in
+//
+case opt of
+| Some (tsub) => {
+    val () = prstr "Some("
+    val () = fprint_tmpsub (out, tsub)
+    val () = prstr ")"
+  } // end of [Some]
+| None () => prstr "None()"
+//
+end // end of [fprint_tmpsubopt]
+
+(* ****** ****** *)
+
+implement
 fprint_tmpcstmat
   (out, opt) = let
   macdef prstr (s) = fprint_string (out, ,(s))

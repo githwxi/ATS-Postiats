@@ -75,9 +75,9 @@ extern
 fun funlab_make (
   name: string
 , level: int
-, hse: hisexp
+, hse0: hisexp
 , qopt: d2cstopt
-, t2ms: t2mpmarglst
+, t2mas: t2mpmarglst
 , stamp: stamp
 ) : funlab // end of [funlab_make]
 
@@ -92,6 +92,10 @@ funlab_struct = @{
 , funlab_type= hisexp (* function type *)
 //
 , funlab_qopt= d2cstopt (* local or global *)
+//
+, funlab_ncopy= int
+, funlab_suffix= int
+//
 , funlab_tmparg= t2mpmarglst (* tmplate arguments *)
 //
 , funlab_funent= funentopt // function entry
@@ -110,7 +114,7 @@ in // in of [local]
 
 implement
 funlab_make (
-  name, level, hse, qopt, t2ms, stamp
+  name, level, hse, qopt, t2mas, stamp
 ) = let
 //
 val (
@@ -123,7 +127,11 @@ val () = p->funlab_level := level
 val () = p->funlab_type := hse
 //
 val () = p->funlab_qopt := qopt
-val () = p->funlab_tmparg := t2ms
+//
+val () = p->funlab_ncopy := 0
+val () = p->funlab_suffix := 0
+//
+val () = p->funlab_tmparg := t2mas
 //
 val () = p->funlab_funent := None(*funent*)
 val () = p->funlab_tailjoin := list_nil(*tmpvarlst*)
@@ -137,42 +145,60 @@ end // end of [funlab_make]
 (* ****** ****** *)
 
 implement
-funlab_get_name (fl) = let
-  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_name
+funlab_get_name (flab) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_name
 end // end of [funlab_get_name]
 
 implement
-funlab_get_level (fl) = let
-  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_level
+funlab_get_level (flab) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_level
 end // end of [funlab_get_level]
 
 implement
-funlab_get_type (fl) = let
-  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_type
+funlab_get_type (flab) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_type
 end // end of [funlab_get_type]
 
 implement
-funlab_get_qopt (fl) = let
-  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_qopt
+funlab_get_qopt (flab) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_qopt
 end // end of [funlab_get_qopt]
 
 implement
-funlab_get_funentopt (fl) = let
-  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_funent
-end // end of [funlab_get_funentopt]
-implement
-funlab_set_funentopt (fl, opt) = let
-  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_funent := opt
-end // end of [funlab_set_funentopt]
-
-implement
-funlab_get_tmparg (fl) = let
-  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_tmparg
+funlab_get_tmparg (flab) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_tmparg
 end // end of [funlab_get_tmparg]
 
 implement
-funlab_get_stamp (fl) = let
-  val (vbox pf | p) = ref_get_view_ptr (fl) in p->funlab_stamp
+funlab_get_funent (flab) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_funent
+end // end of [funlab_get_funent]
+implement
+funlab_set_funent (flab, opt) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_funent := opt
+end // end of [funlab_set_funent]
+
+implement
+funlab_get_ncopy (flab) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_ncopy
+end // end of [funlab_get_ncopy]
+implement
+funlab_set_ncopy (flab, cnt) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_ncopy := cnt
+end // end of [funlab_set_ncopy]
+
+implement
+funlab_get_suffix (flab) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_suffix
+end // end of [funlab_get_suffix]
+implement
+funlab_set_suffix (flab, sfx) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_suffix := sfx
+end // end of [funlab_set_suffix]
+
+implement
+funlab_get_stamp (flab) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_stamp
 end // end of [funlab_get_stamp]
 
 end // end of [local]
@@ -181,8 +207,8 @@ end // end of [local]
 
 implement
 funlab_get_funclo
-  (fl) = fc where {
-  val hse = funlab_get_type (fl)
+  (flab) = fc where {
+  val hse = funlab_get_type (flab)
   val- HSEfun (fc, _(*arg*), _(*res*)) = hse.hisexp_node
 } // end of [funlab_get_funclo]
 
@@ -190,8 +216,8 @@ funlab_get_funclo
 
 implement
 funlab_get_type_arg
-  (fl) = let
-  val hse = funlab_get_type (fl)
+  (flab) = let
+  val hse = funlab_get_type (flab)
 in
 //
 case+ hse.hisexp_node of
@@ -210,8 +236,8 @@ end // end of [funlab_get_type_arg]
 
 implement
 funlab_get_type_res
-  (fl) = let
-  val hse = funlab_get_type (fl)
+  (flab) = let
+  val hse = funlab_get_type (flab)
 in
 //
 case+ hse.hisexp_node of
@@ -231,15 +257,25 @@ end // end of [funlab_get_type_res]
 (* ****** ****** *)
 
 implement
+funlab_incget_ncopy
+  (flab) = cnt1 where {
+  val cnt = funlab_get_ncopy (flab)
+  val cnt1 = cnt + 1
+  val () = funlab_set_ncopy (flab, cnt1)
+} // end of [funlab_incget_ncopy]
+
+(* ****** ****** *)
+
+implement
 funlab_make_type
   (hse) = let
   val lev0 = the_d2varlev_get ()
   val stamp = $STMP.funlab_stamp_make ()
   val flname = $STMP.tostring_prefix_stamp ("__patsfun_", stamp)
   val qopt = None ()
-  val t2ms = list_nil ()
+  val t2mas = list_nil ()
 in
-  funlab_make (flname, lev0, hse, qopt, t2ms, stamp)
+  funlab_make (flname, lev0, hse, qopt, t2mas, stamp)
 end // end of [funlab_make_type]
 
 (* ****** ****** *)
@@ -270,18 +306,18 @@ funlab_make_dcst_type
   val lev0 = the_d2varlev_get ()
   val d2c2 = d2cst_get_gname (d2c)
   val qopt = Some (d2c)
-  val t2ms = list_nil ()
+  val t2mas = list_nil ()
   val stamp = $STMP.funlab_stamp_make ()
   val stamp2 = $STMP.tostring_stamp (stamp)
   val flname = sprintf ("%s_%s", @(d2c2, stamp2))
   val flname = string_of_strptr (flname)
 in
-  funlab_make (flname, lev0, hse, qopt, t2ms, stamp)
+  funlab_make (flname, lev0, hse, qopt, t2mas, stamp)
 end // end of [funlab_make_dcst_type]
 
 implement
 funlab_make_tmpcst_type
-  (d2c, t2ms, hse) = let
+  (d2c, t2mas, hse) = let
   val lev0 = the_d2varlev_get ()
   val d2c2 = d2cst_get_gname (d2c)
   val qopt = Some (d2c)
@@ -290,7 +326,7 @@ funlab_make_tmpcst_type
   val flname = sprintf ("%s_%s", @(d2c2, stamp2))
   val flname = string_of_strptr (flname)
 in
-  funlab_make (flname, lev0, hse, qopt, t2ms, stamp)
+  funlab_make (flname, lev0, hse, qopt, t2mas, stamp)
 end // end of [funlab_make_tmpcst_type]
 
 end // end of [local]
@@ -304,29 +340,50 @@ funlab_make_dvar_type
   val d2v2 =
     $SYM.symbol_get_name (d2var_get_sym (d2v))
   val qopt = None ()
-  val t2ms = list_nil ()
+  val t2mas = list_nil ()
   val stamp = $STMP.funlab_stamp_make ()
   val stamp2 = $STMP.tostring_stamp (stamp)
   val flname = sprintf ("%s_%s", @(d2v2, stamp2))
   val flname = string_of_strptr (flname)
 in
-  funlab_make (flname, lev0, hse, qopt, t2ms, stamp)
+  funlab_make (flname, lev0, hse, qopt, t2mas, stamp)
 end // end of [funlab_make_dvar_type]
 
 (* ****** ****** *)
 
 implement
 fprint_funlab
-  (out, fl) = let
-  val name = funlab_get_name (fl)
+  (out, flab) = let
+  val name = funlab_get_name (flab)
 in
   fprint_string (out, name)
 end // end of [fprint_funlab]
 
 implement
-print_funlab (fl) = fprint_funlab (stdout_ref, fl)
+print_funlab (flab) = fprint_funlab (stdout_ref, flab)
 implement
-prerr_funlab (fl) = fprint_funlab (stderr_ref, fl)
+prerr_funlab (flab) = fprint_funlab (stderr_ref, flab)
+
+(* ****** ****** *)
+
+implement
+funlab_subst
+  (sub, flab) = let
+//
+val name = funlab_get_name (flab)
+val level = funlab_get_level (flab)
+val hse = funlab_get_type (flab)
+val hse2 = hisexp_subst (sub, hse)
+val () = println! ("funlab_subst: hse2 = ", hse2)
+val qopt = funlab_get_qopt (flab)
+val t2mas = funlab_get_tmparg (flab)
+val stamp = $STMP.funlab_stamp_make ()
+//
+in
+//
+funlab_make (name, level, hse2, qopt, t2mas, stamp)
+//
+end // end of [funlab_subst]
 
 (* ****** ****** *)
 

@@ -42,6 +42,7 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
@@ -86,6 +87,32 @@ implement
 primval_make_funlab (loc, fl) = let
   val hse = funlab_get_type (fl) in primval_funlab (loc, hse, fl)
 end // end of [primval_make_funlab]
+
+(* ****** ****** *)
+
+implement
+tmpsub2stasub (tsub) = let
+//
+fun loop
+  (sub: &stasub, tsub: tmpsub): void = let
+in
+//
+case+ tsub of
+| TMPSUBcons
+    (s2v, s2e, tsub) => let
+    val () = stasub_add (sub, s2v, s2e) in loop (sub, tsub)
+  end // end of [TMPSUBcons]
+| TMPSUBnil () => ()
+//
+end // end of [loop]
+//
+var sub
+  : stasub = stasub_make_nil ()
+val () = loop (sub, tsub)
+//
+in
+  sub
+end // end of [tmpsub2stasub]
 
 (* ****** ****** *)
 

@@ -62,7 +62,15 @@ typedef f0loat = $SYN.f0loat
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
-staload "./pats_staexp2_util.sats"
+
+(* ****** ****** *)
+
+staload
+S2EUT = "./pats_staexp2_util.sats"
+viewtypedef stasub = $S2EUT.stasub 
+
+(* ****** ****** *)
+
 staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
@@ -108,9 +116,14 @@ fun tmpvar_make
 fun tmpvar_make_ret
   (loc: location, hse: hisexp): tmpvar
 
+fun tmpvar_get_loc (tmp: tmpvar): location
+
 fun tmpvar_get_type (tmp: tmpvar): hisexp
 
-fun tmpvar_get_tpknd (tmp: tmpvar): int // 0/1: local/(static)top
+fun tmpvar_get_topknd (tmp: tmpvar): int // 0/1: local/(static)top
+
+fun tmpvar_get_origin (tmp: tmpvar): tmpvaropt
+fun tmpvar_get_suffix (tmp: tmpvar): int
 
 fun tmpvar_get_stamp (tmp: tmpvar): stamp
 
@@ -144,6 +157,7 @@ fun tmpvarset_vt_listize_free (xs: tmpvarset_vt):<> tmpvarlst_vt
 abstype ccomp_funlab_type
 typedef funlab = ccomp_funlab_type
 typedef funlablst = List (funlab)
+typedef funlabopt = Option (funlab)
 //
 fun print_funlab (x: funlab): void
 overload print with print_funlab
@@ -159,20 +173,27 @@ fun funlab_make_tmpcst_type
 // end of [funlab_make_tmpcst_typ]
 //
 fun funlab_get_qopt
-  (fl: funlab): d2cstopt // qualifier
+  (flab: funlab): d2cstopt // qualifier
 //
-fun funlab_get_name (fl: funlab): string
+fun funlab_get_name (flab: funlab): string
 //
-fun funlab_get_level (fl: funlab): int
+fun funlab_get_level (flab: funlab): int
 //
-fun funlab_get_type (fl: funlab): hisexp
-fun funlab_get_funclo (fl: funlab): funclo
-fun funlab_get_type_arg (fl: funlab): hisexplst
-fun funlab_get_type_res (fl: funlab): hisexp
+fun funlab_get_type (flab: funlab): hisexp
+fun funlab_get_funclo (flab: funlab): funclo
+fun funlab_get_type_arg (flab: funlab): hisexplst
+fun funlab_get_type_res (flab: funlab): hisexp
 //
-fun funlab_get_tmparg (fl: funlab): t2mpmarglst
+fun funlab_get_ncopy (flab: funlab): int
+fun funlab_set_ncopy (flab: funlab, cnt: int): void
+fun funlab_incget_ncopy (flab: funlab): int
 //
-fun funlab_get_stamp (fl: funlab): stamp
+fun funlab_get_suffix (flab: funlab): int
+fun funlab_set_suffix (flab: funlab, sfx: int): void
+//
+fun funlab_get_tmparg (flab: funlab): t2mpmarglst
+//
+fun funlab_get_stamp (flab: funlab): stamp
 //
 (* ****** ****** *)
 //
@@ -197,23 +218,27 @@ fun funent_is_tmplt (feng: funent): bool
 (* ****** ****** *)
 
 fun funent_get_loc (fent: funent): location
+//
 fun funent_get_lab (fent: funent): funlab
+//
+fun funent_get_level (fent: funent): int
 //
 fun funent_get_imparg (fent: funent): s2varlst
 fun funent_get_tmparg (fent: funent): s2explstlst
 //
 fun funent_get_tmpret (fent: funent): tmpvar // return value
-fun funent_get_tmpvarlst (fent: funent): tmpvarlst // tmporaries
+//
+fun funent_get_tmpvarlst (fent: funent): tmpvarlst
 //
 (* ****** ****** *)
 
-fun funlab_get_funentopt (fl: funlab): funentopt
-fun funlab_set_funentopt (fl: funlab, opt: funentopt): void
+fun funlab_get_funent (flab: funlab): funentopt
+fun funlab_set_funent (flab: funlab, opt: funentopt): void
 
 (* ****** ****** *)
 
 fun the_funlablst_get (): funlablst
-fun the_funlablst_add (fl: funlab): void
+fun the_funlablst_add (flab: funlab): void
 fun the_funlablst_addlst (fls: funlablst): void
 
 (* ****** ****** *)
@@ -227,9 +252,15 @@ fun hiimpdec_set_funlabopt
 
 datatype tmpsub =
   | TMPSUBcons of (s2var, s2exp, tmpsub) | TMPSUBnil of ()
+typedef tmpsubopt = Option (tmpsub)
 viewtypedef tmpsubopt_vt = Option_vt (tmpsub)
  
 fun fprint_tmpsub : fprint_type (tmpsub)
+fun fprint_tmpsubopt : fprint_type (tmpsubopt)
+
+(* ****** ****** *)
+
+fun tmpsub2stasub (tsub: tmpsub): stasub
 
 (* ****** ****** *)
 
@@ -470,7 +501,7 @@ fun primval_extval
 (* ****** ****** *)
 
 fun primval_funlab
-  (loc: location, hse: hisexp, fl: funlab): primval
+  (loc: location, hse: hisexp, flab: funlab): primval
 // end of [primval_funlab]
 
 (* ****** ****** *)
@@ -489,7 +520,7 @@ fun primval_tmpltcstmat (
 
 (* ****** ****** *)
 
-fun primval_make_funlab (loc: location, fl: funlab): primval
+fun primval_make_funlab (loc: location, flab: funlab): primval
 
 (* ****** ****** *)
 
@@ -612,7 +643,7 @@ fun fprint_instrlst : fprint_type (instrlst)
 
 (* ****** ****** *)
 
-fun instr_funlab (loc: location, fl: funlab): instr
+fun instr_funlab (loc: location, flab: funlab): instr
 
 (* ****** ****** *)
 
@@ -722,15 +753,32 @@ fun instrseq_addlst (res: !instrseq, x: instrlst): void
 
 fun funent_make (
   loc: location
-, fl: funlab
 , level: int
+, flab: funlab
 , imparg: s2varlst
 , tmparg: s2explstlst
-, ret: tmpvar
+, tmpsub: tmpsubopt
+, tmpret: tmpvar
 , inss: instrlst
+, tmplst: tmpvarlst
 ) : funent // end of [funent_make]
 
+fun funent_make2 (
+  loc: location
+, level: int
+, flab: funlab
+, imparg: s2varlst
+, tmparg: s2explstlst
+, tmpret: tmpvar
+, inss: instrlst
+) : funent // end of [funent_make2]
+
 (* ****** ****** *)
+
+fun funent_get_tmpsub (fent: funent): tmpsubopt
+fun funent_set_tmpsub
+  (fent: funent, opt: tmpsubopt): void = "patsopt_funent_set_tmpsub"
+// end of [funent_set_tmpsub]
 
 fun funent_get_instrlst (fent: funent): instrlst
 
@@ -794,7 +842,7 @@ fun himatch_ccomp (
 
 fun hifunarg_ccomp (
   env: !ccompenv, res: !instrseq
-, fl: funlab, level: int, loc_fun: location, hips: hipatlst
+, flab: funlab, level: int, loc_fun: location, hips: hipatlst
 ) : void // end of [hifunarg_ccomp]
 
 (* ****** ****** *)
@@ -812,7 +860,7 @@ fun hidexp_ccomp_ret
 
 fun hidexp_ccomp_funlab_arg_body (
   env: !ccompenv
-, fl: funlab // HX: needed for recursion
+, flab: funlab // HX: needed for recursion
 , imparg: s2varlst
 , tmparg: s2explstlst
 , prolog: instrlst
@@ -857,7 +905,7 @@ fun emit_filename (out: FILEref, fil: $FIL.filename): void
 fun emit_d2con (out: FILEref, d2c: d2con): void
 fun emit_d2cst (out: FILEref, d2c: d2cst): void
 
-fun emit_funlab (out: FILEref, fl: funlab): void
+fun emit_funlab (out: FILEref, flab: funlab): void
 
 fun emit_tmpvar (out: FILEref, tmp: tmpvar): void
 
@@ -933,13 +981,24 @@ fun ccomp_tmpcstmat (
 
 (* ****** ****** *)
 //
-fun tmpvar_subst
-  (tmp: tmpvar, sub: !stasub, sfx: int): tmpvar
-fun primval_subst
-  (pmv: primval, sub: !stasub, sfx: int): primval
+fun funlab_subst
+  (sub: !stasub, flab: funlab): funlab
 //
-fun instr_subst (ins: instr, sub: !stasub, sfx: int): instr
-fun instrlst_subst (ins: instrlst, sub: !stasub, sfx: int): instrlst
+fun tmpvar_subst
+  (sub: !stasub, tmp: tmpvar, sfx: int): tmpvar
+fun tmpvarlst_subst
+  (sub: !stasub, tmplst: tmpvarlst, sfx: int): tmpvarlst
+//
+fun primval_subst
+  (env: !ccompenv, sub: !stasub, pmv: primval, sfx: int): primval
+//
+fun instr_subst
+  (env: !ccompenv, sub: !stasub, ins: instr, sfx: int): instr
+fun instrlst_subst
+  (env: !ccompenv, sub: !stasub, ins: instrlst, sfx: int): instrlst
+//
+fun funent_subst
+  (env: !ccompenv, sub: !stasub, flab2: funlab, fent: funent, sfx: int): funent
 //
 (* ****** ****** *)
 

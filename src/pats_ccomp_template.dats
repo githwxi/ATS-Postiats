@@ -421,20 +421,6 @@ fun t2mpmarglst_subst
 
 local
 
-fun auxinit (
-  sub: &stasub, tsub: tmpsub
-) : void = let
-in
-//
-case+ tsub of
-| TMPSUBcons
-    (s2v, s2e, tsub) => let
-    val () = stasub_add (sub, s2v, s2e) in auxinit (sub, tsub)
-  end // end of [TMPSUBcons]
-| TMPSUBnil () => ()
-//
-end // end of [auxinit]
-
 fun auxlst (
   loc0: location
 , sub: !stasub, xs: t2mpmarglst
@@ -462,9 +448,7 @@ implement
 t2mpmarglst_subst
   (loc0, tsub, t2mas) = let
 //
-var sub
-  : stasub = stasub_make_nil ()
-val () = auxinit (sub, tsub)
+val sub = tmpsub2stasub (tsub)
 val t2mas2 = auxlst (loc0, sub, t2mas)
 val () = stasub_free (sub)
 in
@@ -497,7 +481,7 @@ implement
 ccomp_funlab_tmpsubst
   (env, loc0, hse0, fl, tsub) = let
 //
-val opt = funlab_get_funentopt (fl)
+val opt = funlab_get_funent (fl)
 //
 in
 //
@@ -505,13 +489,11 @@ case+ opt of
 | None () =>
     ccomp_funlab_tmpsubst_none (env, loc0, hse0, fl, tsub)
   // end of [None]
-| Some (ent) =>
-    ccomp_funlab_tmpsubst_some (env, loc0, hse0, fl, tsub, ent)
+| Some (fent) =>
+    ccomp_funlab_tmpsubst_some (env, loc0, hse0, fl, tsub, fent)
   // end of [None]
 //
 end // end of [ccomp_funlab_tmpsubst]
-
-(* ****** ****** *)
 
 implement
 ccomp_funlab_tmpsubst_none
@@ -531,16 +513,34 @@ case+ t2mas of
   end // end of [list_cons]
 | list_nil () => primval_funlab (loc0, hse0, fl)
 //
-end // end of [funlab_tmpsubst_none]
-
-(* ****** ****** *)
+end // end of [ccomp_funlab_tmpsubst_none]
 
 implement
-ccomp_funlab_tmpsubst_some (
-  env, loc0, hse0, fl, tsub, ent
-) = let
+ccomp_funlab_tmpsubst_some
+  (env, loc0, hse0, flab, tsub, fent) = let
+//
+val () = (
+  println! ("ccomp_funlab_tmpsubst_some: tsub = ");
+  fprint_tmpsub (stdout_ref, tsub); print_newline ()
+) // end of [val]
+//
+val sub = tmpsub2stasub (tsub)
+//
+val sfx = funlab_incget_ncopy (flab)
+//
+val flab2 = funlab_subst (sub, flab)
+val () = funlab_set_suffix (flab2, sfx)
+val () = the_funlablst_add (flab2)
+//
+val fent2 = funent_subst (env, sub, flab2, fent, sfx)
+val () = funent_set_tmpsub (fent2, Some (tsub))
+//
+val () = funlab_set_funent (flab2, Some (fent2))
+//
+val () = stasub_free (sub)
+//
 in
-  exitloc (1)
+  primval_funlab (loc0, hse0, flab2)
 end // end of [ccomp_funlab_tmpsubst_some]
 
 (* ****** ****** *)

@@ -117,20 +117,8 @@ case+ hid.hidecl_node of
 | HIDimpdec
     (knd, imp) => let
     val d2c = imp.hiimpdec_cst
-//
-    val imparg = imp.hiimpdec_imparg
-    val tmparg = imp.hiimpdec_tmparg
-//
-    val istmp = list_is_cons (tmparg)
-    val () =
-      if istmp then ccompenv_inc_tmplevel (env)
-    // end of [val]
     val l0 = the_d2varlev_get ()
     val () = hiimpdec_ccomp (env, l0, imp)
-    val () =
-      if istmp then ccompenv_dec_tmplevel (env)
-    // end of [val]
-//
   in
     primdec_impdec (loc, imp)
   end // end of [HIDimpdec]
@@ -264,7 +252,7 @@ fun auxlam (
   end // end of [val]
 //
   val () = the_funlablst_add (fl)
-  val () = funlab_set_funentopt (fl, Some (fent))
+  val () = funlab_set_funent (fl, Some (fent))
 //
   val () = println! ("hiimpdec_ccomp: auxlam: fent = ", fent)
 //
@@ -326,18 +314,18 @@ case+ 0 of
     val tmparg = imp.hiimpdec_tmparg
     val hde_def = imp.hiimpdec_def
 //
-    val () = (
-      case+ tmparg of
-      | list_cons _ => ccompenv_add_impdec (env, imp)
-      | list_nil () => ()
-    ) : void // end of [val]
+    val istmp = list_is_cons (tmparg)
 //
-    val fl =
-      auxmain (env, loc0, d2c, imparg, tmparg, hde_def)
+    val () =
+      if istmp then ccompenv_add_impdec (env, imp)
     // end of [val]
 //
+    val () = if istmp then ccompenv_inc_tmplevel (env)
+    val flab = auxmain (env, loc0, d2c, imparg, tmparg, hde_def)
+    val () = if istmp then ccompenv_dec_tmplevel (env)
+//
     val p = hiimpdec_getref_funlabopt (imp)
-    val () = $UN.ptrset<Option(funlab)> (p, Some (fl))
+    val () = $UN.ptrset<funlabopt> (p, Some (flab))
   in
     // nothing
   end // end of [if]
@@ -422,7 +410,7 @@ case+ hfds of
 //
     val () = println! ("auxmain: fent=", fent)
 //
-    val () = funlab_set_funentopt (fl, Some (fent))
+    val () = funlab_set_funent (fl, Some (fent))
 //
   in
     auxmain (env, knd, decarg, hfds, fls)

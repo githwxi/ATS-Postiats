@@ -52,8 +52,7 @@ case+ fls of
 | list_cons
     (fl, fls) => let
     val- Some (fent) =
-      funlab_get_funentopt (fl)
-    // end of [val]
+      funlab_get_funent (fl)
     val () = emit_funent_ptype (out, fent)
   in
     loop (out, fls, i+1)
@@ -83,10 +82,8 @@ in
 case+ fls of
 | list_cons
     (fl, fls) => let
-    val- Some (fent) =
-      funlab_get_funentopt (fl)
-    // end of [val]
-    val () = emit_funent_implmnt (out, fent)
+    val- Some (fent) = funlab_get_funent (fl)
+    val ((*void*)) = emit_funent_implmnt (out, fent)
   in
     loop (out, fls, i+1)
   end // end of [list_cons]
