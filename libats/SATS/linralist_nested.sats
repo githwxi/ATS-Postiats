@@ -136,7 +136,7 @@ fun{a:t0p}
 linralist_set_at
   {n:int} (
   xs: !ralist (INV(a), n), i: natLt n, x: a
-) :<> void // endfun
+) :<!wrt> void // endfun
 
 (* ****** ****** *)
 

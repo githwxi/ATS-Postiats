@@ -69,6 +69,17 @@ ralist_t0ype_int_type (a:t0p, n:int) = myralist (a, 0, n)
 
 (* ****** ****** *)
 
+primplmnt
+lemma_ralist_param (xs) = let
+in
+//
+case+ xs of
+| RAevn _ => () | RAodd _ => () | RAnil () => ()
+//
+end // end of [lemma_ralist_param]
+
+(* ****** ****** *)
+
 implement{a}
 funralist_nil () = RAnil{a}{0} ()
 

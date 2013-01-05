@@ -33,6 +33,10 @@
 
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload "libats/SATS/linralist_nested.sats"
 
 (* ****** ****** *)
@@ -66,6 +70,17 @@ datavtype myralist
 
 assume
 ralist_vt0ype_int_vtype (a:vt0p, n:int) = myralist (a, 0, n)
+
+(* ****** ****** *)
+
+primplmnt
+lemma_ralist_param (xs) = let
+in
+//
+case+ xs of
+| RAevn _ => () | RAodd _ => () | RAnil () => ()
+//
+end // end of [lemma_ralist_param]
 
 (* ****** ****** *)
 
@@ -157,6 +172,11 @@ end // end of [local]
 (* ****** ****** *)
 
 implement{a}
+linralist_head (xs) = linralist_get_at (xs, 0)
+
+(* ****** ****** *)
+
+implement{a}
 linralist_tail
   (xs) = xs1 where {
   var xs1 = xs
@@ -211,6 +231,91 @@ in
 end // end of [linralist_uncons]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+implement{a}
+linralist_get_at
+  (xs, i) = let
+  val p = linralist_getref_at<a> (xs, i) in $UN.ptr_get<a> (p)
+end // end of [linralist_get_at]
+
+implement{a}
+linralist_set_at
+  (xs, i, x) = let
+  val p = linralist_getref_at<a> (xs, i) in $UN.ptr_set<a> (p, x)
+end // end of [linralist_set_at]
+
+(* ****** ****** *)
+
+local
+
+fun getref_at
+  {a:vt0p}{d:nat}{n:nat} .<n>. (
+  xs: !myralist (a, d, n), i: natLt n
+) :<> Ptr1 = let
+  extern praxi __vfree : node (a,d+1) -<prf> void
+in
+//
+case+ xs of
+| RAevn (xxs) => let
+    val p_x01 = getref_at (xxs, half i)
+    val x01 = $UN.ptr_get<node(a,d+1)>(p_x01)
+  in
+    if i mod 2 = 0 then let
+      val+ @N2 (x0, _) = x01
+      val p_x0 = addr@ (x0)
+      prval () = fold@ (x01)
+      prval () = __vfree (x01)
+    in
+      p_x0
+    end else let
+      val+ @N2 (_, x1) = x01
+      val p_x1 = addr@ (x1)
+      prval () = fold@ (x01)
+      prval () = __vfree (x01)
+    in
+      p_x1
+    end // end of [if]
+  end // end of [RAevn]
+| @RAodd (x, xxs) => (
+    if i = 0 then let
+      val p_x = addr@ (x)
+      prval () = fold@ (xs)
+    in
+      p_x
+    end else let
+      val i1 = i - 1
+      val p_x01 = getref_at (xxs, half i1)
+      prval () = fold@ (xs)
+      val x01 = $UN.ptr_get<node(a,d+1)>(p_x01)
+    in
+      if i mod 2 = 0 then let
+        val+ @N2 (_, x1) = x01
+        val p_x1 = addr@ (x1)
+        prval () = fold@ (x01)
+        prval () = __vfree (x01)
+      in
+        p_x1
+      end else let
+        val+ @N2 (x0, _) = x01
+        val p_x0 = addr@ (x0)
+        prval () = fold@ (x01)
+        prval () = __vfree (x01)
+      in
+        p_x0
+      end // end of [if]
+    end // end of [if]
+  ) // end of [RAodd]
+//
+end // end of [getref_at]
+
+in (* in of [local] *)
+
+implement{a}
+linralist_getref_at (xs, i) = getref_at {a} (xs, i)
+
+end // end of [funralist_getref_at]
 
 (* ****** ****** *)
 
