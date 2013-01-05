@@ -297,7 +297,7 @@ case+ d2e0.d2exp_node of
     val d3es = d2explst_trdn_elt (d2es, s2e)
     val n = list_length (d2es)
     val s2e_arrpsz =
-      s2exp_arrpsz_viewt0ype_int_viewt0ype (s2e, n)
+      s2exp_arrpsz_vt0ype_int_vt0ype (s2e, n)
     // end of [val]
   in
     d3exp_arrpsz (loc0, s2e_arrpsz, s2e, d3es, n)
@@ -343,9 +343,9 @@ case+ d2e0.d2exp_node of
     val () = if (err > 0) then (
       the_trans3errlst_add (T3E_d2exp_trup_exn (loc0))
     ) // end of [if] // end of [val]
-    val s2e_exn = s2exp_exception_viewtype ()
+    val s2e_exn = s2exp_exception_vtype ()
     val d3e_exn = d2exp_trdn (d2e_exn, s2e_exn)
-    val s2e_raise = s2exp_bottom_viewt0ype_uni ()
+    val s2e_raise = s2exp_bottom_vt0ype_uni ()
   in
     d3exp_raise (loc0, s2e_raise, d3e_exn)
   end // end of [D2Eraise]
@@ -1024,7 +1024,7 @@ val s2e_elt = (
   case+ opt of
   | Some s2e => s2e | None () => let
       val s2t = (
-        if isnonlin then s2rt_t0ype else s2rt_viewt0ype
+        if isnonlin then s2rt_t0ype else s2rt_vt0ype
       ) : s2rt // end of [val]
     in
       s2exp_Var_make_srt (loc0, s2t)
@@ -1039,7 +1039,7 @@ val s2e_lst = (
   if isnonlin then
     s2exp_list_t0ype_int_type (s2e_elt, n)
   else
-    s2exp_list_viewt0ype_int_viewtype (s2e_elt, n)
+    s2exp_list_vt0ype_int_vtype (s2e_elt, n)
 ) : s2exp // end of [val]
 //
 in
@@ -1441,7 +1441,8 @@ d2exp_trup_trywith
   val (pfpush | ()) = the_d2varenv_push_try ()
 //
   val s2e_pat =
-    s2exp_exception_viewtype ()
+    s2exp_exception_vtype ()
+  // end of [val]
 //
   val loc = d3e.d3exp_loc
   val d3e_dummy = d3exp_top (loc, s2e_pat)

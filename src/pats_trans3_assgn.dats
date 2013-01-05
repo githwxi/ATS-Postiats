@@ -356,7 +356,7 @@ and aux2 (
 , d3ls: d3lablst
 , d3e_r: d3exp
 ) : d3exp = let
-  val opt = un_s2exp_ref_viewt0ype_type (s2f0)
+  val opt = un_s2exp_ref_vt0ype_type (s2f0)
 in
 //
 case+ opt of

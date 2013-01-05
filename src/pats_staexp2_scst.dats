@@ -436,7 +436,7 @@ val cmp = lam (
   compare_s2cst_s2cst (s2c1, s2c2)
 // end of [val]
 
-assume s2cstset_viewtype = $LS.set (s2cst)
+assume s2cstset_vtype = $LS.set (s2cst)
 
 in // in of [local]
 

@@ -1,0 +1,123 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../linralist_nested.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_linralist_nested")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/linralist_nested\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+This package implements linear random-access lists based on an interesting
+structure due to Chris Okasaki. Unlike Okasaki's original formulation,
+which involves a nested datatype, the formulation of the structure in ATS
+makes only use of regular datatypes.  This package is largely for
+educational purpose, demonstrating a convincing case of employing dependent
+types in practical programming.
+
+")
+
+(* ****** ****** *)
+
+#declname("ralist")
+#declsynop2('
+#para('\
+#pats2xhtmls('\
+stadef ralist = ralist_vt0ype_int_vtype
+vtypedef ralist (a:vt0p) = [n:int] ralist (a, n)
+')')
+')
+
+(* ****** ****** *)
+
+#declnamesynop("Ralist")
+
+(* ****** ****** *)
+
+#declnamesynop("ralist_vt0ype_int_vtype")
+
+(* ****** ****** *)
+
+#declnamesynop("lemma_ralist_param")
+
+(* ****** ****** *)
+
+#declnamesynop("linralist_nil")
+#decldescrpt("This function forms an empty list.")
+
+(* ****** ****** *)
+
+#declnamesynop("linralist_cons")
+#decldescrpt("\
+
+Given x and xs, this function forms a list whose head and tail are x ans
+xs, respectively. ")
+
+#declnamesynop("linralist_uncons")
+#decldescrpt("\
+
+Given a non-empty list, this function returns the head of the list while
+storing the tail of the list into its (call-by-reference) argument.  ")
+
+(* ****** ****** *)
+
+#declnamesynop("linralist_is_nil")
+#decldescrpt("This function tests whether a given list is empty.")
+#declnamesynop("linralist_is_cons")
+#decldescrpt("This function tests whether a given list is non-empty.")
+
+(* ****** ****** *)
+
+#declnamesynop("linralist_length")
+#decldescrpt("\
+
+This function returns the length of a given list. Its time-complexity is
+O(log(n)).  ")
+
+(* ****** ****** *)
+
+#declnamesynop("linralist_head")
+#decldescrpt("This function returns the head of a given non-empty list.")
+
+#declnamesynop("linralist_tail")
+#decldescrpt("This function returns the tail of a given non-empty list.")
+
+(* ****** ****** *)
+
+#declnamesynop("linralist_get_at")
+#decldescrpt("\
+
+Given a list xs of length n and a natural number i less than n, this
+function returns xs[i], that is, element i in the list xs.  The
+time-complexity of the function is O(log(i)).  ")
+
+(* ****** ****** *)
+
+#declnamesynop("linralist_set_at")
+#decldescrpt("\
+
+Given a list xs of length n, a natural number i less than n and an element
+x0, this function replaces element i in xs with x0. The time-complexity of
+the function is O(log(i)).  ")
+
+(* ****** ****** *)
+
+#declnamesynop("linralist_listize")
+#declnamesynop("linralist_listize_free")
+
+(* ****** ****** *)
+
+(* end of [linralist_nested.atxt] *)

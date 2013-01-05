@@ -133,20 +133,20 @@ s2rt_prf_lin_fc (
   end else begin case+ islin of
     | _ when islin => begin case+ fc of
       | FUNCLOclo (knd) => begin case+ knd of
-        | CLO(*0*) => s2rt_viewt0ype
-        | CLOPTR(*1*) => s2rt_viewtype
+        | CLO(*0*) => s2rt_vt0ype
+        | CLOPTR(*1*) => s2rt_vtype
         | _ (*CLOREF*) => s2rt_err () where {
             val () = prerr_error2_loc (loc0)
             val () = prerr ": a closure reference cannot be linear."
             val () = prerr_newline ()
           } // end of [_]
         end (* end of [FUNCLOclo] *)
-      | FUNCLOfun () => s2rt_viewtype
+      | FUNCLOfun () => s2rt_vtype
       end // end of [_ when islin]
     | _ => begin case+ fc of
       | FUNCLOclo (knd) => begin case+ knd of
         | CLO => s2rt_t0ype
-        | CLOPTR => s2rt_viewtype (*ptr*)
+        | CLOPTR => s2rt_vtype (*ptr*)
         | _ (*CLOREF*) => s2rt_type (*ref*)
         end // end of [FUNCLOclo]
       | FUNCLOfun () => s2rt_type
@@ -168,20 +168,20 @@ s2rt_npf_lin_prf_boxed
     if lin = 0 then
       if boxed > 0 then s2rt_type else s2rt_t0ype
     else
-      if boxed > 0 then s2rt_viewtype else s2rt_viewt0ype
+      if boxed > 0 then s2rt_vtype else s2rt_vt0ype
     // end of [if]
   ) else (
     if prf = 0 then (
       if lin = 0 then
         if boxed > 0 then s2rt_type else s2rt_t0ype
       else
-        if boxed > 0 then s2rt_viewtype else s2rt_viewt0ype
+        if boxed > 0 then s2rt_vtype else s2rt_vt0ype
       // end of [if]
     ) else
       if lin = 0 then
         if boxed > 0 then s2rt_type else s2rt_prop
       else
-        if boxed > 0 then s2rt_viewtype else s2rt_view
+        if boxed > 0 then s2rt_vtype else s2rt_view
       // end of [if]
   ) (* end of [if] *)
 // end of [s2rt_lin_prf_boxed]
@@ -239,13 +239,13 @@ in
     s2rt_npf_lin_prf_boxed (npf, lin, prf, boxed)
   else if prgm = 1 then (
     if boxed > 0 then
-      if lin = 0 then s2rt_viewtype else s2rt_type
+      if lin = 0 then s2rt_vtype else s2rt_type
     else aux (npf, lin, ls2es)
   ) else ( // HX: prgm >= 2
     if lin = 0 then
       if boxed > 0 then s2rt_type else s2rt_t0ype
     else
-      if boxed > 0 then s2rt_viewtype else s2rt_viewt0ype
+      if boxed > 0 then s2rt_vtype else s2rt_vt0ype
     // end of [if]
   ) // end of [if]
 end // end of [s2rt_npf_lin_prf_prgm_boxed_labs2explst]  
@@ -554,7 +554,7 @@ end // end of [s2eff_contain_exp]
 local
 
 #define :: list_vt_cons
-assume stasub_viewtype = List_vt @(s2var, s2exp)
+assume stasub_vtype = List_vt @(s2var, s2exp)
 
 in // in of [local]
 

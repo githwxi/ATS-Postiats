@@ -35,13 +35,13 @@
 
 (* ****** ****** *)
 
-sortdef t0p = t@ype and vt0p = viewt@ype
+sortdef t0p = t@ype and vt0p = vt@ype
 
 (* ****** ****** *)
 
-absviewtype
-heap_viewtype (a:viewt@ype+)
-stadef heap = heap_viewtype
+absvtype
+heap_vtype (a:vt@ype+)
+stadef heap = heap_vtype
 
 (* ****** ****** *)
 

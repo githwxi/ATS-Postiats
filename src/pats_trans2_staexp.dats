@@ -750,7 +750,7 @@ end // end of [s1exp_app_unwind_e1xp]
 fn s1exp_trup_invar
   (refval: int, s1e: s1exp): s2exp = let
   val s2t = (
-    if refval = 0 then s2rt_view (*val*) else s2rt_viewt0ype (*ref*)
+    if refval = 0 then s2rt_view (*val*) else s2rt_vt0ype (*ref*)
   ) : s2rt // end of [val]
   val s2e: s2exp = s1exp_trdn (s1e, s2t)
 in
@@ -867,7 +867,7 @@ s1exp_trdn_res_impredicative
     | WTHS1EXPLSTcons_some
         (knd, refval, s1e, ws1es) => let
         val s2t = (
-          if refval = 0 then s2rt_view else s2rt_viewt0ype
+          if refval = 0 then s2rt_view else s2rt_vt0ype
         ) : s2rt // end of [val]
         val s2e = s1exp_trdn (s1e, s2t)
         val ws2es = auxwth (ws1es)
@@ -1422,9 +1422,9 @@ case+ knd of
     s2exp_tyrec_srt (s2rt_type, TYRECKINDbox (), npf, ls2es)
   end
 | TYTUPKIND_box_vt => let
-    val ls2es = aux23 (0, npf, s1es, s2rt_view, s2rt_viewt0ype)
+    val ls2es = aux23 (0, npf, s1es, s2rt_view, s2rt_vt0ype)
   in
-    s2exp_tyrec_srt (s2rt_viewtype, TYRECKINDbox (), npf, ls2es)
+    s2exp_tyrec_srt (s2rt_vtype, TYRECKINDbox (), npf, ls2es)
   end
 | _ => let
     val () = assertloc (false) in s2exp_t0ype_err ()
@@ -1539,9 +1539,9 @@ case+ knd of
     s2exp_tyrec_srt (s2rt_type, TYRECKINDbox (), npf, ls2es)
   end // end of [TYRECKIND_box_t]
 | TYRECKIND_box_vt => let
-    val ls2es = aux23 (0, npf, ls1es, s2rt_view, s2rt_viewt0ype)
+    val ls2es = aux23 (0, npf, ls1es, s2rt_view, s2rt_vt0ype)
   in
-    s2exp_tyrec_srt (s2rt_viewtype, TYRECKINDbox (), npf, ls2es)
+    s2exp_tyrec_srt (s2rt_vtype, TYRECKINDbox (), npf, ls2es)
   end // end of [TYRECKIND_box_vt]
 | _ => let
     val () = assertloc (false) in s2exp_t0ype_err ()
@@ -1594,9 +1594,9 @@ case+ s1e0.s1exp_node of
 //
 | S1Etkname (name) => s2exp_tkname (name)
 | S1Eextype (name, s1ess) => let
-    val s2ess = list_map_fun (s1ess, s1explst_trdn_viewt0ype)
+    val s2ess = list_map_fun (s1ess, s1explst_trdn_vt0ype)
   in
-    s2exp_extype_srt (s2rt_viewt0ype, name, (l2l)s2ess)
+    s2exp_extype_srt (s2rt_vt0ype, name, (l2l)s2ess)
   end // end of [S1Eextype]
 //
 | S1Eapp _ => let
@@ -1648,7 +1648,7 @@ case+ s1e0.s1exp_node of
 | S1Elist (npf, s1es) => s1exp_trup_tytup_flt (s1e0, npf, s1es)
 //
 | S1Etyarr (s1e_elt, s1es_ind) => let
-    val s2e_elt = s1exp_trdn_viewt0ype (s1e_elt)
+    val s2e_elt = s1exp_trdn_vt0ype (s1e_elt)
     val s2es_ind = s1explst_trdn_int (s1es_ind)
   in
     s2exp_tyarr (s2e_elt, s2es_ind)
@@ -1840,8 +1840,8 @@ case+ (s1e.s1exp_node, s2t) of
 | (S1Elam _, S2RTfun _) => s1exp_trdn_lam (s1e, s2t)
 //
 | (S1Eextype (name, s1ess), _) =>
-    if s2rt_ltmat1 (s2t, s2rt_viewt0ype) then let
-      val s2ess = list_map_fun (s1ess, s1explst_trdn_viewt0ype)
+    if s2rt_ltmat1 (s2t, s2rt_vt0ype) then let
+      val s2ess = list_map_fun (s1ess, s1explst_trdn_vt0ype)
     in
       s2exp_extype_srt (s2t, name, (l2l)s2ess)
     end else let
@@ -1863,7 +1863,7 @@ s1exp_trdn_addr (s1e) = s1exp_trdn (s1e, s2rt_addr)
 implement
 s1exp_trdn_bool (s1e) = s1exp_trdn (s1e, s2rt_bool)
 implement
-s1exp_trdn_viewt0ype (s1e) = s1exp_trdn (s1e, s2rt_viewt0ype)
+s1exp_trdn_vt0ype (s1e) = s1exp_trdn (s1e, s2rt_vt0ype)
 
 (* ****** ****** *)
 
@@ -1905,9 +1905,9 @@ s1explst_trdn_bool
 // end of [s1explst_trdn_bool]
 
 implement
-s1explst_trdn_viewt0ype
-  (s1es) = l2l (list_map_fun (s1es, s1exp_trdn_viewt0ype))
-// end of [s1explst_trdn_viewt0ype]
+s1explst_trdn_vt0ype
+  (s1es) = l2l (list_map_fun (s1es, s1exp_trdn_vt0ype))
+// end of [s1explst_trdn_vt0ype]
 
 (* ****** ****** *)
 
@@ -2303,7 +2303,7 @@ val s2es_arg = let
   ) : s2rt // end of [val]
   val s2t_arg = (
     if isprf then s2t_pfarg else begin
-      if islin then s2rt_viewt0ype else s2rt_t0ype
+      if islin then s2rt_vt0ype else s2rt_t0ype
     end // end of [if]
   ) : s2rt // end of [val]
   fun aux (

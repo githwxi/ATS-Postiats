@@ -159,32 +159,32 @@ val the_void_t0ype : s2cstref
 val the_unit_prop : s2cstref
 val the_unit_view : s2cstref
 //
-val the_exception_viewtype : s2cstref
+val the_exception_vtype : s2cstref
 //
-val the_arrpsz_viewt0ype_int_viewt0ype : s2cstref
+val the_arrpsz_vt0ype_int_vt0ype : s2cstref
 //
 val the_list0_t0ype_type : s2cstref
 //
 val the_list_t0ype_int_type : s2cstref
-val the_list_viewt0ype_int_viewtype : s2cstref
+val the_list_vt0ype_int_vtype : s2cstref
 //
 val the_vbox_view_prop : s2cstref
-val the_ref_viewt0ype_type : s2cstref
+val the_ref_vt0ype_type : s2cstref
 //
 val the_lazy_t0ype_type : s2cstref
-val the_lazy_viewt0ype_viewtype : s2cstref
+val the_lazy_vt0ype_vtype : s2cstref
 //
 val the_sizeof_t0ype_int: s2cstref
 //
-val the_at_viewt0ype_addr_view: s2cstref
+val the_at_vt0ype_addr_view: s2cstref
 //
 val the_invar_t0ype_t0ype: s2cstref
-val the_invar_viewt0ype_viewt0ype: s2cstref
+val the_invar_vt0ype_vt0ype: s2cstref
 //
 (* ****** ****** *)
 
-val the_bottom_viewt0ype_uni: s2cstref // = {a:viewt@ype} a
-val the_bottom_viewt0ype_exi: s2cstref // = [a:viewt@ype | false] a
+val the_bottom_vt0ype_uni: s2cstref // = {a:viewt@ype} a
+val the_bottom_vt0ype_exi: s2cstref // = [a:viewt@ype | false] a
 
 (* ****** ****** *)
 
@@ -307,18 +307,18 @@ fun s2exp_unit_view (): s2exp // unit_v // how about uview?
 
 (* ****** ****** *)
 
-fun s2exp_exception_viewtype (): s2exp
+fun s2exp_exception_vtype (): s2exp
 
 (* ****** ****** *)
 
-fun s2exp_arrpsz_viewt0ype_int_viewt0ype (s2e: s2exp, n: int): s2exp
+fun s2exp_arrpsz_vt0ype_int_vt0ype (s2e: s2exp, n: int): s2exp
 
 (* ****** ****** *)
 //
 fun s2exp_list0_t0ype_type (s2e: s2exp): s2exp
 //
 fun s2exp_list_t0ype_int_type (s2e: s2exp, n: int): s2exp
-fun s2exp_list_viewt0ype_int_viewtype (s2e: s2exp, n: int): s2exp
+fun s2exp_list_vt0ype_int_vtype (s2e: s2exp, n: int): s2exp
 //
 (* ****** ****** *)
 //
@@ -327,21 +327,21 @@ fun un_s2exp_vbox_view_prop (s2f: s2hnf) : Option_vt (s2exp)
 //
 (* ****** ****** *)
 //
-fun s2exp_ref_viewt0ype_type (s2e: s2exp): s2exp
-fun un_s2exp_ref_viewt0ype_type (s2f: s2hnf): Option_vt (s2exp)
+fun s2exp_ref_vt0ype_type (s2e: s2exp): s2exp
+fun un_s2exp_ref_vt0ype_type (s2f: s2hnf): Option_vt (s2exp)
 //
 (* ****** ****** *)
 
 fun s2exp_lazy_t0ype_type (s2e: s2exp): s2exp
 fun un_s2exp_lazy_t0ype_type (s2f: s2hnf): Option_vt (s2exp)
 
-fun s2exp_lazy_viewt0ype_viewtype (s2e: s2exp): s2exp
-fun un_s2exp_lazy_viewt0ype_viewtype (s2f: s2hnf): Option_vt (s2exp)
+fun s2exp_lazy_vt0ype_vtype (s2e: s2exp): s2exp
+fun un_s2exp_lazy_vt0ype_vtype (s2f: s2hnf): Option_vt (s2exp)
 
 (* ****** ****** *)
 
-fun s2exp_bottom_viewt0ype_uni (): s2exp // = {a:viewt@ype} a
-fun s2exp_bottom_viewt0ype_exi (): s2exp // = [a:viewt@ype | false] a
+fun s2exp_bottom_vt0ype_uni (): s2exp // = {a:viewt@ype} a
+fun s2exp_bottom_vt0ype_exi (): s2exp // = [a:viewt@ype | false] a
 
 (* ****** ****** *)
 

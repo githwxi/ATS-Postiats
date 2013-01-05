@@ -134,14 +134,22 @@ lexsym =
   | LS_LLAM // for llam@
   | LS_PROP // for prop+ and prop-
   | LS_REF // for ref@
+//
   | LS_T // for t@ype
   | LS_TYPE // for type+ and type-
   | LS_T0YPE // for t0ype+ and t0ype-
+//
   | LS_VAL // for val+ and val-
+//
   | LS_VIEW // for view+ and view-
   | LS_VIEWT // for viewt@ype
   | LS_VIEWTYPE // for viewtype+ and viewtype-
   | LS_VIEWT0YPE // for viewt0ype+ and viewt0ype-
+//
+  | LS_VT // for vt@ype
+  | LS_VTYPE // for vtype+ and vtype-
+  | LS_VT0YPE // for vt0ype+ and vt0ype-
+//
   | LS_WHILE // for while*
 //
 (*
@@ -246,14 +254,22 @@ val () = insert (ptbl, "lam", LS_LAM)
 val () = insert (ptbl, "llam", LS_LLAM)
 val () = insert (ptbl, "prop", LS_PROP)
 val () = insert (ptbl, "ref", LS_REF)
+//
 val () = insert (ptbl, "t", LS_T)
 val () = insert (ptbl, "type", LS_TYPE)
 val () = insert (ptbl, "t0ype", LS_T0YPE) // = t@ype
+//
 val () = insert (ptbl, "val", LS_VAL)
+//
 val () = insert (ptbl, "view", LS_VIEW)
 val () = insert (ptbl, "viewt", LS_VIEWT)
 val () = insert (ptbl, "viewtype", LS_VIEWTYPE)
 val () = insert (ptbl, "viewt0ype", LS_VIEWT0YPE) // = viewt@ype
+//
+val () = insert (ptbl, "vt", LS_VT)
+val () = insert (ptbl, "vtype", LS_VTYPE)
+val () = insert (ptbl, "vt0ype", LS_VT0YPE) // = vt@ype
+//
 val () = insert (ptbl, "while", LS_WHILE)
 //
 val rtbl = HASHTBLref_make_ptr {key,itm} (ptbl)
@@ -1808,6 +1824,7 @@ case+ sym of
 | LS_PROP () => let
     val () = strptr_free (str) in lexing_PROP (buf, pos)
   end
+//
 | LS_T () when
     testing_literal (buf, pos, "@ype") >= 0 => let
     val () = strptr_free (str) in lexing_T0YPE (buf, pos)
@@ -1818,9 +1835,11 @@ case+ sym of
 | LS_T0YPE () => let
     val () = strptr_free (str) in lexing_T0YPE (buf, pos)
   end
+//
 | LS_VAL () => let
     val () = strptr_free (str) in lexing_VAL (buf, pos)
   end
+//
 | LS_VIEW () => let
     val () = strptr_free (str) in lexing_VIEW (buf, pos)
   end
@@ -1834,6 +1853,18 @@ case+ sym of
 | LS_VIEWT0YPE () => let
     val () = strptr_free (str) in lexing_VIEWT0YPE (buf, pos)
   end
+//
+| LS_VT () when
+    testing_literal (buf, pos, "@ype") >= 0 => let
+    val () = strptr_free (str) in lexing_VIEWT0YPE (buf, pos)
+  end
+| LS_VTYPE () => let
+    val () = strptr_free (str) in lexing_VIEWTYPE (buf, pos)
+  end
+| LS_VT0YPE () => let
+    val () = strptr_free (str) in lexing_VIEWT0YPE (buf, pos)
+  end
+//
 | LS_WHILE () => let
     val () = strptr_free (str) in lexing_WHILE (buf, pos)
   end

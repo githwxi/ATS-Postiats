@@ -1041,7 +1041,7 @@ fn e1xndec_tr (
   val s2qs = l2l (list_map_fun (d1c.e1xndec_qua, q1marg_tr))
   val npf = d1c.e1xndec_npf
   val s1es_arg = d1c.e1xndec_arg
-  val s2es_arg = s1explst_trdn_viewt0ype s1es_arg
+  val s2es_arg = s1explst_trdn_vt0ype (s1es_arg)
   val () = the_s2expenv_pop_free (pfenv | (*none*))
   val d2c = d2con_make
     (loc, fil, id, s2c, 1(*vwtp*), s2qs, npf, s2es_arg, None(*ind*))
@@ -1066,7 +1066,7 @@ e1xndeclst_tr (d1cs) = let
       end // end of [list_cons]
     | list_nil () => list_nil ()
   // end of [aux]
-  val s2c = s2cstref_get_cst (the_exception_viewtype)
+  val s2c = s2cstref_get_cst (the_exception_vtype)
   val d2cs = aux (s2c, d1cs)
   val d2cs0 = (
     case+ s2cst_get_dconlst (s2c) of

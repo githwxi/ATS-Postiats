@@ -261,7 +261,7 @@ val cmp = lam (
 // end of [val]
 
 assume s2varset_type = $FS.set (s2var)
-assume s2varset_viewtype = $LS.set (s2var)
+assume s2varset_vtype = $LS.set (s2var)
 
 in // in of [local]
 
@@ -413,7 +413,7 @@ val cmp = lam (
   compare_s2var_s2var (s2v1, s2v2)
 // end of [val]
 
-assume s2varbindmap_viewtype = $MAP.map (s2var, s2exp)
+assume s2varbindmap_vtype = $MAP.map (s2var, s2exp)
 
 in // in of [local]
 

@@ -90,14 +90,14 @@ typedef s2varlstlst = List (s2varlst)
 //
 abstype s2varset_type // assumed in [pats_staexp2_svar.dats]
 typedef s2varset = s2varset_type
-absviewtype s2varset_viewtype // assumed in [pats_staexp2_svar.dats]
-viewtypedef s2varset_vt = s2varset_viewtype
+absviewtype s2varset_vtype // assumed in [pats_staexp2_svar.dats]
+viewtypedef s2varset_vt = s2varset_vtype
 //
 abstype s2varmset_type // assumed in [pats_staexp2_svar.dats]
 typedef s2varmset = s2varmset_type
 //
-absviewtype s2varbindmap_viewtype
-viewtypedef s2varbindmap = s2varbindmap_viewtype
+absviewtype s2varbindmap_vtype
+viewtypedef s2varbindmap = s2varbindmap_vtype
 //
 (* ****** ****** *)
 
@@ -230,13 +230,13 @@ val s2rt_view : s2rt
 val s2rt_view_pos : s2rt
 val s2rt_view_neg : s2rt
 //
-val s2rt_viewtype : s2rt
-val s2rt_viewtype_pos : s2rt
-val s2rt_viewtype_neg : s2rt
+val s2rt_vtype : s2rt
+val s2rt_vtype_pos : s2rt
+val s2rt_vtype_neg : s2rt
 //
-val s2rt_viewt0ype : s2rt
-val s2rt_viewt0ype_pos : s2rt
-val s2rt_viewt0ype_neg : s2rt
+val s2rt_vt0ype : s2rt
+val s2rt_vt0ype_pos : s2rt
+val s2rt_vt0ype_neg : s2rt
 //
 val s2rt_types : s2rt
 //
@@ -603,8 +603,8 @@ fun fprint_s2cstlst : fprint_type (s2cstlst)
 (* ****** ****** *)
 //
 absviewtype
-s2cstset_viewtype // assumed in [pats_staexp2_scst.dats]
-viewtypedef s2cstset_vt = s2cstset_viewtype
+s2cstset_vtype // assumed in [pats_staexp2_scst.dats]
+viewtypedef s2cstset_vt = s2cstset_vtype
 fun s2cstset_vt_nil (): s2cstset_vt
 fun s2cstset_vt_free (xs: s2cstset_vt): void
 fun s2cstset_vt_add (xs: s2cstset_vt, x: s2cst): s2cstset_vt

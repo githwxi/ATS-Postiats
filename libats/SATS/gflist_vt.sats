@@ -48,15 +48,11 @@ staload "libats/SATS/ilist_prf.sats" // for handling integer sequences
 
 (* ****** ****** *)
 
-sortdef vt0p = viewt@ype
-
-(* ****** ****** *)
-
 staload "libats/SATS/gflist.sats"
 
 (* ****** ****** *)
 
-fun{a:vt0p}
+fun{a:vt@ype}
 gflist_vt_length
   {xs:ilist}
   (xs: !gflist_vt (INV(a), xs)):<> [n:nat] (LENGTH (xs, n) | int n)
@@ -64,7 +60,7 @@ gflist_vt_length
 
 (* ****** ****** *)
 
-fun{a:vt0p}
+fun{a:vt@ype}
 gflist_vt_append
   {xs1,xs2:ilist} (
   xs1: gflist_vt (INV(a), xs1), xs2: gflist_vt (a, xs2)
@@ -73,14 +69,14 @@ gflist_vt_append
 
 (* ****** ****** *)
 
-fun{a:vt0p}
+fun{a:vt@ype}
 gflist_vt_revapp
   {xs1,xs2:ilist} (
   xs1: gflist_vt (INV(a), xs1), xs2: gflist_vt (a, xs2)
 ) :<!wrt> [res:ilist] (REVAPP (xs1, xs2, res) | gflist_vt (a, res))
 // end of [gflist_vt_revapp]
 
-fun{a:vt0p}
+fun{a:vt@ype}
 gflist_vt_reverse
   {xs:ilist} (
   xs: gflist_vt (INV(a), xs)
@@ -89,10 +85,10 @@ gflist_vt_reverse
 
 (* ****** ****** *)
 
-fun{a:vt0p}
+fun{a:vt@ype}
 gflist_vt_mergesort$cmp {x1,x2:int}
   (x1: &stamped_vt (a, x1), x2: &stamped_vt (a, x2)): int(sgn(x1-x2))
-fun{a:vt0p}
+fun{a:vt@ype}
 gflist_vt_mergesort {xs:ilist}
   (xs: gflist_vt (INV(a), xs)): [ys:ilist] (SORT (xs, ys) | gflist_vt (a, ys))
 // end of [gflist_vt_mergesort]

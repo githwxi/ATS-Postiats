@@ -54,13 +54,9 @@ staload "libats/SATS/ilist_prf.sats" // for handling integer sequences
 
 (* ****** ****** *)
 
-sortdef vt0p = viewt@ype
-
-(* ****** ****** *)
-
 dataview
 gfarray_v (
-  a:viewt@ype+, addr, ilist
+  a:vt@ype+, addr, ilist
 ) =
   | {l:addr}
     gfarray_v_nil (a, l, ilist_nil) of ()
@@ -73,7 +69,7 @@ gfarray_v (
 
 prfun
 gfarray2array_v
-  {a:vt0p} {xs:ilist} {l:addr}
+  {a:vt@ype} {xs:ilist} {l:addr}
   (pf: gfarray_v (a, l, xs)): [n:nat] (LENGTH (xs, n), array_v (a, l, n))
 // end of [gfarray2array_v]
 
@@ -81,13 +77,13 @@ gfarray2array_v
 
 prfun
 gfarray_v_sing
-  {a:vt0p}{l:addr}{x:int}
+  {a:vt@ype}{l:addr}{x:int}
   (pf: stamped_vt (a, x) @ l): gfarray_v (a, l, ilist_sing(x))
 // end of [gfarray_v_sing]
 
 prfun
 gfarray_v_unsing
-  {a:vt0p}{l:addr}{x:int}
+  {a:vt@ype}{l:addr}{x:int}
   (pf: gfarray_v (a, l, ilist_sing(x))): stamped_vt (a, x) @ l
 // end of [gfarray_v_unsing]
 
@@ -154,7 +150,7 @@ gfarray_v_unextend
 
 (* ****** ****** *)
 
-fun{a:t0p}
+fun{a:t@ype}
 gfarray_get_at
   {l:addr}
   {x:int}{xs:ilist}
@@ -165,7 +161,7 @@ gfarray_get_at
 ) :<> stamped_t (a, x)
 // end of [gfarray_get_at]
 
-fun{a:t0p}
+fun{a:t@ype}
 gfarray_set_at
   {l:addr}
   {x:int}{xs1:ilist}{xs2:ilist}
@@ -177,7 +173,7 @@ gfarray_set_at
 
 (* ****** ****** *)
 
-fun{a:vt0p}
+fun{a:vt@ype}
 gfarray_exch_at
   {l:addr}
   {x0:int}{x1:int}

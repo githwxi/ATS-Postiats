@@ -449,6 +449,7 @@ val () = ins ("type", TYPE)
 val () = ins ("typedef", TYPEDEF)
 val () = ins ("propdef", PROPDEF)
 val () = ins ("viewdef", VIEWDEF)
+val () = ins ("vtypedef", VIEWTYPEDEF)
 val () = ins ("viewtypedef", VIEWTYPEDEF)
 //
 (*

@@ -40,11 +40,11 @@
 
 (* ****** ****** *)
 
-sortdef t0p = t@ype and vt0p = viewt@ype
+sortdef t0p = t@ype and vt0p = vt@ype
 
 (* ****** ****** *)
 //
-abstype gnode (a:viewt@ype+, l:addr)
+abstype gnode (a:vt@ype+, l:addr)
 //
 typedef gnode (a:vt0p) = [l:addr] gnode (a, l)
 typedef gnode0 (a:vt0p) = [l:addr | l >= null] gnode (a, l)

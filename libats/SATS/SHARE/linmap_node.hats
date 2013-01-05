@@ -33,15 +33,15 @@
 
 (* ****** ****** *)
 
-absviewtype
-mynode_viewtype
-  (key: t@ype, itm:viewt@ype+, l:addr)
-stadef mynode = mynode_viewtype
-viewtypedef
+absvtype
+mynode_vtype
+  (key: t@ype, itm:vt@ype+, l:addr)
+stadef mynode = mynode_vtype
+vtypedef
 mynode (key:t0p, itm:vt0p) = [l:addr] mynode (key, itm, l)
-viewtypedef
+vtypedef
 mynode0 (key:t0p, itm:vt0p) = [l:addr | l >= null] mynode (key, itm, l)
-viewtypedef
+vtypedef
 mynode1 (key:t0p, itm:vt0p) = [l:addr | l >  null] mynode (key, itm, l)
 
 (* ****** ****** *)

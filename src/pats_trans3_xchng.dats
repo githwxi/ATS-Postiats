@@ -232,7 +232,7 @@ and aux2 (
 , d3e: d3exp, d3ls: d3lablst
 , s2f0_sel: s2hnf // left
 ) : d3exp = let
-  val opt = un_s2exp_ref_viewt0ype_type (s2f0)
+  val opt = un_s2exp_ref_vt0ype_type (s2f0)
 in
 //
 case+ opt of
@@ -404,7 +404,7 @@ and aux2 (
 , d3ls: d3lablst
 , d2e_r: d2exp
 ) : d3exp = let
-  val opt = un_s2exp_ref_viewt0ype_type (s2f0)
+  val opt = un_s2exp_ref_vt0ype_type (s2f0)
 in
 //
 case+ opt of

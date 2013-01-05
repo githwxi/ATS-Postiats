@@ -192,7 +192,7 @@ case+ d2e0.d2exp_node of
       | Some s2e => s2e
       | None () => let
           val s2t = (
-            if lin = 0 then s2rt_t0ype else s2rt_viewt0ype
+            if lin = 0 then s2rt_t0ype else s2rt_vt0ype
           ) : s2rt // end of [val]
         in
           s2exp_Var_make_srt (loc0, s2t)
@@ -204,7 +204,7 @@ case+ d2e0.d2exp_node of
     if isnonlin then
       s2exp_list_t0ype_int_type (s2e, n)
     else
-      s2exp_list_viewt0ype_int_viewtype (s2e, n)
+      s2exp_list_vt0ype_int_vtype (s2e, n)
     // end of [if]
   end // end of [D2Elst]
 | D2Etup (knd, npf, d2es) => let
@@ -232,7 +232,7 @@ case+ d2e0.d2exp_node of
     ) : s2exp // end of [val]
     val n = list_length (d2es)
   in
-    s2exp_arrpsz_viewt0ype_int_viewt0ype (s2e, n)
+    s2exp_arrpsz_vt0ype_int_vt0ype (s2e, n)
   end // end of [D2Earrpsz]
 //
 | D2Elam_dyn _ => d2exp_syn_type_arg_body (d2e0)

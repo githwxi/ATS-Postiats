@@ -881,7 +881,7 @@ d2exp_trdn_trywith
 //
   val s2e_res = s2hnf2exp (s2f0)
   val d3e = d2exp_trdn (d2e, s2e_res)
-  val s2e_pat = s2exp_exception_viewtype ()
+  val s2e_pat = s2exp_exception_vtype ()
   val d3es = list_sing (d3e)
   val s2es_pat = list_sing (s2e_pat)
   val c3ls = c2laulst_trdn (

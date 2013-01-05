@@ -68,9 +68,9 @@ gflist (
 
 (* ****** ****** *)
 
-dataviewtype
+datavtype
 gflist_vt (
-  a:viewt@ype+, ilist(*ind*)
+  a:vt@ype+, ilist(*ind*)
 ) =
   | gflist_vt_nil (a, ilist_nil) of ()
   | {x:int}{xs:ilist}
@@ -104,13 +104,13 @@ list2gflist
 
 castfn
 gflist2list_vt
-  {a:viewt@ype}{xs:ilist}
+  {a:vt@ype}{xs:ilist}
   (xs: gflist_vt (a, xs)):<> [n:nat] (LENGTH (xs, n) | list_vt (a, n))
 // end of [gflist2list_vt]
 
 castfn
 list2gflist_vt
-  {a:viewt@ype}{n:int}
+  {a:vt@ype}{n:int}
   (xs: list_vt (a, n)): [xs:ilist] (LENGTH (xs, n) | gflist_vt (a, xs))
 // end of [list2gflist_vt]
 

@@ -1223,7 +1223,7 @@ case+ d1e0.d1exp_node of
 | D1Eempty () => d2exp_empty (loc0)
 //
 | D1Eextval (s1e, code) => let
-    val s2e = s1exp_trdn_viewt0ype (s1e)
+    val s2e = s1exp_trdn_vt0ype (s1e)
   in
     d2exp_extval (loc0, s2e, code)
   end (* end of [D1Eextval] *)
@@ -1346,7 +1346,7 @@ case+ d1e0.d1exp_node of
           val s2e = (
             case+ lin of 
             | 0 => s1exp_trdn (s1e, s2rt_t0ype)
-            | 1 => s1exp_trdn (s1e, s2rt_viewt0ype)
+            | 1 => s1exp_trdn (s1e, s2rt_vt0ype)
             | _ => s1exp_trdn_impredicative (s1e)
           ) : s2exp // end of [val]
         in
@@ -1388,9 +1388,9 @@ case+ d1e0.d1exp_node of
     val s2t_elt = (case+ asz of
       | Some _ => begin case+ ini of
         | list_cons _ => s2rt_t0ype // cannot be linear
-        | list_nil () (*uninitialized*) => s2rt_viewt0ype // can be linear
+        | list_nil () (*uninitialized*) => s2rt_vt0ype // can be linear
         end // end of [Some]
-      | None () => s2rt_viewt0ype // can be linear
+      | None () => s2rt_vt0ype // can be linear
     ) : s2rt // end of [val]
     val s2e_elt = s1exp_trdn (s1e_elt, s2t_elt)
     val asz = d1expopt_tr (asz)

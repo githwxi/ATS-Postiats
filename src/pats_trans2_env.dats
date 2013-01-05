@@ -1172,8 +1172,8 @@ the_s2rtenv_initialize (): void = {
   val () = the_s2rtenv_add ($SYM.symbol_TYPE, S2TEsrt s2rt_type)
   val () = the_s2rtenv_add ($SYM.symbol_T0YPE, S2TEsrt s2rt_t0ype)
   val () = the_s2rtenv_add ($SYM.symbol_VIEW, S2TEsrt s2rt_view)
-  val () = the_s2rtenv_add ($SYM.symbol_VIEWTYPE, S2TEsrt s2rt_viewtype)
-  val () = the_s2rtenv_add ($SYM.symbol_VIEWT0YPE, S2TEsrt s2rt_viewt0ype)
+  val () = the_s2rtenv_add ($SYM.symbol_VIEWTYPE, S2TEsrt s2rt_vtype)
+  val () = the_s2rtenv_add ($SYM.symbol_VIEWT0YPE, S2TEsrt s2rt_vt0ype)
   val () = the_s2rtenv_add ($SYM.symbol_TYPES, S2TEsrt s2rt_types)
 //
   val map =

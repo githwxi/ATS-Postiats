@@ -435,7 +435,7 @@ val s2fun_new = (
   case+ lin of
   | _ when lin = 0 => s2fun
   | _ when lin = 1 => s2exp_fun_srt (
-      s2rt_viewtype, fc0, ~1(*topized*), s2fe, npf, s2es_arg, s2e_res
+      s2rt_vtype, fc0, ~1(*topized*), s2fe, npf, s2es_arg, s2e_res
     ) // end of [lin=1]
   | _ (* lin = ~1 *) => let
       val () = prerr_error3_loc (loc0)

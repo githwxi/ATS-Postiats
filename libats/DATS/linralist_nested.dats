@@ -46,14 +46,14 @@ staload "libats/SATS/linralist_nested.sats"
 (* ****** ****** *)
 
 datavtype node
-  (a:viewt@ype+, int(*d*)) =
+  (a:vt@ype+, int(*d*)) =
   | N1 (a, 0) of (a) // singleton
   | {d:nat}
     N2 (a, d+1) of (node (a, d), node (a, d))
 // end of [node]
 
 datavtype myralist
-  (a:viewt@ype+, int(*d*), int(*n*)) =
+  (a:vt@ype+, int(*d*), int(*n*)) =
   | {d:nat}
     RAnil (a, d, 0) of ()
   | {d:nat}{n:pos}

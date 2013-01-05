@@ -51,19 +51,19 @@
 //
 (* ****** ****** *)
 
-sortdef t0p = t@ype and vt0p = viewt@ype
+sortdef t0p = t@ype and vt0p = vt@ype
 
 (* ****** ****** *)
 //
 // HX: indexed by list length
 //
 absvtype
-ralist_vt0ype_int_vtype (a:viewt@ype+, n:int)
+ralist_vt0ype_int_vtype (a:vt@ype+, n:int)
 //
 stadef ralist = ralist_vt0ype_int_vtype
-viewtypedef ralist (a:vt0p) = [n:int] ralist (a, n)
+vtypedef ralist (a:vt0p) = [n:int] ralist (a, n)
 //
-viewtypedef Ralist (a:vt0p) = [n:int] ralist (a, n)
+vtypedef Ralist (a:vt0p) = [n:int] ralist (a, n)
 //
 (* ****** ****** *)
 

@@ -33,12 +33,12 @@
 
 (* ****** ****** *)
 
-absviewtype
-mynode_viewtype (a:viewt@ype+, l:addr)
-stadef mynode = mynode_viewtype
-viewtypedef mynode (a) = [l:addr] mynode (a, l)
-viewtypedef mynode0 (a) = [l:addr | l >= null] mynode (a, l)
-viewtypedef mynode1 (a) = [l:addr | l >  null] mynode (a, l)
+absvtype
+mynode_vtype (a:vt@ype+, l:addr)
+stadef mynode = mynode_vtype
+vtypedef mynode (a) = [l:addr] mynode (a, l)
+vtypedef mynode0 (a) = [l:addr | l >= null] mynode (a, l)
+vtypedef mynode1 (a) = [l:addr | l >  null] mynode (a, l)
 
 (* ****** ****** *)
 

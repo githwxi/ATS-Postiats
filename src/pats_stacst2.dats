@@ -930,25 +930,25 @@ s2exp_unit_view () =
 (* ****** ****** *)
 
 implement
-the_exception_viewtype =
-  s2cstref_make "exception_viewtype"
+the_exception_vtype =
+  s2cstref_make "exception_vtype"
 implement
-s2exp_exception_viewtype () =
-  s2exp_cst (s2cstref_get_cst (the_exception_viewtype))
-// end of [s2exp_exception_viewtype]
+s2exp_exception_vtype () =
+  s2exp_cst (s2cstref_get_cst (the_exception_vtype))
+// end of [s2exp_exception_vtype]
 
 (* ****** ****** *)
 
 implement
-the_arrpsz_viewt0ype_int_viewt0ype =
-  s2cstref_make "arrpsz_viewt0ype_int_viewt0ype"
+the_arrpsz_vt0ype_int_vt0ype =
+  s2cstref_make "arrpsz_vt0ype_int_vt0ype"
 implement
-s2exp_arrpsz_viewt0ype_int_viewt0ype (s2e, s2i) = let
+s2exp_arrpsz_vt0ype_int_vt0ype (s2e, s2i) = let
   val ind = s2exp_int (s2i)
-  val s2c = s2cstref_get_cst (the_arrpsz_viewt0ype_int_viewt0ype)
+  val s2c = s2cstref_get_cst (the_arrpsz_vt0ype_int_vt0ype)
 in
   s2exp_cstapp (s2c, list_pair (s2e, ind))
-end // end of [s2exp_list_viewt0ype_int_viewtype]
+end // end of [s2exp_list_vt0ype_int_vtype]
 
 (* ****** ****** *)
 
@@ -974,15 +974,15 @@ in
 end // end of [s2exp_list_t0ype_int_type]
 
 implement
-the_list_viewt0ype_int_viewtype =
-  s2cstref_make "list_viewt0ype_int_viewtype"
+the_list_vt0ype_int_vtype =
+  s2cstref_make "list_vt0ype_int_vtype"
 implement
-s2exp_list_viewt0ype_int_viewtype (s2e, s2i) = let
+s2exp_list_vt0ype_int_vtype (s2e, s2i) = let
   val ind = s2exp_int (s2i)
-  val s2c = s2cstref_get_cst (the_list_viewt0ype_int_viewtype)
+  val s2c = s2cstref_get_cst (the_list_vt0ype_int_vtype)
 in
   s2exp_cstapp (s2c, list_pair (s2e, ind))
-end // end of [s2exp_list_viewt0ype_int_viewtype]
+end // end of [s2exp_list_vt0ype_int_vtype]
 
 (* ****** ****** *)
 
@@ -1016,17 +1016,17 @@ end // end of [un_s2exp_vbox_view_prop]
 (* ****** ****** *)
 
 implement
-the_ref_viewt0ype_type =
-  s2cstref_make "ref_viewt0ype_type"
+the_ref_vt0ype_type =
+  s2cstref_make "ref_vt0ype_type"
 implement
-s2exp_ref_viewt0ype_type (s2e) = let
-  val s2c = s2cstref_get_cst (the_ref_viewt0ype_type)
+s2exp_ref_vt0ype_type (s2e) = let
+  val s2c = s2cstref_get_cst (the_ref_vt0ype_type)
 in
   s2exp_cstapp (s2c, list_sing (s2e))
-end // end of [s2exp_ref_viewt0ype_type]
+end // end of [s2exp_ref_vt0ype_type]
 
 implement
-un_s2exp_ref_viewt0ype_type
+un_s2exp_ref_vt0ype_type
   (s2f) = let
   val s2e = s2hnf2exp (s2f)
 in
@@ -1034,13 +1034,13 @@ in
 case+ s2e.s2exp_node of
 | S2Eapp (s2e_fun, s2es_arg) 
     when s2cstref_equ_exp (
-    the_ref_viewt0ype_type, s2e_fun
+    the_ref_vt0ype_type, s2e_fun
   ) => let
     val- list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
   end // end of [S2Eapp when ...]
 | _ => None_vt ()
 //
-end // end of [un_s2exp_ref_viewt0ype_type]
+end // end of [un_s2exp_ref_vt0ype_type]
 
 (* ****** ****** *)
 
@@ -1073,16 +1073,16 @@ end // end of [un_s2exp_lazy_t0ype_type]
 (* ****** ****** *)
 
 implement
-the_lazy_viewt0ype_viewtype =
-  s2cstref_make "lazy_viewt0ype_viewtype"
+the_lazy_vt0ype_vtype =
+  s2cstref_make "lazy_vt0ype_vtype"
 implement
-s2exp_lazy_viewt0ype_viewtype (s2e) = let
-  val s2c = s2cstref_get_cst (the_lazy_viewt0ype_viewtype)
+s2exp_lazy_vt0ype_vtype (s2e) = let
+  val s2c = s2cstref_get_cst (the_lazy_vt0ype_vtype)
 in
   s2exp_cstapp (s2c, list_sing (s2e))
-end // end of [s2exp_lazy_viewt0ype_viewtype]
+end // end of [s2exp_lazy_vt0ype_vtype]
 implement
-un_s2exp_lazy_viewt0ype_viewtype
+un_s2exp_lazy_vt0ype_vtype
   (s2f) = let
   val s2e = s2hnf2exp (s2f)
 in
@@ -1090,31 +1090,31 @@ in
 case+ s2e.s2exp_node of
 | S2Eapp (s2e_fun, s2es_arg) 
     when s2cstref_equ_exp (
-    the_lazy_viewt0ype_viewtype, s2e_fun
+    the_lazy_vt0ype_vtype, s2e_fun
   ) => let
     val- list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
   end // end of [S2Eapp when ...]
 | _ => None_vt ()
 //
-end // end of [un_s2exp_lazy_viewt0ype_viewtype]
+end // end of [un_s2exp_lazy_vt0ype_vtype]
 
 (* ****** ****** *)
 
 implement
-the_bottom_viewt0ype_uni =
-  s2cstref_make "bottom_viewt0ype_uni"
+the_bottom_vt0ype_uni =
+  s2cstref_make "bottom_vt0ype_uni"
 implement
-s2exp_bottom_viewt0ype_uni () =
-  s2exp_cst (s2cstref_get_cst (the_bottom_viewt0ype_uni))
-// end of [s2exp_bottom_viewt0ype_uni]
+s2exp_bottom_vt0ype_uni () =
+  s2exp_cst (s2cstref_get_cst (the_bottom_vt0ype_uni))
+// end of [s2exp_bottom_vt0ype_uni]
 
 implement
-the_bottom_viewt0ype_exi =
-  s2cstref_make "bottom_viewt0ype_exi"
+the_bottom_vt0ype_exi =
+  s2cstref_make "bottom_vt0ype_exi"
 implement
-s2exp_bottom_viewt0ype_exi () =
-  s2exp_cst (s2cstref_get_cst (the_bottom_viewt0ype_exi))
-// end of [s2exp_bottom_viewt0ype_exi]
+s2exp_bottom_vt0ype_exi () =
+  s2exp_cst (s2cstref_get_cst (the_bottom_vt0ype_exi))
+// end of [s2exp_bottom_vt0ype_exi]
 
 (* ****** ****** *)
 
@@ -1173,43 +1173,43 @@ end // end of [s2eff_make_s2exp]
 extern
 fun sizeof_t0ype_int_assume (): void
 extern
-fun at_viewt0ype_addr_view_assume (): void
+fun at_vt0ype_addr_view_assume (): void
 extern
 fun invar_t0ype_t0ype_assume (): void
 extern
-fun invar_viewt0ype_viewt0ype_assume (): void
+fun invar_vt0ype_vt0ype_assume (): void
 
 implement
 stacst2_initialize () = () where {
 //
   val () = sizeof_t0ype_int_assume () // sizeof(VT)
 //
-  val () = at_viewt0ype_addr_view_assume ()
+  val () = at_vt0ype_addr_view_assume ()
 //
   val () = invar_t0ype_t0ype_assume ()
-  val () = invar_viewt0ype_viewt0ype_assume ()
+  val () = invar_vt0ype_vt0ype_assume ()
 //
 } // end of [stacst2_initialize]
 
 (* ****** ****** *)
 
 implement
-the_at_viewt0ype_addr_view =
-  s2cstref_make "at_viewt0ype_addr_view" // in prelude/basics_pre.sats
-// end of [the_at_viewt0ype_addr_view]
+the_at_vt0ype_addr_view =
+  s2cstref_make "at_vt0ype_addr_view" // in prelude/basics_pre.sats
+// end of [the_at_vt0ype_addr_view]
 
 implement
-at_viewt0ype_addr_view_assume () = let
-  val s2c = s2cstref_get_cst (the_at_viewt0ype_addr_view)
+at_vt0ype_addr_view_assume () = let
+  val s2c = s2cstref_get_cst (the_at_vt0ype_addr_view)
   val s2t_def = s2cst_get_srt (s2c)
-  val s2v1 = s2var_make_srt s2rt_viewt0ype and s2v2 = s2var_make_srt s2rt_addr
+  val s2v1 = s2var_make_srt s2rt_vt0ype and s2v2 = s2var_make_srt s2rt_addr
   val arg1 = s2exp_var (s2v1)
   val arg2 = s2exp_var (s2v2)
   val s2f_body = s2exp_at (arg1, arg2)
   val s2e_def = s2exp_lam_srt (s2t_def, '[s2v1, s2v2], s2f_body)
 in
   s2cst_set_def (s2c, Some s2e_def)
-end // end of [at_viewt0ype_addr_view_assume]
+end // end of [at_vt0ype_addr_view_assume]
 
 (* ****** ****** *)
 
@@ -1250,21 +1250,21 @@ in
 end // end of [invar_t0ype_t0ype_assume]
 
 implement
-the_invar_viewt0ype_viewt0ype =
-  s2cstref_make "invar_viewt0ype_viewt0ype" // in prelude/basics_pre.sats
-// end of [the_invar_viewt0ype_viewt0ype]
+the_invar_vt0ype_vt0ype =
+  s2cstref_make "invar_vt0ype_vt0ype" // in prelude/basics_pre.sats
+// end of [the_invar_vt0ype_vt0ype]
 
 implement
-invar_viewt0ype_viewt0ype_assume () = let
-  val s2c = s2cstref_get_cst (the_invar_viewt0ype_viewt0ype)
+invar_vt0ype_vt0ype_assume () = let
+  val s2c = s2cstref_get_cst (the_invar_vt0ype_vt0ype)
   val s2t_def = s2cst_get_srt s2c
-  val s2v = s2var_make_srt s2rt_viewt0ype
+  val s2v = s2var_make_srt s2rt_vt0ype
   val arg = s2exp_var (s2v)
   val s2e_body = s2exp_invar (arg)
   val s2e_def = s2exp_lam_srt (s2t_def, '[s2v], s2e_body)
 in
   s2cst_set_def (s2c, Some s2e_def)
-end // end of [invar_viewt0ype_viewt0ype_assume]
+end // end of [invar_vt0ype_vt0ype_assume]
 
 (* ****** ****** *)
 

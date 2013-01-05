@@ -169,41 +169,41 @@ val s2tb_view: s2rtbas = S2RTBASimp (VIEW_int, $SYM.symbol_VIEW)
 val s2tb_view_pos: s2rtbas = S2RTBASimp (VIEW_pos_int, $SYM.symbol_VIEW)
 val s2tb_view_neg: s2rtbas = S2RTBASimp (VIEW_neg_int, $SYM.symbol_VIEW)
 //
-val s2tb_viewtype: s2rtbas = S2RTBASimp (VIEWTYPE_int, $SYM.symbol_VIEWTYPE)
-val s2tb_viewtype_pos: s2rtbas = S2RTBASimp (VIEWTYPE_pos_int, $SYM.symbol_VIEWTYPE)
-val s2tb_viewtype_neg: s2rtbas = S2RTBASimp (VIEWTYPE_neg_int, $SYM.symbol_VIEWTYPE)
+val s2tb_vtype: s2rtbas = S2RTBASimp (VIEWTYPE_int, $SYM.symbol_VIEWTYPE)
+val s2tb_vtype_pos: s2rtbas = S2RTBASimp (VIEWTYPE_pos_int, $SYM.symbol_VIEWTYPE)
+val s2tb_vtype_neg: s2rtbas = S2RTBASimp (VIEWTYPE_neg_int, $SYM.symbol_VIEWTYPE)
 //
-val s2tb_viewt0ype: s2rtbas = S2RTBASimp (VIEWT0YPE_int, $SYM.symbol_VIEWT0YPE)
-val s2tb_viewt0ype_pos: s2rtbas = S2RTBASimp (VIEWT0YPE_pos_int, $SYM.symbol_VIEWT0YPE)
-val s2tb_viewt0ype_neg: s2rtbas = S2RTBASimp (VIEWT0YPE_neg_int, $SYM.symbol_VIEWT0YPE)
+val s2tb_vt0ype: s2rtbas = S2RTBASimp (VIEWT0YPE_int, $SYM.symbol_VIEWT0YPE)
+val s2tb_vt0ype_pos: s2rtbas = S2RTBASimp (VIEWT0YPE_pos_int, $SYM.symbol_VIEWT0YPE)
+val s2tb_vt0ype_neg: s2rtbas = S2RTBASimp (VIEWT0YPE_neg_int, $SYM.symbol_VIEWT0YPE)
 //
 val s2tb_types: s2rtbas = S2RTBASimp (T0YPE_int, $SYM.symbol_TYPES)
 //
 in // in of [local]
 
-implement s2rt_prop = S2RTbas s2tb_prop
-implement s2rt_prop_pos = S2RTbas s2tb_prop_pos
-implement s2rt_prop_neg = S2RTbas s2tb_prop_neg
+implement s2rt_prop = S2RTbas (s2tb_prop)
+implement s2rt_prop_pos = S2RTbas (s2tb_prop_pos)
+implement s2rt_prop_neg = S2RTbas (s2tb_prop_neg)
 
-implement s2rt_type = S2RTbas s2tb_type
-implement s2rt_type_pos = S2RTbas s2tb_type_pos
-implement s2rt_type_neg = S2RTbas s2tb_type_neg
+implement s2rt_type = S2RTbas (s2tb_type)
+implement s2rt_type_pos = S2RTbas (s2tb_type_pos)
+implement s2rt_type_neg = S2RTbas (s2tb_type_neg)
 
-implement s2rt_t0ype = S2RTbas s2tb_t0ype
-implement s2rt_t0ype_pos = S2RTbas s2tb_t0ype_pos
-implement s2rt_t0ype_neg = S2RTbas s2tb_t0ype_neg
+implement s2rt_t0ype = S2RTbas (s2tb_t0ype)
+implement s2rt_t0ype_pos = S2RTbas (s2tb_t0ype_pos)
+implement s2rt_t0ype_neg = S2RTbas (s2tb_t0ype_neg)
 
-implement s2rt_view = S2RTbas s2tb_view
-implement s2rt_view_pos = S2RTbas s2tb_view_pos
-implement s2rt_view_neg = S2RTbas s2tb_view_neg
+implement s2rt_view = S2RTbas (s2tb_view)
+implement s2rt_view_pos = S2RTbas (s2tb_view_pos)
+implement s2rt_view_neg = S2RTbas (s2tb_view_neg)
 
-implement s2rt_viewtype = S2RTbas s2tb_viewtype
-implement s2rt_viewtype_pos = S2RTbas s2tb_viewtype_pos
-implement s2rt_viewtype_neg = S2RTbas s2tb_viewtype_neg
+implement s2rt_vtype = S2RTbas (s2tb_vtype)
+implement s2rt_vtype_pos = S2RTbas (s2tb_vtype_pos)
+implement s2rt_vtype_neg = S2RTbas (s2tb_vtype_neg)
 
-implement s2rt_viewt0ype = S2RTbas s2tb_viewt0ype
-implement s2rt_viewt0ype_pos = S2RTbas s2tb_viewt0ype_pos
-implement s2rt_viewt0ype_neg = S2RTbas s2tb_viewt0ype_neg
+implement s2rt_vt0ype = S2RTbas (s2tb_vt0ype)
+implement s2rt_vt0ype_pos = S2RTbas (s2tb_vt0ype_pos)
+implement s2rt_vt0ype_neg = S2RTbas (s2tb_vt0ype_neg)
 
 implement s2rt_types = S2RTbas s2tb_types
 
@@ -218,8 +218,8 @@ case+ knd of
 | TYPE_int => s2rt_type
 | T0YPE_int => s2rt_t0ype
 | VIEW_int => s2rt_view
-| VIEWTYPE_int => s2rt_viewtype
-| VIEWT0YPE_int => s2rt_viewt0ype
+| VIEWTYPE_int => s2rt_vtype
+| VIEWT0YPE_int => s2rt_vt0ype
 //
 | PROP_pos_int => s2rt_prop_pos
 | PROP_neg_int => s2rt_prop_neg
@@ -229,10 +229,10 @@ case+ knd of
 | T0YPE_neg_int => s2rt_t0ype_neg
 | VIEW_pos_int => s2rt_view_pos
 | VIEW_neg_int => s2rt_view_neg
-| VIEWTYPE_pos_int => s2rt_viewtype_pos
-| VIEWTYPE_neg_int => s2rt_viewtype_neg
-| VIEWT0YPE_pos_int => s2rt_viewt0ype_pos
-| VIEWT0YPE_neg_int => s2rt_viewt0ype_neg
+| VIEWTYPE_pos_int => s2rt_vtype_pos
+| VIEWTYPE_neg_int => s2rt_vtype_neg
+| VIEWT0YPE_pos_int => s2rt_vt0ype_pos
+| VIEWT0YPE_neg_int => s2rt_vt0ype_neg
 //
 | _ => let
 //

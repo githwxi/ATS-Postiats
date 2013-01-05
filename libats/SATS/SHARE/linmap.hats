@@ -33,13 +33,13 @@
 
 (* ****** ****** *)
 
-absviewtype
-map_viewtype (key:t@ype, itm:viewt@ype+)
-stadef map = map_viewtype
+absvtype
+map_vtype (key:t@ype, itm:vt@ype+)
+stadef map = map_vtype
 
 (* ****** ****** *)
 
-sortdef t0p = t@ype and vt0p = viewt@ype
+sortdef t0p = t@ype and vt0p = vt@ype
 
 (* ****** ****** *)
 

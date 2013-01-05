@@ -313,7 +313,7 @@ s2exp_datcontyp
   (d2c, arg) = let
   val arity_real = d2con_get_arity_real (d2c)
   val s2t = (
-    if arity_real > 0 then s2rt_viewtype else s2rt_type
+    if arity_real > 0 then s2rt_vtype else s2rt_type
   ) : s2rt // end of [val]
 in hnf '{
   s2exp_srt= s2t, s2exp_node= S2Edatcontyp (d2c, arg)
@@ -324,7 +324,7 @@ s2exp_datconptr
   (d2c, rt, arg) = let
   val arity_real = d2con_get_arity_real (d2c)
   val s2t = (
-    if arity_real > 0 then s2rt_viewtype else s2rt_type
+    if arity_real > 0 then s2rt_vtype else s2rt_type
   ) : s2rt // end of [val]
 in hnf '{
   s2exp_srt= s2t, s2exp_node= S2Edatconptr (d2c, rt, arg)
@@ -361,7 +361,7 @@ implement
 s2exp_tyarr
   (s2e_elt, dim) = let
   val s2t = (
-    if s2exp_is_lin (s2e_elt) then s2rt_viewt0ype else s2rt_t0ype
+    if s2exp_is_lin (s2e_elt) then s2rt_vt0ype else s2rt_t0ype
   ) : s2rt // end of [val
 in
   s2exp_tyarr_srt (s2t, s2e_elt, dim)

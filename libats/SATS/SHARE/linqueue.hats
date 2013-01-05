@@ -36,9 +36,9 @@
 // HX-2012-12:
 // [a]: item type; [n]: queue size
 //
-absviewtype
-queue_viewtype (a:viewt@ype+, n:int)
-stadef queue = queue_viewtype
+absvtype
+queue_vtype (a:vt@ype+, n:int)
+stadef queue = queue_vtype
 //
 (* ****** ****** *)
 

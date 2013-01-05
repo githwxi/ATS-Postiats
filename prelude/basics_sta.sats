@@ -278,7 +278,7 @@ typedef ssizeBtwe (lb:int, ub:int) = g1intBtwe (ssize_kind, lb, ub)
 //
 (* ****** ****** *)
 
-typedef sizeof_t (a:viewt@ype) = size_t (sizeof(a?))
+typedef sizeof_t (a:vt@ype) = size_t (sizeof(a?))
 
 (* ****** ****** *)
 //
@@ -407,19 +407,19 @@ stadef stropt = Stropt0
 (*
 ** HX: linear mutable strings
 *)
-absviewtype
-strptr_addr_viewtype (l:addr)
-stadef strptr = strptr_addr_viewtype
-viewtypedef Strptr0 = [l:addr] strptr (l)
-viewtypedef Strptr1 = [l:addr | l > null] strptr (l)
+absvtype
+strptr_addr_vtype (l:addr)
+stadef strptr = strptr_addr_vtype
+vtypedef Strptr0 = [l:addr] strptr (l)
+vtypedef Strptr1 = [l:addr | l > null] strptr (l)
 stadef strptr = Strptr0
 
-absviewtype
-strnptr_addr_int_viewtype (l:addr, n:int)
-stadef strnptr = strnptr_addr_int_viewtype
-viewtypedef strnptr (n:int) = [l:addr] strnptr (l, n)
-viewtypedef Strnptr0 = [l:addr;n:int] strnptr (l, n)
-viewtypedef Strnptr1 = [l:addr;n:int | n >= 0] strnptr (l, n)
+absvtype
+strnptr_addr_int_vtype (l:addr, n:int)
+stadef strnptr = strnptr_addr_int_vtype
+vtypedef strnptr (n:int) = [l:addr] strnptr (l, n)
+vtypedef Strnptr0 = [l:addr;n:int] strnptr (l, n)
+vtypedef Strnptr1 = [l:addr;n:int | n >= 0] strnptr (l, n)
 
 (* ****** ****** *)
 
@@ -439,15 +439,15 @@ stadef void = void_t0ype
 
 (* ****** ****** *)
 
-absviewtype exception_viewtype
-viewtypedef exn = exception_viewtype
+absvtype exception_vtype
+vtypedef exn = exception_vtype
 
 (* ****** ****** *)
 
-absviewt@ype
-opt_viewt0ype_bool_viewt0ype
-  (a:viewt@ype+, opt:bool) = a
-stadef opt = opt_viewt0ype_bool_viewt0ype
+absvt@ype
+opt_vt0ype_bool_vt0ype
+  (a:vt@ype+, opt:bool) = a
+stadef opt = opt_vt0ype_bool_vt0ype
 
 (* ****** ****** *)
 
@@ -474,12 +474,12 @@ stadef free_ngc_v = free_ngc_addr_view
 abst@ype
 ptrsize_t0ype = $extype "ptrsize_t0ype"
 
-absviewt@ype
-arrpsz_viewt0ype_int_viewt0ype
-  (a:viewt@ype+, n:int) = ptrsize_t0ype
-// end of [arrpsz_viewt0ype_int_viewt0ype]
+absvt@ype
+arrpsz_vt0ype_int_vt0ype
+  (a:vt@ype+, n:int) = ptrsize_t0ype
+// end of [arrpsz_vt0ype_int_vt0ype]
 stadef
-arrpsz = arrpsz_viewt0ype_int_viewt0ype
+arrpsz = arrpsz_vt0ype_int_vt0ype
 
 (* ****** ****** *)
 
@@ -489,24 +489,24 @@ vbox_view_prop
 stadef vbox = vbox_view_prop
 
 abstype
-ref_viewt0ype_type
-  (a:viewt@ype) // [ref] is invariant!
-stadef ref = ref_viewt0ype_type
+ref_vt0ype_type
+  (a:vt@ype) // [ref] is invariant!
+stadef ref = ref_vt0ype_type
 
 (* ****** ****** *)
 
 viewdef vtakeout
   (v1: view, v2: view) = (v2, v2 -<lin,prf> v1)
-viewtypedef vttakeout
-  (vt1: viewt@ype, vt2: viewt@ype) = (vt2 -<lin,prf> vt1 | vt2)
+vtypedef vttakeout
+  (vt1: vt@ype, vt2: vt@ype) = (vt2 -<lin,prf> vt1 | vt2)
 // end of [vttakeout]
 
 (* ****** ****** *)
 
-viewtypedef
-bottom_viewt0ype_uni = {a:viewt@ype} a
-viewtypedef
-bottom_viewt0ype_exi = [a:viewt@ype | false] a
+vtypedef
+bottom_vt0ype_uni = {a:vt@ype} a
+vtypedef
+bottom_vt0ype_exi = [a:vt@ype | false] a
 
 (* ****** ****** *)
 
@@ -520,9 +520,9 @@ stadef cmpval = cmpval_funenv
 (* ****** ****** *)
 
 typedef cmpref_fun
-  (a: viewt@ype) = (&a, &a) -<fun> int
+  (a: vt@ype) = (&a, &a) -<fun> int
 typedef cmpref_funenv
-  (a: viewt@ype, vt: viewt@ype) = (&a, &a, !vt) -<fun> int
+  (a: vt@ype, vt: vt@ype) = (&a, &a, !vt) -<fun> int
 stadef cmpref = cmpref_fun
 stadef cmpref = cmpref_funenv
 
