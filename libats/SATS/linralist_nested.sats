@@ -120,17 +120,19 @@ fun linralist_length
 
 (* ****** ****** *)
 
-fun{a:t0p}
-linralist_get_at
-  {n:int} (
-  xs: !ralist (INV(a), n), i: natLt n
-) :<> a // endfun
-
 fun{a:vt0p}
 linralist_getref_at
   {n:int} (
   xs: !ralist (INV(a), n), i: natLt n
 ) :<> Ptr1 // endfun
+
+(* ****** ****** *)
+
+fun{a:t0p}
+linralist_get_at
+  {n:int} (
+  xs: !ralist (INV(a), n), i: natLt n
+) :<> a // endfun
 
 fun{a:t0p}
 linralist_set_at

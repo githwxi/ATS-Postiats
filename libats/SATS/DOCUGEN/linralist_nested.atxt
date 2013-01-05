@@ -97,6 +97,10 @@ O(log(n)).  ")
 
 (* ****** ****** *)
 
+#declnamesynop("linralist_getref_at")
+
+(* ****** ****** *)
+
 #declnamesynop("linralist_get_at")
 #decldescrpt("\
 

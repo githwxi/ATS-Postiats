@@ -234,20 +234,6 @@ end // end of [local]
 
 (* ****** ****** *)
 
-implement{a}
-linralist_get_at
-  (xs, i) = let
-  val p = linralist_getref_at<a> (xs, i) in $UN.ptr_get<a> (p)
-end // end of [linralist_get_at]
-
-implement{a}
-linralist_set_at
-  (xs, i, x) = let
-  val p = linralist_getref_at<a> (xs, i) in $UN.ptr_set<a> (p, x)
-end // end of [linralist_set_at]
-
-(* ****** ****** *)
-
 local
 
 fun getref_at
@@ -316,6 +302,20 @@ implement{a}
 linralist_getref_at (xs, i) = getref_at {a} (xs, i)
 
 end // end of [funralist_getref_at]
+
+(* ****** ****** *)
+
+implement{a}
+linralist_get_at
+  (xs, i) = let
+  val p = linralist_getref_at<a> (xs, i) in $UN.ptr_get<a> (p)
+end // end of [linralist_get_at]
+
+implement{a}
+linralist_set_at
+  (xs, i, x) = let
+  val p = linralist_getref_at<a> (xs, i) in $UN.ptr_set<a> (p, x)
+end // end of [linralist_set_at]
 
 (* ****** ****** *)
 
