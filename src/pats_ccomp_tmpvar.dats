@@ -240,7 +240,7 @@ val cmp = lam (
   compare_tmpvar_tmpvar (tmp1, tmp2)
 // end of [val]
 
-assume tmpvarset_viewtype = $LS.set (tmpvar)
+assume tmpvarset_vtype = $LS.set (tmpvar)
 
 in // in of [local]
 

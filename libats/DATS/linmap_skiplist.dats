@@ -58,7 +58,7 @@ compare_key_key
 //
 // HX-2012-12-01:
 // the file should be included here
-// before [map_viewtype] is assumed
+// before [map_vtype] is assumed
 //
 #include "./SHARE/linmap.hats" // code reuse
 //
@@ -114,7 +114,7 @@ end // end of [local]
 
 abstype
 node_type (
-  key:t@ype, itm:viewt@ype+, l:addr, n:int
+  key:t@ype, itm:vt@ype+, l:addr, n:int
 ) // end of [node_type]
 
 stadef node = node_type
@@ -203,7 +203,7 @@ key:t0p;itm:vt0p
 
 abstype
 nodearr_type
-  (key:t@ype, itm:viewt@ype+, int(*size*))
+  (key:t@ype, itm:vt@ype+, int(*size*))
 stadef nodearr = nodearr_type
 
 extern
@@ -243,7 +243,7 @@ key:t0p;itm:vt0p
 //
 // HX: internal representation of a node
 //
-viewtypedef
+vtypedef
 _node_struct (
   key: t0p, itm: vt0p
 ) = @{
@@ -258,7 +258,7 @@ node_make
   {lgN} (
   k0, x0, lgN
 ) = let
-  viewtypedef VT = _node_struct (key, itm)
+  vtypedef VT = _node_struct (key, itm)
   val (pfat, pfgc | p) = ptr_alloc<VT> ()
   val () = p->key := k0
   val () = p->item := $UN.castvwtp0{itm?}{itm}(x0)
@@ -275,7 +275,7 @@ implement
 node_free
   (nx, res) = let
 //
-  viewtypedef VT = _node_struct (key, itm)
+  vtypedef VT = _node_struct (key, itm)
 //
   prval (
     pfat, pfgc | p
@@ -413,7 +413,7 @@ key:t0p;itm:vt0p
 
 datavtype
 skiplist (
-  key:t@ype, itm:viewt@ype+
+  key:t@ype, itm:vt@ype+
 ) = // HX: [lgN] is the *current* highest level
   | {N:nat}{lgN:nat | lgN <= lgMAX}
     SKIPLIST (key, itm) of (size_t(N), int(lgN), nodearr(key, itm, lgMAX))
@@ -422,9 +422,9 @@ skiplist (
 (* ****** ****** *)
 
 assume
-map_viewtype
+map_vtype
   (key:t0p, itm:vt0p) = skiplist (key, itm)
-// end of [map_viewtype]
+// end of [map_vtype]
 
 (* ****** ****** *)
 
@@ -945,7 +945,7 @@ implement
 linmap_free_ifnil
   (map) = let
 //
-viewtypedef map = map (key, itm)
+vtypedef map = map (key, itm)
 val map1 =
   __cast (map) where {
   extern castfn __cast : (!map >> map?) -<> map

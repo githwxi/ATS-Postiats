@@ -352,19 +352,19 @@ abst@ype tkind_t0ype (tk: tkind)
 (* ****** ****** *)
 
 absview // S2Eat
-at_viewt0ype_addr_view (viewt@ype+, addr)
-stadef @ = at_viewt0ype_addr_view // HX: @ is infix
+at_vt0ype_addr_view (vt@ype+, addr)
+stadef @ = at_vt0ype_addr_view // HX: @ is infix
 
 (* ****** ****** *)
 //
-absviewt@ype
+absvt@ype
 clo_t0ype_t0ype (a: t@ype) = a
-absviewt@ype
-clo_viewt0ype_viewt0ype (a: viewt@ype) = a
+absvt@ype
+clo_vt0ype_vt0ype (a: vt@ype) = a
 //
-absviewtype
-cloptr_viewt0ype_viewtype (a: viewt@ype)
-stadef cloptr = cloptr_viewt0ype_viewtype
+absvtype
+cloptr_vt0ype_vtype (a: vt@ype)
+stadef cloptr = cloptr_vt0ype_vtype
 //
 abstype
 cloref_t0ype_type (a: t@ype)
@@ -384,35 +384,35 @@ readout_view_int_view (v:view, stamp:int)
 stadef READOUT = readout_view_int_view
 viewdef READOUT (v:view) = [s:int] READOUT (v, s)
 //
-absviewt@ype
-read_viewt0ype_int_int_viewt0ype
-  (a:viewt@ype, stamp:int, n:int) = a
-stadef READ = read_viewt0ype_int_int_viewt0ype
-viewtypedef READ (a:viewt@ype) = [s,n:int] READ (a, s, n)
+absvt@ype
+read_vt0ype_int_int_vt0ype
+  (a:vt@ype, stamp:int, n:int) = a
+stadef READ = read_vt0ype_int_int_vt0ype
+vtypedef READ (a:vt@ype) = [s,n:int] READ (a, s, n)
 stadef RD = READ
 //
-absviewt@ype
-readout_viewt0ype_int_viewt0ype (a:viewt@ype, stamp: int) = a
-stadef READOUT = readout_viewt0ype_int_viewt0ype
-viewtypedef READOUT (a:viewt@ype) = [s:int] READOUT (a, s)
+absvt@ype
+readout_vt0ype_int_vt0ype (a:vt@ype, stamp: int) = a
+stadef READOUT = readout_vt0ype_int_vt0ype
+vtypedef READOUT (a:vt@ype) = [s:int] READOUT (a, s)
 *)
 (* ****** ****** *)
 (*
-absviewt@ype
-write_viewt0ype_viewt0ype (a: viewt@ype) = a
-viewtypedef
-WRITE (a:viewt@ype) = write_viewt0ype_viewt0ype (a)
+absvt@ype
+write_vt0ype_vt0ype (a: vt@ype) = a
+vtypedef
+WRITE (a:vt@ype) = write_vt0ype_vt0ype (a)
 stadef WRT = WRITE
 *)
 
 (* ****** ****** *)
 //
-viewtypedef READ (a:viewt@ype) = a // HX: used as a comment
-viewtypedef WRITE (a:viewt@ype) = a // HX: used as a comment (rarely)
+vtypedef READ (a:vt@ype) = a // HX: used as a comment
+vtypedef WRITE (a:vt@ype) = a // HX: used as a comment (rarely)
 //
 (*
-viewtypedef SHARED (a:viewt@ype) = a // HX: used as a comment
-viewtypedef NSHARED (a:viewt@ype) = a // HX: used as a comment (rarely)
+vtypedef SHARED (a:vt@ype) = a // HX: used as a comment
+vtypedef NSHARED (a:vt@ype) = a // HX: used as a comment (rarely)
 *)
 //
 (* ****** ****** *)
@@ -422,16 +422,16 @@ absview invar_view_view (a:view)
 //
 abst@ype // S2Einvar
 invar_t0ype_t0ype (a:t@ype) = a
-absviewt@ype // S2Einvar
-invar_viewt0ype_viewt0ype (a:viewt@ype) = a
+absvt@ype // S2Einvar
+invar_vt0ype_vt0ype (a:vt@ype) = a
 //
 // HX: this order is significant
 // 
 viewdef INV (a:view) = invar_view_view (a)
 propdef INV (a:prop) = invar_prop_prop (a)
-viewtypedef INV
-  (a:viewt@ype) = invar_viewt0ype_viewt0ype (a)
-viewtypedef INV (a:t@ype) = invar_t0ype_t0ype (a)
+vtypedef INV
+  (a:vt@ype) = invar_vt0ype_vt0ype (a)
+vtypedef INV (a:t@ype) = invar_t0ype_t0ype (a)
 //
 (* ****** ****** *)
 (*
@@ -441,16 +441,16 @@ absview optarg_view_view (a:view)
 //
 abst@ype
 optarg_t0ype_t0ype (a:t@ype) = a
-absviewt@ype
-optarg_viewt0ype_viewt0ype (a:viewt@ype) = a
+absvt@ype
+optarg_vt0ype_vt0ype (a:vt@ype) = a
 //
 // HX: this order is significant
 // 
 viewdef OPT (a:view) = optarg_view_view (a)
 propdef OPT (a:prop) = optarg_prop_prop (a)
-viewtypedef OPT
-  (a:viewt@ype) = optarg_viewt0ype_viewt0ype (a)
-viewtypedef OPT (a:t@ype) = optarg_t0ype_t0ype (a)
+vtypedef OPT
+  (a:vt@ype) = optarg_vt0ype_vt0ype (a)
+vtypedef OPT (a:t@ype) = optarg_t0ype_t0ype (a)
 //
 *)
 (* ****** ****** *)
@@ -459,9 +459,9 @@ abst@ype
 stamped_t0ype (a:t@ype, int) = a
 stadef stamped_t = stamped_t0ype
 //
-absviewt@ype
-stamped_viewt0ype (a:viewt@ype, int) = a
-stadef stamped_vt = stamped_viewt0ype
+absvt@ype
+stamped_vt0ype (a:vt@ype, int) = a
+stadef stamped_vt = stamped_vt0ype
 //
 (* ****** ****** *)
 

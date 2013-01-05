@@ -115,13 +115,13 @@ staload "libats/SATS/gnode.sats"
 
 datavtype
 myqueue (
-  a:viewt@ype+
+  a:vt@ype+
 ) =
   MYQUEUE of (gnode0(a), ptr)
 // end of [datavtype]
 
 assume
-queue_viewtype (a:vt0p, n:int) = myqueue (a)
+queue_vtype (a:vt0p, n:int) = myqueue (a)
 
 (* ****** ****** *)
 
@@ -148,7 +148,7 @@ end // end of [queue_isnot_empty]
 (* ****** ****** *)
 
 assume
-mynode_viewtype (a:vt0p, l:addr) = gnode (a, l)
+mynode_vtype (a:vt0p, l:addr) = gnode (a, l)
 
 (* ****** ****** *)
 

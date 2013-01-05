@@ -50,7 +50,7 @@ compare_key_key
 //
 // HX-2012-12-01:
 // the file should be included here
-// before [map_viewtype] is assumed
+// before [map_vtype] is assumed
 //
 #include "./SHARE/linmap.hats" // code reuse
 //
@@ -93,9 +93,9 @@ end // end of [local]
 //
 // HX: for linear binary search trees
 //
-dataviewtype
+datavtype
 bstree (
-  key:t@ype, itm: viewt@ype+, int(*size*)
+  key:t@ype, itm: vt@ype+, int(*size*)
 ) =
   | BSTnil (
       key, itm, 0
@@ -112,7 +112,7 @@ bstree (
 //
 (* ****** ****** *)
 
-viewtypedef
+vtypedef
 bstree0 (
   key:t0p, itm:vt0p
 ) = [n:nat] bstree (key, itm, n)
@@ -120,9 +120,9 @@ bstree0 (
 (* ****** ****** *)
 
 assume
-map_viewtype
+map_vtype
   (key:t0p, itm: vt0p) = bstree0 (key, itm)
-// end of [map_viewtype]
+// end of [map_vtype]
 
 (* ****** ****** *)
 
@@ -557,7 +557,7 @@ implement
 linmap_free_ifnil
   (map) = let
 //
-viewtypedef map = map (key, itm)
+vtypedef map = map (key, itm)
 val map1 =
   __cast (map) where {
   extern castfn __cast : (!map >> map?) -<> map
@@ -616,7 +616,7 @@ implement
 linmap_listize_free
   (map) = let
 //
-viewtypedef ki = @(key, itm)
+vtypedef ki = @(key, itm)
 //
 fun aux
   {m,n:nat} .<n>. (

@@ -65,7 +65,7 @@ staload "libats/SATS/linheap_binomial.sats"
 //
 // HX-2012-12-21:
 // the file should be included here
-// before [heap_viewtype] is assumed
+// before [heap_vtype] is assumed
 //
 #include "./SHARE/linheap.hats" // code reuse
 //
@@ -74,15 +74,16 @@ staload "libats/SATS/linheap_binomial.sats"
 // binomial trees:
 // btree(a, n) is for a binomial tree of rank(n)
 //
-datavtype btree (
-  a:viewt@ype+, int(*rank*)
+datavtype
+btree (
+  a:vt@ype+, int(*rank*)
 ) =
   | {n:nat}
     btnode (a, n) of (int (n), a, btreelst (a, n))
 // end of [btree]
 
 and btreelst (
-  a:viewt@ype+, int(*rank*)
+  a:vt@ype+, int(*rank*)
 ) =
   | {n:nat}
     btlst_cons (a, n+1) of (btree (a, n), btreelst (a, n))
@@ -91,8 +92,9 @@ and btreelst (
 
 (* ****** ****** *)
 
-datavtype bheap (
-  a:viewt@ype+, int(*rank*), int(*size*)
+datavtype
+bheap (
+  a:vt@ype+, int(*rank*), int(*size*)
 ) =
   | {n:nat}
     bheap_nil (a, n, 0) of ()
@@ -440,9 +442,9 @@ end // end of [local]
 (* ****** ****** *)
 
 assume
-heap_viewtype
+heap_vtype
   (a:vt0p) = [n,sz:nat] bheap (a, n, sz)
-// end of [heap_viewtype]
+// end of [heap_vtype]
 
 (* ****** ****** *)
 
@@ -581,7 +583,7 @@ end // end of [linheap_free]
 implement{a}
 linheap_free_ifnil
   (hp0) = let
-  viewtypedef hp = heap (a)
+  vtypedef hp = heap (a)
 in
 //
 case+ hp0 of

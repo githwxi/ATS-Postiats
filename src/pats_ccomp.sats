@@ -67,7 +67,7 @@ staload "./pats_staexp2.sats"
 
 staload
 S2EUT = "./pats_staexp2_util.sats"
-viewtypedef stasub = $S2EUT.stasub 
+vtypedef stasub = $S2EUT.stasub 
 
 (* ****** ****** *)
 
@@ -101,16 +101,16 @@ typedef tmpvar = tmpvar_type
 typedef tmpvarlst = List (tmpvar)
 typedef tmpvaropt = Option (tmpvar)
 //
-viewtypedef tmpvarlst_vt = List_vt (tmpvar)
-viewtypedef tmpvaropt_vt = Option_vt (tmpvar)
+vtypedef tmpvarlst_vt = List_vt (tmpvar)
+vtypedef tmpvaropt_vt = Option_vt (tmpvar)
 
 (* ****** ****** *)
 
-absviewtype tmpvarset_viewtype
-viewtypedef tmpvarset_vt = tmpvarset_viewtype
+absvtype tmpvarset_vtype
+vtypedef tmpvarset_vt = tmpvarset_vtype
 
-absviewtype tmpvarmap_viewtype (a:type)
-viewtypedef tmpvarmap_vt (a:type) = tmpvarmap_viewtype (a)
+absvtype tmpvarmap_vtype (a:type)
+vtypedef tmpvarmap_vt (a:type) = tmpvarmap_vtype (a)
 
 (* ****** ****** *)
 
@@ -227,7 +227,7 @@ abstype funent_type
 typedef funent = funent_type
 typedef funentlst = List (funent)
 typedef funentopt = Option (funent)
-viewtypedef funentopt_vt = Option_vt (funent)
+vtypedef funentopt_vt = Option_vt (funent)
 //
 fun print_funent (x: funent): void
 overload print with print_funent
@@ -277,7 +277,7 @@ fun hiimpdec_set_funlabopt
 datatype tmpsub =
   | TMPSUBcons of (s2var, s2exp, tmpsub) | TMPSUBnil of ()
 typedef tmpsubopt = Option (tmpsub)
-viewtypedef tmpsubopt_vt = Option_vt (tmpsub)
+vtypedef tmpsubopt_vt = Option_vt (tmpsub)
  
 fun fprint_tmpsub : fprint_type (tmpsub)
 fun fprint_tmpsubopt : fprint_type (tmpsubopt)
@@ -764,8 +764,8 @@ fun instrlst_get_tmpvarset (xs: instrlst): tmpvarset_vt
 
 (* ****** ****** *)
 
-absviewtype instrseq_vtype
-viewtypedef instrseq = instrseq_vtype
+absvtype instrseq_vtype
+vtypedef instrseq = instrseq_vtype
 
 fun instrseq_make_nil (): instrseq
 fun instrseq_get_free (res: instrseq): instrlst
@@ -808,8 +808,8 @@ fun funent_get_instrlst (fent: funent): instrlst
 
 (* ****** ****** *)
 
-absviewtype ccompenv_vtype
-viewtypedef ccompenv = ccompenv_vtype
+absvtype ccompenv_vtype
+vtypedef ccompenv = ccompenv_vtype
 
 fun ccompenv_make (): ccompenv
 fun ccompenv_free (env: ccompenv): void
@@ -1013,7 +1013,7 @@ fun funent_subst
 //
 (* ****** ****** *)
 
-viewtypedef tmpmap = tmpvarmap_vt (tmpvar)
+vtypedef tmpmap = tmpvarmap_vt (tmpvar)
 
 (* ****** ****** *)
 //

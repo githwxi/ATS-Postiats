@@ -20,17 +20,17 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-sortdef t0p = t@ype and vt0p = viewt@ype
+sortdef t0p = t@ype and vt0p = vt@ype
 
 #atscode_separator()
 //
 // HX: [lazy_vt(VT)] :
 // suspended computation of a linear value of viewtype VT
 //
-absviewtype
-lazy_viewt0ype_viewtype
-  (a:viewt@ype+) // boxed linear type // unnamed
-stadef lazy_vt = lazy_viewt0ype_viewtype
+absvtype
+lazy_vt0ype_vtype
+  (a:vt@ype+) // boxed linear type // unnamed
+stadef lazy_vt = lazy_vt0ype_vtype
 //
 #atscode_separator()
 
@@ -42,10 +42,10 @@ overload ~ with lazy_vt_free
 //
 // HX: lazy linear streams
 //
-dataviewtype
-stream_vt_con (a:viewt@ype+) =
+datavtype
+stream_vt_con (a:vt@ype+) =
   | stream_vt_cons (a) of (a, stream_vt a) | stream_vt_nil (a) of ()
-where stream_vt (a:viewt@ype) = lazy_vt (stream_vt_con a)
+where stream_vt (a:vt@ype) = lazy_vt (stream_vt_con a)
 //
 #atscode_separator()
 

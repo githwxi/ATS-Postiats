@@ -76,28 +76,28 @@ typedef s2cst = s2cst_type
 typedef s2cstlst = List (s2cst)
 typedef s2cstopt = Option (s2cst)
 //
-viewtypedef s2cstlst_vt = List_vt (s2cst)
+vtypedef s2cstlst_vt = List_vt (s2cst)
 //
 (* ****** ****** *)
 //
 abstype s2var_type // assumed in [pats_staexp2_svar.dats]
 typedef s2var = s2var_type
 typedef s2varlst = List (s2var)
-viewtypedef s2varlst_vt = List_vt (s2var)
+vtypedef s2varlst_vt = List_vt (s2var)
 typedef s2varopt = Option (s2var)
-viewtypedef s2varopt_vt = Option_vt (s2var)
+vtypedef s2varopt_vt = Option_vt (s2var)
 typedef s2varlstlst = List (s2varlst)
 //
 abstype s2varset_type // assumed in [pats_staexp2_svar.dats]
 typedef s2varset = s2varset_type
-absviewtype s2varset_vtype // assumed in [pats_staexp2_svar.dats]
-viewtypedef s2varset_vt = s2varset_vtype
+absvtype s2varset_vtype // assumed in [pats_staexp2_svar.dats]
+vtypedef s2varset_vt = s2varset_vtype
 //
 abstype s2varmset_type // assumed in [pats_staexp2_svar.dats]
 typedef s2varmset = s2varmset_type
 //
-absviewtype s2varbindmap_vtype
-viewtypedef s2varbindmap = s2varbindmap_vtype
+absvtype s2varbindmap_vtype
+vtypedef s2varbindmap = s2varbindmap_vtype
 //
 (* ****** ****** *)
 
@@ -305,7 +305,7 @@ s2itm = // static items
 // end of [s2itm]
 
 typedef s2itmlst = List s2itm
-viewtypedef s2itmopt_vt = Option_vt (s2itm)
+vtypedef s2itmopt_vt = Option_vt (s2itm)
 
 fun print_s2itm (x: s2itm): void
 overload print with print_s2itm
@@ -460,8 +460,8 @@ and s2explstopt = Option (s2explst)
 and s2lablst = List (s2lab)
 and labs2explst = List (labs2exp)
 
-viewtypedef s2explst_vt = List_vt (s2exp)
-viewtypedef s2expopt_vt = Option_vt (s2exp)
+vtypedef s2explst_vt = List_vt (s2exp)
+vtypedef s2expopt_vt = Option_vt (s2exp)
 
 (* ****** ****** *)
 
@@ -469,7 +469,7 @@ typedef
 locs2exp = (location, s2exp)
 typedef locs2explst = List (locs2exp)
 
-viewtypedef
+vtypedef
 s2rtextopt_vt = Option_vt (s2rtext)
 
 (* ****** ****** *)
@@ -485,7 +485,7 @@ typedef s2qua = @{
   s2qua_svs= s2varlst, s2qua_sps= s2explst
 } // end of [s2qua]
 typedef s2qualst = List (s2qua)
-viewtypedef s2qualst_vt = List_vt (s2qua)
+vtypedef s2qualst_vt = List_vt (s2qua)
 
 fun s2qua_make (s2vs: s2varlst, s2ps: s2explst): s2qua
 
@@ -602,9 +602,9 @@ fun fprint_s2cstlst : fprint_type (s2cstlst)
 
 (* ****** ****** *)
 //
-absviewtype
+absvtype
 s2cstset_vtype // assumed in [pats_staexp2_scst.dats]
-viewtypedef s2cstset_vt = s2cstset_vtype
+vtypedef s2cstset_vt = s2cstset_vtype
 fun s2cstset_vt_nil (): s2cstset_vt
 fun s2cstset_vt_free (xs: s2cstset_vt): void
 fun s2cstset_vt_add (xs: s2cstset_vt, x: s2cst): s2cstset_vt
@@ -1272,7 +1272,7 @@ t2mpmarg = '{
 } // end of [t2mpmarg]
 
 typedef t2mpmarglst = List (t2mpmarg)
-viewtypedef t2mpmarglst_vt = List_vt (t2mpmarg)
+vtypedef t2mpmarglst_vt = List_vt (t2mpmarg)
 
 fun fpprint_t2mpmarg : fprint_type (t2mpmarg)
 fun fpprint_t2mpmarglst : fprint_type (t2mpmarglst)

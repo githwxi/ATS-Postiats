@@ -96,9 +96,9 @@ fun s2eff_contain_s2eff (s2fe1: s2eff, s2fe2: s2eff): bool
 //
 (* ****** ****** *)
 
-absviewtype
+absvtype
 stasub_vtype // for static subst
-viewtypedef stasub = stasub_vtype
+vtypedef stasub = stasub_vtype
 
 fun stasub_make_nil () : stasub
 fun stasub_copy (sub: !stasub): stasub

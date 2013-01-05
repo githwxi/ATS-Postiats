@@ -33,7 +33,7 @@ structure.
 (* ****** ****** *)
 
 #declnamesynop("queue")
-#declnamesynop("queue_viewtype")
+#declnamesynop("queue_vtype")
 
 (* ****** ****** *)
 
@@ -79,7 +79,7 @@ that the complexity of the funtion is O(1).
 (* ****** ****** *)
 
 #declnamesynop("mynode")
-#declnamesynop("mynode_viewtype")
+#declnamesynop("mynode_vtype")
 
 (* ****** ****** *)
 
@@ -107,8 +107,8 @@ abst@ype
 qstruct_tsz =
   $extype "atslib_linqueue_list_qstruct"
 stadef qstruct = qstruct_tsz
-absviewt@ype
-qstruct_vt0ype (a:viewt@ype+, n:int) = qstruct_tsz
+absvt@ype
+qstruct_vt0ype (a:vt@ype+, n:int) = qstruct_tsz
 stadef qstruct = qstruct_vt0ype
 ')
 ')

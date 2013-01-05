@@ -306,7 +306,7 @@ fset_at
   {n:nat} .<n,1>. (
   xs: myralist (a, d, n)
 , i: natLt (n)
-, f: node (a, d) -<cloref> node (a, d)
+, f: node (a, d) -<cloref0> node (a, d)
 ) :<> myralist (a, d, n) = let
 in
   case+ xs of
@@ -322,13 +322,13 @@ fset2_at
   {n2:pos} .<2*n2,0>. (
   xxs: myralist (a, d+1, n2)
 , i: natLt (2*n2)
-, f: node (a, d) -<cloref> node (a, d)
+, f: node (a, d) -<cloref0> node (a, d)
 ) :<> myralist (a, d+1, n2) = let
   typedef node = node (a, d+1)
 in
   if i mod 2 = 0 then let
     val f1 = lam
-      (xx: node): node =<cloref>
+      (xx: node): node =<cloref0>
       let val+ N2 (x0, x1) = xx in N2 (f x0, x1) end
     // end of [val]
     val xxs =
@@ -338,7 +338,7 @@ in
     xxs
   end else let
     val f1 = lam
-      (xx: node): node =<cloref>
+      (xx: node): node =<cloref0>
       let val+ N2 (x0, x1) = xx in N2 (x0, f x1) end
     // end of [val]
     val xxs =
@@ -356,7 +356,7 @@ funralist_set_at
   (xs, i, x0) = let
 //
 typedef node = node (a, 0)
-val f = lam (_: node): node =<cloref> N1 (x0)
+val f = lam (_: node): node =<cloref0> N1 (x0)
 val xs = fset_at{a} (xs, i, f)
 val () = $effmask_wrt (__free ($UN.cast2ptr(f)))
 //
@@ -383,7 +383,7 @@ fun __free (p: ptr):<!wrt> void = "mac#ats_free_gc"
 fnx foreach
   {a:t0p}
   {d:nat}{n:nat} .<n,1>. (
-  xs: myralist (a, d, n), f: node (a, d) -<cloref> void
+  xs: myralist (a, d, n), f: node (a, d) -<cloref0> void
 ) :<> void =
   case+ xs of
   | RAevn (xxs) =>
@@ -400,11 +400,11 @@ and foreach2
   {a:t0p}
   {d:nat}
   {n2:pos} .<2*n2,0>. (
-  xxs: myralist (a, d+1, n2), f: node (a, d) -<cloref> void
+  xxs: myralist (a, d+1, n2), f: node (a, d) -<cloref0> void
 ) :<> void = let
   typedef node = node (a, d+1)
   val f1 = lam
-    (xx: node): void =<cloref> let
+    (xx: node): void =<cloref0> let
     val+ N2 (x0, x1) = xx in f (x0); f (x1)
   end // end of [val]
   val () = foreach (xxs, f1)
@@ -433,7 +433,7 @@ typedef node = node (a, 0)
 val p_env = addr@ (env)
 //
 val f = lam
-  (x: node): void =<cloref> let
+  (x: node): void =<cloref0> let
   val+ N1 (x) = x
   prval (pf, fpf) = $UN.ptr_vtake {env} (p_env)
   val test =

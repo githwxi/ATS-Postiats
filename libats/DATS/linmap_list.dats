@@ -47,16 +47,16 @@ equal_key_key
 //
 // HX-2012-12-26:
 // the file should be included here
-// before [map_viewtype] is assumed
+// before [map_vtype] is assumed
 //
 #include "./SHARE/linmap.hats" // code reuse
 //
 (* ****** ****** *)
 
 assume
-map_viewtype
+map_vtype
   (key:t0p, itm: vt0p) = List0_vt @(key, itm)
-// end of [map_viewtype]
+// end of [map_vtype]
 
 (* ****** ****** *)
 
@@ -105,7 +105,7 @@ implement
 linmap_foreach_env
   (map, env) = let
 //
-viewtypedef keyitm = @(key, itm)
+vtypedef keyitm = @(key, itm)
 //
 implement
 list_vt_foreach$cont<keyitm><env> (kx, env) = linmap_foreach$cont (kx.0, kx.1, env)
@@ -133,7 +133,7 @@ implement
 linmap_search_ngc
   (map, k0) = let
 //
-viewtypedef keyitm = @(key, itm)
+vtypedef keyitm = @(key, itm)
 //
 fun loop
   {n:nat} .<n>. (
@@ -174,14 +174,14 @@ implement
 linmap_takeout_ngc
   (map, k0) = let
 //
-viewtypedef tki = @(key, itm)
+vtypedef tki = @(key, itm)
 //
 fun loop (
   kxs: &List0_vt (tki) >> _, k0: key
 ) : mynode0 (key, itm) = let
 //
-viewtypedef tkis = List0_vt (tki)
-viewtypedef mynode1 = mynode1 (key, itm)
+vtypedef tkis = List0_vt (tki)
+vtypedef mynode1 = mynode1 (key, itm)
 //
 in
 //

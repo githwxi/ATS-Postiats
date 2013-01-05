@@ -425,7 +425,7 @@ val cmp = lam (
 // end of [val]
 
 assume d2varset_type = $FS.set (d2var)
-assume d2varset_viewtype = $LS.set (d2var)
+assume d2varset_vtype = $LS.set (d2var)
 
 in // in of [local]
 
@@ -490,7 +490,7 @@ val cmp = lam (
 assume
 d2varmap_type (a:type) = $FM.map (d2var, a)
 assume
-d2varmap_viewtype (a:type) = $LM.map (d2var, a)
+d2varmap_vtype (a:type) = $LM.map (d2var, a)
 
 in // in of [local]
 

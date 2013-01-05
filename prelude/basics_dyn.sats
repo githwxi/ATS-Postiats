@@ -42,7 +42,7 @@
 
 (* ****** ****** *)
 //
-sortdef t0p = t@ype and vt0p = viewt@ype
+sortdef t0p = t@ype and vt0p = vt@ype
 //
 (* ****** ****** *)
 //
@@ -84,7 +84,7 @@ prfun prop_verify_and_add {b:bool | b} ():<prf> [b] void
 
 (* ****** ****** *)
 
-prfun pridentity {a:viewt@ype} (x: !INV(a)): void
+prfun pridentity {a:vt@ype} (x: !INV(a)): void
 
 (* ****** ****** *)
 
@@ -96,7 +96,7 @@ viewptr_match
 
 (* ****** ****** *)
 
-val{a:viewt@ype} sizeof : size_t (sizeof(a))
+val{a:vt@ype} sizeof : size_t (sizeof(a))
 
 (* ****** ****** *)
 
@@ -118,7 +118,7 @@ fun cloptr_free
 (*
 // HX-2012-05-23: this seems TOO complicated!
 (*
-** HX-2012-03: handling read-only views and viewtypes
+** HX-2012-03: handling read-only views and vtypes
 *)
 castfn
 read_getval // copy out a non-linear value
@@ -153,19 +153,19 @@ unstamp_t0ype
   {a:t@ype}{x:int} (x: stamped_t0ype (INV(a), x)):<> a
 // end of [unstamp_t0ype]
 castfn
-unstamp_viewt0ype
-  {a:viewt@ype}{x:int} (x: stamped_viewt0ype (INV(a), x)):<> a
-// end of [unstamp_viewt0ype]
+unstamp_vt0ype
+  {a:vt@ype}{x:int} (x: stamped_vt0ype (INV(a), x)):<> a
+// end of [unstamp_vt0ype]
 
 castfn
 stamped_t2vt
   {a:t@ype}{x:int}
-  (x: stamped_t0ype (INV(a), x)):<> stamped_viewt0ype (a, x)
+  (x: stamped_t0ype (INV(a), x)):<> stamped_vt0ype (a, x)
 // end of [stamped_t2vt]
 castfn
 stamped_vt2t
   {a:t@ype}{x:int}
-  (x: &stamped_viewt0ype (INV(a), x)):<> stamped_t0ype (a, x)
+  (x: &stamped_vt0ype (INV(a), x)):<> stamped_t0ype (a, x)
 // end of [stamped_vt2t]
 
 (* ****** ****** *)
@@ -214,7 +214,7 @@ exception NotImplementedExn of (string) // that is not yet implemented
 typedef
 array (a, n) = @[a][n]
 viewdef
-array_v (a:viewt@ype, l:addr, n:int) = @[a][n] @ l
+array_v (a:vt@ype, l:addr, n:int) = @[a][n] @ l
 
 (* ****** ****** *)
 //
@@ -244,30 +244,30 @@ typedef listBtw
 typedef listBtwe
   (a:t0p, m:int, n:int) = [k:int | m <= k; k <= n] list (a, k)
 //
-dataviewtype // viewt@ype+: covariant
-list_viewt0ype_int_viewtype (a:viewt@ype+, int) =
+datavtype // vt@ype+: covariant
+list_vt0ype_int_vtype (a:vt@ype+, int) =
   | {n:int | n >= 0}
-    list_vt_cons (a, n+1) of (a, list_viewt0ype_int_viewtype (a, n))
+    list_vt_cons (a, n+1) of (a, list_vt0ype_int_vtype (a, n))
   | list_vt_nil (a, 0) of ()
-// end of [list_viewt0ype_int_viewtype]
-stadef list_vt = list_viewt0ype_int_viewtype
-viewtypedef
+// end of [list_vt0ype_int_vtype]
+stadef list_vt = list_vt0ype_int_vtype
+vtypedef
 List_vt (a:vt0p) = [n:int] list_vt (a, n)
-viewtypedef
+vtypedef
 List0_vt (a:vt0p) = [n:int | n >= 0] list_vt (a, n)
-viewtypedef
+vtypedef
 List1_vt (a:vt0p) = [n:int | n >= 1] list_vt (a, n)
-viewtypedef listLt_vt
+vtypedef listLt_vt
   (a:vt0p, n:int) = [k:nat | k < n] list_vt (a, k)
-viewtypedef listLte_vt
+vtypedef listLte_vt
   (a:vt0p, n:int) = [k:nat | k <= n] list_vt (a, k)
-viewtypedef listGt_vt
+vtypedef listGt_vt
   (a:vt0p, n:int) = [k:int | k > n] list_vt (a, k)
-viewtypedef listGte_vt
+vtypedef listGte_vt
   (a:vt0p, n:int) = [k:int | k >= n] list_vt (a, k)
-viewtypedef listBtw_vt
+vtypedef listBtw_vt
   (a:vt0p, m:int, n:int) = [k:int | m <= k; k < n] list_vt (a, k)
-viewtypedef listBtwe_vt
+vtypedef listBtwe_vt
   (a:vt0p, m:int, n:int) = [k:int | m <= k; k <= n] list_vt (a, k)
 //
 (* ****** ****** *)
@@ -291,12 +291,12 @@ option_prop_bool_prop
 // end of [option_prop_bool_prop]
 stadef option_p = option_prop_bool_prop
 //
-dataviewtype // viewt@ype+: covariant
-option_viewt0ype_bool_viewtype
-  (a:viewt@ype+, bool) = Some_vt (a, true) of a | None_vt (a, false)
-// end of [option_viewt0ype_bool_viewtype]
-stadef option_vt = option_viewt0ype_bool_viewtype
-viewtypedef Option_vt (a:vt0p) = [b:bool] option_vt (a, b)
+datavtype // vt@ype+: covariant
+option_vt0ype_bool_vtype
+  (a:vt@ype+, bool) = Some_vt (a, true) of a | None_vt (a, false)
+// end of [option_vt0ype_bool_vtype]
+stadef option_vt = option_vt0ype_bool_vtype
+vtypedef Option_vt (a:vt0p) = [b:bool] option_vt (a, b)
 //
 dataview
 option_view_bool_view
@@ -321,9 +321,9 @@ praxi opt_clear
 //
 (* ****** ****** *)
 
-absviewtype
-argv_int_viewtype (n:int)
-stadef argv = argv_int_viewtype
+absvtype
+argv_int_vtype (n:int)
+stadef argv = argv_int_vtype
 
 (*
 [argv_takeout_strarr] is declared in prelude/SATS/extern.sats

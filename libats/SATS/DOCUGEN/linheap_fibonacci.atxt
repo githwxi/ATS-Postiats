@@ -28,20 +28,20 @@ fibonacci-heap structure.\
 
 (* ****** ****** *)
 
-#declnamesynop("heap") // = heap_viewtype
+#declnamesynop("heap") // = heap_vtype
 #decldescrpt("\
 
 The type constructor #stacode("heap") is a shorthand for
-#stacode("heap_viewtype"). ")
+#stacode("heap_vtype"). ")
 
 (* ****** ****** *)
 
-#declnamesynop("heap_viewtype")
+#declnamesynop("heap_vtype")
 #decldescrpt("\
 
-Given a viewtype T, the abstract viewtype #stacode("heap_viewtype(T)") is
+Given a viewtype T, the abstract viewtype #stacode("heap_vtype(T)") is
 for a heap storing items of the viewtype T. Note that
-#stacode("heap_viewtype") is co-variant in its argument. ")
+#stacode("heap_vtype") is co-variant in its argument. ")
 
 (* ****** ****** *)
 

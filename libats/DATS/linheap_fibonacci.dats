@@ -88,13 +88,13 @@ gnode_set_marked (nx: gnode1 (INV(a)), mark: bool):<!wrt> void
 (* ****** ****** *)
 
 datavtype
-fibheap (a:viewt@ype+) =
+fibheap (a:vt@ype+) =
   | FIBHEAP (a) of (gnode0 (a), size_t(*size*))
 // end of [fibheap]
 
 (* ****** ****** *)
 
-assume heap_viewtype (a:vt0p) = fibheap (a)
+assume heap_vtype (a:vt0p) = fibheap (a)
 
 (* ****** ****** *)
 

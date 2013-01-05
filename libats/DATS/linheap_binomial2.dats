@@ -69,7 +69,7 @@ staload "libats/SATS/linheap_binomial.sats"
 //
 // HX-2012-12-21:
 // the file should be included here
-// before [heap_viewtype] is assumed
+// before [heap_vtype] is assumed
 //
 #include "./SHARE/linheap.hats" // code reuse
 //
@@ -257,7 +257,7 @@ end // end of [local]
 
 (* ****** ****** *)
 
-assume heap_viewtype (a: vt0p) = gnode0 (a)
+assume heap_vtype (a: vt0p) = gnode0 (a)
 
 (* ****** ****** *)
 

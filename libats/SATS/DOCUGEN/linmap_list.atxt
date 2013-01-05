@@ -37,14 +37,14 @@ containing only a few dozens keys).
 #decldescrpt("\
 
 The type constructor #stacode("map") is a shorthand for
-#stacode("may_viewtype").  ")
+#stacode("may_vtype").  ")
 
-#declnamesynop("map_viewtype")
+#declnamesynop("map_vtype")
 #decldescrpt("\
 
 Given a type K and a viewtype T, the abstract viewtype
-#stacode("map_viewtype(K, T)") is for a map storing links from keys of the
-type K to items of the viewtype T. Note that #stacode("map_viewtype") is
+#stacode("map_vtype(K, T)") is for a map storing links from keys of the
+type K to items of the viewtype T. Note that #stacode("map_vtype") is
 co-variant in its second argument.\
 
 ")
@@ -148,7 +148,7 @@ Otherwise, the function keeps the map and returns true. ")
 (* ****** ****** *)
 
 #declnamesynop("mynode")
-#declnamesynop("mynode_viewtype")
+#declnamesynop("mynode_vtype")
 
 (* ****** ****** *)
 

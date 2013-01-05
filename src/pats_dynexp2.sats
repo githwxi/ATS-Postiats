@@ -97,20 +97,20 @@ typedef d2var = d2var_type
 typedef d2varlst = List (d2var)
 typedef d2varopt = Option (d2var)
 //
-viewtypedef d2varlst_vt = List_vt (d2var)
-viewtypedef d2varopt_vt = Option_vt (d2var)
+vtypedef d2varlst_vt = List_vt (d2var)
+vtypedef d2varopt_vt = Option_vt (d2var)
 //
 abstype d2varset_type // assumed in [pats_dynexp2_dvar.dats]
 typedef d2varset = d2varset_type
-absviewtype d2varset_viewtype // assumed in [pats_dynexp2_dvar.dats]
-viewtypedef d2varset_vt = d2varset_viewtype
+absvtype d2varset_vtype // assumed in [pats_dynexp2_dvar.dats]
+vtypedef d2varset_vt = d2varset_vtype
 //
 abstype
 d2varmap_type (a:type) // assumed in [pats_dynexp2_dvar.dats]
 typedef d2varmap (a:type) = d2varmap_type (a)
-absviewtype
-d2varmap_viewtype (a:type) // assumed in [pats_dynexp2_dvar.dats]
-viewtypedef d2varmap_vt (a:type) = d2varmap_viewtype (a)
+absvtype
+d2varmap_vtype (a:type) // assumed in [pats_dynexp2_dvar.dats]
+vtypedef d2varmap_vt (a:type) = d2varmap_vtype (a)
 //
 (* ****** ****** *)
 
@@ -138,7 +138,7 @@ and
 d2pitmlst = List (d2pitm)
 
 typedef d2itmopt = Option (d2itm)
-viewtypedef d2itmopt_vt = Option_vt (d2itm)
+vtypedef d2itmopt_vt = Option_vt (d2itm)
 
 (* ****** ****** *)
 
