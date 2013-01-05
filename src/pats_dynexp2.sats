@@ -322,7 +322,7 @@ fun d2varset_vt_listize (xs: !d2varset_vt):<> d2varlst_vt
 
 (* ****** ****** *)
 
-fun d2varmap_make_nil {a:type} ():<> d2varmap (a)
+fun d2varmap_nil {a:type} ():<> d2varmap (a)
 fun d2varmap_search
   {a:type} (map: d2varmap(a), d2v: d2var): Option_vt (a)
 fun d2varmap_insert
@@ -330,7 +330,7 @@ fun d2varmap_insert
 
 (* ****** ****** *)
 
-fun d2varmap_vt_make_nil {a:type} ():<> d2varmap_vt (a)
+fun d2varmap_vt_nil {a:type} ():<> d2varmap_vt (a)
 fun d2varmap_vt_free {a:type} (map: d2varmap_vt(a)):<> void
 
 fun d2varmap_vt_search

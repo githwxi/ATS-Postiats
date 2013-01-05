@@ -495,7 +495,7 @@ d2varmap_viewtype (a:type) = $LM.map (d2var, a)
 in // in of [local]
 
 implement
-d2varmap_make_nil () = $FM.funmap_make_nil ()
+d2varmap_nil () = $FM.funmap_make_nil ()
 
 implement
 d2varmap_search
@@ -512,7 +512,7 @@ d2varmap_insert
 (* ****** ****** *)
 
 implement
-d2varmap_vt_make_nil () = $LM.linmap_make_nil ()
+d2varmap_vt_nil () = $LM.linmap_make_nil ()
 
 implement
 d2varmap_vt_free (map) = $LM.linmap_free (map)

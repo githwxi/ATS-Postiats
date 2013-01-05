@@ -250,7 +250,7 @@ ccompenv_make
 //
   val () = p->ccompenv_tmplevel := 0
   val () = p->ccompenv_markenvlst := MARKENVLSTnil ()
-  val () = p->ccompenv_varbindmap := d2varmap_vt_make_nil ()
+  val () = p->ccompenv_varbindmap := d2varmap_vt_nil ()
 //
   val () = fold@ (env)
 } // end of [ccompenv_make]

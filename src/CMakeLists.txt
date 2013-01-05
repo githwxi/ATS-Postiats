@@ -241,6 +241,7 @@ pats_ccomp_instrseq.dats
 pats_ccomp_hipat.dats
 pats_ccomp_dynexp.dats
 pats_ccomp_decl.dats
+pats_ccomp_subst.dats
 pats_ccomp_template.dats
 pats_ccomp_emit.dats
 pats_ccomp_main.dats

@@ -36,6 +36,14 @@
 staload "libats/SATS/funralist_nested.sats"
 
 (* ****** ****** *)
+//
+// HX-2013-01:
+//
+// this data structure is essentially due to Chris Okasaki
+// However, unlike Okasaki's formulation, [ralist] is *not*
+// a nested datatype!
+//
+(* ****** ****** *)
 
 datatype node
   (a:t@ype+, int(*d*)) =
@@ -237,7 +245,7 @@ end // end of [local]
 
 local
 
-fun lookup
+fun get_at
   {a:t0p}{d:nat}{n:nat} .<n>. (
   xs: ralist (a, d, n), i: natLt n
 ) :<> node (a, d) = let
@@ -245,7 +253,7 @@ in
 //
 case+ xs of
 | RAevn (xxs) => let
-    val x01 = lookup (xxs, half i)
+    val x01 = get_at (xxs, half i)
   in
     if i mod 2 = 0 then
       let val+ N2 (x0, _) = x01 in x0 end
@@ -255,7 +263,7 @@ case+ xs of
   end // end of [RAevn]
 | RAodd (x, xxs) => (
     if i = 0 then x else let
-      val x01 = lookup (xxs, half (i-1))
+      val x01 = get_at (xxs, half (i-1))
     in
       if i mod 2 = 0 then
         let val+ N2 (_, x1) = x01 in x1 end
@@ -265,17 +273,19 @@ case+ xs of
     end // end of [if]
   ) // end of [RAodd]
 //
-end // end of [lookup]
+end // end of [get_at]
 
 in (* in of [local] *)
 
 implement{a}
-funralist_lookup
+funralist_get_at
   (xs, i) = let
 //
-val+ N1 (x) = lookup{a} (xs, i) in x (*return*)
+val+ N1 (x) = get_at{a} (xs, i) in x (*return*)
 //
-end // end of [funralist_lookup]
+end // end of [funralist_get_at]
+
+implement{a} funralist_lookup = funralist_get_at
 
 end // end of [local]
 
@@ -291,7 +301,7 @@ extern
 fun __free (p: ptr):<!wrt> void = "mac#ats_free_gc"
 //
 fun
-fupdate
+fset_at
   {a:t0p}
   {d:nat}
   {n:nat} .<n,1>. (
@@ -301,13 +311,13 @@ fupdate
 ) :<> ralist (a, d, n) = let
 in
   case+ xs of
-  | RAevn (xxs) => RAevn (fupdate2 (xxs, i, f))
+  | RAevn (xxs) => RAevn (fset2_at (xxs, i, f))
   | RAodd (x, xxs) =>
-      if i = 0 then RAodd (f x, xxs) else RAodd (x, fupdate2 (xxs, i-1, f))
-end // end of [fupdate]
+      if i = 0 then RAodd (f x, xxs) else RAodd (x, fset2_at (xxs, i-1, f))
+end // end of [fset_at]
 //
 and
-fupdate2
+fset2_at
   {a:t0p}
   {d:nat}
   {n2:pos} .<2*n2,0>. (
@@ -323,7 +333,7 @@ in
       let val+ N2 (x0, x1) = xx in N2 (f x0, x1) end
     // end of [val]
     val xxs =
-      fupdate (xxs, i / 2, f1)
+      fset_at (xxs, i / 2, f1)
     val () = $effmask_wrt (__free ($UN.cast2ptr(f1)))
   in
     xxs
@@ -333,27 +343,29 @@ in
       let val+ N2 (x0, x1) = xx in N2 (x0, f x1) end
     // end of [val]
     val xxs =
-      fupdate (xxs, i / 2, f1)
+      fset_at (xxs, i / 2, f1)
     val () = $effmask_wrt (__free ($UN.cast2ptr(f1)))
   in
     xxs
   end // end of [if]
-end // end of [fupdate2]
+end // end of [fset2_at]
 
 in (* in of [local] *)
 
 implement{a}
-funralist_update
+funralist_set_at
   (xs, i, x0) = let
 //
 typedef node = node (a, 0)
 val f = lam (_: node): node =<cloref> N1 (x0)
-val xs = fupdate{a} (xs, i, f)
+val xs = fset_at{a} (xs, i, f)
 val () = $effmask_wrt (__free ($UN.cast2ptr(f)))
 //
 in
   xs
-end // end of [funralist_update]
+end // end of [funralist_set_at]
+
+implement{a} funralist_set_at = funralist_set_at
 
 end // end of [local]
 

@@ -109,6 +109,9 @@ viewtypedef tmpvaropt_vt = Option_vt (tmpvar)
 absviewtype tmpvarset_viewtype
 viewtypedef tmpvarset_vt = tmpvarset_viewtype
 
+absviewtype tmpvarmap_viewtype (a:type)
+viewtypedef tmpvarmap_vt (a:type) = tmpvarmap_viewtype (a)
+
 (* ****** ****** *)
 
 fun tmpvar_make
@@ -151,6 +154,18 @@ fun tmpvarset_vt_listize (xs: !tmpvarset_vt):<> tmpvarlst_vt
 fun tmpvarset_vt_listize_free (xs: tmpvarset_vt):<> tmpvarlst_vt
 
 (* ****** ****** *)
+
+fun tmpvarmap_vt_nil {a:type} ():<> tmpvarmap_vt (a)
+fun tmpvarmap_vt_free {a:type} (map: tmpvarmap_vt(a)):<> void
+
+fun tmpvarmap_vt_search
+  {a:type} (map: !tmpvarmap_vt(a), tmp: tmpvar): Option_vt (a)
+fun tmpvarmap_vt_insert
+  {a:type} (map: &tmpvarmap_vt(a), tmp: tmpvar, x: a): bool(*found*)
+fun tmpvarmap_vt_remove
+  {a:type} (map: &tmpvarmap_vt(a), tmp: tmpvar): bool(*found*)
+
+(* ****** ****** *)
 //
 // HX: function label
 //
@@ -164,6 +179,15 @@ overload print with print_funlab
 fun prerr_funlab (x: funlab): void
 overload prerr with prerr_funlab
 fun fprint_funlab : fprint_type (funlab)
+//
+fun funlab_make (
+  name: string
+, level: int
+, hse0: hisexp
+, qopt: d2cstopt
+, t2mas: t2mpmarglst
+, stamp: stamp
+) : funlab // end of [funlab_make]
 //
 fun funlab_make_type (hse: hisexp): funlab
 fun funlab_make_dcst_type (d2c: d2cst, hse: hisexp): funlab
@@ -984,21 +1008,27 @@ fun ccomp_tmpcstmat (
 fun funlab_subst
   (sub: !stasub, flab: funlab): funlab
 //
+fun funent_subst
+  (env: !ccompenv, sub: !stasub, flab2: funlab, fent: funent, sfx: int): funent
+//
+(* ****** ****** *)
+
+viewtypedef tmpmap = tmpvarmap_vt (tmpvar)
+
+(* ****** ****** *)
+//
 fun tmpvar_subst
   (sub: !stasub, tmp: tmpvar, sfx: int): tmpvar
 fun tmpvarlst_subst
   (sub: !stasub, tmplst: tmpvarlst, sfx: int): tmpvarlst
 //
 fun primval_subst
-  (env: !ccompenv, sub: !stasub, pmv: primval, sfx: int): primval
+  (env: !ccompenv, map: !tmpmap, sub: !stasub, pmv: primval, sfx: int): primval
 //
 fun instr_subst
-  (env: !ccompenv, sub: !stasub, ins: instr, sfx: int): instr
+  (env: !ccompenv, map: !tmpmap, sub: !stasub, ins: instr, sfx: int): instr
 fun instrlst_subst
-  (env: !ccompenv, sub: !stasub, ins: instrlst, sfx: int): instrlst
-//
-fun funent_subst
-  (env: !ccompenv, sub: !stasub, flab2: funlab, fent: funent, sfx: int): funent
+  (env: !ccompenv, map: !tmpmap, sub: !stasub, ins: instrlst, sfx: int): instrlst
 //
 (* ****** ****** *)
 

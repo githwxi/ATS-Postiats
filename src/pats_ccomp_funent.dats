@@ -224,39 +224,6 @@ prerr_funent (fent) = fprint_funent (stderr_ref, fent)
 
 (* ****** ****** *)
 
-implement
-funent_subst
-  (env, sub, flab2, fent, sfx) = let
-//
-val loc = funent_get_loc (fent)
-val flab = funent_get_lab (fent)
-val level = funent_get_level (fent)
-//
-val imparg = funent_get_imparg (fent)
-val tmparg = funent_get_tmparg (fent)
-val tmpret = funent_get_tmpret (fent)
-val inss = funent_get_instrlst (fent)
-val tmplst = funent_get_tmpvarlst (fent)
-//
-val tmplst2 = tmpvarlst_subst (sub, tmplst, sfx)
-//
-(*
-val inss2 = instrlst_subst (env, sub, inss, sfx)
-*)
-//
-val inss2 = inss
-//
-val fent2 =
-  funent_make (
-  loc, level, flab2, imparg, tmparg, None(), tmpret, inss2, tmplst2
-) // end of [val]
-//
-in
-  fent2
-end // end of [funent_subst]
-
-(* ****** ****** *)
-
 %{$
 
 ats_void_type

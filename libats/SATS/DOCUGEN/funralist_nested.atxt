@@ -22,7 +22,11 @@ ATSLIB/libats/funralist_nested\
 #declpreamble("\
 
 This package implements random-access lists based on an interesting
-structure that is assigned a nested datatype.
+structure due to Chris Okasaki. Unlike Okasaki's original formulation,
+which involves a nested datatype, the formulation of the structure in ATS
+makes only use of regular datatypes.  This package is largely for
+educational purpose, demonstrating a convincing case of employing dependent
+types in practical programming.
 
 ")
 
@@ -93,27 +97,38 @@ O(log(n)).  ")
 
 (* ****** ****** *)
 
-#declnamesynop("funralist_lookup")
+#declnamesynop("funralist_get_at")
 #decldescrpt("\
 
 Given a list xs of length n and a natural number i less than n, this
 function returns xs[i], that is, element i in the list xs.  The
 time-complexity of the function is O(log(i)).  ")
 
+#declnamesynop("funralist_lookup")
+#decldescrpt("This function is an alias of #dyncode("funralist_get_at").")
+
 (* ****** ****** *)
 
-#declnamesynop("funralist_update")
+#declnamesynop("funralist_set_at")
 #decldescrpt("\
 
 Given a list xs of length n, a natural number i less than n and an element
 x0, this function returns a list obtained from replacing element i in xs
 with x0. The time-complexity of the function is O(log(i)).  ")
 
+#declnamesynop("funralist_update")
+#decldescrpt("This function is an alias of #dyncode("funralist_set_at").")
+
 (* ****** ****** *)
 
+#declnamesynop("funralist_foreach$cont")
 #declnamesynop("funralist_foreach$fwork")
 #declnamesynop("funralist_foreach")
 #declnamesynop("funralist_foreach_env")
+
+(* ****** ****** *)
+
+#declnamesynop("funralist_listize")
 
 (* ****** ****** *)
 

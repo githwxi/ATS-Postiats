@@ -37,6 +37,20 @@
 
 (* ****** ****** *)
 //
+// HX-2013-01:
+// the time-complexity for various functions operating on
+// random-access lists:
+//
+// funralist_cons: O(1) // amortized
+// funralist_uncons: O(1) // amortized
+//
+// funralist_length: O(log(n))
+//
+// funralist_lookup: O(log(n))
+// funralist_update: O(log(n))
+//
+(* ****** ****** *)
+//
 // HX: indexed by list length
 //
 abstype
@@ -105,12 +119,24 @@ funralist_tail
 (* ****** ****** *)
 
 fun{a:t0p}
+funralist_get_at
+  {n:int} (
+  xs: ralist (INV(a), n), i: natLt n
+) :<> (a) // endfun
+
+fun{a:t0p}
 funralist_lookup
   {n:int} (
   xs: ralist (INV(a), n), i: natLt n
 ) :<> (a) // endfun
 
 (* ****** ****** *)
+
+fun{a:t0p}
+funralist_set_at
+  {n:int} (
+  xs: ralist (INV(a), n), i: natLt n, x0: a
+) :<> ralist (a, n) // endfun
 
 fun{a:t0p}
 funralist_update

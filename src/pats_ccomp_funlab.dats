@@ -71,18 +71,6 @@ staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 
-extern
-fun funlab_make (
-  name: string
-, level: int
-, hse0: hisexp
-, qopt: d2cstopt
-, t2mas: t2mpmarglst
-, stamp: stamp
-) : funlab // end of [funlab_make]
-
-(* ****** ****** *)
-
 typedef
 funlab_struct = @{
   funlab_name= string
@@ -363,27 +351,6 @@ implement
 print_funlab (flab) = fprint_funlab (stdout_ref, flab)
 implement
 prerr_funlab (flab) = fprint_funlab (stderr_ref, flab)
-
-(* ****** ****** *)
-
-implement
-funlab_subst
-  (sub, flab) = let
-//
-val name = funlab_get_name (flab)
-val level = funlab_get_level (flab)
-val hse = funlab_get_type (flab)
-val hse2 = hisexp_subst (sub, hse)
-val () = println! ("funlab_subst: hse2 = ", hse2)
-val qopt = funlab_get_qopt (flab)
-val t2mas = funlab_get_tmparg (flab)
-val stamp = $STMP.funlab_stamp_make ()
-//
-in
-//
-funlab_make (name, level, hse2, qopt, t2mas, stamp)
-//
-end // end of [funlab_subst]
 
 (* ****** ****** *)
 
