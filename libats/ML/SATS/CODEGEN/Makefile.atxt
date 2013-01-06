@@ -63,6 +63,8 @@ all::
 #make_entry("array0")
 #make_entry("string")
 
+#make_entry("filebas")
+
 ######
 
 RMF=rm -f

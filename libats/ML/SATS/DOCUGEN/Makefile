@@ -95,6 +95,16 @@ upload_string:: ;   scp HTML/string.html ats-hwxi,ats-lang@web.sourceforge.net:h
 clean:: ; $(RMF) string_atxt.exe
 cleanall:: ; $(RMF) HTML/string.html
 
+
+all_html:: HTML/filebas.html
+HTML/filebas.html:   filebas_atxt.exe ; ./$< > $@
+filebas_atxt.txt: filebas.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@
+filebas_atxt.exe: htmlgendecl_atxt.dats   filebas_atxt.txt $(DECLATEXT) $(HTMLGENDECL) ;   $(ATSCC) $(INCLUDE) $(INCLATS) $(ATSGCFLAG) -o $@ $<     $(DECLATEXT) $(HTMLGENDECL) $(PATSHOME)/libatsyntax/libatsyntax.a -latsdoc
+upload_filebas:: ;   scp HTML/filebas.html ats-hwxi,ats-lang@web.sourceforge.net:htdocs/LIBRARY/libats/ML
+clean:: ; $(RMF) filebas_atxt.exe
+cleanall:: ; $(RMF) HTML/filebas.html
+
+
 all_html:: HTML/funmap.html
 HTML/funmap.html:   funmap_atxt.exe ; ./$< > $@
 funmap_atxt.txt: funmap.atxt ; $(CAT) $< |   $(ATSDOC) --prefix __datatok --outcode htmlgendecl_data_atxt.dats > $@

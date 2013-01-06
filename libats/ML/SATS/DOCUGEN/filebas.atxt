@@ -1,0 +1,41 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../filebas.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_ML_filebas")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/ML/filebas\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are mostly provided for the sake of
+convenience.  For full-fledged IO support, please see [ATSLIB/libc/SATS/stdio.sats].
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("fileref_get_line_charlst")
+#declnamesynop("fileref_get_lines_charlst")
+
+(* ****** ****** *)
+
+#declnamesynop("fileref_get_line_string")
+#declnamesynop("fileref_get_lines_string")
+
+(* ****** ****** *)
+
+(* end of [filebas.atxt] *)

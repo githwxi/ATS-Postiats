@@ -57,6 +57,16 @@ clean:: ; $(RMF) string_atxt.exe
 cleanall:: ; $(RMF) string.sats
 
 
+all:: filebas.sats
+filebas.sats: filebas_atxt.exe ; ./$< > $@
+filebas_atxt.exe: filebas_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ filebas_atxt.dats -latsdoc
+filebas_atxt.dats: filebas.atxt
+	$(ATSDOC) --outcode $@ -i filebas.atxt > filebas_atxt.txt
+clean:: ; $(RMF) filebas_atxt.exe
+cleanall:: ; $(RMF) filebas.sats
+
+
 ######
 
 RMF=rm -f
