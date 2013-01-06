@@ -413,51 +413,6 @@ case+ imps of
 end // end of [hiimpdeclst_tmpcst_match]
 
 (* ****** ****** *)
-
-extern
-fun t2mpmarglst_subst
-  (loc0: location, tsub: tmpsub, t2mas: t2mpmarglst): t2mpmarglst
-// end of [t2mpmarglst_subst]
-
-local
-
-fun auxlst (
-  loc0: location
-, sub: !stasub, xs: t2mpmarglst
-) : t2mpmarglst = let
-in
-//
-case+ xs of
-| list_cons
-    (x, xs) => let
-    val s2es = x.t2mpmarg_arg
-    val s2es2 =
-      s2explst_subst (sub, s2es)
-    val x2 = t2mpmarg_make (loc0, s2es2)
-    val xs2 = auxlst (loc0, sub, xs)
-  in
-    list_cons (x2, xs2)
-  end // end of [list_cons]
-| list_nil () => list_nil ()
-//
-end // end of [auxlst]
-
-in // in of [local]
-
-implement
-t2mpmarglst_subst
-  (loc0, tsub, t2mas) = let
-//
-val sub = tmpsub2stasub (tsub)
-val t2mas2 = auxlst (loc0, sub, t2mas)
-val () = stasub_free (sub)
-in
-  t2mas2
-end // end of [t2mpmarglst_subst]
-
-end // end of [local]
-
-(* ****** ****** *)
 //
 extern
 fun ccomp_funlab_tmpsubst
@@ -506,7 +461,9 @@ in
 case+ t2mas of
 | list_cons _ => let
     val- Some (d2c) = funlab_get_qopt (fl)
-    val t2mas = t2mpmarglst_subst (loc0, tsub, t2mas)
+    val t2mas =
+      t2mpmarglst_tsubst (loc0, tsub, t2mas)
+    // end of [val]
     val mat = ccompenv_tmpcst_match (env, d2c, t2mas)
   in
     ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, mat)

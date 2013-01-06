@@ -51,11 +51,63 @@ staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
 
+staload "pats_staexp2.sats"
+staload "pats_staexp2_util.sats"
+
+(* ****** ****** *)
+
 staload "pats_histaexp.sats"
 
 (* ****** ****** *)
 
 staload "pats_ccomp.sats"
+
+(* ****** ****** *)
+
+local
+
+fun auxlst (
+  loc0: location
+, sub: !stasub, xs: t2mpmarglst
+) : t2mpmarglst = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val s2es = x.t2mpmarg_arg
+    val s2es2 =
+      s2explst_subst (sub, s2es)
+    val x2 = t2mpmarg_make (loc0, s2es2)
+    val xs2 = auxlst (loc0, sub, xs)
+  in
+    list_cons (x2, xs2)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [auxlst]
+
+in // in of [local]
+
+implement
+t2mpmarglst_subst
+  (loc0, sub, t2mas) = auxlst (loc0, sub, t2mas)
+// end of [t2mpmarglst_subst]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+t2mpmarglst_tsubst
+  (loc0, tsub, t2mas) = let
+//
+val sub = tmpsub2stasub (tsub)
+val t2mas2 = t2mpmarglst_subst (loc0, sub, t2mas)
+val () = stasub_free (sub)
+in
+  t2mas2
+end // end of [t2mpmarglst_tsubst]
 
 (* ****** ****** *)
 //
@@ -266,10 +318,32 @@ implement
 primval_subst (
   env, map, sub, pmv0, sfx
 ) = let
+//
+val loc0 = pmv0.primval_loc
+val hse0 = pmv0.primval_type
+val hse0 = hisexp_subst (sub, hse0)
+//
+macdef ftmp (x) = tmpvar2tmpvar (map, ,(x))
+macdef fpmv (x) = primval_subst (env, map, sub, ,(x), sfx)
+macdef fpmvlst (xs) = primvalist_subst (env, map, sub, ,(xs), sfx)
+//
 in
 //
 case+
   pmv0.primval_node of
+//
+| PMVtmp (tmp) => let
+    val tmp = ftmp (tmp) in primval_tmp (loc0, hse0, tmp)
+  end // end of [PMVtmp]
+//
+| PMVarg (n) => primval_arg (loc0, hse0, n)
+//
+| PMVtmpltcst
+    (d2c, t2mas) => let
+    val t2mas = t2mpmarglst_subst (loc0, sub, t2mas)
+  in
+    primval_tmpltcst (loc0, hse0, d2c, t2mas)
+  end // end of [PMVtmpltcst]
 //
 | _ => pmv0
 //

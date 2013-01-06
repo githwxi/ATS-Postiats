@@ -152,7 +152,7 @@ fileref_get_exnloc
 
 #atscode_separator()
 
-fun fileref_get_line_charlst (r: FILEref): List_vt (char)
+fun fileref_get_line_charlst (r: FILEref): List0_vt (char)
 
 #atscode_separator()
 
@@ -164,15 +164,15 @@ fun fileref_get_line_string_main (
 
 #atscode_separator()
 
-fun fileref_put_charlst (r: FILEref, cs: !List_vt (char)): void
+fun fileref_put_charlst (r: FILEref, cs: NSH(List(char))): void
 
 #atscode_separator()
 
 (*
 ** HX: for handling files of "tiny" size
 *)
-fun fileref_get_file_charlst (r: FILEref): List_vt (char)
-fun fileref_nget_file_charlst {n:nat} (r: FILEref, n: int n): List_vt (char)
+fun fileref_get_file_charlst (r: FILEref): List0_vt (char)
+fun fileref_nget_file_charlst {n:nat} (r: FILEref, n: int n): List0_vt (char)
 
 #atscode_separator()
 

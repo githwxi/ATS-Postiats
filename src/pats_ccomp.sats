@@ -1004,6 +1004,16 @@ fun ccomp_tmpcstmat (
 ) : primval // end of [ccomp_tmpcstmat]
 
 (* ****** ****** *)
+
+fun t2mpmarglst_subst
+  (loc0: location, sub: !stasub, t2mas: t2mpmarglst): t2mpmarglst
+// end of [t2mpmarglst_subst]
+
+fun t2mpmarglst_tsubst
+  (loc0: location, tsub: tmpsub, t2mas: t2mpmarglst): t2mpmarglst
+// end of [t2mpmarglst_tsubst]
+
+(* ****** ****** *)
 //
 fun funlab_subst
   (sub: !stasub, flab: funlab): funlab

@@ -316,6 +316,9 @@ errors. ')
 The following code removes every empty line in a given file:
 
 #pats2xhtmld_tryit("\
+//
+staload UN = \"prelude/SATS/unsafe.sats\"
+//
 fun remove_empty_lines (
   out: FILEref, inp: FILEref, isfst: bool
 ) : void = let
@@ -331,7 +334,7 @@ if ~iseof then let
   val iscons = list_vt_is_cons (cs)
   val () = if iscons then {
     val () = if isfst then (isfst := false) else fileref_putc (out, EOL)
-    val () = fileref_put_charlst (out, cs)
+    val () = fileref_put_charlst (out, $UN.linlst2lst (cs))
   } // end of [if] // end of [val]
   val () = list_vt_free (cs)
 in
