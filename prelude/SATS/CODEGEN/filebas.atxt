@@ -152,7 +152,17 @@ fileref_get_exnloc
 
 #atscode_separator()
 
-fun fileref_get_line_charlst (r: FILEref): List0_vt (char)
+typedef charlst = List0 (char)
+vtypedef charlst_vt = List0_vt (char)
+
+#atscode_separator()
+
+fun fileref_get_line_charlst (r: FILEref): charlst_vt
+
+(*
+** HX: only for files of "tiny" size
+*)
+fun fileref_get_lines_charlst (r: FILEref): List0_vt (charlst_vt)
 
 #atscode_separator()
 
@@ -161,6 +171,11 @@ fun fileref_get_line_string (r: FILEref): Strptr1
 fun fileref_get_line_string_main (
   r: FILEref, n: &size_t? >> size_t n, ending: &int? >> int
 ) : #[n:nat] strnptr (n) // endfun
+
+(*
+** HX: only for files of "tiny" size
+*)
+fun fileref_get_lines_string (r: FILEref): List0_vt (Strptr1)
 
 #atscode_separator()
 

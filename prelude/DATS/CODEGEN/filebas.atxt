@@ -146,10 +146,9 @@ fileref_get_line_charlst
   (filr) = let
 //
 val EOF = '\\\n'
-viewtypedef charlst = List0_vt (char)
 //
 fun loop (
-  filr: FILEref, res: &ptr? >> charlst
+  filr: FILEref, res: &ptr? >> charlst_vt
 ) : void = let
   val i = fileref_getc (filr)
 in
@@ -176,6 +175,43 @@ end // end of [fileref_get_line_charlst]
 #atscode_separator()
 
 implement
+fileref_get_lines_charlst
+  (filr) = let
+//
+vtypedef res = List0_vt (charlst_vt)
+//
+fun loop (
+  filr: FILEref, res: &res? >> res
+) : void = let
+  val iseof = fileref_is_eof (filr)
+in
+//
+if iseof then let
+  val () = (res := list_vt_nil ())
+in
+  // nothing
+end else let
+  val line = fileref_get_line_charlst (filr)
+  val () = res := list_vt_cons{..}{0}(line, _)
+  val list_vt_cons (_, res1) = res
+  val () = loop (filr, res1)
+  prval () = fold@ (res)
+in
+  // nothing
+end // end of [if]
+//
+end // end of [loop]
+//
+var res: res
+val () = loop (filr, res)
+//
+in
+  res
+end // end of [fileref_get_lines_charlst]
+
+#atscode_separator()
+
+implement
 fileref_get_line_string
   (filr) = let
   var n: size_t // uninitialized
@@ -186,15 +222,48 @@ in
   strptr_of_strnptr (str)
 end // end of [fileref_get_line_string]
 
+implement
+fileref_get_lines_string
+  (filr) = let
+//
+vtypedef res = List0_vt (Strptr1)
+//
+fun loop (
+  filr: FILEref, res: &res? >> res
+) : void = let
+  val iseof = fileref_is_eof (filr)
+in
+//
+if iseof then let
+  val () = (res := list_vt_nil ())
+in
+  // nothing
+end else let
+  val line = fileref_get_line_string (filr)
+  val () = res := list_vt_cons{..}{0}(line, _)
+  val list_vt_cons (_, res1) = res
+  val () = loop (filr, res1)
+  prval () = fold@ (res)
+in
+  // nothing
+end // end of [if]
+//
+end // end of [loop]
+//
+var res: res
+val () = loop (filr, res)
+//
+in
+  res
+end // end of [fileref_get_lines_string]
+
 #atscode_separator()
 
 local
 
-viewtypedef
-charlst = List0_vt (char)
 fun loop (
   filr: FILEref
-, n: int, res: &ptr? >> charlst
+, n: int, res: &ptr? >> charlst_vt
 ) : int = let
 in
 //
@@ -241,10 +310,10 @@ fileref_put_charlst
   (out, cs) = let
 //
 implement(env)
-list_vt_foreach$fwork<char><env> (c, env) = fileref_putc (out, c)
+list_foreach$fwork<char><env> (c, env) = fileref_putc (out, c)
 //
 in
-  list_vt_foreach<char> (cs)
+  list_foreach<char> (cs)
 end // end of [fileref_put_charlst]
 
 #atscode_separator()
