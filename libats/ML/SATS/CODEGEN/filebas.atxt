@@ -3,7 +3,7 @@
 #if (ATSCODEFORMAT=="txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"string.sats"
+val _thisfilename = atext_strcst"filebas.sats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
@@ -14,7 +14,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 (*
 ** Source:
-** $PATSHOME/libats/ML/SATS/CODEGEN/string.atxt
+** $PATSHOME/libats/ML/SATS/CODEGEN/filebas.atxt
 ** Time of generation: #timestamp()
 *)
 
@@ -39,6 +39,12 @@ typedef charlst0 = list0 (char)
 
 #atscode_separator()
 
+fun fileref_open_opt
+  (path: NSH(string), fm: file_mode): option0 (FILEref)
+// end of [fileref_open_opt]
+
+#atscode_separator()
+
 fun fileref_get_line_charlst (filr: FILEref): charlst0
 fun fileref_get_line_string (filr: FILEref): string
 
@@ -55,5 +61,5 @@ fun fileref_get_lines_string (filr: FILEref): list0 (string)
 #atscode_eof_strsub("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "string_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "filebas_atxt.txt")
 %}\

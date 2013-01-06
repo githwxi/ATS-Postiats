@@ -28,6 +28,10 @@ convenience.  For full-fledged IO support, please see [ATSLIB/libc/SATS/stdio.sa
 
 (* ****** ****** *)
 
+#declnamesynop("fileref_open_opt")
+
+(* ****** ****** *)
+
 #declnamesynop("fileref_get_line_charlst")
 #declnamesynop("fileref_get_lines_charlst")
 
