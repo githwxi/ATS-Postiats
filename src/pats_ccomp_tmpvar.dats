@@ -36,11 +36,6 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
-
-(* ****** ****** *)
-
 staload "./pats_basics.sats"
 
 (* ****** ****** *)
@@ -130,17 +125,27 @@ compare_tmpvar_tmpvar (tmp1, tmp2) =
 
 (* ****** ****** *)
 
-implement
-fprint_tmpvar
-  (out, tmp) = () where {
-  val () = fprint_string (out, "tmp(")
-  val () = $STMP.fprint_stamp (out, tmp.tmpvar_stamp)
-  val () = fprint_string (out, ")")
-} // end of [fprint_tmpvar]
+end // end of [local]
 
 (* ****** ****** *)
 
-end // end of [local]
+implement
+fprint_tmpvar
+  (out, tmp) = let
+  val stamp =
+    tmpvar_get_stamp (tmp)
+  // end of [val]
+  val () = fprint_string (out, "tmp(")
+  val () = $STMP.fprint_stamp (out, stamp)
+  val () = fprint_string (out, ")")
+in
+  // nothing
+end // end of [fprint_tmpvar]
+
+implement
+print_tmpvar (tmp) = fprint_tmpvar (stdout_ref, tmp)
+implement
+prerr_tmpvar (tmp) = fprint_tmpvar (stderr_ref, tmp)
 
 (* ****** ****** *)
 
@@ -166,81 +171,23 @@ end // end of [local]
 
 local
 
-extern
-fun tmpvar_set_origin (
-  tmp: tmpvar, opt: tmpvaropt
-) : void  = "patsopt_tmpvar_set_origin"
-extern
-fun tmpvar_set_suffix
-  (tmp: tmpvar, sfx: int): void = "patsopt_tmpvar_set_suffix"
-// end of [tmpvar_set_suffix]
-
-in // in of [local]
-
-implement
-tmpvar_subst
-  (sub, tmp, sfx) = let
-  val loc = tmpvar_get_loc (tmp)
-  val hse = tmpvar_get_type (tmp)
-  val hse = hisexp_subst (sub, hse)
-  val tmp2 = tmpvar_make (loc, hse)
-  val () =
-    tmpvar_set_origin (tmp2, Some (tmp))
-  // end of [val]
-  val () = tmpvar_set_suffix (tmp2, sfx)
-in
-  tmp2
-end // end of [tmpvar_subst]
-
-end // end of [local]
-
 (* ****** ****** *)
 
-implement
-tmpvarlst_subst
-  (sub, tmplst, sfx) = let
-//
-fun loop (
-  sub: !stasub
-, xs: tmpvarlst, sfx: int, ys: tmpvarlst_vt
-) : tmpvarlst_vt = let
-//
-in
-//
-case+ xs of
-| list_cons
-    (x, xs) => let
-    val y = tmpvar_subst (sub, x, sfx)
-  in
-    loop (sub, xs, sfx, list_vt_cons (y, ys))
-  end // end of [list_cons]
-| list_nil () => ys
-//
-end // end of [loop]
-//
-val tmplst2 =
-  loop (sub, tmplst, sfx, list_vt_nil)
-val tmplst2 = list_vt_reverse (tmplst2)
-//
-in
-  list_of_list_vt (tmplst2)
-end // end of [tmpvarlst_subst]
+staload LS = "libats/SATS/linset_avltree.sats"
+staload _(*anon*) = "libats/DATS/linset_avltree.dats"
+assume tmpvarset_vtype = $LS.set (tmpvar)
+
+staload LM = "libats/SATS/linmap_avltree.sats"
+staload _(*anon*) = "libats/DATS/linmap_avltree.dats"
+assume tmpvarmap_vtype (a:vt@ype) = $LM.map (tmpvar, a)
 
 (* ****** ****** *)
-
-local
-
-staload
-LS = "libats/SATS/linset_avltree.sats"
-staload _ = "libats/DATS/linset_avltree.dats"
 
 val cmp = lam (
   tmp1: tmpvar, tmp2: tmpvar
 ) : int =<cloref>
   compare_tmpvar_tmpvar (tmp1, tmp2)
 // end of [val]
-
-assume tmpvarset_vtype = $LS.set (tmpvar)
 
 in // in of [local]
 
@@ -261,6 +208,36 @@ implement
 tmpvarset_vt_listize (xs) = $LS.linset_listize (xs)
 implement
 tmpvarset_vt_listize_free (xs) = $LS.linset_listize_free (xs)
+
+(* ****** ****** *)
+
+implement
+tmpvarmap_vt_nil () = $LM.linmap_make_nil ()
+
+implement
+tmpvarmap_vt_free (map) = $LM.linmap_free (map)
+
+implement
+tmpvarmap_vt_search
+  {a} (map, tmp) =
+  $LM.linmap_search_opt (map, tmp, cmp)
+// end of [tmpvarmap_vt_search]
+
+implement
+tmpvarmap_vt_insert
+  {a} (map, tmp, x) = let
+  var res: a? // uninitialized
+  val ans = $LM.linmap_insert (map, tmp, x, cmp, res)
+  prval () = opt_clear (res)
+in
+  ans
+end // end of [tmpvarmap_vt_insert]
+
+implement
+tmpvarmap_vt_remove
+  {a} (map, tmp) =
+  $LM.linmap_remove (map, tmp, cmp)
+// end of [tmpvarmap_vt_remove]
 
 end // end of [local]
 

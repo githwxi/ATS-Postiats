@@ -34,7 +34,7 @@ arrays that are assigned the fully indexed list type.
 #pats2xhtmls('\
 dataview
 gfarray_v (
-  a:viewt@ype+, addr, ilist
+  a:vt@ype+, addr, ilist
 ) =
   | {l:addr}
     gfarray_v_nil (a, l, ilist_nil) of ()

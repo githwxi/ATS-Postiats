@@ -1013,25 +1013,6 @@ fun funent_subst
 //
 (* ****** ****** *)
 
-vtypedef tmpmap = tmpvarmap_vt (tmpvar)
-
-(* ****** ****** *)
-//
-fun tmpvar_subst
-  (sub: !stasub, tmp: tmpvar, sfx: int): tmpvar
-fun tmpvarlst_subst
-  (sub: !stasub, tmplst: tmpvarlst, sfx: int): tmpvarlst
-//
-fun primval_subst
-  (env: !ccompenv, map: !tmpmap, sub: !stasub, pmv: primval, sfx: int): primval
-//
-fun instr_subst
-  (env: !ccompenv, map: !tmpmap, sub: !stasub, ins: instr, sfx: int): instr
-fun instrlst_subst
-  (env: !ccompenv, map: !tmpmap, sub: !stasub, ins: instrlst, sfx: int): instrlst
-//
-(* ****** ****** *)
-
 fun ccomp_main (
   out: FILEref, flag: int, infil: $FIL.filename, hdcs: hideclist
 ) : void // end of [ccomp_main]

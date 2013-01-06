@@ -52,9 +52,9 @@ gflist (
 #declsynop2('\
 #para('\
 #pats2xhtmls('\
-dataviewtype
+datavtype
 gflist_vt (
-  a:viewt@ype+, ilist(*ind*)
+  a:vt@ype+, ilist(*ind*)
 ) =
   | gflist_vt_nil (a, ilist_nil) of ()
   | {x:int}{xs:ilist}

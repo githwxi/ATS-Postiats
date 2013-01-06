@@ -32,12 +32,126 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/list.dats"
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+
+(* ****** ****** *)
+
+staload "./pats_basics.sats"
+
+(* ****** ****** *)
+
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_ccomp_subst"
+
+(* ****** ****** *)
+
+staload ERR = "./pats_error.sats"
+
+(* ****** ****** *)
+
 staload "pats_histaexp.sats"
 
 (* ****** ****** *)
 
 staload "pats_ccomp.sats"
 
+(* ****** ****** *)
+//
+extern
+fun tmpvar_subst
+  (sub: !stasub, tmp: tmpvar, sfx: int): tmpvar
+extern
+fun tmpvarlst_subst
+  (sub: !stasub, tmplst: tmpvarlst, sfx: int): tmpvarlst
+//
+(* ****** ****** *)
+
+local
+
+extern
+fun tmpvar_set_origin (
+  tmp: tmpvar, opt: tmpvaropt
+) : void  = "patsopt_tmpvar_set_origin"
+extern
+fun tmpvar_set_suffix
+  (tmp: tmpvar, sfx: int): void = "patsopt_tmpvar_set_suffix"
+// end of [tmpvar_set_suffix]
+
+in // in of [local]
+
+implement
+tmpvar_subst
+  (sub, tmp, sfx) = let
+  val loc = tmpvar_get_loc (tmp)
+  val hse = tmpvar_get_type (tmp)
+  val hse = hisexp_subst (sub, hse)
+  val tmp2 = tmpvar_make (loc, hse)
+  val () =
+    tmpvar_set_origin (tmp2, Some (tmp))
+  // end of [val]
+  val () = tmpvar_set_suffix (tmp2, sfx)
+in
+  tmp2
+end // end of [tmpvar_subst]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+tmpvarlst_subst
+  (sub, tmplst, sfx) = let
+//
+fun loop (
+  sub: !stasub
+, xs: tmpvarlst, sfx: int, ys: tmpvarlst_vt
+) : tmpvarlst_vt = let
+//
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val y = tmpvar_subst (sub, x, sfx)
+  in
+    loop (sub, xs, sfx, list_vt_cons (y, ys))
+  end // end of [list_cons]
+| list_nil () => ys
+//
+end // end of [loop]
+//
+val tmplst2 =
+  loop (sub, tmplst, sfx, list_vt_nil)
+val tmplst2 = list_vt_reverse (tmplst2)
+//
+in
+  list_of_list_vt (tmplst2)
+end // end of [tmpvarlst_subst]
+
+(* ****** ****** *)
+
+vtypedef tmpmap = tmpvarmap_vt (tmpvar)
+
+(* ****** ****** *)
+//
+extern
+fun primval_subst (
+  env: !ccompenv, map: !tmpmap, sub: !stasub, pmv: primval, sfx: int
+) : primval // end of [primval_subst]
+extern
+fun primvalist_subst (
+  env: !ccompenv, map: !tmpmap, sub: !stasub, pmvs: primvalist, sfx: int
+) : primvalist // end of [primvalist_subst]
+//
+extern
+fun instr_subst
+  (env: !ccompenv, map: !tmpmap, sub: !stasub, ins: instr, sfx: int): instr
+extern
+fun instrlst_subst
+  (env: !ccompenv, map: !tmpmap, sub: !stasub, inss: instrlst, sfx: int): instrlst
+//
 (* ****** ****** *)
 
 implement
@@ -61,6 +175,38 @@ end // end of [funlab_subst]
 
 (* ****** ****** *)
 
+extern
+fun tmpmap_make (xs: tmpvarlst): tmpmap
+implement
+tmpmap_make (xs) = let
+//
+fun loop (
+  xs: tmpvarlst, res: &tmpmap
+) : void = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val- Some (xp) = tmpvar_get_origin (x)
+    val _(*inserted*) = tmpvarmap_vt_insert (res, xp, x)
+  in
+    loop (xs, res)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [loop]
+//
+var res
+  : tmpmap = tmpvarmap_vt_nil ()
+val () = loop (xs, res)
+//
+in
+  res
+end // end of [tmpmap_make]
+
+(* ****** ****** *)
+
 implement
 funent_subst
   (env, sub, flab2, fent, sfx) = let
@@ -76,12 +222,11 @@ val inss = funent_get_instrlst (fent)
 val tmplst = funent_get_tmpvarlst (fent)
 //
 val tmplst2 = tmpvarlst_subst (sub, tmplst, sfx)
+val tmpmap2 = tmpmap_make (tmplst2)
 //
-(*
-val inss2 = instrlst_subst (env, sub, inss, sfx)
-*)
+val inss2 = instrlst_subst (env, tmpmap2, sub, inss, sfx)
 //
-val inss2 = inss
+val ((*void*)) = tmpvarmap_vt_free (tmpmap2)
 //
 val fent2 =
   funent_make (
@@ -91,6 +236,192 @@ val fent2 =
 in
   fent2
 end // end of [funent_subst]
+
+(* ****** ****** *)
+
+extern
+fun tmpvar2tmpvar
+  (map: !tmpmap, tmp: tmpvar): tmpvar
+implement
+tmpvar2tmpvar
+  (map, tmp) = let
+  val opt = tmpvarmap_vt_search (map, tmp)
+in
+//
+case+ opt of
+| ~Some_vt (tmp2) => tmp2
+| ~None_vt () => let
+    val () = prerr_interror ()
+    val () = prerr ": tmpvar2tmpvar: copy is not found: tmp = "
+    val () = prerr_tmpvar (tmp)
+  in
+    $ERR.abort ()
+  end // end of [None_vt]
+//
+end // end of [tmpvar2tmpvar]
+
+(* ****** ****** *)
+
+implement
+primval_subst (
+  env, map, sub, pmv0, sfx
+) = let
+in
+//
+case+
+  pmv0.primval_node of
+//
+| _ => pmv0
+//
+end // end of [primval_subst]
+
+(* ****** ****** *)
+
+implement
+primvalist_subst (
+  env, map, sub, pmvs, sfx
+) = let
+in
+//
+case+ pmvs of
+| list_cons
+    (pmv, pmvs) => let
+    val pmv = primval_subst (env,map, sub, pmv, sfx)
+    val pmvs = primvalist_subst (env,map, sub, pmvs, sfx)
+  in
+    list_cons (pmv, pmvs)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [primvalist_subst]
+
+(* ****** ****** *)
+
+implement
+instr_subst (
+  env, map, sub, ins0, sfx
+) = let
+//
+val loc0 = ins0.instr_loc
+//
+macdef ftmp (x) = tmpvar2tmpvar (map, ,(x))
+macdef fpmv (x) = primval_subst (env, map, sub, ,(x), sfx)
+macdef fpmvlst (xs) = primvalist_subst (env, map, sub, ,(xs), sfx)
+//
+in
+//
+case+
+  ins0.instr_node of
+//
+| INSfunlab _ => ins0
+//
+| INSmove_val
+    (tmp, pmv) => let
+    val tmp = ftmp (tmp)
+    val pmv = fpmv (pmv)
+  in
+    instr_move_val (loc0, tmp, pmv)
+  end // end of [INSmove_val]
+(*
+| INSmove_arg_val of (int(*arg*), primval)
+| INSmove_ptr_val of (tmpvar(*ptr*), primval)
+//
+| INSmove_con of
+    (tmpvar, d2con, hisexp, primvalist(*arg*))
+| INSmove_ptr_con of
+    (tmpvar(*ptr*), d2con, hisexp, primvalist(*arg*))
+//
+| INSTRmove_rec_box of
+    (tmpvar, labprimvalist(*arg*), hisexp)
+| INSTRmove_rec_flt of
+    (tmpvar, labprimvalist(*arg*), hisexp)
+//
+| INSmove_list_nil of (tmpvar) // tmp <- list_nil
+| INSpmove_list_nil of (tmpvar) // *tmp <- list_nil
+| INSpmove_list_cons of (tmpvar) // *tmp <- list_cons
+| INSupdate_list_head of // hd <- &(tl->val)
+    (tmpvar(*hd*), tmpvar(*tl*), hisexp(*elt*))
+| INSupdate_list_tail of // tl_new <- &(tl_old->next)
+    (tmpvar(*new*), tmpvar(*old*), hisexp(*elt*))
+//
+| INSmove_arrpsz of
+    (tmpvar, hisexp(*elt*), int(*asz*))
+| INSupdate_ptrinc of (tmpvar, hisexp(*elt*))
+//
+| INSmove_ref of (tmpvar, primval) // tmp := ref (pmv)
+//
+*)
+| INSfuncall
+    (tmp, _fun, hse, _arg) => let
+    val tmp = ftmp (tmp)
+    val _fun = fpmv (_fun)
+    val hse = hisexp_subst (sub, hse)
+    val _arg = fpmvlst (_arg)
+  in
+    instr_funcall (loc0, tmp, _fun, hse, _arg)
+  end // end of [INSfuncall]
+(*
+| INScond of ( // conditinal instruction
+    primval(*test*), instrlst(*then*), instrlst(*else*)
+  ) // end of [INScond]
+//
+| INSpatck of (primval, patck, patckont) // pattern check
+//
+| INSselect of (tmpvar, primval, hisexp(*rec*), hilablst)
+| INSselcon of (tmpvar, primval, hisexp(*sum*), int(*narg*))
+//
+| INSassgn_varofs of
+    (d2var(*left*), primlablst(*ofs*), primval(*right*))
+| INSassgn_ptrofs of
+    (primval(*left*), primlablst(*ofs*), primval(*right*))
+//
+| INSletpop of ()
+| INSletpush of (primdeclst)
+//
+*)
+| _ => ins0
+//
+end // end of [instr_subst]
+
+(* ****** ****** *)
+
+implement
+instrlst_subst
+  (env, map, sub, inss, sfx) = let
+//
+fun loop (
+  env: !ccompenv
+, map: !tmpmap
+, sub: !stasub
+, inss: instrlst
+, sfx: int
+, res: &instrlst? >> instrlst
+) : void = let
+in
+//
+case+ inss of
+| list_cons
+    (ins, inss) => let
+    val ins =
+      instr_subst (env, map, sub, ins, sfx)
+    // end of [val]
+    val () = res := list_cons {instr}{0} (ins, ?)
+    val list_cons (_, !p_res1) = res
+    val () = loop (env, map, sub, inss, sfx, !p_res1)
+    prval () = fold@ (res)
+  in
+    // nothing
+  end // end of [list_cons]
+| list_nil () => (res := list_nil ())
+//
+end // end of [loop]
+//
+var res: instrlst?
+val () = loop (env, map, sub, inss, sfx, res)
+//
+in
+  res
+end // end of [instrlst_subst]
 
 (* ****** ****** *)
 
