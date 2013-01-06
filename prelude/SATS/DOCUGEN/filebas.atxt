@@ -230,6 +230,17 @@ the chars returned.  ')
 
 (* ****** ****** *)
 
+#declnamesynop("fileref_get_lines_charlst")
+#decldescrpt('\
+
+This function returns a linear list consisting of all the lines read
+from a given file handle. Note the each of the returned lines is obtained
+by calling #dyncode("fileref_get_line_charlst").
+
+')
+
+(* ****** ****** *)
+
 #declnamesynop("fileref_get_line_string")
 #decldescrpt('\
 
@@ -254,6 +265,17 @@ end // end of [fileref_get_line_string]
 (* ****** ****** *)
 
 #declnamesynop("fileref_get_line_string_main")
+
+(* ****** ****** *)
+
+#declnamesynop("fileref_get_lines_string")
+#decldescrpt('\
+
+This function returns a linear list consisting of all the lines read
+from a given file handle. Note the each of the returned lines is obtained
+by calling #dyncode("fileref_get_line_string").
+
+')
 
 (* ****** ****** *)
 

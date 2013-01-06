@@ -423,7 +423,7 @@ in
 if tmplev > 0 then
   primval_tmpltcst (loc0, hse0, d2c, t2mas)
 else let
-  val mat =
+  val tmpmat =
     ccompenv_tmpcst_match (env, d2c, t2mas)
   // end of [val]
 //
@@ -435,11 +435,11 @@ else let
   val () = fpprint_t2mpmarglst (stdout_ref, t2mas)
   val () = print_newline ()
   val () = print ("mat = ")
-  val () = fprint_tmpcstmat (stdout_ref, mat)
+  val () = fprint_tmpcstmat (stdout_ref, tmpmat)
   val () = print_newline ()
 //
 in
-  ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, mat)
+  ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, tmpmat)
 end // end of [if]
 //
 end // end of [hidexp_ccomp_tmpcst]

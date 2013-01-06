@@ -341,8 +341,9 @@ case+
 | PMVtmpltcst
     (d2c, t2mas) => let
     val t2mas = t2mpmarglst_subst (loc0, sub, t2mas)
+    val tmpmat = ccompenv_tmpcst_match (env, d2c, t2mas)
   in
-    primval_tmpltcst (loc0, hse0, d2c, t2mas)
+    ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, tmpmat)
   end // end of [PMVtmpltcst]
 //
 | _ => pmv0
