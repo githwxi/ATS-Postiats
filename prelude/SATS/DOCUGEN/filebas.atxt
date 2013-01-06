@@ -230,7 +230,7 @@ the chars returned.  ')
 
 (* ****** ****** *)
 
-#declnamesynop("fileref_get_lines_charlst")
+#declnamesynop("fileref_get_lines_charlstlst")
 #decldescrpt('\
 
 This function returns a linear list consisting of all the lines read
@@ -268,7 +268,7 @@ end // end of [fileref_get_line_string]
 
 (* ****** ****** *)
 
-#declnamesynop("fileref_get_lines_string")
+#declnamesynop("fileref_get_lines_stringlst")
 #decldescrpt('\
 
 This function returns a linear list consisting of all the lines read

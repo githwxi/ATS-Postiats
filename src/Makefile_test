@@ -156,6 +156,8 @@ libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/array0.sats
 libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/array0.dats
 libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/string.sats
 libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/string.dats
+libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/filebas.sats
+libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/filebas.dats
 
 libats_ML:: ; $(PATSOPT) -tc -s $(PATSHOME)/libats/ML/SATS/funset.sats
 libats_ML:: ; $(PATSOPT) -tc -d $(PATSHOME)/libats/ML/DATS/funset.dats

@@ -43,11 +43,11 @@ prelude_fileref_open_opt = fileref_open_opt
 macdef
 prelude_fileref_get_line_charlst = fileref_get_line_charlst
 macdef
-prelude_fileref_get_lines_charlst = fileref_get_lines_charlst
+prelude_fileref_get_lines_charlstlst = fileref_get_lines_charlstlst
 macdef
 prelude_fileref_get_line_string = fileref_get_line_string
 macdef
-prelude_fileref_get_lines_string = fileref_get_lines_string
+prelude_fileref_get_lines_stringlst = fileref_get_lines_stringlst
 
 (* ****** ****** *)
 
@@ -71,26 +71,26 @@ end // end of [fileref_open_opt]
 (* ****** ****** *)
 
 implement
-fileref_get_line_charlst (filr) = let
-  val cs = prelude_fileref_get_line_charlst (filr) in list0_of_list_vt (cs)
-end // end of [fileref_get_line_charlst]
+fileref_get_line_charlst (filr) =
+  list0_of_list_vt (prelude_fileref_get_line_charlst (filr))
+// end of [fileref_get_line_charlst]
 
 implement
-fileref_get_lines_charlst (filr) = let
-  val xs = prelude_fileref_get_lines_charlst (filr) in $UN.castvwtp0{list0(charlst0)}(xs)
-end // end of [fileref_get_lines_charlst]
+fileref_get_lines_charlstlst (filr) =
+  $UN.castvwtp0{list0(charlst0)} (prelude_fileref_get_lines_charlstlst (filr))
+// end of [fileref_get_lines_charlstlst]
 
 (* ****** ****** *)
 
 implement
-fileref_get_line_string (filr) = let
-  val str = prelude_fileref_get_line_string (filr) in string_of_strptr (str)
-end // end of [fileref_get_line_string]
+fileref_get_line_string (filr) =
+  string_of_strptr (prelude_fileref_get_line_string (filr))
+// end of [fileref_get_line_string]
 
 implement
-fileref_get_lines_string (filr) = let
-  val xs = prelude_fileref_get_lines_string (filr) in $UN.castvwtp0{list0(string)}(xs)
-end // end of [fileref_get_lines_string]
+fileref_get_lines_stringlst (filr) =
+  $UN.castvwtp0{list0(string)}(prelude_fileref_get_lines_stringlst (filr))
+// end of [fileref_get_lines_stringlst]
 
 (* ****** ****** *)
 

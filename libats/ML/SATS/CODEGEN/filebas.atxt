@@ -36,6 +36,7 @@ typedef NSH(a:type) = a // for commenting purpose
 #atscode_separator()
 
 typedef charlst0 = list0 (char)
+typedef stringlst0 = list0 (string)
 
 #atscode_separator()
 
@@ -46,15 +47,20 @@ fun fileref_open_opt
 #atscode_separator()
 
 fun fileref_get_line_charlst (filr: FILEref): charlst0
-fun fileref_get_line_string (filr: FILEref): string
-
-#atscode_separator()
 
 (*
 ** HX: for handling files of "tiny" size
 *)
-fun fileref_get_lines_charlst (filr: FILEref): list0 (charlst0)
-fun fileref_get_lines_string (filr: FILEref): list0 (string)
+fun fileref_get_lines_charlstlst (filr: FILEref): list0 (charlst0)
+
+#atscode_separator()
+
+fun fileref_get_line_string (filr: FILEref): string
+
+(*
+** HX: for handling files of "tiny" size
+*)
+fun fileref_get_lines_stringlst (filr: FILEref): stringlst0
 
 #atscode_separator()
 

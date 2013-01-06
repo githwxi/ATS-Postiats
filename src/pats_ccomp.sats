@@ -289,7 +289,9 @@ fun tmpsub2stasub (tsub: tmpsub): stasub
 (* ****** ****** *)
 
 datatype tmpcstmat =
-  | TMPCSTMATsome of (hiimpdec, tmpsub) | TMPCSTMATnone of ()
+  | TMPCSTMATsome of (hiimpdec, tmpsub)
+  | TMPCSTMATsome2 of (d2cst, s2explstlst, funlab)
+  | TMPCSTMATnone of ()
 // end of [tmpcstmat]
 
 fun fprint_tmpcstmat : fprint_type (tmpcstmat)
@@ -849,6 +851,7 @@ fun ccompenv_find_varbind
 fun ccompenv_add_impdec (env: !ccompenv, imp: hiimpdec): void
 fun ccompenv_add_fundec (env: !ccompenv, hfd: hifundec): void
 fun ccompenv_add_staload (env: !ccompenv, fenv: filenv): void
+fun ccompenv_add_tmpcstmat (env: !ccompenv, mat: tmpcstmat): void
 
 (* ****** ****** *)
 
@@ -991,6 +994,14 @@ fun hiimpdec_tmpcst_match
 fun hiimpdeclst_tmpcst_match
   (imps: hiimpdeclst, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
 // end of [hiimpdeclst_tmpcst_match]
+
+(* ****** ****** *)
+
+fun tmpcstmat_tmpcst_match
+  (mat: tmpcstmat, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
+// end of [tmpcstmat_tmpcst_match]
+
+(* ****** ****** *)
 
 fun ccompenv_tmpcst_match
   (env: !ccompenv, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat

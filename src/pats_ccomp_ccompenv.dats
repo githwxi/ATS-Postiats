@@ -100,6 +100,7 @@ markenvlst_vt =
   | MARKENVLSTcons_impdec of (hiimpdec, markenvlst_vt)
   | MARKENVLSTcons_fundec of (hifundec, markenvlst_vt)
   | MARKENVLSTcons_staload of (filenv, markenvlst_vt)
+  | MARKENVLSTcons_tmpcstmat of (tmpcstmat, markenvlst_vt) 
 // end of [markenvlst]
 
 (* ****** ****** *)
@@ -117,6 +118,7 @@ in
   | ~MARKENVLSTcons_impdec (_, xs) => markenvlst_vt_free (xs)
   | ~MARKENVLSTcons_fundec (_, xs) => markenvlst_vt_free (xs)
   | ~MARKENVLSTcons_staload (_, xs) => markenvlst_vt_free (xs)
+  | ~MARKENVLSTcons_tmpcstmat (_, xs) => markenvlst_vt_free (xs)
 end // end of [markenvlst_vt_free]
 
 (* ****** ****** *)
@@ -198,6 +200,19 @@ case+ xs of
   in
     // nothing
   end // end of [MARKENVLSTcons_staload]
+//
+| MARKENVLSTcons_tmpcstmat
+    (!p_x, !p_xs) => let
+    val () =
+      if i > 0 then
+        fprint_string (out, ", ")
+      // end of [if]
+    val () = fprint_tmpcstmat (out, !p_x)
+    val () = loop (out, !p_xs, i+1)
+    prval () = fold@ (xs)
+  in
+    // nothing
+  end // end of [MARKENVLSTcons_tmpcstmat]
 //
 end // end of [loop]
 //
@@ -344,6 +359,7 @@ case+ xs of
 | ~MARKENVLSTcons_impdec (_, xs) => auxpop (map, xs)
 | ~MARKENVLSTcons_fundec (_, xs) => auxpop (map, xs)
 | ~MARKENVLSTcons_staload (_, xs) => auxpop (map, xs)
+| ~MARKENVLSTcons_tmpcstmat (_, xs) => auxpop (map, xs)
 //
 end // end of [auxpop]
 
@@ -451,6 +467,20 @@ in
   // nothing
 end // end of [ccompenv_add_staload]
 
+implement
+ccompenv_add_tmpcstmat
+  (env, tmpmat) = let
+//
+  val CCOMPENV (!p) = env
+  val xs = p->ccompenv_markenvlst
+  val () = p->ccompenv_markenvlst := MARKENVLSTcons_tmpcstmat (tmpmat, xs)
+//
+  prval () = fold@ (env)
+//
+in
+  // nothing
+end // end of [ccompenv_add_tmpcstmat]
+
 (* ****** ****** *)
 
 implement
@@ -468,13 +498,25 @@ case+ xs of
 | MARKENVLSTnil () => let
     prval () = fold@ (xs) in TMPCSTMATnone ()
   end // end of [MARKENVLSTnil]
-| MARKENVLSTmark (!p_xs) => let
-    val opt = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); opt
+//
+| MARKENVLSTmark
+    (!p_xs) => let
+    val opt = auxlst (!p_xs, d2c0, t2mas)
+    prval () = fold@ (xs)
+  in
+    opt
   end // end of [MARKENVLSTmark]
-| MARKENVLSTcons_var (_, !p_xs) => let
-    val opt = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); opt
+//
+| MARKENVLSTcons_var
+    (_, !p_xs) => let
+    val opt = auxlst (!p_xs, d2c0, t2mas)
+    prval () = fold@ (xs)
+  in
+    opt
   end // end of [MARKENVLSTcons_var]
-| MARKENVLSTcons_impdec (imp, !p_xs) => let
+//
+| MARKENVLSTcons_impdec
+    (imp, !p_xs) => let
     val opt =
       hiimpdec_tmpcst_match (imp, d2c0, t2mas)
     val res = auxcont (opt, !p_xs, d2c0, t2mas)
@@ -482,11 +524,20 @@ case+ xs of
   in
     res
   end // end of [MARKENVLSTcons_impdec]
-| MARKENVLSTcons_fundec (fdc, !p_xs) => let
-    val opt = auxlst (!p_xs, d2c0, t2mas) in fold@ (xs); opt
+//
+| MARKENVLSTcons_fundec
+    (fdc, !p_xs) => let
+    val opt = auxlst (!p_xs, d2c0, t2mas)
+    prval () = fold@ (xs)
+  in
+    opt
   end // end of [MARKENVLSTcons_fundec]
-| MARKENVLSTcons_staload (fenv, !p_xs) => let
-    val- Some (map) = filenv_get_tmpcstdecmapopt (fenv)
+//
+| MARKENVLSTcons_staload
+    (fenv, !p_xs) => let
+    val- Some (map) =
+      filenv_get_tmpcstdecmapopt (fenv)
+    // end of [val]
     val imps = tmpcstdecmap_find (map, d2c0)
     val opt = hiimpdeclst_tmpcst_match (imps, d2c0, t2mas)
     val res = auxcont (opt, !p_xs, d2c0, t2mas)
@@ -494,6 +545,17 @@ case+ xs of
   in
     res
   end // end of [MARKENVLSTcons_fundec]
+//
+| MARKENVLSTcons_tmpcstmat
+    (tmpmat, !p_xs) => let
+    val opt =
+      tmpcstmat_tmpcst_match (tmpmat, d2c0, t2mas)
+    // end of [val]
+    val res = auxcont (opt, !p_xs, d2c0, t2mas)
+    prval () = fold@ (xs)
+  in
+    res
+  end // end of [MARKENVLSTcons_tmpcstmat]
 //
 end // end of [auxlst]
 //
@@ -506,7 +568,9 @@ and auxcont (
 in
 //
 case+ opt of
-| TMPCSTMATsome _ => opt | TMPCSTMATnone _ => auxlst (xs, d2c0, t2mas)
+| TMPCSTMATsome _ => opt
+| TMPCSTMATsome2 _ => opt
+| TMPCSTMATnone _ => auxlst (xs, d2c0, t2mas)
 //
 end // end of [auxcont]
 //

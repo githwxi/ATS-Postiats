@@ -175,7 +175,7 @@ end // end of [fileref_get_line_charlst]
 #atscode_separator()
 
 implement
-fileref_get_lines_charlst
+fileref_get_lines_charlstlst
   (filr) = let
 //
 vtypedef res = List0_vt (charlst_vt)
@@ -207,7 +207,7 @@ val () = loop (filr, res)
 //
 in
   res
-end // end of [fileref_get_lines_charlst]
+end // end of [fileref_get_lines_charlstlst]
 
 #atscode_separator()
 
@@ -223,7 +223,7 @@ in
 end // end of [fileref_get_line_string]
 
 implement
-fileref_get_lines_string
+fileref_get_lines_stringlst
   (filr) = let
 //
 vtypedef res = List0_vt (Strptr1)
@@ -255,7 +255,7 @@ val () = loop (filr, res)
 //
 in
   res
-end // end of [fileref_get_lines_string]
+end // end of [fileref_get_lines_stringlst]
 
 #atscode_separator()
 

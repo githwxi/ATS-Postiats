@@ -792,6 +792,16 @@ case+ opt of
   in
     // nothing
   end // end of [TMPCSTMATnone]
+| TMPCSTMATsome2
+    (d2c, s2ess, flab) => let
+    val () = prstr "TMPCSTMATsome2("
+    val () = fprint_funlab (out, flab)
+    val () = prstr "; "
+    val () = fprint_s2explstlst (out, s2ess)
+    val () = prstr ")"
+  in
+    // nothing
+  end // end of [TMPCSTMATsome2]
 //
 end // end of [fprint_tmpcstmat]
 
@@ -799,7 +809,10 @@ implement
 fprint_tmpcstmat_kind
   (out, opt) = let
   val knd = (
-    case+ opt of TMPCSTMATsome _ => 1 | TMPCSTMATnone _ => 0
+    case+ opt of
+    | TMPCSTMATnone _ => 0
+    | TMPCSTMATsome _ => 1
+    | TMPCSTMATsome2 _ => 2
   ) : int // end of [val]
 in
   fprint_int (out, knd)

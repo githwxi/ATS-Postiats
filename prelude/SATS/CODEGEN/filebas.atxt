@@ -162,7 +162,7 @@ fun fileref_get_line_charlst (r: FILEref): charlst_vt
 (*
 ** HX: only for files of "tiny" size
 *)
-fun fileref_get_lines_charlst (r: FILEref): List0_vt (charlst_vt)
+fun fileref_get_lines_charlstlst (r: FILEref): List0_vt (charlst_vt)
 
 #atscode_separator()
 
@@ -175,7 +175,7 @@ fun fileref_get_line_string_main (
 (*
 ** HX: only for files of "tiny" size
 *)
-fun fileref_get_lines_string (r: FILEref): List0_vt (Strptr1)
+fun fileref_get_lines_stringlst (r: FILEref): List0_vt (Strptr1)
 
 #atscode_separator()
 

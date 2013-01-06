@@ -33,12 +33,12 @@ convenience.  For full-fledged IO support, please see [ATSLIB/libc/SATS/stdio.sa
 (* ****** ****** *)
 
 #declnamesynop("fileref_get_line_charlst")
-#declnamesynop("fileref_get_lines_charlst")
+#declnamesynop("fileref_get_lines_charlstlst")
 
 (* ****** ****** *)
 
 #declnamesynop("fileref_get_line_string")
-#declnamesynop("fileref_get_lines_string")
+#declnamesynop("fileref_get_lines_stringlst")
 
 (* ****** ****** *)
 

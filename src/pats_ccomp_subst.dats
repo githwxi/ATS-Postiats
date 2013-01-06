@@ -259,38 +259,6 @@ end // end of [tmpmap_make]
 
 (* ****** ****** *)
 
-implement
-funent_subst
-  (env, sub, flab2, fent, sfx) = let
-//
-val loc = funent_get_loc (fent)
-val flab = funent_get_lab (fent)
-val level = funent_get_level (fent)
-//
-val imparg = funent_get_imparg (fent)
-val tmparg = funent_get_tmparg (fent)
-val tmpret = funent_get_tmpret (fent)
-val inss = funent_get_instrlst (fent)
-val tmplst = funent_get_tmpvarlst (fent)
-//
-val tmplst2 = tmpvarlst_subst (sub, tmplst, sfx)
-val tmpmap2 = tmpmap_make (tmplst2)
-//
-val inss2 = instrlst_subst (env, tmpmap2, sub, inss, sfx)
-//
-val ((*void*)) = tmpvarmap_vt_free (tmpmap2)
-//
-val fent2 =
-  funent_make (
-  loc, level, flab2, imparg, tmparg, None(), tmpret, inss2, tmplst2
-) // end of [val]
-//
-in
-  fent2
-end // end of [funent_subst]
-
-(* ****** ****** *)
-
 extern
 fun tmpvar2tmpvar
   (map: !tmpmap, tmp: tmpvar): tmpvar
@@ -311,6 +279,47 @@ case+ opt of
   end // end of [None_vt]
 //
 end // end of [tmpvar2tmpvar]
+
+(* ****** ****** *)
+
+implement
+funent_subst
+  (env, sub, flab2, fent, sfx) = let
+//
+val loc = funent_get_loc (fent)
+val flab = funent_get_lab (fent)
+val level = funent_get_level (fent)
+//
+val imparg = funent_get_imparg (fent)
+val tmparg = funent_get_tmparg (fent)
+//
+val tmparg2 = s2explstlst_subst (sub, tmparg)
+//
+val tmpret = funent_get_tmpret (fent)
+val inss = funent_get_instrlst (fent)
+val tmplst = funent_get_tmpvarlst (fent)
+//
+val tmplst2 = tmpvarlst_subst (sub, tmplst, sfx)
+val tmpmap2 = tmpmap_make (tmplst2)
+//
+val tmpret2 = tmpvar2tmpvar (tmpmap2, tmpret)
+//
+val (pfpush | ()) = ccompenv_push (env)
+val- Some (d2c) = funlab_get_qopt (flab)
+val () = ccompenv_add_tmpcstmat (env, TMPCSTMATsome2 (d2c, tmparg2, flab2))
+val inss2 = instrlst_subst (env, tmpmap2, sub, inss, sfx)
+val () = ccompenv_pop (pfpush | env)
+//
+val ((*void*)) = tmpvarmap_vt_free (tmpmap2)
+//
+val fent2 =
+  funent_make (
+  loc, level, flab2, imparg, tmparg, None(), tmpret2, inss2, tmplst2
+) // end of [val]
+//
+in
+  fent2
+end // end of [funent_subst]
 
 (* ****** ****** *)
 

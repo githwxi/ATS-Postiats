@@ -389,6 +389,20 @@ end else
 //
 end // end of [hiimpdec_tmpcst_match]
 
+
+implement
+tmpcstmat_tmpcst_match
+  (mat, d2c0, t2mas) = let
+//
+val env = IMPENVnil ()
+val- TMPCSTMATsome2 (d2c, s2ess, flab) = mat
+val ans = auxlstlst (env, s2ess, t2mas)
+val () = impenv_free (env)
+//
+in
+  if ans then mat else TMPCSTMATnone // end of [if]
+end // end of [tmpcstmat_tmpcst_match]
+
 end // end of [local]
 
 (* ****** ****** *)
@@ -406,6 +420,7 @@ case+ imps of
   in
     case+ opt of
     | TMPCSTMATsome _ => opt
+    | TMPCSTMATsome2 _ => opt
     | TMPCSTMATnone _ => hiimpdeclst_tmpcst_match (imps, d2c0, t2mas)
   end // end of [list_cons]
 | list_nil () => TMPCSTMATnone ()
@@ -464,9 +479,9 @@ case+ t2mas of
     val t2mas =
       t2mpmarglst_tsubst (loc0, tsub, t2mas)
     // end of [val]
-    val mat = ccompenv_tmpcst_match (env, d2c, t2mas)
+    val tmpmat = ccompenv_tmpcst_match (env, d2c, t2mas)
   in
-    ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, mat)
+    ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, tmpmat)
   end // end of [list_cons]
 | list_nil () => primval_funlab (loc0, hse0, fl)
 //
@@ -521,6 +536,8 @@ case+ mat of
 | TMPCSTMATsome _ =>
     ccomp_tmpcstmat_some (env, loc0, hse0, d2c, t2mas, mat)
   // end of [TMPCSTMATsome]
+| TMPCSTMATsome2
+    (d2c, s2ess, flab) => primval_funlab (loc0, hse0, flab)
 | TMPCSTMATnone
     () => primval_tmpltcstmat (loc0, hse0, d2c, t2mas, mat)
   // end of [TMPCSTMATnone]
