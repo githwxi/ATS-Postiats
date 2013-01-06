@@ -79,12 +79,12 @@ funset_isnot_member (xs: set a, x0: a):<> bool
 
 fun{a:t0p}
 funset_insert
-  (xs: &set (a) >> _, x0: a) : bool(*[x0] in [xs]*)
+  (xs: &set (a) >> _, x0: a):<!wrt> bool(*[x0] in [xs]*)
 // end of [funset_insert]
 
 fun{a:t0p}
 funset_remove
-  (xs: &set (a) >> _, x0: a) : bool(*[x0] in [xs]*)
+  (xs: &set (a) >> _, x0: a):<!wrt> bool(*[x0] in [xs]*)
 // end of [funset_remove]
 
 (* ****** ****** *)

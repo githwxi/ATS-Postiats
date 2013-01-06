@@ -97,7 +97,7 @@ linralist_head
 
 fun{a:t0p}
 linralist_tail
-  {n:pos} (xs: ralist (INV(a), n)):<> ralist (a, n-1)
+  {n:pos} (xs: ralist (INV(a), n)):<!wrt> ralist (a, n-1)
 // end of [linralist_tail]
 
 (* ****** ****** *)

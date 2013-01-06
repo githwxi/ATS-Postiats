@@ -226,19 +226,31 @@ end // end of [auxmain]
 in // in of [local]
 
 implement
-d2exp_trup_foldat (d2e0) = let
-  val loc0 = d2e0.d2exp_loc
-  val- D2Efoldat (s2as, d2e) = d2e0.d2exp_node
-  val d3e = auxmain (loc0, 1(*opknd*), s2as, d2e)
+d2exp_trup_foldat
+  (d2e0) = let
+//
+val loc0 = d2e0.d2exp_loc
+val- D2Efoldat (s2as, d2e) = d2e0.d2exp_node
+val d3e = auxmain (loc0, 1(*opknd*), s2as, d2e)
+//
 in
   d3exp_foldat (loc0, d3e)
 end // end of [d2exp_trup_foldat]
 
 implement
-d2exp_trup_freeat (d2e0) = let
-  val loc0 = d2e0.d2exp_loc
-  val- D2Efreeat (s2as, d2e) = d2e0.d2exp_node
-  val d3e = auxmain (loc0, 0(*opknd*), s2as, d2e)
+d2exp_trup_freeat
+  (d2e0) = let
+//
+val loc0 = d2e0.d2exp_loc
+val- D2Efreeat (s2as, d2e) = d2e0.d2exp_node
+//
+val err = the_effenv_check_wrt (loc0)
+val () = if (err > 0) then (
+  the_trans3errlst_add (T3E_d2exp_trup_wrt (loc0))
+) // end of [if] // end of [val]
+//
+val d3e = auxmain (loc0, 0(*opknd*), s2as, d2e)
+//
 in
   d3exp_freeat (loc0, d3e)
 end // end of [d2exp_trup_freeat]

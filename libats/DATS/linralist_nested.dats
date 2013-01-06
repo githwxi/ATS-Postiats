@@ -180,7 +180,7 @@ implement{a}
 linralist_tail
   (xs) = xs1 where {
   var xs1 = xs
-  val _(*hd*) = $effmask_wrt (linralist_uncons<a> (xs1))
+  val _(*hd*) = linralist_uncons<a> (xs1)
 } // end of [linralist_tail]
 
 (* ****** ****** *)

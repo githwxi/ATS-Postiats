@@ -204,7 +204,7 @@ funset_insert
       end // end of [val]
   // end of [val]
   var flag: int = 0
-  val () = xs := aux (xs, flag)
+  val () = xs := $effmask_all (aux (xs, flag))
 in
   if flag = 0 then true else false
 end // end of [funset_insert]
@@ -234,7 +234,7 @@ funset_remove
     | list_nil () => list_nil ()
   // end of [aux]
   var flag: int = 0
-  val () = xs := aux (xs, flag)
+  val () = xs := $effmask_all (aux (xs, flag))
 in
   if flag > 0 then true else false
 end // end of [funset_remove]

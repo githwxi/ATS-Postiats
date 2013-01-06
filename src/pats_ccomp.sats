@@ -851,7 +851,7 @@ fun ccompenv_find_varbind
 fun ccompenv_add_impdec (env: !ccompenv, imp: hiimpdec): void
 fun ccompenv_add_fundec (env: !ccompenv, hfd: hifundec): void
 fun ccompenv_add_staload (env: !ccompenv, fenv: filenv): void
-fun ccompenv_add_tmpcstmat (env: !ccompenv, mat: tmpcstmat): void
+fun ccompenv_add_tmpcstmat (env: !ccompenv, tmpmat: tmpcstmat): void
 
 (* ****** ****** *)
 
@@ -1011,7 +1011,7 @@ fun ccompenv_tmpcst_match
 
 fun ccomp_tmpcstmat (
   env: !ccompenv, loc0: location, hse0: hisexp
-, d2c: d2cst, t2ms: t2mpmarglst, mat: tmpcstmat
+, d2c: d2cst, t2ms: t2mpmarglst, tmpmat: tmpcstmat
 ) : primval // end of [ccomp_tmpcstmat]
 
 (* ****** ****** *)
