@@ -43,7 +43,11 @@ prelude_fileref_open_opt = fileref_open_opt
 macdef
 prelude_fileref_get_line_charlst = fileref_get_line_charlst
 macdef
+prelude_fileref_get_lines_charlst = fileref_get_lines_charlst
+macdef
 prelude_fileref_get_line_string = fileref_get_line_string
+macdef
+prelude_fileref_get_lines_string = fileref_get_lines_string
 
 (* ****** ****** *)
 
@@ -72,9 +76,21 @@ fileref_get_line_charlst (filr) = let
 end // end of [fileref_get_line_charlst]
 
 implement
+fileref_get_lines_charlst (filr) = let
+  val xs = prelude_fileref_get_lines_charlst (filr) in $UN.castvwtp0{list0(charlst0)}(xs)
+end // end of [fileref_get_lines_charlst]
+
+(* ****** ****** *)
+
+implement
 fileref_get_line_string (filr) = let
   val str = prelude_fileref_get_line_string (filr) in string_of_strptr (str)
 end // end of [fileref_get_line_string]
+
+implement
+fileref_get_lines_string (filr) = let
+  val xs = prelude_fileref_get_lines_string (filr) in $UN.castvwtp0{list0(string)}(xs)
+end // end of [fileref_get_lines_string]
 
 (* ****** ****** *)
 
