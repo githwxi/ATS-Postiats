@@ -36,7 +36,11 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-staload "pats_global.sats"
+staload "./pats_global.sats"
+
+(* ****** ****** *)
+
+#include "./pats_params.hats"
 
 (* ****** ****** *)
 
@@ -65,14 +69,14 @@ end // end of [local]
 
 local
 
-val the_DEBUGATS_dbgflag = ref<int> (0)
+val rdbgflag = ref<int> (0)
 
 in // in of [local]
 
 implement
-the_DEBUGATS_dbgflag_get () = !the_DEBUGATS_dbgflag
+the_DEBUGATS_dbgflag_get () = !rdbgflag
 implement
-the_DEBUGATS_dbgflag_set (flag) = !the_DEBUGATS_dbgflag := flag
+the_DEBUGATS_dbgflag_set (flag) = !rdbgflag := flag
 
 end // end of [local]
 
@@ -80,14 +84,29 @@ end // end of [local]
 
 local
 
-val the_DEBUGATS_dbgline = ref<int> (0)
+val rdbgline = ref<int> (0)
 
 in // in of [local]
 
 implement
-the_DEBUGATS_dbgline_get () = !the_DEBUGATS_dbgline
+the_DEBUGATS_dbgline_get () = !rdbgline
 implement
-the_DEBUGATS_dbgline_set (line) = !the_DEBUGATS_dbgline := line
+the_DEBUGATS_dbgline_set (line) = !rdbgline := line
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+val rmaxtmprecdepth = ref<int> (CCOMPENV_MAXTMPRECDEPTH)
+
+in // in of [local]
+
+implement
+the_CCOMPENV_maxtmprecdepth_get () = !rmaxtmprecdepth
+implement
+the_CCOMPENV_maxtmprecdepth_set (mtd) = !rmaxtmprecdepth := mtd
 
 end // end of [local]
 

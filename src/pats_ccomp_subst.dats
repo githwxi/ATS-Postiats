@@ -48,6 +48,7 @@ implement prerr_FILENAME<> () = prerr "pats_ccomp_subst"
 (* ****** ****** *)
 
 staload ERR = "./pats_error.sats"
+staload GLO = "./pats_global.sats"
 
 (* ****** ****** *)
 
@@ -349,10 +350,17 @@ case+
 //
 | PMVtmpltcst
     (d2c, t2mas) => let
-    val t2mas = t2mpmarglst_subst (loc0, sub, t2mas)
-    val tmpmat = ccompenv_tmpcst_match (env, d2c, t2mas)
+    val trd = ccompenv_get_tmprecdepth (env)
+    val mtrd = $GLO.the_CCOMPENV_maxtmprecdepth_get ()
   in
-    ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, tmpmat)
+    if trd < mtrd then let
+      val t2mas = t2mpmarglst_subst (loc0, sub, t2mas)
+      val tmpmat = ccompenv_tmpcst_match (env, d2c, t2mas)
+    in
+      ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, tmpmat)
+    end else
+      pmv0 // HX-2013-01: maximal tmprecdepth is reached!
+    // end of [if]
   end // end of [PMVtmpltcst]
 //
 | _ => pmv0

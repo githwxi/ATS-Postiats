@@ -42,4 +42,8 @@
 //
 (* ****** ****** *)
 
+#define CCOMPENV_MAXTMPRECDEPTH 100
+
+(* ****** ****** *)
+
 (* end of [pats_params.hats] *)

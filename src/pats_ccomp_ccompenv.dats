@@ -225,6 +225,7 @@ end // end of [fprint_markenvlst]
 viewtypedef
 ccompenv_struct = @{
   ccompenv_tmplevel = int
+, ccompenv_tmprecdepth = int
 , ccompenv_markenvlst = markenvlst_vt
 , ccompenv_varbindmap= d2varmap_vt (primval)
 } // end of [ccompenv_struct]
@@ -264,6 +265,7 @@ ccompenv_make
   val CCOMPENV (!p) = env
 //
   val () = p->ccompenv_tmplevel := 0
+  val () = p->ccompenv_tmprecdepth := 0
   val () = p->ccompenv_markenvlst := MARKENVLSTnil ()
   val () = p->ccompenv_varbindmap := d2varmap_vt_nil ()
 //
@@ -309,10 +311,10 @@ implement
 ccompenv_get_tmplevel
   (env) = let
   val CCOMPENV (!p) = env
-  val lev = p->ccompenv_tmplevel
+  val level = p->ccompenv_tmplevel
   prval () = fold@ (env)
 in
-  lev
+  level
 end // end of [ccompenv_get_tmplevel]
 
 implement
@@ -334,6 +336,38 @@ ccompenv_dec_tmplevel
 in
   // nothing
 end // end of [ccompenv_dec_tmplevel]
+
+(* ****** ****** *)
+
+implement
+ccompenv_get_tmprecdepth
+  (env) = let
+  val CCOMPENV (!p) = env
+  val depth = p->ccompenv_tmprecdepth
+  prval () = fold@ (env)
+in
+  depth
+end // end of [ccompenv_get_tmprecdepth]
+
+implement
+ccompenv_inc_tmprecdepth
+  (env) = let
+  val CCOMPENV (!p) = env
+  val () = (p->ccompenv_tmprecdepth := p->ccompenv_tmprecdepth + 1)
+  prval () = fold@ (env)
+in
+  // nothing
+end // end of [ccompenv_inc_tmprecdepth]
+
+implement
+ccompenv_dec_tmprecdepth
+  (env) = let
+  val CCOMPENV (!p) = env
+  val () = (p->ccompenv_tmprecdepth := p->ccompenv_tmprecdepth - 1)
+  prval () = fold@ (env)
+in
+  // nothing
+end // end of [ccompenv_dec_tmprecdepth]
 
 (* ****** ****** *)
 

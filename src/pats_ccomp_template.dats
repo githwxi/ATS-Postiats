@@ -504,7 +504,11 @@ val flab2 = funlab_subst (sub, flab)
 val () = funlab_set_suffix (flab2, sfx)
 val () = the_funlablst_add (flab2)
 //
-val fent2 = funent_subst (env, sub, flab2, fent, sfx)
+val () = ccompenv_inc_tmprecdepth (env)
+val fent2 =
+  funent_subst (env, sub, flab2, fent, sfx)
+val () = ccompenv_dec_tmprecdepth (env)
+//
 val () = funent_set_tmpsub (fent2, Some (tsub))
 //
 val () = funlab_set_funent (flab2, Some (fent2))

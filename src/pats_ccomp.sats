@@ -835,6 +835,12 @@ fun ccompenv_dec_tmplevel (env: !ccompenv): void
 
 (* ****** ****** *)
 
+fun ccompenv_get_tmprecdepth (env: !ccompenv): int
+fun ccompenv_inc_tmprecdepth (env: !ccompenv): void
+fun ccompenv_dec_tmprecdepth (env: !ccompenv): void
+
+(* ****** ****** *)
+
 absview ccompenv_push_v
 
 fun ccompenv_pop

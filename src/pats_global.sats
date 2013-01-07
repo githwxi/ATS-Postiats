@@ -45,4 +45,9 @@ fun the_DEBUGATS_dbgline_set (line: int): void
 
 (* ****** ****** *)
 
+fun the_CCOMPENV_maxtmprecdepth_get (): int
+fun the_CCOMPENV_maxtmprecdepth_set (mtd: int): void
+
+(* ****** ****** *)
+
 (* end of [pats_global.sats] *)
