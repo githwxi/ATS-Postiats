@@ -346,9 +346,11 @@ symintr tostring tostrptr
 //
 // HX-2012-05-23: for template args
 //
-abstype tkind_type (tk: tkind)
-abst@ype tkind_t0ype (tk: tkind)
-
+abstype atstkind_type (tk: tkind)
+abst@ype atstkind_t0ype (tk: tkind)
+stadef tkind_type = atstkind_type
+stadef tkind_t0ype = atstkind_t0ype
+//
 (* ****** ****** *)
 
 absview // S2Eat

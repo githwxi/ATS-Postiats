@@ -53,6 +53,7 @@ case+ fls of
     (fl, fls) => let
     val- Some (fent) =
       funlab_get_funent (fl)
+    // end of [val]
     val () = emit_funent_ptype (out, fent)
   in
     loop (out, fls, i+1)
@@ -82,8 +83,15 @@ in
 case+ fls of
 | list_cons
     (fl, fls) => let
+    val tmpknd = funlab_get_tmpknd (fl)
     val- Some (fent) = funlab_get_funent (fl)
+    val () =
+      if tmpknd > 0 then fprint_string (out, "#if(0)\n")
+    // end of [val]
     val ((*void*)) = emit_funent_implmnt (out, fent)
+    val () =
+      if tmpknd > 0 then fprint_string (out, "#endif // end of [TEMPLATE]\n")
+    // end of [val]
   in
     loop (out, fls, i+1)
   end // end of [list_cons]

@@ -117,9 +117,11 @@ hisexp_typtr = '{
 }
 
 implement
-hisexp_tyclo = '{
-  hisexp_name= HITYPE_CLO, hisexp_node= HSEtyabs ($SYM.symbol_empty)
-} // end of [hisexp_tyclo]
+hisexp_tyclo = let
+  val sym = $SYM.symbol_empty
+in '{
+  hisexp_name= HITYPE_CLO, hisexp_node= HSEtyabs (sym)
+} end // end of [hisexp_tyclo]
 
 implement
 hisexp_typtr_fun = '{

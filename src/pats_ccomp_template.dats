@@ -389,18 +389,26 @@ end else
 //
 end // end of [hiimpdec_tmpcst_match]
 
-
 implement
 tmpcstmat_tmpcst_match
   (mat, d2c0, t2mas) = let
 //
-val env = IMPENVnil ()
+var ans: bool = false
+//
 val- TMPCSTMATsome2 (d2c, s2ess, flab) = mat
-val ans = auxlstlst (env, s2ess, t2mas)
-val () = impenv_free (env)
+//
+val () =
+  if d2c = d2c0 then let
+  val env = IMPENVnil ()
+  val () = ans := auxlstlst (env, s2ess, t2mas)
+  val () = impenv_free (env)
 //
 in
-  if ans then mat else TMPCSTMATnone // end of [if]
+  // nothing
+end //end of [val]
+//
+in
+  if ans then mat else TMPCSTMATnone
 end // end of [tmpcstmat_tmpcst_match]
 
 end // end of [local]

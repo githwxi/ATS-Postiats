@@ -37,8 +37,8 @@ staload "./pats_basics.sats"
 (* ****** ****** *)
 
 staload
-STMP = "./pats_stamp.sats"
-typedef stamp = $STMP.stamp
+STAMP = "./pats_stamp.sats"
+typedef stamp = $STAMP.stamp
 
 (* ****** ****** *)
 
@@ -52,6 +52,12 @@ staload FIL = "./pats_filename.sats"
 staload LOC = "./pats_location.sats"
 typedef location = $LOC.location
 //
+(* ****** ****** *)
+
+staload
+SYM = "./pats_symbol.sats"
+typedef symbol = $SYM.symbol
+
 (* ****** ****** *)
 
 staload
@@ -930,6 +936,16 @@ fun hideclist_ccomp0 (hdcs: hideclist): primdeclst
 
 (* ****** ****** *)
 
+fun emit_text
+  (out: FILEref, txt: string): void
+// end of [emit_text]
+
+fun emit_newline (out: FILEref): void
+
+fun emit_symbol (out: FILEref, sym: symbol): void
+
+(* ****** ****** *)
+
 fun emit_time_stamp (out: FILEref): void
 fun emit_ats_runtime_incl (out: FILEref): void
 fun emit_ats_prelude_cats (out: FILEref): void
@@ -953,6 +969,8 @@ fun emit_tmpdec (out: FILEref, tmp: tmpvar): void
 fun emit_tmpdeclst (out: FILEref, tmps: tmpvarlst): void
 
 (* ****** ****** *)
+
+fun emit_s2exp (out: FILEref, s2e: s2exp): void
 
 fun emit_hisexp (out: FILEref, hse: hisexp): void
 

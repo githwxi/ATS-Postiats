@@ -54,7 +54,7 @@
 //
 #define atsbool_true 1
 #define atsbool_false 0
- //
+//
 /* ****** ****** */
 
 #define ATSMACcastfn(castfn, arg) (arg) // castfn application
