@@ -180,7 +180,8 @@ fun prerr_funlab (x: funlab): void
 overload prerr with prerr_funlab
 fun fprint_funlab : fprint_type (funlab)
 //
-fun funlab_make (
+fun
+funlab_make (
   name: string
 , level: int
 , hse0: hisexp
@@ -196,12 +197,15 @@ fun funlab_make_tmpcst_type
    (d2c: d2cst, t2ms: t2mpmarglst, hse: hisexp): funlab
 // end of [funlab_make_tmpcst_typ]
 //
-fun funlab_get_qopt
+fun funlab_get_d2copt
   (flab: funlab): d2cstopt // qualifier
 //
 fun funlab_get_name (flab: funlab): string
 //
 fun funlab_get_level (flab: funlab): int
+//
+fun funlab_get_tmpknd (flab: funlab): int
+fun funlab_set_tmpknd (flab: funlab, knd: int): void
 //
 fun funlab_get_type (flab: funlab): hisexp
 fun funlab_get_funclo (flab: funlab): funclo
@@ -211,6 +215,9 @@ fun funlab_get_type_res (flab: funlab): hisexp
 fun funlab_get_ncopy (flab: funlab): int
 fun funlab_set_ncopy (flab: funlab, cnt: int): void
 fun funlab_incget_ncopy (flab: funlab): int
+//
+fun funlab_get_origin (flab: funlab): funlabopt
+fun funlab_set_origin (flab: funlab, opt: funlabopt): void
 //
 fun funlab_get_suffix (flab: funlab): int
 fun funlab_set_suffix (flab: funlab, sfx: int): void

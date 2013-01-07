@@ -475,7 +475,7 @@ in
 //
 case+ t2mas of
 | list_cons _ => let
-    val- Some (d2c) = funlab_get_qopt (fl)
+    val- Some (d2c) = funlab_get_d2copt (fl)
     val t2mas =
       t2mpmarglst_tsubst (loc0, tsub, t2mas)
     // end of [val]

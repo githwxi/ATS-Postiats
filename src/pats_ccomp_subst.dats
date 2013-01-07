@@ -208,22 +208,22 @@ fun instrlst_subst
 
 implement
 funlab_subst
-  (sub, flab) = let
+  (sub, flab) = flab2 where {
 //
 val name = funlab_get_name (flab)
 val level = funlab_get_level (flab)
 val hse = funlab_get_type (flab)
 val hse2 = hisexp_subst (sub, hse)
 val () = println! ("funlab_subst: hse2 = ", hse2)
-val qopt = funlab_get_qopt (flab)
+val qopt = funlab_get_d2copt (flab)
 val t2mas = funlab_get_tmparg (flab)
 val stamp = $STMP.funlab_stamp_make ()
 //
-in
+val flab2 =
+  funlab_make (name, level, hse2, qopt, t2mas, stamp)
+val () = funlab_set_origin (flab2, Some (flab))
 //
-funlab_make (name, level, hse2, qopt, t2mas, stamp)
-//
-end // end of [funlab_subst]
+} // end of [funlab_subst]
 
 (* ****** ****** *)
 
@@ -305,7 +305,7 @@ val tmpmap2 = tmpmap_make (tmplst2)
 val tmpret2 = tmpvar2tmpvar (tmpmap2, tmpret)
 //
 val (pfpush | ()) = ccompenv_push (env)
-val- Some (d2c) = funlab_get_qopt (flab)
+val- Some (d2c) = funlab_get_d2copt (flab)
 val () = ccompenv_add_tmpcstmat (env, TMPCSTMATsome2 (d2c, tmparg2, flab2))
 val inss2 = instrlst_subst (env, tmpmap2, sub, inss, sfx)
 val () = ccompenv_pop (pfpush | env)

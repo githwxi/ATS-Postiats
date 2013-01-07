@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload _(*anon*) = "prelude/DATS/pointer.dats"
 staload _(*anon*) = "prelude/DATS/reference.dats"
 
@@ -75,16 +79,20 @@ typedef
 funlab_struct = @{
   funlab_name= string
 //
-, funlab_level= int
+, funlab_level= int // top/inner level
 //
 , funlab_type= hisexp (* function type *)
 //
-, funlab_qopt= d2cstopt (* local or global *)
+, funlab_tmpknd= int (* 0/1 : temp use/def *)
+//
+, funlab_d2copt= d2cstopt (* local or global *)
 //
 , funlab_ncopy= int
+//
+, funlab_origin= Option (ptr)
 , funlab_suffix= int
 //
-, funlab_tmparg= t2mpmarglst (* tmplate arguments *)
+, funlab_tmparg= t2mpmarglst (* template use *)
 //
 , funlab_funent= funentopt // function entry
 , funlab_tailjoin= tmpvarlst // tail-call optimization
@@ -112,11 +120,15 @@ prval () = free_gc_elim {funlab_struct?} (pfgc)
 //
 val () = p->funlab_name := name
 val () = p->funlab_level := level
+//
 val () = p->funlab_type := hse
 //
-val () = p->funlab_qopt := qopt
+val () = p->funlab_tmpknd := ~1
+val () = p->funlab_d2copt := qopt
 //
 val () = p->funlab_ncopy := 0
+//
+val () = p->funlab_origin := None ()
 val () = p->funlab_suffix := 0
 //
 val () = p->funlab_tmparg := t2mas
@@ -148,9 +160,18 @@ funlab_get_type (flab) = let
 end // end of [funlab_get_type]
 
 implement
-funlab_get_qopt (flab) = let
-  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_qopt
-end // end of [funlab_get_qopt]
+funlab_get_tmpknd (flab) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_tmpknd
+end // end of [funlab_get_tmpknd]
+implement
+funlab_set_tmpknd (flab, knd) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_tmpknd := knd
+end // end of [funlab_set_tmpknd]
+
+implement
+funlab_get_d2copt (flab) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_d2copt
+end // end of [funlab_get_d2copt]
 
 implement
 funlab_get_tmparg (flab) = let
@@ -174,6 +195,21 @@ implement
 funlab_set_ncopy (flab, cnt) = let
   val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_ncopy := cnt
 end // end of [funlab_set_ncopy]
+
+implement
+funlab_get_origin
+  (flab) = let
+  val (vbox pf | p) =
+    ref_get_view_ptr (flab) in $UN.cast{funlabopt}(p->funlab_origin)
+  // end of [val]
+end // end of [funlab_get_origin]
+
+implement
+funlab_set_origin
+  (flab, opt) = let
+  val opt = $UN.cast{Option(ptr)}(opt)
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_origin := opt
+end // end of [funlab_set_origin]
 
 implement
 funlab_get_suffix (flab) = let

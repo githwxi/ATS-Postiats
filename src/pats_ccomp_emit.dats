@@ -39,7 +39,7 @@ implement prerr_FILENAME<> () = prerr "pats_ccomp_emit"
 (* ****** ****** *)
 
 staload LAB = "./pats_label.sats"
-staload STMP = "./pats_stamp.sats"
+staload STAMP = "./pats_stamp.sats"
 
 (* ****** ****** *)
 
@@ -250,15 +250,17 @@ end // end of [emit_d2cst]
 
 (* ****** ****** *)
 
-implement
-emit_funlab
-  (out, flab) = let
+local
+
+fun auxmain (
+  out: FILEref, flab: funlab
+) : void = let
 //
-val opt = funlab_get_qopt (flab)
-val sfx = funlab_get_suffix (flab)
+val qopt = funlab_get_d2copt (flab)
+val tmparg = funlab_get_tmparg (flab)
 //
 val () = (
-  case+ opt of
+  case+ qopt of
   | Some (d2c) => let
       val () = emit_d2cst (out, d2c)
     in
@@ -269,11 +271,42 @@ val () = (
     end // end of [None]
 ) : void // end of [val]
 //
+val knd =
+  funlab_get_tmpknd (flab)
+val () =
+  if knd > 0 then {
+  val () =
+    fprint_string (out, "$")
+  val stamp = funlab_get_stamp (flab)
+  val () = $STAMP.fprint_stamp (out, stamp)
+} // end of [val]
+//
+in
+  // nothing
+end // end of [auxmain]
+
+in // in of [local]
+
+implement
+emit_funlab
+  (out, flab) = let
+//
+val opt = funlab_get_origin (flab)
+val () = (
+  case+ opt of
+  | Some (
+     flab_1 // origin
+    ) => emit_funlab (out, flab_1)
+  | None () => auxmain (out, flab)
+) // end of [val]
+val sfx = funlab_get_suffix (flab)
 val () = if sfx > 0 then fprintf (out, "$%i", @(sfx))
 //
 in
   // nothing
 end // end of [emit_funlab]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -281,7 +314,8 @@ implement
 emit_tmpvar
   (out, tmp) = let
 //
-val knd = tmpvar_get_topknd (tmp)
+val knd =
+  tmpvar_get_topknd (tmp)
 //
 val () = (case+ 0 of
   | _ when knd = 0 => let
@@ -302,14 +336,14 @@ case+ opt of
 | Some (tmpp) => let
     val sfx = tmpvar_get_suffix (tmp)
     val stmp = tmpvar_get_stamp (tmpp)
-    val () = $STMP.fprint_stamp (out, stmp)
+    val () = $STAMP.fprint_stamp (out, stmp)
     val () = fprintf (out, "$%i", @(sfx))
   in
     // nothing
   end // end of [Some]
 | None () => let
     val stmp = tmpvar_get_stamp (tmp)
-    val () = $STMP.fprint_stamp (out, stmp)
+    val () = $STAMP.fprint_stamp (out, stmp)
   in
     // nothing
   end // end of [None]
@@ -796,9 +830,9 @@ fun auxfun (
 ) : void = let
 //
   val flab = funent_get_lab (fent)
-  val opt = funlab_get_qopt (flab)
+  val qopt = funlab_get_d2copt (flab)
   val isext = (
-    case+ opt of Some _ => true | None _ => false
+    case+ qopt of Some _ => true | None _ => false
   ) : bool // end of [val]
   val issta = not (isext)
 //
@@ -890,10 +924,11 @@ val tmpret = funent_get_tmpret (fent)
 //
 // function header
 //
-val qopt = funlab_get_qopt (flab)
-val isext = (
-  case+ qopt of Some _ => true | None _ => false
-) : bool // end of [val]
+val qopt =
+  funlab_get_d2copt (flab)
+val isext =
+  (case+ qopt of Some _ => true | None _ => false): bool
+// end of [val]
 val issta = not (isext)
 val () =
   if isext then fprint_string (out, "ATSglobaldec()\n")

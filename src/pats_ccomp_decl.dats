@@ -232,27 +232,34 @@ fun auxlam (
 , imparg: s2varlst
 , tmparg: s2explstlst
 , hde0: hidexp
-) : funlab = fl where {
+) : funlab = flab where {
   val loc_fun = hde0.hidexp_loc
   val hse_fun = hde0.hidexp_type
   val- HDElam
     (hips_arg, hde_body) = hde0.hidexp_node
-  val fl = funlab_make_dcst_type (d2c, hse_fun)
-  val pmv_lam = primval_make_funlab (loc0, fl)
+//
+  val flab =
+    funlab_make_dcst_type (d2c, hse_fun)
+  val istmp = list_is_cons (tmparg)
+  val () =
+    if istmp then funlab_set_tmpknd (flab, 1)
+  // end of [val]
+//
+  val pmv_lam = primval_make_funlab (loc0, flab)
 //
   val fent = let
     val ins =
-      instr_funlab (loc0, fl)
+      instr_funlab (loc0, flab)
     // end of [val]
     val prolog = list_sing (ins)
   in
     hidexp_ccomp_funlab_arg_body
-      (env, fl, imparg, tmparg, prolog, loc_fun, hips_arg, hde_body)
+      (env, flab, imparg, tmparg, prolog, loc_fun, hips_arg, hde_body)
     // end of [hidexp_ccomp_funlab_arg_body]
   end // end of [val]
 //
-  val () = the_funlablst_add (fl)
-  val () = funlab_set_funent (fl, Some (fent))
+  val () = the_funlablst_add (flab)
+  val () = funlab_set_funent (flab, Some (fent))
 //
   val () = println! ("hiimpdec_ccomp: auxlam: fent = ", fent)
 //
@@ -278,8 +285,8 @@ case+ hde0.hidexp_node of
 | HDEvar (d2v0) => (
     funlab_make_dvar_type (d2v0, hde0.hidexp_type)
   ) // end of [HDEcst]
-| HDEtmpcst (d2c0, t2ms) => (
-    funlab_make_tmpcst_type (d2c0, t2ms, hde0.hidexp_type)
+| HDEtmpcst (d2c0, t2mas) => (
+    funlab_make_tmpcst_type (d2c0, t2mas, hde0.hidexp_type)
   ) // end of [HDEtmpcst]
 //
 | _ => let
