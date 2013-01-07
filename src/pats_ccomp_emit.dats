@@ -39,7 +39,7 @@ implement prerr_FILENAME<> () = prerr "pats_ccomp_emit"
 (* ****** ****** *)
 
 staload LAB = "./pats_label.sats"
-staload STAMP = "./pats_stamp.sats"
+staload STMP = "./pats_stamp.sats"
 
 (* ****** ****** *)
 
@@ -295,7 +295,7 @@ val () =
   val () =
     fprint_string (out, "$")
   val stamp = funlab_get_stamp (flab)
-  val () = $STAMP.fprint_stamp (out, stamp)
+  val () = $STMP.fprint_stamp (out, stamp)
 } // end of [val]
 //
 in
@@ -353,14 +353,14 @@ case+ opt of
 | Some (tmpp) => let
     val sfx = tmpvar_get_suffix (tmp)
     val stmp = tmpvar_get_stamp (tmpp)
-    val () = $STAMP.fprint_stamp (out, stmp)
+    val () = $STMP.fprint_stamp (out, stmp)
     val () = fprintf (out, "$%i", @(sfx))
   in
     // nothing
   end // end of [Some]
 | None () => let
     val stmp = tmpvar_get_stamp (tmp)
-    val () = $STAMP.fprint_stamp (out, stmp)
+    val () = $STMP.fprint_stamp (out, stmp)
   in
     // nothing
   end // end of [None]

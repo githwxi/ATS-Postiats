@@ -37,8 +37,8 @@ staload "./pats_basics.sats"
 (* ****** ****** *)
 
 staload
-STAMP = "./pats_stamp.sats"
-typedef stamp = $STAMP.stamp
+STMP = "./pats_stamp.sats"
+typedef stamp = $STMP.stamp
 
 (* ****** ****** *)
 
