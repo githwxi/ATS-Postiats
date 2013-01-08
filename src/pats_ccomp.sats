@@ -462,6 +462,12 @@ fun primdec_staload (loc: location, fenv: filenv): primdec
 
 (* ****** ****** *)
 
+fun primdec_local
+  (loc: location, _head: primdeclst, _body: primdeclst): primdec
+// end of [primdec_local]
+
+(* ****** ****** *)
+
 fun print_primval (x: primval): void
 overload print with print_primval
 fun prerr_primval (x: primval): void
@@ -862,11 +868,12 @@ fun ccompenv_dec_tmprecdepth (env: !ccompenv): void
 
 absview ccompenv_push_v
 
+fun ccompenv_push
+  (env: !ccompenv): (ccompenv_push_v | void)
 fun ccompenv_pop
   (pfpush: ccompenv_push_v | env: !ccompenv): void
-// end of [ccompenv_pop]
-
-fun ccompenv_push (env: !ccompenv): (ccompenv_push_v | void)
+fun ccompenv_localjoin
+  (pf1: ccompenv_push_v, pf2: ccompenv_push_v | env: !ccompenv): void
 
 (* ****** ****** *)
 

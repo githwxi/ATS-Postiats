@@ -404,6 +404,7 @@ implement
 primdec_subst (
   env, map, sub, pmd0, sfx
 ) = let
+  val loc0 = pmd0.primdec_loc
 in
 //
 case+
@@ -425,10 +426,19 @@ case+
     val () = ccompenv_add_staload (env, fenv) in pmd0
   end // end of [PMDstaload]
 //
-(*
-| PMDlocal (pmds_head, pmds_body) =>
-*)
-| _ => pmd0
+| PMDlocal (
+    pmds_head, pmds_body
+  ) => let
+    val (pf | ()) = ccompenv_push (env)
+    val pmds_head =
+      primdeclst_subst (env, map, sub, pmds_head, sfx)
+    val (pf2 | ()) = ccompenv_push (env)
+    val pmds_body =
+      primdeclst_subst (env, map, sub, pmds_body, sfx)
+    val () = ccompenv_localjoin (pf, pf2 | env)
+  in
+    primdec_local (loc0, pmds_head, pmds_body)
+  end // end of [PMDlocal]
 //
 end // end of [primdec_subst]
 

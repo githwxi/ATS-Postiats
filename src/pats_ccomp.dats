@@ -111,6 +111,14 @@ primdec_impdec
 
 (* ****** ****** *)
 
+implement
+primdec_local
+  (loc, _head, _body) =
+  primdec_make_node (loc, PMDlocal (_head, _body))
+// end of [primdec_local]
+
+(* ****** ****** *)
+
 extern
 fun primval_make_node
   (loc: location, hse: hisexp, node: primval_node): primval
