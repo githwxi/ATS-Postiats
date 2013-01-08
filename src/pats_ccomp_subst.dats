@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
@@ -400,6 +404,24 @@ end // end of [primvalist_subst]
 
 (* ****** ****** *)
 
+typedef instrlst0 = ccomp_instrlst_type
+
+extern
+fun instrlst0_subst (
+  env: !ccompenv, map: !tmpmap, sub: !stasub, inss: instrlst0, sfx: int
+) : instrlst0 // [ccomp_instrlst_subst]
+
+implement
+instrlst0_subst
+  (env, map, sub, inss, sfx) = let
+  val inss = $UN.cast{instrlst} (inss)
+  val inss = instrlst_subst (env, map, sub, inss, sfx)
+in
+  $UN.cast{instrlst0} (inss)
+end // end of [instrlst0_subst]
+
+(* ****** ****** *)
+
 implement
 primdec_subst (
   env, map, sub, pmd0, sfx
@@ -417,10 +439,24 @@ case+
 //
 | PMDfundecs _ => pmd0
 //
-| PMDvaldecs _ => pmd0
-| PMDvaldecs_rec _ => pmd0
+| PMDvaldecs
+    (knd, hvds, inss) => let
+    val inss = instrlst0_subst (env, map, sub, inss, sfx)
+  in
+    primdec_valdecs (loc0, knd, hvds, inss)
+  end // end of [PMDvaldecs]
+| PMDvaldecs_rec
+    (knd, hvds, inss) => let
+    val inss = instrlst0_subst (env, map, sub, inss, sfx)
+  in
+    primdec_valdecs_rec (loc0, knd, hvds, inss)
+  end // end of [PMDvaldecs_rec]
 //
-| PMDvardecs _ => pmd0
+| PMDvardecs (hvds, inss) => let
+    val inss = instrlst0_subst (env, map, sub, inss, sfx)
+  in
+    primdec_vardecs (loc0, hvds, inss)
+  end // end of [PMDvardecs]
 //
 | PMDstaload (fenv) => let
     val () = ccompenv_add_staload (env, fenv) in pmd0
