@@ -581,8 +581,6 @@ d2ecl_node =
 //
   | D2Cdcstdecs of (dcstkind, d2cstlst) // dyn. const. declarations
 //
-  | D2Cimpdec of (int(*knd*), i2mpdec) // knd=0/1 : implement/primplmnt
-//
   | D2Cfundecs of (funkind, s2qualst, f2undeclst)
   | D2Cvaldecs of
       (valkind, v2aldeclst) // (nonrec) value declarations
@@ -593,6 +591,8 @@ d2ecl_node =
 //
   | D2Cvardecs of (v2ardeclst) // variable declarations
   | D2Cprvardecs of (prv2ardeclst) // proof variable declarations
+//
+  | D2Cimpdec of (int(*knd*), i2mpdec) // knd=0/1 : implement/primplmnt
 //
   | D2Cinclude of d2eclist (* file inclusion *)
   | D2Cstaload of (
@@ -815,18 +815,6 @@ and sc2laulst = List (sc2lau)
 
 (* ****** ****** *)
 
-and i2mpdec = '{
-  i2mpdec_loc= location
-, i2mpdec_locid= location
-, i2mpdec_cst= d2cst
-, i2mpdec_imparg= s2varlst // static variables
-, i2mpdec_tmparg= s2explstlst // static args
-, i2mpdec_tmpgua= s2explstlst // static guards
-, i2mpdec_def= d2exp
-} // end of [i2mpdec]
-
-(* ****** ****** *)
-
 and f2undec = '{
   f2undec_loc= location
 , f2undec_var= d2var
@@ -871,6 +859,18 @@ and prv2ardec = '{
 } // end of [prv2ardec]
 
 and prv2ardeclst = List (prv2ardec)
+
+(* ****** ****** *)
+
+and i2mpdec = '{
+  i2mpdec_loc= location
+, i2mpdec_locid= location
+, i2mpdec_cst= d2cst
+, i2mpdec_imparg= s2varlst // static variables
+, i2mpdec_tmparg= s2explstlst // static args
+, i2mpdec_tmpgua= s2explstlst // static guards
+, i2mpdec_def= d2exp
+} // end of [i2mpdec]
 
 (* ****** ****** *)
 
@@ -1351,12 +1351,6 @@ fun d2ecl_dcstdecs (
 
 (* ****** ****** *)
 
-fun d2ecl_impdec
-  (loc: location, knd: int, d2c: i2mpdec): d2ecl
-// end of [d2ecl_impdec]
-
-(* ****** ****** *)
-
 fun d2ecl_fundecs (
   loc: location, knd: funkind, decarg: s2qualst, f2ds: f2undeclst
 ) : d2ecl // end of [d2ecl_fundecs]
@@ -1375,6 +1369,12 @@ fun d2ecl_valdecs_rec (
 
 fun d2ecl_vardecs (loc: location, v2ds: v2ardeclst): d2ecl
 fun d2ecl_prvardecs (loc: location, v2ds: prv2ardeclst): d2ecl
+
+(* ****** ****** *)
+
+fun d2ecl_impdec
+  (loc: location, knd: int, d2c: i2mpdec): d2ecl
+// end of [d2ecl_impdec]
 
 (* ****** ****** *)
 

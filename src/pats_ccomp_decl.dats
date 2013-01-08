@@ -158,7 +158,7 @@ case+ hid.hidecl_node of
   ) => let
     val () = ccompenv_add_staload (env, fenv)
   in
-    primdec_staload (loc, fil)
+    primdec_staload (loc, fenv)
   end // end of [HIDstaload]
 //
 | _ => let

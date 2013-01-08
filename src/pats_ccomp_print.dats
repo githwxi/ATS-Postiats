@@ -148,7 +148,8 @@ case+ x.primdec_node of
     val () = prstr ")"
   }
 //
-| PMDstaload (fil) => {
+| PMDstaload (fenv) => {
+    val fil = filenv_get_name (fenv)
     val () = prstr "PMDstaload("
     val () = $FIL.fprint_filename (out, fil)
     val () = prstr ")"
@@ -766,6 +767,26 @@ case opt of
 | None () => prstr "None()"
 //
 end // end of [fprint_tmpsubopt]
+
+(* ****** ****** *)
+
+implement
+fprint_hiimpdec2
+  (out, imp2) = let
+//
+val HIIMPDEC2
+  (imp, tsub, s2ess) = imp2
+//
+val () =
+  fprint_string (out, "HIIMPDEC2(")
+val () = fprint_hiimpdec (out, imp)
+val () = fprint_string (out, "; ")
+val () = fprint_tmpsub (out, tsub)
+val () = fprint_string (out, ")")
+//
+in
+  // nothing
+end // end of [fprint_hiimpdec2]
 
 (* ****** ****** *)
 

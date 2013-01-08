@@ -91,6 +91,18 @@ end // end of [primval_make_funlab]
 (* ****** ****** *)
 
 implement
+tmpsub_append
+  (xs1, xs2) = let
+in
+  case+ xs1 of
+  | TMPSUBcons (s2v, s2f, xs1) =>
+      TMPSUBcons (s2v, s2f, tmpsub_append (xs1, xs2))
+  | TMPSUBnil () => xs2
+end // end of [tmpsub_append]
+
+(* ****** ****** *)
+
+implement
 tmpsub2stasub (tsub) = let
 //
 fun loop

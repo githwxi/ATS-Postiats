@@ -199,6 +199,15 @@ fun primvalist_subst (
 ) : primvalist // end of [primvalist_subst]
 //
 extern
+fun primdec_subst (
+  env: !ccompenv, map: !tmpmap, sub: !stasub, pmd: primdec, sfx: int
+) : primdec // end of [primdec_subst]
+extern
+fun primdeclst_subst (
+  env: !ccompenv, map: !tmpmap, sub: !stasub, pmds: primdeclst, sfx: int
+) : primdeclst // end of [primdeclst_subst]
+//
+extern
 fun instr_subst
   (env: !ccompenv, map: !tmpmap, sub: !stasub, ins: instr, sfx: int): instr
 extern
@@ -287,6 +296,10 @@ implement
 funent_subst
   (env, sub, flab2, fent, sfx) = let
 //
+val () =
+  println! ("funent_subst: flab2 = ", flab2)
+// end of [val]
+//
 val loc = funent_get_loc (fent)
 val flab = funent_get_lab (fent)
 val level = funent_get_level (fent)
@@ -305,11 +318,9 @@ val tmpmap2 = tmpmap_make (tmplst2)
 //
 val tmpret2 = tmpvar2tmpvar (tmpmap2, tmpret)
 //
-val (pfpush | ()) = ccompenv_push (env)
 val- Some (d2c) = funlab_get_d2copt (flab)
 val () = ccompenv_add_tmpcstmat (env, TMPCSTMATsome2 (d2c, tmparg2, flab2))
 val inss2 = instrlst_subst (env, tmpmap2, sub, inss, sfx)
-val () = ccompenv_pop (pfpush | env)
 //
 val ((*void*)) = tmpvarmap_vt_free (tmpmap2)
 //
@@ -378,14 +389,68 @@ in
 case+ pmvs of
 | list_cons
     (pmv, pmvs) => let
-    val pmv = primval_subst (env,map, sub, pmv, sfx)
-    val pmvs = primvalist_subst (env,map, sub, pmvs, sfx)
+    val pmv = primval_subst (env, map, sub, pmv, sfx)
+    val pmvs = primvalist_subst (env, map, sub, pmvs, sfx)
   in
     list_cons (pmv, pmvs)
   end // end of [list_cons]
 | list_nil () => list_nil ()
 //
 end // end of [primvalist_subst]
+
+(* ****** ****** *)
+
+implement
+primdec_subst (
+  env, map, sub, pmd0, sfx
+) = let
+in
+//
+case+
+  pmd0.primdec_node of
+| PMDnone () => pmd0
+//
+| PMDimpdec (imp) => let
+    val () = ccompenv_add_impdecloc (env, imp) in pmd0
+  end // end of [PMDimpdec]
+//
+| PMDfundecs _ => pmd0
+//
+| PMDvaldecs _ => pmd0
+| PMDvaldecs_rec _ => pmd0
+//
+| PMDvardecs _ => pmd0
+//
+| PMDstaload (fenv) => let
+    val () = ccompenv_add_staload (env, fenv) in pmd0
+  end // end of [PMDstaload]
+//
+(*
+| PMDlocal (pmds_head, pmds_body) =>
+*)
+| _ => pmd0
+//
+end // end of [primdec_subst]
+
+(* ****** ****** *)
+
+implement
+primdeclst_subst (
+  env, map, sub, pmds, sfx
+) = let
+in
+//
+case+ pmds of
+| list_cons
+    (pmd, pmds) => let
+    val pmd = primdec_subst (env, map, sub, pmd, sfx)
+    val pmds = primdeclst_subst (env, map, sub, pmds, sfx)
+  in
+    list_cons (pmd, pmds)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [primdeclst_subst]
 
 (* ****** ****** *)
 
@@ -399,6 +464,8 @@ val loc0 = ins0.instr_loc
 macdef ftmp (x) = tmpvar2tmpvar (map, ,(x))
 macdef fpmv (x) = primval_subst (env, map, sub, ,(x), sfx)
 macdef fpmvlst (xs) = primvalist_subst (env, map, sub, ,(xs), sfx)
+macdef fpmd (x) = primdec_subst (env, map, sub, ,(x), sfx)
+macdef fpmdlst (xs) = primdeclst_subst (env, map, sub, ,(xs), sfx)
 //
 in
 //
@@ -467,10 +534,26 @@ case+
 | INSassgn_ptrofs of
     (primval(*left*), primlablst(*ofs*), primval(*right*))
 //
-| INSletpop of ()
-| INSletpush of (primdeclst)
-//
 *)
+| INSletpop () => let
+    prval pfpush = __assert () where {
+      extern praxi __assert : () -<prf> ccompenv_push_v
+    } // end of [prval]
+    val () = ccompenv_pop (pfpush | env)
+  in
+    ins0
+  end // end of [INSletpop]
+//
+| INSletpush (pmds) => let
+    val (pfpush | ()) = ccompenv_push (env)
+    prval () = __assert (pfpush) where {
+      extern praxi __assert : (ccompenv_push_v) -<prf> void
+    } // end of [prval]
+    val pmds = fpmdlst (pmds)
+  in
+    instr_letpush (loc0, pmds)
+  end // end of [INSletpush]
+//
 | _ => ins0
 //
 end // end of [instr_subst]

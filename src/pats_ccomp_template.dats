@@ -65,7 +65,9 @@ fun fprint_impenv : fprint_vtype (impenv)
 extern
 fun impenv_find (env: !impenv, s2v: s2var): s2hnf
 extern
-fun impenv_update (env: !impenv, s2v: s2var, s2f: s2hnf): void
+fun impenv_update
+  (env: !impenv, s2v: s2var, s2f: s2hnf): bool(*updated*)
+// end of [impenv_update]
 
 (* ****** ****** *)
 
@@ -153,18 +155,18 @@ case+ env of
       val () = !p_s2f := s2f
       prval () = fold@ (env)
     in
-      // nothing
+      true
     end else let
-      val () =
+      val ans =
         impenv_update (!p_env, s2v, s2f)
       // end of [val]
       prval () = fold@ (env)
     in
-      // nothing
+      ans
     end // end of [if]
   ) // end of [IMPENVcons]
 | IMPENVnil () => let
-    prval () = fold@ (env) in assertloc (false)
+    prval () = fold@ (env) in false
   end // end of [IMPENVnil]
 //
 end // end of [impenv_update]
@@ -238,9 +240,8 @@ case+ env of
 | ~IMPENVcons
     (s2v, s2f, env) => let
     val s2e = s2hnf2exp (s2f)
-    val tsub = TMPSUBcons (s2v, s2e, tsub)
   in
-    aux (env, tsub)
+    TMPSUBcons (s2v, s2e, aux (env, tsub))
   end // end of [IMPENVcons]
 | ~IMPENVnil () => tsub
 //
@@ -273,17 +274,14 @@ case+ s2en_pat of
 | S2Evar (s2v) => let
     val s2f = impenv_find (env, s2v)
   in
-    if s2hnf_is_err (s2f) then let
-      val () = impenv_update (env, s2v, s2f_arg)
-    in
-      true
-    end else
+    if s2hnf_is_err (s2f) then (
+      impenv_update (env, s2v, s2f_arg)
+    ) else (
       s2hnf_syneq (s2f, s2f_arg)
-    // end of [if]
+    ) // end of [if]
   end // end of [S2Evar]
 //
-| S2Ecst
-    (s2c_pat) => let
+| S2Ecst (s2c_pat) => let
   in
     case+ s2en_arg of
     | S2Ecst (s2c_arg) =>
@@ -388,6 +386,37 @@ end else
 // end of [if]
 //
 end // end of [hiimpdec_tmpcst_match]
+
+implement
+hiimpdec2_tmpcst_match
+  (imp2, d2c0, t2mas) = let
+//
+val HIIMPDEC2
+  (imp, tsub0, tmparg) = imp2
+val d2c = imp.hiimpdec_cst
+val imparg = imp.hiimpdec_imparg
+//
+in
+//
+if d2c = d2c0 then let
+  val env = impenv_make_svarlst (imparg)
+  val ans = auxlstlst (env, tmparg, t2mas)
+in
+  if ans then let
+    val tsub1 =
+      impenv2tmpsub (env)
+    val tsub01 =
+      tmpsub_append (tsub0, tsub1)
+  in
+    TMPCSTMATsome (imp, tsub01)
+  end else let
+    val () = impenv_free (env) in TMPCSTMATnone ()
+  end // end of [if]
+end else
+  TMPCSTMATnone ()
+// end of [if]
+//
+end // end of [hiimpdec2_tmpcst_match]
 
 implement
 tmpcstmat_tmpcst_match
@@ -512,10 +541,15 @@ val flab2 = funlab_subst (sub, flab)
 val () = funlab_set_suffix (flab2, sfx)
 val () = the_funlablst_add (flab2)
 //
+val (
+  pfpush | ()
+) = ccompenv_push (env)
+val () = ccompenv_add_tmpsub (env, tsub)
 val () = ccompenv_inc_tmprecdepth (env)
-val fent2 =
-  funent_subst (env, sub, flab2, fent, sfx)
+val fent2 = funent_subst (env, sub, flab2, fent, sfx)
 val () = ccompenv_dec_tmprecdepth (env)
+val (
+) = ccompenv_pop (pfpush | env)
 //
 val () = funent_set_tmpsub (fent2, Some (tsub))
 //

@@ -1065,14 +1065,10 @@ d2ecl_dcstdecs (loc, knd, d2cs) =
 (* ****** ****** *)
 
 implement
-d2ecl_impdec (loc, knd, d2c) =
-  d2ecl_make_node (loc, D2Cimpdec (knd, d2c))
-
-(* ****** ****** *)
-
-implement
 d2ecl_fundecs (loc, knd, decarg, f2ds) =
   d2ecl_make_node (loc, D2Cfundecs (knd, decarg, f2ds))
+
+(* ****** ****** *)
 
 implement
 d2ecl_valdecs (loc, knd, v2ds) =
@@ -1082,6 +1078,8 @@ implement
 d2ecl_valdecs_rec (loc, knd, v2ds) =
   d2ecl_make_node (loc, D2Cvaldecs_rec (knd, v2ds))
 
+(* ****** ****** *)
+
 implement
 d2ecl_vardecs (loc, v2ds) =
   d2ecl_make_node (loc, D2Cvardecs (v2ds))
@@ -1089,6 +1087,12 @@ d2ecl_vardecs (loc, v2ds) =
 implement
 d2ecl_prvardecs (loc, v2ds) =
   d2ecl_make_node (loc, D2Cprvardecs (v2ds))
+
+(* ****** ****** *)
+
+implement
+d2ecl_impdec (loc, knd, d2c) =
+  d2ecl_make_node (loc, D2Cimpdec (knd, d2c))
 
 (* ****** ****** *)
 

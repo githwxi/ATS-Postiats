@@ -43,8 +43,6 @@ implement
 g0int2int<int_kind,llint_kind> = g0int2int_int_llint
 implement
 g0int2int<int_kind,ssize_kind> = g0int2int_int_ssize
-implement
-g0int2int<int_kind,sint_kind> = g0int2int_int_sint
 
 #atscode_separator()
 

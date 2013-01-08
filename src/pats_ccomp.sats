@@ -297,11 +297,16 @@ fun fprint_tmpsubopt : fprint_type (tmpsubopt)
 
 (* ****** ****** *)
 
-fun tmpsub2stasub (tsub: tmpsub): stasub
+fun tmpsub_append (xs1: tmpsub, xs2: tmpsub): tmpsub
 
 (* ****** ****** *)
 
-datatype tmpcstmat =
+fun tmpsub2stasub (xs: tmpsub): stasub
+
+(* ****** ****** *)
+
+datatype
+tmpcstmat =
   | TMPCSTMATsome of (hiimpdec, tmpsub)
   | TMPCSTMATsome2 of (d2cst, s2explstlst, funlab)
   | TMPCSTMATnone of ()
@@ -319,8 +324,6 @@ datatype
 primdec_node =
   | PMDnone of () 
 //
-  | PMDimpdec of (hiimpdec)
-//
   | PMDfundecs of (hifundeclst)
 //
   | PMDvaldecs of
@@ -332,7 +335,9 @@ primdec_node =
 //
   | PMDvardecs of (hivardeclst, instrlst)
 //
-  | PMDstaload of ($FIL.filename)
+  | PMDimpdec of (hiimpdec)
+//
+  | PMDstaload of (filenv) // HX: staloading
 //
   | PMDlocal of (primdeclst, primdeclst)
 // end of [primdec_node]
@@ -426,13 +431,11 @@ fun primdec_none (loc: location): primdec
 
 (* ****** ****** *)
 
-fun primdec_impdec
-  (loc: location, imp: hiimpdec): primdec
-// end of [primdec_impdec]
-
 fun primdec_fundecs
   (loc: location, hfds: hifundeclst): primdec
 // end of [primdec_fundecs]
+
+(* ****** ****** *)
 
 fun primdec_valdecs (
   loc: location, knd: valkind, hvds: hivaldeclst, inss: instrlst
@@ -440,13 +443,23 @@ fun primdec_valdecs (
 fun primdec_valdecs_rec (
   loc: location, knd: valkind, hvds: hivaldeclst, inss: instrlst
 ) : primdec // end of [primdec_valdecs_rec]
-//
+
+(* ****** ****** *)
+
 fun primdec_vardecs
   (loc: location, hvds: hivardeclst, inss: instrlst): primdec
 // end of [primdec_vardecs]
-//
-fun primdec_staload (loc: location, fil: $FIL.filename): primdec
-//
+
+(* ****** ****** *)
+
+fun primdec_impdec
+  (loc: location, imp: hiimpdec): primdec
+// end of [primdec_impdec]
+
+(* ****** ****** *)
+
+fun primdec_staload (loc: location, fenv: filenv): primdec
+
 (* ****** ****** *)
 
 fun print_primval (x: primval): void
@@ -867,9 +880,17 @@ fun ccompenv_find_varbind
 
 (* ****** ****** *)
 
-fun ccompenv_add_impdec (env: !ccompenv, imp: hiimpdec): void
 fun ccompenv_add_fundec (env: !ccompenv, hfd: hifundec): void
+fun ccompenv_add_impdec (env: !ccompenv, imp: hiimpdec): void
 fun ccompenv_add_staload (env: !ccompenv, fenv: filenv): void
+
+(* ****** ****** *)
+
+fun ccompenv_add_tmpsub (env: !ccompenv, tsub: tmpsub): void
+fun ccompenv_add_impdecloc (env: !ccompenv, imp: hiimpdec): void
+
+(* ****** ****** *)
+
 fun ccompenv_add_tmpcstmat (env: !ccompenv, tmpmat: tmpcstmat): void
 
 (* ****** ****** *)
@@ -1022,9 +1043,22 @@ fun emit_primdeclst (out: FILEref, pmds: primdeclst): void
 fun hiimpdec_tmpcst_match
   (imp: hiimpdec, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
 // end of [hiimpdec_tmpcst_match]
+
 fun hiimpdeclst_tmpcst_match
   (imps: hiimpdeclst, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
 // end of [hiimpdeclst_tmpcst_match]
+
+(* ****** ****** *)
+
+datatype
+hiimpdec2 =
+HIIMPDEC2 of (hiimpdec, tmpsub, s2explstlst)
+
+fun fprint_hiimpdec2 (out: FILEref, imp2: !hiimpdec2): void
+
+fun hiimpdec2_tmpcst_match
+  (imp2: hiimpdec2, d2c: d2cst, t2mas: t2mpmarglst): tmpcstmat
+// end of [hiimpdec2_tmpcst_match]
 
 (* ****** ****** *)
 

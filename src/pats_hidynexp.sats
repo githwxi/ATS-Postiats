@@ -181,8 +181,6 @@ hidecl_node =
   | HIDexndecs of (d2conlst) // HX: exception decls
   | HIDdcstdecs of (dcstkind, d2cstlst)
 //
-  | HIDimpdec of (int(*knd*), hiimpdec)
-//
   | HIDfundecs of
       (funkind, s2qualst(*decarg*), hifundeclst)
     // end of [HIDfundecs]
@@ -191,6 +189,8 @@ hidecl_node =
   | HIDvaldecs_rec of (valkind, hivaldeclst)
 //
   | HIDvardecs of (hivardeclst) // variable declarations
+//
+  | HIDimpdec of (int(*knd*), hiimpdec)
 //
   | HIDstaload of (
       filename, int(*flag*), filenv, int(*loaded*)
@@ -343,19 +343,6 @@ and hiclaulst = List (hiclau)
 
 (* ****** ****** *)
 
-and hiimpdec = '{
-  hiimpdec_loc= location
-, hiimpdec_cst= d2cst
-, hiimpdec_imparg= s2varlst
-, hiimpdec_tmparg= s2explstlst
-, hiimpdec_def= hidexp
-, hiimpdec_funlab= Option (hidynexp_funlab_type)
-} // end of [hiimpdec]
-
-and hiimpdeclst = List (hiimpdec)
-
-(* ****** ****** *)
-
 and hifundec = '{
   hifundec_loc= location
 , hifundec_var= d2var
@@ -390,6 +377,19 @@ and hivardeclst = List (hivardec)
 
 (* ****** ****** *)
 
+and hiimpdec = '{
+  hiimpdec_loc= location
+, hiimpdec_cst= d2cst
+, hiimpdec_imparg= s2varlst
+, hiimpdec_tmparg= s2explstlst
+, hiimpdec_def= hidexp
+, hiimpdec_funlab= Option (hidynexp_funlab_type)
+} // end of [hiimpdec]
+
+and hiimpdeclst = List (hiimpdec)
+
+(* ****** ****** *)
+
 fun fprint_hidexp : fprint_type (hidexp)
 fun print_hidexp (x: hidexp): void
 overload print with print_hidexp
@@ -414,10 +414,10 @@ overload prerr with prerr_hidecl
 
 fun fprint_hideclist : fprint_type (hideclist)
 
-fun fprint_hiimpdec : fprint_type (hiimpdec)
 fun fprint_hifundec : fprint_type (hifundec)
 fun fprint_hivaldec : fprint_type (hivaldec)
 fun fprint_hivardec : fprint_type (hivardec)
+fun fprint_hiimpdec : fprint_type (hiimpdec)
 
 (* ****** ****** *)
 
@@ -648,17 +648,6 @@ fun hiclau_make (
 
 (* ****** ****** *)
 
-fun hiimpdec_make (
-  loc: location
-, d2c: d2cst, imparg: s2varlst, tmparg: s2explstlst, def: hidexp
-) : hiimpdec // end of [hiimpdec_make]
-
-fun hiimpdec_getref_funlabopt
-  (imp: hiimpdec): Ptr1 = "patsopt_hiimpdec_getref_funlabopt"
-// end of [hiimpdec_getref_funlabopt]
-
-(* ****** ****** *)
-
 fun hifundec_make
   (loc: location, d2v: d2var, imparg: s2varlst, def: hidexp): hifundec
 // end of [hifundec_make]
@@ -673,6 +662,17 @@ fun hivardec_make (
   loc: location, knd: int
 , d2v: d2var, d2vw: d2var, type: hisexp, ini: hidexpopt
 ) : hivardec // end of [hivardec_make]
+
+(* ****** ****** *)
+
+fun hiimpdec_make (
+  loc: location
+, d2c: d2cst, imparg: s2varlst, tmparg: s2explstlst, def: hidexp
+) : hiimpdec // end of [hiimpdec_make]
+
+fun hiimpdec_getref_funlabopt
+  (imp: hiimpdec): Ptr1 = "patsopt_hiimpdec_getref_funlabopt"
+// end of [hiimpdec_getref_funlabopt]
 
 (* ****** ****** *)
 

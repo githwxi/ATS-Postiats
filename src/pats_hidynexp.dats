@@ -508,20 +508,6 @@ hiclau_make
 (* ****** ****** *)
 
 implement
-hiimpdec_make (
-  loc, d2c, imparg, tmparg, def
-) = '{
-  hiimpdec_loc= loc
-, hiimpdec_cst= d2c
-, hiimpdec_imparg= imparg
-, hiimpdec_tmparg= tmparg
-, hiimpdec_def= def
-, hiimpdec_funlab= None ()
-} // end of [hiimpdec_make]
-
-(* ****** ****** *)
-
-implement
 hifundec_make
   (loc, d2v, s2vs, def) = '{
   hifundec_loc= loc
@@ -549,6 +535,20 @@ hivardec_make (
 , hivardec_type= type
 , hivardec_ini= ini
 } // end of [hivardec_make]
+
+(* ****** ****** *)
+
+implement
+hiimpdec_make (
+  loc, d2c, imparg, tmparg, def
+) = '{
+  hiimpdec_loc= loc
+, hiimpdec_cst= d2c
+, hiimpdec_imparg= imparg
+, hiimpdec_tmparg= tmparg
+, hiimpdec_def= def
+, hiimpdec_funlab= None ()
+} // end of [hiimpdec_make]
 
 (* ****** ****** *)
 

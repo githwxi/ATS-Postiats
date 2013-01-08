@@ -77,14 +77,6 @@ primdec_none (loc) =
 (* ****** ****** *)
 
 implement
-primdec_impdec
-  (loc, impdec) =
-  primdec_make_node (loc, PMDimpdec (impdec))
-// end of [primdec_impdec]
-
-(* ****** ****** *)
-
-implement
 primdec_fundecs (loc, hfds) =
   primdec_make_node (loc, PMDfundecs (hfds))
 
@@ -106,8 +98,16 @@ primdec_vardecs (loc, hvds, inss) =
 (* ****** ****** *)
 
 implement
-primdec_staload (loc, fil) =
-  primdec_make_node (loc, PMDstaload (fil))
+primdec_staload (loc, fenv) =
+  primdec_make_node (loc, PMDstaload (fenv))
+
+(* ****** ****** *)
+
+implement
+primdec_impdec
+  (loc, impdec) =
+  primdec_make_node (loc, PMDimpdec (impdec))
+// end of [primdec_impdec]
 
 (* ****** ****** *)
 
