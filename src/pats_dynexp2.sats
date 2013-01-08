@@ -173,6 +173,7 @@ overload fprint with fprint_d2cst
 fun d2cst_get_loc (x: d2cst): location
 fun d2cst_get_fil (x: d2cst): filename
 fun d2cst_get_sym (x: d2cst): symbol
+fun d2cst_get_name (x: d2cst): string
 fun d2cst_get_kind (x: d2cst): dcstkind
 fun d2cst_get_arylst (x: d2cst): List int
 fun d2cst_get_decarg (x: d2cst): s2qualst

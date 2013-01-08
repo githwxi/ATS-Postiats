@@ -724,28 +724,35 @@ fun{k1,k2:tk}
 g1int2uint // i2u
   {i:nat} (x: g1int (k1, i)):<> g1uint (k2, i)
 //
-fun g1int2uint_int_uint {i:nat} (x: int i):<> uint (i)
-fun g1int2uint_int_ulint {i:nat} (x: int i):<> ulint (i)
-fun g1int2uint_int_ullint {i:nat} (x: int i):<> ullint (i)
-fun g1int2uint_int_size {i:nat} (x: int i):<> size_t (i)
+fun g1int2uint_int_uint
+  {i:nat} (x: int i):<> uint (i) = "mac\#atspre_g1int2uint_int_uint"
+fun g1int2uint_int_ulint
+  {i:nat} (x: int i):<> ulint (i) = "mac\#atspre_g1int2uint_int_ulint"
+fun g1int2uint_int_ullint
+  {i:nat} (x: int i):<> ullint (i) = "mac\#atspre_g1int2uint_int_ullint"
+fun g1int2uint_int_size
+  {i:nat} (x: int i):<> size_t (i) = "mac\#atspre_g1int2uint_int_size"
 //
 #atscode_separator()
 
 fun{k1,k2:tk}
 g1uint2int // u2i
   {u:int} (x: g1uint (k1, u)):<> [u>=0] g1int (k2, u)
-// end of [g1uint2int]
-
+//
 #atscode_separator()
 //
 fun{k1,k2:tk}
 g1uint2uint // u2u
   {u:int} (x: g1uint (k1, u)):<> g1uint (k2, u)
 //
-fun g1uint2uint_uint_uint {u:int} (x: uint u):<> uint (u)
-fun g1uint2uint_uint_ulint {u:int} (x: uint u):<> ulint (u)
-fun g1uint2uint_uint_ullint {u:int} (x: uint u):<> ullint (u)
-fun g1uint2uint_uint_size {u:int} (x: uint u):<> size_t (u)
+fun g1uint2uint_uint_uint
+  {u:int} (x: uint u):<> uint (u) = "mac\#atspre_g1uint2uint_uint_uint"
+fun g1uint2uint_uint_ulint
+  {u:int} (x: uint u):<> ulint (u) = "mac\#atspre_g1uint2uint_uint_ulint"
+fun g1uint2uint_uint_ullint
+  {u:int} (x: uint u):<> ullint (u) = "mac\#atspre_g1uint2uint_uint_ullint"
+fun g1uint2uint_uint_size
+  {u:int} (x: uint u):<> size_t (u) = "mac\#atspre_g1uint2uint_uint_size"
 //
 #atscode_separator()
 
@@ -1348,11 +1355,13 @@ end // end of [fun_g1uint_type_aop_cmp_decl]
 #fun_g1uint_type_aop_cmp_decl("size", "size_t")\
 //
 #atscode_separator()
-
+//
+macdef i2u (x) = g1int2uint_int_uint (,(x))
 macdef i2sz (x) = g1int2uint_int_size (,(x))
-macdef u2sz (x) = g1uint2uint_uint_size (,(x))
 macdef i2ssz (x) = g1int2int_int_ssize (,(x))
-
+//
+macdef u2sz (x) = g1uint2uint_uint_size (,(x))
+//
 #atscode_separator()
 
 #atscode_eof_strsub("\#thisfilename$")\

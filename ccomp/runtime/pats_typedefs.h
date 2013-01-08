@@ -86,8 +86,8 @@ typedef void *atstype_ref ;
 
 /* ****** ****** */
 
-#define atstkind_type (tk) tk
-#define atstkind_t0ype (tk) tk
+#define atstkind_type(tk) tk
+#define atstkind_t0ype(tk) tk
 
 /* ****** ****** */
 

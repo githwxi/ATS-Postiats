@@ -245,24 +245,46 @@ end // end of [emit_d2con]
 implement
 emit_d2cst
   (out, d2c) = let
-  val extdef =
-    $D2E.d2cst_get_extdef (d2c)
-  // end of [val]
+//
+val extdef = $D2E.d2cst_get_extdef (d2c)
+//
 in
-  case+ extdef of
-  | $SYN.DCSTEXTDEFnone () => let
-      val fil = $D2E.d2cst_get_fil (d2c)
-      val sym = $D2E.d2cst_get_sym (d2c)
-      val name = $SYM.symbol_get_name (sym)
-      val () = emit_filename (out, fil)
-      val () = fprint_string (out, "__")
-      val () = emit_ident (out, name)
-    in
-      // nothing
-    end // end of [DCSTEXTDEFnone]
-  | $SYN.DCSTEXTDEFsome_ext name => emit_ident (out, name)
-  | $SYN.DCSTEXTDEFsome_sta name => emit_ident (out, name)
-  | $SYN.DCSTEXTDEFsome_mac name => emit_ident (out, name)
+//
+case+ extdef of
+| $SYN.DCSTEXTDEFnone () => let
+    val fil = $D2E.d2cst_get_fil (d2c)
+    val name = $D2E.d2cst_get_name (d2c)
+    val () = emit_filename (out, fil)
+    val () = fprint_string (out, "__")
+    val () = emit_ident (out, name)
+  in
+    // nothing
+  end // end of [DCSTEXTDEFnone]
+//
+| $SYN.DCSTEXTDEFsome_ext (name) => let
+    var name: string = name
+    val isemp = string_is_empty (name)
+    val () = if isemp then name := $D2E.d2cst_get_name (d2c)
+  in
+    emit_ident (out, name)
+  end // end of [DCSTEXTDEFsome_ext]
+//
+| $SYN.DCSTEXTDEFsome_mac (name) => let
+    var name: string = name
+    val isemp = string_is_empty (name)
+    val () = if isemp then name := $D2E.d2cst_get_name (d2c)
+  in
+    emit_ident (out, name)
+  end // end of [ // end of [DCSTEXTDEFsome_mac]
+//
+| $SYN.DCSTEXTDEFsome_sta (name) => let
+    var name: string = name
+    val isemp = string_is_empty (name)
+    val () = if isemp then name := $D2E.d2cst_get_name (d2c)
+  in
+    emit_ident (out, name)
+  end // end of [DCSTEXTDEFsome_sta]
+//
 end // end of [emit_d2cst]
 
 (* ****** ****** *)
@@ -406,6 +428,7 @@ extern fun emit_primval_tmp : emit_primval_type
 extern fun emit_primval_tmpref : emit_primval_type
 extern fun emit_primval_arg : emit_primval_type
 extern fun emit_primval_argref : emit_primval_type
+extern fun emit_primval_d2cst : emit_primval_type
 extern fun emit_primval_bool : emit_primval_type
 
 (* ****** ****** *)
@@ -423,6 +446,10 @@ case+ pmv0.primval_node of
 (*
 | PMVargref _ => emit_primval_argref (out, pmv0)
 *)
+(*
+| PMVcst _ => emit_primval_d2cst (out, pmv0)
+*)
+//
 | PMVbool _ => emit_primval_bool (out, pmv0)
 //
 | PMVi0nt (tok) => $SYN.fprint_i0nt (out, tok)
@@ -504,6 +531,18 @@ val- PMVarg (ind) = pmv0.primval_node
 in
   fprintf (out, "arg%i", @(ind))
 end // end of [emit_primval_arg]
+
+(* ****** ****** *)
+
+implement
+emit_primval_d2cst
+  (out, pmv0) = let
+//
+val- PMVcst (d2c) = pmv0.primval_node
+//
+in
+  emit_d2cst (out, d2c)
+end // end of [emit_primval_d2cst]
 
 (* ****** ****** *)
 
@@ -790,6 +829,15 @@ case+ pmv_fun.primval_node of
   in
     // nothing
   end // end of [PMVfun]
+//
+| PMVcst (d2c) => let
+    val () = emit_d2cst (out, d2c)
+    val () = fprint_string (out, "(")
+    val () = emit_primvalist (out, pmvs_arg)
+    val () = fprint_string (out, ") ;")
+  in
+    // nothing
+  end // end of [PMVcst]
 //
 | PMVtmpltcst _ => let
     val () = emit_primval (out, pmv_fun)

@@ -185,6 +185,13 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+d2cst_get_name (d2c) = 
+  $SYM.symbol_get_name (d2cst_get_sym (d2c))
+// end of [d2cst_get_name]
+
+(* ****** ****** *)
+
+implement
 fprint_d2cst (out, x) =
   $SYM.fprint_symbol (out, d2cst_get_sym (x))
 // end of [fprint_d2cst]
