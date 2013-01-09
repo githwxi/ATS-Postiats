@@ -305,8 +305,8 @@ s2exp_tyrec
   val s2t_rec =
     s2rt_npf_lin_prf_prgm_boxed_labs2explst (npf, lin, prf, prgm, boxed, ls2es)
   // end of [val]
-  val tyrecknd = (case+ knd of
-    | 0 => TYRECKINDflt0 () | _ => TYRECKINDbox ()
+  val tyrecknd = (
+    case+ knd of 0 => TYRECKINDflt0 () | _ => TYRECKINDbox ()
   ) : tyreckind // end of [val]
 in
   s2exp_tyrec_srt (s2t_rec, tyrecknd, npf, ls2es)

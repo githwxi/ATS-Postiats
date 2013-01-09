@@ -160,6 +160,8 @@ case+ p3t0.p3at_node of
     hipat_lst (loc0, hse0, hse_elt, hips)
   end // end of [P3Tlst]
 //
+| P3Texist (s2vs, p3t) => p3at_tyer (p3t)
+//
 | P3Tann
     (p3t, s2e_ann) => let
     val hip = p3at_tyer (p3t)
@@ -169,6 +171,7 @@ case+ p3t0.p3at_node of
   end // end of [P3Tann]
 //
 | _ => let
+    val () = println! ("p3at_tyer: loc0 = ", loc0)
     val () = println! ("p3at_tyer: p3t0 = ", p3t0)
   in
     exitloc (1)
@@ -464,14 +467,26 @@ case+
     hidexp_selab (loc0, hse0, hde, hse_flt, hils)
   end // end of [D3Eselab]
 //
-| D3Eptrof_var (d2v) =>
+| D3Eptrof_var
+    (d2v) => let
+  in
     hidexp_ptrof_var (loc0, hse0, d2v)
-| D3Eptrof_ptrsel (d3e, d3ls) => let
+  end // end of [D3Eptrof_var]
+| D3Eptrof_ptrsel
+    (d3e, d3ls) => let
     val hde = d3exp_tyer (d3e)
     val hils = d3lablst_tyer (d3ls)
   in
     hidexp_ptrof_ptrsel (loc0, hse0, hde, hils)
   end // end of [D3Eptrof_ptrsel]
+//
+| D3Erefarg (
+    refval, freeknd, d3e
+  ) => let
+    val hde = d3exp_tyer (d3e)
+  in
+    hidexp_refarg (loc0, hse0, refval, freeknd, hde)
+  end // end of [D3Erefarg]
 //
 | D3Esel_var
     (d2v, d3ls) => let

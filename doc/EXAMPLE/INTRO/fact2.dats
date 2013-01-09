@@ -1,6 +1,6 @@
 //
 // Two verified implementations of the factorial function:
-// the first one is not tail-recursive while the second is
+// the first one is not tail-recursive whereas the second is
 //
 // Author: Hongwei Xi (February 2012)
 //
@@ -20,17 +20,22 @@ dataprop FACT (int, int) =
 fun fact
   {n:nat} .<n>. (
   x: int n // the val of x is n
-) : [r:int] (FACT (n, r) | int r) =
-  if x > 0 then let
-    val [r1:int]
-      (pf1 | r1) = fact (x-1)
-    prval pf = FACTind {n}{r1} (pf1)
-    val r = x * r1
-  in
-    (pf | r)
-  end else
-    (FACTbas () | 1)
-  // end of [if]
+) : [r:int]
+  (FACT (n, r) | int r) = let
+in
+//
+if x > 0 then let
+  val [r1:int]
+    (pf1 | r1) = fact (x-1)
+  prval pf = FACTind {n}{r1} (pf1)
+  val r = x * r1
+in
+  (pf | r)
+end else
+  (FACTbas () | 1)
+// end of [if]
+//
+end // end of [fact]
   
 (* ****** ****** *)
 

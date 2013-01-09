@@ -77,6 +77,12 @@ primdec_none (loc) =
 (* ****** ****** *)
 
 implement
+primdec_datdecs (loc, s2cs) =
+  primdec_make_node (loc, PMDdatdecs (s2cs))
+
+(* ****** ****** *)
+
+implement
 primdec_fundecs (loc, hfds) =
   primdec_make_node (loc, PMDfundecs (hfds))
 
@@ -305,6 +311,22 @@ instr_move_con (
 ) = instr_make_node
   (loc, INSmove_con (tmpret, d2c, hse_sum, _arg))
 // end of [instr_move_con]
+
+(* ****** ****** *)
+
+implement
+instr_move_rec_box (
+  loc, tmpret, lpmvs, hse_rec
+) = instr_make_node
+  (loc, INSmove_rec_box (tmpret, lpmvs, hse_rec))
+// end of [instr_move_rec_box]
+
+implement
+instr_move_rec_flt (
+  loc, tmpret, lpmvs, hse_rec
+) = instr_make_node
+  (loc, INSmove_rec_flt (tmpret, lpmvs, hse_rec))
+// end of [instr_move_rec_flt]
 
 (* ****** ****** *)
 

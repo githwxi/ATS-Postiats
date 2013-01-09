@@ -32,6 +32,13 @@
 //
 (* ****** ****** *)
 
+staload
+LOC = "./pats_location.sats"
+overload
+print with $LOC.print_location
+
+(* ****** ****** *)
+
 staload "./pats_staexp2.sats"
 staload "./pats_dynexp2.sats"
 
@@ -96,6 +103,7 @@ fun hidexp_ccomp_ret_sif : hidexp_ccomp_ret_funtype
 *)
 
 extern fun hidexp_ccomp_ret_lst : hidexp_ccomp_ret_funtype
+extern fun hidexp_ccomp_ret_rec : hidexp_ccomp_ret_funtype
 extern fun hidexp_ccomp_ret_seq : hidexp_ccomp_ret_funtype
 
 extern fun hidexp_ccomp_ret_selab : hidexp_ccomp_ret_funtype
@@ -199,6 +207,7 @@ case+ hde0.hidexp_node of
 | HDElam _ => hidexp_ccomp_lam (env, res, hde0)
 //
 | _ => let
+    val () = println! ("hidexp_ccomp: loc0 = ", loc0)
     val () = println! ("hidexp_ccomp: hde0 = ", hde0)
   in
     exitloc (1)
@@ -331,6 +340,8 @@ case+ hde0.hidexp_node of
 //
 | HDElst _ => hidexp_ccomp_ret_lst (env, res, tmpret, hde0)
 //
+| HDErec _ => hidexp_ccomp_ret_rec (env, res, tmpret, hde0)
+//
 | HDEseq _ => hidexp_ccomp_ret_seq (env, res, tmpret, hde0)
 //
 | HDEselab _ => hidexp_ccomp_ret_selab (env, res, tmpret, hde0)
@@ -340,6 +351,7 @@ case+ hde0.hidexp_node of
 | HDElam _ => auxval (env, res, tmpret, hde0)
 //
 | _ => let
+    val () = println! ("hidexp_ccomp_ret: loc0 = ", loc0)
     val () = println! ("hidexp_ccomp_ret: hde0 = ", hde0)
   in
     exitloc (1)
@@ -664,9 +676,63 @@ case+ hdes of
     auxnodelst (env, res, tmphd, pmvhd, tmptl, loc0, hse_elt, hdes)
   end // end of [list_cons]
 | list_nil () => let
-    val ins = instr_move_list_nil (loc0, tmpret) in instrseq_add (res, ins)
+    val ins =
+      instr_move_list_nil (loc0, tmpret) in instrseq_add (res, ins)
+    // end of [val]
   end // end of [list_nil]
 end // end of [hidexp_ccomp_ret_lst]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+local
+ 
+fun auxlst (
+  env: !ccompenv, res: !instrseq, lxs: labhidexplst
+) : labprimvalist = let
+in
+//
+case+ lxs of
+| list_cons
+    (lx, lxs) => let
+    val LABHIDEXP (l, x) = lx
+    val pmv =
+      hidexp_ccomp (env, res, x)
+    // end of [val]
+    val lpmv = LABPRIMVAL (l, pmv)
+    val lpmvs = auxlst (env, res, lxs)
+  in
+    list_cons (lpmv, lpmvs)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [auxlst]
+
+in // in of [local]
+
+implement
+hidexp_ccomp_ret_rec
+  (env, res, tmpret, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+//
+val- HDErec (knd, lhdes, hse_rec) = hde0.hidexp_node
+//
+val lpmvs = auxlst (env, res, lhdes)
+//
+val ins = (
+  if knd > 0 then
+    instr_move_rec_box (loc0, tmpret, lpmvs, hse_rec)
+  else
+    instr_move_rec_flt (loc0, tmpret, lpmvs, hse_rec)
+  // end of [if]
+) : instr // end of [val]
+//
+in
+ instrseq_add (res, ins)
+end // end of [hidexp_ccomp_ret_rec]
 
 end // end of [local]
 

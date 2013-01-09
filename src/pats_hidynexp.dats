@@ -385,6 +385,14 @@ hidexp_ptrof_ptrsel
 (* ****** ****** *)
 
 implement
+hidexp_refarg
+  (loc, hse, refval, freeknd, hde) =
+  hidexp_make_node (loc, hse, HDErefarg (refval, freeknd, hde))
+// end of [hidexp_refarg]
+
+(* ****** ****** *)
+
+implement
 hidexp_sel_var
   (loc, hse, d2v, hils) =
   hidexp_make_node (loc, hse, HDEsel_var (d2v, hils))

@@ -1107,7 +1107,7 @@ case+ pmd.primdec_node of
 //
 | PMDnone () => ()
 //
-| PMDimpdec _ => ()
+| PMDdatdecs _ => ()
 //
 | PMDfundecs _ => ()
 //
@@ -1119,6 +1119,8 @@ case+ pmd.primdec_node of
 //
 | PMDvardecs (hvds, inss) =>
     emit_instrlst_ln (out, $UN.cast{instrlst}(inss))
+//
+| PMDimpdec _ => ()
 //
 | PMDstaload _ => ()
 //

@@ -340,7 +340,7 @@ and d1exp_node =
   | D1Etup of (* dynamic tuple-expression *)
       (int (*tupknd*), int (*pfarity*), d1explst)
   | D1Erec of (* dynamic record-expression *)
-      (int (*recknd*), int (*pfarity*), labd1explst)
+      (int (*recknd*), int (*pfarity*), labd1explst) // HX: 0/1: flat/boxed
   | D1Eseq of d1explst // dynamic sequence-expression
 //
   | D1Earrsub of (* array subscription *)

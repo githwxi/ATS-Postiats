@@ -93,18 +93,12 @@ case+ x.primdec_node of
 //
 | PMDnone () => prstr "PMDnone()"
 //
-| PMDimpdec (imp) => {
-    val d2c = imp.hiimpdec_cst
-    val imparg = imp.hiimpdec_imparg
-    val tmparg = imp.hiimpdec_tmparg
-    val () = prstr "PMDimpdec("
-    val () = fprint_d2cst (out, d2c)
-    val () = prstr "; imparg="
-    val () = fprint_s2varlst (out, imparg)
-    val () = prstr "; tmparg="
-    val () = $UT.fprintlst (out, tmparg, "; ", fprint_s2explst)
+| PMDdatdecs (s2cs) => {
+    val () = prstr "PMDdatdecs("
+    val () = fprint_s2cstlst (out, s2cs)
     val () = prstr ")"
   }
+
 //
 | PMDfundecs (hfds) => {
     val () = prstr "PMDfundecs("
@@ -145,6 +139,19 @@ case+ x.primdec_node of
       $UT.fprintlst<hivardec> (
       out, hvds, sep, lam (out, hvd) => fprint_d2var (out, hvd.hivardec_dvar_ptr)
     ) // end of [val]
+    val () = prstr ")"
+  }
+//
+| PMDimpdec (imp) => {
+    val d2c = imp.hiimpdec_cst
+    val imparg = imp.hiimpdec_imparg
+    val tmparg = imp.hiimpdec_tmparg
+    val () = prstr "PMDimpdec("
+    val () = fprint_d2cst (out, d2c)
+    val () = prstr "; imparg="
+    val () = fprint_s2varlst (out, imparg)
+    val () = prstr "; tmparg="
+    val () = $UT.fprintlst (out, tmparg, "; ", fprint_s2explst)
     val () = prstr ")"
   }
 //

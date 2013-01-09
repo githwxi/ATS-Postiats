@@ -208,7 +208,8 @@ in
 //
 case+ pmd.primdec_node of
 | PMDnone () => ()
-| PMDimpdec _ => ()
+//
+| PMDdatdecs _ => ()
 //
 | PMDfundecs _ => ()
 //
@@ -224,6 +225,8 @@ case+ pmd.primdec_node of
 | PMDvardecs (_, inss) => let
     val inss = $UN.cast{instrlst} (inss) in auxlst (res, inss)
   end // end of [PMDvardecs]
+//
+| PMDimpdec _ => ()
 //
 | PMDstaload _ => ()
 //

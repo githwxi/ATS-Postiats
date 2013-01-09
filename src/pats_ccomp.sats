@@ -324,6 +324,8 @@ datatype
 primdec_node =
   | PMDnone of () 
 //
+  | PMDdatdecs of (s2cstlst)
+//
   | PMDfundecs of (hifundeclst)
 //
   | PMDvaldecs of
@@ -428,6 +430,12 @@ fun fprint_primdeclst : fprint_type (primdeclst)
 (* ****** ****** *)
 
 fun primdec_none (loc: location): primdec
+
+(* ****** ****** *)
+
+fun primdec_datdecs
+  (loc: location, s2cs: s2cstlst): primdec
+// end of [primdec_datdecs]
 
 (* ****** ****** *)
 
@@ -636,9 +644,9 @@ instr_node =
   | INSmove_ptr_con of
       (tmpvar(*ptr*), d2con, hisexp, primvalist(*arg*))
 //
-  | INSTRmove_rec_box of
+  | INSmove_rec_box of
       (tmpvar, labprimvalist(*arg*), hisexp)
-  | INSTRmove_rec_flt of
+  | INSmove_rec_flt of
       (tmpvar, labprimvalist(*arg*), hisexp)
 //
   | INSmove_list_nil of (tmpvar) // tmp <- list_nil
@@ -724,6 +732,15 @@ fun instr_move_ptr_con (
   loc: location
 , tmp: tmpvar, d2c: d2con, hse_sum: hisexp, pmvs: primvalist
 ) : instr // end of [instr_move_ptr_con]
+
+(* ****** ****** *)
+
+fun instr_move_rec_box (
+  loc: location, tmp: tmpvar, arg: labprimvalist, hse: hisexp
+) : instr // end of [instr_move_rec_box]
+fun instr_move_rec_flt (
+  loc: location, tmp: tmpvar, arg: labprimvalist, hse: hisexp
+) : instr // end of [instr_move_rec_flt]
 
 (* ****** ****** *)
 

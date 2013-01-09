@@ -254,6 +254,8 @@ and hidexp_node =
   | HDEptrof_var of (d2var) // taking address of a variable
   | HDEptrof_ptrsel of (hidexp, hilablst) // taking the address of ...
 //
+  | HDErefarg of (int(*refval*), int(*freeknd*), hidexp)
+//
   | HDEsel_var of (* path selection for var *)
       (d2var, hilablst)
   | HDEsel_ptr of (* path selection for ptr *)
@@ -558,6 +560,12 @@ fun hidexp_ptrof_var
 fun hidexp_ptrof_ptrsel
   (loc: location, hse: hisexp, hde: hidexp, hils: hilablst): hidexp
 // end of [hidexp_ptrof_ptrsel]
+
+(* ****** ****** *)
+
+fun hidexp_refarg (
+  loc: location, hse: hisexp, refval: int, freeknd: int, hde: hidexp
+) : hidexp // end of [hidexp_refarg]
 
 (* ****** ****** *)
 

@@ -419,8 +419,8 @@ datatype s1exp_node =
   | S1Etrans of (s1exp(*bef*), s1exp(*aft*)) // view(type) transform
 //
   | S1Etyarr of (s1exp (*element*), s1explst (*dimension*))
-  | S1Etytup of (int(*knd*), int(*npf*), s1explst) // tuple type
-  | S1Etyrec of (int(*knd*), int(*npf*), labs1explst) // record type
+  | S1Etytup of (int(*knd*), int(*npf*), s1explst) // HX: 0/1: flat/boxed
+  | S1Etyrec of (int(*knd*), int(*npf*), labs1explst)// HX: 0/1: flat/boxed
   | S1Etyrec_ext of
       (string(*name*), int(*npf*), labs1explst) // external record type
     // end of [S1Etyrec_ext]
