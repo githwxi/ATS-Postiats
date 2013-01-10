@@ -197,6 +197,8 @@ case+ hde0.hidexp_node of
 //
 | HDEseq _ => hidexp_ccomp_seq (env, res, hde0)
 //
+| HDErec _ => auxret (env, res, hde0)
+//
 | HDEselab _ => auxret (env, res, hde0)
 //
 | HDEassgn_var _ => hidexp_ccomp_assgn_var (env, res, hde0)
@@ -724,9 +726,9 @@ val lpmvs = auxlst (env, res, lhdes)
 //
 val ins = (
   if knd > 0 then
-    instr_move_rec_box (loc0, tmpret, lpmvs, hse_rec)
+    instr_move_boxrec (loc0, tmpret, lpmvs, hse_rec)
   else
-    instr_move_rec_flt (loc0, tmpret, lpmvs, hse_rec)
+    instr_move_fltrec (loc0, tmpret, lpmvs, hse_rec)
   // end of [if]
 ) : instr // end of [val]
 //

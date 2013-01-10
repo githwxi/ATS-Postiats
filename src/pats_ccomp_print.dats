@@ -541,6 +541,19 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
+| INSmove_rec_box _ => {
+    val () =
+      prstr "INSmove_rec_box("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+| INSmove_rec_flt _ => {
+    val () =
+      prstr "INSmove_rec_box("
+    val () = prstr "..."
+    val () = prstr ")"
+  }
+//
 | INSmove_list_nil (tmp) => {
     val () =
       prstr "INSmove_list_nil("

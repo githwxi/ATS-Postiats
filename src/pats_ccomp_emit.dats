@@ -709,6 +709,63 @@ case+ ins.instr_node of
     val () = fprint_string (out, " ;")
   } // end of [INSmove_val]
 //
+| INSmove_boxrec (
+    tmp, lpmvs, hse_rec
+  ) => let
+    fun auxlst (
+      i: int, lxs: labprimvalist
+    ) :<cloref1> void = let
+    in
+      case+ lxs of
+      | list_cons
+          (lx, lxs) => let
+          val LABPRIMVAL (l, x) = lx
+          val () =
+            if i > 0 then emit_text (out, "\n")
+          val () = emit_text (out, "ATSMACmove_boxrec_ofs (")
+          val () = emit_tmpvar (out, tmp)
+          val () = emit_text (out, ", ")
+          val () = emit_label (out, l)
+          val () = emit_text (out, ", ")
+          val () = emit_primval (out, x)
+          val () = emit_text (out, ") ;")
+        in
+          auxlst (i+1, lxs)
+        end
+     | list_nil () => ()
+    end // end of [auxlst]
+  in
+    auxlst (0, lpmvs);
+  end // end of [INSmove_boxrec]
+| INSmove_fltrec (
+    tmp, lpmvs, hse_rec
+  ) => let
+    fun auxlst (
+      i: int, lxs: labprimvalist
+    ) :<cloref1> void = let
+    in
+      case+ lxs of
+      | list_cons
+          (lx, lxs) => let
+          val LABPRIMVAL (l, x) = lx
+          val () =
+            if i > 0 then emit_text (out, "\n")
+          val () = emit_text (out, "ATSMACmove_fltrec_ofs (")
+          val () = emit_tmpvar (out, tmp)
+          val () = emit_text (out, ", ")
+          val () = emit_label (out, l)
+          val () = emit_text (out, ", ")
+          val () = emit_primval (out, x)
+          val () = emit_text (out, ") ;")
+        in
+          auxlst (i+1, lxs)
+        end
+     | list_nil () => ()
+    end // end of [auxlst]
+  in
+    auxlst (0, lpmvs);
+  end // end of [INSmove_fltrec]
+//
 | INSfuncall _ => emit_instr_funcall (out, ins)
 //
 | INScond (
