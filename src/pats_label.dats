@@ -57,6 +57,18 @@ end // end of [label_make_string]
 (* ****** ****** *)
 
 implement
+label_is_int (l) = 
+  case+ l of LABint _ => true | LABsym _ => false
+// end of [label_is_int]
+
+implement
+label_is_sym (l) = 
+  case+ l of LABint _ => false | LABsym _ => true
+// end of [label_is_sym]
+
+(* ****** ****** *)
+
+implement
 eq_label_label
   (l1, l2) = compare_label_label (l1, l2) = 0
 // end of [eq_label_label]

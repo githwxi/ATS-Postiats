@@ -1000,6 +1000,8 @@ fun emit_ats_prelude_cats (out: FILEref): void
 fun emit_ident (out: FILEref, id: string): void
 
 fun emit_label (out: FILEref, lab: label): void
+fun emit_atslabel (out: FILEref, lab: label): void
+fun emit_labelext (out: FILEref, knd: int, lab: label): void
 
 fun emit_filename (out: FILEref, fil: $FIL.filename): void
 

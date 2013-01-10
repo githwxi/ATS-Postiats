@@ -541,15 +541,15 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
-| INSmove_rec_box _ => {
+| INSmove_boxrec _ => {
     val () =
-      prstr "INSmove_rec_box("
+      prstr "INSmove_boxrec("
     val () = prstr "..."
     val () = prstr ")"
   }
-| INSmove_rec_flt _ => {
+| INSmove_fltrec _ => {
     val () =
-      prstr "INSmove_rec_box("
+      prstr "INSmove_fltrec("
     val () = prstr "..."
     val () = prstr ")"
   }

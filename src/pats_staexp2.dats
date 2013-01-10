@@ -75,6 +75,13 @@ tyreckind_is_box (knd) =
 // end of [tyreckind_is_box]
 
 implement
+tyreckind_is_ext (knd) =
+  case+ knd of TYRECKINDflt_ext _ => true | _ => false
+// end of [tyreckind_is_ext]
+
+(* ****** ****** *)
+
+implement
 eq_tyreckind_tyreckind
   (knd1, knd2) = case+ (knd1, knd2) of
   | (TYRECKINDbox (), TYRECKINDbox ()) => true

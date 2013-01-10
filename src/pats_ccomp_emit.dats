@@ -202,8 +202,28 @@ emit_ident
 
 implement
 emit_label
-  (out, lab) = $LAB.fprint_label (out, lab)
-// end of [emit_label]
+  (out, lab) = () where {
+  val () = $LAB.fprint_label (out, lab)
+} // end of [emit_label]
+
+implement
+emit_atslabel
+  (out, lab) = () where {
+  val () = emit_text (out, "atslab$")
+  val () = $LAB.fprint_label (out, lab)
+} // end of [emit_atslabel]
+
+implement
+emit_labelext
+  (out, knd, lab) = let
+in
+//
+if knd > 0
+  then emit_label (out, lab)
+  else emit_atslabel (out, lab)
+// end of [if]
+//
+end // end of [emit_labelext]
 
 (* ****** ****** *)
 
@@ -660,6 +680,77 @@ extern fun emit_instr_funcall : emit_instr_type
 
 (* ****** ****** *)
 
+local
+
+fun emit_instr_move_rec
+  (out: FILEref, ins: instr): void = let
+//
+fun loop (
+  recknd: int
+, extknd: int
+, tmp: tmpvar
+, lxs: labprimvalist
+, i: int
+) :<cloref1> void = let
+in
+//
+case+ lxs of
+| list_cons
+    (lx, lxs) => let
+    val LABPRIMVAL (l, x) = lx
+    val () =
+      if i > 0 then emit_text (out, "\n")
+    val () =
+      if recknd = 0 then emit_text (out, "ATSMACmove_fltrec_ofs (")
+    val () =
+      if recknd > 0 then emit_text (out, "ATSMACmove_boxrec_ofs (")
+    val () = emit_tmpvar (out, tmp)
+    val () = emit_text (out, ", ")
+    val () = emit_labelext (out, extknd, l)
+    val () = emit_text (out, ", ")
+    val () = emit_primval (out, x)
+    val () = emit_text (out, ") ;")
+  in
+    loop (recknd, extknd, tmp, lxs, i+1)
+  end
+| list_nil () => ()
+//
+end // end of [loop]
+//
+fun hisexp_get_extknd
+  (hse: hisexp): int = (
+  case+ hse.hisexp_node of
+  | $HSE.HSEtyrec (knd, _) =>
+      if $S2E.tyreckind_is_ext (knd) then 1 else 0
+  | _ => ~1 // HX: meaningless
+) // end of [hisexp_get_extknd]
+//
+in
+//
+case- ins.instr_node of
+| INSmove_fltrec (
+    tmp, lpmvs, hse_rec
+  ) => let
+    val extknd =
+      hisexp_get_extknd (hse_rec)
+    // end of [val]
+  in
+    loop (0(*recknd*), extknd, tmp, lpmvs, 0)
+  end // end of [INSmove_fltrec]
+| INSmove_boxrec (
+    tmp, lpmvs, hse_rec
+  ) => let
+    val extknd =
+      hisexp_get_extknd (hse_rec)
+    // end of [val]
+  in
+    loop (1(*recknd*), extknd, tmp, lpmvs, 0)
+  end // end of [INSmove_boxrec]
+//
+end // end of [emit_instr_move_rec]
+
+in // in of [local]
+
 implement
 emit_instr
   (out, ins) = let
@@ -709,62 +800,8 @@ case+ ins.instr_node of
     val () = fprint_string (out, " ;")
   } // end of [INSmove_val]
 //
-| INSmove_boxrec (
-    tmp, lpmvs, hse_rec
-  ) => let
-    fun auxlst (
-      i: int, lxs: labprimvalist
-    ) :<cloref1> void = let
-    in
-      case+ lxs of
-      | list_cons
-          (lx, lxs) => let
-          val LABPRIMVAL (l, x) = lx
-          val () =
-            if i > 0 then emit_text (out, "\n")
-          val () = emit_text (out, "ATSMACmove_boxrec_ofs (")
-          val () = emit_tmpvar (out, tmp)
-          val () = emit_text (out, ", ")
-          val () = emit_label (out, l)
-          val () = emit_text (out, ", ")
-          val () = emit_primval (out, x)
-          val () = emit_text (out, ") ;")
-        in
-          auxlst (i+1, lxs)
-        end
-     | list_nil () => ()
-    end // end of [auxlst]
-  in
-    auxlst (0, lpmvs);
-  end // end of [INSmove_boxrec]
-| INSmove_fltrec (
-    tmp, lpmvs, hse_rec
-  ) => let
-    fun auxlst (
-      i: int, lxs: labprimvalist
-    ) :<cloref1> void = let
-    in
-      case+ lxs of
-      | list_cons
-          (lx, lxs) => let
-          val LABPRIMVAL (l, x) = lx
-          val () =
-            if i > 0 then emit_text (out, "\n")
-          val () = emit_text (out, "ATSMACmove_fltrec_ofs (")
-          val () = emit_tmpvar (out, tmp)
-          val () = emit_text (out, ", ")
-          val () = emit_label (out, l)
-          val () = emit_text (out, ", ")
-          val () = emit_primval (out, x)
-          val () = emit_text (out, ") ;")
-        in
-          auxlst (i+1, lxs)
-        end
-     | list_nil () => ()
-    end // end of [auxlst]
-  in
-    auxlst (0, lpmvs);
-  end // end of [INSmove_fltrec]
+| INSmove_fltrec _ => emit_instr_move_rec (out, ins)
+| INSmove_boxrec _ => emit_instr_move_rec (out, ins)
 //
 | INSfuncall _ => emit_instr_funcall (out, ins)
 //
@@ -808,6 +845,8 @@ case+ ins.instr_node of
     // nothing
   end // end of [_]
 end // end of [emit_instr]
+
+end // end of [local]
 
 (* ****** ****** *)
 

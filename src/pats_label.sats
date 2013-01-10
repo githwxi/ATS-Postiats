@@ -44,6 +44,11 @@ fun label_make_string (str: string): label
 
 (* ****** ****** *)
 
+fun label_is_int (l: label):<> bool
+fun label_is_sym (l: label):<> bool
+
+(* ****** ****** *)
+
 fun eq_label_label (l1: label, l2: label):<> bool
 overload = with eq_label_label
 fun neq_label_label (l1: label, l2: label):<> bool
