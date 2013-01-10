@@ -1056,12 +1056,6 @@ fun emit_primlab (out: FILEref, extknd: int, pml: primlab): void
 
 (* ****** ****** *)
 
-fun emit_tmpvar_assgn
-  (out: FILEref, tmp: tmpvar, pmv: primval): void
-// end of [emit_tmpvar_assgn]
-
-(* ****** ****** *)
-
 fun emit_instr (out: FILEref, ins: instr): void
 fun emit_instrlst (out: FILEref, inss: instrlst): void
 fun emit_instrlst_ln (out: FILEref, inss: instrlst): void

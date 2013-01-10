@@ -248,7 +248,7 @@ emit_d2con
   val sym = $S2E.d2con_get_sym (d2c)
   val name = $SYM.symbol_get_name (sym)
   val () = emit_filename (out, fil)
-  val () = fprint_string (out, "__")
+  val () = emit_text (out, "__")
   val () = emit_ident (out, name)
   val tag = $S2E.d2con_get_tag (d2c)
   val () = if
@@ -276,7 +276,7 @@ case+ extdef of
     val fil = $D2E.d2cst_get_fil (d2c)
     val name = $D2E.d2cst_get_name (d2c)
     val () = emit_filename (out, fil)
-    val () = fprint_string (out, "__")
+    val () = emit_text (out, "__")
     val () = emit_ident (out, name)
   in
     // nothing
@@ -335,8 +335,7 @@ val tmpknd =
   funlab_get_tmpknd (flab)
 val () =
   if tmpknd > 0 then {
-  val () =
-    fprint_string (out, "$")
+  val () = emit_text (out, "$")
   val stamp = funlab_get_stamp (flab)
   val () = $STMP.fprint_stamp (out, stamp)
 } // end of [val]
@@ -380,11 +379,11 @@ val knd =
 val () = (case+ 0 of
   | _ when knd = 0 => let
     in
-      fprint_string (out, "tmp") // local temporary variable
+      emit_text (out, "tmp") // local temporary variable
     end // end of [_]
   | _ (*(static)top*) => let
     in
-      fprint_string (out, "statmp") // static toplevel temporary
+      emit_text (out, "statmp") // static toplevel temporary
     end // end of [knd = 1]
 ) : void // end of [val]
 //
@@ -417,9 +416,9 @@ emit_tmpdec
   (out, tmp) = let
   val hse = tmpvar_get_type (tmp)
   val () = emit_hisexp (out, hse)
-  val () = fprint_string (out, " ")
+  val () = emit_text (out, " ")
   val () = emit_tmpvar (out, tmp)
-  val () = fprint_string (out, " ; \n")
+  val () = emit_text (out, " ; \n")
 in
   // nothing
 end // end of [emit_tmpdec]
@@ -505,7 +504,7 @@ case+ pmvs of
 | list_cons
     (pmv, pmvs) => let
     val () =
-      if i > 0 then fprint_string (out, ", ")
+      if i > 0 then emit_text (out, ", ")
     // end of [val]
     val () = emit_primval (out, pmv)
   in
@@ -577,18 +576,8 @@ val name = (
 ) : string // end of [val]
 //
 in
-  fprint_string (out, name)
+  emit_text (out, name)
 end (* end of [emit_primval_bool] *)
-
-(* ****** ****** *)
-
-implement
-emit_tmpvar_assgn
-  (out, tmp, pmv) = {
-  val () = emit_tmpvar (out, tmp)
-  val () = fprint_string (out, " = ")
-  val () = emit_primval (out, pmv)
-} // end of [emit_tmpvar_assgn]
 
 (* ****** ****** *)
 
@@ -663,7 +652,7 @@ in
       hse, hses
     ) => let
       val () =
-        if i > 0 then fprint_string (out, sep)
+        if i > 0 then emit_text (out, sep)
       // end of [val]
       val () = emit_hisexp (out, hse)
     in
@@ -683,9 +672,9 @@ emit_funtype_arg_res (
   out, hses_arg, hse_res
 ) = let
   val () = emit_hisexp (out, hse_res)
-  val () = fprint_string (out, "(*)(")
+  val () = emit_text (out, "(*)(")
   val () = emit_hisexplst_sep (out, hses_arg, ", ")
-  val () = fprint_string (out, ")")
+  val () = emit_text (out, ")")
 in
   // nothing
 end // end of [emit_funtype_arg_res]
@@ -744,9 +733,9 @@ val () = (
 // HX: generating debug information
 //
   if gflag > 0 then let
-    val () = fprint_string (out, "/* ")
+    val () = emit_text (out, "/* ")
     val () = fprint_instr (out, ins)
-    val () = fprint_string (out, " */\n")
+    val () = emit_text (out, " */\n")
   in
     // empty
   end // end of [if]
@@ -758,18 +747,24 @@ case+ ins.instr_node of
 //
 | INSfunlab (flab) => {
     val () =
-      fprint_string (out, "__pats_lab_")
+      emit_text (out, "__pats_lab_")
     val () = emit_funlab (out, flab)
-    val () = fprint_string (out, ":")
+    val () = emit_text (out, ":")
   } // end of [INSfunlab]
 //
 | INSmove_val
     (tmp, pmv) => {
     val isvoid = primval_is_void (pmv)
-    val () = if isvoid then fprint_string (out, "/* ")
-    val () = emit_tmpvar_assgn (out, tmp, pmv)
-    val () = if isvoid then fprint_string (out, " */")
-    val () = fprint_string (out, " ;")
+    val () = (
+      if ~isvoid
+        then emit_text (out, "ATSMACmove(")
+        else emit_text (out, "ATSMACmove_void(")
+      // end of [if]
+    ) : void // end of [val]
+    val () = emit_tmpvar (out, tmp)
+    val () = emit_text (out, ", ")
+    val () = emit_primval (out, pmv)
+    val () = emit_text (out, ") ;")
   } // end of [INSmove_val]
 //
 | INSmove_fltrec _ => emit_instr_move_rec (out, ins)
@@ -782,29 +777,30 @@ case+ ins.instr_node of
 | INScond (
     pmv_cond, inss_then, inss_else
   ) => {
-    val () = fprint_string (out, "if (")
+    val () = emit_text (out, "if (")
     val () = emit_primval (out, pmv_cond)
-    val () = fprint_string (out, ") {\n")
+    val () = emit_text (out, ") {\n")
     val () = emit_instrlst (out, inss_then)
-    val () = fprint_string (out, "\n} else {\n")
+    val () = emit_text (out, "\n} else {\n")
     val () = emit_instrlst (out, inss_else)
     val () =
-      fprint_string (out, "\n} /* end of [if] */")
+      emit_text (out, "\n} /* end of [if] */")
     // end of [val]
   } // end of [INScond]
 //
 | INSletpop () => let
-    val () = fprint_string (out, "/*\n")
+    val () = emit_text (out, "/*\n")
     val () = fprint_instr (out, ins)
-    val () = fprint_string (out, "\n*/")
+    val () = emit_text (out, "\n*/")
   in
     // nothing
   end // end of [INSletpop]
 | INSletpush (pmds) => let
-    val () = fprint_string (out, "/*\n")
+    val () = emit_text (out, "/*\n")
     val () = fprint_instr (out, ins)
-    val () = fprint_string (out, "\n*/\n")
+    val () = emit_text (out, "\n*/\n")
     val () = emit_primdeclst (out, pmds)
+    val () = emit_text (out, "letpush(end)")
   in
     // nothing
   end // end of [INSletpush]
@@ -836,7 +832,7 @@ case+ inss of
     (ins, inss) => let
     val () =
       if i > 0 then
-        fprint_string (out, sep)
+        emit_text (out, sep)
       // end of [if]
     val () = emit_instr (out, ins)
   in
@@ -844,7 +840,7 @@ case+ inss of
   end // end of [list_cons]
 | list_nil () => let
     val () =
-      if i = 0 then fprint_string (out, "/* (*nothing*) */")
+      if i = 0 then emit_text (out, "/* (*nothing*) */")
     // end of [val]
   in
     // nothing
@@ -860,7 +856,7 @@ implement
 emit_instrlst_ln
   (out, inss) = let
   val () =
-    emit_instrlst (out, inss) in fprint_string (out, "\n")
+    emit_instrlst (out, inss) in emit_text (out, "\n")
   // end of [val]
 end // end of [emit_instrlst_ln]
 
@@ -957,53 +953,53 @@ case+ pmv_fun.primval_node of
 //
 | PMVfunlab (flab) => let
     val () = emit_funlab (out, flab)
-    val () = fprint_string (out, "(")
+    val () = emit_text (out, "(")
     val () = emit_primvalist (out, pmvs_arg)
-    val () = fprint_string (out, ")) ;")
+    val () = emit_text (out, ")) ;")
   in
     // nothing
   end // end of [PMVfun]
 //
 | PMVcst (d2c) => let
     val () = emit_d2cst (out, d2c)
-    val () = fprint_string (out, "(")
+    val () = emit_text (out, "(")
     val () = emit_primvalist (out, pmvs_arg)
-    val () = fprint_string (out, ")) ;")
+    val () = emit_text (out, ")) ;")
   in
     // nothing
   end // end of [PMVcst]
 //
 | PMVtmpltcst _ => let
     val () = emit_primval (out, pmv_fun)
-    val () = fprint_string (out, "(")
+    val () = emit_text (out, "(")
     val () = emit_primvalist (out, pmvs_arg)
-    val () = fprint_string (out, ")) ;")
+    val () = emit_text (out, ")) ;")
   in
     // nothing
   end // end of [PMVtmpltcst]
 | PMVtmpltcstmat _ => let
     val () = emit_primval (out, pmv_fun)
-    val () = fprint_string (out, "(")
+    val () = emit_text (out, "(")
     val () = emit_primvalist (out, pmvs_arg)
-    val () = fprint_string (out, ")) ;")
+    val () = emit_text (out, ")) ;")
   in
     // nothing
   end // end of [PMVtmpltcstmat]
 //
 | PMVtmpltvar _ => let
     val () = emit_primval (out, pmv_fun)
-    val () = fprint_string (out, "(")
+    val () = emit_text (out, "(")
     val () = emit_primvalist (out, pmvs_arg)
-    val () = fprint_string (out, ")) ;")
+    val () = emit_text (out, ")) ;")
   in
     // nothing
   end // end of [PMVtmpltvar]
 //
 | _(*function variable*) => let
     val () = emit_primval (out, pmv_fun)
-    val () = fprint_string (out, "(")
+    val () = emit_text (out, "(")
     val () = emit_primvalist (out, pmvs_arg)
-    val () = fprint_string (out, ")) ;")
+    val () = emit_text (out, ")) ;")
   in
     // nothing
   end // end of [_]
@@ -1098,7 +1094,7 @@ case+ hses of
 | list_cons
     (hse, hses) => let
     val () =
-      if i > 0 then fprint_string (out, sep)
+      if i > 0 then emit_text (out, sep)
     val () = emit_hisexp (out, hse)
     val () = fprintf (out, " arg%i", @(i))
   in
