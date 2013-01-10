@@ -57,6 +57,11 @@
 //
 /* ****** ****** */
 
+#define ATSMACmove_fltrec_ofs(tmp, tyrec, lab, val) (tmp.lab = val)
+#define ATSMACmove_boxrec_ofs(tmp, tyrec, lab, val) (((tyrec*)tmp)->lab = val)
+
+/* ****** ****** */
+
 #define ATSMACcastfn(castfn, arg) (arg) // castfn application
 
 /* ****** ****** */

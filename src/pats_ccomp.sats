@@ -735,12 +735,12 @@ fun instr_move_ptr_con (
 
 (* ****** ****** *)
 
-fun instr_move_rec_box (
+fun instr_move_boxrec (
   loc: location, tmp: tmpvar, arg: labprimvalist, hse: hisexp
-) : instr // end of [instr_move_rec_box]
-fun instr_move_rec_flt (
+) : instr // end of [instr_move_boxrec]
+fun instr_move_fltrec (
   loc: location, tmp: tmpvar, arg: labprimvalist, hse: hisexp
-) : instr // end of [instr_move_rec_flt]
+) : instr // end of [instr_move_fltrec]
 
 (* ****** ****** *)
 

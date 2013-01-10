@@ -315,18 +315,18 @@ instr_move_con (
 (* ****** ****** *)
 
 implement
-instr_move_rec_box (
+instr_move_boxrec (
   loc, tmpret, lpmvs, hse_rec
 ) = instr_make_node
-  (loc, INSmove_rec_box (tmpret, lpmvs, hse_rec))
-// end of [instr_move_rec_box]
+  (loc, INSmove_boxrec (tmpret, lpmvs, hse_rec))
+// end of [instr_move_boxrec]
 
 implement
-instr_move_rec_flt (
+instr_move_fltrec (
   loc, tmpret, lpmvs, hse_rec
 ) = instr_make_node
-  (loc, INSmove_rec_flt (tmpret, lpmvs, hse_rec))
-// end of [instr_move_rec_flt]
+  (loc, INSmove_fltrec (tmpret, lpmvs, hse_rec))
+// end of [instr_move_fltrec]
 
 (* ****** ****** *)
 
