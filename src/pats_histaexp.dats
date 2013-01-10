@@ -106,6 +106,20 @@ val HITYPE_S2EXP =
 (* ****** ****** *)
 
 implement
+hisexp_get_extknd
+  (hse) = let
+in
+//
+case+ hse.hisexp_node of
+| HSEtyrec (knd, _) =>
+    if tyreckind_is_ext (knd) then 1 else 0
+| _ => ~1 // HX: meaningless
+//
+end // end of [hisexp_get_extknd]
+
+(* ****** ****** *)
+
+implement
 hisexp_is_void
   (hse0) = let
 in

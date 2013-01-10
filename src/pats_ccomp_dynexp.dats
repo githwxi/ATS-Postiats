@@ -792,8 +792,8 @@ val hse0 = hde0.hidexp_type
 val- HDEselab (hde, hse_flt, hils) = hde0.hidexp_node
 //
 val pmv = hidexp_ccomp (env, res, hde)
-val ofs = hilablst_ccomp (env, res, hils)
-val ins = instr_select (loc0, tmpret, pmv, hse_flt, hils)
+val pmls = hilablst_ccomp (env, res, hils)
+val ins = instr_move_select (loc0, tmpret, pmv, hse_flt, pmls)
 val () = instrseq_add (res, ins)
 //
 in

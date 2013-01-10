@@ -663,6 +663,13 @@ instr_node =
 //
   | INSmove_ref of (tmpvar, primval) // tmp := ref (pmv)
 //
+  | INSmove_selcon of
+      (tmpvar, primval, hisexp(*sum*), int(*narg*))
+    // end of [INSmove_selcon]
+  | INSmove_select of
+      (tmpvar, primval, hisexp(*rec*), primlablst)
+    // end of [INSmove_select]
+//
   | INSfuncall of
       (tmpvar, primval(*fun*), hisexp, primvalist(*arg*))
     // end of [INSfuncall]
@@ -672,9 +679,6 @@ instr_node =
     ) // end of [INScond]
 //
   | INSpatck of (primval, patck, patckont) // pattern check
-//
-  | INSselect of (tmpvar, primval, hisexp(*rec*), hilablst)
-  | INSselcon of (tmpvar, primval, hisexp(*sum*), int(*narg*))
 //
   | INSassgn_varofs of
       (d2var(*left*), primlablst(*ofs*), primval(*right*))
@@ -765,6 +769,18 @@ fun instr_update_ptrinc
 
 (* ****** ****** *)
 
+fun instr_move_selcon (
+  loc: location
+, tmp: tmpvar, pmv: primval, hse_sum: hisexp, narg: int
+) : instr // end of [instr_move_selcon]
+
+fun instr_move_select (
+  loc: location
+, tmp: tmpvar, pmv: primval, hse_rec: hisexp, hils: primlablst
+) : instr // end of [instr_move_select]
+
+(* ****** ****** *)
+
 fun instr_funcall (
   loc: location
 , tmpret: tmpvar, _fun: primval, hse_fun: hisexp, _arg: primvalist
@@ -784,18 +800,6 @@ fun instr_patck (
   
 (* ****** ****** *)
 
-fun instr_select (
-  loc: location
-, tmp: tmpvar, pmv: primval, hse_rec: hisexp, hils: hilablst
-) : instr // end of [instr_select]
-
-fun instr_selcon (
-  loc: location
-, tmp: tmpvar, pmv: primval, hse_sum: hisexp, narg: int
-) : instr // end of [instr_selcon]
-
-(* ****** ****** *)
-
 fun instr_assgn_varofs (
   loc: location, d2v_l: d2var, ofs: primlablst, pmv_r: primval
 ) : instr // end of [instr_assgn_varofs]
@@ -808,6 +812,11 @@ fun instr_assgn_ptrofs (
 
 fun instr_letpop (loc: location): instr
 fun instr_letpush (loc: location, pmds: primdeclst): instr
+
+(* ****** ****** *)
+
+fun primlab_lab (loc: location, lab: label): primlab
+fun primlab_ind (loc: location, ind: primvalist): primlab
 
 (* ****** ****** *)
 
@@ -958,7 +967,14 @@ fun hidexp_ccomp_funlab_arg_body (
 , loc_fun: location
 , hips_arg: hipatlst
 , hde_body: hidexp
-) : funent // end of [ccomp_exp_arg_body_funlab]
+) : funent // end of [hidexp_ccomp_arg_body_funlab]
+
+(* ****** ****** *)
+
+fun hilab_ccomp
+  (env: !ccompenv, res: !instrseq, hil: hilab): primlab
+fun hilablst_ccomp
+  (env: !ccompenv, res: !instrseq, hils: hilablst): primlablst
 
 (* ****** ****** *)
 
@@ -1033,6 +1049,10 @@ fun emit_funtype_arg_res
 
 fun emit_primval (out: FILEref, pmv: primval): void
 fun emit_primvalist (out: FILEref, pmvs: primvalist): void
+
+(* ****** ****** *)
+
+fun emit_primlab (out: FILEref, extknd: int, pml: primlab): void
 
 (* ****** ****** *)
 

@@ -372,6 +372,20 @@ instr_update_ptrinc
 (* ****** ****** *)
 
 implement
+instr_move_select
+  (loc, tmp, pmv, hse_rec, hils) =
+  instr_make_node (loc, INSmove_select (tmp, pmv, hse_rec, hils))
+// end of [instr_move_select]
+
+implement
+instr_move_selcon
+  (loc, tmp, pmv, hse_sum, narg) =
+  instr_make_node (loc, INSmove_selcon (tmp, pmv, hse_sum, narg))
+// end of [instr_move_selcon]
+
+(* ****** ****** *)
+
+implement
 instr_funcall (
   loc, tmpret, _fun, hse_fun, _arg
 ) = instr_make_node
@@ -385,20 +399,6 @@ instr_cond
   (loc, _cond, _then, _else) =
   instr_make_node (loc, INScond (_cond, _then, _else))
 // end of [instr_cond]
-
-(* ****** ****** *)
-
-implement
-instr_select
-  (loc, tmp, pmv, hse_rec, hils) =
-  instr_make_node (loc, INSselect (tmp, pmv, hse_rec, hils))
-// end of [instr_select]
-
-implement
-instr_selcon
-  (loc, tmp, pmv, hse_sum, narg) =
-  instr_make_node (loc, INSselcon (tmp, pmv, hse_sum, narg))
-// end of [instr_selcon]
 
 (* ****** ****** *)
 

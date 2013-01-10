@@ -129,6 +129,10 @@ val hisexp_typtr_con : hisexp
 //
 (* ****** ****** *)
 
+fun hisexp_get_extknd (hse: hisexp): int
+
+(* ****** ****** *)
+
 fun hisexp_varetize (hse: hisexp): hisexp
 
 (* ****** ****** *)

@@ -176,8 +176,8 @@ case+ x.instr_node of
 //
 | INSpatck _ => ()
 //
-| INSselect (tmp, _, _, _) => tmpadd (tmp)
-| INSselcon (tmp, _, _, _) => tmpadd (tmp)
+| INSmove_selcon (tmp, _, _, _) => tmpadd (tmp)
+| INSmove_select (tmp, _, _, _) => tmpadd (tmp)
 //
 | INSassgn_varofs _ => ()
 | INSassgn_ptrofs _ => ()

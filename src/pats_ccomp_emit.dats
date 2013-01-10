@@ -648,6 +648,7 @@ end // end of [emit_hisexp]
 end // end of [local]
 
 (* ****** ****** *)
+
 implement
 emit_hisexplst_sep
   (out, hses, sep) = let
@@ -691,83 +692,36 @@ end // end of [emit_funtype_arg_res]
 
 (* ****** ****** *)
 
-typedef
-emit_instr_type = (FILEref, instr) -> void
-
-extern fun emit_instr_funcall : emit_instr_type
+implement
+emit_primlab
+  (out, extknd, pml) = let
+in
+//
+case+
+  pml.primlab_node
+of // case
+| PMLlab (lab) => {
+    val () = emit_text (out, ".")
+    val () = emit_labelext (out, extknd, lab)
+  } // end of [PMLlab]
+| PMLind (pmvs) => {
+    val () = emit_text (out, "[")
+    val () = emit_primvalist (out, pmvs)
+    val () = emit_text (out, "]")
+  } // end of [PMLind]
+//
+end // end of [emit_primlab]
 
 (* ****** ****** *)
 
-local
+typedef
+emit_instr_type = (FILEref, instr) -> void
 
-fun emit_instr_move_rec
-  (out: FILEref, ins: instr): void = let
-//
-fun loop (
-  recknd: int
-, extknd: int
-, tmp: tmpvar
-, lxs: labprimvalist
-, i: int
-) :<cloref1> void = let
-in
-//
-case+ lxs of
-| list_cons
-    (lx, lxs) => let
-    val LABPRIMVAL (l, x) = lx
-    val () =
-      if i > 0 then emit_text (out, "\n")
-    val () =
-      if recknd = 0 then emit_text (out, "ATSMACmove_fltrec_ofs (")
-    val () =
-      if recknd > 0 then emit_text (out, "ATSMACmove_boxrec_ofs (")
-    val () = emit_tmpvar (out, tmp)
-    val () = emit_text (out, ", ")
-    val () = emit_labelext (out, extknd, l)
-    val () = emit_text (out, ", ")
-    val () = emit_primval (out, x)
-    val () = emit_text (out, ") ;")
-  in
-    loop (recknd, extknd, tmp, lxs, i+1)
-  end
-| list_nil () => ()
-//
-end // end of [loop]
-//
-fun hisexp_get_extknd
-  (hse: hisexp): int = (
-  case+ hse.hisexp_node of
-  | $HSE.HSEtyrec (knd, _) =>
-      if $S2E.tyreckind_is_ext (knd) then 1 else 0
-  | _ => ~1 // HX: meaningless
-) // end of [hisexp_get_extknd]
-//
-in
-//
-case- ins.instr_node of
-| INSmove_fltrec (
-    tmp, lpmvs, hse_rec
-  ) => let
-    val extknd =
-      hisexp_get_extknd (hse_rec)
-    // end of [val]
-  in
-    loop (0(*recknd*), extknd, tmp, lpmvs, 0)
-  end // end of [INSmove_fltrec]
-| INSmove_boxrec (
-    tmp, lpmvs, hse_rec
-  ) => let
-    val extknd =
-      hisexp_get_extknd (hse_rec)
-    // end of [val]
-  in
-    loop (1(*recknd*), extknd, tmp, lpmvs, 0)
-  end // end of [INSmove_boxrec]
-//
-end // end of [emit_instr_move_rec]
+extern fun emit_instr_move_rec : emit_instr_type
+extern fun emit_instr_move_select : emit_instr_type
+extern fun emit_instr_funcall : emit_instr_type
 
-in // in of [local]
+(* ****** ****** *)
 
 implement
 emit_instr
@@ -821,6 +775,8 @@ case+ ins.instr_node of
 | INSmove_fltrec _ => emit_instr_move_rec (out, ins)
 | INSmove_boxrec _ => emit_instr_move_rec (out, ins)
 //
+| INSmove_select _ => emit_instr_move_select (out, ins)
+//
 | INSfuncall _ => emit_instr_funcall (out, ins)
 //
 | INScond (
@@ -863,8 +819,6 @@ case+ ins.instr_node of
     // nothing
   end // end of [_]
 end // end of [emit_instr]
-
-end // end of [local]
 
 (* ****** ****** *)
 
@@ -913,6 +867,67 @@ end // end of [emit_instrlst_ln]
 (* ****** ****** *)
 
 implement
+emit_instr_move_rec (out, ins) = let
+//
+fun loop (
+  recknd: int
+, extknd: int
+, tmp: tmpvar
+, lxs: labprimvalist
+, i: int
+) :<cloref1> void = let
+in
+//
+case+ lxs of
+| list_cons
+    (lx, lxs) => let
+    val LABPRIMVAL (l, x) = lx
+    val () =
+      if i > 0 then emit_text (out, "\n")
+    val () =
+      if recknd = 0 then emit_text (out, "ATSMACmove_fltrec_ofs (")
+    val () =
+      if recknd > 0 then emit_text (out, "ATSMACmove_boxrec_ofs (")
+    val () = emit_tmpvar (out, tmp)
+    val () = emit_text (out, ", ")
+    val () = emit_labelext (out, extknd, l)
+    val () = emit_text (out, ", ")
+    val () = emit_primval (out, x)
+    val () = emit_text (out, ") ;")
+  in
+    loop (recknd, extknd, tmp, lxs, i+1)
+  end
+| list_nil () => ()
+//
+end // end of [loop]
+//
+in
+//
+case- ins.instr_node of
+| INSmove_fltrec (
+    tmp, lpmvs, hse_rec
+  ) => let
+    val extknd =
+      $HSE.hisexp_get_extknd (hse_rec)
+    // end of [val]
+  in
+    loop (0(*recknd*), extknd, tmp, lpmvs, 0)
+  end // end of [INSmove_fltrec]
+| INSmove_boxrec (
+    tmp, lpmvs, hse_rec
+  ) => let
+    val extknd =
+      $HSE.hisexp_get_extknd (hse_rec)
+    // end of [val]
+  in
+    loop (1(*recknd*), extknd, tmp, lpmvs, 0)
+  end // end of [INSmove_boxrec]
+//
+end // end of [emit_instr_move_rec]
+
+(* ****** ****** *)
+
+implement
 emit_instr_funcall
   (out, ins) = let
 //
@@ -925,11 +940,16 @@ val () = (
 ) // end of [val]
 *)
 val isvoid = false
-val () = if isvoid then fprint_string (out, "/* ")
 val () = (
-  emit_tmpvar (out, tmp); fprint_string (out, " = ")
-) // end of [val]
-val () = if isvoid then fprint_string (out, "*/ ")
+  if ~isvoid
+    then emit_text (out, "ATSMACmove(")
+    else emit_text (out, "ATSMACmove_void(")
+  // end of [if]
+) : void // end of [val]
+//
+val () = (
+  emit_tmpvar (out, tmp); emit_text (out, ", ")
+) (* end of [val] *)
 //
 in
 //
@@ -939,7 +959,7 @@ case+ pmv_fun.primval_node of
     val () = emit_funlab (out, flab)
     val () = fprint_string (out, "(")
     val () = emit_primvalist (out, pmvs_arg)
-    val () = fprint_string (out, ") ;")
+    val () = fprint_string (out, ")) ;")
   in
     // nothing
   end // end of [PMVfun]
@@ -948,7 +968,7 @@ case+ pmv_fun.primval_node of
     val () = emit_d2cst (out, d2c)
     val () = fprint_string (out, "(")
     val () = emit_primvalist (out, pmvs_arg)
-    val () = fprint_string (out, ") ;")
+    val () = fprint_string (out, ")) ;")
   in
     // nothing
   end // end of [PMVcst]
@@ -957,7 +977,7 @@ case+ pmv_fun.primval_node of
     val () = emit_primval (out, pmv_fun)
     val () = fprint_string (out, "(")
     val () = emit_primvalist (out, pmvs_arg)
-    val () = fprint_string (out, ") ;")
+    val () = fprint_string (out, ")) ;")
   in
     // nothing
   end // end of [PMVtmpltcst]
@@ -965,7 +985,7 @@ case+ pmv_fun.primval_node of
     val () = emit_primval (out, pmv_fun)
     val () = fprint_string (out, "(")
     val () = emit_primvalist (out, pmvs_arg)
-    val () = fprint_string (out, ") ;")
+    val () = fprint_string (out, ")) ;")
   in
     // nothing
   end // end of [PMVtmpltcstmat]
@@ -974,7 +994,7 @@ case+ pmv_fun.primval_node of
     val () = emit_primval (out, pmv_fun)
     val () = fprint_string (out, "(")
     val () = emit_primvalist (out, pmvs_arg)
-    val () = fprint_string (out, ") ;")
+    val () = fprint_string (out, ")) ;")
   in
     // nothing
   end // end of [PMVtmpltvar]
@@ -983,7 +1003,7 @@ case+ pmv_fun.primval_node of
     val () = emit_primval (out, pmv_fun)
     val () = fprint_string (out, "(")
     val () = emit_primvalist (out, pmvs_arg)
-    val () = fprint_string (out, ") ;")
+    val () = fprint_string (out, ")) ;")
   in
     // nothing
   end // end of [_]
@@ -1001,6 +1021,66 @@ case+ pmv_fun.primval_node of
 *)
 //
 end // end of [emit_instr_funcall]
+
+(* ****** ****** *)
+
+local
+
+fun
+emit_primval_select (
+  out: FILEref, pmv: primval, hse_rec: hisexp, pmls: primlablst
+) : void = let
+//
+val extknd =
+  $HSE.hisexp_get_extknd (hse_rec)
+//
+fun aux (
+  pmls: List_vt (primlab), i: int
+) :<cloref1> void = let
+in
+//
+case+ pmls of
+| ~list_vt_cons
+    (pml, pmls) => let
+    val () =
+      if i > 0 then emit_text (out, "(")
+    val () = aux (pmls, i + 1)
+    val () =
+      if i > 0 then emit_text (out, ")")
+    val () = emit_primlab (out, extknd, pml)
+  in
+    // nothing
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => emit_primval (out, pmv)
+//
+end // end of [aux]
+//
+val pmls = list_reverse (pmls)
+//
+in
+  aux (pmls, 0)
+end // end of [emit_primval_select]
+
+in // in of [local]
+
+implement
+emit_instr_move_select
+  (out, ins) = let
+//
+val- INSmove_select
+  (tmp, pmv, hse_rec, pmls) = ins.instr_node
+//
+val () = emit_text (out, "ATSMACmove(")
+val () = emit_tmpvar (out, tmp)
+val () = emit_text (out, ", ")
+val () = emit_primval_select (out, pmv, hse_rec, pmls)
+val () = emit_text (out, ") ; ")
+//
+in
+  // nothing
+end // end of [emit_instr_move_select]
+
+end // end of [local]
 
 (* ****** ****** *)
 

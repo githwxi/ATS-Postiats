@@ -643,24 +643,10 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
-| INSselect (
-    tmp, pmv, hse_rec, hils
-  ) => {
-    val () = prstr "INSselect("
-    val () = fpprint_tmpvar (out, tmp)
-    val () = prstr " <- "
-    val () = fprint_primval (out, pmv)
-    val () = prstr "; "
-    val () = fprint_hisexp (out, hse_rec)
-    val () = prstr "; "
-    val () = fprint_hilablst (out, hils)
-    val () = prstr ")"
-  } // end of [INSselect]
-//
-| INSselcon (
+| INSmove_selcon (
     tmp, pmv, hse_sum, narg
   ) => {
-    val () = prstr "INSselcon("
+    val () = prstr "INSmove_selcon("
     val () = fpprint_tmpvar (out, tmp)
     val () = prstr " <- "
     val () = fprint_primval (out, pmv)
@@ -669,7 +655,20 @@ case+ x.instr_node of
     val () = prstr "; "
     val () = fprint_int (out, narg) // HX: argument number
     val () = prstr ")"
-  } // end of [INSselcon]
+  } // end of [INSmove_selcon]
+| INSmove_select (
+    tmp, pmv, hse_rec, pmls
+  ) => {
+    val () = prstr "INSmove_select("
+    val () = fpprint_tmpvar (out, tmp)
+    val () = prstr " <- "
+    val () = fprint_primval (out, pmv)
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse_rec)
+    val () = prstr "; "
+    val () = fprint_primlablst (out, pmls)
+    val () = prstr ")"
+  } // end of [INSmove_select]
 //
 | INSpatck
     (pmv, pck, pcknt) => {
