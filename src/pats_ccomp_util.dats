@@ -151,8 +151,8 @@ case+ x.instr_node of
 | INSmove_con (tmp, _, _, _) => tmpadd (tmp)
 | INSmove_ptr_con (tmp, _, _, _) => tmpadd (tmp)
 //
-| INSTRmove_rec_box (tmp, _, _) => tmpadd (tmp)
-| INSTRmove_rec_flt (tmp, _, _) => tmpadd (tmp)
+| INSmove_boxrec (tmp, _, _) => tmpadd (tmp)
+| INSmove_fltrec (tmp, _, _) => tmpadd (tmp)
 //
 | INSmove_list_nil (tmp) => tmpadd (tmp)
 | INSpmove_list_nil (tmp) => tmpadd (tmp)

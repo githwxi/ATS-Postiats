@@ -104,6 +104,10 @@ praxi topize {a:t@ype} (x: !INV(a) >> a?): void
 
 (* ****** ****** *)
 
+castfn dataget {a:vt@ype} (x: !INV(a) >> a): a?!
+
+(* ****** ****** *)
+
 praxi free_gcngc_v_nullify
   {l:addr} (pf1: free_gc_v (l), pf1: free_ngc_v (l)): void
 // en dof [free_gcngc_nullify_v]

@@ -644,9 +644,9 @@ instr_node =
   | INSmove_ptr_con of
       (tmpvar(*ptr*), d2con, hisexp, primvalist(*arg*))
 //
-  | INSmove_rec_box of
+  | INSmove_boxrec of
       (tmpvar, labprimvalist(*arg*), hisexp)
-  | INSmove_rec_flt of
+  | INSmove_fltrec of
       (tmpvar, labprimvalist(*arg*), hisexp)
 //
   | INSmove_list_nil of (tmpvar) // tmp <- list_nil
