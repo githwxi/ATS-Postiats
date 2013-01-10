@@ -170,6 +170,20 @@ val cntr = $CNTR.counter_make ()
 //
 in
 //
+implement tyrec_stamp_make () = $CNTR.counter_getinc (cntr)
+implement tysum_stamp_make () = $CNTR.counter_getinc (cntr)
+//
+end // end of [local]
+
+
+(* ****** ****** *)
+
+local
+//
+val cntr = $CNTR.counter_make ()
+//
+in
+//
 implement tmplab_stamp_make () = $CNTR.counter_getinc (cntr)
 //
 end // end of [local]

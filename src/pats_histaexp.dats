@@ -61,31 +61,48 @@ staload "pats_histaexp.sats"
 
 (* ****** ****** *)
 //
-val HITYPE_PTR = HITYPE (1(*non*), ATSTYPE_PTR)
-val HITYPE_ABS = HITYPE (0(*non*), ATSTYPE_ABS)
-val HITYPE_REF = HITYPE (1(*ptr*), ATSTYPE_REF)
+val HITYPE_PTR =
+  HITYPE (1(*non*), 1(*fin*), ATSTYPE_PTR)
+val HITYPE_ABS =
+  HITYPE (0(*non*), 1(*fin*), ATSTYPE_ABS)
+val HITYPE_REF =
+  HITYPE (1(*ptr*), 1(*fin*), ATSTYPE_REF)
 //
-val HITYPE_APP = HITYPE (0(*non*), "atstype_tyapp")
-val HITYPE_CLO = HITYPE (0(*non*), "atstype_tyclo")
+val HITYPE_APP =
+  HITYPE (0(*non*), 0(*tmp*), "atstype_tyapp")
+val HITYPE_CLO =
+  HITYPE (0(*non*), 0(*tmp*), "atstype_tyclo")
 //
-val HITYPE_FUNPTR = HITYPE (1(*ptr*), "atstype_funptr")
-val HITYPE_CFUNPTR = HITYPE (1(*ptr*), "atstype_cfunptr")
-val HITYPE_CLOPTR = HITYPE (1(*ptr*), "atstype_cloptr")
+val HITYPE_FUNPTR =
+  HITYPE (1(*ptr*), 1(*fin*), "atstype_funptr")
+val HITYPE_CFUNPTR =
+  HITYPE (1(*ptr*), 1(*fin*), "atstype_cfunptr")
+val HITYPE_CLOPTR =
+  HITYPE (1(*ptr*), 1(*fin*), "atstype_cloptr")
 //
-val HITYPE_CONPTR = HITYPE (1(*ptr*), "atstype_conptr")
+val HITYPE_CONPTR =
+  HITYPE (1(*ptr*), 1(*fin*), "atstype_conptr")
 //
-val HITYPE_TYARR = HITYPE (0(*non*), "atstype_tyarr")
-val HITYPE_TYREC = HITYPE (0(*non*), "atstype_tyrec")
-val HITYPE_TYRECSIN = HITYPE (0(*non*), "atstype_tyrecsin")
-val HITYPE_TYSUM = HITYPE (0(*non*), "atstype_tysum")
+val HITYPE_TYARR =
+  HITYPE (0(*non*), 0(*tmp*), "atstype_tyarr")
+val HITYPE_TYREC =
+  HITYPE (0(*non*), 0(*tmp*), "atstype_tyrec")
+val HITYPE_TYRECSIN =
+  HITYPE (0(*non*), 0(*tmp*), "atstype_tyrecsin")
+val HITYPE_TYSUM =
+  HITYPE (0(*non*), 0(*tmp*), "atstype_tysum")
 //
-val HITYPE_TYVAR = HITYPE (0(*non*), "atstype_tyvar")
-val HITYPE_TYVARET = HITYPE (0(*non*), "atstype_tyvaret")
+val HITYPE_TYVAR =
+  HITYPE (0(*non*), 0(*tmp*), "atstype_tyvar")
+val HITYPE_TYVARET =
+  HITYPE (0(*non*), 0(*tmp*), "atstype_tyvaret")
 //
-val HITYPE_VARARG = HITYPE (0(*non*), "atstype_vararg")
+val HITYPE_VARARG =
+  HITYPE (0(*non*), 0(*tmp*), "atstype_vararg")
 //
-val HITYPE_S2EXP = HITYPE (0(*non*), "atstype_s2exp")
-
+val HITYPE_S2EXP =
+  HITYPE (0(*non*), 0(*tmp*), "atstype_s2exp")
+//
 (* ****** ****** *)
 
 implement
@@ -203,7 +220,7 @@ hisexp_app
 implement
 hisexp_extype
   (name, s2ess) = let
-  val hit = HITYPE(0(*non*), name)
+  val hit = HITYPE(0(*non*), 1(*fin*), name)
 in
   hisexp_make_node (hit, HSEextype (name, s2ess))
 end // end of [hisexp_extype]

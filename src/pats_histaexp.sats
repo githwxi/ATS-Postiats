@@ -54,8 +54,9 @@ fun fprint_funlab : fprint_type (funlab)
 
 datatype
 hitype =
-  | HITYPE of (int(*0/1:non/ptr*), string)
-// end of [hitype]
+HITYPE of (
+  int(*0/1:non/ptr*), int(*0/1:final*), string
+) // end of [hitype]
 
 fun print_hitype (x: hitype): void
 overload print with print_hitype

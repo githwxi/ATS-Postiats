@@ -216,6 +216,7 @@ emit_atslabel
 implement
 emit_labelext
   (out, knd, lab) = let
+// HX: knd = 0/1 : ats/ext
 in
 //
 if knd > 0
@@ -606,9 +607,11 @@ end // end of [emit_s2exp]
 
 (* ****** ****** *)
 
-implement
-emit_hisexp
-  (out, hse) = let
+local
+
+fun auxmain (
+  out: FILEref, hse: hisexp
+) : void = let
 in
 //
 case+
@@ -628,8 +631,23 @@ case+
 | $HSE.HSEs2exp (s2e) => emit_s2exp (out, s2e)
 | _ => $HSE.fprint_hisexp (out, hse)
 //
+end // end of [auxmain]
+
+in // in of [local]
+
+implement
+emit_hisexp
+  (out, hse) = let
+//
+val $HSE.HITYPE (knd, fin, name) = hse.hisexp_name
+//
+in
+  if fin > 0 then emit_text (out, name) else auxmain (out, hse)
 end // end of [emit_hisexp]
 
+end // end of [local]
+
+(* ****** ****** *)
 implement
 emit_hisexplst_sep
   (out, hses, sep) = let
@@ -1159,16 +1177,17 @@ val () = emit_text (out, ")\n")
 //
 val () = emit_text (out, "{\n")
 val tmplst = funent_get_tmpvarlst (fent)
-val () = emit_text (out, "/* tmpdeclst: beg */\n")
+val () = emit_text (out, "/* tmpvardeclst(beg) */\n")
 val () = emit_tmpdeclst (out, tmplst)
-val () = emit_text (out, "/* tmpdeclst: end */\n")
+val () = emit_text (out, "/* tmpvardeclst(end) */\n")
+val () = emit_text (out, "/* funbodyinstrlst(beg) */\n")
 val body_inss = funent_get_instrlst (fent)
 val () = emit_instrlst (out, body_inss)
 val () = emit_text (out, "\n")
+val () = emit_text (out, "/* funbodyinstrlst(end) */\n")
 //
 // function return
 //
-val () = emit_text (out, "\n")
 val () = emit_text (out, "return ")
 val isvoid = tmpvar_is_void (tmpret)
 val () =
