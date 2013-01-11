@@ -230,6 +230,7 @@ SOURCES := \
   pats_ccomp.sats \
   pats_ccomp.dats \
   pats_ccomp_print.dats \
+  pats_ccomp_hitype.dats \
   pats_ccomp_tmplab.dats \
   pats_ccomp_tmpvar.dats \
   pats_ccomp_funlab.dats \
@@ -237,8 +238,6 @@ SOURCES := \
   pats_ccomp_util.dats \
   pats_ccomp_ccompenv.dats \
   pats_ccomp_instrseq.dats \
-  pats_ccomp_tyrec.dats \
-  pats_ccomp_tysum.dats \
   pats_ccomp_hipat.dats \
   pats_ccomp_dynexp.dats \
   pats_ccomp_decl.dats \
@@ -452,6 +451,7 @@ OBJECTS := \
   pats_ccomp_sats.o \
   pats_ccomp_dats.o \
   pats_ccomp_print_dats.o \
+  pats_ccomp_hitype_dats.o \
   pats_ccomp_tmplab_dats.o \
   pats_ccomp_tmpvar_dats.o \
   pats_ccomp_funlab_dats.o \
@@ -459,8 +459,6 @@ OBJECTS := \
   pats_ccomp_util_dats.o \
   pats_ccomp_ccompenv_dats.o \
   pats_ccomp_instrseq_dats.o \
-  pats_ccomp_tyrec_dats.o \
-  pats_ccomp_tysum_dats.o \
   pats_ccomp_hipat_dats.o \
   pats_ccomp_dynexp_dats.o \
   pats_ccomp_decl_dats.o \
@@ -1080,6 +1078,9 @@ pats_ccomp_dats.o: pats_ccomp_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 pats_ccomp_print_dats.c: pats_ccomp_print.dats; $(ATSCC) -cc $<
 pats_ccomp_print_dats.o: pats_ccomp_print_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
+pats_ccomp_hitype_dats.c: pats_ccomp_hitype.dats; $(ATSCC) -cc $<
+pats_ccomp_hitype_dats.o: pats_ccomp_hitype_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
 pats_ccomp_tmplab_dats.c: pats_ccomp_tmplab.dats; $(ATSCC) -cc $<
 pats_ccomp_tmplab_dats.o: pats_ccomp_tmplab_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
@@ -1100,12 +1101,6 @@ pats_ccomp_ccompenv_dats.o: pats_ccomp_ccompenv_dats.c; $(ATSCC) $(ATSCCFLAGS) -
 
 pats_ccomp_instrseq_dats.c: pats_ccomp_instrseq.dats; $(ATSCC) -cc $<
 pats_ccomp_instrseq_dats.o: pats_ccomp_instrseq_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
-
-pats_ccomp_tyrec_dats.c: pats_ccomp_tyrec.dats; $(ATSCC) -cc $<
-pats_ccomp_tyrec_dats.o: pats_ccomp_tyrec_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
-
-pats_ccomp_tysum_dats.c: pats_ccomp_tysum.dats; $(ATSCC) -cc $<
-pats_ccomp_tysum_dats.o: pats_ccomp_tysum_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_ccomp_hipat_dats.c: pats_ccomp_hipat.dats; $(ATSCC) -cc $<
 pats_ccomp_hipat_dats.o: pats_ccomp_hipat_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<

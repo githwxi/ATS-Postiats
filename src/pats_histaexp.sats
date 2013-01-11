@@ -53,16 +53,16 @@ fun fprint_funlab : fprint_type (funlab)
 (* ****** ****** *)
 
 datatype
-hitype =
-HITYPE of (
+hitnam =
+HITNAM of (
   int(*0/1:non/ptr*), int(*0/1:final*), string
-) // end of [hitype]
+) // end of [hitnam]
 
-fun print_hitype (x: hitype): void
-overload print with print_hitype
-fun prerr_hitype (x: hitype): void
-overload prerr with prerr_hitype
-fun fprint_hitype : fprint_type (hitype)
+fun print_hitnam (x: hitnam): void
+overload print with print_hitnam
+fun prerr_hitnam (x: hitnam): void
+overload prerr with prerr_hitnam
+fun fprint_hitnam : fprint_type (hitnam)
 
 (* ****** ****** *)
 
@@ -94,10 +94,12 @@ hisexp_node =
   | HSEs2exp of (s2exp)
 // end of [hisexp_node]
 
-and labhisexp = HSLABELED of (label, Option(string), hisexp)
+and labhisexp =
+  | HSLABELED of (label, Option(string), hisexp)
+// end of [labhisexp]
 
 where hisexp = '{
-  hisexp_name= hitype, hisexp_node= hisexp_node
+  hisexp_name= hitnam, hisexp_node= hisexp_node
 } // end of [hisexp]
 
 and hisexplst = List (hisexp)
@@ -129,6 +131,7 @@ val hisexp_typtr_con : hisexp
 //
 (* ****** ****** *)
 
+fun hisexp_get_boxknd (hse: hisexp): int
 fun hisexp_get_extknd (hse: hisexp): int
 
 (* ****** ****** *)

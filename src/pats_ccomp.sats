@@ -1036,7 +1036,6 @@ fun emit_tmpdeclst (out: FILEref, tmps: tmpvarlst): void
 fun emit_s2exp (out: FILEref, s2e: s2exp): void
 
 fun emit_hisexp (out: FILEref, hse: hisexp): void
-
 fun emit_hisexplst_sep
   (out: FILEref, hses: hisexplst, sep: string): void
 // end of [emit_hisexplst_sep]
@@ -1044,6 +1043,13 @@ fun emit_hisexplst_sep
 fun emit_funtype_arg_res
   (out: FILEref, _arg: hisexplst, _res: hisexp): void
 // end of [emit_funtype_arg_res]
+
+(* ****** ****** *)
+
+fun emit2_hisexp (out: FILEref, hse: hisexp): void
+fun emit2_hisexplst_sep
+  (out: FILEref, hses: hisexplst, sep: string): void
+// end of [emit2_hisexplst_sep]
 
 (* ****** ****** *)
 

@@ -415,7 +415,7 @@ implement
 emit_tmpdec
   (out, tmp) = let
   val hse = tmpvar_get_type (tmp)
-  val () = emit_hisexp (out, hse)
+  val () = emit2_hisexp (out, hse)
   val () = emit_text (out, " ")
   val () = emit_tmpvar (out, tmp)
   val () = emit_text (out, " ; \n")
@@ -610,9 +610,9 @@ case+
 | $HSE.HSEtyabs (sym) => emit_symbol (out, sym)
 | $HSE.HSEapp
     (_fun, _arg) => let
-    val () = emit_hisexp (out, _fun)
+    val () = emit2_hisexp (out, _fun)
     val () = emit_text (out, "(")
-    val () = emit_hisexplst_sep (out, _arg, ", ")
+    val () = emit2_hisexplst_sep (out, _arg, ", ")
     val () = emit_text (out, ")")
   in
     // nothing
@@ -628,7 +628,7 @@ implement
 emit_hisexp
   (out, hse) = let
 //
-val $HSE.HITYPE (knd, fin, name) = hse.hisexp_name
+val $HSE.HITNAM (knd, fin, name) = hse.hisexp_name
 //
 in
   if fin > 0 then emit_text (out, name) else auxmain (out, hse)
@@ -800,7 +800,7 @@ case+ ins.instr_node of
     val () = fprint_instr (out, ins)
     val () = emit_text (out, "\n*/\n")
     val () = emit_primdeclst (out, pmds)
-    val () = emit_text (out, "letpush(end)")
+    val () = emit_text (out, "/*\nINSletpush(end)\n*/")
   in
     // nothing
   end // end of [INSletpush]
@@ -866,9 +866,10 @@ implement
 emit_instr_move_rec (out, ins) = let
 //
 fun loop (
-  recknd: int
+  boxknd: int
 , extknd: int
 , tmp: tmpvar
+, hse_rec: hisexp
 , lxs: labprimvalist
 , i: int
 ) :<cloref1> void = let
@@ -881,17 +882,19 @@ case+ lxs of
     val () =
       if i > 0 then emit_text (out, "\n")
     val () =
-      if recknd = 0 then emit_text (out, "ATSMACmove_fltrec_ofs (")
+      if boxknd = 0 then emit_text (out, "ATSMACmove_fltrec_ofs (")
     val () =
-      if recknd > 0 then emit_text (out, "ATSMACmove_boxrec_ofs (")
+      if boxknd > 0 then emit_text (out, "ATSMACmove_boxrec_ofs (")
     val () = emit_tmpvar (out, tmp)
+    val () = emit_text (out, ", ")
+    val () = emit2_hisexp (out, hse_rec)
     val () = emit_text (out, ", ")
     val () = emit_labelext (out, extknd, l)
     val () = emit_text (out, ", ")
     val () = emit_primval (out, x)
     val () = emit_text (out, ") ;")
   in
-    loop (recknd, extknd, tmp, lxs, i+1)
+    loop (boxknd, extknd, tmp, hse_rec, lxs, i+1)
   end
 | list_nil () => ()
 //
@@ -907,7 +910,7 @@ case- ins.instr_node of
       $HSE.hisexp_get_extknd (hse_rec)
     // end of [val]
   in
-    loop (0(*recknd*), extknd, tmp, lpmvs, 0)
+    loop (0(*boxknd*), extknd, tmp, hse_rec, lpmvs, 0)
   end // end of [INSmove_fltrec]
 | INSmove_boxrec (
     tmp, lpmvs, hse_rec
@@ -916,7 +919,7 @@ case- ins.instr_node of
       $HSE.hisexp_get_extknd (hse_rec)
     // end of [val]
   in
-    loop (1(*recknd*), extknd, tmp, lpmvs, 0)
+    loop (1(*boxknd*), extknd, tmp, hse_rec, lpmvs, 0)
   end // end of [INSmove_boxrec]
 //
 end // end of [emit_instr_move_rec]
@@ -1047,7 +1050,25 @@ case+ pmls of
   in
     // nothing
   end // end of [list_vt_cons]
-| ~list_vt_nil () => emit_primval (out, pmv)
+| ~list_vt_nil () => let
+    val () = emit_text (out, "(")
+    val boxknd =
+      $HSE.hisexp_get_boxknd (hse_rec)
+    val () =
+      if boxknd = 0 then {
+      val () = emit_primval (out, pmv)
+    } // end of [val]
+    val () =
+      if boxknd > 0 then {
+      val () = emit_text (out, "*(")
+      val () = emit2_hisexp (out, hse_rec)
+      val () = emit_text (out, "*)")
+      val () = emit_primval (out, pmv)
+    } // end of [if]
+    val () = emit_text (out, ")")
+  in
+    // nothing
+  end // end of [list_vt_nil]
 //
 end // end of [aux]
 //
@@ -1095,7 +1116,7 @@ case+ hses of
     (hse, hses) => let
     val () =
       if i > 0 then emit_text (out, sep)
-    val () = emit_hisexp (out, hse)
+    val () = emit2_hisexp (out, hse)
     val () = fprintf (out, " arg%i", @(i))
   in
     loop (out, hses, sep, i+1)
@@ -1136,9 +1157,9 @@ fun auxfun (
   val () = if issta then emit_text (out, "static\n")
 //
   val () =
-    emit_hisexp (out, hse_res) where {
+    emit2_hisexp (out, hse_res) where {
     val hse_res = funlab_get_type_res (flab)
-  }
+  } // end of [val]
 //
   val () = emit_text (out, "\n")
   val () = emit_funlab (out, flab)

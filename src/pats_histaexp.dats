@@ -53,57 +53,72 @@ staload "pats_staexp2_util.sats"
 staload "pats_histaexp.sats"
 
 (* ****** ****** *)
-
-#define ATSTYPE_PTR "atstype_ptr"
+//
 #define ATSTYPE_ABS "atstype_abs"
+//
+#define ATSTYPE_PTR "atstype_ptr"
 #define ATSTYPE_REF "atstype_ref"
+//
 #define ATSTYPE_VOID "atstype_void"
+//
+(* ****** ****** *)
+//
+val HITNAM_ABS =
+  HITNAM (0(*non*), 0(*fin*), ATSTYPE_ABS)
+//
+val HITNAM_PTR =
+  HITNAM (1(*non*), 1(*fin*), ATSTYPE_PTR)
+val HITNAM_REF =
+  HITNAM (1(*ptr*), 1(*fin*), ATSTYPE_REF)
+//
+val HITNAM_APP =
+  HITNAM (0(*non*), 0(*tmp*), "atstype_tyapp")
+val HITNAM_CLO =
+  HITNAM (0(*non*), 0(*tmp*), "atstype_tyclo")
+//
+val HITNAM_FUNPTR =
+  HITNAM (1(*ptr*), 1(*fin*), "atstype_funptr")
+val HITNAM_CFUNPTR =
+  HITNAM (1(*ptr*), 1(*fin*), "atstype_cfunptr")
+val HITNAM_CLOPTR =
+  HITNAM (1(*ptr*), 1(*fin*), "atstype_cloptr")
+//
+val HITNAM_CONPTR =
+  HITNAM (1(*ptr*), 1(*fin*), "atstype_conptr")
+//
+val HITNAM_TYARR =
+  HITNAM (0(*non*), 0(*tmp*), "atstype_tyarr")
+val HITNAM_TYREC =
+  HITNAM (0(*non*), 0(*tmp*), "atstype_tyrec")
+val HITNAM_TYRECSIN =
+  HITNAM (0(*non*), 0(*tmp*), "atstype_tyrecsin")
+val HITNAM_TYSUM =
+  HITNAM (0(*non*), 0(*tmp*), "atstype_tysum")
+//
+val HITNAM_TYVAR =
+  HITNAM (0(*non*), 0(*tmp*), "atstype_tyvar")
+val HITNAM_TYVARET =
+  HITNAM (0(*non*), 0(*tmp*), "atstype_tyvaret")
+//
+val HITNAM_VARARG =
+  HITNAM (0(*non*), 0(*tmp*), "atstype_vararg")
+//
+val HITNAM_S2EXP =
+  HITNAM (0(*non*), 0(*tmp*), "atstype_s2exp")
+//
+(* ****** ****** *)
 
-(* ****** ****** *)
+implement
+hisexp_get_boxknd
+  (hse) = let
+in
 //
-val HITYPE_PTR =
-  HITYPE (1(*non*), 1(*fin*), ATSTYPE_PTR)
-val HITYPE_ABS =
-  HITYPE (0(*non*), 1(*fin*), ATSTYPE_ABS)
-val HITYPE_REF =
-  HITYPE (1(*ptr*), 1(*fin*), ATSTYPE_REF)
+case+ hse.hisexp_node of
+| HSEtyrec (knd, _) =>
+    if tyreckind_is_box (knd) then 1 else 0
+| _ => ~1 // HX: meaningless
 //
-val HITYPE_APP =
-  HITYPE (0(*non*), 0(*tmp*), "atstype_tyapp")
-val HITYPE_CLO =
-  HITYPE (0(*non*), 0(*tmp*), "atstype_tyclo")
-//
-val HITYPE_FUNPTR =
-  HITYPE (1(*ptr*), 1(*fin*), "atstype_funptr")
-val HITYPE_CFUNPTR =
-  HITYPE (1(*ptr*), 1(*fin*), "atstype_cfunptr")
-val HITYPE_CLOPTR =
-  HITYPE (1(*ptr*), 1(*fin*), "atstype_cloptr")
-//
-val HITYPE_CONPTR =
-  HITYPE (1(*ptr*), 1(*fin*), "atstype_conptr")
-//
-val HITYPE_TYARR =
-  HITYPE (0(*non*), 0(*tmp*), "atstype_tyarr")
-val HITYPE_TYREC =
-  HITYPE (0(*non*), 0(*tmp*), "atstype_tyrec")
-val HITYPE_TYRECSIN =
-  HITYPE (0(*non*), 0(*tmp*), "atstype_tyrecsin")
-val HITYPE_TYSUM =
-  HITYPE (0(*non*), 0(*tmp*), "atstype_tysum")
-//
-val HITYPE_TYVAR =
-  HITYPE (0(*non*), 0(*tmp*), "atstype_tyvar")
-val HITYPE_TYVARET =
-  HITYPE (0(*non*), 0(*tmp*), "atstype_tyvaret")
-//
-val HITYPE_VARARG =
-  HITYPE (0(*non*), 0(*tmp*), "atstype_vararg")
-//
-val HITYPE_S2EXP =
-  HITYPE (0(*non*), 0(*tmp*), "atstype_s2exp")
-//
-(* ****** ****** *)
+end // end of [hisexp_get_boxknd]
 
 implement
 hisexp_get_extknd
@@ -144,34 +159,34 @@ end // end of [hityp_is_void]
 
 implement
 hisexp_typtr = '{
-  hisexp_name= HITYPE_PTR, hisexp_node= HSEtyptr ()
+  hisexp_name= HITNAM_PTR, hisexp_node= HSEtyptr ()
 }
 
 implement
 hisexp_tyclo = let
   val sym = $SYM.symbol_empty
 in '{
-  hisexp_name= HITYPE_CLO, hisexp_node= HSEtyabs (sym)
+  hisexp_name= HITNAM_CLO, hisexp_node= HSEtyabs (sym)
 } end // end of [hisexp_tyclo]
 
 implement
 hisexp_typtr_fun = '{
-  hisexp_name= HITYPE_FUNPTR, hisexp_node= HSEtyptr ()
+  hisexp_name= HITNAM_FUNPTR, hisexp_node= HSEtyptr ()
 }
 implement
 hisexp_typtr_clo = '{
-  hisexp_name= HITYPE_CLOPTR, hisexp_node= HSEtyptr ()
+  hisexp_name= HITNAM_CLOPTR, hisexp_node= HSEtyptr ()
 }
 
 implement
 hisexp_typtr_con = '{
-  hisexp_name= HITYPE_CONPTR, hisexp_node= HSEtyptr ()
+  hisexp_name= HITNAM_CONPTR, hisexp_node= HSEtyptr ()
 }
 
 (* ****** ****** *)
 
 fun hisexp_make_node (
-  hit: hitype, node: hisexp_node
+  hit: hitnam, node: hisexp_node
 ) : hisexp = '{
   hisexp_name= hit, hisexp_node= node
 } // end of [hisexp_make_node]
@@ -180,7 +195,7 @@ fun hisexp_make_node (
 
 implement
 hisexp_tyabs (sym) =
-  hisexp_make_node (HITYPE_ABS, HSEtyabs (sym))
+  hisexp_make_node (HITNAM_ABS, HSEtyabs (sym))
 // end of [hisexp_tyabs]
 
 (* ****** ****** *)
@@ -218,7 +233,7 @@ end // end of [hisexp_make_srtsym]
 implement
 hisexp_fun
   (fc, arg, res) =
-  hisexp_make_node (HITYPE_FUNPTR, HSEfun (fc, arg, res))
+  hisexp_make_node (HITNAM_FUNPTR, HSEfun (fc, arg, res))
 // end of [hisexp_fun]
 
 (* ****** ****** *)
@@ -226,7 +241,7 @@ hisexp_fun
 implement
 hisexp_app
   (_fun, _arg) =
-  hisexp_make_node (HITYPE_APP, HSEapp (_fun, _arg))
+  hisexp_make_node (HITNAM_APP, HSEapp (_fun, _arg))
 // end of [hisexp_app]
 
 (* ****** ****** *)
@@ -234,7 +249,7 @@ hisexp_app
 implement
 hisexp_extype
   (name, s2ess) = let
-  val hit = HITYPE(0(*non*), 1(*fin*), name)
+  val hit = HITNAM(0(*non*), 1(*fin*), name)
 in
   hisexp_make_node (hit, HSEextype (name, s2ess))
 end // end of [hisexp_extype]
@@ -245,8 +260,8 @@ implement
 hisexp_refarg
   (knd, arg) = let
   val name = (
-    if knd > 0 then HITYPE_REF else arg.hisexp_name
-  ) : hitype // end of [val]
+    if knd > 0 then HITNAM_REF else arg.hisexp_name
+  ) : hitnam // end of [val]
 in '{
   hisexp_name= name, hisexp_node= HSErefarg (knd, arg)
 } end // end of [hisexp_refarg]
@@ -255,33 +270,33 @@ in '{
 
 implement
 hisexp_cfun (fl) =
-  hisexp_make_node (HITYPE_CFUNPTR, HSEcfun (fl))
+  hisexp_make_node (HITNAM_CFUNPTR, HSEcfun (fl))
 // end of [hisexp_cfun]
 
 (* ****** ****** *)
 
 implement
 hisexp_tyarr (hse, dim) =
-  hisexp_make_node (HITYPE_TYARR, HSEtyarr (hse, dim))
+  hisexp_make_node (HITNAM_TYARR, HSEtyarr (hse, dim))
 // end of [hisexp_tyarr]
 
 (* ****** ****** *)
 
 implement
 hisexp_tyrec (knd, lhses) =
-  hisexp_make_node (HITYPE_TYREC, HSEtyrec (knd, lhses))
+  hisexp_make_node (HITNAM_TYREC, HSEtyrec (knd, lhses))
 // end of [hisexp_tyrec]
 
 implement
 hisexp_tyrecsin (lhse) =
-  hisexp_make_node (HITYPE_TYRECSIN, HSEtyrecsin (lhse))
+  hisexp_make_node (HITNAM_TYRECSIN, HSEtyrecsin (lhse))
 // end of [hisexp_tyrecsin]
 
 (* ****** ****** *)
 
 implement
 hisexp_tysum (d2c, hses) =
-  hisexp_make_node (HITYPE_TYSUM, HSEtysum (d2c, hses))
+  hisexp_make_node (HITNAM_TYSUM, HSEtysum (d2c, hses))
 // end of [hisexp_tysum]
 
 (* ****** ****** *)
@@ -290,8 +305,8 @@ implement
 hisexp_tyvar (s2v) = let
   val s2t = s2var_get_srt (s2v)
   val hit = (
-    if s2rt_is_boxed (s2t) then HITYPE_PTR else HITYPE_TYVAR
-  ) : hitype // end of [val]
+    if s2rt_is_boxed (s2t) then HITNAM_PTR else HITNAM_TYVAR
+  ) : hitnam // end of [val]
 in
   hisexp_make_node (hit, HSEtyvar (s2v))
 end // end of [hisexp_tyvar]
@@ -300,14 +315,14 @@ end // end of [hisexp_tyvar]
 
 implement
 hisexp_vararg (s2e) = '{
-  hisexp_name= HITYPE_VARARG, hisexp_node= HSEvararg (s2e)
+  hisexp_name= HITNAM_VARARG, hisexp_node= HSEvararg (s2e)
 } // end of [hisexp_vararg]
 
 (* ****** ****** *)
 
 implement
 hisexp_s2exp (s2e) =
-  hisexp_make_node (HITYPE_S2EXP, HSEs2exp (s2e))
+  hisexp_make_node (HITNAM_S2EXP, HSEs2exp (s2e))
 // end of [hisexp_s2exp]
 
 (* ****** ****** *)
