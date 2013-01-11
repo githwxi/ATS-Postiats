@@ -93,8 +93,7 @@ fun d2var_stamp_make (): stamp
 //
 (* ****** ****** *)
 
-fun tyrec_stamp_make (): stamp
-fun tysum_stamp_make (): stamp
+fun hitype_stamp_make (): stamp
 
 (* ****** ****** *)
 

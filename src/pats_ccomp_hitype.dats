@@ -32,7 +32,11 @@
 //
 (* ****** ****** *)
 
-staload STMP = "./pats_stamp.sats"
+staload
+STMP = "./pats_stamp.sats"
+typedef stamp = $STMP.stamp
+overload = with $STMP.eq_stamp_stamp
+overload != with $STMP.neq_stamp_stamp
 
 (* ****** ****** *)
 
@@ -57,7 +61,7 @@ datatype hitype =
   | HITYPEname of (string)
   | HITYPEtyrec of (labhitypelst)
   | HITYPEtysum of (hitypelst)
-  | HITYPEundef of (int)
+  | HITYPEundef of (stamp)
 // end of [hitype]
 
 and labhitype =
@@ -161,9 +165,9 @@ end // end of [auxlablst]
 in
 //
 try let
-  val () = aux (x1, x2)
-in
-  true
+  val () =
+    aux (x1, x2) in true
+  // endval
 end with
   | ~EQUALexn () => false
 // end of [try]
@@ -175,7 +179,9 @@ end // end of [eq_hitype_hitype]
 extern
 fun hitype_undef (): hitype
 implement
-hitype_undef () = HITYPEundef (0)
+hitype_undef () = let
+  val stamp = $STMP.hitype_stamp_make () in HITYPEundef (stamp)
+end // end of [hitype_undef]
 
 (* ****** ****** *)
 
@@ -189,9 +195,20 @@ in
 case+ hit of
 | HITYPEname
     (name) => emit_text (out, name)
-| HITYPEtyrec _ => emit_text (out, "postiats_tyrec")
-| HITYPEtysum _ => emit_text (out, "postiats_tysum")
-| HITYPEundef (n) => fprintf (out, "postiats_undef(%i)", @(n))
+| HITYPEtyrec _ =>
+    emit_text (out, "postiats_tyrec")
+| HITYPEtysum _ =>
+    emit_text (out, "postiats_tysum")
+| HITYPEundef (stamp) => let
+    val () =
+      emit_text (
+        out, "postiats_undef("
+      ) // endfuncall
+    val () = $STMP.fprint_stamp (out, stamp)
+    val () = emit_text (out, ")")
+  in
+    // nothing
+  end // end of [HITYPEundef]
 end // end of [emit_hitype]
 
 (* ****** ****** *)
@@ -243,7 +260,14 @@ emit2_hisexp
   (out, hse) = let
   val hit = hisexp_get_hitype (hse)
 in
-  emit_hitype (out, hit)
+//
+case+ hit of
+(*
+| HITYPEundef _ =>
+    emit_hisexp (out, hse)
+*)
+| _ => emit_hitype (out, hit)
+//
 end // end of [emit2_hisexp]
 
 (* ****** ****** *)

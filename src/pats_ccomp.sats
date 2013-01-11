@@ -1040,7 +1040,7 @@ fun emit_hisexplst_sep
   (out: FILEref, hses: hisexplst, sep: string): void
 // end of [emit_hisexplst_sep]
 
-fun emit_funtype_arg_res
+fun emit2_funtype_arg_res
   (out: FILEref, _arg: hisexplst, _res: hisexp): void
 // end of [emit_funtype_arg_res]
 
@@ -1068,7 +1068,7 @@ fun emit_instrlst_ln (out: FILEref, inss: instrlst): void
 
 (* ****** ****** *)
 
-fun emit_funarglst
+fun emit2_funarglst
   (out: FILEref, _arg: hisexplst): void
 // end of [emit_funarglst]
 

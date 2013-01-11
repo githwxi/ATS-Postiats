@@ -610,9 +610,9 @@ case+
 | $HSE.HSEtyabs (sym) => emit_symbol (out, sym)
 | $HSE.HSEapp
     (_fun, _arg) => let
-    val () = emit2_hisexp (out, _fun)
+    val () = emit_hisexp (out, _fun)
     val () = emit_text (out, "(")
-    val () = emit2_hisexplst_sep (out, _arg, ", ")
+    val () = emit_hisexplst_sep (out, _arg, ", ")
     val () = emit_text (out, ")")
   in
     // nothing
@@ -668,16 +668,16 @@ end // end of [emit_hisexplst_sep]
 (* ****** ****** *)
 
 implement
-emit_funtype_arg_res (
+emit2_funtype_arg_res (
   out, hses_arg, hse_res
 ) = let
-  val () = emit_hisexp (out, hse_res)
+  val () = emit2_hisexp (out, hse_res)
   val () = emit_text (out, "(*)(")
-  val () = emit_hisexplst_sep (out, hses_arg, ", ")
+  val () = emit2_hisexplst_sep (out, hses_arg, ", ")
   val () = emit_text (out, ")")
 in
   // nothing
-end // end of [emit_funtype_arg_res]
+end // end of [emit2_funtype_arg_res]
 
 (* ****** ****** *)
 
@@ -895,7 +895,7 @@ case+ lxs of
     val () = emit_text (out, ") ;")
   in
     loop (boxknd, extknd, tmp, hse_rec, lxs, i+1)
-  end
+  end // end of [list_cons]
 | list_nil () => ()
 //
 end // end of [loop]
@@ -1102,7 +1102,7 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-emit_funarglst
+emit2_funarglst
   (out, hses) = let
 //
 fun loop (
@@ -1127,7 +1127,7 @@ end // end of [loop]
 //
 in
   loop (out, hses, ", ", 0)
-end // end of [emit_funarglst]
+end // end of [emit2_funarglst]
 
 (* ****** ****** *)
 
@@ -1166,7 +1166,7 @@ fun auxfun (
   val () = emit_text (out, " (")
 //
   val () =
-    emit_funarglst (out, hses_arg) where {
+    emit2_funarglst (out, hses_arg) where {
     val hses_arg = funlab_get_type_arg (flab)
   } // end of [val]
 //
@@ -1263,11 +1263,11 @@ val () =
 val istmp = funent_is_tmplt (fent)
 val () = if istmp then auxtmp (out, fent)
 //
-val () = emit_hisexp (out, hse_res)
+val () = emit2_hisexp (out, hse_res)
 val () = emit_text (out, "\n")
 val () = emit_funlab (out, flab)
 val () = emit_text (out, " (")
-val () = emit_funarglst (out, hses_arg)
+val () = emit2_funarglst (out, hses_arg)
 val () = emit_text (out, ")\n")
 //
 // function body
