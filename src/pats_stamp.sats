@@ -61,7 +61,7 @@ overload compare with compare_stamp_stamp
 (* ****** ****** *)
 
 fun tostring_stamp (x: stamp): string
-fun tostring_prefix_stamp (pre: string, x: stamp): string
+fun tostring_prefix_stamp (prfx: string, x: stamp): string
 
 (* ****** ****** *)
 
