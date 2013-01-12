@@ -129,11 +129,11 @@ fun s2explst_npf_tyer_labize
 
 extern
 fun labs2explst_tyer
- (loc: location, ls2es: labs2explst): labhisexplst
+ (loc: location, flag: int, ls2es: labs2explst): labhisexplst
 // end of [labs2explst_tyer]
 extern
 fun labs2explst_npf_tyer
-  (loc: location, npf: int, ls2es: labs2explst): labhisexplst
+  (loc: location, flag: int, npf: int, ls2es: labs2explst): labhisexplst
 // end of [labs2explst_npf_tyer]
 
 (* ****** ****** *)
@@ -368,7 +368,7 @@ s2exp_tyer_tyrec
   val-S2Etyrec
     (knd, npf, ls2es) = s2e0.s2exp_node
   val lhses =
-    labs2explst_npf_tyer (loc0, npf, ls2es)
+    labs2explst_npf_tyer (loc0, flag, npf, ls2es)
   // end of [val]
 in
 //
@@ -483,7 +483,7 @@ end // end of [s2explst_npf_tyer_labize]
 
 implement
 labs2explst_tyer
-  (loc0, ls2es) = let
+  (loc0, flag, ls2es) = let
 in
 //
 case+ ls2es of
@@ -493,11 +493,11 @@ case+ ls2es of
     val isprf = s2exp_is_prf (s2e)
   in
     if isprf then
-      labs2explst_tyer (loc0, ls2es)
+      labs2explst_tyer (loc0, flag, ls2es)
     else let
-      val hse = s2exp_tyer_shallow (loc0, s2e)
+      val hse = s2exp_tyer (loc0, flag, s2e)
       val lhse = HSLABELED (l, name, hse)
-      val lhses = labs2explst_tyer (loc0, ls2es)
+      val lhses = labs2explst_tyer (loc0, flag, ls2es)
     in
       list_cons (lhse, lhses)
     end (* end of [if] *)
@@ -510,15 +510,15 @@ end // end of [labs2explst_tyer]
 
 implement
 labs2explst_npf_tyer
-  (loc0, npf, ls2es) = let
+  (loc0, flag, npf, ls2es) = let
 in
 //
 if npf > 0 then let
   val-list_cons (_, ls2es) = ls2es
 in
-  labs2explst_npf_tyer (loc0, npf-1, ls2es)
+  labs2explst_npf_tyer (loc0, flag, npf-1, ls2es)
 end else
-  labs2explst_tyer (loc0, ls2es)
+  labs2explst_tyer (loc0, flag, ls2es)
 // end of [if]
 //
 end // end of [labs2explst_npf_tyer]

@@ -1055,6 +1055,7 @@ case+ xys of
     val pml = xy.1
     val boxknd = hisexp_get_boxknd (hse)
     val extknd = hisexp_get_extknd (hse)
+    val () = emit_text (out, "(")
     val () =
       if boxknd > 0 then {
       val () = emit_text (out, "(")
@@ -1067,6 +1068,7 @@ case+ xys of
       if boxknd > 0 then {
       val () = emit_text (out, ")")
     } // end of [val]
+    val () = emit_text (out, ")")
     val () = emit_primlab (out, extknd, pml)
   in
     // nothing
