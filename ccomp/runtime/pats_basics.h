@@ -57,6 +57,10 @@
 //
 /* ****** ****** */
 
+#define ATSextval(val) (val)
+
+/* ****** ****** */
+
 #define ATSMACmove(tmp, val) (tmp = val)
 
 /* ****** ****** */

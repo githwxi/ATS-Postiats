@@ -481,6 +481,10 @@ case+ pmv0.primval_node of
 | PMVi0nt (tok) => $SYN.fprint_i0nt (out, tok)
 | PMVf0loat (tok) => $SYN.fprint_f0loat (out, tok)
 //
+| PMVextval
+    (name) => fprintf (out, "ATSextval(%s)", @(name))
+  // end of [PMVextval]
+//
 | _ => let
 (*
     val () = prerr_interror_loc (loc0)
