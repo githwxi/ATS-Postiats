@@ -254,10 +254,14 @@ fun{k1,k2:tk}
 g1int2int // i2i
   {i:int} (x: g1int (k1, i)):<> g1int (k2, i)
 //
-fun g1int2int_int_int {i:int} (x: int i):<> int (i)
-fun g1int2int_int_lint {i:int} (x: int i):<> lint (i)
-fun g1int2int_int_llint {i:int} (x: int i):<> llint (i)
-fun g1int2int_int_ssize {i:int} (x: int i):<> ssize_t (i)
+fun g1int2int_int_int
+  {i:int} (x: int i):<> int (i) = "mac\#atspre_g1int2int_int_int"
+fun g1int2int_int_lint
+  {i:int} (x: int i):<> lint (i) = "mac\#atspre_g1int2int_int_lint"
+fun g1int2int_int_llint
+  {i:int} (x: int i):<> llint (i) = "mac\#atspre_g1int2int_int_llint"
+fun g1int2int_int_ssize
+  {i:int} (x: int i):<> ssize_t (i) = "mac\#atspre_g1int2int_int_ssize"
 //
 #atscode_separator()
 

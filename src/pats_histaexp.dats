@@ -135,6 +135,14 @@ end // end of [hisexp_get_extknd]
 (* ****** ****** *)
 
 implement
+hisexp_is_tyrecsin (hse) = let
+in
+  case+ hse.hisexp_node of HSEtyrecsin _ => true | _ => false
+end // end of [hisexp_is_tyrecsin]
+
+(* ****** ****** *)
+
+implement
 hisexp_is_void
   (hse0) = let
 in

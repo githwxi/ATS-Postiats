@@ -130,6 +130,17 @@ end // end of [g0int_implist]
 //
 #atscode_separator()
 
+implement
+g1int2int<int_kind,int_kind> = g1int2int_int_int
+implement
+g1int2int<int_kind,lint_kind> = g1int2int_int_lint
+implement
+g1int2int<int_kind,llint_kind> = g1int2int_int_llint
+implement
+g1int2int<int_kind,ssize_kind> = g1int2int_int_ssize
+
+#atscode_separator()
+
 %{
 fun g1int_implist (
   knm: string, tnm: string

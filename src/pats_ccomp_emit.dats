@@ -626,6 +626,48 @@ extern fun emit_instr_funcall : emit_instr_type
 
 (* ****** ****** *)
 
+extern
+fun emit_move_val (
+  out: FILEref, tmp: tmpvar, pmv: primval
+) : void // end of [emit_move_val]
+implement
+emit_move_val
+  (out, tmp, pmv) = let
+  val isvoid = primval_is_void (pmv)
+  val () = (
+    if ~isvoid
+      then emit_text (out, "ATSMACmove(")
+      else emit_text (out, "ATSMACmove_void(")
+    // end of [if]
+  ) : void // end of [val]
+  val () = emit_tmpvar (out, tmp)
+  val () = emit_text (out, ", ")
+  val () = emit_primval (out, pmv)
+  val () = emit_text (out, ") ;")
+in
+  // nothing
+end // end of [emit_move_val]
+
+(* ****** ****** *)
+
+extern
+fun emit_move_ptralloc
+  (out: FILEref, tmp: tmpvar, hse: hisexp): void
+implement
+emit_move_ptralloc
+  (out, tmp, hse) = let
+  val () =
+    emit_text (out, "ATSMACmove_ptralloc(")
+  val () = emit_tmpvar (out, tmp)
+  val () = emit_text (out, ", ")
+  val () = emit_hisexp (out, hse)
+  val () = emit_text (out, ") ;")
+in
+  // nothing
+end // end of [emit_move_ptralloc]
+
+(* ****** ****** *)
+
 implement
 emit_instr
   (out, ins) = let
@@ -667,19 +709,8 @@ case+ ins.instr_node of
   } // end of [INSfunlab]
 //
 | INSmove_val
-    (tmp, pmv) => {
-    val isvoid = primval_is_void (pmv)
-    val () = (
-      if ~isvoid
-        then emit_text (out, "ATSMACmove(")
-        else emit_text (out, "ATSMACmove_void(")
-      // end of [if]
-    ) : void // end of [val]
-    val () = emit_tmpvar (out, tmp)
-    val () = emit_text (out, ", ")
-    val () = emit_primval (out, pmv)
-    val () = emit_text (out, ") ;")
-  } // end of [INSmove_val]
+    (tmp, pmv) => emit_move_val (out, tmp, pmv)
+  // end of [INSmove_val]
 //
 | INSmove_fltrec _ => emit_instr_move_rec (out, ins)
 | INSmove_boxrec _ => emit_instr_move_rec (out, ins)
@@ -711,10 +742,12 @@ case+ ins.instr_node of
   end // end of [INSletpop]
 | INSletpush (pmds) => let
     val () = emit_text (out, "/*\n")
-    val () = fprint_instr (out, ins)
+    val () = emit_text (out, "letpush(beg)")
     val () = emit_text (out, "\n*/\n")
     val () = emit_primdeclst (out, pmds)
-    val () = emit_text (out, "/*\nINSletpush(end)\n*/")
+    val () = emit_text (out, "/*\n")
+    val () = emit_text (out, "letpush(end)")
+    val () = emit_text (out, "\n*/\n")
   in
     // nothing
   end // end of [INSletpush]
@@ -820,20 +853,18 @@ case- ins.instr_node of
 | INSmove_fltrec (
     tmp, lpmvs, hse_rec
   ) => let
-    val extknd =
-      $HSE.hisexp_get_extknd (hse_rec)
-    // end of [val]
+    val extknd = $HSE.hisexp_get_extknd (hse_rec)
   in
     loop (0(*boxknd*), extknd, tmp, hse_rec, lpmvs, 0)
   end // end of [INSmove_fltrec]
 | INSmove_boxrec (
     tmp, lpmvs, hse_rec
   ) => let
-    val extknd =
-      $HSE.hisexp_get_extknd (hse_rec)
-    // end of [val]
+    val (
+    ) = emit_move_ptralloc (out, tmp, hse_rec)
+    val extknd = $HSE.hisexp_get_extknd (hse_rec)
   in
-    loop (1(*boxknd*), extknd, tmp, hse_rec, lpmvs, 0)
+    loop (1(*boxknd*), extknd, tmp, hse_rec, lpmvs, 1)
   end // end of [INSmove_boxrec]
 //
 end // end of [emit_instr_move_rec]

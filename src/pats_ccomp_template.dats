@@ -486,41 +486,39 @@ fun ccomp_tmpcstmat_some (
 
 implement
 ccomp_funlab_tmpsubst
-  (env, loc0, hse0, fl, tsub) = let
+  (env, loc0, hse0, flab, tsub) = let
 //
-val opt = funlab_get_funent (fl)
+val opt = funlab_get_funent (flab)
 //
 in
 //
 case+ opt of
 | None () =>
-    ccomp_funlab_tmpsubst_none (env, loc0, hse0, fl, tsub)
+    ccomp_funlab_tmpsubst_none (env, loc0, hse0, flab, tsub)
   // end of [None]
 | Some (fent) =>
-    ccomp_funlab_tmpsubst_some (env, loc0, hse0, fl, tsub, fent)
+    ccomp_funlab_tmpsubst_some (env, loc0, hse0, flab, tsub, fent)
   // end of [None]
 //
 end // end of [ccomp_funlab_tmpsubst]
 
 implement
 ccomp_funlab_tmpsubst_none
-  (env, loc0, hse0, fl, tsub) = let
+  (env, loc0, hse0, flab, tsub) = let
 //
-val t2mas = funlab_get_tmparg (fl)
+val t2mas = funlab_get_tmparg (flab)
 //
 in
 //
 case+ t2mas of
 | list_cons _ => let
-    val- Some (d2c) = funlab_get_d2copt (fl)
-    val t2mas =
-      t2mpmarglst_tsubst (loc0, tsub, t2mas)
-    // end of [val]
+    val- Some (d2c) = funlab_get_d2copt (flab)
+    val t2mas = t2mpmarglst_tsubst (loc0, tsub, t2mas)
     val tmpmat = ccompenv_tmpcst_match (env, d2c, t2mas)
   in
     ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, tmpmat)
   end // end of [list_cons]
-| list_nil () => primval_funlab (loc0, hse0, fl)
+| list_nil () => primval_funlab (loc0, hse0, flab)
 //
 end // end of [ccomp_funlab_tmpsubst_none]
 
@@ -599,10 +597,10 @@ ccomp_tmpcstmat_some
 val- TMPCSTMATsome (imp, tsub) = mat
 val l0 = the_d2varlev_get ()
 val () = hiimpdec_ccomp_if (env, l0, imp)
-val- Some (fl) = hiimpdec_get_funlabopt (imp)
+val- Some (flab) = hiimpdec_get_funlabopt (imp)
 //
 in
-  ccomp_funlab_tmpsubst (env, loc0, hse0, fl, tsub)
+  ccomp_funlab_tmpsubst (env, loc0, hse0, flab, tsub)
 end // end of [ccomp_tmpcstmat_some]
 
 (* ****** ****** *)

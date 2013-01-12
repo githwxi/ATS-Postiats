@@ -665,9 +665,8 @@ end // end of [hiimpdec_ccomp]
 end // end of [local]
 
 implement
-hiimpdec_ccomp_if (
-  env, lev0, imp
-) = let
+hiimpdec_ccomp_if
+  (env, lev0, imp) = let
   val opt = hiimpdec_get_funlabopt (imp)
 in
 //
