@@ -81,7 +81,7 @@ funlab_struct = @{
 //
 , funlab_level= int // top/inner level
 //
-, funlab_type= hisexp (* function type *)
+, funlab_hisexp= hisexp (* function type *)
 //
 , funlab_tmpknd= int (* 0/1 : temp use/def *)
 //
@@ -121,7 +121,7 @@ prval () = free_gc_elim {funlab_struct?} (pfgc)
 val () = p->funlab_name := name
 val () = p->funlab_level := level
 //
-val () = p->funlab_type := hse
+val () = p->funlab_hisexp := hse
 //
 val () = p->funlab_tmpknd := ~1
 val () = p->funlab_d2copt := qopt
@@ -155,9 +155,9 @@ funlab_get_level (flab) = let
 end // end of [funlab_get_level]
 
 implement
-funlab_get_type (flab) = let
-  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_type
-end // end of [funlab_get_type]
+funlab_get_hisexp (flab) = let
+  val (vbox pf | p) = ref_get_view_ptr (flab) in p->funlab_hisexp
+end // end of [funlab_get_hisexp]
 
 implement
 funlab_get_tmpknd (flab) = let
@@ -232,8 +232,8 @@ end // end of [local]
 implement
 funlab_get_funclo
   (flab) = fc where {
-  val hse = funlab_get_type (flab)
-  val- HSEfun (fc, _(*arg*), _(*res*)) = hse.hisexp_node
+  val hit = funlab_get_type (flab)
+  val- HITfun (fc, _(*arg*), _(*res*)) = hit
 } // end of [funlab_get_funclo]
 
 (* ****** ****** *)
@@ -241,15 +241,17 @@ funlab_get_funclo
 implement
 funlab_get_type_arg
   (flab) = let
-  val hse = funlab_get_type (flab)
+  val hit_fun = funlab_get_type (flab)
 in
 //
-case+ hse.hisexp_node of
-| HSEfun (_(*fc*), _arg, _(*res*)) => _arg
+case+ hit_fun of
+| HITfun (
+    _(*fc*), _arg, _(*res*)
+  ) => _arg
 | _ => let
     val () = prerr_interror ()
     val () = (
-      prerr ": funlab_get_type_arg: hse = "; prerr hse; prerr_newline ()
+      prerrln! (": funlab_get_type_arg: hit_fun = ", hit_fun)
     ) // end of [val]
     val () = assertloc (false)
   in
@@ -261,15 +263,17 @@ end // end of [funlab_get_type_arg]
 implement
 funlab_get_type_res
   (flab) = let
-  val hse = funlab_get_type (flab)
+  val hit_fun = funlab_get_type (flab)
 in
 //
-case+ hse.hisexp_node of
-| HSEfun (_(*fc*), _(*arg*), _res) => _res
+case+ hit_fun of
+| HITfun (
+    _(*fc*), _(*arg*), _res
+  ) => _res
 | _ => let
     val () = prerr_interror ()
     val () = (
-      prerr ": funlab_get_type_res: hse = "; prerr hse; prerr_newline ()
+      prerrln! (": funlab_get_type_arg: hit_fun = ", hit_fun)
     ) // end of [val]
     val () = assertloc (false)
   in

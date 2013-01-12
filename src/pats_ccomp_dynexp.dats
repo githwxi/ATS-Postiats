@@ -262,6 +262,49 @@ end // end of [hidexplst_ccomp]
 
 (* ****** ****** *)
 
+implement
+labhidexplst_ccomp
+  (env, res, lhdes) = let
+//
+fun loop (
+  env: !ccompenv
+, res: !instrseq
+, lhdes: labhidexplst
+, lpmvs: &labprimvalist_vt? >> labprimvalist_vt
+) : void = let
+in
+//
+case+ lhdes of
+| list_cons
+    (lhde, lhdes) => let
+    val LABHIDEXP (lab, hde) = lhde
+    val pmv =
+      hidexp_ccomp (env, res, hde)
+    val lpmv = LABPRIMVAL (lab, pmv)
+    val () = lpmvs := list_vt_cons {..}{0} (lpmv, ?)
+    val list_vt_cons (_, !p_lpmvs) = lpmvs
+    val () = loop (env, res, lhdes, !p_lpmvs)
+    val () = fold@ (lpmvs)
+  in
+    // nothing
+  end // end of [list_cons]
+| list_nil () => let
+    val () = lpmvs := list_vt_nil () in (*nothing*)
+  end // end of [list_nil]
+//
+end // end of [loop]
+//
+var lpmvs: labprimvalist_vt
+val () = loop (env, res, lhdes, lpmvs)
+//
+in
+//
+list_of_list_vt (lpmvs)
+//
+end // end of [labhidexplst_ccomp]
+
+(* ****** ****** *)
+
 local
 
 fun auxval (
@@ -307,8 +350,8 @@ case+ hde0.hidexp_node of
 | HDEcon (
     d2c, hse_sum, _arg
   ) => let
-    val pmvs = hidexplst_ccomp (env, res, _arg)
-    val ins = instr_move_con (loc0, tmpret, d2c, hse_sum, pmvs)
+    val lpmvs = labhidexplst_ccomp (env, res, _arg)
+    val ins = instr_move_con (loc0, tmpret, d2c, hse_sum, lpmvs)
   in
     instrseq_add (res, ins)
   end // end of [HDEcon]

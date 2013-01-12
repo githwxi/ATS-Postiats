@@ -527,16 +527,16 @@ case+ x.instr_node of
   }
 //
 | INSmove_con (
-    tmpret, d2c, hse_sum, pmvs
+    tmpret, d2c, hit_sum, lpmvs
   ) => {
     val () = prstr "INSmove_con("
     val () = fpprint_tmpvar (out, tmpret)
     val () = prstr " <- "
     val () = fprint_d2con (out, d2c)
     val () = prstr "("
-    val () = fprint_hisexp (out, hse_sum)
+    val () = fprint_hitype (out, hit_sum)
     val () = prstr ";"
-    val () = fprint_primvalist (out, pmvs)
+    val () = fprint_labprimvalist (out, lpmvs)
     val () = prstr ")"
     val () = prstr ")"
   }
@@ -574,55 +574,55 @@ case+ x.instr_node of
   }
 //
 | INSupdate_list_head
-    (tmphd, tmptl, hse_elt) => {
+    (tmphd, tmptl, hit_elt) => {
     val () = prstr "INSupdate_list_head("
     val () = fpprint_tmpvar (out, tmphd)
     val () = prstr "; "
     val () = fpprint_tmpvar (out, tmptl)
     val () = prstr "; "
-    val () = fprint_hisexp (out, hse_elt)
+    val () = fprint_hitype (out, hit_elt)
     val () = prstr ")"
   }
 | INSupdate_list_tail
-    (tl_new, tl_old, hse_elt) => {
+    (tl_new, tl_old, hit_elt) => {
     val () = prstr "INSupdate_list_tail("
     val () = fpprint_tmpvar (out, tl_new)
     val () = prstr "; "
     val () = fpprint_tmpvar (out, tl_old)
     val () = prstr "; "
-    val () = fprint_hisexp (out, hse_elt)
+    val () = fprint_hitype (out, hit_elt)
     val () = prstr ")"
   }
 //
 | INSmove_arrpsz (
-    tmp, hse_elt, asz
+    tmp, hit_elt, asz
   ) => {
     val () = prstr "INSmov_arrpsz("
     val () = fprint_tmpvar (out, tmp)
     val () = prstr "; "
-    val () = fprint_hisexp (out, hse_elt)
+    val () = fprint_hitype (out, hit_elt)
     val () = prstr "; "
     val () = fprint_int (out, asz)
     val () = prstr ")"
   }
 | INSupdate_ptrinc
-    (tmpelt, hse_elt) => {
+    (tmpelt, hit_elt) => {
     val () = prstr "INSupdate_ptrinc("
     val () = fpprint_tmpvar (out, tmpelt)
     val () = prstr "; "
-    val () = fprint_hisexp (out, hse_elt)
+    val () = fprint_hitype (out, hit_elt)
     val () = prstr ")"
   }
 //
 | INSfuncall (
-    tmpret, _fun, hse_fun, _arg
+    tmpret, _fun, hit_fun, _arg
   ) => {
     val () = prstr "INSfuncall("
     val () = fpprint_tmpvar (out, tmpret)
     val () = prstr " <- "
     val () = fprint_primval (out, _fun)
     val () = prstr "("
-    val () = fprint_hisexp (out, hse_fun)
+    val () = fprint_hitype (out, hit_fun)
     val () = prstr "; "
     val () = fprint_primvalist (out, _arg)
     val () = prstr ")"
@@ -644,27 +644,27 @@ case+ x.instr_node of
   }
 //
 | INSmove_selcon (
-    tmp, pmv, hse_sum, narg
+    tmp, pmv, hit_sum, lab
   ) => {
     val () = prstr "INSmove_selcon("
     val () = fpprint_tmpvar (out, tmp)
     val () = prstr " <- "
     val () = fprint_primval (out, pmv)
     val () = prstr "; "
-    val () = fprint_hisexp (out, hse_sum)
+    val () = fprint_hitype (out, hit_sum)
     val () = prstr "; "
-    val () = fprint_int (out, narg) // HX: argument number
+    val () = $LAB.fprint_label (out, lab) // HX: argument label
     val () = prstr ")"
   } // end of [INSmove_selcon]
 | INSmove_select (
-    tmp, pmv, hse_rec, pmls
+    tmp, pmv, hit_rec, pmls
   ) => {
     val () = prstr "INSmove_select("
     val () = fpprint_tmpvar (out, tmp)
     val () = prstr " <- "
     val () = fprint_primval (out, pmv)
     val () = prstr "; "
-    val () = fprint_hisexp (out, hse_rec)
+    val () = fprint_hitype (out, hit_rec)
     val () = prstr "; "
     val () = fprint_primlablst (out, pmls)
     val () = prstr ")"

@@ -119,7 +119,6 @@ val pmds = hideclist_ccomp0 (hids)
 val fls0 = the_funlablst_get ()
 //
 val () = emit_funlablst_ptype (out, fls0)
-//
 val () = emit_funlablst_implmnt (out, fls0)
 //
 val () =
@@ -132,7 +131,7 @@ val () = fprint_string (out, "*/\n")
 //
 val () = emit_primdeclst (out, pmds)
 //
-val () = fprint_newline (out)
+val () = emit_the_typedeflst (out)
 //
 in
 end // end of [ccomp_main]

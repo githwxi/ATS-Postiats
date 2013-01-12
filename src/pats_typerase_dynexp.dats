@@ -69,13 +69,12 @@ staload "pats_typerase.sats"
 
 (* ****** ****** *)
 
-extern
-fun labhipatlst_get_labhisexplst (lxs: labhipatlst): labhisexplst
 implement
-labhipatlst_get_labhisexplst
-  (lxs) = let
+labhipatlst_get_type (lxs) = let
 //
-  fun f (lx: labhipat): labhisexp = let
+  fun f (
+    lx: labhipat
+  ) : labhisexp = let
     val LABHIPAT (l, x) = lx
   in
     HSLABELED (l, None(*name*), x.hipat_type)
@@ -85,7 +84,24 @@ labhipatlst_get_labhisexplst
 //
 in
   list_of_list_vt (lhses)
-end // end of [labhipatlst_get_labhisexplst]
+end // end of [labhipatlst_get_type]
+
+implement
+labhidexplst_get_type (lxs) = let
+//
+  fun f (
+    lx: labhidexp
+  ) : labhisexp = let
+    val LABHIDEXP (l, x) = lx
+  in
+    HSLABELED (l, None(*name*), x.hidexp_type)
+  end // end of [f]
+//
+  val lhses = list_map_fun (lxs, f)
+//
+in
+  list_of_list_vt (lhses)
+end // end of [labhidexplst_get_type]
 
 (* ****** ****** *)
 
@@ -97,6 +113,8 @@ fun p3at_tyer_con (
 
 extern
 fun p3atlst_npf_tyer (npf: int, p3ts: p3atlst): hipatlst
+extern
+fun p3atlst_npf_tyer_labize (npf: int, p3ts: p3atlst): labhipatlst
 extern
 fun labp3atlst_npf_tyer (npf: int, lp3ts: labp3atlst): labhipatlst
 
@@ -142,7 +160,7 @@ case+ p3t0.p3at_node of
   ) => let
     val lhips =
       labp3atlst_npf_tyer (npf, lp3ts)
-    val lhses = labhipatlst_get_labhisexplst (lhips)
+    val lhses = labhipatlst_get_type (lhips)
     val recknd = (
       if knd > 0 then TYRECKINDbox() else TYRECKINDflt0()
     ) : tyreckind
@@ -184,11 +202,24 @@ end // endof [p3at_tyer]
 implement
 p3atlst_tyer
   (p3ts) = let
-  val hips =
-    list_map_fun (p3ts, p3at_tyer)
-  // end of [val]
 in
-  list_of_list_vt (hips)
+//
+case+ p3ts of
+| list_cons
+    (p3t, p3ts) => let
+    val isprf = p3at_is_prf (p3t)
+  in
+    if isprf then
+      p3atlst_tyer (p3ts)
+    else let
+      val hip = p3at_tyer (p3t)
+      val hips = p3atlst_tyer (p3ts)
+    in
+      list_cons (hip, hips)
+    end // end of [if]
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
 end // end of [p3atlst_tyer]
 
 (* ****** ****** *)
@@ -205,6 +236,50 @@ in
     p3atlst_tyer (p3ts)
   // end of [if]
 end // end of [p3atlst_npf_tyer]
+
+(* ****** ****** *)
+
+implement
+p3atlst_npf_tyer_labize
+  (npf, p3ts) = let
+//
+fun auxlst (
+  npf: int, p3ts: p3atlst, i: int
+) : labhipatlst = let
+in
+//
+if npf > 0 then let
+  val- list_cons (_, p3ts) = p3ts
+in
+  auxlst (npf-1, p3ts, i+1)
+end else ( // HX-2013-01: npf <= 0
+//
+case+ p3ts of
+| list_cons
+    (p3t, p3ts) => let
+    val isprf = p3at_is_prf (p3t)
+  in
+    if isprf then
+      auxlst (npf, p3ts, i+1)  
+    else let
+      val lab =
+        $LAB.label_make_int (i)
+      val hip = p3at_tyer (p3t)
+      val lhip = LABHIPAT (lab, hip)
+      val lhips = auxlst (npf, p3ts, i+1)
+    in
+      list_cons (lhip, lhips)
+    end // end of [if]
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+) // end of [if]
+//
+end // end of [auxlst]
+//
+in
+  auxlst (npf, p3ts, 0)
+end // end of [p3atlst_npf_tyer_labize]
 
 (* ****** ****** *)
 
@@ -251,22 +326,20 @@ implement
 p3at_tyer_con (
   loc0, hse0, pck, d2c, npf, p3ts
 ) = let
-  val hips =
-    p3atlst_npf_tyer (npf, p3ts)
+  val lhips =
+    p3atlst_npf_tyer_labize (npf, p3ts)
   // end of [val]
-  val test = hipatlst_is_unused (hips)
+  val test = labhipatlst_is_unused (lhips)
 in
 //
 case+ 0 of
 | _ when test =>
     hipat_con_any (loc0, hse0, pck, d2c)
 | _ => let
-    val hses =
-      list_map_fun (hips, hipat_get_type)
-    val hses = list_of_list_vt (hses)
-    val hse_sum = hisexp_tysum (d2c, hses)
+    val lhses = labhipatlst_get_type (lhips)
+    val hse_sum = hisexp_tysum (d2c, lhses)
   in
-    hipat_con (loc0, hse0, pck, d2c, hse_sum, hips)
+    hipat_con (loc0, hse0, pck, d2c, hse_sum, lhips)
   end // end of [_]
 //
 end // end of [p3at_tyer_con]
@@ -298,8 +371,7 @@ fun d3exp_tyer_tmpvar (
 extern
 fun d3explst_npf_tyer (npf: int, d3es: d3explst): hidexplst
 extern
-fun d3explst_npf_tyer_recize (npf: int, d3es: d3explst): labhidexplst
-
+fun d3explst_npf_tyer_labize (npf: int, d3es: d3explst): labhidexplst
 extern
 fun labd3explst_npf_tyer (npf: int, ld3es: labd3explst): labhidexplst
 
@@ -352,13 +424,13 @@ case+
 | D3Eextval (name) => hidexp_extval (loc0, hse0, name)
 //
 | D3Econ (d2c, npf, d3es) => let
-    val hdes =
-      d3explst_npf_tyer (npf, d3es)
+    val lhdes =
+      d3explst_npf_tyer_labize (npf, d3es)
     // end of [val]
-    val hses = hidexplst_get_type (hdes)
-    val hse_sum = hisexp_tysum (d2c, hses)
+    val lhses = labhidexplst_get_type (lhdes)
+    val hse_sum = hisexp_tysum (d2c, lhses)
   in
-    hidexp_con (loc0, hse0, d2c, hse_sum, hdes)
+    hidexp_con (loc0, hse0, d2c, hse_sum, lhdes)
   end // end of [D3Econ]
 //
 | D3Etmpcst (
@@ -435,7 +507,7 @@ case+
     val hse_rec =
        s2exp_tyer_deep (loc0, s2e0)
     // end of [val]
-    val lhdes = d3explst_npf_tyer_recize (npf, d3es)
+    val lhdes = d3explst_npf_tyer_labize (npf, d3es)
   in
     hidexp_rec (loc0, hse0, knd, lhdes, hse_rec)
   end // end of [D3Etup]
@@ -655,7 +727,7 @@ end else
 end // end of [d3explst_npf_tyer]
 
 implement
-d3explst_npf_tyer_recize
+d3explst_npf_tyer_labize
   (npf, d3es) = let
 //
 fun aux1 (
@@ -694,7 +766,7 @@ val i0 = (if npf >= 0 then npf else 0): int
 //
 in
   aux2 (i0, aux1 (npf, d3es))
-end // end of [d3explst_npf_tyer_recize]
+end // end of [d3explst_npf_tyer_labize]
 
 (* ****** ****** *)
 

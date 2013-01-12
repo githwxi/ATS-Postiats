@@ -189,7 +189,8 @@ fun aux (
   env: !ccompenv
 , res: !instrseq
 , fail: patckont
-, narg: int, hip: hipat
+, narg: int
+, lab: label, hip: hipat
 , pmv0: primval, hse_sum: hisexp
 ) : void = let
 //
@@ -200,12 +201,13 @@ in
 case+ hip.hipat_node of
 | HIPany _ => ()
 | HIPvar _ => ()
-| HIPann (hip, ann) => aux (env, res, fail, narg, hip, pmv0, hse_sum)
+| HIPann (hip, ann) =>
+    aux (env, res, fail, narg, lab, hip, pmv0, hse_sum)
 | _ => let
     val loc = hip.hipat_loc
     val hse = hipat_get_type (hip)
     val tmp = tmpvar_make (loc, hse)
-    val ins = instr_move_selcon (loc, tmp, pmv0, hse_sum, narg)
+    val ins = instr_move_selcon (loc, tmp, pmv0, hse_sum, lab)
     val () = instrseq_add (res, ins)
     val pmv = primval_make_tmp (loc, tmp)
     val d2v = hipat_get_asvar (hip)
@@ -220,17 +222,19 @@ fun auxlst (
   env: !ccompenv
 , res: !instrseq
 , fail: patckont
-, narg: int, hips: hipatlst
+, narg: int, lhips: labhipatlst
 , pmv0: primval, hse_sum: hisexp
 ) : void = let
 in
-  case+ hips of
-  | list_cons (hip, hips) => let
+  case+ lhips of
+  | list_cons
+      (lhip, lhips) => let
+      val LABHIPAT (lab, hip) = lhip
       val () =
-        aux (env, res, fail, narg, hip, pmv0, hse_sum)
+        aux (env, res, fail, narg, lab, hip, pmv0, hse_sum)
       // end of [val]
     in
-      auxlst (env, res, fail, narg+1, hips, pmv0, hse_sum)
+      auxlst (env, res, fail, narg+1, lhips, pmv0, hse_sum)
     end // end of [list_cons]
   | list_nil () => ()
 end // end of [auxlst]
@@ -247,11 +251,11 @@ val () = (
 ) // end of [val]
 *)
 val loc0 = hip0.hipat_loc
-val- HIPcon (pck, d2c, hse_sum, hips) = hip0.hipat_node
+val- HIPcon (pck, d2c, hse_sum, lhips) = hip0.hipat_node
 val () = hipatck_ccomp_con (env, res, fail, loc0, d2c, pmv0)
 //
 in
-  auxlst (env, res, fail, 0(*narg*), hips, pmv0, hse_sum)
+  auxlst (env, res, fail, 0(*narg*), lhips, pmv0, hse_sum)
 end // end of [hipatck_ccomp_sum]
 
 end // end of [local]
@@ -427,7 +431,8 @@ fun auxvar (
   env: !ccompenv
 , res: !instrseq
 , lev0: int
-, narg: int, hip: hipat
+, narg: int
+, lab: label, hip: hipat
 , pmv0: primval, hse_sum: hisexp
 ) : void = let
   val loc = hip.hipat_loc
@@ -444,7 +449,7 @@ case+ 0 of
     val tmp = tmpvar_make (loc, hse)
     val pmv = primval_make_tmp (loc, tmp)
     val () = ccompenv_add_varbind (env, d2v, pmv)
-    val ins = instr_move_selcon (loc, tmp, pmv0, hse_sum, narg)
+    val ins = instr_move_selcon (loc, tmp, pmv0, hse_sum, lab)
   in
     instrseq_add (res, ins)    
   end // end of [_]
@@ -455,7 +460,8 @@ fun auxpat (
   env: !ccompenv
 , res: !instrseq
 , lev0: int
-, narg: int, hip: hipat
+, narg: int
+, lab: label, hip: hipat
 , pmv0: primval, hse_sum: hisexp
 ) : void = let
 in
@@ -464,10 +470,10 @@ case+
   hip.hipat_node of
 | HIPany _ => ()
 | HIPvar (d2v) =>
-    auxvar (env, res, lev0, narg, hip, pmv0, hse_sum)
+    auxvar (env, res, lev0, narg, lab, hip, pmv0, hse_sum)
   // end of [HIPvar]
 | HIPann (hip, ann) =>
-    auxpat (env, res, lev0, narg, hip, pmv0, hse_sum)
+    auxpat (env, res, lev0, narg, lab, hip, pmv0, hse_sum)
   // end of [HIPann]
 | _ => let
     val- Some (d2v) = hip.hipat_asvar
@@ -482,19 +488,21 @@ fun auxpatlst (
   env: !ccompenv
 , res: !instrseq
 , lev0: int
-, narg: int, hips: hipatlst
+, narg: int
+, lhips: labhipatlst
 , pmv0: primval, hse_sum: hisexp
 ) : void = let
 in
 //
-case+ hips of
+case+ lhips of
 | list_cons
-    (hip, hips) => let
+    (lhip, lhips) => let
+    val LABHIPAT (lab, hip) = lhip
     val () =
-      auxpat (env, res, lev0, narg, hip, pmv0, hse_sum)
+      auxpat (env, res, lev0, narg, lab, hip, pmv0, hse_sum)
     // end of [val]
   in
-    auxpatlst (env, res, lev0, narg+1, hips, pmv0, hse_sum)
+    auxpatlst (env, res, lev0, narg+1, lhips, pmv0, hse_sum)
   end // end of [list_cons]
 | list_nil () => ()
 //
@@ -506,9 +514,9 @@ implement
 himatch_ccomp_sum (
   env, res, lev0, hip0, pmv0
 ) = let
-  val- HIPcon (pck, d2c, hse_sum, hips) = hip0.hipat_node
+  val- HIPcon (pck, d2c, hse_sum, lhips) = hip0.hipat_node
 in
-  auxpatlst (env, res, lev0, 0(*narg*), hips, pmv0, hse_sum)
+  auxpatlst (env, res, lev0, 0(*narg*), lhips, pmv0, hse_sum)
 end // end of [himatch_ccomp_sum]
 
 end // end of [local]

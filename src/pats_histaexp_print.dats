@@ -143,11 +143,11 @@ case+
     val () = prstr ")"
   }
 //
-| HSEtysum (d2c, hses) => {
+| HSEtysum (d2c, lhses) => {
     val () = prstr "HSEtysum("
     val () = fprint_d2con (out, d2c)
     val () = prstr "; "
-    val () = fprint_hisexplst (out, hses)
+    val () = $UT.fprintlst (out, lhses, ", ", fprint_labhisexp)
     val () = prstr ")"
   } // end of [HSEtysum]
 //

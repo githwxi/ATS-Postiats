@@ -85,7 +85,7 @@ hisexp_node =
   | HSEtyarr of (hisexp, s2explst) // for arrays
   | HSEtyrec of (tyreckind, labhisexplst) // for records
   | HSEtyrecsin of (labhisexp) // for singleton records
-  | HSEtysum of (d2con, hisexplst) // for tagged unions
+  | HSEtysum of (d2con, labhisexplst) // for tagged unions
 //
   | HSEtyvar of s2var // for type variables
 //
@@ -167,7 +167,7 @@ fun hisexp_tyarr (elt: hisexp, dim: s2explst): hisexp
 fun hisexp_tyrec (knd: tyreckind, lhses: labhisexplst): hisexp
 fun hisexp_tyrecsin (lhse: labhisexp): hisexp // HX: singleton tyrec
 
-fun hisexp_tysum (d2c: d2con, hses: hisexplst): hisexp
+fun hisexp_tysum (d2c: d2con, lhses: labhisexplst): hisexp
 
 fun hisexp_tyvar (s2v: s2var): hisexp
 

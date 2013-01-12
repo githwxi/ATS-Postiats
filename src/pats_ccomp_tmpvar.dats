@@ -62,7 +62,7 @@ local
 
 typedef tmpvar = '{
   tmpvar_loc= location
-, tmpvar_type= hisexp
+, tmpvar_hisexp= hisexp
 , tmpvar_ret= int (* return status *)
 , tmpvar_topknd= int (* 0/1 : local/top(static) *)
 , tmpvar_alias= primvalopt // it is address of the [tmp]
@@ -80,7 +80,7 @@ tmpvar_make
   (loc, hse) = let
   val stamp = $STMP.tmpvar_stamp_make () in '{
   tmpvar_loc= loc
-, tmpvar_type= hse
+, tmpvar_hisexp= hse
 , tmpvar_ret= 0
 , tmpvar_topknd= 0 (*local*)
 , tmpvar_alias= None () // HX: tmpvar is not an alias
@@ -94,7 +94,7 @@ implement
 tmpvar_get_loc (tmp) = tmp.tmpvar_loc
 
 implement
-tmpvar_get_type (tmp) = tmp.tmpvar_type
+tmpvar_get_hisexp (tmp) = tmp.tmpvar_hisexp
 
 implement
 tmpvar_get_topknd (tmp) = tmp.tmpvar_topknd

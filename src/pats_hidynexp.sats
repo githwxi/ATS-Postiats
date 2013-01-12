@@ -55,7 +55,7 @@ hipat_node =
   | HIPvar of (d2var) // mutability from the context
 //
   | HIPcon of (* constructor pattern *)
-      (pckind, d2con, hisexp(*tysum*), hipatlst)
+      (pckind, d2con, hisexp(*tysum*), labhipatlst)
   | HIPcon_any of (pckind, d2con) // HX: unused arg
 //
   | HIPint of int
@@ -110,6 +110,7 @@ fun fprint_labhipatlst : fprint_type (labhipatlst)
 (* ****** ****** *)
 
 fun hipat_get_type (hip: hipat): hisexp
+fun labhipatlst_get_type (lhips: labhipatlst): labhisexplst
 
 fun hipat_set_asvar
   (hip: hipat, opt: d2varopt): void = "patsopt_hipat_set_asvar"
@@ -117,7 +118,7 @@ fun hipat_set_asvar
 
 (* ****** ****** *)
 
-fun hipatlst_is_unused (hips: hipatlst): bool
+fun labhipatlst_is_unused (lhips: labhipatlst): bool
 
 (* ****** ****** *)
 
@@ -130,7 +131,7 @@ fun hipat_var (loc: location, hse: hisexp, d2v: d2var): hipat
 fun hipat_con (
   loc: location
 , hse: hisexp, pck: pckind
-, d2c: d2con, hse_sum: hisexp, hips: hipatlst
+, d2c: d2con, hse_sum: hisexp, lhips: labhipatlst
 ) : hipat // end of [hipat_con]
 fun hipat_con_any (
   loc: location, hse:hisexp, pck: pckind, d2c: d2con
@@ -217,7 +218,7 @@ and hidexp_node =
 //
   | HDEextval of (string(*name*)) // external values
 //
-  | HDEcon of (d2con, hisexp, hidexplst(*arg*)) // constructors
+  | HDEcon of (d2con, hisexp, labhidexplst(*arg*)) // constructors
 //
   | HDEtmpcst of (d2cst, t2mpmarglst)
   | HDEtmpvar of (d2var, t2mpmarglst)
@@ -425,6 +426,7 @@ fun fprint_hiimpdec : fprint_type (hiimpdec)
 
 fun hidexp_get_type (hde: hidexp): hisexp
 fun hidexplst_get_type (hdes: hidexplst): hisexplst
+fun labhidexplst_get_type (lhdes: labhidexplst): labhisexplst
 
 (* ****** ****** *)
 
@@ -476,8 +478,8 @@ fun hidexp_extval
 (* ****** ****** *)
 
 fun hidexp_con (
-  loc: location
-, hse: hisexp, d2c: d2con, hse_sum: hisexp, hdes: hidexplst
+  loc: location, hse: hisexp
+, d2c: d2con, hse_sum: hisexp, lhdes: labhidexplst
 ) : hidexp // end of [hidexp_con]
 
 (* ****** ****** *)

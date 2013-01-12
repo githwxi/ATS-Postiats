@@ -32,20 +32,24 @@
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
+staload LAB = "./pats_label.sats"
 
 (* ****** ****** *)
 
-staload "pats_histaexp.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
-staload "pats_typerase.sats"
+staload "./pats_histaexp.sats"
+
+(* ****** ****** *)
+
+staload "./pats_typerase.sats"
 
 (* ****** ****** *)
 
@@ -119,12 +123,14 @@ fun s2explst_tyer
 extern
 fun s2explst_npf_tyer
   (loc: location, npf: int, s2es: s2explst): hisexplst
+extern
+fun s2explst_npf_tyer_labize
+  (loc: location, npf: int, s2es: s2explst): labhisexplst
 
 extern
 fun labs2explst_tyer
  (loc: location, ls2es: labs2explst): labhisexplst
 // end of [labs2explst_tyer]
-
 extern
 fun labs2explst_npf_tyer
   (loc: location, npf: int, ls2es: labs2explst): labhisexplst
@@ -167,9 +173,9 @@ case+
 | S2Edatcontyp
     (d2c, s2es) => let
     val npf = d2con_get_npf (d2c)
-    val hses = s2explst_npf_tyer (loc0, npf, s2es)
+    val lhses = s2explst_npf_tyer_labize (loc0, npf, s2es)
   in
-    hisexp_tysum (d2c, hses)
+    hisexp_tysum (d2c, lhses)
   end // end of [S2Edatcontyp]
 //
 | S2Eapp (
@@ -405,7 +411,7 @@ case+ s2es of
     in
       list_cons (hse, hses)
     end // end of [if]
-  end
+  end // end of [list_cons]
 | list_nil () => list_nil ()
 //
 end // end of [s2explst_tyer]
@@ -424,6 +430,52 @@ end else
 // end of [if]
 //
 end // end of [s2explst_npf_tyer]
+
+(* ****** ****** *)
+
+implement
+s2explst_npf_tyer_labize
+  (loc0, npf, s2es) = let
+//
+fun auxlst (
+  loc0: location
+, npf: int, s2es: s2explst, i: int
+) : labhisexplst = let
+in
+//
+if npf > 0 then let
+  val- list_cons (_, s2es) = s2es
+in
+  auxlst (loc0, npf-1, s2es, i+1)
+end else ( // HX-2013-01: npf <= 0
+//
+case+ s2es of
+| list_cons
+    (s2e, s2es) => let
+    val isprf = s2exp_is_prf (s2e)
+  in
+    if isprf then
+      auxlst (loc0, npf, s2es, i+1)  
+    else let
+      val lab =
+        $LAB.label_make_int (i)
+      val hse =
+        s2exp_tyer_shallow (loc0, s2e)
+      val lhse = HSLABELED (lab, None, hse)
+      val lhses = auxlst (loc0, npf, s2es, i+1)
+    in
+      list_cons (lhse, lhses)
+    end // end of [if]
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+) // end of [if]
+//
+end // end of [auxlst]
+//
+in
+  auxlst (loc0, npf, s2es, 0)
+end // end of [s2explst_npf_tyer_labize]
 
 (* ****** ****** *)
 

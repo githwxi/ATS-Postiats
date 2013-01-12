@@ -250,7 +250,7 @@ primval_tmpltvar
 implement
 primval_make_tmp
   (loc, tmp) = let
-  val hse = tmpvar_get_type (tmp) in primval_tmp (loc, hse, tmp)
+  val hse = tmpvar_get_hisexp (tmp) in primval_tmp (loc, hse, tmp)
 end // end of [primval_make_tmp]
   
 (* ****** ****** *)

@@ -53,15 +53,20 @@ hipat_get_type (hip) = hip.hipat_type
 (* ****** ****** *)
 
 implement
-hipatlst_is_unused
-  (hips) = let
+labhipatlst_is_unused
+  (lhips) = let
 //
-fun f (hip: hipat): bool =
+fun f (
+  lhip: labhipat
+) : bool = let
+  val LABHIPAT (_, hip) = lhip
+in
   case+ hip.hipat_node of HIPany () => true | _ => false
+end // end of [f]
 //
 in
-  list_forall_fun (hips, f)
-end // end of [hipatlst_is_unused]
+  list_forall_fun (lhips, f)
+end // end of [labhipatlst_is_unused]
 
 (* ****** ****** *)
 
@@ -89,8 +94,10 @@ hipat_var (loc, hse, d2v) =
 
 implement
 hipat_con (
-  loc, hse, pck, d2c, hse_sum, hips
-) = hipat_make_node (loc, hse, HIPcon (pck, d2c, hse_sum, hips))
+  loc, hse, pck, d2c, hse_sum, lhips
+) = hipat_make_node
+  (loc, hse, HIPcon (pck, d2c, hse_sum, lhips))
+// end of [hipat_con]
 
 implement
 hipat_con_any
@@ -273,9 +280,10 @@ hidexp_extval
 (* ****** ****** *)
 
 implement
-hidexp_con
-  (loc, hse, d2c, hse_sum, hdes) =
-  hidexp_make_node (loc, hse, HDEcon (d2c, hse_sum, hdes))
+hidexp_con (
+  loc, hse, d2c, hse_sum, lhdes
+) = hidexp_make_node
+  (loc, hse, HDEcon (d2c, hse_sum, lhdes))
 // end of [hidexp_con]
 
 (* ****** ****** *)

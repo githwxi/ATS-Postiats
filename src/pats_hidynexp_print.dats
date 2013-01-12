@@ -75,14 +75,14 @@ case+ x.hipat_node of
   }
 //
 | HIPcon (
-    pck, d2c, hse_sum, hips
+    pck, d2c, hse_sum, lhips
   ) => {
     val () = prstr "HIPcon("
     val () = fprint_d2con (out, d2c)
     val () = prstr "("
     val () = fprint_hisexp (out, hse_sum)
     val () = prstr "; "
-    val () = fprint_hipatlst (out, hips)
+    val () = fprint_labhipatlst (out, lhips)
     val () = prstr ")"
     val () = prstr ")"
   }
@@ -275,14 +275,14 @@ case+
   }
 //
 | HDEcon (
-    d2c, hse_sum, hdes
+    d2c, hse_sum, lhdes
   ) => {
     val () = prstr "HDEcon("
     val () = fprint_d2con (out, d2c)
     val () = prstr "("
     val () = fprint_hisexp (out, hse_sum)
     val () = prstr "; "
-    val () = fprint_hidexplst (out, hdes)
+    val () = fprint_labhidexplst (out, lhdes)
     val () = prstr ")"
     val () = prstr ")"
   } // end of [HDEcon]

@@ -86,6 +86,41 @@ staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
 
+datatype hitype =
+  | HITnmd of (string)
+  | HITapp of (hitype, hitypelst)
+  | HITfun of (funclo, hitypelst, hitype)
+  | HITtyrec of (tyreckind, labhitypelst)
+  | HITtysum of (labhitypelst)
+  | HITundef of (stamp)
+// end of [hitype]
+
+and labhitype =
+  | HTLABELED of (label, Option(string), hitype)
+// end of [labhitype]
+
+where
+hitypelst = List (hitype)
+and
+labhitypelst = List (labhitype)
+
+(* ****** ****** *)
+
+fun hitype_undef (): hitype
+
+fun hitype_get_boxknd (hit: hitype): int
+fun hitype_get_extknd (hit: hitype): int
+
+fun eq_hitype_hitype (x1: hitype, x2: hitype): bool
+
+fun fprint_hitype : fprint_type (hitype)
+fun print_hitype (x: hitype): void
+overload print with print_hitype
+fun prerr_hitype (x: hitype): void
+overload prerr with prerr_hitype
+
+(* ****** ****** *)
+
 abstype tmplab_type
 typedef tmplab = tmplab_type
 
@@ -127,7 +162,8 @@ fun tmpvar_make_ret
 
 fun tmpvar_get_loc (tmp: tmpvar): location
 
-fun tmpvar_get_type (tmp: tmpvar): hisexp
+fun tmpvar_get_type (tmp: tmpvar): hitype
+fun tmpvar_get_hisexp (tmp: tmpvar): hisexp
 
 fun tmpvar_get_topknd (tmp: tmpvar): int // 0/1: local/(static)top
 
@@ -213,10 +249,12 @@ fun funlab_get_level (flab: funlab): int
 fun funlab_get_tmpknd (flab: funlab): int
 fun funlab_set_tmpknd (flab: funlab, knd: int): void
 //
-fun funlab_get_type (flab: funlab): hisexp
+fun funlab_get_type (flab: funlab): hitype
 fun funlab_get_funclo (flab: funlab): funclo
-fun funlab_get_type_arg (flab: funlab): hisexplst
-fun funlab_get_type_res (flab: funlab): hisexp
+fun funlab_get_type_arg (flab: funlab): hitypelst
+fun funlab_get_type_res (flab: funlab): hitype
+//
+fun funlab_get_hisexp (flab: funlab): hisexp
 //
 fun funlab_get_ncopy (flab: funlab): int
 fun funlab_set_ncopy (flab: funlab, cnt: int): void
@@ -408,14 +446,15 @@ and primvalist = List (primval)
 and primvalist_vt = List_vt (primval)
 and primvalopt = Option (primval)
 
+and labprimvalist = List (labprimval)
+and labprimvalist_vt = List_vt (labprimval)
+
 and primlab = '{
   primlab_loc= location
 , primlab_node= primlab_node
 } // end of [primlab]
 
 and primlablst = List (primlab)
-
-and labprimvalist = List (labprimval)
 
 (* ****** ****** *)
 
@@ -640,38 +679,38 @@ instr_node =
   | INSmove_ptr_val of (tmpvar(*ptr*), primval)
 //
   | INSmove_con of
-      (tmpvar, d2con, hisexp, primvalist(*arg*))
+      (tmpvar, d2con, hitype, labprimvalist(*arg*))
   | INSmove_ptr_con of
-      (tmpvar(*ptr*), d2con, hisexp, primvalist(*arg*))
+      (tmpvar(*ptr*), d2con, hitype, primvalist(*arg*))
 //
   | INSmove_boxrec of
-      (tmpvar, labprimvalist(*arg*), hisexp)
+      (tmpvar, labprimvalist(*arg*), hitype)
   | INSmove_fltrec of
-      (tmpvar, labprimvalist(*arg*), hisexp)
+      (tmpvar, labprimvalist(*arg*), hitype)
 //
   | INSmove_list_nil of (tmpvar) // tmp <- list_nil
   | INSpmove_list_nil of (tmpvar) // *tmp <- list_nil
   | INSpmove_list_cons of (tmpvar) // *tmp <- list_cons
   | INSupdate_list_head of // hd <- &(tl->val)
-      (tmpvar(*hd*), tmpvar(*tl*), hisexp(*elt*))
+      (tmpvar(*hd*), tmpvar(*tl*), hitype(*elt*))
   | INSupdate_list_tail of // tl_new <- &(tl_old->next)
-      (tmpvar(*new*), tmpvar(*old*), hisexp(*elt*))
+      (tmpvar(*new*), tmpvar(*old*), hitype(*elt*))
 //
   | INSmove_arrpsz of
-      (tmpvar, hisexp(*elt*), int(*asz*))
-  | INSupdate_ptrinc of (tmpvar, hisexp(*elt*))
+      (tmpvar, hitype(*elt*), int(*asz*))
+  | INSupdate_ptrinc of (tmpvar, hitype(*elt*))
 //
   | INSmove_ref of (tmpvar, primval) // tmp := ref (pmv)
 //
   | INSmove_selcon of
-      (tmpvar, primval, hisexp(*sum*), int(*narg*))
+      (tmpvar, primval, hitype(*sum*), label)
     // end of [INSmove_selcon]
   | INSmove_select of
-      (tmpvar, primval, hisexp(*rec*), primlablst)
+      (tmpvar, primval, hitype(*rec*), primlablst)
     // end of [INSmove_select]
 //
   | INSfuncall of
-      (tmpvar, primval(*fun*), hisexp, primvalist(*arg*))
+      (tmpvar, primval(*fun*), hitype, primvalist(*arg*))
     // end of [INSfuncall]
 //    
   | INScond of ( // conditinal instruction
@@ -729,21 +768,21 @@ fun instr_move_arg_val
 
 fun instr_move_con (
   loc: location
-, tmp: tmpvar, d2c: d2con, hse_sum: hisexp, pmvs: primvalist
+, tmp: tmpvar, d2c: d2con, hit_sum: hitype, lpmvs: labprimvalist
 ) : instr // end of [instr_move_con]
 
 fun instr_move_ptr_con (
   loc: location
-, tmp: tmpvar, d2c: d2con, hse_sum: hisexp, pmvs: primvalist
+, tmp: tmpvar, d2c: d2con, hit_sum: hitype, pmvs: primvalist
 ) : instr // end of [instr_move_ptr_con]
 
 (* ****** ****** *)
 
 fun instr_move_boxrec (
-  loc: location, tmp: tmpvar, arg: labprimvalist, hse: hisexp
+  loc: location, tmp: tmpvar, arg: labprimvalist, hit: hitype
 ) : instr // end of [instr_move_boxrec]
 fun instr_move_fltrec (
-  loc: location, tmp: tmpvar, arg: labprimvalist, hse: hisexp
+  loc: location, tmp: tmpvar, arg: labprimvalist, hit: hitype
 ) : instr // end of [instr_move_fltrec]
 
 (* ****** ****** *)
@@ -753,37 +792,37 @@ fun instr_pmove_list_nil (loc: location, tmp: tmpvar): instr
 fun instr_pmove_list_cons (loc: location, tmp: tmpvar): instr
 
 fun instr_update_list_head
-  (loc: location, tmphd: tmpvar, tmptl: tmpvar, hse_elt: hisexp): instr
+  (loc: location, tmphd: tmpvar, tmptl: tmpvar, hit_elt: hitype): instr
 fun instr_update_list_tail
-  (loc: location, tl_new: tmpvar, tl_old: tmpvar, hse_elt: hisexp): instr
+  (loc: location, tl_new: tmpvar, tl_old: tmpvar, hit_elt: hitype): instr
 
 (* ****** ****** *)
 
 fun instr_move_arrpsz (
-  loc: location, tmp: tmpvar, hse_elt: hisexp, asz: int
+  loc: location, tmp: tmpvar, hit_elt: hitype, asz: int
 ) : instr // end of [instr_move_arrpsz]
 
 fun instr_update_ptrinc
-  (loc: location, tmpelt: tmpvar, hse_elt: hisexp): instr
+  (loc: location, tmpelt: tmpvar, hit_elt: hitype): instr
 // end of [instr_update_ptrinc]
 
 (* ****** ****** *)
 
 fun instr_move_selcon (
   loc: location
-, tmp: tmpvar, pmv: primval, hse_sum: hisexp, narg: int
+, tmp: tmpvar, pmv: primval, hit_sum: hitype, lab: label
 ) : instr // end of [instr_move_selcon]
 
 fun instr_move_select (
   loc: location
-, tmp: tmpvar, pmv: primval, hse_rec: hisexp, hils: primlablst
+, tmp: tmpvar, pmv: primval, hit_rec: hitype, hils: primlablst
 ) : instr // end of [instr_move_select]
 
 (* ****** ****** *)
 
 fun instr_funcall (
   loc: location
-, tmpret: tmpvar, _fun: primval, hse_fun: hisexp, _arg: primvalist
+, tmpret: tmpvar, _fun: primval, hit_fun: hitype, _arg: primvalist
 ) : instr // end of [instr_funcall]
 
 (* ****** ****** *)
@@ -951,6 +990,8 @@ fun hidexp_ccomp
   (env: !ccompenv, res: !instrseq, hde: hidexp): primval
 fun hidexplst_ccomp
   (env: !ccompenv, res: !instrseq, hdes: hidexplst): primvalist
+fun labhidexplst_ccomp
+  (env: !ccompenv, res: !instrseq, lhdes: labhidexplst): labprimvalist
 
 fun hidexp_ccomp_ret
   (env: !ccompenv, res: !instrseq, tmpret: tmpvar, hde: hidexp): void
@@ -1021,6 +1062,8 @@ fun emit_labelext (out: FILEref, knd: int, lab: label): void
 
 fun emit_filename (out: FILEref, fil: $FIL.filename): void
 
+(* ****** ****** *)
+
 fun emit_d2con (out: FILEref, d2c: d2con): void
 fun emit_d2cst (out: FILEref, d2c: d2cst): void
 
@@ -1033,23 +1076,23 @@ fun emit_tmpdeclst (out: FILEref, tmps: tmpvarlst): void
 
 (* ****** ****** *)
 
+fun emit_hitype (out: FILEref, hit: hitype): void
+fun emit_hitypelst_sep
+  (out: FILEref, hits: hitypelst, sep: string): void
+// end of [emit_hitypelst_sep]
+
+fun emit_funtype_arg_res
+  (out: FILEref, _arg: hitypelst, _res: hitype): void
+// end of [emit_funtype_arg_res]
+
+(* ****** ****** *)
+
 fun emit_s2exp (out: FILEref, s2e: s2exp): void
 
 fun emit_hisexp (out: FILEref, hse: hisexp): void
 fun emit_hisexplst_sep
   (out: FILEref, hses: hisexplst, sep: string): void
 // end of [emit_hisexplst_sep]
-
-fun emit2_funtype_arg_res
-  (out: FILEref, _arg: hisexplst, _res: hisexp): void
-// end of [emit_funtype_arg_res]
-
-(* ****** ****** *)
-
-fun emit2_hisexp (out: FILEref, hse: hisexp): void
-fun emit2_hisexplst_sep
-  (out: FILEref, hses: hisexplst, sep: string): void
-// end of [emit2_hisexplst_sep]
 
 (* ****** ****** *)
 
@@ -1068,9 +1111,13 @@ fun emit_instrlst_ln (out: FILEref, inss: instrlst): void
 
 (* ****** ****** *)
 
-fun emit2_funarglst
-  (out: FILEref, _arg: hisexplst): void
+fun emit_funarglst
+  (out: FILEref, _arg: hitypelst): void
 // end of [emit_funarglst]
+
+(* ****** ****** *)
+
+fun emit_the_typedeflst (out: FILEref): void
 
 (* ****** ****** *)
 //

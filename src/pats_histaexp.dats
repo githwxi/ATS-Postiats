@@ -153,7 +153,7 @@ case+ hse0.hisexp_node of
 //
 | _ => false
 //
-end // end of [hityp_is_void]
+end // end of [hisexp_is_void]
 
 (* ****** ****** *)
 
@@ -295,8 +295,8 @@ hisexp_tyrecsin (lhse) =
 (* ****** ****** *)
 
 implement
-hisexp_tysum (d2c, hses) =
-  hisexp_make_node (HITNAM_TYSUM, HSEtysum (d2c, hses))
+hisexp_tysum (d2c, lhses) =
+  hisexp_make_node (HITNAM_TYSUM, HSEtysum (d2c, lhses))
 // end of [hisexp_tysum]
 
 (* ****** ****** *)

@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/reference.dats"
+
+(* ****** ****** *)
+
 staload
 STMP = "./pats_stamp.sats"
 typedef stamp = $STMP.stamp
@@ -40,10 +44,13 @@ overload != with $STMP.neq_stamp_stamp
 
 (* ****** ****** *)
 
-staload LAB = "./pats_label.sats"
+staload
+LAB = "./pats_label.sats"
 typedef label = $LAB.label
 overload = with $LAB.eq_label_label
 overload != with $LAB.neq_label_label
+
+(* ****** ****** *)
 
 staload SYM = "./pats_symbol.sats"
 
@@ -58,27 +65,31 @@ staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 
-datatype hitype =
-  | HITYPEabs of (string)
-  | HITYPEapp of (hitype, hitypelst)
-  | HITYPEtyrec of (tyreckind, labhitypelst)
-  | HITYPEtysum of (hitypelst)
-  | HITYPEundef of (stamp)
-// end of [hitype]
+implement
+hitype_get_boxknd
+  (hit) = let
+in
+//
+case+ hit of
+| HITtyrec (knd, _) =>
+    if tyreckind_is_box (knd) then 1 else 0
+| _ => ~1 // HX: meaningless
+//
+end // end of [hitype_get_boxknd]
 
-and labhitype =
-  | HTLABELED of (label, Option(string), hitype)
-// end of [labhitype]
-
-where
-hitypelst = List (hitype)
-and
-labhitypelst = List (labhitype)
+implement
+hitype_get_extknd
+  (hit) = let
+in
+//
+case+ hit of
+| HITtyrec (knd, _) =>
+    if tyreckind_is_ext (knd) then 1 else 0
+| _ => ~1 // HX: meaningless
+//
+end // end of [hitype_get_extknd]
 
 (* ****** ****** *)
-
-extern
-fun eq_hitype_hitype (x1: hitype, x2: hitype): bool
 
 implement
 eq_hitype_hitype
@@ -93,40 +104,40 @@ in
 //
 case+ x1 of
 //
-| HITYPEabs (name1) => (
+| HITnmd (name1) => (
   case+ x2 of
-  | HITYPEabs
+  | HITnmd
       (name2) => if (name1 != name2) then abort ()
   | _ => abort ()
-  ) // end of [HITYPEabs]
+  ) // end of [HITnmd]
 //
-| HITYPEapp (_fun1, _arg1) => (
+| HITapp (_fun1, _arg1) => (
   case+ x2 of
-  | HITYPEapp
+  | HITapp
       (_fun2, _arg2) => let
       val () = aux (_fun1, _fun2) in auxlst (_arg1, _arg2)
-    end // end of [HITYPEapp]
+    end // end of [HITapp]
        
   | _ => abort ()
-  ) // end of [HITYPEabs]
+  ) // end of [HITapp]
 //
-| HITYPEtyrec (knd1, lxs1) => (
+| HITtyrec (knd1, lxs1) => (
   case+ x2 of
-  | HITYPEtyrec (knd2, lxs2) =>
+  | HITtyrec (knd2, lxs2) =>
       if knd1 = knd2 then auxlablst (lxs1, lxs2) else abort ()
   | _ => abort ()
-  ) // end of [HITYPEtyrec]
+  ) // end of [HITtyrec]
 //
-| HITYPEtysum (xs1) => (
+| HITtysum (lxs1) => (
   case+ x2 of
-  | HITYPEtysum (xs2) => auxlst (xs1, xs2)
+  | HITtysum (lxs2) => auxlablst (lxs1, lxs2)
  | _ => abort ()
-  ) // end of [HITYPEtysum]
-| HITYPEundef (n1) => (
+  ) // end of [HITtysum]
+| HITundef (n1) => (
   case+ x2 of
-  | HITYPEundef (n2) => if (n1 != n2) then abort ()
+  | HITundef (n2) => if (n1 != n2) then abort ()
   | _ => abort ()
-  ) // end of [HITYPEundef]
+  ) // end of [HITundef]
 //
 end // end of [aux]
 
@@ -190,18 +201,68 @@ end // end of [eq_hitype_hitype]
 (* ****** ****** *)
 
 extern
-fun hitype_undef (): hitype
-implement
-hitype_undef () = let
-  val stamp = $STMP.hitype_stamp_make () in HITYPEundef (stamp)
-end // end of [hitype_undef]
+fun the_hitypemaplst_get (): List_vt @(hitype, hitype)
+
+extern
+fun the_hitypemap_search (hit: hitype): Option_vt (hitype)
+extern
+fun the_hitypemap_insert (hit: hitype, hit2: hitype): void
 
 (* ****** ****** *)
 
-extern
-fun emit_hitype (out: FILEref, hit: hitype): void
-extern
-fun emit_hitypelst (out: FILEref, hits: hitypelst): void
+local
+
+vtypedef
+keyitmlst = List_vt @(hitype, hitype)
+val the_hitypemaplst = ref<keyitmlst> (list_vt_nil)
+
+in // in of [local]
+
+implement
+the_hitypemaplst_get () = let
+//
+val (
+  vbox pf | p
+) = ref_get_view_ptr (the_hitypemaplst)
+val res = !p
+val (
+) = !p := list_vt_nil ()
+//
+in
+  res
+end // end of [the_hitypemaplst_get]
+
+(* ****** ****** *)
+
+implement
+the_hitypemap_search (hit) = None_vt ()
+
+(* ****** ****** *)
+
+implement
+the_hitypemap_insert
+  (hit, hit2) = let
+//
+val (
+  vbox pf | p
+) = ref_get_view_ptr (the_hitypemaplst)
+val (
+) = !p := list_vt_cons ( @(hit, hit2), !p )
+//
+in
+  // nothing
+end // end of [the_hitypemap_insert]
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+hitype_undef () = let
+  val stamp = $STMP.hitype_stamp_make () in HITundef (stamp)
+end // end of [hitype_undef]
+
+(* ****** ****** *)
 
 implement
 emit_hitype
@@ -209,22 +270,22 @@ emit_hitype
 in
 //
 case+ hit of
-| HITYPEabs
+| HITnmd
     (name) => emit_text (out, name)
-| HITYPEapp
+| HITapp
     (_fun, _arg) => let
     val () = emit_hitype (out, _fun)
     val () = emit_text (out, "(")
-    val () = emit_hitypelst (out, _arg)
+    val () = emit_hitypelst_sep (out, _arg, ", ")
     val () = emit_text (out, ")")
   in
     // nothing
-  end // end of [HITYPEapp]
-| HITYPEtyrec _ =>
+  end // end of [HITapp]
+| HITtyrec _ =>
     emit_text (out, "postiats_tyrec")
-| HITYPEtysum _ =>
+| HITtysum _ =>
     emit_text (out, "postiats_tysum")
-| HITYPEundef (stamp) => let
+| HITundef (stamp) => let
     val () =
       emit_text (
         out, "postiats_undef("
@@ -233,15 +294,16 @@ case+ hit of
     val () = emit_text (out, ")")
   in
     // nothing
-  end // end of [HITYPEundef]
+  end // end of [HITundef]
 end // end of [emit_hitype]
 
 implement
-emit_hitypelst
-  (out, hits) = let
+emit_hitypelst_sep
+  (out, hits, sep) = let
 //
 fun auxlst (
-  out: FILEref, xs: hitypelst, i: int
+  out: FILEref
+, xs: hitypelst, sep: string, i: int
 ) : void = let
 in
 //
@@ -249,30 +311,18 @@ case+ xs of
 | list_cons
     (x, xs) => let
     val () =
-      if i > 0 then emit_text (out, ", ")
+      if i > 0 then emit_text (out, sep)
     val () = emit_hitype (out, x)
   in
-    auxlst (out, xs, i+1)
+    auxlst (out, xs, sep, i+1)
   end // end of [list_cons]
 | list_nil () => ()
 //
 end // end of [auxlst]
 //
 in
-  auxlst (out, hits, 0)
-end // end of [emit_hitypelst]
-
-(* ****** ****** *)
-
-extern
-fun the_hitypemap_search (hit: hitype): Option_vt (hitype)
-implement
-the_hitypemap_search (hit) = None_vt ()
-
-extern
-fun the_hitypemap_insert (hit: hitype, hit2: hitype): void
-implement
-the_hitypemap_insert (hit, hit2) = ()
+  auxlst (out, hits, sep, 0)
+end // end of [emit_hitypelst_sep]
 
 (* ****** ****** *)
 
@@ -283,7 +333,7 @@ hitype_gen_tyrec () = let
   val n = $STMP.hitype_stamp_make ()
   val name = $STMP.tostring_prefix_stamp ("postiats_tyrec_", n)
 in
-  HITYPEabs (name)
+  HITnmd (name)
 end // end of [hitype_gen_tyrec]
 
 (* ****** ****** *)
@@ -294,6 +344,8 @@ extern
 fun hisexplst_hitypize (hses: hisexplst): hitypelst
 extern
 fun labhisexplst_hitypize (lhses: labhisexplst): labhitypelst
+extern
+fun s2exp_hitypize (s2e: s2exp): hitype
 
 (* ****** ****** *)
 
@@ -307,25 +359,25 @@ in
 case+ hse0.hisexp_node of
 | _ when (
     fin > 0
-  ) => HITYPEabs (name)
+  ) => HITnmd (name)
 //
 | HSEapp (_fun, _arg) => let
     val _fun = hisexp_hitypize (_fun)
     val _arg = hisexplst_hitypize (_arg)
   in
-    HITYPEapp (_fun, _arg)
+    HITapp (_fun, _arg)
   end // end of [HSEapp]
 //
 | HSEtyabs (sym) => let
     val name =
-      $SYM.symbol_get_name (sym) in HITYPEabs (name)
+      $SYM.symbol_get_name (sym) in HITnmd (name)
     // end of [val]
   end // end of [HSEtyabs]
 | HSEtyrec
     (knd, lhses) => let
     val lhits =
       labhisexplst_hitypize (lhses)
-    val hit0 = HITYPEtyrec (knd, lhits)
+    val hit0 = HITtyrec (knd, lhits)
     val opt = the_hitypemap_search (hit0)
   in
     case+ opt of
@@ -337,9 +389,12 @@ case+ hse0.hisexp_node of
       end // end of [None_vt]
     | ~Some_vt (hit0) => hit0
   end // end of [HSEtyrec]
+//
+| HSEs2exp (s2e) => s2exp_hitypize (s2e)
+//
 | _ => hitype_undef ()
 //
-end // end of [hisexp_get_hitype]
+end // end of [hisexp_hitypize]
 
 (* ****** ****** *)
 
@@ -372,47 +427,116 @@ end // end of [labhisexplst_hitypize]
 (* ****** ****** *)
 
 implement
-emit2_hisexp
-  (out, hse) = let
-  val hit = hisexp_hitypize (hse)
+s2exp_hitypize
+  (s2e0) = let
 in
 //
-case+ hit of
-(*
-| HITYPEundef _ =>
-    emit_hisexp (out, hse)
-*)
-| _ => emit_hitype (out, hit)
+case+
+  s2e0.s2exp_node of
 //
-end // end of [emit2_hisexp]
+| S2Etkname (name) => HITnmd (name)
+//
+| _ => hitype_undef ()
+//
+end // end of [s2exp_hitypize]
 
 (* ****** ****** *)
 
-implement
-emit2_hisexplst_sep
-  (out, hses, sep) = let
-//
-fun loop (
+local
+
+fun auxfldlst (
   out: FILEref
-, hses: hisexplst, sep: string, i: int
+, lhits: labhitypelst, i: int
 ) : void = let
 in
-  case+ hses of
-  | list_cons
-      (hse, hses) => let
-      val () =
-        if i > 0 then emit_text (out, sep)
-      // end of [val]
-      val () = emit2_hisexp (out, hse)
-    in
-      loop (out, hses, sep, i+1)
-    end // end of [list_cons]
-  | list_nil () => ()
-end // end of [loop]
+//
+case+ lhits of
+| list_cons
+    (lhit, lhits) => let
+    val () =
+      if i > 0 then emit_newline (out)
+    val HTLABELED (lab, opt, hit) = lhit
+    val (
+    ) = emit_hitype (out, hit)
+    val () = (
+      case+ opt of
+      | Some (
+          name
+        ) => emit_text (out, name)
+      | None () => emit_label (out, lab)
+    ) : void // end of [val]
+    val () = emit_text (out, " ;")
+  in
+    auxfldlst (out, lhits, i+1)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [auxfldlst]
+
+fun auxkey (
+  out: FILEref, hit: hitype
+) : void = let
+in
+//
+case+ hit of
+| HITtyrec
+    (knd, lhits) => {
+    val () =
+      emit_text (out, "struct {")
+    val () = auxfldlst (out, lhits, 1)
+    val () = emit_text (out, "\n}")
+  } // end of [HITtyrec]
+| HITtysum (lhits) => {
+    val () =
+      emit_text (out, "struct {")
+    val () = emit_text (out, "\nint tag ;")
+    val () = auxfldlst (out, lhits, 1)
+    val () = emit_text (out, "\n}")
+  } // end of [HITtysum]
+| _ => emit_text (out, "(**ERROR**)")
+//
+end // end of [auxkey]
+
+in // in of [local]
+
+implement
+emit_the_typedeflst (out) = let
+//
+typedef keyitm = @(hitype, hitype)
+fun auxlst (
+  out: FILEref, kis: List_vt (keyitm)
+) : void = let
+in
+//
+case+ kis of
+| ~list_vt_cons
+    (ki, kis) => let
+    val () =
+      emit_text (out, "typedef\n")
+    val () = auxkey (out, ki.0)
+    val () = emit_text (out, " ")
+    val () = emit_hitype (out, ki.1)
+    val () = emit_text (out, " ;\n")
+  in
+    auxlst (out, kis)
+  end // end of [list_vt_cons]
+| ~list_vt_nil () => ()
+//
+end // end of [auxlst]
+//
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "typedefs-for-tyrecs-and-tysums(beg)\n")
+val () = emit_text (out, "*/\n")
+val () = auxlst (out, the_hitypemaplst_get ())
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "typedefs-for-tyrecs-and-tysums(end)\n")
+val () = emit_text (out, "*/\n")
 //
 in
-  loop (out, hses, sep, 0)
-end // end of [emit2_hisexplst_sep]
+  // nothing
+end // end of [emit_the_typedeflst]
+
+end // end of [local]
 
 (* ****** ****** *)
 
