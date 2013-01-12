@@ -1058,17 +1058,16 @@ case+ xys of
     val () = emit_text (out, "(")
     val () =
       if boxknd > 0 then {
-      val () = emit_text (out, "(")
       val () = emit_text (out, "*(")
       val () = emit_hisexp (out, hse)
-      val () = emit_text (out, "*)")
+      val () = emit_text (out, "*)(")
     } // end of [val]
     val () = auxmain (out, pmv, xys, i + 1)
     val () =
       if boxknd > 0 then {
       val () = emit_text (out, ")")
     } // end of [val]
-    val () = emit_text (out, ")")
+   val () = emit_text (out, ")")
     val () = emit_primlab (out, extknd, pml)
   in
     // nothing

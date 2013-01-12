@@ -69,10 +69,16 @@ staload "./pats_ccomp.sats"
 
 datatype hitype =
   | HITnmd of (string)
+//
+  | HITtyarr of (hitype, s2explst)
+//
   | HITtyrec of (labhitypelst)
   | HITtysum of (labhitypelst)
+//
   | HITapp of (hitype, hitypelst)
+//
   | HITundef of (stamp, hisexp)
+//
   | HITnone of ()
 // end of [hitype]
 
@@ -89,6 +95,8 @@ labhitypelst = List (labhitype)
 
 extern
 fun hitype_none (): hitype
+extern
+fun hitype_typtr (): hitype
 extern
 fun hitype_undef (hse: hisexp): hitype
 
@@ -136,6 +144,8 @@ case+ x1 of
   | _ => abort ()
   ) // end of [HITnmd]
 //
+| HITtyarr _ => abort ()
+//
 | HITtyrec (lxs1) => (
   case+ x2 of
   | HITtyrec (lxs2) => auxlablst (lxs1, lxs2)
@@ -154,7 +164,6 @@ case+ x1 of
       (_fun2, _arg2) => let
       val () = aux (_fun1, _fun2) in auxlst (_arg1, _arg2)
     end // end of [HITapp]
-       
   | _ => abort ()
   ) // end of [HITapp]
 //
@@ -288,6 +297,9 @@ implement
 hitype_none () = HITnone ()
 
 implement
+hitype_typtr () = HITnmd ("atstype_ptr")
+
+implement
 hitype_undef (hse) = let
   val s = $STMP.hitype_stamp_make () in HITundef (s, hse)
 end // end of [hitype_undef]
@@ -311,6 +323,8 @@ case+ hit of
   in
     // nothing
   end // end of [HITapp]
+| HITtyarr _ =>
+    emit_text (out, "postiats_tyarr")
 | HITtyrec _ =>
     emit_text (out, "postiats_tyrec")
 | HITtysum _ =>
@@ -420,8 +434,11 @@ end // end of [hitype_gen_tyrec]
 
 (* ****** ****** *)
 
-implement
-hisexp_typize (hse0) = let
+local
+
+fun aux (
+  flag: int, hse0: hisexp
+) : hitype = let
 //
 val HITNAM (knd, fin, name) = hse0.hisexp_name
 //
@@ -432,37 +449,22 @@ case+ hse0.hisexp_node of
     fin > 0
   ) => HITnmd (name)
 //
-| HSEapp (_fun, _arg) => let
-    val _fun = hisexp_typize (_fun)
-    val _arg = hisexplst_typize (_arg)
-  in
-    HITapp (_fun, _arg)
-  end // end of [HSEapp]
+| HSEapp (_fun, _arg) =>
+    HITapp (aux (flag, _fun), auxlst (flag, _arg))
+  // end of [HSEapp]
 //
 | HSEtyabs (sym) => let
     val name =
       $SYM.symbol_get_name (sym) in HITnmd (name)
     // end of [val]
   end // end of [HSEtyabs]
-| HSEtyrec
-    (knd, lhses) => let
-    val lhits =
-      labhisexplst_typize (lhses)
-    val hit0 = HITtyrec (lhits)
-    val opt = the_hitypemap_search (hit0)
-  in
-    case+ opt of
-    | ~None_vt () => let
-        val hit1 = hitype_gen_tyrec ()
-        val () = the_hitypemap_insert (hit0, hit1)
-      in
-        hit1
-      end // end of [None_vt]
-    | ~Some_vt (hit0) => hit0
-  end // end of [HSEtyrec]
+//
+| HSEtyarr _ => aux_tyarr (flag, hse0)
+//
+| HSEtyrec _ => aux_tyrec (flag, hse0)
 //
 | HSEtyrecsin (lhse) => let
-    val HSLABELED (lab, opt, hse) = lhse in hisexp_typize (hse)
+    val HSLABELED (lab, opt, hse) = lhse in aux (flag, hse)
   end // end of [HSEtyrecsin]
 //
 | HSEs2exp (s2e) => let
@@ -473,35 +475,97 @@ case+ hse0.hisexp_node of
 //
 | _ => hitype_undef (hse0)
 //
-end // end of [hisexp_typize]
+end // end of [aux]
 
-(* ****** ****** *)
+and aux_tyarr (
+  flag: int, hse0: hisexp
+) : hitype = let
+//
+val-HSEtyarr
+  (hse_elt, dim) = hse0.hisexp_node
+val hit_elt = aux (flag+1, hse_elt)
+//
+in
+  HITtyarr (hit_elt, dim)
+end // end of [aux_tyarr]
 
-implement
-hisexplst_typize (xs) =
-  list_of_list_vt (list_map_fun (xs, hisexp_typize))
-// end of [hisexplst_typize]
+and aux_tyrec (
+  flag: int, hse0: hisexp
+) : hitype = let
+//
+val-HSEtyrec
+  (knd, lxs) = hse0.hisexp_node
+val isptr = (
+  if flag > 0 then tyreckind_is_box (knd) else false
+) : bool // end of [val]
+//
+in
+//
+if isptr
+  then hitype_typtr ()
+  else let
+  val lys = auxlablst (flag, lxs)
+  val hit0 = HITtyrec (lys)
+  val opt = the_hitypemap_search (hit0)
+in
+  case+ opt of
+  | ~None_vt () => let
+      val hit1 = hitype_gen_tyrec ()
+      val () = the_hitypemap_insert (hit0, hit1)
+    in
+      hit1
+     end // end of [None_vt]
+   | ~Some_vt (hit0) => hit0
+end // end of [if]
+//
+end // end of [aux_tyrec]
 
-(* ****** ****** *)
+and auxlst (
+  flag: int, xs: hisexplst
+) : hitypelst = let
+in
+//
+case+ xs of
+| list_cons
+    (x, xs) => let
+    val y = aux (flag, x)
+    val ys = auxlst (flag, xs)
+  in
+    list_cons (y, ys)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [auxlst]
 
-implement
-labhisexplst_typize
-  (lxs) = let
+and auxlablst (
+  flag: int, lxs: labhisexplst
+) : labhitypelst = let
 in
 //
 case+ lxs of
 | list_cons
     (lx, lxs) => let
-    val HSLABELED (l, opt, x) = lx
-    val y = hisexp_typize (x)
+    val+HSLABELED (l, opt, x) = lx
+    val y = aux (flag+1, x)
     val ly = HTLABELED (l, opt, y)
-    val lys = labhisexplst_typize (lxs)
+    val lys = auxlablst (flag, lxs)
   in
     list_cons (ly, lys)
   end // end of [list_cons]
 | list_nil () => list_nil ()
 //
-end // end of [labhisexplst_typize]
+end // end of [auxlablst]
+
+in (* in of [local] *)
+
+implement
+hisexp_typize (x) = aux (0, x)
+implement
+hisexplst_typize (xs) = auxlst (0, xs)
+implement
+labhisexplst_typize (xs) = auxlablst (0, xs)
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -523,6 +587,53 @@ end // end of [s2exp_typize]
 
 local
 
+fun auxfld (
+  out: FILEref
+, lhit: labhitype
+) : void = let
+//
+val+HTLABELED (lab, opt, hit) = lhit
+//
+var isa: bool = false
+var dim: s2explst = list_nil ()
+//
+val (
+) = (
+  case+ hit of
+  | HITtyarr (
+      hit_elt, s2es
+    ) => {
+      val () = isa := true
+      val () = dim := s2es
+      val () = emit_hitype (out, hit_elt)
+    } // end of [HITtyarr]
+  | _ => emit_hitype (out, hit)
+) : void // end of [val]
+//
+val (
+) = emit_text (out, " ")
+val (
+) = (
+  case+ opt of
+  | Some (
+      name
+    ) => emit_text (out, name)
+  | None (
+    ) => emit_labelext (out, 0(*extknd*), lab)
+) : void // end of [val]
+//
+val () = (
+  if isa
+    then emit_text (out, "[]")
+  // end of [if]
+) : void // end of [val]
+//
+val () = emit_text (out, "; ")
+//
+in
+  // nothing
+end // end of [auxfld]
+
 fun auxfldlst (
   out: FILEref
 , lhits: labhitypelst, i: int
@@ -534,18 +645,8 @@ case+ lhits of
     (lhit, lhits) => let
     val () =
       if i > 0 then emit_newline (out)
-    val HTLABELED (lab, opt, hit) = lhit
-    val (
-    ) = emit_hitype (out, hit)
-    val () = emit_text (out, " ")
-    val () = (
-      case+ opt of
-      | Some (
-          name
-        ) => emit_text (out, name)
-      | None (
-        ) => emit_labelext (out, 0(*extknd*), lab)
-    ) : void // end of [val]
+    val+ HTLABELED (lab, opt, hit) = lhit
+    val () = auxfld (out, lhit)
     val () = emit_text (out, " ;")
   in
     auxfldlst (out, lhits, i+1)
