@@ -707,10 +707,6 @@ val () = (
   end // end of [if]
 ) : void // end of [val]
 //
-val () = emit_text (out, "/*\n")
-val () = fprint_instr (out, ins)
-val () = emit_text (out, "\n/*\n")
-//
 in
 //
 case+ ins.instr_node of

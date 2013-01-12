@@ -307,6 +307,29 @@ hisexp_tyrecsin (lhse) =
   hisexp_make_node (HITNAM_TYRECSIN, HSEtyrecsin (lhse))
 // end of [hisexp_tyrecsin]
 
+implement
+hisexp_tyrec2
+  (knd, lhses) = let
+  val isflt = tyreckind_is_flt (knd)
+in
+//
+if isflt then let
+  val issin = list_is_sing (lhses)
+in
+//
+if issin then let
+  val+ list_cons (lhse, _) = lhses in hisexp_tyrecsin (lhse)
+end else let
+in
+  hisexp_tyrec (knd, lhses)
+end // end of [if]
+//
+end else
+  hisexp_tyrec (knd, lhses)
+// end of [if]
+//
+end // end of [hisexp_tyrec2]
+
 (* ****** ****** *)
 
 implement

@@ -324,6 +324,7 @@ tyreckind =
 // end of [tyreckind]
 
 fun tyreckind_is_box (knd: tyreckind): bool
+fun tyreckind_is_flt (knd: tyreckind): bool
 fun tyreckind_is_ext (knd: tyreckind): bool
 
 fun print_tyreckind (x: tyreckind): void

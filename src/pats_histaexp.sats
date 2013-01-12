@@ -172,6 +172,7 @@ fun hisexp_tyarr (elt: hisexp, dim: s2explst): hisexp
 
 fun hisexp_tyrec (knd: tyreckind, lhses: labhisexplst): hisexp
 fun hisexp_tyrecsin (lhse: labhisexp): hisexp // HX: singleton tyrec
+fun hisexp_tyrec2 (knd: tyreckind, lhses: labhisexplst): hisexp
 
 fun hisexp_tysum (d2c: d2con, lhses: labhisexplst): hisexp
 
