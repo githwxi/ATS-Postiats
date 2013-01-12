@@ -65,6 +65,56 @@ staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 
+datatype hitype =
+  | HITnmd of (string)
+  | HITapp of (hitype, hitypelst)
+  | HITtyrec of (tyreckind, labhitypelst)
+  | HITtysum of (labhitypelst)
+  | HITundef of (stamp)
+// end of [hitype]
+
+and labhitype =
+  | HTLABELED of (label, Option(string), hitype)
+// end of [labhitype]
+
+where
+hitypelst = List (hitype)
+and
+labhitypelst = List (labhitype)
+
+(* ****** ****** *)
+
+extern
+fun hitype_undef (): hitype
+
+extern
+fun hitype_get_boxknd (hit: hitype): int
+and hitype_get_extknd (hit: hitype): int
+
+extern
+fun eq_hitype_hitype (x1: hitype, x2: hitype): bool
+
+(* ****** ****** *)
+
+extern
+fun hisexp_typize (hse: hisexp): hitype
+extern
+fun hisexplst_typize (hses: hisexplst): hitypelst
+extern
+fun labhisexplst_typize (lhses: labhisexplst): labhitypelst
+extern
+fun s2exp_typize (s2e: s2exp): hitype
+
+(* ****** ****** *)
+//
+extern
+fun emit_hitype (out: FILEref, hit: hitype): void
+extern
+fun emit_hitypelst_sep
+  (out: FILEref, hits: hitypelst, sep: string): void
+//
+(* ****** ****** *)
+
 implement
 hitype_get_boxknd
   (hit) = let
@@ -326,6 +376,54 @@ end // end of [emit_hitypelst_sep]
 
 (* ****** ****** *)
 
+implement
+emit_hisexp
+  (out, hse) = let
+//
+val hit = hisexp_typize (hse)
+//
+in
+//
+case+ hit of
+| HITundef _ => {
+    val () =
+      emit_text (out, "HITundef(")
+    val () = fprint_hisexp (out, hse)
+    val () = emit_text (out, ")")
+  } // end of [HITundef]
+| _ => emit_hitype (out, hit)
+//
+end // end of [emit_hisexp]
+
+implement
+emit_hisexplst_sep
+  (out, hses, sep) = let
+//
+fun loop (
+  out: FILEref
+, hses: hisexplst, sep: string, i: int
+) : void = let
+in
+  case+ hses of
+  | list_cons (
+      hse, hses
+    ) => let
+      val () =
+        if i > 0 then emit_text (out, sep)
+      // end of [val]
+      val () = emit_hisexp (out, hse)
+    in
+      loop (out, hses, sep, i+1)
+    end // end of [list_cons]
+  | list_nil () => ()
+end // end of [loop]
+//
+in
+  loop (out, hses, sep, 0)
+end // end of [emit_hisexplst_sep]
+
+(* ****** ****** *)
+
 extern
 fun hitype_gen_tyrec (): hitype
 implement
@@ -338,19 +436,8 @@ end // end of [hitype_gen_tyrec]
 
 (* ****** ****** *)
 
-extern
-fun hisexp_hitypize (hse: hisexp): hitype
-extern
-fun hisexplst_hitypize (hses: hisexplst): hitypelst
-extern
-fun labhisexplst_hitypize (lhses: labhisexplst): labhitypelst
-extern
-fun s2exp_hitypize (s2e: s2exp): hitype
-
-(* ****** ****** *)
-
 implement
-hisexp_hitypize (hse0) = let
+hisexp_typize (hse0) = let
 //
 val HITNAM (knd, fin, name) = hse0.hisexp_name
 //
@@ -362,8 +449,8 @@ case+ hse0.hisexp_node of
   ) => HITnmd (name)
 //
 | HSEapp (_fun, _arg) => let
-    val _fun = hisexp_hitypize (_fun)
-    val _arg = hisexplst_hitypize (_arg)
+    val _fun = hisexp_typize (_fun)
+    val _arg = hisexplst_typize (_arg)
   in
     HITapp (_fun, _arg)
   end // end of [HSEapp]
@@ -376,7 +463,7 @@ case+ hse0.hisexp_node of
 | HSEtyrec
     (knd, lhses) => let
     val lhits =
-      labhisexplst_hitypize (lhses)
+      labhisexplst_typize (lhses)
     val hit0 = HITtyrec (knd, lhits)
     val opt = the_hitypemap_search (hit0)
   in
@@ -390,23 +477,23 @@ case+ hse0.hisexp_node of
     | ~Some_vt (hit0) => hit0
   end // end of [HSEtyrec]
 //
-| HSEs2exp (s2e) => s2exp_hitypize (s2e)
+| HSEs2exp (s2e) => s2exp_typize (s2e)
 //
 | _ => hitype_undef ()
 //
-end // end of [hisexp_hitypize]
+end // end of [hisexp_typize]
 
 (* ****** ****** *)
 
 implement
-hisexplst_hitypize (xs) =
-  list_of_list_vt (list_map_fun (xs, hisexp_hitypize))
-// end of [hisexplst_hitypize]
+hisexplst_typize (xs) =
+  list_of_list_vt (list_map_fun (xs, hisexp_typize))
+// end of [hisexplst_typize]
 
 (* ****** ****** *)
 
 implement
-labhisexplst_hitypize
+labhisexplst_typize
   (lxs) = let
 in
 //
@@ -414,20 +501,20 @@ case+ lxs of
 | list_cons
     (lx, lxs) => let
     val HSLABELED (l, opt, x) = lx
-    val y = hisexp_hitypize (x)
+    val y = hisexp_typize (x)
     val ly = HTLABELED (l, opt, y)
-    val lys = labhisexplst_hitypize (lxs)
+    val lys = labhisexplst_typize (lxs)
   in
     list_cons (ly, lys)
   end // end of [list_cons]
 | list_nil () => list_nil ()
 //
-end // end of [labhisexplst_hitypize]
+end // end of [labhisexplst_typize]
 
 (* ****** ****** *)
 
 implement
-s2exp_hitypize
+s2exp_typize
   (s2e0) = let
 in
 //
@@ -438,7 +525,7 @@ case+
 //
 | _ => hitype_undef ()
 //
-end // end of [s2exp_hitypize]
+end // end of [s2exp_typize]
 
 (* ****** ****** *)
 

@@ -414,8 +414,8 @@ end // end of [emit_tmpvar]
 implement
 emit_tmpdec
   (out, tmp) = let
-  val hit = tmpvar_get_type (tmp)
-  val () = emit_hitype (out, hit)
+  val hse = tmpvar_get_type (tmp)
+  val () = emit_hisexp (out, hse)
   val () = emit_text (out, " ")
   val () = emit_tmpvar (out, tmp)
   val () = emit_text (out, " ; \n")
@@ -582,98 +582,12 @@ end (* end of [emit_primval_bool] *)
 (* ****** ****** *)
 
 implement
-emit_s2exp
-  (out, s2e) = let
-in
-//
-case+ s2e.s2exp_node of
-| $S2E.S2Etkname
-    (name) => emit_ident (out, name)
-  // end of [S2Etkname]
-| _ => $S2E.fprint_s2exp (out, s2e)
-//
-end // end of [emit_s2exp]
-
-(* ****** ****** *)
-
-local
-
-fun auxmain (
-  out: FILEref, hse: hisexp
-) : void = let
-in
-//
-case+
-  hse.hisexp_node of
-| $HSE.HSEtyptr (
-  ) => emit_text (out, "atstype_ptr")
-| $HSE.HSEtyabs (sym) => emit_symbol (out, sym)
-| $HSE.HSEapp
-    (_fun, _arg) => let
-    val () = emit_hisexp (out, _fun)
-    val () = emit_text (out, "(")
-    val () = emit_hisexplst_sep (out, _arg, ", ")
-    val () = emit_text (out, ")")
-  in
-    // nothing
-  end // end of [HSEapp]
-| $HSE.HSEs2exp (s2e) => emit_s2exp (out, s2e)
-| _ => $HSE.fprint_hisexp (out, hse)
-//
-end // end of [auxmain]
-
-in // in of [local]
-
-implement
-emit_hisexp
-  (out, hse) = let
-//
-val $HSE.HITNAM (knd, fin, name) = hse.hisexp_name
-//
-in
-  if fin > 0 then emit_text (out, name) else auxmain (out, hse)
-end // end of [emit_hisexp]
-
-end // end of [local]
-
-(* ****** ****** *)
-
-implement
-emit_hisexplst_sep
-  (out, hses, sep) = let
-//
-fun loop (
-  out: FILEref
-, hses: hisexplst, sep: string, i: int
-) : void = let
-in
-  case+ hses of
-  | list_cons (
-      hse, hses
-    ) => let
-      val () =
-        if i > 0 then emit_text (out, sep)
-      // end of [val]
-      val () = emit_hisexp (out, hse)
-    in
-      loop (out, hses, sep, i+1)
-    end // end of [list_cons]
-  | list_nil () => ()
-end // end of [loop]
-//
-in
-  loop (out, hses, sep, 0)
-end // end of [emit_hisexplst_sep]
-
-(* ****** ****** *)
-
-implement
 emit_funtype_arg_res (
-  out, hits_arg, hit_res
+  out, hses_arg, hse_res
 ) = let
-  val () = emit_hitype (out, hit_res)
+  val () = emit_hisexp (out, hse_res)
   val () = emit_text (out, "(*)(")
-  val () = emit_hitypelst_sep (out, hits_arg, ", ")
+  val () = emit_hisexplst_sep (out, hses_arg, ", ")
   val () = emit_text (out, ")")
 in
   // nothing
@@ -869,7 +783,7 @@ fun loop (
   boxknd: int
 , extknd: int
 , tmp: tmpvar
-, hit_rec: hitype
+, hse_rec: hisexp
 , lxs: labprimvalist
 , i: int
 ) :<cloref1> void = let
@@ -887,14 +801,14 @@ case+ lxs of
       if boxknd > 0 then emit_text (out, "ATSMACmove_boxrec_ofs (")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
-    val () = emit_hitype (out, hit_rec)
+    val () = emit_hisexp (out, hse_rec)
     val () = emit_text (out, ", ")
     val () = emit_labelext (out, extknd, l)
     val () = emit_text (out, ", ")
     val () = emit_primval (out, x)
     val () = emit_text (out, ") ;")
   in
-    loop (boxknd, extknd, tmp, hit_rec, lxs, i+1)
+    loop (boxknd, extknd, tmp, hse_rec, lxs, i+1)
   end // end of [list_cons]
 | list_nil () => ()
 //
@@ -904,22 +818,22 @@ in
 //
 case- ins.instr_node of
 | INSmove_fltrec (
-    tmp, lpmvs, hit_rec
+    tmp, lpmvs, hse_rec
   ) => let
     val extknd =
-      hitype_get_extknd (hit_rec)
+      $HSE.hisexp_get_extknd (hse_rec)
     // end of [val]
   in
-    loop (0(*boxknd*), extknd, tmp, hit_rec, lpmvs, 0)
+    loop (0(*boxknd*), extknd, tmp, hse_rec, lpmvs, 0)
   end // end of [INSmove_fltrec]
 | INSmove_boxrec (
-    tmp, lpmvs, hit_rec
+    tmp, lpmvs, hse_rec
   ) => let
     val extknd =
-      hitype_get_extknd (hit_rec)
+      $HSE.hisexp_get_extknd (hse_rec)
     // end of [val]
   in
-    loop (1(*boxknd*), extknd, tmp, hit_rec, lpmvs, 0)
+    loop (1(*boxknd*), extknd, tmp, hse_rec, lpmvs, 0)
   end // end of [INSmove_boxrec]
 //
 end // end of [emit_instr_move_rec]
@@ -1027,11 +941,11 @@ local
 
 fun
 emit_primval_select (
-  out: FILEref, pmv: primval, hit_rec: hitype, pmls: primlablst
+  out: FILEref, pmv: primval, hse_rec: hisexp, pmls: primlablst
 ) : void = let
 //
 val extknd =
-  hitype_get_extknd (hit_rec)
+  $HSE.hisexp_get_extknd (hse_rec)
 //
 fun aux (
   pmls: List_vt (primlab), i: int
@@ -1053,7 +967,7 @@ case+ pmls of
 | ~list_vt_nil () => let
     val () = emit_text (out, "(")
     val boxknd =
-      hitype_get_boxknd (hit_rec)
+      $HSE.hisexp_get_boxknd (hse_rec)
     val () =
       if boxknd = 0 then {
       val () = emit_primval (out, pmv)
@@ -1061,7 +975,7 @@ case+ pmls of
     val () =
       if boxknd > 0 then {
       val () = emit_text (out, "*(")
-      val () = emit_hitype (out, hit_rec)
+      val () = emit_hisexp (out, hse_rec)
       val () = emit_text (out, "*)")
       val () = emit_primval (out, pmv)
     } // end of [if]
@@ -1085,12 +999,12 @@ emit_instr_move_select
   (out, ins) = let
 //
 val- INSmove_select
-  (tmp, pmv, hit_rec, pmls) = ins.instr_node
+  (tmp, pmv, hse_rec, pmls) = ins.instr_node
 //
 val () = emit_text (out, "ATSMACmove(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
-val () = emit_primval_select (out, pmv, hit_rec, pmls)
+val () = emit_primval_select (out, pmv, hse_rec, pmls)
 val () = emit_text (out, ") ; ")
 //
 in
@@ -1107,7 +1021,7 @@ emit_funarglst
 //
 fun loop (
   out: FILEref
-, hits: hitypelst, sep: string, i: int
+, hits: hisexplst, sep: string, i: int
 ) : void = let
 in
 //
@@ -1116,7 +1030,7 @@ case+ hits of
     (hit, hits) => let
     val () =
       if i > 0 then emit_text (out, sep)
-    val () = emit_hitype (out, hit)
+    val () = emit_hisexp (out, hit)
     val () = fprintf (out, " arg%i", @(i))
   in
     loop (out, hits, sep, i+1)
@@ -1157,8 +1071,8 @@ val () = if isext then emit_text (out, "extern\n")
 val () = if issta then emit_text (out, "static\n")
 //
 val () =
-  emit_hitype (out, hit_res) where {
-  val hit_res = funlab_get_type_res (flab)
+  emit_hisexp (out, hse_res) where {
+  val hse_res = funlab_get_type_res (flab)
 } // end of [val]
 //
 val () = emit_text (out, "\n")
@@ -1236,7 +1150,7 @@ val flab = funent_get_lab (fent)
 //
 val fc = funlab_get_funclo (flab)
 val hits_arg = funlab_get_type_arg (flab)
-val hit_res = funlab_get_type_res (flab)
+val hse_res = funlab_get_type_res (flab)
 //
 val tmpret = funent_get_tmpret (fent)
 //
@@ -1263,7 +1177,7 @@ val () =
 val istmp = funent_is_tmplt (fent)
 val () = if istmp then auxtmp (out, fent)
 //
-val () = emit_hitype (out, hit_res)
+val () = emit_hisexp (out, hse_res)
 val () = emit_text (out, "\n")
 val () = emit_funlab (out, flab)
 val () = emit_text (out, " (")
