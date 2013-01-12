@@ -32,6 +32,11 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/unsafe.dats"
+
+(* ****** ****** *)
+
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload _(*anon*) = "prelude/DATS/reference.dats"
@@ -54,7 +59,9 @@ overload != with $LAB.neq_label_label
 
 (* ****** ****** *)
 
-staload SYM = "./pats_symbol.sats"
+staload
+SYM = "./pats_symbol.sats"
+typedef symbol = $SYM.symbol
 
 (* ****** ****** *)
 
@@ -233,6 +240,151 @@ end with
 // end of [try]
 //
 end // end of [eq_hitype_hitype]
+
+(* ****** ****** *)
+
+extern
+fun hitype_hash (hit: hitype): ulint
+
+local
+
+fun auxint (
+  hval: &ulint, int: int
+) : void = let
+  val int = $UN.cast2ulint (int)
+in
+  hval := (hval << 5) + hval + int
+end // end of [auxint]
+
+fun auxstr (
+  hval: &ulint, str: string
+) : void = let
+//
+val isnot = string_isnot_empty (str)
+//
+in
+//
+if isnot then let
+  val p = $UN.cast2Ptr1 (str)
+  val c = $UN.ptrget<char> (p)
+  val c = $UN.cast2ulint (c)
+  val () = hval := (hval << 5) + hval + c
+  val str = $UN.cast{string} (p+1)
+in
+  auxstr (hval, str)
+end else () // end of [if]
+//
+end // end of [auxstr]
+
+fun auxsym (
+  hval: &ulint, sym: symbol
+) : void =
+  auxstr (hval, $SYM.symbol_get_name (sym))
+// end of [auxsym]
+
+fun aux (
+  hval: &ulint, hit0: hitype
+) : void = let
+in
+//
+case+ hit0 of
+| HITnmd
+    (name) => auxstr (hval, name)
+| HITapp
+    (_fun, _arg) => let
+    val () = aux (hval, _fun)
+    val () = auxlst (hval, _arg)
+  in
+    auxstr (hval, "postiats_app")
+  end // end of [HITapp]
+| HITtyarr
+    (hit_elt, _) => let
+    val () = aux (hval, hit_elt)
+  in
+    auxstr (hval, "postiats_tyarr")
+  end // end of [HITtyarr]
+//
+| HITtyrec (lhits) => let
+    val () = auxlablst (hval, lhits)
+  in
+    auxstr (hval, "postiats_tyrec")
+  end // end of [HITtyrec]
+| HITtysum (lhits) => let
+    val () = auxlablst (hval, lhits)
+  in
+    auxstr (hval, "postiats_tysum")
+  end // end of [HITtysum]
+//
+| HITundef (stamp, hse) =>
+    auxint (hval, $STMP.stamp_get_int (stamp))
+  // end of [HITundef]
+//
+| HITnone () => auxstr (hval, "postiats_none")
+//
+end // end of [aux]
+
+and auxlst (
+  hval: &ulint, hits: hitypelst
+) : void = let
+in
+//
+case+ hits of
+| list_cons
+    (hit, hits) => {
+    val () = aux (hval, hit)
+    val () = auxlst (hval, hits)
+  } // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [auxlst]
+
+and auxlab (
+  hval: &ulint, lhit: labhitype
+) : void = let
+//
+val+HTLABELED
+  (l, opt, hit) = lhit
+val opt = $LAB.label_get_int (l)
+val () = (
+  case+ opt of
+  | ~Some_vt (x) => auxint (hval, x) | ~None_vt () => ()
+) : void // end of [val]
+val opt = $LAB.label_get_sym (l)
+val () = (
+  case+ opt of
+  | ~Some_vt (x) => auxsym (hval, x) | ~None_vt () => ()
+) : void // end of [val]
+//
+in
+  aux (hval, hit)
+end // end of [auxlab]
+
+and auxlablst (
+  hval: &ulint, lhits: labhitypelst
+) : void = let
+in
+//
+case+ lhits of
+| list_cons
+    (lhit, lhits) => let
+    val () = auxlab (hval, lhit) in auxlablst (hval, lhits)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [auxlablst]
+
+in (* in of [local] *)
+
+implement
+hitype_hash (hit) = let
+  var hval
+    : ulint = 31415926536ul // HX: randomly chosen
+  val () = aux (hval, hit)
+in
+  hval
+end // end of [hitype_hash]
+
+end // end of [local]
 
 (* ****** ****** *)
 

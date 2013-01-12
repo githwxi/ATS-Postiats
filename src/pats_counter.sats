@@ -44,22 +44,26 @@ typedef counter = counter_type
 
 (* ****** ****** *)
 
-fun lt_count_count (c1: count, c2: count):<> bool
+fun count_get_int (x: count):<> int
+
+(* ****** ****** *)
+
+fun lt_count_count (x1: count, x2: count):<> bool
 overload < with lt_count_count
-fun lte_count_count (c1: count, c2: count):<> bool
+fun lte_count_count (x1: count, x2: count):<> bool
 overload <= with lte_count_count
 
-fun gt_count_count (c1: count, c2: count):<> bool
+fun gt_count_count (x1: count, x2: count):<> bool
 overload > with lt_count_count
-fun gte_count_count (c1: count, c2: count):<> bool
+fun gte_count_count (x1: count, x2: count):<> bool
 overload >= with lte_count_count
 
-fun eq_count_count (c1: count, c2: count):<> bool
+fun eq_count_count (x1: count, x2: count):<> bool
 overload = with eq_count_count
-fun neq_count_count (c1: count, c2: count):<> bool
+fun neq_count_count (x1: count, x2: count):<> bool
 overload <> with neq_count_count
 
-fun compare_count_count (c1: count, c2: count):<> Sgn
+fun compare_count_count (x1: count, x2: count):<> Sgn
 overload compare with compare_count_count
 
 (* ****** ****** *)

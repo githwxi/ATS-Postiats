@@ -49,6 +49,8 @@ label_make_int (int) = LABint (int)
 implement
 label_make_sym (sym) = LABsym (sym)
 
+(* ****** ****** *)
+
 implement
 label_make_string (str) = let
   val sym = $SYM.symbol_make_string (str) in LABsym (sym)
@@ -62,9 +64,21 @@ label_is_int (l) =
 // end of [label_is_int]
 
 implement
+label_get_int (l) =
+  case+ l of LABint (x) => Some_vt (x) | _ => None_vt ()
+// end of [label_get_int]
+
+(* ****** ****** *)
+
+implement
 label_is_sym (l) = 
   case+ l of LABint _ => false | LABsym _ => true
 // end of [label_is_sym]
+
+implement
+label_get_sym (l) =
+  case+ l of LABsym (x) => Some_vt (x) | _ => None_vt ()
+// end of [label_get_sym]
 
 (* ****** ****** *)
 

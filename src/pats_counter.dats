@@ -45,6 +45,10 @@ assume counter_type = ref (count)
 
 (* ****** ****** *)
 
+implement count_get_int (x) = x
+
+(* ****** ****** *)
+
 implement
 lt_count_count (x1, x2) = lt_int_int (x1, x2)
 implement

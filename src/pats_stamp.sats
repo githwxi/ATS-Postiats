@@ -43,6 +43,10 @@ typedef stampopt = Option (stamp)
 
 (* ****** ****** *)
 
+fun stamp_get_int (x: stamp):<> int
+
+(* ****** ****** *)
+
 fun lt_stamp_stamp (x1: stamp, x2: stamp):<> bool
 overload < with lt_stamp_stamp
 
@@ -68,8 +72,8 @@ fun tostring_prefix_stamp (prfx: string, x: stamp): string
 fun fprint_stamp : fprint_type (stamp)
 
 (* ****** ****** *)
-//
-fun
+
+fun // HX: datasort
 s2rtdat_stamp_make (): stamp
 //
 fun s2cst_stamp_make (): stamp

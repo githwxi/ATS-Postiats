@@ -43,6 +43,11 @@ assume stamp_t0ype = $CNTR.count
 (* ****** ****** *)
 
 implement
+stamp_get_int (x) = $CNTR.count_get_int (x)
+
+(* ****** ****** *)
+
+implement
 lt_stamp_stamp (x1, x2) = $CNTR.lt_count_count (x1, x2)
 implement
 lte_stamp_stamp (x1, x2) = $CNTR.lte_count_count (x1, x2)
