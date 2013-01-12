@@ -87,14 +87,17 @@ in // in of [local]
 implement
 termetenv_pop
   (pfpush | (*none*)) = let
-  viewtypedef vt = @(stampset_vt, s2explst)
-  prval unit_v () = pfpush
-  val (vbox pf | p) = ref_get_view_ptr (the_metbindlst)
-  val- list_vt_cons (!p1_x, !p2_xs) = !p
-  val () = stampset_vt_free (p1_x->0)
-  val xs = !p2_xs
-  val () = free@ {vt?}{0} (!p)
-  val () = !p := xs
+//
+vtypedef vt = @(stampset_vt, s2explst)
+//
+prval unit_v () = pfpush
+val (vbox pf | p) = ref_get_view_ptr (the_metbindlst)
+val-list_vt_cons (!p1_x, !p2_xs) = !p
+val () = stampset_vt_free (p1_x->0)
+val xs = !p2_xs
+val () = free@ {vt?}{0} (!p)
+val () = !p := xs
+//
 in
   (*nothing*)
 end // end of [termetenv_pop]
@@ -102,9 +105,13 @@ end // end of [termetenv_pop]
 implement
 termetenv_push
   (d2vs, s2es_met) = let
-  val (vbox pf | p) =
-    ref_get_view_ptr (the_metbindlst)
-  val () = !p := list_vt_cons (@(d2vs, s2es_met), !p)
+//
+val (
+  vbox pf | p
+) = ref_get_view_ptr (the_metbindlst)
+val (
+) = !p := list_vt_cons (@(d2vs, s2es_met), !p)
+//
 in
   (unit_v () | ())
 end // end of [termetenv_push]
@@ -112,7 +119,7 @@ end // end of [termetenv_push]
 implement
 termetenv_push_dvarlst
   (d2vs, s2es_met) = let
-  viewtypedef res = stampset_vt
+  vtypedef res = stampset_vt
   val res = stampset_vt_nil ()
   fn f (
     res: res, d2v: d2var
@@ -128,29 +135,33 @@ implement
 termetenv_get_termet
   (d2v) = let
 //
-  viewtypedef vt =
-    @(stampset_vt, s2explst)
-  viewtypedef res = Option_vt (s2explst)
-  fun loop
-    {n:nat} .<n>. (
-    xs: !list_vt (vt, n), d2v: stamp
-  ) : res =
-    case+ xs of
-    | list_vt_cons (!p1_x, !p2_xs) => let 
-        val ismem = stampset_vt_is_member (p1_x->0, d2v)
-        val ans = (
-          if ismem then Some_vt (p1_x->1) else loop (!p2_xs, d2v)
-        ) : res // end of [val]
-        prval () = fold@ (xs)
-      in
-        ans
-      end // end of [list_vt_cons]
-    | list_vt_nil () => let
-        prval () = fold@ xs in None_vt ()
-      end // end of [list_vt_nil]
-  // end of [loop]
+vtypedef vt =
+  @(stampset_vt, s2explst)
+vtypedef res = Option_vt (s2explst)
+fun loop
+  {n:nat} .<n>. (
+  xs: !list_vt (vt, n), d2v: stamp
+) : res = let
+in
 //
-  val (vbox pf | p) = ref_get_view_ptr (the_metbindlst)
+case+ xs of
+| list_vt_cons
+    (!p1_x, !p2_xs) => let 
+    val ismem = stampset_vt_is_member (p1_x->0, d2v)
+    val ans = (
+      if ismem then Some_vt (p1_x->1) else loop (!p2_xs, d2v)
+    ) : res // end of [val]
+    prval () = fold@ (xs)
+  in
+    ans
+  end // end of [list_vt_cons]
+| list_vt_nil () => let
+    prval () = fold@ xs in None_vt ()
+  end // end of [list_vt_nil]
+//
+end // end of [loop]
+//
+val (vbox pf | p) = ref_get_view_ptr (the_metbindlst)
 //
 in
   $effmask_ref (loop (!p, d2v))
@@ -161,7 +172,9 @@ end // end of [local]
 implement
 s2exp_termet_instantiate
   (loc0, stamp, met) = let
-  val ans = termetenv_get_termet (stamp)
+//
+val ans = termetenv_get_termet (stamp)
+//
 in
 //
 case+ ans of
@@ -192,40 +205,42 @@ fun aux (
   val s2f0 = s2exp2hnf (s2e0)
   val s2e0 = s2hnf2exp (s2f0)
 in
-  case+ s2e0.s2exp_node of
-  | S2Efun (
-      fc, lin, s2fe, npf, s2es, s2e
-    ) => let
-      val ans = aux (s2e, d2v0, s2ts0)
+//
+case+ s2e0.s2exp_node of
+| S2Efun (
+    fc, lin, s2fe, npf, s2es, s2e
+  ) => let
+    val ans = aux (s2e, d2v0, s2ts0)
+  in
+    case ans of
+    | ~Some_vt (s2e) => Some_vt (
+        s2exp_fun_srt (s2e0.s2exp_srt, fc, lin, s2fe, npf, s2es, s2e)
+      ) // end of [Some_vt]
+    | ~None_vt () => None_vt ()
+  end // end of [S2Efun]
+| S2Emetfun (
+    _(*stampopt*), s2es, s2e
+  ) => let
+    val stamp = d2var_get_stamp (d2v0)
+    val () = let
+      val s2ts = list_map_fun<s2exp><s2rt> (s2es, lam s2e =<0> s2e.s2exp_srt)
     in
-      case ans of
-      | ~Some_vt (s2e) => Some_vt (
-          s2exp_fun_srt (s2e0.s2exp_srt, fc, lin, s2fe, npf, s2es, s2e)
-        ) // end of [Some_vt]
-      | ~None_vt () => None_vt ()
-    end // end of [S2Efun]
-  | S2Emetfun (
-      _(*stampopt*), s2es, s2e
-    ) => let
-      val stamp = d2var_get_stamp (d2v0)
-      val () = let
-        val s2ts = list_map_fun<s2exp><s2rt> (s2es, lam s2e =<0> s2e.s2exp_srt)
-      in
-        s2ts0 := list_of_list_vt (s2ts)
-      end // end of [val]
-    in
-      Some_vt (s2exp_metfun (Some stamp, s2es, s2e))
-    end // end of [S2Emetfun]
-  | S2Euni (
-      s2vs, s2ps, s2e
-    ) => let
-      val ans = aux (s2e, d2v0, s2ts0)
-    in
-      case+ ans of
-      | ~Some_vt s2e => Some_vt (s2exp_uni (s2vs, s2ps, s2e))
-      | ~None_vt () => None_vt ()
-    end // end of [S2Euni]
-  | _ => None_vt ()
+      s2ts0 := list_of_list_vt (s2ts)
+    end // end of [val]
+  in
+    Some_vt (s2exp_metfun (Some stamp, s2es, s2e))
+  end // end of [S2Emetfun]
+| S2Euni (
+    s2vs, s2ps, s2e
+  ) => let
+    val ans = aux (s2e, d2v0, s2ts0)
+  in
+    case+ ans of
+    | ~Some_vt s2e => Some_vt (s2exp_uni (s2vs, s2ps, s2e))
+    | ~None_vt () => None_vt ()
+  end // end of [S2Euni]
+| _ => None_vt ()
+//
 end // end of [aux]
 //
 var s2ts: s2rtlst = list_nil ()

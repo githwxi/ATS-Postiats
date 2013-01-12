@@ -298,7 +298,7 @@ s2exp_cstapp
   (s2c_fun, s2es_arg) = let
   val s2t_fun = s2cst_get_srt s2c_fun
   val s2e_fun = s2exp_cst (s2c_fun)
-  val- S2RTfun (s2ts_arg, s2t_res) = s2t_fun
+  val-S2RTfun (s2ts_arg, s2t_res) = s2t_fun
 in
   hnf (s2exp_app_srt (s2t_res, s2e_fun, s2es_arg))
 end // end of [s2exp_cstapp]

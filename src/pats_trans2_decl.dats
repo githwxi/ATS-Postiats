@@ -459,8 +459,7 @@ fn s1tacon_tr (
       case+ s2vss of
       | list_cons
           (s2vs, s2vss) => let
-          val- S2RTfun
-            (_, s2t1_fun) = s2t_fun
+          val-S2RTfun (_, s2t1_fun) = s2t_fun
           val s2e = aux (s2t1_fun, s2vss, s2e)
           val s2e_lam = s2exp_lam_srt (s2t_fun, s2vs, s2e)
         in
@@ -1282,7 +1281,7 @@ fun loop2 (
 in
   case+ d2ms of
   | list_cons (d2m, d2ms) => let
-      val- list_cons (d1c, d1cs) = d1cs
+      val-list_cons (d1c, d1cs) = d1cs
       val knd = d2mac_get_kind (d2m)
       val d2c = m1acdef_tr (knd, d2m, d1c)
       val () = if knd <= 1 then the_d2expenv_add_dmacdef (d2m)
@@ -1367,7 +1366,7 @@ fn f1undeclst_tr
     ) : list (f2undec, n) =
       case+ d2vs of
       | list_cons (d2v, d2vs) => let
-          val+ list_cons (f1d, f1ds) = f1ds
+          val+list_cons (f1d, f1ds) = f1ds
           val f2d = f1undec_tr (level, decarg, d2v, f1d)
           val f2ds = aux2 (level, decarg, d2vs, f1ds)
         in

@@ -100,7 +100,7 @@ fun auxmain (
   loc0: location
 , pfobj: pfobj, d3ls: d3lablst
 ) : s2exp(*atview*) = let
-  val+ ~PFOBJ (
+  val+~PFOBJ (
     d2vw, s2e_ctx, s2e_elt, s2l
   ) = pfobj // end of [val]
   var ctxtopt: s2ctxtopt = None ()
@@ -345,7 +345,7 @@ d2exp_trup_viewat
   (d2e0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val- D2Eviewat (d2e) = d2e0.d2exp_node
+val-D2Eviewat (d2e) = d2e0.d2exp_node
 val d2lv = d2exp_lvalize (d2e)
 //
 in
@@ -354,7 +354,7 @@ case+ d2lv of
 | D2LVALvar_mut
     (d2v, d2ls) => let
     val d3ls = d2lablst_trup (d2ls)
-    val- Some (s2l) = d2var_get_addr (d2v)
+    val-Some (s2l) = d2var_get_addr (d2v)
     val s2e = d2var_get_type_some (loc0, d2v)
     val d3e = d3exp_ptrof_var (loc0, s2e, d2v)
     val s2e_at = s2addr_viewat_deref (loc0, s2l, d3ls)
@@ -440,9 +440,9 @@ implement
 d2exp_trup_viewat_assgn
   (d2e0) = let
   val loc0 = d2e0.d2exp_loc
-  val- D2Eassgn
+  val-D2Eassgn
     (d2e_l, d2e_r) = d2e0.d2exp_node
-  val- D2Eviewat (d2e_l) = d2e_l.d2exp_node
+  val-D2Eviewat (d2e_l) = d2e_l.d2exp_node
   val d2lv_l = d2exp_lvalize (d2e_l)
 in
 //
@@ -450,7 +450,7 @@ case+ d2lv_l of
 | D2LVALvar_mut
     (d2v, d2ls) => let
     val d3ls = d2lablst_trup (d2ls)
-    val- Some (s2l) = d2var_get_addr (d2v)
+    val-Some (s2l) = d2var_get_addr (d2v)
     val d3e_r = d2exp_trup (d2e_r)
     val () = d3exp_open_and_add (d3e_r)
     val s2e_r = d3exp_get_type (d3e_r)

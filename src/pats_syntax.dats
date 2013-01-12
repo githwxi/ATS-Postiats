@@ -92,7 +92,7 @@ synent_isnot_null (x) = ptr_isnot_null ($UN.cast{ptr} (x))
 
 implement
 int_of_i0nt (tok) = let
-  val- T_INTEGER (_, rep, _) = tok.token_node in int_of_string (rep)
+  val-T_INTEGER (_, rep, _) = tok.token_node in int_of_string (rep)
 end // end of [int_of_i0nt]
 
 (* ****** ****** *)
@@ -354,7 +354,7 @@ e0xp_funize (e0, flag) = let
   | E0XPlist (es)
       when argtest (es) => let
       fn f (e: e0xp): symbol =
-        let val- E0XPide x = e.e0xp_node in x end
+        let val-E0XPide x = e.e0xp_node in x end
       // end of [f]
       val xs = l2l (list_map_fun (es, f))
       val () = flag := flag + 1
@@ -555,7 +555,7 @@ in '{
 
 implement
 s0rt_type (x) = let
-  val- T_TYPE (knd) = x.token_node
+  val-T_TYPE (knd) = x.token_node
 in '{
   s0rt_loc= x.token_loc, s0rt_node= S0RTtype (knd)
 } end // end of [s0rt_i0nt]
@@ -714,7 +714,7 @@ in '{
 implement
 s0exp_tkname (str) = let
   val loc = str.token_loc
-  val- T_STRING (name) = str.token_node
+  val-T_STRING (name) = str.token_node
 in '{
   s0exp_loc= loc, s0exp_node= S0Etkname (name)
 } end // end of [s0exp_tkname]
@@ -722,7 +722,7 @@ in '{
 implement
 s0exp_extkind (tok, str) = let
   val loc = tok.token_loc + str.token_loc
-  val- T_STRING (name) = str.token_node
+  val-T_STRING (name) = str.token_node
 in '{
   s0exp_loc= loc, s0exp_node= S0Etkname (name)
 } end // end of [s0exp_extkind]
@@ -744,7 +744,7 @@ in // in of [local]
 implement
 s0exp_extype
   (tok1, tok2, xs) = let
-  val- T_STRING (name) = tok2.token_node
+  val-T_STRING (name) = tok2.token_node
   val loc = (case+ xs of
     | list_nil () => tok1.token_loc + tok2.token_loc
     | list_cons (x, xs) => loop (tok1, x, xs)
@@ -1673,7 +1673,7 @@ implement
 d0exp_extval (
   t_beg, _type, _code, t_end
 ) = let
-  val- T_STRING (code) = _code.token_node
+  val-T_STRING (code) = _code.token_node
   val loc = t_beg.token_loc + t_end.token_loc
 in '{
   d0exp_loc= loc, d0exp_node= D0Eextval (_type, code)
@@ -1683,7 +1683,7 @@ in '{
 
 implement
 d0exp_loopexn (tok) = let
-  val- T_BRKCONT (knd) = tok.token_node
+  val-T_BRKCONT (knd) = tok.token_node
 in '{
   d0exp_loc= tok.token_loc, d0exp_node= D0Eloopexn (knd)
 } end // end of [d0exp_loopexn]
@@ -2018,7 +2018,7 @@ in '{
 implement
 d0exp_sel_int (tok) = let
   val knd = 0 // HX: dot selection
-  val- T_DOTINT (int) = tok.token_node
+  val-T_DOTINT (int) = tok.token_node
   val lab = $LAB.label_make_int (int)
 in '{
   d0exp_loc= tok.token_loc, d0exp_node= D0Esel_lab (knd, lab)
@@ -2356,7 +2356,7 @@ in // end of [local]
 implement
 d0ecl_fixity
   (tok, prec, ids) = let
-  val- T_FIXITY (knd) = tok.token_node
+  val-T_FIXITY (knd) = tok.token_node
   val fxty = (case+ knd of
     | FXK_infix () => F0XTYinf (prec, $FIX.ASSOCnon ())
     | FXK_infixl () => F0XTYinf (prec, $FIX.ASSOClft ())
@@ -2375,7 +2375,7 @@ in '{
 implement
 d0ecl_nonfix
   (tok, ids) = let
-  val- T_NONFIX () = tok.token_node
+  val-T_NONFIX () = tok.token_node
   val loc = (case+ ids of
     | list_cons (id, ids) => loop (tok, id, ids)
     | list_nil () => tok.token_loc
@@ -2389,7 +2389,7 @@ in '{
 implement
 d0ecl_symintr
   (tok, ids) = let
-  val- T_SYMINTR () = tok.token_node
+  val-T_SYMINTR () = tok.token_node
   val loc = (case+ ids of
     | list_cons (id, ids) => loop (tok, id, ids)
     | list_nil () => tok.token_loc
@@ -2401,7 +2401,7 @@ in '{
 implement
 d0ecl_symelim
   (tok, ids) = let
-  val- T_SYMELIM () = tok.token_node
+  val-T_SYMELIM () = tok.token_node
   val loc = (case+ ids of
     | list_cons (id, ids) => loop (tok, id, ids)
     | list_nil () => tok.token_loc
@@ -2434,7 +2434,7 @@ d0ecl_include
   (knd, tok, ent2) = let
 //
   val loc = ent2.token_loc
-  val- T_STRING (name) = ent2.token_node
+  val-T_STRING (name) = ent2.token_node
   val () = the_parerrlst_add_ifunclosed (loc, name)
   val loc = tok.token_loc + loc
 //
@@ -2677,8 +2677,8 @@ in '{
 implement
 d0ecl_extype
   (tok, name, s0e) = let
-  val- T_EXTYPE () = tok.token_node
-  val- T_STRING (name) = name.token_node
+  val-T_EXTYPE () = tok.token_node
+  val-T_STRING (name) = name.token_node
   val loc = tok.token_loc + s0e.s0exp_loc
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cextype (name, s0e)
@@ -2687,8 +2687,8 @@ in '{
 implement
 d0ecl_extype2
   (tok, name, s0e) = let
-  val- T_TYPEDEF (knd) = tok.token_node
-  val- T_STRING (name) = name.token_node
+  val-T_TYPEDEF (knd) = tok.token_node
+  val-T_STRING (name) = name.token_node
   val loc = tok.token_loc + s0e.s0exp_loc
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cextype (knd, name, s0e)
@@ -2699,8 +2699,8 @@ in '{
 implement
 d0ecl_extval
   (tok, name, d0e) = let
-  val- T_EXTVAL () = tok.token_node
-  val- T_STRING (name) = name.token_node
+  val-T_EXTVAL () = tok.token_node
+  val-T_STRING (name) = name.token_node
   val loc = tok.token_loc + d0e.d0exp_loc
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cextval (name, d0e)
@@ -2711,7 +2711,7 @@ in '{
 implement
 d0ecl_extcode
   (knd, tok) = let
-  val- T_EXTCODE (pos, code) = tok.token_node
+  val-T_EXTCODE (pos, code) = tok.token_node
 in '{
   d0ecl_loc= tok.token_loc, d0ecl_node= D0Cextcode (knd, pos, code)
 } end // end of [d0ecl_extcode]
@@ -2722,7 +2722,7 @@ implement
 d0ecl_impdec (
   tok, imparg, impdec
 ) = let
-  val- T_IMPLEMENT (knd) = tok.token_node
+  val-T_IMPLEMENT (knd) = tok.token_node
   val loc = tok.token_loc + impdec.i0mpdec_loc
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cimpdec (knd, imparg, impdec)
@@ -2779,7 +2779,7 @@ d0ecl_staload_none
   (tok, tok2) = let
 //
   val loc = tok2.token_loc
-  val- T_STRING (name) = tok2.token_node
+  val-T_STRING (name) = tok2.token_node
   val () = the_parerrlst_add_ifunclosed (loc, name)
   val loc = tok.token_loc + loc
 //
@@ -2794,7 +2794,7 @@ d0ecl_staload_some
   (tok, ent2, ent4) = let
 //
   val loc = ent4.token_loc
-  val- T_STRING (name) = ent4.token_node
+  val-T_STRING (name) = ent4.token_node
   val () = the_parerrlst_add_ifunclosed (loc, name)
   val loc = tok.token_loc + loc
 //
@@ -2809,14 +2809,15 @@ in '{
 (* ****** ****** *)
 
 implement
-d0ecl_dynload (tok, ent2) = let
+d0ecl_dynload
+  (tok, ent2) = let
 //
-  val loc = ent2.token_loc
-  val- T_STRING (name) = ent2.token_node
-  val () = the_parerrlst_add_ifunclosed (loc, name)
-  val loc = tok.token_loc + loc
+val loc = ent2.token_loc
+val-T_STRING (name) = ent2.token_node
+val () = the_parerrlst_add_ifunclosed (loc, name)
+val loc = tok.token_loc + loc
 //
-  val pfil = $FIL.filename_get_current ()
+val pfil = $FIL.filename_get_current ()
 //
 in '{
   d0ecl_loc= loc, d0ecl_node= D0Cdynload (pfil, name)

@@ -384,7 +384,7 @@ p_labd0exp (
 ) = let
   val err0 = err
   val tok = tokbuf_get_token (buf)
-  val+ ~SYNENT3 (ent1, ent2, ent3) =
+  val+~SYNENT3 (ent1, ent2, ent3) =
     pseq3_fun {l0ab,token,d0exp} (buf, bt, err, p_l0ab, p_EQ, p_d0exp)
   (* end of [val] *)
 in

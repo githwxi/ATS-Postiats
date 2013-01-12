@@ -148,7 +148,7 @@ case+ ans of
 | ~Some_vt (s2i) => (
   case+ s2i of
   | S2ITMcst s2cs => let
-      val- list_cons (s2c, _) = s2cs
+      val-list_cons (s2c, _) = s2cs
       val () = s2cstref_set_cstnul (r, s2cstnul_some (s2c))
     in
       s2c
@@ -430,7 +430,7 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_bool_bool_t0ype, s2e_fun
   ) => let
-    val- list_cons (s2b, _) = s2es_arg in Some_vt (s2b)
+    val-list_cons (s2b, _) = s2es_arg in Some_vt (s2b)
   end // end of [S2Eapp when ...]
 | _ => None_vt ()
 //
@@ -634,8 +634,8 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_g1int_int_t0ype, s2e_fun
   ) => let
-    val- list_cons (s2e1_knd, s2es_arg) = s2es_arg
-    val- list_cons (s2e2_ind, s2es_arg) = s2es_arg
+    val-list_cons (s2e1_knd, s2es_arg) = s2es_arg
+    val-list_cons (s2e2_ind, s2es_arg) = s2es_arg
   in
     Some_vt (s2e2_ind)
   end // end of [S2Eapp when ...]
@@ -670,8 +670,8 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_g1uint_int_t0ype, s2e_fun
   ) => let
-    val- list_cons (s2e1_knd, s2es_arg) = s2es_arg
-    val- list_cons (s2e2_ind, s2es_arg) = s2es_arg
+    val-list_cons (s2e1_knd, s2es_arg) = s2es_arg
+    val-list_cons (s2e2_ind, s2es_arg) = s2es_arg
   in
     Some_vt (s2e2_ind)
   end // end of [S2Eapp when ...]
@@ -749,7 +749,7 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_char_int_t0ype, s2e_fun
   ) => let
-    val- list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
+    val-list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
   end // end of [S2Eapp when ...]
 | _ => None_vt ()
 //
@@ -897,7 +897,7 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_ptr_addr_type, s2e_fun
   ) => let
-    val- list_cons (s2l, _) = s2es_arg in Some_vt (s2l)
+    val-list_cons (s2l, _) = s2es_arg in Some_vt (s2l)
   end // end of [S2Eapp when ...]
 | _ => None_vt ()
 //
@@ -1007,7 +1007,7 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_vbox_view_prop, s2e_fun
   ) => let
-    val- list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
+    val-list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
   end // end of [S2Eapp when ...]
 | _ => None_vt ()
 //
@@ -1036,7 +1036,7 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_ref_vt0ype_type, s2e_fun
   ) => let
-    val- list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
+    val-list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
   end // end of [S2Eapp when ...]
 | _ => None_vt ()
 //
@@ -1064,7 +1064,7 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_lazy_t0ype_type, s2e_fun
   ) => let
-    val- list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
+    val-list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
   end // end of [S2Eapp when ...]
 | _ => None_vt ()
 //
@@ -1092,7 +1092,7 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_lazy_vt0ype_vtype, s2e_fun
   ) => let
-    val- list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
+    val-list_cons (s2e, _) = s2es_arg in Some_vt (s2e)
   end // end of [S2Eapp when ...]
 | _ => None_vt ()
 //

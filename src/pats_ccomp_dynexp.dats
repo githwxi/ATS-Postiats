@@ -449,7 +449,7 @@ hidexp_ccomp_var
   (env, res, hde0) = let
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
-val- HDEvar (d2v) = hde0.hidexp_node
+val-HDEvar (d2v) = hde0.hidexp_node
 val opt = ccompenv_find_varbind (env, d2v)
 //
 in
@@ -471,7 +471,7 @@ hidexp_ccomp_tmpcst
 //
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
-val- HDEtmpcst (d2c, t2mas) = hde0.hidexp_node
+val-HDEtmpcst (d2c, t2mas) = hde0.hidexp_node
 //
 val tmplev = ccompenv_get_tmplevel (env)
 //
@@ -509,7 +509,7 @@ hidexp_ccomp_tmpvar
 //
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
-val- HDEtmpvar (d2v, t2mas) = hde0.hidexp_node
+val-HDEtmpvar (d2v, t2mas) = hde0.hidexp_node
 //
 in
   primval_tmpltvar (loc0, hse0, d2v, t2mas)
@@ -524,7 +524,7 @@ hidexp_ccomp_seq
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 //
-val- HDEseq (hdes) = hde0.hidexp_node
+val-HDEseq (hdes) = hde0.hidexp_node
 //
 fun loop (
   env: !ccompenv
@@ -562,7 +562,7 @@ hidexp_ccomp_assgn_var
   (env, res, hde0) = let
   val loc0 = hde0.hidexp_loc
   val hse0 = hde0.hidexp_type
-  val- HDEassgn_var
+  val-HDEassgn_var
     (d2v_l, hils, hde_r) = hde0.hidexp_node
   // end of [val]
   val ofs = hilablst_ccomp (env, res, hils)
@@ -579,7 +579,7 @@ hidexp_ccomp_assgn_ptr
 //
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
-val- HDEassgn_ptr
+val-HDEassgn_ptr
   (hde_l, hils, hde_r) = hde0.hidexp_node
 // end of [val]
 val pmv_l = hidexp_ccomp (env, res, hde_l)
@@ -600,7 +600,7 @@ hidexp_ccomp_ret_app
 //
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
-val- HDEapp (hde_fun, hse_fun, hdes_arg) = hde0.hidexp_node
+val-HDEapp (hde_fun, hse_fun, hdes_arg) = hde0.hidexp_node
 //
 val pmv_fun = hidexp_ccomp (env, res, hde_fun)
 val pmvs_arg = hidexplst_ccomp (env, res, hdes_arg)
@@ -619,7 +619,7 @@ hidexp_ccomp_ret_if
 //
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
-val- HDEif (hde_cond, hde_then, hde_else) = hde0.hidexp_node
+val-HDEif (hde_cond, hde_then, hde_else) = hde0.hidexp_node
 //
 val pmv_cond = hidexp_ccomp (env, res, hde_cond)
 //
@@ -704,7 +704,7 @@ hidexp_ccomp_ret_lst
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 //
-val- HDElst (knd, hse_elt, hdes) = hde0.hidexp_node
+val-HDElst (knd, hse_elt, hdes) = hde0.hidexp_node
 //
 in
 //
@@ -763,7 +763,7 @@ hidexp_ccomp_ret_rec
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 //
-val- HDErec (knd, lhdes, hse_rec) = hde0.hidexp_node
+val-HDErec (knd, lhdes, hse_rec) = hde0.hidexp_node
 //
 val lpmvs = auxlst (env, res, lhdes)
 //
@@ -790,7 +790,7 @@ hidexp_ccomp_ret_seq
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 //
-val- HDEseq (hdes) = hde0.hidexp_node
+val-HDEseq (hdes) = hde0.hidexp_node
 //
 fun loop (
   env: !ccompenv
@@ -832,7 +832,7 @@ hidexp_ccomp_ret_selab
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 //
-val- HDEselab (hde, hse_flt, hils) = hde0.hidexp_node
+val-HDEselab (hde, hse_flt, hils) = hde0.hidexp_node
 //
 val pmv = hidexp_ccomp (env, res, hde)
 val pmls = hilablst_ccomp (env, res, hils)
@@ -891,7 +891,7 @@ hidexp_ccomp_ret_arrpsz
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 //
-val- HDEarrpsz (hse_elt, hdes, asz) = hde0.hidexp_node
+val-HDEarrpsz (hse_elt, hdes, asz) = hde0.hidexp_node
 //
 val ins =
   instr_move_arrpsz (loc0, tmpret, hse_elt, asz)
@@ -959,7 +959,7 @@ hidexp_ccomp_lam
 //
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
-val- HDElam (
+val-HDElam (
   hips_arg, hde_body
 ) = hde0.hidexp_node
 val flab = funlab_make_type (hse0)

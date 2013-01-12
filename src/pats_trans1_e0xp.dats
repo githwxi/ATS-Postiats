@@ -230,23 +230,23 @@ fun aux_item (e0: e0xp): e1xpitm = let
     | ~None_vt () => FXITMatm (e1xp_ide (loc0, id))
     end (* end of [E0XPide] *)
   | E0XPint (x) => let
-      val- T_INTEGER
+      val-T_INTEGER
         (base, rep, sfx) = x.token_node
       // end of [val]
     in
       FXITMatm (e1xp_intrep (loc0, rep))
     end // end of [E0XPint]
   | E0XPchar (x) => let
-      val- T_CHAR (c) = x.token_node in FXITMatm (e1xp_char (loc0, c))
+      val-T_CHAR (c) = x.token_node in FXITMatm (e1xp_char (loc0, c))
     end // end of [E0XPchar]
   | E0XPfloat (x) => let
-      val- T_FLOAT (bas, rep, sfx) = x.token_node
+      val-T_FLOAT (bas, rep, sfx) = x.token_node
       val () = if bas != 10 then e0xp_tr_errmsg_float (e0)
     in
       FXITMatm (e1xp_float (loc0, rep))
     end // end of [E0XPfloat]
   | E0XPstring (x) => let
-      val- T_STRING (str) = x.token_node in FXITMatm (e1xp_string (loc0, str))
+      val-T_STRING (str) = x.token_node in FXITMatm (e1xp_string (loc0, str))
     end // end of [E0XPstring]
   | E0XPstringid (str) => FXITMatm (e1xp_string (loc0, str))
   | E0XPapp _ => let

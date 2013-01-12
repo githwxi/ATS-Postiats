@@ -289,7 +289,7 @@ case+ s2e0.s2exp_node of
 | S2Efun (
     fc1, lin1, s2fe1, npf1, s2es_arg, s2e_res
   ) => let
-    val- D2Elam_dyn
+    val-D2Elam_dyn
       (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
     // end of [val]
     val err = $SOL.pfarity_equal_solve (loc0, npf, npf1)
@@ -418,7 +418,7 @@ case+ s2e0.s2exp_node of
     d3exp_lam_sta (loc0, s2e0, s2vs, s2ps, d3e0)
   end // end of [S2Euni]
 | _ => let
-    val- D2Elam_sta
+    val-D2Elam_sta
       (_(*s2vs*), s2ps, d2e_body) = d2e0.d2exp_node
     // end of [val]
     val () = trans3_env_add_proplst (loc0, s2ps)
@@ -438,7 +438,7 @@ val () = println! ("d2exp_trdn_ifhead: d2e0 = ", d2e0)
 val () = println! ("d2exp_trdn_ifhead: s2f_if = ", s2f_if)
 *)
 val loc0 = d2e0.d2exp_loc
-val- D2Eifhead
+val-D2Eifhead
   (invres, d2e_cond, d2e_then, od2e_else) = d2e0.d2exp_node
 // end of [val]
 //
@@ -515,7 +515,7 @@ d2exp_trdn_sifhead
   (d2e0, s2f_sif) = let
 //
 val loc0 = d2e0.d2exp_loc
-val- D2Esifhead
+val-D2Esifhead
   (invres, s2p_cond, d2e_then, d2e_else) = d2e0.d2exp_node
 // end of [val]
 //
@@ -629,9 +629,7 @@ case+ d2es of
     case+ ls2es of
     | list_cons
         (ls2e, ls2es) => let
-        val+ SLABELED
-          (l, name, s2e) = ls2e
-        // end of [val]
+        val+SLABELED (l, name, s2e) = ls2e
         val d3e = d2exp_trdn (d2e, s2e)
         val d3es = auxtup (d2es, ls2es, serr)
       in
@@ -665,9 +663,7 @@ case+ ld2es of
     case+ ls2es of
     | list_cons
         (ls2e, ls2es) => let
-        val+ SLABELED
-          (l, name, s2e) = ls2e
-        // end of [val]
+        val+SLABELED (l, name, s2e) = ls2e
         val d3e = d2exp_trdn (d2e, s2e)
         val ld3e = $SYN.DL0ABELED (l0, d3e)
         val ld3es = auxrec (ld2es, ls2es, serr)
@@ -696,7 +692,7 @@ d2exp_trdn_tup
   (d2e0, s2f0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val- D2Etup (knd, npf, d2es) = d2e0.d2exp_node
+val-D2Etup (knd, npf, d2es) = d2e0.d2exp_node
 val s2e0 = s2hnf2exp (s2f0)
 //
 in
@@ -735,7 +731,7 @@ d2exp_trdn_rec
   (d2e0, s2f0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val- D2Erec (knd, npf, ld2es) = d2e0.d2exp_node
+val-D2Erec (knd, npf, ld2es) = d2e0.d2exp_node
 val s2e0 = s2hnf2exp (s2f0)
 //
 in
@@ -775,7 +771,7 @@ implement
 d2exp_trdn_seq (d2e0, s2f0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val- D2Eseq (d2es) = d2e0.d2exp_node
+val-D2Eseq (d2es) = d2e0.d2exp_node
 val s2e0 = s2hnf2exp (s2f0)
 //
 fun aux (
@@ -822,7 +818,7 @@ implement
 d2exp_trdn_effmask
   (d2e0, s2f0) = let
   val loc0 = d2e0.d2exp_loc
-  val- D2Eeffmask (s2fe, d2e) = d2e0.d2exp_node
+  val-D2Eeffmask (s2fe, d2e) = d2e0.d2exp_node
   val (pfpush | ()) = the_effenv_push_effmask (s2fe)
   val s2e0 = s2hnf2exp (s2f0)
   val d3e = d2exp_trdn (d2e, s2e0)
@@ -837,7 +833,7 @@ implement
 d2exp_trdn_exist
   (d2e0, s2f0) = let
   val loc0 = d2e0.d2exp_loc
-  val- D2Eexist (s2a, d2e) = d2e0.d2exp_node
+  val-D2Eexist (s2a, d2e) = d2e0.d2exp_node
   val s2e0 = s2hnf2exp (s2f0)
   var s2ps: s2explst_vt
   var err: int = 0
@@ -874,7 +870,7 @@ implement
 d2exp_trdn_trywith
   (d2e0, s2f0) = let
   val loc0 = d2e0.d2exp_loc
-  val- D2Etrywith
+  val-D2Etrywith
     (r2es, d2e, c2ls) = d2e0.d2exp_node
 //
   val (pfpush | ()) = the_d2varenv_push_try ()

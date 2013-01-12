@@ -55,7 +55,7 @@ local
 fun f_identity (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
-  val- list_cons (s2e1, s2es) = s2es
+  val-list_cons (s2e1, s2es) = s2es
 in
   s3exp_make (env, s2e1)
 end // end of [identity]
@@ -65,7 +65,7 @@ end // end of [identity]
 fun f_neg_bool (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
-  val- list_cons (s2e, s2es) = s2es
+  val-list_cons (s2e, s2es) = s2es
   val s3be = s3exp_make (env, s2e)
 in
   s3exp_bneg (s3be)
@@ -74,8 +74,8 @@ end // end of [f_neg_bool]
 fun f_add_bool_bool (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
+  val-list_cons (s2e1, s2es) = s2es
+  val-list_cons (s2e2, s2es) = s2es
   val s3be1 = s3exp_make (env, s2e1)
   val s3be2 = s3exp_make (env, s2e2)
 in
@@ -85,8 +85,8 @@ end // end of [f_add_bool_bool]
 fun f_mul_bool_bool (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
+  val-list_cons (s2e1, s2es) = s2es
+  val-list_cons (s2e2, s2es) = s2es
   val s3be1 = s3exp_make (env, s2e1)
   val s3be2 = s3exp_make (env, s2e2)
 in
@@ -96,8 +96,8 @@ end // end of [f_mul_bool_bool]
 fun f_eq_bool_bool (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
+  val-list_cons (s2e1, s2es) = s2es
+  val-list_cons (s2e2, s2es) = s2es
   val s3be1 = s3exp_make (env, s2e1)
   val s3be2 = s3exp_make (env, s2e2)
 in
@@ -107,8 +107,8 @@ end // end of [f_eq_bool_bool]
 fun f_neq_bool_bool (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
+  val-list_cons (s2e1, s2es) = s2es
+  val-list_cons (s2e2, s2es) = s2es
   val s3be1 = s3exp_make (env, s2e1)
   val s3be2 = s3exp_make (env, s2e2)
 in
@@ -120,7 +120,7 @@ end // end of [f_neq_bool_bool]
 fun f_neg_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
+  val-list_cons (s2e1, s2es) = s2es
   val s3ie1 = s3exp_make (env, s2e1)
 in
   s3exp_ineg (s3ie1)
@@ -129,8 +129,8 @@ end // end of [f_neg_int]
 fun f_add_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
+  val-list_cons (s2e1, s2es) = s2es
+  val-list_cons (s2e2, s2es) = s2es
   val s3ie1 = s3exp_make (env, s2e1)
   val s3ie2 = s3exp_make (env, s2e2)
 in
@@ -140,8 +140,8 @@ end // end of [f_add_int_int]
 fun f_sub_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
+  val-list_cons (s2e1, s2es) = s2es
+  val-list_cons (s2e2, s2es) = s2es
   val s3ie1 = s3exp_make (env, s2e1)
   val s3ie2 = s3exp_make (env, s2e2)
 in
@@ -151,8 +151,8 @@ end // end of [f_sub_int_int]
 fun f_mul_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
+  val-list_cons (s2e1, s2es) = s2es
+  val-list_cons (s2e2, s2es) = s2es
   val s3ie1 = s3exp_make (env, s2e1)
   val s3ie2 = s3exp_make (env, s2e2)
 in
@@ -171,8 +171,8 @@ fun f_idiv_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let
   val s2es0 = s2es
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
+  val-list_cons (s2e1, s2es) = s2es
+  val-list_cons (s2e2, s2es) = s2es
   val sgn = (
     case+ s2e2.s2exp_node of
     | S2Eint (i) => compare_int_int (i, 0)
@@ -202,8 +202,8 @@ end // end of [f_idiv_int_int]
 fun f_lt_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
+  val-list_cons (s2e1, s2es) = s2es
+  val-list_cons (s2e2, s2es) = s2es
   val s3ie1 = s3exp_make (env, s2e1)
   val s3ie2 = s3exp_make (env, s2e2)
 in
@@ -213,8 +213,8 @@ end // end of [f_lt_int_int]
 fun f_lte_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
+  val-list_cons (s2e1, s2es) = s2es
+  val-list_cons (s2e2, s2es) = s2es
   val s3ie1 = s3exp_make (env, s2e1)
   val s3ie2 = s3exp_make (env, s2e2)
 in
@@ -224,8 +224,8 @@ end // end of [f_lte_int_int]
 fun f_gt_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
+  val-list_cons (s2e1, s2es) = s2es
+  val-list_cons (s2e2, s2es) = s2es
   val s3ie1 = s3exp_make (env, s2e1)
   val s3ie2 = s3exp_make (env, s2e2)
 in
@@ -235,8 +235,8 @@ end // end of [f_gt_int_int]
 fun f_gte_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
+  val-list_cons (s2e1, s2es) = s2es
+  val-list_cons (s2e2, s2es) = s2es
   val s3ie1 = s3exp_make (env, s2e1)
   val s3ie2 = s3exp_make (env, s2e2)
 in
@@ -246,8 +246,8 @@ end // end of [f_gte_int_int]
 fun f_eq_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
+  val-list_cons (s2e1, s2es) = s2es
+  val-list_cons (s2e2, s2es) = s2es
   val s3ie1 = s3exp_make (env, s2e1)
   val s3ie2 = s3exp_make (env, s2e2)
 in
@@ -257,8 +257,8 @@ end // end of [f_eq_int_int]
 fun f_neq_int_int (
   env: &s2vbcfenv, s2es: s2explst
 ) : s3exp = let 
-  val- list_cons (s2e1, s2es) = s2es
-  val- list_cons (s2e2, s2es) = s2es
+  val-list_cons (s2e1, s2es) = s2es
+  val-list_cons (s2e2, s2es) = s2es
   val s3ie1 = s3exp_make (env, s2e1)
   val s3ie2 = s3exp_make (env, s2e2)
 in

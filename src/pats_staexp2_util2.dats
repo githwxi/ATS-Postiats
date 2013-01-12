@@ -213,12 +213,16 @@ s2exp_topize_1 (s2e) = s2exp_topize (1(*knd*), s2e)
 implement
 s2exp_invar_flag
   (s2e0, flag) = let
-  val- S2Einvar (s2e) = s2e0.s2exp_node
+//
+val-S2Einvar (s2e) = s2e0.s2exp_node
+//
 in
 //
 case+
   s2e.s2exp_node of
+//
 | S2Evar _ => s2e0
+//
 | S2EVar _ => let
     val flag0 = flag
     val s2e =
@@ -227,6 +231,7 @@ case+
   in
     if flag <= flag0 then s2e0 else s2e
   end // end of [S2Evar]
+//
 | _ => let
     val () = flag := flag + 1 in s2exp_hnfize_flag (s2e, flag)
   end // end of [_]

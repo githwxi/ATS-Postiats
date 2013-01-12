@@ -133,7 +133,7 @@ case+ d2i of
   end
 | D2ITMvar d2v => let
     val s2qs = d2var_get_decarg (d2v)
-    val- Some (s2e) = d2var_get_type (d2v)
+    val-Some (s2e) = d2var_get_type (d2v)
     val s2e = s2exp_unis (s2qs, s2e)
   in
     d3exp_item (loc0, s2e, d2i)
@@ -155,7 +155,7 @@ end // end of [d2exp_trup_item]
 fun d3exp_trup_item
   (d3e0: d3exp): d3exp = let
   val loc0 = d3e0.d3exp_loc
-  val- D3Eitem (d2i) = d3e0.d3exp_node
+  val-D3Eitem (d2i) = d3e0.d3exp_node
 in
   case+ d2i of
   | D2ITMcst d2c => d2exp_trup_cst (loc0, d2c)
@@ -195,7 +195,7 @@ fun fprint_d3pitm (
   out: FILEref, x: d3pitm
 ) : void = let
   val D3PITM (pval, d3e) = x
-  val- D3Eitem (d2i) = d3e.d3exp_node
+  val-D3Eitem (d2i) = d3e.d3exp_node
   val () = fprint_d2itm (out, d2i)
   val () = fprint_string (out, " of ")
   val () = fprint_int (out, pval)
@@ -258,7 +258,7 @@ case+ d3as of
       // HX: [err] is not used
       val () = trans3_env_add_proplst_vt (loc_fun, s2ps)
       val d3e_fun = d3exp_app_unista (loc0, s2e_fun, d3e_fun)
-      val- S2Efun (
+      val-S2Efun (
         fc, _(*lin*), s2fe_fun, _(*npf*), s2es_fun_arg, s2e_fun_res
       ) = s2e_fun.s2exp_node // end of[val]
 //
@@ -411,7 +411,7 @@ case+ d2as of
       end
     | _ => let
         val () = fold@ (xs)
-        val+ list_cons (d2a, d2as) = d2as
+        val+list_cons (d2a, d2as) = d2as
       in
         case+ d2a of
         | D2EXPARGsta

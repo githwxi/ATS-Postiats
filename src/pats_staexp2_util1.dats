@@ -215,11 +215,11 @@ fun aux ( // HX: only when prgm = 1
   npf: int, lin: int, xs: labs2explst
 ) : s2rt =
   if npf > 0 then let
-    val- list_cons (_, xs) = xs
+    val-list_cons (_, xs) = xs
   in
     aux (npf-1, lin, xs)
   end else let
-    val- list_cons (x, xs) = xs
+    val-list_cons (x, xs) = xs
     val SLABELED (_, _, s2e) = x
     val s2t = s2e.s2exp_srt
 (*
@@ -337,9 +337,10 @@ s2cst_select_locs2explstlst (s2cs, xss) = let
     s2t: s2rt, xss: List (locs2explst)
   ) : bool =
     case+ xss of
-    | list_cons (xs, xss) => (
+    | list_cons
+        (xs, xss) => (
         if s2rt_is_fun (s2t) then let
-          val- S2RTfun (s2ts_arg, s2t_res) = s2t
+          val-S2RTfun (s2ts_arg, s2t_res) = s2t
         in
           if test1 (xs, s2ts_arg) then test2 (s2t_res, xss) else false
         end else false

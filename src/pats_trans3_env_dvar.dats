@@ -892,7 +892,7 @@ case+ 0 of
 | _ when
     refknd = 0 => d2vfin_unchecked (d2v)
 | _ (* refknd = 1 *) => let
-    val- Some (
+    val-Some (
       d2v_view
     ) = d2var_get_view (d2v) in d2vfin_unchecked (d2v_view)
   end // end of [_]
@@ -916,8 +916,8 @@ case+ 0 of
 | _ when refknd = 0 =>
     d2var_set_finknd (d2v, D2VFINsome s2e)
 | _ (* refknd = 1 *) => let
-    val- Some (d2v_view) = d2var_get_view (d2v)
-    val- Some (s2e_addr) = d2var_get_addr (d2v)
+    val-Some (d2v_view) = d2var_get_view (d2v)
+    val-Some (s2e_addr) = d2var_get_addr (d2v)
     val s2e_at = s2exp_at (s2e, s2e_addr)
   in
     d2var_set_finknd (d2v_view, D2VFINsome (s2e_at))
@@ -934,21 +934,21 @@ in
 case+ wths2es of
 | WTHS2EXPLSTcons_invar
     (refknd, s2e, wths2es) => let
-    val- list_cons (p3t, p3ts) = p3ts
+    val-list_cons (p3t, p3ts) = p3ts
     val () = aux_invar (refknd, p3t, s2e)
   in
     auxlst (loc0, p3ts, wths2es)
   end // end of [WTHS2EXPLSTcons_invar]
 | WTHS2EXPLSTcons_trans
     (refknd, s2e, wths2es) => let
-    val- list_cons (p3t, p3ts) = p3ts
+    val-list_cons (p3t, p3ts) = p3ts
     val () = aux_trans (refknd, p3t, s2e)
   in
     auxlst (loc0, p3ts, wths2es)     
   end // end of [WTHS2EXPLSTcons_trans]
 | WTHS2EXPLSTcons_none
     (wths2es) => let
-    val- list_cons (p3t, p3ts) = p3ts
+    val-list_cons (p3t, p3ts) = p3ts
   in
     auxlst (loc0, p3ts, wths2es)
   end // end of [WTHS2EXPLSTcons_none]
@@ -965,7 +965,7 @@ in
 case+ s2e.s2exp_node of
 | S2Ewth
     (s2e, wths2es) => s2e where {
-    val- ~Some_vt (p3ts) = opt where {
+    val-~Some_vt (p3ts) = opt where {
       val opt = the_lamlpenv_get_funarg ()
     } // end of [val]
     val () = auxlst (loc0, p3ts, wths2es)

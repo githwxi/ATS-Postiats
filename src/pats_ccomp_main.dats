@@ -51,7 +51,7 @@ in
 case+ fls of
 | list_cons
     (fl, fls) => let
-    val- Some (fent) =
+    val-Some (fent) =
       funlab_get_funent (fl)
     // end of [val]
     val () = emit_funent_ptype (out, fent)
@@ -84,7 +84,7 @@ case+ fls of
 | list_cons
     (fl, fls) => let
     val tmpknd = funlab_get_tmpknd (fl)
-    val- Some (fent) = funlab_get_funent (fl)
+    val-Some (fent) = funlab_get_funent (fl)
     val () =
       if tmpknd > 0 then fprint_string (out, "#if(0)\n")
     // end of [val]

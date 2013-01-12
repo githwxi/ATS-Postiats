@@ -87,7 +87,7 @@ fun auxmain .<>. (
 , pfobj: pfobj
 , d3ls: d3lablst
 ) : s2exp = let
-  val+ ~PFOBJ (
+  val+~PFOBJ (
     d2vw, s2e_ctx, s2e_elt, s2l
   ) = pfobj // end of [val]
   var linrest: int = 0

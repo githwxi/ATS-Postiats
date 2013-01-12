@@ -133,7 +133,7 @@ implement
 symenv_pop
   (env) = map0 where {
   val map0 = env.map
-  val- ~list_vt_cons (map, maps) = env.maplst
+  val-~list_vt_cons (map, maps) = env.maplst
   val () = env.map := map
   val () = env.maplst := maps
 } // end of [symenv_pop]
@@ -179,7 +179,7 @@ symenv_restore
   viewtypedef map = symmap (itm)
   val top = env.map
   val () = symmaplst_free (env.maplst)
-  val- ~list_vt_cons (x, xs) = env.savedlst
+  val-~list_vt_cons (x, xs) = env.savedlst
   val () = env.savedlst := xs
   val () = env.map := x.0 and () = env.maplst := x.1
 in
@@ -192,9 +192,9 @@ implement
 symenv_localjoin
   {itm} (env) = let
   val ms = env.maplst
-  val- ~list_vt_cons (m1, ms) = ms
+  val-~list_vt_cons (m1, ms) = ms
   val () = symmap_free (m1)
-  val- ~list_vt_cons (m2, ms) = ms
+  val-~list_vt_cons (m2, ms) = ms
   val () = env.maplst := ms
 in
   symmap_joinwth {itm} (env.map, m2)

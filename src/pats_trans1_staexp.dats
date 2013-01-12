@@ -364,7 +364,7 @@ aux_item (
         print "s0exp_tr: S0Eimp: efc = "; print_effcst efc; print_newline ()
       end // end of [val]
 *)
-      val- ~Some_vt (f) = the_fxtyenv_find (MINUSGT)
+      val-~Some_vt (f) = the_fxtyenv_find (MINUSGT)
       val s1e_imp = s1exp_imp (loc0, fc, lin, prf, Some efc)
     in
       s1exp_make_opr (s1e_imp, f)
@@ -477,7 +477,7 @@ s0expopt_tr (opt) = case+ opt of
 
 implement
 labs0exp_tr (x) = let
-  val+ SL0ABELED (l, name, s0e) = x
+  val+SL0ABELED (l, name, s0e) = x
 in
   labs1exp_make (l, name, s0exp_tr (s0e))
 end // end of [labs0exp_tr]
@@ -675,7 +675,7 @@ in
 //
 case+ extopt of
 | Some s0tr => let
-    val- $LEX.T_STRING (ext) = s0tr.token_node
+    val-$LEX.T_STRING (ext) = s0tr.token_node
     var ext2: string = ext // removing mac#, ext#, sta#
   in
     case+ 0 of

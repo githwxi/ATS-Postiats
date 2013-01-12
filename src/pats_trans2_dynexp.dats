@@ -194,7 +194,7 @@ case+ ans of
   case+ d2i0 of
   | D2ITMcon d2cs => let
       val d2cs = d2con_select_arity (d2cs, 0)
-      val- list_cons (d2c, _) = d2cs // HX: [d2cs] cannot be nil
+      val-list_cons (d2c, _) = d2cs // HX: [d2cs] cannot be nil
       val locarg = $LOC.location_rightmost (loc0)
     in
       d2exp_con (
@@ -479,7 +479,7 @@ case+ d2i of
     val loc1 = d1e1.d1exp_loc
     val n = list_length (darg)
     val d2cs = d2con_select_arity (d2cs, n)
-    val- list_cons (d2c, _) = d2cs
+    val-list_cons (d2c, _) = d2cs
     val sarg = s1exparglst_tr (sarg)
     val darg = d1explst_tr (darg)
     val npf = (if npf >= ~1 then npf else ~1): int
@@ -615,7 +615,7 @@ implement
 d1exp_tr_macsyn (d1e0) = let
 //
 val loc0 = d1e0.d1exp_loc
-val- D1Emacsyn (knd, d1e) = d1e0.d1exp_node
+val-D1Emacsyn (knd, d1e) = d1e0.d1exp_node
 (*
 val () = {
   val () = print ("d1exp_tr_macsyn: knd = ")
@@ -664,7 +664,7 @@ d1exp_tr_macfun
   (d1e0) = let
 //
 val loc0 = d1e0.d1exp_loc
-val- D1Emacfun (name, d1es) = d1e0.d1exp_node
+val-D1Emacfun (name, d1es) = d1e0.d1exp_node
 //
 val d2es = d1explst_tr (d1es)
 //
@@ -793,7 +793,7 @@ fn d1exp_tr_delay
 #define :: list_cons
 //
 val loc0 = d1e0.d1exp_loc
-val- D1Edelay (lin, d1e) = d1e0.d1exp_node
+val-D1Edelay (lin, d1e) = d1e0.d1exp_node
 //
 in
 //
@@ -1587,7 +1587,7 @@ d1expopt_tr
 
 implement
 labd1exp_tr (ld1e) = let
-  val+ $SYN.DL0ABELED (l, d1e) = ld1e in labd2exp_make (l, d1exp_tr (d1e))
+  val+$SYN.DL0ABELED (l, d1e) = ld1e in labd2exp_make (l, d1exp_tr (d1e))
 end // end of [labd0exp_tr]
 
 (* ****** ****** *)

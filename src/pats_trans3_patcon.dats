@@ -90,7 +90,7 @@ p2at_trup_con
   (p2t0) = let
 //
 val loc0 = p2t0.p2at_loc
-val- P2Tcon (
+val-P2Tcon (
   _(*pck*), d2c, s2qs, s2e_con, npf, p2ts_arg
 ) = p2t0.p2at_node
 //
@@ -185,7 +185,7 @@ val islin = d2var_is_linear (d2v)
 in
 //
 if islin then let
-  val- Some
+  val-Some
     (s2e) = d2var_get_mastype (d2v)
   // end of [val]
 in
@@ -320,9 +320,9 @@ fun auxpat2 (
 ) : s2exp = let
   val loc = p3t.p3at_loc
   val d2v = auxpat1 (p3t)
-  val- Some (s2e) = d2var_get_type (d2v)
+  val-Some (s2e) = d2var_get_type (d2v)
   val d2vw = d2var_mutablize_none (loc, d2v, s2e) // making [d2v] mutable
-  val- Some (s2l) = d2var_get_addr (d2v)
+  val-Some (s2l) = d2var_get_addr (d2v)
 in
   s2l
 end (* end of [auxpat2] *)
@@ -353,7 +353,7 @@ end // end of [val]
 //
 fun s2addr_get
   (d2vw: d2var): s2exp = let
-  val- Some (s2l) = d2var_get_addr (d2vw) in s2l
+  val-Some (s2l) = d2var_get_addr (d2vw) in s2l
 end // end of [s2addr_get]
 //
 val s2ls =
@@ -396,7 +396,7 @@ val () = (
 *)
 val loc0 = p2t0.p2at_loc
 val s2e0 = s2hnf2exp (s2f0)
-val- P2Tcon (
+val-P2Tcon (
   pck, d2c, s2qs, s2e_con, npf, p2ts_arg
 ) = p2t0.p2at_node
 //

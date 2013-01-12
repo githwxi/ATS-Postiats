@@ -82,7 +82,7 @@ fprint_cstsp (out, x) =
 implement
 fprint_i0nt
   (out, x) = let
-  val- T_INTEGER (_, rep, _) = x.token_node
+  val-T_INTEGER (_, rep, _) = x.token_node
 in
   fprint_string (out, rep)
 end // end of [fprint_i0nt]
@@ -90,13 +90,13 @@ end // end of [fprint_i0nt]
 implement
 fprint_c0har
   (out, x) = let
-  val- T_CHAR (c) = x.token_node in fprint_char (out, c)
+  val-T_CHAR (c) = x.token_node in fprint_char (out, c)
 end // end of [fprint_c0har]
 
 implement
 fprint_f0loat
   (out, x) = let
-  val- T_FLOAT (_, rep, _) = x.token_node
+  val-T_FLOAT (_, rep, _) = x.token_node
 in
   fprint_string (out, rep)
 end // end of [fprint_f0loat]
@@ -104,7 +104,7 @@ end // end of [fprint_f0loat]
 implement
 fprint_s0tring
   (out, x) = let
-  val- T_STRING (str) = x.token_node in fprint_string (out, str)
+  val-T_STRING (str) = x.token_node in fprint_string (out, str)
 end // end of [fprint_c0har]
 
 (* ****** ****** *)
@@ -628,7 +628,7 @@ end // end of [fprint_s0exparg]
 implement
 fprint_labs0exp
   (out, x) = () where {
-  val+ SL0ABELED (l, name, s0e) = x
+  val+SL0ABELED (l, name, s0e) = x
   val () = fprint_l0ab (out, l)
   val () = fprint_string (out, "= ")
   val () = fprint_s0exp (out, s0e)
@@ -1066,7 +1066,7 @@ fprint_d0expopt
 implement
 fprint_labd0exp
   (out, x) = () where {
-  val+ DL0ABELED (l, d0e) = x
+  val+DL0ABELED (l, d0e) = x
   val () = fprint_l0ab (out, l)
   val () = fprint_string (out, "= ")
   val () = fprint_d0exp (out, d0e)

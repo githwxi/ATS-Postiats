@@ -134,7 +134,7 @@ pstar_fun{a}
         val () =
           res := list_vt_cons {a} {0} (x, ?)
         // end of [val]
-        val+ list_vt_cons (_, !p_res1) = res
+        val+list_vt_cons (_, !p_res1) = res
         val () = loop (buf, !p_res1, err)
         prval () = fold@ (res)
       } // end of [_]
@@ -177,7 +177,7 @@ pstar_sep_fun{a}
           val () =
             res := list_vt_cons {a} {0} (x, ?)
           // end of [val]
-          val+ list_vt_cons (_, !p_res1) = res
+          val+list_vt_cons (_, !p_res1) = res
           val () = loop (buf, !p_res1, err)
           prval () = fold@ (res)
         in    

@@ -176,12 +176,12 @@ case+ d2e0.d2exp_node of
 //
 | D2Ei0nt (tok) => d2exp_trup_i0nt (d2e0, tok)
 | D2Ec0har (tok) => let
-    val- T_CHAR (c) = tok.token_node
+    val-T_CHAR (c) = tok.token_node
   in
     d2exp_trup_char (d2e0, c) // by default: char1 (c)
   end // end of [D2Ec0har]
 | D2Es0tring (tok) => let
-    val- T_STRING (str) = tok.token_node
+    val-T_STRING (str) = tok.token_node
   in
     d2exp_trup_string (d2e0, str) // by default: string1 (len)
   end // end of [D2Es0tring]
@@ -587,7 +587,7 @@ end // end of [d2var_get_type_some]
 implement
 d2exp_trup_var_mutabl
   (loc0, d2v) = let
-  val- Some (s2l) = d2var_get_addr (d2v)
+  val-Some (s2l) = d2var_get_addr (d2v)
   val s2e = s2addr_deref (loc0, s2l, list_nil)
 in
   d3exp_var (loc0, s2e, d2v)
@@ -690,7 +690,7 @@ end // end of [d2cst_trup_cst]
 implement
 d2exp_trup_con (d2e0) = let
   val loc0 = d2e0.d2exp_loc
-  val- D2Econ (
+  val-D2Econ (
     d2c, locfun, s2as, npf, locarg, d2es_arg
   ) = d2e0.d2exp_node
   val s2e_con = d2con_get_type (d2c)
@@ -759,7 +759,7 @@ d2exp_trup_tmpid
 //
 val loc0 = d2e0.d2exp_loc
 val locarg = $LOC.location_rightmost (loc0)
-val- D2Etmpid (d2e_id, t2mas) = d2e0.d2exp_node
+val-D2Etmpid (d2e_id, t2mas) = d2e0.d2exp_node
 //
 in
 //
@@ -1012,7 +1012,7 @@ d2exp_trup_lst
   (d2e0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val- D2Elst (lin, opt, d2es) = d2e0.d2exp_node
+val-D2Elst (lin, opt, d2es) = d2e0.d2exp_node
 (*
 val () = println! ("d2exp_trup_lst: lin = ", lin)
 *)
@@ -1074,7 +1074,7 @@ implement
 d2exp_trup_tup
   (d2e0) = let
 val loc0 = d2e0.d2exp_loc
-val- D2Etup (tupknd, npf, d2es) = d2e0.d2exp_node
+val-D2Etup (tupknd, npf, d2es) = d2e0.d2exp_node
 (*
 val () = (
   fprintln! (stdout_ref, "d2exp_trup_tup: d2es = ", d2es)
@@ -1111,7 +1111,7 @@ implement
 d2exp_trup_rec
   (d2e0) = let
   val loc0 = d2e0.d2exp_loc
-  val- D2Erec (recknd, npf, ld2es) = d2e0.d2exp_node
+  val-D2Erec (recknd, npf, ld2es) = d2e0.d2exp_node
 //
 (*
   val () = (
@@ -1147,7 +1147,7 @@ implement
 d2exp_trup_seq (d2e0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val- D2Eseq (d2es) = d2e0.d2exp_node
+val-D2Eseq (d2es) = d2e0.d2exp_node
 //
 fun aux (
   d2e: d2exp
@@ -1215,7 +1215,7 @@ implement
 d2exp_trup_effmask
   (d2e0) = let
   val loc0 = d2e0.d2exp_loc
-  val- D2Eeffmask (s2fe, d2e) = d2e0.d2exp_node
+  val-D2Eeffmask (s2fe, d2e) = d2e0.d2exp_node
   val (pfpush | ()) = the_effenv_push_effmask (s2fe)
   val d3e = d2exp_trup (d2e)
   val () = the_effenv_pop (pfpush | (*none*))
@@ -1296,7 +1296,7 @@ end // end of [d2exp_trup_arg_body]
 implement
 d2exp_trup_lam_dyn (d2e0) = let
   val loc0 = d2e0.d2exp_loc
-  val- D2Elam_dyn (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
+  val-D2Elam_dyn (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
   val fc0 = FUNCLOfun () // default
   val s2ep3tsd3e = d2exp_trup_arg_body (loc0, fc0, lin, npf, p2ts_arg, d2e_body)
   val s2e_fun = s2ep3tsd3e.0
@@ -1309,7 +1309,7 @@ end // end of [d2exp_trup_lam_dyn]
 implement
 d2exp_trup_laminit_dyn (d2e0) = let
   val loc0 = d2e0.d2exp_loc
-  val- D2Elaminit_dyn (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
+  val-D2Elaminit_dyn (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
   val fc0 = FUNCLOclo (0) // default
   val s2ep3tsd3e = d2exp_trup_arg_body (loc0, fc0, lin, npf, p2ts_arg, d2e_body)
   val s2e_fun = s2ep3tsd3e.0
@@ -1339,7 +1339,7 @@ end // end of [d2exp_trup_laminit_dyn]
 implement
 d2exp_trup_lam_sta (d2e0) = let
   val loc0 = d2e0.d2exp_loc
-  val- D2Elam_sta (s2vs, s2ps, d2e_body) = d2e0.d2exp_node
+  val-D2Elam_sta (s2vs, s2ps, d2e_body) = d2e0.d2exp_node
 //
   val (pfenv | ()) = trans3_env_push ()
   val () = trans3_env_add_svarlst (s2vs)
@@ -1361,7 +1361,7 @@ implement
 d2exp_trup_lam_met
   (d2e0) = let
   val loc0 = d2e0.d2exp_loc
-  val- D2Elam_met
+  val-D2Elam_met
     (d2vs_ref, s2es_met, d2e_body) = d2e0.d2exp_node
   // end of [val]
   val () = s2explst_check_termet (loc0, s2es_met)
@@ -1378,7 +1378,7 @@ implement
 d2exp_trup_delay (d2e0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val- D2Edelay (d2e_body) = d2e0.d2exp_node
+val-D2Edelay (d2e_body) = d2e0.d2exp_node
 val fc0 = FUNCLOfun () // default
 val lin = 0
 val npf = ~1
@@ -1411,7 +1411,7 @@ implement
 d2exp_trup_for (d2e0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val- D2Efor (i2nv, init, test, post, body) = d2e0.d2exp_node
+val-D2Efor (i2nv, init, test, post, body) = d2e0.d2exp_node
 //
 in
   d2exp_trup_loop (loc0, i2nv, Some(init), test, Some(post), body)
@@ -1421,7 +1421,7 @@ implement
 d2exp_trup_while (d2e0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val- D2Ewhile (i2nv, test, body) = d2e0.d2exp_node
+val-D2Ewhile (i2nv, test, body) = d2e0.d2exp_node
 //
 in
   d2exp_trup_loop (loc0, i2nv, None(*init*), test, None(*post*), body)
@@ -1433,7 +1433,7 @@ implement
 d2exp_trup_trywith
   (d2e0) = let
   val loc0 = d2e0.d2exp_loc
-  val- D2Etrywith
+  val-D2Etrywith
     (r2es, d2e, c2ls) = d2e0.d2exp_node
   val d3e = d2exp_trup (d2e)
   val s2e_res = d3exp_get_type (d3e)
@@ -1464,7 +1464,7 @@ end // end of [d2exp_trup_trywith]
 
 implement
 d2exp_trup_mac (d2e0) = let
-  val- D2Emac (d2m) = d2e0.d2exp_node
+  val-D2Emac (d2m) = d2e0.d2exp_node
 (*
   val () = println! ("d2exp_trup: D2Emac: loc0 = ", d2e0.d2exp_loc)
 *)
@@ -1483,7 +1483,7 @@ d2exp_trup_macsyn
   (d2e0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val- D2Emacsyn (knd, d2e) = d2e0.d2exp_node
+val-D2Emacsyn (knd, d2e) = d2e0.d2exp_node
 //
 val () = (
   println! ("d2exp_trup: D2Emacsyn: knd = ", knd);

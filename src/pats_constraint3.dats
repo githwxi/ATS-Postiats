@@ -101,7 +101,7 @@ case+ s3e of
 | S3Esizeof _ => s2rt_int
 //
 | S3Eapp (s3e_fun, _) => s2t where {
-    val- S2RTfun (_, s2t) = s3exp_get_srt (s3e_fun)
+    val-S2RTfun (_, s2t) = s3exp_get_srt (s3e_fun)
   } // end of [S3Eapp]
 //
 | S3Eerr (s2t) => s2t

@@ -212,7 +212,7 @@ typedef J = List (I)
 fn errapp (
   locf: a -> location, m: fxitm a
 ) : a = let
-  val- FXITMatm atm = m
+  val-FXITMatm atm = m
   val loc = locf (atm)
   val () = $LOC.prerr_location (loc)
   val () = prerr ": error(1)"

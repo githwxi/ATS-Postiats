@@ -385,7 +385,7 @@ eval1_d2exp_applst (
   loc0, ctx, env, d2e0
 ) = let
 //
-val- D2Eapplst
+val-D2Eapplst
   (d2e, d2as) = d2e0.d2exp_node
 val loc = d2e.d2exp_loc
 //
@@ -436,7 +436,7 @@ implement
 eval1_d2exp_macsyn (
   loc0, ctx, env, d2e0
 ) = let
-  val- D2Emacsyn (knd, d2e) = d2e0.d2exp_node
+  val-D2Emacsyn (knd, d2e) = d2e0.d2exp_node
 in
 //
 case+ knd of
@@ -718,7 +718,7 @@ fun auxlst2 (
   case+ d2cs of
   | list_cons (d2c, d2cs) => let
       val p2t = eval1_p2at (loc0, ctx, env, d2c.v2aldec_pat)
-      val- list_cons (d2e, d2es) = d2es
+      val-list_cons (d2e, d2es) = d2es
       val ann = eval1_s2expopt (loc0, ctx, env, d2c.v2aldec_ann)
       val d2c = v2aldec_make (loc0, p2t, d2e, ann)
       val d2cs = auxlst2 (loc0, ctx, env, d2cs, d2es)
@@ -763,7 +763,7 @@ fun auxlst2 (
   case+ d2cs of
   | list_cons (d2c, d2cs) => let
       val d2e = eval1_d2exp (loc0, ctx, env, d2c.v2aldec_def)
-      val- list_cons (p2t, p2ts) = p2ts
+      val-list_cons (p2t, p2ts) = p2ts
       val ann = eval1_s2expopt (loc0, ctx, env, d2c.v2aldec_ann)
       val d2c = v2aldec_make (loc0, p2t, d2e, ann)
       val d2cs = auxlst2 (loc0, ctx, env, d2cs, p2ts)

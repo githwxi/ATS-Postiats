@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload ERR = "./pats_error.sats"
+
+(* ****** ****** *)
+
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_ccomp_emit"
@@ -39,6 +43,10 @@ implement prerr_FILENAME<> () = prerr "pats_ccomp_emit"
 (* ****** ****** *)
 
 staload LAB = "./pats_label.sats"
+overload = with $LAB.eq_label_label
+
+(* ****** ****** *)
+
 staload STMP = "./pats_stamp.sats"
 
 (* ****** ****** *)
@@ -61,9 +69,7 @@ staload D2E = "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-staload HSE = "./pats_histaexp.sats"
-typedef hisexp = $HSE.hisexp
-typedef hisexplst = $HSE.hisexplst
+staload "./pats_histaexp.sats"
 
 (* ****** ****** *)
 
@@ -524,7 +530,7 @@ implement
 emit_primval_tmp
   (out, pmv0) = let
 //
-val- PMVtmp (tmp) = pmv0.primval_node
+val-PMVtmp (tmp) = pmv0.primval_node
 //
 in
   emit_tmpvar (out, tmp)
@@ -534,7 +540,7 @@ implement
 emit_primval_tmpref
   (out, pmv0) = let
 //
-val- PMVtmpref (tmp) = pmv0.primval_node
+val-PMVtmpref (tmp) = pmv0.primval_node
 //
 in
   emit_tmpvar (out, tmp)
@@ -546,7 +552,7 @@ implement
 emit_primval_arg
   (out, pmv0) = let
 //
-val- PMVarg (ind) = pmv0.primval_node
+val-PMVarg (ind) = pmv0.primval_node
 //
 in
   fprintf (out, "arg%i", @(ind))
@@ -558,7 +564,7 @@ implement
 emit_primval_d2cst
   (out, pmv0) = let
 //
-val- PMVcst (d2c) = pmv0.primval_node
+val-PMVcst (d2c) = pmv0.primval_node
 //
 in
   emit_d2cst (out, d2c)
@@ -570,7 +576,7 @@ implement
 emit_primval_bool
   (out, pmv0) = let
 //
-val- PMVbool (b) = pmv0.primval_node
+val-PMVbool (b) = pmv0.primval_node
 val name = (
   if b then "atsbool_true" else "atsbool_false"
 ) : string // end of [val]
@@ -853,7 +859,7 @@ case- ins.instr_node of
 | INSmove_fltrec (
     tmp, lpmvs, hse_rec
   ) => let
-    val extknd = $HSE.hisexp_get_extknd (hse_rec)
+    val extknd = hisexp_get_extknd (hse_rec)
   in
     loop (0(*boxknd*), extknd, tmp, hse_rec, lpmvs, 0)
   end // end of [INSmove_fltrec]
@@ -862,7 +868,7 @@ case- ins.instr_node of
   ) => let
     val (
     ) = emit_move_ptralloc (out, tmp, hse_rec)
-    val extknd = $HSE.hisexp_get_extknd (hse_rec)
+    val extknd = hisexp_get_extknd (hse_rec)
   in
     loop (1(*boxknd*), extknd, tmp, hse_rec, lpmvs, 1)
   end // end of [INSmove_boxrec]
@@ -876,7 +882,7 @@ emit_instr_funcall
   (out, ins) = let
 //
 val loc0 = ins.instr_loc
-val- INSfuncall
+val-INSfuncall
   (tmp, pmv_fun, hse_fun, pmvs_arg) = ins.instr_node
 (*
 val () = (
@@ -956,7 +962,7 @@ case+ pmv_fun.primval_node of
 | _ => let
     val () = prerr_interror_loc (loc0)
     val () = (
-      prerr ": emit_instr_funcall: hse_fun = "; $HSE.prerr_hisexp (hse_fun); prerr_newline ()
+      prerr ": emit_instr_funcall: hse_fun = "; prerr_hisexp (hse_fun); prerr_newline ()
     ) // end of [val]
     val () = assertloc (false)
   in
@@ -970,72 +976,119 @@ end // end of [emit_instr_funcall]
 
 local
 
-fun
-emit_primval_select (
-  out: FILEref, pmv: primval, hse_rec: hisexp, pmls: primlablst
-) : void = let
-//
-val extknd =
-  $HSE.hisexp_get_extknd (hse_rec)
-//
-fun aux (
-  pmls: List_vt (primlab), i: int
-) :<cloref1> void = let
+fun auxfnd (
+  l0: label, lxs: labhisexplst
+) : hisexp = let
+  val-list_cons (lx, lxs) = lxs
+  val HSLABELED (l, opt, x) = lx
+in
+  if l0 = l then x else auxfnd (l0, lxs)
+end // end of [auxfnd]
+
+fun auxsel (
+  hse0: hisexp, pml: primlab
+) : hisexp = let
 in
 //
-case+ pmls of
+case+ pml.primlab_node of
+| PMLlab (lab) => (
+  case+ hse0.hisexp_node of
+  | HSEtyrec
+      (knd, lhses) => auxfnd (lab, lhses)
+    // end of [HSEtyrec]
+  | HSEtyrecsin
+      (lhse) => labhisexp_get_elt (lhse)
+    // end of [HSEtyrecsin]
+  | _ => let
+      val () = prerr_interror ()
+      val () = prerr (": auxsel: hse0 = ")
+      val () = prerr_hisexp (hse0)
+      val () = prerr_newline ()
+      val () = assertloc (false)
+    in
+      $ERR.abort ()
+    end // end of [_]
+  ) // end of [PMLlab]
+| PMLind (ind) => let
+    val-HSEtyarr (hse_elt, s2es) = hse0.hisexp_node
+  in
+    hse_elt
+  end // end of [PMLind]
+//
+end // end of [auxsel]
+
+fun auxselist (
+  hse0: hisexp, pmls: primlablst
+) : List_vt @(hisexp, primlab) = let
+//
+vtypedef
+res = List_vt @(hisexp, primlab)
+fun loop (
+  hse0: hisexp, pmls: primlablst, res: res
+) : res = (
+  case+ pmls of
+  | list_cons (pml, pmls) => let
+      val hse1 = auxsel (hse0, pml)
+      val res = list_vt_cons ( @(hse0, pml), res )
+    in
+      loop (hse1, pmls, res)
+    end // end of [list_cons]
+  | list_nil () => res
+) // end of [loop]
+//
+in
+  loop (hse0, pmls, list_vt_nil ())
+end // end of [auxselist]
+
+fun auxmain (
+  out: FILEref
+, pmv: primval
+, xys: List_vt @(hisexp, primlab)
+, i: int
+) : void = let
+in
+//
+case+ xys of
 | ~list_vt_cons
-    (pml, pmls) => let
+    (xy, xys) => let
+    val hse = xy.0
+    val pml = xy.1
+    val boxknd = hisexp_get_boxknd (hse)
+    val extknd = hisexp_get_extknd (hse)
     val () =
-      if i > 0 then emit_text (out, "(")
-    val () = aux (pmls, i + 1)
+      if boxknd > 0 then {
+      val () = emit_text (out, "(")
+      val () = emit_text (out, "*(")
+      val () = emit_hisexp (out, hse)
+      val () = emit_text (out, "*)")
+    } // end of [val]
+    val () = auxmain (out, pmv, xys, i + 1)
     val () =
-      if i > 0 then emit_text (out, ")")
+      if boxknd > 0 then {
+      val () = emit_text (out, ")")
+    } // end of [val]
     val () = emit_primlab (out, extknd, pml)
   in
     // nothing
   end // end of [list_vt_cons]
-| ~list_vt_nil () => let
-    val () = emit_text (out, "(")
-    val boxknd =
-      $HSE.hisexp_get_boxknd (hse_rec)
-    val () =
-      if boxknd = 0 then {
-      val () = emit_primval (out, pmv)
-    } // end of [val]
-    val () =
-      if boxknd > 0 then {
-      val () = emit_text (out, "*(")
-      val () = emit_hisexp (out, hse_rec)
-      val () = emit_text (out, "*)")
-      val () = emit_primval (out, pmv)
-    } // end of [if]
-    val () = emit_text (out, ")")
-  in
-    // nothing
-  end // end of [list_vt_nil]
+| ~list_vt_nil () => emit_primval (out, pmv)
 //
-end // end of [aux]
+end // end of [auxmain]
 //
-val pmls = list_reverse (pmls)
-//
-in
-  aux (pmls, 0)
-end // end of [emit_primval_select]
-
 in // in of [local]
 
 implement
 emit_instr_move_select
   (out, ins) = let
 //
-val- INSmove_select
-  (tmp, pmv, hse_rec, pmls) = ins.instr_node
+val-INSmove_select
+  (tmp, pmv, hse0, pmls) = ins.instr_node
 //
+val xys = auxselist (hse0, pmls)
 val () = emit_text (out, "ATSMACmove(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
-val () = emit_primval_select (out, pmv, hse_rec, pmls)
+val () = auxmain (out, pmv, xys, 0)
 val () = emit_text (out, ") ; ")
 //
 in

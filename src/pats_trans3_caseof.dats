@@ -558,7 +558,7 @@ val () = (
 ) // end of [val]
 *)
 val loc0 = d2e0.d2exp_loc
-val- D2Ecasehead (casknd, invres, d2es, c2ls) = d2e0.d2exp_node
+val-D2Ecasehead (casknd, invres, d2es, c2ls) = d2e0.d2exp_node
 val s2e0 = s2hnf2exp (s2f0)
 //
 val d3es = d2explst_trup (d2es)
@@ -591,7 +591,7 @@ val () = (
 *)
 //
 val loc0 = d2e0.d2exp_loc
-val- D2Escasehead (invres, s2e_val, sc2ls) = d2e0.d2exp_node
+val-D2Escasehead (invres, s2e_val, sc2ls) = d2e0.d2exp_node
 val s2e0 = s2hnf2exp (s2f0)
 //
 val lsbis =

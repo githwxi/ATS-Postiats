@@ -275,7 +275,7 @@ val d2cs = (
   end // end of [if]
 ) : d2conlst // end of [val]
 //
-val- list_cons (d2c, _) = d2cs // HX: [d2cs] cannot be nil
+val-list_cons (d2c, _) = d2cs // HX: [d2cs] cannot be nil
 //
 var sub = stasub_make_nil ()
 val s2qs = d2con_get_qua (d2c)
@@ -292,7 +292,7 @@ val darg = let
   // end of [nanys]
 in
   if isargomit then let
-    val- list_cons (p1t, _) = darg
+    val-list_cons (p1t, _) = darg
   in
     nanys (p1t.p1at_loc, d2con_get_arity_full (d2c))
   end else

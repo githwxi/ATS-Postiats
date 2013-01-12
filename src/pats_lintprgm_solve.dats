@@ -876,7 +876,7 @@ case+ i1vs of
     val iv_new = myintvec_copy<a> (!p_iv, n)
     val () = myintvec_elimeqlst<a> (stamp, iv_new, i1veqs, n)
     val () = res := list_vt_cons {..}{0} (iv_new, ?)
-    val+ list_vt_cons (_, !p_res) = res
+    val+list_vt_cons (_, !p_res) = res
     val () = loop (!p_i1vs, i1veqs, n, !p_res)
     prval () = fold@ (res)
   in
@@ -1288,7 +1288,7 @@ case+ ics1 of
     val () = i1vs := myivlst_unmark (i1vs, n)
     val () = i1veqs := myiveqlst_unmark (i1veqs, n)
 //
-    val+ ~list_vt_cons (ic1, icsx) = icsx
+    val+~list_vt_cons (ic1, icsx) = icsx
     val () = icnstrlst_free (icsx, n) // HX: [icsx] may have been modified!
     val rics1 = list_vt_cons (ic1, rics1)
 //

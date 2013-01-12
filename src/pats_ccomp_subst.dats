@@ -254,7 +254,7 @@ in
 case+ xs of
 | list_cons
     (x, xs) => let
-    val- Some (xp) = tmpvar_get_origin (x)
+    val-Some (xp) = tmpvar_get_origin (x)
     val _(*inserted*) = tmpvarmap_vt_insert (res, xp, x)
   in
     loop (xs, res)
@@ -322,7 +322,7 @@ val tmpmap2 = tmpmap_make (tmplst2)
 //
 val tmpret2 = tmpvar2tmpvar (tmpmap2, tmpret)
 //
-val- Some (d2c) = funlab_get_d2copt (flab)
+val-Some (d2c) = funlab_get_d2copt (flab)
 val () = ccompenv_add_tmpcstmat (env, TMPCSTMATsome2 (d2c, tmparg2, flab2))
 val inss2 = instrlst_subst (env, tmpmap2, sub, inss, sfx)
 //

@@ -91,7 +91,7 @@ fun auxmain .<>. (
 , s2f0_sel: s2hnf // left
 ) : s2exp = let
 //
-val+ ~PFOBJ (
+val+~PFOBJ (
   d2vw, s2e_ctx, s2e_elt, s2l
 ) = pfobj // end of [val]
 //
@@ -294,7 +294,7 @@ case+ d2lv of
 | D2LVALvar_mut
     (d2v, d2ls) => let
     val d3ls = d2lablst_trup (d2ls)
-    val- Some (s2l) = d2var_get_addr (d2v)
+    val-Some (s2l) = d2var_get_addr (d2v)
     val s2e_sel = s2addr_xchng_check (loc0, loc1, s2l, d3ls, s2f0_sel)
     val s2f_sel = s2exp2hnf (s2e_sel)
     val s2e_sel = s2hnf2exp (s2f_sel)
@@ -341,7 +341,7 @@ fun auxmain .<>. (
 , pfobj: pfobj, d3ls: d3lablst
 , d2e_r: d2exp
 ) : d3exp = let
-  val+ ~PFOBJ (
+  val+~PFOBJ (
     d2vw, s2e_ctx, s2e_elt, s2l
   ) = pfobj // end of [val]
   var linrest: int = 0
@@ -499,7 +499,7 @@ implement
 d2exp_trup_xchng
   (d2e0) = let
   val loc0 = d2e0.d2exp_loc
-  val- D2Exchng (d2e_l, d2e_r) = d2e0.d2exp_node
+  val-D2Exchng (d2e_l, d2e_r) = d2e0.d2exp_node
   val d2lv_l = d2exp_lvalize (d2e_l)
 //
 in
@@ -508,7 +508,7 @@ case+ d2lv_l of
 | D2LVALvar_mut
     (d2v_l, d2ls) => let
     val d3ls = d2lablst_trup (d2ls)
-    val- Some (s2l) = d2var_get_addr (d2v_l)
+    val-Some (s2l) = d2var_get_addr (d2v_l)
     val d3e_r = s2addr_xchng_deref (loc0, s2l, d3ls, d2e_r)
     val () = auxerr_wrt_if (loc0)
   in

@@ -328,7 +328,7 @@ end // end of [s2exp_tyer_appcst]
 implement
 s2exp_tyer_fun
   (loc0, flag, s2e0) = let
-  val- S2Efun (
+  val-S2Efun (
     fc, lin, s2fe, npf, s2es_arg, s2e_res
   ) = s2e0.s2exp_node // end of [val]
 in
@@ -355,7 +355,7 @@ end // end of [s2exp_tyer_fun]
 implement
 s2exp_tyer_tyarr
   (loc0, flag, s2e0) = let
-  val- S2Etyarr
+  val-S2Etyarr
     (s2e_elt, dim) = s2e0.s2exp_node
   val hse_elt = s2exp_tyer (loc0, flag, s2e_elt)
 in
@@ -365,7 +365,7 @@ end // end of [s2exp_tyer_tyarr]
 implement
 s2exp_tyer_tyrec
   (loc0, flag, s2e0) = let
-  val- S2Etyrec
+  val-S2Etyrec
     (knd, npf, ls2es) = s2e0.s2exp_node
   val lhses =
     labs2explst_npf_tyer (loc0, npf, ls2es)
@@ -424,7 +424,9 @@ s2explst_npf_tyer
 in
 //
 if npf > 0 then let
-  val- list_cons (_, s2es) = s2es in s2explst_npf_tyer (loc0, npf-1, s2es)
+  val-list_cons (_, s2es) = s2es
+in
+  s2explst_npf_tyer (loc0, npf-1, s2es)
 end else
   s2explst_tyer (loc0, s2es)
 // end of [if]
@@ -444,7 +446,7 @@ fun auxlst (
 in
 //
 if npf > 0 then let
-  val- list_cons (_, s2es) = s2es
+  val-list_cons (_, s2es) = s2es
 in
   auxlst (loc0, npf-1, s2es, i+1)
 end else ( // HX-2013-01: npf <= 0
@@ -512,7 +514,9 @@ labs2explst_npf_tyer
 in
 //
 if npf > 0 then let
-  val- list_cons (_, ls2es) = ls2es in labs2explst_npf_tyer (loc0, npf-1, ls2es)
+  val-list_cons (_, ls2es) = ls2es
+in
+  labs2explst_npf_tyer (loc0, npf-1, ls2es)
 end else
   labs2explst_tyer (loc0, ls2es)
 // end of [if]

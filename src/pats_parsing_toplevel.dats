@@ -170,9 +170,9 @@ fun p_toplevel_fun (
         val () = list_vt_free (semilst)
 //
         val () =
-          res := list_vt_cons {a} {0} (x, ?)
+          res := list_vt_cons {a}{0} (x, ?)
         // end of [val]
-        val+ list_vt_cons (_, !p_res1) = res
+        val+list_vt_cons (_, !p_res1) = res
         val () = loop (buf, !p_res1, nerr, f)
         prval () = fold@ (res)
       } // end of [_]

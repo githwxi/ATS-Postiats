@@ -684,7 +684,7 @@ val () = println! ("v2ardec_tr: s2e0 = ", s2e0)
 //
 val d2vw =
   d2var_mutablize (locvar, d2v, s2e0, v2d.v2ardec_wth)
-val- Some
+val-Some
   (s2l) = d2var_get_addr (d2v)
 val s2e0_top = s2exp_topize_0 (s2e0)
 val s2at0 = s2exp_at (s2e0_top, s2l)
@@ -756,7 +756,7 @@ implement
 d2ecl_tr_staload
   (d2c0) = let
   val loc0 = d2c0.d2ecl_loc
-  val- D2Cstaload (
+  val-D2Cstaload (
     idopt, fil, loadflag, fenv, loaded
   ) = d2c0.d2ecl_node // end of [val]
   val () = let

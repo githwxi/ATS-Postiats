@@ -984,7 +984,7 @@ p_d0eclseq_fun
         val () =
           res := list_vt_cons {a} {0} (x, ?)
         // end of [val]
-        val+ list_vt_cons (_, !p_res1) = res
+        val+list_vt_cons (_, !p_res1) = res
 //
         val semilst = pstar_fun {token} (buf, 1(*bt*), p_SEMICOLON)
         val () = list_vt_free (semilst)

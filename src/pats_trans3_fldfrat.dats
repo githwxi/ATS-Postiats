@@ -169,7 +169,7 @@ case
       s2exp_uni_instantiate_all (s2e_dcon, locarg, err)
     // HX: [err] is not used
     val () = trans3_env_add_proplst_vt (loc0, s2ps)
-    val- S2Efun (
+    val-S2Efun (
       fc, lin, s2fe, nof, s2es_arg, s2e_res
     ) = s2e_dcon.s2exp_node // end of [val]
 //
@@ -230,7 +230,7 @@ d2exp_trup_foldat
   (d2e0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val- D2Efoldat (s2as, d2e) = d2e0.d2exp_node
+val-D2Efoldat (s2as, d2e) = d2e0.d2exp_node
 val d3e = auxmain (loc0, 1(*opknd*), s2as, d2e)
 //
 in
@@ -242,7 +242,7 @@ d2exp_trup_freeat
   (d2e0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val- D2Efreeat (s2as, d2e) = d2e0.d2exp_node
+val-D2Efreeat (s2as, d2e) = d2e0.d2exp_node
 //
 val err = the_effenv_check_wrt (loc0)
 val () = if (err > 0) then (

@@ -82,7 +82,7 @@ e1xp_float (loc, rep) = e1xp_make (loc, E1XPfloat rep)
 implement
 e1xp_i0nt
   (loc, x) = let
-  val- $LEX.T_INTEGER
+  val-$LEX.T_INTEGER
     (base, rep, _(*sfx*)) = x.token_node
   // end of [val]
 in
@@ -90,15 +90,15 @@ in
 end // end of [e1xp_i0nt]
 implement
 e1xp_c0har (loc, x) = let
-  val- $LEX.T_CHAR (c) = x.token_node in e1xp_char (loc, c)
+  val-$LEX.T_CHAR (c) = x.token_node in e1xp_char (loc, c)
 end // end of [e1xp_c0har]
 implement
 e1xp_s0tring (loc, x) = let
-  val- $LEX.T_STRING (s) = x.token_node in e1xp_string (loc, s)
+  val-$LEX.T_STRING (s) = x.token_node in e1xp_string (loc, s)
 end // end of [e1xp_s0tring]
 implement
 e1xp_f0loat (loc, x) = let
-  val- $LEX.T_FLOAT
+  val-$LEX.T_FLOAT
     (_(*bas*), rep, _(*sfx*)) = x.token_node
   // end of [val]
 in
@@ -326,7 +326,7 @@ s1exp_intrep
 implement
 s1exp_i0nt
   (loc, x) = let
-  val- $LEX.T_INTEGER
+  val-$LEX.T_INTEGER
     (base, rep, _(*sfx*)) = x.token_node
   // end of [val]
 in
@@ -335,7 +335,7 @@ end // end of [s1exp_i0nt]
 
 implement
 s1exp_c0har (loc, x) = let
-  val- $LEX.T_CHAR (c) = x.token_node
+  val-$LEX.T_CHAR (c) = x.token_node
 in '{
   s1exp_loc= loc, s1exp_node= S1Echar (c)
 } end // end of [s1exp_c0har]

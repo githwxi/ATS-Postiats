@@ -381,25 +381,25 @@ case+ d2e0.d2exp_node of
   } // end of [D2Efloat]
 //
 | D2Ei0nt (tok) => {
-    val- T_INTEGER (_(*base*), rep, _(*sfx*)) = tok.token_node
+    val-T_INTEGER (_(*base*), rep, _(*sfx*)) = tok.token_node
     val () = prstr "D2Ei0nt("
     val () = fprint_string (out, rep)
     val () = prstr ")"
   } // end of [D2Ei0nt]
 | D2Ec0har (tok) => {
-    val- T_CHAR (c) = tok.token_node
+    val-T_CHAR (c) = tok.token_node
     val () = prstr "D2Ec0har("
     val () = fprint_char (out, c)
     val () = prstr ")"
   } // end of [D2Ec0har]
 | D2Es0tring (tok) => {
-    val- T_STRING (str) = tok.token_node
+    val-T_STRING (str) = tok.token_node
     val () = prstr "D2Es0tring("
     val () = fprint_string (out, str)
     val () = prstr ")"
   } // end of [D2Es0tring]
 | D2Ef0loat (tok) => {
-    val- T_FLOAT (_(*base*), rep, _(*sfx*)) = tok.token_node
+    val-T_FLOAT (_(*base*), rep, _(*sfx*)) = tok.token_node
     val () = prstr "D2Ef0loat("
     val () = fprint_string (out, rep)
     val () = prstr ")"

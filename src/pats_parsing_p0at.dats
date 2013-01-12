@@ -176,7 +176,7 @@ case+ tok.token_node of
     val () = incby1 () in labp0at_omit (tok)
   end
 | _ => let
-    val+ ~SYNENT3 (ent1, ent2, ent3) =
+    val+~SYNENT3 (ent1, ent2, ent3) =
       pseq3_fun {l0ab,token,p0at} (buf, bt, err, p_l0ab, p_EQ, p_p0at)
     // end of [val]
   in

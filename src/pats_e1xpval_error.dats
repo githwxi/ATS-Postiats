@@ -79,7 +79,7 @@ case+ x of
   }
 | VE_E1XPide_unbound (e0) => {
     val loc0 = e0.e1xp_loc
-    val-  E1XPide (id) = e0.e1xp_node
+    val-E1XPide (id) = e0.e1xp_node
     val () = $LOC.fprint_location (out, loc0)
     val () = prstr ": error(1): the identifier ["
     val () = $SYM.fprint_symbol (out, id)

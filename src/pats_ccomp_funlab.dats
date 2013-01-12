@@ -233,7 +233,7 @@ implement
 funlab_get_funclo
   (flab) = fc where {
   val hse = funlab_get_type (flab)
-  val- HSEfun (fc, _(*arg*), _(*res*)) = hse.hisexp_node
+  val-HSEfun (fc, _(*arg*), _(*res*)) = hse.hisexp_node
 } // end of [funlab_get_funclo]
 
 (* ****** ****** *)

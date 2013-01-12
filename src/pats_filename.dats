@@ -351,7 +351,7 @@ the_filenamelst_pop
   prval unit_v () = pf
   val x = x where {
     val (vbox pf | p) = ref_get_view_ptr (the_filenamelst)
-    val- ~list_vt_cons (x, xs) = !p
+    val-~list_vt_cons (x, xs) = !p
     val () = !p := xs
   } // end of [val]
   val () = !the_filename := x
@@ -438,7 +438,7 @@ fun the_pathlst_get
 fun the_pathlst_set
   (xs: pathlst_vt): void = {
   val (vbox pf | p) = ref_get_view_ptr (the_pathlst)
-  val- ~list_vt_nil () = !p
+  val-~list_vt_nil () = !p
   val () = !p := xs
 } // end of [the_pathlst_set]
 
@@ -447,7 +447,7 @@ the_pathlst_pop
   (pf | (*none*)) = {
   prval unit_v () = pf
   val (vbox pf | p) = ref_get_view_ptr (the_pathlst)
-  val- ~list_vt_cons (_, xs) = !p
+  val-~list_vt_cons (_, xs) = !p
   val () = !p := xs
 } // end of [the_pathlst_pop]
 
@@ -475,7 +475,7 @@ fun the_prepathlst_get
 fun the_prepathlst_set
   (xs: pathlst_vt): void = {
   val (vbox pf | p) = ref_get_view_ptr (the_prepathlst)
-  val- ~list_vt_nil () = !p
+  val-~list_vt_nil () = !p
   val () = !p := xs
 } // end of [the_prepathlst_set]
 

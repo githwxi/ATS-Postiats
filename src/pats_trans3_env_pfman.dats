@@ -197,7 +197,7 @@ end // end of [if]
 val ismut =
   d2var_is_mutabl (d2v)
 val () = if ismut then let
-  val- Some (d2vw) = d2var_get_view (d2v)
+  val-Some (d2vw) = d2var_get_view (d2v)
   val (vbox pf | p) = ref_get_view_ptr (the_d2varmrklst)
 in
   !p := D2VMRKLSTcons (d2vw, !p)
@@ -407,7 +407,7 @@ d2var_search_labsexplst
 implement
 d2var_search_sexp_at
   (d2v, s2l, s2e, res) = let
-  val- S2Eat (s2e1, s2e2) = s2e.s2exp_node
+  val-S2Eat (s2e1, s2e2) = s2e.s2exp_node
   val iseq = s2exp_syneq (s2l, s2e2)
 in
 //
@@ -438,7 +438,7 @@ end // end of [d2var_search_sexp_at]
 implement
 d2var_search_sexp_tyrec
   (d2v, s2l, s2e, res) = let
-  val- S2Etyrec (knd, npf, ls2es) = s2e.s2exp_node
+  val-S2Etyrec (knd, npf, ls2es) = s2e.s2exp_node
   var res2: labs2explst = list_nil ()
   val opt = d2var_search_labsexplst (d2v, s2l, ls2es, res)
 in

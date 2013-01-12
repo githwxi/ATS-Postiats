@@ -1142,7 +1142,7 @@ case+ p2tc of
     ) // end of [S2Edatcontyp]
   | _ => let
       val @(s2qs_d2c, s2e_d2c) = $TR2.d2con_instantiate (loc0, d2c)
-      val- S2Efun (_, _, _, _, s2es_fun_arg, s2e_fun_res) = s2e_d2c.s2exp_node
+      val-S2Efun (_, _, _, _, s2es_fun_arg, s2e_fun_res) = s2e_d2c.s2exp_node
 (*
       val () = begin
         print "trans3_env_hypadd_patcst: s2vpss_d2c = "; print_s2qualst s2vpss_d2c; print_newline ();
@@ -1580,7 +1580,7 @@ case+ s2es of
   case+ ws2es of
   | WTHS2EXPLSTcons_invar
       (_, _, ws2es) => let
-      val- S2Erefarg
+      val-S2Erefarg
         (knd, s2e) = s2e.s2exp_node
       var err: int = 0
       val (s2e, s2ps) =
@@ -1648,7 +1648,7 @@ un_s2exp_wthtype
   val () = if iswth then let
     val s2f = s2exp2hnf (s2e)
     val s2e = s2hnf_opnexi_and_add (loc, s2f)
-    val- S2Ewth (s2e, wths2es1) = s2e.s2exp_node
+    val-S2Ewth (s2e, wths2es1) = s2e.s2exp_node
   in
     s2e_res := s2e; wths2es := wths2es1
   end : void // end of [val]

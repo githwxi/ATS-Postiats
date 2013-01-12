@@ -587,7 +587,7 @@ case+ d0e0.d0exp_node of
 | D0Ecasehead
     (hd, d0e, c0ls) => let
     val tok = hd.casehead_tok
-    val- T_CASE (knd) = tok.token_node
+    val-T_CASE (knd) = tok.token_node
     val i0nv = hd.casehead_inv
     val i1nv = i0nvresstate_tr (i0nv)
     val d1e = d0exp_tr (d0e)
@@ -875,7 +875,7 @@ d0expopt_tr (opt) = case+ opt of
 
 implement
 labd0exp_tr (ld0e) = let
-  val+ DL0ABELED (l, d0e) = ld0e in labd1exp_make (l, d0exp_tr (d0e))
+  val+DL0ABELED (l, d0e) = ld0e in labd1exp_make (l, d0exp_tr (d0e))
 end // end of [labd0exp_tr]
 
 (* ****** ****** *)

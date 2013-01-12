@@ -315,11 +315,11 @@ case+ p2t0.p2at_node of
 | P2Tstring s => P2TCstring s
 //
 | P2Ti0nt (x) => let
-    val- T_INTEGER (base, rep, sfx) = x.token_node
+    val-T_INTEGER (base, rep, sfx) = x.token_node
     val i = $INTINF.intinf_make_string (rep) in P2TCint (i)
   end // end of [P2Ti0nt]
 | P2Tf0loat (x) => let
-    val- T_FLOAT (base, rep, sfx) = x.token_node in P2TCfloat (rep)
+    val-T_FLOAT (base, rep, sfx) = x.token_node in P2TCfloat (rep)
   end // end of [P2Tf0loat]
 //
 | P2Trec
@@ -423,7 +423,7 @@ case+ p2tc0 of
   in
     if tag >= 0 then let
       val s2c0 = d2con_get_scst (d2c0)
-      val- Some (d2cs) = s2cst_get_dconlst (s2c0)
+      val-Some (d2cs) = s2cst_get_dconlst (s2c0)
     in
       p2atcst_comp_con (d2c0, d2cs, p2tcs)
     end else // HX: [d2c0] associated with an extensible sum

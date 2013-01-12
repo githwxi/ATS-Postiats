@@ -424,7 +424,7 @@ tmpcstmat_tmpcst_match
 //
 var ans: bool = false
 //
-val- TMPCSTMATsome2 (d2c, s2ess, flab) = mat
+val-TMPCSTMATsome2 (d2c, s2ess, flab) = mat
 //
 val () =
   if d2c = d2c0 then let
@@ -512,7 +512,7 @@ in
 //
 case+ t2mas of
 | list_cons _ => let
-    val- Some (d2c) = funlab_get_d2copt (flab)
+    val-Some (d2c) = funlab_get_d2copt (flab)
     val t2mas = t2mpmarglst_tsubst (loc0, tsub, t2mas)
     val tmpmat = ccompenv_tmpcst_match (env, d2c, t2mas)
   in
@@ -594,10 +594,10 @@ implement
 ccomp_tmpcstmat_some
   (env, loc0, hse0, d2c, t2mas, mat) = let
 //
-val- TMPCSTMATsome (imp, tsub) = mat
+val-TMPCSTMATsome (imp, tsub) = mat
 val l0 = the_d2varlev_get ()
 val () = hiimpdec_ccomp_if (env, l0, imp)
-val- Some (flab) = hiimpdec_get_funlabopt (imp)
+val-Some (flab) = hiimpdec_get_funlabopt (imp)
 //
 in
   ccomp_funlab_tmpsubst (env, loc0, hse0, flab, tsub)

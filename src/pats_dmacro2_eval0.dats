@@ -621,24 +621,24 @@ case+ d2e0.d2exp_node of
 | D2Efloat (rep) => M2Vfloat (rep)
 //
 | D2Ei0nt (x) => let
-    val- $LEX.T_INTEGER
+    val-$LEX.T_INTEGER
       (base, rep, sfx) = x.token_node
     // end of [val]
   in
     M2Vint (int_of_llint ($UT.llint_make_string (rep)))
   end // end of [D2Ei0nt]
 | D2Ec0har (x) => let
-    val- $LEX.T_CHAR
+    val-$LEX.T_CHAR
       (c) = x.token_node in M2Vchar (c)
     // end of [val]
   end // end of [D2Ec0har]
 | D2Ef0loat (x) => let
-    val- $LEX.T_FLOAT
+    val-$LEX.T_FLOAT
       (bas, rep, sfx) = x.token_node in M2Vfloat (rep)
     // end of [val]
   end // end of [D2Ef0loat]
 | D2Es0tring (x) => let
-    val- $LEX.T_STRING (s) = x.token_node in M2Vstring (s)
+    val-$LEX.T_STRING (s) = x.token_node in M2Vstring (s)
   end // end of [D2Es0tring]
 //
 | D2Eapplst
@@ -1016,7 +1016,7 @@ in
 case+ args of
 | list_cons
     (arg, args) => let
-    val- list_cons (d2a, d2as) = d2as
+    val-list_cons (d2a, d2as) = d2as
     val res =
       evalctx_extend_arg (loc0, d2m, knd, ctx, env, arg, d2a, res)
     // end of [val]

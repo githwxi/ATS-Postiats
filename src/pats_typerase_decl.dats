@@ -125,7 +125,7 @@ case+
 | D3Cstaload (
     fname, flag, fenv, loaded
   ) => let
-    val- Some (d3cs) =
+    val-Some (d3cs) =
       $TRENV3.filenv_get_d3eclistopt (fenv)
     // end of [val]
 (*
@@ -186,7 +186,7 @@ d3ecl_tyer_impdec
   (d3c0) = let
 //
 val loc0 = d3c0.d3ecl_loc
-val- D3Cimpdec (knd, impdec) = d3c0.d3ecl_node
+val-D3Cimpdec (knd, impdec) = d3c0.d3ecl_node
 //
 in
 //
@@ -266,7 +266,7 @@ implement
 d3ecl_tyer_fundecs (d3c0) = let
 //
 val loc0 = d3c0.d3ecl_loc
-val- D3Cfundecs (knd, decarg, f3ds) = d3c0.d3ecl_node
+val-D3Cfundecs (knd, decarg, f3ds) = d3c0.d3ecl_node
 val hfds = f3undeclst_tyer (knd, decarg, f3ds)
 //
 in
@@ -319,7 +319,7 @@ implement
 d3ecl_tyer_valdecs (d3c0) = let
 //
 val loc0 = d3c0.d3ecl_loc
-val- D3Cvaldecs (knd, v3ds) = d3c0.d3ecl_node
+val-D3Cvaldecs (knd, v3ds) = d3c0.d3ecl_node
 val hvds = v3aldeclst_tyer (knd, v3ds)
 //
 in
@@ -330,7 +330,7 @@ implement
 d3ecl_tyer_valdecs_rec (d3c0) = let
 //
 val loc0 = d3c0.d3ecl_loc
-val- D3Cvaldecs_rec (knd, v3ds) = d3c0.d3ecl_node
+val-D3Cvaldecs_rec (knd, v3ds) = d3c0.d3ecl_node
 val hvds = v3aldeclst_tyer (knd, v3ds)
 //
 in
@@ -361,7 +361,7 @@ implement
 d3ecl_tyer_vardecs (d3c0) = let
 //
 val loc0 = d3c0.d3ecl_loc
-val- D3Cvardecs (v3ds) = d3c0.d3ecl_node
+val-D3Cvardecs (v3ds) = d3c0.d3ecl_node
 val hvds = list_map_fun (v3ds, v3ardec_tyer)
 val hvds = list_of_list_vt (hvds)
 //

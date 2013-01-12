@@ -992,7 +992,7 @@ val () = case+
         val subeq = s2cst_subeq (s2c1, s2c2)
       in
         if subeq then let
-          val- list_cons (argsrts, _) = s2cst_get_argsrtss (s2c1) in
+          val-list_cons (argsrts, _) = s2cst_get_argsrtss (s2c1) in
           s2explst_tyleq_solve_argsrtlst_err (loc0, argsrts, s2es1_arg, s2es2_arg, err)
         end else (err := err + 1)
       end // end of [S2Ecst, S2Ecst]
@@ -1306,7 +1306,7 @@ case+ s2es1 of
 | list_cons (s2e1, s2es1) => (
   case+ s2es2 of
   | list_cons (s2e2, s2es2) => let
-      val- list_cons
+      val-list_cons
         (argsrt, argsrts) = argsrts
       // end of [val]
       val pol = s2rt_get_pol (argsrt.1)

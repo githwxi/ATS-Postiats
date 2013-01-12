@@ -208,7 +208,7 @@ in // in of [local]
 implement
 saityplst_check
   (d2v, xs) = let
-  val- list_cons (x, xs) = xs
+  val-list_cons (x, xs) = xs
 in
 //
 case x of
@@ -286,7 +286,7 @@ lstaftitmlst_free (xs) = (
   case+ xs of
   | ~list_vt_cons
       (x, xs) => let
-      val- ~list_vt_nil () = x.lstaftitm_saits
+      val-~list_vt_nil () = x.lstaftitm_saits
     in
       lstaftitmlst_free (xs)
     end // end of [list_vt_cons]
@@ -309,8 +309,10 @@ in
   case+ xs of
   | list_cons (x, xs) => let
       val d2v = x.lstbefitm_var
-      val () = res := list_vt_cons {lstaftitm}{0} (?, ?)
-      val+ list_vt_cons (!p_x, !p_res1) = res
+      val () =
+        res := list_vt_cons {lstaftitm}{0} (?, ?)
+      // end of [val]
+      val+list_vt_cons (!p_x, !p_res1) = res
       val () = p_x->lstaftitm_var := d2v
       val () = p_x->lstaftitm_knd := 0(*default*)
       val () = p_x->lstaftitm_type := None(*default*)
@@ -425,7 +427,7 @@ lstaftc3nstr_finalize
   val ~LSTAFTC3NSTR
     (lsais, ctrs) = lsaft
   val () = lstaftitmlst_free (lsais)
-  val- list_vt_nil () = ctrs
+  val-list_vt_nil () = ctrs
 in
   // nothing
 end // end of [lstaftc3nstr_finalize]
@@ -653,7 +655,7 @@ fun auxmain (
       val d2v = p_x->lstaftitm_var
       val knd = p_x->lstaftitm_knd
       val sait0 = d2var_get_type (d2v)
-      val- ~list_vt_cons (sait, saits) = p_x->lstaftitm_saits
+      val-~list_vt_cons (sait, saits) = p_x->lstaftitm_saits
       val () = p_x->lstaftitm_saits := saits
       val ctrloc = ctr.c3nstroptref_loc
       val () = auxsait (ctrloc, d2v, knd, sub, sait0, sait)

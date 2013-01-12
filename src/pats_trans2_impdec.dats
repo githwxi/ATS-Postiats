@@ -777,7 +777,7 @@ end // end of [i1mpdec_tr_main]
 
 implement
 i1mpdec_tr (d1c0) = let
-  val- D1Cimpdec
+  val-D1Cimpdec
     (knd, imparg, impdec) = d1c0.d1ecl_node
   val d2copt = i1mpdec_select_d2cst (d1c0, impdec)
 in

@@ -97,7 +97,7 @@ fun auxmain (
 , s2e_new: s2exp
 ) : s2exp = let
 //
-val+ ~PFOBJ (
+val+~PFOBJ (
   d2v, s2e_ctx, s2e_elt, s2l
 ) = pfobj // end of [val]
 var ctxtopt: s2ctxtopt = None ()
@@ -209,7 +209,7 @@ case+ d3e0.d3exp_node of
 //
 | D3Evar (d2v)
     when d2var_is_mutabl (d2v) => let
-    val- Some (s2l) = d2var_get_addr (d2v)
+    val-Some (s2l) = d2var_get_addr (d2v)
     val d3ls = list_nil // HX: a special case of sel_var
     val _(*old*) = s2addr_exch_type (loc0, s2l, d3ls, s2e_new)
   in
@@ -240,7 +240,7 @@ case+ d3e0.d3exp_node of
 //
 | D3Esel_var (d2v, d3ls)
     when d2var_is_mutabl (d2v) => let
-    val- Some (s2l) = d2var_get_addr (d2v)
+    val-Some (s2l) = d2var_get_addr (d2v)
     val _(*old*) = s2addr_exch_type (loc0, s2l, d3ls, s2e_new)
   in
     // nothing
@@ -428,7 +428,7 @@ fun auxres
 val loc0 = d3e0.d3exp_loc
 val s2fun = d3exp_get_type (d3e0)
 //
-val- S2Efun (
+val-S2Efun (
   fc0, lin, s2fe, npf, s2es_arg, s2e_res
 ) = s2fun.s2exp_node // end of [val]
 val s2fun_new = (
@@ -504,10 +504,10 @@ in
 case+ wths2es of
 | WTHS2EXPLSTcons_invar
     (_, _, wths2es) => let
-    val- list_cons (d3e, d3es) = d3es
-    val- list_cons (s2e_arg, s2es_arg) = s2es_arg
+    val-list_cons (d3e, d3es) = d3es
+    val-list_cons (s2e_arg, s2es_arg) = s2es_arg
     val loc = d3e.d3exp_loc
-    val- S2Erefarg (refval, s2e_res) = s2e_arg.s2exp_node
+    val-S2Erefarg (refval, s2e_res) = s2e_arg.s2exp_node
     val freeknd =
       d3lval_arg_set_type (refval, d3e, s2e_res)
     val d3e = d3exp_refarg (loc, s2e_res, refval, freeknd, d3e)
@@ -518,8 +518,8 @@ case+ wths2es of
 | WTHS2EXPLSTcons_trans (
     refval, s2e_res, wths2es
   ) => let
-    val- list_cons (d3e, d3es) = d3es
-    val- list_cons (s2e_arg, s2es_arg) = s2es_arg
+    val-list_cons (d3e, d3es) = d3es
+    val-list_cons (s2e_arg, s2es_arg) = s2es_arg
     val loc = d3e.d3exp_loc
     val s2f_res = s2exp2hnf (s2e_res)
     val s2e_res = s2hnf_opnexi_and_add (loc, s2f_res)
@@ -539,8 +539,8 @@ case+ wths2es of
   end // end of [WTHS2EXPLSTcons_trans]
 | WTHS2EXPLSTcons_none
     (wths2es) => let
-    val- list_cons (d3e, d3es) = d3es
-    val- list_cons (s2e_arg, s2es_arg) = s2es_arg
+    val-list_cons (d3e, d3es) = d3es
+    val-list_cons (s2e_arg, s2es_arg) = s2es_arg
     val d3es = aux1 (d3es, s2es_arg, wths2es)
   in
     list_cons (d3e, d3es)

@@ -139,7 +139,7 @@ implement
 d2exp_syn_type_arg_body
   (d2e0) = let
   val loc0 = d2e0.d2exp_loc
-  val- D2Elam_dyn
+  val-D2Elam_dyn
     (lin, npf, p2ts_arg, d2e_body) = d2e0.d2exp_node
   val s2es_arg =
     p2atlst_syn_type (p2ts_arg)

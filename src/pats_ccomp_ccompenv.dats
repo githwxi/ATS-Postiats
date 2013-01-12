@@ -685,7 +685,7 @@ end // end of [ccompenv_add_impdec2]
 implement
 ccompenv_add_impdecloc
   (env, imp) = let
-  val- ~Some_vt (tsub) = ccompenv_find_tmpsub (env)
+  val-~Some_vt (tsub) = ccompenv_find_tmpsub (env)
   val sub = tmpsub2stasub (tsub)
   val tmparg = s2explstlst_subst (sub, imp.hiimpdec_tmparg)
   val () = stasub_free (sub)
@@ -764,7 +764,7 @@ case+ xs of
 //
 | MARKENVLSTcons_staload
     (fenv, !p_xs) => let
-    val- Some (map) =
+    val-Some (map) =
       filenv_get_tmpcstdecmapopt (fenv)
     // end of [val]
     val imps = tmpcstdecmap_find (map, d2c0)

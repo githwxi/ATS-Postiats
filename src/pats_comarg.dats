@@ -81,10 +81,10 @@ comarglst_parse
     (pf0: arglst 0 @ l | argv: &(@[string][n]), i: int i, p: ptr l)
     :<cloref> (arglst (n-i) @ l | void) =
     if i < argc then let
-      val+ ~list_vt_nil () = !p
+      val+~list_vt_nil () = !p
       val arg = comarg_parse (argv.[i])
       val lst0 = list_vt_cons (arg, list_vt_nil ())
-      val+ list_vt_cons (_, !lst) = lst0
+      val+list_vt_cons (_, !lst) = lst0
       val (pf | ()) = loop (view@ (!lst) | argv, i+1, lst)
     in
       fold@ lst0; !p := lst0; (pf0 | ())

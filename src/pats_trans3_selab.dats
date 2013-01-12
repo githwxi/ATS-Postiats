@@ -183,7 +183,7 @@ auxcheck (
   case+ d3es of
   | list_cons
       (d3e, d3es) => let
-      val- list_cons
+      val-list_cons
         (s2e, s2es) = s2es // match!
       val s2ps1 = arrbndck (d3e, s2e)
       val s2ps2 = auxcheck (d3es, s2es)
@@ -420,7 +420,7 @@ case+ ls2es of
       val s2e_ctx = s2exp_hole (s2h)
       val ls2e_ctx = SLABELED (l, name, s2e_ctx)
       val ls2es_ctx = list_cons (ls2e_ctx, ls2es)
-      val- None_vt () = context
+      val-None_vt () = context
       val () = context := Some_vt @(ls2es_ctx, s2h)
     in
       s2e
@@ -470,7 +470,7 @@ case+ s2e.s2exp_node of
       | ~Some_vt @(ls2es_ctx, s2h) => let
           val s2t = s2e.s2exp_srt
           val s2e_ctx = s2exp_tyrec_srt (s2t, knd, npf, ls2es_ctx)
-          val- None_vt () = context
+          val-None_vt () = context
         in
           context := Some_vt @(s2e_ctx, s2h)
         end // end of [val]
@@ -614,7 +614,7 @@ case+ d3ls of
     val s2t = s2e.s2exp_srt
     val s2h = s2hole_make_srt (s2t)
     val s2e_ctx = s2exp_hole (s2h)
-    val- None_vt () = context
+    val-None_vt () = context
     val () = context := Some_vt @(s2e_ctx, s2h)
   in
     (s2e, list_vt_nil(*s2ps*))
@@ -743,7 +743,7 @@ end // end of [d2var_trup_selab_lin]
 implement
 d2var_trup_selab_mut
   (loc0, loc, d2v, d2ls) = let
-  val- Some (s2l) = d2var_get_addr (d2v)
+  val-Some (s2l) = d2var_get_addr (d2v)
   val d3ls = d2lablst_trup (d2ls)
   val s2e_sel = s2addr_deref (loc0, s2l, d3ls)
 in

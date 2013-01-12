@@ -306,7 +306,7 @@ implement
 i0nt_syn_type
   (x(*i0nt*)) = let
   val loc0 = x.token_loc
-  val- T_INTEGER (base, rep, sfx) = x.token_node
+  val-T_INTEGER (base, rep, sfx) = x.token_node
 in
   intrepsfx_syn_type (loc0, rep, sfx)
 end // end of [i0nt_syn_t0ype]
@@ -315,7 +315,7 @@ implement
 i0nt_syn_type_ind
   (x(*i0nt*)) = let
   val loc0 = x.token_loc
-  val- T_INTEGER (base, rep, sfx) = x.token_node
+  val-T_INTEGER (base, rep, sfx) = x.token_node
 in
   intbaserepsfx_syn_type_ind (loc0, base, rep, sfx)
 end // end of [i0nt_syn_type_ind]
@@ -390,7 +390,7 @@ implement
 f0loat_syn_type
   (x(*f0loat*)) = let
   val loc0 = x.token_loc
-  val- T_FLOAT (base, rep, sfx) = x.token_node
+  val-T_FLOAT (base, rep, sfx) = x.token_node
 in
   floatsfx_syn_type (loc0, rep, sfx)
 end // end of [f0loat_syn_type]
@@ -411,7 +411,7 @@ d2exp_trup_f0loat
   (d2e0, x(*f0loat*)) = let
   val loc0 = d2e0.d2exp_loc
   val s2f = f0loat_syn_type (x)
-  val- T_FLOAT (base, rep, sfx) = x.token_node
+  val-T_FLOAT (base, rep, sfx) = x.token_node
 in
   d3exp_f0loat (loc0, s2f, x)
 end // end of [d2exp_trup_f0loat]

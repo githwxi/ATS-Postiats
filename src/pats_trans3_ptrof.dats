@@ -102,7 +102,7 @@ fun auxmain .<>. (
 , pfobj: pfobj
 , d3ls: d3lablst
 ) : s2exp = let
-  val+ ~PFOBJ (
+  val+~PFOBJ (
     d2vw, s2e_ctx, s2e_elt, s2l
   ) = pfobj // end of [val]
   var linrest: int = 0
@@ -184,7 +184,7 @@ d2exp_trup_ptrof
   (d2e0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val- D2Eptrof (d2e) = d2e0.d2exp_node
+val-D2Eptrof (d2e) = d2e0.d2exp_node
 //
 in
 //
@@ -237,13 +237,13 @@ in
 //
 if ismut then let
   val d3ls = d2lablst_trup (d2ls)
-  val- Some (s2e_ptr) = d2var_get_type (d2v)
+  val-Some (s2e_ptr) = d2var_get_type (d2v)
   val d3e_ptr = d3exp_ptrof_var (loc0, s2e_ptr, d2v)
 in
 //
 case+ d3ls of
 | list_cons _ => let
-    val- Some (s2l) = d2var_get_addr (d2v)
+    val-Some (s2l) = d2var_get_addr (d2v)
     val s2e_prj = s2addr_ptrof (loc0, s2l, d3ls)
   in
     d3exp_ptrof_ptrsel (loc0, s2e_prj, d3e_ptr, d3ls)

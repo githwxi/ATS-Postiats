@@ -84,7 +84,7 @@ hisexp_node =
 //
   | HSEtyarr of (hisexp, s2explst) // for arrays
   | HSEtyrec of (tyreckind, labhisexplst) // for records
-  | HSEtyrecsin of (labhisexp) // for singleton records
+  | HSEtyrecsin of (labhisexp) // for singleton flat records
   | HSEtysum of (d2con, labhisexplst) // for tagged unions
 //
   | HSEtyvar of s2var // for type variables
@@ -144,6 +144,10 @@ fun hisexp_varetize (hse: hisexp): hisexp
 
 fun hisexp_is_void (hse: hisexp): bool
 fun hisexp_fun_is_void (hse: hisexp): bool
+
+(* ****** ****** *)
+
+fun labhisexp_get_elt (lhse: labhisexp): hisexp
 
 (* ****** ****** *)
 

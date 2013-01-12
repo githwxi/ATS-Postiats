@@ -213,7 +213,7 @@ case+ p2t0.p2at_node of
     p2at_trdn_arg (p2t, s2e)
   // end of [P2Tann]
 | _ => let
-    val- Some (s2e) = p2t0.p2at_type
+    val-Some (s2e) = p2t0.p2at_type
   in
     p2at_trdn (p2t0, s2e)
   end // end of [_]
@@ -249,7 +249,7 @@ p2atlst_trup_arg
         // end of [val]
         val p3t = p2at_trup_arg (p2t)
         val () = res := list_cons {p3at}{0} (p3t, ?)
-        val+ list_cons (_, !p_res) = res
+        val+list_cons (_, !p_res) = res
         val () = loop (npf-1, p2ts, !p_res)
         prval () = fold@ (res)
       in
@@ -269,11 +269,11 @@ fun p2at_trdn_arg_refarg_var
   (p2t0: p2at, s2e0: s2exp): p3at = let
 //
 val loc0 = p2t0.p2at_loc
-val- S2Erefarg
+val-S2Erefarg
   (refknd, s2e) = s2e0.s2exp_node
 val s2f = s2exp2hnf (s2e)
 val s2e = s2hnf2exp (s2f)
-val- P2Tvar (d2v) = p2t0.p2at_node
+val-P2Tvar (d2v) = p2t0.p2at_node
 //
 in
 //
@@ -281,7 +281,7 @@ case+ 0 of
 | _ when refknd = 0 => let // call-by-value
     val p3t0 = p2at_trdn_var (p2t0, s2f)
     val () = p3at_set_type (p3t0, s2e0)
-    val- Some (s2e) = d2var_get_type (d2v)
+    val-Some (s2e) = d2var_get_type (d2v)
     val () = d2var_set_finknd (d2v, D2VFINsome (s2e)) // HX: may be overwritten later
   in
     p3t0
@@ -576,7 +576,7 @@ implement
 p2at_trdn_var
   (p2t0, s2f0) = let
   val loc0 = p2t0.p2at_loc
-  val- P2Tvar (d2v) = p2t0.p2at_node
+  val-P2Tvar (d2v) = p2t0.p2at_node
 //
   val s2e0 = s2hnf2exp (s2f0)
   val s2t0 = s2e0.s2exp_srt
@@ -614,7 +614,7 @@ p2at_trdn_int
   (p2t0, s2f0) = let
 //
 val loc0 = p2t0.p2at_loc
-val- P2Tint (i) = p2t0.p2at_node
+val-P2Tint (i) = p2t0.p2at_node
 //
 val s2c_knd =
   s2cstref_get_cst (the_int_kind)
@@ -633,8 +633,8 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_g1int_int_t0ype, s2e_fun
   ) => let
-    val- list_cons (s2e1_arg, s2es_arg) = s2es_arg
-    val- list_cons (s2e2_arg, s2es_arg) = s2es_arg
+    val-list_cons (s2e1_arg, s2es_arg) = s2es_arg
+    val-list_cons (s2e2_arg, s2es_arg) = s2es_arg
     val () = $SOL.s2exp_tyleq_solve_err (loc0, s2e_knd, s2e1_arg, nerr)
     val s2f2_arg = s2exp2hnf (s2e2_arg)
   in
@@ -663,7 +663,7 @@ p2at_trdn_bool
   (p2t0, s2f0) = let
 //
 val loc0 = p2t0.p2at_loc
-val- P2Tbool (b) = p2t0.p2at_node
+val-P2Tbool (b) = p2t0.p2at_node
 val s2e_ind = s2exp_bool (b)
 val s2f_ind = s2exp2hnf_cast (s2e_ind)
 val s2e_pat = s2exp_bool_index_t0ype (s2e_ind)
@@ -677,7 +677,7 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_bool_bool_t0ype, s2e_fun
   ) => let
-    val- list_cons (s2e_arg, _) = s2es_arg
+    val-list_cons (s2e_arg, _) = s2es_arg
     val s2f_arg = s2exp2hnf (s2e_arg)
     val () = trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f_arg)
   in
@@ -706,7 +706,7 @@ p2at_trdn_char
   (p2t0, s2f0) = let
 //
 val loc0 = p2t0.p2at_loc
-val- P2Tchar (c) = p2t0.p2at_node
+val-P2Tchar (c) = p2t0.p2at_node
 val s2e_ind = s2exp_int_char (c)
 val s2f_ind = s2exp2hnf_cast (s2e_ind)
 val s2e_pat = s2exp_char_index_t0ype (s2e_ind)
@@ -720,7 +720,7 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_char_int_t0ype, s2e_fun
   ) => let
-    val- list_cons (s2e_arg, _) = s2es_arg
+    val-list_cons (s2e_arg, _) = s2es_arg
     val s2f_arg = s2exp2hnf (s2e_arg)
     val () = trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f_arg)
   in
@@ -748,7 +748,7 @@ p2at_trdn_string
   (p2t0, s2f0) = let
 //
 val loc0 = p2t0.p2at_loc
-val- P2Tstring (str) = p2t0.p2at_node
+val-P2Tstring (str) = p2t0.p2at_node
 val n = string_length (str)
 val n = $INTINF.intinf_make_size (n)
 val s2e_ind = s2exp_intinf (n)
@@ -764,7 +764,7 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_string_int_type, s2e_fun
   ) => let
-    val- list_cons (s2e_arg, _) = s2es_arg
+    val-list_cons (s2e_arg, _) = s2es_arg
     val s2f_arg = s2exp2hnf (s2e_arg)
     val () = trans3_env_hypadd_eqeq (loc0, s2f_ind, s2f_arg)
   in
@@ -794,10 +794,10 @@ fun auxcheck (
   loc0: location, s2e: s2exp, s2e_pat: s2exp, nerr: &int
 ) : void = let
 //
-val- S2Eapp
+val-S2Eapp
   (s2e_pat_fun, s2es_pat_arg) = s2e_pat.s2exp_node
-val- list_cons (s2e_pat_knd, s2es_pat_arg) = s2es_pat_arg
-val- list_cons (s2e_pat_ind, s2es_pat_arg) = s2es_pat_arg
+val-list_cons (s2e_pat_knd, s2es_pat_arg) = s2es_pat_arg
+val-list_cons (s2e_pat_ind, s2es_pat_arg) = s2es_pat_arg
 //
 in
 //
@@ -837,7 +837,7 @@ p2at_trdn_intrep
   (p2t0, s2f0) = let
 //
 val loc0 = p2t0.p2at_loc
-val- P2Tintrep (rep) = p2t0.p2at_node
+val-P2Tintrep (rep) = p2t0.p2at_node
 val s2e_pat = intrep_syn_type_ind (loc0, rep)
 val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
 val p3t0 = p3at_intrep (loc0, s2e, rep)
@@ -862,7 +862,7 @@ p2at_trdn_i0nt
   (p2t0, s2f0) = let
 //
 val loc0 = p2t0.p2at_loc
-val- P2Ti0nt (x) = p2t0.p2at_node
+val-P2Ti0nt (x) = p2t0.p2at_node
 val s2e_pat = i0nt_syn_type_ind (x)
 val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
 val p3t0 = p3at_i0nt (loc0, s2e, x)
@@ -891,7 +891,7 @@ implement
 p2at_trdn_f0loat
   (p2t0, s2f0) = let
   val loc0 = p2t0.p2at_loc
-  val- P2Tf0loat (x) = p2t0.p2at_node
+  val-P2Tf0loat (x) = p2t0.p2at_node
   val s2e_pat = f0loat_syn_type (x)
   val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
   val nerr = $SOL.s2exp_tyleq_solve (loc0, s2e_pat, s2e)
@@ -913,7 +913,7 @@ implement
 p2at_trdn_empty
   (p2t0, s2f0) = let
   val loc0 = p2t0.p2at_loc
-  val- P2Tempty () = p2t0.p2at_node
+  val-P2Tempty () = p2t0.p2at_node
   val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
   val s2e_pat = s2exp_void_t0ype ()
   val err = $SOL.s2exp_tyleq_solve (loc0, s2e_pat, s2e)
@@ -1057,7 +1057,7 @@ p2at_trdn_rec
   (p2t0, s2f0) = let
 //
 val loc0 = p2t0.p2at_loc
-val- P2Trec (knd, npf, lp2ts) = p2t0.p2at_node
+val-P2Trec (knd, npf, lp2ts) = p2t0.p2at_node
 val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
 //
 in
@@ -1109,7 +1109,7 @@ p2at_trdn_lst
   (p2t0, s2f0) = let
 //
 val loc0 = p2t0.p2at_loc
-val- P2Tlst (lin, p2ts) = p2t0.p2at_node
+val-P2Tlst (lin, p2ts) = p2t0.p2at_node
 val s2e = s2hnf_opnexi_and_add (loc0, s2f0)
 //
 in
@@ -1119,7 +1119,7 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_list0_t0ype_type, s2e_fun
   ) => let
-    val- list_cons (s2e_arg, _) = s2es_arg
+    val-list_cons (s2e_arg, _) = s2es_arg
     val p3ts = p2atlst_trdn_elt (p2ts, s2e_arg)
   in
     p3at_lst (loc0, s2e, lin, s2e_arg, p3ts)
@@ -1128,8 +1128,8 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_list_t0ype_int_type, s2e_fun
   ) => let
-    val- list_cons (s2e1_arg, s2es_arg) = s2es_arg
-    val- list_cons (s2e2_arg, s2es_arg) = s2es_arg
+    val-list_cons (s2e1_arg, s2es_arg) = s2es_arg
+    val-list_cons (s2e2_arg, s2es_arg) = s2es_arg
     val p3ts = p2atlst_trdn_elt (p2ts, s2e1_arg)
     val n = list_length (p3ts)
     val s2e_ind = s2exp_int (n)
@@ -1160,7 +1160,7 @@ p2at_trdn_refas
   (p2t0, s2f0) = let
 //
 val loc0 = p2t0.p2at_loc
-val- P2Trefas (d2v, p2t) = p2t0.p2at_node
+val-P2Trefas (d2v, p2t) = p2t0.p2at_node
 val s2e0 = s2hnf2exp (s2f0)
 val () = d2var_set_mastype (d2v, Some s2e0)
 val s2e1 = s2hnf_opnexi_and_add (loc0, s2f0)
@@ -1274,7 +1274,7 @@ p2at_trdn_exist
   (p2t0, s2f0) = let
 //
 val loc0 = p2t0.p2at_loc
-val- P2Texist (s2vs, p2t) = p2t0.p2at_node
+val-P2Texist (s2vs, p2t) = p2t0.p2at_node
 val s2e0 = s2hnf2exp (s2f0)
 //
 in
@@ -1318,7 +1318,7 @@ p2at_trdn_vbox
   (p2t0, s2f0) = let
 //
 val loc0 = p2t0.p2at_loc
-val- P2Tvbox (d2v) = p2t0.p2at_node
+val-P2Tvbox (d2v) = p2t0.p2at_node
 val s2e0 = s2hnf2exp (s2f0)
 val opt = un_s2exp_vbox_view_prop (s2f0)
 in
@@ -1359,7 +1359,7 @@ implement
 p2at_trdn_ann
   (p2t0, s2f0) = let
   val loc0 = p2t0.p2at_loc
-  val- P2Tann (p2t, s2e_ann) = p2t0.p2at_node
+  val-P2Tann (p2t, s2e_ann) = p2t0.p2at_node
   val s2e0 = s2hnf_opnexi_and_add (loc0, s2f0)
   val nerr = $SOL.s2exp_tyleq_solve (loc0, s2e0, s2e_ann)
   val () = if (nerr > 0) then let
@@ -1394,7 +1394,7 @@ case+ s2e.s2exp_node of
     when s2cstref_equ_exp (
     the_bool_bool_t0ype, s2e_fun
   ) => let
-    val- list_cons
+    val-list_cons
       (s2e_arg, _) = s2es_arg
     // end of [val]
     val s2f_arg = s2exp2hnf (s2e_arg)
@@ -1427,10 +1427,10 @@ p3at_mutablize
 fun auxvar (
   loc0: location, d2v: d2var
 ) : void = let
-  val- Some
+  val-Some
     (s2e0) = d2var_get_mastype (d2v)
   val d2vw = d2var_mutablize (loc0, d2v, s2e0)
-  val- Some (s2l) = d2var_get_addr (d2v)
+  val-Some (s2l) = d2var_get_addr (d2v)
   val s2at0 = s2exp_at (s2exp_topize_0 (s2e0), s2l)
   val () = d2var_set_finknd (d2vw, D2VFINsome (s2at0))
 in

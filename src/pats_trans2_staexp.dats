@@ -140,7 +140,7 @@ case+ ans of
       s2exp_var (s2v)
     end // end of [S2ITEMvar]
   | S2ITMcst (s2cs) => let
-      val- list_cons (s2c, _) = s2cs in s2exp_cst (s2c)
+      val-list_cons (s2c, _) = s2cs in s2exp_cst (s2c)
     end // end of [S2ITMcst]
   | _ => let
       val s2t_err = s2rt_err ()
@@ -510,7 +510,7 @@ case+ ans of
 | ~Some_vt s2i0 => begin case+ s2i0 of
 //
   | S2ITMcst s2cs => let
-      val- list_cons (s2c, _) = s2cs // HX: [s2cs] cannot be empty
+      val-list_cons (s2c, _) = s2cs // HX: [s2cs] cannot be empty
 //
       fun loop (
         s2cs: s2cstlst, s2c0: s2cst
@@ -662,7 +662,7 @@ fun loop (
   case+ xss of
   | ~list_vt_cons (xs, xss) =>
       if s2rt_is_fun (s2t) then let
-        val- S2RTfun (s2ts, s2t) = s2t
+        val-S2RTfun (s2ts, s2t) = s2t
         var err: int = 0
         val s2es = auxlst (s1e0, xs, s2ts)
         val s2e = s2exp_app_srt (s2t, s2e, s2es)
@@ -721,7 +721,7 @@ in
 //
 case+ e0.e1xp_node of
 | E1XPfun _ when nxs > 0 => let
-    val+ ~list_vt_cons (x, xs1) = xs
+    val+~list_vt_cons (x, xs1) = xs
     val () = xs := xs1
 //
     prval pfu = unit_v ()
@@ -979,10 +979,10 @@ in
 end (* end of [auxerr3] *)
 //
 val () = auxerr1 (s1e0, xs) // HX: is this really needed?
-val- ~list_vt_cons (x, xs) = xs
+val-~list_vt_cons (x, xs) = xs
 val () = auxerr2 (s1e0, xs) // HX: reporting an error if [xs] is not nil
 val s1es = x.1 : s1explst
-val- s1e_arg :: s1e_res :: nil () = s1es
+val-s1e_arg :: s1e_res :: nil () = s1es
 //
 var npf: int = ~1 // HX: default
 var s1es_arg: s1explst = list_nil ()
@@ -1098,7 +1098,7 @@ fun loop (
       val s2t_fun = s2e_fun.s2exp_srt
     in
       if s2rt_is_fun (s2t_fun) then let
-        val- S2RTfun (s2ts_arg, s2t_res) = s2t_fun
+        val-S2RTfun (s2ts_arg, s2t_res) = s2t_fun
         var serr: int = 0
         val s2es_arg = s1explst_trdn_err (x.1, s2ts_arg, serr)
       in
@@ -1198,7 +1198,7 @@ val s1es = (
 //
 val () = auxck2 (s1e0, d2c, s1es)
 val s2es = s1explst_trdn_addr (s1es)
-val- list_cons (_rt, _arg) = s2es
+val-list_cons (_rt, _arg) = s2es
 //
 in
   s2exp_datconptr (d2c, _rt, _arg)
@@ -1439,7 +1439,7 @@ local
 
 fn string_of_s0tring
   (tok: token): string = let
-  val- $LEX.T_STRING (str) = tok.token_node in str
+  val-$LEX.T_STRING (str) = tok.token_node in str
 end // end of [string_of_s0tring]
 
 fun aux01 ( // flt/box: 0/1
@@ -1772,10 +1772,10 @@ fn auxerr (
   val () = the_trans2errlst_add (T2E_s1exp_trdn (s1e_lam, s2t_fun))
 } // end of [auxerr]
 //
-  val- S1Elam (
+  val-S1Elam (
     s1ma, s1topt_res, s1e_body
   ) = s1e_lam.s1exp_node
-  val- S2RTfun (s2ts_arg, s2t_res) = s2t_fun
+  val-S2RTfun (s2ts_arg, s2t_res) = s2t_fun
 //
   var err: int = 0
   val s2vs = s1marg_trdn (s1ma, s2ts_arg)
@@ -2339,7 +2339,7 @@ case+ (
     Some (s2es)
   end // end of [Some, Some]
 | (None (), Some s2ts) => let
-    val- list_cons (s2vs, _) = s2vss0
+    val-list_cons (s2vs, _) = s2vss0
     val sgn = list_length_compare (s2vs, s2ts)
     val s2es = (
       if sgn = 0 then let

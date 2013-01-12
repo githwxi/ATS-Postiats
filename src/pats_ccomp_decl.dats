@@ -244,8 +244,7 @@ hidatdecs_ccomp
   (env, hid0) = let
 //
 val loc0 = hid0.hidecl_loc
-val- HIDdatdecs
-  (knd, s2cs) = hid0.hidecl_node
+val-HIDdatdecs (knd, s2cs) = hid0.hidecl_node
 val isprf = test_prfkind (knd)
 //
 in
@@ -276,7 +275,7 @@ case+ hfds of
     val loc = hfd.hifundec_loc
     val d2v = hfd.hifundec_var
     val () = d2var_set_level (d2v, lev0)
-    val- Some (s2e) = d2var_get_mastype (d2v)
+    val-Some (s2e) = d2var_get_mastype (d2v)
     val hse = s2exp_tyer_deep (loc, s2e)
     val fl = funlab_make_dvar_type (d2v, hse)
     val pmv = primval_make_funlab (loc, fl)
@@ -311,8 +310,8 @@ case+ hfds of
     val d2v = hfd.hifundec_var
     val imparg = hfd.hifundec_imparg
     val hde_def = hfd.hifundec_def
-    val- HDElam (hips_arg, hde_body) = hde_def.hidexp_node
-    val+ ~list_vt_cons (fl, fls) = fls
+    val-HDElam (hips_arg, hde_body) = hde_def.hidexp_node
+    val+~list_vt_cons (fl, fls) = fls
     val tmparg = list_nil(*s2ess*)
     val ins = instr_funlab (loc, fl)
     val prolog = list_sing (ins)
@@ -329,7 +328,7 @@ case+ hfds of
     auxmain (env, knd, decarg, hfds, fls)
   end // end of [list_vt_cons]
 | list_nil () => let
-    val+ ~list_vt_nil () = fls in (*nothing*)
+    val+~list_vt_nil () = fls in (*nothing*)
   end // end of [list_nil]
 //
 end (* end of [auxmain] *)
@@ -451,13 +450,13 @@ case+ hvds of
 | list_cons
     (hvd, hvds) => let
     val hde_def = hvd.hivaldec_def
-    val+ ~list_vt_cons (tmp, tmps) = tmps
+    val+~list_vt_cons (tmp, tmps) = tmps
     val () = hidexp_ccomp_ret (env, res, tmp, hde_def)
   in
     auxmain (env, res, hvds, tmps)
   end // end of [list_cons]
 | list_nil () => let
-    val+ ~list_vt_nil () = tmps in (*nothing*)
+    val+~list_vt_nil () = tmps in (*nothing*)
   end // end of [list_nil]
 //
 end // end of [auxmain]
@@ -494,7 +493,7 @@ val d2vw = hvd.hivardec_dvar_view
 val loc_d2v = d2var_get_loc (d2v)
 val () = d2var_set_level (d2v, lev0)
 val s2at = d2var_get_type_some (loc_d2v, d2vw)
-val- S2Eat (s2e_elt, _) = s2at.s2exp_node
+val-S2Eat (s2e_elt, _) = s2at.s2exp_node
 val hse_elt = s2exp_tyer_shallow (loc_d2v, s2e_elt)
 val tmp = tmpvar_make (loc_d2v, hse_elt)
 //
@@ -558,8 +557,7 @@ fun auxlam (
 ) : funlab = flab where {
   val loc_fun = hde0.hidexp_loc
   val hse_fun = hde0.hidexp_type
-  val- HDElam
-    (hips_arg, hde_body) = hde0.hidexp_node
+  val-HDElam (hips_arg, hde_body) = hde0.hidexp_node
 //
   val flab =
     funlab_make_dcst_type (d2c, hse_fun)

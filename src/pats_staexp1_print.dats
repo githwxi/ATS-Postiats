@@ -522,7 +522,7 @@ fprint_s1expopt
 implement
 fprint_labs1exp
   (out, x) = () where {
-  val+ SL0ABELED (l, name, s1e) = x
+  val+SL0ABELED (l, name, s1e) = x
   val () = fprint_l0ab (out, l)
   val () = fprint_string (out, "= ")
   val () = fprint_s1exp (out, s1e)

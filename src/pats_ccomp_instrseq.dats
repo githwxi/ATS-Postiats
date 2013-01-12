@@ -55,7 +55,7 @@ implement
 instrseq_make_nil
   () = res where {
   val res = INSTRSEQ (?)
-  val+ INSTRSEQ (!p_xs) = res
+  val+INSTRSEQ (!p_xs) = res
   val () = $LQ.queue_initialize (!p_xs)
   val () = fold@ (res)
 } // end of [instrseq_make_nil]

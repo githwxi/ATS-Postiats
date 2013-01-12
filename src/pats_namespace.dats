@@ -130,7 +130,7 @@ implement
 the_namespace_pop () = let
   val ns = ns where {
     val (vbox pf | p) = ref_get_view_ptr (the_fenvlstlst)
-    val- ~list_vt_cons (ns, nss) = !p
+    val-~list_vt_cons (ns, nss) = !p
     val () = !p := nss
   }
   val ns0 = ns0 where {
@@ -164,9 +164,9 @@ implement
 the_namespace_localjoin () = let
   val ns2 = ns2 where {
     val (vbox pf | p) = ref_get_view_ptr (the_fenvlstlst)
-    val- ~list_vt_cons (ns1, nss) = !p
+    val-~list_vt_cons (ns1, nss) = !p
     val () = fenvlst_vt_free (ns1)
-    val- ~list_vt_cons (ns2, nss) = nss
+    val-~list_vt_cons (ns2, nss) = nss
     val () = !p := nss
   } // end of [val]
   val () = () where {
@@ -200,25 +200,34 @@ in
 end // end of [the_namespace_save]
 
 implement
-the_namespace_restore () = let
-  val x = x where {
-    val (vbox pf | p) = ref_get_view_ptr (the_savedlst)
-    val- ~list_vt_cons (x, xs) = !p
-    val () = !p := xs
-  } // end of [val]
-  val () = () where {
-    val (vbox pf | p) = ref_get_view_ptr (the_fenvlst)
-    val () = fenvlst_vt_free (!p)
-    val () = !p := x.0
-  } // end of [val]
-  val () = () where {
-    val (vbox pf | p) = ref_get_view_ptr (the_fenvlstlst)
-    val () = fenvlstlst_vt_free (!p)
-    val () = !p := x.1
-  } // end of [val]
-in
-  // nothing
-end // end of [the_namespace_save]
+the_namespace_restore
+  () = () where {
+//
+val x = x where {
+  val (
+    vbox pf | p
+  ) = ref_get_view_ptr (the_savedlst)
+  val-~list_vt_cons (x, xs) = !p
+  val () = (!p := xs)
+} // end of [val]
+//
+val () = () where {
+  val (
+    vbox pf | p
+  ) = ref_get_view_ptr (the_fenvlst)
+  val () = fenvlst_vt_free (!p)
+  val () = (!p := x.0)
+} // end of [val]
+//
+val () = () where {
+  val (
+    vbox pf | p
+  ) = ref_get_view_ptr (the_fenvlstlst)
+  val () = fenvlstlst_vt_free (!p)
+  val () = (!p := x.1)
+} // end of [val]
+//
+} // end of [the_namespace_save]
 
 end // end of [local]
 

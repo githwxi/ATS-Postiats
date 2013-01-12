@@ -842,7 +842,7 @@ case+ opt of
     val ismut = d2var_is_mutabl (d2v)
   in
     if ismut then let
-      val- Some s2l = d2var_get_addr (d2v) in Some (s2exp_at (s2e, s2l))
+      val-Some s2l = d2var_get_addr (d2v) in Some (s2exp_at (s2e, s2l))
     end else opt // end of [if]
   end // end of [Some]
 | None () => None ()

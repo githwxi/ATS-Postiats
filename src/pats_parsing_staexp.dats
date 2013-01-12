@@ -565,7 +565,7 @@ case+ tok.token_node of
       val ent6 = p_RBRACE (buf, bt, err) // err = err0
     in
       if err = err0 then let
-        val- T_STRING (name) = ent2.token_node
+        val-T_STRING (name) = ent2.token_node
       in
         s0exp_tyrec12_ext (name, tok, ent5, ent6)
       end else let

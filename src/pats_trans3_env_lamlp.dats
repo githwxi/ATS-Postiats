@@ -125,7 +125,7 @@ the_lamlpenv_pop
   prval () = unit_v_elim (pfpush)
   val (vbox pf | pp) =
     ref_get_view_ptr (the_lamlplst)
-  val- ~list_vt_cons (_, xs) = !pp in !pp := xs
+  val-~list_vt_cons (_, xs) = !pp in !pp := xs
 end // end of [the_lamlpenv_push_pop]
 
 (* ****** ****** *)

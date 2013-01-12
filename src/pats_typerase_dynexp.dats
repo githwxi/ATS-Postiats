@@ -229,7 +229,7 @@ p3atlst_npf_tyer
   (npf, p3ts) = let
 in
   if npf > 0 then let
-    val- list_cons (_, p3ts) = p3ts
+    val-list_cons (_, p3ts) = p3ts
   in
     p3atlst_npf_tyer (npf-1, p3ts)
   end else
@@ -249,7 +249,7 @@ fun auxlst (
 in
 //
 if npf > 0 then let
-  val- list_cons (_, p3ts) = p3ts
+  val-list_cons (_, p3ts) = p3ts
 in
   auxlst (npf-1, p3ts, i+1)
 end else ( // HX-2013-01: npf <= 0
@@ -312,7 +312,7 @@ labp3atlst_npf_tyer
   (npf, lp3ts) = let
 in
   if npf > 0 then let
-    val- list_cons (_, lp3ts) = lp3ts
+    val-list_cons (_, lp3ts) = lp3ts
   in
     labp3atlst_npf_tyer (npf-1, lp3ts)
   end else
@@ -719,7 +719,7 @@ d3explst_npf_tyer
 in
 //
 if npf > 0 then let
-  val- list_cons (_, d3es) = d3es in d3explst_npf_tyer (npf-1, d3es)
+  val-list_cons (_, d3es) = d3es in d3explst_npf_tyer (npf-1, d3es)
 end else
   d3explst_tyer (d3es)
 // end of [if]
@@ -734,7 +734,7 @@ fun aux1 (
   npf: int, d3es: d3explst
 ) : d3explst =
   if npf > 0 then let
-    val- list_cons (_, d3es) = d3es in aux1 (npf-1, d3es)
+    val-list_cons (_, d3es) = d3es in aux1 (npf-1, d3es)
   end else d3es // end of [aux1]
 //
 fun aux2 (
@@ -809,7 +809,7 @@ labd3explst_npf_tyer
 in
 //
 if npf > 0 then let
-  val- list_cons (_, lxs) = lxs
+  val-list_cons (_, lxs) = lxs
 in
   labd3explst_npf_tyer (npf-1, lxs)
 end else

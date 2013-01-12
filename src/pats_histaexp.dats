@@ -166,6 +166,13 @@ end // end of [hisexp_is_void]
 (* ****** ****** *)
 
 implement
+labhisexp_get_elt (lhse) =
+  let val HSLABELED (lab, opt, hse) = lhse in hse end
+// end of [labhisexp_get_elt]
+
+(* ****** ****** *)
+
+implement
 hisexp_typtr = '{
   hisexp_name= HITNAM_PTR, hisexp_node= HSEtyptr ()
 }

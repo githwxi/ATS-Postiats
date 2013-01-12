@@ -241,7 +241,7 @@ fun auxmain .<>. (
 , d3ls: d3lablst
 , d3e_r: d3exp
 ) : d3exp = let
-  val+ ~PFOBJ (
+  val+~PFOBJ (
     d2vw, s2e_ctx, s2e_elt, s2l
   ) = pfobj // end of [val]
 //
@@ -434,7 +434,7 @@ d2exp_trup_assgn
   (d2e0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val- D2Eassgn (d2e_l, d2e_r) = d2e0.d2exp_node
+val-D2Eassgn (d2e_l, d2e_r) = d2e0.d2exp_node
 val d2lv = d2exp_lvalize (d2e_l)
 //
 (*
@@ -449,7 +449,7 @@ case+ d2lv of
 | D2LVALvar_mut
     (d2v, d2ls) => let
     val d3ls = d2lablst_trup (d2ls)
-    val- Some (s2l) = d2var_get_addr (d2v)
+    val-Some (s2l) = d2var_get_addr (d2v)
     val d3e_r = d2exp_trup (d2e_r)
     val () = d3exp_open_and_add (d3e_r)
     val d3e_r =

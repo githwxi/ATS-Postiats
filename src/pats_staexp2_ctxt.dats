@@ -132,7 +132,7 @@ implement
 s2ctxt_hrepl
   (ctxt, repl) = let
   var flag: int = 0
-  val+ S2CTXT (s2e_ctx, s2h) = ctxt
+  val+S2CTXT (s2e_ctx, s2h) = ctxt
   val s2e = s2exp_hrepl_flag (s2e_ctx, repl, flag)
 in
   s2e

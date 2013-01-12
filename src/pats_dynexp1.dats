@@ -110,14 +110,14 @@ p1at_i0nt
 
 implement
 p1at_c0har (loc, x) = let
-  val- $LEX.T_CHAR (c) = x.token_node
+  val-$LEX.T_CHAR (c) = x.token_node
 in
   p1at_char (loc, c)
 end // end of [p1at_c0har]
 
 implement
 p1at_s0tring (loc, x) = let
-  val- $LEX.T_STRING (str) = x.token_node
+  val-$LEX.T_STRING (str) = x.token_node
 in
   p1at_string (loc, str)
 end // end of [p1at_s0tring]
