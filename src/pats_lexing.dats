@@ -41,13 +41,13 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload UTL = "pats_utils.sats"
-staload LOC = "pats_location.sats"
+staload UTL = "./pats_utils.sats"
+staload LOC = "./pats_location.sats"
 
 (* ****** ****** *)
 
-staload "pats_lexbuf.sats"
-staload "pats_lexing.sats"
+staload "./pats_lexbuf.sats"
+staload "./pats_lexing.sats"
 
 (* ****** ****** *)
 //

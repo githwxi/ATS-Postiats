@@ -32,7 +32,7 @@
 //
 (* ****** ****** *)
 
-#include "pats_params.hats"
+#include "./pats_params.hats"
 
 (* ****** ****** *)
 
@@ -41,49 +41,49 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
-staload _(*anon*) = "pats_utils.dats"
+staload UT = "./pats_utils.sats"
+staload _(*anon*) = "./pats_utils.dats"
 
 (* ****** ****** *)
 
-staload ERR = "pats_error.sats"
+staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_constraint3_solve"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_patcst2.sats"
-staload "pats_dynexp2.sats"
-staload "pats_trans3_env.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_patcst2.sats"
+staload "./pats_dynexp2.sats"
+staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 
-staload "pats_lintprgm.sats"
-staload "pats_constraint3.sats"
+staload "./pats_lintprgm.sats"
+staload "./pats_constraint3.sats"
 
 (* ****** ****** *)
 
 local
-#include "pats_lintprgm_myint_int.dats"
-#include "pats_lintprgm_myint_intinf.dats"
+#include "./pats_lintprgm_myint_int.dats"
+#include "./pats_lintprgm_myint_intinf.dats"
 in (*nothing*) end
 
 (* ****** ****** *)
 
 local
 
-staload _(*anon*) = "pats_lintprgm.dats"
-staload _(*anon*) = "pats_lintprgm_solve.dats"
-staload _(*anon*) = "pats_constraint3_icnstr.dats"
+staload _(*anon*) = "./pats_lintprgm.dats"
+staload _(*anon*) = "./pats_lintprgm_solve.dats"
+staload _(*anon*) = "./pats_constraint3_icnstr.dats"
 
 fun{a:t@ype}
 indexset_make_s3exp {n:nat} (

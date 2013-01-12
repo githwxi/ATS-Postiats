@@ -32,12 +32,13 @@
 //
 (* ****** ****** *)
 
-staload FIL = "pats_filename.sats"
+staload
+FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
 
 (* ****** ****** *)
 
-staload "pats_location.sats"
+staload "./pats_location.sats"
 
 (* ****** ****** *)
 

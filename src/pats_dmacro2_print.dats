@@ -32,17 +32,17 @@
 //
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
-staload _(*anon*) = "pats_utils.dats"
+staload UT = "./pats_utils.sats"
+staload _(*anon*) = "./pats_utils.dats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_dynexp2.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-staload "pats_dmacro2.sats"
+staload "./pats_dmacro2.sats"
 
 (* ****** ****** *)
 

@@ -37,19 +37,19 @@ STDIO = "libc/SATS/stdio.sats"
 
 (* ****** ****** *)
 
-staload ERR = "pats_error.sats"
-staload FIL = "pats_filename.sats"
-staload SYM = "pats_symbol.sats"
+staload ERR = "./pats_error.sats"
+staload FIL = "./pats_filename.sats"
+staload SYM = "./pats_symbol.sats"
 
 (* ****** ****** *)
 
-staload "pats_lexing.sats"
-staload "pats_tokbuf.sats"
-staload "pats_syntax.sats"
+staload "./pats_lexing.sats"
+staload "./pats_tokbuf.sats"
+staload "./pats_syntax.sats"
 
 (* ****** ****** *)
 
-staload "pats_parsing.sats"
+staload "./pats_parsing.sats"
 
 (* ****** ****** *)
 

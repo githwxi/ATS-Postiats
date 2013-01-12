@@ -32,11 +32,12 @@
 //
 (* ****** ****** *)
 
-staload ERR = "pats_error.sats"
+staload
+ERR = "./pats_error.sats"
 
 (* ****** ****** *)
 
-staload "pats_fixity.sats"
+staload "./pats_fixity.sats"
 
 (* ****** ****** *)
 

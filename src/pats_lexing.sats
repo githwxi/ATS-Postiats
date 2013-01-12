@@ -32,19 +32,19 @@
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
 staload
-LOC = "pats_location.sats"
+LOC = "./pats_location.sats"
 stadef location = $LOC.location
 stadef position = $LOC.position
 
 (* ****** ****** *)
 
 staload
-LBF = "pats_lexbuf.sats"
+LBF = "./pats_lexbuf.sats"
 stadef lexbuf = $LBF.lexbuf
 
 (* ****** ****** *)

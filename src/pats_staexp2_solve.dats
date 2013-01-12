@@ -36,18 +36,18 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload LAB = "pats_label.sats"
+staload LAB = "./pats_label.sats"
 overload compare with $LAB.compare_label_label
-staload STMP = "pats_stamp.sats"
+staload STMP = "./pats_stamp.sats"
 overload compare with $STMP.compare_stamp_stamp
 
 (* ****** ****** *)
 
-staload EFF = "pats_effect.sats"
+staload EFF = "./pats_effect.sats"
 //
 macdef effset_isnil = $EFF.effset_isnil
 macdef effset_isall = $EFF.effset_isall
@@ -55,18 +55,18 @@ macdef effset_subset = $EFF.effset_subset
 //
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_staexp2_error.sats"
-staload "pats_stacst2.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_staexp2_error.sats"
+staload "./pats_stacst2.sats"
 
 (* ****** ****** *)
 
-staload "pats_trans3_env.sats"
+staload "./pats_trans3_env.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2_solve.sats"
+staload "./pats_staexp2_solve.sats"
 
 (* ****** ****** *)
 

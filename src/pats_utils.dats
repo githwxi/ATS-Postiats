@@ -37,7 +37,7 @@ staload _(*anon*) = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
 
-staload "pats_utils.sats"
+staload "./pats_utils.sats"
 
 (* ****** ****** *)
 

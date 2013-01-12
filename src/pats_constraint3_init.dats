@@ -37,16 +37,16 @@ staload UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload
-INTINF = "pats_intinf.sats"
+INTINF = "./pats_intinf.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_stacst2.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_stacst2.sats"
 
 (* ****** ****** *)
 
-staload "pats_constraint3.sats"
+staload "./pats_constraint3.sats"
 
 (* ****** ****** *)
 

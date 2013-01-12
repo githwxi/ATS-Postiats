@@ -746,6 +746,9 @@ fun instr_move_boxrec (
 fun instr_move_fltrec (
   loc: location, tmp: tmpvar, arg: labprimvalist, hse: hisexp
 ) : instr // end of [instr_move_fltrec]
+fun instr_move_fltrec2 (
+  loc: location, tmp: tmpvar, arg: labprimvalist, hse: hisexp
+) : instr // end of [instr_move_fltrec2]
 
 (* ****** ****** *)
 

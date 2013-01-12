@@ -56,16 +56,16 @@ staload GLO = "./pats_global.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
-staload "pats_histaexp.sats"
+staload "./pats_histaexp.sats"
 
 (* ****** ****** *)
 
-staload "pats_ccomp.sats"
+staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 

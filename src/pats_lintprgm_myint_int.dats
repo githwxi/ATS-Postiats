@@ -42,11 +42,12 @@
 
 (* ****** ****** *)
 
-staload INTINF = "pats_intinf.sats"
+staload
+INTINF = "./pats_intinf.sats"
 
 (* ****** ****** *)
 
-staload "pats_lintprgm.sats"
+staload "./pats_lintprgm.sats"
 
 (* ****** ****** *)
 

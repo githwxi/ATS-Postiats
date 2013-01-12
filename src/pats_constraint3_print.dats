@@ -32,21 +32,21 @@
 //
 (* ****** ****** *)
 
-staload UT = "pats_utils.sats"
-staload _(*anon*) = "pats_utils.dats"
+staload UT = "./pats_utils.sats"
+staload _(*anon*) = "./pats_utils.dats"
 
 (* ****** ****** *)
 
-staload INTINF = "pats_intinf.sats"
+staload INTINF = "./pats_intinf.sats"
 macdef fprint_intinf = $INTINF.fprint_intinf
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
+staload "./pats_staexp2.sats"
 
 (* ****** ****** *)
 
-staload "pats_constraint3.sats"
+staload "./pats_constraint3.sats"
 
 (* ****** ****** *)
 

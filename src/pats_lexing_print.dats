@@ -32,7 +32,7 @@
 //
 (* ****** ****** *)
 
-staload "pats_lexing.sats"
+staload "./pats_lexing.sats"
 
 (* ****** ****** *)
 

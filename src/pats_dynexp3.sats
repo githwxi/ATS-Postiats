@@ -32,24 +32,25 @@
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
+staload
+LOC = "./pats_location.sats"
 typedef location = $LOC.location
 
 (* ****** ****** *)
 
 staload
-INT = "pats_intinf.sats"
+INT = "./pats_intinf.sats"
 typedef intinf = $INT.intinf
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
-staload "pats_dynexp2.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
+staload "./pats_dynexp2.sats"
 typedef d2cst = d2cst_type // abstract
 typedef d2var = d2var_type // abstract
 

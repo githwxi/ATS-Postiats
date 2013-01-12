@@ -38,13 +38,13 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 (* ****** ****** *)
 
 staload
-CNTR = "pats_counter.sats"
-staload STMP = "pats_stamp.sats"
+CNTR = "./pats_counter.sats"
+staload STMP = "./pats_stamp.sats"
 typedef stamp = $STMP.stamp
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
+staload "./pats_staexp2.sats"
 
 (* ****** ****** *)
 

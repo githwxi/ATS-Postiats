@@ -39,18 +39,18 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload "pats_lintprgm.sats"
+staload "./pats_lintprgm.sats"
 
 (* ****** ****** *)
 
-staload _(*anon*) = "pats_lintprgm.dats"
-staload _(*anon*) = "pats_lintprgm_print.dats"
+staload _(*anon*) = "./pats_lintprgm.dats"
+staload _(*anon*) = "./pats_lintprgm_print.dats"
 
 (* ****** ****** *)
 
 local
 //
-#include "pats_lintprgm_myint_int.dats"
+#include "./pats_lintprgm_myint_int.dats"
 //
 in
 // nothing

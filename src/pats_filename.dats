@@ -39,14 +39,14 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 (* ****** ****** *)
 
 staload
-LOC = "pats_location.sats"
-staload SYM = "pats_symbol.sats"
+LOC = "./pats_location.sats"
+staload SYM = "./pats_symbol.sats"
 typedef symbol= $SYM.symbol
 overload = with $SYM.eq_symbol_symbol
 
 (* ****** ****** *)
 
-staload "pats_filename.sats"
+staload "./pats_filename.sats"
 
 (* ****** ****** *)
 

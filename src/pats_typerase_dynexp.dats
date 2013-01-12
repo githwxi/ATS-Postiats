@@ -32,40 +32,40 @@
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload "pats_errmsg.sats"
-staload _(*anon*) = "pats_errmsg.dats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_typerase_dynexp"
 
 (* ****** ****** *)
 
-staload LAB = "pats_label.sats"
+staload LAB = "./pats_label.sats"
 
-staload LOC = "pats_location.sats"
+staload LOC = "./pats_location.sats"
 overload print with $LOC.print_location
 
-staload SYM = "pats_symbol.sats"
+staload SYM = "./pats_symbol.sats"
 overload = with $SYM.eq_symbol_symbol
 
-staload SYN = "pats_syntax.sats"
+staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_dynexp2.sats"
-staload "pats_dynexp3.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_dynexp2.sats"
+staload "./pats_dynexp3.sats"
 
 (* ****** ****** *)
 
-staload "pats_histaexp.sats"
-staload "pats_hidynexp.sats"
+staload "./pats_histaexp.sats"
+staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
 
-staload "pats_typerase.sats"
+staload "./pats_typerase.sats"
 
 (* ****** ****** *)
 

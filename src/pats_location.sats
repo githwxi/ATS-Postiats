@@ -38,7 +38,8 @@
 
 (* ****** ****** *)
 
-staload FIL = "pats_filename.sats"
+staload
+FIL = "./pats_filename.sats"
 typedef filename = $FIL.filename
 
 (* ****** ****** *)

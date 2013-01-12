@@ -37,16 +37,16 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload "pats_intinf.sats"
+staload "./pats_intinf.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
+staload "./pats_staexp2.sats"
 
 (* ****** ****** *)
 
-staload "pats_lintprgm.sats"
-staload "pats_constraint3.sats"
+staload "./pats_lintprgm.sats"
+staload "./pats_constraint3.sats"
 
 (* ****** ****** *)
 

@@ -37,11 +37,11 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
-staload "pats_lexing.sats"
+staload "./pats_lexing.sats"
 
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
+staload LOC = "./pats_location.sats"
 typedef location = $LOC.location
 overload fprint with $LOC.fprint_location
 

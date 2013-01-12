@@ -32,7 +32,7 @@
 //
 (* ****** ****** *)
 
-staload "pats_lintprgm.sats"
+staload "./pats_lintprgm.sats"
 
 (* ****** ****** *)
 

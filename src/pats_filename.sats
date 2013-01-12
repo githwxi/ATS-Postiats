@@ -32,7 +32,7 @@
 //
 (* ****** ****** *)
 
-staload SYM = "pats_symbol.sats"
+staload SYM = "./pats_symbol.sats"
 
 (* ****** ****** *)
 

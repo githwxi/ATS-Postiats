@@ -38,7 +38,8 @@
 
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
+staload
+LOC = "./pats_location.sats"
 typedef position = $LOC.position
 typedef location = $LOC.location
 

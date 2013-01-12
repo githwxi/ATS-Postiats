@@ -32,7 +32,7 @@
 //
 (* ****** ****** *)
 
-staload "pats_fixity.sats"
+staload "./pats_fixity.sats"
 
 (* ****** ****** *)
 

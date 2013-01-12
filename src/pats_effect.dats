@@ -32,15 +32,17 @@
 //
 (* ****** ****** *)
 
-staload ERR = "pats_error.sats"
+staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
 
-staload "pats_effect.sats"
+staload "./pats_errmsg.sats"
+staload _(*anon*) = "./pats_errmsg.dats"
+implement prerr_FILENAME<> () = prerr "pats_effect"
 
 (* ****** ****** *)
 
-fn prerr_interror (): void = prerr "INTERROR(pats_effect)"
+staload "./pats_effect.sats"
 
 (* ****** ****** *)
 

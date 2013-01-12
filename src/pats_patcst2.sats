@@ -32,12 +32,12 @@
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
 staload
-INTINF = "pats_intinf.sats"
+INTINF = "./pats_intinf.sats"
 typedef intinf = $INTINF.intinf
 macdef fprint_intinf = $INTINF.fprint_intinf
 overload = with $INTINF.eq_intinf_intinf
@@ -45,16 +45,16 @@ overload = with $INTINF.eq_intinf_intinf
 (* ****** ****** *)
 
 staload
-LAB = "pats_label.sats"
+LAB = "./pats_label.sats"
 stadef label = $LAB.label
 
 (* ****** ****** *)
 
 staload
-STAEXP2 = "pats_staexp2.sats"
+STAEXP2 = "./pats_staexp2.sats"
 typedef d2con = $STAEXP2.d2con
 staload
-DYNEXP2 = "pats_dynexp2.sats"
+DYNEXP2 = "./pats_dynexp2.sats"
 typedef p2at = $DYNEXP2.p2at
 typedef p2atlst = $DYNEXP2.p2atlst
 typedef c2lau = $DYNEXP2.c2lau

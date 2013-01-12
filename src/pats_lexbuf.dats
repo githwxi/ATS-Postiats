@@ -32,12 +32,13 @@
 //
 (* ****** ****** *)
 
-staload UTL = "pats_utils.sats"
-staload LOC = "pats_location.sats"
+staload UTL = "./pats_utils.sats"
+staload LOC = "./pats_location.sats"
 
 (* ****** ****** *)
 
-staload Q = "libats/SATS/linqueue_arr.sats"
+staload
+Q = "libats/SATS/linqueue_arr.sats"
 stadef QUEUE = $Q.QUEUE
 staload _(*anon*) = "prelude/DATS/array.dats"
 staload _(*anon*) = "libats/DATS/linqueue_arr.dats"
@@ -45,12 +46,13 @@ staload _(*anon*) = "libats/ngc/DATS/deque_arr.dats"
 
 (* ****** ****** *)
 
-staload R = "pats_reader.sats"
-viewtypedef reader = $R.reader
+staload
+R = "./pats_reader.sats"
+stadef reader = $R.reader
 
 (* ****** ****** *)
 
-staload "pats_lexbuf.sats"
+staload "./pats_lexbuf.sats"
 
 (* ****** ****** *)
 //

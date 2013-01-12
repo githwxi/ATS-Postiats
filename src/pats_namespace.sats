@@ -33,7 +33,7 @@
 (* ****** ****** *)
 
 staload
-S2EXP = "pats_staexp2.sats"
+S2EXP = "./pats_staexp2.sats"
 typedef filenv = $S2EXP.filenv
 
 (* ****** ****** *)

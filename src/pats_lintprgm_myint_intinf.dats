@@ -46,7 +46,8 @@ staload "libc/SATS/gmp.sats"
 
 (* ****** ****** *)
 
-staload INTINF = "pats_intinf.sats"
+staload
+INTINF = "./pats_intinf.sats"
 
 (* ****** ****** *)
 
@@ -57,7 +58,7 @@ viewtypedef lintinf = [l:addr] lintinf (l)
 
 (* ****** ****** *)
 
-staload "pats_lintprgm.sats"
+staload "./pats_lintprgm.sats"
 
 (* ****** ****** *)
 

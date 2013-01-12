@@ -328,6 +328,24 @@ instr_move_fltrec (
   (loc, INSmove_fltrec (tmpret, lpmvs, hse_rec))
 // end of [instr_move_fltrec]
 
+implement
+instr_move_fltrec2 (
+  loc, tmpret, lpmvs, hse_rec
+) = let
+in
+//
+case+
+  hse_rec.hisexp_node of
+| HSEtyrecsin (lhse) => let
+    val-list_cons (lpmv, _) = lpmvs
+    val+LABPRIMVAL (lab, pmv) = lpmv
+  in
+    instr_move_val (loc, tmpret, pmv)
+  end // end of [HSEtyrecsin]
+| _ => instr_move_fltrec (loc, tmpret, lpmvs, hse_rec)
+//
+end // end of [instr_move_fltrec2]
+
 (* ****** ****** *)
 
 implement

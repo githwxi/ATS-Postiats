@@ -771,12 +771,12 @@ val ins = (
   if knd > 0 then
     instr_move_boxrec (loc0, tmpret, lpmvs, hse_rec)
   else
-    instr_move_fltrec (loc0, tmpret, lpmvs, hse_rec)
+    instr_move_fltrec2 (loc0, tmpret, lpmvs, hse_rec)
   // end of [if]
 ) : instr // end of [val]
 //
 in
- instrseq_add (res, ins)
+  instrseq_add (res, ins)
 end // end of [hidexp_ccomp_ret_rec]
 
 end // end of [local]

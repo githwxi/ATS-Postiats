@@ -42,20 +42,20 @@ staload UN = "prelude/SATS/unsafe.sats"
 (* ****** ****** *)
 
 staload
-STMP = "pats_stamp.sats"
+STMP = "./pats_stamp.sats"
 typedef stamp = $STMP.stamp
 
 (* ****** ****** *)
 
-staload "pats_dynexp2.sats"
+staload "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
-staload CCOMP = "pats_ccomp.sats"
+staload CCOMP = "./pats_ccomp.sats"
 
 (* ****** ****** *)
 
-staload "pats_histaexp.sats"
+staload "./pats_histaexp.sats"
 
 (* ****** ****** *)
 

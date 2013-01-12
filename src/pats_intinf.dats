@@ -36,7 +36,7 @@ staload "libc/SATS/gmp.sats"
 
 (* ****** ****** *)
 
-staload "pats_intinf.sats"
+staload "./pats_intinf.sats"
 
 (* ****** ****** *)
 

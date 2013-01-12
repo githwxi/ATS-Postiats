@@ -32,11 +32,11 @@
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-#include "pats_basics.hats"
+#include "./pats_basics.hats"
 
 (* ****** ****** *)
 

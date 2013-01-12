@@ -32,15 +32,15 @@
 //
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload LOC = "pats_location.sats"
+staload LOC = "./pats_location.sats"
 
 (* ****** ****** *)
 
-staload "pats_intinf.sats"
+staload "./pats_intinf.sats"
 
 (* ****** ****** *)
 (*

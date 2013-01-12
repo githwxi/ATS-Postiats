@@ -37,20 +37,20 @@ staload _(*anon*) = "prelude/DATS/list_vt.dats"
 
 (* ****** ****** *)
 
-staload "pats_basics.sats"
+staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
-staload SYM = "pats_symbol.sats"
+staload SYM = "./pats_symbol.sats"
 
 (* ****** ****** *)
 
-staload "pats_staexp2.sats"
-staload "pats_staexp2_util.sats"
+staload "./pats_staexp2.sats"
+staload "./pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
-staload "pats_histaexp.sats"
+staload "./pats_histaexp.sats"
 
 (* ****** ****** *)
 //

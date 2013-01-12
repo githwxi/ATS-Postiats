@@ -32,8 +32,8 @@
 //
 (* ****** ****** *)
 
-staload "pats_histaexp.sats"
-staload "pats_hidynexp.sats"
+staload "./pats_histaexp.sats"
+staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
 

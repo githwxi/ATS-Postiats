@@ -707,6 +707,10 @@ val () = (
   end // end of [if]
 ) : void // end of [val]
 //
+val () = emit_text (out, "/*\n")
+val () = fprint_instr (out, ins)
+val () = emit_text (out, "\n/*\n")
+//
 in
 //
 case+ ins.instr_node of
@@ -994,7 +998,9 @@ fun auxsel (
 ) : hisexp = let
 in
 //
-case+ pml.primlab_node of
+case+
+  pml.primlab_node of
+//
 | PMLlab (lab) => (
   case+ hse0.hisexp_node of
   | HSEtyrec
@@ -1058,7 +1064,6 @@ case+ xys of
     val hse = xy.0
     val pml = xy.1
     val boxknd = hisexp_get_boxknd (hse)
-    val extknd = hisexp_get_extknd (hse)
     val () = emit_text (out, "(")
     val () =
       if boxknd > 0 then {
@@ -1071,8 +1076,17 @@ case+ xys of
       if boxknd > 0 then {
       val () = emit_text (out, ")")
     } // end of [val]
-   val () = emit_text (out, ")")
-    val () = emit_primlab (out, extknd, pml)
+    val () = emit_text (out, ")")
+//
+    val () = let
+      val issin = hisexp_is_tyrecsin (hse)
+    in
+      if ~issin then let
+        val extknd =
+          hisexp_get_extknd (hse) in emit_primlab (out, extknd, pml)
+        // end of [val]
+      end // end of [if]
+    end // end of [val]
   in
     // nothing
   end // end of [list_vt_cons]
