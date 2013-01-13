@@ -64,23 +64,6 @@ staload "./pats_ccomp.sats"
 (* ****** ****** *)
 
 implement
-fpprint_tmpvar
-  (out, tmp) = let
-  val opt = tmpvar_get_alias (tmp)
-in
-//
-case+ opt of
-| Some (pmv) => {
-    val () = fprint_string (out, "*")
-    val () = fprint_primval (out, pmv)
-  } // end of [Some]
-| None () => fprint_tmpvar (out, tmp)
-//
-end // end of [fpprint_tmpvar]
-
-(* ****** ****** *)
-
-implement
 fprint_primdec
   (out, x) = let
 //
@@ -202,12 +185,12 @@ case+ x.primval_node of
 //
 | PMVtmp (tmp) => {
     val () = prstr "PMVtmp("
-    val () = fpprint_tmpvar (out, tmp)
+    val () = fprint_tmpvar (out, tmp)
     val () = prstr ")"
   }
 | PMVtmpref (tmp) => {
     val () = prstr "PMVtmpref("
-    val () = fpprint_tmpvar (out, tmp)
+    val () = fprint_tmpvar (out, tmp)
     val () = prstr ")"
   }
 //
@@ -513,11 +496,19 @@ case+ x.instr_node of
 //
 | INSmove_val (tmp, pmv) => {
     val () = prstr "INSmove_val("
-    val () = fpprint_tmpvar (out, tmp)
+    val () = fprint_tmpvar (out, tmp)
     val () = prstr " <- "
     val () = fprint_primval (out, pmv)
     val () = prstr ")"
   }
+| INSpmove_val (tmp, pmv) => {
+    val () = prstr "INSpmove_val("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr " <- "
+    val () = fprint_primval (out, pmv)
+    val () = prstr ")"
+  }
+//
 | INSmove_arg_val (i, pmv) => {
     val () = prstr "INSmove_arg_val("
     val () = fprintf (out, "arg(%i)", @(i))
@@ -530,7 +521,7 @@ case+ x.instr_node of
     tmpret, d2c, hse_sum, lpmvs
   ) => {
     val () = prstr "INSmove_con("
-    val () = fpprint_tmpvar (out, tmpret)
+    val () = fprint_tmpvar (out, tmpret)
     val () = prstr " <- "
     val () = fprint_d2con (out, d2c)
     val () = prstr "("
@@ -557,38 +548,41 @@ case+ x.instr_node of
 | INSmove_list_nil (tmp) => {
     val () =
       prstr "INSmove_list_nil("
-    val () = fpprint_tmpvar (out, tmp)
+    val () = fprint_tmpvar (out, tmp)
     val () = prstr ")"
   }
 | INSpmove_list_nil (tmp) => {
     val () =
       prstr "INSpmove_list_nil("
-    val () = fpprint_tmpvar (out, tmp)
+    val () = fprint_tmpvar (out, tmp)
     val () = prstr ")"
   }
-| INSpmove_list_cons (tmp) => {
+| INSpmove_list_cons
+    (tmp, hse_elt) => {
     val () =
       prstr "INSpmove_list_cons("
-    val () = fpprint_tmpvar (out, tmp)
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr ", "
+    val () = fprint_hisexp (out, hse_elt)
     val () = prstr ")"
   }
 //
 | INSupdate_list_head
     (tmphd, tmptl, hse_elt) => {
     val () = prstr "INSupdate_list_head("
-    val () = fpprint_tmpvar (out, tmphd)
+    val () = fprint_tmpvar (out, tmphd)
     val () = prstr "; "
-    val () = fpprint_tmpvar (out, tmptl)
+    val () = fprint_tmpvar (out, tmptl)
     val () = prstr "; "
     val () = fprint_hisexp (out, hse_elt)
     val () = prstr ")"
   }
 | INSupdate_list_tail
-    (tl_new, tl_old, hse_elt) => {
+    (tmptl1, tmptl2, hse_elt) => {
     val () = prstr "INSupdate_list_tail("
-    val () = fpprint_tmpvar (out, tl_new)
+    val () = fprint_tmpvar (out, tmptl1)
     val () = prstr "; "
-    val () = fpprint_tmpvar (out, tl_old)
+    val () = fprint_tmpvar (out, tmptl2)
     val () = prstr "; "
     val () = fprint_hisexp (out, hse_elt)
     val () = prstr ")"
@@ -608,7 +602,7 @@ case+ x.instr_node of
 | INSupdate_ptrinc
     (tmpelt, hse_elt) => {
     val () = prstr "INSupdate_ptrinc("
-    val () = fpprint_tmpvar (out, tmpelt)
+    val () = fprint_tmpvar (out, tmpelt)
     val () = prstr "; "
     val () = fprint_hisexp (out, hse_elt)
     val () = prstr ")"
@@ -618,7 +612,7 @@ case+ x.instr_node of
     tmpret, _fun, hse_fun, _arg
   ) => {
     val () = prstr "INSfuncall("
-    val () = fpprint_tmpvar (out, tmpret)
+    val () = fprint_tmpvar (out, tmpret)
     val () = prstr " <- "
     val () = fprint_primval (out, _fun)
     val () = prstr "("
@@ -647,7 +641,7 @@ case+ x.instr_node of
     tmp, pmv, hse_sum, lab
   ) => {
     val () = prstr "INSmove_selcon("
-    val () = fpprint_tmpvar (out, tmp)
+    val () = fprint_tmpvar (out, tmp)
     val () = prstr " <- "
     val () = fprint_primval (out, pmv)
     val () = prstr "; "
@@ -660,7 +654,7 @@ case+ x.instr_node of
     tmp, pmv, hse_rec, pmls
   ) => {
     val () = prstr "INSmove_select("
-    val () = fpprint_tmpvar (out, tmp)
+    val () = fprint_tmpvar (out, tmp)
     val () = prstr " <- "
     val () = fprint_primval (out, pmv)
     val () = prstr "; "

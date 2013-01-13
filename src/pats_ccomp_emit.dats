@@ -375,9 +375,11 @@ end // end of [local]
 
 (* ****** ****** *)
 
-implement
-emit_tmpvar
-  (out, tmp) = let
+local
+
+fun auxtmp (
+  out: FILEref, tmp: tmpvar
+) : void = let
 //
 val knd =
   tmpvar_get_topknd (tmp)
@@ -413,7 +415,16 @@ case+ opt of
     // nothing
   end // end of [None]
 //
-end // end of [emit_tmpvar]
+end // end of [auxtmp]
+
+in (* in of [local] *)
+
+implement
+emit_tmpvar
+  (out, tmp) = auxtmp (out, tmp)
+// end of [emit_tmpvar]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -456,6 +467,7 @@ extern fun emit_primval_arg : emit_primval_type
 extern fun emit_primval_argref : emit_primval_type
 extern fun emit_primval_d2cst : emit_primval_type
 extern fun emit_primval_bool : emit_primval_type
+extern fun emit_primval_ptrof : emit_primval_type
 
 (* ****** ****** *)
 
@@ -484,6 +496,8 @@ case+ pmv0.primval_node of
 | PMVextval
     (name) => fprintf (out, "ATSextval(%s)", @(name))
   // end of [PMVextval]
+//
+| PMVptrof _ => emit_primval_ptrof (out, pmv0)
 //
 | _ => let
 (*
@@ -592,6 +606,23 @@ end (* end of [emit_primval_bool] *)
 (* ****** ****** *)
 
 implement
+emit_primval_ptrof
+  (out, pmv0) = let
+//
+val-PMVptrof (pmv) = pmv0.primval_node
+//
+val () = 
+  emit_text (out, "ATSptrof(")
+val () = emit_primval (out, pmv)
+val () = emit_text (out, ")")
+//
+in
+  // nothing
+end // end of [emit_primval_ptrof]
+
+(* ****** ****** *)
+
+implement
 emit_funtype_arg_res (
   out, hses_arg, hse_res
 ) = let
@@ -658,6 +689,24 @@ in
   // nothing
 end // end of [emit_move_val]
 
+extern
+fun emit_pmove_val (
+  out: FILEref, tmp: tmpvar, pmv: primval
+) : void // end of [emit_pmove_val]
+implement
+emit_pmove_val
+  (out, tmp, pmv) = let
+  val () = emit_text (out, "ATSMACpmove(")
+  val () = emit_tmpvar (out, tmp)
+  val () = emit_text (out, ", ")
+  val () = emit_hisexp (out, pmv.primval_type)
+  val () = emit_text (out, ", ")
+  val () = emit_primval (out, pmv)
+  val () = emit_text (out, ") ;")
+in
+  // nothing
+end // end of [emit_pmove_val]
+
 (* ****** ****** *)
 
 extern
@@ -721,9 +770,55 @@ case+ ins.instr_node of
 | INSmove_val
     (tmp, pmv) => emit_move_val (out, tmp, pmv)
   // end of [INSmove_val]
+| INSpmove_val
+    (tmp, pmv) => emit_pmove_val (out, tmp, pmv)
+  // end of [INSpmove_val]
 //
 | INSmove_fltrec _ => emit_instr_move_rec (out, ins)
 | INSmove_boxrec _ => emit_instr_move_rec (out, ins)
+//
+| INSmove_list_nil (tmp) => {
+    val () =
+      emit_text (out, "ATSMACmove_list_nil(")
+    // end of [val]
+    val () = emit_tmpvar (out, tmp)
+    val () = emit_text (out, ")")
+  }
+| INSpmove_list_nil (tmp) => {
+    val () =
+      emit_text (out, "ATSMACpmove_list_nil(")
+    // end of [val]
+    val () = emit_tmpvar (out, tmp)
+    val () = emit_text (out, ")")
+  }
+| INSpmove_list_cons
+    (tmp, hse_elt) => {
+    val () =
+      emit_text (out, "ATSMACpmove_list_cons(")
+    // end of [val]
+    val () = emit_tmpvar (out, tmp)
+    val () = emit_text (out, ")")
+  }
+| INSupdate_list_head
+    (tmphd, tmptl, hse_elt) => {
+    val () =
+      emit_text (out, "ATSMACupdate_list_head(")
+    // end of [val]
+    val () = emit_tmpvar (out, tmphd)
+    val () = emit_text (out, ", ")
+    val () = emit_tmpvar (out, tmptl)
+    val () = emit_text (out, ")")
+  }
+| INSupdate_list_tail
+    (tmptl1, tmptl2, hse_elt) => {
+    val () =
+      emit_text (out, "ATSMACupdate_list_tail(")
+    // end of [val]
+    val () = emit_tmpvar (out, tmptl1)
+    val () = emit_text (out, ", ")
+    val () = emit_tmpvar (out, tmptl2)
+    val () = emit_text (out, ")")
+  }
 //
 | INSmove_select _ => emit_instr_move_select (out, ins)
 //

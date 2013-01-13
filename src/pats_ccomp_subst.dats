@@ -242,7 +242,8 @@ val () = funlab_set_origin (flab2, Some (flab))
 (* ****** ****** *)
 
 extern
-fun tmpmap_make (xs: tmpvarlst): tmpmap
+fun tmpmap_make
+  (xs: tmpvarlst): tmpmap
 implement
 tmpmap_make (xs) = let
 //
@@ -274,11 +275,10 @@ end // end of [tmpmap_make]
 (* ****** ****** *)
 
 extern
-fun tmpvar2tmpvar
+fun tmpvar2var
   (map: !tmpmap, tmp: tmpvar): tmpvar
 implement
-tmpvar2tmpvar
-  (map, tmp) = let
+tmpvar2var (map, tmp) = let
   val opt = tmpvarmap_vt_search (map, tmp)
 in
 //
@@ -286,13 +286,49 @@ case+ opt of
 | ~Some_vt (tmp2) => tmp2
 | ~None_vt () => let
     val () = prerr_interror ()
-    val () = prerr ": tmpvar2tmpvar: copy is not found: tmp = "
+    val () = prerr ": tmpvar2var: copy is not found: tmp = "
     val () = prerr_tmpvar (tmp)
   in
     $ERR.abort ()
   end // end of [None_vt]
 //
-end // end of [tmpvar2tmpvar]
+end // end of [tmpvar2var]
+
+(* ****** ****** *)
+
+(*
+extern
+fun tmpvarlst_reset_alias (
+  map: !tmpmap, tmplst: tmpvarlst
+) : void // end of [tmpvarlst_reset_alias]
+//
+implement
+tmpvarlst_reset_alias
+  (map, tmplst) = let
+in
+//
+case+ tmplst of
+| list_cons
+    (tmp, tmplst) => let
+    val-Some (tmp0) =
+      tmpvar_get_origin (tmp)
+    val opt = tmpvar_get_alias (tmp0)
+    val () = (
+      case+ opt of
+      | Some (atmp) => let
+          val atmp2 = tmpvar2var (map, atmp)
+        in
+          tmpvar_set_alias (tmp, Some (atmp2))
+        end // end of [Some]
+      | None () => ()
+    ) : void // end of [val]
+  in
+    tmpvarlst_reset_alias (map, tmplst)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [tmpvarlst_reset_alias]
+*)
 
 (* ****** ****** *)
 
@@ -317,10 +353,11 @@ val tmpret = funent_get_tmpret (fent)
 val inss = funent_get_instrlst (fent)
 val tmplst = funent_get_tmpvarlst (fent)
 //
-val tmplst2 = tmpvarlst_subst (sub, tmplst, sfx)
+val tmplst2 =
+  tmpvarlst_subst (sub, tmplst, sfx)
 val tmpmap2 = tmpmap_make (tmplst2)
 //
-val tmpret2 = tmpvar2tmpvar (tmpmap2, tmpret)
+val tmpret2 = tmpvar2var (tmpmap2, tmpret)
 //
 val-Some (d2c) = funlab_get_d2copt (flab)
 val () = ccompenv_add_tmpcstmat (env, TMPCSTMATsome2 (d2c, tmparg2, flab2))
@@ -348,7 +385,7 @@ val loc0 = pmv0.primval_loc
 val hse0 = pmv0.primval_type
 val hse0 = hisexp_subst (sub, hse0)
 //
-macdef ftmp (x) = tmpvar2tmpvar (map, ,(x))
+macdef ftmp (x) = tmpvar2var (map, ,(x))
 macdef fpmv (x) = primval_subst (env, map, sub, ,(x), sfx)
 macdef fpmvlst (xs) = primvalist_subst (env, map, sub, ,(xs), sfx)
 //
@@ -510,7 +547,7 @@ instr_subst (
 //
 val loc0 = ins0.instr_loc
 //
-macdef ftmp (x) = tmpvar2tmpvar (map, ,(x))
+macdef ftmp (x) = tmpvar2var (map, ,(x))
 macdef fpmv (x) = primval_subst (env, map, sub, ,(x), sfx)
 macdef fpmvlst (xs) = primvalist_subst (env, map, sub, ,(xs), sfx)
 macdef fpmd (x) = primdec_subst (env, map, sub, ,(x), sfx)
@@ -532,7 +569,14 @@ case+
   end // end of [INSmove_val]
 (*
 | INSmove_arg_val of (int(*arg*), primval)
-| INSmove_ptr_val of (tmpvar(*ptr*), primval)
+*)
+| INSpmove_val (tmp, pmv) => let
+    val tmp = ftmp (tmp)
+    val pmv = fpmv (pmv)
+  in
+    instr_pmove_val (loc0, tmp, pmv)
+  end // end of [INSpmove_val]
+(*
 //
 | INSmove_con of
     (tmpvar, d2con, hisexp, primvalist(*arg*))

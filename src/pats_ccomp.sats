@@ -143,7 +143,6 @@ overload print with print_tmpvar
 fun prerr_tmpvar (x: tmpvar): void
 overload prerr with prerr_tmpvar
 fun fprint_tmpvar : fprint_type (tmpvar) // implemented in [pats_ccomp_tmpvar.dats]
-fun fpprint_tmpvar : fprint_type (tmpvar) // implemented in [pats_ccomp_print.dats]
 
 fun eq_tmpvar_tmpvar (x1: tmpvar, x2: tmpvar):<> bool
 overload = with eq_tmpvar_tmpvar
@@ -500,13 +499,6 @@ fun tmpvar_is_void (tmp: tmpvar): bool
 
 (* ****** ****** *)
 
-fun tmpvar_get_alias (tmp: tmpvar): primvalopt
-fun tmpvar_set_alias
-  (tmp: tmpvar, opt: primvalopt): void = "patsopt_tmpvar_set_alias"
-// end of [tmpvar_set_alias]
-
-(* ****** ****** *)
-
 fun primval_is_void (pmv: primval): bool
 
 fun primval_is_mutabl (pmv: primval): bool
@@ -637,22 +629,22 @@ instr_node =
   | INSfunlab of (funlab)
 //
   | INSmove_val of (tmpvar, primval)
+//
+  | INSpmove_val of (tmpvar(*ptr*), primval)
+//
   | INSmove_arg_val of (int(*arg*), primval)
-  | INSmove_ptr_val of (tmpvar(*ptr*), primval)
 //
   | INSmove_con of
       (tmpvar, d2con, hisexp, labprimvalist(*arg*))
-  | INSmove_ptr_con of
-      (tmpvar(*ptr*), d2con, hisexp, primvalist(*arg*))
 //
   | INSmove_boxrec of
       (tmpvar, labprimvalist(*arg*), hisexp)
   | INSmove_fltrec of
       (tmpvar, labprimvalist(*arg*), hisexp)
 //
-  | INSmove_list_nil of (tmpvar) // tmp <- list_nil
-  | INSpmove_list_nil of (tmpvar) // *tmp <- list_nil
-  | INSpmove_list_cons of (tmpvar) // *tmp <- list_cons
+  | INSmove_list_nil of (tmpvar)
+  | INSpmove_list_nil of (tmpvar)
+  | INSpmove_list_cons of (tmpvar, hisexp(*elt*))
   | INSupdate_list_head of // hd <- &(tl->val)
       (tmpvar(*hd*), tmpvar(*tl*), hisexp(*elt*))
   | INSupdate_list_tail of // tl_new <- &(tl_old->next)
@@ -722,6 +714,12 @@ fun instr_move_val (
   loc: location, tmp: tmpvar, pmv: primval
 ) : instr // end of [instr_move_val]
 
+fun instr_pmove_val (
+  loc: location, tmp: tmpvar, pmv: primval
+) : instr // end of [instr_pmove_val]
+
+(* ****** ****** *)
+
 fun instr_move_arg_val
   (loc: location, arg: int, pmv: primval): instr
 // end of [instr_move_arg_val]
@@ -732,11 +730,6 @@ fun instr_move_con (
   loc: location
 , tmp: tmpvar, d2c: d2con, hse_sum: hisexp, lpmvs: labprimvalist
 ) : instr // end of [instr_move_con]
-
-fun instr_move_ptr_con (
-  loc: location
-, tmp: tmpvar, d2c: d2con, hse_sum: hisexp, pmvs: primvalist
-) : instr // end of [instr_move_ptr_con]
 
 (* ****** ****** *)
 
@@ -752,14 +745,19 @@ fun instr_move_fltrec2 (
 
 (* ****** ****** *)
 
-fun instr_move_list_nil (loc: location, tmp: tmpvar): instr
-fun instr_pmove_list_nil (loc: location, tmp: tmpvar): instr
-fun instr_pmove_list_cons (loc: location, tmp: tmpvar): instr
+fun instr_move_list_nil
+  (loc: location, tmp: tmpvar): instr
+fun instr_pmove_list_nil
+  (loc: location, tmp: tmpvar): instr
+fun instr_pmove_list_cons
+  (loc: location, tmp: tmpvar, elt: hisexp): instr
+
+(* ****** ****** *)
 
 fun instr_update_list_head
-  (loc: location, tmphd: tmpvar, tmptl: tmpvar, hse_elt: hisexp): instr
+  (loc: location, tmphd: tmpvar, tmptl: tmpvar, elt: hisexp): instr
 fun instr_update_list_tail
-  (loc: location, tl_new: tmpvar, tl_old: tmpvar, hse_elt: hisexp): instr
+  (loc: location, tl_new: tmpvar, tl_old: tmpvar, elt: hisexp): instr
 
 (* ****** ****** *)
 

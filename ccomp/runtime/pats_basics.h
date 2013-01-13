@@ -57,15 +57,17 @@
 //
 /* ****** ****** */
 
-#define ATSextval(val) (val)
+#define ATSptrof(pmv) (&(pmv))
+#define ATSextval(name) (name)
 
 /* ****** ****** */
 
 #define ATSMACmove(tmp, val) (tmp = val)
+#define ATSMACpmove(tmp, hit, val) (*((hit)*)tmp = val)
 
 /* ****** ****** */
 
-#define ATSMACmove_ptralloc(tmp, hit) (tmp = ATS_MALLOC(sizeof(hit))
+#define ATSMACmove_ptralloc(tmp, hit) (tmp = ATS_MALLOC(sizeof(hit)))
 
 /* ****** ****** */
 

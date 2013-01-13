@@ -65,7 +65,6 @@ typedef tmpvar = '{
 , tmpvar_type= hisexp
 , tmpvar_ret= int (* return status *)
 , tmpvar_topknd= int (* 0/1 : local/top(static) *)
-, tmpvar_alias= primvalopt // it is address of the [tmp]
 , tmpvar_origin= Option (ptr), tmpvar_suffix= int // copy indication
 , tmpvar_stamp= stamp (* unicity *)
 } // end of [tmpvar]
@@ -83,7 +82,6 @@ tmpvar_make
 , tmpvar_type= hse
 , tmpvar_ret= 0
 , tmpvar_topknd= 0 (*local*)
-, tmpvar_alias= None () // HX: tmpvar is not an alias
 , tmpvar_origin= None (), tmpvar_suffix= 0 // HX: copy indication
 , tmpvar_stamp= stamp
 } end // end of [tmpvar_make]
@@ -100,11 +98,10 @@ implement
 tmpvar_get_topknd (tmp) = tmp.tmpvar_topknd
 
 implement
-tmpvar_get_alias (tmp) = tmp.tmpvar_alias
-
-implement
 tmpvar_get_origin (tmp) =
   $UN.cast{tmpvaropt} (tmp.tmpvar_origin)
+// end of [tmpvar_get_origin]
+
 implement
 tmpvar_get_suffix (tmp) = tmp.tmpvar_suffix
 
@@ -250,12 +247,6 @@ patsopt_tmpvar_set_ret
   (ats_ptr_type tmp, ats_int_type ret) {
   ((tmpvar_t)tmp)->atslab_tmpvar_ret = ret ; return ;
 } // end of [patsopt_tmpvar_set_ret]
-
-ats_void_type
-patsopt_tmpvar_set_alias
-  (ats_ptr_type tmp, ats_ptr_type opt) {
-  ((tmpvar_t)tmp)->atslab_tmpvar_alias = opt ; return ;
-} // end of [patsopt_tmpvar_set_alias]
 
 ats_void_type
 patsopt_tmpvar_set_origin

@@ -146,17 +146,17 @@ case+ x.instr_node of
 //
 | INSmove_val (tmp, _) => tmpadd (tmp)
 | INSmove_arg_val _ => ()
-| INSmove_ptr_val (tmp, _) => tmpadd (tmp)
+//
+| INSpmove_val (tmp, _) => tmpadd (tmp)
 //
 | INSmove_con (tmp, _, _, _) => tmpadd (tmp)
-| INSmove_ptr_con (tmp, _, _, _) => tmpadd (tmp)
 //
 | INSmove_boxrec (tmp, _, _) => tmpadd (tmp)
 | INSmove_fltrec (tmp, _, _) => tmpadd (tmp)
 //
 | INSmove_list_nil (tmp) => tmpadd (tmp)
 | INSpmove_list_nil (tmp) => tmpadd (tmp)
-| INSpmove_list_cons (tmp) => tmpadd (tmp)
+| INSpmove_list_cons (tmp, _) => tmpadd (tmp)
 | INSupdate_list_head
     (tmp_hd, tmp_tl, _) => (tmpadd (tmp_hd); tmpadd (tmp_tl))
 | INSupdate_list_tail

@@ -560,15 +560,17 @@ end // end of [hidexp_ccomp_seq]
 implement
 hidexp_ccomp_assgn_var
   (env, res, hde0) = let
-  val loc0 = hde0.hidexp_loc
-  val hse0 = hde0.hidexp_type
-  val-HDEassgn_var
-    (d2v_l, hils, hde_r) = hde0.hidexp_node
-  // end of [val]
-  val ofs = hilablst_ccomp (env, res, hils)
-  val pmv_r = hidexp_ccomp (env, res, hde_r)
-  val ins = instr_assgn_varofs (loc0, d2v_l, ofs, pmv_r)
-  val () = instrseq_add (res, ins)
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val-HDEassgn_var
+  (d2v_l, hils, hde_r) = hde0.hidexp_node
+// end of [val]
+val ofs = hilablst_ccomp (env, res, hils)
+val pmv_r = hidexp_ccomp (env, res, hde_r)
+val ins = instr_assgn_varofs (loc0, d2v_l, ofs, pmv_r)
+val () = instrseq_add (res, ins)
+//
 in
   primval_empty (loc0, hse0)
 end // end of [hidexp_ccomp_assgn_var]
@@ -650,22 +652,24 @@ local
 fun auxnode (
   env: !ccompenv
 , res: !instrseq
-, tmphd: tmpvar, pmvhd: primval, tmptl: tmpvar
+, tmphd: tmpvar, tmptl: tmpvar
 , hse_elt: hisexp, hde: hidexp
 ) : void = let
-  val loc = hde.hidexp_loc
-  val ins = instr_pmove_list_cons (loc, tmptl)
-  val () = instrseq_add (res, ins)
-  val ins = instr_update_list_head (loc, tmphd, tmptl, hse_elt)
-  val () = instrseq_add (res, ins)
-  val () = let
-    val tmp = tmpvar_make (loc, hse_elt)
-    val () = tmpvar_set_alias (tmp, Some (pmvhd))
-  in
-    hidexp_ccomp_ret (env, res, tmp, hde)
-  end // end of [val]
-  val ins = instr_update_list_tail (loc, tmptl, tmptl, hse_elt)
-  val () = instrseq_add (res, ins)
+//
+val loc = hde.hidexp_loc
+//
+val ins = instr_pmove_list_cons (loc, tmptl, hse_elt)
+val ( ) = instrseq_add (res, ins)
+val ins = instr_update_list_head (loc, tmphd, tmptl, hse_elt)
+val ( ) = instrseq_add (res, ins)
+//
+val pmv = hidexp_ccomp (env, res, hde)
+val ins = instr_pmove_val (loc, tmphd, pmv)
+val () = instrseq_add (res, ins)
+//
+val ins = instr_update_list_tail (loc, tmptl, tmptl, hse_elt)
+val () = instrseq_add (res, ins)
+//
 in
   // nothing
 end // end of [auxnode]
@@ -673,7 +677,7 @@ end // end of [auxnode]
 fun auxnodelst (
   env: !ccompenv
 , res: !instrseq
-, tmphd: tmpvar, pmvhd: primval, tmptl: tmpvar
+, tmphd: tmpvar, tmptl: tmpvar
 , loc0: location, hse_elt: hisexp, hdes: hidexplst
 ) : void = let
 in
@@ -682,10 +686,10 @@ case+ hdes of
 | list_cons
     (hde, hdes) => let
     val () =
-      auxnode (env, res, tmphd, pmvhd, tmptl, hse_elt, hde)
+      auxnode (env, res, tmphd, tmptl, hse_elt, hde)
     // end of [list_cons]
   in
-    auxnodelst (env, res, tmphd, pmvhd, tmptl, loc0, hse_elt, hdes)
+    auxnodelst (env, res, tmphd, tmptl, loc0, hse_elt, hdes)
   end // end of [list_cons]
 | list_nil () => let
     val ins =
@@ -713,12 +717,11 @@ case+ hdes of
     val pmv = primval_make_tmp (loc0, tmpret)
     val pmv_ptr = primval_make_ptrof (loc0, pmv)
     val tmphd = tmpvar_make (loc0, hisexp_typtr)
-    val pmvhd = primval_make_tmp (loc0, tmphd)
     val tmptl = tmpvar_make (loc0, hisexp_typtr)
     val ins = instr_move_val (loc0, tmptl, pmv_ptr)
     val () = instrseq_add (res, ins)
   in
-    auxnodelst (env, res, tmphd, pmvhd, tmptl, loc0, hse_elt, hdes)
+    auxnodelst (env, res, tmphd, tmptl, loc0, hse_elt, hdes)
   end // end of [list_cons]
 | list_nil () => let
     val ins =
@@ -859,13 +862,11 @@ case+ hdes of
 | list_cons
     (hde, hdes) => let
     val loc = hde.hidexp_loc
-    val () = let
-      val tmp = tmpvar_make (loc, hse_elt)
-      val pmvelt = primval_make_tmp (loc0, tmpelt)
-      val () = tmpvar_set_alias (tmp, Some (pmvelt))
-    in
-      hidexp_ccomp_ret (env, res, tmp, hde)
-    end // end of [val]
+//
+    val pmv = hidexp_ccomp (env, res, hde)
+    val ins = instr_pmove_val (loc, tmpelt, pmv)
+    val () = instrseq_add (res, ins)
+//
     val () = (
       case+ hdes of
       | list_cons _ => let

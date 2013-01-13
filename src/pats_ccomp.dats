@@ -299,6 +299,13 @@ instr_move_val (loc, tmp, pmv) =
 // end of [instr_move_val]
 
 implement
+instr_pmove_val (loc, tmp, pmv) =
+  instr_make_node (loc, INSpmove_val (tmp, pmv))
+// end of [instr_pmove_val]
+
+(* ****** ****** *)
+
+implement
 instr_move_arg_val (loc, arg, pmv) =
   instr_make_node (loc, INSmove_arg_val (arg, pmv))
 // end of [instr_move_arg_val]
@@ -358,8 +365,11 @@ instr_pmove_list_nil
 // end of [instr_pmove_list_nil]
 implement
 instr_pmove_list_cons
-  (loc, tmp) = instr_make_node (loc, INSpmove_list_cons (tmp))
+  (loc, tmp, hse_elt) =
+  instr_make_node (loc, INSpmove_list_cons (tmp, hse_elt))
 // end of [instr_pmove_list_cons]
+
+(* ****** ****** *)
 
 implement
 instr_update_list_head
