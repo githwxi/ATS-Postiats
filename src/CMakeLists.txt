@@ -231,6 +231,7 @@ pats_typerase_decl.dats
 pats_ccomp.sats
 pats_ccomp.dats
 pats_ccomp_print.dats
+pats_ccomp_hitype.dats
 pats_ccomp_tmplab.dats
 pats_ccomp_tmpvar.dats
 pats_ccomp_funlab.dats
@@ -238,8 +239,6 @@ pats_ccomp_funent.dats
 pats_ccomp_util.dats
 pats_ccomp_ccompenv.dats
 pats_ccomp_instrseq.dats
-pats_ccomp_tyrec.dats
-pats_ccomp_tysum.dats
 pats_ccomp_hipat.dats
 pats_ccomp_dynexp.dats
 pats_ccomp_decl.dats
