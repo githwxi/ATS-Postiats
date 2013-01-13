@@ -78,6 +78,11 @@ staload "./pats_ccomp.sats"
 (* ****** ****** *)
 
 implement
+emit_int
+  (out, int) = fprint_int (out, int)
+// end of [emit_int]
+
+implement
 emit_text
   (out, txt) = fprint_string (out, txt)
 // end of [emit_text]
@@ -761,8 +766,7 @@ in
 case+ ins.instr_node of
 //
 | INSfunlab (flab) => {
-    val () =
-      emit_text (out, "__pats_lab_")
+    val () = emit_text (out, "__patsflab_")
     val () = emit_funlab (out, flab)
     val () = emit_text (out, ":")
   } // end of [INSfunlab]
@@ -778,34 +782,26 @@ case+ ins.instr_node of
 | INSmove_boxrec _ => emit_instr_move_rec (out, ins)
 //
 | INSmove_list_nil (tmp) => {
-    val () =
-      emit_text (out, "ATSMACmove_list_nil(")
-    // end of [val]
+    val () = emit_text (out, "ATSMACmove_list_nil(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ")")
   }
 | INSpmove_list_nil (tmp) => {
-    val () =
-      emit_text (out, "ATSMACpmove_list_nil(")
-    // end of [val]
+    val () = emit_text (out, "ATSMACpmove_list_nil(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ") ;")
   }
 | INSpmove_list_cons
     (tmp, hse_elt) => {
-    val () =
-      emit_text (out, "ATSMACpmove_list_cons(")
-    // end of [val]
+    val () = emit_text (out, "ATSMACpmove_list_cons(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_hisexp (out, hse_elt)
     val () = emit_text (out, ") ;")
   }
-| INSupdate_list_head
+| INSassgn_list_head
     (tmphd, tmptl, hse_elt) => {
-    val () =
-      emit_text (out, "ATSMACupdate_list_head(")
-    // end of [val]
+    val () = emit_text (out, "ATSMACassgn_list_head(")
     val () = emit_tmpvar (out, tmphd)
     val () = emit_text (out, ", ")
     val () = emit_tmpvar (out, tmptl)
@@ -813,11 +809,9 @@ case+ ins.instr_node of
     val () = emit_hisexp (out, hse_elt)
     val () = emit_text (out, ") ;")
   }
-| INSupdate_list_tail
+| INSassgn_list_tail
     (tmptl1, tmptl2, hse_elt) => {
-    val () =
-      emit_text (out, "ATSMACupdate_list_tail(")
-    // end of [val]
+    val () = emit_text (out, "ATSMACassgn_list_tail(")
     val () = emit_tmpvar (out, tmptl1)
     val () = emit_text (out, ", ")
     val () = emit_tmpvar (out, tmptl2)
@@ -825,6 +819,51 @@ case+ ins.instr_node of
     val () = emit_hisexp (out, hse_elt)
     val () = emit_text (out, ") ;")
   }
+//
+| INSmove_arrpsz_ptr
+    (tmp, psz) => {
+    val () = emit_text (out, "ATSMACmove_arrpsz_ptr(")
+    val () = emit_tmpvar (out, tmp)
+    val () = emit_text (out, ", ")
+    val () = emit_tmpvar (out, psz)
+    val () = emit_text (out, ") ;")
+  } // end of [INSmove_arrpsz_ptr]
+//
+| INSassgn_arrpsz_asz
+    (tmp, asz) => {
+    val () = emit_text (out, "ATSMACassgn_arrpsz_asz(")
+    val () = emit_tmpvar (out, tmp)
+    val () = emit_text (out, ", ")
+    val () = emit_int (out, asz)
+    val () = emit_text (out, ") ;")
+  } // end of [INSassgn_arrpsz_asz]
+| INSassgn_arrpsz_ptr
+    (tmp, hse, asz) => {
+    val () = emit_text (out, "ATSMACassgn_arrpsz_ptr(")
+    val () = emit_tmpvar (out, tmp)
+    val () = emit_text (out, ", ")
+    val () = emit_hisexp (out, hse)
+    val () = emit_text (out, ", ")
+    val () = emit_int (out, asz)
+    val () = emit_text (out, ") ;")
+  } // end of [INSassgn_arrpsz_ptr]
+//
+| INSupdate_ptrinc
+    (tmp, hse) => {
+    val () = emit_text (out, "ATSMACupdate_ptrinc(")
+    val () = emit_tmpvar (out, tmp)
+    val () = emit_text (out, ", ")
+    val () = emit_hisexp (out, hse)
+    val () = emit_text (out, ") ;")     
+  } // end of [INSupdate_ptrinc]
+| INSupdate_ptrdec
+    (tmp, hse) => {
+    val () = emit_text (out, "ATSMACupdate_ptrdec(")
+    val () = emit_tmpvar (out, tmp)
+    val () = emit_text (out, ", ")
+    val () = emit_hisexp (out, hse)
+    val () = emit_text (out, ") ;")     
+  } // end of [INSupdate_ptrdec]
 //
 | INSmove_select _ => emit_instr_move_select (out, ins)
 //

@@ -62,6 +62,11 @@ typedef unsigned short int atstype_usint ;
 
 /* ****** ****** */
 
+typedef size_t atstype_size ;
+typedef ssize_t atstype_ssize ;
+
+/* ****** ****** */
+
 typedef int atstype_bool ; // true/false: 1/0
 
 /* ****** ****** */
@@ -83,6 +88,13 @@ typedef double atstype_double ;
 
 typedef void *atstype_ptr ;
 typedef void *atstype_ref ;
+
+/* ****** ****** */
+
+typedef
+struct {
+  atstype_ptr ptr; atstype_size size;
+} atstype_arrpsz ;
 
 /* ****** ****** */
 

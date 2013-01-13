@@ -645,14 +645,18 @@ instr_node =
   | INSmove_list_nil of (tmpvar)
   | INSpmove_list_nil of (tmpvar)
   | INSpmove_list_cons of (tmpvar, hisexp(*elt*))
-  | INSupdate_list_head of // hd <- &(tl->val)
+  | INSassgn_list_head of // hd <- &(tl->val)
       (tmpvar(*hd*), tmpvar(*tl*), hisexp(*elt*))
-  | INSupdate_list_tail of // tl_new <- &(tl_old->next)
+  | INSassgn_list_tail of // tl_new <- &(tl_old->next)
       (tmpvar(*new*), tmpvar(*old*), hisexp(*elt*))
 //
-  | INSmove_arrpsz of
-      (tmpvar, hisexp(*elt*), int(*asz*))
+  | INSmove_arrpsz_ptr of (tmpvar, tmpvar)
+//
+  | INSassgn_arrpsz_asz of (tmpvar, int(*asz*))
+  | INSassgn_arrpsz_ptr of (tmpvar, hisexp(*elt*), int(*asz*))
+//
   | INSupdate_ptrinc of (tmpvar, hisexp(*elt*))
+  | INSupdate_ptrdec of (tmpvar, hisexp(*elt*))
 //
   | INSmove_ref of (tmpvar, primval) // tmp := ref (pmv)
 //
@@ -757,20 +761,32 @@ fun instr_pmove_list_cons
 
 (* ****** ****** *)
 
-fun instr_update_list_head
+fun instr_assgn_list_head
   (loc: location, tmphd: tmpvar, tmptl: tmpvar, elt: hisexp): instr
-fun instr_update_list_tail
+fun instr_assgn_list_tail
   (loc: location, tl_new: tmpvar, tl_old: tmpvar, elt: hisexp): instr
 
 (* ****** ****** *)
 
-fun instr_move_arrpsz (
+fun instr_move_arrpsz_ptr
+  (loc: location, tmp: tmpvar, psz: tmpvar): instr
+
+(* ****** ****** *)
+
+fun instr_assgn_arrpsz_asz
+  (loc: location, tmp: tmpvar, asz: int) : instr
+fun instr_assgn_arrpsz_ptr (
   loc: location, tmp: tmpvar, hse_elt: hisexp, asz: int
-) : instr // end of [instr_move_arrpsz]
+) : instr // end of [instr_assgn_arrpsz_asz]
+
+(* ****** ****** *)
 
 fun instr_update_ptrinc
   (loc: location, tmpelt: tmpvar, hse_elt: hisexp): instr
 // end of [instr_update_ptrinc]
+fun instr_update_ptrdec
+  (loc: location, tmpelt: tmpvar, hse_elt: hisexp): instr
+// end of [instr_update_ptrdec]
 
 (* ****** ****** *)
 
@@ -1007,6 +1023,10 @@ fun hideclist_ccomp
 fun hideclist_ccomp0 (hdcs: hideclist): primdeclst
 
 (* ****** ****** *)
+
+fun emit_int
+  (out: FILEref, int: int): void
+// end of [emit_int]
 
 fun emit_text
   (out: FILEref, txt: string): void

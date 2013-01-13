@@ -660,14 +660,14 @@ val loc = hde.hidexp_loc
 //
 val ins = instr_pmove_list_cons (loc, tmptl, hse_elt)
 val ( ) = instrseq_add (res, ins)
-val ins = instr_update_list_head (loc, tmphd, tmptl, hse_elt)
+val ins = instr_assgn_list_head (loc, tmphd, tmptl, hse_elt)
 val ( ) = instrseq_add (res, ins)
 //
 val pmv = hidexp_ccomp (env, res, hde)
 val ins = instr_pmove_val (loc, tmphd, pmv)
 val () = instrseq_add (res, ins)
 //
-val ins = instr_update_list_tail (loc, tmptl, tmptl, hse_elt)
+val ins = instr_assgn_list_tail (loc, tmptl, tmptl, hse_elt)
 val () = instrseq_add (res, ins)
 //
 in
@@ -859,7 +859,7 @@ local
 fun auxlst (
   env: !ccompenv
 , res: !instrseq
-, tmpelt: tmpvar
+, arrp: tmpvar
 , loc0: location, hse_elt: hisexp, hdes: hidexplst
 ) : void = let
 in
@@ -870,20 +870,20 @@ case+ hdes of
     val loc = hde.hidexp_loc
 //
     val pmv = hidexp_ccomp (env, res, hde)
-    val ins = instr_pmove_val (loc, tmpelt, pmv)
+    val ins = instr_pmove_val (loc, arrp, pmv)
     val () = instrseq_add (res, ins)
 //
     val () = (
       case+ hdes of
       | list_cons _ => let
-          val ins = instr_update_ptrinc (loc, tmpelt, hse_elt)
+          val ins = instr_update_ptrinc (loc, arrp, hse_elt)
         in
           instrseq_add (res, ins)
         end // end of [list_cons]
       | list_nil () => ()
     ) : void // end of [val]
   in
-    auxlst (env, res, tmpelt, loc0, hse_elt, hdes)
+    auxlst (env, res, arrp, loc0, hse_elt, hdes)
   end // end of [list_cons]
 | list_nil () => ()
 //
@@ -898,19 +898,22 @@ hidexp_ccomp_ret_arrpsz
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 //
-val-HDEarrpsz (hse_elt, hdes, asz) = hde0.hidexp_node
+val-HDEarrpsz
+  (hse_elt, hdes, asz) = hde0.hidexp_node
 //
 val ins =
-  instr_move_arrpsz (loc0, tmpret, hse_elt, asz)
+  instr_assgn_arrpsz_asz (loc0, tmpret, asz)
+val () = instrseq_add (res, ins)
+val ins =
+  instr_assgn_arrpsz_ptr (loc0, tmpret, hse_elt, asz)
 val () = instrseq_add (res, ins)
 //
-val pmv = primval_make_tmp (loc0, tmpret)
-val tmpelt = tmpvar_make (loc0, hisexp_typtr)
-val ins = instr_move_val (loc0, tmpelt, pmv)
+val arrp = tmpvar_make (loc0, hisexp_typtr)
+val ins = instr_move_arrpsz_ptr (loc0, arrp, tmpret)
 val () = instrseq_add (res, ins)
 //
 in
-  auxlst (env, res, tmpelt, loc0, hse_elt, hdes)
+  auxlst (env, res, arrp, loc0, hse_elt, hdes)
 end // end of [hidexp_ccomp_ret_arrpsz]
 
 end // end of [local]

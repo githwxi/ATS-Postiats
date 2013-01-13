@@ -567,9 +567,9 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
-| INSupdate_list_head
+| INSassgn_list_head
     (tmphd, tmptl, hse_elt) => {
-    val () = prstr "INSupdate_list_head("
+    val () = prstr "INSassgn_list_head("
     val () = fprint_tmpvar (out, tmphd)
     val () = prstr "; "
     val () = fprint_tmpvar (out, tmptl)
@@ -577,9 +577,9 @@ case+ x.instr_node of
     val () = fprint_hisexp (out, hse_elt)
     val () = prstr ")"
   }
-| INSupdate_list_tail
+| INSassgn_list_tail
     (tmptl1, tmptl2, hse_elt) => {
-    val () = prstr "INSupdate_list_tail("
+    val () = prstr "INSassgn_list_tail("
     val () = fprint_tmpvar (out, tmptl1)
     val () = prstr "; "
     val () = fprint_tmpvar (out, tmptl2)
@@ -588,10 +588,17 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
-| INSmove_arrpsz (
-    tmp, hse_elt, asz
-  ) => {
-    val () = prstr "INSmov_arrpsz("
+| INSassgn_arrpsz_asz
+    (tmp, asz) => {
+    val () = prstr "INSassgn_arrpsz_asz("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr "; "
+    val () = fprint_int (out, asz)
+    val () = prstr ")"
+  }
+| INSassgn_arrpsz_ptr
+    (tmp, hse_elt, asz) => {
+    val () = prstr "INSassgn_arrpsz_ptr("
     val () = fprint_tmpvar (out, tmp)
     val () = prstr "; "
     val () = fprint_hisexp (out, hse_elt)
@@ -599,10 +606,28 @@ case+ x.instr_node of
     val () = fprint_int (out, asz)
     val () = prstr ")"
   }
+//
+| INSmove_arrpsz_ptr
+    (tmp1, tmp2) => {
+    val () = prstr "INSmove_arrpsz_ptr("
+    val () = fprint_tmpvar (out, tmp1)
+    val () = prstr "; "
+    val () = fprint_tmpvar (out, tmp2)
+    val () = prstr ")"
+  }
+//
 | INSupdate_ptrinc
-    (tmpelt, hse_elt) => {
+    (tmp, hse_elt) => {
     val () = prstr "INSupdate_ptrinc("
-    val () = fprint_tmpvar (out, tmpelt)
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse_elt)
+    val () = prstr ")"
+  }
+| INSupdate_ptrdec
+    (tmp, hse_elt) => {
+    val () = prstr "INSupdate_ptrdec("
+    val () = fprint_tmpvar (out, tmp)
     val () = prstr "; "
     val () = fprint_hisexp (out, hse_elt)
     val () = prstr ")"

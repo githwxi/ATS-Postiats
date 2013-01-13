@@ -75,14 +75,24 @@
 #define ATSMACmove_boxrec_ofs(tmp, tyrec, lab, val) ((*(tyrec*)(tmp)).lab = val)
 
 /* ****** ****** */
-
+//
 #define ATSlist(tyelt) struct{ tyelt head; void *tail; }
 #define ATSMACmove_list_nil(tmp) (tmp = (void*)0)
 #define ATSMACpmove_list_nil(tmp) (*(void**)tmp = (void*)0)
 #define ATSMACpmove_list_cons(tmp, tyelt) (*(void**)tmp = ATS_MALLOC(sizeof(ATSlist(tyelt))))
 #define ATSMACupdate_list_head(tmp1, tmp2, tyelt) (tmp1 = &(((ATSlist(tyelt)*)(*(void**)tmp2))->head))
 #define ATSMACupdate_list_tail(tmp1, tmp2, tyelt) (tmp1 = &(((ATSlist(tyelt)*)(*(void**)tmp2))->tail))
-
+//
+/* ****** ****** */
+//
+#define ATSMACassgn_arrpsz_asz(tmp, asz) (tmp.size = asz)
+#define ATSMACassgn_arrpsz_ptr(tmp, tyelt, asz) (tmp.ptr = ATS_MALLOC(asz*sizeof(tyelt)))
+//
+#define ATSMACmove_arrpsz_ptr(tmp, psz) (tmp1 = (psz).ptr)
+//
+#define ATSMACupdate_ptrinc(tmp, tyelt) (tmp = (tyelt*)tmp + 1)
+#define ATSMACupdate_ptrdec(tmp, tyelt) (tmp = (tyelt*)tmp - 1)
+//
 /* ****** ****** */
 
 #define ATSMACcastfn(castfn, arg) (arg) // castfn application

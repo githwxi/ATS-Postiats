@@ -157,13 +157,18 @@ case+ x.instr_node of
 | INSmove_list_nil (tmp) => tmpadd (tmp)
 | INSpmove_list_nil (tmp) => tmpadd (tmp)
 | INSpmove_list_cons (tmp, _) => tmpadd (tmp)
-| INSupdate_list_head
+| INSassgn_list_head
     (tmp_hd, tmp_tl, _) => (tmpadd (tmp_hd); tmpadd (tmp_tl))
-| INSupdate_list_tail
+| INSassgn_list_tail
     (tmp_hd, tmp_tl, _) => (tmpadd (tmp_hd); tmpadd (tmp_tl))
 //
-| INSmove_arrpsz (tmp, _, _) => tmpadd (tmp)
-| INSupdate_ptrinc (tmp(*ptr*), _(*type*)) => tmpadd (tmp)
+| INSmove_arrpsz_ptr (tmp, _) => tmpadd (tmp)
+//
+| INSassgn_arrpsz_asz (tmp, _) => ()
+| INSassgn_arrpsz_ptr (tmp, _, _) => ()
+//
+| INSupdate_ptrinc (tmp(*ptr*), _(*type*)) => ()
+| INSupdate_ptrdec (tmp(*ptr*), _(*type*)) => ()
 //
 | INSmove_ref (tmp, _) => tmpadd (tmp)
 //

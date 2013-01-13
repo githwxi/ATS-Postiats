@@ -372,30 +372,52 @@ instr_pmove_list_cons
 (* ****** ****** *)
 
 implement
-instr_update_list_head
+instr_assgn_list_head
   (loc, tmphd, tmptl, hse_elt) =
-  instr_make_node (loc, INSupdate_list_head (tmphd, tmptl, hse_elt))
-// end of [instr_update_list_head]
+  instr_make_node (loc, INSassgn_list_head (tmphd, tmptl, hse_elt))
+// end of [instr_assgn_list_head]
 
 implement
-instr_update_list_tail
+instr_assgn_list_tail
   (loc, tl_new, tl_old, hse_elt) =
-  instr_make_node (loc, INSupdate_list_tail (tl_new, tl_old, hse_elt))
-// end of [instr_update_list_tail]
+  instr_make_node (loc, INSassgn_list_tail (tl_new, tl_old, hse_elt))
+// end of [instr_assgn_list_tail]
 
 (* ****** ****** *)
 
 implement
-instr_move_arrpsz
+instr_move_arrpsz_ptr
+  (loc, tmp, psz) =
+  instr_make_node (loc, INSmove_arrpsz_ptr (tmp, psz))
+// end of [instr_move_arrpsz_ptr]
+
+(* ****** ****** *)
+
+implement
+instr_assgn_arrpsz_asz
+  (loc, tmp, asz) =
+  instr_make_node (loc, INSassgn_arrpsz_asz (tmp, asz))
+// end of [instr_assgn_arrpsz_asz]
+
+implement
+instr_assgn_arrpsz_ptr
   (loc, tmp, hse_elt, asz) =
-  instr_make_node (loc, INSmove_arrpsz (tmp, hse_elt, asz))
-// end of [instr_move_arrpsz]
+  instr_make_node (loc, INSassgn_arrpsz_ptr (tmp, hse_elt, asz))
+// end of [instr_assgn_arrpsz_ptr]
+
+(* ****** ****** *)
 
 implement
 instr_update_ptrinc
   (loc, tmpelt, hse_elt) =
   instr_make_node (loc, INSupdate_ptrinc (tmpelt, hse_elt))
 // end of [instr_update_ptrinc]
+
+implement
+instr_update_ptrdec
+  (loc, tmpelt, hse_elt) =
+  instr_make_node (loc, INSupdate_ptrdec (tmpelt, hse_elt))
+// end of [instr_update_ptrdec]
 
 (* ****** ****** *)
 

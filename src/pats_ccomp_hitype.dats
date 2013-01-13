@@ -808,6 +808,7 @@ case+
   s2e0.s2exp_node of
 //
 | S2Etkname (name) => HITnmd (name)
+| S2Eextype (name, _) => HITnmd (name)
 //
 | _ => hitype_none ()
 //

@@ -471,26 +471,19 @@ stadef free_ngc_v = free_ngc_addr_view
 //
 (* ****** ****** *)
 
-abst@ype
-ptrsize_t0ype = $extype "ptrsize_t0ype"
-
 absvt@ype
 arrpsz_vt0ype_int_vt0ype
-  (a:vt@ype+, n:int) = ptrsize_t0ype
-// end of [arrpsz_vt0ype_int_vt0ype]
-stadef
-arrpsz = arrpsz_vt0ype_int_vt0ype
+  (a:vt@ype+, n:int) = $extype "atstype_arrpsz"
+stadef arrpsz = arrpsz_vt0ype_int_vt0ype
 
 (* ****** ****** *)
 
-absprop
-vbox_view_prop
-  (v:view) // [vbox] is invariant!
+absprop // invariance
+vbox_view_prop (v:view)
 stadef vbox = vbox_view_prop
 
-abstype
-ref_vt0ype_type
-  (a:vt@ype) // [ref] is invariant!
+abstype // invariance
+ref_vt0ype_type (a:vt@ype)
 stadef ref = ref_vt0ype_type
 
 (* ****** ****** *)
