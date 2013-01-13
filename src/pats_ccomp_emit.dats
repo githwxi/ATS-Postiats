@@ -789,7 +789,7 @@ case+ ins.instr_node of
       emit_text (out, "ATSMACpmove_list_nil(")
     // end of [val]
     val () = emit_tmpvar (out, tmp)
-    val () = emit_text (out, ")")
+    val () = emit_text (out, ") ;")
   }
 | INSpmove_list_cons
     (tmp, hse_elt) => {
@@ -797,7 +797,9 @@ case+ ins.instr_node of
       emit_text (out, "ATSMACpmove_list_cons(")
     // end of [val]
     val () = emit_tmpvar (out, tmp)
-    val () = emit_text (out, ")")
+    val () = emit_text (out, ", ")
+    val () = emit_hisexp (out, hse_elt)
+    val () = emit_text (out, ") ;")
   }
 | INSupdate_list_head
     (tmphd, tmptl, hse_elt) => {
@@ -807,7 +809,9 @@ case+ ins.instr_node of
     val () = emit_tmpvar (out, tmphd)
     val () = emit_text (out, ", ")
     val () = emit_tmpvar (out, tmptl)
-    val () = emit_text (out, ")")
+    val () = emit_text (out, ", ")
+    val () = emit_hisexp (out, hse_elt)
+    val () = emit_text (out, ") ;")
   }
 | INSupdate_list_tail
     (tmptl1, tmptl2, hse_elt) => {
@@ -817,7 +821,9 @@ case+ ins.instr_node of
     val () = emit_tmpvar (out, tmptl1)
     val () = emit_text (out, ", ")
     val () = emit_tmpvar (out, tmptl2)
-    val () = emit_text (out, ")")
+    val () = emit_text (out, ", ")
+    val () = emit_hisexp (out, hse_elt)
+    val () = emit_text (out, ") ;")
   }
 //
 | INSmove_select _ => emit_instr_move_select (out, ins)
@@ -856,6 +862,14 @@ case+ ins.instr_node of
   in
     // nothing
   end // end of [INSletpush]
+//
+| INStmpdec _ => let
+    val () = emit_text (out, "/*\n")
+    val () = fprint_instr (out, ins)
+    val () = emit_text (out, "\n*/")
+  in
+    // nothing
+  end // end of [INStmpdec]
 //
 | _ => let
     val () = prerr_interror_loc (loc0)

@@ -473,6 +473,7 @@ val () = ins ("with", T_WITH)
 val () = ins ("withtype", WITHTYPE)
 val () = ins ("withprop", WITHPROP)
 val () = ins ("withview", WITHVIEW)
+val () = ins ("withvtype", WITHVIEWTYPE)
 val () = ins ("withviewtype", WITHVIEWTYPE)
 //
 val () = ins ("$arrpsz", T_DLRARRPSZ)

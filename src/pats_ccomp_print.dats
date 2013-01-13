@@ -705,6 +705,12 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
+| INStmpdec (tmp) => {
+    val () = prstr "INStmpdec("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr ")"
+  }
+//
 | _ => prstr "INS...(...)"
 //
 end // end of [fprint_instr]

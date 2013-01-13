@@ -464,4 +464,11 @@ instr_letpush
 
 (* ****** ****** *)
 
+implement
+instr_tmpdec
+  (loc, tmp) = instr_make_node (loc, INStmpdec (tmp))
+// end of [instr_tempdec]
+
+(* ****** ****** *)
+
 (* end of [pats_ccomp.dats] *)

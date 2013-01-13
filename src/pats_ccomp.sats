@@ -680,6 +680,9 @@ instr_node =
 //
   | INSletpop of ()
   | INSletpush of (primdeclst)
+//
+  | INStmpdec of (tmpvar) // HX-2013-01: this is a no-op
+//
 // end of [instr_node]
 
 where
@@ -814,6 +817,10 @@ fun instr_assgn_ptrofs (
 
 fun instr_letpop (loc: location): instr
 fun instr_letpush (loc: location, pmds: primdeclst): instr
+
+(* ****** ****** *)
+
+fun instr_tmpdec (loc: location, tmp: tmpvar): instr
 
 (* ****** ****** *)
 

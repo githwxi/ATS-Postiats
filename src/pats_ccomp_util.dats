@@ -185,6 +185,8 @@ case+ x.instr_node of
 | INSletpop () => ()
 | INSletpush (pmds) => auxpmdlst (res, pmds)
 //
+| INStmpdec (tmp) => tmpadd (tmp)
+//
 end // end of [aux]
 //
 and auxlst (
