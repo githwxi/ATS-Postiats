@@ -497,12 +497,23 @@ val () = ins ("$extval", T_DLREXTVAL)
 val () = ins ("$lst", DLRLST)
 val () = ins ("$lst_t", DLRLST_T)
 val () = ins ("$lst_vt", DLRLST_VT)
+val () = ins ("$list", DLRLST)
+val () = ins ("$list_t", DLRLST_T)
+val () = ins ("$list_vt", DLRLST_VT)
+//
 val () = ins ("$rec", DLRREC)
 val () = ins ("$rec_t", DLRREC_T)
 val () = ins ("$rec_vt", DLRREC_VT)
+val () = ins ("$record", DLRREC)
+val () = ins ("$record_t", DLRREC_T)
+val () = ins ("$record_vt", DLRREC_VT)
+//
 val () = ins ("$tup", DLRTUP)
 val () = ins ("$tup_t", DLRTUP_T)
 val () = ins ("$tup_vt", DLRTUP_VT)
+val () = ins ("$tuple", DLRTUP)
+val () = ins ("$tuple_t", DLRTUP_T)
+val () = ins ("$tuple_vt", DLRTUP_VT)
 //
 val () = ins ("$raise", T_DLRRAISE)
 //
