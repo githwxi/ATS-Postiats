@@ -32,11 +32,23 @@
 //
 (* ****** ****** *)
 
+#define SYMMAP_AVLTREE 1
 (*
-#include "./pats_symmap_avltree.hats"
+#define SYMMAP_HTLINPRB 1
 *)
-#include "./pats_symmap_htlinprb.hats" // HX: hashtable for experiment
 
+(* ****** ****** *)
+
+#ifdef SYMMAP_AVLTREE
+#include "./pats_symmap_avltree.hats"
+#endif // end of [SYMMAP_AVLTREE]
+
+(* ****** ****** *)
+
+#ifdef SYMMAP_HTLINPRB
+#include "./pats_symmap_htlinprb.hats" // HX: hashtable for experiment
+#endif // end of [SYMMAP_HTLINPRB]
+  
 (* ****** ****** *)
 
 (* end of [pats_symmap.dats] *)

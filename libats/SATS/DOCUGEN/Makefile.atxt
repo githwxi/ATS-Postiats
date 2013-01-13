@@ -121,6 +121,7 @@ all_html::
 #make_entry("linmap_avltree")
 #make_entry("linmap_randbst")
 #make_entry("linmap_skiplist")
+#make_entry("linhashtbl_chain")
 #make_entry("linheap_binomial")
 #make_entry("linheap_fibonacci")
 #make_entry("linqueue_list")

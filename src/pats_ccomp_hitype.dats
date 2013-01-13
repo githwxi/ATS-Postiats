@@ -400,9 +400,67 @@ fun the_hitypemap_insert (hit: hitype, hit2: hitype): void
 
 local
 
+(* ****** ****** *)
+//
+// HX-2013-01:
+// Using hashtable in ATS is really difficult!
+//
+(* ****** ****** *)
+
+%{^
+typedef ats_ptr_type hitype ;
+%} // end of [%{^]
+
+(* ****** ****** *)
+
+abstype hitype_t = $extype"hitype"
+extern castfn hitype_encode (x: hitype):<> hitype_t
+extern castfn hitype_decode (x: hitype_t):<> hitype
+overload encode with hitype_encode
+overload decode with hitype_decode
+
+(* ****** ****** *)
+
+typedef key = hitype_t
+typedef itm = hitype(*unnamed*)
+
+(* ****** ****** *)
+//
+staload H = "libats/SATS/hashtable_chain.sats"
+staload _(*anon*) = "libats/DATS/hashtable_chain.dats"
+//
+implement
+$H.hash_key<key>
+  (k, fhash) = let
+  val k = decode (k) in $effmask_all (hitype_hash (k))
+end // end of [hask_key]
+implement
+$H.equal_key_key<key>
+  (k1, k2, keqfn) = let
+  val k1 = decode (k1)
+  and k2 = decode (k2) in
+  $effmask_all (eq_hitype_hitype (k1, k2))
+end // end of [equal_key_key]
+//
+val the_hitypemap = let
+  typedef fhash = $H.hash (key)
+  val fhash = $UN.cast{fhash}(null)
+  typedef keqfn = $H.eqfn (key)
+  val keqfn = $UN.cast{keqfn}(null)
+in
+  $H.hashtbl_make {key,itm} (fhash, keqfn)
+end // end of [val]
+//
+val the_hitypemap =
+  $H.HASHTBLref_make_ptr {key,itm} (the_hitypemap)
+//
+(* ****** ****** *)
+//
 vtypedef
 keyitmlst = List_vt @(hitype, hitype)
 val the_hitypemaplst = ref<keyitmlst> (list_vt_nil)
+//
+(* ****** ****** *)
 
 in // in of [local]
 
@@ -423,7 +481,21 @@ end // end of [the_hitypemaplst_get]
 (* ****** ****** *)
 
 implement
-the_hitypemap_search (hit) = None_vt ()
+the_hitypemap_search (hit) = let
+  val (
+    fpf | ptbl
+  ) = $H.HASHTBLref_takeout_ptr (the_hitypemap)
+  var res: itm?
+  val hit = encode (hit)
+  val ans = $H.hashtbl_search (ptbl, hit, res)
+  prval () = fpf (ptbl)
+in
+  if ans then let
+    prval () = opt_unsome{itm}(res) in Some_vt (res)
+  end else let
+    prval () = opt_unnone{itm}(res) in None_vt (*none*)
+  end // end of [if]
+end // end of [the_hitypemap_search]
 
 (* ****** ****** *)
 
@@ -432,10 +504,16 @@ the_hitypemap_insert
   (hit, hit2) = let
 //
 val (
-  vbox pf | p
-) = ref_get_view_ptr (the_hitypemaplst)
+  fpf | ptbl
+) = $H.HASHTBLref_takeout_ptr (the_hitypemap)
+val hit1 = encode (hit)
+val () = $H.hashtbl_insert (ptbl, hit1, hit2)
+prval () = fpf (ptbl)
+//
 val (
-) = !p := list_vt_cons ( @(hit, hit2), !p )
+  vbox pf | plst
+) = ref_get_view_ptr (the_hitypemaplst)
+val () = !plst := list_vt_cons ( @(hit, hit2), !plst )
 //
 in
   // nothing

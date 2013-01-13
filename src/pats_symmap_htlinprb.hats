@@ -174,8 +174,11 @@ end // end of [symmap_joinwth]
 (* ****** ****** *)
 
 implement
-fprint_symmap{a} (out, map, f) = let
-  var !p_clo = @lam (pf: !unit_v | k: key, i: &itm): void =<clo>
+fprint_symmap{a}
+  (out, map, f) = let
+  var !p_clo = @lam (
+    pf: !unit_v | k: key, i: &itm
+  ) : void =<clo>
     $effmask_all (fprint (out, k); fprint (out, " -> "); f (out, $UN.cast{a}(i)); fprint_newline (out))
   prval pfu = unit_v ()
   val () = hashtbl_foreach_vclo (pfu | map, !p_clo)
