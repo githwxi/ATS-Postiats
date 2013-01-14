@@ -313,6 +313,35 @@ instr_move_arg_val (loc, arg, pmv) =
 (* ****** ****** *)
 
 implement
+instr_funcall (
+  loc, tmpret, _fun, hse_fun, _arg
+) = instr_make_node
+  (loc, INSfuncall (tmpret, _fun, hse_fun, _arg))
+// end of [instr_funcall]
+
+(* ****** ****** *)
+
+implement
+instr_cond
+  (loc, _cond, _then, _else) =
+  instr_make_node (loc, INScond (_cond, _then, _else))
+// end of [instr_cond]
+
+(* ****** ****** *)
+
+implement
+instr_letpop
+  (loc) = instr_make_node (loc, INSletpop ())
+// end of [instr_letpop]
+
+implement
+instr_letpush
+  (loc, pmds) = instr_make_node (loc, INSletpush (pmds))
+// end of [instr_letpush]
+
+(* ****** ****** *)
+
+implement
 instr_move_con (
   loc, tmpret, d2c, hse_sum, _arg
 ) = instr_make_node
@@ -352,6 +381,42 @@ case+
 | _ => instr_move_fltrec (loc, tmpret, lpmvs, hse_rec)
 //
 end // end of [instr_move_fltrec2]
+
+(* ****** ****** *)
+
+implement
+instr_patck
+  (loc, pmv, pck, pcknt) =
+  instr_make_node (loc, INSpatck (pmv, pck, pcknt))
+// end of [instr_patck]
+
+(* ****** ****** *)
+
+implement
+instr_move_select
+  (loc, tmp, pmv, hse_rec, hils) =
+  instr_make_node (loc, INSmove_select (tmp, pmv, hse_rec, hils))
+// end of [instr_move_select]
+
+implement
+instr_move_selcon
+  (loc, tmp, pmv, hse_sum, narg) =
+  instr_make_node (loc, INSmove_selcon (tmp, pmv, hse_sum, narg))
+// end of [instr_move_selcon]
+
+(* ****** ****** *)
+
+implement
+instr_assgn_varofs
+  (loc, d2v_l, ofs, pmv_r) =
+  instr_make_node (loc, INSassgn_varofs (d2v_l, ofs, pmv_r))
+// end of [instr_assgn_varofs]
+
+implement
+instr_assgn_ptrofs
+  (loc, pmv_l, ofs, pmv_r) =
+  instr_make_node (loc, INSassgn_ptrofs (pmv_l, ofs, pmv_r))
+// end of [instr_assgn_ptrofs]
 
 (* ****** ****** *)
 
@@ -418,71 +483,6 @@ instr_update_ptrdec
   (loc, tmpelt, hse_elt) =
   instr_make_node (loc, INSupdate_ptrdec (tmpelt, hse_elt))
 // end of [instr_update_ptrdec]
-
-(* ****** ****** *)
-
-implement
-instr_move_select
-  (loc, tmp, pmv, hse_rec, hils) =
-  instr_make_node (loc, INSmove_select (tmp, pmv, hse_rec, hils))
-// end of [instr_move_select]
-
-implement
-instr_move_selcon
-  (loc, tmp, pmv, hse_sum, narg) =
-  instr_make_node (loc, INSmove_selcon (tmp, pmv, hse_sum, narg))
-// end of [instr_move_selcon]
-
-(* ****** ****** *)
-
-implement
-instr_funcall (
-  loc, tmpret, _fun, hse_fun, _arg
-) = instr_make_node
-  (loc, INSfuncall (tmpret, _fun, hse_fun, _arg))
-// end of [instr_funcall]
-
-(* ****** ****** *)
-
-implement
-instr_cond
-  (loc, _cond, _then, _else) =
-  instr_make_node (loc, INScond (_cond, _then, _else))
-// end of [instr_cond]
-
-(* ****** ****** *)
-
-implement
-instr_patck
-  (loc, pmv, pck, pcknt) =
-  instr_make_node (loc, INSpatck (pmv, pck, pcknt))
-// end of [instr_patck]
-
-(* ****** ****** *)
-
-implement
-instr_assgn_varofs
-  (loc, d2v_l, ofs, pmv_r) =
-  instr_make_node (loc, INSassgn_varofs (d2v_l, ofs, pmv_r))
-// end of [instr_assgn_varofs]
-
-implement
-instr_assgn_ptrofs
-  (loc, pmv_l, ofs, pmv_r) =
-  instr_make_node (loc, INSassgn_ptrofs (pmv_l, ofs, pmv_r))
-// end of [instr_assgn_ptrofs]
-
-(* ****** ****** *)
-
-implement
-instr_letpop
-  (loc) = instr_make_node (loc, INSletpop ())
-// end of [instr_letpop]
-
-implement
-instr_letpush
-  (loc, pmds) = instr_make_node (loc, INSletpush (pmds))
-// end of [instr_letpush]
 
 (* ****** ****** *)
 

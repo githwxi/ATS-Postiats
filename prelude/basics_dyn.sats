@@ -224,9 +224,9 @@ array_v (a:vt@ype, l:addr, n:int) = @[a][n] @ l
 //
 datatype // t@ype+: covariant
 list_t0ype_int_type (a:t@ype+, int) =
+  | list_nil (a, 0) of ()
   | {n:int | n >= 0}
     list_cons (a, n+1) of (a, list_t0ype_int_type (a, n))
-  | list_nil (a, 0) of ()
 // end of [datatype]
 stadef list = list_t0ype_int_type
 typedef
@@ -250,9 +250,9 @@ typedef listBtwe
 //
 datavtype // vt@ype+: covariant
 list_vt0ype_int_vtype (a:vt@ype+, int) =
+  | list_vt_nil (a, 0) of ()
   | {n:int | n >= 0}
     list_vt_cons (a, n+1) of (a, list_vt0ype_int_vtype (a, n))
-  | list_vt_nil (a, 0) of ()
 // end of [list_vt0ype_int_vtype]
 stadef list_vt = list_vt0ype_int_vtype
 vtypedef
@@ -284,27 +284,27 @@ prfun unit_v_elim (pf: unit_v): void
 //
 datatype // t@ype+: covariant
 option_t0ype_bool_type
-  (a:t@ype+, bool) = Some (a, true) of a | None (a, false)
+  (a:t@ype+, bool) = Some (a, true) of (a) | None (a, false)
 // end of [datatype]
 stadef option = option_t0ype_bool_type
 typedef Option (a:t0p) = [b:bool] option (a, b)
 //
 dataview
 option_prop_bool_prop
-  (a:prop+, bool) = Some_p (a, true) of a | None_p (a, false)
+  (a:prop+, bool) = Some_p (a, true) of (a) | None_p (a, false)
 // end of [option_prop_bool_prop]
 stadef option_p = option_prop_bool_prop
 //
 datavtype // vt@ype+: covariant
 option_vt0ype_bool_vtype
-  (a:vt@ype+, bool) = Some_vt (a, true) of a | None_vt (a, false)
+  (a:vt@ype+, bool) = Some_vt (a, true) of (a) | None_vt (a, false)
 // end of [option_vt0ype_bool_vtype]
 stadef option_vt = option_vt0ype_bool_vtype
 vtypedef Option_vt (a:vt0p) = [b:bool] option_vt (a, b)
 //
 dataview
 option_view_bool_view
-  (a:view+, bool) = Some_v (a, true) of a | None_v (a, false)
+  (a:view+, bool) = Some_v (a, true) of (a) | None_v (a, false)
 // end of [option_view_bool_view]
 stadef option_v = option_view_bool_view
 //

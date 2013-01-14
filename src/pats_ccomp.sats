@@ -634,13 +634,35 @@ instr_node =
 //
   | INSmove_arg_val of (int(*arg*), primval)
 //
+  | INSfuncall of
+      (tmpvar, primval(*fun*), hisexp, primvalist(*arg*))
+    // end of [INSfuncall]
+//    
+  | INScond of ( // conditinal instruction
+      primval(*test*), instrlst(*then*), instrlst(*else*)
+    ) // end of [INScond]
+//
+  | INSletpop of ()
+  | INSletpush of (primdeclst)
+//
   | INSmove_con of
       (tmpvar, d2con, hisexp, labprimvalist(*arg*))
+//
+  | INSmove_ref of (tmpvar, primval) // tmp := ref (pmv)
+//
+  | INSpatck of (primval, patck, patckont) // pattern check
 //
   | INSmove_boxrec of
       (tmpvar, labprimvalist(*arg*), hisexp)
   | INSmove_fltrec of
       (tmpvar, labprimvalist(*arg*), hisexp)
+//
+  | INSmove_selcon of
+      (tmpvar, primval, hisexp(*tysum*), label)
+    // end of [INSmove_selcon]
+  | INSmove_select of
+      (tmpvar, primval, hisexp(*tysel*), primlablst)
+    // end of [INSmove_select]
 //
   | INSmove_list_nil of (tmpvar)
   | INSpmove_list_nil of (tmpvar)
@@ -658,32 +680,10 @@ instr_node =
   | INSupdate_ptrinc of (tmpvar, hisexp(*elt*))
   | INSupdate_ptrdec of (tmpvar, hisexp(*elt*))
 //
-  | INSmove_ref of (tmpvar, primval) // tmp := ref (pmv)
-//
-  | INSmove_selcon of
-      (tmpvar, primval, hisexp(*tysum*), label)
-    // end of [INSmove_selcon]
-  | INSmove_select of
-      (tmpvar, primval, hisexp(*tysel*), primlablst)
-    // end of [INSmove_select]
-//
-  | INSfuncall of
-      (tmpvar, primval(*fun*), hisexp, primvalist(*arg*))
-    // end of [INSfuncall]
-//    
-  | INScond of ( // conditinal instruction
-      primval(*test*), instrlst(*then*), instrlst(*else*)
-    ) // end of [INScond]
-//
-  | INSpatck of (primval, patck, patckont) // pattern check
-//
   | INSassgn_varofs of
       (d2var(*left*), primlablst(*ofs*), primval(*right*))
   | INSassgn_ptrofs of
       (primval(*left*), primlablst(*ofs*), primval(*right*))
-//
-  | INSletpop of ()
-  | INSletpush of (primdeclst)
 //
   | INStmpdec of (tmpvar) // HX-2013-01: this is a no-op
 //
@@ -733,6 +733,24 @@ fun instr_move_arg_val
 
 (* ****** ****** *)
 
+fun instr_funcall (
+  loc: location
+, tmpret: tmpvar, _fun: primval, hse_fun: hisexp, _arg: primvalist
+) : instr // end of [instr_funcall]
+
+(* ****** ****** *)
+
+fun instr_cond (
+  loc: location, _cond: primval, _then: instrlst, _else: instrlst
+) : instr // end of [instr_cond]
+
+(* ****** ****** *)
+
+fun instr_letpop (loc: location): instr
+fun instr_letpush (loc: location, pmds: primdeclst): instr
+
+(* ****** ****** *)
+
 fun instr_move_con (
   loc: location
 , tmp: tmpvar, d2c: d2con, hse_sum: hisexp, lpmvs: labprimvalist
@@ -749,6 +767,34 @@ fun instr_move_fltrec (
 fun instr_move_fltrec2 (
   loc: location, tmp: tmpvar, arg: labprimvalist, hse: hisexp
 ) : instr // end of [instr_move_fltrec2]
+
+(* ****** ****** *)
+
+fun instr_patck (
+  loc: location, pmv: primval, pck: patck, pcknt: patckont
+) : instr // pattern check
+  
+(* ****** ****** *)
+
+fun instr_move_selcon (
+  loc: location
+, tmp: tmpvar, pmv: primval, hse_sum: hisexp, lab: label
+) : instr // end of [instr_move_selcon]
+
+fun instr_move_select (
+  loc: location
+, tmp: tmpvar, pmv: primval, hse_sel: hisexp, hils: primlablst
+) : instr // end of [instr_move_select]
+
+(* ****** ****** *)
+
+fun instr_assgn_varofs (
+  loc: location, d2v_l: d2var, ofs: primlablst, pmv_r: primval
+) : instr // end of [instr_assgn_varofs]
+
+fun instr_assgn_ptrofs (
+  loc: location, pmv_l: primval, ofs: primlablst, pmv_r: primval
+) : instr // end of [instr_assgn_ptrofs]
 
 (* ****** ****** *)
 
@@ -787,52 +833,6 @@ fun instr_update_ptrinc
 fun instr_update_ptrdec
   (loc: location, tmpelt: tmpvar, hse_elt: hisexp): instr
 // end of [instr_update_ptrdec]
-
-(* ****** ****** *)
-
-fun instr_move_selcon (
-  loc: location
-, tmp: tmpvar, pmv: primval, hse_sum: hisexp, lab: label
-) : instr // end of [instr_move_selcon]
-
-fun instr_move_select (
-  loc: location
-, tmp: tmpvar, pmv: primval, hse_sel: hisexp, hils: primlablst
-) : instr // end of [instr_move_select]
-
-(* ****** ****** *)
-
-fun instr_funcall (
-  loc: location
-, tmpret: tmpvar, _fun: primval, hse_fun: hisexp, _arg: primvalist
-) : instr // end of [instr_funcall]
-
-(* ****** ****** *)
-
-fun instr_cond (
-  loc: location, _cond: primval, _then: instrlst, _else: instrlst
-) : instr // end of [instr_cond]
-
-(* ****** ****** *)
-
-fun instr_patck (
-  loc: location, pmv: primval, pck: patck, pcknt: patckont
-) : instr // pattern check
-  
-(* ****** ****** *)
-
-fun instr_assgn_varofs (
-  loc: location, d2v_l: d2var, ofs: primlablst, pmv_r: primval
-) : instr // end of [instr_assgn_varofs]
-
-fun instr_assgn_ptrofs (
-  loc: location, pmv_l: primval, ofs: primlablst, pmv_r: primval
-) : instr // end of [instr_assgn_ptrofs]
-
-(* ****** ****** *)
-
-fun instr_letpop (loc: location): instr
-fun instr_letpush (loc: location, pmds: primdeclst): instr
 
 (* ****** ****** *)
 
@@ -1069,6 +1069,12 @@ fun emit_tmpdeclst (out: FILEref, tmps: tmpvarlst): void
 // HX-2013-01:
 // these are implemented in [pats_hitype.dats]
 //
+abstype hitype_type
+typedef hitype = hitype_type
+
+fun hisexp_typize (hse: hisexp): hitype
+fun emit_hitype (out: FILEref, hit: hitype): void
+
 fun emit_hisexp (out: FILEref, hse: hisexp): void
 fun emit_hisexplst_sep
   (out: FILEref, hses: hisexplst, sep: string): void

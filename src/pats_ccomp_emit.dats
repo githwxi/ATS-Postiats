@@ -32,7 +32,8 @@
 //
 (* ****** ****** *)
 
-staload ERR = "./pats_error.sats"
+staload
+ERR = "./pats_error.sats"
 
 (* ****** ****** *)
 
@@ -47,25 +48,33 @@ overload = with $LAB.eq_label_label
 
 (* ****** ****** *)
 
-staload STMP = "./pats_stamp.sats"
+staload
+STMP = "./pats_stamp.sats"
 
 (* ****** ****** *)
 
-staload FIL = "./pats_filename.sats"
+staload
+FIL = "./pats_filename.sats"
 
 (* ****** ****** *)
 
-staload SYM = "./pats_symbol.sats"
-staload SYN = "./pats_syntax.sats"
+staload
+SYM = "./pats_symbol.sats"
+staload
+SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
 
-staload GLOB = "./pats_global.sats"
+staload
+GLOB = "./pats_global.sats"
 
 (* ****** ****** *)
 
-staload S2E = "./pats_staexp2.sats"
-staload D2E = "./pats_dynexp2.sats"
+staload
+S2E = "./pats_staexp2.sats"
+typedef d2con = $S2E.d2con
+staload
+D2E = "./pats_dynexp2.sats"
 
 (* ****** ****** *)
 
@@ -666,9 +675,10 @@ end // end of [emit_primlab]
 typedef
 emit_instr_type = (FILEref, instr) -> void
 
+extern fun emit_instr_funcall : emit_instr_type
+extern fun emit_instr_move_con : emit_instr_type
 extern fun emit_instr_move_rec : emit_instr_type
 extern fun emit_instr_move_select : emit_instr_type
-extern fun emit_instr_funcall : emit_instr_type
 
 (* ****** ****** *)
 
@@ -716,15 +726,15 @@ end // end of [emit_pmove_val]
 
 extern
 fun emit_move_ptralloc
-  (out: FILEref, tmp: tmpvar, hse: hisexp): void
+  (out: FILEref, tmp: tmpvar, hit: hitype): void
 implement
 emit_move_ptralloc
-  (out, tmp, hse) = let
+  (out, tmp, hit) = let
   val () =
     emit_text (out, "ATSMACmove_ptralloc(")
   val () = emit_tmpvar (out, tmp)
   val () = emit_text (out, ", ")
-  val () = emit_hisexp (out, hse)
+  val () = emit_hitype (out, hit)
   val () = emit_text (out, ") ;")
 in
   // nothing
@@ -778,8 +788,47 @@ case+ ins.instr_node of
     (tmp, pmv) => emit_pmove_val (out, tmp, pmv)
   // end of [INSpmove_val]
 //
+| INSfuncall _ => emit_instr_funcall (out, ins)
+//
+| INScond (
+    pmv_cond, inss_then, inss_else
+  ) => {
+    val () = emit_text (out, "if (")
+    val () = emit_primval (out, pmv_cond)
+    val () = emit_text (out, ") {\n")
+    val () = emit_instrlst (out, inss_then)
+    val () = emit_text (out, "\n} else {\n")
+    val () = emit_instrlst (out, inss_else)
+    val () =
+      emit_text (out, "\n} /* end of [if] */")
+    // end of [val]
+  } // end of [INScond]
+//
+| INSletpop () => let
+    val () = emit_text (out, "/*\n")
+    val () = fprint_instr (out, ins)
+    val () = emit_text (out, "\n*/")
+  in
+    // nothing
+  end // end of [INSletpop]
+| INSletpush (pmds) => let
+    val () = emit_text (out, "/*\n")
+    val () = emit_text (out, "letpush(beg)")
+    val () = emit_text (out, "\n*/\n")
+    val () = emit_primdeclst (out, pmds)
+    val () = emit_text (out, "/*\n")
+    val () = emit_text (out, "letpush(end)")
+    val () = emit_text (out, "\n*/\n")
+  in
+    // nothing
+  end // end of [INSletpush]
+//
+| INSmove_con _ => emit_instr_move_con (out, ins)
+//
 | INSmove_fltrec _ => emit_instr_move_rec (out, ins)
 | INSmove_boxrec _ => emit_instr_move_rec (out, ins)
+//
+| INSmove_select _ => emit_instr_move_select (out, ins)
 //
 | INSmove_list_nil (tmp) => {
     val () = emit_text (out, "ATSMACmove_list_nil(")
@@ -865,43 +914,6 @@ case+ ins.instr_node of
     val () = emit_text (out, ") ;")     
   } // end of [INSupdate_ptrdec]
 //
-| INSmove_select _ => emit_instr_move_select (out, ins)
-//
-| INSfuncall _ => emit_instr_funcall (out, ins)
-//
-| INScond (
-    pmv_cond, inss_then, inss_else
-  ) => {
-    val () = emit_text (out, "if (")
-    val () = emit_primval (out, pmv_cond)
-    val () = emit_text (out, ") {\n")
-    val () = emit_instrlst (out, inss_then)
-    val () = emit_text (out, "\n} else {\n")
-    val () = emit_instrlst (out, inss_else)
-    val () =
-      emit_text (out, "\n} /* end of [if] */")
-    // end of [val]
-  } // end of [INScond]
-//
-| INSletpop () => let
-    val () = emit_text (out, "/*\n")
-    val () = fprint_instr (out, ins)
-    val () = emit_text (out, "\n*/")
-  in
-    // nothing
-  end // end of [INSletpop]
-| INSletpush (pmds) => let
-    val () = emit_text (out, "/*\n")
-    val () = emit_text (out, "letpush(beg)")
-    val () = emit_text (out, "\n*/\n")
-    val () = emit_primdeclst (out, pmds)
-    val () = emit_text (out, "/*\n")
-    val () = emit_text (out, "letpush(end)")
-    val () = emit_text (out, "\n*/\n")
-  in
-    // nothing
-  end // end of [INSletpush]
-//
 | INStmpdec _ => let
     val () = emit_text (out, "/*\n")
     val () = fprint_instr (out, ins)
@@ -967,6 +979,99 @@ end // end of [emit_instrlst_ln]
 
 (* ****** ****** *)
 
+local
+
+fun auxcon (
+  out: FILEref
+, tmp: tmpvar
+, hit_con: hitype
+) : void = let
+//
+val () = emit_text (out, "ATSMACmove_con(")
+val () = emit_tmpvar (out, tmp)
+val () = emit_text (out, ", ")
+val () = emit_hitype (out, hit_con)
+val () = emit_text (out, ") ;\n")
+//
+in
+  // nothing
+end // end of [auxcon]
+
+fun auxtag (
+  out: FILEref
+, tmp: tmpvar, d2c: d2con
+) : void = let
+//
+val tgd = (
+  case+ 0 of
+  | _ when $S2E.d2con_is_nullary (d2c) => 0
+  | _ when $S2E.d2con_is_listlike (d2c) => 0
+  | _ when $S2E.d2con_is_singular (d2c) => 0
+  | _ => 1
+) : int // end of [val]
+//
+val tag = $S2E.d2con_get_tag (d2c)
+val () = fprintf (out, "#if(%i)\n", @(tgd))
+val () = emit_text (out, "ATSMACmove_con_tag(")
+val () = emit_tmpvar (out, tmp)
+val () = emit_text (out, ", ")
+val () = emit_int (out, tag)
+val () = emit_text (out, ") ;\n")
+val () = fprintf (out, "#endif\n", @())
+//
+in
+  // nothing
+end // end of [auxtag]
+
+fun auxarg (
+  out: FILEref
+, tmp: tmpvar
+, hit_con: hitype
+, lxs: labprimvalist
+) : void = let
+in
+//
+case+ lxs of
+| list_cons
+    (lx, lxs) => let
+    val+LABPRIMVAL (l, x) = lx
+    val () = emit_text (out, "ATSMACmove_con_ofs(")
+    val () = emit_tmpvar (out, tmp)
+    val () = emit_text (out, ", ")
+    val () = emit_hitype (out, hit_con)
+    val () = emit_text (out, ", ")
+    val () = emit_labelext (out, 0, l)
+    val () = emit_text (out, ", ")
+    val () = emit_primval (out, x)
+    val () = emit_text (out, ") ;\n")
+  in
+    auxarg (out, tmp, hit_con, lxs)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [auxarg]
+
+in (* in of [local] *)
+
+implement
+emit_instr_move_con (out, ins) = let
+//
+val- INSmove_con
+  (tmp, d2c, hse_con, arg) = ins.instr_node
+//
+val hit_con = hisexp_typize (hse_con)
+//
+val () = auxcon (out, tmp, hit_con)
+val () = auxtag (out, tmp, d2c)
+val () = auxarg (out, tmp, hit_con, arg)
+//
+in
+end // end of [emit_instr_move_con]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 implement
 emit_instr_move_rec (out, ins) = let
 //
@@ -974,7 +1079,7 @@ fun loop (
   boxknd: int
 , extknd: int
 , tmp: tmpvar
-, hse_rec: hisexp
+, hit_rec: hitype
 , lxs: labprimvalist
 , i: int
 ) :<cloref1> void = let
@@ -992,14 +1097,14 @@ case+ lxs of
       if boxknd > 0 then emit_text (out, "ATSMACmove_boxrec_ofs (")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
-    val () = emit_hisexp (out, hse_rec)
+    val () = emit_hitype (out, hit_rec)
     val () = emit_text (out, ", ")
     val () = emit_labelext (out, extknd, l)
     val () = emit_text (out, ", ")
     val () = emit_primval (out, x)
     val () = emit_text (out, ") ;")
   in
-    loop (boxknd, extknd, tmp, hse_rec, lxs, i+1)
+    loop (boxknd, extknd, tmp, hit_rec, lxs, i+1)
   end // end of [list_cons]
 | list_nil () => ()
 //
@@ -1011,18 +1116,20 @@ case- ins.instr_node of
 | INSmove_fltrec (
     tmp, lpmvs, hse_rec
   ) => let
+    val hit_rec = hisexp_typize (hse_rec)
     val extknd = hisexp_get_extknd (hse_rec)
   in
-    loop (0(*boxknd*), extknd, tmp, hse_rec, lpmvs, 0)
+    loop (0(*boxknd*), extknd, tmp, hit_rec, lpmvs, 0)
   end // end of [INSmove_fltrec]
 | INSmove_boxrec (
     tmp, lpmvs, hse_rec
   ) => let
-    val (
-    ) = emit_move_ptralloc (out, tmp, hse_rec)
+    val hit_rec = hisexp_typize (hse_rec)
+    val () =
+      emit_move_ptralloc (out, tmp, hit_rec)
     val extknd = hisexp_get_extknd (hse_rec)
   in
-    loop (1(*boxknd*), extknd, tmp, hse_rec, lpmvs, 1)
+    loop (1(*boxknd*), extknd, tmp, hit_rec, lpmvs, 1)
   end // end of [INSmove_boxrec]
 //
 end // end of [emit_instr_move_rec]

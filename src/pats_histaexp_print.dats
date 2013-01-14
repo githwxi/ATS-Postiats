@@ -165,7 +165,7 @@ case+
 //
 | HSEs2exp (s2e) => {
     val () = prstr "HSEs2exp("
-    val () = fprint_s2exp (out, s2e)
+    val () = fpprint_s2exp (out, s2e)
     val () = prstr ")"
   }
 //

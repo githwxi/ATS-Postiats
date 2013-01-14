@@ -877,6 +877,10 @@ fun d2con_is_exn (d2c: d2con): bool // exn constructor
 fun d2con_is_msg (d2c: d2con): bool // msg constructor
 fun d2con_is_prf (d2c: d2con): bool // proof constructor
 
+fun d2con_is_nullary (d2c: d2con): bool // nullary constructor
+fun d2con_is_listlike (d2c: d2con): bool // like listnil/listcons
+fun d2con_is_singular (d2c: d2con): bool // singular constructor
+
 (* ****** ****** *)
 //
 // HX: implemented in [ats_staexp2_dcon.dats]

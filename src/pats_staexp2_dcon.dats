@@ -244,6 +244,23 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
+d2con_is_nullary (d2c) =
+  d2con_get_arity_real (d2c) = 0
+// end of [d2con_is_nullay]
+
+implement
+d2con_is_listlike (d2c) =
+  s2cst_is_listlike (d2con_get_scst (d2c))
+// end of [d2con_is_listlike]
+
+implement
+d2con_is_singular (d2c) =
+  s2cst_is_singular (d2con_get_scst (d2c))
+// end of [d2con_is_singular]
+
+(* ****** ****** *)
+
+implement
 eq_d2con_d2con
   (x1, x2) = (compare (x1, x2) = 0)
 // end of [eq_d2con_d2con]

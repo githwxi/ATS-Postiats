@@ -80,7 +80,7 @@ datatype hitype =
   | HITtyarr of (hitype, s2explst)
 //
   | HITtyrec of (labhitypelst)
-  | HITtysum of (labhitypelst)
+  | HITtysum of (int(*tagged*), labhitypelst)
 //
   | HITapp of (hitype, hitypelst)
 //
@@ -100,6 +100,10 @@ labhitypelst = List (labhitype)
 
 (* ****** ****** *)
 
+assume hitype_type = hitype
+
+(* ****** ****** *)
+
 extern
 fun hitype_none (): hitype
 extern
@@ -113,18 +117,14 @@ fun eq_hitype_hitype (x1: hitype, x2: hitype): bool
 (* ****** ****** *)
 
 extern
-fun hisexp_typize (hse: hisexp): hitype
+fun s2exp_typize (s2e: s2exp): hitype
 extern
 fun hisexplst_typize (hses: hisexplst): hitypelst
 extern
 fun labhisexplst_typize (lhses: labhisexplst): labhitypelst
-extern
-fun s2exp_typize (s2e: s2exp): hitype
 
 (* ****** ****** *)
 //
-extern
-fun emit_hitype (out: FILEref, hit: hitype): void
 extern
 fun emit_hitypelst_sep
   (out: FILEref, hits: hitypelst, sep: string): void
@@ -159,9 +159,11 @@ case+ x1 of
   | _ => abort ()
   ) // end of [HITtyrec]
 //
-| HITtysum (lxs1) => (
+| HITtysum (tgd1, lxs1) => (
   case+ x2 of
-  | HITtysum (lxs2) => auxlablst (lxs1, lxs2)
+  | HITtysum (tgd2, lxs2) =>
+      if tgd1 = tgd2 then auxlablst (lxs1, lxs2) else abort ()
+    // end of [HITtysum]
  | _ => abort ()
   ) // end of [HITtysum]
 //
@@ -304,18 +306,22 @@ case+ hit0 of
     auxstr (hval, "postiats_tyarr")
   end // end of [HITtyarr]
 //
-| HITtyrec (lhits) => let
+| HITtyrec
+    (lhits) => let
     val () = auxlablst (hval, lhits)
   in
     auxstr (hval, "postiats_tyrec")
   end // end of [HITtyrec]
-| HITtysum (lhits) => let
+| HITtysum
+    (tgd, lhits) => let
+    val () = auxint (hval, tgd)
     val () = auxlablst (hval, lhits)
   in
     auxstr (hval, "postiats_tysum")
   end // end of [HITtysum]
 //
-| HITundef (stamp, hse) =>
+| HITundef
+    (stamp, hse) =>
     auxint (hval, $STMP.stamp_get_int (stamp))
   // end of [HITundef]
 //
@@ -662,6 +668,33 @@ in
   HITnmd (name)
 end // end of [hitype_gen_tyrec]
 
+extern
+fun hitype_gen_tysum (): hitype
+implement
+hitype_gen_tysum () = let
+  val n = $STMP.hitype_stamp_make ()
+  val name = $STMP.tostring_prefix_stamp ("postiats_tysum_", n)
+in
+  HITnmd (name)
+end // end of [hitype_gen_tysum]
+
+(* ****** ****** *)
+
+implement
+s2exp_typize
+  (s2e0) = let
+in
+//
+case+
+  s2e0.s2exp_node of
+//
+| S2Etkname (name) => HITnmd (name)
+| S2Eextype (name, _) => HITnmd (name)
+//
+| _ => hitype_none ()
+//
+end // end of [s2exp_typize]
+
 (* ****** ****** *)
 
 local
@@ -696,6 +729,8 @@ case+ hse0.hisexp_node of
 | HSEtyrecsin (lhse) => let
     val HSLABELED (lab, opt, hse) = lhse in aux (flag, hse)
   end // end of [HSEtyrecsin]
+//
+| HSEtysum _ => aux_tysum (flag, hse0)
 //
 | HSEs2exp (s2e) => let
     val hit = s2exp_typize (s2e)
@@ -750,6 +785,39 @@ end // end of [if]
 //
 end // end of [aux_tyrec]
 
+and aux_tysum (
+  flag: int, hse0: hisexp
+) : hitype = let
+//
+val-HSEtysum
+  (d2c, lxs) = hse0.hisexp_node
+val isptr =
+  (if flag > 0 then true else false): bool
+//
+in
+//
+if isptr
+  then hitype_typtr ()
+  else let
+  val tgd = (
+    if d2con_is_listlike (d2c) then 0 else 1
+  ) : int // end of [val]
+  val lys = auxlablst (flag, lxs)
+  val hit0 = HITtysum (tgd, lys)
+  val opt = the_hitypemap_search (hit0)
+in
+  case+ opt of
+  | ~None_vt () => let
+      val hit1 = hitype_gen_tysum ()
+      val () = the_hitypemap_insert (hit0, hit1)
+    in
+      hit1
+     end // end of [None_vt]
+   | ~Some_vt (hit0) => hit0
+end // end of [if]
+//
+end // end of [aux_tysum]
+
 and auxlst (
   flag: int, xs: hisexplst
 ) : hitypelst = let
@@ -796,23 +864,6 @@ implement
 labhisexplst_typize (xs) = auxlablst (0, xs)
 
 end // end of [local]
-
-(* ****** ****** *)
-
-implement
-s2exp_typize
-  (s2e0) = let
-in
-//
-case+
-  s2e0.s2exp_node of
-//
-| S2Etkname (name) => HITnmd (name)
-| S2Eextype (name, _) => HITnmd (name)
-//
-| _ => hitype_none ()
-//
-end // end of [s2exp_typize]
 
 (* ****** ****** *)
 
@@ -874,11 +925,12 @@ in
 case+ lhits of
 | list_cons
     (lhit, lhits) => let
+    val+HTLABELED
+      (lab, opt, hit) = lhit
     val () =
       if i > 0 then emit_newline (out)
-    val+ HTLABELED (lab, opt, hit) = lhit
+    // end of [val]
     val () = auxfld (out, lhit)
-    val () = emit_text (out, " ;")
   in
     auxfldlst (out, lhits, i+1)
   end // end of [list_cons]
@@ -899,10 +951,11 @@ case+ hit of
     val () = auxfldlst (out, lhits, 1)
     val () = emit_text (out, "\n}")
   } // end of [HITtyrec]
-| HITtysum (lhits) => {
-    val () =
-      emit_text (out, "struct {")
-    val () = emit_text (out, "\nint tag ;")
+| HITtysum (tgd, lhits) => {
+    val () = emit_text (out, "struct {\n")
+    val () = fprintf (out, "#if(%i)\n", @(tgd))
+    val () = emit_text (out, "int tag ;")
+    val () = fprintf (out, "\n#endif", @())
     val () = auxfldlst (out, lhits, 1)
     val () = emit_text (out, "\n}")
   } // end of [HITtysum]
