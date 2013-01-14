@@ -88,13 +88,27 @@ staload "./pats_ccomp.sats"
 
 implement
 emit_int
-  (out, int) = fprint_int (out, int)
+  (out, x) = fprint_int (out, x)
 // end of [emit_int]
+
+implement
+emit_bool
+  (out, x) = (
+  if x then
+    emit_text (out, "atsbool_true")
+  else
+    emit_text (out, "atsbool_false")
+  // end of [if]
+) // end of [emit_bool]
+
+(* ****** ****** *)
 
 implement
 emit_text
   (out, txt) = fprint_string (out, txt)
 // end of [emit_text]
+
+(* ****** ****** *)
 
 implement
 emit_newline (out) = fprint_newline (out)
@@ -330,6 +344,78 @@ end // end of [emit_d2cst]
 
 (* ****** ****** *)
 
+implement
+emit_tmplab
+  (out, tlab) = let
+  val () = emit_text (out, "__pats_tlab$")
+in
+  $STMP.fprint_stamp (out, tmplab_get_stamp (tlab))
+end // end of [emit_tmplab]
+
+implement
+emit_tmplabint
+  (out, tlab, i) = let
+  val () = emit_tmplab (out, tlab)
+  val () = fprintf (out, "$%i", @(i))
+in
+  // nothing
+end // end of [emit_tmplabint]
+
+(* ****** ****** *)
+
+local
+
+fun auxtmp (
+  out: FILEref, tmp: tmpvar
+) : void = let
+//
+val knd =
+  tmpvar_get_topknd (tmp)
+//
+val () = (case+ 0 of
+  | _ when knd = 0 => let
+    in
+      emit_text (out, "tmp") // local temporary variable
+    end // end of [_]
+  | _ (*(static)top*) => let
+    in
+      emit_text (out, "statmp") // static toplevel temporary
+    end // end of [knd = 1]
+) : void // end of [val]
+//
+val opt = tmpvar_get_origin (tmp)
+//
+in
+//
+case+ opt of
+| Some (tmpp) => let
+    val sfx = tmpvar_get_suffix (tmp)
+    val stmp = tmpvar_get_stamp (tmpp)
+    val () = $STMP.fprint_stamp (out, stmp)
+    val () = fprintf (out, "$%i", @(sfx))
+  in
+    // nothing
+  end // end of [Some]
+| None () => let
+    val stmp = tmpvar_get_stamp (tmp)
+    val () = $STMP.fprint_stamp (out, stmp)
+  in
+    // nothing
+  end // end of [None]
+//
+end // end of [auxtmp]
+
+in (* in of [local] *)
+
+implement
+emit_tmpvar
+  (out, tmp) = auxtmp (out, tmp)
+// end of [emit_tmpvar]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 local
 
 fun auxmain (
@@ -384,59 +470,6 @@ val () = if sfx > 0 then fprintf (out, "$%i", @(sfx))
 in
   // nothing
 end // end of [emit_funlab]
-
-end // end of [local]
-
-(* ****** ****** *)
-
-local
-
-fun auxtmp (
-  out: FILEref, tmp: tmpvar
-) : void = let
-//
-val knd =
-  tmpvar_get_topknd (tmp)
-//
-val () = (case+ 0 of
-  | _ when knd = 0 => let
-    in
-      emit_text (out, "tmp") // local temporary variable
-    end // end of [_]
-  | _ (*(static)top*) => let
-    in
-      emit_text (out, "statmp") // static toplevel temporary
-    end // end of [knd = 1]
-) : void // end of [val]
-//
-val opt = tmpvar_get_origin (tmp)
-//
-in
-//
-case+ opt of
-| Some (tmpp) => let
-    val sfx = tmpvar_get_suffix (tmp)
-    val stmp = tmpvar_get_stamp (tmpp)
-    val () = $STMP.fprint_stamp (out, stmp)
-    val () = fprintf (out, "$%i", @(sfx))
-  in
-    // nothing
-  end // end of [Some]
-| None () => let
-    val stmp = tmpvar_get_stamp (tmp)
-    val () = $STMP.fprint_stamp (out, stmp)
-  in
-    // nothing
-  end // end of [None]
-//
-end // end of [auxtmp]
-
-in (* in of [local] *)
-
-implement
-emit_tmpvar
-  (out, tmp) = auxtmp (out, tmp)
-// end of [emit_tmpvar]
 
 end // end of [local]
 
@@ -827,6 +860,8 @@ case+ ins.instr_node of
 //
 | INSmove_fltrec _ => emit_instr_move_rec (out, ins)
 | INSmove_boxrec _ => emit_instr_move_rec (out, ins)
+//
+| INSpatck (pmv, patck, fail) => emit_instr_patck (out, ins)
 //
 | INSmove_select _ => emit_instr_move_select (out, ins)
 //

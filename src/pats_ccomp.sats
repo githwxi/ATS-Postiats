@@ -619,7 +619,16 @@ and patckont =
 (* ****** ****** *)
 
 fun fprint_patck : fprint_type (patck)
+fun print_patck (x: patck): void
+overload print with print_patck
+fun prerr_patck (x: patck): void
+overload prerr with prerr_patck
+
 fun fprint_patckont : fprint_type (patckont)
+fun print_patckont (x: patckont): void
+overload print with print_patckont
+fun prerr_patckont (x: patckont): void
+overload prerr with prerr_patckont
 
 (* ****** ****** *)
 
@@ -650,12 +659,12 @@ instr_node =
 //
   | INSmove_ref of (tmpvar, primval) // tmp := ref (pmv)
 //
-  | INSpatck of (primval, patck, patckont) // pattern check
-//
   | INSmove_boxrec of
       (tmpvar, labprimvalist(*arg*), hisexp)
   | INSmove_fltrec of
       (tmpvar, labprimvalist(*arg*), hisexp)
+//
+  | INSpatck of (primval, patck, patckont) // pattern check
 //
   | INSmove_selcon of
       (tmpvar, primval, hisexp(*tysum*), label)
@@ -707,7 +716,7 @@ fun fprint_instr : fprint_type (instr)
 fun print_instr (x: instr): void
 overload print with print_instr
 fun prerr_instr (x: instr): void
-overload print with prerr_instr
+overload prerr with prerr_instr
 
 fun fprint_instrlst : fprint_type (instrlst)
 
@@ -1025,8 +1034,12 @@ fun hideclist_ccomp0 (hdcs: hideclist): primdeclst
 (* ****** ****** *)
 
 fun emit_int
-  (out: FILEref, int: int): void
+  (out: FILEref, x: int): void
 // end of [emit_int]
+
+fun emit_bool
+  (out: FILEref, x: bool): void
+// end of [emit_bool]
 
 fun emit_text
   (out: FILEref, txt: string): void
@@ -1057,9 +1070,20 @@ fun emit_filename (out: FILEref, fil: $FIL.filename): void
 fun emit_d2con (out: FILEref, d2c: d2con): void
 fun emit_d2cst (out: FILEref, d2c: d2cst): void
 
-fun emit_funlab (out: FILEref, flab: funlab): void
+(* ****** ****** *)
+
+fun emit_tmplab (out: FILEref, tlab: tmplab): void
+fun emit_tmplabint (out: FILEref, tlab: tmplab, i: int): void
+
+(* ****** ****** *)
 
 fun emit_tmpvar (out: FILEref, tmp: tmpvar): void
+
+(* ****** ****** *)
+
+fun emit_funlab (out: FILEref, flab: funlab): void
+
+(* ****** ****** *)
 
 fun emit_tmpdec (out: FILEref, tmp: tmpvar): void
 fun emit_tmpdeclst (out: FILEref, tmps: tmpvarlst): void
@@ -1100,6 +1124,10 @@ fun emit_primlab (out: FILEref, extknd: int, pml: primlab): void
 fun emit_instr (out: FILEref, ins: instr): void
 fun emit_instrlst (out: FILEref, inss: instrlst): void
 fun emit_instrlst_ln (out: FILEref, inss: instrlst): void
+
+(* ****** ****** *)
+
+fun emit_instr_patck (out: FILEref, ins: instr): void
 
 (* ****** ****** *)
 

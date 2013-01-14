@@ -436,6 +436,11 @@ case+ x of
 //
 end // end of [patck]
 
+implement
+print_patck (x) = fprint_patck (stdout_ref, x)
+implement
+prerr_patck (x) = fprint_patck (stderr_ref, x)
+
 (* ****** ****** *)
 
 implement
@@ -475,6 +480,11 @@ case+ x of
     val () = prstr ")"
   } 
 end // end of [patckont]
+
+implement
+print_patckont (x) = fprint_patckont (stdout_ref, x)
+implement
+prerr_patckont (x) = fprint_patckont (stderr_ref, x)
 
 (* ****** ****** *)
 

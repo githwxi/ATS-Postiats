@@ -62,6 +62,10 @@
 
 /* ****** ****** */
 
+#define ATSPATCKbool(pmv, pat) (pmv==pat)
+
+/* ****** ****** */
+
 #define ATSMACmove(tmp, val) (tmp = val)
 #define ATSMACpmove(tmp, hit, val) (*(hit*)tmp = val)
 

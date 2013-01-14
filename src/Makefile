@@ -244,6 +244,7 @@ SOURCES := \
   pats_ccomp_subst.dats \
   pats_ccomp_template.dats \
   pats_ccomp_emit.dats \
+  pats_ccomp_emit2.dats \
   pats_ccomp_main.dats \
   pats_comarg.sats \
   pats_comarg.dats \
@@ -465,6 +466,7 @@ OBJECTS := \
   pats_ccomp_subst_dats.o \
   pats_ccomp_template_dats.o \
   pats_ccomp_emit_dats.o \
+  pats_ccomp_emit2_dats.o \
   pats_ccomp_main_dats.o \
   pats_comarg_sats.o \
   pats_comarg_dats.o \
@@ -1119,6 +1121,9 @@ pats_ccomp_template_dats.o: pats_ccomp_template_dats.c; $(ATSCC) $(ATSCCFLAGS) -
 
 pats_ccomp_emit_dats.c: pats_ccomp_emit.dats; $(ATSCC) -cc $<
 pats_ccomp_emit_dats.o: pats_ccomp_emit_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_ccomp_emit2_dats.c: pats_ccomp_emit2.dats; $(ATSCC) -cc $<
+pats_ccomp_emit2_dats.o: pats_ccomp_emit2_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_ccomp_main_dats.c: pats_ccomp_main.dats; $(ATSCC) -cc $<
 pats_ccomp_main_dats.o: pats_ccomp_main_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
