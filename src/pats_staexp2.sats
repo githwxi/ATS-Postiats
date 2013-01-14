@@ -583,6 +583,7 @@ overload compare with compare_s2cst_s2cst
 fun s2cst_is_abstr (x: s2cst): bool
 fun s2cst_is_tkind (x: s2cst): bool
 
+fun s2cst_is_tagless (x: s2cst): bool
 fun s2cst_is_listlike (x: s2cst): bool
 fun s2cst_is_singular (x: s2cst): bool
 
@@ -878,6 +879,7 @@ fun d2con_is_msg (d2c: d2con): bool // msg constructor
 fun d2con_is_prf (d2c: d2con): bool // proof constructor
 
 fun d2con_is_nullary (d2c: d2con): bool // nullary constructor
+fun d2con_is_tagless (d2c: d2con): bool // tagless constructor
 fun d2con_is_listlike (d2c: d2con): bool // like listnil/listcons
 fun d2con_is_singular (d2c: d2con): bool // singular constructor
 

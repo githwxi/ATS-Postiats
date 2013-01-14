@@ -800,7 +800,7 @@ if isptr
   then hitype_typtr ()
   else let
   val tgd = (
-    if d2con_is_listlike (d2c) then 0 else 1
+    if d2con_is_tagless (d2c) then 0 else 1
   ) : int // end of [val]
   val lys = auxlablst (flag, lxs)
   val hit0 = HITtysum (tgd, lys)
@@ -954,7 +954,7 @@ case+ hit of
 | HITtysum (tgd, lhits) => {
     val () = emit_text (out, "struct {\n")
     val () = fprintf (out, "#if(%i)\n", @(tgd))
-    val () = emit_text (out, "int tag ;")
+    val () = emit_text (out, "int contag ;")
     val () = fprintf (out, "\n#endif", @())
     val () = auxfldlst (out, lhits, 1)
     val () = emit_text (out, "\n}")

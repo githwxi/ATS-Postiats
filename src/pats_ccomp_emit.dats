@@ -1002,17 +1002,17 @@ fun auxtag (
 , tmp: tmpvar, d2c: d2con
 ) : void = let
 //
-val tgd = (
+val flag = (
   case+ 0 of
   | _ when $S2E.d2con_is_nullary (d2c) => 0
   | _ when $S2E.d2con_is_listlike (d2c) => 0
   | _ when $S2E.d2con_is_singular (d2c) => 0
-  | _ => 1
+  | _ => 1 // HX: tag assignment is needed
 ) : int // end of [val]
 //
 val tag = $S2E.d2con_get_tag (d2c)
-val () = fprintf (out, "#if(%i)\n", @(tgd))
-val () = emit_text (out, "ATSMACmove_con_tag(")
+val () = fprintf (out, "#if(%i)\n", @(flag))
+val () = emit_text (out, "ATSMACassgn_con_tag(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
 val () = emit_int (out, tag)
@@ -1035,7 +1035,7 @@ case+ lxs of
 | list_cons
     (lx, lxs) => let
     val+LABPRIMVAL (l, x) = lx
-    val () = emit_text (out, "ATSMACmove_con_ofs(")
+    val () = emit_text (out, "ATSMACassgn_con_ofs(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_hitype (out, hit_con)
@@ -1092,9 +1092,9 @@ case+ lxs of
     val () =
       if i > 0 then emit_text (out, "\n")
     val () =
-      if boxknd = 0 then emit_text (out, "ATSMACmove_fltrec_ofs (")
+      if boxknd = 0 then emit_text (out, "ATSMACassgn_fltrec_ofs (")
     val () =
-      if boxknd > 0 then emit_text (out, "ATSMACmove_boxrec_ofs (")
+      if boxknd > 0 then emit_text (out, "ATSMACassgn_boxrec_ofs (")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_hitype (out, hit_rec)
@@ -1125,11 +1125,16 @@ case- ins.instr_node of
     tmp, lpmvs, hse_rec
   ) => let
     val hit_rec = hisexp_typize (hse_rec)
-    val () =
-      emit_move_ptralloc (out, tmp, hit_rec)
+//
+    val () = emit_text (out, "ATSMACmove_boxrec(")
+    val () = emit_tmpvar (out, tmp)
+    val () = emit_text (out, ", ")
+    val () = emit_hitype (out, hit_rec)
+    val () = emit_text (out, ") ;\n")
+//
     val extknd = hisexp_get_extknd (hse_rec)
   in
-    loop (1(*boxknd*), extknd, tmp, hit_rec, lpmvs, 1)
+    loop (1(*boxknd*), extknd, tmp, hit_rec, lpmvs, 0)
   end // end of [INSmove_boxrec]
 //
 end // end of [emit_instr_move_rec]

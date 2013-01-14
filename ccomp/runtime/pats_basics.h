@@ -71,8 +71,19 @@
 
 /* ****** ****** */
 
-#define ATSMACmove_fltrec_ofs(tmp, tyrec, lab, val) ((tmp).lab = val)
-#define ATSMACmove_boxrec_ofs(tmp, tyrec, lab, val) ((*(tyrec*)(tmp)).lab = val)
+#define ATStysum() struct{ int contag; }
+#define ATSMACmove_con(tmp, tysum) (tmp = ATS_MALLOC(sizeof(tysum)))
+#define ATSMACassgn_con_tag(tmp, val) (((ATStysum()*)(tmp))->contag = val)
+#define ATSMACassgn_con_ofs(tmp, tyrec, lab, val) (((tyrec*)(tmp))->lab = val)
+
+/* ****** ****** */
+
+#define ATSMACassgn_fltrec_ofs(tmp, tyrec, lab, val) ((tmp).lab = val)
+
+/* ****** ****** */
+
+#define ATSMACmove_boxrec(tmp, tyrec) (tmp = ATS_MALLOC(sizeof(tyrec)))
+#define ATSMACassgn_boxrec_ofs(tmp, tyrec, lab, val) (((tyrec*)(tmp))->lab = val)
 
 /* ****** ****** */
 //

@@ -360,6 +360,14 @@ s2cst_is_tkind (x) =
 (* ****** ****** *)
 
 implement
+s2cst_is_tagless (x) = (
+  case+ 0 of
+  | _ when s2cst_is_listlike (x) => true
+  | _ when s2cst_is_singular (x) => true
+  | _ => false
+) // end of [s2cst_is_tagless]
+
+implement
 s2cst_is_listlike (x) =
   case+ s2cst_get_islst (x) of Some _ => true | None _ => false
 // end of [s2cst_is_listlike]

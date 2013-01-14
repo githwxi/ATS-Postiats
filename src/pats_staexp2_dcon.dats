@@ -249,6 +249,11 @@ d2con_is_nullary (d2c) =
 // end of [d2con_is_nullay]
 
 implement
+d2con_is_tagless (d2c) =
+  s2cst_is_tagless (d2con_get_scst (d2c))
+// end of [d2con_is_tagless]
+
+implement
 d2con_is_listlike (d2c) =
   s2cst_is_listlike (d2con_get_scst (d2c))
 // end of [d2con_is_listlike]
