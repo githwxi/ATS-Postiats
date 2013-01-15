@@ -64,14 +64,11 @@ overload compare with compare_label_label
 
 (* ****** ****** *)
 
-fun fprint_label
-  (out: FILEref, x: label): void
-overload fprint with fprint_label
-
 fun print_label (l: label): void
-and prerr_label (l: label): void
 overload print with print_label
+fun prerr_label (l: label): void
 overload prerr with prerr_label
+fun fprint_label (out: FILEref, x: label): void
 
 (* ****** ****** *)
 

@@ -85,6 +85,10 @@ extern
 fun hidatdecs_ccomp
   (env: !ccompenv, hid0: hidecl): primdec
 // end of [hidatdecs_ccomp]
+extern
+fun hiexndecs_ccomp
+  (env: !ccompenv, hid0: hidecl): primdec
+// end of [hiexndecs_ccomp]
 
 (* ****** ****** *)
 
@@ -124,6 +128,7 @@ case+ hid0.hidecl_node of
 | HIDnone () => primdec_none (loc0)
 //
 | HIDdatdecs _ => hidatdecs_ccomp (env, hid0)
+| HIDexndecs _ => hiexndecs_ccomp (env, hid0)
 //
 | HIDdcstdecs
     (knd, d2cs) => primdec_none (loc0)
@@ -257,6 +262,19 @@ in
 end // end of [if]
 //
 end // end of [hidatdecs_ccomp]
+
+(* ****** ****** *)
+
+implement
+hiexndecs_ccomp
+  (env, hid0) = let
+//
+val loc0 = hid0.hidecl_loc
+val-HIDexndecs (d2cs) = hid0.hidecl_node
+//
+in
+  primdec_exndecs (loc0, d2cs)
+end // end of [hiexndecs_ccomp]
 
 (* ****** ****** *)
 

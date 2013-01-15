@@ -131,8 +131,10 @@ val s2c = $S2E.d2con_get_scst (d2c)
 in
 //
 case+ 0 of
-| _ when $S2E.s2cst_is_singular (s2c) => ()
-| _ when $S2E.s2cst_is_listlike (s2c) => let
+| _ when
+    $S2E.s2cst_is_singular (s2c) => ()
+| _ when
+    $S2E.s2cst_is_listlike (s2c) => let
     val islst = $S2E.s2cst_get_islst (s2c) 
     val isnil = (
       case+ islst of
@@ -152,6 +154,7 @@ case+ 0 of
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
   in
+    // nothing
   end // end of [islistlike]
 | _ => let
     val () = emit_text (out, "if (")
@@ -167,6 +170,32 @@ case+ 0 of
   end // end of [PATCKcon]
 //
 end // end of [auxcon]
+
+fun auxexn (
+  out: FILEref
+, pmv: primval, d2c: d2con, fail: patckont
+) : void = let
+//
+val narg = $S2E.d2con_get_arity_real (d2c)
+//
+val () = emit_text (out, "if (")
+val () = emit_text (out, "0==")
+val () = (
+  if narg = 0
+    then emit_text (out, "ATSPATCKexn0(")
+    else emit_text (out, "ATSPATCKexn1(")
+  // end of [if]
+) : void // end of [val]
+val () = emit_primval (out, pmv)
+val () = emit_text (out, ", ")
+val () = emit_d2con (out, d2c);
+val () = emit_text (out, ")) { ")
+val () = emit_patckont (out, fail)
+val () = emit_text (out, " ; }")
+//
+in
+  // nothing
+end // end of [auxexn]
 
 in (* in of [local] *)
 
@@ -241,7 +270,9 @@ case+ patck of
   } // end of [PATCKf0loat]
 //
 | PATCKcon (d2c) => auxcon (out, pmv, d2c, fail)
+| PATCKexn (d2c) => auxexn (out, pmv, d2c, fail)
 //
+(*
 | _ => let
     val () = prerr_interror ()
     val () = prerrln! (": emit_instr_patck: patck = ", patck)
@@ -249,6 +280,7 @@ case+ patck of
   in
     $ERR.abort ()
   end // end of [_]
+*)
 //
 end // end of [emit_instr_patck]
 

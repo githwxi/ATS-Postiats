@@ -93,11 +93,11 @@ fun tmplab_make (): tmplab
 
 fun tmplab_get_stamp (x: tmplab): stamp
 
-fun fprint_tmplab : fprint_type (tmplab)
 fun print_tmplab (x: tmplab): void
 overload print with print_tmplab
 fun prerr_tmplab (x: tmplab): void
 overload prerr with prerr_tmplab
+fun fprint_tmplab : fprint_type (tmplab)
 
 (* ****** ****** *)
 
@@ -324,6 +324,7 @@ primdec_node =
   | PMDnone of () 
 //
   | PMDdatdecs of (s2cstlst)
+  | PMDexndecs of (d2conlst)
 //
   | PMDfundecs of (hifundeclst)
 //
@@ -419,12 +420,11 @@ and primlablst = List (primlab)
 
 (* ****** ****** *)
 
-fun fprint_primdec : fprint_type (primdec)
 fun print_primdec (pmd: primdec): void
 overload print with print_primdec
 fun prerr_primdec (pmd: primdec): void
 overload prerr with prerr_primdec
-
+fun fprint_primdec : fprint_type (primdec)
 fun fprint_primdeclst : fprint_type (primdeclst)
 
 (* ****** ****** *)
@@ -436,6 +436,10 @@ fun primdec_none (loc: location): primdec
 fun primdec_datdecs
   (loc: location, s2cs: s2cstlst): primdec
 // end of [primdec_datdecs]
+
+fun primdec_exndecs
+  (loc: location, d2cs: d2conlst): primdec
+// end of [primdec_exndecs]
 
 (* ****** ****** *)
 
@@ -481,7 +485,6 @@ overload print with print_primval
 fun prerr_primval (x: primval): void
 overload prerr with prerr_primval
 fun fprint_primval : fprint_type (primval)
-
 fun fprint_primvalist : fprint_type (primvalist)
 
 (* ****** ****** *)
@@ -618,17 +621,17 @@ and patckont =
 
 (* ****** ****** *)
 
-fun fprint_patck : fprint_type (patck)
 fun print_patck (x: patck): void
 overload print with print_patck
 fun prerr_patck (x: patck): void
 overload prerr with prerr_patck
+fun fprint_patck : fprint_type (patck)
 
-fun fprint_patckont : fprint_type (patckont)
 fun print_patckont (x: patckont): void
 overload print with print_patckont
 fun prerr_patckont (x: patckont): void
 overload prerr with prerr_patckont
+fun fprint_patckont : fprint_type (patckont)
 
 (* ****** ****** *)
 
@@ -712,12 +715,11 @@ and ibranch = '{
 
 (* ****** ****** *)
 
-fun fprint_instr : fprint_type (instr)
 fun print_instr (x: instr): void
 overload print with print_instr
 fun prerr_instr (x: instr): void
 overload prerr with prerr_instr
-
+fun fprint_instr : fprint_type (instr)
 fun fprint_instrlst : fprint_type (instrlst)
 
 (* ****** ****** *)

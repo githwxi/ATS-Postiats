@@ -79,6 +79,9 @@ primdec_none (loc) =
 implement
 primdec_datdecs (loc, s2cs) =
   primdec_make_node (loc, PMDdatdecs (s2cs))
+implement
+primdec_exndecs (loc, d2cs) =
+  primdec_make_node (loc, PMDexndecs (d2cs))
 
 (* ****** ****** *)
 

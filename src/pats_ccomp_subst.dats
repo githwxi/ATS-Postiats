@@ -472,6 +472,7 @@ case+
 | PMDnone () => pmd0
 //
 | PMDdatdecs _ => pmd0
+| PMDexndecs _ => pmd0
 //
 | PMDimpdec (imp) => let
     val () = ccompenv_add_impdecloc (env, imp) in pmd0

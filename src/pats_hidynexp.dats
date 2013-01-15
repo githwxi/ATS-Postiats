@@ -601,6 +601,14 @@ hidecl_datdecs
 // end of [hidecl_datdecs]
 
 implement
+hidecl_exndecs
+  (loc, d2cs) =
+  hidecl_make_node (loc, HIDexndecs (d2cs))
+// end of [hidecl_exndecs]
+
+(* ****** ****** *)
+
+implement
 hidecl_dcstdecs
   (loc, knd, d2cs) =
   hidecl_make_node (loc, HIDdcstdecs (knd, d2cs))

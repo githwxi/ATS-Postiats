@@ -699,6 +699,8 @@ fun hidecl_datdecs
   (loc: location, knd: int, s2cs: s2cstlst) : hidecl
 // end of [hidecl_datdecs]
 
+fun hidecl_exndecs (loc: location, d2cs: d2conlst) : hidecl
+
 fun hidecl_dcstdecs
   (loc: location, knd: dcstkind, d2cs: d2cstlst) : hidecl
 // end of [hidecl_dcstdecs]

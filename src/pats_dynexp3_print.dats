@@ -564,6 +564,15 @@ case+ d3e0.d3exp_node of
 //
 end // end of [fprint_d3exp]
 
+(* ****** ****** *)
+
+implement
+print_d3exp (x) = fprint_d3exp (stdout_ref, x)
+implement
+prerr_d3exp (x) = fprint_d3exp (stderr_ref, x)
+
+(* ****** ****** *)
+
 implement
 fprint_d3explst (out, xs) =
   $UT.fprintlst (out, xs, ", ", fprint_d3exp)
@@ -572,9 +581,50 @@ fprint_d3explst (out, xs) =
 (* ****** ****** *)
 
 implement
-print_d3exp (x) = fprint_d3exp (stdout_ref, x)
+fprint_d3ecl
+  (out, d3c0) = let
+//
+macdef prstr (s) = fprint_string (out, ,(s))
+//
+in
+//
+case+ d3c0.d3ecl_node of
+//
+| D3Cnone _ => prstr "D3Cnone()"
+| D3Clist _ => prstr "D3Clist(...)"
+//
+// HX: needed for compiling abstract types
+//
+| D3Csaspdec _ => prstr "D3Csaspdec(...)"
+//
+| D3Cextcode _ => prstr "D3Cextcode(...)"
+//
+| D3Cdatdecs _ => prstr "D3Cdatdecs(...)"
+| D3Cexndecs _ => prstr "D3Cexndecs(...)"
+| D3Cdcstdecs _ => prstr "D3Cdcstdecs(...)"
+//
+| D3Cimpdec _ => prstr "D3Cimpdec(...)"
+//
+| D3Cfundecs _ => prstr "D3Cfundecs(...)"
+//
+| D3Cvaldecs _ => prstr "D3Cvaldecs(...)"
+| D3Cvaldecs_rec _ => prstr "D3Cvaldecs(...)"
+//
+| D3Cvardecs _ => prstr "D3Cvardecs(...)"
+| D3Cprvardecs _ => prstr "D3Cprvardecs(...)"
+//
+| D3Cstaload _ => prstr "D3Cstaload(...)"
+//
+| D3Clocal _ => prstr "D3Clocal(...)"
+//
+end // end of [fprint_d3ecl]
+
+(* ****** ****** *)
+
 implement
-prerr_d3exp (x) = fprint_d3exp (stderr_ref, x)
+print_d3ecl (x) = fprint_d3ecl (stdout_ref, x)
+implement
+prerr_d3ecl (x) = fprint_d3ecl (stderr_ref, x)
 
 (* ****** ****** *)
 

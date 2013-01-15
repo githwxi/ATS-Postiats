@@ -74,6 +74,9 @@
 
 #define ATSPATCKcon(pmv, tag) (((ATStysum()*)(pmv))->contag==tag)
 
+#define ATSPATCKexn0(pmv, d2c) (((ATStysum()*)(pmv))->contag==&(d2c))
+#define ATSPATCKexn1(pmv, d2c) (((ATStysum()*)(pmv))->contag==(d2c).exntag)
+
 /* ****** ****** */
 
 #define ATSMACmove(tmp, val) (tmp = val)

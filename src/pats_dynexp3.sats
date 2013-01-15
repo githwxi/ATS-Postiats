@@ -110,7 +110,6 @@ overload print with print_p3at
 fun prerr_p3at (p3t: p3at): void
 overload prerr with prerr_p3at
 fun fprint_p3at : fprint_type (p3at)
-
 fun fprint_p3atlst : fprint_type (p3atlst)
 
 (* ****** ****** *)
@@ -503,8 +502,6 @@ overload print with print_d3exp
 fun prerr_d3exp (d3e: d3exp): void
 overload prerr with prerr_d3exp
 fun fprint_d3exp : fprint_type (d3exp)
-overload fprint with fprint_d3exp
-
 fun fprint_d3explst : fprint_type (d3explst)
 
 (* ****** ****** *)
@@ -855,6 +852,14 @@ fun prv3ardec_make (
 fun d3ecl_make_node
   (loc: location, node: d3ecl_node): d3ecl
 // end of [d3ecl_make_node]
+
+(* ****** ****** *)
+
+fun print_d3ecl (d3c: d3ecl): void
+overload print with print_d3ecl
+fun prerr_d3ecl (d3c: d3ecl): void
+overload prerr with prerr_d3ecl
+fun fprint_d3ecl : fprint_type (d3ecl)
 
 (* ****** ****** *)
 

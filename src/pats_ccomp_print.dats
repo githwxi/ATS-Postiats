@@ -81,7 +81,11 @@ case+ x.primdec_node of
     val () = fprint_s2cstlst (out, s2cs)
     val () = prstr ")"
   }
-
+| PMDexndecs (d2cs) => {
+    val () = prstr "PMDexndecs("
+    val () = fprint_d2conlst (out, d2cs)
+    val () = prstr ")"
+  }
 //
 | PMDfundecs (hfds) => {
     val () = prstr "PMDfundecs("
