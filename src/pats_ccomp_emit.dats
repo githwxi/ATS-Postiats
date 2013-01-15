@@ -33,7 +33,11 @@
 (* ****** ****** *)
 
 staload
-ERR = "./pats_error.sats"
+UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
+staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
 
@@ -91,6 +95,8 @@ emit_int
   (out, x) = fprint_int (out, x)
 // end of [emit_int]
 
+(* ****** ****** *)
+
 implement
 emit_bool
   (out, x) = (
@@ -100,6 +106,25 @@ emit_bool
     emit_text (out, "atsbool_false")
   // end of [if]
 ) // end of [emit_bool]
+
+(* ****** ****** *)
+
+implement
+emit_char (out, c) = let
+in
+//
+case+ c of
+| '\'' => emit_text (out, "'\\''")
+| '\n' => emit_text (out, "'\\n'")
+| '\t' => emit_text (out, "'\\t'")
+| '\\' => emit_text (out, "'\\\\'")
+| _ => (
+    if char_isprint (c)
+      then fprintf (out, "'%c'", @(c))
+      else fprintf (out, "'\\%.3o'", @($UN.cast2uint(c)))
+    // end of [if]
+  ) // end of [_]
+end (* end of [emit_valprim_char] *)
 
 (* ****** ****** *)
 

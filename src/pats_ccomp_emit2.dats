@@ -32,14 +32,17 @@
 //
 (* ****** ****** *)
 
-staload
-ERR = "./pats_error.sats"
+staload ERR = "./pats_error.sats"
 
 (* ****** ****** *)
 
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
 implement prerr_FILENAME<> () = prerr "pats_ccomp_emit"
+
+(* ****** ****** *)
+
+staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
 
@@ -102,7 +105,14 @@ case+ fail of
 end // (* end of [emit_patckont] *)
 
 (* ****** ****** *)
-
+//
+// HX-2013-01:
+//
+// the kind of code duplication in the implementation
+// of [emit_instr_patck] can be readily removed by using
+// template system of ATS2.
+//
+//
 local
 
 in (* in of [local] *)
@@ -116,6 +126,16 @@ val-INSpatck (pmv, patck, fail) = ins.instr_node
 in
 //
 case+ patck of
+| PATCKint (i) => {
+    val () = emit_text (out, "if (")
+    val () = emit_text (out, "0==ATSPACKint(")
+    val () = emit_primval (out, pmv)
+    val () = emit_text (out, ", ")
+    val () = emit_int (out, i)
+    val () = emit_text (out, ") { ")
+    val () = emit_patckont (out, fail)
+    val () = emit_text (out, " ; }")
+  }
 | PATCKbool (b) => {
     val () = emit_text (out, "if (")
     val () = emit_text (out, "0==ATSPACKbool(")
@@ -126,6 +146,36 @@ case+ patck of
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
   } // end of [PATCKbool]
+| PATCKchar (c) => {
+    val () = emit_text (out, "if (")
+    val () = emit_text (out, "0==ATSPACKchar(")
+    val () = emit_primval (out, pmv)
+    val () = emit_text (out, ", ")
+    val () = emit_char (out, c)
+    val () = emit_text (out, ") { ")
+    val () = emit_patckont (out, fail)
+    val () = emit_text (out, " ; }")
+  } // end of [PATCKchar]
+| PATCKi0nt (x) => {
+    val () = emit_text (out, "if (")
+    val () = emit_text (out, "0==ATSPACKint(")
+    val () = emit_primval (out, pmv)
+    val () = emit_text (out, ", ")
+    val () = $SYN.fprint_i0nt (out, x)
+    val () = emit_text (out, ") { ")
+    val () = emit_patckont (out, fail)
+    val () = emit_text (out, " ; }")
+  } // end of [PATCKi0nt]
+| PATCKf0loat (x) => {
+    val () = emit_text (out, "if (")
+    val () = emit_text (out, "0==ATSPACKfloat(")
+    val () = emit_primval (out, pmv)
+    val () = emit_text (out, ", ")
+    val () = $SYN.fprint_f0loat (out, x)
+    val () = emit_text (out, ") { ")
+    val () = emit_patckont (out, fail)
+    val () = emit_text (out, " ; }")
+  } // end of [PATCKf0loat]
 | _ => let
     val () = prerr_interror ()
     val () = prerrln! (": emit_instr_patck: patck = ", patck)

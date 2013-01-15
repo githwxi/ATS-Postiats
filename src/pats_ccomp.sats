@@ -1041,6 +1041,12 @@ fun emit_bool
   (out: FILEref, x: bool): void
 // end of [emit_bool]
 
+fun emit_char
+  (out: FILEref, x: char): void
+// end of [emit_char]
+
+(* ****** ****** *)
+
 fun emit_text
   (out: FILEref, txt: string): void
 // end of [emit_text]

@@ -62,7 +62,10 @@
 
 /* ****** ****** */
 
-#define ATSPATCKbool(pmv, pat) (pmv==pat)
+#define ATSPATCKint(pmv, pat) ((pmv)==pat)
+#define ATSPATCKbool(pmv, pat) ((pmv)==pat)
+#define ATSPATCKchar(pmv, pat) ((pmv)==pat)
+#define ATSPATCKfloat(pmv, pat) ((pmv)==pat)
 
 /* ****** ****** */
 
