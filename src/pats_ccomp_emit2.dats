@@ -38,7 +38,7 @@ staload ERR = "./pats_error.sats"
 
 staload "./pats_errmsg.sats"
 staload _(*anon*) = "./pats_errmsg.dats"
-implement prerr_FILENAME<> () = prerr "pats_ccomp_emit"
+implement prerr_FILENAME<> () = prerr "pats_ccomp_emit2"
 
 (* ****** ****** *)
 
@@ -156,6 +156,16 @@ case+ patck of
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
   } // end of [PATCKchar]
+| PATCKstring (str) => {
+    val () = emit_text (out, "if (")
+    val () = emit_text (out, "0==ATSPACKstring(")
+    val () = emit_primval (out, pmv)
+    val () = emit_text (out, ", ")
+    val () = emit_string (out, str)
+    val () = emit_text (out, ") { ")
+    val () = emit_patckont (out, fail)
+    val () = emit_text (out, " ; }")
+  } // end of [PATCKstring]
 | PATCKi0nt (x) => {
     val () = emit_text (out, "if (")
     val () = emit_text (out, "0==ATSPACKint(")

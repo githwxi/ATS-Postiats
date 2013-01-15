@@ -32,8 +32,8 @@
 //
 (* ****** ****** *)
 
-staload
-UN = "prelude/SATS/unsafe.sats"
+staload UN = "prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/unsafe.dats"
 
 (* ****** ****** *)
 
@@ -109,22 +109,74 @@ emit_bool
 
 (* ****** ****** *)
 
-implement
-emit_char (out, c) = let
+local
+
+fun auxch (
+  out: FILEref, c: char
+) : void = let
 in
 //
 case+ c of
-| '\'' => emit_text (out, "'\\''")
-| '\n' => emit_text (out, "'\\n'")
-| '\t' => emit_text (out, "'\\t'")
-| '\\' => emit_text (out, "'\\\\'")
+| '\'' => emit_text (out, "\\'")
+| '\n' => emit_text (out, "\\n")
+| '\t' => emit_text (out, "\\t")
+| '\\' => emit_text (out, "\\\\")
 | _ => (
     if char_isprint (c)
-      then fprintf (out, "'%c'", @(c))
-      else fprintf (out, "'\\%.3o'", @($UN.cast2uint(c)))
+      then fprint_char (out, c)
+      else fprintf (out, "\\%.3o", @($UN.cast2uint(c)))
     // end of [if]
   ) // end of [_]
-end (* end of [emit_valprim_char] *)
+//
+end // end of [auxch]
+
+in (* in of [local] *)
+
+implement
+emit_char (out, c) = (
+  emit_text (out, "'"); auxch (out, c); emit_text (out, "'")
+) (* end of [emit_char] *)
+
+implement
+emit_string
+  (out, str) = let
+//
+fun auxch2 (
+  out: FILEref, c: char
+) : void = let
+in
+//
+if (c = '"') then
+  emit_text (out, "\\\"") else auxch (out, c)
+// end of [if]
+end // end of [auxch2]
+//
+fun auxstr (
+  out: FILEref, str: string
+) : void = let
+//
+val isnot = string_isnot_empty (str)
+in
+//
+if isnot then let
+  val p = $UN.cast2Ptr1 (str)
+  val () = auxch2 (out, $UN.ptrget<char> (p))
+  val str = $UN.cast{string}(p+1)
+in
+  auxstr (out, str)  
+end else () // end of [if]
+//
+end // end of [auxstr]
+//
+val () = emit_text (out, "ATSstrcst(\"")
+val () = auxstr (out, str)
+val () = emit_text (out, "\")")
+//
+in
+  // nothing
+end // end of [emit_string]
+
+end // end of [local]
 
 (* ****** ****** *)
 

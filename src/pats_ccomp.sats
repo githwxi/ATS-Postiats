@@ -1045,6 +1045,10 @@ fun emit_char
   (out: FILEref, x: char): void
 // end of [emit_char]
 
+fun emit_string
+  (out: FILEref, x: string): void
+// end of [emit_string]
+
 (* ****** ****** *)
 
 fun emit_text

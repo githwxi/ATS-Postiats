@@ -33,7 +33,11 @@
 (* ****** ****** *)
 
 staload LAB = "./pats_label.sats"
+
+(* ****** ****** *)
+
 staload LOC = "./pats_location.sats"
+overload print with $LOC.print_location
 
 (* ****** ****** *)
 
@@ -245,12 +249,15 @@ implement
 hipatck_ccomp_sum (
   env, res, fail, hip0, pmv0
 ) = let
+//
+val loc0 = hip0.hipat_loc
+//
 (*
 val () = (
-  println! ("ccomp_match_sum: hip0 = ", hip0)
+  println! ("ccomp_match_sum: loc0 = ", loc0);
+  println! ("ccomp_match_sum: hip0 = ", hip0);
 ) // end of [val]
 *)
-val loc0 = hip0.hipat_loc
 val-HIPcon (pck, d2c, hse_sum, lhips) = hip0.hipat_node
 val () = hipatck_ccomp_con (env, res, fail, loc0, d2c, pmv0)
 //
@@ -267,13 +274,15 @@ hipatck_ccomp (
   env, res, fail, hip0, pmv0
 ) = let
 //
+val loc0 = hip0.hipat_loc
+//
 (*
 val () = begin
-  print "hipatck_ccomp: hip0 = "; print_hipat hip0; print_newline ();
+  println! ("hipatck_ccomp: loc0 = ", loc0);
+  println! ("hipatck_ccomp: hip0 = ", hip0);
   print "hipatck_ccomp: pmv0 = "; print_primval pmv0; print_newline ();
 end // end of [val]
 *)
-val loc0 = hip0.hipat_loc
 //
 in
 //
@@ -304,6 +313,11 @@ case+ hip0.hipat_node of
   in
     instrseq_add (res, ins)
   end // end of [HIPchar]
+| HIPstring (str) => let
+    val ins = instr_patck (loc0, pmv0, PATCKstring (str), fail)
+  in
+    instrseq_add (res, ins)
+  end // end of [HIPstring]
 //
 | HIPi0nt (tok) => let
     val ins = instr_patck (loc0, pmv0, PATCKi0nt (tok), fail)
@@ -323,6 +337,7 @@ case+ hip0.hipat_node of
 | HIPann (hip, ann) => hipatck_ccomp (env, res, fail, hip, pmv0)
 //
 | _ => let
+    val () = println! ("hipatck_ccomp: loc0 = ", loc0)
     val () = println! ("hipatck_ccomp: hip0 = ", hip0)
   in
     exitloc (1)
