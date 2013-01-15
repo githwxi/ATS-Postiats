@@ -1,0 +1,34 @@
+ATS Trilogy
+
+Part 1. Dependent Types
+Part 2. Linear Types
+Part 3. Function Templates
+
+(* ****** ****** *)
+
+Compared to other programming languages, the type system of ATS clearly
+stands out in terms of its flexibility and expressiveness. However, if
+types are ignored, then programming in ATS does not really stand out; it is
+mostly ML-like (for functional programming) or C-like for (imperative
+programming). This is a great concern to me because neither ML nor C, in my
+opnion, provides a powerful high-mechanism for writing (source) code.  I do
+not know how to precisely define what a high-mechanism is.  Roughly
+speaking, it is some kind of feature that allows the programmer to quickly
+produce code that would otherwise take much more time and effort to write.
+
+I first turned to OOP for such a high-mechanism, but the effort did not
+work out at the end. The system of function templates in ATS2 is another
+effort of mine in seeking such a high-mechanism, and I hope that it will
+work out this time.
+
+(* ****** ****** *)
+
+PL                 High-Mechanism
+
+C++                OOP, templates
+Java               OOP, generics
+Lisp               macros, meta-programming
+Haskell            type-classes (monads are not)
+SML/Ocaml          modules and functors
+
+(* ****** ****** *)

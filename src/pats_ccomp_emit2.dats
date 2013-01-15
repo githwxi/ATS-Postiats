@@ -46,7 +46,13 @@ staload SYN = "./pats_syntax.sats"
 
 (* ****** ****** *)
 
-staload "pats_ccomp.sats"
+staload
+S2E = "./pats_staexp2.sats"
+typedef d2con = $S2E.d2con
+
+(* ****** ****** *)
+
+staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 
@@ -115,6 +121,53 @@ end // (* end of [emit_patckont] *)
 //
 local
 
+fun auxcon (
+  out: FILEref
+, pmv: primval, d2c: d2con, fail: patckont
+) : void =let
+//
+val s2c = $S2E.d2con_get_scst (d2c)
+//
+in
+//
+case+ 0 of
+| _ when $S2E.s2cst_is_singular (s2c) => ()
+| _ when $S2E.s2cst_is_listlike (s2c) => let
+    val islst = $S2E.s2cst_get_islst (s2c) 
+    val isnil = (
+      case+ islst of
+      | Some xx =>
+          $S2E.eq_d2con_d2con (d2c, xx.0)
+      | None () => false (* deadcode *)
+    ) : bool // end of [val]
+    val () = emit_text (out, "if (")
+    val () = (
+      if (isnil)
+        then emit_text (out, "ATSisnil(")
+        else emit_text (out, "ATSiscons(")
+      // end of [if]
+    ) : void // end of [val]
+    val () = emit_primval (out, pmv)
+    val () = emit_text (out, ")) { ")
+    val () = emit_patckont (out, fail)
+    val () = emit_text (out, " ; }")
+  in
+  end // end of [islistlike]
+| _ => let
+    val () = emit_text (out, "if (")
+    val () = emit_text (out, "0==ATSPATCKcon(")
+    val () = emit_primval (out, pmv)
+    val () = emit_text (out, ", ")
+    val () = emit_int (out, $S2E.d2con_get_tag (d2c))
+    val () = emit_text (out, ")) { ")
+    val () = emit_patckont (out, fail)
+    val () = emit_text (out, " ; }")
+  in
+    // nothing
+  end // end of [PATCKcon]
+//
+end // end of [auxcon]
+
 in (* in of [local] *)
 
 implement
@@ -132,17 +185,17 @@ case+ patck of
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_int (out, i)
-    val () = emit_text (out, ") { ")
+    val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
-  }
+  } // end of [PATCKint]
 | PATCKbool (b) => {
     val () = emit_text (out, "if (")
     val () = emit_text (out, "0==ATSPACKbool(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_bool (out, b)
-    val () = emit_text (out, ") { ")
+    val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
   } // end of [PATCKbool]
@@ -152,7 +205,7 @@ case+ patck of
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_char (out, c)
-    val () = emit_text (out, ") { ")
+    val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
   } // end of [PATCKchar]
@@ -162,7 +215,7 @@ case+ patck of
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_string (out, str)
-    val () = emit_text (out, ") { ")
+    val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
   } // end of [PATCKstring]
@@ -172,7 +225,7 @@ case+ patck of
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = $SYN.fprint_i0nt (out, x)
-    val () = emit_text (out, ") { ")
+    val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
   } // end of [PATCKi0nt]
@@ -182,10 +235,13 @@ case+ patck of
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = $SYN.fprint_f0loat (out, x)
-    val () = emit_text (out, ") { ")
+    val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
   } // end of [PATCKf0loat]
+//
+| PATCKcon (d2c) => auxcon (out, pmv, d2c, fail)
+//
 | _ => let
     val () = prerr_interror ()
     val () = prerrln! (": emit_instr_patck: patck = ", patck)

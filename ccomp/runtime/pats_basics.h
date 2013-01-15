@@ -62,10 +62,17 @@
 
 /* ****** ****** */
 
+#define ATStysum() struct{ int contag; }
+
+/* ****** ****** */
+
 #define ATSPATCKint(pmv, pat) ((pmv)==pat)
 #define ATSPATCKbool(pmv, pat) ((pmv)==pat)
 #define ATSPATCKchar(pmv, pat) ((pmv)==pat)
 #define ATSPATCKfloat(pmv, pat) ((pmv)==pat)
+#define ATSPATCKstring(pmv, pat) (atspre_string_equal(pmv, pat))
+
+#define ATSPATCKcon(pmv, tag) (((ATStysum()*)(pmv))->contag==tag)
 
 /* ****** ****** */
 
@@ -78,7 +85,6 @@
 
 /* ****** ****** */
 
-#define ATStysum() struct{ int contag; }
 #define ATSMACmove_con(tmp, tysum) (tmp = ATS_MALLOC(sizeof(tysum)))
 #define ATSMACassgn_con_tag(tmp, val) (((ATStysum()*)(tmp))->contag = val)
 #define ATSMACassgn_con_ofs(tmp, tyrec, lab, val) (((tyrec*)(tmp))->lab = val)
