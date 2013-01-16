@@ -101,6 +101,10 @@ fun location_end_ntot (loc: location): lint // end char count
 
 (* ****** ****** *)
 
+fun location_get_filename (loc: location): filename
+
+(* ****** ****** *)
+
 fun fprint_location
   (out: FILEref, loc: location): void
 overload fprint with fprint_location

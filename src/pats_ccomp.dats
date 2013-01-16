@@ -212,9 +212,23 @@ primval_f0loat (loc, hse, x) =
 (* ****** ****** *)
 
 implement
+primval_cstsp (loc, hse, x) =
+  primval_make_node (loc, hse, PMVcstsp (x))
+// end of [primval_cstsp]
+
+(* ****** ****** *)
+
+implement
+primval_top (loc, hse) =
+  primval_make_node (loc, hse, PMVtop ())
+// end of [primval_top]
+
+implement
 primval_empty (loc, hse) =
   primval_make_node (loc, hse, PMVempty ())
 // end of [primval_empty]
+
+(* ****** ****** *)
 
 implement
 primval_extval (loc, hse, name) =

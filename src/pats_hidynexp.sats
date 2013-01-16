@@ -213,6 +213,8 @@ and hidexp_node =
   | HDEi0nt of i0nt // integer constants
   | HDEf0loat of f0loat // floating point constants
 //
+  | HDEcstsp of ($SYN.cstsp) // special constants
+//
   | HDEtop of () // for uninitialized
   | HDEempty of () // for the void value
 //
@@ -463,6 +465,12 @@ fun hidexp_i0nt
   (loc: location, hse: hisexp, tok: i0nt): hidexp
 fun hidexp_f0loat
   (loc: location, hse: hisexp, tok: f0loat): hidexp
+
+(* ****** ****** *)
+
+fun hidexp_cstsp
+  (loc: location, hse: hisexp, x: $SYN.cstsp): hidexp
+// end of [hidexp_cstsp]
 
 (* ****** ****** *)
 

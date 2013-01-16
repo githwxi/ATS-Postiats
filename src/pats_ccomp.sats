@@ -316,6 +316,17 @@ fun fprint_tmpcstmat_kind : fprint_type (tmpcstmat) // 1/0:found/not
 
 (* ****** ****** *)
 
+datatype
+primcstsp =
+  | PMCSTSPmyfil of ($FIL.filename)
+  | PMCSTSPmyloc of ($LOC.location)
+  | PMCSTSPmyfun of (funlab) // HX: for function name
+// end of [primcstsp]
+
+fun fprint_primcstsp : fprint_type (primcstsp)
+
+(* ****** ****** *)
+
 abstype ccomp_instrlst_type
 typedef instrlst = ccomp_instrlst_type
 
@@ -368,6 +379,9 @@ and primval_node =
   | PMVi0nt of (i0nt)
   | PMVf0loat of (f0loat)
 //
+  | PMVcstsp of (primcstsp)
+//
+  | PMVtop of ()
   | PMVempty of ()
 //
   | PMVextval of (string(*name*))
@@ -552,6 +566,12 @@ fun primval_f0loat
 
 (* ****** ****** *)
 
+fun primval_cstsp
+  (loc: location, hse: hisexp, x: primcstsp): primval
+
+(* ****** ****** *)
+
+fun primval_top (loc: location, hse: hisexp): primval
 fun primval_empty (loc: location, hse: hisexp): primval
 
 (* ****** ****** *)
@@ -1035,29 +1055,35 @@ fun hideclist_ccomp0 (hdcs: hideclist): primdeclst
 
 (* ****** ****** *)
 
-fun emit_int
-  (out: FILEref, x: int): void
-// end of [emit_int]
-
-fun emit_bool
-  (out: FILEref, x: bool): void
-// end of [emit_bool]
-
-fun emit_char
-  (out: FILEref, x: char): void
-// end of [emit_char]
-
-fun emit_string
-  (out: FILEref, x: string): void
-// end of [emit_string]
-
-(* ****** ****** *)
-
 fun emit_text
   (out: FILEref, txt: string): void
 // end of [emit_text]
 
+fun emit_lparen (out: FILEref): void
+fun emit_rparen (out: FILEref): void
+
 fun emit_newline (out: FILEref): void
+
+(* ****** ****** *)
+
+fun emit_int (out: FILEref, x: int): void
+fun emit_ATSint (out: FILEref, x: int): void
+
+fun emit_bool (out: FILEref, x: bool): void
+fun emit_ATSbool (out: FILEref, x: bool): void
+
+fun emit_char (out: FILEref, x: char): void
+fun emit_ATSchar (out: FILEref, x: char): void
+
+fun emit_string (out: FILEref, x: string): void
+fun emit_ATSstring (out: FILEref, x: string): void
+
+(* ****** ****** *)
+
+fun emit_ATSi0nt (out: FILEref, tok: $SYN.i0nt): void
+fun emit_ATSf0loat (out: FILEref, tok: $SYN.f0loat): void
+
+(* ****** ****** *)
 
 fun emit_symbol (out: FILEref, sym: symbol): void
 
@@ -1076,6 +1102,10 @@ fun emit_atslabel (out: FILEref, lab: label): void
 fun emit_labelext (out: FILEref, knd: int, lab: label): void
 
 fun emit_filename (out: FILEref, fil: $FIL.filename): void
+
+(* ****** ****** *)
+
+fun emit_primcstsp (out: FILEref, pmc: primcstsp): void
 
 (* ****** ****** *)
 

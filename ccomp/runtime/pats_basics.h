@@ -57,6 +57,16 @@
 //
 /* ****** ****** */
 
+#define ATSint(i) i
+#define ATSbool_true() atsbool_true
+#define ATSbool_false() atsbool_true
+#define ATSchar(c) c
+#define ATSstring(str) str
+#define ATSi0nt(x) x
+#define ATSf0loat(x) x
+
+/* ****** ****** */
+
 #define ATSptrof(pmv) (&(pmv))
 #define ATSextval(name) (name)
 

@@ -70,12 +70,17 @@ prerr_macsynkind (x) = fprint_macsynkind (stderr_ref, x)
 (* ****** ****** *)
 
 implement
-fprint_cstsp (out, x) =
+fprint_cstsp
+  (out, x) = (
   case+ x of
-  | CSTSPmyfile () => fprint_string (out, "$myfile")
-  | CSTSPmylocation () => fprint_string (out, "$mylocation")
-  | CSTSPmyfunction () => fprint_string (out, "$myfunction")
-// end of [fprint_cstsp]
+  | CSTSPmyfil () => fprint_string (out, "$myfilename")
+  | CSTSPmyloc () => fprint_string (out, "$mylocation")
+  | CSTSPmyfun () => fprint_string (out, "$myfunction")
+(*
+  | CSTSPmylinecnt () => fprint_string (out, "$mylinecount")
+  | CSTSPmycharcnt () => fprint_string (out, "$mycharcount")
+*)
+) // end of [fprint_cstsp]
 
 (* ****** ****** *)
 

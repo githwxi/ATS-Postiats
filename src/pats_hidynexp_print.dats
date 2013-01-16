@@ -265,6 +265,10 @@ case+
     val () = prstr ")"
   }
 //
+| HDEcstsp (x) => {
+    val () = $SYN.fprint_cstsp (out, x)
+  }
+//
 | HDEtop () => prstr "HDEtop()"
 | HDEempty () => prstr "HDEempty()"
 //

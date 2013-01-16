@@ -59,6 +59,8 @@ STMP = "./pats_stamp.sats"
 
 staload
 FIL = "./pats_filename.sats"
+staload
+LOC = "./pats_location.sats"
 
 (* ****** ****** *)
 
@@ -91,20 +93,39 @@ staload "./pats_ccomp.sats"
 (* ****** ****** *)
 
 implement
-emit_int
-  (out, x) = fprint_int (out, x)
-// end of [emit_int]
+emit_text
+  (out, txt) = fprint_string (out, txt)
+// end of [emit_text]
 
 (* ****** ****** *)
 
 implement
-emit_bool
+emit_lparen (out) = emit_text (out, "(")
+implement
+emit_rparen (out) = emit_text (out, ")")
+
+(* ****** ****** *)
+
+implement
+emit_newline (out) = fprint_newline (out)
+
+(* ****** ****** *)
+
+implement
+emit_int (out, x) = fprint_int (out, x)
+implement
+emit_ATSint (out, x) = (
+  emit_text (out, "ATSint("); emit_int (out, x); emit_rparen (out)
+) // end of [emit_ATSint]
+
+(* ****** ****** *)
+
+implement
+emit_bool (out, x) = fprint_bool (out, x)
+implement
+emit_ATSbool
   (out, x) = (
-  if x then
-    emit_text (out, "atsbool_true")
-  else
-    emit_text (out, "atsbool_false")
-  // end of [if]
+  emit_text (out, "ATSbool_"); emit_bool (out, x); emit_text (out, "()")
 ) // end of [emit_bool]
 
 (* ****** ****** *)
@@ -133,9 +154,7 @@ end // end of [auxch]
 in (* in of [local] *)
 
 implement
-emit_char (out, c) = (
-  emit_text (out, "'"); auxch (out, c); emit_text (out, "'")
-) (* end of [emit_char] *)
+emit_char (out, c) = auxch (out, c)
 
 implement
 emit_string
@@ -168,9 +187,7 @@ end else () // end of [if]
 //
 end // end of [auxstr]
 //
-val () = emit_text (out, "ATSstrcst(\"")
 val () = auxstr (out, str)
-val () = emit_text (out, "\")")
 //
 in
   // nothing
@@ -181,14 +198,38 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-emit_text
-  (out, txt) = fprint_string (out, txt)
-// end of [emit_text]
+emit_ATSchar (out, x) = {
+  val () = emit_text (out, "ATSchar('")
+  val () = emit_char (out, x)
+  val () = emit_text (out, "')")
+} // end of [emit_ATSchar]
+
+implement
+emit_ATSstring (out, x) = {
+  val () = emit_text (out, "ATSstring(\"")
+  val () = emit_string (out, x)
+  val () = emit_text (out, "\")")
+} // end of [emit_ATSstring]
 
 (* ****** ****** *)
 
 implement
-emit_newline (out) = fprint_newline (out)
+emit_ATSi0nt
+  (out, tok) = {
+  val () =
+    emit_text (out, "ATSi0nt(")
+  val () = $SYN.fprint_i0nt (out, tok)
+  val () = emit_rparen (out)
+} // end of [emit_ATSi0nt]
+
+implement
+emit_ATSf0loat
+  (out, tok) = {
+  val () =
+    emit_text (out, "ATSf0loat(")
+  val () = $SYN.fprint_f0loat (out, tok)
+  val () = emit_rparen (out)
+} // end of [emit_ATSf0loat]
 
 (* ****** ****** *)
 
@@ -349,6 +390,41 @@ emit_filename
 in
   emit_ident (out, name)
 end // end of [emit_filename]
+
+(* ****** ****** *)
+
+implement
+emit_primcstsp
+  (out, pmc) = let
+in
+//
+case+ pmc of
+| PMCSTSPmyfil (fil) => {
+    val () =
+      emit_text (
+      out, "ATSCSTSPmyfil(\""
+    ) // end of [val]
+    val () = $FIL.fprint_filename (out, fil)
+    val () = emit_text (out, "\")")
+  }
+| PMCSTSPmyloc (loc) => {
+    val () =
+      emit_text (
+      out, "ATSCSTSPmyloc(\""
+    ) // end of [val]
+    val () = $LOC.fprint_location (out, loc)
+    val () = emit_text (out, "\"")
+  }
+| PMCSTSPmyfun (flab) => {
+    val () =
+      emit_text (
+      out, "ATSCSTSPmyfun(\""
+    ) // end of [val]
+    val () = fprint_funlab (out, flab)
+    val () = emit_text (out, "\")")
+  }
+//
+end // end of [emit_primcstsp]
 
 (* ****** ****** *)
 
@@ -590,7 +666,6 @@ extern fun emit_primval_tmpref : emit_primval_type
 extern fun emit_primval_arg : emit_primval_type
 extern fun emit_primval_argref : emit_primval_type
 extern fun emit_primval_d2cst : emit_primval_type
-extern fun emit_primval_bool : emit_primval_type
 extern fun emit_primval_ptrof : emit_primval_type
 
 (* ****** ****** *)
@@ -598,7 +673,9 @@ extern fun emit_primval_ptrof : emit_primval_type
 implement
 emit_primval
   (out, pmv0) = let
-  val loc0 = pmv0.primval_loc
+//
+val loc0 = pmv0.primval_loc
+//
 in
 //
 case+ pmv0.primval_node of
@@ -612,10 +689,18 @@ case+ pmv0.primval_node of
 | PMVcst _ => emit_primval_d2cst (out, pmv0)
 *)
 //
-| PMVbool _ => emit_primval_bool (out, pmv0)
+| PMVint (i) => emit_ATSint (out, i)
+| PMVbool (b) => emit_ATSbool (out, b)
+| PMVchar (c) => emit_ATSchar (out, c)
+| PMVstring (str) => emit_ATSstring (out, str)
 //
-| PMVi0nt (tok) => $SYN.fprint_i0nt (out, tok)
-| PMVf0loat (tok) => $SYN.fprint_f0loat (out, tok)
+| PMVi0nt (tok) => emit_ATSi0nt (out, tok)
+| PMVf0loat (tok) => emit_ATSf0loat (out, tok)
+//
+| PMVcstsp (pmc) => emit_primcstsp (out, pmc)
+//
+| PMVtop () => fprintf (out, "ATStop()", @())
+| PMVempty () => fprintf (out, "ATSempty()", @())
 //
 | PMVextval
     (name) => fprintf (out, "ATSextval(%s)", @(name))
@@ -711,21 +796,6 @@ val-PMVcst (d2c) = pmv0.primval_node
 in
   emit_d2cst (out, d2c)
 end // end of [emit_primval_d2cst]
-
-(* ****** ****** *)
-
-implement
-emit_primval_bool
-  (out, pmv0) = let
-//
-val-PMVbool (b) = pmv0.primval_node
-val name = (
-  if b then "atsbool_true" else "atsbool_false"
-) : string // end of [val]
-//
-in
-  emit_text (out, name)
-end (* end of [emit_primval_bool] *)
 
 (* ****** ****** *)
 

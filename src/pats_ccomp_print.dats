@@ -42,8 +42,10 @@ staload "./pats_basics.sats"
 (* ****** ****** *)
 
 staload LAB = "./pats_label.sats"
-
 staload FIL = "./pats_filename.sats"
+staload LOC = "./pats_location.sats"
+
+(* ****** ****** *)
 
 staload SYN = "./pats_syntax.sats"
 
@@ -60,6 +62,35 @@ staload "./pats_hidynexp.sats"
 (* ****** ****** *)
 
 staload "./pats_ccomp.sats"
+
+(* ****** ****** *)
+
+implement
+fprint_primcstsp
+  (out, x) = let
+//
+macdef prstr (s) = fprint_string (out, ,(s))
+//
+in
+//
+case+ x of
+| PMCSTSPmyfil (fil) => {
+    val () = prstr ("$myfilename(")
+    val () = $FIL.fprint_filename (out, fil)
+    val () = prstr ")"
+  }
+| PMCSTSPmyloc (loc) => {
+    val () = prstr ("$mylocation(")
+    val () = $LOC.fprint_location (out, loc)
+    val () = prstr ")"
+  }
+| PMCSTSPmyfun (flab) => {
+    val () = prstr ("$myfunction(")
+    val () = fprint_funlab (out, flab)
+    val () = prstr ")"
+  }
+//
+end // end of [fprint_primcstsp]
 
 (* ****** ****** *)
 
@@ -257,6 +288,11 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
+| PMVcstsp (x) => {
+    val () = fprint_primcstsp (out, x)
+  }
+//
+| PMVtop () => prstr "PMVtop()"
 | PMVempty () => prstr "PMVempty()"
 //
 | PMVextval (name) => {

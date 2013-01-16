@@ -64,6 +64,8 @@ hidexp_ccomp_funtype =
 
 extern fun hidexp_ccomp_var : hidexp_ccomp_funtype
 
+extern fun hidexp_ccomp_cstsp : hidexp_ccomp_funtype
+
 extern fun hidexp_ccomp_tmpcst : hidexp_ccomp_funtype
 extern fun hidexp_ccomp_tmpvar : hidexp_ccomp_funtype
 
@@ -154,6 +156,11 @@ case+ hde0.hidexp_node of
 | HDEi0nt (tok) => primval_i0nt (loc0, hse0, tok)
 | HDEf0loat (tok) => primval_f0loat (loc0, hse0, tok)
 //
+| HDEcstsp (x) =>
+    hidexp_ccomp_cstsp (env, res, hde0)
+  // end of [HDEcstsp]
+//
+| HDEtop () => primval_top (loc0, hse0)
 | HDEempty () => primval_empty (loc0, hse0)
 //
 | HDEextval (name) => primval_extval (loc0, hse0, name)
@@ -462,6 +469,35 @@ case+ opt of
 | ~None_vt () => primval_var (loc0, hse0, d2v)
 //
 end // end of [hidexp_ccomp_var]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_cstsp
+  (env, res, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val-HDEcstsp (x) = hde0.hidexp_node
+//
+val pmc = (
+  case+ x of 
+  | $SYN.CSTSPmyfil () => let
+      val fil =
+        $LOC.location_get_filename (loc0)
+      // end of [val]
+    in
+      PMCSTSPmyfil (fil)
+    end // end of [CSTSPmyfil]
+  | $SYN.CSTSPmyloc () => PMCSTSPmyloc (loc0)
+  | $SYN.CSTSPmyfun () => let
+      val () = assertloc (false) in exit (1)
+    end // end of [CSTSPmyfun]
+) : primcstsp // end of [val]
+//
+in
+  primval_cstsp (loc0, hse0, pmc)
+end // end of [hidexp_ccomp_cstsp]
 
 (* ****** ****** *)
 

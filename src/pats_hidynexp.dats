@@ -260,6 +260,13 @@ hidexp_f0loat
 (* ****** ****** *)
 
 implement
+hidexp_cstsp (loc, hse, x) = 
+  hidexp_make_node (loc, hse, HDEcstsp (x))
+// end of [hidexp_cstsp]
+
+(* ****** ****** *)
+
+implement
 hidexp_top (loc, hse) = 
   hidexp_make_node (loc, hse, HDEtop ())
 // end of [hidexp_top]

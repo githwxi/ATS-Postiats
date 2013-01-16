@@ -113,12 +113,12 @@ fun lamkind_islin (knd: int): int
 
 datatype
 cstsp = // special constants
-  | CSTSPmyfile (* the filename where $myfile appears *)
-  | CSTSPmylocation (* the location where $mylocation appears *)
-  | CSTSPmyfunction (* the function name where $myfunction appears *)
+  | CSTSPmyfil (* the filename where $myfile appears *)
+  | CSTSPmyloc (* the location where $mylocation appears *)
+  | CSTSPmyfun (* the function name where $myfunction appears *)
 (*
-  | CSTSPcharcount of int
-  | CSTSPlinecount of int
+  | CSTSPmylinecnt of (int)
+  | CSTSPmycharcnt of (lint)
 *)
 // end of [cstsp]
 

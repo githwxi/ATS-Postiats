@@ -228,8 +228,9 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
-| D3Ecstsp (cstsp) =>
-    $SYN.fprint_cstsp (out, cstsp)
+| D3Ecstsp (x) => {
+    val () = $SYN.fprint_cstsp (out, x)
+  }
 //
 | D3Etop () => prstr "D3Etop()"
 | D3Eempty () => prstr "D3Eempty()"

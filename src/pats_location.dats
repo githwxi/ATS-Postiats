@@ -169,6 +169,11 @@ location_end_ntot (loc) = loc.end_ntot
 (* ****** ****** *)
 
 implement
+location_get_filename (loc) = loc.filename
+
+(* ****** ****** *)
+
+implement
 fprint_location
   (out, loc) = () where {
   val () = $FIL.fprint_filename (out, loc.filename)
