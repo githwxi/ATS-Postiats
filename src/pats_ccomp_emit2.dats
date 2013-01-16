@@ -157,8 +157,8 @@ case+ 0 of
     // nothing
   end // end of [islistlike]
 | _ => let
-    val () = emit_text (out, "if (")
-    val () = emit_text (out, "0==ATSPATCKcon(")
+    val () = emit_text (out, "ATSifnot(")
+    val () = emit_text (out, "ATSPATCKcon(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
     val () = emit_int (out, $S2E.d2con_get_tag (d2c))
@@ -178,8 +178,7 @@ fun auxexn (
 //
 val narg = $S2E.d2con_get_arity_real (d2c)
 //
-val () = emit_text (out, "if (")
-val () = emit_text (out, "0==")
+val () = emit_text (out, "ATSifnot(")
 val () = (
   if narg = 0
     then emit_text (out, "ATSPATCKexn0(")
@@ -209,61 +208,61 @@ in
 //
 case+ patck of
 | PATCKint (i) => {
-    val () = emit_text (out, "if (")
-    val () = emit_text (out, "0==ATSPACKint(")
+    val () = emit_text (out, "ATSifnot(")
+    val () = emit_text (out, "ATSPACKint(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
-    val () = emit_ATSint (out, i)
+    val () = emit_ATSPMVint (out, i)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
   } // end of [PATCKint]
 | PATCKbool (b) => {
-    val () = emit_text (out, "if (")
-    val () = emit_text (out, "0==ATSPACKbool(")
+    val () = emit_text (out, "ATSifnot(")
+    val () = emit_text (out, "ATSPACKbool(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
-    val () = emit_ATSbool (out, b)
+    val () = emit_ATSPMVbool (out, b)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
   } // end of [PATCKbool]
 | PATCKchar (c) => {
-    val () = emit_text (out, "if (")
-    val () = emit_text (out, "0==ATSPACKchar(")
+    val () = emit_text (out, "ATSifnot(")
+    val () = emit_text (out, "ATSPACKchar(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
-    val () = emit_ATSchar (out, c)
+    val () = emit_ATSPMVchar (out, c)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
   } // end of [PATCKchar]
 | PATCKstring (str) => {
-    val () = emit_text (out, "if (")
-    val () = emit_text (out, "0==ATSPACKstring(")
+    val () = emit_text (out, "ATSifnot(")
+    val () = emit_text (out, "ATSPACKstring(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
-    val () = emit_ATSstring (out, str)
+    val () = emit_ATSPMVstring (out, str)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
   } // end of [PATCKstring]
-| PATCKi0nt (x) => {
-    val () = emit_text (out, "if (")
-    val () = emit_text (out, "0==ATSPACKint(")
+| PATCKi0nt (tok) => {
+    val () = emit_text (out, "ATSifnot(")
+    val () = emit_text (out, "ATSPACKint(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
-    val () = emit_ATSi0nt (out, x)
+    val () = emit_ATSPMVi0nt (out, tok)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")
   } // end of [PATCKi0nt]
-| PATCKf0loat (x) => {
-    val () = emit_text (out, "if (")
-    val () = emit_text (out, "0==ATSPACKfloat(")
+| PATCKf0loat (tok) => {
+    val () = emit_text (out, "ATSifnot(")
+    val () = emit_text (out, "ATSPACKfloat(")
     val () = emit_primval (out, pmv)
     val () = emit_text (out, ", ")
-    val () = emit_ATSf0loat (out, x)
+    val () = emit_ATSPMVf0loat (out, tok)
     val () = emit_text (out, ")) { ")
     val () = emit_patckont (out, fail)
     val () = emit_text (out, " ; }")

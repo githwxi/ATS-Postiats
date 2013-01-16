@@ -62,8 +62,8 @@ typedef unsigned short int atstype_usint ;
 
 /* ****** ****** */
 
-typedef size_t atstype_size ;
-typedef ssize_t atstype_ssize ;
+typedef atstype_lint atstype_ssize ;
+typedef atstype_ulint atstype_size ;
 
 /* ****** ****** */
 

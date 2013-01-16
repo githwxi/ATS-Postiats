@@ -114,19 +114,19 @@ emit_newline (out) = fprint_newline (out)
 implement
 emit_int (out, x) = fprint_int (out, x)
 implement
-emit_ATSint (out, x) = (
-  emit_text (out, "ATSint("); emit_int (out, x); emit_rparen (out)
-) // end of [emit_ATSint]
+emit_ATSPMVint (out, x) = (
+  emit_text (out, "ATSPMVint("); emit_int (out, x); emit_rparen (out)
+) // end of [emit_ATSPMVint]
 
 (* ****** ****** *)
 
 implement
 emit_bool (out, x) = fprint_bool (out, x)
 implement
-emit_ATSbool
+emit_ATSPMVbool
   (out, x) = (
-  emit_text (out, "ATSbool_"); emit_bool (out, x); emit_text (out, "()")
-) // end of [emit_bool]
+  emit_text (out, "ATSPMVbool_"); emit_bool (out, x); emit_text (out, "()")
+) // end of [emit_ATSPMVbool]
 
 (* ****** ****** *)
 
@@ -198,38 +198,38 @@ end // end of [local]
 (* ****** ****** *)
 
 implement
-emit_ATSchar (out, x) = {
-  val () = emit_text (out, "ATSchar('")
-  val () = emit_char (out, x)
+emit_ATSPMVchar (out, c) = {
+  val () = emit_text (out, "ATSPMVchar('")
+  val () = emit_char (out, c)
   val () = emit_text (out, "')")
-} // end of [emit_ATSchar]
+} // end of [emit_ATSPMVchar]
 
 implement
-emit_ATSstring (out, x) = {
-  val () = emit_text (out, "ATSstring(\"")
-  val () = emit_string (out, x)
+emit_ATSPMVstring (out, str) = {
+  val () = emit_text (out, "ATSPMVstring(\"")
+  val () = emit_string (out, str)
   val () = emit_text (out, "\")")
-} // end of [emit_ATSstring]
+} // end of [emit_ATSPMVstring]
 
 (* ****** ****** *)
 
 implement
-emit_ATSi0nt
+emit_ATSPMVi0nt
   (out, tok) = {
   val () =
-    emit_text (out, "ATSi0nt(")
+    emit_text (out, "ATSPMVi0nt(")
   val () = $SYN.fprint_i0nt (out, tok)
   val () = emit_rparen (out)
-} // end of [emit_ATSi0nt]
+} // end of [emit_ATSPMVi0nt]
 
 implement
-emit_ATSf0loat
+emit_ATSPMVf0loat
   (out, tok) = {
   val () =
-    emit_text (out, "ATSf0loat(")
+    emit_text (out, "ATSPMVf0loat(")
   val () = $SYN.fprint_f0loat (out, tok)
   val () = emit_rparen (out)
-} // end of [emit_ATSf0loat]
+} // end of [emit_ATSPMVf0loat]
 
 (* ****** ****** *)
 
@@ -689,13 +689,13 @@ case+ pmv0.primval_node of
 | PMVcst _ => emit_primval_d2cst (out, pmv0)
 *)
 //
-| PMVint (i) => emit_ATSint (out, i)
-| PMVbool (b) => emit_ATSbool (out, b)
-| PMVchar (c) => emit_ATSchar (out, c)
-| PMVstring (str) => emit_ATSstring (out, str)
+| PMVint (i) => emit_ATSPMVint (out, i)
+| PMVbool (b) => emit_ATSPMVbool (out, b)
+| PMVchar (c) => emit_ATSPMVchar (out, c)
+| PMVstring (str) => emit_ATSPMVstring (out, str)
 //
-| PMVi0nt (tok) => emit_ATSi0nt (out, tok)
-| PMVf0loat (tok) => emit_ATSf0loat (out, tok)
+| PMVi0nt (tok) => emit_ATSPMVi0nt (out, tok)
+| PMVf0loat (tok) => emit_ATSPMVf0loat (out, tok)
 //
 | PMVcstsp (pmc) => emit_primcstsp (out, pmc)
 //
@@ -973,11 +973,11 @@ case+ ins.instr_node of
 | INScond (
     pmv_cond, inss_then, inss_else
   ) => {
-    val () = emit_text (out, "if (")
+    val () = emit_text (out, "ATSif(")
     val () = emit_primval (out, pmv_cond)
-    val () = emit_text (out, ") {\n")
+    val () = emit_text (out, ") ATSthen() {\n")
     val () = emit_instrlst (out, inss_then)
-    val () = emit_text (out, "\n} else {\n")
+    val () = emit_text (out, "\n} ATSelse() {\n")
     val () = emit_instrlst (out, inss_else)
     val () =
       emit_text (out, "\n} /* end of [if] */")

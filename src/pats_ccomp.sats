@@ -1072,21 +1072,18 @@ fun emit_newline (out: FILEref): void
 (* ****** ****** *)
 
 fun emit_int (out: FILEref, x: int): void
-fun emit_ATSint (out: FILEref, x: int): void
-
 fun emit_bool (out: FILEref, x: bool): void
-fun emit_ATSbool (out: FILEref, x: bool): void
-
 fun emit_char (out: FILEref, x: char): void
-fun emit_ATSchar (out: FILEref, x: char): void
-
 fun emit_string (out: FILEref, x: string): void
-fun emit_ATSstring (out: FILEref, x: string): void
 
 (* ****** ****** *)
 
-fun emit_ATSi0nt (out: FILEref, tok: $SYN.i0nt): void
-fun emit_ATSf0loat (out: FILEref, tok: $SYN.f0loat): void
+fun emit_ATSPMVint (out: FILEref, x: int): void
+fun emit_ATSPMVbool (out: FILEref, x: bool): void
+fun emit_ATSPMVchar (out: FILEref, x: char): void
+fun emit_ATSPMVstring (out: FILEref, x: string): void
+fun emit_ATSPMVi0nt (out: FILEref, tok: $SYN.i0nt): void
+fun emit_ATSPMVf0loat (out: FILEref, tok: $SYN.f0loat): void
 
 (* ****** ****** *)
 

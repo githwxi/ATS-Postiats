@@ -62,6 +62,13 @@
 
 /* ****** ****** */
 
+#define ATSif(x) if (x)
+#define ATSifnot(x) if (!(x))
+#define ATSthen()
+#define ATSelse() else
+
+/* ****** ****** */
+
 #define ATSPMVint(i) i
 #define ATSPMVbool_true() atsbool_true
 #define ATSPMVbool_false() atsbool_false
@@ -81,6 +88,10 @@
 
 /* ****** ****** */
 
+#define ATSPMFnot(x) (0==(x))
+
+/* ****** ****** */
+
 #define ATSPMVptrof(lval) (&(lval))
 
 /* ****** ****** */
@@ -89,7 +100,12 @@
 
 /* ****** ****** */
 
+/*
+** HX: [ATSselcon] is the same as [ATSselboxrec]
+*/
 #define ATSselcon(pmv, tysum, lab) (((tysum*)pmv)->lab)
+
+/* ****** ****** */
 
 #define ATSselrecsin(pmv, tyrec, lab) (pmv)
 #define ATSselfltrec(pmv, tyrec, lab) ((pmv).lab)
