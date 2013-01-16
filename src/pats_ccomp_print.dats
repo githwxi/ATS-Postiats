@@ -596,6 +596,12 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
+| INSswitch _ => {
+    val () = prstr "INSswitch("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+//
 | INSletpop () => {
     val () = prstr "INSletpop()"
   }
@@ -669,9 +675,9 @@ case+ x.instr_node of
     val () = prstr ")"
   } // end of [INSmove_select]
 //
-| INSassgn_varofs
+| INSstore_varofs
     (d2v_l, ofs, pmv_r) => {
-    val () = prstr "INSassgn_varofs("
+    val () = prstr "INSstore_varofs("
     val () = fprint_d2var (out, d2v_l)
     val () = prstr "["
     val () = fprint_primlablst (out, ofs)
@@ -680,9 +686,9 @@ case+ x.instr_node of
     val () = fprint_primval (out, pmv_r)
     val () = prstr ")"
   }
-| INSassgn_ptrofs
+| INSstore_ptrofs
     (pmv_l, ofs, pmv_r) => {
-    val () = prstr "INSassgn_ptrofs("
+    val () = prstr "INSstore_ptrofs("
     val () = fprint_primval (out, pmv_l)
     val () = prstr "["
     val () = fprint_primlablst (out, ofs)
@@ -714,9 +720,9 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
-| INSassgn_list_head
+| INSmove_list_phead
     (tmphd, tmptl, hse_elt) => {
-    val () = prstr "INSassgn_list_head("
+    val () = prstr "INSmove_list_phead("
     val () = fprint_tmpvar (out, tmphd)
     val () = prstr "; "
     val () = fprint_tmpvar (out, tmptl)
@@ -724,9 +730,9 @@ case+ x.instr_node of
     val () = fprint_hisexp (out, hse_elt)
     val () = prstr ")"
   }
-| INSassgn_list_tail
+| INSmove_list_ptail
     (tmptl1, tmptl2, hse_elt) => {
-    val () = prstr "INSassgn_list_tail("
+    val () = prstr "INSmove_list_ptail("
     val () = fprint_tmpvar (out, tmptl1)
     val () = prstr "; "
     val () = fprint_tmpvar (out, tmptl2)
@@ -735,17 +741,17 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
-| INSassgn_arrpsz_asz
+| INSstore_arrpsz_asz
     (tmp, asz) => {
-    val () = prstr "INSassgn_arrpsz_asz("
+    val () = prstr "INSstore_arrpsz_asz("
     val () = fprint_tmpvar (out, tmp)
     val () = prstr "; "
     val () = fprint_int (out, asz)
     val () = prstr ")"
   }
-| INSassgn_arrpsz_ptr
+| INSstore_arrpsz_ptr
     (tmp, hse_elt, asz) => {
-    val () = prstr "INSassgn_arrpsz_ptr("
+    val () = prstr "INSstore_arrpsz_ptr("
     val () = fprint_tmpvar (out, tmp)
     val () = prstr "; "
     val () = fprint_hisexp (out, hse_elt)

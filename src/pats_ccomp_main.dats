@@ -32,6 +32,11 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+staload _(*anon*) = "prelude/DATS/unsafe.dats"
+
+(* ****** ****** *)
+
 staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
@@ -115,20 +120,36 @@ val () = emit_ats_runtime_incl (out)
 val () = emit_ats_prelude_cats (out)
 //
 val pmds = hideclist_ccomp0 (hids)
+val () = let
+  val p_pmds =the_toplevel_getref_primdeclst ()
+in
+  $UN.ptrset<primdeclst> (p_pmds, pmds)
+end // end of [val]
 //
 val fls0 = the_funlablst_get ()
 //
 val () = emit_funlablst_ptype (out, fls0)
 val () = emit_funlablst_implmnt (out, fls0)
 //
-val () =
-  print ("ccomp_main: pmds =\n")
+val () = print ("/*\n")
+val () = print ("ccomp_main: pmds =\n")
 val () = fprint_primdeclst (out, pmds)
+val () = print ("*/\n")
+//
+val tmps = primdeclst_get_tmpvarset (pmds)
+val tmps = tmpvarset_vt_listize_free (tmps)
+val tmps = list_of_list_vt (tmps)
+val () = let
+  val p_tmps = the_toplevel_getref_tmpvarlst ()
+in
+  $UN.ptrset<tmpvarlst> (p_tmps, tmps)
+end // end of [val]
 //
 val () = fprint_string (out, "/*\n")
 val () = fprint_string (out, "** declaration initialization\n")
 val () = fprint_string (out, "*/\n")
 //
+val () = emit_tmpdeclst (out, tmps)
 val () = emit_primdeclst (out, pmds)
 //
 val () = emit_the_typedeflst (out)

@@ -128,10 +128,8 @@ end // end of [tmpsub2stasub]
 
 (* ****** ****** *)
 
-implement
-instrlst_get_tmpvarset
-  (xs) = let
-//
+local
+
 fun aux (
   res: &tmpvarset_vt, x: instr
 ) : void = let
@@ -157,15 +155,15 @@ case+ x.instr_node of
 | INSmove_list_nil (tmp) => tmpadd (tmp)
 | INSpmove_list_nil (tmp) => tmpadd (tmp)
 | INSpmove_list_cons (tmp, _) => tmpadd (tmp)
-| INSassgn_list_head
+| INSstore_list_head
     (tmp_hd, tmp_tl, _) => (tmpadd (tmp_hd); tmpadd (tmp_tl))
-| INSassgn_list_tail
+| INSstore_list_tail
     (tmp_hd, tmp_tl, _) => (tmpadd (tmp_hd); tmpadd (tmp_tl))
 //
 | INSmove_arrpsz_ptr (tmp, _) => tmpadd (tmp)
 //
-| INSassgn_arrpsz_asz (tmp, _) => ()
-| INSassgn_arrpsz_ptr (tmp, _, _) => ()
+| INSstore_arrpsz_asz (tmp, _) => ()
+| INSstore_arrpsz_ptr (tmp, _, _) => ()
 //
 | INSupdate_ptrinc (tmp(*ptr*), _(*type*)) => ()
 | INSupdate_ptrdec (tmp(*ptr*), _(*type*)) => ()
@@ -179,13 +177,15 @@ case+ x.instr_node of
     val () = auxlst (res, _then) and () = auxlst (res, _else)
   } // end of [INScond]
 //
+| INSswitch _ => ()
+//
 | INSpatck _ => ()
 //
 | INSmove_selcon (tmp, _, _, _) => tmpadd (tmp)
 | INSmove_select (tmp, _, _, _) => tmpadd (tmp)
 //
-| INSassgn_varofs _ => ()
-| INSassgn_ptrofs _ => ()
+| INSstore_varofs _ => ()
+| INSstore_ptrofs _ => ()
 //
 | INSletpop () => ()
 | INSletpush (pmds) => auxpmdlst (res, pmds)
@@ -193,7 +193,7 @@ case+ x.instr_node of
 | INStmpdec (tmp) => tmpadd (tmp)
 //
 end // end of [aux]
-//
+
 and auxlst (
   res: &tmpvarset_vt, xs: instrlst
 ) : void = let
@@ -207,7 +207,7 @@ case+ xs of
 | list_nil () => ()
 //
 end // end of [auxlst]
-//
+
 and auxpmd (
   res: &tmpvarset_vt, pmd: primdec
 ) : void = let
@@ -246,7 +246,7 @@ case+ pmd.primdec_node of
   } // end of [PMDlocal]
 //
 end // end of [auxpmd]
-//
+
 and auxpmdlst (
   res: &tmpvarset_vt, pmds: primdeclst
 ) : void = let
@@ -260,15 +260,34 @@ case+ pmds of
 | list_nil () => ()
 //
 end // end of [auxpmdlst]
+
+in (* in of [local] *)
+
+implement
+instrlst_get_tmpvarset
+  (xs) = let
 //
 var res
   : tmpvarset_vt = tmpvarset_vt_nil ()
-//
 val () = auxlst (res, xs)
 //
 in
   res
 end // end of [instrlst_get_tmpvarset]
+
+implement
+primdeclst_get_tmpvarset
+  (xs) = let
+//
+var res
+  : tmpvarset_vt = tmpvarset_vt_nil ()
+val () = auxpmdlst (res, xs)
+//
+in
+  res
+end // end of [primdeclst_get_tmpvarset]
+
+end // end of [local]
 
 (* ****** ****** *)
 

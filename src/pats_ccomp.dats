@@ -281,6 +281,14 @@ end // end of [primval_make_ptrof]
 (* ****** ****** *)
 
 implement
+ibranch_make
+  (tlab, inss) = '{
+  ibranch_lab= tlab, ibranch_inslst= inss
+} // end of [ibranch_make]
+
+(* ****** ****** *)
+
+implement
 primlab_is_lab (pml) =
   case+ pml.primlab_node of
   | PMLlab _ => true | PMLind _ => false
@@ -357,6 +365,11 @@ instr_cond
   (loc, _cond, _then, _else) =
   instr_make_node (loc, INScond (_cond, _then, _else))
 // end of [instr_cond]
+
+implement
+instr_switch
+  (loc, xs) = instr_make_node (loc, INSswitch (xs))
+// end of [instr_switch]
 
 (* ****** ****** *)
 
@@ -438,16 +451,16 @@ instr_move_selcon
 (* ****** ****** *)
 
 implement
-instr_assgn_varofs
+instr_store_varofs
   (loc, d2v_l, ofs, pmv_r) =
-  instr_make_node (loc, INSassgn_varofs (d2v_l, ofs, pmv_r))
-// end of [instr_assgn_varofs]
+  instr_make_node (loc, INSstore_varofs (d2v_l, ofs, pmv_r))
+// end of [instr_store_varofs]
 
 implement
-instr_assgn_ptrofs
+instr_store_ptrofs
   (loc, pmv_l, ofs, pmv_r) =
-  instr_make_node (loc, INSassgn_ptrofs (pmv_l, ofs, pmv_r))
-// end of [instr_assgn_ptrofs]
+  instr_make_node (loc, INSstore_ptrofs (pmv_l, ofs, pmv_r))
+// end of [instr_store_ptrofs]
 
 (* ****** ****** *)
 
@@ -468,16 +481,16 @@ instr_pmove_list_cons
 (* ****** ****** *)
 
 implement
-instr_assgn_list_head
+instr_move_list_phead
   (loc, tmphd, tmptl, hse_elt) =
-  instr_make_node (loc, INSassgn_list_head (tmphd, tmptl, hse_elt))
-// end of [instr_assgn_list_head]
+  instr_make_node (loc, INSmove_list_phead (tmphd, tmptl, hse_elt))
+// end of [instr_move_list_phead]
 
 implement
-instr_assgn_list_tail
+instr_move_list_ptail
   (loc, tl_new, tl_old, hse_elt) =
-  instr_make_node (loc, INSassgn_list_tail (tl_new, tl_old, hse_elt))
-// end of [instr_assgn_list_tail]
+  instr_make_node (loc, INSmove_list_ptail (tl_new, tl_old, hse_elt))
+// end of [instr_move_list_ptail]
 
 (* ****** ****** *)
 
@@ -490,16 +503,16 @@ instr_move_arrpsz_ptr
 (* ****** ****** *)
 
 implement
-instr_assgn_arrpsz_asz
+instr_store_arrpsz_asz
   (loc, tmp, asz) =
-  instr_make_node (loc, INSassgn_arrpsz_asz (tmp, asz))
-// end of [instr_assgn_arrpsz_asz]
+  instr_make_node (loc, INSstore_arrpsz_asz (tmp, asz))
+// end of [instr_store_arrpsz_asz]
 
 implement
-instr_assgn_arrpsz_ptr
+instr_store_arrpsz_ptr
   (loc, tmp, hse_elt, asz) =
-  instr_make_node (loc, INSassgn_arrpsz_ptr (tmp, hse_elt, asz))
-// end of [instr_assgn_arrpsz_ptr]
+  instr_make_node (loc, INSstore_arrpsz_ptr (tmp, hse_elt, asz))
+// end of [instr_store_arrpsz_ptr]
 
 (* ****** ****** *)
 

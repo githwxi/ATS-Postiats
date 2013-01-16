@@ -32,6 +32,10 @@
 //
 (* ****** ****** *)
 
+staload UN = "prelude/SATS/unsafe.sats"
+
+(* ****** ****** *)
+
 staload _(*anon*) = "prelude/DATS/list.dats"
 staload _(*anon*) = "prelude/DATS/list_vt.dats"
 staload _(*anon*) = "prelude/DATS/reference.dats"
@@ -828,6 +832,22 @@ prval () = fold@ (env)
 in
   opt
 end // end of [ccompenv_tmpcst_match]
+
+(* ****** ****** *)
+
+local
+
+val the_tmplst = ref<tmpvarlst> (list_nil)
+val the_pmdlst = ref<primdeclst> (list_nil)
+
+in (* in of [local] *)
+
+implement
+the_toplevel_getref_tmpvarlst () = $UN.cast2Ptr1 (the_tmplst)
+implement
+the_toplevel_getref_primdeclst () = $UN.cast2Ptr1 (the_pmdlst)
+
+end // end of [local]
 
 (* ****** ****** *)
 

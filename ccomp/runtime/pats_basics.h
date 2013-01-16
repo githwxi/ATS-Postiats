@@ -66,6 +66,8 @@
 #define ATSifnot(x) if (!(x))
 #define ATSthen()
 #define ATSelse() else
+#define ATSdo() do
+#define ATSwhile(x) while (x)
 
 /* ****** ****** */
 
@@ -137,30 +139,30 @@
 /* ****** ****** */
 
 #define ATSINSmove_con(tmp, tysum) (tmp = ATS_MALLOC(sizeof(tysum)))
-#define ATSINSassgn_con_tag(tmp, val) (((ATStysum()*)(tmp))->contag = val)
-#define ATSINSassgn_con_ofs(tmp, tyrec, lab, val) (((tyrec*)(tmp))->lab = val)
+#define ATSINSstore_con_tag(tmp, val) (((ATStysum()*)(tmp))->contag = val)
+#define ATSINSstore_con_ofs(tmp, tyrec, lab, val) (((tyrec*)(tmp))->lab = val)
 
 /* ****** ****** */
 
-#define ATSINSassgn_fltrec_ofs(tmp, tyrec, lab, val) ((tmp).lab = val)
+#define ATSINSstore_fltrec_ofs(tmp, tyrec, lab, val) ((tmp).lab = val)
 
 /* ****** ****** */
 
 #define ATSINSmove_boxrec(tmp, tyrec) (tmp = ATS_MALLOC(sizeof(tyrec)))
-#define ATSINSassgn_boxrec_ofs(tmp, tyrec, lab, val) (((tyrec*)(tmp))->lab = val)
+#define ATSINSstore_boxrec_ofs(tmp, tyrec, lab, val) (((tyrec*)(tmp))->lab = val)
 
 /* ****** ****** */
 //
 #define ATSINSmove_list_nil(tmp) (tmp = (void*)0)
 #define ATSINSpmove_list_nil(tmp) (*(void**)tmp = (void*)0)
 #define ATSINSpmove_list_cons(tmp, tyelt) (*(void**)tmp = ATS_MALLOC(sizeof(ATStylist(tyelt))))
-#define ATSINSupdate_list_head(tmp1, tmp2, tyelt) (tmp1 = &(((ATStylist(tyelt)*)(*(void**)tmp2))->head))
-#define ATSINSupdate_list_tail(tmp1, tmp2, tyelt) (tmp1 = &(((ATStylist(tyelt)*)(*(void**)tmp2))->tail))
+#define ATSINSmove_list_phead(tmp1, tmp2, tyelt) (tmp1 = &(((ATStylist(tyelt)*)(*(void**)tmp2))->head))
+#define ATSINSmove_list_ptail(tmp1, tmp2, tyelt) (tmp1 = &(((ATStylist(tyelt)*)(*(void**)tmp2))->tail))
 //
 /* ****** ****** */
 //
-#define ATSINSassgn_arrpsz_asz(tmp, asz) (tmp.size = asz)
-#define ATSINSassgn_arrpsz_ptr(tmp, tyelt, asz) (tmp.ptr = ATS_MALLOC(asz*sizeof(tyelt)))
+#define ATSINSstore_arrpsz_asz(tmp, asz) (tmp.size = asz)
+#define ATSINSstore_arrpsz_ptr(tmp, tyelt, asz) (tmp.ptr = ATS_MALLOC(asz*sizeof(tyelt)))
 //
 #define ATSINSmove_arrpsz_ptr(tmp, psz) (tmp1 = (psz).ptr)
 //

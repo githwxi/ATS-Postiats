@@ -345,10 +345,42 @@ end // end of [emit_ats_prelude_cats]
 
 (* ****** ****** *)
 
+local
+
+fun aux (
+  out: FILEref, c: char
+) = let
+  val isalnum_ = 
+    if char_isalnum (c) then true else (c = '_')
+  // end of [val]
+in
+  case+ 0 of
+  | _ when isalnum_ => fprint_char (out, c)
+  | _ => {
+      val () = fprintf (out, "_%.3o$", @($UN.cast2uint(c)))
+    } // end of [_]
+end // end of [aux]
+
+in (* in of [local] *)
+
 implement
 emit_ident
-  (out, name) = fprint_string (out, name)
-// end of [emit_ident]
+  (out, name) = let
+  val isnot = string_isnot_empty (name)
+in
+//
+if isnot then let
+  val p = $UN.cast2Ptr1 (name)
+  val c = $UN.ptrget<char> (p)
+  val () = aux (out, c)
+  val name = $UN.cast{string}(p+1)
+in
+  emit_ident (out, name)
+end // end of [if]
+//
+end // end of [emit_ident]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -498,9 +530,16 @@ end // end of [emit_d2cst]
 (* ****** ****** *)
 
 implement
+emit2_d2cst
+  (out, d2c) = emit_ident (out, $D2E.d2cst_get_name (d2c))
+// end of [emit2_d2cst]
+
+(* ****** ****** *)
+
+implement
 emit_tmplab
   (out, tlab) = let
-  val () = emit_text (out, "__pats_tlab$")
+  val () = emit_text (out, "__patstlab_")
 in
   $STMP.fprint_stamp (out, tmplab_get_stamp (tlab))
 end // end of [emit_tmplab]
@@ -583,10 +622,12 @@ val () = (
   | Some (d2c) => let
       val () = emit_d2cst (out, d2c)
     in
+      // nothing
     end // end of [Some]
   | None () => let
       val () = emit_ident (out, funlab_get_name (flab))
     in
+      // nothing
     end // end of [None]
 ) : void // end of [val]
 //
@@ -603,7 +644,7 @@ in
   // nothing
 end // end of [auxmain]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 emit_funlab
@@ -623,6 +664,24 @@ val () = if sfx > 0 then fprintf (out, "$%i", @(sfx))
 in
   // nothing
 end // end of [emit_funlab]
+
+implement
+emit2_funlab
+  (out, flab) = let
+//
+val qopt = funlab_get_d2copt (flab)
+val name = (
+  case+ qopt of
+  | Some (
+      d2c
+    ) => $D2E.d2cst_get_name (d2c)
+  | None () => funlab_get_name (flab)
+) : string // end of [val]
+val () = emit_ident (out, name)
+//
+in
+  // nothing
+end // end of [emit2_funlab]
 
 end // end of [local]
 
@@ -806,7 +865,7 @@ emit_primval_ptrof
 val-PMVptrof (pmv) = pmv0.primval_node
 //
 val () = 
-  emit_text (out, "ATSptrof(")
+  emit_text (out, "ATSPMVptrof(")
 val () = emit_primval (out, pmv)
 val () = emit_text (out, ")")
 //
@@ -956,8 +1015,9 @@ in
 case+ ins.instr_node of
 //
 | INSfunlab (flab) => {
-    val () = emit_text (out, "__patsflab_")
-    val () = emit_funlab (out, flab)
+    val () =
+      emit_text (out, "__patsflab_")
+    val () = emit2_funlab (out, flab)
     val () = emit_text (out, ":")
   } // end of [INSfunlab]
 //
@@ -983,6 +1043,13 @@ case+ ins.instr_node of
       emit_text (out, "\n} /* end of [if] */")
     // end of [val]
   } // end of [INScond]
+//
+| INSswitch (xs) => {
+    val () = emit_text (out, "ATSdo() {\n")
+    val () =
+      emit_text (out, "\n} ATSwhile(0) ; /* end of [do] */")
+    // end of [val]
+  } // end of [INSswitch]
 //
 | INSletpop () => let
     val () = emit_text (out, "/*\n")
@@ -1031,9 +1098,9 @@ case+ ins.instr_node of
     val () = emit_hisexp (out, hse_elt)
     val () = emit_text (out, ") ;")
   }
-| INSassgn_list_head
+| INSmove_list_phead
     (tmphd, tmptl, hse_elt) => {
-    val () = emit_text (out, "ATSINSassgn_list_head(")
+    val () = emit_text (out, "ATSINSmove_list_phead(")
     val () = emit_tmpvar (out, tmphd)
     val () = emit_text (out, ", ")
     val () = emit_tmpvar (out, tmptl)
@@ -1041,9 +1108,9 @@ case+ ins.instr_node of
     val () = emit_hisexp (out, hse_elt)
     val () = emit_text (out, ") ;")
   }
-| INSassgn_list_tail
+| INSmove_list_ptail
     (tmptl1, tmptl2, hse_elt) => {
-    val () = emit_text (out, "ATSINSassgn_list_tail(")
+    val () = emit_text (out, "ATSINSmove_list_ptail(")
     val () = emit_tmpvar (out, tmptl1)
     val () = emit_text (out, ", ")
     val () = emit_tmpvar (out, tmptl2)
@@ -1061,24 +1128,24 @@ case+ ins.instr_node of
     val () = emit_text (out, ") ;")
   } // end of [INSmove_arrpsz_ptr]
 //
-| INSassgn_arrpsz_asz
+| INSstore_arrpsz_asz
     (tmp, asz) => {
-    val () = emit_text (out, "ATSINSassgn_arrpsz_asz(")
+    val () = emit_text (out, "ATSINSstore_arrpsz_asz(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_int (out, asz)
     val () = emit_text (out, ") ;")
-  } // end of [INSassgn_arrpsz_asz]
-| INSassgn_arrpsz_ptr
+  } // end of [INSstore_arrpsz_asz]
+| INSstore_arrpsz_ptr
     (tmp, hse, asz) => {
-    val () = emit_text (out, "ATSINSassgn_arrpsz_ptr(")
+    val () = emit_text (out, "ATSINSstore_arrpsz_ptr(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_hisexp (out, hse)
     val () = emit_text (out, ", ")
     val () = emit_int (out, asz)
     val () = emit_text (out, ") ;")
-  } // end of [INSassgn_arrpsz_ptr]
+  } // end of [INSstore_arrpsz_ptr]
 //
 | INSupdate_ptrinc
     (tmp, hse) => {
@@ -1195,7 +1262,7 @@ val flag = (
 //
 val tag = $S2E.d2con_get_tag (d2c)
 val () = fprintf (out, "#if(%i)\n", @(flag))
-val () = emit_text (out, "ATSINSassgn_con_tag(")
+val () = emit_text (out, "ATSINSstore_con_tag(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
 val () = emit_int (out, tag)
@@ -1218,7 +1285,7 @@ case+ lxs of
 | list_cons
     (lx, lxs) => let
     val+LABPRIMVAL (l, x) = lx
-    val () = emit_text (out, "ATSINSassgn_con_ofs(")
+    val () = emit_text (out, "ATSINSstore_con_ofs(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_hitype (out, hit_con)
@@ -1275,9 +1342,9 @@ case+ lxs of
     val () =
       if i > 0 then emit_text (out, "\n")
     val () =
-      if boxknd = 0 then emit_text (out, "ATSINSassgn_fltrec_ofs (")
+      if boxknd = 0 then emit_text (out, "ATSINSstore_fltrec_ofs (")
     val () =
-      if boxknd > 0 then emit_text (out, "ATSINSassgn_boxrec_ofs (")
+      if boxknd > 0 then emit_text (out, "ATSINSstore_boxrec_ofs (")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_hitype (out, hit_rec)

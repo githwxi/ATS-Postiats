@@ -57,11 +57,6 @@ staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 
-typedef
-hidexp_ccomp_funtype =
-  (!ccompenv, !instrseq, hidexp) -> primval
-// end of [hidexp_ccomp_funtype]
-
 extern fun hidexp_ccomp_var : hidexp_ccomp_funtype
 
 extern fun hidexp_ccomp_cstsp : hidexp_ccomp_funtype
@@ -88,11 +83,6 @@ fun hilablst_ccomp
 // end of [fun hilablst_ccomp]
 
 (* ****** ****** *)
-
-typedef
-hidexp_ccomp_ret_funtype =
-  (!ccompenv, !instrseq, tmpvar(*ret*), hidexp) -> void
-// end of [hidexp_ccomp_ret_funtype]
 
 extern
 fun hidexp_ccomp_ret_app : hidexp_ccomp_ret_funtype
@@ -199,6 +189,8 @@ case+ hde0.hidexp_node of
 | HDEapp _ => auxret (env, res, hde0)
 //
 | HDEif _ => auxret (env, res, hde0)
+//
+| HDEcase _ => auxret (env, res, hde0)
 //
 | HDElst _ => auxret (env, res, hde0)
 //
@@ -389,6 +381,8 @@ case+ hde0.hidexp_node of
 | HDEapp _ => hidexp_ccomp_ret_app (env, res, tmpret, hde0)
 //
 | HDEif _ => hidexp_ccomp_ret_if (env, res, tmpret, hde0)
+//
+| HDEcase _ => hidexp_ccomp_ret_case (env, res, tmpret, hde0)
 //
 | HDElst _ => hidexp_ccomp_ret_lst (env, res, tmpret, hde0)
 //
@@ -604,12 +598,12 @@ val-HDEassgn_var
 // end of [val]
 val ofs = hilablst_ccomp (env, res, hils)
 val pmv_r = hidexp_ccomp (env, res, hde_r)
-val ins = instr_assgn_varofs (loc0, d2v_l, ofs, pmv_r)
+val ins = instr_store_varofs (loc0, d2v_l, ofs, pmv_r)
 val () = instrseq_add (res, ins)
 //
 in
   primval_empty (loc0, hse0)
-end // end of [hidexp_ccomp_assgn_var]
+end // end of [hidexp_ccomp_store_var]
 
 implement
 hidexp_ccomp_assgn_ptr
@@ -623,12 +617,12 @@ val-HDEassgn_ptr
 val pmv_l = hidexp_ccomp (env, res, hde_l)
 val ofs = hilablst_ccomp (env, res, hils)
 val pmv_r = hidexp_ccomp (env, res, hde_r)
-val ins = instr_assgn_ptrofs (loc0, pmv_l, ofs, pmv_r)
+val ins = instr_store_ptrofs (loc0, pmv_l, ofs, pmv_r)
 val () = instrseq_add (res, ins)
 //
 in
   primval_empty (loc0, hse0)
-end // end of [hidexp_ccomp_assgn_ptr]
+end // end of [hidexp_ccomp_store_ptr]
 
 (* ****** ****** *)
 
@@ -696,14 +690,14 @@ val loc = hde.hidexp_loc
 //
 val ins = instr_pmove_list_cons (loc, tmptl, hse_elt)
 val ( ) = instrseq_add (res, ins)
-val ins = instr_assgn_list_head (loc, tmphd, tmptl, hse_elt)
+val ins = instr_move_list_phead (loc, tmphd, tmptl, hse_elt)
 val ( ) = instrseq_add (res, ins)
 //
 val pmv = hidexp_ccomp (env, res, hde)
 val ins = instr_pmove_val (loc, tmphd, pmv)
 val () = instrseq_add (res, ins)
 //
-val ins = instr_assgn_list_tail (loc, tmptl, tmptl, hse_elt)
+val ins = instr_move_list_ptail (loc, tmptl, tmptl, hse_elt)
 val () = instrseq_add (res, ins)
 //
 in
@@ -938,10 +932,10 @@ val-HDEarrpsz
   (hse_elt, hdes, asz) = hde0.hidexp_node
 //
 val ins =
-  instr_assgn_arrpsz_asz (loc0, tmpret, asz)
+  instr_store_arrpsz_asz (loc0, tmpret, asz)
 val () = instrseq_add (res, ins)
 val ins =
-  instr_assgn_arrpsz_ptr (loc0, tmpret, hse_elt, asz)
+  instr_store_arrpsz_ptr (loc0, tmpret, hse_elt, asz)
 val () = instrseq_add (res, ins)
 //
 val arrp = tmpvar_make (loc0, hisexp_typtr)

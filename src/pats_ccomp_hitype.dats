@@ -255,7 +255,7 @@ fun auxint (
 ) : void = let
   val int = $UN.cast2ulint (int)
 in
-  hval := (hval << 5) + hval + int
+  hval := (hval << 8) + hval + int // hval = 65*hval + int
 end // end of [auxint]
 
 fun auxstr (

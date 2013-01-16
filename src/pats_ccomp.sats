@@ -623,16 +623,17 @@ fun primlab_ind (loc: location, ind: primvalist): primlab
 
 datatype patck =
 //
-  | PATCKint of int
-  | PATCKbool of bool
-  | PATCKchar of char
-  | PATCKstring of string
+  | PATCKint of (int)
+  | PATCKbool of (bool)
+  | PATCKchar of (char)
+  | PATCKstring of (string)
 //
   | PATCKi0nt of (i0nt)
   | PATCKf0loat of (f0loat)
 //
-  | PATCKcon of d2con
-  | PATCKexn of d2con
+  | PATCKcon of (d2con)
+  | PATCKexn of (d2con)
+//
 // end of [patck]
 
 and patckont =
@@ -679,6 +680,8 @@ instr_node =
       primval(*test*), instrlst(*then*), instrlst(*else*)
     ) // end of [INScond]
 //
+  | INSswitch of (ibranchlst) // switch statement
+//
   | INSletpop of ()
   | INSletpush of (primdeclst)
 //
@@ -704,22 +707,22 @@ instr_node =
   | INSmove_list_nil of (tmpvar)
   | INSpmove_list_nil of (tmpvar)
   | INSpmove_list_cons of (tmpvar, hisexp(*elt*))
-  | INSassgn_list_head of // hd <- &(tl->val)
+  | INSmove_list_phead of // hd <- &(tl->val)
       (tmpvar(*hd*), tmpvar(*tl*), hisexp(*elt*))
-  | INSassgn_list_tail of // tl_new <- &(tl_old->next)
+  | INSmove_list_ptail of // tl_new <- &(tl_old->next)
       (tmpvar(*new*), tmpvar(*old*), hisexp(*elt*))
 //
   | INSmove_arrpsz_ptr of (tmpvar, tmpvar)
 //
-  | INSassgn_arrpsz_asz of (tmpvar, int(*asz*))
-  | INSassgn_arrpsz_ptr of (tmpvar, hisexp(*elt*), int(*asz*))
+  | INSstore_arrpsz_asz of (tmpvar, int(*asz*))
+  | INSstore_arrpsz_ptr of (tmpvar, hisexp(*elt*), int(*asz*))
 //
   | INSupdate_ptrinc of (tmpvar, hisexp(*elt*))
   | INSupdate_ptrdec of (tmpvar, hisexp(*elt*))
 //
-  | INSassgn_varofs of
+  | INSstore_varofs of
       (d2var(*left*), primlablst(*ofs*), primval(*right*))
-  | INSassgn_ptrofs of
+  | INSstore_ptrofs of
       (primval(*left*), primlablst(*ofs*), primval(*right*))
 //
   | INStmpdec of (tmpvar) // HX-2013-01: this is a no-op
@@ -737,6 +740,8 @@ and instrlst_vt = List_vt (instr)
 and ibranch = '{
   ibranch_lab= tmplab, ibranch_inslst= instrlst
 } // end of [ibranch]
+
+and ibranchlst = List (ibranch)
 
 (* ****** ****** *)
 
@@ -782,6 +787,10 @@ fun instr_cond (
 
 (* ****** ****** *)
 
+fun instr_switch (loc: location, xs: ibranchlst): instr
+
+(* ****** ****** *)
+
 fun instr_letpop (loc: location): instr
 fun instr_letpush (loc: location, pmds: primdeclst): instr
 
@@ -824,13 +833,13 @@ fun instr_move_select (
 
 (* ****** ****** *)
 
-fun instr_assgn_varofs (
+fun instr_store_varofs (
   loc: location, d2v_l: d2var, ofs: primlablst, pmv_r: primval
-) : instr // end of [instr_assgn_varofs]
+) : instr // end of [instr_store_varofs]
 
-fun instr_assgn_ptrofs (
+fun instr_store_ptrofs (
   loc: location, pmv_l: primval, ofs: primlablst, pmv_r: primval
-) : instr // end of [instr_assgn_ptrofs]
+) : instr // end of [instr_store_ptrofs]
 
 (* ****** ****** *)
 
@@ -843,9 +852,9 @@ fun instr_pmove_list_cons
 
 (* ****** ****** *)
 
-fun instr_assgn_list_head
+fun instr_move_list_phead
   (loc: location, tmphd: tmpvar, tmptl: tmpvar, elt: hisexp): instr
-fun instr_assgn_list_tail
+fun instr_move_list_ptail
   (loc: location, tl_new: tmpvar, tl_old: tmpvar, elt: hisexp): instr
 
 (* ****** ****** *)
@@ -855,11 +864,11 @@ fun instr_move_arrpsz_ptr
 
 (* ****** ****** *)
 
-fun instr_assgn_arrpsz_asz
+fun instr_store_arrpsz_asz
   (loc: location, tmp: tmpvar, asz: int) : instr
-fun instr_assgn_arrpsz_ptr (
+fun instr_store_arrpsz_ptr (
   loc: location, tmp: tmpvar, hse_elt: hisexp, asz: int
-) : instr // end of [instr_assgn_arrpsz_asz]
+) : instr // end of [instr_store_arrpsz_asz]
 
 (* ****** ****** *)
 
@@ -876,12 +885,17 @@ fun instr_tmpdec (loc: location, tmp: tmpvar): instr
 
 (* ****** ****** *)
 
+fun ibranch_make (tlab: tmplab, inss: instrlst): ibranch
+
+(* ****** ****** *)
+
 fun primlab_lab (loc: location, lab: label): primlab
 fun primlab_ind (loc: location, ind: primvalist): primlab
 
 (* ****** ****** *)
 
 fun instrlst_get_tmpvarset (xs: instrlst): tmpvarset_vt
+fun primdeclst_get_tmpvarset (xs: primdeclst): tmpvarset_vt
 
 (* ****** ****** *)
 
@@ -1008,16 +1022,26 @@ fun hifunarg_ccomp (
 
 (* ****** ****** *)
 
-fun hidexp_ccomp
-  (env: !ccompenv, res: !instrseq, hde: hidexp): primval
+typedef
+hidexp_ccomp_funtype =
+  (!ccompenv, !instrseq, hidexp) -> primval
+fun hidexp_ccomp : hidexp_ccomp_funtype
+
+typedef
+hidexp_ccomp_ret_funtype =
+  (!ccompenv, !instrseq, tmpvar(*ret*), hidexp) -> void
+fun hidexp_ccomp_ret : hidexp_ccomp_ret_funtype
+fun hidexp_ccomp_ret_case : hidexp_ccomp_ret_funtype
+
+(* ****** ****** *)
+
 fun hidexplst_ccomp
   (env: !ccompenv, res: !instrseq, hdes: hidexplst): primvalist
+// end of [hidexplst_ccomp]
+
 fun labhidexplst_ccomp
   (env: !ccompenv, res: !instrseq, lhdes: labhidexplst): labprimvalist
-
-fun hidexp_ccomp_ret
-  (env: !ccompenv, res: !instrseq, tmpret: tmpvar, hde: hidexp): void
-// end of [hidexp_ccomp_ret]
+// end of [labhidexplst_ccomp]
 
 (* ****** ****** *)
 
@@ -1031,6 +1055,16 @@ fun hidexp_ccomp_funlab_arg_body (
 , hips_arg: hipatlst
 , hde_body: hidexp
 ) : funent // end of [hidexp_ccomp_arg_body_funlab]
+
+(* ****** ****** *)
+
+fun hiclaulst_ccomp (
+  env: !ccompenv
+, pmvs: primvalist
+, hicls: hiclaulst
+, tmpret: tmpvar
+, fail: patckont
+) : ibranchlst // end of [hiclaulst_ccomp]
 
 (* ****** ****** *)
 
@@ -1112,7 +1146,8 @@ fun emit_primcstsp (out: FILEref, pmc: primcstsp): void
 (* ****** ****** *)
 
 fun emit_d2con (out: FILEref, d2c: d2con): void
-fun emit_d2cst (out: FILEref, d2c: d2cst): void
+fun emit_d2cst (out: FILEref, d2c: d2cst): void // HX: global
+fun emit2_d2cst (out: FILEref, d2c: d2cst): void // HX: local
 
 (* ****** ****** *)
 
@@ -1125,7 +1160,8 @@ fun emit_tmpvar (out: FILEref, tmp: tmpvar): void
 
 (* ****** ****** *)
 
-fun emit_funlab (out: FILEref, flab: funlab): void
+fun emit_funlab (out: FILEref, flab: funlab): void // HX: global
+fun emit2_funlab (out: FILEref, flab: funlab): void // HX: local
 
 (* ****** ****** *)
 
@@ -1252,6 +1288,11 @@ fun funlab_subst
 fun funent_subst
   (env: !ccompenv, sub: !stasub, flab2: funlab, fent: funent, sfx: int): funent
 //
+(* ****** ****** *)
+
+fun the_toplevel_getref_tmpvarlst (): Ptr1
+fun the_toplevel_getref_primdeclst (): Ptr1
+
 (* ****** ****** *)
 
 fun ccomp_main (

@@ -240,6 +240,7 @@ SOURCES := \
   pats_ccomp_instrseq.dats \
   pats_ccomp_hipat.dats \
   pats_ccomp_dynexp.dats \
+  pats_ccomp_caseof.dats \
   pats_ccomp_decl.dats \
   pats_ccomp_subst.dats \
   pats_ccomp_template.dats \
@@ -462,6 +463,7 @@ OBJECTS := \
   pats_ccomp_instrseq_dats.o \
   pats_ccomp_hipat_dats.o \
   pats_ccomp_dynexp_dats.o \
+  pats_ccomp_caseof_dats.o \
   pats_ccomp_decl_dats.o \
   pats_ccomp_subst_dats.o \
   pats_ccomp_template_dats.o \
@@ -1109,6 +1111,9 @@ pats_ccomp_hipat_dats.o: pats_ccomp_hipat_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_ccomp_dynexp_dats.c: pats_ccomp_dynexp.dats; $(ATSCC) -cc $<
 pats_ccomp_dynexp_dats.o: pats_ccomp_dynexp_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_ccomp_caseof_dats.c: pats_ccomp_caseof.dats; $(ATSCC) -cc $<
+pats_ccomp_caseof_dats.o: pats_ccomp_caseof_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_ccomp_decl_dats.c: pats_ccomp_decl.dats; $(ATSCC) -cc $<
 pats_ccomp_decl_dats.o: pats_ccomp_decl_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
