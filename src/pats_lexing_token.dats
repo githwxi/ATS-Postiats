@@ -520,9 +520,9 @@ val () = ins ("$raise", T_DLRRAISE)
 //
 val () = ins ("$showtype", T_DLRSHOWTYPE)
 //
-val () = ins ("$myfilename", T_DLRMYFIL)
-val () = ins ("$mylocation", T_DLRMYLOC)
-val () = ins ("$myfunction", T_DLRMYFUN)
+val () = ins ("$myfilename", T_DLRMYFILENAME)
+val () = ins ("$mylocation", T_DLRMYLOCATION)
+val () = ins ("$myfunction", T_DLRMYFUNCTION)
 //
 val () = ins ("#assert", T_SRPASSERT)
 val () = ins ("#define", T_SRPDEFINE)

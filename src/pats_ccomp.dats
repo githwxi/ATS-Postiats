@@ -281,14 +281,28 @@ end // end of [primval_make_ptrof]
 (* ****** ****** *)
 
 implement
+primlab_is_lab (pml) =
+  case+ pml.primlab_node of
+  | PMLlab _ => true | PMLind _ => false
+// end of [primlab_is_lab]
+
+implement
+primlab_is_ind (pml) =
+  case+ pml.primlab_node of
+  | PMLlab _ => false | PMLind _ => true
+// end of [primlab_is_ind]
+
+(* ****** ****** *)
+
+implement
 primlab_lab (loc, lab) = '{
   primlab_loc= loc, primlab_node= PMLlab (lab)
-}
+} // end of [primlab_lab]
 
 implement
 primlab_ind (loc, ind) = '{
   primlab_loc= loc, primlab_node= PMLind (ind)
-}
+} // end of [primlab_ind]
 
 (* ****** ****** *)
 

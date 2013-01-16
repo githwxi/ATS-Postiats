@@ -192,9 +192,9 @@ token_node =
   | T_DLRREC of int // $rec and $rec_t and $rec_vt
   | T_DLRTUP of int // $tup and $tup_t and $tup_vt
 //
-  | T_DLRMYFIL of () // $myfilename
-  | T_DLRMYLOC of () // $mylocation
-  | T_DLRMYFUN of () // $myfunction
+  | T_DLRMYFILENAME of () // $myfilename
+  | T_DLRMYLOCATION of () // $mylocation
+  | T_DLRMYFUNCTION of () // $myfunction
 //
   | T_DLRSHOWTYPE of () // $showtype // for debugging purpose
 //

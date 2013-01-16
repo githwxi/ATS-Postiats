@@ -522,6 +522,11 @@ fun primval_is_mutabl (pmv: primval): bool
 
 (* ****** ****** *)
 
+fun primlab_is_lab (pml: primlab): bool
+fun primlab_is_ind (pml: primlab): bool
+
+(* ****** ****** *)
+
 fun primval_tmp
   (loc: location, hse: hisexp, tmp: tmpvar): primval
 fun primval_tmpref

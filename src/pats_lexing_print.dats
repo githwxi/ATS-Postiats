@@ -160,7 +160,7 @@ fprint_token
   | T_DLRREC (x) => fprintf (out, "DLRREC(%i)", @(x))
   | T_DLRTUP (x) => fprintf (out, "DLRTUP(%i)", @(x))
 //
-  | T_DLRMYFILE () => fprintf (out, "DLRMYFILE()", @())
+  | T_DLRMYFILENAME () => fprintf (out, "DLRMYFILENAME()", @())
   | T_DLRMYLOCATION () => fprintf (out, "DLRMYLOCATION()", @())
   | T_DLRMYFUNCTION () => fprintf (out, "DLRMYFUNCTION()", @())
 //

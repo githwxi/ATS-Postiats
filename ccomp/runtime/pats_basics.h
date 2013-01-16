@@ -57,22 +57,44 @@
 //
 /* ****** ****** */
 
-#define ATSint(i) i
-#define ATSbool_true() atsbool_true
-#define ATSbool_false() atsbool_true
-#define ATSchar(c) c
-#define ATSstring(str) str
-#define ATSi0nt(x) x
-#define ATSf0loat(x) x
-
-/* ****** ****** */
-
-#define ATSptrof(pmv) (&(pmv))
-#define ATSextval(name) (name)
-
-/* ****** ****** */
-
 #define ATStysum() struct{ int contag; }
+#define ATStylist(tyelt) struct{ tyelt head; void *tail; }
+
+/* ****** ****** */
+
+#define ATSPMVint(i) i
+#define ATSPMVbool_true() atsbool_true
+#define ATSPMVbool_false() atsbool_false
+#define ATSPMVchar(c) c
+#define ATSPMVstring(str) str
+#define ATSPMVi0nt(x) x
+#define ATSPMVf0loat(x) x
+
+/* ****** ****** */
+
+#define ATSPMVtop() atserror_top
+#define ATSPMVempty() atserror_empty
+
+/* ****** ****** */
+
+#define ATSPMVextval(id) (id)
+
+/* ****** ****** */
+
+#define ATSPMVptrof(lval) (&(lval))
+
+/* ****** ****** */
+
+#define ATScastfn(d2c, arg) (arg) // castfn application
+
+/* ****** ****** */
+
+#define ATSselcon(pmv, tysum, lab) (((tysum*)pmv)->lab)
+
+#define ATSselrecsin(pmv, tyrec, lab) (pmv)
+#define ATSselfltrec(pmv, tyrec, lab) ((pmv).lab)
+#define ATSselarrind(pmv, tyarr, lab) (((tyarr)pmv)lab)
+#define ATSselboxrec(pmv, tyrec, lab) (((tyrec*)pmv)->lab)
 
 /* ****** ****** */
 
@@ -89,51 +111,46 @@
 
 /* ****** ****** */
 
-#define ATSMACmove(tmp, val) (tmp = val)
-#define ATSMACpmove(tmp, hit, val) (*(hit*)tmp = val)
+#define ATSINSmove(tmp, val) (tmp = val)
+#define ATSINSpmove(tmp, hit, val) (*(hit*)tmp = val)
 
 /* ****** ****** */
 
-#define ATSMACmove_ptralloc(tmp, hit) (tmp = ATS_MALLOC(sizeof(hit)))
+#define ATSINSmove_ptralloc(tmp, hit) (tmp = ATS_MALLOC(sizeof(hit)))
 
 /* ****** ****** */
 
-#define ATSMACmove_con(tmp, tysum) (tmp = ATS_MALLOC(sizeof(tysum)))
-#define ATSMACassgn_con_tag(tmp, val) (((ATStysum()*)(tmp))->contag = val)
-#define ATSMACassgn_con_ofs(tmp, tyrec, lab, val) (((tyrec*)(tmp))->lab = val)
+#define ATSINSmove_con(tmp, tysum) (tmp = ATS_MALLOC(sizeof(tysum)))
+#define ATSINSassgn_con_tag(tmp, val) (((ATStysum()*)(tmp))->contag = val)
+#define ATSINSassgn_con_ofs(tmp, tyrec, lab, val) (((tyrec*)(tmp))->lab = val)
 
 /* ****** ****** */
 
-#define ATSMACassgn_fltrec_ofs(tmp, tyrec, lab, val) ((tmp).lab = val)
+#define ATSINSassgn_fltrec_ofs(tmp, tyrec, lab, val) ((tmp).lab = val)
 
 /* ****** ****** */
 
-#define ATSMACmove_boxrec(tmp, tyrec) (tmp = ATS_MALLOC(sizeof(tyrec)))
-#define ATSMACassgn_boxrec_ofs(tmp, tyrec, lab, val) (((tyrec*)(tmp))->lab = val)
+#define ATSINSmove_boxrec(tmp, tyrec) (tmp = ATS_MALLOC(sizeof(tyrec)))
+#define ATSINSassgn_boxrec_ofs(tmp, tyrec, lab, val) (((tyrec*)(tmp))->lab = val)
 
-/* ****** ****** */
-//
-#define ATSlist(tyelt) struct{ tyelt head; void *tail; }
-#define ATSMACmove_list_nil(tmp) (tmp = (void*)0)
-#define ATSMACpmove_list_nil(tmp) (*(void**)tmp = (void*)0)
-#define ATSMACpmove_list_cons(tmp, tyelt) (*(void**)tmp = ATS_MALLOC(sizeof(ATSlist(tyelt))))
-#define ATSMACupdate_list_head(tmp1, tmp2, tyelt) (tmp1 = &(((ATSlist(tyelt)*)(*(void**)tmp2))->head))
-#define ATSMACupdate_list_tail(tmp1, tmp2, tyelt) (tmp1 = &(((ATSlist(tyelt)*)(*(void**)tmp2))->tail))
-//
 /* ****** ****** */
 //
-#define ATSMACassgn_arrpsz_asz(tmp, asz) (tmp.size = asz)
-#define ATSMACassgn_arrpsz_ptr(tmp, tyelt, asz) (tmp.ptr = ATS_MALLOC(asz*sizeof(tyelt)))
-//
-#define ATSMACmove_arrpsz_ptr(tmp, psz) (tmp1 = (psz).ptr)
-//
-#define ATSMACupdate_ptrinc(tmp, tyelt) (tmp = (tyelt*)tmp + 1)
-#define ATSMACupdate_ptrdec(tmp, tyelt) (tmp = (tyelt*)tmp - 1)
+#define ATSINSmove_list_nil(tmp) (tmp = (void*)0)
+#define ATSINSpmove_list_nil(tmp) (*(void**)tmp = (void*)0)
+#define ATSINSpmove_list_cons(tmp, tyelt) (*(void**)tmp = ATS_MALLOC(sizeof(ATStylist(tyelt))))
+#define ATSINSupdate_list_head(tmp1, tmp2, tyelt) (tmp1 = &(((ATStylist(tyelt)*)(*(void**)tmp2))->head))
+#define ATSINSupdate_list_tail(tmp1, tmp2, tyelt) (tmp1 = &(((ATStylist(tyelt)*)(*(void**)tmp2))->tail))
 //
 /* ****** ****** */
-
-#define ATSMACcastfn(castfn, arg) (arg) // castfn application
-
+//
+#define ATSINSassgn_arrpsz_asz(tmp, asz) (tmp.size = asz)
+#define ATSINSassgn_arrpsz_ptr(tmp, tyelt, asz) (tmp.ptr = ATS_MALLOC(asz*sizeof(tyelt)))
+//
+#define ATSINSmove_arrpsz_ptr(tmp, psz) (tmp1 = (psz).ptr)
+//
+#define ATSINSupdate_ptrinc(tmp, tyelt) (tmp = (tyelt*)tmp + 1)
+#define ATSINSupdate_ptrdec(tmp, tyelt) (tmp = (tyelt*)tmp - 1)
+//
 /* ****** ****** */
 
 #endif /* PATS_BASICS_H */

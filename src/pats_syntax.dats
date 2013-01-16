@@ -1650,19 +1650,19 @@ d0exp_empty (loc) = '{
 (* ****** ****** *)
 
 implement
-d0exp_MYFILE (tok) = '{
+d0exp_MYFIL (tok) = '{
   d0exp_loc= tok.token_loc
 , d0exp_node= D0Ecstsp (CSTSPmyfil())
 }
 
 implement
-d0exp_MYLOCATION (tok) = '{
+d0exp_MYLOC (tok) = '{
   d0exp_loc= tok.token_loc
 , d0exp_node= D0Ecstsp (CSTSPmyloc())
 }
 
 implement
-d0exp_MYFUNCTION (tok) = '{
+d0exp_MYFUN (tok) = '{
   d0exp_loc= tok.token_loc
 , d0exp_node= D0Ecstsp (CSTSPmyfun())
 }

@@ -839,7 +839,6 @@ case+
   pml.primlab_node
 of // case
 | PMLlab (lab) => {
-    val () = emit_text (out, ".")
     val () = emit_labelext (out, extknd, lab)
   } // end of [PMLlab]
 | PMLind (pmvs) => {
@@ -858,6 +857,7 @@ emit_instr_type = (FILEref, instr) -> void
 extern fun emit_instr_funcall : emit_instr_type
 extern fun emit_instr_move_con : emit_instr_type
 extern fun emit_instr_move_rec : emit_instr_type
+extern fun emit_instr_move_selcon : emit_instr_type
 extern fun emit_instr_move_select : emit_instr_type
 
 (* ****** ****** *)
@@ -872,8 +872,8 @@ emit_move_val
   val isvoid = primval_is_void (pmv)
   val () = (
     if ~isvoid
-      then emit_text (out, "ATSMACmove(")
-      else emit_text (out, "ATSMACmove_void(")
+      then emit_text (out, "ATSINSmove(")
+      else emit_text (out, "ATSINSmove_void(")
     // end of [if]
   ) : void // end of [val]
   val () = emit_tmpvar (out, tmp)
@@ -891,7 +891,7 @@ fun emit_pmove_val (
 implement
 emit_pmove_val
   (out, tmp, pmv) = let
-  val () = emit_text (out, "ATSMACpmove(")
+  val () = emit_text (out, "ATSINSpmove(")
   val () = emit_tmpvar (out, tmp)
   val () = emit_text (out, ", ")
   val () = emit_hisexp (out, pmv.primval_type)
@@ -911,7 +911,7 @@ implement
 emit_move_ptralloc
   (out, tmp, hit) = let
   val () =
-    emit_text (out, "ATSMACmove_ptralloc(")
+    emit_text (out, "ATSINSmove_ptralloc(")
   val () = emit_tmpvar (out, tmp)
   val () = emit_text (out, ", ")
   val () = emit_hitype (out, hit)
@@ -1010,21 +1010,22 @@ case+ ins.instr_node of
 //
 | INSpatck (pmv, patck, fail) => emit_instr_patck (out, ins)
 //
+| INSmove_selcon _ => emit_instr_move_selcon (out, ins)
 | INSmove_select _ => emit_instr_move_select (out, ins)
 //
 | INSmove_list_nil (tmp) => {
-    val () = emit_text (out, "ATSMACmove_list_nil(")
+    val () = emit_text (out, "ATSINSmove_list_nil(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ")")
   }
 | INSpmove_list_nil (tmp) => {
-    val () = emit_text (out, "ATSMACpmove_list_nil(")
+    val () = emit_text (out, "ATSINSpmove_list_nil(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ") ;")
   }
 | INSpmove_list_cons
     (tmp, hse_elt) => {
-    val () = emit_text (out, "ATSMACpmove_list_cons(")
+    val () = emit_text (out, "ATSINSpmove_list_cons(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_hisexp (out, hse_elt)
@@ -1032,7 +1033,7 @@ case+ ins.instr_node of
   }
 | INSassgn_list_head
     (tmphd, tmptl, hse_elt) => {
-    val () = emit_text (out, "ATSMACassgn_list_head(")
+    val () = emit_text (out, "ATSINSassgn_list_head(")
     val () = emit_tmpvar (out, tmphd)
     val () = emit_text (out, ", ")
     val () = emit_tmpvar (out, tmptl)
@@ -1042,7 +1043,7 @@ case+ ins.instr_node of
   }
 | INSassgn_list_tail
     (tmptl1, tmptl2, hse_elt) => {
-    val () = emit_text (out, "ATSMACassgn_list_tail(")
+    val () = emit_text (out, "ATSINSassgn_list_tail(")
     val () = emit_tmpvar (out, tmptl1)
     val () = emit_text (out, ", ")
     val () = emit_tmpvar (out, tmptl2)
@@ -1053,7 +1054,7 @@ case+ ins.instr_node of
 //
 | INSmove_arrpsz_ptr
     (tmp, psz) => {
-    val () = emit_text (out, "ATSMACmove_arrpsz_ptr(")
+    val () = emit_text (out, "ATSINSmove_arrpsz_ptr(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_tmpvar (out, psz)
@@ -1062,7 +1063,7 @@ case+ ins.instr_node of
 //
 | INSassgn_arrpsz_asz
     (tmp, asz) => {
-    val () = emit_text (out, "ATSMACassgn_arrpsz_asz(")
+    val () = emit_text (out, "ATSINSassgn_arrpsz_asz(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_int (out, asz)
@@ -1070,7 +1071,7 @@ case+ ins.instr_node of
   } // end of [INSassgn_arrpsz_asz]
 | INSassgn_arrpsz_ptr
     (tmp, hse, asz) => {
-    val () = emit_text (out, "ATSMACassgn_arrpsz_ptr(")
+    val () = emit_text (out, "ATSINSassgn_arrpsz_ptr(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_hisexp (out, hse)
@@ -1081,7 +1082,7 @@ case+ ins.instr_node of
 //
 | INSupdate_ptrinc
     (tmp, hse) => {
-    val () = emit_text (out, "ATSMACupdate_ptrinc(")
+    val () = emit_text (out, "ATSINSupdate_ptrinc(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_hisexp (out, hse)
@@ -1089,7 +1090,7 @@ case+ ins.instr_node of
   } // end of [INSupdate_ptrinc]
 | INSupdate_ptrdec
     (tmp, hse) => {
-    val () = emit_text (out, "ATSMACupdate_ptrdec(")
+    val () = emit_text (out, "ATSINSupdate_ptrdec(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_hisexp (out, hse)
@@ -1169,7 +1170,7 @@ fun auxcon (
 , hit_con: hitype
 ) : void = let
 //
-val () = emit_text (out, "ATSMACmove_con(")
+val () = emit_text (out, "ATSINSmove_con(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
 val () = emit_hitype (out, hit_con)
@@ -1194,7 +1195,7 @@ val flag = (
 //
 val tag = $S2E.d2con_get_tag (d2c)
 val () = fprintf (out, "#if(%i)\n", @(flag))
-val () = emit_text (out, "ATSMACassgn_con_tag(")
+val () = emit_text (out, "ATSINSassgn_con_tag(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
 val () = emit_int (out, tag)
@@ -1217,7 +1218,7 @@ case+ lxs of
 | list_cons
     (lx, lxs) => let
     val+LABPRIMVAL (l, x) = lx
-    val () = emit_text (out, "ATSMACassgn_con_ofs(")
+    val () = emit_text (out, "ATSINSassgn_con_ofs(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_hitype (out, hit_con)
@@ -1274,9 +1275,9 @@ case+ lxs of
     val () =
       if i > 0 then emit_text (out, "\n")
     val () =
-      if boxknd = 0 then emit_text (out, "ATSMACassgn_fltrec_ofs (")
+      if boxknd = 0 then emit_text (out, "ATSINSassgn_fltrec_ofs (")
     val () =
-      if boxknd > 0 then emit_text (out, "ATSMACassgn_boxrec_ofs (")
+      if boxknd > 0 then emit_text (out, "ATSINSassgn_boxrec_ofs (")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_hitype (out, hit_rec)
@@ -1308,7 +1309,7 @@ case- ins.instr_node of
   ) => let
     val hit_rec = hisexp_typize (hse_rec)
 //
-    val () = emit_text (out, "ATSMACmove_boxrec(")
+    val () = emit_text (out, "ATSINSmove_boxrec(")
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_hitype (out, hit_rec)
@@ -1338,8 +1339,8 @@ val () = (
 val isvoid = false
 val () = (
   if ~isvoid
-    then emit_text (out, "ATSMACmove(")
-    else emit_text (out, "ATSMACmove_void(")
+    then emit_text (out, "ATSINSmove(")
+    else emit_text (out, "ATSINSmove_void(")
   // end of [if]
 ) : void // end of [val]
 //
@@ -1417,6 +1418,50 @@ case+ pmv_fun.primval_node of
 *)
 //
 end // end of [emit_instr_funcall]
+
+(* ****** ****** *)
+
+local
+
+fun auxsel (
+  out: FILEref
+, pmv: primval
+, hse_sum: hisexp
+, lab: label
+) : void = let
+//
+val () = emit_text (out, "ATSselcon(")
+val () = emit_primval (out, pmv)
+val () = emit_text (out, ", ")
+val () = emit_hisexp (out, hse_sum)
+val () = emit_text (out, ", ")
+val () = emit_labelext (out, 0(*ext*), lab)
+val () = emit_rparen (out)
+//
+in
+  // nothing
+end // end of [auxsel]
+
+in (* in of [local] *)
+
+implement
+emit_instr_move_selcon
+  (out, ins) = let
+//
+val-INSmove_selcon
+  (tmp, pmv, hse_sum, lab) = ins.instr_node
+//
+val () = emit_text (out, "ATSINSmove(")
+val () = emit_tmpvar (out, tmp)
+val () = emit_text (out, ", ")
+val () = auxsel (out, pmv, hse_sum, lab)
+val () = emit_rparen (out)
+//
+in
+  // nothing
+end // end of [emit_instr_selcon]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -1501,30 +1546,34 @@ case+ xys of
     (xy, xys) => let
     val hse = xy.0
     val pml = xy.1
+    var issin: bool = false
     val boxknd = hisexp_get_boxknd (hse)
-    val () = emit_text (out, "(")
-    val () =
-      if boxknd > 0 then {
-      val () = emit_text (out, "*(")
-      val () = emit_hisexp (out, hse)
-      val () = emit_text (out, "*)(")
-    } // end of [val]
-    val () = auxmain (out, pmv, xys, i + 1)
-    val () =
-      if boxknd > 0 then {
-      val () = emit_text (out, ")")
-    } // end of [val]
-    val () = emit_text (out, ")")
-//
-    val () = let
-      val issin = hisexp_is_tyrecsin (hse)
-    in
-      if ~issin then let
-        val extknd =
-          hisexp_get_extknd (hse) in emit_primlab (out, extknd, pml)
+    val () = (
+      if boxknd <= 0 then let
+        val () =
+          issin := hisexp_is_tyrecsin (hse)
         // end of [val]
-      end // end of [if]
-    end // end of [val]
+      in
+        if issin
+          then emit_text (out, "ATSselrecsin(")
+          else (
+            if boxknd >= 0 // HX: it is a rec
+              then emit_text (out, "ATSselfltrec(")
+              else emit_text (out, "ATSselarrind(")
+            // end of [if]
+          ) // end of [if]
+        // end of [if]
+      end else
+        emit_text (out, "ATSselboxrec(")
+      // end of [if]
+    ) : void // end of [val]
+    val () = auxmain (out, pmv, xys, i + 1)
+    val () = emit_text (out, ", ")
+    val () = emit_hisexp (out, hse)
+    val () = emit_text (out, ", ")
+    val extknd = hisexp_get_extknd (hse)
+    val () = emit_primlab (out, extknd, pml)
+    val () = emit_rparen (out)
   in
     // nothing
   end // end of [list_vt_cons]
@@ -1542,7 +1591,7 @@ val-INSmove_select
   (tmp, pmv, hse0, pmls) = ins.instr_node
 //
 val xys = auxselist (hse0, pmls)
-val () = emit_text (out, "ATSMACmove(")
+val () = emit_text (out, "ATSINSmove(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
 val () = auxmain (out, pmv, xys, 0)
