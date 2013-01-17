@@ -719,7 +719,7 @@ case+ pmvs of
   end // end of [list_vt_cons]
 | ~list_vt_nil () => ()
 //
-end // end of [aux_match]
+end // end of [auxmatch]
 //
 val fail = PTCKNTfunarg_fail (loc_fun, fl)
 val pmvs = auxpatck (env, res, 0, hips, fail)

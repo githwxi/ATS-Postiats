@@ -1307,9 +1307,9 @@ implement
 emit_instr_move_con (out, ins) = let
 //
 val- INSmove_con
-  (tmp, d2c, hse_con, arg) = ins.instr_node
+  (tmp, d2c, hse_sum, arg) = ins.instr_node
 //
-val hit_con = hisexp_typize (hse_con)
+val hit_con = hisexp_typize (hse_sum)
 //
 val () = auxcon (out, tmp, hit_con)
 val () = auxtag (out, tmp, d2c)

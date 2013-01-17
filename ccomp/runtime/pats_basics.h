@@ -154,10 +154,10 @@
 /* ****** ****** */
 //
 #define ATSINSmove_list_nil(tmp) (tmp = (void*)0)
-#define ATSINSpmove_list_nil(tmp) (*(void**)tmp = (void*)0)
-#define ATSINSpmove_list_cons(tmp, tyelt) (*(void**)tmp = ATS_MALLOC(sizeof(ATStylist(tyelt))))
 #define ATSINSmove_list_phead(tmp1, tmp2, tyelt) (tmp1 = &(((ATStylist(tyelt)*)(*(void**)tmp2))->head))
 #define ATSINSmove_list_ptail(tmp1, tmp2, tyelt) (tmp1 = &(((ATStylist(tyelt)*)(*(void**)tmp2))->tail))
+#define ATSINSpmove_list_nil(tmp) (*(void**)tmp = (void*)0)
+#define ATSINSpmove_list_cons(tmp, tyelt) (*(void**)tmp = ATS_MALLOC(sizeof(ATStylist(tyelt))))
 //
 /* ****** ****** */
 //
