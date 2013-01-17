@@ -155,10 +155,8 @@ case+ x.instr_node of
 | INSmove_list_nil (tmp) => tmpadd (tmp)
 | INSpmove_list_nil (tmp) => tmpadd (tmp)
 | INSpmove_list_cons (tmp, _) => tmpadd (tmp)
-| INSstore_list_head
-    (tmp_hd, tmp_tl, _) => (tmpadd (tmp_hd); tmpadd (tmp_tl))
-| INSstore_list_tail
-    (tmp_hd, tmp_tl, _) => (tmpadd (tmp_hd); tmpadd (tmp_tl))
+| INSmove_list_phead (tmp_hd, tmp_tl, _) => tmpadd (tmp_hd)
+| INSmove_list_ptail (tmp1_tl, tmp2_tl, _) => tmpadd (tmp1_tl)
 //
 | INSmove_arrpsz_ptr (tmp, _) => tmpadd (tmp)
 //

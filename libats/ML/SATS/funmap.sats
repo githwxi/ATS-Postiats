@@ -27,7 +27,7 @@
 
 (* ****** ****** *)
 
-staload "libats/ML/basics.sats"
+staload "libats/SATS/ML_basics.sats"
 
 (* ****** ****** *)
 
