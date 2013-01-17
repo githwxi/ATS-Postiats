@@ -42,61 +42,61 @@ typedef set (a:t0p) = set_t0ype_type (a)
 //
 (* ****** ****** *)
 
-typedef cmp (a:t0p) = (a, a) -<cloref0> int
+typedef cmp (a:t0p) = cfun2 (a, a, int)
 
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_is_member (xs: set a, x0: a, cmp: cmp a):<> bool
+funset_is_member (xs: set a, x0: a, cmp: cmp a): bool
 fun{a:t0p}
-funset_isnot_member (xs: set a, x0: a, cmp: cmp a):<> bool
+funset_isnot_member (xs: set a, x0: a, cmp: cmp a): bool
 
 (* ****** ****** *)
 
 fun{a:t0p}
 funset_insert
-  (xs: &set (a) >> _, x0: a, cmp: cmp (a)):<> bool(*[x0] in [xs]*)
+  (xs: &set (a) >> _, x0: a, cmp: cmp (a)): bool(*[x0] in [xs]*)
 // end of [funset_insert]
 
 fun{a:t0p}
 funset_remove
-  (xs: &set (a) >> _, x0: a, cmp: cmp (a)):<> bool(*[x0] is [xs]*)
+  (xs: &set (a) >> _, x0: a, cmp: cmp (a)): bool(*[x0] is [xs]*)
 // end of [funset_remove]
 
 (* ****** ****** *)
 
 fun{a:t0p}
 funset_union
-  (xs1: set (a), xs2: set (a), cmp: cmp a):<> set (a)
+  (xs1: set (a), xs2: set (a), cmp: cmp a): set (a)
 // end of [funset_union]
 fun{a:t0p}
 funset_intersect
-  (xs1: set (a), xs2: set (a), cmp: cmp a):<> set (a)
+  (xs1: set (a), xs2: set (a), cmp: cmp a): set (a)
 // end of [funset_intersect]
 fun{a:t0p}
 funset_diff
-  (xs1: set (a), xs2: set (a), cmp: cmp a):<> set (a)
+  (xs1: set (a), xs2: set (a), cmp: cmp a): set (a)
 // end of [funset_diff]
 fun{a:t0p}
 funset_symdiff
-  (xs1: set (a), xs2: set (a), cmp: cmp a):<> set (a)
+  (xs1: set (a), xs2: set (a), cmp: cmp a): set (a)
 // end of [funset_symdiff]
 
 (* ****** ****** *)
 
 fun{a:t0p}
 funset_is_equal
-  (xs1: set (a), xs2: set (a), cmp: cmp a):<> bool
+  (xs1: set (a), xs2: set (a), cmp: cmp a): bool
 // end of [funset_is_equal]
 
 fun{a:t0p}
 funset_is_subset
-  (xs1: set (a), xs2: set (a), cmp: cmp a):<> bool
+  (xs1: set (a), xs2: set (a), cmp: cmp a): bool
 // end of [funset_is_subset]
 
 fun{a:t0p}
 funset_is_supset
-  (xs1: set (a), xs2: set (a), cmp: cmp a):<> bool
+  (xs1: set (a), xs2: set (a), cmp: cmp a): bool
 // end of [funset_is_supset]
 
 (* ****** ****** *)
@@ -105,13 +105,13 @@ funset_is_supset
 //
 fun{a:t0p}
 funset_compare
-  (xs1: set (a), xs2: set (a), cmp: cmp a):<> int
+  (xs1: set (a), xs2: set (a), cmp: cmp a): int
 // end of [funset_compare]
 
 (* ****** ****** *)
 
 fun{a:t0p}
-funset_listize (xs: set (a)):<> list0 (a)
+funset_listize (xs: set (a)): list0 (a)
 
 (* ****** ****** *)
 

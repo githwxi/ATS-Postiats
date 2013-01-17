@@ -42,7 +42,7 @@ typedef map (key:t0p, itm:t0p) = map_type (key, itm)
 //
 (* ****** ****** *)
 
-typedef cmp (key:t0p) = (key, key) -<cloref0> int
+typedef cmp (key:t0p) = cfun2 (key, key, int)
 
 (* ****** ****** *)
 
@@ -56,7 +56,7 @@ key,itm:t0p
 
 fun{
 key,itm:t0p
-} funmap_listize (map: map (key, itm)):<> list0 @(key, itm)
+} funmap_listize (map: map (key, itm)): list0 @(key, itm)
 
 (* ****** ****** *)
 
