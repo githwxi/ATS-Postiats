@@ -918,6 +918,7 @@ extern fun emit_instr_move_con : emit_instr_type
 extern fun emit_instr_move_rec : emit_instr_type
 extern fun emit_instr_move_selcon : emit_instr_type
 extern fun emit_instr_move_select : emit_instr_type
+extern fun emit_instr_move_select2 : emit_instr_type
 
 (* ****** ****** *)
 
@@ -1079,6 +1080,7 @@ case+ ins.instr_node of
 //
 | INSmove_selcon _ => emit_instr_move_selcon (out, ins)
 | INSmove_select _ => emit_instr_move_select (out, ins)
+| INSmove_select2 _ => emit_instr_move_select2 (out, ins)
 //
 | INSmove_list_nil (tmp) => {
     val () = emit_text (out, "ATSINSmove_list_nil(")
@@ -1655,6 +1657,24 @@ emit_instr_move_select
   (out, ins) = let
 //
 val-INSmove_select
+  (tmp, pmv, hse0, pml) = ins.instr_node
+//
+val xys = list_vt_sing @(hse0, pml)
+val () = emit_text (out, "ATSINSmove(")
+val () = emit_tmpvar (out, tmp)
+val () = emit_text (out, ", ")
+val () = auxmain (out, pmv, xys, 0)
+val () = emit_text (out, ") ; ")
+//
+in
+  // nothing
+end // end of [emit_instr_move_select]
+
+implement
+emit_instr_move_select2
+  (out, ins) = let
+//
+val-INSmove_select2
   (tmp, pmv, hse0, pmls) = ins.instr_node
 //
 val xys = auxselist (hse0, pmls)

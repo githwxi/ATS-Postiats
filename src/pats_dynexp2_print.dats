@@ -537,8 +537,16 @@ case+ d2e0.d2exp_node of
     val () = prstr ")"
   }
 //
-| D2Elst (lin, s2eopt, d2es) => {
+| D2Elist (npf, d2es) => {
+    val () = prstr "D2Elist("
+    val () = fprint_d2explst (out, d2es)
+    val () = prstr ")"
+  }
+//
+| D2Elst (lin, opt, d2es) => {
     val () = prstr "D2Elst("
+    val () = fprint_s2expopt (out, opt)
+    val () = prstr "; "
     val () = fprint_d2explst (out, d2es)
     val () = prstr ")"
   }

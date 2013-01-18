@@ -547,14 +547,30 @@ d2exp_scasehead (
 (* ****** ****** *)
 
 implement
+d2exp_list (loc, npf, d2es) =
+  d2exp_make_node (loc, D2Elist (npf, d2es))
+// end of [d2exp_list]
+
+(* ****** ****** *)
+
+implement
 d2exp_lst (loc, lin, elt, d2es) =
   d2exp_make_node (loc, D2Elst (lin, elt, d2es))
 // end of [d2exp_lst]
 
 implement
-d2exp_tup (loc, knd, npf, d2es) =
+d2exp_tup (
+  loc, knd, npf, d2es
+) = (
   d2exp_make_node (loc, D2Etup (knd, npf, d2es))
-// end of [d2exp_tup]
+) // end of [d2exp_tup]
+
+implement
+d2exp_tup_flt (
+  loc, npf, d2es
+) = (
+  d2exp_tup (loc, TYTUPKIND_flt(*knd*), npf, d2es)
+) // end of [d2exp_tup_flt]
 
 implement
 d2exp_rec (loc, knd, npf, ld2es) =

@@ -104,8 +104,8 @@ case+ hip.hipat_node of
     val loc = hip.hipat_loc
     val hse = hipat_get_type (hip)
     val tmp = tmpvar_make (loc, hse)
-    val pmls = list_sing (primlab_lab (loc, lab))
-    val ins = instr_move_select (loc, tmp, pmv0, hse_rec, pmls)
+    val pml = primlab_lab (loc, lab)
+    val ins = instr_move_select (loc, tmp, pmv0, hse_rec, pml)
     val () = instrseq_add (res, ins)
     val pmv = primval_make_tmp (loc, tmp)
     val d2v = hipat_get_asvar (hip)
@@ -382,8 +382,8 @@ case+ hip.hipat_node of
       | None () => let
           val hse = hipat_get_type (hip)
           val tmp = tmpvar_make (loc, hse)
-          val pmls = list_sing (primlab_lab (loc, lab))
-          val ins = instr_move_select (loc, tmp, pmv0, hse_rec, pmls)
+          val pml = primlab_lab (loc, lab)
+          val ins = instr_move_select (loc, tmp, pmv0, hse_rec, pml)
           val () = instrseq_add (res, ins)
         in
           primval_make_tmp (loc, tmp)

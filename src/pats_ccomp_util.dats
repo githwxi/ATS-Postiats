@@ -181,6 +181,7 @@ case+ x.instr_node of
 //
 | INSmove_selcon (tmp, _, _, _) => tmpadd (tmp)
 | INSmove_select (tmp, _, _, _) => tmpadd (tmp)
+| INSmove_select2 (tmp, _, _, _) => tmpadd (tmp)
 //
 | INSstore_varofs _ => ()
 | INSstore_ptrofs _ => ()

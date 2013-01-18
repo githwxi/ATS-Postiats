@@ -261,6 +261,12 @@ case+ d2e0.d2exp_node of
     d2exp_trdn_casehead (d2e0, s2f_case)
   end // end of [D2Ecasehead]
 //
+| D2Elist (npf, d2es) => let
+    val d2e0 =
+      d2exp_tup_flt (loc0, npf,d2es) in d2exp_trup (d2e0)
+    // end of [val]
+  end // end of [D2Elist]
+//
 | D2Elst _ => d2exp_trup_lst (d2e0)
 | D2Etup _ => d2exp_trup_tup (d2e0)
 | D2Erec _ => d2exp_trup_rec (d2e0)

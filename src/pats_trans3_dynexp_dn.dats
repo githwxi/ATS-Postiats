@@ -156,9 +156,13 @@ d2exp_trdn (d2e0, s2e0) = let
 (*
 val () = println! ("d2exp_trdn: d2e0 = ", d2e0)
 val () = println! ("d2exp_trdn: loc0 = ", d2e0.d2exp_loc)
-val () = println! ("d2exp_trdn: s2e0 = ", s2e0)
+val () = println! ("d2exp_trdn: s2e0(bef) = ", s2e0)
 *)
 val s2f0 = s2exp2hnf (s2e0)
+val s2e0 = s2hnf2exp (s2f0)
+(*
+val () = println! ("d2exp_trdn: s2e0(aft) = ", s2e0)
+*)
 //
 in
 //
@@ -186,6 +190,13 @@ case+ d2e0.d2exp_node of
 | D2Ewhere (d2e, d2cs) =>
     d2exp_trdn_letwhere (d2e0, s2f0, d2cs, d2e)
   // end of [D2Ewhere]
+//
+| D2Elist (npf, d2es) => let
+    val loc0 = d2e0.d2exp_loc
+    val d2e0 =
+      d2exp_tup_flt (loc0, npf,d2es) in d2exp_trdn (d2e0, s2e0)
+    // end of [val]
+  end // end of [D2Elist]
 //
 | D2Etup _ => d2exp_trdn_tup (d2e0, s2f0)
 | D2Erec _ => d2exp_trdn_rec (d2e0, s2f0)

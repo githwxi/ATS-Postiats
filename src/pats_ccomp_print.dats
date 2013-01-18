@@ -661,7 +661,21 @@ case+ x.instr_node of
     val () = $LAB.fprint_label (out, lab) // HX: argument label
     val () = prstr ")"
   } // end of [INSmove_selcon]
+//
 | INSmove_select (
+    tmp, pmv, hse_rec, pml
+  ) => {
+    val () = prstr "INSmove_select("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr " <- "
+    val () = fprint_primval (out, pmv)
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse_rec)
+    val () = prstr "; "
+    val () = fprint_primlab (out, pml)
+    val () = prstr ")"
+  } // end of [INSmove_select]
+| INSmove_select2 (
     tmp, pmv, hse_rec, pmls
   ) => {
     val () = prstr "INSmove_select("
@@ -673,7 +687,7 @@ case+ x.instr_node of
     val () = prstr "; "
     val () = fprint_primlablst (out, pmls)
     val () = prstr ")"
-  } // end of [INSmove_select]
+  } // end of [INSmove_select2]
 //
 | INSstore_varofs
     (d2v_l, ofs, pmv_r) => {

@@ -701,8 +701,11 @@ instr_node =
       (tmpvar, primval, hisexp(*tysum*), label)
     // end of [INSmove_selcon]
   | INSmove_select of
-      (tmpvar, primval, hisexp(*tysel*), primlablst)
+      (tmpvar, primval, hisexp(*tysel*), primlab)
     // end of [INSmove_select]
+  | INSmove_select2 of
+      (tmpvar, primval, hisexp(*tysel*), primlablst)
+    // end of [INSmove_select2]
 //
   | INSmove_list_nil of (tmpvar)
   | INSpmove_list_nil of (tmpvar)
@@ -828,8 +831,13 @@ fun instr_move_selcon (
 
 fun instr_move_select (
   loc: location
-, tmp: tmpvar, pmv: primval, hse_sel: hisexp, hils: primlablst
+, tmp: tmpvar, pmv: primval, hse_sel: hisexp, hil: primlab
 ) : instr // end of [instr_move_select]
+
+fun instr_move_select2 (
+  loc: location
+, tmp: tmpvar, pmv: primval, hse_sel: hisexp, hils: primlablst
+) : instr // end of [instr_move_select2]
 
 (* ****** ****** *)
 

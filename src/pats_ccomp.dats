@@ -437,16 +437,22 @@ instr_patck
 (* ****** ****** *)
 
 implement
-instr_move_select
-  (loc, tmp, pmv, hse_rec, hils) =
-  instr_make_node (loc, INSmove_select (tmp, pmv, hse_rec, hils))
-// end of [instr_move_select]
-
-implement
 instr_move_selcon
   (loc, tmp, pmv, hse_sum, narg) =
   instr_make_node (loc, INSmove_selcon (tmp, pmv, hse_sum, narg))
 // end of [instr_move_selcon]
+
+implement
+instr_move_select
+  (loc, tmp, pmv, hse_rec, hil) =
+  instr_make_node (loc, INSmove_select (tmp, pmv, hse_rec, hil))
+// end of [instr_move_select]
+
+implement
+instr_move_select2
+  (loc, tmp, pmv, hse_rec, hils) =
+  instr_make_node (loc, INSmove_select2 (tmp, pmv, hse_rec, hils))
+// end of [instr_move_select2]
 
 (* ****** ****** *)
 

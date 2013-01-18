@@ -1288,13 +1288,10 @@ case+ d1e0.d1exp_node of
 | D1Elist (npf, d1es) => (
   case+ d1es of
   | list_cons _ => let
-      val knd = TYTUPKIND_flt // HX: flat tuple
-      val d2es = d1explst_tr (d1es)
-    in
-      d2exp_tup (loc0, knd, npf, d2es)
+      val d2es = d1explst_tr (d1es) in d2exp_list (loc0, npf, d2es)
     end // end of [list_cons]
   | list_nil () => d2exp_empty (loc0)
-  ) // end of [D1Elist]
+  ) // end of [D1Elist]  
 //
 | D1Eifhead (
     r1es, _cond, _then, _else

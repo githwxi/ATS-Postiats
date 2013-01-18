@@ -661,6 +661,8 @@ and d2exp_node =
       i2nvresstate, s2exp, sc2laulst
     ) // end of [D2Escaseof]
 //
+  | D2Elist of (int(*pfarity*), d2explst) // temporary
+//
   | D2Elst of (int(*lin*), s2expopt, d2explst) // list
   | D2Etup of (int(*knd*), int(*npf*), d2explst) // tuple
   | D2Erec of (int (*knd*), int (*npf*), labd2explst) // record
@@ -1052,16 +1054,28 @@ fun d2exp_scasehead (
 
 (* ****** ****** *)
 
+fun d2exp_list (
+  loc: location, npf: int, d2es: d2explst
+) : d2exp // end of [d2exp_list]
+
+(* ****** ****** *)
+
 fun d2exp_lst (
-  loc: location, lin: int, elt: s2expopt, d2es: d2explst
+  loc: location
+, lin: int, elt: s2expopt, d2es: d2explst
 ) : d2exp // end of [d2exp_lst]
 
 fun d2exp_tup (
-  loc: location, knd: int, npf: int, d2es: d2explst
+  loc: location
+, knd: int, npf: int, d2es: d2explst
 ) : d2exp // end of [d2exp_tup]
+fun d2exp_tup_flt (
+  loc: location, npf: int, d2es: d2explst  
+) : d2exp // end of [d2exp_tup_flt]
 
 fun d2exp_rec (
-  loc: location, knd: int, npf: int, ld2es: labd2explst
+  loc: location
+, knd: int, npf: int, ld2es: labd2explst
 ) : d2exp // end of [d2exp_rec]
 
 (* ****** ****** *)
