@@ -661,6 +661,10 @@ fun fprint_patckont : fprint_type (patckont)
 
 (* ****** ****** *)
 
+fun patckont_is_none (fail: patckont): bool
+
+(* ****** ****** *)
+
 datatype
 instr_node =
 //

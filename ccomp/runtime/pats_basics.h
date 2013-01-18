@@ -71,6 +71,11 @@
 
 /* ****** ****** */
 
+#define ATSiscons(x) ((void*)(x) != 0)
+#define ATSisnull(x) ((void*)(x) == 0)
+
+/* ****** ****** */
+
 #define ATSPMVint(i) i
 #define ATSPMVbool_true() atsbool_true
 #define ATSPMVbool_false() atsbool_false

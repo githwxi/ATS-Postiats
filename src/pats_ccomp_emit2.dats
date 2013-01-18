@@ -145,8 +145,8 @@ case+ 0 of
     val () = emit_text (out, "if (")
     val () = (
       if (isnil)
-        then emit_text (out, "ATSisnil(")
-        else emit_text (out, "ATSiscons(")
+        then emit_text (out, "ATSiscons(")
+        else emit_text (out, "ATSisnull(")
       // end of [if]
     ) : void // end of [val]
     val () = emit_primval (out, pmv)
@@ -196,14 +196,10 @@ in
   // nothing
 end // end of [auxexn]
 
-in (* in of [local] *)
-
-implement
-emit_instr_patck
-  (out, ins) = let
-//
-val-INSpatck (pmv, patck, fail) = ins.instr_node
-//
+fun auxmain (
+  out: FILEref
+, pmv: primval, patck: patck, fail: patckont
+) : void = let
 in
 //
 case+ patck of
@@ -281,6 +277,25 @@ case+ patck of
   end // end of [_]
 *)
 //
+end (* end of [auxmain] *)
+
+in (* in of [local] *)
+
+implement
+emit_instr_patck
+  (out, ins) = let
+//
+val-INSpatck
+  (pmv, patck, fail) = ins.instr_node
+val isnone = patckont_is_none (fail)
+val () =
+  if isnone then emit_text (out, "#if(0)\n")
+val () = auxmain (out, pmv, patck, fail)
+val () =
+  if isnone then emit_text (out, "\n#endif")
+//
+in
+  // nothing
 end // end of [emit_instr_patck]
 
 end // end of [local]

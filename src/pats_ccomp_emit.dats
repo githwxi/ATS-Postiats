@@ -1268,8 +1268,8 @@ val () = emit_text (out, "ATSINSstore_con_tag(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
 val () = emit_int (out, tag)
-val () = emit_text (out, ") ;\n")
-val () = fprintf (out, "#endif\n", @())
+val () = emit_text (out, ") ;")
+val () = emit_text (out, "\n#endif")
 //
 in
   // nothing
@@ -1313,8 +1313,13 @@ val- INSmove_con
 //
 val hit_con = hisexp_typize (hse_sum)
 //
+val () = emit_newline (out)
 val () = auxcon (out, tmp, hit_con)
 val () = auxtag (out, tmp, d2c)
+val () = {
+  val iscons = list_is_cons (arg)
+  val () = if iscons then emit_newline (out)
+} (* end of [val] *)
 val () = auxarg (out, tmp, hit_con, arg)
 //
 in
@@ -1524,7 +1529,7 @@ val () = emit_text (out, "ATSINSmove(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
 val () = auxsel (out, pmv, hse_sum, lab)
-val () = emit_rparen (out)
+val () = emit_text (out, ") ; ")
 //
 in
   // nothing

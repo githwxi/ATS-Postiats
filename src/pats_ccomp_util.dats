@@ -91,6 +91,13 @@ end // end of [primval_make_funlab]
 (* ****** ****** *)
 
 implement
+patckont_is_none (fail) =
+  case+ fail of PTCKNTnone () => true | _ => false
+// end of [patckont_is_none]
+
+(* ****** ****** *)
+
+implement
 tmpsub_append
   (xs1, xs2) = let
 in
