@@ -169,6 +169,7 @@ hipatck_ccomp_con (
 ) = let
 //
 val isexn = d2con_is_exn (d2c)
+//
 val patck = (
   if isexn then PATCKexn (d2c) else PATCKcon (d2c)
 ) : patck // end of [val]
@@ -254,8 +255,8 @@ val loc0 = hip0.hipat_loc
 //
 (*
 val () = (
-  println! ("ccomp_match_sum: loc0 = ", loc0);
-  println! ("ccomp_match_sum: hip0 = ", hip0);
+  println! ("hipatck_ccomp_sum: loc0 = ", loc0);
+  println! ("hipatck_ccomp_sum: hip0 = ", hip0);
 ) // end of [val]
 *)
 val-HIPcon (pck, d2c, hse_sum, lhips) = hip0.hipat_node

@@ -388,7 +388,7 @@ fun aux (
   val () = himatch_ccomp (env, res, lev0, hip, pmv_def)
 in
   // nothing
-end // end of [hivaldec_ccomp]
+end // end of [aux]
 
 fun auxlst (
   env: !ccompenv
@@ -406,7 +406,7 @@ case+ hvds of
   end // end of [list_cons]
 | list_nil () => ()
 //
-end // end of [hivardeclst_ccomp]
+end // end of [auxlst]
 
 in // in of [local]
 
