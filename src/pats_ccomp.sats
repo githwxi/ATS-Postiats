@@ -840,36 +840,36 @@ fun instr_move_selcon (
 
 fun instr_move_select (
   loc: location
-, tmp: tmpvar, pmv: primval, hse_root: hisexp, hil: primlab
+, tmp: tmpvar, pmv: primval, hse_rt: hisexp, hil: primlab
 ) : instr // end of [instr_move_select]
 
 fun instr_move_select2 (
   loc: location
-, tmp: tmpvar, pmv: primval, hse_root: hisexp, hils: primlablst
+, tmp: tmpvar, pmv: primval, hse_rt: hisexp, hils: primlablst
 ) : instr // end of [instr_move_select2]
 
 (* ****** ****** *)
 
 fun instr_load_varofs (
   loc: location
-, tmp: tmpvar, pmv: primval, hse_root: hisexp, hils: primlablst
+, tmp: tmpvar, pmv: primval, hse_rt: hisexp, hils: primlablst
 ) : instr // end of [instr_load_varofs]
 
 fun instr_load_ptrofs (
   loc: location
-, tmp: tmpvar, pmv: primval, hse_root: hisexp, hils: primlablst
+, tmp: tmpvar, pmv: primval, hse_rt: hisexp, hils: primlablst
 ) : instr // end of [instr_load_ptrofs]
 
 (* ****** ****** *)
 
 fun instr_store_varofs (
   loc: location
-, d2v_l: d2var, hse_root: hisexp, ofs: primlablst, pmv_r: primval
+, d2v_l: d2var, hse_rt: hisexp, hils: primlablst, pmv_r: primval
 ) : instr // end of [instr_store_varofs]
 
 fun instr_store_ptrofs (
   loc: location
-, pmv_l: primval, hse_root: hisexp, ofs: primlablst, pmv_r: primval
+, pmv_l: primval, hse_rt: hisexp, hils: primlablst, pmv_r: primval
 ) : instr // end of [instr_store_ptrofs]
 
 (* ****** ****** *)

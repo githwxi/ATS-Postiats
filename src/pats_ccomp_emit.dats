@@ -300,6 +300,7 @@ emit_ats_runtime_incl (out) = let
   val () = emit_text (out, "#include \"pats_config.h\"\n")
   val () = emit_text (out, "#include \"pats_basics.h\"\n")
   val () = emit_text (out, "#include \"pats_typedefs.h\"\n")
+  val () = emit_text (out, "#include \"pats_instrset.h\"\n")
   val () = emit_text (out, "#include \"pats_exception.h\"\n")
   val () = emit_text (out, "#include \"pats_memalloc.h\"\n")
   val () = emit_text (out, "#endif /* _ATS_HEADER_NONE */\n")
@@ -938,6 +939,8 @@ extern fun emit_instr_move_select : emit_instr_type
 extern fun emit_instr_move_select2 : emit_instr_type
 extern fun emit_instr_load_varofs : emit_instr_type
 extern fun emit_instr_load_ptrofs : emit_instr_type
+extern fun emit_instr_store_varofs : emit_instr_type
+extern fun emit_instr_store_ptrofs : emit_instr_type
 
 (* ****** ****** *)
 
@@ -1103,6 +1106,11 @@ case+ ins.instr_node of
 //
 | INSload_varofs _ => emit_instr_load_varofs (out, ins)
 | INSload_ptrofs _ => emit_instr_load_ptrofs (out, ins)
+//
+(*
+| INSstore_varofs _ => emit_instr_store_varofs (out, ins)
+*)
+| INSstore_ptrofs _ => emit_instr_store_ptrofs (out, ins)
 //
 | INSmove_list_nil (tmp) => {
     val () = emit_text (out, "ATSINSmove_list_nil(")
@@ -1733,7 +1741,7 @@ val-INSload_varofs
   (tmp, pmv, hse_rt, pmls) = ins.instr_node
 //
 val xys = auxselist (hse_rt, pmls)
-val () = emit_text (out, "ATSINSmove(")
+val () = emit_text (out, "ATSINSload(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
 val () = auxmain (out, 0(*non*), pmv, hse_rt, xys, 0)
@@ -1753,7 +1761,7 @@ val-INSload_ptrofs
   (tmp, pmv, hse_rt, pmls) = ins.instr_node
 //
 val xys = auxselist (hse_rt, pmls)
-val () = emit_text (out, "ATSINSmove(")
+val () = emit_text (out, "ATSINSload(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
 val () = auxmain (out, 1(*ptr*), pmv, hse_rt, xys, 0)
@@ -1762,6 +1770,26 @@ val () = emit_text (out, ") ; ")
 in
   // nothing
 end // end of [emit_instr_load_ptrofs]
+
+(* ****** ****** *)
+
+implement
+emit_instr_store_ptrofs
+  (out, ins) = let
+//
+val-INSstore_ptrofs
+  (pmv_l, hse_rt, pmls, pmv_r) = ins.instr_node
+//
+val xys = auxselist (hse_rt, pmls)
+val () = emit_text (out, "ATSINSstore(")
+val () = auxmain (out, 1(*non*), pmv_l, hse_rt, xys, 0)
+val () = emit_text (out, ", ")
+val () = emit_primval (out, pmv_r)
+val () = emit_text (out, ") ; ")
+//
+in
+  // nothing
+end // end of [emit_instr_store_ptrofs]
 
 end // end of [local]
 
@@ -1951,14 +1979,16 @@ val () = emit_text (out, "/* funbodyinstrlst(end) */\n")
 //
 // function return
 //
-val () = emit_text (out, "return ")
-val isvoid = tmpvar_is_void (tmpret)
 val () =
-  if isvoid then emit_text (out, "/* ")
+  emit_text (out, "ATSreturn")
+val () = let
+  val isvoid = tmpvar_is_void (tmpret)
+in
+  if isvoid then emit_text (out, "_void")
+end // end of [val]
+val () = emit_text (out, "(")
 val () = emit_tmpvar (out, tmpret)
-val () =
-  if isvoid then emit_text (out, " */")
-val () = emit_text (out, " ;")
+val () = emit_text (out, ") ;")
 //
 val () = emit_text (out, "\n}")
 val () =

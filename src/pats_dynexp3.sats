@@ -310,16 +310,20 @@ and d3exp_node =
 //
   | D3Eptrof_var of (d2var) // taking the address of
   | D3Eptrof_ptrsel of (d3exp, s2exp(*root*), d3lablst) // taking the address of
+//
   | D3Eviewat of (d3exp, d3lablst) // taking the atview of // it is to be erased
 //
   | D3Erefarg of
       // refval=1/0: call-by-ref/val argument
       // freeknd=1/0: to be freed or not after call
       (int(*refval*), int(*freeknd*), d3exp) 
+    // end of [D3Erefarg]
 //
   | D3Esel_var of (d2var, s2exp(*root*), d3lablst) // call-by-val/ref
-  | D3Esel_ptr of (d3exp, s2exp(*root*), d3lablst) // pointed record/tuple field selection
-  | D3Esel_ref of (d3exp, s2exp(*root*), d3lablst) // referenced record/tuple field selection
+  | D3Esel_ptr of
+      (d3exp, s2exp(*root*), d3lablst) // pointed record/tuple field selection
+  | D3Esel_ref of
+      (d3exp, s2exp(*root*), d3lablst) // referenced record/tuple field selection
 //
   | D3Eassgn_var of (d2var(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
   | D3Eassgn_ptr of (d3exp(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
@@ -329,7 +333,8 @@ and d3exp_node =
   | D3Exchng_ptr of (d3exp(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
   | D3Exchng_ref of (d3exp(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
 //
-  | D3Eviewat_assgn of (d3exp, d3lablst, d3exp) // returing the atview of
+  | D3Eviewat_assgn of
+      (d3exp, d3lablst, d3exp) // returing the atview of // it is to be erased
 //
   | D3Earrpsz of
       (s2exp(*elt*), d3explst, int(*size*))

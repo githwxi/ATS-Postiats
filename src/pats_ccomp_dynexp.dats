@@ -418,6 +418,9 @@ case+ hde0.hidexp_node of
 | HDEsel_var _ => hidexp_ccomp_ret_sel_var (env, res, tmpret, hde0)
 | HDEsel_ptr _ => hidexp_ccomp_ret_sel_ptr (env, res, tmpret, hde0)
 //
+| HDEassgn_var _ => auxval (env, res, tmpret, hde0)
+| HDEassgn_ptr _ => auxval (env, res, tmpret, hde0)
+//
 | HDEselab _ => hidexp_ccomp_ret_selab (env, res, tmpret, hde0)
 //
 | HDEarrpsz _ => hidexp_ccomp_ret_arrpsz (env, res, tmpret, hde0)
@@ -623,7 +626,7 @@ val () = instrseq_add (res, ins)
 //
 in
   primval_empty (loc0, hse0)
-end // end of [hidexp_ccomp_store_var]
+end // end of [hidexp_ccomp_assgn_var]
 
 implement
 hidexp_ccomp_assgn_ptr
@@ -642,7 +645,7 @@ val () = instrseq_add (res, ins)
 //
 in
   primval_empty (loc0, hse0)
-end // end of [hidexp_ccomp_store_ptr]
+end // end of [hidexp_ccomp_assgn_ptr]
 
 (* ****** ****** *)
 

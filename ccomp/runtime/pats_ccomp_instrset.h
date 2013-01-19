@@ -35,8 +35,8 @@
 
 /* ****** ****** */
 
-#ifndef PATS_BASICS_H
-#define PATS_BASICS_H
+#ifndef PATS_INSTRSET_H
+#define PATS_INSTRSET_H
 
 /* ****** ****** */
 
@@ -68,11 +68,8 @@
 #define ATSelse() else
 #define ATSdo() do
 #define ATSwhile(x) while (x)
-
-/* ****** ****** */
-
-#define ATSiscons(x) ((void*)(x) != 0)
-#define ATSisnull(x) ((void*)(x) == 0)
+#define ATSreturn(x) return (x)
+#define ATSreturn_void(x) return
 
 /* ****** ****** */
 
@@ -95,11 +92,13 @@
 
 /* ****** ****** */
 
-#define ATSPMFnot(x) (0==(x))
+#define ATSPMVptrof(lval) (&(lval))
 
 /* ****** ****** */
 
-#define ATSPMVptrof(lval) (&(lval))
+#define ATSPMFnot(x) (0 == (x))
+#define ATSPMFptriscons(x) (0 != (void*)(x))
+#define ATSPMFptrisnull(x) (0 == (void*)(x))
 
 /* ****** ****** */
 
@@ -158,6 +157,11 @@
 #define ATSINSstore_boxrec_ofs(tmp, tyrec, lab, val) (((tyrec*)(tmp))->lab = val)
 
 /* ****** ****** */
+
+#define ATSINSload(tmp, pmv) (tmp = pmv)
+#define ATSINSstore(pmv1, pmv2) (pmv1 = pmv2)
+
+/* ****** ****** */
 //
 #define ATSINSmove_list_nil(tmp) (tmp = (void*)0)
 #define ATSINSmove_list_phead(tmp1, tmp2, tyelt) (tmp1 = &(((ATStylist(tyelt)*)(*(void**)tmp2))->head))
@@ -177,6 +181,6 @@
 //
 /* ****** ****** */
 
-#endif /* PATS_BASICS_H */
+#endif /* PATS_INSTRSET_H */
 
-/* end of [pats_basics.h] */
+/* end of [pats_instrset.h] */
