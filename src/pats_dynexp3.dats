@@ -591,11 +591,11 @@ d3exp_ptrof_var
 
 implement
 d3exp_ptrof_ptrsel (
-  loc, s2f, d3e, d3ls
+  loc, s2f, d3e, s2rt, d3ls
 ) = '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Eptrof_ptrsel (d3e, d3ls)
+, d3exp_node= D3Eptrof_ptrsel (d3e, s2rt, d3ls)
 } // end of [d3exp_ptrof_ptrsel]
 
 (* ****** ****** *)
@@ -623,97 +623,97 @@ in '{
 
 implement
 d3exp_sel_var (
-  loc, s2f, d2v, d3ls
+  loc, s2f, d2v, s2rt, d3ls
 ) = '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Esel_var (d2v, d3ls)
+, d3exp_node= D3Esel_var (d2v, s2rt, d3ls)
 } // end of [d3exp_sel_var]
 
 implement
 d3exp_sel_ptr
-  (loc, s2f, d3e, d3ls) = '{
+  (loc, s2f, d3e, s2rt, d3ls) = '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Esel_ptr (d3e, d3ls)
+, d3exp_node= D3Esel_ptr (d3e, s2rt, d3ls)
 } // end of [d3exp_sel_ptr]
 
 implement
 d3exp_sel_ref
-  (loc, s2f, d3e, d3ls) = '{
+  (loc, s2f, d3e, s2rt, d3ls) = '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Esel_ref (d3e, d3ls)
+, d3exp_node= D3Esel_ref (d3e, s2rt, d3ls)
 } // end of [d3exp_sel_ref]
 
 (* ****** ****** *)
 
 implement
 d3exp_assgn_var (
-  loc, d2v_l, d3ls, d3e_r
+  loc, d2v_l, s2rt, d3ls, d3e_r
 ) = let
   val s2f = s2exp_void_t0ype ()
 in '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Eassgn_var (d2v_l, d3ls, d3e_r)
+, d3exp_node= D3Eassgn_var (d2v_l, s2rt, d3ls, d3e_r)
 } end // end of [d3exp_assgn_var]
 
 implement
 d3exp_assgn_ptr (
-  loc, d3e_l, d3ls, d3e_r
+  loc, d3e_l, s2rt, d3ls, d3e_r
 ) = let
   val s2f = s2exp_void_t0ype ()
 in '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Eassgn_ptr (d3e_l, d3ls, d3e_r)
+, d3exp_node= D3Eassgn_ptr (d3e_l, s2rt, d3ls, d3e_r)
 } end // end of [d3exp_assgn_ptr]
 
 implement
 d3exp_assgn_ref (
-  loc, d3e_l, d3ls, d3e_r
+  loc, d3e_l, s2rt, d3ls, d3e_r
 ) = let
   val s2f = s2exp_void_t0ype ()
 in '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Eassgn_ref (d3e_l, d3ls, d3e_r)
+, d3exp_node= D3Eassgn_ref (d3e_l, s2rt, d3ls, d3e_r)
 } end // end of [d3exp_assgn_ref]
 
 (* ****** ****** *)
 
 implement
 d3exp_xchng_var (
-  loc, d2v_l, d3ls, d3e_r
+  loc, d2v_l, s2rt, d3ls, d3e_r
 ) = let
   val s2f = s2exp_void_t0ype ()
 in '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Exchng_var (d2v_l, d3ls, d3e_r)
+, d3exp_node= D3Exchng_var (d2v_l, s2rt, d3ls, d3e_r)
 } end // end of [d3exp_xchng_var]
 
 implement
 d3exp_xchng_ptr (
-  loc, d3e_l, d3ls, d3e_r
+  loc, d3e_l, s2rt, d3ls, d3e_r
 ) = let
   val s2f = s2exp_void_t0ype ()
 in '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Exchng_ptr (d3e_l, d3ls, d3e_r)
+, d3exp_node= D3Exchng_ptr (d3e_l, s2rt, d3ls, d3e_r)
 } end // end of [d3exp_xchng_ptr]
 
 implement
 d3exp_xchng_ref (
-  loc, d3e_l, d3ls, d3e_r
+  loc, d3e_l, s2rt, d3ls, d3e_r
 ) = let
   val s2f = s2exp_void_t0ype ()
 in '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Exchng_ref (d3e_l, d3ls, d3e_r)
+, d3exp_node= D3Exchng_ref (d3e_l, s2rt, d3ls, d3e_r)
 } end // end of [d3exp_xchng_ref]
 
 (* ****** ****** *)

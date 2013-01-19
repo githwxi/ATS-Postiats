@@ -43,6 +43,12 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
+staload INTINF = "./pats_intinf.sats"
+vtypedef intinflst_vt = $INTINF.intinflst_vt
+macdef intinfset_listize = $INTINF.intinfset_listize
+
+(* ****** ****** *)
+
 staload "./pats_basics.sats"
 
 (* ****** ****** *)

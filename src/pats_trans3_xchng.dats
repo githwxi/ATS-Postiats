@@ -89,11 +89,13 @@ fun auxmain .<>. (
 , pfobj: pfobj
 , d3ls: d3lablst
 , s2f0_sel: s2hnf // left
+, s2rt: &s2exp? >> s2exp
 ) : s2exp = let
 //
 val+~PFOBJ (
   d2vw, s2e_ctx, s2e_elt, s2l
-) = pfobj // end of [val]
+) = pfobj
+val () = s2rt := s2e_elt
 //
 var ctxtopt: s2ctxtopt = None ()
 val s2e_sel =
@@ -137,17 +139,21 @@ in // in of [local]
 
 implement
 s2addr_xchng_check (
-  loc0(*all*)
-, loc1(*right*)
-, s2l, d3ls, s2f0(*left*)
+  loc0(*all*), loc1(*right*)
+, s2l, d3ls, s2f0(*left*), s2rt
 ) = let
   val opt = pfobj_search_atview (s2l)
 in
   case+ opt of
   | ~Some_vt (pfobj) =>
-      auxmain (loc0, loc1, pfobj, d3ls, s2f0)
+      auxmain (loc0, loc1, pfobj, d3ls, s2f0, s2rt)
   | ~None_vt () => let
-      val () = auxerr_pfobj (loc0, loc1, s2l) in s2exp_t0ype_err ()
+      val s2e_sel =
+        s2exp_t0ype_err ()
+      val () = s2rt := s2e_sel
+      val () = auxerr_pfobj (loc0, loc1, s2l)
+    in
+      s2e_sel
     end // end of [None_vt]
 end // end of [s2addr_xchng_check]
 
@@ -212,14 +218,15 @@ in
 //
 case+ opt of
 | ~Some_vt (s2l) => let
+    var s2rt: s2exp
     val s2e_sel =
-      s2addr_xchng_check (loc0, loc1, s2l, d3ls, s2f0_sel)
+      s2addr_xchng_check (loc0, loc1, s2l, d3ls, s2f0_sel, s2rt)
     // end of [val]
     val s2f_sel = s2exp2hnf (s2e_sel)
     val err = $SOL.s2hnf_tyleq_solve (loc0, s2f_sel, s2f0_sel)
     val () = if err > 0 then auxerr1 (loc0, loc1, s2f0_sel, s2f_sel)
   in
-    d3exp_sel_ptr (loc1, s2e_sel, d3e, d3ls)
+    d3exp_sel_ptr (loc1, s2e_sel, d3e, s2rt, d3ls)
   end // end of [Some_vt]
 | ~None_vt () => aux2 (loc0, loc1, s2f0, d3e, d3ls, s2f0_sel)
 //
@@ -237,6 +244,7 @@ in
 //
 case+ opt of
 | ~Some_vt (s2e) => let
+    val s2rt = s2e
     var linrest: int = 0
     val (s2e_sel, s2ps) =
       s2exp_get_dlablst_linrest (loc1, s2e, d3ls, linrest)
@@ -249,7 +257,7 @@ case+ opt of
     val () = if err > 0 then auxerr2 (loc0, loc1, s2f0_sel, s2f_sel)
     val _(*err*) = the_effenv_check_ref (loc0)
   in
-    d3exp_sel_ref (loc1, s2e_sel, d3e, d3ls)
+    d3exp_sel_ref (loc1, s2e_sel, d3e, s2rt, d3ls)
   end // end of [Some_vt]
 | ~None_vt () => aux3 (loc0, loc1, s2f0, d3e, d3ls, s2f0_sel)
 //
@@ -295,13 +303,14 @@ case+ d2lv of
     (d2v, d2ls) => let
     val d3ls = d2lablst_trup (d2ls)
     val-Some (s2l) = d2var_get_addr (d2v)
-    val s2e_sel = s2addr_xchng_check (loc0, loc1, s2l, d3ls, s2f0_sel)
+    var s2rt: s2exp
+    val s2e_sel = s2addr_xchng_check (loc0, loc1, s2l, d3ls, s2f0_sel, s2rt)
     val s2f_sel = s2exp2hnf (s2e_sel)
     val s2e_sel = s2hnf2exp (s2f_sel)
     val err = $SOL.s2hnf_tyleq_solve (loc0, s2f_sel, s2f0_sel)
     val () = if err > 0 then auxerr1 (loc0, loc1, s2f0_sel, s2f_sel)
   in
-    d3exp_sel_var (loc1, s2e_sel, d2v, d3ls)
+    d3exp_sel_var (loc1, s2e_sel, d2v, s2rt, d3ls)
   end // end of [D2LVALvar_mut]
 | D2LVALderef
     (d2e, d2ls) =>
@@ -340,10 +349,12 @@ fun auxmain .<>. (
   loc0: location
 , pfobj: pfobj, d3ls: d3lablst
 , d2e_r: d2exp
+, s2rt: &s2exp? >> s2exp
 ) : d3exp = let
   val+~PFOBJ (
     d2vw, s2e_ctx, s2e_elt, s2l
-  ) = pfobj // end of [val]
+  ) = pfobj
+  val () = s2rt := s2e_elt
   var linrest: int = 0
   val (s2e_sel, s2ps) =
     s2exp_get_dlablst_linrest (loc0, s2e_elt, d3ls, linrest)
@@ -357,14 +368,18 @@ end // end of [auxmain]
 in // in of [local]
 
 implement
-s2addr_xchng_deref
-  (loc0, s2l, d3ls, d2e_r) = let
+s2addr_xchng_deref (
+  loc0, s2l, d3ls, d2e_r, s2rt
+) = let
   val opt = pfobj_search_atview (s2l)
 in
   case+ opt of
   | ~Some_vt (pfobj) =>
-      auxmain (loc0, pfobj, d3ls, d2e_r)
+      auxmain (loc0, pfobj, d3ls, d2e_r, s2rt)
   | ~None_vt () => let
+      val () =
+        s2rt := s2exp_t0ype_err ()
+      // end of [val]
       val () = auxerr_pfobj (loc0, s2l) in d2exp_trup (d2e_r)
     end // end of [None_vt]
 end // end of [s2addr_xchng_deref]
@@ -387,11 +402,12 @@ in
 //
 case+ opt of
 | ~Some_vt (s2l) => let
+    var s2rt: s2exp
     val d3e_r = 
-      s2addr_xchng_deref (loc0, s2l, d3ls, d2e_r)
+      s2addr_xchng_deref (loc0, s2l, d3ls, d2e_r, s2rt)
     // end of [val]
    in
-     d3exp_xchng_ptr (loc0, d3e_l, d3ls, d3e_r)
+     d3exp_xchng_ptr (loc0, d3e_l, s2rt, d3ls, d3e_r)
    end // end of [Some_vt]
 | ~None_vt () => aux2 (loc0, s2f0, d3e_l, d3ls, d2e_r)
 //
@@ -409,6 +425,7 @@ in
 //
 case+ opt of
 | ~Some_vt (s2e) => let
+    val s2rt = s2e
     var linrest: int = 0
     val (s2e_sel, s2ps) =
       s2exp_get_dlablst_linrest (loc0, s2e, d3ls, linrest)
@@ -418,7 +435,7 @@ case+ opt of
     val d3e_r = d2exp_trdn_xchng (loc0, d2e_r, s2f_sel)
     val _(*err*) = the_effenv_check_ref (d2e_r.d2exp_loc)
   in
-    d3exp_xchng_ref (loc0, d3e_l, d3ls, d3e_r)
+    d3exp_xchng_ref (loc0, d3e_l, s2rt, d3ls, d3e_r)
   end // end of [Some_vt]
 | ~None_vt () => aux3 (loc0, s2f0, d3e_l, d3ls, d2e_r)
 //
@@ -509,10 +526,11 @@ case+ d2lv_l of
     (d2v_l, d2ls) => let
     val d3ls = d2lablst_trup (d2ls)
     val-Some (s2l) = d2var_get_addr (d2v_l)
-    val d3e_r = s2addr_xchng_deref (loc0, s2l, d3ls, d2e_r)
+    var s2rt: s2exp
+    val d3e_r = s2addr_xchng_deref (loc0, s2l, d3ls, d2e_r, s2rt)
     val () = auxerr_wrt_if (loc0)
   in
-    d3exp_xchng_var (loc0, d2v_l, d3ls, d3e_r)
+    d3exp_xchng_var (loc0, d2v_l, s2rt, d3ls, d3e_r)
   end // end of [D2LVALvar_mut]
 | D2LVALderef
     (d2e_l, d2ls) => let

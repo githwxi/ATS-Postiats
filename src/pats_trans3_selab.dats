@@ -691,6 +691,7 @@ d2var_trup_selab_lin
 *)
   val s2e =
     d2var_get_type_some (loc, d2v)
+  val s2rt = s2e // HX: root type for selection
   val d3ls = d2lablst_trup (d2ls)
   var linrest: int = 0
   val s2es2ps =
@@ -729,9 +730,9 @@ if islin then let
     // nothing
   end // end of [val]
 in
-  d3exp_sel_var (loc0, s2e_sel, d2v, d3ls)
+  d3exp_sel_var (loc0, s2e_sel, d2v, s2rt, d3ls)
 end else
-  d3exp_sel_var (loc0, s2e_sel, d2v, d3ls) // there is no type-change
+  d3exp_sel_var (loc0, s2e_sel, d2v, s2rt, d3ls) // there is no type-change
 // end of [if]
 //
 end // end of [d2var_trup_selab_lin]
@@ -745,9 +746,10 @@ d2var_trup_selab_mut
   (loc0, loc, d2v, d2ls) = let
   val-Some (s2l) = d2var_get_addr (d2v)
   val d3ls = d2lablst_trup (d2ls)
-  val s2e_sel = s2addr_deref (loc0, s2l, d3ls)
+  var s2rt: s2exp
+  val s2e_sel = s2addr_deref (loc0, s2l, d3ls, s2rt)
 in
-  d3exp_sel_var (loc0, s2e_sel, d2v, d3ls)
+  d3exp_sel_var (loc0, s2e_sel, d2v, s2rt, d3ls)
 end // end of [d2var_trup_selab_mut]
 
 implement

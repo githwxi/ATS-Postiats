@@ -594,9 +594,10 @@ implement
 d2exp_trup_var_mutabl
   (loc0, d2v) = let
   val-Some (s2l) = d2var_get_addr (d2v)
-  val s2e = s2addr_deref (loc0, s2l, list_nil)
+  var s2rt: s2exp
+  val s2e_sel = s2addr_deref (loc0, s2l, list_nil, s2rt)
 in
-  d3exp_var (loc0, s2e, d2v)
+  d3exp_var (loc0, s2e_sel, d2v)
 end // end of [d2exp_trup_var_mut]
 
 implement

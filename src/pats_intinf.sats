@@ -34,7 +34,7 @@
 
 staload
 GMP = "libc/SATS/gmp.sats"
-viewtypedef mpz_vt = $GMP.mpz_vt
+vtypedef mpz_vt = $GMP.mpz_vt
 
 (* ****** ****** *)
 
@@ -130,6 +130,21 @@ fun mul_intinf_intinf (x1: intinf, x2: intinf):<> intinf
 overload * with mul_intinf_int
 overload * with mul_int_intinf
 overload * with mul_intinf_intinf
+
+(* ****** ****** *)
+
+abstype intinfset_type
+typedef intinfset = intinfset_type
+
+fun fprint_intinfset (out: FILEref, xs: intinfset): void
+
+fun intinfset_sing (x: intinf): intinfset
+fun intinfset_is_member (xs: intinfset, x: intinf): bool
+fun intinfset_add (xs: intinfset, x: intinf): intinfset
+
+typedef intinflst = List (intinf)
+viewtypedef intinflst_vt = List_vt (intinf)
+fun intinfset_listize (xs: intinfset): intinflst_vt
 
 (* ****** ****** *)
 

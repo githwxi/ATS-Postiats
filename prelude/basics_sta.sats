@@ -434,19 +434,20 @@ typedef Strref1 = [l:addr | l > null] strref (l)
 
 (* ****** ****** *)
 
-abst@ype void_t0ype
-stadef void = void_t0ype
+abst@ype
+void_t0ype = $extype"atstype_void"
+typedef void = void_t0ype
 
 (* ****** ****** *)
 
-absvtype exception_vtype
+absvtype
+exception_vtype = $extype"atstype_exception"
 vtypedef exn = exception_vtype
 
 (* ****** ****** *)
 
-absvt@ype
-opt_vt0ype_bool_vt0ype
-  (a:vt@ype+, opt:bool) = a
+absvt@ype // covariance
+opt_vt0ype_bool_vt0ype (a:vt@ype+, opt:bool) = a
 stadef opt = opt_vt0ype_bool_vt0ype
 
 (* ****** ****** *)

@@ -134,16 +134,19 @@ val hisexp_typtr_con : hisexp
 fun hisexp_get_boxknd (hse: hisexp): int
 fun hisexp_get_extknd (hse: hisexp): int
 
-fun hisexp_is_tyrecsin (hse: hisexp): bool
-
 (* ****** ****** *)
 
 fun hisexp_varetize (hse: hisexp): hisexp
 
 (* ****** ****** *)
 
+fun hisexp_is_ptr (hse: hisexp): bool
 fun hisexp_is_void (hse: hisexp): bool
 fun hisexp_fun_is_void (hse: hisexp): bool
+
+(* ****** ****** *)
+
+fun hisexp_is_tyrecsin (hse: hisexp): bool
 
 (* ****** ****** *)
 

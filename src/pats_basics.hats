@@ -92,17 +92,17 @@ VIEW-       = 11111 // 31
 #define VIEW_neg_int 31		// 11111
 
 (* ****** ****** *)
-
+//
 #define TYTUPKIND_flt 0
 #define TYTUPKIND_box 1
 #define TYTUPKIND_box_t 2
 #define TYTUPKIND_box_vt 3
-
+//
 #define TYRECKIND_flt 0
 #define TYRECKIND_box 1
 #define TYRECKIND_box_t 2
 #define TYRECKIND_box_vt 3
-
+//
 (* ****** ****** *)
 
 (* end of [pats_basics.hats] *)

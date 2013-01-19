@@ -663,36 +663,68 @@ case+ x.instr_node of
   } // end of [INSmove_selcon]
 //
 | INSmove_select (
-    tmp, pmv, hse_rec, pml
+    tmp, pmv, hse_sel, pml
   ) => {
     val () = prstr "INSmove_select("
     val () = fprint_tmpvar (out, tmp)
     val () = prstr " <- "
     val () = fprint_primval (out, pmv)
     val () = prstr "; "
-    val () = fprint_hisexp (out, hse_rec)
+    val () = fprint_hisexp (out, hse_sel)
     val () = prstr "; "
     val () = fprint_primlab (out, pml)
     val () = prstr ")"
   } // end of [INSmove_select]
 | INSmove_select2 (
-    tmp, pmv, hse_rec, pmls
+    tmp, pmv, hse_sel, pmls
   ) => {
     val () = prstr "INSmove_select("
     val () = fprint_tmpvar (out, tmp)
     val () = prstr " <- "
     val () = fprint_primval (out, pmv)
     val () = prstr "; "
-    val () = fprint_hisexp (out, hse_rec)
+    val () = fprint_hisexp (out, hse_sel)
     val () = prstr "; "
     val () = fprint_primlablst (out, pmls)
     val () = prstr ")"
   } // end of [INSmove_select2]
 //
+| INSload_varofs
+    (tmp, pmv, hse_sel, ofs) => {
+    val () = prstr "INSload_varofs("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr " <- "
+    val () = fprint_primval (out, pmv)
+    val () = prstr "("
+    val () = fprint_hisexp (out, hse_sel)
+    val () = prstr ")"
+    val () = prstr "["
+    val () = fprint_primlablst (out, ofs)
+    val () = prstr "]"
+    val () = prstr ")"
+  }
+| INSload_ptrofs
+    (tmp, pmv, hse_sel, ofs) => {
+    val () = prstr "INSload_ptrofs("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr " <- "
+    val () = fprint_primval (out, pmv)
+    val () = prstr "("
+    val () = fprint_hisexp (out, hse_sel)
+    val () = prstr ")"
+    val () = prstr "["
+    val () = fprint_primlablst (out, ofs)
+    val () = prstr "]"
+    val () = prstr ")"
+  }
+//
 | INSstore_varofs
-    (d2v_l, ofs, pmv_r) => {
+    (d2v_l, hse_rt, ofs, pmv_r) => {
     val () = prstr "INSstore_varofs("
     val () = fprint_d2var (out, d2v_l)
+    val () = prstr "("
+    val () = fprint_hisexp (out, hse_rt)
+    val () = prstr ")"
     val () = prstr "["
     val () = fprint_primlablst (out, ofs)
     val () = prstr "]"
@@ -701,9 +733,12 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 | INSstore_ptrofs
-    (pmv_l, ofs, pmv_r) => {
+    (pmv_l, hse_rt, ofs, pmv_r) => {
     val () = prstr "INSstore_ptrofs("
     val () = fprint_primval (out, pmv_l)
+    val () = prstr "("
+    val () = fprint_hisexp (out, hse_rt)
+    val () = prstr ")"
     val () = prstr "["
     val () = fprint_primlablst (out, ofs)
     val () = prstr "]"

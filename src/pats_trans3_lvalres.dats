@@ -238,14 +238,14 @@ case+ d3e0.d3exp_node of
     | None () => ()
   end // end of [D2Evar/linear]
 //
-| D3Esel_var (d2v, d3ls)
+| D3Esel_var (d2v, s2rt, d3ls)
     when d2var_is_mutabl (d2v) => let
     val-Some (s2l) = d2var_get_addr (d2v)
     val _(*old*) = s2addr_exch_type (loc0, s2l, d3ls, s2e_new)
   in
     // nothing
   end // end of [D2Evar/mutabl]
-| D3Esel_var (d2v, d3ls)
+| D3Esel_var (d2v, s2rt, d3ls)
     when d2var_is_linear (d2v) => let
     val () =
       d2var_refval_check (loc0, d2v, refval)
@@ -276,7 +276,8 @@ case+ d3e0.d3exp_node of
       end // end of [None]
   end // end of [D3Evar/linear]
 //
-| D3Esel_ptr (d3e_ptr, d3ls) => let
+| D3Esel_ptr
+    (d3e_ptr, s2rt, d3ls) => let
     val s2e_ptr = d3exp_get_type (d3e_ptr)
     val s2f_ptr = s2exp2hnf (s2e_ptr)
     val opt = un_s2exp_ptr_addr_type (s2f_ptr)

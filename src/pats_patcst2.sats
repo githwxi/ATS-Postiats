@@ -39,8 +39,9 @@ staload "./pats_basics.sats"
 staload
 INTINF = "./pats_intinf.sats"
 typedef intinf = $INTINF.intinf
+typedef intinfset = $INTINF.intinfset
 macdef fprint_intinf = $INTINF.fprint_intinf
-overload = with $INTINF.eq_intinf_intinf
+macdef fprint_intinfset = $INTINF.fprint_intinfset
 
 (* ****** ****** *)
 
@@ -61,22 +62,8 @@ typedef c2lau = $DYNEXP2.c2lau
 
 (* ****** ****** *)
 
-abstype intinfset_type
-typedef intinfset = intinfset_type
-
-fun fprint_intinfset (out: FILEref, xs: intinfset): void
-
-fun intinfset_sing (x: intinf): intinfset
-fun intinfset_is_member (xs: intinfset, x: intinf): bool
-fun intinfset_add (xs: intinfset, x: intinf): intinfset
-
-typedef intinflst = List (intinf)
-viewtypedef intinflst_vt = List_vt (intinf)
-fun intinfset_listize (xs: intinfset): intinflst_vt
-
-(* ****** ****** *)
-
-datatype p2atcst =
+datatype
+p2atcst =
   | P2TCany of ()
   | P2TCcon of (d2con, p2atcstlst)
   | P2TCempty of ()

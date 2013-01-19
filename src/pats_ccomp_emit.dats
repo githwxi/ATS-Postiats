@@ -876,6 +876,23 @@ end // end of [emit_primval_ptrof]
 (* ****** ****** *)
 
 implement
+emit_primval_deref
+  (out, pmv, hse) = let
+//
+val () =
+  emit_text (out, "ATSderef(")
+val () = emit_primval (out, pmv)
+val () = emit_text (out, ", ")
+val () = emit_hisexp (out, hse)
+val () = emit_rparen (out)
+//
+in
+  // nothing
+end // end of [emit_primval_deref]
+
+(* ****** ****** *)
+
+implement
 emit_funtype_arg_res (
   out, hses_arg, hse_res
 ) = let
@@ -919,6 +936,8 @@ extern fun emit_instr_move_rec : emit_instr_type
 extern fun emit_instr_move_selcon : emit_instr_type
 extern fun emit_instr_move_select : emit_instr_type
 extern fun emit_instr_move_select2 : emit_instr_type
+extern fun emit_instr_load_varofs : emit_instr_type
+extern fun emit_instr_load_ptrofs : emit_instr_type
 
 (* ****** ****** *)
 
@@ -1081,6 +1100,9 @@ case+ ins.instr_node of
 | INSmove_selcon _ => emit_instr_move_selcon (out, ins)
 | INSmove_select _ => emit_instr_move_select (out, ins)
 | INSmove_select2 _ => emit_instr_move_select2 (out, ins)
+//
+| INSload_varofs _ => emit_instr_load_varofs (out, ins)
+| INSload_ptrofs _ => emit_instr_load_ptrofs (out, ins)
 //
 | INSmove_list_nil (tmp) => {
     val () = emit_text (out, "ATSINSmove_list_nil(")
@@ -1609,7 +1631,9 @@ end // end of [auxselist]
 
 fun auxmain (
   out: FILEref
+, knd: int
 , pmv: primval
+, hse_rt: hisexp
 , xys: List_vt @(hisexp, primlab)
 , i: int
 ) : void = let
@@ -1641,7 +1665,7 @@ case+ xys of
         emit_text (out, "ATSselboxrec(")
       // end of [if]
     ) : void // end of [val]
-    val () = auxmain (out, pmv, xys, i + 1)
+    val () = auxmain (out, knd, pmv, hse_rt, xys, i + 1)
     val () = emit_text (out, ", ")
     val () = emit_hisexp (out, hse)
     val () = emit_text (out, ", ")
@@ -1651,7 +1675,11 @@ case+ xys of
   in
     // nothing
   end // end of [list_vt_cons]
-| ~list_vt_nil () => emit_primval (out, pmv)
+| ~list_vt_nil () => (
+    case+ knd of
+    | 0 => emit_primval (out, pmv)
+    | _ => emit_primval_deref (out, pmv, hse_rt)
+  ) // end of [list_vt_nil]
 //
 end // end of [auxmain]
 //
@@ -1662,36 +1690,78 @@ emit_instr_move_select
   (out, ins) = let
 //
 val-INSmove_select
-  (tmp, pmv, hse0, pml) = ins.instr_node
+  (tmp, pmv, hse_rt, pml) = ins.instr_node
 //
-val xys = list_vt_sing @(hse0, pml)
+val xys = list_vt_sing @(hse_rt, pml)
 val () = emit_text (out, "ATSINSmove(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
-val () = auxmain (out, pmv, xys, 0)
+val () = auxmain (out, 0(*non*), pmv, hse_rt, xys, 0)
 val () = emit_text (out, ") ; ")
 //
 in
   // nothing
 end // end of [emit_instr_move_select]
 
+(* ****** ****** *)
+
 implement
 emit_instr_move_select2
   (out, ins) = let
 //
 val-INSmove_select2
-  (tmp, pmv, hse0, pmls) = ins.instr_node
+  (tmp, pmv, hse_rt, pmls) = ins.instr_node
 //
-val xys = auxselist (hse0, pmls)
+val xys = auxselist (hse_rt, pmls)
 val () = emit_text (out, "ATSINSmove(")
 val () = emit_tmpvar (out, tmp)
 val () = emit_text (out, ", ")
-val () = auxmain (out, pmv, xys, 0)
+val () = auxmain (out, 0(*non*), pmv, hse_rt, xys, 0)
 val () = emit_text (out, ") ; ")
 //
 in
   // nothing
 end // end of [emit_instr_move_select]
+
+(* ****** ****** *)
+
+implement
+emit_instr_load_varofs
+  (out, ins) = let
+//
+val-INSload_varofs
+  (tmp, pmv, hse_rt, pmls) = ins.instr_node
+//
+val xys = auxselist (hse_rt, pmls)
+val () = emit_text (out, "ATSINSmove(")
+val () = emit_tmpvar (out, tmp)
+val () = emit_text (out, ", ")
+val () = auxmain (out, 0(*non*), pmv, hse_rt, xys, 0)
+val () = emit_text (out, ") ; ")
+//
+in
+  // nothing
+end // end of [emit_instr_load_ptrofs]
+
+(* ****** ****** *)
+
+implement
+emit_instr_load_ptrofs
+  (out, ins) = let
+//
+val-INSload_ptrofs
+  (tmp, pmv, hse_rt, pmls) = ins.instr_node
+//
+val xys = auxselist (hse_rt, pmls)
+val () = emit_text (out, "ATSINSmove(")
+val () = emit_tmpvar (out, tmp)
+val () = emit_text (out, ", ")
+val () = auxmain (out, 1(*ptr*), pmv, hse_rt, xys, 0)
+val () = emit_text (out, ") ; ")
+//
+in
+  // nothing
+end // end of [emit_instr_load_ptrofs]
 
 end // end of [local]
 
@@ -1749,8 +1819,8 @@ val () =
   if tmpknd > 0 then emit_text (out, "#if(0)\n")
 // end of [val]
 //
-val () = if isext then emit_text (out, "extern\n")
-val () = if issta then emit_text (out, "static\n")
+val () = if isext then emit_text (out, "ATSglobaldec()\n")
+val () = if issta then emit_text (out, "ATSstaticdec()\n")
 //
 val () =
   emit_hisexp (out, hse_res) where {

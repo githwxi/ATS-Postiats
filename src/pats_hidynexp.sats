@@ -260,19 +260,19 @@ and hidexp_node =
   | HDErefarg of (int(*refval*), int(*freeknd*), hidexp)
 //
   | HDEsel_var of (* path selection for var *)
-      (d2var, hilablst)
+      (d2var, hisexp(*root*), hilablst)
   | HDEsel_ptr of (* path selection for ptr *)
-      (hidexp, hilablst)
+      (hidexp, hisexp(*root*), hilablst)
 //
   | HDEassgn_var of
-      (d2var(*left*), hilablst, hidexp(*right*))
+      (d2var(*left*), hisexp(*root*), hilablst, hidexp(*right*))
   | HDEassgn_ptr of
-      (hidexp(*left*), hilablst, hidexp(*right*))
+      (hidexp(*left*), hisexp(*root*), hilablst, hidexp(*right*))
 //
   | HDExchng_var of
-      (d2var(*left*), hilablst, hidexp(*right*))
+      (d2var(*left*), hisexp(*root*), hilablst, hidexp(*right*))
   | HDExchng_ptr of
-      (hidexp(*left*), hilablst, hidexp(*right*))
+      (hidexp(*left*), hisexp(*root*), hilablst, hidexp(*right*))
 //
   | HDEarrpsz of (* arrsize construction *)
       (hisexp(*elt*), hidexplst(*elt*), int(*asz*))
@@ -581,36 +581,36 @@ fun hidexp_refarg (
 
 fun hidexp_sel_var (
   loc: location
-, hse: hisexp, d2v: d2var, hils: hilablst
+, hse: hisexp, d2v: d2var, hse_rt: hisexp, hils: hilablst
 ) : hidexp // end of [hidexp_sel_var]
 
 fun hidexp_sel_ptr (
   loc: location
-, hse: hisexp, hde: hidexp, hils: hilablst
+, hse: hisexp, hde: hidexp, hse_rt: hisexp, hils: hilablst
 ) : hidexp // end of [hidexp_sel_ptr]
 
 (* ****** ****** *)
 
 fun hidexp_assgn_var (
   loc: location
-, hse: hisexp, d2v_l: d2var, hils: hilablst, hde_r: hidexp
+, hse: hisexp, d2v_l: d2var, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
 ) : hidexp // end of [hidexp_assgn_var]
 
 fun hidexp_assgn_ptr (
   loc: location
-, hse: hisexp, hde_l: hidexp, hils: hilablst, hde_r: hidexp
+, hse: hisexp, hde_l: hidexp, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
 ) : hidexp // end of [hidexp_assgn_ptr]
 
 (* ****** ****** *)
 
 fun hidexp_xchng_var (
   loc: location
-, hse: hisexp, d2v_l: d2var, hils: hilablst, hde_r: hidexp
+, hse: hisexp, d2v_l: d2var, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
 ) : hidexp // end of [hidexp_xchng_var]
 
 fun hidexp_xchng_ptr (
   loc: location
-, hse: hisexp, hde_l: hidexp, hils: hilablst, hde_r: hidexp
+, hse: hisexp, hde_l: hidexp, hse_rt: hisexp, hils: hilablst, hde_r: hidexp
 ) : hidexp // end of [hidexp_xchng_ptr]
 
 (* ****** ****** *)

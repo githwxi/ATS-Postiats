@@ -380,9 +380,11 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 | D3Eptrof_ptrsel
-    (d3e, d3ls) => {
+    (d3e, s2rt, d3ls) => {
     val () = prstr "D3Eptrof_ptrsel("
     val () = fprint_d3exp (out, d3e)
+    val () = prstr "; "
+    val () = fprint_s2exp (out, s2rt)
     val () = prstr "; "
     val () = fprint_string (out, "...")
     val () = prstr ")"
@@ -408,23 +410,29 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
-| D3Esel_var (d2v, d3ls) => {
+| D3Esel_var (d2v, s2rt, d3ls) => {
     val () = prstr "D3Esel_var("
     val () = fprint_d2var (out, d2v)
     val () = prstr "; "
-    val () = fprint_string (out, "...")
-    val () = prstr ")"
-  }
-| D3Esel_ptr (d3e, d3ls) => {
-    val () = prstr "D3Esel_ptr("
-    val () = fprint_d3exp (out, d3e)
+    val () = fprint_s2exp (out, s2rt)
     val () = prstr "; "
     val () = fprint_string (out, "...")
     val () = prstr ")"
   }
-| D3Esel_ref (d3e, d3ls) => {
+| D3Esel_ptr (d3e, s2rt, d3ls) => {
+    val () = prstr "D3Esel_ptr("
+    val () = fprint_d3exp (out, d3e)
+    val () = prstr "; "
+    val () = fprint_s2exp (out, s2rt)
+    val () = prstr "; "
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+| D3Esel_ref (d3e, s2rt, d3ls) => {
     val () = prstr "D3Esel_ref("
     val () = fprint_d3exp (out, d3e)
+    val () = prstr "; "
+    val () = fprint_s2exp (out, s2rt)
     val () = prstr "; "
     val () = fprint_string (out, "...")
     val () = prstr ")"

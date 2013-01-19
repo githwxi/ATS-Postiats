@@ -32,10 +32,20 @@
 //
 (* ****** ****** *)
 
-staload "libc/SATS/gmp.sats"
+staload UN = "prelude/SATS/unsafe.sats"
 
 (* ****** ****** *)
 
+staload _(*anon*) = "prelude/DATS/list_vt.dats"
+
+(* ****** ****** *)
+
+staload UT = "./pats_utils.sats"
+staload _(*anon*) = "./pats_utils.dats"
+
+(* ****** ****** *)
+
+staload "libc/SATS/gmp.sats"
 staload "./pats_intinf.sats"
 
 (* ****** ****** *)
@@ -310,6 +320,53 @@ in
 in
   ref_make_view_ptr (pfat_res | p_res)
 end) end) // end of [mul_intinf_intinf]
+
+(* ****** ****** *)
+
+local
+//
+staload "libats/SATS/funset_listord.sats"
+staload _(*anon*) = "libats/DATS/funset_listord.dats"
+//
+fn cmp (
+  x1: intinf, x2: intinf
+) :<cloref> int =
+  compare_intinf_intinf (x1, x2)
+//
+assume intinfset_type = set (intinf)
+//
+in
+
+implement
+intinfset_sing (x) = funset_make_sing (x)
+
+implement
+intinfset_is_member
+  (xs, x) = funset_is_member (xs, x, cmp)
+// end of [val]
+
+implement
+intinfset_add
+  (xs, x) = xs where {
+  var xs = xs
+  val _(*exist*) = funset_insert (xs, x, cmp)
+} // end of [val]
+
+implement
+intinfset_listize (xs) = funset_listize (xs)
+
+end // end of [local]
+
+(* ****** ****** *)
+
+implement
+fprint_intinfset
+  (out, xs) = {
+  val xs = intinfset_listize (xs)
+  val () = $UT.fprintlst
+    (out, $UN.castvwtp1{intinflst}(xs), ", ", fprint_intinf)
+  val () = list_vt_free (xs)
+} // end of [fprint_intinfset]
 
 (* ****** ****** *)
 

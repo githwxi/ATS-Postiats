@@ -989,7 +989,13 @@ p0at_node =
   | P0Tlist of (int(*npf*), p0atlst)
 //
   | P0Tlst of (int(*lin*), p0atlst) // pattern list
-  | P0Ttup of (int (*knd*), int(*npf*), p0atlst)
+//
+// tupknd:
+// TYTUPKIND_flt(0)/TYTUPKIND_box(1)/TYTUPKIND_box_t(2)/TYTUPKIND_box_vt(3)
+// recknd:
+// TYRECKIND_flt(0)/TYRECKIND_box(1)/TYRECKIND_box_t(2)/TYRECKIND_box_vt(3)
+//
+  | P0Ttup of (int (*tupknd*), int(*npf*), p0atlst)
   | P0Trec of (int (*recknd*), int(*npf*), labp0atlst)
 //
   | P0Tfree of p0at
@@ -1321,8 +1327,15 @@ and d0exp_node =
   | D0Escasehead of (scasehead, s0exp, sc0laulst)
 //
   | D0Elst of (int(*lin*), s0expopt, d0exp(*elts*))
-  | D0Etup of (int(*knd*), int(*npf*), d0explst)
-  | D0Erec of (int (*knd*), int (*npf*), labd0explst)
+//
+// tupknd:
+// TYTUPKIND_flt(0)/TYTUPKIND_box(1)/TYTUPKIND_box_t(2)/TYTUPKIND_box_vt(3)
+// recknd:
+// TYRECKIND_flt(0)/TYRECKIND_box(1)/TYRECKIND_box_t(2)/TYRECKIND_box_vt(3)
+//
+  | D0Etup of (int (*tupknd*), int(*npf*), d0explst)
+  | D0Erec of (int (*recknd*), int (*npf*), labd0explst)
+//
   | D0Eseq of d0explst // dynamic sequence-expression
 //
   | D0Earrsub of // array subscripting

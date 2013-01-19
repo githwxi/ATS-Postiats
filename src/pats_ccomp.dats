@@ -444,28 +444,42 @@ instr_move_selcon
 
 implement
 instr_move_select
-  (loc, tmp, pmv, hse_rec, hil) =
-  instr_make_node (loc, INSmove_select (tmp, pmv, hse_rec, hil))
+  (loc, tmp, pmv, hse_root, hil) =
+  instr_make_node (loc, INSmove_select (tmp, pmv, hse_root, hil))
 // end of [instr_move_select]
 
 implement
 instr_move_select2
-  (loc, tmp, pmv, hse_rec, hils) =
-  instr_make_node (loc, INSmove_select2 (tmp, pmv, hse_rec, hils))
+  (loc, tmp, pmv, hse_root, hils) =
+  instr_make_node (loc, INSmove_select2 (tmp, pmv, hse_root, hils))
 // end of [instr_move_select2]
 
 (* ****** ****** *)
 
 implement
+instr_load_varofs
+  (loc, tmp, pmv, hse_root, pmls) =
+  instr_make_node (loc, INSload_varofs (tmp, pmv, hse_root, pmls))
+// end of [instr_load_varofs]
+
+implement
+instr_load_ptrofs
+  (loc, tmp, pmv, hse_root, pmls) =
+  instr_make_node (loc, INSload_ptrofs (tmp, pmv, hse_root, pmls))
+// end of [instr_load_ptrofs]
+
+(* ****** ****** *)
+
+implement
 instr_store_varofs
-  (loc, d2v_l, ofs, pmv_r) =
-  instr_make_node (loc, INSstore_varofs (d2v_l, ofs, pmv_r))
+  (loc, d2v_l, hse_root, ofs, pmv_r) =
+  instr_make_node (loc, INSstore_varofs (d2v_l, hse_root, ofs, pmv_r))
 // end of [instr_store_varofs]
 
 implement
 instr_store_ptrofs
-  (loc, pmv_l, ofs, pmv_r) =
-  instr_make_node (loc, INSstore_ptrofs (pmv_l, ofs, pmv_r))
+  (loc, pmv_l, hse_root, ofs, pmv_r) =
+  instr_make_node (loc, INSstore_ptrofs (pmv_l, hse_root, ofs, pmv_r))
 // end of [instr_store_ptrofs]
 
 (* ****** ****** *)

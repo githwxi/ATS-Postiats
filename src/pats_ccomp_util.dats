@@ -147,17 +147,43 @@ macdef tmpadd (tmp) =
 in
 //
 case+ x.instr_node of
+//
 | INSfunlab _ => ()
 //
 | INSmove_val (tmp, _) => tmpadd (tmp)
+| INSpmove_val (tmp, _) => tmpadd (tmp)
+//
 | INSmove_arg_val _ => ()
 //
-| INSpmove_val (tmp, _) => tmpadd (tmp)
+| INSfuncall (tmp, _, _, _) => tmpadd (tmp)
+//    
+| INScond
+    (_, _then, _else) => {
+    val () = auxlst (res, _then) and () = auxlst (res, _else)
+  } // end of [INScond]
+//
+| INSswitch _ => ()
+//
+| INSletpop () => ()
+| INSletpush (pmds) => auxpmdlst (res, pmds)
 //
 | INSmove_con (tmp, _, _, _) => tmpadd (tmp)
 //
+| INSmove_ref (tmp, _) => tmpadd (tmp)
+//
 | INSmove_boxrec (tmp, _, _) => tmpadd (tmp)
 | INSmove_fltrec (tmp, _, _) => tmpadd (tmp)
+//
+| INSpatck _ => ()
+//
+| INSmove_selcon (tmp, _, _, _) => tmpadd (tmp)
+| INSmove_select (tmp, _, _, _) => tmpadd (tmp)
+| INSmove_select2 (tmp, _, _, _) => tmpadd (tmp)
+//
+| INSload_varofs (tmp, _, _, _) => tmpadd (tmp)
+| INSload_ptrofs (tmp, _, _, _) => tmpadd (tmp)
+| INSstore_varofs _ => ()
+| INSstore_ptrofs _ => ()
 //
 | INSmove_list_nil (tmp) => tmpadd (tmp)
 | INSpmove_list_nil (tmp) => tmpadd (tmp)
@@ -172,29 +198,6 @@ case+ x.instr_node of
 //
 | INSupdate_ptrinc (tmp(*ptr*), _(*type*)) => ()
 | INSupdate_ptrdec (tmp(*ptr*), _(*type*)) => ()
-//
-| INSmove_ref (tmp, _) => tmpadd (tmp)
-//
-| INSfuncall (tmp, _, _, _) => tmpadd (tmp)
-//    
-| INScond
-    (_, _then, _else) => {
-    val () = auxlst (res, _then) and () = auxlst (res, _else)
-  } // end of [INScond]
-//
-| INSswitch _ => ()
-//
-| INSpatck _ => ()
-//
-| INSmove_selcon (tmp, _, _, _) => tmpadd (tmp)
-| INSmove_select (tmp, _, _, _) => tmpadd (tmp)
-| INSmove_select2 (tmp, _, _, _) => tmpadd (tmp)
-//
-| INSstore_varofs _ => ()
-| INSstore_ptrofs _ => ()
-//
-| INSletpop () => ()
-| INSletpush (pmds) => auxpmdlst (res, pmds)
 //
 | INStmpdec (tmp) => tmpadd (tmp)
 //

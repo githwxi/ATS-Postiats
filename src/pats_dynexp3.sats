@@ -309,25 +309,25 @@ and d3exp_node =
   | D3Eselab of (d3exp, d3lablst) // record/tuple field selection
 //
   | D3Eptrof_var of (d2var) // taking the address of
-  | D3Eptrof_ptrsel of (d3exp, d3lablst) // taking the address of
-  | D3Eviewat of (d3exp, d3lablst) // taking the atview of
+  | D3Eptrof_ptrsel of (d3exp, s2exp(*root*), d3lablst) // taking the address of
+  | D3Eviewat of (d3exp, d3lablst) // taking the atview of // it is to be erased
 //
   | D3Erefarg of
       // refval=1/0: call-by-ref/val argument
       // freeknd=1/0: to be freed or not after call
       (int(*refval*), int(*freeknd*), d3exp) 
 //
-  | D3Esel_var of (d2var, d3lablst) // call-by-val/ref
-  | D3Esel_ptr of (d3exp, d3lablst) // pointed record/tuple field selection
-  | D3Esel_ref of (d3exp, d3lablst) // referenced record/tuple field selection
+  | D3Esel_var of (d2var, s2exp(*root*), d3lablst) // call-by-val/ref
+  | D3Esel_ptr of (d3exp, s2exp(*root*), d3lablst) // pointed record/tuple field selection
+  | D3Esel_ref of (d3exp, s2exp(*root*), d3lablst) // referenced record/tuple field selection
 //
-  | D3Eassgn_var of (d2var(*left*), d3lablst, d3exp(*right*))
-  | D3Eassgn_ptr of (d3exp(*left*), d3lablst, d3exp(*right*))
-  | D3Eassgn_ref of (d3exp(*left*), d3lablst, d3exp(*right*))
+  | D3Eassgn_var of (d2var(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
+  | D3Eassgn_ptr of (d3exp(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
+  | D3Eassgn_ref of (d3exp(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
 //
-  | D3Exchng_var of (d2var(*left*), d3lablst, d3exp(*right*))
-  | D3Exchng_ptr of (d3exp(*left*), d3lablst, d3exp(*right*))
-  | D3Exchng_ref of (d3exp(*left*), d3lablst, d3exp(*right*))
+  | D3Exchng_var of (d2var(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
+  | D3Exchng_ptr of (d3exp(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
+  | D3Exchng_ref of (d3exp(*left*), s2exp(*root*), d3lablst, d3exp(*right*))
 //
   | D3Eviewat_assgn of (d3exp, d3lablst, d3exp) // returing the atview of
 //
@@ -667,26 +667,39 @@ fun d3exp_scase (
 
 (* ****** ****** *)
 
-fun d3exp_sel_var
-  (loc: location, s2e: s2exp, d2v: d2var, d3ls: d3lablst): d3exp
-fun d3exp_sel_ptr
-  (loc: location, s2e: s2exp, d3e: d3exp, d3ls: d3lablst): d3exp
-fun d3exp_sel_ref
-  (loc: location, s2e: s2exp, d3e: d3exp, d3ls: d3lablst): d3exp
+fun d3exp_sel_var (
+  loc: location, s2e: s2exp, d2v: d2var, s2rt: s2exp, d3ls: d3lablst
+) : d3exp // end of [d3exp_sel_var]
+fun d3exp_sel_ptr (
+  loc: location, s2e: s2exp, d3e: d3exp, s2rt: s2exp, d3ls: d3lablst
+) : d3exp // end of [d3exp_sel_ptr]
+fun d3exp_sel_ref (
+  loc: location, s2e: s2exp, d3e: d3exp, s2rt: s2exp, d3ls: d3lablst
+) : d3exp // end of [d3exp_sel_ref]
 
-fun d3exp_assgn_var
-  (loc: location, d2v_l: d2var, d3ls: d3lablst, d3e_r: d3exp): d3exp
-fun d3exp_assgn_ptr
-  (loc: location, d3e_l: d3exp, d3ls: d3lablst, d3e_r: d3exp): d3exp
-fun d3exp_assgn_ref
-  (loc: location, d3e_l: d3exp, d3ls: d3lablst, d3e_r: d3exp): d3exp
+(* ****** ****** *)
 
-fun d3exp_xchng_var
-  (loc: location, d2v_l: d2var, d3ls: d3lablst, d3e_r: d3exp): d3exp
-fun d3exp_xchng_ptr
-  (loc: location, d3e_l: d3exp, d3ls: d3lablst, d3e_r: d3exp): d3exp
-fun d3exp_xchng_ref
-  (loc: location, d3e_l: d3exp, d3ls: d3lablst, d3e_r: d3exp): d3exp
+fun d3exp_assgn_var (
+  loc: location, d2v_l: d2var, s2rt: s2exp, d3ls: d3lablst, d3e_r: d3exp
+) : d3exp // end of [d3exp_assgn_var]
+fun d3exp_assgn_ptr (
+  loc: location, d3e_l: d3exp, s2rt: s2exp, d3ls: d3lablst, d3e_r: d3exp
+) : d3exp // end of [d3exp_assgn_ptr]
+fun d3exp_assgn_ref (
+  loc: location, d3e_l: d3exp, s2rt: s2exp, d3ls: d3lablst, d3e_r: d3exp
+) : d3exp // end of [d3exp_assgn_ref]
+
+(* ****** ****** *)
+
+fun d3exp_xchng_var (
+  loc: location, d2v_l: d2var, s2rt: s2exp, d3ls: d3lablst, d3e_r: d3exp
+) : d3exp // end of [d3exp_xchng_var]
+fun d3exp_xchng_ptr (
+  loc: location, d3e_l: d3exp, s2rt: s2exp, d3ls: d3lablst, d3e_r: d3exp
+) : d3exp // end of [d3exp_xchng_ptr]
+fun d3exp_xchng_ref (
+  loc: location, d3e_l: d3exp, s2rt: s2exp, d3ls: d3lablst, d3e_r: d3exp
+) : d3exp // end of [d3exp_xchng_ref]
 
 (* ****** ****** *)
 
@@ -729,8 +742,10 @@ fun d3exp_selab
 fun d3exp_ptrof_var
   (loc: location, s2f: s2exp, d2v: d2var): d3exp
 fun d3exp_ptrof_ptrsel (
-  loc: location, s2f: s2exp, d3e: d3exp, d3ls: d3lablst
+  loc: location, s2f: s2exp, d3e: d3exp, s2rt: s2exp, d3ls: d3lablst
 ) : d3exp // end of [d3exp_ptrof_ptrsel]
+
+(* ****** ****** *)
 
 fun d3exp_viewat
   (loc: location, s2at: s2exp, d3e: d3exp, d3ls: d3lablst): d3exp

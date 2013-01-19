@@ -349,20 +349,23 @@ fun s2exp_get_dlablst_context_check (
 fun d2exp_trup_deref
   (loc0: location, d2e: d2exp, d2ls: d2lablst): d3exp
 // end of [d2exp_trup_deref]
-fun s2addr_deref
-  (loc0: location, s2l: s2exp, d3ls: d3lablst): s2exp(*selected elt*)
-// end of [s2addr_deref]
+
+fun s2addr_deref (
+  loc0: location, s2l: s2exp, d3ls: d3lablst, s2rt: &s2exp? >> s2exp
+) : s2exp(*selected elt*) // end of [s2addr_deref]
 
 (* ****** ****** *)
 
 fun d2exp_trup_assgn (d2e0: d2exp): d3exp
 
-fun s2addr_assgn_deref
-  (loc0: location, s2l: s2exp, d3ls: d3lablst, d3e_r: d3exp): d3exp(*rval*)
-// end of [s2addr_assgn_deref]
 fun d2exp_trup_assgn_deref (
   loc0: location, d2e_l: d2exp, d2ls: d2lablst, d2e_r: d2exp
 ) : d3exp // end of [d2exp_trup_assgn_deref]
+
+fun s2addr_assgn_deref (
+  loc0: location
+, s2l: s2exp, d3ls: d3lablst, d3e_r: d3exp, s2rt: &s2exp? >> s2exp
+) : d3exp(*rval*) // end of [s2addr_assgn_deref]
 
 (* ****** ****** *)
 
@@ -374,9 +377,11 @@ fun d2exp_trup_xchng (d2e0: d2exp): d3exp
 fun d2exp_trup_xchng_deref (
   loc0: location, d2e_l: d2exp, d2ls: d2lablst, d2e_r: d2exp
 ) : d3exp // end of [d2exp_trup_xchng_deref]
-fun s2addr_xchng_deref
-  (loc0: location, s2l: s2exp, d3ls: d3lablst, d2e_r: d2exp): d3exp(*rval*)
-// end of [s2addr_xchng_deref]
+
+fun s2addr_xchng_deref (
+  loc0: location
+, s2l: s2exp, d3ls: d3lablst, d2e_r: d2exp, s2rt: &s2exp? >> s2exp
+) : d3exp(*rval*) // end of [s2addr_xchng_deref]
 
 (* ****** ****** *)
 
@@ -433,8 +438,10 @@ fun d2exp_trdn_xchng
 fun d2exp_trdn_xchng_deref (
   loc0: location, loc: location, d2e: d2exp, d2ls: d2lablst, s2f: s2hnf
 ) : d3exp // end of [d2exp_trdn_xchng_deref]
+
 fun s2addr_xchng_check (
-  loc0: location, loc: location, s2l: s2exp, d3ls: d3lablst, s2f: s2hnf
+  loc0: location, loc: location(*right*)
+, s2l: s2exp, d3ls: d3lablst, s2f: s2hnf, s2rt: &s2exp? >> s2exp
 ) : s2exp // end of [s2addr_xchng_check]
 
 (* ****** ****** *)

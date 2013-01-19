@@ -547,7 +547,7 @@ case+
     hidexp_ptrof_var (loc0, hse0, d2v)
   end // end of [D3Eptrof_var]
 | D3Eptrof_ptrsel
-    (d3e, d3ls) => let
+    (d3e, s2rt, d3ls) => let
     val hde = d3exp_tyer (d3e)
     val hils = d3lablst_tyer (d3ls)
   in
@@ -563,53 +563,65 @@ case+
   end // end of [D3Erefarg]
 //
 | D3Esel_var
-    (d2v, d3ls) => let
+    (d2v, s2rt, d3ls) => let
+    val hse_rt =
+      s2exp_tyer_deep (loc0, s2rt)
     val hils = d3lablst_tyer (d3ls)
   in
-    hidexp_sel_var (loc0, hse0, d2v, hils)
+    hidexp_sel_var (loc0, hse0, d2v, hse_rt, hils)
   end // end of [D3Esel_var]
 | D3Esel_ptr
-    (d3e, d3ls) => let
+    (d3e, s2rt, d3ls) => let
     val hde = d3exp_tyer (d3e)
+    val hse_rt =
+      s2exp_tyer_deep (loc0, s2rt)
     val hils = d3lablst_tyer (d3ls)
   in
-    hidexp_sel_ptr (loc0, hse0, hde, hils)
+    hidexp_sel_ptr (loc0, hse0, hde, hse_rt, hils)
   end // end of [D3Esel_ptr]
 //
 | D3Eassgn_var (
-    d2v_l, d3ls, d3e_r
+    d2v_l, s2rt, d3ls, d3e_r
   ) => let
+    val hse_rt =
+      s2exp_tyer_deep (loc0, s2rt)
     val hils = d3lablst_tyer (d3ls)
     val hde_r = d3exp_tyer (d3e_r)
   in
-    hidexp_assgn_var (loc0, hse0, d2v_l, hils, hde_r)
+    hidexp_assgn_var (loc0, hse0, d2v_l, hse_rt, hils, hde_r)
   end // end of [D3Eassgn_var]
 | D3Eassgn_ptr (
-    d3e_l, d3ls, d3e_r
+    d3e_l, s2rt, d3ls, d3e_r
   ) => let
     val hde_l = d3exp_tyer (d3e_l)
+    val hse_rt =
+      s2exp_tyer_deep (loc0, s2rt)
     val hils = d3lablst_tyer (d3ls)
     val hde_r = d3exp_tyer (d3e_r)
   in
-    hidexp_assgn_ptr (loc0, hse0, hde_l, hils, hde_r)
+    hidexp_assgn_ptr (loc0, hse0, hde_l, hse_rt, hils, hde_r)
   end // end of [D3Eassgn_ptr]
 //
 | D3Exchng_var (
-    d2v_l, d3ls, d3e_r
+    d2v_l, s2rt, d3ls, d3e_r
   ) => let
+    val hse_rt =
+      s2exp_tyer_deep (loc0, s2rt)
     val hils = d3lablst_tyer (d3ls)
     val hde_r = d3exp_tyer (d3e_r)
   in
-    hidexp_xchng_var (loc0, hse0, d2v_l, hils, hde_r)
+    hidexp_xchng_var (loc0, hse0, d2v_l, hse_rt, hils, hde_r)
   end // end of [D3Exchng_var]
 | D3Exchng_ptr (
-    d3e_l, d3ls, d3e_r
+    d3e_l, s2rt, d3ls, d3e_r
   ) => let
     val hde_l = d3exp_tyer (d3e_l)
+    val hse_rt =
+      s2exp_tyer_deep (loc0, s2rt)
     val hils = d3lablst_tyer (d3ls)
     val hde_r = d3exp_tyer (d3e_r)
   in
-    hidexp_xchng_ptr (loc0, hse0, hde_l, hils, hde_r)
+    hidexp_xchng_ptr (loc0, hse0, hde_l, hse_rt, hils, hde_r)
   end // end of [D3Exchng_ptr]
 //
 | D3Eviewat_assgn _ => hidexp_empty (loc0, hse0)

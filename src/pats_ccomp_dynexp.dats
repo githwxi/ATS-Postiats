@@ -57,6 +57,25 @@ staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 
+extern
+fun d2var_ccomp (
+  env: !ccompenv
+, loc0: location, hse0: hisexp, d2v: d2var
+) : primval // end of [d2var_ccomp]
+implement
+d2var_ccomp (env, loc0, hse0, d2v) = let
+//
+val opt = ccompenv_find_varbind (env, d2v)
+//
+in
+case+ opt of
+| ~Some_vt (pmv) => pmv
+| ~None_vt () => primval_var (loc0, hse0, d2v)
+//
+end // end of [d2var_ccomp]
+
+(* ****** ****** *)
+
 extern fun hidexp_ccomp_var : hidexp_ccomp_funtype
 
 extern fun hidexp_ccomp_cstsp : hidexp_ccomp_funtype
@@ -97,6 +116,9 @@ fun hidexp_ccomp_ret_sif : hidexp_ccomp_ret_funtype
 extern fun hidexp_ccomp_ret_lst : hidexp_ccomp_ret_funtype
 extern fun hidexp_ccomp_ret_rec : hidexp_ccomp_ret_funtype
 extern fun hidexp_ccomp_ret_seq : hidexp_ccomp_ret_funtype
+
+extern fun hidexp_ccomp_ret_sel_var : hidexp_ccomp_ret_funtype
+extern fun hidexp_ccomp_ret_sel_ptr : hidexp_ccomp_ret_funtype
 
 extern fun hidexp_ccomp_ret_selab : hidexp_ccomp_ret_funtype
 
@@ -194,11 +216,14 @@ case+ hde0.hidexp_node of
 //
 | HDElst _ => auxret (env, res, hde0)
 //
-| HDEseq _ => hidexp_ccomp_seq (env, res, hde0)
-//
 | HDErec _ => auxret (env, res, hde0)
 //
+| HDEseq _ => hidexp_ccomp_seq (env, res, hde0)
+//
 | HDEselab _ => auxret (env, res, hde0)
+//
+| HDEsel_var _ => auxret (env, res, hde0)
+| HDEsel_ptr _ => auxret (env, res, hde0)
 //
 | HDEassgn_var _ => hidexp_ccomp_assgn_var (env, res, hde0)
 | HDEassgn_ptr _ => hidexp_ccomp_assgn_ptr (env, res, hde0)
@@ -390,6 +415,9 @@ case+ hde0.hidexp_node of
 //
 | HDEseq _ => hidexp_ccomp_ret_seq (env, res, tmpret, hde0)
 //
+| HDEsel_var _ => hidexp_ccomp_ret_sel_var (env, res, tmpret, hde0)
+| HDEsel_ptr _ => hidexp_ccomp_ret_sel_ptr (env, res, tmpret, hde0)
+//
 | HDEselab _ => hidexp_ccomp_ret_selab (env, res, tmpret, hde0)
 //
 | HDEarrpsz _ => hidexp_ccomp_ret_arrpsz (env, res, tmpret, hde0)
@@ -451,17 +479,9 @@ hidexp_ccomp_var
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 val-HDEvar (d2v) = hde0.hidexp_node
-val opt = ccompenv_find_varbind (env, d2v)
 //
 in
-//
-case+ opt of
-| ~Some_vt (pmv) => let
-  in
-    pmv
-  end // end of [Some_vt]
-| ~None_vt () => primval_var (loc0, hse0, d2v)
-//
+  d2var_ccomp (env, loc0, hse0, d2v)
 end // end of [hidexp_ccomp_var]
 
 (* ****** ****** *)
@@ -594,11 +614,11 @@ hidexp_ccomp_assgn_var
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 val-HDEassgn_var
-  (d2v_l, hils, hde_r) = hde0.hidexp_node
+  (d2v_l, hse_rt, hils, hde_r) = hde0.hidexp_node
 // end of [val]
 val ofs = hilablst_ccomp (env, res, hils)
 val pmv_r = hidexp_ccomp (env, res, hde_r)
-val ins = instr_store_varofs (loc0, d2v_l, ofs, pmv_r)
+val ins = instr_store_varofs (loc0, d2v_l, hse_rt, ofs, pmv_r)
 val () = instrseq_add (res, ins)
 //
 in
@@ -612,12 +632,12 @@ hidexp_ccomp_assgn_ptr
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 val-HDEassgn_ptr
-  (hde_l, hils, hde_r) = hde0.hidexp_node
+  (hde_l, hse_rt, hils, hde_r) = hde0.hidexp_node
 // end of [val]
 val pmv_l = hidexp_ccomp (env, res, hde_l)
 val ofs = hilablst_ccomp (env, res, hils)
 val pmv_r = hidexp_ccomp (env, res, hde_r)
-val ins = instr_store_ptrofs (loc0, pmv_l, ofs, pmv_r)
+val ins = instr_store_ptrofs (loc0, pmv_l, hse_rt, ofs, pmv_r)
 val () = instrseq_add (res, ins)
 //
 in
@@ -881,6 +901,44 @@ val () = instrseq_add (res, ins)
 in
   // nothing
 end // end of [hidexp_ccomp_ret_selab]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_ret_sel_var
+  (env, res, tmpret, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val-HDEsel_var (d2v, hse_rt, hils) = hde0.hidexp_node
+//
+val pmv = d2var_ccomp (env, loc0, hse_rt, d2v)
+//
+val pmls = hilablst_ccomp (env, res, hils)
+val ins = instr_load_varofs (loc0, tmpret, pmv, hse_rt, pmls)
+val () = instrseq_add (res, ins)
+//
+in
+  // nothing
+end // end of [hidexp_ccomp_sel_var]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_ret_sel_ptr
+  (env, res, tmpret, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val hse0 = hde0.hidexp_type
+val-HDEsel_ptr (hde, hse_rt, hils) = hde0.hidexp_node
+val pmv = hidexp_ccomp (env, res, hde)
+val pmls = hilablst_ccomp (env, res, hils)
+val ins = instr_load_ptrofs (loc0, tmpret, pmv, hse_rt, pmls)
+val () = instrseq_add (res, ins)
+//
+in
+  // nothing
+end // end of [hidexp_ccomp_sel_ptr]
 
 (* ****** ****** *)
 

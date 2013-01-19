@@ -348,8 +348,9 @@ symintr tostring tostrptr
 //
 abstype atstkind_type (tk: tkind)
 abst@ype atstkind_t0ype (tk: tkind)
-stadef tkind_type = atstkind_type
-stadef tkind_t0ype = atstkind_t0ype
+//
+typedef tkind_type (tk:tkind) = atstkind_type (tk)
+typedef tkind_t0ype (tk:tkind) = atstkind_t0ype (tk)
 //
 (* ****** ****** *)
 

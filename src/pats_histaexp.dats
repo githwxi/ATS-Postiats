@@ -135,10 +135,9 @@ end // end of [hisexp_get_extknd]
 (* ****** ****** *)
 
 implement
-hisexp_is_tyrecsin (hse) = let
-in
-  case+ hse.hisexp_node of HSEtyrecsin _ => true | _ => false
-end // end of [hisexp_is_tyrecsin]
+hisexp_is_ptr (hse0) = let
+  val HITNAM (knd, _, _) = hse0.hisexp_name in knd > 0
+end // end of [hisexp_is_ptr]
 
 (* ****** ****** *)
 
@@ -162,6 +161,14 @@ case+ hse0.hisexp_node of
 | _ => false
 //
 end // end of [hisexp_is_void]
+
+(* ****** ****** *)
+
+implement
+hisexp_is_tyrecsin (hse) = let
+in
+  case+ hse.hisexp_node of HSEtyrecsin _ => true | _ => false
+end // end of [hisexp_is_tyrecsin]
 
 (* ****** ****** *)
 

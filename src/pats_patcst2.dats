@@ -42,6 +42,19 @@ staload UT = "./pats_utils.sats"
 staload _(*anon*) = "./pats_utils.dats"
 
 (* ****** ****** *)
+//
+staload INTINF = "./pats_intinf.sats"
+vtypedef intinflst_vt = $INTINF.intinflst_vt
+overload = with $INTINF.eq_intinf_intinf
+macdef intinf_make_int = $INTINF.intinf_make_int
+macdef intinf_make_string = $INTINF.intinf_make_string
+//
+macdef intinfset_sing = $INTINF.intinfset_sing
+macdef intinfset_is_member = $INTINF.intinfset_is_member
+macdef intinfset_add = $INTINF.intinfset_add
+macdef intinfset_listize = $INTINF.intinfset_listize
+//
+(* ****** ****** *)
 
 staload "./pats_basics.sats"
 staload "./pats_lexing.sats" // for T_*
@@ -71,53 +84,6 @@ staload "./pats_patcst2.sats"
 
 (* ****** ****** *)
 
-local
-//
-staload "libats/SATS/funset_listord.sats"
-staload _(*anon*) = "libats/DATS/funset_listord.dats"
-//
-fn cmp (
-  x1: intinf, x2: intinf
-) :<cloref> int =
-  $INTINF.compare_intinf_intinf (x1, x2)
-//
-assume intinfset_type = set (intinf)
-//
-in
-
-implement
-intinfset_sing (x) = funset_make_sing (x)
-
-implement
-intinfset_is_member
-  (xs, x) = funset_is_member (xs, x, cmp)
-// end of [val]
-
-implement
-intinfset_add
-  (xs, x) = xs where {
-  var xs = xs
-  val _(*exist*) = funset_insert (xs, x, cmp)
-} // end of [val]
-
-implement
-intinfset_listize (xs) = funset_listize (xs)
-
-end // end of [local]
-
-(* ****** ****** *)
-
-implement
-fprint_intinfset
-  (out, xs) = {
-  val xs = intinfset_listize (xs)
-  val () = $UT.fprintlst
-    (out, $UN.castvwtp1 {intinflst} (xs), ", ", fprint_intinf)
-  val () = list_vt_free (xs)
-} // end of [fprint_intinfset]
-
-(* ****** ****** *)
-
 implement
 p2atcstlstlst_vt_free (xss) = (
   case+ xss of
@@ -130,7 +96,7 @@ p2atcstlstlst_vt_free (xss) = (
 implement
 p2atcstlstlst_vt_copy (xss) = (
   list_map_fun<p2atcstlst><p2atcstlst_vt>
-    ($UN.castvwtp1 {p2atcstlstlst} (xss), lam (xs) =<0> list_copy (xs))
+    ($UN.castvwtp1{p2atcstlstlst}(xss), lam (xs) =<0> list_copy (xs))
 ) // end of [p2atcstlstlst_vt_copy]
 
 (* ****** ****** *)
@@ -203,11 +169,11 @@ prerr_p2atcstlst (xs) = fprint_p2atcstlst (stderr_ref, xs)
 
 implement
 print_p2atcstlst_vt (xs) =
-  fprint_p2atcstlst (stdout_ref, $UN.castvwtp1 {p2atcstlst} (xs))
+  fprint_p2atcstlst (stdout_ref, $UN.castvwtp1{p2atcstlst}(xs))
 // end of [print_p2atcstlst_vt]
 implement
 prerr_p2atcstlst_vt (xs) =
-  fprint_p2atcstlst (stderr_ref, $UN.castvwtp1 {p2atcstlst} (xs))
+  fprint_p2atcstlst (stderr_ref, $UN.castvwtp1{p2atcstlst}(xs))
 // end of [prerr_p2atcstlst_vt]
 
 (* ****** ****** *)
@@ -249,11 +215,11 @@ prerr_p2atcstlstlst (xss) = fprint_p2atcstlstlst (stderr_ref, xss)
 
 implement
 print_p2atcstlstlst_vt (xss) =
-  fprint_p2atcstlstlst (stdout_ref, $UN.castvwtp1 {p2atcstlstlst} (xss))
+  fprint_p2atcstlstlst (stdout_ref, $UN.castvwtp1{p2atcstlstlst}(xss))
 // end of [print_p2atcstlstlst_vt]
 implement
 prerr_p2atcstlstlst_vt (xss) =
-  fprint_p2atcstlstlst (stderr_ref, $UN.castvwtp1 {p2atcstlstlst} (xss))
+  fprint_p2atcstlstlst (stderr_ref, $UN.castvwtp1{p2atcstlstlst}(xss))
 // end of [prerr_p2atcstlstlst_vt]
 
 (* ****** ****** *)
@@ -304,10 +270,10 @@ case+ p2t0.p2at_node of
 | P2Tempty () => P2TCempty ()
 //
 | P2Tint i => let
-    val i = $INTINF.intinf_make_int (i) in P2TCint (i)
+    val i = intinf_make_int (i) in P2TCint (i)
   end // end of [P2Tint]
 | P2Tintrep (rep) => let
-    val i = $INTINF.intinf_make_string (rep) in P2TCint (i)
+    val i = intinf_make_string (rep) in P2TCint (i)
   end // end of [P2Tint]
 | P2Tbool b => P2TCbool (b)
 | P2Tchar c => P2TCchar (c)
@@ -316,7 +282,7 @@ case+ p2t0.p2at_node of
 //
 | P2Ti0nt (x) => let
     val-T_INTEGER (base, rep, sfx) = x.token_node
-    val i = $INTINF.intinf_make_string (rep) in P2TCint (i)
+    val i = intinf_make_string (rep) in P2TCint (i)
   end // end of [P2Ti0nt]
 | P2Tf0loat (x) => let
     val-T_FLOAT (base, rep, sfx) = x.token_node in P2TCfloat (rep)
@@ -386,7 +352,7 @@ fun auxmain (
           extern castfn __cast (xss: p2atcstlstlst_vt): List_vt (p2atcstlst)
         } // end of [val] // HX: this is a safe cast
         val res1 = list_map_cloptr (
-          $UN.castvwtp1 {p2atcstlstlst} (carglst), lam x =<0> P2TCcon (d2c, x)
+          $UN.castvwtp1{p2atcstlstlst}(carglst), lam x =<0> P2TCcon (d2c, x)
         ) // end of [val]
         val () = list_vt_free (carglst)
         val res2 = auxmain (d2c0, d2cs, arg)
@@ -448,7 +414,7 @@ case+ p2tc0 of
       extern castfn __cast (xss: labp2atcstlstlst_vt): List_vt (labp2atcstlst)
     } // end of [val] // HX: this is a safe cast
     val res = list_map_cloptr (
-      $UN.castvwtp1 {labp2atcstlstlst} (carglst), lam x =<0> P2TCrec (knd, x)
+      $UN.castvwtp1{labp2atcstlstlst}(carglst), lam x =<0> P2TCrec (knd, x)
     ) // end of [val]
     val () = list_vt_free (carglst)
   } // end of [P2TCrec]
@@ -536,7 +502,7 @@ labp2atcst_comp (
   val LABP2ATCST (l, p2tc) = lp2tc
   val cp2tcs = p2atcst_comp (p2tc)
   val res = list_map_cloptr
-    ($UN.castvwtp1 {p2atcstlst} (cp2tcs), lam x =<0> LABP2ATCST (l, x))
+    ($UN.castvwtp1{p2atcstlst}(cp2tcs), lam x =<0> LABP2ATCST (l, x))
   val () = list_vt_free (cp2tcs)
 in
   res
@@ -610,7 +576,7 @@ case+ c2l.c2lau_gua of
   end // end of [list_cons]
 | list_nil () => let
     val p2tcs = list_map_fun (p2ts, p2at2cst)
-    val cp2tcss = p2atcstlst_comp ($UN.castvwtp1 {p2atcstlst} (p2tcs))
+    val cp2tcss = p2atcstlst_comp ($UN.castvwtp1{p2atcstlst}(p2tcs))
     val () = list_vt_free (p2tcs)
   in
     cp2tcss
@@ -730,14 +696,15 @@ case+ (p2tc1, p2tc2) of
 | (P2TCstring s1, P2TCstring s2) =>
     if s1 = s2 then list_vt_nil else list_vt_sing (p2tc1)
   // end of [P2TCstring, P2TCstring]
-| (P2TCcon (d2c1, p2tcs1), P2TCcon (d2c2, p2tcs2)) => (
+| (P2TCcon (d2c1, p2tcs1),
+   P2TCcon (d2c2, p2tcs2)) => (
     if d2c1 = d2c2 then let
       val p2tcss = p2atcstlst_diff (p2tcs1, p2tcs2)
       val p2tcss = __cast (p2tcss) where {
         extern castfn __cast (xs: p2atcstlstlst_vt): List_vt (p2atcstlst)
       } // end of [val] // HX: this is a safe cast
       val res = list_map_cloptr
-        ($UN.castvwtp1 {p2atcstlstlst} (p2tcss), lam xs =<0> P2TCcon (d2c1, xs))
+        ($UN.castvwtp1{p2atcstlstlst}(p2tcss), lam xs =<0> P2TCcon (d2c1, xs))
       val () = list_vt_free (p2tcss)
     in
       res

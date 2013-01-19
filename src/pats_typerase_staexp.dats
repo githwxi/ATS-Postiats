@@ -264,8 +264,15 @@ implement
 s2exp_tyer_app2 (
   loc0, flag, s2t0, s2e_fun, s2es_arg
 ) = let
-  val s2f_fun = s2exp2hnf (s2e_fun)
-  val s2e_fun = s2hnf2exp (s2f_fun)
+//
+val s2f_fun = s2exp2hnf (s2e_fun)
+val s2e_fun = s2hnf2exp (s2f_fun)
+//
+(*
+val () = println! ("s2exp_typer_app2: s2e_fun = ", s2e_fun)
+val () = println! ("s2exp_typer_app2: s2es_arg = ", s2es_arg)
+*)
+//
 in
 //
 case+
@@ -311,12 +318,17 @@ case+ opt of
 | Some (opt2) => (
   case+ opt2 of
   | Some (_fun) =>
-      s2exp_tyer_app2 (loc0, flag, s2t0, _fun, s2es_arg)
+      s2exp_tyer_app2 (
+      loc0, flag, s2t0, _fun, s2es_arg
+    ) // end of [Some]
   | None () => let
       val hse_fun = s2cst_tyer (loc0, flag, s2c)
-      val hses_arg = s2explst_tyer_apparg (loc0, s2es_arg)
     in
-      hisexp_app (hse_fun, hses_arg)
+      if hisexp_is_ptr (hse_fun) then hse_fun else let
+        val hses_arg = s2explst_tyer_apparg (loc0, s2es_arg)
+      in
+        hisexp_app (hse_fun, hses_arg)
+      end // end of [if]
     end // end of [None]
   )
 | None () => hisexp_make_srt (s2t0)
@@ -328,9 +340,11 @@ end // end of [s2exp_tyer_appcst]
 implement
 s2exp_tyer_fun
   (loc0, flag, s2e0) = let
-  val-S2Efun (
-    fc, lin, s2fe, npf, s2es_arg, s2e_res
-  ) = s2e0.s2exp_node // end of [val]
+//
+val-S2Efun (
+  fc, lin, s2fe, npf, s2es_arg, s2e_res
+) = s2e0.s2exp_node
+//
 in
 //
 if flag > 0 then let

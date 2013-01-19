@@ -409,42 +409,42 @@ hidexp_refarg
 
 implement
 hidexp_sel_var
-  (loc, hse, d2v, hils) =
-  hidexp_make_node (loc, hse, HDEsel_var (d2v, hils))
+  (loc, hse, d2v, hse_rt, hils) =
+  hidexp_make_node (loc, hse, HDEsel_var (d2v, hse_rt, hils))
 // end of [hidexp_sel_var]
 
 implement
 hidexp_sel_ptr
-  (loc, hse, hde, hils) =
-  hidexp_make_node (loc, hse, HDEsel_ptr (hde, hils))
+  (loc, hse, hde, hse_rt, hils) =
+  hidexp_make_node (loc, hse, HDEsel_ptr (hde, hse_rt, hils))
 // end of [hidexp_sel_ptr]
 
 (* ****** ****** *)
 
 implement
 hidexp_assgn_var
-  (loc, hse, d2v_l, hils, hde_r) =
-  hidexp_make_node (loc, hse, HDEassgn_var (d2v_l, hils, hde_r))
+  (loc, hse, d2v_l, hse_rt, hils, hde_r) =
+  hidexp_make_node (loc, hse, HDEassgn_var (d2v_l, hse_rt, hils, hde_r))
 // end of [hidexp_assgn_var]
 
 implement
 hidexp_assgn_ptr
-  (loc, hse, hde_l, hils, hde_r) =
-  hidexp_make_node (loc, hse, HDEassgn_ptr (hde_l, hils, hde_r))
+  (loc, hse, hde_l, hse_rt, hils, hde_r) =
+  hidexp_make_node (loc, hse, HDEassgn_ptr (hde_l, hse_rt, hils, hde_r))
 // end of [hidexp_assgn_ptr]
 
 (* ****** ****** *)
 
 implement
 hidexp_xchng_var
-  (loc, hse, d2v_l, hils, hde_r) =
-  hidexp_make_node (loc, hse, HDExchng_var (d2v_l, hils, hde_r))
+  (loc, hse, d2v_l, hse_rt, hils, hde_r) =
+  hidexp_make_node (loc, hse, HDExchng_var (d2v_l, hse_rt, hils, hde_r))
 // end of [hidexp_xchng_var]
 
 implement
 hidexp_xchng_ptr
-  (loc, hse, hde_l, hils, hde_r) =
-  hidexp_make_node (loc, hse, HDExchng_ptr (hde_l, hils, hde_r))
+  (loc, hse, hde_l, hse_rt, hils, hde_r) =
+  hidexp_make_node (loc, hse, HDExchng_ptr (hde_l, hse_rt, hils, hde_r))
 // end of [hidexp_xchng_ptr]
 
 (* ****** ****** *)

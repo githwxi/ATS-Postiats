@@ -57,9 +57,10 @@ staload "./pats_trans3_env.sats"
 (* ****** ****** *)
 
 extern
-fun s2addr_ptrof
-  (loc0: location, s2l: s2exp, d3ls: d3lablst): s2exp
-// end of [s2addr_ptrof]
+fun s2addr_ptrof (
+  loc0: location
+, s2l: s2exp, d3ls: d3lablst, s2rt: &s2exp? >> s2exp
+) : s2exp // end of [s2addr_ptrof]
 
 local
 
@@ -101,10 +102,12 @@ fun auxmain .<>. (
   loc0: location
 , pfobj: pfobj
 , d3ls: d3lablst
+, s2rt: &s2exp? >> s2exp
 ) : s2exp = let
   val+~PFOBJ (
     d2vw, s2e_ctx, s2e_elt, s2l
-  ) = pfobj // end of [val]
+  ) = pfobj
+  val () = s2rt := s2e_elt
   var linrest: int = 0
   val (s2e_sel, s2ps) =
     s2exp_get_dlablst_linrest (loc0, s2e_elt, d3ls, linrest)
@@ -120,13 +123,20 @@ in // in of [local]
 
 implement
 s2addr_ptrof
-  (loc0, s2l, d3ls) = let
+  (loc0, s2l, d3ls, s2rt) = let
   val opt = pfobj_search_atview (s2l)
 in
   case+ opt of
-  | ~Some_vt (pfobj) => auxmain (loc0, pfobj, d3ls)
+  | ~Some_vt (pfobj) =>
+      auxmain (loc0, pfobj, d3ls, s2rt)
   | ~None_vt () => let
-      val () = auxerr_pfobj (loc0, s2l) in s2exp_t0ype_err ()
+      val s2e_sel =
+        s2exp_t0ype_err ()
+      // end of [val]
+      val () = s2rt := s2e_sel
+      val () = auxerr_pfobj (loc0, s2l)
+    in
+      s2e_sel
     end // end of [None]
 end // end of [s2addr_ptrof]
 
@@ -244,9 +254,10 @@ in
 case+ d3ls of
 | list_cons _ => let
     val-Some (s2l) = d2var_get_addr (d2v)
-    val s2e_prj = s2addr_ptrof (loc0, s2l, d3ls)
+    var s2rt: s2exp
+    val s2e_prj = s2addr_ptrof (loc0, s2l, d3ls, s2rt)
   in
-    d3exp_ptrof_ptrsel (loc0, s2e_prj, d3e_ptr, d3ls)
+    d3exp_ptrof_ptrsel (loc0, s2e_prj, d3e_ptr, s2rt, d3ls)
   end // end of [list_cons]
 | list_nil () => d3e_ptr // end of [list_nil]
 //
@@ -271,14 +282,19 @@ in
 //
 case+ opt of
 | ~Some_vt (s2l) => let
+    var s2rt: s2exp
     val s2e_prj = (
       case+ d3ls of
       | list_cons _ =>
-          s2addr_ptrof (loc0, s2l, d3ls)
-      | list_nil () => s2exp_ptr_addr_type (s2l)
+          s2addr_ptrof (loc0, s2l, d3ls, s2rt)
+      | list_nil () => let
+          val () =
+            s2rt := s2exp_void_t0ype () in s2exp_ptr_addr_type (s2l)
+          // end of [val]
+        end // end of [list_nil]
     ) : s2exp // end of [val]
   in
-    d3exp_ptrof_ptrsel (loc0, s2e_prj, d3e, d3ls)
+    d3exp_ptrof_ptrsel (loc0, s2e_prj, d3e, s2rt, d3ls)
   end // end of [Some_vt]
 | ~None_vt () => let
     val () = auxerr_nonptr (loc0, d3e) in d3exp_err (loc0)

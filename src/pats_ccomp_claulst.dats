@@ -36,6 +36,14 @@ staload "./pats_basics.sats"
 
 (* ****** ****** *)
 
+staload LAB = "./pats_label.sats"
+
+(* ****** ****** *)
+
+staload "./pats_staexp2.sats"
+
+(* ****** ****** *)
+
 staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
@@ -44,31 +52,52 @@ staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 
-implement
-hidexp_ccomp_ret_case
-  (env, res, tmpret, hde0) = let
-//
-val loc0 = hde0.hidexp_loc
-val-HDEcase
-  (knd, hdes, hicls) = hde0.hidexp_node
-//
-val pmvs = hidexplst_ccomp (env, res, hdes)
-val fail = (
-   case+ knd of
-   | CK_case_pos () => PTCKNTnone ()
-   | CK_case () => PTCKNTcaseof_fail (loc0)
-   | CK_case_neg () => PTCKNTcaseof_fail (loc0)
-) : patckont // end of [val]
-//
-val ibranchlst =
-  hiclaulst_ccomp (env, pmvs, hicls, tmpret, fail)
-val ins = instr_switch (loc0, ibranchlst)
-val () = instrseq_add (res, ins)
-//
-in
-  // nothing
-end // end of [hidexp_ccomp_ret_case]
+(*
+datatype
+p2atcst =
+  | P2TCany of ()
+  | P2TCcon of (d2con, p2atcstlst)
+  | P2TCempty of ()
+  | P2TCint of intinf
+  | P2TCbool of bool
+  | P2TCchar of char
+  | P2TCstring of string
+  | P2TCfloat of string(*rep*)
+  | P2TCrec of (int(*reckind*), labp2atcstlst)
+  | P2TCintc of intinfset
+// end of [p2atcst]
+*)
+datavtype
+patcomp =
+  | PTCMPnil of ()
+  | PTCMPany of (patcomp)
+  | PTCMPcon of (d2con, patcomplst)
+  | PTCMPsum of (patcomplst)
+  | P2TCrec of (int(*reckind*), labpatcomplst)
+// end of [patcomp]
+
+and
+labpatcomp =
+  | LABPATCOMP of ($LAB.label, patcomp)
+// end of [labpatcomp]
+
+where
+patcomplst = List_vt (patcomp)
+
+and
+labpatcomplst = List_vt (labpatcomp)
 
 (* ****** ****** *)
 
-(* end of [pats_ccomp_caseof.dats] *)
+implement
+hiclaulst_ccomp (
+  env, pmvs, hicls, tmpret, fail
+) = let
+in
+  list_nil
+end // end of [hiclaulst_ccomp]
+
+(* ****** ****** *)
+
+(* end of [pats_ccomp_claulst.dats] *)
+
