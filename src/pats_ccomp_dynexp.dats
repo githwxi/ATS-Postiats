@@ -619,9 +619,11 @@ val hse0 = hde0.hidexp_type
 val-HDEassgn_var
   (d2v_l, hse_rt, hils, hde_r) = hde0.hidexp_node
 // end of [val]
-val ofs = hilablst_ccomp (env, res, hils)
+val pmv_l =
+  d2var_ccomp (env, loc0, hse_rt, d2v_l)
+val pmls = hilablst_ccomp (env, res, hils)
 val pmv_r = hidexp_ccomp (env, res, hde_r)
-val ins = instr_store_varofs (loc0, d2v_l, hse_rt, ofs, pmv_r)
+val ins = instr_store_varofs (loc0, pmv_l, hse_rt, pmls, pmv_r)
 val () = instrseq_add (res, ins)
 //
 in

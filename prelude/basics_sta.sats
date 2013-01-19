@@ -435,8 +435,8 @@ typedef Strref1 = [l:addr | l > null] strref (l)
 (* ****** ****** *)
 
 abst@ype
-void_t0ype = $extype"atstype_void"
-typedef void = void_t0ype
+atsvoid_t0ype
+typedef void = atsvoid_t0ype
 
 (* ****** ****** *)
 
@@ -474,7 +474,7 @@ stadef free_ngc_v = free_ngc_addr_view
 
 absvt@ype
 arrpsz_vt0ype_int_vt0ype
-  (a:vt@ype+, n:int) = $extype "atstype_arrpsz"
+  (a:vt@ype+, n:int) = $extype"atstype_arrpsz"
 stadef arrpsz = arrpsz_vt0ype_int_vt0ype
 
 (* ****** ****** *)

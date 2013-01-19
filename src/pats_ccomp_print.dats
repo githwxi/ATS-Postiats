@@ -719,9 +719,9 @@ case+ x.instr_node of
   }
 //
 | INSstore_varofs
-    (d2v_l, hse_rt, ofs, pmv_r) => {
+    (pmv_l, hse_rt, ofs, pmv_r) => {
     val () = prstr "INSstore_varofs("
-    val () = fprint_d2var (out, d2v_l)
+    val () = fprint_primval (out, pmv_l)
     val () = prstr "("
     val () = fprint_hisexp (out, hse_rt)
     val () = prstr ")"

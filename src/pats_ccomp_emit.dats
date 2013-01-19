@@ -1107,9 +1107,7 @@ case+ ins.instr_node of
 | INSload_varofs _ => emit_instr_load_varofs (out, ins)
 | INSload_ptrofs _ => emit_instr_load_ptrofs (out, ins)
 //
-(*
 | INSstore_varofs _ => emit_instr_store_varofs (out, ins)
-*)
 | INSstore_ptrofs _ => emit_instr_store_ptrofs (out, ins)
 //
 | INSmove_list_nil (tmp) => {
@@ -1774,6 +1772,26 @@ end // end of [emit_instr_load_ptrofs]
 (* ****** ****** *)
 
 implement
+emit_instr_store_varofs
+  (out, ins) = let
+//
+val-INSstore_varofs
+  (pmv_l, hse_rt, pmls, pmv_r) = ins.instr_node
+//
+val xys = auxselist (hse_rt, pmls)
+val () = emit_text (out, "ATSINSstore(")
+val () = auxmain (out, 0(*non*), pmv_l, hse_rt, xys, 0)
+val () = emit_text (out, ", ")
+val () = emit_primval (out, pmv_r)
+val () = emit_text (out, ") ; ")
+//
+in
+  // nothing
+end // end of [emit_instr_store_varofs]
+
+(* ****** ****** *)
+
+implement
 emit_instr_store_ptrofs
   (out, ins) = let
 //
@@ -1979,14 +1997,14 @@ val () = emit_text (out, "/* funbodyinstrlst(end) */\n")
 //
 // function return
 //
-val () =
-  emit_text (out, "ATSreturn")
-val () = let
-  val isvoid = tmpvar_is_void (tmpret)
-in
-  if isvoid then emit_text (out, "_void")
-end // end of [val]
-val () = emit_text (out, "(")
+val isvoid = tmpvar_is_void (tmpret)
+val () = (
+  if ~isvoid
+    then emit_text(out, "ATSreturn(")
+    else emit_text(out, "ATSreturn_void(")
+  // end of [if]
+) : void // end of [val]
+//
 val () = emit_tmpvar (out, tmpret)
 val () = emit_text (out, ") ;")
 //

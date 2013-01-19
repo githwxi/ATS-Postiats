@@ -384,6 +384,13 @@ end // end of [s2exp_igtez]
 (* ****** ****** *)
 
 implement
+the_atstkind_type = s2cstref_make "atstkind_type"
+implement
+the_atstkind_t0ype = s2cstref_make "atstkind_t0ype"
+
+(* ****** ****** *)
+
+implement
 s2exp_bool (b) = let
   val s2cref = (
     if b then the_true_bool else the_false_bool
@@ -906,10 +913,10 @@ end // end of [un_s2exp_ptr_addr_type]
 (* ****** ****** *)
 
 implement
-the_void_t0ype = s2cstref_make "void_t0ype"
+the_atsvoid_t0ype = s2cstref_make "atsvoid_t0ype"
 implement
 s2exp_void_t0ype () =
-  s2exp_cst (s2cstref_get_cst (the_void_t0ype))
+  s2exp_cst (s2cstref_get_cst (the_atsvoid_t0ype))
 // end of [s2exp_void_t0ype]
 
 (* ****** ****** *)

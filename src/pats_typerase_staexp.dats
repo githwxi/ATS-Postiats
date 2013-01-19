@@ -228,16 +228,10 @@ case+ opt of
   case+ opt2 of
   | Some (s2e) =>
       s2exp_tyer (loc0, flag, s2e)
-  | None () => let
-      val s2t = s2cst_get_srt (s2c)
-      val sym = s2cst_get_sym (s2c)
-    in
-      hisexp_make_srtsym (s2t, sym)
-    end // end of [None]
+    // end of [val
+  | None () => hisexp_cst (s2c)
   ) // end of [Some]
-| None () => let
-    val s2t = s2cst_get_srt (s2c) in hisexp_make_srt (s2t)
-  end // end of [None]
+| None () => hisexp_cst (s2c)
 //
 end // end of [s2cst_tyer]
 
@@ -323,14 +317,11 @@ case+ opt of
     ) // end of [Some]
   | None () => let
       val hse_fun = s2cst_tyer (loc0, flag, s2c)
+      val hses_arg = s2explst_tyer_apparg (loc0, s2es_arg)
     in
-      if hisexp_is_ptr (hse_fun) then hse_fun else let
-        val hses_arg = s2explst_tyer_apparg (loc0, s2es_arg)
-      in
-        hisexp_app (hse_fun, hses_arg)
-      end // end of [if]
+      hisexp_app (hse_fun, hses_arg)
     end // end of [None]
-  )
+  ) (* end of [Some] *)
 | None () => hisexp_make_srt (s2t0)
 //
 end // end of [s2exp_tyer_appcst]

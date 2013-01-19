@@ -41,6 +41,13 @@ ptr_get (p) = x where {
 } // end of [ptr_get]
 
 implement{a}
+ptr0_get (p) = let
+  val p = cast2Ptr1 (p) in ptr_get<a> (p)
+end // end of [ptr0_get]
+
+#atscode_separator()
+
+implement{a}
 ptr_set (p, x) = () where {
   val [l:addr] p = (ptr1_of_ptr0)p
   prval (pf, fpf) = __assert () where {
@@ -49,6 +56,13 @@ ptr_set (p, x) = () where {
   val () = !p := x
   prval () = fpf (pf)
 } // end of [ptr_set]
+
+implement{a}
+ptr0_set (p, x) = let
+  val p = cast2Ptr1 (p) in ptr_set<a> (p, x)
+end // end of [ptr0_set]
+
+#atscode_separator()
 
 implement{a}
 ptr_exch (p, x) = () where {
@@ -61,6 +75,11 @@ ptr_exch (p, x) = () where {
   val () = x := tmp
   prval () = fpf (pf)
 } // end of [ptr_exch]
+
+implement{a}
+ptr0_exch (p, x) = let
+  val p = cast2Ptr1 (p) in ptr_exch<a> (p, x)
+end // end of [ptr0_exch]
 
 #atscode_separator()
 

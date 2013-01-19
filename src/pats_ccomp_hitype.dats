@@ -712,6 +712,13 @@ case+ hse0.hisexp_node of
     fin > 0
   ) => HITnmd (name)
 //
+| HSEcst (s2c) => let
+    val sym = s2cst_get_sym (s2c)
+    val name =
+      $SYM.symbol_get_name (sym) in HITnmd (name)
+    // end of [val]
+  end // end of [HSEcst]
+//
 | HSEapp (_fun, _arg) =>
     HITapp (aux (flag, _fun), auxlst (flag, _arg))
   // end of [HSEapp]

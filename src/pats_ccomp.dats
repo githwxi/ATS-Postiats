@@ -472,8 +472,8 @@ instr_load_ptrofs
 
 implement
 instr_store_varofs
-  (loc, d2v_l, hse_root, ofs, pmv_r) =
-  instr_make_node (loc, INSstore_varofs (d2v_l, hse_root, ofs, pmv_r))
+  (loc, pmv_l, hse_root, ofs, pmv_r) =
+  instr_make_node (loc, INSstore_varofs (pmv_l, hse_root, ofs, pmv_r))
 // end of [instr_store_varofs]
 
 implement

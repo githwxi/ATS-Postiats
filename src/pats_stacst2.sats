@@ -119,6 +119,11 @@ val the_sub_addr_int : s2cstref // (addr, int) -> addr
 val the_sub_addr_addr : s2cstref // (addr, addr) -> int
 //
 (* ****** ****** *)
+
+val the_atstkind_type : s2cstref
+val the_atstkind_t0ype : s2cstref
+
+(* ****** ****** *)
 //
 val the_bool_t0ype : s2cstref
 val the_bool_bool_t0ype : s2cstref
@@ -154,7 +159,7 @@ val the_g0float_t0ype : s2cstref
 //
 val the_ptr_type : s2cstref
 val the_ptr_addr_type : s2cstref
-val the_void_t0ype : s2cstref
+val the_atsvoid_t0ype : s2cstref
 //
 val the_unit_prop : s2cstref
 val the_unit_view : s2cstref

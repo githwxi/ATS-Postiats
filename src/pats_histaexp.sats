@@ -76,6 +76,7 @@ hisexp_node =
       (funclo, hisexplst(*arg*), hisexp(*res*))
   | HSEcfun of (funlab) // for closures
 //
+  | HSEcst of (s2cst)
   | HSEapp of (hisexp, hisexplst)
 //
   | HSEextype of (string(*name*), hisexplstlst)
@@ -156,15 +157,23 @@ fun labhisexp_get_elt (lhse: labhisexp): hisexp
 
 fun hisexp_tyabs (sym: symbol): hisexp
 
+(* ****** ****** *)
+
 fun hisexp_fun (
   fc: funclo, arg: hisexplst, res: hisexp
 ) : hisexp // end of [hisexp_fun]
 
 fun hisexp_cfun (fl: funlab): hisexp
 
+(* ****** ****** *)
+
+fun hisexp_cst (s2c: s2cst): hisexp
+
 fun hisexp_app
   (_fun: hisexp, _arg: hisexplst): hisexp
 // end of [hisexp_app]
+
+(* ****** ****** *)
 
 fun hisexp_extype
   (name: string, arglst: hisexplstlst): hisexp

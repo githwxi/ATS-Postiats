@@ -85,6 +85,11 @@ case+
     val () = prstr ")"
   } // end of [HSEcfun]
 //
+| HSEcst (s2c) => {
+    val () = prstr "HSEcst("
+    val () = fprint_s2cst (out, s2c)
+    val () = prstr ")"
+  }
 | HSEapp
     (_fun, _arg) => {
     val () = prstr "HSEapp("

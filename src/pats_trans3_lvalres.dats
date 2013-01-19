@@ -320,7 +320,9 @@ end // end of [local]
 implement
 d3lval_set_pat_type_left
   (d3e0, p3t) = let
-  val opt = p3at_get_type_left (p3t)
+//
+val opt = p3at_get_type_left (p3t)
+//
 in
 //
 case+ opt of
@@ -347,21 +349,26 @@ local
 
 fun loop (
   d3es: d3explst, p3ts: p3atlst
-) : void = (
-  case+ d3es of
-  | list_cons (d3e, d3es) => (
-    case+ p3ts of
-    | list_cons (p3t, p3ts) => let
-        val () =
-          d3lval_set_pat_type_left (d3e, p3t) in loop (d3es, p3ts)
-        // end of [val]
-      end // end of [list_cons]
-    | list_nil () => ()
-    ) // end of [list_cons]
+) : void = let
+in
+//
+case+ d3es of
+| list_cons
+    (d3e, d3es) => (
+  case+ p3ts of
+  | list_cons
+      (p3t, p3ts) => let
+      val () =
+        d3lval_set_pat_type_left (d3e, p3t) in loop (d3es, p3ts)
+      // end of [val]
+    end // end of [list_cons]
   | list_nil () => ()
-) // end of [loop]
+  ) // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [loop]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d3lvalist_set_pat_type_left (d3es, p3ts) = loop (d3es, p3ts)
@@ -373,19 +380,22 @@ end // end of [local]
 local
 
 fn s2exp_fun_is_freeptr
-  (s2e: s2exp): bool = (
-  case+ s2e.s2exp_node of
-  | S2Efun (
-      fc, lin, _(*s2fe*), _(*npf*), _(*arg*), _(*res*)
-    ) => (
-    case+ fc of
-    | FUNCLOclo (knd) when knd > 0 => if lin = 0 then true else false
-    | _ => false
-    ) // end of [S2Efun]
+  (s2e: s2exp): bool = let
+in
+//
+case+ s2e.s2exp_node of
+| S2Efun (
+    fc, lin, _(*s2fe*), _(*npf*), _(*arg*), _(*res*)
+  ) => (
+  case+ fc of
+  | FUNCLOclo (knd) when knd > 0 => if lin = 0 then true else false
   | _ => false
-) // end of [s2exp_fun_is_freeptr]
+  ) // end of [S2Efun]
+| _ => false
+//
+end // end of [s2exp_fun_is_freeptr]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement
 d3lval_arg_set_type

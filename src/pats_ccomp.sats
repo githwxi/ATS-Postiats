@@ -717,7 +717,7 @@ instr_node =
       (tmpvar, primval, hisexp(*tyroot*), primlablst(*ofs*))
 //
   | INSstore_varofs of
-      (d2var(*left*), hisexp(*tyroot*), primlablst(*ofs*), primval(*right*))
+      (primval(*left*), hisexp(*tyroot*), primlablst(*ofs*), primval(*right*))
   | INSstore_ptrofs of
       (primval(*left*), hisexp(*tyroot*), primlablst(*ofs*), primval(*right*))
 //
@@ -864,7 +864,7 @@ fun instr_load_ptrofs (
 
 fun instr_store_varofs (
   loc: location
-, d2v_l: d2var, hse_rt: hisexp, hils: primlablst, pmv_r: primval
+, pmv_l: primval, hse_rt: hisexp, hils: primlablst, pmv_r: primval
 ) : instr // end of [instr_store_varofs]
 
 fun instr_store_ptrofs (

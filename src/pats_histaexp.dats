@@ -50,6 +50,10 @@ staload "./pats_staexp2_util.sats"
 
 (* ****** ****** *)
 
+staload S2C = "./pats_stacst2.sats"
+
+(* ****** ****** *)
+
 staload "./pats_histaexp.sats"
 
 (* ****** ****** *)
@@ -147,13 +151,9 @@ hisexp_is_void
 in
 //
 case+ hse0.hisexp_node of
-(*
-| HSEextype (name, _(*arglst*)) => (
-  case+ 0 of
-  | _ when name = ATSTYPE_VOID => true
-  | _ => false
-  ) (* end of [HSEextype] *)
-*)
+| HSEcst (s2c) =>
+    $S2C.s2cstref_equ_cst ($S2C.the_atsvoid_t0ype, s2c)
+  // end of [HSEcst]
 | HSEtyrecsin (lhse) => let
     val HSLABELED (_, _, hse) = lhse in hisexp_is_void (hse)
   end // end of [HSEtyrecsin]
@@ -161,6 +161,19 @@ case+ hse0.hisexp_node of
 | _ => false
 //
 end // end of [hisexp_is_void]
+
+implement
+hisexp_fun_is_void
+  (hse_fun) = let
+in
+//
+case+ hse_fun.hisexp_node of
+| HSEfun (
+    fc, hses_arg, hse_res
+  ) => hisexp_is_void (hse_res)
+| _ => false
+//
+end // end of [hisexp_fun_is_void]
 
 (* ****** ****** *)
 
@@ -261,9 +274,13 @@ hisexp_fun
 (* ****** ****** *)
 
 implement
+hisexp_cst (s2c) = hisexp_make_node (HITNAM_ABS, HSEcst (s2c))
+
+(* ****** ****** *)
+
+implement
 hisexp_app
-  (_fun, _arg) =
-  hisexp_make_node (HITNAM_APP, HSEapp (_fun, _arg))
+  (_fun, _arg) = hisexp_make_node (HITNAM_APP, HSEapp (_fun, _arg))
 // end of [hisexp_app]
 
 (* ****** ****** *)
