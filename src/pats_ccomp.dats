@@ -245,6 +245,13 @@ primval_funlab (loc, hse, fl) =
 (* ****** ****** *)
 
 implement
+primval_ptrof (loc, hse, pmv) =
+  primval_make_node (loc, hse, PMVptrof (pmv))
+// end of [primval_ptrof]
+
+(* ****** ****** *)
+
+implement
 primval_tmpltcst
   (loc, hse, d2c, t2mas) =
   primval_make_node (loc, hse, PMVtmpltcst (d2c, t2mas))
@@ -275,7 +282,13 @@ end // end of [primval_make_tmp]
 implement
 primval_make_ptrof
   (loc, pmv) = let
-  val hse = hisexp_typtr in primval_make_node (loc, hse, PMVptrof (pmv))
+  val hse = hisexp_typtr 
+in
+//
+case+ pmv.primval_node of
+| PMVargref (narg) =>
+    primval_arg (loc, hse, narg)
+| _ => primval_ptrof (loc, hse, pmv)
 end // end of [primval_make_ptrof]
 
 (* ****** ****** *)

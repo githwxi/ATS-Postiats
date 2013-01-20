@@ -81,14 +81,11 @@ val HITNAM_CONPTR =
 //
 #define POSTIATS_TYABS "postiats_tyabs"
 #define POSTIATS_TYPTR "postiats_typtr"
-#define POSTIATS_TYREF "postiats_tyref"
 //
 val HITNAM_TYABS =
   HITNAM (0(*non*), 0(*fin*), POSTIATS_TYABS)
 val HITNAM_TYPTR =
   HITNAM (1(*non*), 1(*fin*), POSTIATS_TYPTR)
-val HITNAM_TYREF =
-  HITNAM (1(*non*), 1(*fin*), POSTIATS_TYREF)
 //
 val HITNAM_TYAPP =
   HITNAM (0(*non*), 0(*tmp*), "postiats_tyapp")
@@ -207,12 +204,6 @@ hisexp_typtr = let
 in '{
   hisexp_name= HITNAM_TYPTR, hisexp_node= HSEtybox ()
 } end // end of [hisexp_typtr]
-
-implement
-hisexp_tyref = let
-in '{
-  hisexp_name= HITNAM_TYREF, hisexp_node= HSEtybox ()
-} end // end of [hisexp_tyref]
 
 (* ****** ****** *)
 
@@ -334,11 +325,12 @@ end // end of [hisexp_extype]
 implement
 hisexp_refarg
   (knd, arg) = let
-  val name = (
-    if knd > 0 then HITNAM_TYREF else arg.hisexp_name
-  ) : hitnam // end of [val]
+//
+val hitnam =
+  HITNAM (knd, 0(*fin*), "postiats_refarg")
+//
 in '{
-  hisexp_name= name, hisexp_node= HSErefarg (knd, arg)
+  hisexp_name= hitnam, hisexp_node= HSErefarg (knd, arg)
 } end // end of [hisexp_refarg]
 
 (* ****** ****** *)

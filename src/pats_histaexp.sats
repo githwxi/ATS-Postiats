@@ -124,7 +124,6 @@ fun fprint_hisexplst : fprint_type (hisexplst)
 val hisexp_tybox : hisexp
 //
 val hisexp_typtr : hisexp
-val hisexp_tyref : hisexp
 //
 val hisexp_tyclo : hisexp
 //

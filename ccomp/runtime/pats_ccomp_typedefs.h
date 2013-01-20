@@ -103,6 +103,11 @@ struct {
 
 /* ****** ****** */
 
+#define atsrefarg0(hit) hit
+#define atsrefarg1(hit) hit*
+
+/* ****** ****** */
+
 #endif /* PATS_TYPEDEFS_H */
 
 /* end of [pats_typedefs.h] */

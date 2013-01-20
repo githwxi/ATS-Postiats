@@ -113,7 +113,8 @@
 
 /* ****** ****** */
 
-#define ATSderef(pmv, hit) (*(hit*)pmv)
+#define ATSderef(pmv) (*(pmv))
+#define ATSderef2(pmv, hit) (*(hit*)pmv)
 #define ATSselrecsin(pmv, tyrec, lab) (pmv)
 #define ATSselfltrec(pmv, tyrec, lab) ((pmv).lab)
 #define ATSselarrind(pmv, tyarr, lab) (((tyarr)pmv)lab)

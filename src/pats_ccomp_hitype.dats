@@ -75,14 +75,17 @@ staload "./pats_ccomp.sats"
 (* ****** ****** *)
 
 datatype hitype =
+//
   | HITnmd of (string)
+//
+  | HITapp of (hitype, hitypelst)
 //
   | HITtyarr of (hitype, s2explst)
 //
   | HITtyrec of (labhitypelst)
   | HITtysum of (int(*tagged*), labhitypelst)
 //
-  | HITapp of (hitype, hitypelst)
+  | HITrefarg of (int(*knd*), hitype)
 //
   | HITundef of (stamp, hisexp)
 //
@@ -151,6 +154,16 @@ case+ x1 of
   | _ => abort ()
   ) // end of [HITnmd]
 //
+| HITapp
+    (_fun1, _arg1) => (
+  case+ x2 of
+  | HITapp
+      (_fun2, _arg2) => let
+      val () = aux (_fun1, _fun2) in auxlst (_arg1, _arg2)
+    end // end of [HITapp]
+  | _ => abort ()
+  ) // end of [HITapp]
+//
 | HITtyarr _ => abort ()
 //
 | HITtyrec (lxs1) => (
@@ -159,7 +172,8 @@ case+ x1 of
   | _ => abort ()
   ) // end of [HITtyrec]
 //
-| HITtysum (tgd1, lxs1) => (
+| HITtysum
+    (tgd1, lxs1) => (
   case+ x2 of
   | HITtysum (tgd2, lxs2) =>
       if tgd1 = tgd2 then auxlablst (lxs1, lxs2) else abort ()
@@ -167,14 +181,14 @@ case+ x1 of
  | _ => abort ()
   ) // end of [HITtysum]
 //
-| HITapp (_fun1, _arg1) => (
+| HITrefarg
+    (knd1, hit1) => (
   case+ x2 of
-  | HITapp
-      (_fun2, _arg2) => let
-      val () = aux (_fun1, _fun2) in auxlst (_arg1, _arg2)
-    end // end of [HITapp]
+  | HITrefarg (knd2, hit2) =>
+      if knd1 = knd2 then aux (hit1, hit2) else abort ()
+    // end of [HITrefarg]
   | _ => abort ()
-  ) // end of [HITapp]
+  ) // end of [HITrefarg]
 //
 | HITundef (n1, _) => (
   case+ x2 of
@@ -292,6 +306,7 @@ in
 case+ hit0 of
 | HITnmd
     (name) => auxstr (hval, name)
+//
 | HITapp
     (_fun, _arg) => let
     val () = aux (hval, _fun)
@@ -299,6 +314,7 @@ case+ hit0 of
   in
     auxstr (hval, "postiats_app")
   end // end of [HITapp]
+//
 | HITtyarr
     (hit_elt, _) => let
     val () = aux (hval, hit_elt)
@@ -319,6 +335,16 @@ case+ hit0 of
   in
     auxstr (hval, "postiats_tysum")
   end // end of [HITtysum]
+//
+| HITrefarg
+    (knd, hit) => let
+    val () = aux (hval, hit)
+  in
+    if knd = 0
+      then auxstr (hval, "postiats_refarg0")
+      else auxstr (hval, "postiats_refarg1")
+    // end of [if]
+  end // end of [HITrefarg]
 //
 | HITundef
     (stamp, hse) =>
@@ -565,6 +591,18 @@ case+ hit of
     emit_text (out, "postiats_tyrec")
 | HITtysum _ =>
     emit_text (out, "postiats_tysum")
+| HITrefarg (knd, hit) => let
+    val () = (
+      if knd = 0
+        then emit_text (out, "postiats_refarg0(")
+        else emit_text (out, "postiats_refarg1(")
+      // end of [if]
+    ) : void // end of [val]
+    val () = emit_hitype (out, hit)
+    val () = emit_rparen (out)
+  in
+    // nothing
+  end // end of [HITrefarg]
 | HITundef (_, hse) => let
     val () =
       emit_text (
@@ -738,6 +776,10 @@ case+ hse0.hisexp_node of
   end // end of [HSEtyrecsin]
 //
 | HSEtysum _ => aux_tysum (flag, hse0)
+//
+| HSErefarg (knd, hse) => let
+    val hit = aux (flag, hse) in HITrefarg (knd, hit)
+  end // end of [HSErefarg]
 //
 | HSEs2exp (s2e) => let
     val hit = s2exp_typize (s2e)

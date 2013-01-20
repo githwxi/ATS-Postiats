@@ -593,6 +593,12 @@ fun primval_funlab
 
 (* ****** ****** *)
 
+fun primval_ptrof
+  (loc: location, hse: hisexp, pmv: primval): primval
+// end of [primval_ptrof]
+
+(* ****** ****** *)
+
 fun primval_tmpltcst (
   loc: location, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst
 ) : primval // end of [primval_tmpltcst]

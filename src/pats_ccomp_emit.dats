@@ -742,9 +742,7 @@ case+ pmv0.primval_node of
 | PMVtmp _ => emit_primval_tmp (out, pmv0)
 | PMVtmpref _ => emit_primval_tmpref (out, pmv0)
 | PMVarg _ => emit_primval_arg (out, pmv0)
-(*
 | PMVargref _ => emit_primval_argref (out, pmv0)
-*)
 (*
 | PMVcst _ => emit_primval_d2cst (out, pmv0)
 *)
@@ -839,11 +837,27 @@ implement
 emit_primval_arg
   (out, pmv0) = let
 //
-val-PMVarg (ind) = pmv0.primval_node
+val-PMVarg (narg) = pmv0.primval_node
 //
 in
-  fprintf (out, "arg%i", @(ind))
+  fprintf (out, "arg%i", @(narg))
 end // end of [emit_primval_arg]
+
+(* ****** ****** *)
+
+implement
+emit_primval_argref
+  (out, pmv0) = let
+//
+val-PMVargref (narg) = pmv0.primval_node
+//
+val () = emit_text (out, "ATSderef(")
+val () = fprintf (out, "arg%i", @(narg))
+val () = emit_rparen (out)
+//
+in
+  // nothing
+end // end of [emit_primval_argref]
 
 (* ****** ****** *)
 
@@ -882,10 +896,10 @@ end // end of [emit_primval_ptrof]
 local
 
 fun auxmain (
-  out: FILEref, pmv: primval, hse: hisexp
+  out: FILEref
+, pmv: primval, hse: hisexp
 ) : void = let
-  val () =
-    emit_text (out, "ATSderef(")
+  val () = emit_text (out, "ATSderef2(")
   val () = emit_primval (out, pmv)
   val () = emit_text (out, ", ")
   val () = emit_hisexp (out, hse)
