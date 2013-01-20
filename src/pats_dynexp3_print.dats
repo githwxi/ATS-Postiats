@@ -206,14 +206,14 @@ case+ d3e0.d3exp_node of
     val () = fprint_char (out, c)
     val () = prstr ")"
   }
-| D3Estring (str) => {
-    val () = prstr "D3Estring("
-    val () = fprint_string (out, str)
-    val () = prstr ")"
-  }
 | D3Efloat (rep) => {
     val () = prstr "D3Efloat("
     val () = fprint_string (out, rep)
+    val () = prstr ")"
+  }
+| D3Estring (str) => {
+    val () = prstr "D3Estring("
+    val () = fprint_string (out, str)
     val () = prstr ")"
   }
 //

@@ -41,6 +41,62 @@ staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 
+implement
+emit_ats_ccomp_header (out) = let
+  val () = emit_text (out, "/*\n")
+  val () = emit_text (out, "** include runtime header files\n")
+  val () = emit_text (out, "*/\n")
+  val () = emit_text (out, "#ifndef _ATS_CCOMP_HEADER_NONE\n")
+  val () = emit_text (out, "#include \"pats_config.h\"\n")
+  val () = emit_text (out, "#include \"pats_ccomp_basics.h\"\n")
+  val () = emit_text (out, "#include \"pats_ccomp_typedefs.h\"\n")
+  val () = emit_text (out, "#include \"pats_ccomp_instrset.h\"\n")
+  val () = emit_text (out, "#include \"pats_ccomp_exception.h\"\n")
+  val () = emit_text (out, "#include \"pats_ccomp_memalloc.h\"\n")
+  val () = emit_text (out, "#endif /* _ATS_CCOMP_HEADER_NONE */\n")
+  val () = emit_newline (out)
+in
+  emit_newline (out)
+end // end of [emit_ats_ccomp_header]
+
+(* ****** ****** *)
+
+implement
+emit_ats_ccomp_prelude (out) = let
+//
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "** include prelude cats files\n")
+val () = emit_text (out, "*/\n")
+//
+val () = emit_text (out, "#ifndef _ATS_CCOMP_PRELUDE_NONE\n")
+//
+// HX: primary prelude cats files
+//
+val () = emit_text (out, "//\n")
+val () = emit_text (out, "#include \"prelude/CATS/basics.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/integer.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/bool.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/char.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/string.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/float.cats\"\n")
+//
+// HX: secondary prelude cats files
+//
+val () = emit_text (out, "//\n")
+val () = emit_text (out, "#include \"prelude/CATS/list.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/option.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/array.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/matrix.cats\"\n")
+//
+val () = emit_text (out, "//\n")
+val () = emit_text (out, "#endif /* _ATS_CCOMP_PRELUDE_NONE */\n")
+//
+in
+  emit_newline (out)
+end // end of [emit_ats_ccomp_prelude]
+
+(* ****** ****** *)
+
 extern
 fun emit_funlablst_ptype
   (out: FILEref, fls: funlablst): void
@@ -116,8 +172,8 @@ ccomp_main (
 ) = let
 //
 val () = emit_time_stamp (out)
-val () = emit_ats_runtime_incl (out)
-val () = emit_ats_prelude_cats (out)
+val () = emit_ats_ccomp_header (out)
+val () = emit_ats_ccomp_prelude (out)
 //
 val pmds = hideclist_ccomp0 (hids)
 val () = let

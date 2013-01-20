@@ -168,7 +168,9 @@ in
 //
 case+ d2e0.d2exp_node of
 //
-| D2Etop _ => d2exp_trdn_top (d2e0, s2f0)
+| D2Etop _ =>
+    d2exp_trdn_top (d2e0, s2f0)
+  // end of [D2Etop]
 //
 | D2Eifhead _ =>
     d2exp_trdn_ifhead (d2e0, s2f0)

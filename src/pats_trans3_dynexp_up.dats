@@ -180,12 +180,12 @@ case+ d2e0.d2exp_node of
   in
     d2exp_trup_char (d2e0, c) // by default: char1 (c)
   end // end of [D2Ec0har]
+| D2Ef0loat (tok) => d2exp_trup_f0loat (d2e0, tok)
 | D2Es0tring (tok) => let
     val-T_STRING (str) = tok.token_node
   in
     d2exp_trup_string (d2e0, str) // by default: string1 (len)
   end // end of [D2Es0tring]
-| D2Ef0loat (tok) => d2exp_trup_f0loat (d2e0, tok)
 //
 | D2Ecstsp (csp) => d2exp_trup_cstsp (d2e0, csp)
 //

@@ -54,12 +54,12 @@ val fopr = (
 //
 val ent = sprintf ("\
 ATSinline()
-atstype_bool
+atstype_%s
 atspre_g0float_%s_%s
   (atstype_%s f1, atstype_%s f2) { return (f1 %s f2) ; }
 // end of [atspre_g0float_%s_%s]\
 ", @(
- opr, knd, knd, knd, fopr, opr, knd
+ knd, opr, knd, knd, knd, fopr, opr, knd
 )
 ) // end of [sprintf] // end of [val]
 //

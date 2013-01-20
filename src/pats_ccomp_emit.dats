@@ -291,61 +291,6 @@ end // end of [local]
 
 (* ****** ****** *)
 
-implement
-emit_ats_runtime_incl (out) = let
-  val () = emit_text (out, "/*\n")
-  val () = emit_text (out, "** include runtime header files\n")
-  val () = emit_text (out, "*/\n")
-  val () = emit_text (out, "#ifndef _ATS_HEADER_NONE\n")
-  val () = emit_text (out, "#include \"pats_config.h\"\n")
-  val () = emit_text (out, "#include \"pats_basics.h\"\n")
-  val () = emit_text (out, "#include \"pats_typedefs.h\"\n")
-  val () = emit_text (out, "#include \"pats_instrset.h\"\n")
-  val () = emit_text (out, "#include \"pats_exception.h\"\n")
-  val () = emit_text (out, "#include \"pats_memalloc.h\"\n")
-  val () = emit_text (out, "#endif /* _ATS_HEADER_NONE */\n")
-  val () = emit_newline (out)
-in
-  emit_newline (out)
-end // end of [emit_ats_runtime_incl]
-
-(* ****** ****** *)
-
-implement
-emit_ats_prelude_cats (out) = let
-//
-val () = emit_text (out, "/*\n")
-val () = emit_text (out, "** include prelude cats files\n")
-val () = emit_text (out, "*/\n")
-//
-val () = emit_text (out, "#ifndef _ATS_PRELUDE_NONE\n")
-//
-// HX: primary prelude cats files
-//
-val () = emit_text (out, "//\n")
-val () = emit_text (out, "#include \"prelude/CATS/bool.cats\"\n")
-val () = emit_text (out, "#include \"prelude/CATS/char.cats\"\n")
-val () = emit_text (out, "#include \"prelude/CATS/float.cats\"\n")
-val () = emit_text (out, "#include \"prelude/CATS/integer.cats\"\n")
-val () = emit_text (out, "#include \"prelude/CATS/string.cats\"\n")
-//
-// HX: secondary prelude cats files
-//
-val () = emit_text (out, "//\n")
-val () = emit_text (out, "#include \"prelude/CATS/list.cats\"\n")
-val () = emit_text (out, "#include \"prelude/CATS/option.cats\"\n")
-val () = emit_text (out, "#include \"prelude/CATS/array.cats\"\n")
-val () = emit_text (out, "#include \"prelude/CATS/matrix.cats\"\n")
-//
-val () = emit_text (out, "//\n")
-val () = emit_text (out, "#endif /* _ATS_PRELUDE_NONE */\n")
-//
-in
-  emit_newline (out)
-end // end of [emit_ats_prelude_cats]
-
-(* ****** ****** *)
-
 local
 
 fun aux (

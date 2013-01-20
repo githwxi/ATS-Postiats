@@ -94,13 +94,15 @@ p1at_char (loc, c) = '{
   p1at_loc= loc, p1at_node= P1Tchar (c: char)
 }
 implement
-p1at_string (loc, str) = '{
-  p1at_loc= loc, p1at_node= P1Tstring (str)
-}
-implement
 p1at_float (loc, rep) = '{
   p1at_loc= loc, p1at_node= P1Tfloat (rep)
 }
+implement
+p1at_string (loc, str) = '{
+  p1at_loc= loc, p1at_node= P1Tstring (str)
+}
+
+(* ****** ****** *)
 
 implement
 p1at_i0nt
@@ -116,16 +118,16 @@ in
 end // end of [p1at_c0har]
 
 implement
+p1at_f0loat (loc, x) = '{
+  p1at_loc= loc, p1at_node= P1Tf0loat (x)
+} // end of [p1at_f0loat]
+
+implement
 p1at_s0tring (loc, x) = let
   val-$LEX.T_STRING (str) = x.token_node
 in
   p1at_string (loc, str)
 end // end of [p1at_s0tring]
-
-implement
-p1at_f0loat (loc, x) = '{
-  p1at_loc= loc, p1at_node= P1Tf0loat (x)
-} // end of [p1at_f0loat]
 
 (* ****** ****** *)
 
@@ -403,9 +405,9 @@ d1exp_intrep (loc, rep) = d1exp_make (loc, D1Eintrep (rep))
 implement
 d1exp_char (loc, c) = d1exp_make (loc, D1Echar (c:char))
 implement
-d1exp_string (loc, str) = d1exp_make (loc, D1Estring (str))
-implement
 d1exp_float (loc, rep) = d1exp_make (loc, D1Efloat rep)
+implement
+d1exp_string (loc, str) = d1exp_make (loc, D1Estring (str))
 
 (* ****** ****** *)
 

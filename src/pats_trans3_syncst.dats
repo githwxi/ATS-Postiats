@@ -284,6 +284,8 @@ end // end of [intbaserepsfx_syn_type_ind]
 
 end // end of [local]
 
+(* ****** ****** *)
+
 implement
 intrep_syn_type
   (loc0, rep) = let
@@ -419,16 +421,20 @@ end // end of [d2exp_trup_f0loat]
 (* ****** ****** *)
 
 implement
-cstsp_syn_type (d2e0, x) =
-  case+ x of
-  | $SYN.CSTSPmyfil () => s2exp_string_type ()
-  | $SYN.CSTSPmyloc () => s2exp_string_type ()
-  | $SYN.CSTSPmyfun () => s2exp_string_type ()
+cstsp_syn_type
+  (d2e0, x) = let
+in
+//
+case+ x of
+| $SYN.CSTSPmyfil () => s2exp_string_type ()
+| $SYN.CSTSPmyloc () => s2exp_string_type ()
+| $SYN.CSTSPmyfun () => s2exp_string_type ()
 (*
-  | $SYN.CSTSPmylinecnt (int) => s2exp_int_t0ype ()
-  | $SYN.CSTSPmycharcnt (int) => s2exp_lint_t0ype ()
+| $SYN.CSTSPmylinecnt (int) => s2exp_int_t0ype ()
+| $SYN.CSTSPmycharcnt (int) => s2exp_lint_t0ype ()
 *)
-// end of [cstsp_syn_type]
+//
+end // end of [cstsp_syn_type]
 
 implement
 d2exp_trup_cstsp

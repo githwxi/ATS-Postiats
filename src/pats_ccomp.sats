@@ -1180,8 +1180,8 @@ fun emit_symbol (out: FILEref, sym: symbol): void
 (* ****** ****** *)
 
 fun emit_time_stamp (out: FILEref): void
-fun emit_ats_runtime_incl (out: FILEref): void
-fun emit_ats_prelude_cats (out: FILEref): void
+fun emit_ats_ccomp_header (out: FILEref): void
+fun emit_ats_ccomp_prelude (out: FILEref): void
 
 (* ****** ****** *)
 

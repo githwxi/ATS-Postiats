@@ -1642,6 +1642,8 @@ in '{
   d0exp_loc= x.token_loc, d0exp_node= D0Estring (x)
 } end // end of [d0exp_s0tring]
 
+(* ****** ****** *)
+
 implement
 d0exp_empty (loc) = '{
   d0exp_loc= loc, d0exp_node= D0Eempty ()

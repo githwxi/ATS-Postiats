@@ -424,8 +424,8 @@ datatype p2at_node =
   | P2Tintrep of string(*rep*)
   | P2Tbool of bool
   | P2Tchar of char
-  | P2Tstring of string
   | P2Tfloat of string(*rep*)
+  | P2Tstring of string
 //
   | P2Ti0nt of i0nt
   | P2Tf0loat of f0loat
@@ -503,8 +503,8 @@ fun p2at_int (loc: location, i: int): p2at
 fun p2at_intrep (loc: location, rep: string): p2at
 fun p2at_bool (loc: location, b: bool): p2at
 fun p2at_char (loc: location, c: char): p2at
-fun p2at_string (loc: location, str: string): p2at
 fun p2at_float (loc: location, rep: string): p2at
+fun p2at_string (loc: location, str: string): p2at
 //
 fun p2at_i0nt (loc: location, x: i0nt): p2at
 fun p2at_f0loat (loc: location, x: f0loat): p2at
@@ -613,18 +613,18 @@ and d2exp_node =
   | D2Eintrep of string(*rep*)
   | D2Ebool of bool
   | D2Echar of char
-  | D2Estring of string
   | D2Efloat of string(*rep*)
+  | D2Estring of string
 //
   | D2Ei0nt of i0nt
   | D2Ec0har of c0har
-  | D2Es0tring of s0tring
   | D2Ef0loat of f0loat
-//
-  | D2Ecstsp of $SYN.cstsp // special constants
+  | D2Es0tring of s0tring
 //
   | D2Etop of () // unspecified
   | D2Eempty of () // the void-value (of unspecified size)
+//
+  | D2Ecstsp of $SYN.cstsp // special constants
 //
   | D2Eextval of (s2exp(*type*), string(*rep*))
 //
@@ -954,19 +954,19 @@ fun d2exp_int (loc: location, i: int): d2exp
 fun d2exp_intrep (loc: location, rep: string): d2exp
 fun d2exp_bool (loc: location, b: bool): d2exp
 fun d2exp_char (loc: location, c: char): d2exp
-fun d2exp_string (loc: location, s: string): d2exp
 fun d2exp_float (loc: location, rep: string): d2exp
+fun d2exp_string (loc: location, s: string): d2exp
 
 fun d2exp_i0nt (loc: location, x: i0nt): d2exp
 fun d2exp_c0har (loc: location, x: c0har): d2exp
 fun d2exp_f0loat (loc: location, x: f0loat): d2exp
 fun d2exp_s0tring (loc: location, x: s0tring): d2exp
 
-fun d2exp_cstsp (loc: location, cst: $SYN.cstsp): d2exp
-
 fun d2exp_top (loc: location): d2exp
 fun d2exp_empty (loc: location): d2exp
 
+fun d2exp_cstsp
+  (loc: location, cst: $SYN.cstsp): d2exp
 fun d2exp_extval
   (loc: location, typ: s2exp, rep: string): d2exp
 // end of [d2exp_extval]

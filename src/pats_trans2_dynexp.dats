@@ -1209,8 +1209,8 @@ case+ d1e0.d1exp_node of
 | D1Eintrep (rep) => d2exp_intrep (loc0, rep)
 | D1Ebool (b) => d2exp_bool (loc0, b)
 | D1Echar (c) => d2exp_char (loc0, c)
-| D1Estring (s) => d2exp_string (loc0, s)
 | D1Efloat (rep) => d2exp_float (loc0, rep)
+| D1Estring (s) => d2exp_string (loc0, s)
 //
 | D1Ei0nt (x) => d2exp_i0nt (loc0, x)
 | D1Ec0har (x) => d2exp_c0har (loc0, x)
@@ -1274,9 +1274,11 @@ case+ d1e0.d1exp_node of
     d1e1, locarg, npf, darg
   ) => (
     case+ d1e1.d1exp_node of
-    | D1Eapp_sta (d1e_fun, sarg) =>
-        d1exp_tr_app_sta_dyn (d1e0, d1e1, d1e_fun, sarg, locarg, npf, darg)
-      // end of [P1Tapp_sta]
+    | D1Eapp_sta
+        (d1e_fun, sarg) =>
+        d1exp_tr_app_sta_dyn (
+        d1e0, d1e1, d1e_fun, sarg, locarg, npf, darg
+      ) // end of [P1Tapp_sta]
     | _ => d1exp_tr_app_dyn (d1e0, d1e1, locarg, npf, darg)
   ) // end of [D1Eapp_dyn]
 | D1Eapp_sta (d1e1, sarg) => let
