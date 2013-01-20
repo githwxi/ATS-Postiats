@@ -14,12 +14,12 @@ val ent = sprintf ("\
 fun fprint_%s
   : fprint_type (%s) = \"mac#atspre_fprint_%s\"
 overload fprint with fprint_%s
-fun print_%s (x: %s): void
-and prerr_%s (x: %s): void
+fun print_%s (x: %s): void = \"mac#atspre_print_%s\"
+fun prerr_%s (x: %s): void = \"mac#atspre_prerr_%s\"
 overload print with print_%s
 overload prerr with prerr_%s
 ", @(
- tnm1, tnm2, tnm1, tnm1, tnm1, tnm2, tnm1, tnm2, tnm1, tnm1
+ tnm1, tnm2, tnm1, tnm1, tnm1, tnm2, tnm1, tnm1, tnm2, tnm1, tnm1, tnm1
 )
 ) // end of [sprintf] // end of [val]
 //

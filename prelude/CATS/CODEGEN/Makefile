@@ -21,6 +21,15 @@ all::
 
 ######
 
+all:: basics.cats
+basics.cats: basics_atxt.exe ; ./$< > $@
+basics_atxt.exe: basics_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ basics_atxt.dats -latsdoc
+basics_atxt.dats: basics.atxt
+	$(ATSDOC) --outcode $@ -i basics.atxt > basics_atxt.txt
+clean:: ; $(RMF) basics_atxt.exe
+cleanall:: ; $(RMF) basics.cats
+
 all:: bool.cats
 bool.cats: bool_atxt.exe ; ./$< > $@
 bool_atxt.exe: bool_atxt.dats

@@ -18,7 +18,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 ** Time of generation: #timestamp()
 */
 
-#atscode_separator()
+#atscode_separator_for_C()
 
 /*
 #atscode_author("Hongwei Xi")
@@ -34,8 +34,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator_for_C()
 
 extern
-int fprintf (FILE *stream, char *format, ...) ;
-// in stdio.h
+int fprintf (FILE *stream, const char *format, ...) ;
+// in [stdio.h]
 
 #atscode_separator_for_C()
 
@@ -76,7 +76,7 @@ atstype_bool
 atspre_lte_bool_bool (
   atstype_bool b1, atstype_bool b2
 ) {
-  return (b1) ? (b2) : atstype_true ;
+  return (b1) ? (b2) : atsbool_true ;
 } // end of [atspre_lte_bool_bool]
 
 ATSinline()
@@ -132,12 +132,12 @@ atspre_tostring_bool (
 #atscode_separator_for_C()
 
 ATSinline()
-atstype_void
+atsvoid_t0ype
 atspre_fprint_bool (
-  atstype_ref r, atstype_bool x
+  atstype_ref out, atstype_bool x
 ) {
   int err ;
-  err = fprintf((FILE*)r, "%s", atspre_tostring_bool(x)) ;
+  err = fprintf((FILE*)out, "%s", atspre_tostring_bool(x)) ;
   return ;
 } // end [atspre_fprint_bool]
 
