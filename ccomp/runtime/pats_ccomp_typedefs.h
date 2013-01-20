@@ -83,6 +83,7 @@ typedef char *atstype_string ;
 
 typedef float atstype_float ;
 typedef double atstype_double ;
+typedef long double atstype_ldouble ;
 
 /* ****** ****** */
 

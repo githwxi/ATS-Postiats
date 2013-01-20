@@ -61,6 +61,18 @@ typedef NSH(a:type) = a // for commenting purpose
 
 #atscode_separator()
 //
+stadef intknd = int_kind
+stadef lintknd = lint_kind
+stadef llintknd = llint_kind
+stadef ssizeknd = ssize_kind
+//
+stadef uintknd = uint_kind
+stadef ulintknd = ulint_kind
+stadef ullintknd = ullint_kind
+stadef sizeknd = size_kind
+//
+#atscode_separator()
+//
 fun{k1,k2:tk}
 g0int2int (x: g0int (k1)):<> g0int (k2)
 //
@@ -103,6 +115,11 @@ overload double with g0int_double of 0
 
 #atscode_separator()
 
+typedef
+g0int_aop_type (tk: tkind) =
+   (g0int (tk), g0int (tk)) -<fun0> g0int (tk)
+// end of [g0int_aop_type]
+
 %{
 fun
 fun_g0int_aop_decl (
@@ -117,10 +134,8 @@ val fopr_d = (
 ) : string // end of [val]
 //
 val ent = sprintf ("\
-fun{
-tk:tk
-} g0int_%s
-  (x: g0int (tk), y: g0int (tk)):<> g0int (tk)
+fun{tk:tk}
+g0int_%s : g0int_aop_type (tk)
 overload %s with g0int_%s of 0\
 ", @(
  opr, fopr_d, opr
@@ -160,6 +175,11 @@ overload isneqz with g0int_isneqz of 0
 
 #atscode_separator()
 
+typedef
+g0int_cmp_type (tk:tk) =
+  (g0int (tk), g0int (tk)) -<fun0> bool
+// end of [g0int_cmp_type]
+
 %{
 fun
 fun_g0int_cmp_decl (
@@ -175,10 +195,8 @@ val fopr_d = (
 ) : string // end of [val]
 //
 val ent = sprintf ("\
-fun{
-tk:tk
-} g0int_%s
-  (x: g0int (tk), y: g0int (tk)):<> bool
+fun{tk:tk}
+g0int_%s : g0int_cmp_type (tk)
 overload %s with g0int_%s of 0\
 ", @(
  opr, fopr_d, opr
@@ -1257,7 +1275,7 @@ fun f (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
 val ent = sprintf ("\
-fun g1int_%s_%s : g1int_%s_type (%s_kind) = \"mac#atspre_g1int_%s_%s\"\n\
+fun g1int_%s_%s : g1int_%s_type (%sknd) = \"mac#atspre_g1int_%s_%s\"\n\
 ", @(fnm, tnm1, fnm, tnm1, fnm, tnm1)
 ) // end of [sprintf] // end of [val]
 in
@@ -1320,7 +1338,7 @@ fun f (
   fnm: string, tnm1: string, tnm2: string
 ) : atext = let
 val ent = sprintf ("\
-fun g1uint_%s_%s : g1uint_%s_type (%s_kind) = \"mac#atspre_g1uint_%s_%s\"\n\
+fun g1uint_%s_%s : g1uint_%s_type (%sknd) = \"mac#atspre_g1uint_%s_%s\"\n\
 ", @(fnm, tnm1, fnm, tnm1, fnm, tnm1)
 ) // end of [sprintf] // end of [val]
 in
