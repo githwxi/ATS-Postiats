@@ -356,7 +356,7 @@ case+ d2lv of
     val d3ls = d2lablst_trup (d2ls)
     val-Some (s2l) = d2var_get_addr (d2v)
     val s2e = d2var_get_type_some (loc0, d2v)
-    val d3e = d3exp_ptrof_var (loc0, s2e, d2v)
+    val d3e = d3exp_ptrofvar (loc0, s2e, d2v)
     val s2e_at = s2addr_viewat_deref (loc0, s2l, d3ls)
   in
     d3exp_viewat (loc0, s2e_at, d3e, d3ls)
@@ -457,7 +457,7 @@ case+ d2lv_l of
     val () = s2addr_set_viewat (loc0, s2l, d3ls, s2e_r)
     val loc = d2e_l.d2exp_loc
     val s2e_l = d2var_get_type_some (loc, d2v)
-    val d3e_l = d3exp_ptrof_var (loc, s2e_l, d2v)
+    val d3e_l = d3exp_ptrofvar (loc, s2e_l, d2v)
   in
     d3exp_viewat_assgn (loc0, d3e_l, d3ls, d3e_r)
   end // end of [D2LVALvar_mut]

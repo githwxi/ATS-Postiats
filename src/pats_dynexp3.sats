@@ -308,8 +308,8 @@ and d3exp_node =
 //
   | D3Eselab of (d3exp, d3lablst) // record/tuple field selection
 //
-  | D3Eptrof_var of (d2var) // taking the address of
-  | D3Eptrof_ptrsel of (d3exp, s2exp(*root*), d3lablst) // taking the address of
+  | D3Eptrofvar of (d2var) // taking the address of
+  | D3Eptrofsel of (d3exp, s2exp(*root*), d3lablst) // taking the address of
 //
   | D3Eviewat of (d3exp, d3lablst) // taking the atview of // it is to be erased
 //
@@ -744,11 +744,11 @@ fun d3exp_selab
 
 (* ****** ****** *)
 
-fun d3exp_ptrof_var
+fun d3exp_ptrofvar
   (loc: location, s2f: s2exp, d2v: d2var): d3exp
-fun d3exp_ptrof_ptrsel (
+fun d3exp_ptrofsel (
   loc: location, s2f: s2exp, d3e: d3exp, s2rt: s2exp, d3ls: d3lablst
-) : d3exp // end of [d3exp_ptrof_ptrsel]
+) : d3exp // end of [d3exp_ptrofsel]
 
 (* ****** ****** *)
 

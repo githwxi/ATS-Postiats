@@ -374,14 +374,15 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   }
 //
-| D3Eptrof_var (d2v) => {
-    val () = prstr "D3Eptr_var("
+| D3Eptrofvar
+    (d2v) => {
+    val () = prstr "D3Eptrofvar("
     val () = fprint_d2var (out, d2v)
     val () = prstr ")"
   }
-| D3Eptrof_ptrsel
+| D3Eptrofsel
     (d3e, s2rt, d3ls) => {
-    val () = prstr "D3Eptrof_ptrsel("
+    val () = prstr "D3Eptrofsel("
     val () = fprint_d3exp (out, d3e)
     val () = prstr "; "
     val () = fprint_s2exp (out, s2rt)

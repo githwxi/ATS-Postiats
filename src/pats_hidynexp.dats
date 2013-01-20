@@ -386,16 +386,16 @@ hidexp_selab
 (* ****** ****** *)
 
 implement
-hidexp_ptrof_var
+hidexp_ptrofvar
   (loc, hse, d2v) =
-  hidexp_make_node (loc, hse, HDEptrof_var (d2v))
-// end of [hidexp_ptrof_var]
+  hidexp_make_node (loc, hse, HDEptrofvar (d2v))
+// end of [hidexp_ptrofvar]
 
 implement
-hidexp_ptrof_ptrsel
-  (loc, hse, hde, hils) =
-  hidexp_make_node (loc, hse, HDEptrof_ptrsel (hde, hils))
-// end of [hidexp_ptrof_ptrsel]
+hidexp_ptrofsel
+  (loc, hse, hde, s2rt, hils) =
+  hidexp_make_node (loc, hse, HDEptrofsel (hde, s2rt, hils))
+// end of [hidexp_ptrofsel]
 
 (* ****** ****** *)
 

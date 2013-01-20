@@ -541,18 +541,19 @@ case+
     hidexp_selab (loc0, hse0, hde, hse_flt, hils)
   end // end of [D3Eselab]
 //
-| D3Eptrof_var
+| D3Eptrofvar
     (d2v) => let
   in
-    hidexp_ptrof_var (loc0, hse0, d2v)
-  end // end of [D3Eptrof_var]
-| D3Eptrof_ptrsel
+    hidexp_ptrofvar (loc0, hse0, d2v)
+  end // end of [D3Eptrofvar]
+| D3Eptrofsel
     (d3e, s2rt, d3ls) => let
     val hde = d3exp_tyer (d3e)
+    val hse_rt = s2exp_tyer_shallow (loc0, s2rt)
     val hils = d3lablst_tyer (d3ls)
   in
-    hidexp_ptrof_ptrsel (loc0, hse0, hde, hils)
-  end // end of [D3Eptrof_ptrsel]
+    hidexp_ptrofsel (loc0, hse0, hde, hse_rt, hils)
+  end // end of [D3Eptrofsel]
 //
 | D3Erefarg (
     refval, freeknd, d3e

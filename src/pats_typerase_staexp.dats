@@ -169,7 +169,7 @@ case+
     s2cst_tyer (loc0, flag, s2c)
 | S2Evar (s2v) => hisexp_tyvar (s2v)
 //
-| S2Edatconptr _ => hisexp_typtr_con
+| S2Edatconptr _ => hisexp_conptr
 | S2Edatcontyp
     (d2c, s2es) => let
     val npf = d2con_get_npf (d2c)
@@ -347,9 +347,9 @@ in
   hisexp_fun (fc, hses_arg, hse_res)
 end else (
   case+ fc of
-  | FUNCLOfun () => hisexp_typtr_fun
+  | FUNCLOfun () => hisexp_funptr
   | FUNCLOclo (knd) =>
-      if knd = 0 then hisexp_tyclo else hisexp_typtr_clo
+      if knd = 0 then hisexp_tyclo else hisexp_cloptr
     // end of [FUNCLOclo]
 ) (* end of [if] *)
 //
@@ -380,7 +380,7 @@ in
 case knd of
 | TYRECKINDbox () => (
     if flag > 0 then
-      hisexp_tyrec (knd, lhses) else hisexp_typtr
+      hisexp_tyrec (knd, lhses) else hisexp_tybox
   ) // end of [TYRECKINDbox]
 | TYRECKINDflt_ext _ => hisexp_tyrec (knd, lhses)
 | _ (*TYRECKINDflt0/1*) => let

@@ -159,6 +159,7 @@ val the_g0float_t0ype : s2cstref
 //
 val the_ptr_type : s2cstref
 val the_ptr_addr_type : s2cstref
+//
 val the_atsvoid_t0ype : s2cstref
 //
 val the_unit_prop : s2cstref

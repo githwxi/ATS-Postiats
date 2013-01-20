@@ -421,7 +421,7 @@ val () = auxlst (env, res, lev0, knd, hvds)
 //
 in
   instrseq_get_free (res)
-end // end of [hivardeclst_ccomp]
+end // end of [hivaldeclst_ccomp]
 
 end // end of [local]
 
@@ -516,8 +516,10 @@ val hse_elt = s2exp_tyer_shallow (loc_d2v, s2e_elt)
 val tmp = tmpvar_make (loc_d2v, hse_elt)
 //
 val () = (
-  case+ hvd.hivardec_ini of
-  | Some (hde) => hidexp_ccomp_ret (env, res, tmp, hde) | None () => ()
+  case+
+    hvd.hivardec_ini of
+  | Some (hde) => hidexp_ccomp_ret (env, res, tmp, hde)
+  | None ((*void*)) => ()
 ) : void // end of [val]
 //
 val pmv = primval_tmpref (loc, hse_elt, tmp)

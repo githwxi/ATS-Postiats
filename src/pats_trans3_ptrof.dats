@@ -209,7 +209,7 @@ case+
           d2var_get_type_some (loc0, d2v)
         // end of [val]
       in
-        d3exp_ptrof_var (loc0, s2e, d2v)
+        d3exp_ptrofvar (loc0, s2e, d2v)
       end // end of [Some]
     | None () => let
         val () = auxerr_nonmut (loc0, d2v) in d3exp_err (loc0)
@@ -248,7 +248,7 @@ in
 if ismut then let
   val d3ls = d2lablst_trup (d2ls)
   val-Some (s2e_ptr) = d2var_get_type (d2v)
-  val d3e_ptr = d3exp_ptrof_var (loc0, s2e_ptr, d2v)
+  val d3e_ptr = d3exp_ptrofvar (loc0, s2e_ptr, d2v)
 in
 //
 case+ d3ls of
@@ -257,7 +257,7 @@ case+ d3ls of
     var s2rt: s2exp
     val s2e_prj = s2addr_ptrof (loc0, s2l, d3ls, s2rt)
   in
-    d3exp_ptrof_ptrsel (loc0, s2e_prj, d3e_ptr, s2rt, d3ls)
+    d3exp_ptrofsel (loc0, s2e_prj, d3e_ptr, s2rt, d3ls)
   end // end of [list_cons]
 | list_nil () => d3e_ptr // end of [list_nil]
 //
@@ -294,7 +294,7 @@ case+ opt of
         end // end of [list_nil]
     ) : s2exp // end of [val]
   in
-    d3exp_ptrof_ptrsel (loc0, s2e_prj, d3e, s2rt, d3ls)
+    d3exp_ptrofsel (loc0, s2e_prj, d3e, s2rt, d3ls)
   end // end of [Some_vt]
 | ~None_vt () => let
     val () = auxerr_nonptr (loc0, d3e) in d3exp_err (loc0)

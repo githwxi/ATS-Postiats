@@ -69,7 +69,7 @@ fun fprint_hitnam : fprint_type (hitnam)
 datatype
 hisexp_node =
 //
-  | HSEtyptr of () // for pointers
+  | HSEtybox of () // for pointers
   | HSEtyabs of (symbol) // for abstypes
 //
   | HSEfun of (* function type *)
@@ -121,15 +121,23 @@ fun fprint_hisexplst : fprint_type (hisexplst)
 
 (* ****** ****** *)
 //
+val hisexp_tybox : hisexp
+//
 val hisexp_typtr : hisexp
+val hisexp_tyref : hisexp
 //
 val hisexp_tyclo : hisexp
 //
-val hisexp_typtr_fun : hisexp
-val hisexp_typtr_clo : hisexp
+val hisexp_funptr : hisexp
+val hisexp_cloptr : hisexp
 //
-val hisexp_typtr_con : hisexp
+val hisexp_arrptr : hisexp
+val hisexp_conptr : hisexp
 //
+(* ****** ****** *)
+
+fun hisexp_void () : hisexp
+
 (* ****** ****** *)
 
 fun hisexp_get_boxknd (hse: hisexp): int
@@ -141,7 +149,7 @@ fun hisexp_varetize (hse: hisexp): hisexp
 
 (* ****** ****** *)
 
-fun hisexp_is_ptr (hse: hisexp): bool
+fun hisexp_is_box (hse: hisexp): bool
 fun hisexp_is_void (hse: hisexp): bool
 fun hisexp_fun_is_void (hse: hisexp): bool
 

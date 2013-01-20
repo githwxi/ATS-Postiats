@@ -120,9 +120,9 @@ case+
     val () = $SYM.fprint_symbol (out, sym)
     val () = prstr ")"
   } // end of [HSEtyabs]
-| HSEtyptr () => {
-    val () = prstr "HSEtyptr()"
-  } // end of [HSEtyptr]
+| HSEtybox () => {
+    val () = prstr "HSEtybox()"
+  } // end of [HSEtybox]
 //
 | HSEtyarr
     (hse, dim) => {

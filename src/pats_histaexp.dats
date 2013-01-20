@@ -58,27 +58,12 @@ staload "./pats_histaexp.sats"
 
 (* ****** ****** *)
 //
-#define ATSTYPE_ABS "atstype_abs"
-//
-#define ATSTYPE_PTR "atstype_ptr"
-#define ATSTYPE_REF "atstype_ref"
-//
-#define ATSTYPE_VOID "atstype_void"
+#define ATSTYPE_BOXED "atstype_boxed"
 //
 (* ****** ****** *)
 //
-val HITNAM_ABS =
-  HITNAM (0(*non*), 0(*fin*), ATSTYPE_ABS)
-//
-val HITNAM_PTR =
-  HITNAM (1(*non*), 1(*fin*), ATSTYPE_PTR)
-val HITNAM_REF =
-  HITNAM (1(*ptr*), 1(*fin*), ATSTYPE_REF)
-//
-val HITNAM_APP =
-  HITNAM (0(*non*), 0(*tmp*), "atstype_tyapp")
-val HITNAM_CLO =
-  HITNAM (0(*non*), 0(*tmp*), "atstype_tyclo")
+val HITNAM_BOXED =
+  HITNAM (1(*non*), 1(*fin*), ATSTYPE_BOXED)
 //
 val HITNAM_FUNPTR =
   HITNAM (1(*ptr*), 1(*fin*), "atstype_funptr")
@@ -87,28 +72,48 @@ val HITNAM_CFUNPTR =
 val HITNAM_CLOPTR =
   HITNAM (1(*ptr*), 1(*fin*), "atstype_cloptr")
 //
+val HITNAM_ARRPTR =
+  HITNAM (1(*ptr*), 1(*fin*), "atstype_arrptr")
 val HITNAM_CONPTR =
   HITNAM (1(*ptr*), 1(*fin*), "atstype_conptr")
 //
+(* ****** ****** *)
+//
+#define POSTIATS_TYABS "postiats_tyabs"
+#define POSTIATS_TYPTR "postiats_typtr"
+#define POSTIATS_TYREF "postiats_tyref"
+//
+val HITNAM_TYABS =
+  HITNAM (0(*non*), 0(*fin*), POSTIATS_TYABS)
+val HITNAM_TYPTR =
+  HITNAM (1(*non*), 1(*fin*), POSTIATS_TYPTR)
+val HITNAM_TYREF =
+  HITNAM (1(*non*), 1(*fin*), POSTIATS_TYREF)
+//
+val HITNAM_TYAPP =
+  HITNAM (0(*non*), 0(*tmp*), "postiats_tyapp")
+val HITNAM_TYCLO =
+  HITNAM (0(*non*), 0(*tmp*), "postiats_tyclo")
+//
 val HITNAM_TYARR =
-  HITNAM (0(*non*), 0(*tmp*), "atstype_tyarr")
+  HITNAM (0(*non*), 0(*tmp*), "postiats_tyarr")
 val HITNAM_TYREC =
-  HITNAM (0(*non*), 0(*tmp*), "atstype_tyrec")
+  HITNAM (0(*non*), 0(*tmp*), "postiats_tyrec")
 val HITNAM_TYRECSIN =
-  HITNAM (0(*non*), 0(*tmp*), "atstype_tyrecsin")
+  HITNAM (0(*non*), 0(*tmp*), "postiats_tyrecsin")
 val HITNAM_TYSUM =
-  HITNAM (0(*non*), 0(*tmp*), "atstype_tysum")
+  HITNAM (0(*non*), 0(*tmp*), "postiats_tysum")
 //
 val HITNAM_TYVAR =
-  HITNAM (0(*non*), 0(*tmp*), "atstype_tyvar")
+  HITNAM (0(*non*), 0(*tmp*), "postiats_tyvar")
 val HITNAM_TYVARET =
-  HITNAM (0(*non*), 0(*tmp*), "atstype_tyvaret")
+  HITNAM (0(*non*), 0(*tmp*), "postiats_tyvaret")
 //
 val HITNAM_VARARG =
-  HITNAM (0(*non*), 0(*tmp*), "atstype_vararg")
+  HITNAM (0(*non*), 0(*tmp*), "postiats_vararg")
 //
 val HITNAM_S2EXP =
-  HITNAM (0(*non*), 0(*tmp*), "atstype_s2exp")
+  HITNAM (0(*non*), 0(*tmp*), "postiats_s2exp")
 //
 (* ****** ****** *)
 
@@ -139,9 +144,9 @@ end // end of [hisexp_get_extknd]
 (* ****** ****** *)
 
 implement
-hisexp_is_ptr (hse0) = let
+hisexp_is_box (hse0) = let
   val HITNAM (knd, _, _) = hse0.hisexp_name in knd > 0
-end // end of [hisexp_is_ptr]
+end // end of [hisexp_is_box]
 
 (* ****** ****** *)
 
@@ -193,30 +198,61 @@ labhisexp_get_elt (lhse) =
 (* ****** ****** *)
 
 implement
-hisexp_typtr = '{
-  hisexp_name= HITNAM_PTR, hisexp_node= HSEtyptr ()
+hisexp_tybox = '{
+  hisexp_name= HITNAM_BOXED, hisexp_node= HSEtybox ()
 }
+
+implement
+hisexp_typtr = let
+in '{
+  hisexp_name= HITNAM_TYPTR, hisexp_node= HSEtybox ()
+} end // end of [hisexp_typtr]
+
+implement
+hisexp_tyref = let
+in '{
+  hisexp_name= HITNAM_TYREF, hisexp_node= HSEtybox ()
+} end // end of [hisexp_tyref]
+
+(* ****** ****** *)
 
 implement
 hisexp_tyclo = let
   val sym = $SYM.symbol_empty
 in '{
-  hisexp_name= HITNAM_CLO, hisexp_node= HSEtyabs (sym)
+  hisexp_name= HITNAM_TYCLO, hisexp_node= HSEtyabs (sym)
 } end // end of [hisexp_tyclo]
 
+(* ****** ****** *)
+
 implement
-hisexp_typtr_fun = '{
-  hisexp_name= HITNAM_FUNPTR, hisexp_node= HSEtyptr ()
+hisexp_funptr = '{
+  hisexp_name= HITNAM_FUNPTR, hisexp_node= HSEtybox ()
 }
 implement
-hisexp_typtr_clo = '{
-  hisexp_name= HITNAM_CLOPTR, hisexp_node= HSEtyptr ()
+hisexp_cloptr = '{
+  hisexp_name= HITNAM_CLOPTR, hisexp_node= HSEtybox ()
 }
 
 implement
-hisexp_typtr_con = '{
-  hisexp_name= HITNAM_CONPTR, hisexp_node= HSEtyptr ()
+hisexp_arrptr = '{
+  hisexp_name= HITNAM_ARRPTR, hisexp_node= HSEtybox ()
 }
+implement
+hisexp_conptr = '{
+  hisexp_name= HITNAM_CONPTR, hisexp_node= HSEtybox ()
+}
+
+(* ****** ****** *)
+
+implement
+hisexp_void () = let
+  val s2c =
+    $S2C.s2cstref_get_cst ($S2C.the_atsvoid_t0ype)
+  // end of [val]
+in '{
+  hisexp_name= HITNAM_TYABS, hisexp_node= HSEcst (s2c)
+} end // end of [hisexp_void]
 
 (* ****** ****** *)
 
@@ -230,7 +266,7 @@ fun hisexp_make_node (
 
 implement
 hisexp_tyabs (sym) =
-  hisexp_make_node (HITNAM_ABS, HSEtyabs (sym))
+  hisexp_make_node (HITNAM_TYABS, HSEtyabs (sym))
 // end of [hisexp_tyabs]
 
 (* ****** ****** *)
@@ -260,7 +296,7 @@ hisexp_make_srtsym
   (s2t, sym) = let
   val isbox = s2rt_is_boxed_fun (s2t)
 in
-  if isbox then hisexp_typtr else hisexp_tyabs (sym)
+  if isbox then hisexp_tybox else hisexp_tyabs (sym)
 end // end of [hisexp_make_srtsym]
 
 (* ****** ****** *)
@@ -274,13 +310,13 @@ hisexp_fun
 (* ****** ****** *)
 
 implement
-hisexp_cst (s2c) = hisexp_make_node (HITNAM_ABS, HSEcst (s2c))
+hisexp_cst (s2c) = hisexp_make_node (HITNAM_TYABS, HSEcst (s2c))
 
 (* ****** ****** *)
 
 implement
 hisexp_app
-  (_fun, _arg) = hisexp_make_node (HITNAM_APP, HSEapp (_fun, _arg))
+  (_fun, _arg) = hisexp_make_node (HITNAM_TYAPP, HSEapp (_fun, _arg))
 // end of [hisexp_app]
 
 (* ****** ****** *)
@@ -299,7 +335,7 @@ implement
 hisexp_refarg
   (knd, arg) = let
   val name = (
-    if knd > 0 then HITNAM_REF else arg.hisexp_name
+    if knd > 0 then HITNAM_TYREF else arg.hisexp_name
   ) : hitnam // end of [val]
 in '{
   hisexp_name= name, hisexp_node= HSErefarg (knd, arg)
@@ -366,8 +402,9 @@ hisexp_tysum (d2c, lhses) =
 implement
 hisexp_tyvar (s2v) = let
   val s2t = s2var_get_srt (s2v)
+  val isbox = s2rt_is_boxed (s2t)
   val hit = (
-    if s2rt_is_boxed (s2t) then HITNAM_PTR else HITNAM_TYVAR
+    if isbox then HITNAM_BOXED else HITNAM_TYVAR
   ) : hitnam // end of [val]
 in
   hisexp_make_node (hit, HSEtyvar (s2v))
@@ -400,8 +437,8 @@ case+
   hse0.hisexp_node
 of // of [case]
 //
-| HSEtyptr _ => hse0
 | HSEtyabs _ => hse0
+| HSEtybox _ => hse0
 //
 | HSEfun (fc, hses_arg, hse_res) => let
     val flag0 = flag

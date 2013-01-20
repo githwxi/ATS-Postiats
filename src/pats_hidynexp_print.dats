@@ -409,15 +409,19 @@ case+
     val () = prstr ")"
   }
 //
-| HDEptrof_var (d2v) => {
-    val () = prstr "HDEptrof_var("
+| HDEptrofvar
+    (d2v) => {
+    val () = prstr "HDEptrofvar("
     val () = fprint_d2var (out, d2v)
     val () = prstr ")"
   }
-| HDEptrof_ptrsel
-    (hde, hils) => {
-    val () = prstr "HDEptrof_ptrsel("
+| HDEptrofsel
+    (hde, hse_rt, hils) => {
+    val () = prstr "HDEptrofsel("
     val () = fprint_hidexp (out, hde)
+    val () = prstr "("
+    val () = fprint_hisexp (out, hse_rt)
+    val () = prstr ")"
     val () = prstr "["
     val () = fprint_hilablst (out, hils)
     val () = prstr "]"

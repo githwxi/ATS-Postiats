@@ -711,6 +711,10 @@ instr_node =
       (tmpvar, primval, hisexp(*tyroot*), primlablst)
     // end of [INSmove_select2]
 //
+  | INSmove_ptrofsel of
+      (tmpvar, primval, hisexp(*tyroot*), primlablst)
+    // end of [INSmove_ptrofsel]
+//
   | INSload_varofs of
       (tmpvar, primval, hisexp(*tyroot*), primlablst(*ofs*))
   | INSload_ptrofs of
@@ -840,36 +844,43 @@ fun instr_move_selcon (
 
 fun instr_move_select (
   loc: location
-, tmp: tmpvar, pmv: primval, hse_rt: hisexp, hil: primlab
+, tmp: tmpvar, pmv: primval, hse_rt: hisexp, pml: primlab
 ) : instr // end of [instr_move_select]
 
 fun instr_move_select2 (
   loc: location
-, tmp: tmpvar, pmv: primval, hse_rt: hisexp, hils: primlablst
+, tmp: tmpvar, pmv: primval, hse_rt: hisexp, pmls: primlablst
 ) : instr // end of [instr_move_select2]
+
+(* ****** ****** *)
+
+fun instr_move_ptrofsel (
+  loc: location
+, tmp: tmpvar, pmv: primval, hse_rt: hisexp, pmls: primlablst
+) : instr // end of [instr_move_ptrofsel]
 
 (* ****** ****** *)
 
 fun instr_load_varofs (
   loc: location
-, tmp: tmpvar, pmv: primval, hse_rt: hisexp, hils: primlablst
+, tmp: tmpvar, pmv: primval, hse_rt: hisexp, pmls: primlablst
 ) : instr // end of [instr_load_varofs]
 
 fun instr_load_ptrofs (
   loc: location
-, tmp: tmpvar, pmv: primval, hse_rt: hisexp, hils: primlablst
+, tmp: tmpvar, pmv: primval, hse_rt: hisexp, pmls: primlablst
 ) : instr // end of [instr_load_ptrofs]
 
 (* ****** ****** *)
 
 fun instr_store_varofs (
   loc: location
-, pmv_l: primval, hse_rt: hisexp, hils: primlablst, pmv_r: primval
+, pmv_l: primval, hse_rt: hisexp, pmls: primlablst, pmv_r: primval
 ) : instr // end of [instr_store_varofs]
 
 fun instr_store_ptrofs (
   loc: location
-, pmv_l: primval, hse_rt: hisexp, hils: primlablst, pmv_r: primval
+, pmv_l: primval, hse_rt: hisexp, pmls: primlablst, pmv_r: primval
 ) : instr // end of [instr_store_ptrofs]
 
 (* ****** ****** *)

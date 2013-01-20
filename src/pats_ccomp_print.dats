@@ -678,7 +678,7 @@ case+ x.instr_node of
 | INSmove_select2 (
     tmp, pmv, hse_sel, pmls
   ) => {
-    val () = prstr "INSmove_select("
+    val () = prstr "INSmove_select2("
     val () = fprint_tmpvar (out, tmp)
     val () = prstr " <- "
     val () = fprint_primval (out, pmv)
@@ -688,6 +688,20 @@ case+ x.instr_node of
     val () = fprint_primlablst (out, pmls)
     val () = prstr ")"
   } // end of [INSmove_select2]
+//
+| INSmove_ptrofsel (
+    tmp, pmv, hse_sel, pmls
+  ) => {
+    val () = prstr "INSmove_ptrofsel("
+    val () = fprint_tmpvar (out, tmp)
+    val () = prstr " <- "
+    val () = fprint_primval (out, pmv)
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse_sel)
+    val () = prstr "; "
+    val () = fprint_primlablst (out, pmls)
+    val () = prstr ")"
+  } // end of [INSmove_ptrofsel]
 //
 | INSload_varofs
     (tmp, pmv, hse_sel, ofs) => {

@@ -107,7 +107,7 @@ assume hitype_type = hitype
 extern
 fun hitype_none (): hitype
 extern
-fun hitype_typtr (): hitype
+fun hitype_tybox (): hitype
 extern
 fun hitype_undef (hse: hisexp): hitype
 
@@ -533,7 +533,7 @@ implement
 hitype_none () = HITnone ()
 
 implement
-hitype_typtr () = HITnmd ("atstype_ptr")
+hitype_tybox () = HITnmd ("atsbox_type")
 
 implement
 hitype_undef (hse) = let
@@ -767,14 +767,14 @@ and aux_tyrec (
 //
 val-HSEtyrec
   (knd, lxs) = hse0.hisexp_node
-val isptr = (
+val isbox = (
   if flag > 0 then tyreckind_is_box (knd) else false
 ) : bool // end of [val]
 //
 in
 //
-if isptr
-  then hitype_typtr ()
+if isbox
+  then hitype_tybox ()
   else let
   val lys = auxlablst (flag, lxs)
   val hit0 = HITtyrec (lys)
@@ -798,13 +798,13 @@ and aux_tysum (
 //
 val-HSEtysum
   (d2c, lxs) = hse0.hisexp_node
-val isptr =
+val isbox =
   (if flag > 0 then true else false): bool
 //
 in
 //
-if isptr
-  then hitype_typtr ()
+if isbox
+  then hitype_tybox ()
   else let
   val tgd = (
     if d2con_is_tagless (d2c) then 0 else 1

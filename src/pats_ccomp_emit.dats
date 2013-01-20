@@ -863,12 +863,15 @@ implement
 emit_primval_ptrof
   (out, pmv0) = let
 //
-val-PMVptrof (pmv) = pmv0.primval_node
+val-PMVptrof
+  (pmv) = pmv0.primval_node
 //
-val () = 
-  emit_text (out, "ATSPMVptrof(")
+val () =
+  emit_text (
+  out, "ATSPMVptrof("
+) // end of [val]
 val () = emit_primval (out, pmv)
-val () = emit_text (out, ")")
+val () = emit_rparen (out)
 //
 in
   // nothing
@@ -876,20 +879,35 @@ end // end of [emit_primval_ptrof]
 
 (* ****** ****** *)
 
+local
+
+fun auxmain (
+  out: FILEref, pmv: primval, hse: hisexp
+) : void = let
+  val () =
+    emit_text (out, "ATSderef(")
+  val () = emit_primval (out, pmv)
+  val () = emit_text (out, ", ")
+  val () = emit_hisexp (out, hse)
+  val () = emit_rparen (out)
+in
+  // nothing
+end // end of [auxmain]
+
+in (* in of [local] *)
+
 implement
 emit_primval_deref
   (out, pmv, hse) = let
-//
-val () =
-  emit_text (out, "ATSderef(")
-val () = emit_primval (out, pmv)
-val () = emit_text (out, ", ")
-val () = emit_hisexp (out, hse)
-val () = emit_rparen (out)
-//
 in
-  // nothing
+//
+case+ pmv.primval_node of
+| PMVptrof (pmv) => emit_primval (out, pmv)
+| _ => auxmain (out, pmv, hse)
+//
 end // end of [emit_primval_deref]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -937,6 +955,7 @@ extern fun emit_instr_move_rec : emit_instr_type
 extern fun emit_instr_move_selcon : emit_instr_type
 extern fun emit_instr_move_select : emit_instr_type
 extern fun emit_instr_move_select2 : emit_instr_type
+extern fun emit_instr_move_ptrofsel : emit_instr_type
 extern fun emit_instr_load_varofs : emit_instr_type
 extern fun emit_instr_load_ptrofs : emit_instr_type
 extern fun emit_instr_store_varofs : emit_instr_type
@@ -1103,6 +1122,8 @@ case+ ins.instr_node of
 | INSmove_selcon _ => emit_instr_move_selcon (out, ins)
 | INSmove_select _ => emit_instr_move_select (out, ins)
 | INSmove_select2 _ => emit_instr_move_select2 (out, ins)
+//
+| INSmove_ptrofsel _ => emit_instr_move_ptrofsel (out, ins)
 //
 | INSload_varofs _ => emit_instr_load_varofs (out, ins)
 | INSload_ptrofs _ => emit_instr_load_ptrofs (out, ins)
@@ -1727,7 +1748,28 @@ val () = emit_text (out, ") ; ")
 //
 in
   // nothing
-end // end of [emit_instr_move_select]
+end // end of [emit_instr_move_select2]
+
+(* ****** ****** *)
+
+implement
+emit_instr_move_ptrofsel
+  (out, ins) = let
+//
+val-INSmove_ptrofsel
+  (tmp, pmv, hse_rt, pmls) = ins.instr_node
+//
+val xys = auxselist (hse_rt, pmls)
+val () = emit_text (out, "ATSINSmove(")
+val () = emit_tmpvar (out, tmp)
+val () = emit_text (out, ", ")
+val () = emit_text (out, "ATSPMVptrof(")
+val () = auxmain (out, 1(*ptr*), pmv, hse_rt, xys, 0)
+val () = emit_text (out, ")) ; ")
+//
+in
+  // nothing
+end // end of [emit_instr_move_ptrofsel]
 
 (* ****** ****** *)
 

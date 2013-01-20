@@ -582,21 +582,21 @@ d3exp_selab (
 (* ****** ****** *)
 
 implement
-d3exp_ptrof_var
+d3exp_ptrofvar
   (loc, s2f, d2v) = '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Eptrof_var (d2v)
-} // end of [d3exp_ptrof_var]
+, d3exp_node= D3Eptrofvar (d2v)
+} // end of [d3exp_ptrofvar]
 
 implement
-d3exp_ptrof_ptrsel (
+d3exp_ptrofsel (
   loc, s2f, d3e, s2rt, d3ls
 ) = '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Eptrof_ptrsel (d3e, s2rt, d3ls)
-} // end of [d3exp_ptrof_ptrsel]
+, d3exp_node= D3Eptrofsel (d3e, s2rt, d3ls)
+} // end of [d3exp_ptrofsel]
 
 (* ****** ****** *)
 
