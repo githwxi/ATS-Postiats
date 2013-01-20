@@ -289,7 +289,7 @@ end // end of [local]
 #atscode_separator_for_C()
 
 ATSinline()
-atstype_void
+atsvoid_t0ype
 atspre_fprint_int (
   atstype_ref r, atstype_int x
 ) {
@@ -302,7 +302,7 @@ atspre_fprint_int (
 \#define atspre_prerr_int(x) atspre_fprint_int(stderr_ref, (x))
 
 ATSinline()
-atstype_void
+atsvoid_t0ype
 atspre_fprint_lint (
   atstype_ref r, atstype_lint x
 ) {
@@ -315,7 +315,7 @@ atspre_fprint_lint (
 \#define atspre_prerr_lint(x) atspre_fprint_lint(stderr_ref, (x))
 
 ATSinline()
-atstype_void
+atsvoid_t0ype
 atspre_fprint_llint (
   atstype_ref r, atstype_llint x
 ) {

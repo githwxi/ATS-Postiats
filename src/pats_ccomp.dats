@@ -290,9 +290,11 @@ primval_make_ptrof
   val hse = hisexp_typtr 
 in
 //
-case+ pmv.primval_node of
+case+
+  pmv.primval_node of
 | PMVargref (narg) =>
     primval_arg (loc, hse, narg)
+  // end of [PMVargref]
 | _ => primval_ptrof (loc, hse, pmv)
 end // end of [primval_make_ptrof]
 
@@ -307,9 +309,12 @@ if knd = 0 then let
   val hse = pmv.primval_type
 in
   primval_refarg (loc, hse, knd, pmv)
-end else
-  primval_refarg (loc, hisexp_typtr, knd, pmv)
-// end of [if]
+end else let
+  val hse = hisexp_typtr
+  val pmv = primval_make_ptrof (loc, pmv)
+in
+  primval_refarg (loc, hse, knd, pmv)
+end // end of [if]
 //
 end // end of [primval_make_refarg]
 

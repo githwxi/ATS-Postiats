@@ -594,8 +594,8 @@ case+ hit of
 | HITrefarg (knd, hit) => let
     val () = (
       if knd = 0
-        then emit_text (out, "postiats_refarg0(")
-        else emit_text (out, "postiats_refarg1(")
+        then emit_text (out, "atsrefarg0_type(")
+        else emit_text (out, "atsrefarg1_type(")
       // end of [if]
     ) : void // end of [val]
     val () = emit_hitype (out, hit)

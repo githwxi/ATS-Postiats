@@ -691,11 +691,20 @@ end // end of [local]
 implement
 emit_tmpdec
   (out, tmp) = let
-  val hse = tmpvar_get_type (tmp)
-  val () = emit_hisexp (out, hse)
-  val () = emit_text (out, " ")
-  val () = emit_tmpvar (out, tmp)
-  val () = emit_text (out, " ; \n")
+//
+val hse = tmpvar_get_type (tmp)
+val isvoid = hisexp_is_void (hse)
+val () = (
+  if ~isvoid
+    then emit_text (out, "ATStmpdec(")
+    else emit_text (out, "ATStmpdec_void(")
+  // end of [if]
+) : void // end of [val]
+val () = emit_tmpvar (out, tmp)
+val () = emit_text (out, ", ")
+val () = emit_hisexp (out, hse)
+val () = emit_text (out, ") ;\n")
+//
 in
   // nothing
 end // end of [emit_tmpdec]
@@ -1251,12 +1260,15 @@ case+ ins.instr_node of
     val () = emit_tmpvar (out, tmp)
     val () = emit_text (out, ", ")
     val () = emit_hisexp (out, hse)
-    val () = emit_text (out, ") ;")     
+    val () = emit_text (out, ") ;")
   } // end of [INSupdate_ptrdec]
 //
-| INStmpdec _ => let
+| INStmpdec (tmp) => let
     val () = emit_text (out, "/*\n")
-    val () = fprint_instr (out, ins)
+    val () = emit_text (out, "ATSINStmpdec(")
+    val () = emit_tmpvar (out, tmp)
+    val () = emit_rparen (out)
+    val () = emit_text (out, ") ;")
     val () = emit_text (out, "\n*/")
   in
     // nothing
@@ -1498,7 +1510,7 @@ val () = (
   println! ("emit_instr_funcall: pmv_fun = ", pmv_fun)
 ) // end of [val]
 *)
-val isvoid = false
+val isvoid = tmpvar_is_void (tmp)
 val () = (
   if ~isvoid
     then emit_text (out, "ATSINSmove(")

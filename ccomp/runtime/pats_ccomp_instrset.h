@@ -62,6 +62,10 @@
 
 /* ****** ****** */
 
+#define ATSempty()
+
+/* ****** ****** */
+
 #define ATSif(x) if (x)
 #define ATSifnot(x) if (!(x))
 #define ATSthen()
@@ -94,6 +98,9 @@
 
 #define ATSPMVptrof(lval) (&(lval))
 
+#define ATSPMVrefarg0(val) (val)
+#define ATSPMVrefarg1(ref) (ref)
+
 /* ****** ****** */
 
 #define ATSPMFnot(x) (0 == (x))
@@ -101,20 +108,27 @@
 #define ATSPMFptrisnull(x) (0 == (void*)(x))
 
 /* ****** ****** */
-
-#define ATScastfn(d2c, arg) (arg) // castfn application
+/*
+** HX: castfn application
+*/
+#define ATScastfn(d2c, arg) (arg)
 
 /* ****** ****** */
 
-/*
-** HX: [ATSselcon] is the same as [ATSselboxrec]
-*/
-#define ATSselcon(pmv, tysum, lab) (((tysum*)pmv)->lab)
+#define ATStmpdec(tmp, hit) hit tmp
+#define ATStmpdec_void(tmp, hit)
 
 /* ****** ****** */
 
 #define ATSderef(pmv) (*(pmv))
 #define ATSderef2(pmv, hit) (*(hit*)pmv)
+
+/* ****** ****** */
+/*
+** HX: [ATSselcon] is the same as [ATSselboxrec]
+*/
+#define ATSselcon(pmv, tysum, lab) (((tysum*)pmv)->lab)
+
 #define ATSselrecsin(pmv, tyrec, lab) (pmv)
 #define ATSselfltrec(pmv, tyrec, lab) ((pmv).lab)
 #define ATSselarrind(pmv, tyarr, lab) (((tyarr)pmv)lab)
@@ -137,6 +151,14 @@
 
 #define ATSINSmove(tmp, val) (tmp = val)
 #define ATSINSpmove(tmp, hit, val) (*(hit*)tmp = val)
+
+/* ****** ****** */
+/*
+** HX-2013-01-20:
+** Do not have parentheses around [command]
+*/
+#define ATSINSmove_void(tmp, command) command
+#define ATSINSpmove_void(tmp, hit, command) command
 
 /* ****** ****** */
 
