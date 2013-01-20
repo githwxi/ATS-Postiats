@@ -546,15 +546,15 @@ fun auxvar (
 , res: !instrseq
 , lev0: int, d2v: d2var, pmv0: primval
 ) : void = let
-(*
-val () = (
-  println! ("himatch_ccomp: auxvar: d2v = ", d2v)
-) // end of [val]
-*)
-//
-val () = d2var_set_level (d2v, lev0)
 //
 val n = d2var_get_utimes (d2v)
+val () = d2var_set_level (d2v, lev0)
+(*
+val () = (
+  println! ("himatch_ccomp: auxvar: n = ", n);
+  println! ("himatch_ccomp: auxvar: d2v = ", d2v);
+) // end of [val]
+*)
 //
 in
 //

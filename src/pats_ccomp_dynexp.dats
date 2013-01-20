@@ -964,7 +964,13 @@ val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 val-HDEsel_var (d2v, hse_rt, hils) = hde0.hidexp_node
 //
-val pmv = d2var_ccomp (env, loc0, hse_rt, d2v)
+val pmv =
+  d2var_ccomp (env, loc0, hse_rt, d2v)
+//
+val () = (
+  println! ("hidexp_ccomp_ret_sel_var: d2v = ", d2v);
+  println! ("hidexp_ccomp_ret_sel_var: pmv = ", pmv);
+) (* end of [val] *)
 //
 val pmls = hilablst_ccomp (env, res, hils)
 val ins = instr_load_varofs (loc0, tmpret, pmv, hse_rt, pmls)
