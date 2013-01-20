@@ -428,6 +428,17 @@ case+
     val () = prstr ")"
   }
 //
+| HDErefarg
+    (knd, freeknd, hde) => {
+    val () = prstr "HDErefarg("
+    val () = fprint_int (out, knd)
+    val () = prstr "; "
+    val () = fprint_int (out, freeknd)
+    val () = prstr "; "
+    val () = fprint_hidexp (out, hde)
+    val () = prstr ")"
+  }
+//
 | HDEsel_var
     (d2v, hse_rt, hils) => {
     val () = prstr "HDEsel_var("

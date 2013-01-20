@@ -727,6 +727,7 @@ extern fun emit_primval_arg : emit_primval_type
 extern fun emit_primval_argref : emit_primval_type
 extern fun emit_primval_d2cst : emit_primval_type
 extern fun emit_primval_ptrof : emit_primval_type
+extern fun emit_primval_refarg : emit_primval_type
 
 (* ****** ****** *)
 
@@ -765,6 +766,7 @@ case+ pmv0.primval_node of
   // end of [PMVextval]
 //
 | PMVptrof _ => emit_primval_ptrof (out, pmv0)
+| PMVrefarg _ => emit_primval_refarg (out, pmv0)
 //
 | _ => let
 (*
@@ -890,6 +892,29 @@ val () = emit_rparen (out)
 in
   // nothing
 end // end of [emit_primval_ptrof]
+
+(* ****** ****** *)
+
+implement
+emit_primval_refarg
+  (out, pmv0) = let
+//
+val-PMVrefarg
+  (knd, pmv) = pmv0.primval_node
+//
+val () = (
+  if knd = 0
+    then emit_text (out, "ATSPMVrefarg0(")
+    else emit_text (out, "ATSPMVrefarg1(")
+  // end of [if]
+) : void // end of [val]
+//
+val () = emit_primval (out, pmv)
+val () = emit_rparen (out)
+//
+in
+  // nothing
+end // end of [emit_primval_refarg]
 
 (* ****** ****** *)
 

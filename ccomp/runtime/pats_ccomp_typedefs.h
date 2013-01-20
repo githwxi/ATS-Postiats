@@ -35,8 +35,8 @@
 
 /* ****** ****** */
 
-#ifndef PATS_TYPEDEFS_H
-#define PATS_TYPEDEFS_H
+#ifndef PATS_CCOMP_TYPEDEFS_H
+#define PATS_CCOMP_TYPEDEFS_H
 
 /* ****** ****** */
 
@@ -103,11 +103,11 @@ struct {
 
 /* ****** ****** */
 
-#define atsrefarg0(hit) hit
-#define atsrefarg1(hit) hit*
+#define atsrefarg0_type(hit) hit
+#define atsrefarg1_type(hit) hit*
 
 /* ****** ****** */
 
-#endif /* PATS_TYPEDEFS_H */
+#endif /* PATS_CCOMP_TYPEDEFS_H */
 
-/* end of [pats_typedefs.h] */
+/* end of [pats_ccomp_typedefs.h] */

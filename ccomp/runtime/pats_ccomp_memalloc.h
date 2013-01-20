@@ -35,13 +35,13 @@
 
 /* ****** ****** */
 
-#ifndef PATS_MEMALLOC_H
-#define PATS_MEMALLOC_H
+#ifndef PATS_CCOMP_MEMALLOC_H
+#define PATS_CCOMP_MEMALLOC_H
 
 /* ****** ****** */
 
 /* ****** ****** */
 
-#endif /* PATS_MEMALLOC_H */
+#endif /* PATS_CCOMP_MEMALLOC_H */
 
-/* end of [pats_memalloc.h] */
+/* end of [pats_ccomp_memalloc.h] */

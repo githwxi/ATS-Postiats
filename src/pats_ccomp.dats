@@ -249,6 +249,11 @@ primval_ptrof (loc, hse, pmv) =
   primval_make_node (loc, hse, PMVptrof (pmv))
 // end of [primval_ptrof]
 
+implement
+primval_refarg (loc, hse, knd, pmv) =
+  primval_make_node (loc, hse, PMVrefarg (knd, pmv))
+// end of [primval_refarg]
+
 (* ****** ****** *)
 
 implement
@@ -290,6 +295,23 @@ case+ pmv.primval_node of
     primval_arg (loc, hse, narg)
 | _ => primval_ptrof (loc, hse, pmv)
 end // end of [primval_make_ptrof]
+
+(* ****** ****** *)
+
+implement
+primval_make_refarg
+  (loc, knd, pmv) = let
+in
+//
+if knd = 0 then let
+  val hse = pmv.primval_type
+in
+  primval_refarg (loc, hse, knd, pmv)
+end else
+  primval_refarg (loc, hisexp_typtr, knd, pmv)
+// end of [if]
+//
+end // end of [primval_make_refarg]
 
 (* ****** ****** *)
 

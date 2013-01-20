@@ -35,13 +35,13 @@
 
 /* ****** ****** */
 
-#ifndef PATS_EXCEPTION_H
-#define PATS_EXCEPTION_H
+#ifndef PATS_CCOMP_EXCEPTION_H
+#define PATS_CCOMP_EXCEPTION_H
 
 /* ****** ****** */
 
 /* ****** ****** */
 
-#endif /* PATS_EXCEPTION_H */
+#endif /* PATS_CCOMP_EXCEPTION_H */
 
-/* end of [pats_exception.h] */
+/* end of [pats_ccomp_exception.h] */

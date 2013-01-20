@@ -389,6 +389,7 @@ and primval_node =
   | PMVfunlab of (funlab)
 //
   | PMVptrof of (primval)
+  | PMVrefarg of (int(*knd*), primval)
 //
   | PMVcastfn of (d2cst, primval)
 //
@@ -597,6 +598,10 @@ fun primval_ptrof
   (loc: location, hse: hisexp, pmv: primval): primval
 // end of [primval_ptrof]
 
+fun primval_refarg
+  (loc: location, hse: hisexp, knd: int, pmv: primval): primval
+// end of [primval_refarg]
+
 (* ****** ****** *)
 
 fun primval_tmpltcst (
@@ -619,6 +624,7 @@ fun primval_make_funlab (loc: location, flab: funlab): primval
 
 fun primval_make_tmp (loc: location, tmp: tmpvar): primval
 fun primval_make_ptrof (loc: location, pmv: primval): primval
+fun primval_make_refarg (loc: location, knd: int, pmv: primval): primval
 
 (* ****** ****** *)
 

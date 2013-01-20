@@ -341,8 +341,8 @@ case+ hit0 of
     val () = aux (hval, hit)
   in
     if knd = 0
-      then auxstr (hval, "postiats_refarg0")
-      else auxstr (hval, "postiats_refarg1")
+      then auxstr (hval, "atsrefarg0_type")
+      else auxstr (hval, "atsrefarg1_type")
     // end of [if]
   end // end of [HITrefarg]
 //

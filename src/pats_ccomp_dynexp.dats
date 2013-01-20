@@ -87,6 +87,8 @@ extern fun hidexp_ccomp_seq : hidexp_ccomp_funtype
 
 extern fun hidexp_ccomp_ptrofvar : hidexp_ccomp_funtype
 
+extern fun hidexp_ccomp_refarg : hidexp_ccomp_funtype
+
 extern fun hidexp_ccomp_assgn_var : hidexp_ccomp_funtype
 extern fun hidexp_ccomp_assgn_ptr : hidexp_ccomp_funtype
 
@@ -229,6 +231,8 @@ case+ hde0.hidexp_node of
 | HDEptrofvar _ =>
     hidexp_ccomp_ptrofvar (env, res, hde0)
 | HDEptrofsel _ => auxret (env, res, hde0)
+//
+| HDErefarg _ => hidexp_ccomp_refarg (env, res, hde0)
 //
 | HDEsel_var _ => auxret (env, res, hde0)
 | HDEsel_ptr _ => auxret (env, res, hde0)
@@ -629,12 +633,27 @@ val loc0 = hde0.hidexp_loc
 val-HDEptrofvar (d2v) = hde0.hidexp_node
 //
 val hse = hisexp_void ()
-val pmv =
-  d2var_ccomp (env, loc0, hse, d2v)
+val pmv = d2var_ccomp (env, loc0, hse, d2v)
 //
 in
   primval_make_ptrof (loc0, pmv)
 end // end of [hidexp_ccomp_ptrofvar]
+
+(* ****** ****** *)
+
+implement
+hidexp_ccomp_refarg
+  (env, res, hde0) = let
+//
+val loc0 = hde0.hidexp_loc
+val-HDErefarg
+  (knd, freeknd, hde) = hde0.hidexp_node
+//
+val pmv = hidexp_ccomp (env, res, hde)
+//
+in
+  primval_make_refarg (loc0, knd, pmv)
+end // end of [hidexp_ccomp_refarg]
 
 (* ****** ****** *)
 

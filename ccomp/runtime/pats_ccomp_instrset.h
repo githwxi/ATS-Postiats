@@ -35,8 +35,8 @@
 
 /* ****** ****** */
 
-#ifndef PATS_INSTRSET_H
-#define PATS_INSTRSET_H
+#ifndef PATS_CCOMP_INSTRSET_H
+#define PATS_CCOMP_INSTRSET_H
 
 /* ****** ****** */
 
@@ -182,6 +182,6 @@
 //
 /* ****** ****** */
 
-#endif /* PATS_INSTRSET_H */
+#endif /* PATS_CCOMP_INSTRSET_H */
 
-/* end of [pats_instrset.h] */
+/* end of [pats_ccomp_instrset.h] */

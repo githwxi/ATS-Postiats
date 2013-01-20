@@ -35,8 +35,8 @@
 
 /* ****** ****** */
 
-#ifndef PATS_BASICS_H
-#define PATS_BASICS_H
+#ifndef PATS_CCOMP_BASICS_H
+#define PATS_CCOMP_BASICS_H
 
 /* ****** ****** */
 
@@ -62,6 +62,6 @@
 
 /* ****** ****** */
 
-#endif /* PATS_BASICS_H */
+#endif /* PATS_CCOMP_BASICS_H */
 
-/* end of [pats_basics.h] */
+/* end of [pats_ccomp_basics.h] */
