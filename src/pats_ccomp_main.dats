@@ -75,6 +75,7 @@ val () = emit_text (out, "#ifndef _ATS_CCOMP_PRELUDE_NONE\n")
 val () = emit_text (out, "//\n")
 val () = emit_text (out, "#include \"prelude/CATS/basics.cats\"\n")
 val () = emit_text (out, "#include \"prelude/CATS/integer.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/pointer.cats\"\n")
 val () = emit_text (out, "#include \"prelude/CATS/bool.cats\"\n")
 val () = emit_text (out, "#include \"prelude/CATS/char.cats\"\n")
 val () = emit_text (out, "#include \"prelude/CATS/string.cats\"\n")
@@ -177,7 +178,7 @@ val () = emit_ats_ccomp_prelude (out)
 //
 val pmds = hideclist_ccomp0 (hids)
 val () = let
-  val p_pmds =the_toplevel_getref_primdeclst ()
+  val p_pmds = the_toplevel_getref_primdeclst ()
 in
   $UN.ptrset<primdeclst> (p_pmds, pmds)
 end // end of [val]
@@ -187,10 +188,10 @@ val fls0 = the_funlablst_get ()
 val () = emit_funlablst_ptype (out, fls0)
 val () = emit_funlablst_implmnt (out, fls0)
 //
-val () = print ("/*\n")
-val () = print ("ccomp_main: pmds =\n")
+val () = fprint_string (out, "/*\n")
+val () = fprint_string (out, "ccomp_main: pmds =\n")
 val () = fprint_primdeclst (out, pmds)
-val () = print ("*/\n")
+val () = fprint_string (out, "*/\n")
 //
 val tmps = primdeclst_get_tmpvarset (pmds)
 val tmps = tmpvarset_vt_listize_free (tmps)
