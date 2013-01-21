@@ -41,6 +41,63 @@ staload "./pats_ccomp.sats"
 
 (* ****** ****** *)
 
+implement
+emit_ats_ccomp_header (out) = let
+  val () = emit_text (out, "/*\n")
+  val () = emit_text (out, "** include runtime header files\n")
+  val () = emit_text (out, "*/\n")
+  val () = emit_text (out, "#ifndef _ATS_CCOMP_HEADER_NONE\n")
+  val () = emit_text (out, "#include \"pats_config.h\"\n")
+  val () = emit_text (out, "#include \"pats_ccomp_basics.h\"\n")
+  val () = emit_text (out, "#include \"pats_ccomp_typedefs.h\"\n")
+  val () = emit_text (out, "#include \"pats_ccomp_instrset.h\"\n")
+  val () = emit_text (out, "#include \"pats_ccomp_exception.h\"\n")
+  val () = emit_text (out, "#include \"pats_ccomp_memalloc.h\"\n")
+  val () = emit_text (out, "#endif /* _ATS_CCOMP_HEADER_NONE */\n")
+  val () = emit_newline (out)
+in
+  emit_newline (out)
+end // end of [emit_ats_ccomp_header]
+
+(* ****** ****** *)
+
+implement
+emit_ats_ccomp_prelude (out) = let
+//
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "** include prelude cats files\n")
+val () = emit_text (out, "*/\n")
+//
+val () = emit_text (out, "#ifndef _ATS_CCOMP_PRELUDE_NONE\n")
+//
+// HX: primary prelude cats files
+//
+val () = emit_text (out, "//\n")
+val () = emit_text (out, "#include \"prelude/CATS/basics.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/integer.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/pointer.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/bool.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/char.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/string.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/float.cats\"\n")
+//
+// HX: secondary prelude cats files
+//
+val () = emit_text (out, "//\n")
+val () = emit_text (out, "#include \"prelude/CATS/list.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/option.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/array.cats\"\n")
+val () = emit_text (out, "#include \"prelude/CATS/matrix.cats\"\n")
+//
+val () = emit_text (out, "//\n")
+val () = emit_text (out, "#endif /* _ATS_CCOMP_PRELUDE_NONE */\n")
+//
+in
+  emit_newline (out)
+end // end of [emit_ats_ccomp_prelude]
+
+(* ****** ****** *)
+
 extern
 fun emit_funlablst_ptype
   (out: FILEref, fls: funlablst): void
@@ -111,30 +168,100 @@ end // end of [emit_funlablst_implmnt]
 (* ****** ****** *)
 
 implement
+emit_the_tmpdeclst
+  (out) = let
+  val p =
+    the_toplevel_getref_tmpvarlst ()
+  // end of [val]
+  val tmplst = $UN.ptrget<tmpvarlst> (p)
+in
+  emit_tmpdeclst (out, tmplst)
+end // end of [emit_the_tmpdeclst]
+
+(* ****** ****** *)
+
+implement
+emit_the_funlablst
+  (out) = let
+  val fls0 = the_funlablst_get ()
+  val () = emit_funlablst_ptype (out, fls0)
+  val () = emit_funlablst_implmnt (out, fls0)
+in
+  // nothing
+end // end of [emit_the_funlablst]
+
+(* ****** ****** *)
+
+implement
+emit_the_primdeclst
+  (out) = let
+  val p =
+    the_toplevel_getref_primdeclst ()
+  // end of [val]
+  val pmdlst = $UN.ptrget<primdeclst> (p)
+in
+  emit_primdeclst (out, pmdlst)
+end // end of [emit_the_primdeclst]
+
+(* ****** ****** *)
+
+local
+
+staload _ = "libc/SATS/fcntl.sats"
+staload _ = "libc/SATS/stdio.sats"
+staload _ = "libc/SATS/stdlib.sats"
+staload _ = "libc/SATS/unistd.sats"
+
+staload "./pats_utils.sats"
+staload _(*anon*) = "./pats_utils.dats"
+
+fun
+the_tmpdeclst_stringize (
+) =
+  tostring_fprint<int> (
+  "postiats_tmpdeclst", lam (out, _) => emit_the_tmpdeclst (out), 0
+) // end of [the_tmpdeclst_stringize]
+
+fun
+the_funlablst_stringize (
+) =
+  tostring_fprint<int> (
+  "postiats_funlablst", lam (out, _) => emit_the_funlablst (out), 0
+) // end of [the_funlablst_stringize]
+
+fun
+the_primdeclst_stringize (
+) =
+  tostring_fprint<int> (
+  "postiats_primdeclst", lam (out, _) => emit_the_primdeclst (out), 0
+) // end of [the_funlablst_stringize]
+
+in (* in of [local] *)
+
+implement
 ccomp_main (
   out, flag, infil, hids
 ) = let
 //
 val () = emit_time_stamp (out)
-val () = emit_ats_runtime_incl (out)
-val () = emit_ats_prelude_cats (out)
+val () = emit_ats_ccomp_header (out)
+val () = emit_ats_ccomp_prelude (out)
 //
 val pmds = hideclist_ccomp0 (hids)
 val () = let
-  val p_pmds =the_toplevel_getref_primdeclst ()
+  val p_pmds = the_toplevel_getref_primdeclst ()
 in
   $UN.ptrset<primdeclst> (p_pmds, pmds)
 end // end of [val]
 //
-val fls0 = the_funlablst_get ()
-//
-val () = emit_funlablst_ptype (out, fls0)
-val () = emit_funlablst_implmnt (out, fls0)
-//
-val () = print ("/*\n")
-val () = print ("ccomp_main: pmds =\n")
+(*
+val () = fprint_string (out, "/*\n")
+val () = fprint_string (out, "ccomp_main: pmds =\n")
 val () = fprint_primdeclst (out, pmds)
-val () = print ("*/\n")
+val () = fprint_string (out, "*/\n")
+*)
+//
+val the_funlablst_rep = the_funlablst_stringize ()
 //
 val tmps = primdeclst_get_tmpvarset (pmds)
 val tmps = tmpvarset_vt_listize_free (tmps)
@@ -145,17 +272,32 @@ in
   $UN.ptrset<tmpvarlst> (p_tmps, tmps)
 end // end of [val]
 //
-val () = fprint_string (out, "/*\n")
-val () = fprint_string (out, "** declaration initialization\n")
-val () = fprint_string (out, "*/\n")
-//
-val () = emit_tmpdeclst (out, tmps)
-val () = emit_primdeclst (out, pmds)
+val the_tmpdeclst_rep = the_tmpdeclst_stringize ()
+val the_primdeclst_rep = the_primdeclst_stringize ()
 //
 val () = emit_the_typedeflst (out)
 //
+val () =
+  fprint_strptr (out, the_tmpdeclst_rep)
+val () = strptr_free (the_tmpdeclst_rep)
+//
+val () =
+  fprint_strptr (out, the_funlablst_rep)
+val () = strptr_free (the_funlablst_rep)
+//
+val () = emit_text (out, "/*\n")
+val () = emit_text (out, "** declaration initialization\n")
+val () = emit_text (out, "*/\n")
+//
+val () =
+  fprint_strptr (out, the_primdeclst_rep)
+val () = strptr_free (the_primdeclst_rep)
+//
 in
+  // nothing
 end // end of [ccomp_main]
+
+end // end of [local]
 
 (* ****** ****** *)
 

@@ -18,7 +18,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 ** Time of generation: #timestamp()
 */
 
-#atscode_separator()
+#atscode_separator_for_C()
 
 /*
 #atscode_author("Hongwei Xi")
@@ -34,8 +34,8 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator_for_C()
 
 extern
-int fprintf (FILE *stream, char *format, ...) ;
-// in stdio.h
+int fprintf (FILE *stream, const char *format, ...) ;
+// in [stdio.h]
 
 #atscode_separator_for_C()
 
@@ -54,12 +54,12 @@ val fopr = (
 //
 val ent = sprintf ("\
 ATSinline()
-atstype_bool
+atstype_%s
 atspre_g0float_%s_%s
   (atstype_%s f1, atstype_%s f2) { return (f1 %s f2) ; }
 // end of [atspre_g0float_%s_%s]\
 ", @(
- opr, knd, knd, knd, fopr, opr, knd
+ knd, opr, knd, knd, knd, fopr, opr, knd
 )
 ) // end of [sprintf] // end of [val]
 //
@@ -140,7 +140,7 @@ end // end of [fun_f0loat_cmp_decl]
 #atscode_separator_for_C()
 
 ATSinline()
-atstype_void
+atsvoid_t0ype
 atspre_fprint_float (
   atstype_ref r, atstype_float x
 ) {
@@ -153,7 +153,7 @@ atspre_fprint_float (
 \#define atspre_prerr_float(x) atspre_fprint_float(stderr_ref, (x))
 
 ATSinline()
-atstype_void
+atsvoid_t0ype
 atspre_fprint_double (
   atstype_ref r, atstype_double x
 ) {
@@ -166,12 +166,12 @@ atspre_fprint_double (
 \#define atspre_prerr_double(x) atspre_fprint_double(stderr_ref, (x))
 
 ATSinline()
-atstype_void
+atsvoid_t0ype
 atspre_fprint_ldouble (
   atstype_ref r, atstype_ldouble x
 ) {
   int err ;
-  err = fprintf((FILE*)r, "%lf", x) ;
+  err = fprintf((FILE*)r, "%Lf", x) ;
   return ;
 } // end [atspre_fprint_ldouble]
 

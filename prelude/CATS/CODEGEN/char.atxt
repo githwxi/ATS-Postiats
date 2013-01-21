@@ -31,13 +31,13 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 \#ifndef ATSHOME_PRELUDE_CHAR_CATS
 \#define ATSHOME_PRELUDE_CHAR_CATS
 
-#atscode_separator()
+#atscode_separator_for_C()
 
 extern
-int fprintf (FILE *stream, char *format, ...) ;
-// in stdio.h
+int fprintf (FILE *stream, const char *format, ...) ;
+// in [stdio.h]
 
-#atscode_separator()
+#atscode_separator_for_C()
 
 %{
 fun
@@ -84,14 +84,15 @@ end // end of [fun_char_cmp0_decl]
 ATSinline()
 atstype_int
 atspre_compare_char_char
-  (atstype_char c1, atstype_char c2) {
-  return ((atstype_int)c1) - ((atstype_int)c2)
+  (atstype_char c1, atstype_char c2)
+{
+  return ((atstype_int)c1) - ((atstype_int)c2) ;
 } // end of [atspre_compare_char_char]
 
 #atscode_separator_for_C()
 
 ATSinline()
-atstype_void
+atsvoid_t0ype
 atspre_fprint_char (
   atstype_ref out, atstype_char c
 ) {

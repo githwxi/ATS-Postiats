@@ -55,12 +55,18 @@ all::
 
 ######
 
+#make_entry("basics")
+#make_entry("integer")
+#make_entry("pointer")
 #make_entry("bool")
 #make_entry("char")
-#make_entry("integer")
 #make_entry("float")
-#make_entry("pointer")
 #make_entry("string")
+
+#make_entry("list")
+#make_entry("option")
+#make_entry("array")
+#make_entry("matrix")
 
 ######
 

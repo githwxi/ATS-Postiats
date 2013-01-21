@@ -234,6 +234,8 @@ d3exp_intrep
 , d3exp_node= D3Eintrep (rep)
 } // end of [d3exp_intrep]
 
+(* ****** ****** *)
+
 implement
 d3exp_bool
   (loc, s2f, b) = '{
@@ -251,20 +253,20 @@ d3exp_char
 } // end of [d3exp_char]
 
 implement
-d3exp_string
-  (loc, s2f, str) = '{
-  d3exp_loc= loc
-, d3exp_type= s2f
-, d3exp_node= D3Estring (str)
-} // end of [d3exp_string]
-
-implement
 d3exp_float
   (loc, s2f, rep) = '{
   d3exp_loc= loc
 , d3exp_type= s2f
 , d3exp_node= D3Efloat (rep)
 } // end of [d3exp_float]
+
+implement
+d3exp_string
+  (loc, s2f, str) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Estring (str)
+} // end of [d3exp_string]
 
 (* ****** ****** *)
 
@@ -287,16 +289,6 @@ d3exp_f0loat
 (* ****** ****** *)
 
 implement
-d3exp_cstsp
-  (loc, s2f, csp) = '{
-  d3exp_loc= loc
-, d3exp_type= s2f
-, d3exp_node= D3Ecstsp (csp)
-} // end of [d3exp_cstsp]
-
-(* ****** ****** *)
-
-implement
 d3exp_top
   (loc, s2f) = '{
   d3exp_loc= loc
@@ -311,6 +303,16 @@ d3exp_empty
 , d3exp_type= s2f
 , d3exp_node= D3Eempty ()
 } // end of [d3exp_empty]
+
+(* ****** ****** *)
+
+implement
+d3exp_cstsp
+  (loc, s2f, csp) = '{
+  d3exp_loc= loc
+, d3exp_type= s2f
+, d3exp_node= D3Ecstsp (csp)
+} // end of [d3exp_cstsp]
 
 (* ****** ****** *)
 

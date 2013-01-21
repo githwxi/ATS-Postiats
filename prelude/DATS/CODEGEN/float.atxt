@@ -80,23 +80,6 @@ end // end of [g0float_implist]
 
 #atscode_separator()
 //
-implement
-print_float (x) = fprint_float (stdout_ref, x)
-implement
-prerr_float (x) = fprint_float (stderr_ref, x)
-//
-implement
-print_double (x) = fprint_double (stdout_ref, x)
-implement
-prerr_double (x) = fprint_double (stderr_ref, x)
-//
-implement
-print_ldouble (x) = fprint_ldouble (stdout_ref, x)
-implement
-prerr_ldouble (x) = fprint_ldouble (stderr_ref, x)
-//
-#atscode_separator()
-//
 implement fprint_val<float> = fprint_float
 implement fprint_val<double> = fprint_double
 implement fprint_val<ldouble> = fprint_ldouble

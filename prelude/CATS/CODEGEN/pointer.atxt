@@ -18,7 +18,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 ** Time of generation: #timestamp()
 */
 
-#atscode_separator()
+#atscode_separator_for_C()
 
 /*
 #atscode_author("Hongwei Xi")
@@ -34,35 +34,20 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator_for_C()
 
 extern
-int fprintf (FILE *stream, char *format, ...) ;
-// in stdio.h
-
-#atscode_separator_for_C()
-
-ATSinline()
-atstype_void
-atspre_fprint_ptr (
-  atstype_ref r, atstype_ptr x
-) {
-  int err ;
-  err = fprintf((FILE*)r, "%p", x) ;
-  return ;
-} // end [atspre_fprint_ptr]
-
-\#define atspre_print_ptr(x) atspre_fprint_ptr(stdout_ref, (x))
-\#define atspre_prerr_ptr(x) atspre_fprint_ptr(stderr_ref, (x))
+int fprintf (FILE *stream, const char *format, ...) ;
+// in [stdio.h]
 
 #atscode_separator_for_C()
 
 ATSinline()
 atspre_ptr_is_null
   (atstype_ptr p) {
-  return (p==(void*)0) ? ats_true_bool : ats_false_bool ;
+  return (p==(void*)0) ? atsbool_true : atsbool_false ;
 } // end of [atspre_ptr_is_null]
 ATSinline()
 atspre_ptr_isnot_null
   (atstype_ptr p) {
-  return (p > (void*)0) ? ats_true_bool : ats_false_bool ;
+  return (p > (void*)0) ? atsbool_true : atsbool_false ;
 } // end of [atspre_ptr_isnot_null]
 
 #atscode_separator_for_C()
@@ -118,12 +103,12 @@ atspre_compare_ptr_ptr (
 #atscode_separator_for_C()
 
 ATSinline()
-atstype_void
+atsvoid_t0ype
 atspre_fprint_ptr (
-  atstype_ref r, atstype_ptr x
+  atstype_ref out, atstype_ptr x
 ) {
   int err ;
-  err = fprintf((FILE*)r, "%p", x) ;
+  err = fprintf((FILE*)out, "%p", x) ;
   return ;
 } // end [atspre_fprint_ptr]
 

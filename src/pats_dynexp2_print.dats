@@ -189,13 +189,13 @@ case+ x.p2at_node of
     val () = fprint_char (out, x)
     val () = prstr ")"
   }
-| P2Tstring (x) => {
-    val () = prstr "P2Tstring("
+| P2Tfloat (x) => {
+    val () = prstr "P2Tfloat("
     val () = fprint_string (out, x)
     val () = prstr ")"
   }
-| P2Tfloat (x) => {
-    val () = prstr "P2Tfloat("
+| P2Tstring (x) => {
+    val () = prstr "P2Tstring("
     val () = fprint_string (out, x)
     val () = prstr ")"
   }
@@ -369,16 +369,16 @@ case+ d2e0.d2exp_node of
     val () = fprint_char (out, x)
     val () = prstr ")"
   } // end of [D2Echar]
-| D2Estring (x) => {
-    val () = prstr "D2Estring("
-    val () = fprint_string (out, x)
-    val () = prstr ")"
-  } // end of [D2Estring]
 | D2Efloat (rep) => {
     val () = prstr "D2Efloat("
     val () = fprint_string (out, rep)
     val () = prstr ")"
   } // end of [D2Efloat]
+| D2Estring (x) => {
+    val () = prstr "D2Estring("
+    val () = fprint_string (out, x)
+    val () = prstr ")"
+  } // end of [D2Estring]
 //
 | D2Ei0nt (tok) => {
     val-T_INTEGER (_(*base*), rep, _(*sfx*)) = tok.token_node

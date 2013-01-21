@@ -33,7 +33,9 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#include <stdio.h> // for [FILE], [fprintf], ...
+extern
+int fprintf (FILE *stream, const char *format, ...) ;
+// in [stdio.h]
 
 #atscode_separator_for_C()
 //
@@ -195,8 +197,8 @@ val fopr = (
 val ent = sprintf ("\
 ATSinline()
 atstype_bool
-atspre_g0int_%s_%s
-  (atstype_%s x) {
+atspre_g0int_%s_%s (atstype_%s x)
+{
   return (x %s 0 ? atsbool_true : atsbool_false) ;
 } // end of [atspre_g0int_%s_%s]
 ", @(
@@ -225,7 +227,9 @@ val ent = sprintf ("\
 ATSinline()
 atstype_bool
 atspre_g0int_%s_%s
-  (atstype_%s x1, atstype_%s x2) {
+(
+  atstype_%s x1, atstype_%s x2
+) {
   return (x1 %s x2 ? atsbool_true : atsbool_false) ;
 } // end of [atspre_g0int_%s_%s]
 ", @(
@@ -290,7 +294,8 @@ end // end of [local]
 
 ATSinline()
 atsvoid_t0ype
-atspre_fprint_int (
+atspre_fprint_int
+(
   atstype_ref r, atstype_int x
 ) {
   int err ;
@@ -303,7 +308,8 @@ atspre_fprint_int (
 
 ATSinline()
 atsvoid_t0ype
-atspre_fprint_lint (
+atspre_fprint_lint
+(
   atstype_ref r, atstype_lint x
 ) {
   int err ;
@@ -316,7 +322,8 @@ atspre_fprint_lint (
 
 ATSinline()
 atsvoid_t0ype
-atspre_fprint_llint (
+atspre_fprint_llint
+(
   atstype_ref r, atstype_llint x
 ) {
   int err ;
@@ -458,8 +465,8 @@ val fopr = (
 val ent = sprintf ("\
 ATSinline()
 atstype_bool
-atspre_g0uint_%s_%s
-  (atstype_%s x) {
+atspre_g0uint_%s_%s (atstype_%s x)
+{
   return (x %s 0 ? atsbool_true : atsbool_false) ;
 } // end of [atspre_g0uint_%s_%s]
 ", @(
@@ -488,7 +495,9 @@ val ent = sprintf ("\
 ATSinline()
 atstype_bool
 atspre_g0uint_%s_%s
-  (atstype_%s x1, atstype_%s x2) {
+(
+  atstype_%s x1, atstype_%s x2
+) {
   return (x1 %s x2 ? atsbool_true : atsbool_false) ;
 } // end of [atspre_g0uint_%s_%s]
 ", @(

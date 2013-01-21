@@ -258,8 +258,8 @@ and d3exp_node =
   | D3Eintrep of (string(*rep*))
   | D3Ebool of (bool)
   | D3Echar of (char)
-  | D3Estring of string(*val*)
   | D3Efloat of string(*rep*)
+  | D3Estring of string(*val*)
 //
   | D3Ei0nt of i0nt
   | D3Ef0loat of f0loat
@@ -552,19 +552,14 @@ fun d3exp_f0loat
 
 (* ****** ****** *)
 
+fun d3exp_top (loc: location, s2f: s2exp): d3exp
+fun d3exp_empty (loc: location, s2f: s2exp): d3exp
+
+(* ****** ****** *)
+
 fun d3exp_cstsp
   (loc: location, s2f: s2exp, x: $SYN.cstsp): d3exp
 // end of [d3exp_cstsp]
-
-(* ****** ****** *)
-
-fun d3exp_top
-  (loc: location, s2f: s2exp): d3exp
-
-(* ****** ****** *)
-
-fun d3exp_empty
-  (loc: location, s2f: s2exp): d3exp
 
 fun d3exp_extval
   (loc: location, s2f: s2exp, rep: string): d3exp

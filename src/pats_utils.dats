@@ -370,4 +370,96 @@ end // end of [local]
 
 (* ****** ****** *)
 
+%{$
+ats_ptr_type
+patsopt_file2strptr
+  (ats_int_type fd) {
+  int err = 0 ;
+  int nerr = 0 ;
+  char* sbp = (char*)0 ;
+//
+  long int ofs_beg, ofs_end, nbyte ;
+//
+  ofs_beg = lseek (fd, 0L, SEEK_CUR) ;
+  if (ofs_beg < 0) nerr += 1 ;
+  ofs_end = lseek (fd, 0L, SEEK_END) ;
+  if (ofs_end < 0) nerr += 1 ;
+  ofs_beg = lseek (fd, ofs_beg, SEEK_SET) ;
+  if (ofs_beg < 0) nerr += 1 ;
+  nbyte = ofs_end - ofs_beg ;
+//
+  if (nerr == 0) { sbp = ATS_MALLOC(nbyte + 1) ; }
+  if (sbp == NULL) nerr += 1 ;
+//
+  if (nerr == 0) {
+    err = atslib_fildes_read_all_err (fd, sbp, nbyte) ;
+  }
+  if (err < 0) { nerr += 1 ; }
+//
+  if (nerr == 0) {
+    sbp[ofs_end] = '\0'; return sbp ;
+  }
+//
+  if (sbp) free (sbp) ; return NULL ;
+} // end of [patsopt_file2strptr]
+%} // end of [%{$]
+
+(* ****** ****** *)
+
+local
+
+staload
+FCNTL = "libc/SATS/fcntl.sats"
+staload
+STDIO = "libc/SATS/stdio.sats"
+macdef SEEK_SET = $STDIO.SEEK_SET
+staload
+STDLIB = "libc/SATS/stdlib.sats"
+staload
+UNISTD = "libc/SATS/unistd.sats"
+
+in (* in of [local] *)
+
+implement{a}
+tostring_fprint
+  (prfx, fpr, x) = let
+  val tmp = sprintf ("%sXXXXXX", @(prfx))
+  val [m,n:int] tmp = strbuf_of_strptr (tmp)
+  prval () = __assert () where {
+    extern prfun __assert (): [n >= 6] void
+  }
+  prval pfstr = tmp.1
+  val (pfopt | fd) = $STDLIB.mkstemp !(tmp.2) // create it!
+  prval () = tmp.1 := pfstr
+  val tmp = strptr_of_strbuf (tmp)
+in
+//
+if fd >= 0 then let
+  prval $FCNTL.open_v_succ (pffil) = pfopt
+  val (fpf | out) = fdopen (pffil | fd, file_mode_w) where {
+    extern fun fdopen {fd:nat} (
+      pffil: !fildes_v fd | fd: int fd, mode: file_mode
+    ) : (fildes_v fd -<lin,prf> void | FILEref) = "mac#fdopen"
+  } // end of [out]
+  val () = fpr (out, x)
+  val _err = $STDIO.fflush_err (out)
+  val _err = $STDIO.fseek_err (out, 0L, SEEK_SET)
+  val res = file2strptr (pffil | fd)
+  prval () = fpf (pffil)
+  val _err = $STDIO.fclose_err (out)
+  val _err = $UNISTD.unlink ($UN.castvwtp1 (tmp))
+  val () = strptr_free (tmp)
+in
+  res (*strptr*)
+end else let
+  prval $FCNTL.open_v_fail () = pfopt
+  val () = strptr_free (tmp) in strptr_null ()
+end // end of [if]
+//
+end // end of [tostring_fprint]
+
+end // end of [local]
+
+(* ****** ****** *)
+
 (* end of [pats_utils.dats] *)

@@ -18,7 +18,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 ** Time of generation: #timestamp()
 */
 
-#atscode_separator()
+#atscode_separator_for_C()
 
 /*
 #atscode_author("Hongwei Xi")
@@ -34,21 +34,39 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator_for_C()
 
 extern
-int strcmp (char *x1, char *x2) ; // string.h
+int strcmp (const char *x1, const char *x2) ;
+// in [string.h]
 
 extern
-int fprintf (FILE *stream, char *format, ...) ;
-// in stdio.h
+int fprintf (FILE *stream, const char *format, ...) ;
+// in [stdio.h]
 
 #atscode_separator_for_C()
 
 ATSinline()
 atstype_int
-atspre_compare_string_string (
+atspre_compare_string_string
+(
   atstype_string x1, atstype_string x2
 ) {
   return strcmp((char*)x1, (char*)x2) ;
 } // [atspre_compare_string_string]
+
+#atscode_separator_for_C()
+
+ATSinline()
+atsvoid_t0ype
+atspre_fprint_string
+(
+  atstype_ref out, atstype_string x
+) {
+  int err ;
+  err += fprintf((FILE*)out, "%s", (char*)x) ;
+  return ;
+} // end of [atspre_fprint_string]
+
+\#define atspre_print_string(x) atspre_fprint_string(stdout_ref, (x))
+\#define atspre_prerr_string(x) atspre_fprint_string(stderr_ref, (x))
 
 #atscode_separator_for_C()
 

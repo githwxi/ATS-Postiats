@@ -439,9 +439,10 @@ typedef fprint_vtype (a: vt0p) = (FILEref, !a) -> void
 
 (* ****** ****** *)
 
-fun fprint_newline (out: FILEref): void
-fun print_newline (): void // = fprint_newline (stdout_ref)
-fun prerr_newline (): void // = fprint_newline (stderr_ref)
+fun fprint_newline
+  (out: FILEref): void = "mac#atspre_fprint_newline"
+fun print_newline (): void = "mac#atspre_print_newline"
+fun prerr_newline (): void = "mac#atspre_prerr_newline"
 
 (* ****** ****** *)
 

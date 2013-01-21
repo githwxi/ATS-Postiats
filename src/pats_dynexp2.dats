@@ -183,14 +183,14 @@ p2at_char (loc, c) =
 // end of [p2at_char]
 
 implement
-p2at_string (loc, str) =
-  p2at_make_node (loc, p2at_svs_nil, p2at_dvs_nil, P2Tstring (str))
-// end of [p2at_string]
-
-implement
 p2at_float (loc, rep) =
   p2at_make_node (loc, p2at_svs_nil, p2at_dvs_nil, P2Tfloat (rep))
 // end of [p2at_float]
+
+implement
+p2at_string (loc, str) =
+  p2at_make_node (loc, p2at_svs_nil, p2at_dvs_nil, P2Tstring (str))
+// end of [p2at_string]
 
 (* ****** ****** *)
 
@@ -355,9 +355,9 @@ d2exp_bool (loc, b) = d2exp_make_node (loc, D2Ebool (b))
 implement
 d2exp_char (loc, c) = d2exp_make_node (loc, D2Echar (c))
 implement
-d2exp_string (loc, s) = d2exp_make_node (loc, D2Estring (s))
-implement
 d2exp_float (loc, rep) = d2exp_make_node (loc, D2Efloat (rep))
+implement
+d2exp_string (loc, s) = d2exp_make_node (loc, D2Estring (s))
 
 implement
 d2exp_i0nt (loc, x) = d2exp_make_node (loc, D2Ei0nt (x))
@@ -371,17 +371,17 @@ d2exp_s0tring (loc, x) = d2exp_make_node (loc, D2Es0tring (x))
 (* ****** ****** *)
 
 implement
-d2exp_cstsp
-  (loc, cst) = d2exp_make_node (loc, D2Ecstsp (cst))
-// end of [d2exp_cstsp]
-
-(* ****** ****** *)
-
-implement
 d2exp_top (loc) = d2exp_make_node (loc, D2Etop ())
 
 implement
 d2exp_empty (loc) = d2exp_make_node (loc, D2Eempty ())
+
+(* ****** ****** *)
+
+implement
+d2exp_cstsp
+  (loc, cst) = d2exp_make_node (loc, D2Ecstsp (cst))
+// end of [d2exp_cstsp]
 
 (* ****** ****** *)
 

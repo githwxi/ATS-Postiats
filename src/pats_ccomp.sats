@@ -1180,8 +1180,8 @@ fun emit_symbol (out: FILEref, sym: symbol): void
 (* ****** ****** *)
 
 fun emit_time_stamp (out: FILEref): void
-fun emit_ats_runtime_incl (out: FILEref): void
-fun emit_ats_prelude_cats (out: FILEref): void
+fun emit_ats_ccomp_header (out: FILEref): void
+fun emit_ats_ccomp_prelude (out: FILEref): void
 
 (* ****** ****** *)
 
@@ -1275,6 +1275,9 @@ fun emit_funarglst (out: FILEref, _arg: hisexplst): void
 
 (* ****** ****** *)
 
+fun emit_the_tmpdeclst (out: FILEref): void
+fun emit_the_funlablst (out: FILEref): void
+fun emit_the_primdeclst (out: FILEref): void
 fun emit_the_typedeflst (out: FILEref): void
 
 (* ****** ****** *)
