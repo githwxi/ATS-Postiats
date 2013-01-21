@@ -1,0 +1,203 @@
+#
+# The list of keywords in ATS2
+#
+
+###### beg of [keywords.txt] ######
+
+T_AT : '@'
+T_BACKSLASH : '\\'
+T_BANG : '!'
+T_BAR : '|'
+T_BQUOTE : '`'
+T_COLON : ':'
+T_COLONLT : ':<'
+T_DOLLAR : '$'
+T_DOT : '.'
+T_DOTDOT : '..'
+T_DOTDOTDOT : '...'
+(*
+T_DOTINT
+*)
+T_EQ : '='
+T_EQGT : '=>'
+T_EQLT : '=<'
+T_EQLTGT : '=<>'
+T_EQSLASHEQGT : '=\=>'
+T_EQGTGT : '=>>'
+T_EQSLASHEQGTGT : '=/=>>'
+//
+T_HASH : '#'
+//
+T_LT : '<'
+T_GT : '>'
+//
+T_GTLT : '><'
+T_DOTLT : '.<'
+T_GTDOT : '>.'
+T_DOTLTGTDOT : '.<>.'
+//
+T_MINUSGT : '->'
+T_MINUSLT : '-<'
+T_MINUSLTGT : '-<>'
+//
+T_TILDE : '~'
+T_ABSTYPE : absprop
+          , abstype
+          . abst@ype
+          , abst0ype
+          , absview
+          , absviewtype
+          , absvtype
+          , absviewt@ype
+          , absviewt0ype
+          , absvt@ype
+          , absvt0ype
+//
+T_AND : 'and'
+T_AS : 'as'
+T_ASSUME : 'assume'
+T_BEGIN : 'begin'
+T_BRKCONT : 'break'
+          , 'continue'
+T_CASE : case, case-, case+, prcase
+T_CLASSDEC : 'classdec'
+T_DATASORT : 'datasort'
+T_DATATYPE : dataprop
+           , datatype
+           , dataview
+           , dataviewtype
+           , datavtype
+T_DO : 'do'
+T_DYNLOAD : 'dynload'
+T_ELSE : 'else'
+T_END : 'end'
+T_EXCEPTION : 'exception'
+T_EXTERN : 'extern'
+T_EXTYPE : 'extype'
+T_EXTVAL : 'extval'
+T_FIX : 'fix', 'fix@'
+T_FIXITY : infix, infixl, infixr, prefix, postfix
+T_FOR : 'for'
+T_FORSTAR : 'for*'
+T_FUN : fn, fnx, fun, prfn, prfun, castfn
+T_IF : 'if'
+T_IMPLEMENT : implement, primplement, primplmnt
+T_IN : 'in'
+T_LAM : lam, llam, lam@
+T_LET : 'let'
+T_LOCAL : 'local'
+T_MACDEF : macdef, macrodef
+T_NONFIX : 'nonfix'
+T_OVERLOAD : 'overload'
+T_OF : 'of'
+T_OP : 'op'
+T_REC : 'rec'
+T_REFAT : 'ref@'
+T_SCASE : 'scase'
+T_SIF : 'sif'
+T_SORTDEF : 'sortdef'
+T_STACST : 'stacst'
+T_STADEF : 'stadef'
+T_STALOAD : 'staload'
+(*
+T_STAVAR : // stavar // HX: a suspended hack
+*)
+T_SYMELIM : 'symelim'
+T_SYMINTR : 'symintr'
+T_THEN : 'then'
+T_TKINDEF : 'tkindef'
+T_TRY : 'try'
+T_TYPE : type, type+, type-
+T_TYPEDEF : typedef, propdef, viewdef, viewtypedef, vtypedef
+T_VAL : val, val+, val-, prval
+T_VAR : var, prvar
+T_WHEN : 'when'
+T_WHERE : 'where'
+T_WHILE : 'while'
+T_WHILESTAR : 'while*'
+T_WITH : 'with'
+T_WITHTYPE : withtype, withprop, withview, withviewtype, withvtype
+//
+T_ADDRAT : 'addr@'
+T_FOLDAT : 'fold@'
+T_FREEAT : 'free@'
+T_VIEWAT : 'view@'
+//
+T_DLRARRPSZ : $arrpsz, $arrptrsize
+//
+T_DLRDELAY : $delay, $ldelay(1)
+//
+T_DLREFFMASK : $effmask
+T_DLREFFMASK_ARG : $effmask_ntm
+                 , $effmask_exn
+                 , $effmask_ref
+                 , $effmask_wrt
+                 , $effmask_all
+T_DLREXTERN : $extern
+T_DLREXTKIND : $extkind
+T_DLREXTYPE : $extype
+T_DLREXTYPE_STRUCT : $extype_struct
+T_DLREXTVAL : $extval
+T_DLRRAISE : $raise
+//
+T_DLRLST : $lst, $lst_t, $lst_vt
+         , $list, $list_t, $list_vt
+T_DLRREC : $rec, $rec_t, $rec_vt
+         , $record, $record_t, $record_vt
+T_DLRTUP : $tup, $tup_t, $tup_vt
+         , $tuple, $tuple_t, $tuple_vt
+//
+T_DLRMYFILENAME : $myfilename
+T_DLRMYLOCATION : $mylocation
+T_DLRMYFUNCTION : $myfunction
+//
+T_DLRSHOWTYPE : $showtype
+//
+T_SRPASSERT : #assert
+T_SRPDEFINE : #define
+T_SRPELIF : #elif
+T_SRPELIFDEF : #elifdef
+T_SRPELIFNDEF : #elifndef
+T_SRPELSE : #else
+T_SRPENDIF : #endif
+T_SRPERROR : #error
+T_SRPIF : #if
+T_SRPIFDEF : #ifdef
+T_SRPIFNDEF : #ifndef
+T_SRPINCLUDE : #include
+T_SRPPRINT : #print
+T_SRPTHEN : #then
+T_SRPUNDEF : #undef
+(*
+  | T_LABEL of (int(*knd*), string) // HX-2013-01: should it be supported?
+*)
+T_LPAREN : '('
+T_RPAREN : ')'
+T_LBRACKET : '['
+T_RBRACKET : ']'
+T_LBRACE : '{'
+T_RBRACE : '}'
+//
+T_COMMA : ','
+T_SEMICOLON : ';'
+//
+T_ATLPAREN : '@('
+T_QUOTELPAREN : '\'('
+T_ATLBRACKET : '@['
+T_QUOTELBRACKET : '\'['
+T_HASHLBRACKET : '#['
+T_ATLBRACE : '@{'
+T_QUOTELBRACE : '\'{'
+//
+| T_BQUOTELPAREN : '`('
+ T_COMMALPAREN : ',('
+T_PERCENTLPAREN : '%('
+//
+| T_EXTCODE: %{, %{#, %{^, %{$
+//
+| T_COMMENT_line : '//'
+| T_COMMENT_block : '(*', '*)', '/*', '*/'
+| T_COMMENT_rest : '////'
+//
+
+###### end of [keywords.txt] ######

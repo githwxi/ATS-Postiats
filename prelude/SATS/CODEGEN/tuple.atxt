@@ -54,26 +54,26 @@ fun{} fprint_tup$sep (out: FILEref): void
 #atscode_separator()
 
 fun{
-a1,a2:t0p
-} fprint_tupval2 (out: FILEref, x: @(a1, a2)): void
+a0,a1:t0p
+} fprint_tupval2 (out: FILEref, x: @(a0, a1)): void
 fun{
-a1,a2,a3:t0p
-} fprint_tupval3 (out: FILEref, x: @(a1, a2, a3)): void
+a0,a1,a2:t0p
+} fprint_tupval3 (out: FILEref, x: @(a0, a1, a2)): void
 fun{
-a1,a2,a3,a4:t0p
-} fprint_tupval4 (out: FILEref, x: @(a1, a2, a3, a4)): void
+a0,a1,a2,a3:t0p
+} fprint_tupval4 (out: FILEref, x: @(a0, a1, a2, a3)): void
 
 #atscode_separator()
 
 fun{
-a1,a2:vt0p
-} fprint_tupref2 (out: FILEref, x: &(a1, a2)): void
+a0,a1:vt0p
+} fprint_tupref2 (out: FILEref, x: &(a0, a1)): void
 fun{
-a1,a2,a3:vt0p
-} fprint_tupref3 (out: FILEref, x: &(a1, a2, a3)): void
+a0,a1,a2:vt0p
+} fprint_tupref3 (out: FILEref, x: &(a0, a1, a2)): void
 fun{
-a1,a2,a3,a4:vt0p
-} fprint_tupref4 (out: FILEref, x: &(a1, a2, a3, a4)): void
+a0,a1,a2,a3:vt0p
+} fprint_tupref4 (out: FILEref, x: &(a0, a1, a2, a3)): void
 
 #atscode_separator()
 

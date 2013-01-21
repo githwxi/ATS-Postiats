@@ -235,7 +235,7 @@ token_node =
   | T_STRING of (string)
 //
 (*
-  | T_LABEL of (int(*knd*), string)
+  | T_LABEL of (int(*knd*), string) // HX-2013-01: should it be supported?
 *)
 //
   | T_LPAREN of () // (
@@ -249,16 +249,16 @@ token_node =
   | T_SEMICOLON of () // ;
 //
   | T_ATLPAREN of ()  // @(
-  | T_QUOTELPAREN of ()  // '(
-  | T_ATLBRACKET of ()  // @[
+  | T_QUOTELPAREN of () // '(
+  | T_ATLBRACKET of () // @[
   | T_QUOTELBRACKET of () // '[
   | T_HASHLBRACKET of () // #[
   | T_ATLBRACE of () // @{
   | T_QUOTELBRACE of () // '{
 //
   | T_BQUOTELPAREN of () // `( // macro syntax
-  | T_COMMALPAREN of ()     // ,( // macro syntax
-  | T_PERCENTLPAREN of ()   // %( // macro syntax
+  | T_COMMALPAREN of ()  // ,( // macro syntax
+  | T_PERCENTLPAREN of () // %( // macro syntax
 //
   | T_EXTCODE of (int(*kind*), string) // external code
 //
