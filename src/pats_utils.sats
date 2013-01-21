@@ -102,7 +102,10 @@ fun lstord2list {a:type} (xs: lstord a): List (a)
 
 local
 
-staload Q = "libats/SATS/linqueue_arr.sats"
+staload
+Q = "libats/SATS/linqueue_arr.sats"
+// end of [staload]
+
 stadef QUEUE = $Q.QUEUE
 
 in // in of [local]
@@ -114,6 +117,37 @@ fun queue_get_strptr1
 ) : strptr1 // end of [queue_get_strptr1]
 
 end // end of [local]
+
+(* ****** ****** *)
+
+local
+
+staload FCNTL = "libc/SATS/fcntl.sats"
+
+in (* in of [local] *)
+
+stadef fildes_v = $FCNTL.fildes_v
+
+(*
+//
+// HX: [fd] is regular: no support for pipe
+// HX: the function returns [strptr_null] as error indication
+//
+*)
+fun file2strptr
+  {fd:int} (
+  pf: !fildes_v fd  | fd: int fd
+) : strptr0 = "patsopt_file2strptr" // end of [file2strptr]
+//
+end // end of [local]
+
+(* ****** ****** *)
+
+fun{
+a:t@ype
+} tostring_fprint
+  (prfx: string, fpr: (FILEref, a) -> void, x: a): strptr0
+// end of [tostring_fprint]
 
 (* ****** ****** *)
 

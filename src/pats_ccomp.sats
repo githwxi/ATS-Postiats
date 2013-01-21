@@ -1275,6 +1275,9 @@ fun emit_funarglst (out: FILEref, _arg: hisexplst): void
 
 (* ****** ****** *)
 
+fun emit_the_tmpdeclst (out: FILEref): void
+fun emit_the_funlablst (out: FILEref): void
+fun emit_the_primdeclst (out: FILEref): void
 fun emit_the_typedeflst (out: FILEref): void
 
 (* ****** ****** *)

@@ -297,7 +297,7 @@ and d1exp_node =
   | D1Ef0loat of f0loat (* dynamic floats *)
   | D1Es0tring of s0tring (* dynamic strings *)
 //
-  | D1Etop of () // uninitialized expression of some size
+  | D1Etop of () (* uninitialized exp *)
   | D1Eempty of () (* empty expression *)
 //
   | D1Ecstsp of cstsp // special constants
