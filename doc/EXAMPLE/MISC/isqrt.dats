@@ -46,39 +46,40 @@ fun isqrt {x:nat}
 // end of [isqrt]
 
 implement isqrt (x) = let
-  fun aux {x:nat}.<x>. // non-tail-recursive
-    (x: int x):<> [n:nat] (ISQRT (x, n) | int n) =
-    if x > 0 then let
-      val x4 = x / 4
-      val [n2:int] (pf4 | n2) = aux (x4)
-      prval [n:int] pf = ISQRT_4_lemma {x} {n2} (pf4)
-      val n_1 = n2 + n2
-      val n_2 = n_1 + 1
-      val (pf_mul | x1) = g1int_mul2 (n_2, n_2)
+//
+fun aux {x:nat}.<x>. // non-tail-recursive
+  (x: int x):<> [n:nat] (ISQRT (x, n) | int n) =
+  if x > 0 then let
+    val x4 = x / 4
+    val [n2:int] (pf4 | n2) = aux (x4)
+    prval [n:int] pf = ISQRT_4_lemma {x} {n2} (pf4)
+    val n_1 = n2 + n2
+    val n_2 = n_1 + 1
+    val (pf_mul | x1) = g1int_mul2 (n_2, n_2)
+  in
+    if x < x1 then let
+      prval () = (
+        sif (n==2*n2) then () else let
+          prval () = mul_isfun (pf_mul, pf.0) in (*nothing*)
+        end // end of [sif]
+      ) : [n==2*n2] void
     in
-      if x < x1 then let
-        prval () = (
-          sif (n==2*n2) then () else let
-            prval () = mul_isfun (pf_mul, pf.0) in (*nothing*)
-          end // end of [sif]
-        ) : [n==2*n2] void
-      in
-        (pf | n_1)
-      end else let
-        prval () = (
-          sif (n==2*n2+1) then () else let
-            prval () = mul_isfun (pf_mul, pf.1) in (*nothing*)
-          end // end of [sif]
-        ) : [n==2*n2+1] void
-      in
-        (pf | n_2)
-      end // end of [if]
+      (pf | n_1)
     end else let
-      prval pf0_mul = mul_make {0,0} ()
-      prval pf1_mul = mul_make {1,1} ()
+      prval () = (
+        sif (n==2*n2+1) then () else let
+          prval () = mul_isfun (pf_mul, pf.1) in (*nothing*)
+        end // end of [sif]
+      ) : [n==2*n2+1] void
     in
-      ((pf0_mul, pf1_mul) | 0)
+      (pf | n_2)
     end // end of [if]
+  end else let
+    prval pf0_mul = mul_make {0,0} ()
+    prval pf1_mul = mul_make {1,1} ()
+  in
+    ((pf0_mul, pf1_mul) | 0)
+  end // end of [if]
 in
   aux (x)
 end // end of [isqrt]

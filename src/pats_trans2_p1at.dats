@@ -712,14 +712,18 @@ case+ p1t0.p1at_node of
 | P1Tfree (p1t) => p1at_tr_free_unfold (PCKfree, p1t0, p1t)
 | P1Tunfold (p1t) => p1at_tr_free_unfold (PCKunfold, p1t0, p1t)
 //
-| P1Trefas (id, loc_id, p1t) => let
+| P1Trefas (
+    id, loc_id, p1t
+  ) => let
     val d2v = d2var_make (loc_id, id)
   in
     p2at_refas (loc0, d2v, p1at_tr (p1t))
   end // end of [P1Trefas]
 //
 | P1Texist (s1as, p1t) => let
-    val (pfenv | ()) = the_s2expenv_push_nil ()
+    val (
+      pfenv | ()
+    ) = the_s2expenv_push_nil ()
     val s2vs = s1arglst_trup (s1as)
     val () = the_s2expenv_add_svarlst (s2vs)
     val p2t = p1at_tr (p1t)

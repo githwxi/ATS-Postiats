@@ -197,16 +197,22 @@ end // end of [effcst_tr]
 
 implement
 s1arg_trup (s1a) = let
-  val s2t = (case+ s1a.s1arg_srt of
-    | Some s1t => s1rt_tr (s1t)
-    | None () => S2RTVar (s2rtVar_make (s1a.s1arg_loc))
-  ) : s2rt // end of [val]
+//
+val s2t = (
+  case+ s1a.s1arg_srt of
+  | Some s1t => s1rt_tr (s1t)
+  | None (
+    ) => S2RTVar (s2rtVar_make (s1a.s1arg_loc))
+) : s2rt // end of [val]
+//
 in
   s2var_make_id_srt (s1a.s1arg_sym, s2t)
 end // end of [s1arg_trup]
 
 implement
-s1arglst_trup (s1as) = l2l (list_map_fun (s1as, s1arg_trup))
+s1arglst_trup
+  (s1as) = l2l (list_map_fun (s1as, s1arg_trup))
+// end of [s1arglst_trup]
 
 (* ****** ****** *)
 

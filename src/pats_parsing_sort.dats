@@ -250,10 +250,12 @@ s0arg ::= si0de [COLON s0rt]
 implement
 p_s0arg
   (buf, bt, err) = let
-  val err0 = err
-  val n0 = tokbuf_get_ntok (buf)
-  val tok = tokbuf_get_token (buf)
-  val ent1 = p_si0de (buf, bt, err)
+//
+val err0 = err
+val n0 = tokbuf_get_ntok (buf)
+val tok = tokbuf_get_token (buf)
+val ent1 = p_si0de (buf, bt, err)
+//
 in
 //
 if err = err0 then let
