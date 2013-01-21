@@ -47,7 +47,7 @@ emit_ats_ccomp_header (out) = let
   val () = emit_text (out, "** include runtime header files\n")
   val () = emit_text (out, "*/\n")
   val () = emit_text (out, "#ifndef _ATS_CCOMP_HEADER_NONE\n")
-  val () = emit_text (out, "#include \"pats_config.h\"\n")
+  val () = emit_text (out, "#include \"pats_ccomp_config.h\"\n")
   val () = emit_text (out, "#include \"pats_ccomp_basics.h\"\n")
   val () = emit_text (out, "#include \"pats_ccomp_typedefs.h\"\n")
   val () = emit_text (out, "#include \"pats_ccomp_instrset.h\"\n")
@@ -247,33 +247,24 @@ val () = emit_time_stamp (out)
 val () = emit_ats_ccomp_header (out)
 val () = emit_ats_ccomp_prelude (out)
 //
-val pmds = hideclist_ccomp0 (hids)
 val () = let
+  val pmds = hideclist_ccomp0 (hids)
   val p_pmds = the_toplevel_getref_primdeclst ()
-in
-  $UN.ptrset<primdeclst> (p_pmds, pmds)
-end // end of [val]
-//
-(*
-val () = fprint_string (out, "/*\n")
-val () = fprint_string (out, "ccomp_main: pmds =\n")
-val () = fprint_primdeclst (out, pmds)
-val () = fprint_string (out, "*/\n")
-*)
-//
-val the_funlablst_rep = the_funlablst_stringize ()
-//
-val tmps = primdeclst_get_tmpvarset (pmds)
-val tmps = tmpvarset_vt_listize_free (tmps)
-val tmps = list_of_list_vt (tmps)
-val () = let
+  val () = $UN.ptrset<primdeclst> (p_pmds, pmds)
+  val tmps =
+    primdeclst_get_tmpvarset (pmds)
+  val tmps =
+    tmpvarset_vt_listize_free (tmps)
+  val tmps = list_of_list_vt (tmps)
   val p_tmps = the_toplevel_getref_tmpvarlst ()
+  val () = $UN.ptrset<tmpvarlst> (p_tmps, tmps)
 in
-  $UN.ptrset<tmpvarlst> (p_tmps, tmps)
+  // nothing
 end // end of [val]
 //
 val the_tmpdeclst_rep = the_tmpdeclst_stringize ()
 val the_primdeclst_rep = the_primdeclst_stringize ()
+val the_funlablst_rep = the_funlablst_stringize ()
 //
 val () = emit_the_typedeflst (out)
 //

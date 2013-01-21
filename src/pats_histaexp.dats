@@ -432,7 +432,9 @@ of // of [case]
 | HSEtyabs _ => hse0
 | HSEtybox _ => hse0
 //
-| HSEfun (fc, hses_arg, hse_res) => let
+| HSEfun (
+    fc, hses_arg, hse_res
+  ) => let
     val flag0 = flag
     val hses_arg = auxlst (sub, hses_arg, flag)
     val hse_res = aux (sub, hse_res, flag)
@@ -466,12 +468,33 @@ of // of [case]
     if flag > flag0 then hisexp_refarg (knd, hse) else hse0
   end // end of [HSErefarg]
 //
-(*
-| HSEtyarr (hisexp, s2explst) // for arrays
-| HSEtyrec of (tyreckind, labhisexplst) // for records
-| HSEtyrecsin of (labhisexp) // for singleton records
-| HSEtysum of (d2con, hisexplst) // for tagged unions
-*)
+| HSEtyarr (
+    hse_elt, s2es
+  ) => let
+    val flag0 = flag
+    val s2es = s2explst_subst_flag (sub, s2es, flag)
+    val hse_elt = aux (sub, hse_elt, flag)
+  in
+    if flag > flag0 then hisexp_tyarr (hse_elt, s2es) else hse0
+  end // end of [HSEtyarr]
+| HSEtyrec (knd, lhses) => let
+    val flag0 = flag
+    val lhses = auxlablst (sub, lhses, flag)
+  in
+    if flag > flag0 then hisexp_tyrec (knd, lhses) else hse0
+  end // end of [HSEtyrec]
+| HSEtyrecsin (lhse) => let
+    val flag0 = flag
+    val lhse = auxlab (sub, lhse, flag)
+  in
+    if flag > flag0 then hisexp_tyrecsin (lhse) else hse0
+  end // end of [HSEtyrecsin]
+| HSEtysum (d2c, lhses) => let
+    val flag0 = flag
+    val lhses = auxlablst (sub, lhses, flag)
+  in
+    if flag > flag0 then hisexp_tysum (d2c, lhses) else hse0
+  end // end of [HSEtysum]
 //
 | HSEtyvar (s2v) => let
     val ans = stasub_find (sub, s2v)
@@ -501,6 +524,16 @@ of // of [case]
 //
 end // end of [aux]
 
+and auxlab (
+  sub: !stasub, lhse0: labhisexp, flag: &int
+) : labhisexp = let
+  val flag0 = flag
+  val+HSLABELED (lab, opt, hse) = lhse0
+  val hse = aux (sub, hse, flag)
+in
+  if flag > flag0 then HSLABELED (lab, opt, hse) else lhse0
+end // end of [auxlab]
+
 and auxlst (
   sub: !stasub, hses0: hisexplst, flag: &int
 ) : hisexplst = let
@@ -518,6 +551,24 @@ case+ hses0 of
 | list_nil () => list_nil ()
 //
 end // end of [auxlst]
+
+and auxlablst (
+  sub: !stasub, lhses0: labhisexplst, flag: &int
+) : labhisexplst = let
+in
+//
+case+ lhses0 of
+| list_cons
+    (lhse, lhses) => let
+    val flag0 = flag
+    val lhse = auxlab (sub, lhse, flag)
+    val lhses = auxlablst (sub, lhses, flag)
+  in
+    if flag > flag0 then list_cons (lhse, lhses) else lhses0
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [auxlablst]
 
 and auxlstlst (
   sub: !stasub, hsess0: hisexplstlst, flag: &int

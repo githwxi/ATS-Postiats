@@ -92,6 +92,11 @@
 
 /* ****** ****** */
 
+#define ATSCSTSPmyfil(info) info
+#define ATSCSTSPmyloc(info) info
+
+/* ****** ****** */
+
 #define ATSPMVextval(id) (id)
 
 /* ****** ****** */

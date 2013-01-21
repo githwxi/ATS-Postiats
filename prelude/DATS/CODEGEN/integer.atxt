@@ -130,6 +130,13 @@ end // end of [g0int_implist]
 //
 #atscode_separator()
 
+implement{tk}
+g1int_mul2 {i,j} (x, y) = (
+  mul_make {i,j} () | g1int_mul<tk> (x, y)
+) // end of [g1int_mul2]
+
+#atscode_separator()
+
 implement
 g1int2int<int_kind,int_kind> = g1int2int_int_int
 implement

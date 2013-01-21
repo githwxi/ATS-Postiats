@@ -373,18 +373,22 @@ fun exit_fprintf
 (* ****** ****** *)
 
 fun assert_bool0
-  (x: bool):<!exn> void = "atspre_assert"
+  (x: bool):<!exn> void = "atspre_assert_bool"
 overload assert with assert_bool0 of 0
-fun assert_bool1
-  {b:bool} (x: bool (b)):<!exn> [b] void
-overload assert with assert_bool1 of 1
-
 fun assert_errmsg_bool0 (
   x: bool, msg: string
-) :<!exn> void = "atspre_assert_errmsg"
+) :<!exn> void = "atspre_assert_errmsg_bool"
 overload assert_errmsg with assert_errmsg_bool0 of 0
+
+fun assert_bool1
+  {b:bool} (
+  x: bool (b)
+) :<!exn> [b] void = "atspre_assert_bool"
+overload assert with assert_bool1 of 1
 fun assert_errmsg_bool1
-  {b:bool} (x: bool b, msg: string):<!exn> [b] void
+  {b:bool} (
+  x: bool b, msg: string
+) :<!exn> [b] void = "atspre_assert_errmsg_bool"
 overload assert_errmsg with assert_errmsg_bool1 of 1
 
 (* ****** ****** *)

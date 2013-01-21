@@ -74,10 +74,8 @@ implement isqrt (x) = let
         (pf | n_2)
       end // end of [if]
     end else let
-      prval pf0_mul = mul_istot {0,0} ()
-      prval () = mul_elim pf0_mul
-      prval pf1_mul = mul_istot {1,1} ()
-      prval () = mul_elim pf1_mul
+      prval pf0_mul = mul_make {0,0} ()
+      prval pf1_mul = mul_make {1,1} ()
     in
       ((pf0_mul, pf1_mul) | 0)
     end // end of [if]
@@ -87,19 +85,9 @@ end // end of [isqrt]
       
 (* ****** ****** *)
 
-(*
-val ans = isqrt 1023
-val () = printf ("isqrt(1023) = %i\n", @(ans.1))
-val ans = isqrt 1024
-val () = printf ("isqrt(1024) = %i\n", @(ans.1))
-val ans = isqrt 1025
-val () = printf ("isqrt(1025) = %i\n", @(ans.1))
-*)
-
-(* ****** ****** *)
-
 implement
-main () = 0 where {
+main (
+) = 0 where {
   val () = assertloc ( (isqrt(1023)).1 = 31 )
   val () = assertloc ( (isqrt(1024)).1 = 32 )
   val () = assertloc ( (isqrt(1025)).1 = 32 )

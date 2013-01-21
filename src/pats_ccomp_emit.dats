@@ -391,7 +391,7 @@ case+ pmc of
       out, "ATSCSTSPmyloc(\""
     ) // end of [val]
     val () = $LOC.fprint_location (out, loc)
-    val () = emit_text (out, "\"")
+    val () = emit_text (out, "\")")
   }
 | PMCSTSPmyfun (flab) => {
     val () =

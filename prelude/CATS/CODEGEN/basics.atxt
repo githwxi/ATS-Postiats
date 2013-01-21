@@ -34,12 +34,36 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator_for_C()
 
 \#include <stdio.h>
+\#include <stdlib.h>
 
 #atscode_separator_for_C()
 
 \#define stdin_ref stdin
 \#define stdout_ref stdout
 \#define stderr_ref stderr
+
+#atscode_separator_for_C()
+
+ATSinline()
+atsvoid_t0ype
+atspre_assert_bool
+  (atstype_bool b)
+{
+  if (!b) exit(1) ; return ;
+} /* endfun */
+
+ATSinline()
+atsvoid_t0ype
+atspre_assert_errmsg_bool
+(
+  atstype_bool b, atstype_string msg
+)
+{
+  if (!b) {
+    fprintf(stderr, "%s", (char*)msg) ; exit(1) ;
+  } // end of [if]
+  return ;
+} /* endfun */
 
 #atscode_separator_for_C()
 
