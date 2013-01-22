@@ -25,6 +25,12 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_start_time("May, 2012")
 
 #atscode_separator()
+//
+// HX-2013-01:
+// A rule of thumb for effect-annotation is that
+// higher-order functions should not be annotated!
+//
+#atscode_separator()
 
 staload "libats/SATS/ML_basics.sats"
 
@@ -71,7 +77,9 @@ list0_make_arrpsz
 overload list0 with list0_make_arrpsz
 
 #atscode_separator()
-
+(*
+// HX: this one is of template style
+*)
 fun{a:t0p}
 fprint_list0_sep (
   out: FILEref, xs: list0 (INV(a)), sep: NSH(string)
