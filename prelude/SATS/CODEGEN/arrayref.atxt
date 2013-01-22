@@ -84,13 +84,13 @@ arrayref_get_viewptr
 
 fun{a:t0p}
 arrayref_make_elt
-  {n:int} (asz: size_t n, x: a):<> arrayref (a, n)
+  {n:int} (asz: size_t n, x: a):<!wrt> arrayref (a, n)
 // end of [arrayref_make_elt]
 
 fun{a:t0p}
 arrayref_make_listlen
   {n:int}
-  (xs: list (INV(a), n), n: int n):<> arrayref (a, n)
+  (xs: list (INV(a), n), n: int n):<!wrt> arrayref (a, n)
 // end of [arrayref_make_listlen]
 
 #atscode_separator()
@@ -242,11 +242,11 @@ arrszref_get_refsize{a:vt0p}
 #atscode_separator()
 
 fun{a:t0p}
-arrszref_make_elt (asz: size_t, x: a):<> arrszref (a)
+arrszref_make_elt (asz: size_t, x: a):<!wrt> arrszref (a)
 // end of [arrszref_make_elt]
 
 fun{a:t0p}
-arrszref_make_list (xs: List (INV(a))):<> arrszref (a)
+arrszref_make_list (xs: List (INV(a))):<!wrt> arrszref (a)
 // end of [arrszref_make_list]
 
 #atscode_separator()

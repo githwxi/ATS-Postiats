@@ -222,7 +222,7 @@ fun nodearr_set_at
 
 extern
 fun nodearr_make // HX: initized with nulls
-  {key:t0p;itm:vt0p}{n:nat} (n: int n):<> nodearr (key, itm, n)
+  {key:t0p;itm:vt0p}{n:nat} (n: int n):<!wrt> nodearr (key, itm, n)
 // end of [nodearr_make]
 
 (* ****** ****** *)
