@@ -48,7 +48,8 @@ end // end of [fibver]
 (* ****** ****** *)
 
 implement
-main () = 0 where {
+main (
+) = 0 where {
   val () = assertloc ((fibver(10)).1 = 55)
   val () = assertloc ((fibver(20)).1 = 6765)
 } // end of [main]

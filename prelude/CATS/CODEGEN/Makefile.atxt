@@ -66,6 +66,8 @@ all::
 #make_entry("list")
 #make_entry("option")
 #make_entry("array")
+#make_entry("arrayptr")
+#make_entry("arrayref")
 #make_entry("matrix")
 
 ######

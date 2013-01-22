@@ -143,6 +143,8 @@ SOURCES := \
   pats_patcst2.dats \
   pats_dynexp2.sats \
   pats_dynexp2.dats \
+  pats_dyncst2.sats \
+  pats_dyncst2.dats \
   pats_dynexp2_print.dats \
   pats_dynexp2_dcst.dats \
   pats_dynexp2_dvar.dats \
@@ -368,6 +370,8 @@ OBJECTS := \
   pats_patcst2_dats.o \
   pats_dynexp2_sats.o \
   pats_dynexp2_dats.o \
+  pats_dyncst2_sats.o \
+  pats_dyncst2_dats.o \
   pats_dynexp2_print_dats.o \
   pats_dynexp2_dcst_dats.o \
   pats_dynexp2_dvar_dats.o \
@@ -825,6 +829,12 @@ pats_dynexp2_sats.o: pats_dynexp2_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_dynexp2_dats.c: pats_dynexp2.dats; $(ATSCC) -cc $<
 pats_dynexp2_dats.o: pats_dynexp2_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_dyncst2_sats.c: pats_dyncst2.sats; $(ATSCC) -cc $<
+pats_dyncst2_sats.o: pats_dyncst2_sats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
+
+pats_dyncst2_dats.c: pats_dyncst2.dats; $(ATSCC) -cc $<
+pats_dyncst2_dats.o: pats_dyncst2_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<
 
 pats_dynexp2_print_dats.c: pats_dynexp2_print.dats; $(ATSCC) -cc $<
 pats_dynexp2_print_dats.o: pats_dynexp2_print_dats.c; $(ATSCC) $(ATSCCFLAGS) -c $<

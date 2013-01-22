@@ -112,6 +112,24 @@ array_atxt.dats: array.atxt
 clean:: ; $(RMF) array_atxt.exe
 cleanall:: ; $(RMF) array.cats
 
+all:: arrayptr.cats
+arrayptr.cats: arrayptr_atxt.exe ; ./$< > $@
+arrayptr_atxt.exe: arrayptr_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ arrayptr_atxt.dats -latsdoc
+arrayptr_atxt.dats: arrayptr.atxt
+	$(ATSDOC) --outcode $@ -i arrayptr.atxt > arrayptr_atxt.txt
+clean:: ; $(RMF) arrayptr_atxt.exe
+cleanall:: ; $(RMF) arrayptr.cats
+
+all:: arrayref.cats
+arrayref.cats: arrayref_atxt.exe ; ./$< > $@
+arrayref_atxt.exe: arrayref_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ arrayref_atxt.dats -latsdoc
+arrayref_atxt.dats: arrayref.atxt
+	$(ATSDOC) --outcode $@ -i arrayref.atxt > arrayref_atxt.txt
+clean:: ; $(RMF) arrayref_atxt.exe
+cleanall:: ; $(RMF) arrayref.cats
+
 all:: matrix.cats
 matrix.cats: matrix_atxt.exe ; ./$< > $@
 matrix_atxt.exe: matrix_atxt.dats

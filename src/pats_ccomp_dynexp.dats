@@ -40,7 +40,11 @@ print with $LOC.print_location
 (* ****** ****** *)
 
 staload "./pats_staexp2.sats"
+
+(* ****** ****** *)
+
 staload "./pats_dynexp2.sats"
+staload "./pats_dyncst2.sats"
 
 (* ****** ****** *)
 
@@ -50,6 +54,10 @@ staload "./pats_trans2_env.sats"
 
 staload "./pats_histaexp.sats"
 staload "./pats_hidynexp.sats"
+
+(* ****** ****** *)
+
+staload TYER = "./pats_typerase.sats"
 
 (* ****** ****** *)
 
@@ -545,27 +553,40 @@ val tmplev = ccompenv_get_tmplevel (env)
 //
 in
 //
-if tmplev > 0 then
-  primval_tmpltcst (loc0, hse0, d2c, t2mas)
-else let
-  val tmpmat =
-    ccompenv_tmpcst_match (env, d2c, t2mas)
-  // end of [val]
-//
-  val () = print (
-    "hidexp_ccomp_tmpcst:\n"
-  ) // end of [val]
-  val () = println! ("d2c = ", d2c)
-  val () = print ("t2mas = ")
-  val () = fpprint_t2mpmarglst (stdout_ref, t2mas)
-  val () = print_newline ()
-  val () = print ("mat = ")
-  val () = fprint_tmpcstmat (stdout_ref, tmpmat)
-  val () = print_newline ()
-//
-in
-  ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, tmpmat)
-end // end of [if]
+case+ 0 of
+| _ when
+    tmplev > 0 => let
+  in
+    primval_tmpltcst (loc0, hse0, d2c, t2mas)
+  end // ...
+| _ when
+    d2cst_is_sizeof (d2c) => let
+    val-list_cons (t2ma, _) = t2mas
+    val tloc = t2ma.t2mpmarg_loc
+    val-list_cons (targ, _) = t2ma.t2mpmarg_arg
+    val hselt = $TYER.s2exp_tyer_shallow (tloc, targ)
+  in
+    primval_make_sizeof (loc0, hselt)
+  end // ...
+| _ => let
+    val tmpmat =
+      ccompenv_tmpcst_match (env, d2c, t2mas)
+    // end of [val]
+(*
+    val () = print (
+      "hidexp_ccomp_tmpcst:\n"
+    ) // end of [val]
+    val () = println! ("d2c = ", d2c)
+    val () = print ("t2mas = ")
+    val () = fpprint_t2mpmarglst (stdout_ref, t2mas)
+    val () = print_newline ()
+    val () = print ("mat = ")
+    val () = fprint_tmpcstmat (stdout_ref, tmpmat)
+    val () = print_newline ()
+*)
+  in
+    ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, tmpmat)
+  end // end of [if]
 //
 end // end of [hidexp_ccomp_tmpcst]
 
@@ -632,7 +653,7 @@ hidexp_ccomp_ptrofvar
 val loc0 = hde0.hidexp_loc
 val-HDEptrofvar (d2v) = hde0.hidexp_node
 //
-val hse = hisexp_void ()
+val hse = hisexp_void_type ()
 val pmv = d2var_ccomp (env, loc0, hse, d2v)
 //
 in
@@ -1062,6 +1083,12 @@ hidexp_ccomp_ret_arrpsz
 //
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
+//
+val () = let
+  val ins =
+    instr_tmpdec (loc0, tmpret) in instrseq_add (res, ins)
+  // end of [val]
+end // end of [val]
 //
 val-HDEarrpsz
   (hse_elt, hdes, asz) = hde0.hidexp_node

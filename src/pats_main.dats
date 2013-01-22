@@ -208,6 +208,8 @@ dynload "pats_staexp2_solve.dats"
 dynload "pats_patcst2.dats"
 //
 dynload "pats_dynexp2.dats"
+dynload "pats_dyncst2.dats"
+//
 dynload "pats_dynexp2_print.dats"
 dynload "pats_dynexp2_dcst.dats"
 dynload "pats_dynexp2_dvar.dats"

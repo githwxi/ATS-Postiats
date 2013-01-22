@@ -101,6 +101,10 @@
 
 /* ****** ****** */
 
+#define ATSPMVsizeof(hit) (sizeof(hit))
+
+/* ****** ****** */
+
 #define ATSPMVptrof(lval) (&(lval))
 
 #define ATSPMVrefarg0(val) (val)

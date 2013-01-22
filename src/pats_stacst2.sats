@@ -40,7 +40,11 @@ staload "./pats_staexp2_util.sats"
 abstype s2cstref_type // boxed type
 typedef s2cstref = s2cstref_type
 
+(* ****** ****** *)
+
 fun s2cstref_make (name: string): s2cstref
+
+(* ****** ****** *)
 
 fun s2cstref_get_cst (r: s2cstref): s2cst
 fun s2cstref_get_exp (r: s2cstref, arg: Option_vt s2explst): s2exp

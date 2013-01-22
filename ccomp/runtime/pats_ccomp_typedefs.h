@@ -94,7 +94,7 @@ typedef void *atstype_ref ;
 
 typedef
 struct {
-  atstype_ptr ptr; atstype_size size;
+  atstype_arrptr ptr; atstype_size size;
 } atstype_arrpsz ;
 
 /* ****** ****** */

@@ -301,9 +301,15 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
-| PMVfunlab (fl) => {
+| PMVsizeof (hselt) => {
+    val () = prstr "PMVsizeof("
+    val () = fprint_hisexp (out, hselt)
+    val () = prstr ")"
+  }
+//
+| PMVfunlab (flab) => {
     val () = prstr "PMVfunlab("
-    val () = fprint_funlab (out, fl)
+    val () = fprint_funlab (out, flab)
     val () = prstr ")"
   }
 //

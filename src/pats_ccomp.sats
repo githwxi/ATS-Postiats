@@ -386,6 +386,8 @@ and primval_node =
 //
   | PMVextval of (string(*name*))
 //
+  | PMVsizeof of (hisexp)
+//
   | PMVfunlab of (funlab)
 //
   | PMVptrof of (primval)
@@ -588,6 +590,12 @@ fun primval_extval
 
 (* ****** ****** *)
 
+fun primval_sizeof
+  (loc: location, hse: hisexp, hselt: hisexp): primval
+// end of [primval_sizeof]
+
+(* ****** ****** *)
+
 fun primval_funlab
   (loc: location, hse: hisexp, flab: funlab): primval
 // end of [primval_funlab]
@@ -615,6 +623,10 @@ fun primval_tmpltvar (
 fun primval_tmpltcstmat (
   loc: location, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst, mat: tmpcstmat
 ) : primval // end of [primval_tmpltcstmat]
+
+(* ****** ****** *)
+
+fun primval_make_sizeof (loc: location, hselt: hisexp): primval
 
 (* ****** ****** *)
 
@@ -1202,6 +1214,10 @@ fun emit_primcstsp (out: FILEref, pmc: primcstsp): void
 fun emit_d2con (out: FILEref, d2c: d2con): void
 fun emit_d2cst (out: FILEref, d2c: d2cst): void // HX: global
 fun emit2_d2cst (out: FILEref, d2c: d2cst): void // HX: local
+
+(* ****** ****** *)
+
+fun emit_sizeof (out: FILEref, hselt: hisexp): void
 
 (* ****** ****** *)
 

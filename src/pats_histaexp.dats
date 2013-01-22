@@ -237,13 +237,26 @@ hisexp_conptr = '{
 (* ****** ****** *)
 
 implement
-hisexp_void () = let
+hisexp_void_type () = let
   val s2c =
     $S2C.s2cstref_get_cst ($S2C.the_atsvoid_t0ype)
   // end of [val]
 in '{
   hisexp_name= HITNAM_TYABS, hisexp_node= HSEcst (s2c)
-} end // end of [hisexp_void]
+} end // end of [hisexp_void_type]
+
+(* ****** ****** *)
+
+implement
+hisexp_size_type () = let
+  val s2c1 =
+    $S2C.s2cstref_get_cst ($S2C.the_atstkind_t0ype)
+  val hse1 = hisexp_cst (s2c1)
+  val s2c2 = $S2C.s2cstref_get_cst ($S2C.the_size_kind)
+  val hse2 = hisexp_cst (s2c2)
+in 
+  hisexp_app (hse1, list_sing (hse2))
+end // end of [hisexp_size_type]
 
 (* ****** ****** *)
 

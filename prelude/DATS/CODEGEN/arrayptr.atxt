@@ -30,6 +30,84 @@ staload UN = "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
+implement{a}{tk}
+arrayptr_get_at_gint
+  (A, i) = let
+  val p = ptrcast (A) in
+  $UN.ptr0_get<a> (ptr1_add_gint<a><tk> (p, i))
+end // end of [arrayptr_get_at_gint]
+
+implement{a}{tk}
+arrayptr_get_at_guint
+  (A, i) = let
+  val p = ptrcast (A) in
+  $UN.ptr0_get<a> (ptr1_add_guint<a><tk> (p, i))
+end // end of [arrayptr_get_at_guint]
+
+#atscode_separator()
+
+implement{a}
+fprint_arrayptr_sep
+  (out, A, n, sep) = () where {
+  val p = ptrcast (A)
+  prval pf = arrayptr_takeout (A)
+  val () = fprint_array_sep<a> (out, !p, n, sep)
+  prval () = arrayptr_addback (pf | A)
+} // end of [fprint_arrayptr_sep]
+
+#atscode_separator()
+
+implement{a}
+arrayptr_make_elt
+  (asz, elt) = let
+//
+val (
+  pf, pfgc | p
+) = array_ptr_alloc<a> (asz)
+val () = array_initize_elt<a> (!p, asz, elt)
+//
+in
+  arrayptr_encode (pf, pfgc | p)
+end // end of [arrayptr_make_elt]
+
+#atscode_separator()
+
+implement{a}
+arrayptr_make_list
+  (asz, xs) = let
+//
+val (
+  pf, pfgc | p
+) = array_ptr_alloc<a> (asz)
+val () = array_initize_list<a> (!p, asz, xs)
+//
+in
+  arrayptr_encode (pf, pfgc | p)
+end // end of [arrayptr_make_list]
+
+implement{a}
+arrayptr_make_list_vt
+  (asz, xs) = let
+//
+val (pf, pfgc | p) = array_ptr_alloc<a> (asz)
+val () = array_initize_list_vt<a> (!p, asz, xs)
+//
+in
+  arrayptr_encode (pf, pfgc | p)
+end // end of [arrayptr_make_list_vt]
+
+#atscode_separator()
+
+implement{a}
+arrayptr_make_uninitized
+  (asz) = let
+  val (pf, pfgc | p) = array_ptr_alloc<a> (asz)
+in
+  arrayptr_encode (pf, pfgc | p)
+end // end of [arrayptr_uninitize]
+
+#atscode_separator()
+
 (*
 implement
 {a}{env}
@@ -42,16 +120,7 @@ arrayptr_foreach_env
 } // end of [arrayptr_foreach_env]
 *)
 
-implement{a}
-arrayptr_foreach_funenv
-  (pfv | A, asz, f, env) = let
-  val p = ptrcast (A)
-  prval pfarr = arrayptr_takeout (A)
-  val () = array_foreach_funenv<a> (pfv | !p, asz, f, env)
-  prval () = arrayptr_addback (pfarr | A)
-in
-  // nothing
-end // end of [arrayptr_foreach_funenv]
+#atscode_separator()
 
 implement{a}
 arrayptr_foreach_fun
@@ -63,6 +132,19 @@ arrayptr_foreach_fun
 in
   // nothing
 end // end of [arrayptr_foreach_fun]
+
+#atscode_separator()
+
+implement{a}
+arrayptr_foreach_funenv
+  (pfv | A, asz, f, env) = let
+  val p = ptrcast (A)
+  prval pfarr = arrayptr_takeout (A)
+  val () = array_foreach_funenv<a> (pfv | !p, asz, f, env)
+  prval () = arrayptr_addback (pfarr | A)
+in
+  // nothing
+end // end of [arrayptr_foreach_funenv]
 
 #atscode_separator()
 
@@ -97,68 +179,6 @@ arrayptr_uninitize
   val () = array_uninitize<a> (!p, asz)
   prval () = arrayptr_addback (pfarr | A)
 } // end of [arrayptr_uninitize]
-
-#atscode_separator()
-
-implement{a}
-arrayptr_make_elt
-  (asz, elt) = let
-//
-val (
-  pf, pfgc | p
-) = array_ptr_alloc<a> (asz)
-val () = $effmask_wrt (array_initize_elt<a> (!p, asz, elt))
-//
-in
-  arrayptr_encode (pf, pfgc | p)
-end // end of [arrayptr_make_elt]
-
-#atscode_separator()
-
-implement{a}
-arrayptr_make_list
-  (asz, xs) = let
-//
-val (
-  pf, pfgc | p
-) = array_ptr_alloc<a> (asz)
-val () = $effmask_wrt (array_initize_list<a> (!p, asz, xs))
-//
-in
-  arrayptr_encode (pf, pfgc | p)
-end // end of [arrayptr_make_list]
-
-implement{a}
-arrayptr_make_list_vt
-  (asz, xs) = let
-//
-val (pf, pfgc | p) = array_ptr_alloc<a> (asz)
-val () = $effmask_wrt (array_initize_list_vt<a> (!p, asz, xs))
-//
-in
-  arrayptr_encode (pf, pfgc | p)
-end // end of [arrayptr_make_list_vt]
-
-#atscode_separator()
-
-implement{a}
-arrayptr_make_uninitized
-  (asz) = let
-  val (pf, pfgc | p) = array_ptr_alloc<a> (asz)
-in
-  arrayptr_encode (pf, pfgc | p)
-end // end of [arrayptr_uninitize]
-
-#atscode_separator()
-
-implement{a}
-fprint_arrayptr_sep
-  (out, A, n, sep) = () where {
-  val p = ptrcast (A)
-  prval pf = arrayptr_takeout (A)
-  val () = fprint_array_sep<a> (out, !p, n, sep)
-  prval () = arrayptr_addback (pf | A)
-} // end of [fprint_arrayptr_sep]
 
 #atscode_separator()
 

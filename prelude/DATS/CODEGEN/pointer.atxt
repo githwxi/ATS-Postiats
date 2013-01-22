@@ -26,13 +26,26 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
-implement
-fprint_val<ptr> (out, p) = fprint_ptr (out, p)
+staload UN = "prelude/SATS/unsafe.sats"
 
 #atscode_separator()
 
 primplmnt
 ptr_get_index {l} (p) = addreq_make {l, l} ()
+
+#atscode_separator()
+
+implement{a}{tk}
+ptr0_add_gint (p, i) =
+  $UN.cast2ptr (
+  $UN.cast2lint (p) + $UN.cast2lint(i) * $UN.cast2lint(sizeof<a>)
+) // end of [ptr0_add_gint]
+
+implement{a}{tk}
+ptr0_add_guint (p, i) =
+  $UN.cast2ptr (
+  $UN.cast2ulint(p) + $UN.cast2ulint(i) * $UN.cast2ulint(sizeof<a>)
+) // end of [ptr0_add_guint]
 
 #atscode_separator()
 
@@ -45,6 +58,11 @@ implement{a}
 ptr_exch (pf | p, x) = {
   val tmp = x; val () = x := !p; val () = !p := tmp
 } // end of [ptr_exch]
+
+#atscode_separator()
+
+implement
+fprint_val<ptr> (out, p) = fprint_ptr (out, p)
 
 #atscode_separator()
 

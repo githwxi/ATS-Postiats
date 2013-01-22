@@ -144,6 +144,8 @@ pats_patcst2.sats
 pats_patcst2.dats
 pats_dynexp2.sats
 pats_dynexp2.dats
+pats_dyncst2.sats
+pats_dyncst2.dats
 pats_dynexp2_print.dats
 pats_dynexp2_dcst.dats
 pats_dynexp2_dvar.dats

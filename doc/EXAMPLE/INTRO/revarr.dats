@@ -17,14 +17,16 @@ fun{a:vt0p}
 revarr {n:nat} .<>. (
   A: &array (a, n), n: size_t n
 ) :<!wrt> void = let
-  fun loop {
-    i,j:nat | i <= j+1; i+j==n-1
-  } .<j>. (
-    A: &array (a, n), i: size_t i, j: size_t j
-  ) :<!wrt> void =
-    if i < j then let
-      val () = A.[i] :=: A.[j] in loop (A, succ i, pred j)
-    end // end of [if]
+//
+fun loop {
+  i,j:nat | i <= j+1; i+j==n-1
+} .<j>. (
+  A: &array (a, n), i: size_t i, j: size_t j
+) :<!wrt> void =
+  if i < j then let
+    val () = A.[i] :=: A.[j] in loop (A, succ i, pred j)
+  end // end of [if]
+//
 in
   if n > 0 then loop (A, g1int2uint(0), pred (n))
 end // end of [revarr]

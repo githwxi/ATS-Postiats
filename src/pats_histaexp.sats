@@ -135,7 +135,8 @@ val hisexp_conptr : hisexp
 //
 (* ****** ****** *)
 
-fun hisexp_void () : hisexp
+fun hisexp_void_type () : hisexp
+fun hisexp_size_type () : hisexp
 
 (* ****** ****** *)
 

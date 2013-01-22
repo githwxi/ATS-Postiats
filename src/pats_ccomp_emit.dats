@@ -407,6 +407,20 @@ end // end of [emit_primcstsp]
 (* ****** ****** *)
 
 implement
+emit_sizeof
+  (out, hselt) = let
+//
+val () =
+  emit_text (out, "ATSPMVsizeof(")
+val () = emit_hisexp (out, hselt)
+val () = emit_rparen (out)
+//
+in
+end // end of [emit_sizeof]
+
+(* ****** ****** *)
+
+implement
 emit_d2con
   (out, d2c) = let
   val fil = $S2E.d2con_get_fil (d2c)
@@ -718,6 +732,8 @@ case+ pmv0.primval_node of
 | PMVextval
     (name) => fprintf (out, "ATSextval(%s)", @(name))
   // end of [PMVextval]
+//
+| PMVsizeof (hselt) => emit_sizeof (out, hselt)
 //
 | PMVptrof _ => emit_primval_ptrof (out, pmv0)
 | PMVrefarg _ => emit_primval_refarg (out, pmv0)

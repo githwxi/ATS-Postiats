@@ -184,8 +184,8 @@ fun d2cst_get_stamp (x: d2cst): stamp
 
 (* ****** ****** *)
 
-fun d2cst_is_prf (d2c: d2cst): bool // [d2c] is a proof
-fun d2cst_is_nonprf (d2c: d2cst): bool // [d2c] is a nonproof
+fun d2cst_is_prf (d2c: d2cst): bool // a proof
+fun d2cst_is_nonprf (d2c: d2cst): bool // a nonproof
 
 (* ****** ****** *)
 

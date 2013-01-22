@@ -110,20 +110,20 @@ fun{a:vt0p} ptr0_exch (p: ptr, x: &INV(a) >> a):<!wrt> void
 // HX-2012-06:
 // generic ops on numbers: +=, -=, *=, /=, %=
 //
-fun{a:t0p} ptr_addby (p: Ptr1, x: a):<!wrt> void
-fun{a:t0p} ptr0_addby (p: ptr, x: a):<!wrt> void
+fun{a:t0p} ptr_addby (p: Ptr1, x: a):<!wrt> void // !p += x
+fun{a:t0p} ptr0_addby (p: ptr, x: a):<!wrt> void // !p += x
 //
-fun{a:t0p} ptr_subby (p: Ptr1, x: a):<!wrt> void
-fun{a:t0p} ptr0_subby (p: ptr, x: a):<!wrt> void
+fun{a:t0p} ptr_subby (p: Ptr1, x: a):<!wrt> void // !p -= x
+fun{a:t0p} ptr0_subby (p: ptr, x: a):<!wrt> void // !p -= x
 //
-fun{a:t0p} ptr_mulby (p: Ptr1, x: a):<!wrt> void
-fun{a:t0p} ptr0_mulby (p: ptr, x: a):<!wrt> void
+fun{a:t0p} ptr_mulby (p: Ptr1, x: a):<!wrt> void // !p *= x
+fun{a:t0p} ptr0_mulby (p: ptr, x: a):<!wrt> void // !p *= x
 //
-fun{a:t0p} ptr_divby (p: Ptr1, x: a):<!wrt> void
-fun{a:t0p} ptr0_divby (p: ptr, x: a):<!wrt> void
+fun{a:t0p} ptr_divby (p: Ptr1, x: a):<!wrt> void // !p /= x
+fun{a:t0p} ptr0_divby (p: ptr, x: a):<!wrt> void // !p /= x
 //
-fun{a:t0p} ptr_modby (p: Ptr1, x: a):<!wrt> void
-fun{a:t0p} ptr0_modby (p: ptr, x: a):<!wrt> void
+fun{a:t0p} ptr_modby (p: Ptr1, x: a):<!wrt> void // !p %= x
+fun{a:t0p} ptr0_modby (p: ptr, x: a):<!wrt> void // !p %= x
 //
 #atscode_separator()
 //

@@ -37,6 +37,9 @@ staload _(*anon*) = "prelude/DATS/pointer.dats"
 (* ****** ****** *)
 
 staload ERR = "./pats_error.sats"
+
+(* ****** ****** *)
+
 staload SYM = "./pats_symbol.sats"
 
 (* ****** ****** *)

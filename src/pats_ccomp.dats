@@ -238,6 +238,13 @@ primval_extval (loc, hse, name) =
 (* ****** ****** *)
 
 implement
+primval_sizeof (loc, hse, hselt) =
+  primval_make_node (loc, hse, PMVsizeof (hselt))
+// end of [primval_sizeof]
+
+(* ****** ****** *)
+
+implement
 primval_funlab (loc, hse, fl) =
   primval_make_node (loc, hse, PMVfunlab (fl))
 // end of [primval_funlab]
@@ -273,6 +280,16 @@ primval_tmpltvar
   (loc, hse, d2v, t2mas) =
   primval_make_node (loc, hse, PMVtmpltvar (d2v, t2mas))
 // end of [primval_tmpltvar]
+
+(* ****** ****** *)
+
+implement
+primval_make_sizeof
+  (loc, s2elt) = let
+  val hse = hisexp_size_type ()
+in
+  primval_sizeof (loc, hse, s2elt)
+end // end of [primval_make_sizeof]
 
 (* ****** ****** *)
 

@@ -100,11 +100,15 @@ arrpsz_decode
   (psz: arrpsz (INV(a), n)):<> (arrayptr (a, n), size_t n)
 // end of [arrpsz_decode]
 
+#atscode_separator()
+
 fun
 arrpsz_get_ptrsize
   {a:vt0p}{n:int} (
-  psz: arrpsz (INV(a), n), asz: &size_t? >> size_t (n)
-) :<> arrayptr (a, n) // end of [arrpsz_get_ptrsize]
+  psz: arrpsz (INV(a), n)
+, asz: &size_t? >> size_t (n)
+) :<!wrt> arrayptr (a, n) = "mac\#atspre_arrpsz_get_ptrsize"
+// end of [arrpsz_get_ptrsize]
 
 #atscode_separator()
 
@@ -112,7 +116,7 @@ symintr arrayptr
 
 fun{a:t0p}
 arrayptr_make_elt
-  {n:int} (asz: size_t n, x: a):<> arrayptr (a, n)
+  {n:int} (asz: size_t n, x: a):<!wrt> arrayptr (a, n)
 // end of [arrayptr_make_elt]
 
 #atscode_separator()
@@ -120,7 +124,7 @@ arrayptr_make_elt
 fun
 arrayptr_make_intrange
   {l,r:int | l <= r}
-  (l: int l, r: int r):<> arrayptr (intBtw(l, r), r-l)
+  (l: int l, r: int r):<!wrt> arrayptr (intBtw(l, r), r-l)
 // end of [arrayptr_make_intrange]
 
 #atscode_separator()
@@ -135,20 +139,20 @@ overload arrayptr with arrayptr_make_arrpsz
 fun{a:t0p}
 arrayptr_make_list
   {n:int}
-  (asz: size_t n, xs: list (INV(a), n)):<> arrayptr (a, n)
+  (asz: size_t n, xs: list (INV(a), n)):<!wrt> arrayptr (a, n)
 // end of [arrayptr_make_list]
 
 fun{a:vt0p}
 arrayptr_make_list_vt
   {n:int}
-  (asz: size_t n, xs: list_vt (INV(a), n)):<> arrayptr (a, n)
+  (asz: size_t n, xs: list_vt (INV(a), n)):<!wrt> arrayptr (a, n)
 // end of [arrayptr_make_list_vt]
 
 #atscode_separator()
 
 fun{a:vt0p}
 arrayptr_make_uninitized
-  {n:int} (asz: size_t n):<> arrayptr (a?, n)
+  {n:int} (asz: size_t n):<!wrt> arrayptr (a?, n)
 // end of [arrayptr_make_uninitized]
 
 #atscode_separator()
@@ -248,7 +252,7 @@ overload arrayptr_exch_at with arrayptr_exch_at_guint
 #atscode_separator()
 
 fun arrayptr_free
-  {a:t0p}{l:addr}{n:int} (A: arrayptr (INV(a), l, n)):<> void
+  {a:t0p}{l:addr}{n:int} (A: arrayptr (INV(a), l, n)):<!wrt> void
 // end of [arrayptr_free]
 
 #atscode_separator()

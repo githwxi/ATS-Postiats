@@ -165,6 +165,38 @@ overload <> with neq_ptr0_intz of 0
 
 #atscode_separator()
 
+(*
+fun{a:vt0p}
+ptr0_add_int (p: ptr, i: int): ptr
+fun{a:vt0p}
+ptr0_add_lint (p: ptr, i: lint): ptr
+fun{a:vt0p}
+ptr0_add_ssize (p: ptr, i: ssize): ptr
+fun{a:vt0p}
+ptr0_add_uint (p: ptr, u: uint): ptr
+fun{a:vt0p}
+ptr0_add_ulint (p: ptr, u: ulint): ptr
+fun{a:vt0p}
+ptr0_add_size (p: ptr, u: size): ptr
+*)
+
+(*
+fun{a:vt0p}
+ptr0_sub_int (p: ptr, i: int): ptr
+fun{a:vt0p}
+ptr0_sub_lint (p: ptr, i: lint): ptr
+fun{a:vt0p}
+ptr0_sub_ssize (p: ptr, i: ssize): ptr
+fun{a:vt0p}
+ptr0_sub_uint (p: ptr, u: uint): ptr
+fun{a:vt0p}
+ptr0_sub_ulint (p: ptr, u: ulint): ptr
+fun{a:vt0p}
+ptr0_sub_size (p: ptr, u: size): ptr
+*)
+
+#atscode_separator()
+
 fun fprint_ptr
   (out: FILEref, p: ptr): void = "mac\#atspre_fprint_ptr"
 // end of [fprint_ptr]

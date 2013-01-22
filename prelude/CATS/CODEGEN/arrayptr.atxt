@@ -1,0 +1,54 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT == "txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"arrayptr.cats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner_for_C()
+#atscode_copyright_LGPL_for_C()
+
+#atscode_separator_for_C()
+
+/*
+** Source:
+** $PATSHOME/prelude/CATS/CODEGEN/arrayptr.atxt
+** Time of generation: #timestamp()
+*/
+
+#atscode_separator_for_C()
+
+/*
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("January, 2013")
+*/
+
+#atscode_separator_for_C()
+
+\#ifndef ATSHOME_PRELUDE_ARRAYPTR_CATS
+\#define ATSHOME_PRELUDE_ARRAYPTR_CATS
+
+#atscode_separator_for_C()
+
+atstype_arrptr
+atspre_arrpsz_get_ptrsize
+(
+  atstype_arrpsz psz, asz: atstype_ref
+) {
+  *(size_t*)asz = psz.size ; return (psz.ptr) ;
+} // en of [atspre_arrpsz_get_ptrsize]
+
+#atscode_separator_for_C()
+
+\#endif // ifndef ATSHOME_PRELUDE_ARRAYPTR_CATS
+
+#atscode_separator_for_C()
+
+#atscode_eof_strsub_for_C("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "arrayptr_atxt.txt")
+%}\
