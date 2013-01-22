@@ -452,6 +452,14 @@ instr_move_con (
 (* ****** ****** *)
 
 implement
+instr_move_ref
+  (loc, tmpret, pmv) =
+  instr_make_node (loc, INSmove_ref (tmpret, pmv))
+// end of [instr_move_ref]
+
+(* ****** ****** *)
+
+implement
 instr_move_boxrec (
   loc, tmpret, lpmvs, hse_rec
 ) = instr_make_node

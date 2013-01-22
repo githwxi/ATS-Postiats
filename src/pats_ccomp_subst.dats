@@ -203,6 +203,15 @@ fun primvalist_subst (
 ) : primvalist // end of [primvalist_subst]
 //
 extern
+fun labprimval_subst (
+  env: !ccompenv, map: !tmpmap, sub: !stasub, lpmv: labprimval, sfx: int
+) : labprimval // end of [labprimval_subst]
+extern
+fun labprimvalist_subst (
+  env: !ccompenv, map: !tmpmap, sub: !stasub, lpmvs: labprimvalist, sfx: int
+) : labprimvalist // end of [labprimvalist_subst]
+//
+extern
 fun primdec_subst (
   env: !ccompenv, map: !tmpmap, sub: !stasub, pmd: primdec, sfx: int
 ) : primdec // end of [primdec_subst]
@@ -441,6 +450,40 @@ end // end of [primvalist_subst]
 
 (* ****** ****** *)
 
+implement
+labprimval_subst (
+  env, map, sub, lpmv, sfx
+) = let
+//
+val LABPRIMVAL (lab, pmv) = lpmv
+val pmv = primval_subst (env, map, sub, pmv, sfx)
+//
+in
+  LABPRIMVAL (lab, pmv)
+end // end of [labprimval_subst]
+
+(* ****** ****** *)
+
+implement
+labprimvalist_subst (
+  env, map, sub, lpmvs, sfx
+) = let
+in
+//
+case+ lpmvs of
+| list_cons
+    (lpmv, lpmvs) => let
+    val lpmv = labprimval_subst (env, map, sub, lpmv, sfx)
+    val lpmvs = labprimvalist_subst (env, map, sub, lpmvs, sfx)
+  in
+    list_cons (lpmv, lpmvs)
+  end // end of [list_cons]
+| list_nil () => list_nil ()
+//
+end // end of [primvalist_subst]
+
+(* ****** ****** *)
+
 typedef instrlst0 = ccomp_instrlst_type
 
 extern
@@ -550,7 +593,9 @@ val loc0 = ins0.instr_loc
 //
 macdef ftmp (x) = tmpvar2var (map, ,(x))
 macdef fpmv (x) = primval_subst (env, map, sub, ,(x), sfx)
+macdef flabpmv (lx) = labprimval_subst (env, map, sub, ,(lx), sfx)
 macdef fpmvlst (xs) = primvalist_subst (env, map, sub, ,(xs), sfx)
+macdef flabpmvlst (lxs) = labprimvalist_subst (env, map, sub, ,(lxs), sfx)
 macdef fpmd (x) = primdec_subst (env, map, sub, ,(x), sfx)
 macdef fpmdlst (xs) = primdeclst_subst (env, map, sub, ,(xs), sfx)
 //
@@ -568,42 +613,22 @@ case+
   in
     instr_move_val (loc0, tmp, pmv)
   end // end of [INSmove_val]
-(*
-| INSmove_arg_val of (int(*arg*), primval)
-*)
-| INSpmove_val (tmp, pmv) => let
+//
+| INSpmove_val
+    (tmp, pmv) => let
     val tmp = ftmp (tmp)
     val pmv = fpmv (pmv)
   in
     instr_pmove_val (loc0, tmp, pmv)
   end // end of [INSpmove_val]
-(*
 //
-| INSmove_con of
-    (tmpvar, d2con, hisexp, primvalist(*arg*))
-| INSmove_ptr_con of
-    (tmpvar(*ptr*), d2con, hisexp, primvalist(*arg*))
+| INSmove_arg_val
+    (narg, pmv) => let
+    val pmv = fpmv (pmv)
+  in
+    instr_move_arg_val (loc0, narg, pmv)
+  end // end of [INSmove_arg_val]
 //
-| INSTRmove_rec_box of
-    (tmpvar, labprimvalist(*arg*), hisexp)
-| INSTRmove_rec_flt of
-    (tmpvar, labprimvalist(*arg*), hisexp)
-//
-| INSmove_list_nil of (tmpvar) // tmp <- list_nil
-| INSpmove_list_nil of (tmpvar) // *tmp <- list_nil
-| INSpmove_list_cons of (tmpvar) // *tmp <- list_cons
-| INSupdate_list_head of // hd <- &(tl->val)
-    (tmpvar(*hd*), tmpvar(*tl*), hisexp(*elt*))
-| INSupdate_list_tail of // tl_new <- &(tl_old->next)
-    (tmpvar(*new*), tmpvar(*old*), hisexp(*elt*))
-//
-| INSmove_arrpsz of
-    (tmpvar, hisexp(*elt*), int(*asz*))
-| INSupdate_ptrinc of (tmpvar, hisexp(*elt*))
-//
-| INSmove_ref of (tmpvar, primval) // tmp := ref (pmv)
-//
-*)
 | INSfuncall
     (tmp, _fun, hse, _arg) => let
     val tmp = ftmp (tmp)
@@ -613,22 +638,21 @@ case+
   in
     instr_funcall (loc0, tmp, _fun, hse, _arg)
   end // end of [INSfuncall]
+//
+| INScond (
+    pmv, _then, _else
+  ) => let
+    val pmv = fpmv (pmv)
+    val _then = instrlst_subst (env, map, sub, _then, sfx)
+    val _else = instrlst_subst (env, map, sub, _else, sfx)
+  in
+    instr_cond (loc0, pmv, _then, _else)
+  end // end of [INScond]
+//
 (*
-| INScond of ( // conditinal instruction
-    primval(*test*), instrlst(*then*), instrlst(*else*)
-  ) // end of [INScond]
-//
-| INSpatck of (primval, patck, patckont) // pattern check
-//
-| INSselect of (tmpvar, primval, hisexp(*rec*), hilablst)
-| INSselcon of (tmpvar, primval, hisexp(*sum*), int(*narg*))
-//
-| INSassgn_varofs of
-    (d2var(*left*), primlablst(*ofs*), primval(*right*))
-| INSassgn_ptrofs of
-    (primval(*left*), primlablst(*ofs*), primval(*right*))
-//
+| INSswitch (x) => ...
 *)
+//
 | INSletpop () => let
     prval pfpush = __assert () where {
       extern praxi __assert : () -<prf> ccompenv_push_v
@@ -648,6 +672,129 @@ case+
     instr_letpush (loc0, pmds)
   end // end of [INSletpush]
 //
+| INSmove_con (
+    tmp, d2c, hse_sum, lpmvs
+  ) => let
+    val tmp = ftmp (tmp)
+    val hse_sum = hisexp_subst (sub, hse_sum)
+    val lpmvs = flabpmvlst (lpmvs)
+  in
+    instr_move_con (loc0, tmp, d2c, hse_sum, lpmvs)
+  end // end of [INSmove_con]
+//
+| INSmove_ref
+    (tmp, pmv) => let
+    val tmp = ftmp (tmp)
+    val pmv = fpmv (pmv)
+  in
+    instr_move_ref (loc0, tmp, pmv)
+  end // end of [INSmove_ref]
+//
+| INSmove_boxrec (
+    tmp, lpmvs, hse_rec
+  ) => let
+    val tmp = ftmp (tmp)
+    val hse_rec = hisexp_subst (sub, hse_rec)
+    val lpmvs = flabpmvlst (lpmvs)
+  in
+    instr_move_boxrec (loc0, tmp, lpmvs, hse_rec)
+  end // end of [INSmove_boxrec]
+| INSmove_fltrec (
+    tmp, lpmvs, hse_rec
+  ) => let
+    val tmp = ftmp (tmp)
+    val hse_rec = hisexp_subst (sub, hse_rec)
+    val lpmvs = flabpmvlst (lpmvs)
+  in
+    instr_move_fltrec (loc0, tmp, lpmvs, hse_rec)
+  end // end of [INSmove_fltrec]
+//
+(*
+| INSpatck of (primval, patck, patckont) // pattern check
+*)
+//
+| INSmove_selcon
+    (tmp, pmv, hse_sum, lab) => let
+    val tmp = ftmp (tmp)
+    val pmv = fpmv (pmv)
+    val hse_sum = hisexp_subst (sub, hse_sum)
+  in
+    instr_move_selcon (loc0, tmp, pmv, hse_sum, lab)
+  end // end of [INSmove_selcon]
+//
+| INSmove_select
+    (tmp, pmv, hse_rt, hil) => let
+    val tmp = ftmp (tmp)
+    val pmv = fpmv (pmv)
+    val hse_rt = hisexp_subst (sub, hse_rt)
+  in
+    instr_move_select (loc0, tmp, pmv, hse_rt, hil)
+  end // end of [INSmove_select]
+| INSmove_select2
+    (tmp, pmv, hse_rt, hils) => let
+    val tmp = ftmp (tmp)
+    val pmv = fpmv (pmv)
+    val hse_rt = hisexp_subst (sub, hse_rt)
+  in
+    instr_move_select2 (loc0, tmp, pmv, hse_rt, hils)
+  end // end of [INSmove_select2]
+//
+(*
+| INSmove_ptrofsel of
+    (tmpvar, primval, hisexp(*tyroot*), primlablst)
+  // end of [INSmove_ptrofsel]
+*)
+| INSload_varofs
+    (tmp, pmv, hse_rt, pmls) => let
+    val tmp = ftmp (tmp)
+    val pmv = fpmv (pmv)
+    val hse_rt = hisexp_subst (sub, hse_rt)
+  in
+    instr_load_varofs (loc0, tmp, pmv, hse_rt, pmls)
+  end // end of [INSload_varofs]
+| INSload_ptrofs
+    (tmp, pmv, hse_rt, pmls) => let
+    val tmp = ftmp (tmp)
+    val pmv = fpmv (pmv)
+    val hse_rt = hisexp_subst (sub, hse_rt)
+  in
+    instr_load_ptrofs (loc0, tmp, pmv, hse_rt, pmls)
+  end // end of [INSload_ptrofs]
+//
+| INSstore_varofs (
+    pmv_l, hse_rt, pmls, pmv_r
+  ) => let
+    val pmv_l = fpmv (pmv_l)
+    val hse_rt = hisexp_subst (sub, hse_rt)
+    val pmv_r = fpmv (pmv_r)
+  in
+    instr_store_varofs (loc0, pmv_l, hse_rt, pmls, pmv_r)
+  end // end of [INSstore_varofs]
+| INSstore_ptrofs (
+    pmv_l, hse_rt, pmls, pmv_r
+  ) => let
+    val pmv_l = fpmv (pmv_l)
+    val hse_rt = hisexp_subst (sub, hse_rt)
+    val pmv_r = fpmv (pmv_r)
+  in
+    instr_store_ptrofs (loc0, pmv_l, hse_rt, pmls, pmv_r)
+  end // end of [INSstore_ptrofs]
+//
+(*
+//
+| INSmove_list_nil of (tmpvar) // tmp <- list_nil
+| INSpmove_list_nil of (tmpvar) // *tmp <- list_nil
+| INSpmove_list_cons of (tmpvar) // *tmp <- list_cons
+| INSupdate_list_head of // hd <- &(tl->val)
+    (tmpvar(*hd*), tmpvar(*tl*), hisexp(*elt*))
+| INSupdate_list_tail of // tl_new <- &(tl_old->next)
+    (tmpvar(*new*), tmpvar(*old*), hisexp(*elt*))
+//
+| INSmove_arrpsz of
+    (tmpvar, hisexp(*elt*), int(*asz*))
+| INSupdate_ptrinc of (tmpvar, hisexp(*elt*))
+//
+*)
 | _ => ins0
 //
 end // end of [instr_subst]

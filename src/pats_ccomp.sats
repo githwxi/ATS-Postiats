@@ -843,6 +843,12 @@ fun instr_move_con (
 
 (* ****** ****** *)
 
+fun instr_move_ref
+  (loc: location, tmp: tmpvar, pmv: primval): instr
+// end of [instr_move_ref]
+
+(* ****** ****** *)
+
 fun instr_move_boxrec (
   loc: location, tmp: tmpvar, arg: labprimvalist, hse: hisexp
 ) : instr // end of [instr_move_boxrec]
