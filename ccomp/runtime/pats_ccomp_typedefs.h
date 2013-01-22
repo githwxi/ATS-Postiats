@@ -86,8 +86,14 @@ typedef double atstype_double ;
 typedef long double atstype_ldouble ;
 
 /* ****** ****** */
-
+/*
+** HX: for pointers
+*/
 typedef void *atstype_ptr ;
+typedef void *atstype_ptrk ;
+/*
+** HX: for references
+*/
 typedef void *atstype_ref ;
 
 /* ****** ****** */

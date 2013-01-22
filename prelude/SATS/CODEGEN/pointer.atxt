@@ -34,6 +34,10 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 
 #atscode_separator()
 
+stadef ptrknd = ptr_kind
+
+#atscode_separator()
+
 castfn ptr1_of_ptr0 (p: ptr):<> [l:addr] ptr (l)
 
 #atscode_separator()
