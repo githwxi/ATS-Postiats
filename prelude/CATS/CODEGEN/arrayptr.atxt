@@ -36,7 +36,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 atstype_arrptr
 atspre_arrpsz_get_ptrsize
 (
-  atstype_arrpsz psz, asz: atstype_ref
+  atstype_arrpsz psz, atstype_ref asz
 ) {
   *(size_t*)asz = psz.size ; return (psz.ptr) ;
 } // en of [atspre_arrpsz_get_ptrsize]
