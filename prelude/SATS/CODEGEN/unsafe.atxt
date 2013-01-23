@@ -61,6 +61,9 @@ castfn cast2ullint {a:t0p} (x: a):<> ullint
 castfn cast2size {a:t0p} (x: a):<> size_t
 castfn cast2ssize {a:t0p} (x: a):<> ssize_t
 //
+castfn cast2intptr {a:t0p} (x: a):<> intptr
+castfn cast2uintptr {a:t0p} (x: a):<> uintptr
+//
 castfn cast2sint {a:t0p} (x: a):<> sint
 castfn cast2usint {a:t0p} (x: a):<> usint
 //

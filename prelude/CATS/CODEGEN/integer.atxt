@@ -43,11 +43,13 @@ int fprintf (FILE *stream, const char *format, ...) ;
 \#define atspre_g0int2int_int_lint(x) ((atstype_lint)(x))
 \#define atspre_g0int2int_int_llint(x) ((atstype_llint)(x))
 \#define atspre_g0int2int_int_ssize(x) ((atstype_ssize)(x))
+\#define atspre_g0int2int_int_intptr(x) ((atstype_intptr)(x))
 //
 \#define atspre_g1int2int_int_int atspre_g0int2int_int_int
 \#define atspre_g1int2int_int_lint atspre_g0int2int_int_lint
 \#define atspre_g1int2int_int_llint atspre_g0int2int_int_llint
 \#define atspre_g1int2int_int_ssize atspre_g0int2int_int_ssize
+\#define atspre_g1int2int_int_intptr atspre_g0int2int_int_intptr
 //
 #atscode_separator_for_C()
 //
@@ -55,11 +57,13 @@ int fprintf (FILE *stream, const char *format, ...) ;
 \#define atspre_g0int2uint_int_ulint(x) ((atstype_ulint)(x))
 \#define atspre_g0int2uint_int_ullint(x) ((atstype_ullint)(x))
 \#define atspre_g0int2uint_int_size(x) ((atstype_size)(x))
+\#define atspre_g0int2uint_int_uintptr(x) ((atstype_uintptr)(x))
 //
 \#define atspre_g1int2uint_int_uint atspre_g0int2uint_int_uint
 \#define atspre_g1int2uint_int_ulint atspre_g0int2uint_int_ulint
 \#define atspre_g1int2uint_int_ullint atspre_g0int2uint_int_ullint
 \#define atspre_g1int2uint_int_size atspre_g0int2uint_int_size
+\#define atspre_g1int2uint_int_uintptr atspre_g0int2uint_int_uintptr
 //
 #atscode_separator_for_C()
 //
@@ -67,11 +71,13 @@ int fprintf (FILE *stream, const char *format, ...) ;
 \#define atspre_g0uint2uint_uint_ulint(x) ((atstype_ulint)(x))
 \#define atspre_g0uint2uint_uint_ullint(x) ((atstype_ullint)(x))
 \#define atspre_g0uint2uint_uint_size(x) ((atstype_size)(x))
+\#define atspre_g0uint2uint_uint_uintptr(x) ((atstype_uintptr)(x))
 //
 \#define atspre_g1uint2uint_uint_uint atspre_g0uint2uint_uint_uint
 \#define atspre_g1uint2uint_uint_ulint atspre_g0uint2uint_uint_ulint
 \#define atspre_g1uint2uint_uint_ullint atspre_g0uint2uint_uint_ullint
 \#define atspre_g1uint2uint_uint_size atspre_g0uint2uint_uint_size
+\#define atspre_g1uint2uint_uint_uintptr atspre_g0uint2uint_uint_uintptr
 //
 #atscode_separator_for_C()
 
@@ -290,6 +296,8 @@ end // end of [local]
 //
 #g0int_implist("llint")\
 //
+#g0int_implist("intptr")\
+//
 #atscode_separator_for_C()
 
 ATSinline()
@@ -333,6 +341,20 @@ atspre_fprint_llint
 
 \#define atspre_print_llint(x) atspre_fprint_llint(stdout_ref, (x))
 \#define atspre_prerr_llint(x) atspre_fprint_llint(stderr_ref, (x))
+
+ATSinline()
+atsvoid_t0ype
+atspre_fprint_intptr
+(
+  atstype_ref r, atstype_intptr x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%lli", (atsptr_llint)x) ;
+  return ;
+} // end [atspre_fprint_intptr]
+
+\#define atspre_print_intptr(x) atspre_fprint_intptr(stdout_ref, (x))
+\#define atspre_prerr_intptr(x) atspre_fprint_intptr(stderr_ref, (x))
 
 #atscode_separator_for_C()
 
@@ -553,6 +575,66 @@ end // end of [local]
 //
 #g0uint_implist("ullint")\
 //
+#g0uint_implist("uintptr")\
+//
+#atscode_separator_for_C()
+
+ATSinline()
+atsvoid_t0ype
+atspre_fprint_uint
+(
+  atstype_ref r, atstype_uint x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%u", x) ;
+  return ;
+} // end [atspre_fprint_uint]
+
+\#define atspre_print_uint(x) atspre_fprint_uint(stdout_ref, (x))
+\#define atspre_prerr_uint(x) atspre_fprint_uint(stderr_ref, (x))
+
+ATSinline()
+atsvoid_t0ype
+atspre_fprint_ulint
+(
+  atstype_ref r, atstype_ulint x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%lu", x) ;
+  return ;
+} // end [atspre_fprint_ulint]
+
+\#define atspre_print_ulint(x) atspre_fprint_ulint(stdout_ref, (x))
+\#define atspre_prerr_ulint(x) atspre_fprint_ulint(stderr_ref, (x))
+
+ATSinline()
+atsvoid_t0ype
+atspre_fprint_ullint
+(
+  atstype_ref r, atstype_ullint x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%llu", x) ;
+  return ;
+} // end [atspre_fprint_ullint]
+
+\#define atspre_print_ullint(x) atspre_fprint_ullint(stdout_ref, (x))
+\#define atspre_prerr_ullint(x) atspre_fprint_ullint(stderr_ref, (x))
+
+ATSinline()
+atsvoid_t0ype
+atspre_fprint_uintptr
+(
+  atstype_ref r, atstype_uintptr x
+) {
+  int err ;
+  err = fprintf((FILE*)r, "%llu", (atstype_ullint)x) ;
+  return ;
+} // end [atspre_fprint_uintptr]
+
+\#define atspre_print_uintptr(x) atspre_fprint_uintptr(stdout_ref, (x))
+\#define atspre_prerr_uintptr(x) atspre_fprint_uintptr(stderr_ref, (x))
+
 #atscode_separator_for_C()
 
 \#endif // ifndef ATSHOME_PRELUDE_INTEGER_CATS
