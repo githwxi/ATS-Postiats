@@ -71,7 +71,7 @@ arrayptr_refize
   {l:addr}
   {n:int} (
   A: arrayptr (INV(a), l, n)
-) :<> arrayref (a, n) // end of [arrayptr_refize]
+) :<!wrt> arrayref (a, n) // end of [arrayptr_refize]
 
 castfn
 arrayref_get_viewptr
