@@ -171,8 +171,8 @@ tkindef int_kind = "atstype_int"
 typedef int0 = g0int (int_kind)
 typedef int1 (i:int) = g1int (int_kind, i)
 //
-stadef int = int1 // first
-stadef int = int0 // second
+stadef int = int1 // 2nd-select
+stadef int = int0 // fst-select
 //
 typedef Int = [i:int] int1 (i)
 typedef Nat = [i:int | i >= 0] int1 (i)
@@ -195,8 +195,8 @@ tkindef uint_kind = "atstype_uint"
 typedef uint0 = g0uint (uint_kind)
 typedef uint1 (n:int) = g1uint (uint_kind, n)
 //
-stadef uint = uint1 // first
-stadef uint = uint0 // second
+stadef uint = uint1 // 2nd-select
+stadef uint = uint0 // fst-select
 //
 stadef uInt = [n:int] uint1 (n)
 //
@@ -212,37 +212,50 @@ typedef uintBtwe (lb:int, ub:int) = g1uintBtwe (uint_kind, lb, ub)
 tkindef lint_kind = "atstype_lint"
 typedef lint0 = g0int (lint_kind)
 typedef lint1 (i:int) = g1int (lint_kind, i)
-stadef lint = lint1 // first
-stadef lint = lint0 // second
+stadef lint = lint1 // 2nd-select
+stadef lint = lint0 // fst-select
 tkindef ulint_kind = "atsype_ulint"
 typedef ulint0 = g0uint (ulint_kind)
 typedef ulint1 (i:int) = g1uint (ulint_kind, i)
-stadef ulint = ulint1 // first
-stadef ulint = ulint0 // second
+stadef ulint = ulint1 // 2nd-select
+stadef ulint = ulint0 // fst-select
 
 tkindef llint_kind = "atstype_llint"
 typedef llint0 = g0int (llint_kind)
 typedef llint1 (i:int) = g1int (llint_kind, i)
-stadef llint = llint1 // first
-stadef llint = llint0 // second
+stadef llint = llint1 // 2nd-select
+stadef llint = llint0 // fst-select
 tkindef ullint_kind = "atstype_ullint"
 typedef ullint0 = g0uint (ullint_kind)
 typedef ullint1 (i:int) = g1uint (ullint_kind, i)
-stadef ullint = ullint1 // first
-stadef ullint = ullint0 // second
+stadef ullint = ullint1 // 2nd-select
+stadef ullint = ullint0 // fst-select
+
+(* ****** ****** *)
+
+tkindef intptr_kind = "atstype_intptr"
+typedef intptr0 = g0int (intptr_kind)
+typedef intptr1 (i:int) = g1int (intptr_kind, i)
+stadef intptr = intptr1 // 2nd-select
+stadef intptr = intptr0 // fst-select
+tkindef uintptr_kind = "atstype_uintptr"
+typedef uintptr0 = g0uint (uintptr_kind)
+typedef uintptr1 (i:int) = g1uint (uintptr_kind, i)
+stadef uintptr = uintptr1 // 2nd-select
+stadef uintptr = uintptr0 // fst-select
 
 (* ****** ****** *)
 
 tkindef sint_kind = "atstype_sint"
 typedef sint0 = g0int (sint_kind)
 typedef sint1 (i:int) = g1int (sint_kind, i)
-stadef sint = sint1 // first
-stadef sint = sint0 // second
+stadef sint = sint1 // 2nd-select
+stadef sint = sint0 // fst-select
 tkindef usint_kind = "atstype_usint"
 typedef usint0 = g0uint (usint_kind)
 typedef usint1 (i:int) = g1uint (usint_kind, i)
-stadef usint = usint1 // first
-stadef usint = usint0 // second
+stadef usint = usint1 // 2nd-select
+stadef usint = usint0 // fst-select
 
 (* ****** ****** *)
 //
@@ -250,8 +263,8 @@ tkindef size_kind = "atstype_size"
 typedef size0_t = g0uint (size_kind)
 typedef size1_t (i:int) = g1uint (size_kind, i)
 //
-stadef size_t = size1_t // first
-stadef size_t = size0_t // second
+stadef size_t = size1_t // 2nd-select
+stadef size_t = size0_t // fst-select
 //
 typedef Size =
   [i:int | i >= 0] g1uint (size_kind, i)
@@ -266,8 +279,8 @@ tkindef ssize_kind = "atstype_ssize"
 typedef ssize0_t = g0int (ssize_kind)
 typedef ssize1_t (i:int) = g1int (ssize_kind , i) 
 //
-stadef ssize_t = ssize1_t // first
-stadef ssize_t = ssize0_t // second
+stadef ssize_t = ssize1_t // 2nd-select
+stadef ssize_t = ssize0_t // fst-select
 //
 typedef ssizeLt (n:int) = g1intLt (ssize_kind, n)
 typedef ssizeLte (n:int) = g1intLte (ssize_kind, n)
@@ -285,15 +298,15 @@ typedef sizeof_t (a:vt@ype) = size_t (sizeof(a?))
 tkindef int8_kind = "atstype_int8"
 typedef int8_0 = g0int (int8_kind)
 typedef int8_1 (i:int) = g1int (int8_kind, i)
-stadef int8 = int8_1 // first
-stadef int8 = int8_0 // second
+stadef int8 = int8_1 // 2nd-select
+stadef int8 = int8_0 // fst-select
 stadef Int8 = [i:int] int8_1 (i)
 //
 tkindef uint8_kind = "atstype_uint8"
 typedef uint8_0 = g0uint (uint8_kind)
 typedef uint8_1 (i:int) = g1uint (uint8_kind, i)
-stadef uint8 = uint8_1 // first
-stadef uint8 = uint8_0 // second
+stadef uint8 = uint8_1 // 2nd-select
+stadef uint8 = uint8_0 // fst-select
 stadef uInt8 = [i:nat] uint8_1 (i)
 
 (* ****** ****** *)
@@ -301,15 +314,15 @@ stadef uInt8 = [i:nat] uint8_1 (i)
 tkindef int16_kind = "atstype_int16"
 typedef int16_0 = g0int (int16_kind)
 typedef int16_1 (i:int) = g1int (int16_kind, i)
-stadef int16 = int16_1 // first
-stadef int16 = int16_0 // second
+stadef int16 = int16_1 // 2nd-select
+stadef int16 = int16_0 // fst-select
 stadef Int16 = [i:int] int16_1 (i)
 //
 tkindef uint16_kind = "atstype_uint16"
 typedef uint16_0 = g0uint (uint16_kind)
 typedef uint16_1 (i:int) = g1uint (uint16_kind, i)
-stadef uint16 = uint16_1 // first
-stadef uint16 = uint16_0 // second
+stadef uint16 = uint16_1 // 2nd-select
+stadef uint16 = uint16_0 // fst-select
 stadef uInt16 = [i:nat] uint16_1 (i)
 
 (* ****** ****** *)
@@ -317,15 +330,15 @@ stadef uInt16 = [i:nat] uint16_1 (i)
 tkindef int32_kind = "atstype_int32"
 typedef int32_0 = g0int (int32_kind)
 typedef int32_1 (i:int) = g1int (int32_kind, i)
-stadef int32 = int32_1 // first
-stadef int32 = int32_0 // second
+stadef int32 = int32_1 // 2nd-select
+stadef int32 = int32_0 // fst-select
 stadef Int32 = [i:int] int32_1 (i)
 //
 tkindef uint32_kind = "atstype_uint32"
 typedef uint32_0 = g0uint (uint32_kind)
 typedef uint32_1 (i:int) = g1uint (uint32_kind, i)
-stadef uint32 = uint32_1 // first
-stadef uint32 = uint32_0 // second
+stadef uint32 = uint32_1 // 2nd-select
+stadef uint32 = uint32_0 // fst-select
 stadef uInt32 = [i:nat] uint32_1 (i)
 
 (* ****** ****** *)
@@ -333,15 +346,15 @@ stadef uInt32 = [i:nat] uint32_1 (i)
 tkindef int64_kind = "atstype_int64"
 typedef int64_0 = g0int (int64_kind)
 typedef int64_1 (i:int) = g1int (int64_kind, i)
-stadef int64 = int64_1 // first
-stadef int64 = int64_0 // second
+stadef int64 = int64_1 // 2nd-select
+stadef int64 = int64_0 // fst-select
 stadef Int64 = [i:int] int64_1 (i)
 //
 tkindef uint64_kind = "atstype_uint64"
 typedef uint64_0 = g0uint (int64_kind)
 typedef uint64_1 (i:int) = g1uint (int64_kind, i)
-stadef uint64 = uint64_1 // first
-stadef uint64 = uint64_0 // second
+stadef uint64 = uint64_1 // 2nd-select
+stadef uint64 = uint64_0 // fst-select
 stadef uInt64 = [i:nat] uint64_1 (i)
 
 (* ****** ****** *)
@@ -388,8 +401,8 @@ abstype string_type
 abstype string_int_type (n: int)
 stadef string0 = string_type
 stadef string1 = string_int_type
-stadef string = string1 // first
-stadef string = string0 // second
+stadef string = string1 // 2nd-select
+stadef string = string0 // fst-select
 typedef String = [n:int] string_int_type (n)
 
 (* ****** ****** *)

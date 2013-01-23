@@ -65,11 +65,13 @@ stadef intknd = int_kind
 stadef lintknd = lint_kind
 stadef llintknd = llint_kind
 stadef ssizeknd = ssize_kind
+stadef intptrknd = intptr_kind
 //
 stadef uintknd = uint_kind
 stadef ulintknd = ulint_kind
 stadef ullintknd = ullint_kind
 stadef sizeknd = size_kind
+stadef uintptrknd = uintptr_kind
 //
 #atscode_separator()
 //
@@ -551,6 +553,8 @@ fun g0int2uint_int_ullint
   (x: int):<> ullint = "mac\#atspre_g0int2uint_int_ullint"
 fun g0int2uint_int_size
   (x: int):<> size_t = "mac\#atspre_g0int2uint_int_size"
+fun g0int2uint_int_uintptr
+  (x: int):<> uintptr = "mac\#atspre_g0int2uint_int_uintptr"
 //
 #atscode_separator()
 
