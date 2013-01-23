@@ -61,7 +61,7 @@ key:t0p;itm:vt0p
 
 fun{
 key:t0p;itm:vt0p
-} linmap_make_nil ():<> map (key, itm)
+} linmap_make_nil ():<!wrt> map (key, itm)
 
 (* ****** ****** *)
 
