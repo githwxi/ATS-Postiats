@@ -220,6 +220,8 @@ and hidexp_node =
 //
   | HDEextval of (string(*name*)) // external values
 //
+  | HDEcastfn of (d2cst, hidexp(*arg*)) // castfn application
+//
   | HDEcon of (d2con, hisexp, labhidexplst(*arg*)) // constructors
 //
   | HDEtmpcst of (d2cst, t2mpmarglst)
@@ -481,9 +483,15 @@ fun hidexp_top
 fun hidexp_empty
   (loc: location, hse: hisexp): hidexp
 
+(* ****** ****** *)
+
 fun hidexp_extval
   (loc: location, hse: hisexp, name: string): hidexp
 // end of [hidexp_extval]
+
+fun hidexp_castfn (
+  loc: location, hse: hisexp, d2c: d2cst, arg: hidexp
+) : hidexp // end of [hidexp_castfn]
 
 (* ****** ****** *)
 
@@ -522,6 +530,11 @@ fun hidexp_app (
   loc: location
 , hse: hisexp, hse_fun: hisexp, _fun: hidexp, _arg: hidexplst
 ) : hidexp // end of [hidexp_app]
+
+fun hidexp_app2 (
+  loc: location
+, hse: hisexp, hse_fun: hisexp, _fun: hidexp, _arg: hidexplst
+) : hidexp // end of [hidexp_app2]
 
 (* ****** ****** *)
 

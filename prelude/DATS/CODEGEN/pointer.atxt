@@ -38,13 +38,13 @@ ptr_get_index {l} (p) = addreq_make {l, l} ()
 implement{a}{tk}
 ptr0_add_gint (p, i) =
   $UN.cast2ptr (
-  $UN.cast2lint (p) + $UN.cast2lint(i) * $UN.cast2lint(sizeof<a>)
+  $UN.cast2intptr (p) + $UN.cast2intptr(i) * $UN.cast2intptr(sizeof<a>)
 ) // end of [ptr0_add_gint]
 
 implement{a}{tk}
 ptr0_add_guint (p, i) =
   $UN.cast2ptr (
-  $UN.cast2ulint(p) + $UN.cast2ulint(i) * $UN.cast2ulint(sizeof<a>)
+  $UN.cast2uintptr (p) + $UN.cast2uintptr(i) * $UN.cast2uintptr(sizeof<a>)
 ) // end of [ptr0_add_guint]
 
 #atscode_separator()

@@ -164,6 +164,8 @@ hidexp_ccomp
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 //
+val () = println! ("hidexp_ccomp: hde0 = ", hde0)
+//
 in
 //
 case+ hde0.hidexp_node of
@@ -182,14 +184,20 @@ case+ hde0.hidexp_node of
 | HDEi0nt (tok) => primval_i0nt (loc0, hse0, tok)
 | HDEf0loat (tok) => primval_f0loat (loc0, hse0, tok)
 //
-| HDEcstsp (x) =>
-    hidexp_ccomp_cstsp (env, res, hde0)
-  // end of [HDEcstsp]
+| HDEcstsp _ => hidexp_ccomp_cstsp (env, res, hde0)
 //
 | HDEtop () => primval_top (loc0, hse0)
 | HDEempty () => primval_empty (loc0, hse0)
 //
 | HDEextval (name) => primval_extval (loc0, hse0, name)
+//
+| HDEcastfn (d2c, arg) => let
+    val arg =
+      hidexp_ccomp (env, res, arg)
+    // end of [val]
+  in
+    primval_castfn (loc0, hse0, d2c, arg)
+  end // end of [HDEcastfn]
 //
 | HDEcon _ => auxret (env, res, hde0)
 //
@@ -390,6 +398,8 @@ case+ hde0.hidexp_node of
 | HDEempty _ => auxval (env, res, tmpret, hde0)
 //
 | HDEextval _ => auxval (env, res, tmpret, hde0)
+//
+| HDEcastfn _ => auxval (env, res, tmpret, hde0)
 //
 | HDEcon (
     d2c, hse_sum, _arg

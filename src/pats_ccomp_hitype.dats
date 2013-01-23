@@ -43,6 +43,11 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
+staload UT = "./pats_utils.sats"
+staload _(*anon*) = "./pats_utils.dats"
+
+(* ****** ****** *)
+
 staload
 STMP = "./pats_stamp.sats"
 typedef stamp = $STMP.stamp
@@ -67,6 +72,11 @@ typedef symbol = $SYM.symbol
 
 staload "./pats_staexp2.sats"
 staload "./pats_histaexp.sats"
+
+(* ****** ****** *)
+
+staload
+TYER = "./pats_typerase.sats"
 
 (* ****** ****** *)
 
@@ -104,6 +114,85 @@ labhitypelst = List (labhitype)
 (* ****** ****** *)
 
 assume hitype_type = hitype
+
+(* ****** ****** *)
+
+implement
+fprint_hitype
+  (out, hit) = let
+//
+macdef
+prstr (s) = fprint_string (out, ,(s))
+//
+in
+//
+case+ hit of
+//
+| HITnmd (name) => {
+    val () = prstr "HITnmd("
+    val () = fprint_string (out, name)
+    val () = prstr ")"
+  }
+//
+| HITapp (
+    hit_fun, hits_arg
+  ) => {
+    val () = prstr "HITapp("
+    val () = fprint_hitype (out, hit_fun)
+    val () = prstr "; "
+    val () = fprint_hitypelst (out, hits_arg)
+    val () = prstr ")"
+  }
+//
+| HITtyarr
+    (hit, s2es) => {
+    val () = prstr "HITtyarr("
+    val () = fprint_hitype (out, hit)
+    val () = prstr "["
+    val () = fpprint_s2explst (out, s2es)
+    val () = prstr "]"
+    val () = prstr ")"
+  }
+//
+| HITtyrec (lhits) => {
+    val () = prstr "HITtyrec("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+| HITtysum (tag, lhits) => {
+    val () = prstr "HITtysum("
+    val () = fprint_string (out, "...")
+    val () = prstr ")"
+  }
+//
+| HITrefarg (knd, hit) => {
+    val () = prstr "HITrefarg("
+    val () = fprint_int (out, knd)
+    val () = prstr ", "
+    val () = fprint_hitype (out, hit)
+    val () = prstr ")"
+  }
+//
+| HITundef
+    (stamp, hse) => {
+    val () = prstr "HITundef("
+    val () = fprint_hisexp (out, hse)
+    val () = prstr ")"
+  }
+//
+| HITnone () => prstr "HITnone()"
+//
+end // end of [fprint_hitype]
+
+implement
+fprint_hitypelst
+  (out, hits) = $UT.fprintlst (out, hits, ", ", fprint_hitype)
+// end of [fprint_hitypelst]
+
+implement
+print_hitype (hit) = fprint_hitype (stdout_ref, hit)
+implement
+prerr_hitype (hit) = fprint_hitype (stderr_ref, hit)
 
 (* ****** ****** *)
 
@@ -652,7 +741,11 @@ implement
 emit_hisexp
   (out, hse) = let
 //
+val () = println! ("emit_hisexp: hse = ", hse)
+//
 val hit = hisexp_typize (hse)
+//
+val () = println! ("emit_hisexp: hit = ", hit)
 //
 in
 //
@@ -728,8 +821,12 @@ case+
 //
 | S2Etkname (name) => HITnmd (name)
 | S2Eextype (name, _) => HITnmd (name)
-//
-| _ => hitype_none ()
+| S2EVar (s2V) => hitype_none ()
+| _ => let
+    val hse0 = $TYER.s2exp_tyer_shallow ($LOC.location_dummy, s2e0)
+  in
+    hisexp_typize (hse0)
+  end // end of [_]
 //
 end // end of [s2exp_typize]
 

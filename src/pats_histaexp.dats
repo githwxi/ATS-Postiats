@@ -448,11 +448,11 @@ of // of [case]
 | HSEfun (
     fc, hses_arg, hse_res
   ) => let
-    val flag0 = flag
+    val f0 = flag
     val hses_arg = auxlst (sub, hses_arg, flag)
     val hse_res = aux (sub, hse_res, flag)
   in
-    if flag > flag0
+    if flag > f0
       then hisexp_fun (fc, hses_arg, hse_res) else hse0
     // end of [if]
   end // end of [HSEfun]
@@ -460,53 +460,53 @@ of // of [case]
 | HSEcfun _ => hse0
 //
 | HSEapp (hse_fun, hses_arg) => let
-    val flag0 = flag
+    val f0 = flag
     val hse_fun = aux (sub, hse_fun, flag)
     val hses_arg = auxlst (sub, hses_arg, flag)
   in
-    if flag > flag0 then hisexp_app (hse_fun, hses_arg) else hse0
+    if flag > f0 then hisexp_app (hse_fun, hses_arg) else hse0
   end // end of [HSEapp]
 //
 | HSEextype (name, hsess) => let
-    val flag0 = flag
+    val f0 = flag
     val hsess = auxlstlst (sub, hsess, flag)
   in
-    if flag > flag0 then hisexp_extype (name, hsess) else hse0
+    if flag > f0 then hisexp_extype (name, hsess) else hse0
   end // end of [HSEextype]
 //
 | HSErefarg (knd, hse) => let
-    val flag0 = flag
+    val f0 = flag
     val hse = aux (sub, hse, flag)
   in
-    if flag > flag0 then hisexp_refarg (knd, hse) else hse0
+    if flag > f0 then hisexp_refarg (knd, hse) else hse0
   end // end of [HSErefarg]
 //
 | HSEtyarr (
     hse_elt, s2es
   ) => let
-    val flag0 = flag
+    val f0 = flag
     val s2es = s2explst_subst_flag (sub, s2es, flag)
     val hse_elt = aux (sub, hse_elt, flag)
   in
-    if flag > flag0 then hisexp_tyarr (hse_elt, s2es) else hse0
+    if flag > f0 then hisexp_tyarr (hse_elt, s2es) else hse0
   end // end of [HSEtyarr]
 | HSEtyrec (knd, lhses) => let
-    val flag0 = flag
+    val f0 = flag
     val lhses = auxlablst (sub, lhses, flag)
   in
-    if flag > flag0 then hisexp_tyrec (knd, lhses) else hse0
+    if flag > f0 then hisexp_tyrec (knd, lhses) else hse0
   end // end of [HSEtyrec]
 | HSEtyrecsin (lhse) => let
-    val flag0 = flag
+    val f0 = flag
     val lhse = auxlab (sub, lhse, flag)
   in
-    if flag > flag0 then hisexp_tyrecsin (lhse) else hse0
+    if flag > f0 then hisexp_tyrecsin (lhse) else hse0
   end // end of [HSEtyrecsin]
 | HSEtysum (d2c, lhses) => let
-    val flag0 = flag
+    val f0 = flag
     val lhses = auxlablst (sub, lhses, flag)
   in
-    if flag > flag0 then hisexp_tysum (d2c, lhses) else hse0
+    if flag > f0 then hisexp_tysum (d2c, lhses) else hse0
   end // end of [HSEtysum]
 //
 | HSEtyvar (s2v) => let
@@ -520,17 +520,17 @@ of // of [case]
   end // end of [HSEtyvar]
 //
 | HSEvararg (s2e) => let
-    val flag0 = flag
+    val f0 = flag
     val s2e = s2exp_subst_flag (sub, s2e, flag)
   in
-    if flag > flag0 then hisexp_vararg (s2e) else hse0
+    if flag > f0 then hisexp_vararg (s2e) else hse0
   end // end of [HSEvararg]
 //
 | HSEs2exp (s2e) => let
-    val flag0 = flag
+    val f0 = flag
     val s2e = s2exp_subst_flag (sub, s2e, flag)
   in
-    if flag > flag0 then hisexp_s2exp (s2e) else hse0
+    if flag > f0 then hisexp_s2exp (s2e) else hse0
   end // end of [HSEs2exp]
 //
 | _ => hse0
@@ -540,11 +540,11 @@ end // end of [aux]
 and auxlab (
   sub: !stasub, lhse0: labhisexp, flag: &int
 ) : labhisexp = let
-  val flag0 = flag
+  val f0 = flag
   val+HSLABELED (lab, opt, hse) = lhse0
   val hse = aux (sub, hse, flag)
 in
-  if flag > flag0 then HSLABELED (lab, opt, hse) else lhse0
+  if flag > f0 then HSLABELED (lab, opt, hse) else lhse0
 end // end of [auxlab]
 
 and auxlst (
@@ -555,11 +555,11 @@ in
 case+ hses0 of
 | list_cons
     (hse, hses) => let
-    val flag0 = flag
+    val f0 = flag
     val hse = aux (sub, hse, flag)
     val hses = auxlst (sub, hses, flag)
   in
-    if flag > flag0 then list_cons (hse, hses) else hses0
+    if flag > f0 then list_cons (hse, hses) else hses0
   end // end of [list_cons]
 | list_nil () => list_nil ()
 //
@@ -573,11 +573,11 @@ in
 case+ lhses0 of
 | list_cons
     (lhse, lhses) => let
-    val flag0 = flag
+    val f0 = flag
     val lhse = auxlab (sub, lhse, flag)
     val lhses = auxlablst (sub, lhses, flag)
   in
-    if flag > flag0 then list_cons (lhse, lhses) else lhses0
+    if flag > f0 then list_cons (lhse, lhses) else lhses0
   end // end of [list_cons]
 | list_nil () => list_nil ()
 //
@@ -591,11 +591,11 @@ in
 case+ hsess0 of
 | list_cons
     (hses, hsess) => let
-    val flag0 = flag
+    val f0 = flag
     val hses = auxlst (sub, hses, flag)
     val hsess = auxlstlst (sub, hsess, flag)
   in
-    if flag > flag0 then list_cons (hses, hsess) else hsess0
+    if flag > f0 then list_cons (hses, hsess) else hsess0
   end // end of [list_cons]
 | list_nil () => list_nil ()
 //

@@ -187,6 +187,8 @@ fun d2cst_get_stamp (x: d2cst): stamp
 fun d2cst_is_prf (d2c: d2cst): bool // a proof
 fun d2cst_is_nonprf (d2c: d2cst): bool // a nonproof
 
+fun d2cst_is_castfn (d2c: d2cst): bool // a casting fun
+
 (* ****** ****** *)
 
 fun lt_d2cst_d2cst (x1: d2cst, x2: d2cst):<> bool

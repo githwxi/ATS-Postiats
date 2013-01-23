@@ -87,17 +87,23 @@
 
 /* ****** ****** */
 
-#define ATSPMVtop() atserror_top
-#define ATSPMVempty() atserror_empty
-
-/* ****** ****** */
-
 #define ATSCSTSPmyfil(info) info
 #define ATSCSTSPmyloc(info) info
 
 /* ****** ****** */
 
+#define ATSPMVtop() atserror_top
+#define ATSPMVempty() atserror_empty
+
+/* ****** ****** */
+
 #define ATSPMVextval(id) (id)
+
+/* ****** ****** */
+/*
+** HX: castfn application
+*/
+#define ATSPMVcastfn(d2c, hit, arg) ((hit*)arg)
 
 /* ****** ****** */
 
@@ -115,12 +121,6 @@
 #define ATSPMFnot(x) (0 == (x))
 #define ATSPMFptriscons(x) (0 != (void*)(x))
 #define ATSPMFptrisnull(x) (0 == (void*)(x))
-
-/* ****** ****** */
-/*
-** HX: castfn application
-*/
-#define ATScastfn(d2c, arg) (arg)
 
 /* ****** ****** */
 

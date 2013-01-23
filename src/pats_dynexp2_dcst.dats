@@ -37,6 +37,10 @@ staload _(*anon*) = "prelude/DATS/reference.dats"
 
 (* ****** ****** *)
 
+staload "./pats_basics.sats"
+
+(* ****** ****** *)
+
 staload
 STMP = "./pats_stamp.sats"
 typedef stamp = $STMP.stamp
@@ -209,6 +213,11 @@ implement
 d2cst_is_nonprf (d2c) = let
   val s2e = d2cst_get_type (d2c) in s2exp_is_nonprf (s2e)
 end // end of [d2cst_is_nonprf]
+
+implement
+d2cst_is_castfn (d2c) =
+  dcstkind_is_castfn (d2cst_get_kind (d2c))
+// end of [d2cst_is_castfn]
 
 (* ****** ****** *)
 

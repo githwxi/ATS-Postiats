@@ -386,6 +386,8 @@ and primval_node =
 //
   | PMVextval of (string(*name*))
 //
+  | PMVcastfn of (d2cst, primval)
+//
   | PMVsizeof of (hisexp)
 //
   | PMVfunlab of (funlab)
@@ -587,6 +589,12 @@ fun primval_empty (loc: location, hse: hisexp): primval
 fun primval_extval
   (loc: location, hse: hisexp, name: string): primval
 // end of [primval_extval]
+
+(* ****** ****** *)
+
+fun primval_castfn (
+  loc: location, hse: hisexp, d2c: d2cst, arg: primval
+) : primval // end of [primval_castfn]
 
 (* ****** ****** *)
 
@@ -1251,9 +1259,21 @@ fun emit_tmpdeclst (out: FILEref, tmps: tmpvarlst): void
 //
 abstype hitype_type
 typedef hitype = hitype_type
+typedef hitypelst = List (hitype)
+
+fun print_hitype (hit: hitype): void
+overload print with print_hitype
+fun prerr_hitype (hit: hitype): void
+overload prerr with prerr_hitype
+fun fprint_hitype : fprint_type (hitype)
+fun fprint_hitypelst : fprint_type (hitypelst)
+
+(* ****** ****** *)
 
 fun hisexp_typize (hse: hisexp): hitype
 fun emit_hitype (out: FILEref, hit: hitype): void
+
+(* ****** ****** *)
 
 fun emit_hisexp (out: FILEref, hse: hisexp): void
 fun emit_hisexplst_sep

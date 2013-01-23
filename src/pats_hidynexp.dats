@@ -287,6 +287,14 @@ hidexp_extval
 (* ****** ****** *)
 
 implement
+hidexp_castfn
+  (loc, hse, d2c, arg) =
+  hidexp_make_node (loc, hse, HDEcastfn (d2c, arg))
+// end of [hidexp_castfn]
+
+(* ****** ****** *)
+
+implement
 hidexp_con (
   loc, hse, d2c, hse_sum, lhdes
 ) = hidexp_make_node
@@ -332,6 +340,41 @@ hidexp_app
   (loc, hse, hse_fun, _fun, _arg) =
   hidexp_make_node (loc, hse, HDEapp (_fun, hse_fun, _arg))
 // end of [hidexp_app]
+
+implement
+hidexp_app2 (
+  loc0, hse, hse_fun, _fun, _arg
+) = let
+//
+val opt = (
+  case+ _fun.hidexp_node of
+  | HDEcst (d2c) =>
+      if d2cst_is_castfn (d2c) then Some_vt (d2c) else None_vt
+  | _ => None_vt ()
+) : Option_vt (d2cst)
+//
+in
+//
+case+ opt of
+| ~Some_vt (d2c) => let
+    val hde = (
+      case+ _arg of
+      | list_cons (hse, _) => hse
+      | list_nil () => let
+          val loc = _fun.hidexp_loc
+          val hse = hisexp_void_type ()
+        in
+          hidexp_empty (loc, hse)
+        end // end of [list_nil]
+    ) : hidexp // end of [val]
+  in
+    hidexp_castfn (loc0, hse, d2c, hde)
+  end // end of [Some_vt]
+| ~None_vt () =>
+    hidexp_app (loc0, hse, hse_fun, _fun, _arg)
+  // end of [None_vt]
+//
+end // end of [hidexp_app2]
 
 (* ****** ****** *)
 

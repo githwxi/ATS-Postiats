@@ -301,6 +301,14 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
+| PMVcastfn (d2c, arg) => {
+    val () = prstr "PMVcastfn("
+    val () = fprint_d2cst (out, d2c)
+    val () = prstr ", "
+    val () = fprint_primval (out, arg)
+    val () = prstr ")"
+  }
+//
 | PMVsizeof (hselt) => {
     val () = prstr "PMVsizeof("
     val () = fprint_hisexp (out, hselt)
@@ -346,14 +354,6 @@ case+ x.primval_node of
     val () = prstr "<"
     val () = fpprint_t2mpmarglst (out, t2mas)
     val () = prstr ">"
-    val () = prstr ")"
-  }
-//
-| PMVcastfn (d2c, pmv) => {
-    val () = prstr "PMVcastfn("
-    val () = fprint_d2cst (out, d2c)
-    val () = prstr "; "
-    val () = fprint_primval (out, pmv)
     val () = prstr ")"
   }
 //

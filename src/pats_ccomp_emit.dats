@@ -694,6 +694,7 @@ extern fun emit_primval_tmpref : emit_primval_type
 extern fun emit_primval_arg : emit_primval_type
 extern fun emit_primval_argref : emit_primval_type
 extern fun emit_primval_d2cst : emit_primval_type
+extern fun emit_primval_castfn : emit_primval_type
 extern fun emit_primval_ptrof : emit_primval_type
 extern fun emit_primval_refarg : emit_primval_type
 
@@ -729,9 +730,10 @@ case+ pmv0.primval_node of
 | PMVtop () => fprintf (out, "ATStop()", @())
 | PMVempty () => fprintf (out, "ATSempty()", @())
 //
-| PMVextval
-    (name) => fprintf (out, "ATSextval(%s)", @(name))
-  // end of [PMVextval]
+| PMVextval (name) =>
+    fprintf (out, "ATSextval(%s)", @(name))
+//
+| PMVcastfn _ => emit_primval_castfn (out, pmv0)
 //
 | PMVsizeof (hselt) => emit_sizeof (out, hselt)
 //
@@ -842,6 +844,28 @@ val-PMVcst (d2c) = pmv0.primval_node
 in
   emit_d2cst (out, d2c)
 end // end of [emit_primval_d2cst]
+
+(* ****** ****** *)
+
+implement
+emit_primval_castfn
+  (out, pmv0) = let
+//
+val hse0 = pmv0.primval_type
+val-PMVcastfn
+  (d2c, arg) = pmv0.primval_node
+//
+val () = emit_text (out, "ATSPMVcastfn(")
+val () = emit2_d2cst (out, d2c) // local name
+val () = emit_text (out, ", ")
+val () = emit_hisexp (out, hse0)
+val () = emit_text (out, ", ")
+val () = emit_primval (out, arg)
+val () = emit_rparen (out)
+//
+in
+  // nothing
+end // end of [emit_primval_castfn]
 
 (* ****** ****** *)
 
@@ -1037,6 +1061,7 @@ emit_instr
   (out, ins) = let
 //
 val loc0 = ins.instr_loc
+val () = println! ("emit_instr: ins = ", ins)
 //
 // generating #line progma for debugging
 //
@@ -1997,7 +2022,6 @@ emit_funent_implmnt
   (out, fent) = let
 //
 val loc0 = funent_get_loc (fent)
-//
 val flab = funent_get_lab (fent)
 //
 val fc = funlab_get_funclo (flab)

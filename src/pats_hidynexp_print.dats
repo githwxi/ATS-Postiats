@@ -277,6 +277,13 @@ case+
     val () = fprint_string (out, name)
     val () = prstr ")"
   }
+| HDEcastfn (d2c, arg) => {
+    val () = prstr "HDEcastfn("
+    val () = fprint_d2cst (out, d2c)
+    val () = prstr ", "
+    val () = fprint_hidexp (out, arg)
+    val () = prstr ")"
+  }
 //
 | HDEcon (
     d2c, hse_sum, lhdes

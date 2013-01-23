@@ -221,21 +221,21 @@ fun
 the_tmpdeclst_stringize (
 ) =
   tostring_fprint<int> (
-  "postiats_tmpdeclst", lam (out, _) => emit_the_tmpdeclst (out), 0
+  "postiats_tmpdeclst_", lam (out, _) => emit_the_tmpdeclst (out), 0
 ) // end of [the_tmpdeclst_stringize]
-
-fun
-the_funlablst_stringize (
-) =
-  tostring_fprint<int> (
-  "postiats_funlablst", lam (out, _) => emit_the_funlablst (out), 0
-) // end of [the_funlablst_stringize]
 
 fun
 the_primdeclst_stringize (
 ) =
   tostring_fprint<int> (
-  "postiats_primdeclst", lam (out, _) => emit_the_primdeclst (out), 0
+  "postiats_primdeclst_", lam (out, _) => emit_the_primdeclst (out), 0
+) // end of [the_funlablst_stringize]
+
+fun
+the_funlablst_stringize (
+) =
+  tostring_fprint<int> (
+  "postiats_funlablst_", lam (out, _) => emit_the_funlablst (out), 0
 ) // end of [the_funlablst_stringize]
 
 in (* in of [local] *)
@@ -244,6 +244,8 @@ implement
 ccomp_main (
   out, flag, infil, hids
 ) = let
+//
+val () = println! ("ccomp_main: enter")
 //
 val () = emit_time_stamp (out)
 val () = emit_ats_ccomp_header (out)
@@ -285,6 +287,8 @@ val () = emit_text (out, "*/\n")
 val () =
   fprint_strptr (out, the_primdeclst_rep)
 val () = strptr_free (the_primdeclst_rep)
+//
+val () = println! ("ccomp_main: leave")
 //
 in
   // nothing

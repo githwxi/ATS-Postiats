@@ -464,7 +464,7 @@ case+
     val hde_fun = d3exp_tyer (d3e_fun)
     val hdes_arg = d3explst_npf_tyer (npf, d3es_arg)
   in
-    hidexp_app (loc0, hse0, hse_fun, hde_fun, hdes_arg)
+    hidexp_app2 (loc0, hse0, hse_fun, hde_fun, hdes_arg)
   end // end of [D3Eapp_dyn]
 | D3Eapp_sta (d3e) => d3exp_tyer (d3e)
 //

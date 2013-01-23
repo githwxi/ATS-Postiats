@@ -129,7 +129,7 @@ case+
     val () = prstr "HSEtyarr("
     val () = fprint_hisexp (out, hse)
     val () = prstr "; "
-    val () = fprint_s2explst (out, dim)
+    val () = fpprint_s2explst (out, dim)
     val () = prstr ")"
   } // end of [HSEtyarr]
 //
@@ -164,7 +164,7 @@ case+
 //
 | HSEvararg (s2e) => {
     val () = prstr "HSEvararg("
-    val () = fprint_s2exp (out, s2e)
+    val () = fpprint_s2exp (out, s2e)
     val () = prstr ")"
   }
 //

@@ -238,6 +238,14 @@ primval_extval (loc, hse, name) =
 (* ****** ****** *)
 
 implement
+primval_castfn
+  (loc, hse, d2c, arg) =
+  primval_make_node (loc, hse, PMVcastfn (d2c, arg))
+// end of [primval_castfn]
+
+(* ****** ****** *)
+
+implement
 primval_sizeof (loc, hse, hselt) =
   primval_make_node (loc, hse, PMVsizeof (hselt))
 // end of [primval_sizeof]
