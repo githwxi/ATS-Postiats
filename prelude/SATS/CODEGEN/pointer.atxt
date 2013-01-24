@@ -91,10 +91,9 @@ a:vt0p}{tk:tk
 fun{
 a:vt0p}{tk:tk
 } ptr0_add_guint (p: ptr, ofs: g0uint (tk)):<> ptr
-(*
+//
 overload ptr_add with ptr0_add_gint of 0
 overload ptr_add with ptr0_add_guint of 0
-*)
 //
 fun{
 a:vt0p}{tk:tk
@@ -224,8 +223,8 @@ ptr1_succ {l:addr} (p: ptr l):<> ptr (l+sizeof(a))
 fun{a:vt0p}
 ptr1_pred {l:addr} (p: ptr l):<> ptr (l-sizeof(a))
 (*
-overload ptr_succ with ptr1_succ of 1
-overload ptr_pred with ptr1_pred of 1
+overload ptr_succ with ptr1_succ of 10
+overload ptr_pred with ptr1_pred of 10
 *)
 
 #atscode_separator()
@@ -240,10 +239,11 @@ a:vt0p}{tk:tk
 } ptr1_add_guint
   {l:addr}{i:int}
   (p: ptr l, ofs: g1uint (tk, i)):<> ptr(l+i*sizeof(a))
-(*
-overload ptr_add with ptr1_add_gint of 2
-overload ptr_add with ptr1_add_guint of 2
-*)
+//
+overload ptr_add with ptr1_add_gint of 20
+overload ptr_add with ptr1_add_guint of 20
+//
+#atscode_separator()
 
 fun{
 a:vt0p}{tk:tk
@@ -256,8 +256,8 @@ a:vt0p}{tk:tk
   {l:addr}{i:int}
   (p: ptr l, ofs: g1uint (tk, i)):<> ptr(l-i*sizeof(a))
 (*
-overload ptr_sub with ptr1_sub_gint of 2
-overload ptr_sub with ptr1_sub_guint of 2
+overload ptr_sub with ptr1_sub_gint of 20
+overload ptr_sub with ptr1_sub_guint of 20
 *)
 
 #atscode_separator()
@@ -288,7 +288,7 @@ fun %s_ptr1_ptr1
   {l1,l2:addr} (
   p1: ptr (l1), p2: ptr (l2)
 ) :<> bool (l1 %s l2) = \"mac#atspre_%s_ptr1_ptr1\"
-overload %s with %s_ptr1_ptr1 of 2\
+overload %s with %s_ptr1_ptr1 of 20\
 ", @(
  opr, fopr_s, opr, fopr_d, opr
 )
@@ -305,27 +305,27 @@ end // end of [fun_ptr_cmp1_decl]
 #fun_ptr_cmp1_decl("gte")
 #fun_ptr_cmp1_decl("eq")
 #fun_ptr_cmp1_decl("neq")
-overload <> with neq_ptr1_ptr1 of 2
+overload <> with neq_ptr1_ptr1 of 20
 
 fun
 compare_ptr1_ptr1
   {l1,l2:addr} (
   p1: ptr l1, p2: ptr l2
 ) :<> int = "mac\#atspre_compare_ptr1_ptr1"
-overload compare with compare_ptr1_ptr1 of 2
+overload compare with compare_ptr1_ptr1 of 20
 
 #atscode_separator()
 
 fun gt_ptr1_intz
   {l:addr} (p: ptr l, i: int(0)):<> bool(l > null)
-overload > with gt_ptr1_intz of 1
+overload > with gt_ptr1_intz of 10
 fun eq_ptr1_intz
   {l:addr} (p: ptr l, i: int(0)):<> bool(l==null)
-overload = with eq_ptr1_intz of 1
+overload = with eq_ptr1_intz of 10
 fun neq_ptr1_intz
   {l:addr} (p: ptr l, i: int(0)):<> bool(l > null)
-overload != with neq_ptr1_intz of 1
-overload <> with neq_ptr1_intz of 1
+overload != with neq_ptr1_intz of 10
+overload <> with neq_ptr1_intz of 10
 
 #atscode_separator()
 //

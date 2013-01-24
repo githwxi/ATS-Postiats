@@ -1061,7 +1061,6 @@ emit_instr
   (out, ins) = let
 //
 val loc0 = ins.instr_loc
-val () = println! ("emit_instr: ins = ", ins)
 //
 // generating #line progma for debugging
 //

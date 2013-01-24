@@ -434,11 +434,12 @@ in '{
 (* ****** ****** *)
 
 implement
-d3exp_item
-  (loc, s2f, d2i) = '{
+d3exp_item (
+  loc, s2f, d2i, t2mas
+) = '{
   d3exp_loc= loc
 , d3exp_type= s2f
-, d3exp_node= D3Eitem (d2i) // d2i: d2itm
+, d3exp_node= D3Eitem (d2i, t2mas) // d2i: d2itm
 } // end of [d3exp_item]
 
 (* ****** ****** *)

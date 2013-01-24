@@ -279,7 +279,9 @@ and d3exp_node =
   | D3Efoldat of (d3exp)
   | D3Efreeat of (d3exp)
 //
-  | D3Eitem of d2itm // HX: for temporary use
+  | D3Eitem of
+      (d2itm, t2mpmarglst) // HX: for temporary use
+    // end of [D3Eitem]
 //
   | D3Elet of (d3eclist, d3exp)
 //
@@ -592,9 +594,9 @@ fun d3exp_tmpvar (
 
 (* ****** ****** *)
 
-fun d3exp_item
-  (loc: location, s2f: s2exp, d2i: d2itm): d3exp
-// end of [d3exp_item]
+fun d3exp_item (
+  loc: location, s2f: s2exp, d2i: d2itm, t2mas: t2mpmarglst
+) : d3exp // end of [d3exp_item]
 
 (* ****** ****** *)
 

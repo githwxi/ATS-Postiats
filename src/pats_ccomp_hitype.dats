@@ -741,11 +741,12 @@ implement
 emit_hisexp
   (out, hse) = let
 //
-val () = println! ("emit_hisexp: hse = ", hse)
-//
 val hit = hisexp_typize (hse)
 //
+(*
+val () = println! ("emit_hisexp: hse = ", hse)
 val () = println! ("emit_hisexp: hit = ", hit)
+*)
 //
 in
 //

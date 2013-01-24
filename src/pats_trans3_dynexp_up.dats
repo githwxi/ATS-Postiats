@@ -96,7 +96,8 @@ extern fun d2exp_trup_con (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
-extern fun d2exp_trup_tmpid (d2e0: d2exp): d3exp
+extern
+fun d2exp_trup_tmpid (d2e0: d2exp): d3exp
 
 (* ****** ****** *)
 
@@ -149,6 +150,16 @@ extern fun d2exp_trup_trywith (d2e0: d2exp): d3exp
 
 extern fun d2exp_trup_mac (d2e0: d2exp): d3exp
 extern fun d2exp_trup_macsyn (d2e0: d2exp): d3exp
+
+(* ****** ****** *)
+
+fun d2exp_is_sym
+  (d2e: d2exp): bool = let
+in
+//
+case+ d2e.d2exp_node of D2Esym _ => true | _ => false
+//
+end // end of [d2exp_is_sym]
 
 (* ****** ****** *)
 
@@ -234,6 +245,14 @@ case+ d2e0.d2exp_node of
       in
         d2exp_trup (d2e0)
       end // end of [D2Emac]
+    | D2Etmpid (
+        d2e, t2mas
+      ) when
+        d2exp_is_sym (d2e) => let
+        val-D2Esym (d2s) = d2e.d2exp_node
+      in
+        d2exp_trup_applst_tmpsym (d2e0, d2s, t2mas, _arg)
+      end // end of [D2Etmpid when ...]
     | _ => d2exp_trup_applst (d2e0, _fun, _arg)
   end // end of [D2Eapplst]
 //
@@ -761,39 +780,55 @@ end // end [d2exp_trup_con]
 (* ****** ****** *)
 
 implement
+d2exp_trup_tmpcst
+  (loc0, d2c, t2mas) = let
+//
+val locarg =
+  $LOC.location_rightmost (loc0)
+val s2qs = d2cst_get_decarg (d2c)
+val s2e_d2c = d2cst_get_type (d2c)
+var err: int = 0
+val (s2e_tmp, t2mas) =
+  s2exp_tmp_instantiate_tmpmarglst (s2e_d2c, locarg, s2qs, t2mas, err)
+// end of [val]
+in
+  d3exp_tmpcst (loc0, s2e_tmp, d2c, t2mas)
+end // end of [d2exp_trup_tmpcst]
+
+implement
+d2exp_trup_tmpvar
+  (loc0, d2v, t2mas) = let
+//
+val locarg =
+  $LOC.location_rightmost (loc0)
+val s2qs = d2var_get_decarg (d2v)
+val s2e_d2v = d2var_get_type_some (loc0, d2v)
+var err: int = 0
+val (s2e_tmp, t2mas) =
+  s2exp_tmp_instantiate_tmpmarglst (s2e_d2v, locarg, s2qs, t2mas, err)
+// end of [val]
+in
+  d3exp_tmpvar (loc0, s2e_tmp, d2v, t2mas)
+end // end of [d2exp_trup_tmpvar]
+
+implement
 d2exp_trup_tmpid
   (d2e0) = let
 //
 val loc0 = d2e0.d2exp_loc
-val locarg = $LOC.location_rightmost (loc0)
 val-D2Etmpid (d2e_id, t2mas) = d2e0.d2exp_node
 //
 in
 //
-case+ d2e_id.d2exp_node of
-| D2Ecst (d2c) => let
-    val s2qs = d2cst_get_decarg (d2c)
-    val s2e_d2c = d2cst_get_type (d2c)
-    var err: int = 0
-    val (s2e_tmp, t2mas) =
-      s2exp_tmp_instantiate_tmpmarglst (s2e_d2c, locarg, s2qs, t2mas, err)
-    // end of [val]
-  in
-    d3exp_tmpcst (loc0, s2e_tmp, d2c, t2mas)
-  end // end of [D2Ecst]
-| D2Evar (d2v) => let
-    val s2qs = d2var_get_decarg (d2v)
-    val s2e_d2v = d2var_get_type_some (loc0, d2v)
-    var err: int = 0
-    val (s2e_tmp, t2mas) =
-      s2exp_tmp_instantiate_tmpmarglst (s2e_d2v, locarg, s2qs, t2mas, err)
-    // end of [val]
-  in
-    d3exp_tmpvar (loc0, s2e_tmp, d2v, t2mas)
-  end // end of [D2Evar]
+case+
+  d2e_id.d2exp_node of
+| D2Ecst (d2c) =>
+    d2exp_trup_tmpcst (loc0, d2c, t2mas)
+| D2Evar (d2v) =>
+    d2exp_trup_tmpvar (loc0, d2v, t2mas)
 | _ => let
     val () = (
-      print "d2exp_trup_tmpid: d2e_id = "; print_d2exp d2e_id; print_newline ()
+      println! ("d2exp_trup_tmpid: d2e_id = ", d2e_id)
     ) // end of [val]
   in
     exitloc (1)

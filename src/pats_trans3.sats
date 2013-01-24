@@ -293,19 +293,34 @@ fun d2var_get_type_some
   (loc: location, d2v: d2var): s2exp
 // end of [d2var_get_type_some]
 
+fun d2exp_trup_cst (loc: location, d2c: d2cst): d3exp
 fun d2exp_trup_var (loc: location, d2v: d2var): d3exp
 fun d2exp_trup_var_mutabl (loc: location, d2v: d2var): d3exp
 fun d2exp_trup_var_nonmut (loc: location, d2v: d2var): d3exp
-fun d2exp_trup_cst (loc: location, d2c: d2cst): d3exp
+
+(* ****** ****** *)
+
+fun d2exp_trup_tmpcst
+  (loc0: location, d2c: d2cst, t2mas: t2mpmarglst): d3exp
+// end of [d2exp_trup_tmpcst]
+
+fun d2exp_trup_tmpvar
+  (loc0: location, d2v: d2var, t2mas: t2mpmarglst): d3exp
+// end of [d2exp_trup_tmpvar]
 
 (* ****** ****** *)
 
 fun d2exp_trup_applst
   (d2e0: d2exp, _fun: d2exp, _arg: d2exparglst): d3exp
 // end of [d2exp_trup_applst]
+
 fun d2exp_trup_applst_sym
   (d2e0: d2exp, _fun: d2sym, _arg: d2exparglst): d3exp
 // end of [d2exp_trup_applst_sym]
+
+fun d2exp_trup_applst_tmpsym (
+  d2e0: d2exp, _fun: d2sym, t2mas: t2mpmarglst, _arg: d2exparglst
+) : d3exp // end of [d2exp_trup_applst_tmpsym]
 
 fun d23exp_trup_applst
   (d2e0: d2exp, _fun: d3exp, _arg: d2exparglst): d3exp
