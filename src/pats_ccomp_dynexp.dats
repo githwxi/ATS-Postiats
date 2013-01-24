@@ -565,11 +565,6 @@ in
 //
 case+ 0 of
 | _ when
-    tmplev > 0 => let
-  in
-    primval_tmpltcst (loc0, hse0, d2c, t2mas)
-  end // ...
-| _ when
     d2cst_is_sizeof (d2c) => let
     val-list_cons (t2ma, _) = t2mas
     val tloc = t2ma.t2mpmarg_loc
@@ -577,6 +572,11 @@ case+ 0 of
     val hselt = $TYER.s2exp_tyer_shallow (tloc, targ)
   in
     primval_make_sizeof (loc0, hselt)
+  end // ...
+| _ when
+    tmplev > 0 => let
+  in
+    primval_tmpltcst (loc0, hse0, d2c, t2mas)
   end // ...
 | _ => let
     val tmpmat =

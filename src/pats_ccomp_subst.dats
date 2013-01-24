@@ -409,6 +409,15 @@ case+
 //
 | PMVarg (n) => primval_arg (loc0, hse0, n)
 //
+| PMVcastfn
+    (d2c, pmv) => let
+    val pmv = fpmv (pmv) in primval_castfn (loc0, hse0, d2c, pmv)
+  end // end of [PMVcastfn]
+//
+| PMVsizeof (hselt) => let
+    val hselt = hisexp_subst (sub, hselt) in primval_sizeof (loc0, hse0, hselt)
+  end // end of [PMVsizeof]
+//
 | PMVtmpltcst
     (d2c, t2mas) => let
     val trd = ccompenv_get_tmprecdepth (env)
