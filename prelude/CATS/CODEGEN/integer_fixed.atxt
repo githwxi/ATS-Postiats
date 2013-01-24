@@ -3,7 +3,7 @@
 #if (ATSCODEFORMAT == "txt")
 #include "utils/atsdoc/HATS/postiatsatxt.hats"
 #endif // end of [ATSCCODEFORMAT]
-val _thisfilename = atext_strcst"integer.cats"
+val _thisfilename = atext_strcst"integer_fixed.cats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 %}\
 \
@@ -14,7 +14,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 /*
 ** Source:
-** $PATSHOME/prelude/CATS/CODEGEN/integer.atxt
+** $PATSHOME/prelude/CATS/CODEGEN/integer_fixed.atxt
 ** Time of generation: #timestamp()
 */
 
@@ -28,8 +28,12 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#ifndef ATSHOME_PRELUDE_INTEGER_CATS
-\#define ATSHOME_PRELUDE_INTEGER_CATS
+\#ifndef ATSHOME_PRELUDE_INTEGER_FIXED_CATS
+\#define ATSHOME_PRELUDE_INTEGER_FIXED_CATS
+
+#atscode_separator_for_C()
+
+\#include <stdint.h>
 
 #atscode_separator_for_C()
 
@@ -39,39 +43,14 @@ int fprintf (FILE *stream, const char *format, ...) ;
 
 #atscode_separator_for_C()
 //
-\#define atspre_g0int2int_int_int(x) ((atstype_int)(x))
-\#define atspre_g0int2int_int_lint(x) ((atstype_lint)(x))
-\#define atspre_g0int2int_int_llint(x) ((atstype_llint)(x))
-\#define atspre_g0int2int_int_ssize(x) ((atstype_ssize)(x))
+\#define atspre_g0int2int_int_intptr(x) ((atstype_intptr)(x))
+\#define atspre_g1int2int_int_intptr atspre_g0int2int_int_intptr
 //
-\#define atspre_g1int2int_int_int atspre_g0int2int_int_int
-\#define atspre_g1int2int_int_lint atspre_g0int2int_int_lint
-\#define atspre_g1int2int_int_llint atspre_g0int2int_int_llint
-\#define atspre_g1int2int_int_ssize atspre_g0int2int_int_ssize
+\#define atspre_g0int2uint_int_uintptr(x) ((atstype_uintptr)(x))
+\#define atspre_g1int2uint_int_uintptr atspre_g0int2uint_int_uintptr
 //
-#atscode_separator_for_C()
-//
-\#define atspre_g0int2uint_int_uint(x) ((atstype_uint)(x))
-\#define atspre_g0int2uint_int_ulint(x) ((atstype_ulint)(x))
-\#define atspre_g0int2uint_int_ullint(x) ((atstype_ullint)(x))
-\#define atspre_g0int2uint_int_size(x) ((atstype_size)(x))
-//
-\#define atspre_g1int2uint_int_uint atspre_g0int2uint_int_uint
-\#define atspre_g1int2uint_int_ulint atspre_g0int2uint_int_ulint
-\#define atspre_g1int2uint_int_ullint atspre_g0int2uint_int_ullint
-\#define atspre_g1int2uint_int_size atspre_g0int2uint_int_size
-//
-#atscode_separator_for_C()
-//
-\#define atspre_g0uint2uint_uint_uint(x) ((atstype_uint)(x))
-\#define atspre_g0uint2uint_uint_ulint(x) ((atstype_ulint)(x))
-\#define atspre_g0uint2uint_uint_ullint(x) ((atstype_ullint)(x))
-\#define atspre_g0uint2uint_uint_size(x) ((atstype_size)(x))
-//
-\#define atspre_g1uint2uint_uint_uint atspre_g0uint2uint_uint_uint
-\#define atspre_g1uint2uint_uint_ulint atspre_g0uint2uint_uint_ulint
-\#define atspre_g1uint2uint_uint_ullint atspre_g0uint2uint_uint_ullint
-\#define atspre_g1uint2uint_uint_size atspre_g0uint2uint_uint_size
+\#define atspre_g0uint2uint_uint_uintptr(x) ((atstype_uintptr)(x))
+\#define atspre_g1uint2uint_uint_uintptr atspre_g0uint2uint_uint_uintptr
 //
 #atscode_separator_for_C()
 
@@ -284,81 +263,23 @@ end // end of [local]
 //
 %}\
 \
-#g0int_implist("int")\
-//
-#g0int_implist("lint")\
-//
-#g0int_implist("llint")\
+#g0int_implist("intptr")\
 //
 #atscode_separator_for_C()
 
 ATSinline()
 atsvoid_t0ype
-atspre_fprint_int
+atspre_fprint_intptr
 (
-  atstype_ref r, atstype_int x
+  atstype_ref r, atstype_intptr x
 ) {
   int err ;
-  err = fprintf((FILE*)r, "%i", x) ;
+  err = fprintf((FILE*)r, "%lli", (atsptr_llint)x) ;
   return ;
-} // end [atspre_fprint_int]
+} // end [atspre_fprint_intptr]
 
-\#define atspre_print_int(x) atspre_fprint_int(stdout_ref, (x))
-\#define atspre_prerr_int(x) atspre_fprint_int(stderr_ref, (x))
-
-ATSinline()
-atsvoid_t0ype
-atspre_fprint_lint
-(
-  atstype_ref r, atstype_lint x
-) {
-  int err ;
-  err = fprintf((FILE*)r, "%li", x) ;
-  return ;
-} // end [atspre_fprint_lint]
-
-\#define atspre_print_lint(x) atspre_fprint_lint(stdout_ref, (x))
-\#define atspre_prerr_lint(x) atspre_fprint_lint(stderr_ref, (x))
-
-ATSinline()
-atsvoid_t0ype
-atspre_fprint_llint
-(
-  atstype_ref r, atstype_llint x
-) {
-  int err ;
-  err = fprintf((FILE*)r, "%lli", x) ;
-  return ;
-} // end [atspre_fprint_llint]
-
-\#define atspre_print_llint(x) atspre_fprint_llint(stdout_ref, (x))
-\#define atspre_prerr_llint(x) atspre_fprint_llint(stderr_ref, (x))
-
-#atscode_separator_for_C()
-
-\#define atspre_g1int_neg_int atspre_g0int_neg_int
-\#define atspre_g1int_succ_int atspre_g0int_succ_int
-\#define atspre_g1int_pred_int atspre_g0int_pred_int
-\#define atspre_g1int_half_int atspre_g0int_half_int
-\#define atspre_g1int_add_int atspre_g0int_add_int
-\#define atspre_g1int_sub_int atspre_g0int_sub_int
-\#define atspre_g1int_mul_int atspre_g0int_mul_int
-\#define atspre_g1int_div_int atspre_g0int_div_int
-\#define atspre_g1int_isltz_int atspre_g0int_isltz_int
-\#define atspre_g1int_isltez_int atspre_g0int_isltez_int
-\#define atspre_g1int_isgtz_int atspre_g0int_isgtz_int
-\#define atspre_g1int_isgtez_int atspre_g0int_isgtez_int
-\#define atspre_g1int_iseqz_int atspre_g0int_iseqz_int
-\#define atspre_g1int_isneqz_int atspre_g0int_isneqz_int
-\#define atspre_g1int_lt_int atspre_g0int_lt_int
-\#define atspre_g1int_lte_int atspre_g0int_lte_int
-\#define atspre_g1int_gt_int atspre_g0int_gt_int
-\#define atspre_g1int_gte_int atspre_g0int_gte_int
-\#define atspre_g1int_eq_int atspre_g0int_eq_int
-\#define atspre_g1int_neq_int atspre_g0int_neq_int
-\#define atspre_g1int_compare_int atspre_g0int_compare_int
-\#define atspre_g1int_max_int atspre_g0int_max_int
-\#define atspre_g1int_min_int atspre_g0int_min_int
+\#define atspre_print_intptr(x) atspre_fprint_intptr(stdout_ref, (x))
+\#define atspre_prerr_intptr(x) atspre_fprint_intptr(stderr_ref, (x))
 
 #atscode_separator_for_C()
 
@@ -547,64 +468,33 @@ end // end of [g0uint_implist]
 end // end of [local]
 %}\
 \
-#g0uint_implist("uint")\
-//
-#g0uint_implist("ulint")\
-//
-#g0uint_implist("ullint")\
+#g0uint_implist("uintptr")\
 //
 #atscode_separator_for_C()
 
 ATSinline()
 atsvoid_t0ype
-atspre_fprint_uint
+atspre_fprint_uintptr
 (
-  atstype_ref r, atstype_uint x
+  atstype_ref r, atstype_uintptr x
 ) {
   int err ;
-  err = fprintf((FILE*)r, "%u", x) ;
+  err = fprintf((FILE*)r, "%llu", (atstype_ullint)x) ;
   return ;
-} // end [atspre_fprint_uint]
+} // end [atspre_fprint_uintptr]
 
-\#define atspre_print_uint(x) atspre_fprint_uint(stdout_ref, (x))
-\#define atspre_prerr_uint(x) atspre_fprint_uint(stderr_ref, (x))
-
-ATSinline()
-atsvoid_t0ype
-atspre_fprint_ulint
-(
-  atstype_ref r, atstype_ulint x
-) {
-  int err ;
-  err = fprintf((FILE*)r, "%lu", x) ;
-  return ;
-} // end [atspre_fprint_ulint]
-
-\#define atspre_print_ulint(x) atspre_fprint_ulint(stdout_ref, (x))
-\#define atspre_prerr_ulint(x) atspre_fprint_ulint(stderr_ref, (x))
-
-ATSinline()
-atsvoid_t0ype
-atspre_fprint_ullint
-(
-  atstype_ref r, atstype_ullint x
-) {
-  int err ;
-  err = fprintf((FILE*)r, "%llu", x) ;
-  return ;
-} // end [atspre_fprint_ullint]
-
-\#define atspre_print_ullint(x) atspre_fprint_ullint(stdout_ref, (x))
-\#define atspre_prerr_ullint(x) atspre_fprint_ullint(stderr_ref, (x))
+\#define atspre_print_uintptr(x) atspre_fprint_uintptr(stdout_ref, (x))
+\#define atspre_prerr_uintptr(x) atspre_fprint_uintptr(stderr_ref, (x))
 
 #atscode_separator_for_C()
 
-\#endif // ifndef ATSHOME_PRELUDE_INTEGER_CATS
+\#endif // ifndef ATSHOME_PRELUDE_INTEGER_FIXED_CATS
 
 #atscode_separator_for_C()
 
 #atscode_eof_strsub_for_C("\#thisfilename$")\
 
 %{
-implement main () = fprint_filsub (stdout_ref, "integer_atxt.txt")
+implement main () = fprint_filsub (stdout_ref, "integer_fixed_atxt.txt")
 %}\
+

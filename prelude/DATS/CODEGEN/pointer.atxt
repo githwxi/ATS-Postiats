@@ -49,6 +49,18 @@ ptr0_add_guint (p, i) =
 
 #atscode_separator()
 
+implement{a}{tk}
+ptr1_add_gint {l}{i} (p, i) =
+  $UN.cast{ptr(l+i*sizeof(a))}(ptr0_add_gint<a><tk> (p, i))
+// end of [ptr1_add_gint]
+
+implement{a}{tk}
+ptr1_add_guint {l}{i} (p, i) =
+  $UN.cast{ptr(l+i*sizeof(a))}(ptr0_add_guint<a><tk> (p, i))
+// end of [ptr1_add_guint]
+
+#atscode_separator()
+
 implement{a} ptr_get (pf | p) = !p
 implement{a} ptr_get_vt (pf | p) = !p
 

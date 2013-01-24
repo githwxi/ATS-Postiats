@@ -57,6 +57,10 @@
 //
 /* ****** ****** */
 
+#define atsptr_null ((void*)0)
+
+/* ****** ****** */
+
 #define ATStysum() struct{ int contag; }
 #define ATStylist(tyelt) struct{ tyelt head; void *tail; }
 

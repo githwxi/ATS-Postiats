@@ -57,6 +57,7 @@ all::
 
 #make_entry("basics")
 #make_entry("integer")
+#make_entry("integer_fixed")
 #make_entry("pointer")
 #make_entry("bool")
 #make_entry("char")

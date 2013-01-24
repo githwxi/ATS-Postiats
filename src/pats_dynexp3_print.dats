@@ -299,9 +299,12 @@ case+ d3e0.d3exp_node of
     val () = prstr ")"
   } // end of [D3Eapp_dyn]
 //
-| D3Eitem (d2i) => {
+| D3Eitem
+    (d2i, t2mas) => {
     val () = prstr "D3Eitem("
     val () = fprint_d2itm (out, d2i)
+    val () = prstr "; "
+    val () = fpprint_t2mpmarglst (out, t2mas)
     val () = prstr ")"
   }
 //
