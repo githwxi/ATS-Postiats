@@ -290,6 +290,8 @@ end // end of [local]
 //
 #g0int_implist("llint")\
 //
+#g0int_implist("ssize")\
+//
 #atscode_separator_for_C()
 
 ATSinline()
@@ -552,6 +554,8 @@ end // end of [local]
 #g0uint_implist("ulint")\
 //
 #g0uint_implist("ullint")\
+//
+#g0uint_implist("size")\
 //
 #atscode_separator_for_C()
 

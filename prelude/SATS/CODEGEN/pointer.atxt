@@ -84,6 +84,20 @@ overload ptr_pred with ptr0_pred of 0
 *)
 
 #atscode_separator()
+
+fun ptr0_add_bytesize
+  (p: ptr, ofs: size_t):<> ptr = "mac\#atspre_ptr_add_bytesize"
+fun ptr0_sub_bytesize
+  (p: ptr, ofs: size_t):<> ptr = "mac\#atspre_ptr_sub_bytesize"
+
+fun ptr1_add_bytesize
+  {l:addr}{i:int}
+  (p: ptr l, ofs: size_t (i)):<> ptr (l+i) = "mac\#atspre_ptr_add_bytesize"
+fun ptr1_sub_bytesize
+  {l:addr}{i:int}
+  (p: ptr l, ofs: size_t (i)):<> ptr (l-i) = "mac\#atspre_ptr_sub_bytesize"
+
+#atscode_separator()
 //
 fun{
 a:vt0p}{tk:tk

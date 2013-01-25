@@ -40,15 +40,31 @@ int fprintf (FILE *stream, const char *format, ...) ;
 #atscode_separator_for_C()
 
 ATSinline()
+atstype_bool
 atspre_ptr_is_null
   (atstype_ptr p) {
   return (p==(void*)0) ? atsbool_true : atsbool_false ;
 } // end of [atspre_ptr_is_null]
 ATSinline()
+atstype_bool
 atspre_ptr_isnot_null
   (atstype_ptr p) {
   return (p > (void*)0) ? atsbool_true : atsbool_false ;
 } // end of [atspre_ptr_isnot_null]
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_ptr
+atspre_ptr_add_bytesize
+  (atstype_ptr p, atstype_size ofs) { return ((char*)p + ofs) ; }
+// end of [atspre_ptr_add_bytesize]
+
+ATSinline()
+atstype_ptr
+atspre_ptr_sub_bytesize
+  (atstype_ptr p, atstype_size ofs) { return ((char*)p - ofs) ; }
+// end of [atspre_ptr_sub_bytesize]
 
 #atscode_separator_for_C()
 

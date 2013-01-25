@@ -713,9 +713,8 @@ case+ pmv0.primval_node of
 | PMVtmpref _ => emit_primval_tmpref (out, pmv0)
 | PMVarg _ => emit_primval_arg (out, pmv0)
 | PMVargref _ => emit_primval_argref (out, pmv0)
-(*
+//
 | PMVcst _ => emit_primval_d2cst (out, pmv0)
-*)
 //
 | PMVint (i) => emit_ATSPMVint (out, i)
 | PMVbool (b) => emit_ATSPMVbool (out, b)

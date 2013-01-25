@@ -37,27 +37,33 @@ ptr_get_index {l} (p) = addreq_make {l, l} ()
 
 implement{a}{tk}
 ptr0_add_gint (p, i) =
-  $UN.cast{ptr} (
-  $UN.cast2intptr (p) + $UN.cast2intptr(i) * $UN.cast2intptr(sizeof<a>)
-) // end of [ptr0_add_gint]
+  ptr0_add_bytesize (p, g0int2uint(i) * sizeof<a>)
+implement{a}{tk}
+ptr0_sub_gint (p, i) =
+  ptr0_sub_bytesize (p, g0int2uint(i) * sizeof<a>)
 
 implement{a}{tk}
 ptr0_add_guint (p, i) =
-  $UN.cast{ptr} (
-  $UN.cast2uintptr (p) + $UN.cast2uintptr(i) * $UN.cast2uintptr(sizeof<a>)
-) // end of [ptr0_add_guint]
+  ptr0_add_bytesize (p, g0uint2uint(i) * sizeof<a>)
+implement{a}{tk}
+ptr0_sub_guint (p, i) =
+  ptr0_sub_bytesize (p, g0uint2uint(i) * sizeof<a>)
 
 #atscode_separator()
 
 implement{a}{tk}
 ptr1_add_gint {l}{i} (p, i) =
   $UN.cast{ptr(l+i*sizeof(a))}(ptr0_add_gint<a><tk> (p, i))
-// end of [ptr1_add_gint]
+implement{a}{tk}
+ptr1_sub_gint {l}{i} (p, i) =
+  $UN.cast{ptr(l-i*sizeof(a))}(ptr0_sub_gint<a><tk> (p, i))
 
 implement{a}{tk}
 ptr1_add_guint {l}{i} (p, i) =
   $UN.cast{ptr(l+i*sizeof(a))}(ptr0_add_guint<a><tk> (p, i))
-// end of [ptr1_add_guint]
+implement{a}{tk}
+ptr1_sub_guint {l}{i} (p, i) =
+  $UN.cast{ptr(l-i*sizeof(a))}(ptr0_sub_guint<a><tk> (p, i))
 
 #atscode_separator()
 
