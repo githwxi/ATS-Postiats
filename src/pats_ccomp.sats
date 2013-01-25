@@ -982,10 +982,16 @@ fun primdeclst_get_tmpvarset (xs: primdeclst): tmpvarset_vt
 absvtype instrseq_vtype
 vtypedef instrseq = instrseq_vtype
 
+(* ****** ****** *)
+
 fun instrseq_make_nil (): instrseq
 fun instrseq_get_free (res: instrseq): instrlst
 
 fun instrseq_add (res: !instrseq, x: instr): void
+
+fun instrseq_add_tmpdec
+  (res: !instrseq, loc: location, tmp: tmpvar): void
+
 fun instrseq_addlst (res: !instrseq, x: instrlst): void
 
 (* ****** ****** *)

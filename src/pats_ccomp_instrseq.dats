@@ -77,6 +77,14 @@ end // end of [instrseq_add]
 (* ****** ****** *)
 
 implement
+instrseq_add_tmpdec
+  (res, loc, tmp) =
+  instrseq_add (res, instr_tmpdec (loc, tmp))
+// end of [instrseq_add_tmpdec]
+
+(* ****** ****** *)
+
+implement
 instrseq_addlst
   (res, xs) = let
 in

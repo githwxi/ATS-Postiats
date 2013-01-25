@@ -445,6 +445,7 @@ case+ hvds of
     val loc = hip.hipat_loc
     val hse = hip.hipat_type
     val tmp = tmpvar_make (loc, hse)
+    val () = instrseq_add_tmpdec (res, loc, tmp)
     val pmv = primval_tmp (loc, hse, tmp)
     val () = himatch_ccomp (env, res, lev0, hip, pmv)
     val tmps = auxinit (env, res, lev0, hvds)
@@ -514,6 +515,8 @@ val s2at = d2var_get_type_some (loc_d2v, d2vw)
 val-S2Eat (s2e_elt, _) = s2at.s2exp_node
 val hse_elt = s2exp_tyer_shallow (loc_d2v, s2e_elt)
 val tmp = tmpvar_make (loc_d2v, hse_elt)
+//
+val () = instrseq_add_tmpdec (res, loc_d2v, tmp)
 //
 val () = (
   case+

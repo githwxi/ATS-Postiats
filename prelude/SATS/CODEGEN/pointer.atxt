@@ -144,7 +144,7 @@ val fopr_d = (
 //
 val ent = sprintf ("\
 fun %s_ptr0_ptr0
-  (p1: ptr, p2: ptr):<> bool = \"mac#atspre_%s_ptr0_ptr0\"
+  (p1: ptr, p2: ptr):<> bool = \"mac#atspre_%s_ptr_ptr\"
 overload %s with %s_ptr0_ptr0 of 0\
 ", @(
  opr, opr, fopr_d, opr
@@ -167,7 +167,7 @@ overload <> with neq_ptr0_ptr0 of 0
 fun
 compare_ptr0_ptr0 (
   p1: ptr, p2: ptr
-) :<> int = "mac\#atspre_compare_ptr0_ptr0"
+) :<> int = "mac\#atspre_compare_ptr_ptr"
 overload compare with compare_ptr0_ptr0 of 0
 
 #atscode_separator()
@@ -301,7 +301,7 @@ val ent = sprintf ("\
 fun %s_ptr1_ptr1
   {l1,l2:addr} (
   p1: ptr (l1), p2: ptr (l2)
-) :<> bool (l1 %s l2) = \"mac#atspre_%s_ptr1_ptr1\"
+) :<> bool (l1 %s l2) = \"mac#atspre_%s_ptr_ptr\"
 overload %s with %s_ptr1_ptr1 of 20\
 ", @(
  opr, fopr_s, opr, fopr_d, opr
@@ -325,7 +325,7 @@ fun
 compare_ptr1_ptr1
   {l1,l2:addr} (
   p1: ptr l1, p2: ptr l2
-) :<> int = "mac\#atspre_compare_ptr1_ptr1"
+) :<> int = "mac\#atspre_compare_ptr_ptr"
 overload compare with compare_ptr1_ptr1 of 20
 
 #atscode_separator()

@@ -841,11 +841,8 @@ hidexp_ccomp_ret_lst
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 //
-val () = let
-  val ins =
-    instr_tmpdec (loc0, tmpret) in instrseq_add (res, ins)
-  // end of [val]
-end // end of [val]
+val (
+) = instrseq_add_tmpdec (res, loc0, tmpret)
 //
 val-HDElst (knd, hse_elt, hdes) = hde0.hidexp_node
 //
@@ -1094,11 +1091,8 @@ hidexp_ccomp_ret_arrpsz
 val loc0 = hde0.hidexp_loc
 val hse0 = hde0.hidexp_type
 //
-val () = let
-  val ins =
-    instr_tmpdec (loc0, tmpret) in instrseq_add (res, ins)
-  // end of [val]
-end // end of [val]
+val (
+) = instrseq_add_tmpdec (res, loc0, tmpret)
 //
 val-HDEarrpsz
   (hse_elt, hdes, asz) = hde0.hidexp_node
