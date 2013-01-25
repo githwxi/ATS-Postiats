@@ -56,15 +56,15 @@ atspre_ptr_isnot_null
 
 ATSinline()
 atstype_ptr
-atspre_ptr_add_bytesize
+atspre_ptr0_add_bytesize
   (atstype_ptr p, atstype_size ofs) { return ((char*)p + ofs) ; }
-// end of [atspre_ptr_add_bytesize]
+// end of [atspre_ptr0_add_bytesize]
 
 ATSinline()
 atstype_ptr
-atspre_ptr_sub_bytesize
+atspre_ptr0_sub_bytesize
   (atstype_ptr p, atstype_size ofs) { return ((char*)p - ofs) ; }
-// end of [atspre_ptr_sub_bytesize]
+// end of [atspre_ptr0_sub_bytesize]
 
 #atscode_separator_for_C()
 
@@ -85,10 +85,10 @@ val fopr = (
 val ent = sprintf ("\
 ATSinline()
 atstype_bool
-atspre_%s_ptr_ptr
+atspre_%s_ptr0_ptr0
   (atstype_ptr p1, atstype_ptr p2) {
   return (p1 %s p2 ? atsbool_true : atsbool_false) ;
-} // end of [atspre_%s_ptr_ptr]\
+} // end of [atspre_%s_ptr0_ptr0]\
 ", @(
  opr, fopr, opr
 )
@@ -108,13 +108,13 @@ end // end of [fun_pointer_cmp0_decl]
 
 ATSinline()
 atstype_int
-atspre_compare_ptr_ptr (
+atspre_compare_ptr0_ptr0 (
   atstype_ptr p1, atstype_ptr p2
 ) {
   if (p1 >= p2) {
     if (p1 > p2) return 1 ; else return 0 ;
   } else return (-1) ;
-} // end of [atspre_compare_ptr_ptr]
+} // end of [atspre_compare_ptr0_ptr0]
 
 #atscode_separator_for_C()
 
@@ -130,6 +130,22 @@ atspre_fprint_ptr (
 
 \#define atspre_print_ptr(x) atspre_fprint_ptr(stdout_ref, (x))
 \#define atspre_prerr_ptr(x) atspre_fprint_ptr(stderr_ref, (x))
+
+#atscode_separator_for_C()
+
+\#define atspre_ptr1_add_bytesize atspre_ptr0_add_bytesize
+\#define atspre_ptr1_sub_bytesize atspre_ptr0_sub_bytesize
+
+#atscode_separator_for_C()
+
+\#define atspre_lt_ptr1_ptr1 atspre_lt_ptr0_ptr0
+\#define atspre_lte_ptr1_ptr1 atspre_lte_ptr0_ptr0
+\#define atspre_gt_ptr1_ptr1 atspre_gt_ptr0_ptr0
+\#define atspre_gte_ptr1_ptr1 atspre_gte_ptr0_ptr0
+\#define atspre_eq_ptr1_ptr1 atspre_eq_ptr0_ptr0
+\#define atspre_neq_ptr1_ptr1 atspre_neq_ptr0_ptr0
+
+\#define atspre_compare_ptr1_ptr1 atspre_compare_ptr0_ptr0
 
 #atscode_separator_for_C()
 
