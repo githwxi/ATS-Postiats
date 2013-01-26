@@ -40,8 +40,58 @@
 
 /* ****** ****** */
 
+#include <stdio.h>
+#include <stdlib.h>
+
+/* ****** ****** */
+
+extern void exit (int code) ;
+extern void *malloc (size_t bsz) ;
+extern
+int fprintf (FILE *stream, const char *format, ...) ;
+// in [stdio.h]
+
+/* ****** ****** */
+
+ATSinline()
+atstype_ptr
+ats_malloc_ngc
+(atstype_size bsz) { return malloc(bsz) ; }
+
+ATSinline()
+atstype_ptr
+ats_malloc_ngc_exn
+(atstype_size bsz)
+{
+  atstype_ptr p ;
+  p = ats_malloc_ngc (bsz) ;
+  if (!p) {
+    fprintf(stderr, "ats_malloc_ngc_exn: [malloc] failed.\n") ;
+    exit(1) ;
+  } // end of [if]
+  return (p) ;
+} /* end of [ats_malloc_ngc_exn] */
+
+/* ****** ****** */
+
+ATSinline()
+atsvoid_t0ype
+ats_free_ngc (atstype_ptr p) { free(p) ; return ; }
+
+/* ****** ****** */
+
+#ifndef ATS_MALLOC
+#define ATS_MALLOC ats_malloc_ngc_exn
+#endif // end of [ifndef]
+
+#ifndef ATS_FREE
+#define ATS_FREE ats_free_ngc
+#endif // end of [ifndef]
+
 /* ****** ****** */
 
 #endif /* PATS_CCOMP_MEMALLOC_H */
+
+/* ****** ****** */
 
 /* end of [pats_ccomp_memalloc.h] */
