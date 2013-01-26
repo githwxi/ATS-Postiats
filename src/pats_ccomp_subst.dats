@@ -408,6 +408,12 @@ case+
   end // end of [PMVtmp]
 //
 | PMVarg (n) => primval_arg (loc0, hse0, n)
+| PMVargref (n) => primval_argref (loc0, hse0, n)
+//
+| PMVtop () => primval_top (loc0, hse0)
+| PMVempty () => primval_empty (loc0, hse0)
+//
+| PMVextval (name) => primval_extval (loc0, hse0, name)
 //
 | PMVcastfn
     (d2c, pmv) => let
@@ -442,34 +448,50 @@ case+
   end // end of [PMVselcon]
 //
 | PMVselect
-    (pmv, hse_rt, hil) => let
+    (pmv, hse_rt, pml) => let
     val pmv = fpmv (pmv)
     val hse_rt = hisexp_subst (sub, hse_rt)
   in
-    primval_select (loc0, hse0, pmv, hse_rt, hil)
+    primval_select (loc0, hse0, pmv, hse_rt, pml)
   end // end of [PMVselect]
 | PMVselect2
-    (pmv, hse_rt, hils) => let
+    (pmv, hse_rt, pmls) => let
     val pmv = fpmv (pmv)
     val hse_rt = hisexp_subst (sub, hse_rt)
   in
-    primval_select2 (loc0, hse0, pmv, hse_rt, hils)
+    primval_select2 (loc0, hse0, pmv, hse_rt, pmls)
   end // end of [PMVselect2]
 //
 | PMVsel_var
-    (pmv, hse_rt, hils) => let
+    (pmv, hse_rt, pmls) => let
     val pmv = fpmv (pmv)
     val hse_rt = hisexp_subst (sub, hse_rt)
   in
-    primval_sel_var (loc0, hse0, pmv, hse_rt, hils)
+    primval_sel_var (loc0, hse0, pmv, hse_rt, pmls)
   end // end of [PMVsel_var]
 | PMVsel_ptr
-    (pmv, hse_rt, hils) => let
+    (pmv, hse_rt, pmls) => let
     val pmv = fpmv (pmv)
     val hse_rt = hisexp_subst (sub, hse_rt)
   in
-    primval_sel_ptr (loc0, hse0, pmv, hse_rt, hils)
+    primval_sel_ptr (loc0, hse0, pmv, hse_rt, pmls)
   end // end of [PMVsel_ptr]
+//
+| PMVptrof (pmv) => let
+    val pmv = fpmv (pmv) in primval_ptrof (loc0, hse0, pmv)
+  end // end of [PMVptrof]
+| PMVptrofsel
+    (pmv, hse_rt, pmls) => let
+    val pmv = fpmv (pmv)
+    val hse_rt = hisexp_subst (sub, hse_rt)
+  in
+    primval_ptrofsel (loc0, hse0, pmv, hse_rt, pmls)
+  end // end of [PMVptrof]
+//
+| PMVrefarg
+    (knd, pmv) => let
+    val pmv = fpmv (pmv) in primval_refarg (loc0, hse0, knd, pmv)
+  end // of [PMVrefarg]
 //
 | _ => pmv0
 //

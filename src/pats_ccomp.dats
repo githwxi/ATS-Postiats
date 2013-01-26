@@ -301,6 +301,15 @@ primval_ptrof (loc, hse, pmv) =
 // end of [primval_ptrof]
 
 implement
+primval_ptrofsel (
+  loc, hse, pmv, hse_rt, pmls
+) =
+  primval_make_node (loc, hse, PMVptrofsel (pmv, hse_rt, pmls))
+// end of [primval_ptrofsel]
+
+(* ****** ****** *)
+
+implement
 primval_refarg (loc, hse, knd, pmv) =
   primval_make_node (loc, hse, PMVrefarg (knd, pmv))
 // end of [primval_refarg]
@@ -324,6 +333,13 @@ primval_tmpltvar
   (loc, hse, d2v, t2mas) =
   primval_make_node (loc, hse, PMVtmpltvar (d2v, t2mas))
 // end of [primval_tmpltvar]
+
+(* ****** ****** *)
+
+implement
+primval_err
+  (loc, hse) = primval_make_node (loc, hse, PMVerr ())
+// end of [primval_err]
 
 (* ****** ****** *)
 

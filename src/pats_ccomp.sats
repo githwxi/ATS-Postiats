@@ -367,10 +367,6 @@ and primval_node =
   | PMVcst of (d2cst) // for constants
   | PMVvar of (d2var) // for temporaries
 //
-  | PMVtmpltcst of (d2cst, t2mpmarglst) // for template constants
-  | PMVtmpltcstmat of (d2cst, t2mpmarglst, tmpcstmat) // for matched template constants
-  | PMVtmpltvar of (d2var, t2mpmarglst) // for template variables
-//
   | PMVint of (int)
   | PMVbool of (bool)
   | PMVchar of (char)
@@ -403,7 +399,9 @@ and primval_node =
   | PMVptrofsel of (primval, hisexp(*tyroot*), primlablst)
   | PMVrefarg of (int(*knd*), primval)
 //
-  | PMVcastfn of (d2cst, primval)
+  | PMVtmpltcst of (d2cst, t2mpmarglst) // for template constants
+  | PMVtmpltcstmat of (d2cst, t2mpmarglst, tmpcstmat) // for matched template constants
+  | PMVtmpltvar of (d2var, t2mpmarglst) // for template variables
 //
   | PMVerr of ()
 // end of [primval_node]
@@ -665,8 +663,13 @@ fun primval_tmpltvar (
 ) : primval // end of [primval_tmpltvar]
 
 fun primval_tmpltcstmat (
-  loc: location, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst, mat: tmpcstmat
+  loc: location
+, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst, mat: tmpcstmat
 ) : primval // end of [primval_tmpltcstmat]
+
+(* ****** ****** *)
+
+fun primval_err (loc: location, hse: hisexp): primval
 
 (* ****** ****** *)
 
