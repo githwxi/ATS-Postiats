@@ -73,20 +73,18 @@ ats_malloc_ngc_exn
   return (p) ;
 } /* end of [ats_malloc_ngc_exn] */
 
-/* ****** ****** */
-
-ATSinline()
-atsvoid_t0ype
-ats_free_ngc (atstype_ptr ptr) { free(ptr) ; return ; }
-
-/* ****** ****** */
-
 #ifndef ATS_MALLOC
 #define ATS_MALLOC ats_malloc_ngc_exn
 #endif // end of [ifndef]
 
-#ifndef ATS_FREE
-#define ATS_FREE ats_free_ngc
+/* ****** ****** */
+
+ATSinline()
+atsvoid_t0ype
+ats_mfree_ngc (atstype_ptr ptr) { free(ptr) ; return ; }
+
+#ifndef ATS_MFREE
+#define ATS_MFREE ats_mfree_ngc
 #endif // end of [ifndef]
 
 /* ****** ****** */

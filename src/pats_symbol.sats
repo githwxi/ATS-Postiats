@@ -106,6 +106,8 @@ val symbol_PROP : symbol
 val symbol_TYPE : symbol
 val symbol_T0YPE : symbol
 val symbol_VIEW : symbol
+val symbol_VTYPE : symbol
+val symbol_VT0YPE : symbol
 val symbol_VIEWTYPE : symbol
 val symbol_VIEWT0YPE : symbol
 //

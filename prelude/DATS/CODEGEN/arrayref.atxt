@@ -37,19 +37,53 @@ in
   array_get_at_size (!p, i)
 end // end of [arrayref_get_at_size]
 
+implement{a}{tk}
+arrayref_get_at_gint (A, i) =
+  arrayref_get_at_size (A, g1int2uint (i))
+// end of [arrayref_get_at_gint]
+
+implement{a}{tk}
+arrayref_get_at_guint (A, i) =
+  arrayref_get_at_size (A, g1uint2uint (i))
+// end of [arrayref_get_at_guint]
+
+#atscode_separator()
+
 implement{a}
 arrayref_set_at_size (A, i, x) = let
-  val (vbox pf | p) = arrayref_get_viewptr (A)
-in
-  array_set_at_size (!p, i, x)
+  val (vbox pf | p) =
+    arrayref_get_viewptr (A) in array_set_at_size (!p, i, x)
+  // end of [val]
 end // end of [arrayref_set_at_size]
+
+implement{a}{tk}
+arrayref_set_at_gint (A, i, x) =
+  arrayref_set_at_size (A, g1int2uint (i), x)
+// end of [arrayref_set_at_gint]
+
+implement{a}{tk}
+arrayref_set_at_guint (A, i, x) =
+  arrayref_set_at_size (A, g1uint2uint (i), x)
+// end of [arrayref_set_at_guint]
+
+#atscode_separator()
 
 implement{a}
 arrayref_exch_at_size (A, i, x) = let
-  val (vbox pf | p) = arrayref_get_viewptr (A)
-in
-  array_exch_at_size (!p, i, x)
+  val (vbox pf | p) =
+    arrayref_get_viewptr (A) in array_exch_at_size (!p, i, x)
+  // end of [val]
 end // end of [arrayref_exch_at_size]
+
+implement{a}{tk}
+arrayref_exch_at_gint (A, i, x) =
+  arrayref_exch_at_size (A, g1int2uint (i), x)
+// end of [arrayref_exch_at_gint]
+
+implement{a}{tk}
+arrayref_exch_at_guint (A, i, x) =
+  arrayref_exch_at_size (A, g1uint2uint (i), x)
+// end of [arrayref_exch_at_guint]
 
 #atscode_separator()
 

@@ -44,9 +44,9 @@ sortdef t0p = t@ype and vt0p = viewt@ype
 #atscode_separator()
 
 abstype
-arrayref_viewt0ype_int_type
-  (a: viewt@ype(*invariant*), n: int(*size*))
-stadef arrayref = arrayref_viewt0ype_int_type
+arrayref_vt0ype_int_type
+  (a: vt@ype(*invariant*), n: int(*size*)) = ptr
+stadef arrayref = arrayref_vt0ype_int_type
 (*
 stadef array = arrayref // HX: backward compatibility?
 *)
@@ -82,10 +82,25 @@ arrayref_get_viewptr
 
 #atscode_separator()
 
+symintr arrayref
+
+#atscode_separator()
+
 fun{a:t0p}
 arrayref_make_elt
   {n:int} (asz: size_t n, x: a):<!wrt> arrayref (a, n)
 // end of [arrayref_make_elt]
+
+#atscode_separator()
+
+fun
+arrayref_make_arrpsz
+  {a:vt0p}{n:int} (
+  psz: arrpsz (INV(a), n)
+) :<!wrt> arrayref (a, n) = "mac\#arrayref_make_arrpsz"
+overload arrayref with arrayref_make_arrpsz
+
+#atscode_separator()
 
 fun{a:t0p}
 arrayref_make_listlen
@@ -113,15 +128,15 @@ arrayref_get_at_size
 fun{
 a:t0p}{tk:tk
 } arrayref_get_at_gint
-  {n:int} (
-  A: arrayref (a, n), i: g1intLt (tk, n)
+  {n:int}{i:nat | i < n} (
+  A: arrayref (a, n), i: g1int (tk, i)
 ) :<!ref> a // end of [arrayref_get_at_gint]
 overload [] with arrayref_get_at_gint
 fun{
 a:t0p}{tk:tk
 } arrayref_get_at_guint
-  {n:int} (
-  A: arrayref (a, n), i: g1uintLt (tk, n)
+  {n:int}{i:nat | i < n} (
+  A: arrayref (a, n), i: g1uint (tk, i)
 ) :<!ref> a // end of [arrayref_get_at_guint]
 overload [] with arrayref_get_at_guint
 
@@ -140,15 +155,15 @@ arrayref_set_at_size
 fun{
 a:t0p}{tk:tk
 } arrayref_set_at_gint
-  {n:int} (
-  A: arrayref (a, n), i: g1intLt (tk, n), x: a
+  {n:int}{i:nat | i < n} (
+  A: arrayref (a, n), i: g1int (tk, i), x: a
 ) :<!refwrt> void // end of [arrayref_set_at_gint]
 overload [] with arrayref_set_at_gint
 fun{
 a:t0p}{tk:tk
 } arrayref_set_at_guint
-  {n:int} (
-  A: arrayref (a, n), i: g1uintLt (tk, n), x: a
+  {n:int}{i:nat | i < n} (
+  A: arrayref (a, n), i: g1uint (tk, i), x: a
 ) :<!refwrt> void // end of [arrayref_set_at_guint]
 overload [] with arrayref_set_at_guint
 
@@ -167,14 +182,14 @@ arrayref_exch_at_size
 fun{
 a:vt0p}{tk:tk
 } arrayref_exch_at_gint
-  {n:int} (
-  A: arrayref (a, n), i: g1intLt (tk, n), x: &a >> _
+  {n:int}{i:nat | i < n} (
+  A: arrayref (a, n), i: g1int (tk, i), x: &a >> _
 ) :<!refwrt> void // end of [arrayref_exch_at_gint]
 fun{
 a:vt0p}{tk:tk
 } arrayref_exch_at_guint
-  {n:int} (
-  A: arrayref (a, n), i: g1uintLt (tk, n), x: &a >> _
+  {n:int}{i:nat | i < n} (
+  A: arrayref (a, n), i: g1uint (tk, i), x: &a >> _
 ) :<!refwrt> void // end of [arrayref_exch_at_guint]
 
 symintr arrayref_exch_at

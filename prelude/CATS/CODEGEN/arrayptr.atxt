@@ -33,6 +33,7 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+ATSinline()
 atstype_arrptr
 atspre_arrpsz_get_ptrsize
 (
@@ -40,6 +41,22 @@ atspre_arrpsz_get_ptrsize
 ) {
   *(size_t*)asz = psz.size ; return (psz.ptr) ;
 } // en of [atspre_arrpsz_get_ptrsize]
+
+#atscode_separator_for_C()
+
+ATSinline()
+atsvoid_t0ype
+atspre_arrayptr_free
+  (atstype_arrptr ptr) { ATS_MFREE (ptr) ; return ; }
+// end of [atspre_arrayptr_free]
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_arrptr
+arrayptr_make_arrpsz
+  (atstype_arrpsz psz) { return (psz).ptr ; }
+// end of [arrayptr_make_arrpsz]
 
 #atscode_separator_for_C()
 

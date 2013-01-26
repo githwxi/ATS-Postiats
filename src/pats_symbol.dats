@@ -278,6 +278,8 @@ implement symbol_PROP = symbol_make_string "prop"
 implement symbol_TYPE = symbol_make_string "type"
 implement symbol_T0YPE = symbol_make_string "t@ype"
 implement symbol_VIEW = symbol_make_string "view"
+implement symbol_VTYPE = symbol_make_string "vtype"
+implement symbol_VT0YPE = symbol_make_string "vt0ype"
 implement symbol_VIEWTYPE = symbol_make_string "viewtype"
 implement symbol_VIEWT0YPE = symbol_make_string "viewt0ype"
 //

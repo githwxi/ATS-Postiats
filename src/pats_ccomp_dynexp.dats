@@ -452,6 +452,7 @@ case+ hde0.hidexp_node of
 //
 | HDEselab _ => auxval (env, res, tmpret, hde0)
 //
+| HDEptrofvar _ => auxval (env, res, tmpret, hde0)
 | HDEptrofsel _ => auxval (env, res, tmpret, hde0)
 //
 | HDEsel_var _ => auxval (env, res, tmpret, hde0)

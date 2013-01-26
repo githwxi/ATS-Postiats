@@ -543,8 +543,8 @@ case+
     hidexp_selab (loc0, hse0, hde, hse_flt, hils)
   end // end of [D3Eselab]
 //
-| D3Eptrofvar
-    (d2v) => let
+| D3Eptrofvar (d2v) => let
+    val () = d2var_inc_utimes (d2v)
   in
     hidexp_ptrofvar (loc0, hse0, d2v)
   end // end of [D3Eptrofvar]

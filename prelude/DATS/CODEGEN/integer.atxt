@@ -43,8 +43,6 @@ implement
 g0int2int<intknd,llintknd> = g0int2int_int_llint
 implement
 g0int2int<intknd,ssizeknd> = g0int2int_int_ssize
-implement
-g0int2int<intknd,intptrknd> = g0int2int_int_intptr
 
 #atscode_separator()
 
@@ -122,8 +120,6 @@ end // end of [g0int_implist]
 //
 %}\
 \
-#atscode_separator()
-//
 #g0int_implist("intknd", "int", "int")
 //
 #g0int_implist("lintknd", "lint", "lint")
@@ -131,8 +127,6 @@ end // end of [g0int_implist]
 #g0int_implist("llintknd", "llint", "llint")
 //
 #g0int_implist("ssizeknd", "ssize", "ssize_t")
-//
-#g0int_implist("intptrknd", "intptr", "intptr")
 //
 #atscode_separator()
 
@@ -166,8 +160,6 @@ implement
 g1int2int<intknd,llintknd> = g1int2int_int_llint
 implement
 g1int2int<intknd,ssizeknd> = g1int2int_int_ssize
-implement
-g1int2int<intknd,intptrknd> = g1int2int_int_intptr
 
 #atscode_separator()
 
@@ -235,8 +227,6 @@ end // end of [g1int_implist]
 //
 #g1int_implist("ssizeknd", "ssize")\
 //
-#g1int_implist("intptrknd", "intptr")\
-//
 #atscode_separator()
 
 implement{tk}
@@ -262,8 +252,15 @@ implement
 g0int2uint<intknd,ullintknd> = g0int2uint_int_ullint
 implement
 g0int2uint<intknd,sizeknd> = g0int2uint_int_size
+
+#atscode_separator()
+
 implement
-g0int2uint<intknd,uintptrknd> = g0int2uint_int_uintptr
+g0uint2uint<sizeknd,ulintknd> = g0uint2uint_size_ulint
+implement
+g0uint2uint<sizeknd,ullintknd> = g0uint2uint_size_ullint
+implement
+g0uint2uint<sizeknd,sizeknd> = g0uint2uint_size_size
 
 #atscode_separator()
 
@@ -346,8 +343,6 @@ end // end of [g0uint_implist]
 //
 #g0uint_implist("sizeknd", "size", "size_t")
 //
-#g0uint_implist("uintptrknd", "uintptr", "uintptr")
-//
 #atscode_separator()
 
 implement{tk}
@@ -373,8 +368,6 @@ implement
 g1int2uint<intknd,ullintknd> = g1int2uint_int_ullint
 implement
 g1int2uint<intknd,sizeknd> = g1int2uint_int_size
-implement
-g1int2uint<intknd,uintptrknd> = g1int2uint_int_uintptr
 
 #atscode_separator()
 
@@ -435,8 +428,6 @@ end // end of [g1uint_implist]
 #g1uint_implist("ullintknd", "ullint")\
 //
 #g1uint_implist("sizeknd", "size")\
-//
-#g1uint_implist("uintptrknd", "uintptr")\
 //
 #atscode_separator()
 
