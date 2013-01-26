@@ -105,7 +105,7 @@ case+ hip.hipat_node of
     val hse = hipat_get_type (hip)
     val tmp = tmpvar_make (loc, hse)
     val pml = primlab_lab (loc, lab)
-    val ins = instr_move_select (loc, tmp, pmv0, hse_rec, pml)
+    val ins = instr_move_select (loc, tmp, hse, pmv0, hse_rec, pml)
     val () = instrseq_add (res, ins)
     val pmv = primval_make_tmp (loc, tmp)
     val d2v = hipat_get_asvar (hip)
@@ -212,7 +212,7 @@ case+ hip.hipat_node of
     val loc = hip.hipat_loc
     val hse = hipat_get_type (hip)
     val tmp = tmpvar_make (loc, hse)
-    val ins = instr_move_selcon (loc, tmp, pmv0, hse_sum, lab)
+    val ins = instr_move_selcon (loc, tmp, hse, pmv0, hse_sum, lab)
     val () = instrseq_add (res, ins)
     val pmv = primval_make_tmp (loc, tmp)
     val d2v = hipat_get_asvar (hip)
@@ -383,7 +383,7 @@ case+ hip.hipat_node of
           val hse = hipat_get_type (hip)
           val tmp = tmpvar_make (loc, hse)
           val pml = primlab_lab (loc, lab)
-          val ins = instr_move_select (loc, tmp, pmv0, hse_rec, pml)
+          val ins = instr_move_select (loc, tmp, hse, pmv0, hse_rec, pml)
           val () = instrseq_add (res, ins)
         in
           primval_make_tmp (loc, tmp)
@@ -465,7 +465,7 @@ case+ 0 of
     val tmp = tmpvar_make (loc, hse)
     val pmv = primval_make_tmp (loc, tmp)
     val () = ccompenv_add_varbind (env, d2v, pmv)
-    val ins = instr_move_selcon (loc, tmp, pmv0, hse_sum, lab)
+    val ins = instr_move_selcon (loc, tmp, hse, pmv0, hse_sum, lab)
   in
     instrseq_add (res, ins)    
   end // end of [_]

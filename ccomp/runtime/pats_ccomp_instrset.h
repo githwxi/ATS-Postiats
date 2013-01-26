@@ -203,13 +203,13 @@
 //
 /* ****** ****** */
 //
-#define ATSINSstore_arrpsz_asz(tmp, asz) (tmp.size = asz)
-#define ATSINSstore_arrpsz_ptr(tmp, tyelt, asz) (tmp.ptr = ATS_MALLOC(asz*sizeof(tyelt)))
+#define ATSINSstore_arrpsz_asz(tmp, asz) ((tmp).size = asz)
+#define ATSINSstore_arrpsz_ptr(tmp, tyelt, asz) ((tmp).ptr = ATS_MALLOC(asz*sizeof(tyelt)))
 //
-#define ATSINSmove_arrpsz_ptr(tmp, psz) (tmp1 = (psz).ptr)
+#define ATSINSmove_arrpsz_ptr(tmp, psz) (tmp = (psz).ptr)
 //
-#define ATSINSupdate_ptrinc(tmp, tyelt) (tmp = (tyelt*)tmp + 1)
-#define ATSINSupdate_ptrdec(tmp, tyelt) (tmp = (tyelt*)tmp - 1)
+#define ATSINSupdate_ptrinc(tmp, tyelt) (tmp = (tyelt*)(tmp) + 1)
+#define ATSINSupdate_ptrdec(tmp, tyelt) (tmp = (tyelt*)(tmp) - 1)
 //
 /* ****** ****** */
 

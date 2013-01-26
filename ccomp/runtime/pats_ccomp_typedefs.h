@@ -115,7 +115,7 @@ struct {
 /* ****** ****** */
 
 #define atsrefarg0_type(hit) hit
-#define atsrefarg1_type(hit) hit*
+#define atsrefarg1_type(hit) atstype_ref
 
 /* ****** ****** */
 

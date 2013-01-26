@@ -35,9 +35,9 @@ typedef NSH(a:type) = a // for commenting purpose
 
 #atscode_separator()
 
-val stdin_ref : FILEref
-val stdout_ref : FILEref
-val stderr_ref : FILEref
+val stdin_ref : FILEref = "mac\#atspre_FILE_stdin"
+val stdout_ref : FILEref = "mac\#atspre_FILE_stdout"
+val stderr_ref : FILEref = "mac\#atspre_FILE_stderr"
 
 #atscode_separator()
 

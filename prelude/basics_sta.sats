@@ -397,14 +397,17 @@ stadef ptr (n:int) = ptr_addr_type (addr_of_int(n))
 (*
 ** HX: persistent read-only strings
 *)
-abstype string_type
-abstype string_int_type (n: int)
+abstype
+string_type = $extype"atstype_string"
+abstype
+string_int_type (n: int) = string_type
+//
 stadef string0 = string_type
 stadef string1 = string_int_type
 stadef string = string1 // 2nd-select
 stadef string = string0 // fst-select
 typedef String = [n:int] string_int_type (n)
-
+//
 (* ****** ****** *)
 
 abstype

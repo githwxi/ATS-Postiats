@@ -81,6 +81,9 @@ val () = emit_text (out, "#include \"prelude/CATS/char.cats\"\n")
 val () = emit_text (out, "#include \"prelude/CATS/string.cats\"\n")
 val () = emit_text (out, "#include \"prelude/CATS/float.cats\"\n")
 //
+val () = emit_text (out, "//\n")
+val () = emit_text (out, "#include \"prelude/CATS/filebas.cats\"\n")
+//
 // HX: secondary prelude cats files
 //
 val () = emit_text (out, "//\n")
@@ -265,6 +268,12 @@ val () = let
 in
   // nothing
 end // end of [val]
+//
+#if(0)
+val () = emit_the_tmpdeclst (out)
+val () = emit_the_primdeclst (out)
+val () = emit_the_funlablst (out)
+#endif // end of [#if(0)]
 //
 val the_tmpdeclst_rep = the_tmpdeclst_stringize ()
 val the_primdeclst_rep = the_primdeclst_stringize ()

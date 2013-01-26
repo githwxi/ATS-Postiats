@@ -94,6 +94,16 @@ clean:: ; $(RMF) string_atxt.exe
 cleanall:: ; $(RMF) string.cats
 
 
+all:: filebas.cats
+filebas.cats: filebas_atxt.exe ; ./$< > $@
+filebas_atxt.exe: filebas_atxt.dats
+	$(ATSCC) $(ATSGCFLAG) -o $@ filebas_atxt.dats -latsdoc
+filebas_atxt.dats: filebas.atxt
+	$(ATSDOC) --outcode $@ -i filebas.atxt > filebas_atxt.txt
+clean:: ; $(RMF) filebas_atxt.exe
+cleanall:: ; $(RMF) filebas.cats
+
+
 all:: list.cats
 list.cats: list_atxt.exe ; ./$< > $@
 list_atxt.exe: list_atxt.dats

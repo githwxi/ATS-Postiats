@@ -64,6 +64,8 @@ all::
 #make_entry("float")
 #make_entry("string")
 
+#make_entry("filebas")
+
 #make_entry("list")
 #make_entry("option")
 #make_entry("array")

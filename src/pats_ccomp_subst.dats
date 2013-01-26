@@ -433,6 +433,44 @@ case+
     // end of [if]
   end // end of [PMVtmpltcst]
 //
+| PMVselcon
+    (pmv, hse_sum, lab) => let
+    val pmv = fpmv (pmv)
+    val hse_sum = hisexp_subst (sub, hse_sum)
+  in
+    primval_selcon (loc0, hse0, pmv, hse_sum, lab)
+  end // end of [PMVselcon]
+//
+| PMVselect
+    (pmv, hse_rt, hil) => let
+    val pmv = fpmv (pmv)
+    val hse_rt = hisexp_subst (sub, hse_rt)
+  in
+    primval_select (loc0, hse0, pmv, hse_rt, hil)
+  end // end of [PMVselect]
+| PMVselect2
+    (pmv, hse_rt, hils) => let
+    val pmv = fpmv (pmv)
+    val hse_rt = hisexp_subst (sub, hse_rt)
+  in
+    primval_select2 (loc0, hse0, pmv, hse_rt, hils)
+  end // end of [PMVselect2]
+//
+| PMVsel_var
+    (pmv, hse_rt, hils) => let
+    val pmv = fpmv (pmv)
+    val hse_rt = hisexp_subst (sub, hse_rt)
+  in
+    primval_sel_var (loc0, hse0, pmv, hse_rt, hils)
+  end // end of [PMVsel_var]
+| PMVsel_ptr
+    (pmv, hse_rt, hils) => let
+    val pmv = fpmv (pmv)
+    val hse_rt = hisexp_subst (sub, hse_rt)
+  in
+    primval_sel_ptr (loc0, hse0, pmv, hse_rt, hils)
+  end // end of [PMVsel_ptr]
+//
 | _ => pmv0
 //
 end // end of [primval_subst]
@@ -722,37 +760,13 @@ case+
 | INSpatck of (primval, patck, patckont) // pattern check
 *)
 //
-| INSmove_selcon
-    (tmp, pmv, hse_sum, lab) => let
-    val tmp = ftmp (tmp)
-    val pmv = fpmv (pmv)
-    val hse_sum = hisexp_subst (sub, hse_sum)
-  in
-    instr_move_selcon (loc0, tmp, pmv, hse_sum, lab)
-  end // end of [INSmove_selcon]
-//
-| INSmove_select
-    (tmp, pmv, hse_rt, hil) => let
-    val tmp = ftmp (tmp)
-    val pmv = fpmv (pmv)
-    val hse_rt = hisexp_subst (sub, hse_rt)
-  in
-    instr_move_select (loc0, tmp, pmv, hse_rt, hil)
-  end // end of [INSmove_select]
-| INSmove_select2
-    (tmp, pmv, hse_rt, hils) => let
-    val tmp = ftmp (tmp)
-    val pmv = fpmv (pmv)
-    val hse_rt = hisexp_subst (sub, hse_rt)
-  in
-    instr_move_select2 (loc0, tmp, pmv, hse_rt, hils)
-  end // end of [INSmove_select2]
-//
 (*
 | INSmove_ptrofsel of
     (tmpvar, primval, hisexp(*tyroot*), primlablst)
   // end of [INSmove_ptrofsel]
 *)
+//
+(*
 | INSload_varofs
     (tmp, pmv, hse_rt, pmls) => let
     val tmp = ftmp (tmp)
@@ -769,6 +783,7 @@ case+
   in
     instr_load_ptrofs (loc0, tmp, pmv, hse_rt, pmls)
   end // end of [INSload_ptrofs]
+*)
 //
 | INSstore_varofs (
     pmv_l, hse_rt, pmls, pmv_r

@@ -260,6 +260,42 @@ primval_funlab (loc, hse, fl) =
 (* ****** ****** *)
 
 implement
+primval_selcon
+  (loc, hse, pmv, hse_sum, lab) =
+  primval_make_node (loc, hse, PMVselcon (pmv, hse_sum, lab))
+// end of [primval_selcon]
+
+(* ****** ****** *)
+
+implement
+primval_select
+  (loc, hse, pmv, hse_rt, pml) =
+  primval_make_node (loc, hse, PMVselect (pmv, hse_rt, pml))
+// end of [primval_select]
+
+implement
+primval_select2
+  (loc, hse, pmv, hse_rt, pmls) =
+  primval_make_node (loc, hse, PMVselect2 (pmv, hse_rt, pmls))
+// end of [primval_select2]
+
+(* ****** ****** *)
+
+implement
+primval_sel_var
+  (loc, hse, pmv, hse_rt, pmls) =
+  primval_make_node (loc, hse, PMVsel_var (pmv, hse_rt, pmls))
+// end of [primval_sel_var]
+
+implement
+primval_sel_ptr
+  (loc, hse, pmv, hse_rt, pmls) =
+  primval_make_node (loc, hse, PMVsel_ptr (pmv, hse_rt, pmls))
+// end of [primval_sel_ptr]
+
+(* ****** ****** *)
+
+implement
 primval_ptrof (loc, hse, pmv) =
   primval_make_node (loc, hse, PMVptrof (pmv))
 // end of [primval_ptrof]
@@ -322,6 +358,17 @@ case+
   // end of [PMVargref]
 | _ => primval_ptrof (loc, hse, pmv)
 end // end of [primval_make_ptrof]
+
+(* ****** ****** *)
+
+implement
+primval_make_ptrofsel
+  (loc, pmv, hse_rt, pmls) = let
+  val hse = hisexp_typtr 
+  val pmv_sel = primval_select2 (loc, hse, pmv, hse_rt, pmls)
+in
+  primval_make_ptrof (loc, pmv_sel)
+end // end of [primval_make_ptrofsel]
 
 (* ****** ****** *)
 
@@ -510,22 +557,31 @@ instr_patck
 (* ****** ****** *)
 
 implement
-instr_move_selcon
-  (loc, tmp, pmv, hse_sum, narg) =
-  instr_make_node (loc, INSmove_selcon (tmp, pmv, hse_sum, narg))
-// end of [instr_move_selcon]
+instr_move_selcon (
+  loc, tmp, hse, pmv, hse_sum, lab
+) = let
+  val pmv_sel = primval_selcon (loc, hse, pmv, hse_sum, lab)
+in
+  instr_move_val (loc, tmp, pmv_sel)
+end // end of [instr_selcon]
 
 implement
-instr_move_select
-  (loc, tmp, pmv, hse_rt, hil) =
-  instr_make_node (loc, INSmove_select (tmp, pmv, hse_rt, hil))
-// end of [instr_move_select]
+instr_move_select (
+  loc, tmp, hse, pmv, hse_rt, pml
+) = let
+  val pmv_sel = primval_select (loc, hse, pmv, hse_rt, pml)
+in
+  instr_move_val (loc, tmp, pmv_sel)
+end // end of [instr_select]
 
 implement
-instr_move_select2
-  (loc, tmp, pmv, hse_rt, hils) =
-  instr_make_node (loc, INSmove_select2 (tmp, pmv, hse_rt, hils))
-// end of [instr_move_select2]
+instr_move_select2 (
+  loc, tmp, hse, pmv, hse_rt, pmls
+) = let
+  val pmv_sel = primval_select2 (loc, hse, pmv, hse_rt, pmls)
+in
+  instr_move_val (loc, tmp, pmv_sel)
+end // end of [instr_select2]
 
 (* ****** ****** *)
 
@@ -537,6 +593,7 @@ instr_move_ptrofsel
 
 (* ****** ****** *)
 
+(*
 implement
 instr_load_varofs
   (loc, tmp, pmv, hse_rt, pmls) =
@@ -548,6 +605,7 @@ instr_load_ptrofs
   (loc, tmp, pmv, hse_rt, pmls) =
   instr_make_node (loc, INSload_ptrofs (tmp, pmv, hse_rt, pmls))
 // end of [instr_load_ptrofs]
+*)
 
 (* ****** ****** *)
 

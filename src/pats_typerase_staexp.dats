@@ -196,6 +196,8 @@ case+
 | S2Etyarr _ => s2exp_tyer_tyarr (loc0, flag, s2e0)
 | S2Etyrec _ => s2exp_tyer_tyrec (loc0, flag, s2e0)
 //
+| S2Einvar (s2e) => s2exp_tyer (loc0, flag, s2e)
+//
 | S2Eexi (_, _, s2e) => s2exp_tyer (loc0, flag, s2e)
 | S2Euni (_, _, s2e) => s2exp_tyer (loc0, flag, s2e)
 //

@@ -838,7 +838,9 @@ local
 fun aux (
   flag: int, hse0: hisexp
 ) : hitype = let
-//
+(*
+val () = println! ("aux: hse0 = ", hse0)
+*)
 val HITNAM (knd, fin, name) = hse0.hisexp_name
 //
 in

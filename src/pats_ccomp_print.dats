@@ -321,6 +321,64 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
+| PMVselcon (
+    pmv, hse_sum, lab
+  ) => {
+    val () = prstr "PMVselcon("
+    val () = fprint_primval (out, pmv)
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse_sum)
+    val () = prstr "; "
+    val () = $LAB.fprint_label (out, lab) // HX: argument label
+    val () = prstr ")"
+  } // end of [PMVselcon]
+//
+| PMVselect (
+    pmv, hse_sel, pml
+  ) => {
+    val () = prstr "PMVselect("
+    val () = fprint_primval (out, pmv)
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse_sel)
+    val () = prstr "; "
+    val () = fprint_primlab (out, pml)
+    val () = prstr ")"
+  } // end of [PMVselect]
+| PMVselect2 (
+    pmv, hse_sel, pmls
+  ) => {
+    val () = prstr "PMVselect2("
+    val () = fprint_primval (out, pmv)
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse_sel)
+    val () = prstr "; "
+    val () = fprint_primlablst (out, pmls)
+    val () = prstr ")"
+  } // end of [PMVselect2]
+//
+| PMVsel_var (
+    pmv, hse_sel, pmls
+  ) => {
+    val () = prstr "PMVsel_var("
+    val () = fprint_primval (out, pmv)
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse_sel)
+    val () = prstr "; "
+    val () = fprint_primlablst (out, pmls)
+    val () = prstr ")"
+  } // end of [PMVsel_var]
+| PMVsel_ptr (
+    pmv, hse_sel, pmls
+  ) => {
+    val () = prstr "PMVsel_ptr("
+    val () = fprint_primval (out, pmv)
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse_sel)
+    val () = prstr "; "
+    val () = fprint_primlablst (out, pmls)
+    val () = prstr ")"
+  } // end of [PMVsel_ptr]
+//
 | PMVptrof (pmv) => {
     val () = prstr "PMVptrof("
     val () = fprint_primval (out, pmv)
@@ -654,47 +712,6 @@ case+ x.instr_node of
     val () = prstr ")"
   }
 //
-| INSmove_selcon (
-    tmp, pmv, hse_sum, lab
-  ) => {
-    val () = prstr "INSmove_selcon("
-    val () = fprint_tmpvar (out, tmp)
-    val () = prstr " <- "
-    val () = fprint_primval (out, pmv)
-    val () = prstr "; "
-    val () = fprint_hisexp (out, hse_sum)
-    val () = prstr "; "
-    val () = $LAB.fprint_label (out, lab) // HX: argument label
-    val () = prstr ")"
-  } // end of [INSmove_selcon]
-//
-| INSmove_select (
-    tmp, pmv, hse_sel, pml
-  ) => {
-    val () = prstr "INSmove_select("
-    val () = fprint_tmpvar (out, tmp)
-    val () = prstr " <- "
-    val () = fprint_primval (out, pmv)
-    val () = prstr "; "
-    val () = fprint_hisexp (out, hse_sel)
-    val () = prstr "; "
-    val () = fprint_primlab (out, pml)
-    val () = prstr ")"
-  } // end of [INSmove_select]
-| INSmove_select2 (
-    tmp, pmv, hse_sel, pmls
-  ) => {
-    val () = prstr "INSmove_select2("
-    val () = fprint_tmpvar (out, tmp)
-    val () = prstr " <- "
-    val () = fprint_primval (out, pmv)
-    val () = prstr "; "
-    val () = fprint_hisexp (out, hse_sel)
-    val () = prstr "; "
-    val () = fprint_primlablst (out, pmls)
-    val () = prstr ")"
-  } // end of [INSmove_select2]
-//
 | INSmove_ptrofsel (
     tmp, pmv, hse_sel, pmls
   ) => {
@@ -709,6 +726,7 @@ case+ x.instr_node of
     val () = prstr ")"
   } // end of [INSmove_ptrofsel]
 //
+(*
 | INSload_varofs
     (tmp, pmv, hse_sel, ofs) => {
     val () = prstr "INSload_varofs("
@@ -737,6 +755,7 @@ case+ x.instr_node of
     val () = prstr "]"
     val () = prstr ")"
   }
+*)
 //
 | INSstore_varofs
     (pmv_l, hse_rt, ofs, pmv_r) => {

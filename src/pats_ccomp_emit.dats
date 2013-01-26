@@ -691,11 +691,24 @@ emit_primval_type = (FILEref, primval) -> void
 
 extern fun emit_primval_tmp : emit_primval_type
 extern fun emit_primval_tmpref : emit_primval_type
+//
 extern fun emit_primval_arg : emit_primval_type
 extern fun emit_primval_argref : emit_primval_type
+//
 extern fun emit_primval_d2cst : emit_primval_type
+//
 extern fun emit_primval_castfn : emit_primval_type
+//
+extern fun emit_primval_selcon : emit_primval_type
+extern fun emit_primval_select : emit_primval_type
+extern fun emit_primval_select2 : emit_primval_type
+//
+extern fun emit_primval_sel_var : emit_primval_type
+extern fun emit_primval_sel_ptr : emit_primval_type
+//
 extern fun emit_primval_ptrof : emit_primval_type
+extern fun emit_primval_ptrofsel : emit_primval_type
+//
 extern fun emit_primval_refarg : emit_primval_type
 
 (* ****** ****** *)
@@ -736,7 +749,16 @@ case+ pmv0.primval_node of
 //
 | PMVsizeof (hselt) => emit_sizeof (out, hselt)
 //
+| PMVselcon _ => emit_primval_selcon (out, pmv0)
+| PMVselect _ => emit_primval_select (out, pmv0)
+| PMVselect2 _ => emit_primval_select2 (out, pmv0)
+//
+| PMVsel_var _ => emit_primval_sel_var (out, pmv0)
+| PMVsel_ptr _ => emit_primval_sel_ptr (out, pmv0)
+//
 | PMVptrof _ => emit_primval_ptrof (out, pmv0)
+| PMVptrofsel _ => emit_primval_ptrofsel (out, pmv0)
+//
 | PMVrefarg _ => emit_primval_refarg (out, pmv0)
 //
 | _ => let
@@ -868,23 +890,43 @@ end // end of [emit_primval_castfn]
 
 (* ****** ****** *)
 
+local
+
+fun testselptr0
+  (pmv: primval): bool =
+  case+ pmv.primval_node of
+  | PMVsel_ptr (_, _, list_nil ()) => true | _ => false
+// end of [testselptr0]
+
+in (* in of [local] *)
+
 implement
 emit_primval_ptrof
   (out, pmv0) = let
 //
 val-PMVptrof
   (pmv) = pmv0.primval_node
-//
-val () =
-  emit_text (
-  out, "ATSPMVptrof("
-) // end of [val]
-val () = emit_primval (out, pmv)
-val () = emit_rparen (out)
+val test = testselptr0 (pmv)
 //
 in
+//
+if test then let
+  val-PMVsel_ptr
+    (pmv_ptr, _, _) = pmv.primval_node
+  // end of [val]
+in
+  emit_primval (out, pmv_ptr)
+end else let
+  val () = emit_text (out, "ATSPMVptrof(")
+  val () = emit_primval (out, pmv)
+  val () = emit_rparen (out)
+in
   // nothing
+end // end of [if]
+//
 end // end of [emit_primval_ptrof]
+
+end // end of [local]
 
 (* ****** ****** *)
 
@@ -950,7 +992,7 @@ emit_funtype_arg_res (
   val () = emit_hisexp (out, hse_res)
   val () = emit_text (out, "(*)(")
   val () = emit_hisexplst_sep (out, hses_arg, ", ")
-  val () = emit_text (out, ")")
+  val () = emit_rparen (out)
 in
   // nothing
 end // end of [emit_funtype_arg_res]
@@ -984,12 +1026,10 @@ emit_instr_type = (FILEref, instr) -> void
 extern fun emit_instr_funcall : emit_instr_type
 extern fun emit_instr_move_con : emit_instr_type
 extern fun emit_instr_move_rec : emit_instr_type
-extern fun emit_instr_move_selcon : emit_instr_type
-extern fun emit_instr_move_select : emit_instr_type
-extern fun emit_instr_move_select2 : emit_instr_type
-extern fun emit_instr_move_ptrofsel : emit_instr_type
+(*
 extern fun emit_instr_load_varofs : emit_instr_type
 extern fun emit_instr_load_ptrofs : emit_instr_type
+*)
 extern fun emit_instr_store_varofs : emit_instr_type
 extern fun emit_instr_store_ptrofs : emit_instr_type
 
@@ -1060,6 +1100,11 @@ emit_instr
   (out, ins) = let
 //
 val loc0 = ins.instr_loc
+//
+(*
+val (
+) = println! ("emit_instr: ins = ", ins)
+*)
 //
 // generating #line progma for debugging
 //
@@ -1151,14 +1196,10 @@ case+ ins.instr_node of
 //
 | INSpatck (pmv, patck, fail) => emit_instr_patck (out, ins)
 //
-| INSmove_selcon _ => emit_instr_move_selcon (out, ins)
-| INSmove_select _ => emit_instr_move_select (out, ins)
-| INSmove_select2 _ => emit_instr_move_select2 (out, ins)
-//
-| INSmove_ptrofsel _ => emit_instr_move_ptrofsel (out, ins)
-//
+(*
 | INSload_varofs _ => emit_instr_load_varofs (out, ins)
 | INSload_ptrofs _ => emit_instr_load_ptrofs (out, ins)
+*)
 //
 | INSstore_varofs _ => emit_instr_store_varofs (out, ins)
 | INSstore_ptrofs _ => emit_instr_store_ptrofs (out, ins)
@@ -1166,7 +1207,7 @@ case+ ins.instr_node of
 | INSmove_list_nil (tmp) => {
     val () = emit_text (out, "ATSINSmove_list_nil(")
     val () = emit_tmpvar (out, tmp)
-    val () = emit_text (out, ")")
+    val () = emit_text (out, ") ;")
   }
 | INSpmove_list_nil (tmp) => {
     val () = emit_text (out, "ATSINSpmove_list_nil(")
@@ -1603,20 +1644,14 @@ end // end of [auxsel]
 in (* in of [local] *)
 
 implement
-emit_instr_move_selcon
-  (out, ins) = let
+emit_primval_selcon
+  (out, pmv0) = let
 //
-val-INSmove_selcon
-  (tmp, pmv, hse_sum, lab) = ins.instr_node
-//
-val () = emit_text (out, "ATSINSmove(")
-val () = emit_tmpvar (out, tmp)
-val () = emit_text (out, ", ")
-val () = auxsel (out, pmv, hse_sum, lab)
-val () = emit_text (out, ") ; ")
+val-PMVselcon
+  (pmv, hse_sum, lab) = pmv0.primval_node
 //
 in
-  // nothing
+  auxsel (out, pmv, hse_sum, lab)
 end // end of [emit_instr_selcon]
 
 end // end of [local]
@@ -1747,67 +1782,102 @@ end // end of [auxmain]
 //
 in // in of [local]
 
+(* ****** ****** *)
+
 implement
-emit_instr_move_select
-  (out, ins) = let
+emit_primval_select
+  (out, pmv0) = let
 //
-val-INSmove_select
-  (tmp, pmv, hse_rt, pml) = ins.instr_node
+val-PMVselect
+  (pmv, hse_rt, pml) = pmv0.primval_node
 //
 val xys = list_vt_sing @(hse_rt, pml)
-val () = emit_text (out, "ATSINSmove(")
-val () = emit_tmpvar (out, tmp)
-val () = emit_text (out, ", ")
-val () = auxmain (out, 0(*non*), pmv, hse_rt, xys, 0)
-val () = emit_text (out, ") ; ")
 //
 in
-  // nothing
-end // end of [emit_instr_move_select]
+  auxmain (out, 0(*non*), pmv, hse_rt, xys, 0)
+end // end of [emit_primval_select]
 
 (* ****** ****** *)
 
 implement
-emit_instr_move_select2
-  (out, ins) = let
+emit_primval_select2
+  (out, pmv0) = let
 //
-val-INSmove_select2
-  (tmp, pmv, hse_rt, pmls) = ins.instr_node
+val-PMVselect2
+  (pmv, hse_rt, pmls) = pmv0.primval_node
 //
-val xys = auxselist (hse_rt, pmls)
-val () = emit_text (out, "ATSINSmove(")
-val () = emit_tmpvar (out, tmp)
-val () = emit_text (out, ", ")
-val () = auxmain (out, 0(*non*), pmv, hse_rt, xys, 0)
-val () = emit_text (out, ") ; ")
+val () = let
+  val xys = auxselist (hse_rt, pmls)
+in
+  auxmain (out, 0(*non*), pmv, hse_rt, xys, 0)
+end // end of [val]
 //
 in
   // nothing
-end // end of [emit_instr_move_select2]
+end // end of [emit_primval_select2]
 
 (* ****** ****** *)
 
 implement
-emit_instr_move_ptrofsel
-  (out, ins) = let
+emit_primval_sel_var
+  (out, pmv0) = let
 //
-val-INSmove_ptrofsel
-  (tmp, pmv, hse_rt, pmls) = ins.instr_node
+val-PMVsel_var
+  (pmv, hse_rt, pmls) = pmv0.primval_node
 //
-val xys = auxselist (hse_rt, pmls)
-val () = emit_text (out, "ATSINSmove(")
-val () = emit_tmpvar (out, tmp)
-val () = emit_text (out, ", ")
+val () = let
+  val xys = auxselist (hse_rt, pmls)
+in
+  auxmain (out, 0(*var*), pmv, hse_rt, xys, 0)
+end // end of [val]
+//
+in
+  // nothing
+end // end of [emit_primval_sel_var]
+
+implement
+emit_primval_sel_ptr
+  (out, pmv0) = let
+//
+val-PMVsel_ptr
+  (pmv, hse_rt, pmls) = pmv0.primval_node
+//
+val () = let
+  val xys = auxselist (hse_rt, pmls)
+in
+  auxmain (out, 1(*ptr*), pmv, hse_rt, xys, 0)
+end // end of [val]
+//
+in
+  // nothing
+end // end of [emit_primval_sel_ptr]
+
+(* ****** ****** *)
+
+implement
+emit_primval_ptrofsel
+  (out, pmv0) = let
+//
+val-PMVptrofsel
+  (pmv, hse_rt, pmls) = pmv0.primval_node
+//
 val () = emit_text (out, "ATSPMVptrof(")
-val () = auxmain (out, 1(*ptr*), pmv, hse_rt, xys, 0)
-val () = emit_text (out, ")) ; ")
+//
+val () = let
+  val xys = auxselist (hse_rt, pmls)
+in
+  auxmain (out, 1(*ptr*), pmv, hse_rt, xys, 0)
+end // end of [val]
+//
+val () = emit_rparen (out)
 //
 in
   // nothing
-end // end of [emit_instr_move_ptrofsel]
+end // end of [emit_primval_ptrofsel]
 
 (* ****** ****** *)
 
+(*
 implement
 emit_instr_load_varofs
   (out, ins) = let
@@ -1825,9 +1895,11 @@ val () = emit_text (out, ") ; ")
 in
   // nothing
 end // end of [emit_instr_load_ptrofs]
+*)
 
 (* ****** ****** *)
 
+(*
 implement
 emit_instr_load_ptrofs
   (out, ins) = let
@@ -1845,6 +1917,7 @@ val () = emit_text (out, ") ; ")
 in
   // nothing
 end // end of [emit_instr_load_ptrofs]
+*)
 
 (* ****** ****** *)
 
@@ -1885,6 +1958,8 @@ val () = emit_text (out, ") ; ")
 in
   // nothing
 end // end of [emit_instr_store_ptrofs]
+
+(* ****** ****** *)
 
 end // end of [local]
 
