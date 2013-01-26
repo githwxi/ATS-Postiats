@@ -68,4 +68,6 @@
 
 #endif /* PATS_CCOMP_BASICS_H */
 
+/* ****** ****** */
+
 /* end of [pats_ccomp_basics.h] */

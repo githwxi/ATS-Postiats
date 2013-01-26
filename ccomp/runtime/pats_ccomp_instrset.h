@@ -215,4 +215,6 @@
 
 #endif /* PATS_CCOMP_INSTRSET_H */
 
+/* ****** ****** */
+
 /* end of [pats_ccomp_instrset.h] */

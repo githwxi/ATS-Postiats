@@ -41,15 +41,16 @@
 /* ****** ****** */
 
 #include <stdio.h>
-#include <stdlib.h>
-
-/* ****** ****** */
-
-extern void exit (int code) ;
-extern void *malloc (size_t bsz) ;
 extern
 int fprintf (FILE *stream, const char *format, ...) ;
 // in [stdio.h]
+
+/* ****** ****** */
+
+#include <stdlib.h>
+extern void exit (int code) ;
+extern void *malloc (size_t bsz) ;
+extern void free (void *ptr) ;
 
 /* ****** ****** */
 
@@ -76,7 +77,7 @@ ats_malloc_ngc_exn
 
 ATSinline()
 atsvoid_t0ype
-ats_free_ngc (atstype_ptr p) { free(p) ; return ; }
+ats_free_ngc (atstype_ptr ptr) { free(ptr) ; return ; }
 
 /* ****** ****** */
 

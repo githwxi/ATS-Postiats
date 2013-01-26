@@ -121,4 +121,6 @@ struct {
 
 #endif /* PATS_CCOMP_TYPEDEFS_H */
 
+/* ****** ****** */
+
 /* end of [pats_ccomp_typedefs.h] */

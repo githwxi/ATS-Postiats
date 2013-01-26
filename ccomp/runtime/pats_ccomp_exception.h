@@ -39,9 +39,14 @@
 #define PATS_CCOMP_EXCEPTION_H
 
 /* ****** ****** */
-
+//
+// HX-2013-01:
+// it is yet to be implemented
+//
 /* ****** ****** */
 
 #endif /* PATS_CCOMP_EXCEPTION_H */
+
+/* ****** ****** */
 
 /* end of [pats_ccomp_exception.h] */
