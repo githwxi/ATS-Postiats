@@ -357,6 +357,7 @@ and hifundec = '{
 , hifundec_var= d2var
 , hifundec_imparg= s2varlst
 , hifundec_def= hidexp
+, hifundec_funlab= Option (hidynexp_funlab_type)
 } // end of [hifundec]
 
 and hifundeclst = List (hifundec)
@@ -685,6 +686,10 @@ fun hiclau_make (
 fun hifundec_make
   (loc: location, d2v: d2var, imparg: s2varlst, def: hidexp): hifundec
 // end of [hifundec_make]
+
+fun hifundec_getref_funlabopt
+  (hfd: hifundec): Ptr1 = "patsopt_hifundec_getref_funlabopt"
+// end of [hifundec_getref_funlabopt]
 
 (* ****** ****** *)
 

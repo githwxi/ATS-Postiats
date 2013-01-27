@@ -47,6 +47,18 @@ staload "./pats_ccomp.sats"
 (* ****** ****** *)
 
 implement
+hifundec_get_funlabopt (hfd) =
+  $UN.ptrget<Option(funlab)> (hifundec_getref_funlabopt (hfd))
+// end of [hifundec_get_funlabopt]
+
+implement
+hifundec_set_funlabopt (hfd, opt) =
+  $UN.ptrset<Option(funlab)> (hifundec_getref_funlabopt (hfd), opt)
+// end of [hifundec_set_funlabopt]
+
+(* ****** ****** *)
+
+implement
 hiimpdec_get_funlabopt (imp) =
   $UN.ptrget<Option(funlab)> (hiimpdec_getref_funlabopt (imp))
 // end of [hiimpdec_get_funlabopt]
@@ -86,8 +98,10 @@ primdec_exndecs (loc, d2cs) =
 (* ****** ****** *)
 
 implement
-primdec_fundecs (loc, hfds) =
-  primdec_make_node (loc, PMDfundecs (hfds))
+primdec_fundecs
+  (loc, knd, decarg, hfds) =
+  primdec_make_node (loc, PMDfundecs (knd, decarg, hfds))
+// end of [primdec_fundecs]
 
 (* ****** ****** *)
 
@@ -253,13 +267,6 @@ primval_sizeof (loc, hse, hselt) =
 (* ****** ****** *)
 
 implement
-primval_funlab (loc, hse, fl) =
-  primval_make_node (loc, hse, PMVfunlab (fl))
-// end of [primval_funlab]
-
-(* ****** ****** *)
-
-implement
 primval_selcon
   (loc, hse, pmv, hse_sum, lab) =
   primval_make_node (loc, hse, PMVselcon (pmv, hse_sum, lab))
@@ -313,6 +320,18 @@ implement
 primval_refarg (loc, hse, knd, pmv) =
   primval_make_node (loc, hse, PMVrefarg (knd, pmv))
 // end of [primval_refarg]
+
+(* ****** ****** *)
+
+implement
+primval_funlab (loc, hse, fl) =
+  primval_make_node (loc, hse, PMVfunlab (fl))
+// end of [primval_funlab]
+
+implement
+primval_funlab2 (loc, hse, d2v, fl) =
+  primval_make_node (loc, hse, PMVfunlab2 (d2v, fl))
+// end of [primval_funlab2]
 
 (* ****** ****** *)
 

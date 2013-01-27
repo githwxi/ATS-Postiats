@@ -118,8 +118,14 @@ case+ x.primdec_node of
     val () = prstr ")"
   }
 //
-| PMDfundecs (hfds) => {
+| PMDfundecs (
+    knd, decarg, hfds
+  ) => {
     val () = prstr "PMDfundecs("
+    val () = fprint_funkind (out, knd)
+    val () = prstr "; "
+    val () = fprint_s2qualst (out, decarg)
+    val () = prstr "; "
     val () =
       $UT.fprintlst<hifundec> (
       out, hfds, sep, lam (out, hfd) => fprint_d2var (out, hfd.hifundec_var)
@@ -315,12 +321,6 @@ case+ x.primval_node of
     val () = prstr ")"
   }
 //
-| PMVfunlab (flab) => {
-    val () = prstr "PMVfunlab("
-    val () = fprint_funlab (out, flab)
-    val () = prstr ")"
-  }
-//
 | PMVselcon (
     pmv, hse_sum, lab
   ) => {
@@ -382,6 +382,40 @@ case+ x.primval_node of
 | PMVptrof (pmv) => {
     val () = prstr "PMVptrof("
     val () = fprint_primval (out, pmv)
+    val () = prstr ")"
+  }
+//
+| PMVptrofsel
+    (pmv, hse_rt, pmls) => {
+    val () = prstr "PMVptrofsel("
+    val () = fprint_primval (out, pmv)
+    val () = prstr "; "
+    val () = fprint_hisexp (out, hse_rt)
+    val () = prstr "; "
+    val () = fprint_primlablst (out, pmls)
+    val () = prstr ")"    
+  }
+| PMVrefarg
+    (knd, pmv) => {
+    val () = prstr "PMVrefarg("
+    val () = fprint_int (out, knd)
+    val () = prstr ", "
+    val () = fprint_primval (out, pmv)
+    val () = prstr ")"
+  }
+//
+| PMVfunlab
+    (flab) => {
+    val () = prstr "PMVfunlab("
+    val () = fprint_funlab (out, flab)
+    val () = prstr ")"
+  }
+| PMVfunlab2
+    (d2v, flab) => {
+    val () = prstr "PMVfunlab2("
+    val () = fprint_d2var (out, d2v)
+    val () = prstr ", "
+    val () = fprint_funlab (out, flab)
     val () = prstr ")"
   }
 //

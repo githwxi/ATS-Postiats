@@ -671,7 +671,8 @@ end // end of [ccompenv_find_tmpsub]
 (* ****** ****** *)
 
 extern
-fun ccompenv_add_impdec2 (env: !ccompenv, imp2: hiimpdec2): void
+fun ccompenv_add_impdec2
+  (env: !ccompenv, imp2: hiimpdec2): void
 implement
 ccompenv_add_impdec2
   (env, imp2) = let
@@ -713,6 +714,42 @@ ccompenv_add_tmpcstmat
 in
   // nothing
 end // end of [ccompenv_add_tmpcstmat]
+
+(* ****** ****** *)
+
+local
+
+fun auxlst (
+  env: !ccompenv, hfds: hifundeclst
+) : void = let
+in
+//
+case+ hfds of
+| list_cons
+    (hfd, hfds) => let
+    val () =
+      ccompenv_add_fundec (env, hfd)
+    // end of [val]
+  in
+    auxlst (env, hfds)
+  end // end of [list_cons]
+| list_nil () => ()
+//
+end // end of [auxlst]
+
+in (* in of [local] *)
+
+implement
+ccompenv_add_fundecsloc
+  (env, knd, decarg, hfds) = let
+in
+//
+case+ decarg of
+| list_cons _ => auxlst (env, hfds) | list_nil _ => ()
+//
+end // end of [ccompenv_add_fundecsloc]
+
+end // end of [local]
 
 (* ****** ****** *)
 

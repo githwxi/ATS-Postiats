@@ -580,6 +580,7 @@ hifundec_make
 , hifundec_var= d2v
 , hifundec_imparg= s2vs
 , hifundec_def= def
+, hifundec_funlab= None ()
 } // end of [hifundec_make]
 
 implement
@@ -750,6 +751,7 @@ end // end of [tmpcstdecmap_insert]
 (* ****** ****** *)
 
 extern typedef "hipat_t" = hipat
+extern typedef "hifundec_t" = hifundec
 extern typedef "hiimpdec_t" = hiimpdec
 
 %{$
@@ -760,6 +762,12 @@ patsopt_hipat_set_asvar (
 ) {
   ((hipat_t)hip)->atslab_hipat_asvar = opt ; return ;
 } // end of [patsopt_hipat_set_asvar]
+
+ats_ptr_type
+patsopt_hifundec_getref_funlabopt
+  (ats_ptr_type fundec) {
+  return &((hifundec_t)fundec)->atslab_hifundec_funlab ;
+} // end of [patsopt_hifundec_getref_funlabopt]
 
 ats_ptr_type
 patsopt_hiimpdec_getref_funlabopt

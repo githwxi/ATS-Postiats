@@ -633,6 +633,28 @@ atspre_fprint_ullint
 
 #atscode_separator_for_C()
 
+\#define atspre_g1uint_succ_size atspre_g0uint_succ_size
+\#define atspre_g1uint_pred_size atspre_g0uint_pred_size
+\#define atspre_g1uint_half_size atspre_g0uint_half_size
+\#define atspre_g1uint_add_size atspre_g0uint_add_size
+\#define atspre_g1uint_sub_size atspre_g0uint_sub_size
+\#define atspre_g1uint_mul_size atspre_g0uint_mul_size
+\#define atspre_g1uint_div_size atspre_g0uint_div_size
+\#define atspre_g1uint_isgtz_size atspre_g0uint_isgtz_size
+\#define atspre_g1uint_iseqz_size atspre_g0uint_iseqz_size
+\#define atspre_g1uint_isneqz_size atspre_g0uint_isneqz_size
+\#define atspre_g1uint_lt_size atspre_g0uint_lt_size
+\#define atspre_g1uint_lte_size atspre_g0uint_lte_size
+\#define atspre_g1uint_gt_size atspre_g0uint_gt_size
+\#define atspre_g1uint_gte_size atspre_g0uint_gte_size
+\#define atspre_g1uint_eq_size atspre_g0uint_eq_size
+\#define atspre_g1uint_neq_size atspre_g0uint_neq_size
+\#define atspre_g1uint_compare_size atspre_g0uint_compare_size
+\#define atspre_g1uint_max_size atspre_g0uint_max_size
+\#define atspre_g1uint_min_size atspre_g0uint_min_size
+
+#atscode_separator_for_C()
+
 \#endif // ifndef ATSHOME_PRELUDE_INTEGER_CATS
 
 #atscode_separator_for_C()

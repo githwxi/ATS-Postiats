@@ -229,21 +229,6 @@ end // end of [g1int_implist]
 //
 #atscode_separator()
 
-implement{tk}
-lt_g1int_int (x, y) = g1int_lt (x, g1int2int (y))
-implement{tk}
-lte_g1int_int (x, y) = g1int_lte (x, g1int2int (y))
-implement{tk}
-gt_g1int_int (x, y) = g1int_gt (x, g1int2int (y))
-implement{tk}
-gte_g1int_int (x, y) = g1int_gte (x, g1int2int (y))
-implement{tk}
-eq_g1int_int (x, y) = g1int_eq (x, g1int2int (y))
-implement{tk}
-neq_g1int_int (x, y) = g1int_neq (x, g1int2int (y))
-
-#atscode_separator()
-
 implement
 g0int2uint<intknd,uintknd> = g0int2uint_int_uint
 implement

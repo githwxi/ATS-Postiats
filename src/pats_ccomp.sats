@@ -279,6 +279,13 @@ fun the_funlablst_addlst (fls: funlablst): void
 
 (* ****** ****** *)
 
+fun hifundec_get_funlabopt
+  (hfd: hifundec): Option (funlab)
+fun hifundec_set_funlabopt
+  (hfd: hifundec, opt: Option (funlab)): void
+
+(* ****** ****** *)
+
 fun hiimpdec_get_funlabopt
   (imp: hiimpdec): Option (funlab)
 fun hiimpdec_set_funlabopt
@@ -337,7 +344,9 @@ primdec_node =
   | PMDdatdecs of (s2cstlst)
   | PMDexndecs of (d2conlst)
 //
-  | PMDfundecs of (hifundeclst)
+  | PMDfundecs of (
+      funkind, s2qualst, hifundeclst
+    ) // end of [PMDfundecs]
 //
   | PMDvaldecs of
       (valkind, hivaldeclst, instrlst)
@@ -386,8 +395,6 @@ and primval_node =
 //
   | PMVsizeof of (hisexp)
 //
-  | PMVfunlab of (funlab)
-//
   | PMVselcon of (primval, hisexp(*tysum*), label)
   | PMVselect of (primval, hisexp(*tyroot*), primlab)
   | PMVselect2 of (primval, hisexp(*tyroot*), primlablst)
@@ -398,6 +405,9 @@ and primval_node =
   | PMVptrof of (primval)
   | PMVptrofsel of (primval, hisexp(*tyroot*), primlablst)
   | PMVrefarg of (int(*knd*), primval)
+//
+  | PMVfunlab of (funlab)
+  | PMVfunlab2 of (d2var, funlab)
 //
   | PMVtmpltcst of (d2cst, t2mpmarglst) // for template constants
   | PMVtmpltcstmat of (d2cst, t2mpmarglst, tmpcstmat) // for matched template constants
@@ -468,9 +478,9 @@ fun primdec_exndecs
 
 (* ****** ****** *)
 
-fun primdec_fundecs
-  (loc: location, hfds: hifundeclst): primdec
-// end of [primdec_fundecs]
+fun primdec_fundecs (
+  loc: location, knd: funkind, decarg: s2qualst, hfds: hifundeclst
+) : primdec // end of [primdec_fundecs]
 
 (* ****** ****** *)
 
@@ -610,12 +620,6 @@ fun primval_sizeof
 
 (* ****** ****** *)
 
-fun primval_funlab
-  (loc: location, hse: hisexp, flab: funlab): primval
-// end of [primval_funlab]
-
-(* ****** ****** *)
-
 fun primval_selcon (
   loc: location, hse: hisexp, pmv: primval, hse_sum: hisexp, lab: label
 ) : primval // end of [primval_selcon]
@@ -654,6 +658,16 @@ fun primval_refarg
 
 (* ****** ****** *)
 
+fun primval_funlab
+  (loc: location, hse: hisexp, flab: funlab): primval
+// end of [primval_funlab]
+
+fun primval_funlab2
+  (loc: location, hse: hisexp, d2v: d2var, flab: funlab): primval
+// end of [primval_funlab2]
+
+(* ****** ****** *)
+
 fun primval_tmpltcst (
   loc: location, hse: hisexp, d2c: d2cst, t2mas: t2mpmarglst
 ) : primval // end of [primval_tmpltcst]
@@ -677,7 +691,12 @@ fun primval_make_sizeof (loc: location, hselt: hisexp): primval
 
 (* ****** ****** *)
 
-fun primval_make_funlab (loc: location, flab: funlab): primval
+fun primval_make_funlab
+  (loc: location, flab: funlab): primval
+
+fun primval_make_funlab2
+  (loc: location, d2v: d2var, flab: funlab): primval
+// end of [primval_make_funlab2]
 
 (* ****** ****** *)
 
@@ -1129,10 +1148,14 @@ fun ccompenv_add_staload (env: !ccompenv, fenv: filenv): void
 
 fun ccompenv_add_tmpsub (env: !ccompenv, tsub: tmpsub): void
 fun ccompenv_add_impdecloc (env: !ccompenv, imp: hiimpdec): void
+fun ccompenv_add_tmpcstmat (env: !ccompenv, tmpmat: tmpcstmat): void
 
 (* ****** ****** *)
 
-fun ccompenv_add_tmpcstmat (env: !ccompenv, tmpmat: tmpcstmat): void
+fun ccompenv_add_fundecsloc (
+  env: !ccompenv
+, knd: funkind, decarg: s2qualst, hfds: hifundeclst
+) : void // end of [ccompenv_add_fundecsloc]
 
 (* ****** ****** *)
 

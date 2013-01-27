@@ -129,8 +129,7 @@
 
 /* ****** ****** */
 
-#define ATSderef(pmv) (*(pmv))
-#define ATSderef2(pmv, hit) (*(hit*)pmv)
+#define ATSderef(pmv, hit) (*(hit*)pmv)
 
 /* ****** ****** */
 /*

@@ -84,9 +84,16 @@ end // end of [primval_is_mutable]
 (* ****** ****** *)
 
 implement
-primval_make_funlab (loc, fl) = let
+primval_make_funlab
+  (loc, fl) = let
   val hse = funlab_get_type (fl) in primval_funlab (loc, hse, fl)
 end // end of [primval_make_funlab]
+
+implement
+primval_make_funlab2
+  (loc, d2v, fl) = let
+  val hse = funlab_get_type (fl) in primval_funlab2 (loc, hse, d2v, fl)
+end // end of [primval_make_funlab2]
 
 (* ****** ****** *)
 

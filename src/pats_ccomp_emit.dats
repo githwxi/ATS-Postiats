@@ -844,10 +844,13 @@ implement
 emit_primval_argref
   (out, pmv0) = let
 //
+val hse0 = pmv0.primval_type
 val-PMVargref (narg) = pmv0.primval_node
 //
 val () = emit_text (out, "ATSderef(")
 val () = fprintf (out, "arg%i", @(narg))
+val () = emit_text (out, ", ")
+val () = emit_hisexp (out, hse0)
 val () = emit_rparen (out)
 //
 in
@@ -959,7 +962,9 @@ fun auxmain (
   out: FILEref
 , pmv: primval, hse: hisexp
 ) : void = let
-  val () = emit_text (out, "ATSderef2(")
+  val () =
+    emit_text (out, "ATSderef(")
+  // end of [val]
   val () = emit_primval (out, pmv)
   val () = emit_text (out, ", ")
   val () = emit_hisexp (out, hse)

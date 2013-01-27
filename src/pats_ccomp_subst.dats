@@ -62,6 +62,7 @@ staload "./pats_staexp2_util.sats"
 (* ****** ****** *)
 
 staload "./pats_histaexp.sats"
+staload "./pats_hidynexp.sats"
 
 (* ****** ****** *)
 
@@ -229,6 +230,15 @@ fun instrlst_subst
 //
 (* ****** ****** *)
 
+extern
+fun ccompenv_add_fundecsloc_subst (
+  env: !ccompenv
+, map: !tmpmap, sub: !stasub
+, knd: funkind, decarg: s2qualst, hfds: hifundeclst
+) : void // end of [ccompenv_add_fundecsloc_subst]
+
+(* ****** ****** *)
+
 implement
 funlab_subst
   (sub, flab) = flab2 where {
@@ -368,8 +378,19 @@ val tmpmap2 = tmpmap_make (tmplst2)
 //
 val tmpret2 = tmpvar2var (tmpmap2, tmpret)
 //
-val-Some (d2c) = funlab_get_d2copt (flab)
-val () = ccompenv_add_tmpcstmat (env, TMPCSTMATsome2 (d2c, tmparg2, flab2))
+val () = let
+  val opt = funlab_get_d2copt (flab)
+in
+//
+case+ opt of
+| Some (d2c) =>
+    ccompenv_add_tmpcstmat (
+    env, TMPCSTMATsome2 (d2c, tmparg2, flab2)
+  ) // end of [Some]
+| None () => ()
+//
+end // end of [val]
+//
 val inss2 = instrlst_subst (env, tmpmap2, sub, inss, sfx)
 //
 val ((*void*)) = tmpvarmap_vt_free (tmpmap2)
@@ -389,6 +410,10 @@ implement
 primval_subst (
   env, map, sub, pmv0, sfx
 ) = let
+//
+val (
+) = println!
+  ("primval_subst: pmv0 = ", pmv0)
 //
 val loc0 = pmv0.primval_loc
 val hse0 = pmv0.primval_type
@@ -417,27 +442,18 @@ case+
 //
 | PMVcastfn
     (d2c, pmv) => let
-    val pmv = fpmv (pmv) in primval_castfn (loc0, hse0, d2c, pmv)
+    val pmv = fpmv (pmv)
+  in
+    primval_castfn (loc0, hse0, d2c, pmv)
   end // end of [PMVcastfn]
 //
 | PMVsizeof (hselt) => let
-    val hselt = hisexp_subst (sub, hselt) in primval_sizeof (loc0, hse0, hselt)
-  end // end of [PMVsizeof]
-//
-| PMVtmpltcst
-    (d2c, t2mas) => let
-    val trd = ccompenv_get_tmprecdepth (env)
-    val mtrd = $GLO.the_CCOMPENV_maxtmprecdepth_get ()
+    val hselt =
+      hisexp_subst (sub, hselt)
+    // end of [val]
   in
-    if trd < mtrd then let
-      val t2mas = t2mpmarglst_subst (loc0, sub, t2mas)
-      val tmpmat = ccompenv_tmpcst_match (env, d2c, t2mas)
-    in
-      ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, tmpmat)
-    end else
-      pmv0 // HX-2013-01: maximal tmprecdepth is reached!
-    // end of [if]
-  end // end of [PMVtmpltcst]
+    primval_sizeof (loc0, hse0, hselt)
+  end // end of [PMVsizeof]
 //
 | PMVselcon
     (pmv, hse_sum, lab) => let
@@ -492,6 +508,35 @@ case+
     (knd, pmv) => let
     val pmv = fpmv (pmv) in primval_refarg (loc0, hse0, knd, pmv)
   end // of [PMVrefarg]
+//
+| PMVfunlab
+    (flab) => primval_funlab (loc0, hse0, flab)
+| PMVfunlab2
+    (d2v, flab) => let
+    val opt = ccompenv_find_varbind (env, d2v)
+  in
+    case+ opt of
+    | ~Some_vt (
+        pmv_flab
+      ) => pmv_flab
+    | ~None_vt (
+      ) => primval_funlab2 (loc0, hse0, d2v, flab)
+  end // end of [PMVfunlab2]
+//
+| PMVtmpltcst
+    (d2c, t2mas) => let
+    val trd = ccompenv_get_tmprecdepth (env)
+    val mtrd = $GLO.the_CCOMPENV_maxtmprecdepth_get ()
+  in
+    if trd < mtrd then let
+      val t2mas = t2mpmarglst_subst (loc0, sub, t2mas)
+      val tmpmat = ccompenv_tmpcst_match (env, d2c, t2mas)
+    in
+      ccomp_tmpcstmat (env, loc0, hse0, d2c, t2mas, tmpmat)
+    end else
+      pmv0 // HX-2013-01: maximal tmprecdepth is reached!
+    // end of [if]
+  end // end of [PMVtmpltcst]
 //
 | _ => pmv0
 //
@@ -590,7 +635,17 @@ case+
     val () = ccompenv_add_impdecloc (env, imp) in pmd0
   end // end of [PMDimpdec]
 //
-| PMDfundecs _ => pmd0
+| PMDfundecs
+    (knd, decarg, hfds) => let
+    val () =
+      ccompenv_add_fundecsloc (env, knd, decarg, hfds)
+    // end of [val]
+    val () =
+      ccompenv_add_fundecsloc_subst (env, map, sub, knd, decarg, hfds)
+    // end of [val]
+  in
+    pmd0
+  end // end of [PMDfundecs]
 //
 | PMDvaldecs
     (knd, hvds, inss) => let
@@ -884,6 +939,100 @@ val () = loop (env, map, sub, inss, sfx, res)
 in
   res
 end // end of [instrlst_subst]
+
+(* ****** ****** *)
+
+local
+
+extern
+fun auxinit
+  {n:nat} (
+  env: !ccompenv
+, map: !tmpmap, sub: !stasub, hfds: list (hifundec, n)
+) : list_vt (funlab, n)
+implement
+auxinit (
+  env, map, sub, hfds
+) = let
+in
+//
+case+ hfds of
+| list_cons
+    (hfd, hfds) => let
+    val-Some (flab) =
+      hifundec_get_funlabopt (hfd)
+    // end of [val]
+//
+    val sfx = funlab_incget_ncopy (flab)
+    val flab2 = funlab_subst (sub, flab)
+    val () = funlab_set_suffix (flab2, sfx)
+    val () = the_funlablst_add (flab2)
+//
+    val loc = hfd.hifundec_loc
+    val d2v = hfd.hifundec_var
+    val pmv = primval_make_funlab (loc, flab2)
+    val () = ccompenv_add_varbind (env, d2v, pmv)
+//
+    val flabs2 = auxinit (env, map, sub, hfds)
+  in
+    list_vt_cons (flab2, flabs2)
+  end
+| list_nil () => list_vt_nil ()
+//
+end // end of [auxinit]
+
+extern
+fun auxmain
+  {n:nat} (
+  env: !ccompenv
+, map: !tmpmap, sub: !stasub
+, hfds: list (hifundec, n), flabs: list_vt (funlab, n)
+) : void // end of [val]
+implement
+auxmain (
+  env, map, sub, hfds, flabs2
+) = let
+in
+//
+case+ hfds of
+| list_cons
+    (hfd, hfds) => let
+    val+~list_vt_cons (flab2, flabs2) = flabs2
+    val-Some (flab) = funlab_get_origin (flab2)
+    val-Some (fent) = funlab_get_funent (flab)
+    val sfx = funlab_get_suffix (flab2)
+    val fent2 = funent_subst (env, sub, flab2, fent, sfx)
+    val () = funlab_set_funent (flab2, Some (fent2))
+  in
+    auxmain (env, map, sub, hfds, flabs2)
+  end // end of [list_cons]
+| list_nil () => let
+    val+~list_vt_nil () = flabs2 in (*nothing*)
+  end // end of [list_nil]
+//
+end // end of [auxmain]
+
+in (* in of [local] *)
+
+implement
+ccompenv_add_fundecsloc_subst (
+  env, map, sub, knd, decarg, hfds
+) = let
+in
+//
+case+ decarg of
+| list_nil (
+  ) => let
+    val flabs = auxinit (env, map, sub, hfds)
+    val () = auxmain (env, map, sub, hfds, flabs)
+  in
+    // nothing
+  end // end of [list_nil]
+| list_cons _ => ()
+//
+end // end of [ccompenv_add_fundecsloc_subst]
+
+end // end of [local]
 
 (* ****** ****** *)
 
