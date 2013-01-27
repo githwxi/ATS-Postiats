@@ -108,7 +108,6 @@ end // end of [arrayptr_uninitize]
 
 #atscode_separator()
 
-(*
 implement
 {a}{env}
 arrayptr_foreach_env
@@ -118,7 +117,6 @@ arrayptr_foreach_env
   val res = array_foreach_env<a><env> (!p, asz, env)
   prval () = arrayptr_addback (pfarr | A)
 } // end of [arrayptr_foreach_env]
-*)
 
 #atscode_separator()
 
@@ -148,7 +146,6 @@ end // end of [arrayptr_foreach_funenv]
 
 #atscode_separator()
 
-(*
 implement
 {a}{env}
 arrayptr_rforeach_env
@@ -158,7 +155,6 @@ arrayptr_rforeach_env
   val res = array_rforeach_env<a><env> (!p, asz, env)
   prval () = arrayptr_addback (pfarr | A)
 } // end of [arrayptr_rforeach_env]
-*)
 
 #atscode_separator()
 
