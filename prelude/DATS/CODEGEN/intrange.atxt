@@ -27,7 +27,11 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 #atscode_separator()
 
 implement{env}
-intrange_foreach$cont (l, env) = true
+intrange_foreach$cont (i, env) = true
+(*
+implement{env}
+intrange_foreach$fwork (i, env) = ((*void*))
+*)
 
 implement{}
 intrange_foreach (l, r) = let
@@ -57,7 +61,11 @@ end // end of [intrange_foreach_env]
 #atscode_eof_strsub("\#thisfilename$")\
 
 implement{env}
-intrange_rforeach$cont (r, env) = true
+intrange_rforeach$cont (i, env) = true
+(*
+implement{env}
+intrange_rforeach$fwork (i, env) = ((*void*))
+*)
 
 implement{}
 intrange_rforeach (l, r) = let
