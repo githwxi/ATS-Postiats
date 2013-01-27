@@ -14,7 +14,7 @@
 //
 // HX: [fun] declares a recursive function
 //
-fun fact1 (x: int): int = if x > 0 then x * fact1 (x-1) else 1
+fun fact (x: int): int = if x > 0 then x * fact (x-1) else 1
 
 (* ****** ****** *)
 //
@@ -23,24 +23,30 @@ fun fact1 (x: int): int = if x > 0 then x * fact1 (x-1) else 1
 // is a special kind of recursive function that does not call itself.
 // [@(...)] is used in ATS to group arguments for variadic functions
 //
-fn fact1_usage (cmd: string): void =
-  prerrf ("Usage: %s [integer]\n", @(cmd)) // print an error message
-// end of [fact1_usage]
+fn fact_usage
+  (cmd: string): void = prerrln! ("Usage: ", cmd, " [integer]")
+// end of [fact_usage]
 
 (* ****** ****** *)
 
 implement
-main (argc, argv) =
-  if argc >= 2 then let
-    val n = g0int_of_string
-      (argv[1]) // turning string into integer
-    val r = fact1 (n)
-  in
-    printf ("factorial of %i = %i\n", @(n, r))
-  end else let
-    val () = fact1_usage (argv[0]) in exit (1)
-  end // end of [if]
-// end of [main]
+main (
+  argc, argv
+) = let
+in
+//
+if argc >= 2 then let
+  val n = g0int_of_string
+    (argv[1]) // turning string into integer
+  val r = fact (n)
+  val () = println! ("factorial of ", n, " = ", r)
+in
+  0 (*normal*)
+end else let
+  val () = fact_usage (argv[0]) in exit (1)
+end // end of [if]
+//
+end // end of [main]
 
 (* ****** ****** *)
 
