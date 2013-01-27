@@ -15,7 +15,7 @@ val A = arrayptr_make_intrange (0, n)
 typedef a = int
 typedef tenv = int
 implement
-array_foreach$fwork<a><tenv> (x, env) = env := env * x
+array_foreach$fwork<a><tenv> (x, env) = env := env * (x+1)
 //
 var env: tenv = 1
 //

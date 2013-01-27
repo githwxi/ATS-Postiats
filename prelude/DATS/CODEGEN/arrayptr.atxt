@@ -83,6 +83,38 @@ end // end of [arrayptr_make_elt]
 
 #atscode_separator()
 
+implement
+arrayptr_make_intrange
+  {l,r} (l, r) = let
+//
+val asz = g1int2uint (r-l)
+val [A:addr] A =
+  arrayptr_make_uninitized<int> (asz)
+//
+val p0 = ptrcast (A)
+//
+fun loop
+  {n:nat} .<n>. (
+  p0: ptr, asz: size_t n, l: int
+) :<!wrt> void = let
+in
+//
+if asz > 0 then let
+  val () = $UN.ptr0_set<int> (p0, l)
+in
+  loop (ptr0_succ<int> (p0), pred (asz), l+1)
+end else () // end of [if]
+//
+end // end of [loop]
+//
+val () = loop (p0, asz, l)
+//
+in
+  $UN.castvwtp0{arrayptr(intBtw(l,r),A,r-l)}(A)
+end // end of [arrayptr_make_intrange]
+
+#atscode_separator()
+
 implement{a}
 arrayptr_make_list
   (asz, xs) = let

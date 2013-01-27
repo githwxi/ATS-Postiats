@@ -576,27 +576,30 @@ fun prelude_load (
   val () = stacst2_initialize () // internalizing some static consts
   val () = $CNSTR3.constraint3_initialize () // internalizing some maps
 //
-  val () = pervasive_load (ATSHOME, "prelude/SATS/arith_prf.sats")
+  val () =
+    pervasive_load (ATSHOME, "prelude/SATS/arith_prf.sats")
+  // end of [val]
+//
+  val () = pervasive_load (ATSHOME, "prelude/SATS/integer.sats")
+//
+  val () = pervasive_load (ATSHOME, "prelude/SATS/memory.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/pointer.sats")
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/bool.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/char.sats")
-  val () = pervasive_load (ATSHOME, "prelude/SATS/integer.sats")
-  val () = pervasive_load (ATSHOME, "prelude/SATS/float.sats")
-  val () = pervasive_load (ATSHOME, "prelude/SATS/tuple.sats")
-//
-  val () = pervasive_load (ATSHOME, "prelude/SATS/memory.sats")
-//
-  val () = pervasive_load (ATSHOME, "prelude/SATS/pointer.sats")
-  val () = pervasive_load (ATSHOME, "prelude/SATS/reference.sats")
-//
   val () = pervasive_load (ATSHOME, "prelude/SATS/string.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/strptr.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/float.sats")
 //
-  val () = pervasive_load (ATSHOME, "prelude/SATS/lazy.sats")
-  val () = pervasive_load (ATSHOME, "prelude/SATS/lazy_vt.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/tuple.sats")
+//
+  val () = pervasive_load (ATSHOME, "prelude/SATS/reference.sats")
 //
   val () = pervasive_load (ATSHOME, "prelude/SATS/filebas.sats")
   val () = pervasive_load (ATSHOME, "prelude/SATS/intrange.sats")
+//
+  val () = pervasive_load (ATSHOME, "prelude/SATS/lazy.sats")
+  val () = pervasive_load (ATSHOME, "prelude/SATS/lazy_vt.sats")
 //
 (*
   val () = pervasive_load (ATSHOME, "prelude/SATS/unsafe.sats") // manual loading
