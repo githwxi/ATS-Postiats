@@ -111,6 +111,12 @@ arrayref_make_listlen
 #atscode_separator()
 
 fun{a:vt0p}
+fprint_arrayref
+  {n:int} (
+  out: FILEref, A: arrayref (INV(a), n), n: size_t n
+) : void // end of [fprint_arrayref]
+
+fun{a:vt0p}
 fprint_arrayref_sep
   {n:int} (
   out: FILEref

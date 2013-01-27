@@ -47,6 +47,17 @@ end // end of [arrayptr_get_at_guint]
 #atscode_separator()
 
 implement{a}
+fprint_arrayptr
+  (out, A, n) = () where {
+  val p = ptrcast (A)
+  prval pf = arrayptr_takeout (A)
+  val () = fprint_array<a> (out, !p, n)
+  prval () = arrayptr_addback (pf | A)
+} // end of [fprint_arrayptr]
+
+#atscode_separator()
+
+implement{a}
 fprint_arrayptr_sep
   (out, A, n, sep) = () where {
   val p = ptrcast (A)

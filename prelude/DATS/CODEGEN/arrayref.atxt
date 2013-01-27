@@ -95,9 +95,23 @@ end // end of [arrayref_make_elt]
 #atscode_separator()
 
 implement{a}
+fprint_arrayref
+  (out, A, n) = let
+  val (
+    vbox pf | p
+  ) = arrayref_get_viewptr (A)
+in
+  $effmask_ref (fprint_array (out, !p, n))
+end // end of [fprint_arrayref]
+
+#atscode_separator()
+
+implement{a}
 fprint_arrayref_sep
   (out, A, n, sep) = let
-  val (vbox pf | p) = arrayref_get_viewptr (A)
+  val (
+    vbox pf | p
+  ) = arrayref_get_viewptr (A)
 in
   $effmask_ref (fprint_array_sep (out, !p, n, sep))
 end // end of [fprint_arrayref_sep]

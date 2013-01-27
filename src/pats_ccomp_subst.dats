@@ -431,6 +431,9 @@ case+
 | PMVtmp (tmp) => let
     val tmp = ftmp (tmp) in primval_tmp (loc0, hse0, tmp)
   end // end of [PMVtmp]
+| PMVtmpref (tmp) => let
+    val tmp = ftmp (tmp) in primval_tmpref (loc0, hse0, tmp)
+  end // end of [PMVtmpref]
 //
 | PMVarg (n) => primval_arg (loc0, hse0, n)
 | PMVargref (n) => primval_argref (loc0, hse0, n)
