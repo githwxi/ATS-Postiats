@@ -54,7 +54,7 @@ val file_mode_aa : file_mode (rw()) // = "a+"
 ** HX: [stat] is called
 *)
 fun test_file_exists
-  (path: NSH(string)): bool = "atspre_test_file_exists"
+  (path: NSH(string)): bool = "mac\#atspre_test_file_exists"
 // end of [test_file_exists]
 
 #atscode_separator()
@@ -67,20 +67,26 @@ fun test_file_mode (path: NSH(string), f: uint -> bool): int
 //
 // HX: [stat] is called // ~1/0/1: error/false/true
 //
-fun test_file_isblk (path: NSH(string)): int = "atspre_test_file_isblk"
-fun test_file_ischr (path: NSH(string)): int = "atspre_test_file_ischr"
-fun test_file_isdir (path: NSH(string)): int = "atspre_test_file_isdir"
-fun test_file_isfifo (path: NSH(string)): int = "atspre_test_file_isfifo"
-fun test_file_isreg (path: NSH(string)): int = "atspre_test_file_isreg"
+fun test_file_isblk
+  (path: NSH(string)): int = "mac\#atspre_test_file_isblk"
+fun test_file_ischr
+  (path: NSH(string)): int = "mac\#atspre_test_file_ischr"
+fun test_file_isdir
+  (path: NSH(string)): int = "mac\#atspre_test_file_isdir"
+fun test_file_isfifo
+  (path: NSH(string)): int = "mac\#atspre_test_file_isfifo"
+fun test_file_isreg
+  (path: NSH(string)): int = "mac\#atspre_test_file_isreg"
 //
 // HX: [lstat] is called // ~1/0/1: error/false/true
 //
-fun test_file_islnk (path: NSH(string)): int = "atspre_test_file_islnk"
-
+fun test_file_islnk
+  (path: NSH(string)): int = "mac\#atspre_test_file_islnk"
+//
 #atscode_separator()
 
 fun fileref_open_exn
-  (path: NSH(string), fm: file_mode): FILEref
+  (path: NSH(string), fm: file_mode): FILEref = "mac\#atspre_fileref_open_exn"
 // end of [fileref_open_exn]
 
 fun fileref_open_opt
@@ -89,31 +95,43 @@ fun fileref_open_opt
 
 #atscode_separator()
 
-fun fileref_close (r: FILEref): void
+fun fileref_close (r: FILEref): void = "mac\#atspre_fileref_close"
 
 #atscode_separator()
 
-fun fileref_flush (r: FILEref): void
+fun fileref_flush (r: FILEref): void = "mac\#atspre_fileref_flush"
 
 #atscode_separator()
-
-fun fileref_getc (r: FILEref): int // HX: error indication: EOF
-
+//
+// HX: error indication: EOF
+//
+fun fileref_getc (r: FILEref): int = "mac\#atspre_fileref_getc"
+//
+#atscode_separator()
+//
+// HX: no error reporting
+//
+symintr fileref_putc
+//
+fun fileref_putc_int
+  (r: FILEref, c: int): void = "mac\#atspre_fileref_putc_int"
+overload fileref_putc with fileref_putc_int
+fun fileref_putc_char
+  (r: FILEref, c: char): void = "mac\#atspre_fileref_putc_char"
+overload fileref_putc with fileref_putc_char
+//
+#atscode_separator()
+//
+// HX: no error reporting
+//
+fun fileref_puts
+  (r: FILEref, s: NSH(string)): void = "mac\#atspre_fileref_puts"
+//
 #atscode_separator()
 
-fun{a:t0p}
-fileref_putc (r: FILEref, c: a): void // HX: no error reporting
-
-fun fileref_putc_int (r: FILEref, c: int): void // HX: no error reporting
-fun fileref_putc_char (r: FILEref, c: char): void // HX: no error reporting
-
-#atscode_separator()
-
-fun fileref_puts (r: FILEref, s: NSH(string)): void // HX: no error reporting
-
-#atscode_separator()
-
-fun fileref_is_eof (r: FILEref): bool
+fun fileref_is_eof
+  (r: FILEref): bool = "mac\#atspre_fileref_is_eof"
+// end of [fileref_is_eof]
 
 macdef fileref_isnot_eof (r) = ~fileref_is_eof (,(r))
 

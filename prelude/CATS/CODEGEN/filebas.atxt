@@ -39,6 +39,96 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
+ATSinline()
+atstype_ref
+atspre_fileref_open_exn
+  (atstype_string path, atstype_string fm)
+{
+  FILE* filr ;
+  filr = fopen((char*)path, (char*)fm) ;
+  if (!filr) {
+    fprintf(
+      stderr
+    , "exit(ATS): [atspre_fileref_open_exn(%s, %s)] failed.\n"
+    , (char*)path, (char*)fm
+    ) ;
+    exit(1) ;
+  }
+  return filr ;
+} // end of [atspre_fileref_open]
+
+#atscode_separator_for_C()
+
+ATSinline()
+atsvoid_t0ype
+atspre_fileref_close
+  (atstype_ref filr)
+{
+  int err ;
+  err = fclose((FILE*)filr) ;
+  if (err) {
+    fprintf(
+      stderr
+    , "exit(ATS): [atspre_fileref_close] failed.\n"
+    ) ;
+    exit(1) ;
+  }
+  return ;
+} // end of [atspre_fileref_close]
+
+#atscode_separator_for_C()
+
+ATSinline()
+atsvoid_t0ype
+atspre_fileref_flush
+  (atstype_ref filr)
+{
+  int err ;
+  err = fflush((FILE*)filr) ;
+  if (err) {
+    fprintf(
+      stderr
+    , "exit(ATS): [atspre_fileref_fflush] failed.\n"
+    ) ;
+    exit(1) ;
+  }
+  return ;
+} // end of [atspre_fileref_flush]
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_int
+atspre_fileref_getc
+  (atstype_ref filr) { return fgetc((FILE*)filr) ; }
+// end of [atspre_fileref_getc]
+
+#atscode_separator_for_C()
+
+ATSinline()
+atsvoid_t0ype
+atspre_fileref_putc_int
+(
+  atstype_ref filr, atstype_int c
+) {
+  fputc (c, (FILE*)filr) ; return ;
+} // end of [fileref_putc_int]
+
+\#define fileref_putc_char(c, filr) fileref_putc_int((atstype_int)(c), filr)
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_bool
+atspre_fileref_is_eof (atstype_ref filr)
+{
+  int eof ;
+  eof = feof ((FILE*)filr) ;
+  return (eof != 0 ? atsbool_true : atsbool_false) ;
+} // end of [fileref_is_eof]
+
+#atscode_separator_for_C()
+
 \#endif // ifndef ATSHOME_PRELUDE_FILEBAS_CATS
 
 #atscode_separator_for_C()

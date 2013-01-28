@@ -326,7 +326,7 @@ praxi opt_clear
 (* ****** ****** *)
 
 absvtype
-argv_int_vtype (n:int)
+argv_int_vtype (n:int) = ptr
 stadef argv = argv_int_vtype
 
 (*
@@ -334,8 +334,9 @@ stadef argv = argv_int_vtype
 [argv_takeout_parrnull] is declared in prelude/SATS/extern.sats
 *)
 
-fun argv_get_at
-  {n:int} (argv: !argv (n), i: natLt n): string
+fun
+argv_get_at {n:int}
+  (argv: !argv (n), i: natLt n):<> string = "mac#atspre_argv_get_at"
 overload [] with argv_get_at
 
 (* ****** ****** *)

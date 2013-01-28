@@ -38,9 +38,15 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator_for_C()
 
-\#define stdin_ref stdin
-\#define stdout_ref stdout
-\#define stderr_ref stderr
+ATSinline()
+atstype_string
+atspre_argv_get_at
+(
+  atstype_arrptr argv, atstype_int i
+)
+{
+  return ((atstype_string*)argv)[i] ;
+} /* end of [atspre_argv_get_at] */
 
 #atscode_separator_for_C()
 
