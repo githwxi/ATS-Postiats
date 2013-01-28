@@ -408,10 +408,12 @@ stadef rw() = file_mode_rw ()
 
 abstype file_mode (file_mode) = string
 typedef file_mode = [fm:file_mode] file_mode (fm)
+typedef fmode = file_mode // HX-2013-01: shorthand
 
 (* ****** ****** *)
 
-dataprop file_mode_lte
+dataprop
+file_mode_lte
   (file_mode, file_mode) =
   | {m:file_mode} file_mode_lte_refl (m, m)
   | {m1,m2,m3:file_mode}
