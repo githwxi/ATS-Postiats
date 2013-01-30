@@ -47,7 +47,7 @@ castfn file_mode
   {fm:file_mode} (x: string):<> file_mode (fm)
 // end of [extern]
 
-in // in of [local]
+in (* in of [local] *)
 
 implement file_mode_r = file_mode ("r")
 implement file_mode_rr = file_mode ("r+")
@@ -66,46 +66,72 @@ __cast_filp (r: FILEref): FILEptr1
 
 #atscode_separator()
 
+(*
+//
+// HX: atspre_fileref_close
+//
 implement
 fileref_close (filr) = $STDIO.fclose0_exn (filr)
+*)
 
 #atscode_separator()
 
+(*
+//
+// HX: atspre_fileref_flush
+//
+*)
 implement
 fileref_flush (filr) = $STDIO.fflush0_exn (filr)
 
 #atscode_separator()
 
+(*
+//
+// HX: atspre_fileref_getc
+//
+*)
 implement
 fileref_getc (filr) = $STDIO.fgetc0_err (filr)
 
 #atscode_separator()
 
-implement
-fileref_putc<int> (filr, c) = fileref_putc_int (filr, c)
-implement
-fileref_putc<char> (filr, c) = fileref_putc_char (filr, c)
-
+(*
+//
+// HX: atspre_fileref_putc_int
+// HX: atspre_fileref_putc_char
+//
 implement
 fileref_putc_int (filr, c) = let
   val _(*ignored*) = $STDIO.fputc0_err (c, filr) in (*nothing*)
 end // end of [fileref_putc_int]
 implement
 fileref_putc_char (filr, c) = fileref_putc_int (filr, (c2i)c)
+*)
 
 #atscode_separator()
 
+(*
+//
+// HX: atspre_fileref_puts
+//
 implement
 fileref_puts (filr, s) = let
   val _(*ignored*) = $STDIO.fputs0_err (s, filr) in (*nothing*)
 end // end of [fileref_puts]
+*)
 
 #atscode_separator()
 
+(*
+//
+// HX: atspre_fileref_is_eof
+//
 implement
 fileref_is_eof (filr) =
-  if $STDIO.feof0 (filr) = 0 then false else true
+  if $STDIO.feof0 (filr) != 0 true else false
 // end of [fileref_is_eof]
+*)
 
 #atscode_separator()
 

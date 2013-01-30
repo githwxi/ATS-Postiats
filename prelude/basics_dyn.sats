@@ -326,7 +326,7 @@ praxi opt_clear
 (* ****** ****** *)
 
 absvtype
-argv_int_vtype (n:int)
+argv_int_vtype (n:int) = ptr
 stadef argv = argv_int_vtype
 
 (*
@@ -334,8 +334,9 @@ stadef argv = argv_int_vtype
 [argv_takeout_parrnull] is declared in prelude/SATS/extern.sats
 *)
 
-fun argv_get_at
-  {n:int} (argv: !argv (n), i: natLt n): string
+fun
+argv_get_at {n:int}
+  (argv: !argv (n), i: natLt n):<> string = "mac#atspre_argv_get_at"
 overload [] with argv_get_at
 
 (* ****** ****** *)
@@ -407,10 +408,12 @@ stadef rw() = file_mode_rw ()
 
 abstype file_mode (file_mode) = string
 typedef file_mode = [fm:file_mode] file_mode (fm)
+typedef fmode = file_mode // HX-2013-01: shorthand
 
 (* ****** ****** *)
 
-dataprop file_mode_lte
+dataprop
+file_mode_lte
   (file_mode, file_mode) =
   | {m:file_mode} file_mode_lte_refl (m, m)
   | {m1,m2,m3:file_mode}

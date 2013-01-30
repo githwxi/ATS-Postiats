@@ -49,6 +49,10 @@ end // end of [unit_v_elim]
 
 #atscode_separator()
 
+(*
+//
+// HX: [atspre_argv_at_at] in basics.cats
+//
 implement
 argv_get_at
   (argv, i) = x where {
@@ -57,6 +61,7 @@ argv_get_at
   val x = !p.[i]
   prval () = minus_addback (fpf, pf | argv)
 } // end of [argv_get_at]
+*)
 
 #atscode_separator()
 

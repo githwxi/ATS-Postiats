@@ -103,7 +103,7 @@
 /*
 ** HX: castfn application
 */
-#define ATSPMVcastfn(d2c, hit, arg) ((hit*)arg)
+#define ATSPMVcastfn(d2c, hit, arg) ((hit)arg)
 
 /* ****** ****** */
 
