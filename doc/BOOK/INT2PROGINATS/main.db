@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+<!--
+<!ENTITY ae "&#228;">
+<!ENTITY oe "&#246;">
+<!ENTITY ae "&auml;">
+<!ENTITY oe "&ouml;">
+-->
+<!ENTITY ae "ae">
+<!ENTITY oe "oe">
+<!ENTITY bookinfo SYSTEM "bookinfo.db">
+<!ENTITY preface SYSTEM "preface.db">
+<!ENTITY chap_start SYSTEM "CHAP_START/main.db">
+]>
+<book id="proginats" lang="en">
+&bookinfo;
+
+<dedication>
+<para>
+<!--
+To my wife Jinning and daughter Zoe.
+-->
+To Jinning and Zoe.
+</para>
+</dedication>
+
+&preface;
+<toc></toc>
+<!-- We are done with the preliminaries, now we can start with the body of the document -->
+
+<part
+id="basic_functional_programming"
+>
+<title>Basic Functional Programming</title>
+&chap_start;
+</part>
+<!--"basic_functional_programming"-->
+
+</book>
