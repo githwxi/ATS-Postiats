@@ -128,8 +128,8 @@ atspre_fprint_ptr (
   return ;
 } // end [atspre_fprint_ptr]
 
-\#define atspre_print_ptr(x) atspre_fprint_ptr(stdout_ref, (x))
-\#define atspre_prerr_ptr(x) atspre_fprint_ptr(stderr_ref, (x))
+\#define atspre_print_ptr(x) atspre_fprint_ptr(stdout, (x))
+\#define atspre_prerr_ptr(x) atspre_fprint_ptr(stderr, (x))
 
 #atscode_separator_for_C()
 

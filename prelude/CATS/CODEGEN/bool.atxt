@@ -141,8 +141,8 @@ atspre_fprint_bool (
   return ;
 } // end [atspre_fprint_bool]
 
-\#define atspre_print_bool(x) atspre_fprint_bool(stdout_ref, (x))
-\#define atspre_prerr_bool(x) atspre_fprint_bool(stderr_ref, (x))
+\#define atspre_print_bool(x) atspre_fprint_bool(stdout, (x))
+\#define atspre_prerr_bool(x) atspre_fprint_bool(stderr, (x))
 
 #atscode_separator_for_C()
 

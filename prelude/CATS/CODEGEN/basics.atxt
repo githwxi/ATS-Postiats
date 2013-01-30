@@ -83,8 +83,8 @@ atspre_fprint_newline
   return ;
 } // end [atspre_fprint_newline]
 
-\#define atspre_print_newline() atspre_fprint_newline(stdout_ref)
-\#define atspre_prerr_newline() atspre_fprint_newline(stderr_ref)
+\#define atspre_print_newline() atspre_fprint_newline(stdout)
+\#define atspre_prerr_newline() atspre_fprint_newline(stderr)
 
 #atscode_separator_for_C()
 

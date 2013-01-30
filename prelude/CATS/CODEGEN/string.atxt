@@ -65,8 +65,8 @@ atspre_fprint_string
   return ;
 } // end of [atspre_fprint_string]
 
-\#define atspre_print_string(x) atspre_fprint_string(stdout_ref, (x))
-\#define atspre_prerr_string(x) atspre_fprint_string(stderr_ref, (x))
+\#define atspre_print_string(x) atspre_fprint_string(stdout, (x))
+\#define atspre_prerr_string(x) atspre_fprint_string(stderr, (x))
 
 #atscode_separator_for_C()
 

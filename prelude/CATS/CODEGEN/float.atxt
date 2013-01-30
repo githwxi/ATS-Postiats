@@ -149,8 +149,8 @@ atspre_fprint_float (
   return ;
 } // end [atspre_fprint_float]
 
-\#define atspre_print_float(x) atspre_fprint_float(stdout_ref, (x))
-\#define atspre_prerr_float(x) atspre_fprint_float(stderr_ref, (x))
+\#define atspre_print_float(x) atspre_fprint_float(stdout, (x))
+\#define atspre_prerr_float(x) atspre_fprint_float(stderr, (x))
 
 ATSinline()
 atsvoid_t0ype
@@ -162,8 +162,8 @@ atspre_fprint_double (
   return ;
 } // end [atspre_fprint_double]
 
-\#define atspre_print_double(x) atspre_fprint_double(stdout_ref, (x))
-\#define atspre_prerr_double(x) atspre_fprint_double(stderr_ref, (x))
+\#define atspre_print_double(x) atspre_fprint_double(stdout, (x))
+\#define atspre_prerr_double(x) atspre_fprint_double(stderr, (x))
 
 ATSinline()
 atsvoid_t0ype
@@ -175,8 +175,8 @@ atspre_fprint_ldouble (
   return ;
 } // end [atspre_fprint_ldouble]
 
-\#define atspre_print_ldouble(x) atspre_fprint_ldouble(stdout_ref, (x))
-\#define atspre_prerr_ldouble(x) atspre_fprint_ldouble(stderr_ref, (x))
+\#define atspre_print_ldouble(x) atspre_fprint_ldouble(stdout, (x))
+\#define atspre_prerr_ldouble(x) atspre_fprint_ldouble(stderr, (x))
 
 #atscode_separator_for_C()
 

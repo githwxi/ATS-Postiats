@@ -278,8 +278,8 @@ atspre_fprint_intptr
   return ;
 } // end [atspre_fprint_intptr]
 
-\#define atspre_print_intptr(x) atspre_fprint_intptr(stdout_ref, (x))
-\#define atspre_prerr_intptr(x) atspre_fprint_intptr(stderr_ref, (x))
+\#define atspre_print_intptr(x) atspre_fprint_intptr(stdout, (x))
+\#define atspre_prerr_intptr(x) atspre_fprint_intptr(stderr, (x))
 
 #atscode_separator_for_C()
 
@@ -483,8 +483,8 @@ atspre_fprint_uintptr
   return ;
 } // end [atspre_fprint_uintptr]
 
-\#define atspre_print_uintptr(x) atspre_fprint_uintptr(stdout_ref, (x))
-\#define atspre_prerr_uintptr(x) atspre_fprint_uintptr(stderr_ref, (x))
+\#define atspre_print_uintptr(x) atspre_fprint_uintptr(stdout, (x))
+\#define atspre_prerr_uintptr(x) atspre_fprint_uintptr(stderr, (x))
 
 #atscode_separator_for_C()
 
