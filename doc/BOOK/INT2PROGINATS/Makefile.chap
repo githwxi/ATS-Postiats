@@ -1,0 +1,40 @@
+######
+#
+# A simple Makefile
+#
+######
+
+ATSHOMEQ="$(ATSHOME)"
+ATSCC=$(ATSHOMEQ)/bin/atscc
+ATSDOC=$(ATSHOMEQ)/bin/atsdoc
+#LIBATSDOC=$(ATSHOMEQ)/libatsdoc
+
+######
+
+all:: main.db clean
+
+######
+
+main: main_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ main_atxt.dats -latsdoc
+main_atxt.dats: main.atxt
+	$(ATSDOC) --outcode $@ -i main.atxt > main_atxt.txt
+main.db: main ; ./main > $@
+
+######
+
+RMF=rm -f
+
+######
+
+clean:: ; $(RMF) *~
+clean:: ; $(RMF) *_atxt.txt
+clean:: ; $(RMF) *_atxt.dats
+clean:: ; $(RMF) *_?ats.o
+clean:: ; $(RMF) *_?ats.c
+clean:: ; $(RMF) main
+
+cleanall:: clean
+cleanall:: ; $(RMF) main.db
+
+######
