@@ -6,26 +6,7 @@
 val _thisfilename = atext_strcst"float.sats"
 val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 //
-fun
-fprint_print_prerr_decl
-  (tnm: string): atext = let
-//
-val ent = sprintf ("\
-fun fprint_%s
-  : fprint_type (%s) = \"mac#atspre_fprint_%s\"
-overload fprint with fprint_%s
-fun print_%s (x: %s): void = \"mac#atspre_print_%s\"
-overload print with print_%s
-fun prerr_%s (x: %s): void = \"mac#atspre_prerr_%s\"
-overload prerr with prerr_%s\
-", @(
- tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm, tnm
-)
-) // end of [sprintf] // end of [val]
-//
-in
-  atext_strptr (ent)
-end // end of [fprint_print_prerr_decl]
+#include "prelude_SATS_atext.hats"
 //
 %}\
 \
@@ -73,32 +54,6 @@ g0float_aop_type (tk:tk) =
   (g0float (tk), g0float (tk)) -<fun0> g0float (tk)
 // end of [g0float_aop_type]
 
-%{
-fun
-fun_g0float_aop_decl (
-  opr: string
-) : atext = let
-//
-val fopr_d = (
-  case+ opr of
-  | "add" => "+" | "sub" => "-"
-  | "mul" => "*" | "div" => "/" | "mod" => "mod"
-  | _ => opr
-) : string // end of [val]
-//
-val ent = sprintf ("\
-fun{tk:tk}
-g0float_%s : g0float_aop_type (tk)
-overload %s with g0float_%s of 0\
-", @(
- opr, fopr_d, opr
-)
-) // end of [sprintf] // end of [val]
-//
-in
-  atext_strptr (ent)
-end // end of [fun_g0float_aop_decl]
-%}\
 #fun_g0float_aop_decl("add")
 #fun_g0float_aop_decl("sub")
 #fun_g0float_aop_decl("mul")
@@ -133,39 +88,10 @@ g0float_cmp_type (tk:tk) =
   (g0float (tk), g0float (tk)) -<fun0> bool
 // end of [g0float_cmp_type]
 
-%{
-fun
-fun_g0float_cmp_decl (
-  opr: string
-) : atext = let
-//
-val fopr_d = (
-  case+ opr of
-  | "lt" => "<" | "lte" => "<="
-  | "gt" => ">" | "gte" => ">="
-  | "eq" => "=" | "neq" => "!="
-  | _ => opr
-) : string // end of [val]
-//
-val ent = sprintf ("\
-fun{tk:tk}
-g0float_%s : g0float_cmp_type (tk)
-overload %s with g0float_%s of 0\
-", @(
- opr, fopr_d, opr
-)
-) // end of [sprintf] // end of [val]
-//
-in
-  atext_strptr (ent)
-end // end of [fun_g0float_cmp_decl]
-%}\
 #fun_g0float_cmp_decl("lt")
 #fun_g0float_cmp_decl("lte")
-
 #fun_g0float_cmp_decl("gt")
 #fun_g0float_cmp_decl("gte")
-
 #fun_g0float_cmp_decl("eq")
 #fun_g0float_cmp_decl("neq")
 overload <> with g0float_neq of 0
@@ -195,51 +121,6 @@ stadef dblknd = double_kind
 stadef ldblknd = ldouble_kind
 //
 #atscode_separator()
-\
-%{
-//
-staload _(*anon*) = "prelude/DATS/list.dats"
-staload _(*anon*) = "prelude/DATS/list_vt.dats"
-//
-fun g0float_declist (
-  kname: string, tname: string
-) : atext = let
-//
-fun f (
-  opknd: string, opnam: string
-) :<cloref1> atext = let
-//
-val x = sprintf (
-"fun g0float_%s_%s: g0float_%s_type(%s)\n", @(opnam, tname, opknd, kname)
-) (* end of [val] *)
-//
-in
-  atext_strptr (x)
-end // end of [f]
-//
-var res: atextlst = list_nil
-//
-val () = res := list_cons (f ("aop", "add"), res)
-val () = res := list_cons (f ("aop", "sub"), res)
-val () = res := list_cons (f ("aop", "mul"), res)
-val () = res := list_cons (f ("aop", "div"), res)
-val () = res := list_cons (f ("aop", "mod"), res)
-val () = res := list_cons (atext_newline(), res)
-val () = res := list_cons (f ("cmp", "lt"), res)
-val () = res := list_cons (f ("cmp", "lte"), res)
-val () = res := list_cons (f ("cmp", "gt"), res)
-val () = res := list_cons (f ("cmp", "gte"), res)
-val () = res := list_cons (f ("cmp", "eq"), res)
-val () = res := list_cons (f ("cmp", "neq"), res)
-val () = res := list_cons (f ("compare", "compare"), res)
-val () = res := list_cons (atext_newline(), res)
-val () = res := list_cons (f ("aop", "max"), res)
-val () = res := list_cons (f ("aop", "min"), res)
-val res = list_reverse (res)
-in
-  atext_concatxt (list_of_list_vt (res))
-end // end of [g0float_declist]
-%}\
 
 #g0float_declist("fltknd", "float")
 
@@ -253,11 +134,11 @@ end // end of [g0float_declist]
 
 #atscode_separator()
 //
-#fprint_print_prerr_decl("float")
+#fprint_print_prerr_decl("float", "float")
 //
-#fprint_print_prerr_decl("double")
+#fprint_print_prerr_decl("double", "double")
 //
-#fprint_print_prerr_decl("ldouble")
+#fprint_print_prerr_decl("ldouble", "ldouble")
 //
 #atscode_separator()
 

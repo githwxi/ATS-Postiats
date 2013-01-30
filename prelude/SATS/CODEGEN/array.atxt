@@ -272,6 +272,20 @@ a:vt0p}{env:vt0p
 
 #atscode_separator()
 
+fun{a:vt0p}
+array_foreach_funenv
+  {v:view}
+  {vt:viewtype}
+  {n:int}
+  {fe:eff} (
+  pfv: !v
+| A: &(@[INV(a)][n])
+, asz: size_t n
+, f: (!v | &a, !vt) -<fun,fe> void
+, env: !vt
+) :<fe> void
+// end of [array_foreach_funenv]
+
 fun
 array_foreach_funenv_tsz
   {a:vt0p}
@@ -289,19 +303,7 @@ array_foreach_funenv_tsz
   = "atspre_array_foreach_funenv_tsz"
 // end of [array_foreach_funenv_tsz]
 
-fun{a:vt0p}
-array_foreach_funenv
-  {v:view}
-  {vt:viewtype}
-  {n:int}
-  {fe:eff} (
-  pfv: !v
-| A: &(@[INV(a)][n])
-, asz: size_t n
-, f: (!v | &a, !vt) -<fun,fe> void
-, env: !vt
-) :<fe> void
-// end of [array_foreach_funenv]
+#atscode_separator()
 
 fun{a:vt0p}
 array_foreach_fun
