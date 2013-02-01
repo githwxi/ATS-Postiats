@@ -936,17 +936,18 @@ staload UN = "prelude/SATS/unsafe.sats"
 implement
 main () = let
 //
-val xs = $lst{int} (0, 1)
+val xs = $lst{int} (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 val ys = $lst{int} (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+//
+val xys = list_make_intrange (0, 100) // = 0, 1, 2, ..., 99
 //
 implement
 list_crosswith$fwork<int,int><int> (x, y) = 10 * x + y
-//
-val xys = list_crosswith (xs, ys) // = 0, 1, 2, ..., 19
-val xys2 = list_make_intrange (0, 20) // = 0, 1, 2, ..., 19
+val xys2 =
+  list_crosswith<int,int><int> (xs, ys) // = 0, 1, 2, ..., 99
 //
 val iseq = list_equal ($UN.linlst2lst(xys), $UN.linlst2lst(xys2))
-val () = assertloc (iseq) // [xys] and [xys2] contain same elements
+val () = assertloc (iseq) // [xys] and [xys2] contain the same elements
 //
 val () = list_vt_free<int> (xys)
 val () = list_vt_free<int> (xys2)

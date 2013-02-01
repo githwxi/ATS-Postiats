@@ -129,6 +129,72 @@ atspre_fileref_is_eof (atstype_ref filr)
 
 #atscode_separator_for_C()
 
+ATSinline()
+atstype_bool
+atspre_fileref_load_int
+  (atstype_ref inp, atstype_ref x)
+{
+  int n ;
+  n = fscanf((FILE*)inp, "%i", (atstype_int*)x) ;
+  return (n == 1 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_fileref_load_int]
+
+ATSinline()
+atstype_bool
+atspre_fileref_load_lint
+  (atstype_ref inp, atstype_ref x)
+{
+  int n ;
+  n = fscanf((FILE*)inp, "%li", (atstype_lint*)x) ;
+  return (n == 1 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_fileref_load_lint]
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_bool
+atspre_fileref_load_uint
+  (atstype_ref inp, atstype_ref x)
+{
+  int n ;
+  n = fscanf((FILE*)inp, "%u", (atstype_uint*)x) ;
+  return (n == 1 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_fileref_load_uint]
+
+ATSinline()
+atstype_bool
+atspre_fileref_load_ulint
+  (atstype_ref inp, atstype_ref x)
+{
+  int n ;
+  n = fscanf((FILE*)inp, "%lu", (atstype_ulint*)x) ;
+  return (n == 1 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_fileref_load_ulint]
+
+#atscode_separator_for_C()
+
+ATSinline()
+atstype_bool
+atspre_fileref_load_float
+  (atstype_ref inp, atstype_ref x)
+{
+  int n ;
+  n = fscanf((FILE*)inp, "%f", (atstype_float*)x) ;
+  return (n == 1 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_fileref_load_float]
+
+ATSinline()
+atstype_bool
+atspre_fileref_load_double
+  (atstype_ref inp, atstype_ref x)
+{
+  int n ;
+  n = fscanf((FILE*)inp, "%lf", (atstype_double*)x) ;
+  return (n == 1 ? atsbool_true : atsbool_false) ;
+} // end of [atspre_fileref_load_double]
+
+#atscode_separator_for_C()
+
 \#endif // ifndef ATSHOME_PRELUDE_FILEBAS_CATS
 
 #atscode_separator_for_C()

@@ -66,14 +66,21 @@ typedef cfun9 (
 
 (* ****** ****** *)
 
-stadef cfun = cfun1 // HX: the default for [cfun]
+stadef cfun = cfun1
+stadef cfun = cfun2
+stadef cfun = cfun3
+stadef cfun = cfun4
+stadef cfun = cfun5
+stadef cfun = cfun6
+stadef cfun = cfun7
+stadef cfun = cfun8
+stadef cfun = cfun9
 
 (* ****** ****** *)
 
 datatype // t@ype+: covariant
 list0_t0ype_type (a: t@ype+) =
-  | list0_nil of ()
-  | list0_cons of (a, list0_t0ype_type a)
+  | list0_nil of () | list0_cons of (a, list0_t0ype_type a)
 stadef list0 = list0_t0ype_type
 
 (* ****** ****** *)

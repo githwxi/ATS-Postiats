@@ -234,10 +234,12 @@ val N = 10
 val asz = g1int2uint (N)
 val A = arrayptr_make_intrange (0, N)
 //
-var ans: int = 0
+typedef a = int
+typedef tenv = int
+var ans: tenv = 0
 implement
-array_foreach$fwork<int><int> (x, env) = env := env + x
-val _(*ignored*) = arrayptr_foreach_env<int><int> (A, asz, ans)
+array_foreach$fwork<a><tenv> (x, env) = env := env + x
+val _(*ignored*) = arrayptr_foreach_env<a><tenv> (A, asz, ans)
 //
 val () = arrayptr_free (A)
 //

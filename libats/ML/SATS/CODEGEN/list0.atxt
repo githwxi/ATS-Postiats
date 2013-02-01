@@ -41,8 +41,9 @@ typedef NSH(a:type) = a // for commenting purpose
 
 #atscode_separator()
 
-typedef cfun (a: t0p, b:t0p) = (a) -<cloref1> b
-typedef cfun2 (a1: t0p, a2: t0p, b:t0p) = (a1, a2) -<cloref1> b
+\#define nil0() list0_nil()
+\#define cons0(x) list0_cons(,(x))
+\#define sing0(x) list0_cons(,(x), list0_nil ())
 
 #atscode_separator()
 

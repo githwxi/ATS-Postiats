@@ -134,12 +134,15 @@ fileref_is_eof (filr) =
 *)
 
 #atscode_separator()
-
+//
 implement fileref_load<int> = fileref_load_int
-implement fileref_load<char> = fileref_load_char
+implement fileref_load<lint> = fileref_load_lint
+implement fileref_load<uint> = fileref_load_uint
+implement fileref_load<ulint> = fileref_load_ulint
+//
+implement fileref_load<float> = fileref_load_float
 implement fileref_load<double> = fileref_load_double
-implement fileref_load<string> = fileref_load_string
-
+//
 #atscode_separator()
 
 implement{a}

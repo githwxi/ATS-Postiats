@@ -145,10 +145,19 @@ fileref_load_type (a:t@ype) =
 fun{a:t0p}
 fileref_load : fileref_load_type (a)
 
-fun fileref_load_int : fileref_load_type (int)
-fun fileref_load_char : fileref_load_type (char)
-fun fileref_load_double : fileref_load_type (double)
-fun fileref_load_string : fileref_load_type (NSH(string))
+fun fileref_load_int
+  : fileref_load_type (int) = "mac\#atspre_fileref_load_int"
+fun fileref_load_lint
+  : fileref_load_type (lint) = "mac\#atspre_fileref_load_lint"
+fun fileref_load_uint
+  : fileref_load_type (uint) = "mac\#atspre_fileref_load_uint"
+fun fileref_load_ulint
+  : fileref_load_type (ulint) = "mac\#atspre_fileref_load_ulint"
+
+fun fileref_load_float
+  : fileref_load_type (float) = "mac\#atspre_fileref_load_float"
+fun fileref_load_double
+  : fileref_load_type (double) = "mac\#atspre_fileref_load_double"
 
 #atscode_separator()
 
