@@ -242,9 +242,9 @@ a:vt0p}{env:vt0p
 #atscode_separator()
 
 abstype
-arrszref_viewt0ype_type
+arrszref_vt0ype_type
   (a: viewt@ype(*invariant*))
-stadef arrszref = arrszref_viewt0ype_type
+stadef arrszref = arrszref_vt0ype_type
 (*
 stadef array0 = arrszref // HX: backward compatibility?
 *)

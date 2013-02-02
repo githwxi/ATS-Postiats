@@ -42,8 +42,8 @@ typedef NSH(a:type) = a // for commenting purpose
 #atscode_separator()
 
 \#define nil0() list0_nil()
-\#define cons0(x) list0_cons(,(x))
-\#define sing0(x) list0_cons(,(x), list0_nil ())
+\#define cons0(x) list0_cons(x)
+\#define sing0(x) list0_cons(x, list0_nil ())
 
 #atscode_separator()
 
