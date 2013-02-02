@@ -1,0 +1,92 @@
+(* ****** ****** *)
+
+%{
+implement srcfilename_get () = "../string0.sats"
+%}
+
+(* ****** ****** *)
+
+%{
+val () = patscode_count_reset()
+val () = patscode_prefix_set("TRYIT/libats_ML_string0")
+%}
+
+(* ****** ****** *)
+
+#decltitle("\
+ATSLIB/libats/ML/string0\
+")
+
+(* ****** ****** *)
+
+#declpreamble("\
+
+The functions declared in this package are primarily for processing
+strings in functional programming, where a string are represented as
+an array of characters. Sometimes, the name #emph("string0-value")
+is used to refer to such a string.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("string0")
+#declnamesynop("string0_type")
+
+(* ****** ****** *)
+
+#declnamesynop("string2array0")
+#decldescrpt("\
+This cast function turns a string0-value to an array of characters.\
+")
+
+#declnamesynop("array2string0")
+#decldescrpt("\
+This cast function turns an array of characters to a string0-value.\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("string0_make_string")
+#decldescrpt("\
+This function, which overloads the symbol #dyncode("string0"), builds
+a string0-value corresponding to a given C-style string.\
+")
+
+(* ****** ****** *)
+
+#declnamesynop("string0_append")
+#decldescrpt("\
+
+This function, which overload the symbol #dyncode("+"), returns the
+concatenation of two given strings.
+
+")
+
+(* ****** ****** *)
+
+#declnamesynop("string0_foreach")
+#decldescrpt("\
+
+This function traverses its first argument (a string) and applies to each
+encountered character its second argument (a closure-function).  ")
+#declexample("\
+
+The following code prints a given string onto the standard output channel:
+
+#pats2xhtmld_tryit('\
+//
+staload "libats/ML/SATS/string0.sats"
+//
+implement
+main () = 0 where {
+  val str = (string0)"abcdefg"
+  val () = string0_foreach (str, lam (c) => print_char (c))
+  val () = print_newline ()
+} // end of [main]
+')
+")
+
+(* ****** ****** *)
+
+(* end of [string0.atxt] *)

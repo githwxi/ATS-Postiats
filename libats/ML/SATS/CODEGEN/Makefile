@@ -56,6 +56,15 @@ string_atxt.dats: string.atxt
 clean:: ; $(RMF) string_atxt.exe
 cleanall:: ; $(RMF) string.sats
 
+all:: string0.sats
+string0.sats: string0_atxt.exe ; ./$< > $@
+string0_atxt.exe: string0_atxt.dats
+	$(ATSCC) -D_ATS_GCATS -o $@ string0_atxt.dats -latsdoc
+string0_atxt.dats: string0.atxt
+	$(ATSDOC) --outcode $@ -i string0.atxt > string0_atxt.txt
+clean:: ; $(RMF) string0_atxt.exe
+cleanall:: ; $(RMF) string0.sats
+
 
 all:: filebas.sats
 filebas.sats: filebas_atxt.exe ; ./$< > $@

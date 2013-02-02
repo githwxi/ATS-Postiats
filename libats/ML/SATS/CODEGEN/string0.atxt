@@ -1,0 +1,70 @@
+%{
+#define ATSCODEFORMAT "txt"
+#if (ATSCODEFORMAT=="txt")
+#include "utils/atsdoc/HATS/postiatsatxt.hats"
+#endif // end of [ATSCCODEFORMAT]
+val _thisfilename = atext_strcst"string0.sats"
+val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
+%}\
+\
+#atscode_banner()
+#atscode_copyright_LGPL()
+
+#atscode_separator()
+
+(*
+** Source:
+** $PATSHOME/libats/ML/SATS/CODEGEN/string0.atxt
+** Time of generation: #timestamp()
+*)
+
+#atscode_separator()
+
+#atscode_author("Hongwei Xi")
+#atscode_authoremail("hwxi AT cs DOT bu DOT edu")
+#atscode_start_time("February, 2013")
+
+#atscode_separator()
+
+staload "libats/SATS/ML_basics.sats"
+
+#atscode_separator()
+
+typedef SHR(a:type) = a // for commenting purpose
+typedef NSH(a:type) = a // for commenting purpose
+
+#atscode_separator()
+
+abstype string0_type
+typedef string0 = string0_type
+
+#atscode_separator()
+
+castfn array2string0 (cs: array0 (char)):<> string0
+castfn string2array0 (cs: string0):<> array0 (char)
+
+#atscode_separator()
+
+symintr string0
+
+#atscode_separator()
+
+fun string0_make_string (str: NSH(string)): string0
+overload string0 with string0_make_string
+
+#atscode_separator()
+
+fun string0_append (s1: string0, s2: string0):<> string0
+overload + with string0_append
+
+#atscode_separator()
+
+fun string0_foreach (s: string0, f: cfun (char, void)): void
+
+#atscode_separator()
+
+#atscode_eof_strsub("\#thisfilename$")\
+
+%{
+implement main () = fprint_filsub (stdout_ref, "string0_atxt.txt")
+%}\
