@@ -263,7 +263,9 @@ overload arrayptr_exch_at with arrayptr_exch_at_guint
 
 (*
 fun{a:vt0p}{env:vt0p}
-array_foreach__fwork (x: &a >> a, env: &(env) >> _): void
+array_foreach$cont (x: &a, env: &env): void
+fun{a:vt0p}{env:vt0p}
+array_foreach$fwork (x: &a >> a, env: &(env) >> _): void
 *)
 fun{
 a:vt0p
@@ -275,6 +277,14 @@ a:vt0p}{env:vt0p
 } arrayptr_foreach_env {n:int} (
   A: !arrayptr (INV(a), n), asz: size_t (n), env: &(env)>>env
 ) : sizeLte(n) // end of [arrayptr_foreach_env]
+
+#atscode_separator()
+
+fun{a:vt0p}
+arrayptr_foreach_fun
+  {n:int}{fe:eff} (
+  A: !arrayptr (INV(a), n), asz: size_t n, f: (&a) -<fun,fe> void
+) :<fe> void // end of [arrayptr_foreach_fun]
 
 fun{a:vt0p}
 arrayptr_foreach_funenv
@@ -290,18 +300,38 @@ arrayptr_foreach_funenv
 ) :<fe> void
 // end of [arrayptr_foreach_funenv]
 
-fun{a:vt0p}
-arrayptr_foreach_fun
-  {n:int}{fe:eff} (
-  A: !arrayptr (INV(a), n), asz: size_t n, f: (&a) -<fun,fe> void
-) :<fe> void // end of [arrayptr_foreach_fun]
+#atscode_separator()
+
+(*
+fun{a:vt0p}{env:vt0p}
+array_iforeach$cont (i: size_t, x: &a, env: &env): void
+fun{a:vt0p}{env:vt0p}
+array_iforeach$fwork (i: size_t, x: &a >> a, env: &(env) >> _): void
+*)
+fun{
+a:vt0p
+} arrayptr_iforeach {n:int} (
+  A: !arrayptr (INV(a), n), asz: size_t (n)
+) : sizeLte(n) // end of [arrayptr_iforeach]
+fun{
+a:vt0p}{env:vt0p
+} arrayptr_iforeach_env {n:int} (
+  A: !arrayptr (INV(a), n), asz: size_t (n), env: &(env)>>env
+) : sizeLte(n) // end of [arrayptr_iforeach_env]
 
 #atscode_separator()
 
 (*
 fun{a:vt0p}{env:vt0p}
-array_rforeach__fwork (x: &a >> a, env: &(env) >> _): void
+array_rforeach$cont (x: &a, env: &env): void
+fun{a:vt0p}{env:vt0p}
+array_rforeach$fwork (x: &a >> a, env: &(env) >> _): void
 *)
+fun{
+a:vt0p
+} arrayptr_rforeach {n:int} (
+  A: !arrayptr (INV(a), n), asz: size_t (n)
+) : sizeLte(n) // end of [arrayptr_rforeach]
 fun{
 a:vt0p}{env:vt0p
 } arrayptr_rforeach_env {n:int} (
@@ -312,7 +342,7 @@ a:vt0p}{env:vt0p
 
 (*
 fun{a:vt0p}
-array_initize__fwork (i: size_t, x: &a >> a?): void
+array_initize$fwork (i: size_t, x: &a >> a?): void
 *)
 fun{a:vt0p}
 arrayptr_initize
@@ -325,7 +355,7 @@ macdef arrayptr_initialize = arrayptr_initize
 
 (*
 fun{a:vt0p}
-array_uninitize__fwork (i: size_t, x: &a >> a?): void
+array_uninitize$fwork (i: size_t, x: &a >> a?): void
 *)
 fun{a:vt0p}
 arrayptr_uninitize

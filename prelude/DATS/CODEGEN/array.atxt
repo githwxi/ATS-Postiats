@@ -434,6 +434,61 @@ end // end of [array_foreach2_env]
 #atscode_separator()
 
 implement{a}{env}
+array_iforeach$cont (i, x, env) = true
+(*
+implement{a}{env}
+array_iforeach$fwork (i, x, env) = ((*void*))
+*)
+
+implement{a}
+array_iforeach (A, asz) = let
+  var env: void = () in array_iforeach_env<a><void> (A, asz, env)
+end // end of [array_iforeach]
+
+implement
+{a}{env}
+array_iforeach_env
+  {n0} (A, asz, env) = let
+//
+prval () = lemma_array_param (A)
+//
+fun loop
+  {l:addr}
+  {n:nat | n <= n0} .<n>. (
+  pf: !array_v (a, l, n)
+| i: size_t, p: ptr l, n: size_t n, env: &env
+) : sizeLte (n0) = let
+in
+//
+if n > 0 then let
+  prval (
+    pf1, pf2
+  ) = array_v_uncons (pf)
+  val cont = array_iforeach$cont<a><env> (i, !p, env)
+in
+  if cont then let
+    val () = array_iforeach$fwork<a><env> (i, !p, env)
+    val res = loop (pf2 | succ(i), ptr1_succ<a> (p), pred(n), env)
+    prval () = pf := array_v_cons (pf1, pf2)
+  in
+    res
+  end else let
+    prval () = pf := array_v_cons (pf1, pf2) in n
+  end (* end of [if] *)
+end else n(*0*)
+//
+end // end of [loop]
+//
+val p_beg = addr@(A)
+val n = loop (view@(A) | g0int2uint(0), p_beg, asz, env)
+//
+in
+  asz - n
+end // end of [array_iforeach_env]
+
+#atscode_separator()
+
+implement{a}{env}
 array_rforeach$cont (x, env) = true
 (*
 implement{a}{env}

@@ -55,7 +55,7 @@ val (
 ) = array_ptr_alloc<char> (n)
 val () = let
   extern fun memcpy
-    : (ptr(*dst*), ptr, size_t) -<0,!wrt> void = "ext#atslib_memcpy"
+    : (ptr(*dst*), ptr, size_t) -<0,!wrt> void = "mac#atslib_memcpy"
   // end of [extern]
 in
   memcpy (p, string2ptr (str), n)

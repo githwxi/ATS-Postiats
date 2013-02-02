@@ -206,7 +206,9 @@ overload arrayref_exch_at with arrayref_exch_at_guint
 
 (*
 fun{a:vt0p}{env:vt0p}
-array_foreach__fwork (x: &a >> a, env: &(env) >> _): void
+array_foreach$cont (x: &a, env: &env): void
+fun{a:vt0p}{env:vt0p}
+array_foreach$fwork (x: &a >> a, env: &(env) >> _): void
 *)
 fun{
 a:vt0p
@@ -220,9 +222,31 @@ a:vt0p}{env:vt0p
 ) : sizeLte(n) // end of [arrayref_foreach_env]
 
 #atscode_separator()
+
 (*
 fun{a:vt0p}{env:vt0p}
-array_rforeach__fwork (x: &a >> a, env: &(env) >> _): void
+array_iforeach$cont (i: size_t, x: &a, env: &env): void
+fun{a:vt0p}{env:vt0p}
+array_iforeach$fwork (i: size_t, x: &a >> a, env: &(env) >> _): void
+*)
+fun{
+a:vt0p
+} arrayref_iforeach {n:int} (
+  A: arrayref (INV(a), n), asz: size_t (n)
+) : sizeLte(n) // end of [arrayref_iforeach]
+fun{
+a:vt0p}{env:vt0p
+} arrayref_iforeach_env {n:int} (
+  A: arrayref (INV(a), n), asz: size_t (n), env: &(env)>>env
+) : sizeLte(n) // end of [arrayref_iforeach_env]
+
+#atscode_separator()
+
+(*
+fun{a:vt0p}{env:vt0p}
+array_rforeach$cont (x: &a, env: &env): void
+fun{a:vt0p}{env:vt0p}
+array_rforeach$fwork (x: &a >> a, env: &(env) >> _): void
 *)
 fun{
 a:vt0p

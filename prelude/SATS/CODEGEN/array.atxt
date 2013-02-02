@@ -383,6 +383,25 @@ a1,a2:vt0p}{env:vt0p
 
 fun{
 a:vt0p}{env:vt0p
+} array_iforeach$cont (i: size_t, x: &a, env: &env): bool
+fun{
+a:vt0p}{env:vt0p
+} array_iforeach$fwork (i: size_t, x: &a >> _, env: &(env) >> _): void
+fun{
+a:vt0p
+} array_iforeach {n:int} (
+  A: &(@[INV(a)][n]) >> @[a][n], asz: size_t n
+) : sizeLte (n) // end of [array_iforeach]
+fun{
+a:vt0p}{env:vt0p
+} array_iforeach_env {n:int} (
+  A: &(@[INV(a)][n]) >> @[a][n], asz: size_t n, env: &(env) >> _
+) : sizeLte (n) // end of [array_iforeach_env]
+
+#atscode_separator()
+
+fun{
+a:vt0p}{env:vt0p
 } array_rforeach$cont (x: &a, env: &env): bool
 fun{
 a:vt0p}{env:vt0p
