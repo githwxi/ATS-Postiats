@@ -42,42 +42,49 @@ staload "libats/ML/SATS/array0.sats"
 
 (* ****** ****** *)
 
+implement
+array0_get_size (A) = let
+  val A = arrszref_of_array0 (A) in arrszref_get_size (A)
+end // end of [array0_get_size]
+
+(* ****** ****** *)
+
 implement{tk}{a}
-array0_get_at_gint (A0, i) = let
-  val A0 = arrszref_of_array0 (A0) in A0[i]
+array0_get_at_gint (A, i) = let
+  val A = arrszref_of_array0 (A) in A[i]
 end // end of [array0_get_at_gint]
 implement{tk}{a}
-array0_get_at_guint (A0, i) = let
-  val A0 = arrszref_of_array0 (A0) in A0[i]
+array0_get_at_guint (A, i) = let
+  val A = arrszref_of_array0 (A) in A[i]
 end // end of [array0_get_at_guint]
 
 (* ****** ****** *)
 
 implement{tk}{a}
-array0_set_at_gint (A0, i, x) = let
-  val A0 = arrszref_of_array0 (A0) in A0[i] := x
+array0_set_at_gint (A, i, x) = let
+  val A = arrszref_of_array0 (A) in A[i] := x
 end // end of [array0_set_at_gint]
 implement{tk}{a}
-array0_set_at_guint (A0, i, x) = let
-  val A0 = arrszref_of_array0 (A0) in A0[i] := x
+array0_set_at_guint (A, i, x) = let
+  val A = arrszref_of_array0 (A) in A[i] := x
 end // end of [array0_set_at_guint]
 
 (* ****** ****** *)
 
 implement{tk}{a}
-array0_exch_at_gint (A0, i, x) = let
-  val A0 = arrszref_of_array0 (A0) in arrszref_exch_at_gint (A0, i, x)
+array0_exch_at_gint (A, i, x) = let
+  val A = arrszref_of_array0 (A) in arrszref_exch_at_gint (A, i, x)
 end // end of [array0_exch_at_gint]
 implement{tk}{a}
-array0_exch_at_guint (A0, i, x) = let
-  val A0 = arrszref_of_array0 (A0) in arrszref_exch_at_guint (A0, i, x)
+array0_exch_at_guint (A, i, x) = let
+  val A = arrszref_of_array0 (A) in arrszref_exch_at_guint (A, i, x)
 end // end of [array0_exch_at_guint]
 
 (* ****** ****** *)
 
 implement{a}
 array0_make_elt (asz, x) = let
-  val A0 = arrszref_make_elt<a> (asz, x) in array0_of_arrszref (A0)
+  val A = arrszref_make_elt<a> (asz, x) in array0_of_arrszref (A)
 end // end of [array0_make_elt]
 
 (* ****** ****** *)
@@ -86,21 +93,21 @@ implement{a}
 array0_make_list
   (xs) = let
   val xs = list_of_list0 (xs)
-  val A0 = arrszref_make_list (xs)
+  val A = arrszref_make_list (xs)
 in
-  array0_of_arrszref (A0)
+  array0_of_arrszref (A)
 end // end of [array0_make_list]
 
 (* ****** ****** *)
 
 implement{a}
 array0_foreach
-  (A0, f) = let
+  (A, f) = let
 //
-val A0 = arrszref_of_array0 (A0)
+val A = arrszref_of_array0 (A)
 //
 var asz: size_t
-val A = arrszref_get_refsize (A0, asz)
+val A = arrszref_get_refsize (A, asz)
 //
 implement(env)
 array_foreach$cont<a><env> (x, env) = true
@@ -117,12 +124,12 @@ end // end of [array0_foreach]
 
 implement{a}
 array0_iforeach
-  (A0, f) = let
+  (A, f) = let
 //
-val A0 = arrszref_of_array0 (A0)
+val A = arrszref_of_array0 (A)
 //
 var asz: size_t
-val A = arrszref_get_refsize (A0, asz)
+val A = arrszref_get_refsize (A, asz)
 //
 typedef env = size_t
 //
@@ -142,12 +149,12 @@ end // end of [array0_iforeach]
 (* ****** ****** *)
 
 implement{a}
-array0_find_exn (A0, p) = let
+array0_find_exn (A, p) = let
 //
-val A0 = arrszref_of_array0 (A0)
+val A = arrszref_of_array0 (A)
 //
 var asz: size_t
-val A = arrszref_get_refsize (A0, asz)
+val A = arrszref_get_refsize (A, asz)
 //
 implement(env)
 array_foreach$cont<a><env> (x, env) = ~p(x)
@@ -161,8 +168,8 @@ in
 end // end of [array0_find_exn]
 
 implement{a}
-array0_find_opt (A0, p) =
-  try Some0 (array0_find_exn<a> (A0, p)) with ~NotFoundExn() => None0 ()
+array0_find_opt (A, p) =
+  try Some0 (array0_find_exn<a> (A, p)) with ~NotFoundExn() => None0 ()
 // end of [array0_find_opt]
 
 (* ****** ****** *)
@@ -170,12 +177,12 @@ array0_find_opt (A0, p) =
 implement
 {a}{res}
 array0_foldleft
-  (A0, ini, f) = let
+  (A, ini, f) = let
 //
-val A0 = arrszref_of_array0 (A0)
+val A = arrszref_of_array0 (A)
 //
 var asz: size_t
-val A = arrszref_get_refsize (A0, asz)
+val A = arrszref_get_refsize (A, asz)
 //
 typedef env = res
 //
@@ -196,12 +203,12 @@ end // end of [array0_foldleft]
 implement
 {a}{res}
 array0_ifoldleft
-  (A0, ini, f) = let
+  (A, ini, f) = let
 //
-val A0 = arrszref_of_array0 (A0)
+val A = arrszref_of_array0 (A)
 //
 var asz: size_t
-val A = arrszref_get_refsize (A0, asz)
+val A = arrszref_get_refsize (A, asz)
 //
 typedef env = (res, size_t)
 //
@@ -226,12 +233,12 @@ end // end of [array0_ifoldleft]
 
 implement{a}
 array0_rforeach
-  (A0, f) = let
+  (A, f) = let
 //
-val A0 = arrszref_of_array0 (A0)
+val A = arrszref_of_array0 (A)
 //
 var asz: size_t
-val A = arrszref_get_refsize (A0, asz)
+val A = arrszref_get_refsize (A, asz)
 //
 implement(env)
 array_rforeach$cont<a><env> (x, env) = true
@@ -249,12 +256,12 @@ end // end of [array0_rforeach]
 implement
 {a}{res}
 array0_foldright
-  (A0, f, snk) = let
+  (A, f, snk) = let
 //
-val A0 = arrszref_of_array0 (A0)
+val A = arrszref_of_array0 (A)
 //
 var asz: size_t
-val A = arrszref_get_refsize (A0, asz)
+val A = arrszref_get_refsize (A, asz)
 //
 typedef env = res
 //

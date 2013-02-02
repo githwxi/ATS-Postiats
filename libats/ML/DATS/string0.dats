@@ -43,19 +43,6 @@ staload "libats/ML/SATS/string0.sats"
 
 (* ****** ****** *)
 
-(*
-fun malloc_gc
-  {n:int} (n: size_t n)
-  :<> [l:agz] (b0ytes n @ l, free_gc_v (l) | ptr l)
-  = "ext#ats_malloc_gc"
-// end of [malloc_gc]
-
-fun
-arrszref_make{a:vt0p}{n:int}
-  (A: arrayref (a, n), n: size_t n):<> arrszref (a)
-// end of [arrszref_make]
-
-*)
 implement
 string0_make_string
   (str) = let
@@ -68,17 +55,53 @@ val (
 ) = array_ptr_alloc<char> (n)
 val () = let
   extern fun memcpy
-    : (ptr, ptr, size_t) -<0,!wrt> void = "ext#atslib_memcpy"
+    : (ptr(*dst*), ptr, size_t) -<0,!wrt> void = "ext#atslib_memcpy"
   // end of [extern]
 in
   memcpy (p, string2ptr (str), n)
 end // end of [val]
 //
-val A = $UN.castvwtp0 {arrayref(char,n)} @(pfarr, pfgc | p)
+typedef A = arrayref (char, n)
+val A = $UN.castvwtp0 {A} @(pfarr, pfgc | p)
 //
 in
   array2string0 (array0_make_arrayref (A, n))
 end // end of [string0_make_string]
+
+(* ****** ****** *)
+
+implement
+string0_append
+  (str1, str2) = let
+  val str1 = string2array0 (str1)
+  val str2 = string2array0 (str2)
+in
+  array2string0 (array0_append<char> (str1, str2))
+end // end of [string0_append]
+
+(* ****** ****** *)
+
+implement
+string0_foreach
+  (str, f) = let
+//
+fun loop (
+  p: ptr, n: size_t, i: size_t, f: cfun (char, void)
+) : void = let
+in
+//
+if i < n then let
+  val () = f ($UN.ptr0_get<char> (p)) in loop (ptr0_succ<char> (p), n, succ(i), f)
+end else () // end of [if]
+//
+end // end of [loop]
+//
+val p = string0_get_ref (str)
+val n = string0_get_size (str)
+//
+in
+  loop (p, n, g0int2uint(0), f)
+end // end of [string0_foreach]
 
 (* ****** ****** *)
 

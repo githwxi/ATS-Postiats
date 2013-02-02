@@ -132,9 +132,14 @@ implement
 arrszref_make_arrayref (A, n) = ARRSZREF (A, n)
 
 implement
+arrszref_get_size
+  (A, asz) = let val+ARRSZREF (_, n) = A in n end
+// end of [arrszref_get_size]
+
+implement
 arrszref_get_refsize
   (A, asz) = let
-  val+ARRSZREF (r, n) = A; val () = asz := n in r
+  val+ARRSZREF (r, n) = A; val () = asz := n in (r)
 end // end of [arrszref_get_refsize]
 
 end // end of [local]

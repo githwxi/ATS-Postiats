@@ -45,21 +45,26 @@ castfn string2array0 (cs: string0):<> array0 (char)
 
 #atscode_separator()
 
+fun string0_get_ref (str: string0): Ptr1
+fun string0_get_size (str: string0): size_t
+
+#atscode_separator()
+
 symintr string0
 
 #atscode_separator()
 
-fun string0_make_string (str: NSH(string)): string0
+fun string0_make_string (str: NSH(string)):<!wrt> string0
 overload string0 with string0_make_string
 
 #atscode_separator()
 
-fun string0_append (s1: string0, s2: string0):<> string0
+fun string0_append (str1: string0, str2: string0):<!wrt> string0
 overload + with string0_append
 
 #atscode_separator()
 
-fun string0_foreach (s: string0, f: cfun (char, void)): void
+fun string0_foreach (str: string0, f: cfun (char, void)): void
 
 #atscode_separator()
 

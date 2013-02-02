@@ -263,6 +263,10 @@ overload arrszref_make with arrszref_make_arrayref
 
 #atscode_separator()
 
+fun arrszref_get_size {a:vt0p} (A: arrszref (a)):<> size_t
+
+#atscode_separator()
+
 fun
 arrszref_get_refsize{a:vt0p}
   (A: arrszref (a), asz: &size_t? >> size_t n):<!wrt> #[n:int] arrayref (a, n)
