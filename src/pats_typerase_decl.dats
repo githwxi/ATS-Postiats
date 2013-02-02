@@ -108,6 +108,10 @@ case+
     val hids = d3eclist_tyer (d3cs) in hidecl_list (loc0, hids)
   end // end of [D3Clist]
 //
+| D3Cextcode
+    (knd, pos, code) => hidecl_extcode (loc0, knd, pos, code)
+  // end of [D3Cextcode]
+//
 | D3Cdatdecs (
     knd, s2cs
   ) => hidecl_datdecs (loc0, knd, s2cs)

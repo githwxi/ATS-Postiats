@@ -251,13 +251,21 @@ stadef array0 = arrszref // HX: backward compatibility?
 
 #atscode_separator()
 
+symintr arrszref_make
+
+#atscode_separator()
+
 fun
-arrszref_make{a:vt0p}{n:int}
-  (A: arrayref (a, n), n: size_t n):<> arrszref (a)
-// end of [arrszref_make]
+arrszref_make_arrayref
+  {a:vt0p}{n:int}
+  (A: arrayref (a, n), n: size_t n):<!wrt> arrszref (a)
+overload arrszref_make with arrszref_make_arrayref
+
+#atscode_separator()
+
 fun
 arrszref_get_refsize{a:vt0p}
-  (A: arrszref (a), n: &size_t? >> size_t n):<!wrt> #[n:int] arrayref (a, n)
+  (A: arrszref (a), asz: &size_t? >> size_t n):<!wrt> #[n:int] arrayref (a, n)
 // end of [arrszref_get_refsize]
 
 #atscode_separator()

@@ -638,10 +638,10 @@ hidecl_list (loc, hids) =
 (* ****** ****** *)
 
 implement
-hidecl_impdec
-  (loc, knd, himp) =
-  hidecl_make_node (loc, HIDimpdec (knd, himp))
-// end of [hidecl_impdec]
+hidecl_extcode
+  (loc, knd, pos, code) =
+  hidecl_make_node (loc, HIDextcode (knd, pos, code))
+// end of [hidecl_extcode]
 
 (* ****** ****** *)
 
@@ -664,6 +664,14 @@ hidecl_dcstdecs
   (loc, knd, d2cs) =
   hidecl_make_node (loc, HIDdcstdecs (knd, d2cs))
 // end of [hidecl_dcstdecs]
+
+(* ****** ****** *)
+
+implement
+hidecl_impdec
+  (loc, knd, himp) =
+  hidecl_make_node (loc, HIDimpdec (knd, himp))
+// end of [hidecl_impdec]
 
 (* ****** ****** *)
 

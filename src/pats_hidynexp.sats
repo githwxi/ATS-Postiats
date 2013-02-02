@@ -178,6 +178,10 @@ hidecl_node =
 //
   | HIDsaspdec of s2aspdec
 //
+  | HIDextcode of
+      (int(*knd*), int(*pos*), string(*code*))
+    // end of [HIDextcode]
+//
   | HIDdatdecs of (int(*knd*), s2cstlst)
   | HIDexndecs of (d2conlst) // HX: exception decls
   | HIDdcstdecs of (dcstkind, d2cstlst)
@@ -723,6 +727,10 @@ fun hidecl_make_node
 
 fun hidecl_none (loc: location): hidecl
 fun hidecl_list (loc: location, hids: hideclist): hidecl
+
+fun hidecl_extcode
+  (loc: location, knd: int, pos: int, code: string): hidecl
+// end of [hidecl_extcode]
 
 fun hidecl_datdecs
   (loc: location, knd: int, s2cs: s2cstlst) : hidecl

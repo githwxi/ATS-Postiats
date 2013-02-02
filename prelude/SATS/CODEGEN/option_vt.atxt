@@ -37,34 +37,35 @@ option_vt_none ((*void*)):<!wrt> option_vt (a, false)
 
 #atscode_separator()
 
-fun{a:vt0p}
-option_vt_make_opt
+fun{
+a:vt0p
+} option_vt_make_opt
   {b:bool} (
-  b: bool b, x: &opt (a, b) >> a?
-) :<!wrt> option_vt (a, b) // end of [option_vt_make_opt]
+  b: bool b, x: &opt (INV(a), b) >> a?
+) :<!wrt> option_vt (a, b) // endfun
 
 #atscode_separator()
 
 fun{}
 option_vt_is_some{a:vt0p}
-  {b:bool} (opt: !option_vt (a, b)):<> bool (b)
+  {b:bool} (opt: !option_vt (INV(a), b)):<> bool (b)
 // end of [option_vt_is_some]
 fun{}
 option_vt_is_none{a:vt0p}
-  {b:bool} (opt: !option_vt (a, b)):<> bool (~b)
+  {b:bool} (opt: !option_vt (INV(a), b)):<> bool (~b)
 // end of [option_vt_is_none]
 
 #atscode_separator()
 
 fun{a:vt0p}
-option_vt_unsome (opt: option_vt (a, true)):<!wrt> a
+option_vt_unsome (opt: option_vt (INV(a), true)):<!wrt> a
 fun{a:vt0p}
-option_vt_unnone (opt: option_vt (a, false)):<!wrt> void
+option_vt_unnone (opt: option_vt (INV(a), false)):<!wrt> void
 
 #atscode_separator()
 
 fun{a:t0p}
-option_vt_free (opt: Option_vt (a)):<!wrt> void
+option_vt_free (opt: Option_vt (INV(a))):<!wrt> void
 
 #atscode_separator()
 
