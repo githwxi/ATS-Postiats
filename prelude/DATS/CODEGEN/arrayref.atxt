@@ -118,12 +118,33 @@ end // end of [fprint_arrayref_sep]
 
 #atscode_separator()
 
+implement{a}
+arrayref_foreach
+  (A, asz) = let
+  val (vbox pf | p) =
+    arrayref_get_viewptr (A) in
+  $effmask_ref (array_foreach<a> (!p, asz))
+end // end of [arrayref_foreach]
+
+implement
+{a}{env}
+arrayptr_foreach_env
+  (A, asz, env) = let
+  val (vbox pf | p) = arrayref_get_viewptr (A)
+in
+  $effmask_ref (array_foreach_env<a><env> (!p, asz, env))
+end // end of [arrayref_foreach_env]
+
+#atscode_separator()
+
 local
 
 datatype
 arrszref
   (a:viewt@ype) =
   {n:int} ARRSZREF of (arrayref (a, n), size_t (n))
+// end of [arrszref]
+
 assume arrszref_vt0ype_type = arrszref
 
 in (* in of [local] *)
