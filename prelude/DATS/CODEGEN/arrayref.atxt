@@ -156,7 +156,9 @@ arrszref_make_arrayref
 implement
 arrszref_get_ref
   (ASZ) = let
-  val+ARRSZREF (A, _(*asz*)) = ASZ in A
+  val+ARRSZREF
+    (A, _) = ASZ in $UN.cast2Ptr1(A)
+  // end of [val]
 end // end of [arrszref_get_ref]
 
 implement

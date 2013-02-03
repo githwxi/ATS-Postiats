@@ -44,6 +44,23 @@ staload "libats/ML/SATS/string0.sats"
 (* ****** ****** *)
 
 implement
+string0_get_ref (str) =
+  array0_get_ref (string2array0 (str))
+// end of [string0_get_ref]
+
+implement
+string0_get_size (str) =
+  array0_get_size (string2array0 (str))
+// end of [string0_get_size]
+
+implement
+string0_get_refsize (str) =
+  array0_get_refsize (string2array0 (str))
+// end of [string0_get_refsize]
+
+(* ****** ****** *)
+
+implement
 string0_make_string
   (str) = let
 //
@@ -83,6 +100,72 @@ string0_get_at_guint
   val str = string2array0 (str) in
   $effmask_ref (array0_get_at_guint<char> (str, i))
 end // end of [string0_get_at_guint]
+
+(* ****** ****** *)
+
+implement
+lt_string0_string0
+  (str1, str2) = (string0_compare (str1, str2) < 0)
+implement
+lte_string0_string0
+  (str1, str2) = (string0_compare (str1, str2) <= 0)
+
+implement
+gt_string0_string0
+  (str1, str2) = (string0_compare (str1, str2) > 0)
+implement
+gte_string0_string0
+  (str1, str2) = (string0_compare (str1, str2) >= 0)
+
+implement
+eq_string0_string0
+  (str1, str2) = (string0_compare (str1, str2) = 0)
+implement
+neq_string0_string0
+  (str1, str2) = (string0_compare (str1, str2) != 0)
+
+(* ****** ****** *)
+
+implement
+string0_compare
+  (str1, str2) = let
+//
+val (A1, n1) = string0_get_refsize (str1)
+and (A2, n2) = string0_get_refsize (str2)
+//
+extern
+fun strncmp
+  : (ptr, ptr, size_t) -<fun> int = "mac#atslib_strncmp"
+//
+val n = g0uint_min_size (n1, n2)
+val sgn = strncmp ($UN.cast2ptr(A1), $UN.cast2ptr(A2), n)
+//
+in
+//
+if sgn = 0 then
+  (if n1 < n2 then ~1 else if n1 > n2 then 1 else 0)
+else sgn // end of [if]
+//
+end // end of [string0_compare]
+
+(* ****** ****** *)
+
+implement
+string0_contains
+  (str, c0) = $effmask_all let
+//
+val (A, asz) = string0_get_refsize (str)
+//
+implement(tenv)
+array_foreach$cont<char><tenv> (c, env) = (c0 != c)
+implement(tenv)
+array_foreach$fwork<char><tenv> (c, env) = ((*void*))
+//
+val i = arrayref_foreach<char> (A, asz)
+//
+in
+  if i < asz then true (*found*) else false (*notfound*)
+end // end of [string0_contains]
 
 (* ****** ****** *)
 

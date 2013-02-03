@@ -60,6 +60,10 @@ arrszref_of_array0
 fun array0_get_ref {a:t0p} (A: array0 a):<> Ptr1
 fun array0_get_size {a:t0p} (A: array0 a):<> size_t
 
+fun array0_get_refsize{a:vt0p}
+  (A: array0 (a)):<> [n:nat] (arrayref (a, n), size_t (n))
+// end of [array0_get_refsize]
+
 #atscode_separator()
 
 symintr array0

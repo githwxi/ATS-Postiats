@@ -44,13 +44,26 @@ staload "libats/ML/SATS/array0.sats"
 
 implement
 array0_get_ref (A0) = let
-  val ASZ = arrszref_of_array0 (A0) in arrszref_get_ref (ASZ)
+  val ASZ =
+    arrszref_of_array0 (A0) in arrszref_get_ref (ASZ)
+  // end of [val]
 end // end of [array0_get_ref]
 
 implement
 array0_get_size (A0) = let
-  val ASZ = arrszref_of_array0 (A0) in arrszref_get_size (ASZ)
+  val ASZ =
+    arrszref_of_array0 (A0) in arrszref_get_size (ASZ)
+  // end of [val]
 end // end of [array0_get_size]
+
+implement
+array0_get_refsize (A0) = let
+  var asz: size_t
+  val ASZ = arrszref_of_array0 (A0)
+  val A = $effmask_wrt (arrszref_get_refsize (ASZ, asz))
+in
+  @(A, asz)
+end // end of [array0_get_refsize]
 
 (* ****** ****** *)
 
