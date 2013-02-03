@@ -104,7 +104,7 @@ fun array0_get_size {a:t0p} (A: array0 a):<> size_t
 
 fun{a:t0p}
 array0_append
-  (A1: array0 (a), A2: array0 (a)):<!wrt> array0 (a)
+  (A1: array0 (a), A2: array0 (a)):<!refwrt> array0 (a)
 // end of [array0_append]
 
 #atscode_separator()

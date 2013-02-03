@@ -100,6 +100,48 @@ end // end of [array0_make_list]
 (* ****** ****** *)
 
 implement{a}
+array0_append
+  (A01, A02) = let
+//
+val ASZ1 = arrszref_of_array0 (A01)
+and ASZ2 = arrszref_of_array0 (A02)
+//
+var asz1: size_t and asz2: size_t
+val A1 = arrszref_get_refsize (ASZ1, asz1)
+and A2 = arrszref_get_refsize (ASZ2, asz2)
+//
+val (pf1box | p1) = arrayref_get_viewptr (A1)
+and (pf2box | p2) = arrayref_get_viewptr (A2)
+//
+extern
+praxi unbox : {v:view} vbox (v) -<prf> (v, v -<lin,prf> void)
+//
+prval (pf1, fpf1) = unbox (pf1box) and (pf2, fpf2) = unbox (pf2box)
+//
+val asz = asz1 + asz2
+val (pfarr, pfgc | q) = array_ptr_alloc<a> (asz)
+prval (pf1arr, pf2arr) = array_v_split_at (pfarr | asz1)
+//
+val () = array_copy<a> (!q, !p1, asz1)
+val q2 = ptr1_add_guint<a> (q, asz1)
+val (pf2arr | q2) = viewptr_match (pf2arr | q2)
+val () = array_copy<a> (!q2, !p2, asz2)
+//
+prval () = fpf1 (pf1) and () = fpf2 (pf2)
+//
+prval pfarr = array_v_unsplit (pf1arr, pf2arr)
+//
+val A12 = arrayptr_encode (pfarr, pfgc | q)
+val A12 = arrayptr_refize (A12)
+val ASZ12 = arrszref_make_arrayref (A12, asz)
+//
+in
+  array0_of_arrszref (ASZ12)
+end // end of [array0_append]
+
+(* ****** ****** *)
+
+implement{a}
 array0_foreach
   (A0, f) = let
 //

@@ -6,7 +6,7 @@
 
 extern
 fun{a:vt0p}
-Perm__fwork {n:int} (A: &array (a, n), n: int n): void
+Perm$fwork {n:int} (A: &array (a, n), n: int n): void
 
 (* ****** ****** *)
 
@@ -50,8 +50,8 @@ if k < n then
   Perm_aux<a> (pf1, pf2 | p1, p2, k, n, k)
 else let
   prval pf = array_v_unsplit (pf1, pf2)
-  val () = Perm__fwork<a> (!p1, n)
-  prval (pf1_, pf2_) = array_v_split_at (pf | k)
+  val () = Perm$fwork<a> (!p1, n)
+  prval (pf1_, pf2_) = array_v_split_at (pf | g1int2uint (k))
 in
   pf1 := pf1_ ; pf2 := pf2_
 end // end of [if]

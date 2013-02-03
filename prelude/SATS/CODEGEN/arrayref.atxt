@@ -293,7 +293,7 @@ fun arrszref_get_size {a:vt0p} (A: arrszref (a)):<> size_t
 
 fun
 arrszref_get_refsize{a:vt0p}
-  (A: arrszref (a), asz: &size_t? >> size_t n):<!wrt> #[n:int] arrayref (a, n)
+  (A: arrszref (a), asz: &size_t? >> size_t n):<!wrt> #[n:nat] arrayref (a, n)
 // end of [arrszref_get_refsize]
 
 #atscode_separator()

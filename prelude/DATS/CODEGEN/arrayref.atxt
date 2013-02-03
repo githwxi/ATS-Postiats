@@ -128,7 +128,7 @@ end // end of [arrayref_foreach]
 
 implement
 {a}{env}
-arrayptr_foreach_env
+arrayref_foreach_env
   (A, asz, env) = let
   val (vbox pf | p) = arrayref_get_viewptr (A)
 in
@@ -140,9 +140,11 @@ end // end of [arrayref_foreach_env]
 local
 
 datatype
-arrszref
-  (a:viewt@ype) =
-  {n:int} ARRSZREF of (arrayref (a, n), size_t (n))
+arrszref (
+  a:viewt@ype
+) =
+  {n:int}
+  ARRSZREF of (arrayref (a, n), size_t (n))
 // end of [arrszref]
 
 assume arrszref_vt0ype_type = arrszref
@@ -150,17 +152,25 @@ assume arrszref_vt0ype_type = arrszref
 in (* in of [local] *)
 
 implement
-arrszref_make_arrayref (A, n) = ARRSZREF (A, n)
+arrszref_make_arrayref
+  (A, asz) = ARRSZREF (A, asz)
 
 implement
 arrszref_get_size
-  (A) = let val+ARRSZREF (_, n) = A in (n) end
-// endfun
+  (ASZ) = let
+  val+ARRSZREF (_(*A*), asz) = ASZ in asz
+end // end of [arrszref_get_size]
 
 implement
 arrszref_get_refsize
-  (A, asz) = let val+ARRSZREF (r, n) = A; val () = asz := n in r end
-// end of [arrszref_get_refsize]
+  (ASZ, aszr) = let
+//
+val+ARRSZREF (A, asz) = ASZ
+prval () = lemma_arrayref_param (A)
+//
+in
+  aszr := asz; A
+end // end of [arrszref_get_refsize]
 
 end // end of [local]
 
@@ -195,9 +205,11 @@ end // end of [arrszref_make_list]
 implement{a}
 arrszref_get_at_size
   (A0, i) = $effmask_wrt let
-  var n: size_t
-  val A = arrszref_get_refsize (A0, n)
-  val i = g1ofg0_uint (i)
+//
+var n: size_t
+val A = arrszref_get_refsize (A0, n)
+val i = g1ofg0_uint (i)
+//
 in
 //
 if n > i then arrayref_get_at_size (A, i) else $raise ArraySubscriptExn()
@@ -207,9 +219,11 @@ end // end of [arrszref_get_at_size]
 implement{a}
 arrszref_set_at_size
   (A0, i, x) = $effmask_wrt let
-  var n: size_t
-  val A = arrszref_get_refsize (A0, n)
-  val i = g1ofg0_uint (i)
+//
+var n: size_t
+val A = arrszref_get_refsize (A0, n)
+val i = g1ofg0_uint (i)
+//
 in
 //
 if n > i then arrayref_set_at_size (A, i, x) else $raise ArraySubscriptExn()
@@ -219,9 +233,11 @@ end // end of [arrszref_set_at_size]
 implement{a}
 arrszref_exch_at_size
   (A0, i, x) = $effmask_wrt let
-  var n: size_t
-  val A = arrszref_get_refsize (A0, n)
-  val i = g1ofg0_uint (i)
+//
+var n: size_t
+val A = arrszref_get_refsize (A0, n)
+val i = g1ofg0_uint (i)
+//
 in
 //
 if n > i then arrayref_exch_at_size (A, i, x) else $raise ArraySubscriptExn()

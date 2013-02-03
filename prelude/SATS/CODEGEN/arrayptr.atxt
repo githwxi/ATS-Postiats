@@ -89,15 +89,15 @@ arrayptr_addback
 #atscode_separator()
 
 castfn
-arrpsz_encode
+arrpsz_encode :
   {a:vt0p}{n:int}
-  (psz: (arrayptr (INV(a), n), size_t n)):<> arrpsz (a, n)
+  @(arrayptr (INV(a), n), size_t n) -<0> arrpsz (a, n)
 // end of [arrpsz_encode]
 
 castfn
-arrpsz_decode
+arrpsz_decode :
   {a:vt0p}{n:int}
-  (psz: arrpsz (INV(a), n)):<> (arrayptr (a, n), size_t n)
+  arrpsz (INV(a), n) -<0> @(arrayptr (a, n), size_t n)
 // end of [arrpsz_decode]
 
 #atscode_separator()

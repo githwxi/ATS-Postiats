@@ -75,8 +75,9 @@ string0_append
   (str1, str2) = let
   val str1 = string2array0 (str1)
   val str2 = string2array0 (str2)
+  val str12 = $effmask_ref (array0_append<char> (str1, str2))
 in
-  array2string0 (array0_append<char> (str1, str2))
+  array2string0 (str12)
 end // end of [string0_append]
 
 (* ****** ****** *)
