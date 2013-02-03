@@ -43,42 +43,14 @@ staload "libats/ML/SATS/array0.sats"
 (* ****** ****** *)
 
 implement
+array0_get_ref (A0) = let
+  val ASZ = arrszref_of_array0 (A0) in arrszref_get_ref (ASZ)
+end // end of [array0_get_ref]
+
+implement
 array0_get_size (A0) = let
   val ASZ = arrszref_of_array0 (A0) in arrszref_get_size (ASZ)
 end // end of [array0_get_size]
-
-(* ****** ****** *)
-
-implement{tk}{a}
-array0_get_at_gint (A0, i) = let
-  val ASZ = arrszref_of_array0 (A0) in ASZ[i]
-end // end of [array0_get_at_gint]
-implement{tk}{a}
-array0_get_at_guint (A0, i) = let
-  val ASZ = arrszref_of_array0 (A0) in ASZ[i]
-end // end of [array0_get_at_guint]
-
-(* ****** ****** *)
-
-implement{tk}{a}
-array0_set_at_gint (A0, i, x) = let
-  val ASZ = arrszref_of_array0 (A0) in ASZ[i] := x
-end // end of [array0_set_at_gint]
-implement{tk}{a}
-array0_set_at_guint (A0, i, x) = let
-  val ASZ = arrszref_of_array0 (A0) in ASZ[i] := x
-end // end of [array0_set_at_guint]
-
-(* ****** ****** *)
-
-implement{tk}{a}
-array0_exch_at_gint (A0, i, x) = let
-  val ASZ = arrszref_of_array0 (A0) in arrszref_exch_at_gint (ASZ, i, x)
-end // end of [array0_exch_at_gint]
-implement{tk}{a}
-array0_exch_at_guint (A0, i, x) = let
-  val ASZ = arrszref_of_array0 (A0) in arrszref_exch_at_guint (ASZ, i, x)
-end // end of [array0_exch_at_guint]
 
 (* ****** ****** *)
 
@@ -96,6 +68,86 @@ array0_make_list
 in
   array0_of_arrszref (ASZ)
 end // end of [array0_make_list]
+
+(* ****** ****** *)
+
+implement{a}{tk}
+array0_get_at_gint
+  (A0, i) = let
+in
+//
+if i >= 0 then
+  array0_get_at_size (A0, g0int2uint(i))
+else $raise ArraySubscriptExn()
+//
+end // end of [array0_get_at_gint]
+
+implement{a}{tk}
+array0_get_at_guint (A0, i) = (
+  array0_get_at_size (A0, g0uint2uint(i))
+) // end of [array0_get_at_guint]
+
+implement{a}
+array0_get_at_size
+  (A0, i) = let
+  val ASZ =
+    arrszref_of_array0 (A0) in arrszref_get_at_size (ASZ, i)
+  // end of [val]
+end // end of [array0_get_at_size]
+
+(* ****** ****** *)
+
+implement{a}{tk}
+array0_set_at_gint
+  (A0, i, x) = let
+in
+//
+if i >= 0 then
+  array0_set_at_size (A0, g0int2uint(i), x)
+else $raise ArraySubscriptExn()
+//
+end // end of [array0_set_at_gint]
+
+implement{a}{tk}
+array0_set_at_guint
+  (A0, i, x) = (
+  array0_set_at_size (A0, g0uint2uint(i), x)
+) // end of [array0_set_at_guint]
+
+implement{a}
+array0_set_at_size
+  (A0, i, x) = let
+  val ASZ =
+    arrszref_of_array0 (A0) in arrszref_set_at_size (ASZ, i, x)
+  // end of [val]
+end // end of [array0_set_at_size]
+
+(* ****** ****** *)
+
+implement{a}{tk}
+array0_exch_at_gint
+  (A0, i, x) = let
+in
+//
+if i >= 0 then
+  array0_exch_at_size (A0, g0int2uint(i), x)
+else $raise ArraySubscriptExn()
+//
+end // end of [array0_exch_at_gint]
+
+implement{a}{tk}
+array0_exch_at_guint
+  (A0, i, x) = (
+  array0_exch_at_size (A0, g0uint2uint(i), x)
+) // end of [array0_exch_at_guint]
+
+implement{a}
+array0_exch_at_size
+  (A0, i, x) = let
+  val ASZ =
+    arrszref_of_array0 (A0) in arrszref_exch_at_size (ASZ, i, x)
+  // end of [val]
+end // end of [array0_exch_at_size]
 
 (* ****** ****** *)
 

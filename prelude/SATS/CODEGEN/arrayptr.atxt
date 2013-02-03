@@ -167,12 +167,15 @@ fun arrayptr_free
 
 #atscode_separator()
 
+(*
+fun{}
+fprint_array$sep (out: FILEref): void
+*)
 fun{a:vt0p}
 fprint_arrayptr
   {l:addr}{n:int} (
   out: FILEref, A: !arrayptr (INV(a), l, n), n: size_t n
 ) : void // end of [fprint_arrayptr]
-
 fun{a:vt0p}
 fprint_arrayptr_sep
   {l:addr}{n:int} (

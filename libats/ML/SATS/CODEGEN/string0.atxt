@@ -34,6 +34,12 @@ typedef SHR(a:type) = a // for commenting purpose
 typedef NSH(a:type) = a // for commenting purpose
 
 #atscode_separator()
+//
+// HX-2013-02:
+// a string0-value is represented an array of character;
+// in principle, this array should be treated as read-only.
+//
+#atscode_separator()
 
 abstype string0_type
 typedef string0 = string0_type

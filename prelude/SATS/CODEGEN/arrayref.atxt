@@ -110,12 +110,15 @@ arrayref_make_listlen
 
 #atscode_separator()
 
+(*
+fun{}
+fprint_array$sep (out: FILEref): void
+*)
 fun{a:vt0p}
 fprint_arrayref
   {n:int} (
   out: FILEref, A: arrayref (INV(a), n), n: size_t n
 ) : void // end of [fprint_arrayref]
-
 fun{a:vt0p}
 fprint_arrayref_sep
   {n:int} (
@@ -287,6 +290,7 @@ overload arrszref_make with arrszref_make_arrayref
 
 #atscode_separator()
 
+fun arrszref_get_ref {a:vt0p} (A: arrszref (a)):<> Ptr1
 fun arrszref_get_size {a:vt0p} (A: arrszref (a)):<> size_t
 
 #atscode_separator()
@@ -308,15 +312,18 @@ arrszref_make_list (xs: List (INV(a))):<!wrt> arrszref (a)
 
 #atscode_separator()
 
+(*
+fun{}
+fprint_array$sep (out: FILEref): void
+*)
+fun{a:vt0p}
+fprint_arrszref
+  (out: FILEref, A: arrszref (a)): void
+// end of [fprint_arrszref]
 fun{a:vt0p}
 fprint_arrszref_sep (
   out: FILEref, A: arrszref (a), sep: NSH(string)
 ) : void // end of [fprint_arrszref_sep]
-
-macdef
-fprint_arrszref
-  (out, A) = fprint_arrszref_sep (,(out), ,(A), ", ")
-// end of [fprint_arrszref]
 
 #atscode_separator()
 

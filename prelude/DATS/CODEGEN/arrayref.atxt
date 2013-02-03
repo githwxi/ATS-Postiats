@@ -104,8 +104,6 @@ in
   $effmask_ref (fprint_array (out, !p, n))
 end // end of [fprint_arrayref]
 
-#atscode_separator()
-
 implement{a}
 fprint_arrayref_sep
   (out, A, n, sep) = let
@@ -156,6 +154,12 @@ arrszref_make_arrayref
   (A, asz) = ARRSZREF (A, asz)
 
 implement
+arrszref_get_ref
+  (ASZ) = let
+  val+ARRSZREF (A, _(*asz*)) = ASZ in A
+end // end of [arrszref_get_ref]
+
+implement
 arrszref_get_size
   (ASZ) = let
   val+ARRSZREF (_(*A*), asz) = ASZ in asz
@@ -195,19 +199,64 @@ prval () = lemma_list_param (xs)
 //
 val n = list_length<a> (xs)
 val A = arrayref_make_listlen (xs, n)
+val asz = (i2sz)n
 //
 in
-  arrszref_make_arrayref (A, (i2sz)n)
+  arrszref_make_arrayref (A, asz)
 end // end of [arrszref_make_list]
 
 #atscode_separator()
 
 implement{a}
+fprint_arrszref
+  (out, ASZ) = let
+//
+var asz: size_t
+val A = arrszref_get_refsize (ASZ, asz)
+//
+in
+  fprint_arrayref (out, A, asz)
+end // end of [fprint_arrszref]
+
+implement{a}
+fprint_arrszref_sep
+  (out, ASZ, sep) = let
+//
+var asz: size_t
+val A = arrszref_get_refsize (ASZ, asz)
+//
+in
+  fprint_arrayref_sep (out, A, asz, sep)
+end // end of [fprint_arrszref_sep]
+
+#atscode_separator()
+
+implement
+{a}{tk}
+arrszref_get_at_gint
+  (ASZ, i) = let
+in
+//
+if i >= 0 then
+  arrszref_get_at_size (ASZ, g0int2uint (i))
+else $raise ArraySubscriptExn()
+//
+end // end of [arrszref_get_at_gint]
+
+implement
+{a}{tk}
+arrszref_get_at_guint
+  (ASZ, i) = let
+in
+  arrszref_get_at_size (ASZ, g0uint2uint (i))
+end // end of [arrszref_get_at_guint]
+
+implement{a}
 arrszref_get_at_size
-  (A0, i) = $effmask_wrt let
+  (ASZ, i) = $effmask_wrt let
 //
 var n: size_t
-val A = arrszref_get_refsize (A0, n)
+val A = arrszref_get_refsize (ASZ, n)
 val i = g1ofg0_uint (i)
 //
 in
@@ -216,12 +265,34 @@ if n > i then arrayref_get_at_size (A, i) else $raise ArraySubscriptExn()
 //
 end // end of [arrszref_get_at_size]
 
+#atscode_separator()
+
+implement
+{a}{tk}
+arrszref_set_at_gint
+  (ASZ, i, x) = let
+in
+//
+if i >= 0 then
+  arrszref_set_at_size (ASZ, g0int2uint (i), x)
+else $raise ArraySubscriptExn()
+//
+end // end of [arrszref_set_at_gint]
+
+implement
+{a}{tk}
+arrszref_set_at_guint
+  (ASZ, i, x) = let
+in
+  arrszref_set_at_size (ASZ, g0uint2uint (i), x)
+end // end of [arrszref_set_at_guint]
+
 implement{a}
 arrszref_set_at_size
-  (A0, i, x) = $effmask_wrt let
+  (ASZ, i, x) = $effmask_wrt let
 //
 var n: size_t
-val A = arrszref_get_refsize (A0, n)
+val A = arrszref_get_refsize (ASZ, n)
 val i = g1ofg0_uint (i)
 //
 in
@@ -230,12 +301,34 @@ if n > i then arrayref_set_at_size (A, i, x) else $raise ArraySubscriptExn()
 //
 end // end of [arrszref_set_at_size]
 
+#atscode_separator()
+
+implement
+{a}{tk}
+arrszref_exch_at_gint
+  (ASZ, i, x) = let
+in
+//
+if i >= 0 then
+  arrszref_exch_at_size (ASZ, g0int2uint (i), x)
+else $raise ArraySubscriptExn()
+//
+end // end of [arrszref_exch_at_gint]
+
+implement
+{a}{tk}
+arrszref_exch_at_guint
+  (ASZ, i, x) = let
+in
+  arrszref_exch_at_size (ASZ, g0uint2uint (i), x)
+end // end of [arrszref_exch_at_guint]
+
 implement{a}
 arrszref_exch_at_size
-  (A0, i, x) = $effmask_wrt let
+  (ASZ, i, x) = $effmask_wrt let
 //
 var n: size_t
-val A = arrszref_get_refsize (A0, n)
+val A = arrszref_get_refsize (ASZ, n)
 val i = g1ofg0_uint (i)
 //
 in
