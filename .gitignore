@@ -143,4 +143,10 @@ contrib/cairo/cairo-1.12.*
 
 libatsyntax/libatsyntax.a
 
+#
+# INT2PROGINATS
+#
+
+doc/BOOK/INT2PROGINATS/*/main.db
+
 ###### end of [.gitignore] ######
