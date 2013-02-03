@@ -81,19 +81,19 @@ array0_make_arrpsz
 
 #atscode_separator()
 
-fun{tk:tk}{a:t0p}
+fun{a:t0p}{tk:tk}
 array0_get_at_gint (A: array0 (a), i: g0int(tk)):<!exn,!ref> a
-fun{tk:tk}{a:t0p}
+fun{a:t0p}{tk:tk}
 array0_get_at_guint (A: array0 (a), i: g0uint(tk)):<!exn,!ref> a
 
-fun{tk:tk}{a:t0p}
+fun{a:t0p}{tk:tk}
 array0_set_at_gint (A: array0 (a), i: g0int(tk), x: a):<!exn,!refwrt> void
-fun{tk:tk}{a:t0p}
+fun{a:t0p}{tk:tk}
 array0_set_at_guint (A: array0 (a), i: g0uint(tk), x: a):<!exn,!refwrt> void
 
-fun{tk:tk}{a:vt0p}
+fun{a:vt0p}{tk:tk}
 array0_exch_at_gint (A: array0 (a), i: g0int(tk), x: &a):<!exn,!refwrt> void
-fun{tk:tk}{a:vt0p}
+fun{a:vt0p}{tk:tk}
 array0_exch_at_guint (A: array0 (a), i: g0uint(tk), x: &a):<!exn,!refwrt> void
 
 #atscode_separator()

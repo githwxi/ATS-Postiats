@@ -70,6 +70,22 @@ end // end of [string0_make_string]
 
 (* ****** ****** *)
 
+implement{tk}
+string0_get_at_gint
+  (str, i) = let
+  val str = string2array0 (str) in
+  $effmask_ref (array0_get_at_gint<char> (str, i))
+end // end of [string0_get_at_gint]
+
+implement{tk}
+string0_get_at_guint
+  (str, i) = let
+  val str = string2array0 (str) in
+  $effmask_ref (array0_get_at_guint<char> (str, i))
+end // end of [string0_get_at_guint]
+
+(* ****** ****** *)
+
 implement
 string0_append
   (str1, str2) = let
@@ -87,22 +103,49 @@ string0_foreach
   (str, f) = let
 //
 fun loop (
-  p: ptr, n: size_t, i: size_t, f: cfun (char, void)
+  p: ptr, n: size_t, f: cfun (char, void)
 ) : void = let
 in
 //
-if i < n then let
-  val () = f ($UN.ptr0_get<char> (p)) in loop (ptr0_succ<char> (p), n, succ(i), f)
+if n > 0 then let
+  val () = f ($UN.ptr0_get<char> (p))
+in
+  loop (ptr0_succ<char> (p), pred (n), f)
 end else () // end of [if]
 //
 end // end of [loop]
 //
-val p = string0_get_ref (str)
-val n = string0_get_size (str)
+val p0 = string0_get_ref (str)
+val n0 = string0_get_size (str)
 //
 in
-  loop (p, n, g0int2uint(0), f)
+  loop (p0, n0, f)
 end // end of [string0_foreach]
+
+(* ****** ****** *)
+
+implement
+string0_rforeach
+  (str, f) = let
+//
+fun loop (
+  p: ptr, n: size_t, f: cfun (char, void)
+) : void = let
+in
+//
+if n > 0 then let
+  val p1 = ptr0_pred<char> (p)
+  val () = f ($UN.ptr0_get<char> (p1)) in loop (p1, pred (n), f)
+end else () // end of [if]
+//
+end // end of [loop]
+//
+val p0 = string0_get_ref (str)
+val n0 = string0_get_size (str)
+//
+in
+  loop (ptr0_add_guint<char> (p0, n0), n0, f)
+end // end of [string0_rforeach]
 
 (* ****** ****** *)
 
