@@ -147,6 +147,7 @@ typedef d2sym = '{
 , d2sym_qua= $SYN.d0ynq, d2sym_sym= symbol
 , d2sym_pitmlst= d2pitmlst
 } // end of [d2sym]
+typedef d2symopt = Option (d2sym)
 
 (* ****** ****** *)
 
@@ -623,7 +624,8 @@ and d2exp_node =
   | D2Ef0loat of f0loat
   | D2Es0tring of s0tring
 //
-  | D2Etop of () // unspecified
+  | D2Etop of () // a placeholder of unspecified type
+  | D2Etop2 of (s2exp) // a placeholder of specified type
   | D2Eempty of () // the void-value (of unspecified size)
 //
   | D2Ecstsp of $SYN.cstsp // special constants
@@ -758,7 +760,9 @@ and d2exparglst = List (d2exparg)
 (* ****** ****** *)
 
 and d2lab = '{
-  d2lab_loc= location, d2lab_node= d2lab_node
+  d2lab_loc= location
+, d2lab_node= d2lab_node
+, d2lab_over= d2symopt
 } // end of [d2lab]
 
 and d2lablst = List d2lab
@@ -965,6 +969,7 @@ fun d2exp_f0loat (loc: location, x: f0loat): d2exp
 fun d2exp_s0tring (loc: location, x: s0tring): d2exp
 
 fun d2exp_top (loc: location): d2exp
+fun d2exp_top2 (loc: location, s2e: s2exp): d2exp
 fun d2exp_empty (loc: location): d2exp
 
 fun d2exp_cstsp
@@ -1214,7 +1219,8 @@ fun labd2exp_make (l: l0ab, d2e: d2exp): labd2exp
 
 (* ****** ****** *)
 
-fun d2lab_lab (loc: location, lab: label): d2lab
+fun d2lab_lab
+  (loc: location, lab: label, opt: d2symopt): d2lab
 fun d2lab_ind (loc: location, ind: d2explst): d2lab
 
 fun fprint_d2lab : fprint_type (d2lab)

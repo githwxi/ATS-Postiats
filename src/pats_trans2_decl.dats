@@ -100,13 +100,18 @@ macdef list_sing (x) = list_cons (,(x), list_nil)
 
 fn symintr_tr
   (ids: i0delst): void = let
-  fun aux (ids: i0delst): void = case+ ids of
-    | list_cons (id, ids) => aux ids where {
-        val sym = id.i0de_sym
-        val () = the_d2expenv_add (sym, D2ITMsymdef (sym, list_nil))
-      } // end of [list_cons]
-    | list_nil () => () // end of [list_nil]
-  // end of [aux]
+//
+fun aux
+  (ids: i0delst): void = let
+in
+  case+ ids of
+  | list_cons (id, ids) => aux ids where {
+      val sym = id.i0de_sym
+      val () = the_d2expenv_add (sym, D2ITMsymdef (sym, list_nil))
+    } // end of [list_cons]
+  | list_nil () => () // end of [list_nil]
+end // end of [aux]
+//
 in
   aux ids
 end // end of [symintr_tr]
@@ -223,13 +228,16 @@ end // end of [auxerr2]
 val sym = id.i0de_sym
 val ans = ans where {
   val ans = the_d2expenv_current_find (sym)
-  val ans = (case+ ans of
+  val ans = (
+    case+ ans of
     | Some_vt _ => (fold@ ans; ans)
     | ~None_vt () => the_d2expenv_pervasive_find (sym)
   ) : d2itmopt_vt
 } // end of [val]
-val d2pis = (case+ ans of
-  | ~Some_vt d2i => (case+ d2i of
+val d2pis = (
+  case+ ans of
+  | ~Some_vt d2i => (
+    case+ d2i of
     | D2ITMsymdef (sym, d2pis) => d2pis
     | _ => let
         val () = auxerr1 (d1c0, id, err) in list_nil ()

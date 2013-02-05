@@ -911,14 +911,14 @@ in '{
 
 implement
 d3lab_lab
-  (loc, lab) = '{
-  d3lab_loc= loc, d3lab_node= D3LABlab (lab)
+  (loc, lab, opt) = '{
+  d3lab_loc= loc, d3lab_node= D3LABlab (lab), d3lab_over= opt
 } // end of [d3lab_lab]
 
 implement
 d3lab_ind
   (loc, ind) = '{
-  d3lab_loc= loc, d3lab_node= D3LABind (ind)
+  d3lab_loc= loc, d3lab_node= D3LABind (ind), d3lab_over= None
 } // end of [d3lab_ind]
 
 (* ****** ****** *)

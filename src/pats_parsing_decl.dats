@@ -412,12 +412,12 @@ p_d0cstdecseq
 (* ****** ****** *)
 
 (*
-overi0de ::= di0de | LBRACKET RBRACKET | DOT l0ab
+s0ym ::= di0de | LBRACKET RBRACKET | DOT l0ab
 *)
 extern
-fun p_overi0de : parser (i0de)
+fun p_s0ym : parser (i0de)
 implement
-p_overi0de
+p_s0ym
   (buf, bt, err) = let
   val err0 = err
   val n0 = tokbuf_get_ntok (buf)
@@ -455,7 +455,19 @@ case+
     if err = err0 then ent else synent_null ((*okay*))
   end // end of [_]
 //
-end // end of [p_overi0de]
+end // end of [p_s0ym]
+
+(* ****** ****** *)
+
+extern
+fun p_s0ymseq1 : parser (i0delst)
+implement
+p_s0ymseq1
+  (buf, bt, err) = let
+  val xs = pstar1_fun (buf, bt, err, p_s0ym)
+in
+  list_of_list_vt (xs)
+end // end of [p_s0ymseq1]
 
 (* ****** ****** *)
 
@@ -675,8 +687,8 @@ d0ecl
   | PREFIX p0rec i0deseq
   | POSTFIX p0rec i0deseq
   | NONFIX i0deseq
-  | SYMINTR i0deseq
-  | SYMELIM i0deseq
+  | SYMINTR s0ymseq
+  | SYMELIM s0ymseq
   | SRPUNDEF i0de
   | SRPDEFINE i0de e0xpopt
   | SRPASSERT e0xp
@@ -693,7 +705,8 @@ d0ecl
   | EXCEPTION e0xndecseq
   | DATAYPE d0atdec andd0atdecseq {WHERE s0expdefseq}
   | MACDEF {REC} m0acdefseq
-  | OVERLOAD di0de WITH dqi0de {of INTEGER}
+  | OVERLOAD [] WITH dqi0de {of INTEGER}
+  | OVERLOAD s0ym WITH dqi0de {of INTEGER}
   | CLASSDEC si0de [EQ s0exp]
   | STALOAD staload
 *)
@@ -731,7 +744,7 @@ case+ tok.token_node of
 | T_SYMINTR () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = p_i0deseq1 (buf, bt, err)
+    val ent2 = p_s0ymseq1 (buf, bt, err)
   in
     if err = err0 then
       d0ecl_symintr (tok, ent2) else synent_null ()
@@ -740,7 +753,7 @@ case+ tok.token_node of
 | T_SYMELIM () => let
     val bt = 0
     val () = incby1 ()
-    val ent2 = p_i0deseq1 (buf, bt, err)
+    val ent2 = p_s0ymseq1 (buf, bt, err)
   in
     if err = err0 then
       d0ecl_symelim (tok, ent2) else synent_null ()
@@ -749,7 +762,7 @@ case+ tok.token_node of
 | T_OVERLOAD () => let
     val bt = 0
     val () = incby1 ()
-    val ent1 = p_overi0de (buf, bt, err)
+    val ent1 = p_s0ym (buf, bt, err)
     val ent2 = pif_fun (buf, bt, err, p_WITH, err0)
     val ent3 = pif_fun (buf, bt, err, p_dqi0de, err0)
     val ent4 = (

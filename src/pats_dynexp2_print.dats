@@ -414,6 +414,11 @@ case+ d2e0.d2exp_node of
 | D2Etop () => {
     val () = prstr "D2Etop()"
   } // end of [D2Etop]
+| D2Etop2 (s2e) => {
+    val () = prstr "D2Etop2("
+    val () = fprint_s2exp (out, s2e)
+    val () = prstr ")"
+  } // end of [D2Etop2]
 | D2Eempty () => {
     val () = prstr "D2Eempty()"
   } // end of [D2Eempty]

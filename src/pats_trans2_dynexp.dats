@@ -1411,7 +1411,7 @@ case+ d1e0.d1exp_node of
 | D1Eptrof (d1e) => d2exp_ptrof (loc0, d1exp_tr d1e)
 | D1Eviewat (d1e) => d2exp_viewat (loc0, d1exp_tr d1e)
 | D1Eselab (knd, d1e, d1l) => let
-    val d2e = d1exp_tr d1e; val d2l = d1lab_tr d1l
+    val d2e = d1exp_tr d1e; val d2l = d1lab_tr (d1l)
   in
     if knd = 0 then ( // [.]
       case+ d2e.d2exp_node of
@@ -1596,9 +1596,30 @@ d1lab_tr (d1l0) = let
   val loc0 = d1l0.d1lab_loc
 in
 //
-case+ d1l0.d1lab_node of
-| D1LABlab lab => d2lab_lab (loc0, lab)
-| D1LABind ind => d2lab_ind (loc0, d1explst_tr (ind))
+case+
+  d1l0.d1lab_node of
+| D1LABlab (lab) => let
+    val dotid =
+      $LAB.label_dotize (lab)
+    val ans = the_d2expenv_find (dotid)
+    val opt = (
+      case+ ans of
+      | ~Some_vt (d2i) => (
+        case+ d2i of
+        | D2ITMsymdef
+            (sym, xs) => let
+            val d2s = d2sym_make (loc0, $SYN.the_d0ynq_none, dotid, xs)
+          in
+            Some (d2s)
+          end // end of [D2ITMsymdef]
+        | _ => None ()
+        )
+      | ~None_vt () => None ()
+    ) : d2symopt // end of [val]
+  in
+    d2lab_lab (loc0, lab, opt)
+  end // end of [d1lab_tr]
+| D1LABind (ind) => d2lab_ind (loc0, d1explst_tr (ind))
 //
 end // end of [d1lab_tr]
 

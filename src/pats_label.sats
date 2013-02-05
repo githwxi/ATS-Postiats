@@ -44,13 +44,17 @@ fun label_make_string (str: string): label
 
 (* ****** ****** *)
 
-fun label_is_int (l: label):<> bool
-fun label_get_int (l: label):<> Option_vt (int)
+fun label_is_int (l: label): bool
+fun label_get_int (l: label): Option_vt (int)
 
 (* ****** ****** *)
 
-fun label_is_sym (l: label):<> bool
-fun label_get_sym (l: label):<> Option_vt (symbol)
+fun label_is_sym (l: label): bool
+fun label_get_sym (l: label): Option_vt (symbol)
+
+(* ****** ****** *)
+
+fun label_dotize (l: label): symbol
 
 (* ****** ****** *)
 
@@ -61,6 +65,10 @@ overload != with neq_label_label
 
 fun compare_label_label (l1: label, l2: label):<> Sgn
 overload compare with compare_label_label
+
+(* ****** ****** *)
+
+fun tostring_label (l: label): string
 
 (* ****** ****** *)
 

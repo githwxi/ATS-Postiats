@@ -1192,18 +1192,22 @@ the_s2rtenv_initialize (): void = {
 
 fun 
 the_d2expenv_initialize (): void = {
-  val (pfenv | ()) = the_d2expenv_push_nil ()
+(*
+// HX-2013-02:
+// in prelude/basics_pre.sats: symintr []
 //
-  val () = let
-    val sym = $SYM.symbol_LRBRACKETS
-  in
-    the_d2expenv_add (sym, D2ITMsymdef (sym, list_nil))
-  end // end of [val]
+val (pfenv | ()) = the_d2expenv_push_nil ()
 //
-  val map =
-    the_d2expenv_pop (pfenv | (*none*))
-  // end of [val]
-  val () = the_d2expenv_pervasive_joinwth (map)
+val () = let
+  val sym = $SYM.symbol_LRBRACKETS in
+  the_d2expenv_add (sym, D2ITMsymdef (sym, list_nil))
+end // end of [val]
+//
+val map = the_d2expenv_pop (pfenv | (*none*))
+//
+val () = the_d2expenv_pervasive_joinwth (map)
+//
+*)
 //
 } // end of [the_d2expenv_initialize]
 

@@ -200,9 +200,15 @@ case+ d2e0.d2exp_node of
 //
 | D2Ecstsp (csp) => d2exp_trup_cstsp (d2e0, csp)
 //
+(*
+| D2Etop () => // case for analysis
+*)
+| D2Etop2 (s2e) => d3exp_top (loc0, s2e)
+//
 | D2Eempty () => let
     val s2e = s2exp_void_t0ype () in d3exp_empty (loc0, s2e)
   end // end of [D2Eempty]
+//
 | D2Eextval (s2e, rep) => d3exp_extval (loc0, s2e, rep)
 //
 | D2Econ _ => d2exp_trup_con (d2e0)
@@ -224,10 +230,10 @@ case+ d2e0.d2exp_node of
 *)
   in
     case+ _fun.d2exp_node of    
-    | D2Esym d2s =>
+    | D2Esym (d2s) =>
         d2exp_trup_applst_sym (d2e0, d2s, _arg)
       // end of [D2Esym]
-    | D2Emac d2m => let
+    | D2Emac (d2m) => let
 (*
         val () = (
           println! ("d2exp_trup: D2Eapplst: D2Emac(bef): d2e0 = ", d2e0)
@@ -1010,9 +1016,13 @@ fun d23exp_trup_applst_dyn (
   val () = d23explst_open_and_add (d23es_arg)
 in
 //
-case+ s2e_fun.s2exp_node of
+case+
+  s2e_fun.s2exp_node of
 | _ => let
-    val d3e_fun = d23exp_trup_app23 (d2e0, d3e_fun, npf, locarg, d23es_arg)
+    val d3e_fun =
+      d23exp_trup_app23 (
+      d2e0, d3e_fun, npf, locarg, d23es_arg
+    ) // end of [val]
   in
     d23exp_trup_applst (d2e0, d3e_fun, d2as)
   end // end of [_]

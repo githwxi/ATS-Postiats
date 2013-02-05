@@ -83,6 +83,26 @@ label_get_sym (l) =
 (* ****** ****** *)
 
 implement
+label_dotize
+  (l) = let
+//
+val dotname = (
+case+ l of
+| LABint (int) =>
+    string_of_strptr (sprintf (".%i", @(int)))
+  // end of [LABint]
+| LABsym (sym) =>
+    string_of_strptr (sprintf (".%s", @($SYM.symbol_get_name (sym))))
+  // end of [LABsym]
+) : string // end of [val]
+//
+in
+  $SYM.symbol_make_string (dotname)
+end // end of [label_dotize]
+
+(* ****** ****** *)
+
+implement
 eq_label_label
   (l1, l2) = compare_label_label (l1, l2) = 0
 // end of [eq_label_label]
@@ -91,14 +111,34 @@ neq_label_label
   (l1, l2) = compare_label_label (l1, l2) != 0
 // end of [neq_label_label]
 
+(* ****** ****** *)
+
 implement
-compare_label_label (l1, l2) =
-  case+ (l1, l2) of
+compare_label_label
+  (l1, l2) = let
+in
+//
+case+ (l1, l2) of
   | (LABint i1, LABint i2) => compare (i1, i2)
   | (LABsym s1, LABsym s2) => compare (s1, s2)
   | (LABint _, LABsym _) => ~1
   | (LABsym _, LABint _) =>  1
-// end of [compare_label_label]
+//
+end // end of [compare_label_label]
+
+(* ****** ****** *)
+
+implement
+tostring_label
+  (l) = let
+in
+//
+case+ l of
+| LABint (int) =>
+    string_of_strptr (tostrptr_int (int))
+| LABsym (sym) => $SYM.symbol_get_name (sym)
+//
+end // end of [tostring_label]
 
 (* ****** ****** *)
 

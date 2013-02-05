@@ -397,7 +397,9 @@ and labd3explst = List (labd3exp)
 (* ****** ****** *)
 
 and d3lab = '{
-  d3lab_loc= location, d3lab_node= d3lab_node
+  d3lab_loc= location
+, d3lab_node= d3lab_node
+, d3lab_over= d2symopt
 } // end of [d3lab]
 
 and d3lablst = List (d3lab)
@@ -814,7 +816,8 @@ fun d3exp_void_err (loc: location): d3exp
 
 (* ****** ****** *)
 
-fun d3lab_lab (loc: location, lab: label): d3lab
+fun d3lab_lab
+  (loc: location, lab: label, opt: d2symopt): d3lab
 fun d3lab_ind (loc: location, ind: d3explst): d3lab
 
 (* ****** ****** *)

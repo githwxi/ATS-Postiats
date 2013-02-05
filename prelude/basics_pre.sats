@@ -320,6 +320,9 @@ symintr succ pred half double
 symintr isltz isltez isgtz isgtez iseqz isneqz
 symintr compare abs max min pow
 symintr square sqrt cube cbrt
+//
+symintr [] // for subscripting
+//
 (*
 symintr foreach iforeach rforeach
 *)

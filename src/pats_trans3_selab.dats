@@ -82,10 +82,11 @@ fun aux (
   d2l: d2lab
 ) : d3lab = let
   val loc = d2l.d2lab_loc
+  val opt = d2l.d2lab_over
 in
 //
 case+ d2l.d2lab_node of
-| D2LABlab (lab) => d3lab_lab (loc, lab)
+| D2LABlab (lab) => d3lab_lab (loc, lab, opt)
 | D2LABind (ind) => let
     val ind = d2explst_trup (ind) in d3lab_ind (loc, ind)
   end // end of [D2LABind]
@@ -211,6 +212,11 @@ end // end of [local]
 
 local
 
+fun d3lab_is_over
+  (d3l: d3lab): bool = (
+  case+ d3l.d3lab_over of Some _ => true | None _ => false
+) // end of [d3lab_is_over]
+
 fun lincheck (
   ls2es: labs2explst, linrest: &int
 ) : void = let
@@ -257,21 +263,24 @@ end // end of [labfind_lincheck]
 
 fun
 auxlab_sexp (
-  loc0: location, s2e: s2exp, l0: label, linrest: &int
+  loc0: location, s2e: s2exp
+, d3l: d3lab, l0: label, linrest: &int
 ) : s2exp = let
   val s2f = s2exp2hnf (s2e)
 in
-  auxlab_shnf (loc0, s2f, l0, linrest)
+  auxlab_shnf (loc0, s2f, d3l, l0, linrest)
 end // and [auxlab_sexp]
 
 and auxlab_shnf (
-  loc0: location, s2f: s2hnf, l0: label, linrest: &int
+  loc0: location, s2f: s2hnf
+, d3l: d3lab, l0: label, linrest: &int
 ) : s2exp = let
   val s2e = s2hnf2exp (s2f)
 in
 //
 case+ s2e.s2exp_node of
-| S2Etyrec (knd, npf, ls2es) => let
+| S2Etyrec
+    (knd, npf, ls2es) => let
     var err: int = 0
     val s2e1 =
       labfind_lincheck (l0, ls2es, linrest, err)
@@ -294,8 +303,19 @@ case+ s2e.s2exp_node of
     val s2f = s2exp2hnf (s2e)
     val s2e = s2hnf_opn1exi_and_add (loc0, s2f)
   in
-    auxlab_sexp (loc0, s2e, l0, linrest)
+    auxlab_sexp (loc0, s2e, d3l, l0, linrest)
   end // end of [S2Eexi]
+| _ when
+    d3lab_is_over (d3l) => let
+    val-Some (d2s) = d3l.d3lab_over
+    val _fun = d2exp_top (loc0)
+    val d2e = d2exp_top2 (loc0, s2e)
+    val d2a = D2EXPARGdyn (~1(*npf*), loc0, list_sing (d2e))
+    val _arg = list_sing (d2a)
+    val d3e_sel = d2exp_trup_applst_sym (_fun, d2s, _arg)
+  in
+    d3exp_get_type (d3e_sel)
+  end // end of [_ when ...]
 | _ => let
     val () =
       prerr_error3_loc (loc0)
@@ -360,7 +380,7 @@ in
 case+ d3l.d3lab_node of
 | D3LABlab (l0) => let
     val s2f = s2exp2hnf (s2e)
-    val s2e = auxlab_shnf (loc0, s2f, l0, linrest)
+    val s2e = auxlab_shnf (loc0, s2f, d3l, l0, linrest)
   in
     (s2e, list_vt_nil)
   end // end of [S3LABlab]
