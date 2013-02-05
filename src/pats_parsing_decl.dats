@@ -412,7 +412,7 @@ p_d0cstdecseq
 (* ****** ****** *)
 
 (*
-overi0de ::= di0de | LBRACKET RBRACKET
+overi0de ::= di0de | LBRACKET RBRACKET | DOT l0ab
 *)
 extern
 fun p_overi0de : parser (i0de)
@@ -425,7 +425,19 @@ p_overi0de
   macdef incby1 () = tokbuf_incby1 (buf)
 in
 //
-case+ tok.token_node of
+case+
+  tok.token_node of
+| T_DOT () => let
+    val bt = 0
+    val () = incby1 ()
+    val ent2 = p_l0ab (buf, bt, err)
+  in
+    if err = err0 then
+      i0de_make_dotlab (tok, ent2)
+    else
+      tokbuf_set_ntok_null (buf, n0)
+    // end of [if]
+  end // end of [T_DOT]
 | T_LBRACKET () => let
     val bt = 0
     val () = incby1 ()

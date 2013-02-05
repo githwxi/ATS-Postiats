@@ -114,6 +114,10 @@ fun string0_contains (str: string0, c: char):<> bool
 
 #atscode_separator()
 
+fun string0_copy (str: string0):<!wrt> string0
+
+#atscode_separator()
+
 fun string0_append (str1: string0, str2: string0):<!wrt> string0
 overload + with string0_append
 

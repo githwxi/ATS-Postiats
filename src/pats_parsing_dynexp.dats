@@ -684,10 +684,13 @@ case+ tok.token_node of
     buf, p_s0elop, ent // s0elop ::= DOT | MINUSGT
   ) => let
     val bt = 0
-    val ent1 = synent_decode {s0elop} (ent)
+    val ent1 =
+      synent_decode {s0elop} (ent)
+    // end of [val]
     val tok2 = tokbuf_get_token (buf)
   in
-    case+ tok2.token_node of
+    case+
+      tok2.token_node of
     | T_LBRACKET () => let
         val () = incby1 ()
         val ent2 = p_d0arrind (buf, bt, err)

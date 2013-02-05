@@ -405,6 +405,40 @@ end // end of [l0ab_make_i0nt]
 (* ****** ****** *)
 
 implement
+i0de_make_dotlab
+  (t_dot, l0) = let
+//
+val loc =
+  t_dot.token_loc + l0.l0ab_loc
+val l = l0.l0ab_lab
+val name = "."
+//
+val opt = $LAB.label_get_int (l)
+val name = (
+  case+ opt of
+  | ~Some_vt i => let
+      val p = sprintf ("%s%i", @(name, i)) in string_of_strptr (p)
+    end // end of [Some_vt]
+  | ~None_vt _ => name
+) : string // end of [val]
+//
+val opt = $LAB.label_get_sym (l)
+val name = (
+  case+ opt of
+  | ~Some_vt s => let
+      val s = $SYM.symbol_get_name (s)
+      val p = sprintf ("%s%s", @(name, s)) in string_of_strptr (p)
+    end // end of [Some_vt]
+  | ~None_vt _ => name
+) : string // end of [val]
+//
+in
+  i0de_make_string (loc, name)
+end // end of [i0de_make_dotlab]
+
+(* ****** ****** *)
+
+implement
 s0rtq_none (loc) = '{
   s0rtq_loc= loc, s0rtq_node= S0RTQnone ()
 } // end of [s0rtq_none]

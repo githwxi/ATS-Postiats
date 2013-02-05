@@ -393,6 +393,10 @@ fun fprint_l0ab : fprint_type (l0ab)
 
 (* ****** ****** *)
 
+fun i0de_make_dotlab (t_dot: token, l0: l0ab): i0de
+
+(* ****** ****** *)
+
 datatype
 sl0abeled (a:type) =
   SL0ABELED (a) of (l0ab, s0tringopt, a)

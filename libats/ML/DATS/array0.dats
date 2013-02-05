@@ -165,6 +165,31 @@ end // end of [array0_exch_at_size]
 (* ****** ****** *)
 
 implement{a}
+array0_copy
+  (A0) = let
+//
+val ASZ = arrszref_of_array0 (A0)
+//
+var asz: size_t
+val A = arrszref_get_refsize (ASZ, asz)
+//
+val (
+  vbox pf | p
+) = arrayref_get_viewptr (A)
+val (pfarr, pfgc | q) = array_ptr_alloc<a> (asz)
+val () = array_copy<a> (!q, !p, asz)
+//
+val A2 = arrayptr_encode (pfarr, pfgc | q)
+val A2 = arrayptr_refize (A2) // non-linearizing
+val ASZ2 = arrszref_make_arrayref (A2, asz)
+//
+in
+  array0_of_arrszref (ASZ2)
+end // end of [array0_copy]
+
+(* ****** ****** *)
+
+implement{a}
 array0_append
   (A01, A02) = let
 //

@@ -156,16 +156,26 @@ string0_contains
 //
 val (A, asz) = string0_get_refsize (str)
 //
-implement(tenv)
-array_foreach$cont<char><tenv> (c, env) = (c0 != c)
-implement(tenv)
-array_foreach$fwork<char><tenv> (c, env) = ((*void*))
+extern
+fun memchr
+  : (ptr, int, size_t) -<fun> ptr = "mac#atslib_memchr"
 //
-val i = arrayref_foreach<char> (A, asz)
+val p = memchr ($UN.cast2ptr (A), char2int0 (c0), asz)
 //
 in
-  if i < asz then true (*found*) else false (*notfound*)
+  (p > the_null_ptr)
 end // end of [string0_contains]
+
+(* ****** ****** *)
+
+implement
+string0_copy
+  (str) = let
+  val str = string2array0 (str)
+  val str2 = $effmask_ref (array0_copy<char> (str))
+in
+  array2string0 (str2)
+end // end of [string0_copy]
 
 (* ****** ****** *)
 
