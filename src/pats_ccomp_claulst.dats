@@ -68,24 +68,24 @@ p2atcst =
 // end of [p2atcst]
 *)
 datavtype
-patcomp =
-  | PTCMPnil of ()
-  | PTCMPany of (patcomp)
-  | PTCMPcon of (d2con, patcomplst)
-  | PTCMPsum of (patcomplst)
-  | P2TCrec of (int(*reckind*), labpatcomplst)
+patcomp_vt =
+  | PTCMPnil_vt of ()
+  | PTCMPany_vt of (patcomp_vt)
+  | PTCMPcon_vt of (d2con, patcomplst_vt)
+  | PTCMPsum_vt of (patcomplst_vt)
+  | PTCMPrec_vt of (int(*reckind*), labpatcomplst_vt)
 // end of [patcomp]
 
 and
-labpatcomp =
-  | LABPATCOMP of ($LAB.label, patcomp)
+labpatcomp_vt =
+  | LABPATCOMP_vt of ($LAB.label, patcomp_vt)
 // end of [labpatcomp]
 
 where
-patcomplst = List_vt (patcomp)
+patcomplst_vt = List_vt (patcomp_vt)
 
 and
-labpatcomplst = List_vt (labpatcomp)
+labpatcomplst_vt = List_vt (labpatcomp_vt)
 
 (* ****** ****** *)
 

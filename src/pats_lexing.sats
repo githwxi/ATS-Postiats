@@ -130,6 +130,7 @@ token_node =
   | T_IF of () // (dynamic) if
   | T_IMPLEMENT of
       (int) // 0/1: implement/primplement
+  | T_IMPORT of () // import (for packages)
   | T_IN of () // in
   | T_LAM of int // lam, llam (linear lam) and lam@ (flat lam)
   | T_LET of () // let

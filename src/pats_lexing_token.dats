@@ -405,6 +405,8 @@ val () = ins ("implement", IMPLEMENT)
 val () = ins ("primplmnt", PRIMPLMNT)
 val () = ins ("primplement", PRIMPLMNT)
 //
+val () = ins ("import", T_IMPORT) // for importing packages
+//
 (*
 val () = ins ("lam", LAM)
 val () = ins ("llam", LLAM)
@@ -419,7 +421,9 @@ val () = ins ("macdef", MACDEF)
 val () = ins ("macrodef", MACRODEF)
 //
 val () = ins ("nonfix", T_NONFIX)
+//
 val () = ins ("overload", T_OVERLOAD)
+//
 val () = ins ("of", T_OF)
 val () = ins ("op", T_OP)
 val () = ins ("rec", T_REC)
@@ -436,9 +440,12 @@ val () = ins ("stadef", T_STADEF)
 val () = ins ("stavar", T_STAVAR)
 *)
 val () = ins ("staload", T_STALOAD)
+//
 val () = ins ("symelim", T_SYMELIM)
 val () = ins ("symintr", T_SYMINTR)
+//
 val () = ins ("then", T_THEN)
+//
 val () = ins ("try", T_TRY)
 //
 val () = ins ("tkindef", T_TKINDEF) // HX-2012-05-23

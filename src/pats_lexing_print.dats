@@ -105,6 +105,7 @@ fprint_token
   | T_FUN (x) => fprintf (out, "FUN(...)", @())
   | T_IF () => fprintf (out, "IF()", @())
   | T_IMPLEMENT (k) => fprintf (out, "IMPLEMENT(%i)", @(k))
+  | T_IMPORT () => fprintf (out, "IMPORT()", @())
   | T_IN () => fprintf (out, "IN()", @())
   | T_LAM (x) => fprintf (out, "LAM(%i)", @(x))
   | T_LET () => fprintf (out, "LET()", @())

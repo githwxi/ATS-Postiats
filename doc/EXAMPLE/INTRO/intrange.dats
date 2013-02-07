@@ -27,7 +27,7 @@ fun loop (
   in
     // nothing 
   end else
-    res := list_nil ()
+    (res := list_nil ())
   // end of [if]
 //
 var res: tres
