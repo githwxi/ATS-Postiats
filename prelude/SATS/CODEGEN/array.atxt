@@ -69,6 +69,7 @@ arrayopt_v (
 exception ArraySubscriptExn of ()
 *)
 fun ArraySubscriptExn ():<> exn = "mac\#ArraySubscriptExn_make"
+fun isArraySubscriptExn (x: !exn):<> bool = "mac\#isArraySubscriptExn"
 
 #atscode_separator()
 
