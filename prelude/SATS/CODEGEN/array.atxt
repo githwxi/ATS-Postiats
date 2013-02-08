@@ -65,7 +65,10 @@ arrayopt_v (
 
 #atscode_separator()
 
+(*
 exception ArraySubscriptExn of ()
+*)
+fun ArraySubscriptExn ():<> exn = "mac\#ArraySubscriptExn_make"
 
 #atscode_separator()
 

@@ -42,7 +42,10 @@ where stream (a:t@ype) = lazy (stream_con a)
 //
 #atscode_separator()
 
+(*
 exception StreamSubscriptExn of ()
+*)
+fun StreamSubscriptExn ():<> exn = "mac\#StreamSubscriptExn_make"
 
 #atscode_separator()
 

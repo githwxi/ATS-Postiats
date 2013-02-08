@@ -30,7 +30,10 @@ val () = theAtextMap_insert_str ("thisfilename", _thisfilename)
 
 #atscode_separator()
 
+(*
 exception NotSomeExn of ()
+*)
+fun NotSomeExn ():<> exn = "mac\#NotSomeExn_make"
 
 #atscode_separator()
 
