@@ -36,8 +36,8 @@ fun atsctrb_define (fname: string): atext = (
 
 #atscode_separator_for_C()
 
-\#ifndef ATSCTRB_JANSSON_JANSSON_CATS
-\#define ATSCTRB_JANSSON_JANSSON_CATS
+\#ifndef JANSSON_JANSSON_CATS
+\#define JANSSON_JANSSON_CATS
 
 #atscode_separator_for_C()
 
@@ -265,7 +265,7 @@ atsctrb_json_object_get1_exnmsg (
 
 #atscode_separator_for_C()
 
-\#endif // ifndef ATSHOME_CONTRIB_JANSSON_JANSSON_CATS
+\#endif // ifndef JANSSON_JANSSON_CATS
 
 #atscode_separator_for_C()
 

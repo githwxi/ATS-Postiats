@@ -31,8 +31,8 @@ fun atsctrb_define (fname: string): atext = (
 
 #atscode_separator_for_C()
 
-\#ifndef ATSHOME_CONTRIB_MYSQL_MYSQL_CATS
-\#define ATSHOME_CONTRIB_MYSQL_MYSQL_CATS
+\#ifndef MYSQL_MYSQL_CATS
+\#define MYSQL_MYSQL_CATS
 
 #atscode_separator_for_C()
 
@@ -163,7 +163,7 @@ atsctrb_mysqlfield_get_name
 
 #atscode_separator_for_C()
 
-\#endif // ifndef ATSHOME_CONTRIB_MYSQL_MYSQL_CATS
+\#endif // ifndef MYSQL_MYSQL_CATS
 
 #atscode_separator_for_C()
 

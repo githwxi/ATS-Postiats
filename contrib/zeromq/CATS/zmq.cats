@@ -35,8 +35,8 @@
 
 /* ****** ****** */
 
-#ifndef ATSHOME_CONTRIB_ZEROMQ_ZMQ_CATS
-#define ATSHOME_CONTRIB_ZEROMQ_ZMQ_CATS
+#ifndef ZEROMQ_ZMQ_CATS
+#define ZEROMQ_ZMQ_CATS
 
 /* ****** ****** */
 
@@ -44,9 +44,11 @@
 
 /* ****** ****** */
 
+// HX-2013-02: it is still empty
+
 /* ****** ****** */
 
-#endif // ifndef ATSHOME_CONTRIB_ZEROMQ_ZMQ_CATS
+#endif // ifndef ZEROMQ_ZMQ_CATS
 
 /* ****** ****** */
 
