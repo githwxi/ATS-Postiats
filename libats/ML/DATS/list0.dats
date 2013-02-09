@@ -211,10 +211,14 @@ loop
   xs: list0 (a), i: int i
 ) :<!exn> a = let
 in
-  case+ xs of
-  | list0_cons (x, xs) =>
-      if i > 0 then loop (xs, i-1) else x
-  | list0_nil () => $raise ListSubscriptExn()
+//
+case+ xs of
+| list0_cons
+    (x, xs) => (
+    if i > 0 then loop (xs, i-1) else x
+  ) // end of [list0_cons]
+| list0_nil () => $raise ListSubscriptExn()
+//
 end // end of [loop]
 
 in // in of [local]
@@ -232,18 +236,32 @@ end // end of [list0_nth_exn]
 implement{a}
 list0_nth_opt
   (xs, i) = let
-  val i = g1ofg0_int (i)
+//
+fn handle
+  (exn: exn):<> option0 (a) = let
+//
+in
+  if isListSubscriptExn (exn) then let
+    prval (
+    ) = __assert (exn) where {
+      extern praxi __assert : (exn) -<prf> void
+    } // end of [prval]
+  in
+    None0 ()
+  end else
+    $effmask_exn ($raise (exn)) // HX: deadcode
+  // end of [if]
+end // end of [handle]
+//
+val i = g1ofg0_int (i)
+//
 in
 //
-$effmask_exn (
-  if i >= 0 then (
-    try
-      Some0 (loop<a> (xs, i))
-    with
-      ~ListSubscriptExn () => None0 ()
-    // end of [try]
-  ) else None0 () // end of [if]
-) // end of [$effmask_exn]
+if i >= 0 then (
+  $effmask_exn (
+    try Some0 (loop<a> (xs, i)) with exn => handle (exn)
+  ) // end of [$effmask_exn]
+) else None0 () // end of [if]
 //
 end // end of [list0_nth_opt]
 
@@ -257,13 +275,17 @@ list0_insert_at_exn
 //
 fun aux {i:nat} .<i>. (
   xs: list0 a, i: int i, x0: a
-) :<!exn> list0 a =
-  if i > 0 then (
-    case+ xs of
-    | list0_cons (x, xs) =>
-        list0_cons (x, aux (xs, i-1, x0))
-    | list0_nil () => $raise ListSubscriptExn()
-  ) else list0_cons (x0, xs)
+) :<!exn> list0 a = let
+in
+//
+if i > 0 then (
+  case+ xs of
+  | list0_cons (x, xs) =>
+      list0_cons (x, aux (xs, i-1, x0))
+  | list0_nil () => $raise ListSubscriptExn()
+) else list0_cons (x0, xs)
+//
+end // end of [aux]
 //
 val i = g1ofg0_int (i)
 //

@@ -84,9 +84,26 @@ end // end of [stream_nth_exn]
 
 implement{a}
 stream_nth_opt
-  (xs, n) = $effmask_exn (
-  try Some_vt (stream_nth_exn<a> (xs, n)) with ~StreamSubscriptExn() => None_vt
-) // end of [stream_nth_opt]
+  (xs, n) = let
+//
+fn handle
+  (exn: exn):<> Option_vt (a) = let
+in
+  if isStreamSubscriptExn (exn) then let
+    prval (
+    ) = __assert (exn) where {
+      extern praxi __assert : (exn) -<prf> void
+    } // end of [prval]
+  in
+    None_vt ()
+  end else
+    $effmask_exn ($raise (exn)) // HX: deadcode
+  // end of [if]
+end // end of [handle]
+//
+in
+  try Some_vt (stream_nth_exn<a> (xs, n)) with exn => handle (exn)
+end // end of [stream_nth_opt]
 
 (* ****** ****** *)
 
